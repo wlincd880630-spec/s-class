@@ -1,0 +1,220 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Unit3.pdf</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/microsoft-cognitiveservices-speech-sdk@latest/distrib/browser/microsoft.cognitiveservices.speech.sdk.bundle-min.js"></script>
+    <script src="../../js/api-config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap');
+        
+        /* 核心修复 1: 强制高度适配，防止 iOS 滚动溢出 */
+        html, body { 
+            font-family: 'Nunito', 'Noto Sans SC', sans-serif; 
+            background-color: #F8FAFC; 
+            height: 100vh; /* 兼容旧设备 */
+            height: 100dvh; /* 核心：动态视口高度 */
+            width: 100%;
+            overflow: hidden; /* 禁止整体滚动，交给 main 滚动 */
+        }
+
+        /* 核心修复 2: 底部安全区域 padding */
+        .safe-pb {
+            padding-bottom: constant(safe-area-inset-bottom); /* iOS 11.0 */
+            padding-bottom: env(safe-area-inset-bottom); /* iOS 11.2+ */
+        }
+        
+        /* 录音呼吸灯动画 */
+        .recording-active { animation: pulse-ring 1.5s cubic-bezier(0.215, 0.61, 0.355, 1) infinite; border-color: #EF4444; background-color: #FEF2F2; color: #EF4444; }
+        @keyframes pulse-ring { 0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.5); } 70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); } 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); } }
+        
+        /* 平滑过渡 */
+        .fade-enter-active, .fade-leave-active { transition: opacity 0.3s ease; }
+        .fade-enter-from, .fade-leave-to { opacity: 0; }
+        
+        /* 隐藏滚动条 */
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="text-slate-800 flex flex-col">
+    <div id="app" class="flex flex-col h-full max-w-lg mx-auto bg-white shadow-2xl relative w-full">
+        
+        <header class="bg-white z-10 px-4 py-3 border-b border-gray-100 shadow-sm shrink-0">
+            <h1 class="text-center font-bold text-slate-800 truncate mb-3">Unit3.pdf</h1>
+            <div class="flex gap-2 overflow-x-auto hide-scrollbar">
+                <button v-for="(p, idx) in lessonData" :key="idx" @click="switchPassage(idx)"
+                    :class="['whitespace-nowrap px-4 py-2 rounded-xl text-sm font-bold transition-all', 
+                             currentPassageIdx === idx ? 'bg-indigo-600 text-white shadow-md ring-2 ring-indigo-200' : 'bg-gray-50 text-gray-500 hover:bg-gray-100']">
+                    {{ p.title }}
+                </button>
+            </div>
+        </header>
+
+        <main class="flex-1 overflow-y-auto p-4 bg-slate-50 overscroll-contain">
+            
+            <div class="flex justify-between items-center mb-4 px-1">
+                <span class="text-xs font-bold text-indigo-400 tracking-widest uppercase">Sentence {{ currentSentenceIdx + 1 }} / {{ currentPassage.sentences.length }}</span>
+                <div class="w-24 h-1.5 bg-gray-200 rounded-full overflow-hidden">
+                    <div class="h-full bg-indigo-500 transition-all duration-300" :style="'width: ' + ((currentSentenceIdx + 1) / currentPassage.sentences.length * 100) + '%'"></div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 mb-6 relative">
+                <div class="absolute -top-3 left-4 bg-indigo-100 text-indigo-600 px-2 py-0.5 rounded text-xs font-bold">TEXT</div>
+                <p class="text-xl md:text-2xl font-medium leading-relaxed text-slate-800 mt-2">{{ currentSentence }}</p>
+            </div>
+
+            <transition-group name="fade" tag="div" class="space-y-3">
+                <div v-if="sttEn" key="en-fb" class="bg-white border-l-4 border-blue-400 rounded-r-xl p-3 shadow-sm">
+                    <div class="flex items-center gap-2 mb-1">
+                        <span class="text-xs font-bold text-blue-500 uppercase">Your Reading</span>
+                    </div>
+                    <p class="text-sm text-slate-600">{{ sttEn }}</p>
+                </div>
+
+                <div v-if="sttCn" key="cn-fb" class="bg-white border-l-4 border-purple-400 rounded-r-xl p-3 shadow-sm">
+                    <div class="flex items-center gap-2 mb-1">
+                        <span class="text-xs font-bold text-purple-500 uppercase">Your Translation</span>
+                    </div>
+                    <p class="text-sm text-slate-600">{{ sttCn }}</p>
+                </div>
+
+                <div v-if="evaluation" key="ai-eval" class="bg-gradient-to-br from-amber-50 to-orange-50 rounded-xl p-4 border border-amber-100 shadow-sm">
+                    <div class="flex items-center gap-2 mb-3 border-b border-amber-200 pb-2">
+                        <span class="text-xl">👩‍🏫</span>
+                        <span class="text-amber-800 font-bold text-sm">AI Teacher Feedback</span>
+                    </div>
+                    <div v-html="renderMarkdown(evaluation)" class="prose prose-sm text-slate-700 leading-relaxed"></div>
+                </div>
+            </transition-group>
+
+            <div class="h-10"></div>
+        </main>
+
+        <footer class="bg-white border-t border-gray-100 p-4 pb-4 safe-pb shadow-[0_-4px_20px_rgba(0,0,0,0.03)] z-20 shrink-0">
+            
+            <div class="flex items-center justify-between mb-4 px-2">
+                <button @click="prevSentence" :disabled="currentSentenceIdx===0" class="p-2 text-gray-300 hover:text-indigo-600 disabled:opacity-20 transition">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 15l-3-3m0 0l3-3m-3 3h8M3 12a9 9 0 1118 0 9 9 0 01-18 0z"></path></svg>
+                </button>
+                
+                <button @click="playTTS" :disabled="isPlaying" 
+                    class="flex items-center gap-2 px-6 py-2 bg-slate-100 text-slate-600 rounded-full text-sm font-bold active:scale-95 transition hover:bg-slate-200">
+                    <span v-if="isPlaying" class="animate-pulse">🔊 Playing...</span>
+                    <span v-else>🎧 Listen Standard</span>
+                </button>
+
+                <button @click="nextSentence" :disabled="currentSentenceIdx===currentPassage.sentences.length-1" class="p-2 text-gray-300 hover:text-indigo-600 disabled:opacity-20 transition">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                </button>
+            </div>
+
+            <div class="grid grid-cols-5 gap-3 h-14">
+                <button @click="toggleRecord('en')" 
+                    :class="['col-span-2 rounded-2xl font-bold flex flex-col justify-center items-center leading-none transition-all active:scale-95 border', 
+                    isRecordingEn ? 'recording-active' : 'bg-white border-gray-200 text-slate-600 hover:bg-gray-50']">
+                    <span class="text-xl mb-1">{{ isRecordingEn ? '⏹️' : '🎙️' }}</span>
+                    <span class="text-[10px] font-bold">{{ isRecordingEn ? 'STOP' : 'READ' }}</span>
+                </button>
+
+                <button @click="evaluate" :disabled="!sttEn || isEvaluating"
+                    class="col-span-1 bg-indigo-600 text-white rounded-2xl shadow-lg shadow-indigo-200 flex justify-center items-center text-2xl active:scale-90 transition-transform disabled:bg-gray-200 disabled:shadow-none disabled:text-gray-400">
+                    <span v-if="isEvaluating" class="animate-spin text-lg">⏳</span>
+                    <span v-else>✨</span>
+                </button>
+
+                <button @click="toggleRecord('cn')" 
+                    :class="['col-span-2 rounded-2xl font-bold flex flex-col justify-center items-center leading-none transition-all active:scale-95 border', 
+                    isRecordingCn ? 'recording-active' : 'bg-white border-gray-200 text-slate-600 hover:bg-gray-50']">
+                    <span class="text-xl mb-1">{{ isRecordingCn ? '⏹️' : '🇨🇳' }}</span>
+                    <span class="text-[10px] font-bold">{{ isRecordingCn ? 'STOP' : 'TRANS' }}</span>
+                </button>
+            </div>
+        </footer>
+
+    </div>
+
+    <script>
+        const { createApp } = Vue;
+        createApp({
+            data() {
+                return {
+                    lessonData: [{"title": "Passage 1", "sentences": ["Children should do housework.", "That seems to be a controversial idea, though not everyone will admit it.", "Some parents would declare that their children are too busy for housework.", "Many would assign housework or say they believe in the children, but the housework simply doesn't get done.", "That's a problem.", "For starters, doing housework is good for children.", "Being a part of the routine of running a household helps children develop an awareness of the needs of others while developing their emotional well-being.", "The discovery of one small study done over a period of 25 years found that the best predictor for success of adults in their mid-20s was whether they participated in household tasks at age 3 or 4.", "Those early shared responsibilities extended to a sense of responsibility in other areas of their lives.", "Despite the benefits of having children do chores around the house, few kids are actually doing much around the house at all.", "In a survey of 1,000 American adults, 75 percent said they believed regular housework made kids more responsible.", "However, while 82 percent reported having done housework regularly while growing up, only slightly over 55 percent of those with children said they required to do housework.", "Sports and homework are not get-out-of-housework-free cards.", "The goal, after all, is to raise adults who can balance a caring role in their families and communities with whatever lifetime achievement goals they choose.", "Housework teaches that balance.", "What should you do when getting children to do housework?", "Accept no excuses.", "Don't worry if you must repeat yourself over and over again.", "If you're spending more time getting the child to do this job than it would take to do it yourself, then you're doing it right.", "Can an allowance help?", "Maybe.", "But if you're trying to teach kids to share the responsibility of a home, then paying them for routine housework does not send the right message.", "Just tell them if they don't want to live in an untidy room, they must do their share."]}, {"title": "Passage 2", "sentences": ["Would you like to live in a city where buildings turn the lights off and say good night to you, and self-driving cars will find the nearest parking space themselves?", "Although it might sound a little far from you, living in a \"smart\" city like this could happen sooner than you think.", "Great changes have taken place in towns that we have lived in for centuries, while completely new cities are being built.", "One such place is the city of Songdo.", "In every home there will be a \"telepresence\" system—allowing users to control the heating and locks, take part in video meetings, turn up or down the soundtrack and receive education, health care and government services.", "Around the city, escalators will only move when someone is on them, and offices and schools will all be connected to the system.", "The great mind behind Songdo is from the company Cisco.", "In fact, technology companies around the world such as IBM, Siemens and Microsoft are already in the business. \"About 75% of the world's population will live in cities by 2050, so cities will need to be more modern to deal with the coming problems.", "Making cities smarter is one way out, and I think this will in turn make cities greener\", said Dan Hill, head of a research company.", "By investing in public spaces, smart cities can be places where people want to spend more time.", "The city of Barcelona has brought smart technologies up to date by implementing a network of fiber optics throughout the city, providing free high-speed Wi-Fi.", "By integrating smart water, lighting and parking management, Barcelona saved over $100 million of city funds and created approximately 47,000 new jobs in the smart technology industry."]}],
+                    currentPassageIdx: 0,
+                    currentSentenceIdx: 0,
+                    isPlaying: false,
+                    isRecordingEn: false,
+                    isRecordingCn: false,
+                    sttEn: "",
+                    sttCn: "",
+                    isEvaluating: false,
+                    evaluation: "",
+                    recognizer: null
+                }
+            },
+            computed: {
+                currentPassage() { return this.lessonData[this.currentPassageIdx] },
+                currentSentence() { return this.currentPassage ? this.currentPassage.sentences[this.currentSentenceIdx] : "" }
+            },
+            methods: {
+                switchPassage(idx) { this.currentPassageIdx = idx; this.currentSentenceIdx = 0; this.clearState(); },
+                clearState() { this.sttEn = ""; this.sttCn = ""; this.evaluation = ""; },
+                prevSentence() { if(this.currentSentenceIdx > 0) { this.currentSentenceIdx--; this.clearState(); } },
+                nextSentence() { if(this.currentSentenceIdx < this.currentPassage.sentences.length - 1) { this.currentSentenceIdx++; this.clearState(); } },
+                renderMarkdown(text) { return marked.parse(text); },
+
+                playTTS() {
+                    this.isPlaying = true;
+                    (window.azureSpeak || function(t,o){o.onEnd();})(this.currentSentence, {
+                        voice: "en-US-AvaMultilingualNeural",
+                        onEnd: () => { this.isPlaying = false; }
+                    });
+                },
+
+                toggleRecord(lang) {
+                    const isEn = lang === 'en';
+                    if ((isEn && this.isRecordingEn) || (!isEn && this.isRecordingCn)) { this.stopRecord(); return; }
+                    this.stopRecord();
+                    if (isEn) this.isRecordingEn = true; else this.isRecordingCn = true;
+                    const vm = this;
+                    (window.azureRecognizeOnce || function(){ vm.stopRecord(); })(isEn ? "en-US" : "zh-CN",
+                        (text) => { if (isEn) vm.sttEn = text; else vm.sttCn = text; vm.stopRecord(); },
+                        (err) => { console.error(err); vm.stopRecord(); },
+                        { onRecognizer: (r) => { vm.recognizer = r; } }
+                    );
+                },
+
+                stopRecord() {
+                    if (this.recognizer) { this.recognizer.close(); this.recognizer = null; }
+                    this.isRecordingEn = false;
+                    this.isRecordingCn = false;
+                },
+
+                async evaluate() {
+                    this.isEvaluating = true;
+                    // Prompt 优化：更简洁的反馈
+                    const prompt = `Task: English Tutor. 
+Target Sentence: "${this.currentSentence}"
+Student Reading: "${this.sttEn}"
+Student Translation: "${this.sttCn}"
+Rules: 
+1. Give a Pronunciation Score (0-100).
+2. Check if the translation captures the meaning.
+3. Provide the standard translation.
+Output in concise Chinese Markdown.`;
+                    try {
+                        const data = await (window.callAI || function() { return Promise.reject(new Error("API_BASE not set")); })({ messages: [{ role: "user", content: prompt }] });
+                        this.evaluation = (data && data.content) ? data.content : (data.error || "评价服务连接失败");
+                    } catch (e) { this.evaluation = "评价服务连接失败"; } finally { this.isEvaluating = false; }
+                }
+            }
+        }).mount('#app');
+    </script>
+</body>
+</html>

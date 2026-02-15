@@ -1,0 +1,1393 @@
+<!DOCTYPE html><html><head><meta charset='UTF-8'><meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover'><title>Final Quiz</title><style>
+:root{--p:#2c3e50;--a:#3498db;--bg:#f8f9fa;--w:#fff;--g:#27ae60;--r:#e74c3c}
+body{margin:0;font-family:'Segoe UI',sans-serif;background:var(--bg);color:var(--p);min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;overflow:hidden;box-sizing:border-box}
+*{box-sizing:border-box}
+.nav{padding:15px;background:var(--w);box-shadow:0 2px 5px rgba(0,0,0,0.05);display:flex;justify-content:space-between;z-index:10}
+.nav-btn{background:var(--a);color:#fff;border:none;padding:5px 15px;border-radius:15px;cursor:pointer}
+.nav-btn:disabled{background:#ccc}
+.quiz-page{display:none;height:100%;flex-direction:column}
+.quiz-page.active{display:flex}
+.page-title{padding:15px;font-size:1.2rem;font-weight:bold;background:var(--bg)}
+.scroll-area{flex:1;overflow-y:auto;}
+.q-card{background:var(--w);padding:15px;border-radius:10px;margin-bottom:15px;border:1px solid #eee;box-shadow:0 2px 5px rgba(0,0,0,0.02)}
+.q-card.correct{border-left:5px solid var(--g);background:#f0fdf4}
+.q-card.wrong{border-left:5px solid var(--r);background:#fff5f5}
+.line-txt{font-size:1.1rem;line-height:2.2}
+.inline-inp{border:none;border-bottom:2px solid var(--a);background:transparent;width:100px;text-align:center;font-weight:bold;font-size:1rem;color:var(--a);outline:none}
+.inline-inp.short{width:50px}
+.block-inp{width:100%;padding:10px;border:1px solid #ccc;border-radius:5px;margin-top:10px}
+.opt-grp{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+.opt-btn{padding:10px;border:1px solid #eee;border-radius:5px;cursor:pointer;background:#fff;transition:0.2s}
+.opt-btn:hover{background:#f0f8ff;border-color:var(--a)}
+.opt-btn.selected{background:var(--p);color:#fff;border-color:var(--p)}
+.bank-wrap{position:sticky;top:0;z-index:5;background:var(--bg);padding:0 20px 10px}
+.bank{background:#fff;padding:10px;border-radius:8px;border:1px solid #ddd;display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.bank span{background:#eef2f7;padding:3px 10px;border-radius:15px;font-weight:bold;color:var(--p)}
+.cloze-wrap{display:flex;gap:20px;flex:1;overflow:hidden;}
+.c-left{flex:1.2;overflow-y:auto;background:#fff;padding:20px;border-radius:10px;line-height:1.8;font-size:1.1rem}
+.c-right{flex:0.8;overflow-y:auto;padding-right:5px}
+.cloze-slot{border-bottom:2px solid #ccc;color:var(--a);font-weight:bold;padding:0 5px}
+.cloze-slot.filled{border-color:var(--a);background:#eaf2f8}
+.example-filled{color:#c0392b;text-decoration:line-through;margin:0 3px}
+.submit-bar{position:absolute;bottom:0;width:100%;background:rgba(255,255,255,0.9);padding:15px;text-align:center;border-top:1px solid #eee;backdrop-filter:blur(5px)}
+.submit-btn{background:var(--p);color:#fff;border:none;padding:10px 40px;border-radius:25px;font-size:1.1rem;cursor:pointer}
+.analysis-box.hidden{display:none}
+.analysis-box{margin-top:10px;padding-top:10px;border-top:1px dashed #ddd;font-size:0.9rem;color:#555}
+.ans-val{color:var(--g);font-weight:bold;margin-left:5px}
+.scram{font-size:1.2rem;letter-spacing:3px;font-weight:bold;color:#e67e22}
+.aud-btn{border:none;background:none;cursor:pointer;font-size:1.2rem;color:var(--a)}
+.aud-btn.small{font-size:1rem}
+
+/* Vocab Card Styles */
+.vocab-card{background:#fff;border:1px solid #eee;border-radius:10px;padding:20px;margin-bottom:20px;box-shadow:0 4px 6px rgba(0,0,0,0.05)}
+.v-top{display:flex;align-items:center;margin-bottom:15px;border-bottom:1px solid #f0f0f0;padding-bottom:10px}
+.v-word{font-size:1.8rem;font-weight:bold;color:var(--p);margin-right:10px}
+.v-def{margin-left:auto;text-align:right;font-size:0.9rem;color:#666}
+.v-ex-box{background:#f8f9fa;padding:10px;border-radius:8px;margin-top:10px;border-left:4px solid var(--a)}
+.v-badge{display:inline-block;padding:2px 8px;border-radius:4px;color:#fff;font-size:0.75rem;margin-bottom:5px}
+.v-badge.zk{background:#27ae60}
+.v-badge.g10{background:#e67e22}
+.v-sent{font-size:1.05rem;margin-bottom:4px;color:#333}
+.v-trans{font-size:0.9rem;color:#888}
+</style>
+<style>
+/* --- Mobile Fixes --- */
+body { 
+    height: 100dvh; /* 适配移动端动态地址栏 */
+    padding-bottom: env(safe-area-inset-bottom); /* 适配 iPhone 底部黑条 */
+}
+.nav {
+    padding-top: max(15px, env(safe-area-inset-top));
+    position: sticky; top: 0; width: 100%; box-sizing: border-box;
+}
+.quiz-page {
+    height: 100%;
+    overflow: hidden; /* 防止双重滚动 */
+}
+.scroll-area {
+    -webkit-overflow-scrolling: touch; /* iOS 平滑滚动 */
+    padding-bottom: 120px; /* 给底部按钮留出足够空间 */
+}
+.submit-bar {
+    position: absolute; 
+    bottom: 0; 
+    left: 0; 
+    width: 100%; 
+    box-sizing: border-box;
+    padding-bottom: max(15px, env(safe-area-inset-bottom));
+    background: rgba(255,255,255,0.95);
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+    display: flex; justify-content: center; gap: 10px;
+}
+.submit-btn, .nav-btn {
+    min-height: 44px; /* 移动端最小点击高度 */
+    touch-action: manipulation; /* 防止双击缩放 */
+}
+.opt-btn {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+}
+
+/* --- Result Page Styles --- */
+.result-header {
+    text-align: center;
+    padding: 30px 20px;
+    background: linear-gradient(135deg, #3498db, #2c3e50);
+    color: white;
+    border-radius: 0 0 20px 20px;
+    margin-bottom: 20px;
+}
+.score-circle {
+    width: 120px; height: 120px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    margin: 0 auto 15px;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    border: 4px solid #fff;
+}
+.score-val { font-size: 2.5rem; font-weight: bold; }
+.score-label { font-size: 0.9rem; opacity: 0.9; }
+.stat-row { display: flex; justify-content: space-around; margin-top: 15px; }
+.stat-item { text-align: center; }
+.stat-num { font-size: 1.2rem; font-weight: bold; }
+.stat-desc { font-size: 0.8rem; opacity: 0.8; }
+.wrong-list { padding: 0 20px 80px; }
+.wrong-title { 
+    font-weight: bold; font-size: 1.2rem; 
+    margin-bottom: 15px; border-left: 5px solid #e74c3c; 
+    padding-left: 10px; color: #2c3e50;
+}
+.restart-btn {
+    background: #27ae60; color: white; border: none;
+    padding: 12px 30px; border-radius: 25px;
+    font-size: 1.1rem; cursor: pointer;
+    box-shadow: 0 4px 10px rgba(39, 174, 96, 0.3);
+}
+.empty-state { text-align: center; color: #7f8c8d; padding: 40px; }
+
+/* 错题回顾模式下禁止交互 */
+.wrong-list .opt-btn { pointer-events: none; }
+.wrong-list input { pointer-events: none; background: #f9f9f9; }
+</style>
+</head><body><div class='nav'><b>Unit Quiz</b><div><span id='ind' style='margin-right:10px'></span><button id='pb' class='nav-btn' onclick='nav(-1)'>Prev</button> <button id='nb' class='nav-btn' onclick='nav(1)'>Next</button></div></div><div style='flex:1;position:relative;overflow:hidden'><div class="quiz-page active" id="page-1"><div class="page-title">Page 1: Vocabulary Study</div><div class="scroll-area">
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">amazing</span>
+                <button class="aud-btn" onclick="play('w_0_922c8158.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 Causing great surprise or wonder; very good.</div>
+                    <div>🇨🇳 令人惊奇的；极好的</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">The magic show was amazing and everyone enjoyed it. <button class="aud-btn small" onclick="play('zk_0_f073f179.mp3')">🔊</button></div>
+                <div class="v-trans">魔术表演太精彩了，每个人都很喜欢。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">It is amazing how quickly technology has changed our daily lives in the last decade. <button class="aud-btn small" onclick="play('g10_0_822b7e2e.mp3')">🔊</button></div>
+                <div class="v-trans">在过去十年里，科技改变我们日常生活的速度令人惊叹。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">anxious</span>
+                <button class="aud-btn" onclick="play('w_1_98df5000.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 Feeling worried or nervous about something.</div>
+                    <div>🇨🇳 焦虑的；担忧的；渴望的</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">She felt a bit anxious before the math exam. <button class="aud-btn small" onclick="play('zk_1_6bcbe3ce.mp3')">🔊</button></div>
+                <div class="v-trans">她在数学考试前感到有点焦虑。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">Many teenagers are anxious about their future careers in a competitive society. <button class="aud-btn small" onclick="play('g10_1_6758b4ee.mp3')">🔊</button></div>
+                <div class="v-trans">在竞争激烈的社会中，许多青少年对未来的职业感到担忧。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">apparently</span>
+                <button class="aud-btn" onclick="play('w_2_30d0a3aa.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 Used to say that something seems to be true, although it is not certain.</div>
+                    <div>🇨🇳 显然地；据说；看来</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">Apparently, the bus is late again today. <button class="aud-btn small" onclick="play('zk_2_1a0457c1.mp3')">🔊</button></div>
+                <div class="v-trans">看来今天公交车又晚点了。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">Apparently, the company is planning to expand its business into the European market next year. <button class="aud-btn small" onclick="play('g10_2_87860024.mp3')">🔊</button></div>
+                <div class="v-trans">显然，该公司计划明年将业务扩展到欧洲市场。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">appear</span>
+                <button class="aud-btn" onclick="play('w_3_fb67f8d6.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 To become noticeable or to be present; to seem.</div>
+                    <div>🇨🇳 出现；显得；似乎</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">Suddenly, a rabbit appeared from behind the tree. <button class="aud-btn small" onclick="play('zk_3_236d4c52.mp3')">🔊</button></div>
+                <div class="v-trans">突然，一只兔子从树后出现了。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">Although the task appears simple, it actually requires a lot of patience and skill. <button class="aud-btn small" onclick="play('g10_3_ffec9069.mp3')">🔊</button></div>
+                <div class="v-trans">虽然这项任务看起来很简单，但实际上需要很大的耐心和技巧。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">appreciate</span>
+                <button class="aud-btn" onclick="play('w_4_3ca0896b.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 To be thankful for; to understand the value of something.</div>
+                    <div>🇨🇳 感激；欣赏；领会</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">I really appreciate your help with my English homework. <button class="aud-btn small" onclick="play('zk_4_b6ee4738.mp3')">🔊</button></div>
+                <div class="v-trans">我真的很感激你帮我做英语作业。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">We should learn to appreciate the beauty of nature and protect our environment. <button class="aud-btn small" onclick="play('g10_4_088e48f5.mp3')">🔊</button></div>
+                <div class="v-trans">我们应该学会欣赏大自然的美，并保护我们的环境。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">awesome</span>
+                <button class="aud-btn" onclick="play('w_5_be121740.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 Extremely impressive or very good; inspiring an overwhelming feeling of reverence, admiration, or fear.</div>
+                    <div>🇨🇳 极好的；令人敬畏的；令人惊叹的</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">The magic show we saw at the party was totally awesome! <button class="aud-btn small" onclick="play('zk_5_7432429b.mp3')">🔊</button></div>
+                <div class="v-trans">我们在派对上看到的魔术表演真是太棒了！</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">Standing in front of the Great Pyramids, the tourists were filled with an awesome sense of history. <button class="aud-btn small" onclick="play('g10_5_c30741a6.mp3')">🔊</button></div>
+                <div class="v-trans">站在大金字塔前，游客们心中充满了令人敬畏的历史感。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">awful</span>
+                <button class="aud-btn" onclick="play('w_6_c34b6858.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 Very bad or unpleasant.</div>
+                    <div>🇨🇳 糟糕的；极坏的；可怕的</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">I have an awful headache, so I need to go to bed early. <button class="aud-btn small" onclick="play('zk_6_9ec6afbe.mp3')">🔊</button></div>
+                <div class="v-trans">我头痛得厉害，所以我需要早点睡觉。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">The consequences of ignoring climate change could be awful for future generations. <button class="aud-btn small" onclick="play('g10_6_eafbad50.mp3')">🔊</button></div>
+                <div class="v-trans">忽视气候变化的后果对后代来说可能是可怕的。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">barrier</span>
+                <button class="aud-btn" onclick="play('w_7_fa9c8ab9.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 A fence or other obstacle that prevents movement or access; a circumstance that keeps people or things apart.</div>
+                    <div>🇨🇳 障碍；屏障；隔阂</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">Language can be a barrier when you make friends with people from other countries. <button class="aud-btn small" onclick="play('zk_7_6149b75a.mp3')">🔊</button></div>
+                <div class="v-trans">当你和来自其他国家的人交朋友时，语言可能是一个障碍。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">Lack of confidence acts as a mental barrier to success for many students. <button class="aud-btn small" onclick="play('g10_7_8bd30697.mp3')">🔊</button></div>
+                <div class="v-trans">缺乏自信往往成为许多学生通往成功之路的心理障碍。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">challenge</span>
+                <button class="aud-btn" onclick="play('w_8_b04ec0ad.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 Something new and difficult which requires great effort and determination.</div>
+                    <div>🇨🇳 挑战；艰巨的任务</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">It is a challenge to finish all this homework in one hour. <button class="aud-btn small" onclick="play('zk_8_db59363f.mp3')">🔊</button></div>
+                <div class="v-trans">在一小时内完成所有这些作业是一个挑战。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">She decided to accept the challenge of leading the debate team to the national competition. <button class="aud-btn small" onclick="play('g10_8_e066f4fc.mp3')">🔊</button></div>
+                <div class="v-trans">她决定接受挑战，带领辩论队参加全国比赛。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">chirp</span>
+                <button class="aud-btn" onclick="play('w_9_80be2243.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 A short, sharp sound made by small birds or insects.</div>
+                    <div>🇨🇳 （小鸟或昆虫）发出的唧唧声；啁啾声</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">Can you hear the birds chirp in the tree? <button class="aud-btn small" onclick="play('zk_9_faac67c3.mp3')">🔊</button></div>
+                <div class="v-trans">你能听到树上鸟儿的叫声吗？</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">As dusk fell, the crickets began to chirp rhythmically in the tall grass. <button class="aud-btn small" onclick="play('g10_9_86fe104c.mp3')">🔊</button></div>
+                <div class="v-trans">黄昏降临，蟋蟀开始在高高的草丛中有节奏地鸣叫。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">countryside</span>
+                <button class="aud-btn" onclick="play('w_10_9cff47d1.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 Land outside towns and cities, with fields and woods.</div>
+                    <div>🇨🇳 乡村，农村</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">My grandparents live in the quiet countryside, where the air is very clean. <button class="aud-btn small" onclick="play('zk_10_4bb08633.mp3')">🔊</button></div>
+                <div class="v-trans">我的祖父母住在安静的乡下，那里的空气非常干净。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">Many stressed city dwellers dream of escaping to the countryside to enjoy a slower pace of life. <button class="aud-btn small" onclick="play('g10_10_7da2205a.mp3')">🔊</button></div>
+                <div class="v-trans">许多压力大的城市居民梦想逃离到乡下，享受慢节奏的生活。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">depress</span>
+                <button class="aud-btn" onclick="play('w_11_ff1bcdbe.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 To make someone feel sad and without enthusiasm.</div>
+                    <div>🇨🇳 使沮丧，使抑郁</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">Rainy days always depress me because I cannot play soccer outside. <button class="aud-btn small" onclick="play('zk_11_a238a8b9.mp3')">🔊</button></div>
+                <div class="v-trans">下雨天总是让我感到沮丧，因为我不能在外面踢足球。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">The thought of failing the entrance examination began to depress him severely. <button class="aud-btn small" onclick="play('g10_11_154e1695.mp3')">🔊</button></div>
+                <div class="v-trans">一想到入学考试可能会不及格，他就开始感到严重的抑郁。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">depression</span>
+                <button class="aud-btn" onclick="play('w_12_28c5f9ff.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 A feeling of unhappiness and lack of hope, or a mental illness.</div>
+                    <div>🇨🇳 抑郁，沮丧；抑郁症；(经济)萧条</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">She went through a period of depression after her best friend moved away. <button class="aud-btn small" onclick="play('zk_12_3e5d5f3c.mp3')">🔊</button></div>
+                <div class="v-trans">在她最好的朋友搬走后，她经历了一段沮丧的时期。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">Doctors suggest that regular exercise can be an effective way to help fight mild depression. <button class="aud-btn small" onclick="play('g10_12_fb4e1724.mp3')">🔊</button></div>
+                <div class="v-trans">医生建议定期锻炼可以是帮助对抗轻度抑郁症的有效方法。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">disappointed</span>
+                <button class="aud-btn" onclick="play('w_13_bafd5523.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 Unhappy because someone or something was not as good as you hoped or expected.</div>
+                    <div>🇨🇳 失望的</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">I was disappointed that we didn't win the basketball game yesterday. <button class="aud-btn small" onclick="play('zk_13_59960544.mp3')">🔊</button></div>
+                <div class="v-trans">对于昨天没能赢得篮球比赛，我感到很失望。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">Although disappointed by the results, the scientist decided to continue his research with a new approach. <button class="aud-btn small" onclick="play('g10_13_cb084dcb.mp3')">🔊</button></div>
+                <div class="v-trans">尽管对结果感到失望，这位科学家决定用一种新方法继续他的研究。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">easily</span>
+                <button class="aud-btn" onclick="play('w_14_ed53f733.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 Without difficulty or effort.</div>
+                    <div>🇨🇳 容易地；无疑地</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">With the help of the teacher, I can solve this math problem easily. <button class="aud-btn small" onclick="play('zk_14_dd97fbee.mp3')">🔊</button></div>
+                <div class="v-trans">在老师的帮助下，我可以很容易地解决这道数学题。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">She is easily the most talented student in the art class, producing work far beyond her years. <button class="aud-btn small" onclick="play('g10_14_1297066d.mp3')">🔊</button></div>
+                <div class="v-trans">她无疑是美术班最有天赋的学生，创作出的作品远超她的年龄水平。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">embarrassed</span>
+                <button class="aud-btn" onclick="play('w_15_0b006cd1.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 Feeling ashamed, nervous, or uncomfortable, especially in front of other people.</div>
+                    <div>🇨🇳 尴尬的；感到不好意思的；难堪的</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">She felt embarrassed when she dropped her books in the quiet library. <button class="aud-btn small" onclick="play('zk_15_1869c77e.mp3')">🔊</button></div>
+                <div class="v-trans">当她在安静的图书馆里把书掉在地上时，她感到很尴尬。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">He was visibly embarrassed by the praise he received for merely doing his duty. <button class="aud-btn small" onclick="play('g10_15_e2b9e440.mp3')">🔊</button></div>
+                <div class="v-trans">因为仅仅履行了职责就受到表扬，他明显感到有些不好意思。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">embarrassing</span>
+                <button class="aud-btn" onclick="play('w_16_46684438.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 Making you feel shy, ashamed, or uncomfortable.</div>
+                    <div>🇨🇳 令人尴尬的；令人难堪的</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">It was embarrassing to realize I was wearing two different socks. <button class="aud-btn small" onclick="play('zk_16_3526ba23.mp3')">🔊</button></div>
+                <div class="v-trans">意识到自己穿了两只不同的袜子真是令人尴尬。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">The politician made an embarrassing mistake during the live interview. <button class="aud-btn small" onclick="play('g10_16_543daa05.mp3')">🔊</button></div>
+                <div class="v-trans">那位政客在现场采访中犯了一个令人尴尬的错误。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">explain</span>
+                <button class="aud-btn" onclick="play('w_17_979283b6.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 To make something clear or easy to understand by describing it in more detail.</div>
+                    <div>🇨🇳 解释；说明；阐明</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">Can you explain the rules of the game to us? <button class="aud-btn small" onclick="play('zk_17_b03d1d0d.mp3')">🔊</button></div>
+                <div class="v-trans">你能给我们解释一下这个游戏的规则吗？</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">The scientist tried to explain the complex theory in simple terms. <button class="aud-btn small" onclick="play('g10_17_5b7e2e90.mp3')">🔊</button></div>
+                <div class="v-trans">科学家试图用简单的术语来解释这个复杂的理论。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">express</span>
+                <button class="aud-btn" onclick="play('w_18_4ca65a8b.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 To show a feeling, opinion, or fact.</div>
+                    <div>🇨🇳 表达；表示；表露</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">It is important to express your feelings to your parents. <button class="aud-btn small" onclick="play('zk_18_231c3bb8.mp3')">🔊</button></div>
+                <div class="v-trans">向父母表达你的感受是很重要的。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">Words sometimes fail to express the depth of one's grief. <button class="aud-btn small" onclick="play('g10_18_e24caf83.mp3')">🔊</button></div>
+                <div class="v-trans">言语有时无法表达一个人悲伤的深度。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">fail</span>
+                <button class="aud-btn" onclick="play('w_19_e11185b6.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 To not succeed in what you are trying to achieve or pass a test.</div>
+                    <div>🇨🇳 失败；不及格；未能做某事</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">If you don't practice, you might fail the driving test. <button class="aud-btn small" onclick="play('zk_19_50a6c6ca.mp3')">🔊</button></div>
+                <div class="v-trans">如果你不练习，你驾驶考试可能会不及格。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">The negotiations failed because neither side was willing to compromise. <button class="aud-btn small" onclick="play('g10_19_a2324021.mp3')">🔊</button></div>
+                <div class="v-trans">谈判失败了，因为双方都不愿意妥协。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">fluent</span>
+                <button class="aud-btn" onclick="play('w_20_04ec4987.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 Able to express oneself easily and articulately in a foreign language.</div>
+                    <div>🇨🇳 流利的</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">She wants to be fluent in English so she can travel around the world. <button class="aud-btn small" onclick="play('zk_20_48e0384b.mp3')">🔊</button></div>
+                <div class="v-trans">她想把英语说得很流利，这样她就可以环游世界了。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">Becoming fluent in a second language requires not only vocabulary memorization but also cultural understanding. <button class="aud-btn small" onclick="play('g10_20_9a6c5383.mp3')">🔊</button></div>
+                <div class="v-trans">精通第二语言不仅需要记忆词汇，还需要理解文化。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">fragrant</span>
+                <button class="aud-btn" onclick="play('w_21_e70a5b12.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 Having a pleasant or sweet smell.</div>
+                    <div>🇨🇳 香的；芬芳的</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">The flowers in the park are very fragrant in spring. <button class="aud-btn small" onclick="play('zk_21_5b258c71.mp3')">🔊</button></div>
+                <div class="v-trans">春天的公园里花香四溢。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">The air was fragrant with the scent of pine trees and blooming wildflowers after the rain. <button class="aud-btn small" onclick="play('g10_21_ba2450b6.mp3')">🔊</button></div>
+                <div class="v-trans">雨后，空气中弥漫着松树和盛开的野花的芬芳。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">frightened</span>
+                <button class="aud-btn" onclick="play('w_22_d383ff97.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 Feeling fear or worry.</div>
+                    <div>🇨🇳 受惊的；害怕的</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">The little boy was frightened by the big dog. <button class="aud-btn small" onclick="play('zk_22_11a8763e.mp3')">🔊</button></div>
+                <div class="v-trans">那个小男孩被那只大狗吓坏了。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">Frightened by the sudden crash in the market, many investors sold their stocks immediately. <button class="aud-btn small" onclick="play('g10_22_8dd819f6.mp3')">🔊</button></div>
+                <div class="v-trans">由于对市场的突然崩盘感到恐慌，许多投资者立即抛售了股票。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">frightening</span>
+                <button class="aud-btn" onclick="play('w_23_8e608ab5.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 Making you feel afraid or nervous.</div>
+                    <div>🇨🇳 令人恐惧的</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">It is frightening to walk alone on the dark street at night. <button class="aud-btn small" onclick="play('zk_23_e664b32b.mp3')">🔊</button></div>
+                <div class="v-trans">晚上独自走在漆黑的街道上是很吓人的。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">The rapid spread of the virus was a frightening prospect for the global health organization. <button class="aud-btn small" onclick="play('g10_23_3268908f.mp3')">🔊</button></div>
+                <div class="v-trans">病毒的迅速传播对全球卫生组织来说是一个令人担忧的前景。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">hike</span>
+                <button class="aud-btn" onclick="play('w_24_905d6af0.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 A long walk, usually for exercise or pleasure in the country.</div>
+                    <div>🇨🇳 远足；徒步旅行</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">We are going to go on a hike up the mountain this Saturday. <button class="aud-btn small" onclick="play('zk_24_d9695c1a.mp3')">🔊</button></div>
+                <div class="v-trans">这周六我们要去山上远足。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">The strenuous hike tested our physical endurance but rewarded us with a breathtaking view at the summit. <button class="aud-btn small" onclick="play('g10_24_130974af.mp3')">🔊</button></div>
+                <div class="v-trans">这次艰苦的徒步旅行考验了我们的体能，但在山顶看到的壮丽景色是对我们要最好的回报。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">ill-tempered</span>
+                <button class="aud-btn" onclick="play('w_25_5315efe4.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 Having a bad temper; easily annoyed or made angry.</div>
+                    <div>🇨🇳 脾气坏的，易怒的</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">The ill-tempered dog barked at anyone who walked past the gate. <button class="aud-btn small" onclick="play('zk_25_0692236d.mp3')">🔊</button></div>
+                <div class="v-trans">那只脾气暴躁的狗对着每一个路过大门的人狂吠。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">It is difficult to work effectively with an ill-tempered boss who refuses to listen to suggestions. <button class="aud-btn small" onclick="play('g10_25_73f60ed2.mp3')">🔊</button></div>
+                <div class="v-trans">和一个拒绝听取建议且脾气暴躁的老板一起高效工作是很困难的。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">immediately</span>
+                <button class="aud-btn" onclick="play('w_26_ffe18113.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 At once; instantly; without any delay.</div>
+                    <div>🇨🇳 立刻，马上</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">Please leave the building immediately when you hear the fire alarm. <button class="aud-btn small" onclick="play('zk_26_aec47133.mp3')">🔊</button></div>
+                <div class="v-trans">当你听到火警警报时，请立即离开大楼。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">The government realized the severity of the situation and took measures immediately to stop the spread of the virus. <button class="aud-btn small" onclick="play('g10_26_9608f417.mp3')">🔊</button></div>
+                <div class="v-trans">政府意识到了形势的严峻性，并立即采取措施阻止病毒的传播。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">impression</span>
+                <button class="aud-btn" onclick="play('w_27_4ba09b93.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 An idea, feeling, or opinion about something or someone, especially one formed without conscious thought or on the basis of little evidence.</div>
+                    <div>🇨🇳 印象，感想</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">The new student made a good impression on us because he was very polite. <button class="aud-btn small" onclick="play('zk_27_18dfc1cb.mp3')">🔊</button></div>
+                <div class="v-trans">那个新来的学生给我们留下了很好的印象，因为他非常有礼貌。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">First impressions are important during a job interview, so you should dress professionally. <button class="aud-btn small" onclick="play('g10_27_aa428a4d.mp3')">🔊</button></div>
+                <div class="v-trans">在求职面试中第一印象很重要，所以你应该穿得职业一些。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">indulgent</span>
+                <button class="aud-btn" onclick="play('w_28_509b3544.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 Having or indicating a tendency to be overly generous to or lenient with someone.</div>
+                    <div>🇨🇳 纵容的，溺爱的，宽容的</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">His indulgent grandmother always gives him money whenever he asks for it. <button class="aud-btn small" onclick="play('zk_28_8a445afe.mp3')">🔊</button></div>
+                <div class="v-trans">他那溺爱他的祖母总是只要他开口要钱就给他。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">While indulgent parents often mean well, they may prevent their children from learning necessary life skills. <button class="aud-btn small" onclick="play('g10_28_85902e07.mp3')">🔊</button></div>
+                <div class="v-trans">虽然纵容孩子的父母通常出于好意，但他们可能会阻碍孩子学习必要的生活技能。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">interact</span>
+                <button class="aud-btn" onclick="play('w_29_65fa1578.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 To act in such a way as to have an effect on another; to communicate or work together.</div>
+                    <div>🇨🇳 互动，交流，相互作用</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">The teacher asked us to interact with our classmates to practice English. <button class="aud-btn small" onclick="play('zk_29_21443750.mp3')">🔊</button></div>
+                <div class="v-trans">老师让我们和同学互动来练习英语。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">Scientists are studying how these chemicals interact with the human body to develop safer medicines. <button class="aud-btn small" onclick="play('g10_29_d190b743.mp3')">🔊</button></div>
+                <div class="v-trans">科学家们正在研究这些化学物质如何与人体相互作用，以开发更安全的药物。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">jealous</span>
+                <button class="aud-btn" onclick="play('w_30_1339103d.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 Feeling unhappy or angry because you want what someone else has.</div>
+                    <div>🇨🇳 嫉妒的；吃醋的</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">She was jealous of her friend's new bicycle. <button class="aud-btn small" onclick="play('zk_30_6e62819b.mp3')">🔊</button></div>
+                <div class="v-trans">她嫉妒朋友的新自行车。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">It is natural to feel a little jealous when seeing others succeed without much effort, but hard work is more important. <button class="aud-btn small" onclick="play('g10_30_8775ec3c.mp3')">🔊</button></div>
+                <div class="v-trans">看到别人不费吹灰之力就成功时感到一点嫉妒是自然的，但努力工作更为重要。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">nightmare</span>
+                <button class="aud-btn" onclick="play('w_31_ac754a33.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 A very frightening dream or a very difficult situation.</div>
+                    <div>🇨🇳 噩梦；可怕的经历</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">I had a terrible nightmare last night and woke up scared. <button class="aud-btn small" onclick="play('zk_31_8c695f52.mp3')">🔊</button></div>
+                <div class="v-trans">我昨晚做了一个可怕的噩梦，醒来时很害怕。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">The traffic jam on the way to the airport turned our holiday trip into a complete nightmare. <button class="aud-btn small" onclick="play('g10_31_1d98a641.mp3')">🔊</button></div>
+                <div class="v-trans">去机场路上的交通堵塞把我们的度假旅行变成了一场彻头彻尾的噩梦。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">pretty</span>
+                <button class="aud-btn" onclick="play('w_32_2f0e7ef2.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 Beautiful in a delicate way (adj); or to a moderately high degree (adv).</div>
+                    <div>🇨🇳 漂亮的；（副词）相当，很</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">The little girl looks very pretty in that pink dress. <button class="aud-btn small" onclick="play('zk_32_52a74c9b.mp3')">🔊</button></div>
+                <div class="v-trans">那个小女孩穿那条粉红色的裙子看起来很漂亮。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">I am pretty sure that the physics exam will cover everything we learned in this chapter. <button class="aud-btn small" onclick="play('g10_32_eb5bd65e.mp3')">🔊</button></div>
+                <div class="v-trans">我相当确定物理考试会涵盖我们在这一章学到的所有内容。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">provincial</span>
+                <button class="aud-btn" onclick="play('w_33_8b9cedc8.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 Relating to a province (an area of a country); or having narrow-minded views.</div>
+                    <div>🇨🇳 省的；地方性的；（眼光）狭隘的</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">My cousin studies at a key university in the provincial capital. <button class="aud-btn small" onclick="play('zk_33_8a76f1e5.mp3')">🔊</button></div>
+                <div class="v-trans">我的表哥在省会的一所重点大学读书。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">His art was criticized for being too provincial, lacking the global perspective needed for international exhibitions. <button class="aud-btn small" onclick="play('g10_33_f58f212a.mp3')">🔊</button></div>
+                <div class="v-trans">他的艺术作品被批评过于狭隘（带有地方局限性），缺乏国际展览所需的全球视野。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">recall</span>
+                <button class="aud-btn" onclick="play('w_34_a05550b7.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 To bring a past event into the mind; to remember.</div>
+                    <div>🇨🇳 回忆起；回想起；召回</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">I can't recall where I put my keys. <button class="aud-btn small" onclick="play('zk_34_df28408b.mp3')">🔊</button></div>
+                <div class="v-trans">我想不起来我把钥匙放哪儿了。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">The elderly writer could vividly recall the details of his childhood in the countryside. <button class="aud-btn small" onclick="play('g10_34_980f7fab.mp3')">🔊</button></div>
+                <div class="v-trans">这位年迈的作家能生动地回忆起他在乡下童年生活的细节。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">relief</span>
+                <button class="aud-btn" onclick="play('w_35_29e45d4c.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 A feeling of comfort and happiness when something unpleasant ends or does not happen.</div>
+                    <div>🇨🇳 （痛苦、忧虑等的）解除，减轻；宽慰</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">To my great relief, I passed the math exam. <button class="aud-btn small" onclick="play('zk_35_2ea9652e.mp3')">🔊</button></div>
+                <div class="v-trans">让我深感宽慰的是，我通过了数学考试。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">The medicine brought him immediate relief from the severe headache. <button class="aud-btn small" onclick="play('g10_35_dace5851.mp3')">🔊</button></div>
+                <div class="v-trans">这药立即使他的剧烈头痛得到了缓解。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">relieved</span>
+                <button class="aud-btn" onclick="play('w_36_5d98a7e9.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 Feeling happy because something unpleasant has stopped or has not happened.</div>
+                    <div>🇨🇳 感到宽慰的；如释重负的</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">We were relieved to hear that everyone was safe. <button class="aud-btn small" onclick="play('zk_36_1569d810.mp3')">🔊</button></div>
+                <div class="v-trans">听到大家都平安无事，我们感到很宽慰。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">She looked visibly relieved when the interview was finally over. <button class="aud-btn small" onclick="play('g10_36_121a4cfb.mp3')">🔊</button></div>
+                <div class="v-trans">当面试终于结束时，她看起来明显松了一口气。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">rescue</span>
+                <button class="aud-btn" onclick="play('w_37_92bea1d5.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 To save someone or something from a dangerous or difficult situation.</div>
+                    <div>🇨🇳 营救；救援</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">The brave policeman jumped into the river to rescue the boy. <button class="aud-btn small" onclick="play('zk_37_380572ad.mp3')">🔊</button></div>
+                <div class="v-trans">那位勇敢的警察跳进河里去救那个男孩。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">Advanced technology is often used to rescue people trapped in earthquakes. <button class="aud-btn small" onclick="play('g10_37_d2899db1.mp3')">🔊</button></div>
+                <div class="v-trans">先进的技术常被用于营救地震中被困的人员。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">satisfied</span>
+                <button class="aud-btn" onclick="play('w_38_62da8cc9.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 Pleased because you have achieved what you wanted or because something is right.</div>
+                    <div>🇨🇳 满意的；满足的</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">My parents are satisfied with my school grades. <button class="aud-btn small" onclick="play('zk_38_ac656fb8.mp3')">🔊</button></div>
+                <div class="v-trans">我的父母对我的在校成绩很满意。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">Unless the customers are fully satisfied, the company offers a money-back guarantee. <button class="aud-btn small" onclick="play('g10_38_5331f84b.mp3')">🔊</button></div>
+                <div class="v-trans">除非顾客完全满意，否则该公司提供退款保证。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">scary</span>
+                <button class="aud-btn" onclick="play('w_39_d41134fb.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 Making you feel frightened.</div>
+                    <div>🇨🇳 可怕的；吓人的</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">That ghost story was too scary for me to sleep. <button class="aud-btn small" onclick="play('zk_39_a6a383f3.mp3')">🔊</button></div>
+                <div class="v-trans">那个鬼故事太吓人了，让我睡不着觉。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">Public speaking can be a scary experience for those who lack confidence. <button class="aud-btn small" onclick="play('g10_39_38a84fa4.mp3')">🔊</button></div>
+                <div class="v-trans">对于缺乏自信的人来说，公开演讲可能是一种令人恐惧的经历。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">shiver</span>
+                <button class="aud-btn" onclick="play('w_40_5721db81.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 To shake slightly because you are cold, frightened, or excited.</div>
+                    <div>🇨🇳 颤抖，哆嗦</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">The poor dog began to shiver in the cold rain. <button class="aud-btn small" onclick="play('zk_40_0b5ab581.mp3')">🔊</button></div>
+                <div class="v-trans">那只可怜的狗在冷雨中开始发抖。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">A sudden shiver went down his spine when he heard the strange noise. <button class="aud-btn small" onclick="play('g10_40_0734edb7.mp3')">🔊</button></div>
+                <div class="v-trans">当他听到那个奇怪的声音时，背脊突然感到一阵战栗。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">sigh</span>
+                <button class="aud-btn" onclick="play('w_41_9ec5fcfb.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 To let out a long, deep breath to express sadness, relief, or tiredness.</div>
+                    <div>🇨🇳 叹气，叹息</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">She let out a deep sigh and continued her homework. <button class="aud-btn small" onclick="play('zk_41_a2b4ed2f.mp3')">🔊</button></div>
+                <div class="v-trans">她深深地叹了一口气，继续做作业。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">He breathed a sigh of relief when he found out he had passed the exam. <button class="aud-btn small" onclick="play('g10_41_61dd69ea.mp3')">🔊</button></div>
+                <div class="v-trans">当得知通过考试时，他如释重负地松了一口气。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">sight</span>
+                <button class="aud-btn" onclick="play('w_42_31dbbb2e.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 The ability to see, or something that is seen.</div>
+                    <div>🇨🇳 视力；景象；看见</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">My grandfather lost his sight when he was eighty years old. <button class="aud-btn small" onclick="play('zk_42_7769c40d.mp3')">🔊</button></div>
+                <div class="v-trans">我的祖父在八十岁时失明了。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">At the sight of the police car, the thief dropped the bag and ran away. <button class="aud-btn small" onclick="play('g10_42_04e3b422.mp3')">🔊</button></div>
+                <div class="v-trans">一看到警车，那个小偷就扔下包逃跑了。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">story</span>
+                <button class="aud-btn" onclick="play('w_43_bec670e5.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 A description of events and people that the writer or speaker has invented or imagined.</div>
+                    <div>🇨🇳 故事；传说；新闻报道</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">My father often tells me stories about his childhood. <button class="aud-btn small" onclick="play('zk_43_67062841.mp3')">🔊</button></div>
+                <div class="v-trans">我父亲经常给我讲他童年的故事。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">The reporter is writing a story about how technology changes our daily lives. <button class="aud-btn small" onclick="play('g10_43_90540471.mp3')">🔊</button></div>
+                <div class="v-trans">那位记者正在写一篇关于科技如何改变我们要日常生活的报道。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">suggest</span>
+                <button class="aud-btn" onclick="play('w_44_4466476a.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 To mention an idea, possible plan, or action for other people to consider.</div>
+                    <div>🇨🇳 建议；提议；暗示</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">I suggest that you finish your work before you go out to play. <button class="aud-btn small" onclick="play('zk_44_9bd60818.mp3')">🔊</button></div>
+                <div class="v-trans">我建议你在出去玩之前先把工作做完。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">Recent data suggest that the climate is changing faster than previously thought. <button class="aud-btn small" onclick="play('g10_44_38c1c7c1.mp3')">🔊</button></div>
+                <div class="v-trans">最近的数据表明，气候变化的速度比之前认为的要快。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">surprised</span>
+                <button class="aud-btn" onclick="play('w_45_6d62d506.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 Feeling or showing surprise because something has happened that you did not expect.</div>
+                    <div>🇨🇳 感到惊讶的，吃惊的</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">I was surprised to see my math teacher in the supermarket. <button class="aud-btn small" onclick="play('zk_45_9032e1b7.mp3')">🔊</button></div>
+                <div class="v-trans">我很惊讶在超市里见到我的数学老师。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">The scientists were surprisingly calm despite being surprised by the anomaly in the data. <button class="aud-btn small" onclick="play('g10_45_2fa41912.mp3')">🔊</button></div>
+                <div class="v-trans">尽管对数据中的异常感到惊讶，科学家们还是出奇地冷静。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">surround</span>
+                <button class="aud-btn" onclick="play('w_46_a854c0e5.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 To be all around someone or something.</div>
+                    <div>🇨🇳 包围，环绕</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">Beautiful flowers surround the small house. <button class="aud-btn small" onclick="play('zk_46_7ca7ea7e.mp3')">🔊</button></div>
+                <div class="v-trans">美丽的花朵环绕着那座小房子。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">The celebrity was immediately surrounded by fans and reporters as soon as she stepped out of the car. <button class="aud-btn small" onclick="play('g10_46_4c7c9d06.mp3')">🔊</button></div>
+                <div class="v-trans">那位名人一下车立刻就被粉丝和记者包围了。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">threat</span>
+                <button class="aud-btn" onclick="play('w_47_58e95539.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 A person or thing that is likely to cause damage or danger.</div>
+                    <div>🇨🇳 威胁，恐吓；构成威胁的人或事</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">Dirty water is a threat to the fish in the river. <button class="aud-btn small" onclick="play('zk_47_5c6f9f9c.mp3')">🔊</button></div>
+                <div class="v-trans">脏水对河里的鱼是一个威胁。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">Climate change poses a significant threat to global agriculture and food security. <button class="aud-btn small" onclick="play('g10_47_5a408a4a.mp3')">🔊</button></div>
+                <div class="v-trans">气候变化对全球农业和粮食安全构成了重大威胁。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">unforgettable</span>
+                <button class="aud-btn" onclick="play('w_48_5c4e8c01.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 Impossible to forget; very memorable.</div>
+                    <div>🇨🇳 难忘的，无法忘记的</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">The school trip to the zoo was an unforgettable experience. <button class="aud-btn small" onclick="play('zk_48_f3716c15.mp3')">🔊</button></div>
+                <div class="v-trans">去动物园的学校旅行是一次难忘的经历。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">His speech was truly unforgettable, inspiring the entire graduating class to pursue their dreams. <button class="aud-btn small" onclick="play('g10_48_928842a8.mp3')">🔊</button></div>
+                <div class="v-trans">他的演讲确实令人难忘，激励了整个毕业生班级去追逐他们的梦想。</div>
+            </div>
+        </div>
+        </div><div class="submit-bar" style="background:#f0f4f8;color:#555">Study Mode - No Submission Needed</div></div><div class="quiz-page" id="page-2"><div class="page-title">Part 1: Challenge</div><div class="scroll-area"><div style="padding:10px; background:#e8f4fd; color:#2980b9; border-radius:5px; margin-bottom:15px; font-size:0.9rem;">🎯 <b>Spelling Bee:</b> Listen to the definition or audio, then spell the word.</div>
+            <div class="q-card" data-ans="barrier">
+                <div class="v-top">
+                    <button class="aud-btn" onclick="play('sp_barrier_fa9c8ab9.mp3')">🔊</button>
+                    <div style="margin-left:10px; font-size:1rem; color:#555;">障碍；屏障；隔阂</div>
+                </div>
+                <div style="margin-top:5px; font-size:0.85rem; color:#888; margin-bottom:10px;">A fence or other obstacle that prevents movement or access; a circumstance that keeps people or things apart.</div>
+                <input type="text" class="block-inp" placeholder="Type the word here...">
+                <div class="analysis-box hidden" id="ana-sp_barrier"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">barrier</span></div><div class="ana-text">barrier: 障碍；屏障；隔阂</div></div>
+            </div>
+            
+            <div class="q-card" data-ans="nightmare">
+                <div class="v-top">
+                    <button class="aud-btn" onclick="play('sp_nightmare_ac754a33.mp3')">🔊</button>
+                    <div style="margin-left:10px; font-size:1rem; color:#555;">噩梦；可怕的经历</div>
+                </div>
+                <div style="margin-top:5px; font-size:0.85rem; color:#888; margin-bottom:10px;">A very frightening dream or a very difficult situation.</div>
+                <input type="text" class="block-inp" placeholder="Type the word here...">
+                <div class="analysis-box hidden" id="ana-sp_nightmare"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">nightmare</span></div><div class="ana-text">nightmare: 噩梦；可怕的经历</div></div>
+            </div>
+            
+            <div class="q-card" data-ans="cohabit">
+                <div class="v-top">
+                    <button class="aud-btn" onclick="play('sp_cohabit_64ffbab1.mp3')">🔊</button>
+                    <div style="margin-left:10px; font-size:1rem; color:#555;">请拼写此单词</div>
+                </div>
+                <div style="margin-top:5px; font-size:0.85rem; color:#888; margin-bottom:10px;">Listen and spell.</div>
+                <input type="text" class="block-inp" placeholder="Type the word here...">
+                <div class="analysis-box hidden" id="ana-sp_cohabit"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">cohabit</span></div><div class="ana-text">cohabit: 请拼写此单词</div></div>
+            </div>
+            
+            <div class="q-card" data-ans="weapon">
+                <div class="v-top">
+                    <button class="aud-btn" onclick="play('sp_weapon_282aa351.mp3')">🔊</button>
+                    <div style="margin-left:10px; font-size:1rem; color:#555;">请拼写此单词</div>
+                </div>
+                <div style="margin-top:5px; font-size:0.85rem; color:#888; margin-bottom:10px;">Listen and spell.</div>
+                <input type="text" class="block-inp" placeholder="Type the word here...">
+                <div class="analysis-box hidden" id="ana-sp_weapon"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">weapon</span></div><div class="ana-text">weapon: 请拼写此单词</div></div>
+            </div>
+            
+            <div class="q-card" data-ans="awesome">
+                <div class="v-top">
+                    <button class="aud-btn" onclick="play('sp_awesome_be121740.mp3')">🔊</button>
+                    <div style="margin-left:10px; font-size:1rem; color:#555;">极好的；令人敬畏的；令人惊叹的</div>
+                </div>
+                <div style="margin-top:5px; font-size:0.85rem; color:#888; margin-bottom:10px;">Extremely impressive or very good; inspiring an overwhelming feeling of reverence, admiration, or fear.</div>
+                <input type="text" class="block-inp" placeholder="Type the word here...">
+                <div class="analysis-box hidden" id="ana-sp_awesome"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">awesome</span></div><div class="ana-text">awesome: 极好的；令人敬畏的；令人惊叹的</div></div>
+            </div>
+            
+            <div class="q-card" data-ans="fail">
+                <div class="v-top">
+                    <button class="aud-btn" onclick="play('sp_fail_e11185b6.mp3')">🔊</button>
+                    <div style="margin-left:10px; font-size:1rem; color:#555;">失败；不及格；未能做某事</div>
+                </div>
+                <div style="margin-top:5px; font-size:0.85rem; color:#888; margin-bottom:10px;">To not succeed in what you are trying to achieve or pass a test.</div>
+                <input type="text" class="block-inp" placeholder="Type the word here...">
+                <div class="analysis-box hidden" id="ana-sp_fail"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">fail</span></div><div class="ana-text">fail: 失败；不及格；未能做某事</div></div>
+            </div>
+            </div><div class="submit-bar"><button class="submit-btn" onclick="submitPage('page-2')">Check Answers</button></div></div><div class="quiz-page" id="page-3"><div class="page-title">Part 2: Word Selection</div><div class="bank-wrap"><div class="bank"><span>appreciative</span> <span>Depression</span> <span>threat</span> <span>surrounded</span> <span>vast</span> <span>visitors</span> <span>easily</span> <span>suggest</span></div></div><div class="scroll-area"><div class="q-card" data-ans="Depression"><div class="line-txt"><input type="text" class="inline-inp"> makes people feel down and is bad for health.</div><div class="analysis-box hidden" id="ana-51"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">Depression</span></div><div class="ana-text">根据句意‘______让人情绪低落且对健康有害’及词库，Depression（抑郁）符合语境。词库中已有名词形式depression。</div></div></div><div class="q-card" data-ans="vast"><div class="line-txt">China has a <input type="text" class="inline-inp"> area with mountains and rivers.</div><div class="analysis-box hidden" id="ana-52"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">vast</span></div><div class="ana-text">根据句意‘中国拥有______的疆域……’及词库，vast（辽阔的）符合语境修饰area。</div></div></div><div class="q-card" data-ans="suggest"><div class="line-txt">Many people <input type="text" class="inline-inp"> me reading more books.</div><div class="analysis-box hidden" id="ana-53"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">suggest</span></div><div class="ana-text">根据句意‘许多人______我多读书’及词库，suggest（建议）符合语境。主语Many people为复数，谓语动词用原形suggest。</div></div></div><div class="q-card" data-ans="surrounded"><div class="line-txt">Albert is living in a house which is <input type="text" class="inline-inp"> by a river.</div><div class="analysis-box hidden" id="ana-54"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">surrounded</span></div><div class="ana-text">根据句意‘Albert住在一所被河流______的房子里’及搭配‘is ... by’，此处应为被动语态，填入surround的过去分词surrounded（环绕）。</div></div></div><div class="q-card" data-ans="appreciative"><div class="line-txt">We will be highly <input type="text" class="inline-inp"> if you come to our party.</div><div class="analysis-box hidden" id="ana-55"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">appreciative</span></div><div class="ana-text">根据句意‘如果你来参加聚会，我们将非常______’，此处作表语表示‘感激的’，应填appreciate的形容词形式appreciative。（注：部分教材可能误用appreciated，但appreciative在语法上修饰人更准确）。</div></div></div><div class="q-card" data-ans="visitors"><div class="line-txt">Every year thousands of <input type="text" class="inline-inp"> visit the West Lake.</div><div class="analysis-box hidden" id="ana-56"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">visitors</span></div><div class="ana-text">根据句意‘每年成千上万的______参观西湖’及thousands of搭配，此处应填可数名词复数，即visitor的复数形式visitors（游客）。</div></div></div><div class="q-card" data-ans="threat"><div class="line-txt">Noise pollution is a <input type="text" class="inline-inp"> to human beings.</div><div class="analysis-box hidden" id="ana-57"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">threat</span></div><div class="ana-text">根据句意‘噪音污染是对人类的一种______’及词库，threat（威胁）符合语境，作名词。</div></div></div><div class="q-card" data-ans="easily"><div class="line-txt">You can <input type="text" class="inline-inp"> pass this exam.</div><div class="analysis-box hidden" id="ana-58"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">easily</span></div><div class="ana-text">根据句意‘你可以______通过这次考试’及句子结构，此处需填副词修饰动词pass，词库中的easily（容易地）符合语境。</div></div></div></div><div class="submit-bar"><button class="submit-btn" onclick="submitPage('page-3')">Check Answers</button></div></div><div class="quiz-page" id="page-4"><div class="page-title">Part 3: Unscramble</div><div class="scroll-area"><div class="q-card" data-ans="appear"><div class="scram">p p a e r a</div><input type="text" class="block-inp" placeholder="Type answer..."><div class="analysis-box hidden" id="ana-59"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">appear</span></div><div class="ana-text">v. 出现；呈现；似乎</div></div></div><div class="q-card" data-ans="fluent"><div class="scram">e n f l t u</div><input type="text" class="block-inp" placeholder="Type answer..."><div class="analysis-box hidden" id="ana-60"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">fluent</span></div><div class="ana-text">adj. 流利的；流畅的</div></div></div><div class="q-card" data-ans="scary"><div class="scram">y r a s c</div><input type="text" class="block-inp" placeholder="Type answer..."><div class="analysis-box hidden" id="ana-61"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">scary</span></div><div class="ana-text">adj. 可怕的；吓人的</div></div></div><div class="q-card" data-ans="shiver"><div class="scram">v r e i h s</div><input type="text" class="block-inp" placeholder="Type answer..."><div class="analysis-box hidden" id="ana-62"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">shiver</span></div><div class="ana-text">v. 颤抖；哆嗦</div></div></div><div class="q-card" data-ans="jealous"><div class="scram">a l j e s u o</div><input type="text" class="block-inp" placeholder="Type answer..."><div class="analysis-box hidden" id="ana-63"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">jealous</span></div><div class="ana-text">adj. 嫉妒的；妒忌的</div></div></div><div class="q-card" data-ans="relieved"><div class="scram">l i r e e e v d</div><input type="text" class="block-inp" placeholder="Type answer..."><div class="analysis-box hidden" id="ana-64"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">relieved</span></div><div class="ana-text">adj. 感到宽慰的；释然的</div></div></div><div class="q-card" data-ans="fragrant"><div class="scram">a n r t g a r f</div><input type="text" class="block-inp" placeholder="Type answer..."><div class="analysis-box hidden" id="ana-65"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">fragrant</span></div><div class="ana-text">adj. 芳香的；愉快的</div></div></div><div class="q-card" data-ans="rescue"><div class="scram">c e u s r e</div><input type="text" class="block-inp" placeholder="Type answer..."><div class="analysis-box hidden" id="ana-66"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">rescue</span></div><div class="ana-text">v. 营救；救援</div></div></div></div><div class="submit-bar"><button class="submit-btn" onclick="submitPage('page-4')">Check Answers</button></div></div><div class="quiz-page" id="page-5"><div class="page-title">Part 4: First Letter</div><div class="scroll-area"><div class="q-card" data-ans="outside"><div class="line-txt">Some students are going into the building while some are going o<input type="text" class="inline-inp short"> it.</div><div class="analysis-box hidden" id="ana-67"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">outside</span></div><div class="ana-text">句意为：一些学生正走进大楼，而另一些正走到大楼外面。根据句意和首字母提示，填 outside。</div></div></div><div class="q-card" data-ans="under"><div class="line-txt">Look, u<input type="text" class="inline-inp short"> the bridge, there is a small boat.</div><div class="analysis-box hidden" id="ana-68"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">under</span></div><div class="ana-text">句意为：看，桥下面有一艘小船。under the bridge 表示“在桥下”。</div></div></div><div class="q-card" data-ans="at"><div class="line-txt">She said she will visit your office a<input type="text" class="inline-inp short"> 9 o'clock tomorrow morning.</div><div class="analysis-box hidden" id="ana-69"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">at</span></div><div class="ana-text">句意为：她说她明天早上9点会来你的办公室。具体时间点前用介词 at。</div></div></div><div class="q-card" data-ans="In"><div class="line-txt">I<input type="text" class="inline-inp short"> our family, there are three generations.</div><div class="analysis-box hidden" id="ana-70"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">In</span></div><div class="ana-text">句意为：在我们家里，有三代人。在家庭范围内用介词 In。</div></div></div><div class="q-card" data-ans="With"><div class="line-txt">W<input type="text" class="inline-inp short"> tears rolling in her eyes, she looks extremely desperate.</div><div class="analysis-box hidden" id="ana-71"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">With</span></div><div class="ana-text">句意为：眼泪在眼眶里打转，她看起来非常绝望。With 在此引导伴随状语。</div></div></div><div class="q-card" data-ans="by"><div class="line-txt">We went to the South Africa b<input type="text" class="inline-inp short"> plane.</div><div class="analysis-box hidden" id="ana-72"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">by</span></div><div class="ana-text">句意为：我们乘飞机去了南非。乘坐交通工具用 by，by plane 意为“乘飞机”。</div></div></div><div class="q-card" data-ans="On"><div class="line-txt">O<input type="text" class="inline-inp short"> weekends, we usually visit our relatives in the city.</div><div class="analysis-box hidden" id="ana-73"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">On</span></div><div class="ana-text">句意为：在周末，我们要去城里探望亲戚。在周末通常用 on weekends。</div></div></div><div class="q-card" data-ans="between"><div class="line-txt">The alphabet B is b<input type="text" class="inline-inp short"> A and C in the list.</div><div class="analysis-box hidden" id="ana-74"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">between</span></div><div class="ana-text">句意为：字母表里 B 在 A 和 C 之间。两者之间用 between。</div></div></div></div><div class="submit-bar"><button class="submit-btn" onclick="submitPage('page-5')">Check Answers</button></div></div><div class="quiz-page" id="page-6"><div class="page-title">Part 5: Reading</div><div class="cloze-wrap"><div class="c-left">The countryside in Canada has vast areas where wild animals cohabit with human beings. It is quite common to meet a group of deer or bears on the road.<br><br>Early in one evening, my wife <span id="slot-1" class="cloze-slot">[1]</span> that we walk in a park around our village. Pretty soon we located a provincial park and were going to hike there. There was only one path for the walk, <span id="slot-2" class="cloze-slot">[2]</span> 10 kilometers. The first half of the road was surrounded by woods, and the latter half of it was surrounded by valleys.<br><br>When I entered the gate, I saw a warning sign of wild bears. The sign said that a couple of days ago some visitors saw a bear face to face. I did not take it seriously and continued to walk my way as usual. For one thing, there were many visitors there; in addition, I had been to this park many times but I never met a bear.<br><br>When I was still <span id="slot-3" class="cloze-slot">[3]</span> in the passing view, all of a sudden, the sight of a bear came to my eyes. It was standing thirty meters away from me, facing towards me. It didn't move and was looking at me. I was shocked to see it, apparently so was it. It was giant and looked so <span id="slot-4" class="cloze-slot">[4]</span> . I was about to shout for help and figure out how I could survive. To my surprise, the bear turned around and ran away after seconds of staring. I have never imagined one day I could meet a bear without any weapons and protections. As soon as I recaptured my awareness, I reported the bear to the relevant department.<br><br>I still shiver every time I <span id="slot-5" class="cloze-slot">[5]</span> that evening. It was such a scary experience.</div><div class="c-right"><div class="q-card cloze-card" data-ans="A"><div class="q-num">1</div><div class="opt-grp"><div class="opt-btn small" onclick="clozeSel(this, '1', 'suggested')">A. suggested</div><div class="opt-btn small" onclick="clozeSel(this, '1', 'mentioned')">B. mentioned</div><div class="opt-btn small" onclick="clozeSel(this, '1', 'advised')">C. advised</div><div class="opt-btn small" onclick="clozeSel(this, '1', 'told')">D. told</div></div><div class="analysis-box hidden" id="ana-75_1"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">A</span></div><div class="ana-text">考查动词辨析。句意：我妻子建议我们在村子周围的公园散步。suggested that... (should) do sth. 表示‘建议做某事’，符合语境。mentioned 提到；advised 建议（通常接宾语+to do）；told 告诉。</div></div></div><div class="q-card cloze-card" data-ans="B"><div class="q-num">2</div><div class="opt-grp"><div class="opt-btn small" onclick="clozeSel(this, '2', 'stretching')">A. stretching</div><div class="opt-btn small" onclick="clozeSel(this, '2', 'covering')">B. covering</div><div class="opt-btn small" onclick="clozeSel(this, '2', 'having')">C. having</div><div class="opt-btn small" onclick="clozeSel(this, '2', 'owning')">D. owning</div></div><div class="analysis-box hidden" id="ana-75_2"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">B</span></div><div class="ana-text">考查动词辨析。句意：散步的路只有一条，全程10公里。covering 在此处表示‘包括、涵盖（距离）’。stretching 通常需要接 for 或 across；having 和 owning 语义不符。</div></div></div><div class="q-card cloze-card" data-ans="D"><div class="q-num">3</div><div class="opt-grp"><div class="opt-btn small" onclick="clozeSel(this, '3', 'drown')">A. drown</div><div class="opt-btn small" onclick="clozeSel(this, '3', 'bear')">B. bear</div><div class="opt-btn small" onclick="clozeSel(this, '3', 'engraved')">C. engraved</div><div class="opt-btn small" onclick="clozeSel(this, '3', 'indulging')">D. indulging</div></div><div class="analysis-box hidden" id="ana-75_3"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">D</span></div><div class="ana-text">考查固定搭配。句意：当我沉醉于沿途的风景时。be indulging in 为固定搭配，意为‘沉迷于、陶醉于’。drown 淹没；engraved 雕刻；bear 承受/熊。</div></div></div><div class="q-card cloze-card" data-ans="B"><div class="q-num">4</div><div class="opt-grp"><div class="opt-btn small" onclick="clozeSel(this, '4', 'cute')">A. cute</div><div class="opt-btn small" onclick="clozeSel(this, '4', 'frightening')">B. frightening</div><div class="opt-btn small" onclick="clozeSel(this, '4', 'terrible')">C. terrible</div><div class="opt-btn small" onclick="clozeSel(this, '4', 'adorable')">D. adorable</div></div><div class="analysis-box hidden" id="ana-75_4"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">B</span></div><div class="ana-text">考查形容词辨析。句意：它很大，看起来很吓人。根据上下文提到的‘shocked’（震惊）和‘shout for help’（呼救），此处应填入表示可怕的词汇。frightening 令人恐惧的；terrible 可怕的/糟糕的（较笼统）；cute 和 adorable 均为‘可爱的’，不符语境。</div></div></div><div class="q-card cloze-card" data-ans="C"><div class="q-num">5</div><div class="opt-grp"><div class="opt-btn small" onclick="clozeSel(this, '5', 'do')">A. do</div><div class="opt-btn small" onclick="clozeSel(this, '5', 'succeed')">B. succeed</div><div class="opt-btn small" onclick="clozeSel(this, '5', 'recall')">C. recall</div><div class="opt-btn small" onclick="clozeSel(this, '5', 'work')">D. work</div></div><div class="analysis-box hidden" id="ana-75_5"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">C</span></div><div class="ana-text">考查动词辨析。句意：每次回想起那个夜晚，我仍会发抖。recall 意为‘回想、回忆’，符合句意。succeed 成功；work 工作。</div></div></div></div></div><div class="submit-bar"><button class="submit-btn" onclick="submitPage('page-6')">Check Answers</button></div></div></div><script>
+let cp=1,tp=6;
+function show(p){document.querySelectorAll('.quiz-page').forEach(e=>e.classList.remove('active'));document.getElementById('page-'+p).classList.add('active');document.getElementById('ind').innerText=`Page ${p}/${tp}`;cp=p;document.getElementById('pb').disabled=p===1;document.getElementById('nb').disabled=p===tp}
+function nav(d){show(cp+d)}
+function play(u){if(u) new Audio('audio_cache/'+u).play()}
+function sel(e){e.parentElement.querySelectorAll('.opt-btn').forEach(b=>b.classList.remove('selected'));e.classList.add('selected')}
+function clozeSel(e,n,w){sel(e);let s=document.getElementById('slot-'+n);if(s){s.innerText=w;s.classList.add('filled')}}
+function submitPage(pid){
+    document.getElementById(pid).querySelectorAll('.q-card').forEach(c=>{
+        let ans=String(c.dataset.ans).trim().toLowerCase(), corr=false;
+        let inp=c.querySelector('input');
+        if(inp){
+            let v=inp.value.trim().toLowerCase().replace(/[.,]/g,'');
+            if(v && ans.replace(/[.,]/g,'').includes(v)) corr=true;
+        }
+        let s=c.querySelector('.opt-btn.selected');
+        if(s){
+            const txt = s.innerText.trim().toLowerCase();
+            if(txt.startsWith(ans) || txt.includes(ans)) corr=true;
+        }
+        c.classList.add(corr?'correct':'wrong');
+        c.querySelector('.analysis-box').classList.remove('hidden');
+    });
+}
+window.onload=()=>show(1);
+</script>
+<div class="quiz-page" id="page-7">
+    <div class="page-title">Final Results</div>
+    <div style="flex:1; overflow-y:auto; -webkit-overflow-scrolling:touch;">
+        <div class="result-header">
+            <div class="score-circle">
+                <span class="score-val" id="res-score">0%</span>
+                <span class="score-label">Accuracy</span>
+            </div>
+            <div class="stat-row">
+                <div class="stat-item">
+                    <div class="stat-num" id="res-time">00:00</div>
+                    <div class="stat-desc">Time Used</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-num"><span id="res-correct">0</span>/<span id="res-total">0</span></div>
+                    <div class="stat-desc">Correct</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="wrong-list" id="wrong-container">
+            </div>
+    </div>
+    <div class="submit-bar">
+        <button class="submit-btn restart-btn" onclick="location.reload()">↺ Restart Quiz</button>
+    </div>
+</div>
+
+<script>
+// 计时器逻辑
+let startTime = Date.now();
+let isFinished = false;
+
+function getFormattedTime() {
+    let now = Date.now();
+    let diff = Math.floor((now - startTime) / 1000);
+    let m = Math.floor(diff / 60);
+    let s = diff % 60;
+    return `${m}:${s < 10 ? '0'+s : s}`;
+}
+
+// 核心统计函数
+function finishQuiz() {
+    if(isFinished) return;
+    isFinished = true;
+    
+    // 1. 强制提交所有题目 (Page 2 - Page 6)，确保判分
+    for(let i=2; i<=6; i++) {
+        try { submitPage('page-'+i); } catch(e){}
+    }
+    
+    // 2. 统计分数
+    let totalQ = 0;
+    let correctQ = 0;
+    let wrongContainer = document.getElementById('wrong-container');
+    wrongContainer.innerHTML = '<div class="wrong-title">Review Mistakes</div>';
+    
+    let hasMistakes = false;
+
+    // 遍历所有卡片
+    function processCard(card) {
+        // 跳过 Page 1 (单词学习页)
+        if(card.closest('#page-1')) return;
+        
+        totalQ++;
+        if(card.classList.contains('correct')) {
+            correctQ++;
+        } else {
+            // 错题或未做答
+            hasMistakes = true;
+            // 克隆卡片用于展示
+            let clone = card.cloneNode(true);
+            // 移除 ID 防止冲突
+            clone.removeAttribute('id');
+            clone.style.marginTop = '20px';
+            
+            // 确保解析框是可见的
+            let ana = clone.querySelector('.analysis-box');
+            if(ana) ana.classList.remove('hidden');
+            
+            wrongContainer.appendChild(clone);
+        }
+    }
+
+    document.querySelectorAll('.q-card').forEach(processCard);
+
+    // 3. 更新 UI
+    let percent = totalQ === 0 ? 0 : Math.round((correctQ / totalQ) * 100);
+    document.getElementById('res-score').innerText = percent + '%';
+    document.getElementById('res-correct').innerText = correctQ;
+    document.getElementById('res-total').innerText = totalQ;
+    document.getElementById('res-time').innerText = getFormattedTime();
+
+    if(!hasMistakes) {
+        wrongContainer.innerHTML = '<div class="empty-state">🎉 Amazing! You got everything right.<br>No mistakes to review.</div>';
+    }
+
+    // 4. 显示结果页 (ID page-7)
+    // 注意：这里不再调用 show(7)，因为 finishQuiz 可能会被 show() 调用，避免死循环
+    // 直接操作 DOM 显示
+    document.querySelectorAll('.quiz-page').forEach(e=>e.classList.remove('active'));
+    document.getElementById('page-7').classList.add('active');
+    document.getElementById('ind').innerText = 'Results';
+}
+
+// 注入 Finish 按钮到第 6 页
+setTimeout(() => {
+    let lastPageBar = document.querySelector('#page-6 .submit-bar');
+    if(lastPageBar) {
+        let btn = document.createElement('button');
+        btn.className = 'submit-btn';
+        btn.innerText = '📊 Finish & View Results';
+        btn.style.marginLeft = '10px';
+        btn.style.backgroundColor = '#2c3e50';
+        btn.onclick = () => { finishQuiz(); }; // 按钮直接触发
+        lastPageBar.appendChild(btn);
+    }
+}, 500);
+
+// 【重要】重写 show 函数，拦截翻到第 7 页的动作
+const originalShow = show; // 备份（如果需要）
+show = function(p) {
+    if(p === 7) {
+        finishQuiz(); // 如果导航到第 7 页，触发结算
+        // 不 return，让下面的逻辑继续处理 UI 切换 (ind, btn state)
+    }
+    
+    document.querySelectorAll('.quiz-page').forEach(e=>e.classList.remove('active'));
+    let pg = document.getElementById('page-'+p);
+    if(pg) pg.classList.add('active');
+    
+    // 更新顶部指示器
+    let indTxt = p === 7 ? 'Results' : `Page ${p}/${tp}`;
+    document.getElementById('ind').innerText = indTxt;
+    
+    cp = p;
+    // 更新按钮状态
+    let pb = document.getElementById('pb');
+    let nb = document.getElementById('nb');
+    if(pb) pb.disabled = (p === 1);
+    if(nb) nb.disabled = (p === tp); // 到了最后一页(结果页)禁用 Next
+};
+
+</script>
+</body></html>

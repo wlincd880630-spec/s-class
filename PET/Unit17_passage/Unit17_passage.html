@@ -1,0 +1,232 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>passages.json</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/microsoft-cognitiveservices-speech-sdk@latest/distrib/browser/microsoft.cognitiveservices.speech.sdk.bundle-min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap');
+        
+        /* 核心修复 1: 强制高度适配，防止 iOS 滚动溢出 */
+        html, body { 
+            font-family: 'Nunito', 'Noto Sans SC', sans-serif; 
+            background-color: #F8FAFC; 
+            height: 100vh; /* 兼容旧设备 */
+            height: 100dvh; /* 核心：动态视口高度 */
+            width: 100%;
+            overflow: hidden; /* 禁止整体滚动，交给 main 滚动 */
+        }
+
+        /* 核心修复 2: 底部安全区域 padding */
+        .safe-pb {
+            padding-bottom: constant(safe-area-inset-bottom); /* iOS 11.0 */
+            padding-bottom: env(safe-area-inset-bottom); /* iOS 11.2+ */
+        }
+        
+        /* 录音呼吸灯动画 */
+        .recording-active { animation: pulse-ring 1.5s cubic-bezier(0.215, 0.61, 0.355, 1) infinite; border-color: #EF4444; background-color: #FEF2F2; color: #EF4444; }
+        @keyframes pulse-ring { 0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.5); } 70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); } 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); } }
+        
+        /* 平滑过渡 */
+        .fade-enter-active, .fade-leave-active { transition: opacity 0.3s ease; }
+        .fade-enter-from, .fade-leave-to { opacity: 0; }
+        
+        /* 隐藏滚动条 */
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="text-slate-800 flex flex-col">
+    <div id="app" class="flex flex-col h-full max-w-lg mx-auto bg-white shadow-2xl relative w-full">
+        
+        <header class="bg-white z-10 px-4 py-3 border-b border-gray-100 shadow-sm shrink-0">
+            <h1 class="text-center font-bold text-slate-800 truncate mb-3">passages.json</h1>
+            <div class="flex gap-2 overflow-x-auto hide-scrollbar">
+                <button v-for="(p, idx) in lessonData" :key="idx" @click="switchPassage(idx)"
+                    :class="['whitespace-nowrap px-4 py-2 rounded-xl text-sm font-bold transition-all', 
+                             currentPassageIdx === idx ? 'bg-indigo-600 text-white shadow-md ring-2 ring-indigo-200' : 'bg-gray-50 text-gray-500 hover:bg-gray-100']">
+                    {{ p.title }}
+                </button>
+            </div>
+        </header>
+
+        <main class="flex-1 overflow-y-auto p-4 bg-slate-50 overscroll-contain">
+            
+            <div class="flex justify-between items-center mb-4 px-1">
+                <span class="text-xs font-bold text-indigo-400 tracking-widest uppercase">Sentence {{ currentSentenceIdx + 1 }} / {{ currentPassage.sentences.length }}</span>
+                <div class="w-24 h-1.5 bg-gray-200 rounded-full overflow-hidden">
+                    <div class="h-full bg-indigo-500 transition-all duration-300" :style="'width: ' + ((currentSentenceIdx + 1) / currentPassage.sentences.length * 100) + '%'"></div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 mb-6 relative">
+                <div class="absolute -top-3 left-4 bg-indigo-100 text-indigo-600 px-2 py-0.5 rounded text-xs font-bold">TEXT</div>
+                <p class="text-xl md:text-2xl font-medium leading-relaxed text-slate-800 mt-2">{{ currentSentence }}</p>
+            </div>
+
+            <transition-group name="fade" tag="div" class="space-y-3">
+                <div v-if="sttEn" key="en-fb" class="bg-white border-l-4 border-blue-400 rounded-r-xl p-3 shadow-sm">
+                    <div class="flex items-center gap-2 mb-1">
+                        <span class="text-xs font-bold text-blue-500 uppercase">Your Reading</span>
+                    </div>
+                    <p class="text-sm text-slate-600">{{ sttEn }}</p>
+                </div>
+
+                <div v-if="sttCn" key="cn-fb" class="bg-white border-l-4 border-purple-400 rounded-r-xl p-3 shadow-sm">
+                    <div class="flex items-center gap-2 mb-1">
+                        <span class="text-xs font-bold text-purple-500 uppercase">Your Translation</span>
+                    </div>
+                    <p class="text-sm text-slate-600">{{ sttCn }}</p>
+                </div>
+
+                <div v-if="evaluation" key="ai-eval" class="bg-gradient-to-br from-amber-50 to-orange-50 rounded-xl p-4 border border-amber-100 shadow-sm">
+                    <div class="flex items-center gap-2 mb-3 border-b border-amber-200 pb-2">
+                        <span class="text-xl">👩‍🏫</span>
+                        <span class="text-amber-800 font-bold text-sm">AI Teacher Feedback</span>
+                    </div>
+                    <div v-html="renderMarkdown(evaluation)" class="prose prose-sm text-slate-700 leading-relaxed"></div>
+                </div>
+            </transition-group>
+
+            <div class="h-10"></div>
+        </main>
+
+        <footer class="bg-white border-t border-gray-100 p-4 pb-4 safe-pb shadow-[0_-4px_20px_rgba(0,0,0,0.03)] z-20 shrink-0">
+            
+            <div class="flex items-center justify-between mb-4 px-2">
+                <button @click="prevSentence" :disabled="currentSentenceIdx===0" class="p-2 text-gray-300 hover:text-indigo-600 disabled:opacity-20 transition">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 15l-3-3m0 0l3-3m-3 3h8M3 12a9 9 0 1118 0 9 9 0 01-18 0z"></path></svg>
+                </button>
+                
+                <button @click="playTTS" :disabled="isPlaying" 
+                    class="flex items-center gap-2 px-6 py-2 bg-slate-100 text-slate-600 rounded-full text-sm font-bold active:scale-95 transition hover:bg-slate-200">
+                    <span v-if="isPlaying" class="animate-pulse">🔊 Playing...</span>
+                    <span v-else>🎧 Listen Standard</span>
+                </button>
+
+                <button @click="nextSentence" :disabled="currentSentenceIdx===currentPassage.sentences.length-1" class="p-2 text-gray-300 hover:text-indigo-600 disabled:opacity-20 transition">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                </button>
+            </div>
+
+            <div class="grid grid-cols-5 gap-3 h-14">
+                <button @click="toggleRecord('en')" 
+                    :class="['col-span-2 rounded-2xl font-bold flex flex-col justify-center items-center leading-none transition-all active:scale-95 border', 
+                    isRecordingEn ? 'recording-active' : 'bg-white border-gray-200 text-slate-600 hover:bg-gray-50']">
+                    <span class="text-xl mb-1">{{ isRecordingEn ? '⏹️' : '🎙️' }}</span>
+                    <span class="text-[10px] font-bold">{{ isRecordingEn ? 'STOP' : 'READ' }}</span>
+                </button>
+
+                <button @click="evaluate" :disabled="!sttEn || isEvaluating"
+                    class="col-span-1 bg-indigo-600 text-white rounded-2xl shadow-lg shadow-indigo-200 flex justify-center items-center text-2xl active:scale-90 transition-transform disabled:bg-gray-200 disabled:shadow-none disabled:text-gray-400">
+                    <span v-if="isEvaluating" class="animate-spin text-lg">⏳</span>
+                    <span v-else>✨</span>
+                </button>
+
+                <button @click="toggleRecord('cn')" 
+                    :class="['col-span-2 rounded-2xl font-bold flex flex-col justify-center items-center leading-none transition-all active:scale-95 border', 
+                    isRecordingCn ? 'recording-active' : 'bg-white border-gray-200 text-slate-600 hover:bg-gray-50']">
+                    <span class="text-xl mb-1">{{ isRecordingCn ? '⏹️' : '🇨🇳' }}</span>
+                    <span class="text-[10px] font-bold">{{ isRecordingCn ? 'STOP' : 'TRANS' }}</span>
+                </button>
+            </div>
+        </footer>
+
+    </div>
+
+    <script>
+        const { createApp } = Vue;
+        const AZURE_KEY = "DKRXk8ueSfo5NdIOMqFRTCAfpeGDezJ3Snf5K8gGgtyqxiWdugLzJQQJ99BLACHYHv6XJ3w3AAAYACOGUYP9";
+        const AZURE_REGION = "eastus2";
+        const DEEPSEEK_KEY = "sk-daa16008e81843deba6fefe9dce51465";
+
+        createApp({
+            data() {
+                return {
+                    lessonData: [{"title": "Passage 1", "sentences": ["With the development of science and technology, especially the development of the Internet, different sorts of services are provided on cell phones.", "As long as you hold a smartphone, you can download various applications, or apps, as they are usually called.", "Services provided on mobile phone make our daily life more convenient and enjoyable.", "We can purchase goods from all over the world on apps downloaded on our cell phones.", "The youngsters as well as the elderly are keen on shopping online, which in recent years has become a common consuming habit all over the world.", "Some luxury goods are sold at a much lower price on overseas purchasing apps than in shopping maps.", "We can download these apps, register on them, and choose the goods we need.", "On most occasions, the goods can be delivered to our community within one week.", "Even when we purchase things from another country, it can be sent within two or three weeks.", "If we are not fond of the things we bought or the objects don't look like the pictures posted on the apps, we can return the products and get a refund.", "In that case, we could choose to buy delivery insurance, so we wouldn't need to pay for the delivery fee when we return the goods.", "Mobile apps make it more convenient for us to enjoy the services in the city we are staying.", "If we want to go to the theatre or the cinema, we can make a reservation and even choose the seats in advance.", "When we arrive there, we can take the tickets on the ticket machine without waiting in line.", "Besides buying tickets, we can also order meals, drinks or groceries on the apps of restaurants, cafes or supermarkets.", "The owners post photos, descriptions and prices of their goods on the apps.", "We can make a purchase, and after paying on apps, the meals, drinks or groceries would be sent to our communities or offices immediately.", "We can even make appointment before we go to the barber's or see the doctors to save time.", "To those who have a taste for travelling, shared tourist information benefits them a lot.", "If they are planning for a trip, they can arrange accommodation on mobile apps.", "They log on to travel apps and look for the restaurants and hotels that have good ratings on the scoring systems.", "Those ratings are given by people who have experienced their services before, so they are reliable to some extent.", "As for choosing scenic spots, searching for tourist information on the official apps is a good choice for avoiding certain troubles.", "For example, some places might stop providing tickets because of too many tourists or something being repaired.", "Since all information can be found on various mobile apps, tourists can save themselves a lot of trouble."]}, {"title": "Passage 2", "sentences": ["Short videos have gained attention from a great variety of people.", "Many people take short videos, edit them and share them on popular video apps.", "While editing them, creators add music, lines and special effects to their short videos in order to make them attractive.", "Some people consider short videos as a way to share their ideas and daily lives with people, while some others regard them as an effective platform to show their talents.", "Moreover, a number of people have created a new occupation to earn money by making use of these short videos which are 15 seconds to a few minutes long.", "Online learning is a hot topic in our society, and online courses provide short videos to support teachers during their teaching process.", "Online courses provide a chance for students to have classes with renowned teachers and gain knowledge in fragmented time.", "For example, lots of English teachers post thousands of millions of short videos on grammars, proverbs, or sentence patterns after the main courses.", "Their students can review the contents by themselves on the short video apps.", "All the other students registering on the short video apps can also watch them no matter where they live.", "Moreover, they can download the short videos they like or need and learn from it whenever they are free.", "Instructors of all kinds of courses have already started their business on short video platforms, even though this method hasn't been accepted by parents totally.", "Many people are against the use of short videos because there are all sorts of short videos booming on these apps including the ones with negative views, which could mislead people especially teenagers who are less self-aware.", "People send podcasts on the internet as well.", "Short video bloggers, or vloggers as they are called, have made the internet celebrity economy boom in recent years.", "Vloggers display a lot of short videos about their daily life and the goods they sell on short video apps.", "When they have enough followers, they will add links of products in their short videos.", "If someone buys the products through the links, vloggers will make a profit.", "Also, some people create their broadcast rooms where they trade their products and answer customers' questions directly.", "They usually discuss with producers and cut down the price, so that abundant customers pay for the products at a much lower price.", "And the producer can also earn money by declining the advertisement cost and reducing goods in stock.", "Online celebrity service is a win-win pattern, which create more opportunities for online celebrities and their team."]}],
+                    currentPassageIdx: 0,
+                    currentSentenceIdx: 0,
+                    isPlaying: false,
+                    isRecordingEn: false,
+                    isRecordingCn: false,
+                    sttEn: "",
+                    sttCn: "",
+                    isEvaluating: false,
+                    evaluation: "",
+                    recognizer: null
+                }
+            },
+            computed: {
+                currentPassage() { return this.lessonData[this.currentPassageIdx] },
+                currentSentence() { return this.currentPassage ? this.currentPassage.sentences[this.currentSentenceIdx] : "" }
+            },
+            methods: {
+                switchPassage(idx) { this.currentPassageIdx = idx; this.currentSentenceIdx = 0; this.clearState(); },
+                clearState() { this.sttEn = ""; this.sttCn = ""; this.evaluation = ""; },
+                prevSentence() { if(this.currentSentenceIdx > 0) { this.currentSentenceIdx--; this.clearState(); } },
+                nextSentence() { if(this.currentSentenceIdx < this.currentPassage.sentences.length - 1) { this.currentSentenceIdx++; this.clearState(); } },
+                renderMarkdown(text) { return marked.parse(text); },
+
+                playTTS() {
+                    this.isPlaying = true;
+                    const speechConfig = SpeechSDK.SpeechConfig.fromSubscription(AZURE_KEY, AZURE_REGION);
+                    speechConfig.speechSynthesisVoiceName = "en-US-AvaMultilingualNeural"; 
+                    const synthesizer = new SpeechSDK.SpeechSynthesizer(speechConfig);
+                    synthesizer.speakTextAsync(this.currentSentence, () => { this.isPlaying = false; synthesizer.close(); }, (err) => { console.error(err); this.isPlaying = false; synthesizer.close(); });
+                },
+
+                toggleRecord(lang) {
+                    const isEn = lang === 'en';
+                    if ((isEn && this.isRecordingEn) || (!isEn && this.isRecordingCn)) { this.stopRecord(); return; }
+                    this.stopRecord();
+                    if (isEn) this.isRecordingEn = true; else this.isRecordingCn = true;
+                    
+                    const speechConfig = SpeechSDK.SpeechConfig.fromSubscription(AZURE_KEY, AZURE_REGION);
+                    speechConfig.speechRecognitionLanguage = isEn ? "en-US" : "zh-CN";
+                    const audioConfig = SpeechSDK.AudioConfig.fromDefaultMicrophoneInput();
+                    this.recognizer = new SpeechSDK.SpeechRecognizer(speechConfig, audioConfig);
+                    
+                    this.recognizer.recognizeOnceAsync(result => {
+                        if (isEn) this.sttEn = result.text; else this.sttCn = result.text;
+                        this.stopRecord();
+                    }, err => { console.error(err); this.stopRecord(); });
+                },
+
+                stopRecord() {
+                    if (this.recognizer) { this.recognizer.close(); this.recognizer = null; }
+                    this.isRecordingEn = false;
+                    this.isRecordingCn = false;
+                },
+
+                async evaluate() {
+                    this.isEvaluating = true;
+                    // Prompt 优化：更简洁的反馈
+                    const prompt = `Task: English Tutor. 
+Target Sentence: "${this.currentSentence}"
+Student Reading: "${this.sttEn}"
+Student Translation: "${this.sttCn}"
+Rules: 
+1. Give a Pronunciation Score (0-100).
+2. Check if the translation captures the meaning.
+3. Provide the standard translation.
+Output in concise Chinese Markdown.`;
+                    try {
+                        const res = await fetch("https://api.deepseek.com/chat/completions", {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json", "Authorization": `Bearer ${DEEPSEEK_KEY}` },
+                            body: JSON.stringify({ model: "deepseek-chat", messages: [{ role: "user", content: prompt }] })
+                        });
+                        const data = await res.json();
+                        this.evaluation = data.choices[0].message.content;
+                    } catch (e) { this.evaluation = "评价服务连接失败"; } finally { this.isEvaluating = false; }
+                }
+            }
+        }).mount('#app');
+    </script>
+</body>
+</html>

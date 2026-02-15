@@ -1,0 +1,1340 @@
+<!DOCTYPE html><html><head><meta charset='UTF-8'><meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover'><title>Final Quiz</title><style>
+:root{--p:#2c3e50;--a:#3498db;--bg:#f8f9fa;--w:#fff;--g:#27ae60;--r:#e74c3c}
+body{margin:0;font-family:'Segoe UI',sans-serif;background:var(--bg);color:var(--p);min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;overflow:hidden;box-sizing:border-box}
+*{box-sizing:border-box}
+.nav{padding:15px;background:var(--w);box-shadow:0 2px 5px rgba(0,0,0,0.05);display:flex;justify-content:space-between;z-index:10}
+.nav-btn{background:var(--a);color:#fff;border:none;padding:5px 15px;border-radius:15px;cursor:pointer}
+.nav-btn:disabled{background:#ccc}
+.quiz-page{display:none;height:100%;flex-direction:column}
+.quiz-page.active{display:flex}
+.page-title{padding:15px;font-size:1.2rem;font-weight:bold;background:var(--bg)}
+.scroll-area{flex:1;overflow-y:auto;}
+.q-card{background:var(--w);padding:15px;border-radius:10px;margin-bottom:15px;border:1px solid #eee;box-shadow:0 2px 5px rgba(0,0,0,0.02)}
+.q-card.correct{border-left:5px solid var(--g);background:#f0fdf4}
+.q-card.wrong{border-left:5px solid var(--r);background:#fff5f5}
+.line-txt{font-size:1.1rem;line-height:2.2}
+.inline-inp{border:none;border-bottom:2px solid var(--a);background:transparent;width:100px;text-align:center;font-weight:bold;font-size:1rem;color:var(--a);outline:none}
+.inline-inp.short{width:50px}
+.block-inp{width:100%;padding:10px;border:1px solid #ccc;border-radius:5px;margin-top:10px}
+.opt-grp{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+.opt-btn{padding:10px;border:1px solid #eee;border-radius:5px;cursor:pointer;background:#fff;transition:0.2s}
+.opt-btn:hover{background:#f0f8ff;border-color:var(--a)}
+.opt-btn.selected{background:var(--p);color:#fff;border-color:var(--p)}
+.bank-wrap{position:sticky;top:0;z-index:5;background:var(--bg);padding:0 20px 10px}
+.bank{background:#fff;padding:10px;border-radius:8px;border:1px solid #ddd;display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.bank span{background:#eef2f7;padding:3px 10px;border-radius:15px;font-weight:bold;color:var(--p)}
+.cloze-wrap{display:flex;gap:20px;flex:1;overflow:hidden;}
+.c-left{flex:1.2;overflow-y:auto;background:#fff;padding:20px;border-radius:10px;line-height:1.8;font-size:1.1rem}
+.c-right{flex:0.8;overflow-y:auto;padding-right:5px}
+.cloze-slot{border-bottom:2px solid #ccc;color:var(--a);font-weight:bold;padding:0 5px}
+.cloze-slot.filled{border-color:var(--a);background:#eaf2f8}
+.example-filled{color:#c0392b;text-decoration:line-through;margin:0 3px}
+.submit-bar{position:absolute;bottom:0;width:100%;background:rgba(255,255,255,0.9);padding:15px;text-align:center;border-top:1px solid #eee;backdrop-filter:blur(5px)}
+.submit-btn{background:var(--p);color:#fff;border:none;padding:10px 40px;border-radius:25px;font-size:1.1rem;cursor:pointer}
+.analysis-box.hidden{display:none}
+.analysis-box{margin-top:10px;padding-top:10px;border-top:1px dashed #ddd;font-size:0.9rem;color:#555}
+.ans-val{color:var(--g);font-weight:bold;margin-left:5px}
+.scram{font-size:1.2rem;letter-spacing:3px;font-weight:bold;color:#e67e22}
+.aud-btn{border:none;background:none;cursor:pointer;font-size:1.2rem;color:var(--a)}
+.aud-btn.small{font-size:1rem}
+
+/* Vocab Card Styles */
+.vocab-card{background:#fff;border:1px solid #eee;border-radius:10px;padding:20px;margin-bottom:20px;box-shadow:0 4px 6px rgba(0,0,0,0.05)}
+.v-top{display:flex;align-items:center;margin-bottom:15px;border-bottom:1px solid #f0f0f0;padding-bottom:10px}
+.v-word{font-size:1.8rem;font-weight:bold;color:var(--p);margin-right:10px}
+.v-def{margin-left:auto;text-align:right;font-size:0.9rem;color:#666}
+.v-ex-box{background:#f8f9fa;padding:10px;border-radius:8px;margin-top:10px;border-left:4px solid var(--a)}
+.v-badge{display:inline-block;padding:2px 8px;border-radius:4px;color:#fff;font-size:0.75rem;margin-bottom:5px}
+.v-badge.zk{background:#27ae60}
+.v-badge.g10{background:#e67e22}
+.v-sent{font-size:1.05rem;margin-bottom:4px;color:#333}
+.v-trans{font-size:0.9rem;color:#888}
+</style>
+<style>
+/* --- Mobile Fixes --- */
+body { 
+    height: 100dvh; /* 适配移动端动态地址栏 */
+    padding-bottom: env(safe-area-inset-bottom); /* 适配 iPhone 底部黑条 */
+}
+.nav {
+    padding-top: max(15px, env(safe-area-inset-top));
+    position: sticky; top: 0; width: 100%; box-sizing: border-box;
+}
+.quiz-page {
+    height: 100%;
+    overflow: hidden; /* 防止双重滚动 */
+}
+.scroll-area {
+    -webkit-overflow-scrolling: touch; /* iOS 平滑滚动 */
+    padding-bottom: 120px; /* 给底部按钮留出足够空间 */
+}
+.submit-bar {
+    position: absolute; 
+    bottom: 0; 
+    left: 0; 
+    width: 100%; 
+    box-sizing: border-box;
+    padding-bottom: max(15px, env(safe-area-inset-bottom));
+    background: rgba(255,255,255,0.95);
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+    display: flex; justify-content: center; gap: 10px;
+}
+.submit-btn, .nav-btn {
+    min-height: 44px; /* 移动端最小点击高度 */
+    touch-action: manipulation; /* 防止双击缩放 */
+}
+.opt-btn {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+}
+
+/* --- Result Page Styles --- */
+.result-header {
+    text-align: center;
+    padding: 30px 20px;
+    background: linear-gradient(135deg, #3498db, #2c3e50);
+    color: white;
+    border-radius: 0 0 20px 20px;
+    margin-bottom: 20px;
+}
+.score-circle {
+    width: 120px; height: 120px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    margin: 0 auto 15px;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    border: 4px solid #fff;
+}
+.score-val { font-size: 2.5rem; font-weight: bold; }
+.score-label { font-size: 0.9rem; opacity: 0.9; }
+.stat-row { display: flex; justify-content: space-around; margin-top: 15px; }
+.stat-item { text-align: center; }
+.stat-num { font-size: 1.2rem; font-weight: bold; }
+.stat-desc { font-size: 0.8rem; opacity: 0.8; }
+.wrong-list { padding: 0 20px 80px; }
+.wrong-title { 
+    font-weight: bold; font-size: 1.2rem; 
+    margin-bottom: 15px; border-left: 5px solid #e74c3c; 
+    padding-left: 10px; color: #2c3e50;
+}
+.restart-btn {
+    background: #27ae60; color: white; border: none;
+    padding: 12px 30px; border-radius: 25px;
+    font-size: 1.1rem; cursor: pointer;
+    box-shadow: 0 4px 10px rgba(39, 174, 96, 0.3);
+}
+.empty-state { text-align: center; color: #7f8c8d; padding: 40px; }
+
+/* 错题回顾模式下禁止交互 */
+.wrong-list .opt-btn { pointer-events: none; }
+.wrong-list input { pointer-events: none; background: #f9f9f9; }
+</style>
+</head><body><div class='nav'><b>Unit Quiz</b><div><span id='ind' style='margin-right:10px'></span><button id='pb' class='nav-btn' onclick='nav(-1)'>Prev</button> <button id='nb' class='nav-btn' onclick='nav(1)'>Next</button></div></div><div style='flex:1;position:relative;overflow:hidden'><div class="quiz-page active" id="page-1"><div class="page-title">Page 1: Vocabulary Study</div><div class="scroll-area">
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">abroad</span>
+                <button class="aud-btn" onclick="play('w_0_6e7f0fc6.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 In or to a foreign country or countries.</div>
+                    <div>🇨🇳 在国外；到国外</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">Many students hope to study abroad after they finish high school. <button class="aud-btn small" onclick="play('zk_0_9af98f4d.mp3')">🔊</button></div>
+                <div class="v-trans">许多学生希望高中毕业后去国外留学。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">Having lived abroad for several years, she has a broad view of the world. <button class="aud-btn small" onclick="play('g10_0_ecb26859.mp3')">🔊</button></div>
+                <div class="v-trans">在国外生活了几年后，她拥有了广阔的世界观。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">apply</span>
+                <button class="aud-btn" onclick="play('w_1_4da463dc.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 To make a formal request, usually in writing; or to put something into use.</div>
+                    <div>🇨🇳 申请；应用；涂抹</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">If you want to join the club, you must apply for it by Friday. <button class="aud-btn small" onclick="play('zk_1_caf06beb.mp3')">🔊</button></div>
+                <div class="v-trans">如果你想加入这个俱乐部，你必须在周五之前申请。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">We need to learn how to apply what we have learned in class to solve practical problems. <button class="aud-btn small" onclick="play('g10_1_ad335cf1.mp3')">🔊</button></div>
+                <div class="v-trans">我们需要学会如何将课堂上学到的知识应用到解决实际问题中去。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">absolutely</span>
+                <button class="aud-btn" onclick="play('w_2_ed847449.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 Completely and in every way.</div>
+                    <div>🇨🇳 绝对地；完全地</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">You are absolutely right about the answer. <button class="aud-btn small" onclick="play('zk_2_b6be094b.mp3')">🔊</button></div>
+                <div class="v-trans">关于这个答案，你是完全正确的。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">It is absolutely necessary for every citizen to follow the traffic rules for safety. <button class="aud-btn small" onclick="play('g10_2_fcfab4f6.mp3')">🔊</button></div>
+                <div class="v-trans">为了安全起见，每个公民遵守交通规则是绝对必要的。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">area</span>
+                <button class="aud-btn" onclick="play('w_3_4b82677b.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 A particular part of a place, piece of land, or country; or a subject or group of related subjects.</div>
+                    <div>🇨🇳 地区；区域；领域；面积</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">There is a large park in the center of this residential area. <button class="aud-btn small" onclick="play('zk_3_289ee511.mp3')">🔊</button></div>
+                <div class="v-trans">在这个居住区的中心有一个大公园。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">Artificial intelligence is a rapidly developing area of computer science. <button class="aud-btn small" onclick="play('g10_3_8a8f693e.mp3')">🔊</button></div>
+                <div class="v-trans">人工智能是计算机科学中一个快速发展的领域。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">astronaut</span>
+                <button class="aud-btn" onclick="play('w_4_901d3248.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 A person who has been trained for travelling in space.</div>
+                    <div>🇨🇳 宇航员；航天员</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">Yang Liwei is the first Chinese astronaut to go into space. <button class="aud-btn small" onclick="play('zk_4_6784a674.mp3')">🔊</button></div>
+                <div class="v-trans">杨利伟是第一位进入太空的中国宇航员。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">The astronauts conducted a series of scientific experiments aboard the space station. <button class="aud-btn small" onclick="play('g10_4_32000bdc.mp3')">🔊</button></div>
+                <div class="v-trans">宇航员们在空间站上进行了一系列科学实验。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">admire</span>
+                <button class="aud-btn" onclick="play('w_5_44b2e6d9.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 To look at something or someone with respect and warm approval.</div>
+                    <div>🇨🇳 钦佩；赞赏</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">I really admire my father because he works very hard for our family. <button class="aud-btn small" onclick="play('zk_5_210507b6.mp3')">🔊</button></div>
+                <div class="v-trans">我非常钦佩我的父亲，因为他为了我们的家庭工作非常努力。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">Students often admire scientists who have made significant contributions to the field of medicine. <button class="aud-btn small" onclick="play('g10_5_27e79a1b.mp3')">🔊</button></div>
+                <div class="v-trans">学生们通常很钦佩那些在医学领域做出重大贡献的科学家。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">attract</span>
+                <button class="aud-btn" onclick="play('w_6_304ef28c.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 To cause someone or something to come to a place or participate in something.</div>
+                    <div>🇨🇳 吸引；引起</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">The colorful flowers attract many bees and butterflies in spring. <button class="aud-btn small" onclick="play('zk_6_8046be2a.mp3')">🔊</button></div>
+                <div class="v-trans">春天里，五颜六色的花朵吸引了许多蜜蜂和蝴蝶。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">The museum organized a special exhibition to attract more tourists during the holiday season. <button class="aud-btn small" onclick="play('g10_6_44047cf7.mp3')">🔊</button></div>
+                <div class="v-trans">博物馆组织了一场特别展览，以便在假期吸引更多游客。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">although</span>
+                <button class="aud-btn" onclick="play('w_7_94ede22f.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 Used to introduce a statement that makes the main statement surprisingly true; even though.</div>
+                    <div>🇨🇳 虽然；尽管</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">Although he is young, he can play the piano very well. <button class="aud-btn small" onclick="play('zk_7_26d963f1.mp3')">🔊</button></div>
+                <div class="v-trans">虽然他很年轻，但他钢琴弹得很好。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">Although the internet provides us with a lot of information, we must learn to distinguish true news from fake ones. <button class="aud-btn small" onclick="play('g10_7_a19f3bb9.mp3')">🔊</button></div>
+                <div class="v-trans">尽管互联网为我们提供了大量信息，但我们必须学会分辨真假新闻。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">backpacker</span>
+                <button class="aud-btn" onclick="play('w_8_bc593919.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 A person who travels cheaply carrying their things in a backpack.</div>
+                    <div>🇨🇳 背包客；通过背包装备低成本旅行的人</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">My brother wants to be a backpacker and travel around the world. <button class="aud-btn small" onclick="play('zk_8_bbba7826.mp3')">🔊</button></div>
+                <div class="v-trans">我的哥哥想成为一名背包客，环游世界。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">As a backpacker, she learned how to manage her budget and communicate with people from different cultures. <button class="aud-btn small" onclick="play('g10_8_238471fc.mp3')">🔊</button></div>
+                <div class="v-trans">作为一名背包客，她学会了如何管理预算以及与来自不同文化背景的人交流。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">amazing</span>
+                <button class="aud-btn" onclick="play('w_9_922c8158.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 Causing great surprise or wonder; extremely good.</div>
+                    <div>🇨🇳 令人惊叹的；极好的</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">The view from the top of the mountain was truly amazing. <button class="aud-btn small" onclick="play('zk_9_78ec6d85.mp3')">🔊</button></div>
+                <div class="v-trans">山顶的景色真是令人惊叹。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">It is amazing to see how rapidly artificial intelligence has developed in the last few years. <button class="aud-btn small" onclick="play('g10_9_367f395a.mp3')">🔊</button></div>
+                <div class="v-trans">看到人工智能在过去几年中发展得如此迅速，真是令人惊叹。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">brain</span>
+                <button class="aud-btn" onclick="play('w_10_8b373710.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 The organ inside the head that controls thought, memory, feelings, and activity.</div>
+                    <div>🇨🇳 脑，大脑；智力</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">You should use your brain before you answer the teacher's question. <button class="aud-btn small" onclick="play('zk_10_dfb30627.mp3')">🔊</button></div>
+                <div class="v-trans">你在回答老师的问题之前应该动动脑子。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">Modern science is trying to understand how the human brain processes complex information during sleep. <button class="aud-btn small" onclick="play('g10_10_76b3a226.mp3')">🔊</button></div>
+                <div class="v-trans">现代科学正在试图了解人脑如何在睡眠中处理复杂的信息。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">book</span>
+                <button class="aud-btn" onclick="play('w_11_821f0328.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 A written work or to arrange to have a seat, room, etc. at a particular time in the future.</div>
+                    <div>🇨🇳 书；预订</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">I borrowed a very interesting book from the school library yesterday. <button class="aud-btn small" onclick="play('zk_11_0fd0a564.mp3')">🔊</button></div>
+                <div class="v-trans">昨天我从学校图书馆借了一本非常有意思的书。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">Since it is the peak tourist season, we strictly advise you to book your hotel in advance. <button class="aud-btn small" onclick="play('g10_11_4c85df01.mp3')">🔊</button></div>
+                <div class="v-trans">由于现在是旅游旺季，我们强烈建议您提前预订酒店。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">hitchhike</span>
+                <button class="aud-btn" onclick="play('w_12_9671a6b5.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 To travel by getting free rides in other people's cars.</div>
+                    <div>🇨🇳 搭便车（旅行）</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">My parents told me that it is not safe to hitchhike alone. <button class="aud-btn small" onclick="play('zk_12_9a5566b5.mp3')">🔊</button></div>
+                <div class="v-trans">我父母告诉我独自搭便车是不安全的。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">Determined to see the world on a low budget, the student planned to hitchhike across the country. <button class="aud-btn small" onclick="play('g10_12_1a7f6cf3.mp3')">🔊</button></div>
+                <div class="v-trans">为了以低预算看世界，这就学生计划搭便车穿越全国。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">brochure</span>
+                <button class="aud-btn" onclick="play('w_13_a7e75a8c.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 A thin book with pictures and information, usually advertising something.</div>
+                    <div>🇨🇳 小册子；说明书</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">Please look at this travel brochure to choose a place for our trip. <button class="aud-btn small" onclick="play('zk_13_c5a6739f.mp3')">🔊</button></div>
+                <div class="v-trans">请看这本旅游小册子，为我们的旅行选一个地方。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">The museum provided a detailed brochure explaining the historical significance of the artifacts. <button class="aud-btn small" onclick="play('g10_13_37278de1.mp3')">🔊</button></div>
+                <div class="v-trans">博物馆提供了一本详细的小册子，解释了这些文物的历史意义。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">holiday</span>
+                <button class="aud-btn" onclick="play('w_14_79d8e340.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 A time when someone does not go to work or school but is free to do what they want, such as travel or relax.</div>
+                    <div>🇨🇳 假日，节日；假期</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">We are going to visit our grandparents during the summer holiday. <button class="aud-btn small" onclick="play('zk_14_85bd06cb.mp3')">🔊</button></div>
+                <div class="v-trans">我们要在这个暑假去探望我们的祖父母。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">The government declared a public holiday to celebrate the momentous occasion. <button class="aud-btn small" onclick="play('g10_14_81891702.mp3')">🔊</button></div>
+                <div class="v-trans">政府宣布了一个公共假日来庆祝这就重大时刻。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">bunch</span>
+                <button class="aud-btn" onclick="play('w_15_f18ad826.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 A group of things of the same kind that are held or tied together, or a group of people.</div>
+                    <div>🇨🇳 串，束；一群</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">My mother bought a bunch of red roses for the teacher. <button class="aud-btn small" onclick="play('zk_15_6b373518.mp3')">🔊</button></div>
+                <div class="v-trans">我妈妈给老师买了一束红玫瑰。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">A whole bunch of people were waiting outside the stadium to buy tickets for the concert. <button class="aud-btn small" onclick="play('g10_15_81b26e75.mp3')">🔊</button></div>
+                <div class="v-trans">一大群人正在体育馆外等着买演唱会的票。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">hostel</span>
+                <button class="aud-btn" onclick="play('w_16_9e12394c.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 An inexpensive place for young travelers to stay overnight.</div>
+                    <div>🇨🇳 旅社，招待所（尤指青年旅社）</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">We stayed in a youth hostel to save money during the trip. <button class="aud-btn small" onclick="play('zk_16_799ad0c7.mp3')">🔊</button></div>
+                <div class="v-trans">为了在旅行中省钱，我们要住在青年旅社。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">Living in a hostel is a great way to meet travelers from different cultural backgrounds. <button class="aud-btn small" onclick="play('g10_16_7f28745b.mp3')">🔊</button></div>
+                <div class="v-trans">住在旅社是结识来自不同文化背景的旅行者的好方法。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">by air</span>
+                <button class="aud-btn" onclick="play('w_17_49a98b98.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 Traveling via an airplane.</div>
+                    <div>🇨🇳 乘飞机，航空</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">It takes about three hours to go there by air. <button class="aud-btn small" onclick="play('zk_17_cca107a3.mp3')">🔊</button></div>
+                <div class="v-trans">乘飞机去那里大约需要三个小时。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">Due to the urgent schedule, the manager decided to send the documents by air mail. <button class="aud-btn small" onclick="play('g10_17_bad7a9da.mp3')">🔊</button></div>
+                <div class="v-trans">由于日程紧迫，经理决定通过航空邮件发送这些文件。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">huge</span>
+                <button class="aud-btn" onclick="play('w_18_b7cf27ff.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 Extremely large in size or amount.</div>
+                    <div>🇨🇳 巨大的，庞大的</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">There is a huge park near our school where we often play soccer. <button class="aud-btn small" onclick="play('zk_18_1c19ae34.mp3')">🔊</button></div>
+                <div class="v-trans">我们要学校附近有一个巨大的公园，我们经常在那里踢足球。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">The invention of the smartphone has made a huge difference to modern society. <button class="aud-btn small" onclick="play('g10_18_053fda74.mp3')">🔊</button></div>
+                <div class="v-trans">智能手机的发明对现代社会产生了巨大的影响。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">calendar</span>
+                <button class="aud-btn" onclick="play('w_19_a0e7b2a5.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 A chart or series of pages showing the days, weeks, and months of a particular year.</div>
+                    <div>🇨🇳 日历；日程表</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">Please look at the calendar and tell me what day it is today. <button class="aud-btn small" onclick="play('zk_19_4ad6db56.mp3')">🔊</button></div>
+                <div class="v-trans">请看日历告诉我今天是星期几。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">With the final exams approaching, students should mark important dates on their study calendar. <button class="aud-btn small" onclick="play('g10_19_78fe6480.mp3')">🔊</button></div>
+                <div class="v-trans">随着期末考试临近，学生们应该在学习日程表上标出重要的日期。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">immigration</span>
+                <button class="aud-btn" onclick="play('w_20_13ad9c97.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 The process of coming to live permanently in a different country.</div>
+                    <div>🇨🇳 移民（入境）；移居</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">The family waited in a long line at the immigration desk at the airport. <button class="aud-btn small" onclick="play('zk_20_cb58e004.mp3')">🔊</button></div>
+                <div class="v-trans">这家人在机场的入境检查处排了很长的队。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">The government is discussing new policies to handle the increase in illegal immigration. <button class="aud-btn small" onclick="play('g10_20_56dfe9d0.mp3')">🔊</button></div>
+                <div class="v-trans">政府正在讨论应对非法移民增加的新政策。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">capital city</span>
+                <button class="aud-btn" onclick="play('w_21_8d3e54a8.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 The city where the government of a country or state is located.</div>
+                    <div>🇨🇳 首都；省会</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">Beijing is the capital city of China and has a long history. <button class="aud-btn small" onclick="play('zk_21_2f25b46b.mp3')">🔊</button></div>
+                <div class="v-trans">北京是中国的首都，拥有悠久的历史。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">Although Sydney is famous, Canberra is actually the capital city of Australia. <button class="aud-btn small" onclick="play('g10_21_43501a61.mp3')">🔊</button></div>
+                <div class="v-trans">虽然悉尼很有名，但堪培拉实际上才是澳大利亚的首都。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">journey</span>
+                <button class="aud-btn" onclick="play('w_22_98dc0157.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 An act of traveling from one place to another, usually over a long distance.</div>
+                    <div>🇨🇳 旅程；旅行</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">We were all tired after the long journey by train. <button class="aud-btn small" onclick="play('zk_22_75de5825.mp3')">🔊</button></div>
+                <div class="v-trans">坐了很长时间的火车后，我们都累了。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">Life is often compared to a journey, filled with both smooth roads and rough paths. <button class="aud-btn small" onclick="play('g10_22_1f2b858c.mp3')">🔊</button></div>
+                <div class="v-trans">生活常被比作一段旅程，充满了平坦的道路和崎岖的小径。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">challenging</span>
+                <button class="aud-btn" onclick="play('w_23_8452ba44.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 Difficult in a way that tests your ability or determination.</div>
+                    <div>🇨🇳 具有挑战性的；困难的</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">This math problem is very challenging, but I will try to solve it. <button class="aud-btn small" onclick="play('zk_23_914be9e6.mp3')">🔊</button></div>
+                <div class="v-trans">这道数学题很有挑战性，但我会尝试解决它。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">She found the new job challenging at first, but it helped her improve her skills quickly. <button class="aud-btn small" onclick="play('g10_23_d4f81a7b.mp3')">🔊</button></div>
+                <div class="v-trans">起初她觉得这份新工作很有挑战性，但这帮助她快速提升了技能。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">landscape</span>
+                <button class="aud-btn" onclick="play('w_24_992763c3.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 Everything you can see when you look across an area of land.</div>
+                    <div>🇨🇳 风景；景色；地貌</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">We stopped the car to take a photo of the beautiful mountain landscape. <button class="aud-btn small" onclick="play('zk_24_748bfc65.mp3')">🔊</button></div>
+                <div class="v-trans">我们停下车，拍了一张美丽的山地风景照。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">The industrial development has completely changed the natural landscape of this region. <button class="aud-btn small" onclick="play('g10_24_7f9ca45d.mp3')">🔊</button></div>
+                <div class="v-trans">工业发展已经完全改变了该地区的自然地貌。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">change</span>
+                <button class="aud-btn" onclick="play('w_25_eb399bca.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 To make or become different, or money returned when a payment is more than the cost.</div>
+                    <div>🇨🇳 改变，变化；零钱</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">I want to change the color of my room to blue. <button class="aud-btn small" onclick="play('zk_25_46c5eee9.mp3')">🔊</button></div>
+                <div class="v-trans">我想把我房间的颜色换成蓝色。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">Climate change poses a significant threat to the global environment. <button class="aud-btn small" onclick="play('g10_25_6d0785bf.mp3')">🔊</button></div>
+                <div class="v-trans">气候变化对全球环境构成了重大威胁。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">comfort</span>
+                <button class="aud-btn" onclick="play('w_26_13cebb4a.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 A state of physical ease and freedom from pain or constraint, or the act of consoling someone.</div>
+                    <div>🇨🇳 舒适；安慰</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">Her kind words gave me great comfort when I was sad. <button class="aud-btn small" onclick="play('zk_26_f6871df9.mp3')">🔊</button></div>
+                <div class="v-trans">当我难过时，她亲切的话语给了我极大的安慰。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">Many people seek comfort in food when they are dealing with high levels of stress. <button class="aud-btn small" onclick="play('g10_26_7a7d8ca9.mp3')">🔊</button></div>
+                <div class="v-trans">许多人在应对巨大压力时会从食物中寻求慰藉。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">length</span>
+                <button class="aud-btn" onclick="play('w_27_2fa47f7c.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 The measurement of something from end to end.</div>
+                    <div>🇨🇳 长度，长</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">What is the length of this ruler? <button class="aud-btn small" onclick="play('zk_27_f61e4238.mp3')">🔊</button></div>
+                <div class="v-trans">这把尺子的长度是多少？</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">The extensive length of the novel discouraged many students from reading it. <button class="aud-btn small" onclick="play('g10_27_09184570.mp3')">🔊</button></div>
+                <div class="v-trans">这部小说的巨大篇幅让许多学生望而却步。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">comfortable</span>
+                <button class="aud-btn" onclick="play('w_28_ff52b9c1.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 Providing physical ease and relaxation.</div>
+                    <div>🇨🇳 舒适的，舒服的</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">Please make yourself comfortable on the sofa. <button class="aud-btn small" onclick="play('zk_28_c48811eb.mp3')">🔊</button></div>
+                <div class="v-trans">请在沙发上随便坐，别拘束。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">It is important to feel comfortable expressing your own opinions in class. <button class="aud-btn small" onclick="play('g10_28_24c49c5c.mp3')">🔊</button></div>
+                <div class="v-trans">在课堂上能自在地表达自己的观点是很重要的。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">location</span>
+                <button class="aud-btn" onclick="play('w_29_d5189de0.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 A particular place or position.</div>
+                    <div>🇨🇳 地点，位置</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">We need to find a good location for our picnic. <button class="aud-btn small" onclick="play('zk_29_c302563b.mp3')">🔊</button></div>
+                <div class="v-trans">我们需要为野餐找一个好地点。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">The strategic location of the city made it a center for trade and commerce. <button class="aud-btn small" onclick="play('g10_29_e9aa513d.mp3')">🔊</button></div>
+                <div class="v-trans">这座城市极具战略意义的地理位置使其成为了贸易和商业中心。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">common</span>
+                <button class="aud-btn" onclick="play('w_30_9efab239.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 Happening often or existing in large numbers; shared by two or more people.</div>
+                    <div>🇨🇳 常见的；共同的</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">It is common to see students riding bikes to school in China. <button class="aud-btn small" onclick="play('zk_30_e3ab9791.mp3')">🔊</button></div>
+                <div class="v-trans">在中国，经常能看到学生骑自行车上学。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">Environmental protection is a common goal that unites people from different countries. <button class="aud-btn small" onclick="play('g10_30_1a5acd92.mp3')">🔊</button></div>
+                <div class="v-trans">环境保护是团结不同国家人民的一个共同目标。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">magnificent</span>
+                <button class="aud-btn" onclick="play('w_31_2a3c6351.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 Extremely beautiful, impressive, or elaborate.</div>
+                    <div>🇨🇳 壮丽的；宏伟的</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">The view from the top of the mountain is magnificent. <button class="aud-btn small" onclick="play('zk_31_9526a852.mp3')">🔊</button></div>
+                <div class="v-trans">从山顶看去的景色非常壮丽。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">The museum is housed in a magnificent building that dates back to the 18th century. <button class="aud-btn small" onclick="play('g10_31_ff586ea8.mp3')">🔊</button></div>
+                <div class="v-trans">这座博物馆坐落在一座宏伟的建筑里，该建筑可追溯到18世纪。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">mainstream</span>
+                <button class="aud-btn" onclick="play('w_32_390b212d.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 Considered normal, and having or using ideas, beliefs, etc. that are accepted by most people.</div>
+                    <div>🇨🇳 主流的；主流</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">Pop music is the mainstream choice for most teenagers today. <button class="aud-btn small" onclick="play('zk_32_4cd28707.mp3')">🔊</button></div>
+                <div class="v-trans">流行音乐是当今大多数青少年的主流选择。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">Electric cars satisfy the requirements of mainstream consumers who want to reduce their carbon footprint. <button class="aud-btn small" onclick="play('g10_32_0179d7ec.mp3')">🔊</button></div>
+                <div class="v-trans">电动汽车满足了那些想要减少碳足迹的主流消费者的需求。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">compare</span>
+                <button class="aud-btn" onclick="play('w_33_1f83af4e.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 To look at or estimate the similarities or differences between two or more things.</div>
+                    <div>🇨🇳 比较；对比</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">Please don't compare me with my brother; we are very different. <button class="aud-btn small" onclick="play('zk_33_6d8f31c2.mp3')">🔊</button></div>
+                <div class="v-trans">请不要把我和我哥哥做比较，我们非常不同。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">When you compare the cost of living in the two cities, you will find that London is much more expensive. <button class="aud-btn small" onclick="play('g10_33_ad01ecf5.mp3')">🔊</button></div>
+                <div class="v-trans">当你比较这两个城市的生活成本时，你会发现伦敦要贵得多。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">marvellous</span>
+                <button class="aud-btn" onclick="play('w_34_967d83fa.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 Extremely good; causing great wonder.</div>
+                    <div>🇨🇳 极好的；非凡的</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">She did a marvellous job on her final project. <button class="aud-btn small" onclick="play('zk_34_61085c58.mp3')">🔊</button></div>
+                <div class="v-trans">她在期末项目中表现得非常出色。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">The scientist made a marvellous discovery that could change the future of medicine. <button class="aud-btn small" onclick="play('g10_34_852d1537.mp3')">🔊</button></div>
+                <div class="v-trans">这位科学家做出了一个非凡的发现，可能会改变医学的未来。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">complain</span>
+                <button class="aud-btn" onclick="play('w_35_097ba50a.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 To say that you are annoyed, unhappy, or not satisfied about someone or something.</div>
+                    <div>🇨🇳 抱怨；投诉</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">He often complains about the heavy traffic in the morning. <button class="aud-btn small" onclick="play('zk_35_e402cc83.mp3')">🔊</button></div>
+                <div class="v-trans">他经常抱怨早上拥堵的交通。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">If you are not satisfied with the product, you have the right to complain to the manager. <button class="aud-btn small" onclick="play('g10_35_cfe422ff.mp3')">🔊</button></div>
+                <div class="v-trans">如果你对产品不满意，你有权向经理投诉。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">matter</span>
+                <button class="aud-btn" onclick="play('w_36_bf7b83f5.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 To be important, or a subject or situation that you need to think about or do something about.</div>
+                    <div>🇨🇳 要紧，重要；事情，问题</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">It doesn't matter if you can't come to the party. <button class="aud-btn small" onclick="play('zk_36_cf336444.mp3')">🔊</button></div>
+                <div class="v-trans">如果你不能来参加聚会也没关系。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">As a matter of fact, climate change is a serious issue that affects everyone globally. <button class="aud-btn small" onclick="play('g10_36_106f0def.mp3')">🔊</button></div>
+                <div class="v-trans">事实上，气候变化是一个影响全球每个人的严重问题。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">coast</span>
+                <button class="aud-btn" onclick="play('w_37_756d153b.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 The land next to or close to the sea.</div>
+                    <div>🇨🇳 海岸；海滨</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">We like to go to the coast for our summer holidays. <button class="aud-btn small" onclick="play('zk_37_13e7eeae.mp3')">🔊</button></div>
+                <div class="v-trans">我们喜欢去海边过暑假。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">The hurricane caused severe damage to the cities located along the southern coast. <button class="aud-btn small" onclick="play('g10_37_db09bfef.mp3')">🔊</button></div>
+                <div class="v-trans">飓风对位于南部海岸沿线的城市造成了严重破坏。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">country</span>
+                <button class="aud-btn" onclick="play('w_38_e909c2d7.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 An area of land that has its own government, or land that is not in towns or cities.</div>
+                    <div>🇨🇳 国家；乡村</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">China is a beautiful country with many famous places. <button class="aud-btn small" onclick="play('zk_38_f6736130.mp3')">🔊</button></div>
+                <div class="v-trans">中国是一个美丽的国家，有许多名胜古迹。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">She prefers the quiet life in the country to the noise and pollution of the city. <button class="aud-btn small" onclick="play('g10_38_bf6ab735.mp3')">🔊</button></div>
+                <div class="v-trans">比起城市的喧嚣和污染，她更喜欢乡下宁静的生活。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">monster</span>
+                <button class="aud-btn" onclick="play('w_39_8bf4e6ad.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 An imaginary creature that is typically large, ugly, and frightening.</div>
+                    <div>🇨🇳 怪物；庞然大物</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">The children enjoyed the story about a friendly green monster. <button class="aud-btn small" onclick="play('zk_39_8e333c5f.mp3')">🔊</button></div>
+                <div class="v-trans">孩子们喜欢那个关于友好的绿色怪物的故事。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">Frankenstein creates a monster that eventually turns against its creator due to loneliness. <button class="aud-btn small" onclick="play('g10_39_c39afbde.mp3')">🔊</button></div>
+                <div class="v-trans">弗兰肯斯坦创造了一个怪物，这个怪物最终因为孤独而反抗它的创造者。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">crowd</span>
+                <button class="aud-btn" onclick="play('w_40_2cbc047f.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 A large number of people gathered together in a disorganized or unruly way.</div>
+                    <div>🇨🇳 人群；群众</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">There was a big crowd in the park on Children's Day. <button class="aud-btn small" onclick="play('zk_40_a6e805f4.mp3')">🔊</button></div>
+                <div class="v-trans">儿童节那天公园里有一大群人。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">The police struggled to control the crowd pushing towards the stage. <button class="aud-btn small" onclick="play('g10_40_4c2db795.mp3')">🔊</button></div>
+                <div class="v-trans">警察努力控制着涌向舞台的人群。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">crowded</span>
+                <button class="aud-btn" onclick="play('w_41_34d88a08.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 Full of people, leaving little or no room for movement.</div>
+                    <div>🇨🇳 拥挤的</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">The bus was so crowded that I had to stand all the way. <button class="aud-btn small" onclick="play('zk_41_ebf2b1ea.mp3')">🔊</button></div>
+                <div class="v-trans">公共汽车太挤了，我不得不一路站着。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">Living in a crowded city can be stressful due to the noise and lack of personal space. <button class="aud-btn small" onclick="play('g10_41_4155f202.mp3')">🔊</button></div>
+                <div class="v-trans">住在拥挤的城市里可能会因为噪音和缺乏个人空间而倍感压力。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">nationality</span>
+                <button class="aud-btn" onclick="play('w_42_f56d0214.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 The status of belonging to a particular nation.</div>
+                    <div>🇨🇳 国籍</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">Please write your name and nationality on this form. <button class="aud-btn small" onclick="play('zk_42_94c93173.mp3')">🔊</button></div>
+                <div class="v-trans">请在这张表格上写下你的名字和国籍。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">People of different nationalities gathered together to celebrate the international festival. <button class="aud-btn small" onclick="play('g10_42_c72af129.mp3')">🔊</button></div>
+                <div class="v-trans">不同国籍的人们聚集在一起庆祝这个国际节日。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">destination</span>
+                <button class="aud-btn" onclick="play('w_43_6990a543.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 The place to which someone or something is going or being sent.</div>
+                    <div>🇨🇳 目的地；终点</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">We finally reached our destination after a long train ride. <button class="aud-btn small" onclick="play('zk_43_cc014b0c.mp3')">🔊</button></div>
+                <div class="v-trans">经过漫长的火车旅程，我们终于到达了目的地。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">Tourists should research the customs of their destination before travelling abroad. <button class="aud-btn small" onclick="play('g10_43_e56e6605.mp3')">🔊</button></div>
+                <div class="v-trans">游客在出国旅行前应该研究一下目的地的风俗习惯。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">nearby</span>
+                <button class="aud-btn" onclick="play('w_44_515fb6f6.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 Close at hand; not far away.</div>
+                    <div>🇨🇳 附近的；在附近</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">My uncle lives in a nearby village, so we visit him often. <button class="aud-btn small" onclick="play('zk_44_64c51b1f.mp3')">🔊</button></div>
+                <div class="v-trans">我叔叔住在附近的村子里，所以我们经常去看他。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">The chemical factory caused severe pollution in the nearby rivers and lakes. <button class="aud-btn small" onclick="play('g10_44_250e6bd8.mp3')">🔊</button></div>
+                <div class="v-trans">这家化工厂给附近的河流和湖泊造成了严重的污染。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">double</span>
+                <button class="aud-btn" onclick="play('w_45_e8cd7da0.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 Twice as much or as many; consisting of two parts or things.</div>
+                    <div>🇨🇳 两倍的；双重的；使加倍</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">The price of the ticket is double what it was last year. <button class="aud-btn small" onclick="play('zk_45_6f0b8680.mp3')">🔊</button></div>
+                <div class="v-trans">这张票的价格是去年的两倍。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">The company plans to double its investment in renewable energy technologies. <button class="aud-btn small" onclick="play('g10_45_bb3e3342.mp3')">🔊</button></div>
+                <div class="v-trans">该公司计划将其在可再生能源技术方面的投资增加一倍。</div>
+            </div>
+        </div>
+        </div><div class="submit-bar" style="background:#f0f4f8;color:#555">Study Mode - No Submission Needed</div></div><div class="quiz-page" id="page-2"><div class="page-title">Part 1: Challenge</div><div class="scroll-area"><div style="padding:10px; background:#e8f4fd; color:#2980b9; border-radius:5px; margin-bottom:15px; font-size:0.9rem;">🎯 <b>Spelling Bee:</b> Listen to the definition or audio, then spell the word.</div>
+            <div class="q-card" data-ans="trip">
+                <div class="v-top">
+                    <button class="aud-btn" onclick="play('sp_trip_7da7993d.mp3')">🔊</button>
+                    <div style="margin-left:10px; font-size:1rem; color:#555;">请拼写此单词</div>
+                </div>
+                <div style="margin-top:5px; font-size:0.85rem; color:#888; margin-bottom:10px;">Listen and spell.</div>
+                <input type="text" class="block-inp" placeholder="Type the word here...">
+                <div class="analysis-box hidden" id="ana-sp_trip"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">trip</span></div><div class="ana-text">trip: 请拼写此单词</div></div>
+            </div>
+            
+            <div class="q-card" data-ans="landscape">
+                <div class="v-top">
+                    <button class="aud-btn" onclick="play('sp_landscape_992763c3.mp3')">🔊</button>
+                    <div style="margin-left:10px; font-size:1rem; color:#555;">风景；景色；地貌</div>
+                </div>
+                <div style="margin-top:5px; font-size:0.85rem; color:#888; margin-bottom:10px;">Everything you can see when you look across an area of land.</div>
+                <input type="text" class="block-inp" placeholder="Type the word here...">
+                <div class="analysis-box hidden" id="ana-sp_landscape"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">landscape</span></div><div class="ana-text">landscape: 风景；景色；地貌</div></div>
+            </div>
+            
+            <div class="q-card" data-ans="brochure">
+                <div class="v-top">
+                    <button class="aud-btn" onclick="play('sp_brochure_a7e75a8c.mp3')">🔊</button>
+                    <div style="margin-left:10px; font-size:1rem; color:#555;">小册子；说明书</div>
+                </div>
+                <div style="margin-top:5px; font-size:0.85rem; color:#888; margin-bottom:10px;">A thin book with pictures and information, usually advertising something.</div>
+                <input type="text" class="block-inp" placeholder="Type the word here...">
+                <div class="analysis-box hidden" id="ana-sp_brochure"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">brochure</span></div><div class="ana-text">brochure: 小册子；说明书</div></div>
+            </div>
+            
+            <div class="q-card" data-ans="windscreen">
+                <div class="v-top">
+                    <button class="aud-btn" onclick="play('sp_windscreen_4eac8079.mp3')">🔊</button>
+                    <div style="margin-left:10px; font-size:1rem; color:#555;">请拼写此单词</div>
+                </div>
+                <div style="margin-top:5px; font-size:0.85rem; color:#888; margin-bottom:10px;">Listen and spell.</div>
+                <input type="text" class="block-inp" placeholder="Type the word here...">
+                <div class="analysis-box hidden" id="ana-sp_windscreen"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">windscreen</span></div><div class="ana-text">windscreen: 请拼写此单词</div></div>
+            </div>
+            
+            <div class="q-card" data-ans="stuff">
+                <div class="v-top">
+                    <button class="aud-btn" onclick="play('sp_stuff_c13d88cb.mp3')">🔊</button>
+                    <div style="margin-left:10px; font-size:1rem; color:#555;">请拼写此单词</div>
+                </div>
+                <div style="margin-top:5px; font-size:0.85rem; color:#888; margin-bottom:10px;">Listen and spell.</div>
+                <input type="text" class="block-inp" placeholder="Type the word here...">
+                <div class="analysis-box hidden" id="ana-sp_stuff"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">stuff</span></div><div class="ana-text">stuff: 请拼写此单词</div></div>
+            </div>
+            
+            <div class="q-card" data-ans="pros and cons">
+                <div class="v-top">
+                    <button class="aud-btn" onclick="play('sp_pros and cons_9efd4ad5.mp3')">🔊</button>
+                    <div style="margin-left:10px; font-size:1rem; color:#555;">请拼写此单词</div>
+                </div>
+                <div style="margin-top:5px; font-size:0.85rem; color:#888; margin-bottom:10px;">Listen and spell.</div>
+                <input type="text" class="block-inp" placeholder="Type the word here...">
+                <div class="analysis-box hidden" id="ana-sp_pros and cons"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">pros and cons</span></div><div class="ana-text">pros and cons: 请拼写此单词</div></div>
+            </div>
+            
+            <div class="q-card" data-ans="backpacker">
+                <div class="v-top">
+                    <button class="aud-btn" onclick="play('sp_backpacker_bc593919.mp3')">🔊</button>
+                    <div style="margin-left:10px; font-size:1rem; color:#555;">背包客；通过背包装备低成本旅行的人</div>
+                </div>
+                <div style="margin-top:5px; font-size:0.85rem; color:#888; margin-bottom:10px;">A person who travels cheaply carrying their things in a backpack.</div>
+                <input type="text" class="block-inp" placeholder="Type the word here...">
+                <div class="analysis-box hidden" id="ana-sp_backpacker"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">backpacker</span></div><div class="ana-text">backpacker: 背包客；通过背包装备低成本旅行的人</div></div>
+            </div>
+            </div><div class="submit-bar"><button class="submit-btn" onclick="submitPage('page-2')">Check Answers</button></div></div><div class="quiz-page" id="page-3"><div class="page-title">Part 2: Word Selection</div><div class="bank-wrap"><div class="bank"><span>tradition</span> <span>vehicle</span> <span>book</span> <span>abroad</span> <span>traffic jam</span> <span>compared</span> <span>apply</span> <span>hitchhiking</span> <span>expectations</span></div></div><div class="scroll-area"><div class="q-card" data-ans="book"><div class="line-txt">To get tickets, you have to <input type="text" class="inline-inp"> in advance. It's very popular.</div><div class="analysis-box hidden" id="ana-48"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">book</span></div><div class="ana-text">句意：为了买到票，你必须提前预订。这里不仅因为很受欢迎所以要提前，而且book作动词时意为“预订”，符合句意。</div></div></div><div class="q-card" data-ans="traffic jam"><div class="line-txt">We were stuck in a <input type="text" class="inline-inp"> for two hours. There are so many cars on the road.</div><div class="analysis-box hidden" id="ana-49"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">traffic jam</span></div><div class="ana-text">句意：我们被堵在交通拥堵中两个小时。根据后文“路上有那么多车”，可知这里描述的是traffic jam（交通堵塞）。</div></div></div><div class="q-card" data-ans="expectations"><div class="line-txt">His parents have great <input type="text" class="inline-inp"> for his future.</div><div class="analysis-box hidden" id="ana-50"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">expectations</span></div><div class="ana-text">句意：他的父母对他的未来寄予厚望。expectations意为“期望、指望”，have great expectations for是常见搭配。</div></div></div><div class="q-card" data-ans="tradition"><div class="line-txt">Each country has its own cultural <input type="text" class="inline-inp"> which we should respect.</div><div class="analysis-box hidden" id="ana-51"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">tradition</span></div><div class="ana-text">句意：每个国家都有我们应该尊重的文化传统。cultural tradition意为“文化传统”，符合语境。</div></div></div><div class="q-card" data-ans="vehicle"><div class="line-txt">Most of motor <input type="text" class="inline-inp"> runs on petrol.</div><div class="analysis-box hidden" id="ana-52"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">vehicle</span></div><div class="ana-text">句意：大多数机动车辆使用汽油。motor vehicle意为“机动车辆”，runs on petrol指以汽油为动力。</div></div></div><div class="q-card" data-ans="compared"><div class="line-txt">The city is huge <input type="text" class="inline-inp"> to our village. I need to get used to it as soon as possible.</div><div class="analysis-box hidden" id="ana-53"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">compared</span></div><div class="ana-text">句意：与我们的村庄相比，这座城市太大了。compared to为固定搭配，意为“与……相比”。</div></div></div><div class="q-card" data-ans="apply"><div class="line-txt">Do the same rules <input type="text" class="inline-inp"> to all the workers?</div><div class="analysis-box hidden" id="ana-54"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">apply</span></div><div class="ana-text">句意：同样的规则适用于所有工人吗？apply to sb./sth. 意为“适用于某人/某事”。</div></div></div><div class="q-card" data-ans="abroad"><div class="line-txt">I've never lived <input type="text" class="inline-inp"> before I go to college.</div><div class="analysis-box hidden" id="ana-55"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">abroad</span></div><div class="ana-text">句意：在上大学之前，我从未在国外生活过。live abroad意为“在国外居住”。</div></div></div><div class="q-card" data-ans="hitchhiking"><div class="line-txt">She spent a year <input type="text" class="inline-inp"> around the country after high school.</div><div class="analysis-box hidden" id="ana-56"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">hitchhiking</span></div><div class="ana-text">句意：高中毕业后，她花了一年时间在全国各地搭便车旅行。hitchhiking意为“搭便车旅行”，是一种背包客常见的旅行方式。</div></div></div></div><div class="submit-bar"><button class="submit-btn" onclick="submitPage('page-3')">Check Answers</button></div></div><div class="quiz-page" id="page-4"><div class="page-title">Part 3: Unscramble</div><div class="scroll-area"><div class="q-card" data-ans="routine"><div class="scram">o t i u r n e</div><input type="text" class="block-inp" placeholder="Type answer..."><div class="analysis-box hidden" id="ana-57"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">routine</span></div><div class="ana-text">n. 常规；惯例；例行公事</div></div></div><div class="q-card" data-ans="reservations"><div class="scram">e e r s a o n t s r v i</div><input type="text" class="block-inp" placeholder="Type answer..."><div class="analysis-box hidden" id="ana-58"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">reservations</span></div><div class="ana-text">n. 预订；保留（reservation的复数）</div></div></div><div class="q-card" data-ans="marvellous"><div class="scram">v l l e r a m s o u</div><input type="text" class="block-inp" placeholder="Type answer..."><div class="analysis-box hidden" id="ana-59"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">marvellous</span></div><div class="ana-text">adj. 极好的；非凡的；不可思议的</div></div></div><div class="q-card" data-ans="attract"><div class="scram">t t c a a t r</div><input type="text" class="block-inp" placeholder="Type answer..."><div class="analysis-box hidden" id="ana-60"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">attract</span></div><div class="ana-text">v. 吸引；引起</div></div></div><div class="q-card" data-ans="challenge"><div class="scram">a e n l g l e h c</div><input type="text" class="block-inp" placeholder="Type answer..."><div class="analysis-box hidden" id="ana-61"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">challenge</span></div><div class="ana-text">n. 挑战；难题 v. 向……挑战</div></div></div><div class="q-card" data-ans="complain"><div class="scram">m a o p c l n i</div><input type="text" class="block-inp" placeholder="Type answer..."><div class="analysis-box hidden" id="ana-62"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">complain</span></div><div class="ana-text">v. 抱怨；发牢骚；投诉</div></div></div></div><div class="submit-bar"><button class="submit-btn" onclick="submitPage('page-4')">Check Answers</button></div></div><div class="quiz-page" id="page-5"><div class="page-title">Part 4: First Letter</div><div class="scroll-area"><div class="q-card" data-ans="book"><div class="line-txt">To get tickets, you have to b<input type="text" class="inline-inp short"> in advance. It's very popular.</div><div class="analysis-box hidden" id="ana-63"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">book</span></div><div class="ana-text">根据句意“为了买到票，你必须提前预订”，此处应填动词 book，意为“预订”。</div></div></div><div class="q-card" data-ans="traffic jam"><div class="line-txt">We were stuck in a t<input type="text" class="inline-inp short"> for two hours. There are so many cars on the road.</div><div class="analysis-box hidden" id="ana-64"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">traffic jam</span></div><div class="ana-text">根据句意“我们在______里被困了两个小时”及后文“路上有很多车”，可知此处指“交通堵塞”，英文为 traffic jam。</div></div></div><div class="q-card" data-ans="expectations"><div class="line-txt">His parents have great e<input type="text" class="inline-inp short"> for his future.</div><div class="analysis-box hidden" id="ana-65"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">expectations</span></div><div class="ana-text">根据句意“他的父母对他的未来有很高的______”，结合词义可知填 expectations，意为“期望”。</div></div></div><div class="q-card" data-ans="tradition"><div class="line-txt">Each country has its own cultural t<input type="text" class="inline-inp short"> which we should respect.</div><div class="analysis-box hidden" id="ana-66"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">tradition</span></div><div class="ana-text">根据句意“每个国家都有我们应该尊重的文化______”，搭配 cultural (文化的)，此处应填 tradition，意为“传统”。</div></div></div><div class="q-card" data-ans="vehicle"><div class="line-txt">Most of motor v<input type="text" class="inline-inp short"> runs on petrol.</div><div class="analysis-box hidden" id="ana-67"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">vehicle</span></div><div class="ana-text">根据句意“大多数机动______依靠汽油运行”，motor vehicle 为固定搭配，意为“机动车辆”。</div></div></div><div class="q-card" data-ans="compared"><div class="line-txt">The city is huge c<input type="text" class="inline-inp short"> to our village. I need to get used to it as soon as possible.</div><div class="analysis-box hidden" id="ana-68"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">compared</span></div><div class="ana-text">根据句意“与我们的村庄______，这个城市很大”，compared to 为常用短语，意为“与……相比”。</div></div></div><div class="q-card" data-ans="apply"><div class="line-txt">Do the same rules a<input type="text" class="inline-inp short"> to all the workers?</div><div class="analysis-box hidden" id="ana-69"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">apply</span></div><div class="ana-text">根据句意“同样的规则______所有工人吗？”，apply to 意为“适用于”。</div></div></div><div class="q-card" data-ans="abroad"><div class="line-txt">I've never lived a<input type="text" class="inline-inp short"> before I go to college.</div><div class="analysis-box hidden" id="ana-70"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">abroad</span></div><div class="ana-text">根据句意“在上大学之前，我从未在______生活过”，结合语境填 abroad，意为“在国外”。</div></div></div><div class="q-card" data-ans="hitchhiking"><div class="line-txt">She spent a year h<input type="text" class="inline-inp short"> around the country after high school.</div><div class="analysis-box hidden" id="ana-71"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">hitchhiking</span></div><div class="ana-text">根据句意“高中毕业后，她花了一年时间在全国______”，此处填 hitchhiking，意为“搭便车旅行”。</div></div></div></div><div class="submit-bar"><button class="submit-btn" onclick="submitPage('page-5')">Check Answers</button></div></div><div class="quiz-page" id="page-6"><div class="page-title">Part 5: Reading</div><div class="cloze-wrap"><div class="c-left">Explore Somewhere New<br><br><br><br>We usually choose popular <span id="slot-1" class="cloze-slot">[1]</span> to travel based <span id="slot-2" class="cloze-slot">[2]</span> our friends' advice or internet recommendations. But what if I tell you that less known destinations can also be <span id="slot-3" class="cloze-slot">[3]</span> . When we travel to popular places, we frequently face some common problems. There are <span id="slot-4" class="cloze-slot">[4]</span> of people, long queues that affect the level of your comfort and your expectations. Here is a solution that people rarely follow—to reduce the risk of the crowded locations, choose a much less famous place to travel. <span id="slot-5" class="cloze-slot">[5]</span> , unpopular places aren't that expensive. This applies to hostels, public <span id="slot-6" class="cloze-slot">[6]</span> , food and even shopping centers. However, if there is an exact place you're dreaming to visit and you won't <span id="slot-7" class="cloze-slot">[7]</span> it for anything, you should choose a date on your <span id="slot-8" class="cloze-slot">[8]</span> when it's not a common time for most people to travel. It's really going to save your time, money and most importantly, nerves.</div><div class="c-right"><div class="q-card cloze-card" data-ans="C"><div class="q-num">1</div><div class="opt-grp"><div class="opt-btn small" onclick="clozeSel(this, '1', 'sights')">A. sights</div><div class="opt-btn small" onclick="clozeSel(this, '1', 'ways')">B. ways</div><div class="opt-btn small" onclick="clozeSel(this, '1', 'locations')">C. locations</div></div><div class="analysis-box hidden" id="ana-72_1"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">C</span></div><div class="ana-text">考查名词辨析。句意：我们通常根据朋友的建议或网络推荐选择热门的地点（locations）去旅行。sights指‘景点’，ways指‘方式’，locations指‘地点/位置’。根据下文destinations（目的地）一词，locations最为贴切。</div></div></div><div class="q-card cloze-card" data-ans="A"><div class="q-num">2</div><div class="opt-grp"><div class="opt-btn small" onclick="clozeSel(this, '2', 'on')">A. on</div><div class="opt-btn small" onclick="clozeSel(this, '2', '!')">B. !</div><div class="opt-btn small" onclick="clozeSel(this, '2', 'for')">C. for</div></div><div class="analysis-box hidden" id="ana-72_2"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">A</span></div><div class="ana-text">考查固定搭配。based on 意为‘根据，以……为基础’。句意：基于朋友的建议。</div></div></div><div class="q-card cloze-card" data-ans="A"><div class="q-num">3</div><div class="opt-grp"><div class="opt-btn small" onclick="clozeSel(this, '3', 'magnificent')">A. magnificent</div><div class="opt-btn small" onclick="clozeSel(this, '3', 'boring')">B. boring</div><div class="opt-btn small" onclick="clozeSel(this, '3', 'unpleasant')">C. unpleasant</div></div><div class="analysis-box hidden" id="ana-72_3"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">A</span></div><div class="ana-text">考查形容词辨析。句意：更少人知晓的目的地也可以是壮丽的（magnificent）。根据文章基调，作者鼓励去冷门景点，因此填褒义词。boring（无聊的）和unpleasant（令人不快的）不符合语境。</div></div></div><div class="q-card cloze-card" data-ans="B"><div class="q-num">4</div><div class="opt-grp"><div class="opt-btn small" onclick="clozeSel(this, '4', 'few')">A. few</div><div class="opt-btn small" onclick="clozeSel(this, '4', 'crowds')">B. crowds</div><div class="opt-btn small" onclick="clozeSel(this, '4', 'some')">C. some</div></div><div class="analysis-box hidden" id="ana-72_4"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">B</span></div><div class="ana-text">考查名词搭配。crowds of people 意为‘成群的人，人山人海’。句意：那里有人群和长队。</div></div></div><div class="q-card cloze-card" data-ans="C"><div class="q-num">5</div><div class="opt-grp"><div class="opt-btn small" onclick="clozeSel(this, '5', 'Absolutely')">A. Absolutely</div><div class="opt-btn small" onclick="clozeSel(this, '5', 'Luckily')">B. Luckily</div><div class="opt-btn small" onclick="clozeSel(this, '5', 'Generally')">C. Generally</div></div><div class="analysis-box hidden" id="ana-72_5"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">C</span></div><div class="ana-text">考查副词辨析。Generally 意为‘通常，大体上’。句意：通常，不热门的地方没那么贵。符合常理推断。</div></div></div><div class="q-card cloze-card" data-ans="B"><div class="q-num">6</div><div class="opt-grp"><div class="opt-btn small" onclick="clozeSel(this, '6', 'station')">A. station</div><div class="opt-btn small" onclick="clozeSel(this, '6', 'transport')">B. transport</div><div class="opt-btn small" onclick="clozeSel(this, '6', 'astronaut')">C. astronaut</div></div><div class="analysis-box hidden" id="ana-72_6"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">B</span></div><div class="ana-text">考查名词搭配。public transport 意为‘公共交通’。句意：这适用于旅舍、公共交通、食物甚至购物中心。</div></div></div><div class="q-card cloze-card" data-ans="A"><div class="q-num">7</div><div class="opt-grp"><div class="opt-btn small" onclick="clozeSel(this, '7', 'trade')">A. trade</div><div class="opt-btn small" onclick="clozeSel(this, '7', 'agree')">B. agree</div><div class="opt-btn small" onclick="clozeSel(this, '7', 'want')">C. want</div></div><div class="analysis-box hidden" id="ana-72_7"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">A</span></div><div class="ana-text">考查动词搭配。trade...for... 意为‘用……交换……’。句意：如果你有一个梦想之地，且无论如何都不愿交换（放弃）它。</div></div></div><div class="q-card cloze-card" data-ans="B"><div class="q-num">8</div><div class="opt-grp"><div class="opt-btn small" onclick="clozeSel(this, '8', 'monster')">A. monster</div><div class="opt-btn small" onclick="clozeSel(this, '8', 'calendar')">B. calendar</div><div class="opt-btn small" onclick="clozeSel(this, '8', 'holiday')">C. holiday</div></div><div class="analysis-box hidden" id="ana-72_8"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">B</span></div><div class="ana-text">考查名词辨析。choose a date on your calendar 意为‘在你的日历上选一个日期’。monster（怪物）不合逻辑，holiday（假期）通常是本来就定好的，而在日历上选日子更符合语境。</div></div></div></div></div><div class="submit-bar"><button class="submit-btn" onclick="submitPage('page-6')">Check Answers</button></div></div></div><script>
+let cp=1,tp=6;
+function show(p){document.querySelectorAll('.quiz-page').forEach(e=>e.classList.remove('active'));document.getElementById('page-'+p).classList.add('active');document.getElementById('ind').innerText=`Page ${p}/${tp}`;cp=p;document.getElementById('pb').disabled=p===1;document.getElementById('nb').disabled=p===tp}
+function nav(d){show(cp+d)}
+function play(u){if(u) new Audio('audio_cache/'+u).play()}
+function sel(e){e.parentElement.querySelectorAll('.opt-btn').forEach(b=>b.classList.remove('selected'));e.classList.add('selected')}
+function clozeSel(e,n,w){sel(e);let s=document.getElementById('slot-'+n);if(s){s.innerText=w;s.classList.add('filled')}}
+function submitPage(pid){
+    document.getElementById(pid).querySelectorAll('.q-card').forEach(c=>{
+        let ans=String(c.dataset.ans).trim().toLowerCase(), corr=false;
+        let inp=c.querySelector('input');
+        if(inp){
+            let v=inp.value.trim().toLowerCase().replace(/[.,]/g,'');
+            if(v && ans.replace(/[.,]/g,'').includes(v)) corr=true;
+        }
+        let s=c.querySelector('.opt-btn.selected');
+        if(s){
+            const txt = s.innerText.trim().toLowerCase();
+            if(txt.startsWith(ans) || txt.includes(ans)) corr=true;
+        }
+        c.classList.add(corr?'correct':'wrong');
+        c.querySelector('.analysis-box').classList.remove('hidden');
+    });
+}
+window.onload=()=>show(1);
+</script>
+<div class="quiz-page" id="page-7">
+    <div class="page-title">Final Results</div>
+    <div style="flex:1; overflow-y:auto; -webkit-overflow-scrolling:touch;">
+        <div class="result-header">
+            <div class="score-circle">
+                <span class="score-val" id="res-score">0%</span>
+                <span class="score-label">Accuracy</span>
+            </div>
+            <div class="stat-row">
+                <div class="stat-item">
+                    <div class="stat-num" id="res-time">00:00</div>
+                    <div class="stat-desc">Time Used</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-num"><span id="res-correct">0</span>/<span id="res-total">0</span></div>
+                    <div class="stat-desc">Correct</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="wrong-list" id="wrong-container">
+            </div>
+    </div>
+    <div class="submit-bar">
+        <button class="submit-btn restart-btn" onclick="location.reload()">↺ Restart Quiz</button>
+    </div>
+</div>
+
+<script>
+// 计时器逻辑
+let startTime = Date.now();
+let isFinished = false;
+
+function getFormattedTime() {
+    let now = Date.now();
+    let diff = Math.floor((now - startTime) / 1000);
+    let m = Math.floor(diff / 60);
+    let s = diff % 60;
+    return `${m}:${s < 10 ? '0'+s : s}`;
+}
+
+// 核心统计函数
+function finishQuiz() {
+    if(isFinished) return;
+    isFinished = true;
+    
+    // 1. 强制提交所有题目 (Page 2 - Page 6)，确保判分
+    for(let i=2; i<=6; i++) {
+        try { submitPage('page-'+i); } catch(e){}
+    }
+    
+    // 2. 统计分数
+    let totalQ = 0;
+    let correctQ = 0;
+    let wrongContainer = document.getElementById('wrong-container');
+    wrongContainer.innerHTML = '<div class="wrong-title">Review Mistakes</div>';
+    
+    let hasMistakes = false;
+
+    // 遍历所有卡片
+    function processCard(card) {
+        // 跳过 Page 1 (单词学习页)
+        if(card.closest('#page-1')) return;
+        
+        totalQ++;
+        if(card.classList.contains('correct')) {
+            correctQ++;
+        } else {
+            // 错题或未做答
+            hasMistakes = true;
+            // 克隆卡片用于展示
+            let clone = card.cloneNode(true);
+            // 移除 ID 防止冲突
+            clone.removeAttribute('id');
+            clone.style.marginTop = '20px';
+            
+            // 确保解析框是可见的
+            let ana = clone.querySelector('.analysis-box');
+            if(ana) ana.classList.remove('hidden');
+            
+            wrongContainer.appendChild(clone);
+        }
+    }
+
+    document.querySelectorAll('.q-card').forEach(processCard);
+
+    // 3. 更新 UI
+    let percent = totalQ === 0 ? 0 : Math.round((correctQ / totalQ) * 100);
+    document.getElementById('res-score').innerText = percent + '%';
+    document.getElementById('res-correct').innerText = correctQ;
+    document.getElementById('res-total').innerText = totalQ;
+    document.getElementById('res-time').innerText = getFormattedTime();
+
+    if(!hasMistakes) {
+        wrongContainer.innerHTML = '<div class="empty-state">🎉 Amazing! You got everything right.<br>No mistakes to review.</div>';
+    }
+
+    // 4. 显示结果页 (ID page-7)
+    // 注意：这里不再调用 show(7)，因为 finishQuiz 可能会被 show() 调用，避免死循环
+    // 直接操作 DOM 显示
+    document.querySelectorAll('.quiz-page').forEach(e=>e.classList.remove('active'));
+    document.getElementById('page-7').classList.add('active');
+    document.getElementById('ind').innerText = 'Results';
+}
+
+// 注入 Finish 按钮到第 6 页
+setTimeout(() => {
+    let lastPageBar = document.querySelector('#page-6 .submit-bar');
+    if(lastPageBar) {
+        let btn = document.createElement('button');
+        btn.className = 'submit-btn';
+        btn.innerText = '📊 Finish & View Results';
+        btn.style.marginLeft = '10px';
+        btn.style.backgroundColor = '#2c3e50';
+        btn.onclick = () => { finishQuiz(); }; // 按钮直接触发
+        lastPageBar.appendChild(btn);
+    }
+}, 500);
+
+// 【重要】重写 show 函数，拦截翻到第 7 页的动作
+const originalShow = show; // 备份（如果需要）
+show = function(p) {
+    if(p === 7) {
+        finishQuiz(); // 如果导航到第 7 页，触发结算
+        // 不 return，让下面的逻辑继续处理 UI 切换 (ind, btn state)
+    }
+    
+    document.querySelectorAll('.quiz-page').forEach(e=>e.classList.remove('active'));
+    let pg = document.getElementById('page-'+p);
+    if(pg) pg.classList.add('active');
+    
+    // 更新顶部指示器
+    let indTxt = p === 7 ? 'Results' : `Page ${p}/${tp}`;
+    document.getElementById('ind').innerText = indTxt;
+    
+    cp = p;
+    // 更新按钮状态
+    let pb = document.getElementById('pb');
+    let nb = document.getElementById('nb');
+    if(pb) pb.disabled = (p === 1);
+    if(nb) nb.disabled = (p === tp); // 到了最后一页(结果页)禁用 Next
+};
+
+</script>
+</body></html>

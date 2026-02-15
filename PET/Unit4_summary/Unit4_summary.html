@@ -1,0 +1,1311 @@
+<!DOCTYPE html><html><head><meta charset='UTF-8'><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Final Quiz</title><style>
+:root{--p:#2c3e50;--a:#3498db;--bg:#f8f9fa;--w:#fff;--g:#27ae60;--r:#e74c3c}
+body{margin:0;font-family:'Segoe UI',sans-serif;background:var(--bg);color:var(--p);height:100vh;display:flex;flex-direction:column;overflow:hidden}
+.nav{padding:15px;background:var(--w);box-shadow:0 2px 5px rgba(0,0,0,0.05);display:flex;justify-content:space-between;z-index:10}
+.nav-btn{background:var(--a);color:#fff;border:none;padding:5px 15px;border-radius:15px;cursor:pointer}
+.nav-btn:disabled{background:#ccc}
+.quiz-page{display:none;height:100%;flex-direction:column}
+.quiz-page.active{display:flex}
+.page-title{padding:15px;font-size:1.2rem;font-weight:bold;background:var(--bg)}
+.scroll-area{flex:1;overflow-y:auto;}
+.q-card{background:var(--w);padding:15px;border-radius:10px;margin-bottom:15px;border:1px solid #eee;box-shadow:0 2px 5px rgba(0,0,0,0.02)}
+.q-card.correct{border-left:5px solid var(--g);background:#f0fdf4}
+.q-card.wrong{border-left:5px solid var(--r);background:#fff5f5}
+.line-txt{font-size:1.1rem;line-height:2.2}
+.inline-inp{border:none;border-bottom:2px solid var(--a);background:transparent;width:100px;text-align:center;font-weight:bold;font-size:1rem;color:var(--a);outline:none}
+.inline-inp.short{width:50px}
+.block-inp{width:100%;padding:10px;border:1px solid #ccc;border-radius:5px;margin-top:10px}
+.opt-grp{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+.opt-btn{padding:10px;border:1px solid #eee;border-radius:5px;cursor:pointer;background:#fff;transition:0.2s}
+.opt-btn:hover{background:#f0f8ff;border-color:var(--a)}
+.opt-btn.selected{background:var(--p);color:#fff;border-color:var(--p)}
+.bank-wrap{position:sticky;top:0;z-index:5;background:var(--bg);padding:0 20px 10px}
+.bank{background:#fff;padding:10px;border-radius:8px;border:1px solid #ddd;display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.bank span{background:#eef2f7;padding:3px 10px;border-radius:15px;font-weight:bold;color:var(--p)}
+.cloze-wrap{display:flex;gap:20px;flex:1;overflow:hidden;}
+.c-left{flex:1.2;overflow-y:auto;background:#fff;padding:20px;border-radius:10px;line-height:1.8;font-size:1.1rem}
+.c-right{flex:0.8;overflow-y:auto;padding-right:5px}
+.cloze-slot{border-bottom:2px solid #ccc;color:var(--a);font-weight:bold;padding:0 5px}
+.cloze-slot.filled{border-color:var(--a);background:#eaf2f8}
+.example-filled{color:#c0392b;text-decoration:line-through;margin:0 3px}
+.submit-bar{position:absolute;bottom:0;width:100%;background:rgba(255,255,255,0.9);padding:15px;text-align:center;border-top:1px solid #eee;backdrop-filter:blur(5px)}
+.submit-btn{background:var(--p);color:#fff;border:none;padding:10px 40px;border-radius:25px;font-size:1.1rem;cursor:pointer}
+.analysis-box.hidden{display:none}
+.analysis-box{margin-top:10px;padding-top:10px;border-top:1px dashed #ddd;font-size:0.9rem;color:#555}
+.ans-val{color:var(--g);font-weight:bold;margin-left:5px}
+.scram{font-size:1.2rem;letter-spacing:3px;font-weight:bold;color:#e67e22}
+.aud-btn{border:none;background:none;cursor:pointer;font-size:1.2rem;color:var(--a)}
+.aud-btn.small{font-size:1rem}
+
+/* Vocab Card Styles */
+.vocab-card{background:#fff;border:1px solid #eee;border-radius:10px;padding:20px;margin-bottom:20px;box-shadow:0 4px 6px rgba(0,0,0,0.05)}
+.v-top{display:flex;align-items:center;margin-bottom:15px;border-bottom:1px solid #f0f0f0;padding-bottom:10px}
+.v-word{font-size:1.8rem;font-weight:bold;color:var(--p);margin-right:10px}
+.v-def{margin-left:auto;text-align:right;font-size:0.9rem;color:#666}
+.v-ex-box{background:#f8f9fa;padding:10px;border-radius:8px;margin-top:10px;border-left:4px solid var(--a)}
+.v-badge{display:inline-block;padding:2px 8px;border-radius:4px;color:#fff;font-size:0.75rem;margin-bottom:5px}
+.v-badge.zk{background:#27ae60}
+.v-badge.g10{background:#e67e22}
+.v-sent{font-size:1.05rem;margin-bottom:4px;color:#333}
+.v-trans{font-size:0.9rem;color:#888}
+</style>
+<style>
+/* --- Mobile Fixes --- */
+body { 
+    height: 100dvh; /* 适配移动端动态地址栏 */
+    padding-bottom: env(safe-area-inset-bottom); /* 适配 iPhone 底部黑条 */
+}
+.nav {
+    padding-top: max(15px, env(safe-area-inset-top));
+    position: sticky; top: 0; width: 100%; box-sizing: border-box;
+}
+.quiz-page {
+    height: 100%;
+    overflow: hidden; /* 防止双重滚动 */
+}
+.scroll-area {
+    -webkit-overflow-scrolling: touch; /* iOS 平滑滚动 */
+    padding-bottom: 120px; /* 给底部按钮留出足够空间 */
+}
+.submit-bar {
+    position: absolute; 
+    bottom: 0; 
+    left: 0; 
+    width: 100%; 
+    box-sizing: border-box;
+    padding-bottom: max(15px, env(safe-area-inset-bottom));
+    background: rgba(255,255,255,0.95);
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+    display: flex; justify-content: center; gap: 10px;
+}
+.submit-btn, .nav-btn {
+    min-height: 44px; /* 移动端最小点击高度 */
+    touch-action: manipulation; /* 防止双击缩放 */
+}
+.opt-btn {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+}
+
+/* --- Result Page Styles --- */
+.result-header {
+    text-align: center;
+    padding: 30px 20px;
+    background: linear-gradient(135deg, #3498db, #2c3e50);
+    color: white;
+    border-radius: 0 0 20px 20px;
+    margin-bottom: 20px;
+}
+.score-circle {
+    width: 120px; height: 120px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    margin: 0 auto 15px;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    border: 4px solid #fff;
+}
+.score-val { font-size: 2.5rem; font-weight: bold; }
+.score-label { font-size: 0.9rem; opacity: 0.9; }
+.stat-row { display: flex; justify-content: space-around; margin-top: 15px; }
+.stat-item { text-align: center; }
+.stat-num { font-size: 1.2rem; font-weight: bold; }
+.stat-desc { font-size: 0.8rem; opacity: 0.8; }
+.wrong-list { padding: 0 20px 80px; }
+.wrong-title { 
+    font-weight: bold; font-size: 1.2rem; 
+    margin-bottom: 15px; border-left: 5px solid #e74c3c; 
+    padding-left: 10px; color: #2c3e50;
+}
+.restart-btn {
+    background: #27ae60; color: white; border: none;
+    padding: 12px 30px; border-radius: 25px;
+    font-size: 1.1rem; cursor: pointer;
+    box-shadow: 0 4px 10px rgba(39, 174, 96, 0.3);
+}
+.empty-state { text-align: center; color: #7f8c8d; padding: 40px; }
+
+/* 错题回顾模式下禁止交互 */
+.wrong-list .opt-btn { pointer-events: none; }
+.wrong-list input { pointer-events: none; background: #f9f9f9; }
+</style>
+</head><body><div class='nav'><b>Unit Quiz</b><div><span id='ind' style='margin-right:10px'></span><button id='pb' class='nav-btn' onclick='nav(-1)'>Prev</button> <button id='nb' class='nav-btn' onclick='nav(1)'>Next</button></div></div><div style='flex:1;position:relative;overflow:hidden'><div class="quiz-page active" id="page-1"><div class="page-title">Page 1: Vocabulary Study</div><div class="scroll-area">
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">drink</span>
+                <button class="aud-btn" onclick="play('w_0_0b18a3d7.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 To take liquid into your mouth and swallow it.</div>
+                    <div>🇨🇳 喝，饮</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">You should drink plenty of water after exercising. <button class="aud-btn small" onclick="play('zk_0_f541471f.mp3')">🔊</button></div>
+                <div class="v-trans">运动后你应该喝大量的水。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">It is socially unacceptable to drink and drive because it endangers lives. <button class="aud-btn small" onclick="play('g10_0_37351b02.mp3')">🔊</button></div>
+                <div class="v-trans">酒后驾车在社会上是不可接受的，因为它危及生命。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">diet</span>
+                <button class="aud-btn" onclick="play('w_1_8cc164d4.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 The kind of food that a person, animal, or community habitually eats.</div>
+                    <div>🇨🇳 日常饮食；节食</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">A healthy diet includes lots of fruit and vegetables. <button class="aud-btn small" onclick="play('zk_1_610a2a61.mp3')">🔊</button></div>
+                <div class="v-trans">健康的饮食包括大量的水果和蔬菜。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">Doctors suggest that a balanced diet combined with regular physical activity is the key to longevity. <button class="aud-btn small" onclick="play('g10_1_a554e7f1.mp3')">🔊</button></div>
+                <div class="v-trans">医生建议，均衡的饮食结合规律的体育活动是长寿的关键。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">eat</span>
+                <button class="aud-btn" onclick="play('w_2_9a97eda6.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 To put food into your mouth and chew and swallow it.</div>
+                    <div>🇨🇳 吃</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">We usually eat lunch at school at 12 o'clock. <button class="aud-btn small" onclick="play('zk_2_08cc5564.mp3')">🔊</button></div>
+                <div class="v-trans">我们要通常在12点在学校吃午饭。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">It is important not to eat in a rush, as digestion begins in the mouth. <button class="aud-btn small" onclick="play('g10_2_0b69b422.mp3')">🔊</button></div>
+                <div class="v-trans">不要匆忙进食很重要，因为消化是从口腔开始的。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">chew</span>
+                <button class="aud-btn" onclick="play('w_3_3059a8a0.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 To bite and grind food in your mouth so it becomes soft enough to swallow.</div>
+                    <div>🇨🇳 咀嚼</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">The old man can't chew hard food because of his teeth. <button class="aud-btn small" onclick="play('zk_3_704e8880.mp3')">🔊</button></div>
+                <div class="v-trans">因为牙齿的原因，这位老人不能咀嚼硬的食物。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">You should chew your food slowly to aid digestion and prevent stomach problems. <button class="aud-btn small" onclick="play('g10_3_4d211146.mp3')">🔊</button></div>
+                <div class="v-trans">你应该细嚼慢咽以帮助消化并预防胃病。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">lost</span>
+                <button class="aud-btn" onclick="play('w_4_1c9a44eb.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 Unable to find one's way; not known where something is.</div>
+                    <div>🇨🇳 迷路的；丢失的；失去的</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">I lost my keys yesterday and couldn't open the door. <button class="aud-btn small" onclick="play('zk_4_d899433a.mp3')">🔊</button></div>
+                <div class="v-trans">我昨天丢了钥匙，打不开门。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">Feeling completely lost in the complex lecture, the student decided to ask the professor for help afterwards. <button class="aud-btn small" onclick="play('g10_4_d06e684a.mp3')">🔊</button></div>
+                <div class="v-trans">在那堂复杂的讲座中感到完全迷失了方向，这就学生决定课后向教授寻求帮助。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">weight</span>
+                <button class="aud-btn" onclick="play('w_5_7edabf99.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 A measure of how heavy a person or object is.</div>
+                    <div>🇨🇳 重量；体重</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">He wants to lose weight, so he runs every morning. <button class="aud-btn small" onclick="play('zk_5_2757366c.mp3')">🔊</button></div>
+                <div class="v-trans">他想减肥，所以他每天早上跑步。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">The sheer weight of the responsibility made him feel anxious about the project. <button class="aud-btn small" onclick="play('g10_5_abedddc1.mp3')">🔊</button></div>
+                <div class="v-trans">沉重的责任感让他对这个项目感到焦虑。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">exercise</span>
+                <button class="aud-btn" onclick="play('w_6_97e96b9b.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 Physical activity done to keep your body healthy and strong.</div>
+                    <div>🇨🇳 锻炼；运动；练习</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">Doing morning exercises is good for your health. <button class="aud-btn small" onclick="play('zk_6_8ccae59a.mp3')">🔊</button></div>
+                <div class="v-trans">做早操对你的健康有好处。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">Regular exercise not only improves physical fitness but also boosts mental well-being. <button class="aud-btn small" onclick="play('g10_6_49a553d7.mp3')">🔊</button></div>
+                <div class="v-trans">规律的锻炼不仅能改善身体素质，还能提升心理健康。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">visit</span>
+                <button class="aud-btn" onclick="play('w_7_9de70f65.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 To go to see a person or a place for a period of time.</div>
+                    <div>🇨🇳 参观；拜访；访问</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">We are planning to visit the Great Wall next summer vacation. <button class="aud-btn small" onclick="play('zk_7_b2e8f801.mp3')">🔊</button></div>
+                <div class="v-trans">我们计划明年暑假去参观长城。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">The President is scheduled to visit several European countries to strengthen diplomatic ties. <button class="aud-btn small" onclick="play('g10_7_da7f1d28.mp3')">🔊</button></div>
+                <div class="v-trans">总统计划访问几个欧洲国家以加强外交关系。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">supermarket</span>
+                <button class="aud-btn" onclick="play('w_8_46d7115f.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 A large shop that sells food, drinks, and goods for the home.</div>
+                    <div>🇨🇳 超市</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">My mother is buying some fruit and vegetables at the supermarket. <button class="aud-btn small" onclick="play('zk_8_dfc81f63.mp3')">🔊</button></div>
+                <div class="v-trans">我妈妈正在超市买一些水果和蔬菜。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">The dominance of large chain supermarkets has made it difficult for small local grocers to survive. <button class="aud-btn small" onclick="play('g10_8_cefefedf.mp3')">🔊</button></div>
+                <div class="v-trans">大型连锁超市的主导地位使得当地的小杂货店难以生存。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">gym</span>
+                <button class="aud-btn" onclick="play('w_9_e4d81f13.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 A room or building equipped for physical exercise.</div>
+                    <div>🇨🇳 健身房；体育馆</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">We usually have PE classes in the school gym when it rains. <button class="aud-btn small" onclick="play('zk_9_0c794748.mp3')">🔊</button></div>
+                <div class="v-trans">下雨的时候我们通常在学校体育馆上体育课。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">She signed up for a membership at the local gym to access the advanced weightlifting equipment. <button class="aud-btn small" onclick="play('g10_9_7cc1eb8e.mp3')">🔊</button></div>
+                <div class="v-trans">她在当地健身房注册了会员，以便使用先进的举重设备。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">shop</span>
+                <button class="aud-btn" onclick="play('w_10_fb54f3c5.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 A place where you can buy things; to visit places to buy goods.</div>
+                    <div>🇨🇳 商店；购物</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">I need to go to the shop to buy some milk and bread. <button class="aud-btn small" onclick="play('zk_10_498cd139.mp3')">🔊</button></div>
+                <div class="v-trans">我需要去商店买些牛奶和面包。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">Many people prefer to shop online during the holidays to avoid the crowded malls. <button class="aud-btn small" onclick="play('g10_10_23c7ec1d.mp3')">🔊</button></div>
+                <div class="v-trans">许多人喜欢在假期网购，以避开拥挤的商场。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">store</span>
+                <button class="aud-btn" onclick="play('w_11_8cd892b7.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 To keep something for future use; a large shop selling various goods.</div>
+                    <div>🇨🇳 储存；商店</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">My mother works at a department store in the city center. <button class="aud-btn small" onclick="play('zk_11_068e3dbf.mp3')">🔊</button></div>
+                <div class="v-trans">我妈妈在市中心的百货商店工作。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">Camels store fat in their humps, which allows them to survive for long periods without food. <button class="aud-btn small" onclick="play('g10_11_1ddf6a04.mp3')">🔊</button></div>
+                <div class="v-trans">骆驼在驼峰里储存脂肪，这使它们能够在没有食物的情况下生存很长时间。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">lean</span>
+                <button class="aud-btn" onclick="play('w_12_81b53456.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 To move the top part of the body in a particular direction; thin and healthy.</div>
+                    <div>🇨🇳 倾斜，倚靠；瘦的</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">Please do not lean against the door while the bus is moving. <button class="aud-btn small" onclick="play('zk_12_5cf4cc8d.mp3')">🔊</button></div>
+                <div class="v-trans">公共汽车行驶时请不要倚靠车门。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">The runner had a lean and muscular build from years of intense training. <button class="aud-btn small" onclick="play('g10_12_0da0c23d.mp3')">🔊</button></div>
+                <div class="v-trans">经过多年的高强度训练，这位赛跑运动员拥有精瘦且肌肉发达的体格。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">benefit</span>
+                <button class="aud-btn" onclick="play('w_13_b4aea98a.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 An advantage or profit gained from something; to be useful or helpful.</div>
+                    <div>🇨🇳 利益，好处；有益于</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">Doing morning exercises is of great benefit to our health. <button class="aud-btn small" onclick="play('zk_13_130f0e82.mp3')">🔊</button></div>
+                <div class="v-trans">做早操对我们的健康大有裨益。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">Students will benefit from the new library facilities, which provide a quiet environment for study. <button class="aud-btn small" onclick="play('g10_13_bf808d99.mp3')">🔊</button></div>
+                <div class="v-trans">学生们将受益于新的图书馆设施，那里提供了安静的学习环境。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">fit</span>
+                <button class="aud-btn" onclick="play('w_14_1977c9da.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 To be of the right size or shape; healthy and strong.</div>
+                    <div>🇨🇳 合适，合身；健康的</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">This coat fits you perfectly; you look great in it. <button class="aud-btn small" onclick="play('zk_14_e37bddf9.mp3')">🔊</button></div>
+                <div class="v-trans">这件外套非常合身，你穿上它看起来很棒。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">He maintains a strict diet and workout routine to keep fit for the upcoming basketball season. <button class="aud-btn small" onclick="play('g10_14_64905440.mp3')">🔊</button></div>
+                <div class="v-trans">他保持严格的饮食和锻炼习惯，以便为即将到来的篮球赛季保持健康体魄。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">healthy</span>
+                <button class="aud-btn" onclick="play('w_15_741839f3.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 In good physical or mental condition; beneficial to one's health.</div>
+                    <div>🇨🇳 健康的；有益健康的</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">Eating vegetables and fruit every day helps keep us healthy. <button class="aud-btn small" onclick="play('zk_15_01adc19e.mp3')">🔊</button></div>
+                <div class="v-trans">每天吃蔬菜和水果有助于我们保持健康。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">Maintaining a healthy lifestyle requires a balance between study, exercise, and rest. <button class="aud-btn small" onclick="play('g10_15_458133d7.mp3')">🔊</button></div>
+                <div class="v-trans">保持健康的生活方式需要在学习、运动和休息之间取得平衡。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">daily</span>
+                <button class="aud-btn" onclick="play('w_16_bea79186.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 Happening, done, or produced every day.</div>
+                    <div>🇨🇳 每日的；日常的</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">Reading books is an important part of my daily life. <button class="aud-btn small" onclick="play('zk_16_350fb794.mp3')">🔊</button></div>
+                <div class="v-trans">读书是我日常生活的重要组成部分。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">The daily routine of a high school student can be quite stressful during exam periods. <button class="aud-btn small" onclick="play('g10_16_39eedc8c.mp3')">🔊</button></div>
+                <div class="v-trans">在考试期间，高中生的日常生活可能会非常有压力。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">weekly</span>
+                <button class="aud-btn" onclick="play('w_17_4a11fc05.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 Happening or done once a week or every week.</div>
+                    <div>🇨🇳 每周的；一周一次的</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">We usually have a weekly class meeting on Friday afternoon. <button class="aud-btn small" onclick="play('zk_17_2f25802c.mp3')">🔊</button></div>
+                <div class="v-trans">我们通常在周五下午开每周班会。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">The scientist writes a weekly column for the magazine about environmental protection. <button class="aud-btn small" onclick="play('g10_17_617aaf42.mp3')">🔊</button></div>
+                <div class="v-trans">这位科学家每周为杂志写一篇关于环境保护的专栏文章。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">practical</span>
+                <button class="aud-btn" onclick="play('w_18_88645dd7.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 Relating to real situations and actions rather than ideas; useful and effective.</div>
+                    <div>🇨🇳 实际的；实用的；应用性的</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">The teacher gave us some practical advice on how to learn English well. <button class="aud-btn small" onclick="play('zk_18_894a0999.mp3')">🔊</button></div>
+                <div class="v-trans">老师给了我们一些关于如何学好英语的实用建议。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">Ideally, students should combine theoretical knowledge with practical experience to solve real-world problems. <button class="aud-btn small" onclick="play('g10_18_09c28e99.mp3')">🔊</button></div>
+                <div class="v-trans">理想情况下，学生应将理论知识与实践经验相结合来解决现实世界的问题。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">stick</span>
+                <button class="aud-btn" onclick="play('w_19_37f8bf33.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 To attach something to a surface; to persist or continue with a task (stick to).</div>
+                    <div>🇨🇳 粘贴；坚持；刺；(n.) 棍棒</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">Please stick a stamp on the envelope before you mail the letter. <button class="aud-btn small" onclick="play('zk_19_2a8711ea.mp3')">🔊</button></div>
+                <div class="v-trans">寄信前请在信封上贴一张邮票。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">Even though the project was difficult, they decided to stick to the original plan until it was finished. <button class="aud-btn small" onclick="play('g10_19_917f9480.mp3')">🔊</button></div>
+                <div class="v-trans">尽管项目很困难，但他们决定坚持原计划直到完成。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">burn</span>
+                <button class="aud-btn" onclick="play('w_20_a985c976.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 To be on fire or to produce flames; to damage or hurt something with heat.</div>
+                    <div>🇨🇳 燃烧；烧伤；烧焦</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">Be careful when you cook, or you might burn your fingers. <button class="aud-btn small" onclick="play('zk_20_dcb271d1.mp3')">🔊</button></div>
+                <div class="v-trans">做饭时要小心，否则你可能会烫伤手指。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">Calories are units of energy that you burn when you exercise. <button class="aud-btn small" onclick="play('g10_20_4fc3e53b.mp3')">🔊</button></div>
+                <div class="v-trans">卡路里是你运动时消耗（燃烧）的能量单位。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">order</span>
+                <button class="aud-btn" onclick="play('w_21_70a17ffa.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 The way in which people or things are arranged; a request for food or goods.</div>
+                    <div>🇨🇳 顺序；命令；点餐；订购</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">Please put these books in the correct order on the shelf. <button class="aud-btn small" onclick="play('zk_21_b9970836.mp3')">🔊</button></div>
+                <div class="v-trans">请把这些书按正确的顺序放在书架上。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">In order to complete the project on time, the team worked through the night. <button class="aud-btn small" onclick="play('g10_21_2e7d54ec.mp3')">🔊</button></div>
+                <div class="v-trans">为了按时完成项目，团队通宵工作。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">fibre</span>
+                <button class="aud-btn" onclick="play('w_22_35d09848.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 A substance in certain foods, such as fruit, vegetables, and brown bread, that travels through the body as waste and helps digestion.</div>
+                    <div>🇨🇳 纤维；纤维素</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">Eating vegetables gives you enough fibre to stay healthy. <button class="aud-btn small" onclick="play('zk_22_c578ed09.mp3')">🔊</button></div>
+                <div class="v-trans">吃蔬菜能给你提供足够的纤维素以保持健康。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">Synthetic fibre is often used in modern clothing because it is durable and cheap. <button class="aud-btn small" onclick="play('g10_22_4159d571.mp3')">🔊</button></div>
+                <div class="v-trans">合成纤维因其耐用且便宜，常被用于现代服装中。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">crave</span>
+                <button class="aud-btn" onclick="play('w_23_9acdf483.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 To have a very strong feeling of wanting something.</div>
+                    <div>🇨🇳 渴望；热望</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">On a hot summer day, I always crave a cold ice cream. <button class="aud-btn small" onclick="play('zk_23_3ad5c5db.mp3')">🔊</button></div>
+                <div class="v-trans">在炎热的夏日，我总是渴望吃一个凉爽的冰淇淋。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">Many young people leave their hometowns because they crave the excitement of big city life. <button class="aud-btn small" onclick="play('g10_23_2408a091.mp3')">🔊</button></div>
+                <div class="v-trans">许多年轻人离开家乡，因为他们渴望大城市生活的刺激。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">average</span>
+                <button class="aud-btn" onclick="play('w_24_6927a3a7.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 A standard or level that is considered to be typical or usual.</div>
+                    <div>🇨🇳 平均的；普通的；平均数</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">The average age of the students in my class is fifteen. <button class="aud-btn small" onclick="play('zk_24_1b81ab47.mp3')">🔊</button></div>
+                <div class="v-trans">我们班学生的平均年龄是十五岁。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">On average, women live longer than men in most countries around the world. <button class="aud-btn small" onclick="play('g10_24_c72a722d.mp3')">🔊</button></div>
+                <div class="v-trans">平均而言，在世界上大多数国家，女性比男性长寿。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">loss</span>
+                <button class="aud-btn" onclick="play('w_25_81513eff.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 The fact that you no longer have something or have less of something.</div>
+                    <div>🇨🇳 丧失；损失；亏损</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">He felt very sad about the loss of his favorite watch. <button class="aud-btn small" onclick="play('zk_25_f5765e0d.mp3')">🔊</button></div>
+                <div class="v-trans">他对丢失了他最喜欢的手表感到非常难过。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">The company suffered a significant financial loss due to the bad weather. <button class="aud-btn small" onclick="play('g10_25_008e7dac.mp3')">🔊</button></div>
+                <div class="v-trans">由于恶劣的天气，这家公司遭受了重大的经济损失。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">staple</span>
+                <button class="aud-btn" onclick="play('w_26_d28fb2e4.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 A basic food that is used and needed all the time; a main product or part of something.</div>
+                    <div>🇨🇳 主食；主要产品；订书钉</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">Rice is a staple food for people in southern China. <button class="aud-btn small" onclick="play('zk_26_bcac7f9c.mp3')">🔊</button></div>
+                <div class="v-trans">米饭是中国南方人的主食。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">Reading has become a staple part of his daily routine since he started high school. <button class="aud-btn small" onclick="play('g10_26_db33a613.mp3')">🔊</button></div>
+                <div class="v-trans">自从上了高中，阅读已成为他日常生活中主要的一部分。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">vital</span>
+                <button class="aud-btn" onclick="play('w_27_c32add6b.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 Necessary for the success or continued existence of something; extremely important.</div>
+                    <div>🇨🇳 至关重要的；必不可少的；充满活力的</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">Water is vital to life, so we must save every drop. <button class="aud-btn small" onclick="play('zk_27_5bc4dcbe.mp3')">🔊</button></div>
+                <div class="v-trans">水对生命至关重要，所以我们必须节约每一滴水。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">Teamwork plays a vital role in completing this complex project on time. <button class="aud-btn small" onclick="play('g10_27_f4130a6f.mp3')">🔊</button></div>
+                <div class="v-trans">团队合作对于按时完成这个复杂的项目起着至关重要的作用。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">nutrients</span>
+                <button class="aud-btn" onclick="play('w_28_6a1e1ed2.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 Substances that plants or animals need in order to live and grow.</div>
+                    <div>🇨🇳 营养物质；养分</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">Vegetables provide many nutrients that are good for your health. <button class="aud-btn small" onclick="play('zk_28_8ae63484.mp3')">🔊</button></div>
+                <div class="v-trans">蔬菜提供许多对你健康有益的营养物质。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">The roots absorb essential nutrients from the soil to help the tree grow strong. <button class="aud-btn small" onclick="play('g10_28_beef8e9a.mp3')">🔊</button></div>
+                <div class="v-trans">树根从土壤中吸收必要的养分以帮助树木长得强壮。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">essential</span>
+                <button class="aud-btn" onclick="play('w_29_47027e27.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 Completely necessary; extremely important in a particular situation.</div>
+                    <div>🇨🇳 必不可少的；本质的；基本的</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">It is essential to brush your teeth twice a day. <button class="aud-btn small" onclick="play('zk_29_5baab804.mp3')">🔊</button></div>
+                <div class="v-trans">每天刷两次牙是必不可少的。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">Effective communication is essential for maintaining a healthy relationship with your classmates. <button class="aud-btn small" onclick="play('g10_29_afe3d193.mp3')">🔊</button></div>
+                <div class="v-trans">有效的沟通对于维持与同学们的良好关系是必不可少的。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">contain</span>
+                <button class="aud-btn" onclick="play('w_30_c58ff5e3.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 To hold something inside or have something as a part.</div>
+                    <div>🇨🇳 包含；容纳</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">This bottle contains milk, so please put it in the fridge. <button class="aud-btn small" onclick="play('zk_30_7575e935.mp3')">🔊</button></div>
+                <div class="v-trans">这个瓶子里装有牛奶，所以请把它放进冰箱。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">The document contained confidential information that could not be shared with the public. <button class="aud-btn small" onclick="play('g10_30_5ef64a48.mp3')">🔊</button></div>
+                <div class="v-trans">该文件包含不能向公众分享的机密信息。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">consumption</span>
+                <button class="aud-btn" onclick="play('w_31_e2d58d16.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 The amount of something that is used or the act of using it.</div>
+                    <div>🇨🇳 消耗；消费；食用</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">These apples are for local consumption only. <button class="aud-btn small" onclick="play('zk_31_1ced565c.mp3')">🔊</button></div>
+                <div class="v-trans">这些苹果仅供当地食用。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">The rapid increase in energy consumption has become a major concern for environmentalists. <button class="aud-btn small" onclick="play('g10_31_374be56f.mp3')">🔊</button></div>
+                <div class="v-trans">能源消耗的快速增长已成为环保主义者关注的主要问题。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">option</span>
+                <button class="aud-btn" onclick="play('w_32_ef3e30e0.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 Something that allows you to choose; a choice.</div>
+                    <div>🇨🇳 选择；选项</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">You have two options: walk to school or take the bus. <button class="aud-btn small" onclick="play('zk_32_1567b247.mp3')">🔊</button></div>
+                <div class="v-trans">你有两个选择：步行去学校或者坐公交车。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">Taking a gap year is a popular option for students before they start university. <button class="aud-btn small" onclick="play('g10_32_9f72dab2.mp3')">🔊</button></div>
+                <div class="v-trans">在开始上大学之前，休学一年（间隔年）对学生来说是一个受欢迎的选择。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">protein</span>
+                <button class="aud-btn" onclick="play('w_33_6e6941c1.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 A substance found in foods like meat, eggs, and beans that helps your body grow.</div>
+                    <div>🇨🇳 蛋白质</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">Eggs are a good source of protein for your breakfast. <button class="aud-btn small" onclick="play('zk_33_51878da8.mp3')">🔊</button></div>
+                <div class="v-trans">鸡蛋是你早餐摄取蛋白质的良好来源。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">A balanced diet should include adequate protein to support muscle repair and immune function. <button class="aud-btn small" onclick="play('g10_33_e19e107f.mp3')">🔊</button></div>
+                <div class="v-trans">均衡的饮食应包含足够的蛋白质，以支持肌肉修复和免疫功能。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">chemical</span>
+                <button class="aud-btn" onclick="play('w_34_56d1917e.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 A substance produced by or used in chemistry.</div>
+                    <div>🇨🇳 化学物质；化学的</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">The teacher showed us a chemical change in the science lab. <button class="aud-btn small" onclick="play('zk_34_51eba232.mp3')">🔊</button></div>
+                <div class="v-trans">老师在科学实验室给我们展示了一个化学变化。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">Farmers are trying to reduce the use of harsh chemicals on their crops. <button class="aud-btn small" onclick="play('g10_34_88436c8a.mp3')">🔊</button></div>
+                <div class="v-trans">农民们正试图减少在农作物上使用强效化学物质。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">digest</span>
+                <button class="aud-btn" onclick="play('w_35_c10f7796.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 To break down food in the stomach so the body can use it; also to understand information.</div>
+                    <div>🇨🇳 消化；领会，理解</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">Vegetables are usually easier to digest than meat. <button class="aud-btn small" onclick="play('zk_35_267a2ca6.mp3')">🔊</button></div>
+                <div class="v-trans">蔬菜通常比肉类更容易消化。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">She needed some quiet time to digest the surprising news she had just heard. <button class="aud-btn small" onclick="play('g10_35_cf3365d7.mp3')">🔊</button></div>
+                <div class="v-trans">她需要一些安静的时间来消化她刚刚听到的惊人消息。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">reservoir</span>
+                <button class="aud-btn" onclick="play('w_36_26967d78.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 A large natural or artificial lake used as a source of water supply.</div>
+                    <div>🇨🇳 水库；蓄水池</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">The city gets its drinking water from a nearby reservoir. <button class="aud-btn small" onclick="play('zk_36_a1e49038.mp3')">🔊</button></div>
+                <div class="v-trans">这座城市的饮用水来自附近的一个水库。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">During the dry season, the water level in the reservoir dropped significantly. <button class="aud-btn small" onclick="play('g10_36_3ab9183f.mp3')">🔊</button></div>
+                <div class="v-trans">在旱季，水库的水位显著下降。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">abundantly</span>
+                <button class="aud-btn" onclick="play('w_37_ff334c14.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 In large quantities; very clearly or plentifully.</div>
+                    <div>🇨🇳 丰富地；大量地；十分清楚</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">Wild flowers grow abundantly in this field during spring. <button class="aud-btn small" onclick="play('zk_37_a0683cd5.mp3')">🔊</button></div>
+                <div class="v-trans">春天里，这片田野上野花盛开。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">The teacher made it abundantly clear that cheating would not be tolerated. <button class="aud-btn small" onclick="play('g10_37_757b7bb4.mp3')">🔊</button></div>
+                <div class="v-trans">老师十分清楚地表明，绝不容忍作弊行为。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">phosphorus</span>
+                <button class="aud-btn" onclick="play('w_38_4fecdcc3.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 A chemical element found in bones and teeth, essential for life.</div>
+                    <div>🇨🇳 磷</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">Milk contains calcium and phosphorus which help make bones strong. <button class="aud-btn small" onclick="play('zk_38_ac06bdd6.mp3')">🔊</button></div>
+                <div class="v-trans">牛奶含有钙和磷，有助于骨骼强壮。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">Phosphorus is a vital mineral that plays a major role in the development of healthy body cells. <button class="aud-btn small" onclick="play('g10_38_65338fac.mp3')">🔊</button></div>
+                <div class="v-trans">磷是一种至关重要的矿物质，在健康体细胞的发育中起着主要作用。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">vitamin</span>
+                <button class="aud-btn" onclick="play('w_39_b34c0185.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 A natural substance found in food that is necessary to keep your body healthy.</div>
+                    <div>🇨🇳 维生素</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">Oranges are famous for containing a lot of Vitamin C. <button class="aud-btn small" onclick="play('zk_39_b5311c02.mp3')">🔊</button></div>
+                <div class="v-trans">橙子以含有大量的维生素C而闻名。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">A balanced diet usually provides all the essential vitamins required for the body to function properly. <button class="aud-btn small" onclick="play('g10_39_7ded8f88.mp3')">🔊</button></div>
+                <div class="v-trans">均衡的饮食通常能提供身体正常运作所需的所有必需维生素。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">involved</span>
+                <button class="aud-btn" onclick="play('w_40_860d7a99.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 Connected with something or taking part in an activity.</div>
+                    <div>🇨🇳 参与的；涉及的；复杂的</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">He was involved in the school play and practiced every day. <button class="aud-btn small" onclick="play('zk_40_4ea1dbff.mp3')">🔊</button></div>
+                <div class="v-trans">他参与了学校的戏剧表演，并且每天都在练习。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">The police are investigating the people involved in the car accident. <button class="aud-btn small" onclick="play('g10_40_376fe2d5.mp3')">🔊</button></div>
+                <div class="v-trans">警方正在调查卷入这起车祸的人员。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">process</span>
+                <button class="aud-btn" onclick="play('w_41_50751408.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 A series of actions that you take in order to achieve a result.</div>
+                    <div>🇨🇳 过程；步骤；工序</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">Learning a new language is a slow process. <button class="aud-btn small" onclick="play('zk_41_51c1bafb.mp3')">🔊</button></div>
+                <div class="v-trans">学习一门新语言是一个缓慢的过程。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">The manufacturing process has been automated to increase efficiency. <button class="aud-btn small" onclick="play('g10_41_4325f70f.mp3')">🔊</button></div>
+                <div class="v-trans">制造流程已经自动化以提高效率。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">cell</span>
+                <button class="aud-btn" onclick="play('w_42_8d27600b.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 The smallest unit of living matter that can exist on its own.</div>
+                    <div>🇨🇳 细胞；（监狱的）单人牢房；电池</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">Our teacher showed us a plant cell under the microscope. <button class="aud-btn small" onclick="play('zk_42_89a7b800.mp3')">🔊</button></div>
+                <div class="v-trans">老师在显微镜下给我们展示了一个植物细胞。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">Scientists are studying how cancer cells grow and spread. <button class="aud-btn small" onclick="play('g10_42_bd5a00b0.mp3')">🔊</button></div>
+                <div class="v-trans">科学家们正在研究癌细胞是如何生长和扩散的。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">energy</span>
+                <button class="aud-btn" onclick="play('w_43_05e7d19a.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 The power and ability to be physically and mentally active.</div>
+                    <div>🇨🇳 能量；精力；能源</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">You should sleep early to save energy for tomorrow's hike. <button class="aud-btn small" onclick="play('zk_43_ccd995b3.mp3')">🔊</button></div>
+                <div class="v-trans">你应该早点睡，为明天的徒步旅行积蓄精力。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">The world is facing a crisis due to the shortage of traditional energy sources. <button class="aud-btn small" onclick="play('g10_43_f4106de5.mp3')">🔊</button></div>
+                <div class="v-trans">由于传统能源的短缺，世界正面临危机。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">production</span>
+                <button class="aud-btn" onclick="play('w_44_fd89784e.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 The process of making or growing goods to be sold.</div>
+                    <div>🇨🇳 生产；产量；制作</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">This factory is famous for the production of glass. <button class="aud-btn small" onclick="play('zk_44_ac43390e.mp3')">🔊</button></div>
+                <div class="v-trans">这家工厂以生产玻璃而闻名。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">Mass production lowered the cost of cars significantly in the 20th century. <button class="aud-btn small" onclick="play('g10_44_b118173e.mp3')">🔊</button></div>
+                <div class="v-trans">大规模生产在20世纪显著降低了汽车的成本。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">consumed</span>
+                <button class="aud-btn" onclick="play('w_45_48fe8558.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 To use something up (like fuel, energy, or time) or to eat/drink something.</div>
+                    <div>🇨🇳 消耗；消费；吃喝</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">The heavy truck consumed a lot of oil on the long journey. <button class="aud-btn small" onclick="play('zk_45_bdaaf8ae.mp3')">🔊</button></div>
+                <div class="v-trans">那辆重型卡车在长途旅行中消耗了大量的油。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">Creating this artwork consumed all of his spare time for three months. <button class="aud-btn small" onclick="play('g10_45_e1ad4bb1.mp3')">🔊</button></div>
+                <div class="v-trans">创作这件艺术品耗费了他三个月来所有的业余时间。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">digested</span>
+                <button class="aud-btn" onclick="play('w_46_e44ac848.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 Past tense of digest: to break down food in the stomach, or to understand and think about new information.</div>
+                    <div>🇨🇳 消化（食物）；领会，理解（信息）</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">He waited until he had digested his food before going for a swim. <button class="aud-btn small" onclick="play('zk_46_e22a55c3.mp3')">🔊</button></div>
+                <div class="v-trans">他等到食物消化后才去游泳。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">She sat quietly as she digested the complex information from the lecture. <button class="aud-btn small" onclick="play('g10_46_281c0ee7.mp3')">🔊</button></div>
+                <div class="v-trans">她静静地坐着，消化着讲座中复杂的那些信息。</div>
+            </div>
+        </div>
+        
+        <div class="vocab-card">
+            <div class="v-top">
+                <span class="v-word">absorb</span>
+                <button class="aud-btn" onclick="play('w_47_5185afb6.mp3')">🔊</button>
+                <div class="v-def">
+                    <div>🇺🇸 To take in or soak up (energy, liquid, or other substances); to take in information.</div>
+                    <div>🇨🇳 吸收；吸纳；理解；吸引</div>
+                </div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge zk">中考</div>
+                <div class="v-sent">Plants absorb water and sunlight to grow well. <button class="aud-btn small" onclick="play('zk_47_7a1a1fc2.mp3')">🔊</button></div>
+                <div class="v-trans">植物通过吸收水分和阳光来茁壮成长。</div>
+            </div>
+            <div class="v-ex-box">
+                <div class="v-badge g10">高一</div>
+                <div class="v-sent">It is important for students to learn how to absorb knowledge effectively in class. <button class="aud-btn small" onclick="play('g10_47_f94b29e8.mp3')">🔊</button></div>
+                <div class="v-trans">对于学生来说，学会如何在课堂上有效地吸收知识是很重要的。</div>
+            </div>
+        </div>
+        </div><div class="submit-bar" style="background:#f0f4f8;color:#555">Study Mode - No Submission Needed</div></div><div class="quiz-page" id="page-2"><div class="page-title">Part 1: Odd One Out</div><div class="scroll-area"><div class="q-card" data-ans="B"><div class="q-txt">Q</div><div class="opt-grp"><div class="opt-btn" onclick="sel(this)">A. drink</div><div class="opt-btn" onclick="sel(this)">B. diet</div><div class="opt-btn" onclick="sel(this)">C. eat</div><div class="opt-btn" onclick="sel(this)">D. chew</div></div><div class="analysis-box hidden" id="ana-49"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">B</span></div><div class="ana-text">A、C、D项均为表示具体动作（喝、吃、咀嚼）的动词，B项diet通常指“日常饮食”或“节食”，侧重于名词概念，故选B。</div></div></div><div class="q-card" data-ans="A"><div class="q-txt">Q</div><div class="opt-grp"><div class="opt-btn" onclick="sel(this)">A. lost</div><div class="opt-btn" onclick="sel(this)">B. weight</div><div class="opt-btn" onclick="sel(this)">C. exercise</div><div class="opt-btn" onclick="sel(this)">D. visit</div></div><div class="analysis-box hidden" id="ana-50"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">A</span></div><div class="ana-text">B、C、D项均可作为名词或动词的原形，而A项lost是动词lose的过去式/过去分词或形容词，词形与词性与其他三项不同，故选A。</div></div></div><div class="q-card" data-ans="B"><div class="q-txt">Q</div><div class="opt-grp"><div class="opt-btn" onclick="sel(this)">A. supermarket</div><div class="opt-btn" onclick="sel(this)">B. gym</div><div class="opt-btn" onclick="sel(this)">C. shop</div><div class="opt-btn" onclick="sel(this)">D. store</div></div><div class="analysis-box hidden" id="ana-51"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">B</span></div><div class="ana-text">A、C、D项均为购物场所（超市、商店），B项gym为健身场所，语义类别不同，故选B。</div></div></div><div class="q-card" data-ans="B"><div class="q-txt">Q</div><div class="opt-grp"><div class="opt-btn" onclick="sel(this)">A. lean</div><div class="opt-btn" onclick="sel(this)">B. benefit</div><div class="opt-btn" onclick="sel(this)">C. fit</div><div class="opt-btn" onclick="sel(this)">D. healthy</div></div><div class="analysis-box hidden" id="ana-52"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">B</span></div><div class="ana-text">A、C、D项均为形容词，常用来描述身体健康状况，B项benefit意为“益处”，通常作名词或动词，词性不同，故选B。</div></div></div><div class="q-card" data-ans="D"><div class="q-txt">Q</div><div class="opt-grp"><div class="opt-btn" onclick="sel(this)">A. daily</div><div class="opt-btn" onclick="sel(this)">B. weekly</div><div class="opt-btn" onclick="sel(this)">C. practical</div><div class="opt-btn" onclick="sel(this)">D. stick</div></div><div class="analysis-box hidden" id="ana-53"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">D</span></div><div class="ana-text">A、B、C项均为形容词，D项stick通常作动词（坚持、粘贴）或名词，词性不同，故选D。</div></div></div></div><div class="submit-bar"><button class="submit-btn" onclick="submitPage('page-2')">Check Answers</button></div></div><div class="quiz-page" id="page-3"><div class="page-title">Part 2: Word Selection</div><div class="bank-wrap"><div class="bank"><span>fibre</span> <span>loss</span> <span>nutrients</span> <span>average</span> <span>crave</span> <span>staple</span> <span>order</span> <span>vital</span> <span>burn</span></div></div><div class="scroll-area"><div class="q-card" data-ans="crave"><div class="line-txt">I must <input type="text" class="inline-inp"> your pardon.</div><div class="analysis-box hidden" id="ana-54"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">crave</span></div><div class="ana-text">句意为：我必须恳求您的原谅。"crave your pardon" 是正式英语中请求原谅的表达。</div></div></div><div class="q-card" data-ans="nutrients"><div class="line-txt">Plants draw minerals and other <input type="text" class="inline-inp"> from the soil.</div><div class="analysis-box hidden" id="ana-55"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">nutrients</span></div><div class="ana-text">句意为：植物从土壤中吸收矿物质和其他养分。"nutrients" 意为营养物质，符合语境。</div></div></div><div class="q-card" data-ans="burn"><div class="line-txt">People had to <input type="text" class="inline-inp"> these trees to keep warm during harsh winters.</div><div class="analysis-box hidden" id="ana-56"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">burn</span></div><div class="ana-text">句意为：在严酷的冬天，人们不得不烧树来取暖。根据 "keep warm"（保暖）可知需要燃烧树木，故填 "burn"。</div></div></div><div class="q-card" data-ans="vital"><div class="line-txt">Reading is of <input type="text" class="inline-inp"> importance in language learning.</div><div class="analysis-box hidden" id="ana-57"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">vital</span></div><div class="ana-text">句意为：阅读在语言学习中至关重要。"of vital importance" 是固定短语，意为“至关重要”。</div></div></div><div class="q-card" data-ans="fibre"><div class="line-txt">High <input type="text" class="inline-inp"> diets give the feeling of fullness.</div><div class="analysis-box hidden" id="ana-58"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">fibre</span></div><div class="ana-text">句意为：高纤维饮食能给人饱腹感。"high fibre diets" 指高纤维饮食，常识上纤维有助于产生饱腹感。</div></div></div><div class="q-card" data-ans="order"><div class="line-txt">All the procedures must be done in the correct <input type="text" class="inline-inp"></div><div class="analysis-box hidden" id="ana-59"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">order</span></div><div class="ana-text">句意为：所有程序必须按正确的顺序执行。"in the correct order" 是常用搭配，意为“按正确的顺序”。</div></div></div><div class="q-card" data-ans="staple"><div class="line-txt">It is well-known that bamboo shoots are a panda's <input type="text" class="inline-inp"> diet.</div><div class="analysis-box hidden" id="ana-60"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">staple</span></div><div class="ana-text">句意为：众所周知，竹笋是熊猫的主食。"staple diet" 意为“主食”。</div></div></div><div class="q-card" data-ans="average"><div class="line-txt">400 people a year die of this disease on <input type="text" class="inline-inp"></div><div class="analysis-box hidden" id="ana-61"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">average</span></div><div class="ana-text">句意为：平均每年有400人死于这种疾病。"on average" 是固定搭配，意为“平均”。</div></div></div><div class="q-card" data-ans="loss"><div class="line-txt">Nothing can make up for the <input type="text" class="inline-inp"> of a child.</div><div class="analysis-box hidden" id="ana-62"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">loss</span></div><div class="ana-text">句意为：没有什么能弥补失去孩子的痛苦。"make up for the loss" 意为“弥补损失”或“弥补失去……的缺憾”。</div></div></div></div><div class="submit-bar"><button class="submit-btn" onclick="submitPage('page-3')">Check Answers</button></div></div><div class="quiz-page" id="page-4"><div class="page-title">Part 3: Unscramble</div><div class="scroll-area"><div class="q-card" data-ans="essential"><div class="scram">sesnaetil</div><input type="text" class="block-inp" placeholder="Type answer..."><div class="analysis-box hidden" id="ana-63"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">essential</span></div><div class="ana-text">adj. 基本的；必要的；本质的</div></div></div><div class="q-card" data-ans="contain"><div class="scram">tnoainc</div><input type="text" class="block-inp" placeholder="Type answer..."><div class="analysis-box hidden" id="ana-64"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">contain</span></div><div class="ana-text">v. 包含；容纳；控制</div></div></div><div class="q-card" data-ans="consumption"><div class="scram">sptimoncuon</div><input type="text" class="block-inp" placeholder="Type answer..."><div class="analysis-box hidden" id="ana-65"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">consumption</span></div><div class="ana-text">n. 消费；消耗；食用</div></div></div><div class="q-card" data-ans="option"><div class="scram">toinop</div><input type="text" class="block-inp" placeholder="Type answer..."><div class="analysis-box hidden" id="ana-66"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">option</span></div><div class="ana-text">n. 选择；选项</div></div></div><div class="q-card" data-ans="protein"><div class="scram">tiepron</div><input type="text" class="block-inp" placeholder="Type answer..."><div class="analysis-box hidden" id="ana-67"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">protein</span></div><div class="ana-text">n. 蛋白质</div></div></div><div class="q-card" data-ans="chemical"><div class="scram">calichem</div><input type="text" class="block-inp" placeholder="Type answer..."><div class="analysis-box hidden" id="ana-68"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">chemical</span></div><div class="ana-text">n. 化学物质；adj. 化学的</div></div></div><div class="q-card" data-ans="digest"><div class="scram">egisdt</div><input type="text" class="block-inp" placeholder="Type answer..."><div class="analysis-box hidden" id="ana-69"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">digest</span></div><div class="ana-text">v. 消化；吸收；领会</div></div></div><div class="q-card" data-ans="reservoir"><div class="scram">vrireoser</div><input type="text" class="block-inp" placeholder="Type answer..."><div class="analysis-box hidden" id="ana-70"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">reservoir</span></div><div class="ana-text">n. 水库；蓄水池；储备</div></div></div></div><div class="submit-bar"><button class="submit-btn" onclick="submitPage('page-4')">Check Answers</button></div></div><div class="quiz-page" id="page-5"><div class="page-title">Part 4: First Letter</div><div class="scroll-area"><div class="q-card" data-ans="abundantly"><div class="line-txt">Calcium is found most a<input type="text" class="inline-inp short"> in milk.</div><div class="analysis-box hidden" id="ana-71"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">abundantly</span></div><div class="ana-text">这句话的意思是：牛奶中钙的含量最为丰富。根据首字母 'a' 和语境，这里需要一个副词来修饰 found，abundantly 意为'丰富地'，符合题意。</div></div></div><div class="q-card" data-ans="phosphorus"><div class="line-txt">These include calcium, p<input type="text" class="inline-inp short"> and other minerals and vitamins.</div><div class="analysis-box hidden" id="ana-72"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">phosphorus</span></div><div class="ana-text">这句话的意思是：这些包括钙、磷以及其他矿物质和维生素。根据首字母 'p' 和并列提到的 calcium (钙)，此处指化学元素 phosphorus (磷)。</div></div></div><div class="q-card" data-ans="vitamin"><div class="line-txt">Oranges are rich in v<input type="text" class="inline-inp short"> C.</div><div class="analysis-box hidden" id="ana-73"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">vitamin</span></div><div class="ana-text">这句话的意思是：橙子富含维生素C。固定搭配 vitamin C，首字母 'v' 符合 vitamin (维生素)。</div></div></div><div class="q-card" data-ans="involve"><div class="line-txt">Many of the crimes i<input type="text" class="inline-inp short"> drugs.</div><div class="analysis-box hidden" id="ana-74"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">involve</span></div><div class="ana-text">这句话的意思是：许多犯罪活动都涉及毒品。根据主语 crimes 和首字母 'i'，动词 involve (涉及、包含) 符合语境。</div></div></div><div class="q-card" data-ans="process"><div class="line-txt">The whole p<input type="text" class="inline-inp short"> started all over again.</div><div class="analysis-box hidden" id="ana-75"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">process</span></div><div class="ana-text">这句话的意思是：整个过程又重新开始了。根据定冠词 the 和首字母 'p'，名词 process (过程、程序) 符合语境。</div></div></div><div class="q-card" data-ans="cell"><div class="line-txt">The c<input type="text" class="inline-inp short"> is the unit of which all living organisms are composed.</div><div class="analysis-box hidden" id="ana-76"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">cell</span></div><div class="ana-text">这句话的意思是：细胞是构成所有生物体的单位。根据生物学定义和首字母 'c'，单词 cell (细胞) 符合语境。</div></div></div><div class="q-card" data-ans="energy"><div class="line-txt">She's always full of e<input type="text" class="inline-inp short">.</div><div class="analysis-box hidden" id="ana-77"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">energy</span></div><div class="ana-text">这句话的意思是：她总是充满活力。短语 be full of energy 意为'精力充沛'，首字母 'e' 符合 energy (精力、活力)。</div></div></div><div class="q-card" data-ans="performance"><div class="line-txt">The whole company are working hard to improve the p<input type="text" class="inline-inp short"> of the new machine.</div><div class="analysis-box hidden" id="ana-78"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">performance</span></div><div class="ana-text">这句话的意思是：全公司都在努力提高新机器的性能。improve the performance 意为'提高性能'，首字母 'p' 符合 performance (性能、表现)。</div></div></div></div><div class="submit-bar"><button class="submit-btn" onclick="submitPage('page-5')">Check Answers</button></div></div><div class="quiz-page" id="page-6"><div class="page-title">Part 5: Reading</div><div class="cloze-wrap"><div class="c-left">Around the world, eggs have been a breakfast staple for all good reasons. After all, an egg is a storehouse of vital nutrients, making it an essential part of a healthy diet. And for those who are afraid of having this high-energy food because you're worried that it will add to your weight, remember, one egg <span id="slot-1" class="cloze-slot">[1]</span> about 80 calories and about five grams of fat. Hence, smart consumption is a far healthier option.<br><br><br><br>Eggs are a well-known rich source of <span id="slot-2" class="cloze-slot">[2]</span> —an important building block of bones, muscles, skin, and blood. The body uses protein to build and repair tissues as well as making other body chemicals. Unfortunately, unlike fat and carbohydrates, the body does not store protein, and therefore has no reservoir to draw on when it needs a new supply. Thus, eggs are the perfect sources and a smart food choice for those who reduce their intake of carbohydrates to lose extra weight.<br><br><br><br>Another important nutrient that is found <span id="slot-3" class="cloze-slot">[3]</span> in egg white is riboflavin or vitamin B2. And for those who are wondering about the benefit of this nutrient, riboflavin is a water-soluble vitamin that is <span id="slot-4" class="cloze-slot">[4]</span> in vital processes in the body and is necessary for normal cell function, growth, and energy <span id="slot-5" class="cloze-slot">[5]</span><br><br><br><br>The yolk, which many people avoid out of fear, is actually very healthy, if <span id="slot-6" class="cloze-slot">[6]</span> in moderation. Mainly made up of fat, there are only 1.33 grams of cholesterol per 100 grams of yolk. In addition, the yolk is a rich source of vitamin A, B vitamins, calcium, phosphorus and iron. Incidentally, the iron found in the yolk is easily <span id="slot-7" class="cloze-slot">[7]</span> in the body. According to nutrition experts, one can eat one whole egg every day without harming one's cholesterol and blood fat levels. However, for those who crave more eggs, you can reduce fat by having one whole egg and only the whites of the rest of the eggs.</div><div class="c-right"><div class="q-card cloze-card" data-ans="B"><div class="q-num">1</div><div class="opt-grp"><div class="opt-btn small" onclick="clozeSel(this, '1', 'so')">A. so</div><div class="opt-btn small" onclick="clozeSel(this, '1', 'contains')">B. contains</div><div class="opt-btn small" onclick="clozeSel(this, '1', 'but')">C. but</div></div><div class="analysis-box hidden" id="ana-79_1"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">B</span></div><div class="ana-text">这句话缺少谓语动词。主语 'one egg'（一个鸡蛋）后面应该接动词说明其成分。'Contains'（包含）符合语境，即一个鸡蛋包含约80卡路里。</div></div></div><div class="q-card cloze-card" data-ans="B"><div class="q-num">2</div><div class="opt-grp"><div class="opt-btn small" onclick="clozeSel(this, '2', 'water')">A. water</div><div class="opt-btn small" onclick="clozeSel(this, '2', 'protein')">B. protein</div><div class="opt-btn small" onclick="clozeSel(this, '2', 'earth')">C. earth</div></div><div class="analysis-box hidden" id="ana-79_2"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">B</span></div><div class="ana-text">根据破折号后的解释 'an important building block of bones, muscles...'（骨骼、肌肉的重要构建成分），以及后文中提到的 'The body uses protein...'，可知此处指鸡蛋是 'protein'（蛋白质）的丰富来源。</div></div></div><div class="q-card cloze-card" data-ans="A"><div class="q-num">3</div><div class="opt-grp"><div class="opt-btn small" onclick="clozeSel(this, '3', 'abundantly')">A. abundantly</div><div class="opt-btn small" onclick="clozeSel(this, '3', 'main')">B. main</div><div class="opt-btn small" onclick="clozeSel(this, '3', 'lot')">C. lot</div></div><div class="analysis-box hidden" id="ana-79_3"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">A</span></div><div class="ana-text">此处需要一个副词来修饰动词 'found'。'Abundantly' 意为丰富地、大量地，符合句意，指核黄素大量存在于蛋清中。</div></div></div><div class="q-card cloze-card" data-ans="C"><div class="q-num">4</div><div class="opt-grp"><div class="opt-btn small" onclick="clozeSel(this, '4', 'beneath')">A. beneath</div><div class="opt-btn small" onclick="clozeSel(this, '4', 'among')">B. among</div><div class="opt-btn small" onclick="clozeSel(this, '4', 'involved')">C. involved</div></div><div class="analysis-box hidden" id="ana-79_4"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">C</span></div><div class="ana-text">考查固定搭配 'be involved in'，意为“参与/涉及”。句意指这种维生素参与了身体的重要过程。</div></div></div><div class="q-card cloze-card" data-ans="A"><div class="q-num">5</div><div class="opt-grp"><div class="opt-btn small" onclick="clozeSel(this, '5', 'production')">A. production</div><div class="opt-btn small" onclick="clozeSel(this, '5', 'product')">B. product</div><div class="opt-btn small" onclick="clozeSel(this, '5', 'works')">C. works</div></div><div class="analysis-box hidden" id="ana-79_5"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">A</span></div><div class="ana-text">此处需要一个名词与前面的 'function' 和 'growth' 并列。'Energy production' 是固定搭配，意为“能量产生”或“能量代谢”。</div></div></div><div class="q-card cloze-card" data-ans="C"><div class="q-num">6</div><div class="opt-grp"><div class="opt-btn small" onclick="clozeSel(this, '6', 'fill')">A. fill</div><div class="opt-btn small" onclick="clozeSel(this, '6', 'full')">B. full</div><div class="opt-btn small" onclick="clozeSel(this, '6', 'consumed')">C. consumed</div></div><div class="analysis-box hidden" id="ana-79_6"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">C</span></div><div class="ana-text">这里是状语从句的省略结构 'if it is consumed'。需要使用过去分词表示被动含义。'Consumed' 意为“食用/消耗”，句意为“如果适量食用”。</div></div></div><div class="q-card cloze-card" data-ans="B"><div class="q-num">7</div><div class="opt-grp"><div class="opt-btn small" onclick="clozeSel(this, '7', 'absorb')">A. absorb</div><div class="opt-btn small" onclick="clozeSel(this, '7', 'digested')">B. digested</div><div class="opt-btn small" onclick="clozeSel(this, '7', 'refer')">C. refer</div></div><div class="analysis-box hidden" id="ana-79_7"><div class="ana-row"><span class="ans-label">Answer:</span> <span class="ans-val">B</span></div><div class="ana-text">句子结构为被动语态 'is easily [done]'。选项A是原形，C也是原形且语意不通。只有B 'digested'（被消化）是过去分词形式，符合语法结构。</div></div></div></div></div><div class="submit-bar"><button class="submit-btn" onclick="submitPage('page-6')">Check Answers</button></div></div></div><script>
+let cp=1,tp=6;
+function show(p){document.querySelectorAll('.quiz-page').forEach(e=>e.classList.remove('active'));document.getElementById('page-'+p).classList.add('active');document.getElementById('ind').innerText=`Page ${p}/${tp}`;cp=p;document.getElementById('pb').disabled=p===1;document.getElementById('nb').disabled=p===tp}
+function nav(d){show(cp+d)}
+function play(u){if(u) new Audio('audio_cache/'+u).play()}
+function sel(e){e.parentElement.querySelectorAll('.opt-btn').forEach(b=>b.classList.remove('selected'));e.classList.add('selected')}
+function clozeSel(e,n,w){sel(e);let s=document.getElementById('slot-'+n);if(s){s.innerText=w;s.classList.add('filled')}}
+function submitPage(pid){
+    document.getElementById(pid).querySelectorAll('.q-card').forEach(c=>{
+        let ans=String(c.dataset.ans).trim().toLowerCase(), corr=false;
+        let inp=c.querySelector('input');
+        if(inp){
+            let v=inp.value.trim().toLowerCase().replace(/[.,]/g,'');
+            if(v && ans.replace(/[.,]/g,'').includes(v)) corr=true;
+        }
+        let s=c.querySelector('.opt-btn.selected');
+        if(s){
+            const txt = s.innerText.trim().toLowerCase();
+            if(txt.startsWith(ans) || txt.includes(ans)) corr=true;
+        }
+        c.classList.add(corr?'correct':'wrong');
+        c.querySelector('.analysis-box').classList.remove('hidden');
+    });
+}
+window.onload=()=>show(1);
+</script>
+<div class="quiz-page" id="page-7">
+    <div class="page-title">Final Results</div>
+    <div style="flex:1; overflow-y:auto; -webkit-overflow-scrolling:touch;">
+        <div class="result-header">
+            <div class="score-circle">
+                <span class="score-val" id="res-score">0%</span>
+                <span class="score-label">Accuracy</span>
+            </div>
+            <div class="stat-row">
+                <div class="stat-item">
+                    <div class="stat-num" id="res-time">00:00</div>
+                    <div class="stat-desc">Time Used</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-num"><span id="res-correct">0</span>/<span id="res-total">0</span></div>
+                    <div class="stat-desc">Correct</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="wrong-list" id="wrong-container">
+            </div>
+    </div>
+    <div class="submit-bar">
+        <button class="submit-btn restart-btn" onclick="location.reload()">↺ Restart Quiz</button>
+    </div>
+</div>
+
+<script>
+// 计时器逻辑
+let startTime = Date.now();
+let isFinished = false;
+
+function getFormattedTime() {
+    let now = Date.now();
+    let diff = Math.floor((now - startTime) / 1000);
+    let m = Math.floor(diff / 60);
+    let s = diff % 60;
+    return `${m}:${s < 10 ? '0'+s : s}`;
+}
+
+// 核心统计函数
+function finishQuiz() {
+    if(isFinished) return;
+    isFinished = true;
+    
+    // 1. 强制提交所有题目 (Page 2 - Page 6)，确保判分
+    for(let i=2; i<=6; i++) {
+        try { submitPage('page-'+i); } catch(e){}
+    }
+    
+    // 2. 统计分数
+    let totalQ = 0;
+    let correctQ = 0;
+    let wrongContainer = document.getElementById('wrong-container');
+    wrongContainer.innerHTML = '<div class="wrong-title">Review Mistakes</div>';
+    
+    let hasMistakes = false;
+
+    // 遍历所有卡片
+    function processCard(card) {
+        // 跳过 Page 1 (单词学习页)
+        if(card.closest('#page-1')) return;
+        
+        totalQ++;
+        if(card.classList.contains('correct')) {
+            correctQ++;
+        } else {
+            // 错题或未做答
+            hasMistakes = true;
+            // 克隆卡片用于展示
+            let clone = card.cloneNode(true);
+            // 移除 ID 防止冲突
+            clone.removeAttribute('id');
+            clone.style.marginTop = '20px';
+            
+            // 确保解析框是可见的
+            let ana = clone.querySelector('.analysis-box');
+            if(ana) ana.classList.remove('hidden');
+            
+            wrongContainer.appendChild(clone);
+        }
+    }
+
+    document.querySelectorAll('.q-card').forEach(processCard);
+
+    // 3. 更新 UI
+    let percent = totalQ === 0 ? 0 : Math.round((correctQ / totalQ) * 100);
+    document.getElementById('res-score').innerText = percent + '%';
+    document.getElementById('res-correct').innerText = correctQ;
+    document.getElementById('res-total').innerText = totalQ;
+    document.getElementById('res-time').innerText = getFormattedTime();
+
+    if(!hasMistakes) {
+        wrongContainer.innerHTML = '<div class="empty-state">🎉 Amazing! You got everything right.<br>No mistakes to review.</div>';
+    }
+
+    // 4. 显示结果页 (ID page-7)
+    // 注意：这里不再调用 show(7)，因为 finishQuiz 可能会被 show() 调用，避免死循环
+    // 直接操作 DOM 显示
+    document.querySelectorAll('.quiz-page').forEach(e=>e.classList.remove('active'));
+    document.getElementById('page-7').classList.add('active');
+    document.getElementById('ind').innerText = 'Results';
+}
+
+// 注入 Finish 按钮到第 6 页
+setTimeout(() => {
+    let lastPageBar = document.querySelector('#page-6 .submit-bar');
+    if(lastPageBar) {
+        let btn = document.createElement('button');
+        btn.className = 'submit-btn';
+        btn.innerText = '📊 Finish & View Results';
+        btn.style.marginLeft = '10px';
+        btn.style.backgroundColor = '#2c3e50';
+        btn.onclick = () => { finishQuiz(); }; // 按钮直接触发
+        lastPageBar.appendChild(btn);
+    }
+}, 500);
+
+// 【重要】重写 show 函数，拦截翻到第 7 页的动作
+const originalShow = show; // 备份（如果需要）
+show = function(p) {
+    if(p === 7) {
+        finishQuiz(); // 如果导航到第 7 页，触发结算
+        // 不 return，让下面的逻辑继续处理 UI 切换 (ind, btn state)
+    }
+    
+    document.querySelectorAll('.quiz-page').forEach(e=>e.classList.remove('active'));
+    let pg = document.getElementById('page-'+p);
+    if(pg) pg.classList.add('active');
+    
+    // 更新顶部指示器
+    let indTxt = p === 7 ? 'Results' : `Page ${p}/${tp}`;
+    document.getElementById('ind').innerText = indTxt;
+    
+    cp = p;
+    // 更新按钮状态
+    let pb = document.getElementById('pb');
+    let nb = document.getElementById('nb');
+    if(pb) pb.disabled = (p === 1);
+    if(nb) nb.disabled = (p === tp); // 到了最后一页(结果页)禁用 Next
+};
+
+</script>
+</body></html>

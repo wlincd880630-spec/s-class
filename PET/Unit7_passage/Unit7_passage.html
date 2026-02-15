@@ -1,0 +1,220 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Unit 7.pdf</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/microsoft-cognitiveservices-speech-sdk@latest/distrib/browser/microsoft.cognitiveservices.speech.sdk.bundle-min.js"></script>
+    <script src="../../js/api-config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap');
+        
+        /* 核心修复 1: 强制高度适配，防止 iOS 滚动溢出 */
+        html, body { 
+            font-family: 'Nunito', 'Noto Sans SC', sans-serif; 
+            background-color: #F8FAFC; 
+            height: 100vh; /* 兼容旧设备 */
+            height: 100dvh; /* 核心：动态视口高度 */
+            width: 100%;
+            overflow: hidden; /* 禁止整体滚动，交给 main 滚动 */
+        }
+
+        /* 核心修复 2: 底部安全区域 padding */
+        .safe-pb {
+            padding-bottom: constant(safe-area-inset-bottom); /* iOS 11.0 */
+            padding-bottom: env(safe-area-inset-bottom); /* iOS 11.2+ */
+        }
+        
+        /* 录音呼吸灯动画 */
+        .recording-active { animation: pulse-ring 1.5s cubic-bezier(0.215, 0.61, 0.355, 1) infinite; border-color: #EF4444; background-color: #FEF2F2; color: #EF4444; }
+        @keyframes pulse-ring { 0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.5); } 70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); } 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); } }
+        
+        /* 平滑过渡 */
+        .fade-enter-active, .fade-leave-active { transition: opacity 0.3s ease; }
+        .fade-enter-from, .fade-leave-to { opacity: 0; }
+        
+        /* 隐藏滚动条 */
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="text-slate-800 flex flex-col">
+    <div id="app" class="flex flex-col h-full max-w-lg mx-auto bg-white shadow-2xl relative w-full">
+        
+        <header class="bg-white z-10 px-4 py-3 border-b border-gray-100 shadow-sm shrink-0">
+            <h1 class="text-center font-bold text-slate-800 truncate mb-3">Unit 7.pdf</h1>
+            <div class="flex gap-2 overflow-x-auto hide-scrollbar">
+                <button v-for="(p, idx) in lessonData" :key="idx" @click="switchPassage(idx)"
+                    :class="['whitespace-nowrap px-4 py-2 rounded-xl text-sm font-bold transition-all', 
+                             currentPassageIdx === idx ? 'bg-indigo-600 text-white shadow-md ring-2 ring-indigo-200' : 'bg-gray-50 text-gray-500 hover:bg-gray-100']">
+                    {{ p.title }}
+                </button>
+            </div>
+        </header>
+
+        <main class="flex-1 overflow-y-auto p-4 bg-slate-50 overscroll-contain">
+            
+            <div class="flex justify-between items-center mb-4 px-1">
+                <span class="text-xs font-bold text-indigo-400 tracking-widest uppercase">Sentence {{ currentSentenceIdx + 1 }} / {{ currentPassage.sentences.length }}</span>
+                <div class="w-24 h-1.5 bg-gray-200 rounded-full overflow-hidden">
+                    <div class="h-full bg-indigo-500 transition-all duration-300" :style="'width: ' + ((currentSentenceIdx + 1) / currentPassage.sentences.length * 100) + '%'"></div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 mb-6 relative">
+                <div class="absolute -top-3 left-4 bg-indigo-100 text-indigo-600 px-2 py-0.5 rounded text-xs font-bold">TEXT</div>
+                <p class="text-xl md:text-2xl font-medium leading-relaxed text-slate-800 mt-2">{{ currentSentence }}</p>
+            </div>
+
+            <transition-group name="fade" tag="div" class="space-y-3">
+                <div v-if="sttEn" key="en-fb" class="bg-white border-l-4 border-blue-400 rounded-r-xl p-3 shadow-sm">
+                    <div class="flex items-center gap-2 mb-1">
+                        <span class="text-xs font-bold text-blue-500 uppercase">Your Reading</span>
+                    </div>
+                    <p class="text-sm text-slate-600">{{ sttEn }}</p>
+                </div>
+
+                <div v-if="sttCn" key="cn-fb" class="bg-white border-l-4 border-purple-400 rounded-r-xl p-3 shadow-sm">
+                    <div class="flex items-center gap-2 mb-1">
+                        <span class="text-xs font-bold text-purple-500 uppercase">Your Translation</span>
+                    </div>
+                    <p class="text-sm text-slate-600">{{ sttCn }}</p>
+                </div>
+
+                <div v-if="evaluation" key="ai-eval" class="bg-gradient-to-br from-amber-50 to-orange-50 rounded-xl p-4 border border-amber-100 shadow-sm">
+                    <div class="flex items-center gap-2 mb-3 border-b border-amber-200 pb-2">
+                        <span class="text-xl">👩‍🏫</span>
+                        <span class="text-amber-800 font-bold text-sm">AI Teacher Feedback</span>
+                    </div>
+                    <div v-html="renderMarkdown(evaluation)" class="prose prose-sm text-slate-700 leading-relaxed"></div>
+                </div>
+            </transition-group>
+
+            <div class="h-10"></div>
+        </main>
+
+        <footer class="bg-white border-t border-gray-100 p-4 pb-4 safe-pb shadow-[0_-4px_20px_rgba(0,0,0,0.03)] z-20 shrink-0">
+            
+            <div class="flex items-center justify-between mb-4 px-2">
+                <button @click="prevSentence" :disabled="currentSentenceIdx===0" class="p-2 text-gray-300 hover:text-indigo-600 disabled:opacity-20 transition">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 15l-3-3m0 0l3-3m-3 3h8M3 12a9 9 0 1118 0 9 9 0 01-18 0z"></path></svg>
+                </button>
+                
+                <button @click="playTTS" :disabled="isPlaying" 
+                    class="flex items-center gap-2 px-6 py-2 bg-slate-100 text-slate-600 rounded-full text-sm font-bold active:scale-95 transition hover:bg-slate-200">
+                    <span v-if="isPlaying" class="animate-pulse">🔊 Playing...</span>
+                    <span v-else>🎧 Listen Standard</span>
+                </button>
+
+                <button @click="nextSentence" :disabled="currentSentenceIdx===currentPassage.sentences.length-1" class="p-2 text-gray-300 hover:text-indigo-600 disabled:opacity-20 transition">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                </button>
+            </div>
+
+            <div class="grid grid-cols-5 gap-3 h-14">
+                <button @click="toggleRecord('en')" 
+                    :class="['col-span-2 rounded-2xl font-bold flex flex-col justify-center items-center leading-none transition-all active:scale-95 border', 
+                    isRecordingEn ? 'recording-active' : 'bg-white border-gray-200 text-slate-600 hover:bg-gray-50']">
+                    <span class="text-xl mb-1">{{ isRecordingEn ? '⏹️' : '🎙️' }}</span>
+                    <span class="text-[10px] font-bold">{{ isRecordingEn ? 'STOP' : 'READ' }}</span>
+                </button>
+
+                <button @click="evaluate" :disabled="!sttEn || isEvaluating"
+                    class="col-span-1 bg-indigo-600 text-white rounded-2xl shadow-lg shadow-indigo-200 flex justify-center items-center text-2xl active:scale-90 transition-transform disabled:bg-gray-200 disabled:shadow-none disabled:text-gray-400">
+                    <span v-if="isEvaluating" class="animate-spin text-lg">⏳</span>
+                    <span v-else>✨</span>
+                </button>
+
+                <button @click="toggleRecord('cn')" 
+                    :class="['col-span-2 rounded-2xl font-bold flex flex-col justify-center items-center leading-none transition-all active:scale-95 border', 
+                    isRecordingCn ? 'recording-active' : 'bg-white border-gray-200 text-slate-600 hover:bg-gray-50']">
+                    <span class="text-xl mb-1">{{ isRecordingCn ? '⏹️' : '🇨🇳' }}</span>
+                    <span class="text-[10px] font-bold">{{ isRecordingCn ? 'STOP' : 'TRANS' }}</span>
+                </button>
+            </div>
+        </footer>
+
+    </div>
+
+    <script>
+        const { createApp } = Vue;
+        createApp({
+            data() {
+                return {
+                    lessonData: [{"title": "Passage 1", "sentences": ["Nowadays, everyone buys their clothes from the shops and no one thinks it's cool to knit or sew their own clothes.", "These are often thought as women's hobbies and skills and you can seldom see a man doing these.", "But the truth is that most of the world's best designers are men!", "Both my dad and granddad know how to knit and they have been keeping this as a hobby for quite a few years.", "Though they can't do it well and the wools they made are either too tight or too big, they still like to share with us what they have made.", "My grandma patiently teaches them how to improve their knitting skills and they seem to enjoy the process.", "My granddad says knitting needs close attention and careful design, so it stops him from getting old.", "My mum is brilliant at sewing and knitting and I've decided that I want to learn to sew better.", "The more you practise, the better you get.", "However, I find sewing a bit difficult as the pattern contains lots of complicated designs that I don't quite remember yet.", "If I do it wrong, I will have to make it all over again!", "I also need a lot of patience to make a good piece, and it is hard to find a long period of time without being disturbed.", "As I am learning more and becoming more skillful, I can now do the knitting while watching TV, listening to music or even reading books!", "Mum said one day I might design my own pattern.", "It is not so difficult once you have learned all the tricks.", "One day, I tried to search online for some shops selling fabric to pick up some fabric and thread and was amazed that I could find lots of patterns online and could watch videos showing how to make a sweater!", "I even learned online that some schools in Canada, China, and Germany offer knitting and sewing lessons to boys like me.", "I now often go online to watch those videos and have recently learned more styles of knitting.", "Can you imagine I can remember the pattern of a Chinese dragon by heart?", "The best thing about learning to knit is that you can start from really simple designs and make small and easy items first and work your way up.", "It's not difficult if you can follow a pattern and are careful with how you cut the fabric and sew it together.", "Plus, you can make a sweater exactly how you want it and make it fit you perfectly!"]}, {"title": "Passage 2", "sentences": ["Having a hobby that we love brings us joy and makes our lives more interesting.", "It gives us something fun to do during our Leisure time and gives us the opportunity to learn new skills.", "We are very fortunate to have so many choices today.", "Different from a part-time job, a hobby doesn't make you any money, but you can feel totally relaxed.", "The best way to develop a new hobby is to try something new.", "The world is full of wonderful and exciting activities that we can explore and afford.", "Of course, all of us are unique; therefore, our interests and hobbies are different.", "But once we find a hobby that we truly enjoy, it becomes a part of our lives.", "I love reading books, especially fictions or novels.", "I now read about 60 books per year on a wide range of topics.", "These days, I am reading a book called Alice in Wonderland.", "It is about a wonderful adventure of a little girl called Alice.", "The rabbit hole, the fantastic scenery and vivid characters in the book are all so attractive and amazing that I can't put it down whenever I read it.", "Every book I read teaches me something about the world and provides me with a new thought about life.", "Books are a wonderful way to transport me to a different place and time without actually leaving home.", "To read more books, I joined my local public library last year and I can even download ebooks from its website for free!", "One of my favorite hobbies is cooking.", "On average, I cook 5 times per week, often making dinner for my family.", "Cooking has taught me so much about patience and focus because those two are essential when making delicious food.", "Of course, I have also cooked food that did not taste so delicious, but I learned from my mistakes and improved each time.", "My parents are very happy to teach me to cook, too.", "They often give me suggestions on how to cook the traditional food from their hometown.", "I really enjoy the healthy and tasty food that I cooked by myself!", "Last year, I found that my eye-sight dropped a bit, and I gained a few pounds.", "So I decided to exercise regularly and it has been a wonderful hobby for me.", "Though I have to get up earlier every morning, and exercising is a bit tiring, I find it really helpful.", "I enjoy all sorts of exercises: going to the gym, lifting weights, jogging, hiking, playing volleyball and soccer, etc.", "I learn a lot from doing various sports.", "I have also met some wonderful people who share this hobby."]}],
+                    currentPassageIdx: 0,
+                    currentSentenceIdx: 0,
+                    isPlaying: false,
+                    isRecordingEn: false,
+                    isRecordingCn: false,
+                    sttEn: "",
+                    sttCn: "",
+                    isEvaluating: false,
+                    evaluation: "",
+                    recognizer: null
+                }
+            },
+            computed: {
+                currentPassage() { return this.lessonData[this.currentPassageIdx] },
+                currentSentence() { return this.currentPassage ? this.currentPassage.sentences[this.currentSentenceIdx] : "" }
+            },
+            methods: {
+                switchPassage(idx) { this.currentPassageIdx = idx; this.currentSentenceIdx = 0; this.clearState(); },
+                clearState() { this.sttEn = ""; this.sttCn = ""; this.evaluation = ""; },
+                prevSentence() { if(this.currentSentenceIdx > 0) { this.currentSentenceIdx--; this.clearState(); } },
+                nextSentence() { if(this.currentSentenceIdx < this.currentPassage.sentences.length - 1) { this.currentSentenceIdx++; this.clearState(); } },
+                renderMarkdown(text) { return marked.parse(text); },
+
+                playTTS() {
+                    this.isPlaying = true;
+                    (window.azureSpeak || function(t,o){o.onEnd();})(this.currentSentence, {
+                        voice: "en-US-AvaMultilingualNeural",
+                        onEnd: () => { this.isPlaying = false; }
+                    });
+                },
+
+                toggleRecord(lang) {
+                    const isEn = lang === 'en';
+                    if ((isEn && this.isRecordingEn) || (!isEn && this.isRecordingCn)) { this.stopRecord(); return; }
+                    this.stopRecord();
+                    if (isEn) this.isRecordingEn = true; else this.isRecordingCn = true;
+                    const vm = this;
+                    (window.azureRecognizeOnce || function(){ vm.stopRecord(); })(isEn ? "en-US" : "zh-CN",
+                        (text) => { if (isEn) vm.sttEn = text; else vm.sttCn = text; vm.stopRecord(); },
+                        (err) => { console.error(err); vm.stopRecord(); },
+                        { onRecognizer: (r) => { vm.recognizer = r; } }
+                    );
+                },
+
+                stopRecord() {
+                    if (this.recognizer) { this.recognizer.close(); this.recognizer = null; }
+                    this.isRecordingEn = false;
+                    this.isRecordingCn = false;
+                },
+
+                async evaluate() {
+                    this.isEvaluating = true;
+                    // Prompt 优化：更简洁的反馈
+                    const prompt = `Task: English Tutor. 
+Target Sentence: "${this.currentSentence}"
+Student Reading: "${this.sttEn}"
+Student Translation: "${this.sttCn}"
+Rules: 
+1. Give a Pronunciation Score (0-100).
+2. Check if the translation captures the meaning.
+3. Provide the standard translation.
+Output in concise Chinese Markdown.`;
+                    try {
+                        const data = await (window.callAI || function() { return Promise.reject(new Error("API_BASE not set")); })({ messages: [{ role: "user", content: prompt }] });
+                        this.evaluation = (data && data.content) ? data.content : (data.error || "评价服务连接失败");
+                    } catch (e) { this.evaluation = "评价服务连接失败"; } finally { this.isEvaluating = false; }
+                }
+            }
+        }).mount('#app');
+    </script>
+</body>
+</html>

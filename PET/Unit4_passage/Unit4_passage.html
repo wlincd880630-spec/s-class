@@ -1,0 +1,220 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Unit 4.pdf</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/microsoft-cognitiveservices-speech-sdk@latest/distrib/browser/microsoft.cognitiveservices.speech.sdk.bundle-min.js"></script>
+    <script src="../../js/api-config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap');
+        
+        /* 核心修复 1: 强制高度适配，防止 iOS 滚动溢出 */
+        html, body { 
+            font-family: 'Nunito', 'Noto Sans SC', sans-serif; 
+            background-color: #F8FAFC; 
+            height: 100vh; /* 兼容旧设备 */
+            height: 100dvh; /* 核心：动态视口高度 */
+            width: 100%;
+            overflow: hidden; /* 禁止整体滚动，交给 main 滚动 */
+        }
+
+        /* 核心修复 2: 底部安全区域 padding */
+        .safe-pb {
+            padding-bottom: constant(safe-area-inset-bottom); /* iOS 11.0 */
+            padding-bottom: env(safe-area-inset-bottom); /* iOS 11.2+ */
+        }
+        
+        /* 录音呼吸灯动画 */
+        .recording-active { animation: pulse-ring 1.5s cubic-bezier(0.215, 0.61, 0.355, 1) infinite; border-color: #EF4444; background-color: #FEF2F2; color: #EF4444; }
+        @keyframes pulse-ring { 0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.5); } 70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); } 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); } }
+        
+        /* 平滑过渡 */
+        .fade-enter-active, .fade-leave-active { transition: opacity 0.3s ease; }
+        .fade-enter-from, .fade-leave-to { opacity: 0; }
+        
+        /* 隐藏滚动条 */
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="text-slate-800 flex flex-col">
+    <div id="app" class="flex flex-col h-full max-w-lg mx-auto bg-white shadow-2xl relative w-full">
+        
+        <header class="bg-white z-10 px-4 py-3 border-b border-gray-100 shadow-sm shrink-0">
+            <h1 class="text-center font-bold text-slate-800 truncate mb-3">Unit 4.pdf</h1>
+            <div class="flex gap-2 overflow-x-auto hide-scrollbar">
+                <button v-for="(p, idx) in lessonData" :key="idx" @click="switchPassage(idx)"
+                    :class="['whitespace-nowrap px-4 py-2 rounded-xl text-sm font-bold transition-all', 
+                             currentPassageIdx === idx ? 'bg-indigo-600 text-white shadow-md ring-2 ring-indigo-200' : 'bg-gray-50 text-gray-500 hover:bg-gray-100']">
+                    {{ p.title }}
+                </button>
+            </div>
+        </header>
+
+        <main class="flex-1 overflow-y-auto p-4 bg-slate-50 overscroll-contain">
+            
+            <div class="flex justify-between items-center mb-4 px-1">
+                <span class="text-xs font-bold text-indigo-400 tracking-widest uppercase">Sentence {{ currentSentenceIdx + 1 }} / {{ currentPassage.sentences.length }}</span>
+                <div class="w-24 h-1.5 bg-gray-200 rounded-full overflow-hidden">
+                    <div class="h-full bg-indigo-500 transition-all duration-300" :style="'width: ' + ((currentSentenceIdx + 1) / currentPassage.sentences.length * 100) + '%'"></div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 mb-6 relative">
+                <div class="absolute -top-3 left-4 bg-indigo-100 text-indigo-600 px-2 py-0.5 rounded text-xs font-bold">TEXT</div>
+                <p class="text-xl md:text-2xl font-medium leading-relaxed text-slate-800 mt-2">{{ currentSentence }}</p>
+            </div>
+
+            <transition-group name="fade" tag="div" class="space-y-3">
+                <div v-if="sttEn" key="en-fb" class="bg-white border-l-4 border-blue-400 rounded-r-xl p-3 shadow-sm">
+                    <div class="flex items-center gap-2 mb-1">
+                        <span class="text-xs font-bold text-blue-500 uppercase">Your Reading</span>
+                    </div>
+                    <p class="text-sm text-slate-600">{{ sttEn }}</p>
+                </div>
+
+                <div v-if="sttCn" key="cn-fb" class="bg-white border-l-4 border-purple-400 rounded-r-xl p-3 shadow-sm">
+                    <div class="flex items-center gap-2 mb-1">
+                        <span class="text-xs font-bold text-purple-500 uppercase">Your Translation</span>
+                    </div>
+                    <p class="text-sm text-slate-600">{{ sttCn }}</p>
+                </div>
+
+                <div v-if="evaluation" key="ai-eval" class="bg-gradient-to-br from-amber-50 to-orange-50 rounded-xl p-4 border border-amber-100 shadow-sm">
+                    <div class="flex items-center gap-2 mb-3 border-b border-amber-200 pb-2">
+                        <span class="text-xl">👩‍🏫</span>
+                        <span class="text-amber-800 font-bold text-sm">AI Teacher Feedback</span>
+                    </div>
+                    <div v-html="renderMarkdown(evaluation)" class="prose prose-sm text-slate-700 leading-relaxed"></div>
+                </div>
+            </transition-group>
+
+            <div class="h-10"></div>
+        </main>
+
+        <footer class="bg-white border-t border-gray-100 p-4 pb-4 safe-pb shadow-[0_-4px_20px_rgba(0,0,0,0.03)] z-20 shrink-0">
+            
+            <div class="flex items-center justify-between mb-4 px-2">
+                <button @click="prevSentence" :disabled="currentSentenceIdx===0" class="p-2 text-gray-300 hover:text-indigo-600 disabled:opacity-20 transition">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 15l-3-3m0 0l3-3m-3 3h8M3 12a9 9 0 1118 0 9 9 0 01-18 0z"></path></svg>
+                </button>
+                
+                <button @click="playTTS" :disabled="isPlaying" 
+                    class="flex items-center gap-2 px-6 py-2 bg-slate-100 text-slate-600 rounded-full text-sm font-bold active:scale-95 transition hover:bg-slate-200">
+                    <span v-if="isPlaying" class="animate-pulse">🔊 Playing...</span>
+                    <span v-else>🎧 Listen Standard</span>
+                </button>
+
+                <button @click="nextSentence" :disabled="currentSentenceIdx===currentPassage.sentences.length-1" class="p-2 text-gray-300 hover:text-indigo-600 disabled:opacity-20 transition">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                </button>
+            </div>
+
+            <div class="grid grid-cols-5 gap-3 h-14">
+                <button @click="toggleRecord('en')" 
+                    :class="['col-span-2 rounded-2xl font-bold flex flex-col justify-center items-center leading-none transition-all active:scale-95 border', 
+                    isRecordingEn ? 'recording-active' : 'bg-white border-gray-200 text-slate-600 hover:bg-gray-50']">
+                    <span class="text-xl mb-1">{{ isRecordingEn ? '⏹️' : '🎙️' }}</span>
+                    <span class="text-[10px] font-bold">{{ isRecordingEn ? 'STOP' : 'READ' }}</span>
+                </button>
+
+                <button @click="evaluate" :disabled="!sttEn || isEvaluating"
+                    class="col-span-1 bg-indigo-600 text-white rounded-2xl shadow-lg shadow-indigo-200 flex justify-center items-center text-2xl active:scale-90 transition-transform disabled:bg-gray-200 disabled:shadow-none disabled:text-gray-400">
+                    <span v-if="isEvaluating" class="animate-spin text-lg">⏳</span>
+                    <span v-else>✨</span>
+                </button>
+
+                <button @click="toggleRecord('cn')" 
+                    :class="['col-span-2 rounded-2xl font-bold flex flex-col justify-center items-center leading-none transition-all active:scale-95 border', 
+                    isRecordingCn ? 'recording-active' : 'bg-white border-gray-200 text-slate-600 hover:bg-gray-50']">
+                    <span class="text-xl mb-1">{{ isRecordingCn ? '⏹️' : '🇨🇳' }}</span>
+                    <span class="text-[10px] font-bold">{{ isRecordingCn ? 'STOP' : 'TRANS' }}</span>
+                </button>
+            </div>
+        </footer>
+
+    </div>
+
+    <script>
+        const { createApp } = Vue;
+        createApp({
+            data() {
+                return {
+                    lessonData: [{"title": "Passage 1", "sentences": ["This is not a diet.", "It's a simple way to lose weight.", "And you don't even have to give up the food you love or join a gym.", "It's about balancing calories in tiny ways that add up to big benefits.", "You just need to develop the habits that fit people have.", "Stick with them, and you'll become lean and fit.", "Morning routine When you wake up in the morning, sit up slowly without using your hands.", "With legs straight out, bend forward until you feel sore in your back.", "It will burn about 10 calories.", "Start with soup When you have a meal, order a clear soup, and have it before having the main course.", "In this way, you'll feel fuller, so you'll eat less when the main course comes.", "An apple (or more) a day Apples are full of fibre and water, so your stomach will crave less food.", "Study shows that people who eat at least three apples a day lose more weight than those who don't.", "Stand up and walk around Every time you use the mobile phone, stand up and walk around.", "Heavy people sit on average two and a half hours more each day than people who are fit.", "This skill is especially important as standing up and walking around will burn 50 or more calories.", "And if you can step out of the room to take a short walk occasionally, it will be even more helpful.", "Follow these four tips, and you will see great results in your weight loss."]}, {"title": "Passage 2", "sentences": ["Around the world, eggs have been a breakfast staple for all good reasons.", "After all, an egg is a storehouse of vital nutrients, making it an essential part of a healthy diet.", "And for those who are afraid of having this high-energy food because you're worried that it will add to your weight, remember, one egg contains about 80 calories and about five grams of fat.", "Hence, smart consumption is a far healthier option.", "Eggs are a well-known rich source of protein—an important building block of bones, muscles, skin, and blood.", "Our body relies on protein to build and repair tissues as well as making other body chemicals.", "Unfortunately, unlike fat and carbohydrates, the body does not store protein, and therefore has no reservoir to draw on when it needs a new supply.", "Thus, eggs are the perfect sources and a smart food choice for those who reduce their intake of carbohydrates to lose extra weight.", "Another important nutrient that is found abundantly in egg white is riboflavin or vitamin B2.", "And for those who are wondering about the benefit of this nutrient, riboflavin is a water-soluble vitamin that is involved in vital processes in the body and is necessary for normal cell function, growth, and energy production.", "The yolk, which many people avoid out of fear, is actually very healthy, if consumed in moderation.", "Mainly made up of fat, there are only 1.33 grams of cholesterol per 100 grams of yolk.", "In addition, the yolk is a rich source of vitamin A, B vitamins, calcium, phosphorus and iron.", "Incidentally, the iron found in the yolk is easily digested in the body.", "According to nutrition experts, people can eat one whole egg every day without harming their cholesterol and blood fat levels.", "However, for those who like eggs, they can reduce fat by having one whole egg and only the whites of the rest of the eggs with a thin slice of bread."]}],
+                    currentPassageIdx: 0,
+                    currentSentenceIdx: 0,
+                    isPlaying: false,
+                    isRecordingEn: false,
+                    isRecordingCn: false,
+                    sttEn: "",
+                    sttCn: "",
+                    isEvaluating: false,
+                    evaluation: "",
+                    recognizer: null
+                }
+            },
+            computed: {
+                currentPassage() { return this.lessonData[this.currentPassageIdx] },
+                currentSentence() { return this.currentPassage ? this.currentPassage.sentences[this.currentSentenceIdx] : "" }
+            },
+            methods: {
+                switchPassage(idx) { this.currentPassageIdx = idx; this.currentSentenceIdx = 0; this.clearState(); },
+                clearState() { this.sttEn = ""; this.sttCn = ""; this.evaluation = ""; },
+                prevSentence() { if(this.currentSentenceIdx > 0) { this.currentSentenceIdx--; this.clearState(); } },
+                nextSentence() { if(this.currentSentenceIdx < this.currentPassage.sentences.length - 1) { this.currentSentenceIdx++; this.clearState(); } },
+                renderMarkdown(text) { return marked.parse(text); },
+
+                playTTS() {
+                    this.isPlaying = true;
+                    (window.azureSpeak || function(t,o){o.onEnd();})(this.currentSentence, {
+                        voice: "en-US-AvaMultilingualNeural",
+                        onEnd: () => { this.isPlaying = false; }
+                    });
+                },
+
+                toggleRecord(lang) {
+                    const isEn = lang === 'en';
+                    if ((isEn && this.isRecordingEn) || (!isEn && this.isRecordingCn)) { this.stopRecord(); return; }
+                    this.stopRecord();
+                    if (isEn) this.isRecordingEn = true; else this.isRecordingCn = true;
+                    const vm = this;
+                    (window.azureRecognizeOnce || function(){ vm.stopRecord(); })(isEn ? "en-US" : "zh-CN",
+                        (text) => { if (isEn) vm.sttEn = text; else vm.sttCn = text; vm.stopRecord(); },
+                        (err) => { console.error(err); vm.stopRecord(); },
+                        { onRecognizer: (r) => { vm.recognizer = r; } }
+                    );
+                },
+
+                stopRecord() {
+                    if (this.recognizer) { this.recognizer.close(); this.recognizer = null; }
+                    this.isRecordingEn = false;
+                    this.isRecordingCn = false;
+                },
+
+                async evaluate() {
+                    this.isEvaluating = true;
+                    // Prompt 优化：更简洁的反馈
+                    const prompt = `Task: English Tutor. 
+Target Sentence: "${this.currentSentence}"
+Student Reading: "${this.sttEn}"
+Student Translation: "${this.sttCn}"
+Rules: 
+1. Give a Pronunciation Score (0-100).
+2. Check if the translation captures the meaning.
+3. Provide the standard translation.
+Output in concise Chinese Markdown.`;
+                    try {
+                        const data = await (window.callAI || function() { return Promise.reject(new Error("API_BASE not set")); })({ messages: [{ role: "user", content: prompt }] });
+                        this.evaluation = (data && data.content) ? data.content : (data.error || "评价服务连接失败");
+                    } catch (e) { this.evaluation = "评价服务连接失败"; } finally { this.isEvaluating = false; }
+                }
+            }
+        }).mount('#app');
+    </script>
+</body>
+</html>
