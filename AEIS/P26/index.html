@@ -1,0 +1,685 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>AEIS Mastery Lab</title>
+    
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/microsoft-cognitiveservices-speech-sdk@latest/distrib/browser/microsoft.cognitiveservices.speech.sdk.bundle-min.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        [v-cloak] { display: none; }
+        
+        /* --- 护眼配色方案 (Warm Paper Theme) --- */
+        :root {
+            --bg-color: #fcfbf9; /* 暖米色背景 */
+            --glass-bg: rgba(255, 255, 255, 0.9);
+            --primary: #6366f1; /* Indigo */
+            --accent: #14b8a6;  /* Teal */
+            --text-main: #334155;
+            --text-sub: #64748b;
+            --shadow-soft: 0 10px 30px -5px rgba(0,0,0,0.06);
+            --safe-bottom: env(safe-area-inset-bottom, 20px);
+        }
+
+        body { 
+            font-family: 'Nunito', sans-serif; 
+            background-color: var(--bg-color); 
+            color: var(--text-main); 
+            user-select: none; 
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* 玻璃拟态卡片 */
+        .glass { 
+            background: var(--glass-bg); 
+            backdrop-filter: blur(12px); 
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 24px; 
+            box-shadow: var(--shadow-soft); 
+            border: 1px solid rgba(255,255,255,0.6); 
+        }
+
+        /* 3D 按钮优化 */
+        .btn-3d { 
+            transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1); 
+            border-bottom: 4px solid rgba(0,0,0,0.1); 
+            cursor: pointer; 
+            transform: translateY(0); 
+            position: relative;
+            touch-action: manipulation;
+        }
+        .btn-3d:active:not(:disabled) { 
+            border-bottom-width: 0px; 
+            transform: translateY(4px); 
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .btn-3d:disabled { 
+            opacity: 0.6; 
+            cursor: not-allowed; 
+            filter: grayscale(1);
+            transform: none; 
+            border-bottom-width: 4px; 
+        }
+        
+        .opt-correct { background-color: #ecfdf5 !important; border-color: #10b981 !important; color: #047857 !important; }
+        .opt-wrong { background-color: #fef2f2 !important; border-color: #ef4444 !important; color: #b91c1c !important; }
+        
+        .blur-reveal { filter: blur(6px); cursor: pointer; transition: 0.4s ease; user-select: none; }
+        .blur-reveal:hover, .blur-reveal.revealed { filter: blur(0); }
+        .mic-active { animation: pulse 1.5s infinite; background: #f43f5e !important; border-color: #be123c !important; color: white !important; }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(244, 63, 94, 0.4); } 70% { box-shadow: 0 0 0 15px rgba(244, 63, 94, 0); } 100% { box-shadow: 0 0 0 0 rgba(244, 63, 94, 0); } }
+        
+        .study-box { background: #fff; border: 1px solid #f1f5f9; border-radius: 16px; padding: 1.25rem; margin-bottom: 1rem; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
+        .label { font-family: 'Quicksand', sans-serif; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #94a3b8; display: block; margin-bottom: 0.4rem; }
+        .bilingual-text p { margin-bottom: 0.4rem; line-height: 1.6; }
+        .bilingual-text p:first-child { font-weight: 700; color: #334155; } 
+        .bilingual-text p:last-child { color: #64748b; font-size: 0.95em; }
+
+        .nav-bar {
+            position: fixed; bottom: 0; left: 0; width: 100%;
+            padding: 12px 16px;
+            padding-bottom: calc(12px + var(--safe-bottom)); 
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid #e2e8f0;
+            z-index: 50;
+            display: flex; gap: 12px;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.05);
+        }
+        
+        .admin-bar { position: fixed; top: 0; left: 0; width: 100%; background: #1e293b; color: white; padding: 8px; z-index: 100; display: flex; justify-content: space-around; align-items: center; font-size: 0.8rem; }
+    </style>
+</head>
+<body class="h-screen flex flex-col overflow-hidden">
+
+<div id="app" v-cloak class="flex flex-col h-full w-full max-w-2xl mx-auto md:border-x md:border-slate-100 bg-white/50 relative">
+
+    <header class="flex justify-between items-center p-4 pt-4 md:pt-6 z-10">
+        <div @click="triggerAdmin" class="flex items-center gap-2 cursor-pointer select-none">
+            <div class="w-8 h-8 rounded-lg bg-indigo-500 text-white flex items-center justify-center font-bold shadow-md">A</div>
+            <span class="font-bold text-slate-700 text-lg">AEIS Lab</span>
+            <span v-if="isAdmin" class="text-[10px] bg-red-500 text-white px-2 py-0.5 rounded-full">ADMIN</span>
+        </div>
+        <div v-if="user.name" class="flex gap-2">
+            <div class="px-3 py-1.5 rounded-full bg-white border border-slate-100 text-xs font-bold text-slate-500 shadow-sm flex items-center gap-1">
+                <i class="fas fa-clock text-indigo-400"></i> {{ formatTime(stats.sessionTime) }}
+            </div>
+            <button @click="saveAndExit" class="px-3 py-1.5 rounded-full bg-slate-100 text-xs font-bold text-slate-500 hover:bg-slate-200 transition">SAVE</button>
+        </div>
+    </header>
+
+    <div v-if="phase === 'login'" class="flex-1 flex flex-col items-center justify-center p-6">
+        <div class="glass p-8 w-full max-w-sm text-center transform transition-all hover:scale-105 duration-500">
+            <div class="w-16 h-16 bg-indigo-100 text-indigo-500 rounded-2xl flex items-center justify-center mx-auto mb-6 text-3xl shadow-inner">🎓</div>
+            <h1 class="text-3xl font-black text-slate-800 mb-2">Welcome</h1>
+            <p class="text-slate-400 mb-8 text-sm">Sec 2 Vocabulary Mastery</p>
+            
+            <div class="space-y-4">
+                <input v-model="userInputName" placeholder="Enter Your Name" class="w-full p-4 rounded-xl border-2 border-slate-100 bg-slate-50 text-center font-bold text-lg outline-none focus:border-indigo-400 focus:bg-white transition-all shadow-sm">
+                
+                <button @click="startNewSession" :disabled="!userInputName" class="btn-3d w-full bg-indigo-500 border-indigo-600 text-white py-4 rounded-xl font-bold text-lg shadow-lg shadow-indigo-200">
+                    START LEARNING
+                </button>
+                
+                <div v-if="hasSaveFile" class="pt-4 border-t border-slate-100 mt-4">
+                    <button @click="resumeSession" class="text-slate-400 font-bold text-sm hover:text-indigo-500 transition flex items-center justify-center gap-2 w-full py-2">
+                        <i class="fas fa-history"></i> Resume: {{ saveMetadata.name }}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div v-else-if="phase === 'summary'" class="flex-1 flex flex-col overflow-hidden relative">
+        <div class="flex-1 overflow-y-auto p-6 pb-32">
+            <div class="glass p-8 text-center mb-6">
+                <div class="inline-block p-3 rounded-full bg-green-100 text-green-500 text-3xl mb-4">🎉</div>
+                <h2 class="text-3xl font-black text-slate-800 mb-6">Session Complete!</h2>
+                
+                <div class="grid grid-cols-3 gap-3 mb-8">
+                    <div class="bg-indigo-50 p-3 rounded-2xl border border-indigo-100">
+                        <div class="text-2xl font-black text-indigo-500">{{ stats.wordsLearned }}</div>
+                        <div class="text-[10px] font-bold text-indigo-300 uppercase">Words</div>
+                    </div>
+                    <div class="bg-emerald-50 p-3 rounded-2xl border border-emerald-100">
+                        <div class="text-2xl font-black text-emerald-500">{{ calculateAccuracy() }}%</div>
+                        <div class="text-[10px] font-bold text-emerald-300 uppercase">Score</div>
+                    </div>
+                    <div class="bg-orange-50 p-3 rounded-2xl border border-orange-100">
+                        <div class="text-2xl font-black text-orange-500">{{ stats.errors.length }}</div>
+                        <div class="text-[10px] font-bold text-orange-300 uppercase">Review</div>
+                    </div>
+                </div>
+
+                <div class="text-left bg-gray-50 p-4 rounded-xl mb-6 max-h-40 overflow-y-auto border border-gray-200">
+                    <h4 class="font-bold text-xs text-gray-400 uppercase mb-2">Word Timing Details</h4>
+                    <div v-for="(time, word) in stats.wordTimings" :key="word" class="flex justify-between text-sm py-1 border-b border-gray-100 last:border-0">
+                        <span class="font-bold text-slate-600">{{ word }}</span>
+                        <span class="font-mono text-slate-500">{{ (time/1000).toFixed(1) }}s</span>
+                    </div>
+                </div>
+
+                <div class="space-y-3">
+                    <button @click="sendEmailJS" :disabled="isSending" class="btn-3d w-full bg-slate-800 border-slate-900 text-white py-4 rounded-xl font-bold flex items-center justify-center gap-2 shadow-lg">
+                        <i v-if="isSending" class="fas fa-spinner fa-spin"></i>
+                        <i v-else class="fas fa-paper-plane"></i> 
+                        {{ isSending ? 'Sending...' : 'Send Report to Teacher' }}
+                    </button>
+                    
+                    <a v-if="getWeakWords().length > 0" href="review.html" target="_blank" class="btn-3d block w-full bg-white border-slate-200 text-indigo-500 py-4 rounded-xl font-bold border-2">
+                        <i class="fas fa-book-open mr-2"></i> Download Review Plan
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div v-else class="flex flex-col h-full">
+        
+        <div class="px-6 pt-2 pb-4">
+            <div class="flex justify-between text-[10px] font-bold text-slate-400 mb-2 uppercase tracking-wider">
+                <span>{{ currentPhaseName }}</span>
+                <span>{{ groupIdx + 1 }} / {{ totalGroups }}</span>
+            </div>
+            <div class="h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                <div class="h-full bg-indigo-500 transition-all duration-700 ease-out" :style="{width: progressPercent + '%'}"></div>
+            </div>
+        </div>
+
+        <div class="flex-1 relative overflow-y-auto px-4 pb-32 custom-scrollbar">
+            
+            <div v-if="subPhase === 'PRONUNCIATION'" class="glass min-h-[400px] flex flex-col items-center justify-center text-center p-8 mt-4">
+                <span class="bg-indigo-50 text-indigo-500 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest mb-8">First Read</span>
+                <h1 class="text-5xl md:text-6xl font-black text-slate-800 mb-3 tracking-tight">{{ currWord.word }}</h1>
+                <p class="text-2xl font-mono text-slate-400 mb-12">{{ currWord.ipa }}</p>
+                
+                <div class="flex gap-6 items-center">
+                    <button @click="speak(currWord.word)" class="btn-3d w-16 h-16 rounded-2xl bg-amber-400 border-amber-500 text-white text-2xl flex items-center justify-center shadow-md"><i class="fas fa-volume-high"></i></button>
+                    <button @click="toggleRec('WORD', currWord.word, (s) => stepData.score = s)" 
+                        :class="recordingId === 'WORD' ? 'mic-active' : (stepData.score>=75?'bg-emerald-500 border-emerald-600 text-white':'bg-white border-slate-200 text-slate-400')" 
+                        class="btn-3d w-20 h-20 rounded-full text-3xl border-4 shadow-xl flex items-center justify-center transition-all">
+                        <i :class="stepData.score>=75 ? 'fas fa-check' : 'fas fa-microphone'"></i>
+                    </button>
+                </div>
+                <p class="mt-8 font-bold text-sm transition-colors" :class="stepData.score>=75?'text-emerald-500':'text-slate-400'">
+                    {{ stepData.score > 0 ? 'Score: ' + stepData.score : 'Tap mic to read' }}
+                </p>
+            </div>
+
+            <div v-if="subPhase === 'IMAGES'" class="glass p-6 mt-2">
+                <div class="text-center mb-6"><span class="bg-orange-50 text-orange-500 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest">Visual Context</span></div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    
+                    <div class="bg-white p-3 rounded-2xl border border-slate-100 shadow-sm">
+                        <div class="aspect-video bg-slate-100 rounded-xl mb-3 overflow-hidden relative">
+                            <img :src="getImg(0)" class="w-full h-full object-cover transition-transform hover:scale-110 duration-700" onerror="this.style.display='none'">
+                            <div class="absolute top-2 left-2 bg-black/50 text-white text-[10px] px-2 py-1 rounded-full backdrop-blur-md">Object</div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-3 rounded-2xl border border-slate-100 shadow-sm flex flex-col">
+                        <div class="aspect-video bg-slate-100 rounded-xl mb-3 overflow-hidden relative">
+                            <img :src="getImg(1)" class="w-full h-full object-cover transition-transform hover:scale-110 duration-700" onerror="this.style.display='none'">
+                            <div class="absolute top-2 left-2 bg-black/50 text-white text-[10px] px-2 py-1 rounded-full backdrop-blur-md">Scene</div>
+                        </div>
+                        <div class="text-center px-2 mt-auto">
+                            <p class="font-bold text-slate-700 text-sm leading-snug">{{ currWord.scene_en }}</p>
+                            <p class="text-slate-400 text-xs mt-1">{{ currWord.scene_cn }}</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div v-if="subPhase === 'QUIZ'" class="glass p-8 mt-4 flex flex-col justify-center min-h-[400px]">
+                <div class="text-center mb-8">
+                    <span class="text-slate-400 text-xs font-bold uppercase">Check Meaning</span>
+                    <h2 class="text-3xl font-black text-slate-800 mt-2">{{ currWord.word }}</h2>
+                </div>
+                <div class="space-y-3 w-full">
+                    <button v-for="(opt, idx) in stepData.quizOpts" :key="idx" 
+                        @click="checkQuiz(opt)"
+                        :class="getQuizClass(opt)"
+                        class="btn-3d w-full p-5 rounded-2xl font-bold text-lg text-left bg-white border-slate-200 text-slate-600 relative transition-all shadow-sm">
+                        {{ opt }}
+                        <div v-if="stepData.selOpt === opt" class="absolute right-5 top-1/2 transform -translate-y-1/2">
+                            <i :class="stepData.isCorrect ? 'fas fa-check-circle text-emerald-500 text-2xl' : 'fas fa-times-circle text-red-500 text-2xl'"></i>
+                        </div>
+                    </button>
+                </div>
+                <div v-if="stepData.quizDone" class="mt-8 text-center animate-fade-in-up">
+                    <button @click="next" class="btn-3d bg-indigo-500 border-indigo-600 text-white px-10 py-4 rounded-xl font-bold text-lg shadow-lg shadow-indigo-200">
+                        Continue <i class="fas fa-arrow-right ml-2"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div v-if="subPhase === 'STUDY'" class="glass p-6 mt-2">
+                <div class="flex justify-between items-center mb-6 pb-4 border-b border-slate-100">
+                    <div>
+                        <h1 class="text-3xl font-black text-slate-800">{{ currWord.word }}</h1>
+                        <p class="text-slate-400 font-mono text-sm mt-1">{{ currWord.ipa }}</p>
+                    </div>
+                    <button @click="speak(currWord.word)" class="btn-3d bg-amber-400 border-amber-500 w-12 h-12 rounded-full text-white text-lg flex items-center justify-center shadow-md"><i class="fas fa-volume-up"></i></button>
+                </div>
+                
+                <div class="grid grid-cols-1 gap-3 mb-4">
+                    <div class="study-box bg-slate-50 border-slate-100">
+                        <span class="label">Definition</span>
+                        <p class="font-bold text-slate-800 text-lg">{{ currWord.meanings.en }}</p>
+                        <p class="text-slate-500 text-sm mt-1">{{ currWord.meanings.cn }}</p>
+                    </div>
+                </div>
+                
+                <div class="study-box bg-sky-50 border-sky-100 mb-6">
+                    <span class="label text-sky-500"><i class="fas fa-lightbulb mr-1"></i> Context Usage</span>
+                    <div class="bilingual-text">
+                        <p class="text-slate-800 font-bold text-sm">{{ currWord.usage_en }}</p>
+                        <p>{{ currWord.usage_cn }}</p>
+                    </div>
+                </div>
+
+                <div>
+                    <span class="label mb-3 text-center block">MASTER SENTENCES</span>
+                    <div v-for="(ex, i) in currWord.examples" :key="i" class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm mb-4">
+                        <div class="flex gap-3 mb-4 items-start">
+                            <button @click="speak(ex.en)" class="text-indigo-400 mt-1 hover:text-indigo-600 transition"><i class="fas fa-volume-up text-lg"></i></button>
+                            <p class="font-bold text-slate-700 text-lg leading-relaxed">{{ ex.en }}</p>
+                        </div>
+                        <div class="mb-4">
+                            <p @click="ex.rev = !ex.rev" :class="ex.rev?'revealed':''" class="blur-reveal bg-slate-50 px-3 py-2 rounded-lg text-slate-500 text-sm font-bold inline-block select-none border border-slate-100 cursor-pointer w-full">
+                                {{ ex.cn }} 
+                                <span class="float-right text-slate-300"><i :class="ex.rev?'fa-eye-slash':'fa-eye'" class="fas"></i></span>
+                            </p>
+                        </div>
+                        <div class="flex items-center justify-between bg-slate-50 p-2 rounded-xl border border-slate-100">
+                            <button @click="toggleRec('EX_'+i, ex.en, (s) => updateExScore(i, s))" 
+                                :class="recordingId === 'EX_'+i ? 'mic-active' : (stepData.exScores[i]>=75 ? 'bg-emerald-500 border-emerald-600 text-white' : 'bg-white border-slate-200 text-slate-500')"
+                                class="btn-3d px-4 py-2 rounded-lg text-xs font-bold flex items-center gap-2 min-w-[80px] justify-center transition-all">
+                                <i :class="recordingId === 'EX_'+i ? 'fas fa-stop' : (stepData.exScores[i]>=75 ? 'fas fa-check' : 'fas fa-microphone')"></i>
+                                {{ stepData.exScores[i]>=75 ? 'PASS' : 'READ' }}
+                            </button>
+                            <div class="flex gap-1 pr-2">
+                                <div v-for="c in 3" :key="c" class="w-2 h-2 rounded-full transition-all" :class="stepData.exCounts[i] >= c ? 'bg-emerald-400' : 'bg-slate-200'"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div v-if="subPhase.startsWith('GROUP_')" class="glass p-8 mt-4 flex flex-col justify-center min-h-[500px]">
+                
+                <div v-if="subPhase === 'GROUP_SOCRATIC'">
+                    <div class="text-center mb-8">
+                        <span class="bg-yellow-50 text-yellow-600 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest">Scenario Check {{ socraticIdx + 1 }}/4</span>
+                        <h2 class="text-xl font-bold text-slate-800 mt-4 leading-snug">{{ currSocratic.question }}</h2>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <button v-for="opt in currSocratic.options" @click="checkSocratic(opt)" class="btn-3d w-full p-5 bg-white border-slate-200 rounded-2xl font-bold text-slate-600 text-left hover:border-yellow-400 transition-colors border-2">
+                            {{ opt }}
+                        </button>
+                    </div>
+
+                    <div v-if="stepData.socraticDone" class="mt-8 text-center animate-fade-in-up">
+                        <div class="bg-yellow-50 border border-yellow-100 p-4 rounded-xl text-yellow-800 font-bold mb-4 text-sm">
+                            <i class="fas fa-lightbulb mr-2"></i> {{ stepData.socraticRes }}
+                        </div>
+                        <button @click="nextSocratic" class="btn-3d bg-yellow-500 border-yellow-600 text-white px-8 py-3 rounded-xl font-bold shadow-lg">
+                            Next Question <i class="fas fa-forward ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div v-if="subPhase === 'GROUP_FINAL'">
+                    <div class="text-center mb-8">
+                        <span class="bg-red-50 text-red-500 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest">Final Challenge</span>
+                        <p class="text-2xl font-bold text-slate-800 mt-6 leading-relaxed">{{ currGroup.stem }}</p>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-4">
+                        <button v-for="(opt, idx) in currGroup.options" :key="idx" 
+                            @click="checkFinal(idx)" 
+                            :disabled="stepData.finalDone"
+                            :class="getFinalBtnClass(idx)"
+                            class="btn-3d py-6 bg-white border-slate-200 rounded-2xl font-bold text-lg text-slate-600 border-2">
+                            {{ opt.word }}
+                        </button>
+                    </div>
+
+                    <div v-if="stepData.finalDone" class="mt-8 text-center animate-fade-in-up">
+                        <div class="bg-slate-50 border-l-4 border-indigo-500 p-4 rounded-r-xl text-left mb-6">
+                            <p class="text-xs font-bold text-slate-400 uppercase mb-1">Analysis</p>
+                            <p class="text-slate-700 font-medium text-sm leading-relaxed">{{ currGroup.synonym_cn }}</p>
+                        </div>
+                        <button @click="next" class="btn-3d bg-indigo-600 border-indigo-700 text-white px-10 py-4 rounded-xl font-black text-lg shadow-xl">
+                            COMPLETE GROUP <i class="fas fa-check-circle ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div v-if="!['login', 'summary'].includes(phase)" class="nav-bar">
+            <button @click="prev" :disabled="!canBack" class="btn-3d bg-white border-slate-200 text-slate-400 h-14 w-16 rounded-2xl flex items-center justify-center shrink-0">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <button @click="next" :disabled="!canNext" 
+                :class="canNext ? 'bg-indigo-600 border-indigo-700 text-white shadow-indigo-200' : 'bg-slate-100 border-slate-200 text-slate-300'"
+                class="btn-3d flex-1 h-14 rounded-2xl font-bold text-lg shadow-lg flex items-center justify-center gap-3 transition-all">
+                <span>{{ lockMsg }}</span> <i v-if="canNext" class="fas fa-arrow-right"></i>
+            </button>
+        </div>
+
+    </div>
+
+    <div v-if="isAdmin" class="admin-bar">
+        <span class="text-red-400 font-bold">ADMIN</span>
+        <button @click="adminNav(1, 'g')" class="admin-btn">Next Group</button>
+        <button @click="unlockAll" class="admin-btn bg-emerald-700">Unlock</button>
+    </div>
+
+</div>
+
+<script>
+// --- EmailJS Config (User Provided) ---
+const EMAILJS_PUBLIC_KEY = "1QhXV5G_92GdK7_DF";
+const EMAILJS_SERVICE_ID = "service_6dfbs2n";
+const EMAILJS_TEMPLATE_ID = "template_29lkfcs";
+
+(function(){ try{emailjs.init(EMAILJS_PUBLIC_KEY);}catch(e){console.log('EmailJS Error')} })();
+
+const DB = {"meta": {"source_pdf": "D:\\Python\u81ea\u52a8\u5316\\AeisLab_Final\\Vocab\\P6_vocabulary_exercises\\P6_vocabulary_exercises_26.pdf", "azure_key": "DKRXk8ueSfo5NdIOMqFRTCAfpeGDezJ3Snf5K8gGgtyqxiWdugLzJQQJ99BLACHYHv6XJ3w3AAAYACOGUYP9", "azure_region": "eastus2"}, "questions": [{"id": 1, "stem": "We have our ______ long ago that James is the culprit.", "correct_index": 1, "options": [{"word": "thoughts", "ipa": "/\u03b8\u0254\u02d0ts/", "meanings": {"en": "Ideas or opinions produced by thinking or occurring suddenly in the mind.", "cn": "\u901a\u8fc7\u601d\u8003\u6216\u7a81\u7136\u51fa\u73b0\u5728\u8111\u6d77\u4e2d\u7684\u60f3\u6cd5\u6216\u610f\u89c1\u3002"}, "usage_en": "Used to describe the process of thinking or the ideas that result from it.", "usage_cn": "\u7528\u4e8e\u63cf\u8ff0\u601d\u8003\u7684\u8fc7\u7a0b\u6216\u7531\u6b64\u4ea7\u751f\u7684\u60f3\u6cd5\u3002", "scene_en": "A person sitting quietly, possibly with a hand on their chin, deep in contemplation.", "scene_cn": "\u4e00\u4e2a\u4eba\u5b89\u9759\u5730\u5750\u7740\uff0c\u53ef\u80fd\u624b\u6258\u7740\u4e0b\u5df4\uff0c\u9677\u5165\u6c89\u601d\u3002", "image_paths": ["P6_vocabulary_exercises_26_Q1_thoughts_1.png", "P6_vocabulary_exercises_26_Q1_thoughts_2.png"], "examples": [{"en": "Her thoughts were filled with happy memories of her childhood vacations abroad.", "cn": "\u5979\u7684\u601d\u7eea\u5145\u6ee1\u4e86\u5979\u7ae5\u5e74\u65f6\u5728\u56fd\u5916\u5ea6\u5047\u7684\u7f8e\u597d\u56de\u5fc6\u3002"}, {"en": "I shared my thoughts on the project, hoping to contribute to the discussion effectively.", "cn": "\u6211\u5206\u4eab\u4e86\u6211\u5bf9\u8fd9\u4e2a\u9879\u76ee\u7684\u60f3\u6cd5\uff0c\u5e0c\u671b\u80fd\u6709\u6548\u5730\u4e3a\u8ba8\u8bba\u505a\u51fa\u8d21\u732e\u3002"}]}, {"word": "proof", "ipa": "/pru\u02d0f/", "meanings": {"en": "Evidence or argument establishing or helping to establish a fact or the truth of a statement.", "cn": "\u5efa\u7acb\u6216\u6709\u52a9\u4e8e\u5efa\u7acb\u4e8b\u5b9e\u6216\u9648\u8ff0\u771f\u76f8\u7684\u8bc1\u636e\u6216\u8bba\u70b9\u3002"}, "usage_en": "Used to indicate that something has been shown to be true or correct.", "usage_cn": "\u7528\u4e8e\u8868\u660e\u67d0\u4e8b\u5df2\u88ab\u8bc1\u660e\u662f\u771f\u5b9e\u6216\u6b63\u786e\u7684\u3002", "scene_en": "A courtroom scene with evidence being presented to a jury.", "scene_cn": "\u4e00\u4e2a\u6cd5\u5ead\u573a\u666f\uff0c\u5411\u966a\u5ba1\u56e2\u51fa\u793a\u8bc1\u636e\u3002", "image_paths": ["P6_vocabulary_exercises_26_Q1_proof_1.png", "P6_vocabulary_exercises_26_Q1_proof_2.png"], "examples": [{"en": "The detective needed more proof to convict the suspect of the serious crime.", "cn": "\u4fa6\u63a2\u9700\u8981\u66f4\u591a\u7684\u8bc1\u636e\u624d\u80fd\u5224\u5b9a\u5acc\u7591\u4eba\u72af\u6709\u91cd\u7f6a\u3002"}, {"en": "Scientists require solid proof before they can publish their findings in a journal.", "cn": "\u79d1\u5b66\u5bb6\u4eec\u5728\u671f\u520a\u4e0a\u53d1\u8868\u4ed6\u4eec\u7684\u53d1\u73b0\u4e4b\u524d\u9700\u8981\u786e\u51ff\u7684\u8bc1\u636e\u3002"}]}, {"word": "insinuations", "ipa": "/\u026an\u02ccs\u026anju\u02c8e\u026a\u0283\u0259nz/", "meanings": {"en": "An unpleasant hint or suggestion of something bad.", "cn": "\u5bf9\u67d0\u4ef6\u574f\u4e8b\u7684\u4e0d\u6109\u5feb\u7684\u6697\u793a\u6216\u5efa\u8bae\u3002"}, "usage_en": "Used to describe indirect and usually negative suggestions or hints.", "usage_cn": "\u7528\u4e8e\u63cf\u8ff0\u95f4\u63a5\u7684\uff0c\u901a\u5e38\u662f\u8d1f\u9762\u7684\u5efa\u8bae\u6216\u6697\u793a\u3002", "scene_en": "Two people whispering and looking suspiciously at another person.", "scene_cn": "\u4e24\u4e2a\u4eba\u7a83\u7a83\u79c1\u8bed\uff0c\u53ef\u7591\u5730\u770b\u7740\u53e6\u4e00\u4e2a\u4eba\u3002", "image_paths": ["P6_vocabulary_exercises_26_Q1_insinuations_1.png", "P6_vocabulary_exercises_26_Q1_insinuations_2.png"], "examples": [{"en": "The politician denied all the insinuations made against him during the heated debate.", "cn": "\u8fd9\u4f4d\u653f\u6cbb\u5bb6\u5426\u8ba4\u4e86\u5728\u6fc0\u70c8\u7684\u8fa9\u8bba\u4e2d\u5bf9\u4ed6\u63d0\u51fa\u7684\u6240\u6709\u6697\u793a\u3002"}, {"en": "Her insinuations about his work ethic were unfair and completely unfounded in reality.", "cn": "\u5979\u5bf9\u4ed6\u7684\u804c\u4e1a\u9053\u5fb7\u7684\u6697\u793a\u662f\u4e0d\u516c\u5e73\u7684\uff0c\u5e76\u4e14\u5b8c\u5168\u6ca1\u6709\u6839\u636e\u3002"}]}, {"word": "suspicions", "ipa": "/s\u0259\u02c8sp\u026a\u0283\u0259nz/", "meanings": {"en": "A feeling or belief that someone is guilty of an illegal or wrong act.", "cn": "\u67d0\u4eba\u72af\u6709\u975e\u6cd5\u6216\u9519\u8bef\u884c\u4e3a\u7684\u611f\u89c9\u6216\u4fe1\u5ff5\u3002"}, "usage_en": "Used to describe a feeling of distrust or doubt about someone or something.", "usage_cn": "\u7528\u4e8e\u63cf\u8ff0\u5bf9\u67d0\u4eba\u6216\u67d0\u4e8b\u7684\u4e0d\u4fe1\u4efb\u6216\u6000\u7591\u7684\u611f\u89c9\u3002", "scene_en": "A detective looking closely at a suspect in a dimly lit room.", "scene_cn": "\u4e00\u540d\u4fa6\u63a2\u5728\u5149\u7ebf\u660f\u6697\u7684\u623f\u95f4\u91cc\u4ed4\u7ec6\u89c2\u5bdf\u5acc\u7591\u4eba\u3002", "image_paths": ["P6_vocabulary_exercises_26_Q1_suspicions_1.png", "P6_vocabulary_exercises_26_Q1_suspicions_2.png"], "examples": [{"en": "The police had strong suspicions about the man, but lacked enough evidence to arrest him.", "cn": "\u8b66\u65b9\u5bf9\u8fd9\u540d\u7537\u5b50\u6709\u5f3a\u70c8\u7684\u6000\u7591\uff0c\u4f46\u7f3a\u4e4f\u8db3\u591f\u7684\u8bc1\u636e\u902e\u6355\u4ed6\u3002"}, {"en": "Her suspicions grew when she noticed money missing from her purse after his visit.", "cn": "\u5f53\u5979\u6ce8\u610f\u5230\u4ed6\u6765\u8bbf\u540e\u5979\u7684\u94b1\u5305\u91cc\u5c11\u4e86\u94b1\u65f6\uff0c\u5979\u7684\u6000\u7591\u589e\u52a0\u4e86\u3002"}]}], "synonym_cn": "\u8bc1\u636e vs. \u60f3\u6cd5 vs. \u6697\u793a vs. \u6000\u7591", "socratic_questions": [{"question": "If you're considering someone might be guilty, but lack solid facts, what do you hold?", "options": ["thoughts", "proof", "insinuations", "suspicions"], "correct_answer": "suspicions", "explanation": "Suspicions involve a feeling that someone might be guilty without concrete evidence."}, {"question": "What do you possess when you have undeniable video footage showing someone committing a crime?", "options": ["thoughts", "proof", "insinuations", "suspicions"], "correct_answer": "proof", "explanation": "Proof is concrete evidence that establishes the truth of something beyond reasonable doubt."}, {"question": "If you're having a general idea about something, what are you having?", "options": ["thoughts", "proof", "insinuations", "suspicions"], "correct_answer": "thoughts", "explanation": "Thoughts are ideas or opinions produced by thinking or occurring suddenly in the mind."}, {"question": "If you are hinting at something negative about someone without directly saying it, what are you making?", "options": ["thoughts", "proof", "insinuations", "suspicions"], "correct_answer": "insinuations", "explanation": "Insinuations are indirect suggestions or hints, usually negative or unpleasant."}]}, {"id": 2, "stem": "The defendant has decided to ______ guilty in order to get a lighter sentence.", "correct_index": 1, "options": [{"word": "pardon", "ipa": "/\u02c8p\u0251\u02d0rd\u0259n/", "meanings": {"en": "To forgive or excuse (a person) for an offense.", "cn": "\u539f\u8c05\u6216\u5bbd\u6055\uff08\u67d0\u4eba\uff09\u7684\u7f6a\u884c\u3002"}, "usage_en": "Used when officially forgiving someone for a crime or offense.", "usage_cn": "\u7528\u4e8e\u6b63\u5f0f\u5730\u5bbd\u6055\u67d0\u4eba\u7684\u72af\u7f6a\u884c\u4e3a\u6216\u8fc7\u5931\u3002", "scene_en": "A courtroom scene where a judge announces a pardon.", "scene_cn": "\u6cd5\u5ead\u573a\u666f\uff0c\u6cd5\u5b98\u5ba3\u5e03\u8d66\u514d\u3002", "image_paths": ["P6_vocabulary_exercises_26_Q2_pardon_1.png", "P6_vocabulary_exercises_26_Q2_pardon_2.png"], "examples": [{"en": "The governor decided to pardon him for his past crimes, offering a fresh start.", "cn": "\u5dde\u957f\u51b3\u5b9a\u8d66\u514d\u4ed6\u8fc7\u53bb\u7684\u7f6a\u884c\uff0c\u7ed9\u4e88\u4ed6\u4e00\u4e2a\u5168\u65b0\u7684\u5f00\u59cb\u3002"}, {"en": "After years of appeals, the president issued a pardon, freeing the wrongly convicted man.", "cn": "\u7ecf\u8fc7\u591a\u5e74\u7684\u4e0a\u8bc9\uff0c\u603b\u7edf\u53d1\u5e03\u4e86\u8d66\u514d\u4ee4\uff0c\u91ca\u653e\u4e86\u88ab\u9519\u8bef\u5b9a\u7f6a\u7684\u7537\u5b50\u3002"}]}, {"word": "plead", "ipa": "/pli\u02d0d/", "meanings": {"en": "To state formally in court whether one is guilty or not guilty.", "cn": "\u5728\u6cd5\u5ead\u4e0a\u6b63\u5f0f\u58f0\u660e\u67d0\u4eba\u662f\u5426\u6709\u7f6a\u3002"}, "usage_en": "Used in legal contexts when entering a plea in court.", "usage_cn": "\u5728\u6cd5\u5f8b\u8bed\u5883\u4e2d\uff0c\u7528\u4e8e\u5728\u6cd5\u5ead\u4e0a\u8fdb\u884c\u8fa9\u62a4\u3002", "scene_en": "A defendant standing before a judge, entering a plea.", "scene_cn": "\u88ab\u544a\u7ad9\u5728\u6cd5\u5b98\u9762\u524d\uff0c\u8fdb\u884c\u8fa9\u62a4\u3002", "image_paths": ["P6_vocabulary_exercises_26_Q2_plead_1.png", "P6_vocabulary_exercises_26_Q2_plead_2.png"], "examples": [{"en": "The defendant chose to plead guilty to the charges, hoping for a reduced sentence.", "cn": "\u88ab\u544a\u9009\u62e9\u5bf9\u6307\u63a7\u8ba4\u7f6a\uff0c\u5e0c\u671b\u83b7\u5f97\u51cf\u5211\u3002"}, {"en": "She will plead her case before the judge, presenting evidence to support her innocence.", "cn": "\u5979\u5c06\u5728\u6cd5\u5b98\u9762\u524d\u8fa9\u62a4\uff0c\u63d0\u4f9b\u8bc1\u636e\u6765\u652f\u6301\u5979\u7684\u6e05\u767d\u3002"}]}, {"word": "claim", "ipa": "/kle\u026am/", "meanings": {"en": "To state or assert that something is the case, typically without providing evidence.", "cn": "\u58f0\u660e\u6216\u65ad\u8a00\u67d0\u4e8b\u662f\u4e8b\u5b9e\uff0c\u901a\u5e38\u4e0d\u63d0\u4f9b\u8bc1\u636e\u3002"}, "usage_en": "Used when asserting something as true, often without proof.", "usage_cn": "\u7528\u4e8e\u65ad\u8a00\u67d0\u4e8b\u4e3a\u771f\uff0c\u901a\u5e38\u6ca1\u6709\u8bc1\u636e\u3002", "scene_en": "A person making a statement or assertion in a public setting.", "scene_cn": "\u4e00\u4e2a\u4eba\u5728\u516c\u5171\u573a\u5408\u53d1\u8868\u58f0\u660e\u6216\u65ad\u8a00\u3002", "image_paths": ["P6_vocabulary_exercises_26_Q2_claim_1.png", "P6_vocabulary_exercises_26_Q2_claim_2.png"], "examples": [{"en": "He continues to claim that he is innocent, despite the overwhelming evidence against him.", "cn": "\u5c3d\u7ba1\u6709\u5927\u91cf\u7684\u8bc1\u636e\u5bf9\u4ed6\u4e0d\u5229\uff0c\u4ed6\u4ecd\u7136\u58f0\u79f0\u81ea\u5df1\u662f\u65e0\u8f9c\u7684\u3002"}, {"en": "The company made a bold claim about the effectiveness of their new weight loss product.", "cn": "\u8be5\u516c\u53f8\u5bf9\u5176\u65b0\u578b\u51cf\u80a5\u4ea7\u54c1\u7684\u6709\u6548\u6027\u63d0\u51fa\u4e86\u5927\u80c6\u7684\u4e3b\u5f20\u3002"}]}, {"word": "confess", "ipa": "/k\u0259n\u02c8fes/", "meanings": {"en": "To admit or state formally that one has committed a crime or done something wrong.", "cn": "\u627f\u8ba4\u6216\u6b63\u5f0f\u58f0\u660e\u81ea\u5df1\u72af\u4e86\u7f6a\u6216\u505a\u4e86\u9519\u4e8b\u3002"}, "usage_en": "Used when admitting guilt or wrongdoing.", "usage_cn": "\u7528\u4e8e\u627f\u8ba4\u6709\u7f6a\u6216\u505a\u9519\u4e8b\u3002", "scene_en": "A person confessing to a crime to the police.", "scene_cn": "\u4e00\u4e2a\u4eba\u5411\u8b66\u5bdf\u5766\u767d\u7f6a\u884c\u3002", "image_paths": ["P6_vocabulary_exercises_26_Q2_confess_1.png", "P6_vocabulary_exercises_26_Q2_confess_2.png"], "examples": [{"en": "After hours of questioning, the suspect finally decided to confess to the crime he committed.", "cn": "\u7ecf\u8fc7\u6570\u5c0f\u65f6\u7684\u5ba1\u95ee\uff0c\u5acc\u7591\u4eba\u6700\u7ec8\u51b3\u5b9a\u5766\u767d\u4ed6\u6240\u72af\u4e0b\u7684\u7f6a\u884c\u3002"}, {"en": "She decided to confess her feelings to him, even though she was afraid of rejection.", "cn": "\u5979\u51b3\u5b9a\u5411\u4ed6\u5766\u767d\u81ea\u5df1\u7684\u611f\u60c5\uff0c\u5373\u4f7f\u5979\u5bb3\u6015\u88ab\u62d2\u7edd\u3002"}]}], "synonym_cn": "\u627f\u8ba4\u7f6a\u884c\uff1a\u5766\u767d > \u627f\u8ba4 > \u58f0\u79f0 > \u539f\u8c05", "socratic_questions": [{"question": "In a trial, which action involves formally stating you are not guilty or responsible?", "options": ["pardon", "plead", "claim", "confess"], "correct_answer": "plead", "explanation": "To 'plead' not guilty is to formally state your innocence in court."}, {"question": "If someone admits to committing a crime, what action are they taking?", "options": ["pardon", "plead", "claim", "confess"], "correct_answer": "confess", "explanation": "To 'confess' is to admit to doing something wrong or illegal."}, {"question": "Which word describes a situation where someone is officially forgiven for an offense?", "options": ["pardon", "plead", "claim", "confess"], "correct_answer": "pardon", "explanation": "To 'pardon' someone is to forgive them for an offense and release them from punishment."}, {"question": "If you state something is true, even without proof, what are you doing?", "options": ["pardon", "plead", "claim", "confess"], "correct_answer": "claim", "explanation": "To 'claim' is to state something is true, often without providing evidence."}]}, {"id": 3, "stem": "Most of us don't believe Diana because she is not a/an ______ girl.", "correct_index": 2, "options": [{"word": "honour", "ipa": "/\u02c8\u0252n\u0259r/", "meanings": {"en": "Respect and admiration; high moral principles.", "cn": "\u5c0a\u656c\u548c\u94a6\u4f69\uff1b\u5d07\u9ad8\u7684\u9053\u5fb7\u539f\u5219\u3002"}, "usage_en": "Often used to describe a code of conduct or a position of respect.", "usage_cn": "\u5e38\u7528\u4e8e\u63cf\u8ff0\u884c\u4e3a\u51c6\u5219\u6216\u53d7\u4eba\u5c0a\u656c\u7684\u5730\u4f4d\u3002", "scene_en": "A knight receiving a medal for bravery in a grand ceremony.", "scene_cn": "\u4e00\u4f4d\u9a91\u58eb\u5728\u76db\u5927\u7684\u4eea\u5f0f\u4e0a\u63a5\u53d7\u4e00\u679a\u52c7\u6562\u52cb\u7ae0\u3002", "image_paths": ["P6_vocabulary_exercises_26_Q3_honour_1.png", "P6_vocabulary_exercises_26_Q3_honour_2.png"], "examples": [{"en": "It is a great honour to be invited to speak at this conference.", "cn": "\u5f88\u8363\u5e78\u80fd\u88ab\u9080\u8bf7\u5728\u672c\u6b21\u4f1a\u8bae\u4e0a\u53d1\u8a00\u3002"}, {"en": "She acted with honour and integrity throughout her career in public service.", "cn": "\u5728\u5979\u6574\u4e2a\u516c\u5171\u670d\u52a1\u751f\u6daf\u4e2d\uff0c\u5979\u7684\u884c\u4e3a\u90fd\u5145\u6ee1\u4e86\u8363\u8a89\u548c\u6b63\u76f4\u3002"}]}, {"word": "true", "ipa": "/tru\u02d0/", "meanings": {"en": "In accordance with fact or reality; genuine.", "cn": "\u4e0e\u4e8b\u5b9e\u6216\u73b0\u5b9e\u76f8\u7b26\uff1b\u771f\u5b9e\u7684\u3002"}, "usage_en": "Used to describe something that is real or accurate.", "usage_cn": "\u7528\u4e8e\u63cf\u8ff0\u771f\u5b9e\u6216\u51c6\u786e\u7684\u4e8b\u7269\u3002", "scene_en": "A scientist verifying data in a lab to ensure it is accurate.", "scene_cn": "\u4e00\u4f4d\u79d1\u5b66\u5bb6\u5728\u5b9e\u9a8c\u5ba4\u9a8c\u8bc1\u6570\u636e\u4ee5\u786e\u4fdd\u5176\u51c6\u786e\u6027\u3002", "image_paths": ["P6_vocabulary_exercises_26_Q3_true_1.png", "P6_vocabulary_exercises_26_Q3_true_2.png"], "examples": [{"en": "It is true that the Earth revolves around the sun, not the other way.", "cn": "\u5730\u7403\u7ed5\u592a\u9633\u8f6c\uff0c\u800c\u4e0d\u662f\u592a\u9633\u7ed5\u5730\u7403\u8f6c\uff0c\u8fd9\u662f\u771f\u7684\u3002"}, {"en": "Her love for him was true and unwavering, even through difficult times.", "cn": "\u5373\u4f7f\u5728\u56f0\u96be\u65f6\u671f\uff0c\u5979\u5bf9\u4ed6\u7684\u7231\u4e5f\u662f\u771f\u631a\u800c\u575a\u5b9a\u4e0d\u79fb\u7684\u3002"}]}, {"word": "honest", "ipa": "/\u02c8\u0252n\u026ast/", "meanings": {"en": "Free of deceit; truthful and sincere.", "cn": "\u6ca1\u6709\u6b3a\u9a97\uff1b\u771f\u5b9e\u548c\u771f\u8bda\u7684\u3002"}, "usage_en": "Describes someone who tells the truth and acts with integrity.", "usage_cn": "\u63cf\u8ff0\u4e00\u4e2a\u8bf4\u771f\u8bdd\u5e76\u4ee5\u6b63\u76f4\u884c\u4e8b\u7684\u4eba\u3002", "scene_en": "A person returning a lost wallet to its owner.", "scene_cn": "\u4e00\u4e2a\u4eba\u5c06\u4e22\u5931\u7684\u94b1\u5305\u5f52\u8fd8\u7ed9\u5b83\u7684\u4e3b\u4eba\u3002", "image_paths": ["P6_vocabulary_exercises_26_Q3_honest_1.png", "P6_vocabulary_exercises_26_Q3_honest_2.png"], "examples": [{"en": "She is an honest person, always telling the truth no matter the consequences.", "cn": "\u5979\u662f\u4e00\u4e2a\u8bda\u5b9e\u7684\u4eba\uff0c\u65e0\u8bba\u540e\u679c\u5982\u4f55\uff0c\u603b\u662f\u8bf4\u5b9e\u8bdd\u3002"}, {"en": "To be an honest broker, you must be impartial and fair to all parties.", "cn": "\u8981\u6210\u4e3a\u4e00\u4e2a\u8bda\u5b9e\u7684\u7ecf\u7eaa\u4eba\uff0c\u4f60\u5fc5\u987b\u5bf9\u6240\u6709\u5404\u65b9\u90fd\u4fdd\u6301\u516c\u6b63\u548c\u516c\u5e73\u3002"}]}, {"word": "clear", "ipa": "/kl\u026a\u0259r/", "meanings": {"en": "Easy to perceive, understand, or interpret.", "cn": "\u5bb9\u6613\u611f\u77e5\u3001\u7406\u89e3\u6216\u89e3\u91ca\u7684\u3002"}, "usage_en": "Used to describe something that is easily understood or visible.", "usage_cn": "\u7528\u4e8e\u63cf\u8ff0\u5bb9\u6613\u7406\u89e3\u6216\u53ef\u89c1\u7684\u4e8b\u7269\u3002", "scene_en": "A clear blue sky on a sunny day.", "scene_cn": "\u9633\u5149\u660e\u5a9a\u7684\u4e00\u5929\uff0c\u4e07\u91cc\u65e0\u4e91\u7684\u84dd\u5929\u3002", "image_paths": ["P6_vocabulary_exercises_26_Q3_clear_1.png", "P6_vocabulary_exercises_26_Q3_clear_2.png"], "examples": [{"en": "The instructions were clear and easy to follow, even for beginners.", "cn": "\u5373\u4f7f\u5bf9\u4e8e\u521d\u5b66\u8005\u6765\u8bf4\uff0c\u8fd9\u4e9b\u8bf4\u660e\u4e5f\u5f88\u6e05\u695a\u6613\u61c2\u3002"}, {"en": "The water in the lake was so clear that you could see the bottom.", "cn": "\u6e56\u6c34\u975e\u5e38\u6e05\u6f88\uff0c\u4f60\u53ef\u4ee5\u770b\u5230\u5e95\u90e8\u3002"}]}], "synonym_cn": "\u8bda\u5b9e (ch\u00e9ngsh\u00ed) vs. \u771f\u8bda (zh\u0113nch\u00e9ng) vs. \u5149\u8363 (gu\u0101ngr\u00f3ng) vs. \u6e05\u695a (q\u012bngch\u01d4)", "socratic_questions": [{"question": "If a medal was given for bravery, which quality does it represent?", "options": ["honour", "true", "honest", "clear"], "correct_answer": "honour", "explanation": "Honour signifies great respect and admiration, often associated with bravery or achievement."}, {"question": "Which word describes a feeling that is genuine and without pretense?", "options": ["honour", "true", "honest", "clear"], "correct_answer": "true", "explanation": "True describes something that is genuine, sincere, and without any deceit or falseness."}, {"question": "If someone always tells the truth, what kind of person are they?", "options": ["honour", "true", "honest", "clear"], "correct_answer": "honest", "explanation": "Honest describes someone who is truthful and does not lie or deceive others."}, {"question": "If instructions are easy to understand, they are considered what?", "options": ["honour", "true", "honest", "clear"], "correct_answer": "clear", "explanation": "Clear means easy to understand, without ambiguity or confusion."}]}, {"id": 4, "stem": "Two masked men ______ a bank in the city this morning.", "correct_index": 2, "options": [{"word": "stole", "ipa": "sto\u028al", "meanings": {"en": "Took something without permission or legal right and without intending to return it.", "cn": "\u672a\u7ecf\u5141\u8bb8\u6216\u5408\u6cd5\u6743\u5229\u62ff\u8d70\u67d0\u7269\uff0c\u4e14\u4e0d\u6253\u7b97\u5f52\u8fd8\u3002"}, "usage_en": "Used when something is taken secretly or without permission.", "usage_cn": "\u7528\u4e8e\u63cf\u8ff0\u79d8\u5bc6\u6216\u672a\u7ecf\u8bb8\u53ef\u5730\u62ff\u8d70\u67d0\u7269\u7684\u60c5\u51b5\u3002", "scene_en": "A shadowy figure sneaking away with a valuable object in hand.", "scene_cn": "\u4e00\u4e2a\u9634\u5f71\u4e2d\u7684\u4eba\u5077\u5077\u62ff\u7740\u4e00\u4ef6\u8d35\u91cd\u7269\u54c1\u6e9c\u8d70\u3002", "image_paths": ["P6_vocabulary_exercises_26_Q4_stole_1.png", "P6_vocabulary_exercises_26_Q4_stole_2.png"], "examples": [{"en": "The cunning fox stole the farmer's prize-winning chicken right from the coop.", "cn": "\u72e1\u733e\u7684\u72d0\u72f8\u4ece\u9e21\u820d\u91cc\u5077\u8d70\u4e86\u519c\u592b\u7684\u83b7\u5956\u9e21\u3002"}, {"en": "He stole glances at her across the room, hoping she wouldn't notice him.", "cn": "\u4ed6\u5077\u5077\u5730\u770b\u4e86\u770b\u623f\u95f4\u5bf9\u9762\u7684\u5979\uff0c\u5e0c\u671b\u5979\u4e0d\u4f1a\u6ce8\u610f\u5230\u4ed6\u3002"}]}, {"word": "attacked", "ipa": "\u0259\u02c8t\u00e6kt", "meanings": {"en": "Acted violently against someone or something, causing harm or damage.", "cn": "\u5bf9\u67d0\u4eba\u6216\u67d0\u7269\u91c7\u53d6\u66b4\u529b\u884c\u52a8\uff0c\u9020\u6210\u4f24\u5bb3\u6216\u7834\u574f\u3002"}, "usage_en": "Used when describing a violent or aggressive action against a target.", "usage_cn": "\u7528\u4e8e\u63cf\u8ff0\u9488\u5bf9\u76ee\u6807\u7684\u66b4\u529b\u6216\u4fb5\u7565\u6027\u884c\u4e3a\u3002", "scene_en": "A fierce lion lunging at its prey in the African savanna.", "scene_cn": "\u5728\u975e\u6d32\u8349\u539f\u4e0a\uff0c\u4e00\u53ea\u51f6\u731b\u7684\u72ee\u5b50\u6251\u5411\u5b83\u7684\u730e\u7269\u3002", "image_paths": ["P6_vocabulary_exercises_26_Q4_attacked_1.png", "P6_vocabulary_exercises_26_Q4_attacked_2.png"], "examples": [{"en": "The invading army attacked the city walls with cannons and siege weapons relentlessly.", "cn": "\u5165\u4fb5\u7684\u519b\u961f\u7528\u5927\u70ae\u548c\u653b\u57ce\u6b66\u5668\u65e0\u60c5\u5730\u653b\u51fb\u4e86\u57ce\u5899\u3002"}, {"en": "The virus attacked his immune system, leaving him vulnerable to other infections quickly.", "cn": "\u75c5\u6bd2\u653b\u51fb\u4e86\u4ed6\u7684\u514d\u75ab\u7cfb\u7edf\uff0c\u4f7f\u4ed6\u5f88\u5bb9\u6613\u53d7\u5230\u5176\u4ed6\u611f\u67d3\u3002"}]}, {"word": "robbed", "ipa": "r\u0252bd", "meanings": {"en": "Took property unlawfully from a person or place by using violence or threats.", "cn": "\u901a\u8fc7\u4f7f\u7528\u66b4\u529b\u6216\u5a01\u80c1\uff0c\u975e\u6cd5\u4ece\u4eba\u6216\u5730\u70b9\u62ff\u8d70\u8d22\u4ea7\u3002"}, "usage_en": "Used when property is taken by force or intimidation.", "usage_cn": "\u7528\u4e8e\u63cf\u8ff0\u901a\u8fc7\u6b66\u529b\u6216\u6050\u5413\u593a\u53d6\u8d22\u4ea7\u7684\u60c5\u51b5\u3002", "scene_en": "Masked figures holding up a bank with guns drawn and bags ready.", "scene_cn": "\u8499\u9762\u4eba\u6301\u67aa\u62a2\u52ab\u94f6\u884c\uff0c\u5e76\u51c6\u5907\u597d\u4e86\u888b\u5b50\u3002", "image_paths": ["P6_vocabulary_exercises_26_Q4_robbed_1.png", "P6_vocabulary_exercises_26_Q4_robbed_2.png"], "examples": [{"en": "The thieves robbed the museum of priceless artifacts, leaving the city in shock.", "cn": "\u5c0f\u5077\u62a2\u52ab\u4e86\u535a\u7269\u9986\u4e2d\u65e0\u4ef7\u7684\u6587\u7269\uff0c\u4f7f\u6574\u4e2a\u57ce\u5e02\u9707\u60ca\u3002"}, {"en": "He robbed Peter to pay Paul, creating more problems than he solved eventually.", "cn": "\u4ed6\u62c6\u4e1c\u5899\u8865\u897f\u5899\uff0c\u7ed3\u679c\u5236\u9020\u4e86\u6bd4\u89e3\u51b3\u7684\u66f4\u591a\u7684\u95ee\u9898\u3002"}]}, {"word": "assaulted", "ipa": "\u0259\u02c8s\u0254\u02d0lt\u026ad", "meanings": {"en": "Physically attacked or violently threatened someone.", "cn": "\u8eab\u4f53\u653b\u51fb\u6216\u66b4\u529b\u5a01\u80c1\u67d0\u4eba\u3002"}, "usage_en": "Used when someone is physically attacked or threatened with violence.", "usage_cn": "\u7528\u4e8e\u63cf\u8ff0\u67d0\u4eba\u53d7\u5230\u8eab\u4f53\u653b\u51fb\u6216\u53d7\u5230\u66b4\u529b\u5a01\u80c1\u7684\u60c5\u51b5\u3002", "scene_en": "A person being physically attacked in a dark alleyway at night.", "scene_cn": "\u4e00\u4e2a\u4eba\u5728\u591c\u665a\u9ed1\u6697\u7684\u5c0f\u5df7\u91cc\u53d7\u5230\u8eab\u4f53\u653b\u51fb\u3002", "image_paths": ["P6_vocabulary_exercises_26_Q4_assaulted_1.png", "P6_vocabulary_exercises_26_Q4_assaulted_2.png"], "examples": [{"en": "The disgruntled customer assaulted the waiter after receiving poor service at the restaurant.", "cn": "\u90a3\u4f4d\u4e0d\u6ee1\u7684\u987e\u5ba2\u5728\u9910\u5385\u63a5\u53d7\u4e86\u7cdf\u7cd5\u7684\u670d\u52a1\u540e\u88ad\u51fb\u4e86\u670d\u52a1\u5458\u3002"}, {"en": "He was arrested after he assaulted a police officer who was trying to make an arrest.", "cn": "\u4ed6\u5728\u88ad\u51fb\u4e86\u4e00\u540d\u8bd5\u56fe\u902e\u6355\u4ed6\u7684\u8b66\u5bdf\u540e\u88ab\u6355\u3002"}]}], "synonym_cn": "\u62a2\u52ab (qi\u01cengji\u00e9) vs. \u653b\u51fb (g\u014dngj\u00ed) vs. \u5077\u7a83 (t\u014dqi\u00e8) vs. \u88ad\u51fb (x\u00edj\u00ed)", "socratic_questions": [{"question": "If someone takes money from a bank using threats, did they 'stole', 'attacked', 'robbed', or 'assaulted' it?", "options": ["stole", "attacked", "robbed", "assaulted"], "correct_answer": "robbed", "explanation": "'Robbed' implies taking something by force or threat, fitting the scenario."}, {"question": "If someone physically harmed a bank employee during a crime, did they 'stole', 'attacked', 'robbed', or 'assaulted' them?", "options": ["stole", "attacked", "robbed", "assaulted"], "correct_answer": "assaulted", "explanation": "'Assaulted' means to physically attack someone."}, {"question": "If someone secretly took money from the bank without anyone noticing initially, did they 'stole', 'attacked', 'robbed', or 'assaulted' it?", "options": ["stole", "attacked", "robbed", "assaulted"], "correct_answer": "stole", "explanation": "'Stole' means to take something secretly without permission."}, {"question": "If someone launched a military strike against a bank, did they 'stole', 'attacked', 'robbed', or 'assaulted' it?", "options": ["stole", "attacked", "robbed", "assaulted"], "correct_answer": "attacked", "explanation": "'Attacked' means to initiate a violent action against a place or person."}]}, {"id": 5, "stem": "The police ______ some stolen goods in an old abandoned hut.", "correct_index": 0, "options": [{"word": "recovered", "ipa": "/r\u026a\u02c8k\u028cv\u0259rd/", "meanings": {"en": "Got back something lost or stolen.", "cn": "\u627e\u56de\u4e22\u5931\u6216\u88ab\u76d7\u7684\u4e1c\u897f\u3002"}, "usage_en": "Used when finding something after it was lost.", "usage_cn": "\u7528\u4e8e\u627e\u56de\u4e22\u5931\u7684\u4e1c\u897f\u4e4b\u540e\u3002", "scene_en": "A detective finding a stolen artifact in a hidden room.", "scene_cn": "\u4fa6\u63a2\u5728\u5bc6\u5ba4\u91cc\u627e\u5230\u88ab\u76d7\u7684\u6587\u7269\u3002", "image_paths": ["P6_vocabulary_exercises_26_Q5_recovered_1.png", "P6_vocabulary_exercises_26_Q5_recovered_2.png"], "examples": [{"en": "The team recovered the data from the damaged hard drive after several attempts.", "cn": "\u7ecf\u8fc7\u51e0\u6b21\u5c1d\u8bd5\uff0c\u8be5\u56e2\u961f\u4ece\u635f\u574f\u7684\u786c\u76d8\u9a71\u52a8\u5668\u4e2d\u6062\u590d\u4e86\u6570\u636e\u3002"}, {"en": "After a long illness, she finally recovered her strength and returned to work.", "cn": "\u7ecf\u8fc7\u957f\u671f\u7684\u75be\u75c5\u540e\uff0c\u5979\u7ec8\u4e8e\u6062\u590d\u4e86\u4f53\u529b\u5e76\u8fd4\u56de\u5de5\u4f5c\u5c97\u4f4d\u3002"}]}, {"word": "restored", "ipa": "/r\u026a\u02c8st\u0254\u02d0rd/", "meanings": {"en": "Brought back to its original condition.", "cn": "\u6062\u590d\u5230\u539f\u59cb\u72b6\u6001\u3002"}, "usage_en": "Used when repairing or returning something to its former state.", "usage_cn": "\u7528\u4e8e\u4fee\u590d\u6216\u5c06\u67d0\u7269\u6062\u590d\u5230\u4ee5\u524d\u7684\u72b6\u6001\u3002", "scene_en": "An art conservator carefully restoring an old painting.", "scene_cn": "\u827a\u672f\u54c1\u7ba1\u7406\u5458\u5c0f\u5fc3\u5730\u4fee\u590d\u4e00\u5e45\u53e4\u8001\u7684\u753b\u4f5c\u3002", "image_paths": ["P6_vocabulary_exercises_26_Q5_restored_1.png", "P6_vocabulary_exercises_26_Q5_restored_2.png"], "examples": [{"en": "The old car was completely restored to its original factory condition by enthusiasts.", "cn": "\u8fd9\u8f86\u65e7\u8f66\u88ab\u7231\u597d\u8005\u5b8c\u5168\u4fee\u590d\u5230\u5176\u539f\u59cb\u51fa\u5382\u72b6\u6001\u3002"}, {"en": "They restored the historic building to its former glory after years of neglect.", "cn": "\u7ecf\u8fc7\u591a\u5e74\u7684\u5ffd\u89c6\uff0c\u4ed6\u4eec\u5c06\u8fd9\u5ea7\u5386\u53f2\u5efa\u7b51\u6062\u590d\u4e86\u6614\u65e5\u7684\u8f89\u714c\u3002"}]}, {"word": "revived", "ipa": "/r\u026a\u02c8va\u026avd/", "meanings": {"en": "Brought back to consciousness or life.", "cn": "\u4f7f\u6062\u590d\u610f\u8bc6\u6216\u751f\u547d\u3002"}, "usage_en": "Used when bringing someone back from unconsciousness or inactivity.", "usage_cn": "\u7528\u4e8e\u5c06\u67d0\u4eba\u4ece\u65e0\u610f\u8bc6\u6216\u4e0d\u6d3b\u52a8\u72b6\u6001\u4e2d\u5524\u9192\u3002", "scene_en": "A doctor reviving a patient with CPR in an emergency room.", "scene_cn": "\u533b\u751f\u5728\u6025\u8bca\u5ba4\u7528 CPR \u590d\u82cf\u75c5\u4eba\u3002", "image_paths": ["P6_vocabulary_exercises_26_Q5_revived_1.png", "P6_vocabulary_exercises_26_Q5_revived_2.png"], "examples": [{"en": "The paramedics quickly revived the unconscious victim at the scene of the accident.", "cn": "\u62a4\u7406\u4eba\u5458\u5728\u4e8b\u6545\u73b0\u573a\u8fc5\u901f\u590d\u82cf\u4e86\u5931\u53bb\u77e5\u89c9\u7684\u53d7\u5bb3\u8005\u3002"}, {"en": "A cup of strong coffee revived me after a long and tiring day at work.", "cn": "\u7ecf\u8fc7\u6f2b\u957f\u800c\u75b2\u60eb\u7684\u4e00\u5929\u5de5\u4f5c\u540e\uff0c\u4e00\u676f\u6d53\u5496\u5561\u8ba9\u6211\u7cbe\u795e\u7115\u53d1\u3002"}]}, {"word": "regained", "ipa": "/r\u026a\u02c8\u0261e\u026and/", "meanings": {"en": "Got something back, especially an ability or quality.", "cn": "\u91cd\u65b0\u83b7\u5f97\u67d0\u7269\uff0c\u5c24\u5176\u662f\u80fd\u529b\u6216\u54c1\u8d28\u3002"}, "usage_en": "Used when getting back something that was lost or taken away.", "usage_cn": "\u7528\u4e8e\u53d6\u56de\u4e22\u5931\u6216\u88ab\u62ff\u8d70\u7684\u4e1c\u897f\u3002", "scene_en": "An athlete regaining their strength after an injury.", "scene_cn": "\u8fd0\u52a8\u5458\u5728\u53d7\u4f24\u540e\u6062\u590d\u4f53\u529b\u3002", "image_paths": ["P6_vocabulary_exercises_26_Q5_regained_1.png", "P6_vocabulary_exercises_26_Q5_regained_2.png"], "examples": [{"en": "After months of physical therapy, she regained full use of her injured leg.", "cn": "\u7ecf\u8fc7\u51e0\u4e2a\u6708\u7684\u7269\u7406\u6cbb\u7597\uff0c\u5979\u5b8c\u5168\u6062\u590d\u4e86\u53d7\u4f24\u817f\u90e8\u7684\u529f\u80fd\u3002"}, {"en": "The company regained its competitive edge by investing in new technologies and innovation.", "cn": "\u8be5\u516c\u53f8\u901a\u8fc7\u6295\u8d44\u65b0\u6280\u672f\u548c\u521b\u65b0\u91cd\u65b0\u83b7\u5f97\u4e86\u7ade\u4e89\u4f18\u52bf\u3002"}]}], "synonym_cn": "\u627e\u56de\uff0c\u6536\u590d\uff0c\u6062\u590d", "socratic_questions": [{"question": "After losing your phone, if you found it again, would you say you ______ it?", "options": ["recovered", "restored", "revived", "regained"], "correct_answer": "recovered", "explanation": "Recovered means to get back something lost or stolen."}, {"question": "If an old painting was damaged, and an expert made it look new, was it ______?", "options": ["recovered", "restored", "revived", "regained"], "correct_answer": "restored", "explanation": "Restored means to bring something back to its original condition."}, {"question": "If someone fainted and then woke up, did they ______?", "options": ["recovered", "restored", "revived", "regained"], "correct_answer": "revived", "explanation": "Revived means to bring someone back to consciousness or life."}, {"question": "After working hard, if you got back your energy, did you ______ it?", "options": ["recovered", "restored", "revived", "regained"], "correct_answer": "regained", "explanation": "Regained means to get something back, especially an ability or quality."}]}, {"id": 6, "stem": "The scouts ______ their tents on the bank of a river.", "correct_index": 1, "options": [{"word": "patched", "ipa": "/p\u00e6t\u0283t/", "meanings": {"en": "repaired by putting a piece of material over a hole or damaged area.", "cn": "\u901a\u8fc7\u5728\u5b54\u6216\u635f\u574f\u533a\u57df\u4e0a\u653e\u7f6e\u4e00\u5757\u6750\u6599\u6765\u4fee\u590d\u3002"}, "usage_en": "Used to describe repairing something with a patch.", "usage_cn": "\u7528\u4e8e\u63cf\u8ff0\u7528\u8865\u4e01\u4fee\u590d\u67d0\u7269\u3002", "scene_en": "A worn-out jacket being repaired with a colorful patch.", "scene_cn": "\u4e00\u4ef6\u7834\u65e7\u7684\u5939\u514b\u6b63\u5728\u7528\u4e00\u5757\u5f69\u8272\u7684\u8865\u4e01\u8fdb\u884c\u4fee\u590d\u3002", "image_paths": ["P6_vocabulary_exercises_26_Q6_patched_1.png", "P6_vocabulary_exercises_26_Q6_patched_2.png"], "examples": [{"en": "She patched the hole in her jeans with a piece of colorful fabric.", "cn": "\u5979\u7528\u4e00\u5757\u5f69\u8272\u7684\u5e03\u6599\u8865\u597d\u4e86\u725b\u4ed4\u88e4\u4e0a\u7684\u6d1e\u3002"}, {"en": "The old bicycle tire was patched up, allowing him to continue his journey.", "cn": "\u65e7\u81ea\u884c\u8f66\u8f6e\u80ce\u88ab\u8865\u597d\u4e86\uff0c\u4f7f\u4ed6\u80fd\u591f\u7ee7\u7eed\u4ed6\u7684\u65c5\u7a0b\u3002"}]}, {"word": "pitched", "ipa": "/p\u026at\u0283t/", "meanings": {"en": "set up a tent or camp.", "cn": "\u642d\u8d77\u5e10\u7bf7\u6216\u8425\u5730\u3002"}, "usage_en": "Used to describe setting up a tent or camp.", "usage_cn": "\u7528\u4e8e\u63cf\u8ff0\u642d\u5efa\u5e10\u7bf7\u6216\u8425\u5730\u3002", "scene_en": "A family pitching a tent in a scenic campsite by a lake.", "scene_cn": "\u4e00\u5bb6\u4eba\u5728\u6e56\u8fb9\u98ce\u666f\u4f18\u7f8e\u7684\u9732\u8425\u5730\u642d\u5efa\u5e10\u7bf7\u3002", "image_paths": ["P6_vocabulary_exercises_26_Q6_pitched_1.png", "P6_vocabulary_exercises_26_Q6_pitched_2.png"], "examples": [{"en": "We pitched our tent near the river, enjoying the soothing sound of water.", "cn": "\u6211\u4eec\u5728\u6cb3\u8fb9\u642d\u8d77\u4e86\u5e10\u7bf7\uff0c\u4eab\u53d7\u7740\u8212\u7f13\u7684\u6c34\u58f0\u3002"}, {"en": "The hikers pitched camp before nightfall, ensuring they had shelter from the elements.", "cn": "\u5f92\u6b65\u65c5\u884c\u8005\u5728\u5929\u9ed1\u524d\u624e\u8425\uff0c\u786e\u4fdd\u4ed6\u4eec\u6709\u8eb2\u907f\u98ce\u96e8\u7684\u5730\u65b9\u3002"}]}, {"word": "pinched", "ipa": "/p\u026ant\u0283t/", "meanings": {"en": "stole something of small value.", "cn": "\u5077\u4e86\u4ef7\u503c\u4e0d\u5927\u7684\u4e1c\u897f\u3002"}, "usage_en": "Used to describe stealing something of little value.", "usage_cn": "\u7528\u4e8e\u63cf\u8ff0\u5077\u7a83\u4ef7\u503c\u4e0d\u5927\u7684\u4e1c\u897f\u3002", "scene_en": "A cartoon character slyly pinching a cookie from a jar.", "scene_cn": "\u4e00\u4e2a\u5361\u901a\u4eba\u7269\u5077\u5077\u5730\u4ece\u7f50\u5b50\u91cc\u5077\u4e86\u4e00\u5757\u997c\u5e72\u3002", "image_paths": ["P6_vocabulary_exercises_26_Q6_pinched_1.png", "P6_vocabulary_exercises_26_Q6_pinched_2.png"], "examples": [{"en": "He pinched a grape from the fruit bowl when no one was looking closely.", "cn": "\u5f53\u6ca1\u4eba\u6ce8\u610f\u7684\u65f6\u5019\uff0c\u4ed6\u4ece\u6c34\u679c\u7897\u91cc\u5077\u4e86\u4e00\u4e2a\u8461\u8404\u3002"}, {"en": "The little boy pinched a coin from his mother's purse when she wasn't watching.", "cn": "\u5c0f\u7537\u5b69\u5728\u5988\u5988\u4e0d\u6ce8\u610f\u7684\u65f6\u5019\u4ece\u5979\u7684\u94b1\u5305\u91cc\u5077\u4e86\u4e00\u679a\u786c\u5e01\u3002"}]}, {"word": "perched", "ipa": "/p\u025c\u02d0rt\u0283t/", "meanings": {"en": "sat or rested on something high or narrow.", "cn": "\u5750\u5728\u6216\u6816\u606f\u5728\u9ad8\u5904\u6216\u72ed\u7a84\u7684\u4e1c\u897f\u4e0a\u3002"}, "usage_en": "Used to describe sitting or resting on something high.", "usage_cn": "\u7528\u4e8e\u63cf\u8ff0\u5750\u5728\u6216\u6816\u606f\u5728\u9ad8\u5904\u3002", "scene_en": "A bird perched on a branch, overlooking a valley.", "scene_cn": "\u4e00\u53ea\u9e1f\u6816\u606f\u5728\u6811\u679d\u4e0a\uff0c\u4fef\u77b0\u7740\u5c71\u8c37\u3002", "image_paths": ["P6_vocabulary_exercises_26_Q6_perched_1.png", "P6_vocabulary_exercises_26_Q6_perched_2.png"], "examples": [{"en": "The cat perched on the fence, watching the birds in the garden below it.", "cn": "\u732b\u6816\u606f\u5728\u6805\u680f\u4e0a\uff0c\u770b\u7740\u4e0b\u9762\u82b1\u56ed\u91cc\u7684\u9e1f\u513f\u3002"}, {"en": "The village is perched on a hillside, offering stunning views of the surrounding landscape.", "cn": "\u8fd9\u4e2a\u6751\u5e84\u5750\u843d\u5728\u5c71\u5761\u4e0a\uff0c\u53ef\u4ee5\u6b23\u8d4f\u5230\u5468\u56f4\u58ee\u4e3d\u7684\u666f\u8272\u3002"}]}], "synonym_cn": "\u642d\u5efa, \u5efa\u7acb, \u8bbe\u7f6e (\u4fa7\u91cd\u4e34\u65f6\u6027)", "socratic_questions": [{"question": "If you found a hole in your jacket, would you have it ______ or buy a new one?", "options": ["patched", "pitched", "pinched", "perched"], "correct_answer": "patched", "explanation": "Patched means repaired by covering the hole with a piece of material."}, {"question": "During a camping trip, where would you most likely have ______ a tent for the night?", "options": ["patched", "pitched", "pinched", "perched"], "correct_answer": "pitched", "explanation": "Pitched means set up a tent."}, {"question": "If someone ______ your wallet, what would be the first thing you should do?", "options": ["patched", "pitched", "pinched", "perched"], "correct_answer": "pinched", "explanation": "Pinched means stole something of little value."}, {"question": "Where might a bird be ______ to get the best view of the surrounding area?", "options": ["patched", "pitched", "pinched", "perched"], "correct_answer": "perched", "explanation": "Perched means sat or rested on something high."}]}, {"id": 7, "stem": "In my ______, out team will win tonight's match by a big margin.", "correct_index": 2, "options": [{"word": "idea", "ipa": "/a\u026a\u02c8di\u02d0\u0259/", "meanings": {"en": "A thought or suggestion as to a possible course of action.", "cn": "\u5173\u4e8e\u53ef\u80fd\u884c\u52a8\u65b9\u6848\u7684\u60f3\u6cd5\u6216\u5efa\u8bae\u3002"}, "usage_en": "Often used to describe a plan or concept.", "usage_cn": "\u901a\u5e38\u7528\u4e8e\u63cf\u8ff0\u8ba1\u5212\u6216\u6982\u5ff5\u3002", "scene_en": "A person having a lightbulb moment, symbolizing a new idea.", "scene_cn": "\u4e00\u4e2a\u4eba\u7075\u5149\u4e00\u95ea\uff0c\u8c61\u5f81\u7740\u4e00\u4e2a\u65b0\u60f3\u6cd5\u3002", "image_paths": ["P6_vocabulary_exercises_26_Q7_idea_1.png", "P6_vocabulary_exercises_26_Q7_idea_2.png"], "examples": [{"en": "I have a brilliant idea for our next marketing campaign that will boost sales.", "cn": "\u6211\u6709\u4e00\u4e2a\u5f88\u68d2\u7684\u4e3b\u610f\uff0c\u53ef\u4ee5\u7528\u4e8e\u6211\u4eec\u7684\u4e0b\u4e00\u4e2a\u8425\u9500\u6d3b\u52a8\uff0c\u8fd9\u5c06\u63d0\u9ad8\u9500\u552e\u989d\u3002"}, {"en": "The team discussed various ideas to improve the efficiency of the production process.", "cn": "\u56e2\u961f\u8ba8\u8bba\u4e86\u5404\u79cd\u60f3\u6cd5\uff0c\u4ee5\u63d0\u9ad8\u751f\u4ea7\u8fc7\u7a0b\u7684\u6548\u7387\u3002"}]}, {"word": "knowledge", "ipa": "/\u02c8n\u0252l\u026ad\u0292/", "meanings": {"en": "Facts, information, and skills acquired through experience or education.", "cn": "\u901a\u8fc7\u7ecf\u9a8c\u6216\u6559\u80b2\u83b7\u5f97\u7684\u7684\u4e8b\u5b9e\u3001\u4fe1\u606f\u548c\u6280\u80fd\u3002"}, "usage_en": "Refers to understanding and awareness of a subject.", "usage_cn": "\u6307\u5bf9\u67d0\u4e2a\u4e3b\u9898\u7684\u7406\u89e3\u548c\u8ba4\u8bc6\u3002", "scene_en": "A person studying books in a library, representing the acquisition of knowledge.", "scene_cn": "\u4e00\u4e2a\u4eba\u5728\u56fe\u4e66\u9986\u91cc\u5b66\u4e60\u4e66\u7c4d\uff0c\u4ee3\u8868\u7740\u77e5\u8bc6\u7684\u83b7\u53d6\u3002", "image_paths": ["P6_vocabulary_exercises_26_Q7_knowledge_1.png", "P6_vocabulary_exercises_26_Q7_knowledge_2.png"], "examples": [{"en": "Her extensive knowledge of history made her an excellent tour guide for the museum.", "cn": "\u5979\u5bf9\u5386\u53f2\u7684\u5e7f\u6cdb\u4e86\u89e3\u4f7f\u5979\u6210\u4e3a\u535a\u7269\u9986\u7684\u4f18\u79c0\u5bfc\u6e38\u3002"}, {"en": "The company invested heavily in employee training to improve their technical knowledge and skills.", "cn": "\u8be5\u516c\u53f8\u5728\u5458\u5de5\u57f9\u8bad\u65b9\u9762\u6295\u5165\u5de8\u8d44\uff0c\u4ee5\u63d0\u9ad8\u4ed6\u4eec\u7684\u6280\u672f\u77e5\u8bc6\u548c\u6280\u80fd\u3002"}]}, {"word": "opinion", "ipa": "/\u0259\u02c8p\u026anj\u0259n/", "meanings": {"en": "A view or judgement formed about something, not necessarily based on fact or knowledge.", "cn": "\u5bf9\u67d0\u4e8b\u5f62\u6210\u7684\u89c2\u70b9\u6216\u5224\u65ad\uff0c\u4e0d\u4e00\u5b9a\u57fa\u4e8e\u4e8b\u5b9e\u6216\u77e5\u8bc6\u3002"}, "usage_en": "Expresses a personal belief or viewpoint.", "usage_cn": "\u8868\u8fbe\u4e2a\u4eba\u4fe1\u4ef0\u6216\u89c2\u70b9\u3002", "scene_en": "People discussing different viewpoints around a table, showing diverse opinions.", "scene_cn": "\u4eba\u4eec\u56f4\u5750\u5728\u684c\u65c1\u8ba8\u8bba\u4e0d\u540c\u7684\u89c2\u70b9\uff0c\u5c55\u793a\u4e86\u4e0d\u540c\u7684\u610f\u89c1\u3002", "image_paths": ["P6_vocabulary_exercises_26_Q7_opinion_1.png", "P6_vocabulary_exercises_26_Q7_opinion_2.png"], "examples": [{"en": "In my opinion, the new policy will negatively impact employee morale and productivity levels.", "cn": "\u5728\u6211\u770b\u6765\uff0c\u65b0\u653f\u7b56\u5c06\u5bf9\u5458\u5de5\u58eb\u6c14\u548c\u751f\u4ea7\u529b\u6c34\u5e73\u4ea7\u751f\u8d1f\u9762\u5f71\u54cd\u3002"}, {"en": "Everyone is entitled to their own opinion, even if it differs from the majority view.", "cn": "\u6bcf\u4e2a\u4eba\u90fd\u6709\u6743\u53d1\u8868\u81ea\u5df1\u7684\u610f\u89c1\uff0c\u5373\u4f7f\u5b83\u4e0e\u5927\u591a\u6570\u4eba\u7684\u89c2\u70b9\u4e0d\u540c\u3002"}]}, {"word": "judgement", "ipa": "/\u02c8d\u0292\u028cd\u0292m\u0259nt/", "meanings": {"en": "The ability to make considered decisions or come to sensible conclusions.", "cn": "\u505a\u51fa\u7ecf\u8fc7\u6df1\u601d\u719f\u8651\u7684\u51b3\u5b9a\u6216\u5f97\u51fa\u660e\u667a\u7ed3\u8bba\u7684\u80fd\u529b\u3002"}, "usage_en": "Implies careful evaluation before making a decision.", "usage_cn": "\u610f\u5473\u7740\u5728\u505a\u51fa\u51b3\u5b9a\u4e4b\u524d\u8fdb\u884c\u4ed4\u7ec6\u8bc4\u4f30\u3002", "scene_en": "A judge in a courtroom making a decision, representing careful judgement.", "scene_cn": "\u6cd5\u5ead\u4e0a\u7684\u6cd5\u5b98\u6b63\u5728\u505a\u51fa\u51b3\u5b9a\uff0c\u4ee3\u8868\u7740\u8c28\u614e\u7684\u5224\u65ad\u3002", "image_paths": ["P6_vocabulary_exercises_26_Q7_judgement_1.png", "P6_vocabulary_exercises_26_Q7_judgement_2.png"], "examples": [{"en": "The manager showed poor judgement by ignoring the warning signs and proceeding with the project.", "cn": "\u7ecf\u7406\u65e0\u89c6\u8b66\u544a\u4fe1\u53f7\u5e76\u7ee7\u7eed\u8fdb\u884c\u8be5\u9879\u76ee\uff0c\u8fd9\u8868\u660e\u4ed6\u7684\u5224\u65ad\u529b\u5f88\u5dee\u3002"}, {"en": "Her excellent judgement in financial matters made her a valuable asset to the company.", "cn": "\u5979\u5728\u8d22\u52a1\u65b9\u9762\u7684\u51fa\u8272\u5224\u65ad\u529b\u4f7f\u5979\u6210\u4e3a\u516c\u53f8\u7684\u5b9d\u8d35\u8d44\u4ea7\u3002"}]}], "synonym_cn": "\u89c2\u70b9, \u770b\u6cd5, \u89c1\u89e3", "socratic_questions": [{"question": "If a friend shares a controversial plan, and you want to politely disagree, would you start with your 'idea', 'knowledge', 'opinion', or 'judgement'?", "options": ["idea", "knowledge", "opinion", "judgement"], "correct_answer": "opinion", "explanation": "Expressing your opinion allows you to share your viewpoint without asserting it as fact."}, {"question": "When solving a complex math problem, is it more important to rely on your 'idea', 'knowledge', 'opinion', or 'judgement' of the correct answer?", "options": ["idea", "knowledge", "opinion", "judgement"], "correct_answer": "knowledge", "explanation": "Mathematical problems require reliance on established facts and understanding, which constitutes knowledge."}, {"question": "Before starting a new business, is it better to act on a sudden 'idea', solid 'knowledge', popular 'opinion', or careful 'judgement'?", "options": ["idea", "knowledge", "opinion", "judgement"], "correct_answer": "judgement", "explanation": "Careful judgement involves weighing all factors and making a considered decision."}, {"question": "When brainstorming new marketing strategies, is it more helpful to share every 'idea', every piece of 'knowledge', every 'opinion', or every 'judgement'?", "options": ["idea", "knowledge", "opinion", "judgement"], "correct_answer": "idea", "explanation": "Brainstorming thrives on the free flow of ideas, even if they are not fully formed."}]}, {"id": 8, "stem": "My house looks new as it has recently been ______.", "correct_index": 1, "options": [{"word": "restored", "ipa": "/r\u026a\u02c8st\u0254\u02d0rd/", "meanings": {"en": "Returned to its original condition by repairing or cleaning.", "cn": "\u901a\u8fc7\u4fee\u7406\u6216\u6e05\u6d01\u6062\u590d\u5230\u539f\u59cb\u72b6\u6001\u3002"}, "usage_en": "Often used for historical buildings or artworks.", "usage_cn": "\u5e38\u7528\u4e8e\u5386\u53f2\u5efa\u7b51\u6216\u827a\u672f\u54c1\u3002", "scene_en": "A museum curator carefully cleaning an ancient artifact.", "scene_cn": "\u535a\u7269\u9986\u9986\u957f\u5c0f\u5fc3\u7ffc\u7ffc\u5730\u6e05\u6d01\u4e00\u4ef6\u53e4\u4ee3\u6587\u7269\u3002", "image_paths": ["P6_vocabulary_exercises_26_Q8_restored_1.png", "P6_vocabulary_exercises_26_Q8_restored_2.png"], "examples": [{"en": "The old church was carefully restored to its former glory after the fire.", "cn": "\u706b\u707e\u540e\uff0c\u8fd9\u5ea7\u53e4\u8001\u7684\u6559\u5802\u88ab\u7cbe\u5fc3\u4fee\u590d\uff0c\u6062\u590d\u4e86\u6614\u65e5\u7684\u8f89\u714c\u3002"}, {"en": "He restored the antique desk, bringing out the beautiful wood grain underneath layers of old varnish.", "cn": "\u4ed6\u4fee\u590d\u4e86\u53e4\u8463\u4e66\u684c\uff0c\u9732\u51fa\u4e86\u65e7\u6e05\u6f06\u5c42\u4e0b\u7f8e\u4e3d\u7684\u6728\u7eb9\u3002"}]}, {"word": "renovated", "ipa": "/\u02c8r\u025bn\u0259ve\u026at\u026ad/", "meanings": {"en": "Improved by repairing and redecorating.", "cn": "\u901a\u8fc7\u4fee\u7406\u548c\u91cd\u65b0\u88c5\u4fee\u8fdb\u884c\u6539\u8fdb\u3002"}, "usage_en": "Commonly used for houses, apartments, or offices.", "usage_cn": "\u5e38\u7528\u4e8e\u623f\u5c4b\u3001\u516c\u5bd3\u6216\u529e\u516c\u5ba4\u3002", "scene_en": "A construction crew remodeling a kitchen with new cabinets.", "scene_cn": "\u4e00\u4e2a\u5efa\u7b51\u961f\u6b63\u5728\u7528\u65b0\u6a71\u67dc\u6539\u9020\u53a8\u623f\u3002", "image_paths": ["P6_vocabulary_exercises_26_Q8_renovated_1.png", "P6_vocabulary_exercises_26_Q8_renovated_2.png"], "examples": [{"en": "They renovated their kitchen with new appliances and a modern island design.", "cn": "\u4ed6\u4eec\u7528\u65b0\u7684\u7535\u5668\u548c\u4e00\u4e2a\u73b0\u4ee3\u5316\u7684\u5c9b\u53f0\u8bbe\u8ba1\u7ffb\u65b0\u4e86\u4ed6\u4eec\u7684\u53a8\u623f\u3002"}, {"en": "The old theater was renovated to accommodate larger audiences and modern stage equipment.", "cn": "\u65e7\u5267\u9662\u7ecf\u8fc7\u7ffb\u65b0\uff0c\u53ef\u4ee5\u5bb9\u7eb3\u66f4\u591a\u7684\u89c2\u4f17\u548c\u73b0\u4ee3\u5316\u7684\u821e\u53f0\u8bbe\u5907\u3002"}]}, {"word": "redone", "ipa": "/\u02ccri\u02d0\u02c8d\u028cn/", "meanings": {"en": "Done again, often in a different or better way.", "cn": "\u518d\u6b21\u5b8c\u6210\uff0c\u901a\u5e38\u4ee5\u4e0d\u540c\u6216\u66f4\u597d\u7684\u65b9\u5f0f\u3002"}, "usage_en": "Used for smaller projects or tasks.", "usage_cn": "\u7528\u4e8e\u8f83\u5c0f\u7684\u9879\u76ee\u6216\u4efb\u52a1\u3002", "scene_en": "Someone repainting a wall in their living room.", "scene_cn": "\u6709\u4eba\u5728\u91cd\u65b0\u7c89\u5237\u4ed6\u4eec\u5ba2\u5385\u7684\u5899\u58c1\u3002", "image_paths": ["P6_vocabulary_exercises_26_Q8_redone_1.png", "P6_vocabulary_exercises_26_Q8_redone_2.png"], "examples": [{"en": "She redone her bedroom with a new color scheme and updated furniture arrangement.", "cn": "\u5979\u7528\u65b0\u7684\u914d\u8272\u65b9\u6848\u548c\u66f4\u65b0\u7684\u5bb6\u5177\u5e03\u7f6e\u91cd\u65b0\u5e03\u7f6e\u4e86\u5979\u7684\u5367\u5ba4\u3002"}, {"en": "The website was redone to be more user-friendly and visually appealing to attract new customers.", "cn": "\u8be5\u7f51\u7ad9\u7ecf\u8fc7\u91cd\u65b0\u8bbe\u8ba1\uff0c\u66f4\u4fbf\u4e8e\u7528\u6237\u4f7f\u7528\uff0c\u5e76\u4e14\u5728\u89c6\u89c9\u4e0a\u66f4\u5177\u5438\u5f15\u529b\uff0c\u4ee5\u5438\u5f15\u65b0\u5ba2\u6237\u3002"}]}, {"word": "replaced", "ipa": "/r\u026a\u02c8ple\u026ast/", "meanings": {"en": "Took the place of something old or broken with something new.", "cn": "\u7528\u65b0\u7684\u4e1c\u897f\u4ee3\u66ff\u65e7\u7684\u6216\u574f\u7684\u4e1c\u897f\u3002"}, "usage_en": "Used when something is completely exchanged.", "usage_cn": "\u7528\u4e8e\u5b8c\u5168\u4ea4\u6362\u67d0\u7269\u65f6\u3002", "scene_en": "A mechanic replacing a car's engine with a new one.", "scene_cn": "\u4e00\u540d\u673a\u68b0\u5e08\u6b63\u5728\u7528\u65b0\u7684\u53d1\u52a8\u673a\u66f4\u6362\u6c7d\u8f66\u7684\u53d1\u52a8\u673a\u3002", "image_paths": ["P6_vocabulary_exercises_26_Q8_replaced_1.png", "P6_vocabulary_exercises_26_Q8_replaced_2.png"], "examples": [{"en": "The old, leaky roof was replaced with a brand new, energy-efficient roofing system.", "cn": "\u65e7\u7684\u3001\u6f0f\u6c34\u7684\u5c4b\u9876\u88ab\u4e00\u4e2a\u5168\u65b0\u7684\u3001\u8282\u80fd\u7684\u5c4b\u9876\u7cfb\u7edf\u6240\u53d6\u4ee3\u3002"}, {"en": "After years of use, he replaced his old computer with a faster, more powerful model.", "cn": "\u7ecf\u8fc7\u591a\u5e74\u7684\u4f7f\u7528\uff0c\u4ed6\u7528\u4e00\u53f0\u66f4\u5feb\u3001\u66f4\u5f3a\u5927\u7684\u578b\u53f7\u53d6\u4ee3\u4e86\u4ed6\u7684\u65e7\u7535\u8111\u3002"}]}], "synonym_cn": "\u7ffb\u65b0, \u4fee\u5fa9, \u91cd\u505a, \u66f4\u63db (\u90fd\u662f\u4f7f\u6771\u897f\u8b8a\u65b0\u7684\u65b9\u5f0f\uff0c\u4f46\u7a0b\u5ea6\u548c\u5c0d\u8c61\u4e0d\u540c)", "socratic_questions": [{"question": "Imagine an old building's historical features are carefully brought back to their original glory. Which word best describes this process?", "options": ["restored", "renovated", "redone", "replaced"], "correct_answer": "restored", "explanation": "Restored implies returning something to its original condition."}, {"question": "If you completely changed the kitchen layout and installed new appliances, which word best describes what you did?", "options": ["restored", "renovated", "redone", "replaced"], "correct_answer": "renovated", "explanation": "Renovated means to improve something by adding new features."}, {"question": "If you painted a room a different color and rearranged the furniture, which word describes the action?", "options": ["restored", "renovated", "redone", "replaced"], "correct_answer": "redone", "explanation": "Redone suggests a simpler, less extensive change."}, {"question": "If the old windows were broken and you installed completely new ones, which word best describes this?", "options": ["restored", "renovated", "redone", "replaced"], "correct_answer": "replaced", "explanation": "Replaced means to substitute something old with something new."}]}, {"id": 9, "stem": "Sometimes, the weather ______ are not very accurate.", "correct_index": 1, "options": [{"word": "foresights", "ipa": "/\u02c8f\u0254\u02d0rsa\u026ats/", "meanings": {"en": "The ability to predict or the action of predicting what will happen or be needed in the future.", "cn": "\u9884\u6d4b\u672a\u6765\u5c06\u53d1\u751f\u6216\u9700\u8981\u7684\u4e8b\u4ef6\u7684\u80fd\u529b\u6216\u884c\u4e3a\u3002"}, "usage_en": "Often used in business or strategic planning contexts.", "usage_cn": "\u5e38\u7528\u4e8e\u5546\u4e1a\u6216\u6218\u7565\u89c4\u5212\u7684\u8bed\u5883\u4e2d\u3002", "scene_en": "A group of executives discussing long-term business strategies in a modern office.", "scene_cn": "\u4e00\u7fa4\u9ad8\u7ba1\u5728\u73b0\u4ee3\u529e\u516c\u5ba4\u8ba8\u8bba\u957f\u671f\u4e1a\u52a1\u6218\u7565\u3002", "image_paths": ["P6_vocabulary_exercises_26_Q9_foresights_1.png", "P6_vocabulary_exercises_26_Q9_foresights_2.png"], "examples": [{"en": "Her foresights about market trends allowed the company to stay ahead of competitors.", "cn": "\u5979\u5bf9\u5e02\u573a\u8d8b\u52bf\u7684\u8fdc\u89c1\u4f7f\u516c\u53f8\u80fd\u591f\u4fdd\u6301\u5728\u7ade\u4e89\u5bf9\u624b\u7684\u524d\u9762\u3002"}, {"en": "Effective strategic planning requires careful foresights into potential risks and opportunities ahead.", "cn": "\u6709\u6548\u7684\u6218\u7565\u89c4\u5212\u9700\u8981\u4ed4\u7ec6\u9884\u6d4b\u6f5c\u5728\u7684\u98ce\u9669\u548c\u672a\u6765\u7684\u673a\u9047\u3002"}]}, {"word": "forecasts", "ipa": "/\u02c8f\u0254\u02d0rk\u00e6sts/", "meanings": {"en": "Predictions or estimations of future events, especially weather or financial trends.", "cn": "\u5bf9\u672a\u6765\u4e8b\u4ef6\u7684\u9884\u6d4b\u6216\u4f30\u8ba1\uff0c\u7279\u522b\u662f\u5929\u6c14\u6216\u91d1\u878d\u8d8b\u52bf\u3002"}, "usage_en": "Commonly used in meteorology, economics, and business.", "usage_cn": "\u5e38\u7528\u4e8e\u6c14\u8c61\u5b66\u3001\u7ecf\u6d4e\u5b66\u548c\u5546\u4e1a\u9886\u57df\u3002", "scene_en": "A weather reporter presenting the weather forecast on television.", "scene_cn": "\u5929\u6c14\u9884\u62a5\u5458\u5728\u7535\u89c6\u4e0a\u64ad\u62a5\u5929\u6c14\u9884\u62a5\u3002", "image_paths": ["P6_vocabulary_exercises_26_Q9_forecasts_1.png", "P6_vocabulary_exercises_26_Q9_forecasts_2.png"], "examples": [{"en": "The weather forecasts predicted heavy rain for the weekend, so we canceled our picnic.", "cn": "\u5929\u6c14\u9884\u62a5\u9884\u6d4b\u5468\u672b\u6709\u5927\u96e8\uff0c\u6240\u4ee5\u6211\u4eec\u53d6\u6d88\u4e86\u91ce\u9910\u3002"}, {"en": "Economic forecasts suggest a period of slow growth, impacting investment decisions significantly.", "cn": "\u7ecf\u6d4e\u9884\u6d4b\u8868\u660e\u7ecf\u6d4e\u589e\u957f\u7f13\u6162\uff0c\u5bf9\u6295\u8d44\u51b3\u7b56\u4ea7\u751f\u91cd\u5927\u5f71\u54cd\u3002"}]}, {"word": "forewarns", "ipa": "/f\u0254\u02d0r\u02c8w\u0254\u02d0rnz/", "meanings": {"en": "To inform someone of a danger or problem in advance; to give prior warning.", "cn": "\u63d0\u524d\u544a\u77e5\u67d0\u4eba\u5371\u9669\u6216\u95ee\u9898\uff1b\u63d0\u524d\u53d1\u51fa\u8b66\u544a\u3002"}, "usage_en": "Often used in situations involving potential risks or negative outcomes.", "usage_cn": "\u5e38\u7528\u4e8e\u6d89\u53ca\u6f5c\u5728\u98ce\u9669\u6216\u8d1f\u9762\u7ed3\u679c\u7684\u60c5\u51b5\u3002", "scene_en": "A sign warning hikers about potential dangers on a mountain trail.", "scene_cn": "\u4e00\u4e2a\u6807\u5fd7\u8b66\u544a\u5f92\u6b65\u65c5\u884c\u8005\u5173\u4e8e\u5c71\u8def\u4e0a\u6f5c\u5728\u7684\u5371\u9669\u3002", "image_paths": ["P6_vocabulary_exercises_26_Q9_forewarns_1.png", "P6_vocabulary_exercises_26_Q9_forewarns_2.png"], "examples": [{"en": "The doctor forewarns patients about the possible side effects of the new medication.", "cn": "\u533b\u751f\u63d0\u524d\u544a\u77e5\u60a3\u8005\u5173\u4e8e\u65b0\u836f\u53ef\u80fd\u4ea7\u751f\u7684\u526f\u4f5c\u7528\u3002"}, {"en": "Security services forewarns citizens about potential terrorist threats during major public events.", "cn": "\u5b89\u5168\u90e8\u95e8\u63d0\u524d\u8b66\u544a\u5e02\u6c11\u5728\u91cd\u5927\u516c\u5171\u6d3b\u52a8\u671f\u95f4\u53ef\u80fd\u53d1\u751f\u7684\u6050\u6016\u5a01\u80c1\u3002"}]}, {"word": "forethoughts", "ipa": "/\u02c8f\u0254\u02d0r\u03b8\u0254\u02d0ts/", "meanings": {"en": "Thoughts or considerations given to something in advance; prior planning or contemplation.", "cn": "\u4e8b\u5148\u5bf9\u67d0\u4e8b\u7269\u7684\u601d\u8003\u6216\u8003\u8651\uff1b\u4e8b\u5148\u8ba1\u5212\u6216\u6c89\u601d\u3002"}, "usage_en": "Used to describe careful planning or preparation.", "usage_cn": "\u7528\u4e8e\u63cf\u8ff0\u4ed4\u7ec6\u7684\u8ba1\u5212\u6216\u51c6\u5907\u3002", "scene_en": "An architect reviewing blueprints and making detailed plans for a new building.", "scene_cn": "\u4e00\u4f4d\u5efa\u7b51\u5e08\u5ba1\u67e5\u84dd\u56fe\u5e76\u4e3a\u65b0\u5efa\u7b51\u5236\u5b9a\u8be6\u7ec6\u7684\u8ba1\u5212\u3002", "image_paths": ["P6_vocabulary_exercises_26_Q9_forethoughts_1.png", "P6_vocabulary_exercises_26_Q9_forethoughts_2.png"], "examples": [{"en": "With careful forethoughts, they managed to avoid many of the common pitfalls of starting a business.", "cn": "\u7ecf\u8fc7\u4ed4\u7ec6\u7684\u8003\u8651\uff0c\u4ed6\u4eec\u8bbe\u6cd5\u907f\u514d\u4e86\u521b\u4e1a\u7684\u8bb8\u591a\u5e38\u89c1\u9677\u9631\u3002"}, {"en": "Her forethoughts about the project ensured that all the necessary resources were available on time.", "cn": "\u5979\u5bf9\u9879\u76ee\u7684\u9884\u5148\u8003\u8651\u786e\u4fdd\u4e86\u6240\u6709\u5fc5\u8981\u7684\u8d44\u6e90\u90fd\u6309\u65f6\u5230\u4f4d\u3002"}]}], "synonym_cn": "\u9884\u62a5 vs. \u9884\u89c1 vs. \u9884\u5148\u8b66\u544a vs. \u9884\u5148\u8003\u8651", "socratic_questions": [{"question": "If you had the power to see into the future, what specific events or dangers would you use your ______ to prepare for?", "options": ["foresights", "forecasts", "forewarns", "forethoughts"], "correct_answer": "foresights", "explanation": "Foresights refer to the ability to predict or anticipate future events or needs."}, {"question": "Which of these is most crucial for pilots before taking off, ensuring a safe flight?", "options": ["foresights", "forecasts", "forewarns", "forethoughts"], "correct_answer": "forecasts", "explanation": "Forecasts are predictions or estimations of future events, especially weather."}, {"question": "Imagine a public health official trying to alert the community about an impending health crisis; what action describes their role?", "options": ["foresights", "forecasts", "forewarns", "forethoughts"], "correct_answer": "forewarns", "explanation": "Forewarns means to inform someone of a danger or problem in advance."}, {"question": "When making a significant life decision, like choosing a career path, what kind of mental preparation is essential?", "options": ["foresights", "forecasts", "forewarns", "forethoughts"], "correct_answer": "forethoughts", "explanation": "Forethoughts are thoughts or considerations given to something in advance."}]}, {"id": 10, "stem": "There was no ______ that he had stolen the goods, so he was set free.", "correct_index": 2, "options": [{"word": "information", "ipa": "\u02cc\u026anf\u0259r\u02c8me\u026a\u0283\u0259n", "meanings": {"en": "Facts provided or learned about something or someone.", "cn": "\u63d0\u4f9b\u7684\u6216\u5b66\u5230\u7684\u5173\u4e8e\u67d0\u4e8b\u6216\u67d0\u4eba\u7684\u4e8b\u5b9e\u3002"}, "usage_en": "Used to describe data or knowledge that is communicated or received.", "usage_cn": "\u7528\u4e8e\u63cf\u8ff0\u88ab\u4f20\u9012\u6216\u63a5\u6536\u7684\u6570\u636e\u6216\u77e5\u8bc6\u3002", "scene_en": "A person reading a newspaper to gather details about current events.", "scene_cn": "\u4e00\u4e2a\u4eba\u6b63\u5728\u9605\u8bfb\u62a5\u7eb8\u4ee5\u6536\u96c6\u6709\u5173\u65f6\u4e8b\u7684\u8be6\u7ec6\u4fe1\u606f\u3002", "image_paths": ["P6_vocabulary_exercises_26_Q10_information_1.png", "P6_vocabulary_exercises_26_Q10_information_2.png"], "examples": [{"en": "The internet provides a vast amount of information on almost every conceivable topic.", "cn": "\u4e92\u8054\u7f51\u63d0\u4f9b\u4e86\u5173\u4e8e\u51e0\u4e4e\u6240\u6709\u53ef\u4ee5\u60f3\u8c61\u7684\u4e3b\u9898\u7684\u5927\u91cf\u4fe1\u606f\u3002"}, {"en": "Before making a decision, gather as much information as possible to ensure success.", "cn": "\u5728\u505a\u51fa\u51b3\u5b9a\u4e4b\u524d\uff0c\u5c3d\u53ef\u80fd\u591a\u5730\u6536\u96c6\u4fe1\u606f\uff0c\u4ee5\u786e\u4fdd\u6210\u529f\u3002"}]}, {"word": "fact", "ipa": "f\u00e6kt", "meanings": {"en": "A thing that is known or proved to be true.", "cn": "\u5df2\u77e5\u6216\u88ab\u8bc1\u660e\u4e3a\u771f\u5b9e\u7684\u4e8b\u60c5\u3002"}, "usage_en": "Used to describe something that is undeniably true and can be verified.", "usage_cn": "\u7528\u4e8e\u63cf\u8ff0\u65e0\u53ef\u5426\u8ba4\u7684\u771f\u5b9e\u4e14\u53ef\u4ee5\u9a8c\u8bc1\u7684\u4e8b\u7269\u3002", "scene_en": "A textbook page showing a scientific fact with supporting data.", "scene_cn": "\u6559\u79d1\u4e66\u9875\u9762\u663e\u793a\u4e86\u4e00\u4e2a\u5e26\u6709\u652f\u6301\u6570\u636e\u7684\u79d1\u5b66\u4e8b\u5b9e\u3002", "image_paths": ["P6_vocabulary_exercises_26_Q10_fact_1.png", "P6_vocabulary_exercises_26_Q10_fact_2.png"], "examples": [{"en": "It is a well-known fact that the Earth revolves around the Sun annually.", "cn": "\u5730\u7403\u6bcf\u5e74\u7ed5\u592a\u9633\u65cb\u8f6c\u662f\u4e00\u4e2a\u4f17\u6240\u5468\u77e5\u7684\u4e8b\u5b9e\u3002"}, {"en": "Presenting only the facts is crucial for maintaining credibility in journalism today.", "cn": "\u4ec5\u5448\u73b0\u4e8b\u5b9e\u5bf9\u4e8e\u5f53\u4eca\u65b0\u95fb\u4e1a\u4fdd\u6301\u53ef\u4fe1\u5ea6\u81f3\u5173\u91cd\u8981\u3002"}]}, {"word": "evidence", "ipa": "\u02c8ev\u026ad\u0259ns", "meanings": {"en": "The available body of facts or information indicating whether a belief or proposition is true or valid.", "cn": "\u53ef\u7528\u7684\u4e8b\u5b9e\u6216\u4fe1\u606f\uff0c\u8868\u660e\u4e00\u79cd\u4fe1\u5ff5\u6216\u547d\u9898\u662f\u5426\u771f\u5b9e\u6216\u6709\u6548\u3002"}, "usage_en": "Used to support a claim or argument, especially in legal or scientific contexts.", "usage_cn": "\u7528\u4e8e\u652f\u6301\u4e3b\u5f20\u6216\u8bba\u70b9\uff0c\u5c24\u5176\u662f\u5728\u6cd5\u5f8b\u6216\u79d1\u5b66\u80cc\u666f\u4e0b\u3002", "scene_en": "A courtroom scene where lawyers present evidence to the jury.", "scene_cn": "\u5f8b\u5e08\u5411\u966a\u5ba1\u56e2\u51fa\u793a\u8bc1\u636e\u7684\u6cd5\u5ead\u573a\u666f\u3002", "image_paths": ["P6_vocabulary_exercises_26_Q10_evidence_1.png", "P6_vocabulary_exercises_26_Q10_evidence_2.png"], "examples": [{"en": "The police gathered evidence at the crime scene to help identify the perpetrator quickly.", "cn": "\u8b66\u65b9\u5728\u72af\u7f6a\u73b0\u573a\u6536\u96c6\u8bc1\u636e\uff0c\u4ee5\u5e2e\u52a9\u5feb\u901f\u8bc6\u522b\u72af\u7f6a\u8005\u3002"}, {"en": "Scientists need strong evidence to support their theories and publish their research findings.", "cn": "\u79d1\u5b66\u5bb6\u9700\u8981\u5f3a\u6709\u529b\u7684\u8bc1\u636e\u6765\u652f\u6301\u4ed6\u4eec\u7684\u7406\u8bba\u5e76\u53d1\u8868\u4ed6\u4eec\u7684\u7814\u7a76\u7ed3\u679c\u3002"}]}, {"word": "point", "ipa": "p\u0254\u026ant", "meanings": {"en": "A particular spot, place, or position; an idea, opinion, or piece of information that is expressed or considered.", "cn": "\u7279\u5b9a\u7684\u5730\u70b9\u3001\u4f4d\u7f6e\u6216\u65b9\u4f4d\uff1b\u8868\u8fbe\u6216\u8003\u8651\u7684\u60f3\u6cd5\u3001\u89c2\u70b9\u6216\u4fe1\u606f\u3002"}, "usage_en": "Used to indicate a specific idea or argument in a discussion or debate.", "usage_cn": "\u7528\u4e8e\u8868\u793a\u8ba8\u8bba\u6216\u8fa9\u8bba\u4e2d\u7684\u7279\u5b9a\u60f3\u6cd5\u6216\u8bba\u70b9\u3002", "scene_en": "A person making a clear point during a business meeting.", "scene_cn": "\u4e00\u4e2a\u4eba\u5728\u5546\u52a1\u4f1a\u8bae\u4e2d\u63d0\u51fa\u660e\u786e\u7684\u89c2\u70b9\u3002", "image_paths": ["P6_vocabulary_exercises_26_Q10_point_1.png", "P6_vocabulary_exercises_26_Q10_point_2.png"], "examples": [{"en": "He made a valid point about the budget constraints during the project planning meeting.", "cn": "\u4ed6\u5728\u9879\u76ee\u89c4\u5212\u4f1a\u8bae\u4e0a\u5c31\u9884\u7b97\u9650\u5236\u63d0\u51fa\u4e86\u4e00\u4e2a\u6709\u6548\u7684\u89c2\u70b9\u3002"}, {"en": "The main point of the lecture was to highlight the importance of sustainable energy sources.", "cn": "\u8bb2\u5ea7\u7684\u4e3b\u8981\u89c2\u70b9\u662f\u5f3a\u8c03\u53ef\u6301\u7eed\u80fd\u6e90\u7684\u91cd\u8981\u6027\u3002"}]}], "synonym_cn": "\u8bc1\u636e vs \u4fe1\u606f vs \u4e8b\u5b9e vs \u8bba\u70b9", "socratic_questions": [{"question": "If a detective presents a bloody knife at trial linking a suspect to the crime, is this considered 'information', 'fact', 'evidence', or 'point'?", "options": ["information", "fact", "evidence", "point"], "correct_answer": "evidence", "explanation": "Evidence is tangible proof presented to support a claim, like a bloody knife linking a suspect to a crime."}, {"question": "In a debate, if you are trying to persuade someone, are you making an 'information', 'fact', 'evidence', or 'point'?", "options": ["information", "fact", "evidence", "point"], "correct_answer": "point", "explanation": "A point is a specific idea or argument presented in a discussion or debate."}, {"question": "If you read in a news article that the earth is round, is this 'information', 'fact', 'evidence', or 'point'?", "options": ["information", "fact", "evidence", "point"], "correct_answer": "fact", "explanation": "A fact is a statement that is known to be true and can be verified."}, {"question": "A weather report stating the temperature is 30 degrees Celsius is 'information', 'fact', 'evidence', or 'point'?", "options": ["information", "fact", "evidence", "point"], "correct_answer": "information", "explanation": "Information is data or knowledge communicated about a particular fact or circumstance."}]}]};
+const KEY = "DKRXk8ueSfo5NdIOMqFRTCAfpeGDezJ3Snf5K8gGgtyqxiWdugLzJQQJ99BLACHYHv6XJ3w3AAAYACOGUYP9";
+const REG = "eastus2";
+
+const { createApp, ref, computed, onMounted } = Vue;
+const SpeechSDK = window.SpeechSDK;
+
+createApp({
+    setup() {
+        const phase = ref('login');
+        const user = ref({ name: '' });
+        const userInputName = ref('');
+        const hasSaveFile = ref(false);
+        const saveMetadata = ref({});
+        const isAdmin = ref(false);
+        const adminClicks = ref(0);
+        const isSending = ref(false);
+        
+        const gIdx = ref(0);
+        const wIdx = ref(0);
+        const step = ref(1);
+        const socraticIdx = ref(0);
+        
+        const stats = ref({ totalTime: 0, sessionTime: 0, score: 0, wordsLearned: 0, errors: [], wordTimings: {} });
+        let wordStartTime = 0;
+        let timerInterval = null;
+
+        const stepData = ref({ 
+            score: 0, quizOpts: [], selOpt: null, isCorrect: false, quizDone: false, 
+            exScores: [], exCounts: [], 
+            socraticRes: null, socraticDone: false,
+            finalDone: false, finalCorrect: false
+        });
+        
+        const recordingId = ref(null);
+        let recognizer = null;
+
+        const currGroup = computed(() => DB.questions[gIdx.value] || {});
+        const currWord = computed(() => currGroup.value.options ? currGroup.value.options[wIdx.value] : {});
+        const totalGroups = computed(() => DB.questions.length);
+        const currSocratic = computed(() => currGroup.value.socratic_questions ? currGroup.value.socratic_questions[socraticIdx.value] : {});
+
+        const subPhase = computed(() => {
+            if (step.value === 1) return 'PRONUNCIATION';
+            if (step.value === 2) return 'IMAGES';
+            if (step.value === 3) return 'QUIZ';
+            if (step.value === 4) return 'STUDY';
+            if (step.value === 5) return 'GROUP_SOCRATIC';
+            if (step.value === 6) return 'GROUP_FINAL';
+        });
+
+        const currentPhaseName = computed(() => step.value <= 4 ? `Word: ${currWord.value.word}` : 'Group Review');
+        const progressPercent = computed(() => {
+            const totalSteps = totalGroups.value * 20; 
+            const curr = (gIdx.value * 20) + (wIdx.value * 4) + step.value;
+            return Math.min((curr / totalSteps) * 100, 100);
+        });
+
+        const canNext = computed(() => {
+            if (isAdmin.value) return true;
+            if (step.value === 1) return stepData.value.score >= 75;
+            if (step.value === 3) return stepData.value.quizDone; 
+            if (step.value === 4) {
+                if (!stepData.value.exCounts || stepData.value.exCounts.length === 0) return false;
+                return stepData.value.exCounts.every(c => c >= 3);
+            }
+            if (step.value === 5) return false; // Handled by Next Question button
+            if (step.value === 6) return false; // Handled by Complete Group button
+            return true; 
+        });
+
+        const lockMsg = computed(() => {
+            if (isAdmin.value) return "ADMIN NEXT";
+            if (!canNext.value) {
+                if (step.value === 1) return "Read Once";
+                if (step.value === 3) return "Complete Quiz";
+                if (step.value === 4) return "Read All 3x";
+                if (step.value === 5) return "Finish Questions";
+                if (step.value === 6) return "Select Answer";
+            }
+            return "NEXT";
+        });
+
+        const startTimer = () => { if(timerInterval) clearInterval(timerInterval); wordStartTime = Date.now(); timerInterval = setInterval(() => { stats.value.sessionTime++; }, 1000); };
+        const recordWordTime = () => {
+            if (step.value <= 4) {
+                const w = currWord.value.word;
+                const dur = Date.now() - wordStartTime;
+                if(!stats.value.wordTimings[w]) stats.value.wordTimings[w] = 0;
+                stats.value.wordTimings[w] += dur;
+                wordStartTime = Date.now();
+            }
+        };
+
+        const initStep = () => {
+            wordStartTime = Date.now();
+            stepData.value = { 
+                score: 0, quizOpts: [], selOpt: null, isCorrect: false, quizDone: false, 
+                exScores: [], exCounts: [], 
+                socraticRes: null, socraticDone: false,
+                finalDone: false, finalCorrect: false
+            };
+            recordingId.value = null;
+
+            if (step.value === 3) {
+                const grpOpts = currGroup.value.options.map(o => o.meanings.cn);
+                stepData.value.quizOpts = _.shuffle(grpOpts);
+            }
+            if (step.value === 4) {
+                const count = currWord.value.examples ? currWord.value.examples.length : 0;
+                stepData.value.exScores = new Array(count).fill(0);
+                stepData.value.exCounts = new Array(count).fill(0);
+            }
+            if (step.value === 5) socraticIdx.value = 0;
+        };
+
+        const next = () => {
+            recordWordTime();
+            if (step.value < 4) { step.value++; } 
+            else if (step.value === 4) { if (wIdx.value < 3) { wIdx.value++; step.value = 1; } else { step.value = 5; } } 
+            else if (step.value < 6) { step.value++; } 
+            else { if (gIdx.value < totalGroups.value - 1) { gIdx.value++; wIdx.value = 0; step.value = 1; } else finish(); }
+            initStep();
+            saveProgress();
+        };
+
+        const prev = () => { if (step.value > 1) step.value--; initStep(); };
+        const canBack = computed(() => step.value > 1);
+
+        const checkQuiz = (opt) => {
+            if(stepData.value.quizDone) return;
+            stepData.value.selOpt = opt;
+            const correct = currWord.value.meanings.cn;
+            if (opt === correct) { speak("Correct!"); stepData.value.isCorrect = true; stepData.value.quizDone = true; }
+            else { speak("Try again"); if (!stats.value.errors.includes(currWord.value.word)) stats.value.errors.push(currWord.value.word); }
+        };
+        const getQuizClass = (opt) => {
+            if (stepData.value.selOpt !== opt) return 'bg-white border-slate-200 text-slate-600';
+            return opt === currWord.value.meanings.cn ? 'opt-correct' : 'opt-wrong';
+        };
+
+        const checkSocratic = (opt) => {
+            if (stepData.value.socraticDone) return;
+            if (opt === currSocratic.value.correct_answer) { 
+                speak("Right!"); 
+                stepData.value.socraticRes = currSocratic.value.explanation; 
+                stepData.value.socraticDone = true; 
+            } else { speak("Think again"); }
+        };
+
+        const nextSocratic = () => {
+            if (socraticIdx.value < 3) {
+                socraticIdx.value++;
+                stepData.value.socraticDone = false;
+                stepData.value.socraticRes = null;
+            } else {
+                next(); // Go to Final
+            }
+        };
+
+        const checkFinal = (idx) => {
+            if (stepData.value.finalDone) return;
+            stepData.value.finalDone = true;
+            
+            if (idx === currGroup.value.correct_index) {
+                speak("Excellent!");
+                stepData.value.finalCorrect = true;
+                stats.value.score += 100; 
+            } else {
+                speak("Wrong.");
+                stepData.value.finalCorrect = false;
+                stats.value.errors.push(currGroup.value.options[idx].word);
+            }
+        };
+
+        const getFinalBtnClass = (idx) => {
+            if (!stepData.value.finalDone) return 'bg-white border-slate-200 text-slate-600';
+            if (idx === currGroup.value.correct_index) return 'opt-correct';
+            if (idx !== currGroup.value.correct_index && !stepData.value.finalCorrect) return 'opacity-50';
+            return 'bg-white border-slate-200 text-slate-400';
+        };
+
+        const speak = (txt) => {
+            if (recordingId.value) return;
+            const c = SpeechSDK.SpeechConfig.fromSubscription(KEY, REG);
+            c.speechSynthesisVoiceName = "en-GB-RyanNeural"; 
+            const s = new SpeechSDK.SpeechSynthesizer(c);
+            s.speakTextAsync(txt, ()=>s.close());
+        };
+
+        const toggleRec = (id, refText, cb) => {
+            if (recordingId.value) {
+                const wasSame = recordingId.value === id;
+                if(recognizer) { recognizer.stopContinuousRecognitionAsync(); recognizer = null; }
+                recordingId.value = null;
+                if(wasSame) return;
+            }
+            try {
+                const c = SpeechSDK.SpeechConfig.fromSubscription(KEY, REG);
+                c.speechRecognitionLanguage = "en-US";
+                const pron = new SpeechSDK.PronunciationAssessmentConfig(refText, 2, 1, true);
+                recognizer = new SpeechSDK.SpeechRecognizer(c, SpeechSDK.AudioConfig.fromDefaultMicrophoneInput());
+                pron.applyTo(recognizer);
+                recordingId.value = id;
+                recognizer.recognized = (s, e) => {
+                    if(e.result.reason === SpeechSDK.ResultReason.RecognizedSpeech) {
+                        const j = JSON.parse(e.result.properties.getProperty(SpeechSDK.PropertyId.SpeechServiceResponse_JsonResult));
+                        cb(j.NBest[0].PronunciationAssessment.AccuracyScore);
+                    }
+                    recordingId.value = null; recognizer.close(); recognizer = null;
+                };
+                recognizer.canceled = () => { recordingId.value = null; };
+                recognizer.startContinuousRecognitionAsync();
+            } catch(e) { alert("Mic Error: "+e); recordingId.value = null; }
+        };
+
+        const updateExScore = (i, s) => { if(s>=75) { stepData.value.exScores[i]=s; stepData.value.exCounts[i]++; speak("Good!"); } else speak("Try again"); };
+
+        const startNewSession = () => { user.value.name = userInputName.value; phase.value = 'learn'; gIdx.value=0; wIdx.value=0; step.value=1; stats.value = { sessionTime:0, wordsLearned:0, score:0, errors:[], wordTimings:{} }; initStep(); startTimer(); saveProgress(); };
+        const resumeSession = () => { const s = JSON.parse(localStorage.getItem('aeis_save')); if(s) { user.value.name=s.u; gIdx.value=s.g; wIdx.value=s.w; step.value=s.s; stats.value=s.st; phase.value='learn'; initStep(); startTimer(); } };
+        const finish = () => { stats.value.wordsLearned = totalGroups.value*4; stats.value.score = Math.round(stats.value.score/totalGroups.value); phase.value='summary'; clearInterval(timerInterval); localStorage.removeItem('aeis_save'); };
+        const saveProgress = () => { localStorage.setItem('aeis_save', JSON.stringify({u:user.value.name, g:gIdx.value, w:wIdx.value, s:step.value, st:stats.value, date: new Date().toLocaleDateString()})); hasSave.value=true; };
+        const saveAndExit = () => { saveProgress(); phase.value='login'; clearInterval(timerInterval); checkSaveFile(); };
+        const checkSaveFile = () => { const s = JSON.parse(localStorage.getItem('aeis_save')); if(s) { hasSaveFile.value=true; saveMetadata.value={name:s.u, date:s.date, group:s.g, score:s.st.score}; } };
+
+        const formatTime = (s) => { const m=Math.floor(s/60); const sc=s%60; return `${m}m ${sc}s`; };
+        const calculateAccuracy = () => 100; 
+        const getImg = (i) => currWord.value.image_paths ? currWord.value.image_paths[i] : '';
+        const printReport = () => window.print();
+        const getWeakWords = () => {
+            const weak = new Set(stats.value.errors);
+            for (const [w, t] of Object.entries(stats.value.wordTimings)) { if (t < 10000) weak.add(w); }
+            return Array.from(weak);
+        };
+        const formatWordTimings = () => Object.entries(stats.value.wordTimings).map(([w, t]) => `${w}: ${(t/1000).toFixed(1)}s`).join('\n');
+
+        const sendEmailJS = () => {
+            isSending.value = true;
+            emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+                student_name: user.value.name,
+                total_time: formatTime(stats.value.sessionTime),
+                score: calculateAccuracy() + "%",
+                word_data: formatWordTimings(), 
+                weak_words: getWeakWords().join(', ') || 'None'
+            }).then(() => { alert("✅ Report Sent Successfully!"); isSending.value = false; }, (err) => { alert("❌ Failed: " + JSON.stringify(err)); isSending.value = false; });
+        };
+
+        const triggerAdmin = () => {
+            adminClicks.value++;
+            if (adminClicks.value >= 5) {
+                const pwd = prompt("Admin Password:");
+                if (pwd === "888123") { isAdmin.value = true; alert("Admin Mode ON"); }
+                adminClicks.value = 0;
+            }
+        };
+        const unlockAll = () => isAdmin.value = true;
+        const adminNav = (dir, type) => {
+            if (type === 'g') {
+                const newG = gIdx.value + dir;
+                if (newG >= 0 && newG < totalGroups.value) { gIdx.value = newG; wIdx.value = 0; step.value = 1; initStep(); }
+            } else next();
+        };
+
+        onMounted(() => checkSaveFile());
+
+        return { 
+            phase, user, userInputName, hasSaveFile, saveMetadata, isAdmin, isSending,
+            startNewSession, resumeSession, saveAndExit, finish,
+            currWord, currGroup, currSocratic, subPhase, currentPhaseName, progressPercent,
+            stepData, recordingId, stats, socraticIdx,
+            canNext, canBack, lockMsg,
+            next, prev, checkQuiz, checkSocratic, nextSocratic, checkFinal, speak, toggleRec, updateExScore, getFinalBtnClass,
+            getImg, groupIdx: gIdx, totalGroups, printReport, sendEmailJS, getQuizClass, formatTime, calculateAccuracy, getWeakWords,
+            triggerAdmin, unlockAll, adminNav
+        };
+    }
+}).mount('#app');
+</script>
+</body>
+</html>
