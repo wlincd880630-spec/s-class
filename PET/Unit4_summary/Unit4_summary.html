@@ -1142,7 +1142,7 @@ body {
 let cp=1,tp=6;
 function show(p){document.querySelectorAll('.quiz-page').forEach(e=>e.classList.remove('active'));document.getElementById('page-'+p).classList.add('active');document.getElementById('ind').innerText=`Page ${p}/${tp}`;cp=p;document.getElementById('pb').disabled=p===1;document.getElementById('nb').disabled=p===tp}
 function nav(d){show(cp+d)}
-function play(u){if(u) new Audio((window.MEDIA_BASE||'')+(window.MEDIA_PREFIX||'PET/Unit4_summary')+'/audio_cache/'+u).play()}
+function play(u){if(u) { var b=window.MEDIA_BASE||''; var p=(location.pathname||'').replace(/\/[^/]+$/,'').replace(/^\//,''); new Audio(b ? b+p+'/audio_cache/'+u : 'audio_cache/'+u).play(); }}
 function sel(e){e.parentElement.querySelectorAll('.opt-btn').forEach(b=>b.classList.remove('selected'));e.classList.add('selected')}
 function clozeSel(e,n,w){sel(e);let s=document.getElementById('slot-'+n);if(s){s.innerText=w;s.classList.add('filled')}}
 function submitPage(pid){
