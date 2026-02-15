@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Part 2: First Reading & Listening</title>
+    <script src="https://cdn.jsdelivr.net/npm/microsoft-cognitiveservices-speech-sdk@1.34.0/distrib/browser/microsoft.cognitiveservices.speech.sdk.bundle-min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600;800&family=Merriweather:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --accent: #27ae60; 
+            --accent-hover: #2ecc71;
+            --highlight: #f1c40f;
+            --glass: rgba(0, 0, 0, 0.6); 
+            --text-color: #ecf0f1;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0; padding: 0;
+            font-family: 'Poppins', sans-serif;
+            background: url('img_alastair_portrait.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: var(--text-color);
+            min-height: 100vh;
+            overflow-x: hidden;
+            padding-bottom: 100px; 
+        }
+
+        .overlay-bg {
+            position: fixed; top:0; left:0; width:100%; height:100%;
+            background: rgba(0,0,0,0.5); 
+            z-index: -1;
+        }
+
+        /* --- Home 按钮 (新增) --- */
+        .home-btn {
+            position: fixed; top: 20px; left: 20px; z-index: 2000;
+            background: rgba(255, 255, 255, 0.15); color: white;
+            padding: 8px 16px; border-radius: 50px; text-decoration: none;
+            font-weight: 700; border: 1px solid rgba(255,255,255,0.3);
+            backdrop-filter: blur(5px); transition: 0.3s; display: flex; align-items: center; gap: 8px;
+            text-transform: uppercase; font-size: 0.9rem;
+        }
+        .home-btn:hover { background: var(--accent); border-color: var(--accent); }
+
+        .container {
+            width: 90%; max-width: 900px;
+            margin: 40px auto;
+            display: flex; flex-direction: column; gap: 30px;
+            position: relative; z-index: 10;
+        }
+
+        /* 标题区 */
+        .header-section {
+            text-align: center;
+            background: rgba(0,0,0,0.4);
+            backdrop-filter: blur(5px);
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.1);
+            margin-top: 40px; /* 留出 Home 按钮空间 */
+        }
+        h1 { margin: 0; font-size: 2rem; text-transform: uppercase; letter-spacing: 2px; }
+        .sub-text { font-family: 'Merriweather', serif; color: #bdc3c7; margin-top: 10px; }
+
+        /* 文章段落卡片 */
+        .passage-card {
+            background: rgba(30, 30, 30, 0.8);
+            backdrop-filter: blur(10px);
+            border-left: 5px solid var(--accent);
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            font-size: 1.15rem;
+            line-height: 1.8;
+            position: relative;
+            transition: transform 0.3s;
+        }
+        .passage-card:hover { transform: translateX(5px); }
+
+        /* TTS 按钮 */
+        .tts-btn {
+            float: right;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.2rem;
+            margin-left: 15px; margin-bottom: 10px;
+            transition: 0.3s;
+        }
+        .tts-btn:hover { background: var(--accent); border-color: var(--accent); transform: scale(1.1); }
+        .tts-btn.playing { animation: pulse 1.5s infinite; background: var(--accent); border-color: var(--accent); }
+
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
+
+        /* 挖空样式 (Cloze) */
+        .cloze-gap {
+            display: inline-block;
+            min-width: 80px;
+            border-bottom: 2px dashed var(--highlight);
+            color: transparent;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            padding: 0 5px;
+            font-weight: bold;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 4px;
+        }
+        .cloze-gap:hover { background: rgba(241, 196, 15, 0.2); }
+        
+        .cloze-revealed {
+            color: var(--highlight);
+            border-bottom: 2px solid var(--highlight);
+            background: rgba(241, 196, 15, 0.1);
+            animation: flash 0.5s;
+        }
+
+        /* 阅读理解区域 */
+        .quiz-section {
+            margin-top: 40px;
+            background: var(--glass);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .quiz-header {
+            font-size: 1.5rem; font-weight: bold; margin-bottom: 20px;
+            border-bottom: 2px solid var(--accent); padding-bottom: 10px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+
+        .question-card {
+            display: none;
+            animation: fadeInRight 0.5s;
+        }
+        .question-active { display: block; }
+
+        .q-text { font-size: 1.3rem; margin-bottom: 20px; font-weight: 600; }
+
+        .answer-box {
+            background: rgba(0,0,0,0.3);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 15px;
+            display: none;
+            border-left: 4px solid var(--highlight);
+        }
+        
+        .evidence-text {
+            font-family: 'Merriweather', serif;
+            font-style: italic;
+            color: #bdc3c7;
+            font-size: 0.95rem;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .btn-action {
+            background: var(--accent); color: white;
+            border: none; padding: 10px 25px;
+            border-radius: 30px; cursor: pointer;
+            font-size: 1rem; font-weight: bold;
+            transition: 0.3s; margin-top: 10px;
+        }
+        .btn-action:hover { background: var(--accent-hover); transform: translateY(-2px); }
+
+        /* 底部导航 */
+        .nav-bar {
+            position: fixed; bottom: 0; left: 0; width: 100%;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(10px);
+            padding: 15px 5%;
+            display: flex; justify-content: space-between;
+            z-index: 100;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        .nav-btn {
+            background: transparent; border: 1px solid white; color: white;
+            padding: 8px 20px; border-radius: 20px; cursor: pointer;
+            transition: 0.3s;
+            text-decoration: none;
+            font-size: 1rem;
+        }
+        .nav-btn:hover { background: white; color: black; }
+
+        @media (max-width: 768px) {
+            .container { width: 95%; margin: 20px auto; }
+            .passage-card { font-size: 1rem; padding: 15px; }
+            h1 { font-size: 1.5rem; }
+            .tts-btn { width: 35px; height: 35px; font-size: 1rem; }
+            .home-btn { top: 15px; left: 15px; font-size: 0.8rem; padding: 6px 12px; }
+            .header-section { margin-top: 60px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="overlay-bg"></div>
+
+    <a href="../../../index.html" class="home-btn"><i class="fas fa-home"></i> Home</a>
+
+    <div class="container">
+        
+        <div class="header-section animate__animated animate__fadeInDown">
+            <h1>Part 2: First Reading</h1>
+            <div class="sub-text">Listen, Fill in the blanks, and Understand.</div>
+        </div>
+
+        <div class="passage-card animate__animated animate__fadeInUp">
+            <button class="tts-btn" onclick="readParagraph(this, 'p1-text')">🔊</button>
+            <div id="p1-text">
+                British adventurer Alastair Humphreys has 
+                <span class="cloze-gap" data-answer="ridden" onclick="revealWord(this)">______</span> 
+                his bike around the world, walked across 
+                <span class="cloze-gap" data-answer="India" onclick="revealWord(this)">______</span>, 
+                and rowed from Africa to South America. In 2011, however, Humphreys had some of the biggest adventures of his life—and he never even left the United Kingdom.
+            </div>
+        </div>
+
+        <div class="passage-card animate__animated animate__fadeInUp" style="animation-delay: 0.1s;">
+            <button class="tts-btn" onclick="readParagraph(this, 'p2-text')">🔊</button>
+            <div id="p2-text">
+                For a year, Humphreys went on microadventures—small, 
+                <span class="cloze-gap" data-answer="low-cost" onclick="revealWord(this)">________</span> 
+                trips close to home. Why did he do this? “I started to think that it was to have an adventure anywhere,” he explains.
+            </div>
+        </div>
+
+        <div class="passage-card animate__animated animate__fadeInUp" style="animation-delay: 0.2s;">
+            <button class="tts-btn" onclick="readParagraph(this, 'p3-text')">🔊</button>
+            <div id="p3-text">
+                For his first trip, he went hiking with a friend around the M25—a 
+                <span class="cloze-gap" data-answer="188-kilometer" onclick="revealWord(this)">_____________</span> 
+                road that goes all the way around London. Other adventures 
+                <span class="cloze-gap" data-answer="included" onclick="revealWord(this)">________</span> 
+                swimming in the River Thames, sleeping outside on a hill, and going on a mountain biking trip. Humphreys learned something important: We find adventure when we try something new.
+            </div>
+        </div>
+
+        <div class="passage-card animate__animated animate__fadeInUp" style="animation-delay: 0.3s;">
+            <button class="tts-btn" onclick="readParagraph(this, 'p4-text')">🔊</button>
+            <div id="p4-text">
+                Humphreys wanted other people to make this 
+                <span class="cloze-gap" data-answer="discovery" onclick="revealWord(this)">_________</span>, 
+                too, so he decided to share his idea. He challenged people to go on microadventures and send him four-minute videos of their trips. He asked them to do things like climb a hill, go away for a weekend, or choose a 
+                <span class="cloze-gap" data-answer="random" onclick="revealWord(this)">_______</span> 
+                place on a map and go there. People from all over the world accepted his challenge and posted their videos on Twitter (a social media, like Weibo).
+            </div>
+        </div>
+
+        <div class="quiz-section animate__animated animate__fadeIn" id="quiz-area">
+            <div class="quiz-header">
+                <span>🧠 Comprehension Check</span>
+                <span id="q-counter" style="font-size:0.9rem; opacity:0.7">Question 1 / 5</span>
+            </div>
+
+            <div class="question-card question-active" id="q1">
+                <div class="q-text">1. What was special about his adventures in 2011?</div>
+                <button class="btn-action" onclick="checkAnswer(this)">Check Answer</button>
+                <div class="answer-box">
+                    <div style="color:#2ecc71; font-weight:bold;">He had big adventures without leaving his own country (UK).</div>
+                    <div class="evidence-text">Evidence: "...Humphreys had some of the biggest adventures of his life—and he never even left the United Kingdom."</div>
+                    <div style="text-align:right"><button class="btn-action" style="background:#34495e; font-size:0.8rem;" onclick="nextQ(2)">Next Question ❯</button></div>
+                </div>
+            </div>
+
+            <div class="question-card" id="q2">
+                <div class="q-text">2. What is the definition of "microadventures"?</div>
+                <button class="btn-action" onclick="checkAnswer(this)">Check Answer</button>
+                <div class="answer-box">
+                    <div style="color:#2ecc71; font-weight:bold;">They are small, low-cost trips close to home.</div>
+                    <div class="evidence-text">Evidence: "...went on microadventures—small, low-cost trips close to home."</div>
+                    <div style="text-align:right"><button class="btn-action" style="background:#34495e; font-size:0.8rem;" onclick="nextQ(3)">Next Question ❯</button></div>
+                </div>
+            </div>
+
+            <div class="question-card" id="q3">
+                <div class="q-text">3. What was his first microadventure trip?</div>
+                <button class="btn-action" onclick="checkAnswer(this)">Check Answer</button>
+                <div class="answer-box">
+                    <div style="color:#2ecc71; font-weight:bold;">He went hiking around the M25 road in London.</div>
+                    <div class="evidence-text">Evidence: "For his first trip, he went hiking with a friend around the M25..."</div>
+                    <div style="text-align:right"><button class="btn-action" style="background:#34495e; font-size:0.8rem;" onclick="nextQ(4)">Next Question ❯</button></div>
+                </div>
+            </div>
+
+            <div class="question-card" id="q4">
+                <div class="q-text">4. What important lesson did Humphreys learn?</div>
+                <button class="btn-action" onclick="checkAnswer(this)">Check Answer</button>
+                <div class="answer-box">
+                    <div style="color:#2ecc71; font-weight:bold;">Adventure happens when we try new things.</div>
+                    <div class="evidence-text">Evidence: "Humphreys learned something important: We find adventure when we try something new."</div>
+                    <div style="text-align:right"><button class="btn-action" style="background:#34495e; font-size:0.8rem;" onclick="nextQ(5)">Next Question ❯</button></div>
+                </div>
+            </div>
+
+            <div class="question-card" id="q5">
+                <div class="q-text">5. How did he encourage others to join him?</div>
+                <button class="btn-action" onclick="checkAnswer(this)">Check Answer</button>
+                <div class="answer-box">
+                    <div style="color:#2ecc71; font-weight:bold;">He challenged people to send him 4-minute videos of their trips.</div>
+                    <div class="evidence-text">Evidence: "He challenged people to go on microadventures and send him four-minute videos of their trips."</div>
+                    <div style="text-align:center; margin-top:10px; color:#f1c40f">✨ Great Job! Section Complete.</div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="nav-bar">
+        <a href="page4_1.html" class="nav-btn">❮ Previous</a>
+        <a href="page4_3.html" class="nav-btn">Next Step ❯</a>
+    </div>
+
+    <script>
+        // --- 1. Azure Speech SDK 配置 ---
+        const azureKey = "DKRXk8ueSfo5NdIOMqFRTCAfpeGDezJ3Snf5K8gGgtyqxiWdugLzJQQJ99BLACHYHv6XJ3w3AAAYACOGUYP9"; 
+        const azureRegion = "eastus2"; 
+        let synthesizer = null;
+        let activeBtn = null;
+
+        // 初始化 SDK
+        function initSpeechSDK() {
+            if (typeof SpeechSDK !== 'undefined' && azureKey && azureRegion) {
+                const speechConfig = SpeechSDK.SpeechConfig.fromSubscription(azureKey, azureRegion);
+                // 设置高质量神经语音 (British English since the text mentions British adventurer)
+                speechConfig.speechSynthesisVoiceName = "en-GB-SoniaNeural"; 
+                synthesizer = new SpeechSDK.SpeechSynthesizer(speechConfig);
+            }
+        }
+
+        window.onload = function() {
+            initSpeechSDK();
+        };
+
+        // 统一播放函数
+        function speak(text, btnElement) {
+            // 停止之前的播放
+            if (synthesizer) {
+                try { synthesizer.close(); } catch(e) {}
+                synthesizer = null;
+            }
+            window.speechSynthesis.cancel();
+
+            // 视觉反馈
+            if(activeBtn) {
+                activeBtn.classList.remove('playing');
+                if(activeBtn.tagName === 'BUTTON' && activeBtn.classList.contains('tts-btn')) activeBtn.innerText = '🔊';
+            }
+            
+            activeBtn = btnElement;
+            if(btnElement) {
+                btnElement.classList.add('playing');
+                if(btnElement.classList.contains('tts-btn')) btnElement.innerText = '⏸';
+            }
+
+            try {
+                // 尝试 Azure
+                const speechConfig = SpeechSDK.SpeechConfig.fromSubscription(azureKey, azureRegion);
+                speechConfig.speechSynthesisVoiceName = "en-GB-SoniaNeural";
+                const audioConfig = SpeechSDK.AudioConfig.fromDefaultSpeakerOutput();
+                synthesizer = new SpeechSDK.SpeechSynthesizer(speechConfig, audioConfig);
+
+                synthesizer.speakTextAsync(
+                    text,
+                    result => {
+                        if (result.reason === SpeechSDK.ResultReason.SynthesizingAudioCompleted) {
+                            // Success
+                        } else {
+                            console.warn("Azure TTS canceled/failed.");
+                            browserSpeak(text, btnElement);
+                        }
+                        resetBtn(btnElement);
+                        synthesizer.close();
+                        synthesizer = null;
+                    },
+                    error => {
+                        console.error("Azure Error:", error);
+                        browserSpeak(text, btnElement);
+                    }
+                );
+            } catch (e) {
+                browserSpeak(text, btnElement);
+            }
+        }
+
+        function browserSpeak(text, btnElement) {
+            window.speechSynthesis.cancel();
+            const ut = new SpeechSynthesisUtterance(text);
+            ut.lang = 'en-GB';
+            ut.rate = 0.9;
+            ut.onend = () => { resetBtn(btnElement); };
+            window.speechSynthesis.speak(ut);
+        }
+
+        function resetBtn(btn) {
+            if(btn) {
+                btn.classList.remove('playing');
+                if(btn.classList.contains('tts-btn')) btn.innerText = '🔊';
+            }
+            activeBtn = null;
+        }
+
+        // --- 2. 朗读段落功能 ---
+        function readParagraph(btn, textId) {
+            // 获取容器
+            let container = document.getElementById(textId);
+            
+            // 1. 克隆节点以获取完整文本 (含挖空答案)
+            let clone = container.cloneNode(true);
+            
+            // 2. 将挖空处替换为答案文本
+            let gaps = clone.querySelectorAll('.cloze-gap');
+            gaps.forEach(gap => {
+                let answer = gap.getAttribute('data-answer');
+                gap.innerText = answer; 
+            });
+
+            // 3. 获取纯文本并清洗 (去除换行符，防止停顿)
+            let textToRead = clone.textContent;
+            textToRead = textToRead.replace(/[\r\n]+/g, ' ').replace(/\s+/g, ' ').trim();
+
+            // 4. 调用统一播放函数
+            speak(textToRead, btn);
+        }
+
+        // --- 3. 填空揭晓功能 ---
+        function revealWord(el) {
+            if (!el.classList.contains('cloze-revealed')) {
+                let answer = el.getAttribute('data-answer');
+                el.innerText = answer;
+                el.classList.add('cloze-revealed');
+                
+                // 朗读单词
+                speak(answer, null);
+            }
+        }
+
+        // --- 4. 阅读理解问答逻辑 ---
+        function checkAnswer(btn) {
+            let answerBox = btn.nextElementSibling;
+            answerBox.style.display = 'block';
+            answerBox.classList.add('animate__animated', 'animate__fadeIn');
+            btn.style.display = 'none'; 
+        }
+
+        function nextQ(nextIdNum) {
+            document.querySelectorAll('.question-card').forEach(el => el.classList.remove('question-active'));
+            let nextQ = document.getElementById('q' + nextIdNum);
+            if(nextQ) {
+                nextQ.classList.add('question-active');
+                document.getElementById('q-counter').innerText = 'Question ' + nextIdNum + ' / 5';
+            }
+        }
+    </script>
+</body>
+</html>
