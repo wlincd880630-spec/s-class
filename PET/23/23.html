@@ -1,0 +1,3065 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Intensive English Lab (Context Final Fix)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/microsoft-cognitiveservices-speech-sdk@latest/distrib/browser/microsoft.cognitiveservices.speech.sdk.bundle-min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Nunito', sans-serif; background-color: #0f172a; color: #f8fafc; user-select: none; -webkit-tap-highlight-color: transparent; }
+        
+        .app-container { height: 100vh; display: flex; flex-direction: column; }
+        .main-stage { flex: 1; overflow-y: auto; overflow-x: hidden; padding: 16px; padding-bottom: 140px; display: flex; flex-direction: column; align-items: center; }
+
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.9);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.5);
+            border-radius: 24px;
+        }
+
+        .btn-3d {
+            transition: all 0.1s; cursor: pointer; position: relative; z-index: 20;
+            user-select: none; touch-action: manipulation;
+        }
+        .btn-3d:active { transform: translateY(3px); box-shadow: none !important; filter: brightness(0.9); border-bottom-width: 0px !important; margin-top: 3px; }
+
+        .key-btn {
+            width: 55px; height: 60px;
+            background: #1e293b; border: 2px solid #475569; border-bottom-width: 6px;
+            border-radius: 12px; font-size: 1.5rem; font-weight: 900; color: white;
+            display: flex; align-items: center; justify-content: center;
+            margin: 4px; text-transform: uppercase; transition: all 0.2s;
+        }
+        .key-btn:disabled { opacity: 0; transform: scale(0); pointer-events: none; }
+        
+        .option-card {
+            width: 100%; padding: 18px; margin-bottom: 12px;
+            background: #1e293b; border: 2px solid #334155; border-radius: 16px;
+            font-size: 1.1rem; font-weight: 700; text-align: left;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .opt-correct { border-color: #22c55e; background: rgba(34, 197, 94, 0.15); color: #4ade80; }
+        .opt-wrong { border-color: #ef4444; background: rgba(239, 68, 68, 0.15); color: #f87171; }
+
+        .bottom-nav {
+            position: fixed; bottom: 0; left: 0; width: 100%;
+            padding: 16px 24px; padding-bottom: 30px;
+            background: rgba(15, 23, 42, 0.95); border-top: 1px solid #334155;
+            z-index: 50; display: flex; justify-content: center; gap: 12px;
+        }
+        .nav-btn {
+            padding: 16px; border-radius: 16px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px;
+            display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 1.1rem;
+        }
+        .btn-prev {
+            width: 35%; background: #334155; color: #94a3b8; border: 2px solid #475569; font-size: 1rem;
+        }
+        .btn-prev:active { transform: translateY(2px); filter: brightness(0.9); }
+        .btn-next { flex: 1; }
+        .btn-locked { background: #334155; color: #94a3b8; cursor: not-allowed; border: 2px solid #475569; }
+        .btn-active { background: #22c55e; color: white; box-shadow: 0 6px 0 #15803d; border-bottom: 6px solid #15803d; }
+        .btn-active:active { transform: translateY(6px); box-shadow: none; border-bottom-width: 0; margin-bottom: 6px; }
+
+        .pulse-mic { animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); } 70% { box-shadow: 0 0 0 20px rgba(239, 68, 68, 0); } 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); } }
+        
+        .blur-text { color: transparent !important; text-shadow: 0 0 12px rgba(255,255,255,0.7); user-select: none; transition: all 0.3s ease; }
+        .clear-text { color: #94a3b8 !important; text-shadow: none; user-select: auto; }
+        
+        .admin-trigger { width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.1); position: fixed; bottom: 100px; right: 20px; z-index: 99; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+    </style>
+
+    <style>
+        /* --- Python 注入的高级 UI 样式 --- */
+        :root {
+            --sat: env(safe-area-inset-top);
+            --sab: env(safe-area-inset-bottom);
+            --primary-gradient: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+            --shadow-glow: 0 8px 20px -4px rgba(79, 70, 229, 0.5);
+            --glass-bg: rgba(15, 23, 42, 0.85);
+        }
+
+        /* 1. 全局容器修复 */
+        body { margin: 0; background-color: #0f172a; -webkit-tap-highlight-color: transparent; }
+        .app-container { height: 100dvh; overflow: hidden; background: #0f172a; }
+        .main-stage { padding-bottom: calc(110px + var(--sab)); -webkit-overflow-scrolling: touch; }
+        nav { padding-top: var(--sat); }
+
+        /* 2. 底部导航栏重构 - 毛玻璃效果 */
+        .bottom-nav {
+            background: var(--glass-bg) !important;
+            backdrop-filter: blur(20px) !important;
+            -webkit-backdrop-filter: blur(20px) !important;
+            border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+            padding-bottom: max(20px, var(--sab)) !important;
+            padding-top: 16px !important;
+            box-shadow: 0 -10px 40px rgba(0,0,0,0.2);
+            gap: 16px !important;
+        }
+
+        /* 3. 按钮基础重置 (覆盖原有的 btn-3d) */
+        .nav-btn {
+            border: none !important;
+            border-bottom-width: 0 !important;
+            box-shadow: none !important;
+            margin: 0 !important;
+            border-radius: 18px !important; /* 更圆润 */
+            font-size: 1rem !important;
+            letter-spacing: 0.5px !important;
+            transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+            height: 56px !important; /* 更适合手指点击的高度 */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* 点击时的缩放动画 (替代旧的下沉效果) */
+        .nav-btn:active {
+            transform: scale(0.96) !important;
+            filter: brightness(0.9);
+        }
+
+        /* 4. 上一步按钮 - 低调磨砂质感 */
+        .btn-prev {
+            width: auto !important;
+            min-width: 100px;
+            background: rgba(255, 255, 255, 0.08) !important;
+            color: #94a3b8 !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        }
+
+        /* 5. 下一步按钮 (激活) - 现代渐变 + 辉光 */
+        .btn-active {
+            flex: 1;
+            background: var(--primary-gradient) !important;
+            color: white !important;
+            font-weight: 800 !important;
+            box-shadow: var(--shadow-glow) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        }
+        
+        /* 这里的伪元素用于增加光泽感 */
+        .btn-active::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: 18px;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.15), transparent);
+            pointer-events: none;
+        }
+
+        /* 6. 下一步按钮 (锁定) - 条纹背景 */
+        .btn-locked {
+            flex: 1;
+            background: repeating-linear-gradient(
+                45deg,
+                #1e293b,
+                #1e293b 10px,
+                #253045 10px,
+                #253045 20px
+            ) !important;
+            color: #64748b !important;
+            border: 1px solid #334155 !important;
+            cursor: not-allowed;
+            opacity: 0.8;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.2) !important;
+        }
+
+        /* 7. 图标微调 */
+        .nav-btn i { font-size: 1.1em; }
+        
+        /* 8. 修复原有的 app-container 高度冲突 */
+        .app-container { height: 100dvh !important; }
+    </style>
+    
+</head>
+<body>
+
+<div id="app" class="app-container">
+
+    <nav class="h-16 flex items-center justify-between px-6 bg-slate-900 border-b border-slate-800 shrink-0 z-40">
+        <div class="font-black text-xl text-white flex items-center gap-2">
+            <span class="bg-indigo-600 w-8 h-8 rounded flex items-center justify-center">E</span> Lab
+        </div>
+        <div v-if="phase !== 'login'" class="flex items-center gap-3">
+            <div class="px-3 py-1 rounded-full bg-slate-800 border border-slate-700 text-xs font-mono text-indigo-400">Unit 1</div>
+            <button @click="saveAndExit" class="text-slate-400 hover:text-white flex items-center gap-1"><i class="fas fa-save"></i> Save</button>
+        </div>
+    </nav>
+
+    <div class="admin-trigger" @click="openAdmin"><i class="fas fa-cog text-slate-400"></i></div>
+    <div v-if="showAdminPanel" class="fixed inset-0 bg-black/90 z-[1000] flex items-center justify-center">
+        <div class="bg-slate-800 p-6 rounded-2xl w-80 border border-slate-600">
+            <h3 class="text-white font-bold mb-4">Admin Console</h3>
+            <div class="grid grid-cols-2 gap-2 mb-4">
+                <button @click="setPhase('vocab')" class="bg-indigo-900 text-white p-2 rounded">Vocab</button>
+                <button @click="setPhase('colloc')" class="bg-indigo-900 text-white p-2 rounded">Colloc</button>
+                <button @click="setPhase('grammar')" class="bg-indigo-900 text-white p-2 rounded">Grammar</button>
+                <button @click="forceUnlock" class="bg-green-700 text-white p-2 rounded">Unlock Step</button>
+            </div>
+            <div class="flex gap-2">
+                <button @click="jumpIndex(-1)" class="bg-slate-600 text-white p-2 rounded flex-1">Prev Item</button>
+                <button @click="jumpIndex(1)" class="bg-slate-600 text-white p-2 rounded flex-1">Next Item</button>
+            </div>
+            <button @click="showAdminPanel=false" class="mt-4 w-full bg-red-900/50 text-red-300 p-2 rounded">Close</button>
+        </div>
+    </div>
+
+    <main class="main-stage">
+        
+        <div v-if="phase === 'login'" class="w-full max-w-md mt-10 text-center">
+            <h1 class="text-3xl font-black text-white mb-8">Intensive Lab</h1>
+            <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 shadow-xl">
+                <input v-model="userName" type="text" placeholder="Enter Your Name" class="w-full bg-slate-900 border border-slate-700 text-white px-4 py-3 rounded-xl mb-4 text-center focus:border-indigo-500 outline-none text-lg">
+                <button @click="startNew" :disabled="!userName" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-4 rounded-xl mb-3 shadow-lg btn-3d disabled:opacity-50">Start New Session</button>
+                <button v-if="hasSave" @click="resume" class="w-full bg-slate-700 hover:bg-slate-600 text-green-400 font-bold py-4 rounded-xl border border-slate-600 btn-3d"><i class="fas fa-history mr-2"></i> Resume Progress</button>
+            </div>
+        </div>
+
+        <div v-if="['vocab', 'colloc', 'grammar'].includes(phase)" class="w-full max-w-2xl">
+            <div class="mb-6 px-2 flex justify-between text-xs font-bold text-slate-400 uppercase">
+                <span>{{ phaseTitles[phase] }} • Item {{ currentIndex + 1 }}/{{ currentList.length }}</span>
+                <span>Step {{ currentStep }}/{{ totalSteps }}</span>
+            </div>
+
+            <div class="flex gap-1 h-1.5 w-full bg-slate-800 rounded-full overflow-hidden mb-6">
+                <div v-for="s in totalSteps" :key="s" class="flex-1 transition-all duration-300" :class="s < currentStep ? 'bg-green-500' : (s === currentStep ? 'bg-indigo-500' : 'bg-slate-700')"></div>
+            </div>
+
+            <div class="glass-panel p-6 md:p-8 min-h-[450px] flex flex-col items-center relative">
+                
+                <!-- 1. Listen -->
+                <div v-if="currentStep === 1" class="text-center w-full">
+                    <div class="py-6">
+                        <h1 class="text-5xl md:text-7xl font-black text-white mb-4 tracking-tight break-words">{{ currentItem.word || currentItem.phrase }}</h1>
+                        
+                        <div v-if="phase === 'grammar'">
+                            <p class="text-2xl text-slate-200 font-medium mb-4 leading-relaxed">{{ currentItem.source_sentence }}</p>
+                            <p class="text-lg text-slate-400 mb-8">{{ currentItem.source_sentence_cn }}</p>
+                            <button @click="handleTask('playGrammarAudio')" :class="stepData.grammarListened ? 'bg-green-600 border-green-500' : 'bg-indigo-600 border-indigo-500'" class="btn-3d px-8 py-4 rounded-xl border-b-4 font-bold text-white shadow-lg flex items-center gap-3 mx-auto"><i class="fas fa-volume-up"></i> Listen First</button>
+                        </div>
+
+                        <div v-else>
+                            <p class="text-2xl text-slate-400 font-mono">{{ currentItem.phonetic }}</p>
+                            <div class="flex justify-center gap-8 mb-8 mt-8">
+                                <button @click="playTTS(currentItem.word || currentItem.phrase)" class="btn-3d w-20 h-20 rounded-full bg-slate-800 border-2 border-slate-600 text-indigo-400 flex items-center justify-center text-3xl shadow-lg hover:bg-slate-700"><i class="fas fa-volume-up"></i></button>
+                                <button @click="toggleRec(currentItem.word || currentItem.phrase, (s) => stepData.audioScore = s)" 
+                                    :class="isRecording ? 'bg-red-500 border-red-400 pulse-mic text-white' : (stepData.audioScore >= 30 ? 'bg-green-600 border-green-400 text-white' : 'bg-indigo-600 border-indigo-400 text-white')"
+                                    class="btn-3d w-24 h-24 rounded-full border-b-4 flex items-center justify-center text-4xl shadow-xl">
+                                    <i :class="isRecording ? 'fas fa-stop' : (stepData.audioScore >= 30 ? 'fas fa-check' : 'fas fa-microphone')"></i>
+                                </button>
+                            </div>
+                            <p class="text-sm font-bold" :class="stepData.audioScore >= 30 ? 'text-green-400' : 'text-slate-500'">
+                                {{ isRecording ? 'Recording... Tap to Stop' : (stepData.audioScore ? `Score: ${stepData.audioScore}` : 'Click Mic -> Speak -> Click Stop') }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Guess / Inquiry -->
+                <div v-if="currentStep === 2" class="w-full">
+                    <div v-if="phase === 'grammar'">
+                        <template v-if="stepData.inquiryIndex < currentItem.guide_questions.length">
+                            <h3 class="text-lg font-bold text-white mb-4">Question {{ stepData.inquiryIndex + 1 }} / {{ currentItem.guide_questions.length }}</h3>
+                            <div class="bg-slate-800/50 p-3 rounded mb-4 text-sm text-slate-300 italic border-l-4 border-indigo-500">"{{ currentItem.source_sentence }}"</div>
+                            <div class="bg-indigo-900/30 p-4 rounded-xl mb-4 border border-indigo-500/30"><p class="text-slate-200 font-bold">{{ currentItem.guide_questions[stepData.inquiryIndex].question }}</p></div>
+                            <div class="space-y-3 mb-6">
+                                <button v-for="opt in getGuideOptions(currentItem, stepData.inquiryIndex)" @click="handleTask('inquiry', opt)" 
+                                    class="option-card btn-3d" 
+                                    :class="stepData.inquiryAnswer === opt ? (checkGrammarCorrect(opt, currentItem.guide_questions[stepData.inquiryIndex].correct) ? 'opt-correct' : 'opt-wrong') : ''">
+                                    <span>{{ cleanOption(opt) }}</span>
+                                    <i v-if="stepData.inquiryAnswer === opt" :class="checkGrammarCorrect(opt, currentItem.guide_questions[stepData.inquiryIndex].correct) ? 'fas fa-check' : 'fas fa-times'"></i>
+                                </button>
+                            </div>
+                            <button v-if="stepData.inquiryShowNext" @click="nextGrammarQuestion('inquiry')" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 rounded-xl btn-3d">Next Question <i class="fas fa-arrow-right ml-2"></i></button>
+                        </template>
+                        <div v-else class="text-center py-10">
+                            <div class="text-6xl mb-4">🎉</div><h3 class="text-2xl font-bold text-green-400">Analysis Complete!</h3>
+                        </div>
+                    </div>
+                    
+                    <div v-else>
+                        <div class="relative w-full h-56 bg-black rounded-2xl overflow-hidden mb-4 border-2 border-slate-700">
+                            <img :src="getImagePath(currentItem.image_file)" class="w-full h-full object-cover opacity-90">
+                            <button @click="playTTS(currentItem.image_desc_en)" class="btn-3d absolute bottom-3 right-3 bg-indigo-600 text-white w-10 h-10 rounded-full flex items-center justify-center shadow-lg"><i class="fas fa-volume-up"></i></button>
+                        </div>
+                        <div class="bg-slate-800/80 p-4 rounded-xl border border-slate-600 mb-6 text-center">
+                            <p class="text-slate-200 text-lg font-medium italic mb-2">"{{ currentItem.image_desc_en }}"</p>
+                            <p class="text-slate-500 text-sm border-t border-slate-600 pt-2">{{ currentItem.image_desc_cn }}</p>
+                        </div>
+                        <div class="space-y-3">
+                            <button v-for="opt in (currentItem.options || [])" @click="handleTask('guess', opt)" class="option-card btn-3d" :class="getOptClass(opt, stepData.guessAnswer, currentItem.correct_answer)"><span>{{ opt }}</span><i v-if="stepData.guessAnswer === opt" :class="opt === currentItem.correct_answer ? 'fas fa-check' : 'fas fa-times'"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Details -->
+                <div v-if="currentStep === 3" class="w-full h-full overflow-y-auto custom-scrollbar pb-10">
+                    <div v-if="phase === 'grammar'">
+                        <div class="bg-indigo-900/30 p-5 rounded-xl border border-indigo-500/30 mb-4 text-sm leading-relaxed text-slate-200" v-html="currentItem.explanation"></div>
+                    </div>
+                    <div v-else>
+                        <div class="mb-6 text-center border-b border-slate-700 pb-4">
+                            <h2 class="text-4xl font-black text-white mb-2">{{ currentItem.word || currentItem.phrase }}</h2>
+                            <p class="text-2xl text-green-400 font-bold mb-1">{{ currentItem.correct_answer }}</p>
+                        </div>
+                        <div class="bg-indigo-900/30 border border-indigo-500/30 p-4 rounded-xl mb-6">
+                            <h4 class="text-xs font-bold text-indigo-300 uppercase mb-1">Usage</h4>
+                            <p class="text-white text-sm">{{ currentItem.usage }}</p>
+                        </div>
+                        <div class="space-y-4">
+                            <div v-for="(ex, i) in currentItem.examples" :key="i" class="bg-slate-800/60 rounded-xl border border-slate-600 p-4">
+                                <div class="flex items-start gap-3 mb-3">
+                                    <button @click="playTTS(ex.sentence)" class="btn-3d w-10 h-10 rounded-full bg-indigo-600 text-white flex items-center justify-center shrink-0 border-b-4 border-indigo-800"><i class="fas fa-volume-up"></i></button>
+                                    <div class="flex-1">
+                                        <p class="text-lg text-white font-medium">{{ ex.sentence }}</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-3 border-t border-slate-700 pt-2 cursor-pointer hover:bg-slate-700/50 rounded p-1 transition" @click="toggleEx(i)">
+                                    <span class="text-[10px] font-bold bg-slate-700 px-2 rounded text-slate-300">{{ ex.source }}</span>
+                                    <div class="flex-1">
+                                        <p :class="!stepData.exStates[i].showCn ? 'blur-text' : 'clear-text'" class="text-slate-400 text-sm transition font-bold">{{ ex.trans }}</p>
+                                    </div>
+                                    <button class="text-slate-400 hover:text-white"><i :class="stepData.exStates[i].showCn ? 'fas fa-eye-slash' : 'fas fa-eye'"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. Spelling / Quiz -->
+                <div v-if="currentStep === 4" class="text-center w-full flex flex-col items-center">
+                    <div v-if="phase === 'grammar'" class="w-full">
+                        <template v-if="stepData.quizIndex < currentItem.quiz_questions.length">
+                            <h3 class="text-lg font-bold text-white mb-6">Quiz {{ stepData.quizIndex + 1 }}/5</h3>
+                            <p class="text-slate-300 mb-6 font-bold text-left">{{ currentItem.quiz_questions[stepData.quizIndex].question }}</p>
+                            <div class="space-y-3 mb-6">
+                                <button v-for="opt in getQuizOptions(currentItem, stepData.quizIndex)" @click="handleTask('quiz', opt)" 
+                                    class="option-card btn-3d"
+                                    :class="stepData.quizAnswer === opt ? (checkGrammarCorrect(opt, currentItem.quiz_questions[stepData.quizIndex].correct) ? 'opt-correct' : 'opt-wrong') : ''">
+                                    <span>{{ cleanOption(opt) }}</span>
+                                    <i v-if="stepData.quizAnswer === opt" :class="checkGrammarCorrect(opt, currentItem.quiz_questions[stepData.quizIndex].correct) ? 'fas fa-check' : 'fas fa-times'"></i>
+                                </button>
+                            </div>
+                            <div v-if="stepData.quizShowExplanation" class="mb-4 p-3 bg-slate-800 rounded border border-slate-700 text-sm text-green-300 text-left">{{ currentItem.quiz_questions[stepData.quizIndex].explanation }}</div>
+                            <button v-if="stepData.quizShowNext" @click="nextGrammarQuestion('quiz')" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 rounded-xl btn-3d">Next Question <i class="fas fa-arrow-right ml-2"></i></button>
+                        </template>
+                        <div v-else class="text-center py-10">
+                            <div class="text-6xl mb-4">🏆</div><h3 class="text-2xl font-bold text-green-400">All Correct!</h3>
+                        </div>
+                    </div>
+                    <div v-else class="w-full">
+                        <button @click="playTTS(currentItem.word || currentItem.phrase)" class="mb-8 w-16 h-16 rounded-full bg-indigo-600 text-white text-2xl shadow-lg flex items-center justify-center animate-bounce btn-3d border-b-4 border-indigo-800"><i class="fas fa-volume-up"></i></button>
+                        <div class="flex justify-center gap-2 mb-10 flex-wrap min-h-[60px]">
+                            <template v-for="(char, i) in spellingDisplaySlots" :key="i">
+                                <div v-if="char === 'SPACE'" class="w-6"></div>
+                                <div v-else class="w-12 h-14 bg-slate-800 border-b-4 border-indigo-500 flex items-center justify-center text-2xl font-bold text-white rounded-lg">{{ char || '' }}</div>
+                            </template>
+                        </div>
+                        <div class="flex flex-wrap justify-center gap-2 max-w-lg">
+                            <button v-for="(char, i) in stepData.shuffledLetters" :key="i" @click="handleTask('spell', char, i)" :disabled="stepData.usedIndices.has(i)" class="key-btn btn-3d">{{ char }}</button>
+                        </div>
+                        <button @click="resetSpelling" class="mt-10 px-4 py-2 bg-slate-700 rounded-lg text-slate-300 text-sm btn-3d border-b-4 border-slate-900"><i class="fas fa-undo"></i> Reset</button>
+                    </div>
+                </div>
+
+                <!-- 5. Meaning -->
+                <div v-if="currentStep === 5" class="w-full">
+                    <h3 class="text-2xl font-bold text-center mb-8 text-white">{{ currentItem.word || currentItem.phrase }}</h3>
+                    <div class="space-y-3">
+                        <button v-for="opt in (stepData.meaningOptions || [])" @click="handleTask('meaning', opt)" class="option-card btn-3d" :class="getOptClass(opt, stepData.meaningAnswer, currentItem.correct_answer)"><span>{{ opt }}</span><i v-if="stepData.meaningAnswer === opt" :class="opt === currentItem.correct_answer ? 'fas fa-check' : 'fas fa-times'"></i></button>
+                    </div>
+                </div>
+
+                <!-- 6. Context (Final Fix: Logic + Data Cleaning) -->
+                <div v-if="currentStep === 6" class="w-full">
+                    <h3 class="text-xl font-bold text-center mb-6 text-indigo-300">Select Correct Context</h3>
+                    <div class="space-y-3">
+                        <!-- Use stepData.contextOptions which is SHUFFLED and NORMALIZED -->
+                        <button v-for="(q, i) in stepData.contextOptions" :key="i" @click="handleTask('context', q, i)" class="option-card btn-3d flex-col items-start gap-2" :class="getOptClass(i, stepData.contextAnswerIndex, 'correct_index')">
+                            
+                            <!-- Show filled green sentence if selected and correct -->
+                            <span v-if="stepData.contextAnswerIndex === i && q.is_correct" class="text-green-400 font-bold transition-all text-lg border-b-2 border-green-500 pb-1">{{ stepData.contextFullSentence }}</span>
+                            
+                            <!-- Otherwise show original sentence -->
+                            <span v-else class="text-sm leading-relaxed">{{ q.sentence }}</span>
+                            
+                            <!-- Check/X icon -->
+                            <div v-if="stepData.contextAnswerIndex === i" class="w-full text-right mt-1">
+                                <i :class="q.is_correct ? 'fas fa-check text-green-400' : 'fas fa-times text-red-400'"></i>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 7. Oral Drill -->
+                <div v-if="currentStep === 7" class="text-center w-full">
+                    <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 mb-8">
+                        <p class="text-xl font-serif text-white leading-relaxed mb-4">"{{ getZhongkaoSentence() }}"</p>
+                        <button @click="playTTS(getZhongkaoSentence())" class="btn-3d px-4 py-2 bg-slate-700 rounded-lg text-indigo-400 text-sm font-bold border-b-2 border-slate-900"><i class="fas fa-volume-up mr-1"></i> Listen</button>
+                    </div>
+                    <div class="mb-8">
+                        <div class="flex justify-center gap-3 mb-2">
+                            <div v-for="n in 5" :key="n" class="w-4 h-4 rounded-full transition-all border-2 border-slate-600" :class="n <= stepData.oralCount ? 'bg-green-500 border-green-400' : 'bg-slate-800'"></div>
+                        </div>
+                        <p class="text-slate-400 text-sm font-bold">Progress: {{ stepData.oralCount }} / 5</p>
+                    </div>
+                    <button @click="toggleRec(getZhongkaoSentence(), updateOralCount)" 
+                        :class="isRecording ? 'bg-red-500 border-red-400 pulse-mic text-white' : (stepData.oralCount >= 5 ? 'bg-green-600 border-green-500' : 'bg-indigo-600 border-indigo-500')" 
+                        class="btn-3d w-24 h-24 rounded-full border-b-4 flex items-center justify-center text-4xl text-white shadow-xl mx-auto">
+                        <i :class="isRecording ? 'fas fa-stop' : (stepData.oralCount >= 5 ? 'fas fa-check' : 'fas fa-microphone')"></i>
+                    </button>
+                    <p class="mt-4 font-bold" :class="isRecording ? 'text-red-400' : 'text-slate-500'">{{ isRecording ? 'Recording... Tap to Stop' : (stepData.lastOralScore ? `Last Score: ${stepData.lastOralScore}` : 'Read Aloud') }}</p>
+                </div>
+
+            </div>
+        </div>
+
+        <div v-else-if="phase === 'end'" class="w-full max-w-md text-center mt-20">
+            <h2 class="text-4xl font-black text-white mb-6">Mission Complete!</h2>
+            <button @click="clearSave" class="btn-3d bg-indigo-600 border-indigo-500 border-b-4 text-white px-8 py-4 rounded-xl font-bold">Restart</button>
+        </div>
+
+    </main>
+
+    <footer v-if="!['login', 'end'].includes(phase)" class="bottom-nav">
+        <!-- New Prev Button -->
+        <button @click="prevStep" v-if="canGoBack" class="nav-btn btn-prev btn-3d">
+            <i class="fas fa-arrow-left"></i> Prev
+        </button>
+        <!-- Next Button -->
+        <button @click="nextStep" :disabled="!canProceed" class="nav-btn btn-next btn-3d" :class="canProceed ? 'btn-active' : 'btn-locked'">
+            <span v-if="!canProceed" class="flex items-center gap-2 text-sm"><i class="fas fa-lock"></i> {{ getLockReason() }}</span>
+            <span v-else>Next Step <i class="fas fa-arrow-right"></i></span>
+        </button>
+    </footer>
+
+</div>
+
+<script>
+const COURSE_DATA_INJECTED = {
+  "vocabulary": [
+    {
+      "id": 1,
+      "word": "recycle",
+      "phonetic": "/ˌriːˈsaɪkl/",
+      "definition_cn": "回收利用",
+      "definition_en": "To process used materials so they can be used again.",
+      "usage": "及物动词 (vt.)，通常接材料或物品作宾语，如 recycle paper/plastic。也可用作不及物动词，表示进行回收行为。动词形式：recycle - recycled - recycling。 / Transitive verb (vt.), often takes materials or items as object, e.g., recycle paper/plastic. Can also be intransitive. Verb forms: recycle - recycled - recycling.",
+      "image_prompt": "A professional environmental worker in a blue uniform is placing a clear plastic bottle into a large blue bin labeled 'RECYCLING' in a clean, modern city park. The bin is full of sorted paper, plastic, and metal items. In the background, a recycling truck is visible.",
+      "image_desc_en": "A person is placing a plastic container into a specific colored bin.",
+      "image_desc_cn": "一个人正在将一个塑料容器放入一个特定颜色的垃圾桶中。",
+      "examples": [
+        {
+          "sentence": "If you are not throwing away any of your old products and instead making something new of it then you are actually recycling.",
+          "trans": "如果你没有扔掉任何旧产品，而是用它制作新的东西，那么你实际上就是在回收利用。",
+          "source": "Article"
+        },
+        {
+          "sentence": "We should separate our household waste so that we can recycle more materials and protect the environment.",
+          "trans": "我们应该对家庭垃圾进行分类，以便回收更多的材料并保护环境。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "回收利用",
+      "options": [
+        "重新建造",
+        "回收利用",
+        "减少使用",
+        "自然分解"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "Please remember to ______ these glass bottles instead of throwing them in the general waste.",
+          "is_correct": true
+        },
+        {
+          "sentence": "The chef will ______ the vegetables to make a fresh salad.",
+          "is_correct": false
+        },
+        {
+          "sentence": "I need to ______ this book to my friend tomorrow.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_1_recycle.png",
+      "scrambled_letters": [
+        "a",
+        "c",
+        "c",
+        "t",
+        "x",
+        "y",
+        "e",
+        "l",
+        "r",
+        "d",
+        "r",
+        "e"
+      ]
+    },
+    {
+      "id": 2,
+      "word": "environment",
+      "phonetic": "/ɪnˈvaɪrənmənt/",
+      "definition_cn": "环境",
+      "definition_en": "The natural world in which people, animals and plants live.",
+      "usage": "可数名词，通常与 'the' 连用 (the environment)，或与形容词连用，如 natural environment, clean environment。介词搭配：damage to the environment, protect the environment。 / Countable noun, often used with 'the' (the environment), or with adjectives. Preposition collocations: damage to the environment, protect the environment.",
+      "image_prompt": "A wide-angle view of a lush green forest with a clear blue stream running through it, under a bright blue sky with fluffy white clouds. A single adult hiker is seen from behind, admiring the pristine natural scenery.",
+      "image_desc_en": "A beautiful and clean natural place with trees, water, and sky.",
+      "image_desc_cn": "一个美丽干净的自然场所，有树木、水和天空。",
+      "examples": [
+        {
+          "sentence": "It's important for both the natural environment and humans.",
+          "trans": "这对自然环境和人类都很重要。",
+          "source": "Article"
+        },
+        {
+          "sentence": "We all have a responsibility to keep our living environment clean and healthy.",
+          "trans": "我们都有责任保持我们的生活环境清洁健康。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "环境",
+      "options": [
+        "设备",
+        "环境",
+        "经历",
+        "包围"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "Pollution is a serious threat to our ______ and our health.",
+          "is_correct": true
+        },
+        {
+          "sentence": "The new software provides a user-friendly ______ for online learning.",
+          "is_correct": false
+        },
+        {
+          "sentence": "She packed her ______ into a large suitcase for the trip.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_2_environment.png",
+      "scrambled_letters": [
+        "y",
+        "n",
+        "q",
+        "e",
+        "r",
+        "n",
+        "v",
+        "r",
+        "n",
+        "w",
+        "m",
+        "o",
+        "r",
+        "e",
+        "t",
+        "i"
+      ]
+    },
+    {
+      "id": 3,
+      "word": "waste",
+      "phonetic": "/weɪst/",
+      "definition_cn": "废物；浪费",
+      "definition_en": "Unwanted or unusable material; or to use carelessly or unnecessarily.",
+      "usage": "作名词时不可数，如 household waste, a lot of waste。作动词时为及物动词，如 waste time/money/energy。常用短语：a waste of... / As a noun, uncountable. As a verb, transitive. Common phrase: a waste of...",
+      "image_prompt": "A close-up shot of an overflowing black rubbish bin in an urban alley, containing mixed discarded items like food packaging, a broken electronic device, and crumpled paper. The scene is cleanly lit but highlights the problem of excessive trash.",
+      "image_desc_en": "A container is full of unwanted and discarded materials.",
+      "image_desc_cn": "一个容器里装满了不需要的和被丢弃的材料。",
+      "examples": [
+        {
+          "sentence": "the amount of waste is increasing every year.",
+          "trans": "废物的数量每年都在增加。",
+          "source": "Article"
+        },
+        {
+          "sentence": "Turning off the lights when you leave a room is a simple way to avoid wasting electricity.",
+          "trans": "离开房间时关灯是避免浪费电的简单方法。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "废物；浪费",
+      "options": [
+        "等待",
+        "废物；浪费",
+        "腰部",
+        "味道"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "We should reduce the amount of plastic ______ we produce.",
+          "is_correct": true
+        },
+        {
+          "sentence": "The artist used colorful ______ to create a beautiful painting.",
+          "is_correct": false
+        },
+        {
+          "sentence": "He ran at full ______ to catch the bus.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_3_waste.png",
+      "scrambled_letters": [
+        "w",
+        "y",
+        "t",
+        "a",
+        "v",
+        "i",
+        "s",
+        "d",
+        "e",
+        "c"
+      ]
+    },
+    {
+      "id": 4,
+      "word": "process",
+      "phonetic": "/ˈprəʊses/",
+      "definition_cn": "过程；处理",
+      "definition_en": "A series of actions to achieve a result; or to treat something in a particular way.",
+      "usage": "作名词时可数，常用单数，如 the recycling process, a slow process。作动词为及物动词，如 process information, process materials。 / As a noun, countable, often singular. As a verb, transitive.",
+      "image_prompt": "An overhead view inside a modern recycling facility. A conveyor belt carries sorted plastic bottles through different stages: washing, shredding into flakes, and melting into pellets. An adult technician in safety gear monitors the controls.",
+      "image_desc_en": "Materials are moving along a system and being changed step by step.",
+      "image_desc_cn": "材料正沿着一个系统移动，并一步步被改变。",
+      "examples": [
+        {
+          "sentence": "Recycling is the process of changing waste into new good material.",
+          "trans": "回收是将废物变成新的好材料的过程。",
+          "source": "Article"
+        },
+        {
+          "sentence": "Learning a language is a long but rewarding process that requires patience.",
+          "trans": "学习语言是一个漫长但有回报的过程，需要耐心。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "过程；处理",
+      "options": [
+        "过程；处理",
+        "前进",
+        "职业",
+        "成功"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "The factory uses advanced machines to ______ raw materials into finished products.",
+          "is_correct": true
+        },
+        {
+          "sentence": "Let's ______ down this street to find the restaurant.",
+          "is_correct": false
+        },
+        {
+          "sentence": "She received a warm ______ from her colleagues on her first day.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_4_process.png",
+      "scrambled_letters": [
+        "s",
+        "k",
+        "s",
+        "e",
+        "r",
+        "u",
+        "c",
+        "t",
+        "o",
+        "l",
+        "b",
+        "p"
+      ]
+    },
+    {
+      "id": 5,
+      "word": "damage",
+      "phonetic": "/ˈdæmɪdʒ/",
+      "definition_cn": "损害；破坏",
+      "definition_en": "Harm or injury that makes something less valuable or effective.",
+      "usage": "通常作不可数名词，如 cause damage, serious damage。动词也为 damage，及物，如 damage the environment。常用搭配：do damage to... / Usually uncountable noun. Verb is also 'damage', transitive. Common collocation: do damage to...",
+      "image_prompt": "A dramatic scene of a polluted riverbank with dead fish and wilting plants, contrasted against a backdrop of industrial smokestacks emitting dark smoke into a grey sky. The image focuses on the negative impact on nature.",
+      "image_desc_en": "Harmful effects are visible in a natural area, making it look unhealthy.",
+      "image_desc_cn": "有害的影响在一个自然区域可见，使其看起来不健康。",
+      "examples": [
+        {
+          "sentence": "Waste does a lot of damage to the natural environment.",
+          "trans": "废物对自然环境造成很大损害。",
+          "source": "Article"
+        },
+        {
+          "sentence": "The heavy storm caused great damage to the coastal village.",
+          "trans": "猛烈的风暴对沿海村庄造成了巨大破坏。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "损害；破坏",
+      "options": [
+        "管理",
+        "损害；破坏",
+        "图像",
+        "包裹"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "Smoking can ______ your lungs and lead to health problems.",
+          "is_correct": true
+        },
+        {
+          "sentence": "Please ______ this parcel carefully before you send it.",
+          "is_correct": false
+        },
+        {
+          "sentence": "The museum has a valuable ______ of ancient coins.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_5_damage.png",
+      "scrambled_letters": [
+        "a",
+        "c",
+        "a",
+        "y",
+        "g",
+        "i",
+        "n",
+        "d",
+        "m",
+        "r",
+        "e"
+      ]
+    },
+    {
+      "id": 6,
+      "word": "global",
+      "phonetic": "/ˈɡləʊbl/",
+      "definition_cn": "全球的",
+      "definition_en": "Relating to the whole world.",
+      "usage": "形容词，通常放在名词前作定语，如 global warming, global issue, global economy。 / Adjective, usually placed before a noun as an attributive.",
+      "image_prompt": "A stylized illustration of planet Earth from space, with interconnected lines of light representing data or communication networks spanning across continents, symbolizing worldwide connection. The planet is partially covered by swirling patterns suggesting atmosphere.",
+      "image_desc_en": "Something that affects or connects the entire planet.",
+      "image_desc_cn": "影响或连接整个星球的事物。",
+      "examples": [
+        {
+          "sentence": "What's more frightening is that they create global warming.",
+          "trans": "更可怕的是，它们导致了全球变暖。",
+          "source": "Article"
+        },
+        {
+          "sentence": "The Internet has made it easier for people to share information on a global scale.",
+          "trans": "互联网使人们更容易在全球范围内分享信息。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "全球的",
+      "options": [
+        "球形的",
+        "光荣的",
+        "全球的",
+        "地方的"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "Climate change is a ______ challenge that requires cooperation from all countries.",
+          "is_correct": true
+        },
+        {
+          "sentence": "She has a ______ personality and is loved by everyone.",
+          "is_correct": false
+        },
+        {
+          "sentence": "Please pass me that ______ of water on the table.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_6_global.png",
+      "scrambled_letters": [
+        "l",
+        "d",
+        "l",
+        "b",
+        "y",
+        "u",
+        "h",
+        "a",
+        "c",
+        "g",
+        "o"
+      ]
+    },
+    {
+      "id": 7,
+      "word": "separate",
+      "phonetic": "/ˈsepəreɪt/",
+      "definition_cn": "分开；分离",
+      "definition_en": "To divide or keep things apart from each other.",
+      "usage": "动词，可及物也可不及物。及物用法：separate A from B。形容词读音为 /ˈseprət/，意为 '分开的'。 / Verb, can be transitive or intransitive. Transitive: separate A from B. Adjective pronunciation /ˈseprət/, meaning 'not joined'.",
+      "image_prompt": "A person's hands are carefully sorting different types of household items into four distinct colored bins: blue for paper, green for glass, red for plastic, and black for general waste, on a kitchen counter.",
+      "image_desc_en": "Items are being sorted into different groups based on their type.",
+      "image_desc_cn": "物品正根据其类型被分类到不同的组中。",
+      "examples": [
+        {
+          "sentence": "The best way is to separate it into different elements.",
+          "trans": "最好的方法是把它分成不同的部分。",
+          "source": "Article"
+        },
+        {
+          "sentence": "We should separate recyclable bottles from other rubbish before throwing them away.",
+          "trans": "我们应该在扔掉可回收瓶子之前将它们与其他垃圾分开。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "分开；分离",
+      "options": [
+        "庆祝",
+        "分开；分离",
+        "准备",
+        "重复"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "Please ______ the white clothes from the colored ones before washing.",
+          "is_correct": true
+        },
+        {
+          "sentence": "The team will ______ their victory with a party tonight.",
+          "is_correct": false
+        },
+        {
+          "sentence": "He needs to ______ a speech for the meeting tomorrow.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_7_separate.png",
+      "scrambled_letters": [
+        "s",
+        "a",
+        "e",
+        "i",
+        "p",
+        "d",
+        "q",
+        "e",
+        "t",
+        "d",
+        "a",
+        "r",
+        "c"
+      ]
+    },
+    {
+      "id": 8,
+      "word": "category",
+      "phonetic": "/ˈkætəɡəri/",
+      "definition_cn": "类别；种类",
+      "definition_en": "A group of people or things that are similar in some way.",
+      "usage": "可数名词。常用搭配：fall into a category, belong to a category。介词：in a category。 / Countable noun. Common collocations: fall into a category, belong to a category. Preposition: in a category.",
+      "image_prompt": "A clean, infographic-style image showing four clearly labeled sections on a white background: 'Recyclable' (blue, with bottle icon), 'Food Waste' (green, with apple core icon), 'Harmful Waste' (red, with battery icon), and 'Other Waste' (grey, with crumpled paper icon).",
+      "image_desc_en": "Things are organized into distinct groups with different labels.",
+      "image_desc_cn": "物品被组织成带有不同标签的 distinct 组别。",
+      "examples": [
+        {
+          "sentence": "There are 4 categories into which garbage is sorted.",
+          "trans": "垃圾被分为4个类别。",
+          "source": "Article"
+        },
+        {
+          "sentence": "Books in the library are placed on shelves according to their category, such as fiction, science, or history.",
+          "trans": "图书馆里的书根据类别放在书架上，例如小说、科学或历史。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "类别；种类",
+      "options": [
+        "目录",
+        "类别；种类",
+        "催化剂",
+        "庆祝"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "Which ______ does this product belong to? Is it electronics or furniture?",
+          "is_correct": true
+        },
+        {
+          "sentence": "The main ______ of this story is very interesting and full of adventure.",
+          "is_correct": false
+        },
+        {
+          "sentence": "We need to ______ the meeting for next Monday.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_8_category.png",
+      "scrambled_letters": [
+        "r",
+        "z",
+        "t",
+        "o",
+        "g",
+        "a",
+        "c",
+        "e",
+        "u",
+        "y",
+        "h",
+        "z",
+        "w"
+      ]
+    },
+    {
+      "id": 9,
+      "word": "material",
+      "phonetic": "/məˈtɪəriəl/",
+      "definition_cn": "材料；原料",
+      "definition_en": "The substance that something is made from.",
+      "usage": "可作可数和不可数名词。如 raw materials (原材料), building materials。注意与 'matter' (物质) 和 'substance' (物质) 的区别。 / Can be countable and uncountable. Note the difference from 'matter' and 'substance'.",
+      "image_prompt": "A close-up shot of various raw and processed materials neatly arranged: a stack of white paper, a pile of clear plastic pellets, bundles of steel rods, and blocks of wood, against a neutral background in a workshop.",
+      "image_desc_en": "Different substances that can be used to make or build things.",
+      "image_desc_cn": "可以用来制造或建造东西的不同物质。",
+      "examples": [
+        {
+          "sentence": "Using recycled materials in the factory process uses much less energy.",
+          "trans": "在工厂生产过程中使用回收材料消耗的能源要少得多。",
+          "source": "Article"
+        },
+        {
+          "sentence": "Bamboo is a strong and sustainable material often used for making furniture.",
+          "trans": "竹子是一种坚固且可持续的材料，常被用于制作家具。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "材料；原料",
+      "options": [
+        "物质的",
+        "材料；原料",
+        "母亲",
+        "重要的"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "The artist collected natural ______ like leaves and stones for her project.",
+          "is_correct": true
+        },
+        {
+          "sentence": "His support was ______ to her success.",
+          "is_correct": false
+        },
+        {
+          "sentence": "She has a close relationship with her ______.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_9_material.png",
+      "scrambled_letters": [
+        "a",
+        "o",
+        "r",
+        "y",
+        "m",
+        "i",
+        "l",
+        "h",
+        "e",
+        "t",
+        "a",
+        "h",
+        "b"
+      ]
+    },
+    {
+      "id": 10,
+      "word": "energy",
+      "phonetic": "/ˈenədʒi/",
+      "definition_cn": "能源；能量",
+      "definition_en": "The power from sources like electricity, fuel, etc., that makes machines work or provides heat; or the physical and mental strength to do things.",
+      "usage": "不可数名词。指 '能源' 时，如 save energy, renewable energy。指 '精力' 时，如 full of energy。 / Uncountable noun. When meaning 'power source', e.g., save energy. When meaning 'vitality', e.g., full of energy.",
+      "image_prompt": "A split image: On the left, a bright yellow sun icon with rays shining on a solar panel. On the right, a stylized electric plug socket with a green 'leaf' icon growing from it, against a clean white background, symbolizing clean power.",
+      "image_desc_en": "The power that makes machines run or that people need to be active.",
+      "image_desc_cn": "使机器运转或人们活动所需的力量。",
+      "examples": [
+        {
+          "sentence": "Using recycled materials... uses much less energy than... producing new products from raw materials.",
+          "trans": "使用回收材料...比...用原材料生产新产品消耗的能源少得多。",
+          "source": "Article"
+        },
+        {
+          "sentence": "We can save a lot of energy by turning off electronic devices when they are not in use.",
+          "trans": "我们可以在电子设备不使用时关闭它们，从而节省大量能源。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "能源；能量",
+      "options": [
+        "精力",
+        "引擎",
+        "能源；能量",
+        "工程"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "Wind and solar power are clean sources of ______.",
+          "is_correct": true
+        },
+        {
+          "sentence": "The ______ of the car was making a strange noise.",
+          "is_correct": false
+        },
+        {
+          "sentence": "He is studying chemical ______ at university.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_10_energy.png",
+      "scrambled_letters": [
+        "v",
+        "g",
+        "n",
+        "r",
+        "e",
+        "r",
+        "y",
+        "b",
+        "m",
+        "e",
+        "m"
+      ]
+    },
+    {
+      "id": 11,
+      "word": "reusable",
+      "phonetic": "/ˌriːˈjuːzəbl/",
+      "definition_cn": "可重复使用的",
+      "definition_en": "Able to be used again.",
+      "usage": "形容词。通常放在名词前，如 reusable bag, reusable container。是 'reuse' 的形容词形式。 / Adjective. Usually placed before a noun. It is the adjective form of 'reuse'.",
+      "image_prompt": "A close-up of a sturdy, colorful cloth shopping bag and a durable metal water bottle sitting on a wooden table next to some fresh fruits and vegetables, representing sustainable daily choices.",
+      "image_desc_en": "An item designed to be cleaned and used many times, not just once.",
+      "image_desc_cn": "一件被设计成可以清洗并使用多次的物品，而不仅仅是一次。",
+      "examples": [
+        {
+          "sentence": "Paper and cardboard can be reused many times...",
+          "trans": "纸和纸板可以被重复使用很多次...",
+          "source": "Article"
+        },
+        {
+          "sentence": "Bringing your own reusable cup to the coffee shop helps reduce plastic waste.",
+          "trans": "自带可重复使用的杯子去咖啡店有助于减少塑料垃圾。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "可重复使用的",
+      "options": [
+        "可回收的",
+        "可重复使用的",
+        "可读的",
+        "可敬的"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "These ______ shopping bags are much better for the environment than plastic ones.",
+          "is_correct": true
+        },
+        {
+          "sentence": "This novel is very ______ and has been enjoyed by millions.",
+          "is_correct": false
+        },
+        {
+          "sentence": "He is a highly ______ scientist in his field.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_11_reusable.png",
+      "scrambled_letters": [
+        "l",
+        "u",
+        "e",
+        "b",
+        "a",
+        "a",
+        "g",
+        "l",
+        "l",
+        "r",
+        "e",
+        "r",
+        "s"
+      ]
+    },
+    {
+      "id": 12,
+      "word": "raw",
+      "phonetic": "/rɔː/",
+      "definition_cn": "未经加工的；生的",
+      "definition_en": "In its natural state; not yet processed or treated.",
+      "usage": "形容词。通常放在名词前，如 raw materials, raw data。也指食物 '生的'，如 raw vegetables。 / Adjective. Usually placed before a noun. Also means 'uncooked' for food.",
+      "image_prompt": "A composition showing natural resources: a pile of rough, unprocessed iron ore next to a stack of freshly cut timber logs, with a small heap of cotton bolls in the foreground, all in a natural outdoor setting.",
+      "image_desc_en": "Substances in their natural, unprocessed state before they are made into something else.",
+      "image_desc_cn": "物质处于其自然的、未经加工的状态，在被制成其他东西之前。",
+      "examples": [
+        {
+          "sentence": "...producing new products from raw materials.",
+          "trans": "...用原材料生产新产品。",
+          "source": "Article"
+        },
+        {
+          "sentence": "Factories need a steady supply of raw materials like oil and metal to keep production going.",
+          "trans": "工厂需要石油和金属等原材料的稳定供应以维持生产。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "未经加工的；生的",
+      "options": [
+        "生的；未加工的",
+        "法律",
+        "画",
+        "粗糙的"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "The price of ______ oil on the world market changes every day.",
+          "is_correct": true
+        },
+        {
+          "sentence": "He broke the ______ by driving too fast.",
+          "is_correct": false
+        },
+        {
+          "sentence": "She has a ______ voice when she sings.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_12_raw.png",
+      "scrambled_letters": [
+        "a",
+        "t",
+        "r",
+        "b",
+        "w",
+        "j",
+        "s",
+        "h"
+      ]
+    },
+    {
+      "id": 13,
+      "word": "reduce",
+      "phonetic": "/rɪˈdjuːs/",
+      "definition_cn": "减少",
+      "definition_en": "To make something smaller or less in amount, degree, or size.",
+      "usage": "及物动词 (vt.)。常用搭配：reduce waste, reduce speed, reduce by (percentage)。是 'reduce, reuse, recycle' 三部曲的第一步。 / Transitive verb (vt.). Common collocations: reduce waste, reduce speed, reduce by. It is the first step in 'reduce, reuse, recycle'.",
+      "image_prompt": "A person is using a digital tablet to track and graph a downward trend in monthly household electricity consumption, showing a significant drop. The graph is on a screen, and the person looks satisfied.",
+      "image_desc_en": "The amount or level of something is being made smaller.",
+      "image_desc_cn": "某物的数量或水平正在被减小。",
+      "examples": [
+        {
+          "sentence": "When you think of recycling you should really think about the whole idea of reduce, reuse and recycle.",
+          "trans": "当你想到回收利用时，你真的应该考虑减少、重复使用和回收利用的整体理念。",
+          "source": "Article"
+        },
+        {
+          "sentence": "To reduce air pollution, many cities encourage people to use public transportation.",
+          "trans": "为了减少空气污染，许多城市鼓励人们使用公共交通。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "减少",
+      "options": [
+        "生产",
+        "减少",
+        "介绍",
+        "拒绝"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "We need to ______ our use of single-use plastics to help the oceans.",
+          "is_correct": true
+        },
+        {
+          "sentence": "Can you ______ me to your manager?",
+          "is_correct": false
+        },
+        {
+          "sentence": "The company will ______ a new model of phone next month.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_13_reduce.png",
+      "scrambled_letters": [
+        "r",
+        "c",
+        "u",
+        "r",
+        "e",
+        "d",
+        "i",
+        "e",
+        "g",
+        "u",
+        "v"
+      ]
+    },
+    {
+      "id": 14,
+      "word": "reuse",
+      "phonetic": "/ˌriːˈjuːz/",
+      "definition_cn": "重新使用",
+      "definition_en": "To use something again.",
+      "usage": "及物动词 (vt.)。注意发音：动词 /ˌriːˈjuːz/；名词 /ˌriːˈjuːs/。是 'reduce, reuse, recycle' 三部曲的第二步。 / Transitive verb (vt.). Note pronunciation: verb /ˌriːˈjuːz/; noun /ˌriːˈjuːs/. It is the second step in 'reduce, reuse, recycle'.",
+      "image_prompt": "A creative person is turning an empty glass jar into a pen holder by cleaning it and arranging colorful pens and pencils inside. The jar sits on a desk with other upcycled items like a bookend made from a brick.",
+      "image_desc_en": "Giving an old item a new purpose instead of throwing it away.",
+      "image_desc_cn": "赋予一件旧物品新的用途，而不是扔掉它。",
+      "examples": [
+        {
+          "sentence": "If you have to get it, get something that can be used again.",
+          "trans": "如果你必须买它，买一些可以再次使用的东西。",
+          "source": "Article"
+        },
+        {
+          "sentence": "We can reuse old newspapers to wrap fragile items or for cleaning windows.",
+          "trans": "我们可以重复使用旧报纸来包裹易碎物品或清洁窗户。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "重新使用",
+      "options": [
+        "复习",
+        "拒绝",
+        "重新使用",
+        "休息"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "Before you throw that box away, think about how you might ______ it.",
+          "is_correct": true
+        },
+        {
+          "sentence": "I need to ______ all my notes before the final exam.",
+          "is_correct": false
+        },
+        {
+          "sentence": "The manager had to ______ his job application.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_14_reuse.png",
+      "scrambled_letters": [
+        "b",
+        "e",
+        "e",
+        "u",
+        "j",
+        "m",
+        "s",
+        "r",
+        "e",
+        "c"
+      ]
+    },
+    {
+      "id": 15,
+      "word": "species",
+      "phonetic": "/ˈspiːʃiːz/",
+      "definition_cn": "物种",
+      "definition_en": "A group of animals or plants that are similar and can produce young together.",
+      "usage": "单复数同形。可数名词。如 many species, an endangered species。常用搭配：protect a species。 / Singular and plural are the same. Countable noun. Common collocation: protect a species.",
+      "image_prompt": "A vibrant collage of various endangered animal silhouettes - a panda, a tiger, a sea turtle, and a parrot - against a background of lush green leaves, symbolizing biodiversity and conservation.",
+      "image_desc_en": "Different types of animals or plants that exist in nature.",
+      "image_desc_cn": "自然界中存在的不同类型的动物或植物。",
+      "examples": [
+        {
+          "sentence": "There are so many species of animals that can be saved with just a few simple steps.",
+          "trans": "只需几个简单的步骤，就可以拯救许多动物物种。",
+          "source": "Article"
+        },
+        {
+          "sentence": "The giant panda is a protected species in China, and great efforts are made to save it from extinction.",
+          "trans": "大熊猫是中国的受保护物种，人们正在付出巨大努力使其免于灭绝。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "物种",
+      "options": [
+        "标本",
+        "特殊",
+        "物种",
+        "速度"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "Scientists have discovered a new ______ of butterfly in the rainforest.",
+          "is_correct": true
+        },
+        {
+          "sentence": "This gift is very ______ to me because it's from my best friend.",
+          "is_correct": false
+        },
+        {
+          "sentence": "The car was traveling at a high ______ on the highway.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_15_species.png",
+      "scrambled_letters": [
+        "p",
+        "l",
+        "r",
+        "e",
+        "v",
+        "j",
+        "y",
+        "i",
+        "s",
+        "e",
+        "c",
+        "s"
+      ]
+    },
+    {
+      "id": 16,
+      "word": "litter",
+      "phonetic": "/ˈlɪtə(r)/",
+      "definition_cn": "垃圾（尤指乱扔的）",
+      "definition_en": "Small pieces of rubbish left in public places.",
+      "usage": "不可数名词。如 pick up litter, no littering。动词意为 '乱扔垃圾'，如 Don't litter。 / Uncountable noun. Verb means 'to drop litter', e.g., Don't litter.",
+      "image_prompt": "A public park bench with scattered litter around it: a soda can, a plastic bag, and a food wrapper on the grass. A park keeper in uniform is approaching with a grabber tool and a trash bag to clean it up.",
+      "image_desc_en": "Small pieces of trash left carelessly in a public space.",
+      "image_desc_cn": "被随意丢弃在公共场所的小片垃圾。",
+      "examples": [
+        {
+          "sentence": "There are more and more countries that decide to change their way of dealing with litter.",
+          "trans": "有越来越多的国家决定改变处理垃圾的方式。",
+          "source": "Article"
+        },
+        {
+          "sentence": "It's everyone's duty not to litter and to keep our streets clean.",
+          "trans": "不乱扔垃圾并保持街道清洁是每个人的责任。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "垃圾（尤指乱扔的）",
+      "options": [
+        "升",
+        "垃圾（乱扔的）",
+        "文学",
+        "更少"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "Please use the bins provided and do not ______ in this beautiful park.",
+          "is_correct": true
+        },
+        {
+          "sentence": "I need to buy a ______ of milk from the store.",
+          "is_correct": false
+        },
+        {
+          "sentence": "She enjoys reading classical ______ in her free time.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_16_litter.png",
+      "scrambled_letters": [
+        "c",
+        "l",
+        "u",
+        "q",
+        "t",
+        "r",
+        "t",
+        "i",
+        "x",
+        "e",
+        "a"
+      ]
+    },
+    {
+      "id": 17,
+      "word": "decrease",
+      "phonetic": "/dɪˈkriːs/",
+      "definition_cn": "减少",
+      "definition_en": "To become or make something smaller or fewer.",
+      "usage": "动词，可及物 (/dɪˈkriːs/) 也可不及物。名词读音为 /ˈdiːkriːs/。常用搭配：decrease by, decrease in。是 increase 的反义词。 / Verb, can be transitive or intransitive. Noun pronunciation /ˈdiːkriːs/. Common collocations: decrease by, decrease in. Antonym of 'increase'.",
+      "image_prompt": "A line graph on a computer monitor showing a clear downward arrow trend over 12 months, labeled 'Monthly Household Waste (kg)'. The final point is significantly lower than the starting point.",
+      "image_desc_en": "A number or quantity is going down over time.",
+      "image_desc_cn": "一个数字或数量随着时间的推移正在下降。",
+      "examples": [
+        {
+          "sentence": "...which really decreases the amount of waste.",
+          "trans": "...这确实减少了废物的数量。",
+          "source": "Article"
+        },
+        {
+          "sentence": "The number of students in the school has decreased slightly this year.",
+          "trans": "今年学校的学生人数略有减少。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "减少",
+      "options": [
+        "增加",
+        "减少",
+        "创造",
+        "同意"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "The government hopes these new rules will ______ traffic accidents.",
+          "is_correct": true
+        },
+        {
+          "sentence": "The artist used her imagination to ______ a wonderful story.",
+          "is_correct": false
+        },
+        {
+          "sentence": "I completely ______ with your opinion on this matter.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_17_decrease.png",
+      "scrambled_letters": [
+        "s",
+        "e",
+        "g",
+        "w",
+        "d",
+        "e",
+        "r",
+        "a",
+        "s",
+        "n",
+        "e",
+        "c",
+        "r"
+      ]
+    },
+    {
+      "id": 18,
+      "word": "bin",
+      "phonetic": "/bɪn/",
+      "definition_cn": "垃圾桶",
+      "definition_en": "A container for storing or putting waste.",
+      "usage": "可数名词。如 rubbish bin, recycling bin。英式英语常用，美式英语常用 trash can 或 garbage can。 / Countable noun. More common in British English. American English often uses 'trash can' or 'garbage can'.",
+      "image_prompt": "A row of three different colored wheelie bins with clear lids on a city sidewalk: blue for recycling, brown for food/garden waste, and black for general waste. They are clean and neatly aligned.",
+      "image_desc_en": "A container with a lid, specifically for putting trash in.",
+      "image_desc_cn": "一个带盖的容器，专门用于放置垃圾。",
+      "examples": [
+        {
+          "sentence": "If you get something that needs to be recycled by the workers, put it in the recycle bin.",
+          "trans": "如果你得到需要由工人回收的东西，把它放进回收箱。",
+          "source": "Article"
+        },
+        {
+          "sentence": "Remember to put the empty bottle in the correct recycling bin, not the general waste one.",
+          "trans": "记得把空瓶子放进正确的回收箱，而不是普通垃圾箱。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "垃圾桶",
+      "image_file": "vocab_18_bin.png",
+      "scrambled_letters": [
+        "q",
+        "a",
+        "n",
+        "t",
+        "j",
+        "b",
+        "b",
+        "i"
+      ],
+      "options": [
+        "垃圾桶",
+        "选项B",
+        "选项C",
+        "选项D"
+      ]
+    }
+  ],
+  "collocations": [
+    {
+      "id": 1,
+      "phrase": "environmental problems",
+      "definition_cn": "环境问题。指自然环境所面临的污染、破坏等挑战。在本文中指困扰地球的各种环境挑战。",
+      "definition_en": "Issues related to the natural world, such as pollution and degradation. In the context of the article, it refers to the various challenges that strike our planet.",
+      "usage": "这是一个名词短语，通常用作主语或宾语。中文：用作名词，常作主语或宾语。英文：A noun phrase, commonly used as a subject or object.",
+      "image_prompt": "A professional environmental scientist in a lab coat, looking at a large screen displaying charts of air pollution levels and deforestation rates, with a concerned expression. The background shows a globe and scientific equipment.",
+      "image_desc_en": "A professional is analyzing data about the health of the planet.",
+      "image_desc_cn": "一位专业人士正在分析关于地球健康状况的数据。",
+      "examples": [
+        {
+          "sentence": "If you're wondering how you can help the world with all the environmental problems that strike our planet...",
+          "trans": "如果你想知道如何帮助世界应对困扰我们星球的所有环境问题...",
+          "source": "Article"
+        },
+        {
+          "sentence": "Solving environmental problems requires global cooperation and individual action.",
+          "trans": "解决环境问题需要全球合作和个人行动。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "环境问题",
+      "options": [
+        "经济问题",
+        "社会问题",
+        "环境问题",
+        "技术问题"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "Governments are working together to find solutions to serious environmental problems.",
+          "isCorrect": true
+        },
+        {
+          "sentence": "Learning a new language can help solve many environmental problems.",
+          "isCorrect": false
+        },
+        {
+          "sentence": "The main environmental problems in this story are the characters' personal conflicts.",
+          "isCorrect": false
+        }
+      ],
+      "image_file": "colloc_1_environmental_problems.png",
+      "scrambled_letters": [
+        "t",
+        "m",
+        "l",
+        "a",
+        "n",
+        "u",
+        "i",
+        "f",
+        "r",
+        "b",
+        "v",
+        "n",
+        "d",
+        "p",
+        "m",
+        "e",
+        "l",
+        "n",
+        "r",
+        "r",
+        "o",
+        "e",
+        "o",
+        "e",
+        "l",
+        "s"
+      ]
+    },
+    {
+      "id": 2,
+      "phrase": "global warming",
+      "definition_cn": "全球变暖。指地球大气和海洋平均温度上升的现象。在本文中指垃圾处理不当导致的可怕后果之一。",
+      "definition_en": "The long-term rise in the average temperature of the Earth's climate system. In the context of the article, it is a frightening consequence created by waste.",
+      "usage": "这是一个不可数名词短语。中文：用作不可数名词。英文：An uncountable noun phrase.",
+      "image_prompt": "A climatologist pointing at a world map showing rising temperature trends, with symbols of melting ice caps and smokestacks in the background.",
+      "image_desc_en": "A scientist is explaining the rising temperatures across the world map.",
+      "image_desc_cn": "一位科学家正在解释世界地图上显示的温度上升趋势。",
+      "examples": [
+        {
+          "sentence": "What's more frightening is that they create global warming.",
+          "trans": "更可怕的是，它们会导致全球变暖。",
+          "source": "Article"
+        },
+        {
+          "sentence": "Reducing carbon emissions is crucial to slow down global warming.",
+          "trans": "减少碳排放对于减缓全球变暖至关重要。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "全球变暖",
+      "options": [
+        "全球贸易",
+        "全球变暖",
+        "全球旅行",
+        "全球通信"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "Scientists warn that the effects of global warming are becoming more severe.",
+          "isCorrect": true
+        },
+        {
+          "sentence": "My favorite book is about the global warming of friendships in summer.",
+          "isCorrect": false
+        },
+        {
+          "sentence": "We need global warming to make the plants grow in the garden.",
+          "isCorrect": false
+        }
+      ],
+      "image_file": "colloc_2_global_warming.png",
+      "scrambled_letters": [
+        "r",
+        "g",
+        "g",
+        "m",
+        "l",
+        "a",
+        "a",
+        "o",
+        "n",
+        "y",
+        "i",
+        "r",
+        "b",
+        "g",
+        "n",
+        "f",
+        "l",
+        "w"
+      ]
+    },
+    {
+      "id": 3,
+      "phrase": "raw materials",
+      "definition_cn": "原材料。指用于生产或制造其他物品的基本物质。在本文中指用于生产新产品的原始资源，与回收材料形成对比。",
+      "definition_en": "The basic material from which a product is made. In the context of the article, it refers to virgin resources used for producing new products, contrasted with recycled materials.",
+      "usage": "这是一个复数名词短语。中文：常用复数形式。英文：A plural noun phrase.",
+      "image_prompt": "An industrial engineer standing in a warehouse, comparing a pile of metal ore (raw material) with a stack of recycled steel sheets, holding a tablet showing energy consumption data.",
+      "image_desc_en": "A professional is comparing natural resources with processed, reusable metals.",
+      "image_desc_cn": "一位专业人士正在比较自然资源与可重复使用的加工金属。",
+      "examples": [
+        {
+          "sentence": "Using recycled materials in the factory process uses much less energy than the one which is required for producing new products from raw materials.",
+          "trans": "在工厂生产过程中使用回收材料，比用原材料生产新产品所需的能源要少得多。",
+          "source": "Article"
+        },
+        {
+          "sentence": "This country imports many raw materials to support its manufacturing industry.",
+          "trans": "这个国家进口许多原材料以支持其制造业。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "原材料",
+      "options": [
+        "成品",
+        "原材料",
+        "半成品",
+        "废料"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "The factory sources its raw materials from sustainable suppliers.",
+          "isCorrect": true
+        },
+        {
+          "sentence": "I need some raw materials like pens and paper to write a story.",
+          "isCorrect": false
+        },
+        {
+          "sentence": "Her raw materials for the painting were happiness and sadness.",
+          "isCorrect": false
+        }
+      ],
+      "image_file": "colloc_3_raw_materials.png",
+      "scrambled_letters": [
+        "d",
+        "a",
+        "a",
+        "a",
+        "l",
+        "j",
+        "s",
+        "t",
+        "w",
+        "r",
+        "q",
+        "r",
+        "i",
+        "e",
+        "c",
+        "m",
+        "w"
+      ]
+    },
+    {
+      "id": 4,
+      "phrase": "recyclable waste",
+      "definition_cn": "可回收垃圾。指可以经过处理再次变成资源的废弃物。在本文中指中国垃圾分类中的其中一个类别。",
+      "definition_en": "Waste that can be converted into new materials and objects. In the context of the article, it is one of the four categories into which garbage is sorted in China.",
+      "usage": "这是一个名词短语，常与其它垃圾类别并列使用。中文：用作名词，常与其他类别并列。英文：A noun phrase, often used in conjunction with other waste categories.",
+      "image_prompt": "A sanitation worker in uniform, placing a plastic bottle and a newspaper into a blue bin clearly labeled 'Recyclable Waste' in both Chinese and English, with other colored bins for different waste types in the background.",
+      "image_desc_en": "A municipal employee is sorting items into a specifically marked container.",
+      "image_desc_cn": "一位市政工作人员正在将物品放入一个带有明确标记的容器中。",
+      "examples": [
+        {
+          "sentence": "There are 4 categories into which garbage is sorted: recyclable waste, food waste, harmful waste and other waste.",
+          "trans": "垃圾被分为四类：可回收垃圾、厨余垃圾、有害垃圾和其他垃圾。",
+          "source": "Article"
+        },
+        {
+          "sentence": "Please put paper and plastic bottles into the bin for recyclable waste.",
+          "trans": "请将纸张和塑料瓶放入可回收垃圾箱。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "可回收垃圾",
+      "options": [
+        "有害垃圾",
+        "可回收垃圾",
+        "厨余垃圾",
+        "其他垃圾"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "The blue bin is designated for recyclable waste like paper and metal.",
+          "isCorrect": true
+        },
+        {
+          "sentence": "My recyclable waste includes old memories and forgotten dreams.",
+          "isCorrect": false
+        },
+        {
+          "sentence": "We should burn all recyclable waste to keep the yard clean.",
+          "isCorrect": false
+        }
+      ],
+      "image_file": "colloc_4_recyclable_waste.png",
+      "scrambled_letters": [
+        "z",
+        "e",
+        "w",
+        "r",
+        "l",
+        "a",
+        "e",
+        "d",
+        "k",
+        "b",
+        "t",
+        "c",
+        "c",
+        "e",
+        "t",
+        "a",
+        "y",
+        "z",
+        "s",
+        "l"
+      ]
+    },
+    {
+      "id": 5,
+      "phrase": "food waste",
+      "definition_cn": "厨余垃圾；食物垃圾。指在食品加工、餐饮服务、家庭消费等过程中产生的易腐烂的有机废弃物。在本文中指中国垃圾分类中的一个主要类别。",
+      "definition_en": "Food that is discarded or lost uneaten. In the context of the article, it is one of the four categories for garbage sorting in China, typically referring to organic kitchen waste.",
+      "usage": "这是一个不可数名词短语。中文：用作不可数名词。英文：An uncountable noun phrase.",
+      "image_prompt": "A chef in a restaurant kitchen, separating vegetable peels and eggshells into a green compost bin labeled 'Food Waste', with a clean and organized kitchen in the background.",
+      "image_desc_en": "A culinary professional is disposing of organic kitchen scraps in a specific container.",
+      "image_desc_cn": "一位烹饪专业人士正在将有机厨房废料放入一个特定的容器中。",
+      "examples": [
+        {
+          "sentence": "There are 4 categories into which garbage is sorted: recyclable waste, food waste, harmful waste and other waste.",
+          "trans": "垃圾被分为四类：可回收垃圾、厨余垃圾、有害垃圾和其他垃圾。",
+          "source": "Article"
+        },
+        {
+          "sentence": "Composting is a great way to reduce food waste and help the garden.",
+          "trans": "堆肥是减少厨余垃圾并帮助花园的好方法。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "厨余垃圾",
+      "options": [
+        "可回收垃圾",
+        "有害垃圾",
+        "厨余垃圾",
+        "干垃圾"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "Reducing food waste at home can save money and protect the environment.",
+          "isCorrect": true
+        },
+        {
+          "sentence": "The library has a special section for food waste like old cookbooks.",
+          "isCorrect": false
+        },
+        {
+          "sentence": "We put all the food waste in the blue bin for recycling.",
+          "isCorrect": false
+        }
+      ],
+      "image_file": "colloc_5_food_waste.png",
+      "scrambled_letters": [
+        "t",
+        "f",
+        "a",
+        "d",
+        "w",
+        "a",
+        "c",
+        "o",
+        "e",
+        "s",
+        "o",
+        "s",
+        "r",
+        "t"
+      ]
+    },
+    {
+      "id": 6,
+      "phrase": "harmful waste",
+      "definition_cn": "有害垃圾。指对人体健康或自然环境造成直接或潜在危害的废弃物。在本文中指中国垃圾分类中需要特殊安全处理的一个类别。",
+      "definition_en": "Waste that poses substantial or potential threats to public health or the environment. In the context of the article, it is a category of garbage that requires special and safe handling.",
+      "usage": "这是一个名词短语。中文：用作名词。英文：A noun phrase.",
+      "image_prompt": "A safety officer in protective gear, carefully placing used batteries and a broken thermometer into a red hazardous waste container with clear warning symbols, in a well-lit facility.",
+      "image_desc_en": "A safety professional is handling dangerous items with special precautions.",
+      "image_desc_cn": "一位安全专业人士正在采取特殊预防措施处理危险物品。",
+      "examples": [
+        {
+          "sentence": "There are 4 categories into which garbage is sorted: recyclable waste, food waste, harmful waste and other waste.",
+          "trans": "垃圾被分为四类：可回收垃圾、厨余垃圾、有害垃圾和其他垃圾。",
+          "source": "Article"
+        },
+        {
+          "sentence": "Batteries and medicines should be treated as harmful waste.",
+          "trans": "电池和药品应作为有害垃圾处理。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "有害垃圾",
+      "options": [
+        "可回收垃圾",
+        "有害垃圾",
+        "湿垃圾",
+        "大型垃圾"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "It is important to dispose of harmful waste properly to avoid pollution.",
+          "isCorrect": true
+        },
+        {
+          "sentence": "My little brother is a harmful waste because he breaks my toys.",
+          "isCorrect": false
+        },
+        {
+          "sentence": "We can throw harmful waste like plastic bags into the regular trash.",
+          "isCorrect": false
+        }
+      ],
+      "image_file": "colloc_6_harmful_waste.png",
+      "scrambled_letters": [
+        "f",
+        "a",
+        "a",
+        "l",
+        "p",
+        "h",
+        "l",
+        "s",
+        "x",
+        "t",
+        "m",
+        "u",
+        "f",
+        "e",
+        "w",
+        "r",
+        "s"
+      ]
+    },
+    {
+      "id": 7,
+      "phrase": "recycle bin",
+      "definition_cn": "回收箱；可回收物垃圾桶。指专门用于收集可回收物品的容器。在本文中指人们应放置需要工人回收的物品的地方。",
+      "definition_en": "A container for holding recyclable materials before they are taken to a recycling center. In the context of the article, it is where you put something that needs to be recycled by the workers.",
+      "usage": "这是一个可数名词短语。中文：用作可数名词。英文：A countable noun phrase.",
+      "image_prompt": "A close-up of a person's hands placing a clean glass jar into a blue recycling bin with the universal recycling symbol, located in a modern office pantry.",
+      "image_desc_en": "Someone is depositing a reusable container into a designated blue container.",
+      "image_desc_cn": "有人正在将一个可重复使用的容器放入一个指定的蓝色容器中。",
+      "examples": [
+        {
+          "sentence": "If you get something that needs to be recycled by the workers, put it in the recycle bin.",
+          "trans": "如果你拿到需要由工人回收的东西，就把它放进回收箱。",
+          "source": "Article"
+        },
+        {
+          "sentence": "Please remember to put the empty paper box in the recycle bin.",
+          "trans": "请记得把空纸盒放进回收箱。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "回收箱",
+      "options": [
+        "垃圾桶",
+        "回收箱",
+        "储物箱",
+        "工具箱"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "The office has a blue recycle bin next to the printer for paper.",
+          "isCorrect": true
+        },
+        {
+          "sentence": "I keep my secrets in a recycle bin under my bed.",
+          "isCorrect": false
+        },
+        {
+          "sentence": "We feed the birds from the recycle bin in the park.",
+          "isCorrect": false
+        }
+      ],
+      "image_file": "colloc_7_recycle_bin.png",
+      "scrambled_letters": [
+        "r",
+        "c",
+        "e",
+        "e",
+        "a",
+        "n",
+        "e",
+        "w",
+        "u",
+        "b",
+        "i",
+        "l",
+        "c",
+        "y",
+        "i"
+      ]
+    },
+    {
+      "id": 8,
+      "phrase": "a matter of time",
+      "definition_cn": "时间问题。指某事的发生只是早晚的问题。在本文中指习惯垃圾分类和回收只是需要时间去适应。",
+      "definition_en": "Something that is certain to happen at some point in the future. In the context of the article, it means getting used to recycling habits just requires some time.",
+      "usage": "这是一个固定表达，通常用作表语，结构为 'It is/was a matter of time...'。中文：常用作表语，结构为'这只是/曾是时间问题...'。英文：A fixed expression, often used as a predicative, in the structure 'It is/was a matter of time...'.",
+      "image_prompt": "A person looking at a wall calendar, with one date circled in red. A clock on the wall shows time passing. The person's expression shifts from uncertain to confident.",
+      "image_desc_en": "Someone is observing the calendar and clock, realizing that adaptation is inevitable with persistence.",
+      "image_desc_cn": "有人正在观察日历和时钟，意识到只要坚持，适应是必然的。",
+      "examples": [
+        {
+          "sentence": "It sounds difficult but it's just a matter of time to get used to this.",
+          "trans": "这听起来很难，但习惯它只是时间问题。",
+          "source": "Article"
+        },
+        {
+          "sentence": "With enough practice, mastering this skill is just a matter of time.",
+          "trans": "只要有足够的练习，掌握这项技能只是时间问题。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "时间问题",
+      "options": [
+        "金钱问题",
+        "时间问题",
+        "技术问题",
+        "距离问题"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "If you keep studying, passing the exam is only a matter of time.",
+          "isCorrect": true
+        },
+        {
+          "sentence": "I bought a matter of time from the store to fix my watch.",
+          "isCorrect": false
+        },
+        {
+          "sentence": "The recipe calls for one cup of flour and a matter of time.",
+          "isCorrect": false
+        }
+      ],
+      "image_file": "colloc_8_a_matter_of_time.png",
+      "scrambled_letters": [
+        "k",
+        "r",
+        "e",
+        "a",
+        "t",
+        "t",
+        "a",
+        "r",
+        "o",
+        "i",
+        "o",
+        "f",
+        "a",
+        "m",
+        "m",
+        "t",
+        "q",
+        "e"
+      ]
+    },
+    {
+      "id": 9,
+      "phrase": "save a lot of lives",
+      "definition_cn": "拯救许多生命。指防止死亡或保护生命。在本文中指如果每个人都参与回收，未来将能拯救大量生命，包括人类、动物和植物。",
+      "definition_en": "To prevent many deaths or protect many living beings. In the context of the article, it means that if every person recycles, it will preserve countless lives—human, animal, and plant—in the future.",
+      "usage": "这是一个动词短语，'save' 是及物动词，后接宾语 'lives'。中文：'save' 是及物动词，后接宾语。英文：A verb phrase where 'save' is a transitive verb followed by the object 'lives'.",
+      "image_prompt": "A diverse group of adults including a doctor, a farmer, and a conservationist, standing together in a green, thriving ecosystem. Symbols of recycling (arrows) are subtly integrated into the scene, connecting their actions to the healthy environment.",
+      "image_desc_en": "A group of professionals from different fields are united in a healthy, preserved natural setting.",
+      "image_desc_cn": "来自不同领域的一群专业人士在一个健康、受保护的自然环境中团结一致。",
+      "examples": [
+        {
+          "sentence": "If every person on the Earth does that, it will save a lot of lives in the future—not only human lives but also animals and plants.",
+          "trans": "如果地球上的每个人都这样做，未来将拯救许多生命——不仅是人类的生命，还有动物和植物。",
+          "source": "Article"
+        },
+        {
+          "sentence": "Wearing a seatbelt can save a lot of lives in car accidents.",
+          "trans": "系安全带可以在车祸中拯救许多生命。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "拯救许多生命",
+      "options": [
+        "花费许多钱",
+        "拯救许多生命",
+        "浪费许多时间",
+        "创造许多工作"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "Advances in medicine continue to save a lot of lives every year.",
+          "isCorrect": true
+        },
+        {
+          "sentence": "I need to save a lot of lives in my piggy bank for a new bike.",
+          "isCorrect": false
+        },
+        {
+          "sentence": "This video game is about how to save a lot of lives in a fantasy castle.",
+          "isCorrect": false
+        }
+      ],
+      "image_file": "colloc_9_save_a_lot_of_lives.png",
+      "scrambled_letters": [
+        "l",
+        "s",
+        "a",
+        "f",
+        "e",
+        "q",
+        "i",
+        "l",
+        "w",
+        "a",
+        "l",
+        "s",
+        "e",
+        "v",
+        "v",
+        "s",
+        "o",
+        "t",
+        "o",
+        "x"
+      ]
+    },
+    {
+      "id": 10,
+      "phrase": "simple steps",
+      "definition_cn": "简单的步骤；简易的措施。指不复杂、容易采取的行动。在本文中指可以拯救许多动物物种的少数不复杂的行动。",
+      "definition_en": "Easy and uncomplicated actions or measures. In the context of the article, it refers to the few uncomplicated actions that can save many animal species.",
+      "usage": "这是一个复数名词短语，常与 'take' 或 'follow' 等动词搭配。中文：复数名词短语，常与'采取'、'遵循'等动词搭配。英文：A plural noun phrase, often collocated with verbs like 'take' or 'follow'.",
+      "image_prompt": "A series of three clear, infographic-style panels on a wall. Panel 1: A hand turning off a dripping faucet. Panel 2: A hand placing a bottle in a recycle bin. Panel 3: A hand planting a small tree. A person is looking at the panels and nodding.",
+      "image_desc_en": "A person is viewing a visual guide that breaks down an eco-friendly process into clear, actionable stages.",
+      "image_desc_cn": "一个人正在观看一个视觉指南，该指南将一个环保过程分解为清晰、可操作的阶段。",
+      "examples": [
+        {
+          "sentence": "There are so many species of animals that can be saved with just a few simple steps.",
+          "trans": "只需几个简单的步骤，就可以拯救如此多的动物物种。",
+          "source": "Article"
+        },
+        {
+          "sentence": "You can improve your health by following a few simple steps every day.",
+          "trans": "你可以通过每天遵循几个简单的步骤来改善健康。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "简单的步骤",
+      "options": [
+        "复杂的计划",
+        "昂贵的工具",
+        "简单的步骤",
+        "漫长的过程"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "The manual explains how to assemble the furniture in a few simple steps.",
+          "isCorrect": true
+        },
+        {
+          "sentence": "I climbed the mountain using simple steps carved into the rock.",
+          "isCorrect": false
+        },
+        {
+          "sentence": "Her simple steps were light and graceful as she walked.",
+          "isCorrect": false
+        }
+      ],
+      "image_file": "colloc_10_simple_steps.png",
+      "scrambled_letters": [
+        "p",
+        "y",
+        "e",
+        "c",
+        "z",
+        "i",
+        "p",
+        "s",
+        "l",
+        "s",
+        "l",
+        "m",
+        "e",
+        "t",
+        "m",
+        "s"
+      ]
+    }
+  ],
+  "grammar": [
+    {
+      "id": 1,
+      "title": "First Conditional / 第一条件句",
+      "source_sentence": "If you're wondering how you can help the world with all the environmental problems that strike our planet, here is an idea for you—recycle!",
+      "source_sentence_cn": "如果你想知道如何帮助世界应对所有袭击我们星球的环境问题，这里有一个给你的建议——回收！",
+      "explanation": "<p><b>英文解释:</b> The first conditional is used to talk about real and possible situations in the future. It has the structure: <b>If + present simple, will/can/may + base verb</b> (or an imperative). In this sentence, 'If you're wondering' (present continuous for a present state) leads to a present-tense suggestion 'here is an idea', which functions similarly to a result clause.</p><p><b>中文解释:</b> 第一条件句用于谈论未来可能发生的真实情况。结构为：<b>If + 一般现在时，will/can/may + 动词原形</b>（或祈使句）。在这个句子中，“If you're wondering”（用现在进行时表示当前状态）引出了一个一般现在时的建议“here is an idea”，其功能类似于结果从句。</p>",
+      "zhongkao_tips": "<p><b>英文:</b> Pay attention! The 'if' clause can use present simple OR present continuous to describe a current situation. The result can be a present fact, an imperative, or a modal verb like 'can'. Don't always expect 'will'.</p><p><b>中文:</b> 注意！'if' 从句可以使用一般现在时或现在进行时来描述当前状况。结果可以是一个当前事实、一个祈使句或像 'can' 这样的情态动词。不要总期待 'will' 出现。</p>",
+      "guide_questions": [
+        {
+          "question": "What is the structure of the sentence starting with 'If'? / 以'If'开头的句子结构是什么？",
+          "options": [
+            "If + present simple, future simple",
+            "If + past simple, would + verb",
+            "If + present continuous, present simple suggestion",
+            "If + present perfect, future continuous"
+          ],
+          "correct": "If + present continuous, present simple suggestion",
+          "hint": "Look at the verb tense after 'If' and the verb tense in the main clause. / 看'If'后面的动词时态和主句的动词时态。"
+        },
+        {
+          "question": "Is this sentence talking about a real or an unreal situation? / 这个句子是在谈论真实的还是非真实的情况？",
+          "options": [
+            "A real and possible situation",
+            "An unreal or imaginary situation",
+            "A past situation",
+            "A habitual situation"
+          ],
+          "correct": "A real and possible situation",
+          "hint": "The speaker is giving advice for a current thought. / 说话者正在为一个当前的想法提供建议。"
+        },
+        {
+          "question": "Could we replace 'here is an idea' with 'you will get an idea'? / 我们可以用'you will get an idea'替换'here is an idea'吗？",
+          "options": [
+            "Yes, the meaning is the same.",
+            "No, it changes the meaning slightly.",
+            "Only if we change the 'if' clause.",
+            "It is grammatically incorrect."
+          ],
+          "correct": "Yes, the meaning is the same.",
+          "hint": "Both express a result based on the 'if' condition. / 两者都表达了基于'if'条件的结果。"
+        }
+      ],
+      "examples": [
+        {
+          "en": "If you see a recycling bin, please use it.",
+          "cn": "如果你看到一个回收箱，请使用它。"
+        },
+        {
+          "en": "If we recycle more, we can save many trees.",
+          "cn": "如果我们回收更多，我们就能拯救许多树木。"
+        }
+      ],
+      "quiz_questions": [
+        {
+          "type": "choice",
+          "question": "Which of the following is a correct first conditional sentence?",
+          "options": [
+            "If it rained yesterday, we stayed at home.",
+            "If you study hard, you will pass the exam.",
+            "If I were you, I would go.",
+            "If he has finished, he can leave."
+          ],
+          "correct": "If you study hard, you will pass the exam.",
+          "explanation": "This follows the classic structure: If + present simple, will + base verb, for a real future possibility."
+        },
+        {
+          "type": "truefalse",
+          "question": "In the first conditional, the 'if' clause must always use the present simple tense.",
+          "options": [
+            "True",
+            "False"
+          ],
+          "correct": "False",
+          "explanation": "The 'if' clause can use present simple or present continuous (e.g., 'If you are wondering...') to describe a present situation leading to a future result."
+        },
+        {
+          "type": "choice",
+          "question": "What is the function of the main clause in the sentence: 'If you are not throwing away old products, you are actually recycling.'?",
+          "options": [
+            "It gives a command.",
+            "It states a future result.",
+            "It describes a general truth or present result.",
+            "It expresses a past habit."
+          ],
+          "correct": "It describes a general truth or present result.",
+          "explanation": "The main clause 'you are actually recycling' states a fact that is true whenever the condition in the 'if' clause is met."
+        },
+        {
+          "type": "truefalse",
+          "question": "The sentence 'If every person does that, it will save lives.' is an example of the first conditional.",
+          "options": [
+            "True",
+            "False"
+          ],
+          "correct": "True",
+          "explanation": "It uses 'If + present simple' and 'will + base verb' to talk about a possible future outcome based on a real condition."
+        },
+        {
+          "type": "choice",
+          "question": "In the source sentence, why is 'here is an idea' used instead of 'you will get an idea'?",
+          "options": [
+            "Because it's an imperative sentence.",
+            "Because it's presenting an immediate suggestion or fact, not just a future event.",
+            "Because the verb 'wonder' requires present tense.",
+            "Because it's a mistake."
+          ],
+          "correct": "Because it's presenting an immediate suggestion or fact, not just a future event.",
+          "explanation": "Using 'here is' makes the advice feel more direct and present, which is common in conditional sentences giving suggestions."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Present Perfect Tense / 现在完成时",
+      "source_sentence": "People take the products they've already used and make brand new ones out of them, which really decreases the amount of waste.",
+      "source_sentence_cn": "人们拿走他们已经用过的产品，并用它们制造出全新的产品，这确实减少了垃圾的数量。",
+      "explanation": "<p><b>英文解释:</b> The present perfect tense (have/has + past participle) connects the past to the present. It's used for actions that happened at an unspecified time before now, with a result or relevance in the present. Here, 'they've already used' (they have used) emphasizes that the using of the products is completed, and now these products are available for recycling.</p><p><b>中文解释:</b> 现在完成时 (have/has + 过去分词) 将过去与现在联系起来。它用于发生在过去某个不明确时间、但对现在有结果或影响的动作。这里，“they've already used” (他们已经用过) 强调产品的使用已经完成，现在这些产品可用于回收。</p>",
+      "zhongkao_tips": "<p><b>英文:</b> Watch for time markers like 'already', 'yet', 'just', 'ever', 'never', 'recently'. They often signal the present perfect. The action is finished, but the time is not specified.</p><p><b>中文:</b> 注意时间标志词，如 'already', 'yet', 'just', 'ever', 'never', 'recently'。它们常提示现在完成时。动作已完成，但时间未具体说明。</p>",
+      "guide_questions": [
+        {
+          "question": "What is the verb tense in 'they've already used'? / 'they've already used' 中的动词时态是什么？",
+          "options": [
+            "Past Simple",
+            "Present Perfect",
+            "Past Perfect",
+            "Present Continuous"
+          ],
+          "correct": "Present Perfect",
+          "hint": "Look for the structure 'have/has + past participle'. / 寻找 'have/has + 过去分词' 的结构。"
+        },
+        {
+          "question": "What word in the sentence is a common time marker for the present perfect? / 句子中哪个词是现在完成时常见的时间标志词？",
+          "options": [
+            "take",
+            "already",
+            "new",
+            "decreases"
+          ],
+          "correct": "already",
+          "hint": "It indicates the action is completed before now. / 它表示动作在现在之前已完成。"
+        },
+        {
+          "question": "Does 'they've used' tell us exactly when they used the products? / 'they've used' 告诉我们他们具体是什么时候使用这些产品的吗？",
+          "options": [
+            "Yes, it specifies the time.",
+            "No, the time is not important.",
+            "No, the exact time is not mentioned.",
+            "Yes, it means they used it just now."
+          ],
+          "correct": "No, the exact time is not mentioned.",
+          "hint": "The present perfect focuses on the fact that it happened, not when. / 现在完成时侧重于动作发生这一事实，而非时间。"
+        }
+      ],
+      "examples": [
+        {
+          "en": "I have finished my homework, so I can go out now.",
+          "cn": "我已经完成了作业，所以我现在可以出去了。"
+        },
+        {
+          "en": "She has visited Beijing three times.",
+          "cn": "她已经去过北京三次了。"
+        }
+      ],
+      "quiz_questions": [
+        {
+          "type": "choice",
+          "question": "Which sentence uses the present perfect tense correctly?",
+          "options": [
+            "They used the bottle yesterday.",
+            "They have used the bottle yesterday.",
+            "They have already used the bottle.",
+            "They using the bottle now."
+          ],
+          "correct": "They have already used the bottle.",
+          "explanation": "'Have used' is present perfect, and 'already' is a correct time marker. 'Yesterday' requires past simple."
+        },
+        {
+          "type": "truefalse",
+          "question": "The present perfect tense is often used with specific past time expressions like 'last week' or 'in 2020'.",
+          "options": [
+            "True",
+            "False"
+          ],
+          "correct": "False",
+          "explanation": "Specific past times require the past simple tense. Present perfect is for unspecified time or periods leading up to the present."
+        },
+        {
+          "type": "choice",
+          "question": "What is the main purpose of using the present perfect in the source sentence '...products they've already used...'?",
+          "options": [
+            "To list a sequence of past events.",
+            "To emphasize the ongoing process of using.",
+            "To show the completed action has present relevance (the products are now old/waste).",
+            "To compare past and present habits."
+          ],
+          "correct": "To show the completed action has present relevance (the products are now old/waste).",
+          "explanation": "The fact that they *have used* the products means those products are now in a state of being 'used' and ready for the next step (recycling)."
+        },
+        {
+          "type": "truefalse",
+          "question": "The contraction 'they've' can be expanded to 'they have'.",
+          "options": [
+            "True",
+            "False"
+          ],
+          "correct": "True",
+          "explanation": "'They've' is the contracted form of 'they have', used in spoken and informal written English."
+        },
+        {
+          "type": "choice",
+          "question": "Choose the correct present perfect form for: 'He (finish) reading the book.'",
+          "options": [
+            "finishes",
+            "finished",
+            "has finished",
+            "is finishing"
+          ],
+          "correct": "has finished",
+          "explanation": "The subject 'He' requires 'has' + the past participle 'finished'."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Relative Clause (which) / 定语从句 (which)",
+      "source_sentence": "People take the products they've already used and make brand new ones out of them, which really decreases the amount of waste.",
+      "source_sentence_cn": "人们拿走他们已经用过的产品，并用它们制造出全新的产品，这确实减少了垃圾的数量。",
+      "explanation": "<p><b>英文解释:</b> A relative clause gives extra information about a noun. 'Which' is a relative pronoun used for things and animals. In this sentence, 'which' refers to the whole previous idea: 'People...make brand new ones out of them'. The clause 'which really decreases...' adds information about the result of that action.</p><p><b>中文解释:</b> 定语从句提供关于名词的额外信息。'which' 是一个关系代词，用于指代事物和动物。在这个句子中，'which' 指代前面整个概念：'人们...用它们制造出全新的产品'。从句 'which really decreases...' 补充说明了该动作的结果。</p>",
+      "zhongkao_tips": "<p><b>英文:</b> 'Which' can refer to a single noun or an entire clause. Use a comma before 'which' when it introduces a non-defining clause (extra information). In this case, it's non-defining because it adds extra info about the result, not essential to identify the action.</p><p><b>中文:</b> 'Which' 可以指代单个名词或整个从句。当 'which' 引导非限制性定语从句（附加信息）时，前面用逗号。此处是非限制性的，因为它补充了关于结果的额外信息，不是识别该动作所必需的。</p>",
+      "guide_questions": [
+        {
+          "question": "What does the word 'which' refer to in this sentence? / 在这个句子中，'which' 指代什么？",
+          "options": [
+            "The products",
+            "The people",
+            "The action of making new products from old ones",
+            "The amount of waste"
+          ],
+          "correct": "The action of making new products from old ones",
+          "hint": "Look at the clause before the comma. 'Which' describes the result of that entire situation. / 看逗号前的从句。'Which' 描述了整个情况的结果。"
+        },
+        {
+          "question": "Is the clause starting with 'which' essential to understand the main subject of the sentence? / 以'which'开头的从句对于理解句子的主要主语是必需的吗？",
+          "options": [
+            "Yes, without it the sentence is incomplete.",
+            "No, it provides extra, non-essential information.",
+            "It depends on the context.",
+            "Yes, it defines the noun 'ones'."
+          ],
+          "correct": "No, it provides extra, non-essential information.",
+          "hint": "The main sentence is complete: 'People take...and make...'. The 'which' clause adds more detail. / 主句是完整的：'People take...and make...'。'which' 从句增加了更多细节。"
+        },
+        {
+          "question": "What punctuation is used before 'which'? / 'which' 前面使用了什么标点符号？",
+          "options": [
+            "No punctuation",
+            "A period (.)",
+            "A comma (,)",
+            "A semicolon (;)"
+          ],
+          "correct": "A comma (,)",
+          "hint": "A comma often comes before a non-defining relative clause. / 逗号常出现在非限制性定语从句之前。"
+        }
+      ],
+      "examples": [
+        {
+          "en": "They sorted the garbage, which helped the environment a lot.",
+          "cn": "他们分类了垃圾，这对环境大有帮助。"
+        },
+        {
+          "en": "He passed the exam, which made his parents very happy.",
+          "cn": "他通过了考试，这让他父母非常高兴。"
+        }
+      ],
+      "quiz_questions": [
+        {
+          "type": "choice",
+          "question": "Which sentence correctly uses 'which' in a relative clause?",
+          "options": [
+            "The book which I borrowed is interesting.",
+            "She has a brother which is a doctor.",
+            "It rained all day, which was unfortunate.",
+            "I like the city in which I was born."
+          ],
+          "correct": "It rained all day, which was unfortunate.",
+          "explanation": "Here, 'which' correctly refers to the whole previous clause 'It rained all day' and is preceded by a comma (non-defining)."
+        },
+        {
+          "type": "truefalse",
+          "question": "In the sentence 'The car which is red is mine.', the clause 'which is red' is a defining relative clause.",
+          "options": [
+            "True",
+            "False"
+          ],
+          "correct": "True",
+          "explanation": "It defines which car we are talking about (the red one, not the blue one). No comma is used before 'which' in defining clauses."
+        },
+        {
+          "type": "choice",
+          "question": "What is the function of the relative clause in the source sentence?",
+          "options": [
+            "To define what kind of products are taken.",
+            "To describe the people who take the products.",
+            "To comment on or give the result of the main action.",
+            "To indicate the time of the action."
+          ],
+          "correct": "To comment on or give the result of the main action.",
+          "explanation": "The clause 'which really decreases...' provides a comment or states the consequence of recycling (the main action)."
+        },
+        {
+          "type": "truefalse",
+          "question": "The relative pronoun 'which' can only be used for things, not for whole ideas or clauses.",
+          "options": [
+            "True",
+            "False"
+          ],
+          "correct": "False",
+          "explanation": "'Which' can refer to a single thing OR an entire preceding clause or idea, as in the source sentence."
+        },
+        {
+          "type": "choice",
+          "question": "Choose the correct completion: 'Recycling saves trees, ______ is very important for our planet.'",
+          "options": [
+            "that",
+            "who",
+            "whom",
+            "which"
+          ],
+          "correct": "which",
+          "explanation": "'Which' is the correct relative pronoun to refer back to the whole idea 'Recycling saves trees' in a non-defining clause."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Comparative Form (more and more) / 比较级 (more and more)",
+      "source_sentence": "There are more and more countries that decide to change their way of dealing with litter.",
+      "source_sentence_cn": "有越来越多的国家决定改变他们处理垃圾的方式。",
+      "explanation": "<p><b>英文解释:</b> The structure '<b>more and more</b> + noun' or '<b>comparative adjective/adverb + and + comparative adjective/adverb</b>' (e.g., bigger and bigger) is used to show that something is continuously increasing. Here, 'more and more countries' means the number of countries is increasing over time.</p><p><b>中文解释:</b> 结构 '<b>more and more</b> + 名词' 或 '<b>比较级形容词/副词 + and + 比较级形容词/副词</b>'（例如：bigger and bigger）用于表示某事物持续增加。这里，“more and more countries” 意味着国家的数量随着时间的推移在增加。</p>",
+      "zhongkao_tips": "<p><b>英文:</b> Remember the pattern: For long adjectives/adverbs, use 'more and more' (e.g., more and more beautiful). For short ones, double the word (e.g., hotter and hotter). It always indicates a gradual change.</p><p><b>中文:</b> 记住模式：对于长的形容词/副词，使用 'more and more'（例如：more and more beautiful）。对于短的，重复该词（例如：hotter and hotter）。它总是表示一个渐进的变化。</p>",
+      "guide_questions": [
+        {
+          "question": "What phrase shows a continuous increase in the number of countries? / 哪个短语显示了国家数量的持续增加？",
+          "options": [
+            "There are",
+            "countries that",
+            "more and more",
+            "decide to change"
+          ],
+          "correct": "more and more",
+          "hint": "It repeats the word 'more'. / 它重复了 'more' 这个词。"
+        },
+        {
+          "question": "What part of speech follows 'more and more' in this sentence? / 在这个句子中，'more and more' 后面跟的是什么词性？",
+          "options": [
+            "A verb",
+            "An adjective",
+            "A noun",
+            "An adverb"
+          ],
+          "correct": "A noun",
+          "hint": "It is describing the quantity of 'countries'. / 它是在描述 'countries' 的数量。"
+        },
+        {
+          "question": "Does 'more and more' describe a sudden change or a gradual change? / 'more and more' 描述的是突然的变化还是逐渐的变化？",
+          "options": [
+            "A sudden change",
+            "A gradual change over time",
+            "No change",
+            "A past change"
+          ],
+          "correct": "A gradual change over time",
+          "hint": "The repetition suggests an ongoing process. / 重复暗示了一个持续的过程。"
+        }
+      ],
+      "examples": [
+        {
+          "en": "The weather is getting colder and colder.",
+          "cn": "天气变得越来越冷。"
+        },
+        {
+          "en": "She is becoming more and more confident.",
+          "cn": "她变得越来越自信。"
+        }
+      ],
+      "quiz_questions": [
+        {
+          "type": "choice",
+          "question": "Which sentence correctly uses the 'more and more' structure?",
+          "options": [
+            "He runs more and more quickly.",
+            "There is more and more water in the bottle.",
+            "The problem is more and more serious.",
+            "All of the above are correct."
+          ],
+          "correct": "All of the above are correct.",
+          "explanation": "All options correctly use 'more and more' with an adverb ('quickly'), a noun ('water'), and an adjective ('serious')."
+        },
+        {
+          "type": "truefalse",
+          "question": "We can say 'big and big' to mean something is getting bigger.",
+          "options": [
+            "True",
+            "False"
+          ],
+          "correct": "False",
+          "explanation": "The correct structure for a continuous increase with short adjectives is the comparative form repeated: 'bigger and bigger'."
+        },
+        {
+          "type": "choice",
+          "question": "What is the Chinese equivalent of the structure 'more and more + noun' as used in the source sentence?",
+          "options": [
+            "越来越 + 形容词",
+            "更 + 名词",
+            "越来越多的 + 名词",
+            "很多 + 名词"
+          ],
+          "correct": "越来越多的 + 名词",
+          "explanation": "'越来越多的' accurately translates 'more and more' when it modifies a noun to show increasing quantity."
+        },
+        {
+          "type": "truefalse",
+          "question": "The phrase 'more and more' can only be used with countable nouns.",
+          "options": [
+            "True",
+            "False"
+          ],
+          "correct": "False",
+          "explanation": "It can be used with both countable (e.g., countries, people) and uncountable nouns (e.g., water, information)."
+        },
+        {
+          "type": "choice",
+          "question": "Complete the sentence: 'As summer comes, the days become ______.'",
+          "options": [
+            "long and long",
+            "longer and longer",
+            "more long and more long",
+            "the longest"
+          ],
+          "correct": "longer and longer",
+          "explanation": "'Long' is a short adjective, so its comparative form 'longer' is repeated to show gradual increase."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Passive Voice (Present Simple) / 被动语态 (一般现在时)",
+      "source_sentence": "After we throw used products into the rubbish bins, they are put in the ground where they kill plants and animals.",
+      "source_sentence_cn": "在我们把用过的产品扔进垃圾桶后，它们被埋入地下，在那里它们会杀死植物和动物。",
+      "explanation": "<p><b>英文解释:</b> The passive voice focuses on the action or the object of the action, not who does it. Structure: <b>be (am/is/are) + past participle (V3)</b>. In this sentence, 'they are put' is passive. We don't know who puts them in the ground; the focus is on what happens to the products ('they').</p><p><b>中文解释:</b> 被动语态侧重于动作或动作的承受者，而不是执行者。结构：<b>be (am/is/are) + 过去分词 (V3)</b>。在这个句子中，“they are put” 是被动语态。我们不知道是谁把它们埋入地下；重点在于产品（'它们'）发生了什么。</p>",
+      "zhongkao_tips": "<p><b>英文:</b> Use passive voice when the 'doer' is unknown, unimportant, or obvious. The key is to correctly use the correct form of 'be' + the past participle. Check the subject for singular/plural agreement (e.g., 'they are', not 'they is').</p><p><b>中文:</b> 当动作执行者未知、不重要或显而易见时，使用被动语态。关键是正确使用 'be' 的正确形式 + 过去分词。检查主语与单复数的一致性（例如：'they are'，不是 'they is'）。</p>",
+      "guide_questions": [
+        {
+          "question": "What is the main verb phrase in the clause 'they are put in the ground'? / 在从句 'they are put in the ground' 中，主要的动词短语是什么？",
+          "options": [
+            "are put",
+            "put in",
+            "in the ground",
+            "they are"
+          ],
+          "correct": "are put",
+          "hint": "Look for 'be verb + past participle'. / 寻找 'be动词 + 过去分词'。"
+        },
+        {
+          "question": "Who puts the products in the ground according to this sentence? / 根据这个句子，是谁把产品埋入地下的？",
+          "options": [
+            "We",
+            "The government",
+            "Workers",
+            "It is not stated (unknown/unimportant)."
+          ],
+          "correct": "It is not stated (unknown/unimportant).",
+          "hint": "The passive voice often omits the doer. / 被动语态经常省略执行者。"
+        },
+        {
+          "question": "What is the tense of the passive verb 'are put'? / 被动动词 'are put' 的时态是什么？",
+          "options": [
+            "Past Simple",
+            "Present Continuous",
+            "Present Simple",
+            "Future Simple"
+          ],
+          "correct": "Present Simple",
+          "hint": "The 'be' verb is 'are' (present simple form of 'be'). / 'be' 动词是 'are'（'be' 的一般现在时形式）。"
+        }
+      ],
+      "examples": [
+        {
+          "en": "English is spoken all over the world.",
+          "cn": "英语在世界各地被使用。"
+        },
+        {
+          "en": "The rubbish is collected every morning.",
+          "cn": "垃圾每天早晨被收集。"
+        }
+      ],
+      "quiz_questions": [
+        {
+          "type": "choice",
+          "question": "Which of the following is in the present simple passive voice?",
+          "options": [
+            "She writes a letter.",
+            "A letter is written by her.",
+            "She is writing a letter.",
+            "A letter was written."
+          ],
+          "correct": "A letter is written by her.",
+          "explanation": "'Is written' follows the structure 'be (is) + past participle (written)' for present simple passive."
+        },
+        {
+          "type": "truefalse",
+          "question": "In the passive voice, the subject of the sentence performs the action.",
+          "options": [
+            "True",
+            "False"
+          ],
+          "correct": "False",
+          "explanation": "In the passive voice, the subject receives the action. The doer (performer) is often omitted or introduced with 'by'."
+        },
+        {
+          "type": "choice",
+          "question": "Why is the passive voice used in the source sentence '...they are put in the ground...'?",
+          "options": [
+            "To emphasize who puts them there.",
+            "To make the sentence shorter.",
+            "To focus on what happens to the rubbish (they) as a general fact.",
+            "To describe a future plan."
+          ],
+          "correct": "To focus on what happens to the rubbish (they) as a general fact.",
+          "explanation": "The important information is the destination of the rubbish (the ground), not the specific people who put it there. It states a general process."
+        },
+        {
+          "type": "truefalse",
+          "question": "The sentence 'The trees are planted by students.' is in the active voice.",
+          "options": [
+            "True",
+            "False"
+          ],
+          "correct": "False",
+          "explanation": "It is in the passive voice ('are planted'). The subject ('The trees') receives the action. The doer ('by students') is optional."
+        },
+        {
+          "type": "choice",
+          "question": "Change this active sentence to passive: 'People sort garbage into four categories in China.'",
+          "options": [
+            "Garbage sorted into four categories by people in China.",
+            "Garbage is sorted into four categories in China.",
+            "In China, garbage sorts into four categories.",
+            "Garbage was sorted into four categories in China."
+          ],
+          "correct": "Garbage is sorted into four categories in China.",
+          "explanation": "Correct present simple passive: 'Garbage' (subject) + 'is sorted' (be + past participle) + 'in China' (place). The doer 'people' can be omitted."
+        }
+      ]
+    }
+  ],
+  "meta": {
+    "source": "article.pdf",
+    "version": "2.0 (Detailed)"
+  }
+};
+const AZURE_KEY = "DKRXk8ueSfo5NdIOMqFRTCAfpeGDezJ3Snf5K8gGgtyqxiWdugLzJQQJ99BLACHYHv6XJ3w3AAAYACOGUYP9";
+const AZURE_REGION = "eastus2";
+const IMAGE_DIR = "generated_images";
+
+const { createApp, ref, computed, onMounted } = Vue;
+const SpeechSDK = window.SpeechSDK;
+
+createApp({
+    setup() {
+        const phase = ref('login');
+        const userName = ref('');
+        const currentIndex = ref(0);
+        const currentStep = ref(1);
+        const hasSave = ref(false);
+        const showAdminPanel = ref(false);
+        const stepData = ref({});
+        
+        const isRecording = ref(false);
+        let synthesizer = null;
+        let recognizer = null;
+        let currentRecScore = 0; 
+
+        const vocabList = COURSE_DATA_INJECTED.vocabulary || [];
+        const collocList = COURSE_DATA_INJECTED.collocations || [];
+        const grammarList = COURSE_DATA_INJECTED.grammar || [];
+
+        const currentList = computed(() => {
+            if (phase.value === 'vocab') return vocabList;
+            if (phase.value === 'colloc') return collocList;
+            if (phase.value === 'grammar') return grammarList;
+            return [];
+        });
+        const currentItem = computed(() => currentList.value[currentIndex.value] || {});
+        const totalSteps = computed(() => phase.value === 'grammar' ? 4 : 7);
+        const phaseTitles = {'vocab': 'Vocabulary', 'colloc': 'Phrases', 'grammar': 'Grammar'};
+
+        const spellingDisplaySlots = computed(() => {
+            if (!['vocab', 'colloc'].includes(phase.value)) return [];
+            const target = (currentItem.value.word || currentItem.value.phrase).toLowerCase();
+            const userChars = stepData.value.userSpelling || [];
+            let result = [];
+            let userIdx = 0;
+            for (let char of target) {
+                if (char === ' ') { result.push('SPACE'); } 
+                else if (/[a-z]/.test(char)) { result.push(userChars[userIdx] || ''); userIdx++; }
+            }
+            return result;
+        });
+
+        onMounted(() => { if(localStorage.getItem('eng_lab_save')) hasSave.value = true; });
+
+        // Prev Button Visibility
+        const canGoBack = computed(() => {
+            if (phase.value === 'vocab' && currentIndex.value === 0 && currentStep.value === 1) return false;
+            return true;
+        });
+
+        const canProceed = computed(() => {
+            if (['vocab', 'colloc'].includes(phase.value)) {
+                if (currentStep.value === 1) return (stepData.value.audioScore || 0) >= 30;
+                if (currentStep.value === 2) return stepData.value.guessCorrect;
+                if (currentStep.value === 3) return true;
+                if (currentStep.value === 4) return stepData.value.spellingCorrect;
+                if (currentStep.value === 5) return stepData.value.meaningCorrect;
+                if (currentStep.value === 6) return stepData.value.contextCorrect;
+                if (currentStep.value === 7) return stepData.value.oralCount >= 5;
+            }
+            if (phase.value === 'grammar') {
+                if (currentStep.value === 1) return stepData.value.grammarListened;
+                if (currentStep.value === 2) return stepData.value.inquiryIndex >= currentItem.value.guide_questions.length;
+                if (currentStep.value === 3) return true;
+                if (currentStep.value === 4) return stepData.value.quizAllFinished;
+            }
+            return false;
+        });
+
+        const getLockReason = () => {
+            if (['vocab', 'colloc'].includes(phase.value)) {
+                if (currentStep.value === 1) return "Record Score > 30";
+                if (currentStep.value === 2) return "Guess Answer";
+                if (currentStep.value === 4) return "Spell Word";
+                if (currentStep.value === 7) return `${5 - stepData.value.oralCount} more reads`;
+            }
+            return "Complete Task";
+        };
+
+        const startNew = () => { localStorage.removeItem('eng_lab_save'); phase.value = 'vocab'; currentIndex.value = 0; initStepData(); };
+        const resume = () => {
+            const s = JSON.parse(localStorage.getItem('eng_lab_save'));
+            if(s) { phase.value=s.p; currentIndex.value=s.i; userName.value=s.u; initStepData(); if(s.d) stepData.value=s.d; }
+        };
+        const saveProgress = () => {
+            localStorage.setItem('eng_lab_save', JSON.stringify({p:phase.value, i:currentIndex.value, u:userName.value, d:stepData.value}));
+            hasSave.value = true;
+        };
+        const saveAndExit = () => { saveProgress(); phase.value = 'login'; };
+        const clearSave = () => { localStorage.removeItem('eng_lab_save'); location.reload(); };
+
+        const initStepData = () => {
+            currentStep.value = 1;
+            const item = currentItem.value;
+            if (['vocab', 'colloc'].includes(phase.value)) {
+                const cleanChars = (item.scrambled_letters || (item.word || item.phrase).split('')).filter(c => c.trim() !== '').map(l => l.toUpperCase());
+                const exStates = {}; 
+                (item.examples || []).forEach((_, i) => exStates[i] = { showEn: true, showCn: false });
+                
+                // === FINAL FIX: FORCE CORRECTNESS + SHUFFLE ===
+                // 1. Get raw
+                let rawContext = item.quiz_fill ? JSON.parse(JSON.stringify(item.quiz_fill)) : [];
+
+                // 2. Normalize and Enforce Correctness (Fix for "All Wrong" issue)
+                rawContext.forEach((opt, idx) => {
+                    // If is_correct is missing, assume the first one (idx 0) is true.
+                    if (opt.is_correct === undefined || opt.is_correct === null) {
+                        opt.is_correct = (idx === 0); 
+                    } else {
+                        // Normalize string "true"/"false" to boolean
+                        opt.is_correct = (String(opt.is_correct).toLowerCase() === 'true');
+                    }
+                });
+
+                // 3. Shuffle
+                const contextOpts = rawContext;
+                for (let i = contextOpts.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [contextOpts[i], contextOpts[j]] = [contextOpts[j], contextOpts[i]];
+                }
+                
+                stepData.value = {
+                    audioScore: 0, hasListened: false,
+                    guessAnswer: null, guessCorrect: false,
+                    exStates: exStates,
+                    userSpelling: [], shuffledLetters: cleanChars, spellingCorrect: false, usedIndices: new Set(),
+                    meaningOptions: [...(item.options || [])].sort(()=>Math.random()-0.5), meaningAnswer: null, meaningCorrect: false,
+                    // Store normalized & shuffled
+                    contextOptions: contextOpts,
+                    contextAnswerIndex: null, contextCorrect: false, contextFullSentence: '',
+                    oralCount: 0, lastOralScore: 0
+                };
+            } else {
+                stepData.value = { 
+                    grammarListened: false, 
+                    inquiryIndex: 0, inquiryAnswer: null, inquiryShowNext: false,
+                    quizIndex: 0, quizAnswer: null, quizAllFinished: false, quizShowExplanation: false, quizShowNext: false 
+                };
+            }
+        };
+
+        const nextStep = () => {
+            if (!canProceed.value) return;
+            saveProgress();
+            if (currentStep.value < totalSteps.value) {
+                currentStep.value++;
+            } else {
+                if (currentIndex.value < currentList.value.length - 1) {
+                    currentIndex.value++;
+                    initStepData();
+                } else {
+                    if (phase.value === 'vocab') { phase.value = 'colloc'; currentIndex.value = 0; initStepData(); }
+                    else if (phase.value === 'colloc') { phase.value = 'grammar'; currentIndex.value = 0; initStepData(); }
+                    else { phase.value = 'end'; }
+                }
+            }
+        };
+
+        const prevStep = () => {
+            if (currentStep.value > 1) {
+                currentStep.value--;
+            } else {
+                if (currentIndex.value > 0) {
+                    currentIndex.value--;
+                    initStepData();
+                } else {
+                    if (phase.value === 'colloc') {
+                        phase.value = 'vocab';
+                        currentIndex.value = vocabList.length - 1;
+                        initStepData();
+                    } else if (phase.value === 'grammar') {
+                        phase.value = 'colloc';
+                        currentIndex.value = collocList.length - 1;
+                        initStepData();
+                    }
+                }
+            }
+            saveProgress();
+        };
+
+        const cleanOption = (text) => text.replace(/\(误\)|\(Error\)|（误）/gi, '').trim();
+        const checkGrammarCorrect = (option, correctLetter) => {
+            return option.trim().toUpperCase().startsWith(correctLetter.trim().toUpperCase());
+        };
+        const getGuideOptions = (item, idx) => {
+            const q = item && item.guide_questions && item.guide_questions[idx];
+            return (q && Array.isArray(q.options) && q.options.length) ? q.options : ['A', 'B'];
+        };
+        const getQuizOptions = (item, idx) => {
+            const q = item && item.quiz_questions && item.quiz_questions[idx];
+            return (q && Array.isArray(q.options) && q.options.length) ? q.options : ['True', 'False'];
+        };
+
+        const handleTask = (action, payload, index) => {
+            const item = currentItem.value;
+            if (action === 'guess') {
+                stepData.value.guessAnswer = payload;
+                if (payload === item.correct_answer) { stepData.value.guessCorrect = true; playTTS("Correct"); }
+                else playTTS("Try again");
+            }
+            if (action === 'spell') {
+                stepData.value.userSpelling.push(payload);
+                stepData.value.usedIndices.add(index);
+                const currentStr = stepData.value.userSpelling.join('').toLowerCase();
+                const target = (item.word || item.phrase).replace(/[^a-zA-Z]/g, '').toLowerCase();
+                if (currentStr.length === target.length) {
+                    if (currentStr === target) { stepData.value.spellingCorrect = true; playTTS("Correct"); }
+                    else { playTTS("Wrong"); setTimeout(() => { stepData.value.userSpelling=[]; stepData.value.usedIndices.clear(); }, 500); }
+                }
+            }
+            if (action === 'meaning') {
+                stepData.value.meaningAnswer = payload;
+                if (payload === item.correct_answer) { stepData.value.meaningCorrect = true; playTTS("Correct"); }
+                else playTTS("Wrong");
+            }
+            
+            // ================== FIXED CONTEXT LOGIC (COMPLETE FIX) ==================
+            if (action === 'context') {
+                stepData.value.contextAnswerIndex = index;
+                const targetPhrase = item.phrase || item.word;
+                
+                // Now simple safe check because we normalized in init
+                const isCorrect = payload.is_correct; 
+
+                if (isCorrect) {
+                    let fullSentence = payload.sentence;
+                    // Regex matches: underscores, ellipsis, 2+ dots, brackets, parens, or underscore w/ spaces
+                    const blankRegex = /(_+|…|\.{2,}|\[.*?\]|\(.*?\)|_\s+_)/g;
+
+                    if (blankRegex.test(fullSentence)) {
+                        fullSentence = fullSentence.replace(blankRegex, targetPhrase);
+                    } else {
+                        // Fallback: If no blank found, append it at the end for clarity
+                        if (fullSentence.indexOf(targetPhrase) === -1) {
+                             fullSentence = fullSentence + " (" + targetPhrase + ")";
+                        }
+                    }
+                    
+                    stepData.value.contextFullSentence = fullSentence;
+                    stepData.value.contextCorrect = true;
+                    playTTS(fullSentence); 
+                } else {
+                    stepData.value.contextCorrect = false;
+                    playTTS("Incorrect");
+                }
+            }
+            // =======================================================================
+
+            if (action === 'recordDrill') toggleRec(getZhongkaoSentence(), updateOralCount);
+            
+            if (action === 'playGrammarAudio') { playTTS(item.source_sentence); stepData.value.grammarListened = true; }
+            if (action === 'inquiry') {
+                if (stepData.value.inquiryShowNext) return;
+                stepData.value.inquiryAnswer = payload;
+                if (checkGrammarCorrect(payload, item.guide_questions[stepData.value.inquiryIndex].correct)) {
+                    playTTS("Correct");
+                    stepData.value.inquiryShowNext = true;
+                } else playTTS("Try again");
+            }
+            if (action === 'quiz') {
+                if (stepData.value.quizShowNext) return;
+                stepData.value.quizAnswer = payload;
+                if (checkGrammarCorrect(payload, item.quiz_questions[stepData.value.quizIndex].correct)) {
+                    playTTS("Correct");
+                    stepData.value.quizShowExplanation = true;
+                    stepData.value.quizShowNext = true;
+                } else playTTS("Wrong");
+            }
+            saveProgress();
+        };
+
+        const nextGrammarQuestion = (type) => {
+            const item = currentItem.value;
+            if (type === 'inquiry') {
+                stepData.value.inquiryIndex++;
+                stepData.value.inquiryAnswer = null;
+                stepData.value.inquiryShowNext = false;
+            }
+            if (type === 'quiz') {
+                if (stepData.value.quizIndex < item.quiz_questions.length - 1) {
+                    stepData.value.quizIndex++;
+                    stepData.value.quizAnswer = null;
+                    stepData.value.quizShowExplanation = false;
+                    stepData.value.quizShowNext = false;
+                } else {
+                    stepData.value.quizAllFinished = true;
+                }
+            }
+            saveProgress();
+        };
+
+        const updateOralCount = (score) => { stepData.value.lastOralScore = score; if(score > 0) stepData.value.oralCount++; saveProgress(); }
+        const resetSpelling = () => { stepData.value.userSpelling = []; stepData.value.usedIndices.clear(); };
+        const toggleEx = (i) => { stepData.value.exStates[i].showCn = !stepData.value.exStates[i].showCn; };
+        
+        const getZhongkaoSentence = () => { const ex = currentItem.value.examples.find(e => e.source === 'Zhongkao'); return ex ? ex.sentence : currentItem.value.examples[0].sentence; };
+        
+        const getOptClass = (opt, sel, cor) => {
+            // For Quiz Options
+            if (sel === opt) return opt === cor ? 'opt-correct' : 'opt-wrong';
+            
+            // For Context (Fill in blank) logic
+            if (typeof opt === 'number') { 
+                if (sel !== opt) return ''; 
+                // Fix: Look at shuffled options in stepData
+                if (stepData.value.contextOptions && stepData.value.contextOptions[opt]) {
+                     return stepData.value.contextOptions[opt].is_correct ? 'opt-correct' : 'opt-wrong';
+                }
+                return '';
+            }
+            return '';
+        };
+
+        const getImagePath = (f) => f ? IMAGE_DIR + '/' + f : '';
+
+        const playTTS = (text) => {
+            if (!text || isRecording.value) return;
+            if (synthesizer) { synthesizer.close(); synthesizer = null; }
+            try {
+                const config = SpeechSDK.SpeechConfig.fromSubscription(AZURE_KEY, AZURE_REGION);
+                config.speechSynthesisVoiceName = "en-US-AriaNeural"; 
+                synthesizer = new SpeechSDK.SpeechSynthesizer(config);
+                synthesizer.speakTextAsync(text, () => { synthesizer.close(); synthesizer = null; });
+            } catch (e) { console.error(e); }
+        };
+
+        const toggleRec = async (text, cb) => {
+            if(isRecording.value) { 
+                if(recognizer) { recognizer.stopContinuousRecognitionAsync(() => { recognizer.close(); recognizer = null; isRecording.value = false; if(cb) cb(currentRecScore); }); }
+                return; 
+            }
+            try {
+                await navigator.mediaDevices.getUserMedia({ audio: true });
+                const config = SpeechSDK.SpeechConfig.fromSubscription(AZURE_KEY, AZURE_REGION);
+                config.speechRecognitionLanguage = "en-US";
+                const audioConfig = SpeechSDK.AudioConfig.fromDefaultMicrophoneInput();
+                const pronConfig = new SpeechSDK.PronunciationAssessmentConfig(text, SpeechSDK.PronunciationAssessmentGradingSystem.HundredMark, SpeechSDK.PronunciationAssessmentGranularity.Phoneme, true);
+                recognizer = new SpeechSDK.SpeechRecognizer(config, audioConfig);
+                pronConfig.applyTo(recognizer);
+                isRecording.value = true; currentRecScore = 0; 
+                recognizer.recognized = (s, e) => { if (e.result.reason === SpeechSDK.ResultReason.RecognizedSpeech) { const json = JSON.parse(e.result.properties.getProperty(SpeechSDK.PropertyId.SpeechServiceResponse_JsonResult)); if(json.NBest && json.NBest[0]) currentRecScore = json.NBest[0].PronunciationAssessment.AccuracyScore; } };
+                recognizer.startContinuousRecognitionAsync();
+            } catch(e) { alert("Mic Error: " + e); isRecording.value = false; }
+        };
+
+        const openAdmin = () => { if(prompt("PWD")==="888123") showAdminPanel.value = true; };
+        const jumpIndex = (d) => { const n = currentIndex.value + d; if(n>=0 && n<currentList.value.length) { currentIndex.value = n; initStepData(); } };
+        const setPhase = (p) => { phase.value = p; currentIndex.value = 0; initStepData(); };
+        const forceUnlock = () => { stepData.value.audioScore=100; stepData.value.guessCorrect=true; stepData.value.spellingCorrect=true; stepData.value.meaningCorrect=true; stepData.value.contextCorrect=true; stepData.value.oralCount=5; stepData.value.grammarListened=true; stepData.value.quizAllFinished=true; stepData.value.inquiryIndex=100; };
+
+        return {
+            phase, userName, currentIndex, currentStep, totalSteps, currentItem, currentList, phaseTitles, stepData,
+            startNew, resume, saveAndExit, clearSave, hasSave, nextStep, prevStep, handleTask, resetSpelling, toggleEx, updateOralCount, nextGrammarQuestion,
+            getZhongkaoSentence, getOptClass, getImagePath, isRecording, canProceed, getLockReason, playTTS, toggleRec, spellingDisplaySlots,
+            showAdminPanel, openAdmin, jumpIndex, setPhase, forceUnlock, cleanOption, checkGrammarCorrect, canGoBack,
+            getGuideOptions, getQuizOptions
+        };
+    }
+}).mount('#app');
+</script>
+</body>
+</html>

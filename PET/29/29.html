@@ -1,0 +1,3248 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Intensive English Lab (Context Final Fix)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/microsoft-cognitiveservices-speech-sdk@latest/distrib/browser/microsoft.cognitiveservices.speech.sdk.bundle-min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Nunito', sans-serif; background-color: #0f172a; color: #f8fafc; user-select: none; -webkit-tap-highlight-color: transparent; }
+        
+        .app-container { height: 100vh; display: flex; flex-direction: column; }
+        .main-stage { flex: 1; overflow-y: auto; overflow-x: hidden; padding: 16px; padding-bottom: 140px; display: flex; flex-direction: column; align-items: center; }
+
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.9);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.5);
+            border-radius: 24px;
+        }
+
+        .btn-3d {
+            transition: all 0.1s; cursor: pointer; position: relative; z-index: 20;
+            user-select: none; touch-action: manipulation;
+        }
+        .btn-3d:active { transform: translateY(3px); box-shadow: none !important; filter: brightness(0.9); border-bottom-width: 0px !important; margin-top: 3px; }
+
+        .key-btn {
+            width: 55px; height: 60px;
+            background: #1e293b; border: 2px solid #475569; border-bottom-width: 6px;
+            border-radius: 12px; font-size: 1.5rem; font-weight: 900; color: white;
+            display: flex; align-items: center; justify-content: center;
+            margin: 4px; text-transform: uppercase; transition: all 0.2s;
+        }
+        .key-btn:disabled { opacity: 0; transform: scale(0); pointer-events: none; }
+        
+        .option-card {
+            width: 100%; padding: 18px; margin-bottom: 12px;
+            background: #1e293b; border: 2px solid #334155; border-radius: 16px;
+            font-size: 1.1rem; font-weight: 700; text-align: left;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .opt-correct { border-color: #22c55e; background: rgba(34, 197, 94, 0.15); color: #4ade80; }
+        .opt-wrong { border-color: #ef4444; background: rgba(239, 68, 68, 0.15); color: #f87171; }
+
+        .bottom-nav {
+            position: fixed; bottom: 0; left: 0; width: 100%;
+            padding: 16px 24px; padding-bottom: 30px;
+            background: rgba(15, 23, 42, 0.95); border-top: 1px solid #334155;
+            z-index: 50; display: flex; justify-content: center; gap: 12px;
+        }
+        .nav-btn {
+            padding: 16px; border-radius: 16px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px;
+            display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 1.1rem;
+        }
+        .btn-prev {
+            width: 35%; background: #334155; color: #94a3b8; border: 2px solid #475569; font-size: 1rem;
+        }
+        .btn-prev:active { transform: translateY(2px); filter: brightness(0.9); }
+        .btn-next { flex: 1; }
+        .btn-locked { background: #334155; color: #94a3b8; cursor: not-allowed; border: 2px solid #475569; }
+        .btn-active { background: #22c55e; color: white; box-shadow: 0 6px 0 #15803d; border-bottom: 6px solid #15803d; }
+        .btn-active:active { transform: translateY(6px); box-shadow: none; border-bottom-width: 0; margin-bottom: 6px; }
+
+        .pulse-mic { animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); } 70% { box-shadow: 0 0 0 20px rgba(239, 68, 68, 0); } 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); } }
+        
+        .blur-text { color: transparent !important; text-shadow: 0 0 12px rgba(255,255,255,0.7); user-select: none; transition: all 0.3s ease; }
+        .clear-text { color: #94a3b8 !important; text-shadow: none; user-select: auto; }
+        
+        .admin-trigger { width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.1); position: fixed; bottom: 100px; right: 20px; z-index: 99; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+    </style>
+
+    <style>
+        /* --- Python 注入的高级 UI 样式 --- */
+        :root {
+            --sat: env(safe-area-inset-top);
+            --sab: env(safe-area-inset-bottom);
+            --primary-gradient: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+            --shadow-glow: 0 8px 20px -4px rgba(79, 70, 229, 0.5);
+            --glass-bg: rgba(15, 23, 42, 0.85);
+        }
+
+        /* 1. 全局容器修复 */
+        body { margin: 0; background-color: #0f172a; -webkit-tap-highlight-color: transparent; }
+        .app-container { height: 100dvh; overflow: hidden; background: #0f172a; }
+        .main-stage { padding-bottom: calc(110px + var(--sab)); -webkit-overflow-scrolling: touch; }
+        nav { padding-top: var(--sat); }
+
+        /* 2. 底部导航栏重构 - 毛玻璃效果 */
+        .bottom-nav {
+            background: var(--glass-bg) !important;
+            backdrop-filter: blur(20px) !important;
+            -webkit-backdrop-filter: blur(20px) !important;
+            border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+            padding-bottom: max(20px, var(--sab)) !important;
+            padding-top: 16px !important;
+            box-shadow: 0 -10px 40px rgba(0,0,0,0.2);
+            gap: 16px !important;
+        }
+
+        /* 3. 按钮基础重置 (覆盖原有的 btn-3d) */
+        .nav-btn {
+            border: none !important;
+            border-bottom-width: 0 !important;
+            box-shadow: none !important;
+            margin: 0 !important;
+            border-radius: 18px !important; /* 更圆润 */
+            font-size: 1rem !important;
+            letter-spacing: 0.5px !important;
+            transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+            height: 56px !important; /* 更适合手指点击的高度 */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* 点击时的缩放动画 (替代旧的下沉效果) */
+        .nav-btn:active {
+            transform: scale(0.96) !important;
+            filter: brightness(0.9);
+        }
+
+        /* 4. 上一步按钮 - 低调磨砂质感 */
+        .btn-prev {
+            width: auto !important;
+            min-width: 100px;
+            background: rgba(255, 255, 255, 0.08) !important;
+            color: #94a3b8 !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        }
+
+        /* 5. 下一步按钮 (激活) - 现代渐变 + 辉光 */
+        .btn-active {
+            flex: 1;
+            background: var(--primary-gradient) !important;
+            color: white !important;
+            font-weight: 800 !important;
+            box-shadow: var(--shadow-glow) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        }
+        
+        /* 这里的伪元素用于增加光泽感 */
+        .btn-active::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: 18px;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.15), transparent);
+            pointer-events: none;
+        }
+
+        /* 6. 下一步按钮 (锁定) - 条纹背景 */
+        .btn-locked {
+            flex: 1;
+            background: repeating-linear-gradient(
+                45deg,
+                #1e293b,
+                #1e293b 10px,
+                #253045 10px,
+                #253045 20px
+            ) !important;
+            color: #64748b !important;
+            border: 1px solid #334155 !important;
+            cursor: not-allowed;
+            opacity: 0.8;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.2) !important;
+        }
+
+        /* 7. 图标微调 */
+        .nav-btn i { font-size: 1.1em; }
+        
+        /* 8. 修复原有的 app-container 高度冲突 */
+        .app-container { height: 100dvh !important; }
+    </style>
+    
+</head>
+<body>
+
+<div id="app" class="app-container">
+
+    <nav class="h-16 flex items-center justify-between px-6 bg-slate-900 border-b border-slate-800 shrink-0 z-40">
+        <div class="font-black text-xl text-white flex items-center gap-2">
+            <span class="bg-indigo-600 w-8 h-8 rounded flex items-center justify-center">E</span> Lab
+        </div>
+        <div v-if="phase !== 'login'" class="flex items-center gap-3">
+            <div class="px-3 py-1 rounded-full bg-slate-800 border border-slate-700 text-xs font-mono text-indigo-400">Unit 1</div>
+            <button @click="saveAndExit" class="text-slate-400 hover:text-white flex items-center gap-1"><i class="fas fa-save"></i> Save</button>
+        </div>
+    </nav>
+
+    <div class="admin-trigger" @click="openAdmin"><i class="fas fa-cog text-slate-400"></i></div>
+    <div v-if="showAdminPanel" class="fixed inset-0 bg-black/90 z-[1000] flex items-center justify-center">
+        <div class="bg-slate-800 p-6 rounded-2xl w-80 border border-slate-600">
+            <h3 class="text-white font-bold mb-4">Admin Console</h3>
+            <div class="grid grid-cols-2 gap-2 mb-4">
+                <button @click="setPhase('vocab')" class="bg-indigo-900 text-white p-2 rounded">Vocab</button>
+                <button @click="setPhase('colloc')" class="bg-indigo-900 text-white p-2 rounded">Colloc</button>
+                <button @click="setPhase('grammar')" class="bg-indigo-900 text-white p-2 rounded">Grammar</button>
+                <button @click="forceUnlock" class="bg-green-700 text-white p-2 rounded">Unlock Step</button>
+            </div>
+            <div class="flex gap-2">
+                <button @click="jumpIndex(-1)" class="bg-slate-600 text-white p-2 rounded flex-1">Prev Item</button>
+                <button @click="jumpIndex(1)" class="bg-slate-600 text-white p-2 rounded flex-1">Next Item</button>
+            </div>
+            <button @click="showAdminPanel=false" class="mt-4 w-full bg-red-900/50 text-red-300 p-2 rounded">Close</button>
+        </div>
+    </div>
+
+    <main class="main-stage">
+        
+        <div v-if="phase === 'login'" class="w-full max-w-md mt-10 text-center">
+            <h1 class="text-3xl font-black text-white mb-8">Intensive Lab</h1>
+            <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 shadow-xl">
+                <input v-model="userName" type="text" placeholder="Enter Your Name" class="w-full bg-slate-900 border border-slate-700 text-white px-4 py-3 rounded-xl mb-4 text-center focus:border-indigo-500 outline-none text-lg">
+                <button @click="startNew" :disabled="!userName" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-4 rounded-xl mb-3 shadow-lg btn-3d disabled:opacity-50">Start New Session</button>
+                <button v-if="hasSave" @click="resume" class="w-full bg-slate-700 hover:bg-slate-600 text-green-400 font-bold py-4 rounded-xl border border-slate-600 btn-3d"><i class="fas fa-history mr-2"></i> Resume Progress</button>
+            </div>
+        </div>
+
+        <div v-if="['vocab', 'colloc', 'grammar'].includes(phase)" class="w-full max-w-2xl">
+            <div class="mb-6 px-2 flex justify-between text-xs font-bold text-slate-400 uppercase">
+                <span>{{ phaseTitles[phase] }} • Item {{ currentIndex + 1 }}/{{ currentList.length }}</span>
+                <span>Step {{ currentStep }}/{{ totalSteps }}</span>
+            </div>
+
+            <div class="flex gap-1 h-1.5 w-full bg-slate-800 rounded-full overflow-hidden mb-6">
+                <div v-for="s in totalSteps" :key="s" class="flex-1 transition-all duration-300" :class="s < currentStep ? 'bg-green-500' : (s === currentStep ? 'bg-indigo-500' : 'bg-slate-700')"></div>
+            </div>
+
+            <div class="glass-panel p-6 md:p-8 min-h-[450px] flex flex-col items-center relative">
+                
+                <!-- 1. Listen -->
+                <div v-if="currentStep === 1" class="text-center w-full">
+                    <div class="py-6">
+                        <h1 class="text-5xl md:text-7xl font-black text-white mb-4 tracking-tight break-words">{{ currentItem.word || currentItem.phrase }}</h1>
+                        
+                        <div v-if="phase === 'grammar'">
+                            <p class="text-2xl text-slate-200 font-medium mb-4 leading-relaxed">{{ currentItem.source_sentence }}</p>
+                            <p class="text-lg text-slate-400 mb-8">{{ currentItem.source_sentence_cn }}</p>
+                            <button @click="handleTask('playGrammarAudio')" :class="stepData.grammarListened ? 'bg-green-600 border-green-500' : 'bg-indigo-600 border-indigo-500'" class="btn-3d px-8 py-4 rounded-xl border-b-4 font-bold text-white shadow-lg flex items-center gap-3 mx-auto"><i class="fas fa-volume-up"></i> Listen First</button>
+                        </div>
+
+                        <div v-else>
+                            <p class="text-2xl text-slate-400 font-mono">{{ currentItem.phonetic }}</p>
+                            <div class="flex justify-center gap-8 mb-8 mt-8">
+                                <button @click="playTTS(currentItem.word || currentItem.phrase)" class="btn-3d w-20 h-20 rounded-full bg-slate-800 border-2 border-slate-600 text-indigo-400 flex items-center justify-center text-3xl shadow-lg hover:bg-slate-700"><i class="fas fa-volume-up"></i></button>
+                                <button @click="toggleRec(currentItem.word || currentItem.phrase, (s) => stepData.audioScore = s)" 
+                                    :class="isRecording ? 'bg-red-500 border-red-400 pulse-mic text-white' : (stepData.audioScore >= 30 ? 'bg-green-600 border-green-400 text-white' : 'bg-indigo-600 border-indigo-400 text-white')"
+                                    class="btn-3d w-24 h-24 rounded-full border-b-4 flex items-center justify-center text-4xl shadow-xl">
+                                    <i :class="isRecording ? 'fas fa-stop' : (stepData.audioScore >= 30 ? 'fas fa-check' : 'fas fa-microphone')"></i>
+                                </button>
+                            </div>
+                            <p class="text-sm font-bold" :class="stepData.audioScore >= 30 ? 'text-green-400' : 'text-slate-500'">
+                                {{ isRecording ? 'Recording... Tap to Stop' : (stepData.audioScore ? `Score: ${stepData.audioScore}` : 'Click Mic -> Speak -> Click Stop') }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Guess / Inquiry -->
+                <div v-if="currentStep === 2" class="w-full">
+                    <div v-if="phase === 'grammar'">
+                        <template v-if="stepData.inquiryIndex < currentItem.guide_questions.length">
+                            <h3 class="text-lg font-bold text-white mb-4">Question {{ stepData.inquiryIndex + 1 }} / {{ currentItem.guide_questions.length }}</h3>
+                            <div class="bg-slate-800/50 p-3 rounded mb-4 text-sm text-slate-300 italic border-l-4 border-indigo-500">"{{ currentItem.source_sentence }}"</div>
+                            <div class="bg-indigo-900/30 p-4 rounded-xl mb-4 border border-indigo-500/30"><p class="text-slate-200 font-bold">{{ currentItem.guide_questions[stepData.inquiryIndex].question }}</p></div>
+                            <div class="space-y-3 mb-6">
+                                <button v-for="opt in getGuideOptions(currentItem, stepData.inquiryIndex)" @click="handleTask('inquiry', opt)" 
+                                    class="option-card btn-3d" 
+                                    :class="stepData.inquiryAnswer === opt ? (checkGrammarCorrect(opt, currentItem.guide_questions[stepData.inquiryIndex].correct) ? 'opt-correct' : 'opt-wrong') : ''">
+                                    <span>{{ cleanOption(opt) }}</span>
+                                    <i v-if="stepData.inquiryAnswer === opt" :class="checkGrammarCorrect(opt, currentItem.guide_questions[stepData.inquiryIndex].correct) ? 'fas fa-check' : 'fas fa-times'"></i>
+                                </button>
+                            </div>
+                            <button v-if="stepData.inquiryShowNext" @click="nextGrammarQuestion('inquiry')" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 rounded-xl btn-3d">Next Question <i class="fas fa-arrow-right ml-2"></i></button>
+                        </template>
+                        <div v-else class="text-center py-10">
+                            <div class="text-6xl mb-4">🎉</div><h3 class="text-2xl font-bold text-green-400">Analysis Complete!</h3>
+                        </div>
+                    </div>
+                    
+                    <div v-else>
+                        <div class="relative w-full h-56 bg-black rounded-2xl overflow-hidden mb-4 border-2 border-slate-700">
+                            <img :src="getImagePath(currentItem.image_file)" class="w-full h-full object-cover opacity-90">
+                            <button @click="playTTS(currentItem.image_desc_en)" class="btn-3d absolute bottom-3 right-3 bg-indigo-600 text-white w-10 h-10 rounded-full flex items-center justify-center shadow-lg"><i class="fas fa-volume-up"></i></button>
+                        </div>
+                        <div class="bg-slate-800/80 p-4 rounded-xl border border-slate-600 mb-6 text-center">
+                            <p class="text-slate-200 text-lg font-medium italic mb-2">"{{ currentItem.image_desc_en }}"</p>
+                            <p class="text-slate-500 text-sm border-t border-slate-600 pt-2">{{ currentItem.image_desc_cn }}</p>
+                        </div>
+                        <div class="space-y-3">
+                            <button v-for="opt in (currentItem.options || [])" @click="handleTask('guess', opt)" class="option-card btn-3d" :class="getOptClass(opt, stepData.guessAnswer, currentItem.correct_answer)"><span>{{ opt }}</span><i v-if="stepData.guessAnswer === opt" :class="opt === currentItem.correct_answer ? 'fas fa-check' : 'fas fa-times'"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Details -->
+                <div v-if="currentStep === 3" class="w-full h-full overflow-y-auto custom-scrollbar pb-10">
+                    <div v-if="phase === 'grammar'">
+                        <div class="bg-indigo-900/30 p-5 rounded-xl border border-indigo-500/30 mb-4 text-sm leading-relaxed text-slate-200" v-html="currentItem.explanation"></div>
+                    </div>
+                    <div v-else>
+                        <div class="mb-6 text-center border-b border-slate-700 pb-4">
+                            <h2 class="text-4xl font-black text-white mb-2">{{ currentItem.word || currentItem.phrase }}</h2>
+                            <p class="text-2xl text-green-400 font-bold mb-1">{{ currentItem.correct_answer }}</p>
+                        </div>
+                        <div class="bg-indigo-900/30 border border-indigo-500/30 p-4 rounded-xl mb-6">
+                            <h4 class="text-xs font-bold text-indigo-300 uppercase mb-1">Usage</h4>
+                            <p class="text-white text-sm">{{ currentItem.usage }}</p>
+                        </div>
+                        <div class="space-y-4">
+                            <div v-for="(ex, i) in currentItem.examples" :key="i" class="bg-slate-800/60 rounded-xl border border-slate-600 p-4">
+                                <div class="flex items-start gap-3 mb-3">
+                                    <button @click="playTTS(ex.sentence)" class="btn-3d w-10 h-10 rounded-full bg-indigo-600 text-white flex items-center justify-center shrink-0 border-b-4 border-indigo-800"><i class="fas fa-volume-up"></i></button>
+                                    <div class="flex-1">
+                                        <p class="text-lg text-white font-medium">{{ ex.sentence }}</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-3 border-t border-slate-700 pt-2 cursor-pointer hover:bg-slate-700/50 rounded p-1 transition" @click="toggleEx(i)">
+                                    <span class="text-[10px] font-bold bg-slate-700 px-2 rounded text-slate-300">{{ ex.source }}</span>
+                                    <div class="flex-1">
+                                        <p :class="!stepData.exStates[i].showCn ? 'blur-text' : 'clear-text'" class="text-slate-400 text-sm transition font-bold">{{ ex.trans }}</p>
+                                    </div>
+                                    <button class="text-slate-400 hover:text-white"><i :class="stepData.exStates[i].showCn ? 'fas fa-eye-slash' : 'fas fa-eye'"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. Spelling / Quiz -->
+                <div v-if="currentStep === 4" class="text-center w-full flex flex-col items-center">
+                    <div v-if="phase === 'grammar'" class="w-full">
+                        <template v-if="stepData.quizIndex < currentItem.quiz_questions.length">
+                            <h3 class="text-lg font-bold text-white mb-6">Quiz {{ stepData.quizIndex + 1 }}/5</h3>
+                            <p class="text-slate-300 mb-6 font-bold text-left">{{ currentItem.quiz_questions[stepData.quizIndex].question }}</p>
+                            <div class="space-y-3 mb-6">
+                                <button v-for="opt in getQuizOptions(currentItem, stepData.quizIndex)" @click="handleTask('quiz', opt)" 
+                                    class="option-card btn-3d"
+                                    :class="stepData.quizAnswer === opt ? (checkGrammarCorrect(opt, currentItem.quiz_questions[stepData.quizIndex].correct) ? 'opt-correct' : 'opt-wrong') : ''">
+                                    <span>{{ cleanOption(opt) }}</span>
+                                    <i v-if="stepData.quizAnswer === opt" :class="checkGrammarCorrect(opt, currentItem.quiz_questions[stepData.quizIndex].correct) ? 'fas fa-check' : 'fas fa-times'"></i>
+                                </button>
+                            </div>
+                            <div v-if="stepData.quizShowExplanation" class="mb-4 p-3 bg-slate-800 rounded border border-slate-700 text-sm text-green-300 text-left">{{ currentItem.quiz_questions[stepData.quizIndex].explanation }}</div>
+                            <button v-if="stepData.quizShowNext" @click="nextGrammarQuestion('quiz')" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 rounded-xl btn-3d">Next Question <i class="fas fa-arrow-right ml-2"></i></button>
+                        </template>
+                        <div v-else class="text-center py-10">
+                            <div class="text-6xl mb-4">🏆</div><h3 class="text-2xl font-bold text-green-400">All Correct!</h3>
+                        </div>
+                    </div>
+                    <div v-else class="w-full">
+                        <button @click="playTTS(currentItem.word || currentItem.phrase)" class="mb-8 w-16 h-16 rounded-full bg-indigo-600 text-white text-2xl shadow-lg flex items-center justify-center animate-bounce btn-3d border-b-4 border-indigo-800"><i class="fas fa-volume-up"></i></button>
+                        <div class="flex justify-center gap-2 mb-10 flex-wrap min-h-[60px]">
+                            <template v-for="(char, i) in spellingDisplaySlots" :key="i">
+                                <div v-if="char === 'SPACE'" class="w-6"></div>
+                                <div v-else class="w-12 h-14 bg-slate-800 border-b-4 border-indigo-500 flex items-center justify-center text-2xl font-bold text-white rounded-lg">{{ char || '' }}</div>
+                            </template>
+                        </div>
+                        <div class="flex flex-wrap justify-center gap-2 max-w-lg">
+                            <button v-for="(char, i) in stepData.shuffledLetters" :key="i" @click="handleTask('spell', char, i)" :disabled="stepData.usedIndices.has(i)" class="key-btn btn-3d">{{ char }}</button>
+                        </div>
+                        <button @click="resetSpelling" class="mt-10 px-4 py-2 bg-slate-700 rounded-lg text-slate-300 text-sm btn-3d border-b-4 border-slate-900"><i class="fas fa-undo"></i> Reset</button>
+                    </div>
+                </div>
+
+                <!-- 5. Meaning -->
+                <div v-if="currentStep === 5" class="w-full">
+                    <h3 class="text-2xl font-bold text-center mb-8 text-white">{{ currentItem.word || currentItem.phrase }}</h3>
+                    <div class="space-y-3">
+                        <button v-for="opt in (stepData.meaningOptions || [])" @click="handleTask('meaning', opt)" class="option-card btn-3d" :class="getOptClass(opt, stepData.meaningAnswer, currentItem.correct_answer)"><span>{{ opt }}</span><i v-if="stepData.meaningAnswer === opt" :class="opt === currentItem.correct_answer ? 'fas fa-check' : 'fas fa-times'"></i></button>
+                    </div>
+                </div>
+
+                <!-- 6. Context (Final Fix: Logic + Data Cleaning) -->
+                <div v-if="currentStep === 6" class="w-full">
+                    <h3 class="text-xl font-bold text-center mb-6 text-indigo-300">Select Correct Context</h3>
+                    <div class="space-y-3">
+                        <!-- Use stepData.contextOptions which is SHUFFLED and NORMALIZED -->
+                        <button v-for="(q, i) in stepData.contextOptions" :key="i" @click="handleTask('context', q, i)" class="option-card btn-3d flex-col items-start gap-2" :class="getOptClass(i, stepData.contextAnswerIndex, 'correct_index')">
+                            
+                            <!-- Show filled green sentence if selected and correct -->
+                            <span v-if="stepData.contextAnswerIndex === i && q.is_correct" class="text-green-400 font-bold transition-all text-lg border-b-2 border-green-500 pb-1">{{ stepData.contextFullSentence }}</span>
+                            
+                            <!-- Otherwise show original sentence -->
+                            <span v-else class="text-sm leading-relaxed">{{ q.sentence }}</span>
+                            
+                            <!-- Check/X icon -->
+                            <div v-if="stepData.contextAnswerIndex === i" class="w-full text-right mt-1">
+                                <i :class="q.is_correct ? 'fas fa-check text-green-400' : 'fas fa-times text-red-400'"></i>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 7. Oral Drill -->
+                <div v-if="currentStep === 7" class="text-center w-full">
+                    <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 mb-8">
+                        <p class="text-xl font-serif text-white leading-relaxed mb-4">"{{ getZhongkaoSentence() }}"</p>
+                        <button @click="playTTS(getZhongkaoSentence())" class="btn-3d px-4 py-2 bg-slate-700 rounded-lg text-indigo-400 text-sm font-bold border-b-2 border-slate-900"><i class="fas fa-volume-up mr-1"></i> Listen</button>
+                    </div>
+                    <div class="mb-8">
+                        <div class="flex justify-center gap-3 mb-2">
+                            <div v-for="n in 5" :key="n" class="w-4 h-4 rounded-full transition-all border-2 border-slate-600" :class="n <= stepData.oralCount ? 'bg-green-500 border-green-400' : 'bg-slate-800'"></div>
+                        </div>
+                        <p class="text-slate-400 text-sm font-bold">Progress: {{ stepData.oralCount }} / 5</p>
+                    </div>
+                    <button @click="toggleRec(getZhongkaoSentence(), updateOralCount)" 
+                        :class="isRecording ? 'bg-red-500 border-red-400 pulse-mic text-white' : (stepData.oralCount >= 5 ? 'bg-green-600 border-green-500' : 'bg-indigo-600 border-indigo-500')" 
+                        class="btn-3d w-24 h-24 rounded-full border-b-4 flex items-center justify-center text-4xl text-white shadow-xl mx-auto">
+                        <i :class="isRecording ? 'fas fa-stop' : (stepData.oralCount >= 5 ? 'fas fa-check' : 'fas fa-microphone')"></i>
+                    </button>
+                    <p class="mt-4 font-bold" :class="isRecording ? 'text-red-400' : 'text-slate-500'">{{ isRecording ? 'Recording... Tap to Stop' : (stepData.lastOralScore ? `Last Score: ${stepData.lastOralScore}` : 'Read Aloud') }}</p>
+                </div>
+
+            </div>
+        </div>
+
+        <div v-else-if="phase === 'end'" class="w-full max-w-md text-center mt-20">
+            <h2 class="text-4xl font-black text-white mb-6">Mission Complete!</h2>
+            <button @click="clearSave" class="btn-3d bg-indigo-600 border-indigo-500 border-b-4 text-white px-8 py-4 rounded-xl font-bold">Restart</button>
+        </div>
+
+    </main>
+
+    <footer v-if="!['login', 'end'].includes(phase)" class="bottom-nav">
+        <!-- New Prev Button -->
+        <button @click="prevStep" v-if="canGoBack" class="nav-btn btn-prev btn-3d">
+            <i class="fas fa-arrow-left"></i> Prev
+        </button>
+        <!-- Next Button -->
+        <button @click="nextStep" :disabled="!canProceed" class="nav-btn btn-next btn-3d" :class="canProceed ? 'btn-active' : 'btn-locked'">
+            <span v-if="!canProceed" class="flex items-center gap-2 text-sm"><i class="fas fa-lock"></i> {{ getLockReason() }}</span>
+            <span v-else>Next Step <i class="fas fa-arrow-right"></i></span>
+        </button>
+    </footer>
+
+</div>
+
+<script>
+const COURSE_DATA_INJECTED = {
+  "vocabulary": [
+    {
+      "id": 1,
+      "word": "impression",
+      "phonetic": "/ɪmˈpreʃn/",
+      "definition_cn": "印象",
+      "definition_en": "An idea, feeling, or opinion about something or someone.",
+      "usage": "名词，常与动词make/take/give/leave搭配。如：make a good impression (留下好印象)。\nNoun, often used with verbs like make/take/give/leave. For example: make a good impression.",
+      "image_prompt": "A professional woman in a business suit shaking hands with a man in an office setting, both smiling. The background is a modern office with a desk and a city view from a window. The focus is on their positive interaction and confident body language.",
+      "image_desc_en": "A professional meeting where two people greet each other warmly.",
+      "image_desc_cn": "一次专业的会面，两个人热情地互相问候。",
+      "examples": [
+        {
+          "sentence": "For every job interview, people have to make a great first impression to the potential employer.",
+          "trans": "对于每一次工作面试，人们必须给潜在雇主留下一个极好的第一印象。",
+          "source": "Article"
+        },
+        {
+          "sentence": "His polite manners and clear speech left a deep impression on the audience.",
+          "trans": "他礼貌的举止和清晰的演讲给观众留下了深刻的印象。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "印象",
+      "options": [
+        "表达",
+        "印象",
+        "压力",
+        "建议"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "Her kindness made a lasting ______ on everyone she met.",
+          "is_correct": true
+        },
+        {
+          "sentence": "He needs to ______ the document before sending it.",
+          "is_correct": false
+        },
+        {
+          "sentence": "The ______ of the mountain is over 3000 meters.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_1_impression.png",
+      "scrambled_letters": [
+        "i",
+        "p",
+        "i",
+        "s",
+        "s",
+        "g",
+        "m",
+        "r",
+        "e",
+        "f",
+        "i",
+        "o",
+        "e",
+        "n",
+        "p"
+      ]
+    },
+    {
+      "id": 2,
+      "word": "candidate",
+      "phonetic": "/ˈkændɪdət/",
+      "definition_cn": "候选人，申请者",
+      "definition_en": "A person who is applying for a job or taking an exam.",
+      "usage": "可数名词。指申请职位或参加考试的人。\nCountable noun. Refers to a person applying for a position or taking a test.",
+      "image_prompt": "A diverse group of professional adults, both men and women, sitting in a waiting room holding folders and looking focused. They are dressed in formal business attire, waiting for their turn.",
+      "image_desc_en": "Several people are waiting in a formal setting, looking prepared and serious.",
+      "image_desc_cn": "几个人在一个正式的场合里等待，看起来准备充分且严肃。",
+      "examples": [
+        {
+          "sentence": "Candidates put in their efforts to present their strengths.",
+          "trans": "申请者们付出努力来展示他们的优势。",
+          "source": "Article"
+        },
+        {
+          "sentence": "All candidates must arrive at the test center 30 minutes early.",
+          "trans": "所有考生必须提前30分钟到达考试中心。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "候选人，申请者",
+      "options": [
+        "面试官",
+        "候选人",
+        "同事",
+        "经理"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "The company will interview five ______ for the manager position.",
+          "is_correct": true
+        },
+        {
+          "sentence": "Please ______ the water to make tea.",
+          "is_correct": false
+        },
+        {
+          "sentence": "The ______ of this story is very interesting.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_2_candidate.png",
+      "scrambled_letters": [
+        "c",
+        "t",
+        "e",
+        "z",
+        "v",
+        "k",
+        "i",
+        "d",
+        "n",
+        "a",
+        "e",
+        "a",
+        "d",
+        "v"
+      ]
+    },
+    {
+      "id": 3,
+      "word": "strengths",
+      "phonetic": "/streŋθs/",
+      "definition_cn": "优势，长处",
+      "definition_en": "Good qualities or abilities that a person or thing has.",
+      "usage": "名词，是strength的复数形式。常与动词identify/use/present搭配。\nNoun, plural form of 'strength'. Often used with verbs like identify/use/present.",
+      "image_prompt": "A professional woman standing confidently in front of a whiteboard, pointing to a list titled 'My Skills' which includes words like 'Teamwork', 'Leadership', 'Communication'. She is dressed in smart casual attire.",
+      "image_desc_en": "A person is confidently listing their positive qualities on a board.",
+      "image_desc_cn": "一个人正在白板上自信地列出他们的积极品质。",
+      "examples": [
+        {
+          "sentence": "Check whether you know what your strengths and weaknesses are or not.",
+          "trans": "检查你是否知道自己的优势和弱点是什么。",
+          "source": "Article"
+        },
+        {
+          "sentence": "Knowing your own strengths can help you choose the right career path.",
+          "trans": "了解自己的优势可以帮助你选择正确的职业道路。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "优势，长处",
+      "options": [
+        "弱点",
+        "任务",
+        "优势",
+        "目标"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "One of her greatest ______ is her ability to solve problems quickly.",
+          "is_correct": true
+        },
+        {
+          "sentence": "The bridge was built with great ______ to withstand earthquakes.",
+          "is_correct": false
+        },
+        {
+          "sentence": "He drank a glass of milk for ______.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_3_strengths.png",
+      "scrambled_letters": [
+        "g",
+        "t",
+        "u",
+        "r",
+        "n",
+        "s",
+        "y",
+        "s",
+        "g",
+        "e",
+        "l",
+        "t",
+        "p",
+        "h"
+      ]
+    },
+    {
+      "id": 4,
+      "word": "weaknesses",
+      "phonetic": "/ˈwiːknəsɪz/",
+      "definition_cn": "弱点，缺点",
+      "definition_en": "Faults or problems that make something or someone less good or effective.",
+      "usage": "名词，是weakness的复数形式。常与strengths对比使用。\nNoun, plural form of 'weakness'. Often used in contrast with 'strengths'.",
+      "image_prompt": "A thoughtful-looking man sitting at a desk, looking at a piece of paper with two columns: 'Strengths' and 'Areas for Improvement'. He is holding a pen, appearing to be in self-reflection.",
+      "image_desc_en": "A person is thoughtfully reviewing a personal assessment document.",
+      "image_desc_cn": "一个人正在若有所思地审阅一份个人评估文件。",
+      "examples": [
+        {
+          "sentence": "Check whether you know what your strengths and weaknesses are or not.",
+          "trans": "检查你是否知道自己的优势和弱点是什么。",
+          "source": "Article"
+        },
+        {
+          "sentence": "Being aware of your weaknesses is the first step to improving yourself.",
+          "trans": "意识到自己的弱点是自我提升的第一步。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "弱点，缺点",
+      "options": [
+        "优点",
+        "弱点",
+        "习惯",
+        "机会"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "Public speaking is one of my biggest ______.",
+          "is_correct": true
+        },
+        {
+          "sentence": "The material shows no ______ under pressure.",
+          "is_correct": false
+        },
+        {
+          "sentence": "She felt a sudden ______ in her legs after the long run.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_4_weaknesses.png",
+      "scrambled_letters": [
+        "e",
+        "x",
+        "n",
+        "e",
+        "w",
+        "h",
+        "a",
+        "s",
+        "s",
+        "e",
+        "f",
+        "s",
+        "q",
+        "e",
+        "k"
+      ]
+    },
+    {
+      "id": 5,
+      "word": "analyze",
+      "phonetic": "/ˈænəlaɪz/",
+      "definition_cn": "分析",
+      "definition_en": "To study or examine something in detail to understand it.",
+      "usage": "及物动词。后接名词或名词短语作宾语。\nTransitive verb. Followed by a noun or noun phrase as the object.",
+      "image_prompt": "A professional woman, a data scientist, looking intently at multiple computer screens showing graphs and charts. She is making notes on a notepad.",
+      "image_desc_en": "A person is carefully examining data and information on computer screens.",
+      "image_desc_cn": "一个人正在电脑屏幕上仔细检查数据和信息。",
+      "examples": [
+        {
+          "sentence": "For the majority, they lack the ability to analyze themselves.",
+          "trans": "对于大多数人来说，他们缺乏分析自己的能力。",
+          "source": "Article"
+        },
+        {
+          "sentence": "Scientists analyze the data collected from the experiment to draw conclusions.",
+          "trans": "科学家们分析从实验中收集的数据以得出结论。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "分析",
+      "options": [
+        "忽略",
+        "分析",
+        "创造",
+        "记忆"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "We need to ______ the results before making a decision.",
+          "is_correct": true
+        },
+        {
+          "sentence": "Please ______ the door when you leave.",
+          "is_correct": false
+        },
+        {
+          "sentence": "The flowers will ______ in the spring.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_5_analyze.png",
+      "scrambled_letters": [
+        "f",
+        "y",
+        "a",
+        "a",
+        "e",
+        "a",
+        "g",
+        "n",
+        "z",
+        "l",
+        "a",
+        "e"
+      ]
+    },
+    {
+      "id": 6,
+      "word": "personality",
+      "phonetic": "/ˌpɜːsəˈnæləti/",
+      "definition_cn": "个性，性格",
+      "definition_en": "The combination of characteristics or qualities that form an individual's character.",
+      "usage": "不可数名词，但有时可指'人物'时为可数。通常用形容词修饰，如：friendly personality。\nUncountable noun, but countable when referring to a 'person'. Usually modified by an adjective, e.g., friendly personality.",
+      "image_prompt": "A collage showing different aspects of a person's character: one part shows a person helping another, another part shows them giving a presentation, and another shows them reading a book. The overall feeling is positive and diverse.",
+      "image_desc_en": "A visual representation showing different traits that make up who a person is.",
+      "image_desc_cn": "一个视觉展示，描绘了构成一个人是谁的不同特质。",
+      "examples": [
+        {
+          "sentence": "It will benefit you if you learn more about your personality.",
+          "trans": "如果你更多地了解自己的性格，将会对你有益。",
+          "source": "Article"
+        },
+        {
+          "sentence": "Her cheerful personality makes her very popular among her friends.",
+          "trans": "她开朗的性格使她在朋友中很受欢迎。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "个性，性格",
+      "options": [
+        "外表",
+        "个性",
+        "健康",
+        "知识"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "His sense of humor is a key part of his ______.",
+          "is_correct": true
+        },
+        {
+          "sentence": "The company has a strong ______ in the market.",
+          "is_correct": false
+        },
+        {
+          "sentence": "We need to check your ______ at the airport.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_6_personality.png",
+      "scrambled_letters": [
+        "t",
+        "w",
+        "e",
+        "q",
+        "a",
+        "n",
+        "i",
+        "y",
+        "i",
+        "o",
+        "c",
+        "l",
+        "p",
+        "r",
+        "x",
+        "s"
+      ]
+    },
+    {
+      "id": 7,
+      "word": "flaws",
+      "phonetic": "/flɔːz/",
+      "definition_cn": "缺陷，瑕疵",
+      "definition_en": "Mistakes or marks that spoil something; faults.",
+      "usage": "可数名词，常用复数。指事物或人身上的小缺点或不完美之处。\nCountable noun, often used in plural. Refers to small faults or imperfections in things or people.",
+      "image_prompt": "A close-up of a skilled potter's hands examining a beautiful ceramic vase. The vase has one tiny, almost invisible crack. The potter's expression is focused on identifying the imperfection.",
+      "image_desc_en": "An artisan is carefully inspecting a handmade object for imperfections.",
+      "image_desc_cn": "一位工匠正在仔细检查一件手工制品是否有瑕疵。",
+      "examples": [
+        {
+          "sentence": "Then write down your strengths and flaws.",
+          "trans": "然后写下你的优势和缺陷。",
+          "source": "Article"
+        },
+        {
+          "sentence": "The diamond was almost perfect, except for a few tiny flaws.",
+          "trans": "这颗钻石几乎完美，除了一些微小的瑕疵。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "缺陷，瑕疵",
+      "options": [
+        "优点",
+        "特征",
+        "缺陷",
+        "设计"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "The plan was good, but it had some serious ______.",
+          "is_correct": true
+        },
+        {
+          "sentence": "The ship set ______ for a distant island.",
+          "is_correct": false
+        },
+        {
+          "sentence": "Birds ______ south for the winter.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_7_flaws.png",
+      "scrambled_letters": [
+        "n",
+        "w",
+        "h",
+        "l",
+        "i",
+        "s",
+        "a",
+        "f",
+        "l",
+        "f"
+      ]
+    },
+    {
+      "id": 8,
+      "word": "appropriate",
+      "phonetic": "/əˈprəʊpriət/",
+      "definition_cn": "合适的，恰当的",
+      "definition_en": "Suitable or acceptable for a particular situation.",
+      "usage": "形容词。常与介词'for'连用，如：appropriate for the occasion。\nAdjective. Often used with the preposition 'for', e.g., appropriate for the occasion.",
+      "image_prompt": "Two scenes side by side. Left: A professional woman in a formal business suit giving a presentation. Right: The same woman in casual clothes at a picnic. Highlighting the concept of dressing suitably for different events.",
+      "image_desc_en": "A comparison showing how attire changes based on different formal and informal events.",
+      "image_desc_cn": "一个对比，展示了基于不同正式和非正式场合的着装变化。",
+      "examples": [
+        {
+          "sentence": "Wear appropriate make-up and clothes.",
+          "trans": "化合适的妆，穿合适的衣服。",
+          "source": "Article"
+        },
+        {
+          "sentence": "It is appropriate to arrive on time for a job interview.",
+          "trans": "准时到达工作面试是恰当的。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "合适的，恰当的",
+      "options": [
+        "昂贵的",
+        "合适的",
+        "奇怪的",
+        "临时的"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "Jeans are not ______ for a wedding ceremony.",
+          "is_correct": true
+        },
+        {
+          "sentence": "He will ______ the meeting tomorrow.",
+          "is_correct": false
+        },
+        {
+          "sentence": "The ______ of the room was very dark.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_8_appropriate.png",
+      "scrambled_letters": [
+        "r",
+        "l",
+        "h",
+        "p",
+        "l",
+        "i",
+        "c",
+        "e",
+        "o",
+        "p",
+        "m",
+        "p",
+        "r",
+        "t",
+        "a",
+        "a"
+      ]
+    },
+    {
+      "id": 9,
+      "word": "exaggerating",
+      "phonetic": "/ɪɡˈzædʒəreɪtɪŋ/",
+      "definition_cn": "夸张的，言过其实的",
+      "definition_en": "Making something seem larger, better, worse, or more important than it really is.",
+      "usage": "形容词，来自动词exaggerate。描述行为或描述不切实际。\nAdjective, from the verb 'exaggerate'. Describes behavior or descriptions that are unrealistic.",
+      "image_prompt": "A cartoonish illustration of a man telling a story to a group of friends. Above his head is a thought bubble showing a tiny fish he caught, but his hands are spread wide apart, indicating he is describing it as huge. The friends look amused.",
+      "image_desc_en": "A person is telling a story with grand gestures, making something seem much bigger than it was.",
+      "image_desc_cn": "一个人正在用夸张的手势讲故事，使某事看起来比实际大得多。",
+      "examples": [
+        {
+          "sentence": "If you are a student, do not wear exaggerating clothes or hairstyles and heavy make-up.",
+          "trans": "如果你是一名学生，不要穿夸张的衣服或发型以及化浓妆。",
+          "source": "Article"
+        },
+        {
+          "sentence": "He has an exaggerating way of talking, so you can't always believe his stories.",
+          "trans": "他说话有夸张的习惯，所以你不能总是相信他的故事。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "夸张的，言过其实的",
+      "options": [
+        "简单的",
+        "夸张的",
+        "精确的",
+        "谦虚的"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "Her ______ description of the storm frightened everyone.",
+          "is_correct": true
+        },
+        {
+          "sentence": "Please ______ the form with your details.",
+          "is_correct": false
+        },
+        {
+          "sentence": "The sun ______ in the east.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_9_exaggerating.png",
+      "scrambled_letters": [
+        "b",
+        "h",
+        "z",
+        "i",
+        "a",
+        "g",
+        "a",
+        "t",
+        "d",
+        "g",
+        "x",
+        "w",
+        "r",
+        "e",
+        "e",
+        "n",
+        "g"
+      ]
+    },
+    {
+      "id": 10,
+      "word": "professional",
+      "phonetic": "/prəˈfeʃənl/",
+      "definition_cn": "职业的，专业的",
+      "definition_en": "Relating to a job that needs special training or education; showing a high standard of work.",
+      "usage": "形容词。也可作名词，指'专业人士'。\nAdjective. Can also be a noun, meaning 'a professional person'.",
+      "image_prompt": "A diverse team of professionals in an office, collaborating around a table with laptops and documents. Everyone is dressed in smart business attire and looks engaged in the discussion.",
+      "image_desc_en": "A group of people working together in a formal business environment.",
+      "image_desc_cn": "一群人在正式的商业环境中一起工作。",
+      "examples": [
+        {
+          "sentence": "If you are going to be a sales representative or bank clerk, professional uniforms and light make-up will be more appreciated.",
+          "trans": "如果你将要成为一名销售代表或银行职员，职业装和淡妆会更受赞赏。",
+          "source": "Article"
+        },
+        {
+          "sentence": "She always keeps a professional attitude at work.",
+          "trans": "她在工作中总是保持专业的态度。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "职业的，专业的",
+      "options": [
+        "业余的",
+        "职业的",
+        "私人的",
+        "有趣的"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "Doctors and lawyers are considered ______ occupations.",
+          "is_correct": true
+        },
+        {
+          "sentence": "The garden needs ______ watering.",
+          "is_correct": false
+        },
+        {
+          "sentence": "He made a ______ to visit his grandparents.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_10_professional.png",
+      "scrambled_letters": [
+        "r",
+        "i",
+        "s",
+        "n",
+        "l",
+        "a",
+        "p",
+        "r",
+        "f",
+        "a",
+        "o",
+        "r",
+        "s",
+        "y",
+        "e",
+        "o",
+        "y"
+      ]
+    },
+    {
+      "id": 11,
+      "word": "mock",
+      "phonetic": "/mɒk/",
+      "definition_cn": "模拟的，模仿的",
+      "definition_en": "Not real, but pretending to be real for practice or test purposes.",
+      "usage": "形容词。常与名词搭配，如：mock interview/exam。\nAdjective. Often collocates with nouns, e.g., mock interview/exam.",
+      "image_prompt": "A realistic scene of a practice job interview. One person sits as the interviewer behind a desk, another sits as the candidate. They are in a meeting room, and the 'candidate' is answering questions. The atmosphere is supportive.",
+      "image_desc_en": "Two people are practicing a formal meeting situation in a realistic setting.",
+      "image_desc_cn": "两个人在一个真实的场景中练习一次正式的会面情况。",
+      "examples": [
+        {
+          "sentence": "Do a mock interview.",
+          "trans": "进行一次模拟面试。",
+          "source": "Article"
+        },
+        {
+          "sentence": "Before the final exam, we had a mock test to check our preparation.",
+          "trans": "在期末考试前，我们进行了一次模拟测试来检查我们的准备情况。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "模拟的，模仿的",
+      "options": [
+        "真实的",
+        "模拟的",
+        "困难的",
+        "最后的"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "The fire department conducted a ______ drill in the office building.",
+          "is_correct": true
+        },
+        {
+          "sentence": "Please don't ______ at others' mistakes.",
+          "is_correct": false
+        },
+        {
+          "sentence": "The old castle is on the ______ of the hill.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_11_mock.png",
+      "scrambled_letters": [
+        "o",
+        "t",
+        "o",
+        "v",
+        "c",
+        "t",
+        "k",
+        "m",
+        "m"
+      ]
+    },
+    {
+      "id": 12,
+      "word": "common",
+      "phonetic": "/ˈkɒmən/",
+      "definition_cn": "常见的，普通的",
+      "definition_en": "Happening or found often; usual.",
+      "usage": "形容词。常用句型：It is common for sb to do sth.\nAdjective. Common pattern: It is common for sb to do sth.",
+      "image_prompt": "A bustling city street scene with many people walking. They are all dressed differently, but the scene shows everyday activities like walking, talking on phones, and carrying bags, representing common life.",
+      "image_desc_en": "A busy everyday scene where many people are going about their usual activities.",
+      "image_desc_cn": "一个繁忙的日常场景，许多人正在进行他们通常的活动。",
+      "examples": [
+        {
+          "sentence": "At the end of the interview, it is common for candidates to ask questions about the company.",
+          "trans": "在面试结束时，申请者询问关于公司的问题是常见的。",
+          "source": "Article"
+        },
+        {
+          "sentence": "It is common to see people using smartphones on the subway.",
+          "trans": "在地铁上看到人们使用智能手机是很常见的。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "常见的，普通的",
+      "options": [
+        "罕见的",
+        "常见的",
+        "特别的",
+        "必要的"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "Rain is ______ in this region during spring.",
+          "is_correct": true
+        },
+        {
+          "sentence": "The two friends have little in ______.",
+          "is_correct": false
+        },
+        {
+          "sentence": "Please ______ your room before guests arrive.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_12_common.png",
+      "scrambled_letters": [
+        "m",
+        "e",
+        "o",
+        "o",
+        "c",
+        "m",
+        "b",
+        "m",
+        "n",
+        "t",
+        "q"
+      ]
+    },
+    {
+      "id": 13,
+      "word": "actively",
+      "phonetic": "/ˈæktɪvli/",
+      "definition_cn": "积极地，活跃地",
+      "definition_en": "In a way that involves action or participation.",
+      "usage": "副词，修饰动词。来自形容词active。\nAdverb, modifies verbs. Comes from the adjective 'active'.",
+      "image_prompt": "A dynamic meeting room scene. A professional woman is standing up, gesturing confidently while speaking to a group. Other people are listening and taking notes, showing active participation.",
+      "image_desc_en": "A person is energetically participating and contributing in a group discussion.",
+      "image_desc_cn": "一个人正在小组讨论中精力充沛地参与和贡献。",
+      "examples": [
+        {
+          "sentence": "You should be actively asking questions, which will leave a decent impression on the interviewers.",
+          "trans": "你应该积极地提问，这会给面试官留下一个好印象。",
+          "source": "Article"
+        },
+        {
+          "sentence": "She actively takes part in various school activities.",
+          "trans": "她积极参加学校的各种活动。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "积极地，活跃地",
+      "options": [
+        "被动地",
+        "积极地",
+        "安静地",
+        "缓慢地"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "The company is ______ looking for new partners.",
+          "is_correct": true
+        },
+        {
+          "sentence": "This is a very ______ volcano.",
+          "is_correct": false
+        },
+        {
+          "sentence": "He completed the ______ in record time.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_13_actively.png",
+      "scrambled_letters": [
+        "y",
+        "c",
+        "i",
+        "b",
+        "f",
+        "a",
+        "e",
+        "v",
+        "i",
+        "y",
+        "l",
+        "a",
+        "t"
+      ]
+    },
+    {
+      "id": 14,
+      "word": "decent",
+      "phonetic": "/ˈdiːsnt/",
+      "definition_cn": "得体的，像样的",
+      "definition_en": "Of an acceptable standard; proper and respectable.",
+      "usage": "形容词。可修饰人或事物，表示符合社会标准的、不错的。\nAdjective. Can modify people or things, meaning socially acceptable, good enough.",
+      "image_prompt": "A well-dressed man in a neat suit and tie, offering a firm handshake with a warm smile. The setting is a clean, organized office reception area.",
+      "image_desc_en": "A person presents themselves in a respectable and proper manner in a formal setting.",
+      "image_desc_cn": "一个人在正式场合以体面和恰当的方式展现自己。",
+      "examples": [
+        {
+          "sentence": "You should be actively asking questions, which will leave a decent impression on the interviewers.",
+          "trans": "你应该积极地提问，这会给面试官留下一个好印象。",
+          "source": "Article"
+        },
+        {
+          "sentence": "He found a decent job after graduating from university.",
+          "trans": "大学毕业后，他找到了一份体面的工作。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "得体的，像样的",
+      "options": [
+        "糟糕的",
+        "得体的",
+        "奇怪的",
+        "临时的"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "They live in a ______ neighborhood with good schools.",
+          "is_correct": true
+        },
+        {
+          "sentence": "A ______ is one-tenth of a meter.",
+          "is_correct": false
+        },
+        {
+          "sentence": "The plan began to ______ last year.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_14_decent.png",
+      "scrambled_letters": [
+        "d",
+        "u",
+        "e",
+        "n",
+        "w",
+        "e",
+        "v",
+        "t",
+        "c",
+        "w",
+        "g"
+      ]
+    },
+    {
+      "id": 15,
+      "word": "attitude",
+      "phonetic": "/ˈætɪtjuːd/",
+      "definition_cn": "态度",
+      "definition_en": "A way of thinking or feeling about someone or something.",
+      "usage": "可数名词。常与介词'towards'连用，如：attitude towards work。\nCountable noun. Often used with the preposition 'towards', e.g., attitude towards work.",
+      "image_prompt": "A split image. Left side: A professional woman smiling and helping a colleague, representing a positive attitude. Right side: The same woman frowning and crossing her arms, representing a negative attitude.",
+      "image_desc_en": "A visual comparison showing two very different ways of reacting to a situation.",
+      "image_desc_cn": "一个视觉对比，展示了应对同一情境的两种截然不同的方式。",
+      "examples": [
+        {
+          "sentence": "Nothing is more powerful than a positive attitude.",
+          "trans": "没有什么比积极的态度更有力量。",
+          "source": "Article"
+        },
+        {
+          "sentence": "Her friendly attitude makes her easy to work with.",
+          "trans": "她友好的态度使她很容易共事。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "态度",
+      "options": [
+        "高度",
+        "态度",
+        "纬度",
+        "经度"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "A good learning ______ is important for success.",
+          "is_correct": true
+        },
+        {
+          "sentence": "The plane is flying at a high ______.",
+          "is_correct": false
+        },
+        {
+          "sentence": "Please show your ______ at the entrance.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_15_attitude.png",
+      "scrambled_letters": [
+        "u",
+        "j",
+        "a",
+        "d",
+        "t",
+        "i",
+        "d",
+        "e",
+        "j",
+        "u",
+        "t",
+        "n",
+        "t"
+      ]
+    },
+    {
+      "id": 16,
+      "word": "majority",
+      "phonetic": "/məˈdʒɒrəti/",
+      "definition_cn": "大多数，大部分",
+      "definition_en": "The larger number or part of something.",
+      "usage": "名词，常与'the'连用：the majority of + 复数名词/不可数名词。\nNoun, often used with 'the': the majority of + plural noun/uncountable noun.",
+      "image_prompt": "A pie chart or bar graph on a screen, clearly showing one large section labeled 'Agree' (75%) and a much smaller section labeled 'Disagree' (25%). A professional is pointing to the large section.",
+      "image_desc_en": "A chart visually represents that a much larger part of a group chooses one option.",
+      "image_desc_cn": "一张图表直观地显示了一个群体中更大部分选择了一个选项。",
+      "examples": [
+        {
+          "sentence": "For the majority, they lack the ability to analyze themselves.",
+          "trans": "对于大多数人来说，他们缺乏分析自己的能力。",
+          "source": "Article"
+        },
+        {
+          "sentence": "The majority of students in our class enjoy playing basketball.",
+          "trans": "我们班大多数学生喜欢打篮球。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "大多数，大部分",
+      "options": [
+        "少数",
+        "大多数",
+        "全部",
+        "一半"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "The ______ of voters supported the new policy.",
+          "is_correct": true
+        },
+        {
+          "sentence": "He is a history ______ at university.",
+          "is_correct": false
+        },
+        {
+          "sentence": "A ______ problem needs immediate attention.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_16_majority.png",
+      "scrambled_letters": [
+        "o",
+        "r",
+        "m",
+        "n",
+        "j",
+        "r",
+        "u",
+        "t",
+        "i",
+        "p",
+        "y",
+        "i",
+        "a"
+      ]
+    },
+    {
+      "id": 17,
+      "word": "prepared",
+      "phonetic": "/prɪˈpeəd/",
+      "definition_cn": "准备好的，有准备的",
+      "definition_en": "Ready to deal with a situation.",
+      "usage": "形容词。常用结构：be prepared for sth / to do sth。\nAdjective. Common structures: be prepared for sth / to do sth.",
+      "image_prompt": "A professional chef in a kitchen, with all ingredients neatly chopped and lined up, tools clean and ready. The chef looks calm and confident, waiting to start cooking.",
+      "image_desc_en": "Everything is organized and in its place before starting an important task.",
+      "image_desc_cn": "在开始一项重要任务前，一切都已组织好并各就各位。",
+      "examples": [
+        {
+          "sentence": "To be fully prepared is important.",
+          "trans": "做好充分准备是重要的。",
+          "source": "Article"
+        },
+        {
+          "sentence": "Are you prepared for the English test tomorrow?",
+          "trans": "你为明天的英语考试做好准备了吗？",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "准备好的，有准备的",
+      "options": [
+        "惊讶的",
+        "准备好的",
+        "困惑的",
+        "疲倦的"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "She was well ______ for the difficult questions.",
+          "is_correct": true
+        },
+        {
+          "sentence": "The food is freshly ______ every morning.",
+          "is_correct": false
+        },
+        {
+          "sentence": "He ______ a wonderful speech for the ceremony.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_17_prepared.png",
+      "scrambled_letters": [
+        "p",
+        "e",
+        "s",
+        "d",
+        "r",
+        "j",
+        "e",
+        "p",
+        "r",
+        "m",
+        "x",
+        "a",
+        "m"
+      ]
+    },
+    {
+      "id": 18,
+      "word": "appreciated",
+      "phonetic": "/əˈpriːʃieɪtɪd/",
+      "definition_cn": "受欣赏的，受感激的",
+      "definition_en": "Recognized as being good or valuable; thanked gratefully.",
+      "usage": "形容词。常用在被动语态中：be appreciated。\nAdjective. Often used in the passive voice: be appreciated.",
+      "image_prompt": "A woman in a professional uniform (like a bank clerk) receives a thank-you card from a satisfied client. Both are smiling. The setting is a clean, professional counter.",
+      "image_desc_en": "A person receives a gesture of thanks and recognition for their good work.",
+      "image_desc_cn": "一个人因其良好的工作而收到感谢和认可的表示。",
+      "examples": [
+        {
+          "sentence": "Professional uniforms and light make-up will be more appreciated.",
+          "trans": "职业装和淡妆会更受赞赏。",
+          "source": "Article"
+        },
+        {
+          "sentence": "Your help with the project is greatly appreciated.",
+          "trans": "非常感谢你对这个项目的帮助。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "受欣赏的，受感激的",
+      "options": [
+        "被忽视的",
+        "受欣赏的",
+        "被批评的",
+        "被要求的"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "Honest feedback is always ______.",
+          "is_correct": true
+        },
+        {
+          "sentence": "The house has ______ in value over the years.",
+          "is_correct": false
+        },
+        {
+          "sentence": "Can you ______ the beauty of this painting?",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_18_appreciated.png",
+      "scrambled_letters": [
+        "w",
+        "e",
+        "d",
+        "r",
+        "a",
+        "e",
+        "p",
+        "a",
+        "t",
+        "a",
+        "m",
+        "i",
+        "z",
+        "c",
+        "e",
+        "p"
+      ]
+    },
+    {
+      "id": 19,
+      "word": "potential",
+      "phonetic": "/pəˈtenʃl/",
+      "definition_cn": "潜在的，可能的",
+      "definition_en": "Possible when the necessary conditions exist.",
+      "usage": "形容词。常放在名词前作定语，如：potential employer/problem。\nAdjective. Often placed before a noun as an attribute, e.g., potential employer/problem.",
+      "image_prompt": "An abstract image showing a seed sprouting from the soil, with a glowing light around it. In the background, a faint outline of a large, mature tree is superimposed, suggesting future growth.",
+      "image_desc_en": "An early stage of something holds the possibility of future development and success.",
+      "image_desc_cn": "某事物的早期阶段蕴含着未来发展和成功的可能性。",
+      "examples": [
+        {
+          "sentence": "For every job interview, people have to make a great first impression to the potential employer.",
+          "trans": "对于每一次工作面试，人们必须给潜在雇主留下一个极好的第一印象。",
+          "source": "Article"
+        },
+        {
+          "sentence": "This young athlete has great potential to become a champion.",
+          "trans": "这位年轻运动员有成为冠军的巨大潜力。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "潜在的，可能的",
+      "options": [
+        "过去的",
+        "潜在的",
+        "现在的",
+        "明显的"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "They identified several ______ risks in the plan.",
+          "is_correct": true
+        },
+        {
+          "sentence": "Water ______ is stored behind the dam.",
+          "is_correct": false
+        },
+        {
+          "sentence": "He has the ______ to be a great leader.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_19_potential.png",
+      "scrambled_letters": [
+        "a",
+        "e",
+        "t",
+        "f",
+        "t",
+        "e",
+        "t",
+        "n",
+        "o",
+        "l",
+        "p",
+        "t",
+        "t",
+        "i"
+      ]
+    },
+    {
+      "id": 20,
+      "word": "benefit",
+      "phonetic": "/ˈbenɪfɪt/",
+      "definition_cn": "益处，好处；使受益",
+      "definition_en": "An advantage or help; to be useful or helpful to someone.",
+      "usage": "可作名词和动词。名词：get/gain benefit from。动词：benefit from。\nCan be a noun or verb. Noun: get/gain benefit from. Verb: benefit from.",
+      "image_prompt": "A person is standing at a crossroads. One path leads to a dark, unclear forest. The other path is sunny and leads towards a city with opportunities (like a graduation cap, a briefcase). The person is choosing the sunny path.",
+      "image_desc_en": "A choice is being made that leads to",
+      "image_file": "vocab_20_benefit.png",
+      "scrambled_letters": [
+        "f",
+        "i",
+        "n",
+        "e",
+        "t",
+        "e",
+        "v",
+        "o",
+        "v",
+        "i",
+        "b",
+        "k"
+      ],
+      "options": [
+        "选项A",
+        "选项B",
+        "选项C",
+        "选项D"
+      ],
+      "correct_answer": "选项A"
+    }
+  ],
+  "collocations": [
+    {
+      "id": 1,
+      "phrase": "make a great first impression",
+      "definition_cn": "留下一个极好的第一印象；在文中指给潜在雇主留下良好的初步印象。",
+      "definition_en": "To create a very positive initial impact on someone; in the context, it means to create a good initial impact on a potential employer.",
+      "usage": "动词短语，后接介词 'on' + 人/对象。例如：make a great first impression on someone。\nVerb phrase, followed by the preposition 'on' + person/object. E.g., make a great first impression on someone.",
+      "image_prompt": "A professional adult in a formal suit shaking hands with a potential employer in an office setting, both smiling confidently. The background is a modern office with a desk and city view through a window.",
+      "image_desc_en": "A person in formal attire greets someone during a meeting in a professional environment.",
+      "image_desc_cn": "一位穿着正装的人在专业环境中与某人会面时打招呼。",
+      "examples": [
+        {
+          "sentence": "For every job interview, people have to make a great first impression to the potential employer.",
+          "trans": "对于每一次工作面试，人们都必须给潜在雇主留下一个极好的第一印象。",
+          "source": "Article"
+        },
+        {
+          "sentence": "To succeed in the meeting, you should make a great first impression on your new colleagues.",
+          "trans": "为了在会议中取得成功，你应该给你的新同事留下一个极好的第一印象。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "留下一个极好的第一印象",
+      "options": [
+        "制造一个巨大的惊喜",
+        "留下一个极好的第一印象",
+        "进行一次精彩的演讲",
+        "提出一个重要的问题"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "It's important to ___ on your first day at work.",
+          "is_correct": true,
+          "trans": "在工作的第一天，留下一个好印象很重要。"
+        },
+        {
+          "sentence": "She went to the library to ___ some interesting books.",
+          "is_correct": false,
+          "trans": "她去图书馆借一些有趣的书。"
+        },
+        {
+          "sentence": "They decided to ___ a new plan for the project.",
+          "is_correct": false,
+          "trans": "他们决定为这个项目制定一个新计划。"
+        }
+      ],
+      "image_file": "colloc_1_make_a_great_first_impression.png",
+      "scrambled_letters": [
+        "i",
+        "x",
+        "s",
+        "e",
+        "a",
+        "o",
+        "e",
+        "f",
+        "y",
+        "a",
+        "r",
+        "e",
+        "r",
+        "i",
+        "s",
+        "n",
+        "m",
+        "i",
+        "s",
+        "o",
+        "m",
+        "k",
+        "g",
+        "r",
+        "o",
+        "p",
+        "t",
+        "a",
+        "i",
+        "t"
+      ]
+    },
+    {
+      "id": 2,
+      "phrase": "put in their efforts",
+      "definition_cn": "付出他们的努力；在文中指候选人努力展示自己的优势。",
+      "definition_en": "To exert or invest one's hard work; in the context, it means candidates work hard to present their strengths.",
+      "usage": "动词短语，后常接不定式 'to do' 表示目的。例如：put in efforts to achieve something。\nVerb phrase, often followed by an infinitive 'to do' to indicate purpose. E.g., put in efforts to achieve something.",
+      "image_prompt": "A focused professional working late at night on a laptop at a desk, with papers and a cup of coffee nearby, showing determination and hard work.",
+      "image_desc_en": "A dedicated person is concentrating on completing a challenging task.",
+      "image_desc_cn": "一个专注的人正在集中精力完成一项具有挑战性的任务。",
+      "examples": [
+        {
+          "sentence": "Candidates put in their efforts to present their strengths.",
+          "trans": "候选人付出他们的努力来展示自己的优势。",
+          "source": "Article"
+        },
+        {
+          "sentence": "If you want to improve your English, you must put in your efforts to practice every day.",
+          "trans": "如果你想提高你的英语，你必须付出努力每天练习。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "付出他们的努力",
+      "options": [
+        "放弃他们的尝试",
+        "付出他们的努力",
+        "分享他们的想法",
+        "改变他们的计划"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "To win the competition, the team decided to ___ during training.",
+          "is_correct": true,
+          "trans": "为了赢得比赛，队伍决定在训练中付出努力。"
+        },
+        {
+          "sentence": "He likes to ___ his favorite music while studying.",
+          "is_correct": false,
+          "trans": "他喜欢在学习时听他最爱的音乐。"
+        },
+        {
+          "sentence": "They will ___ the meeting until next week.",
+          "is_correct": false,
+          "trans": "他们将把会议推迟到下周。"
+        }
+      ],
+      "image_file": "colloc_2_put_in_their_efforts.png",
+      "scrambled_letters": [
+        "h",
+        "g",
+        "z",
+        "p",
+        "v",
+        "t",
+        "i",
+        "o",
+        "r",
+        "f",
+        "s",
+        "r",
+        "x",
+        "t",
+        "o",
+        "e",
+        "i",
+        "n",
+        "u",
+        "t",
+        "f",
+        "e"
+      ]
+    },
+    {
+      "id": 3,
+      "phrase": "win the heart of",
+      "definition_cn": "赢得...的心；在文中指赢得面试官的青睐。",
+      "definition_en": "To gain the affection or approval of someone; in the context, it means to gain the favor of the interviewers.",
+      "usage": "动词短语，后接 'of' + 人/群体。例如：win the heart of the audience。\nVerb phrase, followed by 'of' + person/group. E.g., win the heart of the audience.",
+      "image_prompt": "A confident professional giving a presentation on stage to a panel of attentive listeners in a conference room, with charts on a screen behind them.",
+      "image_desc_en": "A speaker successfully captivates the attention and approval of the listeners.",
+      "image_desc_cn": "一位演讲者成功地吸引了听众的注意力和认可。",
+      "examples": [
+        {
+          "sentence": "It is their chance to win the heart of the interviewers.",
+          "trans": "这是他们赢得面试官心的机会。",
+          "source": "Article"
+        },
+        {
+          "sentence": "The kind act of the volunteer helped win the heart of the local community.",
+          "trans": "志愿者的善举帮助赢得了当地社区的心。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "赢得...的心",
+      "options": [
+        "伤害...的感情",
+        "赢得...的心",
+        "失去...的信任",
+        "分享...的秘密"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "The new product design aims to ___ potential customers.",
+          "is_correct": true,
+          "trans": "新产品的设计旨在赢得潜在顾客的心。"
+        },
+        {
+          "sentence": "She needs to ___ the document before sending it.",
+          "is_correct": false,
+          "trans": "她需要在发送前检查文件。"
+        },
+        {
+          "sentence": "They plan to ___ a new park in the city center.",
+          "is_correct": false,
+          "trans": "他们计划在市中心建造一个新公园。"
+        }
+      ],
+      "image_file": "colloc_3_win_the_heart_of.png",
+      "scrambled_letters": [
+        "h",
+        "i",
+        "z",
+        "a",
+        "o",
+        "r",
+        "f",
+        "f",
+        "b",
+        "h",
+        "r",
+        "e",
+        "t",
+        "g",
+        "n",
+        "e",
+        "t",
+        "w"
+      ]
+    },
+    {
+      "id": 4,
+      "phrase": "take a quick look at",
+      "definition_cn": "快速看一下；在文中指快速浏览下面的建议。",
+      "definition_en": "To glance at or examine something briefly; in the context, it means to briefly review the following tips.",
+      "usage": "动词短语，后接介词 'at' + 事物。例如：take a quick look at the map。\nVerb phrase, followed by the preposition 'at' + thing. E.g., take a quick look at the map.",
+      "image_prompt": "A professional person quickly scanning a list of important points on a tablet while standing in a modern office hallway, as if preparing for a meeting.",
+      "image_desc_en": "A person briefly reviews some written information displayed on a screen.",
+      "image_desc_cn": "一个人快速地浏览屏幕上显示的一些书面信息。",
+      "examples": [
+        {
+          "sentence": "Take a quick look at the following tips before you really go.",
+          "trans": "在你真正去之前，快速看一下下面的建议。",
+          "source": "Article"
+        },
+        {
+          "sentence": "Could you take a quick look at my homework and see if there are any mistakes?",
+          "trans": "你能快速看一下我的作业，看看有没有错误吗？",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "快速看一下",
+      "options": [
+        "仔细研究",
+        "快速看一下",
+        "完全忽略",
+        "大声朗读"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "Before the exam, I always ___ the key points in my notebook.",
+          "is_correct": true,
+          "trans": "考试前，我总是快速看一下笔记本上的要点。"
+        },
+        {
+          "sentence": "He decided to ___ a new language this summer.",
+          "is_correct": false,
+          "trans": "他决定今年夏天学习一门新语言。"
+        },
+        {
+          "sentence": "They will ___ the old building next month.",
+          "is_correct": false,
+          "trans": "他们下个月将拆除那栋旧建筑。"
+        }
+      ],
+      "image_file": "colloc_4_take_a_quick_look_at.png",
+      "scrambled_letters": [
+        "e",
+        "k",
+        "v",
+        "g",
+        "t",
+        "q",
+        "k",
+        "a",
+        "x",
+        "o",
+        "u",
+        "c",
+        "k",
+        "a",
+        "f",
+        "a",
+        "o",
+        "l",
+        "t",
+        "e",
+        "i"
+      ]
+    },
+    {
+      "id": 5,
+      "phrase": "to some extent",
+      "definition_cn": "在某种程度上；在文中指在某种程度上他们对自己的弱点视而不见。",
+      "definition_en": "Partially or to a certain degree; in the context, it means they are partially blind to their weaknesses.",
+      "usage": "介词短语，用作状语，通常放在句首或句中。例如：To some extent, I agree with you。\nPrepositional phrase, used as an adverbial, usually placed at the beginning or middle of a sentence. E.g., To some extent, I agree with you.",
+      "image_prompt": "A thoughtful professional looking at a complex graph on a computer screen, with one hand on their chin, indicating partial understanding or consideration.",
+      "image_desc_en": "A person is considering an idea or situation, showing they understand it partly but not completely.",
+      "image_desc_cn": "一个人正在思考一个想法或情况，表现出他们部分理解但并不完全。",
+      "examples": [
+        {
+          "sentence": "To some extend they are blind to their weaknesses and pretend to be confident.",
+          "trans": "在某种程度上，他们对自己的弱点视而不见并假装自信。",
+          "source": "Article"
+        },
+        {
+          "sentence": "To some extent, the weather will affect our outdoor plans for tomorrow.",
+          "trans": "在某种程度上，天气会影响我们明天的户外计划。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "在某种程度上",
+      "options": [
+        "完全地",
+        "在某种程度上",
+        "偶然地",
+        "迅速地"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "___ , technology has made our lives more convenient.",
+          "is_correct": true,
+          "trans": "在某种程度上，科技使我们的生活更加便利。"
+        },
+        {
+          "sentence": "She walked ___ to catch the early bus.",
+          "is_correct": false,
+          "trans": "她走得很快去赶早班车。"
+        },
+        {
+          "sentence": "He solved the puzzle ___ without any help.",
+          "is_correct": false,
+          "trans": "他完全独立地解开了这个谜题。"
+        }
+      ],
+      "image_file": "colloc_5_to_some_extent.png",
+      "scrambled_letters": [
+        "o",
+        "t",
+        "e",
+        "i",
+        "s",
+        "n",
+        "l",
+        "c",
+        "e",
+        "k",
+        "e",
+        "m",
+        "y",
+        "t",
+        "x",
+        "t",
+        "o"
+      ]
+    },
+    {
+      "id": 6,
+      "phrase": "as much as possible",
+      "definition_cn": "尽可能多地；在文中指尽可能多地搜索目标公司的信息。",
+      "definition_en": "To the greatest extent or degree that one can; in the context, it means to search for information about the target company to the greatest extent.",
+      "usage": "副词短语，修饰动词，表示最大程度。例如：practice as much as possible。\nAdverbial phrase, modifying a verb, indicating the greatest degree. E.g., practice as much as possible.",
+      "image_prompt": "A determined professional researching intensively on a computer with multiple browser tabs open, surrounded by books and notes, in a home office setting.",
+      "image_desc_en": "A person is conducting thorough research using various sources of information.",
+      "image_desc_cn": "一个人正在利用各种信息来源进行彻底的研究。",
+      "examples": [
+        {
+          "sentence": "Search information of your target company as much as possible.",
+          "trans": "尽可能多地搜索你目标公司的信息。",
+          "source": "Article"
+        },
+        {
+          "sentence": "Before traveling, we should learn about the local culture as much as possible.",
+          "trans": "旅行前，我们应该尽可能多地了解当地文化。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "尽可能多地",
+      "options": [
+        "尽可能少地",
+        "尽可能多地",
+        "偶尔地",
+        "秘密地"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "To stay healthy, you should drink water ___ throughout the day.",
+          "is_correct": true,
+          "trans": "为了保持健康，你应该在一天中尽可能多地喝水。"
+        },
+        {
+          "sentence": "He arrived at the station ___ to buy the tickets.",
+          "is_correct": false,
+          "trans": "他早早到达车站去买票。"
+        },
+        {
+          "sentence": "The story was told ___ to keep it a secret.",
+          "is_correct": false,
+          "trans": "这个故事被秘密地讲述以保守秘密。"
+        }
+      ],
+      "image_file": "colloc_6_as_much_as_possible.png",
+      "scrambled_letters": [
+        "s",
+        "s",
+        "m",
+        "i",
+        "d",
+        "e",
+        "s",
+        "i",
+        "m",
+        "o",
+        "a",
+        "b",
+        "s",
+        "l",
+        "f",
+        "c",
+        "a",
+        "u",
+        "h",
+        "e",
+        "p"
+      ]
+    },
+    {
+      "id": 7,
+      "phrase": "the more... the better",
+      "definition_cn": "越...越好；在文中指对公司了解得越多，得到想要工作的机会就越好。",
+      "definition_en": "Used to say that if one thing increases, another thing also increases in a positive way; in the context, it means the more you know about the company, the better your chance of getting the job.",
+      "usage": "比较级结构，'the + 比较级..., the + 比较级...'，表示两者程度同步增长。例如：The harder you work, the better results you get。\nComparative structure, 'the + comparative..., the + comparative...', indicating that two things increase together. E.g., The harder you work, the better results you get.",
+      "image_prompt": "A professional holding a stack of reports and looking at a growing graph on a wall screen that shows upward trends, symbolizing increased knowledge leading to better outcomes.",
+      "image_desc_en": "A person observes that an increase in one factor leads to an improvement in another related result.",
+      "image_desc_cn": "一个人观察到，一个因素的增长导致了另一个相关结果的改善。",
+      "examples": [
+        {
+          "sentence": "The more you know about the company, the better chance you have of getting the job you want.",
+          "trans": "你对公司了解得越多，你得到你想要的工作的机会就越好。",
+          "source": "Article"
+        },
+        {
+          "sentence": "The more you practice speaking English, the better your pronunciation will become.",
+          "trans": "你练习说英语越多，你的发音就会变得越好。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "越...越好",
+      "options": [
+        "越...越差",
+        "越...越好",
+        "既不...也不...",
+        "或者...或者..."
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "___ you read, ___ your vocabulary will be.",
+          "is_correct": true,
+          "trans": "你读得越多，你的词汇量就会越好。"
+        },
+        {
+          "sentence": "She went to the store ___ some fresh fruits.",
+          "is_correct": false,
+          "trans": "她去商店买一些新鲜水果。"
+        },
+        {
+          "sentence": "They are ___ about the upcoming holiday.",
+          "is_correct": false,
+          "trans": "他们对即将到来的假期感到兴奋。"
+        }
+      ],
+      "image_file": "colloc_7_the_more..._the_better.png",
+      "scrambled_letters": [
+        "k",
+        "e",
+        "d",
+        "o",
+        "e",
+        "t",
+        "e",
+        "t",
+        "h",
+        "o",
+        "t",
+        "r",
+        "t",
+        "j",
+        "r",
+        "h",
+        "m",
+        "y",
+        "e",
+        "b",
+        "e"
+      ]
+    },
+    {
+      "id": 8,
+      "phrase": "according to",
+      "definition_cn": "根据；在文中指根据职位的特点穿着衣服。",
+      "definition_en": "As stated or indicated by; in the context, it means wearing clothes as indicated by the feature of the position.",
+      "usage": "介词短语，后接名词或名词短语。例如：according to the plan。\nPrepositional phrase, followed by a noun or noun phrase. E.g., according to the plan.",
+      "image_prompt": "A well-dressed professional choosing an outfit from a wardrobe that contains both formal suits and casual wear, with a job description document visible nearby.",
+      "image_desc_en": "A person selects clothing based on specific guidelines or requirements.",
+      "image_desc_cn": "一个人根据具体的指导或要求选择服装。",
+      "examples": [
+        {
+          "sentence": "Candidates need to wear clothes according to the feature of the position.",
+          "trans": "候选人需要根据职位的特点穿着衣服。",
+          "source": "Article"
+        },
+        {
+          "sentence": "According to the weather report, it will rain this afternoon.",
+          "trans": "根据天气预报，今天下午会下雨。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "根据",
+      "options": [
+        "反对",
+        "根据",
+        "除了",
+        "关于"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "___ the schedule, the meeting will start at 9 AM.",
+          "is_correct": true,
+          "trans": "根据日程表，会议将在上午9点开始。"
+        },
+        {
+          "sentence": "She stood ___ the window, watching the rain.",
+          "is_correct": false,
+          "trans": "她站在窗边，看着雨。"
+        },
+        {
+          "sentence": "He succeeded ___ his hard work and determination.",
+          "is_correct": false,
+          "trans": "他凭借努力和决心取得了成功。"
+        }
+      ],
+      "image_file": "colloc_8_according_to.png",
+      "scrambled_letters": [
+        "n",
+        "g",
+        "q",
+        "i",
+        "t",
+        "v",
+        "d",
+        "r",
+        "m",
+        "a",
+        "o",
+        "c",
+        "c",
+        "o",
+        "r",
+        "o"
+      ]
+    },
+    {
+      "id": 9,
+      "phrase": "leave a decent impression on",
+      "definition_cn": "给...留下一个得体的印象；在文中指给面试官留下一个好印象。",
+      "definition_en": "To create a good or respectable impression on someone; in the context, it means to create a good impression on the interviewers.",
+      "usage": "动词短语，后接介词 'on' + 人。例如：leave a good impression on the teacher。\nVerb phrase, followed by the preposition 'on' + person. E.g., leave a good impression on the teacher.",
+      "image_prompt": "A professional concluding a business meeting by shaking hands and smiling politely with colleagues in a conference room, appearing respectful and competent.",
+      "image_desc_en": "A person ends an interaction in a way that makes others think highly of them.",
+      "image_desc_cn": "一个人以一种让他人对他们评价很高的方式结束互动。",
+      "examples": [
+        {
+          "sentence": "You should be actively asking questions, which will leave a decent impression on the interviewers.",
+          "trans": "你应该积极地提问，这将给面试官留下一个得体的印象。",
+          "source": "Article"
+        },
+        {
+          "sentence": "Her polite manners always leave a decent impression on everyone she meets.",
+          "trans": "她礼貌的举止总是给她遇到的每个人留下一个得体的印象。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "给...留下一个得体的印象",
+      "options": [
+        "给...带来麻烦",
+        "给...留下一个得体的印象",
+        "从...那里得到帮助",
+        "与...分享快乐"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "Being punctual can ___ your new boss.",
+          "is_correct": true,
+          "trans": "守时可以给你的新老板留下一个好印象。"
+        },
+        {
+          "sentence": "They need to ___ the room before the guests arrive.",
+          "is_correct": false,
+          "trans": "他们需要在客人到达前打扫房间。"
+        },
+        {
+          "sentence": "He tried to ___ the difficult situation calmly.",
+          "is_correct": false,
+          "trans": "他试图冷静地处理这个困难的情况。"
+        }
+      ],
+      "image_file": "colloc_9_leave_a_decent_impression_on.png",
+      "scrambled_letters": [
+        "e",
+        "s",
+        "i",
+        "n",
+        "h",
+        "c",
+        "n",
+        "a",
+        "a",
+        "i",
+        "t",
+        "o",
+        "l",
+        "s",
+        "e",
+        "s",
+        "v",
+        "p",
+        "o",
+        "e",
+        "r",
+        "e",
+        "e",
+        "d",
+        "s",
+        "m",
+        "n",
+        "i",
+        "t"
+      ]
+    },
+    {
+      "id": 10,
+      "phrase": "last but not least",
+      "definition_cn": "最后但同样重要的是；在文中用于引入最后一个要点。",
+      "definition_en": "Used to say that the final item or point is just as important as the others; in the context, it is used to introduce the final tip.",
+      "usage": "固定短语，用作插入语，通常放在句首，后接逗号。例如：Last but not least, thank you for your support。\nFixed phrase, used as a parenthesis, usually placed at the beginning of a sentence, followed by a comma. E.g., Last but not least, thank you for your support.",
+      "image_prompt": "A professional speaker at a podium pointing to the final item on a list of key points displayed on a screen during a presentation to an audience.",
+      "image_desc_en": "A presenter emphasizes the final point in a series of important items.",
+      "image_desc_cn": "一位演讲者强调一系列重要事项中的最后一点。",
+      "examples": [
+        {
+          "sentence": "Last but not least, go to the interview with a light heart.",
+          "trans": "最后但同样重要的是，带着轻松的心情去面试。",
+          "source": "Article"
+        },
+        {
+          "sentence": "Last but not least, I would like to thank my family for their endless support.",
+          "trans": "最后但同样重要的是，我想感谢我的家人无尽的支持。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "最后但同样重要的是",
+      "options": [
+        "首先",
+        "其次",
+        "最后但同样重要的是",
+        "然而"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "___, remember to bring your ID card tomorrow.",
+          "is_correct": true,
+          "trans": "最后但同样重要的是，记得明天带上你的身份证。"
+        },
+        {
+          "sentence": "She finished her work ___ and went home.",
+          "is_correct": false,
+          "trans": "她迅速完成了工作然后回家了。"
+        },
+        {
+          "sentence": "The book is ___ interesting that I couldn't put it down.",
+          "is_correct": false,
+          "trans": "这本书如此有趣，以至于我放不下它。"
+        }
+      ],
+      "image_file": "colloc_10_last_but_not_least.png",
+      "scrambled_letters": [
+        "s",
+        "j",
+        "l",
+        "t",
+        "l",
+        "b",
+        "y",
+        "a",
+        "a",
+        "u",
+        "t",
+        "e",
+        "n",
+        "o",
+        "f",
+        "t",
+        "t",
+        "t",
+        "g",
+        "s"
+      ]
+    }
+  ],
+  "grammar": [
+    {
+      "id": 1,
+      "title": "The more..., the better... / 越……，越……",
+      "source_sentence": "The more you know about the company, the better chance you have of getting the job you want.",
+      "source_sentence_cn": "你对公司了解得越多，你得到你想要的工作的机会就越大。",
+      "explanation": "<p><b>English:</b> This is a comparative structure used to show a proportional relationship. The first clause (The more you know) describes an action or state, and the second clause (the better chance you have) describes the result that increases or decreases proportionally. It's formed with <b>'the + comparative adjective/adverb, the + comparative adjective/adverb'</b>.</p><p><b>中文:</b> 这是一个表示比例关系的比较结构。第一个分句（The more you know）描述一个动作或状态，第二个分句（the better chance you have）描述一个成比例增加或减少的结果。结构为 <b>'the + 比较级形容词/副词, the + 比较级形容词/副词'</b>。</p>",
+      "zhongkao_tips": "<p><b>English:</b> Pay attention to the correct form of the comparative adjectives/adverbs (e.g., more, better, faster). Both clauses must use 'the' before the comparative. This structure is common in reading comprehension and sentence transformation questions.</p><p><b>中文:</b> 注意比较级形容词/副词的正确形式（例如 more, better, faster）。两个分句的比较级前都必须用'the'。这个结构在阅读理解和句型转换题中很常见。</p>",
+      "guide_questions": [
+        {
+          "question": "What two comparative phrases are used to show the relationship in this sentence? / 这个句子中用了哪两个比较级短语来表示关系？",
+          "options": [
+            "'the more' and 'the better'",
+            "'know' and 'have'"
+          ],
+          "correct": "'the more' and 'the better'",
+          "hint": "Look for words that start with 'the' and end with '-er' or use 'more'. / 寻找以'the'开头并以'-er'结尾或使用'more'的单词。"
+        },
+        {
+          "question": "Does the result (chance of getting the job) increase or decrease as you know more about the company? / 随着你对公司了解增多，结果（得到工作的机会）是增加还是减少？",
+          "options": [
+            "Increase",
+            "Decrease"
+          ],
+          "correct": "Increase",
+          "hint": "The structure 'the more..., the better...' shows a positive correlation. / 结构 'the more..., the better...' 表示正相关。"
+        },
+        {
+          "question": "Can you replace 'better' with another comparative adjective? What might it be? / 你能用另一个比较级形容词替换'better'吗？可能是什么？",
+          "options": [
+            "Yes, e.g., 'the higher'",
+            "No, 'better' is fixed"
+          ],
+          "correct": "Yes, e.g., 'the higher'",
+          "hint": "Think of other results that can increase, like 'higher chance'. / 想想其他可以增加的结果，比如'更高的机会'。"
+        }
+      ],
+      "examples": [
+        {
+          "en": "The harder you study, the higher your score will be.",
+          "cn": "你学习越努力，你的分数就会越高。"
+        },
+        {
+          "en": "The earlier we leave, the sooner we will arrive.",
+          "cn": "我们出发得越早，就会到得越早。"
+        }
+      ],
+      "quiz_questions": [
+        {
+          "type": "choice",
+          "question": "Complete the sentence: ______ you practice, ______ you will become.",
+          "options": [
+            "A. The more, the skillful",
+            "B. The more, the more skillful",
+            "C. More, more skillful",
+            "D. The more, skillful"
+          ],
+          "correct": "B",
+          "explanation": "The correct structure is 'the + comparative, the + comparative'. 'Skillful' becomes 'more skillful' in the comparative form."
+        },
+        {
+          "type": "truefalse",
+          "question": "The sentence 'The faster you run, the tired you get.' uses the 'the more..., the more...' structure correctly.",
+          "options": [
+            "True",
+            "False"
+          ],
+          "correct": "False",
+          "explanation": "It is incorrect. The second part should also use the comparative form: 'the more tired you get' or 'the tireder you get' (though 'more tired' is more common)."
+        },
+        {
+          "type": "choice",
+          "question": "Which of the following is the correct translation of '天气越冷，我越想待在家里。'?",
+          "options": [
+            "A. The cold the weather, the more I want to stay at home.",
+            "B. The colder the weather, the more I want to stay at home.",
+            "C. The weather is colder, I more want to stay at home.",
+            "D. Colder weather, more I want to stay at home."
+          ],
+          "correct": "B",
+          "explanation": "Option B correctly uses the structure 'the + comparative (colder), the + comparative (more)'."
+        },
+        {
+          "type": "truefalse",
+          "question": "In the structure 'The more..., the better...', the word 'the' before the comparative adjectives is optional in informal English.",
+          "options": [
+            "True",
+            "False"
+          ],
+          "correct": "False",
+          "explanation": "The word 'the' is a fixed part of this grammatical structure and is not optional."
+        },
+        {
+          "type": "choice",
+          "question": "What is the function of the 'the more..., the better...' structure?",
+          "options": [
+            "A. To compare two different things.",
+            "B. To show a choice between two options.",
+            "C. To show that one action/state causes another to increase/decrease proportionally.",
+            "D. To list reasons for something."
+          ],
+          "correct": "C",
+          "explanation": "This structure expresses a proportional relationship where one thing changes as another changes."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "It is + adjective + for someone + to do something / 对某人来说做某事是……的",
+      "source_sentence": "It is common for candidates to ask questions about the company.",
+      "source_sentence_cn": "对于候选人来说，询问关于公司的问题是常见的。",
+      "explanation": "<p><b>English:</b> This structure is used to make a general comment or statement about an action. 'It' is the formal subject (dummy 'it'), while the real subject is the infinitive phrase 'for candidates to ask questions...'. The adjective ('common') describes the action. The pattern is: <b>It + is/was + adjective + for + (pro)noun + to-infinitive</b>.</p><p><b>中文:</b> 这个结构用于对某个动作做出一般性的评论或陈述。'It' 是形式主语，而真正的主语是动词不定式短语 'for candidates to ask questions...'。形容词 ('common') 描述这个动作。句型是：<b>It + is/was + 形容词 + for + (代)名词 + 动词不定式</b>。</p>",
+      "zhongkao_tips": "<p><b>English:</b> Remember that 'it' is the subject, not the person. Do not write 'Candidates are common to ask...'. This is a common error. This structure is frequently tested in sentence rewriting and error correction.</p><p><b>中文:</b> 记住 'it' 是主语，而不是那个人。不要写成 'Candidates are common to ask...'。这是一个常见错误。这个结构在句型转换和改错题中经常被考到。</p>",
+      "guide_questions": [
+        {
+          "question": "What is the real subject of the sentence 'It is common for candidates to ask questions'? / 句子 'It is common for candidates to ask questions' 的真正主语是什么？",
+          "options": [
+            "The word 'It'",
+            "The phrase 'for candidates to ask questions'"
+          ],
+          "correct": "The phrase 'for candidates to ask questions'",
+          "hint": "'It' is a placeholder. Look for the action being described. / 'It' 是一个占位符。寻找被描述的动作。"
+        },
+        {
+          "question": "What word describes the action of 'candidates asking questions'? / 哪个词描述了'候选人提问'这个动作？",
+          "options": [
+            "candidates",
+            "common",
+            "ask"
+          ],
+          "correct": "common",
+          "hint": "It's the adjective that comes after 'is'. / 它是跟在'is'后面的形容词。"
+        },
+        {
+          "question": "Can we rewrite the sentence as 'To ask questions is common for candidates.'? Is the meaning the same? / 我们可以把句子改写成 'To ask questions is common for candidates.' 吗？意思一样吗？",
+          "options": [
+            "Yes, the meaning is the same.",
+            "No, the structure is different and less common."
+          ],
+          "correct": "Yes, the meaning is the same.",
+          "hint": "The infinitive 'To ask questions' can be the subject, but using 'It is...' is more natural in English. / 动词不定式 'To ask questions' 可以作主语，但在英语中使用 'It is...' 更自然。"
+        }
+      ],
+      "examples": [
+        {
+          "en": "It is important for students to get enough sleep.",
+          "cn": "对学生来说，获得足够的睡眠是重要的。"
+        },
+        {
+          "en": "It was difficult for him to solve the problem alone.",
+          "cn": "对他来说，独自解决那个问题是困难的。"
+        }
+      ],
+      "quiz_questions": [
+        {
+          "type": "choice",
+          "question": "Choose the correct sentence.",
+          "options": [
+            "A. It is necessary for you arriving on time.",
+            "B. It is necessary for you to arrive on time.",
+            "C. You are necessary to arrive on time.",
+            "D. Necessary is for you to arrive on time."
+          ],
+          "correct": "B",
+          "explanation": "The correct structure is 'It is + adjective + for + someone + to do something'. Option B follows this pattern."
+        },
+        {
+          "type": "truefalse",
+          "question": "In the sentence 'It is easy for me to learn English.', 'me' is the subject of the verb 'learn'.",
+          "options": [
+            "True",
+            "False"
+          ],
+          "correct": "False",
+          "explanation": "'Me' is the object of the preposition 'for'. The logical subject of the infinitive 'to learn' is 'me', but grammatically, the subject of the main verb 'is' is 'It'."
+        },
+        {
+          "type": "choice",
+          "question": "Which part of the sentence 'It is possible for the plan to succeed.' is the real subject?",
+          "options": [
+            "A. It",
+            "B. possible",
+            "C. for the plan",
+            "D. for the plan to succeed"
+          ],
+          "correct": "D",
+          "explanation": "The real subject is the entire infinitive phrase 'for the plan to succeed'. 'It' is the formal subject."
+        },
+        {
+          "type": "truefalse",
+          "question": "The structure 'It is + adjective + for someone + to do something' can always be replaced by 'Someone is + adjective + to do something' without changing the meaning.",
+          "options": [
+            "True",
+            "False"
+          ],
+          "correct": "False",
+          "explanation": "This is not always true. For example, 'It is common for candidates to ask...' cannot become 'Candidates are common to ask...' as it is grammatically incorrect. Some adjectives like 'important', 'necessary', 'easy' work with both structures, but others do not."
+        },
+        {
+          "type": "choice",
+          "question": "What is the Chinese translation of the structure 'It is exciting for us to watch the game.'?",
+          "options": [
+            "A. 观看比赛对我们来说是兴奋的。",
+            "B. 对我们来说观看比赛是令人兴奋的。",
+            "C. 我们是兴奋的观看比赛。",
+            "D. 观看比赛是兴奋的我们。"
+          ],
+          "correct": "B",
+          "explanation": "Option B correctly translates the meaning and structure: '对...来说...是...的'."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Imperative Sentences (for advice) / 祈使句（用于建议）",
+      "source_sentence": "Check whether you know what your strengths and weaknesses are or not.",
+      "source_sentence_cn": "检查一下你是否知道自己的优点和缺点。",
+      "explanation": "<p><b>English:</b> This is an imperative sentence. Imperatives are used to give instructions, advice, or commands. They often start with the base form of the verb (e.g., Check, Search, Wear, Do). The subject 'you' is usually omitted. In this text, they are used to give tips and advice for a job interview.</p><p><b>中文:</b> 这是一个祈使句。祈使句用于给出指示、建议或命令。它们通常以动词原形开头（例如：Check, Search, Wear, Do）。主语'you'通常被省略。在本文中，它们用于给出求职面试的建议。</p>",
+      "zhongkao_tips": "<p><b>English:</b> Imperatives are common in instructions and notices. In exams, you may need to identify their function (advice, command, warning) or convert them into more polite forms using 'should', 'could', or 'please'. Remember, they don't have a subject.</p><p><b>中文:</b> 祈使句在指示和通知中很常见。在考试中，你可能需要识别其功能（建议、命令、警告）或使用'should'、'could'或'please'将其转换为更礼貌的形式。记住，它们没有主语。</p>",
+      "guide_questions": [
+        {
+          "question": "What is the first word of this sentence, and what part of speech is it? / 这个句子的第一个词是什么，它是什么词性？",
+          "options": [
+            "'Check', which is a verb.",
+            "'whether', which is a conjunction."
+          ],
+          "correct": "'Check', which is a verb.",
+          "hint": "The sentence is giving advice. What word tells you what action to do? / 这个句子在给建议。哪个词告诉你要做什么动作？"
+        },
+        {
+          "question": "Is the subject 'you' written in this sentence? / 这个句子里写了主语'you'吗？",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "correct": "No",
+          "hint": "Imperative sentences often have an implied subject 'you' that is not stated. / 祈使句通常有一个隐含的、未写明的主语'you'。"
+        },
+        {
+          "question": "Is the tone of this sentence commanding, advising, or questioning? / 这个句子的语气是命令、建议还是询问？",
+          "options": [
+            "Commanding",
+            "Advising",
+            "Questioning"
+          ],
+          "correct": "Advising",
+          "hint": "Look at the context. The text is giving 'tips' for an interview. / 看看上下文。文章是在给出面试'建议'。"
+        }
+      ],
+      "examples": [
+        {
+          "en": "Please turn off your phone before the meeting.",
+          "cn": "请在会议前关掉你的手机。"
+        },
+        {
+          "en": "Don't be late for the interview.",
+          "cn": "面试不要迟到。"
+        }
+      ],
+      "quiz_questions": [
+        {
+          "type": "choice",
+          "question": "Which of the following is an imperative sentence?",
+          "options": [
+            "A. You should check your answers.",
+            "B. Checking your answers is important.",
+            "C. Check your answers.",
+            "D. Did you check your answers?"
+          ],
+          "correct": "C",
+          "explanation": "Option C starts with the base verb 'Check' and has no subject, which is the characteristic of an imperative sentence."
+        },
+        {
+          "type": "truefalse",
+          "question": "The sentence 'Let's do a mock interview.' is an imperative sentence.",
+          "options": [
+            "True",
+            "False"
+          ],
+          "correct": "True",
+          "explanation": "Sentences starting with 'Let's' (Let us) are a type of imperative used to make a suggestion that includes the speaker."
+        },
+        {
+          "type": "choice",
+          "question": "What is the function of the imperative 'Wear appropriate clothes.' in the text?",
+          "options": [
+            "A. To describe a situation",
+            "B. To give a command or strong advice",
+            "C. To ask a question",
+            "D. To express a possibility"
+          ],
+          "correct": "B",
+          "explanation": "In the context of giving interview tips, it functions as strong advice (which is similar to a mild command)."
+        },
+        {
+          "type": "truefalse",
+          "question": "Negative imperatives always use 'do not' and never use 'don't' in formal writing.",
+          "options": [
+            "True",
+            "False"
+          ],
+          "correct": "False",
+          "explanation": "While 'do not' is more formal, 'don't' (the contraction) is still acceptable in many contexts. The rule is not absolute."
+        },
+        {
+          "type": "choice",
+          "question": "How can you make the imperative 'Search information.' more polite?",
+          "options": [
+            "A. You search information.",
+            "B. You should search information.",
+            "C. Searching information.",
+            "D. Searched information."
+          ],
+          "correct": "B",
+          "explanation": "Using 'should' softens the command into advice. Adding 'Please' at the beginning is another common way."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "If-conditional (Type 1: Real Present/Future) / If条件句（第一类：真实现在/未来）",
+      "source_sentence": "If it is hard for you, ask your friends how they feel about you.",
+      "source_sentence_cn": "如果这对你来说很难，问问你的朋友们他们对你的看法。",
+      "explanation": "<p><b>English:</b> This is a Type 1 conditional sentence. It talks about a real or likely situation in the present or future and its probable result. The structure is: <b>If + present simple, imperative (or future with 'will'/'can')</b>. Here, the result is given as an imperative ('ask your friends'). It expresses a likely condition and a suggested action.</p><p><b>中文:</b> 这是一个第一类条件句。它谈论现在或未来真实或可能的情况及其可能的结果。结构是：<b>If + 一般现在时，祈使句（或用'will'/'can'的未来时）</b>。这里，结果以祈使句形式给出（'ask your friends'）。它表达了一个可能的条件和一个建议的行动。</p>",
+      "zhongkao_tips": "<p><b>English:</b> A key point is that the 'if'-clause uses the present tense (even though it refers to a future possibility), NOT the future tense. Do not say 'If it will be hard...'. This is a common trap in exams. The main clause often uses 'will', but can also use imperatives, modals like 'can', or present tense for instructions.</p><p><b>中文:</b> 一个关键点是'if'从句使用现在时（即使它指的是未来的可能性），而不是将来时。不要说 'If it will be hard...'。这是考试中的一个常见陷阱。主句常用'will'，但也可以使用祈使句、'can'等情态动词，或表示指示的现在时。</p>",
+      "guide_questions": [
+        {
+          "question": "What tense is used in the 'if' clause: 'If it is hard for you'? / 'If it is hard for you' 这个'if'从句中使用的是什么时态？",
+          "options": [
+            "Present Simple",
+            "Future Simple"
+          ],
+          "correct": "Present Simple",
+          "hint": "Look at the verb 'is'. / 看动词'is'。"
+        },
+        {
+          "question": "What is the result clause in this conditional sentence? / 这个条件句中的结果从句是什么？",
+          "options": [
+            "'ask your friends how they feel about you'",
+            "'it is hard for you'"
+          ],
+          "correct": "'ask your friends how they feel about you'",
+          "hint": "It's the part that tells you what to do if the condition is true. / 它是告诉你如果条件成立该做什么的部分。"
+        },
+        {
+          "question": "Is the situation described in the 'if' clause ('it is hard for you') possible or impossible? / 'if'从句中描述的情况（'it is hard for you'）是可能的还是不可能的？",
+          "options": [
+            "Possible",
+            "Impossible"
+          ],
+          "correct": "Possible",
+          "hint": "The text is giving practical advice, so the condition is something that could really happen. / 文章在给出实用建议，所以这个条件是可能真实发生的。"
+        }
+      ],
+      "examples": [
+        {
+          "en": "If you study hard, you will pass the exam.",
+          "cn": "如果你努力学习，你就会通过考试。"
+        },
+        {
+          "en": "If you need help, call me.",
+          "cn": "如果你需要帮助，打电话给我。"
+        }
+      ],
+      "quiz_questions": [
+        {
+          "type": "choice",
+          "question": "Which sentence is a correct Type 1 conditional?",
+          "options": [
+            "A. If it will rain, we cancel the picnic.",
+            "B. If it rains, we will cancel the picnic.",
+            "C. If it rained, we would cancel the picnic.",
+            "D. If it had rained, we would have canceled the picnic."
+          ],
+          "correct": "B",
+          "explanation": "Option B follows the correct structure: If + present simple, future with 'will'."
+        },
+        {
+          "type": "truefalse",
+          "question": "In Type 1 conditionals, the 'if'-clause can use the present continuous tense to talk about a future arrangement.",
+          "options": [
+            "True",
+            "False"
+          ],
+          "correct": "True",
+          "explanation": "Yes, e.g., 'If you are leaving tomorrow, I will drive you to the airport.'"
+        },
+        {
+          "type": "choice",
+          "question": "What is the implied result in the sentence 'If you are a student, do not wear exaggerating clothes.'?",
+          "options": [
+            "A. You are a student.",
+            "B. Do not wear exaggerating clothes.",
+            "C. If you are a student.",
+            "D. Wear exaggerating clothes."
+          ],
+          "correct": "B",
+          "explanation": "The result (advice/command) is 'do not wear exaggerating clothes' if the condition 'you are a student' is true."
+        },
+        {
+          "type": "truefalse",
+          "question": "The sentence 'If water reaches 100 degrees Celsius, it boils.' is a Type 1 conditional.",
+          "options": [
+            "True",
+            "False"
+          ],
+          "correct": "True",
+          "explanation": "It describes a real and general situation (a zero conditional is a subtype of real conditionals). The structure is If + present simple, present simple."
+        },
+        {
+          "type": "choice",
+          "question": "How can you rewrite the sentence 'Ask your friends if it is hard for you.' using 'If' to start?",
+          "options": [
+            "A. If it is hard for you, ask your friends.",
+            "B. If ask your friends, it is hard for you.",
+            "C. If your friends, it is hard for you to ask.",
+            "D. It is hard for you if ask your friends."
+          ],
+          "correct": "A",
+          "explanation": "Option A correctly places the condition ('If it is hard for you') first, followed by the result/imperative ('ask your friends')."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Passive Voice (Present Simple) / 被动语态（一般现在时）",
+      "source_sentence": "Candidates need to wear clothes according to the feature of the position.",
+      "source_sentence_cn": "候选人需要根据职位的特点来穿着衣服。",
+      "explanation": "<p><b>English:</b> This sentence is in the active voice. However, it can be transformed into the passive voice to emphasize the action or the object. The passive voice is formed with <b>be + past participle (V3)</b>. For example, 'Clothes need to be worn according to the feature of the position.' (Modal 'need to' + be + past participle 'worn'). The passive is often used when the doer (candidates) is obvious, unknown, or less important than the action.</p><p><b>中文:</b> 这个句子是主动语态。然而，它可以转换为被动语态以强调动作或宾语。被动语态由 <b>be + 过去分词 (V3)</b> 构成。例如，'Clothes need to be worn according to the feature of the position.' (情态动词'need to' + be + 过去分词'worn')。当执行者（候选人）是显而易见的、未知的或不如动作重要时，常用被动语态。</p>",
+      "zhongkao_tips": "<p><b>English:</b> A common exam task is to change active sentences to passive and vice versa. Remember the formula: subject + be (in correct tense) + past participle + by + agent (if needed). Pay special attention to the tense of the 'be' verb. With modals like 'need to', 'should', 'must', the structure is: modal + be + past participle.</p><p><b>中文:</b> 一个常见的考试题型是主动句和被动句的转换。记住公式：主语 + be（正确的时态）+ 过去分词 + by + 执行者（如果需要）。特别注意'be'动词的时态。对于'need to'、'should'、'must'等情态动词，结构是：情态动词 + be + 过去分词。</p>",
+      "guide_questions": [
+        {
+          "question": "Who is doing the action 'wear' in the active sentence? / 在主动句中，谁在执行'穿'这个动作？",
+          "options": [
+            "clothes",
+            "candidates",
+            "the position"
+          ],
+          "correct": "candidates",
+          "hint": "Find the subject of the verb 'need to wear'. / 找到动词'need to wear'的主语。"
+        },
+        {
+          "question": "What is the object receiving the action 'wear'? / 什么是接受'穿'这个动作的宾语？",
+          "options": [
+            "clothes",
+            "candidates",
+            "the position"
+          ],
+          "correct": "clothes",
+          "hint": "What do the candidates wear? / 候选人穿什么？"
+        },
+        {
+          "question": "If we make a passive sentence, what would become the new subject? / 如果我们造一个被动句，什么会成为新的主语？",
+          "options": [
+            "candidates",
+            "clothes",
+            "need to"
+          ],
+          "correct": "clothes",
+          "hint": "In passive voice, the object of the active sentence becomes the subject. / 在被动语态中，主动句的宾语变成主语。"
+        }
+      ],
+      "examples": [
+        {
+          "en": "Active: The company requires professional uniforms. Passive: Professional uniforms are required (by the company).",
+          "cn": "主动：公司要求职业装。被动：职业装被（公司）要求。"
+        },
+        {
+          "en": "Active: Someone should do a mock interview. Passive: A mock interview should be done.",
+          "cn": "主动：某人应该进行一次模拟面试。被动：一次模拟面试应该被进行。"
+        }
+      ],
+      "quiz_questions": [
+        {
+          "type": "choice",
+          "question": "Choose the correct passive form of: 'Interviewers will ask questions.'",
+          "options": [
+            "A. Questions will be asked by interviewers.",
+            "B. Questions will asked by interviewers.",
+            "C. Questions are asked by interviewers.",
+            "D. Questions were asked by interviewers."
+          ],
+          "correct": "A",
+          "explanation": "The correct future passive is: will + be + past participle. 'Ask' becomes 'asked'."
+        },
+        {
+          "type": "truefalse",
+          "question": "In the passive sentence 'Information should be searched.', the doer of the action 'search' is clearly stated.",
+          "options": [
+            "True",
+            "False"
+          ],
+          "correct": "False",
+          "explanation": "The doer (agent) is not stated in the sentence 'Information should be searched.' It is implied (e.g., by you, by candidates)."
+        },
+        {
+          "type": "choice",
+          "question": "What is the past participle of the verb 'wear'?",
+          "options": [
+            "A. weared",
+            "B. wore",
+            "C. worn",
+            "D. wearing"
+          ],
+          "correct": "C",
+          "explanation": "The three forms of 'wear' are: wear (present), wore (past), worn (past participle)."
+        },
+        {
+          "type": "truefalse",
+          "question": "The sentence 'The book was written by him.' is in the passive voice.",
+          "options": [
+            "True",
+            "False"
+          ],
+          "correct": "True",
+          "explanation": "It follows the structure: Subject (The book) + was (be verb) + written (past participle) + by + agent (him)."
+        },
+        {
+          "type": "choice",
+          "question": "Why might a writer use the passive voice in the sentence 'Appropriate clothes should be worn.'?",
+          "options": [
+            "A. To emphasize who should wear them.",
+            "B. To emphasize the action of wearing and the rule itself.",
+            "C. To make the sentence shorter.",
+            "D. To talk about the past."
+          ],
+          "correct": "B",
+          "explanation": "The passive voice shifts focus to the action ('be worn') and the rule/requirement, rather than the person who does it."
+        }
+      ]
+    }
+  ],
+  "meta": {
+    "source": "article.pdf",
+    "version": "2.0 (Detailed)"
+  }
+};
+const AZURE_KEY = "DKRXk8ueSfo5NdIOMqFRTCAfpeGDezJ3Snf5K8gGgtyqxiWdugLzJQQJ99BLACHYHv6XJ3w3AAAYACOGUYP9";
+const AZURE_REGION = "eastus2";
+const IMAGE_DIR = "generated_images";
+
+const { createApp, ref, computed, onMounted } = Vue;
+const SpeechSDK = window.SpeechSDK;
+
+createApp({
+    setup() {
+        const phase = ref('login');
+        const userName = ref('');
+        const currentIndex = ref(0);
+        const currentStep = ref(1);
+        const hasSave = ref(false);
+        const showAdminPanel = ref(false);
+        const stepData = ref({});
+        
+        const isRecording = ref(false);
+        let synthesizer = null;
+        let recognizer = null;
+        let currentRecScore = 0; 
+
+        const vocabList = COURSE_DATA_INJECTED.vocabulary || [];
+        const collocList = COURSE_DATA_INJECTED.collocations || [];
+        const grammarList = COURSE_DATA_INJECTED.grammar || [];
+
+        const currentList = computed(() => {
+            if (phase.value === 'vocab') return vocabList;
+            if (phase.value === 'colloc') return collocList;
+            if (phase.value === 'grammar') return grammarList;
+            return [];
+        });
+        const currentItem = computed(() => currentList.value[currentIndex.value] || {});
+        const totalSteps = computed(() => phase.value === 'grammar' ? 4 : 7);
+        const phaseTitles = {'vocab': 'Vocabulary', 'colloc': 'Phrases', 'grammar': 'Grammar'};
+
+        const spellingDisplaySlots = computed(() => {
+            if (!['vocab', 'colloc'].includes(phase.value)) return [];
+            const target = (currentItem.value.word || currentItem.value.phrase).toLowerCase();
+            const userChars = stepData.value.userSpelling || [];
+            let result = [];
+            let userIdx = 0;
+            for (let char of target) {
+                if (char === ' ') { result.push('SPACE'); } 
+                else if (/[a-z]/.test(char)) { result.push(userChars[userIdx] || ''); userIdx++; }
+            }
+            return result;
+        });
+
+        onMounted(() => { if(localStorage.getItem('eng_lab_save')) hasSave.value = true; });
+
+        // Prev Button Visibility
+        const canGoBack = computed(() => {
+            if (phase.value === 'vocab' && currentIndex.value === 0 && currentStep.value === 1) return false;
+            return true;
+        });
+
+        const canProceed = computed(() => {
+            if (['vocab', 'colloc'].includes(phase.value)) {
+                if (currentStep.value === 1) return (stepData.value.audioScore || 0) >= 30;
+                if (currentStep.value === 2) return stepData.value.guessCorrect;
+                if (currentStep.value === 3) return true;
+                if (currentStep.value === 4) return stepData.value.spellingCorrect;
+                if (currentStep.value === 5) return stepData.value.meaningCorrect;
+                if (currentStep.value === 6) return stepData.value.contextCorrect;
+                if (currentStep.value === 7) return stepData.value.oralCount >= 5;
+            }
+            if (phase.value === 'grammar') {
+                if (currentStep.value === 1) return stepData.value.grammarListened;
+                if (currentStep.value === 2) return stepData.value.inquiryIndex >= currentItem.value.guide_questions.length;
+                if (currentStep.value === 3) return true;
+                if (currentStep.value === 4) return stepData.value.quizAllFinished;
+            }
+            return false;
+        });
+
+        const getLockReason = () => {
+            if (['vocab', 'colloc'].includes(phase.value)) {
+                if (currentStep.value === 1) return "Record Score > 30";
+                if (currentStep.value === 2) return "Guess Answer";
+                if (currentStep.value === 4) return "Spell Word";
+                if (currentStep.value === 7) return `${5 - stepData.value.oralCount} more reads`;
+            }
+            return "Complete Task";
+        };
+
+        const startNew = () => { localStorage.removeItem('eng_lab_save'); phase.value = 'vocab'; currentIndex.value = 0; initStepData(); };
+        const resume = () => {
+            const s = JSON.parse(localStorage.getItem('eng_lab_save'));
+            if(s) { phase.value=s.p; currentIndex.value=s.i; userName.value=s.u; initStepData(); if(s.d) stepData.value=s.d; }
+        };
+        const saveProgress = () => {
+            localStorage.setItem('eng_lab_save', JSON.stringify({p:phase.value, i:currentIndex.value, u:userName.value, d:stepData.value}));
+            hasSave.value = true;
+        };
+        const saveAndExit = () => { saveProgress(); phase.value = 'login'; };
+        const clearSave = () => { localStorage.removeItem('eng_lab_save'); location.reload(); };
+
+        const initStepData = () => {
+            currentStep.value = 1;
+            const item = currentItem.value;
+            if (['vocab', 'colloc'].includes(phase.value)) {
+                const cleanChars = (item.scrambled_letters || (item.word || item.phrase).split('')).filter(c => c.trim() !== '').map(l => l.toUpperCase());
+                const exStates = {}; 
+                (item.examples || []).forEach((_, i) => exStates[i] = { showEn: true, showCn: false });
+                
+                // === FINAL FIX: FORCE CORRECTNESS + SHUFFLE ===
+                // 1. Get raw
+                let rawContext = item.quiz_fill ? JSON.parse(JSON.stringify(item.quiz_fill)) : [];
+
+                // 2. Normalize and Enforce Correctness (Fix for "All Wrong" issue)
+                rawContext.forEach((opt, idx) => {
+                    // If is_correct is missing, assume the first one (idx 0) is true.
+                    if (opt.is_correct === undefined || opt.is_correct === null) {
+                        opt.is_correct = (idx === 0); 
+                    } else {
+                        // Normalize string "true"/"false" to boolean
+                        opt.is_correct = (String(opt.is_correct).toLowerCase() === 'true');
+                    }
+                });
+
+                // 3. Shuffle
+                const contextOpts = rawContext;
+                for (let i = contextOpts.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [contextOpts[i], contextOpts[j]] = [contextOpts[j], contextOpts[i]];
+                }
+                
+                stepData.value = {
+                    audioScore: 0, hasListened: false,
+                    guessAnswer: null, guessCorrect: false,
+                    exStates: exStates,
+                    userSpelling: [], shuffledLetters: cleanChars, spellingCorrect: false, usedIndices: new Set(),
+                    meaningOptions: [...(item.options || [])].sort(()=>Math.random()-0.5), meaningAnswer: null, meaningCorrect: false,
+                    // Store normalized & shuffled
+                    contextOptions: contextOpts,
+                    contextAnswerIndex: null, contextCorrect: false, contextFullSentence: '',
+                    oralCount: 0, lastOralScore: 0
+                };
+            } else {
+                stepData.value = { 
+                    grammarListened: false, 
+                    inquiryIndex: 0, inquiryAnswer: null, inquiryShowNext: false,
+                    quizIndex: 0, quizAnswer: null, quizAllFinished: false, quizShowExplanation: false, quizShowNext: false 
+                };
+            }
+        };
+
+        const nextStep = () => {
+            if (!canProceed.value) return;
+            saveProgress();
+            if (currentStep.value < totalSteps.value) {
+                currentStep.value++;
+            } else {
+                if (currentIndex.value < currentList.value.length - 1) {
+                    currentIndex.value++;
+                    initStepData();
+                } else {
+                    if (phase.value === 'vocab') { phase.value = 'colloc'; currentIndex.value = 0; initStepData(); }
+                    else if (phase.value === 'colloc') { phase.value = 'grammar'; currentIndex.value = 0; initStepData(); }
+                    else { phase.value = 'end'; }
+                }
+            }
+        };
+
+        const prevStep = () => {
+            if (currentStep.value > 1) {
+                currentStep.value--;
+            } else {
+                if (currentIndex.value > 0) {
+                    currentIndex.value--;
+                    initStepData();
+                } else {
+                    if (phase.value === 'colloc') {
+                        phase.value = 'vocab';
+                        currentIndex.value = vocabList.length - 1;
+                        initStepData();
+                    } else if (phase.value === 'grammar') {
+                        phase.value = 'colloc';
+                        currentIndex.value = collocList.length - 1;
+                        initStepData();
+                    }
+                }
+            }
+            saveProgress();
+        };
+
+        const cleanOption = (text) => text.replace(/\(误\)|\(Error\)|（误）/gi, '').trim();
+        const checkGrammarCorrect = (option, correctLetter) => {
+            return option.trim().toUpperCase().startsWith(correctLetter.trim().toUpperCase());
+        };
+        const getGuideOptions = (item, idx) => {
+            const q = item && item.guide_questions && item.guide_questions[idx];
+            return (q && Array.isArray(q.options) && q.options.length) ? q.options : ['A', 'B'];
+        };
+        const getQuizOptions = (item, idx) => {
+            const q = item && item.quiz_questions && item.quiz_questions[idx];
+            return (q && Array.isArray(q.options) && q.options.length) ? q.options : ['True', 'False'];
+        };
+
+        const handleTask = (action, payload, index) => {
+            const item = currentItem.value;
+            if (action === 'guess') {
+                stepData.value.guessAnswer = payload;
+                if (payload === item.correct_answer) { stepData.value.guessCorrect = true; playTTS("Correct"); }
+                else playTTS("Try again");
+            }
+            if (action === 'spell') {
+                stepData.value.userSpelling.push(payload);
+                stepData.value.usedIndices.add(index);
+                const currentStr = stepData.value.userSpelling.join('').toLowerCase();
+                const target = (item.word || item.phrase).replace(/[^a-zA-Z]/g, '').toLowerCase();
+                if (currentStr.length === target.length) {
+                    if (currentStr === target) { stepData.value.spellingCorrect = true; playTTS("Correct"); }
+                    else { playTTS("Wrong"); setTimeout(() => { stepData.value.userSpelling=[]; stepData.value.usedIndices.clear(); }, 500); }
+                }
+            }
+            if (action === 'meaning') {
+                stepData.value.meaningAnswer = payload;
+                if (payload === item.correct_answer) { stepData.value.meaningCorrect = true; playTTS("Correct"); }
+                else playTTS("Wrong");
+            }
+            
+            // ================== FIXED CONTEXT LOGIC (COMPLETE FIX) ==================
+            if (action === 'context') {
+                stepData.value.contextAnswerIndex = index;
+                const targetPhrase = item.phrase || item.word;
+                
+                // Now simple safe check because we normalized in init
+                const isCorrect = payload.is_correct; 
+
+                if (isCorrect) {
+                    let fullSentence = payload.sentence;
+                    // Regex matches: underscores, ellipsis, 2+ dots, brackets, parens, or underscore w/ spaces
+                    const blankRegex = /(_+|…|\.{2,}|\[.*?\]|\(.*?\)|_\s+_)/g;
+
+                    if (blankRegex.test(fullSentence)) {
+                        fullSentence = fullSentence.replace(blankRegex, targetPhrase);
+                    } else {
+                        // Fallback: If no blank found, append it at the end for clarity
+                        if (fullSentence.indexOf(targetPhrase) === -1) {
+                             fullSentence = fullSentence + " (" + targetPhrase + ")";
+                        }
+                    }
+                    
+                    stepData.value.contextFullSentence = fullSentence;
+                    stepData.value.contextCorrect = true;
+                    playTTS(fullSentence); 
+                } else {
+                    stepData.value.contextCorrect = false;
+                    playTTS("Incorrect");
+                }
+            }
+            // =======================================================================
+
+            if (action === 'recordDrill') toggleRec(getZhongkaoSentence(), updateOralCount);
+            
+            if (action === 'playGrammarAudio') { playTTS(item.source_sentence); stepData.value.grammarListened = true; }
+            if (action === 'inquiry') {
+                if (stepData.value.inquiryShowNext) return;
+                stepData.value.inquiryAnswer = payload;
+                if (checkGrammarCorrect(payload, item.guide_questions[stepData.value.inquiryIndex].correct)) {
+                    playTTS("Correct");
+                    stepData.value.inquiryShowNext = true;
+                } else playTTS("Try again");
+            }
+            if (action === 'quiz') {
+                if (stepData.value.quizShowNext) return;
+                stepData.value.quizAnswer = payload;
+                if (checkGrammarCorrect(payload, item.quiz_questions[stepData.value.quizIndex].correct)) {
+                    playTTS("Correct");
+                    stepData.value.quizShowExplanation = true;
+                    stepData.value.quizShowNext = true;
+                } else playTTS("Wrong");
+            }
+            saveProgress();
+        };
+
+        const nextGrammarQuestion = (type) => {
+            const item = currentItem.value;
+            if (type === 'inquiry') {
+                stepData.value.inquiryIndex++;
+                stepData.value.inquiryAnswer = null;
+                stepData.value.inquiryShowNext = false;
+            }
+            if (type === 'quiz') {
+                if (stepData.value.quizIndex < item.quiz_questions.length - 1) {
+                    stepData.value.quizIndex++;
+                    stepData.value.quizAnswer = null;
+                    stepData.value.quizShowExplanation = false;
+                    stepData.value.quizShowNext = false;
+                } else {
+                    stepData.value.quizAllFinished = true;
+                }
+            }
+            saveProgress();
+        };
+
+        const updateOralCount = (score) => { stepData.value.lastOralScore = score; if(score > 0) stepData.value.oralCount++; saveProgress(); }
+        const resetSpelling = () => { stepData.value.userSpelling = []; stepData.value.usedIndices.clear(); };
+        const toggleEx = (i) => { stepData.value.exStates[i].showCn = !stepData.value.exStates[i].showCn; };
+        
+        const getZhongkaoSentence = () => { const ex = currentItem.value.examples.find(e => e.source === 'Zhongkao'); return ex ? ex.sentence : currentItem.value.examples[0].sentence; };
+        
+        const getOptClass = (opt, sel, cor) => {
+            // For Quiz Options
+            if (sel === opt) return opt === cor ? 'opt-correct' : 'opt-wrong';
+            
+            // For Context (Fill in blank) logic
+            if (typeof opt === 'number') { 
+                if (sel !== opt) return ''; 
+                // Fix: Look at shuffled options in stepData
+                if (stepData.value.contextOptions && stepData.value.contextOptions[opt]) {
+                     return stepData.value.contextOptions[opt].is_correct ? 'opt-correct' : 'opt-wrong';
+                }
+                return '';
+            }
+            return '';
+        };
+
+        const getImagePath = (f) => f ? IMAGE_DIR + '/' + f : '';
+
+        const playTTS = (text) => {
+            if (!text || isRecording.value) return;
+            if (synthesizer) { synthesizer.close(); synthesizer = null; }
+            try {
+                const config = SpeechSDK.SpeechConfig.fromSubscription(AZURE_KEY, AZURE_REGION);
+                config.speechSynthesisVoiceName = "en-US-AriaNeural"; 
+                synthesizer = new SpeechSDK.SpeechSynthesizer(config);
+                synthesizer.speakTextAsync(text, () => { synthesizer.close(); synthesizer = null; });
+            } catch (e) { console.error(e); }
+        };
+
+        const toggleRec = async (text, cb) => {
+            if(isRecording.value) { 
+                if(recognizer) { recognizer.stopContinuousRecognitionAsync(() => { recognizer.close(); recognizer = null; isRecording.value = false; if(cb) cb(currentRecScore); }); }
+                return; 
+            }
+            try {
+                await navigator.mediaDevices.getUserMedia({ audio: true });
+                const config = SpeechSDK.SpeechConfig.fromSubscription(AZURE_KEY, AZURE_REGION);
+                config.speechRecognitionLanguage = "en-US";
+                const audioConfig = SpeechSDK.AudioConfig.fromDefaultMicrophoneInput();
+                const pronConfig = new SpeechSDK.PronunciationAssessmentConfig(text, SpeechSDK.PronunciationAssessmentGradingSystem.HundredMark, SpeechSDK.PronunciationAssessmentGranularity.Phoneme, true);
+                recognizer = new SpeechSDK.SpeechRecognizer(config, audioConfig);
+                pronConfig.applyTo(recognizer);
+                isRecording.value = true; currentRecScore = 0; 
+                recognizer.recognized = (s, e) => { if (e.result.reason === SpeechSDK.ResultReason.RecognizedSpeech) { const json = JSON.parse(e.result.properties.getProperty(SpeechSDK.PropertyId.SpeechServiceResponse_JsonResult)); if(json.NBest && json.NBest[0]) currentRecScore = json.NBest[0].PronunciationAssessment.AccuracyScore; } };
+                recognizer.startContinuousRecognitionAsync();
+            } catch(e) { alert("Mic Error: " + e); isRecording.value = false; }
+        };
+
+        const openAdmin = () => { if(prompt("PWD")==="888123") showAdminPanel.value = true; };
+        const jumpIndex = (d) => { const n = currentIndex.value + d; if(n>=0 && n<currentList.value.length) { currentIndex.value = n; initStepData(); } };
+        const setPhase = (p) => { phase.value = p; currentIndex.value = 0; initStepData(); };
+        const forceUnlock = () => { stepData.value.audioScore=100; stepData.value.guessCorrect=true; stepData.value.spellingCorrect=true; stepData.value.meaningCorrect=true; stepData.value.contextCorrect=true; stepData.value.oralCount=5; stepData.value.grammarListened=true; stepData.value.quizAllFinished=true; stepData.value.inquiryIndex=100; };
+
+        return {
+            phase, userName, currentIndex, currentStep, totalSteps, currentItem, currentList, phaseTitles, stepData,
+            startNew, resume, saveAndExit, clearSave, hasSave, nextStep, prevStep, handleTask, resetSpelling, toggleEx, updateOralCount, nextGrammarQuestion,
+            getZhongkaoSentence, getOptClass, getImagePath, isRecording, canProceed, getLockReason, playTTS, toggleRec, spellingDisplaySlots,
+            showAdminPanel, openAdmin, jumpIndex, setPhase, forceUnlock, cleanOption, checkGrammarCorrect, canGoBack,
+            getGuideOptions, getQuizOptions
+        };
+    }
+}).mount('#app');
+</script>
+</body>
+</html>
