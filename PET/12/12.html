@@ -1,0 +1,3017 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Intensive English Lab (Context Final Fix)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/microsoft-cognitiveservices-speech-sdk@latest/distrib/browser/microsoft.cognitiveservices.speech.sdk.bundle-min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Nunito', sans-serif; background-color: #0f172a; color: #f8fafc; user-select: none; -webkit-tap-highlight-color: transparent; }
+        
+        .app-container { height: 100vh; display: flex; flex-direction: column; }
+        .main-stage { flex: 1; overflow-y: auto; overflow-x: hidden; padding: 16px; padding-bottom: 140px; display: flex; flex-direction: column; align-items: center; }
+
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.9);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.5);
+            border-radius: 24px;
+        }
+
+        .btn-3d {
+            transition: all 0.1s; cursor: pointer; position: relative; z-index: 20;
+            user-select: none; touch-action: manipulation;
+        }
+        .btn-3d:active { transform: translateY(3px); box-shadow: none !important; filter: brightness(0.9); border-bottom-width: 0px !important; margin-top: 3px; }
+
+        .key-btn {
+            width: 55px; height: 60px;
+            background: #1e293b; border: 2px solid #475569; border-bottom-width: 6px;
+            border-radius: 12px; font-size: 1.5rem; font-weight: 900; color: white;
+            display: flex; align-items: center; justify-content: center;
+            margin: 4px; text-transform: uppercase; transition: all 0.2s;
+        }
+        .key-btn:disabled { opacity: 0; transform: scale(0); pointer-events: none; }
+        
+        .option-card {
+            width: 100%; padding: 18px; margin-bottom: 12px;
+            background: #1e293b; border: 2px solid #334155; border-radius: 16px;
+            font-size: 1.1rem; font-weight: 700; text-align: left;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .opt-correct { border-color: #22c55e; background: rgba(34, 197, 94, 0.15); color: #4ade80; }
+        .opt-wrong { border-color: #ef4444; background: rgba(239, 68, 68, 0.15); color: #f87171; }
+
+        .bottom-nav {
+            position: fixed; bottom: 0; left: 0; width: 100%;
+            padding: 16px 24px; padding-bottom: 30px;
+            background: rgba(15, 23, 42, 0.95); border-top: 1px solid #334155;
+            z-index: 50; display: flex; justify-content: center; gap: 12px;
+        }
+        .nav-btn {
+            padding: 16px; border-radius: 16px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px;
+            display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 1.1rem;
+        }
+        .btn-prev {
+            width: 35%; background: #334155; color: #94a3b8; border: 2px solid #475569; font-size: 1rem;
+        }
+        .btn-prev:active { transform: translateY(2px); filter: brightness(0.9); }
+        .btn-next { flex: 1; }
+        .btn-locked { background: #334155; color: #94a3b8; cursor: not-allowed; border: 2px solid #475569; }
+        .btn-active { background: #22c55e; color: white; box-shadow: 0 6px 0 #15803d; border-bottom: 6px solid #15803d; }
+        .btn-active:active { transform: translateY(6px); box-shadow: none; border-bottom-width: 0; margin-bottom: 6px; }
+
+        .pulse-mic { animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); } 70% { box-shadow: 0 0 0 20px rgba(239, 68, 68, 0); } 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); } }
+        
+        .blur-text { color: transparent !important; text-shadow: 0 0 12px rgba(255,255,255,0.7); user-select: none; transition: all 0.3s ease; }
+        .clear-text { color: #94a3b8 !important; text-shadow: none; user-select: auto; }
+        
+        .admin-trigger { width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.1); position: fixed; bottom: 100px; right: 20px; z-index: 99; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+    </style>
+
+    <style>
+        /* --- Python 注入的高级 UI 样式 --- */
+        :root {
+            --sat: env(safe-area-inset-top);
+            --sab: env(safe-area-inset-bottom);
+            --primary-gradient: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+            --shadow-glow: 0 8px 20px -4px rgba(79, 70, 229, 0.5);
+            --glass-bg: rgba(15, 23, 42, 0.85);
+        }
+
+        /* 1. 全局容器修复 */
+        body { margin: 0; background-color: #0f172a; -webkit-tap-highlight-color: transparent; }
+        .app-container { height: 100dvh; overflow: hidden; background: #0f172a; }
+        .main-stage { padding-bottom: calc(110px + var(--sab)); -webkit-overflow-scrolling: touch; }
+        nav { padding-top: var(--sat); }
+
+        /* 2. 底部导航栏重构 - 毛玻璃效果 */
+        .bottom-nav {
+            background: var(--glass-bg) !important;
+            backdrop-filter: blur(20px) !important;
+            -webkit-backdrop-filter: blur(20px) !important;
+            border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+            padding-bottom: max(20px, var(--sab)) !important;
+            padding-top: 16px !important;
+            box-shadow: 0 -10px 40px rgba(0,0,0,0.2);
+            gap: 16px !important;
+        }
+
+        /* 3. 按钮基础重置 (覆盖原有的 btn-3d) */
+        .nav-btn {
+            border: none !important;
+            border-bottom-width: 0 !important;
+            box-shadow: none !important;
+            margin: 0 !important;
+            border-radius: 18px !important; /* 更圆润 */
+            font-size: 1rem !important;
+            letter-spacing: 0.5px !important;
+            transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+            height: 56px !important; /* 更适合手指点击的高度 */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* 点击时的缩放动画 (替代旧的下沉效果) */
+        .nav-btn:active {
+            transform: scale(0.96) !important;
+            filter: brightness(0.9);
+        }
+
+        /* 4. 上一步按钮 - 低调磨砂质感 */
+        .btn-prev {
+            width: auto !important;
+            min-width: 100px;
+            background: rgba(255, 255, 255, 0.08) !important;
+            color: #94a3b8 !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        }
+
+        /* 5. 下一步按钮 (激活) - 现代渐变 + 辉光 */
+        .btn-active {
+            flex: 1;
+            background: var(--primary-gradient) !important;
+            color: white !important;
+            font-weight: 800 !important;
+            box-shadow: var(--shadow-glow) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        }
+        
+        /* 这里的伪元素用于增加光泽感 */
+        .btn-active::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: 18px;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.15), transparent);
+            pointer-events: none;
+        }
+
+        /* 6. 下一步按钮 (锁定) - 条纹背景 */
+        .btn-locked {
+            flex: 1;
+            background: repeating-linear-gradient(
+                45deg,
+                #1e293b,
+                #1e293b 10px,
+                #253045 10px,
+                #253045 20px
+            ) !important;
+            color: #64748b !important;
+            border: 1px solid #334155 !important;
+            cursor: not-allowed;
+            opacity: 0.8;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.2) !important;
+        }
+
+        /* 7. 图标微调 */
+        .nav-btn i { font-size: 1.1em; }
+        
+        /* 8. 修复原有的 app-container 高度冲突 */
+        .app-container { height: 100dvh !important; }
+    </style>
+    
+</head>
+<body>
+
+<div id="app" class="app-container">
+
+    <nav class="h-16 flex items-center justify-between px-6 bg-slate-900 border-b border-slate-800 shrink-0 z-40">
+        <div class="font-black text-xl text-white flex items-center gap-2">
+            <span class="bg-indigo-600 w-8 h-8 rounded flex items-center justify-center">E</span> Lab
+        </div>
+        <div v-if="phase !== 'login'" class="flex items-center gap-3">
+            <div class="px-3 py-1 rounded-full bg-slate-800 border border-slate-700 text-xs font-mono text-indigo-400">Unit 1</div>
+            <button @click="saveAndExit" class="text-slate-400 hover:text-white flex items-center gap-1"><i class="fas fa-save"></i> Save</button>
+        </div>
+    </nav>
+
+    <div class="admin-trigger" @click="openAdmin"><i class="fas fa-cog text-slate-400"></i></div>
+    <div v-if="showAdminPanel" class="fixed inset-0 bg-black/90 z-[1000] flex items-center justify-center">
+        <div class="bg-slate-800 p-6 rounded-2xl w-80 border border-slate-600">
+            <h3 class="text-white font-bold mb-4">Admin Console</h3>
+            <div class="grid grid-cols-2 gap-2 mb-4">
+                <button @click="setPhase('vocab')" class="bg-indigo-900 text-white p-2 rounded">Vocab</button>
+                <button @click="setPhase('colloc')" class="bg-indigo-900 text-white p-2 rounded">Colloc</button>
+                <button @click="setPhase('grammar')" class="bg-indigo-900 text-white p-2 rounded">Grammar</button>
+                <button @click="forceUnlock" class="bg-green-700 text-white p-2 rounded">Unlock Step</button>
+            </div>
+            <div class="flex gap-2">
+                <button @click="jumpIndex(-1)" class="bg-slate-600 text-white p-2 rounded flex-1">Prev Item</button>
+                <button @click="jumpIndex(1)" class="bg-slate-600 text-white p-2 rounded flex-1">Next Item</button>
+            </div>
+            <button @click="showAdminPanel=false" class="mt-4 w-full bg-red-900/50 text-red-300 p-2 rounded">Close</button>
+        </div>
+    </div>
+
+    <main class="main-stage">
+        
+        <div v-if="phase === 'login'" class="w-full max-w-md mt-10 text-center">
+            <h1 class="text-3xl font-black text-white mb-8">Intensive Lab</h1>
+            <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 shadow-xl">
+                <input v-model="userName" type="text" placeholder="Enter Your Name" class="w-full bg-slate-900 border border-slate-700 text-white px-4 py-3 rounded-xl mb-4 text-center focus:border-indigo-500 outline-none text-lg">
+                <button @click="startNew" :disabled="!userName" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-4 rounded-xl mb-3 shadow-lg btn-3d disabled:opacity-50">Start New Session</button>
+                <button v-if="hasSave" @click="resume" class="w-full bg-slate-700 hover:bg-slate-600 text-green-400 font-bold py-4 rounded-xl border border-slate-600 btn-3d"><i class="fas fa-history mr-2"></i> Resume Progress</button>
+            </div>
+        </div>
+
+        <div v-if="['vocab', 'colloc', 'grammar'].includes(phase)" class="w-full max-w-2xl">
+            <div class="mb-6 px-2 flex justify-between text-xs font-bold text-slate-400 uppercase">
+                <span>{{ phaseTitles[phase] }} • Item {{ currentIndex + 1 }}/{{ currentList.length }}</span>
+                <span>Step {{ currentStep }}/{{ totalSteps }}</span>
+            </div>
+
+            <div class="flex gap-1 h-1.5 w-full bg-slate-800 rounded-full overflow-hidden mb-6">
+                <div v-for="s in totalSteps" :key="s" class="flex-1 transition-all duration-300" :class="s < currentStep ? 'bg-green-500' : (s === currentStep ? 'bg-indigo-500' : 'bg-slate-700')"></div>
+            </div>
+
+            <div class="glass-panel p-6 md:p-8 min-h-[450px] flex flex-col items-center relative">
+                
+                <!-- 1. Listen -->
+                <div v-if="currentStep === 1" class="text-center w-full">
+                    <div class="py-6">
+                        <h1 class="text-5xl md:text-7xl font-black text-white mb-4 tracking-tight break-words">{{ currentItem.word || currentItem.phrase }}</h1>
+                        
+                        <div v-if="phase === 'grammar'">
+                            <p class="text-2xl text-slate-200 font-medium mb-4 leading-relaxed">{{ currentItem.source_sentence }}</p>
+                            <p class="text-lg text-slate-400 mb-8">{{ currentItem.source_sentence_cn }}</p>
+                            <button @click="handleTask('playGrammarAudio')" :class="stepData.grammarListened ? 'bg-green-600 border-green-500' : 'bg-indigo-600 border-indigo-500'" class="btn-3d px-8 py-4 rounded-xl border-b-4 font-bold text-white shadow-lg flex items-center gap-3 mx-auto"><i class="fas fa-volume-up"></i> Listen First</button>
+                        </div>
+
+                        <div v-else>
+                            <p class="text-2xl text-slate-400 font-mono">{{ currentItem.phonetic }}</p>
+                            <div class="flex justify-center gap-8 mb-8 mt-8">
+                                <button @click="playTTS(currentItem.word || currentItem.phrase)" class="btn-3d w-20 h-20 rounded-full bg-slate-800 border-2 border-slate-600 text-indigo-400 flex items-center justify-center text-3xl shadow-lg hover:bg-slate-700"><i class="fas fa-volume-up"></i></button>
+                                <button @click="toggleRec(currentItem.word || currentItem.phrase, (s) => stepData.audioScore = s)" 
+                                    :class="isRecording ? 'bg-red-500 border-red-400 pulse-mic text-white' : (stepData.audioScore >= 30 ? 'bg-green-600 border-green-400 text-white' : 'bg-indigo-600 border-indigo-400 text-white')"
+                                    class="btn-3d w-24 h-24 rounded-full border-b-4 flex items-center justify-center text-4xl shadow-xl">
+                                    <i :class="isRecording ? 'fas fa-stop' : (stepData.audioScore >= 30 ? 'fas fa-check' : 'fas fa-microphone')"></i>
+                                </button>
+                            </div>
+                            <p class="text-sm font-bold" :class="stepData.audioScore >= 30 ? 'text-green-400' : 'text-slate-500'">
+                                {{ isRecording ? 'Recording... Tap to Stop' : (stepData.audioScore ? `Score: ${stepData.audioScore}` : 'Click Mic -> Speak -> Click Stop') }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Guess / Inquiry -->
+                <div v-if="currentStep === 2" class="w-full">
+                    <div v-if="phase === 'grammar'">
+                        <template v-if="stepData.inquiryIndex < currentItem.guide_questions.length">
+                            <h3 class="text-lg font-bold text-white mb-4">Question {{ stepData.inquiryIndex + 1 }} / {{ currentItem.guide_questions.length }}</h3>
+                            <div class="bg-slate-800/50 p-3 rounded mb-4 text-sm text-slate-300 italic border-l-4 border-indigo-500">"{{ currentItem.source_sentence }}"</div>
+                            <div class="bg-indigo-900/30 p-4 rounded-xl mb-4 border border-indigo-500/30"><p class="text-slate-200 font-bold">{{ currentItem.guide_questions[stepData.inquiryIndex].question }}</p></div>
+                            <div class="space-y-3 mb-6">
+                                <button v-for="opt in currentItem.guide_questions[stepData.inquiryIndex].options" @click="handleTask('inquiry', opt)" 
+                                    class="option-card btn-3d" 
+                                    :class="stepData.inquiryAnswer === opt ? (checkGrammarCorrect(opt, currentItem.guide_questions[stepData.inquiryIndex].correct) ? 'opt-correct' : 'opt-wrong') : ''">
+                                    <span>{{ cleanOption(opt) }}</span>
+                                    <i v-if="stepData.inquiryAnswer === opt" :class="checkGrammarCorrect(opt, currentItem.guide_questions[stepData.inquiryIndex].correct) ? 'fas fa-check' : 'fas fa-times'"></i>
+                                </button>
+                            </div>
+                            <button v-if="stepData.inquiryShowNext" @click="nextGrammarQuestion('inquiry')" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 rounded-xl btn-3d">Next Question <i class="fas fa-arrow-right ml-2"></i></button>
+                        </template>
+                        <div v-else class="text-center py-10">
+                            <div class="text-6xl mb-4">🎉</div><h3 class="text-2xl font-bold text-green-400">Analysis Complete!</h3>
+                        </div>
+                    </div>
+                    
+                    <div v-else>
+                        <div class="relative w-full h-56 bg-black rounded-2xl overflow-hidden mb-4 border-2 border-slate-700">
+                            <img :src="getImagePath(currentItem.image_file)" class="w-full h-full object-cover opacity-90">
+                            <button @click="playTTS(currentItem.image_desc_en)" class="btn-3d absolute bottom-3 right-3 bg-indigo-600 text-white w-10 h-10 rounded-full flex items-center justify-center shadow-lg"><i class="fas fa-volume-up"></i></button>
+                        </div>
+                        <div class="bg-slate-800/80 p-4 rounded-xl border border-slate-600 mb-6 text-center">
+                            <p class="text-slate-200 text-lg font-medium italic mb-2">"{{ currentItem.image_desc_en }}"</p>
+                            <p class="text-slate-500 text-sm border-t border-slate-600 pt-2">{{ currentItem.image_desc_cn }}</p>
+                        </div>
+                        <div class="space-y-3">
+                            <button v-for="opt in stepData.guessOptions" @click="handleTask('guess', opt)" class="option-card btn-3d" :class="getOptClass(opt, stepData.guessAnswer, currentItem.correct_answer)"><span>{{ opt }}</span><i v-if="stepData.guessAnswer === opt" :class="opt === currentItem.correct_answer ? 'fas fa-check' : 'fas fa-times'"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Details -->
+                <div v-if="currentStep === 3" class="w-full h-full overflow-y-auto custom-scrollbar pb-10">
+                    <div v-if="phase === 'grammar'">
+                        <div class="bg-indigo-900/30 p-5 rounded-xl border border-indigo-500/30 mb-4 text-sm leading-relaxed text-slate-200" v-html="currentItem.explanation"></div>
+                    </div>
+                    <div v-else>
+                        <div class="mb-6 text-center border-b border-slate-700 pb-4">
+                            <h2 class="text-4xl font-black text-white mb-2">{{ currentItem.word || currentItem.phrase }}</h2>
+                            <p class="text-2xl text-green-400 font-bold mb-1">{{ currentItem.correct_answer }}</p>
+                        </div>
+                        <div class="bg-indigo-900/30 border border-indigo-500/30 p-4 rounded-xl mb-6">
+                            <h4 class="text-xs font-bold text-indigo-300 uppercase mb-1">Usage</h4>
+                            <p class="text-white text-sm">{{ currentItem.usage }}</p>
+                        </div>
+                        <div class="space-y-4">
+                            <div v-for="(ex, i) in currentItem.examples" :key="i" class="bg-slate-800/60 rounded-xl border border-slate-600 p-4">
+                                <div class="flex items-start gap-3 mb-3">
+                                    <button @click="playTTS(ex.sentence)" class="btn-3d w-10 h-10 rounded-full bg-indigo-600 text-white flex items-center justify-center shrink-0 border-b-4 border-indigo-800"><i class="fas fa-volume-up"></i></button>
+                                    <div class="flex-1">
+                                        <p class="text-lg text-white font-medium">{{ ex.sentence }}</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-3 border-t border-slate-700 pt-2 cursor-pointer hover:bg-slate-700/50 rounded p-1 transition" @click="toggleEx(i)">
+                                    <span class="text-[10px] font-bold bg-slate-700 px-2 rounded text-slate-300">{{ ex.source }}</span>
+                                    <div class="flex-1">
+                                        <p :class="!stepData.exStates[i].showCn ? 'blur-text' : 'clear-text'" class="text-slate-400 text-sm transition font-bold">{{ ex.trans }}</p>
+                                    </div>
+                                    <button class="text-slate-400 hover:text-white"><i :class="stepData.exStates[i].showCn ? 'fas fa-eye-slash' : 'fas fa-eye'"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. Spelling / Quiz -->
+                <div v-if="currentStep === 4" class="text-center w-full flex flex-col items-center">
+                    <div v-if="phase === 'grammar'" class="w-full">
+                        <template v-if="stepData.quizIndex < currentItem.quiz_questions.length">
+                            <h3 class="text-lg font-bold text-white mb-6">Quiz {{ stepData.quizIndex + 1 }}/5</h3>
+                            <p class="text-slate-300 mb-6 font-bold text-left">{{ currentItem.quiz_questions[stepData.quizIndex].question }}</p>
+                            <div class="space-y-3 mb-6">
+                                <button v-for="opt in currentItem.quiz_questions[stepData.quizIndex].options" @click="handleTask('quiz', opt)" 
+                                    class="option-card btn-3d"
+                                    :class="stepData.quizAnswer === opt ? (checkGrammarCorrect(opt, currentItem.quiz_questions[stepData.quizIndex].correct) ? 'opt-correct' : 'opt-wrong') : ''">
+                                    <span>{{ cleanOption(opt) }}</span>
+                                    <i v-if="stepData.quizAnswer === opt" :class="checkGrammarCorrect(opt, currentItem.quiz_questions[stepData.quizIndex].correct) ? 'fas fa-check' : 'fas fa-times'"></i>
+                                </button>
+                            </div>
+                            <div v-if="stepData.quizShowExplanation" class="mb-4 p-3 bg-slate-800 rounded border border-slate-700 text-sm text-green-300 text-left">{{ currentItem.quiz_questions[stepData.quizIndex].explanation }}</div>
+                            <button v-if="stepData.quizShowNext" @click="nextGrammarQuestion('quiz')" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 rounded-xl btn-3d">Next Question <i class="fas fa-arrow-right ml-2"></i></button>
+                        </template>
+                        <div v-else class="text-center py-10">
+                            <div class="text-6xl mb-4">🏆</div><h3 class="text-2xl font-bold text-green-400">All Correct!</h3>
+                        </div>
+                    </div>
+                    <div v-else class="w-full">
+                        <button @click="playTTS(currentItem.word || currentItem.phrase)" class="mb-8 w-16 h-16 rounded-full bg-indigo-600 text-white text-2xl shadow-lg flex items-center justify-center animate-bounce btn-3d border-b-4 border-indigo-800"><i class="fas fa-volume-up"></i></button>
+                        <div class="flex justify-center gap-2 mb-10 flex-wrap min-h-[60px]">
+                            <template v-for="(char, i) in spellingDisplaySlots" :key="i">
+                                <div v-if="char === 'SPACE'" class="w-6"></div>
+                                <div v-else class="w-12 h-14 bg-slate-800 border-b-4 border-indigo-500 flex items-center justify-center text-2xl font-bold text-white rounded-lg">{{ char || '' }}</div>
+                            </template>
+                        </div>
+                        <div class="flex flex-wrap justify-center gap-2 max-w-lg">
+                            <button v-for="(char, i) in stepData.shuffledLetters" :key="i" @click="handleTask('spell', char, i)" :disabled="stepData.usedIndices.has(i)" class="key-btn btn-3d">{{ char }}</button>
+                        </div>
+                        <button @click="resetSpelling" class="mt-10 px-4 py-2 bg-slate-700 rounded-lg text-slate-300 text-sm btn-3d border-b-4 border-slate-900"><i class="fas fa-undo"></i> Reset</button>
+                    </div>
+                </div>
+
+                <!-- 5. Meaning -->
+                <div v-if="currentStep === 5" class="w-full">
+                    <h3 class="text-2xl font-bold text-center mb-8 text-white">{{ currentItem.word || currentItem.phrase }}</h3>
+                    <div class="space-y-3">
+                        <button v-for="opt in stepData.meaningOptions" @click="handleTask('meaning', opt)" class="option-card btn-3d" :class="getOptClass(opt, stepData.meaningAnswer, currentItem.correct_answer)"><span>{{ opt }}</span><i v-if="stepData.meaningAnswer === opt" :class="opt === currentItem.correct_answer ? 'fas fa-check' : 'fas fa-times'"></i></button>
+                    </div>
+                </div>
+
+                <!-- 6. Context (Final Fix: Logic + Data Cleaning) -->
+                <div v-if="currentStep === 6" class="w-full">
+                    <h3 class="text-xl font-bold text-center mb-6 text-indigo-300">Select Correct Context</h3>
+                    <div class="space-y-3">
+                        <!-- Use stepData.contextOptions which is SHUFFLED and NORMALIZED -->
+                        <button v-for="(q, i) in stepData.contextOptions" :key="i" @click="handleTask('context', q, i)" class="option-card btn-3d flex-col items-start gap-2" :class="getOptClass(i, stepData.contextAnswerIndex, 'correct_index')">
+                            
+                            <!-- Show filled green sentence if selected and correct -->
+                            <span v-if="stepData.contextAnswerIndex === i && q.is_correct" class="text-green-400 font-bold transition-all text-lg border-b-2 border-green-500 pb-1">{{ stepData.contextFullSentence }}</span>
+                            
+                            <!-- Otherwise show original sentence -->
+                            <span v-else class="text-sm leading-relaxed">{{ q.sentence }}</span>
+                            
+                            <!-- Check/X icon -->
+                            <div v-if="stepData.contextAnswerIndex === i" class="w-full text-right mt-1">
+                                <i :class="q.is_correct ? 'fas fa-check text-green-400' : 'fas fa-times text-red-400'"></i>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 7. Oral Drill -->
+                <div v-if="currentStep === 7" class="text-center w-full">
+                    <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 mb-8">
+                        <p class="text-xl font-serif text-white leading-relaxed mb-4">"{{ getZhongkaoSentence() }}"</p>
+                        <button @click="playTTS(getZhongkaoSentence())" class="btn-3d px-4 py-2 bg-slate-700 rounded-lg text-indigo-400 text-sm font-bold border-b-2 border-slate-900"><i class="fas fa-volume-up mr-1"></i> Listen</button>
+                    </div>
+                    <div class="mb-8">
+                        <div class="flex justify-center gap-3 mb-2">
+                            <div v-for="n in 5" :key="n" class="w-4 h-4 rounded-full transition-all border-2 border-slate-600" :class="n <= stepData.oralCount ? 'bg-green-500 border-green-400' : 'bg-slate-800'"></div>
+                        </div>
+                        <p class="text-slate-400 text-sm font-bold">Progress: {{ stepData.oralCount }} / 5</p>
+                    </div>
+                    <button @click="toggleRec(getZhongkaoSentence(), updateOralCount)" 
+                        :class="isRecording ? 'bg-red-500 border-red-400 pulse-mic text-white' : (stepData.oralCount >= 5 ? 'bg-green-600 border-green-500' : 'bg-indigo-600 border-indigo-500')" 
+                        class="btn-3d w-24 h-24 rounded-full border-b-4 flex items-center justify-center text-4xl text-white shadow-xl mx-auto">
+                        <i :class="isRecording ? 'fas fa-stop' : (stepData.oralCount >= 5 ? 'fas fa-check' : 'fas fa-microphone')"></i>
+                    </button>
+                    <p class="mt-4 font-bold" :class="isRecording ? 'text-red-400' : 'text-slate-500'">{{ isRecording ? 'Recording... Tap to Stop' : (stepData.lastOralScore ? `Last Score: ${stepData.lastOralScore}` : 'Read Aloud') }}</p>
+                </div>
+
+            </div>
+        </div>
+
+        <div v-else-if="phase === 'end'" class="w-full max-w-md text-center mt-20">
+            <h2 class="text-4xl font-black text-white mb-6">Mission Complete!</h2>
+            <button @click="clearSave" class="btn-3d bg-indigo-600 border-indigo-500 border-b-4 text-white px-8 py-4 rounded-xl font-bold">Restart</button>
+        </div>
+
+    </main>
+
+    <footer v-if="!['login', 'end'].includes(phase)" class="bottom-nav">
+        <!-- New Prev Button -->
+        <button @click="prevStep" v-if="canGoBack" class="nav-btn btn-prev btn-3d">
+            <i class="fas fa-arrow-left"></i> Prev
+        </button>
+        <!-- Next Button -->
+        <button @click="nextStep" :disabled="!canProceed" class="nav-btn btn-next btn-3d" :class="canProceed ? 'btn-active' : 'btn-locked'">
+            <span v-if="!canProceed" class="flex items-center gap-2 text-sm"><i class="fas fa-lock"></i> {{ getLockReason() }}</span>
+            <span v-else>Next Step <i class="fas fa-arrow-right"></i></span>
+        </button>
+    </footer>
+
+</div>
+
+<script>
+const COURSE_DATA_INJECTED = {
+  "vocabulary": [
+    {
+      "id": 1,
+      "word": "germs",
+      "phonetic": "/dʒɜːrmz/",
+      "definition_cn": "细菌",
+      "definition_en": "Very small living things that can cause disease.",
+      "usage": "通常用作复数名词。中文：通常用作复数名词，泛指致病的微生物。英文：Usually used as a plural noun to refer to microorganisms that cause disease.",
+      "image_prompt": "A detailed microscopic view of various colorful, rod-shaped and spherical bacteria on a dark background, with some highlighted in glowing colors to show their activity, representing harmful microorganisms.",
+      "image_desc_en": "A close-up view of tiny, colorful organisms under a microscope.",
+      "image_desc_cn": "显微镜下看到的微小、彩色的生物特写。",
+      "examples": [
+        {
+          "sentence": "As you touch people, pets and objects during the day, you would get germs or viruses on your hands.",
+          "trans": "当你白天接触人、宠物和物体时，你的手上会沾上细菌或病毒。",
+          "source": "Article"
+        },
+        {
+          "sentence": "To prevent illness, it's important to wash your hands to remove harmful germs.",
+          "trans": "为了预防疾病，洗手去除有害细菌很重要。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "细菌",
+      "options": [
+        "病毒",
+        "细菌",
+        "灰尘",
+        "种子"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "Doctors remind us that many common illnesses are caused by invisible germs.",
+          "is_correct": true
+        },
+        {
+          "sentence": "She planted some beautiful flower germs in the garden.",
+          "is_correct": false
+        },
+        {
+          "sentence": "The strong wind blew away all the paper germs from the desk.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_1_germs.png",
+      "scrambled_letters": [
+        "g",
+        "g",
+        "e",
+        "s",
+        "r",
+        "g",
+        "s",
+        "i",
+        "m",
+        "e"
+      ]
+    },
+    {
+      "id": 2,
+      "word": "viruses",
+      "phonetic": "/ˈvaɪrəsɪz/",
+      "definition_cn": "病毒",
+      "definition_en": "Tiny infectious agents that can only replicate inside the living cells of an organism.",
+      "usage": "通常用作复数名词。中文：通常用作复数名词，指比细菌更小、需要寄生在活细胞内的病原体。英文：Usually used as a plural noun, referring to pathogens smaller than bacteria that need to live inside a host cell.",
+      "image_prompt": "A highly detailed 3D scientific illustration of several spiky, spherical virus particles floating against a blue cellular background, with some particles shown attaching to a cell surface.",
+      "image_desc_en": "A scientific model showing spiky, round particles that can cause sickness.",
+      "image_desc_cn": "一个显示可能致病的带刺圆形颗粒的科学模型。",
+      "examples": [
+        {
+          "sentence": "Although it's impossible to keep away from germs or viruses, washing your hands frequently can help limit the transfer of them.",
+          "trans": "虽然不可能完全避开细菌或病毒，但经常洗手有助于限制它们的传播。",
+          "source": "Article"
+        },
+        {
+          "sentence": "Scientists are working hard to develop new medicines to fight different viruses.",
+          "trans": "科学家们正在努力研发新药来对抗不同的病毒。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "病毒",
+      "options": [
+        "疫苗",
+        "抗体",
+        "病毒",
+        "蛋白质"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "The flu is caused by specific types of viruses that spread easily.",
+          "is_correct": true
+        },
+        {
+          "sentence": "He used a special software viruses to write his essay.",
+          "is_correct": false
+        },
+        {
+          "sentence": "The library has a large collection of book viruses about history.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_2_viruses.png",
+      "scrambled_letters": [
+        "v",
+        "c",
+        "r",
+        "v",
+        "u",
+        "u",
+        "s",
+        "i",
+        "s",
+        "s",
+        "e",
+        "l"
+      ]
+    },
+    {
+      "id": 3,
+      "word": "transfer",
+      "phonetic": "/trænsˈfɜːr/",
+      "definition_cn": "传播；转移",
+      "definition_en": "The act of moving something or someone from one place to another.",
+      "usage": "可作为名词或动词。中文：作名词时指传播或转移的行为；作动词时常用'transfer something (from A) to B'。英文：Can be a noun or verb. As a verb, often used as 'transfer something (from A) to B'.",
+      "image_prompt": "A visual metaphor showing glowing green dots (representing germs) moving from one adult's hand to a doorknob, and then to another adult's hand, with arrows indicating the path of movement on a clean white background.",
+      "image_desc_en": "An illustration showing how something invisible can move from one surface to another.",
+      "image_desc_cn": "一幅展示无形物质如何从一个表面移动到另一个表面的插图。",
+      "examples": [
+        {
+          "sentence": "Washing your hands frequently can help limit the transfer of them.",
+          "trans": "经常洗手有助于限制它们的传播。",
+          "source": "Article"
+        },
+        {
+          "sentence": "Good hygiene can prevent the transfer of bacteria from raw food to cooked food.",
+          "trans": "良好的卫生习惯可以防止细菌从生食传播到熟食。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "传播；转移",
+      "options": [
+        "转化",
+        "传播；转移",
+        "接收",
+        "创造"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "The main goal of handwashing is to stop the transfer of harmful microorganisms.",
+          "is_correct": true
+        },
+        {
+          "sentence": "She decided to transfer her favorite song into a delicious cake.",
+          "is_correct": false
+        },
+        {
+          "sentence": "The sun will transfer its light into a loud sound at noon.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_3_transfer.png",
+      "scrambled_letters": [
+        "b",
+        "r",
+        "r",
+        "d",
+        "s",
+        "u",
+        "e",
+        "f",
+        "a",
+        "h",
+        "t",
+        "n",
+        "t"
+      ]
+    },
+    {
+      "id": 4,
+      "word": "frequently",
+      "phonetic": "/ˈfriːkwəntli/",
+      "definition_cn": "频繁地；经常地",
+      "definition_en": "Happening or doing something often.",
+      "usage": "副词，修饰动词。中文：副词，用于修饰动词，表示动作发生的频率高。英文：An adverb used to modify a verb, indicating a high frequency of an action.",
+      "image_prompt": "A sequence of three images in one frame showing an adult washing their hands at a sink: first applying soap, then rubbing, then rinsing, with a circular arrow symbol above indicating repetition, set in a bright, clean bathroom.",
+      "image_desc_en": "A person repeats an important action multiple times throughout the day.",
+      "image_desc_cn": "一个人一天中多次重复一个重要动作。",
+      "examples": [
+        {
+          "sentence": "Washing your hands frequently can help limit the transfer of them.",
+          "trans": "经常洗手有助于限制它们的传播。",
+          "source": "Article"
+        },
+        {
+          "sentence": "To stay healthy, you should exercise frequently and eat a balanced diet.",
+          "trans": "为了保持健康，你应该经常锻炼并均衡饮食。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "频繁地；经常地",
+      "options": [
+        "偶尔地",
+        "缓慢地",
+        "频繁地；经常地",
+        "最终地"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "Public health posters advise people to wash their hands frequently, especially before meals.",
+          "is_correct": true
+        },
+        {
+          "sentence": "The ancient tree grows frequently only one centimeter every hundred years.",
+          "is_correct": false
+        },
+        {
+          "sentence": "That historical event happened frequently in the year 1066 and never again.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_4_frequently.png",
+      "scrambled_letters": [
+        "e",
+        "q",
+        "c",
+        "y",
+        "e",
+        "r",
+        "u",
+        "n",
+        "e",
+        "f",
+        "t",
+        "e",
+        "l",
+        "u",
+        "j"
+      ]
+    },
+    {
+      "id": 5,
+      "word": "properly",
+      "phonetic": "/ˈprɒpəli/",
+      "definition_cn": "正确地；适当地",
+      "definition_en": "In a way that is correct or suitable.",
+      "usage": "副词，修饰动词。中文：副词，描述以正确或合适的方式完成某事。英文：An adverb describing doing something in a correct or suitable way.",
+      "image_prompt": "A side-by-side comparison: On the left, an adult washing hands incorrectly with water only for 2 seconds. On the right, the same adult following all steps correctly with soap and water for 30 seconds. A green check mark is over the right image.",
+      "image_desc_en": "A comparison between doing a task the wrong way and doing it the correct, recommended way.",
+      "image_desc_cn": "错误地完成任务与正确、推荐地完成任务之间的对比。",
+      "examples": [
+        {
+          "sentence": "On average, 95% of people don't wash their hands properly.",
+          "trans": "平均而言，95%的人没有正确地洗手。",
+          "source": "Article"
+        },
+        {
+          "sentence": "If you don't wear your mask properly, it won't protect you effectively.",
+          "trans": "如果你没有正确佩戴口罩，它将无法有效保护你。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "正确地；适当地",
+      "options": [
+        "迅速地",
+        "安静地",
+        "部分地",
+        "正确地；适当地"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "To ensure safety, all equipment must be used properly according to the instructions.",
+          "is_correct": true
+        },
+        {
+          "sentence": "The cat slept properly on the keyboard, causing the computer to crash.",
+          "is_correct": false
+        },
+        {
+          "sentence": "The rain fell properly from the sky, which is a completely normal event.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_5_properly.png",
+      "scrambled_letters": [
+        "u",
+        "q",
+        "r",
+        "p",
+        "l",
+        "p",
+        "o",
+        "r",
+        "y",
+        "d",
+        "e",
+        "n",
+        "v"
+      ]
+    },
+    {
+      "id": 6,
+      "word": "prepare",
+      "phonetic": "/prɪˈpeər/",
+      "definition_cn": "准备",
+      "definition_en": "To make something ready for use or consideration.",
+      "usage": "及物动词。常用结构：'prepare something' 或 'prepare for something'。中文：及物动词。常用结构：'准备某物'或'为某事做准备'。英文：A transitive verb. Common patterns: 'prepare something' or 'prepare for something'.",
+      "image_prompt": "A professional chef in a clean, well-lit kitchen, carefully washing vegetables at a sink before chopping them on a cutting board. The focus is on the clean hands and the fresh ingredients.",
+      "image_desc_en": "A person gets ingredients ready for making a meal in the kitchen.",
+      "image_desc_cn": "一个人在厨房里准备制作餐食的食材。",
+      "examples": [
+        {
+          "sentence": "You should always wash your hands before you prepare food or eat.",
+          "trans": "你应该总是在准备食物或进食前洗手。",
+          "source": "Article"
+        },
+        {
+          "sentence": "It took her two hours to prepare a special dinner for her family.",
+          "trans": "她花了两个小时为家人准备一顿特别的晚餐。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "准备",
+      "options": [
+        "消耗",
+        "准备",
+        "分享",
+        "订购"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "Before starting the experiment, the scientist needed to prepare all the necessary tools.",
+          "is_correct": true
+        },
+        {
+          "sentence": "The old bridge will prepare to collapse if too many cars cross it.",
+          "is_correct": false
+        },
+        {
+          "sentence": "The sun prepares to set in the east every morning.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_6_prepare.png",
+      "scrambled_letters": [
+        "p",
+        "e",
+        "h",
+        "e",
+        "v",
+        "j",
+        "a",
+        "r",
+        "x",
+        "p",
+        "r",
+        "t"
+      ]
+    },
+    {
+      "id": 7,
+      "word": "toilet",
+      "phonetic": "/ˈtɔɪlət/",
+      "definition_cn": "厕所；马桶",
+      "definition_en": "A large bowl attached to a pipe that you use when you want to get rid of waste from your body.",
+      "usage": "可数名词。中文：可数名词，指卫生间或其中的卫生器具。英文：A countable noun referring to the room or the fixture.",
+      "image_prompt": "A clean, modern bathroom with a closed toilet lid. An adult is shown leaving the bathroom, heading towards a sink with soap and running water, emphasizing the next step of handwashing.",
+      "image_desc_en": "A room in a house or public place containing a specific fixture for personal hygiene.",
+      "image_desc_cn": "房子或公共场所里一个包含特定个人卫生设施的房間。",
+      "examples": [
+        {
+          "sentence": "And remember to wash your hands after using the toilet.",
+          "trans": "记住上完厕所后要洗手。",
+          "source": "Article"
+        },
+        {
+          "sentence": "Public toilets should be kept clean for everyone's health.",
+          "trans": "公共厕所应保持清洁以保障每个人的健康。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "厕所；马桶",
+      "options": [
+        "浴室",
+        "厨房",
+        "厕所；马桶",
+        "阳台"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "It is a basic rule of hygiene to wash your hands after using the toilet.",
+          "is_correct": true
+        },
+        {
+          "sentence": "She placed a beautiful vase full of flowers on the toilet in the living room.",
+          "is_correct": false
+        },
+        {
+          "sentence": "For dinner, we cooked a delicious meal on the clean toilet.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_7_toilet.png",
+      "scrambled_letters": [
+        "e",
+        "t",
+        "j",
+        "t",
+        "m",
+        "l",
+        "s",
+        "f",
+        "i",
+        "o",
+        "v"
+      ]
+    },
+    {
+      "id": 8,
+      "word": "sneezing",
+      "phonetic": "/ˈsniːzɪŋ/",
+      "definition_cn": "打喷嚏",
+      "definition_en": "The act of suddenly forcing air out of your nose and mouth, often because of an irritation.",
+      "usage": "动名词或现在分词。中文：动词'sneeze'的动名词形式，表示打喷嚏的动作。英文：The gerund or present participle of the verb 'sneeze'.",
+      "image_prompt": "An adult covering their nose and mouth with the crook of their elbow while sneezing, standing in a living room. A thought bubble shows tiny droplets spreading, with a red 'X' over it, promoting the 'cover your sneeze' etiquette.",
+      "image_desc_en": "A sudden, uncontrolled action where a person expels air through their nose and mouth.",
+      "image_desc_cn": "一个人通过鼻子和嘴巴突然、不受控制地排出空气的动作。",
+      "examples": [
+        {
+          "sentence": "Remember to wash your hands after blowing your nose, coughing or sneezing.",
+          "trans": "记住在擤鼻涕、咳嗽或打喷嚏后要洗手。",
+          "source": "Article"
+        },
+        {
+          "sentence": "Sneezing into a tissue or your elbow helps prevent the spread of colds.",
+          "trans": "对着纸巾或手肘打喷嚏有助于防止感冒传播。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "打喷嚏",
+      "options": [
+        "咳嗽",
+        "打喷嚏",
+        "打哈欠",
+        "吸气"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "Covering your mouth when sneezing is a polite and healthy habit.",
+          "is_correct": true
+        },
+        {
+          "sentence": "The librarian was sneezing the books back onto the shelf in perfect order.",
+          "is_correct": false
+        },
+        {
+          "sentence": "He finished sneezing his homework just before the deadline.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_8_sneezing.png",
+      "scrambled_letters": [
+        "g",
+        "g",
+        "z",
+        "p",
+        "m",
+        "n",
+        "s",
+        "n",
+        "s",
+        "e",
+        "i",
+        "e",
+        "d"
+      ]
+    },
+    {
+      "id": 9,
+      "word": "waste",
+      "phonetic": "/weɪst/",
+      "definition_cn": "废物；排泄物",
+      "definition_en": "Unwanted or unusable material, or bodily excrement.",
+      "usage": "不可数名词。中文：不可数名词，指废弃物或动物排泄物。英文：An uncountable noun referring to rubbish or animal excrement.",
+      "image_prompt": "A close-up of an adult wearing gloves, using a shovel to clean up soiled straw (representing animal waste) in a well-maintained farm animal pen, focusing on the action and the gloves for hygiene.",
+      "image_desc_en": "Unwanted material or byproduct that needs to be disposed of carefully.",
+      "image_desc_cn": "需要小心处理的不需要的材料或副产品。",
+      "examples": [
+        {
+          "sentence": "Remember to wash your hands after touching an animal, animal feed or animal waste.",
+          "trans": "记住接触动物、动物饲料或动物粪便后要洗手。",
+          "source": "Article"
+        },
+        {
+          "sentence": "Proper disposal of kitchen waste is important for a clean environment.",
+          "trans": "妥善处理厨房垃圾对保持环境清洁很重要。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "废物；排泄物",
+      "options": [
+        "饲料",
+        "产品",
+        "废物；排泄物",
+        "资源"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "After cleaning the pet's cage, she washed her hands thoroughly to remove any trace of waste.",
+          "is_correct": true
+        },
+        {
+          "sentence": "The artist used colorful waste to paint a beautiful landscape on the canvas.",
+          "is_correct": false
+        },
+        {
+          "sentence": "He drank a full glass of fresh orange waste for breakfast.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_9_waste.png",
+      "scrambled_letters": [
+        "r",
+        "e",
+        "x",
+        "w",
+        "s",
+        "a",
+        "b",
+        "c",
+        "t",
+        "w"
+      ]
+    },
+    {
+      "id": 10,
+      "word": "soap",
+      "phonetic": "/səʊp/",
+      "definition_cn": "肥皂",
+      "definition_en": "A substance used with water for washing and cleaning.",
+      "usage": "不可数名词（指物质）或可数名词（指一块肥皂）。中文：通常作不可数名词；指一块肥皂时可数。英文：Usually uncountable (substance); countable when referring to a bar of soap.",
+      "image_prompt": "A macro photograph of rich, white lather bubbling on an adult's wet hands, with a bar of blue soap resting on a ceramic dish next to the sink. Water droplets glisten on the skin and soap.",
+      "image_desc_en": "A solid or liquid substance that creates bubbles when mixed with water for cleaning.",
+      "image_desc_cn": "一种固体或液体物质，与水混合时会产生泡沫用于清洁。",
+      "examples": [
+        {
+          "sentence": "Wash your hands with soap and water.",
+          "trans": "用肥皂和水洗手。",
+          "source": "Article"
+        },
+        {
+          "sentence": "Using soap is more effective than using water alone to remove oil and dirt.",
+          "trans": "使用肥皂比单独用水更能有效去除油脂和污垢。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "肥皂",
+      "options": [
+        "清水",
+        "毛巾",
+        "肥皂",
+        "消毒剂"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "For effective handwashing, apply soap and rub your hands together for at least 20 seconds.",
+          "is_correct": true
+        },
+        {
+          "sentence": "She spread some creamy soap on her toast for breakfast.",
+          "is_correct": false
+        },
+        {
+          "sentence": "The mechanic used a strong metal soap to fix the engine.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_10_soap.png",
+      "scrambled_letters": [
+        "x",
+        "o",
+        "f",
+        "w",
+        "f",
+        "p",
+        "s",
+        "j",
+        "a"
+      ]
+    },
+    {
+      "id": 11,
+      "word": "apply",
+      "phonetic": "/əˈplaɪ/",
+      "definition_cn": "涂抹；应用",
+      "definition_en": "To put or spread something onto a surface.",
+      "usage": "及物动词。常用结构：'apply something to something'。中文：及物动词，常接宾语，结构为'将某物涂抹/应用于某物'。英文：A transitive verb, often followed by an object, pattern: 'apply something to something'.",
+      "image_prompt": "A first-person perspective shot of an adult's hands, squeezing a dollop of liquid soap from a pump bottle onto one palm, against the backdrop of a clean sink with running water.",
+      "image_desc_en": "The action of putting a substance onto a surface, like skin.",
+      "image_desc_cn": "将物质涂抹在表面（如皮肤）上的动作。",
+      "examples": [
+        {
+          "sentence": "Apply soap well.",
+          "trans": "充分涂抹肥皂。",
+          "source": "Article"
+        },
+        {
+          "sentence": "Before going out in the sun, you should apply sunscreen to protect your skin.",
+          "trans": "在阳光下外出前，你应该涂抹防晒霜来保护皮肤。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "涂抹；应用",
+      "options": [
+        "移除",
+        "询问",
+        "检查",
+        "涂抹；应用"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "The next step in handwashing is to apply enough soap to cover all surfaces of your hands.",
+          "is_correct": true
+        },
+        {
+          "sentence": "Can you please apply the answer to the teacher? I have a question.",
+          "is_correct": false
+        },
+        {
+          "sentence": "The tree will apply its leaves every autumn as the season changes.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_11_apply.png",
+      "scrambled_letters": [
+        "u",
+        "p",
+        "j",
+        "y",
+        "p",
+        "l",
+        "l",
+        "a",
+        "x",
+        "x"
+      ]
+    },
+    {
+      "id": 12,
+      "word": "rub",
+      "phonetic": "/rʌb/",
+      "definition_cn": "揉搓；摩擦",
+      "definition_en": "To move your hand, or something such as a cloth, backwards and forwards over a surface while pressing firmly.",
+      "usage": "及物或不及物动词。常用结构：'rub your hands together', 'rub something (with something)'。中文：及物或不及物动词，如'搓手'，'用某物擦某物'。英文：A transitive or intransitive verb, e.g., 'rub your hands together', 'rub something (with something)'.",
+      "image_prompt": "A dynamic shot of an adult's hands actively rubbing together, palms and fingers interlaced, with rich white lather covering them. Motion blur lines emphasize the vigorous movement.",
+      "image_desc_en": "The action of moving your hands back and forth against each other with pressure.",
+      "image_desc_cn": "双手相互用力前后移动的动作。",
+      "examples": [
+        {
+          "sentence": "Rub your hands for at least 30 seconds.",
+          "trans": "揉搓你的双手至少30秒。",
+          "source": "Article"
+        },
+        {
+          "sentence": "If your hands are cold, you can rub them together to generate some warmth.",
+          "trans": "如果你的手冷，可以互相揉搓来产生一些热量。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "揉搓；摩擦",
+      "options": [
+        "拍打",
+        "浸泡",
+        "揉搓；摩擦",
+        "晾干"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "To clean effectively, you need to rub your hands together vigorously with soap.",
+          "is_correct": true
+        },
+        {
+          "sentence": "Please rub the music louder, I can't hear it well.",
+          "is_correct": false
+        },
+        {
+          "sentence": "The idea for the story rubbed into the author's mind while he was sleeping.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_12_rub.png",
+      "scrambled_letters": [
+        "y",
+        "j",
+        "g",
+        "r",
+        "b",
+        "u",
+        "p",
+        "m"
+      ]
+    },
+    {
+      "id": 13,
+      "word": "wrists",
+      "phonetic": "/rɪsts/",
+      "definition_cn": "手腕",
+      "definition_en": "The part of the body where the hand joins the arm.",
+      "usage": "可数名词，通常用复数。中文：可数名词，通常以复数形式出现，指连接手和前臂的关节部位。英文：A countable noun, usually in plural form, referring to the joints connecting the hands to the forearms.",
+      "image_prompt": "A focused anatomical illustration showing the detailed bones and tendons of a human wrist in a neutral position, with an arrow pointing to the joint area. The background is a simple diagram of a hand and forearm.",
+      "image_desc_en": "The flexible joints that connect the hands to the lower arms.",
+      "image_desc_cn": "连接手和前臂的灵活关节。",
+      "examples": [
+        {
+          "sentence": "Remember to rub all parts, including the backs of your hands, wrists, between your fingers and under your fingernails.",
+          "trans": "记住要揉搓所有部位，包括手背、手腕、手指之间和指甲下面。",
+          "source": "Article"
+        },
+        {
+          "sentence": "The watch was a little loose on her thin wrists.",
+          "trans": "这块手表戴在她纤细的手腕上有点松。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "手腕",
+      "options": [
+        "手肘",
+        "脚踝",
+        "手腕",
+        "膝盖"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "When washing your hands, don't forget to scrub your wrists as well.",
+          "is_correct": true
+        },
+        {
+          "sentence": "She typed the essay using only her skilled wrists on the keyboard.",
+          "is_correct": false
+        },
+        {
+          "sentence": "The car couldn't start because its mechanical wrists were broken.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_13_wrists.png",
+      "scrambled_letters": [
+        "i",
+        "b",
+        "t",
+        "z",
+        "r",
+        "s",
+        "o",
+        "r",
+        "w",
+        "b",
+        "s"
+      ]
+    },
+    {
+      "id": 14,
+      "word": "fingernails",
+      "phonetic": "/ˈfɪŋɡəneɪlz/",
+      "definition_cn": "指甲",
+      "definition_en": "The hard, slightly curved part that covers the top of the end of each finger.",
+      "usage": "可数名词，通常用复数。中文：可数名词，通常以复数形式出现。英文：A countable noun, usually in plural form.",
+      "image_prompt": "A top-down macro view of an adult's clean hands, with the focus on the fingertips. One hand is using the nails of the other hand to gently clean under the fingernails, with a few tiny bubbles of soap visible. The background is a clean, white surface.",
+      "image_desc_en": "The hard coverings at the tips of a person's fingers.",
+      "image_desc_cn": "一个人手指尖端的坚硬覆盖物。",
+      "examples": [
+        {
+          "sentence": "Remember to rub all parts, including the backs of your hands, wrists, between your fingers and under your fingernails.",
+          "trans": "记住要揉搓所有部位，包括手背、手腕、手指之间和指甲下面。",
+          "source": "Article"
+        },
+        {
+          "sentence": "Keeping your fingernails short and clean is a basic part of personal hygiene.",
+          "trans": "保持指甲短而干净是个人卫生的基本部分。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "指甲",
+      "options": [
+        "指纹",
+        "关节",
+        "指甲",
+        "皮肤"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "Germs can hide under long fingernails, so it's important to clean there when washing hands.",
+          "is_correct": true
+        },
+        {
+          "sentence": "He played a beautiful melody on the piano using only his fingernails.",
+          "is_correct": false
+        },
+        {
+          "sentence": "The door was locked tight, so she used her strong fingernails to turn the key.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_14_fingernails.png",
+      "scrambled_letters": [
+        "j",
+        "l",
+        "a",
+        "r",
+        "p",
+        "i",
+        "s",
+        "f",
+        "e",
+        "n",
+        "n",
+        "g",
+        "y",
+        "i",
+        "r",
+        "i"
+      ]
+    },
+    {
+      "id": 15,
+      "word": "towel",
+      "phonetic": "/ˈtaʊəl/",
+      "definition_cn": "毛巾",
+      "definition_en": "A piece of thick cloth that you use for drying yourself or for drying dishes.",
+      "usage": "可数名词。中文：可数名词，一块毛巾是'a towel'。英文：A countable noun. One piece is 'a towel'.",
+      "image_prompt": "A close-up of clean, fluffy white cotton towel with a textured surface, neatly folded and hanging on a warm towel rail in a well-lit bathroom. Soft light highlights the fabric's texture.",
+      "image_desc_en": "A soft piece of cloth used for drying things, often hung in a bathroom.",
+      "image_desc_cn": "一块用于擦干东西的软布，通常挂在浴室里。",
+      "examples": [
+        {
+          "sentence": "Dry your hands with a clean towel or air-dry them.",
+          "trans": "用干净的毛巾擦干你的手或让它们风干。",
+          "source": "Article"
+        },
+        {
+          "sentence": "After the shower, she wrapped her hair in a soft, dry towel.",
+          "trans": "淋浴后，她用一条柔软干燥的毛巾包住了头发。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "毛巾",
+      "options": [
+        "浴袍",
+        "地毯",
+        "毛巾",
+        "抹布"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "He reached for a fresh towel to dry his wet hands after washing them.",
+          "is_correct": true
+        },
+        {
+          "sentence": "The chef used a hot towel to fry the eggs for breakfast.",
+          "is_correct": false
+        },
+        {
+          "sentence": "She drank a refreshing glass of cold towel on a summer day.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_15_towel.png",
+      "scrambled_letters": [
+        "x",
+        "t",
+        "k",
+        "o",
+        "e",
+        "d",
+        "w",
+        "f",
+        "p",
+        "l"
+      ]
+    },
+    {
+      "id": 16,
+      "word": "impossible",
+      "phonetic": "/ɪmˈpɒsəbl/",
+      "definition_cn": "不可能的",
+      "definition_en": "Not able to occur, exist, or be done.",
+      "usage": "形容词。常用结构：'It is impossible to do something'。中文：形容词，常用句型：'做某事是不可能的'。英文：An adjective. Common pattern: 'It is impossible to do something'.",
+      "image_prompt": "A conceptual image showing an adult's hand trying to grasp a cloud of glowing, abstract germ symbols. The hand passes through the cloud, which scatters, illustrating the idea that complete avoidance is not feasible. The style is semi-abstract with a dark background.",
+      "image_desc_en": "A concept showing that a certain task cannot be achieved completely, no matter how hard one tries.",
+      "image_desc_cn": "一个概念，表明无论多努力，某项任务都无法完全实现。",
+      "examples": [
+        {
+          "sentence": "Although it's impossible to keep away from germs or viruses, washing your hands frequently can help.",
+          "trans": "虽然不可能完全避开细菌或病毒，但经常洗手会有所帮助。",
+          "source": "Article"
+        },
+        {
+          "sentence": "It's impossible to finish such a long book in just one day.",
+          "trans": "在一天内读完这么长的一本书是不可能的。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "不可能的",
+      "options": [
+        "困难的",
+        "必要的",
+        "不可能的",
+        "简单的"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "Living in a world completely free of germs is impossible.",
+          "is_correct": true
+        },
+        {
+          "sentence": "Water is impossible at room temperature; it is always solid.",
+          "is_correct": false
+        },
+        {
+          "sentence": "The sun rises in the east every morning, which is an impossible event.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_16_impossible.png",
+      "scrambled_letters": [
+        "p",
+        "i",
+        "m",
+        "s",
+        "e",
+        "s",
+        "b",
+        "m",
+        "y",
+        "l",
+        "z",
+        "o",
+        "i",
+        "e",
+        "c"
+      ]
+    },
+    {
+      "id": 17,
+      "word": "limit",
+      "phonetic": "/ˈlɪmɪt/",
+      "definition_cn": "限制",
+      "definition_en": "To control or reduce something so that it does not become too great.",
+      "usage": "及物动词。常用结构：'limit something'。中文：及物动词，直接接宾语，表示控制或减少某事物。英文：A transitive verb, directly taking an object, meaning to control or reduce something.",
+      "image_prompt": "A visual metaphor: A wall or barrier (clean, white) is being built between a cluster of red germ icons and a green icon of a healthy adult. The wall is only half-built, showing that transmission is reduced, not stopped entirely.",
+      "image_desc_en": "The action of putting a control on something to prevent it from increasing or spreading too much.",
+      "image_desc_cn": "对某事物加以控制以防止其过度增加或传播的行为。",
+      "examples": [
+        {
+          "sentence": "Washing your hands frequently can help limit the transfer of them.",
+          "trans": "经常洗手有助于限制它们的传播。",
+          "source": "Article"
+        },
+        {
+          "sentence": "We should limit our screen time to protect our eyesight.",
+          "trans": "我们应该限制屏幕使用时间来保护视力。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "限制",
+      "options": [
+        "促进",
+        "观察",
+        "限制",
+        "忽略"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "Good hygiene practices can significantly limit the spread of infectious diseases.",
+          "is_correct": true
+        },
+        {
+          "sentence": "The generous host tried to limit the amount of food for his guests, offering them more and more.",
+          "is_correct": false
+        },
+        {
+          "sentence": "The teacher wanted to limit the students' knowledge by giving them extra books to read.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_17_limit.png",
+      "scrambled_letters": [
+        "o",
+        "m",
+        "i",
+        "i",
+        "l",
+        "i",
+        "e",
+        "k",
+        "t",
+        "h"
+      ]
+    },
+    {
+      "id": 18,
+      "word": "average",
+      "phonetic": "/ˈævərɪdʒ/",
+      "definition_cn": "平均的；普通的",
+      "definition_en": "Calculated by adding several amounts together and then dividing by the number of amounts; typical or usual.",
+      "usage": "形容词或名词。中文：作形容词意为'平均的'或'普通的'；作名词意为'平均数'。常用短语：'on average'。英文：Adjective meaning 'calculated by mean' or 'typical'; noun meaning 'the mean value'. Common phrase: 'on average'.",
+      "image_prompt": "An infographic-style image. A bar chart shows five stylized adult figures. Four are colored red with an 'X' (not washing properly), one is green with a check mark (washing properly). Text below reads \"95%\" in large font. The style is clean and modern.",
+      "image_desc_en": "A statistical term describing what is typical or usual among a group.",
+      "image_desc_cn": "一个统计术语，描述一组中典型或通常的情况。",
+      "examples": [
+        {
+          "sentence": "On average, 95% of people don't wash their hands properly.",
+          "trans": "平均而言，95%的人没有正确地洗手。",
+          "source": "Article"
+        },
+        {
+          "sentence": "The average temperature in July is much higher than in January.",
+          "trans": "七月的平均温度比一月高得多。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "平均的；普通的",
+      "options": [
+        "最高的",
+        "平均的；普通的",
+        "最低的",
+        "特殊的"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "On average, a person touches their face many times per hour without realizing it.",
+          "is_correct": true
+        },
+        {
+          "sentence": "The athlete broke the world record with an"
+        }
+      ],
+      "image_file": "vocab_18_average.png",
+      "scrambled_letters": [
+        "e",
+        "v",
+        "a",
+        "e",
+        "z",
+        "g",
+        "i",
+        "a",
+        "r",
+        "t",
+        "n",
+        "e"
+      ]
+    }
+  ],
+  "collocations": [
+    {
+      "id": 1,
+      "phrase": "wash your hands",
+      "definition_cn": "洗手；最常用的中文意思是洗手。在本文中指清洁双手以去除细菌或病毒。",
+      "definition_en": "To clean one's hands with water and soap; The most common English explanation is to clean one's hands. In the context of the article, it means cleaning hands to remove germs or viruses.",
+      "usage": "动词短语，通常用作祈使句或陈述句。例如：\"You should wash your hands.\" 或 \"Wash your hands before eating.\" 用于表达清洁双手的动作。Grammatical usage: A verb phrase, often used in imperative or declarative sentences. E.g., \"You should wash your hands.\" or \"Wash your hands before eating.\" Used to express the action of cleaning hands.",
+      "image_prompt": "A professional chef in a clean kitchen, carefully scrubbing their hands under a running faucet with soap, focusing on the hands and water droplets.",
+      "image_desc_en": "A person is cleaning their hands thoroughly under running water with soap.",
+      "image_desc_cn": "一个人正在用肥皂和流动的水彻底清洁双手。",
+      "examples": [
+        {
+          "sentence": "You should always wash your hands before you prepare food or eat.",
+          "trans": "在准备食物或吃饭前，你应该总是洗手。",
+          "source": "Article"
+        },
+        {
+          "sentence": "To stay healthy, it's important to wash your hands frequently, especially after using public transport.",
+          "trans": "为了保持健康，经常洗手很重要，尤其是在使用公共交通后。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "洗手",
+      "options": [
+        "洗脸",
+        "洗手",
+        "洗澡",
+        "洗脚"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "Remember to wash your hands after using the toilet to prevent the spread of germs.",
+          "is_correct": true
+        },
+        {
+          "sentence": "She decided to wash her hands of the project because it was too difficult.",
+          "is_correct": false
+        },
+        {
+          "sentence": "He needs to wash his car every weekend to keep it shiny.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "colloc_1_wash_your_hands.png",
+      "scrambled_letters": [
+        "u",
+        "u",
+        "s",
+        "r",
+        "v",
+        "h",
+        "n",
+        "h",
+        "w",
+        "r",
+        "a",
+        "d",
+        "s",
+        "f",
+        "m",
+        "a",
+        "y",
+        "o"
+      ]
+    },
+    {
+      "id": 2,
+      "phrase": "keep away from",
+      "definition_cn": "远离；最常用的中文意思是保持距离。在本文中指避免接触细菌或病毒。",
+      "definition_en": "To avoid or stay at a distance from something; The most common English explanation is to stay away. In the context of the article, it means avoiding contact with germs or viruses.",
+      "usage": "动词短语，后接名词或代词。例如：\"Keep away from danger.\" 用于表达避免某物或某情况。Grammatical usage: A verb phrase, followed by a noun or pronoun. E.g., \"Keep away from danger.\" Used to express avoiding something or a situation.",
+      "image_prompt": "A scientist in a lab coat standing at a safe distance from a labeled biohazard container, with warning signs in the background.",
+      "image_desc_en": "A person is maintaining a distance from a potentially hazardous object.",
+      "image_desc_cn": "一个人正在与一个潜在的危险物体保持距离。",
+      "examples": [
+        {
+          "sentence": "Although it's impossible to keep away from germs or viruses, washing your hands frequently can help limit the transfer of them.",
+          "trans": "虽然不可能远离细菌或病毒，但经常洗手可以帮助限制它们的传播。",
+          "source": "Article"
+        },
+        {
+          "sentence": "To ensure safety, drivers should keep away from construction zones on the road.",
+          "trans": "为了确保安全，司机应该远离道路上的施工区域。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "远离",
+      "options": [
+        "靠近",
+        "远离",
+        "接触",
+        "保护"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "Parents often tell their children to keep away from strangers for safety reasons.",
+          "is_correct": true
+        },
+        {
+          "sentence": "He tried to keep away from the topic during the meeting to avoid arguments.",
+          "is_correct": false
+        },
+        {
+          "sentence": "She wants to keep away her old clothes by donating them to charity.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "colloc_2_keep_away_from.png",
+      "scrambled_letters": [
+        "e",
+        "a",
+        "r",
+        "u",
+        "w",
+        "e",
+        "j",
+        "p",
+        "d",
+        "e",
+        "y",
+        "m",
+        "f",
+        "o",
+        "y",
+        "k",
+        "a"
+      ]
+    },
+    {
+      "id": 3,
+      "phrase": "wash away",
+      "definition_cn": "洗掉；最常用的中文意思是冲洗掉。在本文中指用水冲走肥皂或细菌。",
+      "definition_en": "To remove something by washing; The most common English explanation is to rinse off. In the context of the article, it means using water to remove soap or germs.",
+      "usage": "动词短语，可分开使用，如 \"wash the dirt away\"。后接名词表示被洗掉的东西。用于表达通过清洗去除某物。Grammatical usage: A verb phrase, can be used separately, e.g., \"wash the dirt away.\" Followed by a noun indicating what is washed off. Used to express removing something by washing.",
+      "image_prompt": "A person's hands under a stream of clear water, with soap bubbles being rinsed off into a sink, showing cleanliness.",
+      "image_desc_en": "Soap and dirt are being removed from hands by flowing water.",
+      "image_desc_cn": "肥皂和污垢正被流动的水从手上冲走。",
+      "examples": [
+        {
+          "sentence": "Use plenty of running water to wash away all the soap.",
+          "trans": "用大量的流动水冲掉所有的肥皂。",
+          "source": "Article"
+        },
+        {
+          "sentence": "After the heavy rain, the flood helped wash away the debris from the streets.",
+          "trans": "大雨过后，洪水帮助冲走了街道上的碎片。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "洗掉",
+      "options": [
+        "洗掉",
+        "擦掉",
+        "吹走",
+        "吸走"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "To clean the window, you need to wash away the dust with water and a cloth.",
+          "is_correct": true
+        },
+        {
+          "sentence": "He plans to wash away his sorrows by watching a funny movie.",
+          "is_correct": false
+        },
+        {
+          "sentence": "She will wash away the dishes after dinner.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "colloc_3_wash_away.png",
+      "scrambled_letters": [
+        "s",
+        "h",
+        "a",
+        "a",
+        "p",
+        "r",
+        "d",
+        "w",
+        "e",
+        "b",
+        "y",
+        "w",
+        "a"
+      ]
+    },
+    {
+      "id": 4,
+      "phrase": "blow your nose",
+      "definition_cn": "擤鼻涕；最常用的中文意思是清理鼻子。在本文中指咳嗽或打喷嚏后清洁鼻子。",
+      "definition_en": "To clear mucus from the nose by blowing air through it; The most common English explanation is to clean the nose. In the context of the article, it means cleaning the nose after coughing or sneezing.",
+      "usage": "动词短语，通常用作祈使句或陈述句。例如：\"Blow your nose gently.\" 用于表达清理鼻腔的动作。Grammatical usage: A verb phrase, often used in imperative or declarative sentences. E.g., \"Blow your nose gently.\" Used to express the action of clearing the nose.",
+      "image_prompt": "A professional in an office setting, using a tissue to gently clear their nose while sitting at a desk, with a trash bin nearby.",
+      "image_desc_en": "A person is using a tissue to clear their nasal passages.",
+      "image_desc_cn": "一个人正在用纸巾清理鼻腔。",
+      "examples": [
+        {
+          "sentence": "And remember to wash your hands after blowing your nose, coughing or sneezing.",
+          "trans": "记住在擤鼻涕、咳嗽或打喷嚏后要洗手。",
+          "source": "Article"
+        },
+        {
+          "sentence": "When you have a cold, it's important to blow your nose regularly to avoid discomfort.",
+          "trans": "当你感冒时，定期擤鼻涕以避免不适很重要。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "擤鼻涕",
+      "options": [
+        "擦鼻子",
+        "擤鼻涕",
+        "闻气味",
+        "打喷嚏"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "If you feel congested, you should blow your nose into a tissue to relieve it.",
+          "is_correct": true
+        },
+        {
+          "sentence": "He decided to blow his nose on his sleeve because he forgot his tissue.",
+          "is_correct": false
+        },
+        {
+          "sentence": "She will blow her nose by taking a deep breath and exhaling slowly.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "colloc_4_blow_your_nose.png",
+      "scrambled_letters": [
+        "e",
+        "u",
+        "l",
+        "y",
+        "o",
+        "r",
+        "i",
+        "o",
+        "w",
+        "k",
+        "t",
+        "b",
+        "e",
+        "o",
+        "n",
+        "s",
+        "n"
+      ]
+    },
+    {
+      "id": 5,
+      "phrase": "prepare food",
+      "definition_cn": "准备食物；最常用的中文意思是做饭或处理食材。在本文中指在进食前处理食物。",
+      "definition_en": "To make food ready for eating; The most common English explanation is to cook or handle ingredients. In the context of the article, it means handling food before eating.",
+      "usage": "动词短语，后接名词或用于不定式。例如：\"She likes to prepare food for her family.\" 用于表达制作或处理食物的过程。Grammatical usage: A verb phrase, followed by a noun or used in infinitive form. E.g., \"She likes to prepare food for her family.\" Used to express the process of making or handling food.",
+      "image_prompt": "A chef in a restaurant kitchen, carefully chopping vegetables on a cutting board with various ingredients around.",
+      "image_desc_en": "A person is cutting and organizing ingredients on a kitchen counter.",
+      "image_desc_cn": "一个人正在厨房台面上切割和整理食材。",
+      "examples": [
+        {
+          "sentence": "You should always wash your hands before you prepare food or eat.",
+          "trans": "在准备食物或吃饭前，你应该总是洗手。",
+          "source": "Article"
+        },
+        {
+          "sentence": "Learning how to prepare food safely is an essential skill for everyone.",
+          "trans": "学习如何安全地准备食物是每个人的基本技能。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "准备食物",
+      "options": [
+        "吃食物",
+        "准备食物",
+        "购买食物",
+        "储存食物"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "Before you start to prepare food, make sure all utensils are clean to prevent contamination.",
+          "is_correct": true
+        },
+        {
+          "sentence": "He needs to prepare food for his pet by buying special kibble from the store.",
+          "is_correct": false
+        },
+        {
+          "sentence": "She will prepare food by reading a recipe book in the living room.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "colloc_5_prepare_food.png",
+      "scrambled_letters": [
+        "b",
+        "e",
+        "a",
+        "o",
+        "o",
+        "e",
+        "d",
+        "r",
+        "r",
+        "e",
+        "p",
+        "f",
+        "d",
+        "o",
+        "x",
+        "p"
+      ]
+    },
+    {
+      "id": 6,
+      "phrase": "on average",
+      "definition_cn": "平均来说；最常用的中文意思是通常或平均而言。在本文中指统计上大多数人洗手不当。",
+      "definition_en": "Typically or as a general rule; The most common English explanation is usually or on average. In the context of the article, it means statistically most people don't wash their hands properly.",
+      "usage": "介词短语，用作状语修饰整个句子。例如：\"On average, people sleep 8 hours a day.\" 用于表达一般情况或统计数据。Grammatical usage: A prepositional phrase, used as an adverbial to modify the whole sentence. E.g., \"On average, people sleep 8 hours a day.\" Used to express general situations or statistical data.",
+      "image_prompt": "A graph on a computer screen in an office, showing a bar chart with an average line, while a professional analyzes the data.",
+      "image_desc_en": "A statistical chart is displayed, indicating a common trend among a group.",
+      "image_desc_cn": "一个统计图表被显示，表明一个群体中的普遍趋势。",
+      "examples": [
+        {
+          "sentence": "On average, 95% of people don't wash their hands properly.",
+          "trans": "平均来说，95%的人洗手方式不当。",
+          "source": "Article"
+        },
+        {
+          "sentence": "On average, students in this school spend two hours on homework every day.",
+          "trans": "平均来说，这所学校的学生每天花两个小时做作业。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "平均来说",
+      "options": [
+        "总是",
+        "平均来说",
+        "从不",
+        "有时"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "On average, the temperature in this city drops below freezing in winter.",
+          "is_correct": true
+        },
+        {
+          "sentence": "He placed the book on average on the shelf to keep it balanced.",
+          "is_correct": false
+        },
+        {
+          "sentence": "She calculated the on average of the test scores by adding them up.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "colloc_6_on_average.png",
+      "scrambled_letters": [
+        "r",
+        "a",
+        "n",
+        "v",
+        "g",
+        "o",
+        "n",
+        "e",
+        "n",
+        "x",
+        "q",
+        "a",
+        "e",
+        "r"
+      ]
+    },
+    {
+      "id": 7,
+      "phrase": "running water",
+      "definition_cn": "流动的水；最常用的中文意思是自来水或持续流动的水。在本文中指用于洗手的水流。",
+      "definition_en": "Water that flows from a tap or source; The most common English explanation is tap water or continuously flowing water. In the context of the article, it means water used for washing hands.",
+      "usage": "名词短语，通常用作主语或宾语。例如：\"Use running water to rinse.\" 用于描述流动的水源。Grammatical usage: A noun phrase, often used as a subject or object. E.g., \"Use running water to rinse.\" Used to describe flowing water sources.",
+      "image_prompt": "A close-up of a modern faucet in a bathroom, with clear water flowing steadily into a sink, creating ripples.",
+      "image_desc_en": "Water is flowing continuously from a tap into a basin.",
+      "image_desc_cn": "水正从水龙头持续流入水盆中。",
+      "examples": [
+        {
+          "sentence": "Wet your hands with clean, running water—either warm or cold.",
+          "trans": "用干净、流动的水——无论是温水还是冷水——弄湿你的手。",
+          "source": "Article"
+        },
+        {
+          "sentence": "In many rural areas, access to clean running water is still a challenge.",
+          "trans": "在许多农村地区，获得干净的流动水仍然是一个挑战。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "流动的水",
+      "options": [
+        "静止的水",
+        "流动的水",
+        "热水",
+        "冷水"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "For hygiene, it's best to wash fruits under running water before eating them.",
+          "is_correct": true
+        },
+        {
+          "sentence": "He repaired the running water by fixing the leak in the pipe.",
+          "is_correct": false
+        },
+        {
+          "sentence": "She enjoys the sound of running water while sitting by a quiet stream.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "colloc_7_running_water.png",
+      "scrambled_letters": [
+        "u",
+        "a",
+        "r",
+        "n",
+        "q",
+        "b",
+        "i",
+        "h",
+        "t",
+        "t",
+        "n",
+        "g",
+        "n",
+        "e",
+        "r",
+        "n",
+        "w"
+      ]
+    },
+    {
+      "id": 8,
+      "phrase": "dry your hands",
+      "definition_cn": "擦干手；最常用的中文意思是使手变干。在本文指洗手后用毛巾或风干手。",
+      "definition_en": "To make your hands dry; The most common English explanation is to remove moisture from hands. In the context of the article, it means drying hands with a towel or air after washing.",
+      "usage": "动词短语，通常用作祈使句或陈述句。例如：\"Dry your hands thoroughly.\" 用于表达使手干燥的动作。Grammatical usage: A verb phrase, often used in imperative or declarative sentences. E.g., \"Dry your hands thoroughly.\" Used to express the action of making hands dry.",
+      "image_prompt": "A person in a restroom using a clean white towel to gently pat their hands dry, with the towel partially unfolded.",
+      "image_desc_en": "A person is using a towel to remove moisture from their hands after washing.",
+      "image_desc_cn": "一个人正在用毛巾去除洗手后手上的水分。",
+      "examples": [
+        {
+          "sentence": "Dry your hands with a clean towel or air-dry them.",
+          "trans": "用干净的毛巾擦干手或让它们风干。",
+          "source": "Article"
+        },
+        {
+          "sentence": "After washing your hands, remember to dry your hands completely to prevent bacterial growth.",
+          "trans": "洗手后，记得完全擦干手以防止细菌滋生。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "擦干手",
+      "options": [
+        "弄湿手",
+        "擦干手",
+        "洗手",
+        "保护手"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "It's important to dry your hands after washing to avoid leaving wet marks on surfaces.",
+          "is_correct": true
+        },
+        {
+          "sentence": "He will dry your hands by holding them near a heater to warm them up.",
+          "is_correct": false
+        },
+        {
+          "sentence": "She forgot to dry your hands and walked out with damp sleeves.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "colloc_8_dry_your_hands.png",
+      "scrambled_letters": [
+        "d",
+        "h",
+        "r",
+        "a",
+        "s",
+        "y",
+        "r",
+        "f",
+        "d",
+        "y",
+        "o",
+        "a",
+        "j",
+        "j",
+        "g",
+        "u",
+        "n"
+      ]
+    },
+    {
+      "id": 9,
+      "phrase": "animal waste",
+      "definition_cn": "动物粪便；最常用的中文意思是动物的排泄物。在本文中指接触动物后需要洗手的情况。",
+      "definition_en": "Excrement from animals; The most common English explanation is waste produced by animals. In the context of the article, it means situations requiring handwashing after touching animals.",
+      "usage": "名词短语，通常用作宾语。例如：\"Clean up animal waste properly.\" 用于描述动物的粪便。Grammatical usage: A noun phrase, often used as an object. E.g., \"Clean up animal waste properly.\" Used to describe excrement from animals.",
+      "image_prompt": "A gardener wearing gloves, using a tool to clean up waste from a pet area in a backyard, with plants in the background.",
+      "image_desc_en": "A person is handling waste material from an animal in an outdoor setting.",
+      "image_desc_cn": "一个人正在户外处理动物产生的废物材料。",
+      "examples": [
+        {
+          "sentence": "Touching an animal, animal feed or animal waste.",
+          "trans": "接触动物、动物饲料或动物粪便。",
+          "source": "Article"
+        },
+        {
+          "sentence": "Proper disposal of animal waste is crucial for maintaining public health and environmental cleanliness.",
+          "trans": "妥善处理动物粪便对于维护公共卫生和环境清洁至关重要。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "动物粪便",
+      "options": [
+        "动物食物",
+        "动物粪便",
+        "动物玩具",
+        "动物毛发"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "Farmers must manage animal waste carefully to prevent pollution and disease.",
+          "is_correct": true
+        },
+        {
+          "sentence": "She collects animal waste as fertilizer for her organic garden.",
+          "is_correct": false
+        },
+        {
+          "sentence": "He found animal waste while hiking and decided to take a sample for study.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "colloc_9_animal_waste.png",
+      "scrambled_letters": [
+        "s",
+        "v",
+        "e",
+        "n",
+        "a",
+        "i",
+        "n",
+        "g",
+        "a",
+        "t",
+        "l",
+        "e",
+        "w",
+        "a",
+        "m",
+        "r"
+      ]
+    },
+    {
+      "id": 10,
+      "phrase": "at least",
+      "definition_cn": "至少；最常用的中文意思是最低限度。在本文中指洗手时搓手的时间不少于30秒。",
+      "definition_en": "No less than; The most common English explanation is the minimum amount. In the context of the article, it means rubbing hands for no less than 30 seconds.",
+      "usage": "介词短语，用作状语修饰数量或程度。例如：\"You need at least 8 hours of sleep.\" 用于表达最低要求或数量。Grammatical usage: A prepositional phrase, used as an adverbial to modify quantity or degree. E.g., \"You need at least 8 hours of sleep.\" Used to express minimum requirements or quantities.",
+      "image_prompt": "A timer on a smartphone screen showing 30 seconds, placed next to a sink in a modern bathroom, with hands visible washing.",
+      "image_desc_en": "A timer is set for a specific duration to ensure a task is done for a minimum time.",
+      "image_desc_cn": "一个计时器被设定为特定持续时间，以确保一项任务至少完成一定时间。",
+      "examples": [
+        {
+          "sentence": "Rub your hands for at least 30 seconds.",
+          "trans": "搓手至少30秒。",
+          "source": "Article"
+        },
+        {
+          "sentence": "To improve your English, you should practice speaking at least 15 minutes every day.",
+          "trans": "为了提高你的英语，你应该每天至少练习说15分钟。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "至少",
+      "options": [
+        "至少",
+        "最多",
+        "大约",
+        "恰好"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "You should drink at least eight glasses of water daily to stay hydrated.",
+          "is_correct": true
+        },
+        {
+          "sentence": "He placed the book at least on the top shelf where it was hard to reach.",
+          "is_correct": false
+        },
+        {
+          "sentence": "She calculated the at least of the budget by considering all expenses.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "colloc_10_at_least.png",
+      "scrambled_letters": [
+        "e",
+        "a",
+        "q",
+        "t",
+        "t",
+        "s",
+        "l",
+        "a",
+        "o",
+        "m",
+        "k",
+        "a"
+      ]
+    }
+  ],
+  "grammar": [
+    {
+      "id": 1,
+      "title": "Modal Verb 'should' for Advice / 情态动词 'should' 表示建议",
+      "source_sentence": "You should always wash your hands before you: Prepare food or eat.",
+      "source_sentence_cn": "你应该在以下情况前洗手：准备食物或吃饭。",
+      "explanation": "<p>情态动词 <b>'should'</b> 用来给出建议或表达一种义务或正确的事情。它不像 'must' 那么强烈。在英语中，我们经常用 'should' 来告诉别人什么是对他们有益或正确的做法。</p><p>The modal verb <b>'should'</b> is used to give advice or express what is a good idea or the right thing to do. It is less strong than 'must'. We often use 'should' to tell someone what is beneficial or correct for them.</p>",
+      "zhongkao_tips": "<p><b>中考提示：</b>注意 'should' 后面跟动词原形。常见错误是加 'to'（如 should to do）或使用动词的过去式。考题可能要求你在建议、规则或健康指南的语境中识别或使用 'should'。</p><p><b>Zhongkao Tip:</b> Note that 'should' is followed by the base form of the verb. A common mistake is adding 'to' (e.g., should to do) or using a past tense verb. Exam questions may ask you to identify or use 'should' in contexts of advice, rules, or health guidelines.</p>",
+      "guide_questions": [
+        {
+          "question": "What word in the sentence tells us this is a piece of advice? / 句子中哪个词告诉我们这是一个建议？",
+          "options": [
+            "A. always",
+            "B. wash",
+            "C. should",
+            "D. before"
+          ],
+          "correct": "C",
+          "hint": "Look for a word that expresses what is good to do. / 寻找一个表达什么该做的词。"
+        },
+        {
+          "question": "What form of the verb comes after 'should'? / 'should' 后面跟动词的什么形式？",
+          "options": [
+            "A. Base form (原形)",
+            "B. Past tense (过去式)",
+            "C. -ing form (ing形式)",
+            "D. with 'to' (带to)"
+          ],
+          "correct": "A",
+          "hint": "It is the simplest form of the verb, like 'go', 'eat', 'be'. / 是动词最简单的形式，如 'go', 'eat', 'be'。"
+        },
+        {
+          "question": "Is the advice in the sentence strong (like a command) or gentle? / 句子中的建议是强烈的（像命令）还是温和的？",
+          "options": [
+            "A. Strong command (强烈命令)",
+            "B. Gentle suggestion (温和建议)"
+          ],
+          "correct": "B",
+          "hint": "Compare it with the word 'must'. / 和 'must' 这个词比较一下。"
+        }
+      ],
+      "examples": [
+        {
+          "en": "You should drink more water when you are sick.",
+          "cn": "生病时你应该多喝水。"
+        },
+        {
+          "en": "Students should listen carefully in class.",
+          "cn": "学生在课堂上应该认真听讲。"
+        }
+      ],
+      "quiz_questions": [
+        {
+          "type": "choice",
+          "question": "Which sentence correctly uses 'should' to give advice?",
+          "options": [
+            "A. You should washes your hands.",
+            "B. You should to wash your hands.",
+            "C. You should wash your hands.",
+            "D. You should washing your hands."
+          ],
+          "correct": "C",
+          "explanation": "正确选项是 C，因为 'should' 后面必须跟动词原形 'wash'。A 用了第三人称单数 'washes'，B 加了 'to'，D 用了 -ing 形式，都是错误的。"
+        },
+        {
+          "type": "truefalse",
+          "question": "The modal verb 'should' expresses a strong command that must be followed. / 情态动词 'should' 表达一个必须遵守的强烈命令。",
+          "options": [
+            "True",
+            "False"
+          ],
+          "correct": "False",
+          "explanation": "False. 'Should' expresses advice or a recommendation, not a strong command. 'Must' is used for strong obligations. / 错误。'should' 表达建议或推荐，不是强烈的命令。'must' 用于表示强烈的义务。"
+        },
+        {
+          "type": "choice",
+          "question": "What is the Chinese meaning of 'should' in the context of giving advice? / 在给出建议的语境中，'should' 的中文意思是什么？",
+          "options": [
+            "A. 必须",
+            "B. 可以",
+            "C. 应该",
+            "D. 将要"
+          ],
+          "correct": "C",
+          "explanation": "正确选项是 C '应该'。'必须' 对应 'must'，'可以' 对应 'can/may'，'将要' 对应 'will'。"
+        },
+        {
+          "type": "truefalse",
+          "question": "In the sentence 'You should always wash your hands before you eat.', the word 'always' makes the advice weaker. / 在句子 'You should always wash your hands before you eat.' 中，'always' 这个词使建议变弱了。",
+          "options": [
+            "True",
+            "False"
+          ],
+          "correct": "False",
+          "explanation": "False. 'Always' emphasizes the frequency, meaning it's advice for every time, making the suggestion stronger in terms of habit, not weaker. / 错误。'always' 强调频率，意思是每次都应该这样做，这使得建议在习惯养成方面更强，而不是更弱。"
+        },
+        {
+          "type": "choice",
+          "question": "Choose the best translation: 为了保护环境，我们应该回收利用塑料瓶。",
+          "options": [
+            "A. To protect the environment, we must recycle plastic bottles.",
+            "B. To protect the environment, we can recycle plastic bottles.",
+            "C. To protect the environment, we should recycle plastic bottles.",
+            "D. To protect the environment, we will recycle plastic bottles."
+          ],
+          "correct": "C",
+          "explanation": "正确选项是 C。中文的'应该'最准确地对应英文的'should'，表示一种建议或倡导的责任。A 的 'must' 太强制，B 的 'can' 表示能力，D 的 'will' 表示未来意愿。"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Conjunction 'although' for Contrast / 连词 'although' 表示转折",
+      "source_sentence": "Although it's impossible to keep away from germs or viruses, washing your hands frequently can help limit the transfer of them.",
+      "source_sentence_cn": "虽然不可能完全避开细菌或病毒，但经常洗手有助于限制它们的传播。",
+      "explanation": "<p>连词 <b>'although'</b>（虽然，尽管）用于连接两个有对比或转折关系的句子。它引导一个让步状语从句，表示承认一个事实，但主句的内容依然成立或更重要。它通常放在句首，后面用逗号与主句隔开。</p><p>The conjunction <b>'although'</b> is used to link two clauses that show contrast or concession. It introduces a dependent clause (concession) that states a fact, but the main clause presents a contrasting idea that is still true or more important. It is often placed at the beginning of the sentence, followed by a comma.</p>",
+      "zhongkao_tips": "<p><b>中考提示：</b>注意 'although' 和 'but' 不能在同一句话中同时使用，这是中文思维常见的错误（如：Although... but...）。记住：'although' 引导从句，主句前不需要 'but'。中考完形填空或句型转换题常考这一点。</p><p><b>Zhongkao Tip:</b> Be careful not to use 'although' and 'but' in the same sentence. This is a common mistake due to Chinese thinking (e.g., Although... but...). Remember: 'although' introduces the clause, and 'but' is not needed before the main clause. This is often tested in cloze tests or sentence transformation questions.</p>",
+      "guide_questions": [
+        {
+          "question": "What two contrasting ideas does 'although' connect in the sentence? / 在句子中，'although' 连接了哪两个相对的意思？",
+          "options": [
+            "A. 'impossible to keep away' vs. 'can help limit'",
+            "B. 'germs' vs. 'viruses'",
+            "C. 'washing hands' vs. 'transfer of them'",
+            "D. 'frequently' vs. 'limit'"
+          ],
+          "correct": "A",
+          "hint": "Look for the clause after 'although' and the main clause. One admits a difficulty, the other gives a solution. / 看 'although' 后面的从句和主句。一个承认困难，另一个给出解决办法。"
+        },
+        {
+          "question": "Can we add the word 'but' after the comma in this sentence? / 我们可以在句中的逗号后加 'but' 这个词吗？",
+          "options": [
+            "A. Yes",
+            "B. No"
+          ],
+          "correct": "B",
+          "hint": "'Although' already shows the contrast, so 'but' is redundant. / 'Although' 已经表示了转折，所以 'but' 是多余的。"
+        },
+        {
+          "question": "Where is 'although' usually placed in a sentence? / 'although' 通常放在句子的什么位置？",
+          "options": [
+            "A. At the end of the sentence. / 在句末。",
+            "B. In the middle of the main clause. / 在主句中间。",
+            "C. At the beginning, before the contrasting fact. / 在句首，在陈述相对事实之前。",
+            "D. It doesn't have a fixed position. / 没有固定位置。"
+          ],
+          "correct": "C",
+          "hint": "It often starts the sentence to introduce the concession first. / 它通常放在句首，先引出让步的事实。"
+        }
+      ],
+      "examples": [
+        {
+          "en": "Although it was raining, we still went for a walk.",
+          "cn": "虽然下着雨，我们还是去散步了。"
+        },
+        {
+          "en": "Although he is young, he knows a lot about history.",
+          "cn": "虽然他年轻，但他对历史了解很多。"
+        }
+      ],
+      "quiz_questions": [
+        {
+          "type": "choice",
+          "question": "Which sentence uses 'although' correctly?",
+          "options": [
+            "A. Although he was tired, but he finished his homework.",
+            "B. He finished his homework, although he was tired.",
+            "C. Although he was tired, he finished his homework.",
+            "D. Both B and C are correct."
+          ],
+          "correct": "D",
+          "explanation": "正确选项是 D。B 和 C 都正确。'Although' 可以放在句首（C）或主句之后（B）。A 错误，因为 'although' 和 'but' 不能连用。"
+        },
+        {
+          "type": "truefalse",
+          "question": "The word 'although' can be replaced by 'but' without changing the sentence structure. / 可以用 'but' 替换 'although' 而不改变句子结构。",
+          "options": [
+            "True",
+            "False"
+          ],
+          "correct": "False",
+          "explanation": "False. Replacing 'although' with 'but' requires changing the sentence structure. For example: 'Although he was tired, he worked.' -> 'He was tired, but he worked.' The clause order and punctuation change. / 错误。用 'but' 替换 'although' 需要改变句子结构。例如：'Although he was tired, he worked.' -> 'He was tired, but he worked.' 从句顺序和标点都变了。"
+        },
+        {
+          "type": "choice",
+          "question": "Choose the best conjunction to complete the sentence: ______ the task is difficult, we will try our best.",
+          "options": [
+            "A. Because",
+            "B. So",
+            "C. Although",
+            "D. And"
+          ],
+          "correct": "C",
+          "explanation": "正确选项是 C 'Although'。前后句意存在转折：'任务困难' 和 '我们会尽力' 形成对比。A 'Because' 表原因，B 'So' 表结果，D 'And' 表并列，都不符合逻辑。"
+        },
+        {
+          "type": "truefalse",
+          "question": "In the sentence 'Although it's impossible to keep away from germs...', the part after 'although' is the main idea the author wants to emphasize. / 在句子 'Although it's impossible to keep away from germs...' 中，'although' 后面的部分是作者想强调的主要观点。",
+          "options": [
+            "True",
+            "False"
+          ],
+          "correct": "False",
+          "explanation": "False. The part after 'although' is the concession (承认的事实). The main idea the author emphasizes is in the main clause: 'washing your hands frequently can help...'. / 错误。'although' 后面的部分是让步（承认的事实）。作者强调的主要观点在主句中：'washing your hands frequently can help...'。"
+        },
+        {
+          "type": "choice",
+          "question": "What is the key grammar rule to remember when using 'although'? / 使用 'although' 时要记住的关键语法规则是什么？",
+          "options": [
+            "A. It must be followed by a noun. / 它后面必须跟名词。",
+            "B. It can be used together with 'but'. / 它可以和 'but' 一起使用。",
+            "C. It introduces a contrasting idea and doesn't need 'but' in the main clause. / 它引出一个相对的意思，在主句中不需要 'but'。",
+            "D. It is used to show cause and effect. / 它用于表示因果关系。"
+          ],
+          "correct": "C",
+          "explanation": "正确选项是 C。这是使用 'although' 最重要的规则之一，也是中考常见考点。A 错误，它后面跟从句。B 错误，两者不能连用。D 错误，它表示转折，不是因果。"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Imperative Sentences for Instructions / 祈使句表示指示",
+      "source_sentence": "Wet your hands with clean, running water—either warm or cold.",
+      "source_sentence_cn": "用干净的流动水弄湿你的手——温水或冷水都可以。",
+      "explanation": "<p><b>祈使句</b>用来发出命令、指示、请求或建议。它的主语（you）通常被省略，以动词原形开头。在说明文或指南中（如洗手步骤），祈使句被广泛用于清晰地给出指令。</p><p><b>Imperative sentences</b> are used to give commands, instructions, requests, or advice. The subject (you) is usually omitted, and the sentence begins with the base form of the verb. In expository writing or guides (like handwashing steps), imperatives are widely used to give clear instructions.</p>",
+      "zhongkao_tips": "<p><b>中考提示：</b>识别祈使句的关键是看句子是否以动词原形开头（没有主语），并且表达指令或建议。注意否定祈使句用 'Don't' + 动词原形。考题可能要求你将陈述句改为祈使句，或在语境中判断句子的功能。</p><p><b>Zhongkao Tip:</b> The key to identifying an imperative sentence is to see if it starts with the base form of a verb (no subject) and expresses a command or instruction. Note that negative imperatives use 'Don't' + base verb. Exam questions may ask you to change a statement into an imperative, or judge the function of a sentence in context.</p>",
+      "guide_questions": [
+        {
+          "question": "Who is the implied subject of this imperative sentence? / 这个祈使句隐含的主语是谁？",
+          "options": [
+            "A. I",
+            "B. He/She",
+            "C. You",
+            "D. They"
+          ],
+          "correct": "C",
+          "hint": "Imperative sentences are usually directed at the listener or reader. / 祈使句通常是针对听者或读者的。"
+        },
+        {
+          "question": "What is the first word of the sentence, and what part of speech is it? / 句子的第一个词是什么，它是什么词性？",
+          "options": [
+            "A. 'Wet' - Verb (动词)",
+            "B. 'Your' - Pronoun (代词)",
+            "C. 'Hands' - Noun (名词)",
+            "D. 'With' - Preposition (介词)"
+          ],
+          "correct": "A",
+          "hint": "Imperatives often start directly with an action verb. / 祈使句通常直接以行为动词开头。"
+        },
+        {
+          "question": "What is the purpose of this sentence: to describe, to ask, or to instruct? / 这个句子的目的是什么：描述、提问还是指示？",
+          "options": [
+            "A. To describe a situation (描述情况)",
+            "B. To ask a question (提问)",
+            "C. To give an instruction (给出指示)"
+          ],
+          "correct": "C",
+          "hint": "It tells someone what to do in a step-by-step guide. / 它在一个分步指南中告诉某人该做什么。"
+        }
+      ],
+      "examples": [
+        {
+          "en": "Apply soap well.",
+          "cn": "好好涂抹肥皂。"
+        },
+        {
+          "en": "Don't touch anything that is not clean.",
+          "cn": "不要触摸任何不干净的东西。"
+        }
+      ],
+      "quiz_questions": [
+        {
+          "type": "choice",
+          "question": "Which of the following is an imperative sentence?",
+          "options": [
+            "A. He is washing his hands.",
+            "B. Wash your hands carefully.",
+            "C. How do you wash your hands?",
+            "D. Your hands are wet."
+          ],
+          "correct": "B",
+          "explanation": "正确选项是 B。它以动词原形 'Wash' 开头，省略了主语 'you'，给出了一个指令。A 是陈述句，C 是疑问句，D 是陈述句。"
+        },
+        {
+          "type": "truefalse",
+          "question": "The sentence 'Please close the door.' is an imperative sentence. / 句子 'Please close the door.' 是一个祈使句。",
+          "options": [
+            "True",
+            "False"
+          ],
+          "correct": "True",
+          "explanation": "True. Adding 'Please' makes it more polite, but it still starts with the base verb 'close' and gives a request/instruction, which is a type of imperative. / 正确。加上 'Please' 使其更礼貌，但它仍然以动词原形 'close' 开头，并给出了一个请求/指示，这是祈使句的一种。"
+        },
+        {
+          "type": "choice",
+          "question": "How to change the statement 'You dry your hands with a towel.' into an imperative? / 如何将陈述句 'You dry your hands with a towel.' 改为祈使句？",
+          "options": [
+            "A. Drying your hands with a towel.",
+            "B. Dry your hands with a towel.",
+            "C. You should dry your hands with a towel.",
+            "D. Did you dry your hands with a towel?"
+          ],
+          "correct": "B",
+          "explanation": "正确选项是 B。去掉主语 'You'，将动词 'dry' 保持原形放在句首，就变成了祈使句。A 是动名词短语，C 是含 'should' 的建议句，D 是疑问句。"
+        },
+        {
+          "type": "truefalse",
+          "question": "Imperative sentences always have the word 'you' written at the beginning. / 祈使句总是在开头写出 'you' 这个词。",
+          "options": [
+            "True",
+            "False"
+          ],
+          "correct": "False",
+          "explanation": "False. The subject 'you' is usually understood and not written in imperative sentences. Writing 'you' can make it sound more emphatic or direct, but it's not the standard form. / 错误。主语 'you' 通常是隐含的，在祈使句中不写出来。写出 'you' 可能使其听起来更强调或直接，但不是标准形式。"
+        },
+        {
+          "type": "choice",
+          "question": "What is the negative form of the imperative 'Touch the soap.'? / 祈使句 'Touch the soap.' 的否定形式是什么？",
+          "options": [
+            "A. Not touch the soap.",
+            "B. Don't touch the soap.",
+            "C. No touch the soap.",
+            "D. Doesn't touch the soap."
+          ],
+          "correct": "B",
+          "explanation": "正确选项是 B。否定祈使句的结构是 'Don't' (Do not) + 动词原形。A 缺少助动词，C 是中文式英语，D 用了第三人称单数的 'Doesn't'，错误。"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Passive Voice in Present Simple / 一般现在时的被动语态",
+      "source_sentence": "By washing your hands, you don't kill the germs or viruses, but you wash them away from your hands or body to keep yourself safe.",
+      "source_sentence_cn": "通过洗手，你并没有杀死细菌或病毒，而是把它们从你的手或身体上洗掉，以保护自己的安全。",
+      "explanation": "<p>这个句子本身是主动语态，但它隐含了一个重要的被动概念：'germs are washed away'。为了教学清晰，我们提取其核心的被动结构：<b>Germs are washed away.</b> <b>被动语态</b>强调动作的承受者（germs），而不是执行者（you）。一般现在时被动语态的结构是：<b>am/is/are + 过去分词</b>。它常用于科学描述、流程说明或当动作执行者不重要或未知时。</p><p>This sentence itself is in active voice, but it implies an important passive concept: 'germs are washed away'. For teaching clarity, we extract its core passive structure: <b>Germs are washed away.</b> The <b>passive voice</b> emphasizes the receiver of the action (germs), not the doer (you). The structure for present simple passive is: <b>am/is/are + past participle</b>. It is often used in scientific descriptions, process explanations, or when the doer is unimportant or unknown.</p>",
+      "zhongkao_tips": "<p><b>中考提示：</b>判断是否使用被动语态的关键是：主语是动作的承受者。注意动词必须是及物动词。中考常考主动语态与被动语态的转换，例如将 'People wash germs away.' 改为 'Germs are washed away (by people).'。要熟练掌握 'be' 动词随主语单复数的变化（am/is/are）。</p><p><b>Zhongkao Tip:</b> The key to deciding whether to use passive voice is: the subject is the receiver of the action. Note the verb must be transitive. The exam often tests the conversion between active and passive voice, e.g., changing 'People wash germs away.' to 'Germs are washed away (by people).'. Master the change of the 'be' verb according to the subject's number (am/is/are).</p>",
+      "guide_questions": [
+        {
+          "question": "In the idea 'germs are washed away', what is the subject? Is it doing the action or receiving the action? / 在 'germs are washed away' 这个意思中，主语是什么？它是执行动作还是承受动作？",
+          "options": [
+            "A. Germs - doing the action (细菌 - 执行动作)",
+            "B. Germs - receiving the action (细菌 - 承受动作)",
+            "C. You - doing the action (你 - 执行动作)",
+            "D. Water - receiving the action (水 - 承受动作)"
+          ],
+          "correct": "B",
+          "hint": "Germs don't wash themselves; something else washes them. / 细菌不会自己洗自己；是别的东西洗它们。"
+        },
+        {
+          "question": "What is the structure of the passive voice in present simple tense? / 一般现在时被动语态的结构是什么？",
+          "options": [
+            "A. Verb + -ing",
+            "B. will + verb",
+            "C. have/has + past participle",
+            "D. am/is/are + past participle"
+          ],
+          "correct": "D",
+          "hint": "It starts with a form of 'be' followed by the verb's past participle. / 它以 be 动词的一种形式开头，后跟动词的过去分词。"
+        },
+        {
+          "question": "Why might the passive voice be used in a science text about handwashing? / 为什么在关于洗手的科学文本中可能使用被动语态？",
+          "options": [
+            "A. To emphasize who is washing. / 强调谁在洗。",
+            "B. To emphasize what happens to the germs. / 强调细菌发生了什么。",
+            "C. To make the sentence shorter. / 使句子更短。",
+            "D. To ask a question. / 用来提问。"
+          ],
+          "correct": "B",
+          "hint": "The focus is on the result (clean hands, removed germs), not the person doing it. / 重点是结果（干净的手，被去除的细菌），而不是做这件事的人。"
+        }
+      ],
+      "examples": [
+        {
+          "en": "Soap is applied to the hands.",
+          "cn": "肥皂被涂抹在手上。"
+        },
+        {
+          "en": "English is spoken all over the world.",
+          "cn": "英语在世界各地被使用。"
+        }
+      ],
+      "quiz_questions": [
+        {
+          "type": "choice",
+          "question": "Which sentence is in the present simple passive voice?",
+          "options": [
+            "A. The boy washes the apple.",
+            "B. The apple is washed by the boy.",
+            "C. The boy is washing the apple.",
+            "D. The boy has washed the apple."
+          ],
+          "correct": "B",
+          "explanation": "正确选项是 B。主语 'The apple' 是动作 'wash' 的承受者，结构是 'is' + 过去分词 'washed'。A 是主动语态，C 是现在进行时主动语态，D 是现在完成时主动语态。"
+        },
+        {
+          "type": "truefalse",
+          "question": "In passive voice, the doer of the action is always mentioned using 'by...'. / 在被动语态中，动作的执行者总是用 'by...' 来提及。",
+          "options": [
+            "True",
+            "False"
+          ],
+          "correct": "False",
+          "explanation": "False. The 'by...' phrase is often omitted when the doer is obvious, unknown, or unimportant. For example, 'Germs are washed away.' (The doer 'you/people' is not mentioned). / 错误。当执行者很明显、未知或不重要时，'by...' 短语经常被省略。例如：'Germs are washed away.'（执行者 'you/people' 未被提及）。"
+        },
+        {
+          "type": "choice",
+          "question": "Change the active sentence into passive: 'People speak Chinese in China.'",
+          "options": [
+            "A. Chinese is spoke in China by people.",
+            "B. Chinese is spoken in China (by people).",
+            "C. Chinese are spoken in China.",
+            "D. In China is spoken Chinese."
+          ],
+          "correct": "B",
+          "explanation": "正确选项是 B。主语 'Chinese' 是单数，所以用 'is'，动词 'speak' 的过去分词是 'spoken'。'by people' 可以省略。A 的过去分词 'spoke' 错误，C 的主谓 'Chinese are' 单复数不一致，D 语序错误。"
+        },
+        {
+          "type": "truefalse",
+          "question": "The sentence 'The window is broken.' can ONLY be understood as a passive voice sentence (meaning someone broke it). / 句子 'The window is broken.' 只能被理解为被动语态句子（意思是有人打破了它）。",
+          "options": [
+            "True",
+            "False"
+          ],
+          "correct": "False",
+          "explanation": "False. 'The window is broken.' can be a passive voice sentence, but 'broken' can also be an adjective describing the state of the window. Context determines the meaning. / 错误。'The window is broken.' 可以是一个被动语态句子，但 'broken' 也可以是一个形容词，描述窗户的状态。上下文决定其含义。"
+        },
+        {
+          "type": "choice",
+          "question": "What is the past participle of the verb 'wash'? / 动词 'wash' 的过去分词是什么？",
+          "options": [
+            "A. wash",
+            "B. washed",
+            "C. washing",
+            "D. washes"
+          ],
+          "correct": "B",
+          "explanation": "正确选项是 B 'washed'。规则动词的过去分词通常在词尾加 -ed。这是构成被动语态和完成时态的必要部分。"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Infinitives of Purpose / 动词不定式表示目的",
+      "source_sentence": "Wash your hands with soap and water to keep yourself safe.",
+      "source_sentence_cn": "用肥皂和水洗手以保护自己的安全。",
+      "explanation": "<p><b>动词不定式 (to + 动词原形)</b> 可以用来表示做某事的目的或原因，回答“为什么？”的问题。在这个句子中，'to keep yourself safe' 解释了为什么我们要洗手。它比用 'in order to' 或 'so that' 从句更简洁，在说明文中非常常见。</p><p>The <b>infinitive (to + base verb)</b> can be used to express the purpose or reason for doing something, answering the question 'why?'. In this sentence, 'to keep yourself safe' explains why we wash our hands. It is more concise than using 'in order to' or a 'so that' clause and is very common in instructional writing.</p>",
+      "zhongkao_tips": "<p><b>中考提示：</b>注意区分表示目的的 'to do' 和作为句子主语的 'To do...'（如：To learn English is important.）。在表示目的时，它通常放在主句之后。中考连词成句或单项选择可能考查不定式作目的状语的用法。记住，'to' 后面永远跟动词原形。</p><p><b>Zhongkao Tip:</b> Distinguish between 'to do' for purpose and 'To do...' as the subject of a sentence (e.g., To learn English is important.). When expressing purpose, it usually comes after the main clause. The exam may test the use of infinitives as adverbials of purpose in sentence ordering or multiple-choice questions. Remember, 'to' is always followed by the base form of the verb.</p>",
+      "guide_questions": [
+        {
+          "question": "What question does the phrase 'to keep yourself safe' answer? / 短语 'to keep yourself safe' 回答了什么问题？",
+          "options": [
+            "A. How do you wash hands? / 你如何洗手？",
+            "B. When do you wash hands? / 你何时洗手？",
+            "C. Why do you wash hands? / 你为何洗手？",
+            "D. Where do you wash hands? / 你在哪里洗手？"
+          ],
+          "correct": "C",
+          "hint": "It gives the reason or goal for the action. / 它给出了行动的原因或目标。"
+        },
+        {
+          "question": "What is the structure of the infinitive used here? / 这里使用的不定式结构是什么？",
+          "options": [
+            "A. to + noun (to + 名词)",
+            "B. to + adjective (to + 形容词)",
+            "C. to + base verb (to + 动词原形)",
+            "D. to + -ing verb (to + -ing 动词)"
+          ],
+          "correct": "C",
+          "hint": "Look at the word immediately after 'to'. / 看 'to' 后面紧跟着的词。"
+        },
+        {
+          "question": "Can we replace 'to keep' with 'for keeping' in this sentence without changing the meaning? / 我们能否将句中的 'to keep' 替换为 'for keeping' 而不改变意思？",
+          "options": [
+            "A. Yes, they are always the same. / 是的，它们总是一样的。",
+            "B. No, 'for keeping' is wrong here. / 不，这里用 'for keeping' 是错误的。",
+            "C. Sometimes, but here 'for keeping' is also acceptable. / 有时可以，但这里 'for keeping' 也可接受。",
+            "D. Only if we change the sentence structure. / 只有改变句子结构才可以。"
+          ],
+          "correct": "C",
+          "hint": "'For + -ing' can also express purpose, but 'to + verb' is more common. In this specific sentence, both might be understood, but 'to keep' is the standard and clearer choice. / 'For + -ing' 也可以表示目的，但 'to + 动词' 更常见。在这个具体句子中，两者可能都被理解，但 'to keep' 是更标准和清晰的选择。"
+        }
+      ],
+      "examples": [
+        {
+          "en": "We eat vegetables to stay healthy.",
+          "cn": "我们吃蔬菜以保持健康。"
+        },
+        {
+          "en": "She studies hard to get good grades.",
+          "cn": "她努力学习以获得好成绩。"
+        }
+      ],
+      "quiz_questions": [
+        {
+          "type": "choice",
+          "question": "Which part of the sentence shows the purpose? 'He went to the library to borrow a book.'",
+          "options": [
+            "A. He went",
+            "B. to the library",
+            "C. to borrow a book",
+            "D. a book"
+          ],
+          "correct": "C",
+          "explanation": "正确选项是 C 'to borrow a book'。它解释了去图书馆的目的。A 是主句动作，B 是地点，D 是名词。"
+        },
+        {
+          "type": "truefalse",
+          "question": "The infinitive of purpose can only be placed at the end of a sentence. / 表示目的的不定式只能放在句末。",
+          "options": [
+            "True",
+            "False"
+          ],
+          "correct": "False",
+          "explanation": "False. While commonly at the end, it can sometimes be placed at the beginning for emphasis, e.g., 'To keep safe, wash your hands.' However, the end position is more frequent and natural. / 错误。虽然通常放在句末，但有时为了强调可以放在句首，例如：'To keep safe, wash your hands.' 然而，句末位置更频繁和自然。"
+        },
+        {
+          "type": "choice",
+          "question": "Choose the best option to complete the sentence: I'm saving money ______ a new bicycle.",
+          "options": [
+            "A. buy",
+            "B. to buy",
+            "C. buying",
+            "D. for buy"
+          ],
+          "correct": "B",
+          "explanation": "正确选项是 B 'to buy'。表示存钱的目的。A 缺少 'to'，C 是 -ing 形式，D 的 'for' 后面应跟名词或 -ing 形式，不能跟动词原形。"
+        }
+      ]
+    }
+  ],
+  "meta": {
+    "source": "article.pdf",
+    "version": "2.0 (Detailed)"
+  }
+};
+const AZURE_KEY = "DKRXk8ueSfo5NdIOMqFRTCAfpeGDezJ3Snf5K8gGgtyqxiWdugLzJQQJ99BLACHYHv6XJ3w3AAAYACOGUYP9";
+const AZURE_REGION = "eastus2";
+const IMAGE_DIR = "generated_images";
+
+const { createApp, ref, computed, onMounted } = Vue;
+const SpeechSDK = window.SpeechSDK;
+
+createApp({
+    setup() {
+        const phase = ref('login');
+        const userName = ref('');
+        const currentIndex = ref(0);
+        const currentStep = ref(1);
+        const hasSave = ref(false);
+        const showAdminPanel = ref(false);
+        const stepData = ref({});
+        
+        const isRecording = ref(false);
+        let synthesizer = null;
+        let recognizer = null;
+        let currentRecScore = 0; 
+
+        const vocabList = COURSE_DATA_INJECTED.vocabulary || [];
+        const collocList = COURSE_DATA_INJECTED.collocations || [];
+        const grammarList = COURSE_DATA_INJECTED.grammar || [];
+
+        const currentList = computed(() => {
+            if (phase.value === 'vocab') return vocabList;
+            if (phase.value === 'colloc') return collocList;
+            if (phase.value === 'grammar') return grammarList;
+            return [];
+        });
+        const currentItem = computed(() => currentList.value[currentIndex.value] || {});
+        const totalSteps = computed(() => phase.value === 'grammar' ? 4 : 7);
+        const phaseTitles = {'vocab': 'Vocabulary', 'colloc': 'Phrases', 'grammar': 'Grammar'};
+
+        const spellingDisplaySlots = computed(() => {
+            if (!['vocab', 'colloc'].includes(phase.value)) return [];
+            const target = (currentItem.value.word || currentItem.value.phrase).toLowerCase();
+            const userChars = stepData.value.userSpelling || [];
+            let result = [];
+            let userIdx = 0;
+            for (let char of target) {
+                if (char === ' ') { result.push('SPACE'); } 
+                else if (/[a-z]/.test(char)) { result.push(userChars[userIdx] || ''); userIdx++; }
+            }
+            return result;
+        });
+
+        onMounted(() => { if(localStorage.getItem('eng_lab_save')) hasSave.value = true; });
+
+        // Prev Button Visibility
+        const canGoBack = computed(() => {
+            if (phase.value === 'vocab' && currentIndex.value === 0 && currentStep.value === 1) return false;
+            return true;
+        });
+
+        const canProceed = computed(() => {
+            if (['vocab', 'colloc'].includes(phase.value)) {
+                if (currentStep.value === 1) return (stepData.value.audioScore || 0) >= 30;
+                if (currentStep.value === 2) return stepData.value.guessCorrect;
+                if (currentStep.value === 3) return true;
+                if (currentStep.value === 4) return stepData.value.spellingCorrect;
+                if (currentStep.value === 5) return stepData.value.meaningCorrect;
+                if (currentStep.value === 6) return stepData.value.contextCorrect;
+                if (currentStep.value === 7) return stepData.value.oralCount >= 5;
+            }
+            if (phase.value === 'grammar') {
+                if (currentStep.value === 1) return stepData.value.grammarListened;
+                if (currentStep.value === 2) return stepData.value.inquiryIndex >= currentItem.value.guide_questions.length;
+                if (currentStep.value === 3) return true;
+                if (currentStep.value === 4) return stepData.value.quizAllFinished;
+            }
+            return false;
+        });
+
+        const getLockReason = () => {
+            if (['vocab', 'colloc'].includes(phase.value)) {
+                if (currentStep.value === 1) return "Record Score > 30";
+                if (currentStep.value === 2) return "Guess Answer";
+                if (currentStep.value === 4) return "Spell Word";
+                if (currentStep.value === 7) return `${5 - stepData.value.oralCount} more reads`;
+            }
+            return "Complete Task";
+        };
+
+        const startNew = () => { localStorage.removeItem('eng_lab_save'); phase.value = 'vocab'; currentIndex.value = 0; initStepData(); };
+        const resume = () => {
+            const s = JSON.parse(localStorage.getItem('eng_lab_save'));
+            if(s) { phase.value=s.p; currentIndex.value=s.i; userName.value=s.u; initStepData(); if(s.d) stepData.value=s.d; }
+        };
+        const saveProgress = () => {
+            localStorage.setItem('eng_lab_save', JSON.stringify({p:phase.value, i:currentIndex.value, u:userName.value, d:stepData.value}));
+            hasSave.value = true;
+        };
+        const saveAndExit = () => { saveProgress(); phase.value = 'login'; };
+        const clearSave = () => { localStorage.removeItem('eng_lab_save'); location.reload(); };
+
+        const initStepData = () => {
+            currentStep.value = 1;
+            const item = currentItem.value;
+            if (['vocab', 'colloc'].includes(phase.value)) {
+                const cleanChars = (item.scrambled_letters || (item.word || item.phrase).split('')).filter(c => c.trim() !== '').map(l => l.toUpperCase());
+                const exStates = {};
+                // --- Python Auto-Inject: Shuffle Options ---
+                const guessOpts = item.options ? [...item.options].sort(() => Math.random() - 0.5) : [];
+                // -------------------------------------------
+                 
+                (item.examples || []).forEach((_, i) => exStates[i] = { showEn: true, showCn: false });
+                
+                // === FINAL FIX: FORCE CORRECTNESS + SHUFFLE ===
+                // 1. Get raw
+                let rawContext = item.quiz_fill ? JSON.parse(JSON.stringify(item.quiz_fill)) : [];
+
+                // 2. Normalize and Enforce Correctness (Fix for "All Wrong" issue)
+                rawContext.forEach((opt, idx) => {
+                    // If is_correct is missing, assume the first one (idx 0) is true.
+                    if (opt.is_correct === undefined || opt.is_correct === null) {
+                        opt.is_correct = (idx === 0); 
+                    } else {
+                        // Normalize string "true"/"false" to boolean
+                        opt.is_correct = (String(opt.is_correct).toLowerCase() === 'true');
+                    }
+                });
+
+                // 3. Shuffle
+                const contextOpts = rawContext;
+                for (let i = contextOpts.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [contextOpts[i], contextOpts[j]] = [contextOpts[j], contextOpts[i]];
+                }
+                
+                stepData.value = {
+                    audioScore: 0, hasListened: false, guessOptions: guessOpts,
+                    guessAnswer: null, guessCorrect: false,
+                    exStates: exStates,
+                    userSpelling: [], shuffledLetters: cleanChars, spellingCorrect: false, usedIndices: new Set(),
+                    meaningOptions: [...item.options].sort(()=>Math.random()-0.5), meaningAnswer: null, meaningCorrect: false,
+                    // Store normalized & shuffled
+                    contextOptions: contextOpts,
+                    contextAnswerIndex: null, contextCorrect: false, contextFullSentence: '',
+                    oralCount: 0, lastOralScore: 0
+                };
+            } else {
+                stepData.value = { 
+                    grammarListened: false, 
+                    inquiryIndex: 0, inquiryAnswer: null, inquiryShowNext: false,
+                    quizIndex: 0, quizAnswer: null, quizAllFinished: false, quizShowExplanation: false, quizShowNext: false 
+                };
+            }
+        };
+
+        const nextStep = () => {
+            if (!canProceed.value) return;
+            saveProgress();
+            if (currentStep.value < totalSteps.value) {
+                currentStep.value++;
+            } else {
+                if (currentIndex.value < currentList.value.length - 1) {
+                    currentIndex.value++;
+                    initStepData();
+                } else {
+                    if (phase.value === 'vocab') { phase.value = 'colloc'; currentIndex.value = 0; initStepData(); }
+                    else if (phase.value === 'colloc') { phase.value = 'grammar'; currentIndex.value = 0; initStepData(); }
+                    else { phase.value = 'end'; }
+                }
+            }
+        };
+
+        const prevStep = () => {
+            if (currentStep.value > 1) {
+                currentStep.value--;
+            } else {
+                if (currentIndex.value > 0) {
+                    currentIndex.value--;
+                    initStepData();
+                } else {
+                    if (phase.value === 'colloc') {
+                        phase.value = 'vocab';
+                        currentIndex.value = vocabList.length - 1;
+                        initStepData();
+                    } else if (phase.value === 'grammar') {
+                        phase.value = 'colloc';
+                        currentIndex.value = collocList.length - 1;
+                        initStepData();
+                    }
+                }
+            }
+            saveProgress();
+        };
+
+        const cleanOption = (text) => text.replace(/\(误\)|\(Error\)|（误）/gi, '').trim();
+        const checkGrammarCorrect = (option, correctLetter) => {
+            return option.trim().toUpperCase().startsWith(correctLetter.trim().toUpperCase());
+        };
+
+        const handleTask = (action, payload, index) => {
+            const item = currentItem.value;
+            if (action === 'guess') {
+                stepData.value.guessAnswer = payload;
+                if (payload === item.correct_answer) { stepData.value.guessCorrect = true; playTTS("Correct"); }
+                else playTTS("Try again");
+            }
+            if (action === 'spell') {
+                stepData.value.userSpelling.push(payload);
+                stepData.value.usedIndices.add(index);
+                const currentStr = stepData.value.userSpelling.join('').toLowerCase();
+                const target = (item.word || item.phrase).replace(/[^a-zA-Z]/g, '').toLowerCase();
+                if (currentStr.length === target.length) {
+                    if (currentStr === target) { stepData.value.spellingCorrect = true; playTTS("Correct"); }
+                    else { playTTS("Wrong"); setTimeout(() => { stepData.value.userSpelling=[]; stepData.value.usedIndices.clear(); }, 500); }
+                }
+            }
+            if (action === 'meaning') {
+                stepData.value.meaningAnswer = payload;
+                if (payload === item.correct_answer) { stepData.value.meaningCorrect = true; playTTS("Correct"); }
+                else playTTS("Wrong");
+            }
+            
+            // ================== FIXED CONTEXT LOGIC (COMPLETE FIX) ==================
+            if (action === 'context') {
+                stepData.value.contextAnswerIndex = index;
+                const targetPhrase = item.phrase || item.word;
+                
+                // Now simple safe check because we normalized in init
+                const isCorrect = payload.is_correct; 
+
+                if (isCorrect) {
+                    let fullSentence = payload.sentence;
+                    // Regex matches: underscores, ellipsis, 2+ dots, brackets, parens, or underscore w/ spaces
+                    const blankRegex = /(_+|…|\.{2,}|\[.*?\]|\(.*?\)|_\s+_)/g;
+
+                    if (blankRegex.test(fullSentence)) {
+                        fullSentence = fullSentence.replace(blankRegex, targetPhrase);
+                    } else {
+                        // Fallback: If no blank found, append it at the end for clarity
+                        if (fullSentence.indexOf(targetPhrase) === -1) {
+                             fullSentence = fullSentence + " (" + targetPhrase + ")";
+                        }
+                    }
+                    
+                    stepData.value.contextFullSentence = fullSentence;
+                    stepData.value.contextCorrect = true;
+                    playTTS(fullSentence); 
+                } else {
+                    stepData.value.contextCorrect = false;
+                    playTTS("Incorrect");
+                }
+            }
+            // =======================================================================
+
+            if (action === 'recordDrill') toggleRec(getZhongkaoSentence(), updateOralCount);
+            
+            if (action === 'playGrammarAudio') { playTTS(item.source_sentence); stepData.value.grammarListened = true; }
+            if (action === 'inquiry') {
+                if (stepData.value.inquiryShowNext) return;
+                stepData.value.inquiryAnswer = payload;
+                if (checkGrammarCorrect(payload, item.guide_questions[stepData.value.inquiryIndex].correct)) {
+                    playTTS("Correct");
+                    stepData.value.inquiryShowNext = true;
+                } else playTTS("Try again");
+            }
+            if (action === 'quiz') {
+                if (stepData.value.quizShowNext) return;
+                stepData.value.quizAnswer = payload;
+                if (checkGrammarCorrect(payload, item.quiz_questions[stepData.value.quizIndex].correct)) {
+                    playTTS("Correct");
+                    stepData.value.quizShowExplanation = true;
+                    stepData.value.quizShowNext = true;
+                } else playTTS("Wrong");
+            }
+            saveProgress();
+        };
+
+        const nextGrammarQuestion = (type) => {
+            const item = currentItem.value;
+            if (type === 'inquiry') {
+                stepData.value.inquiryIndex++;
+                stepData.value.inquiryAnswer = null;
+                stepData.value.inquiryShowNext = false;
+            }
+            if (type === 'quiz') {
+                if (stepData.value.quizIndex < item.quiz_questions.length - 1) {
+                    stepData.value.quizIndex++;
+                    stepData.value.quizAnswer = null;
+                    stepData.value.quizShowExplanation = false;
+                    stepData.value.quizShowNext = false;
+                } else { stepData.value.quizIndex++; stepData.value.quizAllFinished = true; }
+            }
+            saveProgress();
+        };
+
+        const updateOralCount = (score) => { stepData.value.lastOralScore = score; if(score > 0) stepData.value.oralCount++; saveProgress(); }
+        const resetSpelling = () => { stepData.value.userSpelling = []; stepData.value.usedIndices.clear(); };
+        const toggleEx = (i) => { stepData.value.exStates[i].showCn = !stepData.value.exStates[i].showCn; };
+        
+        const getZhongkaoSentence = () => { const ex = currentItem.value.examples.find(e => e.source === 'Zhongkao'); return ex ? ex.sentence : currentItem.value.examples[0].sentence; };
+        
+        const getOptClass = (opt, sel, cor) => {
+            // For Quiz Options
+            if (sel === opt) return opt === cor ? 'opt-correct' : 'opt-wrong';
+            
+            // For Context (Fill in blank) logic
+            if (typeof opt === 'number') { 
+                if (sel !== opt) return ''; 
+                // Fix: Look at shuffled options in stepData
+                if (stepData.value.contextOptions && stepData.value.contextOptions[opt]) {
+                     return stepData.value.contextOptions[opt].is_correct ? 'opt-correct' : 'opt-wrong';
+                }
+                return '';
+            }
+            return '';
+        };
+
+        const getImagePath = (f) => f ? IMAGE_DIR + '/' + f : '';
+
+        const playTTS = (text) => {
+            if (!text || isRecording.value) return;
+            if (synthesizer) { synthesizer.close(); synthesizer = null; }
+            try {
+                const config = SpeechSDK.SpeechConfig.fromSubscription(AZURE_KEY, AZURE_REGION);
+                config.speechSynthesisVoiceName = "en-US-AriaNeural"; 
+                synthesizer = new SpeechSDK.SpeechSynthesizer(config);
+                synthesizer.speakTextAsync(text, () => { synthesizer.close(); synthesizer = null; });
+            } catch (e) { console.error(e); }
+        };
+
+        const toggleRec = async (text, cb) => {
+            if(isRecording.value) { 
+                if(recognizer) { recognizer.stopContinuousRecognitionAsync(() => { recognizer.close(); recognizer = null; isRecording.value = false; if(cb) cb(currentRecScore); }); }
+                return; 
+            }
+            try {
+                await navigator.mediaDevices.getUserMedia({ audio: true });
+                const config = SpeechSDK.SpeechConfig.fromSubscription(AZURE_KEY, AZURE_REGION);
+                config.speechRecognitionLanguage = "en-US";
+                const audioConfig = SpeechSDK.AudioConfig.fromDefaultMicrophoneInput();
+                const pronConfig = new SpeechSDK.PronunciationAssessmentConfig(text, SpeechSDK.PronunciationAssessmentGradingSystem.HundredMark, SpeechSDK.PronunciationAssessmentGranularity.Phoneme, true);
+                recognizer = new SpeechSDK.SpeechRecognizer(config, audioConfig);
+                pronConfig.applyTo(recognizer);
+                isRecording.value = true; currentRecScore = 0; 
+                recognizer.recognized = (s, e) => { if (e.result.reason === SpeechSDK.ResultReason.RecognizedSpeech) { const json = JSON.parse(e.result.properties.getProperty(SpeechSDK.PropertyId.SpeechServiceResponse_JsonResult)); if(json.NBest && json.NBest[0]) currentRecScore = json.NBest[0].PronunciationAssessment.AccuracyScore; } };
+                recognizer.startContinuousRecognitionAsync();
+            } catch(e) { alert("Mic Error: " + e); isRecording.value = false; }
+        };
+
+        const openAdmin = () => { if(prompt("PWD")==="888123") showAdminPanel.value = true; };
+        const jumpIndex = (d) => { const n = currentIndex.value + d; if(n>=0 && n<currentList.value.length) { currentIndex.value = n; initStepData(); } };
+        const setPhase = (p) => { phase.value = p; currentIndex.value = 0; initStepData(); };
+        const forceUnlock = () => { stepData.value.audioScore=100; stepData.value.guessCorrect=true; stepData.value.spellingCorrect=true; stepData.value.meaningCorrect=true; stepData.value.contextCorrect=true; stepData.value.oralCount=5; stepData.value.grammarListened=true; stepData.value.quizAllFinished=true; stepData.value.inquiryIndex=100; };
+
+        return {
+            phase, userName, currentIndex, currentStep, totalSteps, currentItem, currentList, phaseTitles, stepData,
+            startNew, resume, saveAndExit, clearSave, hasSave, nextStep, prevStep, handleTask, resetSpelling, toggleEx, updateOralCount, nextGrammarQuestion,
+            getZhongkaoSentence, getOptClass, getImagePath, isRecording, canProceed, getLockReason, playTTS, toggleRec, spellingDisplaySlots,
+            showAdminPanel, openAdmin, jumpIndex, setPhase, forceUnlock, cleanOption, checkGrammarCorrect, canGoBack
+        };
+    }
+}).mount('#app');
+</script>
+</body>
+</html>
