@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Can You Beat Fate's Cursed Card Game?</title>
+    <script src="https://aka.ms/csspeech/jsbrowserpackageraw"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Lora:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --p: #C7A55A;
+            --a: #8A4FFF;
+            --bg: #1A1A2E;
+            --card: #2D2D44;
+            --txt: #E0E0E0;
+            --sub: #9A9AAB;
+            --rad: 8px;
+            --shd: 0 0 15px rgba(138, 79, 255, 0.3);
+            --f-head: 'Cinzel Decorative', serif;
+            --f-body: 'Lora', sans-serif;
+        }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { margin: 0; font-family: var(--f-body); background: var(--bg); color: var(--txt); height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+        h1, h2, h3, .brand { font-family: var(--f-head); }
+
+        .header { background: rgba(255,255,255,0.95); padding: 0 20px; height: 60px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(0,0,0,0.05); z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.02); }
+        .brand { font-weight: 800; font-size: 1.1rem; color: var(--p); overflow: hidden; white-space: nowrap; text-overflow: ellipsis; max-width: 70%; }
+        .score-pill { background: var(--bg); border: 1px solid var(--a); color: var(--p); padding: 4px 12px; border-radius: 20px; font-weight: 700; font-size: 0.9rem; display: flex; align-items: center; gap: 5px; }
+
+        .page { display: none; height: 100%; flex-direction: column; overflow-y: auto; padding: 20px; animation: fadeIn 0.4s ease; }
+        .page.active { display: flex; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .container { width: 100%; max-width: 1100px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; min-height: 100%; }
+        #p1 .container, #p4 .container, #p7 .container { justify-content: center; align-items: center; }
+
+        .card { background: var(--card); border-radius: var(--rad); padding: 25px; box-shadow: var(--shd); border: 1px solid rgba(0,0,0,0.03); position: relative; }
+        .btn { background: var(--p); color: white; border: none; padding: 12px 24px; border-radius: 10px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-size: 1rem; transition: 0.2s; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .btn:hover { transform: translateY(-2px); filter: brightness(1.1); }
+        .btn-outline { background: transparent; border: 2px solid var(--p); color: var(--p); box-shadow: none; }
+        .btn-outline:hover { background: var(--bg); }
+
+        .vt-layout { display: flex; flex-direction: column; background: #000; border-radius: var(--rad); overflow: hidden; box-shadow: var(--shd); height: 100%; min-height: 500px; }
+        @media(min-width: 1024px) { .vt-layout { flex-direction: row; height: 75vh; } .vt-video-col { flex: 3; } .vt-sub-box { flex: 1; border-left: 1px solid #333; max-width: 400px; } }
+        .vt-video-col { position: relative; flex: 1; display: flex; align-items: center; justify-content: center; background: #000; overflow: hidden; }
+        video { width: 100%; height: 100%; object-fit: contain; }
+        .vt-sub-box { background: white; display: flex; flex-direction: column; height: 100%; overflow: hidden; }
+        .sub-list { flex: 1; overflow-y: auto; padding: 20px; scroll-behavior: smooth; }
+        .sub-line { padding: 10px; margin-bottom: 8px; border-radius: 6px; color: var(--sub); line-height: 1.6; border-left: 3px solid transparent; transition: 0.2s; }
+        .sub-line.active { background: #F8FAFC; color: var(--txt); font-weight: 600; border-left-color: var(--p); }
+        .w-click { cursor: pointer; padding: 2px; border-radius: 3px; transition: 0.1s; }
+        .w-click:hover { background: var(--a); color: white; }
+
+        .hud { opacity: 0; transition: opacity 0.3s; }
+        .hud.show { opacity: 1; }
+        .hud-bar { flex: 0 0 auto; padding: 10px 15px; background: rgba(0,0,0,0.9); color: #fff; text-align: center; font-weight: 500; font-size: 0.9rem; border-top: 1px solid #333; line-height: 1.4; }
+        .hud-bar:not(:has(.hud.show)) { display: none !important; }
+        .vq-overlay { position: fixed; inset: 0; z-index: 2000; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); display: none; flex-direction: column; justify-content: center; align-items: center; padding: 20px; }
+        .vq-overlay .q-card { background: var(--card); width: 100%; max-width: 550px; padding: 30px; border-radius: 20px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.5); max-height: 90vh; overflow-y: auto; }
+        #p5 .vt-video-col #ol1 { display: none !important; }
+        #p6 .vt-video-col #ol2 { display: none !important; }
+
+        .overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); z-index: 50; display: none; flex-direction: column; justify-content: center; align-items: center; padding: 20px; }
+        .q-card { background: var(--card); width: 100%; max-width: 550px; padding: 30px; border-radius: 20px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.5); max-height: 90vh; overflow-y: auto; }
+
+        .opt-btn { display: block; width: 100%; text-align: left; padding: 15px; margin-bottom: 10px; border: 2px solid #E5E7EB; border-radius: 10px; background: white; cursor: pointer; color: var(--text-main); font-weight: 500; transition: 0.2s; }
+        .opt-btn:hover:not(:disabled) { border-color: var(--p); background: #F9FAFB; }
+        .opt-btn.correct { background: #ECFDF5; border-color: #10B981; color: #065F46; }
+        .opt-btn.wrong { background: #FEF2F2; border-color: #EF4444; color: #991B1B; }
+
+        .modal-mask { position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); z-index: 2000; display: none; justify-content: center; align-items: center; padding: 20px; }
+        .modal-box { background: white; width: 100%; max-width: 500px; border-radius: 20px; padding: 30px; position: relative; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        .blur-txt { filter: blur(5px); opacity: 0.6; transition: 0.3s; cursor: pointer; user-select: none; }
+        .blur-txt:hover, .blur-txt.revealed { filter: none; opacity: 1; }
+
+        .vocab-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px; width: 100%; }
+        .flashcard { background: var(--card); border-radius: 12px; padding: 20px; text-align: center; border: 1px solid rgba(0,0,0,0.1); cursor: pointer; transition: 0.2s; box-shadow: 0 2px 5px rgba(0,0,0,0.05); min-height: 160px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+        .flashcard:hover { transform: translateY(-5px); border-color: var(--p); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .flashcard.learned { background: #F0FDF4; border-color: #86EFAC; }
+        .flashcard .tag { display: inline-block; padding: 2px 8px; border-radius: 4px; background: #F3F4F6; font-size: 0.7rem; color: #6B7280; text-transform: uppercase; font-weight: 700; margin-bottom: 10px; }
+
+        #ds-pop { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 400px; background: white; border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); z-index: 3000; display: none; border: 1px solid #E5E7EB; animation: slideUp 0.3s ease; }
+        @keyframes slideUp { from { transform: translate(-50%, 20px); opacity: 0; } to { transform: translate(-50%, 0); opacity: 1; } }
+        /* 竖屏布局 - 移动端 */
+        @media (max-width: 900px) and (orientation: portrait) {
+            .vt-layout { flex-direction: column !important; min-height: 100vh; }
+            .vt-video-col { height: 32vh !important; min-height: 200px; flex: none !important; }
+            .vt-sub-box { flex: 1 !important; min-height: 0; border-left: none !important; border-top: 1px solid #eee !important; }
+        }
+        /* 视频页全平台：上视频、下 HUD 提示条、下字幕（与 History_of_tea 一致） */
+        #p5 .vt-layout, #p6 .vt-layout { flex-direction: column !important; }
+        #p5 .vt-sub-box, #p6 .vt-sub-box { border-left: none !important; border-top: 1px solid #eee; max-width: none !important; }
+        #p5 .hud-bar, #p6 .hud-bar { flex: 0 0 auto; }
+    </style>
+    <style>
+        /* 与 History_of_tea 一致：限制轮播高度；移动端整页可滚动，视频页 p5 独占一屏 */
+        .slide-container { height: 250px !important; aspect-ratio: auto !important; margin-bottom: 10px !important; }
+        .slide-img img { object-fit: contain !important; background: #000; }
+        @media (max-width: 1024px) {
+            body { overflow-y: auto !important; height: auto !important; }
+            .page { height: auto !important; min-height: 100vh; overflow: visible !important; }
+            #p5.page.active { height: 100vh !important; min-height: 100vh !important; overflow: hidden !important; display: flex !important; }
+            #p5 .container { height: 100% !important; max-height: 100vh !important; padding: 0 !important; }
+            #p5 .vt-layout { flex-direction: column !important; height: 100% !important; min-height: 0 !important; flex: 1 !important; display: flex !important; }
+            #p5 .vt-video-col { width: 100% !important; flex: 0 0 auto !important; height: 32vh !important; max-height: 32vh !important; min-height: 0 !important; aspect-ratio: 16/9 !important; }
+            #p5 .vt-video-col video { object-fit: contain !important; }
+            #p5 .vt-sub-box { width: 100% !important; flex: 1 !important; min-height: 0 !important; max-width: none !important; border-left: none !important; border-top: 1px solid #eee !important; display: flex !important; flex-direction: column !important; overflow: hidden !important; }
+            #p5 .vt-sub-box .sub-list { flex: 1 !important; min-height: 0 !important; overflow-y: auto !important; -webkit-overflow-scrolling: touch !important; }
+            #p5 .hud-bar { flex: 0 0 auto; }
+        }
+        #p5 .vt-video-col { border-left: none !important; }
+        #p5 .vt-sub-box { border-left: none !important; border-top: 1px solid #eee; max-width: none !important; }
+        #p5 .vt-video-col #ol1 { display: none !important; }
+    </style>
+<style>
+.slide-container { height: 250px !important; aspect-ratio: auto !important; margin-bottom: 10px !important; }
+.slide-img img { object-fit: contain !important; background: #000; }
+@media (max-width: 1024px) {
+    body { overflow-y: auto !important; height: auto !important; }
+    .page { height: auto !important; min-height: 100vh; overflow: visible !important; }
+    #p5.page.active { height: 100vh !important; min-height: 100vh !important; overflow: hidden !important; display: flex !important; }
+    #p5 .container { height: 100% !important; max-height: 100vh !important; padding: 0 !important; }
+    #p5 .vt-layout { flex-direction: column !important; height: 100% !important; min-height: 0 !important; flex: 1 !important; display: flex !important; }
+    #p5 .vt-video-col { width: 100% !important; flex: 0 0 auto !important; height: 32vh !important; max-height: 32vh !important; min-height: 0 !important; aspect-ratio: 16/9 !important; }
+    #p5 .vt-video-col video { object-fit: contain !important; }
+    #p5 .vt-sub-box { width: 100% !important; flex: 1 !important; min-height: 0 !important; max-width: none !important; border-left: none !important; border-top: 1px solid #eee !important; display: flex !important; flex-direction: column !important; overflow: hidden !important; }
+    #p5 .vt-sub-box .sub-list { flex: 1 !important; min-height: 0 !important; overflow-y: auto !important; -webkit-overflow-scrolling: touch !important; }
+    #p5 .hud-bar { flex: 0 0 auto; }
+}
+#p5 .vt-video-col { border-left: none !important; }
+#p5 .vt-sub-box { border-left: none !important; border-top: 1px solid #eee; max-width: none !important; }
+.vt-layout { flex-direction: column !important; }
+.speed-control { background: rgba(0,0,0,0.7); color: white; border-radius: 4px; font-size: 0.8rem; padding: 2px 5px; margin-left: 10px; }
+</style></head>
+<body>
+
+<div class="header">
+    <div class="brand"><i class="fas fa-play-circle"></i> Can You Beat Fate's Cursed Card Game?</div>
+    <div style="display:flex; align-items:center; gap:10px;">
+        <button id="resume-btn-head" class="btn btn-sm btn-outline" style="display:none; padding:6px 12px; font-size:0.8rem;" onclick="resumeApp()">Resume</button>
+        <div class="score-pill"><i class="fas fa-star"></i> <span id="u-score">0</span></div>
+        <button class="btn btn-sm" style="padding:6px 12px; font-size:0.8rem;" onclick="saveState(true)"><i class="fas fa-save"></i></button>
+    </div>
+</div>
+
+<div id="p1" class="page active">
+    <div class="container">
+        <div class="card" style="text-align:center; width:100%; max-width:600px;">
+            <div style="font-size:4rem; color:var(--p); margin-bottom:15px;"><i class="fas fa-flag-checkered"></i></div>
+            <h1>Mission Start</h1>
+            <p style="color:var(--sub); margin-bottom:30px;">Can You Beat Fate's Cursed Card Game?</p>
+            <div style="background:rgba(0,0,0,0.03); border-radius:12px; padding:20px; text-align:left; margin-bottom:30px; border:1px dashed var(--p);">
+                <h3 style="margin-top:0; font-size:1rem;">Rewards:</h3>
+                <div style="margin-bottom:5px;"><i class="fas fa-book-open" style="color:var(--p);"></i> Vocab (+2 pts)</div>
+                <div style="margin-bottom:5px;"><i class="fas fa-puzzle-piece" style="color:var(--p);"></i> Quiz (+/- 1 pt)</div>
+                <div><i class="fas fa-film" style="color:var(--p);"></i> Video (+5 pts)</div>
+            </div>
+            <input type="text" id="username" placeholder="Enter Name" style="width:100%; padding:15px; border-radius:10px; border:2px solid #E5E7EB; margin-bottom:20px; font-size:1rem; text-align:center;">
+            <button class="btn" style="width:100%; padding:15px; font-size:1.1rem;" onclick="startApp()">Start <i class="fas fa-arrow-right"></i></button>
+            <div style="margin-top:15px;"><button id="resume-btn-main" class="btn btn-outline" style="display:none; width:100%;" onclick="resumeApp()">Resume</button></div>
+        </div>
+    </div>
+</div>
+
+<div id="p2" class="page">
+    <div class="container">
+        <div class="card" style="height:100%; display:flex; flex-direction:column;">
+            <h2>Overview</h2>
+            <div class="slide-container" style="position:relative; aspect-ratio:16/9; background:#000; border-radius:12px; overflow:hidden; margin-bottom:20px; flex-shrink:0;">
+                
+                <div class="slide-img" style="display:block; width:100%; height:100%;">
+                    <img src="generated_images/Video_Homework_img_1.png" style="width:100%; height:100%; object-fit:cover; opacity:0.8;">
+                    <div style="position:absolute; bottom:0; width:100%; background:linear-gradient(transparent, rgba(0,0,0,0.9)); color:white; padding:20px;">An anxious person stands in a dimly lit, mystical room. On a central ornate table, a deck of tarot cards is spread out, glowing faintly. A shadowy, ethereal figure of Fate waits patiently on the other side.</div>
+                </div>
+                
+                <div class="slide-img" style="display:none; width:100%; height:100%;">
+                    <img src="generated_images/Video_Homework_img_2.png" style="width:100%; height:100%; object-fit:cover; opacity:0.8;">
+                    <div style="position:absolute; bottom:0; width:100%; background:linear-gradient(transparent, rgba(0,0,0,0.9)); color:white; padding:20px;">An overhead view of a card game in progress on an ancient wooden table. A hand reaches for a tarot card labeled 'The Tower (16)'. Arrows show smaller cards labeled 1, 2, 4, and 8 moving to the opponent's side of the table.</div>
+                </div>
+                
+                <div class="slide-img" style="display:none; width:100%; height:100%;">
+                    <img src="generated_images/Video_Homework_img_3.png" style="width:100%; height:100%; object-fit:cover; opacity:0.8;">
+                    <div style="position:absolute; bottom:0; width:100%; background:linear-gradient(transparent, rgba(0,0,0,0.9)); color:white; padding:20px;">A person intently watches a grainy, flickering video on an old camera's small screen. The footage shows a man, their father, looking defeated while playing a card game against a ghostly figure. The viewer has a look of sudden, sharp realization.</div>
+                </div>
+                
+                <div class="slide-img" style="display:none; width:100%; height:100%;">
+                    <img src="generated_images/Video_Homework_img_4.png" style="width:100%; height:100%; object-fit:cover; opacity:0.8;">
+                    <div style="position:absolute; bottom:0; width:100%; background:linear-gradient(transparent, rgba(0,0,0,0.9)); color:white; padding:20px;">A first-person view of a hand hovering over a spread of beautifully illustrated tarot cards. Three cards glow brighter than the rest: 'The World (2)' depicting breaking chains, 'The Lovers (6)' depicting a couple, and 'The Wheel of Fortune (10)' depicting gold coins. The choice is about to be made.</div>
+                </div>
+                
+                <button onclick="slide(-1)" style="position:absolute; top:50%; left:10px; background:rgba(255,255,255,0.2); border:none; width:40px; height:40px; border-radius:50%; color:white; cursor:pointer;">❮</button>
+                <button onclick="slide(1)" style="position:absolute; top:50%; right:10px; background:rgba(255,255,255,0.2); border:none; width:40px; height:40px; border-radius:50%; color:white; cursor:pointer;">❯</button>
+            </div>
+            <div>
+                
+                <p style="line-height:1.7; margin-bottom:15px;">Legend says your ancestor stole a magical tarot deck from Fate herself, making your family the world's greatest fortune-tellers. But this gift came with a curse: every 23 years, one family member must enter a duel with Fate, governed by arcane rules. Generation after generation, the outcome is the same—Fate claims their soul. Twenty-three years ago, your father faced the challenge and lost. Today, it's your turn. <i class="fas fa-volume-up" style="color:var(--p); cursor:pointer; opacity:0.6;" onclick="speak('Legend says your ancestor stole a magical tarot deck from Fate herself, making your family the world\'s greatest fortune-tellers. But this gift came with a curse: every 23 years, one family member must enter a duel with Fate, governed by arcane rules. Generation after generation, the outcome is the same—Fate claims their soul. Twenty-three years ago, your father faced the challenge and lost. Today, it\'s your turn.')"></i></p>
+                
+                <p style="line-height:1.7; margin-bottom:15px;">While pacing the dueling room, you discover a hidden camera your father left behind. The tape reveals his game against Fate. The 22 cards of the Major Arcana, plus an additional card called the Soul, are laid out. Fate explains the rules: "You may take any card that has at least one factor on the table. I'll then receive every factor." For example, taking the Tower (16) gives Fate the cards for 1, 2, 4, and 8. The player with the highest total card value at the end wins. <i class="fas fa-volume-up" style="color:var(--p); cursor:pointer; opacity:0.6;" onclick="speak('While pacing the dueling room, you discover a hidden camera your father left behind. The tape reveals his game against Fate. The 22 cards of the Major Arcana, plus an additional card called the Soul, are laid out. Fate explains the rules: "You may take any card that has at least one factor on the table. I\'ll then receive every factor." For example, taking the Tower (16) gives Fate the cards for 1, 2, 4, and 8. The player with the highest total card value at the end wins.')"></i></p>
+                
+                <p style="line-height:1.7; margin-bottom:15px;">During the game, Fate mentions that certain cards grant special rewards: the 10 brings great fortune, the 6 grants true love, and the 2 would end the family curse forever. However, your father's total comes up short, and he loses. Just as the video cuts to static, Fate appears before you in the room. She offers you the same starting card as your father: the Tower. The game begins. <i class="fas fa-volume-up" style="color:var(--p); cursor:pointer; opacity:0.6;" onclick="speak('During the game, Fate mentions that certain cards grant special rewards: the 10 brings great fortune, the 6 grants true love, and the 2 would end the family curse forever. However, your father\'s total comes up short, and he loses. Just as the video cuts to static, Fate appears before you in the room. She offers you the same starting card as your father: the Tower. The game begins.')"></i></p>
+                
+                <p style="line-height:1.7; margin-bottom:15px;">You realize that accepting the Tower (16) is a trap. It gives Fate the 1, 2, 4, and 8 cards, which allows her to eventually claim all the prime-numbered cards. A careful calculation shows that this path leads, at best, to a 138-138 tie. Since ties go to Fate, this guarantees your loss. Fate has been manipulating the game from the first move to ensure her victory. <i class="fas fa-volume-up" style="color:var(--p); cursor:pointer; opacity:0.6;" onclick="speak('You realize that accepting the Tower (16) is a trap. It gives Fate the 1, 2, 4, and 8 cards, which allows her to eventually claim all the prime-numbered cards. A careful calculation shows that this path leads, at best, to a 138-138 tie. Since ties go to Fate, this guarantees your loss. Fate has been manipulating the game from the first move to ensure her victory.')"></i></p>
+                
+                <p style="line-height:1.7; margin-bottom:15px;">Thanks to your father's recording, you know better. To win, you must decline the Tower. To break the curse, you must take the 2 on your first turn, as it is a prime number. By carefully selecting a sequence of cards (like 22, 14, 21, and 15), you can achieve a narrow victory of 140 to 136. Alternatively, different opening moves could allow you to claim the 10 for wealth or the 6 for love, but you can only choose one reward. Fate is waiting for your decision. <i class="fas fa-volume-up" style="color:var(--p); cursor:pointer; opacity:0.6;" onclick="speak('Thanks to your father\'s recording, you know better. To win, you must decline the Tower. To break the curse, you must take the 2 on your first turn, as it is a prime number. By carefully selecting a sequence of cards (like 22, 14, 21, and 15), you can achieve a narrow victory of 140 to 136. Alternatively, different opening moves could allow you to claim the 10 for wealth or the 6 for love, but you can only choose one reward. Fate is waiting for your decision.')"></i></p>
+                
+            </div>
+            <div style="text-align:right; margin-top:20px;"><button class="btn" onclick="toPage('p3')">Next: Vocab <i class="fas fa-arrow-right"></i></button></div>
+        </div>
+    </div>
+</div>
+
+<div id="p3" class="page">
+    <div class="container">
+        <div class="card">
+            <h2>Vocabulary</h2>
+            <div class="vocab-grid" id="v-grid"></div> 
+            <div style="text-align:center; margin-top:30px;"><button class="btn" onclick="toPage('p4')">Take Quiz <i class="fas fa-gamepad"></i></button></div>
+        </div>
+    </div>
+</div>
+
+<div id="p4" class="page">
+    <div class="container">
+        <div class="card" style="text-align:center; width:100%; max-width:600px;">
+            <div id="qz-setup">
+                <h2>Select Difficulty</h2>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px; margin-top:20px;">
+                    
+                    <button class="btn btn-outline" style="padding:20px;" onclick="startQuiz(0.3, 30)">
+                        <div style="font-weight:800; font-size:1.1rem;">Basic</div>
+                        <div style="font-size:0.8rem; opacity:0.8;">Base: 30</div>
+                    </button>
+                    
+                    <button class="btn btn-outline" style="padding:20px;" onclick="startQuiz(0.5, 60)">
+                        <div style="font-weight:800; font-size:1.1rem;">Standard</div>
+                        <div style="font-size:0.8rem; opacity:0.8;">Base: 60</div>
+                    </button>
+                    
+                    <button class="btn btn-outline" style="padding:20px;" onclick="startQuiz(0.8, 100)">
+                        <div style="font-weight:800; font-size:1.1rem;">Advanced</div>
+                        <div style="font-size:0.8rem; opacity:0.8;">Base: 100</div>
+                    </button>
+                    
+                    <button class="btn btn-outline" style="padding:20px;" onclick="startQuiz(1.0, 140)">
+                        <div style="font-weight:800; font-size:1.1rem;">Master</div>
+                        <div style="font-size:0.8rem; opacity:0.8;">Base: 140</div>
+                    </button>
+                    
+                </div>
+            </div>
+            <div id="qz-run" style="display:none; text-align:left;">
+                <div style="display:flex; justify-content:space-between; margin-bottom:20px;">
+                    <strong>Q <span id="q-idx">1</span></strong>
+                    <span style="color:var(--p); font-weight:800;">Score: <span id="q-score">0</span></span>
+                </div>
+                <div id="q-content"></div>
+                <div id="q-fb" style="display:none; margin-top:20px; padding:15px; background:#F8FAFC; border-radius:10px;"></div>
+                <button id="q-nxt" class="btn" style="width:100%; margin-top:20px; display:none;" onclick="nextQ()">Next</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="p5" class="page">
+    <div class="container" style="max-width:1400px; height:100%;">
+        <div class="vt-layout">
+            <div class="vt-video-col">
+                <video id="vid1" src="Video.mp4" playsinline webkit-playsinline preload="metadata"></video>
+                <div id="ol1" class="overlay"><div class="q-card"><h3 id="v-q" style="color:var(--p);">Question</h3><div id="v-opts"></div><div id="v-fb" style="display:none;"></div><button class="btn btn-outline" id="btn-rp" onclick="replaySeg()">Replay</button><button class="btn" id="btn-cont" onclick="resumeVid()" style="display:none;">Continue</button></div></div>
+                <div id="rev1" class="overlay">
+                    <div class="q-card">
+                        <h2 style="color:var(--p);">Section Complete</h2>
+                        <div id="rev-list" style="max-height:300px; overflow-y:auto; text-align:left; margin:20px 0;"></div>
+                        <button class="btn" onclick="nextPhase()">Next Section <i class="fas fa-arrow-right"></i></button>
+                    </div>
+                </div>
+                <div id="tap-overlay-p5" style="display:none; position:absolute; inset:0; background:rgba(0,0,0,0.75); color:white; align-items:center; justify-content:center; cursor:pointer; z-index:25; font-size:1.2rem;" onclick="tapOverlayPlay(document.getElementById('vid1'), 'p5')">Tap to play</div>
+                <div class="controls" style="position:absolute; bottom:0; left:0; width:100%; padding:15px; background:linear-gradient(transparent, rgba(0,0,0,0.9)); display:flex; gap:15px; align-items:center;">
+                    <button class="btn btn-sm" style="background:white; color:black; border-radius:50%; width:36px; height:36px; padding:0;" onclick="togglePlay()"><i class="fas fa-play"></i></button>
+                    <input type="range" id="seek-bar" value="0" style="flex:1;"><select class="speed-control" onchange="const v=document.querySelector('.page.active video'); if(v) v.playbackRate=parseFloat(this.value)"><option value="0.8">0.8x</option><option value="1.0" selected>1.0x</option><option value="1.25">1.25x</option><option value="1.5">1.5x</option></select>
+                </div>
+            </div>
+            <div id="hud-bar" class="hud-bar"><span id="hud" class="hud">Loading...</span></div>
+            <div id="vq-overlay" class="vq-overlay" style="display:none;">
+                <div class="q-card">
+                    <h3 id="v-q-m" style="color:var(--p);">Question</h3>
+                    <div id="v-opts-m" style="display:flex; flex-direction:column; gap:10px;"></div>
+                    <div id="v-fb-m" style="display:none; margin-top:20px; background:#F9FAFB; padding:15px; border-radius:10px; text-align:left;"></div>
+                    <div style="margin-top:20px; display:flex; gap:10px; justify-content:center;">
+                        <button class="btn btn-outline" id="btn-rp-m" onclick="replaySeg()"><i class="fas fa-undo"></i> Replay</button>
+                        <button class="btn" id="btn-cont-m" onclick="resumeVid()" style="display:none;">Continue</button>
+                    </div>
+                </div>
+            </div>
+            <div class="vt-sub-box">
+                <div style="padding:15px; border-bottom:1px solid #eee; font-weight:bold; color:var(--sub); font-size:0.9rem;">TRANSCRIPT <span style="font-weight:normal; font-size:0.8rem;">(Click to define)</span></div>
+                <div class="sub-list" id="sub-list"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="p6" class="page">
+    <div class="container" style="max-width:1400px; height:100%;">
+        <div class="vt-layout">
+            <div class="vt-video-col">
+                <video id="vid2" src="Video.mp4" playsinline webkit-playsinline preload="metadata"></video>
+                <div id="ol2" class="overlay"><div class="q-card"><h3 id="v-q2">Question</h3><div id="v-opts2"></div><div id="v-fb2" style="display:none;"></div><button class="btn btn-outline" id="btn-rp2" onclick="replaySeg()">Replay</button><button class="btn" id="btn-cont2" onclick="resumeVid()" style="display:none;">Continue</button></div></div>
+                <div id="rev2" class="overlay">
+                    <div class="q-card">
+                        <h2 style="color:var(--p);">Mission Complete</h2>
+                        <div id="rev-list2" style="max-height:300px; overflow-y:auto; text-align:left; margin:20px 0;"></div>
+                        <button class="btn" onclick="nextPhase()">Final Report <i class="fas fa-flag-checkered"></i></button>
+                    </div>
+                </div>
+                <div id="tap-overlay-p6" style="display:none; position:absolute; inset:0; background:rgba(0,0,0,0.75); color:white; align-items:center; justify-content:center; cursor:pointer; z-index:25; font-size:1.2rem;" onclick="tapOverlayPlay(document.getElementById('vid2'), 'p6')">Tap to play</div>
+                <div class="controls" style="position:absolute; bottom:0; left:0; width:100%; padding:15px; background:linear-gradient(transparent, rgba(0,0,0,0.9)); display:flex; gap:15px; align-items:center;">
+                    <button class="btn btn-sm" style="background:white; color:black; border-radius:50%; width:36px; height:36px; padding:0;" onclick="togglePlay()"><i class="fas fa-play"></i></button>
+                    <input type="range" id="seek-bar2" value="0" style="flex:1;">
+                </div>
+            </div>
+            <div id="hud-bar2" class="hud-bar"><span id="hud2" class="hud">Loading...</span></div>
+            <div class="vt-sub-box">
+                <div style="padding:15px; border-bottom:1px solid #eee; font-weight:bold; color:var(--sub); font-size:0.9rem;">TRANSCRIPT <span style="font-weight:normal; font-size:0.8rem;">(Click to define)</span></div>
+                <div class="sub-list" id="sub-list2"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="p7" class="page">
+    <div class="container">
+        <div class="card" style="text-align:center; width:100%; max-width:600px;">
+            <div style="font-size:3rem; color:var(--a); margin-bottom:15px;"><i class="fas fa-trophy"></i></div>
+            <h1 style="color:var(--p);">Mission Report</h1>
+            <p>Great Job, <span id="r-name" style="font-weight:bold;">Agent</span>!</p>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; margin:30px 0;">
+                <div style="background:var(--bg); padding:15px; border-radius:10px;"><div id="r-voc" style="font-size:1.8rem; font-weight:800; color:var(--p);">0</div><div>Vocab</div></div>
+                <div style="background:var(--bg); padding:15px; border-radius:10px;"><div id="r-quiz" style="font-size:1.8rem; font-weight:800; color:var(--p);">0</div><div>Quiz</div></div>
+                <div style="background:var(--bg); padding:15px; border-radius:10px;"><div id="r-vid" style="font-size:1.8rem; font-weight:800; color:var(--p);">0</div><div>Video</div></div>
+                <div style="background:var(--bg); padding:15px; border-radius:10px;"><div id="r-time" style="font-size:1.8rem; font-weight:800; color:var(--p);">0m</div><div>Time</div></div>
+            </div>
+            <div id="r-total" style="font-size:3.5rem; font-weight:900; color:var(--a);">0</div>
+            <button class="btn" style="margin-top:30px; width:100%;" onclick="location.reload()">New Mission ↺</button>
+        </div>
+    </div>
+</div>
+
+<div id="mod-voc" class="modal-mask" onclick="clsVoc()">
+    <div class="modal-box" onclick="event.stopPropagation()">
+        <button onclick="clsVoc()" style="position:absolute; top:15px; right:15px; border:none; background:none; font-size:1.5rem; cursor:pointer;">&times;</button>
+        <h2 style="color:var(--p); margin-top:0;" id="m-w">Word</h2>
+        <div style="margin-bottom:20px;">
+            <span id="m-type" style="background:#eee; padding:3px 8px; border-radius:4px; font-size:0.8rem; font-weight:bold;">TYPE</span>
+            <i class="fas fa-volume-up" style="cursor:pointer; color:var(--p); margin-left:10px;" onclick="speak(document.getElementById('m-w').innerText)"></i>
+        </div>
+        <p style="font-style:italic; color:#555;" id="m-def">Def...</p>
+        <p style="border-bottom:1px solid #eee; padding-bottom:15px;"><strong>CN:</strong> <span id="m-cn" class="blur-txt" onclick="this.classList.add('revealed')">CN</span></p>
+        <div style="background:#FFF7ED; padding:15px; border-radius:10px; margin-bottom:10px;">
+            <div style="font-size:0.7rem; font-weight:800; color:var(--p); margin-bottom:5px;">VIDEO</div>
+            <div style="margin-bottom:5px;">"<span id="m-vex"></span>" <i class="fas fa-volume-up" onclick="speak(document.getElementById('m-vex').innerText)"></i></div>
+            <div id="m-vcn" class="blur-txt" onclick="this.classList.add('revealed')">CN</div>
+        </div>
+        <div style="background:#F0FDF4; padding:15px; border-radius:10px;">
+            <div style="font-size:0.7rem; font-weight:800; color:#166534; margin-bottom:5px;">REAL LIFE</div>
+            <div style="margin-bottom:5px;">"<span id="m-lex"></span>" <i class="fas fa-volume-up" onclick="speak(document.getElementById('m-lex').innerText)"></i></div>
+            <div id="m-lcn" class="blur-txt" onclick="this.classList.add('revealed')">CN</div>
+        </div>
+    </div>
+</div>
+
+<div id="ds-pop">
+    <div style="background:var(--p); color:white; padding:10px 15px; font-weight:bold; display:flex; justify-content:space-between;"><span>AI Helper</span><span onclick="document.getElementById('ds-pop').style.display='none'" style="cursor:pointer;">&times;</span></div>
+    <div id="ds-con" style="padding:15px; max-height:250px; overflow-y:auto;">Thinking...</div>
+</div>
+
+<script>
+    const D = {"config": {"title": "Can You Beat Fate's Cursed Card Game?", "theme": {"primary": "#4F46E5", "accent": "#F59E0B", "bg_start": "#EEF2FF", "bg_end": "#E0E7FF"}, "quizTiers": [{"percent": 0.3, "base": 30, "label": "Basic"}, {"percent": 0.5, "base": 60, "label": "Standard"}, {"percent": 0.8, "base": 100, "label": "Advanced"}, {"percent": 1.0, "base": 140, "label": "Master"}], "videoFile": "Video.mp4", "azureKey": "DKRXk8ueSfo5NdIOMqFRTCAfpeGDezJ3Snf5K8gGgtyqxiWdugLzJQQJ99BLACHYHv6XJ3w3AAAYACOGUYP9", "azureRegion": "eastus2", "deepseekKey": "sk-daa16008e81843deba6fefe9dce51465", "ai_design": {"theme": {"primary": "#C7A55A", "accent": "#8A4FFF", "bg_body": "#1A1A2E", "bg_card": "#2D2D44", "text_main": "#E0E0E0", "text_sub": "#9A9AAB"}, "fonts": {"heading": "Cinzel Decorative", "body": "Lora"}, "style": {"radius": "8px", "shadow": "0 0 15px rgba(138, 79, 255, 0.3)"}}}, "reading": [{"text": "Legend says your ancestor stole a magical tarot deck from Fate herself, making your family the world's greatest fortune-tellers. But this gift came with a curse: every 23 years, one family member must enter a duel with Fate, governed by arcane rules. Generation after generation, the outcome is the same\u2014Fate claims their soul. Twenty-three years ago, your father faced the challenge and lost. Today, it's your turn."}, {"text": "While pacing the dueling room, you discover a hidden camera your father left behind. The tape reveals his game against Fate. The 22 cards of the Major Arcana, plus an additional card called the Soul, are laid out. Fate explains the rules: \"You may take any card that has at least one factor on the table. I'll then receive every factor.\" For example, taking the Tower (16) gives Fate the cards for 1, 2, 4, and 8. The player with the highest total card value at the end wins."}, {"text": "During the game, Fate mentions that certain cards grant special rewards: the 10 brings great fortune, the 6 grants true love, and the 2 would end the family curse forever. However, your father's total comes up short, and he loses. Just as the video cuts to static, Fate appears before you in the room. She offers you the same starting card as your father: the Tower. The game begins."}, {"text": "You realize that accepting the Tower (16) is a trap. It gives Fate the 1, 2, 4, and 8 cards, which allows her to eventually claim all the prime-numbered cards. A careful calculation shows that this path leads, at best, to a 138-138 tie. Since ties go to Fate, this guarantees your loss. Fate has been manipulating the game from the first move to ensure her victory."}, {"text": "Thanks to your father's recording, you know better. To win, you must decline the Tower. To break the curse, you must take the 2 on your first turn, as it is a prime number. By carefully selecting a sequence of cards (like 22, 14, 21, and 15), you can achieve a narrow victory of 140 to 136. Alternatively, different opening moves could allow you to claim the 10 for wealth or the 6 for love, but you can only choose one reward. Fate is waiting for your decision."}], "images": [{"prompt": "An anxious person stands in a dimly lit, mystical room. On a central ornate table, a deck of tarot cards is spread out, glowing faintly. A shadowy, ethereal figure of Fate waits patiently on the other side.", "src": "generated_images/Video_Homework_img_1.png"}, {"prompt": "An overhead view of a card game in progress on an ancient wooden table. A hand reaches for a tarot card labeled 'The Tower (16)'. Arrows show smaller cards labeled 1, 2, 4, and 8 moving to the opponent's side of the table.", "src": "generated_images/Video_Homework_img_2.png"}, {"prompt": "A person intently watches a grainy, flickering video on an old camera's small screen. The footage shows a man, their father, looking defeated while playing a card game against a ghostly figure. The viewer has a look of sudden, sharp realization.", "src": "generated_images/Video_Homework_img_3.png"}, {"prompt": "A first-person view of a hand hovering over a spread of beautifully illustrated tarot cards. Three cards glow brighter than the rest: 'The World (2)' depicting breaking chains, 'The Lovers (6)' depicting a couple, and 'The Wheel of Fortune (10)' depicting gold coins. The choice is about to be made.", "src": "generated_images/Video_Homework_img_4.png"}], "vocab": [{"id": 0, "w": "ancestor", "type": "general", "en_def": "A person, typically one more remote than a grandparent, from whom one is descended.", "cn": "\u7956\u5148", "vid_ex": "Legend has it hundreds of years ago a distant ancestor of yours stole a magical tarot deck from faith herself.", "vid_cn": "\u4f20\u8bf4\u51e0\u767e\u5e74\u524d\uff0c\u4f60\u7684\u4e00\u4f4d\u8fdc\u7956\u4ece\u547d\u8fd0\u5973\u795e\u90a3\u91cc\u5077\u8d70\u4e86\u4e00\u526f\u6709\u9b54\u529b\u7684\u5854\u7f57\u724c\u3002", "life_ex": "My ancestor from Ireland immigrated to the United States in the 19th century.", "life_cn": "\u6211\u6765\u81ea\u7231\u5c14\u5170\u7684\u7956\u5148\u572819\u4e16\u7eaa\u79fb\u6c11\u5230\u4e86\u7f8e\u56fd\u3002"}, {"id": 1, "w": "fortune", "type": "general", "en_def": "Chance or luck as an external, arbitrary force affecting human affairs; also can mean a large amount of money or assets.", "cn": "\u8d22\u5bcc\uff1b\u8fd0\u6c14", "vid_ex": "While the deck has increased your fortunes many times over, it came with a terrible cost.", "vid_cn": "\u867d\u7136\u8fd9\u526f\u724c\u4f7f\u4f60\u4eec\u7684\u8d22\u5bcc\u589e\u52a0\u4e86\u8bb8\u591a\u500d\uff0c\u4f46\u5b83\u4e5f\u5e26\u6765\u4e86\u53ef\u6015\u7684\u4ee3\u4ef7\u3002", "life_ex": "He inherited a large fortune from his late uncle.", "life_cn": "\u4ed6\u4ece\u5df2\u6545\u7684\u53d4\u53d4\u90a3\u91cc\u7ee7\u627f\u4e86\u4e00\u5927\u7b14\u8d22\u5bcc\u3002"}, {"id": 2, "w": "duel", "type": "general", "en_def": "A contest with deadly weapons arranged between two people in order to settle a point of honor.", "cn": "\u51b3\u6597", "vid_ex": "One member of your family must enter and face fate in a duel with arcane rules.", "vid_cn": "\u4f60\u5bb6\u65cf\u4e2d\u7684\u4e00\u540d\u6210\u5458\u5fc5\u987b\u8fdb\u5165\u5e76\u4e0e\u547d\u8fd0\u5728\u4e00\u573a\u89c4\u5219\u795e\u79d8\u7684\u51b3\u6597\u4e2d\u5bf9\u51b3\u3002", "life_ex": "The two knights agreed to settle their dispute with a duel at dawn.", "life_cn": "\u4e24\u4f4d\u9a91\u58eb\u540c\u610f\u5728\u9ece\u660e\u65f6\u5206\u901a\u8fc7\u51b3\u6597\u6765\u89e3\u51b3\u4ed6\u4eec\u7684\u4e89\u7aef\u3002"}, {"id": 3, "w": "arcane", "type": "general", "en_def": "Understood by few; mysterious or secret.", "cn": "\u795e\u79d8\u7684\uff1b\u6666\u6da9\u96be\u61c2\u7684", "vid_ex": "One member of your family must enter and face fate in a duel with arcane rules only known to your opponent.", "vid_cn": "\u4f60\u5bb6\u65cf\u4e2d\u7684\u4e00\u540d\u6210\u5458\u5fc5\u987b\u8fdb\u5165\u5e76\u4e0e\u547d\u8fd0\u5728\u4e00\u573a\u53ea\u6709\u5bf9\u624b\u624d\u77e5\u9053\u7684\u795e\u79d8\u89c4\u5219\u7684\u51b3\u6597\u4e2d\u5bf9\u51b3\u3002", "life_ex": "The professor is an expert in the arcane details of medieval alchemy.", "life_cn": "\u8fd9\u4f4d\u6559\u6388\u662f\u7814\u7a76\u4e2d\u4e16\u7eaa\u70bc\u91d1\u672f\u4e2d\u90a3\u4e9b\u6666\u6da9\u96be\u61c2\u7ec6\u8282\u7684\u4e13\u5bb6\u3002"}, {"id": 4, "w": "opponent", "type": "general", "en_def": "Someone who competes against or fights another in a contest, game, or argument.", "cn": "\u5bf9\u624b", "vid_ex": "You must face fate in a duel with arcane rules only known to your opponent.", "vid_cn": "\u4f60\u5fc5\u987b\u5728\u4e00\u573a\u89c4\u5219\u53ea\u6709\u4f60\u7684\u5bf9\u624b\u624d\u77e5\u9053\u7684\u795e\u79d8\u51b3\u6597\u4e2d\u9762\u5bf9\u547d\u8fd0\u3002", "life_ex": "She was a formidable opponent in the chess tournament.", "life_cn": "\u5979\u5728\u56fd\u9645\u8c61\u68cb\u9526\u6807\u8d5b\u4e2d\u662f\u4e00\u4e2a\u5f3a\u5927\u7684\u5bf9\u624b\u3002"}, {"id": 5, "w": "generation", "type": "general", "en_def": "All of the people born and living at about the same time, regarded collectively.", "cn": "\u4e00\u4ee3\u4eba", "vid_ex": "And every time, generation after generation, the outcome is the same.", "vid_cn": "\u800c\u6bcf\u4e00\u6b21\uff0c\u4e00\u4ee3\u53c8\u4e00\u4ee3\uff0c\u7ed3\u679c\u90fd\u662f\u4e00\u6837\u7684\u3002", "life_ex": "The new policy is designed to help the younger generation find affordable housing.", "life_cn": "\u65b0\u653f\u7b56\u65e8\u5728\u5e2e\u52a9\u5e74\u8f7b\u4e00\u4ee3\u627e\u5230\u8d1f\u62c5\u5f97\u8d77\u7684\u4f4f\u623f\u3002"}, {"id": 6, "w": "outcome", "type": "general", "en_def": "The way a thing turns out; a consequence.", "cn": "\u7ed3\u679c\uff1b\u540e\u679c", "vid_ex": "And every time, generation after generation, the outcome is the same: fate claims their soul.", "vid_cn": "\u800c\u6bcf\u4e00\u6b21\uff0c\u4e00\u4ee3\u53c8\u4e00\u4ee3\uff0c\u7ed3\u679c\u90fd\u662f\u4e00\u6837\u7684\uff1a\u547d\u8fd0\u593a\u8d70\u4ed6\u4eec\u7684\u7075\u9b42\u3002", "life_ex": "The outcome of the election will be announced tomorrow morning.", "life_cn": "\u9009\u4e3e\u7684\u7ed3\u679c\u5c06\u4e8e\u660e\u5929\u65e9\u4e0a\u516c\u5e03\u3002"}, {"id": 7, "w": "pacing", "type": "general", "en_def": "Walking back and forth in the same area, especially because of nervousness or impatience.", "cn": "\u8e31\u6b65", "vid_ex": "You're pacing the dueling room when you stumble across something that just might change everything.", "vid_cn": "\u4f60\u6b63\u5728\u51b3\u6597\u5ba4\u91cc\u8e31\u6b65\uff0c\u8fd9\u65f6\u4f60\u5076\u7136\u53d1\u73b0\u4e86\u4e00\u4ef6\u6216\u8bb8\u80fd\u6539\u53d8\u4e00\u5207\u7684\u4e1c\u897f\u3002", "life_ex": "The expectant father was pacing the hospital hallway while waiting for news.", "life_cn": "\u90a3\u4f4d\u51c6\u7238\u7238\u5728\u7b49\u5f85\u6d88\u606f\u65f6\uff0c\u6b63\u5728\u533b\u9662\u7684\u8d70\u5eca\u91cc\u6765\u56de\u8e31\u6b65\u3002"}, {"id": 8, "w": "stumble across", "type": "general", "en_def": "To discover something by chance, or to meet someone by chance.", "cn": "\u5076\u7136\u53d1\u73b0", "vid_ex": "You're pacing the dueling room when you stumble across something that just might change everything.", "vid_cn": "\u4f60\u6b63\u5728\u51b3\u6597\u5ba4\u91cc\u8e31\u6b65\uff0c\u8fd9\u65f6\u4f60\u5076\u7136\u53d1\u73b0\u4e86\u4e00\u4ef6\u6216\u8bb8\u80fd\u6539\u53d8\u4e00\u5207\u7684\u4e1c\u897f\u3002", "life_ex": "While cleaning the attic, I managed to stumble across my old photo albums.", "life_cn": "\u5728\u6253\u626b\u9601\u697c\u65f6\uff0c\u6211\u5076\u7136\u7ffb\u51fa\u4e86\u6211\u7684\u65e7\u76f8\u518c\u3002"}, {"id": 9, "w": "layout", "type": "general", "en_def": "To arrange something in a particular way or according to a plan.", "cn": "\u5e03\u7f6e\uff1b\u5b89\u6392", "vid_ex": "The tape shows him layout the 22 cards of the major arcana.", "vid_cn": "\u5f55\u50cf\u5e26\u663e\u793a\u4ed6\u5e03\u7f6e\u4e8622\u5f20\u5927\u963f\u5361\u7eb3\u724c\u3002", "life_ex": "Before you start writing, it is a good idea to layout your essay.", "life_cn": "\u5728\u5f00\u59cb\u5199\u4f5c\u4e4b\u524d\uff0c\u6700\u597d\u5148\u6784\u601d\u597d\u4f60\u7684\u6587\u7ae0\u7ed3\u6784\u3002"}, {"id": 10, "w": "additional", "type": "general", "en_def": "Added, extra, or supplementary to what is already present or available.", "cn": "\u989d\u5916\u7684", "vid_ex": "Fate then places an additional card, the soul, and speaks.", "vid_cn": "\u7136\u540e\u547d\u8fd0\u653e\u7f6e\u4e86\u4e00\u5f20\u989d\u5916\u7684\u724c\uff0c\u201c\u7075\u9b42\u201d\uff0c\u5e76\u5f00\u53e3\u8bf4\u8bdd\u3002", "life_ex": "There will be an additional charge for home delivery.", "life_cn": "\u9001\u8d27\u4e0a\u95e8\u5c06\u6536\u53d6\u989d\u5916\u8d39\u7528\u3002"}, {"id": 11, "w": "factor", "type": "general", "en_def": "A number or quantity that when multiplied with another produces a given number or expression.", "cn": "\u56e0\u6570", "vid_ex": "You may take any card that has at least one factor on the table.", "vid_cn": "\u4f60\u53ef\u4ee5\u62ff\u8d70\u684c\u9762\u4e0a\u81f3\u5c11\u6709\u4e00\u4e2a\u56e0\u6570\u7684\u4efb\u4f55\u4e00\u5f20\u724c\u3002", "life_ex": "The numbers two, three, four and six are all factors of twelve.", "life_cn": "\u6570\u5b57\u4e8c\u3001\u4e09\u3001\u56db\u548c\u516d\u90fd\u662f\u5341\u4e8c\u7684\u56e0\u6570\u3002"}, {"id": 12, "w": "remarks", "type": "general", "en_def": "To say something as a comment; to mention.", "cn": "\u8bc4\u8bba\uff1b\u8bf4\u8d77", "vid_ex": "As the game continues, fate remarks that if your father were to win and hold the 10, that would grant him great fortune.", "vid_cn": "\u968f\u7740\u6e38\u620f\u7684\u7ee7\u7eed\uff0c\u547d\u8fd0\u8bc4\u8bba\u8bf4\uff0c\u5982\u679c\u4f60\u7236\u4eb2\u80fd\u8d62\u5e76\u62ff\u523010\u53f7\u724c\uff0c\u90a3\u5c06\u8d50\u4e88\u4ed6\u5de8\u5927\u7684\u8d22\u5bcc\u3002", "life_ex": "The professor often remarks on the importance of critical thinking.", "life_cn": "\u6559\u6388\u7ecf\u5e38\u8c08\u5230\u6279\u5224\u6027\u601d\u7ef4\u7684\u91cd\u8981\u6027\u3002"}, {"id": 13, "w": "grant", "type": "general", "en_def": "To agree to give or allow something requested to someone.", "cn": "\u6388\u4e88\uff1b\u7ed9\u4e88", "vid_ex": "Fate remarks that if your father were to win and hold the 10, that would grant him great fortune.", "vid_cn": "\u547d\u8fd0\u8bc4\u8bba\u8bf4\uff0c\u5982\u679c\u4f60\u7236\u4eb2\u80fd\u8d62\u5e76\u62ff\u523010\u53f7\u724c\uff0c\u90a3\u5c06\u8d50\u4e88\u4ed6\u5de8\u5927\u7684\u8d22\u5bcc\u3002", "life_ex": "The committee decided to grant him the scholarship for his outstanding achievements.", "life_cn": "\u59d4\u5458\u4f1a\u51b3\u5b9a\u56e0\u5176\u6770\u51fa\u6210\u5c31\u800c\u6388\u4e88\u4ed6\u5956\u5b66\u91d1\u3002"}, {"id": 14, "w": "curse", "type": "general", "en_def": "A solemn utterance intended to invoke a supernatural power to inflict harm or punishment on someone or something.", "cn": "\u8bc5\u5492", "vid_ex": "The two would end the family curse forever.", "vid_cn": "\u62ff\u52302\u53f7\u724c\u5c06\u6c38\u8fdc\u7ec8\u7ed3\u5bb6\u65cf\u7684\u8bc5\u5492\u3002", "life_ex": "The old witch was said to have put a curse on the entire village.", "life_cn": "\u636e\u8bf4\u90a3\u4e2a\u8001\u5deb\u5a46\u5bf9\u6574\u4e2a\u6751\u5e84\u65bd\u52a0\u4e86\u8bc5\u5492\u3002"}, {"id": 15, "w": "static", "type": "general", "en_def": "Crackling or hissing noises on a telephone, radio, or other telecommunication system.", "cn": "\u9759\u7535\u566a\u97f3", "vid_ex": "As the video turns to static, fate arrives.", "vid_cn": "\u5f53\u89c6\u9891\u53d8\u6210\u96ea\u82b1\u5c4f\u65f6\uff0c\u547d\u8fd0\u5230\u6765\u4e86\u3002", "life_ex": "I couldn't hear the conversation clearly because of the static on the line.", "life_cn": "\u56e0\u4e3a\u7ebf\u8def\u4e0a\u7684\u9759\u7535\u566a\u97f3\uff0c\u6211\u542c\u4e0d\u6e05\u695a\u5bf9\u8bdd\u3002"}, {"id": 16, "w": "defeat", "type": "general", "en_def": "To win a victory over someone in a battle or other contest; to overcome or beat.", "cn": "\u51fb\u8d25", "vid_ex": "How can you defeat fate and what other good fortune can you win for yourself?", "vid_cn": "\u4f60\u600e\u6837\u624d\u80fd\u51fb\u8d25\u547d\u8fd0\uff0c\u5e76\u4e3a\u81ea\u5df1\u8d62\u5f97\u5176\u4ed6\u597d\u8fd0\u5462\uff1f", "life_ex": "Our team managed to defeat the reigning champions in the final match.", "life_cn": "\u6211\u4eec\u7684\u961f\u4f0d\u5728\u51b3\u8d5b\u4e2d\u6210\u529f\u51fb\u8d25\u4e86\u536b\u5195\u51a0\u519b\u3002"}, {"id": 17, "w": "outplay", "type": "general", "en_def": "To play better than an opponent.", "cn": "\u5728\u6bd4\u8d5b\u4e2d\u80dc\u8fc7", "vid_ex": "If you want to outplay fate, you'll need to take the Longview.", "vid_cn": "\u5982\u679c\u4f60\u60f3\u5728\u535a\u5f08\u4e2d\u80dc\u8fc7\u547d\u8fd0\uff0c\u4f60\u9700\u8981\u6709\u957f\u8fdc\u7684\u773c\u5149\u3002", "life_ex": "The visiting team managed to completely outplay the home team and won the game easily.", "life_cn": "\u5ba2\u961f\u5728\u6bd4\u8d5b\u4e2d\u5b8c\u5168\u538b\u5236\u4e86\u4e3b\u961f\uff0c\u8f7b\u677e\u8d62\u5f97\u4e86\u6bd4\u8d5b\u3002"}, {"id": 18, "w": "effectively", "type": "general", "en_def": "In a way that is successful and achieves the results that you want.", "cn": "\u6709\u6548\u5730\uff1b\u5b9e\u9645\u4e0a", "vid_ex": "Accepting the 16 gives fate the 1, 2, 4, and 8; she effectively has the 23, 19, 17 and 13 too.", "vid_cn": "\u63a5\u53d716\u53f7\u724c\u4f1a\u628a1\u30012\u30014\u30018\u53f7\u724c\u7ed9\u547d\u8fd0\uff1b\u5979\u5b9e\u9645\u4e0a\u4e5f\u62e5\u6709\u4e8623\u300119\u300117\u548c13\u53f7\u724c\u3002", "life_ex": "You must manage your time effectively to meet the deadline.", "life_cn": "\u4f60\u5fc5\u987b\u6709\u6548\u5730\u7ba1\u7406\u4f60\u7684\u65f6\u95f4\u624d\u80fd\u8d76\u4e0a\u6700\u540e\u671f\u9650\u3002"}, {"id": 19, "w": "multiples", "type": "general", "en_def": "A number that can be divided by another number a certain number of times without a remainder.", "cn": "\u500d\u6570", "vid_ex": "But you'll be able to take their multiples, like 22, 20, 21.", "vid_cn": "\u4f46\u4f60\u5c06\u80fd\u591f\u62ff\u8d70\u5b83\u4eec\u7684\u500d\u6570\uff0c\u6bd4\u598222\u300120\u300121\u3002", "life_ex": "The numbers 10, 15, and 20 are all multiples of 5.", "life_cn": "\u6570\u5b5710\u300115\u548c20\u90fd\u662f5\u7684\u500d\u6570\u3002"}, {"id": 20, "w": "remaining", "type": "general", "en_def": "Continuing to exist or be left after other parts have been used, removed, or destroyed.", "cn": "\u5269\u4f59\u7684", "vid_ex": "These are the remaining cards in play.", "vid_cn": "\u8fd9\u4e9b\u662f\u573a\u4e0a\u5269\u4f59\u7684\u724c\u3002", "life_ex": "Please eat the remaining cookies before they go stale.", "life_cn": "\u8bf7\u5728\u5269\u4e0b\u7684\u997c\u5e72\u53d8\u8d28\u4e4b\u524d\u5403\u6389\u5b83\u4eec\u3002"}, {"id": 21, "w": "claim", "type": "general", "en_def": "To state that something is true or is a fact.", "cn": "\u58f0\u79f0\uff1b\u83b7\u5f97", "vid_ex": "You can eventually claim at most half of them, rounded down.", "vid_cn": "\u4f60\u6700\u7ec8\u6700\u591a\u53ef\u4ee5\u62ff\u5230\u5176\u4e2d\u7684\u4e00\u534a\uff0c\u5411\u4e0b\u53d6\u6574\u3002", "life_ex": "The company can claim damages for the breach of contract.", "life_cn": "\u516c\u53f8\u53ef\u4ee5\u5c31\u8fdd\u7ea6\u884c\u4e3a\u7d22\u8d54\u635f\u5931\u3002"}, {"id": 22, "w": "rounded down", "type": "general", "en_def": "Approximated to the nearest whole number that is less than or equal to the original number.", "cn": "\u5411\u4e0b\u53d6\u6574", "vid_ex": "You can eventually claim at most half of them, rounded down.", "vid_cn": "\u4f60\u6700\u7ec8\u6700\u591a\u53ef\u4ee5\u62ff\u5230\u5176\u4e2d\u7684\u4e00\u534a\uff0c\u5411\u4e0b\u53d6\u6574\u3002", "life_ex": "The number 7.8, when rounded down to the nearest integer, is 7.", "life_cn": "\u6570\u5b577.8\u5411\u4e0b\u53d6\u6574\u5230\u6700\u8fd1\u7684\u6574\u6570\u662f7\u3002"}, {"id": 23, "w": "manipulating", "type": "general", "en_def": "Controlling or influencing a person or situation cleverly, unfairly, or unscrupulously.", "cn": "\u64cd\u7eb5", "vid_ex": "Fate has been manipulating the game to guarantee her victory.", "vid_cn": "\u547d\u8fd0\u4e00\u76f4\u5728\u64cd\u7eb5\u6e38\u620f\u4ee5\u4fdd\u8bc1\u5979\u7684\u80dc\u5229\u3002", "life_ex": "He was accused of manipulating the financial markets for personal gain.", "life_cn": "\u4ed6\u88ab\u6307\u63a7\u4e3a\u4e2a\u4eba\u5229\u76ca\u800c\u64cd\u7eb5\u91d1\u878d\u5e02\u573a\u3002"}, {"id": 24, "w": "guarantee", "type": "general", "en_def": "To provide a formal assurance or promise that certain conditions will be fulfilled.", "cn": "\u4fdd\u8bc1", "vid_ex": "Fate has been manipulating the game to guarantee her victory.", "vid_cn": "\u547d\u8fd0\u4e00\u76f4\u5728\u64cd\u7eb5\u6e38\u620f\u4ee5\u4fdd\u8bc1\u5979\u7684\u80dc\u5229\u3002", "life_ex": "We can't guarantee you will get the job, but you have a good chance.", "life_cn": "\u6211\u4eec\u4e0d\u80fd\u4fdd\u8bc1\u4f60\u5f97\u5230\u8fd9\u4efd\u5de5\u4f5c\uff0c\u4f46\u4f60\u6709\u5f88\u597d\u7684\u673a\u4f1a\u3002"}, {"id": 25, "w": "victory", "type": "general", "en_def": "An act of defeating an enemy or opponent in a battle, game, or other competition.", "cn": "\u80dc\u5229", "vid_ex": "Taking the eight largest would give you a nail-bitingly narrow victory of 140 to 136.", "vid_cn": "\u62ff\u8d70\u516b\u5f20\u6700\u5927\u7684\u724c\u4f1a\u8ba9\u4f60\u4ee5140\u6bd4136\u7684\u60ca\u9669\u5fae\u5f31\u4f18\u52bf\u83b7\u80dc\u3002", "life_ex": "The team celebrated their victory with a parade through the city.", "life_cn": "\u961f\u4f0d\u5728\u57ce\u5e02\u91cc\u4e3e\u884c\u6e38\u884c\u6765\u5e86\u795d\u4ed6\u4eec\u7684\u80dc\u5229\u3002"}, {"id": 26, "w": "prime", "type": "general", "en_def": "A number that can only be divided by itself and 1.", "cn": "\u8d28\u6570", "vid_ex": "If you want to take the two and break the curse, you'll have to do it on your first turn, since it's prime.", "vid_cn": "\u5982\u679c\u4f60\u60f3\u62ff\u8d702\u53f7\u724c\u5e76\u6253\u7834\u8bc5\u5492\uff0c\u4f60\u5fc5\u987b\u5728\u7b2c\u4e00\u56de\u5408\u5c31\u8fd9\u4e48\u505a\uff0c\u56e0\u4e3a2\u662f\u8d28\u6570\u3002", "life_ex": "The number 7 is a prime number because it has no factors other than 1 and 7.", "life_cn": "\u6570\u5b577\u662f\u4e00\u4e2a\u8d28\u6570\uff0c\u56e0\u4e3a\u5b83\u9664\u4e861\u548c7\u4e4b\u5916\u6ca1\u6709\u5176\u4ed6\u56e0\u6570\u3002"}, {"id": 27, "w": "in theory", "type": "general", "en_def": "Used to say that a particular statement is supposed to be true in an ideal situation, but may not be true in reality.", "cn": "\u7406\u8bba\u4e0a", "vid_ex": "In theory, you can get at most eight of the remaining 17 cards.", "vid_cn": "\u7406\u8bba\u4e0a\uff0c\u4f60\u6700\u591a\u53ef\u4ee5\u4ece\u5269\u4e0b\u768417\u5f20\u724c\u4e2d\u62ff\u52308\u5f20\u3002", "life_ex": "The plan sounds great in theory, but I'm not sure how it will work in practice.", "life_cn": "\u8fd9\u4e2a\u8ba1\u5212\u7406\u8bba\u4e0a\u542c\u8d77\u6765\u5f88\u68d2\uff0c\u4f46\u6211\u4e0d\u786e\u5b9a\u5728\u5b9e\u8df5\u4e2d\u4f1a\u5982\u4f55\u8fd0\u4f5c\u3002"}, {"id": 28, "w": "nail-bitingly", "type": "general", "en_def": "In a way that causes great anxiety or tension.", "cn": "\u7d27\u5f20\u523a\u6fc0\u5730\uff1b\u60ca\u9669\u5730", "vid_ex": "Taking the eight largest would give you a nail-bitingly narrow victory of 140 to 136.", "vid_cn": "\u62ff\u8d70\u516b\u5f20\u6700\u5927\u7684\u724c\u4f1a\u8ba9\u4f60\u4ee5140\u6bd4136\u7684\u60ca\u9669\u5fae\u5f31\u4f18\u52bf\u83b7\u80dc\u3002", "life_ex": "The movie ended with a nail-bitingly exciting car chase.", "life_cn": "\u7535\u5f71\u4ee5\u4e00\u573a\u7d27\u5f20\u523a\u6fc0\u7684\u98de\u8f66\u8ffd\u9010\u7ed3\u675f\u3002"}, {"id": 29, "w": "narrow", "type": "general", "en_def": "Won by only a small margin.", "cn": "\u5fae\u5f31\u7684\uff1b\u52c9\u5f3a\u7684", "vid_ex": "Taking the eight largest would give you a nail-bitingly narrow victory of 140 to 136.", "vid_cn": "\u62ff\u8d70\u516b\u5f20\u6700\u5927\u7684\u724c\u4f1a\u8ba9\u4f60\u4ee5140\u6bd4136\u7684\u60ca\u9669\u5fae\u5f31\u4f18\u52bf\u83b7\u80dc\u3002", "life_ex": "She won the race by a narrow margin of just two seconds.", "life_cn": "\u5979\u4ee5\u4ec5\u4ec5\u4e24\u79d2\u7684\u5fae\u5f31\u4f18\u52bf\u8d62\u5f97\u4e86\u6bd4\u8d5b\u3002"}, {"id": 30, "w": "reasoning", "type": "general", "en_def": "The action of thinking about something in a logical, sensible way.", "cn": "\u63a8\u7406", "vid_ex": "Following similar reasoning, you could take the 23 on your first turn and win the 10 or the six.", "vid_cn": "\u9075\u5faa\u7c7b\u4f3c\u7684\u63a8\u7406\uff0c\u4f60\u53ef\u4ee5\u5728\u7b2c\u4e00\u56de\u5408\u62ff\u8d7023\u53f7\u724c\uff0c\u4ece\u800c\u8d62\u5f9710\u53f7\u62166\u53f7\u724c\u3002", "life_ex": "His line of reasoning was difficult to follow at first.", "life_cn": "\u4ed6\u7684\u4e00\u7cfb\u5217\u63a8\u7406\u6700\u521d\u5f88\u96be\u7406\u89e3\u3002"}, {"id": 31, "w": "impossible", "type": "general", "en_def": "Not able to occur, exist, or be done.", "cn": "\u4e0d\u53ef\u80fd\u7684", "vid_ex": "But claiming more than one reward is impossible.", "vid_cn": "\u4f46\u662f\u83b7\u5f97\u8d85\u8fc7\u4e00\u4e2a\u5956\u52b1\u662f\u4e0d\u53ef\u80fd\u7684\u3002", "life_ex": "It is impossible to be in two places at once.", "life_cn": "\u4e00\u4e2a\u4eba\u4e0d\u53ef\u80fd\u540c\u65f6\u5728\u4e24\u4e2a\u5730\u65b9\u3002"}, {"id": 32, "w": "wealth", "type": "general", "en_def": "An abundance of valuable possessions or money.", "cn": "\u8d22\u5bcc", "vid_ex": "So do you take wealth, love, or break the curse?", "vid_cn": "\u90a3\u4e48\u4f60\u662f\u9009\u62e9\u8d22\u5bcc\uff0c\u7231\u60c5\uff0c\u8fd8\u662f\u6253\u7834\u8bc5\u5492\u5462\uff1f", "life_ex": "The country's wealth comes from its vast oil reserves.", "life_cn": "\u8fd9\u4e2a\u56fd\u5bb6\u7684\u8d22\u5bcc\u6765\u81ea\u5176\u5de8\u5927\u7684\u77f3\u6cb9\u50a8\u5907\u3002"}, {"id": 33, "w": "interactive", "type": "general", "en_def": "Allowing a two-way flow of information between a system and a user; responding to a user's input.", "cn": "\u4e92\u52a8\u7684", "vid_ex": "And their visual interactive approach helps get tough ideas to stick.", "vid_cn": "\u4ed6\u4eec\u89c6\u89c9\u5316\u7684\u4e92\u52a8\u65b9\u6cd5\u6709\u52a9\u4e8e\u8ba9\u96be\u61c2\u7684\u6982\u5ff5\u6df1\u5165\u4eba\u5fc3\u3002", "life_ex": "The museum has many interactive exhibits that are fun for children.", "life_cn": "\u8fd9\u4e2a\u535a\u7269\u9986\u6709\u5f88\u591a\u4e92\u52a8\u5c55\u89c8\uff0c\u5bf9\u5b69\u5b50\u4eec\u6765\u8bf4\u5f88\u6709\u8da3\u3002"}, {"id": 34, "w": "visual", "type": "general", "en_def": "Relating to seeing or sight.", "cn": "\u89c6\u89c9\u7684", "vid_ex": "And their visual interactive approach helps get tough ideas to stick.", "vid_cn": "\u4ed6\u4eec\u89c6\u89c9\u5316\u7684\u4e92\u52a8\u65b9\u6cd5\u6709\u52a9\u4e8e\u8ba9\u96be\u61c2\u7684\u6982\u5ff5\u6df1\u5165\u4eba\u5fc3\u3002", "life_ex": "The artist uses strong colors to create a powerful visual impact.", "life_cn": "\u8fd9\u4f4d\u827a\u672f\u5bb6\u4f7f\u7528\u5f3a\u70c8\u7684\u8272\u5f69\u6765\u521b\u9020\u5f3a\u5927\u7684\u89c6\u89c9\u51b2\u51fb\u3002"}, {"id": 35, "w": "Fate", "type": "proper", "en_def": "A name for the personification of destiny, depicted as a character in the story.", "cn": "\u547d\u8fd0\uff08\u62df\u4eba\u5316\uff09", "vid_ex": "Once every 23 years, one member of your family must enter and face fate in a duel.", "vid_cn": "\u6bcf\u969423\u5e74\uff0c\u4f60\u5bb6\u65cf\u7684\u4e00\u540d\u6210\u5458\u5c31\u5fc5\u987b\u8fdb\u5165\u5e76\u5728\u4e00\u573a\u51b3\u6597\u4e2d\u9762\u5bf9\u547d\u8fd0\u3002", "life_ex": "In Greek mythology, the three Fates were goddesses who controlled the destiny of every mortal.", "life_cn": "\u5728\u5e0c\u814a\u795e\u8bdd\u4e2d\uff0c\u4e09\u4f4d\u547d\u8fd0\u5973\u795e\u638c\u63a7\u7740\u6bcf\u4e2a\u51e1\u4eba\u7684\u547d\u8fd0\u3002"}, {"id": 36, "w": "Major Arcana", "type": "proper", "en_def": "The 22 trump cards that constitute the foundation of a tarot deck.", "cn": "\u5927\u963f\u5361\u7eb3", "vid_ex": "The tape shows him layout the 22 cards of the major arcana.", "vid_cn": "\u5f55\u50cf\u5e26\u663e\u793a\u4ed6\u5e03\u7f6e\u4e8622\u5f20\u5927\u963f\u5361\u7eb3\u724c\u3002", "life_ex": "Each card in the Major Arcana represents a significant life lesson or archetype.", "life_cn": "\u5927\u963f\u5361\u7eb3\u4e2d\u7684\u6bcf\u4e00\u5f20\u724c\u90fd\u4ee3\u8868\u7740\u4e00\u4e2a\u91cd\u8981\u7684\u4eba\u751f\u8bfe\u9898\u6216\u539f\u578b\u3002"}, {"id": 37, "w": "brilliant.org", "type": "proper", "en_def": "An American for-profit company that offers courses in mathematics, physics, quantitative finance, and computer science.", "cn": "Brilliant.org\uff08\u7f51\u7ad9\u540d\uff09", "vid_ex": "Visit brilliant.org/ted to get 30 days free and 20% off a year of stem learning.", "vid_cn": "\u8bbf\u95eebrilliant.org/ted\u53ef\u4ee5\u83b7\u5f9730\u5929\u514d\u8d39\u8bd5\u7528\u548c\u4e00\u5e74STEM\u5b66\u4e6020%\u7684\u6298\u6263\u3002", "life_ex": "I signed up for a course on brilliant.org to improve my problem-solving skills.", "life_cn": "\u6211\u5728brilliant.org\u4e0a\u6ce8\u518c\u4e86\u4e00\u95e8\u8bfe\u7a0b\u6765\u63d0\u9ad8\u6211\u7684\u89e3\u51b3\u95ee\u9898\u80fd\u529b\u3002"}], "quizzes": {"general": [{"time": 45.41, "type": "choice", "q": "According to the legend, what is the terrible cost associated with the magical tarot deck?", "opts": ["A family member must face Fate in a duel every 23 years.", "The family loses all their fortune every 23 years.", "The tarot deck loses its magic every 23 years.", "A family member must find a hidden camera every 23 years."], "ans": 0, "review": "The transcript states, \"once every 20-3 years... 1 member of your family must enter and face fate in a duel.\"", "replay": {"start": 21.07, "end": 45.41}}, {"time": 84.3, "type": "choice", "q": "What happens when a player takes a card in the duel against Fate?", "opts": ["The player gains the card's value, and Fate gains all of its factors.", "The player and Fate split the card's factors evenly.", "The player gains the card's factors, and Fate gains the card's value.", "The player must discard a card of equal value."], "ans": 0, "review": "Fate explains, \"you may take any card that has at least one factor on the table I'll then receive every factor... take the tower for example it is 16 with factors 124 and eight those now belong to me\".", "replay": {"start": 76.45, "end": 84.3}}, {"time": 208.55, "type": "choice", "q": "Why is accepting Fate's initial offer of the Tower card (16) a guaranteed loss?", "opts": ["It leads to a tie, which Fate automatically wins.", "The Tower card has a negative point value.", "Taking the Tower card immediately ends the game.", "The rules state the player cannot take the first card offered."], "ans": 0, "review": "Accepting the 16 leads to a situation where the best possible score for the player is 138, the same as Fate's, and the narrator states, \"ties go to fate\".", "replay": {"start": 151.47, "end": 208.55}}, {"time": 301.28, "type": "choice", "q": "What is the ultimate choice the protagonist must make at the end?", "opts": ["To accept a tie and continue the cycle.", "To choose between wealth, love, or breaking the family curse.", "To refuse to play the game entirely.", "To try and claim all three rewards at once."], "ans": 1, "review": "The narrator poses the final question: \"do you take wealth love or break the curse fate is waiting but the choice is up to you.\"", "replay": {"start": 295.74, "end": 301.28}}], "detailed": [{"time": 25.57, "type": "cloze", "q": "A member of the family must face Fate in a duel once every ___ years.", "opts": ["23", "100"], "ans": 0, "review": "The transcript states, \"once every 20-3 years... a member of your family must enter and face fate in a duel.\" It's later confirmed that 23 years ago, the protagonist's father lost.", "replay": {"start": 22.87, "end": 25.57}}, {"time": 65.03, "type": "choice", "q": "What crucial item did the protagonist's father hide in the dueling room?", "opts": ["A hidden rulebook", "A secret escape route", "A camera", "An extra tarot card"], "ans": 2, "review": "The transcript reveals, \"...your father hid a camera in the room.\"", "replay": {"start": 62.03, "end": 65.03}}, {"time": 118.23, "type": "choice", "q": "According to Fate's remarks, winning the card '6' would grant the player what?", "opts": ["Great fortune", "True love", "An end to the family curse", "An extra turn"], "ans": 1, "review": "Fate remarks that winning \"6 [would grant him] true love\".", "replay": {"start": 117.23, "end": 118.23}}, {"time": 138.85, "type": "choice", "q": "What card does Fate offer the protagonist to begin the game?", "opts": ["The Soul", "The Fool", "The Tower", "The Ten"], "ans": 2, "review": "The narrator says, \"...you hear her offer you the tower to begin the game.\"", "replay": {"start": 135.25, "end": 138.85}}, {"time": 208.55, "type": "cloze", "q": "In the duel against Fate, if the final scores are tied, the victory goes to ___.", "opts": ["Fate", "the player"], "ans": 0, "review": "The text explicitly states, \"...your total would be 138 and fates total also 138 ties go to fate.\"", "replay": {"start": 207.83, "end": 208.55}}, {"time": 225.47, "type": "choice", "q": "If the protagonist wants to take the card 'two' to break the curse, why must they do it on their first turn?", "opts": ["Because it's a prime number", "Because it's the lowest value card", "Because Fate will take it otherwise", "Because its only factor has already been taken"], "ans": 0, "review": "The narrator explains, \"...if you want to take the two and break the curse you'll have to do it on your first turn since it's prime.\"", "replay": {"start": 221.75, "end": 225.47}}, {"time": 251.63, "type": "choice", "q": "What is the potential score for a \"nail-bitingly narrow victory\" against Fate?", "opts": ["138 to 138", "140 to 136", "150 to 126", "100 to 99"], "ans": 1, "review": "The analysis shows that taking the eight largest remaining cards \"would give you a nail bitingly narrow victory of 140 to 136.\"", "replay": {"start": 247.19, "end": 251.63}}, {"time": 296.88, "type": "cloze", "q": "Is it possible for the protagonist to win the game and claim more than one reward (e.g., both wealth and love)?", "opts": ["Yes", "No"], "ans": 1, "review": "The narrator explicitly states, \"...but claiming more than one reward is impossible.\"", "replay": {"start": 293.94, "end": 296.88}}]}, "subtitles": [{"s": 7.39, "e": 30.07, "t": "Legend has it hundreds of years ago a distant ancestor of yours stole a magical tarot deck from faith herself today your family is known the world over as the world's greatest fortune tellers while the deck has increased your fortunes many times over it came with a terrible cost once every 20-3 years a door"}, {"s": 30.19, "e": 54.11, "t": "years in your house 1 member of your family must enter and face fate in a duel with arcane rules only known to your opponent and every time generation after generation the outcome is the same fate claims their soul 23 years ago your father accepted the challenge and lost today it's your turn"}, {"s": 55.28, "e": 60.28, "t": "you're pacing the dueling room when you stumble across something that just might change"}, {"s": 60.63, "e": 70.67, "t": "everything your father hid a camera in the room the tape shows him layout the 22 cards of the major arcana"}, {"s": 71.43, "e": 96.44, "t": "fate then places an additional card the soul and speaks you may take any card that has at least one factor on the table I'll then receive every factor take the tower for example it is 16 with factors 124 and eight those now belong to me making our score 16"}, {"s": 96.48, "e": 101.52, "t": "16 to 15 if your total at the end of the game is higher than mine"}, {"s": 101.87, "e": 127.71, "t": "you'll win play again and know that if you run out of moods I'll take all the cards that remain as the game continues fate remarks that if your father were to win and hold the 10 that would grant him great fortune 6 true love and the two would end the family curse forever but none of that matters because in the end his total comes up short"}, {"s": 128.52, "e": 131.64, "t": "as the video turns to static fate arrives"}, {"s": 132.31, "e": 143.11, "t": "feeling as if you're in a dream you hear her offer you the tower to begin the game how can you defeat fate and what other good fortune can you win for yourself"}, {"s": 151.47, "e": 180.83, "t": "if you want to outplay fate you'll need to take the Longview accepting the 16 gives fate the 124 and eight she effectively has the 231917 and 13 two since you can't take prime numbers once one is off the board smaller primes like 1175 and 3 will also go to fate but you'll be able to take their multiples like 22"}, {"s": 180.99, "e": 210.75, "t": "2021 that means these are the remaining cards in play you can eventually claim at most half of them rounded down since fate gets at least one for each card you take so the best you can possibly do is take the seven largest cards add those together with the 16 and your total would be 138 and fates total also 138 ties go to fate so it's clear that by"}, {"s": 211.23, "e": 241.07, "t": "your ancestors the 16 before explaining the full rules fate has been manipulating the game to guarantee her victory but thanks to your father you now know better Speaking of your family if you want to take the two and break the curse you'll have to do it on your first turn since it's prime if you do fate will get one and once again fate is guaranteed the high primes in theory you can get at most"}, {"s": 241.19, "e": 271.15, "t": "eight of the remaining 17 cards taking the eight largest would give you a nail bitingly narrow victory of 140 to 136 but is it possible you need fate to get as few cards as possible for each one you take you can start with the 22 and 14 with the seven gone you can take the 21 then the 15 you still need these and the next one you take will give"}, {"s": 271.59, "e": 301.28, "t": "2 cards that's OK though try the 16 for example and fate gets the four and the 8:00 but you'll still get the 12 the 18 and the 20 following similar reasoning you could take the 23 on your first turn and win the 10 or the six but claiming more than one reward is impossible so do you take wealth love or break the curse fate is waiting but the choice is up to you"}, {"s": 303.56, "e": 321.96, "t": "here's an easier choice trying brilliant.org brilliance library of thousands of stem lessons has something for everyone and their visual interactive approach helps get tough ideas to stick visit brilliant.org/ted to get 30 days free and 20% off a year of stem learning"}]};
+    const C = D.config;
+    const AZ_KEY = "DKRXk8ueSfo5NdIOMqFRTCAfpeGDezJ3Snf5K8gGgtyqxiWdugLzJQQJ99BLACHYHv6XJ3w3AAAYACOGUYP9";
+    const AZ_REG = "eastus2";
+    let s = { u:"", score:0, lsc:0, qsc:0, vidsc:0, sv:new Set(), lrn:new Set(), pg:'p1', lock:false, t:0, t1:0, t2:0, v1:0, v2:0, startTime: Date.now(), phase:'general', logs1:[], logs2:[] };
+    const STORAGE_KEY = 'vt_course_final_v3';
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.maxTouchPoints > 0 && /Mac/.test(navigator.userAgent));
+    let lastActiveSubIndex = -1;
+    function tapOverlayPlay(v, pageId) {
+        const ov = document.getElementById('tap-overlay-' + pageId);
+        if(ov) ov.style.display = 'none';
+        if(!v) return;
+        if(v.readyState < 2) { v.load(); v.addEventListener('canplay', function onCan() { v.removeEventListener('canplay', onCan); safePlay(v); }, {once:true}); return; }
+        const p = v.play();
+        if(p && typeof p.catch === 'function') p.catch(() => { if(ov) ov.style.display = 'flex'; });
+    }
+    function safePlay(v) {
+        if(!v) return;
+        const pageId = v.id === 'vid1' ? 'p5' : 'p6';
+        const ov = document.getElementById('tap-overlay-' + pageId);
+        const p = v.play();
+        if(p && typeof p.then === 'function') {
+            p.then(() => { if(ov) ov.style.display = 'none'; }).catch(() => { if(ov) ov.style.display = 'flex'; });
+        }
+    }
+
+    window.onload = () => {
+        // Fix for Resume Button Visibility
+        const hasSave = localStorage.getItem(STORAGE_KEY);
+        if(hasSave) {
+            const btnMain = document.getElementById('resume-btn-main');
+            const btnHead = document.getElementById('resume-btn-head');
+            if(btnMain) btnMain.style.display = 'inline-block';
+            if(btnHead) btnHead.style.display = 'inline-block';
+        }
+        initSubs();
+        genVocabGrid();
+    };
+    
+    // Auto-Save Strategy
+    window.addEventListener('beforeunload', () => saveState(false));
+    document.addEventListener('visibilitychange', () => { if(document.visibilityState === 'hidden') saveState(false); });
+
+    function startApp() { s.u = document.getElementById('username').value; toPage('p2'); }
+    
+    function syncSubHighlight(currentTime) {
+        if(!D.subtitles || !D.subtitles.length) return;
+        const idx = D.subtitles.findIndex(x=>currentTime>=x.s && currentTime<=x.e);
+        if(idx === -1 || idx === lastActiveSubIndex) return;
+        lastActiveSubIndex = idx;
+        document.querySelectorAll('#sub-list .sub-line').forEach(e=>e.classList.remove('active'));
+        const el = document.getElementById('sub-'+idx);
+        if(el) { el.classList.add('active'); el.scrollIntoView({behavior:'smooth',block:'center'}); }
+    }
+    function onSeekedRestore(id) {
+        const v = document.getElementById('vid'+id);
+        syncSubHighlight(v.currentTime);
+        lastActiveSubIndex = -1;
+        const qs = id === 1 ? D.quizzes.general : D.quizzes.detailed;
+        if(!qs || !qs.length) return;
+        const qi = Math.max(0, (id===1 ? s.v1 : s.v2) - 1);
+        if(s.lock && qi < qs.length) popVQ(id, qs[qi]);
+    }
+    function restoreVid(id, t) {
+        const vid = document.getElementById('vid'+id);
+        const qs = id===1 ? (D.quizzes&&D.quizzes.general) : (D.quizzes&&D.quizzes.detailed);
+        const wasLock = s.lock && ((id===1&&s.pg==='p5')||(id===2&&s.pg==='p6'));
+        let done = false;
+        const doSeek = () => {
+            requestAnimationFrame(() => {
+                try { vid.currentTime = t; } catch(e) {}
+                if(Math.abs(vid.currentTime - t) > 0.5) requestAnimationFrame(doSeek);
+            });
+        };
+        const onReady = () => {
+            if(done) return; done = true;
+            doSeek();
+            vid.onseeked = () => {
+                vid.onseeked = null;
+                syncSubHighlight(vid.currentTime);
+                lastActiveSubIndex = -1;
+                if(wasLock && qs) {
+                    const qi = Math.max(0, (id===1 ? s.v1 : s.v2) - 1);
+                    if(qi < qs.length) popVQ(id, qs[qi]);
+                }
+            };
+        };
+        if(isIOS) {
+            if(vid.readyState === 0) vid.load();
+            if(vid.readyState >= 3) onReady();
+            else {
+                vid.addEventListener('canplaythrough', onReady, {once:true});
+                vid.addEventListener('canplay', onReady, {once:true});
+                setTimeout(()=>{ if(!done && vid.readyState >= 3) onReady(); }, 2500);
+            }
+        } else {
+            if(vid.readyState >= 2) onReady();
+            else {
+                ['loadedmetadata','loadeddata','canplay','canplaythrough'].forEach(ev=>
+                    vid.addEventListener(ev, onReady, {once:true}));
+                setTimeout(()=>{ if(!done && vid.readyState>=2) onReady(); }, 800);
+            }
+        }
+    }
+    function resumeApp() {
+        try {
+            const raw = localStorage.getItem(STORAGE_KEY);
+            if(!raw) return;
+            const saved = JSON.parse(raw);
+            s.u = saved.u||""; s.lsc = saved.lsc||0; s.qsc = saved.qsc||0; s.vidsc = saved.vidsc||0;
+            s.pg = saved.pg||'p1'; s.lock = !!saved.lock; s.t = saved.t||0; s.t1 = saved.t1||0; s.t2 = saved.t2||0;
+            s.v1 = saved.v1||0; s.v2 = saved.v2||0; s.startTime = saved.startTime || Date.now(); s.phase = saved.phase||'general';
+            s.logs1 = saved.logs1||[]; s.logs2 = saved.logs2||[];
+            s.sv = new Set(saved.sv||[]); s.lrn = new Set(saved.lrn||[]);
+            if(s.u) document.getElementById('username').value = s.u;
+            upUI();
+            s.lrn.forEach(i => document.getElementById(`vc-${i}`)?.classList.add('learned'));
+            toPage(s.pg);
+        } catch(e){ console.error(e); }
+    }
+    function toPage(id) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        s.pg = id; s.phase = (id==='p5')?'general':(id==='p6')?'detailed':'';
+        saveState();
+        if(id === 'p5') { initVid(1); if(s.t1 > 0) restoreVid(1, s.t1); else if(s.lock) onSeekedRestore(1); safePlay(document.getElementById('vid1')); }
+        if(id === 'p6') { initVid(2); if(s.t2 > 0) restoreVid(2, s.t2); else if(s.lock) onSeekedRestore(2); safePlay(document.getElementById('vid2')); }
+        if(id === 'p7') genReport();
+    }
+
+    function genVocabGrid() {
+        const grid = document.getElementById('v-grid');
+        if(!D.vocab || D.vocab.length === 0) {
+            grid.innerHTML = "<p>No vocabulary loaded.</p>";
+            return;
+        }
+        grid.innerHTML = D.vocab.map((v,i) => `
+            <div class="flashcard" id="vc-${i}" onclick="openVoc(${i})">
+                <div class="tag">${v.type}</div>
+                <div style="font-size:1.3rem; font-weight:800; margin:15px 0;">${v.w}</div>
+                <div style="color:var(--sub); font-size:0.9rem;">${v.en_def.substring(0,30)}...</div>
+            </div>
+        `).join('');
+    }
+    
+    function openVoc(i) {
+        const v = D.vocab[i];
+        document.getElementById('mod-voc').style.display = 'flex';
+        document.getElementById('m-w').innerText = v.w;
+        document.getElementById('m-def').innerText = v.en_def;
+        document.getElementById('m-cn').innerText = v.cn;
+        document.getElementById('m-vex').innerText = v.vid_ex;
+        document.getElementById('m-vcn').innerText = v.vid_cn;
+        document.getElementById('m-lex').innerText = v.life_ex;
+        document.getElementById('m-lcn').innerText = v.life_cn;
+        document.querySelectorAll('.blur-txt').forEach(e => e.classList.remove('revealed'));
+        speak(v.w);
+        if(!s.lrn.has(i)) { s.lrn.add(i); s.lsc+=2; upUI(); saveState(); document.getElementById(`vc-${i}`).classList.add('learned'); }
+    }
+    function clsVoc() { document.getElementById('mod-voc').style.display='none'; }
+
+    // Quiz
+    let qQ = [], qC = 0;
+    function getDistractors(w) {
+        const l = w.length;
+        if(l < 3) return [w+'s', w+'e', w+'a'];
+        let d1 = w.replace(w[l-1], w[l-1]+'e');
+        let d2 = w.substring(0, l-1);
+        let d3 = w.replace(w[0], String.fromCharCode(w.charCodeAt(0)+1));
+        return [d1, d2, d3];
+    }
+
+    function startQuiz(pct, base) {
+        s.qsc += base; upUI();
+        const n = Math.ceil(D.vocab.length * pct);
+        const pool = [...D.vocab].sort(()=>0.5-Math.random()).slice(0,n);
+        qQ = pool.map(v => {
+            const rand = Math.random();
+            let type = 'def', txt = v.en_def, opts = [];
+            if(rand < 0.33) {
+                type = 'spell';
+                txt = `<div style='text-align:center; padding:20px;'><button class='btn btn-outline' style='font-size:1.5rem; padding:20px;' onclick="speak('${v.w}')"><i class='fas fa-volume-up'></i> Listen</button></div>`;
+                opts = [v.w, ...getDistractors(v.w)].sort(()=>0.5-Math.random());
+            } else if(rand < 0.66) {
+                type = 'def';
+                opts = [v, ...D.vocab.filter(x=>x.id!==v.id).sort(()=>0.5-Math.random()).slice(0,3)].map(x=>x.w).sort(()=>0.5-Math.random());
+            } else {
+                type = 'cloze';
+                txt = `"${v.life_ex.replace(new RegExp(v.w, 'gi'), '_____')}"`;
+                opts = [v, ...D.vocab.filter(x=>x.id!==v.id).sort(()=>0.5-Math.random()).slice(0,3)].map(x=>x.w).sort(()=>0.5-Math.random());
+            }
+            const review = `
+                <div style="text-align:left; background:white; padding:15px; border-radius:10px; border:1px solid #eee;">
+                    <h3 style="margin:0; color:var(--p);">${v.w}</h3>
+                    <p><strong>${v.cn}</strong>: ${v.en_def}</p>
+                    <p style="background:#f0fdf4; padding:5px; color:#166534;">Ex: ${v.life_ex}</p>
+                </div>
+            `;
+            return { txt: txt, opts: opts, ans: v.w, rev: review };
+        });
+        qC = 0;
+        document.getElementById('qz-setup').style.display='none';
+        document.getElementById('qz-run').style.display='block';
+        rendQ();
+    }
+
+    function rendQ() {
+        if(qC >= qQ.length) { alert("Quiz Complete!"); toPage('p5'); return; }
+        const q = qQ[qC];
+        document.getElementById('q-idx').innerText = qC + 1;
+        document.getElementById('q-fb').style.display = 'none';
+        document.getElementById('q-nxt').style.display = 'none';
+        let h = `<div style="font-size:1.2rem; margin-bottom:20px; font-weight:500;">${q.txt}</div>`;
+        q.opts.forEach(o => {
+            h += `<button class="opt-btn" onclick="chkQ(this, '${o}', '${q.ans}')">${o}</button>`;
+        });
+        document.getElementById('q-content').innerHTML = h;
+    }
+
+    function chkQ(btn, sel, ans) {
+        const q = qQ[qC];
+        document.querySelectorAll('#q-content .opt-btn').forEach(b => b.disabled = true);
+        if(sel === ans) {
+            btn.classList.add('correct'); s.qsc += 2;
+            document.getElementById('q-fb').innerHTML = `<strong style="color:green; font-size:1.2rem;">Correct!</strong><br>${q.rev}`;
+        } else {
+            btn.classList.add('wrong'); s.qsc -= 1;
+            document.getElementById('q-fb').innerHTML = `<strong style="color:red; font-size:1.2rem;">Incorrect.</strong><br>${q.rev}`;
+        }
+        document.getElementById('q-fb').style.display = 'block';
+        document.getElementById('q-nxt').style.display = 'block';
+        upUI(); saveState();
+    }
+    function nextQ() { qC++; rendQ(); }
+
+    // Video
+    let curQ = null, qIdx = 0, logs = [];
+    function initVid(id) {
+        const suffix = id === 1 ? '' : '2';
+        const v = document.getElementById(`vid${id}`);
+        const qs = (id === 1 ? D.quizzes.general : D.quizzes.detailed) || [];
+        qs.sort((a,b) => a.time - b.time);
+        qIdx = id === 1 ? s.v1 : s.v2;
+
+        document.getElementById(`rev${id}`).style.display = 'none';
+        const hudId = id === 1 ? 'hud' : 'hud2';
+        const hud = document.getElementById(hudId);
+        hud.classList.remove('show');
+        if(s.lock) { hud.innerText = ''; }
+        else if(qIdx < qs.length) { hud.classList.add('show'); hud.innerText = "Next: " + qs[qIdx].q; }
+        else { hud.innerText = ''; }
+
+        v.ontimeupdate = () => {
+            if(id===1) s.t1 = v.currentTime; else s.t2 = v.currentTime;
+            s.t = v.currentTime;
+            const sb = document.getElementById('seek-bar'+suffix);
+            if(sb) sb.value = (v.currentTime / (v.duration||1)) * 100 || 0;
+
+            if(qIdx < qs.length && v.currentTime >= qs[qIdx].time && !s.lock) {
+                v.pause(); s.lock = true; popVQ(id, qs[qIdx]);
+                if(id===1) s.v1++; else s.v2++;
+                qIdx++; hud.classList.remove('show'); hud.innerText = '';
+            }
+            if(id === 1 && D.subtitles) syncSubHighlight(v.currentTime);
+        };
+        v.onseeked = () => { if(D.subtitles) syncSubHighlight(v.currentTime); lastActiveSubIndex = -1; };
+        if(id === 1 && D.subtitles) syncSubHighlight(v.currentTime);
+        v.onended = () => showRev(id);
+        v.onpause = () => saveState(false);
+    }
+
+    function popVQ(id, q) {
+        curQ = q;
+        document.getElementById('vq-overlay').style.display = 'flex';
+        document.getElementById('v-q-m').innerText = q.q;
+        document.getElementById('v-fb-m').style.display = 'none';
+        document.getElementById('btn-cont-m').style.display = 'none';
+        document.getElementById('btn-rp-m').style.display = 'inline-block';
+        document.getElementById('v-opts-m').innerHTML = q.opts.map((o,i) =>
+            `<button class="opt-btn" onclick="ansV(this, ${i}, ${q.ans}, ${id})">${o}</button>`
+        ).join('');
+    }
+
+    function ansV(btn, idx, ans, id) {
+        document.querySelectorAll('#v-opts-m .opt-btn').forEach(b => b.disabled = true);
+        const isC = idx === ans;
+        if(isC) { btn.classList.add('correct'); s.vidsc += 5; } else { btn.classList.add('wrong'); }
+        document.getElementById('v-fb-m').innerHTML = `<div>${isC?'✅ Correct':'❌ Incorrect'}</div><small>${curQ.review}</small>`;
+        document.getElementById('v-fb-m').style.display = 'block';
+        document.getElementById('btn-cont-m').style.display = 'inline-block';
+        document.getElementById('btn-rp-m').style.display = 'none';
+        const logEntry = {q:curQ.q, c:isC, a: curQ.opts[ans], r: curQ.review};
+        if(id===1) s.logs1.push(logEntry); else s.logs2.push(logEntry);
+        upUI(); saveState();
+    }
+
+    function replaySeg() {
+        const id = s.pg === 'p5' ? 1 : 2;
+        const v = document.getElementById('vid'+id);
+        if(curQ && curQ.replay && curQ.replay.start != null) v.currentTime = curQ.replay.start;
+        document.getElementById('vq-overlay').style.display = 'none';
+        s.lock = false;
+        if(id===1 && s.v1 > 0) s.v1--; if(id===2 && s.v2 > 0) s.v2--;
+        qIdx = id === 1 ? s.v1 : s.v2;
+        const hudId = id === 1 ? 'hud' : 'hud2';
+        const hud = document.getElementById(hudId);
+        hud.classList.add('show'); hud.innerText = "Replaying: " + (curQ ? curQ.q : '');
+        safePlay(v);
+    }
+    function resumeVid() {
+        const id = s.pg === 'p5' ? 1 : 2;
+        document.getElementById('vq-overlay').style.display = 'none';
+        s.lock = false;
+        qIdx = id === 1 ? s.v1 : s.v2;
+        const hudId = id === 1 ? 'hud' : 'hud2';
+        const qs = id === 1 ? D.quizzes.general : D.quizzes.detailed;
+        const hud = document.getElementById(hudId);
+        if(qs && qIdx < qs.length) { hud.classList.add('show'); hud.innerText = "Next: " + qs[qIdx].q; }
+        else { hud.classList.remove('show'); hud.innerText = ''; }
+        safePlay(document.getElementById('vid'+id));
+    }
+    function showRev(id) {
+        const listId = id === 1 ? 'rev-list' : 'rev-list2';
+        const logs = id === 1 ? s.logs1 : s.logs2;
+        document.getElementById(`rev${id}`).style.display = 'flex';
+        document.getElementById(listId).innerHTML = (logs||[]).map(l => `
+            <div style="padding:15px; background:#f9f9f9; border-radius:8px; margin-bottom:10px; border-left:4px solid ${l.c?'green':'red'}; text-align:left;">
+                <div style="font-weight:bold; font-size:0.95rem; margin-bottom:5px;">${l.q}</div>
+                <div style="font-size:0.85rem; color:#666; margin-bottom:5px;">Correct Answer: ${l.a}</div>
+                <div style="font-size:0.85rem; background:#fff; padding:5px; border:1px solid #eee;">${l.r}</div>
+            </div>
+        `).join('');
+    }
+
+    function togglePlay() { const v = document.querySelector('.page.active video'); if(!v) return; v.paused ? safePlay(v) : v.pause(); }
+    function playVid(id) { const v = document.getElementById(`vid${id}`); v.paused ? v.play() : v.pause(); }
+    function upUI() { document.querySelectorAll('#u-score').forEach(e => e.innerText = s.lsc + s.qsc + s.vidsc); }
+    function saveState(a) { localStorage.setItem(STORAGE_KEY, JSON.stringify({...s, lock:s.lock, t1:s.t1, t2:s.t2, v1:s.v1, v2:s.v2, startTime:s.startTime, phase:s.phase, logs1:s.logs1, logs2:s.logs2, sv:[...s.sv], lrn:[...s.lrn]})); if(a) alert("Saved!"); }
+    function genReport() {
+        const timeSpent = Math.floor((Date.now() - (s.startTime || Date.now())) / 60000);
+        document.getElementById('r-name').innerText = s.u || "Agent";
+        const rVoc = document.getElementById('r-voc'); if(rVoc) rVoc.innerText = s.lsc;
+        const rQuiz = document.getElementById('r-quiz'); if(rQuiz) rQuiz.innerText = s.qsc;
+        const rVid = document.getElementById('r-vid'); if(rVid) rVid.innerText = s.vidsc;
+        const rTime = document.getElementById('r-time'); if(rTime) rTime.innerText = timeSpent + "m";
+        document.getElementById('r-total').innerText = s.lsc + s.qsc + s.vidsc;
+    }
+    
+    function initSubs() {
+        const c1 = document.getElementById('sub-list');
+        const c2 = document.getElementById('sub-list2'); // P6 Subtitle list
+        
+        D.subtitles.forEach((x,i) => {
+            const html = x.t.split(' ').map(w => `<span class="w-click" onclick="ds('${w.replace(/[^a-zA-Z]/g,'')}')">${w}</span>`).join(' ');
+            const inner = `<small style="color:var(--sub); margin-right:10px;">${Math.floor(x.s/60)}:${Math.floor(x.s%60).toString().padStart(2,'0')}</small>${html}`;
+            
+            const d1 = document.createElement('div'); d1.className = 'sub-line'; d1.id = `sub-${i}`;
+            d1.innerHTML = inner;
+            c1.appendChild(d1);
+            
+            const d2 = document.createElement('div'); d2.className = 'sub-line'; d2.id = `sub2-${i}`;
+            d2.innerHTML = inner;
+            c2.appendChild(d2);
+        });
+    }
+    async function ds(w) {
+        if(!w) return;
+        document.getElementById('ds-pop').style.display = 'block';
+        document.getElementById('ds-con').innerText = 'Thinking...';
+        try {
+            const r = await fetch("https://api.deepseek.com/v1/chat/completions", {
+                method: "POST", headers: {"Content-Type": "application/json", "Authorization": `Bearer ${C.deepseekKey}`},
+                body: JSON.stringify({model: "deepseek-chat", messages: [{role: "user", content: `Define "${w}" simply. JSON: {cn, en}`}], response_format:{type:"json_object"}})
+            });
+            const d = JSON.parse((await r.json()).choices[0].message.content);
+            document.getElementById('ds-con').innerHTML = `<strong>${w}</strong><br>${d.cn}<br><small>${d.en}</small>`;
+        } catch(e) { document.getElementById('ds-con').innerText = "AI Error"; }
+    }
+    function speak(t) {
+        if(window.SpeechSDK && AZ_KEY) {
+            const c = SpeechSDK.SpeechConfig.fromSubscription(AZ_KEY, AZ_REG);
+            c.speechSynthesisVoiceName = "en-GB-RyanNeural";
+            const s = new SpeechSDK.SpeechSynthesizer(c);
+            s.speakTextAsync(t);
+        } else { const u = new SpeechSynthesisUtterance(t); window.speechSynthesis.speak(u); }
+    }
+    let si = 0;
+    function slide(d) {
+        const imgs = document.querySelectorAll('.slide-img');
+        imgs[si].style.display = 'none';
+        si = (si + d + imgs.length) % imgs.length;
+        imgs[si].style.display = 'block';
+    }
+    // 🔥 FIXED: NEXT PHASE LOGIC
+    function nextPhase() { 
+        if (s.pg === 'p5') {
+            toPage('p6'); 
+        } else {
+            toPage('p7'); 
+        }
+    }
+</script>
+
+<script>
+window.currentAudio = null;
+async function unlockAudio() { if (window.AudioContext || window.webkitAudioContext) { const ctx = new (window.AudioContext || window.webkitAudioContext)(); if (ctx.state === 'suspended') ctx.resume(); } }
+window.speak = async function(text) {
+    if (!text) return;
+    var cleanText = text.toString().replace(/\n/g, " ").replace(/\r/g, " ").trim();
+    var key = D.config.azureKey, reg = D.config.azureRegion;
+    try {
+        if (window.currentAudio) { window.currentAudio.pause(); window.currentAudio = null; }
+        var ssml = "<speak version='1.0' xml:lang='en-US'><voice xml:lang='en-US' name='en-US-AndrewNeural'>" + cleanText + "</voice></speak>";
+        var r = await fetch("https://" + reg + ".tts.speech.microsoft.com/cognitiveservices/v1", { method: "POST", headers: { "Ocp-Apim-Subscription-Key": key, "Content-Type": "application/ssml+xml", "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3" }, body: ssml });
+        if (!r.ok) throw new Error("REST fail");
+        var blob = await r.blob(); var url = URL.createObjectURL(blob); var audio = new Audio(url); window.currentAudio = audio; audio.play().catch(function(e){}); 
+    } catch(e) { var u = new SpeechSynthesisUtterance(cleanText); u.lang = 'en-US'; window.speechSynthesis.speak(u); }
+};
+window.startApp = function() { unlockAudio(); var nameInput = document.getElementById('username'); if (nameInput) s.u = nameInput.value; if (typeof toPage === 'function') toPage('p2'); };
+</script></body>
+</html>
