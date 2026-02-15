@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>PET Exam Player (Pro)</title>
+    
+    <link href="../css/style.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script src="../js/ai-hub.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/report.js"></script>
+    <script src="../js/main.js"></script>
+
+    <style>
+        /* === 修复弹窗居中问题的关键 CSS === */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8); z-index: 9999;
+            backdrop-filter: blur(5px);
+            display: none; justify-content: center; align-items: center;
+        }
+        .modal {
+            background: white; color: #333; padding: 30px; 
+            border-radius: 20px; width: 90%; max-width: 400px;
+            text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+        /* === Part 3 填空题美化 === */
+        .gap-input {
+            border: none; border-bottom: 2px solid #cbd5e1; background: rgba(241, 245, 249, 0.5);
+            width: 140px; text-align: center; font-size: 1.1rem; font-family: 'Courier New', monospace;
+            color: var(--primary); font-weight: 600; padding: 2px 5px; margin: 0 5px;
+            border-radius: 4px 4px 0 0; transition: all 0.3s ease;
+        }
+        .gap-input:focus { outline: none; border-bottom-color: var(--primary); background: rgba(59, 130, 246, 0.1); box-shadow: 0 4px 6px -2px rgba(59, 130, 246, 0.2); }
+        .gap-input::placeholder { font-size: 0.8rem; color: #94a3b8; font-family: sans-serif; font-weight: normal; }
+
+        /* === 复习模式样式 === */
+        .opt-label.review-correct, .opt-img-label.review-correct { background-color: #d1fae5 !important; border-color: #10b981 !important; color: #065f46 !important; }
+        .opt-label.review-wrong, .opt-img-label.review-wrong { background-color: #fee2e2 !important; border-color: #ef4444 !important; color: #991b1b !important; text-decoration: line-through; }
+        .gap-review { display: inline-block; padding: 0 8px; border-radius: 4px; font-weight: bold; border-bottom: 2px solid; }
+        .gap-correct { color: #10b981; border-color: #10b981; background: rgba(16, 185, 129, 0.1); }
+        .gap-wrong { color: #ef4444; border-color: #ef4444; background: rgba(239, 68, 68, 0.1); text-decoration: line-through; }
+        .gap-answer-display { color: #fff; margin-left: 8px; font-weight: 700; background: #10b981; padding: 2px 8px; border-radius: 4px; font-size: 0.9em; box-shadow: 0 2px 4px rgba(16, 185, 129, 0.3); }
+
+        /* 歌词与交互 */
+        .k-line { padding: 6px 10px; margin: 2px 0; border-radius: 4px; cursor: pointer; transition: all 0.2s ease; color: #555; border-left: 3px solid transparent; }
+        .k-line:hover { background-color: #e2e8f0; }
+        .k-line.active { color: var(--primary) !important; font-weight: bold !important; background-color: #eff6ff !important; border-left: 3px solid var(--primary) !important; }
+        .script-word { border-bottom: 1px dotted #94a3b8; }
+        .script-word:hover { color: var(--primary); border-bottom-style: solid; }
+    </style>
+</head>
+<body>
+
+<div class="navbar" style="background:transparent; border:none; position:relative;">
+    <div class="brand" onclick="location.href='../index.html'" style="cursor:pointer;">
+        <i class="fas fa-chevron-left"></i> 返回大厅
+    </div>
+    <div style="font-size:0.9rem; opacity:0.8;">
+        <i class="fas fa-user"></i> <span id="user-display">Guest</span>
+    </div>
+</div>
+
+<div class="player-container">
+    <div style="text-align:center; margin-bottom:20px;">
+        <h2 style="margin:0; font-size:1.5rem; text-shadow:0 2px 4px rgba(0,0,0,0.5);">
+            <span id="exam-info">Loading...</span>
+        </h2>
+        <div style="font-size:0.9rem; opacity:0.8; margin-top:5px;">
+            <i class="far fa-clock"></i> <span id="exam-timer">00:00</span>
+            <span id="admin-indicator" class="admin-badge" style="display:none; margin-left:10px; background:#f1c40f; color:black; padding:2px 5px; border-radius:4px; font-size:0.7rem;">ADMIN</span>
+        </div>
+    </div>
+
+    <div class="audio-sticky-bar" id="global-player-card">
+        <audio id="main-audio" style="display:none;" preload="auto"><source src="" type="audio/mpeg"></audio>
+        <button class="play-btn" id="ctrl-play-btn" onclick="toggleMainAudio()">
+            <i class="fas fa-play"></i>
+        </button>
+        <div class="progress-container">
+            <div class="progress-info">
+                <span id="status-msg">点击播放开始</span>
+                <span><span id="curr-time">00:00</span> / <span id="total-time">--:--</span></span>
+            </div>
+            <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+        </div>
+    </div>
+
+    <div id="questions-container">
+        <div style="text-align:center; padding:50px;"><i class="fas fa-circle-notch fa-spin fa-2x"></i></div>
+    </div>
+</div>
+
+<div class="fab-submit-wrapper">
+    <button class="fab-submit disabled" id="btn-submit" onclick="submitExam()" disabled>
+        <i class="fas fa-paper-plane"></i> 提交答案
+    </button>
+</div>
+
+<div class="modal-overlay" id="result-modal">
+    <div class="modal">
+        <div style="font-size:3rem; margin-bottom:10px;">🎉</div>
+        <h2 style="color:#3b82f6; margin:10px 0;">考试结束</h2>
+        <div style="font-size:3.5rem; font-weight:800; color:#ef4444;" id="final-score">--/--</div>
+        <div id="ai-comment-box" style="background:#f1f5f9; padding:15px; border-radius:10px; margin:20px 0; font-size:0.9rem; color:#475569; text-align: left;">
+            <i class="fas fa-robot"></i> 正在生成评语...
+        </div>
+        <div style="display:flex; justify-content:center; gap:15px;">
+            <button onclick="enterReviewMode()" style="padding:10px 30px; background:#3b82f6; color:white; border:none; border-radius:20px; cursor:pointer; font-weight:bold;">查看解析</button>
+            <a href="../index.html" style="padding:10px 30px; background:#e2e8f0; color:#333; text-decoration:none; border-radius:20px; font-weight:bold;">退出</a>
+        </div>
+    </div>
+</div>
+
+<div id="dict-modal" class="modal-overlay" onclick="if(event.target===this) this.style.display='none'">
+    <div class="modal" style="text-align:left; width:90%; max-width: 500px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; border-bottom:1px solid #eee; padding-bottom:10px;">
+            <strong style="color:var(--primary); font-size:1.1rem;">DeepSeek 词典</strong>
+            <i class="fas fa-times" style="cursor:pointer;" onclick="this.closest('#dict-modal').style.display='none'"></i>
+        </div>
+        <div id="dict-content" style="line-height:1.8; color:#333;">查询中...</div>
+    </div>
+</div>
+
+<script>
+    const params = new URLSearchParams(window.location.search);
+    const TEST_ID = params.get('t') || 'T1';
+    const PART_ID = parseInt(params.get('p') || '1');
+    
+    let QUESTIONS_DATA = [];
+    let TRANSCRIPT_DATA = [];
+    let USER_ANSWERS = {};
+    let IS_REVIEW_MODE = false;
+    let IS_ADMIN_MODE = false;
+    let audioDuration = 0;
+    
+    // Admin 触发
+    let clickCount = 0; let clickTimer = null;
+    document.getElementById('exam-info').parentElement.onclick = () => {
+        clickCount++; clearTimeout(clickTimer);
+        clickTimer = setTimeout(() => clickCount = 0, 1000);
+        if(clickCount >= 5 && prompt("Admin Code:") === "123888") {
+            IS_ADMIN_MODE = true; alert("Admin Mode ON");
+            document.getElementById('admin-indicator').style.display = 'inline-block';
+            checkSubmitCondition();
+        }
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+        document.getElementById('exam-info').textContent = `Listening / ${TEST_ID} / Part ${PART_ID}`;
+        if(typeof Auth !== 'undefined') { Auth.init(); if(Auth.currentUser) document.getElementById('user-display').textContent = Auth.currentUser; Auth.startTimer(); }
+        initAudioPlayer();
+        loadData();
+    });
+
+    // === 播放器 ===
+    let segmentEndTime = 0; let currentPlayingBtnId = null;
+    function initAudioPlayer() {
+        const audio = document.getElementById('main-audio');
+        audio.onloadedmetadata = () => { audioDuration = audio.duration; document.getElementById('total-time').textContent = formatTime(audioDuration); };
+        audio.addEventListener('timeupdate', () => {
+            const curr = audio.currentTime;
+            document.getElementById('curr-time').textContent = formatTime(curr);
+            document.getElementById('progress-fill').style.width = (curr/audioDuration)*100 + "%";
+            if(IS_REVIEW_MODE) handleReviewModeAudio(curr);
+        });
+        audio.addEventListener('ended', () => {
+            document.getElementById('ctrl-play-btn').classList.add('completed');
+            checkSubmitCondition();
+        });
+    }
+    window.toggleMainAudio = function() {
+        const audio = document.getElementById('main-audio');
+        const btn = document.getElementById('ctrl-play-btn');
+        if(audio.paused) { audio.play(); btn.innerHTML = '<i class="fas fa-pause"></i>'; }
+        else { audio.pause(); btn.innerHTML = '<i class="fas fa-play"></i>'; }
+    };
+
+    // === 数据加载 ===
+    async function loadData() {
+        try {
+            const res = await fetch(`data/${TEST_ID}/P${PART_ID}.json`);
+            const data = await res.json();
+            
+            let audioPath = data.audio || "";
+            if (audioPath.includes("Listening/")) audioPath = audioPath.replace("Listening/", "");
+            if (audioPath.startsWith("/")) audioPath = audioPath.substring(1);
+            document.getElementById('main-audio').src = audioPath;
+
+            QUESTIONS_DATA = data.questions;
+            TRANSCRIPT_DATA = data.transcript_full || [];
+            renderExamMode(QUESTIONS_DATA);
+        } catch(e) { alert("Data Error: " + e.message); }
+    }
+
+    // === 渲染考试 ===
+    function renderExamMode(questions) {
+        const container = document.getElementById('questions-container');
+        container.innerHTML = '';
+        const isBlank = (!questions[0].options || questions[0].options.length === 0);
+
+        questions.forEach(q => {
+            const card = document.createElement('div');
+            card.className = 'question-card';
+            let html = `<div class="q-text">${q.id}. ${q.text}</div>`;
+
+            if(isBlank) {
+                html = `<div class="q-text" style="line-height:2.8; font-size:1.1rem;">
+                    ${q.prefix||''} 
+                    <input type="text" class="gap-input" placeholder="( ${q.id} )" autocomplete="off" oninput="handleInput(this, '${q.id}')"> 
+                    ${q.suffix||''}
+                </div>`;
+            } else {
+                const isImg = q.options[0].img;
+                let optHtml = `<div class="${isImg ? 'options-img' : 'options'}">`;
+                q.options.forEach(opt => {
+                    let imgPath = opt.img || "";
+                    if (imgPath.includes("Listening/")) imgPath = imgPath.replace("Listening/", "");
+                    const content = isImg ? `<img src="${imgPath}" class="opt-img">` : `<b>${opt.label}.</b> ${opt.text}`;
+                    const labelClass = isImg ? 'opt-img-label' : 'opt-label';
+                    optHtml += `<div class="${labelClass}" onclick="selectOption(this, '${q.id}', '${opt.label}')">${content}</div>`;
+                });
+                optHtml += `</div>`;
+                html += optHtml;
+            }
+            card.innerHTML = html;
+            container.appendChild(card);
+        });
+    }
+
+    // === 交互 ===
+    window.selectOption = function(el, qId, val) {
+        if(IS_REVIEW_MODE) return;
+        const parent = el.parentElement;
+        parent.querySelectorAll('.selected').forEach(e => e.classList.remove('selected'));
+        el.classList.add('selected');
+        USER_ANSWERS[qId] = val;
+        checkSubmitCondition();
+    };
+    window.handleInput = function(el, qId) {
+        if(el.value.trim()) USER_ANSWERS[qId] = el.value.trim();
+        else delete USER_ANSWERS[qId];
+        checkSubmitCondition();
+    };
+    function checkSubmitCondition() {
+        const btn = document.getElementById('btn-submit');
+        const done = Object.keys(USER_ANSWERS).length === QUESTIONS_DATA.length;
+        const audioDone = document.getElementById('ctrl-play-btn').classList.contains('completed');
+        if(IS_ADMIN_MODE || (done && audioDone)) {
+            btn.classList.remove('disabled'); btn.removeAttribute('disabled');
+        }
+    }
+
+    // === 提交 (关键更新：收集选项文本) ===
+    window.submitExam = async function() {
+        if(document.getElementById('btn-submit').classList.contains('disabled')) return;
+        if(!confirm("确定提交吗？")) return;
+
+        IS_REVIEW_MODE = true;
+        Auth.stopTimer();
+        document.querySelector('.fab-submit-wrapper').style.display = 'none';
+        document.querySelector('.audio-sticky-bar').style.display = 'none';
+
+        let score = 0; let wrongList = [];
+        QUESTIONS_DATA.forEach(q => {
+            const userVal = (USER_ANSWERS[q.id] || "").trim();
+            const userValCheck = userVal.toLowerCase();
+            const correctValCheck = String(q.correct).trim().toLowerCase();
+            
+            let isCorrect = false;
+            if (userVal.length > 0) {
+                if (userValCheck === correctValCheck || (String(q.correct).includes('/') && String(q.correct).toLowerCase().includes(userValCheck))) {
+                    isCorrect = true;
+                }
+            }
+
+            if(isCorrect) {
+                score++;
+            } else {
+                // [新功能] 收集详细的错误信息（选项文本）
+                let userDesc = "";
+                let correctDesc = "";
+                
+                if (q.options && q.options.length > 0) {
+                    const isImg = q.options[0].img;
+                    if (isImg) {
+                        userDesc = "[图片]";
+                        correctDesc = "[图片]";
+                    } else {
+                        const userOpt = q.options.find(opt => opt.label.toLowerCase() === userValCheck);
+                        if (userOpt) userDesc = userOpt.text;
+                        const correctOpt = q.options.find(opt => opt.label.toLowerCase() === correctValCheck);
+                        if (correctOpt) correctDesc = correctOpt.text;
+                    }
+                }
+
+                wrongList.push({
+                    id: q.id, 
+                    title: q.text, // 题目文本
+                    user: userVal || "(未答)", 
+                    userDesc: userDesc, // 用户选的选项内容
+                    correct: q.correct,
+                    correctDesc: correctDesc, // 正确选项内容
+                    isChoice: (q.options && q.options.length > 0)
+                });
+            }
+        });
+
+        document.getElementById('final-score').textContent = `${score}/${QUESTIONS_DATA.length}`;
+        document.getElementById('result-modal').style.display = 'flex';
+
+        if(typeof AIHub !== 'undefined') {
+            const comment = await AIHub.generateReportComment(score, QUESTIONS_DATA.length);
+            document.getElementById('ai-comment-box').textContent = `DeepSeek 老师: "${comment}"`;
+        }
+
+        if(typeof Report !== 'undefined') {
+            const timeStr = document.getElementById('exam-timer').textContent;
+            const reportTitle = `Listening / ${TEST_ID} / Part ${PART_ID}`;
+            Report.submitExam(reportTitle, score, QUESTIONS_DATA.length, wrongList, timeStr)
+                .then(() => console.log("Email Sent"))
+                .catch(err => console.error("Email Error:", err));
+        }
+    };
+
+    // === 复习模式 ===
+    window.enterReviewMode = function() {
+        document.getElementById('result-modal').style.display = 'none';
+        const container = document.getElementById('questions-container');
+        container.innerHTML = ''; 
+        document.getElementById('main-audio').pause();
+
+        QUESTIONS_DATA.forEach(q => {
+            const userVal = (USER_ANSWERS[q.id] || "").trim();
+            const correctVal = String(q.correct).trim();
+            
+            let isCorrect = false;
+            if (userVal.length > 0) {
+                if (userVal.toLowerCase() === correctVal.toLowerCase() || 
+                   (correctVal.includes('/') && correctVal.toLowerCase().includes(userVal.toLowerCase()))) {
+                    isCorrect = true;
+                }
+            }
+            
+            const card = document.createElement('div');
+            card.className = `question-card ${isCorrect ? '' : 'wrong-mode'}`;
+            
+            let html = `<div style="margin-bottom:15px; display:flex; justify-content:space-between; color:#64748b; font-size:0.9rem;">
+                <span style="font-weight:bold; color:${isCorrect?'var(--success)':'var(--danger)'}">
+                    ${isCorrect ? '<i class="fas fa-check"></i> 正确' : '<i class="fas fa-times"></i> 错误'}
+                </span>
+                <span>Question ${q.id}</span>
+            </div>`;
+
+            if(!q.options || q.options.length === 0) {
+                html += `<div class="q-text" style="line-height:2.5; font-size:1.1rem;">
+                    ${q.prefix||''} 
+                    <span class="gap-review ${isCorrect?'gap-correct':'gap-wrong'}">${userVal || "(未答)"}</span> 
+                    ${q.suffix||''}
+                    ${!isCorrect ? `<span class="gap-answer-display">✅ ${correctVal}</span>` : ''}
+                </div>`;
+            } else {
+                html += `<div class="q-text">${q.text}</div>`;
+                const isImg = q.options[0].img;
+                let optHtml = `<div class="${isImg ? 'options-img' : 'options'}">`;
+                
+                q.options.forEach(opt => {
+                    let className = isImg ? 'opt-img-label' : 'opt-label';
+                    if (opt.label === q.correct) className += ' review-correct';
+                    else if (opt.label === userVal && !isCorrect) className += ' review-wrong';
+                    
+                    let imgPath = opt.img || "";
+                    if (imgPath.includes("Listening/")) imgPath = imgPath.replace("Listening/", "");
+                    const content = isImg ? `<img src="${imgPath}" class="opt-img">` : `<b>${opt.label}.</b> ${opt.text}`;
+                    
+                    optHtml += `<div class="${className}" style="pointer-events:none;">${content}</div>`;
+                });
+                optHtml += `</div>`;
+                html += optHtml;
+            }
+
+            if(q.startTime !== undefined) {
+                html += `
+                <div class="segment-player-bar" style="display:flex; align-items:center; margin-top:20px; background:#f8fafc; padding:10px; border-radius:8px; border:1px solid #e2e8f0;">
+                    <button class="btn-segment-play" id="btn-play-${q.id}" onclick="playSegment(${q.startTime}, ${q.endTime}, '${q.id}')" style="background:var(--primary); color:white; border:none; padding:6px 15px; border-radius:20px; cursor:pointer; font-size:0.85rem; display:flex; align-items:center; gap:5px;">
+                        <i class="fas fa-play"></i> 播放片段
+                    </button>
+                    <div style="flex:1; margin-left:15px; font-size:0.85rem; color:#64748b;">
+                        ⏱ ${formatTime(q.startTime)} - ${formatTime(q.endTime)}
+                    </div>
+                    <button class="btn-toggle-script" onclick="toggleScript('${q.id}')" style="background:white; border:1px solid #cbd5e1; color:#475569; padding:6px 15px; border-radius:20px; cursor:pointer; font-size:0.85rem;">
+                        <i class="fas fa-closed-captioning"></i> 字幕
+                    </button>
+                </div>`;
+            }
+
+            const buffer = 1.0;
+            const lines = TRANSCRIPT_DATA.filter(t => t.start >= (q.startTime||0) - buffer && t.end <= (q.endTime||9999) + buffer);
+            let lyricsHtml = lines.length > 0 
+                ? lines.map(l => `<div class="k-line" data-start="${l.start}" data-end="${l.end}" onclick="playSegment(${l.start}, ${l.end}, '${q.id}')">${l.text}</div>`).join('')
+                : `<div style="padding:20px; color:#ccc; text-align:center;">暂无同步字幕</div>`;
+
+            html += `<div class="karaoke-box" id="karaoke-${q.id}" style="display:none; margin-top:10px; border:1px dashed #cbd5e1; padding:15px; background:#fff; max-height:200px; overflow-y:auto;">
+                <div class="karaoke-inner">${lyricsHtml}</div>
+            </div>`;
+
+            if (q.explanation) {
+                html += `<div class="ai-panel" style="margin-top:15px; padding:15px; background:#eff6ff; border-left:4px solid var(--primary); border-radius:6px; font-size:0.95rem; color:#1e293b; line-height:1.6;">
+                        <strong style="color:var(--primary); display:block; margin-bottom:5px;"><i class="fas fa-lightbulb"></i> DeepSeek 解析:</strong>
+                        ${q.explanation}
+                     </div>`;
+            }
+
+            card.innerHTML = html;
+            container.appendChild(card);
+        });
+
+        document.querySelectorAll('.k-line').forEach(line => {
+            const words = line.innerText.split(' ').map(w => `<span class="script-word" onclick="askWord('${w.replace(/[^a-zA-Z]/g, "")}', event)">${w}</span>`).join(' ');
+            line.innerHTML = words;
+        });
+    };
+
+    window.playSegment = function(start, end, btnId) {
+        const audio = document.getElementById('main-audio');
+        if(currentPlayingBtnId === btnId && !audio.paused) { audio.pause(); resetPlayButtons(); return; }
+        resetPlayButtons();
+        segmentEndTime = end;
+        audio.currentTime = start;
+        audio.play();
+        const btn = document.getElementById(`btn-play-${btnId}`);
+        if(btn) { btn.innerHTML = '<i class="fas fa-pause"></i> 暂停'; btn.style.background = '#ef4444'; currentPlayingBtnId = btnId; }
+        document.getElementById(`karaoke-${btnId}`).style.display = 'block'; 
+    };
+
+    function resetPlayButtons() {
+        document.querySelectorAll('.btn-segment-play').forEach(b => { b.innerHTML = '<i class="fas fa-play"></i> 播放片段'; b.style.background = 'var(--primary)'; });
+        currentPlayingBtnId = null;
+    }
+
+    function handleReviewModeAudio(currentTime) {
+        if(segmentEndTime > 0 && currentTime >= segmentEndTime) { document.getElementById('main-audio').pause(); segmentEndTime = 0; resetPlayButtons(); }
+        document.querySelectorAll('.k-line').forEach(line => {
+            const s = parseFloat(line.dataset.start);
+            const e = parseFloat(line.dataset.end);
+            if(currentTime >= s && currentTime < e) {
+                document.querySelectorAll('.k-line.active').forEach(el => el.classList.remove('active'));
+                line.classList.add('active');
+                line.scrollIntoView({ behavior: "smooth", block: "center" });
+            }
+        });
+    }
+
+    window.toggleScript = (qId) => {
+        const el = document.getElementById(`karaoke-${qId}`);
+        el.style.display = (el.style.display === 'none') ? 'block' : 'none';
+    };
+    
+    window.askWord = async (w, e) => { 
+        if(e) e.stopPropagation(); 
+        document.getElementById('dict-modal').style.display='flex'; 
+        document.getElementById('dict-content').innerHTML = await AIHub.expandVocabulary(w); 
+    };
+
+    function formatTime(s) { if(isNaN(s)) return "00:00"; return `${Math.floor(s/60).toString().padStart(2,'0')}:${Math.floor(s%60).toString().padStart(2,'0')}`; }
+</script>
+</body>
+</html>

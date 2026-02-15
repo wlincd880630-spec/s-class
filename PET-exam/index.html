@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>PET 智能模考系统 | S-Class Quality</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="brand">
+            <i class="fas fa-graduation-cap" style="color:var(--accent);"></i>
+            <span style="font-weight:700; letter-spacing:1px;">PET 智能模考</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:15px;">
+            <div style="font-size:0.9rem; color:var(--text-dim);">
+                <i class="far fa-user"></i> <span id="username-display">Guest</span>
+            </div>
+            <button class="btn-logout" onclick="logout()">
+                <i class="fas fa-power-off"></i>
+                <span>退出</span>
+            </button>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="brand-domain">s-class.top</div>
+        <h1>PET 智能模考系统</h1>
+        <div class="hero-tagline">S-Class Quality • Top-Tier Future</div>
+    </header>
+
+    <main class="main-content">
+        <div class="accordion-card" id="card-listening">
+            <div class="card-header" onclick="toggleCard('listening')">
+                <div class="header-content">
+                    <i class="fas fa-headphones-alt card-icon-small"></i>
+                    <span>听力模拟 (Listening)</span>
+                </div>
+                <i class="fas fa-chevron-down toggle-icon"></i>
+            </div>
+            <div class="accordion-content" id="listening-content">
+                <div class="test-grid-container" id="listening-grid"></div>
+            </div>
+        </div>
+
+        <div class="accordion-card" id="card-reading">
+            <div class="card-header" onclick="toggleCard('reading')">
+                <div class="header-content">
+                    <i class="fas fa-book-open card-icon-small"></i>
+                    <span>阅读理解 (Reading)</span>
+                </div>
+                <i class="fas fa-chevron-down toggle-icon"></i>
+            </div>
+            <div class="accordion-content" id="reading-content">
+                <div class="test-grid-container" id="reading-grid">
+                    <div style="text-align:center; padding:20px; color:#94a3b8;">
+                        <i class="fas fa-circle-notch fa-spin"></i> 正在加载题库...
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-card" id="card-writing">
+            <div class="card-header" onclick="toggleCard('writing')">
+                <div class="header-content">
+                    <i class="fas fa-pen-nib card-icon-small"></i>
+                    <span>写作训练 (Writing)</span>
+                </div>
+                <i class="fas fa-chevron-down toggle-icon"></i>
+            </div>
+            <div class="accordion-content">
+                <div style="padding:30px; text-align:center; color:#94a3b8;">
+                    <i class="fas fa-hammer"></i> 模块开发中...
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-card" id="card-speaking">
+            <div class="card-header" onclick="toggleCard('speaking')">
+                <div class="header-content">
+                    <i class="fas fa-microphone-alt card-icon-small"></i>
+                    <span>口语模拟 (Speaking)</span>
+                </div>
+                <i class="fas fa-chevron-down toggle-icon"></i>
+            </div>
+            <div class="accordion-content">
+                <div style="padding:30px; text-align:center; color:#94a3b8;">
+                    <i class="fas fa-hammer"></i> 模块开发中...
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer style="text-align:center; padding:30px; color:#64748b; font-size:0.85rem;">
+        Powered by <span style="color:var(--accent); font-weight:bold;">Steven Wong</span>
+    </footer>
+
+    <!-- 姓名统一从项目入口 index.html 获取，未登录时跳转回入口 -->
+    <script src="js/auth.js"></script> 
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const user = localStorage.getItem('current-user');
+            if (!user) {
+                window.location.href = '../index.html';
+                return;
+            }
+            updateUI(user);
+
+            generateListeningTests();
+            generateReadingTests();
+        });
+
+        // 听力部分 (保持原样)
+        function generateListeningTests() {
+            const container = document.getElementById('listening-grid');
+            let html = '';
+            for (let i = 1; i <= 8; i++) {
+                html += `
+                <div class="test-unit">
+                    <div class="test-title">TEST ${i}</div>
+                    <div class="part-buttons">
+                        <a href="Listening/player.html?t=T${i}&p=1" class="part-btn" target="_blank">Part 1</a>
+                        <a href="Listening/player.html?t=T${i}&p=2" class="part-btn" target="_blank">Part 2</a>
+                        <a href="Listening/player.html?t=T${i}&p=3" class="part-btn" target="_blank">Part 3</a>
+                        <a href="Listening/player.html?t=T${i}&p=4" class="part-btn" target="_blank">Part 4</a>
+                    </div>
+                </div>`;
+            }
+            container.innerHTML = html;
+        }
+
+        // 阅读部分 (智能加载)
+        async function generateReadingTests() {
+            const container = document.getElementById('reading-grid');
+            const partsInfo = [
+                { id: 1, name: "Part 1: Signs & Messages" },
+                { id: 2, name: "Part 2: Matching" },
+                { id: 3, name: "Part 3: Long Text" },
+                { id: 4, name: "Part 4: Gapped Text" },
+                { id: 5, name: "Part 5: Multiple Choice Cloze" },
+                { id: 6, name: "Part 6: Open Cloze" }
+            ];
+
+            try {
+                // 1. 尝试读取清单文件
+                // 路径说明: Reading/data/catalog.json 相对于根目录的 index.html
+                const res = await fetch('Reading/data/catalog.json?t=' + new Date().getTime());
+                
+                if (!res.ok) throw new Error("Catalog not generated");
+                const catalog = await res.json();
+
+                let html = '';
+                
+                partsInfo.forEach(p => {
+                    // 获取该 Part 下的所有 Test ID，如 ["Test1", "Test2"]
+                    const tests = catalog[p.id] || []; 
+                    
+                    let buttons = '';
+                    if (tests.length === 0) {
+                        buttons = `<div style="color:#cbd5e1; font-size:0.85rem; font-style:italic;">暂无题目</div>`;
+                    } else {
+                        tests.forEach(testId => {
+                            // 动态生成存在的按钮
+                            buttons += `<a href="Reading/player.html?p=${p.id}&t=${testId}" class="part-btn" target="_blank">${testId}</a>`;
+                        });
+                    }
+
+                    html += `
+                    <div class="test-unit" style="width:100%; max-width:100%;">
+                        <div class="test-title" style="border-bottom:1px solid #eee; padding-bottom:8px; margin-bottom:10px; color:var(--primary); text-align:left; padding-left:5px; display:flex; justify-content:space-between; align-items:center;">
+                            <span><i class="fas fa-layer-group"></i> ${p.name}</span>
+                            <span style="font-size:0.75rem; color:#94a3b8; background:#f8fafc; padding:2px 8px; border-radius:10px; border:1px solid #e2e8f0;">${tests.length} sets</span>
+                        </div>
+                        <div class="part-buttons" style="justify-content:flex-start; flex-wrap:wrap; gap:8px;">
+                            ${buttons}
+                        </div>
+                    </div>`;
+                });
+                container.innerHTML = html;
+
+            } catch (e) {
+                console.warn("Catalog loading failed:", e);
+                // 兜底显示：如果没有清单，显示友好提示
+                container.innerHTML = `
+                    <div style="text-align:center; padding:30px; color:#64748b;">
+                        <i class="fas fa-database fa-2x" style="margin-bottom:10px; color:#cbd5e1;"></i>
+                        <p>请运行 Python 解析脚本生成题库</p>
+                        <small style="color:#94a3b8;">./Reading/data/catalog.json 未找到</small>
+                    </div>`;
+            }
+        }
+
+        function updateUI(name) {
+            document.getElementById('username-display').textContent = name;
+        }
+
+        function logout() {
+            if (confirm('确认退出系统吗？')) {
+                localStorage.clear();
+                location.reload();
+            }
+        }
+
+        function toggleCard(type) {
+            const card = document.getElementById(`card-${type}`);
+            const content = card.querySelector('.accordion-content');
+            const icon = card.querySelector('.toggle-icon');
+            
+            if (!content.classList.contains('active')) {
+                document.querySelectorAll('.accordion-content.active').forEach(el => {
+                    el.classList.remove('active');
+                    el.style.maxHeight = null;
+                });
+                document.querySelectorAll('.toggle-icon.rotate').forEach(el => el.classList.remove('rotate'));
+
+                content.classList.add('active');
+                icon.classList.add('rotate');
+                content.style.maxHeight = content.scrollHeight + "px";
+            } else {
+                content.classList.remove('active');
+                icon.classList.remove('rotate');
+                content.style.maxHeight = null;
+            }
+        }
+    </script>
+</body>
+</html>

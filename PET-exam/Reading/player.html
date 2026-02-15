@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>S-Class Reading Lab</title>
+    <link href="../css/style.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/microsoft-cognitiveservices-speech-sdk@latest/distrib/browser/microsoft.cognitiveservices.speech.sdk.bundle-min.js"></script>
+    
+    <script src="../js/ai-hub.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/report.js"></script>
+    <script src="../js/main.js"></script>
+
+    <style>
+        /* === 布局基础 === */
+        :root { --primary: #3b82f6; --accent: #8b5cf6; --success: #10b981; --danger: #ef4444; --bg: #f8fafc; --text: #334155; }
+        body { background-color: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; margin: 0; }
+        
+        .navbar { position: sticky; top: 0; z-index: 100; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid #e2e8f0; padding: 12px 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 20px rgba(0,0,0,0.03); }
+        .brand { font-weight: 800; font-size: 1.2rem; color: var(--primary); letter-spacing: -0.5px; cursor: pointer; }
+
+        .reading-container { max-width: 1400px; margin: 0 auto; padding: 30px 20px 150px; }
+        
+        /* 通用左右分栏 (适用于 Part 2-6) */
+        .split-layout { display: grid; grid-template-columns: 1.4fr 0.8fr; gap: 40px; align-items: start; }
+        
+        /* 文章面板优化 */
+        .article-panel { 
+            background: white; padding: 50px; border-radius: 16px; 
+            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.05); border: 1px solid #f1f5f9; 
+            font-family: 'Georgia', 'Times New Roman', serif; 
+            font-size: 1.15rem; line-height: 1.8; color: #1e293b;
+            text-align: justify; 
+        }
+        
+        .questions-panel { display: flex; flex-direction: column; gap: 25px; position: sticky; top: 90px; max-height: 85vh; overflow-y: auto; padding-right: 10px; }
+        
+        .question-card { background: white; padding: 25px; border-radius: 12px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px rgba(0,0,0,0.02); transition: transform 0.2s; height: auto; overflow: visible; }
+        .question-card:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+
+        /* === Part 3 排版优化 === */
+        .instruction-block {
+            font-family: 'Segoe UI', sans-serif;
+            font-size: 0.95rem; color: #64748b; font-style: italic;
+            margin-bottom: 25px; border-bottom: 2px solid #f1f5f9; padding-bottom: 15px;
+            line-height: 1.5; background: #f8fafc; padding: 15px; border-radius: 8px;
+        }
+        .article-title {
+            font-size: 2rem; font-weight: 800; color: #1e293b; 
+            text-align: center; margin: 10px 0 15px 0; line-height: 1.2;
+        }
+        .article-subtitle {
+            font-family: 'Segoe UI', sans-serif;
+            font-size: 1.05rem; color: #475569; font-weight: 500;
+            text-align: center; margin-bottom: 30px;
+        }
+        .article-p {
+            margin-bottom: 1.5em; 
+            text-indent: 2em; 
+            letter-spacing: 0.01em; 
+        }
+
+        /* === Part 4/5/6 填空样式 === */
+        .gap-select {
+            border: 1px solid #cbd5e1; border-radius: 4px; padding: 2px 5px;
+            font-weight: bold; color: var(--primary); background: #eff6ff;
+            cursor: pointer; margin: 0 4px; font-size: 1rem;
+            max-width: 100%;
+        }
+        .gap-input {
+            border: none; border-bottom: 2px solid #94a3b8; background: #f1f5f9;
+            width: 100px; text-align: center; font-size: 1.1rem; padding: 2px 5px;
+            color: #334155; margin: 0 4px;
+        }
+        .gap-input:focus { outline: none; border-bottom-color: var(--primary); background: #eff6ff; }
+
+        /* === 深度学习模式样式 === */
+        .filled-correct { color: var(--success); font-weight: bold; background: #dcfce7; padding: 2px 6px; border-radius: 4px; }
+        .filled-wrong { color: var(--danger); text-decoration: line-through; margin-right: 5px; opacity: 0.7; }
+        .explanation-block { background: #f0fdf4; border-left: 4px solid var(--success); padding: 15px; margin-top: 15px; font-size: 0.95rem; color: #14532d; line-height: 1.6; }
+
+        /* Part 1 样式 */
+        .part1-layout { display: flex; gap: 40px; align-items: flex-start; }
+        .part1-stem { flex: 1.2; border-right: 1px solid #f1f5f9; padding-right: 30px; }
+        .part1-options { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 15px; }
+        .opt-label { display: flex; align-items: flex-start; padding: 15px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; cursor: pointer; transition: all 0.2s; font-size: 1rem; }
+        .opt-label:hover { background: #eff6ff; border-color: var(--primary); }
+        .opt-label.selected { background: var(--primary); color: white; border-color: var(--primary); }
+        .opt-tag { font-weight: bold; margin-right: 12px; min-width: 20px; flex-shrink: 0; }
+        .opt-text-wrapper { flex-grow: 1; display: block; line-height: 1.6; }
+
+        /* 工具栏 */
+        .w-click { cursor: pointer; border-radius: 4px; padding: 1px 2px; transition: 0.1s; display: inline; }
+        .w-click:hover { background-color: #fef08a; color: #854d0e; }
+        .ai-toolbar { display: flex; align-items: center; gap: 8px; margin-top: 10px; padding-top: 8px; border-top: 1px dashed rgba(0,0,0,0.1); width: 100%; }
+        .btn-mini { width: auto; height: 32px; padding: 0 12px; border-radius: 16px; border: 1px solid #cbd5e1; background: white; color: #64748b; cursor: pointer; display: flex; align-items: center; gap: 6px; font-size: 0.85rem; }
+        .btn-mini:hover { transform: translateY(-1px); border-color: var(--primary); color: var(--primary); }
+        .trans-feedback { display: none; margin-top: 10px; padding: 12px; background: #fff7ed; border: 1px solid #fdba74; border-radius: 8px; color: #9a3412; font-size: 0.95rem; width: 100%; box-sizing: border-box; }
+
+        /* 弹窗 */
+        .dict-popup { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 30px; border-radius: 16px; box-shadow: 0 25px 50px rgba(0,0,0,0.25); width: 90%; max-width: 420px; z-index: 3000; display: none; border-top: 5px solid var(--primary); animation: popIn 0.2s; }
+        .report-popup { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 40px; border-radius: 20px; width: 85%; max-width: 800px; max-height: 85vh; overflow-y: auto; z-index: 3000; display: none; box-shadow: 0 25px 60px rgba(0,0,0,0.3); animation: popIn 0.3s; }
+        @keyframes popIn { from { opacity: 0; transform: translate(-50%, -45%) scale(0.95); } to { opacity: 1; transform: translate(-50%, -50%) scale(1); } }
+
+        .fab-btn { position: fixed; bottom: 40px; right: 40px; z-index: 1000; padding: 16px 32px; color: white; border: none; border-radius: 50px; font-weight: bold; font-size: 1.1rem; box-shadow: 0 20px 40px rgba(0,0,0,0.2); cursor: pointer; transition: transform 0.2s; }
+        .fab-btn:hover { transform: translateY(-3px) scale(1.02); }
+        .fab-btn:disabled { background: #94a3b8; cursor: not-allowed; box-shadow: none; transform: none; }
+        .btn-submit { background: linear-gradient(135deg, var(--primary), #2563eb); }
+        .btn-report { background: linear-gradient(135deg, #8b5cf6, #d946ef); display: none; bottom: 110px; }
+        .admin-badge { display:none; margin-left:10px; background:#f59e0b; color:white; padding:2px 8px; border-radius:4px; font-size:0.8rem; vertical-align:middle; }
+    </style>
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="brand" onclick="location.href='../index.html'"><i class="fas fa-layer-group"></i> S-Class Reading Lab</div>
+    <div style="font-family:'Courier New', monospace; font-weight:bold; color:var(--primary);">
+        <div id="timer-box">00:00</div>
+    </div>
+    <div style="color:#64748b; font-family:sans-serif; cursor:pointer;" id="user-display-wrapper">
+        <span id="user-display">Guest</span>
+        <span id="admin-tag" class="admin-badge">ADMIN</span>
+    </div>
+</nav>
+
+<div class="reading-container" id="app">
+    <div style="text-align:center; padding:100px; color:#94a3b8;"><i class="fas fa-circle-notch fa-spin fa-3x"></i><br><br>正在加载试题数据...</div>
+</div>
+
+<button id="btn-submit" class="fab-btn btn-submit" onclick="submitExam()" disabled>
+    <i class="fas fa-lock"></i> <span id="submit-label">4:30 后解锁</span>
+</button>
+
+<button id="btn-report" class="fab-btn btn-report" onclick="generateReport()">
+    <i class="fas fa-file-medical-alt"></i> 生成深度报告
+</button>
+
+<div id="dict-card" class="dict-popup">
+    <div style="display:flex; justify-content:space-between; margin-bottom:15px; border-bottom:1px solid #f1f5f9; padding-bottom:10px;">
+        <span style="font-size:1.4rem; font-weight:800; color:var(--primary);" id="dict-title">Word</span>
+        <i class="fas fa-times" onclick="document.getElementById('dict-card').style.display='none'" style="cursor:pointer; color:#94a3b8; font-size:1.2rem;"></i>
+    </div>
+    <div id="dict-body" style="line-height:1.8; color:#475569;">Searching...</div>
+</div>
+
+<div id="report-modal" class="report-popup">
+    <div style="text-align:center; margin-bottom:20px; border-bottom: 1px solid #eee; padding-bottom: 20px;">
+        <h2 style="color:var(--accent); margin:0;">深度学习诊断书</h2>
+        <p style="color:#94a3b8; font-size:0.9rem; margin-top:5px;">S-Class Intelligence Analysis</p>
+    </div>
+    <div id="report-content" style="line-height:1.8; color:#334155; text-align:left; background:#f8fafc; padding:20px; border-radius:10px; border:1px solid #e2e8f0; max-height:50vh; overflow-y:auto;"></div>
+    <div style="text-align:center; margin-top:20px; display:flex; justify-content:center; gap:15px;">
+        <button id="btn-send-report" onclick="sendDeepReport()" style="padding:10px 25px; background:var(--primary); color:white; border:none; border-radius:8px; cursor:pointer; display:none; align-items:center; gap:8px;">
+            <i class="fas fa-paper-plane"></i> 发送到邮箱
+        </button>
+        <button onclick="document.getElementById('report-modal').style.display='none'" style="padding:10px 25px; background:#e2e8f0; color:#475569; border:none; border-radius:8px; cursor:pointer;">关闭</button>
+    </div>
+</div>
+
+<div id="overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.4); z-index:2999;" onclick="closeAllModals()"></div>
+
+<div id="result-popup" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:3000; justify-content:center; align-items:center;">
+    <div style="background:white; padding:40px; border-radius:20px; text-align:center; max-width:500px; width:90%; animation:popIn 0.3s;">
+        <div style="font-size:4rem; margin-bottom:10px;">🎉</div>
+        <h2 style="color:#1e293b;">考试完成</h2>
+        <div id="final-score" style="font-size:3.5rem; font-weight:900; color:var(--primary); margin:20px 0;">--</div>
+        <div id="ai-comment" style="background:#f8fafc; padding:15px; border-radius:10px; color:#64748b; margin-bottom:30px; text-align:left;">AI 分析中...</div>
+        <button onclick="enterReviewMode()" style="padding:12px 30px; background:var(--accent); color:white; border:none; border-radius:10px; cursor:pointer; font-weight:bold;">进入深度复习</button>
+    </div>
+</div>
+
+<script>
+    const AZURE_KEY = "DKRXk8ueSfo5NdIOMqFRTCAfpeGDezJ3Snf5K8gGgtyqxiWdugLzJQQJ99BLACHYHv6XJ3w3AAAYACOGUYP9";
+    const AZURE_REGION = "eastus2";
+    const MIN_TIME = 270; 
+    const ADMIN_CODE = "123888";
+    
+    const REPORT_CONF = {
+        service: "service_6dfbs2n",
+        template_test: "template_29lkfcs",
+        template_deep: "template_zso8ebh",
+        key: "1QhXV5G_92GdK7_DF"
+    };
+
+    const params = new URLSearchParams(location.search);
+    const RAW_TEST_ID = params.get('t') || '1';
+    const PART_ID = params.get('p') || '1';
+    
+    let EXAM_DATA = null, USER_ANSWERS = {}, IS_REVIEW = false, TIMER = null, START_TIME = Date.now();
+    let activeRecognizer = null;
+    let IS_ADMIN = false;
+    let currentReportHTML = ""; 
+    let currentAIDiagnosis = ""; 
+    let LEARNING_LOGS = { vocab: [], tts: [], trans: [] };
+
+    window.onload = async () => {
+        const user = localStorage.getItem('current-user') || "Guest";
+        document.getElementById('user-display').textContent = user;
+        if(typeof Auth !== 'undefined') Auth.currentUser = user;
+
+        let clicks = 0;
+        document.getElementById('user-display-wrapper').onclick = () => {
+            clicks++;
+            setTimeout(()=>clicks=0, 2000);
+            if(clicks >= 5 && prompt("Admin Code:") === ADMIN_CODE) { 
+                IS_ADMIN = true;
+                alert("🔓 Admin Mode Active"); 
+                document.getElementById('btn-submit').disabled = false;
+                document.getElementById('btn-submit').innerHTML = '<i class="fas fa-check"></i> 提交 (Admin)';
+                document.getElementById('admin-tag').style.display = 'inline-block';
+            }
+        };
+
+        startTimer();
+        await loadData();
+    };
+
+    async function loadData() {
+        let tId = RAW_TEST_ID.replace(/\s+/g, "");
+        if(!isNaN(tId)) tId = "Test" + tId;
+        else if(!tId.toLowerCase().startsWith("test")) tId = "Test" + tId.replace(/^t/i, "");
+        
+        const url = `data/Part ${PART_ID}/${tId}.json`;
+        try {
+            const res = await fetch(url);
+            if(!res.ok) throw new Error("File not found");
+            EXAM_DATA = await res.json();
+            renderUI();
+        } catch(e) {
+            document.getElementById('app').innerHTML = `<div style="text-align:center; padding:50px; color:#ef4444;"><h3>加载失败</h3><p>${url}<br>${e.message}</p></div>`;
+        }
+    }
+
+    function renderUI() {
+        const app = document.getElementById('app');
+        app.innerHTML = `<h2 style="text-align:center; color:#475569; margin-bottom:40px;">${EXAM_DATA.meta.title}</h2>`;
+        if(EXAM_DATA.meta.type === 'discrete-choice') renderPart1(app);
+        else if(EXAM_DATA.meta.type === 'matching') renderPart2(app);
+        else renderSplit(app);
+    }
+
+    // === Part 1: 左右布局 ===
+    function renderPart1(c) {
+        c.innerHTML = `<div style="display:flex; flex-direction:column; gap:30px;">
+            ${EXAM_DATA.questions.map(q => `
+            <div class="question-card" id="q-${q.id}">
+                <div class="part1-layout">
+                    <div class="part1-stem">
+                        <span class="q-tag">Q ${q.id}</span>
+                        ${q.image ? `<img src="../${q.image}" class="q-img">` : ''}
+                        <div class="content-block" data-id="${q.id}_txt" style="font-size:1.1rem; line-height:1.6;">${q.text}</div>
+                    </div>
+                    <div class="part1-options">
+                        ${q.options.map(o => `
+                            <div class="opt-label" onclick="sel('${q.id}', '${o.label}', this)">
+                                <span class="opt-tag">${o.label}</span> 
+                                <div class="opt-text-wrapper option-content" data-text="${o.text}" data-id="${q.id}_opt_${o.label}">
+                                    ${o.text}
+                                </div>
+                            </div>`).join('')}
+                    </div>
+                </div>
+                <div id="expl-${q.id}" class="explanation-block" style="display:none;"></div>
+            </div>`).join('')}
+        </div>`;
+    }
+
+    // === Part 2: 匹配题 ===
+    function renderPart2(c) {
+        c.innerHTML = `<div class="split-layout">
+            <div class="article-panel">
+                <h3 style="color:var(--accent); margin-top:0;">People</h3>
+                ${EXAM_DATA.people.map(p => `
+                    <div style="margin-bottom:30px;" id="q-${p.id}">
+                        <div style="font-weight:bold; margin-bottom:10px; display:flex; justify-content:space-between;"><span>Person ${p.id}</span><select onchange="ans('${p.id}', this.value)" style="padding:5px;"><option value="">Select...</option>${EXAM_DATA.items.map(i=>`<option value="${i.label}">${i.label}</option>`).join('')}</select></div>
+                        <div class="content-block" data-id="${p.id}_txt">${p.text}</div>
+                        <div id="expl-${p.id}" class="explanation-block" style="display:none;"></div>
+                    </div>`).join('')}
+            </div>
+            <div class="questions-panel">
+                <h3 style="color:var(--primary); margin-top:0;">Options</h3>
+                ${EXAM_DATA.items.map(i => `
+                    <div class="question-card">
+                        <div class="opt-label" style="cursor:default;">
+                            <span class="opt-tag">${i.label}</span>
+                            <div class="opt-text-wrapper option-content" data-text="${i.text}" data-id="item_${i.label}">
+                                <div style="font-weight:bold; margin-bottom:5px;">${i.title}</div>
+                                <div>${i.text}</div>
+                            </div>
+                        </div>
+                    </div>`).join('')}
+            </div>
+        </div>`;
+    }
+
+    // === 🔥 核心：RenderSplit (Part 3-6) ===
+    function renderSplit(c) {
+        let content = "";
+        
+        // --- 构建左侧文章内容 ---
+        if(EXAM_DATA.article_blocks) {
+            content = EXAM_DATA.article_blocks.map((b, index) => {
+                // 1. 处理题目说明 (Instruction)
+                if (index === 0) {
+                    return `<div class="instruction-block">${b.text}</div>`;
+                }
+                
+                // 2. 处理标题 (Part 3 特有)
+                if(EXAM_DATA.meta.type === 'passage-choice' && index === 1) {
+                    const parts = b.text.split('\n');
+                    let titleHtml = `<h2 class="article-title">${parts[0]}</h2>`;
+                    if(parts.length > 1) {
+                        titleHtml += `<div class="article-subtitle">${parts.slice(1).join('<br>')}</div>`;
+                    }
+                    return titleHtml;
+                }
+
+                // 3. 处理正文 (含填空逻辑)
+                let text = b.text;
+                
+                // 🔥 关键修复：清洗无效字符 (针对 Part 5/6 强力去点)
+                text = text.replace(/\[--- Table Start ---\]|\[--- Table End ---\]|\|/g, '');
+                
+                // 如果是填空题(Part 5/6)，使用强力正则去除各种省略号、下划线
+                if (['cloze-choice', 'open-cloze'].includes(EXAM_DATA.meta.type)) {
+                    text = text.replace(/[.…_]{2,}/g, ''); // 移除 2个以上的 . 或 … 或 _
+                } else {
+                    text = text.replace(/\.{3,}/g, ''); // 普通题型只移除3个以上点
+                }
+
+                // 替换 Gap (Part 4, 5, 6)
+                if (b.type === 'gap' || text.includes('GAP')) {
+                    // 找到 Gap ID
+                    let gapId = b.id;
+                    if (!gapId && text.match(/GAP(\d+)/)) gapId = text.match(/GAP(\d+)/)[1];
+                    if (!gapId) return ""; // 容错
+
+                    // Part 4: 句子还原 (下拉菜单)
+                    if (EXAM_DATA.meta.type === 'gapped-text') {
+                        let opts = ['A','B','C','D','E','F','G','H'];
+                        return `<select class="gap-select" id="inp-${gapId}" onchange="ans('${gapId}', this.value)">
+                            <option value="">[Gap ${gapId}]</option>
+                            ${opts.map(o => `<option value="${o}">${o}</option>`).join('')}
+                        </select>`;
+                    }
+                    
+                    // Part 5: 完形填空 (下拉菜单)
+                    const q = EXAM_DATA.questions ? EXAM_DATA.questions.find(x => x.id == gapId) : null;
+                    if (EXAM_DATA.meta.type === 'cloze-choice' && q) {
+                        return `<select class="gap-select" id="inp-${gapId}" onchange="ans('${gapId}', this.value)">
+                            <option value="">(${gapId})</option>
+                            ${q.options.map(o => `<option value="${o.label}">${o.text}</option>`).join('')}
+                        </select>`;
+                    }
+
+                    // Part 6: 开放填空 (输入框)
+                    if (EXAM_DATA.meta.type === 'open-cloze') {
+                        return `<input class="gap-input" id="inp-${gapId}" onchange="ans('${gapId}', this.value)" placeholder="(${gapId})" autocomplete="off">`;
+                    }
+                }
+
+                // 普通段落
+                if (EXAM_DATA.meta.type === 'passage-choice') {
+                    return `<p class="article-p content-block" data-id="${b.id}">${text}</p>`;
+                } else {
+                    return `<span class="content-block" data-id="${b.id}">${text}</span>`;
+                }
+            }).join(EXAM_DATA.meta.type === 'passage-choice' ? '' : ' '); 
+        }
+
+        // --- 构建右侧面板 ---
+        let qs = "";
+        
+        // Part 3 (Selection)
+        if(EXAM_DATA.meta.type === 'passage-choice') {
+            qs = EXAM_DATA.questions.map(q => `
+            <div class="question-card" id="q-${q.id}">
+                <div style="font-weight:bold; margin-bottom:10px;">${q.id}.</div>
+                <div class="content-block" style="margin-bottom:15px;">${q.text}</div>
+                ${q.options.map(o => `
+                    <div class="opt-label" onclick="sel('${q.id}', '${o.label}', this)">
+                        <span class="opt-tag">${o.label}</span> 
+                        <div class="opt-text-wrapper option-content" data-text="${o.text}">${o.text}</div>
+                    </div>`).join('')}
+                <div id="expl-${q.id}" class="explanation-block" style="display:none;"></div>
+            </div>`).join('');
+        } 
+        // Part 4 (Sentences List)
+        else if(EXAM_DATA.meta.type === 'gapped-text') {
+            qs = `<div class="question-card">
+                <h4 style="color:var(--primary); margin-top:0;">Sentences (A-H)</h4>
+                ${EXAM_DATA.sentences.map(s => `
+                    <div class="opt-label" style="cursor:default; margin-bottom:10px;">
+                        <span class="opt-tag" style="color:var(--primary); font-size:1.1rem;">${s.label}</span>
+                        <div class="opt-text-wrapper option-content" data-text="${s.text}">${s.text}</div>
+                    </div>`).join('')}
+                
+                <div id="part4-explanations" style="margin-top:20px; border-top:1px solid #eee; padding-top:15px;">
+                     ${EXAM_DATA.answers ? Object.keys(EXAM_DATA.answers).map(k => `<div id="expl-${k}" class="explanation-block" style="display:none; text-align:left; margin-top:15px;"></div>`).join('') : ''}
+                     ${EXAM_DATA.questions ? EXAM_DATA.questions.map(q => `<div id="expl-${q.id}" class="explanation-block" style="display:none; text-align:left; margin-top:15px;"></div>`).join('') : ''}
+                </div>
+
+                <div style="margin-top:20px; padding-top:10px; border-top:1px solid #eee; color:#64748b; font-size:0.9rem;">
+                    * 请在左侧文章中选择对应的句子选项
+                </div>
+            </div>`;
+        } 
+        // Part 5/6 (Simple Instructions)
+        else {
+            qs = `<div class="question-card" style="text-align:center; padding:40px; color:#64748b;">
+                <i class="fas fa-arrow-left fa-2x" style="margin-bottom:15px;"></i><br>
+                请在左侧文章中直接作答<br>Fill in the gaps on the left
+                
+                ${EXAM_DATA.questions ? EXAM_DATA.questions.map(q => `<div id="expl-${q.id}" class="explanation-block" style="display:none; text-align:left; margin-top:15px;"></div>`).join('') : ''}
+                
+                ${EXAM_DATA.answers ? Object.keys(EXAM_DATA.answers).map(k => `<div id="expl-${k}" class="explanation-block" style="display:none; text-align:left; margin-top:15px;"></div>`).join('') : ''}
+            </div>`;
+        }
+
+        c.innerHTML = `<div class="split-layout">
+            <div class="article-panel" id="main-article">${content}</div>
+            <div class="questions-panel">${qs}</div>
+        </div>`;
+    }
+
+    // === 交互 ===
+    window.sel = (id,v,el) => { if(!IS_REVIEW) { el.parentElement.querySelectorAll('.selected').forEach(e=>e.classList.remove('selected')); el.classList.add('selected'); USER_ANSWERS[id]=v; }};
+    window.ans = (id,v) => { if(!IS_REVIEW) USER_ANSWERS[id]=v.trim(); };
+
+    function startTimer() {
+        const el = document.getElementById('timer-box');
+        const btn = document.getElementById('btn-submit');
+        const label = document.getElementById('submit-label');
+        
+        TIMER = setInterval(() => {
+            const diff = Math.floor((Date.now()-START_TIME)/1000);
+            el.innerText = `${Math.floor(diff/60)}:${(diff%60).toString().padStart(2,'0')}`;
+            
+            if(!IS_ADMIN && diff < MIN_TIME) {
+                const remain = MIN_TIME - diff;
+                label.innerText = `锁定中 ${Math.floor(remain/60)}:${(remain%60).toString().padStart(2,'0')}`;
+                btn.disabled = true;
+            } else {
+                if(!IS_ADMIN) label.innerText = "提交试卷"; 
+                btn.disabled = false;
+            }
+        }, 1000);
+    }
+
+    window.submitExam = async () => {
+        const diff = Math.floor((Date.now()-START_TIME)/1000);
+        if(!IS_ADMIN && diff < MIN_TIME) { alert("考试时间未到！"); return; }
+        if(!confirm("确认提交试卷？")) return;
+        
+        clearInterval(TIMER);
+        document.getElementById('btn-submit').style.display = 'none';
+        
+        let score=0, total=Object.keys(EXAM_DATA.answers||{}).length || EXAM_DATA.questions.length;
+        let wrongList = []; 
+        const correctMap = EXAM_DATA.answers || {};
+        if(EXAM_DATA.questions) EXAM_DATA.questions.forEach(q=>correctMap[q.id]=q.correct);
+
+        for(let id in correctMap) {
+            let u=(USER_ANSWERS[id]||"").toUpperCase(), c=correctMap[id], ok=false;
+            if(Array.isArray(c)) ok=c.includes(u); else ok=u===String(c).toUpperCase();
+            if(ok) score++; 
+            else wrongList.push({id: id, user: u, correct: c});
+        }
+
+        document.getElementById('final-score').innerText = `${score} / ${total}`;
+        document.getElementById('result-popup').style.display='flex';
+        const comment = await AIHub.generateReportComment(score, total);
+        document.getElementById('ai-comment').innerText = comment;
+
+        if(typeof Report !== 'undefined') {
+            Report.submitExam(`Reading ${RAW_TEST_ID} P${PART_ID}`, score, total, wrongList, document.getElementById('timer-box').innerText);
+        }
+    };
+
+    // === 🔥 深度复习模式 (核心修改) ===
+    window.enterReviewMode = function() {
+        document.getElementById('result-popup').style.display = 'none';
+        IS_REVIEW = true;
+        document.getElementById('btn-report').style.display = 'block';
+        
+        const isGapType = ['gapped-text', 'cloze-choice', 'open-cloze'].includes(EXAM_DATA.meta.type);
+
+        // 1. 重构左侧文章 (Part 4/5/6 核心功能: 智能过滤 + 两句一段)
+        if (isGapType) {
+            reconstructArticleForReview(); 
+        }
+
+        // 2. 显示解析 (Part 3/5/6 及现在修复的 Part 4)
+        const correctMap = EXAM_DATA.answers || {};
+        if(EXAM_DATA.questions) EXAM_DATA.questions.forEach(q=>correctMap[q.id]=q.correct);
+        
+        for(let id in correctMap) {
+            const explDiv = document.getElementById(`expl-${id}`);
+            if(explDiv) {
+                explDiv.style.display = 'block';
+                let explText = "";
+                if (EXAM_DATA.explanations && EXAM_DATA.explanations[id]) explText = EXAM_DATA.explanations[id];
+                else if (EXAM_DATA.questions) {
+                    const q = EXAM_DATA.questions.find(x => x.id == id);
+                    if (q && q.explanation) explText = q.explanation;
+                }
+                explDiv.innerHTML = `<strong>Q${id} 解析:</strong><br>${explText || '暂无详细解析'}`;
+            }
+        }
+
+        // 3. 激活点读 (填空题已在重构中处理，此处只处理非填空题)
+        const selector = isGapType ? '.option-content' : '.content-block, .option-content, .article-p';
+        document.querySelectorAll(selector).forEach(el => makeInteractive(el));
+    };
+
+    // === 🔥 文章重构函数: 强力过滤 + 两句一段 ===
+    function reconstructArticleForReview() {
+        const container = document.getElementById('main-article');
+        container.innerHTML = ""; // 清空容器
+
+        let buffer = { html: "", cleanText: "", sentenceCount: 0 }; // 累加缓存
+
+        EXAM_DATA.article_blocks.forEach((b, index) => {
+            // 0. 跳过题目说明
+            if (index === 0) return; 
+
+            let rawText = b.text;
+
+            // ============================================================
+            // 🛑 核心修改：强力过滤器 (解决内容不全和乱码)
+            // ============================================================
+            
+            // 1. 删除 <b>...</b> 标签及其内部的所有文字 (删除标题)
+            rawText = rawText.replace(/<b[^>]*>[\s\S]*?<\/b>/gi, "");
+
+            // 2. 删除 <br> 及其之前的所有内容 (删除前缀)
+            if (rawText.match(/<br\s*\/?>/i)) {
+                rawText = rawText.replace(/^[\s\S]*?<br\s*\/?>/i, "");
+            }
+
+            // 3. 🛑 关键修复：将连续点号替换为空，而不是丢弃整段话 (解决显示不全)
+            rawText = rawText.replace(/\.{2,}/g, ""); 
+
+            // 4. 删除特定的干扰字符
+            if (rawText.includes('Table Start') || rawText.includes('Table End')) {
+                return; 
+            }
+
+            // 5. 再次检查：如果清洗后没内容了，就直接跳过
+            if (!rawText || rawText.trim().length === 0) return;
+
+            // ============================================================
+            // 下面是正常的填空题处理逻辑 (保持不变)
+            // ============================================================
+
+            rawText = rawText.replace(/\|/g, ''); 
+            
+            // 额外的点号清洗
+            if (['cloze-choice', 'open-cloze'].includes(EXAM_DATA.meta.type)) {
+                rawText = rawText.replace(/[.…_]{2,}/g, ''); 
+            } else {
+                rawText = rawText.replace(/\.{3,}/g, '');
+            }
+
+            let isGap = b.type === 'gap' || rawText.includes('GAP');
+            let gapId = b.id;
+            if (!gapId && rawText.match(/GAP(\d+)/)) gapId = rawText.match(/GAP(\d+)/)[1];
+
+            if (isGap && gapId) {
+                // --- 处理填空 ---
+                const userVal = (USER_ANSWERS[gapId] || "").toUpperCase();
+                const correctVal = getCorrectAnswer(gapId);
+                const isCorrect = (userVal === String(correctVal).toUpperCase()) || (Array.isArray(correctVal) && correctVal.includes(userVal));
+                
+                let correctDisplayStr = "";
+                
+                if (EXAM_DATA.meta.type === 'gapped-text') {
+                    correctDisplayStr = EXAM_DATA.sentences.find(s => s.label === correctVal)?.text || correctVal;
+                } else if (EXAM_DATA.meta.type === 'cloze-choice') {
+                    const q = EXAM_DATA.questions.find(x => x.id == gapId);
+                    correctDisplayStr = q.options.find(o => o.label === correctVal)?.text || correctVal;
+                } else {
+                    correctDisplayStr = Array.isArray(correctVal) ? correctVal[0] : correctVal;
+                }
+
+                // 清洗答案中的标签
+                correctDisplayStr = cleanHtmlTags(correctDisplayStr);
+                let userDisplayStr = userVal;
+                if(EXAM_DATA.meta.type === 'cloze-choice') {
+                    const q = EXAM_DATA.questions.find(x => x.id == gapId);
+                    userDisplayStr = q.options.find(o => o.label === userVal)?.text || userVal;
+                }
+                userDisplayStr = cleanHtmlTags(userDisplayStr);
+
+                let visualHtml = "";
+                if (isCorrect) {
+                    visualHtml = `<span class="filled-correct" style="margin:0 2px;">${correctDisplayStr}</span>`;
+                } else {
+                    visualHtml = (userVal ? `<span class="filled-wrong">${userDisplayStr}</span>` : "") + 
+                                 `<span class="filled-correct" style="margin:0 2px;">${correctDisplayStr}</span>`;
+                }
+                
+                buffer.html += visualHtml;
+                buffer.cleanText += " " + correctDisplayStr + " "; 
+
+            } else {
+                // --- 处理普通文本 ---
+                let cleanContent = cleanHtmlTags(rawText);
+                buffer.html += wrapWordsForClick(cleanContent);
+                buffer.cleanText += cleanContent;
+                
+                // 计算句子数量
+                const sentencesInBlock = (cleanContent.match(/[.!?](\s|$|")/g) || []).length;
+                buffer.sentenceCount += sentencesInBlock;
+            }
+
+            // 分段检查 (每2句生成一个卡片)
+            if (buffer.sentenceCount >= 2 || index === EXAM_DATA.article_blocks.length - 1) {
+                if (buffer.cleanText.replace(/\s/g, '').length > 0) {
+                    renderSegment(container, buffer.html, buffer.cleanText);
+                }
+                buffer = { html: "", cleanText: "", sentenceCount: 0 };
+            }
+        });
+    }
+
+    // 辅助：渲染分段 (两句一卡片)
+    function renderSegment(container, htmlContent, cleanText) {
+        const segId = "seg-" + Math.random().toString(36).substr(2, 9);
+        cleanText = cleanText.replace(/\s+/g, ' ').trim(); 
+        const escText = cleanText.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+
+        const section = document.createElement('div');
+        section.style.cssText = "background:white; border-radius:12px; padding:25px; margin-bottom:30px; box-shadow:0 4px 15px rgba(0,0,0,0.05); border:1px solid #e2e8f0;";
+        
+        section.innerHTML = `
+            <div style="line-height:2.2; font-size:1.2rem; margin-bottom:20px; color:#334155; font-family:'Georgia', serif;">
+                ${htmlContent}
+            </div>
+            
+            <div class="ai-toolbar" style="border-top:1px dashed #cbd5e1; padding-top:15px; display:flex; gap:12px; flex-wrap:wrap;">
+                <button class="btn-mini" onclick="playTTS('${segId}', '${escText}')" style="color:#0369a1; border-color:#bae6fd; background:#f0f9ff; padding:5px 15px;">
+                    <i class="fas fa-volume-up"></i> 朗读
+                </button>
+                <button class="btn-mini" id="btn-int-${segId}" onclick="toggleInterpret('${segId}', '${escText}')" style="color:#7c3aed; border-color:#ddd6fe; background:#f5f3ff; padding:5px 15px;">
+                    <i class="fas fa-microphone"></i> 口译
+                </button>
+            </div>
+            <div id="fb-${segId}" class="trans-feedback"></div>
+        `;
+        
+        container.appendChild(section);
+    }
+
+    // 辅助：通用标签清洗
+    function cleanHtmlTags(text) {
+        if (!text) return "";
+        return text.replace(/<[^>]+>/g, "").replace(/\s+/g, " ");
+    }
+
+    // 辅助：包装单词
+    function wrapWordsForClick(text) {
+        const words = text.split(/(\s+)/);
+        return words.map(w => {
+            const clean = w.replace(/[^\w'-]/g, "");
+            if(clean.length > 0) {
+                return `${w.substring(0, w.indexOf(clean))}<span class="w-click" onclick="lookupWord('${clean.replace(/'/g,"\\'")}'); event.stopPropagation();">${clean}</span>${w.substring(w.indexOf(clean)+clean.length)}`;
+            }
+            return w;
+        }).join('');
+    }
+
+    function getCorrectAnswer(id) {
+        if (EXAM_DATA.answers && EXAM_DATA.answers[id]) return EXAM_DATA.answers[id];
+        if (EXAM_DATA.questions) {
+            const q = EXAM_DATA.questions.find(x => x.id == id);
+            if (q) return q.correct;
+        }
+        return "?";
+    }
+
+    // === 通用功能 (查词/TTS/口译) ===
+    function makeInteractive(el) {
+        el.style.cursor = "default";
+        const fullText = el.dataset.text || el.innerText;
+        const id = el.dataset.id || Math.random().toString(36).substr(2,9);
+        
+        el.innerHTML = wrapWordsForClick(fullText);
+
+        if(el.querySelector('.ai-toolbar')) return; 
+        
+        const toolbar = document.createElement('div');
+        toolbar.className = 'ai-toolbar';
+        toolbar.innerHTML = `
+            <button class="btn-mini" onclick="event.stopPropagation(); playTTS('${id}', '${fullText.replace(/'/g,"\\'").replace(/\n/g,' ')}')" title="Azure 朗读"><i class="fas fa-volume-up"></i> 朗读</button>
+            <button class="btn-mini" id="btn-int-${id}" onclick="event.stopPropagation(); toggleInterpret('${id}', '${fullText.replace(/'/g,"\\'").replace(/\n/g,' ')}')" title="学生口译"><i class="fas fa-language"></i> 口译</button>
+        `;
+        const fb = document.createElement('div');
+        fb.id = `fb-${id}`; fb.className = 'trans-feedback';
+        el.appendChild(toolbar);
+        el.appendChild(fb);
+    }
+
+    async function lookupWord(word) {
+        document.getElementById('dict-title').innerText = word;
+        document.getElementById('dict-body').innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> DeepSeek...';
+        document.getElementById('dict-card').style.display = 'block';
+        document.getElementById('overlay').style.display = 'block';
+        document.getElementById('dict-body').innerHTML = await AIHub.expandVocabulary(word);
+    }
+
+    window.playTTS = function(id, text) {
+        if(!LEARNING_LOGS.tts.includes(text)) LEARNING_LOGS.tts.push(text);
+        const speechConfig = SpeechSDK.SpeechConfig.fromSubscription(AZURE_KEY, AZURE_REGION);
+        const synthesizer = new SpeechSDK.SpeechSynthesizer(speechConfig, SpeechSDK.AudioConfig.fromDefaultSpeakerOutput());
+        synthesizer.speakTextAsync(text, res => { synthesizer.close(); });
+    };
+
+    let tempTranscript = ""; 
+    window.toggleInterpret = function(id, text) {
+        const btn = document.getElementById(`btn-int-${id}`);
+        const fb = document.getElementById(`fb-${id}`);
+        if(btn.classList.contains('recording')) {
+            btn.classList.remove('recording');
+            fb.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 评分...';
+            if(activeRecognizer) {
+                activeRecognizer.stopContinuousRecognitionAsync(async () => {
+                    activeRecognizer.close();
+                    const studentText = (window.currentTranscript || tempTranscript || "").trim();
+                    if(!studentText || studentText.length < 2) { fb.innerHTML = "❌ 录音太短"; return; }
+                    LEARNING_LOGS.trans.push({original: text, student: studentText});
+                    const feedback = await AIHub.evaluateTranslation(text, studentText);
+                    fb.innerHTML = `<div style="margin-bottom:5px;"><strong>译:</strong> ${studentText}</div><div style="border-top:1px dashed #fdba74; padding-top:5px; color:#c2410c;"><strong>AI:</strong><br>${feedback}</div>`;
+                });
+            }
+            return;
+        }
+        document.querySelectorAll('.recording').forEach(b => b.click());
+        btn.classList.add('recording');
+        fb.style.display = 'block';
+        fb.innerHTML = '<i class="fas fa-microphone fa-pulse"></i> 正在听...';
+        window.currentTranscript = ""; tempTranscript = "";
+        const speechConfig = SpeechSDK.SpeechConfig.fromSubscription(AZURE_KEY, AZURE_REGION);
+        speechConfig.speechRecognitionLanguage = "zh-CN";
+        activeRecognizer = new SpeechSDK.SpeechRecognizer(speechConfig, SpeechSDK.AudioConfig.fromDefaultMicrophoneInput());
+        activeRecognizer.recognizing = (s, e) => { tempTranscript = e.result.text; fb.innerHTML = `<i class="fas fa-microphone"></i> ${window.currentTranscript + e.result.text}...`; };
+        activeRecognizer.recognized = (s, e) => { if(e.result.reason === SpeechSDK.ResultReason.RecognizedSpeech) { window.currentTranscript += e.result.text; tempTranscript = ""; } };
+        activeRecognizer.startContinuousRecognitionAsync();
+    };
+
+    window.generateReport = async function() {
+        const modal = document.getElementById('report-modal');
+        const content = document.getElementById('report-content');
+        const sendBtn = document.getElementById('btn-send-report');
+        document.getElementById('overlay').style.display = 'block';
+        modal.style.display = 'block';
+        if(sendBtn) sendBtn.style.display = 'none';
+        const steps = ["分析词汇...", "评估口译...", "DeepSeek 思考中...", "生成排版..."];
+        let stepIndex = 0;
+        content.innerHTML = `<div style="text-align:center; padding:40px;"><i class="fas fa-circle-notch fa-spin fa-3x" style="color:var(--primary); margin-bottom:20px;"></i><div id="loading-txt" style="color:#64748b;">${steps[0]}</div></div>`;
+        const interval = setInterval(() => { stepIndex = (stepIndex + 1) % steps.length; document.getElementById('loading-txt').innerText = steps[stepIndex]; }, 1500);
+        try {
+            const report = await AIHub.analyzeStudyBehavior(LEARNING_LOGS);
+            clearInterval(interval);
+            currentAIDiagnosis = report;
+            content.innerHTML = report;
+            if(sendBtn) { sendBtn.style.display = 'flex'; sendBtn.disabled = false; sendBtn.innerHTML = '<i class="fas fa-paper-plane"></i> 发送报告'; }
+        } catch(e) { clearInterval(interval); content.innerHTML = `<div style="color:red; text-align:center;">生成失败: ${e.message}</div>`; }
+    };
+
+    window.sendDeepReport = function() {
+        const btn = document.getElementById('btn-send-report');
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 发送中...';
+        btn.disabled = true;
+        const vocabHTML = LEARNING_LOGS.vocab.length > 0 ? `<ul>${LEARNING_LOGS.vocab.map(w => `<li>${w}</li>`).join('')}</ul>` : "<i>(无记录)</i>";
+        const ttsHTML = LEARNING_LOGS.tts.length > 0 ? `<ul>${LEARNING_LOGS.tts.map(s => `<li>"${s.substring(0,50)}..."</li>`).join('')}</ul>` : "<i>(无记录)</i>";
+        const transHTML = LEARNING_LOGS.trans.length > 0 ? `<ul>${LEARNING_LOGS.trans.map(t => `<li><b>原文:</b> ${t.original.substring(0,30)}...<br><b>口译:</b> ${t.student}</li>`).join('')}</ul>` : "<i>(无记录)</i>";
+        const params = { student_name: localStorage.getItem('current-user') || "Guest", test_id: `Reading ${RAW_TEST_ID} Part ${PART_ID}`, report_date: new Date().toLocaleString(), vocab_list: vocabHTML, tts_list: ttsHTML, trans_list: transHTML, ai_diagnosis: currentAIDiagnosis };
+        emailjs.send(REPORT_CONF.service, REPORT_CONF.template_deep, params, REPORT_CONF.key).then(() => { btn.innerHTML = '<i class="fas fa-check"></i> 成功'; btn.style.background = 'var(--success)'; setTimeout(() => { document.getElementById('report-modal').style.display = 'none'; document.getElementById('overlay').style.display = 'none'; }, 1500); }).catch((err) => { console.error(err); alert("发送失败"); btn.innerHTML = '重试'; btn.disabled = false; });
+    }
+
+    function closeAllModals() { document.getElementById('dict-card').style.display='none'; document.getElementById('report-modal').style.display='none'; document.getElementById('overlay').style.display='none'; }
+</script>
+</body>
+</html>
