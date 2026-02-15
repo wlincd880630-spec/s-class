@@ -1,0 +1,2975 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Intensive English Lab (Context Final Fix)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/microsoft-cognitiveservices-speech-sdk@latest/distrib/browser/microsoft.cognitiveservices.speech.sdk.bundle-min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Nunito', sans-serif; background-color: #0f172a; color: #f8fafc; user-select: none; -webkit-tap-highlight-color: transparent; }
+        
+        .app-container { height: 100vh; display: flex; flex-direction: column; }
+        .main-stage { flex: 1; overflow-y: auto; overflow-x: hidden; padding: 16px; padding-bottom: 140px; display: flex; flex-direction: column; align-items: center; }
+
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.9);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.5);
+            border-radius: 24px;
+        }
+
+        .btn-3d {
+            transition: all 0.1s; cursor: pointer; position: relative; z-index: 20;
+            user-select: none; touch-action: manipulation;
+        }
+        .btn-3d:active { transform: translateY(3px); box-shadow: none !important; filter: brightness(0.9); border-bottom-width: 0px !important; margin-top: 3px; }
+
+        .key-btn {
+            width: 55px; height: 60px;
+            background: #1e293b; border: 2px solid #475569; border-bottom-width: 6px;
+            border-radius: 12px; font-size: 1.5rem; font-weight: 900; color: white;
+            display: flex; align-items: center; justify-content: center;
+            margin: 4px; text-transform: uppercase; transition: all 0.2s;
+        }
+        .key-btn:disabled { opacity: 0; transform: scale(0); pointer-events: none; }
+        
+        .option-card {
+            width: 100%; padding: 18px; margin-bottom: 12px;
+            background: #1e293b; border: 2px solid #334155; border-radius: 16px;
+            font-size: 1.1rem; font-weight: 700; text-align: left;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .opt-correct { border-color: #22c55e; background: rgba(34, 197, 94, 0.15); color: #4ade80; }
+        .opt-wrong { border-color: #ef4444; background: rgba(239, 68, 68, 0.15); color: #f87171; }
+
+        .bottom-nav {
+            position: fixed; bottom: 0; left: 0; width: 100%;
+            padding: 16px 24px; padding-bottom: 30px;
+            background: rgba(15, 23, 42, 0.95); border-top: 1px solid #334155;
+            z-index: 50; display: flex; justify-content: center; gap: 12px;
+        }
+        .nav-btn {
+            padding: 16px; border-radius: 16px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px;
+            display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 1.1rem;
+        }
+        .btn-prev {
+            width: 35%; background: #334155; color: #94a3b8; border: 2px solid #475569; font-size: 1rem;
+        }
+        .btn-prev:active { transform: translateY(2px); filter: brightness(0.9); }
+        .btn-next { flex: 1; }
+        .btn-locked { background: #334155; color: #94a3b8; cursor: not-allowed; border: 2px solid #475569; }
+        .btn-active { background: #22c55e; color: white; box-shadow: 0 6px 0 #15803d; border-bottom: 6px solid #15803d; }
+        .btn-active:active { transform: translateY(6px); box-shadow: none; border-bottom-width: 0; margin-bottom: 6px; }
+
+        .pulse-mic { animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); } 70% { box-shadow: 0 0 0 20px rgba(239, 68, 68, 0); } 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); } }
+        
+        .blur-text { color: transparent !important; text-shadow: 0 0 12px rgba(255,255,255,0.7); user-select: none; transition: all 0.3s ease; }
+        .clear-text { color: #94a3b8 !important; text-shadow: none; user-select: auto; }
+        
+        .admin-trigger { width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.1); position: fixed; bottom: 100px; right: 20px; z-index: 99; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+<div id="app" class="app-container">
+
+    <nav class="h-16 flex items-center justify-between px-6 bg-slate-900 border-b border-slate-800 shrink-0 z-40">
+        <div class="font-black text-xl text-white flex items-center gap-2">
+            <span class="bg-indigo-600 w-8 h-8 rounded flex items-center justify-center">E</span> Lab
+        </div>
+        <div v-if="phase !== 'login'" class="flex items-center gap-3">
+            <div class="px-3 py-1 rounded-full bg-slate-800 border border-slate-700 text-xs font-mono text-indigo-400">Unit 1</div>
+            <button @click="saveAndExit" class="text-slate-400 hover:text-white flex items-center gap-1"><i class="fas fa-save"></i> Save</button>
+        </div>
+    </nav>
+
+    <div class="admin-trigger" @click="openAdmin"><i class="fas fa-cog text-slate-400"></i></div>
+    <div v-if="showAdminPanel" class="fixed inset-0 bg-black/90 z-[1000] flex items-center justify-center">
+        <div class="bg-slate-800 p-6 rounded-2xl w-80 border border-slate-600">
+            <h3 class="text-white font-bold mb-4">Admin Console</h3>
+            <div class="grid grid-cols-2 gap-2 mb-4">
+                <button @click="setPhase('vocab')" class="bg-indigo-900 text-white p-2 rounded">Vocab</button>
+                <button @click="setPhase('colloc')" class="bg-indigo-900 text-white p-2 rounded">Colloc</button>
+                <button @click="setPhase('grammar')" class="bg-indigo-900 text-white p-2 rounded">Grammar</button>
+                <button @click="forceUnlock" class="bg-green-700 text-white p-2 rounded">Unlock Step</button>
+            </div>
+            <div class="flex gap-2">
+                <button @click="jumpIndex(-1)" class="bg-slate-600 text-white p-2 rounded flex-1">Prev Item</button>
+                <button @click="jumpIndex(1)" class="bg-slate-600 text-white p-2 rounded flex-1">Next Item</button>
+            </div>
+            <button @click="showAdminPanel=false" class="mt-4 w-full bg-red-900/50 text-red-300 p-2 rounded">Close</button>
+        </div>
+    </div>
+
+    <main class="main-stage">
+        
+        <div v-if="phase === 'login'" class="w-full max-w-md mt-10 text-center">
+            <h1 class="text-3xl font-black text-white mb-8">Intensive Lab</h1>
+            <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 shadow-xl">
+                <input v-model="userName" type="text" placeholder="Enter Your Name" class="w-full bg-slate-900 border border-slate-700 text-white px-4 py-3 rounded-xl mb-4 text-center focus:border-indigo-500 outline-none text-lg">
+                <button @click="startNew" :disabled="!userName" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-4 rounded-xl mb-3 shadow-lg btn-3d disabled:opacity-50">Start New Session</button>
+                <button v-if="hasSave" @click="resume" class="w-full bg-slate-700 hover:bg-slate-600 text-green-400 font-bold py-4 rounded-xl border border-slate-600 btn-3d"><i class="fas fa-history mr-2"></i> Resume Progress</button>
+            </div>
+        </div>
+
+        <div v-if="['vocab', 'colloc', 'grammar'].includes(phase)" class="w-full max-w-2xl">
+            <div class="mb-6 px-2 flex justify-between text-xs font-bold text-slate-400 uppercase">
+                <span>{{ phaseTitles[phase] }} • Item {{ currentIndex + 1 }}/{{ currentList.length }}</span>
+                <span>Step {{ currentStep }}/{{ totalSteps }}</span>
+            </div>
+
+            <div class="flex gap-1 h-1.5 w-full bg-slate-800 rounded-full overflow-hidden mb-6">
+                <div v-for="s in totalSteps" :key="s" class="flex-1 transition-all duration-300" :class="s < currentStep ? 'bg-green-500' : (s === currentStep ? 'bg-indigo-500' : 'bg-slate-700')"></div>
+            </div>
+
+            <div class="glass-panel p-6 md:p-8 min-h-[450px] flex flex-col items-center relative">
+                
+                <div v-if="currentStep === 1" class="text-center w-full">
+                    <div class="py-6">
+                        <h1 class="text-5xl md:text-7xl font-black text-white mb-4 tracking-tight break-words">{{ currentItem.word || currentItem.phrase }}</h1>
+                        
+                        <div v-if="phase === 'grammar'">
+                            <p class="text-2xl text-slate-200 font-medium mb-4 leading-relaxed">{{ currentItem.source_sentence }}</p>
+                            <p class="text-lg text-slate-400 mb-8">{{ currentItem.source_sentence_cn }}</p>
+                            <button @click="handleTask('playGrammarAudio')" :class="stepData.grammarListened ? 'bg-green-600 border-green-500' : 'bg-indigo-600 border-indigo-500'" class="btn-3d px-8 py-4 rounded-xl border-b-4 font-bold text-white shadow-lg flex items-center gap-3 mx-auto"><i class="fas fa-volume-up"></i> Listen First</button>
+                        </div>
+
+                        <div v-else>
+                            <p class="text-2xl text-slate-400 font-mono">{{ currentItem.phonetic }}</p>
+                            <div class="flex justify-center gap-8 mb-8 mt-8">
+                                <button @click="playTTS(currentItem.word || currentItem.phrase)" class="btn-3d w-20 h-20 rounded-full bg-slate-800 border-2 border-slate-600 text-indigo-400 flex items-center justify-center text-3xl shadow-lg hover:bg-slate-700"><i class="fas fa-volume-up"></i></button>
+                                <button @click="toggleRec(currentItem.word || currentItem.phrase, (s) => stepData.audioScore = s)" 
+                                    :class="isRecording ? 'bg-red-500 border-red-400 pulse-mic text-white' : (stepData.audioScore >= 30 ? 'bg-green-600 border-green-400 text-white' : 'bg-indigo-600 border-indigo-400 text-white')"
+                                    class="btn-3d w-24 h-24 rounded-full border-b-4 flex items-center justify-center text-4xl shadow-xl">
+                                    <i :class="isRecording ? 'fas fa-stop' : (stepData.audioScore >= 30 ? 'fas fa-check' : 'fas fa-microphone')"></i>
+                                </button>
+                            </div>
+                            <p class="text-sm font-bold" :class="stepData.audioScore >= 30 ? 'text-green-400' : 'text-slate-500'">
+                                {{ isRecording ? 'Recording... Tap to Stop' : (stepData.audioScore ? `Score: ${stepData.audioScore}` : 'Click Mic -> Speak -> Click Stop') }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div v-if="currentStep === 2" class="w-full">
+                    <div v-if="phase === 'grammar'">
+                        <template v-if="stepData.inquiryIndex < currentItem.guide_questions.length">
+                            <h3 class="text-lg font-bold text-white mb-4">Question {{ stepData.inquiryIndex + 1 }} / {{ currentItem.guide_questions.length }}</h3>
+                            <div class="bg-slate-800/50 p-3 rounded mb-4 text-sm text-slate-300 italic border-l-4 border-indigo-500">"{{ currentItem.source_sentence }}"</div>
+                            <div class="bg-indigo-900/30 p-4 rounded-xl mb-4 border border-indigo-500/30"><p class="text-slate-200 font-bold">{{ currentItem.guide_questions[stepData.inquiryIndex].question }}</p></div>
+                            <div class="space-y-3 mb-6">
+                                <button v-for="opt in currentItem.guide_questions[stepData.inquiryIndex].options" @click="handleTask('inquiry', opt)" 
+                                    class="option-card btn-3d" 
+                                    :class="stepData.inquiryAnswer === opt ? (checkGrammarCorrect(opt, currentItem.guide_questions[stepData.inquiryIndex].correct) ? 'opt-correct' : 'opt-wrong') : ''">
+                                    <span>{{ cleanOption(opt) }}</span>
+                                    <i v-if="stepData.inquiryAnswer === opt" :class="checkGrammarCorrect(opt, currentItem.guide_questions[stepData.inquiryIndex].correct) ? 'fas fa-check' : 'fas fa-times'"></i>
+                                </button>
+                            </div>
+                            <button v-if="stepData.inquiryShowNext" @click="nextGrammarQuestion('inquiry')" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 rounded-xl btn-3d">Next Question <i class="fas fa-arrow-right ml-2"></i></button>
+                        </template>
+                        <div v-else class="text-center py-10">
+                            <div class="text-6xl mb-4">🎉</div><h3 class="text-2xl font-bold text-green-400">Analysis Complete!</h3>
+                        </div>
+                    </div>
+                    
+                    <div v-else>
+                        <div v-if="!currentItem.options || currentItem.options.length === 0" class="text-center py-10">
+                            <i class="fas fa-info-circle text-4xl text-slate-600 mb-4"></i>
+                            <p class="text-slate-400">No question data available for this item.</p>
+                            <p class="text-green-500 mt-2 font-bold">Step Automatically Passed</p>
+                        </div>
+                        <div v-else>
+                            <div class="relative w-full h-56 bg-black rounded-2xl overflow-hidden mb-4 border-2 border-slate-700">
+                                <img :src="getImagePath(currentItem.image_file)" class="w-full h-full object-cover opacity-90">
+                                <button @click="playTTS(currentItem.image_desc_en)" class="btn-3d absolute bottom-3 right-3 bg-indigo-600 text-white w-10 h-10 rounded-full flex items-center justify-center shadow-lg"><i class="fas fa-volume-up"></i></button>
+                            </div>
+                            <div class="bg-slate-800/80 p-4 rounded-xl border border-slate-600 mb-6 text-center">
+                                <p class="text-slate-200 text-lg font-medium italic mb-2">"{{ currentItem.image_desc_en }}"</p>
+                                <p class="text-slate-500 text-sm border-t border-slate-600 pt-2">{{ currentItem.image_desc_cn }}</p>
+                            </div>
+                            <div class="space-y-3">
+                                <button v-for="opt in currentItem.options" @click="handleTask('guess', opt)" class="option-card btn-3d" :class="getOptClass(opt, stepData.guessAnswer, currentItem.correct_answer)"><span>{{ opt }}</span><i v-if="stepData.guessAnswer === opt" :class="opt === currentItem.correct_answer ? 'fas fa-check' : 'fas fa-times'"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div v-if="currentStep === 3" class="w-full h-full overflow-y-auto custom-scrollbar pb-10">
+                    <div v-if="phase === 'grammar'">
+                        <div class="bg-indigo-900/30 p-5 rounded-xl border border-indigo-500/30 mb-4 text-sm leading-relaxed text-slate-200" v-html="currentItem.explanation"></div>
+                    </div>
+                    <div v-else>
+                        <div class="mb-6 text-center border-b border-slate-700 pb-4">
+                            <h2 class="text-4xl font-black text-white mb-2">{{ currentItem.word || currentItem.phrase }}</h2>
+                            <p class="text-2xl text-green-400 font-bold mb-1">{{ currentItem.correct_answer }}</p>
+                        </div>
+                        <div class="bg-indigo-900/30 border border-indigo-500/30 p-4 rounded-xl mb-6">
+                            <h4 class="text-xs font-bold text-indigo-300 uppercase mb-1">Usage</h4>
+                            <p class="text-white text-sm">{{ currentItem.usage }}</p>
+                        </div>
+                        <div class="space-y-4">
+                            <div v-for="(ex, i) in currentItem.examples" :key="i" class="bg-slate-800/60 rounded-xl border border-slate-600 p-4">
+                                <div class="flex items-start gap-3 mb-3">
+                                    <button @click="playTTS(ex.sentence)" class="btn-3d w-10 h-10 rounded-full bg-indigo-600 text-white flex items-center justify-center shrink-0 border-b-4 border-indigo-800"><i class="fas fa-volume-up"></i></button>
+                                    <div class="flex-1">
+                                        <p class="text-lg text-white font-medium">{{ ex.sentence }}</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-3 border-t border-slate-700 pt-2 cursor-pointer hover:bg-slate-700/50 rounded p-1 transition" @click="toggleEx(i)">
+                                    <span class="text-[10px] font-bold bg-slate-700 px-2 rounded text-slate-300">{{ ex.source }}</span>
+                                    <div class="flex-1">
+                                        <p :class="!stepData.exStates[i].showCn ? 'blur-text' : 'clear-text'" class="text-slate-400 text-sm transition font-bold">{{ ex.trans }}</p>
+                                    </div>
+                                    <button class="text-slate-400 hover:text-white"><i :class="stepData.exStates[i].showCn ? 'fas fa-eye-slash' : 'fas fa-eye'"></i></button>
+                                </div>
+                            </div>
+                            <div v-if="!currentItem.examples || currentItem.examples.length === 0" class="text-center text-slate-500 italic">No examples available</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div v-if="currentStep === 4" class="text-center w-full flex flex-col items-center">
+                    <div v-if="phase === 'grammar'" class="w-full">
+                        <template v-if="stepData.quizIndex < currentItem.quiz_questions.length">
+                            <h3 class="text-lg font-bold text-white mb-6">Quiz {{ stepData.quizIndex + 1 }}/5</h3>
+                            <p class="text-slate-300 mb-6 font-bold text-left">{{ currentItem.quiz_questions[stepData.quizIndex].question }}</p>
+                            <div class="space-y-3 mb-6">
+                                <button v-for="opt in currentItem.quiz_questions[stepData.quizIndex].options" @click="handleTask('quiz', opt)" 
+                                    class="option-card btn-3d"
+                                    :class="stepData.quizAnswer === opt ? (checkGrammarCorrect(opt, currentItem.quiz_questions[stepData.quizIndex].correct) ? 'opt-correct' : 'opt-wrong') : ''">
+                                    <span>{{ cleanOption(opt) }}</span>
+                                    <i v-if="stepData.quizAnswer === opt" :class="checkGrammarCorrect(opt, currentItem.quiz_questions[stepData.quizIndex].correct) ? 'fas fa-check' : 'fas fa-times'"></i>
+                                </button>
+                            </div>
+                            <div v-if="stepData.quizShowExplanation" class="mb-4 p-3 bg-slate-800 rounded border border-slate-700 text-sm text-green-300 text-left">{{ currentItem.quiz_questions[stepData.quizIndex].explanation }}</div>
+                            <button v-if="stepData.quizShowNext" @click="nextGrammarQuestion('quiz')" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 rounded-xl btn-3d">Next Question <i class="fas fa-arrow-right ml-2"></i></button>
+                        </template>
+                        <div v-else class="text-center py-10">
+                            <div class="text-6xl mb-4">🏆</div><h3 class="text-2xl font-bold text-green-400">All Correct!</h3>
+                        </div>
+                    </div>
+                    <div v-else class="w-full">
+                        <button @click="playTTS(currentItem.word || currentItem.phrase)" class="mb-8 w-16 h-16 rounded-full bg-indigo-600 text-white text-2xl shadow-lg flex items-center justify-center animate-bounce btn-3d border-b-4 border-indigo-800"><i class="fas fa-volume-up"></i></button>
+                        <div class="flex justify-center gap-2 mb-10 flex-wrap min-h-[60px]">
+                            <template v-for="(char, i) in spellingDisplaySlots" :key="i">
+                                <div v-if="char === 'SPACE'" class="w-6"></div>
+                                <div v-else class="w-12 h-14 bg-slate-800 border-b-4 border-indigo-500 flex items-center justify-center text-2xl font-bold text-white rounded-lg">{{ char || '' }}</div>
+                            </template>
+                        </div>
+                        <div class="flex flex-wrap justify-center gap-2 max-w-lg">
+                            <button v-for="(char, i) in stepData.shuffledLetters" :key="i" @click="handleTask('spell', char, i)" :disabled="stepData.usedIndices.has(i)" class="key-btn btn-3d">{{ char }}</button>
+                        </div>
+                        <button @click="resetSpelling" class="mt-10 px-4 py-2 bg-slate-700 rounded-lg text-slate-300 text-sm btn-3d border-b-4 border-slate-900"><i class="fas fa-undo"></i> Reset</button>
+                    </div>
+                </div>
+
+                <div v-if="currentStep === 5" class="w-full">
+                    <h3 class="text-2xl font-bold text-center mb-8 text-white">{{ currentItem.word || currentItem.phrase }}</h3>
+                    <div v-if="!stepData.meaningOptions || stepData.meaningOptions.length === 0" class="text-center py-10">
+                         <i class="fas fa-check-circle text-4xl text-green-500 mb-4"></i>
+                         <p class="text-slate-400">No definition options available.</p>
+                         <p class="text-green-500 mt-2 font-bold">Step Automatically Passed</p>
+                    </div>
+                    <div v-else class="space-y-3">
+                        <button v-for="opt in stepData.meaningOptions" @click="handleTask('meaning', opt)" class="option-card btn-3d" :class="getOptClass(opt, stepData.meaningAnswer, currentItem.correct_answer)"><span>{{ opt }}</span><i v-if="stepData.meaningAnswer === opt" :class="opt === currentItem.correct_answer ? 'fas fa-check' : 'fas fa-times'"></i></button>
+                    </div>
+                </div>
+
+                <div v-if="currentStep === 6" class="w-full">
+                    <h3 class="text-xl font-bold text-center mb-6 text-indigo-300">Select Correct Context</h3>
+                    
+                    <div v-if="!stepData.contextOptions || stepData.contextOptions.length === 0" class="text-center py-10">
+                        <i class="fas fa-check-circle text-4xl text-green-500 mb-4"></i>
+                        <p class="text-slate-400">No context questions available.</p>
+                        <p class="text-green-500 mt-2 font-bold">Step Automatically Passed</p>
+                    </div>
+                    
+                    <div v-else class="space-y-3">
+                        <button v-for="(q, i) in stepData.contextOptions" :key="i" @click="handleTask('context', q, i)" class="option-card btn-3d flex-col items-start gap-2" :class="getOptClass(i, stepData.contextAnswerIndex, 'correct_index')">
+                            
+                            <span v-if="stepData.contextAnswerIndex === i && q.is_correct" class="text-green-400 font-bold transition-all text-lg border-b-2 border-green-500 pb-1">{{ stepData.contextFullSentence }}</span>
+                            
+                            <span v-else class="text-sm leading-relaxed">{{ q.sentence }}</span>
+                            
+                            <div v-if="stepData.contextAnswerIndex === i" class="w-full text-right mt-1">
+                                <i :class="q.is_correct ? 'fas fa-check text-green-400' : 'fas fa-times text-red-400'"></i>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
+                <div v-if="currentStep === 7" class="text-center w-full">
+                    <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 mb-8">
+                        <p class="text-xl font-serif text-white leading-relaxed mb-4">"{{ getZhongkaoSentence() }}"</p>
+                        <button @click="playTTS(getZhongkaoSentence())" class="btn-3d px-4 py-2 bg-slate-700 rounded-lg text-indigo-400 text-sm font-bold border-b-2 border-slate-900"><i class="fas fa-volume-up mr-1"></i> Listen</button>
+                    </div>
+                    <div class="mb-8">
+                        <div class="flex justify-center gap-3 mb-2">
+                            <div v-for="n in 5" :key="n" class="w-4 h-4 rounded-full transition-all border-2 border-slate-600" :class="n <= stepData.oralCount ? 'bg-green-500 border-green-400' : 'bg-slate-800'"></div>
+                        </div>
+                        <p class="text-slate-400 text-sm font-bold">Progress: {{ stepData.oralCount }} / 5</p>
+                    </div>
+                    <button @click="toggleRec(getZhongkaoSentence(), updateOralCount)" 
+                        :class="isRecording ? 'bg-red-500 border-red-400 pulse-mic text-white' : (stepData.oralCount >= 5 ? 'bg-green-600 border-green-500' : 'bg-indigo-600 border-indigo-500')" 
+                        class="btn-3d w-24 h-24 rounded-full border-b-4 flex items-center justify-center text-4xl text-white shadow-xl mx-auto">
+                        <i :class="isRecording ? 'fas fa-stop' : (stepData.oralCount >= 5 ? 'fas fa-check' : 'fas fa-microphone')"></i>
+                    </button>
+                    <p class="mt-4 font-bold" :class="isRecording ? 'text-red-400' : 'text-slate-500'">{{ isRecording ? 'Recording... Tap to Stop' : (stepData.lastOralScore ? `Last Score: ${stepData.lastOralScore}` : 'Read Aloud') }}</p>
+                </div>
+
+            </div>
+        </div>
+
+        <div v-else-if="phase === 'end'" class="w-full max-w-md text-center mt-20">
+            <h2 class="text-4xl font-black text-white mb-6">Mission Complete!</h2>
+            <button @click="clearSave" class="btn-3d bg-indigo-600 border-indigo-500 border-b-4 text-white px-8 py-4 rounded-xl font-bold">Restart</button>
+        </div>
+
+    </main>
+
+    <footer v-if="!['login', 'end'].includes(phase)" class="bottom-nav">
+        <button @click="prevStep" v-if="canGoBack" class="nav-btn btn-prev btn-3d">
+            <i class="fas fa-arrow-left"></i> Prev
+        </button>
+        <button @click="nextStep" :disabled="!canProceed" class="nav-btn btn-next btn-3d" :class="canProceed ? 'btn-active' : 'btn-locked'">
+            <span v-if="!canProceed" class="flex items-center gap-2 text-sm"><i class="fas fa-lock"></i> {{ getLockReason() }}</span>
+            <span v-else>Next Step <i class="fas fa-arrow-right"></i></span>
+        </button>
+    </footer>
+
+</div>
+
+<script>
+const COURSE_DATA_INJECTED = {
+  "vocabulary": [
+    {
+      "id": 1,
+      "word": "staple",
+      "phonetic": "/ˈsteɪpəl/",
+      "definition_cn": "主食；主要产品",
+      "definition_en": "A basic or essential food item that is eaten regularly.",
+      "usage": "通常用作名词，描述饮食中的主要组成部分。也可用作形容词，如 'staple food'。作为名词，常与 'a' 或 'the' 连用。\nIt is commonly used as a noun to describe a main component of a diet. It can also be used as an adjective, e.g., 'staple food'. As a noun, it is often used with 'a' or 'the'.",
+      "image_prompt": "A professional chef in a bright kitchen holding up a loaf of bread and a bowl of rice, with various other common food items like potatoes and pasta arranged neatly on a wooden countertop.",
+      "image_desc_en": "A person in a kitchen is holding common foods that are eaten every day.",
+      "image_desc_cn": "一个人在厨房里拿着每天都会吃的常见食物。",
+      "examples": [
+        {
+          "sentence": "Around the world, eggs have been a breakfast staple for all good reasons.",
+          "trans": "在世界各地，鸡蛋一直是早餐的主食，这是有充分理由的。",
+          "source": "Article"
+        },
+        {
+          "sentence": "Rice is a staple in the diet of many Asian countries.",
+          "trans": "大米是许多亚洲国家饮食中的主食。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "主食；主要产品",
+      "options": [
+        "主食；主要产品",
+        "装饰品；点缀",
+        "调味品；香料",
+        "零食；小吃"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "Bread and potatoes are considered a ____ in many Western diets.",
+          "is_correct": true
+        },
+        {
+          "sentence": "The artist used a bright red ____ to finish the painting.",
+          "is_correct": false
+        },
+        {
+          "sentence": "She solved the complex math problem with a single ____.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_1_staple.png",
+      "scrambled_letters": [
+        "e",
+        "r",
+        "a",
+        "p",
+        "l",
+        "o",
+        "t",
+        "z",
+        "s",
+        "l",
+        "t"
+      ]
+    },
+    {
+      "id": 2,
+      "word": "storehouse",
+      "phonetic": "/ˈstɔːrhaʊs/",
+      "definition_cn": "仓库；宝库",
+      "definition_en": "A place where things are stored; a rich source or supply of something.",
+      "usage": "名词。常用于比喻意义，表示 '富含...的地方' 或 '...的宝库'。后面常接 'of' 来引出具体内容。\nNoun. Often used figuratively to mean 'a rich source of something'. Often followed by 'of' to introduce the specific content.",
+      "image_prompt": "A large, organized warehouse interior with tall shelves filled with boxes and crates, with a person in work clothes using a clipboard to check inventory under bright industrial lighting.",
+      "image_desc_en": "A large building is filled with many items neatly placed on shelves.",
+      "image_desc_cn": "一栋大型建筑里，许多物品整齐地摆放在架子上。",
+      "examples": [
+        {
+          "sentence": "After all, an egg is a storehouse of vital nutrients.",
+          "trans": "毕竟，鸡蛋是重要营养物质的宝库。",
+          "source": "Article"
+        },
+        {
+          "sentence": "The library is a storehouse of knowledge and history.",
+          "trans": "这座图书馆是知识和历史的宝库。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "仓库；宝库",
+      "options": [
+        "仓库；宝库",
+        "商店；零售店",
+        "工厂；制造厂",
+        "花园；种植园"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "The ancient temple was a ____ of priceless artifacts.",
+          "is_correct": true
+        },
+        {
+          "sentence": "He drove the ____ to deliver the package across town.",
+          "is_correct": false
+        },
+        {
+          "sentence": "The weather forecast predicted a sunny ____ for the picnic.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_2_storehouse.png",
+      "scrambled_letters": [
+        "m",
+        "p",
+        "h",
+        "q",
+        "s",
+        "t",
+        "u",
+        "s",
+        "s",
+        "k",
+        "r",
+        "o",
+        "e",
+        "o",
+        "e"
+      ]
+    },
+    {
+      "id": 3,
+      "word": "vital",
+      "phonetic": "/ˈvaɪtl/",
+      "definition_cn": "至关重要的；维持生命所必需的",
+      "definition_en": "Absolutely necessary or important; essential to life.",
+      "usage": "形容词。用于描述极其重要、必不可少的事物。常作定语修饰名词，如 'vital nutrients', 'vital role'。\nAdjective. Used to describe something extremely important or essential. Often used attributively to modify nouns, e.g., 'vital nutrients', 'vital role'.",
+      "image_prompt": "A detailed diagram of a human heart with arteries and veins highlighted in red and blue, placed next to a glass of clean water and a plate of fresh vegetables, symbolizing essential elements for life.",
+      "image_desc_en": "A medical diagram shows an organ that is necessary for a body to function.",
+      "image_desc_cn": "一张医学图表展示了一个身体运转所必需的器官。",
+      "examples": [
+        {
+          "sentence": "After all, an egg is a storehouse of vital nutrients.",
+          "trans": "毕竟，鸡蛋是重要营养物质的宝库。",
+          "source": "Article"
+        },
+        {
+          "sentence": "Water is vital for all living things on Earth.",
+          "trans": "水对地球上所有生物都至关重要。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "至关重要的；维持生命所必需的",
+      "options": [
+        "至关重要的；维持生命所必需的",
+        "有趣的；好玩的",
+        "普通的；常见的",
+        "危险的；有害的"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "Getting enough sleep is ____ for good health and concentration.",
+          "is_correct": true
+        },
+        {
+          "sentence": "The movie was so ____ that everyone laughed throughout.",
+          "is_correct": false
+        },
+        {
+          "sentence": "She wore a ____ dress to the casual party.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_3_vital.png",
+      "scrambled_letters": [
+        "u",
+        "i",
+        "v",
+        "a",
+        "i",
+        "l",
+        "j",
+        "p",
+        "t",
+        "t"
+      ]
+    },
+    {
+      "id": 4,
+      "word": "consumption",
+      "phonetic": "/kənˈsʌmpʃn/",
+      "definition_cn": "消费；消耗；食用",
+      "definition_en": "The using up of a resource; the act of eating or drinking.",
+      "usage": "名词。指消耗、使用或食用的行为或过程。常与 'energy', 'food', 'fuel' 等词搭配。'Smart consumption' 指明智的消费/食用。\nNoun. Refers to the act or process of using up, utilizing, or eating/drinking. Often collocates with words like 'energy', 'food', 'fuel'. 'Smart consumption' means wise use or eating.",
+      "image_prompt": "A graph on a tablet screen showing a downward trend in household electricity usage over a year, with a person in office attire pointing to the data during a presentation.",
+      "image_desc_en": "A person is looking at data that shows how much of something has been used over time.",
+      "image_desc_cn": "一个人正在查看显示某物随时间消耗了多少的数据。",
+      "examples": [
+        {
+          "sentence": "Hence, smart consumption is a far healthier option.",
+          "trans": "因此，明智的食用是健康得多的选择。",
+          "source": "Article"
+        },
+        {
+          "sentence": "The government encourages the reduction of plastic consumption to protect the environment.",
+          "trans": "政府鼓励减少塑料消费以保护环境。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "消费；消耗；食用",
+      "options": [
+        "消费；消耗；食用",
+        "生产；制造",
+        "储存；保存",
+        "浪费；丢弃"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "The new policy aims to reduce the ____ of single-use plastics.",
+          "is_correct": true
+        },
+        {
+          "sentence": "The factory increased its ____ of new smartphones last quarter.",
+          "is_correct": false
+        },
+        {
+          "sentence": "Her careful ____ of the old letters preserved them for decades.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_4_consumption.png",
+      "scrambled_letters": [
+        "m",
+        "j",
+        "s",
+        "o",
+        "j",
+        "n",
+        "p",
+        "n",
+        "g",
+        "c",
+        "u",
+        "t",
+        "i",
+        "s",
+        "o",
+        "r"
+      ]
+    },
+    {
+      "id": 5,
+      "word": "protein",
+      "phonetic": "/ˈprəʊtiːn/",
+      "definition_cn": "蛋白质",
+      "definition_en": "A nutrient found in food that is necessary for the body to grow and repair tissues.",
+      "usage": "名词。一种重要的宏量营养素。常与 'source of', 'rich in', 'high in' 等短语搭配。是不可数名词。\nNoun. An important macronutrient. Often collocates with phrases like 'source of', 'rich in', 'high in'. It is an uncountable noun.",
+      "image_prompt": "A close-up photo of a grilled chicken breast, a bowl of lentils, and a few boiled eggs on a white plate, with a molecular structure diagram of protein in the background.",
+      "image_desc_en": "Several types of food are shown that help build and repair the body.",
+      "image_desc_cn": "展示了有助于构建和修复身体的几种食物。",
+      "examples": [
+        {
+          "sentence": "Eggs are a well-known rich source of protein—an important building block of bones, muscles, skin, and blood.",
+          "trans": "鸡蛋是众所周知的丰富蛋白质来源——它是骨骼、肌肉、皮肤和血液的重要组成部分。",
+          "source": "Article"
+        },
+        {
+          "sentence": "Athletes often need to eat more food containing protein to help their muscles recover.",
+          "trans": "运动员通常需要吃更多含蛋白质的食物来帮助肌肉恢复。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "蛋白质",
+      "options": [
+        "蛋白质",
+        "碳水化合物",
+        "维生素",
+        "脂肪"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "Fish and beans are excellent sources of dietary ____.",
+          "is_correct": true
+        },
+        {
+          "sentence": "The car engine needs a special type of ____ to run smoothly.",
+          "is_correct": false
+        },
+        {
+          "sentence": "She added a blue ____ to the paint to change its color.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_5_protein.png",
+      "scrambled_letters": [
+        "i",
+        "j",
+        "r",
+        "l",
+        "t",
+        "o",
+        "e",
+        "d",
+        "x",
+        "e",
+        "p",
+        "n"
+      ]
+    },
+    {
+      "id": 6,
+      "word": "tissues",
+      "phonetic": "/ˈtɪʃuːz/",
+      "definition_cn": "组织；纸巾",
+      "definition_en": "Groups of cells in a living organism that have a similar structure and function; also refers to thin paper for wiping.",
+      "usage": "名词（复数）。在生物语境下指身体的'组织'，如肌肉组织。作为'纸巾'时是可数名词。在本文中是第一个意思。\nNoun (plural). In biological context, refers to 'tissues' of the body, e.g., muscle tissue. As 'paper for wiping', it is a countable noun. In this text, it is the first meaning.",
+      "image_prompt": "A detailed, colorful scientific illustration showing different types of body tissues like muscle, nerve, and connective tissue under a microscope view, with labels.",
+      "image_desc_en": "A scientific image shows the different layers and structures that make up parts of a body.",
+      "image_desc_cn": "一张科学图像展示了构成身体部位的不同层次和结构。",
+      "examples": [
+        {
+          "sentence": "Our body relies on protein to build and repair tissues.",
+          "trans": "我们的身体依靠蛋白质来构建和修复组织。",
+          "source": "Article"
+        },
+        {
+          "sentence": "Doctors study how diseases affect different tissues in the human body.",
+          "trans": "医生研究疾病如何影响人体内的不同组织。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "组织",
+      "options": [
+        "组织",
+        "器官",
+        "细胞",
+        "系统"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "The skin is the largest organ, made up of several layers of ____.",
+          "is_correct": true
+        },
+        {
+          "sentence": "He wrote his phone number on a soft ____ and gave it to her.",
+          "is_correct": false
+        },
+        {
+          "sentence": "The company announced a major ____ in its management structure.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_6_tissues.png",
+      "scrambled_letters": [
+        "t",
+        "b",
+        "s",
+        "u",
+        "k",
+        "w",
+        "u",
+        "s",
+        "s",
+        "i",
+        "e",
+        "w"
+      ]
+    },
+    {
+      "id": 7,
+      "word": "carbohydrates",
+      "phonetic": "/ˌkɑːrbəʊˈhaɪdreɪts/",
+      "definition_cn": "碳水化合物",
+      "definition_en": "Nutrients found in foods like bread and rice that provide the body with energy.",
+      "usage": "名词（通常用复数）。一类为身体提供能量的宏量营养素。常与 'intake of', 'high in', 'low in' 搭配。\nNoun (usually plural). A type of macronutrient that provides energy for the body. Often collocates with 'intake of', 'high in', 'low in'.",
+      "image_prompt": "A wooden board holding a slice of whole-grain bread, a bowl of brown rice, and a pile of pasta, with a small sign showing the chemical formula for a carbohydrate.",
+      "image_desc_en": "Foods like bread and pasta are displayed, which are the body's main source of energy.",
+      "image_desc_cn": "展示了面包和意大利面等食物，它们是身体的主要能量来源。",
+      "examples": [
+        {
+          "sentence": "Unfortunately, unlike fat and carbohydrates, the body does not store protein.",
+          "trans": "不幸的是，与脂肪和碳水化合物不同，身体不储存蛋白质。",
+          "source": "Article"
+        },
+        {
+          "sentence": "Eating too many simple carbohydrates, like sugar, can be unhealthy.",
+          "trans": "摄入过多的简单碳水化合物，比如糖，可能不健康。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "碳水化合物",
+      "options": [
+        "碳水化合物",
+        "蛋白质",
+        "矿物质",
+        "纤维素"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "Foods like potatoes and oats are rich in complex ____.",
+          "is_correct": true
+        },
+        {
+          "sentence": "The mechanic checked the car's ____ for any leaks.",
+          "is_correct": false
+        },
+        {
+          "sentence": "She studied the ancient ____ to understand the civilization's writing.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_7_carbohydrates.png",
+      "scrambled_letters": [
+        "c",
+        "r",
+        "s",
+        "o",
+        "b",
+        "y",
+        "g",
+        "e",
+        "h",
+        "r",
+        "y",
+        "f",
+        "t",
+        "a",
+        "s",
+        "r",
+        "a",
+        "d"
+      ]
+    },
+    {
+      "id": 8,
+      "word": "reservoir",
+      "phonetic": "/ˈrezərvwɑːr/",
+      "definition_cn": "水库；蓄水池；储备",
+      "definition_en": "A large natural or artificial lake used as a source of water supply; a supply or store of something.",
+      "usage": "名词。本文中用作比喻义，指'储备库'。常与 'of' 连用，表示'...的储备'。\nNoun. Used figuratively in this text to mean 'a reserve or store'. Often followed by 'of' to mean 'a store of something'.",
+      "image_prompt": "A vast, serene artificial lake surrounded by forests and hills, with a large dam structure at one end, under a clear blue sky.",
+      "image_desc_en": "A large body of water is held behind a structure, storing it for future use.",
+      "image_desc_cn": "一大片水体被拦在一个结构后面储存起来，以备将来使用。",
+      "examples": [
+        {
+          "sentence": "...the body does not store protein, and therefore has no reservoir to draw on when it needs a new supply.",
+          "trans": "...身体不储存蛋白质，因此当需要新的供应时，没有储备库可以提取。",
+          "source": "Article"
+        },
+        {
+          "sentence": "The library acts as a reservoir of knowledge for the entire community.",
+          "trans": "这座图书馆充当了整个社区的知识宝库。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "水库；蓄水池；储备",
+      "options": [
+        "水库；蓄水池；储备",
+        "河流；小溪",
+        "海洋；大海",
+        "池塘；水坑"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "The country has built a large ____ to ensure a stable water supply during dry seasons.",
+          "is_correct": true
+        },
+        {
+          "sentence": "He sailed his small boat across the calm ____ of the park.",
+          "is_correct": false
+        },
+        {
+          "sentence": "The singer's voice filled the entire concert ____.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_8_reservoir.png",
+      "scrambled_letters": [
+        "l",
+        "r",
+        "z",
+        "v",
+        "f",
+        "e",
+        "o",
+        "r",
+        "i",
+        "i",
+        "r",
+        "e",
+        "s",
+        "x"
+      ]
+    },
+    {
+      "id": 9,
+      "word": "intake",
+      "phonetic": "/ˈɪnteɪk/",
+      "definition_cn": "摄入量；吸入",
+      "definition_en": "The amount of food, drink, or air that is taken into the body.",
+      "usage": "名词。通常指摄入、吸入的量。常与 'reduce', 'increase', 'daily' 等词搭配。'Intake of' 后接摄入物的名称。\nNoun. Usually refers to the amount taken in. Often collocates with words like 'reduce', 'increase', 'daily'. 'Intake of' is followed by the name of what is taken in.",
+      "image_prompt": "A nutritionist's desk with a digital food scale, a notepad tracking daily calories and nutrients, and a plate with measured portions of vegetables and chicken.",
+      "image_desc_en": "A professional is measuring and recording the amount of food on a plate.",
+      "image_desc_cn": "一位专业人士正在测量和记录盘子里的食物量。",
+      "examples": [
+        {
+          "sentence": "Thus, eggs are the perfect sources and a smart food choice for those who reduce their intake of carbohydrates to lose extra weight.",
+          "trans": "因此，对于那些为了减掉额外体重而减少碳水化合物摄入量的人来说，鸡蛋是完美的来源和明智的食物选择。",
+          "source": "Article"
+        },
+        {
+          "sentence": "Doctors advise increasing your daily intake of fruits and vegetables.",
+          "trans": "医生建议增加每日水果和蔬菜的摄入量。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "摄入量；吸入",
+      "options": [
+        "摄入量；吸入",
+        "输出量；排出",
+        "生产量；制造",
+        "消耗量；花费"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "Monitoring your daily calorie ____ is important for weight management.",
+          "is_correct": true
+        },
+        {
+          "sentence": "The factory's ____ of finished products reached a record high.",
+          "is_correct": false
+        },
+        {
+          "sentence": "The book's ____ was its fascinating plot and characters.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_9_intake.png",
+      "scrambled_letters": [
+        "t",
+        "w",
+        "n",
+        "z",
+        "v",
+        "t",
+        "e",
+        "i",
+        "a",
+        "k",
+        "u"
+      ]
+    },
+    {
+      "id": 10,
+      "word": "abundantly",
+      "phonetic": "/əˈbʌndəntli/",
+      "definition_cn": "丰富地；大量地",
+      "definition_en": "In large quantities; plentifully.",
+      "usage": "副词。修饰动词，表示某事以大量或丰富的方式存在或发生。常与 'found', 'available', 'clear' 等词连用。\nAdverb. Modifies a verb, indicating that something exists or happens in large quantities or plentifully. Often used with words like 'found', 'available', 'clear'.",
+      "image_prompt": "A sunlit farmer's market stall overflowing with piles of colorful fruits like oranges, apples, and grapes, and baskets full of fresh vegetables.",
+      "image_desc_en": "A market stall is filled with a very large amount of fresh produce.",
+      "image_desc_cn": "一个市场摊位堆满了大量的新鲜农产品。",
+      "examples": [
+        {
+          "sentence": "Another important nutrient that is found abundantly in egg white is riboflavin.",
+          "trans": "另一种在蛋清中大量存在的重要营养素是核黄素。",
+          "source": "Article"
+        },
+        {
+          "sentence": "Sunshine is abundantly available in tropical regions throughout the year.",
+          "trans": "阳光在热带地区全年都非常充足。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "丰富地；大量地",
+      "options": [
+        "丰富地；大量地",
+        "稀少地；缺乏地",
+        "缓慢地；逐渐地",
+        "快速地；迅速地"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "Natural resources like coal were once thought to exist ____.",
+          "is_correct": true
+        },
+        {
+          "sentence": "She ____ accepted the job offer without hesitation.",
+          "is_correct": false
+        },
+        {
+          "sentence": "The instructions were written ____, making them easy to follow.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_10_abundantly.png",
+      "scrambled_letters": [
+        "u",
+        "n",
+        "a",
+        "x",
+        "a",
+        "g",
+        "z",
+        "y",
+        "b",
+        "d",
+        "n",
+        "n",
+        "l",
+        "t",
+        "d"
+      ]
+    },
+    {
+      "id": 11,
+      "word": "riboflavin",
+      "phonetic": "/ˌraɪbəʊˈfleɪvɪn/",
+      "definition_cn": "核黄素（维生素B2）",
+      "definition_en": "Vitamin B2, which is important for growth, red blood cell production, and releasing energy from food.",
+      "usage": "名词。一种具体的维生素名称。专业术语，通常出现在营养学语境中。是不可数名词。\nNoun. The name of a specific vitamin. A technical term, usually appears in nutritional contexts. It is an uncountable noun.",
+      "image_prompt": "A molecular model of Riboflavin (Vitamin B2) with its distinctive structure, placed next to foods rich in it like almonds, spinach, and yogurt, on a laboratory bench.",
+      "image_desc_en": "A scientific model and some foods are shown, representing a specific type of vitamin.",
+      "image_desc_cn": "展示了一个科学模型和一些食物，代表一种特定类型的维生素。",
+      "examples": [
+        {
+          "sentence": "Another important nutrient that is found abundantly in egg white is riboflavin.",
+          "trans": "另一种在蛋清中大量存在的重要营养素是核黄素。",
+          "source": "Article"
+        },
+        {
+          "sentence": "Milk and green leafy vegetables are good sources of riboflavin.",
+          "trans": "牛奶和绿叶蔬菜是核黄素的良好来源。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "核黄素（维生素B2）",
+      "options": [
+        "核黄素（维生素B2）",
+        "维生素C",
+        "维生素D",
+        "维生素K"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "____, also known as Vitamin B2, helps convert food into energy.",
+          "is_correct": true
+        },
+        {
+          "sentence": "The artist mixed blue and yellow to create a bright ____.",
+          "is_correct": false
+        },
+        {
+          "sentence": "The ancient city was protected by a strong stone ____.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_11_riboflavin.png",
+      "scrambled_letters": [
+        "o",
+        "i",
+        "n",
+        "v",
+        "f",
+        "b",
+        "l",
+        "n",
+        "a",
+        "r",
+        "h",
+        "n",
+        "b",
+        "i",
+        "a"
+      ]
+    },
+    {
+      "id": 12,
+      "word": "soluble",
+      "phonetic": "/ˈsɒljəbl/",
+      "definition_cn": "可溶的；可解决的",
+      "definition_en": "Able to be dissolved in a liquid; able to be solved.",
+      "usage": "形容词。在科学（尤指化学和营养学）中常指物质'可溶解的'。常构成复合词，如 'water-soluble'（水溶性的）。作'可解决的'解时较正式。\nAdjective. In science (especially chemistry and nutrition), it often means a substance is 'able to dissolve'. Often forms compound words, e.g., 'water-soluble'. The meaning 'able to be solved' is more formal.",
+      "image_prompt": "A close-up shot of white sugar crystals dissolving and swirling in a glass of clear water, with a spoon stirring, against a plain background.",
+      "image_desc_en": "A white substance is disappearing as it mixes into a clear liquid.",
+      "image_desc_cn": "一种白色物质在混入透明液体时逐渐消失。",
+      "examples": [
+        {
+          "sentence": "Riboflavin is a water-soluble vitamin.",
+          "trans": "核黄素是一种水溶性维生素。",
+          "source": "Article"
+        },
+        {
+          "sentence": "Salt is soluble in water, but sand is not.",
+          "trans": "盐可溶于水，但沙子不行。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "可溶的",
+      "options": [
+        "可溶的",
+        "固体的",
+        "气体的",
+        "易燃的"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "This powder is completely ____ in hot water, making it easy to drink.",
+          "is_correct": true
+        },
+        {
+          "sentence": "The mystery novel presented a seemingly ____ crime.",
+          "is_correct": false
+        },
+        {
+          "sentence": "The bridge was built with incredibly ____ materials.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_12_soluble.png",
+      "scrambled_letters": [
+        "s",
+        "s",
+        "t",
+        "e",
+        "u",
+        "l",
+        "b",
+        "o",
+        "e",
+        "d",
+        "l",
+        "n"
+      ]
+    },
+    {
+      "id": 13,
+      "word": "yolk",
+      "phonetic": "/jəʊk/",
+      "definition_cn": "蛋黄",
+      "definition_en": "The yellow central part of an egg.",
+      "usage": "名词。指鸡蛋的黄色部分。'Egg yolk' 是完整说法，但常单独使用 'yolk'。与 'white'（蛋清）相对。\nNoun. Refers to the yellow part of an egg. 'Egg yolk' is the full term, but 'yolk' is often used alone. Contrasts with 'white' (egg white).",
+      "image_prompt": "A cracked open egg on a dark surface, showing the bright yellow, round yolk perfectly intact and surrounded by the clear egg white.",
+      "image_desc_en": "The yellow, round part inside a broken egg is shown clearly.",
+      "image_desc_cn": "清晰地展示了打碎的鸡蛋里面黄色圆形的部分。",
+      "examples": [
+        {
+          "sentence": "The yolk, which many people avoid out of fear, is actually very healthy.",
+          "trans": "蛋黄，许多人出于恐惧而避免食用，实际上非常健康。",
+          "source": "Article"
+        },
+        {
+          "sentence": "Some recipes, like mayonnaise, require only the yolk of the egg.",
+          "trans": "有些食谱，比如蛋黄酱，只需要鸡蛋的蛋黄。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "蛋黄",
+      "options": [
+        "蛋黄",
+        "蛋清",
+        "蛋壳",
+        "胚胎"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "For a richer flavor, the chef used only the ____ in the custard.",
+          "is_correct": true
+        },
+        {
+          "sentence": "The bird built its nest with soft grass and ____.",
+          "is_correct": false
+        },
+        {
+          "sentence": "He polished the car until its ____ shone brightly.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_13_yolk.png",
+      "scrambled_letters": [
+        "d",
+        "k",
+        "v",
+        "y",
+        "p",
+        "o",
+        "j",
+        "t",
+        "l"
+      ]
+    },
+    {
+      "id": 14,
+      "word": "moderation",
+      "phonetic": "/ˌmɒdəˈreɪʃn/",
+      "definition_cn": "适度；节制",
+      "definition_en": "The quality of doing something within reasonable limits; not too much or too little.",
+      "usage": "名词。指避免极端，保持适中。常用短语 'in moderation'，意为'适度地'。\nNoun. Refers to avoiding extremes, keeping to a reasonable degree. Common phrase 'in moderation', meaning 'to a reasonable degree'. ",
+      "image_prompt": "A balanced scale with a single cookie on one plate and a bunch of carrots on the other, symbolizing balance in diet, on a neutral background.",
+      "image_desc_en": "A scale is balanced, showing that not too much of one thing is being used.",
+      "image_desc_cn": "一个天平保持平衡，显示没有过度使用某物。",
+      "examples": [
+        {
+          "sentence": "The yolk... is actually very healthy, if consumed in moderation.",
+          "trans": "蛋黄...如果适量食用，实际上非常健康。",
+          "source": "Article"
+        },
+        {
+          "sentence": "Enjoying sweets in moderation is part of a balanced lifestyle.",
+          "trans": "适度享用甜食是均衡生活方式的一部分。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "适度；节制",
+      "options": [
+        "适度；节制",
+        "过度；过量",
+        "缺乏；不足",
+        "禁止；杜绝"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "The key to a healthy diet is balance and ____.",
+          "is_correct": true
+        },
+        {
+          "sentence": "The weather showed a significant ____ in temperature overnight.",
+          "is_correct": false
+        },
+        {
+          "sentence": "The artist's latest work was a ____ of classical styles.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_14_moderation.png",
+      "scrambled_letters": [
+        "i",
+        "e",
+        "e",
+        "j",
+        "i",
+        "w",
+        "n",
+        "o",
+        "d",
+        "a",
+        "t",
+        "r",
+        "g",
+        "m",
+        "o"
+      ]
+    },
+    {
+      "id": 15,
+      "word": "cholesterol",
+      "phonetic": "/kəˈlestərɒl/",
+      "definition_cn": "胆固醇",
+      "definition_en": "A fatty substance found in the blood and cells of the body; too much can cause health problems.",
+      "usage": "名词。一种脂类物质。常与 'high', 'low', 'level' 等词搭配。谈论其含量时是不可数名词。\nNoun. A type of fatty substance. Often collocates with words like 'high', 'low', 'level'. It is an uncountable noun when talking about its amount.",
+      "image_prompt": "A medical infographic showing a comparison between healthy blood vessels and ones narrowed by plaque buildup, with icons of healthy and unhealthy foods nearby.",
+      "image_desc_en": "A medical diagram compares two states of blood flow inside a body.",
+      "image_desc_cn": "一张医学图表比较了体内血液流动的两种状态。",
+      "examples": [
+        {
+          "sentence": "Mainly made up of fat, there are only 1.33 grams of cholesterol per 100 grams of yolk.",
+          "trans": "蛋黄主要由脂肪构成，每100克蛋黄中只有1.33克胆固醇。",
+          "source": "Article"
+        },
+        {
+          "sentence": "Regular exercise can help lower bad cholesterol levels in the blood.",
+          "trans": "定期锻炼有助于降低血液中的坏胆固醇水平。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "胆固醇",
+      "options": [
+        "胆固醇",
+        "血糖",
+        "血压",
+        "尿酸"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "Doctors often check a person's ____ levels during a routine health exam.",
+          "is_correct": true
+        },
+        {
+          "sentence": "The engineer calculated the bridge's weight ____ carefully.",
+          "is_correct": false
+        },
+        {
+          "sentence": "The museum displayed a rare ____ from an ancient civilization.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_15_cholesterol.png",
+      "scrambled_letters": [
+        "t",
+        "s",
+        "o",
+        "t",
+        "l",
+        "w",
+        "u",
+        "r",
+        "e",
+        "o",
+        "c",
+        "h",
+        "l",
+        "q",
+        "e",
+        "u"
+      ]
+    },
+    {
+      "id": 16,
+      "word": "phosphorus",
+      "phonetic": "/ˈfɒsfərəs/",
+      "definition_cn": "磷",
+      "definition_en": "A chemical element that is important for bones, teeth, and energy transfer in the body.",
+      "usage": "名词。一种化学元素/矿物质。专业术语，通常出现在科学或营养学语境中。是不可数名词。\nNoun. A chemical element/mineral. A technical term, usually appears in scientific or nutritional contexts. It is an uncountable noun.",
+      "image_prompt": "A sample of red phosphorus in a clear glass vial on a periodic table backdrop, with a diagram of a bone structure and a lightning bolt symbolizing energy nearby.",
+      "image_desc_en": "A chemical element sample is shown, which is important for strong bones and energy.",
+      "image_desc_cn": "展示了一种化学元素样品，它对强健骨骼和能量很重要。",
+      "examples": [
+        {
+          "sentence": "In addition, the yolk is a rich source of vitamin A, B vitamins, calcium, phosphorus and iron.",
+          "trans": "此外，蛋黄富含维生素A、B族维生素、钙、磷和铁。",
+          "source": "Article"
+        },
+        {
+          "sentence": "Foods like fish, nuts, and beans contain phosphorus.",
+          "trans": "鱼类、坚果和豆类等食物含有磷。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "磷",
+      "options": [
+        "磷",
+        "钙",
+        "铁",
+        "锌"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "____ is a mineral that works with calcium to build strong bones.",
+          "is_correct": true
+        },
+        {
+          "sentence": "The gardener added ____ to the soil to help the plants grow.",
+          "is_correct": false
+        },
+        {
+          "sentence": "The detective followed every ____ to solve the case.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_16_phosphorus.png",
+      "scrambled_letters": [
+        "p",
+        "h",
+        "p",
+        "z",
+        "m",
+        "o",
+        "l",
+        "s",
+        "o",
+        "u",
+        "r",
+        "i",
+        "e",
+        "s",
+        "h"
+      ]
+    },
+    {
+      "id": 17,
+      "word": "incidentally",
+      "phonetic": "/ˌɪnsɪˈdentli/",
+      "definition_cn": "顺便提一句；附带地",
+      "definition_en": "Used to add a piece of information that is not the main subject of discussion.",
+      "usage": "副词。用于引入一个相关但非主要话题的附加信息，相当于中文的'顺便说一句'。通常用于口语和书面语中，使表达更自然。\nAdverb. Used to introduce an additional piece of information that is related but not the main topic, equivalent to 'by the way'. Often used in both spoken and written language to make expression more natural.",
+      "image_prompt": "Two business professionals having a conversation in a modern office lounge. One person is gesturing as if adding an afterthought or side note to the main discussion.",
+      "image_desc_en": "One person is speaking and seems to be adding a minor point to the main topic of conversation.",
+      "image_desc_cn": "一个人正在说话，似乎是在主要话题上补充一个次要的点。",
+      "examples": [
+        {
+          "sentence": "Incidentally, the iron found in the yolk is easily digested in the body.",
+          "trans": "顺便提一句，蛋黄中的铁很容易在体内被消化。",
+          "source": "Article"
+        },
+        {
+          "sentence": "The meeting is at 3 PM. Incidentally, don't forget to bring the report.",
+          "trans": "会议在下午三点。顺便提一句，别忘了带报告。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "顺便提一句；附带地",
+      "options": [
+        "顺便提一句；附带地",
+        "主要地；重要地",
+        "故意地；有意地",
+        "偶然地；意外地"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "The main reason is cost. ____, we should also consider the environmental impact.",
+          "is_correct": true
+        },
+        {
+          "sentence": "She ____ won the lottery on her first try.",
+          "is_correct": false
+        },
+        {
+          "sentence": "He worked ____ to finish the project before the deadline.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_17_incidentally.png",
+      "scrambled_letters": [
+        "y",
+        "t",
+        "i",
+        "e",
+        "c",
+        "a",
+        "r",
+        "l",
+        "o",
+        "d",
+        "l",
+        "f",
+        "n",
+        "a",
+        "i",
+        "s",
+        "n"
+      ]
+    },
+    {
+      "id": 18,
+      "word": "digested",
+      "phonetic": "/daɪˈdʒestɪd/",
+      "image_file": "vocab_18_digested.png",
+      "scrambled_letters": [
+        "x",
+        "t",
+        "i",
+        "g",
+        "s",
+        "p",
+        "d",
+        "e",
+        "c",
+        "d",
+        "g",
+        "j",
+        "e"
+      ]
+    }
+  ],
+  "collocations": [
+    {
+      "id": 1,
+      "phrase": "storehouse of",
+      "definition_cn": "最常见的含义：仓库，储藏处。文章中的含义：富含（营养）的宝库。",
+      "definition_en": "Most common meaning: a place where things are stored. Meaning in context: a rich source or repository of something (nutrients).",
+      "usage": "中文：名词短语，通常后接'of'引出储藏的内容。用于比喻某物富含大量特定物质或品质。英文：Noun phrase, typically followed by 'of' to introduce the contents. Used metaphorically to indicate a rich source of something.",
+      "image_prompt": "A professional nutritionist standing in a modern kitchen, pointing to a large, transparent glass jar filled with colorful vitamins and mineral symbols, with a label 'Nutrients' on it. The jar sits on a counter next to fresh vegetables.",
+      "image_desc_en": "A person is indicating a large container filled with symbols representing essential health components.",
+      "image_desc_cn": "一个人正在指示一个装满代表基本健康成分符号的大容器。",
+      "examples": [
+        {
+          "sentence": "After all, an egg is a storehouse of vital nutrients.",
+          "trans": "毕竟，鸡蛋是重要营养素的宝库。",
+          "source": "Article"
+        },
+        {
+          "sentence": "Spinach is considered a storehouse of iron and other minerals.",
+          "trans": "菠菜被认为是铁和其他矿物质的宝库。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "宝库；富含...的储藏处",
+      "options": [
+        "商店",
+        "房子",
+        "工厂",
+        "宝库；富含...的储藏处"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "The library is a ___ knowledge from all over the world.",
+          "is_correct": true
+        },
+        {
+          "sentence": "He went to the ___ to buy some groceries.",
+          "is_correct": false
+        },
+        {
+          "sentence": "The old ___ was demolished to build a new park.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "colloc_1_storehouse_of.png",
+      "scrambled_letters": [
+        "u",
+        "r",
+        "e",
+        "o",
+        "e",
+        "h",
+        "d",
+        "s",
+        "o",
+        "u",
+        "x",
+        "t",
+        "o",
+        "m",
+        "s",
+        "f",
+        "q"
+      ]
+    },
+    {
+      "id": 2,
+      "phrase": "essential part of",
+      "definition_cn": "最常见的含义：必不可少的部分。文章中的含义：（健康饮食中）必需的部分。",
+      "definition_en": "Most common meaning: a necessary or fundamental component. Meaning in context: a necessary component of (a healthy diet).",
+      "usage": "中文：形容词+名词短语。'essential'是形容词，修饰'part'。后面用'of'连接所属的整体。英文：Adjective + noun phrase. 'Essential' is an adjective modifying 'part'. Followed by 'of' to connect to the whole.",
+      "image_prompt": "A chef in a professional kitchen is assembling a colorful salad, carefully placing a boiled egg in the center as a key ingredient, surrounded by lettuce, tomatoes, and cucumbers.",
+      "image_desc_en": "A cook is adding a specific food item to a meal, highlighting its importance in the dish.",
+      "image_desc_cn": "一位厨师正在向一餐中添加一种特定的食物，突出它在菜肴中的重要性。",
+      "examples": [
+        {
+          "sentence": "...making it an essential part of a healthy diet.",
+          "trans": "...使其成为健康饮食中必不可少的一部分。",
+          "source": "Article"
+        },
+        {
+          "sentence": "Regular exercise is an essential part of staying fit.",
+          "trans": "定期锻炼是保持健康的必不可少的一部分。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "必不可少的一部分",
+      "options": [
+        "额外部分",
+        "装饰部分",
+        "可选部分",
+        "必不可少的一部分"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "Drinking water is an ___ a healthy lifestyle.",
+          "is_correct": true
+        },
+        {
+          "sentence": "The ___ of the book was missing, so I couldn't finish the story.",
+          "is_correct": false
+        },
+        {
+          "sentence": "She bought an ___ dress for the party.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "colloc_2_essential_part_of.png",
+      "scrambled_letters": [
+        "n",
+        "a",
+        "a",
+        "e",
+        "i",
+        "p",
+        "v",
+        "f",
+        "t",
+        "r",
+        "e",
+        "w",
+        "t",
+        "t",
+        "l",
+        "q",
+        "g",
+        "o",
+        "s",
+        "s"
+      ]
+    },
+    {
+      "id": 3,
+      "phrase": "far healthier",
+      "definition_cn": "最常见的含义：健康得多。'far'用于强调比较级。文章中的含义：（比另一种选择）健康得多的选择。",
+      "definition_en": "Most common meaning: much more healthy. 'Far' is used to emphasize the comparative degree. Meaning in context: a much healthier option (compared to another).",
+      "usage": "中文：'far' + 形容词比较级。用于强调程度，表示'...得多'。英文：'far' + comparative adjective. Used to emphasize degree, meaning 'much more...'.",
+      "image_prompt": "A side-by-side comparison image: On the left, a person looks tired holding a sugary drink. On the right, the same person looks energetic holding a glass of water and a fresh apple. A large green checkmark is over the right side.",
+      "image_desc_en": "Two contrasting scenes show a person's state with different choices, one clearly better than the other.",
+      "image_desc_cn": "两个对比场景展示了一个人在不同选择下的状态，其中一个明显优于另一个。",
+      "examples": [
+        {
+          "sentence": "Hence, smart consumption is a far healthier option.",
+          "trans": "因此，明智的食用是健康得多的选择。",
+          "source": "Article"
+        },
+        {
+          "sentence": "Walking to school is far healthier than taking the car every day.",
+          "trans": "步行上学比每天坐车健康得多。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "健康得多",
+      "options": [
+        "有点健康",
+        "同样健康",
+        "不太健康",
+        "健康得多"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "Eating homemade food is ___ than eating fast food regularly.",
+          "is_correct": true
+        },
+        {
+          "sentence": "The park is not ___ from my house; it's just around the corner.",
+          "is_correct": false
+        },
+        {
+          "sentence": "He can see ___ objects with his new glasses.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "colloc_3_far_healthier.png",
+      "scrambled_letters": [
+        "r",
+        "e",
+        "l",
+        "f",
+        "c",
+        "v",
+        "r",
+        "h",
+        "v",
+        "t",
+        "i",
+        "f",
+        "e",
+        "a",
+        "a",
+        "h",
+        "b"
+      ]
+    },
+    {
+      "id": 4,
+      "phrase": "rich source of",
+      "definition_cn": "最常见的含义：丰富的来源。文章中的含义：（蛋白质等营养素的）丰富来源。",
+      "definition_en": "Most common meaning: an abundant or plentiful source. Meaning in context: an abundant source of (nutrients like protein).",
+      "usage": "中文：形容词+名词+介词短语。'rich'修饰'source'。后面用'of'引出具体是什么的来源。英文：Adjective + noun + prepositional phrase. 'Rich' modifies 'source'. Followed by 'of' to introduce what it is a source of.",
+      "image_prompt": "A close-up of a textbook page with a diagram titled 'Protein Sources'. An arrow points from a photo of eggs to a list that highlights 'Eggs' as a top entry, with other sources like beans and fish listed below.",
+      "image_desc_en": "A visual guide identifies a particular food as a top provider of a specific nutrient.",
+      "image_desc_cn": "一个视觉指南将一种特定食物标识为某种营养素的主要提供者。",
+      "examples": [
+        {
+          "sentence": "Eggs are a well-known rich source of protein...",
+          "trans": "鸡蛋是众所周知的蛋白质的丰富来源...",
+          "source": "Article"
+        },
+        {
+          "sentence": "Oranges are a rich source of vitamin C.",
+          "trans": "橙子是维生素C的丰富来源。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "丰富的来源",
+      "options": [
+        "贫穷的源头",
+        "微量的来源",
+        "唯一的来源",
+        "丰富的来源"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "Salmon is a ___ omega-3 fatty acids.",
+          "is_correct": true
+        },
+        {
+          "sentence": "The ___ of the river was polluted by the factory.",
+          "is_correct": false
+        },
+        {
+          "sentence": "She comes from a ___ family and can afford many things.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "colloc_4_rich_source_of.png",
+      "scrambled_letters": [
+        "w",
+        "o",
+        "v",
+        "i",
+        "c",
+        "h",
+        "e",
+        "u",
+        "e",
+        "x",
+        "o",
+        "c",
+        "u",
+        "r",
+        "s",
+        "f",
+        "r"
+      ]
+    },
+    {
+      "id": 5,
+      "phrase": "building block of",
+      "definition_cn": "最常见的含义：基本组成部分，基石。文章中的含义：（骨骼、肌肉等的）基本构成成分。",
+      "definition_en": "Most common meaning: a basic component or fundamental unit. Meaning in context: a fundamental component that (bones, muscles, etc.) are made from.",
+      "usage": "中文：名词短语，通常后接'of'。用于比喻构成复杂事物的基本单元。英文：Noun phrase, typically followed by 'of'. Used metaphorically for a fundamental unit that makes up something complex.",
+      "image_prompt": "A 3D anatomical model of a human arm showing muscles and bones. Next to it, magnified diagrams show protein molecules linking together like bricks to form the structures of muscle and bone tissue.",
+      "image_desc_en": "A scientific display shows how tiny units come together to form larger, complex structures in the body.",
+      "image_desc_cn": "一个科学展示展示了微小的单元如何组合形成身体中更大、更复杂的结构。",
+      "examples": [
+        {
+          "sentence": "...protein—an important building block of bones, muscles, skin, and blood.",
+          "trans": "...蛋白质——是骨骼、肌肉、皮肤和血液的重要基本组成部分。",
+          "source": "Article"
+        },
+        {
+          "sentence": "Cells are the building blocks of all living things.",
+          "trans": "细胞是所有生物的基本组成部分。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "基本组成部分；基石",
+      "options": [
+        "障碍物",
+        "装饰品",
+        "最终产品",
+        "基本组成部分；基石"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "Trust is a fundamental ___ any strong relationship.",
+          "is_correct": true
+        },
+        {
+          "sentence": "The children played with colorful ___ on the floor.",
+          "is_correct": false
+        },
+        {
+          "sentence": "There was a ___ in the road that caused a traffic jam.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "colloc_5_building_block_of.png",
+      "scrambled_letters": [
+        "c",
+        "c",
+        "l",
+        "n",
+        "k",
+        "f",
+        "b",
+        "c",
+        "l",
+        "g",
+        "o",
+        "d",
+        "i",
+        "b",
+        "i",
+        "t",
+        "o",
+        "p",
+        "a",
+        "u"
+      ]
+    },
+    {
+      "id": 6,
+      "phrase": "relies on",
+      "definition_cn": "最常见的含义：依赖，依靠。文章中的含义：（身体）依赖（蛋白质来建设和修复组织）。",
+      "definition_en": "Most common meaning: depends on, counts on. Meaning in context: (the body) depends on (protein to build and repair tissues).",
+      "usage": "中文：动词短语。'relies'是不及物动词，后接介词'on'，再接依赖的对象。英文：Phrasal verb. 'Relies' is an intransitive verb, followed by the preposition 'on', then the object of dependence.",
+      "image_prompt": "A detailed cross-section illustration of a human body repairing a small cut on the skin. Arrows point to the wound site, showing protein molecules (depicted as small tools) actively mending the tissue.",
+      "image_desc_en": "A biological process is visually explained, showing how the body uses specific components for repair and maintenance.",
+      "image_desc_cn": "一个生物学过程被可视化解释，展示了身体如何使用特定成分进行修复和维护。",
+      "examples": [
+        {
+          "sentence": "Our body relies on protein to build and repair tissues...",
+          "trans": "我们的身体依赖蛋白质来建设和修复组织...",
+          "source": "Article"
+        },
+        {
+          "sentence": "Modern society relies heavily on the internet for communication.",
+          "trans": "现代社会在沟通方面严重依赖互联网。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "依赖，依靠",
+      "options": [
+        "忽视",
+        "创造",
+        "怀疑",
+        "依赖，依靠"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "The success of the project ___ the teamwork of everyone involved.",
+          "is_correct": true
+        },
+        {
+          "sentence": "She ___ the map to find her way to the museum.",
+          "is_correct": false
+        },
+        {
+          "sentence": "He decided to ___ his old car and buy a new one.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "colloc_6_relies_on.png",
+      "scrambled_letters": [
+        "s",
+        "e",
+        "e",
+        "x",
+        "o",
+        "r",
+        "i",
+        "w",
+        "c",
+        "n",
+        "r",
+        "m",
+        "l"
+      ]
+    },
+    {
+      "id": 7,
+      "phrase": "draw on",
+      "definition_cn": "最常见的含义：利用，动用（资源、储备）。文章中的含义：（当需要新供应时）从储备中获取。",
+      "definition_en": "Most common meaning: to make use of a resource or supply. Meaning in context: to take from a reserve or supply (when a new supply is needed).",
+      "usage": "中文：动词短语。'draw'在此为动词，后接介词'on'，表示从某处获取。英文：Phrasal verb. 'Draw' is a verb here, followed by the preposition 'on', indicating taking from a source.",
+      "image_prompt": "A graph on a tablet screen shows a 'Protein Reserve' tank almost empty. A hand with a stylus points to a red 'Low' warning, indicating no reserves are available to take from.",
+      "image_desc_en": "A data visualization indicates a depleted resource with no available backup supply to use.",
+      "image_desc_cn": "一个数据可视化显示了一种耗尽的资源，没有可用的备用供应。",
+      "examples": [
+        {
+          "sentence": "...the body does not store protein, and therefore has no reservoir to draw on when it needs a new supply.",
+          "trans": "...身体不储存蛋白质，因此当需要新的供应时，没有储备可以动用。",
+          "source": "Article"
+        },
+        {
+          "sentence": "Writers often draw on their personal experiences for inspiration.",
+          "trans": "作家经常利用他们的个人经历来获取灵感。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "利用，动用（资源）",
+      "options": [
+        "绘画",
+        "拉上",
+        "推开",
+        "利用，动用（资源）"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "In an emergency, we may need to ___ our savings.",
+          "is_correct": true
+        },
+        {
+          "sentence": "The artist will ___ a beautiful landscape this afternoon.",
+          "is_correct": false
+        },
+        {
+          "sentence": "Please ___ the curtains to let in more light.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "colloc_7_draw_on.png",
+      "scrambled_letters": [
+        "f",
+        "m",
+        "w",
+        "o",
+        "a",
+        "d",
+        "s",
+        "n",
+        "w",
+        "c",
+        "r"
+      ]
+    },
+    {
+      "id": 8,
+      "phrase": "smart choice",
+      "definition_cn": "最常见的含义：明智的选择。文章中的含义：明智的食物选择。",
+      "definition_en": "Most common meaning: a wise or intelligent selection. Meaning in context: a wise food selection.",
+      "usage": "中文：形容词+名词短语。'smart'在此意为'聪明的、明智的'，修饰'choice'。英文：Adjective + noun phrase. 'Smart' here means 'intelligent, wise', modifying 'choice'.",
+      "image_prompt": "A person in casual professional attire stands in a supermarket aisle, holding a carton of eggs in one hand and a bag of chips in the other. They are looking thoughtfully at the eggs, which have a subtle glow, while putting the chips back on the shelf.",
+      "image_desc_en": "A shopper is comparing two food items in a store, deciding to select the more nutritious one.",
+      "image_desc_cn": "一位购物者正在商店里比较两种食品，决定选择更有营养的一种。",
+      "examples": [
+        {
+          "sentence": "Thus, eggs are the perfect sources and a smart food choice for those who reduce their intake of carbohydrates to lose extra weight.",
+          "trans": "因此，对于那些减少碳水化合物摄入以减掉额外体重的人来说，鸡蛋是完美的来源和明智的食物选择。",
+          "source": "Article"
+        },
+        {
+          "sentence": "Bringing an umbrella today was a smart choice because it's raining now.",
+          "trans": "今天带伞是个明智的选择，因为现在下雨了。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "明智的选择",
+      "options": [
+        "困难的选择",
+        "随意的选择",
+        "错误的选择",
+        "明智的选择"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "Saving money every month is a ___ for future needs.",
+          "is_correct": true
+        },
+        {
+          "sentence": "She made a ___ guess and won the prize.",
+          "is_correct": false
+        },
+        {
+          "sentence": "He is a ___ student who always gets good grades.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "colloc_8_smart_choice.png",
+      "scrambled_letters": [
+        "a",
+        "i",
+        "t",
+        "h",
+        "o",
+        "e",
+        "a",
+        "e",
+        "c",
+        "n",
+        "s",
+        "b",
+        "r",
+        "q",
+        "m",
+        "c"
+      ]
+    },
+    {
+      "id": 9,
+      "phrase": "in moderation",
+      "definition_cn": "最常见的含义：适度地，有节制地。文章中的含义：如果适量食用的话。",
+      "definition_en": "Most common meaning: within reasonable limits; not excessively. Meaning in context: if consumed within reasonable limits.",
+      "usage": "中文：介词短语，作状语。通常放在句末或所修饰的动词后面，表示动作的方式。英文：Prepositional phrase, functioning as an adverbial. Usually placed at the end of a sentence or after the verb it modifies, indicating the manner of an action.",
+      "image_prompt": "A chef's hand using a measuring spoon to scoop a single, perfect portion of dark chocolate chips onto a small bowl of yogurt, with a whole chocolate bar lying untouched in the background.",
+      "image_desc_en": "A careful measurement is being taken to add a small, controlled amount of a potentially rich food to a meal.",
+      "image_desc_cn": "正在仔细测量，将少量受控的潜在高热量食物添加到一餐中。",
+      "examples": [
+        {
+          "sentence": "The yolk, which many people avoid out of fear, is actually very healthy, if consumed in moderation.",
+          "trans": "蛋黄，许多人出于恐惧而避免食用，如果适量食用的话，实际上非常健康。",
+          "source": "Article"
+        },
+        {
+          "sentence": "It's okay to eat sweets, but only in moderation.",
+          "trans": "吃甜食是可以的，但只能适量。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "适度地，有节制地",
+      "options": [
+        "大量地",
+        "偶尔地",
+        "从不",
+        "适度地，有节制地"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "Sunlight is good for you, but you should enjoy it ___.",
+          "is_correct": true
+        },
+        {
+          "sentence": "The teacher spoke with great ___ during the lecture.",
+          "is_correct": false
+        },
+        {
+          "sentence": "We need to find a ___ solution to this problem.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "colloc_9_in_moderation.png",
+      "scrambled_letters": [
+        "o",
+        "t",
+        "o",
+        "i",
+        "z",
+        "d",
+        "i",
+        "e",
+        "n",
+        "a",
+        "o",
+        "t",
+        "m",
+        "n",
+        "r",
+        "k",
+        "d"
+      ]
+    },
+    {
+      "id": 10,
+      "phrase": "according to",
+      "definition_cn": "最常见的含义：根据，按照。文章中的含义：根据营养专家的说法。",
+      "definition_en": "Most common meaning: as stated by or in agreement with. Meaning in context: as stated by nutrition experts.",
+      "usage": "中文：介词短语。后接名词、代词或名词性短语，表示信息的来源或依据。英文：Prepositional phrase. Followed by a noun, pronoun, or noun phrase, indicating the source or basis of information.",
+      "image_prompt": "A professional-looking infographic poster on a wall titled 'Daily Egg Intake Guide'. It features a photo of a nutritionist in a lab coat pointing to a recommendation that says '1 whole egg per day is safe'. A person is reading the poster attentively.",
+      "image_desc_en": "A person is reading official guidelines presented by an expert in a visual format.",
+      "image_desc_cn": "一个人正在阅读由专家以视觉形式呈现的官方指南。",
+      "examples": [
+        {
+          "sentence": "According to nutrition experts, people can eat one whole egg every day without harming their cholesterol and blood fat levels.",
+          "trans": "根据营养专家的说法，人们可以每天吃一个完整的鸡蛋而不会损害他们的胆固醇和血脂水平。",
+          "source": "Article"
+        },
+        {
+          "sentence": "According to the weather forecast, it will be sunny tomorrow.",
+          "trans": "根据天气预报，明天将是晴天。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "根据，按照",
+      "options": [
+        "反对",
+        "关于",
+        "除了",
+        "根据，按照"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "___ the schedule, the meeting starts at 3 PM.",
+          "is_correct": true
+        },
+        {
+          "sentence": "He ran ___ catch the bus before it left.",
+          "is_correct": false
+        },
+        {
+          "sentence": "I agree with you ___ that point.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "colloc_10_according_to.png",
+      "scrambled_letters": [
+        "g",
+        "b",
+        "a",
+        "i",
+        "u",
+        "n",
+        "r",
+        "q",
+        "o",
+        "c",
+        "d",
+        "c",
+        "b",
+        "t",
+        "o",
+        "t"
+      ]
+    }
+  ],
+  "grammar": [
+    {
+      "id": 1,
+      "title": "Present Perfect Tense / 现在完成时",
+      "source_sentence": "Around the world, eggs have been a breakfast staple for all good reasons.",
+      "source_sentence_cn": "在世界各地，鸡蛋一直是有充分理由的早餐主食。",
+      "explanation": "<p><b>English:</b> The Present Perfect Tense is formed with <b>have/has + past participle</b>. It is used to talk about actions or states that started in the past and continue to the present, or actions that happened at an unspecified time in the past with a present result or relevance. In this sentence, 'have been' indicates that eggs have been a staple from the past up to now.</p><p><b>中文:</b> 现在完成时的结构是 <b>have/has + 过去分词</b>。它用于谈论从过去开始并持续到现在的动作或状态，或者发生在过去某个不具体时间但对现在有影响或相关性的动作。在这个句子中，'have been' 表示鸡蛋从过去到现在一直是一种主食。</p>",
+      "zhongkao_tips": "<p><b>English:</b> Pay attention to time markers like 'for', 'since', 'already', 'yet', 'ever', 'never', 'just', 'recently', 'lately'. They often signal the use of Present Perfect. Also, remember the past participle forms of irregular verbs (e.g., been, eaten, seen).</p><p><b>中文:</b> 注意时间标志词，如 'for'、'since'、'already'、'yet'、'ever'、'never'、'just'、'recently'、'lately'。它们常提示使用现在完成时。同时，记住不规则动词的过去分词形式（例如：been, eaten, seen）。</p>",
+      "guide_questions": [
+        {
+          "question": "What is the verb tense used in the sentence 'Around the world, eggs have been a breakfast staple'? / 句子 'Around the world, eggs have been a breakfast staple' 中使用了什么动词时态？",
+          "options": [
+            "A. Simple Past",
+            "B. Present Perfect",
+            "C. Present Continuous",
+            "D. Future Simple"
+          ],
+          "correct": "B",
+          "hint": "Look for the structure 'have/has + past participle'. / 寻找 'have/has + 过去分词' 的结构。"
+        },
+        {
+          "question": "What does the Present Perfect tense in this sentence emphasize? / 这个句子中的现在完成时强调什么？",
+          "options": [
+            "A. A specific past time",
+            "B. An action happening right now",
+            "C. A past action with present relevance",
+            "D. A future plan"
+          ],
+          "correct": "C",
+          "hint": "It talks about a situation that started in the past and is still true. / 它谈论一个从过去开始并且现在仍然真实的情况。"
+        },
+        {
+          "question": "Which word is the past participle in the verb phrase? / 动词短语中哪个词是过去分词？",
+          "options": [
+            "A. have",
+            "B. been",
+            "C. a",
+            "D. staple"
+          ],
+          "correct": "B",
+          "hint": "It's the word after 'have'. / 它是 'have' 后面的词。"
+        }
+      ],
+      "examples": [
+        {
+          "en": "She has lived in Beijing for ten years.",
+          "cn": "她在北京已经住了十年了。"
+        },
+        {
+          "en": "I have already finished my homework.",
+          "cn": "我已经完成了我的作业。"
+        }
+      ],
+      "quiz_questions": [
+        {
+          "type": "choice",
+          "question": "Which sentence uses the Present Perfect tense correctly?",
+          "options": [
+            "A. He goes to school yesterday.",
+            "B. They have visited the museum last week.",
+            "C. She has known him since childhood.",
+            "D. We are eating breakfast now."
+          ],
+          "correct": "C",
+          "explanation": "Option C uses 'has known' (has + past participle) with 'since', which is correct for Present Perfect. A uses Simple Past. B uses Present Perfect with a specific past time ('last week'), which is incorrect. D uses Present Continuous."
+        },
+        {
+          "type": "truefalse",
+          "question": "The sentence 'I have seen that movie' implies I know when exactly I saw it.",
+          "options": [
+            "True",
+            "False"
+          ],
+          "correct": "False",
+          "explanation": "The Present Perfect 'have seen' emphasizes the experience or result, not the specific time. If the exact time were important, we would use Simple Past (e.g., 'I saw that movie last Friday')."
+        },
+        {
+          "type": "choice",
+          "question": "What is the correct Present Perfect form of the verb 'eat' for 'He'?",
+          "options": [
+            "A. He have eat",
+            "B. He has ate",
+            "C. He has eaten",
+            "D. He is eating"
+          ],
+          "correct": "C",
+          "explanation": "The correct form is 'has eaten' (has + past participle 'eaten'). 'Eat' is an irregular verb; its past participle is 'eaten'."
+        },
+        {
+          "type": "truefalse",
+          "question": "The phrase 'for all good reasons' in the source sentence is a typical time expression used with the Present Perfect tense.",
+          "options": [
+            "True",
+            "False"
+          ],
+          "correct": "False",
+          "explanation": "'For all good reasons' explains 'why', not 'how long'. It is not a time expression like 'for five years' or 'since 2020' that commonly pairs with Present Perfect to indicate duration."
+        },
+        {
+          "type": "choice",
+          "question": "Which time adverbial is NOT typically used with the Present Perfect tense?",
+          "options": [
+            "A. yet",
+            "B. already",
+            "C. yesterday",
+            "D. recently"
+          ],
+          "correct": "C",
+          "explanation": "'Yesterday' refers to a finished past time and is used with the Simple Past tense. 'Yet', 'already', and 'recently' are commonly used with the Present Perfect."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Gerund as Subject / 动名词作主语",
+      "source_sentence": "smart consumption is a far healthier option.",
+      "source_sentence_cn": "明智的食用是健康得多的选择。",
+      "explanation": "<p><b>English:</b> A gerund is the '-ing' form of a verb used as a noun. Here, the gerund phrase 'smart consumption' (where 'consumption' is a noun derived from the verb 'consume') acts as the subject of the sentence. It functions as a single entity performing the action of the verb 'is'.</p><p><b>中文:</b> 动名词是动词的 '-ing' 形式，用作名词。在这里，动名词短语 'smart consumption'（其中 'consumption' 是由动词 'consume' 派生出的名词）充当句子的主语。它作为一个单一的实体，执行动词 'is' 的动作。</p>",
+      "zhongkao_tips": "<p><b>English:</b> Remember that when a gerund (or gerund phrase) is the subject, the verb must be singular (e.g., is, was, makes). Do not confuse it with the Present Continuous tense, where 'be + V-ing' is the main verb. Here, the '-ing' word is the subject itself.</p><p><b>中文:</b> 记住当动名词（或动名词短语）作主语时，谓语动词必须用单数形式（例如：is, was, makes）。不要将其与现在进行时混淆，现在进行时中 'be + V-ing' 是主要动词。而这里，'-ing' 词本身就是主语。</p>",
+      "guide_questions": [
+        {
+          "question": "What is the subject of the verb 'is' in the sentence? / 这个句子中动词 'is' 的主语是什么？",
+          "options": [
+            "A. healthier",
+            "B. option",
+            "C. smart consumption",
+            "D. a far"
+          ],
+          "correct": "C",
+          "hint": "Ask: What 'is a far healthier option'? / 问：什么 '是健康得多的选择'？"
+        },
+        {
+          "question": "What part of speech is the word 'consumption' functioning as in this subject? / 在这个主语中，'consumption' 这个词充当什么词性？",
+          "options": [
+            "A. Verb",
+            "B. Adjective",
+            "C. Noun",
+            "D. Adverb"
+          ],
+          "correct": "C",
+          "hint": "It names an activity or concept. / 它命名一种活动或概念。"
+        },
+        {
+          "question": "Is the verb 'is' singular or plural? Why? / 动词 'is' 是单数还是复数？为什么？",
+          "options": [
+            "A. Singular, because the subject is an uncountable concept.",
+            "B. Plural, because 'consumption' can be many things.",
+            "C. Singular, but it's irregular.",
+            "D. It depends on the context."
+          ],
+          "correct": "A",
+          "hint": "The subject 'smart consumption' is treated as a single idea. / 主语 'smart consumption' 被视为一个单一的概念。"
+        }
+      ],
+      "examples": [
+        {
+          "en": "Swimming is good for your health.",
+          "cn": "游泳对健康有益。"
+        },
+        {
+          "en": "Learning English takes time and practice.",
+          "cn": "学习英语需要时间和练习。"
+        }
+      ],
+      "quiz_questions": [
+        {
+          "type": "choice",
+          "question": "Which sentence correctly uses a gerund as the subject?",
+          "options": [
+            "A. She enjoying reading books.",
+            "B. To read books is fun.",
+            "C. Reading books is fun.",
+            "D. Is reading books fun?"
+          ],
+          "correct": "C",
+          "explanation": "Option C uses 'Reading books' (gerund phrase) as the subject, followed by the singular verb 'is'. A is grammatically incorrect. B uses an infinitive as subject, which is less common in everyday English. D is a question, not a statement showing the subject."
+        },
+        {
+          "type": "truefalse",
+          "question": "In the sentence 'My favorite activity is playing basketball', 'playing basketball' is a gerund phrase used as the subject.",
+          "options": [
+            "True",
+            "False"
+          ],
+          "correct": "False",
+          "explanation": "In this sentence, 'My favorite activity' is the subject. 'Playing basketball' is a gerund phrase, but it is used as the subject complement (after the linking verb 'is'), not as the subject itself."
+        },
+        {
+          "type": "choice",
+          "question": "What should the verb be if the subject is 'Eating fruits and vegetables'?",
+          "options": [
+            "A. are",
+            "B. is",
+            "C. were",
+            "D. be"
+          ],
+          "correct": "B",
+          "explanation": "A gerund phrase like 'Eating fruits and vegetables' is considered singular, so it takes a singular verb like 'is' or 'was'."
+        },
+        {
+          "type": "truefalse",
+          "question": "The word 'consumption' in the source sentence is a gerund.",
+          "options": [
+            "True",
+            "False"
+          ],
+          "correct": "False",
+          "explanation": "'Consumption' is a noun, not a gerund. Gerunds are the '-ing' form of verbs (e.g., consuming, eating). 'Consumption' is the noun form derived from the verb 'consume'."
+        },
+        {
+          "type": "choice",
+          "question": "Which of the following is a gerund?",
+          "options": [
+            "A. consumption",
+            "B. consumer",
+            "C. consuming",
+            "D. consumable"
+          ],
+          "correct": "C",
+          "explanation": "'Consuming' is the '-ing' form of the verb 'consume' and can function as a gerund (a noun). A is a noun. B is a noun (person). D is an adjective."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Modal Verb for Advice / 表示建议的情态动词",
+      "source_sentence": "Hence, smart consumption is a far healthier option.",
+      "source_sentence_cn": "因此，明智的食用是健康得多的选择。",
+      "explanation": "<p><b>English:</b> The sentence uses the structure 'is a healthier option' to imply strong advice or recommendation. While not using a direct modal verb like 'should', the comparative 'healthier' and the word 'option' within the factual statement strongly suggest what one <b>ought to</b> do. It presents a logical conclusion ('Hence') that leads to a recommended course of action.</p><p><b>中文:</b> 这个句子使用结构 'is a healthier option' 来暗示强烈的建议或推荐。虽然没有直接使用像 'should' 这样的情态动词，但比较级 'healthier' 和 'option' 这个词在这个事实陈述中强烈暗示了人们<b>应该</b>做什么。它提出了一个导致建议行动方案的逻辑结论（'Hence'）。</p>",
+      "zhongkao_tips": "<p><b>English:</b> Advice can be given directly with modals (should, ought to, had better) or indirectly through comparative structures, imperative tones, or factual statements that highlight a better choice. Pay attention to words like 'hence', 'therefore', 'so', which often introduce a concluding piece of advice.</p><p><b>中文:</b> 建议可以直接用情态动词（should, ought to, had better）给出，也可以通过比较结构、祈使语气或强调更好选择的事实陈述间接给出。注意像 'hence'、'therefore'、'so' 这样的词，它们常引出结论性的建议。</p>",
+      "guide_questions": [
+        {
+          "question": "What word signals that a conclusion or advice is coming? / 哪个词预示着结论或建议即将出现？",
+          "options": [
+            "A. smart",
+            "B. Hence",
+            "C. healthier",
+            "D. option"
+          ],
+          "correct": "B",
+          "hint": "It's a transitional word at the beginning of the sentence. / 它是句首的一个过渡词。"
+        },
+        {
+          "question": "Does the sentence directly tell you 'You should consume smartly'? / 这个句子直接告诉你 '你应该明智地食用' 吗？",
+          "options": [
+            "A. Yes, it uses the word 'should'.",
+            "B. No, it states a fact that implies advice.",
+            "C. Yes, it's a command.",
+            "D. No, it's just a description."
+          ],
+          "correct": "B",
+          "hint": "It says what 'is' healthier, suggesting what you should choose. / 它说什么 '是' 更健康的，暗示你应该选择什么。"
+        },
+        {
+          "question": "Which part of the sentence makes it sound like advice? / 句子的哪个部分让它听起来像建议？",
+          "options": [
+            "A. 'smart consumption'",
+            "B. 'is a far healthier option'",
+            "C. the whole sentence",
+            "D. It doesn't sound like advice."
+          ],
+          "correct": "B",
+          "hint": "It compares and presents one choice as superior. / 它进行了比较，并将一个选择呈现为更优的。"
+        }
+      ],
+      "examples": [
+        {
+          "en": "You should drink more water every day.",
+          "cn": "你应该每天多喝水。"
+        },
+        {
+          "en": "A balanced diet is the best choice for your health.",
+          "cn": "均衡饮食是对你健康的最佳选择。"
+        }
+      ],
+      "quiz_questions": [
+        {
+          "type": "choice",
+          "question": "Which modal verb is MOST commonly used to give advice?",
+          "options": [
+            "A. can",
+            "B. must",
+            "C. should",
+            "D. will"
+          ],
+          "correct": "C",
+          "explanation": "'Should' is the most common and direct modal verb for giving advice or making recommendations. 'Must' is for strong obligation. 'Can' is for ability or permission. 'Will' is for future."
+        },
+        {
+          "type": "truefalse",
+          "question": "The sentence 'It's raining. You had better take an umbrella.' gives advice using a modal verb.",
+          "options": [
+            "True",
+            "False"
+          ],
+          "correct": "True",
+          "explanation": "'Had better' is a modal-like expression used to give strong advice or a warning about the immediate future."
+        },
+        {
+          "type": "choice",
+          "question": "Which sentence gives advice INDIRECTLY?",
+          "options": [
+            "A. Stop eating junk food!",
+            "B. You ought to exercise regularly.",
+            "C. Walking for 30 minutes daily improves heart health.",
+            "D. Could you please pass the salt?"
+          ],
+          "correct": "C",
+          "explanation": "Option C states a factual benefit, implying the advice to walk daily. A is a direct command. B uses 'ought to', a direct modal for advice. D is a polite request."
+        },
+        {
+          "type": "truefalse",
+          "question": "The word 'Hence' at the beginning of the source sentence is optional and doesn't affect the meaning of advice.",
+          "options": [
+            "True",
+            "False"
+          ],
+          "correct": "False",
+          "explanation": "'Hence' is crucial. It means 'for this reason' and connects the previous facts (calories, fat content) to the logical advice that follows ('smart consumption is... healthier'). It strengthens the advisory tone."
+        },
+        {
+          "type": "choice",
+          "question": "What is the function of the comparative adjective 'healthier' in the advice?",
+          "options": [
+            "A. To describe a past action.",
+            "B. To show a choice is better than others.",
+            "C. To indicate a future possibility.",
+            "D. To ask a question."
+          ],
+          "correct": "B",
+          "explanation": "Comparative adjectives like 'healthier' are often used in advice to show that one option is superior to others, guiding the listener towards that choice."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Relative Clause (Non-defining) / 非限制性定语从句",
+      "source_sentence": "The yolk, which many people avoid out of fear, is actually very healthy, if consumed in moderation.",
+      "source_sentence_cn": "蛋黄，许多人出于恐惧而避免食用，实际上如果适量食用是非常健康的。",
+      "explanation": "<p><b>English:</b> A non-defining relative clause adds extra, non-essential information about a noun. It is separated by commas. The clause 'which many people avoid out of fear' gives additional information about 'the yolk'. If we remove this clause, the core meaning of the sentence ('The yolk is actually very healthy') remains clear. 'Which' refers to 'the yolk'.</p><p><b>中文:</b> 非限制性定语从句添加关于名词的额外的、非必要的信息。它用逗号隔开。从句 'which many people avoid out of fear' 提供了关于 'the yolk' 的额外信息。如果我们去掉这个从句，句子的核心意思（'蛋黄实际上是非常健康的'）仍然清晰。'Which' 指代 'the yolk'。</p>",
+      "zhongkao_tips": "<p><b>English:</b> Key identifiers: commas before and after the clause. Use 'which' for things, 'who'/'whom' for people. The pronoun cannot be omitted. Remember, it adds extra info, so the sentence should still make sense without it.</p><p><b>中文:</b> 关键标识：从句前后有逗号。用 'which' 指物，'who'/'whom' 指人。代词不能省略。记住，它添加额外信息，所以去掉它句子意思仍然通顺。</p>",
+      "guide_questions": [
+        {
+          "question": "Which part of the sentence is the non-defining relative clause? / 句子的哪个部分是非限制性定语从句？",
+          "options": [
+            "A. The yolk",
+            "B. which many people avoid out of fear",
+            "C. is actually very healthy",
+            "D. if consumed in moderation"
+          ],
+          "correct": "B",
+          "hint": "Look for the part set off by commas that describes 'the yolk'. / 寻找用逗号隔开的、描述 'the yolk' 的部分。"
+        },
+        {
+          "question": "What does the word 'which' refer to in the clause? / 在从句中，'which' 指代什么？",
+          "options": [
+            "A. fear",
+            "B. people",
+            "C. The yolk",
+            "D. moderation"
+          ],
+          "correct": "C",
+          "hint": "Ask: What do many people avoid? / 问：许多人避免什么？"
+        },
+        {
+          "question": "If we remove the clause 'which many people avoid out of fear', is the main message of the sentence lost? / 如果我们去掉从句 'which many people avoid out of fear'，句子的主要信息会丢失吗？",
+          "options": [
+            "A. Yes, we won't know what is healthy.",
+            "B. No, we still know the yolk is healthy.",
+            "C. Yes, we won't know who avoids it.",
+            "D. No, but the sentence becomes incorrect."
+          ],
+          "correct": "B",
+          "hint": "The main sentence is 'The yolk is actually very healthy'. / 主句是 'The yolk is actually very healthy'。"
+        }
+      ],
+      "examples": [
+        {
+          "en": "My brother, who lives in Shanghai, is a doctor.",
+          "cn": "我的哥哥，他住在上海，是一名医生。"
+        },
+        {
+          "en": "Beijing, which is the capital of China, has a long history.",
+          "cn": "北京，它是中国的首都，有着悠久的历史。"
+        }
+      ],
+      "quiz_questions": [
+        {
+          "type": "choice",
+          "question": "Which sentence contains a NON-defining relative clause?",
+          "options": [
+            "A. The book that I borrowed from the library is interesting.",
+            "B. I have a friend who speaks three languages.",
+            "C. Mr. Smith, who teaches us English, is very kind.",
+            "D. The city where I was born is beautiful."
+          ],
+          "correct": "C",
+          "explanation": "Option C has commas and adds extra information about Mr. Smith. A and B use 'that' and 'who' without commas for defining clauses essential to the meaning. D uses 'where' for a defining clause."
+        },
+        {
+          "type": "truefalse",
+          "question": "In a non-defining relative clause, the relative pronoun (which/who) can be omitted.",
+          "options": [
+            "True",
+            "False"
+          ],
+          "correct": "False",
+          "explanation": "In non-defining relative clauses, the relative pronoun (which, who, whom, whose) cannot be omitted. It is necessary to connect the clause to the main sentence."
+        },
+        {
+          "type": "choice",
+          "question": "What punctuation is essential for a non-defining relative clause?",
+          "options": [
+            "A. Period (.)",
+            "B. Question mark (?)",
+            "C. Commas (,)",
+            "D. Exclamation mark (!)"
+          ],
+          "correct": "C",
+          "explanation": "Non-defining relative clauses are always separated from the main clause by commas (or sometimes dashes or parentheses)."
+        },
+        {
+          "type": "truefalse",
+          "question": "The clause 'if consumed in moderation' in the source sentence is also a relative clause.",
+          "options": [
+            "True",
+            "False"
+          ],
+          "correct": "False",
+          "explanation": "'If consumed in moderation' is an adverbial clause of condition, not a relative clause. It tells us under what condition the yolk is healthy."
+        },
+        {
+          "type": "choice",
+          "question": "Which relative pronoun should be used for a non-defining clause about a person?",
+          "options": [
+            "A. which",
+            "B. that",
+            "C. who",
+            "D. what"
+          ],
+          "correct": "C",
+          "explanation": "Use 'who' (or 'whom', 'whose') for people in non-defining clauses. 'Which' is for things. 'That' is not used in non-defining clauses."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Passive Voice (Past Participle as Adjective) / 被动语态（过去分词作形容词）",
+      "source_sentence": "the iron found in the yolk is easily digested in the body.",
+      "source_sentence_cn": "蛋黄中的铁很容易在体内被消化。",
+      "explanation": "<p><b>English:</b> This sentence uses the passive voice in the main clause: 'is... digested'. The structure is <b>be (is) + past participle (digested)</b>. The past participle 'digested' functions as part of the passive verb, describing what happens to the iron. Additionally, the phrase 'found in the yolk' uses the past participle 'found' as an adjective to describe 'the iron' (meaning 'the iron that is found/which can be found').</p><p><b>中文:</b> 这个句子在主句中使用了被动语态：'is... digested'。结构是 <b>be (is) + 过去分词 (digested)</b>。过去分词 'digested' 作为被动动词的一部分，描述铁发生了什么。此外，短语 'found in the yolk' 使用过去分词 'found' 作为形容词来描述 'the iron'（意思是 '被发现在蛋黄中的铁'）。</p>",
+      "zhongkao_tips": "<p><b>English:</b> In passive voice, focus on the action, not who does it. The 'doer' (agent) is often omitted if unknown or unimportant. Past participles can also act as adjectives before nouns (e.g., a broken window) or after linking verbs (e.g., The window is broken). Distinguish between passive voice (emphasizing action) and adjective use (describing state).</p><p><b>中文:</b> 在被动语态中，关注动作本身，而不是谁做的。如果执行者未知或不重要，常被省略。过去分词也可以在名词前作定语（例如：一扇破了的窗户）或在系动词后作表语（例如：窗户破了）。要区分被动语态（强调动作）和形容词用法（描述状态）。</p>",
+      "guide_questions": [
+        {
+          "question": "What is the main verb phrase in the sentence? / 句子中的主要动词短语是什么？",
+          "options": [
+            "A. found in",
+            "B. is easily",
+            "C. is easily digested",
+            "D. in the body"
+          ],
+          "correct": "C",
+          "hint": "It tells what happens to the iron. / 它告诉我们铁发生了什么。"
+        },
+        {
+          "question": "Is the subject ('the iron') doing the action or receiving the action? / 主语（'the iron'）是执行动作还是接受动作？",
+          "options": [
+            "A. Doing the action (digesting something else).",
+            "B. Receiving the action (being digested).",
+            "C. Both.",
+            "D. Neither."
+          ],
+          "correct": "B",
+          "hint": "The iron is not digesting; something digests the iron. / 铁不是在消化；是某物在消化铁。"
+        },
+        {
+          "question": "What is the grammatical function of the word 'found' in 'the iron found in the yolk'? / 在 'the iron found in the yolk' 中，'found' 这个词的语法功能是什么？",
+          "options": [
+            "A. Main verb in past tense.",
+            "B. Adjective describing 'iron'.",
+            "C. Adverb.",
+            "D. Conjunction."
+          ],
+          "correct": "B",
+          "hint": "It tells us which iron we are talking about. / 它告诉我们正在谈论的是哪种铁。"
+        }
+      ],
+      "examples": [
+        {
+          "en": "The letter was written by my sister.",
+          "cn": "这封信是我姐姐写的。"
+        },
+        {
+          "en": "I am interested in science.",
+          "cn": "我对科学感兴趣。"
+        }
+      ],
+      "quiz_questions": [
+        {
+          "type": "choice",
+          "question": "Which sentence is in the passive voice?",
+          "options": [
+            "A. The cat chased the mouse.",
+            "B. The mouse was chased by the cat.",
+            "C. The cat is chasing the mouse.",
+            "D. The cat will chase the mouse."
+          ],
+          "correct": "B",
+          "explanation": "Option B uses 'was chased' (be + past participle), making it passive. The subject ('The mouse') receives the action. A, C, D are in active voice."
+        },
+        {
+          "type": "truefalse",
+          "question": "In the sentence 'The glass is broken', 'broken' is always a past participle used in passive voice.",
+          "options": [
+            "True",
+            "False"
+          ],
+          "correct": "False",
+          "explanation": "It can be ambiguous. 'Is broken' could be passive voice (describing the action of breaking) OR it could be a linking verb + adjective (describing the state of being broken). Context usually tells."
+        },
+        {
+          "type": "choice",
+          "question": "What is the passive form of 'People speak English all over the world.'?",
+          "options": [
+            "A. English is spoken all over the world.",
+            "B. English was spoken all over the world.",
+            "C. English speaks all over the world.",
+            "D. English has been spoken all over the world."
+          ],
+          "correct": "A",
+          "explanation": "The correct present simple passive is 'is spoken'. The original sentence is present simple active, so the passive should also be present simple."
+        },
+        {
+          "type": "truefalse",
+          "question": "The word 'easily' in 'is easily digested' is an adverb modifying the past participle 'digested'.",
+          "options": [
+            "True",
+            "False"
+          ],
+          "correct": "True",
+          "explanation": "Yes, 'easily' is an adverb. In passive constructions, adverbs often come between 'be' and the past participle (e.g., is quickly made, are well known)."
+        },
+        {
+          "type": "choice",
+          "question": "In the phrase 'a book written by Shakespeare', what is 'written'?",
+          "options": [
+            "A. A past tense verb.",
+            "B. A past participle used as an adjective.",
+            "C. A gerund.",
+            "D. An infinitive."
+          ],
+          "correct": "B",
+          "explanation": "'Written' is a past participle. Here, it functions like an adjective in the phrase 'a book (that is) written by Shakespeare', describing the book."
+        }
+      ]
+    }
+  ],
+  "meta": {
+    "source": "article.pdf",
+    "version": "2.0 (Detailed)"
+  }
+};
+const AZURE_KEY = "DKRXk8ueSfo5NdIOMqFRTCAfpeGDezJ3Snf5K8gGgtyqxiWdugLzJQQJ99BLACHYHv6XJ3w3AAAYACOGUYP9";
+const AZURE_REGION = "eastus2";
+const IMAGE_DIR = "generated_images";
+
+const { createApp, ref, computed, onMounted } = Vue;
+const SpeechSDK = window.SpeechSDK;
+
+createApp({
+    setup() {
+        const phase = ref('login');
+        const userName = ref('');
+        const currentIndex = ref(0);
+        const currentStep = ref(1);
+        const hasSave = ref(false);
+        const showAdminPanel = ref(false);
+        const stepData = ref({});
+        
+        const isRecording = ref(false);
+        let synthesizer = null;
+        let recognizer = null;
+        let currentRecScore = 0; 
+
+        const vocabList = COURSE_DATA_INJECTED.vocabulary || [];
+        const collocList = COURSE_DATA_INJECTED.collocations || [];
+        const grammarList = COURSE_DATA_INJECTED.grammar || [];
+
+        const currentList = computed(() => {
+            if (phase.value === 'vocab') return vocabList;
+            if (phase.value === 'colloc') return collocList;
+            if (phase.value === 'grammar') return grammarList;
+            return [];
+        });
+        const currentItem = computed(() => currentList.value[currentIndex.value] || {});
+        const totalSteps = computed(() => phase.value === 'grammar' ? 4 : 7);
+        const phaseTitles = {'vocab': 'Vocabulary', 'colloc': 'Phrases', 'grammar': 'Grammar'};
+
+        const spellingDisplaySlots = computed(() => {
+            if (!['vocab', 'colloc'].includes(phase.value)) return [];
+            const target = (currentItem.value.word || currentItem.value.phrase).toLowerCase();
+            const userChars = stepData.value.userSpelling || [];
+            let result = [];
+            let userIdx = 0;
+            for (let char of target) {
+                if (char === ' ') { result.push('SPACE'); } 
+                else if (/[a-z]/.test(char)) { result.push(userChars[userIdx] || ''); userIdx++; }
+            }
+            return result;
+        });
+
+        onMounted(() => { if(localStorage.getItem('eng_lab_save')) hasSave.value = true; });
+
+        // Prev Button Visibility
+        const canGoBack = computed(() => {
+            if (phase.value === 'vocab' && currentIndex.value === 0 && currentStep.value === 1) return false;
+            return true;
+        });
+
+        const canProceed = computed(() => {
+            if (['vocab', 'colloc'].includes(phase.value)) {
+                if (currentStep.value === 1) return (stepData.value.audioScore || 0) >= 30;
+                if (currentStep.value === 2) return stepData.value.guessCorrect;
+                if (currentStep.value === 3) return true;
+                if (currentStep.value === 4) return stepData.value.spellingCorrect;
+                if (currentStep.value === 5) return stepData.value.meaningCorrect;
+                if (currentStep.value === 6) return stepData.value.contextCorrect;
+                if (currentStep.value === 7) return stepData.value.oralCount >= 5;
+            }
+            if (phase.value === 'grammar') {
+                if (currentStep.value === 1) return stepData.value.grammarListened;
+                if (currentStep.value === 2) return stepData.value.inquiryIndex >= currentItem.value.guide_questions.length;
+                if (currentStep.value === 3) return true;
+                if (currentStep.value === 4) return stepData.value.quizAllFinished;
+            }
+            return false;
+        });
+
+        const getLockReason = () => {
+            if (['vocab', 'colloc'].includes(phase.value)) {
+                if (currentStep.value === 1) return "Record Score > 30";
+                if (currentStep.value === 2) return "Guess Answer";
+                if (currentStep.value === 4) return "Spell Word";
+                if (currentStep.value === 7) return `${5 - stepData.value.oralCount} more reads`;
+            }
+            return "Complete Task";
+        };
+
+        const startNew = () => { localStorage.removeItem('eng_lab_save'); phase.value = 'vocab'; currentIndex.value = 0; initStepData(); };
+        const resume = () => {
+            const s = JSON.parse(localStorage.getItem('eng_lab_save'));
+            if(s) { phase.value=s.p; currentIndex.value=s.i; userName.value=s.u; initStepData(); if(s.d) stepData.value=s.d; }
+        };
+        const saveProgress = () => {
+            localStorage.setItem('eng_lab_save', JSON.stringify({p:phase.value, i:currentIndex.value, u:userName.value, d:stepData.value}));
+            hasSave.value = true;
+        };
+        const saveAndExit = () => { saveProgress(); phase.value = 'login'; };
+        const clearSave = () => { localStorage.removeItem('eng_lab_save'); location.reload(); };
+
+        const initStepData = () => {
+            currentStep.value = 1;
+            const item = currentItem.value;
+            if (['vocab', 'colloc'].includes(phase.value)) {
+                const cleanChars = (item.scrambled_letters || (item.word || item.phrase).split('')).filter(c => c.trim() !== '').map(l => l.toUpperCase());
+                const exStates = {}; 
+                (item.examples || []).forEach((_, i) => exStates[i] = { showEn: true, showCn: false });
+                
+                // === FINAL FIX: FORCE CORRECTNESS + SHUFFLE ===
+                // 1. Get raw
+                let rawContext = item.quiz_fill ? JSON.parse(JSON.stringify(item.quiz_fill)) : [];
+
+                // 2. Normalize and Enforce Correctness (Fix for "All Wrong" issue)
+                rawContext.forEach((opt, idx) => {
+                    // If is_correct is missing, assume the first one (idx 0) is true.
+                    if (opt.is_correct === undefined || opt.is_correct === null) {
+                        opt.is_correct = (idx === 0); 
+                    } else {
+                        // Normalize string "true"/"false" to boolean
+                        opt.is_correct = (String(opt.is_correct).toLowerCase() === 'true');
+                    }
+                });
+
+                // 3. Shuffle
+                const contextOpts = rawContext;
+                for (let i = contextOpts.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [contextOpts[i], contextOpts[j]] = [contextOpts[j], contextOpts[i]];
+                }
+                
+                // === DATA INTEGRITY CHECKS ===
+                // Check if options exist for meaning/guess steps
+                const hasOptions = item.options && item.options.length > 0;
+                // Check if context/quiz_fill data exists
+                const hasContextData = contextOpts && contextOpts.length > 0;
+
+                stepData.value = {
+                    audioScore: 0, hasListened: false,
+                    guessAnswer: null, 
+                    // Auto-correct if no options exist so user isn't stuck
+                    guessCorrect: !hasOptions, 
+                    exStates: exStates,
+                    userSpelling: [], shuffledLetters: cleanChars, spellingCorrect: false, usedIndices: new Set(),
+                    meaningOptions: hasOptions ? [...item.options].sort(()=>Math.random()-0.5) : [], 
+                    meaningAnswer: null, 
+                    // Auto-correct if no options exist
+                    meaningCorrect: !hasOptions, 
+                    // Store normalized & shuffled
+                    contextOptions: contextOpts,
+                    contextAnswerIndex: null, 
+                    // Auto-correct if no context data exists
+                    contextCorrect: !hasContextData, 
+                    contextFullSentence: '',
+                    oralCount: 0, lastOralScore: 0
+                };
+            } else {
+                stepData.value = { 
+                    grammarListened: false, 
+                    inquiryIndex: 0, inquiryAnswer: null, inquiryShowNext: false,
+                    quizIndex: 0, quizAnswer: null, quizAllFinished: false, quizShowExplanation: false, quizShowNext: false 
+                };
+            }
+        };
+
+        const nextStep = () => {
+            if (!canProceed.value) return;
+            saveProgress();
+            if (currentStep.value < totalSteps.value) {
+                currentStep.value++;
+            } else {
+                if (currentIndex.value < currentList.value.length - 1) {
+                    currentIndex.value++;
+                    initStepData();
+                } else {
+                    if (phase.value === 'vocab') { phase.value = 'colloc'; currentIndex.value = 0; initStepData(); }
+                    else if (phase.value === 'colloc') { phase.value = 'grammar'; currentIndex.value = 0; initStepData(); }
+                    else { phase.value = 'end'; }
+                }
+            }
+        };
+
+        const prevStep = () => {
+            if (currentStep.value > 1) {
+                currentStep.value--;
+            } else {
+                if (currentIndex.value > 0) {
+                    currentIndex.value--;
+                    initStepData();
+                } else {
+                    if (phase.value === 'colloc') {
+                        phase.value = 'vocab';
+                        currentIndex.value = vocabList.length - 1;
+                        initStepData();
+                    } else if (phase.value === 'grammar') {
+                        phase.value = 'colloc';
+                        currentIndex.value = collocList.length - 1;
+                        initStepData();
+                    }
+                }
+            }
+            saveProgress();
+        };
+
+        const cleanOption = (text) => text.replace(/\(误\)|\(Error\)|（误）/gi, '').trim();
+        const checkGrammarCorrect = (option, correctLetter) => {
+            return option.trim().toUpperCase().startsWith(correctLetter.trim().toUpperCase());
+        };
+
+        const handleTask = (action, payload, index) => {
+            const item = currentItem.value;
+            if (action === 'guess') {
+                stepData.value.guessAnswer = payload;
+                if (payload === item.correct_answer) { stepData.value.guessCorrect = true; playTTS("Correct"); }
+                else playTTS("Try again");
+            }
+            if (action === 'spell') {
+                stepData.value.userSpelling.push(payload);
+                stepData.value.usedIndices.add(index);
+                const currentStr = stepData.value.userSpelling.join('').toLowerCase();
+                const target = (item.word || item.phrase).replace(/[^a-zA-Z]/g, '').toLowerCase();
+                if (currentStr.length === target.length) {
+                    if (currentStr === target) { stepData.value.spellingCorrect = true; playTTS("Correct"); }
+                    else { playTTS("Wrong"); setTimeout(() => { stepData.value.userSpelling=[]; stepData.value.usedIndices.clear(); }, 500); }
+                }
+            }
+            if (action === 'meaning') {
+                stepData.value.meaningAnswer = payload;
+                if (payload === item.correct_answer) { stepData.value.meaningCorrect = true; playTTS("Correct"); }
+                else playTTS("Wrong");
+            }
+            
+            // ================== FIXED CONTEXT LOGIC (COMPLETE FIX) ==================
+            if (action === 'context') {
+                stepData.value.contextAnswerIndex = index;
+                const targetPhrase = item.phrase || item.word;
+                
+                // Now simple safe check because we normalized in init
+                const isCorrect = payload.is_correct; 
+
+                if (isCorrect) {
+                    let fullSentence = payload.sentence;
+                    // Regex matches: underscores, ellipsis, 2+ dots, brackets, parens, or underscore w/ spaces
+                    const blankRegex = /(_+|…|\.{2,}|\[.*?\]|\(.*?\)|_\s+_)/g;
+
+                    if (blankRegex.test(fullSentence)) {
+                        fullSentence = fullSentence.replace(blankRegex, targetPhrase);
+                    } else {
+                        // Fallback: If no blank found, append it at the end for clarity
+                        if (fullSentence.indexOf(targetPhrase) === -1) {
+                             fullSentence = fullSentence + " (" + targetPhrase + ")";
+                        }
+                    }
+                    
+                    stepData.value.contextFullSentence = fullSentence;
+                    stepData.value.contextCorrect = true;
+                    playTTS(fullSentence); 
+                } else {
+                    stepData.value.contextCorrect = false;
+                    playTTS("Incorrect");
+                }
+            }
+            // =======================================================================
+
+            if (action === 'recordDrill') toggleRec(getZhongkaoSentence(), updateOralCount);
+            
+            if (action === 'playGrammarAudio') { playTTS(item.source_sentence); stepData.value.grammarListened = true; }
+            if (action === 'inquiry') {
+                if (stepData.value.inquiryShowNext) return;
+                stepData.value.inquiryAnswer = payload;
+                if (checkGrammarCorrect(payload, item.guide_questions[stepData.value.inquiryIndex].correct)) {
+                    playTTS("Correct");
+                    stepData.value.inquiryShowNext = true;
+                } else playTTS("Try again");
+            }
+            if (action === 'quiz') {
+                if (stepData.value.quizShowNext) return;
+                stepData.value.quizAnswer = payload;
+                if (checkGrammarCorrect(payload, item.quiz_questions[stepData.value.quizIndex].correct)) {
+                    playTTS("Correct");
+                    stepData.value.quizShowExplanation = true;
+                    stepData.value.quizShowNext = true;
+                } else playTTS("Wrong");
+            }
+            saveProgress();
+        };
+
+        const nextGrammarQuestion = (type) => {
+            const item = currentItem.value;
+            if (type === 'inquiry') {
+                stepData.value.inquiryIndex++;
+                stepData.value.inquiryAnswer = null;
+                stepData.value.inquiryShowNext = false;
+            }
+            if (type === 'quiz') {
+                if (stepData.value.quizIndex < item.quiz_questions.length - 1) {
+                    stepData.value.quizIndex++;
+                    stepData.value.quizAnswer = null;
+                    stepData.value.quizShowExplanation = false;
+                    stepData.value.quizShowNext = false;
+                } else {
+                    stepData.value.quizAllFinished = true;
+                }
+            }
+            saveProgress();
+        };
+
+        const updateOralCount = (score) => { stepData.value.lastOralScore = score; if(score > 0) stepData.value.oralCount++; saveProgress(); }
+        const resetSpelling = () => { stepData.value.userSpelling = []; stepData.value.usedIndices.clear(); };
+        const toggleEx = (i) => { stepData.value.exStates[i].showCn = !stepData.value.exStates[i].showCn; };
+        
+        const getZhongkaoSentence = () => { 
+            // Safety check for incomplete data (Item 18 fix)
+            if (!currentItem.value.examples || currentItem.value.examples.length === 0) {
+                return currentItem.value.word || "No sentence available";
+            }
+            const ex = currentItem.value.examples.find(e => e.source === 'Zhongkao'); 
+            return ex ? ex.sentence : currentItem.value.examples[0].sentence; 
+        };
+        
+        const getOptClass = (opt, sel, cor) => {
+            // For Quiz Options
+            if (sel === opt) return opt === cor ? 'opt-correct' : 'opt-wrong';
+            
+            // For Context (Fill in blank) logic
+            if (typeof opt === 'number') { 
+                if (sel !== opt) return ''; 
+                // Fix: Look at shuffled options in stepData
+                if (stepData.value.contextOptions && stepData.value.contextOptions[opt]) {
+                     return stepData.value.contextOptions[opt].is_correct ? 'opt-correct' : 'opt-wrong';
+                }
+                return '';
+            }
+            return '';
+        };
+
+        const getImagePath = (f) => f ? IMAGE_DIR + '/' + f : '';
+
+        const playTTS = (text) => {
+            if (!text || isRecording.value) return;
+            if (synthesizer) { synthesizer.close(); synthesizer = null; }
+            try {
+                const config = SpeechSDK.SpeechConfig.fromSubscription(AZURE_KEY, AZURE_REGION);
+                config.speechSynthesisVoiceName = "en-US-AriaNeural"; 
+                synthesizer = new SpeechSDK.SpeechSynthesizer(config);
+                synthesizer.speakTextAsync(text, () => { synthesizer.close(); synthesizer = null; });
+            } catch (e) { console.error(e); }
+        };
+
+        const toggleRec = async (text, cb) => {
+            if(isRecording.value) { 
+                if(recognizer) { recognizer.stopContinuousRecognitionAsync(() => { recognizer.close(); recognizer = null; isRecording.value = false; if(cb) cb(currentRecScore); }); }
+                return; 
+            }
+            try {
+                await navigator.mediaDevices.getUserMedia({ audio: true });
+                const config = SpeechSDK.SpeechConfig.fromSubscription(AZURE_KEY, AZURE_REGION);
+                config.speechRecognitionLanguage = "en-US";
+                const audioConfig = SpeechSDK.AudioConfig.fromDefaultMicrophoneInput();
+                const pronConfig = new SpeechSDK.PronunciationAssessmentConfig(text, SpeechSDK.PronunciationAssessmentGradingSystem.HundredMark, SpeechSDK.PronunciationAssessmentGranularity.Phoneme, true);
+                recognizer = new SpeechSDK.SpeechRecognizer(config, audioConfig);
+                pronConfig.applyTo(recognizer);
+                isRecording.value = true; currentRecScore = 0; 
+                recognizer.recognized = (s, e) => { if (e.result.reason === SpeechSDK.ResultReason.RecognizedSpeech) { const json = JSON.parse(e.result.properties.getProperty(SpeechSDK.PropertyId.SpeechServiceResponse_JsonResult)); if(json.NBest && json.NBest[0]) currentRecScore = json.NBest[0].PronunciationAssessment.AccuracyScore; } };
+                recognizer.startContinuousRecognitionAsync();
+            } catch(e) { alert("Mic Error: " + e); isRecording.value = false; }
+        };
+
+        const openAdmin = () => { if(prompt("PWD")==="888123") showAdminPanel.value = true; };
+        const jumpIndex = (d) => { const n = currentIndex.value + d; if(n>=0 && n<currentList.value.length) { currentIndex.value = n; initStepData(); } };
+        const setPhase = (p) => { phase.value = p; currentIndex.value = 0; initStepData(); };
+        const forceUnlock = () => { stepData.value.audioScore=100; stepData.value.guessCorrect=true; stepData.value.spellingCorrect=true; stepData.value.meaningCorrect=true; stepData.value.contextCorrect=true; stepData.value.oralCount=5; stepData.value.grammarListened=true; stepData.value.quizAllFinished=true; stepData.value.inquiryIndex=100; };
+
+        return {
+            phase, userName, currentIndex, currentStep, totalSteps, currentItem, currentList, phaseTitles, stepData,
+            startNew, resume, saveAndExit, clearSave, hasSave, nextStep, prevStep, handleTask, resetSpelling, toggleEx, updateOralCount, nextGrammarQuestion,
+            getZhongkaoSentence, getOptClass, getImagePath, isRecording, canProceed, getLockReason, playTTS, toggleRec, spellingDisplaySlots,
+            showAdminPanel, openAdmin, jumpIndex, setPhase, forceUnlock, cleanOption, checkGrammarCorrect, canGoBack
+        };
+    }
+}).mount('#app');
+</script>
+</body>
+</html>

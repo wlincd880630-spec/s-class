@@ -1,0 +1,2917 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Intensive English Lab (Context Final Fix)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/microsoft-cognitiveservices-speech-sdk@latest/distrib/browser/microsoft.cognitiveservices.speech.sdk.bundle-min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Nunito', sans-serif; background-color: #0f172a; color: #f8fafc; user-select: none; -webkit-tap-highlight-color: transparent; }
+        
+        .app-container { height: 100vh; display: flex; flex-direction: column; }
+        .main-stage { flex: 1; overflow-y: auto; overflow-x: hidden; padding: 16px; padding-bottom: 140px; display: flex; flex-direction: column; align-items: center; }
+
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.9);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.5);
+            border-radius: 24px;
+        }
+
+        .btn-3d {
+            transition: all 0.1s; cursor: pointer; position: relative; z-index: 20;
+            user-select: none; touch-action: manipulation;
+        }
+        .btn-3d:active { transform: translateY(3px); box-shadow: none !important; filter: brightness(0.9); border-bottom-width: 0px !important; margin-top: 3px; }
+
+        .key-btn {
+            width: 55px; height: 60px;
+            background: #1e293b; border: 2px solid #475569; border-bottom-width: 6px;
+            border-radius: 12px; font-size: 1.5rem; font-weight: 900; color: white;
+            display: flex; align-items: center; justify-content: center;
+            margin: 4px; text-transform: uppercase; transition: all 0.2s;
+        }
+        .key-btn:disabled { opacity: 0; transform: scale(0); pointer-events: none; }
+        
+        .option-card {
+            width: 100%; padding: 18px; margin-bottom: 12px;
+            background: #1e293b; border: 2px solid #334155; border-radius: 16px;
+            font-size: 1.1rem; font-weight: 700; text-align: left;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .opt-correct { border-color: #22c55e; background: rgba(34, 197, 94, 0.15); color: #4ade80; }
+        .opt-wrong { border-color: #ef4444; background: rgba(239, 68, 68, 0.15); color: #f87171; }
+
+        .bottom-nav {
+            position: fixed; bottom: 0; left: 0; width: 100%;
+            padding: 16px 24px; padding-bottom: 30px;
+            background: rgba(15, 23, 42, 0.95); border-top: 1px solid #334155;
+            z-index: 50; display: flex; justify-content: center; gap: 12px;
+        }
+        .nav-btn {
+            padding: 16px; border-radius: 16px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px;
+            display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 1.1rem;
+        }
+        .btn-prev {
+            width: 35%; background: #334155; color: #94a3b8; border: 2px solid #475569; font-size: 1rem;
+        }
+        .btn-prev:active { transform: translateY(2px); filter: brightness(0.9); }
+        .btn-next { flex: 1; }
+        .btn-locked { background: #334155; color: #94a3b8; cursor: not-allowed; border: 2px solid #475569; }
+        .btn-active { background: #22c55e; color: white; box-shadow: 0 6px 0 #15803d; border-bottom: 6px solid #15803d; }
+        .btn-active:active { transform: translateY(6px); box-shadow: none; border-bottom-width: 0; margin-bottom: 6px; }
+
+        .pulse-mic { animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); } 70% { box-shadow: 0 0 0 20px rgba(239, 68, 68, 0); } 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); } }
+        
+        .blur-text { color: transparent !important; text-shadow: 0 0 12px rgba(255,255,255,0.7); user-select: none; transition: all 0.3s ease; }
+        .clear-text { color: #94a3b8 !important; text-shadow: none; user-select: auto; }
+        
+        .admin-trigger { width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.1); position: fixed; bottom: 100px; right: 20px; z-index: 99; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+<div id="app" class="app-container">
+
+    <nav class="h-16 flex items-center justify-between px-6 bg-slate-900 border-b border-slate-800 shrink-0 z-40">
+        <div class="font-black text-xl text-white flex items-center gap-2">
+            <span class="bg-indigo-600 w-8 h-8 rounded flex items-center justify-center">E</span> Lab
+        </div>
+        <div v-if="phase !== 'login'" class="flex items-center gap-3">
+            <div class="px-3 py-1 rounded-full bg-slate-800 border border-slate-700 text-xs font-mono text-indigo-400">Unit 1</div>
+            <button @click="saveAndExit" class="text-slate-400 hover:text-white flex items-center gap-1"><i class="fas fa-save"></i> Save</button>
+        </div>
+    </nav>
+
+    <div class="admin-trigger" @click="openAdmin"><i class="fas fa-cog text-slate-400"></i></div>
+    <div v-if="showAdminPanel" class="fixed inset-0 bg-black/90 z-[1000] flex items-center justify-center">
+        <div class="bg-slate-800 p-6 rounded-2xl w-80 border border-slate-600">
+            <h3 class="text-white font-bold mb-4">Admin Console</h3>
+            <div class="grid grid-cols-2 gap-2 mb-4">
+                <button @click="setPhase('vocab')" class="bg-indigo-900 text-white p-2 rounded">Vocab</button>
+                <button @click="setPhase('colloc')" class="bg-indigo-900 text-white p-2 rounded">Colloc</button>
+                <button @click="setPhase('grammar')" class="bg-indigo-900 text-white p-2 rounded">Grammar</button>
+                <button @click="forceUnlock" class="bg-green-700 text-white p-2 rounded">Unlock Step</button>
+            </div>
+            <div class="flex gap-2">
+                <button @click="jumpIndex(-1)" class="bg-slate-600 text-white p-2 rounded flex-1">Prev Item</button>
+                <button @click="jumpIndex(1)" class="bg-slate-600 text-white p-2 rounded flex-1">Next Item</button>
+            </div>
+            <button @click="showAdminPanel=false" class="mt-4 w-full bg-red-900/50 text-red-300 p-2 rounded">Close</button>
+        </div>
+    </div>
+
+    <main class="main-stage">
+        
+        <div v-if="phase === 'login'" class="w-full max-w-md mt-10 text-center">
+            <h1 class="text-3xl font-black text-white mb-8">Intensive Lab</h1>
+            <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 shadow-xl">
+                <input v-model="userName" type="text" placeholder="Enter Your Name" class="w-full bg-slate-900 border border-slate-700 text-white px-4 py-3 rounded-xl mb-4 text-center focus:border-indigo-500 outline-none text-lg">
+                <button @click="startNew" :disabled="!userName" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-4 rounded-xl mb-3 shadow-lg btn-3d disabled:opacity-50">Start New Session</button>
+                <button v-if="hasSave" @click="resume" class="w-full bg-slate-700 hover:bg-slate-600 text-green-400 font-bold py-4 rounded-xl border border-slate-600 btn-3d"><i class="fas fa-history mr-2"></i> Resume Progress</button>
+            </div>
+        </div>
+
+        <div v-if="['vocab', 'colloc', 'grammar'].includes(phase)" class="w-full max-w-2xl">
+            <div class="mb-6 px-2 flex justify-between text-xs font-bold text-slate-400 uppercase">
+                <span>{{ phaseTitles[phase] }} • Item {{ currentIndex + 1 }}/{{ currentList.length }}</span>
+                <span>Step {{ currentStep }}/{{ totalSteps }}</span>
+            </div>
+
+            <div class="flex gap-1 h-1.5 w-full bg-slate-800 rounded-full overflow-hidden mb-6">
+                <div v-for="s in totalSteps" :key="s" class="flex-1 transition-all duration-300" :class="s < currentStep ? 'bg-green-500' : (s === currentStep ? 'bg-indigo-500' : 'bg-slate-700')"></div>
+            </div>
+
+            <div class="glass-panel p-6 md:p-8 min-h-[450px] flex flex-col items-center relative">
+                
+                <!-- 1. Listen -->
+                <div v-if="currentStep === 1" class="text-center w-full">
+                    <div class="py-6">
+                        <h1 class="text-5xl md:text-7xl font-black text-white mb-4 tracking-tight break-words">{{ currentItem.word || currentItem.phrase }}</h1>
+                        
+                        <div v-if="phase === 'grammar'">
+                            <p class="text-2xl text-slate-200 font-medium mb-4 leading-relaxed">{{ currentItem.source_sentence }}</p>
+                            <p class="text-lg text-slate-400 mb-8">{{ currentItem.source_sentence_cn }}</p>
+                            <button @click="handleTask('playGrammarAudio')" :class="stepData.grammarListened ? 'bg-green-600 border-green-500' : 'bg-indigo-600 border-indigo-500'" class="btn-3d px-8 py-4 rounded-xl border-b-4 font-bold text-white shadow-lg flex items-center gap-3 mx-auto"><i class="fas fa-volume-up"></i> Listen First</button>
+                        </div>
+
+                        <div v-else>
+                            <p class="text-2xl text-slate-400 font-mono">{{ currentItem.phonetic }}</p>
+                            <div class="flex justify-center gap-8 mb-8 mt-8">
+                                <button @click="playTTS(currentItem.word || currentItem.phrase)" class="btn-3d w-20 h-20 rounded-full bg-slate-800 border-2 border-slate-600 text-indigo-400 flex items-center justify-center text-3xl shadow-lg hover:bg-slate-700"><i class="fas fa-volume-up"></i></button>
+                                <button @click="toggleRec(currentItem.word || currentItem.phrase, (s) => stepData.audioScore = s)" 
+                                    :class="isRecording ? 'bg-red-500 border-red-400 pulse-mic text-white' : (stepData.audioScore >= 30 ? 'bg-green-600 border-green-400 text-white' : 'bg-indigo-600 border-indigo-400 text-white')"
+                                    class="btn-3d w-24 h-24 rounded-full border-b-4 flex items-center justify-center text-4xl shadow-xl">
+                                    <i :class="isRecording ? 'fas fa-stop' : (stepData.audioScore >= 30 ? 'fas fa-check' : 'fas fa-microphone')"></i>
+                                </button>
+                            </div>
+                            <p class="text-sm font-bold" :class="stepData.audioScore >= 30 ? 'text-green-400' : 'text-slate-500'">
+                                {{ isRecording ? 'Recording... Tap to Stop' : (stepData.audioScore ? `Score: ${stepData.audioScore}` : 'Click Mic -> Speak -> Click Stop') }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Guess / Inquiry -->
+                <div v-if="currentStep === 2" class="w-full">
+                    <div v-if="phase === 'grammar'">
+                        <template v-if="stepData.inquiryIndex < currentItem.guide_questions.length">
+                            <h3 class="text-lg font-bold text-white mb-4">Question {{ stepData.inquiryIndex + 1 }} / {{ currentItem.guide_questions.length }}</h3>
+                            <div class="bg-slate-800/50 p-3 rounded mb-4 text-sm text-slate-300 italic border-l-4 border-indigo-500">"{{ currentItem.source_sentence }}"</div>
+                            <div class="bg-indigo-900/30 p-4 rounded-xl mb-4 border border-indigo-500/30"><p class="text-slate-200 font-bold">{{ currentItem.guide_questions[stepData.inquiryIndex].question }}</p></div>
+                            <div class="space-y-3 mb-6">
+                                <button v-for="opt in currentItem.guide_questions[stepData.inquiryIndex].options" @click="handleTask('inquiry', opt)" 
+                                    class="option-card btn-3d" 
+                                    :class="stepData.inquiryAnswer === opt ? (checkGrammarCorrect(opt, currentItem.guide_questions[stepData.inquiryIndex].correct) ? 'opt-correct' : 'opt-wrong') : ''">
+                                    <span>{{ cleanOption(opt) }}</span>
+                                    <i v-if="stepData.inquiryAnswer === opt" :class="checkGrammarCorrect(opt, currentItem.guide_questions[stepData.inquiryIndex].correct) ? 'fas fa-check' : 'fas fa-times'"></i>
+                                </button>
+                            </div>
+                            <button v-if="stepData.inquiryShowNext" @click="nextGrammarQuestion('inquiry')" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 rounded-xl btn-3d">Next Question <i class="fas fa-arrow-right ml-2"></i></button>
+                        </template>
+                        <div v-else class="text-center py-10">
+                            <div class="text-6xl mb-4">🎉</div><h3 class="text-2xl font-bold text-green-400">Analysis Complete!</h3>
+                        </div>
+                    </div>
+                    
+                    <div v-else>
+                        <div class="relative w-full h-56 bg-black rounded-2xl overflow-hidden mb-4 border-2 border-slate-700">
+                            <img :src="getImagePath(currentItem.image_file)" class="w-full h-full object-cover opacity-90">
+                            <button @click="playTTS(currentItem.image_desc_en)" class="btn-3d absolute bottom-3 right-3 bg-indigo-600 text-white w-10 h-10 rounded-full flex items-center justify-center shadow-lg"><i class="fas fa-volume-up"></i></button>
+                        </div>
+                        <div class="bg-slate-800/80 p-4 rounded-xl border border-slate-600 mb-6 text-center">
+                            <p class="text-slate-200 text-lg font-medium italic mb-2">"{{ currentItem.image_desc_en }}"</p>
+                            <p class="text-slate-500 text-sm border-t border-slate-600 pt-2">{{ currentItem.image_desc_cn }}</p>
+                        </div>
+                        <div class="space-y-3">
+                            <button v-for="opt in currentItem.options" @click="handleTask('guess', opt)" class="option-card btn-3d" :class="getOptClass(opt, stepData.guessAnswer, currentItem.correct_answer)"><span>{{ opt }}</span><i v-if="stepData.guessAnswer === opt" :class="opt === currentItem.correct_answer ? 'fas fa-check' : 'fas fa-times'"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Details -->
+                <div v-if="currentStep === 3" class="w-full h-full overflow-y-auto custom-scrollbar pb-10">
+                    <div v-if="phase === 'grammar'">
+                        <div class="bg-indigo-900/30 p-5 rounded-xl border border-indigo-500/30 mb-4 text-sm leading-relaxed text-slate-200" v-html="currentItem.explanation"></div>
+                    </div>
+                    <div v-else>
+                        <div class="mb-6 text-center border-b border-slate-700 pb-4">
+                            <h2 class="text-4xl font-black text-white mb-2">{{ currentItem.word || currentItem.phrase }}</h2>
+                            <p class="text-2xl text-green-400 font-bold mb-1">{{ currentItem.correct_answer }}</p>
+                        </div>
+                        <div class="bg-indigo-900/30 border border-indigo-500/30 p-4 rounded-xl mb-6">
+                            <h4 class="text-xs font-bold text-indigo-300 uppercase mb-1">Usage</h4>
+                            <p class="text-white text-sm">{{ currentItem.usage }}</p>
+                        </div>
+                        <div class="space-y-4">
+                            <div v-for="(ex, i) in currentItem.examples" :key="i" class="bg-slate-800/60 rounded-xl border border-slate-600 p-4">
+                                <div class="flex items-start gap-3 mb-3">
+                                    <button @click="playTTS(ex.sentence)" class="btn-3d w-10 h-10 rounded-full bg-indigo-600 text-white flex items-center justify-center shrink-0 border-b-4 border-indigo-800"><i class="fas fa-volume-up"></i></button>
+                                    <div class="flex-1">
+                                        <p class="text-lg text-white font-medium">{{ ex.sentence }}</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-3 border-t border-slate-700 pt-2 cursor-pointer hover:bg-slate-700/50 rounded p-1 transition" @click="toggleEx(i)">
+                                    <span class="text-[10px] font-bold bg-slate-700 px-2 rounded text-slate-300">{{ ex.source }}</span>
+                                    <div class="flex-1">
+                                        <p :class="!stepData.exStates[i].showCn ? 'blur-text' : 'clear-text'" class="text-slate-400 text-sm transition font-bold">{{ ex.trans }}</p>
+                                    </div>
+                                    <button class="text-slate-400 hover:text-white"><i :class="stepData.exStates[i].showCn ? 'fas fa-eye-slash' : 'fas fa-eye'"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. Spelling / Quiz -->
+                <div v-if="currentStep === 4" class="text-center w-full flex flex-col items-center">
+                    <div v-if="phase === 'grammar'" class="w-full">
+                        <template v-if="stepData.quizIndex < currentItem.quiz_questions.length">
+                            <h3 class="text-lg font-bold text-white mb-6">Quiz {{ stepData.quizIndex + 1 }}/5</h3>
+                            <p class="text-slate-300 mb-6 font-bold text-left">{{ currentItem.quiz_questions[stepData.quizIndex].question }}</p>
+                            <div class="space-y-3 mb-6">
+                                <button v-for="opt in currentItem.quiz_questions[stepData.quizIndex].options" @click="handleTask('quiz', opt)" 
+                                    class="option-card btn-3d"
+                                    :class="stepData.quizAnswer === opt ? (checkGrammarCorrect(opt, currentItem.quiz_questions[stepData.quizIndex].correct) ? 'opt-correct' : 'opt-wrong') : ''">
+                                    <span>{{ cleanOption(opt) }}</span>
+                                    <i v-if="stepData.quizAnswer === opt" :class="checkGrammarCorrect(opt, currentItem.quiz_questions[stepData.quizIndex].correct) ? 'fas fa-check' : 'fas fa-times'"></i>
+                                </button>
+                            </div>
+                            <div v-if="stepData.quizShowExplanation" class="mb-4 p-3 bg-slate-800 rounded border border-slate-700 text-sm text-green-300 text-left">{{ currentItem.quiz_questions[stepData.quizIndex].explanation }}</div>
+                            <button v-if="stepData.quizShowNext" @click="nextGrammarQuestion('quiz')" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 rounded-xl btn-3d">Next Question <i class="fas fa-arrow-right ml-2"></i></button>
+                        </template>
+                        <div v-else class="text-center py-10">
+                            <div class="text-6xl mb-4">🏆</div><h3 class="text-2xl font-bold text-green-400">All Correct!</h3>
+                        </div>
+                    </div>
+                    <div v-else class="w-full">
+                        <button @click="playTTS(currentItem.word || currentItem.phrase)" class="mb-8 w-16 h-16 rounded-full bg-indigo-600 text-white text-2xl shadow-lg flex items-center justify-center animate-bounce btn-3d border-b-4 border-indigo-800"><i class="fas fa-volume-up"></i></button>
+                        <div class="flex justify-center gap-2 mb-10 flex-wrap min-h-[60px]">
+                            <template v-for="(char, i) in spellingDisplaySlots" :key="i">
+                                <div v-if="char === 'SPACE'" class="w-6"></div>
+                                <div v-else class="w-12 h-14 bg-slate-800 border-b-4 border-indigo-500 flex items-center justify-center text-2xl font-bold text-white rounded-lg">{{ char || '' }}</div>
+                            </template>
+                        </div>
+                        <div class="flex flex-wrap justify-center gap-2 max-w-lg">
+                            <button v-for="(char, i) in stepData.shuffledLetters" :key="i" @click="handleTask('spell', char, i)" :disabled="stepData.usedIndices.has(i)" class="key-btn btn-3d">{{ char }}</button>
+                        </div>
+                        <button @click="resetSpelling" class="mt-10 px-4 py-2 bg-slate-700 rounded-lg text-slate-300 text-sm btn-3d border-b-4 border-slate-900"><i class="fas fa-undo"></i> Reset</button>
+                    </div>
+                </div>
+
+                <!-- 5. Meaning -->
+                <div v-if="currentStep === 5" class="w-full">
+                    <h3 class="text-2xl font-bold text-center mb-8 text-white">{{ currentItem.word || currentItem.phrase }}</h3>
+                    <div class="space-y-3">
+                        <button v-for="opt in stepData.meaningOptions" @click="handleTask('meaning', opt)" class="option-card btn-3d" :class="getOptClass(opt, stepData.meaningAnswer, currentItem.correct_answer)"><span>{{ opt }}</span><i v-if="stepData.meaningAnswer === opt" :class="opt === currentItem.correct_answer ? 'fas fa-check' : 'fas fa-times'"></i></button>
+                    </div>
+                </div>
+
+                <!-- 6. Context (Final Fix: Logic + Data Cleaning) -->
+                <div v-if="currentStep === 6" class="w-full">
+                    <h3 class="text-xl font-bold text-center mb-6 text-indigo-300">Select Correct Context</h3>
+                    <div class="space-y-3">
+                        <!-- Use stepData.contextOptions which is SHUFFLED and NORMALIZED -->
+                        <button v-for="(q, i) in stepData.contextOptions" :key="i" @click="handleTask('context', q, i)" class="option-card btn-3d flex-col items-start gap-2" :class="getOptClass(i, stepData.contextAnswerIndex, 'correct_index')">
+                            
+                            <!-- Show filled green sentence if selected and correct -->
+                            <span v-if="stepData.contextAnswerIndex === i && q.is_correct" class="text-green-400 font-bold transition-all text-lg border-b-2 border-green-500 pb-1">{{ stepData.contextFullSentence }}</span>
+                            
+                            <!-- Otherwise show original sentence -->
+                            <span v-else class="text-sm leading-relaxed">{{ q.sentence }}</span>
+                            
+                            <!-- Check/X icon -->
+                            <div v-if="stepData.contextAnswerIndex === i" class="w-full text-right mt-1">
+                                <i :class="q.is_correct ? 'fas fa-check text-green-400' : 'fas fa-times text-red-400'"></i>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 7. Oral Drill -->
+                <div v-if="currentStep === 7" class="text-center w-full">
+                    <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 mb-8">
+                        <p class="text-xl font-serif text-white leading-relaxed mb-4">"{{ getZhongkaoSentence() }}"</p>
+                        <button @click="playTTS(getZhongkaoSentence())" class="btn-3d px-4 py-2 bg-slate-700 rounded-lg text-indigo-400 text-sm font-bold border-b-2 border-slate-900"><i class="fas fa-volume-up mr-1"></i> Listen</button>
+                    </div>
+                    <div class="mb-8">
+                        <div class="flex justify-center gap-3 mb-2">
+                            <div v-for="n in 5" :key="n" class="w-4 h-4 rounded-full transition-all border-2 border-slate-600" :class="n <= stepData.oralCount ? 'bg-green-500 border-green-400' : 'bg-slate-800'"></div>
+                        </div>
+                        <p class="text-slate-400 text-sm font-bold">Progress: {{ stepData.oralCount }} / 5</p>
+                    </div>
+                    <button @click="toggleRec(getZhongkaoSentence(), updateOralCount)" 
+                        :class="isRecording ? 'bg-red-500 border-red-400 pulse-mic text-white' : (stepData.oralCount >= 5 ? 'bg-green-600 border-green-500' : 'bg-indigo-600 border-indigo-500')" 
+                        class="btn-3d w-24 h-24 rounded-full border-b-4 flex items-center justify-center text-4xl text-white shadow-xl mx-auto">
+                        <i :class="isRecording ? 'fas fa-stop' : (stepData.oralCount >= 5 ? 'fas fa-check' : 'fas fa-microphone')"></i>
+                    </button>
+                    <p class="mt-4 font-bold" :class="isRecording ? 'text-red-400' : 'text-slate-500'">{{ isRecording ? 'Recording... Tap to Stop' : (stepData.lastOralScore ? `Last Score: ${stepData.lastOralScore}` : 'Read Aloud') }}</p>
+                </div>
+
+            </div>
+        </div>
+
+        <div v-else-if="phase === 'end'" class="w-full max-w-md text-center mt-20">
+            <h2 class="text-4xl font-black text-white mb-6">Mission Complete!</h2>
+            <button @click="clearSave" class="btn-3d bg-indigo-600 border-indigo-500 border-b-4 text-white px-8 py-4 rounded-xl font-bold">Restart</button>
+        </div>
+
+    </main>
+
+    <footer v-if="!['login', 'end'].includes(phase)" class="bottom-nav">
+        <!-- New Prev Button -->
+        <button @click="prevStep" v-if="canGoBack" class="nav-btn btn-prev btn-3d">
+            <i class="fas fa-arrow-left"></i> Prev
+        </button>
+        <!-- Next Button -->
+        <button @click="nextStep" :disabled="!canProceed" class="nav-btn btn-next btn-3d" :class="canProceed ? 'btn-active' : 'btn-locked'">
+            <span v-if="!canProceed" class="flex items-center gap-2 text-sm"><i class="fas fa-lock"></i> {{ getLockReason() }}</span>
+            <span v-else>Next Step <i class="fas fa-arrow-right"></i></span>
+        </button>
+    </footer>
+
+</div>
+
+<script>
+const COURSE_DATA_INJECTED = {
+  "vocabulary": [
+    {
+      "id": 1,
+      "word": "diet",
+      "phonetic": "/ˈdaɪət/",
+      "definition_cn": "饮食，节食",
+      "definition_en": "the kinds of food that a person, animal, or community habitually eats; a special course of food to which one restricts oneself to lose weight or for medical reasons.",
+      "usage": "可作名词或动词。作名词时，常与'on'连用，表示'在节食'。作动词时，常与'to'连用，表示'为...而节食'。例如：go on a diet（开始节食）；diet to lose weight（为减肥而节食）。",
+      "image_prompt": "A professional nutritionist holding a clipboard and standing in front of a table displaying a balanced selection of colorful vegetables, lean proteins, and whole grains, representing a healthy eating plan.",
+      "image_desc_en": "A person is planning a healthy eating plan with various nutritious foods.",
+      "image_desc_cn": "一个人正在用各种营养食物规划一份健康的饮食计划。",
+      "examples": [
+        {
+          "sentence": "This is not a diet.",
+          "trans": "这不是一种节食。",
+          "source": "Article"
+        },
+        {
+          "sentence": "To stay healthy, it's important to have a balanced diet.",
+          "trans": "为了保持健康，均衡饮食很重要。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "饮食，节食",
+      "options": [
+        "对话",
+        "饮食，节食",
+        "运动",
+        "饮料"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "My doctor advised me to go on a low-fat ___ to improve my health.",
+          "is_correct": true
+        },
+        {
+          "sentence": "I need to buy a new ___ for my car because the old one is broken.",
+          "is_correct": false
+        },
+        {
+          "sentence": "The main ___ of the meeting was to discuss the annual budget.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_1_diet.png",
+      "scrambled_letters": [
+        "e",
+        "t",
+        "h",
+        "i",
+        "u",
+        "d",
+        "v",
+        "w",
+        "d"
+      ]
+    },
+    {
+      "id": 2,
+      "word": "balance",
+      "phonetic": "/ˈbæləns/",
+      "definition_cn": "平衡，均衡",
+      "definition_en": "an even distribution of weight enabling someone or something to remain upright and steady; to keep or put (something) in a steady position so that it does not fall.",
+      "usage": "可作名词或动词。作名词时，常与'between'或'of'连用。作动词时，常与'with'或'against'连用。例如：balance A with B（用B平衡A）；keep a balance（保持平衡）。",
+      "image_prompt": "A professional yoga instructor in a serene studio, perfectly holding a tree pose on one leg with arms raised, demonstrating physical equilibrium and focus.",
+      "image_desc_en": "A person is standing steadily on one foot with arms out to the sides.",
+      "image_desc_cn": "一个人正单脚站立，双臂向两侧伸展，保持稳定。",
+      "examples": [
+        {
+          "sentence": "It's about balancing calories in tiny ways that add up to big benefits.",
+          "trans": "它是关于以微小的方式平衡卡路里，从而累积成巨大的好处。",
+          "source": "Article"
+        },
+        {
+          "sentence": "Finding a good balance between study and relaxation is key to success.",
+          "trans": "在学习和放松之间找到良好的平衡是成功的关键。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "平衡，均衡",
+      "options": [
+        "平衡，均衡",
+        "重量",
+        "增加",
+        "减少"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "It's important to ___ your work life with your personal life for overall well-being.",
+          "is_correct": true
+        },
+        {
+          "sentence": "Please ___ the door when you leave so the cat doesn't get out.",
+          "is_correct": false
+        },
+        {
+          "sentence": "The artist used bright colors to ___ the mood of the dark painting.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_2_balance.png",
+      "scrambled_letters": [
+        "h",
+        "b",
+        "n",
+        "o",
+        "l",
+        "g",
+        "c",
+        "y",
+        "e",
+        "a",
+        "a",
+        "q"
+      ]
+    },
+    {
+      "id": 3,
+      "word": "calorie",
+      "phonetic": "/ˈkæləri/",
+      "definition_cn": "卡路里（热量单位）",
+      "definition_en": "a unit of energy, often used to express the nutritional value of foods.",
+      "usage": "可数名词。常用于描述食物能量或身体消耗的能量。例如：burn calories（燃烧卡路里）；low-calorie food（低卡路里食物）。",
+      "image_prompt": "A close-up of a nutrition facts label on a food package, clearly showing the 'Calories' section highlighted, with various fresh fruits and vegetables in the background.",
+      "image_desc_en": "A label on a food package shows a number that measures energy.",
+      "image_desc_cn": "一个食品包装上的标签显示了一个衡量能量的数字。",
+      "examples": [
+        {
+          "sentence": "It will burn about 10 calories.",
+          "trans": "它会燃烧大约10卡路里。",
+          "source": "Article"
+        },
+        {
+          "sentence": "Eating too many high-calorie snacks can lead to weight gain.",
+          "trans": "吃太多高卡路里的零食会导致体重增加。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "卡路里（热量单位）",
+      "options": [
+        "维生素",
+        "卡路里（热量单位）",
+        "蛋白质",
+        "矿物质"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "Running for 30 minutes can help you burn a significant number of ___.",
+          "is_correct": true
+        },
+        {
+          "sentence": "The ___ of the story was about friendship and courage.",
+          "is_correct": false
+        },
+        {
+          "sentence": "She measured the ___ of the room before buying new furniture.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_3_calorie.png",
+      "scrambled_letters": [
+        "c",
+        "c",
+        "m",
+        "l",
+        "a",
+        "e",
+        "n",
+        "o",
+        "l",
+        "g",
+        "r",
+        "i"
+      ]
+    },
+    {
+      "id": 4,
+      "word": "benefit",
+      "phonetic": "/ˈbenɪfɪt/",
+      "definition_cn": "好处，益处",
+      "definition_en": "an advantage or profit gained from something.",
+      "usage": "可作名词或动词。作名词时，常用复数形式'benefits'。常与'of'或'from'连用。例如：the benefits of exercise（锻炼的好处）；benefit from（从...中受益）。",
+      "image_prompt": "A professional gardener smiling while watering a thriving vegetable garden in sunlight, symbolizing the positive results of consistent care and effort.",
+      "image_desc_en": "A person is enjoying the positive results of their hard work in a garden.",
+      "image_desc_cn": "一个人正在享受他在花园里辛勤劳动带来的积极成果。",
+      "examples": [
+        {
+          "sentence": "...that add up to big benefits.",
+          "trans": "...从而累积成巨大的好处。",
+          "source": "Article"
+        },
+        {
+          "sentence": "Regular reading has many benefits, such as improving vocabulary and knowledge.",
+          "trans": "经常阅读有很多好处，比如提高词汇量和知识。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "好处，益处",
+      "options": [
+        "好处，益处",
+        "问题",
+        "成本",
+        "风险"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "One major ___ of learning a new language is being able to communicate with more people.",
+          "is_correct": true
+        },
+        {
+          "sentence": "The weather ___ for tomorrow predicts rain in the afternoon.",
+          "is_correct": false
+        },
+        {
+          "sentence": "She packed her ___ carefully for the long journey ahead.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_4_benefit.png",
+      "scrambled_letters": [
+        "t",
+        "e",
+        "x",
+        "i",
+        "i",
+        "n",
+        "f",
+        "b",
+        "y",
+        "y",
+        "e",
+        "t"
+      ]
+    },
+    {
+      "id": 5,
+      "word": "habit",
+      "phonetic": "/ˈhæbɪt/",
+      "definition_cn": "习惯",
+      "definition_en": "a settled or regular tendency or practice, especially one that is hard to give up.",
+      "usage": "可数名词。常与'of'连用，表示'...的习惯'。例如：develop a habit（养成习惯）；break a habit（改掉习惯）。",
+      "image_prompt": "A focused professional writer at a tidy desk, writing in a journal every morning with a cup of coffee nearby, illustrating a consistent daily routine.",
+      "image_desc_en": "A person does the same positive action every day at the same time.",
+      "image_desc_cn": "一个人每天都在同一时间做同样的积极行为。",
+      "examples": [
+        {
+          "sentence": "You just need to develop the habits that fit people have.",
+          "trans": "你只需要养成健康人士拥有的那些习惯。",
+          "source": "Article"
+        },
+        {
+          "sentence": "Forming good study habits early can help you achieve better grades.",
+          "trans": "尽早形成良好的学习习惯可以帮助你取得更好的成绩。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "习惯",
+      "options": [
+        "爱好",
+        "习惯",
+        "计划",
+        "目标"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "Brushing your teeth twice a day is a healthy ___ that everyone should have.",
+          "is_correct": true
+        },
+        {
+          "sentence": "The rabbit's soft ___ kept it warm during the cold winter.",
+          "is_correct": false
+        },
+        {
+          "sentence": "The main ___ of the building was made of strong steel.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_5_habit.png",
+      "scrambled_letters": [
+        "v",
+        "a",
+        "w",
+        "i",
+        "b",
+        "r",
+        "t",
+        "t",
+        "h",
+        "s"
+      ]
+    },
+    {
+      "id": 6,
+      "word": "lean",
+      "phonetic": "/liːn/",
+      "definition_cn": "瘦的，精干的",
+      "definition_en": "(of a person) having little fat; thin and fit.",
+      "usage": "形容词。描述身体状态，指脂肪少、肌肉结实。例如：lean meat（瘦肉）；a lean body（精瘦的身体）。",
+      "image_prompt": "A professional athlete, such as a marathon runner, in motion wearing running gear, showcasing a toned and muscular physique with low body fat.",
+      "image_desc_en": "A person has a body with very little extra fat and visible muscles.",
+      "image_desc_cn": "一个人拥有几乎没有多余脂肪且肌肉可见的身体。",
+      "examples": [
+        {
+          "sentence": "...you'll become lean and fit.",
+          "trans": "...你会变得精瘦而健康。",
+          "source": "Article"
+        },
+        {
+          "sentence": "After months of training, the boxer had a strong and lean figure.",
+          "trans": "经过数月的训练，这位拳击手拥有了强壮而精瘦的体型。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "瘦的，精干的",
+      "options": [
+        "强壮的",
+        "瘦的，精干的",
+        "肥胖的",
+        "高大的"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "For the role, the actor had to follow a strict exercise plan to get a ___ and muscular look.",
+          "is_correct": true
+        },
+        {
+          "sentence": "The tower began to ___ dangerously after the strong earthquake.",
+          "is_correct": false
+        },
+        {
+          "sentence": "He decided to ___ the ladder against the wall to reach the high shelf.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_6_lean.png",
+      "scrambled_letters": [
+        "n",
+        "a",
+        "m",
+        "l",
+        "n",
+        "c",
+        "e",
+        "l",
+        "f"
+      ]
+    },
+    {
+      "id": 7,
+      "word": "routine",
+      "phonetic": "/ruːˈtiːn/",
+      "definition_cn": "常规，例行公事",
+      "definition_en": "a sequence of actions regularly followed; a fixed program.",
+      "usage": "可作名词或形容词。作名词时，常与'daily'或'morning'等词连用。例如：daily routine（日常生活）；follow a routine（遵循惯例）。",
+      "image_prompt": "A professional in a home office, following a morning schedule that includes making coffee, checking a planner, and organizing the desk, representing a structured start to the day.",
+      "image_desc_en": "A person follows the same set of actions every morning after waking up.",
+      "image_desc_cn": "一个人每天醒来后都遵循同一套动作。",
+      "examples": [
+        {
+          "sentence": "Morning routine",
+          "trans": "晨间惯例",
+          "source": "Article"
+        },
+        {
+          "sentence": "Having a bedtime routine, like reading a book, can help you sleep better.",
+          "trans": "拥有一个睡前惯例，比如读书，可以帮助你睡得更好。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "常规，例行公事",
+      "options": [
+        "冒险",
+        "常规，例行公事",
+        "惊喜",
+        "假期"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "Her daily ___ includes jogging in the park and having a healthy breakfast.",
+          "is_correct": true
+        },
+        {
+          "sentence": "The comedian's ___ had the entire audience laughing loudly.",
+          "is_correct": false
+        },
+        {
+          "sentence": "The ship sailed along the main ___ across the ocean.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_7_routine.png",
+      "scrambled_letters": [
+        "e",
+        "s",
+        "n",
+        "h",
+        "v",
+        "u",
+        "t",
+        "r",
+        "p",
+        "o",
+        "i",
+        "r"
+      ]
+    },
+    {
+      "id": 8,
+      "word": "sore",
+      "phonetic": "/sɔːr/",
+      "definition_cn": "疼痛的，酸痛的",
+      "definition_en": "painful or aching.",
+      "usage": "形容词。常用来描述肌肉因运动或劳累后的疼痛感。例如：sore muscles（肌肉酸痛）；feel sore（感到酸痛）。",
+      "image_prompt": "A professional masseuse providing a therapeutic massage to the shoulder area of a client, focusing on relieving muscle tension and discomfort.",
+      "image_desc_en": "A person is gently touching their shoulder because it feels uncomfortable after exercise.",
+      "image_desc_cn": "一个人正在轻轻触碰自己的肩膀，因为运动后那里感觉不舒服。",
+      "examples": [
+        {
+          "sentence": "...until you feel sore in your back.",
+          "trans": "...直到你感到背部酸痛。",
+          "source": "Article"
+        },
+        {
+          "sentence": "After the long hike, my legs were very sore the next day.",
+          "trans": "长途徒步后，第二天我的腿非常酸痛。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "疼痛的，酸痛的",
+      "options": [
+        "有力的",
+        "灵活的",
+        "疼痛的，酸痛的",
+        "麻木的"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "If you start a new exercise, it's normal to have ___ muscles for a day or two.",
+          "is_correct": true
+        },
+        {
+          "sentence": "The eagle had a ___ wingspan, allowing it to glide effortlessly.",
+          "is_correct": false
+        },
+        {
+          "sentence": "He used a special ___ to clean the delicate instrument.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_8_sore.png",
+      "scrambled_letters": [
+        "o",
+        "y",
+        "n",
+        "s",
+        "x",
+        "v",
+        "v",
+        "r",
+        "e"
+      ]
+    },
+    {
+      "id": 9,
+      "word": "burn",
+      "phonetic": "/bɜːrn/",
+      "definition_cn": "燃烧，消耗（能量）",
+      "definition_en": "to consume fuel and give off heat, light, and gases; (in the context of exercise/calories) to use up energy.",
+      "usage": "动词。其过去式和过去分词为'burned'或'burnt'。在健康语境下，常与'calories'或'energy'连用。例如：burn calories（消耗卡路里）；burn fat（燃烧脂肪）。",
+      "image_prompt": "A dynamic scene of a professional cyclist pedaling hard on a stationary bike in a modern gym, with a display screen showing calories being expended.",
+      "image_desc_en": "A person is exercising hard on a machine, and a number representing energy used is going up.",
+      "image_desc_cn": "一个人正在一台机器上努力锻炼，一个代表已消耗能量的数字正在上升。",
+      "examples": [
+        {
+          "sentence": "It will burn about 10 calories.",
+          "trans": "它会燃烧大约10卡路里。",
+          "source": "Article"
+        },
+        {
+          "sentence": "Swimming is a great exercise because it can burn a lot of calories.",
+          "trans": "游泳是一项很好的运动，因为它可以燃烧很多卡路里。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "燃烧，消耗（能量）",
+      "options": [
+        "燃烧，消耗（能量）",
+        "储存",
+        "创造",
+        "冷却"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "High-intensity workouts are effective because they ___ more energy in a shorter time.",
+          "is_correct": true
+        },
+        {
+          "sentence": "The artist will ___ the beautiful landscape at sunset.",
+          "is_correct": false
+        },
+        {
+          "sentence": "She took a sharp ___ to the left to avoid the obstacle.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_9_burn.png",
+      "scrambled_letters": [
+        "q",
+        "s",
+        "u",
+        "x",
+        "r",
+        "n",
+        "p",
+        "b",
+        "s"
+      ]
+    },
+    {
+      "id": 10,
+      "word": "soup",
+      "phonetic": "/suːp/",
+      "definition_cn": "汤",
+      "definition_en": "a liquid dish, typically made by boiling meat, fish, or vegetables, etc., in stock or water.",
+      "usage": "可作名词，既作可数名词也作不可数名词。常与形容词连用描述汤的种类。例如：clear soup（清汤）；chicken soup（鸡汤）。",
+      "image_prompt": "A close-up of a steaming bowl of clear broth soup with visible vegetables like carrots and celery, placed on a wooden table with a spoon beside it.",
+      "image_desc_en": "A hot liquid food with pieces of vegetables in it is in a bowl.",
+      "image_desc_cn": "一碗热的液态食物，里面有蔬菜块。",
+      "examples": [
+        {
+          "sentence": "When you have a meal, order a clear soup...",
+          "trans": "当你用餐时，点一份清汤...",
+          "source": "Article"
+        },
+        {
+          "sentence": "On a cold day, a bowl of hot tomato soup can be very comforting.",
+          "trans": "在寒冷的日子里，一碗热番茄汤会非常令人舒适。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "汤",
+      "options": [
+        "沙拉",
+        "主食",
+        "汤",
+        "甜点"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "For a light starter, the chef recommended a delicious vegetable ___.",
+          "is_correct": true
+        },
+        {
+          "sentence": "The mechanic used a special ___ to clean the greasy engine parts.",
+          "is_correct": false
+        },
+        {
+          "sentence": "Her voice was as smooth as ___ , calming everyone who listened.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_10_soup.png",
+      "scrambled_letters": [
+        "k",
+        "b",
+        "u",
+        "q",
+        "s",
+        "o",
+        "p",
+        "l",
+        "y"
+      ]
+    },
+    {
+      "id": 11,
+      "word": "course",
+      "phonetic": "/kɔːrs/",
+      "definition_cn": "一道菜；课程；过程",
+      "definition_en": "a dish or a set of dishes served together, forming one of the successive parts of a meal; a series of lessons or studies on a particular subject.",
+      "usage": "可数名词。在餐饮语境中，常与'main', 'first', 'dessert'等词连用。例如：main course（主菜）；three-course meal（三道菜的一餐）。",
+      "image_prompt": "A fine dining setting with a beautifully plated main dish, such as grilled fish with herbs and roasted vegetables, placed centrally on a table with elegant cutlery.",
+      "image_desc_en": "The most substantial part of a formal meal is served on a plate.",
+      "image_desc_cn": "一顿正式餐食中最主要的部分被盛在盘子里端上来。",
+      "examples": [
+        {
+          "sentence": "...have it before having the main course.",
+          "trans": "...在主菜上来之前喝汤。",
+          "source": "Article"
+        },
+        {
+          "sentence": "The English course at our school is very popular among students.",
+          "trans": "我们学校的英语课程很受学生欢迎。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "一道菜；课程；过程",
+      "options": [
+        "一道菜；课程；过程",
+        "原因",
+        "速度",
+        "方向"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "For the main ___ , we will be serving roasted chicken with potatoes.",
+          "is_correct": true
+        },
+        {
+          "sentence": "The river changed its ___ after the heavy flood.",
+          "is_correct": false
+        },
+        {
+          "sentence": "Of ___ , I will help you with your project.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_11_course.png",
+      "scrambled_letters": [
+        "c",
+        "s",
+        "r",
+        "e",
+        "c",
+        "j",
+        "c",
+        "h",
+        "d",
+        "o",
+        "u"
+      ]
+    },
+    {
+      "id": 12,
+      "word": "fibre",
+      "phonetic": "/ˈfaɪbər/",
+      "definition_cn": "纤维",
+      "definition_en": "a thread or filament from which a vegetable tissue, mineral substance, or textile is formed; dietary material containing substances such as cellulose, that are resistant to the action of digestive enzymes.",
+      "usage": "名词（美式拼写为'fiber'）。在营养学中为不可数名词。常与'high in'或'rich in'连用。例如：high-fibre food（高纤维食物）；dietary fibre（膳食纤维）。",
+      "image_prompt": "A detailed macro photograph of the stringy, fibrous interior of a celery stalk, showcasing its natural texture against a dark background.",
+      "image_desc_en": "The stringy part inside a vegetable that helps with digestion.",
+      "image_desc_cn": "蔬菜内部有助于消化的丝状部分。",
+      "examples": [
+        {
+          "sentence": "Apples are full of fibre and water...",
+          "trans": "苹果富含纤维和水分...",
+          "source": "Article"
+        },
+        {
+          "sentence": "Eating foods rich in fibre, like oats and beans, is good for your digestion.",
+          "trans": "吃富含纤维的食物，如燕麦和豆类，对你的消化有好处。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "纤维",
+      "options": [
+        "糖分",
+        "脂肪",
+        "纤维",
+        "盐分"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "Whole wheat bread contains more dietary ___ than white bread.",
+          "is_correct": true
+        },
+        {
+          "sentence": "The artist used a fine ___ brush to paint the delicate details.",
+          "is_correct": false
+        },
+        {
+          "sentence": "His strong moral ___ guided him to always tell the truth.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_12_fibre.png",
+      "scrambled_letters": [
+        "i",
+        "d",
+        "s",
+        "f",
+        "e",
+        "r",
+        "b",
+        "y",
+        "b",
+        "s"
+      ]
+    },
+    {
+      "id": 13,
+      "word": "stomach",
+      "phonetic": "/ˈstʌmək/",
+      "definition_cn": "胃；腹部",
+      "definition_en": "the internal organ in which the major part of the digestion of food occurs; the front part of the body between the chest and thighs.",
+      "usage": "可数名词。常与动词'feel'或'hurt'连用。例如：have a stomachache（胃痛）；an empty stomach（空腹）。",
+      "image_prompt": "An educational cross-section diagram of the human abdomen, highlighting the stomach organ in its anatomical position among other digestive organs.",
+      "image_desc_en": "The organ inside the body where food goes after you swallow it.",
+      "image_desc_cn": "身体内部的一个器官，食物被吞咽后会进入这里。",
+      "examples": [
+        {
+          "sentence": "...so your stomach will crave less food.",
+          "trans": "...所以你的胃会渴望更少的食物。",
+          "source": "Article"
+        },
+        {
+          "sentence": "It's not good to exercise on a full stomach.",
+          "trans": "吃饱后立即运动是不好的。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "胃；腹部",
+      "options": [
+        "心脏",
+        "胃；腹部",
+        "大脑",
+        "肺部"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "Drinking milk sometimes can help settle an upset ___.",
+          "is_correct": true
+        },
+        {
+          "sentence": "She couldn't ___ the idea of cheating on the test.",
+          "is_correct": false
+        },
+        {
+          "sentence": "The brave knight had the ___ to face the dragon alone.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_13_stomach.png",
+      "scrambled_letters": [
+        "m",
+        "c",
+        "s",
+        "c",
+        "o",
+        "i",
+        "t",
+        "a",
+        "q",
+        "i",
+        "h",
+        "o"
+      ]
+    },
+    {
+      "id": 14,
+      "word": "crave",
+      "phonetic": "/kreɪv/",
+      "definition_cn": "渴望，渴求",
+      "definition_en": "to feel a powerful desire for (something).",
+      "usage": "动词。常与'for'连用，但也可以直接接宾语。例如：crave (for) chocolate（非常想吃巧克力）。",
+      "image_prompt": "A professional baker looking longingly at a display case filled with freshly baked pastries, capturing a moment of strong desire for food.",
+      "image_desc_en": "A person looks at a delicious dessert with a very strong feeling of wanting it.",
+      "image_desc_cn": "一个人看着一份美味的甜点，带着非常强烈的想要得到它的感觉。",
+      "examples": [
+        {
+          "sentence": "...so your stomach will crave less food.",
+          "trans": "...所以你的胃会渴望更少的食物。",
+          "source": "Article"
+        },
+        {
+          "sentence": "Sometimes I crave a piece of sweet cake after dinner.",
+          "trans": "有时晚饭后我非常想吃一块甜蛋糕。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "渴望，渴求",
+      "options": [
+        "讨厌",
+        "忘记",
+        "分享",
+        "渴望，渴求"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "After a long day of work, she began to ___ a hot cup of tea and some quiet time.",
+          "is_correct": true
+        },
+        {
+          "sentence": "The hiker used a stick to ___ a path through the thick bushes.",
+          "is_correct": false
+        },
+        {
+          "sentence": "The old vase had a large ___ running down its side.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_14_crave.png",
+      "scrambled_letters": [
+        "u",
+        "x",
+        "e",
+        "w",
+        "a",
+        "t",
+        "c",
+        "v",
+        "r",
+        "r"
+      ]
+    },
+    {
+      "id": 15,
+      "word": "average",
+      "phonetic": "/ˈævərɪdʒ/",
+      "definition_cn": "平均的；普通的",
+      "definition_en": "a number expressing the central or typical value in a set of data; conforming to the standard or common type; usual.",
+      "usage": "可作名词、形容词或动词。作形容词时，常放在名词前。例如：on average（平均来说）；an average student（一个普通的学生）。",
+      "image_prompt": "A graph on a whiteboard in an office, showing a line representing 'average daily steps' with data points above and below it, analyzed by a professional.",
+      "image_desc_en": "A line on a chart shows the typical number that is calculated from several other numbers.",
+      "image_desc_cn": "图表上的一条线显示了一个由其他几个数字计算得出的典型数值。",
+      "examples": [
+        {
+          "sentence": "Heavy people sit on average two and a half hours more each day...",
+          "trans": "体重较重的人平均每天多坐两个半小时...",
+          "source": "Article"
+        },
+        {
+          "sentence": "The average temperature in July is much higher than in January.",
+          "trans": "七月的平均温度比一月高得多。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "平均的；普通的",
+      "options": [
+        "最高的",
+        "平均的；普通的",
+        "最低的",
+        "特殊的"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "The ___ rainfall for this month is about 50 millimeters.",
+          "is_correct": true
+        },
+        {
+          "sentence": "The knight swore to ___ his friend's death by defeating the enemy.",
+          "is_correct": false
+        },
+        {
+          "sentence": "She has a strong ___ of classical music and plays the piano beautifully.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_15_average.png",
+      "scrambled_letters": [
+        "n",
+        "a",
+        "r",
+        "e",
+        "u",
+        "e",
+        "a",
+        "v",
+        "e",
+        "p",
+        "y",
+        "g"
+      ]
+    },
+    {
+      "id": 16,
+      "word": "skill",
+      "phonetic": "/skɪl/",
+      "definition_cn": "技能，技巧",
+      "definition_en": "the ability to do something well; expertise.",
+      "usage": "可作可数或不可数名词。常与'at', 'in'或'of'连用。例如：communication skills（沟通技巧）；a skill in cooking（烹饪技能）。",
+      "image_prompt": "A professional carpenter in a workshop, skillfully using a chisel to carve intricate details into a piece of wood, demonstrating expert craftsmanship.",
+      "image_desc_en": "A person is using tools expertly to create something with their hands.",
+      "image_desc_cn": "一个人正在熟练地使用工具，用手创作某样东西。",
+      "examples": [
+        {
+          "sentence": "This skill is especially important...",
+          "trans": "这个技巧尤其重要...",
+          "source": "Article"
+        },
+        {
+          "sentence": "Learning a new language requires patience and practice to master the skill.",
+          "trans": "学习一门新语言需要耐心和练习来掌握这项技能。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "技能，技巧",
+      "options": [
+        "运气",
+        "天赋",
+        "技能，技巧",
+        "知识"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "Good problem-solving ___ are valuable in both work and daily life.",
+          "is_correct": true
+        },
+        {
+          "sentence": "The hunter used his ___ to track the animal through the forest.",
+          "is_correct": false
+        },
+        {
+          "sentence": "The sharp ___ of the knife made cutting vegetables easy.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_16_skill.png",
+      "scrambled_letters": [
+        "j",
+        "s",
+        "i",
+        "w",
+        "l",
+        "l",
+        "r",
+        "u",
+        "l",
+        "k"
+      ]
+    },
+    {
+      "id": 17,
+      "word": "occasionally",
+      "phonetic": "/əˈkeɪʒnəli/",
+      "definition_cn": "偶尔地",
+      "definition_en": "at infrequent or irregular intervals; now and then.",
+      "usage": "副词。通常放在动词前或句末。用于描述不经常发生的动作。例如：I occasionally go to the cinema.（我偶尔去看电影。）",
+      "image_prompt": "A professional enjoying a relaxed moment on a park bench, looking up from a book to watch birds fly by, representing a break from routine.",
+      "image_desc_en": "A person does something relaxing outside, but not as part of their daily schedule.",
+      "image_desc_cn": "一个人在外面做一些放松的事情，但这并非他们日常安排的一部分。",
+      "examples": [
+        {
+          "sentence": "...if you can step out of the room to take a short walk occasionally...",
+          "trans": "...如果你能偶尔走出房间散个步...",
+          "source": "Article"
+        },
+        {
+          "sentence": "We occasionally meet for coffee and chat about our lives.",
+          "trans": "我们偶尔见面喝咖啡，聊聊各自的生活。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "偶尔地",
+      "options": [
+        "经常地",
+        "从不",
+        "偶尔地",
+        "总是"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "Even though she is busy, she ___ visits her grandparents on weekends.",
+          "is_correct": true
+        },
+        {
+          "sentence": "The ___ for the charity event was a great success, raising a lot of money.",
+          "is_correct": false
+        },
+        {
+          "sentence": "The ___ of the crime was still unknown to the police.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_17_occasionally.png",
+      "scrambled_letters": [
+        "s",
+        "i",
+        "c",
+        "n",
+        "r",
+        "y",
+        "c",
+        "a",
+        "l",
+        "o",
+        "a",
+        "z",
+        "l",
+        "o",
+        "c",
+        "m",
+        "n"
+      ]
+    },
+    {
+      "id": 18,
+      "word": "tip",
+      "phonetic": "/tɪp/",
+      "definition_cn": "小建议，窍门；小费",
+      "definition_en": "a small but useful piece of practical advice; a sum of money given to someone for a service.",
+      "usage": "可数名词。表示'建议'时，常用复数形式'tips'。常与'for'或'on'连用。例如：tips for saving money（省钱小窍门）；give a tip（给小费）。",
+      "image_prompt": "A professional chef in a kitchen, pointing to a notepad with handwritten words like 'Use fresh herbs' and 'Season properly', sharing culinary advice.",
+      "image_desc_en": "A person is giving a useful piece of advice to help someone do something better.",
+      "image_desc_cn": "一个人正在提供一个有用的建议，以帮助别人把事情做得更好。",
+      "examples": [
+        {
+          "sentence": "Follow these four tips, and you will see great results...",
+          "trans": "遵循这四个小建议，你就会看到显著的效果...",
+          "source": "Article"
+        },
+        {
+          "sentence": "Here is a useful tip for remembering new words: use them in sentences.",
+          "trans": "这里有一个记住新单词的有用建议：在句子中使用它们。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "小建议，窍门；小费",
+      "options": [
+        "警告",
+        "问题",
+        "故事",
+        "小建议，窍门；小费"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "A helpful ___ for studying is to review your notes regularly.",
+          "is_correct": true
+        },
+        {
+          "sentence": "The ___ of the mountain was covered in snow.",
+          "is_correct": false
+        },
+        {
+          "sentence": "Be careful not to ___ the glass over with your elbow.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "vocab_18_tip.png",
+      "scrambled_letters": [
+        "y",
+        "h",
+        "t",
+        "p",
+        "p",
+        "i",
+        "r",
+        "b"
+      ]
+    },
+    {
+      "id": 19,
+      "word": "result",
+      "phonetic": "/rɪˈzʌlt/",
+      "definition_cn": "结果，成果",
+      "definition_en": "a consequence, effect, or outcome of something.",
+      "usage": "可作名词或动词。作名词时，常与'of'连用表示'...的结果'。作动词时，常与'in'或'from'连用。例如：as a result（因此）；result in（导致）。",
+      "image_prompt": "A professional scientist in a lab coat, smiling while looking at a chart showing a successful experiment with a clear upward trend line.",
+      "image_desc_en": "A person is looking at data on a screen that shows the positive outcome of their work.",
+      "image_desc_cn": "一个人正在看着屏幕上的数据，这些数据显示了他们工作的积极成果。",
+      "examples": [
+        {
+          "sentence": "...you will see great results in your weight loss.",
+          "trans": "...你会在减肥上看到显著的效果。",
+          "source": "Article"
+        },
+        {
+          "sentence": "Hard work and practice will bring good results in the final exam.",
+          "trans": "努力学习和练习会在期末考试中带来好结果。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "结果，成果",
+      "options": [
+        "开始",
+        "过程",
+        "原因",
+        "结果，成果"
+      ],
+      "image_file": "vocab_19_result.png",
+      "scrambled_letters": [
+        "r",
+        "t",
+        "i",
+        "l",
+        "f",
+        "t",
+        "u",
+        "t",
+        "d",
+        "e",
+        "s"
+      ]
+    }
+  ],
+  "collocations": [
+    {
+      "id": 1,
+      "phrase": "give up",
+      "definition_cn": "放弃；戒掉。在文中指不必放弃你喜爱的食物。",
+      "definition_en": "To stop doing or having something; to quit. In the context, it means you don't have to stop eating the food you love.",
+      "usage": "动词短语，通常后接名词或动名词作宾语。例如：give up smoking (戒烟)。在文中后接名词短语 'the food you love'。",
+      "image_prompt": "A determined adult holding a piece of chocolate, looking at it thoughtfully, then placing it back on a plate with a smile, symbolizing a choice not to abandon a favorite treat.",
+      "image_desc_en": "A person decides not to stop enjoying something they like.",
+      "image_desc_cn": "一个人决定不停止享受他们喜欢的东西。",
+      "examples": [
+        {
+          "sentence": "And you don't even have to give up the food you love.",
+          "trans": "你甚至不必放弃你喜爱的食物。",
+          "source": "Article"
+        },
+        {
+          "sentence": "To improve your health, you should give up eating too much junk food.",
+          "trans": "为了改善健康，你应该放弃吃太多垃圾食品。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "放弃",
+      "options": [
+        "拿起",
+        "放弃",
+        "寻找",
+        "给予"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "He decided to ______ smoking for his new year's resolution.",
+          "is_correct": true
+        },
+        {
+          "sentence": "Please ______ your homework on time tomorrow.",
+          "is_correct": false
+        },
+        {
+          "sentence": "She will ______ a beautiful song at the concert.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "colloc_1_give_up.png",
+      "scrambled_letters": [
+        "v",
+        "h",
+        "g",
+        "z",
+        "g",
+        "a",
+        "u",
+        "e",
+        "p",
+        "g",
+        "i"
+      ]
+    },
+    {
+      "id": 2,
+      "phrase": "join a gym",
+      "definition_cn": "加入健身房；成为健身房的会员。在文中指不必通过加入健身房来减肥。",
+      "definition_en": "To become a member of a fitness center. In the context, it means it's not necessary to become a gym member to lose weight.",
+      "usage": "动词短语，'join' 是及物动词，后接名词 'a gym' 作宾语。常用于谈论健康或运动计划。",
+      "image_prompt": "A professional fitness instructor smiling and holding a membership card, standing outside a modern gym with glass windows, while a woman walks past confidently without entering.",
+      "image_desc_en": "A person chooses not to become a member of a fitness center.",
+      "image_desc_cn": "一个人选择不成为健身中心的会员。",
+      "examples": [
+        {
+          "sentence": "And you don't even have to... join a gym.",
+          "trans": "你甚至不必...加入健身房。",
+          "source": "Article"
+        },
+        {
+          "sentence": "My brother wants to join a gym to get stronger.",
+          "trans": "我哥哥想加入健身房来变得更强壮。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "加入健身房",
+      "options": [
+        "离开学校",
+        "加入健身房",
+        "参加聚会",
+        "打开门"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "To get more exercise, many people ______.",
+          "is_correct": true
+        },
+        {
+          "sentence": "I need to ______ the book club to read more.",
+          "is_correct": false
+        },
+        {
+          "sentence": "Let's ______ the game and have fun together.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "colloc_2_join_a_gym.png",
+      "scrambled_letters": [
+        "d",
+        "d",
+        "y",
+        "o",
+        "m",
+        "d",
+        "i",
+        "l",
+        "g",
+        "a",
+        "n",
+        "j",
+        "g"
+      ]
+    },
+    {
+      "id": 3,
+      "phrase": "add up to",
+      "definition_cn": "总计达到；累积成。在文中指微小的方式累积起来带来巨大的益处。",
+      "definition_en": "To result in something when combined; to amount to. In the context, it means small changes in balancing calories combine to create significant benefits.",
+      "usage": "动词短语，后接名词或数量词，表示累积的结果。注意 'up' 和 'to' 不能分开。",
+      "image_prompt": "A visual metaphor of many small, glowing coins dropping one by one into a large glass jar, which eventually becomes full and shines brightly, representing small efforts leading to a big outcome.",
+      "image_desc_en": "Many small things combine to create one large result.",
+      "image_desc_cn": "许多小事结合起来创造了一个大的结果。",
+      "examples": [
+        {
+          "sentence": "It's about balancing calories in tiny ways that add up to big benefits.",
+          "trans": "这是关于以微小的方式平衡卡路里，累积成巨大的益处。",
+          "source": "Article"
+        },
+        {
+          "sentence": "Saving a little money every day can add up to a large amount in a year.",
+          "trans": "每天存一点钱，一年下来可以累积成一笔大数目。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "累积成",
+      "options": [
+        "减少到",
+        "分开到",
+        "累积成",
+        "跳跃到"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "All these small expenses ______ a huge bill at the end of the month.",
+          "is_correct": true
+        },
+        {
+          "sentence": "Please ______ the numbers on this list for me.",
+          "is_correct": false
+        },
+        {
+          "sentence": "Can you ______ a story for the children?",
+          "is_correct": false
+        }
+      ],
+      "image_file": "colloc_3_add_up_to.png",
+      "scrambled_letters": [
+        "p",
+        "k",
+        "o",
+        "d",
+        "d",
+        "u",
+        "w",
+        "n",
+        "t",
+        "a",
+        "x",
+        "w"
+      ]
+    },
+    {
+      "id": 4,
+      "phrase": "stick with",
+      "definition_cn": "坚持；持续做。在文中指坚持这些习惯，你就会变得苗条健康。",
+      "definition_en": "To continue with something; to not give up on something. In the context, it means if you continue to follow the habits, you will become lean and fit.",
+      "usage": "动词短语，'stick' 是不及物动词，与介词 'with' 连用，后接名词或代词作宾语。",
+      "image_prompt": "A focused adult practicing morning stretches on a yoga mat every day, shown in a sequence of images from day 1 to day 30, demonstrating consistent effort and gradual improvement.",
+      "image_desc_en": "A person continues to do the same helpful activity every day.",
+      "image_desc_cn": "一个人每天继续做同样的有益活动。",
+      "examples": [
+        {
+          "sentence": "Stick with them, and you'll become lean and fit.",
+          "trans": "坚持它们，你就会变得苗条健康。",
+          "source": "Article"
+        },
+        {
+          "sentence": "If you stick with your English study, you will make great progress.",
+          "trans": "如果你坚持学习英语，你会取得巨大进步。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "坚持",
+      "options": [
+        "放弃",
+        "坚持",
+        "改变",
+        "讨论"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "The plan is good, so we should ______ it.",
+          "is_correct": true
+        },
+        {
+          "sentence": "Can you ______ this picture on the wall for me?",
+          "is_correct": false
+        },
+        {
+          "sentence": "I need to ______ my friend at the airport tomorrow.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "colloc_4_stick_with.png",
+      "scrambled_letters": [
+        "z",
+        "n",
+        "c",
+        "h",
+        "s",
+        "k",
+        "w",
+        "i",
+        "u",
+        "p",
+        "e",
+        "t",
+        "i",
+        "t"
+      ]
+    },
+    {
+      "id": 5,
+      "phrase": "wake up",
+      "definition_cn": "醒来；睡醒。在文中指当你早上醒来时。",
+      "definition_en": "To stop sleeping; to become conscious after sleeping. In the context, it refers to the moment you stop sleeping in the morning.",
+      "usage": "动词短语，可作及物或不及物动词。文中为不及物用法。'up' 是副词。常与 'in the morning' 等时间状语连用。",
+      "image_prompt": "A woman in comfortable pajamas slowly opening her eyes as morning sunlight streams through a window, stretching her arms gently as she sits up in bed.",
+      "image_desc_en": "A person stops sleeping and begins the day.",
+      "image_desc_cn": "一个人停止睡觉，开始新的一天。",
+      "examples": [
+        {
+          "sentence": "When you wake up in the morning, sit up slowly without using your hands.",
+          "trans": "当你早上醒来时，慢慢坐起来，不要用手。",
+          "source": "Article"
+        },
+        {
+          "sentence": "I usually wake up at seven o'clock on school days.",
+          "trans": "上学日我通常七点醒来。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "醒来",
+      "options": [
+        "睡觉",
+        "醒来",
+        "工作",
+        "跑步"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "What time do you ______ every day?",
+          "is_correct": true
+        },
+        {
+          "sentence": "Please ______ the baby, she is crying.",
+          "is_correct": false
+        },
+        {
+          "sentence": "We need to ______ the house before the guests arrive.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "colloc_5_wake_up.png",
+      "scrambled_letters": [
+        "w",
+        "u",
+        "h",
+        "p",
+        "w",
+        "k",
+        "v",
+        "q",
+        "e",
+        "p",
+        "a"
+      ]
+    },
+    {
+      "id": 6,
+      "phrase": "sit up",
+      "definition_cn": "坐起来；端坐。在文中指醒来后不用手支撑地坐起来。",
+      "definition_en": "To move from a lying or reclining position to a sitting position. In the context, it means to rise to a sitting position slowly after waking up.",
+      "usage": "动词短语，'up' 是副词。文中后接方式状语 'slowly without using your hands'。",
+      "image_prompt": "A person demonstrating core strength by slowly raising their upper body from a lying position on a exercise mat to a sitting position, keeping their hands crossed over their chest.",
+      "image_desc_en": "A person moves their body from lying down to an upright sitting position.",
+      "image_desc_cn": "一个人将身体从躺姿移动到直立的坐姿。",
+      "examples": [
+        {
+          "sentence": "When you wake up in the morning, sit up slowly without using your hands.",
+          "trans": "当你早上醒来时，慢慢坐起来，不要用手。",
+          "source": "Article"
+        },
+        {
+          "sentence": "The patient is now strong enough to sit up in bed.",
+          "trans": "病人现在足够强壮，可以在床上坐起来了。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "坐起来",
+      "options": [
+        "站起来",
+        "躺下来",
+        "坐起来",
+        "跳起来"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "After resting, she tried to ______ in bed.",
+          "is_correct": true
+        },
+        {
+          "sentence": "Let's ______ and talk about our plans.",
+          "is_correct": false
+        },
+        {
+          "sentence": "Please ______ the table for dinner.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "colloc_6_sit_up.png",
+      "scrambled_letters": [
+        "s",
+        "t",
+        "p",
+        "s",
+        "u",
+        "s",
+        "i",
+        "w",
+        "j",
+        "e"
+      ]
+    },
+    {
+      "id": 7,
+      "phrase": "start with",
+      "definition_cn": "以...开始；首先做...。在文中指用餐时先点一份清汤。",
+      "definition_en": "To begin something by doing a particular thing first. In the context, it means beginning your meal by having a clear soup.",
+      "usage": "动词短语，'start' 是不及物动词，与介词 'with' 连用，后接名词作宾语，表示开始的第一个步骤或内容。",
+      "image_prompt": "A place setting at a dining table showing a bowl of clear broth with herbs, positioned before a main course plate, illustrating the first item in a sequence of a meal.",
+      "image_desc_en": "A person begins their meal by having soup before anything else.",
+      "image_desc_cn": "一个人开始用餐时，先喝汤，再吃其他东西。",
+      "examples": [
+        {
+          "sentence": "When you have a meal, order a clear soup, and have it before having the main course.",
+          "trans": "当你用餐时，点一份清汤，并在主菜之前喝掉它。",
+          "source": "Article"
+        },
+        {
+          "sentence": "Let's start with a quick review of yesterday's lesson.",
+          "trans": "让我们从快速复习昨天的课程开始。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "以...开始",
+      "options": [
+        "以...结束",
+        "以...开始",
+        "与...玩耍",
+        "为...等待"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "A good breakfast should ______ something healthy like fruit.",
+          "is_correct": true
+        },
+        {
+          "sentence": "I need to ______ my friend at the library later.",
+          "is_correct": false
+        },
+        {
+          "sentence": "Can you ______ this letter for me? It's important.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "colloc_7_start_with.png",
+      "scrambled_letters": [
+        "i",
+        "x",
+        "i",
+        "f",
+        "w",
+        "r",
+        "t",
+        "h",
+        "a",
+        "a",
+        "t",
+        "t",
+        "w",
+        "s"
+      ]
+    },
+    {
+      "id": 8,
+      "phrase": "full of",
+      "definition_cn": "充满；富含。在文中指苹果富含纤维和水。",
+      "definition_en": "Containing a lot of something; filled with. In the context, it means apples contain a large amount of fibre and water.",
+      "usage": "形容词短语，'full' 是形容词，与介词 'of' 连用，后接名词，描述某物含量丰富。在句中常作表语。",
+      "image_prompt": "A close-up of a shiny red apple cut in half, revealing its crisp flesh, with visual emphasis on the fibrous texture and droplets of moisture, symbolizing its healthy contents.",
+      "image_desc_en": "A piece of fruit contains a large amount of healthy substances.",
+      "image_desc_cn": "一种水果含有大量健康物质。",
+      "examples": [
+        {
+          "sentence": "Apples are full of fibre and water, so your stomach will crave less food.",
+          "trans": "苹果富含纤维和水，所以你的胃会渴望更少的食物。",
+          "source": "Article"
+        },
+        {
+          "sentence": "The room was full of laughter during the party.",
+          "trans": "聚会期间，房间里充满了笑声。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "充满",
+      "options": [
+        "缺乏",
+        "充满",
+        "覆盖",
+        "隐藏"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "Her life is ______ joy and interesting experiences.",
+          "is_correct": true
+        },
+        {
+          "sentence": "Please be ______ care when you cross the street.",
+          "is_correct": false
+        },
+        {
+          "sentence": "I am ______ my homework right now.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "colloc_8_full_of.png",
+      "scrambled_letters": [
+        "u",
+        "l",
+        "n",
+        "f",
+        "g",
+        "o",
+        "f",
+        "d",
+        "l",
+        "y",
+        "u"
+      ]
+    },
+    {
+      "id": 9,
+      "phrase": "walk around",
+      "definition_cn": "四处走走；散步。在文中指每次使用手机时，站起来四处走走。",
+      "definition_en": "To walk without a specific destination; to move about on foot. In the context, it means to stand up and move about casually each time you use your mobile phone.",
+      "usage": "动词短语，'walk' 是不及物动词，'around' 是副词，表示活动范围。常与 'stand up' 等动作连用。",
+      "image_prompt": "A professional in an office setting, standing up from a desk chair while talking on a mobile phone, and pacing slowly around the room near a window with plants.",
+      "image_desc_en": "A person stands up and moves on foot within a room while using a device.",
+      "image_desc_cn": "一个人站起来，在房间里边走动边使用设备。",
+      "examples": [
+        {
+          "sentence": "Every time you use the mobile phone, stand up and walk around.",
+          "trans": "每次你使用手机时，站起来四处走走。",
+          "source": "Article"
+        },
+        {
+          "sentence": "After sitting for a long time, it's good to stand up and walk around for a few minutes.",
+          "trans": "久坐之后，站起来走动几分钟是有益的。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "四处走走",
+      "options": [
+        "跑开",
+        "坐下",
+        "四处走走",
+        "躺下"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "During the break, we can ______ the garden to relax.",
+          "is_correct": true
+        },
+        {
+          "sentence": "Please ______ the corner and you'll see the shop.",
+          "is_correct": false
+        },
+        {
+          "sentence": "Let's ______ the problem and find a solution.",
+          "is_correct": false
+        }
+      ],
+      "image_file": "colloc_9_walk_around.png",
+      "scrambled_letters": [
+        "d",
+        "a",
+        "n",
+        "d",
+        "l",
+        "t",
+        "a",
+        "o",
+        "l",
+        "u",
+        "m",
+        "w",
+        "w",
+        "r",
+        "k"
+      ]
+    },
+    {
+      "id": 10,
+      "phrase": "step out of",
+      "definition_cn": "走出；离开。在文中指如果你能走出房间进行短暂的散步。",
+      "definition_en": "To leave a place, especially for a short time. In the context, it means if you can leave the room to take a short walk.",
+      "usage": "动词短语，'step' 是不及物动词，与介词 'out of' 连用，后接表示地点的名词，表示从某处离开。",
+      "image_prompt": "A woman opening a door to leave a room, stepping onto a sunny path outside, taking a deep breath of fresh air, ready for a brief stroll in a peaceful environment.",
+      "image_desc_en": "A person leaves an indoor space to go outside for a short time.",
+      "image_desc_cn": "一个人离开室内空间，到外面去待一小会儿。",
+      "examples": [
+        {
+          "sentence": "And if you can step out of the room to take a short walk occasionally, it will be even more helpful.",
+          "trans": "如果你能偶尔走出房间进行短暂的散步，将会更有帮助。",
+          "source": "Article"
+        },
+        {
+          "sentence": "He had to step out of the meeting to answer an important phone call.",
+          "trans": "他不得不走出会议室去接一个重要的电话。",
+          "source": "Zhongkao"
+        }
+      ],
+      "correct_answer": "走出",
+      "options": [
+        "跑进",
+        "走进",
+        "跳出",
+        "走出"
+      ],
+      "quiz_fill": [
+        {
+          "sentence": "I need to ______ the classroom for a moment.",
+          "is_correct": true
+        },
+        {
+          "sentence": "Please ______ the line to form a circle.",
+          "is_correct": false
+        },
+        {
+          "sentence": "Can you ______ this math problem for me?",
+          "is_correct": false
+        }
+      ],
+      "image_file": "colloc_10_step_out_of.png",
+      "scrambled_letters": [
+        "s",
+        "u",
+        "e",
+        "t",
+        "e",
+        "f",
+        "b",
+        "o",
+        "t",
+        "b",
+        "s",
+        "a",
+        "o",
+        "p"
+      ]
+    }
+  ],
+  "grammar": [
+    {
+      "id": 1,
+      "title": "Imperative Sentences / 祈使句",
+      "source_sentence": "Follow these four tips, and you will see great results in your weight loss.",
+      "source_sentence_cn": "遵循这四个小贴士，你就会在减肥上看到显著效果。",
+      "explanation": "<p><b>English:</b> An imperative sentence gives a command, makes a request, or offers advice. It usually starts with the base form of the verb and the subject 'you' is implied. In this sentence, 'Follow' is the imperative verb.</p><p><b>中文:</b> 祈使句用于发出命令、提出请求或给予建议。它通常以动词原形开头，主语'you'被省略。在这个句子中，'Follow'是祈使动词。</p>",
+      "zhongkao_tips": "<p><b>English:</b> Pay attention to the structure 'Verb (base form) + object, and + future result'. This is a common pattern for giving advice. The first part is the imperative, and the second part states the consequence.</p><p><b>中文:</b> 注意结构'动词原形+宾语，and+将来结果'。这是提建议的常见句型。前半部分是祈使句，后半部分陈述结果。考试中常考其与条件句（If you follow...）的转换。</p>",
+      "guide_questions": [
+        {
+          "question": "What is the function of the verb 'Follow' at the beginning of the sentence? / 句子开头的动词'Follow'有什么作用？",
+          "options": [
+            "A. It describes a past action. / 描述一个过去的动作。",
+            "B. It gives a command or advice. / 给出一个命令或建议。"
+          ],
+          "correct": "B",
+          "hint": "Look at the punctuation and the context. It's telling the reader what to do. / 看看标点和上下文。它是在告诉读者该做什么。"
+        },
+        {
+          "question": "Is the subject 'you' written before 'Follow'? / 主语'you'写在'Follow'前面了吗？",
+          "options": [
+            "A. Yes / 是",
+            "B. No / 否"
+          ],
+          "correct": "B",
+          "hint": "In imperative sentences, the subject is usually not stated. / 在祈使句中，主语通常不写出来。"
+        },
+        {
+          "question": "What word connects the advice and the promised result? / 哪个词连接了建议和承诺的结果？",
+          "options": [
+            "A. if",
+            "B. and",
+            "C. but"
+          ],
+          "correct": "B",
+          "hint": "It's a coordinating conjunction. / 它是一个并列连词。"
+        }
+      ],
+      "examples": [
+        {
+          "en": "Stand up and walk around every time you use the phone.",
+          "cn": "每次使用手机时，站起来走一走。"
+        },
+        {
+          "en": "Have the soup before the main course.",
+          "cn": "在主菜之前喝汤。"
+        }
+      ],
+      "quiz_questions": [
+        {
+          "type": "choice",
+          "question": "Which of the following is an imperative sentence? / 以下哪一个是祈使句？",
+          "options": [
+            "A. You should stand up. / 你应该站起来。",
+            "B. Stand up, please. / 请站起来。",
+            "C. He stands up every hour. / 他每小时都站起来。",
+            "D. They are standing up now. / 他们现在正站着。"
+          ],
+          "correct": "B",
+          "explanation": "Option B starts with the base verb 'Stand' and is a polite command. / 选项B以动词原形'Stand'开头，是一个礼貌的命令。"
+        },
+        {
+          "type": "truefalse",
+          "question": "The sentence 'Sit up slowly without using your hands.' is an imperative sentence. / 'Sit up slowly without using your hands.' 这个句子是祈使句。",
+          "options": [
+            "True",
+            "False"
+          ],
+          "correct": "True",
+          "explanation": "It starts with the base verb 'Sit' and gives an instruction. / 它以动词原形'Sit'开头，并给出指示。"
+        },
+        {
+          "type": "choice",
+          "question": "What is the implied subject in the imperative sentence 'Start with soup'? / 在祈使句'Start with soup'中，隐含的主语是什么？",
+          "options": [
+            "A. I",
+            "B. He",
+            "C. You",
+            "D. They"
+          ],
+          "correct": "C",
+          "explanation": "The subject 'you' is understood but not written in most imperative sentences. / 主语'you'被理解但未写出，这在大多数祈使句中都是如此。"
+        },
+        {
+          "type": "truefalse",
+          "question": "Imperative sentences always end with an exclamation mark (!). / 祈使句总是以感叹号(!)结尾。",
+          "options": [
+            "True",
+            "False"
+          ],
+          "correct": "False",
+          "explanation": "They can end with a period (.) or an exclamation mark (!), depending on the force of the command. / 它们可以用句号(.)或感叹号(!)结尾，取决于命令的强度。"
+        },
+        {
+          "type": "choice",
+          "question": "How can you make the imperative 'Follow these tips' more polite? / 如何让祈使句'Follow these tips'更礼貌？",
+          "options": [
+            "A. Add 'You must' at the beginning. / 在开头加上'You must'。",
+            "B. Add 'Please' at the beginning or end. / 在开头或结尾加上'Please'。",
+            "C. Change 'Follow' to 'Followed'. / 把'Follow'改成'Followed'。",
+            "D. Add 'will' before 'Follow'. / 在'Follow'前加'will'。"
+          ],
+          "correct": "B",
+          "explanation": "Adding 'Please' is a common way to soften an imperative into a polite request. / 加上'Please'是把祈使句缓和为礼貌请求的常见方法。"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Future Simple Tense with 'will' / 一般将来时 (will)",
+      "source_sentence": "Stick with them, and you'll become lean and fit.",
+      "source_sentence_cn": "坚持下去，你就会变得苗条健康。",
+      "explanation": "<p><b>English:</b> The future simple tense with 'will' is used to make predictions, promises, or state future facts. The structure is 'will + base form of the verb'. Here, 'will' is contracted to <b>'ll</b> ('you'll' = 'you will'). It shows a result that follows from the first action.</p><p><b>中文:</b> 带'will'的一般将来时用于做出预测、承诺或陈述未来的事实。结构是'will + 动词原形'。这里，'will'缩写成<b>'ll</b> ('you'll' = 'you will')。它表示由第一个动作带来的结果。</p>",
+      "zhongkao_tips": "<p><b>English:</b> Recognize the contracted form <b>'ll</b>. The pattern <b>Imperative + and + subject + will...</b> is very common. It's different from the first conditional (If you stick..., you will...).</p><p><b>中文:</b> 识别缩写形式<b>'ll</b>。句型<b>祈使句 + and + 主语 + will...</b>非常常见。它不同于第一条件句(If you stick..., you will...)。中考常考'will'与'be going to'的区别，以及其缩写形式。</p>",
+      "guide_questions": [
+        {
+          "question": "What is the full form of the word 'you'll'? / 'you'll'这个词的完整形式是什么？",
+          "options": [
+            "A. you all",
+            "B. you will",
+            "C. you would"
+          ],
+          "correct": "B",
+          "hint": "It's a common contraction for future tense. / 这是将来时的一个常见缩写。"
+        },
+        {
+          "question": "What tense does the verb 'become' indicate when used with 'will'? / 动词'become'与'will'连用表示什么时态？",
+          "options": [
+            "A. Past / 过去",
+            "B. Present / 现在",
+            "C. Future / 将来"
+          ],
+          "correct": "C",
+          "hint": "'Will' is followed by the base verb to talk about the future. / 'Will'后面接动词原形，谈论将来。"
+        },
+        {
+          "question": "Is the event 'become lean and fit' happening now or later? / 'become lean and fit'这个事件是现在发生还是将来发生？",
+          "options": [
+            "A. Now / 现在",
+            "B. Later / 将来"
+          ],
+          "correct": "B",
+          "hint": "The sentence promises a future result of sticking with the habits. / 这个句子承诺了坚持习惯后的未来结果。"
+        }
+      ],
+      "examples": [
+        {
+          "en": "You will see great results in your weight loss.",
+          "cn": "你会在减肥上看到显著效果。"
+        },
+        {
+          "en": "It will burn about 10 calories.",
+          "cn": "这会燃烧大约10卡路里。"
+        }
+      ],
+      "quiz_questions": [
+        {
+          "type": "choice",
+          "question": "What is the correct future tense form of: I ___ (go) to the gym tomorrow. / 以下句子正确的将来时形式是：我明天___（去）健身房。",
+          "options": [
+            "A. go",
+            "B. went",
+            "C. will go",
+            "D. going"
+          ],
+          "correct": "C",
+          "explanation": "'Will go' is the future simple tense. / 'Will go'是一般将来时。"
+        },
+        {
+          "type": "truefalse",
+          "question": "In the sentence 'You'll eat less.', 'll is a short form for 'will'. / 在句子'You'll eat less.'中，'ll是'will'的缩写形式。",
+          "options": [
+            "True",
+            "False"
+          ],
+          "correct": "True",
+          "explanation": "Yes, 'you'll' = 'you will'. / 是的，'you'll' = 'you will'。"
+        },
+        {
+          "type": "choice",
+          "question": "Which sentence uses 'will' to express a future fact based on a condition? / 哪个句子使用'will'来表达基于条件的未来事实？",
+          "options": [
+            "A. I will help you. / 我会帮助你。",
+            "B. Have soup, and you will feel full. / 喝汤，然后你就会感到饱。",
+            "C. She will arrive at 8 PM. / 她将在晚上8点到达。",
+            "D. They will be happy. / 他们会开心的。"
+          ],
+          "correct": "B",
+          "explanation": "Sentence B shows a future result ('feel full') that follows from an action ('Have soup'). / 句子B展示了一个未来结果('感到饱')，它跟随一个动作('喝汤')而来。"
+        },
+        {
+          "type": "truefalse",
+          "question": "'Will' is always followed by a verb ending in -ing. / 'Will'后面总是接以-ing结尾的动词。",
+          "options": [
+            "True",
+            "False"
+          ],
+          "correct": "False",
+          "explanation": "'Will' is followed by the base form of the verb (without 'to'). / 'Will'后面接动词原形（不带'to'）。"
+        },
+        {
+          "type": "choice",
+          "question": "What is the negative form of 'It will burn calories.'? / 'It will burn calories.'的否定形式是什么？",
+          "options": [
+            "A. It will not burn calories. / 它不会燃烧卡路里。",
+            "B. It won't burn calories. / 它不会燃烧卡路里。",
+            "C. It doesn't burn calories. / 它不燃烧卡路里。",
+            "D. Both A and B are correct. / A和B都正确。"
+          ],
+          "correct": "D",
+          "explanation": "'Will not' and its contraction 'won't' are both correct negative forms. / 'Will not'及其缩写'won't'都是正确的否定形式。"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Comparative Adjectives / 形容词比较级",
+      "source_sentence": "Heavy people sit on average two and a half hours more each day than people who are fit.",
+      "source_sentence_cn": "体重较重的人平均每天比健康的人多坐两个半小时。",
+      "explanation": "<p><b>English:</b> Comparative adjectives are used to compare differences between two things. For one-syllable adjectives like 'heavy', we usually add <b>-er</b> (heavier). However, this sentence uses a different structure: <b>two and a half hours more</b>. This is a comparative phrase using 'more' with a noun phrase to show a greater quantity. The word <b>than</b> introduces the second item being compared.</p><p><b>中文:</b> 形容词比较级用于比较两个事物之间的差异。对于像'heavy'这样的单音节形容词，我们通常加<b>-er</b> (heavier)。然而，这个句子使用了不同的结构：<b>two and a half hours more</b>。这是一个使用'more'加名词短语的比较短语，表示更大的数量。单词<b>than</b>引出了被比较的第二个对象。</p>",
+      "zhongkao_tips": "<p><b>English:</b> Pay attention to comparative structures that are NOT just '-er'. Phrases like '...hours more than...', '...less...than...', '...fewer...than...' are common. Remember to use 'than' after the comparative.</p><p><b>中文:</b> 注意不仅仅是'-er'的比较结构。像'...hours more than...'、'...less...than...'、'...fewer...than...'这样的短语很常见。记住在比较级后面使用'than'。中考常考比较级的基本构成规则（如双写、变y为i）、'more'与'-er'的选择，以及'than'的用法。</p>",
+      "guide_questions": [
+        {
+          "question": "What two groups of people are being compared in this sentence? / 这个句子中比较的是哪两类人？",
+          "options": [
+            "A. Heavy people and fit people. / 体重较重的人和健康的人。",
+            "B. Men and women. / 男人和女人。"
+          ],
+          "correct": "A",
+          "hint": "Look for the words after 'than'. / 找找'than'后面的词。"
+        },
+        {
+          "question": "What word shows that a comparison is being made? / 哪个词表明正在进行比较？",
+          "options": [
+            "A. more",
+            "B. than",
+            "C. both A and B"
+          ],
+          "correct": "C",
+          "hint": "'More' indicates greater quantity, and 'than' introduces who they are being compared to. / 'More'表示更大的数量，'than'引出他们被比较的对象。"
+        },
+        {
+          "question": "Is the comparison about the quality of sitting or the amount of time spent sitting? / 这个比较是关于坐的质量还是坐的时间长短？",
+          "options": [
+            "A. Quality / 质量",
+            "B. Amount of time / 时间长短"
+          ],
+          "correct": "B",
+          "hint": "The phrase is 'two and a half hours more'. / 短语是'two and a half hours more'。"
+        }
+      ],
+      "examples": [
+        {
+          "en": "People who eat apples lose more weight than those who don't.",
+          "cn": "吃苹果的人比不吃的人减重更多。"
+        },
+        {
+          "en": "Walking will burn 50 or more calories.",
+          "cn": "走路会燃烧50或更多卡路里。"
+        }
+      ],
+      "quiz_questions": [
+        {
+          "type": "choice",
+          "question": "What is the comparative form of the adjective 'fit'? / 形容词'fit'的比较级形式是什么？",
+          "options": [
+            "A. fitter",
+            "B. more fit",
+            "C. fittest",
+            "D. Both A and B are possible. / A和B都有可能。"
+          ],
+          "correct": "D",
+          "explanation": "For short adjectives, both '-er' and 'more' are sometimes used. 'Fitter' is more common. / 对于短形容词，有时'-er'和'more'都可以用。'Fitter'更常见。"
+        },
+        {
+          "type": "truefalse",
+          "question": "In the sentence 'Apples are full of fibre.', the word 'full' is in its comparative form. / 在句子'Apples are full of fibre.'中，单词'full'是其比较级形式。",
+          "options": [
+            "True",
+            "False"
+          ],
+          "correct": "False",
+          "explanation": "'Full' is the base adjective, not the comparative. The comparative is 'fuller'. / 'Full'是形容词原级，不是比较级。比较级是'fuller'。"
+        },
+        {
+          "type": "choice",
+          "question": "Complete the comparison: This soup is much ___ (clear) than that one. / 完成比较：这个汤比那个___（清澈）得多。",
+          "options": [
+            "A. clear",
+            "B. clearer",
+            "C. clearest",
+            "D. more clear"
+          ],
+          "correct": "B",
+          "explanation": "For one-syllable adjectives like 'clear', add '-er'. / 对于像'clear'这样的单音节形容词，加'-er'。"
+        },
+        {
+          "type": "truefalse",
+          "question": "The word 'than' must always follow a comparative adjective or phrase. / 单词'than'必须总是跟在形容词或短语的比较级后面。",
+          "options": [
+            "True",
+            "False"
+          ],
+          "correct": "True",
+          "explanation": "Yes, 'than' is used to introduce the second part of a comparison. / 是的，'than'用于引出比较的第二部分。"
+        },
+        {
+          "type": "choice",
+          "question": "Which sentence correctly uses the comparative? / 哪个句子正确使用了比较级？",
+          "options": [
+            "A. She is tall than her brother. / 她比她哥哥高。",
+            "B. She is taller than her brother. / 她比她哥哥高。",
+            "C. She is more tall than her brother. / 她比她哥哥高。",
+            "D. She is tallest than her brother. / 她比她哥哥高。"
+          ],
+          "correct": "B",
+          "explanation": "'Taller' is the correct comparative form of 'tall'. / 'Taller'是'tall'正确的比较级形式。"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Present Simple Tense for Habits / 一般现在时 (表示习惯)",
+      "source_sentence": "When you have a meal, order a clear soup, and have it before having the main course.",
+      "source_sentence_cn": "当你用餐时，点一份清汤，并在主菜之前喝掉它。",
+      "explanation": "<p><b>English:</b> The present simple tense is used to talk about habits, routines, and general truths. In this sentence, 'have' (in 'when you have') describes a habitual action—something you do regularly. The clause 'When you have a meal' sets up a time condition for the advice that follows.</p><p><b>中文:</b> 一般现在时用于谈论习惯、日常活动和普遍真理。在这个句子中，'have'（在'when you have'中）描述了一个习惯性动作——你经常做的事情。从句'When you have a meal'为后面的建议设定了一个时间条件。</p>",
+      "zhongkao_tips": "<p><b>English:</b> Notice the structure: <b>When + Present Simple (condition), + Imperative (advice)</b>. This is a common pattern for giving habitual advice. The 'when' clause describes a repeated situation.</p><p><b>中文:</b> 注意结构：<b>When + 一般现在时 (条件), + 祈使句 (建议)</b>。这是提出习惯性建议的常见句型。'when'从句描述一个重复发生的情况。中考常考一般现在时第三人称单数动词加-s的规则，以及与现在进行时（表示此刻正在发生）的区别。</p>",
+      "guide_questions": [
+        {
+          "question": "Does the phrase 'when you have a meal' refer to one specific meal or meals in general? / 'when you have a meal'这个短语指的是具体的一顿饭还是泛指用餐？",
+          "options": [
+            "A. One specific meal / 具体的一顿饭",
+            "B. Meals in general / 泛指用餐"
+          ],
+          "correct": "B",
+          "hint": "It's giving advice for a habitual situation. / 这是在为一个习惯性情况提供建议。"
+        },
+        {
+          "question": "What tense is the verb 'have' in the clause 'when you have a meal'? / 在从句'when you have a meal'中，动词'have'是什么时态？",
+          "options": [
+            "A. Past Simple / 一般过去时",
+            "B. Present Simple / 一般现在时",
+            "C. Future Simple / 一般将来时"
+          ],
+          "correct": "B",
+          "hint": "It's the base form for the subject 'you'. / 对于主语'you'，它是动词原形。"
+        },
+        {
+          "question": "Why is the present simple used here instead of the future tense? / 为什么这里用一般现在时而不用将来时？",
+          "options": [
+            "A. Because it's a fact that is always true. / 因为这是一个总是正确的事实。",
+            "B. Because it's a habit or routine. / 因为这是一个习惯或日常活动。",
+            "C. Because it happened yesterday. / 因为这是昨天发生的。"
+          ],
+          "correct": "B",
+          "hint": "The advice is for something you do regularly (having meals). / 这个建议是针对你经常做的事情（用餐）。"
+        }
+      ],
+      "examples": [
+        {
+          "en": "When you wake up in the morning, sit up slowly.",
+          "cn": "当你早上醒来时，慢慢坐起来。"
+        },
+        {
+          "en": "Every time you use the mobile phone, stand up.",
+          "cn": "每次你使用手机时，站起来。"
+        }
+      ],
+      "quiz_questions": [
+        {
+          "type": "choice",
+          "question": "Which sentence describes a habit using the present simple? / 哪个句子使用一般现在时描述一个习惯？",
+          "options": [
+            "A. I am eating an apple now. / 我正在吃一个苹果。",
+            "B. I ate an apple yesterday. / 我昨天吃了一个苹果。",
+            "C. I eat an apple every day. / 我每天吃一个苹果。",
+            "D. I will eat an apple later. / 我等会儿会吃一个苹果。"
+          ],
+          "correct": "C",
+          "explanation": "Sentence C uses the present simple ('eat') with 'every day' to show a habit. / 句子C使用一般现在时('eat')和'every day'来表示一个习惯。"
+        },
+        {
+          "type": "truefalse",
+          "question": "The present simple tense is only used for actions happening right now. / 一般现在时只用于描述此刻正在发生的动作。",
+          "options": [
+            "True",
+            "False"
+          ],
+          "correct": "False",
+          "explanation": "It is used for habits, general truths, and fixed schedules, not just actions at this moment. / 它用于习惯、普遍真理和固定安排，而不仅仅是此刻发生的动作。"
+        },
+        {
+          "type": "choice",
+          "question": "What is the correct present simple form for 'He'? He ___ (study) shows that apples are good. / 对于'He'，正确的一般现在时形式是什么？他___（研究）表明苹果是有益的。",
+          "options": [
+            "A. study",
+            "B. studies",
+            "C. studying",
+            "D. studied"
+          ],
+          "correct": "B",
+          "explanation": "For third person singular (he, she, it), add -s or -es to the base verb. / 对于第三人称单数（他，她，它），在动词原形后加-s或-es。"
+        },
+        {
+          "type": "truefalse",
+          "question": "In the sentence 'Study shows that people...', the verb 'shows' is in the present simple tense. / 在句子'Study shows that people...'中，动词'shows'是一般现在时。",
+          "options": [
+            "True",
+            "False"
+          ],
+          "correct": "True",
+          "explanation": "Yes, it states a general truth or fact from research. / 是的，它陈述了一个来自研究的普遍真理或事实。"
+        },
+        {
+          "type": "choice",
+          "question": "Which time expression is most often used with the present simple for habits? / 哪个时间表达最常与表示习惯的一般现在时连用？",
+          "options": [
+            "A. now / 现在",
+            "B. yesterday / 昨天",
+            "C. every day / 每天",
+            "D. tomorrow / 明天"
+          ],
+          "correct": "C",
+          "explanation": "'Every day', 'always', 'usually', 'often' are common with habitual present simple. / '每天'、'总是'、'通常'、'经常'常与表示习惯的一般现在时连用。"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Adjective Clauses with 'who' / 由'who'引导的定语从句",
+      "source_sentence": "Study shows that people who eat at least three apples a day lose more weight than those who don't.",
+      "source_sentence_cn": "研究表明，每天至少吃三个苹果的人比不吃的人减重更多。",
+      "explanation": "<p><b>English:</b> An adjective clause (or relative clause) gives more information about a noun. The relative pronoun <b>who</b> is used for people. Here, 'who eat at least three apples a day' describes 'people'. It tells us which specific people the study is talking about. The second 'who' ('those who don't') refers to 'those people'.</p><p><b>中文:</b> 定语从句（或关系从句）提供关于一个名词的更多信息。关系代词<b>who</b>用于指人。这里，'who eat at least three apples a day'修饰'people'。它告诉我们研究具体指的是哪些人。第二个'who' ('those who don't')指代'those people'（那些人）。</p>",
+      "zhongkao_tips": "<p><b>English:</b> Identify the noun being described ('people'). The clause 'who eat...' is essential to the meaning. Note that the verb in the clause ('eat') agrees with the subject of the clause ('who' referring to plural 'people').</p><p><b>中文:</b> 识别被修饰的名词('people')。从句'who eat...'对句意至关重要。注意从句中的动词('eat')与从句的主语('who'指代复数的'people')保持一致。中考常考关系代词'who', 'which', 'that'的选择，以及定语从句中谓语动词的单复数形式。</p>",
+      "guide_questions": [
+        {
+          "question": "Which noun does the clause 'who eat at least three apples a day' describe? / 从句'who eat at least three apples a day'描述哪个名词？",
+          "options": [
+            "A. Study / 研究",
+            "B. people / 人们",
+            "C. apples / 苹果"
+          ],
+          "correct": "B",
+          "hint": "Look for the noun right before 'who'. / 找找'who'前面的名词。"
+        },
+        {
+          "question": "What does the word 'who' refer to in this clause? / 在这个从句中，单词'who'指代什么？",
+          "options": [
+            "A. The study / 研究",
+            "B. The people / 那些人",
+            "C. The apples / 苹果"
+          ],
+          "correct": "B",
+          "hint": "'Who' is a pronoun that replaces the noun 'people' inside the clause. / 'Who'是一个代词，在从句中替代名词'people'。"
+        },
+        {
+          "question": "Why does the verb 'eat' not have an 's'? (who eat) / 为什么动词'eat'没有加's'？(who eat)",
+          "options": [
+            "A. Because 'who' is singular. / 因为'who'是单数。",
+            "B. Because 'who' refers to plural 'people'. / 因为'who'指代复数的'people'。"
+          ],
+          "correct": "B",
+          "hint": "The verb agrees with the subject of the clause. 'Who' takes the number of the noun it refers to. / 动词与从句的主语一致。'Who'采用它所指代名词的数。"
+        }
+      ],
+      "examples": [
+        {
+          "en": "Heavy people sit more than people who are fit.",
+          "cn": "体重较重的人比健康的人坐得更久。"
+        },
+        {
+          "en": "You don't have to give up the food you love.",
+          "cn": "你不必放弃你喜爱的食物。"
+        }
+      ],
+      "quiz_questions": [
+        {
+          "type": "choice",
+          "question": "Which relative pronoun is used for people? / 哪个关系代词用于指人？",
+          "options": [
+            "A. who",
+            "B. which",
+            "C. where",
+            "D. when"
+          ],
+          "correct": "A",
+          "explanation": "'Who' (or 'that') is used for people. 'Which' is for things. / 'Who'（或'that'）用于指人。'Which'用于指物。"
+        },
+        {
+          "type": "truefalse",
+          "question": "In the sentence 'I know the man who lives there.', the clause 'who lives there' tells us about the man. / 在句子'I know the man who lives there.'中，从句'who lives there'告诉我们关于这个男人的信息。",
+          "options": [
+            "True",
+            "False"
+          ],
+          "correct": "True",
+          "explanation": "Yes, it's an adjective clause describing 'the man'. / 是的，这是一个描述'the man'的定语从句。"
+        },
+        {
+          "type": "choice",
+          "question": "Complete the sentence: The students ___ study hard will pass the exam. / 完成句子：___努力学习的学生会通过考试。",
+          "options": [
+            "A. which",
+            "B. who",
+            "C. where",
+            "D. when"
+          ],
+          "correct": "B",
+          "explanation": "'Who' refers to the people ('students'). / 'Who'指代人('students')。"
+        },
+        {
+          "type": "truefalse",
+          "question": "The clause 'who don't' at the end of the source sentence is short for 'who don't eat apples'. / 源句末尾的从句'who don't'是'who don't eat apples'的简写。",
+          "options": [
+            "True",
+            "False"
+          ],
+          "correct": "True",
+          "explanation": "Yes, in comparisons, we often omit repeated words to avoid repetition. / 是的，在比较中，我们经常省略重复的词语以避免重复。"
+        },
+        {
+          "type": "choice",
+          "question": "What is the function of an adjective clause? / 定语从句的功能是什么？",
+          "options": [
+            "A. To connect two sentences. / 连接两个句子。",
+            "B. To describe a noun and give more information about it. / 描述一个名词并提供更多关于它的信息。",
+            "C. To show the time of an action. / 显示一个动作的时间。",
+            "D. To express a condition. / 表达一个条件。"
+          ],
+          "correct": "B",
+          "explanation": "An adjective clause modifies a noun, just like a single adjective does. / 定语从句修饰一个名词，就像单个形容词一样。"
+        }
+      ]
+    }
+  ],
+  "meta": {
+    "source": "article.pdf",
+    "version": "2.0 (Detailed)"
+  }
+};
+const AZURE_KEY = "DKRXk8ueSfo5NdIOMqFRTCAfpeGDezJ3Snf5K8gGgtyqxiWdugLzJQQJ99BLACHYHv6XJ3w3AAAYACOGUYP9";
+const AZURE_REGION = "eastus2";
+const IMAGE_DIR = "generated_images";
+
+const { createApp, ref, computed, onMounted } = Vue;
+const SpeechSDK = window.SpeechSDK;
+
+createApp({
+    setup() {
+        const phase = ref('login');
+        const userName = ref('');
+        const currentIndex = ref(0);
+        const currentStep = ref(1);
+        const hasSave = ref(false);
+        const showAdminPanel = ref(false);
+        const stepData = ref({});
+        
+        const isRecording = ref(false);
+        let synthesizer = null;
+        let recognizer = null;
+        let currentRecScore = 0; 
+
+        const vocabList = COURSE_DATA_INJECTED.vocabulary || [];
+        const collocList = COURSE_DATA_INJECTED.collocations || [];
+        const grammarList = COURSE_DATA_INJECTED.grammar || [];
+
+        const currentList = computed(() => {
+            if (phase.value === 'vocab') return vocabList;
+            if (phase.value === 'colloc') return collocList;
+            if (phase.value === 'grammar') return grammarList;
+            return [];
+        });
+        const currentItem = computed(() => currentList.value[currentIndex.value] || {});
+        const totalSteps = computed(() => phase.value === 'grammar' ? 4 : 7);
+        const phaseTitles = {'vocab': 'Vocabulary', 'colloc': 'Phrases', 'grammar': 'Grammar'};
+
+        const spellingDisplaySlots = computed(() => {
+            if (!['vocab', 'colloc'].includes(phase.value)) return [];
+            const target = (currentItem.value.word || currentItem.value.phrase).toLowerCase();
+            const userChars = stepData.value.userSpelling || [];
+            let result = [];
+            let userIdx = 0;
+            for (let char of target) {
+                if (char === ' ') { result.push('SPACE'); } 
+                else if (/[a-z]/.test(char)) { result.push(userChars[userIdx] || ''); userIdx++; }
+            }
+            return result;
+        });
+
+        onMounted(() => { if(localStorage.getItem('eng_lab_save')) hasSave.value = true; });
+
+        // Prev Button Visibility
+        const canGoBack = computed(() => {
+            if (phase.value === 'vocab' && currentIndex.value === 0 && currentStep.value === 1) return false;
+            return true;
+        });
+
+        const canProceed = computed(() => {
+            if (['vocab', 'colloc'].includes(phase.value)) {
+                if (currentStep.value === 1) return (stepData.value.audioScore || 0) >= 30;
+                if (currentStep.value === 2) return stepData.value.guessCorrect;
+                if (currentStep.value === 3) return true;
+                if (currentStep.value === 4) return stepData.value.spellingCorrect;
+                if (currentStep.value === 5) return stepData.value.meaningCorrect;
+                if (currentStep.value === 6) return stepData.value.contextCorrect;
+                if (currentStep.value === 7) return stepData.value.oralCount >= 5;
+            }
+            if (phase.value === 'grammar') {
+                if (currentStep.value === 1) return stepData.value.grammarListened;
+                if (currentStep.value === 2) return stepData.value.inquiryIndex >= currentItem.value.guide_questions.length;
+                if (currentStep.value === 3) return true;
+                if (currentStep.value === 4) return stepData.value.quizAllFinished;
+            }
+            return false;
+        });
+
+        const getLockReason = () => {
+            if (['vocab', 'colloc'].includes(phase.value)) {
+                if (currentStep.value === 1) return "Record Score > 30";
+                if (currentStep.value === 2) return "Guess Answer";
+                if (currentStep.value === 4) return "Spell Word";
+                if (currentStep.value === 7) return `${5 - stepData.value.oralCount} more reads`;
+            }
+            return "Complete Task";
+        };
+
+        const startNew = () => { localStorage.removeItem('eng_lab_save'); phase.value = 'vocab'; currentIndex.value = 0; initStepData(); };
+        const resume = () => {
+            const s = JSON.parse(localStorage.getItem('eng_lab_save'));
+            if(s) { phase.value=s.p; currentIndex.value=s.i; userName.value=s.u; initStepData(); if(s.d) stepData.value=s.d; }
+        };
+        const saveProgress = () => {
+            localStorage.setItem('eng_lab_save', JSON.stringify({p:phase.value, i:currentIndex.value, u:userName.value, d:stepData.value}));
+            hasSave.value = true;
+        };
+        const saveAndExit = () => { saveProgress(); phase.value = 'login'; };
+        const clearSave = () => { localStorage.removeItem('eng_lab_save'); location.reload(); };
+
+        const initStepData = () => {
+            currentStep.value = 1;
+            const item = currentItem.value;
+            if (['vocab', 'colloc'].includes(phase.value)) {
+                const cleanChars = (item.scrambled_letters || (item.word || item.phrase).split('')).filter(c => c.trim() !== '').map(l => l.toUpperCase());
+                const exStates = {}; 
+                (item.examples || []).forEach((_, i) => exStates[i] = { showEn: true, showCn: false });
+                
+                // === FINAL FIX: FORCE CORRECTNESS + SHUFFLE ===
+                // 1. Get raw
+                let rawContext = item.quiz_fill ? JSON.parse(JSON.stringify(item.quiz_fill)) : [];
+
+                // 2. Normalize and Enforce Correctness (Fix for "All Wrong" issue)
+                rawContext.forEach((opt, idx) => {
+                    // If is_correct is missing, assume the first one (idx 0) is true.
+                    if (opt.is_correct === undefined || opt.is_correct === null) {
+                        opt.is_correct = (idx === 0); 
+                    } else {
+                        // Normalize string "true"/"false" to boolean
+                        opt.is_correct = (String(opt.is_correct).toLowerCase() === 'true');
+                    }
+                });
+
+                // 3. Shuffle
+                const contextOpts = rawContext;
+                for (let i = contextOpts.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [contextOpts[i], contextOpts[j]] = [contextOpts[j], contextOpts[i]];
+                }
+                
+                stepData.value = {
+                    audioScore: 0, hasListened: false,
+                    guessAnswer: null, guessCorrect: false,
+                    exStates: exStates,
+                    userSpelling: [], shuffledLetters: cleanChars, spellingCorrect: false, usedIndices: new Set(),
+                    meaningOptions: [...item.options].sort(()=>Math.random()-0.5), meaningAnswer: null, meaningCorrect: false,
+                    // Store normalized & shuffled
+                    contextOptions: contextOpts,
+                    contextAnswerIndex: null, contextCorrect: false, contextFullSentence: '',
+                    oralCount: 0, lastOralScore: 0
+                };
+            } else {
+                stepData.value = { 
+                    grammarListened: false, 
+                    inquiryIndex: 0, inquiryAnswer: null, inquiryShowNext: false,
+                    quizIndex: 0, quizAnswer: null, quizAllFinished: false, quizShowExplanation: false, quizShowNext: false 
+                };
+            }
+        };
+
+        const nextStep = () => {
+            if (!canProceed.value) return;
+            saveProgress();
+            if (currentStep.value < totalSteps.value) {
+                currentStep.value++;
+            } else {
+                if (currentIndex.value < currentList.value.length - 1) {
+                    currentIndex.value++;
+                    initStepData();
+                } else {
+                    if (phase.value === 'vocab') { phase.value = 'colloc'; currentIndex.value = 0; initStepData(); }
+                    else if (phase.value === 'colloc') { phase.value = 'grammar'; currentIndex.value = 0; initStepData(); }
+                    else { phase.value = 'end'; }
+                }
+            }
+        };
+
+        const prevStep = () => {
+            if (currentStep.value > 1) {
+                currentStep.value--;
+            } else {
+                if (currentIndex.value > 0) {
+                    currentIndex.value--;
+                    initStepData();
+                } else {
+                    if (phase.value === 'colloc') {
+                        phase.value = 'vocab';
+                        currentIndex.value = vocabList.length - 1;
+                        initStepData();
+                    } else if (phase.value === 'grammar') {
+                        phase.value = 'colloc';
+                        currentIndex.value = collocList.length - 1;
+                        initStepData();
+                    }
+                }
+            }
+            saveProgress();
+        };
+
+        const cleanOption = (text) => text.replace(/\(误\)|\(Error\)|（误）/gi, '').trim();
+        const checkGrammarCorrect = (option, correctLetter) => {
+            return option.trim().toUpperCase().startsWith(correctLetter.trim().toUpperCase());
+        };
+
+        const handleTask = (action, payload, index) => {
+            const item = currentItem.value;
+            if (action === 'guess') {
+                stepData.value.guessAnswer = payload;
+                if (payload === item.correct_answer) { stepData.value.guessCorrect = true; playTTS("Correct"); }
+                else playTTS("Try again");
+            }
+            if (action === 'spell') {
+                stepData.value.userSpelling.push(payload);
+                stepData.value.usedIndices.add(index);
+                const currentStr = stepData.value.userSpelling.join('').toLowerCase();
+                const target = (item.word || item.phrase).replace(/[^a-zA-Z]/g, '').toLowerCase();
+                if (currentStr.length === target.length) {
+                    if (currentStr === target) { stepData.value.spellingCorrect = true; playTTS("Correct"); }
+                    else { playTTS("Wrong"); setTimeout(() => { stepData.value.userSpelling=[]; stepData.value.usedIndices.clear(); }, 500); }
+                }
+            }
+            if (action === 'meaning') {
+                stepData.value.meaningAnswer = payload;
+                if (payload === item.correct_answer) { stepData.value.meaningCorrect = true; playTTS("Correct"); }
+                else playTTS("Wrong");
+            }
+            
+            // ================== FIXED CONTEXT LOGIC (COMPLETE FIX) ==================
+            if (action === 'context') {
+                stepData.value.contextAnswerIndex = index;
+                const targetPhrase = item.phrase || item.word;
+                
+                // Now simple safe check because we normalized in init
+                const isCorrect = payload.is_correct; 
+
+                if (isCorrect) {
+                    let fullSentence = payload.sentence;
+                    // Regex matches: underscores, ellipsis, 2+ dots, brackets, parens, or underscore w/ spaces
+                    const blankRegex = /(_+|…|\.{2,}|\[.*?\]|\(.*?\)|_\s+_)/g;
+
+                    if (blankRegex.test(fullSentence)) {
+                        fullSentence = fullSentence.replace(blankRegex, targetPhrase);
+                    } else {
+                        // Fallback: If no blank found, append it at the end for clarity
+                        if (fullSentence.indexOf(targetPhrase) === -1) {
+                             fullSentence = fullSentence + " (" + targetPhrase + ")";
+                        }
+                    }
+                    
+                    stepData.value.contextFullSentence = fullSentence;
+                    stepData.value.contextCorrect = true;
+                    playTTS(fullSentence); 
+                } else {
+                    stepData.value.contextCorrect = false;
+                    playTTS("Incorrect");
+                }
+            }
+            // =======================================================================
+
+            if (action === 'recordDrill') toggleRec(getZhongkaoSentence(), updateOralCount);
+            
+            if (action === 'playGrammarAudio') { playTTS(item.source_sentence); stepData.value.grammarListened = true; }
+            if (action === 'inquiry') {
+                if (stepData.value.inquiryShowNext) return;
+                stepData.value.inquiryAnswer = payload;
+                if (checkGrammarCorrect(payload, item.guide_questions[stepData.value.inquiryIndex].correct)) {
+                    playTTS("Correct");
+                    stepData.value.inquiryShowNext = true;
+                } else playTTS("Try again");
+            }
+            if (action === 'quiz') {
+                if (stepData.value.quizShowNext) return;
+                stepData.value.quizAnswer = payload;
+                if (checkGrammarCorrect(payload, item.quiz_questions[stepData.value.quizIndex].correct)) {
+                    playTTS("Correct");
+                    stepData.value.quizShowExplanation = true;
+                    stepData.value.quizShowNext = true;
+                } else playTTS("Wrong");
+            }
+            saveProgress();
+        };
+
+        const nextGrammarQuestion = (type) => {
+            const item = currentItem.value;
+            if (type === 'inquiry') {
+                stepData.value.inquiryIndex++;
+                stepData.value.inquiryAnswer = null;
+                stepData.value.inquiryShowNext = false;
+            }
+            if (type === 'quiz') {
+                if (stepData.value.quizIndex < item.quiz_questions.length - 1) {
+                    stepData.value.quizIndex++;
+                    stepData.value.quizAnswer = null;
+                    stepData.value.quizShowExplanation = false;
+                    stepData.value.quizShowNext = false;
+                } else {
+                    stepData.value.quizAllFinished = true;
+                }
+            }
+            saveProgress();
+        };
+
+        const updateOralCount = (score) => { stepData.value.lastOralScore = score; if(score > 0) stepData.value.oralCount++; saveProgress(); }
+        const resetSpelling = () => { stepData.value.userSpelling = []; stepData.value.usedIndices.clear(); };
+        const toggleEx = (i) => { stepData.value.exStates[i].showCn = !stepData.value.exStates[i].showCn; };
+        
+        const getZhongkaoSentence = () => { const ex = currentItem.value.examples.find(e => e.source === 'Zhongkao'); return ex ? ex.sentence : currentItem.value.examples[0].sentence; };
+        
+        const getOptClass = (opt, sel, cor) => {
+            // For Quiz Options
+            if (sel === opt) return opt === cor ? 'opt-correct' : 'opt-wrong';
+            
+            // For Context (Fill in blank) logic
+            if (typeof opt === 'number') { 
+                if (sel !== opt) return ''; 
+                // Fix: Look at shuffled options in stepData
+                if (stepData.value.contextOptions && stepData.value.contextOptions[opt]) {
+                     return stepData.value.contextOptions[opt].is_correct ? 'opt-correct' : 'opt-wrong';
+                }
+                return '';
+            }
+            return '';
+        };
+
+        const getImagePath = (f) => f ? IMAGE_DIR + '/' + f : '';
+
+        const playTTS = (text) => {
+            if (!text || isRecording.value) return;
+            if (synthesizer) { synthesizer.close(); synthesizer = null; }
+            try {
+                const config = SpeechSDK.SpeechConfig.fromSubscription(AZURE_KEY, AZURE_REGION);
+                config.speechSynthesisVoiceName = "en-US-AriaNeural"; 
+                synthesizer = new SpeechSDK.SpeechSynthesizer(config);
+                synthesizer.speakTextAsync(text, () => { synthesizer.close(); synthesizer = null; });
+            } catch (e) { console.error(e); }
+        };
+
+        const toggleRec = async (text, cb) => {
+            if(isRecording.value) { 
+                if(recognizer) { recognizer.stopContinuousRecognitionAsync(() => { recognizer.close(); recognizer = null; isRecording.value = false; if(cb) cb(currentRecScore); }); }
+                return; 
+            }
+            try {
+                await navigator.mediaDevices.getUserMedia({ audio: true });
+                const config = SpeechSDK.SpeechConfig.fromSubscription(AZURE_KEY, AZURE_REGION);
+                config.speechRecognitionLanguage = "en-US";
+                const audioConfig = SpeechSDK.AudioConfig.fromDefaultMicrophoneInput();
+                const pronConfig = new SpeechSDK.PronunciationAssessmentConfig(text, SpeechSDK.PronunciationAssessmentGradingSystem.HundredMark, SpeechSDK.PronunciationAssessmentGranularity.Phoneme, true);
+                recognizer = new SpeechSDK.SpeechRecognizer(config, audioConfig);
+                pronConfig.applyTo(recognizer);
+                isRecording.value = true; currentRecScore = 0; 
+                recognizer.recognized = (s, e) => { if (e.result.reason === SpeechSDK.ResultReason.RecognizedSpeech) { const json = JSON.parse(e.result.properties.getProperty(SpeechSDK.PropertyId.SpeechServiceResponse_JsonResult)); if(json.NBest && json.NBest[0]) currentRecScore = json.NBest[0].PronunciationAssessment.AccuracyScore; } };
+                recognizer.startContinuousRecognitionAsync();
+            } catch(e) { alert("Mic Error: " + e); isRecording.value = false; }
+        };
+
+        const openAdmin = () => { if(prompt("PWD")==="888123") showAdminPanel.value = true; };
+        const jumpIndex = (d) => { const n = currentIndex.value + d; if(n>=0 && n<currentList.value.length) { currentIndex.value = n; initStepData(); } };
+        const setPhase = (p) => { phase.value = p; currentIndex.value = 0; initStepData(); };
+        const forceUnlock = () => { stepData.value.audioScore=100; stepData.value.guessCorrect=true; stepData.value.spellingCorrect=true; stepData.value.meaningCorrect=true; stepData.value.contextCorrect=true; stepData.value.oralCount=5; stepData.value.grammarListened=true; stepData.value.quizAllFinished=true; stepData.value.inquiryIndex=100; };
+
+        return {
+            phase, userName, currentIndex, currentStep, totalSteps, currentItem, currentList, phaseTitles, stepData,
+            startNew, resume, saveAndExit, clearSave, hasSave, nextStep, prevStep, handleTask, resetSpelling, toggleEx, updateOralCount, nextGrammarQuestion,
+            getZhongkaoSentence, getOptClass, getImagePath, isRecording, canProceed, getLockReason, playTTS, toggleRec, spellingDisplaySlots,
+            showAdminPanel, openAdmin, jumpIndex, setPhase, forceUnlock, cleanOption, checkGrammarCorrect, canGoBack
+        };
+    }
+}).mount('#app');
+</script>
+</body>
+</html>
