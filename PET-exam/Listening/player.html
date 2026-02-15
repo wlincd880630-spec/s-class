@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>PET Exam Player (Pro)</title>
-    
+    <script>window.MEDIA_BASE="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/";</script>
     <link href="../css/style.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     
@@ -189,8 +189,12 @@
             const data = await res.json();
             
             let audioPath = data.audio || "";
-            if (audioPath.includes("Listening/")) audioPath = audioPath.replace("Listening/", "");
-            if (audioPath.startsWith("/")) audioPath = audioPath.substring(1);
+            if (window.MEDIA_BASE) {
+                audioPath = window.MEDIA_BASE + 'PET-exam/' + audioPath;
+            } else {
+                if (audioPath.includes("Listening/")) audioPath = audioPath.replace("Listening/", "");
+                if (audioPath.startsWith("/")) audioPath = audioPath.substring(1);
+            }
             document.getElementById('main-audio').src = audioPath;
 
             QUESTIONS_DATA = data.questions;
@@ -221,7 +225,8 @@
                 let optHtml = `<div class="${isImg ? 'options-img' : 'options'}">`;
                 q.options.forEach(opt => {
                     let imgPath = opt.img || "";
-                    if (imgPath.includes("Listening/")) imgPath = imgPath.replace("Listening/", "");
+                    if (window.MEDIA_BASE) imgPath = window.MEDIA_BASE + 'PET-exam/' + imgPath;
+                    else if (imgPath.includes("Listening/")) imgPath = imgPath.replace("Listening/", "");
                     const content = isImg ? `<img src="${imgPath}" class="opt-img">` : `<b>${opt.label}.</b> ${opt.text}`;
                     const labelClass = isImg ? 'opt-img-label' : 'opt-label';
                     optHtml += `<div class="${labelClass}" onclick="selectOption(this, '${q.id}', '${opt.label}')">${content}</div>`;
@@ -376,7 +381,8 @@
                     else if (opt.label === userVal && !isCorrect) className += ' review-wrong';
                     
                     let imgPath = opt.img || "";
-                    if (imgPath.includes("Listening/")) imgPath = imgPath.replace("Listening/", "");
+                    if (window.MEDIA_BASE) imgPath = window.MEDIA_BASE + 'PET-exam/' + imgPath;
+                    else if (imgPath.includes("Listening/")) imgPath = imgPath.replace("Listening/", "");
                     const content = isImg ? `<img src="${imgPath}" class="opt-img">` : `<b>${opt.label}.</b> ${opt.text}`;
                     
                     optHtml += `<div class="${className}" style="pointer-events:none;">${content}</div>`;
