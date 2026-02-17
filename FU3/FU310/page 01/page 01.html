@@ -351,6 +351,7 @@
                 bgImage: "bg_national_gallery.jpg"
             }
         ];
+        const PAGE01_COS = 'https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/FU3/FU310/page 01/';
 
         // --- Map Init ---
         // 初始缩放调整，手机上稍微远一点
@@ -418,7 +419,7 @@
             locations.forEach((loc, index) => {
                 const posterIcon = L.divIcon({
                     className: 'poster-wrap',
-                    html: `<div class='movie-poster-pin' style='background-image: url("${loc.poster}"), url("https://via.placeholder.com/150x200?text=Poster"); width:${iconW}px; height:${iconH}px;'></div>`,
+                    html: `<div class='movie-poster-pin' style='background-image: url("${PAGE01_COS}${loc.poster}"), url("https://via.placeholder.com/150x200?text=Poster"); width:${iconW}px; height:${iconH}px;'></div>`,
                     iconSize: [iconW, iconH], iconAnchor: [anchorX, anchorY] 
                 });
 
@@ -447,10 +448,10 @@
 
         function playVideo(index) {
             const loc = locations[index];
-            videoModal.style.backgroundImage = `url('${loc.bgImage}')`;
+            videoModal.style.backgroundImage = `url('${PAGE01_COS}${loc.bgImage}')`;
             displayMovie.innerText = loc.movie;
             displayLoc.innerText = loc.name;
-            player.src = loc.video;
+            player.src = PAGE01_COS + loc.video;
             videoModal.style.display = 'flex';
             // Force reflow
             void videoModal.offsetWidth; 

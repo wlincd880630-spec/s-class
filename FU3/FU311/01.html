@@ -240,6 +240,7 @@
         { name: "Arctic Ocean", img: "dest9.jpg", script: "Brrr! Wrap up warm. We are at the Arctic Ocean, near the North Pole. It is the coldest ocean on Earth. But look at the sky! If we are lucky, we can see the Aurora Borealis dancing above us. The best time to see them is during the winter, from October to March, when the nights are very long and dark. Even though it is freezing, life survives here. Look closely, you might see a polar bear hunting on the ice!" },
         { name: "Atlantic Ocean", img: "dest10.jpg", script: "This is the Atlantic Ocean, the second-largest ocean on Earth. It is so huge that it covers about 20% of the Earth's surface! It is also very deep. Did you know the ocean is actually getting wider? The continents move apart by about 2 centimeters every year, making the Atlantic grow just a little bit bigger while we speak!"}
     ];
+    const FU311_COS = 'https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/FU3/FU311/';
 
     let state = { name: "Candidate", dest: null, isRec: false, salary: 0, guideResults: [] };
     let recognizer, synthesizer;
@@ -397,7 +398,7 @@
         let list = [...destinations, ...destinations, ...destinations];
         list.forEach(d => {
             const el = document.createElement('div'); el.className = 'wheel-item';
-            el.innerHTML = `<img src="${d.img}" class="wheel-img" onerror="this.src='https://placehold.co/600x400?text=${d.name}'">`;
+            el.innerHTML = `<img src="${FU311_COS}${d.img}" class="wheel-img" onerror="this.src='https://placehold.co/600x400?text=${d.name}'">`;
             track.appendChild(el);
         });
         speak("Spinning for a random destination...");
@@ -414,7 +415,7 @@
     // --- P4: IDENTIFY ---
     function setupP4() { 
         const img = document.getElementById('p4-img');
-        img.src = state.dest.img; 
+        img.src = FU311_COS + state.dest.img; 
         img.onerror = () => { img.src = `https://placehold.co/600x400?text=${state.dest.name}`; };
         document.getElementById('evalResult').innerHTML = ""; 
     }

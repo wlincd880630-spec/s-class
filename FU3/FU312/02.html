@@ -266,6 +266,7 @@
             13: { side: 'top', color: '#ffffff' } 
         };
 
+        const FU312_COS = 'https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/FU3/FU312/';
         let targets = (typeof chengduSpots !== 'undefined') ? chengduSpots : [];
         let map, markers = [], currentMissionIndex = -1, isLocateMode = false, activeHuds = [], synthesizer;
 
@@ -318,7 +319,7 @@
         function populateCard(index) {
             const data = targets[index];
             document.getElementById('fileId').innerText = `FILE #0${data.id}`;
-            const getImg = (url) => url || `https://source.unsplash.com/300x200/?chengdu`;
+            const getImg = (url) => { if (!url) return `https://source.unsplash.com/300x200/?chengdu`; return url.startsWith('http') ? url : FU312_COS + url; };
             document.getElementById('img1').src = getImg(data.images[0]);
             document.getElementById('img2').src = getImg(data.images[1]);
             document.getElementById('img3').src = getImg(data.images[2]);
@@ -475,7 +476,8 @@
             div.style.borderColor = conf.color;
             div.style.color = conf.color;
             
-            const imgUrl = data.images[0] || `https://source.unsplash.com/100x100/?chengdu`;
+            const rawImg = data.images[0];
+            const imgUrl = rawImg ? (rawImg.startsWith('http') ? rawImg : FU312_COS + rawImg) : `https://source.unsplash.com/100x100/?chengdu`;
 
             div.innerHTML = `
                 <img src="${imgUrl}" class="hud-thumb">

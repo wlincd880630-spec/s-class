@@ -403,6 +403,7 @@
     const azureRegion = "eastus2";
 
     // --- 数据 ---
+    const FU308_COS = 'https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/FU3/FU308/';
     const items = [
         { name: "Lighter", img: "lighter.png" },
         { name: "Tent", img: "tent.png" },
@@ -473,7 +474,7 @@
             card.id = `slot-${index}`;
             // 占位图容错处理
             card.innerHTML = `
-                <img src="${item.img}" alt="${item.name}" onerror="this.src='https://placehold.co/100?text=${item.name.substring(0,3)}'">
+                <img src="${FU308_COS}${item.img}" alt="${item.name}" onerror="this.src='https://placehold.co/100?text=${item.name.substring(0,3)}'">
                 <div class="card-word">${item.name}</div>
             `;
             
@@ -502,7 +503,7 @@
 
         // 创建飞行物
         const flyer = document.createElement('img');
-        flyer.src = item.img;
+        flyer.src = FU308_COS + item.img;
         flyer.className = 'flying-obj';
         flyer.onerror = function() { this.src = `https://placehold.co/100?text=${item.name.substring(0,3)}`; };
         document.body.appendChild(flyer);
