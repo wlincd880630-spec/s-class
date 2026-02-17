@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>AEIS Mastery Lab | English Learning with Steven</title>
+    <script>window.MEDIA_BASE="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/";</script>
     
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     
@@ -631,7 +632,7 @@ createApp({
 
         const formatTime = (s) => { const m=Math.floor(s/60); const sc=s%60; return `${m}m ${sc}s`; };
         const calculateAccuracy = () => 100; 
-        const getImg = (i) => currWord.value.image_paths ? currWord.value.image_paths[i] : '';
+        const getImg = (i) => { const paths = currWord.value.image_paths; if (!paths || !paths[i]) return ''; const url = paths[i]; if (url.startsWith('http')) return url; const m = (location.pathname || '').match(/\/AEIS\/P(\d+)\//); const pid = m ? m[1].padStart(2, '0') : '01'; return (window.MEDIA_BASE || '') + 'AEIS/P' + pid + '/' + url; };
         const printReport = () => window.print();
         const getWeakWords = () => {
             const weak = new Set(stats.value.errors);
