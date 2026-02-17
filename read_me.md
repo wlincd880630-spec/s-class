@@ -38,7 +38,7 @@
 ### 4. PET-exam（剑桥 Preliminary 模考）
 
 - **路径**：`PET-exam/index.html`（模考入口）、`Listening/player.html`、`Reading/player.html`
-- **说明**：入口页检测 `current-user` / `authing-user`，无则跳回首页。听力/阅读在独立 player 中做题，提交时发报告
+- **说明**：与全站一致，由 `auth-check.js` 做登录检查；听力/阅读在独立 player 中做题，提交时发报告
 
 ### 5. FU2（二年级单元）
 
@@ -70,6 +70,7 @@
 
 | 文件 | 说明 |
 |------|------|
+| `auth-check.js` | **全站登录检查**。在除首页外的所有子页面 `<head>` 中引入；若 `localStorage` 无 `authing-user` / `current-user`，则跳转到根目录 `index.html` 进行登录，避免通过直接 URL 绕过登录。 |
 | `s-class-tracker.js` | **核心**。提供 `SClass.sendReport()`、`SClass.log()` 等；从 `authing-user` / `current-user` 取用户名；用 EmailJS 模板 `template_zso8ebh` 发统一报告邮件。各子页面通过 `<script src=".../s-class-tracker.js"></script>` 引入。 |
 | `rewrite-html-media.js` | 将 HTML 内相对媒体路径改为 COS 地址。建议在 pre-commit 中执行（或手动 `node scripts/rewrite-html-media.js`）。 |
 | `upload-media-to-cos.js` | 按配置上传本地媒体到腾讯云 COS（需 `.cos-config.json`，不提交到 Git）。 |
@@ -84,7 +85,7 @@
 ## 四、登录与用户名
 
 - **首页登录**：点击「用户名密码登录」跳转 Authing 托管页，回调后从 id_token 解析用户名并显示「Hi, 用户名 · 欢迎回来」，同时写入 `authing-user`、`current-user`（不写入占位符「用户」）。
-- **子页面**：需要姓名处统一使用 `localStorage.getItem('authing-user') || localStorage.getItem('current-user')` 或通过 `SClass.user` 预填；未登录时部分页面会跳回首页或显示 Guest。
+- **子页面**：每个子页面在 `<head>` 中引入 `scripts/auth-check.js`，未登录（无 `authing-user` / `current-user`）时会自动跳转到首页登录；需要姓名处统一使用上述 localStorage 或 `SClass.user` 预填。
 
 ---
 

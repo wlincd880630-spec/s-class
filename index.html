@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
+    <script src="scripts/auth-check.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Steven's Class | English Learning with Steven</title>
@@ -143,6 +144,14 @@
             border-color: var(--toca-sun);
             transform: scale(1.02);
             box-shadow: var(--shadow-hover);
+        }
+        .gate-name-error {
+            margin: -8px 0 0 0;
+            font-size: 0.85rem;
+            color: #fff;
+            background: rgba(255,107,107,0.9);
+            padding: 8px 14px;
+            border-radius: var(--radius-sm);
         }
         .gate-btn {
             padding: 22px 40px;
@@ -598,6 +607,8 @@
             <h1 class="gate-title">S-Class Quality<br><span>Top-Tier Future</span></h1>
             <p class="gate-subtitle">Steven's Class · s-class.top</p>
             <div class="gate-form">
+                <input type="text" class="gate-input" id="gate-student-name" placeholder="请输入学生姓名（仅中文）" maxlength="20" autocomplete="name">
+                <p id="gate-name-error" class="gate-name-error" style="display:none;"></p>
                 <button type="button" class="gate-btn" id="gate-btn-login">用户名密码登录 <i class="fas fa-arrow-right" style="margin-left:8px;"></i></button>
             </div>
             <p class="gate-hint">本系统为内部邀请制，请使用教师分配的账号登录</p>
@@ -1452,6 +1463,15 @@
                 return '';
             }
 
+            /** 学生姓名校验：必填，仅中文，无标点与其它符号 */
+            function validateStudentName(val) {
+                var s = (val == null ? '' : String(val)).trim();
+                if (s.length === 0) return { ok: false, msg: '请填写学生姓名' };
+                if (!/^[\u4e00-\u9fa5]+$/.test(s)) return { ok: false, msg: '学生姓名只能为中文，不能包含标点或其它符号' };
+                if (s.length < 2) return { ok: false, msg: '学生姓名至少 2 个汉字' };
+                return { ok: true, name: s };
+            }
+
             function handleCallback() {
                 var hash = location.hash || '';
                 var params = {};
@@ -1462,9 +1482,11 @@
                 var idToken = params.id_token;
                 if (idToken) {
                     var payload = parseJwtPayload(idToken);
-                    var name = (payload && firstNonEmpty(payload)) || '';
-                    // 若 token 里没有可取的名字，先尝试 URL 中的 username 参数（部分 IdP 会带回）
-                    if (!name && params.username) name = params.username;
+                    var tokenName = (payload && firstNonEmpty(payload)) || (params.username || '');
+                    var name = tokenName;
+                    var pending = sessionStorage.getItem('s-class-pending-student-name');
+                    if (pending && pending.trim()) name = pending.trim();
+                    sessionStorage.removeItem('s-class-pending-student-name');
                     showMainAfterLogin(name || '用户');
                     history.replaceState(null, '', location.pathname + location.search);
                 } else {
@@ -1473,7 +1495,20 @@
                 }
             }
 
+            var nameInput = document.getElementById('gate-student-name');
+            var errEl = document.getElementById('gate-name-error');
+            if (nameInput && errEl) nameInput.addEventListener('input', function() { errEl.style.display = 'none'; });
+
             if (btnLogin) btnLogin.addEventListener('click', function() {
+                var inp = document.getElementById('gate-student-name');
+                var err = document.getElementById('gate-name-error');
+                var res = validateStudentName(inp ? inp.value : '');
+                if (!res.ok) {
+                    if (err) { err.textContent = res.msg; err.style.display = 'block'; }
+                    return;
+                }
+                if (err) err.style.display = 'none';
+                sessionStorage.setItem('s-class-pending-student-name', res.name);
                 var path = location.pathname;
                 var redirectUri = (path === '/' || path === '/index.html' || path === '') ? location.origin : location.origin + path;
                 var state = Math.random().toString(36).slice(2);
