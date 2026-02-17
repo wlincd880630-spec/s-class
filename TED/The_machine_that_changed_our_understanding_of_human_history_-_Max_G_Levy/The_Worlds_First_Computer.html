@@ -595,6 +595,11 @@
             if(btnMain) btnMain.style.display = 'inline-block';
             if(btnHead) btnHead.style.display = 'inline-block';
         }
+        var authName = localStorage.getItem('authing-user') || localStorage.getItem('current-user');
+        if (authName) {
+            var unEl = document.getElementById('username');
+            if (unEl && !unEl.value) { unEl.value = authName; s.u = authName; }
+        }
         initSubs();
         genVocabGrid();
         highlightOverviewVocab(); // NEW: Highlight vocab in overview

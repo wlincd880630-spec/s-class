@@ -119,6 +119,8 @@ const App = {
             this.state.user = authName;
             var inp = document.getElementById('inp-name');
             if (inp) inp.value = authName;
+            var badge = document.getElementById('user-display');
+            if (badge) badge.innerText = authName;
         }
 
         const saved = localStorage.getItem('W17_Italy_Final');

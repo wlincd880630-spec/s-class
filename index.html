@@ -1466,6 +1466,19 @@
                 } catch (e) { return null; }
             }
 
+            function firstNonEmpty(obj) {
+                if (!obj) return '';
+                var keys = ['preferred_username', 'username', 'nickname', 'name', 'given_name', 'email'];
+                for (var i = 0; i < keys.length; i++) {
+                    var v = obj[keys[i]];
+                    if (v && typeof v === 'string' && v.trim()) return v.trim();
+                }
+                var sub = obj.sub;
+                if (sub && typeof sub === 'string' && sub.length > 0 && sub.length < 64 && !/^[0-9a-f]{8}-[0-9a-f]{4}-/i.test(sub))
+                    return sub;
+                return '';
+            }
+
             function handleCallback() {
                 var hash = location.hash || '';
                 var params = {};
@@ -1476,11 +1489,11 @@
                 var idToken = params.id_token;
                 if (idToken) {
                     var payload = parseJwtPayload(idToken);
-                    var name = (payload && (payload.nickname || payload.preferred_username || payload.username || payload.name || payload.given_name || payload.email)) || '用户';
+                    var name = (payload && firstNonEmpty(payload)) || '用户';
                     showMainAfterLogin(name);
                     history.replaceState(null, '', location.pathname + location.search);
                 } else {
-                    var cached = localStorage.getItem('authing-user');
+                    var cached = localStorage.getItem('authing-user') || localStorage.getItem('current-user');
                     if (cached) showMainAfterLogin(cached);
                 }
             }
