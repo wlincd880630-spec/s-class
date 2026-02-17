@@ -1,5 +1,8 @@
 /**
  * 自动扫描项目中的媒体文件并上传到腾讯云 COS（增量上传）。
+ * - 大文件（>5MB）自动使用分片上传，更稳定
+ * - 失败自动重试 3 次
+ * - 排除临时文件（temp_*）
  *
  * 用法：
  *   node scripts/upload-media-to-cos.js          上传所有新增/更新的媒体
@@ -28,8 +31,14 @@ if (!config.SecretId || !config.SecretKey || config.SecretId.includes('填') || 
 
 const DRY = process.argv.includes('--dry');
 const FORCE_ALL = process.argv.includes('--all');
+const MAX_RETRIES = 3;
+const SLICE_THRESHOLD = 5 * 1024 * 1024; // 5MB 以上用分片上传
 
-const cos = new COS({ SecretId: config.SecretId, SecretKey: config.SecretKey });
+const cos = new COS({
+  SecretId: config.SecretId,
+  SecretKey: config.SecretKey,
+  Timeout: 300000, // 5 分钟超时
+});
 const Bucket = config.Bucket;
 const Region = config.Region;
 const cosPrefix = (config.CosPrefix || 's-class/').replace(/\/+$/, '') + '/';
@@ -41,8 +50,20 @@ const MEDIA_EXT = new Set([
 ]);
 
 const IGNORE_DIRS = new Set(['.git', 'node_modules', 'scripts']);
+const IGNORE_PREFIXES = ['temp_', 'tmp_'];
 
 function toForwardSlash(p) { return p.replace(/\\/g, '/'); }
+
+function isTemp(filename) {
+  const lower = filename.toLowerCase();
+  return IGNORE_PREFIXES.some(pre => lower.startsWith(pre));
+}
+
+function formatSize(bytes) {
+  if (bytes < 1024) return bytes + ' B';
+  if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+  return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+}
 
 function walkMedia(dir, list = []) {
   const entries = fs.readdirSync(dir, { withFileTypes: true });
@@ -50,6 +71,7 @@ function walkMedia(dir, list = []) {
     if (e.isDirectory()) {
       if (!IGNORE_DIRS.has(e.name)) walkMedia(path.join(dir, e.name), list);
     } else {
+      if (isTemp(e.name)) continue;
       const ext = path.extname(e.name).toLowerCase();
       if (MEDIA_EXT.has(ext)) list.push(path.join(dir, e.name));
     }
@@ -61,7 +83,6 @@ function listAllCosObjects() {
   return new Promise((resolve, reject) => {
     const allObjects = {};
     let marker = '';
-
     function fetchPage() {
       cos.getBucket({
         Bucket, Region,
@@ -87,12 +108,27 @@ function listAllCosObjects() {
   });
 }
 
-function putObject(key, filePath) {
+function uploadFile(key, filePath) {
+  const fileSize = fs.statSync(filePath).size;
+
+  if (fileSize > SLICE_THRESHOLD) {
+    return new Promise((resolve, reject) => {
+      cos.sliceUploadFile({
+        Bucket, Region, Key: key,
+        FilePath: filePath,
+        SliceSize: 5 * 1024 * 1024,
+      }, (err, data) => {
+        if (err) return reject(err);
+        resolve(data);
+      });
+    });
+  }
+
   return new Promise((resolve, reject) => {
     cos.putObject({
       Bucket, Region, Key: key,
       Body: fs.createReadStream(filePath),
-      ContentLength: fs.statSync(filePath).size,
+      ContentLength: fileSize,
     }, (err, data) => {
       if (err) return reject(err);
       resolve(data);
@@ -100,9 +136,28 @@ function putObject(key, filePath) {
   });
 }
 
+async function uploadWithRetry(key, filePath, rel) {
+  for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
+    try {
+      await uploadFile(key, filePath);
+      return true;
+    } catch (err) {
+      if (attempt < MAX_RETRIES) {
+        const wait = attempt * 3;
+        console.log('  重试 ' + attempt + '/' + MAX_RETRIES + ': ' + rel + ' (' + err.message + ')，' + wait + '秒后重试...');
+        await new Promise(r => setTimeout(r, wait * 1000));
+      } else {
+        console.error('上传失败（已重试' + MAX_RETRIES + '次）: ' + rel + ' - ' + err.message);
+        return false;
+      }
+    }
+  }
+  return false;
+}
+
 async function main() {
   const mediaFiles = walkMedia(ROOT);
-  console.log('扫描到 ' + mediaFiles.length + ' 个本地媒体文件。');
+  console.log('扫描到 ' + mediaFiles.length + ' 个本地媒体文件（已排除 temp_* 临时文件）。');
 
   if (mediaFiles.length === 0) {
     console.log('没有媒体文件需要上传。');
@@ -126,7 +181,7 @@ async function main() {
       const localSize = fs.statSync(localPath).size;
       const remoteSize = cosObjects[cosKey];
       if (remoteSize === undefined || remoteSize !== localSize) {
-        toUpload.push({ localPath, rel, cosKey });
+        toUpload.push({ localPath, rel, cosKey, size: localSize });
       }
     }
   }
@@ -140,7 +195,7 @@ async function main() {
 
   if (DRY) {
     for (const f of toUpload) {
-      console.log('[dry] 将上传: ' + f.rel + ' -> ' + f.cosKey);
+      console.log('[dry] 将上传: ' + f.rel + ' (' + formatSize(f.size || 0) + ')');
     }
     console.log('[dry] 共 ' + toUpload.length + ' 个文件。去掉 --dry 执行即可上传。');
     return;
@@ -149,12 +204,15 @@ async function main() {
   let uploaded = 0;
   let failed = 0;
   for (const f of toUpload) {
-    try {
-      await putObject(f.cosKey, f.localPath);
-      console.log('已上传: ' + f.rel);
+    const size = fs.statSync(f.localPath).size;
+    const method = size > SLICE_THRESHOLD ? '分片上传' : '直传';
+    process.stdout.write('上传中 (' + method + '): ' + f.rel + ' (' + formatSize(size) + ')...');
+
+    const ok = await uploadWithRetry(f.cosKey, f.localPath, f.rel);
+    if (ok) {
+      console.log(' OK');
       uploaded++;
-    } catch (err) {
-      console.error('上传失败: ' + f.rel + ' - ' + err.message);
+    } else {
       failed++;
     }
   }
