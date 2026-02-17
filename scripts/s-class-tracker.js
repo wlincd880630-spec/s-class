@@ -14,7 +14,7 @@
 (function () {
   var EMAILJS_PUBLIC_KEY = '1QhXV5G_92GdK7_DF';
   var EMAILJS_SERVICE_ID = 'service_6dfbs2n';
-  var EMAILJS_TRACKER_TEMPLATE = 'template_sclass_report';
+  var EMAILJS_TRACKER_TEMPLATE = 'template_zso8ebh';
 
   var startTime = new Date();
   var logs = [];

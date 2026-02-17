@@ -1,62 +1,38 @@
 /**
- * js/report.js - 智能名字抓取版
+ * js/report.js - 统一使用 SClass.sendReport (template_zso8ebh)
  */
 const Report = {
-    serviceID: "service_6dfbs2n",
-    templateID: "template_29lkfcs",
-    publicKey: "1QhXV5G_92GdK7_DF", 
-
     submitExam: async function(testName, score, total, wrongList, timeStr) {
-        // 🔥 核心修复：双重保险获取姓名
-        let studentName = "匿名考生";
-        
-        // 1. 尝试从 Auth 对象获取
-        if (typeof Auth !== 'undefined' && Auth.currentUser) {
-            studentName = Auth.currentUser;
-        } 
-        // 2. 如果失败，直接查 LocalStorage (兜底)
-        else {
-            studentName = localStorage.getItem('current-user') || "匿名考生";
+        if (typeof SClass === 'undefined') {
+            console.warn('SClass 未加载，无法发送报告');
+            alert('报告发送失败，请刷新页面后重试。');
+            return;
         }
 
-        let wrongDetailsText = "";
-        if (wrongList.length === 0) {
-            wrongDetailsText = "🎉 太棒了！本次考试全对！(Perfect Score)";
+        var studentName = (typeof Auth !== 'undefined' && Auth.currentUser) ? Auth.currentUser : (localStorage.getItem('current-user') || localStorage.getItem('authing-user') || '匿名考生');
+
+        wrongList.forEach(function(item) {
+            SClass.logError(item.title || ('Q' + item.id), item.user || '', item.correct || '');
+        });
+
+        var wrongDetailsHtml = '';
+        if (wrongList.length > 0) {
+            wrongDetailsHtml = '<p><b>错题明细：</b></p><ul style="margin:0;padding-left:20px;">';
+            wrongList.forEach(function(item) {
+                wrongDetailsHtml += '<li>Q' + item.id + ': 你的答案「' + (item.user || '') + '」 / 正确答案「' + (item.correct || '') + '」</li>';
+            });
+            wrongDetailsHtml += '</ul>';
         } else {
-            wrongDetailsText = wrongList.map(item => {
-                let str = `❌ [Q${item.id}] ${item.title}`;
-                if (item.isChoice) {
-                    const userText = item.userDesc ? ` (${item.userDesc})` : "";
-                    const correctText = item.correctDesc ? ` (${item.correctDesc})` : "";
-                    str += `\n   您的选择: ${item.user}${userText}`;
-                    str += `\n   正确答案: ${item.correct}${correctText}`;
-                } else {
-                    str += `\n   您的答案: ${item.user}`;
-                    str += `\n   正确答案: ${item.correct}`;
-                }
-                return str;
-            }).join('\n\n------------------------\n\n');
+            wrongDetailsHtml = '<p>本次考试全对。</p>';
         }
 
-        const emailParams = {
-            student_name: studentName, // ✅ 这里现在肯定是登录名了
-            test_id: testName,
-            score: `${score} / ${total}`,
-            time_spent: timeStr,
-            wrong_answers: wrongDetailsText,
-            exam_date: new Date().toLocaleString('zh-CN', { hour12: false })
-        };
-
-        console.log("正在发送成绩单...", emailParams);
-        
-        try {
-            const response = await emailjs.send(this.serviceID, this.templateID, emailParams, this.publicKey);
-            console.log("✅ 邮件发送成功!", response.status, response.text);
-            return response;
-        } catch (error) {
-            console.error("❌ 邮件发送失败:", error);
-            alert("成绩单发送失败，请检查网络连接。");
-            throw error;
-        }
+        SClass.sendReport({
+            contentName: testName,
+            score: score,
+            total: total,
+            extraHtml: '<p><b>用时：</b>' + (timeStr || '') + '</p>' + wrongDetailsHtml
+        }).then(function(ok) {
+            if (ok) console.log('报告已发送');
+        });
     }
 };

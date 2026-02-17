@@ -478,14 +478,8 @@
         document.getElementById('ai-comment').innerText = comment;
 
         if(typeof Report !== 'undefined') {
-            Report.submitExam(`Reading ${RAW_TEST_ID} P${PART_ID}`, score, total, wrongList, document.getElementById('timer-box');
-            if (typeof SClass !== "undefined") {
-                wrongList.forEach(w => SClass.logError(w.desc || w.id, w.userAnswer, w.correctAnswer));
-                LEARNING_LOGS.vocab.forEach(w => SClass.logWord(w, "lookup"));
-                LEARNING_LOGS.tts.forEach(s => SClass.log("tts", s, "played"));
-                LEARNING_LOGS.trans.forEach(t => SClass.log("translation", t.original, t.student));
-                SClass.sendReport({ contentName: "PET-exam Reading", score: score, total: total });
-            }.innerText);
+            const timeStr = document.getElementById('timer-box') ? document.getElementById('timer-box').innerText : '';
+            Report.submitExam(`Reading ${RAW_TEST_ID} P${PART_ID}`, score, total, wrongList, timeStr);
         }
     };
 
@@ -784,11 +778,32 @@
         const btn = document.getElementById('btn-send-report');
         btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 发送中...';
         btn.disabled = true;
+        if (typeof SClass === 'undefined') {
+            alert('报告发送失败，请刷新页面后重试。');
+            btn.innerHTML = '<i class="fas fa-paper-plane"></i> 发送报告';
+            btn.disabled = false;
+            return;
+        }
         const vocabHTML = LEARNING_LOGS.vocab.length > 0 ? `<ul>${LEARNING_LOGS.vocab.map(w => `<li>${w}</li>`).join('')}</ul>` : "<i>(无记录)</i>";
         const ttsHTML = LEARNING_LOGS.tts.length > 0 ? `<ul>${LEARNING_LOGS.tts.map(s => `<li>"${s.substring(0,50)}..."</li>`).join('')}</ul>` : "<i>(无记录)</i>";
         const transHTML = LEARNING_LOGS.trans.length > 0 ? `<ul>${LEARNING_LOGS.trans.map(t => `<li><b>原文:</b> ${t.original.substring(0,30)}...<br><b>口译:</b> ${t.student}</li>`).join('')}</ul>` : "<i>(无记录)</i>";
-        const params = { student_name: localStorage.getItem('current-user') || "Guest", test_id: `Reading ${RAW_TEST_ID} Part ${PART_ID}`, report_date: new Date().toLocaleString(), vocab_list: vocabHTML, tts_list: ttsHTML, trans_list: transHTML, ai_diagnosis: currentAIDiagnosis };
-        emailjs.send(REPORT_CONF.service, REPORT_CONF.template_deep, params, REPORT_CONF.key).then(() => { btn.innerHTML = '<i class="fas fa-check"></i> 成功'; btn.style.background = 'var(--success)'; setTimeout(() => { document.getElementById('report-modal').style.display = 'none'; document.getElementById('overlay').style.display = 'none'; }, 1500); }).catch((err) => { console.error(err); alert("发送失败"); btn.innerHTML = '重试'; btn.disabled = false; });
+        const extraHtml = '<p><b>查词记录</b></p>' + vocabHTML + '<p><b>跟读 TTS</b></p>' + ttsHTML + '<p><b>口译记录</b></p>' + transHTML + (currentAIDiagnosis ? '<p><b>AI 诊断</b></p><div>' + currentAIDiagnosis + '</div>' : '');
+        SClass.sendReport({ contentName: 'PET-exam Reading 深度报告 ' + RAW_TEST_ID + ' P' + PART_ID, extraHtml: extraHtml }).then(function(ok) {
+            if (ok) {
+                btn.innerHTML = '<i class="fas fa-check"></i> 成功';
+                btn.style.background = 'var(--success)';
+                setTimeout(function() { document.getElementById('report-modal').style.display = 'none'; document.getElementById('overlay').style.display = 'none'; }, 1500);
+            } else {
+                alert('发送失败');
+                btn.innerHTML = '重试';
+                btn.disabled = false;
+            }
+        }).catch(function(err) {
+            console.error(err);
+            alert('发送失败');
+            btn.innerHTML = '重试';
+            btn.disabled = false;
+        });
     }
 
     function closeAllModals() { document.getElementById('dict-card').style.display='none'; document.getElementById('report-modal').style.display='none'; document.getElementById('overlay').style.display='none'; }

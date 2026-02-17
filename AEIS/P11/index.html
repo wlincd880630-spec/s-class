@@ -657,15 +657,8 @@ createApp({
                 }).then(() => { alert("\u2705 Report Sent!"); isSending.value = false; },
                         ()  => { alert("\u274C Send Failed"); isSending.value = false; });
             } else {
-                // Fallback to original EmailJS
-                emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
-                    student_name: user.value.name,
-                    total_time: formatTime(stats.value.sessionTime),
-                    score: calculateAccuracy() + "%",
-                    word_data: formatWordTimings(),
-                    weak_words: getWeakWords().join(', ') || 'None'
-                }).then(() => { alert("\u2705 Report Sent!"); isSending.value = false; },
-                        (err) => { alert("\u274C Failed: " + JSON.stringify(err)); isSending.value = false; });
+                alert('请刷新页面后重试发送报告。');
+                isSending.value = false;
             }
         };
         const triggerAdmin = () => {
