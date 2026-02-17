@@ -198,6 +198,7 @@
             .book-title { font-size: 1.8rem; margin-bottom: 30px; }
         }
     </style>
+    <script src="../../../scripts/s-class-tracker.js"></script>
 </head>
 <body onload="playIntro()">
 
@@ -447,5 +448,13 @@
 </script>
 
 <script>(function(){if(!window.MEDIA_BASE)return;var path=decodeURIComponent((location.pathname||"").replace(/\\/g,"/").replace(/\/[^/]*$/,"").replace(/^\//,""));document.querySelectorAll("img[src],video[src],source[src]").forEach(function(el){var s=(el.getAttribute("src")||"").trim();if(!s||s.indexOf("http:")===0||s.indexOf("https:")===0||s.indexOf("//")===0||s.indexOf("data:")===0)return;el.src=window.MEDIA_BASE+encodeURI(path+(path?"/":"")+s.replace(/^\.\//,""));});})();</script>
+
+<script>
+document.addEventListener("visibilitychange", function() {
+  if (document.visibilityState === "hidden" && typeof SClass !== "undefined" && SClass.logs.length > 0) {
+    SClass.sendReport({ contentName: document.title.split("|")[0].trim() });
+  }
+});
+</script>
 </body>
 </html>

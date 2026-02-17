@@ -156,6 +156,7 @@ body {
     .scroll-area { max-width: 800px; margin: 0 auto; }
 }
 </style>
+    <script src="../../scripts/s-class-tracker.js"></script>
 </head><body><div class='nav'><b>Unit Quiz</b><div><span id='ind' style='margin-right:10px'></span><button id='pb' class='nav-btn' onclick='nav(-1)'>Prev</button> <button id='nb' class='nav-btn' onclick='nav(1)'>Next</button></div></div><div style='flex:1;position:relative;overflow:hidden'><div class="quiz-page active" id="page-1"><div class="page-title">Page 1: Vocabulary Study</div><div class="scroll-area">
         <div class="vocab-card">
             <div class="v-top">
@@ -2248,6 +2249,10 @@ function getFormattedTime() {
 
 // 核心统计函数
 function finishQuiz() {
+    if (typeof SClass !== "undefined") {
+        SClass.sendReport({ contentName: document.title.split("|")[0].trim() });
+    }
+
     if(isFinished) return;
     isFinished = true;
     

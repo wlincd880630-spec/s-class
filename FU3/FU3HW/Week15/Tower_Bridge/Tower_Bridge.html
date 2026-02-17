@@ -190,6 +190,7 @@
             .frame-border { display: none; }
         }
     </style>
+    <script src="../../../../scripts/s-class-tracker.js"></script>
 </head>
 <body>
 
@@ -758,6 +759,18 @@ function exportVocab() {
 }
 function restartAll() { if(confirm("Delete progress?")) { localStorage.removeItem('tbState'); location.reload(); } }
 function fmtTime(s) { const m = Math.floor(s/60); const sec = Math.floor(s%60); return `${m}:${sec<10?'0':''}${sec}`; }
+</script>
+
+<script>
+(function(){
+  var _sc_sent = false;
+  document.addEventListener("visibilitychange", function() {
+    if (document.visibilityState === "hidden" && !_sc_sent && typeof SClass !== "undefined") {
+      _sc_sent = true;
+      SClass.sendReport({ contentName: document.title.split("|")[0].trim() });
+    }
+  });
+})();
 </script>
 </body>
 </html>

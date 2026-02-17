@@ -55,6 +55,7 @@
         .script-word { border-bottom: 1px dotted #94a3b8; }
         .script-word:hover { color: var(--primary); border-bottom-style: solid; }
     </style>
+    <script src="../../scripts/s-class-tracker.js"></script>
 </head>
 <body>
 
@@ -328,7 +329,11 @@
         if(typeof Report !== 'undefined') {
             const timeStr = document.getElementById('exam-timer').textContent;
             const reportTitle = `Listening / ${TEST_ID} / Part ${PART_ID}`;
-            Report.submitExam(reportTitle, score, QUESTIONS_DATA.length, wrongList, timeStr)
+            Report.submitExam(reportTitle, score, QUESTIONS_DATA.length, wrongList, timeStr);
+            if (typeof SClass !== "undefined") {
+                wrongList.forEach(w => SClass.logError(w.desc || w.id, w.userAnswer, w.correctAnswer));
+                SClass.sendReport({ contentName: "PET-exam Listening", score: score, total: QUESTIONS_DATA.length });
+            }
                 .then(() => console.log("Email Sent"))
                 .catch(err => console.error("Email Error:", err));
         }

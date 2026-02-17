@@ -198,6 +198,7 @@
             .print-ex { font-size: 10pt; color: #222; margin-top: 5px; }
         }
     </style>
+    <script src="../../../../scripts/s-class-tracker.js"></script>
 </head>
 <body>
 
@@ -1048,6 +1049,10 @@ enigmas and untold stories.`;
     function clrM() { document.getElementById('svg-layer').innerHTML=''; state.matchLines=[]; document.querySelectorAll('.match-item').forEach(e=>e.classList.remove('matched','selected')); saveState(); }
 
     function subFinal() {
+    if (typeof SClass !== "undefined") {
+        SClass.sendReport({ contentName: document.title.split("|")[0].trim(), score: typeof state !== "undefined" && state.stars || null, total: null });
+    }
+
         state.ans.d1=document.getElementById('d1').value;
         state.ans.d2=document.getElementById('d2').value;
         state.ans.d3=document.getElementById('d3').value;

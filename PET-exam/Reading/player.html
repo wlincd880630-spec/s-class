@@ -113,6 +113,7 @@
         .btn-report { background: linear-gradient(135deg, #8b5cf6, #d946ef); display: none; bottom: 110px; }
         .admin-badge { display:none; margin-left:10px; background:#f59e0b; color:white; padding:2px 8px; border-radius:4px; font-size:0.8rem; vertical-align:middle; }
     </style>
+    <script src="../../scripts/s-class-tracker.js"></script>
 </head>
 <body>
 
@@ -477,7 +478,14 @@
         document.getElementById('ai-comment').innerText = comment;
 
         if(typeof Report !== 'undefined') {
-            Report.submitExam(`Reading ${RAW_TEST_ID} P${PART_ID}`, score, total, wrongList, document.getElementById('timer-box').innerText);
+            Report.submitExam(`Reading ${RAW_TEST_ID} P${PART_ID}`, score, total, wrongList, document.getElementById('timer-box');
+            if (typeof SClass !== "undefined") {
+                wrongList.forEach(w => SClass.logError(w.desc || w.id, w.userAnswer, w.correctAnswer));
+                LEARNING_LOGS.vocab.forEach(w => SClass.logWord(w, "lookup"));
+                LEARNING_LOGS.tts.forEach(s => SClass.log("tts", s, "played"));
+                LEARNING_LOGS.trans.forEach(t => SClass.log("translation", t.original, t.student));
+                SClass.sendReport({ contentName: "PET-exam Reading", score: score, total: total });
+            }.innerText);
         }
     };
 

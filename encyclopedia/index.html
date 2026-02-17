@@ -259,6 +259,7 @@
             .bottom-actions .action-btn { flex: 1; justify-content: center; font-size: 0.85rem; padding: 8px; }
         }
     </style>
+    <script src="../scripts/s-class-tracker.js"></script>
 </head>
 <body>
 
@@ -662,7 +663,11 @@
     }
     
     function nextQuestion() { App.cursor++; loadQuestion(); }
-    function finishQuiz() { Swal.fire('本轮结束', `本轮得分: ${App.sessionScore}`, 'success').then(()=>location.reload()); }
+    function finishQuiz() {
+        if (typeof SClass !== "undefined") {
+            SClass.sendReport({ contentName: "Encyclopedia Quiz - " + (App.currentSubject || ""), score: App.sessionScore || 0, total: null });
+        }
+ Swal.fire('本轮结束', `本轮得分: ${App.sessionScore}`, 'success').then(()=>location.reload()); }
     function exitView() { location.reload(); }
     
   function toggleSplitView() { 

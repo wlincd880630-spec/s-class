@@ -182,6 +182,7 @@
         .app-container { height: 100dvh !important; }
     </style>
     
+    <script src="../../scripts/s-class-tracker.js"></script>
 </head>
 <body>
 
@@ -2893,7 +2894,13 @@ createApp({
                 } else {
                     if (phase.value === 'vocab') { phase.value = 'colloc'; currentIndex.value = 0; initStepData(); }
                     else if (phase.value === 'colloc') { phase.value = 'grammar'; currentIndex.value = 0; initStepData(); }
-                    else { phase.value = 'end'; }
+                    else { phase.value = 'end';
+                        if (typeof SClass !== 'undefined') {
+                            SClass.sendReport({
+                                contentName: document.title.split('|')[0].trim() + ' - Unit ' + '15',
+                                score: null, total: null
+                            });
+                        } }
                 }
             }
         };
@@ -2938,13 +2945,15 @@ createApp({
                 const currentStr = stepData.value.userSpelling.join('').toLowerCase();
                 const target = (item.word || item.phrase).replace(/[^a-zA-Z]/g, '').toLowerCase();
                 if (currentStr.length === target.length) {
-                    if (currentStr === target) { stepData.value.spellingCorrect = true; playTTS("Correct"); }
+                    if (currentStr === target) { stepData.value.spellingCorrect = true;
+                    if (typeof SClass !== "undefined") SClass.log("spelling", currentItem.value.word || currentItem.value.phrase, "correct"); playTTS("Correct"); }
                     else { playTTS("Wrong"); setTimeout(() => { stepData.value.userSpelling=[]; stepData.value.usedIndices.clear(); }, 500); }
                 }
             }
             if (action === 'meaning') {
                 stepData.value.meaningAnswer = payload;
-                if (payload === item.correct_answer) { stepData.value.meaningCorrect = true; playTTS("Correct"); }
+                if (payload === item.correct_answer) { stepData.value.meaningCorrect = true;
+                    if (typeof SClass !== "undefined") SClass.log("meaning", currentItem.value.word || currentItem.value.phrase, "correct", stepData.value.meaningAnswer || ""); playTTS("Correct"); }
                 else playTTS("Wrong");
             }
             
@@ -2972,9 +2981,11 @@ createApp({
                     
                     stepData.value.contextFullSentence = fullSentence;
                     stepData.value.contextCorrect = true;
+                    if (typeof SClass !== "undefined") SClass.log("context", currentItem.value.word || currentItem.value.phrase, "correct");
                     playTTS(fullSentence); 
                 } else {
                     stepData.value.contextCorrect = false;
+                    if (typeof SClass !== "undefined") SClass.log("context", currentItem.value.word || currentItem.value.phrase, "wrong");
                     playTTS("Incorrect");
                 }
             }
@@ -3078,7 +3089,10 @@ createApp({
         const openAdmin = () => { if(prompt("PWD")==="888123") showAdminPanel.value = true; };
         const jumpIndex = (d) => { const n = currentIndex.value + d; if(n>=0 && n<currentList.value.length) { currentIndex.value = n; initStepData(); } };
         const setPhase = (p) => { phase.value = p; currentIndex.value = 0; initStepData(); };
-        const forceUnlock = () => { stepData.value.audioScore=100; stepData.value.guessCorrect=true; stepData.value.spellingCorrect=true; stepData.value.meaningCorrect=true; stepData.value.contextCorrect=true; stepData.value.oralCount=5; stepData.value.grammarListened=true; stepData.value.quizAllFinished=true; stepData.value.inquiryIndex=100; };
+        const forceUnlock = () => { stepData.value.audioScore=100; stepData.value.guessCorrect=true; stepData.value.spellingCorrect=true;
+                    if (typeof SClass !== "undefined") SClass.log("spelling", currentItem.value.word || currentItem.value.phrase, "correct"); stepData.value.meaningCorrect=true;
+                    if (typeof SClass !== "undefined") SClass.log("meaning", currentItem.value.word || currentItem.value.phrase, "correct", stepData.value.meaningAnswer || ""); stepData.value.contextCorrect=true;
+                    if (typeof SClass !== "undefined") SClass.log("context", currentItem.value.word || currentItem.value.phrase, "correct"); stepData.value.oralCount=5; stepData.value.grammarListened=true; stepData.value.quizAllFinished=true; stepData.value.inquiryIndex=100; };
 
         return {
             phase, userName, currentIndex, currentStep, totalSteps, currentItem, currentList, phaseTitles, stepData,

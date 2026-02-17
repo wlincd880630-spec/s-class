@@ -333,6 +333,7 @@
             .mind-map-container { flex-direction: column; height: auto; padding: 20px; }
         }
     </style>
+    <script src="../../scripts/s-class-tracker.js"></script>
 </head>
 <body>
 
@@ -736,5 +737,17 @@
         // Init Voice List
         window.speechSynthesis.onvoiceschanged = function() { window.speechSynthesis.getVoices(); };
     </script>
+
+<script>
+(function(){
+  var _sc_sent = false;
+  document.addEventListener("visibilitychange", function() {
+    if (document.visibilityState === "hidden" && !_sc_sent && typeof SClass !== "undefined") {
+      _sc_sent = true;
+      SClass.sendReport({ contentName: document.title.split("|")[0].trim() });
+    }
+  });
+})();
+</script>
 </body>
 </html>

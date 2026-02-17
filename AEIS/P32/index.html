@@ -102,6 +102,7 @@
         
         .admin-bar { position: fixed; top: 0; left: 0; width: 100%; background: #1e293b; color: white; padding: 8px; z-index: 100; display: flex; justify-content: space-around; align-items: center; font-size: 0.8rem; }
     </style>
+    <script src="../../scripts/s-class-tracker.js"></script>
 </head>
 <body class="h-screen flex flex-col overflow-hidden">
 
@@ -641,15 +642,31 @@ createApp({
 
         const sendEmailJS = () => {
             isSending.value = true;
-            emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
-                student_name: user.value.name,
-                total_time: formatTime(stats.value.sessionTime),
-                score: calculateAccuracy() + "%",
-                word_data: formatWordTimings(), 
-                weak_words: getWeakWords().join(', ') || 'None'
-            }).then(() => { alert("✅ Report Sent Successfully!"); isSending.value = false; }, (err) => { alert("❌ Failed: " + JSON.stringify(err)); isSending.value = false; });
+            // Log all word errors and timings to SClass
+            if (typeof SClass !== 'undefined') {
+                stats.value.errors.forEach(w => SClass.log('word-error', w, 'weak'));
+                Object.entries(stats.value.wordTimings).forEach(([w, t]) => SClass.log('word-time', w, (t/1000).toFixed(1) + 's'));
+                SClass.sendReport({
+                    contentName: document.title.split('|')[0].trim(),
+                    score: Math.round(calculateAccuracy()),
+                    total: 100,
+                    extraHtml: '<p><b>Weak words:</b> ' + (getWeakWords().join(', ') || 'None') + '</p>' +
+                               '<p><b>Words learned:</b> ' + stats.value.wordsLearned + '</p>' +
+                               '<p><b>Total time:</b> ' + formatTime(stats.value.sessionTime) + '</p>'
+                }).then(() => { alert("\u2705 Report Sent!"); isSending.value = false; },
+                        ()  => { alert("\u274C Send Failed"); isSending.value = false; });
+            } else {
+                // Fallback to original EmailJS
+                emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+                    student_name: user.value.name,
+                    total_time: formatTime(stats.value.sessionTime),
+                    score: calculateAccuracy() + "%",
+                    word_data: formatWordTimings(),
+                    weak_words: getWeakWords().join(', ') || 'None'
+                }).then(() => { alert("\u2705 Report Sent!"); isSending.value = false; },
+                        (err) => { alert("\u274C Failed: " + JSON.stringify(err)); isSending.value = false; });
+            }
         };
-
         const triggerAdmin = () => {
             adminClicks.value++;
             if (adminClicks.value >= 5) {
@@ -666,7 +683,7 @@ createApp({
             } else next();
         };
 
-        onMounted(() => checkSaveFile());
+        onMounted(() => { checkSaveFile(); if (typeof SClass !== "undefined" && SClass.user && !user.value.name) user.value.name = SClass.user; });
 
         return { 
             phase, user, userInputName, hasSaveFile, saveMetadata, isAdmin, isSending,
