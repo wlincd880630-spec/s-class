@@ -1407,7 +1407,7 @@ window.speak = async function(text) {
     var key = D.config.azureKey, reg = D.config.azureRegion;
     try {
         if (window.currentAudio) { window.currentAudio.pause(); window.currentAudio = null; }
-        var ssml = "<speak version='1.0' xml:lang='en-US'><voice xml:lang='en-US' name='en-US-AndrewNeural'>" + cleanText + "</voice></speak>";
+        var ssml = "<speak xml:lang='en-US'><voice xml:lang='en-US' name='en-US-AndrewNeural'>" + cleanText + "</voice></speak>";
         var r = await fetch("https://" + reg + ".tts.speech.microsoft.com/cognitiveservices/v1", { method: "POST", headers: { "Ocp-Apim-Subscription-Key": key, "Content-Type": "application/ssml+xml", "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3" }, body: ssml });
         if (!r.ok) throw new Error("REST fail");
         var blob = await r.blob(); var url = URL.createObjectURL(blob); var audio = new Audio(url); window.currentAudio = audio; audio.play().catch(function(e){}); 
