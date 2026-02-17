@@ -89,6 +89,7 @@ const AIHub = {
             3. 翻译: ${logs.trans.map(t=>t.student).join("; ") || "无"}
             
             请生成一份《深度学习诊断书》(HTML格式)，包含词汇盲区分析、语法建议和下一步计划。
+            要求：用简洁的 HTML 标签（如 <h3>、<p>、<ul><li>），段落简短，不要多余空行；可用 <strong> 强调关键词。不要用 <br> 堆砌换行。
         `;
         return this.callDeepSeek("你是一个资深英语教育专家。", prompt);
     }
