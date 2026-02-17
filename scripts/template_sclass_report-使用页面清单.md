@@ -11,7 +11,7 @@
 ## PET（词汇实验室 01–36 + 单元总结 + 单元阅读）
 - **PET/01/01.html** ~ **PET/36/36.html**（36 个，完成 Mission 或到「Mission Complete」时发送）
 - **PET/Unit1_summary/Unit1_summary.html** ~ **PET/Unit18_summary/Unit18_summary.html**（18 个总结 Quiz 完成时发送）
-- **PET/Unit1_passage/Unit1_passage.html** ~ **PET/Unit18_passage/Unit18_passage.html** + **Unit9_passge.html**（19 个阅读页，离开时发送）
+- **PET/Unit1_passage/Unit1_passage.html** ~ **PET/Unit18_passage/Unit18_passage.html** + **Unit9_passage.html**（19 个阅读页，离开时发送）
 
 ## PET-exam（听力 + 阅读）
 - **PET-exam/index.html**（离开时发送）
