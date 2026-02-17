@@ -237,7 +237,8 @@ Output in concise Chinese Markdown.`;
   document.addEventListener("visibilitychange", function() {
     if (document.visibilityState === "hidden" && !_sc_sent && typeof SClass !== "undefined") {
       _sc_sent = true;
-      SClass.sendReport({ contentName: document.title.split("|")[0].trim() });
+      var unitNum = (location.pathname.match(/Unit(\d+)_passage/) || [])[1] || "";
+      SClass.sendReport({ contentName: document.title.split("|")[0].trim(), page_label: unitNum ? ("PET Unit " + unitNum + " Passage") : document.title.split("|")[0].trim() });
     }
   });
 })();

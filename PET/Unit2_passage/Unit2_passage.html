@@ -213,6 +213,10 @@ Output in concise Chinese Markdown.`;
                     try {
                         const data = await (window.callAI || function() { return Promise.reject(new Error("API_BASE not set")); })({ messages: [{ role: "user", content: prompt }] });
                         this.evaluation = (data && data.content) ? data.content : (data.error || "评价服务连接失败");
+                        if (window.SClass && this.evaluation) {
+                            var ref = "P" + (this.currentPassageIdx + 1) + " S" + (this.currentSentenceIdx + 1);
+                            window.SClass.log("朗读/翻译", ref, (data && data.content) ? "done" : "error", String(this.evaluation).slice(0, 400));
+                        }
                     } catch (e) { this.evaluation = "评价服务连接失败"; } finally { this.isEvaluating = false; }
                 }
             }
@@ -225,7 +229,8 @@ Output in concise Chinese Markdown.`;
   document.addEventListener("visibilitychange", function() {
     if (document.visibilityState === "hidden" && !_sc_sent && typeof SClass !== "undefined") {
       _sc_sent = true;
-      SClass.sendReport({ contentName: document.title.split("|")[0].trim() });
+      var unitNum = (location.pathname.match(/Unit(\d+)_passage/) || [])[1] || "";
+      SClass.sendReport({ contentName: document.title.split("|")[0].trim(), page_label: unitNum ? ("PET Unit " + unitNum + " Passage") : document.title.split("|")[0].trim() });
     }
   });
 })();

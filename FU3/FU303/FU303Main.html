@@ -6,12 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Global Explorer: Main Map (Pro V2) | English Learning with Steven</title>
     
-    <script src="https://cdn.staticfile.net/react/18.2.0/umd/react.production.min.js"></script>
-    <script src="https://cdn.staticfile.net/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
-    <script src="https://cdn.staticfile.net/babel-standalone/7.22.17/babel.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.production.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.22.17/babel.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/microsoft-cognitiveservices-speech-sdk/distrib/browser/microsoft.cognitiveservices.speech.sdk.bundle-min.js"></script>
-    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="https://cdn.jsdelivr.net/npm/microsoft-cognitiveservices-speech-sdk@1.34.1/distrib/browser/microsoft.cognitiveservices.speech.sdk.bundle-min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1"></script>
 
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Fredoka:wght@600&display=swap" rel="stylesheet">
 
@@ -141,8 +141,29 @@
 </head>
 <body>
     
-    <div id="root"></div>
+    <div id="root">
+        <div id="app-loading" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:80vh;color:rgba(255,255,255,0.9);font-family:Outfit,sans-serif;padding:2rem;text-align:center;">
+            <p style="font-size:1.25rem;margin-bottom:0.5rem;">Loading Global Explorer…</p>
+            <p style="font-size:0.9rem;opacity:0.8;">若长时间空白，请检查网络或换用 Chrome / Edge 浏览器</p>
+        </div>
+    </div>
 
+    <script>
+        window.FU303_REACT_READY = false;
+        window.addEventListener('error', function(e) {
+            if (!window.FU303_REACT_READY && document.getElementById('app-loading')) {
+                document.getElementById('app-loading').innerHTML = '<p style="color:#fca5a5;">页面加载出错，请刷新重试或换用其他浏览器。</p>';
+            }
+        });
+        setTimeout(function() {
+            if (!window.FU303_REACT_READY && document.getElementById('app-loading')) {
+                var el = document.getElementById('app-loading');
+                if (el && el.parentElement && el.parentElement.id === 'root' && !el.parentElement.querySelector('.app-frame')) {
+                    el.innerHTML = '<p style="color:#fcd34d;">脚本加载较慢，请稍候或刷新页面。</p><p style="font-size:0.85rem;opacity:0.8;margin-top:0.5rem;">若持续无法打开，可尝试使用手机热点或更换网络。</p>';
+                }
+            }
+        }, 8000);
+    </script>
     <script type="text/babel">
         const { useState, useEffect, useRef } = React;
 
@@ -403,8 +424,21 @@
             );
         };
 
-        const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<App />);
+        const rootEl = document.getElementById('root');
+        const loadingEl = document.getElementById('app-loading');
+        if (typeof ReactDOM !== 'undefined' && ReactDOM.createRoot && rootEl) {
+            try {
+                const root = ReactDOM.createRoot(rootEl);
+                root.render(<App />);
+                window.FU303_REACT_READY = true;
+                if (loadingEl) loadingEl.remove();
+            } catch (err) {
+                if (loadingEl) loadingEl.innerHTML = '<p style="color:#fca5a5;">页面渲染失败，请刷新重试。</p>';
+                console.error('FU303 React render error', err);
+            }
+        } else if (loadingEl) {
+            loadingEl.innerHTML = '<p style="color:#fca5a5;">缺少运行环境（React），请刷新或换浏览器重试。</p>';
+        }
     </script>
 
 <script>

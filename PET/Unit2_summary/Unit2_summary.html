@@ -1167,10 +1167,6 @@ function getFormattedTime() {
 
 // 核心统计函数
 function finishQuiz() {
-    if (typeof SClass !== "undefined") {
-        SClass.sendReport({ contentName: document.title.split("|")[0].trim() });
-    }
-
     if(isFinished) return;
     isFinished = true;
     
@@ -1179,9 +1175,10 @@ function finishQuiz() {
         try { submitPage('page-'+i); } catch(e){}
     }
     
-    // 2. 统计分数
+    // 2. 统计分数并记录错题到 SClass
     let totalQ = 0;
     let correctQ = 0;
+    let qIdx = 0;
     let wrongContainer = document.getElementById('wrong-container');
     wrongContainer.innerHTML = '<div class="wrong-title">Review Mistakes</div>';
     
@@ -1191,7 +1188,7 @@ function finishQuiz() {
     function processCard(card) {
         // 跳过 Page 1 (单词学习�?
         if(card.closest('#page-1')) return;
-        
+        qIdx++;
         totalQ++;
         if(card.classList.contains('correct')) {
             correctQ++;
@@ -1199,12 +1196,21 @@ function finishQuiz() {
             // 错题或未做答
             hasMistakes = true;
             // 克隆卡片用于展示
+            if (typeof SClass !== "undefined") {
+                var ansLetter = (card.dataset.ans || "").trim().toUpperCase();
+                var opts = card.querySelectorAll(".opt-btn");
+                var correctOpt = Array.from(opts).find(function(b){ return b.innerText.trim().toUpperCase().startsWith(ansLetter + "."); });
+                var correctAns = correctOpt ? correctOpt.innerText.trim() : ("Answer: " + ansLetter);
+                var sel = card.querySelector(".opt-btn.selected");
+                var inp = card.querySelector("input");
+                var userAns = sel ? sel.innerText.trim() : (inp ? inp.value.trim() : "(未答)");
+                if(!userAns) userAns = "(未答)";
+                SClass.logError("Q" + qIdx, userAns, correctAns);
+            }
             let clone = card.cloneNode(true);
-            // 移除 ID 防止冲突
             clone.removeAttribute('id');
             clone.style.marginTop = '20px';
-            
-            // 确保解析框是可见�?
+            // 确保解析框可见�?
             let ana = clone.querySelector('.analysis-box');
             if(ana) ana.classList.remove('hidden');
             
@@ -1223,6 +1229,11 @@ function finishQuiz() {
 
     if(!hasMistakes) {
         wrongContainer.innerHTML = '<div class="empty-state">🎉 Amazing! You got everything right.<br>No mistakes to review.</div>';
+    }
+
+    if (typeof SClass !== "undefined") {
+        var unitNum = (location.pathname.match(/Unit(\d+)_summary/) || [])[1] || "";
+        SClass.sendReport({ contentName: document.title.split("|")[0].trim(), score: correctQ, total: totalQ, page_label: unitNum ? ("PET Unit " + unitNum + " Summary") : document.title.split("|")[0].trim() });
     }
 
     // 4. 显示结果�?(ID page-7)
