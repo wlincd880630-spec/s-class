@@ -635,6 +635,11 @@
     const STORAGE_KEY = 'vt_course_save'; 
 
     window.onload = () => {
+        var authName = localStorage.getItem('authing-user') || localStorage.getItem('current-user');
+        if (authName) {
+            var inp = document.getElementById('username');
+            if (inp) inp.value = authName;
+        }
         if(localStorage.getItem(STORAGE_KEY)) document.getElementById('resume-btn').style.display='inline-block';
         initSubs();
     };

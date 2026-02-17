@@ -6,8 +6,7 @@ const Auth = {
     timerInterval: null,
 
     init: function() {
-        // ✅ 修正：统一使用 'current-user'，与 index.html 保持一致
-        const u = localStorage.getItem('current-user');
+        const u = localStorage.getItem('authing-user') || localStorage.getItem('current-user');
         if(u) this.currentUser = u;
         // 如果没有用户，是否强制登录视页面而定，这里暂不强制
     },
@@ -16,7 +15,8 @@ const Auth = {
     login: function() {
         const val = document.getElementById('login-name').value;
         if(val) {
-            localStorage.setItem('current-user', val); // ✅ 统一 Key
+            localStorage.setItem('current-user', val);
+            localStorage.setItem('authing-user', val);
             location.reload();
         }
     },

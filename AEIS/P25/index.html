@@ -677,7 +677,11 @@ createApp({
             } else next();
         };
 
-        onMounted(() => { checkSaveFile(); if (typeof SClass !== "undefined" && SClass.user && !user.value.name) user.value.name = SClass.user; });
+        onMounted(() => {
+            checkSaveFile();
+            var authName = (typeof SClass !== "undefined" && SClass.user) ? SClass.user : (localStorage.getItem('authing-user') || localStorage.getItem('current-user') || '');
+            if (authName) { user.value.name = authName; userInputName.value = authName; }
+        });
 
         return { 
             phase, user, userInputName, hasSaveFile, saveMetadata, isAdmin, isSending,

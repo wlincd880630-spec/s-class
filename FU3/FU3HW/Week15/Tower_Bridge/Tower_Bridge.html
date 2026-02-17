@@ -572,6 +572,11 @@ function speak(text) {
 }
 
 window.onload = () => {
+    var authName = localStorage.getItem('authing-user') || localStorage.getItem('current-user');
+    if (authName) {
+        var inp = document.getElementById('username');
+        if (inp) inp.value = authName;
+    }
     if(localStorage.getItem('tbState')) document.getElementById('save-msg').style.display = 'block';
     renderVocab(); renderIntro();
 };

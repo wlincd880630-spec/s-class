@@ -824,6 +824,14 @@ enigmas and untold stories.`;
 
     // --- CORE & INIT ---
     window.onload = () => {
+        var authName = localStorage.getItem('authing-user') || localStorage.getItem('current-user');
+        if (authName) {
+            var inp = document.getElementById('username');
+            if (inp) inp.value = authName;
+            state.user = authName;
+            var uNameEl = document.getElementById('u-name');
+            if (uNameEl) uNameEl.innerText = authName;
+        }
         if(localStorage.getItem('sx_v10')) document.getElementById('resume-btn').style.display='inline-block';
         
         // Custom Subtitle Loop

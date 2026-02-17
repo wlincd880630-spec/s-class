@@ -21,7 +21,7 @@
   var reportSent = false;
 
   function getUser() {
-    return localStorage.getItem('authing-user') || '';
+    return localStorage.getItem('authing-user') || localStorage.getItem('current-user') || '';
   }
 
   function formatDateTime(d) {

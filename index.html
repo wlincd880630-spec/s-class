@@ -1452,7 +1452,9 @@
                 if (loginGate) loginGate.classList.add('hidden');
                 if (mainApp) mainApp.classList.add('visible');
                 if (welcomeEl) welcomeEl.textContent = 'Hi, ' + (name || '用户') + ' · 欢迎回来';
-                localStorage.setItem('authing-user', name || '');
+                var nameStr = name || '';
+                localStorage.setItem('authing-user', nameStr);
+                localStorage.setItem('current-user', nameStr);
                 var btnLogout = document.getElementById('btn-logout');
                 if (btnLogout) btnLogout.style.display = 'inline';
             }
@@ -1501,6 +1503,7 @@
                 if (btnLogout) btnLogout.addEventListener('click', function(e) {
                     e.preventDefault();
                     localStorage.removeItem('authing-user');
+                    localStorage.removeItem('current-user');
                     location.reload();
                 });
             });

@@ -114,6 +114,13 @@ const App = {
         
         this.renderCarousel();
 
+        var authName = localStorage.getItem('authing-user') || localStorage.getItem('current-user');
+        if (authName) {
+            this.state.user = authName;
+            var inp = document.getElementById('inp-name');
+            if (inp) inp.value = authName;
+        }
+
         const saved = localStorage.getItem('W17_Italy_Final');
         const resumeBtn = document.getElementById('btn-resume');
         

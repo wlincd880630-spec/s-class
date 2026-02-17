@@ -671,6 +671,11 @@ async function wakeUpAudio() {
 }
 
 window.onload = () => {
+    var authName = localStorage.getItem('authing-user') || localStorage.getItem('current-user');
+    if (authName) {
+        var inp = document.getElementById('username');
+        if (inp) inp.value = authName;
+    }
     // Check for saved state
     const saveMsg = document.getElementById('save-msg');
     if(localStorage.getItem('bosState') && saveMsg) {
