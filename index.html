@@ -1452,9 +1452,12 @@
                 if (loginGate) loginGate.classList.add('hidden');
                 if (mainApp) mainApp.classList.add('visible');
                 if (welcomeEl) welcomeEl.textContent = 'Hi, ' + (name || '用户') + ' · 欢迎回来';
-                var nameStr = name || '';
-                localStorage.setItem('authing-user', nameStr);
-                localStorage.setItem('current-user', nameStr);
+                // 只保存真实用户名，不把占位符「用户」写入 storage，避免其他页面都显示「用户」
+                var nameStr = (name && String(name).trim() && name !== '用户') ? String(name).trim() : '';
+                if (nameStr) {
+                    localStorage.setItem('authing-user', nameStr);
+                    localStorage.setItem('current-user', nameStr);
+                }
                 var btnLogout = document.getElementById('btn-logout');
                 if (btnLogout) btnLogout.style.display = 'inline';
             }
@@ -1468,14 +1471,22 @@
 
             function firstNonEmpty(obj) {
                 if (!obj) return '';
-                var keys = ['preferred_username', 'username', 'nickname', 'name', 'given_name', 'email'];
+                // Authing 可能使用的字段（登录名常在 preferred_username / username）
+                var keys = ['preferred_username', 'username', 'nickname', 'name', 'given_name', 'email', 'email_address'];
                 for (var i = 0; i < keys.length; i++) {
                     var v = obj[keys[i]];
                     if (v && typeof v === 'string' && v.trim()) return v.trim();
                 }
+                // 自定义/命名空间 claim（部分 IdP）
+                var custom = obj['https://authing.cn/username'] || obj['https://authing.cn/name'] || obj.user_name;
+                if (custom && typeof custom === 'string' && custom.trim()) return custom.trim();
+                // sub 若像用户名（非 UUID、长度适中）则使用
                 var sub = obj.sub;
-                if (sub && typeof sub === 'string' && sub.length > 0 && sub.length < 64 && !/^[0-9a-f]{8}-[0-9a-f]{4}-/i.test(sub))
-                    return sub;
+                if (sub && typeof sub === 'string') {
+                    var s = sub.trim();
+                    if (s.length >= 2 && s.length <= 64 && !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(s))
+                        return s;
+                }
                 return '';
             }
 
@@ -1489,8 +1500,10 @@
                 var idToken = params.id_token;
                 if (idToken) {
                     var payload = parseJwtPayload(idToken);
-                    var name = (payload && firstNonEmpty(payload)) || '用户';
-                    showMainAfterLogin(name);
+                    var name = (payload && firstNonEmpty(payload)) || '';
+                    // 若 token 里没有可取的名字，先尝试 URL 中的 username 参数（部分 IdP 会带回）
+                    if (!name && params.username) name = params.username;
+                    showMainAfterLogin(name || '用户');
                     history.replaceState(null, '', location.pathname + location.search);
                 } else {
                     var cached = localStorage.getItem('authing-user') || localStorage.getItem('current-user');

@@ -197,15 +197,15 @@
         </div>
     </nav>
 
-    <div class="admin-trigger" @click="openAdmin"><i class="fas fa-cog text-slate-400"></i></div>
+    <div class="admin-trigger" @click="openAdmin"><i class="fas fa-cog text-slate-400"></i><span v-if="isAdmin" class="text-[10px] bg-red-500 text-white px-2 py-0.5 rounded-full ml-1">ADMIN</span></div>
     <div v-if="showAdminPanel" class="fixed inset-0 bg-black/90 z-[1000] flex items-center justify-center">
         <div class="bg-slate-800 p-6 rounded-2xl w-80 border border-slate-600">
-            <h3 class="text-white font-bold mb-4">Admin Console</h3>
+            <h3 class="text-white font-bold mb-4">Admin Console <span v-if="isAdmin" class="text-red-400 text-sm">(Unlock All ON)</span></h3>
             <div class="grid grid-cols-2 gap-2 mb-4">
                 <button @click="setPhase('vocab')" class="bg-indigo-900 text-white p-2 rounded">Vocab</button>
                 <button @click="setPhase('colloc')" class="bg-indigo-900 text-white p-2 rounded">Colloc</button>
                 <button @click="setPhase('grammar')" class="bg-indigo-900 text-white p-2 rounded">Grammar</button>
-                <button @click="forceUnlock" class="bg-green-700 text-white p-2 rounded">Unlock Step</button>
+                <button @click="unlockAll" class="bg-emerald-700 text-white p-2 rounded col-span-2">Unlock All</button>
             </div>
             <div class="flex gap-2">
                 <button @click="jumpIndex(-1)" class="bg-slate-600 text-white p-2 rounded flex-1">Prev Item</button>
@@ -2704,6 +2704,8 @@ createApp({
         const currentStep = ref(1);
         const hasSave = ref(false);
         const showAdminPanel = ref(false);
+        const isAdmin = ref(false);
+        const adminClicks = ref(0);
         const stepData = ref({});
         
         const isRecording = ref(false);
@@ -2747,6 +2749,7 @@ createApp({
         });
 
         const canProceed = computed(() => {
+            if (isAdmin.value) return true;
             if (['vocab', 'colloc'].includes(phase.value)) {
                 if (currentStep.value === 1) return (stepData.value.audioScore || 0) >= 30;
                 if (currentStep.value === 2) return stepData.value.guessCorrect;
@@ -2766,6 +2769,7 @@ createApp({
         });
 
         const getLockReason = () => {
+            if (isAdmin.value) return "ADMIN";
             if (['vocab', 'colloc'].includes(phase.value)) {
                 if (currentStep.value === 1) return "Record Score > 30";
                 if (currentStep.value === 2) return "Guess Answer";
@@ -3055,7 +3059,18 @@ createApp({
             }
         };
 
-        const openAdmin = () => { if(prompt("PWD")==="888123") showAdminPanel.value = true; };
+        const unlockAll = () => { const pwd = prompt("Admin Password:"); if (pwd === "888123" || pwd === "123888") { isAdmin.value = true; alert("Admin Mode ON"); } };
+        const openAdmin = () => {
+            adminClicks.value++;
+            if (adminClicks.value >= 5) {
+                const pwd = prompt("Admin Password:");
+                if (pwd === "888123" || pwd === "123888") { isAdmin.value = true; alert("Admin Mode ON"); }
+                adminClicks.value = 0;
+            } else {
+                showAdminPanel.value = true;
+            }
+            setTimeout(() => { adminClicks.value = 0; }, 2000);
+        };
         const jumpIndex = (d) => { const n = currentIndex.value + d; if(n>=0 && n<currentList.value.length) { currentIndex.value = n; initStepData(); } };
         const setPhase = (p) => { phase.value = p; currentIndex.value = 0; initStepData(); };
         const forceUnlock = () => { stepData.value.audioScore=100; stepData.value.guessCorrect=true; stepData.value.spellingCorrect=true;
@@ -3067,7 +3082,7 @@ createApp({
             phase, userName, currentIndex, currentStep, totalSteps, currentItem, currentList, phaseTitles, stepData,
             startNew, resume, saveAndExit, clearSave, hasSave, nextStep, prevStep, handleTask, resetSpelling, toggleEx, updateOralCount, nextGrammarQuestion,
             getZhongkaoSentence, getOptClass, getImagePath, isRecording, canProceed, getLockReason, playTTS, toggleRec, spellingDisplaySlots,
-            showAdminPanel, openAdmin, jumpIndex, setPhase, forceUnlock, cleanOption, checkGrammarCorrect, canGoBack
+            showAdminPanel, openAdmin, unlockAll, jumpIndex, setPhase, forceUnlock, cleanOption, checkGrammarCorrect, canGoBack, isAdmin
         };
     }
 }).mount('#app');
