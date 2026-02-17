@@ -789,7 +789,8 @@
         const ttsHTML = LEARNING_LOGS.tts.length > 0 ? `<ul>${LEARNING_LOGS.tts.map(s => `<li>"${s.substring(0,50)}..."</li>`).join('')}</ul>` : "<i>(无记录)</i>";
         const transHTML = LEARNING_LOGS.trans.length > 0 ? `<ul>${LEARNING_LOGS.trans.map(t => `<li><b>原文:</b> ${t.original.substring(0,30)}...<br><b>口译:</b> ${t.student}</li>`).join('')}</ul>` : "<i>(无记录)</i>";
         const extraHtml = '<p><b>查词记录</b></p>' + vocabHTML + '<p><b>跟读 TTS</b></p>' + ttsHTML + '<p><b>口译记录</b></p>' + transHTML + (currentAIDiagnosis ? '<p><b>AI 诊断</b></p><div>' + currentAIDiagnosis + '</div>' : '');
-        SClass.sendReport({ contentName: 'PET-exam Reading 深度报告 ' + RAW_TEST_ID + ' P' + PART_ID, extraHtml: extraHtml }).then(function(ok) {
+        var pageLabel = 'PET Reading / ' + RAW_TEST_ID + ' / Part ' + PART_ID;
+        SClass.sendReport({ contentName: 'PET-exam Reading 深度报告 ' + RAW_TEST_ID + ' P' + PART_ID, page_label: pageLabel, extraHtml: extraHtml }).then(function(ok) {
             if (ok) {
                 btn.innerHTML = '<i class="fas fa-check"></i> 成功';
                 btn.style.background = 'var(--success)';

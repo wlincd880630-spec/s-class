@@ -137,10 +137,11 @@
     /**
      * Send a report via EmailJS.
      * @param {Object} opts
-     * @param {string} opts.contentName - e.g. 'PET Unit 36 - Vocabulary'
-     * @param {number} [opts.score]     - numeric score
-     * @param {number} [opts.total]     - total possible
-     * @param {string} [opts.extraHtml] - additional HTML to append to report
+     * @param {string} opts.contentName   - e.g. 'PET Unit 36 - Vocabulary'
+     * @param {number} [opts.score]        - numeric score
+     * @param {number} [opts.total]        - total possible
+     * @param {string} [opts.extraHtml]   - additional HTML to append to report
+     * @param {string} [opts.page_label]  - readable page description (e.g. 'PET Listening / T1 / Part 1'); used as Page in email when set
      */
     sendReport: function (opts) {
       if (reportSent) { console.log('[SClass] Report already sent.'); return Promise.resolve(); }
@@ -164,6 +165,7 @@
         student_name: studentName,
         content_name: contentName,
         page_url: location.href,
+        page_url_display: (opts.page_label && opts.page_label.trim()) ? opts.page_label.trim() : location.href,
         start_time: formatDateTime(startTime),
         end_time: formatDateTime(endTime),
         duration: formatDuration(durationMs),

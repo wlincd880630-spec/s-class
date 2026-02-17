@@ -26,8 +26,10 @@ const Report = {
             wrongDetailsHtml = '<p>本次考试全对。</p>';
         }
 
+        var pageLabel = 'PET ' + testName;
         SClass.sendReport({
             contentName: testName,
+            page_label: pageLabel,
             score: score,
             total: total,
             extraHtml: '<p><b>用时：</b>' + (timeStr || '') + '</p>' + wrongDetailsHtml
