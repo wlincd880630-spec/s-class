@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <script src="../scripts/auth-check.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>IELTS 智能模考系统</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="../scripts/s-class-tracker.js"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="brand">
+            <i class="fas fa-graduation-cap" style="color:var(--accent);"></i>
+            <span style="font-weight:700; letter-spacing:1px;">IELTS 智能模考</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:15px;">
+            <div style="font-size:0.9rem; color:var(--text-dim);">
+                <i class="far fa-user"></i> <span id="username-display">Guest</span>
+            </div>
+            <button class="btn-logout" onclick="logout()" type="button">
+                <i class="fas fa-power-off"></i>
+                <span>退出</span>
+            </button>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="brand-domain">IELTS Exam</div>
+        <h1>IELTS 智能模考系统</h1>
+        <div class="hero-tagline">剑桥雅思真题 11–19 · 听力 · 阅读 · 写作 · 口语</div>
+    </header>
+
+    <main class="main-content">
+        <div class="accordion-card" id="card-listening">
+            <div class="card-header" onclick="toggleCard('listening')">
+                <div class="header-content">
+                    <i class="fas fa-headphones-alt card-icon-small"></i>
+                    <span>听力模拟 (Listening)</span>
+                </div>
+                <i class="fas fa-chevron-down toggle-icon"></i>
+            </div>
+            <div class="accordion-content" id="listening-content">
+                <div class="test-grid-container" id="listening-grid"></div>
+            </div>
+        </div>
+
+        <div class="accordion-card" id="card-reading">
+            <div class="card-header" onclick="toggleCard('reading')">
+                <div class="header-content">
+                    <i class="fas fa-book-open card-icon-small"></i>
+                    <span>阅读理解 (Reading)</span>
+                </div>
+                <i class="fas fa-chevron-down toggle-icon"></i>
+            </div>
+            <div class="accordion-content" id="reading-content">
+                <div style="padding:30px; text-align:center; color:#94a3b8;">
+                    <i class="fas fa-hammer"></i> 模块开发中...
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-card" id="card-writing">
+            <div class="card-header" onclick="toggleCard('writing')">
+                <div class="header-content">
+                    <i class="fas fa-pen-nib card-icon-small"></i>
+                    <span>写作训练 (Writing)</span>
+                </div>
+                <i class="fas fa-chevron-down toggle-icon"></i>
+            </div>
+            <div class="accordion-content">
+                <div style="padding:30px; text-align:center; color:#94a3b8;">
+                    <i class="fas fa-hammer"></i> 模块开发中...
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-card" id="card-speaking">
+            <div class="card-header" onclick="toggleCard('speaking')">
+                <div class="header-content">
+                    <i class="fas fa-microphone-alt card-icon-small"></i>
+                    <span>口语模拟 (Speaking)</span>
+                </div>
+                <i class="fas fa-chevron-down toggle-icon"></i>
+            </div>
+            <div class="accordion-content">
+                <div style="padding:30px; text-align:center; color:#94a3b8;">
+                    <i class="fas fa-hammer"></i> 模块开发中...
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer style="text-align:center; padding:30px; color:#64748b; font-size:0.85rem;">
+        IELTS 智能模考 · 数据来自剑桥雅思真题
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const user = localStorage.getItem('current-user') || localStorage.getItem('authing-user');
+            if (document.getElementById('username-display')) {
+                document.getElementById('username-display').textContent = user ? String(user).trim() : 'Guest';
+            }
+            generateListeningTests();
+        });
+
+        function logout() {
+            if (confirm('确认退出系统吗？')) {
+                localStorage.removeItem('current-user');
+                localStorage.removeItem('authing-user');
+                window.location.href = '../index.html';
+            }
+        }
+
+        function generateListeningTests() {
+            const container = document.getElementById('listening-grid');
+            let html = '';
+            for (let book = 11; book <= 19; book++) {
+                html += '<div class="test-unit">';
+                html += '<div class="test-title">剑桥' + book + '</div>';
+                html += '<div class="part-buttons">';
+                for (let test = 1; test <= 4; test++) {
+                    html += '<a href="Listening/player.html?book=' + book + '&test=' + test + '" class="part-btn" target="_blank">Test ' + test + '</a>';
+                }
+                html += '</div></div>';
+            }
+            container.innerHTML = html;
+        }
+
+        function toggleCard(type) {
+            const card = document.getElementById('card-' + type);
+            const content = card.querySelector('.accordion-content');
+            const icon = card.querySelector('.toggle-icon');
+
+            if (!content.classList.contains('active')) {
+                document.querySelectorAll('.accordion-content.active').forEach(el => {
+                    el.classList.remove('active');
+                    el.style.maxHeight = null;
+                });
+                document.querySelectorAll('.toggle-icon.rotate').forEach(el => el.classList.remove('rotate'));
+
+                content.classList.add('active');
+                icon.classList.add('rotate');
+                content.style.maxHeight = content.scrollHeight + 'px';
+            } else {
+                content.classList.remove('active');
+                icon.classList.remove('rotate');
+                content.style.maxHeight = null;
+            }
+        }
+    </script>
+</body>
+</html>

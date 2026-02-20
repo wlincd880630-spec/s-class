@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>IELTS Listening · 剑桥 | Player</title>
+    <!-- IELTS-exam：题目/听写稿从 data/ 加载，音频与地图图从 assets/ 或 COS 加载 -->
+    <script>
+        (function(){
+            if (window.IELTS_MEDIA_BASE !== undefined) return;
+            var p = new URLSearchParams(window.location.search);
+            if (p.get('media') === 'local' || p.get('cos') === '0') window.IELTS_MEDIA_BASE = '';
+            else window.IELTS_MEDIA_BASE = 'https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/IELTS-exam/Listening/';
+        })();
+    </script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="../../scripts/s-class-tracker.js"></script>
+    <style>
+        :root { --primary: #0ea5e9; --primary-dark: #0284c7; --success: #22c55e; --danger: #ef4444; --accent: #f59e0b; }
+        * { box-sizing: border-box; }
+        body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: linear-gradient(165deg, #e0f2fe 0%, #f0f9ff 35%, #ecfdf5 70%, #fefce8 100%); color: #1e293b; min-height: 100vh; padding-bottom: 100px; }
+        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; background: rgba(255,255,255,0.92); border-bottom: 2px solid #bae6fd; box-shadow: 0 2px 12px rgba(14,165,233,0.12); }
+        .navbar .brand { cursor: pointer; color: var(--primary-dark); text-decoration: none; font-weight: 600; }
+        .navbar .brand:hover { color: var(--primary); }
+        .player-container { max-width: 720px; margin: 0 auto; padding: 20px; }
+        .exam-info { text-align: center; margin-bottom: 20px; }
+        .exam-info h2 { margin: 0; font-size: 1.4rem; color: var(--primary-dark); font-weight: 700; }
+        .exam-info .meta { font-size: 0.9rem; color: #64748b; margin-top: 6px; }
+        .audio-sticky-bar { display: flex; align-items: center; gap: 12px; background: #fff; border-radius: 16px; padding: 14px 18px; margin-bottom: 24px; border: 2px solid #bae6fd; box-shadow: 0 4px 20px rgba(14,165,233,0.15); }
+        .play-btn { width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: #fff; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; box-shadow: 0 4px 14px rgba(14,165,233,0.4); }
+        .play-btn:hover { filter: brightness(1.08); transform: scale(1.03); }
+        .play-btn.completed { background: linear-gradient(135deg, var(--success) 0%, #16a34a 100%); box-shadow: 0 4px 14px rgba(34,197,94,0.4); }
+        .progress-container { flex: 1; min-width: 0; }
+        .progress-info { display: flex; justify-content: space-between; font-size: 0.85rem; color: #64748b; margin-bottom: 4px; }
+        .progress-track { height: 8px; background: #e2e8f0; border-radius: 4px; overflow: hidden; pointer-events: none; user-select: none; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, var(--primary), #38bdf8); width: 0%; transition: width 0.2s; pointer-events: none; border-radius: 4px; }
+        .section-block { background: #fff; border-radius: 16px; padding: 24px; margin-bottom: 20px; border: 2px solid #e2e8f0; box-shadow: 0 4px 24px rgba(0,0,0,0.06); }
+        .section-block h3 { margin: 0 0 16px 0; font-size: 1.1rem; color: var(--primary-dark); font-weight: 700; border-bottom: 2px solid #bae6fd; padding-bottom: 10px; }
+        /* 题目描述区：小标题 SECTION / Instructions，字号偏小以区分大标题 */
+        /* 题目描述区三行（SECTION / Complete the notes... / Write ONE WORD...）无行间距 */
+        .el-heading { font-family: Georgia, 'Times New Roman', serif; font-weight: 600; font-size: 0.8rem; color: #64748b; letter-spacing: 0.02em; margin: 0; padding: 8px 14px 6px 14px; border-left: 4px solid #94a3b8; background: linear-gradient(90deg, #f1f5f9 0%, #f8fafc 100%); border-radius: 0 8px 8px 0; line-height: 1.45; }
+        .el-instruction { font-family: Georgia, 'Times New Roman', serif; font-weight: 400; font-size: 0.8rem; color: #64748b; margin: 0; padding: 6px 14px 8px 14px; border-left: 4px solid #94a3b8; background: linear-gradient(90deg, #f1f5f9 0%, #f8fafc 100%); border-radius: 0 8px 8px 0; line-height: 1.5; white-space: pre-wrap; }
+        /* 行间距统一：正文、题目块、列表项等使用相同上下间距 */
+        .section-block .el-text,
+        .section-block .question-block,
+        .section-block .el-list-item,
+        .section-block .el-table { margin-top: 0; margin-bottom: 14px; }
+        .section-block .el-text:last-child,
+        .section-block .question-block:last-child,
+        .section-block .el-list-item:last-child { margin-bottom: 0; }
+        /* 大标题（如 HIRING A PUBLIC ROOM）：居中 */
+        .el-heading-topic { margin-top: 1.25em; margin-bottom: 14px; padding: 14px 0 10px 0; border-left: none; background: none; color: var(--primary-dark); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 1.4rem; font-weight: 700; letter-spacing: 0.04em; text-align: center; }
+        /* 副标题（如 Room and cost）：左对齐 */
+        .el-heading-sub { margin-top: 1em; margin-bottom: 14px; padding: 10px 0 6px 0; border-left: none; background: none; color: var(--primary-dark); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 1.1rem; font-weight: 700; letter-spacing: 0.02em; text-align: left; }
+        .el-text { font-size: 0.95rem; color: #475569; margin: 0 0 14px 0; line-height: 1.5; font-weight: 400; white-space: pre-wrap; }
+        .section-block .el-table,
+        .section-block .el-list,
+        .section-block .question-block,
+        .section-block .el-map-wrap { margin-top: 16px; }
+        /* 正式题目内容区：填空与非填空句子统一字重，不加粗 */
+        .el-table { white-space: pre-wrap; font-size: 0.95rem; line-height: 1.8; color: #1e293b; margin: 0 0 14px 0; font-weight: 400; }
+        /* 选项列表（如 Plans + A–G）用框框起来 */
+        .el-table.el-options-box { border: 2px solid #bae6fd; border-radius: 12px; padding: 16px 20px; background: #f0f9ff; }
+        .el-options-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px 16px; margin-top: 8px; }
+        .el-option-item { font-size: 0.95rem; color: #334155; padding: 6px 0; }
+        .el-options-list { margin-top: 8px; margin-bottom: 14px; padding: 12px 0; }
+        .el-options-list .el-option-line { font-size: 0.95rem; color: #334155; margin: 0 0 8px 0; line-height: 1.5; font-weight: 400; }
+        .el-options-list .el-option-line:last-child { margin-bottom: 0; }
+        .el-table * { font-weight: 400; }
+        .el-table-wrap { overflow-x: auto; margin-bottom: 14px; }
+        .el-data-table { width: 100%; min-width: 480px; border-collapse: collapse; font-size: 0.95rem; color: #1e293b; white-space: pre-wrap; }
+        .el-data-table th, .el-data-table td { border: 1px solid #e2e8f0; padding: 10px 14px; text-align: left; vertical-align: top; }
+        .el-data-table th { background: #f1f5f9; font-weight: 600; color: #475569; min-width: 100px; }
+        .el-data-table td { background: #fff; min-width: 100px; }
+        .el-table-section { margin-bottom: 18px; }
+        .el-table-section .el-heading-sub { margin-bottom: 8px; }
+        .el-table-section-body { font-size: 0.95rem; color: #1e293b; line-height: 1.8; }
+        .gap-input { border: none; border-bottom: 2px solid #94a3b8; background: #f8fafc; color: #1e293b; width: 120px; text-align: center; font-size: 1rem; font-weight: 400; padding: 6px 6px; margin: 0; border-radius: 6px; vertical-align: baseline; }
+        .gap-input:focus { outline: none; border-bottom-color: var(--primary); background: #fff; box-shadow: 0 0 0 2px rgba(14,165,233,0.2); }
+        .gap-input::placeholder { color: #94a3b8; }
+        .el-list { margin: 0 0 14px 0; font-weight: 400; }
+        .el-list-item { margin: 0 0 14px 0; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-weight: 400; }
+        .el-list-item span { color: #334155; font-weight: 400; white-space: pre-wrap; }
+        .question-block { margin: 0 0 14px 0; font-weight: 400; }
+        .question-block .q-text { font-size: 1rem; color: #1e293b; margin-bottom: 10px; line-height: 1.5; font-weight: 400; }
+        /* 以 – 开头的子项（如 • found that ocean hotspots: 下的几行）左缩进 */
+        .el-sub-item { padding-left: 1.75em; }
+        /* • xxx: 项下的 - 子项再缩进一级 */
+        .el-sub-item.el-sub-item-nested { padding-left: 3em; }
+        /* table 字符串内：行末括号备注右缩进，如 (can be hired)；正文+填空为一组，与备注间距最小 */
+        .el-table-line { display: flex; justify-content: flex-start; align-items: baseline; flex-wrap: wrap; gap: 0; margin-bottom: 6px; line-height: 1.8; }
+        .el-table-line .el-table-line-left { display: inline; }
+        .el-table-line .el-note-right { margin-left: 0.5em; color: #64748b; font-size: 0.9em; white-space: nowrap; }
+        .el-gap-nowrap { white-space: nowrap; }
+        .options { display: flex; flex-direction: column; gap: 8px; }
+        .opt-label { padding: 12px 16px; background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 12px; cursor: pointer; transition: all 0.2s; color: #334155; font-weight: 400; }
+        .opt-label:hover { background: #e0f2fe; border-color: #bae6fd; color: #0c4a6e; }
+        .opt-label.selected { border-color: var(--primary); background: #e0f2fe; color: var(--primary-dark); }
+        .opt-label b { margin-right: 6px; color: var(--primary); font-weight: 400; }
+        .choose-two-hint { font-size: 0.85rem; color: #64748b; margin-top: 6px; }
+        .q-text-dots { display: inline; font-weight: 400; }
+        .el-map-wrap { margin: 12px 0; }
+        .map-image { max-width: 100%; height: auto; border-radius: 12px; border: 2px solid #e2e8f0; display: block; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+        .map-fallback { padding: 12px; background: #f1f5f9; border-radius: 12px; color: #64748b; }
+        .fab-submit-wrapper { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: 100; }
+        .fab-submit { padding: 14px 28px; border-radius: 28px; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: #fff; border: none; font-size: 1rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; box-shadow: 0 6px 20px rgba(14,165,233,0.45); }
+        .fab-submit:hover:not(.disabled) { filter: brightness(1.08); transform: translateY(-2px); }
+        .fab-submit.disabled { opacity: 0.5; cursor: not-allowed; }
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 9999; display: none; justify-content: center; align-items: center; backdrop-filter: blur(6px); }
+        .modal { background: #fff; color: #1e293b; padding: 28px; border-radius: 20px; max-width: 400px; width: 90%; text-align: center; border: 2px solid #bae6fd; box-shadow: 0 20px 60px rgba(14,165,233,0.2); }
+        .modal h2 { margin: 10px 0; color: var(--primary-dark); }
+        .modal .btn { display: inline-block; padding: 10px 24px; margin: 6px; border-radius: 20px; cursor: pointer; text-decoration: none; font-weight: 600; border: none; font-size: 0.95rem; }
+        .modal .btn-primary { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: #fff; }
+        .script-panel { background: #f8fafc; border-radius: 16px; padding: 16px; margin-top: 20px; border: 2px solid #e2e8f0; max-height: 280px; overflow-y: auto; box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
+        .script-panel h4 { margin: 0 0 12px 0; font-size: 0.95rem; color: var(--primary-dark); display: flex; align-items: center; justify-content: space-between; }
+        .script-panel h4 button { background: #e2e8f0; color: #475569; border: none; padding: 6px 12px; border-radius: 8px; cursor: pointer; font-size: 0.85rem; font-weight: 600; }
+        .k-line { padding: 8px 12px; margin: 4px 0; border-radius: 8px; cursor: pointer; color: #475569; border-left: 3px solid transparent; transition: all 0.2s; font-size: 0.9rem; line-height: 1.5; }
+        .k-line:hover { background: #e0f2fe; color: #0c4a6e; }
+        .k-line.active { background: #e0f2fe; color: var(--primary-dark); border-left-color: var(--primary); }
+        .section-tab.active { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: #fff; border-color: var(--primary); }
+        .section-nav-top { display: flex; gap: 8px; padding: 12px 20px; background: rgba(255,255,255,0.95); border-bottom: 2px solid #bae6fd; justify-content: center; flex-wrap: wrap; box-shadow: 0 2px 12px rgba(14,165,233,0.08); }
+        .section-nav-top .section-tab { padding: 8px 18px; border-radius: 10px; border: 2px solid #e2e8f0; background: #fff; color: #64748b; cursor: pointer; font-size: 0.9rem; font-weight: 600; text-decoration: none; }
+        .section-nav-top .section-tab:hover { background: #e0f2fe; color: var(--primary-dark); border-color: #bae6fd; }
+        .section-nav-top .section-tab.active { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: #fff; border-color: var(--primary); }
+    </style>
+</head>
+<body>
+
+<div class="navbar">
+    <a class="brand" href="../index.html"><i class="fas fa-chevron-left"></i> 返回</a>
+    <div style="font-size:0.9rem; opacity:0.9;">IELTS Listening</div>
+</div>
+
+<div class="section-nav-top" id="section-nav-top" style="display:none;"></div>
+
+<div class="player-container">
+    <div class="exam-info">
+        <h2 id="exam-title">Loading...</h2>
+        <div class="meta"><i class="far fa-clock"></i> <span id="timer">00:00</span></div>
+    </div>
+
+    <div class="audio-sticky-bar" id="audio-bar">
+        <audio id="main-audio" preload="auto" style="display:none;"></audio>
+        <button class="play-btn" id="btn-play" onclick="toggleAudio()"><i class="fas fa-play"></i></button>
+        <div class="progress-container">
+            <div class="progress-info">
+                <span id="status-msg">点击播放</span>
+                <span><span id="curr-time">00:00</span> / <span id="total-time">--:--</span></span>
+            </div>
+            <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+        </div>
+    </div>
+
+    <div id="questions-container">
+        <div style="text-align:center; padding:40px;"><i class="fas fa-circle-notch fa-spin fa-2x"></i></div>
+    </div>
+
+    <div class="script-panel" id="script-panel" style="display:none;">
+        <h4><span><i class="fas fa-closed-captioning"></i> 听力脚本</span><button type="button" onclick="document.getElementById('script-panel').style.display='none'">收起</button></h4>
+        <div id="script-content"></div>
+    </div>
+</div>
+
+<div class="fab-submit-wrapper">
+    <button class="fab-submit disabled" id="btn-submit" onclick="submitAnswers()" disabled><i class="fas fa-paper-plane"></i> 提交答案</button>
+</div>
+
+<div class="modal-overlay" id="result-modal">
+    <div class="modal">
+        <div style="font-size:2.5rem; margin-bottom:8px;">🎉</div>
+        <h2>作答已提交</h2>
+        <p style="color:#94a3b8; font-size:0.95rem;">可点击「查看脚本」对照听力原文</p>
+        <div style="margin-top:20px;">
+            <button class="btn btn-primary" onclick="showScript()"><i class="fas fa-closed-captioning"></i> 查看脚本</button>
+            <button class="btn" style="background:#334155; color:#e2e8f0;" onclick="document.getElementById('result-modal').style.display='none'">关闭</button>
+        </div>
+    </div>
+</div>
+
+<script>
+(function() {
+    const params = new URLSearchParams(window.location.search);
+    const BOOK = params.get('book') || '13';
+    const TEST = params.get('test') || '3';
+    const SCRIPT_TEST = params.get('scriptTest') || TEST;
+
+    const PREFIX = '剑桥雅思真题';
+    const getQuestionUrl = () => params.get('questions') || `data/${PREFIX}${BOOK}_Test${TEST}_Listening.json`;
+    const getTranscriptUrl = () => params.get('transcript') || `data/${PREFIX}${BOOK}_Test${SCRIPT_TEST}_听写稿.json`;
+    const getAssetsBase = () => { const b = `assets/${PREFIX}${BOOK}_Test${TEST}/`; return b.endsWith('/') ? b : b + '/'; };
+    const getMediaBase = () => (window.IELTS_MEDIA_BASE || window.MEDIA_BASE || '').replace(/\/?$/, '/');
+    const getAudioUrl = (sectionNum) => {
+        if (params.get('audio')) return params.get('audio');
+        const relBase = getAssetsBase();
+        const base = getMediaBase() ? (getMediaBase() + relBase) : relBase;
+        if (sectionNum != null) return base + `Section${sectionNum}.mp3`;
+        return base + 'audio.mp3';
+    };
+
+    let LISTENING_DATA = null;
+    let TRANSCRIPT = [];
+    let USER_ANSWERS = {};
+    let timerStart = null, timerId = null;
+    let ASSETS_BASE = '';
+    let useSectionAudios = false;
+    let currentSection = 1;
+    let sectionAudioCompleted = {}; // section_number -> true when that section's audio has ended
+
+    document.getElementById('exam-title').textContent = `剑桥雅思真题 ${BOOK} · Test ${TEST} · Listening`;
+
+    function formatTime(s) {
+        if (s == null || isNaN(s)) return '00:00';
+        const m = Math.floor(s / 60), sec = Math.floor(s % 60);
+        return `${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;
+    }
+
+    function startTimer() {
+        if (timerId) return;
+        timerStart = Date.now();
+        timerId = setInterval(() => {
+            document.getElementById('timer').textContent = formatTime(Math.floor((Date.now() - timerStart) / 1000));
+        }, 1000);
+    }
+
+    function pushTextMaybeDots(parts, text) {
+        const segs = text.split(/(\.{2,})/);
+        let prevWasDots = false;
+        segs.forEach(seg => {
+            if (/^\.+$/.test(seg)) prevWasDots = true;
+            else if (seg) {
+                parts.push({ type: 'text', value: prevWasDots ? seg.replace(/^\s+/, '') : seg });
+                prevWasDots = false;
+            }
+        });
+    }
+    function parseTableBlanks(content) {
+        const parts = [];
+        const re = /(\d+)\s*(£?\s*[^·\d]*?)(\.{2,})/g;
+        let lastEnd = 0, m;
+        while ((m = re.exec(content)) !== null) {
+            const afterNum = m[2].replace(/^\s+/, '');
+            const hasTextAfterNum = afterNum.length > 0;
+            const showNumInText = hasTextAfterNum && /[a-zA-Z]/.test(afterNum);
+            const textVal = content.slice(lastEnd, m.index) + (showNumInText ? m[1] + '. ' + afterNum : '');
+            pushTextMaybeDots(parts, textVal);
+            parts.push({ type: 'input', num: m[1], placeholder: `(${m[1]})` });
+            lastEnd = m.index + m[0].length;
+        }
+        if (lastEnd < content.length) pushTextMaybeDots(parts, content.slice(lastEnd));
+        return parts;
+    }
+
+    function parseListBlanks(content) {
+        if (!Array.isArray(content)) return [];
+        return content.map(item => {
+            const match = item.match(/^(\d+)\s+(.+)$/);
+            const num = match ? match[1] : '';
+            const label = match ? match[2].replace(/\s*\.{2,}\s*$/, '').trim() : item;
+            return { num, label };
+        });
+    }
+
+    function escapeHtml(s) {
+        if (!s) return '';
+        const d = document.createElement('div');
+        d.textContent = s;
+        return d.innerHTML;
+    }
+
+    /** Example 后换行，如 "Example • the Main Hall – seats 200" 显示为两行 */
+    function newlineAfterExample(text) {
+        if (!text || typeof text !== 'string') return text;
+        return text.replace(/(Example)(\s*[•·]?\s*)/gi, '$1\n$2');
+    }
+
+    /** table 字符串按行渲染：首行全大写作大标题，短句作小标题，行末 (括号) 右缩进；所有 - 项均多一级缩进 */
+    function renderTableStringLines(str, wrap) {
+        const lines = str.split('\n');
+        let firstTopicDone = false;
+        let prevLineWasExample = false;
+        for (let i = 0; i < lines.length; i++) {
+            const raw = lines[i];
+            const t = raw.trim();
+            if (!t) { prevLineWasExample = false; continue; }
+            const hasBullet = /^[•\-]\s/.test(t);
+            const hasDots = /\.{2,}/.test(t);
+            const isAllCaps = /^[A-Z0-9\s\'\-]+$/.test(t) && t.length > 2;
+            const isShortPhrase = !hasBullet && !hasDots && t.length <= 40 && t.length >= 2;
+            const isTitleCaseTopic = !hasBullet && !hasDots && t.length <= 45 && t.length > 10 && /^[A-Z]/.test(t) && !/^\d/.test(t) && /\s/.test(t);
+            let followsExample = false;
+            if (!firstTopicDone && t.length < 55 && (isAllCaps || isTitleCaseTopic)) {
+                const div = document.createElement('div');
+                div.className = 'el-heading el-heading-topic';
+                div.textContent = t;
+                wrap.appendChild(div);
+                firstTopicDone = true;
+                prevLineWasExample = false;
+                continue;
+            }
+            if (!/^\s/.test(raw) && isShortPhrase && (t === 'Example' || !/^Example\s/i.test(t))) {
+                const isLabelValue = /:\s*[^:]*\d/.test(t);
+                const couldBeSub = t !== 'Example' && !/^\d/.test(t) && !isLabelValue && !prevLineWasExample;
+                if (t === 'Example') prevLineWasExample = true;
+                else { followsExample = prevLineWasExample; prevLineWasExample = false; }
+                if (couldBeSub) {
+                    const div = document.createElement('div');
+                    div.className = 'el-heading el-heading-sub';
+                    div.textContent = t;
+                    wrap.appendChild(div);
+                    continue;
+                }
+            }
+            const parenMatch = t.match(/\s*\([^)]+\)\s*$/);
+            let mainPart = t, notePart = '';
+            if (parenMatch && !/\.{2,}/.test(parenMatch[0])) {
+                notePart = parenMatch[0].trim();
+                mainPart = t.slice(0, t.length - parenMatch[0].length);
+            }
+            if (followsExample && !hasBullet && t.length <= 40) mainPart = "• " + mainPart;
+            const parts = parseTableBlanks(mainPart);
+            let leftHtml = '';
+            for (let j = 0; j < parts.length; j++) {
+                const p = parts[j];
+                if (p.type === 'text') {
+                    const next = parts[j + 1];
+                    const nextNext = parts[j + 2];
+                    const isParenA = /\s*\(a\s*$/.test(p.value);
+                    const isCloseParen = nextNext && nextNext.type === 'text' && /^\s*\)/.test(nextNext.value);
+                    if (next && next.type === 'input' && isParenA && isCloseParen) {
+                        leftHtml += escapeHtml(newlineAfterExample(p.value.replace(/\s*\(a\s*$/, '')));
+                        leftHtml += '<span class="el-gap-nowrap">(a <input type="text" class="gap-input gap-inline" data-q="' + next.num + '" placeholder="' + escapeHtml(next.placeholder) + '" autocomplete="off">)</span>';
+                        leftHtml += escapeHtml(newlineAfterExample(nextNext.value.replace(/^\s*\)/, '')));
+                        j += 2;
+                        continue;
+                    }
+                    leftHtml += escapeHtml(newlineAfterExample(p.value));
+                } else {
+                    leftHtml += `<input type="text" class="gap-input" data-q="${p.num}" placeholder="${escapeHtml(p.placeholder)}" autocomplete="off">`;
+                }
+            }
+            const lineDiv = document.createElement('div');
+            lineDiv.className = 'el-table-line';
+            if (/^[•\-]\s/.test(leftHtml) || /^[•\-]\s/.test(mainPart)) lineDiv.classList.add('el-sub-item');
+            if (/^\s/.test(raw)) lineDiv.classList.add('el-sub-item');
+            if (/^\- /.test(t)) lineDiv.classList.add('el-sub-item-nested');
+            lineDiv.innerHTML = '<span class="el-table-line-left">' + leftHtml + '</span>' + (notePart ? '<span class="el-note-right">' + escapeHtml(notePart) + '</span>' : '');
+            wrap.appendChild(lineDiv);
+        }
+    }
+
+    /** 将 table 的 content 统一为 string 或 { headers, rows }，减少分支 */
+    function normalizeTableContent(content) {
+        if (content == null || typeof content === 'string') return content;
+        if (Array.isArray(content.headers) && Array.isArray(content.rows)) return content;
+        // content 为「行对象」数组：每项是 { "列名": "单元格文本", ... }
+        if (Array.isArray(content) && content.length > 0) {
+            const first = content[0];
+            if (typeof first === 'object' && first !== null && !Array.isArray(first)) {
+                const headers = Object.keys(first);
+                if (headers.length > 0) return { headers, rows: content };
+            }
+        }
+        if (!Array.isArray(content.headers) || !Array.isArray(content.rows)) {
+            const keys = Object.keys(content);
+            if (keys.length === 0) return content;
+            const rowsByCol = keys.map(k => String(content[k] ?? '').split('\n'));
+            const rowCount = Math.max(1, ...rowsByCol.map(a => a.length));
+            const rows = [];
+            for (let r = 0; r < rowCount; r++) {
+                const row = {};
+                keys.forEach((k, c) => { row[k] = rowsByCol[c][r] ?? ''; });
+                rows.push(row);
+            }
+            return { headers: keys, rows };
+        }
+        return content;
+    }
+
+    function renderElement(secNum, el, container, prevHeading) {
+        const type = (el.type || '').toLowerCase();
+        const content = el.content;
+
+        if (type === 'heading') {
+            const h = document.createElement('div');
+            const s = content || '';
+            const isSectionDesc = /^SECTION\s+\d+\s+Questions?\s*[\d–-]/i.test(s) || /^Questions?\s*\d+\s*(–|-|and)\s*\d+/i.test(s);
+            if (isSectionDesc) {
+                h.className = 'el-heading';
+            } else {
+                const isFirstTopic = container._firstTopicHeading !== false;
+                if (container._firstTopicHeading !== false) container._firstTopicHeading = false;
+                const role = (el.role || '').toLowerCase();
+                const isTopic = role === 'topic' || (role !== 'sub' && isFirstTopic);
+                h.className = isTopic ? 'el-heading el-heading-topic' : 'el-heading el-heading-sub';
+            }
+            h.textContent = content;
+            container.appendChild(h);
+            return;
+        }
+        if (type === 'text') {
+            const s = String(content || '').trim();
+            const isOptionsList = s.includes('\n') && /^[A-H]\.?\s*\S+(\n\s*[A-H]\.?\s*\S+)*$/.test(s);
+            if (isOptionsList) {
+                const wrap = document.createElement('div');
+                wrap.className = 'el-table el-options-box';
+                const lines = s.split(/\n/).map(l => l.trim()).filter(Boolean);
+                let gridHtml = '<div class="el-options-grid">';
+                lines.forEach(line => { gridHtml += '<span class="el-option-item">' + escapeHtml(line) + '</span>'; });
+                gridHtml += '</div>';
+                wrap.innerHTML = gridHtml;
+                container.appendChild(wrap);
+                return;
+            }
+        }
+        if (type === 'instruction' || type === 'text') {
+            const textContent = content || '';
+            function stripUnnumberedDots(s) {
+                if (!s || /\d+\s*\.{2,}/.test(s)) return s;
+                return s.replace(/\s*\.{2,}\s*/g, ' ');
+            }
+            if (type === 'instruction' && textContent.includes('\n')) {
+                textContent.split('\n').forEach(line => {
+                    const trimmed = line.trim();
+                    if (trimmed === '') return;
+                    const p = document.createElement('div');
+                    p.className = 'el-instruction';
+                    p.textContent = stripUnnumberedDots(trimmed);
+                    container.appendChild(p);
+                });
+            } else if (type === 'text' && (/\n[–\-]/.test(textContent) || textContent.includes('\n'))) {
+                const lines = textContent.split('\n');
+                lines.forEach(line => {
+                    const trimmed = line.trim();
+                    if (trimmed === '') return;
+                    const p = document.createElement('div');
+                    p.className = 'el-text';
+                    if (/^[–\-]\s?/.test(line)) p.classList.add('el-sub-item');
+                    p.style.whiteSpace = 'pre-wrap';
+                    p.textContent = stripUnnumberedDots(trimmed);
+                    container.appendChild(p);
+                });
+            } else {
+                const p = document.createElement('div');
+                p.className = type === 'instruction' ? 'el-instruction' : 'el-text';
+                if (/^[–\-]\s/.test(textContent)) p.classList.add('el-sub-item');
+                p.textContent = stripUnnumberedDots(textContent);
+                container.appendChild(p);
+            }
+            return;
+        }
+        if (type === 'table') {
+            const wrap = document.createElement('div');
+            wrap.className = 'el-table';
+            function cellToHtml(str) {
+                const parts = parseTableBlanks(str || '');
+                let out = '';
+                parts.forEach(p => {
+                    if (p.type === 'text') out += escapeHtml(newlineAfterExample(p.value));
+                    else out += `<input type="text" class="gap-input" data-q="${p.num}" placeholder="${escapeHtml(p.placeholder)}" autocomplete="off">`;
+                });
+                return out;
+            }
+            if (typeof content === 'object' && content !== null && !Array.isArray(content) && 'title' in content) {
+                const titleText = content.title;
+                const rest = {};
+                Object.keys(content).forEach(k => {
+                    if (k === 'title' || k === 'afterTitle') return;
+                    const v = content[k];
+                    rest[k] = Array.isArray(v) ? v.join('\n') : String(v ?? '');
+                });
+                const titleDiv = document.createElement('div');
+                titleDiv.className = 'el-heading el-heading-topic';
+                titleDiv.textContent = titleText;
+                wrap.appendChild(titleDiv);
+                if (content.afterTitle) {
+                    const after = String(content.afterTitle ?? '').trim();
+                    if (after) {
+                        after.split('\n').forEach(line => {
+                            const t = line.trim();
+                            if (!t) return;
+                            const p = document.createElement('div');
+                            p.className = 'el-text';
+                            p.textContent = t;
+                            wrap.appendChild(p);
+                        });
+                    }
+                }
+                const restKeys = Object.keys(rest);
+                const onlyHeadersRows = (restKeys.length === 2 && restKeys.includes('headers') && restKeys.includes('rows')) ||
+                    (restKeys.length === 1 && restKeys[0] === 'rows');
+                const hasHeadersRows = onlyHeadersRows &&
+                    Array.isArray(content.rows) && content.rows.length > 0 &&
+                    typeof content.rows[0] === 'object' && content.rows[0] !== null && !Array.isArray(content.rows[0]);
+                const headers = Array.isArray(content.headers) && content.headers.length > 0
+                    ? content.headers
+                    : (hasHeadersRows ? Object.keys(content.rows[0]) : []);
+                if (hasHeadersRows && headers.length > 0) {
+                    let html = '<table class="el-data-table"><thead><tr>';
+                    headers.forEach(h => { html += '<th>' + escapeHtml(h) + '</th>'; });
+                    html += '</tr></thead><tbody>';
+                    content.rows.forEach(row => {
+                        html += '<tr>';
+                        headers.forEach(h => { html += '<td>' + cellToHtml(row[h] != null ? String(row[h]) : '') + '</td>'; });
+                        html += '</tr>';
+                    });
+                    html += '</tbody></table>';
+                    wrap.appendChild((() => { const d = document.createElement('div'); d.className = 'el-table-wrap'; d.innerHTML = html; return d; })());
+                    wrap.querySelectorAll('.gap-input').forEach(inp => {
+                        inp.addEventListener('input', () => { USER_ANSWERS[inp.dataset.q] = inp.value.trim(); checkSubmit(); });
+                    });
+                    container.appendChild(wrap);
+                    return;
+                }
+                // 仅对明确键名做特殊渲染，避免影响其它已检查过的表格结构
+                Object.keys(rest).forEach(k => {
+                    const isOptions = k === 'options';
+                    const isExample = k === 'Example';
+                    if (isOptions) {
+                        const optsWrap = document.createElement('div');
+                        optsWrap.className = 'el-table-section el-options-list';
+                        let optsArr;
+                        if (Array.isArray(content[k])) optsArr = content[k];
+                        else if (typeof content[k] === 'object' && content[k] !== null && !Array.isArray(content[k])) {
+                            optsArr = Object.entries(content[k]).map(([letter, text]) => (letter + ' ' + (text || '')).trim()).filter(Boolean);
+                        } else optsArr = String(rest[k] || '').split('\n').filter(Boolean);
+                        optsArr.forEach(line => {
+                            const p = document.createElement('div');
+                            p.className = 'el-text el-option-line';
+                            p.textContent = line.trim();
+                            optsWrap.appendChild(p);
+                        });
+                        wrap.appendChild(optsWrap);
+                        return;
+                    }
+                    const sectionDiv = document.createElement('div');
+                    sectionDiv.className = 'el-table-section';
+                    if (!isExample) {
+                        const headingDiv = document.createElement('div');
+                        headingDiv.className = 'el-heading el-heading-sub';
+                        headingDiv.textContent = k;
+                        sectionDiv.appendChild(headingDiv);
+                    }
+                    const bodyDiv = document.createElement('div');
+                    bodyDiv.className = 'el-table-section-body' + (isExample ? ' el-text' : '');
+                    const sectionContent = isExample ? 'Example\n' + rest[k] : rest[k];
+                    renderTableStringLines(sectionContent, bodyDiv);
+                    sectionDiv.appendChild(bodyDiv);
+                    wrap.appendChild(sectionDiv);
+                });
+                wrap.querySelectorAll('.gap-input').forEach(inp => {
+                    inp.addEventListener('input', () => { USER_ANSWERS[inp.dataset.q] = inp.value.trim(); checkSubmit(); });
+                });
+                // 仅「标题 + options」时整体加框（如 Comments 与 A–G 选项一起框起来）
+                if (Object.keys(rest).length === 1 && Object.prototype.hasOwnProperty.call(rest, 'options')) {
+                    wrap.classList.add('el-options-box');
+                }
+                container.appendChild(wrap);
+                return;
+            }
+            const normalized = normalizeTableContent(content);
+            function cellToHtml(str) {
+                const parts = parseTableBlanks(str || '');
+                let out = '';
+                parts.forEach(p => {
+                    if (p.type === 'text') out += escapeHtml(newlineAfterExample(p.value));
+                    else out += `<input type="text" class="gap-input" data-q="${p.num}" placeholder="${escapeHtml(p.placeholder)}" autocomplete="off">`;
+                });
+                return out;
+            }
+            if (typeof normalized === 'object' && normalized !== null && Array.isArray(normalized.headers) && Array.isArray(normalized.rows)) {
+                const headers = normalized.headers;
+                let html = '<table class="el-data-table"><thead><tr>';
+                headers.forEach(h => { html += '<th>' + escapeHtml(h) + '</th>'; });
+                html += '</tr></thead><tbody>';
+                normalized.rows.forEach(row => {
+                    html += '<tr>';
+                    headers.forEach(h => { html += '<td>' + cellToHtml(row[h] != null ? String(row[h]) : '') + '</td>'; });
+                    html += '</tr>';
+                });
+                html += '</tbody></table>';
+                wrap.innerHTML = '<div class="el-table-wrap">' + html + '</div>';
+            } else {
+                const str = typeof normalized === 'string' ? normalized : '';
+                const isOptionsBox = /^\s*[\s\S]*\n[A-H]\s/m.test(str) || /^\s*[\s\S]*\n[A-H]\.\s/m.test(str);
+                if (isOptionsBox) {
+                    wrap.classList.add('el-options-box');
+                    const parts = parseTableBlanks(str);
+                    const hasBlanks = parts.some(p => p.type === 'input');
+                    const optionLinesOnly = /^[A-H]\.?\s*\S+(\n\s*[A-H]\.?\s*\S+)*$/.test(str.trim());
+                    if (!hasBlanks && optionLinesOnly) {
+                        const lines = str.trim().split(/\n/).map(s => s.trim()).filter(Boolean);
+                        let gridHtml = '<div class="el-options-grid">';
+                        lines.forEach(line => { gridHtml += '<span class="el-option-item">' + escapeHtml(line) + '</span>'; });
+                        gridHtml += '</div>';
+                        wrap.innerHTML = gridHtml;
+                    } else {
+                        let html = '';
+                        parts.forEach(p => {
+                            if (p.type === 'text') html += escapeHtml(newlineAfterExample(p.value));
+                            else html += `<input type="text" class="gap-input" data-q="${p.num}" placeholder="${escapeHtml(p.placeholder)}" autocomplete="off">`;
+                        });
+                        wrap.innerHTML = html;
+                    }
+                } else {
+                    renderTableStringLines(str, wrap);
+                }
+            }
+            wrap.querySelectorAll('.gap-input').forEach(inp => {
+                inp.addEventListener('input', () => { USER_ANSWERS[inp.dataset.q] = inp.value.trim(); checkSubmit(); });
+            });
+            container.appendChild(wrap);
+            return;
+        }
+        if (type === 'list') {
+            const rawItems = Array.isArray(content) ? content : [];
+            const wrap = document.createElement('div');
+            wrap.className = 'el-list';
+            rawItems.forEach(item => {
+                const str = String(item || '');
+                const parts = parseTableBlanks(str);
+                const hasInlineBlanks = parts.some(p => p.type === 'input');
+                const row = document.createElement('div');
+                row.className = 'el-list-item';
+                if (hasInlineBlanks) {
+                    let html = '<span>';
+                    parts.forEach(p => {
+                        if (p.type === 'text') html += escapeHtml(newlineAfterExample(p.value));
+                        else html += `<input type="text" class="gap-input" data-q="${p.num}" placeholder="${escapeHtml(p.placeholder)}" autocomplete="off">`;
+                    });
+                    html += '</span>';
+                    row.innerHTML = html;
+                } else {
+                    const match = str.match(/^(\d+)\s+(.+)$/);
+                    const num = match ? match[1] : '';
+                    const label = match ? match[2].replace(/\s*\.{2,}\s*$/, '').trim() : str;
+                    const hasTrailingBlank = /\d+\s*\.{2,}\s*$/.test(str);
+                    if (num && hasTrailingBlank) {
+                        row.innerHTML = `<span>${num} ${escapeHtml(newlineAfterExample(label))}</span> <input type="text" class="gap-input" data-q="${num}" placeholder="(${num})" autocomplete="off">`;
+                    } else {
+                        row.innerHTML = `<span>${num ? num + ' ' : ''}${escapeHtml(newlineAfterExample(label || str))}</span>`;
+                    }
+                }
+                row.querySelectorAll('.gap-input').forEach(inp => {
+                    inp.addEventListener('input', function() { USER_ANSWERS[this.dataset.q] = this.value.trim(); checkSubmit(); });
+                });
+                wrap.appendChild(row);
+            });
+            container.appendChild(wrap);
+            return;
+        }
+        if (type === 'question_block') {
+            const opts = el.options || [];
+            const contentStr = typeof content === 'string' ? content : (content ? String(content) : '');
+            const qMatch = contentStr.match(/^(\d+)\s+(.*)$/);
+            let qNum = qMatch ? qMatch[1] : '';
+            const qText = qMatch ? qMatch[2] : contentStr;
+            const twoNums = !qNum && prevHeading ? prevHeading.match(/Questions?\s*(\d+)\s+and\s+(\d+)/i) : null;
+            const qNums = twoNums ? [twoNums[1], twoNums[2]] : (qNum ? [qNum] : []);
+            const isChooseTwo = qNums.length === 2;
+            const partsForBlanks = !opts.length ? parseTableBlanks(contentStr) : [];
+            const hasDotsInMiddle = partsForBlanks.some(p => p.type === 'input');
+            const div = document.createElement('div');
+            div.className = 'question-block';
+            if (/^[–\-]\s/.test(contentStr)) div.classList.add('el-sub-item');
+            let html = '';
+            if (opts.length) {
+                html = `<div class="q-text">${qNum ? qNum + '. ' : ''}${escapeHtml(qText)}</div>`;
+                if (isChooseTwo) {
+                    html += `<div class="options options-choose-two" data-q-group="${qNums[0]},${qNums[1]}">`;
+                    opts.forEach(opt => {
+                        const label = (String(opt).match(/^([A-E])/) || [])[1] || String(opt).slice(0,1);
+                        html += `<div class="opt-label" data-q-group="${qNums[0]},${qNums[1]}" data-val="${label}" onclick="window.selectOpt(this)"><b>${escapeHtml(label)}.</b> ${escapeHtml(String(opt).replace(/^[A-E][\.\s]*/i,''))}</div>`;
+                    });
+                    html += `<div class="choose-two-hint">（选 2 项）</div></div>`;
+                } else {
+                    qNums.forEach(num => {
+                        html += `<div class="options" data-q-group="${num}">`;
+                        opts.forEach(opt => {
+                            const label = (String(opt).match(/^([A-E])/) || [])[1] || String(opt).slice(0,1);
+                            html += `<div class="opt-label" data-q="${num}" data-val="${label}" onclick="window.selectOpt(this)"><b>${escapeHtml(label)}.</b> ${escapeHtml(String(opt).replace(/^[A-E][\.\s]*/i,''))}</div>`;
+                        });
+                        html += '</div>';
+                    });
+                }
+            } else if (hasDotsInMiddle) {
+                const parts = partsForBlanks;
+                html = '<div class="q-text q-text-dots">';
+                parts.forEach(p => {
+                    if (p.type === 'text') html += escapeHtml(newlineAfterExample(p.value));
+                    else html += `<input type="text" class="gap-input" data-q="${p.num}" placeholder="${escapeHtml(p.placeholder)}" autocomplete="off">`;
+                });
+                html += '</div>';
+            } else if (qNum) {
+                html = `<div class="q-text">${qNum + '. '}${escapeHtml(qText)}</div><input type="text" class="gap-input" data-q="${qNum}" placeholder="(${qNum})" autocomplete="off">`;
+            } else {
+                html = `<div class="q-text">${escapeHtml(qText)}</div>`;
+            }
+            div.innerHTML = html;
+            div.querySelectorAll('.gap-input').forEach(inp => {
+                inp.addEventListener('input', function() { USER_ANSWERS[this.dataset.q] = this.value.trim(); checkSubmit(); });
+            });
+            container.appendChild(div);
+            return;
+        }
+        if (type === 'map') {
+            const wrap = document.createElement('div');
+            wrap.className = 'el-map-wrap';
+            const pageNum = el.page_number;
+            const pages = (LISTENING_DATA && LISTENING_DATA.pages) || [];
+            const page = pages.find(p => p.page_number === pageNum);
+            const imagePath = (page && page.image_path) || (el.image_path);
+            const imageUrl = (ASSETS_BASE && imagePath) ? (ASSETS_BASE + imagePath.replace(/^\.?\//, '')) : '';
+            if (imageUrl) {
+                const img = document.createElement('img');
+                img.src = imageUrl;
+                img.alt = content || 'Map';
+                img.className = 'map-image';
+                img.onerror = function() { this.style.display = 'none'; if (this.nextElementSibling) this.nextElementSibling.style.display = 'block'; };
+                const fallback = document.createElement('div');
+                fallback.className = 'el-text map-fallback';
+                fallback.style.display = 'none';
+                fallback.innerHTML = `<i class="fas fa-map"></i> ${escapeHtml(content || 'Map')}（图见 PDF）`;
+                wrap.appendChild(img);
+                wrap.appendChild(fallback);
+            } else {
+                const p = document.createElement('div');
+                p.className = 'el-text';
+                p.innerHTML = `<i class="fas fa-map"></i> ${escapeHtml(content || 'Map')}（图见 PDF）`;
+                wrap.appendChild(p);
+            }
+            container.appendChild(wrap);
+            return;
+        }
+        if (content) {
+            const p = document.createElement('div');
+            p.className = 'el-text';
+            p.textContent = typeof content === 'string' ? content : JSON.stringify(content);
+            container.appendChild(p);
+        }
+    }
+
+    function updateChooseTwoSelection(container, q1, q2) {
+        const v1 = USER_ANSWERS[q1], v2 = USER_ANSWERS[q2];
+        container.querySelectorAll('.opt-label').forEach(x => {
+            x.classList.toggle('selected', x.dataset.val === v1 || x.dataset.val === v2);
+        });
+    }
+
+    window.selectOpt = function(el) {
+        if (document.getElementById('result-modal').style.display === 'flex') return;
+        const group = el.dataset.qGroup;
+        const val = el.dataset.val;
+        const container = el.closest('.options');
+        if (group && group.indexOf(',') !== -1) {
+            const [q1, q2] = group.split(',');
+            if (val === USER_ANSWERS[q1]) { USER_ANSWERS[q1] = ''; updateChooseTwoSelection(container, q1, q2); checkSubmit(); return; }
+            if (val === USER_ANSWERS[q2]) { USER_ANSWERS[q2] = ''; updateChooseTwoSelection(container, q1, q2); checkSubmit(); return; }
+            if (!USER_ANSWERS[q1]) USER_ANSWERS[q1] = val; else USER_ANSWERS[q2] = val;
+            updateChooseTwoSelection(container, q1, q2);
+        } else {
+            const q = el.dataset.q;
+            container.querySelectorAll('.opt-label').forEach(x => x.classList.remove('selected'));
+            el.classList.add('selected');
+            USER_ANSWERS[q] = val;
+        }
+        checkSubmit();
+    };
+
+    function collectQuestionNumbers() {
+        const set = new Set();
+        (LISTENING_DATA.sections || []).forEach(sec => {
+            (sec.elements || []).forEach(el => {
+                if (el.type === 'table' && typeof el.content === 'string') {
+                    const re = /\d+(?=\s*£?\s*[^·\d]*?\.{2,})/g;
+                    let m; while ((m = re.exec(el.content)) !== null) set.add(m[0]);
+                }
+                if (el.type === 'list' && Array.isArray(el.content)) {
+                    el.content.forEach(item => { const n = item.match(/^(\d+)/); if (n) set.add(n[1]); });
+                }
+                if (el.type === 'question_block') {
+                    const s = el.content || '';
+                    const lead = s.match(/^(\d+)/);
+                    if (lead) set.add(lead[1]);
+                    const re = /\d+(?=\s*£?\s*[^·\d]*?\.{2,})/g;
+                    let m; while ((m = re.exec(s)) !== null) set.add(m[0]);
+                }
+            });
+        });
+        return Array.from(set).map(Number).sort((a,b)=>a-b);
+    }
+
+    function checkSubmit() {
+        const btn = document.getElementById('btn-submit');
+        const sections = LISTENING_DATA && LISTENING_DATA.sections ? LISTENING_DATA.sections : [];
+        const totalSections = sections.length || 4;
+        const allAudioDone = totalSections > 0 && Array.from({ length: totalSections }, (_, i) => i + 1).every(n => sectionAudioCompleted[n]);
+        if (!allAudioDone) {
+            btn.classList.add('disabled');
+            btn.disabled = true;
+            return;
+        }
+        btn.classList.remove('disabled');
+        btn.disabled = false;
+    }
+
+    function renderSectionOnly(sectionNum) {
+        const container = document.getElementById('questions-container');
+        container.innerHTML = '';
+        const sections = LISTENING_DATA.sections || [];
+        const sec = sections.find(s => s.section_number === sectionNum);
+        if (!sec) return;
+        const block = document.createElement('div');
+        block.className = 'section-block';
+        block.innerHTML = `<h3>Section ${sec.section_number}</h3>`;
+        const inner = document.createElement('div');
+        inner._firstTopicHeading = true;
+        let lastHeading = '';
+        (sec.elements || []).forEach(el => {
+            const t = (el.type || '').toLowerCase();
+            if (t === 'heading') lastHeading = el.content || '';
+            else if (t === 'instruction' && typeof el.content === 'string' && /Questions?\s*\d+\s+and\s+\d+/i.test(el.content)) lastHeading = el.content;
+            renderElement(sec.section_number, el, inner, lastHeading);
+        });
+        block.appendChild(inner);
+        container.appendChild(block);
+        checkSubmit();
+    }
+
+    function buildSectionNavTop() {
+        const sections = LISTENING_DATA.sections || [];
+        const nav = document.getElementById('section-nav-top');
+        if (!nav || sections.length === 0) return;
+        nav.style.display = 'flex';
+        nav.innerHTML = '';
+        sections.forEach(sec => {
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'section-tab' + (sec.section_number === currentSection ? ' active' : '');
+            btn.textContent = 'Section ' + sec.section_number;
+            btn.onclick = () => switchSection(sec.section_number);
+            nav.appendChild(btn);
+        });
+    }
+
+    function switchSection(sectionNum) {
+        if (sectionNum === currentSection) return;
+        currentSection = sectionNum;
+        renderSectionOnly(currentSection);
+        document.querySelectorAll('#section-nav-top .section-tab').forEach((btn, i) => {
+            btn.classList.toggle('active', (i + 1) === sectionNum);
+        });
+        if (useSectionAudios) {
+            loadSectionAudio(sectionNum);
+        }
+        const btnPlay = document.getElementById('btn-play');
+        if (sectionAudioCompleted[sectionNum]) {
+            btnPlay.innerHTML = '<i class="fas fa-check"></i>';
+            btnPlay.classList.add('completed');
+        } else {
+            btnPlay.innerHTML = '<i class="fas fa-play"></i>';
+            btnPlay.classList.remove('completed');
+        }
+        checkSubmit();
+    }
+
+    function loadSectionAudio(sectionNum) {
+        const audio = document.getElementById('main-audio');
+        const url = getAudioUrl(sectionNum);
+        audio.src = url;
+        document.getElementById('total-time').textContent = '--:--';
+        document.getElementById('curr-time').textContent = '00:00';
+        document.getElementById('progress-fill').style.width = '0%';
+        document.querySelectorAll('#section-nav-top .section-tab').forEach((btn, i) => {
+            btn.classList.toggle('active', (i + 1) === sectionNum);
+        });
+        audio.onloadedmetadata = () => { document.getElementById('total-time').textContent = formatTime(audio.duration); };
+    }
+
+    function initAudio() {
+        const audio = document.getElementById('main-audio');
+        const sections = LISTENING_DATA.sections || [];
+        const numSections = sections.length || 4;
+        for (let n = 1; n <= numSections; n++) sectionAudioCompleted[n] = false;
+
+        function trySectionAudios() {
+            useSectionAudios = true;
+            buildSectionNavTop();
+            loadSectionAudio(1);
+            const btnPlay = document.getElementById('btn-play');
+            btnPlay.innerHTML = '<i class="fas fa-play"></i>';
+            btnPlay.classList.remove('completed');
+        }
+
+        audio.addEventListener('timeupdate', () => {
+            const c = audio.currentTime, d = audio.duration || 1;
+            document.getElementById('curr-time').textContent = formatTime(c);
+            document.getElementById('progress-fill').style.width = (c / d) * 100 + '%';
+            TRANSCRIPT.forEach(line => {
+                if (line._el) {
+                    if (c >= line.start && c < line.end) line._el.classList.add('active');
+                    else line._el.classList.remove('active');
+                }
+            });
+        });
+        audio.addEventListener('ended', () => {
+            if (useSectionAudios) {
+                sectionAudioCompleted[currentSection] = true;
+                document.getElementById('btn-play').innerHTML = '<i class="fas fa-check"></i>';
+                document.getElementById('btn-play').classList.add('completed');
+            } else {
+                for (let n = 1; n <= numSections; n++) sectionAudioCompleted[n] = true;
+                document.getElementById('btn-play').innerHTML = '<i class="fas fa-check"></i>';
+                document.getElementById('btn-play').classList.add('completed');
+            }
+            checkSubmit();
+        });
+
+        const urlSection1 = getAudioUrl(1);
+        audio.src = urlSection1;
+        audio.onloadedmetadata = () => {
+            document.getElementById('total-time').textContent = formatTime(audio.duration);
+            trySectionAudios();
+        };
+        audio.onerror = () => {
+            const urlSingle = getAudioUrl();
+            audio.src = urlSingle;
+            audio.onloadedmetadata = () => {
+                document.getElementById('total-time').textContent = formatTime(audio.duration);
+                buildSectionNavTop();
+                renderSectionOnly(1);
+                useSectionAudios = false;
+            };
+            audio.onerror = () => trySectionAudios();
+        };
+    }
+
+    window.toggleAudio = function() {
+        const audio = document.getElementById('main-audio');
+        const btn = document.getElementById('btn-play');
+        if (!audio.src) return;
+        startTimer();
+        if (audio.paused) {
+            audio.play();
+            btn.innerHTML = '<i class="fas fa-pause"></i>';
+        } else {
+            audio.pause();
+            btn.innerHTML = '<i class="fas fa-play"></i>';
+        }
+    };
+
+    function renderScript() {
+        const wrap = document.getElementById('script-content');
+        wrap.innerHTML = '';
+        TRANSCRIPT.forEach(line => {
+            const div = document.createElement('div');
+            div.className = 'k-line';
+            div.dataset.start = line.start;
+            div.dataset.end = line.end;
+            div.textContent = line.text;
+            div.onclick = () => {
+                const audio = document.getElementById('main-audio');
+                audio.currentTime = line.start;
+                audio.play();
+                document.getElementById('btn-play').innerHTML = '<i class="fas fa-pause"></i>';
+            };
+            line._el = div;
+            wrap.appendChild(div);
+        });
+    }
+
+    window.showScript = function() {
+        document.getElementById('result-modal').style.display = 'none';
+        document.getElementById('script-panel').style.display = 'block';
+        document.getElementById('script-content').scrollIntoView({ behavior: 'smooth' });
+    };
+
+    window.submitAnswers = function() {
+        if (document.getElementById('btn-submit').classList.contains('disabled')) return;
+        if (timerId) clearInterval(timerId);
+        const contentName = 'IELTS Listening 剑桥' + (params && params.get('book') ? params.get('book') : '') + ' Test' + (params && params.get('test') ? params.get('test') : '');
+        const total = collectQuestionNumbers().length;
+        if (typeof SClass !== 'undefined' && SClass.sendReport) {
+            SClass.sendReport({ contentName: contentName, total: total, page_label: contentName });
+        }
+        document.getElementById('result-modal').style.display = 'flex';
+        document.querySelector('.fab-submit-wrapper').style.display = 'none';
+    };
+
+    async function loadData() {
+        try {
+            const mediaBase = getMediaBase();
+            ASSETS_BASE = mediaBase ? (mediaBase + getAssetsBase()) : new URL(getAssetsBase(), window.location.href).href;
+            const [qRes, tRes] = await Promise.all([fetch(getQuestionUrl()), fetch(getTranscriptUrl())]);
+            if (!qRes.ok) throw new Error('题目 JSON 加载失败: ' + qRes.status + '，请确保 Listening/data/ 下存在对应 JSON');
+            LISTENING_DATA = await qRes.json();
+            if (tRes.ok) {
+                const raw = await tRes.json();
+                TRANSCRIPT = (raw || []).map(x => ({
+                    start: x.start_sec ?? x.start,
+                    end: x.end_sec ?? x.end,
+                    text: x.text || ''
+                })).filter(x => x.text);
+            }
+            buildSectionNavTop();
+            renderSectionOnly(1);
+            if (TRANSCRIPT.length) renderScript();
+            /* 做题页面不显示听力脚本，仅提交后进入深度学习页可查看 */
+            initAudio();
+        } catch (e) {
+            document.getElementById('questions-container').innerHTML = '<div style="color:#f87171; padding:20px;">加载失败: ' + escapeHtml(e.message || String(e)) + '。<br><br>请运行 copy_listening_to_ielts_exam.py 将题目/听写稿/答案复制到 Listening/data/，音频与图片到 Listening/assets/。</div>';
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', loadData);
+})();
+</script>
+</body>
+</html>

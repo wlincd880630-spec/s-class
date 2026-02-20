@@ -1,0 +1,212 @@
+/* IELTS 智能模考系统 - 首页样式 (参照 PET-exam) */
+:root {
+    --primary: #3b82f6;
+    --primary-glow: #60a5fa;
+    --accent: #00d2ff;
+    --text-light: #f8fafc;
+    --text-dim: #94a3b8;
+    --glass-bg: rgba(30, 41, 59, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.1);
+}
+
+@keyframes drift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+body {
+    margin: 0;
+    font-family: 'Roboto', 'Noto Sans SC', sans-serif;
+    background: linear-gradient(-45deg, #020617, #1e1b4b, #172554, #0f172a);
+    background-size: 400% 400%;
+    animation: drift 25s ease infinite;
+    color: var(--text-light);
+    min-height: 100vh;
+}
+
+.navbar {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1rem 5%;
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--glass-border);
+    position: sticky; top: 0; z-index: 100;
+}
+
+.btn-logout {
+    background: rgba(239, 68, 68, 0.15);
+    color: #fca5a5;
+    border: 1px solid rgba(239, 68, 68, 0.35);
+    padding: 6px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.btn-logout:hover {
+    background: #ef4444;
+    color: #fff;
+    border-color: #ef4444;
+}
+
+.hero {
+    text-align: center;
+    padding: 5rem 1rem 3rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero::before {
+    content: ''; position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60%; height: 200px;
+    background: radial-gradient(circle, rgba(59,130,246,0.2) 0%, rgba(0,0,0,0) 70%);
+    z-index: -1;
+}
+
+.brand-domain {
+    font-family: 'Courier New', monospace;
+    color: var(--accent);
+    font-size: 1rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+    opacity: 0.9;
+}
+
+.hero h1 {
+    font-size: 3.5rem;
+    font-weight: 900;
+    margin: 0;
+    background: linear-gradient(to bottom, #ffffff 0%, #cbd5e1 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -1px;
+}
+
+.hero-tagline {
+    font-size: 1.2rem;
+    margin-top: 15px;
+    font-weight: 300;
+    letter-spacing: 2px;
+    color: var(--text-dim);
+}
+
+.main-content {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.accordion-card {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    overflow: hidden;
+    backdrop-filter: blur(16px);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.accordion-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+
+.card-header {
+    padding: 20px 30px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255,255,255,0.03);
+}
+
+.card-header:hover {
+    background: rgba(255,255,255,0.08);
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+.card-icon-small {
+    color: var(--accent);
+    font-size: 1.4rem;
+}
+
+.toggle-icon {
+    transition: transform 0.3s;
+}
+
+.toggle-icon.rotate {
+    transform: rotate(180deg);
+}
+
+.accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+    background: rgba(0,0,0,0.3);
+}
+
+.accordion-content.active {
+    border-top: 1px solid var(--glass-border);
+}
+
+.test-grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 15px;
+    padding: 25px;
+}
+
+.test-unit {
+    background: rgba(255,255,255,0.05);
+    border-radius: 8px;
+    padding: 12px;
+    border: 1px solid transparent;
+}
+
+.test-unit:hover {
+    border-color: var(--primary);
+    background: rgba(59, 130, 246, 0.1);
+}
+
+.test-title {
+    text-align: center;
+    color: var(--accent);
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.part-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+}
+
+.part-btn {
+    text-align: center;
+    padding: 8px 4px;
+    border-radius: 4px;
+    background: rgba(255,255,255,0.1);
+    color: #cbd5e1;
+    text-decoration: none;
+    font-size: 0.8rem;
+    transition: all 0.2s;
+}
+
+.part-btn:hover {
+    background: var(--primary);
+    color: white;
+}
