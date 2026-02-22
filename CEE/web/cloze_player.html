@@ -59,6 +59,10 @@
         .fab:hover { transform: translateY(-3px); box-shadow: 0 14px 40px rgba(79, 70, 229, 0.5); }
         .fab:disabled { opacity: 0.6; cursor: not-allowed; transform: none; background: #94a3b8; box-shadow: none; }
         .explain-card { background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%); border-radius: 14px; border: 1px solid #e2e8f0; }
+        /* 做题时左侧文章不可选中，防止复制给 AI 作弊 */
+        .passage-panel.no-select {
+            -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;
+        }
         @media (max-width: 900px) { .split-layout { grid-template-columns: 1fr; } }
     </style>
 </head>
@@ -91,7 +95,7 @@
                         <span v-else class="text-slate-600">已计时，满 10 分钟可提交。</span>
                     </div>
                     <div class="split-layout">
-                        <div class="passage-panel" v-html="clozePassageWithChoices"></div>
+                        <div class="passage-panel" :class="{ 'no-select': stage === 'do' }" v-html="clozePassageWithChoices"></div>
                         <div class="sidebar-panel sticky top-20">
                             <p class="text-slate-600 text-sm font-medium mb-3">选择选项填入文中</p>
                             <div v-for="q in (paperData.section_1_cloze.questions || [])" :key="q.number" class="mb-4">

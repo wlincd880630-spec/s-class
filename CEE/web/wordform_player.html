@@ -64,6 +64,10 @@
             box-shadow: 0 2px 8px rgba(5, 150, 105, 0.1);
         }
         .explain-card { background: linear-gradient(180deg, #f0fdf4 0%, #ecfdf5 100%); border-radius: 14px; border: 1px solid #a7f3d0; }
+        /* 做题时左侧文章不可选中，防止复制给 AI 作弊 */
+        .passage-panel.no-select {
+            -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;
+        }
         @media (max-width: 900px) { .split-layout { grid-template-columns: 1fr; } }
     </style>
 </head>
@@ -99,7 +103,7 @@
                         <span v-else class="text-slate-600">已计时，满 7 分钟可提交。</span>
                     </div>
                     <div class="split-layout">
-                        <div class="passage-panel">
+                        <div class="passage-panel" :class="{ 'no-select': stage === 'do' }">
                             <template v-for="(seg, idx) in wordFormPassageSegments" :key="idx">
                                 <template v-if="seg.type === 'text'"><span v-html="seg.text.replace(/\n/g, '<br><br>')"></span></template>
                                 <span v-else class="wordform-blank">
