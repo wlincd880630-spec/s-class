@@ -12,26 +12,53 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
-        :root { --primary: #6366f1; --accent: #8b5cf6; --success: #10b981; --bg: #f8fafc; --text: #334155; }
-        body { font-family: 'Noto Sans SC', 'Roboto', sans-serif; background: var(--bg); color: var(--text); margin: 0; }
-        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 12px 24px; background: linear-gradient(135deg, #4f46e5, #7c3aed); color: #fff; position: sticky; top: 0; z-index: 100; }
-        .passage-panel { background: #fff; padding: 28px 32px; border-radius: 16px; border: 1px solid #e2e8f0; font-size: 1.05rem; line-height: 1.85; }
-        .passage-filled { padding: 2px 6px; border-radius: 4px; }
+        :root { --primary: #6366f1; --primary-dark: #4f46e5; --accent: #8b5cf6; --success: #10b981; --bg: #f1f5f9; --text: #1e293b; }
+        body {
+            font-family: 'Noto Sans SC', 'Roboto', sans-serif; margin: 0; color: var(--text);
+            background: linear-gradient(165deg, #f8fafc 0%, #eef2ff 40%, #f5f3ff 100%);
+            background-attachment: fixed; min-height: 100vh;
+        }
+        .navbar {
+            display: flex; justify-content: space-between; align-items: center; padding: 14px 28px;
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #a855f7 100%);
+            color: #fff; position: sticky; top: 0; z-index: 100;
+            box-shadow: 0 4px 20px rgba(79, 70, 229, 0.4);
+        }
+        .passage-panel {
+            background: linear-gradient(180deg, #ffffff 0%, #fafbff 100%); padding: 32px 36px;
+            border-radius: 20px; font-size: 1.06rem; line-height: 1.9;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.06); border: 1px solid rgba(99, 102, 241, 0.12);
+        }
+        .passage-filled { padding: 2px 8px; border-radius: 6px; }
         .passage-blank { color: #94a3b8; }
-        .split-layout { display: grid; grid-template-columns: 1.4fr 0.9fr; gap: 24px; align-items: start; }
-        .opt-btn { display: inline-block; margin: 4px 8px 4px 0; padding: 8px 14px; border: 1px solid #cbd5e1; border-radius: 8px; background: #f8fafc; cursor: pointer; transition: all 0.2s; }
-        .opt-btn:hover { border-color: var(--primary); background: #eef2ff; }
-        .opt-btn.selected { border-color: var(--primary); background: var(--primary); color: #fff; }
-        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 200; display: flex; align-items: center; justify-content: center; }
-        .modal-box { background: #fff; padding: 28px; border-radius: 16px; max-width: 400px; width: 90%; text-align: center; }
-        .dict-modal { max-width: 520px; width: 95%; max-height: 85vh; overflow-y: auto; text-align: left; }
+        .split-layout { display: grid; grid-template-columns: 1.4fr 0.9fr; gap: 28px; align-items: start; }
+        .opt-btn {
+            display: inline-block; margin: 4px 8px 4px 0; padding: 9px 16px; border: 1px solid #cbd5e1;
+            border-radius: 10px; background: linear-gradient(180deg, #f8fafc, #f1f5f9); cursor: pointer;
+            transition: all 0.25s; font-weight: 500;
+        }
+        .opt-btn:hover { border-color: var(--primary); background: linear-gradient(180deg, #eef2ff, #e0e7ff); transform: translateY(-1px); }
+        .opt-btn.selected { border-color: var(--primary); background: linear-gradient(135deg, var(--primary), var(--accent)); color: #fff; box-shadow: 0 4px 12px rgba(99, 102, 241, 0.35); }
+        .sidebar-panel {
+            background: linear-gradient(180deg, #fff 0%, #f8fafc 100%); border-radius: 20px; padding: 24px;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.06); border-left: 4px solid var(--primary);
+        }
+        .modal-overlay { position: fixed; inset: 0; background: rgba(30, 41, 59, 0.5); backdrop-filter: blur(4px); z-index: 200; display: flex; align-items: center; justify-content: center; }
+        .modal-box { background: #fff; padding: 32px; border-radius: 24px; max-width: 400px; width: 90%; text-align: center; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); }
+        .dict-modal { max-width: 540px; width: 95%; max-height: 85vh; overflow-y: auto; text-align: left; border-top: 4px solid var(--primary); }
         .passage-clickable { cursor: pointer; }
-        .passage-clickable:hover { outline: 1px solid #e2e8f0; outline-offset: 2px; }
-        .word-tts-btn { cursor: pointer; color: var(--primary); margin-left: 6px; }
-        .word-tts-btn:hover { color: #4338ca; }
-        .fab { position: fixed; bottom: 28px; right: 28px; z-index: 50; padding: 14px 28px; border-radius: 50px; font-weight: 700; border: none; cursor: pointer; box-shadow: 0 8px 24px rgba(0,0,0,0.15); transition: transform 0.2s; }
-        .fab:hover { transform: translateY(-2px); }
-        .fab:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
+        .passage-clickable:hover { outline: 2px solid rgba(99, 102, 241, 0.3); outline-offset: 4px; border-radius: 4px; }
+        .word-tts-btn { cursor: pointer; color: var(--primary); margin-left: 6px; padding: 4px; border-radius: 8px; transition: background 0.2s; }
+        .word-tts-btn:hover { background: #eef2ff; color: #4338ca; }
+        .fab {
+            position: fixed; bottom: 32px; right: 32px; z-index: 50; padding: 16px 32px; border-radius: 50px;
+            font-weight: 700; border: none; cursor: pointer;
+            background: linear-gradient(135deg, #4f46e5, #7c3aed); color: #fff;
+            box-shadow: 0 10px 30px rgba(79, 70, 229, 0.45); transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .fab:hover { transform: translateY(-3px); box-shadow: 0 14px 40px rgba(79, 70, 229, 0.5); }
+        .fab:disabled { opacity: 0.6; cursor: not-allowed; transform: none; background: #94a3b8; box-shadow: none; }
+        .explain-card { background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%); border-radius: 14px; border: 1px solid #e2e8f0; }
         @media (max-width: 900px) { .split-layout { grid-template-columns: 1fr; } }
     </style>
 </head>
@@ -60,13 +87,13 @@
                 <!-- 做题 -->
                 <div v-if="stage === 'do'" class="space-y-6">
                     <div class="flex items-center gap-4 flex-wrap">
-                        <button v-if="!timerStarted" type="button" @click="startTimer" class="px-4 py-2 rounded-lg bg-indigo-600 text-white font-medium">开始计时 (14 分钟)</button>
+                        <button v-if="!timerStarted" type="button" @click="startTimer" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 to-indigo-500 text-white font-semibold shadow-lg shadow-indigo-500/30 hover:shadow-xl transition-all">开始计时 (14 分钟)</button>
                         <span v-else class="text-slate-600">已计时，满 10 分钟可提交。</span>
                     </div>
                     <div class="split-layout">
                         <div class="passage-panel" v-html="clozePassageWithChoices"></div>
-                        <div class="bg-white rounded-xl border border-slate-200 p-5 sticky top-20">
-                            <p class="text-slate-500 text-sm mb-3">选择选项填入文中</p>
+                        <div class="sidebar-panel sticky top-20">
+                            <p class="text-slate-600 text-sm font-medium mb-3">选择选项填入文中</p>
                             <div v-for="q in (paperData.section_1_cloze.questions || [])" :key="q.number" class="mb-4">
                                 <span class="font-semibold text-slate-700 mr-2">[{{ q.number }}]</span>
                                 <button v-for="(opt, key) in q.options" :key="key" type="button"
@@ -81,12 +108,26 @@
                 <!-- 解析 -->
                 <div v-if="stage === 'explain'" class="space-y-6">
                     <div class="flex gap-3 flex-wrap">
-                        <button type="button" @click="stage = 'do'" class="px-4 py-2 rounded-lg border border-slate-300 bg-white">返回做题</button>
-                        <button type="button" @click="goReadTranslate" class="px-4 py-2 rounded-lg bg-indigo-600 text-white">朗读与翻译</button>
-                        <button type="button" @click="finishAndSendReport" class="px-4 py-2 rounded-lg bg-violet-600 text-white">完成并发送报告</button>
+                        <button type="button" @click="stage = 'do'" class="px-5 py-2.5 rounded-xl border-2 border-slate-200 bg-white hover:border-indigo-300 hover:bg-indigo-50 font-medium transition-all">返回做题</button>
+                        <button type="button" @click="goReadTranslate" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 to-indigo-500 text-white font-medium shadow-lg shadow-indigo-500/30 hover:shadow-xl transition-all">朗读与翻译</button>
+                        <button type="button" @click="finishAndSendReport" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-violet-600 to-purple-500 text-white font-medium shadow-lg shadow-violet-500/30 hover:shadow-xl transition-all">完成并发送报告</button>
                     </div>
                     <p class="text-slate-500 text-sm"><i class="fas fa-mouse-pointer"></i> 点击文中任意词汇可查询释义与例句（含发音）</p>
-                    <div class="passage-panel passage-clickable" ref="explainPassageRef" @click="onPassageClick($event)" v-html="explainPassageHtml"></div>
+                    <div class="split-layout">
+                        <div class="passage-panel passage-clickable" ref="explainPassageRef" @click="onPassageClick($event)" v-html="explainPassageHtml"></div>
+                        <div class="sidebar-panel space-y-4 overflow-y-auto" style="max-height: 80vh;">
+                            <p class="font-bold text-slate-800 text-lg border-b border-slate-200 pb-2">答案与解析</p>
+                            <div v-for="q in (paperData.section_1_cloze.questions || [])" :key="q.number" class="explain-card p-4 text-sm">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <span class="font-bold">[{{ q.number }}]</span>
+                                    <span class="text-indigo-600">答案：{{ q.options && q.options[q.correct_answer] ? q.options[q.correct_answer] : q.correct_answer }}</span>
+                                </div>
+                                <p v-if="q.explanation" class="text-slate-600 mt-1">{{ q.explanation }}</p>
+                                <p v-if="q.knowledge_points && q.knowledge_points.length" class="text-slate-500 mt-1">考点：<span v-for="(kp, i) in q.knowledge_points" :key="i">{{ kp }}<template v-if="i < q.knowledge_points.length - 1">、</template></span></p>
+                                <p v-if="q.supplement" class="text-slate-500 mt-2 text-xs whitespace-pre-wrap">{{ q.supplement }}</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- 朗读与翻译 -->
@@ -117,10 +158,10 @@
 
         <!-- 得分弹窗 -->
         <div v-if="showScoreModal" class="modal-overlay" @click.self="showScoreModal = false">
-            <div class="modal-box">
-                <h3 class="text-xl font-bold mb-2">答题结果</h3>
-                <p class="text-2xl font-bold text-indigo-600 mb-4">{{ scoreCorrect }} / {{ scoreTotal }}</p>
-                <button type="button" @click="closeScoreAndGoExplain" class="w-full py-3 rounded-lg bg-indigo-600 text-white font-medium">查看解析</button>
+            <div class="modal-box border-t-4 border-indigo-500">
+                <h3 class="text-xl font-bold mb-2 text-slate-800">答题结果</h3>
+                <p class="text-3xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-6">{{ scoreCorrect }} / {{ scoreTotal }}</p>
+                <button type="button" @click="closeScoreAndGoExplain" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-indigo-600 to-indigo-500 text-white font-semibold shadow-lg hover:shadow-xl transition-all">查看解析</button>
             </div>
         </div>
 
@@ -397,8 +438,9 @@ Requirements: Examples must be 高中难度, 具备高度使用记忆价值, 符
                     stage.value = 'read';
                     if (!paperData.value?.section_1_cloze?.passage) { readSentences.value = ['No passage.']; currentReadIdx.value = 0; return; }
                     let p = paperData.value.section_1_cloze.passage;
+                    // 朗读与翻译页使用正确答案构建文章，不用学生填写内容
                     (paperData.value.section_1_cloze.questions || []).forEach(q => {
-                        const key = choicesCloze.value[q.number] || q.correct_answer;
+                        const key = q.correct_answer;
                         const word = key && q.options[key] ? q.options[key] : '';
                         p = p.replace('[' + q.number + ']', word || '_____');
                     });

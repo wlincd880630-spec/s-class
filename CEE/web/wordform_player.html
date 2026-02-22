@@ -12,27 +12,58 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
-        :root { --primary: #6366f1; --accent: #8b5cf6; --success: #10b981; --bg: #f8fafc; --text: #334155; }
-        body { font-family: 'Noto Sans SC', 'Roboto', sans-serif; background: var(--bg); color: var(--text); margin: 0; }
-        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 12px 24px; background: linear-gradient(135deg, #059669, #0d9488); color: #fff; position: sticky; top: 0; z-index: 100; }
-        .passage-panel { background: #fff; padding: 28px 32px; border-radius: 16px; border: 1px solid #e2e8f0; font-size: 1.05rem; line-height: 1.85; }
+        :root { --primary: #059669; --primary-dark: #047857; --accent: #0d9488; --success: #10b981; --bg: #f0fdf4; --text: #1e293b; }
+        body {
+            font-family: 'Noto Sans SC', 'Roboto', sans-serif; margin: 0; color: var(--text);
+            background: linear-gradient(165deg, #f8fafc 0%, #ecfdf5 35%, #ccfbf1 70%, #f0fdfa 100%);
+            background-attachment: fixed; min-height: 100vh;
+        }
+        .navbar {
+            display: flex; justify-content: space-between; align-items: center; padding: 14px 28px;
+            background: linear-gradient(135deg, #059669 0%, #0d9488 50%, #14b8a6 100%);
+            color: #fff; position: sticky; top: 0; z-index: 100;
+            box-shadow: 0 4px 20px rgba(5, 150, 105, 0.4);
+        }
+        .passage-panel {
+            background: linear-gradient(180deg, #ffffff 0%, #f0fdf9 100%); padding: 32px 36px;
+            border-radius: 20px; font-size: 1.06rem; line-height: 1.9;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.06); border: 1px solid rgba(5, 150, 105, 0.15);
+        }
         .wordform-blank { display: inline-block; min-width: 140px; margin: 0 4px; vertical-align: middle; }
-        .wordform-blank input { width: 100%; padding: 6px 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 1rem; }
+        .wordform-blank input {
+            width: 100%; padding: 8px 12px; border: 1px solid #a7f3d0; border-radius: 10px; font-size: 1rem;
+            background: linear-gradient(180deg, #f0fdf4, #fff); transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .wordform-blank input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.2); }
         .wordform-blank input::placeholder { color: #94a3b8; font-size: 0.9rem; }
-        .hint-badge { font-size: 0.75rem; color: #059669; background: #d1fae5; padding: 2px 6px; border-radius: 4px; margin-left: 4px; }
-        .no-hint-badge { font-size: 0.75rem; color: #b45309; background: #ffedd5; padding: 2px 6px; border-radius: 4px; margin-left: 4px; }
-        .split-layout { display: grid; grid-template-columns: 1.2fr 0.9fr; gap: 24px; align-items: start; }
-        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 200; display: flex; align-items: center; justify-content: center; }
-        .modal-box { background: #fff; padding: 28px; border-radius: 16px; max-width: 400px; width: 90%; text-align: center; }
-        .dict-modal { max-width: 520px; width: 95%; max-height: 85vh; overflow-y: auto; text-align: left; }
+        .hint-badge { font-size: 0.75rem; color: #047857; background: linear-gradient(135deg, #d1fae5, #a7f3d0); padding: 3px 8px; border-radius: 6px; margin-left: 4px; font-weight: 600; }
+        .no-hint-badge { font-size: 0.75rem; color: #b45309; background: linear-gradient(135deg, #ffedd5, #fed7aa); padding: 3px 8px; border-radius: 6px; margin-left: 4px; font-weight: 600; }
+        .split-layout { display: grid; grid-template-columns: 1.2fr 0.9fr; gap: 28px; align-items: start; }
+        .sidebar-panel {
+            background: linear-gradient(180deg, #fff 0%, #f0fdf4 100%); border-radius: 20px; padding: 24px;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.06); border-left: 4px solid var(--primary);
+        }
+        .modal-overlay { position: fixed; inset: 0; background: rgba(30, 41, 59, 0.5); backdrop-filter: blur(4px); z-index: 200; display: flex; align-items: center; justify-content: center; }
+        .modal-box { background: #fff; padding: 32px; border-radius: 24px; max-width: 400px; width: 90%; text-align: center; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); }
+        .dict-modal { max-width: 540px; width: 95%; max-height: 85vh; overflow-y: auto; text-align: left; border-top: 4px solid var(--primary); }
         .passage-clickable { cursor: pointer; }
-        .passage-clickable:hover { outline: 1px solid #e2e8f0; outline-offset: 2px; }
-        .word-tts-btn { cursor: pointer; color: #059669; margin-left: 6px; }
-        .word-tts-btn:hover { color: #047857; }
-        .fab { position: fixed; bottom: 28px; right: 28px; z-index: 50; padding: 14px 28px; border-radius: 50px; font-weight: 700; border: none; cursor: pointer; box-shadow: 0 8px 24px rgba(0,0,0,0.15); transition: transform 0.2s; }
-        .fab:hover { transform: translateY(-2px); }
-        .fab:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
-        .notice-box { background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 10px; padding: 12px 16px; margin-bottom: 16px; font-size: 0.95rem; color: #065f46; }
+        .passage-clickable:hover { outline: 2px solid rgba(5, 150, 105, 0.35); outline-offset: 4px; border-radius: 4px; }
+        .word-tts-btn { cursor: pointer; color: var(--primary); margin-left: 6px; padding: 4px; border-radius: 8px; transition: background 0.2s; }
+        .word-tts-btn:hover { background: #d1fae5; color: #047857; }
+        .fab {
+            position: fixed; bottom: 32px; right: 32px; z-index: 50; padding: 16px 32px; border-radius: 50px;
+            font-weight: 700; border: none; cursor: pointer;
+            background: linear-gradient(135deg, #059669, #0d9488); color: #fff;
+            box-shadow: 0 10px 30px rgba(5, 150, 105, 0.45); transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .fab:hover { transform: translateY(-3px); box-shadow: 0 14px 40px rgba(5, 150, 105, 0.5); }
+        .fab:disabled { opacity: 0.6; cursor: not-allowed; transform: none; background: #94a3b8; box-shadow: none; }
+        .notice-box {
+            background: linear-gradient(135deg, #ecfdf5, #d1fae5); border: 1px solid #a7f3d0;
+            border-radius: 14px; padding: 14px 20px; margin-bottom: 20px; font-size: 0.95rem; color: #065f46;
+            box-shadow: 0 2px 8px rgba(5, 150, 105, 0.1);
+        }
+        .explain-card { background: linear-gradient(180deg, #f0fdf4 0%, #ecfdf5 100%); border-radius: 14px; border: 1px solid #a7f3d0; }
         @media (max-width: 900px) { .split-layout { grid-template-columns: 1fr; } }
     </style>
 </head>
@@ -64,7 +95,7 @@
                         <i class="fas fa-info-circle"></i> 部分空有所给词作为提示，部分空<strong>无提示</strong>，需完全凭能力填写。请根据括号或占位说明作答。
                     </div>
                     <div class="flex items-center gap-4 flex-wrap">
-                        <button v-if="!timerStarted" type="button" @click="startTimer" class="px-4 py-2 rounded-lg bg-emerald-600 text-white font-medium">开始计时 (10 分钟)</button>
+                        <button v-if="!timerStarted" type="button" @click="startTimer" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-500 text-white font-semibold shadow-lg shadow-emerald-500/30 hover:shadow-xl transition-all">开始计时 (10 分钟)</button>
                         <span v-else class="text-slate-600">已计时，满 7 分钟可提交。</span>
                     </div>
                     <div class="split-layout">
@@ -80,8 +111,8 @@
                                 </span>
                             </template>
                         </div>
-                        <div class="bg-white rounded-xl border border-slate-200 p-5 sticky top-20">
-                            <p class="text-slate-500 text-sm mb-3">题号与提示</p>
+                        <div class="sidebar-panel sticky top-20">
+                            <p class="text-slate-600 text-sm font-medium mb-3">题号与提示</p>
                             <div v-for="q in (paperData.section_2_word_form.questions || [])" :key="q.number" class="mb-3 text-sm">
                                 <span class="font-semibold text-slate-700">[{{ q.number }}]</span>
                                 <span v-if="q.given_word" class="text-emerald-600"> 所给词：{{ q.given_word }}</span>
@@ -95,16 +126,16 @@
                 <!-- 解析 -->
                 <div v-if="stage === 'explain'" class="space-y-6">
                     <div class="flex gap-3 flex-wrap">
-                        <button type="button" @click="stage = 'do'" class="px-4 py-2 rounded-lg border border-slate-300 bg-white">返回做题</button>
-                        <button type="button" @click="goReadTranslate" class="px-4 py-2 rounded-lg bg-emerald-600 text-white">朗读与翻译</button>
-                        <button type="button" @click="finishAndSendReport" class="px-4 py-2 rounded-lg bg-violet-600 text-white">完成并发送报告</button>
+                        <button type="button" @click="stage = 'do'" class="px-5 py-2.5 rounded-xl border-2 border-slate-200 bg-white hover:border-emerald-300 hover:bg-emerald-50 font-medium transition-all">返回做题</button>
+                        <button type="button" @click="goReadTranslate" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-500 text-white font-medium shadow-lg shadow-emerald-500/30 hover:shadow-xl transition-all">朗读与翻译</button>
+                        <button type="button" @click="finishAndSendReport" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-violet-600 to-purple-500 text-white font-medium shadow-lg shadow-violet-500/30 hover:shadow-xl transition-all">完成并发送报告</button>
                     </div>
                     <p class="text-slate-500 text-sm"><i class="fas fa-mouse-pointer"></i> 点击文中任意词汇可查询释义与例句（含发音）</p>
                     <div class="split-layout">
                         <div class="passage-panel passage-clickable" ref="explainPassageRef" @click="onPassageClick($event)" v-html="explainWordPassageHtml"></div>
-                        <div class="bg-white rounded-xl border border-slate-200 p-5 space-y-4">
-                            <p class="font-semibold text-slate-700">答案与解析</p>
-                            <div v-for="q in (paperData.section_2_word_form.questions || [])" :key="q.number" class="p-3 bg-slate-50 rounded-lg text-sm">
+                        <div class="sidebar-panel space-y-4 overflow-y-auto" style="max-height: 80vh;">
+                            <p class="font-bold text-slate-800 text-lg border-b border-slate-200 pb-2">答案与解析</p>
+                            <div v-for="q in (paperData.section_2_word_form.questions || [])" :key="q.number" class="explain-card p-4 text-sm">
                                 <div class="flex items-center gap-2 mb-1">
                                     <span class="font-bold">[{{ q.number }}]</span>
                                     <span v-if="q.given_word" class="hint-badge">所给词: {{ q.given_word }}</span>
@@ -112,6 +143,8 @@
                                 </div>
                                 <p><strong>正确答案：</strong><span class="text-emerald-700">{{ q.correct_form }}</span></p>
                                 <p v-if="q.explanation" class="text-slate-600 mt-1">{{ q.explanation }}</p>
+                                <p v-if="q.knowledge_points && q.knowledge_points.length" class="text-slate-500 mt-1">考点：<span v-for="(kp, i) in q.knowledge_points" :key="i">{{ kp }}<template v-if="i < q.knowledge_points.length - 1">、</template></span></p>
+                                <p v-if="q.supplement" class="text-slate-500 mt-2 text-xs whitespace-pre-wrap">{{ q.supplement }}</p>
                             </div>
                         </div>
                     </div>
@@ -145,10 +178,10 @@
 
         <!-- 得分弹窗 -->
         <div v-if="showScoreModal" class="modal-overlay" @click.self="showScoreModal = false">
-            <div class="modal-box">
-                <h3 class="text-xl font-bold mb-2">答题结果</h3>
-                <p class="text-2xl font-bold text-emerald-600 mb-4">{{ scoreCorrect }} / {{ scoreTotal }}</p>
-                <button type="button" @click="closeScoreAndGoExplain" class="w-full py-3 rounded-lg bg-emerald-600 text-white font-medium">查看解析</button>
+            <div class="modal-box border-t-4 border-emerald-500">
+                <h3 class="text-xl font-bold mb-2 text-slate-800">答题结果</h3>
+                <p class="text-3xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent mb-6">{{ scoreCorrect }} / {{ scoreTotal }}</p>
+                <button type="button" @click="closeScoreAndGoExplain" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-500 text-white font-semibold shadow-lg hover:shadow-xl transition-all">查看解析</button>
             </div>
         </div>
 

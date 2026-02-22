@@ -8,28 +8,65 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        :root { --primary: #6366f1; --accent: #8b5cf6; --success: #10b981; --bg: #f8fafc; --text: #334155; --text-dim: #64748b; }
+        :root {
+            --primary: #6366f1; --primary-dark: #4f46e5; --accent: #8b5cf6; --success: #10b981;
+            --bg: #f1f5f9; --bg-warm: #fefce8; --text: #1e293b; --text-dim: #64748b;
+            --card-bg: #ffffff; --shadow: 0 4px 6px -1px rgba(0,0,0,0.07), 0 2px 4px -2px rgba(0,0,0,0.05);
+            --shadow-lg: 0 20px 25px -5px rgba(0,0,0,0.08), 0 8px 10px -6px rgba(0,0,0,0.05);
+        }
         * { box-sizing: border-box; }
-        body { margin: 0; font-family: 'Noto Sans SC', 'Roboto', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
-        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 12px 24px; background: linear-gradient(135deg, #4f46e5, #7c3aed); color: #fff; position: sticky; top: 0; z-index: 100; }
-        .navbar .brand { font-weight: 700; font-size: 1.15rem; }
-        .navbar .user { font-size: 0.9rem; opacity: 0.95; }
+        body {
+            margin: 0; font-family: 'Noto Sans SC', 'Roboto', sans-serif;
+            background: linear-gradient(160deg, #f8fafc 0%, #e0e7ff 35%, #fce7f3 70%, #fef3c7 100%);
+            background-attachment: fixed; color: var(--text); min-height: 100vh;
+        }
+        .navbar {
+            display: flex; justify-content: space-between; align-items: center; padding: 14px 28px;
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #a855f7 100%);
+            color: #fff; position: sticky; top: 0; z-index: 100;
+            box-shadow: 0 4px 14px rgba(79, 70, 229, 0.35);
+        }
+        .navbar .brand { font-weight: 800; font-size: 1.2rem; letter-spacing: 0.02em; }
+        .navbar .user { font-size: 0.9rem; opacity: 0.95; padding: 6px 12px; background: rgba(255,255,255,0.15); border-radius: 999px; }
         .hero { text-align: center; padding: 2.5rem 1rem 2rem; }
-        .hero h1 { font-size: 2rem; font-weight: 800; margin: 0 0 0.5rem; color: #1e293b; }
-        .hero .tagline { color: var(--text-dim); font-size: 0.95rem; }
-        .main { max-width: 900px; margin: 0 auto; padding: 0 20px 60px; }
-        .card { background: #fff; border-radius: 16px; border: 1px solid #e2e8f0; margin-bottom: 16px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.03); }
-        .card-header { display: flex; justify-content: space-between; align-items: center; padding: 18px 24px; cursor: pointer; font-weight: 600; font-size: 1.05rem; color: #334155; transition: background 0.2s; }
-        .card-header:hover { background: #f8fafc; }
-        .card-header i { margin-right: 10px; color: var(--primary); }
-        .card-header .toggle { color: var(--text-dim); transition: transform 0.2s; }
+        .hero h1 { font-size: 2.25rem; font-weight: 800; margin: 0 0 0.5rem; background: linear-gradient(135deg, #4f46e5, #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .hero .tagline { color: var(--text-dim); font-size: 1rem; font-weight: 500; }
+        .main { max-width: 920px; margin: 0 auto; padding: 0 24px 60px; }
+        .card {
+            background: var(--card-bg); border-radius: 20px; margin-bottom: 20px; overflow: hidden;
+            box-shadow: var(--shadow); border: 1px solid rgba(255,255,255,0.8);
+            transition: box-shadow 0.3s, transform 0.2s;
+        }
+        .card:hover { box-shadow: var(--shadow-lg); }
+        .card-header {
+            display: flex; justify-content: space-between; align-items: center; padding: 20px 28px;
+            cursor: pointer; font-weight: 700; font-size: 1.08rem; color: var(--text);
+            transition: background 0.2s; border-left: 4px solid transparent;
+        }
+        .card#card-reading .card-header { border-left-color: #94a3b8; }
+        .card#card-cloze .card-header { border-left-color: #6366f1; }
+        .card#card-wordform .card-header { border-left-color: #10b981; }
+        .card-header:hover { background: linear-gradient(90deg, #f8fafc, #fff); }
+        .card-header i { margin-right: 12px; opacity: 0.9; }
+        .card#card-reading .card-header i { color: #64748b; }
+        .card#card-cloze .card-header i { color: var(--primary); }
+        .card#card-wordform .card-header i { color: #059669; }
+        .card-header .toggle { color: var(--text-dim); transition: transform 0.3s; }
         .card.open .toggle { transform: rotate(180deg); }
-        .card-content { padding: 0 24px 24px; display: none; }
+        .card.open .card-header { background: linear-gradient(90deg, #f1f5f9, #fff); }
+        .card-content { padding: 0 28px 28px; display: none; }
         .card.open .card-content { display: block; }
-        .test-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px; }
-        .test-grid a { display: block; text-align: center; padding: 12px 16px; background: #f1f5f9; border-radius: 10px; text-decoration: none; color: var(--primary); font-weight: 600; transition: all 0.2s; }
-        .test-grid a:hover { background: #e0e7ff; color: #4338ca; transform: translateY(-1px); }
-        .placeholder { text-align: center; padding: 30px 20px; color: var(--text-dim); }
+        .test-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 12px; }
+        .test-grid a {
+            display: block; text-align: center; padding: 14px 18px; background: linear-gradient(145deg, #f8fafc, #f1f5f9);
+            border-radius: 12px; text-decoration: none; color: var(--primary); font-weight: 700;
+            border: 1px solid #e2e8f0; transition: all 0.25s;
+        }
+        .test-grid a:hover {
+            background: linear-gradient(145deg, #eef2ff, #e0e7ff); color: #4338ca;
+            transform: translateY(-2px); box-shadow: 0 8px 16px rgba(99, 102, 241, 0.2);
+        }
+        .placeholder { text-align: center; padding: 40px 20px; color: var(--text-dim); font-size: 1rem; }
     </style>
 </head>
 <body>
