@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>词形填空 · 高三英语 CEE</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.prod.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/microsoft-cognitiveservices-speech-sdk@latest/distrib/browser/microsoft.cognitiveservices.speech.sdk.bundle-min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root { --primary: #6366f1; --accent: #8b5cf6; --success: #10b981; --bg: #f8fafc; --text: #334155; }
+        body { font-family: 'Noto Sans SC', 'Roboto', sans-serif; background: var(--bg); color: var(--text); margin: 0; }
+        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 12px 24px; background: linear-gradient(135deg, #059669, #0d9488); color: #fff; position: sticky; top: 0; z-index: 100; }
+        .passage-panel { background: #fff; padding: 28px 32px; border-radius: 16px; border: 1px solid #e2e8f0; font-size: 1.05rem; line-height: 1.85; }
+        .wordform-blank { display: inline-block; min-width: 140px; margin: 0 4px; vertical-align: middle; }
+        .wordform-blank input { width: 100%; padding: 6px 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 1rem; }
+        .wordform-blank input::placeholder { color: #94a3b8; font-size: 0.9rem; }
+        .hint-badge { font-size: 0.75rem; color: #059669; background: #d1fae5; padding: 2px 6px; border-radius: 4px; margin-left: 4px; }
+        .no-hint-badge { font-size: 0.75rem; color: #b45309; background: #ffedd5; padding: 2px 6px; border-radius: 4px; margin-left: 4px; }
+        .split-layout { display: grid; grid-template-columns: 1.2fr 0.9fr; gap: 24px; align-items: start; }
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 200; display: flex; align-items: center; justify-content: center; }
+        .modal-box { background: #fff; padding: 28px; border-radius: 16px; max-width: 400px; width: 90%; text-align: center; }
+        .dict-modal { max-width: 520px; width: 95%; max-height: 85vh; overflow-y: auto; text-align: left; }
+        .passage-clickable { cursor: pointer; }
+        .passage-clickable:hover { outline: 1px solid #e2e8f0; outline-offset: 2px; }
+        .word-tts-btn { cursor: pointer; color: #059669; margin-left: 6px; }
+        .word-tts-btn:hover { color: #047857; }
+        .fab { position: fixed; bottom: 28px; right: 28px; z-index: 50; padding: 14px 28px; border-radius: 50px; font-weight: 700; border: none; cursor: pointer; box-shadow: 0 8px 24px rgba(0,0,0,0.15); transition: transform 0.2s; }
+        .fab:hover { transform: translateY(-2px); }
+        .fab:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
+        .notice-box { background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 10px; padding: 12px 16px; margin-bottom: 16px; font-size: 0.95rem; color: #065f46; }
+        @media (max-width: 900px) { .split-layout { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <nav class="navbar">
+            <div>
+                <a href="index.html" style="color:rgba(255,255,255,0.9); text-decoration:none; margin-right:12px;"><i class="fas fa-arrow-left"></i></a>
+                <span class="font-bold">词形变化填空</span>
+                <span v-if="paperData" class="opacity-90 ml-2">· {{ selectedPaperId }}</span>
+            </div>
+            <div class="flex items-center gap-4">
+                <span v-if="timerStarted" class="font-mono text-lg">{{ formatTime(timeLeft) }}</span>
+                <span @click="tryAdminMode" class="cursor-pointer opacity-90"><i class="far fa-user"></i> {{ studentName || '未登录' }}</span>
+            </div>
+        </nav>
+
+        <div class="max-w-6xl mx-auto px-4 py-6 pb-32">
+            <template v-if="!paperData && selectedPaperId">
+                <p class="text-slate-500">加载中…</p>
+            </template>
+            <template v-else-if="!paperData">
+                <p class="text-slate-500">请从 <a href="index.html" class="text-indigo-600">首页</a> 选择试卷。</p>
+            </template>
+            <template v-else>
+                <!-- 做题 -->
+                <div v-if="stage === 'do'" class="space-y-6">
+                    <div class="notice-box">
+                        <i class="fas fa-info-circle"></i> 部分空有所给词作为提示，部分空<strong>无提示</strong>，需完全凭能力填写。请根据括号或占位说明作答。
+                    </div>
+                    <div class="flex items-center gap-4 flex-wrap">
+                        <button v-if="!timerStarted" type="button" @click="startTimer" class="px-4 py-2 rounded-lg bg-emerald-600 text-white font-medium">开始计时 (10 分钟)</button>
+                        <span v-else class="text-slate-600">已计时，满 7 分钟可提交。</span>
+                    </div>
+                    <div class="split-layout">
+                        <div class="passage-panel">
+                            <template v-for="(seg, idx) in wordFormPassageSegments" :key="idx">
+                                <template v-if="seg.type === 'text'"><span v-html="seg.text.replace(/\n/g, '<br><br>')"></span></template>
+                                <span v-else class="wordform-blank">
+                                    <input type="text" :value="choicesWord[seg.num]" @input="setWordChoice(seg.num, $event.target.value)"
+                                        :placeholder="seg.given ? '所给词: ' + seg.given : '无提示，凭能力填写'"
+                                        :title="seg.given ? '所给词: ' + seg.given : '本题无提示'">
+                                    <span v-if="seg.given" class="hint-badge">有提示</span>
+                                    <span v-else class="no-hint-badge">无提示</span>
+                                </span>
+                            </template>
+                        </div>
+                        <div class="bg-white rounded-xl border border-slate-200 p-5 sticky top-20">
+                            <p class="text-slate-500 text-sm mb-3">题号与提示</p>
+                            <div v-for="q in (paperData.section_2_word_form.questions || [])" :key="q.number" class="mb-3 text-sm">
+                                <span class="font-semibold text-slate-700">[{{ q.number }}]</span>
+                                <span v-if="q.given_word" class="text-emerald-600"> 所给词：{{ q.given_word }}</span>
+                                <span v-else class="text-amber-600"> 无提示</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" :disabled="!canSubmit" :class="['fab', canSubmit ? 'bg-emerald-600 text-white' : 'bg-slate-300 text-slate-500']" @click="submitDo">{{ submitDoLabel }}</button>
+                </div>
+
+                <!-- 解析 -->
+                <div v-if="stage === 'explain'" class="space-y-6">
+                    <div class="flex gap-3 flex-wrap">
+                        <button type="button" @click="stage = 'do'" class="px-4 py-2 rounded-lg border border-slate-300 bg-white">返回做题</button>
+                        <button type="button" @click="goReadTranslate" class="px-4 py-2 rounded-lg bg-emerald-600 text-white">朗读与翻译</button>
+                        <button type="button" @click="finishAndSendReport" class="px-4 py-2 rounded-lg bg-violet-600 text-white">完成并发送报告</button>
+                    </div>
+                    <p class="text-slate-500 text-sm"><i class="fas fa-mouse-pointer"></i> 点击文中任意词汇可查询释义与例句（含发音）</p>
+                    <div class="split-layout">
+                        <div class="passage-panel passage-clickable" ref="explainPassageRef" @click="onPassageClick($event)" v-html="explainWordPassageHtml"></div>
+                        <div class="bg-white rounded-xl border border-slate-200 p-5 space-y-4">
+                            <p class="font-semibold text-slate-700">答案与解析</p>
+                            <div v-for="q in (paperData.section_2_word_form.questions || [])" :key="q.number" class="p-3 bg-slate-50 rounded-lg text-sm">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <span class="font-bold">[{{ q.number }}]</span>
+                                    <span v-if="q.given_word" class="hint-badge">所给词: {{ q.given_word }}</span>
+                                    <span v-else class="no-hint-badge">无提示</span>
+                                </div>
+                                <p><strong>正确答案：</strong><span class="text-emerald-700">{{ q.correct_form }}</span></p>
+                                <p v-if="q.explanation" class="text-slate-600 mt-1">{{ q.explanation }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 朗读与翻译 -->
+                <div v-if="stage === 'read'" class="space-y-6">
+                    <div class="flex gap-3 flex-wrap">
+                        <button type="button" @click="stage = 'explain'" class="px-4 py-2 rounded-lg border border-slate-300 bg-white">返回解析</button>
+                    </div>
+                    <div class="passage-panel">
+                        <p class="text-slate-600 mb-4">{{ currentReadSentence }}</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <button type="button" @click="playTTS" :disabled="isPlaying" class="px-4 py-2 rounded-lg bg-slate-100 border border-slate-200"><i class="fas fa-volume-up"></i> 朗读</button>
+                            <button type="button" @click="toggleRecord('en')" :class="['px-4 py-2 rounded-lg', isRecordingEn ? 'bg-red-100 text-red-700' : 'bg-slate-100 border border-slate-200']">{{ isRecordingEn ? '点击停止' : '读英文' }}</button>
+                            <button type="button" @click="toggleRecord('cn')" :class="['px-4 py-2 rounded-lg', isRecordingCn ? 'bg-red-100 text-red-700' : 'bg-slate-100 border border-slate-200']">{{ isRecordingCn ? '点击停止' : '说中文翻译' }}</button>
+                            <button type="button" @click="evaluateRead" :disabled="isEvaluating || !sttEn" class="px-4 py-2 rounded-lg bg-emerald-600 text-white">AI 评价</button>
+                        </div>
+                        <p v-if="sttEn" class="text-slate-600"><strong>英文：</strong>{{ sttEn }}</p>
+                        <p v-if="sttCn" class="text-slate-600"><strong>中文：</strong>{{ sttCn }}</p>
+                        <div v-if="readEval" class="mt-4 p-4 bg-slate-50 rounded-lg prose prose-sm max-w-none" v-html="renderMarkdown(readEval)"></div>
+                        <div class="flex gap-2 mt-4">
+                            <button type="button" @click="prevRead" :disabled="currentReadIdx === 0" class="px-4 py-2 rounded-lg border border-slate-300">上一句</button>
+                            <span class="self-center text-slate-500">{{ currentReadIdx + 1 }} / {{ readSentences.length }}</span>
+                            <button type="button" @click="nextRead" :disabled="currentReadIdx >= readSentences.length - 1" class="px-4 py-2 rounded-lg border border-slate-300">下一句</button>
+                        </div>
+                    </div>
+                </div>
+            </template>
+        </div>
+
+        <!-- 得分弹窗 -->
+        <div v-if="showScoreModal" class="modal-overlay" @click.self="showScoreModal = false">
+            <div class="modal-box">
+                <h3 class="text-xl font-bold mb-2">答题结果</h3>
+                <p class="text-2xl font-bold text-emerald-600 mb-4">{{ scoreCorrect }} / {{ scoreTotal }}</p>
+                <button type="button" @click="closeScoreAndGoExplain" class="w-full py-3 rounded-lg bg-emerald-600 text-white font-medium">查看解析</button>
+            </div>
+        </div>
+
+        <!-- 取词释义弹窗 -->
+        <div v-if="showDictModal" class="modal-overlay" @click.self="closeDictModal">
+            <div class="modal-box dict-modal">
+                <div class="flex justify-between items-center mb-4">
+                    <div class="flex items-center gap-2">
+                        <h3 class="text-xl font-bold text-emerald-700">{{ dictWord }}</h3>
+                        <button type="button" @click="speakText(dictWord)" :disabled="isPlaying" class="word-tts-btn" title="词汇发音"><i class="fas fa-volume-up"></i></button>
+                    </div>
+                    <button type="button" @click="closeDictModal" class="text-slate-400 hover:text-slate-600"><i class="fas fa-times"></i></button>
+                </div>
+                <div v-if="dictLoading" class="text-slate-500 py-4"><i class="fas fa-spinner fa-spin"></i> 查询中…</div>
+                <div v-else-if="dictError" class="text-red-600 py-2">{{ dictError }}</div>
+                <div v-else-if="dictResult" class="space-y-4">
+                    <p><strong class="text-slate-600">英释：</strong><span class="text-slate-800">{{ dictResult.definition_en }}</span></p>
+                    <p><strong class="text-slate-600">中文：</strong><span class="text-slate-800">{{ dictResult.definition_zh }}</span></p>
+                    <div class="border-t border-slate-200 pt-3">
+                        <p class="font-semibold text-slate-700 mb-2">例句（高中难度 · 高考阅读/写作）</p>
+                        <div v-for="(ex, i) in (dictResult.examples || [])" :key="i" class="mb-4 p-3 bg-slate-50 rounded-lg">
+                            <p class="flex items-start gap-2">
+                                <button type="button" @click="speakText(ex.en)" :disabled="isPlaying" class="word-tts-btn mt-0.5 shrink-0" title="例句发音"><i class="fas fa-volume-up"></i></button>
+                                <span class="text-slate-800">{{ ex.en }}</span>
+                            </p>
+                            <p class="text-slate-600 text-sm mt-1 ml-6">{{ ex.zh }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const { createApp, ref, computed, onMounted } = Vue;
+        const AZURE_KEY = "DKRXk8ueSfo5NdIOMqFRTCAfpeGDezJ3Snf5K8gGgtyqxiWdugLzJQQJ99BLACHYHv6XJ3w3AAAYACOGUYP9";
+        const AZURE_REGION = "eastus2";
+        const DEEPSEEK_KEY = "sk-daa16008e81843deba6fefe9dce51465";
+        const EMAILJS_PUBLIC = "1QhXV5G_92GdK7_DF";
+        const EMAILJS_SERVICE = "service_6dfbs2n";
+        const EMAILJS_TEMPLATE = "template_zso8ebh";
+
+        function getStudentName() { return localStorage.getItem('authing-user') || localStorage.getItem('current-user') || ''; }
+        function getPaperFromUrl() { const m = /[?&]paper=(\d+)/i.exec(location.search); return m ? m[1].padStart(2, '0') : ''; }
+
+        createApp({
+            setup() {
+                const selectedPaperId = ref(getPaperFromUrl() || '01');
+                const paperData = ref(null);
+                const studentName = ref(getStudentName());
+                const stage = ref('do');
+                const timerStarted = ref(false);
+                const timeLeft = ref(10 * 60);
+                const timerInterval = ref(null);
+                const choicesWord = ref({});
+                const showScoreModal = ref(false);
+                const scoreCorrect = ref(0);
+                const scoreTotal = ref(0);
+                const elapsed = ref(0);
+                const WORD_MIN_SUBMIT = 7 * 60;
+                const adminMode = ref(false);
+                const titleClickCount = ref(0);
+                const readSentences = ref([]);
+                const currentReadIdx = ref(0);
+                const sttEn = ref(''), sttCn = ref(''), isPlaying = ref(false), isRecordingEn = ref(false), isRecordingCn = ref(false), isEvaluating = ref(false), readEval = ref('');
+                const recognizer = ref(null);
+                let sttBuffer = '';
+                const sessionStart = ref(new Date());
+                const showDictModal = ref(false);
+                const dictWord = ref('');
+                const dictLoading = ref(false);
+                const dictResult = ref(null);
+                const dictError = ref('');
+                const explainPassageRef = ref(null);
+
+                const canSubmit = computed(() => {
+                    if (!timerStarted.value) return false;
+                    if (adminMode.value) return true;
+                    return elapsed.value >= WORD_MIN_SUBMIT;
+                });
+                const submitDoLabel = computed(() => {
+                    if (!timerStarted.value) return '请先开始计时';
+                    if (adminMode.value) return '提交（管理员）';
+                    const mins = Math.floor(elapsed.value / 60);
+                    return elapsed.value >= WORD_MIN_SUBMIT ? '提交' : `请答题满 7 分钟后再提交（已 ${mins} 分钟）`;
+                });
+
+                function tryAdminMode() {
+                    titleClickCount.value++;
+                    if (titleClickCount.value >= 3) {
+                        titleClickCount.value = 0;
+                        const pwd = prompt('请输入管理员密码：');
+                        if (pwd === '123888') { adminMode.value = true; alert('已进入管理员模式。'); }
+                    }
+                }
+                function formatTime(sec) { const m = Math.floor(sec / 60), s = sec % 60; return m + ':' + (s < 10 ? '0' : '') + s; }
+
+                function getWordAtClick(ev) {
+                    const x = ev.clientX, y = ev.clientY;
+                    let range = null;
+                    if (document.caretRangeFromPoint) {
+                        range = document.caretRangeFromPoint(x, y);
+                    } else if (document.caretPositionFromPoint) {
+                        const pos = document.caretPositionFromPoint(x, y);
+                        if (pos && pos.offsetNode) {
+                            range = document.createRange();
+                            range.setStart(pos.offsetNode, pos.offset);
+                            range.setEnd(pos.offsetNode, pos.offset);
+                        }
+                    }
+                    if (!range) return null;
+                    const isWordChar = (c) => /[a-zA-Z\-']/.test(c);
+                    const startNode = range.startContainer;
+                    const endNode = range.endContainer;
+                    let startOffset = range.startOffset, endOffset = range.endOffset;
+                    const startText = startNode.textContent || '';
+                    while (startOffset > 0 && isWordChar(startText[startOffset - 1])) startOffset--;
+                    const endText = endNode.textContent || '';
+                    while (endOffset < endText.length && isWordChar(endText[endOffset])) endOffset++;
+                    try {
+                        range.setStart(startNode, startOffset);
+                        range.setEnd(endNode, endOffset);
+                    } catch (_) { return null; }
+                    let word = range.toString().trim();
+                    if (!word || word.length > 35) return null;
+                    if (!/^[a-zA-Z\-']+$/.test(word)) return null;
+                    return word;
+                }
+
+                function onPassageClick(ev) {
+                    if (stage.value !== 'explain') return;
+                    const word = getWordAtClick(ev);
+                    if (!word) return;
+                    dictWord.value = word;
+                    dictResult.value = null;
+                    dictError.value = '';
+                    showDictModal.value = true;
+                    dictLoading.value = true;
+                    fetchDict(word);
+                }
+
+                async function fetchDict(word) {
+                    const prompt = `You are an English vocabulary assistant for Chinese high school students (Gaokao). For the word "${word}", provide in JSON only (no other text):
+{"definition_en": "concise English definition, high school level",
+ "definition_zh": "中文释义",
+ "examples": [
+   {"en": "One complete English sentence suitable for Gaokao reading or writing, using the word naturally.", "zh": "该句的中文翻译"},
+   {"en": "Second sentence, also high memorability and Gaokao-relevant.", "zh": "该句的中文翻译"}
+]}
+Requirements: Examples must be 高中难度, 具备高度使用记忆价值, 符合高考阅读或写作场景. Output only valid JSON.`;
+                    try {
+                        const res = await fetch("https://api.deepseek.com/chat/completions", {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json", "Authorization": "Bearer " + DEEPSEEK_KEY },
+                            body: JSON.stringify({ model: "deepseek-chat", messages: [{ role: "user", content: prompt }] })
+                        });
+                        const data = await res.json();
+                        let raw = data.choices?.[0]?.message?.content || '';
+                        const jsonMatch = raw.match(/\{[\s\S]*\}/);
+                        if (jsonMatch) raw = jsonMatch[0];
+                        raw = raw.replace(/```json\s*|\s*```/g, '').trim();
+                        const parsed = JSON.parse(raw);
+                        dictResult.value = {
+                            definition_en: parsed.definition_en || '',
+                            definition_zh: parsed.definition_zh || '',
+                            examples: Array.isArray(parsed.examples) ? parsed.examples : []
+                        };
+                    } catch (e) {
+                        dictError.value = '查询失败，请重试';
+                        console.error(e);
+                    }
+                    dictLoading.value = false;
+                }
+
+                function speakText(text) {
+                    if (!text || isPlaying.value) return;
+                    const toSpeak = textForTTS(text);
+                    if (!toSpeak) return;
+                    isPlaying.value = true;
+                    const config = SpeechSDK.SpeechConfig.fromSubscription(AZURE_KEY, AZURE_REGION);
+                    config.speechSynthesisVoiceName = "en-US-AvaMultilingualNeural";
+                    const synth = new SpeechSDK.SpeechSynthesizer(config);
+                    synth.speakTextAsync(toSpeak, () => { isPlaying.value = false; synth.close(); }, () => { isPlaying.value = false; synth.close(); });
+                }
+
+                function closeDictModal() {
+                    showDictModal.value = false;
+                    dictWord.value = '';
+                    dictResult.value = null;
+                    dictError.value = '';
+                }
+
+                async function loadPaper() {
+                    const id = selectedPaperId.value;
+                    if (!id) { paperData.value = null; return; }
+                    try {
+                        const r = await fetch('../enriched_questions/' + id + '.json');
+                        if (!r.ok) throw new Error('Network');
+                        paperData.value = await r.json();
+                        stage.value = 'do';
+                        timerStarted.value = false;
+                        timeLeft.value = 10 * 60;
+                        elapsed.value = 0;
+                        choicesWord.value = {};
+                        showScoreModal.value = false;
+                        readSentences.value = [];
+                        currentReadIdx.value = 0;
+                        sessionStart.value = new Date();
+                    } catch (e) {
+                        console.error(e);
+                        paperData.value = null;
+                    }
+                }
+
+                function setWordChoice(num, val) {
+                    choicesWord.value = { ...choicesWord.value, [num]: val };
+                }
+
+                function startTimer() {
+                    if (timerStarted.value) return;
+                    timerStarted.value = true;
+                    const total = 10 * 60;
+                    timeLeft.value = total;
+                    elapsed.value = 0;
+                    timerInterval.value = setInterval(() => {
+                        elapsed.value += 1;
+                        timeLeft.value = Math.max(0, total - elapsed.value);
+                        if (timeLeft.value <= 0 && timerInterval.value) {
+                            clearInterval(timerInterval.value);
+                            timerInterval.value = null;
+                        }
+                    }, 1000);
+                }
+
+                const wordFormPassageSegments = computed(() => {
+                    const s2 = paperData.value?.section_2_word_form;
+                    const qs = s2?.questions;
+                    if (!qs?.length) return [];
+                    const numToQ = {};
+                    qs.forEach(q => { numToQ[q.number] = q; });
+                    let passage = (s2.passage || '').trim();
+                    if (passage) {
+                        const blanksInOrder = [];
+                        let pos = 0;
+                        for (;;) {
+                            const m = passage.slice(pos).match(/\[(\d+)\]/);
+                            if (!m) break;
+                            blanksInOrder.push(parseInt(m[1], 10));
+                            pos += m.index + m[0].length;
+                        }
+                        const segs = [];
+                        let rest = passage;
+                        blanksInOrder.forEach(num => {
+                            const tag = '[' + num + ']';
+                            const idxPos = rest.indexOf(tag);
+                            if (idxPos === -1) return;
+                            segs.push({ type: 'text', text: rest.slice(0, idxPos) });
+                            const given = numToQ[num]?.given_word;
+                            segs.push({ type: 'blank', num: num, given: (given != null && given !== '') ? given : null });
+                            rest = rest.slice(idxPos + tag.length);
+                        });
+                        segs.push({ type: 'text', text: rest });
+                        return segs;
+                    }
+                    const sorted = [...qs].sort((a, b) => a.number - b.number);
+                    const blankRe = /_{2,}/;
+                    const segs = [];
+                    let i = 0;
+                    while (i < sorted.length) {
+                        const group = [sorted[i]];
+                        let mergedText = (sorted[i].sentence || '').replace(blankRe, '[' + sorted[i].number + ']');
+                        let j = i + 1;
+                        while (j < sorted.length) {
+                            const s = sorted[j].sentence || '';
+                            if (!group.some(qq => s.indexOf('[' + qq.number + ']') !== -1)) break;
+                            group.push(sorted[j]);
+                            mergedText = s.replace(blankRe, '[' + sorted[j].number + ']');
+                            j++;
+                        }
+                        const blanksInOrder = [];
+                        let pos = 0;
+                        for (;;) {
+                            const m = mergedText.slice(pos).match(/\[(\d+)\]/);
+                            if (!m) break;
+                            blanksInOrder.push(parseInt(m[1], 10));
+                            pos += m.index + m[0].length;
+                        }
+                        if (segs.length) segs.push({ type: 'text', text: '\n\n' });
+                        let rest = mergedText;
+                        blanksInOrder.forEach(num => {
+                            const tag = '[' + num + ']';
+                            const idxPos = rest.indexOf(tag);
+                            if (idxPos === -1) return;
+                            segs.push({ type: 'text', text: rest.slice(0, idxPos) });
+                            const given = numToQ[num]?.given_word;
+                            segs.push({ type: 'blank', num: num, given: (given != null && given !== '') ? given : null });
+                            rest = rest.slice(idxPos + tag.length);
+                        });
+                        segs.push({ type: 'text', text: rest });
+                        i = j;
+                    }
+                    return segs;
+                });
+
+                function submitDo() {
+                    if (!canSubmit.value || !paperData.value) return;
+                    const qs = paperData.value.section_2_word_form.questions || [];
+                    let correct = 0;
+                    qs.forEach(q => {
+                        const u = (choicesWord.value[q.number] || '').trim().toLowerCase();
+                        const c = (q.correct_form || '').trim().toLowerCase();
+                        if (u === c) correct++;
+                    });
+                    scoreCorrect.value = correct;
+                    scoreTotal.value = qs.length;
+                    showScoreModal.value = true;
+                }
+
+                function closeScoreAndGoExplain() { showScoreModal.value = false; stage.value = 'explain'; }
+
+                const explainWordPassageHtml = computed(() => {
+                    const s2 = paperData.value?.section_2_word_form;
+                    const qs = s2?.questions;
+                    if (!qs?.length) return '';
+                    let p = (s2.passage || '').trim();
+                    if (p) {
+                        qs.forEach(q => {
+                            const u = (choicesWord.value[q.number] || '').trim();
+                            const c = (q.correct_form || '').trim();
+                            const isRight = u.toLowerCase() === c.toLowerCase();
+                            const span = '<span class="' + (isRight ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800') + ' px-1 rounded">' + (u || '未填') + '</span>';
+                            const withCorrect = !isRight && c ? span + ' <span class="bg-emerald-100 text-emerald-800 px-1 rounded">(' + c + ')</span>' : span;
+                            p = p.split('[' + q.number + ']').join(withCorrect);
+                        });
+                        return p.replace(/\n/g, '<br><br>');
+                    }
+                    const sorted = [...qs].sort((a, b) => a.number - b.number);
+                    const blankRe = /_{2,}/;
+                    const paras = [];
+                    let idx = 0;
+                    while (idx < sorted.length) {
+                        const group = [sorted[idx]];
+                        let mergedText = (sorted[idx].sentence || '').replace(blankRe, '[' + sorted[idx].number + ']');
+                        let j = idx + 1;
+                        while (j < sorted.length) {
+                            const s = sorted[j].sentence || '';
+                            if (!group.some(qq => s.indexOf('[' + qq.number + ']') !== -1)) break;
+                            group.push(sorted[j]);
+                            mergedText = s.replace(blankRe, '[' + sorted[j].number + ']');
+                            j++;
+                        }
+                        paras.push(mergedText);
+                        idx = j;
+                    }
+                    p = paras.join('\n\n');
+                    sorted.forEach(q => {
+                        const u = (choicesWord.value[q.number] || '').trim();
+                        const c = (q.correct_form || '').trim();
+                        const isRight = u.toLowerCase() === c.toLowerCase();
+                        const span = '<span class="' + (isRight ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800') + ' px-1 rounded">' + (u || '未填') + '</span>';
+                        const withCorrect = !isRight && c ? span + ' <span class="bg-emerald-100 text-emerald-800 px-1 rounded">(' + c + ')</span>' : span;
+                        p = p.split('[' + q.number + ']').join(withCorrect);
+                    });
+                    return p.replace(/\n/g, '<br><br>');
+                });
+
+                function goReadTranslate() {
+                    stage.value = 'read';
+                    const s2 = paperData.value?.section_2_word_form;
+                    if (!s2?.questions?.length) { readSentences.value = ['No content.']; currentReadIdx.value = 0; sttEn.value = ''; sttCn.value = ''; readEval.value = ''; return; }
+                    let fullPassage = '';
+                    if ((s2.passage || '').trim()) {
+                        fullPassage = s2.passage.trim();
+                        s2.questions.forEach(q => { fullPassage = fullPassage.split('[' + q.number + ']').join((q.correct_form || '').trim()); });
+                    } else {
+                        const qs = s2.questions;
+                        const sorted = [...qs].sort((a, b) => a.number - b.number);
+                        const blankRe = /_{2,}/;
+                        const paras = [];
+                        let i = 0;
+                        while (i < sorted.length) {
+                            const group = [sorted[i]];
+                            let mergedText = (sorted[i].sentence || '').replace(blankRe, '[' + sorted[i].number + ']');
+                            let j = i + 1;
+                            while (j < sorted.length) {
+                                const s = sorted[j].sentence || '';
+                                if (!group.some(qq => s.indexOf('[' + qq.number + ']') !== -1)) break;
+                                group.push(sorted[j]);
+                                mergedText = s.replace(blankRe, '[' + sorted[j].number + ']');
+                                j++;
+                            }
+                            sorted.slice(i, j).forEach(q => { mergedText = mergedText.split('[' + q.number + ']').join((q.correct_form || '').trim()); });
+                            paras.push(mergedText);
+                            i = j;
+                        }
+                        fullPassage = paras.join('\n\n');
+                    }
+                    readSentences.value = fullPassage.split(/(?<=[.!?])\s+/).filter(Boolean).map(s => s.trim());
+                    if (!readSentences.value.length) readSentences.value = ['No sentences.'];
+                    currentReadIdx.value = 0;
+                    sttEn.value = ''; sttCn.value = ''; readEval.value = '';
+                }
+
+                const currentReadSentence = computed(() => readSentences.value[currentReadIdx.value] || '');
+
+                function textForTTS(text) {
+                    if (!text) return '';
+                    return text.replace(/（[^）]+）/g, '').replace(/\([^)]*[\u4e00-\u9fa5][^)]*\)/g, '').replace(/\s+/g, ' ').trim();
+                }
+                function playTTS() {
+                    const raw = currentReadSentence.value;
+                    const toSpeak = textForTTS(raw);
+                    if (!toSpeak) return;
+                    isPlaying.value = true;
+                    const config = SpeechSDK.SpeechConfig.fromSubscription(AZURE_KEY, AZURE_REGION);
+                    config.speechSynthesisVoiceName = "en-US-AvaMultilingualNeural";
+                    const synth = new SpeechSDK.SpeechSynthesizer(config);
+                    synth.speakTextAsync(toSpeak, () => { isPlaying.value = false; synth.close(); }, () => { isPlaying.value = false; synth.close(); });
+                }
+
+                function toggleRecord(lang) {
+                    const isEn = lang === 'en';
+                    if ((isEn && isRecordingEn.value) || (!isEn && isRecordingCn.value)) { stopRecord(isEn); return; }
+                    stopRecord(null);
+                    sttBuffer = '';
+                    if (isEn) isRecordingEn.value = true; else isRecordingCn.value = true;
+                    const config = SpeechSDK.SpeechConfig.fromSubscription(AZURE_KEY, AZURE_REGION);
+                    config.speechRecognitionLanguage = isEn ? "en-US" : "zh-CN";
+                    const audio = SpeechSDK.AudioConfig.fromDefaultMicrophoneInput();
+                    const rec = new SpeechSDK.SpeechRecognizer(config, audio);
+                    rec.recognized = (s, e) => { if (e.result.reason === SpeechSDK.ResultReason.RecognizedSpeech && e.result.text) sttBuffer += (sttBuffer ? ' ' : '') + e.result.text; };
+                    rec.startContinuousRecognitionAsync(() => { recognizer.value = rec; }, (err) => { console.error(err); if (isEn) isRecordingEn.value = false; else isRecordingCn.value = false; });
+                }
+                function stopRecord(forLang) {
+                    if (!recognizer.value) { isRecordingEn.value = false; isRecordingCn.value = false; return; }
+                    const rec = recognizer.value;
+                    recognizer.value = null;
+                    rec.stopContinuousRecognitionAsync(() => {
+                        if (forLang === true) sttEn.value = sttBuffer; else if (forLang === false) sttCn.value = sttBuffer;
+                        rec.close();
+                        sttBuffer = '';
+                        isRecordingEn.value = false;
+                        isRecordingCn.value = false;
+                    }, () => {
+                        if (forLang === true) sttEn.value = sttBuffer; else if (forLang === false) sttCn.value = sttBuffer;
+                        try { rec.close(); } catch (_) {}
+                        isRecordingEn.value = false;
+                        isRecordingCn.value = false;
+                    });
+                }
+
+                async function evaluateRead() {
+                    if (!sttEn.value) return;
+                    isEvaluating.value = true;
+                    readEval.value = '';
+                    const prompt = `Task: English Tutor. Target: "${currentReadSentence.value}" Student Reading: "${sttEn.value}" Student Translation: "${sttCn.value}". Rules: 1) Give Pronunciation Score 0-100. 2) Check translation. 3) Give standard translation. Output concise Chinese Markdown.`;
+                    try {
+                        const res = await fetch("https://api.deepseek.com/chat/completions", {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json", "Authorization": "Bearer " + DEEPSEEK_KEY },
+                            body: JSON.stringify({ model: "deepseek-chat", messages: [{ role: "user", content: prompt }] })
+                        });
+                        const data = await res.json();
+                        readEval.value = data.choices?.[0]?.message?.content || '评价失败';
+                    } catch (e) { readEval.value = '评价服务连接失败'; }
+                    isEvaluating.value = false;
+                }
+
+                function prevRead() { if (currentReadIdx.value > 0) { currentReadIdx.value--; sttEn.value = ''; sttCn.value = ''; readEval.value = ''; } }
+                function nextRead() { if (currentReadIdx.value < readSentences.value.length - 1) { currentReadIdx.value++; sttEn.value = ''; sttCn.value = ''; readEval.value = ''; } }
+                function renderMarkdown(t) { return typeof marked !== 'undefined' ? marked.parse(t || '') : (t || ''); }
+
+                function formatDateTime(d) {
+                    const pad = n => ('0' + n).slice(-2);
+                    return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()) + ' ' + pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds());
+                }
+                function formatDuration(ms) { const s = Math.floor(ms / 1000), m = Math.floor(s / 60); return m + 'min ' + (s % 60) + 's'; }
+
+                onMounted(() => loadPaper());
+
+                function finishAndSendReport() {
+                    const endTime = new Date();
+                    const durationMs = endTime - sessionStart.value;
+                    const contentName = 'CEE 高三英语 ' + (paperData.value?.paper_id || selectedPaperId.value) + ' - 词形变化填空';
+                    const templateParams = {
+                        student_name: studentName.value || 'Unknown',
+                        content_name: contentName,
+                        page_url: location.href,
+                        page_url_display: contentName,
+                        start_time: formatDateTime(sessionStart.value),
+                        end_time: formatDateTime(endTime),
+                        duration: formatDuration(durationMs),
+                        score: scoreCorrect.value,
+                        total: scoreTotal.value,
+                        accuracy: scoreTotal.value ? (Math.round(scoreCorrect.value / scoreTotal.value * 100) + '%') : '-',
+                        details_html: '<p><strong>得分：</strong>' + scoreCorrect.value + ' / ' + scoreTotal.value + '</p>'
+                    };
+                    emailjs.init(EMAILJS_PUBLIC);
+                    emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE, templateParams).then(() => alert('报告已发送')).catch(() => alert('报告发送失败'));
+                }
+
+                return {
+                    selectedPaperId, paperData, studentName, stage, timerStarted, timeLeft, choicesWord,
+                    showScoreModal, scoreCorrect, scoreTotal, canSubmit, submitDoLabel,
+                    wordFormPassageSegments, explainWordPassageHtml,
+                    readSentences, currentReadIdx, currentReadSentence, sttEn, sttCn, isPlaying, isRecordingEn, isRecordingCn, isEvaluating, readEval,
+                    showDictModal, dictWord, dictLoading, dictResult, dictError,
+                    loadPaper, startTimer, setWordChoice, submitDo, closeScoreAndGoExplain, goReadTranslate,
+                    playTTS, toggleRecord, evaluateRead, prevRead, nextRead, renderMarkdown, finishAndSendReport,
+                    onPassageClick, speakText, closeDictModal,
+                    formatTime, tryAdminMode, adminMode
+                };
+            }
+        }).mount('#app');
+    </script>
+</body>
+</html>

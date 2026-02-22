@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>高三英语 · CEE 模考</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root { --primary: #6366f1; --accent: #8b5cf6; --success: #10b981; --bg: #f8fafc; --text: #334155; --text-dim: #64748b; }
+        * { box-sizing: border-box; }
+        body { margin: 0; font-family: 'Noto Sans SC', 'Roboto', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 12px 24px; background: linear-gradient(135deg, #4f46e5, #7c3aed); color: #fff; position: sticky; top: 0; z-index: 100; }
+        .navbar .brand { font-weight: 700; font-size: 1.15rem; }
+        .navbar .user { font-size: 0.9rem; opacity: 0.95; }
+        .hero { text-align: center; padding: 2.5rem 1rem 2rem; }
+        .hero h1 { font-size: 2rem; font-weight: 800; margin: 0 0 0.5rem; color: #1e293b; }
+        .hero .tagline { color: var(--text-dim); font-size: 0.95rem; }
+        .main { max-width: 900px; margin: 0 auto; padding: 0 20px 60px; }
+        .card { background: #fff; border-radius: 16px; border: 1px solid #e2e8f0; margin-bottom: 16px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.03); }
+        .card-header { display: flex; justify-content: space-between; align-items: center; padding: 18px 24px; cursor: pointer; font-weight: 600; font-size: 1.05rem; color: #334155; transition: background 0.2s; }
+        .card-header:hover { background: #f8fafc; }
+        .card-header i { margin-right: 10px; color: var(--primary); }
+        .card-header .toggle { color: var(--text-dim); transition: transform 0.2s; }
+        .card.open .toggle { transform: rotate(180deg); }
+        .card-content { padding: 0 24px 24px; display: none; }
+        .card.open .card-content { display: block; }
+        .test-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px; }
+        .test-grid a { display: block; text-align: center; padding: 12px 16px; background: #f1f5f9; border-radius: 10px; text-decoration: none; color: var(--primary); font-weight: 600; transition: all 0.2s; }
+        .test-grid a:hover { background: #e0e7ff; color: #4338ca; transform: translateY(-1px); }
+        .placeholder { text-align: center; padding: 30px 20px; color: var(--text-dim); }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="brand"><i class="fas fa-graduation-cap"></i> 高三英语 CEE</div>
+        <div class="user"><i class="far fa-user"></i> <span id="username">—</span></div>
+    </nav>
+    <header class="hero">
+        <h1>高三英语 模考练习</h1>
+        <p class="tagline">阅读 · 完形填空 · 词形变化填空</p>
+    </header>
+    <main class="main">
+        <div class="card" id="card-reading">
+            <div class="card-header" onclick="toggle('reading')">
+                <span><i class="fas fa-book-open"></i> 阅读 (Reading)</span>
+                <i class="fas fa-chevron-down toggle"></i>
+            </div>
+            <div class="card-content">
+                <div class="placeholder">
+                    <i class="fas fa-hammer"></i> 模块开发中…
+                </div>
+            </div>
+        </div>
+        <div class="card" id="card-cloze">
+            <div class="card-header" onclick="toggle('cloze')">
+                <span><i class="fas fa-align-left"></i> 完形填空 (Cloze)</span>
+                <i class="fas fa-chevron-down toggle"></i>
+            </div>
+            <div class="card-content">
+                <p class="text-sm text-slate-500 mb-3">选择试卷编号进入，限时 14 分钟，满 10 分钟可提交。</p>
+                <div class="test-grid" id="cloze-grid"></div>
+            </div>
+        </div>
+        <div class="card" id="card-wordform">
+            <div class="card-header" onclick="toggle('wordform')">
+                <span><i class="fas fa-spell-check"></i> 词形变化填空 (Word Form)</span>
+                <i class="fas fa-chevron-down toggle"></i>
+            </div>
+            <div class="card-content">
+                <p class="text-sm text-slate-500 mb-3">选择试卷编号进入。部分空有所给词提示，部分空无提示需凭能力填写。限时 10 分钟，满 7 分钟可提交。</p>
+                <div class="test-grid" id="wordform-grid"></div>
+            </div>
+        </div>
+    </main>
+    <script>
+        document.getElementById('username').textContent = localStorage.getItem('authing-user') || localStorage.getItem('current-user') || '未登录';
+        function toggle(id) {
+            const card = document.getElementById('card-' + id);
+            card.classList.toggle('open');
+        }
+        var html = '';
+        for (var i = 1; i <= 45; i++) {
+            var n = (i < 10 ? '0' : '') + i;
+            html += '<a href="cloze_player.html?paper=' + n + '" target="_blank">' + n + '</a>';
+        }
+        document.getElementById('cloze-grid').innerHTML = html;
+        html = '';
+        for (var j = 1; j <= 45; j++) {
+            var m = (j < 10 ? '0' : '') + j;
+            html += '<a href="wordform_player.html?paper=' + m + '" target="_blank">' + m + '</a>';
+        }
+        document.getElementById('wordform-grid').innerHTML = html;
+    </script>
+</body>
+</html>
