@@ -240,6 +240,8 @@
                 const dictResult = ref(null);
                 const dictError = ref('');
                 const explainPassageRef = ref(null);
+                const dictLookupLog = ref([]);
+                const readTranslateLog = ref([]);
 
                 const canSubmit = computed(() => {
                     if (!timerStarted.value) return false;
@@ -333,6 +335,7 @@ Requirements: Examples must be 高中难度, 具备高度使用记忆价值, 符
                             definition_zh: parsed.definition_zh || '',
                             examples: Array.isArray(parsed.examples) ? parsed.examples : []
                         };
+                        dictLookupLog.value = [...dictLookupLog.value, { word: word, definition_zh: parsed.definition_zh || '' }];
                     } catch (e) {
                         dictError.value = '查询失败，请重试';
                         console.error(e);
@@ -373,6 +376,8 @@ Requirements: Examples must be 高中难度, 具备高度使用记忆价值, 符
                         showScoreModal.value = false;
                         readSentences.value = [];
                         currentReadIdx.value = 0;
+                        dictLookupLog.value = [];
+                        readTranslateLog.value = [];
                         sessionStart.value = new Date();
                     } catch (e) {
                         console.error(e);
@@ -452,6 +457,7 @@ Requirements: Examples must be 高中难度, 具备高度使用记忆价值, 符
                     if (!readSentences.value.length) readSentences.value = ['No sentences.'];
                     currentReadIdx.value = 0;
                     sttEn.value = ''; sttCn.value = ''; readEval.value = '';
+                    readTranslateLog.value = [];
                 }
 
                 const currentReadSentence = computed(() => readSentences.value[currentReadIdx.value] || '');
@@ -515,6 +521,7 @@ Requirements: Examples must be 高中难度, 具备高度使用记忆价值, 符
                         });
                         const data = await res.json();
                         readEval.value = data.choices?.[0]?.message?.content || '评价失败';
+                        readTranslateLog.value = [...readTranslateLog.value, { sentence: currentReadSentence.value, sttEn: sttEn.value, sttCn: sttCn.value, eval: readEval.value }];
                     } catch (e) { readEval.value = '评价服务连接失败'; }
                     isEvaluating.value = false;
                 }
@@ -528,6 +535,7 @@ Requirements: Examples must be 高中难度, 具备高度使用记忆价值, 符
                     return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()) + ' ' + pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds());
                 }
                 function formatDuration(ms) { const s = Math.floor(ms / 1000), m = Math.floor(s / 60); return m + 'min ' + (s % 60) + 's'; }
+                function escapeHtml(s) { return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
 
                 onMounted(() => loadPaper());
 
@@ -545,7 +553,18 @@ Requirements: Examples must be 高中难度, 具备高度使用记忆价值, 符
                         const isRight = userKey === correctKey;
                         detailsRows += '<tr><td>' + q.number + '</td><td>' + (userKey ? userKey + '. ' + (userWord || '') : '未选') + '</td><td>' + (correctKey ? correctKey + '. ' + (correctWord || '') : '') + '</td><td>' + (isRight ? '✓' : '✗') + '</td></tr>';
                     });
-                    const details_html = '<p><strong>得分：' + scoreCorrect.value + ' / ' + scoreTotal.value + '</strong></p><table border="1" cellpadding="8" cellspacing="0" style="border-collapse:collapse;width:100%;max-width:520px;"><thead><tr><th>题号</th><th>学生答案</th><th>正确答案</th><th>对错</th></tr></thead><tbody>' + detailsRows + '</tbody></table>';
+                    let details_html = '<p><strong>得分：' + scoreCorrect.value + ' / ' + scoreTotal.value + '</strong></p><table border="1" cellpadding="8" cellspacing="0" style="border-collapse:collapse;width:100%;max-width:520px;"><thead><tr><th>题号</th><th>学生答案</th><th>正确答案</th><th>对错</th></tr></thead><tbody>' + detailsRows + '</tbody></table>';
+                    if (dictLookupLog.value.length) {
+                        details_html += '<p style="margin-top:16px;"><strong>📖 点读查词记录</strong></p><table border="1" cellpadding="8" cellspacing="0" style="border-collapse:collapse;width:100%;max-width:520px;"><thead><tr><th>词汇</th><th>释义</th></tr></thead><tbody>';
+                        dictLookupLog.value.forEach(function (e) { details_html += '<tr><td>' + escapeHtml(e.word) + '</td><td>' + escapeHtml(e.definition_zh) + '</td></tr>'; });
+                        details_html += '</tbody></table>';
+                    }
+                    if (readTranslateLog.value.length) {
+                        details_html += '<p style="margin-top:16px;"><strong>🎤 朗读与翻译 · AI 评价结果</strong></p>';
+                        readTranslateLog.value.forEach(function (item, i) {
+                            details_html += '<div style="margin-bottom:14px;padding:10px;background:#f8fafc;border-radius:8px;border:1px solid #e2e8f0;"><p><strong>句 ' + (i + 1) + '</strong> 原文：' + escapeHtml(item.sentence) + '</p><p>学生朗读：' + escapeHtml(item.sttEn) + '</p><p>学生翻译：' + escapeHtml(item.sttCn) + '</p><div style="margin-top:8px;">' + (typeof marked !== 'undefined' ? marked.parse(item.eval || '') : escapeHtml(item.eval)) + '</div></div>';
+                        });
+                    }
                     const templateParams = {
                         student_name: studentName.value || 'Unknown',
                         content_name: contentName,
