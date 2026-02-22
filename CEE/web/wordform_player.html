@@ -670,6 +670,16 @@ Requirements: Examples must be 高中难度, 具备高度使用记忆价值, 符
                     const endTime = new Date();
                     const durationMs = endTime - sessionStart.value;
                     const contentName = 'CEE 高三英语 ' + (paperData.value?.paper_id || selectedPaperId.value) + ' - 词形变化填空';
+                    const qs = paperData.value?.section_2_word_form?.questions || [];
+                    let detailsRows = '';
+                    qs.forEach(q => {
+                        const userAns = (choicesWord.value[q.number] || '').trim() || '未填';
+                        const correctAns = (q.correct_form || '').trim();
+                        const isRight = userAns !== '未填' && userAns.toLowerCase() === correctAns.toLowerCase();
+                        const hint = (q.given_word != null && q.given_word !== '') ? q.given_word : '无提示';
+                        detailsRows += '<tr><td>' + q.number + '</td><td>' + hint + '</td><td>' + userAns + '</td><td>' + correctAns + '</td><td>' + (isRight ? '✓' : '✗') + '</td></tr>';
+                    });
+                    const details_html = '<p><strong>得分：' + scoreCorrect.value + ' / ' + scoreTotal.value + '</strong></p><table border="1" cellpadding="8" cellspacing="0" style="border-collapse:collapse;width:100%;max-width:560px;"><thead><tr><th>题号</th><th>所给词/提示</th><th>学生答案</th><th>正确答案</th><th>对错</th></tr></thead><tbody>' + detailsRows + '</tbody></table>';
                     const templateParams = {
                         student_name: studentName.value || 'Unknown',
                         content_name: contentName,
@@ -681,7 +691,7 @@ Requirements: Examples must be 高中难度, 具备高度使用记忆价值, 符
                         score: scoreCorrect.value,
                         total: scoreTotal.value,
                         accuracy: scoreTotal.value ? (Math.round(scoreCorrect.value / scoreTotal.value * 100) + '%') : '-',
-                        details_html: '<p><strong>得分：</strong>' + scoreCorrect.value + ' / ' + scoreTotal.value + '</p>'
+                        details_html: details_html
                     };
                     emailjs.init(EMAILJS_PUBLIC);
                     emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE, templateParams).then(() => alert('报告已发送')).catch(() => alert('报告发送失败'));
