@@ -9,6 +9,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/microsoft-cognitiveservices-speech-sdk@latest/distrib/browser/microsoft.cognitiveservices.speech.sdk.bundle-min.js"></script>
+    <script src="../../scripts/pet-speech-helper.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
@@ -2624,8 +2625,7 @@ createApp({
         const stepData = ref({});
         
         const isRecording = ref(false);
-        let synthesizer = null;
-        let recognizer = null;
+        let recInstance = null;
         let currentRecScore = 0; 
 
         const vocabList = COURSE_DATA_INJECTED.vocabulary || [];
