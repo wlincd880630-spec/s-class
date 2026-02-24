@@ -130,6 +130,9 @@ npm install
 | `verify-cos-media.js` | 校验当前 HTML 与 Git 中引用的 COS 媒体是否均存在于 COS 桶。 |
 | `clean-cos-non-media.js` | 列出或删除 COS 桶内非媒体类型文件。 |
 | `emailjs-template-guide.html` | 邮件模板变量说明（如 `{{student_name}}`、`{{content_name}}`）。 |
+| `pet-speech-helper.js` | PET 词汇课 01–08 用：Azure TTS/STT + 浏览器回退（`PetSpeech.playTTS` / `createRecognizer`）。 |
+| `pet-passage-speech.js` | PET Unit*_passage 用：`azureSpeak` / `azureRecognizeOnce`，Azure 不可用时回退浏览器。 |
+| `TTS-STT-评价检查清单.md` | TTS/STT/翻译·发音评价 各模块接入状态与核对说明。 |
 
 更多脚本与「使用 SClass.sendReport 的页面清单」见 **scripts/** 目录及 [read_me.md](read_me.md)。
 

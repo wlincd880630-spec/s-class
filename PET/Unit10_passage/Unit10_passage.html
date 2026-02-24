@@ -8,6 +8,7 @@
     <title>Unit 10.pdf | English Learning with Steven</title>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/microsoft-cognitiveservices-speech-sdk@latest/distrib/browser/microsoft.cognitiveservices.speech.sdk.bundle-min.js"></script>
+    <script src="../../scripts/pet-passage-speech.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -176,10 +177,10 @@
 
                 playTTS() {
                     this.isPlaying = true;
-                    const speechConfig = SpeechSDK.SpeechConfig.fromSubscription(AZURE_KEY, AZURE_REGION);
-                    speechConfig.speechSynthesisVoiceName = "en-US-AvaMultilingualNeural"; 
-                    const synthesizer = new SpeechSDK.SpeechSynthesizer(speechConfig);
-                    synthesizer.speakTextAsync(this.currentSentence, () => { this.isPlaying = false; synthesizer.close(); }, (err) => { console.error(err); this.isPlaying = false; synthesizer.close(); });
+                    (window.azureSpeak || function(t,o){o.onEnd();})(this.currentSentence, {
+                        voice: "en-US-AvaMultilingualNeural",
+                        onEnd: () => { this.isPlaying = false; }
+                    });
                 },
 
                 toggleRecord(lang) {
@@ -187,16 +188,12 @@
                     if ((isEn && this.isRecordingEn) || (!isEn && this.isRecordingCn)) { this.stopRecord(); return; }
                     this.stopRecord();
                     if (isEn) this.isRecordingEn = true; else this.isRecordingCn = true;
-                    
-                    const speechConfig = SpeechSDK.SpeechConfig.fromSubscription(AZURE_KEY, AZURE_REGION);
-                    speechConfig.speechRecognitionLanguage = isEn ? "en-US" : "zh-CN";
-                    const audioConfig = SpeechSDK.AudioConfig.fromDefaultMicrophoneInput();
-                    this.recognizer = new SpeechSDK.SpeechRecognizer(speechConfig, audioConfig);
-                    
-                    this.recognizer.recognizeOnceAsync(result => {
-                        if (isEn) this.sttEn = result.text; else this.sttCn = result.text;
-                        this.stopRecord();
-                    }, err => { console.error(err); this.stopRecord(); });
+                    const vm = this;
+                    (window.azureRecognizeOnce || function(){ vm.stopRecord(); })(isEn ? "en-US" : "zh-CN",
+                        (text) => { if (isEn) vm.sttEn = text; else vm.sttCn = text; vm.stopRecord(); },
+                        (err) => { console.error(err); vm.stopRecord(); },
+                        { onRecognizer: (r) => { vm.recognizer = r; } }
+                    );
                 },
 
                 stopRecord() {

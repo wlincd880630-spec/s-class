@@ -9,6 +9,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/microsoft-cognitiveservices-speech-sdk@latest/distrib/browser/microsoft.cognitiveservices.speech.sdk.bundle-min.js"></script>
+    <script src="../../scripts/pet-speech-helper.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
@@ -2600,7 +2601,6 @@ const AZURE_REGION = "eastus2";
 const IMAGE_DIR = "generated_images";
 
 const { createApp, ref, computed, onMounted } = Vue;
-const SpeechSDK = window.SpeechSDK;
 
 createApp({
     setup() {
@@ -2615,8 +2615,7 @@ createApp({
         const stepData = ref({});
         
         const isRecording = ref(false);
-        let synthesizer = null;
-        let recognizer = null;
+        let recInstance = null;
         let currentRecScore = 0; 
 
         const vocabList = COURSE_DATA_INJECTED.vocabulary || [];
@@ -2946,32 +2945,34 @@ createApp({
 
         const playTTS = (text) => {
             if (!text || isRecording.value) return;
-            if (synthesizer) { synthesizer.close(); synthesizer = null; }
-            try {
-                const config = SpeechSDK.SpeechConfig.fromSubscription(AZURE_KEY, AZURE_REGION);
-                config.speechSynthesisVoiceName = "en-US-AriaNeural"; 
-                synthesizer = new SpeechSDK.SpeechSynthesizer(config);
-                synthesizer.speakTextAsync(text, () => { synthesizer.close(); synthesizer = null; });
-            } catch (e) { console.error(e); }
+            if (window.PetSpeech && window.PetSpeech.playTTS)
+                window.PetSpeech.playTTS(AZURE_KEY, AZURE_REGION, text);
         };
 
         const toggleRec = async (text, cb) => {
-            if(isRecording.value) { 
-                if(recognizer) { recognizer.stopContinuousRecognitionAsync(() => { recognizer.close(); recognizer = null; isRecording.value = false; if(cb) cb(currentRecScore); }); }
-                return; 
+            if (isRecording.value) {
+                if (recInstance) {
+                    recInstance.stop((score) => {
+                        isRecording.value = false;
+                        recInstance = null;
+                        if (cb) cb(score);
+                    });
+                }
+                return;
             }
             try {
                 await navigator.mediaDevices.getUserMedia({ audio: true });
-                const config = SpeechSDK.SpeechConfig.fromSubscription(AZURE_KEY, AZURE_REGION);
-                config.speechRecognitionLanguage = "en-US";
-                const audioConfig = SpeechSDK.AudioConfig.fromDefaultMicrophoneInput();
-                const pronConfig = new SpeechSDK.PronunciationAssessmentConfig(text, SpeechSDK.PronunciationAssessmentGradingSystem.HundredMark, SpeechSDK.PronunciationAssessmentGranularity.Phoneme, true);
-                recognizer = new SpeechSDK.SpeechRecognizer(config, audioConfig);
-                pronConfig.applyTo(recognizer);
-                isRecording.value = true; currentRecScore = 0; 
-                recognizer.recognized = (s, e) => { if (e.result.reason === SpeechSDK.ResultReason.RecognizedSpeech) { const json = JSON.parse(e.result.properties.getProperty(SpeechSDK.PropertyId.SpeechServiceResponse_JsonResult)); if(json.NBest && json.NBest[0]) currentRecScore = json.NBest[0].PronunciationAssessment.AccuracyScore; } };
-                recognizer.startContinuousRecognitionAsync();
-            } catch(e) { alert("Mic Error: " + e); isRecording.value = false; }
+            } catch (e) {
+                alert("需要麦克风权限：" + (e.message || e));
+                return;
+            }
+            if (!window.PetSpeech || !window.PetSpeech.createRecognizer) {
+                alert("语音功能未加载，请刷新页面重试");
+                return;
+            }
+            currentRecScore = 0;
+            recInstance = window.PetSpeech.createRecognizer(AZURE_KEY, AZURE_REGION, text, (s) => { currentRecScore = s; });
+            recInstance.start(() => { isRecording.value = true; }, () => { isRecording.value = true; });
         };
 
         const unlockAll = () => { const pwd = prompt("Admin Password:"); if (pwd === "888123" || pwd === "123888") { isAdmin.value = true; alert("Admin Mode ON"); } };
