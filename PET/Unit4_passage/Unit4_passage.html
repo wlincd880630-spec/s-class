@@ -145,6 +145,7 @@
 
     <script>
         const { createApp } = Vue;
+        const DEEPSEEK_KEY = window.PET_DEEPSEEK_KEY || "sk-daa16008e81843deba6fefe9dce51465";
         createApp({
             data() {
                 return {
@@ -212,13 +213,19 @@ Rules:
 3. Provide the standard translation.
 Output in concise Chinese Markdown.`;
                     try {
-                        const data = await (window.callAI || function() { return Promise.reject(new Error("API_BASE not set")); })({ messages: [{ role: "user", content: prompt }] });
-                        this.evaluation = (data && data.content) ? data.content : (data.error || "评价服务连接失败");
+                        const res = await fetch("https://api.deepseek.com/chat/completions", {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json", "Authorization": "Bearer " + DEEPSEEK_KEY },
+                            body: JSON.stringify({ model: "deepseek-chat", messages: [{ role: "user", content: prompt }] })
+                        });
+                        const data = await res.json();
+                        const content = data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content;
+                        this.evaluation = content || (data.error && data.error.message) || "评价服务连接失败";
                         if (window.SClass && this.evaluation) {
                             var ref = "P" + (this.currentPassageIdx + 1) + " S" + (this.currentSentenceIdx + 1);
-                            window.SClass.log("朗读/翻译", ref, (data && data.content) ? "done" : "error", String(this.evaluation).slice(0, 400));
+                            window.SClass.log("朗读/翻译", ref, content ? "done" : "error", String(this.evaluation).slice(0, 400));
                         }
-                    } catch (e) { this.evaluation = "评价服务连接失败"; } finally { this.isEvaluating = false; }
+                    } catch (e) { this.evaluation = "评价服务连接失败（" + (e.message || "网络异常") + "）"; } finally { this.isEvaluating = false; }
                 }
             }
         }).mount('#app');
