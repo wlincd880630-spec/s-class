@@ -556,13 +556,26 @@
     const C = D.config;
     const AZ_KEY = "DKRXk8ueSfo5NdIOMqFRTCAfpeGDezJ3Snf5K8gGgtyqxiWdugLzJQQJ99BLACHYHv6XJ3w3AAAYACOGUYP9";
     const AZ_REG = "eastus2";
-    window.playAudio = function(url) {
-        if (!url) return;
-        if (window.currentAudio) { window.currentAudio.pause(); window.currentAudio = null; }
-        var a = new Audio(url);
-        window.currentAudio = a;
-        a.play().catch(function(e){});
-    };
+    (function(){
+        var base = '';
+        var v = document.querySelector('video[id^="vid"]');
+        var videoSrc = v ? (v.getAttribute('src') || v.src || '') : '';
+        if (videoSrc && /^https?:\/\//i.test(videoSrc))
+            base = videoSrc.substring(0, videoSrc.lastIndexOf('/') + 1);
+        else {
+            var path = window.location.pathname || '';
+            var dir = path.substring(0, path.lastIndexOf('/') + 1);
+            base = window.location.origin + (dir.startsWith('/') ? dir : '/' + dir);
+        }
+        window.playAudio = function(url) {
+            if (!url) return;
+            if (window.currentAudio) { window.currentAudio.pause(); window.currentAudio = null; }
+            if (!/^https?:\/\//i.test(url)) url = base + url;
+            var a = new Audio(url);
+            window.currentAudio = a;
+            a.play().catch(function(e){});
+        };
+    })();
     let s = { u:"", score:0, lsc:0, qsc:0, vidsc:0, sv:new Set(), lrn:new Set(), wordbook:new Set(), pg:'p1', lock:false, t:0, t1:0, t2:0, t3:0, v1:0, v2:0, startTime: Date.now(), phase:'general', logs1:[], logs2:[] };
     const STORAGE_KEY = 'vt_course_final_v5_wordbook';
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.maxTouchPoints > 0 && /Mac/.test(navigator.userAgent));
