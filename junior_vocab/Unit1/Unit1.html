@@ -492,6 +492,10 @@ const ADMIN_PWD  = "123888";
 const PER_REVIEW = 5;
 const STORAGE_KEY= "pep_vocab_v2";
 
+/* 腾讯 COS 媒体 base：mp3 与图片均从此路径加载 */
+const MEDIA_BASE = "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/Unit1/";
+function mediaUrl(path) { if (!path) return ""; return path.startsWith("http") ? path : (MEDIA_BASE + path.replace(/^\//,"")); }
+
 /* ═══════════════════════════════════════════════
    状态
 ═══════════════════════════════════════════════ */
@@ -692,7 +696,7 @@ function showCurrentWord() {
 function playWord() {
   const w = allWords[wordIndex];
   if (!w) return;
-  if (w.audio) { new Audio(w.audio).play().catch(()=>{}); return; }
+  if (w.audio) { new Audio(mediaUrl(w.audio)).play().catch(()=>{}); return; }
   synthesizer?.speakTextAsync(w.word, ()=>{}, e=>console.error(e));
 }
 function toggleRecord() {
@@ -765,7 +769,7 @@ function goP2() {
   grid.innerHTML = "";
   [w.img1, w.img2].forEach((src, i)=>{
     const card = document.createElement("div"); card.className="img-card";
-    const img  = document.createElement("img"); img.alt=""; img.src = src||"";
+    const img  = document.createElement("img"); img.alt=""; img.src = mediaUrl(src)||"";
     const cap  = document.createElement("div"); cap.className="img-cap";
     cap.textContent = w.image_prompts?.[i] || "";
     card.appendChild(img); card.appendChild(cap); grid.appendChild(card);
@@ -905,7 +909,7 @@ function goP4() {
   window.playExample=(i)=>{
     const ww=allWords[wordIndex];
     const aud=i===0?ww.audio_ex0:ww.audio_ex1;
-    if(aud){new Audio(aud).play().catch(()=>{}); return;}
+    if(aud){new Audio(mediaUrl(aud)).play().catch(()=>{}); return;}
     const en=(ww.examples||[])[i]?.en||"";
     if(en&&synthesizer) synthesizer.speakTextAsync(en,()=>{},e=>console.error(e));
   };
