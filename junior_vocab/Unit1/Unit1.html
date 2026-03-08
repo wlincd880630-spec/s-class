@@ -7,6 +7,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Nunito:wght@400;600;700;800&family=Noto+Sans+SC:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
   <script src="https://aka.ms/csspeech/jsbrowserpackageraw"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
   <style>
     :root {
       --bg:        #0d0f1a;
@@ -318,6 +319,7 @@
       <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
     </div>
     <div class="topbar-btns">
+      <button class="tb-btn" id="send-report-btn" onclick="sendLearningReport()" style="display:none" title="发送学习报告给老师">📧 发送报告</button>
       <button class="tb-btn" id="admin-btn" onclick="toggleAdminMode()">⚙ 教师</button>
       <button class="tb-btn" onclick="exitAndSave()">↩ 退出</button>
     </div>
@@ -489,6 +491,12 @@ const AZURE_KEY    = "43gMKIlSRVGT9PnAFgWkdXyogwXfudT33O2Zk6QtfTKuY1nm01BdJQQJ99
 const AZURE_REGION = "eastus2";
 const DEEPSEEK_KEY = "sk-daa16008e81843deba6fefe9dce51465";  // DeepSeek API Key
 
+/* EmailJS 学习报告 */
+const EMAILJS_PUBLIC_KEY = "1QhXV5G_92GdK7_DF";
+const EMAILJS_SERVICE_ID = "service_6dfbs2n";
+const EMAILJS_TEMPLATE_ID = "template_zso8ebh";
+(function(){ try{ if(typeof emailjs!=="undefined") emailjs.init(EMAILJS_PUBLIC_KEY); }catch(e){console.log("EmailJS init:",e)} })();
+
 const VOCAB_DATA = (typeof window !== "undefined" && window.VOCAB_DATA) ? window.VOCAB_DATA : null;
 const MIN_SCORE  = 83;
 const ADMIN_PWD  = "123888";
@@ -508,6 +516,13 @@ let reviewBatch = [], reviewIdx = 0, reviewOrders = null;
 let currentPage = "unit-select", reviewStep = 1;
 let isRecording = false, transRecording = false, recogStream = null;
 let isAdminMode = false, adminTick = null;
+
+/* 学习报告数据：单词学习时间、复习阶段做题结果 */
+let sessionStartTime = null;
+let wordTimings = {};
+let wordStartTime = 0;
+let reviewLogs = [];
+let reportSent = false;
 
 /* ═══════════════════════════════════════════════
    初始化
@@ -618,9 +633,15 @@ async function loadUnitList() {
 ═══════════════════════════════════════════════ */
 async function selectUnit(n) {
   currentUnit = n; wordIndex = 0;
+  sessionStartTime = sessionStartTime || new Date();
   await loadUnitData(n); startWord();
+  const btn = document.getElementById("send-report-btn");
+  if (btn) btn.style.display = "inline-flex";
 }
 async function resumeUnit() {
+  sessionStartTime = sessionStartTime || new Date();
+  const btn = document.getElementById("send-report-btn");
+  if (btn) btn.style.display = "inline-flex";
   await loadUnitData(currentUnit);
   if (wordIndex >= allWords.length) wordIndex = 0;
   if (currentPage && currentPage !== "unit-select" && currentPage !== "p1") {
@@ -684,6 +705,7 @@ function startWord() {
 }
 function showCurrentWord() {
   updateProgress();
+  wordStartTime = Date.now();
   const w = allWords[wordIndex];
   document.getElementById("p1-word").textContent = w.word;
   document.getElementById("p1-ipa").textContent  = w.ipa || "";
@@ -951,7 +973,14 @@ function goP4() {
   saveProgress();
 }
 
-function nextWord() { wordIndex++; saveProgress(); startWord(); }
+function nextWord() {
+  const w = allWords[wordIndex];
+  if (w?.word) {
+    const dur = Date.now() - wordStartTime;
+    wordTimings[w.word] = (wordTimings[w.word] || 0) + dur;
+  }
+  wordIndex++; saveProgress(); startWord();
+}
 
 /* ═══════════════════════════════════════════════
    复习流程
@@ -999,6 +1028,7 @@ function showSocraticQuestion() {
     b.onclick=()=>{
       opts.querySelectorAll(".opt-btn").forEach(x=>x.disabled=true);
       const ok=wo.toLowerCase()===w.word.toLowerCase();
+      reviewLogs.push({ type:"socratic", word:w.word, question:q.question||"", userAnswer:wo, correct:w.word, ok });
       b.classList.add(ok?"correct":"wrong");
       if(!ok) opts.querySelectorAll(".opt-btn").forEach(x=>{ if(x.textContent.toLowerCase()===w.word.toLowerCase()) x.classList.add("correct"); });
       const fb=document.getElementById("review-socratic-fb");
@@ -1037,11 +1067,13 @@ function reviewStep2() {
     const b=document.createElement("button"); b.className="opt-btn"; b.textContent=t;
     b.onclick=()=>{
       div.querySelectorAll(".opt-btn").forEach(x=>x.disabled=true);
-      b.classList.add(i===ci?"correct":"wrong");
+      const ok=i===ci;
+      reviewLogs.push({ type:"fill", word:w.word, sentence:sent, userChoice:t, correctChoice:choices[ci]||"", ok });
+      b.classList.add(ok?"correct":"wrong");
       const fb2=document.getElementById("review-fill-fb");
-      fb2.className="fb-box "+(i===ci?"fb-correct":"fb-wrong");
+      fb2.className="fb-box "+(ok?"fb-correct":"fb-wrong");
       fb2.style.display="block";
-      fb2.textContent=i===ci?"✓ 正确！":"✗ 正确答案："+(choices[ci]||"");
+      fb2.textContent=ok?"✓ 正确！":"✗ 正确答案："+(choices[ci]||"");
       document.getElementById("review-fill-next").disabled=false;
     };
     div.appendChild(b);
@@ -1163,6 +1195,7 @@ async function evaluateTranslation(enText, studentCn, refCn) {
     const data=await resp.json();
     const ev=JSON.parse(data.choices[0].message.content);
     const s=ev.score??0;
+    reviewLogs.push({ type:"translation", word:window._dictWord?.word||"", en:enText, studentCn, score:s, correct:ev.correct||"", issues:ev.issues||"", standard:ev.standard||"" });
     const cls=s>=80?"eval-score-hi":s>=55?"eval-score-mid":"eval-score-lo";
     resultDiv.innerHTML=`
       <div class="eval-card">
@@ -1202,6 +1235,96 @@ function finishReview() {
     saveProgress();
     showCurrentWord();
   }
+}
+
+/* ═══════════════════════════════════════════════
+   EmailJS 学习报告发送
+═══════════════════════════════════════════════ */
+function escapeHtml(s) { if (!s) return ""; return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
+function formatDateTime(d) {
+  if (!d) return "-";
+  const x = d instanceof Date ? d : new Date(d);
+  return x.getFullYear()+"-"+("0"+(x.getMonth()+1)).slice(-2)+"-"+("0"+x.getDate()).slice(-2)+" "+
+    ("0"+x.getHours()).slice(-2)+":"+("0"+x.getMinutes()).slice(-2)+":"+("0"+x.getSeconds()).slice(-2);
+}
+function formatDuration(ms) {
+  if (!ms||ms<0) return "0s";
+  const s=Math.floor(ms/1000), m=Math.floor(s/60), h=Math.floor(m/60);
+  if (h>0) return h+"h "+m%60+"min "+s%60+"s";
+  if (m>0) return m+"min "+s%60+"s";
+  return s+"s";
+}
+function buildReportDetailsHtml() {
+  let html = "";
+  if (Object.keys(wordTimings).length > 0) {
+    html += "<h3 style=\"font-size:14px;margin:12px 0 8px;color:#333;\">⏱️ 每个单词学习时间</h3>";
+    html += "<table style=\"border-collapse:collapse;width:100%;font-size:13px;\"><tr style=\"background:#f0f0f0;\"><th style=\"border:1px solid #ddd;padding:6px;text-align:left;\">单词</th><th style=\"border:1px solid #ddd;padding:6px;text-align:left;\">学习时长</th></tr>";
+    Object.entries(wordTimings).forEach(([w,t])=>{
+      html += "<tr><td style=\"border:1px solid #ddd;padding:5px;\">"+escapeHtml(w)+"</td><td style=\"border:1px solid #ddd;padding:5px;\">"+(t/1000).toFixed(1)+" 秒</td></tr>";
+    });
+    html += "</table>";
+  }
+  if (reviewLogs.length > 0) {
+    html += "<h3 style=\"font-size:14px;margin:16px 0 8px;color:#333;\">📋 复习阶段做题过程与结果</h3>";
+    const socraticLogs = reviewLogs.filter(r=>r.type==="socratic");
+    const fillLogs = reviewLogs.filter(r=>r.type==="fill");
+    const transLogs = reviewLogs.filter(r=>r.type==="translation");
+    if (socraticLogs.length) {
+      html += "<p style=\"font-weight:700;margin:8px 0 4px;\">🧠 情景联想</p><table style=\"border-collapse:collapse;width:100%;font-size:12px;\"><tr style=\"background:#f0f0f0;\"><th style=\"border:1px solid #ddd;padding:5px;\">单词</th><th style=\"border:1px solid #ddd;padding:5px;\">题目</th><th style=\"border:1px solid #ddd;padding:5px;\">学生答案</th><th style=\"border:1px solid #ddd;padding:5px;\">正确答案</th><th style=\"border:1px solid #ddd;padding:5px;\">对错</th></tr>";
+      socraticLogs.forEach(r=>{ html += "<tr style=\"background:"+(r.ok?"#f0fff0":"#fff0f0")+";\"><td style=\"border:1px solid #ddd;padding:5px;\">"+escapeHtml(r.word)+"</td><td style=\"border:1px solid #ddd;padding:5px;\">"+escapeHtml(r.question.substring(0,50)+(r.question.length>50?"…":""))+"</td><td style=\"border:1px solid #ddd;padding:5px;\">"+escapeHtml(r.userAnswer)+"</td><td style=\"border:1px solid #ddd;padding:5px;\">"+escapeHtml(r.correct)+"</td><td style=\"border:1px solid #ddd;padding:5px;\">"+(r.ok?"✓":"✗")+"</td></tr>"; });
+      html += "</table>";
+    }
+    if (fillLogs.length) {
+      html += "<p style=\"font-weight:700;margin:8px 0 4px;\">✏️ 句子填空</p><table style=\"border-collapse:collapse;width:100%;font-size:12px;\"><tr style=\"background:#f0f0f0;\"><th style=\"border:1px solid #ddd;padding:5px;\">单词</th><th style=\"border:1px solid #ddd;padding:5px;\">句子</th><th style=\"border:1px solid #ddd;padding:5px;\">学生选择</th><th style=\"border:1px solid #ddd;padding:5px;\">正确答案</th><th style=\"border:1px solid #ddd;padding:5px;\">对错</th></tr>";
+      fillLogs.forEach(r=>{ html += "<tr style=\"background:"+(r.ok?"#f0fff0":"#fff0f0")+";\"><td style=\"border:1px solid #ddd;padding:5px;\">"+escapeHtml(r.word)+"</td><td style=\"border:1px solid #ddd;padding:5px;\">"+escapeHtml(r.sentence.substring(0,40)+(r.sentence.length>40?"…":""))+"</td><td style=\"border:1px solid #ddd;padding:5px;\">"+escapeHtml(r.userChoice)+"</td><td style=\"border:1px solid #ddd;padding:5px;\">"+escapeHtml(r.correctChoice)+"</td><td style=\"border:1px solid #ddd;padding:5px;\">"+(r.ok?"✓":"✗")+"</td></tr>"; });
+      html += "</table>";
+    }
+    if (transLogs.length) {
+      html += "<p style=\"font-weight:700;margin:8px 0 4px;\">🌏 翻译朗读 · AI评价</p><table style=\"border-collapse:collapse;width:100%;font-size:12px;\"><tr style=\"background:#f0f0f0;\"><th style=\"border:1px solid #ddd;padding:5px;\">单词</th><th style=\"border:1px solid #ddd;padding:5px;\">英文</th><th style=\"border:1px solid #ddd;padding:5px;\">学生翻译</th><th style=\"border:1px solid #ddd;padding:5px;\">得分</th><th style=\"border:1px solid #ddd;padding:5px;\">标准参考</th></tr>";
+      transLogs.forEach(r=>{ html += "<tr><td style=\"border:1px solid #ddd;padding:5px;\">"+escapeHtml(r.word)+"</td><td style=\"border:1px solid #ddd;padding:5px;\">"+escapeHtml(r.en.substring(0,35)+(r.en.length>35?"…":""))+"</td><td style=\"border:1px solid #ddd;padding:5px;\">"+escapeHtml(r.studentCn.substring(0,25)+(r.studentCn.length>25?"…":""))+"</td><td style=\"border:1px solid #ddd;padding:5px;\">"+r.score+"</td><td style=\"border:1px solid #ddd;padding:5px;\">"+escapeHtml((r.standard||"").substring(0,30))+"</td></tr>"; });
+      html += "</table>";
+    }
+  }
+  if (!html) html = "<p style=\"color:#999;\">暂无学习数据（需完成部分单词学习或复习后发送）</p>";
+  return html;
+}
+function sendLearningReport() {
+  if (reportSent) { alert("报告已发送过"); return; }
+  const hasData = Object.keys(wordTimings).length > 0 || reviewLogs.length > 0;
+  if (!hasData) { alert("暂无学习数据，请先完成部分单词学习或复习后再发送报告"); return; }
+  if (typeof emailjs === "undefined") { alert("邮件服务未加载，请刷新页面后重试"); return; }
+  const endTime = new Date();
+  const startT = sessionStartTime || endTime;
+  const durationMs = endTime - startT;
+  const studentName = localStorage.getItem("authing-user") || localStorage.getItem("current-user") || "未登录";
+  const contentName = "人教版词汇 Unit" + currentUnit + " - " + (document.title || "词汇学习");
+  const choiceLogs = reviewLogs.filter(r=>r.type==="socratic"||r.type==="fill");
+  const transLogs = reviewLogs.filter(r=>r.type==="translation");
+  const reviewCorrect = choiceLogs.filter(r=>r.ok).length;
+  const reviewTotal = choiceLogs.length;
+  const avgTransScore = transLogs.length ? Math.round(transLogs.reduce((a,x)=>a+x.score,0)/transLogs.length) : null;
+  const score = reviewTotal ? reviewCorrect : (avgTransScore!==null ? avgTransScore : 0);
+  const total = reviewTotal || (avgTransScore!==null ? 100 : 0);
+  const accuracy = total > 0 ? Math.round((reviewTotal ? reviewCorrect/reviewTotal : avgTransScore/100) * 100) + "%" : "-";
+  const templateParams = {
+    student_name: studentName,
+    content_name: contentName,
+    page_url: location.href,
+    page_url_display: contentName,
+    start_time: formatDateTime(startT),
+    end_time: formatDateTime(endTime),
+    duration: formatDuration(durationMs),
+    score: score,
+    total: total,
+    accuracy: accuracy,
+    details_html: buildReportDetailsHtml()
+  };
+  try {
+    emailjs.init(EMAILJS_PUBLIC_KEY);
+    emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
+      .then(() => { reportSent = true; alert("✅ 学习报告已发送给老师"); })
+      .catch(() => { alert("❌ 报告发送失败，请检查网络后重试"); });
+  } catch (e) { alert("发送失败：" + (e.message || "未知错误")); }
 }
 
 /* ═══════════════════════════════════════════════
