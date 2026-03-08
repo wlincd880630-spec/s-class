@@ -914,6 +914,8 @@ function goP4() {
   const need=2, rc={};
   exs.forEach((_,i)=>rc[i]=0);
   window._p4rc=rc; window._p4need=need;
+  window._p4refSentences = exs.map(ex=>ex.en||"");
+  window._p4exLastResult = {};
   exs.forEach((ex,i)=>{
     const box = document.createElement("div"); box.className="ex-card";
     const enRaw = ex.en||"";
@@ -924,9 +926,10 @@ function goP4() {
       <div class="ex-actions">
         <button class="btn btn-play" style="padding:7px 14px;font-size:.82rem" onclick="playExample(${i})"><i class="fas fa-play"></i> 播放</button>
         <button class="reveal-btn" onclick="toggleCn(this)">显示中文</button>
-        <span class="rec-counter" id="ex-cnt-${i}">朗读 0/${need}</span>
+        <span class="rec-counter" id="ex-cnt-${i}">朗读 0/${need}（需≥75分）</span>
         <button class="btn btn-rec" style="padding:7px 14px;font-size:.82rem" id="ex-rec-${i}" onclick="toggleExRecord(${i})"><i class="fas fa-microphone"></i></button>
       </div>
+      <div class="ex-fb" id="ex-fb-${i}" style="display:none;margin-top:8px;font-size:.85rem"></div>
       <div class="ex-cn" id="ex-cn-${i}" style="display:none">${(ex.cn||"").replace(/</g,"&lt;")}</div>
     `;
     list.appendChild(box);
@@ -943,15 +946,38 @@ function goP4() {
     const show=cn.style.display==="none";
     cn.style.display=show?"block":"none"; btn.textContent=show?"隐藏中文":"显示中文";
   };
+  const EX_MIN_SCORE = 75;
   window.toggleExRecord=(j)=>{
-    const rc=window._p4rc, need=window._p4need;
+    const rc=window._p4rc, need=window._p4need, refSentences=window._p4refSentences||[];
     if(rc[j]>=need)return;
     const btn=document.getElementById("ex-rec-"+j);
+    const cntEl=document.getElementById("ex-cnt-"+j);
+    const fbEl=document.getElementById("ex-fb-"+j);
     if(btn.dataset.rec==="1"){
       const rec=window._exRec&&window._exRec[j];
       if(rec){ rec.stopContinuousRecognitionAsync(()=>{
-        rc[j]++; btn.dataset.rec="0"; btn.innerHTML='<i class="fas fa-microphone"></i>';
-        document.getElementById("ex-cnt-"+j).textContent=`朗读 ${rc[j]}/${need}`;
+        btn.dataset.rec="0"; btn.innerHTML='<i class="fas fa-microphone"></i>';
+        const res = window._p4exLastResult[j];
+        window._p4exLastResult[j]=null;
+        let score = 0;
+        if (res) {
+          try {
+            const json = JSON.parse(res.properties.getProperty(SpeechSDK.PropertyId.SpeechServiceResponse_JsonResult,"{}"));
+            const n = json.NBest?.[0];
+            if (n?.PronunciationAssessment) score = n.PronunciationAssessment.AccuracyScore??0;
+          } catch(e){}
+        }
+        if (score >= EX_MIN_SCORE) {
+          rc[j]++;
+          fbEl.style.display="block";
+          fbEl.style.color="var(--green)";
+          fbEl.innerHTML=`✓ ${Math.round(score)}分 通过`;
+          cntEl.textContent=`朗读 ${rc[j]}/${need}（需≥75分）`;
+        } else {
+          fbEl.style.display="block";
+          fbEl.style.color=score>0?"#fbbf24":"var(--red)";
+          fbEl.innerHTML=score>0 ? `✗ ${Math.round(score)}分，需达到75分，请重试` : "✗ 未检测到发音，请重试";
+        }
         const done=Object.keys(rc).every(k=>rc[k]>=need);
         document.getElementById("p4-next").disabled=!done;
         if(window._exRec) delete window._exRec[j];
@@ -959,7 +985,20 @@ function goP4() {
       return;
     }
     btn.dataset.rec="1"; btn.innerHTML='<i class="fas fa-stop"></i> 点击结束';
+    fbEl.style.display="none";
+    const refText = refSentences[j]||"";
     const rec=new SpeechSDK.SpeechRecognizer(speechConfig,SpeechSDK.AudioConfig.fromDefaultMicrophoneInput());
+    try {
+      const gran = SpeechSDK.PronunciationAssessmentGranularity?.FullSentence ?? 2;
+      const pa = new SpeechSDK.PronunciationAssessmentConfig(refText,
+        SpeechSDK.PronunciationAssessmentGradingSystem?.HundredMark??1, gran, false);
+      pa?.applyTo?.(rec);
+    } catch(e){}
+    rec.recognized = (s, e) => {
+      if (e.result.reason === SpeechSDK.ResultReason.RecognizedSpeech && e.result.text) {
+        window._p4exLastResult[j] = e.result;
+      }
+    };
     if(!window._exRec) window._exRec={};
     window._exRec[j]=rec;
     rec.startContinuousRecognitionAsync(()=>{}, (err)=>{
