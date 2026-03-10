@@ -616,9 +616,14 @@
     const AZ_REG = "eastus2";
     function getAudioBase() {
         var vid = document.getElementById("vid1") || document.querySelector("video");
-        if (vid && vid.src) {
-            var idx = vid.src.lastIndexOf("/");
-            if (idx > 0) return vid.src.substring(0, idx + 1);
+        var src = vid && (vid.src || vid.getAttribute("src"));
+        if (src && src.indexOf("http") === 0) {
+            var idx = src.lastIndexOf("/");
+            if (idx > 0) return src.substring(0, idx + 1);
+        }
+        var img = document.querySelector("img[src*='cos.ap-chengdu.myqcloud.com']");
+        if (img && img.src && img.src.indexOf("generated_images") >= 0) {
+            return img.src.replace(/\/generated_images\/[^/]+$/, "/");
         }
         return "";
     }
