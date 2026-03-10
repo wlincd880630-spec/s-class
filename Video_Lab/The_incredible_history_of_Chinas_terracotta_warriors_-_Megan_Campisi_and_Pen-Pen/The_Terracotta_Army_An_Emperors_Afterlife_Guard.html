@@ -626,12 +626,25 @@
     const C = D.config;
     const AZ_KEY = "DKRXk8ueSfo5NdIOMqFRTCAfpeGDezJ3Snf5K8gGgtyqxiWdugLzJQQJ99BLACHYHv6XJ3w3AAAYACOGUYP9";
     const AZ_REG = "eastus2";
+    function getAudioBase() {
+        var vid = document.getElementById("vid1") || document.querySelector("video");
+        if (vid && vid.src) {
+            var idx = vid.src.lastIndexOf("/");
+            if (idx > 0) return vid.src.substring(0, idx + 1);
+        }
+        return "";
+    }
     window.playAudio = function(url) {
         if (!url) return;
         if (window.currentAudio) { window.currentAudio.pause(); window.currentAudio = null; }
-        var a = new Audio(url);
+        var fullUrl = url;
+        if (url.indexOf("http") !== 0) {
+            var base = getAudioBase();
+            fullUrl = base + url.replace(/^\//, "");
+        }
+        var a = new Audio(fullUrl);
         window.currentAudio = a;
-        a.play().catch(function(e){});
+        a.play().catch(function(e){ console.warn("Audio play failed:", fullUrl, e); });
     };
     let s = { u:"", score:0, lsc:0, qsc:0, vidsc:0, sv:new Set(), lrn:new Set(), wordbook:new Set(), pg:'p1', lock:false, t:0, t1:0, t2:0, t3:0, v1:0, v2:0, startTime: Date.now(), phase:'general', logs1:[], logs2:[] };
     const STORAGE_KEY = 'vt_course_final_v5_wordbook';
