@@ -108,6 +108,16 @@
         #p6 .vt-video-col #ol2 { display: none !important; }
 
         .overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); z-index: 50; display: none; flex-direction: column; justify-content: center; align-items: center; padding: 20px; }
+        .rev-overlay { position: fixed; inset: 0; z-index: 2500; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); display: none; flex-direction: column; overflow-y: auto; -webkit-overflow-scrolling: touch; padding: 20px; padding-bottom: 40px; }
+        .rev-overlay .rev-inner { margin: auto; width: 100%; max-width: 550px; background: var(--card); border-radius: 20px; padding: 30px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); flex-shrink: 0; }
+        .sub-line-btns { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
+        .sub-line-btns .btn-tiny { padding: 4px 10px; font-size: 0.75rem; border-radius: 6px; border: none; cursor: pointer; font-weight: 600; display: inline-flex; align-items: center; gap: 4px; }
+        .sub-btn-replay { background: #E0E7FF; color: #4338CA; }
+        .sub-btn-replay:hover { background: #C7D2FE; }
+        .sub-btn-translate { background: #D1FAE5; color: #047857; }
+        .sub-btn-translate:hover { background: #A7F3D0; }
+        .sub-line-cn-toggle { display: none; margin-top: 6px; padding: 8px; background: #F0FDF4; border-radius: 6px; color: #166534; font-size: 0.9rem; font-style: italic; }
+        .sub-line-cn-toggle.show { display: block; }
         .q-card { background: var(--card); width: 100%; max-width: 550px; padding: 30px; border-radius: 20px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.5); max-height: 90vh; overflow-y: auto; }
 
         .opt-btn { display: block; width: 100%; text-align: left; padding: 15px; margin-bottom: 10px; border: 2px solid #E5E7EB; border-radius: 10px; background: white; cursor: pointer; color: #1F2937; font-weight: 600; transition: 0.2s; font-size: 1rem; }
@@ -141,8 +151,8 @@
             .vt-sub-box { flex: 1 !important; min-height: 0; border-left: none !important; border-top: 1px solid #eee !important; }
         }
         /* 视频页默认（竖屏/移动端）：上视频、下HUD、下字幕 */
-        #p5 .vt-layout, #p6 .vt-layout, #p7 .vt-layout { flex-direction: column; }
-        #p5 .vt-sub-box, #p6 .vt-sub-box, #p7 .vt-sub-box { border-left: none; border-top: 1px solid #E2E8F0; max-width: none !important; }
+        #p5 .vt-layout, #p6 .vt-layout { flex-direction: column; }
+        #p5 .vt-sub-box, #p6 .vt-sub-box { border-left: none; border-top: 1px solid #E2E8F0; max-width: none !important; }
         #p5 .hud-bar, #p6 .hud-bar { flex: 0 0 auto; }
 
         /* 横屏桌面：视频左侧，字幕右侧，HUD提示在视频窗口下方 */
@@ -179,26 +189,6 @@
                 display: flex;
                 flex-direction: column;
             }
-            /* P7 双语字幕页：视频左侧，字幕右侧 */
-            #p7 .vt-layout {
-                display: grid !important;
-                grid-template-columns: 3fr 2fr !important;
-                flex-direction: unset !important;
-                height: 88vh !important;
-                min-height: unset !important;
-            }
-            #p7 .vt-video-col {
-                height: 100% !important;
-                max-height: unset !important;
-                aspect-ratio: unset !important;
-                flex: unset !important;
-                width: 100% !important;
-            }
-            #p7 .vt-sub-box {
-                border-top: none !important;
-                border-left: 1px solid #E2E8F0 !important;
-                max-width: none !important;
-            }
         }
         
         /* 轮播图高度限制 */
@@ -208,16 +198,27 @@
         @media (max-width: 1024px) {
             body { overflow-y: auto !important; height: auto !important; }
             .page { height: auto !important; min-height: 100vh; overflow: visible !important; }
-            #p5.page.active, #p6.page.active, #p7.page.active { height: 100vh !important; min-height: 100vh !important; overflow: hidden !important; display: flex !important; }
-            #p5 .container, #p6 .container, #p7 .container { height: 100% !important; max-height: 100vh !important; padding: 0 !important; }
-            #p5 .vt-layout, #p6 .vt-layout, #p7 .vt-layout { display: flex !important; flex-direction: column !important; height: 100% !important; min-height: 0 !important; flex: 1 !important; }
-            #p5 .vt-video-col, #p6 .vt-video-col, #p7 .vt-video-col { width: 100% !important; flex: 0 0 auto !important; height: 32vh !important; max-height: 32vh !important; min-height: 0 !important; aspect-ratio: 16/9 !important; }
-            #p5 .vt-video-col video, #p6 .vt-video-col video, #p7 .vt-video-col video { object-fit: contain !important; }
-            #p5 .vt-sub-box, #p6 .vt-sub-box, #p7 .vt-sub-box { width: 100% !important; flex: 1 !important; min-height: 0 !important; max-width: none !important; border-left: none !important; border-top: 1px solid #E2E8F0 !important; display: flex !important; flex-direction: column !important; overflow: hidden !important; }
-            #p5 .vt-sub-box .sub-list, #p6 .vt-sub-box .sub-list, #p7 .vt-sub-box .sub-list { flex: 1 !important; min-height: 0 !important; overflow-y: auto !important; -webkit-overflow-scrolling: touch !important; }
+            #p5.page.active, #p6.page.active { height: 100vh !important; min-height: 100vh !important; overflow: hidden !important; display: flex !important; }
+            #p5 .container, #p6 .container { height: 100% !important; max-height: 100vh !important; padding: 0 !important; }
+            #p5 .vt-layout, #p6 .vt-layout { display: flex !important; flex-direction: column !important; height: 100% !important; min-height: 0 !important; flex: 1 !important; }
+            #p5 .vt-video-col, #p6 .vt-video-col { width: 100% !important; flex: 0 0 auto !important; height: 32vh !important; max-height: 32vh !important; min-height: 0 !important; aspect-ratio: 16/9 !important; }
+            #p5 .vt-video-col video, #p6 .vt-video-col video { object-fit: contain !important; }
+            #p5 .vt-sub-box, #p6 .vt-sub-box { width: 100% !important; flex: 1 !important; min-height: 0 !important; max-width: none !important; border-left: none !important; border-top: 1px solid #E2E8F0 !important; display: flex !important; flex-direction: column !important; overflow: hidden !important; }
+            #p5 .vt-sub-box .sub-list, #p6 .vt-sub-box .sub-list { flex: 1 !important; min-height: 0 !important; overflow-y: auto !important; -webkit-overflow-scrolling: touch !important; }
             #p5 .hud-bar, #p6 .hud-bar { flex: 0 0 auto; }
         }
         #p5 .vt-video-col #ol1 { display: none !important; }
+        
+        /* 教师模式：快速跳转导航 */
+        #teacher-nav { position: fixed; bottom: 20px; right: 20px; z-index: 9999; display: none; flex-wrap: wrap; gap: 6px; max-width: 320px; background: rgba(15, 23, 42, 0.95); border-radius: 12px; padding: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); border: 2px solid var(--a); }
+        #teacher-nav.show { display: flex; }
+        #teacher-nav .tn-btn { padding: 6px 12px; font-size: 0.75rem; border-radius: 6px; background: var(--p); color: white; border: none; cursor: pointer; font-weight: 600; }
+        #teacher-nav .tn-btn:hover { background: var(--a); }
+        #teacher-nav .tn-exit { background: #64748B; font-size: 0.7rem; }
+        #teacher-nav .tn-exit:hover { background: #EF4444; }
+        .btn-teacher { padding: 4px 10px; font-size: 0.75rem; background: transparent; border: 1px dashed #94A3B8; color: #64748B; border-radius: 6px; cursor: pointer; }
+        .btn-teacher:hover { border-color: var(--a); color: var(--a); }
+        .btn-teacher.active { background: var(--a); color: white; border-style: solid; }
     </style>
 <style>
 .slide-container { margin-bottom: 10px !important; }
@@ -226,16 +227,16 @@
 @media (max-width: 1024px) {
     body { overflow-y: auto !important; height: auto !important; }
     .page { height: auto !important; min-height: 100vh; overflow: visible !important; }
-    #p5.page.active, #p6.page.active, #p7.page.active { height: 100vh !important; min-height: 100vh !important; overflow: hidden !important; display: flex !important; }
-    #p5 .container, #p6 .container, #p7 .container { height: 100% !important; max-height: 100vh !important; padding: 0 !important; }
-    #p5 .vt-layout, #p6 .vt-layout, #p7 .vt-layout { display: flex !important; flex-direction: column !important; height: 100% !important; min-height: 0 !important; flex: 1 !important; }
-    #p5 .vt-video-col, #p6 .vt-video-col, #p7 .vt-video-col { width: 100% !important; flex: 0 0 auto !important; height: 32vh !important; max-height: 32vh !important; min-height: 0 !important; aspect-ratio: 16/9 !important; }
-    #p5 .vt-video-col video, #p6 .vt-video-col video, #p7 .vt-video-col video { object-fit: contain !important; }
-    #p5 .vt-sub-box, #p6 .vt-sub-box, #p7 .vt-sub-box { width: 100% !important; flex: 1 !important; min-height: 0 !important; max-width: none !important; border-left: none !important; border-top: 1px solid #eee !important; display: flex !important; flex-direction: column !important; overflow: hidden !important; }
-    #p5 .vt-sub-box .sub-list, #p6 .vt-sub-box .sub-list, #p7 .vt-sub-box .sub-list { flex: 1 !important; min-height: 0 !important; overflow-y: auto !important; -webkit-overflow-scrolling: touch !important; }
+    #p5.page.active, #p6.page.active { height: 100vh !important; min-height: 100vh !important; overflow: hidden !important; display: flex !important; }
+    #p5 .container, #p6 .container { height: 100% !important; max-height: 100vh !important; padding: 0 !important; }
+    #p5 .vt-layout, #p6 .vt-layout { display: flex !important; flex-direction: column !important; height: 100% !important; min-height: 0 !important; flex: 1 !important; }
+    #p5 .vt-video-col, #p6 .vt-video-col { width: 100% !important; flex: 0 0 auto !important; height: 32vh !important; max-height: 32vh !important; min-height: 0 !important; aspect-ratio: 16/9 !important; }
+    #p5 .vt-video-col video, #p6 .vt-video-col video { object-fit: contain !important; }
+    #p5 .vt-sub-box, #p6 .vt-sub-box { width: 100% !important; flex: 1 !important; min-height: 0 !important; max-width: none !important; border-left: none !important; border-top: 1px solid #eee !important; display: flex !important; flex-direction: column !important; overflow: hidden !important; }
+    #p5 .vt-sub-box .sub-list, #p6 .vt-sub-box .sub-list { flex: 1 !important; min-height: 0 !important; overflow-y: auto !important; -webkit-overflow-scrolling: touch !important; }
     #p5 .hud-bar, #p6 .hud-bar { flex: 0 0 auto; }
 }
-#p5 .vt-video-col, #p6 .vt-video-col, #p7 .vt-video-col { border-left: none !important; }
+#p5 .vt-video-col, #p6 .vt-video-col { border-left: none !important; }
 .speed-control { background: rgba(0,0,0,0.7); color: white; border-radius: 4px; font-size: 0.8rem; padding: 2px 5px; margin-left: 10px; }
 </style></head>
 <body>
@@ -244,6 +245,7 @@
     <div class="brand"><i class="fas fa-play-circle"></i> The Terracotta Army: An Emperor's Afterlife Guard</div>
     <div style="display:flex; align-items:center; gap:10px;">
         <button id="resume-btn-head" class="btn btn-sm btn-outline" style="display:none; padding:6px 12px; font-size:0.8rem;" onclick="resumeApp()">Resume</button>
+        <button id="btn-teacher" class="btn-teacher" onclick="toggleTeacherMode()" title="教师模式">教师</button>
         <div class="score-pill"><i class="fas fa-star"></i> <span id="u-score">0</span></div>
         <button class="btn btn-sm" style="padding:6px 12px; font-size:0.8rem;" onclick="saveState(true)"><i class="fas fa-save"></i></button>
     </div>
@@ -392,13 +394,6 @@
             <div class="vt-video-col">
                 <video id="vid1" src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Video_Lab/The_incredible_history_of_Chinas_terracotta_warriors_-_Megan_Campisi_and_Pen-Pen/Video.mp4" playsinline webkit-playsinline preload="metadata"></video>
                 <div id="ol1" class="overlay"><div class="q-card"><h3 id="v-q" style="color:var(--p);">Question</h3><div id="v-opts"></div><div id="v-fb" style="display:none;"></div><button class="btn btn-outline" id="btn-rp" onclick="replaySeg()">重播</button><button class="btn" id="btn-cont" onclick="resumeVid()" style="display:none;">继续</button></div></div>
-                <div id="rev1" class="overlay">
-                    <div class="q-card">
-                        <h2 style="color:var(--p);">第一轮完成!</h2>
-                        <div id="rev-list" style="max-height:300px; overflow-y:auto; text-align:left; margin:20px 0;"></div>
-                        <button class="btn" onclick="nextPhase()">下一轮 <i class="fas fa-arrow-right"></i></button>
-                    </div>
-                </div>
                 <div id="tap-overlay-p5" style="display:none; position:absolute; inset:0; background:rgba(0,0,0,0.75); color:white; align-items:center; justify-content:center; cursor:pointer; z-index:25; font-size:1.2rem;" onclick="tapOverlayPlay(document.getElementById('vid1'), 'p5')">点击播放</div>
                 <div class="controls" style="position:absolute; bottom:0; left:0; width:100%; padding:15px; background:linear-gradient(transparent, rgba(0,0,0,0.9)); display:flex; gap:15px; align-items:center;">
                     <button class="btn btn-sm" style="background:white; color:black; border-radius:50%; width:36px; height:36px; padding:0;" onclick="togglePlay()"><i class="fas fa-play"></i></button>
@@ -417,6 +412,13 @@
                 <div class="sub-list" id="sub-list"></div>
             </div>
         </div>
+        <div id="rev1" class="rev-overlay">
+            <div class="rev-inner">
+                <h2 style="color:var(--p);">第一轮完成!</h2>
+                <div id="rev-list" style="max-height:300px; overflow-y:auto; text-align:left; margin:20px 0;"></div>
+                <button class="btn" onclick="nextPhase()">下一轮 <i class="fas fa-arrow-right"></i></button>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -427,13 +429,6 @@
             <div class="vt-video-col">
                 <video id="vid2" src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Video_Lab/The_incredible_history_of_Chinas_terracotta_warriors_-_Megan_Campisi_and_Pen-Pen/Video.mp4" playsinline webkit-playsinline preload="metadata"></video>
                 <div id="ol2" class="overlay"><div class="q-card"><h3 id="v-q2">Question</h3><div id="v-opts2"></div><div id="v-fb2" style="display:none;"></div><button class="btn btn-outline" id="btn-rp2" onclick="replaySeg()">重播</button><button class="btn" id="btn-cont2" onclick="resumeVid()" style="display:none;">继续</button></div></div>
-                <div id="rev2" class="overlay">
-                    <div class="q-card">
-                        <h2 style="color:var(--p);">第二轮完成!</h2>
-                        <div id="rev-list2" style="max-height:300px; overflow-y:auto; text-align:left; margin:20px 0;"></div>
-                        <button class="btn" onclick="nextPhase()">进入第三轮 <i class="fas fa-arrow-right"></i></button>
-                    </div>
-                </div>
                 <div id="tap-overlay-p6" style="display:none; position:absolute; inset:0; background:rgba(0,0,0,0.75); color:white; align-items:center; justify-content:center; cursor:pointer; z-index:25; font-size:1.2rem;" onclick="tapOverlayPlay(document.getElementById('vid2'), 'p6')">点击播放</div>
                 <div class="controls" style="position:absolute; bottom:0; left:0; width:100%; padding:15px; background:linear-gradient(transparent, rgba(0,0,0,0.9)); display:flex; gap:15px; align-items:center;">
                     <button class="btn btn-sm" style="background:white; color:black; border-radius:50%; width:36px; height:36px; padding:0;" onclick="togglePlay()"><i class="fas fa-play"></i></button>
@@ -452,30 +447,11 @@
                 <div class="sub-list" id="sub-list2"></div>
             </div>
         </div>
-    </div>
-</div>
-
-<!-- P7: Video Play 3 (Bilingual Subtitles + Seek Bar Enabled) - NEW! -->
-<div id="p7" class="page">
-    <div class="container" style="max-width:1400px; height:100%;">
-        <div class="vt-layout">
-            <div class="vt-video-col">
-                <video id="vid3" src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Video_Lab/The_incredible_history_of_Chinas_terracotta_warriors_-_Megan_Campisi_and_Pen-Pen/Video.mp4" playsinline webkit-playsinline preload="metadata"></video>
-                <div id="tap-overlay-p7" style="display:none; position:absolute; inset:0; background:rgba(0,0,0,0.75); color:white; align-items:center; justify-content:center; cursor:pointer; z-index:25; font-size:1.2rem;" onclick="tapOverlayPlay(document.getElementById('vid3'), 'p7')">点击播放</div>
-                <div class="controls" style="position:absolute; bottom:0; left:0; width:100%; padding:15px; background:linear-gradient(transparent, rgba(0,0,0,0.9)); display:flex; gap:15px; align-items:center;">
-                    <button class="btn btn-sm" style="background:white; color:black; border-radius:50%; width:36px; height:36px; padding:0;" onclick="togglePlay()"><i class="fas fa-play"></i></button>
-                    <input type="range" id="seek-bar3" value="0" style="flex:1;">
-                    <select class="speed-control" style="background: rgba(0,0,0,0.7); color: white; border-radius: 4px; font-size: 0.8rem; padding: 2px 5px; border: none;" onchange="const v=document.querySelector('.page.active video'); if(v) v.playbackRate=parseFloat(this.value)">
-                        <option value="0.8">0.8x</option>
-                        <option value="1.0" selected>1.0x</option>
-                        <option value="1.25">1.25x</option>
-                        <option value="1.5">1.5x</option>
-                    </select>
-                </div>
-            </div>
-            <div class="vt-sub-box">
-                <div style="padding:15px; border-bottom:1px solid #eee; font-weight:bold; color:var(--sub); font-size:0.9rem;">双语字幕 (BILINGUAL) <span style="font-weight:normal; font-size:0.8rem;">(点击查词)</span></div>
-                <div class="sub-list" id="sub-list3"></div>
+        <div id="rev2" class="rev-overlay">
+            <div class="rev-inner">
+                <h2 style="color:var(--p);">第二轮完成!</h2>
+                <div id="rev-list2" style="max-height:300px; overflow-y:auto; text-align:left; margin:20px 0;"></div>
+                <button class="btn" onclick="nextPhase()">查看报告 <i class="fas fa-flag-checkered"></i></button>
             </div>
         </div>
     </div>
@@ -603,6 +579,18 @@
 </div>
 
 <!-- DeepSeek AI Helper (Keep original) -->
+<!-- 教师模式：快速跳转 -->
+<div id="teacher-nav">
+    <button class="tn-btn" onclick="teacherGoto('p1')">P1 开始</button>
+    <button class="tn-btn" onclick="teacherGoto('p2')">P2 概览</button>
+    <button class="tn-btn" onclick="teacherGoto('p3')">P3 词汇</button>
+    <button class="tn-btn" onclick="teacherGoto('p4')">P4 测验</button>
+    <button class="tn-btn" onclick="teacherGoto('p5')">P5 视频1</button>
+    <button class="tn-btn" onclick="teacherGoto('p6')">P6 视频2</button>
+    <button class="tn-btn" onclick="teacherGoto('p8')">P8 报告</button>
+    <button class="tn-btn tn-exit" onclick="toggleTeacherMode()">退出</button>
+</div>
+
 <div id="ds-pop">
     <div style="background:var(--p); color:white; padding:10px 15px; font-weight:bold; display:flex; justify-content:space-between;"><span>AI 助手</span><span onclick="document.getElementById('ds-pop').style.display='none'" style="cursor:pointer;">&times;</span></div>
     <div id="ds-con" style="padding:15px; max-height:250px; overflow-y:auto;">思考中...</div>
@@ -648,6 +636,8 @@
     };
     let s = { u:"", score:0, lsc:0, qsc:0, vidsc:0, sv:new Set(), lrn:new Set(), wordbook:new Set(), pg:'p1', lock:false, t:0, t1:0, t2:0, t3:0, v1:0, v2:0, startTime: Date.now(), phase:'general', logs1:[], logs2:[] };
     const STORAGE_KEY = 'vt_course_final_v5_wordbook';
+    const TEACHER_PW = '123888';
+    let teacherMode = false;
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.maxTouchPoints > 0 && /Mac/.test(navigator.userAgent));
     let lastActiveSubIndex = -1;
     let vocabWords = new Set();   // all forms to match (base + inflections)
@@ -739,7 +729,7 @@
     }
     function safePlay(v) {
         if(!v) return;
-        const pageId = v.id === 'vid1' ? 'p5' : (v.id === 'vid2' ? 'p6' : 'p7');
+        const pageId = v.id === 'vid1' ? 'p5' : 'p6';
         const ov = document.getElementById('tap-overlay-' + pageId);
         const p = v.play();
         if(p && typeof p.then === 'function') {
@@ -753,6 +743,7 @@
             var au = localStorage.getItem('authing-user') || localStorage.getItem('current-user');
             if (au && typeof au === 'string') { au = au.trim(); if (au) { var un = document.getElementById('username'); if (un) un.value = au; } }
         } catch (e) {}
+        if (sessionStorage.getItem('teacherMode') === '1') { teacherMode = true; document.getElementById('teacher-nav').classList.add('show'); document.getElementById('btn-teacher').classList.add('active'); }
         const hasSave = localStorage.getItem(STORAGE_KEY);
         if(hasSave) {
             const btnMain = document.getElementById('resume-btn-main');
@@ -768,6 +759,25 @@
     window.addEventListener('beforeunload', () => saveState(false));
     document.addEventListener('visibilitychange', () => { if(document.visibilityState === 'hidden') saveState(false); });
 
+    function toggleTeacherMode() {
+        if (teacherMode) {
+            teacherMode = false;
+            sessionStorage.removeItem('teacherMode');
+            document.getElementById('teacher-nav').classList.remove('show');
+            document.getElementById('btn-teacher').classList.remove('active');
+            return;
+        }
+        const pw = prompt('请输入教师模式密码：');
+        if (pw === TEACHER_PW) {
+            teacherMode = true;
+            sessionStorage.setItem('teacherMode', '1');
+            document.getElementById('teacher-nav').classList.add('show');
+            document.getElementById('btn-teacher').classList.add('active');
+        } else if (pw !== null) {
+            alert('密码错误');
+        }
+    }
+    function teacherGoto(id) { toPage(id); }
     function startApp() {
         s.u = (document.getElementById('username') && document.getElementById('username').value) ? document.getElementById('username').value.trim() : "";
         if (!s.u) s.u = "学习者";
@@ -940,17 +950,16 @@
         if(idx === -1 || idx === lastActiveSubIndex) return;
         lastActiveSubIndex = idx;
         document.querySelectorAll(`#${listId} .sub-line`).forEach(e=>e.classList.remove('active'));
-        const prefix = listId === 'sub-list' ? 'sub-' : (listId === 'sub-list2' ? 'sub2-' : 'sub3-');
+        const prefix = listId === 'sub-list' ? 'sub-' : 'sub2-';
         const el = document.getElementById(prefix + idx);
         if(el) { el.classList.add('active'); el.scrollIntoView({behavior:'smooth',block:'center'}); }
     }
 
     function onSeekedRestore(id) {
         const v = document.getElementById('vid'+id);
-        const listId = id === 1 ? 'sub-list' : (id === 2 ? 'sub-list2' : 'sub-list3');
+        const listId = id === 1 ? 'sub-list' : 'sub-list2';
         syncSubHighlight(v.currentTime, listId);
         lastActiveSubIndex = -1;
-        if(id === 3) return; // No quiz on p7
         const qs = id === 1 ? D.quizzes.general : D.quizzes.detailed;
         if(!qs || !qs.length) return;
         const qi = Math.max(0, (id===1 ? s.v1 : s.v2) - 1);
@@ -973,10 +982,10 @@
             doSeek();
             vid.onseeked = () => {
                 vid.onseeked = null;
-                const listId = id === 1 ? 'sub-list' : (id === 2 ? 'sub-list2' : 'sub-list3');
+                const listId = id === 1 ? 'sub-list' : 'sub-list2';
                 syncSubHighlight(vid.currentTime, listId);
                 lastActiveSubIndex = -1;
-                if(wasLock && qs && id !== 3) {
+                if(wasLock && qs) {
                     const qi = Math.max(0, (id===1 ? s.v1 : s.v2) - 1);
                     if(qi < qs.length) popVQ(id, qs[qi]);
                 }
@@ -1024,7 +1033,6 @@
         s.pg = id; 
         if(id==='p5') s.phase = 'general';
         else if(id==='p6') s.phase = 'detailed';
-        else if(id==='p7') s.phase = 'bilingual';
         saveState();
         
         if(id === 'p5') { 
@@ -1038,11 +1046,6 @@
             if(s.t2 > 0) restoreVid(2, s.t2); 
             else if(s.lock) onSeekedRestore(2); 
             safePlay(document.getElementById('vid2')); 
-        }
-        if(id === 'p7') { 
-            initVid(3); 
-            if(s.t3 > 0) restoreVid(3, s.t3);
-            safePlay(document.getElementById('vid3')); 
         }
         if(id === 'p8') genReport();
     }
@@ -1247,14 +1250,17 @@
         document.getElementById('q-fb').style.display = 'none';
         document.getElementById('q-nxt').style.display = 'none';
         let h = `<div style="font-size:1.2rem; margin-bottom:20px; font-weight:500;">${q.txt}</div>`;
-        q.opts.forEach(o => {
-            h += `<button class="opt-btn" onclick="chkQ(this, '${o}', '${q.ans}')">${o}</button>`;
+        q.opts.forEach((o, idx) => {
+            h += `<button class="opt-btn" data-idx="${idx}" onclick="chkQByIdx(this)">${o.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</button>`;
         });
         document.getElementById('q-content').innerHTML = h;
     }
 
-    function chkQ(btn, sel, ans) {
+    function chkQByIdx(btn) {
         const q = qQ[qC];
+        const idx = parseInt(btn.getAttribute('data-idx'), 10);
+        const sel = q.opts[idx];
+        const ans = q.ans;
         document.querySelectorAll('#q-content .opt-btn').forEach(b => b.disabled = true);
         if(sel === ans) {
             btn.classList.add('correct'); s.qsc += 2;
@@ -1275,7 +1281,7 @@
     let isReplaying = false, replayEndTime = 0; // 回放模式标志和终止时间
     
     function initVid(id) {
-        const suffix = id === 1 ? '' : (id === 2 ? '2' : '3');
+        const suffix = id === 1 ? '' : '2';
         const v = document.getElementById(`vid${id}`);
         const qs = (id === 1 ? D.quizzes.general : (id === 2 ? D.quizzes.detailed : null)) || [];
         if(qs.length > 0) qs.sort((a,b) => a.time - b.time);
@@ -1294,60 +1300,42 @@
         v.ontimeupdate = () => {
             if(id===1) s.t1 = v.currentTime; 
             else if(id===2) s.t2 = v.currentTime;
-            else s.t3 = v.currentTime;
             s.t = v.currentTime;
             const sb = document.getElementById('seek-bar'+suffix);
             if(sb) sb.value = (v.currentTime / (v.duration||1)) * 100 || 0;
 
-            // 检查回放是否到达终止时间
-            if(isReplaying && v.currentTime >= replayEndTime) {
-                v.pause();
-                isReplaying = false;
-                const hudId = id === 1 ? 'hud' : 'hud2';
-                const hud = document.getElementById(hudId);
-                hud.classList.remove('show');
-                hud.innerText = '';
-            }
-
+            // 优先检查：是否到达题目弹出时刻（重播时需能再次弹出题目）
             if(id <= 2 && qIdx < qs.length && v.currentTime >= qs[qIdx].time && !s.lock) {
-                v.pause(); s.lock = true; popVQ(id, qs[qIdx]);
+                v.pause(); s.lock = true; isReplaying = false;
+                popVQ(id, qs[qIdx]);
                 if(id===1) s.v1++; else s.v2++;
                 qIdx++;
                 const hudId = id === 1 ? 'hud' : 'hud2';
                 const hud = document.getElementById(hudId);
                 hud.classList.remove('show'); hud.innerText = '';
             }
-            const listId = id === 1 ? 'sub-list' : (id === 2 ? 'sub-list2' : 'sub-list3');
+            // 回放模式安全终止：若已过题目时刻仍未触发，则在 replayEndTime 停止
+            if(isReplaying && v.currentTime >= replayEndTime) {
+                v.pause();
+                isReplaying = false;
+                const hudId = id === 1 ? 'hud' : 'hud2';
+                const hud = document.getElementById(hudId);
+                if(hud) { hud.classList.remove('show'); hud.innerText = ''; }
+            }
+            const listId = id === 1 ? 'sub-list' : 'sub-list2';
             if(D.subtitles) syncSubHighlight(v.currentTime, listId);
         };
         v.onseeked = () => { 
-            const listId = id === 1 ? 'sub-list' : (id === 2 ? 'sub-list2' : 'sub-list3');
+            const listId = id === 1 ? 'sub-list' : 'sub-list2';
             if(D.subtitles) syncSubHighlight(v.currentTime, listId); 
             lastActiveSubIndex = -1; 
         };
         if(D.subtitles) {
-            const listId = id === 1 ? 'sub-list' : (id === 2 ? 'sub-list2' : 'sub-list3');
+            const listId = id === 1 ? 'sub-list' : 'sub-list2';
             syncSubHighlight(v.currentTime, listId);
         }
-        if(id <= 2) {
-            v.onended = () => showRev(id);
-        } else {
-            v.onended = () => {
-                // P7 ends, go to report
-                toPage('p8');
-            };
-        }
+        v.onended = () => showRev(id);
         v.onpause = () => saveState(false);
-
-        // Enable seek bar for p7
-        const seekBar = document.getElementById('seek-bar'+suffix);
-        if(id === 3 && seekBar) {
-            seekBar.disabled = false;
-            seekBar.oninput = function() {
-                const seekTo = (this.value / 100) * v.duration;
-                v.currentTime = seekTo;
-            };
-        }
     }
 
     function popVQ(id, q) {
@@ -1380,9 +1368,8 @@
         const v = document.getElementById('vid'+id);
         if(curQ && curQ.replay && curQ.replay.start != null) {
             v.currentTime = curQ.replay.start;
-            // 设置回放模式和终止时间
             isReplaying = true;
-            replayEndTime = curQ.replay.end || (curQ.replay.start + 15); // 默认15秒
+            replayEndTime = (curQ.time != null ? curQ.time : (curQ.replay?.end || curQ.replay.start + 15));
         }
         document.getElementById('vq-overlay').style.display = 'none';
         s.lock = false;
@@ -1419,6 +1406,26 @@
         `).join('');
     }
 
+    function replaySentence(subIndex, vidId) {
+        if (!D.subtitles || !D.subtitles[subIndex]) return;
+        const sub = D.subtitles[subIndex];
+        const v = document.getElementById('vid' + vidId);
+        if (!v) return;
+        v.currentTime = sub.s;
+        safePlay(v);
+        const listId = vidId === 1 ? 'sub-list' : 'sub-list2';
+        const prefix = vidId === 1 ? 'sub-' : 'sub2-';
+        document.querySelectorAll('#' + listId + ' .sub-line').forEach(el => el.classList.remove('active'));
+        const target = document.getElementById(prefix + subIndex);
+        if (target) { target.classList.add('active'); target.scrollIntoView({behavior:'smooth',block:'center'}); }
+        lastActiveSubIndex = subIndex;
+    }
+    function toggleSubCn(btn) {
+        const line = btn.closest('.sub-line');
+        if (!line) return;
+        const cnDiv = line.querySelector('.sub-line-cn-toggle');
+        if (cnDiv) cnDiv.classList.toggle('show');
+    }
     function togglePlay() { const v = document.querySelector('.page.active video'); if(!v) return; v.paused ? safePlay(v) : v.pause(); }
     function playVid(id) { const v = document.getElementById(`vid${id}`); v.paused ? v.play() : v.pause(); }
     function upUI() { document.querySelectorAll('#u-score').forEach(e => e.innerText = s.lsc + s.qsc + s.vidsc); }
@@ -1630,7 +1637,6 @@
     function initSubs() {
         const c1 = document.getElementById('sub-list');
         const c2 = document.getElementById('sub-list2');
-        const c3 = document.getElementById('sub-list3'); // NEW: Bilingual subtitles
         
         // 功能词（代词/冠词/助词）：允许插入短语词之间（策略2）
         const FILLER_WORDS = new Set([
@@ -1744,14 +1750,12 @@
                 }
                 return `<span class="w-click" onclick="ds('${cleanW}')">${t.w}</span>`;
             }).join(' ');
-            const inner1 = `<small style="color:var(--sub); margin-right:10px;">${Math.floor(x.s/60)}:${Math.floor(x.s%60).toString().padStart(2,'0')}</small>${html1}`;
+            const timeStr = `<small style="color:var(--sub); margin-right:10px;">${Math.floor(x.s/60)}:${Math.floor(x.s%60).toString().padStart(2,'0')}</small>`;
+            const btnsHtml = `<div class="sub-line-btns"><button class="btn-tiny sub-btn-replay" data-sub-i="${i}" data-vid="1"><i class="fas fa-redo-alt"></i> 重播</button></div>`;
+            const inner1 = `${timeStr}${html1}${btnsHtml}`;
             
-            // P6: Normal clickable
-            const html2 = x.t.split(' ').map(w => `<span class="w-click" onclick="ds('${w.replace(/[^a-zA-Z]/g,'')}')">${w}</span>`).join(' ');
-            const inner2 = `<small style="color:var(--sub); margin-right:10px;">${Math.floor(x.s/60)}:${Math.floor(x.s%60).toString().padStart(2,'0')}</small>${html2}`;
-            
-            // P7: Bilingual with vocab highlighting (same as P5: phrases + word forms)
-            const html3 = tokens.map(t => {
+            // P6: 词汇词组高亮 + 重播/翻译按钮
+            const html2 = tokens.map(t => {
                 if (t.type === 'phrase') {
                     return `<span class="vocab-highlight" onclick="showDictPopup('${t.v.w.replace(/'/g, "\\'")}')">${t.display || t.v.w}</span>`;
                 }
@@ -1761,11 +1765,9 @@
                 }
                 return `<span class="w-click" onclick="ds('${cleanW}')">${t.w}</span>`;
             }).join(' ');
-            const inner3 = `
-                <small style="color:var(--sub); margin-right:10px;">${Math.floor(x.s/60)}:${Math.floor(x.s%60).toString().padStart(2,'0')}</small>
-                ${html3}
-                <div class="sub-line-cn">${x.cn || '【待翻译】'}</div>
-            `;
+            const cnHtml2 = `<div class="sub-line-cn-toggle" id="cn-2-${i}">${x.cn || '【待翻译】'}</div>`;
+            const btnsHtml2 = `<div class="sub-line-btns"><button class="btn-tiny sub-btn-replay" data-sub-i="${i}" data-vid="2"><i class="fas fa-redo-alt"></i> 重播</button><button class="btn-tiny sub-btn-translate"><i class="fas fa-language"></i> 翻译</button></div>`;
+            const inner2 = `${timeStr}${html2}${btnsHtml2}${cnHtml2}`;
             
             const d1 = document.createElement('div'); d1.className = 'sub-line'; d1.id = `sub-${i}`;
             d1.innerHTML = inner1;
@@ -1774,10 +1776,20 @@
             const d2 = document.createElement('div'); d2.className = 'sub-line'; d2.id = `sub2-${i}`;
             d2.innerHTML = inner2;
             c2.appendChild(d2);
-            
-            const d3 = document.createElement('div'); d3.className = 'sub-line'; d3.id = `sub3-${i}`;
-            d3.innerHTML = inner3;
-            c3.appendChild(d3);
+        });
+        [c1, c2].forEach((container, idx) => {
+            if (!container) return;
+            container.addEventListener('click', function(e) {
+                const replayBtn = e.target.closest('.sub-btn-replay');
+                const translateBtn = e.target.closest('.sub-btn-translate');
+                const vidId = idx + 1;
+                if (replayBtn) {
+                    const i = parseInt(replayBtn.getAttribute('data-sub-i'), 10);
+                    if (!isNaN(i)) replaySentence(i, vidId);
+                } else if (translateBtn) {
+                    toggleSubCn(translateBtn);
+                }
+            });
         });
     }
 
@@ -1825,8 +1837,6 @@
     function nextPhase() { 
         if (s.pg === 'p5') {
             toPage('p6'); 
-        } else if (s.pg === 'p6') {
-            toPage('p7'); // NEW: Go to bilingual play
         } else {
             toPage('p8'); 
         }
