@@ -69,6 +69,10 @@
         #dict-popup .dict-footer { padding: 15px 25px; border-top: 1px solid #E5E7EB; display: flex; gap: 10px; justify-content: flex-end; }
         #dict-popup .dict-close-btn { padding: 8px 20px; background: #F3F4F6; border: none; border-radius: 8px; color: #6B7280; font-weight: 600; cursor: pointer; }
         #dict-popup .dict-close-btn:hover { background: #E5E7EB; }
+        #dict-popup .dict-context { background:#F8FAFC; border:1px solid #E5E7EB; border-radius:10px; padding:12px 14px; color:#334155; line-height:1.6; }
+        #dict-popup #dict-status { font-weight:600; }
+        #dict-popup .dict-context { background:#F8FAFC; border:1px solid #E5E7EB; border-radius:10px; padding:12px 14px; color:#334155; line-height:1.6; }
+        #dict-popup #dict-status { font-weight:600; }
 
         /* Overview 中文翻译切换 */
         .overview-para { margin-bottom: 18px; }
@@ -556,6 +560,7 @@
                 <i class="fas fa-plus"></i> Add
             </button>
         </div>
+        <div id="dict-status" style="margin-top:10px; font-size:0.85rem; color:#6B7280; display:none;"></div>
     </div>
     <div class="dict-body">
         <div class="dict-section">
@@ -563,6 +568,11 @@
             <div class="dict-meaning" id="dict-meaning">Definition here</div>
             <div class="dict-cn" id="dict-cn">中文释义</div>
         </div>
+        <div class="dict-section" id="dict-context-wrap" style="display:none;">
+            <div class="dict-label">?? CONTEXT</div>
+            <div class="dict-context" id="dict-context"></div>
+        </div>
+
         <div class="dict-section">
             <div class="dict-label">💡 EXAMPLE</div>
             <div class="dict-example">
@@ -810,41 +820,46 @@
             if(iconIndex === -1) return;
             let textPart = html.substring(0, iconIndex);
             const iconPart = html.substring(iconIndex);
-            
+            const plainContext = normalizeInlineText(p.textContent || textPart);
+            const ctxExpr = `decodeURIComponent('${encodeURIComponent(plainContext)}')`;
+
             // 1) Phrases first (longest first) so "come to power" is not broken by "power"
             vocabPhrases.forEach(v => {
-                const phrase = v.w.replace(/\s+/g, '\\s+');
-                const regex = new RegExp('\\b(' + phrase + ')\\b', 'gi');
+                const phrase = v.w.replace(/\s+/g, '\s+');
+                const regex = new RegExp('\b(' + phrase + ')\b', 'gi');
                 textPart = textPart.replace(regex, (match) => {
-                    return `<span class="clickable-word" onclick="showDictPopup('${v.w.replace(/'/g, "\\'")}')">${match}</span>`;
+                    return `<span class="clickable-word" onclick="showDictPopup('${v.w.replace(/'/g, "\\'")}', ${ctxExpr})">${match}</span>`;
                 });
             });
-            
+
             // 2) Single words with common form variations (so "discovered" matches vocab "discover"); longer words first to avoid partial overlap
             const singleWords = D.vocab.filter(v => (v.w || '').indexOf(' ') < 0).slice().sort((a,b) => b.w.length - a.w.length);
             singleWords.forEach(v => {
                 const forms = wordFormsForMatch(v.w);
                 const escaped = forms.map(f => escapeRegex(f));
-                const regex = new RegExp('\\b(' + escaped.join('|') + ')\\b', 'gi');
+                const regex = new RegExp('\b(' + escaped.join('|') + ')\b', 'gi');
                 textPart = textPart.replace(regex, (match) => {
-                    return `<span class="clickable-word" onclick="showDictPopup('${v.w.replace(/'/g, "\\'")}')">${match}</span>`;
+                    return `<span class="clickable-word" onclick="showDictPopup('${v.w.replace(/'/g, "\\'")}', ${ctxExpr})">${match}</span>`;
                 });
             });
-            
+
             p.innerHTML = textPart + iconPart;
         });
     }
 
     let currentDictVocabIndex = -1; // Track vocab from dict popup
-    
-    // NEW: Show dictionary popup (按图片格式)；点读必须指向正确词条：先精确/词形，再按 stem 只匹配该词条原形
-    function showDictPopup(word) {
+    let currentDictWordText = '';
+    const dictExplainCache = new Map();
+
+    function normalizeInlineText(text) {
+        return String(text || '').replace(/\s+/g, ' ').trim();
+    }
+
+    function findVocabIndexByWord(word) {
         const w = String(word || '').trim().toLowerCase();
+        if (!w) return -1;
         const stem = stemForMatch(w);
-        let vocabIndex = -1;
-        // 1) 精确匹配（含短语）
-        vocabIndex = D.vocab.findIndex(v => v.w.toLowerCase() === w);
-        // 2) 词形匹配：词条的原形/变形列表包含当前点击词
+        let vocabIndex = D.vocab.findIndex(v => (v.w || '').toLowerCase() === w);
         if (vocabIndex === -1) {
             vocabIndex = D.vocab.findIndex(v => {
                 if ((v.w || '').indexOf(' ') >= 0) return false;
@@ -852,55 +867,196 @@
                 return forms.includes(w);
             });
         }
-        // 3) 单词语干匹配：只匹配「原形=stem 或 原形=stem+e」的条目，避免点到 A 词却显示 B 词
         if (vocabIndex === -1 && stem && stem.length >= 2) {
             vocabIndex = D.vocab.findIndex(v => {
                 if ((v.w || '').indexOf(' ') >= 0) return false;
-                const vw = v.w.toLowerCase();
+                const vw = (v.w || '').toLowerCase();
                 return vw === stem || vw === stem + 'e';
             });
         }
-        if(vocabIndex === -1) return;
-        const vocab = D.vocab[vocabIndex];
+        return vocabIndex;
+    }
+
+    function findPhraseVocabIndexFromContext(clickedWord, contextText) {
+        const w = String(clickedWord || '').trim().toLowerCase();
+        const ctx = normalizeInlineText(contextText).toLowerCase();
+        if (!w || !ctx) return -1;
+        let bestIdx = -1;
+        let bestLen = 0;
+        D.vocab.forEach((v, idx) => {
+            const phrase = (v.w || '').toLowerCase().trim();
+            if (!phrase || phrase.indexOf(' ') < 0) return;
+            if (!phrase.includes(w)) return;
+            if (ctx.includes(phrase) && phrase.length > bestLen) {
+                bestIdx = idx;
+                bestLen = phrase.length;
+            }
+        });
+        return bestIdx;
+    }
+
+    function buildFallbackDictEntry(clickedWord, vocab, contextText) {
+        const word = normalizeInlineText(vocab?.w || clickedWord);
+        return {
+            word,
+            form: vocab?.form || vocab?.type || 'word',
+            phonetic_us: vocab?.phonetic_us || '/?/',
+            phonetic_uk: vocab?.phonetic_uk || '/?/',
+            meaning_en: vocab?.en_def || `${word}: definition pending.`,
+            meaning_cn: vocab?.cn || `${word}: ?????`,
+            example_en: vocab?.life_ex || vocab?.vid_ex || contextText || `The word "${word}" appears in this lesson context.`,
+            example_cn: vocab?.life_cn || vocab?.vid_cn || '?????????????',
+            context_note: contextText || ''
+        };
+    }
+
+    function renderDictEntry(entry) {
+        const safe = entry || {};
+        document.getElementById('dict-word').innerText = safe.word || '-';
+        document.getElementById('dict-form').innerText = safe.form || 'word';
+        document.getElementById('dict-phonetic-us').innerText = safe.phonetic_us || '/?/';
+        document.getElementById('dict-phonetic-uk').innerText = safe.phonetic_uk || '/?/';
+        document.getElementById('dict-meaning').innerText = safe.meaning_en || '-';
+        document.getElementById('dict-cn').innerText = safe.meaning_cn || '-';
+        document.getElementById('dict-example-en').innerText = safe.example_en || '-';
+        document.getElementById('dict-example-cn').innerText = safe.example_cn || '-';
+        const contextWrap = document.getElementById('dict-context-wrap');
+        const contextEl = document.getElementById('dict-context');
+        const contextText = normalizeInlineText(safe.context_note || '');
+        if (contextWrap && contextEl) {
+            if (contextText) {
+                contextEl.innerText = contextText;
+                contextWrap.style.display = 'block';
+            } else {
+                contextEl.innerText = '';
+                contextWrap.style.display = 'none';
+            }
+        }
+    }
+
+    async function fetchContextualDictEntry(word, contextText, fallback) {
+        const key = (word || '').toLowerCase() + '||' + (contextText || '').toLowerCase();
+        if (dictExplainCache.has(key)) return dictExplainCache.get(key);
+        if (!C.deepseekKey) return fallback;
+        const trimmedContext = normalizeInlineText(contextText).slice(0, 260);
+        const prompt = `You are an ESL dictionary assistant for Chinese learners.\n` +
+            `Target word: ${word}\n` +
+            `Context sentence: ${trimmedContext || 'N/A'}\n` +
+            `Return STRICT JSON with keys: en_def, cn_def, en_example, cn_example, context_note, pos.\n` +
+            `Requirements: 1) Explain word meaning according to THIS context. 2) Use concise B1-B2 learner-friendly wording. 3) Provide one natural English example and Chinese translation. 4) context_note should mention how the word is used in the given sentence.`;
+        try {
+            const r = await fetch('https://api.deepseek.com/v1/chat/completions', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${C.deepseekKey}` },
+                body: JSON.stringify({
+                    model: 'deepseek-chat',
+                    messages: [{ role: 'user', content: prompt }],
+                    response_format: { type: 'json_object' }
+                })
+            });
+            if (!r.ok) throw new Error('DeepSeek API failed');
+            const raw = await r.json();
+            const parsed = JSON.parse(raw.choices?.[0]?.message?.content || '{}');
+            const enriched = {
+                ...fallback,
+                form: normalizeInlineText(parsed.pos) || fallback.form,
+                meaning_en: normalizeInlineText(parsed.en_def) || fallback.meaning_en,
+                meaning_cn: normalizeInlineText(parsed.cn_def) || fallback.meaning_cn,
+                example_en: normalizeInlineText(parsed.en_example) || fallback.example_en,
+                example_cn: normalizeInlineText(parsed.cn_example) || fallback.example_cn,
+                context_note: normalizeInlineText(parsed.context_note) || fallback.context_note
+            };
+            dictExplainCache.set(key, enriched);
+            return enriched;
+        } catch (e) {
+            console.error('Contextual dict fetch failed:', e);
+            return fallback;
+        }
+    }
+
+    async function showDictPopup(word, contextText = '') {
+        const rawWord = normalizeInlineText(word).toLowerCase();
+        if (!rawWord) return;
+        let vocabIndex = findVocabIndexByWord(rawWord);
+        if (vocabIndex === -1) {
+            vocabIndex = findPhraseVocabIndexFromContext(rawWord, contextText);
+        }
+        const vocab = vocabIndex >= 0 ? D.vocab[vocabIndex] : null;
         currentDictVocabIndex = vocabIndex;
-        
-        document.getElementById('dict-word').innerText = vocab.w;
-        document.getElementById('dict-form').innerText = vocab.form || vocab.type;
-        document.getElementById('dict-phonetic-us').innerText = vocab.phonetic_us || '/—/';
-        document.getElementById('dict-phonetic-uk').innerText = vocab.phonetic_uk || '/—/';
-        document.getElementById('dict-meaning').innerText = vocab.en_def;
-        document.getElementById('dict-cn').innerText = vocab.cn;
-        document.getElementById('dict-example-en').innerText = vocab.life_ex || vocab.vid_ex;
-        document.getElementById('dict-example-cn').innerText = vocab.life_cn || vocab.vid_cn;
-        
+        currentDictWordText = normalizeInlineText(vocab?.w || rawWord);
+        const fallback = buildFallbackDictEntry(rawWord, vocab, contextText);
+        renderDictEntry(fallback);
         updateDictAddButton();
         document.getElementById('dict-popup').style.display = 'block';
-        if (vocab.audio) playAudio(vocab.audio); else speakWord(vocab.w);
+        const statusEl = document.getElementById('dict-status');
+
+        if (vocab) {
+            if (statusEl) {
+                statusEl.innerText = '???????';
+                statusEl.style.display = 'block';
+                setTimeout(() => { statusEl.style.display = 'none'; }, 1000);
+            }
+            if (vocab.audio) playAudio(vocab.audio); else speakWord(currentDictWordText);
+            return;
+        }
+
+        if (statusEl) {
+            statusEl.style.display = 'block';
+            statusEl.innerText = '?????????? DeepSeek ??????...';
+        }
+
+        const enriched = await fetchContextualDictEntry(currentDictWordText, contextText || fallback.example_en, fallback);
+        renderDictEntry(enriched);
+        if (statusEl) {
+            statusEl.innerText = C.deepseekKey ? 'DeepSeek ???????' : '??? DeepSeek Key???????';
+            setTimeout(() => { statusEl.style.display = 'none'; }, 1600);
+        }
+        speakWord(currentDictWordText);
     }
+
+
     function playWordAudioByDict() {
-        if (currentDictVocabIndex < 0 || !D.vocab[currentDictVocabIndex]) return;
-        const v = D.vocab[currentDictVocabIndex];
-        if (v.audio) playAudio(v.audio); else speakWord(v.w);
+        if (currentDictVocabIndex >= 0 && D.vocab[currentDictVocabIndex]) {
+            const v = D.vocab[currentDictVocabIndex];
+            if (v.audio) { playAudio(v.audio); return; }
+            speakWord(v.w);
+            return;
+        }
+        speakWord(document.getElementById('dict-word').innerText || currentDictWordText || '');
     }
+
     function playExampleAudioByDict() {
-        if (currentDictVocabIndex < 0 || !D.vocab[currentDictVocabIndex]) return;
-        const v = D.vocab[currentDictVocabIndex];
-        const url = v.audio_life_ex || v.audio_vid_ex;
-        if (url) playAudio(url); else speak(document.getElementById('dict-example-en').innerText);
+        if (currentDictVocabIndex >= 0 && D.vocab[currentDictVocabIndex]) {
+            const v = D.vocab[currentDictVocabIndex];
+            const url = v.audio_life_ex || v.audio_vid_ex;
+            if (url) { playAudio(url); return; }
+        }
+        speak(document.getElementById('dict-example-en').innerText || '');
     }
-    
+
     function toggleWordbookFromDict() {
         if(currentDictVocabIndex === -1) return;
         toggleWordbook(currentDictVocabIndex);
         updateDictAddButton();
     }
-    
+
     function updateDictAddButton() {
         const btn = document.getElementById('dict-add-btn');
         if(!btn) return;
+        if (currentDictVocabIndex < 0 || !D.vocab[currentDictVocabIndex]) {
+            btn.classList.remove('added');
+            btn.innerHTML = '<i class="fas fa-ban"></i> ???????';
+            btn.disabled = true;
+            btn.style.opacity = '0.55';
+            btn.style.cursor = 'not-allowed';
+            return;
+        }
+        btn.disabled = false;
+        btn.style.opacity = '1';
+        btn.style.cursor = 'pointer';
         if(s.wordbook.has(currentDictVocabIndex)) {
             btn.classList.add('added');
-            btn.innerHTML = '<i class="fas fa-check"></i> 已加入';
+            btn.innerHTML = '<i class="fas fa-check"></i> ???';
         } else {
             btn.classList.remove('added');
             btn.innerHTML = '<i class="fas fa-plus"></i> Add';
@@ -910,6 +1066,7 @@
     function closeDictPopup() {
         document.getElementById('dict-popup').style.display = 'none';
         currentDictVocabIndex = -1;
+        currentDictWordText = '';
     }
 
     // Click outside to close
@@ -1749,13 +1906,13 @@
             const tokens = tokenizeWithPhrases(x.t);
             const html1 = tokens.map(t => {
                 if (t.type === 'phrase') {
-                    return `<span class="vocab-highlight" onclick="showDictPopup('${t.v.w.replace(/'/g, "\\'")}')">${t.display || t.v.w}</span>`;
+                    return `<span class="vocab-highlight dict-trigger" data-word="${encodeURIComponent(t.v.w)}" data-context="${encodeURIComponent(x.t)}">${t.display || t.v.w}</span>`;
                 }
                 const cleanW = t.w.replace(/[^a-zA-Z]/g,'');
                 if (isVocabWord(cleanW)) {
-                    return `<span class="vocab-highlight" onclick="showDictPopup('${cleanW}')">${t.w}</span>`;
+                    return `<span class="vocab-highlight dict-trigger" data-word="${encodeURIComponent(cleanW)}" data-context="${encodeURIComponent(x.t)}">${t.w}</span>`;
                 }
-                return `<span class="w-click" onclick="ds('${cleanW}')">${t.w}</span>`;
+                return `<span class="w-click dict-trigger" data-word="${encodeURIComponent(cleanW)}" data-context="${encodeURIComponent(x.t)}">${t.w}</span>`;
             }).join(' ');
             const timeStr = `<small style="color:var(--sub); margin-right:10px;">${Math.floor(x.s/60)}:${Math.floor(x.s%60).toString().padStart(2,'0')}</small>`;
             const btnsHtml = `<div class="sub-line-btns"><button class="btn-tiny sub-btn-replay" data-sub-i="${i}" data-vid="1"><i class="fas fa-redo-alt"></i> 重播</button></div>`;
@@ -1764,13 +1921,13 @@
             // P6: 与 P5 相同，词汇词组高亮
             const html2 = tokens.map(t => {
                 if (t.type === 'phrase') {
-                    return `<span class="vocab-highlight" onclick="showDictPopup('${t.v.w.replace(/'/g, "\\'")}')">${t.display || t.v.w}</span>`;
+                    return `<span class="vocab-highlight dict-trigger" data-word="${encodeURIComponent(t.v.w)}" data-context="${encodeURIComponent(x.t)}">${t.display || t.v.w}</span>`;
                 }
                 const cleanW = t.w.replace(/[^a-zA-Z]/g,'');
                 if (isVocabWord(cleanW)) {
-                    return `<span class="vocab-highlight" onclick="showDictPopup('${cleanW}')">${t.w}</span>`;
+                    return `<span class="vocab-highlight dict-trigger" data-word="${encodeURIComponent(cleanW)}" data-context="${encodeURIComponent(x.t)}">${t.w}</span>`;
                 }
-                return `<span class="w-click" onclick="ds('${cleanW}')">${t.w}</span>`;
+                return `<span class="w-click dict-trigger" data-word="${encodeURIComponent(cleanW)}" data-context="${encodeURIComponent(x.t)}">${t.w}</span>`;
             }).join(' ');
             const cnHtml2 = `<div class="sub-line-cn-toggle" id="cn-2-${i}">${x.cn || '【待翻译】'}</div>`;
             const btnsHtml2 = `<div class="sub-line-btns"><button class="btn-tiny sub-btn-replay" data-sub-i="${i}" data-vid="2"><i class="fas fa-redo-alt"></i> 重播</button><button class="btn-tiny sub-btn-translate"><i class="fas fa-language"></i> 翻译</button></div>`;
@@ -1787,6 +1944,13 @@
         [c1, c2].forEach((container, idx) => {
             if (!container) return;
             container.addEventListener('click', function(e) {
+                const dictTrigger = e.target.closest('.dict-trigger');
+                if (dictTrigger) {
+                    const w = decodeURIComponent(dictTrigger.getAttribute('data-word') || '');
+                    const ctx = decodeURIComponent(dictTrigger.getAttribute('data-context') || '');
+                    if (w) showDictPopup(w, ctx);
+                    return;
+                }
                 const replayBtn = e.target.closest('.sub-btn-replay');
                 const translateBtn = e.target.closest('.sub-btn-translate');
                 const vidId = idx + 1;
