@@ -530,7 +530,17 @@ async function initSpeech() {
   try {
   speechConfig = SpeechSDK.SpeechConfig.fromSubscription(AZURE_KEY, AZURE_REGION);
   speechConfig.speechRecognitionLanguage = "en-US";
-  synthesizer = new SpeechSDK.SpeechSynthesizer(speechConfig);
+  speechConfig.speechSynthesisVoiceName = "en-US-JennyNeural";
+  if (SpeechSDK.SpeechSynthesisOutputFormat && SpeechSDK.SpeechSynthesisOutputFormat.Audio24Khz48KBitRateMonoMp3 != null)
+    speechConfig.speechSynthesisOutputFormat = SpeechSDK.SpeechSynthesisOutputFormat.Audio24Khz48KBitRateMonoMp3;
+  var audioConfig = null;
+  if (typeof SpeechSDK.SpeakerAudioDestination !== "undefined") {
+    var player = new SpeechSDK.SpeakerAudioDestination();
+    audioConfig = SpeechSDK.AudioConfig.fromSpeakerOutput(player);
+  } else if (SpeechSDK.AudioConfig && SpeechSDK.AudioConfig.fromDefaultSpeakerOutput) {
+    audioConfig = SpeechSDK.AudioConfig.fromDefaultSpeakerOutput();
+  }
+  synthesizer = new SpeechSDK.SpeechSynthesizer(speechConfig, audioConfig);
   } catch(e) { console.warn("Speech init:", e); }
 }
 
@@ -721,7 +731,7 @@ function playWord() {
   const w = allWords[wordIndex];
   if (!w) return;
   if (w.audio) { new Audio(mediaUrl(w.audio)).play().catch(()=>{}); return; }
-  synthesizer?.speakTextAsync(w.word, ()=>{}, e=>console.error(e));
+  speakWord(w.word);
 }
 function toggleRecord() {
   if (!speechConfig) { alert("语音服务未初始化"); return; }
@@ -891,10 +901,22 @@ function lookupWordInContext(el) {
   })();
 }
 function speakWord(word) {
-  if (!synthesizer) { alert("语音服务未初始化"); return; }
   const w = String(word || "").trim();
   if (!w) return;
-  synthesizer.speakTextAsync(w, ()=>{}, e=>console.error("TTS:", e));
+  function fallbackWebSpeech() {
+    if ("speechSynthesis" in window) {
+      var u = new SpeechSynthesisUtterance(w);
+      u.lang = "en-US";
+      window.speechSynthesis.speak(u);
+    }
+  }
+  if (!synthesizer) { fallbackWebSpeech(); return; }
+  synthesizer.speakTextAsync(w, function(result) {
+    if (result && SpeechSDK.ResultReason.Canceled === result.reason && SpeechSDK.CancellationDetails) {
+      var d = SpeechSDK.CancellationDetails.fromResult(result);
+      if (d.reason === SpeechSDK.CancellationReason.Error) { console.warn("TTS Error:", d.errorDetails); fallbackWebSpeech(); }
+    }
+  }, function(e) { console.error("TTS:", e); fallbackWebSpeech(); });
 }
 function closeWordModal() {
   document.getElementById("word-modal").classList.remove("show");
@@ -938,7 +960,7 @@ function goP4() {
     const aud=i===0?ww.audio_ex0:ww.audio_ex1;
     if(aud){new Audio(mediaUrl(aud)).play().catch(()=>{}); return;}
     const en=(ww.examples||[])[i]?.en||"";
-    if(en&&synthesizer) synthesizer.speakTextAsync(en,()=>{},e=>console.error(e));
+    if(en) speakWord(en);
   };
   window.toggleCn=(btn)=>{
     const cn=btn.closest(".ex-card").querySelector(".ex-cn");
