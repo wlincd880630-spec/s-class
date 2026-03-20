@@ -1,0 +1,1383 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>人教版词汇学习</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Nunito:wght@400;600;700;800&family=Noto+Sans+SC:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <script src="https://aka.ms/csspeech/jsbrowserpackageraw"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  <style>
+    :root {
+      --bg:        #0d0f1a;
+      --surface:   #161829;
+      --surface2:  #1e2137;
+      --border:    rgba(255,255,255,0.07);
+      --primary:   #7c6df0;
+      --primary-d: #5a4dd4;
+      --accent:    #22d3c5;
+      --pink:      #f472b6;
+      --amber:     #fbbf24;
+      --green:     #4ade80;
+      --red:       #f87171;
+      --text:      #e2e8f0;
+      --sub:       #94a3b8;
+      --muted:     #475569;
+      --radius:    20px;
+      --radius-sm: 12px;
+      --glass:     rgba(255,255,255,0.04);
+    }
+    *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{
+      font-family:'Nunito','Noto Sans SC',sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      min-height:100vh;
+      background-image:
+        radial-gradient(ellipse 80% 50% at 20% -10%, rgba(124,109,240,0.18) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 80% 110%, rgba(34,211,197,0.12) 0%, transparent 60%);
+    }
+    .app{max-width:680px;margin:0 auto;padding:16px 16px 40px}
+
+    /* ── Header ── */
+    .topbar{
+      display:flex;justify-content:space-between;align-items:center;
+      padding:12px 0;margin-bottom:8px;
+    }
+    .progress-info{display:flex;align-items:center;gap:10px}
+    .progress-text{font-size:.8rem;font-weight:700;color:var(--sub);letter-spacing:.04em}
+    .progress-track{width:100px;height:5px;background:var(--surface2);border-radius:99px;overflow:hidden}
+    .progress-fill{height:100%;background:linear-gradient(90deg,var(--primary),var(--accent));border-radius:99px;transition:width .5s cubic-bezier(.4,0,.2,1)}
+    .topbar-btns{display:flex;gap:8px}
+    .tb-btn{
+      background:var(--surface2);border:1px solid var(--border);color:var(--sub);
+      padding:8px 14px;border-radius:10px;font-size:.78rem;font-weight:700;cursor:pointer;
+      transition:all .2s;
+    }
+    .tb-btn:hover{background:var(--surface);color:var(--text)}
+    .tb-btn.teacher{background:rgba(74,222,128,0.15);color:var(--green);border-color:rgba(74,222,128,0.3)}
+
+    /* ── Pages ── */
+    .page{display:none;animation:fadeUp .35s cubic-bezier(.4,0,.2,1)}
+    .page.active{display:block}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+
+    /* ── Card ── */
+    .card{
+      background:var(--surface);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      padding:28px 24px;
+      margin-bottom:12px;
+      position:relative;overflow:hidden;
+    }
+    .card::before{
+      content:'';position:absolute;inset:0;
+      background:linear-gradient(135deg,rgba(255,255,255,.025) 0%,transparent 60%);
+      pointer-events:none;
+    }
+
+    /* ── Step badge ── */
+    .step-badge{
+      display:inline-flex;align-items:center;gap:6px;
+      padding:5px 14px 5px 10px;border-radius:99px;
+      font-size:.7rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
+      margin-bottom:20px;
+    }
+    .step-badge .dot{width:7px;height:7px;border-radius:50%;background:currentColor;opacity:.7}
+    .badge-indigo{background:rgba(124,109,240,.18);color:#a78bfa;border:1px solid rgba(124,109,240,.3)}
+    .badge-orange{background:rgba(251,146,60,.15);color:#fb923c;border:1px solid rgba(251,146,60,.3)}
+    .badge-yellow{background:rgba(251,191,36,.15);color:#fbbf24;border:1px solid rgba(251,191,36,.3)}
+    .badge-emerald{background:rgba(52,211,153,.15);color:#34d399;border:1px solid rgba(52,211,153,.3)}
+    .badge-amber{background:rgba(245,158,11,.15);color:#f59e0b;border:1px solid rgba(245,158,11,.3)}
+    .badge-pink{background:rgba(244,114,182,.15);color:#f472b6;border:1px solid rgba(244,114,182,.3)}
+
+    /* ── Review step dots ── */
+    .step-dots{display:flex;gap:6px;margin-bottom:18px}
+    .step-dot{
+      height:4px;border-radius:99px;transition:all .3s;
+      background:var(--surface2);flex:1;
+    }
+    .step-dot.active{background:var(--primary)}
+    .step-dot.done{background:var(--accent)}
+
+    /* ── Word display ── */
+    .word-hero{
+      font-family:'Outfit',sans-serif;
+      font-size:3rem;font-weight:900;
+      background:linear-gradient(135deg,#fff 0%,#c4b5fd 100%);
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+      letter-spacing:-.03em;line-height:1.1;
+      margin-bottom:6px;
+    }
+    .ipa{
+      font-family:'JetBrains Mono',monospace;
+      font-size:1.1rem;color:var(--accent);
+      margin-bottom:24px;opacity:.85;
+    }
+
+    /* ── Buttons ── */
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;gap:8px;
+      padding:13px 22px;border:none;border-radius:var(--radius-sm);
+      font-size:.95rem;font-weight:700;cursor:pointer;
+      transition:all .18s cubic-bezier(.4,0,.2,1);
+      font-family:'Nunito','Noto Sans SC',sans-serif;
+    }
+    .btn:disabled{opacity:.45;cursor:not-allowed;filter:grayscale(.5)}
+    .btn-primary{
+      background:linear-gradient(135deg,var(--primary),var(--primary-d));
+      color:#fff;
+      box-shadow:0 4px 20px rgba(124,109,240,.35);
+    }
+    .btn-primary:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 8px 28px rgba(124,109,240,.45)}
+    .btn-primary:active:not(:disabled){transform:translateY(1px)}
+    .btn-ghost{background:var(--surface2);color:var(--text);border:1px solid var(--border)}
+    .btn-ghost:hover:not(:disabled){background:var(--glass);border-color:rgba(255,255,255,.12)}
+    .btn-play{background:rgba(251,191,36,.15);color:var(--amber);border:1px solid rgba(251,191,36,.3)}
+    .btn-play:hover:not(:disabled){background:rgba(251,191,36,.25)}
+    .btn-rec{background:rgba(244,114,182,.15);color:var(--pink);border:1px solid rgba(244,114,182,.3)}
+    .btn-rec:hover:not(:disabled){background:rgba(244,114,182,.25)}
+    .btn-rec.recording{
+      background:rgba(244,114,182,.3);
+      animation:pulse-rec 1.4s infinite;
+    }
+    @keyframes pulse-rec{0%,100%{box-shadow:0 0 0 0 rgba(244,114,182,.5)}60%{box-shadow:0 0 0 12px rgba(244,114,182,0)}}
+    .btn-next{width:100%;margin-top:20px;padding:16px}
+    .btn-danger{background:rgba(248,113,113,.15);color:var(--red);border:1px solid rgba(248,113,113,.3)}
+    .btn-teal{background:rgba(34,211,197,.15);color:var(--accent);border:1px solid rgba(34,211,197,.3)}
+    .btn-teal:hover:not(:disabled){background:rgba(34,211,197,.25)}
+
+    /* ── Pronunciation score ── */
+    .score-ring-wrap{display:flex;align-items:center;gap:20px;padding:18px;background:var(--surface2);border-radius:var(--radius-sm);margin:16px 0;border:1px solid var(--border)}
+    .score-ring{position:relative;width:72px;height:72px;flex-shrink:0}
+    .score-ring svg{transform:rotate(-90deg)}
+    .score-ring circle{transition:stroke-dashoffset .8s cubic-bezier(.4,0,.2,1)}
+    .score-num{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:1.15rem;font-weight:900;font-family:'Outfit',sans-serif}
+    .score-info{flex:1}
+    .score-label{font-size:.75rem;font-weight:700;color:var(--sub);letter-spacing:.05em;margin-bottom:4px}
+    .score-feedback{font-size:.9rem;color:var(--sub);line-height:1.5}
+
+    /* ── Image grid ── */
+    .img-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}
+    .img-card{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;transition:transform .2s}
+    .img-card:hover{transform:scale(1.02)}
+    .img-card img{width:100%;height:160px;object-fit:cover;display:block}
+    .img-card .img-cap{padding:10px 12px;font-size:.78rem;color:var(--sub);line-height:1.4}
+    .img-desc-box{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px 16px;font-size:.9rem;line-height:1.7;margin-top:8px}
+    .img-desc-box strong{color:var(--accent);font-weight:700}
+
+    /* ── Choice buttons ── */
+    .opt-btn{
+      display:block;width:100%;text-align:left;padding:14px 18px;margin:8px 0;
+      background:var(--surface2);border:1.5px solid var(--border);
+      border-radius:var(--radius-sm);color:var(--text);
+      cursor:pointer;font-size:.95rem;font-weight:600;
+      transition:all .18s;font-family:'Nunito','Noto Sans SC',sans-serif;
+    }
+    .opt-btn:hover:not(:disabled){border-color:var(--primary);background:rgba(124,109,240,.08)}
+    .opt-btn.correct{background:rgba(74,222,128,.12)!important;border-color:var(--green)!important;color:var(--green)!important}
+    .opt-btn.wrong{background:rgba(248,113,113,.12)!important;border-color:var(--red)!important;color:var(--red)!important}
+    .opt-letter{
+      display:inline-flex;align-items:center;justify-content:center;
+      width:24px;height:24px;border-radius:6px;font-size:.75rem;font-weight:800;
+      background:rgba(124,109,240,.2);color:#a78bfa;margin-right:10px;flex-shrink:0;
+    }
+
+    /* ── Feedback box ── */
+    .fb-box{
+      border-radius:var(--radius-sm);padding:12px 16px;margin-top:10px;
+      font-size:.9rem;line-height:1.6;border:1px solid;
+    }
+    .fb-correct{background:rgba(74,222,128,.1);border-color:rgba(74,222,128,.3);color:var(--green)}
+    .fb-wrong{background:rgba(248,113,113,.1);border-color:rgba(248,113,113,.3);color:#fca5a5}
+
+    /* ── Meaning box ── */
+    .meaning-box{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:16px 18px;margin:12px 0;line-height:1.8}
+    .meaning-box .row{display:flex;gap:8px;margin-bottom:4px;font-size:.93rem}
+    .meaning-box .lbl{color:var(--sub);font-weight:700;flex-shrink:0;min-width:64px}
+    .meaning-box .val{color:var(--text)}
+
+    /* ── Example card ── */
+    .ex-card{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:16px;margin:12px 0}
+    .ex-num{font-size:.7rem;font-weight:800;color:var(--primary);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px;opacity:.8}
+    .ex-en{font-size:1rem;font-weight:700;color:var(--text);line-height:1.6;margin-bottom:10px}
+    .ex-cn{font-size:.9rem;color:var(--sub);line-height:1.6;margin-top:6px;padding-top:8px;border-top:1px solid var(--border)}
+    .ex-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+    .reveal-btn{
+      background:transparent;border:1px dashed var(--muted);color:var(--sub);
+      padding:6px 14px;border-radius:8px;cursor:pointer;font-size:.82rem;font-weight:700;
+      transition:all .2s;font-family:'Nunito','Noto Sans SC',sans-serif;
+    }
+    .reveal-btn:hover{border-color:var(--accent);color:var(--accent)}
+    .rec-counter{font-size:.75rem;color:var(--sub);font-weight:700;padding:6px 12px;background:var(--surface);border-radius:8px;border:1px solid var(--border)}
+
+    /* ── 例句单词点击发音 ── */
+    .word-click{cursor:pointer;padding:2px 2px 2px 0;border-radius:4px;display:inline;transition:all .18s}
+    .word-click:hover{background:rgba(124,109,240,.25);color:var(--accent)}
+    .word-modal{position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;z-index:1000;padding:20px;opacity:0;visibility:hidden;transition:all .25s}
+    .word-modal.show{opacity:1;visibility:visible}
+    .word-modal-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);max-width:420px;width:100%;max-height:80vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.5);transform:scale(.95);transition:transform .25s}
+    .word-modal.show .word-modal-box{transform:scale(1)}
+    .word-modal-header{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .word-modal-word{font-size:1.3rem;font-weight:800;color:var(--accent);flex:1}
+    .word-modal-speak{background:rgba(251,191,36,.15);color:var(--amber);border:1px solid rgba(251,191,36,.3);padding:8px 14px;border-radius:8px;cursor:pointer;font-size:.85rem;font-weight:700;display:inline-flex;align-items:center;gap:6px;transition:all .2s}
+    .word-modal-speak:hover{background:rgba(251,191,36,.25)}
+    .word-modal-close{background:none;border:none;color:var(--sub);cursor:pointer;font-size:1.2rem;padding:6px;border-radius:6px}
+    .word-modal-close:hover{background:var(--surface2);color:var(--text)}
+    .word-modal-body{padding:18px 20px;font-size:.95rem;line-height:1.7}
+    .word-modal-loading{color:var(--sub);display:flex;align-items:center;gap:10px}
+    .word-modal-loading .spin{animation:spin .8s linear infinite}
+    .word-modal-error{color:var(--red)}
+
+    /* ── Fill blank ── */
+    .fill-sent{
+      background:var(--surface2);border:1.5px solid rgba(124,109,240,.3);
+      border-radius:var(--radius-sm);padding:14px 18px;margin-bottom:14px;
+      font-size:1.05rem;line-height:1.7;color:var(--text);
+    }
+    .fill-sent mark{background:rgba(124,109,240,.25);color:#c4b5fd;border-radius:4px;padding:1px 4px;font-style:normal}
+
+    /* ── Dictation ── */
+    .dict-input{
+      width:100%;padding:14px 16px;margin:12px 0;
+      background:var(--surface2);border:1.5px solid var(--border);
+      border-radius:var(--radius-sm);color:var(--text);font-size:.95rem;
+      font-family:'Nunito','Noto Sans SC',sans-serif;
+      transition:border-color .2s;
+    }
+    .dict-input:focus{outline:none;border-color:var(--primary)}
+    .dict-input::placeholder{color:var(--muted)}
+
+    /* ── Dictation result ── */
+    .dict-result{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px 18px;margin:12px 0}
+    .dict-result .your{font-size:.85rem;color:var(--sub);margin-bottom:6px}
+    .dict-match-bar{height:6px;background:var(--surface);border-radius:99px;overflow:hidden;margin:8px 0}
+    .dict-match-fill{height:100%;border-radius:99px;transition:width .8s}
+
+    /* ── Translation eval (DeepSeek) ── */
+    .trans-sent-box{background:rgba(124,109,240,.08);border:1px solid rgba(124,109,240,.2);border-radius:var(--radius-sm);padding:14px 18px;margin:10px 0}
+    .trans-en{font-weight:700;color:var(--text);font-size:.97rem;line-height:1.6;margin-bottom:6px}
+    .trans-cn-ref{font-size:.88rem;color:var(--accent);line-height:1.5}
+    .eval-card{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:16px 18px;margin:12px 0}
+    .eval-score-row{display:flex;align-items:center;gap:14px;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+    .eval-score-circle{
+      width:54px;height:54px;border-radius:50%;flex-shrink:0;
+      display:flex;align-items:center;justify-content:center;
+      font-size:1.1rem;font-weight:900;font-family:'Outfit',sans-serif;
+      border:3px solid;
+    }
+    .eval-score-hi{border-color:var(--green);color:var(--green);background:rgba(74,222,128,.1)}
+    .eval-score-mid{border-color:var(--amber);color:var(--amber);background:rgba(251,191,36,.1)}
+    .eval-score-lo{border-color:var(--red);color:var(--red);background:rgba(248,113,113,.1)}
+    .eval-row{display:flex;gap:8px;margin-bottom:8px;font-size:.88rem;line-height:1.55}
+    .eval-lbl{font-weight:800;color:var(--sub);flex-shrink:0;min-width:52px;padding-top:1px}
+    .eval-val{color:var(--text)}
+    .eval-tip{font-size:.85rem;color:var(--accent);background:rgba(34,211,197,.08);border:1px solid rgba(34,211,197,.2);border-radius:8px;padding:10px 14px;margin-top:8px}
+    .eval-loading{text-align:center;color:var(--sub);font-size:.9rem;padding:20px}
+    .eval-loading .spin{display:inline-block;animation:spin 1s linear infinite;margin-right:8px}
+    @keyframes spin{to{transform:rotate(360deg)}}
+
+    /* ── Unit select ── */
+    .home-hero{text-align:center;padding:36px 0 28px}
+    .home-icon{font-size:3rem;margin-bottom:12px}
+    .home-title{font-family:'Outfit',sans-serif;font-size:1.9rem;font-weight:900;margin-bottom:6px;background:linear-gradient(135deg,#fff,#c4b5fd);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    .home-sub{font-size:.9rem;color:var(--sub);margin-bottom:28px}
+    .unit-grid{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+    .unit-card{
+      background:var(--surface2);border:1.5px solid var(--border);border-radius:14px;
+      padding:14px 22px;font-size:.95rem;font-weight:800;cursor:pointer;
+      transition:all .2s;color:var(--text);font-family:'Outfit',sans-serif;
+    }
+    .unit-card:hover{border-color:var(--primary);background:rgba(124,109,240,.12);color:#c4b5fd;transform:translateY(-2px);box-shadow:0 8px 24px rgba(124,109,240,.2)}
+
+    /* ── Review header ── */
+    .review-word-chip{
+      display:inline-flex;align-items:center;gap:6px;
+      background:rgba(124,109,240,.15);border:1px solid rgba(124,109,240,.3);
+      border-radius:99px;padding:4px 14px 4px 10px;
+      font-size:.8rem;font-weight:800;color:#a78bfa;margin-bottom:14px;
+    }
+    .review-word-chip .word{font-size:.95rem;color:#c4b5fd}
+
+    /* scrollbar */
+    ::-webkit-scrollbar{width:4px}
+    ::-webkit-scrollbar-track{background:transparent}
+    ::-webkit-scrollbar-thumb{background:var(--surface2);border-radius:99px}
+  </style>
+</head>
+<body>
+  <script>window.VOCAB_DATA={"units": [{"unit": 4, "source": "D:\\2026\\人教版英语八年级下单词表\\人教版英语八年级下单词表.pdf", "words": [{"word": "development", "ipa": "/dɪˈveləpmənt/", "image_prompts": ["A time-lapse of a seed sprouting and growing into a plant, showing stages of growth", "A blueprint of a new building with architectural plans and construction tools"], "image_desc_en": "Illustrations showing the process of growth and construction.", "image_desc_cn": "展示生长和建设过程的插图。", "meaning_cn": "发展，进步", "usage": "n.", "collocations": "economic development, personal development, urban development", "preposition_combos": "in the development of, for the development of", "examples": [{"en": "The city's development plan includes new parks and schools.", "cn": "这个城市的发展计划包括新的公园和学校。"}, {"en": "Regular exercise is important for the healthy development of children.", "cn": "有规律的锻炼对儿童的健康发展非常重要。"}], "socratic_questions": [{"question": "一个国家或城市在经济、社会等方面的进步和变化，通常被称为什么？", "answer_hint": "指事物从简单到复杂、从低级到高级的变化过程。"}], "fill_blank": {"sentences": ["The ___ of new technologies has greatly improved our lives."], "options": ["development", "develop", "developed", "developing"], "correct_index": 0}, "audio": "audio/development.mp3", "audio_ex0": "audio/development_ex0.mp3", "audio_ex1": "audio/development_ex1.mp3", "img1": "images/development_1.png", "img2": "images/development_2.png"}, {"word": "cubic", "ipa": "/ˈkjuːbɪk/", "image_prompts": ["A stack of wooden blocks arranged to form a perfect cube, bright studio lighting", "A glass aquarium filled with water, shaped like a cube, colorful coral inside"], "image_desc_en": "Visuals representing a three-dimensional shape with equal sides.", "image_desc_cn": "表示具有相等边的三维形状的视觉效果。", "meaning_cn": "立方体的；立方的", "usage": "adj.", "collocations": "cubic meter, cubic foot, cubic centimeter", "preposition_combos": "in cubic form", "examples": [{"en": "The box has a cubic shape, making it easy to stack.", "cn": "这个盒子是立方体形状，便于堆叠。"}, {"en": "We need to calculate the cubic volume of the storage room.", "cn": "我们需要计算储藏室的立方体积。"}], "socratic_questions": [{"question": "如果一个房间的长、宽、高都相等，描述它的形状。", "answer_hint": "提示：考虑三维空间，所有边长相等。"}], "fill_blank": {"sentences": ["The volume of the room is measured in ___ meters."], "options": ["cubic", "square", "circular", "linear"], "correct_index": 0}, "audio": "audio/cubic.mp3", "audio_ex0": "audio/cubic_ex0.mp3", "audio_ex1": "audio/cubic_ex1.mp3", "img1": "images/cubic_1.png", "img2": "images/cubic_2.png"}, {"word": "cubic metre", "ipa": "/ˈkjuːbɪk ˈmiːtər/", "image_prompts": ["A transparent cube filled with water, measuring one meter on each side", "A stack of firewood neatly arranged to occupy a space of one cubic meter"], "image_desc_en": "Visual representations of a cubic meter, showing volume.", "image_desc_cn": "立方米的视觉表示，展示体积。", "meaning_cn": "立方米", "usage": "n. (复数 cubic metres)", "collocations": "measure in cubic metres, a cubic metre of", "preposition_combos": "of", "examples": [{"en": "We need one cubic metre of sand for the new playground.", "cn": "我们需要一立方米的沙子来建造新的操场。"}, {"en": "The swimming pool holds about fifty cubic metres of water.", "cn": "这个游泳池大约能容纳五十立方米的水。"}], "socratic_questions": [{"question": "如果我们要描述一个房间里空气的体积，并且这个房间长、宽、高都是一米，应该用什么单位？", "answer_hint": "这个单位是用来衡量三维空间大小的。"}], "fill_blank": {"sentences": ["The truck can carry five ___ ___ of gravel to the construction site."], "options": ["cubic metres", "square meters", "kilograms", "liters"], "correct_index": 0}, "audio": "audio/cubic_metre.mp3", "audio_ex0": "audio/cubic_metre_ex0.mp3", "audio_ex1": "audio/cubic_metre_ex1.mp3", "img1": "images/cubic_metre_1.png", "img2": "images/cubic_metre_2.png"}, {"word": "mile", "ipa": "/maɪl/", "image_prompts": ["A road sign indicating the distance to the next town in miles", "A runner's stopwatch displaying the time taken to run a mile"], "image_desc_en": "A road sign and a stopwatch showing distance and time.", "image_desc_cn": "一个路标和一个秒表，分别显示距离和时间。", "meaning_cn": "英里（长度单位）", "usage": "n. (复数 miles)", "collocations": "a mile away, mile after mile", "preposition_combos": "for miles", "examples": [{"en": "Our school is about a mile from the shopping center.", "cn": "我们学校离购物中心大约一英里。"}, {"en": "They walked for miles along the beautiful sandy beach.", "cn": "他们沿着美丽的沙滩走了好几英里。"}], "socratic_questions": [{"question": "如果你想描述从你家到学校的距离，你会用什么单位，如果这个距离比较长？", "answer_hint": "这个单位比千米略长，常用于英语国家。"}], "fill_blank": {"sentences": ["The park is only half a ___ from my house, so I walk there often."], "options": ["mile", "kilometer", "meter", "centimeter"], "correct_index": 0}, "audio": "audio/mile.mp3", "audio_ex0": "audio/mile_ex0.mp3", "audio_ex1": "audio/mile_ex1.mp3", "img1": "images/mile_1.png", "img2": "images/mile_2.png"}, {"word": "pool", "ipa": "/puːl/", "image_prompts": ["A clear blue swimming pool with gentle ripples on the surface, sunlight reflecting", "A billiard table with colorful balls arranged before the break, green felt surface"], "image_desc_en": "A swimming pool with ripples and a billiard table with balls.", "image_desc_cn": "带有波纹的游泳池和带有球的台球桌。", "meaning_cn": "n. 水池；游泳池；台球", "usage": "n. (复数 pools); v. (pooled, pooled)", "collocations": "swimming pool, pool party, pool resources", "preposition_combos": "in the pool, by the pool", "examples": [{"en": "The local pool is a great place to swim in summer.", "cn": "当地的游泳池是夏天游泳的好地方。"}, {"en": "We can pool our money to buy a better gift together.", "cn": "我们可以集中我们的钱一起买一个更好的礼物。"}], "socratic_questions": [{"question": "夏天想凉快一下，你会选择去哪里游泳？", "answer_hint": "通常指人工建造的，可以游泳的地方。"}], "fill_blank": {"sentences": ["Let's go to the ___ to cool off on this hot day."], "options": ["pool", "beach", "lake", "river"], "correct_index": 0}, "audio": "audio/pool.mp3", "audio_ex0": "audio/pool_ex0.mp3", "audio_ex1": "audio/pool_ex1.mp3", "img1": "images/pool_1.png", "img2": "images/pool_2.png"}, {"word": "climber", "ipa": "/ˈklaɪmər/", "image_prompts": ["A vine with green leaves growing up a brick wall, sunlight", "A metal climbing frame in a playground, colorful grips"], "image_desc_en": "A climbing plant or a structure for climbing.", "image_desc_cn": "攀缘植物或攀爬结构。", "meaning_cn": "n. 攀登者；攀缘植物", "usage": "n. (复数 climbers)", "collocations": "mountain climber, rock climber, plant climber", "preposition_combos": "climber on, climber of", "examples": [{"en": "He is a skilled climber who enjoys scaling mountains.", "cn": "他是一位技术娴熟的攀登者，喜欢攀登高山。"}, {"en": "The ivy is a fast-growing climber on the garden wall.", "cn": "常春藤是一种在花园墙上快速生长的攀缘植物。"}], "socratic_questions": [{"question": "什么样的人会使用绳索和安全带，努力向上移动？", "answer_hint": "这个词描述的是擅长向上攀爬的人或物。"}], "fill_blank": {"sentences": ["She is a talented ___ who has conquered many difficult peaks."], "options": ["climber", "swimmer", "runner", "jumper"], "correct_index": 0}, "audio": "audio/climber.mp3", "audio_ex0": "audio/climber_ex0.mp3", "audio_ex1": "audio/climber_ex1.mp3", "img1": "images/climber_1.png", "img2": "images/climber_2.png"}, {"word": "northern", "ipa": "/ˈnɔːrðərn/", "image_prompts": ["A snow-covered landscape with pine trees under a pale sky, indicating a cold climate", "A compass pointing towards the North direction, with a map showing the upper part of a continent"], "image_desc_en": "Images representing the North direction and cold climate.", "image_desc_cn": "代表北方方向和寒冷气候的图片。", "meaning_cn": "北方的；北部的", "usage": "adj. ", "collocations": "northern lights, northern Europe, northern part", "preposition_combos": "in the northern part of", "examples": [{"en": "The northern part of China has very cold winters every year.", "cn": "中国北方每年冬天都非常寒冷。"}, {"en": "We plan to visit the northern areas of the country this summer.", "cn": "我们计划今年夏天去该国北部地区游览。"}], "socratic_questions": [{"question": "如果一个地方位于地图的最上方，通常我们称它为什么方向的？", "answer_hint": "描述的是方向，且与地图上方的位置相关。"}], "fill_blank": {"sentences": ["Canada's ___ territories are known for their vast wilderness and sparse population."], "options": ["northern", "southern", "eastern", "western"], "correct_index": 0}, "audio": "audio/northern.mp3", "audio_ex0": "audio/northern_ex0.mp3", "audio_ex1": "audio/northern_ex1.mp3", "img1": "images/northern_1.png", "img2": "images/northern_2.png"}, {"word": "distance", "ipa": "/ˈdɪstəns/", "image_prompts": ["A long, straight highway stretching into the horizon under a clear blue sky", "A map showing the measurement between two cities with a ruler"], "image_desc_en": "A long highway and a map measuring distance.", "image_desc_cn": "一条长长的公路和一张测量距离的地图。", "meaning_cn": "距离", "usage": "n. / v. (过去式 distanced, 过去分词 distanced)", "collocations": "long distance, short distance, keep a distance", "preposition_combos": "in the distance, from a distance", "examples": [{"en": "The distance between our school and the park is not far.", "cn": "我们学校和公园之间的距离不远。"}, {"en": "I can see a small boat in the distance from here.", "cn": "我能从这里看到远处有一艘小船。"}], "socratic_questions": [{"question": "如果想知道两个地方相隔多远，需要测量什么？", "answer_hint": "需要测量它们之间的长度。"}], "fill_blank": {"sentences": ["What is the ___ between Beijing and Shanghai by train?"], "options": ["distance", "different", "difficult", "disturb"], "correct_index": 0}, "audio": "audio/distance.mp3", "audio_ex0": "audio/distance_ex0.mp3", "audio_ex1": "audio/distance_ex1.mp3", "img1": "images/distance_1.png", "img2": "images/distance_2.png"}, {"word": "survive", "ipa": "/sərˈvaɪv/", "image_prompts": ["A small plant growing out of cracked concrete, sunlight shining on it", "A lone tree standing strong against a powerful storm, branches swaying"], "image_desc_en": "Representations of survival: a plant growing in a harsh environment, a tree weathering a storm.", "image_desc_cn": "生存的象征：在恶劣环境中生长的小植物，以及在暴风雨中屹立不倒的树。", "meaning_cn": "v. 幸存，生存", "usage": "v. (survived, survived)", "collocations": "survive an accident, survive a disaster, struggle to survive", "preposition_combos": "survive on", "examples": [{"en": "Few animals can survive in the desert without water for long.", "cn": "很少有动物能在没有水的情况下在沙漠中长期生存。"}, {"en": "He survived the car accident, but his friend was not so lucky.", "cn": "他从车祸中幸存下来，但他的朋友就没有那么幸运了。"}], "socratic_questions": [{"question": "想象一下，一场严重的自然灾害过后，什么状态才能让你继续生活下去？", "answer_hint": "指的是在危险或困难的情况下，仍然活着并继续存在。"}], "fill_blank": {"sentences": ["Only a few of the passengers ___ the plane crash in the mountains."], "options": ["survived", "avoided", "escaped", "ignored"], "correct_index": 0}, "audio": "audio/survive.mp3", "audio_ex0": "audio/survive_ex0.mp3", "audio_ex1": "audio/survive_ex1.mp3", "img1": "images/survive_1.png", "img2": "images/survive_2.png"}, {"word": "condition", "ipa": "/kənˈdɪʃən/", "image_prompts": ["A magnifying glass examining a document with fine print, focusing on the terms and conditions", "A weather map displaying various weather conditions like sunny, rainy, and cloudy"], "image_desc_en": "Magnifying glass on terms and conditions; weather map showing various conditions.", "image_desc_cn": "放大镜下的条款与条件；显示各种天气状况的天气地图。", "meaning_cn": "n. 条件；状况", "usage": "n. (复数 conditions); v. (过去式 conditioned, 过去分词 conditioned)", "collocations": "in good condition, on the condition that, medical condition", "preposition_combos": "in condition, under condition", "examples": [{"en": "The old car is still in very good condition now.", "cn": "这辆旧车现在状况仍然很好。"}, {"en": "I will help you on the condition that you study hard.", "cn": "我会帮助你，条件是你努力学习。"}], "socratic_questions": [{"question": "如果你答应帮助朋友，但要求他必须先完成作业，你提出的这个要求是什么？", "answer_hint": "这个词表示为了做某事而必须满足的前提。"}], "fill_blank": {"sentences": ["The doctor checked my physical ___ carefully during the examination."], "options": ["condition", "conditional", "conditioning", "conditions"], "correct_index": 0}, "audio": "audio/condition.mp3", "audio_ex0": "audio/condition_ex0.mp3", "audio_ex1": "audio/condition_ex1.mp3", "img1": "images/condition_1.png", "img2": "images/condition_2.png"}, {"word": "degree", "ipa": "/dɪˈɡriː/", "image_prompts": ["A graduation certificate with a university seal, signifying academic achievement", "A thermometer showing a specific temperature reading, indicating a level of heat"], "image_desc_en": "A graduation certificate and a thermometer showing temperature.", "image_desc_cn": "毕业证书和显示温度的温度计。", "meaning_cn": "n. 程度；度数；学位", "usage": "n. (复数 degrees)", "collocations": "to a degree, bachelor's degree, master's degree", "preposition_combos": "degree in", "examples": [{"en": "The pollution in the river has increased to a dangerous degree.", "cn": "这条河的污染已经增加到了危险的程度。"}, {"en": "She has a bachelor's degree in computer science from Tsinghua University.", "cn": "她拥有清华大学的计算机科学学士学位。"}], "socratic_questions": [{"question": "描述一下你完成大学学业后会获得什么？或者，用什么来衡量水的冷热程度？", "answer_hint": "一个与学习完成有关，一个与测量有关。"}], "fill_blank": {"sentences": ["He has a master's ___ in engineering from a top university."], "options": ["degree", "diploma", "certificate", "grade"], "correct_index": 0}, "audio": "audio/degree.mp3", "audio_ex0": "audio/degree_ex0.mp3", "audio_ex1": "audio/degree_ex1.mp3", "img2": "images/degree_2.png", "img1": "images/degree_1.png"}, {"word": "cliff", "ipa": "/klɪf/", "image_prompts": ["A steep, rocky cliff face overlooking a turbulent ocean, dramatic lighting", "A grassy cliff edge with wildflowers, a vast blue sky above"], "image_desc_en": "Images depicting a steep cliff face and a grassy cliff edge.", "image_desc_cn": "描绘陡峭的悬崖面和长满草的悬崖边缘的图像。", "meaning_cn": "悬崖", "usage": "名词 n.", "collocations": "sea cliff, edge of a cliff, climb a cliff", "preposition_combos": "on a cliff, over a cliff, from a cliff", "examples": [{"en": "The old castle stood proudly on the edge of the cliff.", "cn": "古老的城堡骄傲地矗立在悬崖边上。"}, {"en": "We carefully walked near the cliff, enjoying the ocean view.", "cn": "我们小心地在悬崖附近行走，欣赏着海景。"}], "socratic_questions": [{"question": "如果你站在一个非常高且陡峭的岩石边上，下面是深渊，你会站在哪里？", "answer_hint": "这个地方是陆地突然垂直下降的地方，通常在海边或山区。"}], "fill_blank": {"sentences": ["The bird built its nest high on the ___ , safe from predators."], "options": ["cliff", "beach", "field", "forest"], "correct_index": 0}, "audio": "audio/cliff.mp3", "audio_ex0": "audio/cliff_ex0.mp3", "audio_ex1": "audio/cliff_ex1.mp3", "img1": "images/cliff_1.png", "img2": "images/cliff_2.png"}, {"word": "changeable", "ipa": "/ˈtʃeɪndʒəbl/", "image_prompts": ["A chameleon blending into a variety of colorful backgrounds, seamless transition", "A weather vane spinning rapidly in a strong wind, indicating fluctuating directions"], "image_desc_en": "Illustrations representing adaptability and variability.", "image_desc_cn": "代表适应性和变异性的插图。", "meaning_cn": "adj. 可变的；易变的", "usage": "adj. (副词形式：changeably)", "collocations": "changeable weather, changeable mood, changeable situation", "preposition_combos": "changeable in", "examples": [{"en": "The weather here is very changeable, so bring a jacket.", "cn": "这里的天气非常多变，所以带件夹克。"}, {"en": "Her mood is quite changeable; you never know what to expect.", "cn": "她的情绪非常多变；你永远不知道会发生什么。"}], "socratic_questions": [{"question": "如果某事物今天晴朗，明天阴雨，后天又晴朗，描述它的特点？", "answer_hint": "强调事物容易发生改变，不稳定。"}], "fill_blank": {"sentences": ["The forecast predicts ___ weather conditions for the next few days."], "options": ["changeable", "changing", "changed", "change"], "correct_index": 0}, "audio": "audio/changeable.mp3", "audio_ex0": "audio/changeable_ex0.mp3", "audio_ex1": "audio/changeable_ex1.mp3", "img1": "images/changeable_1.png", "img2": "images/changeable_2.png"}, {"word": "death", "ipa": "/deθ/", "image_prompts": ["A withered tree in a barren landscape under a stormy sky", "A black and white photograph of a single, extinguished candle"], "image_desc_en": "Images depicting the end of life or a final state.", "image_desc_cn": "描绘生命终结或最终状态的图像。", "meaning_cn": "死亡", "usage": "n.", "collocations": "cause of death, face death, fear of death", "preposition_combos": "after death, to death", "examples": [{"en": "His sudden death shocked everyone in our school this year.", "cn": "他的突然死亡震惊了今年我们学校的每一个人。"}, {"en": "The hero fought bravely, facing death without any fear at all.", "cn": "这位英雄勇敢地战斗，面对死亡没有任何恐惧。"}], "socratic_questions": [{"question": "如果一个人的生命结束了，我们称这个状态为什么？", "answer_hint": "指生命终止的时刻或状态。"}], "fill_blank": {"sentences": ["The doctor confirmed the patient's time of ___ at 3:00 AM."], "options": ["death", "birth", "life", "injury"], "correct_index": 0}, "audio": "audio/death.mp3", "audio_ex0": "audio/death_ex0.mp3", "audio_ex1": "audio/death_ex1.mp3", "img2": "images/death_2.png", "img1": "images/death_1.png"}, {"word": "determined", "ipa": "/dɪˈtɜːrmɪnd/", "image_prompts": ["A compass pointing firmly towards a distant mountain peak, clear sky", "A clenched fist holding a pen, signing a document with a confident expression"], "image_desc_en": "A compass pointing towards a goal; a fist signing a document.", "image_desc_cn": "指向目标的指南针；紧握的拳头签署文件。", "meaning_cn": "adj. 下定决心的，坚决的", "usage": "adj.", "collocations": "determined to do sth; highly determined; determined effort", "preposition_combos": "determined to", "examples": [{"en": "She is determined to get good grades in the final exam.", "cn": "她决心在期末考试中取得好成绩。"}, {"en": "They are determined to protect the environment for future generations.", "cn": "他们决心为子孙后代保护环境。"}], "socratic_questions": [{"question": "如果你非常渴望完成某件事，并且不轻易放弃，你会用什么词来形容自己的状态？", "answer_hint": "这个词表示你已经做出了坚定的决定，并且会努力实现目标。"}], "fill_blank": {"sentences": ["He was ___ to finish the race, even with an injury."], "options": ["determined", "determining", "determine", "determines"], "correct_index": 0}, "audio": "audio/determined.mp3", "audio_ex0": "audio/determined_ex0.mp3", "audio_ex1": "audio/determined_ex1.mp3", "img1": "images/determined_1.png", "img2": "images/determined_2.png"}, {"word": "above", "ipa": "/əˈbʌv/", "image_prompts": ["A drone flying high above a green forest canopy, aerial view", "A hot air balloon floating above a patchwork of colorful fields, sunny day"], "image_desc_en": "Illustrations showing something positioned at a higher level or altitude.", "image_desc_cn": "展示位于较高水平或海拔位置的物体。", "meaning_cn": "在...之上；高于", "usage": "prep. adv.", "collocations": "above average, above all, from above", "preposition_combos": "above sea level, above the clouds", "examples": [{"en": "The sun is shining brightly above the tall buildings now.", "cn": "太阳现在正明亮地照耀在高楼之上。"}, {"en": "Her score on the test was above the class average.", "cn": "她在考试中的分数高于班级平均分。"}], "socratic_questions": [{"question": "如果一个飞机在云层的上方飞行，我们应该用哪个词来描述飞机和云层的位置关系？", "answer_hint": "飞机的位置比云层更高。"}], "fill_blank": {"sentences": ["The birds flew ___ the trees, singing happily in the sky."], "options": ["above", "below", "beside", "under"], "correct_index": 0}, "audio": "audio/above.mp3", "audio_ex0": "audio/above_ex0.mp3", "audio_ex1": "audio/above_ex1.mp3", "img1": "images/above_1.png", "img2": "images/above_2.png"}, {"word": "teammate", "ipa": "/ˈtiːmmeɪt/", "image_prompts": ["A group of sports jerseys hanging in a locker room, side by side", "A high-five between two gloved hands on a baseball field, sunny day"], "image_desc_en": "Sports jerseys and a high-five symbolize teamwork and collaboration.", "image_desc_cn": "运动衫和击掌象征着团队合作。", "meaning_cn": "队友", "usage": "n. ", "collocations": "close teammate, new teammate, reliable teammate", "preposition_combos": "with a teammate, for a teammate", "examples": [{"en": "He is a great teammate, always encouraging everyone on the team.", "cn": "他是个很棒的队友，总是鼓励团队里的每一个人。"}, {"en": "My teammate and I practice together every day after school.", "cn": "我和我的队友每天放学后一起练习。"}], "socratic_questions": [{"question": "在球场上，谁是你并肩作战，一起为了共同目标努力的人？", "answer_hint": "这个人与你同属一个队伍，互相支持。"}], "fill_blank": {"sentences": ["She is my best ___ on the basketball team; we work well together."], "options": ["teammate", "opponent", "coach", "spectator"], "correct_index": 0}, "audio": "audio/teammate.mp3", "audio_ex0": "audio/teammate_ex0.mp3", "audio_ex1": "audio/teammate_ex1.mp3", "img2": "images/teammate_2.png", "img1": "images/teammate_1.png"}, {"word": "shoulder", "ipa": "/ˈʃoʊldər/", "image_prompts": ["A heavy backpack resting on a person's shoulder, straps digging in", "The shoulder of a highway with a broken-down car, hazard lights flashing"], "image_desc_en": "A backpack on a shoulder; a highway shoulder.", "image_desc_cn": "肩膀上背着背包；高速公路的路肩。", "meaning_cn": "n. 肩膀；(道路的)路肩 v. 承担", "usage": "n. 肩膀；路肩 v. 承担", "collocations": "shoulder pain, cold shoulder, shoulder responsibility", "preposition_combos": "on one's shoulder, over one's shoulder", "examples": [{"en": "He patted me on the shoulder to show his support.", "cn": "他拍了拍我的肩膀以示支持。"}, {"en": "Our team must shoulder the responsibility for this project.", "cn": "我们的团队必须承担这个项目的责任。"}], "socratic_questions": [{"question": "当你感到压力很大时，你可能会觉得哪个身体部位很沉重？", "answer_hint": "这个部位可以用来支撑重物，也用来比喻承担责任。"}], "fill_blank": {"sentences": ["She carried the heavy bag on her ___ all the way home."], "options": ["shoulder", "head", "hand", "back"], "correct_index": 0}, "audio": "audio/shoulder.mp3", "audio_ex0": "audio/shoulder_ex0.mp3", "audio_ex1": "audio/shoulder_ex1.mp3", "img1": "images/shoulder_1.png", "img2": "images/shoulder_2.png"}, {"word": "bit by bit", "ipa": "/bɪt baɪ bɪt/", "image_prompts": ["A sandcastle being built, one scoop of sand at a time", "A plant growing from a seed, showing incremental growth stages"], "image_desc_en": "Sandcastle construction and plant growth illustrating gradual progress.", "image_desc_cn": "沙堡建造和植物生长，展示逐渐的进步。", "meaning_cn": "一点一点地，逐渐地", "usage": "adv. 逐渐地，慢慢地", "collocations": "improve bit by bit, learn bit by bit, change bit by bit", "preposition_combos": "N/A", "examples": [{"en": "He learned English bit by bit through daily practice.", "cn": "他通过每天的练习一点一点地学习英语。"}, {"en": "The project improved bit by bit as we added new features.", "cn": "随着我们添加新功能，这个项目一点一点地改进。"}], "socratic_questions": [{"question": "如果你每天都做一点点，最终会有什么结果？", "answer_hint": "强调缓慢但持续的进步。"}], "fill_blank": {"sentences": ["She saved money ___ ___ ___ until she could buy a bike."], "options": ["bit by bit", "all at once", "now and then", "day by day"], "correct_index": 0}, "audio": "audio/bit_by_bit.mp3", "audio_ex0": "audio/bit_by_bit_ex0.mp3", "audio_ex1": "audio/bit_by_bit_ex1.mp3", "img2": "images/bit_by_bit_2.png", "img1": "images/bit_by_bit_1.png"}, {"word": "ladder", "ipa": "/ˈlædər/", "image_prompts": ["A wooden ladder leaning against a brick wall, leading to a rooftop", "A metal ladder extending upwards towards a bright blue sky, construction site"], "image_desc_en": "A ladder is a structure with steps used for climbing up or down.", "image_desc_cn": "梯子是一种带有梯级的结构，用于向上或向下攀爬。", "meaning_cn": "梯子", "usage": "n. (pl. ladders)", "collocations": "climb a ladder, step ladder, career ladder", "preposition_combos": "on a ladder, up a ladder, down a ladder", "examples": [{"en": "He used a ladder to reach the high shelf in the library.", "cn": "他用梯子够到了图书馆里很高的架子。"}, {"en": "The firefighter climbed the ladder quickly to rescue the cat.", "cn": "消防员迅速爬上梯子去救猫。"}], "socratic_questions": [{"question": "如果你想爬到树上摘果子，但又够不着，你会用什么工具？", "answer_hint": "这个工具通常由两根长条和中间的横档组成，可以帮助你爬高。"}], "fill_blank": {"sentences": ["She needed a ___ to reach the top of the bookshelf."], "options": ["ladder", "chair", "table", "rope"], "correct_index": 0}, "audio": "audio/ladder.mp3", "audio_ex0": "audio/ladder_ex0.mp3", "audio_ex1": "audio/ladder_ex1.mp3", "img1": "images/ladder_1.png", "img2": "images/ladder_2.png"}, {"word": "measure", "ipa": "/ˈmeʒər/", "image_prompts": ["A ruler lying on a table next to a notebook, precise markings visible", "A measuring cup filled with flour, spilled flour around it on a wooden surface"], "image_desc_en": "A ruler and a measuring cup, representing the act of measuring.", "image_desc_cn": "一把尺子和一个量杯，代表测量的行为。", "meaning_cn": "v. 测量；n. 措施", "usage": "v. (measured, measured); n. 测量，措施", "collocations": "take measures, measure the length, accurate measure", "preposition_combos": "measure in, measure for", "examples": [{"en": "We need to measure the room to see if the sofa fits.", "cn": "我们需要测量一下房间，看看沙发是否合适。"}, {"en": "The school took measures to prevent bullying on the campus.", "cn": "学校采取措施防止校园欺凌。"}], "socratic_questions": [{"question": "为了知道房间有多大，你会用什么工具？或者，为了解决一个问题，你会采取什么行动？", "answer_hint": "这个词既可以表示用工具确定大小，也可以表示解决问题的方法。"}], "fill_blank": {"sentences": ["The teacher asked us to ___ the height of the building."], "options": ["measure", "guess", "imagine", "count"], "correct_index": 0}, "audio": "audio/measure.mp3", "audio_ex0": "audio/measure_ex0.mp3", "audio_ex1": "audio/measure_ex1.mp3", "img1": "images/measure_1.png", "img2": "images/measure_2.png"}, {"word": "successfully", "ipa": "/səkˈsesfəli/", "image_prompts": ["A graduation cap thrown in the air, sunlight shining through", "A climber reaching the summit of a mountain, celebratory flag waving"], "image_desc_en": "Graduation cap in the air; Climber reaching a summit.", "image_desc_cn": "毕业帽被抛向空中；登山者到达顶峰。", "meaning_cn": "成功地", "usage": "adv.", "collocations": "complete successfully, perform successfully, end successfully", "preposition_combos": "successfully in, successfully at", "examples": [{"en": "She successfully passed the exam with high scores this time.", "cn": "这次她成功地通过了考试，并且得了高分。"}, {"en": "Our team successfully completed the project ahead of schedule.", "cn": "我们的团队成功地提前完成了项目。"}], "socratic_questions": [{"question": "如果你努力完成了某件事，结果很好，你会用什么词来形容你的完成状态？", "answer_hint": "强调结果是好的，并且是努力达成的。"}], "fill_blank": {"sentences": ["He ___ finished the difficult task, surprising everyone with his speed."], "options": ["successfully", "successful", "success", "succeed"], "correct_index": 0}, "audio": "audio/successfully.mp3", "audio_ex0": "audio/successfully_ex0.mp3", "audio_ex1": "audio/successfully_ex1.mp3", "img1": "images/successfully_1.png", "img2": "images/successfully_2.png"}, {"word": "risk", "ipa": "/rɪsk/", "image_prompts": ["A tightrope walker balancing high above a city skyline, no safety net", "A sign warning of a steep cliff edge with strong winds, dangerous terrain"], "image_desc_en": "A tightrope walker and a cliff warning sign represent potential danger.", "image_desc_cn": "走钢丝的人和悬崖警告标志代表潜在的危险。", "meaning_cn": "n. 风险；v. 冒险", "usage": "n. (复数 risks)；v. (过去式 risked, 过去分词 risked)", "collocations": "at risk, take a risk, run the risk", "preposition_combos": "risk of", "examples": [{"en": "There is a high risk of fire during the dry season.", "cn": "旱季期间发生火灾的风险很高。"}, {"en": "Do not risk your life for something not so important.", "cn": "不要为了不太重要的事情而冒生命危险。"}], "socratic_questions": [{"question": "如果你明知做某事可能会造成不好的结果，但仍然决定去做，这是什么？", "answer_hint": "这个词指的是可能发生的危险或损失。"}], "fill_blank": {"sentences": ["He took a big ___ to start his own business."], "options": ["risk", "chance", "way", "plan"], "correct_index": 0}, "audio": "audio/risk.mp3", "audio_ex0": "audio/risk_ex0.mp3", "audio_ex1": "audio/risk_ex1.mp3", "img1": "images/risk_1.png", "img2": "images/risk_2.png"}, {"word": "Nile", "ipa": "/naɪl/", "image_prompts": ["Aerial view of a long, winding river flowing through a desert landscape, lush green banks", "Ancient Egyptian papyrus scroll depicting scenes of life along a great river, pyramids in the background"], "image_desc_en": "A long river flowing through a desert and a papyrus scroll depicting life along the river.", "image_desc_cn": "一条流经沙漠的长河和一张描绘沿河生活的纸莎草纸卷轴。", "meaning_cn": "尼罗河", "usage": "n. (the Nile)", "collocations": "the Nile River, along the Nile, cross the Nile", "preposition_combos": "on the Nile, along the Nile, across the Nile", "examples": [{"en": "The Nile is a very long river in Africa.", "cn": "尼罗河是非洲一条非常长的河流。"}, {"en": "Farmers depend on the Nile for water to grow crops.", "cn": "农民依靠尼罗河的水来种植庄稼。"}], "socratic_questions": [{"question": "哪个非洲河流以其悠久的历史和对古埃及文明的重要性而闻名？", "answer_hint": "这条河是古埃及文明的摇篮，为农业和运输提供了生命线。"}], "fill_blank": {"sentences": ["The ancient Egyptians built their civilization along the banks of the ___."], "options": ["Nile", "Amazon", "Yangtze", "Mississippi"], "correct_index": 0}, "audio": "audio/Nile.mp3", "audio_ex0": "audio/Nile_ex0.mp3", "audio_ex1": "audio/Nile_ex1.mp3", "img1": "images/Nile_1.png", "img2": "images/Nile_2.png"}, {"word": "Angel", "ipa": "/ˈeɪndʒəl/", "image_prompts": ["A golden statue with large feathered wings, bathed in soft light", "A stained glass window depicting a celestial being with a halo"], "image_desc_en": "Images depicting angelic figures and symbols.", "image_desc_cn": "描绘天使形象和象征的图片。", "meaning_cn": "天使", "usage": "n. (复数 angels)", "collocations": "guardian angel, fallen angel", "preposition_combos": "like an angel", "examples": [{"en": "She is an angel; she always helps those in need.", "cn": "她是个天使，她总是帮助那些需要帮助的人。"}, {"en": "My little sister is an angel when she is sleeping.", "cn": "我妹妹睡觉的时候像个天使。"}], "socratic_questions": [{"question": "如果你形容一个人非常善良和乐于助人，你会用什么词来比喻？", "answer_hint": "这个词通常用来形容神话故事中善良的使者。"}], "fill_blank": {"sentences": ["The nurse was an ___ to the patients in the hospital."], "options": ["angel", "devil", "monster", "giant"], "correct_index": 0}, "audio": "audio/Angel.mp3", "audio_ex0": "audio/Angel_ex0.mp3", "audio_ex1": "audio/Angel_ex1.mp3", "img1": "images/Angel_1.png", "img2": "images/Angel_2.png"}, {"word": "Mount Qomolangma", "ipa": "/ˌmaʊnt ˌtʃoʊməlɑŋˈmɑː/", "image_prompts": ["A panoramic view of a towering snow-capped mountain peak piercing the clouds, sunlight reflecting off the snow", "A topographical map highlighting the location and elevation of the world's highest mountain"], "image_desc_en": "Images depicting the world's highest mountain and its location.", "image_desc_cn": "描绘世界最高峰及其位置的图像。", "meaning_cn": "珠穆朗玛峰", "usage": "n. (also known as Everest)", "collocations": "climb Mount Qomolangma, the height of Mount Qomolangma, Mount Qomolangma base camp", "preposition_combos": "on Mount Qomolangma, near Mount Qomolangma", "examples": [{"en": "Many climbers dream of reaching the summit of Mount Qomolangma.", "cn": "许多登山者梦想着到达珠穆朗玛峰的顶峰。"}, {"en": "Mount Qomolangma is a challenge for even the most skilled climbers.", "cn": "即使对于最有经验的登山者来说，珠穆朗玛峰也是一个挑战。"}], "socratic_questions": [{"question": "哪座山峰是地球上最高的，吸引了无数登山爱好者前去挑战？", "answer_hint": "这座山峰是世界之巅，以其极高的海拔和严酷的环境而闻名。"}], "fill_blank": {"sentences": ["___ is the highest mountain above sea level on Earth."], "options": ["Mount Qomolangma", "Mount Tai", "Mount Huang", "Mount Everest"], "correct_index": 0}, "audio": "audio/Mount_Qomolangma.mp3", "audio_ex0": "audio/Mount_Qomolangma_ex0.mp3", "audio_ex1": "audio/Mount_Qomolangma_ex1.mp3", "img1": "images/Mount_Qomolangma_1.png", "img2": "images/Mount_Qomolangma_2.png"}, {"word": "Dead Sea", "ipa": "/ˌded ˈsiː/", "image_prompts": ["A panoramic view of a large, still body of water surrounded by desert landscape, salt crystals visible on the shoreline", "A close-up of salt formations and mineral deposits along the edge of a very salty lake, arid environment"], "image_desc_en": "A very salty lake located between Jordan and Israel, known for its high salt concentration.", "image_desc_cn": "位于约旦和以色列之间的盐度极高的湖泊，以其高盐度而闻名。", "meaning_cn": "死海", "usage": "n. (the Dead Sea)", "collocations": "visit the Dead Sea, float in the Dead Sea", "preposition_combos": "near the Dead Sea, in the Dead Sea", "examples": [{"en": "Many tourists visit the Dead Sea to float effortlessly on the water.", "cn": "许多游客参观死海，为了毫不费力地漂浮在水面上。"}, {"en": "The Dead Sea's high salt content makes it impossible for fish to live.", "cn": "死海的高盐含量使得鱼类无法生存。"}], "socratic_questions": [{"question": "哪个水域的盐度极高，以至于生物很难存活，而且人们可以轻松漂浮？", "answer_hint": "这个地方以其独特的漂浮体验和矿物质含量而闻名。"}], "fill_blank": {"sentences": ["The ___ is famous for its high salt content and therapeutic mud."], "options": ["Dead Sea", "Red Sea", "Black Sea", "Yellow Sea"], "correct_index": 0}, "audio": "audio/Dead_Sea.mp3", "audio_ex0": "audio/Dead_Sea_ex0.mp3", "audio_ex1": "audio/Dead_Sea_ex1.mp3", "img1": "images/Dead_Sea_1.png", "img2": "images/Dead_Sea_2.png"}, {"word": "Sahara", "ipa": "/səˈhɑːrə/", "image_prompts": ["Endless sand dunes under a scorching sun, mirage shimmering in the distance", "A satellite view of a vast desert landscape, showing the immense scale"], "image_desc_en": "Vast desert landscape with sand dunes and extreme heat.", "image_desc_cn": "广阔的沙漠景观，有沙丘和极端高温。", "meaning_cn": "撒哈拉沙漠", "usage": "n. (the Sahara)", "collocations": "Sahara Desert, cross the Sahara", "preposition_combos": "in the Sahara, across the Sahara", "examples": [{"en": "The Sahara is the largest hot desert in the world.", "cn": "撒哈拉沙漠是世界上最大的热沙漠。"}, {"en": "Camels are often used to travel across the Sahara.", "cn": "骆驼经常被用来穿越撒哈拉沙漠。"}], "socratic_questions": [{"question": "哪个地方以其巨大的沙丘和极度炎热而闻名？", "answer_hint": "这是一个位于非洲北部的大沙漠的名字。"}], "fill_blank": {"sentences": ["The ___ Desert covers a large part of North Africa."], "options": ["Sahara", "Gobi", "Arctic", "Amazon"], "correct_index": 0}, "audio": "audio/Sahara.mp3", "audio_ex0": "audio/Sahara_ex0.mp3", "audio_ex1": "audio/Sahara_ex1.mp3", "img1": "images/Sahara_1.png", "img2": "images/Sahara_2.png"}, {"word": "Mariana", "ipa": "/ˌmæriˈɑːnə/", "image_prompts": ["A detailed map showing the location of the Mariana Trench in the Pacific Ocean, deep blue gradient", "An underwater scene depicting the extreme pressure and darkness of the Mariana Trench, with specialized research equipment"], "image_desc_en": "Illustrations of the Mariana Trench, the deepest part of the world's oceans.", "image_desc_cn": "马里亚纳海沟的插图，是世界海洋中最深的部分。", "meaning_cn": "马里亚纳（人名，地名，尤指马里亚纳海沟）", "usage": "n. (专有名词)", "collocations": "Mariana Trench", "preposition_combos": "in Mariana", "examples": [{"en": "The Mariana Trench is the deepest part of the world's oceans.", "cn": "马里亚纳海沟是世界海洋中最深的部分。"}, {"en": "Exploration of the Mariana Trench requires specialized equipment and research.", "cn": "对马里亚纳海沟的探索需要专门的设备和研究。"}], "socratic_questions": [{"question": "如果你想了解地球上最深的地方，你会研究哪个海沟？", "answer_hint": "这个海沟的名字经常出现在地理课本中，以其极端的深度而闻名。"}], "fill_blank": {"sentences": ["The Challenger Deep is located within the ___ Trench.", "The Challenger Deep is located within the ___ area."], "options": ["Mariana", "Atlantic", "Pacific", "Indian"], "correct_index": 0}, "audio": "audio/Mariana.mp3", "audio_ex0": "audio/Mariana_ex0.mp3", "audio_ex1": "audio/Mariana_ex1.mp3", "img1": "images/Mariana_1.png", "img2": "images/Mariana_2.png"}, {"word": "Titanic", "ipa": "/taɪˈtænɪk/", "image_prompts": ["A large cruise ship sinking into a dark, stormy ocean, waves crashing", "An iceberg floating in a cold, dark sea, ship silhouette in the distance"], "image_desc_en": "Images depicting the sinking of a large ship and an iceberg.", "image_desc_cn": "描绘一艘巨轮沉没和一座冰山的图片。", "meaning_cn": "泰坦尼克号（著名的沉船）", "usage": "n. (专有名词)", "collocations": "the Titanic disaster, the Titanic movie", "preposition_combos": "on the Titanic, about the Titanic", "examples": [{"en": "The Titanic was a very large ship that sank in 1912.", "cn": "泰坦尼克号是一艘非常大的船，于1912年沉没。"}, {"en": "Have you ever seen the movie about the Titanic disaster?", "cn": "你看过关于泰坦尼克号灾难的电影吗？"}], "socratic_questions": [{"question": "如果我说一艘非常大的船撞到了冰山并沉没了，你会想到哪艘船？", "answer_hint": "这是一艘非常著名的船，它的沉没是一场悲剧。"}], "fill_blank": {"sentences": ["The ___ was known for its luxury before its tragic sinking."], "options": ["Titanic", "ship", "boat", "ferry"], "correct_index": 0}, "audio": "audio/Titanic.mp3", "audio_ex0": "audio/Titanic_ex0.mp3", "audio_ex1": "audio/Titanic_ex1.mp3", "img1": "images/Titanic_1.png", "img2": "images/Titanic_2.png"}, {"word": "Yangtze", "ipa": "/ˈjæŋtsi/", "image_prompts": ["A wide, winding river flowing through a lush green valley, aerial view", "A map highlighting the course of a very long river across a continent"], "image_desc_en": "A long river flowing through a valley; a map showing the river's path.", "image_desc_cn": "一条流经山谷的长河；一张显示河流路径的地图。", "meaning_cn": "长江", "usage": "n. (the Yangtze)", "collocations": "the Yangtze River, along the Yangtze", "preposition_combos": "along the Yangtze", "examples": [{"en": "The Yangtze is the longest river in Asia, very important.", "cn": "长江是亚洲最长的河流，非常重要。"}, {"en": "Many cities are located along the Yangtze, a vital waterway.", "cn": "许多城市都位于长江沿岸，这是一条重要的水道。"}], "socratic_questions": [{"question": "中国最长的河流是什么？", "answer_hint": "这条河对中国文化和经济至关重要，流经多个省份。"}], "fill_blank": {"sentences": ["The Three Gorges Dam is located on the ___ River."], "options": ["Yangtze", "Yellow", "Amazon", "Mississippi"], "correct_index": 0}, "audio": "audio/Yangtze.mp3", "audio_ex0": "audio/Yangtze_ex0.mp3", "audio_ex1": "audio/Yangtze_ex1.mp3", "img1": "images/Yangtze_1.png", "img2": "images/Yangtze_2.png"}, {"word": "Egypt", "ipa": "/ˈiːdʒɪpt/", "image_prompts": ["The Great Pyramid of Giza under a clear blue sky, sand dunes surrounding it", "An ancient Egyptian hieroglyphic inscription on a sandstone wall, detailed carvings"], "image_desc_en": "Images depicting the Great Pyramid of Giza and ancient Egyptian hieroglyphs.", "image_desc_cn": "描绘吉萨大金字塔和古埃及象形文字的图像。", "meaning_cn": "埃及（国家名）", "usage": "n. (专有名词)", "collocations": "ancient Egypt, visit Egypt, travel to Egypt", "preposition_combos": "in Egypt, to Egypt, from Egypt", "examples": [{"en": "Many tourists want to visit Egypt to see the pyramids.", "cn": "许多游客想去埃及参观金字塔。"}, {"en": "My family plans a trip to Egypt during the summer holiday.", "cn": "我的家人计划在暑假期间去埃及旅行。"}], "socratic_questions": [{"question": "哪个国家以金字塔和尼罗河而闻名？", "answer_hint": "这是一个位于非洲东北部的历史悠久的国家。"}], "fill_blank": {"sentences": ["She dreamed of visiting ___ to see the ancient pyramids."], "options": ["Egypt", "England", "Canada", "France"], "correct_index": 0}, "audio": "audio/Egypt.mp3", "audio_ex0": "audio/Egypt_ex0.mp3", "audio_ex1": "audio/Egypt_ex1.mp3", "img1": "images/Egypt_1.png", "img2": "images/Egypt_2.png"}, {"word": "Taklimakan", "ipa": "/ˌtæk lə məˈkɑːn/", "image_prompts": ["A vast desert landscape with towering sand dunes under a clear blue sky", "Satellite view of a large desert basin surrounded by mountains, minimal vegetation"], "image_desc_en": "A large desert with sand dunes and minimal vegetation.", "image_desc_cn": "一个巨大的沙漠，有沙丘和极少的植被。", "meaning_cn": "塔克拉玛干沙漠（中国最大的沙漠）", "usage": "n. (地理名词)", "collocations": "the Taklimakan Desert, cross the Taklimakan", "preposition_combos": "in the Taklimakan, across the Taklimakan", "examples": [{"en": "The hot, dry climate makes the Taklimakan Desert a harsh environment.", "cn": "炎热干燥的气候使塔克拉玛干沙漠成为一个严酷的环境。"}, {"en": "Few plants and animals can survive in the Taklimakan Desert's extreme conditions.", "cn": "很少有动植物能在塔克拉玛干沙漠的极端条件下生存。"}], "socratic_questions": [{"question": "中国有一个以广阔沙丘和极端干燥气候而闻名的巨大沙漠，它叫什么？", "answer_hint": "这是中国最大的沙漠，以其恶劣的环境而闻名。"}], "fill_blank": {"sentences": ["The Silk Road once passed near the edge of the ___ Desert."], "options": ["Taklimakan", "Sahara", "Gobi", "Kalahari"], "correct_index": 0}, "audio": "audio/Taklimakan.mp3", "audio_ex0": "audio/Taklimakan_ex0.mp3", "audio_ex1": "audio/Taklimakan_ex1.mp3", "img1": "images/Taklimakan_1.png", "img2": "images/Taklimakan_2.png"}, {"word": "Mount Kilimanjaro", "ipa": "/ˌmaʊnt ˌkɪlɪmənˈdʒɑːroʊ/", "image_prompts": ["A snow-capped mountain peak rising above a lush green forest, clear blue sky", "A panoramic view of a vast African plain with a towering, dormant volcano in the distance"], "image_desc_en": "Images depicting the snow-capped peak and vast landscape associated with Mount Kilimanjaro.", "image_desc_cn": "图片描绘了乞力马扎罗山的雪峰和广阔的景观。", "meaning_cn": "乞力马扎罗山（非洲最高的山）", "usage": "n. (proper noun)", "collocations": "climb Mount Kilimanjaro, visit Mount Kilimanjaro, view Mount Kilimanjaro", "preposition_combos": "on Mount Kilimanjaro, near Mount Kilimanjaro", "examples": [{"en": "Many people dream of climbing Mount Kilimanjaro one day.", "cn": "很多人梦想着有一天能攀登乞力马扎罗山。"}, {"en": "Mount Kilimanjaro is the highest mountain in Africa.", "cn": "乞力马扎罗山是非洲最高的山。"}], "socratic_questions": [{"question": "非洲最高的山是什么？", "answer_hint": "这座山以其顶部的积雪而闻名，吸引着来自世界各地的登山者。"}], "fill_blank": {"sentences": ["___ is a popular destination for hikers and adventurers.", "The mountain ___ is located in Tanzania."], "options": ["Mount Kilimanjaro", "Mount Everest", "Mount Tai", "Mount Fuji"], "correct_index": 0}, "audio": "audio/Mount_Kilimanjaro.mp3", "audio_ex0": "audio/Mount_Kilimanjaro_ex0.mp3", "audio_ex1": "audio/Mount_Kilimanjaro_ex1.mp3", "img1": "images/Mount_Kilimanjaro_1.png", "img2": "images/Mount_Kilimanjaro_2.png"}, {"word": "Inga", "ipa": "", "image_prompts": ["A map of Sweden highlighting a small town.", "A sign with a Scandinavian-sounding name on a rural road."], "image_desc_en": "A location in Scandinavia.", "image_desc_cn": "斯堪的纳维亚半岛的一个地点。", "meaning_cn": "英格（人名）", "usage": "n. (人名)", "collocations": "", "preposition_combos": "", "examples": [{"en": "Inga plans to visit her grandparents during the summer vacation.", "cn": "英格计划在暑假期间拜访她的祖父母。"}, {"en": "My friend Inga is very good at playing the piano.", "cn": "我的朋友英格非常擅长弹钢琴。"}], "socratic_questions": [{"question": "如果你的朋友有一个听起来像北欧的名字，这个名字可能是什么？", "answer_hint": "这个名字通常用于斯堪的纳维亚地区。"}], "fill_blank": {"sentences": ["___ is a common name in Scandinavian countries like Sweden and Norway."], "options": ["Inga", "John", "Maria", "Tom"], "correct_index": 0}, "audio": "audio/Inga.mp3", "audio_ex0": "audio/Inga_ex0.mp3", "audio_ex1": "audio/Inga_ex1.mp3", "img1": "images/Inga_1.png", "img2": "images/Inga_2.png"}, {"word": "East African Rift", "ipa": "iːst ˈæfrɪkən rɪft", "image_prompts": ["A satellite view of a long, deep valley stretching across a dry, grassy landscape.", "A geological map highlighting a series of connected valleys and fault lines in eastern Africa."], "image_desc_en": "Images depicting the East African Rift Valley.", "image_desc_cn": "描绘东非大裂谷的图像。", "meaning_cn": "东非大裂谷", "usage": "n. (地理名词)", "collocations": "explore the East African Rift, visit the East African Rift", "preposition_combos": "in the East African Rift, along the East African Rift", "examples": [{"en": "The East African Rift is a unique geological feature on Earth.", "cn": "东非大裂谷是地球上一个独特的地质特征。"}, {"en": "Many scientists study the East African Rift for its volcanic activity.", "cn": "许多科学家研究东非大裂谷的火山活动。"}], "socratic_questions": [{"question": "如果你想了解非洲东部一个巨大的、由地壳运动形成的狭长地带，你会研究哪里？", "answer_hint": "这是一个位于非洲东部，因地壳断裂而形成的著名地理构造。"}], "fill_blank": {"sentences": ["The Great ___ ___ ___ is known for its stunning landscapes and geological significance."], "options": ["East African Rift", "North American Canyon", "South American River", "West European Plain"], "correct_index": 0}, "audio": "audio/East_African_Rift.mp3", "audio_ex0": "audio/East_African_Rift_ex0.mp3", "audio_ex1": "audio/East_African_Rift_ex1.mp3", "img1": "images/East_African_Rift_1.png", "img2": "images/East_African_Rift_2.png"}, {"word": "Victoria", "ipa": "/vɪkˈtɔːriə/", "image_prompts": ["A vintage map of British Columbia, highlighting Victoria", "A photograph of the British Columbia Parliament Buildings in Victoria, Canada, illuminated at night"], "image_desc_en": "Images related to Victoria, British Columbia, Canada.", "image_desc_cn": "与加拿大不列颠哥伦比亚省维多利亚相关的图像。", "meaning_cn": "维多利亚（加拿大城市名，不列颠哥伦比亚省省会）", "usage": "n. (专有名词)", "collocations": "Victoria, British Columbia; Victoria Harbour", "preposition_combos": "in Victoria; to Victoria; from Victoria", "examples": [{"en": "Victoria is a beautiful city with many parks and gardens.", "cn": "维多利亚是一个美丽的城市，有很多公园和花园。"}, {"en": "We plan to visit Victoria during our summer vacation this year.", "cn": "我们计划今年暑假去维多利亚旅游。"}], "socratic_questions": [{"question": "如果你想去加拿大不列颠哥伦比亚省的首府旅游，你会去哪个城市？", "answer_hint": "这是一个位于温哥华岛南端的城市，以其美丽的花园和历史建筑而闻名。"}], "fill_blank": {"sentences": ["My aunt lives in ___, so we visit her often."], "options": ["Victoria", "Vancouver", "Toronto", "Montreal"], "correct_index": 0}, "audio": "audio/Victoria.mp3", "audio_ex0": "audio/Victoria_ex0.mp3", "audio_ex1": "audio/Victoria_ex1.mp3", "img1": "images/Victoria_1.png", "img2": "images/Victoria_2.png"}, {"word": "George", "ipa": "/dʒɔːrdʒ/", "image_prompts": ["A vintage map of England with a prominent label pointing to 'St. George's Channel'", "A portrait of King George III with a powdered wig and royal attire"], "image_desc_en": "A map highlighting St. George's Channel and a portrait of King George III.", "image_desc_cn": "一张地图，突出显示圣乔治海峡，以及乔治三世国王的肖像。", "meaning_cn": "乔治（人名）", "usage": "n. (专有名词)", "collocations": "Meet George, Uncle George", "preposition_combos": "with George, from George", "examples": [{"en": "My friend George loves to play basketball after school every day.", "cn": "我的朋友乔治每天放学后都喜欢打篮球。"}, {"en": "George said he will join our English club next semester.", "cn": "乔治说他下学期将加入我们的英语俱乐部。"}], "socratic_questions": [{"question": "如果你的一个朋友的名字，经常和你一起学习，你会怎么称呼他？", "answer_hint": "这是一个常见的英文名字，用于称呼男性。"}], "fill_blank": {"sentences": ["Have you met ___ , our new classmate from London?"], "options": ["George", "Mary", "Tom", "Lucy"], "correct_index": 0}, "audio": "audio/George.mp3", "audio_ex0": "audio/George_ex0.mp3", "audio_ex1": "audio/George_ex1.mp3", "img1": "images/George_1.png", "img2": "images/George_2.png"}, {"word": "Mallory", "ipa": "/ˈmæləri/", "image_prompts": ["A vintage map showing Mount Everest with a highlighted route to the summit", "A black and white photograph of a mountain climber's ice axe stuck in a snowy peak"], "image_desc_en": "A map of Everest and a climber's ice axe.", "image_desc_cn": "珠穆朗玛峰的地图和登山者的冰镐。", "meaning_cn": "马洛里（人名，尤指乔治·马洛里，英国登山家）", "usage": "n. (专有名词)", "collocations": "George Mallory, Mallory expedition", "preposition_combos": "of Mallory, about Mallory", "examples": [{"en": "Mallory was a famous climber who attempted to climb Mount Everest.", "cn": "马洛里是一位著名的登山家，他曾尝试攀登珠穆朗玛峰。"}, {"en": "The Mallory expedition aimed to find out if he reached the summit.", "cn": "马洛里探险队的目的是查明他是否到达了顶峰。"}], "socratic_questions": [{"question": "提到早期尝试攀登珠穆朗玛峰的著名登山家，你会想到谁？", "answer_hint": "他是20世纪20年代的英国登山家，以其在珠峰的探险而闻名。"}], "fill_blank": {"sentences": ["The documentary focused on the life and expeditions of George ___."], "options": ["Mallory", "Smith", "Jones", "Williams"], "correct_index": 0}, "audio": "audio/Mallory.mp3", "audio_ex0": "audio/Mallory_ex0.mp3", "audio_ex1": "audio/Mallory_ex1.mp3", "img1": "images/Mallory_1.png", "img2": "images/Mallory_2.png"}, {"word": "Siberia", "ipa": "/saɪˈbɪəriə/", "image_prompts": ["A vast, snow-covered landscape with sparse trees under a pale sky", "A map highlighting a large, cold region in northern Asia"], "image_desc_en": "Images depicting the vast, cold region of Siberia.", "image_desc_cn": "描绘西伯利亚广阔寒冷地区的图像。", "meaning_cn": "西伯利亚（俄罗斯亚洲部分北部）", "usage": "n. ", "collocations": "eastern Siberia, western Siberia, travel to Siberia", "preposition_combos": "in Siberia, to Siberia, from Siberia", "examples": [{"en": "Winters in Siberia are long, dark, and extremely cold.", "cn": "西伯利亚的冬天漫长、黑暗且极其寒冷。"}, {"en": "Many natural resources are found in the region of Siberia.", "cn": "在西伯利亚地区发现了许多自然资源。"}], "socratic_questions": [{"question": "哪个地方以其漫长而寒冷的冬季以及广阔的针叶林而闻名？", "answer_hint": "这个地方位于俄罗斯的亚洲部分，以其极端的气候而闻名。"}], "fill_blank": {"sentences": ["The climate in ___ is known for its extreme cold and long winters."], "options": ["Siberia", "Sahara", "Amazon", "Gobi"], "correct_index": 0}, "audio": "audio/Siberia.mp3", "audio_ex0": "audio/Siberia_ex0.mp3", "audio_ex1": "audio/Siberia_ex1.mp3", "img1": "images/Siberia_1.png", "img2": "images/Siberia_2.png"}, {"word": "Lake Baikal", "ipa": "/ˌleɪk baɪˈkɑːl/", "image_prompts": ["A vast, deep blue lake surrounded by snow-capped mountains and dense green forests", "An aerial view of a long, narrow lake with crystal-clear water and rocky shores"], "image_desc_en": "A large, deep lake with surrounding mountains and forests.", "image_desc_cn": "一个巨大的深湖，周围环绕着山脉和森林。", "meaning_cn": "贝加尔湖", "usage": "n. (proper noun)", "collocations": "visit Lake Baikal, near Lake Baikal, the beauty of Lake Baikal", "preposition_combos": "on Lake Baikal, around Lake Baikal, near Lake Baikal", "examples": [{"en": "Many tourists visit Lake Baikal every year to see its beauty.", "cn": "每年都有许多游客参观贝加尔湖，欣赏它的美丽。"}, {"en": "Lake Baikal is the deepest lake in the world, holding much water.", "cn": "贝加尔湖是世界上最深的湖，拥有大量的水。"}], "socratic_questions": [{"question": "你知道世界上最深的湖是什么吗？它位于俄罗斯。", "answer_hint": "这个湖以其深度和清澈的湖水而闻名。"}], "fill_blank": {"sentences": ["___ is a famous lake in Russia, known for its clear water."], "options": ["Lake Baikal", "The ocean", "The river", "The sea"], "correct_index": 0}, "audio": "audio/Lake_Baikal.mp3", "audio_ex0": "audio/Lake_Baikal_ex0.mp3", "audio_ex1": "audio/Lake_Baikal_ex1.mp3", "img1": "images/Lake_Baikal_1.png", "img2": "images/Lake_Baikal_2.png"}, {"word": "Belgium", "ipa": "/ˈbeldʒəm/", "image_prompts": ["A map highlighting the location of Belgium in Europe, surrounded by neighboring countries.", "A box of assorted Belgian chocolates with different shapes and flavors."], "image_desc_en": "A map of Belgium and a box of Belgian chocolates.", "image_desc_cn": "比利时地图和一盒比利时巧克力。", "meaning_cn": "比利时（国家名）", "usage": "n. ", "collocations": "in Belgium, from Belgium, visit Belgium", "preposition_combos": "in Belgium, to Belgium, from Belgium", "examples": [{"en": "My friend went to Belgium last year and loved the waffles.", "cn": "我的朋友去年去了比利时，很喜欢那里的华夫饼。"}, {"en": "Belgium is famous for its chocolate and beer all over the world.", "cn": "比利时以其巧克力和啤酒闻名世界。"}], "socratic_questions": [{"question": "哪个欧洲国家以巧克力、啤酒和华夫饼而闻名？", "answer_hint": "这是一个位于欧洲西部的小国，以美食和历史悠久的城市而闻名。"}], "fill_blank": {"sentences": ["Brussels is the capital city of ___."], "options": ["Belgium", "Germany", "France", "Spain"], "correct_index": 0}, "audio": "audio/Belgium.mp3", "audio_ex0": "audio/Belgium_ex0.mp3", "audio_ex1": "audio/Belgium_ex1.mp3", "img1": "images/Belgium_1.png", "img2": "images/Belgium_2.png"}, {"word": "Great Barrier", "ipa": "ɡreɪt ˈbæriər", "image_prompts": ["Aerial view of a vast coral reef system with turquoise water", "Underwater shot of colorful coral formations and diverse marine life"], "image_desc_en": "A large coral reef system with diverse marine life.", "image_desc_cn": "一个巨大的珊瑚礁系统，拥有多样的海洋生物。", "meaning_cn": "大堡礁", "usage": "n. (专有名词)", "collocations": "visit the Great Barrier Reef, explore the Great Barrier Reef", "preposition_combos": "in the Great Barrier Reef, near the Great Barrier Reef", "examples": [{"en": "The Great Barrier Reef is a beautiful place with many fish.", "cn": "大堡礁是一个美丽的地方，有很多鱼。"}, {"en": "We plan to visit the Great Barrier Reef during our summer vacation.", "cn": "我们计划在暑假期间参观大堡礁。"}], "socratic_questions": [{"question": "哪个位于澳大利亚海岸，以其巨大的珊瑚和海洋生物而闻名？", "answer_hint": "这是世界上最大的珊瑚礁系统，也是一个著名的旅游景点。"}], "fill_blank": {"sentences": ["The ___ ___ Reef is home to countless species of marine animals."], "options": ["Great Barrier", "Grand Canyon", "Sahara Desert", "Mount Everest"], "correct_index": 0}, "audio": "audio/Great_Barrier.mp3", "audio_ex0": "audio/Great_Barrier_ex0.mp3", "audio_ex1": "audio/Great_Barrier_ex1.mp3", "img1": "images/Great_Barrier_1.png", "img2": "images/Great_Barrier_2.png"}, {"word": "curiosity", "ipa": "/ˌkjʊəriˈɒsəti/", "image_prompts": ["A cat peering into a cardboard box, tail twitching", "A magnifying glass hovering over a complex clockwork mechanism"], "image_desc_en": "A cat is curious about what's inside the box. A magnifying glass reveals the details of a complex mechanism.", "image_desc_cn": "一只猫好奇地看着纸箱里面。放大镜揭示了复杂机械装置的细节。", "meaning_cn": "好奇心", "usage": "n. 好奇心", "collocations": "out of curiosity, satisfy one's curiosity, a sense of curiosity", "preposition_combos": "curiosity about", "examples": [{"en": "Her curiosity led her to explore the old, abandoned house.", "cn": "她的好奇心驱使她去探索那座古老的废弃房屋。"}, {"en": "The student's curiosity made him ask many questions in class.", "cn": "学生的好奇心使他在课堂上问了很多问题。"}], "socratic_questions": [{"question": "当你看到一个未知的盒子，很想打开看看里面有什么，这是什么心理？", "answer_hint": "这种想要了解未知事物的心情，是一种渴望探索的心理。"}], "fill_blank": {"sentences": ["His ___ about the world drove him to travel to many countries."], "options": ["curiosity", "laziness", "fear", "anger"], "correct_index": 0}, "audio": "audio/curiosity.mp3", "audio_ex0": "audio/curiosity_ex0.mp3", "audio_ex1": "audio/curiosity_ex1.mp3", "img1": "images/curiosity_1.png", "img2": "images/curiosity_2.png"}, {"word": "ambition", "ipa": "/æmˈbɪʃən/", "image_prompts": ["A winding staircase leading to a bright, sunlit skylight, representing aspiration", "A rocket launching into space with a trail of fire, symbolizing a grand goal"], "image_desc_en": "Images representing aspiration and grand goals.", "image_desc_cn": "代表渴望和宏伟目标的图像。", "meaning_cn": "雄心，抱负", "usage": "n. ambitious (adj.)", "collocations": "have an ambition, achieve an ambition, fulfil an ambition", "preposition_combos": "ambition for", "examples": [{"en": "Her ambition is to become a doctor and help people.", "cn": "她的雄心是成为一名医生并帮助人们。"}, {"en": "He has a strong ambition to win the science competition.", "cn": "他有赢得科学竞赛的强烈抱负。"}], "socratic_questions": [{"question": "如果你想在未来实现一个非常重要的目标，你会用什么词来形容这种强烈的愿望？", "answer_hint": "这个词表示你对未来的渴望和努力方向。"}], "fill_blank": {"sentences": ["His ___ is to travel around the world someday."], "options": ["ambition", "hobby", "interest", "plan"], "correct_index": 0}, "audio": "audio/ambition.mp3", "audio_ex0": "audio/ambition_ex0.mp3", "audio_ex1": "audio/ambition_ex1.mp3", "img1": "images/ambition_1.png", "img2": "images/ambition_2.png"}, {"word": "explorer", "ipa": "/ɪkˈsplɔːrər/", "image_prompts": ["A vintage map with compass and magnifying glass, indicating uncharted territories", "A silhouette of a hot air balloon against a sunrise, floating over vast landscapes"], "image_desc_en": "Images representing exploration through maps and hot air balloons.", "image_desc_cn": "通过地图和热气球代表探索的图像。", "meaning_cn": "探险家，探索者", "usage": "n. (复数 explorers)", "collocations": "famous explorer, early explorer, space explorer", "preposition_combos": "explorer of", "examples": [{"en": "The explorer traveled to remote areas to study rare plants.", "cn": "这位探险家前往偏远地区研究稀有植物。"}, {"en": "She is a brave explorer who loves discovering new cultures.", "cn": "她是一位勇敢的探险家，喜欢发现新的文化。"}], "socratic_questions": [{"question": "谁会去寻找新的土地或研究未知事物？", "answer_hint": "指从事探险活动的人。"}], "fill_blank": {"sentences": ["The young ___ dreamed of discovering a lost city in the jungle."], "options": ["explorer", "teacher", "writer", "farmer"], "correct_index": 0}, "audio": "audio/explorer.mp3", "audio_ex0": "audio/explorer_ex0.mp3", "audio_ex1": "audio/explorer_ex1.mp3", "img1": "images/explorer_1.png", "img2": "images/explorer_2.png"}, {"word": "simply", "ipa": "/ˈsɪmpli/", "image_prompts": ["A plain white wall with a single, unadorned shelf", "A single, clear drop of water falling from a leaf"], "image_desc_en": "Illustrations representing the concept of 'simply' through plainness and singleness.", "image_desc_cn": "通过朴素和单一来表示“简单地”的概念的插图。", "meaning_cn": "简单地；仅仅", "usage": "adv.", "collocations": "simply put, simply because, simply amazing", "preposition_combos": "simply by", "examples": [{"en": "I simply cannot believe that he would say such a thing.", "cn": "我简直无法相信他会说出这样的话。"}, {"en": "She simply smiled and walked away without saying another word.", "cn": "她只是笑了笑，一句话也没说就走开了。"}], "socratic_questions": [{"question": "当你想表达某事很容易做到，或者某事只是那样发生时，你会用哪个词？", "answer_hint": "这个词强调事情的简易性和直接性，没有复杂性。"}], "fill_blank": {"sentences": ["He ___ forgot to bring his homework to school today."], "options": ["simply", "complexly", "angrily", "quickly"], "correct_index": 0}, "audio": "audio/simply.mp3", "audio_ex0": "audio/simply_ex0.mp3", "audio_ex1": "audio/simply_ex1.mp3", "img1": "images/simply_1.png", "img2": "images/simply_2.png"}, {"word": "risky", "ipa": "/ˈrɪski/", "image_prompts": ["A tightrope walker balancing high above a city skyline, no safety net", "A winding mountain road with a steep cliff on one side, foggy conditions"], "image_desc_en": "A precarious situation with potential danger.", "image_desc_cn": "一种潜在危险的危险境地。", "meaning_cn": "adj. 危险的，冒险的", "usage": "adj.", "collocations": "risky behavior, risky investment, too risky", "preposition_combos": "risky for", "examples": [{"en": "It's too risky to climb that mountain without proper gear.", "cn": "没有合适的装备去爬那座山太冒险了。"}, {"en": "Investing all your money in one company is a risky move.", "cn": "把所有的钱都投资在一家公司里是一个冒险的举动。"}], "socratic_questions": [{"question": "如果你明知做了某事可能会遇到不好的结果，你会形容这件事是？", "answer_hint": "这件事可能带来损失或伤害。"}], "fill_blank": {"sentences": ["Driving without a seatbelt is a very ___ thing to do."], "options": ["risky", "safe", "easy", "common"], "correct_index": 0}, "audio": "audio/risky.mp3", "audio_ex0": "audio/risky_ex0.mp3", "audio_ex1": "audio/risky_ex1.mp3", "img2": "images/risky_2.png"}, {"word": "southern", "ipa": "/ˈsʌðərn/", "image_prompts": ["A map highlighting the lower part of Italy, indicating a geographical region", "A compass pointing towards the bottom direction, indicating a cardinal direction"], "image_desc_en": "A map highlighting the southern region of Italy and a compass pointing south.", "image_desc_cn": "一张地图突出显示意大利南部地区，以及一个指向南方的指南针。", "meaning_cn": "南方的；南部的", "usage": "adj. ", "collocations": "southern Europe, southern coast, southern part", "preposition_combos": "in southern, to the southern", "examples": [{"en": "The southern part of China has a warmer climate.", "cn": "中国南方气候比较温暖。"}, {"en": "We are planning a trip to the southern coast next month.", "cn": "我们计划下个月去南部海岸旅行。"}], "socratic_questions": [{"question": "如果一个国家的最下面一部分，我们通常用哪个词来形容这个位置？", "answer_hint": "这个词表示地理方向，与北方相对。"}], "fill_blank": {"sentences": ["The ___ states of America are known for their hospitality."], "options": ["southern", "northern", "eastern", "western"], "correct_index": 0}, "audio": "audio/southern.mp3", "audio_ex0": "audio/southern_ex0.mp3", "audio_ex1": "audio/southern_ex1.mp3", "img1": "images/southern_1.png", "img2": "images/southern_2.png"}, {"word": "located", "ipa": "/ˈloʊkeɪtɪd/", "image_prompts": ["A map with a pin marking a specific building, aerial view", "A GPS navigation screen showing the current position on a road"], "image_desc_en": "A map pinpoints a building; a GPS shows current location.", "image_desc_cn": "地图用图钉标记建筑物；GPS 显示当前位置。", "meaning_cn": "位于，坐落于", "usage": "v. (过去式 located, 过去分词 located); adj.", "collocations": "be located in/at/on", "preposition_combos": "located in, located at, located on", "examples": [{"en": "The school is located near the park, which is very convenient.", "cn": "学校位于公园附近，非常方便。"}, {"en": "Our new house is located on a quiet street in town.", "cn": "我们的新房子位于镇上的一条安静的街道上。"}], "socratic_questions": [{"question": "如果想描述某个建筑物或地点在哪里，你会用什么词？", "answer_hint": "这个词表示某物存在或被发现的特定地点。"}], "fill_blank": {"sentences": ["The ancient city was ___ near the river valley, long ago."], "options": ["located", "moving", "building", "destroying"], "correct_index": 0}, "audio": "audio/located.mp3", "audio_ex0": "audio/located_ex0.mp3", "audio_ex1": "audio/located_ex1.mp3", "img1": "images/located_1.png", "img2": "images/located_2.png"}, {"word": "freshwater", "ipa": "/ˈfreʃwɔːtər/", "image_prompts": ["A clear river flowing through a green forest, sunlight reflecting on the water surface", "A glass of clear water with ice cubes, condensation on the glass"], "image_desc_en": "Images depicting clear river water and a glass of drinking water.", "image_desc_cn": "描绘清澈的河水和一杯饮用水的图像。", "meaning_cn": "淡水的", "usage": "adj. relating to or found in water that is not salty", "collocations": "freshwater lake, freshwater fish, freshwater ecosystem", "preposition_combos": "in freshwater", "examples": [{"en": "This lake contains many types of freshwater fish and plants.", "cn": "这个湖里有很多种淡水鱼和植物。"}, {"en": "We need to protect our freshwater resources for future generations.", "cn": "我们需要保护我们的淡水资源，为了我们的后代。"}], "socratic_questions": [{"question": "如果水里没有盐，那是什么水？", "answer_hint": "这种水适合饮用，也适合很多生物生存。"}], "fill_blank": {"sentences": ["The river is a source of ___ for the nearby village."], "options": ["freshwater", "saltwater", "seawater", "mineralwater"], "correct_index": 0}, "audio": "audio/freshwater.mp3", "audio_ex0": "audio/freshwater_ex0.mp3", "audio_ex1": "audio/freshwater_ex1.mp3", "img1": "images/freshwater_1.png", "img2": "images/freshwater_2.png"}, {"word": "type", "ipa": "/taɪp/", "image_prompts": ["An old typewriter with a sheet of paper inserted, keys slightly blurred", "Fingers pressing keys on a computer keyboard, screen displaying text"], "image_desc_en": "Illustrations showing the action of typing on a typewriter and a computer keyboard.", "image_desc_cn": "展示在打字机和电脑键盘上打字动作的插图。", "meaning_cn": "v. 打字；n. 类型", "usage": "v. (typed, typed); n. (types)", "collocations": "type of, type in, type out", "preposition_combos": "type of", "examples": [{"en": "I can type quickly, so I finish my homework fast.", "cn": "我打字很快，所以我能快速完成作业。"}, {"en": "What type of music do you like to listen to?", "cn": "你喜欢听什么类型的音乐？"}], "socratic_questions": [{"question": "如果你需要用键盘把文字输入电脑，你会做什么？", "answer_hint": "这个动作通常是指用键盘输入文字。"}], "fill_blank": {"sentences": ["Please ___ your password carefully to avoid any mistakes.", "What ___ of books do you enjoy reading in your free time?"], "options": ["type", "write", "draw", "read"], "correct_index": 0}, "audio": "audio/type.mp3", "audio_ex0": "audio/type_ex0.mp3", "audio_ex1": "audio/type_ex1.mp3", "img1": "images/type_1.png", "img2": "images/type_2.png"}, {"word": "attract", "ipa": "/əˈtrækt/", "image_prompts": ["A brightly colored flower with bees buzzing around it, pollen visible", "A powerful magnet pulling metal filings towards it, magnetic field lines visible"], "image_desc_en": "A flower attracting bees; a magnet attracting metal filings.", "image_desc_cn": "一朵花吸引蜜蜂；一块磁铁吸引金属屑。", "meaning_cn": "吸引", "usage": "v. (过去式 attracted, 过去分词 attracted)", "collocations": "attract attention, attract tourists, strongly attract", "preposition_combos": "attract to", "examples": [{"en": "Bright colors attract butterflies to the garden in the summer.", "cn": "鲜艳的颜色在夏天把蝴蝶吸引到花园里。"}, {"en": "The new museum will attract many visitors from all over the world.", "cn": "这座新博物馆将吸引来自世界各地的许多游客。"}], "socratic_questions": [{"question": "有什么东西能让人们不由自主地靠近或关注？", "answer_hint": "这个词表示一种引力或魅力，使事物或人靠近。"}], "fill_blank": {"sentences": ["The beautiful scenery will ___ many tourists to the small town."], "options": ["attract", "reject", "distract", "attack"], "correct_index": 0}, "audio": "audio/attract.mp3", "audio_ex0": "audio/attract_ex0.mp3", "audio_ex1": "audio/attract_ex1.mp3", "img1": "images/attract_1.png", "img2": "images/attract_2.png"}, {"word": "curious", "ipa": "/ˈkjʊəriəs/", "image_prompts": ["A magnifying glass over a complex clockwork mechanism, revealing intricate details", "A cat peering intently into a cardboard box, tail twitching"], "image_desc_en": "Magnifying glass over clockwork; cat peering into a box.", "image_desc_cn": "放大镜下的复杂钟表装置；猫好奇地盯着纸箱。", "meaning_cn": "好奇的，求知的", "usage": "adj. curiously (adv.)", "collocations": "be curious about, a curious look, curious to know", "preposition_combos": "curious about", "examples": [{"en": "She was curious about the new student in her class.", "cn": "她对班里的新同学感到好奇。"}, {"en": "The children were curious to see what was inside the box.", "cn": "孩子们很想知道盒子里有什么。"}], "socratic_questions": [{"question": "当你看到一个你从未见过的东西，并且很想了解它是什么，你是什么感觉？", "answer_hint": "这种感觉是渴望了解未知事物。"}], "fill_blank": {"sentences": ["The baby was very ___ about the shiny object on the table."], "options": ["curious", "angry", "bored", "afraid"], "correct_index": 0}, "audio": "audio/curious.mp3", "audio_ex0": "audio/curious_ex0.mp3", "audio_ex1": "audio/curious_ex1.mp3", "img1": "images/curious_1.png", "img2": "images/curious_2.png"}, {"word": "traveller", "ipa": "/ˈtrævələr/", "image_prompts": ["A vintage suitcase covered in travel stickers from various countries", "A compass pointing towards a distant mountain range at sunrise"], "image_desc_en": "Images related to travel and exploration.", "image_desc_cn": "与旅行和探索相关的图像。", "meaning_cn": "旅行者，旅客", "usage": "n. (美式拼写，英式拼写为 traveller)", "collocations": "experienced traveller, foreign traveller, business traveller", "preposition_combos": "traveller to, traveller from", "examples": [{"en": "The experienced traveller shared stories of his adventures abroad.", "cn": "这位经验丰富的旅行者分享了他在国外冒险的故事。"}, {"en": "Every traveller should respect the local customs and traditions.", "cn": "每位旅行者都应该尊重当地的风俗和传统。"}], "socratic_questions": [{"question": "如果你去其他国家度假，你会怎么称呼自己？", "answer_hint": "指正在进行旅行的人。"}], "fill_blank": {"sentences": ["The ___ showed her passport at the border control desk."], "options": ["traveller", "tourist", "visitor", "immigrant"], "correct_index": 0}, "audio": "audio/traveller.mp3", "audio_ex0": "audio/traveller_ex0.mp3", "audio_ex1": "audio/traveller_ex1.mp3", "img1": "images/traveller_1.png", "img2": "images/traveller_2.png"}, {"word": "natural", "ipa": "/ˈnætʃrəl/", "image_prompts": ["A lush green forest with sunlight filtering through the leaves", "A clear blue lake surrounded by mountains, reflecting the sky"], "image_desc_en": "Images depicting unspoiled nature and landscapes.", "image_desc_cn": "描绘未受破坏的自然和风景的图像。", "meaning_cn": "adj. 自然的；天然的", "usage": "adj. naturally (adv.)", "collocations": "natural resources, natural beauty, natural disaster", "preposition_combos": "natural to", "examples": [{"en": "The park is a natural place for students to relax.", "cn": "这个公园是学生们放松身心的天然场所。"}, {"en": "It is natural for friends to help each other in need.", "cn": "朋友之间在需要时互相帮助是很自然的。"}], "socratic_questions": [{"question": "如果一个地方没有人工痕迹，完全是原始状态，你会用什么词来形容它？", "answer_hint": "这个词描述的是未经人类干预的状态。"}], "fill_blank": {"sentences": ["Using ___ ingredients is healthier than using artificial ones."], "options": ["natural", "artificial", "chemical", "synthetic"], "correct_index": 0}, "audio": "audio/natural.mp3", "audio_ex0": "audio/natural_ex0.mp3", "audio_ex1": "audio/natural_ex1.mp3", "img1": "images/natural_1.png", "img2": "images/natural_2.png"}, {"word": "reef", "ipa": "/riːf/", "image_prompts": ["A vibrant coral reef teeming with colorful fish and marine life, clear turquoise water", "An aerial view of a barrier reef protecting a tropical island, white sand beaches"], "image_desc_en": "A vibrant coral reef with marine life; An aerial view of a barrier reef.", "image_desc_cn": "充满海洋生物的珊瑚礁； 保护热带岛屿的堡礁的鸟瞰图。", "meaning_cn": "n. 礁，暗礁", "usage": "n. (复数 reefs)", "collocations": "coral reef, barrier reef", "preposition_combos": "on the reef, around the reef", "examples": [{"en": "The boat hit a reef and started to sink quickly.", "cn": "船撞上了暗礁，开始迅速下沉。"}, {"en": "Many colorful fish live near the coral reef in the ocean.", "cn": "许多色彩鲜艳的鱼生活在海洋中的珊瑚礁附近。"}], "socratic_questions": [{"question": "想象一下，一艘船在水下撞到了坚硬的东西，船体受损，这会是什么？", "answer_hint": "水下，坚硬，可能对船只造成危险。"}], "fill_blank": {"sentences": ["Divers explored the coral ___ and discovered many sea creatures."], "options": ["reef", "beach", "island", "lake"], "correct_index": 0}, "audio": "audio/reef.mp3", "audio_ex0": "audio/reef_ex0.mp3", "audio_ex1": "audio/reef_ex1.mp3", "img1": "images/reef_1.png", "img2": "images/reef_2.png"}, {"word": "underwater", "ipa": "/ˌʌndərˈwɔːtər/", "image_prompts": ["A coral reef teeming with colorful fish and marine life, sunlight filtering through the water", "A sunken ship resting on the ocean floor, covered in algae and barnacles"], "image_desc_en": "Underwater scene with coral reef and sunken ship.", "image_desc_cn": "水下场景，包括珊瑚礁和沉船。", "meaning_cn": "在水下的，水中的", "usage": "adj. / adv.", "collocations": "underwater world, underwater camera, underwater exploration", "preposition_combos": "underwater in", "examples": [{"en": "The documentary showed the beautiful underwater world of the ocean.", "cn": "这部纪录片展示了美丽的海洋水下世界。"}, {"en": "He took some amazing photos with his underwater camera last summer.", "cn": "去年夏天他用他的水下相机拍了一些很棒的照片。"}], "socratic_questions": [{"question": "如果你想观察鱼类和珊瑚，但不想弄湿自己，你需要什么设备？", "answer_hint": "这个词描述了在水面之下的状态或环境。"}], "fill_blank": {"sentences": ["The divers explored the ___ caves, discovering many new species."], "options": ["underwater", "underground", "overground", "outerspace"], "correct_index": 0}, "audio": "audio/underwater.mp3", "audio_ex0": "audio/underwater_ex0.mp3", "audio_ex1": "audio/underwater_ex1.mp3", "img2": "images/underwater_2.png", "img1": "images/underwater_1.png"}, {"word": "northeastern", "ipa": "/ˌnɔːrθˈiːstərn/", "image_prompts": ["A map highlighting the northeastern region of a country, green fields and blue rivers", "A landscape showing mountains and forests in the northeastern part of a region, autumn colors"], "image_desc_en": "Illustrations depicting the geographical characteristics of a northeastern area.", "image_desc_cn": "描绘东北地区地理特征的插图。", "meaning_cn": "东北的；位于东北部的", "usage": "adj.", "collocations": "northeastern region, northeastern states", "preposition_combos": "in northeastern", "examples": [{"en": "The northeastern part of China has cold winters and warm summers.", "cn": "中国的东北部冬季寒冷，夏季温暖。"}, {"en": "Many people travel to the northeastern states during the fall season.", "cn": "许多人在秋季前往东北部各州旅行。"}], "socratic_questions": [{"question": "如果一个地区位于地图的上方且偏右侧，我们通常称它为什么方向的地区？", "answer_hint": "这个词描述的是一个结合了北方和东方的位置。"}], "fill_blank": {"sentences": ["The ___ part of the country is known for its beautiful mountains."], "options": ["northeastern", "southern", "western", "central"], "correct_index": 0}, "audio": "audio/northeastern.mp3", "audio_ex0": "audio/northeastern_ex0.mp3", "audio_ex1": "audio/northeastern_ex1.mp3", "img1": "images/northeastern_1.png", "img2": "images/northeastern_2.png"}, {"word": "coast", "ipa": "/koʊst/", "image_prompts": ["A sandy beach meeting the ocean, gentle waves washing ashore", "A winding road hugging a cliff overlooking the sea, clear blue sky"], "image_desc_en": "A scenic view of the coastline.", "image_desc_cn": "海岸线的风景图。", "meaning_cn": "海岸，沿海地区；滑行", "usage": "n. / v. (过去式 coasted, 过去分词 coasted)", "collocations": "along the coast, west coast, east coast", "preposition_combos": "on the coast, along the coast", "examples": [{"en": "We plan to visit the beautiful coast during our summer vacation.", "cn": "我们计划在暑假期间参观美丽的海岸。"}, {"en": "The bicycle coasted down the hill without any effort from me.", "cn": "自行车毫不费力地从山上滑了下来。"}], "socratic_questions": [{"question": "想象一下，你站在沙滩上，海浪拍打着岸边，这是什么地方？", "answer_hint": "描述的是陆地和海洋交界的地方。"}], "fill_blank": {"sentences": ["They drove along the ___ to enjoy the stunning ocean views."], "options": ["coast", "forest", "mountain", "desert"], "correct_index": 0}, "audio": "audio/coast.mp3", "audio_ex0": "audio/coast_ex0.mp3", "audio_ex1": "audio/coast_ex1.mp3", "img1": "images/coast_1.png", "img2": "images/coast_2.png"}, {"word": "coral", "ipa": "/ˈkɒrəl/", "image_prompts": ["A vibrant coral reef teeming with colorful fish and marine life, underwater shot", "Close-up of branching coral, showing intricate patterns and textures, bright lighting"], "image_desc_en": "Images depicting vibrant coral reefs and close-ups of coral structures.", "image_desc_cn": "展示生机勃勃的珊瑚礁和珊瑚结构的特写图像。", "meaning_cn": "珊瑚", "usage": "n. / adj.", "collocations": "coral reef, coral island, coral color", "preposition_combos": "in coral, of coral", "examples": [{"en": "The divers explored the beautiful coral reef near the island.", "cn": "潜水员们探索了岛屿附近美丽的珊瑚礁。"}, {"en": "She wore a coral necklace that matched her summer dress.", "cn": "她戴了一条珊瑚项链，和她的夏装很配。"}], "socratic_questions": [{"question": "如果你在海底看到一种颜色鲜艳、形状各异的生物，它们通常构成一个生态系统，你觉得那是什么？", "answer_hint": "这种生物是海洋中的一种无脊椎动物，常形成礁石。"}], "fill_blank": {"sentences": ["The destruction of ___ reefs is a serious environmental problem."], "options": ["coral", "stone", "sand", "grass"], "correct_index": 0}, "audio": "audio/coral.mp3", "audio_ex0": "audio/coral_ex0.mp3", "audio_ex1": "audio/coral_ex1.mp3", "img1": "images/coral_1.png", "img2": "images/coral_2.png"}, {"word": "include", "ipa": "/ɪnˈkluːd/", "image_prompts": ["A list of ingredients on a recipe card, with one ingredient highlighted", "A group of diverse items inside a brightly colored gift box"], "image_desc_en": "A list or collection that contains certain items or members.", "image_desc_cn": "包含某些项目或成员的列表或集合。", "meaning_cn": "包含，包括", "usage": "v. (included, included)", "collocations": "include in, include with", "preposition_combos": "include sth. in sth.", "examples": [{"en": "The tour will include a visit to the science museum.", "cn": "这次旅行将包括参观科学博物馆。"}, {"en": "Does the price include the cost of the plane ticket?", "cn": "价格是否包括机票费用？"}], "socratic_questions": [{"question": "如果一份购物清单上列出了你需要购买的所有东西，那么这张清单做了什么？", "answer_hint": "清单上有什么东西在里面。"}], "fill_blank": {"sentences": ["The final score will ___ all the points from each round."], "options": ["include", "exclude", "contain", "reject"], "correct_index": 0}, "audio": "audio/include.mp3", "audio_ex0": "audio/include_ex0.mp3", "audio_ex1": "audio/include_ex1.mp3", "img1": "images/include_1.png", "img2": "images/include_2.png"}, {"word": "sand", "ipa": "/sænd/", "image_prompts": ["A close-up of golden sand dunes in a desert landscape, rippled texture", "A child's bucket and spade on a sandy beach next to seashells"], "image_desc_en": "Golden sand dunes and a child's beach toys.", "image_desc_cn": "金色的沙丘和儿童沙滩玩具。", "meaning_cn": "沙子", "usage": "n. (pl. sands)", "collocations": "beach sand, quicksand, grain of sand", "preposition_combos": "on the sand, in the sand", "examples": [{"en": "The beach is covered with fine, white sand, which feels soft.", "cn": "海滩上覆盖着细腻的白色沙子，感觉很柔软。"}, {"en": "We built a big sand castle near the sea during our vacation.", "cn": "假期里，我们在海边建了一座巨大的沙堡。"}], "socratic_questions": [{"question": "如果你去海边玩，脚踩在什么上面会感觉很舒服？", "answer_hint": "通常海滩上有很多，很细小，可以用来堆城堡。"}], "fill_blank": {"sentences": ["The children played happily, building castles in the warm ___."], "options": ["sand", "water", "mud", "grass"], "correct_index": 0}, "audio": "audio/sand.mp3", "audio_ex0": "audio/sand_ex0.mp3", "audio_ex1": "audio/sand_ex1.mp3", "img1": "images/sand_1.png", "img2": "images/sand_2.png"}, {"word": "alive", "ipa": "/əˈlaɪv/", "image_prompts": ["A lush green forest teeming with vibrant plants and colorful insects", "A fish swimming in a clear blue ocean, surrounded by coral reefs"], "image_desc_en": "Images depicting vibrant life and thriving ecosystems.", "image_desc_cn": "描绘充满活力的生命和繁荣的生态系统的图像。", "meaning_cn": "活着的，有生命的", "usage": "adj.", "collocations": "stay alive, keep alive, bring alive", "preposition_combos": "alive with", "examples": [{"en": "My grandpa is still alive and well at the age of 90.", "cn": "我的祖父90岁了，仍然活着并且很健康。"}, {"en": "The doctor tried his best to keep the injured bird alive.", "cn": "医生尽了最大努力让受伤的鸟活着。"}], "socratic_questions": [{"question": "如果一棵树仍然在生长，鸟儿在歌唱，我们可以说它是怎么样的？", "answer_hint": "描述的是一种生命状态，与死亡相反。"}], "fill_blank": {"sentences": ["After the heavy rain, the plants in the garden looked more ___ than ever."], "options": ["alive", "dead", "dry", "still"], "correct_index": 0}, "audio": "audio/alive.mp3", "audio_ex0": "audio/alive_ex0.mp3", "audio_ex1": "audio/alive_ex1.mp3", "img1": "images/alive_1.png", "img2": "images/alive_2.png"}, {"word": "structure", "ipa": "/ˈstrʌktʃər/", "image_prompts": ["A complex network of steel beams forming the frame of a skyscraper", "A detailed architectural blueprint showing the layout of a building"], "image_desc_en": "Illustrations of a building's framework and architectural plans.", "image_desc_cn": "建筑物框架和建筑平面图的图示。", "meaning_cn": "结构，构造", "usage": "n. / v. (过去式 structured, 过去分词 structured)", "collocations": "complex structure, organizational structure, build a structure", "preposition_combos": "structure of, structure for", "examples": [{"en": "The school has a clear structure for dealing with problems.", "cn": "学校有一个明确的结构来处理问题。"}, {"en": "We need to structure our study time more effectively this week.", "cn": "这周我们需要更有效地安排我们的学习时间。"}], "socratic_questions": [{"question": "一座大楼由许多部分组成，这些部分如何连接在一起，形成一个整体？", "answer_hint": "考虑建筑物的框架和组织方式。"}], "fill_blank": {"sentences": ["The bridge's ___ is designed to withstand strong winds and earthquakes."], "options": ["structure", "material", "color", "size"], "correct_index": 0}, "audio": "audio/structure.mp3", "audio_ex0": "audio/structure_ex0.mp3", "audio_ex1": "audio/structure_ex1.mp3", "img1": "images/structure_1.png", "img2": "images/structure_2.png"}, {"word": "turtle", "ipa": "/ˈtɜːrtl/", "image_prompts": ["A green turtle swimming gracefully in clear blue ocean water, sunlight filtering through", "A small turtle slowly crawling across a sandy beach towards the ocean"], "image_desc_en": "Images of a turtle swimming in the ocean and crawling on a beach.", "image_desc_cn": "海龟在海中游泳和在沙滩上爬行的图像。", "meaning_cn": "海龟", "usage": "n. (复数 turtles)", "collocations": "sea turtle, baby turtle, turtle shell", "preposition_combos": "turtle in the water, turtle on the beach", "examples": [{"en": "The little turtle slowly walked across the sandy beach to the sea.", "cn": "小海龟慢慢地爬过沙滩走向大海。"}, {"en": "We saw a big turtle swimming in the clear blue water today.", "cn": "今天我们看到一只大海龟在清澈的蓝色海水中游泳。"}], "socratic_questions": [{"question": "哪种行动缓慢的爬行动物有坚硬的壳，生活在陆地或海洋中？", "answer_hint": "这种动物以其长寿和保护壳而闻名。"}], "fill_blank": {"sentences": ["The ___ moved slowly across the road, causing a slight traffic delay."], "options": ["turtle", "rabbit", "squirrel", "bird"], "correct_index": 0}, "audio": "audio/turtle.mp3", "audio_ex0": "audio/turtle_ex0.mp3", "audio_ex1": "audio/turtle_ex1.mp3", "img1": "images/turtle_1.png", "img2": "images/turtle_2.png"}, {"word": "lifetime", "ipa": "/ˈlaɪftaɪm/", "image_prompts": ["A very old tree with many rings visible in its trunk, representing years", "A sand timer almost completely empty, grains of sand nearly all at the bottom"], "image_desc_en": "Tree rings showing age; an almost empty sand timer.", "image_desc_cn": "显示年龄的树木年轮；一个几乎空了的沙漏。", "meaning_cn": "一生，终身", "usage": "n. (复数 lifetimes)", "collocations": "in a lifetime, throughout a lifetime", "preposition_combos": "during a lifetime", "examples": [{"en": "He dedicated his entire lifetime to helping those in need.", "cn": "他将他的一生都奉献给了帮助那些需要帮助的人。"}, {"en": "This experience will be remembered for a lifetime by many people.", "cn": "这次经历将被许多人铭记一生。"}], "socratic_questions": [{"question": "如果一个人从出生到死亡，这段时间我们称为什么？", "answer_hint": "指的是一个人存在于世的总时间。"}], "fill_blank": {"sentences": ["She spent her entire ___ researching the effects of climate change."], "options": ["lifetime", "daytime", "summertime", "meantime"], "correct_index": 0}, "audio": "audio/lifetime.mp3", "audio_ex0": "audio/lifetime_ex0.mp3", "audio_ex1": "audio/lifetime_ex1.mp3", "img1": "images/lifetime_1.png", "img2": "images/lifetime_2.png"}, {"word": "wonder", "ipa": "/ˈwʌndər/", "image_prompts": ["A child looking up at a sky full of stars with a sense of awe", "A magnifying glass over a complex clockwork mechanism, revealing intricate details"], "image_desc_en": "A scene depicting a sense of awe and curiosity.", "image_desc_cn": "描绘敬畏和好奇心的场景。", "meaning_cn": "v. 想知道；n. 奇迹，惊奇", "usage": "v. (过去式 wondered, 过去分词 wondered); n.; adj. wonderful", "collocations": "wonder about, no wonder, work wonders", "preposition_combos": "wonder at", "examples": [{"en": "I wonder if it will rain tomorrow during our school trip.", "cn": "我想知道明天的学校旅行会不会下雨。"}, {"en": "It's no wonder that he failed the test; he didn't study.", "cn": "难怪他考试不及格，他没有学习。"}], "socratic_questions": [{"question": "当你看到魔术表演时，你心里会产生什么？", "answer_hint": "表示对未知事物感到好奇或惊讶。"}], "fill_blank": {"sentences": ["I ___ what the future holds for our graduating class."], "options": ["wonder", "know", "decide", "guess"], "correct_index": 0}, "audio": "audio/wonder.mp3", "audio_ex0": "audio/wonder_ex0.mp3", "audio_ex1": "audio/wonder_ex1.mp3", "img1": "images/wonder_1.png", "img2": "images/wonder_2.png"}, {"word": "desert", "ipa": "/ˈdezərt/", "image_prompts": ["A vast, sandy landscape with rolling dunes under a scorching sun", "A dried-up riverbed in a barren landscape, cracked earth visible"], "image_desc_en": "Images depicting arid landscapes with sand dunes and dried riverbeds.", "image_desc_cn": "描绘干旱景观的图像，包括沙丘和干涸的河床。", "meaning_cn": "n. 沙漠；v. 抛弃，遗弃", "usage": "n. / v. (过去式 deserted, 过去分词 deserted)", "collocations": "cross the desert, desert island, desert someone", "preposition_combos": "in the desert, desert to", "examples": [{"en": "The Sahara is a large desert that covers much of North Africa.", "cn": "撒哈拉是一个覆盖北非大部分地区的大沙漠。"}, {"en": "Never desert your friends when they are facing difficulties.", "cn": "当你的朋友们面临困难时，永远不要抛弃他们。"}], "socratic_questions": [{"question": "想象一下，你迷失在一个几乎没有水和植物的地方，白天非常炎热，夜晚非常寒冷。这是什么地方？", "answer_hint": "这个地方以干燥和缺乏植被为特征。"}], "fill_blank": {"sentences": ["The lost hikers struggled to survive in the harsh ___ environment."], "options": ["desert", "forest", "mountain", "ocean"], "correct_index": 0}, "audio": "audio/desert.mp3", "audio_ex0": "audio/desert_ex0.mp3", "audio_ex1": "audio/desert_ex1.mp3", "img1": "images/desert_1.png", "img2": "images/desert_2.png"}, {"word": "measurement", "ipa": "/ˈmɛʒərmənt/", "image_prompts": ["A ruler measuring the length of a wooden plank, precise markings visible", "A digital scale displaying the weight of a bag of flour, clear LCD screen"], "image_desc_en": "A ruler and a digital scale showing different types of measurement.", "image_desc_cn": "一把尺子和一个数字秤显示不同类型的测量。", "meaning_cn": "测量；尺寸", "usage": "n. (measurements)", "collocations": "take a measurement, accurate measurement, precise measurement", "preposition_combos": "measurement of", "examples": [{"en": "The careful measurement of ingredients is key to a good cake.", "cn": "仔细测量配料是做好蛋糕的关键。"}, {"en": "What is the measurement of this room? I need to buy carpet.", "cn": "这个房间的尺寸是多少？我需要买地毯。"}], "socratic_questions": [{"question": "为了知道一个物体的长度、宽度或高度，我们需要做什么？", "answer_hint": "我们需要用工具来得到一个具体的数值。"}], "fill_blank": {"sentences": ["The scientist took a precise ___ of the chemical's reaction time."], "options": ["measurement", "measuring", "measure", "measured"], "correct_index": 0}, "audio": "audio/measurement.mp3", "audio_ex0": "audio/measurement_ex0.mp3", "audio_ex1": "audio/measurement_ex1.mp3", "img1": "images/measurement_1.png", "img2": "images/measurement_2.png"}, {"word": "square kilometre", "ipa": "/ˌskweəˈkɪləmiːtər/", "image_prompts": ["A satellite view of a city showing its area marked with a square grid", "A map highlighting a specific region with a label indicating its area in square kilometers"], "image_desc_en": "Illustrations showing area measurement in square kilometers.", "image_desc_cn": "展示以平方公里为单位的面积测量图示。", "meaning_cn": "平方公里", "usage": "n. (pl. square kilometres)", "collocations": "cover an area of ... square kilometres, measure in square kilometres", "preposition_combos": "in square kilometres", "examples": [{"en": "The park covers an area of about ten square kilometres.", "cn": "这个公园占地约十平方公里。"}, {"en": "The city has grown to over fifty square kilometres in size.", "cn": "这座城市已经发展到超过五十平方公里。"}], "socratic_questions": [{"question": "如果我们要描述一个大型公园或者城市的面积，通常会用什么单位？", "answer_hint": "这个单位用于测量较大的区域，比如城市或公园。"}], "fill_blank": {"sentences": ["The island is about five ___ in area, mostly covered by forest."], "options": ["square kilometres", "kilometre", "kilometres", "square"], "correct_index": 0}, "audio": "audio/square_kilometre.mp3", "audio_ex0": "audio/square_kilometre_ex0.mp3", "audio_ex1": "audio/square_kilometre_ex1.mp3", "img1": "images/square_kilometre_1.png", "img2": "images/square_kilometre_2.png"}, {"word": "below", "ipa": "/bɪˈloʊ/", "image_prompts": ["A submarine underwater with fish swimming above it, sunlight filtering down", "A thermometer showing a temperature reading far below the freezing point, ice crystals forming"], "image_desc_en": "A submarine under water and a thermometer showing freezing temperature.", "image_desc_cn": "水下的潜艇和显示冰点的温度计。", "meaning_cn": "在...下面", "usage": "adv. & prep.", "collocations": "below average, below zero, look below", "preposition_combos": "below sea level, below the surface", "examples": [{"en": "The temperature is often below zero in winter in that area.", "cn": "那个地区冬天温度经常在零度以下。"}, {"en": "Our apartment is just below theirs, so it is very convenient.", "cn": "我们的公寓就在他们楼下，所以很方便。"}], "socratic_questions": [{"question": "如果气温比冰点还低，应该用哪个词来描述？", "answer_hint": "表示低于某个标准或位置。"}], "fill_blank": {"sentences": ["The text is printed ___ the image on the page."], "options": ["below", "above", "beside", "near"], "correct_index": 0}, "audio": "audio/below.mp3", "audio_ex0": "audio/below_ex0.mp3", "audio_ex1": "audio/below_ex1.mp3", "img1": "images/below_1.png", "img2": "images/below_2.png"}, {"word": "level", "ipa": "/ˈlevl/", "image_prompts": ["A carpenter's spirit level resting on a wooden plank, showing a perfect horizontal line", "A multi-tiered wedding cake, each layer perfectly aligned and decorated"], "image_desc_en": "A spirit level showing horizontal alignment; a tiered cake.", "image_desc_cn": "显示水平对齐的水平仪；一个多层蛋糕。", "meaning_cn": "水平；等级", "usage": "adj. 水平的；同高的 n. 水平；等级 v. (levelled, levelled) 使平坦；夷平", "collocations": "high level, low level, level ground, level crossing", "preposition_combos": "at a level, on a level", "examples": [{"en": "The water in the glass was at the same level as before.", "cn": "杯子里的水和之前一样高。"}, {"en": "We need to level the ground before we build the house.", "cn": "我们需要在建房子之前把地面弄平。"}], "socratic_questions": [{"question": "如果你想确保桌子是平的，你会用什么工具来检查？", "answer_hint": "这个工具可以显示物体是否与地面平行。"}], "fill_blank": {"sentences": ["The playing field must be perfectly ___ before the game starts."], "options": ["level", "leveled", "levels", "leveling"], "correct_index": 0}, "audio": "audio/level.mp3", "audio_ex0": "audio/level_ex0.mp3", "audio_ex1": "audio/level_ex1.mp3", "img1": "images/level_1.png", "img2": "images/level_2.png"}, {"word": "sea level", "ipa": "/ˈsiː levl/", "image_prompts": ["A calm ocean stretching to the horizon, a line indicating the average height of the water", "A coastal city with buildings at varying elevations, a reference line showing the zero point for altitude measurement"], "image_desc_en": "Illustrations depicting the average height of the ocean's surface and its use as a reference point for measuring altitude.", "image_desc_cn": "图示描绘了海洋表面的平均高度及其作为测量海拔的参考点。", "meaning_cn": "海平面", "usage": "名词 n. The average height of the sea's surface between high and low tide.", "collocations": "above sea level, below sea level, rise in sea level", "preposition_combos": "at sea level, above sea level, below sea level", "examples": [{"en": "The city is located at sea level, making it vulnerable to floods.", "cn": "这座城市位于海平面，这使得它容易遭受洪水侵袭。"}, {"en": "Many islands are only a few meters above sea level.", "cn": "许多岛屿仅高于海平面几米。"}], "socratic_questions": [{"question": "如果一个地方的海拔高度是0米，那么它和大海的水平面是什么关系？", "answer_hint": "描述的是一个基准高度，其他高度都以此为参考。"}], "fill_blank": {"sentences": ["The Netherlands is famous for its land lying below ___."], "options": ["sea level", "ground level", "mountain top", "river bed"], "correct_index": 0}, "audio": "audio/sea_level.mp3", "audio_ex0": "audio/sea_level_ex0.mp3", "audio_ex1": "audio/sea_level_ex1.mp3", "img1": "images/sea_level_1.png", "img2": "images/sea_level_2.png"}, {"word": "surface", "ipa": "/ˈsɜːrfɪs/", "image_prompts": ["A calm lake with a mirror-like surface reflecting the surrounding trees", "A close-up of a wooden table surface showing the grain and texture"], "image_desc_en": "Illustrations of a lake's reflective surface and a wooden table's texture.", "image_desc_cn": "湖面如镜般平静，反射着周围的树木；木制桌面的纹理特写。", "meaning_cn": "表面，表层", "usage": "n. / v. (过去式 surfaced, 过去分词 surfaced)", "collocations": "on the surface, scratch the surface", "preposition_combos": "on the surface of", "examples": [{"en": "The lake's surface was so still it looked like glass.", "cn": "湖面非常平静，看起来像玻璃一样。"}, {"en": "The submarine surfaced after being underwater for several hours.", "cn": "潜水艇在水下几个小时后浮出了水面。"}], "socratic_questions": [{"question": "当你看到一个物体最外层，摸起来可能是光滑或粗糙的，你会怎么称呼它？", "answer_hint": "指的是物体最外层的部分。"}], "fill_blank": {"sentences": ["The table's ___ was covered in dust after being unused for weeks."], "options": ["surface", "bottom", "inside", "corner"], "correct_index": 0}, "audio": "audio/surface.mp3", "audio_ex0": "audio/surface_ex0.mp3", "audio_ex1": "audio/surface_ex1.mp3", "img1": "images/surface_1.png", "img2": "images/surface_2.png"}, {"word": "depth", "ipa": "/depθ/", "image_prompts": ["A submarine exploring the dark depths of the ocean, bioluminescent creatures visible", "A cross-section of the Earth showing different layers, from crust to core, labeled with depth measurements"], "image_desc_en": "Visual representations of depth, such as ocean depth and geological depth.", "image_desc_cn": "深度相关的视觉表现，比如海洋深度和地质深度。", "meaning_cn": "深度，深处", "usage": "n. ", "collocations": "in depth, great depth, to a depth of", "preposition_combos": "at a depth of, in depth", "examples": [{"en": "The lake's depth made swimming challenging for beginners this summer.", "cn": "今年夏天，湖的深度让初学者游泳变得很有挑战性。"}, {"en": "We need to know the depth of the river before crossing it.", "cn": "我们需要在过河之前知道这条河的深度。"}], "socratic_questions": [{"question": "描述一个很深的水域，比如海洋或湖泊，什么因素会让你觉得它很危险？", "answer_hint": "需要考虑水体垂直方向的距离，以及潜在的未知危险。"}], "fill_blank": {"sentences": ["The diver explored the ocean to a ___ of fifty meters."], "options": ["depth", "deeply", "deep", "deeper"], "correct_index": 0}, "audio": "audio/depth.mp3", "audio_ex0": "audio/depth_ex0.mp3", "audio_ex1": "audio/depth_ex1.mp3", "img1": "images/depth_1.png", "img2": "images/depth_2.png"}, {"word": "dive", "ipa": "/daɪv/", "image_prompts": ["A swimmer in mid-air, about to enter a clear blue swimming pool, sunlight reflecting on the water", "A scuba diver exploring a coral reef, colorful fish swimming around, bubbles rising towards the surface"], "image_desc_en": "A swimmer diving into a pool; a scuba diver exploring a coral reef.", "image_desc_cn": "游泳者跳入泳池；水肺潜水员探索珊瑚礁。", "meaning_cn": "v. 跳水；潜水", "usage": "v. (dived/dove, dived)", "collocations": "dive into (a pool/water); take a dive", "preposition_combos": "dive into", "examples": [{"en": "I want to dive into the pool on a hot summer day.", "cn": "我想在炎热的夏日跳入泳池。"}, {"en": "The scuba divers dive deep to explore the underwater world.", "cn": "水肺潜水员潜入深处探索水下世界。"}], "socratic_questions": [{"question": "想象一下，你从跳板上跃入水中，或者穿着潜水装备进入海洋，你在做什么？", "answer_hint": "这个动作是快速地进入水中，可以是头朝下，也可以是全身进入。"}], "fill_blank": {"sentences": ["He likes to ___ into the lake during summer vacation."], "options": ["dive", "swim", "float", "jump"], "correct_index": 0}, "audio": "audio/dive.mp3", "audio_ex0": "audio/dive_ex0.mp3", "audio_ex1": "audio/dive_ex1.mp3", "img1": "images/dive_1.png", "img2": "images/dive_2.png"}, {"word": "submersible", "ipa": "/səbˈmɜːrsɪbl/", "image_prompts": ["A small, yellow submarine exploring a coral reef, colorful fish swimming around it", "A deep-sea submersible with bright lights illuminating the ocean floor, various sea creatures visible"], "image_desc_en": "Illustrations of a submersible exploring underwater environments.", "image_desc_cn": "潜水器在水下环境探索的插图。", "meaning_cn": "潜水器；可潜水的", "usage": "adj. / n. (pl. submersibles)", "collocations": "deep-sea submersible, research submersible", "preposition_combos": "submersible for", "examples": [{"en": "The submersible explored the deep ocean, finding new sea life.", "cn": "潜水器探索了深海，发现了新的海洋生物。"}, {"en": "This submersible is used for underwater research and exploration.", "cn": "这艘潜水器被用于水下研究和探索。"}], "socratic_questions": [{"question": "有一种交通工具，可以进入水下很深的地方进行探索，它是什么？", "answer_hint": "这种工具可以在水下航行，通常用于科研或探险。"}], "fill_blank": {"sentences": ["The scientists used a ___ to study the underwater volcano."], "options": ["submersible", "telescope", "microscope", "satellite"], "correct_index": 0}, "audio": "audio/submersible.mp3", "audio_ex0": "audio/submersible_ex0.mp3", "audio_ex1": "audio/submersible_ex1.mp3", "img1": "images/submersible_1.png", "img2": "images/submersible_2.png"}, {"word": "unusual", "ipa": "/ʌnˈjuːʒuəl/", "image_prompts": ["A purple colored apple among many green apples, studio lighting", "A clock with numbers arranged in a non-standard order, close-up"], "image_desc_en": "Atypical or uncommon.", "image_desc_cn": "非典型的或不常见的。", "meaning_cn": "adj. 不寻常的，独特的", "usage": "adj. (more unusual, most unusual); unusually (adv.)", "collocations": "unusual experience, unusual talent, rather unusual", "preposition_combos": "unusual for", "examples": [{"en": "It's unusual for him to be late; he's always on time.", "cn": "他迟到很不寻常；他总是很准时。"}, {"en": "She has an unusual talent for playing the piano beautifully.", "cn": "她有一种不寻常的天赋，能把钢琴弹得很美。"}], "socratic_questions": [{"question": "如果一个事物与你通常见到的非常不同，你会怎么描述它？", "answer_hint": "强调它与众不同，不是每天都能看到的。"}], "fill_blank": {"sentences": ["The painting had an ___ style that caught everyone's attention."], "options": ["unusual", "usual", "common", "normal"], "correct_index": 0}, "audio": "audio/unusual.mp3", "audio_ex0": "audio/unusual_ex0.mp3", "audio_ex1": "audio/unusual_ex1.mp3", "img1": "images/unusual_1.png", "img2": "images/unusual_2.png"}, {"word": "bottom", "ipa": "/ˈbɒtəm/", "image_prompts": ["The lowest part of a stack of books on a wooden table", "The base of a clear glass bottle filled with blue liquid"], "image_desc_en": "Illustrations depicting the lowest part or base of objects.", "image_desc_cn": "描绘物体最下部分或底部的插图。", "meaning_cn": "底部，底端", "usage": "n.", "collocations": "at the bottom of, reach the bottom", "preposition_combos": "at the bottom of", "examples": [{"en": "The cat sat at the bottom of the stairs, watching us.", "cn": "猫坐在楼梯底部，看着我们。"}, {"en": "Write your name at the bottom of the exam paper, please.", "cn": "请在试卷底部写上你的名字。"}], "socratic_questions": [{"question": "如果一个杯子是倒立的，哪个部分接触桌面？", "answer_hint": "杯子最下面的部分。"}], "fill_blank": {"sentences": ["The treasure was buried at the ___ of the old oak tree."], "options": ["bottom", "top", "side", "middle"], "correct_index": 0}, "audio": "audio/bottom.mp3", "audio_ex0": "audio/bottom_ex0.mp3", "audio_ex1": "audio/bottom_ex1.mp3", "img1": "images/bottom_1.png", "img2": "images/bottom_2.png"}, {"word": "waterfall", "ipa": "/ˈwɔːtərˌfɔːl/", "image_prompts": ["A powerful waterfall cascading down a rocky cliff into a clear pool below", "A miniature indoor waterfall feature with smooth stones and lush green plants"], "image_desc_en": "Images depicting a natural waterfall and an indoor waterfall feature.", "image_desc_cn": "描绘自然瀑布和室内瀑布景观的图片。", "meaning_cn": "瀑布", "usage": "名词 n.", "collocations": "visit a waterfall, beautiful waterfall, stunning waterfall", "preposition_combos": "near a waterfall, under a waterfall, behind a waterfall", "examples": [{"en": "We plan to visit a beautiful waterfall during our summer vacation.", "cn": "我们计划在暑假期间参观一个美丽的瀑布。"}, {"en": "The sound of the waterfall was very loud and impressive.", "cn": "瀑布的声音非常响亮，令人印象深刻。"}], "socratic_questions": [{"question": "想象一下，水从高处垂直落下，形成壮观的景象，这是什么？", "answer_hint": "水从高处落下，形成一种自然景观。"}], "fill_blank": {"sentences": ["The tourists were amazed by the beauty of the huge ___."], "options": ["waterfall", "mountain", "river", "forest"], "correct_index": 0}, "audio": "audio/waterfall.mp3", "audio_ex0": "audio/waterfall_ex0.mp3", "audio_ex1": "audio/waterfall_ex1.mp3", "img1": "images/waterfall_1.png", "img2": "images/waterfall_2.png"}, {"word": "civilization", "ipa": "/ˌsɪvəlaɪˈzeɪʃn/", "image_prompts": ["Ancient Roman ruins with columns and arches, bathed in golden sunlight", "A futuristic cityscape with towering skyscrapers and flying vehicles, clean and advanced"], "image_desc_en": "Images representing ancient and modern civilizations.", "image_desc_cn": "代表古代和现代文明的图像。", "meaning_cn": "文明", "usage": "n. 文明", "collocations": "ancient civilization, modern civilization, human civilization", "preposition_combos": "of civilization, in civilization", "examples": [{"en": "Ancient Egypt was a great civilization with rich culture and history.", "cn": "古埃及是一个伟大的文明，拥有丰富的文化和历史。"}, {"en": "The internet has greatly influenced the development of modern civilization.", "cn": "互联网极大地影响了现代文明的发展。"}], "socratic_questions": [{"question": "如果一个社会拥有高度发展的文化、科技和政治体系，我们可以称它为什么？", "answer_hint": "这个词指的是一个社会发展的高级阶段，包括其文化和生活方式。"}], "fill_blank": {"sentences": ["The Roman Empire was a powerful ___ that influenced much of Europe."], "options": ["civilization", "nation", "country", "community"], "correct_index": 0}, "audio": "audio/civilization.mp3", "audio_ex0": "audio/civilization_ex0.mp3", "audio_ex1": "audio/civilization_ex1.mp3", "img1": "images/civilization_1.png", "img2": "images/civilization_2.png"}, {"word": "at all costs", "ipa": "/æt ɔːl kɔːsts/", "image_prompts": ["A treasure chest overflowing with gold coins, guarded by a fierce dragon", "A determined climber reaching the summit of a steep mountain, blizzard conditions"], "image_desc_en": "Representing achieving a goal regardless of the difficulty or sacrifice.", "image_desc_cn": "代表不惜一切代价实现目标，不考虑困难或牺牲。", "meaning_cn": "不惜一切代价", "usage": "短语。表示为了达到某个目标，愿意付出任何努力或牺牲。", "collocations": "win at all costs, protect at all costs, succeed at all costs", "preposition_combos": "N/A", "examples": [{"en": "We must protect our environment at all costs for future generations.", "cn": "为了我们的后代，我们必须不惜一切代价保护我们的环境。"}, {"en": "The team wanted to win the championship at all costs this year.", "cn": "今年，这支队伍想要不惜一切代价赢得冠军。"}], "socratic_questions": [{"question": "如果你非常渴望赢得一场比赛，你会怎么做？", "answer_hint": "强调为了胜利愿意付出任何努力和牺牲。"}], "fill_blank": {"sentences": ["She wanted to finish the project on time ___ , even working overtime."], "options": ["at all costs", "in general", "on purpose", "by chance"], "correct_index": 0}, "audio": "audio/at_all_costs.mp3", "audio_ex0": "audio/at_all_costs_ex0.mp3", "audio_ex1": "audio/at_all_costs_ex1.mp3", "img1": "images/at_all_costs_1.png", "img2": "images/at_all_costs_2.png"}]}]};</script>
+<div class="app">
+
+  <!-- Top bar -->
+  <div class="topbar">
+    <div class="progress-info">
+      <span class="progress-text" id="progress-text">0 / 0</span>
+      <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+    </div>
+    <div class="topbar-btns">
+      <button class="tb-btn" id="send-report-btn" onclick="sendLearningReport()" style="display:none" title="发送学习报告给老师">📧 发送报告</button>
+      <button class="tb-btn" id="admin-btn" onclick="toggleAdminMode()">⚙ 教师</button>
+      <button class="tb-btn" onclick="exitAndSave()">↩ 退出</button>
+    </div>
+  </div>
+
+  <!-- ① Unit Select -->
+    <div id="unit-select" class="page active">
+    <div class="home-hero">
+      <div class="home-icon">📚</div>
+      <div class="home-title">人教版词汇学习</div>
+      <div class="home-sub">PEP English — 八年级下册</div>
+      <div class="unit-grid" id="unit-list"></div>
+      </div>
+    </div>
+
+  <!-- ② P1 发音 -->
+    <div id="p1-pronounce" class="page">
+    <div class="card">
+      <span class="step-badge badge-indigo"><span class="dot"></span>Step 1 · 发音练习</span>
+      <div class="word-hero" id="p1-word"></div>
+      <div class="ipa" id="p1-ipa"></div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px">
+        <button class="btn btn-play" onclick="playWord()"><i class="fas fa-volume-high"></i> 听发音</button>
+        <button class="btn btn-rec" id="p1-record" onclick="toggleRecord()"><i class="fas fa-microphone"></i> 朗读评分</button>
+        </div>
+      <div id="p1-score" style="display:none">
+        <div class="score-ring-wrap">
+          <div class="score-ring">
+            <svg width="72" height="72" viewBox="0 0 72 72">
+              <circle cx="36" cy="36" r="30" fill="none" stroke="#1e2137" stroke-width="6"/>
+              <circle id="p1-ring-arc" cx="36" cy="36" r="30" fill="none" stroke="#7c6df0" stroke-width="6"
+                stroke-dasharray="188.5" stroke-dashoffset="188.5" stroke-linecap="round"/>
+            </svg>
+            <div class="score-num" id="p1-score-num" style="color:#a78bfa">0</div>
+        </div>
+          <div class="score-info">
+            <div class="score-label">发音得分</div>
+            <div class="score-feedback" id="p1-feedback"></div>
+          </div>
+        </div>
+      </div>
+      <button class="btn btn-primary btn-next" id="p1-next" disabled onclick="goP2()">
+        下一步 · 图片记忆 <i class="fas fa-arrow-right"></i>
+      </button>
+      </div>
+    </div>
+
+  <!-- ③ P2 图片 -->
+    <div id="p2-image" class="page">
+    <div class="card">
+      <span class="step-badge badge-orange"><span class="dot"></span>Step 2 · 图片记忆</span>
+      <div class="word-hero" id="p2-word"></div>
+        <div class="img-grid" id="p2-imgs"></div>
+      <button class="btn btn-primary btn-next" onclick="goP3()">
+        下一步 · 选择词义 <i class="fas fa-arrow-right"></i>
+      </button>
+      </div>
+    </div>
+
+  <!-- ④ P3 选义 -->
+    <div id="p3-choice" class="page">
+    <div class="card">
+      <span class="step-badge badge-yellow"><span class="dot"></span>Step 3 · 选择词义</span>
+      <div class="word-hero" id="p3-word"></div>
+      <p style="font-size:.85rem;color:var(--sub);margin-bottom:14px">选出这个单词的中文意思 👇</p>
+      <div id="p3-opts"></div>
+      <div id="p3-feedback" style="display:none;margin-top:10px"></div>
+      <button class="btn btn-primary btn-next" id="p3-next" disabled onclick="goP4()">
+        下一步 · 例句学习 <i class="fas fa-arrow-right"></i>
+      </button>
+      </div>
+    </div>
+
+  <!-- ⑤ P4 例句 -->
+    <div id="p4-examples" class="page">
+    <div class="card">
+      <span class="step-badge badge-emerald"><span class="dot"></span>Step 4 · 例句朗读</span>
+      <div class="word-hero" id="p4-word"></div>
+        <div class="meaning-box">
+        <div class="row"><span class="lbl">词义</span><span class="val" id="p4-meaning"></span></div>
+        <div class="row"><span class="lbl">用法</span><span class="val" id="p4-usage"></span></div>
+        </div>
+        <div id="p4-examples-list"></div>
+      <button class="btn btn-primary btn-next" id="p4-next" disabled onclick="nextWord()">
+        下一个单词 <i class="fas fa-arrow-right"></i>
+      </button>
+      </div>
+    </div>
+
+  <!-- ⑥ 复习页 -->
+    <div id="p-review" class="page">
+    <div class="card">
+      <span class="step-badge badge-amber"><span class="dot"></span>复习 · 每 5 词一轮</span>
+
+      <!-- 步骤指示点 -->
+      <div class="step-dots" id="review-dots">
+        <div class="step-dot" id="rd1"></div>
+        <div class="step-dot" id="rd2"></div>
+        <div class="step-dot" id="rd3"></div>
+      </div>
+
+      <!-- Step 1: 苏格拉底 -->
+      <div id="review-step1">
+        <p style="font-size:.75rem;font-weight:800;color:var(--sub);letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px">🧠 情景联想 · 选出对应单词</p>
+        <p id="review-socratic-q" style="font-size:1rem;line-height:1.7;color:var(--text);background:var(--surface2);border-radius:var(--radius-sm);padding:14px 18px;border:1px solid var(--border);margin-bottom:14px"></p>
+        <div id="review-socratic-opts"></div>
+        <div id="review-socratic-fb" style="display:none;margin-top:10px"></div>
+        <button class="btn btn-primary btn-next" id="review-socratic-next" disabled onclick="reviewStep2()">
+          下一关 · 填空 <i class="fas fa-arrow-right"></i>
+        </button>
+      </div>
+
+      <!-- Step 2: 填空 -->
+      <div id="review-step2" style="display:none">
+        <p style="font-size:.75rem;font-weight:800;color:var(--sub);letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px">✏️ 句子填空 · 选出正确答案</p>
+        <div id="review-fill-q"></div>
+        <div id="review-fill-opts"></div>
+        <div id="review-fill-fb" style="display:none;margin-top:10px"></div>
+        <button class="btn btn-primary btn-next" id="review-fill-next" disabled onclick="goToTranslationStep()">
+          下一关 · 翻译 <i class="fas fa-arrow-right"></i>
+        </button>
+      </div>
+
+      <!-- Step 3: 翻译 + DeepSeek评价 -->
+      <div id="review-step4" style="display:none">
+        <p style="font-size:.75rem;font-weight:800;color:var(--sub);letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px">🌏 翻译朗读 · AI 评价你的中文</p>
+
+        <!-- 翻译练习：仅显示英文原句，不给中文提示 -->
+        <div class="trans-sent-box">
+          <div style="font-size:.7rem;font-weight:800;color:var(--sub);letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px">请将下面这句话翻译成中文并朗读</div>
+          <div class="trans-en" id="review-trans-en"></div>
+        </div>
+
+        <!-- 朗读录音按钮 -->
+        <button class="btn btn-teal" id="review-trans-record" onclick="toggleTransRecord()" style="margin-bottom:12px">
+          <i class="fas fa-microphone"></i> 朗读中文翻译
+        </button>
+
+        <!-- DeepSeek 评价区域 -->
+        <div id="review-trans-result" style="display:none"></div>
+
+        <button class="btn btn-primary btn-next" id="review-trans-next" onclick="finishReview()">
+          完成复习 · 继续学习 <i class="fas fa-flag-checkered"></i>
+        </button>
+      </div>
+
+      </div>
+    </div>
+
+</div><!-- /app -->
+
+  <!-- 例句单词查词弹窗 -->
+  <div class="word-modal" id="word-modal" onclick="if(event.target===this)closeWordModal()">
+    <div class="word-modal-box">
+      <div class="word-modal-header">
+        <span class="word-modal-word" id="word-modal-word"></span>
+        <button class="word-modal-speak" onclick="speakWord(document.getElementById('word-modal-word').textContent)" title="朗读单词"><i class="fas fa-volume-high"></i> 朗读</button>
+        <button class="word-modal-close" onclick="closeWordModal()" title="关闭">×</button>
+      </div>
+      <div class="word-modal-body" id="word-modal-body"></div>
+    </div>
+  </div>
+
+  <script>
+/* ═══════════════════════════════════════════════
+   配置区
+═══════════════════════════════════════════════ */
+const AZURE_KEY    = "43gMKIlSRVGT9PnAFgWkdXyogwXfudT33O2Zk6QtfTKuY1nm01BdJQQJ99BLACHYHv6XJ3w3AAAYACOGts5S";
+const AZURE_REGION = "eastus2";
+const DEEPSEEK_KEY = "sk-daa16008e81843deba6fefe9dce51465";  // DeepSeek API Key
+
+/* EmailJS 学习报告 */
+const EMAILJS_PUBLIC_KEY = "1QhXV5G_92GdK7_DF";
+const EMAILJS_SERVICE_ID = "service_6dfbs2n";
+const EMAILJS_TEMPLATE_ID = "template_zso8ebh";
+(function(){ try{ if(typeof emailjs!=="undefined") emailjs.init(EMAILJS_PUBLIC_KEY); }catch(e){console.log("EmailJS init:",e)} })();
+
+const VOCAB_DATA = (typeof window !== "undefined" && window.VOCAB_DATA) ? window.VOCAB_DATA : null;
+const MEDIA_BASE = "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/Unit4/";
+function mediaUrl(path) { if (!path) return ""; var p = path.replace(/^Unit4\/?/, ""); return path.startsWith("http") ? path : (MEDIA_BASE + (p ? p.replace(/^\//, "") : "")); }
+const MIN_SCORE  = 83;
+const ADMIN_PWD  = "123888";
+const PER_REVIEW = 5;
+const STORAGE_KEY= "pep_vocab_v2";
+
+/* ═══════════════════════════════════════════════
+   状态
+═══════════════════════════════════════════════ */
+let speechConfig, synthesizer;
+let currentUnit = 1, wordIndex = 0, unitData = null, allWords = [];
+let reviewBatch = [], reviewIdx = 0, reviewOrders = null;
+let isRecording = false, transRecording = false, recogStream = null;
+let isAdminMode = false, adminTick = null;
+let currentPage = "unit-select", reviewStep = 1;
+
+/* 学习报告数据：单词学习时间、复习阶段做题结果 */
+let sessionStartTime = null;
+let wordTimings = {};
+let wordStartTime = 0;
+let reviewLogs = [];
+let reportSent = false;
+
+/* ═══════════════════════════════════════════════
+   初始化
+═══════════════════════════════════════════════ */
+async function initSpeech() {
+  try {
+  speechConfig = SpeechSDK.SpeechConfig.fromSubscription(AZURE_KEY, AZURE_REGION);
+  speechConfig.speechRecognitionLanguage = "en-US";
+  synthesizer = new SpeechSDK.SpeechSynthesizer(speechConfig);
+  } catch(e) { console.warn("Speech init:", e); }
+}
+
+/* ═══════════════════════════════════════════════
+   进度 & 存档
+═══════════════════════════════════════════════ */
+function saveProgress() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({
+      unit: currentUnit,
+      wordIndex,
+      page: currentPage,
+      reviewStep: currentPage==="review"? reviewStep : undefined,
+      reviewIdx: currentPage==="review"? reviewIdx : undefined
+    }));
+  } catch(e){}
+}
+function loadProgress() {
+  try {
+    const p = JSON.parse(localStorage.getItem(STORAGE_KEY)||"{}");
+    if (!p.unit) return null;
+    currentUnit = p.unit;
+    wordIndex = p.wordIndex||0;
+    currentPage = p.page||"unit-select";
+    reviewStep = p.reviewStep||1;
+    reviewIdx = p.reviewIdx||0;
+    return p;
+  } catch(e){}
+  return null;
+}
+function updateProgress() {
+  const t = allWords.length, d = wordIndex;
+  document.getElementById("progress-text").textContent = `${d} / ${t}`;
+  document.getElementById("progress-fill").style.width = t ? (d/t*100)+"%" : "0%";
+}
+
+/* ═══════════════════════════════════════════════
+   管理员模式
+═══════════════════════════════════════════════ */
+function toggleAdminMode() {
+  if (isAdminMode) {
+    isAdminMode = false;
+    if (adminTick) clearInterval(adminTick);
+    const btn = document.getElementById("admin-btn");
+    btn.textContent = "⚙ 教师"; btn.classList.remove("teacher");
+    return;
+  }
+  const pwd = prompt("请输入管理员密码：");
+  if (pwd !== ADMIN_PWD) { alert("密码错误"); return; }
+  isAdminMode = true;
+  const btn = document.getElementById("admin-btn");
+  btn.textContent = "✓ 教师模式"; btn.classList.add("teacher");
+  applyAdminUnlock();
+  adminTick = setInterval(applyAdminUnlock, 400);
+}
+function applyAdminUnlock() {
+  if (!isAdminMode) return;
+  ["p1-next","p3-next","p4-next","review-socratic-next","review-fill-next","review-trans-next"].forEach(id=>{
+    const el = document.getElementById(id);
+    if (el) el.disabled = false;
+  });
+}
+
+/* ═══════════════════════════════════════════════
+   页面切换
+═══════════════════════════════════════════════ */
+function showPage(id) {
+  currentPage = id==="p1-pronounce"?"p1": id==="p2-image"?"p2": id==="p3-choice"?"p3": id==="p4-examples"?"p4": id==="p-review"?"review": id==="unit-select"?"unit-select":"unit-select";
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+  const el = document.getElementById(id);
+  if (el) el.classList.add("active");
+}
+
+/* ═══════════════════════════════════════════════
+   Unit 列表
+═══════════════════════════════════════════════ */
+function exitAndSave() {
+  currentPage = "unit-select";
+  saveProgress();
+  showPage("unit-select");
+  loadUnitList();
+}
+async function loadUnitList() {
+  const data = VOCAB_DATA || { units:[] };
+  const ul = document.getElementById("unit-list");
+  ul.innerHTML = "";
+  (data.units||[]).forEach(u=>{
+    const n = typeof u==="number"?u:u.unit;
+    const btn = document.createElement("button");
+    btn.className = "unit-card";
+    btn.innerHTML = `<span style="font-size:.7rem;color:var(--sub);display:block;margin-bottom:2px">UNIT</span>${n}`;
+    btn.onclick = () => selectUnit(n);
+    ul.appendChild(btn);
+  });
+}
+
+/* ═══════════════════════════════════════════════
+   Unit 加载
+═══════════════════════════════════════════════ */
+async function selectUnit(n) {
+  currentUnit = n; wordIndex = 0;
+  sessionStartTime = sessionStartTime || new Date();
+  await loadUnitData(n); startWord();
+  const btn = document.getElementById("send-report-btn");
+  if (btn) btn.style.display = "inline-flex";
+}
+async function resumeUnit() {
+  sessionStartTime = sessionStartTime || new Date();
+  const btn = document.getElementById("send-report-btn");
+  if (btn) btn.style.display = "inline-flex";
+  await loadUnitData(currentUnit);
+  if (wordIndex >= allWords.length) wordIndex = 0;
+  if (currentPage && currentPage !== "unit-select" && currentPage !== "p1") {
+    resumeToSavedState(currentPage, reviewStep, reviewIdx);
+    return;
+  }
+  startWord();
+}
+async function resumeToSavedState(page, revStep, revIdx) {
+  await loadUnitData(currentUnit);
+  if (wordIndex >= allWords.length) { wordIndex = 0; startWord(); return; }
+  if (page === "p1") { showCurrentWord(); return; }
+  if (page === "p2") { showCurrentWord(); goP2(); return; }
+  if (page === "p3") { showCurrentWord(); goP2(); goP3(); return; }
+  if (page === "p4") { showCurrentWord(); goP2(); goP3(); goP4(); return; }
+  if (page === "review") {
+    const start = Math.max(0, wordIndex - PER_REVIEW);
+    reviewBatch = allWords.slice(start, wordIndex);
+    if (reviewBatch.length === 0) reviewBatch = allWords.slice(0, Math.min(PER_REVIEW, allWords.length));
+    reviewIdx = Math.min(revIdx, reviewBatch.length - 1);
+    reviewStep = revStep;
+    reviewOrders = _makeReviewOrders(reviewBatch.length);
+    ["review-step1","review-step2","review-step4"].forEach(id=>{
+      document.getElementById(id).style.display="none";
+    });
+    showPage("p-review");
+    setReviewDots(revStep);
+    if (revStep === 1) {
+      document.getElementById("review-step1").style.display="block";
+      showSocraticQuestion();
+    } else if (revStep === 2) {
+      document.getElementById("review-step2").style.display="block";
+      reviewStep2();
+    } else {
+      document.getElementById("review-step4").style.display="block";
+      goToTranslationStep();
+    }
+  }
+}
+async function loadUnitData(n) {
+  unitData = VOCAB_DATA ? (VOCAB_DATA.units||[]).find(u=>(u.unit||u)===n) : null;
+  if (!unitData?.words?.length) { alert("该单元无单词数据"); throw new Error("no data"); }
+  allWords = unitData.words.filter(w=>w.word&&!w.error);
+  saveProgress();
+}
+
+/* ═══════════════════════════════════════════════
+   学习流程：startWord / showCurrentWord
+═══════════════════════════════════════════════ */
+function startWord() {
+  if (wordIndex >= allWords.length) { alert("🎉 本单元已全部完成！"); showPage("unit-select"); return; }
+  const w = allWords[wordIndex];
+  if (!w?.word) { wordIndex++; startWord(); return; }
+  if (wordIndex > 0 && wordIndex % PER_REVIEW === 0) {
+    reviewBatch = allWords.slice(wordIndex - PER_REVIEW, wordIndex);
+    reviewIdx = 0;
+    startReview();
+    return;
+  }
+  showCurrentWord();
+}
+function showCurrentWord() {
+  updateProgress();
+  wordStartTime = Date.now();
+  const w = allWords[wordIndex];
+  document.getElementById("p1-word").textContent = w.word;
+  document.getElementById("p1-ipa").textContent  = w.ipa || "";
+  document.getElementById("p1-score").style.display = "none";
+  document.getElementById("p1-next").disabled = true;
+  showPage("p1-pronounce");
+  saveProgress();
+}
+
+/* ═══════════════════════════════════════════════
+   P1 发音
+═══════════════════════════════════════════════ */
+function playWord() {
+  const w = allWords[wordIndex];
+  if (!w) return;
+  if (w.audio) { new Audio(mediaUrl(w.audio)).play().catch(()=>{}); return; }
+  synthesizer?.speakTextAsync(w.word, ()=>{}, e=>console.error(e));
+}
+function toggleRecord() {
+  if (!speechConfig) { alert("语音服务未初始化"); return; }
+  const btn = document.getElementById("p1-record");
+  if (isRecording) {
+    try {
+      recogStream?.stopContinuousRecognitionAsync(()=>{
+        isRecording = false;
+        btn.classList.remove("recording"); btn.innerHTML='<i class="fas fa-microphone"></i> 朗读评分';
+        const res = window._p1LastResult;
+        window._p1LastResult = null;
+        let score = 0, fb = "";
+        if (res) {
+          fb = res.text||"";
+          try {
+            const j = JSON.parse(res.properties.getProperty(SpeechSDK.PropertyId.SpeechServiceResponse_JsonResult,"{}"));
+            const n = j.NBest?.[0];
+            if (n?.PronunciationAssessment) { score = n.PronunciationAssessment.AccuracyScore??0; fb = n.Lexical||fb; }
+          } catch(e){}
+        } else { fb = "未检测到发音"; }
+        setScoreRing(score);
+        document.getElementById("p1-feedback").textContent = fb;
+        document.getElementById("p1-score").style.display = "block";
+        document.getElementById("p1-next").disabled = score < MIN_SCORE;
+      }, e=>{ isRecording=false; btn.classList.remove("recording"); btn.innerHTML='<i class="fas fa-microphone"></i> 朗读评分'; });
+    } catch(e){ isRecording=false; btn.classList.remove("recording"); btn.innerHTML='<i class="fas fa-microphone"></i> 朗读评分'; }
+    return;
+  }
+  isRecording = true;
+  window._p1LastResult = null;
+  btn.classList.add("recording"); btn.innerHTML='<i class="fas fa-stop"></i> 点击结束录音';
+  const refText = allWords[wordIndex].word;
+  const rec = new SpeechSDK.SpeechRecognizer(speechConfig, SpeechSDK.AudioConfig.fromDefaultMicrophoneInput());
+  try {
+    const pa = new SpeechSDK.PronunciationAssessmentConfig(refText,
+      SpeechSDK.PronunciationAssessmentGradingSystem?.HundredMark??1,
+      SpeechSDK.PronunciationAssessmentGranularity?.Word??1, false);
+    pa?.applyTo?.(rec);
+  } catch(e){}
+  rec.recognized = (s, e) => {
+    if (e.result.reason === SpeechSDK.ResultReason.RecognizedSpeech && e.result.text) {
+      window._p1LastResult = e.result;
+    }
+  };
+  rec.startContinuousRecognitionAsync(()=>{}, err=>{
+    isRecording=false; btn.classList.remove("recording"); btn.innerHTML='<i class="fas fa-microphone"></i> 朗读评分';
+    console.error(err);
+  });
+  recogStream = rec;
+}
+function setScoreRing(score) {
+  const s = Math.round(score);
+  const arc = document.getElementById("p1-ring-arc");
+  const num = document.getElementById("p1-score-num");
+  const circ = 2*Math.PI*30;
+  arc.setAttribute("stroke-dashoffset", circ - (score/100)*circ);
+  const color = score>=MIN_SCORE?"#4ade80":score>=60?"#fbbf24":"#f87171";
+  arc.setAttribute("stroke", color);
+  num.textContent = s; num.style.color = color;
+}
+
+/* ═══════════════════════════════════════════════
+   P2 图片
+═══════════════════════════════════════════════ */
+function goP2() {
+  const w = allWords[wordIndex];
+  document.getElementById("p2-word").textContent = w.word;
+  const grid = document.getElementById("p2-imgs");
+  grid.innerHTML = "";
+  [w.img1, w.img2].forEach((src, i)=>{
+    const card = document.createElement("div"); card.className="img-card";
+    const img  = document.createElement("img"); img.alt=""; img.src = mediaUrl(src)||"";
+    const cap  = document.createElement("div"); cap.className="img-cap";
+    cap.textContent = w.image_prompts?.[i] || "";
+    card.appendChild(img); card.appendChild(cap); grid.appendChild(card);
+  });
+  showPage("p2-image");
+  saveProgress();
+}
+
+/* ═══════════════════════════════════════════════
+   P3 选义
+═══════════════════════════════════════════════ */
+function goP3() {
+  const w = allWords[wordIndex];
+  document.getElementById("p3-word").textContent = w.word;
+  const opts = [w.meaning_cn];
+  const pool  = (unitData.words||[]).filter(x=>x.meaning_cn&&x.meaning_cn!==w.meaning_cn).map(x=>x.meaning_cn);
+  while (opts.length<4&&pool.length) opts.push(pool.splice(Math.floor(Math.random()*pool.length),1)[0]);
+  while (opts.length<4) opts.push("—");
+  opts.sort(()=>Math.random()-.5);
+  const ci = opts.indexOf(w.meaning_cn);
+  const div = document.getElementById("p3-opts"); div.innerHTML="";
+  opts.forEach((t,i)=>{
+    const b = document.createElement("button"); b.className="opt-btn";
+    b.innerHTML=`<span class="opt-letter">${String.fromCharCode(65+i)}</span>${t}`;
+    b.onclick=()=>{
+      div.querySelectorAll(".opt-btn").forEach(x=>x.disabled=true);
+      b.classList.add(i===ci?"correct":"wrong");
+      const fb = document.getElementById("p3-feedback");
+      fb.style.display="block";
+      fb.className = i===ci ? "fb-box fb-correct" : "fb-box fb-wrong";
+      fb.textContent = i===ci ? `✓ 正确！${w.usage?"  "+w.usage:""}` : `✗ 正确答案：${w.meaning_cn}`;
+      document.getElementById("p3-next").disabled=false;
+    };
+    div.appendChild(b);
+  });
+  document.getElementById("p3-feedback").style.display="none";
+  document.getElementById("p3-next").disabled=true;
+  showPage("p3-choice");
+  saveProgress();
+}
+
+/* ═══════════════════════════════════════════════
+   例句：任意词汇点击查词（基于语境）& 朗读
+═══════════════════════════════════════════════ */
+function makeClickableExampleHtml(sentence) {
+  if (!sentence) return "";
+  const esc = (s)=>String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/"/g,"&quot;");
+  return sentence.replace(/\b([\w']+)\b/g, (m)=>{
+    if (!/[a-zA-Z]/.test(m)) return m;
+    const s = esc(sentence), w = esc(m), wJs = m.replace(/'/g,"\\'").replace(/\\/g,"\\\\");
+    return `<span class="word-click" data-s="${s}" data-w="${w}" onclick="onWordClick(this,'${wJs}')" title="点击发音并查词">${esc(m)}</span>`;
+  });
+}
+function onWordClick(el, wordJs) {
+  speakWord(wordJs);
+  lookupWordInContext(el);
+}
+function lookupWordInContext(el) {
+  const sentence = el.getAttribute("data-s")||"";
+  const word = el.getAttribute("data-w")||"";
+  if (!word) return;
+  const modal = document.getElementById("word-modal");
+  const bodyEl = document.getElementById("word-modal-body");
+  document.getElementById("word-modal-word").textContent = word;
+  modal.classList.add("show");
+  bodyEl.innerHTML = '<div class="word-modal-loading"><span class="spin">⟳</span> 正在查询（基于句子语境）…</div>';
+  (async function(){
+    try {
+      const prompt = `你是初中英语教师。请根据下面这句话的语境，解释句中划线单词的含义。
+【整句】${sentence}
+【待解释的词】"${word}"
+
+要求（必须做到）：
+1. 词义必须基于该词在此句中的具体用法，给出语境下的释义，而非泛泛的词典释义
+2. 1-2句简洁中文解释
+3. 可简要说明该词在本句中的词性、搭配或用法
+4. 面向八年级学生，控制在100字内`;
+      const resp = await fetch("https://api.deepseek.com/v1/chat/completions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Authorization": "Bearer " + DEEPSEEK_KEY },
+        body: JSON.stringify({
+          model: "deepseek-chat",
+          messages: [{ role: "user", content: prompt }],
+          temperature: 0.2,
+          max_tokens: 350
+        })
+      });
+      if (!resp.ok) throw new Error("API " + resp.status);
+      const data = await resp.json();
+      const content = (data.choices?.[0]?.message?.content || "未获取到释义").replace(/\n/g, "<br>");
+      bodyEl.innerHTML = content;
+    } catch (e) {
+      bodyEl.innerHTML = '<div class="word-modal-error">查词失败：' + (e.message || "网络错误") + '</div>';
+    }
+  })();
+}
+function speakWord(word) {
+  if (!synthesizer) { alert("语音服务未初始化"); return; }
+  const w = String(word || "").trim();
+  if (!w) return;
+  synthesizer.speakTextAsync(w, ()=>{}, e=>console.error("TTS:", e));
+}
+function closeWordModal() {
+  document.getElementById("word-modal").classList.remove("show");
+}
+
+/* ═══════════════════════════════════════════════
+   P4 例句
+═══════════════════════════════════════════════ */
+function goP4() {
+  const w = allWords[wordIndex];
+  document.getElementById("p4-word").textContent = w.word;
+  document.getElementById("p4-meaning").textContent = w.meaning_cn||"";
+  document.getElementById("p4-usage").textContent   = (w.usage||"")+(w.collocations?" | "+w.collocations:"");
+  const list = document.getElementById("p4-examples-list"); list.innerHTML="";
+  const exs = w.examples||[];
+  const need=2, rc={};
+  exs.forEach((_,i)=>rc[i]=0);
+  window._p4rc=rc; window._p4need=need;
+  window._p4refSentences = exs.map(ex=>ex.en||"");
+  window._p4exLastResult = {};
+  exs.forEach((ex,i)=>{
+    const box = document.createElement("div"); box.className="ex-card";
+    const enRaw = ex.en||"";
+    const enHtml = makeClickableExampleHtml(enRaw);
+    box.innerHTML=`
+      <div class="ex-num">例句 ${i+1}</div>
+      <div class="ex-en">${enHtml}</div>
+      <div class="ex-actions">
+        <button class="btn btn-play" style="padding:7px 14px;font-size:.82rem" onclick="playExample(${i})"><i class="fas fa-play"></i> 播放</button>
+        <button class="reveal-btn" onclick="toggleCn(this)">显示中文</button>
+        <span class="rec-counter" id="ex-cnt-${i}">朗读 0/${need}（需≥75分）</span>
+        <button class="btn btn-rec" style="padding:7px 14px;font-size:.82rem" id="ex-rec-${i}" onclick="toggleExRecord(${i})"><i class="fas fa-microphone"></i></button>
+      </div>
+      <div class="ex-fb" id="ex-fb-${i}" style="display:none;margin-top:8px;font-size:.85rem"></div>
+      <div class="ex-cn" id="ex-cn-${i}" style="display:none">${(ex.cn||"").replace(/</g,"&lt;")}</div>
+    `;
+    list.appendChild(box);
+  });
+  window.playExample=(i)=>{
+    const ww=allWords[wordIndex];
+    const aud=i===0?ww.audio_ex0:ww.audio_ex1;
+    if(aud){new Audio(mediaUrl(aud)).play().catch(()=>{}); return;}
+    const en=(ww.examples||[])[i]?.en||"";
+    if(en&&synthesizer) synthesizer.speakTextAsync(en,()=>{},e=>console.error(e));
+  };
+  window.toggleCn=(btn)=>{
+    const cn=btn.closest(".ex-card").querySelector(".ex-cn");
+    if(!cn)return;
+    const show=cn.style.display==="none";
+    cn.style.display=show?"block":"none"; btn.textContent=show?"隐藏中文":"显示中文";
+  };
+  const EX_MIN_SCORE = 75;
+  window.toggleExRecord=(j)=>{
+    const rc=window._p4rc, need=window._p4need, refSentences=window._p4refSentences||[];
+    if(rc[j]>=need)return;
+    const btn=document.getElementById("ex-rec-"+j);
+    const cntEl=document.getElementById("ex-cnt-"+j);
+    const fbEl=document.getElementById("ex-fb-"+j);
+    if(btn.dataset.rec==="1"){
+      const rec=window._exRec&&window._exRec[j];
+      if(rec){ rec.stopContinuousRecognitionAsync(()=>{
+        btn.dataset.rec="0"; btn.innerHTML='<i class="fas fa-microphone"></i>';
+        const res = window._p4exLastResult[j];
+        window._p4exLastResult[j]=null;
+        let score = 0;
+        if (res) {
+          try {
+            const json = JSON.parse(res.properties.getProperty(SpeechSDK.PropertyId.SpeechServiceResponse_JsonResult,"{}"));
+            const n = json.NBest?.[0];
+            if (n?.PronunciationAssessment) score = n.PronunciationAssessment.AccuracyScore??0;
+          } catch(e){}
+        }
+        if (score >= EX_MIN_SCORE) {
+          rc[j]++;
+          fbEl.style.display="block";
+          fbEl.style.color="var(--green)";
+          fbEl.innerHTML=`✓ ${Math.round(score)}分 通过`;
+          cntEl.textContent=`朗读 ${rc[j]}/${need}（需≥75分）`;
+        } else {
+          fbEl.style.display="block";
+          fbEl.style.color=score>0?"#fbbf24":"var(--red)";
+          fbEl.innerHTML=score>0 ? `✗ ${Math.round(score)}分，需达到75分，请重试` : "✗ 未检测到发音，请重试";
+        }
+        const done=Object.keys(rc).every(k=>rc[k]>=need);
+        document.getElementById("p4-next").disabled=!done;
+        if(window._exRec) delete window._exRec[j];
+      },()=>{btn.dataset.rec="0"; btn.innerHTML='<i class="fas fa-microphone"></i>';}); }
+      return;
+    }
+    btn.dataset.rec="1"; btn.innerHTML='<i class="fas fa-stop"></i> 点击结束';
+    fbEl.style.display="none";
+    const refText = refSentences[j]||"";
+    const rec=new SpeechSDK.SpeechRecognizer(speechConfig,SpeechSDK.AudioConfig.fromDefaultMicrophoneInput());
+    try {
+      const gran = SpeechSDK.PronunciationAssessmentGranularity?.FullSentence ?? 2;
+      const pa = new SpeechSDK.PronunciationAssessmentConfig(refText,
+        SpeechSDK.PronunciationAssessmentGradingSystem?.HundredMark??1, gran, false);
+      pa?.applyTo?.(rec);
+    } catch(e){}
+    rec.recognized = (s, e) => {
+      if (e.result.reason === SpeechSDK.ResultReason.RecognizedSpeech && e.result.text) {
+        window._p4exLastResult[j] = e.result;
+      }
+    };
+    if(!window._exRec) window._exRec={};
+    window._exRec[j]=rec;
+    rec.startContinuousRecognitionAsync(()=>{}, (err)=>{
+      btn.dataset.rec="0"; btn.innerHTML='<i class="fas fa-microphone"></i>';
+      if(window._exRec) delete window._exRec[j];
+      console.error(err);
+    });
+  };
+  document.getElementById("p4-next").disabled = exs.length>0;
+  showPage("p4-examples");
+  saveProgress();
+}
+
+function nextWord() {
+  const w = allWords[wordIndex];
+  if (w?.word) {
+    const dur = Date.now() - wordStartTime;
+    wordTimings[w.word] = (wordTimings[w.word] || 0) + dur;
+  }
+  wordIndex++; saveProgress(); startWord();
+}
+
+/* ═══════════════════════════════════════════════
+   复习流程
+═══════════════════════════════════════════════ */
+function setReviewDots(active) {
+  ["rd1","rd2","rd3"].forEach((id,i)=>{
+    const el=document.getElementById(id);
+    if(el){ if(i<active-1) el.className="step-dot done"; else if(i===active-1) el.className="step-dot active"; else el.className="step-dot"; }
+  });
+}
+function setReviewChip(word) {
+  document.getElementById("review-chip-word").textContent = word||"";
+}
+
+// 为每步复习生成独立的随机排列，使各步测试不同单词
+function _shuffleIdx(n) {
+  const a = Array.from({length:n},(_,i)=>i);
+  for (let i=n-1;i>0;i--) { const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; }
+  return a;
+}
+function _makeReviewOrders(n) {
+  return { socratic:_shuffleIdx(n), fill:_shuffleIdx(n), dictation:_shuffleIdx(n), translation:_shuffleIdx(n) };
+}
+
+function startReview() {
+  reviewOrders = _makeReviewOrders(reviewBatch.length);
+  reviewStep = 1;
+  ["review-step1","review-step2","review-step4"].forEach(id=>{
+    document.getElementById(id).style.display=id==="review-step1"?"block":"none";
+  });
+  setReviewDots(1);
+  showPage("p-review");
+  showSocraticQuestion();
+  saveProgress();
+}
+
+function showSocraticQuestion() {
+  const w = reviewOrders ? reviewBatch[reviewOrders.socratic[reviewIdx]] : reviewBatch[reviewIdx];
+  const q = (w.socratic_questions||[])[0];
+  if (!q) { reviewStep2(); return; }
+  document.getElementById("review-socratic-q").textContent = q.question||"";
+  const opts = document.getElementById("review-socratic-opts"); opts.innerHTML="";
+  [...reviewBatch].sort(()=>Math.random()-.5).map(x=>x.word).forEach(wo=>{
+    const b=document.createElement("button"); b.className="opt-btn"; b.textContent=wo;
+    b.onclick=()=>{
+      opts.querySelectorAll(".opt-btn").forEach(x=>x.disabled=true);
+      const ok=wo.toLowerCase()===w.word.toLowerCase();
+      reviewLogs.push({ type:"socratic", word:w.word, question:q.question||"", userAnswer:wo, correct:w.word, ok });
+      b.classList.add(ok?"correct":"wrong");
+      if(!ok) opts.querySelectorAll(".opt-btn").forEach(x=>{ if(x.textContent.toLowerCase()===w.word.toLowerCase()) x.classList.add("correct"); });
+      const fb=document.getElementById("review-socratic-fb");
+      fb.className="fb-box "+(ok?"fb-correct":"fb-wrong");
+      fb.style.display="block";
+      fb.textContent=ok?"✓ 正确！"+(q.answer_hint?"  "+q.answer_hint:""):"✗ 答案是「"+w.word+"」"+(q.answer_hint?"  "+q.answer_hint:"");
+      document.getElementById("review-socratic-next").disabled=false;
+    };
+    opts.appendChild(b);
+  });
+  document.getElementById("review-socratic-fb").style.display="none";
+  document.getElementById("review-socratic-next").disabled=true;
+}
+
+function reviewStep2() {
+  reviewStep = 2;
+  document.getElementById("review-step1").style.display="none";
+  document.getElementById("review-step2").style.display="block";
+  setReviewDots(2);
+  showPage("p-review");
+  saveProgress();
+  const w = reviewOrders ? reviewBatch[reviewOrders.fill[reviewIdx]] : reviewBatch[reviewIdx];
+  const fb=w.fill_blank||{};
+  const sents=fb.sentences||[], opts=fb.options||[], ci=fb.correct_index??0;
+  const sent=(sents[0]||"").trim();
+  const qDiv=document.getElementById("review-fill-q"); qDiv.innerHTML="";
+  if(sent){
+    const d=document.createElement("div"); d.className="fill-sent";
+    d.innerHTML=sent.replace(/___/g,"<mark>___</mark>");
+    qDiv.appendChild(d);
+  }
+  qDiv.innerHTML+='<p style="font-size:.85rem;color:var(--sub);margin-bottom:10px">'+(sent?"选出正确的词填入空白：":"选出最符合词义的选项：")+"</p>";
+  const div=document.getElementById("review-fill-opts"); div.innerHTML="";
+  const choices=opts.length?opts:sents;
+  choices.forEach((t,i)=>{
+    const b=document.createElement("button"); b.className="opt-btn"; b.textContent=t;
+    b.onclick=()=>{
+      div.querySelectorAll(".opt-btn").forEach(x=>x.disabled=true);
+      const ok=i===ci;
+      reviewLogs.push({ type:"fill", word:w.word, sentence:sent, userChoice:t, correctChoice:choices[ci]||"", ok });
+      b.classList.add(ok?"correct":"wrong");
+      const fb2=document.getElementById("review-fill-fb");
+      fb2.className="fb-box "+(ok?"fb-correct":"fb-wrong");
+      fb2.style.display="block";
+      fb2.textContent=ok?"✓ 正确！":"✗ 正确答案："+(choices[ci]||"");
+      document.getElementById("review-fill-next").disabled=false;
+    };
+    div.appendChild(b);
+  });
+  document.getElementById("review-fill-fb").style.display="none";
+  document.getElementById("review-fill-next").disabled=true;
+}
+
+function goToTranslationStep() {
+  reviewStep = 3;
+  document.getElementById("review-step2").style.display="none";
+  document.getElementById("review-step4").style.display="block";
+  setReviewDots(3);
+  saveProgress();
+  window._dictWord = reviewOrders ? reviewBatch[reviewOrders.translation[reviewIdx]] : reviewBatch[reviewIdx];
+  const exs=window._dictWord.examples||[];
+  window._transSentence = exs[0]?.en||exs[Math.floor(Math.random()*exs.length)]?.en||"";
+  const _ex = (window._dictWord?.examples||[]).find(e=>e.en===window._transSentence)
+              || (window._dictWord?.examples||[])[0] || {};
+  window._transRefCn = _ex.cn || "";
+  document.getElementById("review-trans-en").textContent = window._transSentence || "（无例句）";
+  document.getElementById("review-trans-result").style.display="none";
+}
+
+/* ═══════════════════════════════════════════════
+   翻译朗读 + DeepSeek 评价（持续识别，手动开始/停止）
+═══════════════════════════════════════════════ */
+function toggleTransRecord() {
+  if (!speechConfig) { alert("语音服务未初始化"); return; }
+  const btn = document.getElementById("review-trans-record");
+
+  if (transRecording) {
+    // ── 停止录音 ──
+    transRecording = false;
+    btn.innerHTML = '<i class="fas fa-microphone"></i> 朗读中文翻译';
+    btn.classList.remove("recording");
+    if (window._transRec) {
+      window._transRec.stopContinuousRecognitionAsync(
+        async () => {
+          const text = (window._transFullText||"").trim();
+          const resultDiv = document.getElementById("review-trans-result");
+          if (!text) {
+            resultDiv.style.display = "block";
+            resultDiv.innerHTML = `<div class="fb-box" style="background:rgba(148,163,184,.07);border-color:var(--border);color:var(--sub)">未识别到语音，请重试</div>`;
+    return;
+  }
+          await evaluateTranslation(window._transSentence||"", text, window._transRefCn||"");
+        },
+        e => console.error("stop err:", e)
+      );
+    }
+    return;
+  }
+
+  // ── 开始录音 ──
+  transRecording = true;
+  window._transFullText = "";
+  btn.innerHTML = '<i class="fas fa-stop"></i> 点击停止录音';
+  btn.classList.add("recording");
+  document.getElementById("review-trans-result").style.display = "none";
+
+  const zhCfg = SpeechSDK.SpeechConfig.fromSubscription(AZURE_KEY, AZURE_REGION);
+  zhCfg.speechRecognitionLanguage = "zh-CN";
+  const rec = new SpeechSDK.SpeechRecognizer(zhCfg, SpeechSDK.AudioConfig.fromDefaultMicrophoneInput());
+  window._transRec = rec;
+
+  // 实时显示识别到的片段
+  rec.recognized = (s, e) => {
+    if (e.result.reason === SpeechSDK.ResultReason.RecognizedSpeech && e.result.text) {
+      window._transFullText += e.result.text;
+      const resultDiv = document.getElementById("review-trans-result");
+      resultDiv.style.display = "block";
+      resultDiv.innerHTML = `<div class="fb-box" style="background:rgba(148,163,184,.07);border-color:var(--border);color:var(--text2)">
+        识别中：<span style="color:var(--text)">${window._transFullText}</span>
+      </div>`;
+    }
+  };
+
+  rec.startContinuousRecognitionAsync(
+    () => {},
+    e => {
+      transRecording = false;
+      btn.innerHTML = '<i class="fas fa-microphone"></i> 朗读中文翻译';
+      btn.classList.remove("recording");
+      console.error("start err:", e);
+    }
+  );
+}
+
+async function evaluateTranslation(enText, studentCn, refCn) {
+  const resultDiv=document.getElementById("review-trans-result");
+  resultDiv.style.display="block";
+  resultDiv.innerHTML=`<div class="eval-loading"><span class="spin">⟳</span> DeepSeek 正在评价…</div>`;
+  document.getElementById("review-trans-next").disabled=false;
+  try {
+    const prompt=`你是初中英语翻译评价专家，帮助八年级学生提升英译中能力。
+英文原句：${enText}
+参考中文：${refCn||"（无）"}
+学生朗读的中文翻译：${studentCn}
+
+请用JSON格式返回评价，包含这些字段：
+- score: 整数0-100（语义准确度）
+- correct: 翻译正确/较好的部分（简洁，1句）
+- issues: 主要问题或遗漏（1-2句，没有则写"无明显问题"）
+- standard: 最佳参考翻译（1句）
+- tip: 针对性的学习建议（1句，结合初中生水平）`;
+
+    const resp=await fetch("https://api.deepseek.com/v1/chat/completions",{
+      method:"POST",
+      headers:{"Content-Type":"application/json","Authorization":"Bearer "+DEEPSEEK_KEY},
+      body:JSON.stringify({
+        model:"deepseek-chat",
+        messages:[{role:"user",content:prompt}],
+        response_format:{type:"json_object"},
+        temperature:0.3,max_tokens:400
+      })
+    });
+    if(!resp.ok) throw new Error("API "+resp.status);
+    const data=await resp.json();
+    const ev=JSON.parse(data.choices[0].message.content);
+    const s=ev.score??0;
+    reviewLogs.push({ type:"translation", word:window._dictWord?.word||"", en:enText, studentCn, score:s, correct:ev.correct||"", issues:ev.issues||"", standard:ev.standard||"" });
+    const cls=s>=80?"eval-score-hi":s>=55?"eval-score-mid":"eval-score-lo";
+    resultDiv.innerHTML=`
+      <div class="eval-card">
+        <div class="eval-score-row">
+          <div class="eval-score-circle ${cls}">${s}</div>
+          <div>
+            <div style="font-size:.75rem;font-weight:800;color:var(--sub);letter-spacing:.05em;margin-bottom:4px">DEEPSEEK 评分</div>
+            <div style="font-size:.85rem;color:var(--sub)">你说的：<span style="color:var(--text)">${studentCn}</span></div>
+          </div>
+        </div>
+        ${ev.correct?`<div class="eval-row"><span class="eval-lbl">✓ 正确</span><span class="eval-val" style="color:var(--green)">${ev.correct}</span></div>`:""}
+        ${ev.issues?`<div class="eval-row"><span class="eval-lbl">⚠ 问题</span><span class="eval-val" style="color:#fca5a5">${ev.issues}</span></div>`:""}
+        <div class="eval-row"><span class="eval-lbl">📝 标准</span><span class="eval-val">${ev.standard||refCn||"—"}</span></div>
+        ${ev.tip?`<div class="eval-tip">💡 ${ev.tip}</div>`:""}
+      </div>`;
+  } catch(e) {
+    resultDiv.innerHTML=`<div class="eval-card"><p style="color:var(--sub);font-size:.88rem">评价暂不可用：${e.message}</p></div>`;
+    console.error("DeepSeek eval:", e);
+  }
+}
+
+/* ═══════════════════════════════════════════════
+   复习完成
+═══════════════════════════════════════════════ */
+function finishReview() {
+  reviewIdx++;
+  if (reviewIdx < reviewBatch.length) {
+    ["review-step1","review-step2","review-step4"].forEach(id=>{
+      document.getElementById(id).style.display=id==="review-step1"?"block":"none";
+    });
+    setReviewDots(1);
+    document.getElementById("review-socratic-opts").innerHTML="";
+    document.getElementById("review-socratic-fb").style.display="none";
+    document.getElementById("review-socratic-next").disabled=true;
+    showSocraticQuestion();
+  } else {
+    saveProgress();
+    showCurrentWord();
+  }
+}
+
+/* ═══════════════════════════════════════════════
+   EmailJS 学习报告发送
+═══════════════════════════════════════════════ */
+function escapeHtml(s) { if (!s) return ""; return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
+function formatDateTime(d) {
+  if (!d) return "-";
+  const x = d instanceof Date ? d : new Date(d);
+  return x.getFullYear()+"-"+("0"+(x.getMonth()+1)).slice(-2)+"-"+("0"+x.getDate()).slice(-2)+" "+
+    ("0"+x.getHours()).slice(-2)+":"+("0"+x.getMinutes()).slice(-2)+":"+("0"+x.getSeconds()).slice(-2);
+}
+function formatDuration(ms) {
+  if (!ms||ms<0) return "0s";
+  const s=Math.floor(ms/1000), m=Math.floor(s/60), h=Math.floor(m/60);
+  if (h>0) return h+"h "+m%60+"min "+s%60+"s";
+  if (m>0) return m+"min "+s%60+"s";
+  return s+"s";
+}
+function buildReportDetailsHtml() {
+  let html = "";
+  if (Object.keys(wordTimings).length > 0) {
+    html += "<h3 style=\"font-size:14px;margin:12px 0 8px;color:#333;\">⏱️ 每个单词学习时间</h3>";
+    html += "<table style=\"border-collapse:collapse;width:100%;font-size:13px;\"><tr style=\"background:#f0f0f0;\"><th style=\"border:1px solid #ddd;padding:6px;text-align:left;\">单词</th><th style=\"border:1px solid #ddd;padding:6px;text-align:left;\">学习时长</th></tr>";
+    Object.entries(wordTimings).forEach(([w,t])=>{
+      html += "<tr><td style=\"border:1px solid #ddd;padding:5px;\">"+escapeHtml(w)+"</td><td style=\"border:1px solid #ddd;padding:5px;\">"+(t/1000).toFixed(1)+" 秒</td></tr>";
+    });
+    html += "</table>";
+  }
+  if (reviewLogs.length > 0) {
+    html += "<h3 style=\"font-size:14px;margin:16px 0 8px;color:#333;\">📋 复习阶段做题过程与结果</h3>";
+    const socraticLogs = reviewLogs.filter(r=>r.type==="socratic");
+    const fillLogs = reviewLogs.filter(r=>r.type==="fill");
+    const transLogs = reviewLogs.filter(r=>r.type==="translation");
+    if (socraticLogs.length) {
+      html += "<p style=\"font-weight:700;margin:8px 0 4px;\">🧠 情景联想</p><table style=\"border-collapse:collapse;width:100%;font-size:12px;\"><tr style=\"background:#f0f0f0;\"><th style=\"border:1px solid #ddd;padding:5px;\">单词</th><th style=\"border:1px solid #ddd;padding:5px;\">题目</th><th style=\"border:1px solid #ddd;padding:5px;\">学生答案</th><th style=\"border:1px solid #ddd;padding:5px;\">正确答案</th><th style=\"border:1px solid #ddd;padding:5px;\">对错</th></tr>";
+      socraticLogs.forEach(r=>{ html += "<tr style=\"background:"+(r.ok?"#f0fff0":"#fff0f0")+";\"><td style=\"border:1px solid #ddd;padding:5px;\">"+escapeHtml(r.word)+"</td><td style=\"border:1px solid #ddd;padding:5px;\">"+escapeHtml(r.question.substring(0,50)+(r.question.length>50?"…":""))+"</td><td style=\"border:1px solid #ddd;padding:5px;\">"+escapeHtml(r.userAnswer)+"</td><td style=\"border:1px solid #ddd;padding:5px;\">"+escapeHtml(r.correct)+"</td><td style=\"border:1px solid #ddd;padding:5px;\">"+(r.ok?"✓":"✗")+"</td></tr>"; });
+      html += "</table>";
+    }
+    if (fillLogs.length) {
+      html += "<p style=\"font-weight:700;margin:8px 0 4px;\">✏️ 句子填空</p><table style=\"border-collapse:collapse;width:100%;font-size:12px;\"><tr style=\"background:#f0f0f0;\"><th style=\"border:1px solid #ddd;padding:5px;\">单词</th><th style=\"border:1px solid #ddd;padding:5px;\">句子</th><th style=\"border:1px solid #ddd;padding:5px;\">学生选择</th><th style=\"border:1px solid #ddd;padding:5px;\">正确答案</th><th style=\"border:1px solid #ddd;padding:5px;\">对错</th></tr>";
+      fillLogs.forEach(r=>{ html += "<tr style=\"background:"+(r.ok?"#f0fff0":"#fff0f0")+";\"><td style=\"border:1px solid #ddd;padding:5px;\">"+escapeHtml(r.word)+"</td><td style=\"border:1px solid #ddd;padding:5px;\">"+escapeHtml(r.sentence.substring(0,40)+(r.sentence.length>40?"…":""))+"</td><td style=\"border:1px solid #ddd;padding:5px;\">"+escapeHtml(r.userChoice)+"</td><td style=\"border:1px solid #ddd;padding:5px;\">"+escapeHtml(r.correctChoice)+"</td><td style=\"border:1px solid #ddd;padding:5px;\">"+(r.ok?"✓":"✗")+"</td></tr>"; });
+      html += "</table>";
+    }
+    if (transLogs.length) {
+      html += "<p style=\"font-weight:700;margin:8px 0 4px;\">🌏 翻译朗读 · AI评价</p><table style=\"border-collapse:collapse;width:100%;font-size:12px;\"><tr style=\"background:#f0f0f0;\"><th style=\"border:1px solid #ddd;padding:5px;\">单词</th><th style=\"border:1px solid #ddd;padding:5px;\">英文</th><th style=\"border:1px solid #ddd;padding:5px;\">学生翻译</th><th style=\"border:1px solid #ddd;padding:5px;\">得分</th><th style=\"border:1px solid #ddd;padding:5px;\">标准参考</th></tr>";
+      transLogs.forEach(r=>{ html += "<tr><td style=\"border:1px solid #ddd;padding:5px;\">"+escapeHtml(r.word)+"</td><td style=\"border:1px solid #ddd;padding:5px;\">"+escapeHtml(r.en.substring(0,35)+(r.en.length>35?"…":""))+"</td><td style=\"border:1px solid #ddd;padding:5px;\">"+escapeHtml(r.studentCn.substring(0,25)+(r.studentCn.length>25?"…":""))+"</td><td style=\"border:1px solid #ddd;padding:5px;\">"+r.score+"</td><td style=\"border:1px solid #ddd;padding:5px;\">"+escapeHtml((r.standard||"").substring(0,30))+"</td></tr>"; });
+      html += "</table>";
+    }
+  }
+  if (!html) html = "<p style=\"color:#999;\">暂无学习数据（需完成部分单词学习或复习后发送）</p>";
+  return html;
+}
+function sendLearningReport() {
+  if (reportSent) { alert("报告已发送过"); return; }
+  const hasData = Object.keys(wordTimings).length > 0 || reviewLogs.length > 0;
+  if (!hasData) { alert("暂无学习数据，请先完成部分单词学习或复习后再发送报告"); return; }
+  if (typeof emailjs === "undefined") { alert("邮件服务未加载，请刷新页面后重试"); return; }
+  const endTime = new Date();
+  const startT = sessionStartTime || endTime;
+  const durationMs = endTime - startT;
+  const studentName = localStorage.getItem("authing-user") || localStorage.getItem("current-user") || "未登录";
+  const contentName = "人教版词汇 Unit" + currentUnit + " - " + (document.title || "词汇学习");
+  const choiceLogs = reviewLogs.filter(r=>r.type==="socratic"||r.type==="fill");
+  const transLogs = reviewLogs.filter(r=>r.type==="translation");
+  const reviewCorrect = choiceLogs.filter(r=>r.ok).length;
+  const reviewTotal = choiceLogs.length;
+  const avgTransScore = transLogs.length ? Math.round(transLogs.reduce((a,x)=>a+x.score,0)/transLogs.length) : null;
+  const score = reviewTotal ? reviewCorrect : (avgTransScore!==null ? avgTransScore : 0);
+  const total = reviewTotal || (avgTransScore!==null ? 100 : 0);
+  const accuracy = total > 0 ? Math.round((reviewTotal ? reviewCorrect/reviewTotal : avgTransScore/100) * 100) + "%" : "-";
+  const templateParams = {
+    student_name: studentName,
+    content_name: contentName,
+    page_url: location.href,
+    page_url_display: contentName,
+    start_time: formatDateTime(startT),
+    end_time: formatDateTime(endTime),
+    duration: formatDuration(durationMs),
+    score: score,
+    total: total,
+    accuracy: accuracy,
+    details_html: buildReportDetailsHtml()
+  };
+  try {
+    emailjs.init(EMAILJS_PUBLIC_KEY);
+    emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
+      .then(() => { reportSent = true; alert("✅ 学习报告已发送给老师"); })
+      .catch(() => { alert("❌ 报告发送失败，请检查网络后重试"); });
+  } catch (e) { alert("发送失败：" + (e.message || "未知错误")); }
+}
+
+/* ═══════════════════════════════════════════════
+   启动 & 关闭保存
+═══════════════════════════════════════════════ */
+window.addEventListener("beforeunload", ()=>saveProgress());
+window.addEventListener("pagehide", ()=>saveProgress());
+(async()=>{
+  await initSpeech();
+  loadUnitList();
+  const p = loadProgress();
+  if (p && currentUnit) {
+    if (confirm("📖 检测到上次进度，是否恢复到关闭前的页面？")) resumeUnit();
+  }
+})();
+  </script>
+</body>
+</html>
