@@ -1,4 +1,4 @@
-# S-Class | English Learning with Steven
+# S-Class | English Learning
 
 面向学生的英语学习站点，统一登录、统一学习报告邮件与媒体托管。包含 AEIS 词汇、PET 词汇实验室、剑桥雅思/PET 模考、FU2/FU3 专题、TED 与百科等模块。
 
@@ -188,4 +188,4 @@ npm install
 
 ---
 
-*S-Class | English Learning with Steven — 文档与代码保持一致，具体页面数以仓库为准。*
+*S-Class | English Learning — 文档与代码保持一致，具体页面数以仓库为准。*

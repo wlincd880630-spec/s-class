@@ -1,4 +1,4 @@
-# S-Class | English Learning with Steven
+# S-Class | English Learning
 
 面向学生的英语学习站点，包含 AEIS 词汇、PET 词汇实验室、剑桥模考、FU2/FU3 专题、TED 与百科等模块；统一登录、统一报告邮件与媒体托管。
 

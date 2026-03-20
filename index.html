@@ -4,7 +4,7 @@
     <script src="scripts/auth-check.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Steven's Class | English Learning with Steven</title>
+    <title>S-Class | English Learning</title>
     <script>window.MEDIA_BASE="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/";</script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Outfit:wght@400;600;800;900&display=swap" rel="stylesheet">
@@ -178,28 +178,6 @@
             margin-top: 28px;
             font-weight: 500;
         }
-        .gate-qr-hint {
-            font-size: 0.85rem;
-            color: rgba(255,255,255,0.92);
-            margin-top: 16px;
-            font-weight: 500;
-        }
-        .gate-qr-link {
-            background: none;
-            border: none;
-            color: rgba(255,255,255,0.98);
-            text-decoration: underline;
-            text-underline-offset: 3px;
-            cursor: pointer;
-            font-size: inherit;
-            font-weight: 600;
-            padding: 4px 0;
-            margin-left: 2px;
-        }
-        .gate-qr-link:hover {
-            color: #fff;
-            text-decoration-thickness: 2px;
-        }
         #main-app {
             display: none;
             animation: mainAppIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
@@ -265,26 +243,6 @@
             z-index: 100;
             box-shadow: 0 2px 12px rgba(0,0,0,0.08);
         }
-        .instructor-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 16px;
-            background: var(--toca-white);
-            padding: 14px 28px;
-            border-radius: var(--radius-pill);
-            margin-top: 20px;
-            border: 3px solid var(--toca-coral);
-            box-shadow: 0 6px 0 0 rgba(255, 107, 107, 0.3), 0 12px 24px rgba(0,0,0,0.08);
-            cursor: pointer;
-            transition: transform var(--transition-bounce), box-shadow 0.3s;
-        }
-        .instructor-badge:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 0 0 rgba(255, 107, 107, 0.25), 0 20px 40px rgba(0,0,0,0.1);
-        }
-        .instructor-badge:active { transform: translateY(2px); }
-
-
         /* ==============================
            板块卡片 · Toca 超大圆角与粗色条
            ============================== */
@@ -553,48 +511,6 @@
             font-size: 0.95rem;
             font-weight: 600;
         }
-        /* 教师微信二维码弹窗：多终端自适应，合适大小 */
-        #qr-modal {
-            display: none;
-            position: fixed;
-            inset: 0;
-            padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
-            background: rgba(0,0,0,0.85);
-            z-index: 10001;
-            justify-content: center;
-            align-items: center;
-            backdrop-filter: blur(12px);
-            box-sizing: border-box;
-        }
-        #qr-modal .qr-modal-inner {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            max-width: 100%;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-        #qr-modal .qr-modal-inner img {
-            width: clamp(160px, 72vw, 260px);
-            height: auto;
-            max-height: min(260px, 75vh);
-            object-fit: contain;
-            border-radius: var(--radius-md);
-            box-shadow: var(--shadow-hover);
-            display: block;
-        }
-        .qr-load-fail {
-            max-width: 280px;
-            margin: 0;
-            padding: 16px;
-            background: rgba(255,255,255,0.95);
-            border-radius: var(--radius-md);
-            font-size: 0.9rem;
-            color: #475569;
-            text-align: center;
-        }
-        .qr-load-fail code { font-size: 0.8em; background: #f1f5f9; padding: 2px 6px; border-radius: 4px; }
     </style>
     <script src="scripts/s-class-tracker.js"></script>
 </head>
@@ -605,22 +521,13 @@
         <div class="gate-content">
             <div class="gate-badge">s-class.top</div>
             <h1 class="gate-title">S-Class Quality<br><span>Top-Tier Future</span></h1>
-            <p class="gate-subtitle">Steven's Class · s-class.top</p>
+            <p class="gate-subtitle">s-class.top</p>
             <div class="gate-form">
                 <input type="text" class="gate-input" id="gate-student-name" placeholder="请输入学生姓名（仅中文）" maxlength="20" autocomplete="name">
                 <p id="gate-name-error" class="gate-name-error" style="display:none;"></p>
                 <button type="button" class="gate-btn" id="gate-btn-login">用户名密码登录 <i class="fas fa-arrow-right" style="margin-left:8px;"></i></button>
             </div>
             <p class="gate-hint">本系统为内部邀请制，请使用教师分配的账号登录</p>
-            <p class="gate-qr-hint">可添加老师微信获取用户账户。 <button type="button" class="gate-qr-link" onclick="toggleQR()" aria-label="查看老师微信二维码"><i class="fab fa-weixin" style="margin-right:4px;"></i>查看老师微信二维码</button></p>
-        </div>
-    </div>
-
-    <!-- 老师微信二维码弹窗：放在 body 下，未登录时也能显示 -->
-    <div id="qr-modal" onclick="toggleQR()">
-        <div class="qr-modal-inner" onclick="event.stopPropagation()">
-            <img id="qr-wechat-img" src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/wechat_qrcode_image.jpg" alt="Teacher WeChat 微信" onerror="qrImgFallback(this)">
-            <p id="qr-load-fail" class="qr-load-fail" style="display:none;">二维码图片未加载。请将图片上传至 COS：<code>s-class/wechat_qrcode_image.jpg</code>，或放在项目根目录 <code>wechat_qrcode_image.jpg</code></p>
         </div>
     </div>
 
@@ -631,16 +538,8 @@
                 <span id="welcome-name" class="welcome-name"></span>
                 <a href="#" id="btn-logout" class="welcome-logout" style="display:none;">退出</a>
             </div>
-            <h1 class="page-title">Steven's Class</h1>
+            <h1 class="page-title">S-Class</h1>
             <p class="page-tagline">S-Class Quality · Top-Tier Future</p>
-
-            <div class="instructor-badge" onclick="toggleQR()">
-                <div style="text-align: right; line-height: 1.2;">
-                    <div style="font-size: 0.7rem; color: #94a3b8; font-weight: 800; letter-spacing: 0.12em;">INSTRUCTOR</div>
-                    <div style="font-size: 1.1rem; font-weight: 800; color: var(--toca-coral);">Teacher Steven Wong</div>
-                </div>
-                <i class="fas fa-qrcode" style="font-size:1.5rem; color: var(--toca-navy);"></i>
-            </div>
         </header>
 
         <div class="section-row">
@@ -1499,7 +1398,7 @@
     </div> 
     
     <footer>
-        <div>&copy; 2026 English Learning Lab by Steven Wong</div>
+        <div>&copy; 2026 English Learning Lab</div>
         <div style="margin-top:10px; font-size:0.9rem;">
             <a href="https://s-class.top" style="color:rgba(0,0,0,0.4); text-decoration:none;">s-class.top</a>
         </div>
@@ -1672,23 +1571,6 @@
             }
         }
 
-        function toggleQR() {
-            const m = document.getElementById('qr-modal');
-            m.style.display = (m.style.display === 'flex') ? 'none' : 'flex';
-        }
-        function qrImgFallback(img) {
-            if (img.dataset.fallbackTried === '1') {
-                document.getElementById('qr-load-fail').style.display = 'block';
-                img.style.display = 'none';
-                return;
-            }
-            img.dataset.fallbackTried = '1';
-            img.style.display = 'none';
-            img.onerror = null;
-            img.src = 'https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/wechat_qrcode_image.jpg';
-            img.style.display = 'block';
-            img.onerror = function() { img.style.display = 'none'; document.getElementById('qr-load-fail').style.display = 'block'; };
-        }
     </script>
     <script async data-explicit-opt-in="true" data-cookie-opt-in="true" data-deployment-id="dpl_HEHXQ2hN79LByEnSyGEqdxqbWW6H" src="https://vercel.live/_next-live/feedback/feedback.js"></script>
 </body>
