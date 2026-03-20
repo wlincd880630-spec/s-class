@@ -137,6 +137,11 @@
     .btn-primary:active:not(:disabled){transform:translateY(1px)}
     .btn-ghost{background:var(--surface2);color:var(--text);border:1px solid var(--border)}
     .btn-ghost:hover:not(:disabled){background:var(--glass);border-color:rgba(255,255,255,.12)}
+
+    /* ── 跳过按钮 ── */
+    .btn-skip{background:rgba(156,163,175,.1);color:#9ca3af;border:1px dashed rgba(156,163,175,.3);font-size:.82rem;padding:7px 14px;margin-bottom:10px;width:100%;border-radius:var(--radius-sm);transition:all .18s;cursor:pointer}
+    .btn-skip:hover{background:rgba(251,191,36,.1);color:#fbbf24;border-color:rgba(251,191,36,.4)}
+    .skip-badge{display:inline-block;font-size:.7rem;background:rgba(156,163,175,.15);color:#9ca3af;border-radius:4px;padding:1px 6px;margin-left:6px;vertical-align:middle}
     .btn-play{background:rgba(251,191,36,.15);color:var(--amber);border:1px solid rgba(251,191,36,.3)}
     .btn-play:hover:not(:disabled){background:rgba(251,191,36,.25)}
     .btn-rec{background:rgba(244,114,182,.15);color:var(--pink);border:1px solid rgba(244,114,182,.3)}
@@ -343,6 +348,9 @@
       <span class="step-badge badge-indigo"><span class="dot"></span>Step 1 · 发音练习</span>
       <div class="word-hero" id="p1-word"></div>
       <div class="ipa" id="p1-ipa"></div>
+              <button class="btn btn-skip" id="p1-skip" onclick="skipWord()" title="我认识这个词，跳过学习">
+          <i class="fas fa-forward-step"></i> 跳过（已认识）
+        </button>
       <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px">
         <button class="btn btn-play" onclick="playWord()"><i class="fas fa-volume-high"></i> 听发音</button>
         <button class="btn btn-rec" id="p1-record" onclick="toggleRecord()"><i class="fas fa-microphone"></i> 朗读评分</button>
@@ -564,7 +572,9 @@ function loadProgress() {
 }
 function updateProgress() {
   const t = allWords.length, d = wordIndex;
-  document.getElementById("progress-text").textContent = `${d} / ${t}`;
+  const skipped = allWords.slice(0, d).filter(w => skippedWords.has(w.word)).length;
+  const skipTip = skipped > 0 ? ` <span class="skip-badge">跳过 ${skipped}</span>` : '';
+  document.getElementById("progress-text").innerHTML = `${d} / ${t}${skipTip}`;
   document.getElementById("progress-fill").style.width = t ? (d/t*100)+"%" : "0%";
 }
 
@@ -696,7 +706,8 @@ function startWord() {
   const w = allWords[wordIndex];
   if (!w?.word) { wordIndex++; startWord(); return; }
   if (wordIndex > 0 && wordIndex % PER_REVIEW === 0) {
-    reviewBatch = allWords.slice(wordIndex - PER_REVIEW, wordIndex);
+    reviewBatch = allWords.slice(wordIndex - PER_REVIEW, wordIndex).filter(w => !skippedWords.has(w.word));
+    if (reviewBatch.length === 0) { showCurrentWord(); return; }
     reviewIdx = 0;
     startReview();
     return;
@@ -1021,6 +1032,24 @@ function nextWord() {
   }
   wordIndex++; saveProgress(); startWord();
 }
+
+
+/* ── 跳过功能（学生自主跳过已认识的单词） ── */
+let skippedWords = new Set(JSON.parse(localStorage.getItem('pep_vocab_skipped_'+STORAGE_KEY)||'[]'));
+function skipWord() {
+  const w = allWords[wordIndex];
+  if (!w?.word) { nextWord(); return; }
+  skippedWords.add(w.word);
+  try { localStorage.setItem('pep_vocab_skipped_'+STORAGE_KEY, JSON.stringify([...skippedWords])); } catch(e) {}
+  wordStartTime = Date.now();
+  const btn = document.getElementById('p1-skip');
+  if (btn) {
+    btn.innerHTML = '✓ 已跳过'; btn.disabled = true;
+    setTimeout(() => { btn.innerHTML = '<i class="fas fa-forward-step"></i> 跳过（已认识）'; btn.disabled = false; }, 500);
+  }
+  nextWord();
+}
+
 
 /* ═══════════════════════════════════════════════
    复习流程
