@@ -1,0 +1,1383 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>人教版词汇学习</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Nunito:wght@400;600;700;800&family=Noto+Sans+SC:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <script src="https://aka.ms/csspeech/jsbrowserpackageraw"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  <style>
+    :root {
+      --bg:        #0d0f1a;
+      --surface:   #161829;
+      --surface2:  #1e2137;
+      --border:    rgba(255,255,255,0.07);
+      --primary:   #7c6df0;
+      --primary-d: #5a4dd4;
+      --accent:    #22d3c5;
+      --pink:      #f472b6;
+      --amber:     #fbbf24;
+      --green:     #4ade80;
+      --red:       #f87171;
+      --text:      #e2e8f0;
+      --sub:       #94a3b8;
+      --muted:     #475569;
+      --radius:    20px;
+      --radius-sm: 12px;
+      --glass:     rgba(255,255,255,0.04);
+    }
+    *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{
+      font-family:'Nunito','Noto Sans SC',sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      min-height:100vh;
+      background-image:
+        radial-gradient(ellipse 80% 50% at 20% -10%, rgba(124,109,240,0.18) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 80% 110%, rgba(34,211,197,0.12) 0%, transparent 60%);
+    }
+    .app{max-width:680px;margin:0 auto;padding:16px 16px 40px}
+
+    /* ── Header ── */
+    .topbar{
+      display:flex;justify-content:space-between;align-items:center;
+      padding:12px 0;margin-bottom:8px;
+    }
+    .progress-info{display:flex;align-items:center;gap:10px}
+    .progress-text{font-size:.8rem;font-weight:700;color:var(--sub);letter-spacing:.04em}
+    .progress-track{width:100px;height:5px;background:var(--surface2);border-radius:99px;overflow:hidden}
+    .progress-fill{height:100%;background:linear-gradient(90deg,var(--primary),var(--accent));border-radius:99px;transition:width .5s cubic-bezier(.4,0,.2,1)}
+    .topbar-btns{display:flex;gap:8px}
+    .tb-btn{
+      background:var(--surface2);border:1px solid var(--border);color:var(--sub);
+      padding:8px 14px;border-radius:10px;font-size:.78rem;font-weight:700;cursor:pointer;
+      transition:all .2s;
+    }
+    .tb-btn:hover{background:var(--surface);color:var(--text)}
+    .tb-btn.teacher{background:rgba(74,222,128,0.15);color:var(--green);border-color:rgba(74,222,128,0.3)}
+
+    /* ── Pages ── */
+    .page{display:none;animation:fadeUp .35s cubic-bezier(.4,0,.2,1)}
+    .page.active{display:block}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+
+    /* ── Card ── */
+    .card{
+      background:var(--surface);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      padding:28px 24px;
+      margin-bottom:12px;
+      position:relative;overflow:hidden;
+    }
+    .card::before{
+      content:'';position:absolute;inset:0;
+      background:linear-gradient(135deg,rgba(255,255,255,.025) 0%,transparent 60%);
+      pointer-events:none;
+    }
+
+    /* ── Step badge ── */
+    .step-badge{
+      display:inline-flex;align-items:center;gap:6px;
+      padding:5px 14px 5px 10px;border-radius:99px;
+      font-size:.7rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
+      margin-bottom:20px;
+    }
+    .step-badge .dot{width:7px;height:7px;border-radius:50%;background:currentColor;opacity:.7}
+    .badge-indigo{background:rgba(124,109,240,.18);color:#a78bfa;border:1px solid rgba(124,109,240,.3)}
+    .badge-orange{background:rgba(251,146,60,.15);color:#fb923c;border:1px solid rgba(251,146,60,.3)}
+    .badge-yellow{background:rgba(251,191,36,.15);color:#fbbf24;border:1px solid rgba(251,191,36,.3)}
+    .badge-emerald{background:rgba(52,211,153,.15);color:#34d399;border:1px solid rgba(52,211,153,.3)}
+    .badge-amber{background:rgba(245,158,11,.15);color:#f59e0b;border:1px solid rgba(245,158,11,.3)}
+    .badge-pink{background:rgba(244,114,182,.15);color:#f472b6;border:1px solid rgba(244,114,182,.3)}
+
+    /* ── Review step dots ── */
+    .step-dots{display:flex;gap:6px;margin-bottom:18px}
+    .step-dot{
+      height:4px;border-radius:99px;transition:all .3s;
+      background:var(--surface2);flex:1;
+    }
+    .step-dot.active{background:var(--primary)}
+    .step-dot.done{background:var(--accent)}
+
+    /* ── Word display ── */
+    .word-hero{
+      font-family:'Outfit',sans-serif;
+      font-size:3rem;font-weight:900;
+      background:linear-gradient(135deg,#fff 0%,#c4b5fd 100%);
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+      letter-spacing:-.03em;line-height:1.1;
+      margin-bottom:6px;
+    }
+    .ipa{
+      font-family:'JetBrains Mono',monospace;
+      font-size:1.1rem;color:var(--accent);
+      margin-bottom:24px;opacity:.85;
+    }
+
+    /* ── Buttons ── */
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;gap:8px;
+      padding:13px 22px;border:none;border-radius:var(--radius-sm);
+      font-size:.95rem;font-weight:700;cursor:pointer;
+      transition:all .18s cubic-bezier(.4,0,.2,1);
+      font-family:'Nunito','Noto Sans SC',sans-serif;
+    }
+    .btn:disabled{opacity:.45;cursor:not-allowed;filter:grayscale(.5)}
+    .btn-primary{
+      background:linear-gradient(135deg,var(--primary),var(--primary-d));
+      color:#fff;
+      box-shadow:0 4px 20px rgba(124,109,240,.35);
+    }
+    .btn-primary:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 8px 28px rgba(124,109,240,.45)}
+    .btn-primary:active:not(:disabled){transform:translateY(1px)}
+    .btn-ghost{background:var(--surface2);color:var(--text);border:1px solid var(--border)}
+    .btn-ghost:hover:not(:disabled){background:var(--glass);border-color:rgba(255,255,255,.12)}
+    .btn-play{background:rgba(251,191,36,.15);color:var(--amber);border:1px solid rgba(251,191,36,.3)}
+    .btn-play:hover:not(:disabled){background:rgba(251,191,36,.25)}
+    .btn-rec{background:rgba(244,114,182,.15);color:var(--pink);border:1px solid rgba(244,114,182,.3)}
+    .btn-rec:hover:not(:disabled){background:rgba(244,114,182,.25)}
+    .btn-rec.recording{
+      background:rgba(244,114,182,.3);
+      animation:pulse-rec 1.4s infinite;
+    }
+    @keyframes pulse-rec{0%,100%{box-shadow:0 0 0 0 rgba(244,114,182,.5)}60%{box-shadow:0 0 0 12px rgba(244,114,182,0)}}
+    .btn-next{width:100%;margin-top:20px;padding:16px}
+    .btn-danger{background:rgba(248,113,113,.15);color:var(--red);border:1px solid rgba(248,113,113,.3)}
+    .btn-teal{background:rgba(34,211,197,.15);color:var(--accent);border:1px solid rgba(34,211,197,.3)}
+    .btn-teal:hover:not(:disabled){background:rgba(34,211,197,.25)}
+
+    /* ── Pronunciation score ── */
+    .score-ring-wrap{display:flex;align-items:center;gap:20px;padding:18px;background:var(--surface2);border-radius:var(--radius-sm);margin:16px 0;border:1px solid var(--border)}
+    .score-ring{position:relative;width:72px;height:72px;flex-shrink:0}
+    .score-ring svg{transform:rotate(-90deg)}
+    .score-ring circle{transition:stroke-dashoffset .8s cubic-bezier(.4,0,.2,1)}
+    .score-num{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:1.15rem;font-weight:900;font-family:'Outfit',sans-serif}
+    .score-info{flex:1}
+    .score-label{font-size:.75rem;font-weight:700;color:var(--sub);letter-spacing:.05em;margin-bottom:4px}
+    .score-feedback{font-size:.9rem;color:var(--sub);line-height:1.5}
+
+    /* ── Image grid ── */
+    .img-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}
+    .img-card{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;transition:transform .2s}
+    .img-card:hover{transform:scale(1.02)}
+    .img-card img{width:100%;height:160px;object-fit:cover;display:block}
+    .img-card .img-cap{padding:10px 12px;font-size:.78rem;color:var(--sub);line-height:1.4}
+    .img-desc-box{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px 16px;font-size:.9rem;line-height:1.7;margin-top:8px}
+    .img-desc-box strong{color:var(--accent);font-weight:700}
+
+    /* ── Choice buttons ── */
+    .opt-btn{
+      display:block;width:100%;text-align:left;padding:14px 18px;margin:8px 0;
+      background:var(--surface2);border:1.5px solid var(--border);
+      border-radius:var(--radius-sm);color:var(--text);
+      cursor:pointer;font-size:.95rem;font-weight:600;
+      transition:all .18s;font-family:'Nunito','Noto Sans SC',sans-serif;
+    }
+    .opt-btn:hover:not(:disabled){border-color:var(--primary);background:rgba(124,109,240,.08)}
+    .opt-btn.correct{background:rgba(74,222,128,.12)!important;border-color:var(--green)!important;color:var(--green)!important}
+    .opt-btn.wrong{background:rgba(248,113,113,.12)!important;border-color:var(--red)!important;color:var(--red)!important}
+    .opt-letter{
+      display:inline-flex;align-items:center;justify-content:center;
+      width:24px;height:24px;border-radius:6px;font-size:.75rem;font-weight:800;
+      background:rgba(124,109,240,.2);color:#a78bfa;margin-right:10px;flex-shrink:0;
+    }
+
+    /* ── Feedback box ── */
+    .fb-box{
+      border-radius:var(--radius-sm);padding:12px 16px;margin-top:10px;
+      font-size:.9rem;line-height:1.6;border:1px solid;
+    }
+    .fb-correct{background:rgba(74,222,128,.1);border-color:rgba(74,222,128,.3);color:var(--green)}
+    .fb-wrong{background:rgba(248,113,113,.1);border-color:rgba(248,113,113,.3);color:#fca5a5}
+
+    /* ── Meaning box ── */
+    .meaning-box{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:16px 18px;margin:12px 0;line-height:1.8}
+    .meaning-box .row{display:flex;gap:8px;margin-bottom:4px;font-size:.93rem}
+    .meaning-box .lbl{color:var(--sub);font-weight:700;flex-shrink:0;min-width:64px}
+    .meaning-box .val{color:var(--text)}
+
+    /* ── Example card ── */
+    .ex-card{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:16px;margin:12px 0}
+    .ex-num{font-size:.7rem;font-weight:800;color:var(--primary);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px;opacity:.8}
+    .ex-en{font-size:1rem;font-weight:700;color:var(--text);line-height:1.6;margin-bottom:10px}
+    .ex-cn{font-size:.9rem;color:var(--sub);line-height:1.6;margin-top:6px;padding-top:8px;border-top:1px solid var(--border)}
+    .ex-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+    .reveal-btn{
+      background:transparent;border:1px dashed var(--muted);color:var(--sub);
+      padding:6px 14px;border-radius:8px;cursor:pointer;font-size:.82rem;font-weight:700;
+      transition:all .2s;font-family:'Nunito','Noto Sans SC',sans-serif;
+    }
+    .reveal-btn:hover{border-color:var(--accent);color:var(--accent)}
+    .rec-counter{font-size:.75rem;color:var(--sub);font-weight:700;padding:6px 12px;background:var(--surface);border-radius:8px;border:1px solid var(--border)}
+
+    /* ── 例句单词点击发音 ── */
+    .word-click{cursor:pointer;padding:2px 2px 2px 0;border-radius:4px;display:inline;transition:all .18s}
+    .word-click:hover{background:rgba(124,109,240,.25);color:var(--accent)}
+    .word-modal{position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;z-index:1000;padding:20px;opacity:0;visibility:hidden;transition:all .25s}
+    .word-modal.show{opacity:1;visibility:visible}
+    .word-modal-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);max-width:420px;width:100%;max-height:80vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.5);transform:scale(.95);transition:transform .25s}
+    .word-modal.show .word-modal-box{transform:scale(1)}
+    .word-modal-header{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .word-modal-word{font-size:1.3rem;font-weight:800;color:var(--accent);flex:1}
+    .word-modal-speak{background:rgba(251,191,36,.15);color:var(--amber);border:1px solid rgba(251,191,36,.3);padding:8px 14px;border-radius:8px;cursor:pointer;font-size:.85rem;font-weight:700;display:inline-flex;align-items:center;gap:6px;transition:all .2s}
+    .word-modal-speak:hover{background:rgba(251,191,36,.25)}
+    .word-modal-close{background:none;border:none;color:var(--sub);cursor:pointer;font-size:1.2rem;padding:6px;border-radius:6px}
+    .word-modal-close:hover{background:var(--surface2);color:var(--text)}
+    .word-modal-body{padding:18px 20px;font-size:.95rem;line-height:1.7}
+    .word-modal-loading{color:var(--sub);display:flex;align-items:center;gap:10px}
+    .word-modal-loading .spin{animation:spin .8s linear infinite}
+    .word-modal-error{color:var(--red)}
+
+    /* ── Fill blank ── */
+    .fill-sent{
+      background:var(--surface2);border:1.5px solid rgba(124,109,240,.3);
+      border-radius:var(--radius-sm);padding:14px 18px;margin-bottom:14px;
+      font-size:1.05rem;line-height:1.7;color:var(--text);
+    }
+    .fill-sent mark{background:rgba(124,109,240,.25);color:#c4b5fd;border-radius:4px;padding:1px 4px;font-style:normal}
+
+    /* ── Dictation ── */
+    .dict-input{
+      width:100%;padding:14px 16px;margin:12px 0;
+      background:var(--surface2);border:1.5px solid var(--border);
+      border-radius:var(--radius-sm);color:var(--text);font-size:.95rem;
+      font-family:'Nunito','Noto Sans SC',sans-serif;
+      transition:border-color .2s;
+    }
+    .dict-input:focus{outline:none;border-color:var(--primary)}
+    .dict-input::placeholder{color:var(--muted)}
+
+    /* ── Dictation result ── */
+    .dict-result{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px 18px;margin:12px 0}
+    .dict-result .your{font-size:.85rem;color:var(--sub);margin-bottom:6px}
+    .dict-match-bar{height:6px;background:var(--surface);border-radius:99px;overflow:hidden;margin:8px 0}
+    .dict-match-fill{height:100%;border-radius:99px;transition:width .8s}
+
+    /* ── Translation eval (DeepSeek) ── */
+    .trans-sent-box{background:rgba(124,109,240,.08);border:1px solid rgba(124,109,240,.2);border-radius:var(--radius-sm);padding:14px 18px;margin:10px 0}
+    .trans-en{font-weight:700;color:var(--text);font-size:.97rem;line-height:1.6;margin-bottom:6px}
+    .trans-cn-ref{font-size:.88rem;color:var(--accent);line-height:1.5}
+    .eval-card{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:16px 18px;margin:12px 0}
+    .eval-score-row{display:flex;align-items:center;gap:14px;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+    .eval-score-circle{
+      width:54px;height:54px;border-radius:50%;flex-shrink:0;
+      display:flex;align-items:center;justify-content:center;
+      font-size:1.1rem;font-weight:900;font-family:'Outfit',sans-serif;
+      border:3px solid;
+    }
+    .eval-score-hi{border-color:var(--green);color:var(--green);background:rgba(74,222,128,.1)}
+    .eval-score-mid{border-color:var(--amber);color:var(--amber);background:rgba(251,191,36,.1)}
+    .eval-score-lo{border-color:var(--red);color:var(--red);background:rgba(248,113,113,.1)}
+    .eval-row{display:flex;gap:8px;margin-bottom:8px;font-size:.88rem;line-height:1.55}
+    .eval-lbl{font-weight:800;color:var(--sub);flex-shrink:0;min-width:52px;padding-top:1px}
+    .eval-val{color:var(--text)}
+    .eval-tip{font-size:.85rem;color:var(--accent);background:rgba(34,211,197,.08);border:1px solid rgba(34,211,197,.2);border-radius:8px;padding:10px 14px;margin-top:8px}
+    .eval-loading{text-align:center;color:var(--sub);font-size:.9rem;padding:20px}
+    .eval-loading .spin{display:inline-block;animation:spin 1s linear infinite;margin-right:8px}
+    @keyframes spin{to{transform:rotate(360deg)}}
+
+    /* ── Unit select ── */
+    .home-hero{text-align:center;padding:36px 0 28px}
+    .home-icon{font-size:3rem;margin-bottom:12px}
+    .home-title{font-family:'Outfit',sans-serif;font-size:1.9rem;font-weight:900;margin-bottom:6px;background:linear-gradient(135deg,#fff,#c4b5fd);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    .home-sub{font-size:.9rem;color:var(--sub);margin-bottom:28px}
+    .unit-grid{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+    .unit-card{
+      background:var(--surface2);border:1.5px solid var(--border);border-radius:14px;
+      padding:14px 22px;font-size:.95rem;font-weight:800;cursor:pointer;
+      transition:all .2s;color:var(--text);font-family:'Outfit',sans-serif;
+    }
+    .unit-card:hover{border-color:var(--primary);background:rgba(124,109,240,.12);color:#c4b5fd;transform:translateY(-2px);box-shadow:0 8px 24px rgba(124,109,240,.2)}
+
+    /* ── Review header ── */
+    .review-word-chip{
+      display:inline-flex;align-items:center;gap:6px;
+      background:rgba(124,109,240,.15);border:1px solid rgba(124,109,240,.3);
+      border-radius:99px;padding:4px 14px 4px 10px;
+      font-size:.8rem;font-weight:800;color:#a78bfa;margin-bottom:14px;
+    }
+    .review-word-chip .word{font-size:.95rem;color:#c4b5fd}
+
+    /* scrollbar */
+    ::-webkit-scrollbar{width:4px}
+    ::-webkit-scrollbar-track{background:transparent}
+    ::-webkit-scrollbar-thumb{background:var(--surface2);border-radius:99px}
+  </style>
+</head>
+<body>
+  <script>window.VOCAB_DATA={"units": [{"unit": 2, "source": "D:\\2026\\初中\\人教版英语七年级下单词表\\人教版英语七年级下.pdf", "words": [{"word": "rule", "ipa": "/ruːl/", "image_prompts": ["A wooden ruler with clear markings on a drafting table", "A sign with the text 'No Parking' indicating a regulation"], "image_desc_en": "A ruler and a 'No Parking' sign.", "image_desc_cn": "一把尺子和一个“禁止停车”标志。", "meaning_cn": "n. 规则；v. 统治", "usage": "n. 规则；规律；统治；v. 统治；裁决", "collocations": "as a rule, golden rule, rule of law, rule out", "preposition_combos": "rule over", "examples": [{"en": "The first rule of Fight Club is: You do not talk about Fight Club.", "cn": "搏击俱乐部的第一条规则是：不要谈论搏击俱乐部。"}, {"en": "The king ruled the country wisely for many years.", "cn": "国王英明地统治这个国家很多年。"}], "socratic_questions": [{"question": "在游戏中，我们必须遵守什么来保证公平？", "answer_hint": "为了公平，我们需要遵循一些必须遵守的条文。"}], "fill_blank": {"sentences": ["The teacher set some classroom ___ for the students to follow."], "options": ["rules", "rulers", "ruling", "ruled"], "correct_index": 0}, "audio": "audio/rule.mp3", "audio_ex0": "audio/rule_ex0.mp3", "audio_ex1": "audio/rule_ex1.mp3", "img2": "images/rule_2.png", "img1": "images/rule_1.png"}, {"word": "order", "ipa": "/ˈɔːrdər/", "image_prompts": ["A neatly arranged stack of books on a desk, organized by color", "A waiter holding a notepad, taking notes of food choices at a restaurant table"], "image_desc_en": "A neat stack of books; a waiter taking food choices.", "image_desc_cn": "整洁的书堆；服务员记录食物选择。", "meaning_cn": "n. 秩序；命令；v. 命令；点餐", "usage": "n. v. (过去式 ordered, 过去分词 ordered)", "collocations": "in order to, place an order, give an order", "preposition_combos": "order for", "examples": [{"en": "The teacher asked the students to keep the classroom in order.", "cn": "老师要求学生们保持教室的秩序。"}, {"en": "I will order a pizza for dinner tonight with my family.", "cn": "我今晚将和我的家人点一份披萨作为晚餐。"}], "socratic_questions": [{"question": "如果课后教室里一片混乱，老师会怎么做？或者，在餐厅，你想吃东西，你需要做什么？", "answer_hint": "需要恢复平静的状态，或者告诉服务员你想吃什么。"}], "fill_blank": {"sentences": ["The police officer gave the driver an ___ to pull over."], "options": ["order", "advise", "suggestion", "idea"], "correct_index": 0}, "audio": "audio/order.mp3", "audio_ex0": "audio/order_ex0.mp3", "audio_ex1": "audio/order_ex1.mp3", "img1": "images/order_1.png", "img2": "images/order_2.png"}, {"word": "follow", "ipa": "/ˈfɒləʊ/", "image_prompts": ["Footprints in the snow leading into a dense forest", "A winding road through a mountain range, viewed from above"], "image_desc_en": "Footprints in snow and a winding mountain road.", "image_desc_cn": "雪地里的脚印和蜿蜒的山路。", "meaning_cn": "跟随；遵循", "usage": "v. (followed, followed)", "collocations": "follow instructions, follow a leader, follow closely", "preposition_combos": "follow sb to (a place), follow sb in (doing sth)", "examples": [{"en": "Please follow the teacher's instructions during the experiment carefully.", "cn": "请在实验过程中仔细遵循老师的指示。"}, {"en": "Many students follow his advice on how to improve their grades.", "cn": "许多学生听从他关于如何提高成绩的建议。"}], "socratic_questions": [{"question": "如果有人走在你前面，你做什么才能确保不迷路，并到达同一个目的地？", "answer_hint": "你需要做和他一样的动作，走他走过的路。"}], "fill_blank": {"sentences": ["You should ___ the rules of the game to avoid penalties."], "options": ["follow", "ignore", "break", "change"], "correct_index": 0}, "audio": "audio/follow.mp3", "audio_ex0": "audio/follow_ex0.mp3", "audio_ex1": "audio/follow_ex1.mp3", "img1": "images/follow_1.png", "img2": "images/follow_2.png"}, {"word": "late for", "ipa": "/leɪt fɔːr/", "image_prompts": ["An alarm clock displaying 7:15 AM with a person's hand reaching to turn it off, indicating being behind schedule", "A school bus driving away from a bus stop where a backpack is lying on the ground, suggesting missed transportation"], "image_desc_en": "Visuals representing tardiness and missing scheduled events.", "image_desc_cn": "表示迟到和错过预定事件的视觉效果。", "meaning_cn": "迟到，晚于预定时间", "usage": "短语，表示未按时到达某地或完成某事", "collocations": "be late for school, be late for work, be late for a meeting", "preposition_combos": "late for (school, work, appointment)", "examples": [{"en": "I was late for school because my alarm didn't go off.", "cn": "我上学迟到了，因为我的闹钟没响。"}, {"en": "She is often late for class, which affects her grades.", "cn": "她经常上课迟到，这影响了她的成绩。"}], "socratic_questions": [{"question": "如果你应该在8点到学校，但你8点15分才到，你会怎么说？", "answer_hint": "描述一种没有按时到达的状态。"}], "fill_blank": {"sentences": ["He was ___ the meeting because of the heavy traffic."], "options": ["late for", "early to", "on time for", "ready for"], "correct_index": 0}, "audio": "audio/late_for.mp3", "audio_ex0": "audio/late_for_ex0.mp3", "audio_ex1": "audio/late_for_ex1.mp3", "img1": "images/late_for_1.png", "img2": "images/late_for_2.png"}, {"word": "Dr", "ipa": "/ˈdɑːktər/", "image_prompts": ["A stethoscope resting on a medical chart in a brightly lit office", "A diploma hanging on a wall above a desk with medical textbooks"], "image_desc_en": "Images representing a medical professional and their environment.", "image_desc_cn": "代表医疗专业人员及其环境的图像。", "meaning_cn": "医生；博士（称谓）", "usage": "n. (医生); title (博士)", "collocations": "see a Dr, call a Dr", "preposition_combos": "Dr of medicine, Dr in", "examples": [{"en": "We should see a Dr if the pain does not stop.", "cn": "如果疼痛没有停止，我们应该去看医生。"}, {"en": "Dr. Smith is a famous scientist in our city's research center.", "cn": "史密斯博士是我们城市研究中心一位著名的科学家。"}], "socratic_questions": [{"question": "当身体不舒服时，我们通常会寻求谁的帮助？", "answer_hint": "这个职业的人员经过专业训练，可以诊断和治疗疾病。"}], "fill_blank": {"sentences": ["Please call ___ Lee; he can help you with your problem."], "options": ["Dr", "Mr", "Miss", "Mrs"], "correct_index": 0}, "audio": "audio/Dr.mp3", "audio_ex0": "audio/Dr_ex0.mp3", "audio_ex1": "audio/Dr_ex1.mp3", "img1": "images/Dr_1.png", "img2": "images/Dr_2.png"}, {"word": "make sb", "ipa": "/meɪk/", "image_prompts": ["A chef adding ingredients to a pot, steam rising, creating a delicious dish", "A sculptor shaping clay on a pottery wheel, hands working, a form emerging"], "image_desc_en": "The image shows the process of creating something, either a dish or a sculpture.", "image_desc_cn": "图片展示了创造某物的过程，无论是菜肴还是雕塑。", "meaning_cn": "使某人...", "usage": "v. (made, made) 使，让", "collocations": "make sb happy, make sb do sth", "preposition_combos": "make sb into", "examples": [{"en": "Good grades make her parents proud of her achievements.", "cn": "好成绩使她的父母为她的成就感到骄傲。"}, {"en": "The loud music made me feel uncomfortable at the party.", "cn": "派对上嘈杂的音乐让我感到不舒服。"}], "socratic_questions": [{"question": "如果某件事让你感到高兴或悲伤，这件事对你做了什么？", "answer_hint": "这件事导致了你的情绪变化。"}], "fill_blank": {"sentences": ["Did the movie ___ you cry at the end?"], "options": ["make", "do", "let", "cause"], "correct_index": 0}, "audio": "audio/make_sb.mp3", "audio_ex0": "audio/make_sb_ex0.mp3", "audio_ex1": "audio/make_sb_ex1.mp3", "img1": "images/make_sb_1.png", "img2": "images/make_sb_2.png"}, {"word": "either", "ipa": "/ˈiːðər/", "image_prompts": ["A fork in a road with signs pointing in two different directions, overcast sky", "Two doors side by side, one painted blue and the other green, both slightly ajar"], "image_desc_en": "A choice between two options.", "image_desc_cn": "在两个选项之间选择。", "meaning_cn": "（两者）任一；也", "usage": "adv. conj. det. pron.", "collocations": "either...or", "preposition_combos": "either of", "examples": [{"en": "You can either study hard or fail the exam; it's your choice.", "cn": "你可以努力学习，或者考试不及格；这是你的选择。"}, {"en": "Either John or Mary will bring the cake to the party tonight.", "cn": "约翰或者玛丽今晚会带蛋糕来参加聚会。"}], "socratic_questions": [{"question": "如果我有两个方案，我只允许你选择其中一个，你会怎么表达？", "answer_hint": "表示“两个中的一个”的选择。"}], "fill_blank": {"sentences": ["You can ___ stay here or go home, but you can't do both."], "options": ["either", "neither", "also", "too"], "correct_index": 0}, "audio": "audio/either.mp3", "audio_ex0": "audio/either_ex0.mp3", "audio_ex1": "audio/either_ex1.mp3", "img1": "images/either_1.png", "img2": "images/either_2.png"}, {"word": "advantage", "ipa": "/ədˈvæntɪdʒ/", "image_prompts": ["A chess board with one side having significantly more pieces, indicating a strategic advantage", "A runner ahead of all other competitors, clearly winning a race, representing an advantage"], "image_desc_en": "Chess pieces showing strategic advantage; a runner winning a race.", "image_desc_cn": "国际象棋棋子展示战略优势；赛跑者赢得比赛。", "meaning_cn": "优势，优点", "usage": "n. (advantages)", "collocations": "take advantage of, have an advantage over", "preposition_combos": "advantage of", "examples": [{"en": "Learning English well gives you a big advantage in job hunting.", "cn": "学好英语在求职中会给你带来很大的优势。"}, {"en": "Our team had the advantage of playing on our home field.", "cn": "我们队有在主场比赛的优势。"}], "socratic_questions": [{"question": "如果你比别人拥有更多的资源或更好的条件，这会给你带来什么？", "answer_hint": "想想在比赛中领先或在学习中拥有更多帮助。"}], "fill_blank": {"sentences": ["Having good time management skills is a great ___ for students."], "options": ["advantage", "disadvantage", "difficulty", "challenge"], "correct_index": 0}, "audio": "audio/advantage.mp3", "audio_ex0": "audio/advantage_ex0.mp3", "audio_ex1": "audio/advantage_ex1.mp3", "img1": "images/advantage_1.png", "img2": "images/advantage_2.png"}, {"word": "practise", "ipa": "/ˈpræktɪs/", "image_prompts": ["A piano keyboard with sheet music, indicating musical training", "A basketball hoop in a gymnasium with a basketball in mid-air, showing sports training"], "image_desc_en": "Practising involves repeated training to improve skills.", "image_desc_cn": "练习涉及重复训练以提高技能。", "meaning_cn": "练习，实践", "usage": "v. (过去式 practised, 过去分词 practised); n. practice (美式拼写)", "collocations": "practise regularly, practise daily, practise a skill", "preposition_combos": "practise for", "examples": [{"en": "I practise English every day to improve my speaking skills.", "cn": "我每天练习英语来提高我的口语技能。"}, {"en": "We should practise more before the important English test.", "cn": "在重要的英语考试之前，我们应该多加练习。"}], "socratic_questions": [{"question": "为了在考试中取得好成绩，你需要做什么？", "answer_hint": "需要反复做题，熟悉题型。"}], "fill_blank": {"sentences": ["You should ___ your pronunciation if you want to speak fluently."], "options": ["practise", "practice", "practising", "practised"], "correct_index": 0}, "audio": "audio/practise.mp3", "audio_ex0": "audio/practise_ex0.mp3", "audio_ex1": "audio/practise_ex1.mp3", "img1": "images/practise_1.png", "img2": "images/practise_2.png"}, {"word": "hang", "ipa": "/hæŋ/", "image_prompts": ["A colorful mobile with stars and moons suspended from a ceiling", "A framed photograph attached to a wall with a nail"], "image_desc_en": "Illustrations of objects being suspended or attached to something.", "image_desc_cn": "物体被悬挂或附着在某物上的插图。", "meaning_cn": "悬挂，吊", "usage": "v. (过去式 hung, 过去分词 hung)", "collocations": "hang up, hang out, hang around", "preposition_combos": "hang on, hang from", "examples": [{"en": "Please hang your coat on the hook behind the door.", "cn": "请把你的外套挂在门后的挂钩上。"}, {"en": "We like to hang out at the park after school.", "cn": "我们喜欢放学后在公园里闲逛。"}], "socratic_questions": [{"question": "如果你想把一幅画固定在墙上，你会怎么做？", "answer_hint": "你需要用某种方式把画固定住，让它不会掉下来。"}], "fill_blank": {"sentences": ["Did you ___ the washing out to dry in the sun?"], "options": ["hang", "hung", "hanged", "hanging"], "correct_index": 0}, "audio": "audio/hang.mp3", "audio_ex0": "audio/hang_ex0.mp3", "audio_ex1": "audio/hang_ex1.mp3", "img1": "images/hang_1.png", "img2": "images/hang_2.png"}, {"word": "hang out", "ipa": "/hæŋ aʊt/", "image_prompts": ["A group of colorful backpacks leaning against a brick wall outside a school building, sunlight", "A collection of skateboards and scooters parked haphazardly near a park entrance"], "image_desc_en": "Backpacks and skateboards representing spending time with friends.", "image_desc_cn": "书包和滑板代表与朋友们共度时光。", "meaning_cn": "闲逛，出去玩，消磨时间", "usage": "v. (过去式 hung out, 过去分词 hung out)", "collocations": "hang out with friends, hang out at the mall, hang out together", "preposition_combos": "hang out at, hang out with", "examples": [{"en": "I like to hang out with my friends after school.", "cn": "我喜欢放学后和我的朋友们一起出去玩。"}, {"en": "We often hang out at the park on weekends.", "cn": "我们经常在周末的时候在公园里闲逛。"}], "socratic_questions": [{"question": "如果你和朋友们没有特别的计划，只是想一起度过一些轻松的时光，你会做什么？", "answer_hint": "这个词表示一种放松的、非正式的社交活动。"}], "fill_blank": {"sentences": ["They like to ___ ___ at the new coffee shop downtown."], "options": ["hang out", "give up", "look for", "take off"], "correct_index": 0}, "audio": "audio/hang_out.mp3", "audio_ex0": "audio/hang_out_ex0.mp3", "audio_ex1": "audio/hang_out_ex1.mp3", "img1": "images/hang_out_1.png", "img2": "images/hang_out_2.png"}, {"word": "weekday", "ipa": "/ˈwiːkdeɪ/", "image_prompts": ["A calendar page showing Monday to Friday highlighted in yellow", "A digital clock displaying the time on a screen, with the day of the week clearly visible as 'Monday'"], "image_desc_en": "Illustrations representing the days from Monday to Friday and a digital clock showing the day of the week.", "image_desc_cn": "分别代表周一到周五的插图，以及一个显示星期的数字时钟。", "meaning_cn": "工作日，平日", "usage": "n. (复数 weekdays)", "collocations": "on a weekday, every weekday", "preposition_combos": "on weekdays", "examples": [{"en": "I usually wake up at 7 a.m. on a weekday.", "cn": "我通常在工作日的早上七点醒来。"}, {"en": "The library is less crowded on a weekday afternoon.", "cn": "工作日的下午，图书馆不那么拥挤。"}], "socratic_questions": [{"question": "除了周末，你通常在哪几天上学或工作？", "answer_hint": "指的是一周中需要工作或学习的日子。"}], "fill_blank": {"sentences": ["She goes to the gym every ___ morning before work."], "options": ["weekday", "weekend", "month", "year"], "correct_index": 0}, "audio": "audio/weekday.mp3", "audio_ex0": "audio/weekday_ex0.mp3", "audio_ex1": "audio/weekday_ex1.mp3", "img1": "images/weekday_1.png", "img2": "images/weekday_2.png"}, {"word": "awful", "ipa": "/ˈɔːfl/", "image_prompts": ["A wilted bouquet of flowers lying on a dusty table, grey filter", "A dark, stormy sky with lightning striking a barren landscape"], "image_desc_en": "Wilted flowers; a stormy landscape.", "image_desc_cn": "枯萎的花朵；暴风雨天气下的风景。", "meaning_cn": "糟糕的，可怕的", "usage": "adj. ", "collocations": "awful experience, awful weather, feel awful", "preposition_combos": "awful at (doing something)", "examples": [{"en": "The food at that new restaurant was absolutely awful, a waste.", "cn": "那家新餐厅的食物太糟糕了，简直是浪费钱。"}, {"en": "I had an awful headache yesterday, so I stayed home all day.", "cn": "我昨天头疼得厉害，所以一整天都待在家里。"}], "socratic_questions": [{"question": "如果你参加完一个活动，感觉非常不愉快，你会用什么词来形容你的感受？", "answer_hint": "这个词形容令人非常不快或不舒服的体验。"}], "fill_blank": {"sentences": ["The traffic was ___ this morning; I was late for school."], "options": ["awful", "wonderful", "normal", "early"], "correct_index": 0}, "audio": "audio/awful.mp3", "audio_ex0": "audio/awful_ex0.mp3", "audio_ex1": "audio/awful_ex1.mp3", "img1": "images/awful_1.png", "img2": "images/awful_2.png"}, {"word": "become", "ipa": "/bɪˈkʌm/", "image_prompts": ["A caterpillar transforming into a butterfly, time-lapse photography", "An acorn sprouting and growing into a large oak tree, several years passing"], "image_desc_en": "Illustrations showing the process of transformation and growth.", "image_desc_cn": "展示转变和成长过程的插图。", "meaning_cn": "变成，成为", "usage": "v. (became, become)", "collocations": "become popular, become friends, become a doctor", "preposition_combos": "become of", "examples": [{"en": "He wants to become a teacher after he graduates from college.", "cn": "他大学毕业后想成为一名老师。"}, {"en": "The weather will become colder as winter is approaching quickly.", "cn": "随着冬天的临近，天气会变得越来越冷。"}], "socratic_questions": [{"question": "如果你努力学习，你最终会怎么样？", "answer_hint": "指的是通过努力，状态或身份发生改变。"}], "fill_blank": {"sentences": ["She hopes to ___ a famous writer someday with hard work."], "options": ["become", "becoming", "became", "becomes"], "correct_index": 0}, "audio": "audio/become.mp3", "audio_ex0": "audio/become_ex0.mp3", "audio_ex1": "audio/become_ex1.mp3", "img1": "images/become_1.png", "img2": "images/become_2.png"}, {"word": "better", "ipa": "/ˈbetər/", "image_prompts": ["A thermometer showing a rising temperature, indicating improvement", "Two pie charts, one showing a small slice and the other showing a larger slice, representing improvement"], "image_desc_en": "Visual representations of improvement or being in a more desirable state.", "image_desc_cn": "表示改善或处于更理想状态的视觉表现。", "meaning_cn": "adj. 更好的；adv. 更好地", "usage": "adj. (比较级)；adv.", "collocations": "feel better, get better, better than", "preposition_combos": "better at, better for", "examples": [{"en": "I hope you feel better soon after taking the medicine.", "cn": "我希望你吃了药后能感觉好些。"}, {"en": "It's better to arrive early than to be late for class.", "cn": "早到总比上课迟到好。"}], "socratic_questions": [{"question": "如果你的朋友生病了，你希望他怎么样？", "answer_hint": "希望他身体状况有所改善。"}], "fill_blank": {"sentences": ["She sings much ___ than I do; her voice is beautiful."], "options": ["better", "good", "well", "best"], "correct_index": 0}, "audio": "audio/better.mp3", "audio_ex0": "audio/better_ex0.mp3", "audio_ex1": "audio/better_ex1.mp3", "img1": "images/better_1.png", "img2": "images/better_2.png"}, {"word": "person", "ipa": "/ˈpɜːrsən/", "image_prompts": ["A silhouette standing in front of a brightly lit doorway", "A passport photo booth with a single chair and a camera"], "image_desc_en": "Illustrations representing an individual.", "image_desc_cn": "代表个体的插图。", "meaning_cn": "人，个体", "usage": "名词 n. (复数 persons 或 people)", "collocations": "in person, young person, each person", "preposition_combos": "person in charge, person of interest", "examples": [{"en": "Each person needs to bring their own lunch to the picnic.", "cn": "每个人都需要自带午餐去野餐。"}, {"en": "That person over there is wearing a very colorful hat today.", "cn": "那边的那个人今天戴着一顶非常鲜艳的帽子。"}], "socratic_questions": [{"question": "如果你想描述一个独立的个体，你会用什么词？", "answer_hint": "这个词指的是一个个体，而不是群体。"}], "fill_blank": {"sentences": ["Each ___ must show their ID card before entering the building."], "options": ["person", "place", "thing", "animal"], "correct_index": 0}, "audio": "audio/person.mp3", "audio_ex0": "audio/person_ex0.mp3", "audio_ex1": "audio/person_ex1.mp3", "img1": "images/person_1.png", "img2": "images/person_2.png"}, {"word": "focus", "ipa": "/ˈfoʊkəs/", "image_prompts": ["A camera lens focusing on a flower in a garden, shallow depth of field", "A beam of light converging to a single bright point on a dark surface"], "image_desc_en": "A camera lens focusing on a flower and a light beam converging to a point.", "image_desc_cn": "相机镜头聚焦在花朵上，光束汇聚成一点。", "meaning_cn": "集中，专注", "usage": "v. (过去式 focused, 过去分词 focused)；n.", "collocations": "focus on, main focus, lose focus", "preposition_combos": "focus on", "examples": [{"en": "We should focus on our studies before the final exams.", "cn": "我们应该在期末考试前专注于学习。"}, {"en": "The main focus of the meeting was the new project plan.", "cn": "会议的主要焦点是新的项目计划。"}], "socratic_questions": [{"question": "当你准备考试时，最重要的是什么？", "answer_hint": "指的是将你的注意力放在学习上，而不是其他事情。"}], "fill_blank": {"sentences": ["It's important to ___ on your goals to achieve success."], "options": ["focus", "ignore", "forget", "avoid"], "correct_index": 0}, "audio": "audio/focus.mp3", "audio_ex0": "audio/focus_ex0.mp3", "audio_ex1": "audio/focus_ex1.mp3", "img1": "images/focus_1.png", "img2": "images/focus_2.png"}, {"word": "focus on", "ipa": "/ˈfoʊkəs ɑːn/", "image_prompts": ["A single spotlight shining brightly on a stage, highlighting a specific point", "A magnifying glass held over a document, clearly showing a single word"], "image_desc_en": "Illustrations representing concentration and attention to detail.", "image_desc_cn": "表示集中注意力和关注细节的插图。", "meaning_cn": "专注于，集中于", "usage": "v. 集中注意力于", "collocations": "focus on studies, focus on details, focus on goals", "preposition_combos": "focus on + noun/gerund", "examples": [{"en": "We should focus on our studies before the final exams.", "cn": "我们应该在期末考试前专注于学习。"}, {"en": "It's important to focus on the task at hand now.", "cn": "现在专注于手头的任务非常重要。"}], "socratic_questions": [{"question": "当你在课堂上听讲时，你应该把你的注意力放在哪里？", "answer_hint": "指的是把你的注意力集中在某件事情上，而不是分散。"}], "fill_blank": {"sentences": ["You need to ___ your homework to get good grades."], "options": ["focus on", "look at", "think about", "deal with"], "correct_index": 0}, "audio": "audio/focus_on.mp3", "audio_ex0": "audio/focus_on_ex0.mp3", "audio_ex1": "audio/focus_on_ex1.mp3", "img1": "images/focus_on_1.png", "img2": "images/focus_on_2.png"}, {"word": "build", "ipa": "/bɪld/", "image_prompts": ["A set of colorful building blocks arranged into a small tower", "A blueprint for a modern house with architectural details"], "image_desc_en": "Illustrations depicting the concept of construction and creation.", "image_desc_cn": "描绘建造和创造概念的插图。", "meaning_cn": "建造，建立", "usage": "v. (built, built)", "collocations": "build a house, build trust, build a relationship", "preposition_combos": "build on", "examples": [{"en": "They plan to build a new school near the park.", "cn": "他们计划在公园附近建造一所新学校。"}, {"en": "We should build strong friendships with our classmates.", "cn": "我们应该与我们的同学建立牢固的友谊。"}], "socratic_questions": [{"question": "如果你想盖一栋房子，你需要做什么？", "answer_hint": "这个词表示从无到有地创造或组装某物。"}], "fill_blank": {"sentences": ["The students are working together to ___ a robot for the competition."], "options": ["build", "built", "building", "to build"], "correct_index": 0}, "audio": "audio/build.mp3", "audio_ex0": "audio/build_ex0.mp3", "audio_ex1": "audio/build_ex1.mp3", "img1": "images/build_1.png", "img2": "images/build_2.png"}, {"word": "spirit", "ipa": "/ˈspɪrɪt/", "image_prompts": ["A glowing, ethereal orb floating in a dark forest, casting light on the trees", "A group of colorful flags waving enthusiastically at a sports event, creating a sense of excitement"], "image_desc_en": "A glowing orb and waving flags representing enthusiasm and energy.", "image_desc_cn": "发光的球体和挥舞的旗帜，代表热情和活力。", "meaning_cn": "精神；情绪；灵魂", "usage": "n.", "collocations": "team spirit, school spirit, in good spirit", "preposition_combos": "in spirit", "examples": [{"en": "The team showed great spirit despite losing the important game.", "cn": "尽管输了重要的比赛，这支队伍还是表现出了极佳的精神。"}, {"en": "She tried to keep her spirit up during the difficult exam period.", "cn": "在艰难的考试期间，她努力保持乐观的情绪。"}], "socratic_questions": [{"question": "当团队遇到困难，但仍然互相支持、积极向上，这是什么？", "answer_hint": "指一种积极的、团结一致的心态。"}], "fill_blank": {"sentences": ["The students showed a lot of school ___ during the sports day."], "options": ["spirit", "energy", "power", "force"], "correct_index": 0}, "audio": "audio/spirit.mp3", "audio_ex0": "audio/spirit_ex0.mp3", "audio_ex1": "audio/spirit_ex1.mp3", "img1": "images/spirit_1.png", "img2": "images/spirit_2.png"}, {"word": "think about", "ipa": "/θɪŋk əˈbaʊt/", "image_prompts": ["A magnifying glass hovering over a complex maze, representing contemplation", "A lightbulb illuminating above a stack of books, symbolizing deep thought"], "image_desc_en": "Magnifying glass over a maze; lightbulb above books.", "image_desc_cn": "放大镜在迷宫上方；灯泡在书堆上方。", "meaning_cn": "考虑，思考", "usage": "v. to consider something", "collocations": "think about the future, think about problems, think about solutions", "preposition_combos": "think about + noun/gerund", "examples": [{"en": "I often think about my future career after graduation.", "cn": "我经常思考毕业后的职业生涯。"}, {"en": "We should think about how to protect our environment better.", "cn": "我们应该思考如何更好地保护我们的环境。"}], "socratic_questions": [{"question": "当你面临一个难题，需要寻找解决方法时，你会做什么？", "answer_hint": "需要认真地、反复地在脑海中进行分析和判断。"}], "fill_blank": {"sentences": ["Please ___ the consequences before you make a decision."], "options": ["think about", "look at", "forget", "ignore"], "correct_index": 0}, "audio": "audio/think_about.mp3", "audio_ex0": "audio/think_about_ex0.mp3", "audio_ex1": "audio/think_about_ex1.mp3", "img1": "images/think_about_1.png", "img2": "images/think_about_2.png"}, {"word": "relax", "ipa": "/rɪˈlæks/", "image_prompts": ["A hammock strung between two palm trees on a tropical beach, gentle waves in the background", "A steaming cup of herbal tea next to a book on a soft, comfortable armchair"], "image_desc_en": "Visuals representing relaxation: a hammock on a beach and tea by a comfy chair.", "image_desc_cn": "代表放松的视觉元素：海滩上的吊床和舒适椅子旁的茶。", "meaning_cn": "放松，休息", "usage": "v. (relaxed, relaxed); adj. relaxing", "collocations": "relax and enjoy, relax completely, relax for a while", "preposition_combos": "relax after, relax by", "examples": [{"en": "After the exam, I want to relax and watch a movie.", "cn": "考试结束后，我想放松一下，看场电影。"}, {"en": "You should relax more; stress is bad for your health.", "cn": "你应该更放松一些；压力对你的健康有害。"}], "socratic_questions": [{"question": "当你感到紧张或疲惫时，你会做什么来让自己感觉更好？", "answer_hint": "这个词描述的是一种减轻压力和恢复平静的状态。"}], "fill_blank": {"sentences": ["After a long day at school, I like to ___ by listening to music."], "options": ["relax", "study", "exercise", "rush"], "correct_index": 0}, "audio": "audio/relax.mp3", "audio_ex0": "audio/relax_ex0.mp3", "audio_ex1": "audio/relax_ex1.mp3", "img1": "images/relax_1.png", "img2": "images/relax_2.png"}, {"word": "advice", "ipa": "/ədˈvaɪs/", "image_prompts": ["A handwritten note with the words 'Seek wise counsel' on a wooden desk", "A compass pointing towards the word 'Guidance' in a vintage map"], "image_desc_en": "Visuals representing guidance and counsel.", "image_desc_cn": "代表指导和建议的视觉效果。", "meaning_cn": "建议，劝告", "usage": "n. (不可数名词)", "collocations": "give advice, take advice, ask for advice", "preposition_combos": "advice on/about", "examples": [{"en": "My parents always give me good advice about my studies.", "cn": "我的父母总是给我关于学习的好建议。"}, {"en": "I need some advice on how to prepare for the exam.", "cn": "我需要一些关于如何准备考试的建议。"}], "socratic_questions": [{"question": "当你遇到难题，不知道该怎么做时，你会向谁寻求什么？", "answer_hint": "通常是长辈或有经验的人给出的，帮助你做出更好决定的东西。"}], "fill_blank": {"sentences": ["I followed her ___ and it helped me a lot."], "options": ["advice", "advise", "advices", "advising"], "correct_index": 0}, "audio": "audio/advice.mp3", "audio_ex0": "audio/advice_ex0.mp3", "audio_ex1": "audio/advice_ex1.mp3", "img1": "images/advice_1.png", "img2": "images/advice_2.png"}, {"word": "understand", "ipa": "/ˌʌndərˈstænd/", "image_prompts": ["A lightbulb illuminating above a complex maze, representing comprehension", "A jigsaw puzzle with most pieces connected, but one piece being placed to complete it"], "image_desc_en": "Visual representations of comprehension and completion.", "image_desc_cn": "理解和完成的视觉表现。", "meaning_cn": "理解，明白", "usage": "v. (understood, understood)", "collocations": "understand the meaning, understand the problem, easily understand", "preposition_combos": "understand about, understand by", "examples": [{"en": "I don't understand the question. Can you explain it again?", "cn": "我不明白这个问题。你能再解释一遍吗？"}, {"en": "It's important to understand different cultures when you travel.", "cn": "旅行时了解不同的文化是很重要的。"}], "socratic_questions": [{"question": "当你听到别人说话，并且知道他们想表达什么时，你做了什么？", "answer_hint": "这个词表示你接收并处理了信息。"}], "fill_blank": {"sentences": ["Did you fully ___ the teacher's explanation of the math problem?"], "options": ["understand", "understanding", "understood", "understands"], "correct_index": 0}, "audio": "audio/understand.mp3", "audio_ex0": "audio/understand_ex0.mp3", "audio_ex1": "audio/understand_ex1.mp3", "img1": "images/understand_1.png"}, {"word": "untidy", "ipa": "/ʌnˈtaɪdi/", "image_prompts": ["A room with clothes scattered on the floor and bed, books piled haphazardly on a desk", "A messy workbench with tools and materials strewn about, unfinished projects visible"], "image_desc_en": "Visual representations of a disorganized and messy space.", "image_desc_cn": "杂乱无章的空间的视觉表现。", "meaning_cn": "adj. 不整洁的，凌乱的", "usage": "adj.", "collocations": "untidy room, untidy desk, untidy appearance", "preposition_combos": "untidy with", "examples": [{"en": "His room is always untidy, with clothes all over the floor.", "cn": "他的房间总是很乱，衣服扔得到处都是。"}, {"en": "An untidy desk can make it hard to find important documents.", "cn": "一张凌乱的桌子会让人很难找到重要的文件。"}], "socratic_questions": [{"question": "如果你看到一个房间里东西乱七八糟地堆放着，你会用什么词来形容这个房间的状态？", "answer_hint": "这个词描述的是缺乏秩序和整洁的状态。"}], "fill_blank": {"sentences": ["The student's desk was so ___ that the teacher asked him to clean it."], "options": ["untidy", "tidy", "clean", "organized"], "correct_index": 0}, "audio": "audio/untidy.mp3", "audio_ex0": "audio/untidy_ex0.mp3", "audio_ex1": "audio/untidy_ex1.mp3", "img1": "images/untidy_1.png", "img2": "images/untidy_2.png"}, {"word": "Mary", "ipa": "/ˈmeri/", "image_prompts": ["A name tag with the name 'Mary' written in elegant cursive script", "A birthday cake with candles spelling out the name 'Mary' on top"], "image_desc_en": "A name tag and a birthday cake displaying the name 'Mary'.", "image_desc_cn": "一个名牌和一个生日蛋糕，上面都显示着名字“Mary”。", "meaning_cn": "玛丽（女子名）", "usage": "n. (专有名词)", "collocations": "Aunt Mary, Cousin Mary, Mary's birthday", "preposition_combos": "with Mary, from Mary, to Mary", "examples": [{"en": "Mary is a kind girl who always helps her classmates.", "cn": "玛丽是一个善良的女孩，她总是帮助她的同学。"}, {"en": "I received a postcard from Mary when she visited Beijing.", "cn": "玛丽访问北京时，我收到了她寄来的一张明信片。"}], "socratic_questions": [{"question": "如果你的朋友的名字是一个常见的西方女性名字，你可能会想到哪个名字？", "answer_hint": "这是一个常见的英语女性名字，常用于西方国家。"}], "fill_blank": {"sentences": ["My sister, ___, loves to read books in her free time."], "options": ["Mary", "Tom", "John", "David"], "correct_index": 0}, "audio": "audio/Mary.mp3", "audio_ex0": "audio/Mary_ex0.mp3", "audio_ex1": "audio/Mary_ex1.mp3", "img2": "images/Mary_2.png", "img1": "images/Mary_1.png"}, {"word": "Tony", "ipa": "/ˈtoʊni/", "image_prompts": ["A cartoon drawing of a determined-looking robot with the name 'Tony' on its chest", "A neon sign displaying the name 'Tony' in a retro, vibrant font"], "image_desc_en": "A robot with the name 'Tony' and a neon sign with the name 'Tony'.", "image_desc_cn": "一个胸前写着“Tony”名字的卡通机器人，以及一个用充满活力的复古字体显示“Tony”名字的霓虹灯标志。", "meaning_cn": "托尼（人名）", "usage": "n. (人名)", "collocations": "Meet Tony, Call Tony, Tony's friend", "preposition_combos": "with Tony, from Tony, to Tony", "examples": [{"en": "I met Tony at the school library last week.", "cn": "我上周在学校图书馆遇到了托尼。"}, {"en": "Tony is a member of our school basketball team.", "cn": "托尼是我们学校篮球队的一员。"}], "socratic_questions": [{"question": "如果你的朋友的名字是安东尼，你通常会怎么称呼他？", "answer_hint": "这是一个常见的昵称，通常用于称呼名字是安东尼的人。"}], "fill_blank": {"sentences": ["My friend ___ is very good at playing the guitar."], "options": ["Tony", "Alice", "David", "Emily"], "correct_index": 0}, "audio": "audio/Tony.mp3", "audio_ex0": "audio/Tony_ex0.mp3", "audio_ex1": "audio/Tony_ex1.mp3", "img1": "images/Tony_1.png", "img2": "images/Tony_2.png"}, {"word": "Anne", "ipa": "/æn/", "image_prompts": ["A vintage postcard with the name 'Anne' written in elegant cursive", "A name tag with the name 'Anne' printed on it, placed on a gift box"], "image_desc_en": "A postcard and a name tag displaying the name 'Anne'.", "image_desc_cn": "一张明信片和一个名牌，都显示着名字“Anne”。", "meaning_cn": "安妮（女子名）", "usage": "n. (专有名词)", "collocations": "Dear Anne, Meet Anne, Anne's friend", "preposition_combos": "to Anne, from Anne, with Anne", "examples": [{"en": "I met Anne at the school library last Monday afternoon.", "cn": "我上周一下午在学校图书馆遇到了安妮。"}, {"en": "Anne is a kind girl who always helps her classmates.", "cn": "安妮是一个善良的女孩，她总是帮助她的同学。"}], "socratic_questions": [{"question": "如果你要给一个新认识的外国女性朋友写信，你会怎么称呼她？", "answer_hint": "这是一个常见的英文女性名字，常用于书信开头称呼。"}], "fill_blank": {"sentences": ["My sister, ___, loves to read books about history and science."], "options": ["Anne", "Ann", "Andy", "Amy"], "correct_index": 0}, "audio": "audio/Anne.mp3", "audio_ex0": "audio/Anne_ex0.mp3", "audio_ex1": "audio/Anne_ex1.mp3", "img1": "images/Anne_1.png", "img2": "images/Anne_2.png"}, {"word": "Eric", "ipa": "/ˈerɪk/", "image_prompts": ["A name tag that says 'Eric' in bold letters on a blue background", "A birthday cake with candles spelling out 'Eric'"], "image_desc_en": "A name tag and a birthday cake showing the name Eric.", "image_desc_cn": "一个名牌和一个生日蛋糕，都显示着名字 Eric。", "meaning_cn": "埃里克（人名）", "usage": "n. (人名)", "collocations": "Meet Eric, Call Eric", "preposition_combos": "with Eric, from Eric", "examples": [{"en": "Eric is a very popular name in many countries.", "cn": "埃里克在许多国家都是一个非常受欢迎的名字。"}, {"en": "I met Eric at the school's English club last week.", "cn": "我上周在学校的英语俱乐部遇到了埃里克。"}], "socratic_questions": [{"question": "如果你的朋友叫一个很常见的英文名字，这个名字可能是？", "answer_hint": "这是一个常见的男性英文名字。"}], "fill_blank": {"sentences": ["My friend, ___, is very good at playing basketball after school."], "options": ["Eric", "Alice", "Tom", "Lucy"], "correct_index": 0}, "audio": "audio/Eric.mp3", "audio_ex0": "audio/Eric_ex0.mp3", "audio_ex1": "audio/Eric_ex1.mp3", "img2": "images/Eric_2.png"}, {"word": "arrive", "ipa": "/əˈraɪv/", "image_prompts": ["A train pulling into a station platform, sunlight reflecting off the metal", "An airplane landing on a runway, tire smoke visible"], "image_desc_en": "A train arriving at a station; a plane landing.", "image_desc_cn": "火车到达车站；飞机着陆。", "meaning_cn": "到达", "usage": "v. (arrived, arrived)", "collocations": "arrive at a place, arrive on time", "preposition_combos": "arrive in (a city/country), arrive at (a specific location)", "examples": [{"en": "We should arrive at the school gate before 7:30 a.m.", "cn": "我们应该在早上七点半之前到达学校门口。"}, {"en": "The train will arrive in Beijing at 10 o'clock tonight.", "cn": "火车将于今晚十点到达北京。"}], "socratic_questions": [{"question": "经过长途跋涉，最终到达目的地，你会用哪个动词来描述这个过程？", "answer_hint": "表示经过一段时间的旅程后到达某个地点。"}], "fill_blank": {"sentences": ["The bus will ___ at the station in about ten minutes."], "options": ["arrive", "leave", "depart", "reach"], "correct_index": 0}, "audio": "audio/arrive.mp3", "audio_ex0": "audio/arrive_ex0.mp3", "audio_ex1": "audio/arrive_ex1.mp3", "img1": "images/arrive_1.png", "img2": "images/arrive_2.png"}, {"word": "on time", "ipa": "/ˌɒn ˈtaɪm/", "image_prompts": ["A clock showing 9:00 AM with a calendar marked for the same date, emphasizing punctuality", "A train arriving at a station platform precisely as scheduled, digital display showing arrival time"], "image_desc_en": "Illustrations emphasizing punctuality and adherence to schedules.", "image_desc_cn": "强调准时和遵守时间表的插图。", "meaning_cn": "准时", "usage": "adv. 准时地；按时地", "collocations": "arrive on time, be on time, get on time", "preposition_combos": "on time for", "examples": [{"en": "The school bus always arrives on time in the morning.", "cn": "校车早上总是准时到达。"}, {"en": "It is important to be on time for your job interview.", "cn": "面试准时到达非常重要。"}], "socratic_questions": [{"question": "如果约定的时间是上午九点，而你正好在九点到达，这意味着什么？", "answer_hint": "表示你没有迟到，也没有早到，正好是约定的时间。"}], "fill_blank": {"sentences": ["The meeting will start ___ ___, so please don't be late."], "options": ["on time", "in time", "at time", "for time"], "correct_index": 0}, "audio": "audio/on_time.mp3", "audio_ex0": "audio/on_time_ex0.mp3", "audio_ex1": "audio/on_time_ex1.mp3", "img1": "images/on_time_1.png", "img2": "images/on_time_2.png"}, {"word": "hallway", "ipa": "/ˈhɔːlweɪ/", "image_prompts": ["A long, empty hallway with doors on either side, soft lighting", "An antique hallway with a patterned rug and a grandfather clock"], "image_desc_en": "Illustrations of a hallway.", "image_desc_cn": "走廊的插图。", "meaning_cn": "走廊，过道", "usage": "名词 n.", "collocations": "down the hallway, in the hallway", "preposition_combos": "down the hallway, along the hallway, in the hallway", "examples": [{"en": "I saw him walking down the hallway to the library.", "cn": "我看见他沿着走廊走向图书馆。"}, {"en": "The classroom is at the end of the long hallway.", "cn": "教室在长走廊的尽头。"}], "socratic_questions": [{"question": "在学校里，连接不同教室或办公室的狭长通道通常被称为什么？", "answer_hint": "它通常很长，而且两边都有门。"}], "fill_blank": {"sentences": ["The principal's office is located at the end of the ___."], "options": ["hallway", "garden", "playground", "canteen"], "correct_index": 0}, "audio": "audio/hallway.mp3", "audio_ex0": "audio/hallway_ex0.mp3", "audio_ex1": "audio/hallway_ex1.mp3", "img1": "images/hallway_1.png", "img2": "images/hallway_2.png"}, {"word": "uniform", "ipa": "/ˈjuːnɪfɔːrm/", "image_prompts": ["Rows of neatly folded school uniforms on a shelf in a store", "A stack of different colored shirts and pants, all the same style"], "image_desc_en": "Neatly arranged school uniforms; A stack of identical clothing.", "image_desc_cn": "整齐摆放的校服；一堆款式相同的衣服。", "meaning_cn": "制服；统一的", "usage": "n. 制服; adj. 统一的", "collocations": "school uniform, wear a uniform, uniform size, uniform color", "preposition_combos": "in uniform", "examples": [{"en": "Our school requires every student to wear a school uniform daily.", "cn": "我们学校要求每个学生每天都穿校服。"}, {"en": "The soldiers wore a green uniform during the military exercise.", "cn": "士兵们在军事演习中穿着绿色制服。"}], "socratic_questions": [{"question": "为了方便管理，很多学校要求学生穿的服装是怎样的？", "answer_hint": "这种服装款式和颜色都一样。"}], "fill_blank": {"sentences": ["The company's employees are required to wear a ___ to work."], "options": ["uniform", "casual", "formal", "dress"], "correct_index": 0}, "audio": "audio/uniform.mp3", "audio_ex0": "audio/uniform_ex0.mp3", "audio_ex1": "audio/uniform_ex1.mp3", "img1": "images/uniform_1.png", "img2": "images/uniform_2.png"}, {"word": "litter", "ipa": "/ˈlɪtər/", "image_prompts": ["Scattered plastic bottles and wrappers on a park lawn, sunny day", "A overflowing trash can with paper and food scraps spilling onto the sidewalk"], "image_desc_en": "Scattered trash and overflowing waste.", "image_desc_cn": "散落的垃圾和溢出的废物。", "meaning_cn": "垃圾，废弃物；乱扔垃圾", "usage": "n. / v.", "collocations": "pick up litter, drop litter", "preposition_combos": "litter on", "examples": [{"en": "Please don't litter in the park; keep it clean for everyone.", "cn": "请不要在公园里乱扔垃圾；保持公园清洁，为了大家。"}, {"en": "We should all help pick up litter to protect our environment.", "cn": "我们都应该帮忙捡垃圾来保护我们的环境。"}], "socratic_questions": [{"question": "在野餐后，如果地上有很多用过的餐巾纸、塑料袋和食物残渣，这是什么？", "answer_hint": "指随意丢弃的废弃物，与保持环境清洁相反。"}], "fill_blank": {"sentences": ["It is important to not ___ and keep our school clean."], "options": ["litter", "clean", "plant", "study"], "correct_index": 0}, "audio": "audio/litter.mp3", "audio_ex0": "audio/litter_ex0.mp3", "audio_ex1": "audio/litter_ex1.mp3", "img1": "images/litter_1.png", "img2": "images/litter_2.png"}, {"word": "polite", "ipa": "/pəˈlaɪt/", "image_prompts": ["A thank you note with elegant cursive writing on a clean desk", "A neatly arranged table setting with silverware and a folded napkin"], "image_desc_en": "Representations of good manners and etiquette.", "image_desc_cn": "礼貌和礼仪的象征。", "meaning_cn": "adj. 有礼貌的，客气的", "usage": "adj. Showing good manners and respect for others.", "collocations": "polite to someone; polite request; polite smile", "preposition_combos": "polite to", "examples": [{"en": "It is polite to say 'thank you' after receiving a gift.", "cn": "收到礼物后说“谢谢”是有礼貌的。"}, {"en": "She sent a polite email to the teacher about her absence.", "cn": "她给老师发了一封关于她缺席的礼貌邮件。"}], "socratic_questions": [{"question": "如果你想给别人留下好印象，你会怎么做？", "answer_hint": "需要表现出尊重和良好的行为举止。"}], "fill_blank": {"sentences": ["It's always ___ to listen when someone is speaking to you."], "options": ["polite", "impolite", "loud", "quiet"], "correct_index": 0}, "audio": "audio/polite.mp3", "audio_ex0": "audio/polite_ex0.mp3", "audio_ex1": "audio/polite_ex1.mp3", "img1": "images/polite_1.png", "img2": "images/polite_2.png"}, {"word": "treat", "ipa": "/triːt/", "image_prompts": ["A beautifully decorated cake on a stand, surrounded by colorful balloons and confetti", "A first aid kit with bandages, antiseptic wipes, and a small bottle of medicine"], "image_desc_en": "Cake and first aid kit.", "image_desc_cn": "蛋糕和急救箱。", "meaning_cn": "v. 对待；治疗；款待 n. 款待；乐趣", "usage": "v. (treated, treated); n.", "collocations": "treat someone with respect, treat a disease, a special treat", "preposition_combos": "treat someone to something", "examples": [{"en": "We should treat everyone with kindness and understanding in school.", "cn": "在学校里，我们应该以友善和理解对待每一个人。"}, {"en": "The doctor will treat your cold with some medicine and rest.", "cn": "医生会用一些药物和休息来治疗你的感冒。"}], "socratic_questions": [{"question": "如果你朋友心情不好，你会怎么做让他开心起来？", "answer_hint": "考虑用一些特别的方式来让他感觉更好，比如请他吃东西或一起玩。"}], "fill_blank": {"sentences": ["It's a special ___ to go to the cinema on a Friday night."], "options": ["treat", "trick", "trip", "trend"], "correct_index": 0}, "audio": "audio/treat.mp3", "audio_ex0": "audio/treat_ex0.mp3", "audio_ex1": "audio/treat_ex1.mp3", "img1": "images/treat_1.png", "img2": "images/treat_2.png"}, {"word": "respect", "ipa": "/rɪˈspekt/", "image_prompts": ["A framed certificate of achievement hanging on a wall, spotlight", "A bronze statue of a wise owl perched on a stack of books"], "image_desc_en": "A symbol of honor and admiration.", "image_desc_cn": "荣誉和钦佩的象征。", "meaning_cn": "尊敬，尊重", "usage": "n. / v. (过去式 respected, 过去分词 respected) / adj. respectable", "collocations": "show respect, mutual respect, earn respect", "preposition_combos": "respect for", "examples": [{"en": "We should respect our teachers and their hard work always.", "cn": "我们应该始终尊敬我们的老师和他们的辛勤工作。"}, {"en": "It is important to respect different cultures and traditions.", "cn": "尊重不同的文化和传统非常重要。"}], "socratic_questions": [{"question": "当你看到某人帮助弱小，并且坚持原则时，你会产生什么感觉？", "answer_hint": "这种感觉是发自内心的，表示你对他的行为和品质的认可。"}], "fill_blank": {"sentences": ["We should always ___ our elders and listen to their advice."], "options": ["respect", "ignore", "dislike", "avoid"], "correct_index": 0}, "audio": "audio/respect.mp3", "audio_ex0": "audio/respect_ex0.mp3", "audio_ex1": "audio/respect_ex1.mp3", "img1": "images/respect_1.png", "img2": "images/respect_2.png"}, {"word": "if", "ipa": "/ɪf/", "image_prompts": ["A winding road diverging into two separate paths, one leading to a bright cityscape, the other to a dark forest", "A closed door with a question mark on it, a key lying on the floor in front of it"], "image_desc_en": "Two different scenarios representing conditional possibilities.", "image_desc_cn": "代表条件可能性的两种不同场景。", "meaning_cn": "如果，假如", "usage": "连词 conj.", "collocations": "if...then, if only, even if, as if", "preposition_combos": "N/A", "examples": [{"en": "I will go to the park if it doesn't rain tomorrow.", "cn": "如果明天下雨，我就不去公园了。"}, {"en": "She will be happy if she gets good grades on the exam.", "cn": "如果她考试取得好成绩，她会很高兴。"}], "socratic_questions": [{"question": "你怎样表达“在某种情况下，某事将会发生”？", "answer_hint": "这个词用来引出一个条件，说明某事发生的可能性。"}], "fill_blank": {"sentences": ["I'll call you ___ I have any news about the trip."], "options": ["if", "when", "because", "although"], "correct_index": 0}, "audio": "audio/if.mp3", "audio_ex0": "audio/if_ex0.mp3", "audio_ex1": "audio/if_ex1.mp3", "img1": "images/if_1.png", "img2": "images/if_2.png"}, {"word": "jacket", "ipa": "/ˈdʒækɪt/", "image_prompts": ["A neatly folded denim jacket on a wooden shelf in a clothing store", "A bright red waterproof jacket hanging on a hook in a hallway"], "image_desc_en": "A denim jacket and a red waterproof jacket.", "image_desc_cn": "一件牛仔夹克和一件红色防水夹克。", "meaning_cn": "夹克衫", "usage": "n.", "collocations": "wear a jacket, put on a jacket, take off a jacket", "preposition_combos": "jacket with, jacket of", "examples": [{"en": "I need a warm jacket because the weather is getting colder.", "cn": "我需要一件暖和的夹克，因为天气越来越冷了。"}, {"en": "She wore a stylish jacket to the school party last night.", "cn": "她昨晚穿着一件时髦的夹克去参加学校聚会了。"}], "socratic_questions": [{"question": "天气转凉时，为了保暖，你会穿什么？", "answer_hint": "一种短款的外套，通常有拉链或纽扣。"}], "fill_blank": {"sentences": ["He always wears his favorite blue ___ to school every day."], "options": ["jacket", "sweater", "shirt", "coat"], "correct_index": 0}, "audio": "audio/jacket.mp3", "audio_ex0": "audio/jacket_ex0.mp3", "audio_ex1": "audio/jacket_ex1.mp3", "img1": "images/jacket_1.png", "img2": "images/jacket_2.png"}, {"word": "have to", "ipa": "/hæv tuː/", "image_prompts": ["A calendar with a circled date and an alarm clock ringing loudly", "A sign with the words 'MUST DO' in bold letters against a bright background"], "image_desc_en": "A calendar reminding of an obligation and a sign indicating necessity.", "image_desc_cn": "日历提醒义务，标志指示必要性。", "meaning_cn": "不得不，必须", "usage": "情态动词，表示必要或义务", "collocations": "have to do something, have to be somewhere", "preposition_combos": "have to with", "examples": [{"en": "I have to finish my homework before I watch TV.", "cn": "我必须在看电视之前完成我的作业。"}, {"en": "We have to arrive at school before eight o'clock.", "cn": "我们必须在八点之前到达学校。"}], "socratic_questions": [{"question": "如果明天有一个重要的考试，你现在最需要做什么？", "answer_hint": "为了准备考试，你需要完成某件事。"}], "fill_blank": {"sentences": ["You ___ study hard for the upcoming English test."], "options": ["have to", "want to", "like to", "used to"], "correct_index": 0}, "audio": "audio/have_to.mp3", "audio_ex0": "audio/have_to_ex0.mp3", "audio_ex1": "audio/have_to_ex1.mp3", "img1": "images/have_to_1.png", "img2": "images/have_to_2.png"}, {"word": "everything", "ipa": "/ˈevriθɪŋ/", "image_prompts": ["A collection of diverse objects scattered on a table, representing all possibilities", "A panoramic view of a vibrant city skyline at night, symbolizing limitless opportunities"], "image_desc_en": "A collection of diverse objects and a vibrant city skyline.", "image_desc_cn": "各种各样的物品集合以及充满活力的城市天际线。", "meaning_cn": "一切，所有事物", "usage": "代词 pronoun", "collocations": "everything is possible, everything goes well, lose everything", "preposition_combos": "everything about, everything for, everything in", "examples": [{"en": "I have lost everything in the fire, but I'm still alive.", "cn": "我在火灾中失去了一切，但我还活着。"}, {"en": "She gave everything she had to help those in need.", "cn": "她奉献了她所拥有的一切来帮助那些需要帮助的人。"}], "socratic_questions": [{"question": "如果你在一场比赛中投入了你所拥有的全部资源和精力，你会怎么描述你的投入？", "answer_hint": "指代你所拥有的全部资源和精力。"}], "fill_blank": {"sentences": ["He promised her ___ she wanted if she passed the exam."], "options": ["everything", "anything", "nothing", "something"], "correct_index": 0}, "audio": "audio/everything.mp3", "audio_ex0": "audio/everything_ex0.mp3", "audio_ex1": "audio/everything_ex1.mp3", "img1": "images/everything_1.png", "img2": "images/everything_2.png"}, {"word": "pron", "ipa": "/prɒn/", "image_prompts": ["A microphone on a stand in a recording studio, sound waves visualized", "A speech bubble with musical notes inside, representing pronunciation"], "image_desc_en": "A microphone and a speech bubble with musical notes.", "image_desc_cn": "麦克风和带有音符的语音气泡。", "meaning_cn": "发音", "usage": "v. (pronounced, pronounced) to say or speak a word or letter in a particular way", "collocations": "pronounce correctly, pronounce clearly, difficult to pronounce", "preposition_combos": "pronounce with", "examples": [{"en": "He can pronounce English words very well after practice.", "cn": "练习后，他能很好地发英语单词。"}, {"en": "She tried to pronounce the difficult word slowly and carefully.", "cn": "她试图缓慢而仔细地发这个难词。"}], "socratic_questions": [{"question": "当你想清晰地说出一个单词或字母时，你在做什么？", "answer_hint": "这个动作与如何说出声音有关。"}], "fill_blank": {"sentences": ["Can you ___ this word for me? I'm not sure how."], "options": ["pronounce", "pronunciation", "pronounced", "pronouncing"], "correct_index": 0}, "audio": "audio/pron.mp3", "audio_ex0": "audio/pron_ex0.mp3", "audio_ex1": "audio/pron_ex1.mp3", "img1": "images/pron_1.png"}, {"word": "lend", "ipa": "/lend/", "image_prompts": ["A hand giving a pencil to another hand, focus on the pencil", "An open book with a bookmark sticking out, next to a pair of glasses"], "image_desc_en": "A pencil being lent and an open book.", "image_desc_cn": "一支铅笔被借出和一本打开的书。", "meaning_cn": "借出", "usage": "v. (lent, lent)", "collocations": "lend a hand, lend support, lend money", "preposition_combos": "lend sth to sb", "examples": [{"en": "Could you lend me your pen? I forgot mine today.", "cn": "你能把你的笔借给我吗？我今天忘记带我的了。"}, {"en": "My friend will lend me his bike for the weekend trip.", "cn": "我的朋友将把他的自行车借给我用于周末旅行。"}], "socratic_questions": [{"question": "如果你需要某样东西，而你的朋友同意暂时给你使用，这是什么行为？", "answer_hint": "这个行为不是买或送，而是暂时提供使用。"}], "fill_blank": {"sentences": ["I can ___ you my notes if you promise to return them."], "options": ["lend", "borrow", "give", "take"], "correct_index": 0}, "audio": "audio/lend.mp3", "audio_ex0": "audio/lend_ex0.mp3", "audio_ex1": "audio/lend_ex1.mp3", "img1": "images/lend_1.png", "img2": "images/lend_2.png"}, {"word": "sweet", "ipa": "/swiːt/", "image_prompts": ["A close-up shot of a honeycomb dripping with golden honey, glistening in sunlight", "An assortment of colorful candies and lollipops arranged on a white surface"], "image_desc_en": "Honeycomb dripping honey; colorful candies.", "image_desc_cn": "滴着蜂蜜的蜂巢；五彩缤纷的糖果。", "meaning_cn": "甜的；令人愉快的", "usage": "adj. 甜的；令人愉快的；n. 糖果；甜点", "collocations": "sweet dreams, sweet smile, sweet music", "preposition_combos": "sweet to", "examples": [{"en": "This apple pie is very sweet; I like it so much.", "cn": "这个苹果派非常甜；我非常喜欢它。"}, {"en": "She always has a sweet smile for everyone she meets.", "cn": "她总是对遇到的每个人都报以甜美的微笑。"}], "socratic_questions": [{"question": "如果食物尝起来像加了很多糖，你会用哪个词来形容它的味道？", "answer_hint": "描述一种像糖或蜂蜜的味道。"}], "fill_blank": {"sentences": ["The lemonade was too ___ , so I added some water."], "options": ["sweet", "sour", "bitter", "salty"], "correct_index": 0}, "audio": "audio/sweet.mp3", "audio_ex0": "audio/sweet_ex0.mp3", "audio_ex1": "audio/sweet_ex1.mp3", "img2": "images/sweet_2.png", "img1": "images/sweet_1.png"}, {"word": "adj.", "ipa": "ədˈdʒeɪ.tɪv", "image_prompts": ["A grammar textbook open to a page explaining different types of adjectives, highlighted examples", "A colorful chart listing adjectives and their corresponding nouns, clear and organized"], "image_desc_en": "Visual representations of adjectives in grammar, such as a textbook page and a chart.", "image_desc_cn": "形容词在语法中的视觉呈现，例如教科书页面和图表。", "meaning_cn": "形容词", "usage": "n. adjective", "collocations": "descriptive adjective, limiting adjective, proper adjective", "preposition_combos": "adjective + of", "examples": [{"en": "She used a descriptive adjective to make her writing more vivid.", "cn": "她使用了一个描述性的形容词，使她的写作更加生动。"}, {"en": "The teacher asked us to identify the adjective in the sentence.", "cn": "老师要求我们识别句子中的形容词。"}], "socratic_questions": [{"question": "在描述事物时，用来修饰名词的词是什么？", "answer_hint": "这个词可以用来描述颜色、大小、形状等特征。"}], "fill_blank": {"sentences": ["The word 'beautiful' is an example of an ___ in the English language."], "options": ["adjective", "adverb", "verb", "noun"], "correct_index": 0}, "audio": "audio/adj.mp3", "audio_ex0": "audio/adj_ex0.mp3", "audio_ex1": "audio/adj_ex1.mp3", "img2": "images/adj_2.png"}, {"word": "snack", "ipa": "/snæk/", "image_prompts": ["A variety of colorful snacks arranged on a wooden table, overhead shot", "A vending machine filled with different kinds of snacks, brightly lit"], "image_desc_en": "Various snacks displayed; a vending machine full of snacks.", "image_desc_cn": "展示的各种零食；装满零食的自动售货机。", "meaning_cn": "零食，小吃", "usage": "n. / v. (过去式 snacked, 过去分词 snacked)", "collocations": "have a snack, afternoon snack, healthy snack", "preposition_combos": "snack on", "examples": [{"en": "I usually have a snack after school around four o'clock.", "cn": "我通常在放学后四点左右吃点零食。"}, {"en": "She snacked on some cookies while watching her favorite TV show.", "cn": "她一边看她最喜欢的电视节目，一边吃了一些饼干。"}], "socratic_questions": [{"question": "如果你在两餐之间感到有点饿，你会吃什么来填饱肚子？", "answer_hint": "它不是正餐，但可以暂时缓解饥饿感。"}], "fill_blank": {"sentences": ["He always keeps a ___ in his bag in case he gets hungry."], "options": ["snack", "meal", "dinner", "lunch"], "correct_index": 0}, "audio": "audio/snack.mp3", "audio_ex0": "audio/snack_ex0.mp3", "audio_ex1": "audio/snack_ex1.mp3", "img1": "images/snack_1.png", "img2": "images/snack_2.png"}, {"word": "of course", "ipa": "/əv kɔːrs/", "image_prompts": ["A clear blue sky with fluffy white clouds, indicating certainty", "A sign with the words 'YES' in bold letters, confirming agreement"], "image_desc_en": "A clear sky and a 'YES' sign, representing certainty and agreement.", "image_desc_cn": "晴朗的天空和一个“是”的标志，代表确定和同意。", "meaning_cn": "当然，自然", "usage": "adv. 表示同意或肯定", "collocations": "of course not, of course I will", "preposition_combos": "N/A", "examples": [{"en": "Of course, I will help you with your English homework.", "cn": "当然，我会帮你做英语作业的。"}, {"en": "She said she would come, and of course, she did.", "cn": "她说她会来，当然，她来了。"}], "socratic_questions": [{"question": "当别人问你是否愿意帮忙，你想表达非常乐意，你会怎么说？", "answer_hint": "表示同意和肯定，语气自然。"}], "fill_blank": {"sentences": ["A: Can you lend me your pen? B: ___, here you are."], "options": ["Of course", "Maybe", "Perhaps", "I doubt it"], "correct_index": 0}, "audio": "audio/of_course.mp3", "audio_ex0": "audio/of_course_ex0.mp3", "audio_ex1": "audio/of_course_ex1.mp3", "img1": "images/of_course_1.png", "img2": "images/of_course_2.png"}, {"word": "mobile", "ipa": "/ˈmoʊbl/", "image_prompts": ["A modern smartphone displaying a vibrant social media feed.", "A portable charging bank connected to a smartphone with a charging cable."], "image_desc_en": "Images depicting a smartphone and a portable charger.", "image_desc_cn": "描绘智能手机和便携式充电器的图像。", "meaning_cn": "可移动的；手机", "usage": "adj. / n.", "collocations": "mobile phone, mobile app, mobile device, mobile internet", "preposition_combos": "on mobile", "examples": [{"en": "I use my mobile phone to listen to music every day.", "cn": "我每天都用手机听音乐。"}, {"en": "The mobile library brings books to people in rural areas.", "cn": "流动图书馆将书籍带给农村地区的人们。"}], "socratic_questions": [{"question": "如果一个东西可以很容易地被携带和使用，你会怎么形容它？", "answer_hint": "这个词形容某物便于携带和使用，比如手机。"}], "fill_blank": {"sentences": ["She always keeps her ___ phone charged for emergencies."], "options": ["mobile", "stable", "gentle", "formal"], "correct_index": 0}, "audio": "audio/mobile.mp3", "audio_ex0": "audio/mobile_ex0.mp3", "audio_ex1": "audio/mobile_ex1.mp3", "img1": "images/mobile_1.png", "img2": "images/mobile_2.png"}, {"word": "mobile phone", "ipa": "/ˌmoʊ.baɪl ˈfoʊn/", "image_prompts": ["A modern smartphone displaying a vibrant social media feed", "A shattered smartphone screen showing a distorted reflection of a cityscape"], "image_desc_en": "A device used for communication and various applications.", "image_desc_cn": "用于通讯和各种应用的设备。", "meaning_cn": "手机", "usage": "n. (复数 mobile phones)", "collocations": "use a mobile phone, mobile phone case, mobile phone signal", "preposition_combos": "on a mobile phone, with a mobile phone", "examples": [{"en": "I use my mobile phone to listen to music every day.", "cn": "我每天用手机听音乐。"}, {"en": "She forgot her mobile phone at home before going to school.", "cn": "她上学前把手机忘在家里了。"}], "socratic_questions": [{"question": "如果想随时随地与朋友保持联系，你会使用什么设备？", "answer_hint": "它是一种便携式的通讯工具，可以打电话、发短信和上网。"}], "fill_blank": {"sentences": ["He always keeps his ___ charged for emergencies."], "options": ["mobile phone", "calculator", "notebook", "dictionary"], "correct_index": 0}, "audio": "audio/mobile_phone.mp3", "audio_ex0": "audio/mobile_phone_ex0.mp3", "audio_ex1": "audio/mobile_phone_ex1.mp3", "img2": "images/mobile_phone_2.png", "img1": "images/mobile_phone_1.png"}, {"word": "turn off", "ipa": "/tɜːrn ɔːf/", "image_prompts": ["A hand reaching to switch off a light switch, energy saving concept", "A faucet with water droplets, being turned off tightly, preventing water waste"], "image_desc_en": "Illustrations depicting the action of stopping the flow of electricity or water.", "image_desc_cn": "描绘停止电流或水流动的动作的插图。", "meaning_cn": "关掉，关闭（电器、水龙头等）", "usage": "v. (turned off, turned off)", "collocations": "turn off the lights, turn off the engine, turn off the tap", "preposition_combos": "turn off from (不再喜欢)", "examples": [{"en": "Please turn off the lights when you leave the classroom.", "cn": "离开教室时，请关掉灯。"}, {"en": "Remember to turn off the water while brushing your teeth.", "cn": "记住刷牙时要关掉水。"}], "socratic_questions": [{"question": "当你离开房间时，为了节约能源，你会做什么？", "answer_hint": "这个动作是停止电器运行。"}], "fill_blank": {"sentences": ["Don't forget to ___ the TV before you go to bed."], "options": ["turn off", "turn on", "look at", "watch"], "correct_index": 0}, "audio": "audio/turn_off.mp3", "audio_ex0": "audio/turn_off_ex0.mp3", "audio_ex1": "audio/turn_off_ex1.mp3", "img2": "images/turn_off_2.png", "img1": "images/turn_off_1.png"}, {"word": "queue", "ipa": "/kjuː/", "image_prompts": ["A long line of suitcases waiting at airport baggage claim", "A digital display showing a list of tasks waiting to be processed"], "image_desc_en": "Illustrations depicting a line of suitcases and a digital task list, representing the concept of waiting in order.", "image_desc_cn": "描绘一队行李箱和数字任务列表的插图，代表按顺序等待的概念。", "meaning_cn": "n. 队伍；队列；v. 排队", "usage": "n. / v. (queued, queued)", "collocations": "join the queue, jump the queue, in a queue", "preposition_combos": "queue for", "examples": [{"en": "People often queue for hours to get the best concert tickets.", "cn": "人们经常排队几个小时才能买到最好的音乐会门票。"}, {"en": "We had to queue up for ages to see the exhibition.", "cn": "我们不得不排很长时间的队才能参观展览。"}], "socratic_questions": [{"question": "在餐厅高峰期，很多人在做什么等待座位？", "answer_hint": "这个词描述了人们按顺序等待的状态。"}], "fill_blank": {"sentences": ["Please form a ___ to buy your lunch in the cafeteria."], "options": ["queue", "group", "circle", "crowd"], "correct_index": 0}, "audio": "audio/queue.mp3", "audio_ex0": "audio/queue_ex0.mp3", "audio_ex1": "audio/queue_ex1.mp3", "img1": "images/queue_1.png", "img2": "images/queue_2.png"}, {"word": "jump the queue", "ipa": "/dʒʌmp ðə kjuː/", "image_prompts": ["A long line of toy cars waiting at a miniature toll booth, one car bypassing the line on the shoulder", "A digital illustration of a winding line of shopping carts with one cart moving ahead of the others"], "image_desc_en": "Illustrations depicting bypassing a waiting line.", "image_desc_cn": "描绘了绕过等待队伍的插图。", "meaning_cn": "插队", "usage": "v. to cut in line; to go ahead of others who are waiting", "collocations": "try to jump the queue, be accused of jumping the queue", "preposition_combos": "jump the queue at", "examples": [{"en": "It's rude to jump the queue; everyone is waiting patiently.", "cn": "插队是很不礼貌的；每个人都在耐心等待。"}, {"en": "He tried to jump the queue at the movie theater, but failed.", "cn": "他试图在电影院插队，但是失败了。"}], "socratic_questions": [{"question": "如果你在排队，有人直接走到队伍前面，这是什么行为？", "answer_hint": "这个行为是不遵守规则，提前于其他等待的人。"}], "fill_blank": {"sentences": ["It is considered impolite to ___ in many cultures."], "options": ["jump the queue", "wait patiently", "form a line", "take turns"], "correct_index": 0}, "audio": "audio/jump_the_queue.mp3", "audio_ex0": "audio/jump_the_queue_ex0.mp3", "audio_ex1": "audio/jump_the_queue_ex1.mp3", "img1": "images/jump_the_queue_1.png", "img2": "images/jump_the_queue_2.png"}, {"word": "feed", "ipa": "/fiːd/", "image_prompts": ["A hand scattering birdseed on a wooden bird feeder in a garden", "A baby bird with its mouth open wide, waiting for food from its parent"], "image_desc_en": "Images depicting the act of providing food to animals or infants.", "image_desc_cn": "描绘给动物或婴儿喂食行为的图像。", "meaning_cn": "喂养；饲养", "usage": "v. (fed, fed)", "collocations": "feed on, feed the animals, feed information", "preposition_combos": "feed to, feed into", "examples": [{"en": "We should feed our pets regularly to keep them healthy.", "cn": "我们应该定期喂养宠物，以保持它们的健康。"}, {"en": "Did you feed the cat before you left for school?", "cn": "你上学前喂猫了吗？"}], "socratic_questions": [{"question": "如果你有一只宠物，你需要做什么来保证它不饿？", "answer_hint": "需要给宠物提供食物。"}], "fill_blank": {"sentences": ["Please remember to ___ the fish every day after school."], "options": ["feed", "water", "clean", "watch"], "correct_index": 0}, "audio": "audio/feed.mp3", "audio_ex0": "audio/feed_ex0.mp3", "audio_ex1": "audio/feed_ex1.mp3", "img1": "images/feed_1.png", "img2": "images/feed_2.png"}, {"word": "leave", "ipa": "/liːv/", "image_prompts": ["A train departing from a station, blurred motion", "An autumn tree shedding its leaves onto the ground"], "image_desc_en": "A train departing and leaves falling from a tree.", "image_desc_cn": "一列火车正在离开，以及树叶从树上掉落。", "meaning_cn": "离开；留下", "usage": "v. (left, left) 离开，留下；n. 许可，休假", "collocations": "leave a message, leave school, leave home", "preposition_combos": "leave for (前往), leave sth. to (把...留给)", "examples": [{"en": "Please leave your phone number, and I will call you back.", "cn": "请留下你的电话号码，我会给你回电话。"}, {"en": "We will leave Beijing for Shanghai next Monday morning.", "cn": "我们下周一早上将离开北京前往上海。"}], "socratic_questions": [{"question": "如果你结束了一段旅程或者结束了一天的工作，你会做什么？", "answer_hint": "这个词表示从一个地方转移到另一个地方，或者把某物留在某地。"}], "fill_blank": {"sentences": ["Don't ___ your books on the desk; put them away."], "options": ["leave", "leaves", "left", "leaving"], "correct_index": 0}, "audio": "audio/leave.mp3", "audio_ex0": "audio/leave_ex0.mp3", "audio_ex1": "audio/leave_ex1.mp3", "img1": "images/leave_1.png", "img2": "images/leave_2.png"}, {"word": "absent", "ipa": "/ˈæbsənt/", "image_prompts": ["An empty school desk with a closed textbook and a single fallen leaf", "A calendar with one date crossed out in red ink, the surrounding dates circled"], "image_desc_en": "An empty desk and a marked calendar represent being away.", "image_desc_cn": "空桌子和被标记的日历代表缺席。", "meaning_cn": "缺席的，不在的", "usage": "adj.", "collocations": "absent from, absent-minded", "preposition_combos": "absent from school, absent without leave", "examples": [{"en": "He was absent from school because he had a bad cold.", "cn": "他因为重感冒而缺席了学校。"}, {"en": "She is often absent from the meetings, which is quite annoying.", "cn": "她经常缺席会议，这很令人恼火。"}], "socratic_questions": [{"question": "如果你的朋友今天没有来上学，你会说他怎么样了？", "answer_hint": "考虑他没有在学校出现的状态。"}], "fill_blank": {"sentences": ["She was ___ from class yesterday because she had a doctor's appointment."], "options": ["absent", "present", "late", "sick"], "correct_index": 0}, "audio": "audio/absent.mp3", "audio_ex0": "audio/absent_ex0.mp3", "audio_ex1": "audio/absent_ex1.mp3", "img1": "images/absent_1.png", "img2": "images/absent_2.png"}, {"word": "absent from", "ipa": "/ˈæbsənt frɒm/", "image_prompts": ["An empty desk in a classroom, sunlight streaming through the window", "A calendar with a specific date circled and marked with a large 'X'"], "image_desc_en": "An empty desk and a marked calendar, symbolizing absence.", "image_desc_cn": "空着的课桌和被标记的日历，象征缺席。", "meaning_cn": "缺席，不在", "usage": "adj. 不在的，缺席的", "collocations": "be absent from school, absent from work", "preposition_combos": "absent from + 地点/活动", "examples": [{"en": "He was absent from school because he had a bad cold.", "cn": "他因为重感冒而缺席了学校。"}, {"en": "She will be absent from the meeting due to a prior engagement.", "cn": "由于事先有约，她将缺席会议。"}], "socratic_questions": [{"question": "如果你的朋友今天没有来上课，你会说他怎么样了？", "answer_hint": "考虑他没有在学校这个事实，用一个短语来表达。"}], "fill_blank": {"sentences": ["She was ___ the party because she had to study for her exams."], "options": ["absent from", "present at", "attending to", "away in"], "correct_index": 0}, "audio": "audio/absent_from.mp3", "audio_ex0": "audio/absent_from_ex0.mp3", "audio_ex1": "audio/absent_from_ex1.mp3", "img1": "images/absent_from_1.png", "img2": "images/absent_from_2.png"}, {"word": "shh", "ipa": "/ʃɪʃ/", "image_prompts": ["A finger pointing upwards in front of lips, indicating silence", "A library interior with bookshelves and a sign requesting quiet"], "image_desc_en": "A gesture for silence and a quiet library setting.", "image_desc_cn": "表示安静的手势和安静的图书馆场景。", "meaning_cn": "嘘 (表示安静)", "usage": "interj. (感叹词)", "collocations": "say shh, quiet shh", "preposition_combos": "shh to", "examples": [{"en": "She put her finger to her lips and said, \"Shh!\"", "cn": "她把手指放在嘴唇上，说：“嘘！”"}, {"en": "The librarian whispered, \"Shh!\" to the noisy students.", "cn": "图书管理员对吵闹的学生小声说：“嘘！”"}], "socratic_questions": [{"question": "当你在图书馆或者电影院，有人说话很大声，你会怎么示意他们安静？", "answer_hint": "用一个表示安静的语气词，通常伴随手势。"}], "fill_blank": {"sentences": ["The teacher said, \"___! The test is starting now.\""], "options": ["Shh", "Hello", "Goodbye", "Thanks"], "correct_index": 0}, "audio": "audio/shh.mp3", "audio_ex0": "audio/shh_ex0.mp3", "audio_ex1": "audio/shh_ex1.mp3", "img1": "images/shh_1.png", "img2": "images/shh_2.png"}, {"word": "quietly", "ipa": "/ˈkwaɪətli/", "image_prompts": ["A library reading room with soft lighting and stacks of books, emphasizing silence", "A sleeping cat curled up on a cushion, undisturbed in a peaceful room"], "image_desc_en": "A scene representing silence and peace.", "image_desc_cn": "代表安静和祥和的场景。", "meaning_cn": "安静地，悄悄地", "usage": "adv.", "collocations": "speak quietly, move quietly, work quietly", "preposition_combos": "without doing something quietly", "examples": [{"en": "She quietly closed the door so as not to wake anyone.", "cn": "她安静地关上门，以免吵醒任何人。"}, {"en": "The students worked quietly in the library during the exam week.", "cn": "考试周期间，学生们在图书馆里安静地学习。"}], "socratic_questions": [{"question": "如果你不想发出任何声音，你会怎么做？", "answer_hint": "这个词描述的是一种没有声音或很少声音的状态。"}], "fill_blank": {"sentences": ["He entered the room very _____, hoping not to disturb anyone."], "options": ["quietly", "loudly", "quickly", "angrily"], "correct_index": 0}, "audio": "audio/quietly.mp3", "audio_ex0": "audio/quietly_ex0.mp3", "audio_ex1": "audio/quietly_ex1.mp3", "img1": "images/quietly_1.png", "img2": "images/quietly_2.png"}, {"word": "belt", "ipa": "/belt/", "image_prompts": ["A leather belt buckle fastening on a pair of denim jeans, close-up", "A black conveyor belt moving packages in a warehouse, automated system"], "image_desc_en": "A leather belt and a conveyor belt.", "image_desc_cn": "一条皮带和一条传送带。", "meaning_cn": "n. 腰带；传送带", "usage": "n. (pl. belts)", "collocations": "seat belt, wear a belt, conveyor belt", "preposition_combos": "around the belt, under the belt", "examples": [{"en": "He always wears a belt to keep his pants from falling down.", "cn": "他总是系腰带，以防止裤子掉下来。"}, {"en": "Remember to fasten your seat belt before the car starts moving.", "cn": "记住在汽车启动前系好安全带。"}], "socratic_questions": [{"question": "为了防止裤子松动，我们需要在腰间系上什么？", "answer_hint": "一种环绕腰部的条状物，通常由皮革或布料制成。"}], "fill_blank": {"sentences": ["She tightened her ___ to make her dress fit better."], "options": ["belt", "scarf", "necklace", "hat"], "correct_index": 0}, "audio": "audio/belt.mp3", "audio_ex0": "audio/belt_ex0.mp3", "audio_ex1": "audio/belt_ex1.mp3", "img1": "images/belt_1.png", "img2": "images/belt_2.png"}, {"word": "noise", "ipa": "/nɔɪz/", "image_prompts": ["A sound wave graphic emanating from a loudspeaker, indicating high volume", "A busy city street intersection with traffic and construction sounds, depicted as sound wave visuals"], "image_desc_en": "Loud sounds or disturbances.", "image_desc_cn": "嘈杂的声音或干扰。", "meaning_cn": "噪音，嘈杂声", "usage": "n. (复数 noises)", "collocations": "make a noise, background noise, loud noise", "preposition_combos": "noise from, noise about", "examples": [{"en": "The loud noise from the street kept me awake last night.", "cn": "昨晚街上巨大的噪音让我一直无法入睡。"}, {"en": "Please don't make so much noise; I'm trying to study.", "cn": "请不要制造太大的噪音；我正在努力学习。"}], "socratic_questions": [{"question": "当你试图集中注意力时，什么会让你感到烦躁？", "answer_hint": "通常指那些不和谐、令人不悦的声音。"}], "fill_blank": {"sentences": ["The construction ___ outside my window is very annoying."], "options": ["noise", "silence", "music", "sound"], "correct_index": 0}, "audio": "audio/noise.mp3", "audio_ex0": "audio/noise_ex0.mp3", "audio_ex1": "audio/noise_ex1.mp3", "img2": "images/noise_2.png", "img1": "images/noise_1.png"}, {"word": "unhappy", "ipa": "/ʌnˈhæpi/", "image_prompts": ["A wilted flower in a vase, petals drooping, dark background", "An upside-down smiley face drawn in the sand, waves washing it away"], "image_desc_en": "Visuals representing sadness and disappointment.", "image_desc_cn": "代表悲伤和失望的视觉效果。", "meaning_cn": "不高兴的，不开心的", "usage": "adj. unhappier, unhappiest", "collocations": "feel unhappy, deeply unhappy, unhappy about", "preposition_combos": "unhappy about/with", "examples": [{"en": "She felt unhappy because she failed the important English exam.", "cn": "她感到不高兴，因为她没有通过重要的英语考试。"}, {"en": "He was unhappy with his score on the science project last week.", "cn": "他对上周科学项目的分数不满意。"}], "socratic_questions": [{"question": "如果你考试没考好，或者你最喜欢的球队输了，你可能会有什么感觉？", "answer_hint": "这种感觉与快乐相反，表示一种负面的情绪状态。"}], "fill_blank": {"sentences": ["The student was ___ when he learned he didn't make the basketball team."], "options": ["unhappy", "happily", "happier", "happiness"], "correct_index": 0}, "audio": "audio/unhappy.mp3", "audio_ex0": "audio/unhappy_ex0.mp3", "audio_ex1": "audio/unhappy_ex1.mp3", "img1": "images/unhappy_1.png", "img2": "images/unhappy_2.png"}]}]};</script>
+<div class="app">
+
+  <!-- Top bar -->
+  <div class="topbar">
+    <div class="progress-info">
+      <span class="progress-text" id="progress-text">0 / 0</span>
+      <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+    </div>
+    <div class="topbar-btns">
+      <button class="tb-btn" id="send-report-btn" onclick="sendLearningReport()" style="display:none" title="发送学习报告给老师">📧 发送报告</button>
+      <button class="tb-btn" id="admin-btn" onclick="toggleAdminMode()">⚙ 教师</button>
+      <button class="tb-btn" onclick="exitAndSave()">↩ 退出</button>
+    </div>
+  </div>
+
+  <!-- ① Unit Select -->
+    <div id="unit-select" class="page active">
+    <div class="home-hero">
+      <div class="home-icon">📚</div>
+      <div class="home-title">人教版词汇学习</div>
+      <div class="home-sub">PEP English — 七年级下册</div>
+      <div class="unit-grid" id="unit-list"></div>
+      </div>
+    </div>
+
+  <!-- ② P1 发音 -->
+    <div id="p1-pronounce" class="page">
+    <div class="card">
+      <span class="step-badge badge-indigo"><span class="dot"></span>Step 1 · 发音练习</span>
+      <div class="word-hero" id="p1-word"></div>
+      <div class="ipa" id="p1-ipa"></div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px">
+        <button class="btn btn-play" onclick="playWord()"><i class="fas fa-volume-high"></i> 听发音</button>
+        <button class="btn btn-rec" id="p1-record" onclick="toggleRecord()"><i class="fas fa-microphone"></i> 朗读评分</button>
+        </div>
+      <div id="p1-score" style="display:none">
+        <div class="score-ring-wrap">
+          <div class="score-ring">
+            <svg width="72" height="72" viewBox="0 0 72 72">
+              <circle cx="36" cy="36" r="30" fill="none" stroke="#1e2137" stroke-width="6"/>
+              <circle id="p1-ring-arc" cx="36" cy="36" r="30" fill="none" stroke="#7c6df0" stroke-width="6"
+                stroke-dasharray="188.5" stroke-dashoffset="188.5" stroke-linecap="round"/>
+            </svg>
+            <div class="score-num" id="p1-score-num" style="color:#a78bfa">0</div>
+        </div>
+          <div class="score-info">
+            <div class="score-label">发音得分</div>
+            <div class="score-feedback" id="p1-feedback"></div>
+          </div>
+        </div>
+      </div>
+      <button class="btn btn-primary btn-next" id="p1-next" disabled onclick="goP2()">
+        下一步 · 图片记忆 <i class="fas fa-arrow-right"></i>
+      </button>
+      </div>
+    </div>
+
+  <!-- ③ P2 图片 -->
+    <div id="p2-image" class="page">
+    <div class="card">
+      <span class="step-badge badge-orange"><span class="dot"></span>Step 2 · 图片记忆</span>
+      <div class="word-hero" id="p2-word"></div>
+        <div class="img-grid" id="p2-imgs"></div>
+      <button class="btn btn-primary btn-next" onclick="goP3()">
+        下一步 · 选择词义 <i class="fas fa-arrow-right"></i>
+      </button>
+      </div>
+    </div>
+
+  <!-- ④ P3 选义 -->
+    <div id="p3-choice" class="page">
+    <div class="card">
+      <span class="step-badge badge-yellow"><span class="dot"></span>Step 3 · 选择词义</span>
+      <div class="word-hero" id="p3-word"></div>
+      <p style="font-size:.85rem;color:var(--sub);margin-bottom:14px">选出这个单词的中文意思 👇</p>
+      <div id="p3-opts"></div>
+      <div id="p3-feedback" style="display:none;margin-top:10px"></div>
+      <button class="btn btn-primary btn-next" id="p3-next" disabled onclick="goP4()">
+        下一步 · 例句学习 <i class="fas fa-arrow-right"></i>
+      </button>
+      </div>
+    </div>
+
+  <!-- ⑤ P4 例句 -->
+    <div id="p4-examples" class="page">
+    <div class="card">
+      <span class="step-badge badge-emerald"><span class="dot"></span>Step 4 · 例句朗读</span>
+      <div class="word-hero" id="p4-word"></div>
+        <div class="meaning-box">
+        <div class="row"><span class="lbl">词义</span><span class="val" id="p4-meaning"></span></div>
+        <div class="row"><span class="lbl">用法</span><span class="val" id="p4-usage"></span></div>
+        </div>
+        <div id="p4-examples-list"></div>
+      <button class="btn btn-primary btn-next" id="p4-next" disabled onclick="nextWord()">
+        下一个单词 <i class="fas fa-arrow-right"></i>
+      </button>
+      </div>
+    </div>
+
+  <!-- ⑥ 复习页 -->
+    <div id="p-review" class="page">
+    <div class="card">
+      <span class="step-badge badge-amber"><span class="dot"></span>复习 · 每 5 词一轮</span>
+
+      <!-- 步骤指示点 -->
+      <div class="step-dots" id="review-dots">
+        <div class="step-dot" id="rd1"></div>
+        <div class="step-dot" id="rd2"></div>
+        <div class="step-dot" id="rd3"></div>
+      </div>
+
+      <!-- Step 1: 苏格拉底 -->
+      <div id="review-step1">
+        <p style="font-size:.75rem;font-weight:800;color:var(--sub);letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px">🧠 情景联想 · 选出对应单词</p>
+        <p id="review-socratic-q" style="font-size:1rem;line-height:1.7;color:var(--text);background:var(--surface2);border-radius:var(--radius-sm);padding:14px 18px;border:1px solid var(--border);margin-bottom:14px"></p>
+        <div id="review-socratic-opts"></div>
+        <div id="review-socratic-fb" style="display:none;margin-top:10px"></div>
+        <button class="btn btn-primary btn-next" id="review-socratic-next" disabled onclick="reviewStep2()">
+          下一关 · 填空 <i class="fas fa-arrow-right"></i>
+        </button>
+      </div>
+
+      <!-- Step 2: 填空 -->
+      <div id="review-step2" style="display:none">
+        <p style="font-size:.75rem;font-weight:800;color:var(--sub);letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px">✏️ 句子填空 · 选出正确答案</p>
+        <div id="review-fill-q"></div>
+        <div id="review-fill-opts"></div>
+        <div id="review-fill-fb" style="display:none;margin-top:10px"></div>
+        <button class="btn btn-primary btn-next" id="review-fill-next" disabled onclick="goToTranslationStep()">
+          下一关 · 翻译 <i class="fas fa-arrow-right"></i>
+        </button>
+      </div>
+
+      <!-- Step 3: 翻译 + DeepSeek评价 -->
+      <div id="review-step4" style="display:none">
+        <p style="font-size:.75rem;font-weight:800;color:var(--sub);letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px">🌏 翻译朗读 · AI 评价你的中文</p>
+
+        <!-- 翻译练习：仅显示英文原句，不给中文提示 -->
+        <div class="trans-sent-box">
+          <div style="font-size:.7rem;font-weight:800;color:var(--sub);letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px">请将下面这句话翻译成中文并朗读</div>
+          <div class="trans-en" id="review-trans-en"></div>
+        </div>
+
+        <!-- 朗读录音按钮 -->
+        <button class="btn btn-teal" id="review-trans-record" onclick="toggleTransRecord()" style="margin-bottom:12px">
+          <i class="fas fa-microphone"></i> 朗读中文翻译
+        </button>
+
+        <!-- DeepSeek 评价区域 -->
+        <div id="review-trans-result" style="display:none"></div>
+
+        <button class="btn btn-primary btn-next" id="review-trans-next" onclick="finishReview()">
+          完成复习 · 继续学习 <i class="fas fa-flag-checkered"></i>
+        </button>
+      </div>
+
+      </div>
+    </div>
+
+</div><!-- /app -->
+
+  <!-- 例句单词查词弹窗 -->
+  <div class="word-modal" id="word-modal" onclick="if(event.target===this)closeWordModal()">
+    <div class="word-modal-box">
+      <div class="word-modal-header">
+        <span class="word-modal-word" id="word-modal-word"></span>
+        <button class="word-modal-speak" onclick="speakWord(document.getElementById('word-modal-word').textContent)" title="朗读单词"><i class="fas fa-volume-high"></i> 朗读</button>
+        <button class="word-modal-close" onclick="closeWordModal()" title="关闭">×</button>
+      </div>
+      <div class="word-modal-body" id="word-modal-body"></div>
+    </div>
+  </div>
+
+  <script>
+/* ═══════════════════════════════════════════════
+   配置区
+═══════════════════════════════════════════════ */
+const AZURE_KEY    = "43gMKIlSRVGT9PnAFgWkdXyogwXfudT33O2Zk6QtfTKuY1nm01BdJQQJ99BLACHYHv6XJ3w3AAAYACOGts5S";
+const AZURE_REGION = "eastus2";
+const DEEPSEEK_KEY = "sk-daa16008e81843deba6fefe9dce51465";  // DeepSeek API Key
+
+/* EmailJS 学习报告 */
+const EMAILJS_PUBLIC_KEY = "1QhXV5G_92GdK7_DF";
+const EMAILJS_SERVICE_ID = "service_6dfbs2n";
+const EMAILJS_TEMPLATE_ID = "template_zso8ebh";
+(function(){ try{ if(typeof emailjs!=="undefined") emailjs.init(EMAILJS_PUBLIC_KEY); }catch(e){console.log("EmailJS init:",e)} })();
+
+const VOCAB_DATA = (typeof window !== "undefined" && window.VOCAB_DATA) ? window.VOCAB_DATA : null;
+const MEDIA_BASE = (typeof window !== "undefined" && window.MEDIA_BASE) ? window.MEDIA_BASE : "";
+function mediaUrl(path) { if (!path) return ""; return path.startsWith("http") ? path : (MEDIA_BASE ? (MEDIA_BASE + path.replace(/^\//,"")) : path); }
+const MIN_SCORE  = 83;
+const ADMIN_PWD  = "123888";
+const PER_REVIEW = 5;
+const STORAGE_KEY= "pep_vocab_v2";
+
+/* ═══════════════════════════════════════════════
+   状态
+═══════════════════════════════════════════════ */
+let speechConfig, synthesizer;
+let currentUnit = 1, wordIndex = 0, unitData = null, allWords = [];
+let reviewBatch = [], reviewIdx = 0, reviewOrders = null;
+let isRecording = false, transRecording = false, recogStream = null;
+let isAdminMode = false, adminTick = null;
+let currentPage = "unit-select", reviewStep = 1;
+
+/* 学习报告数据：单词学习时间、复习阶段做题结果 */
+let sessionStartTime = null;
+let wordTimings = {};
+let wordStartTime = 0;
+let reviewLogs = [];
+let reportSent = false;
+
+/* ═══════════════════════════════════════════════
+   初始化
+═══════════════════════════════════════════════ */
+async function initSpeech() {
+  try {
+  speechConfig = SpeechSDK.SpeechConfig.fromSubscription(AZURE_KEY, AZURE_REGION);
+  speechConfig.speechRecognitionLanguage = "en-US";
+  synthesizer = new SpeechSDK.SpeechSynthesizer(speechConfig);
+  } catch(e) { console.warn("Speech init:", e); }
+}
+
+/* ═══════════════════════════════════════════════
+   进度 & 存档
+═══════════════════════════════════════════════ */
+function saveProgress() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({
+      unit: currentUnit,
+      wordIndex,
+      page: currentPage,
+      reviewStep: currentPage==="review"? reviewStep : undefined,
+      reviewIdx: currentPage==="review"? reviewIdx : undefined
+    }));
+  } catch(e){}
+}
+function loadProgress() {
+  try {
+    const p = JSON.parse(localStorage.getItem(STORAGE_KEY)||"{}");
+    if (!p.unit) return null;
+    currentUnit = p.unit;
+    wordIndex = p.wordIndex||0;
+    currentPage = p.page||"unit-select";
+    reviewStep = p.reviewStep||1;
+    reviewIdx = p.reviewIdx||0;
+    return p;
+  } catch(e){}
+  return null;
+}
+function updateProgress() {
+  const t = allWords.length, d = wordIndex;
+  document.getElementById("progress-text").textContent = `${d} / ${t}`;
+  document.getElementById("progress-fill").style.width = t ? (d/t*100)+"%" : "0%";
+}
+
+/* ═══════════════════════════════════════════════
+   管理员模式
+═══════════════════════════════════════════════ */
+function toggleAdminMode() {
+  if (isAdminMode) {
+    isAdminMode = false;
+    if (adminTick) clearInterval(adminTick);
+    const btn = document.getElementById("admin-btn");
+    btn.textContent = "⚙ 教师"; btn.classList.remove("teacher");
+    return;
+  }
+  const pwd = prompt("请输入管理员密码：");
+  if (pwd !== ADMIN_PWD) { alert("密码错误"); return; }
+  isAdminMode = true;
+  const btn = document.getElementById("admin-btn");
+  btn.textContent = "✓ 教师模式"; btn.classList.add("teacher");
+  applyAdminUnlock();
+  adminTick = setInterval(applyAdminUnlock, 400);
+}
+function applyAdminUnlock() {
+  if (!isAdminMode) return;
+  ["p1-next","p3-next","p4-next","review-socratic-next","review-fill-next","review-trans-next"].forEach(id=>{
+    const el = document.getElementById(id);
+    if (el) el.disabled = false;
+  });
+}
+
+/* ═══════════════════════════════════════════════
+   页面切换
+═══════════════════════════════════════════════ */
+function showPage(id) {
+  currentPage = id==="p1-pronounce"?"p1": id==="p2-image"?"p2": id==="p3-choice"?"p3": id==="p4-examples"?"p4": id==="p-review"?"review": id==="unit-select"?"unit-select":"unit-select";
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+  const el = document.getElementById(id);
+  if (el) el.classList.add("active");
+}
+
+/* ═══════════════════════════════════════════════
+   Unit 列表
+═══════════════════════════════════════════════ */
+function exitAndSave() {
+  currentPage = "unit-select";
+  saveProgress();
+  showPage("unit-select");
+  loadUnitList();
+}
+async function loadUnitList() {
+  const data = VOCAB_DATA || { units:[] };
+  const ul = document.getElementById("unit-list");
+  ul.innerHTML = "";
+  (data.units||[]).forEach(u=>{
+    const n = typeof u==="number"?u:u.unit;
+    const btn = document.createElement("button");
+    btn.className = "unit-card";
+    btn.innerHTML = `<span style="font-size:.7rem;color:var(--sub);display:block;margin-bottom:2px">UNIT</span>${n}`;
+    btn.onclick = () => selectUnit(n);
+    ul.appendChild(btn);
+  });
+}
+
+/* ═══════════════════════════════════════════════
+   Unit 加载
+═══════════════════════════════════════════════ */
+async function selectUnit(n) {
+  currentUnit = n; wordIndex = 0;
+  sessionStartTime = sessionStartTime || new Date();
+  await loadUnitData(n); startWord();
+  const btn = document.getElementById("send-report-btn");
+  if (btn) btn.style.display = "inline-flex";
+}
+async function resumeUnit() {
+  sessionStartTime = sessionStartTime || new Date();
+  const btn = document.getElementById("send-report-btn");
+  if (btn) btn.style.display = "inline-flex";
+  await loadUnitData(currentUnit);
+  if (wordIndex >= allWords.length) wordIndex = 0;
+  if (currentPage && currentPage !== "unit-select" && currentPage !== "p1") {
+    resumeToSavedState(currentPage, reviewStep, reviewIdx);
+    return;
+  }
+  startWord();
+}
+async function resumeToSavedState(page, revStep, revIdx) {
+  await loadUnitData(currentUnit);
+  if (wordIndex >= allWords.length) { wordIndex = 0; startWord(); return; }
+  if (page === "p1") { showCurrentWord(); return; }
+  if (page === "p2") { showCurrentWord(); goP2(); return; }
+  if (page === "p3") { showCurrentWord(); goP2(); goP3(); return; }
+  if (page === "p4") { showCurrentWord(); goP2(); goP3(); goP4(); return; }
+  if (page === "review") {
+    const start = Math.max(0, wordIndex - PER_REVIEW);
+    reviewBatch = allWords.slice(start, wordIndex);
+    if (reviewBatch.length === 0) reviewBatch = allWords.slice(0, Math.min(PER_REVIEW, allWords.length));
+    reviewIdx = Math.min(revIdx, reviewBatch.length - 1);
+    reviewStep = revStep;
+    reviewOrders = _makeReviewOrders(reviewBatch.length);
+    ["review-step1","review-step2","review-step4"].forEach(id=>{
+      document.getElementById(id).style.display="none";
+    });
+    showPage("p-review");
+    setReviewDots(revStep);
+    if (revStep === 1) {
+      document.getElementById("review-step1").style.display="block";
+      showSocraticQuestion();
+    } else if (revStep === 2) {
+      document.getElementById("review-step2").style.display="block";
+      reviewStep2();
+    } else {
+      document.getElementById("review-step4").style.display="block";
+      goToTranslationStep();
+    }
+  }
+}
+async function loadUnitData(n) {
+  unitData = VOCAB_DATA ? (VOCAB_DATA.units||[]).find(u=>(u.unit||u)===n) : null;
+  if (!unitData?.words?.length) { alert("该单元无单词数据"); throw new Error("no data"); }
+  allWords = unitData.words.filter(w=>w.word&&!w.error);
+  saveProgress();
+}
+
+/* ═══════════════════════════════════════════════
+   学习流程：startWord / showCurrentWord
+═══════════════════════════════════════════════ */
+function startWord() {
+  if (wordIndex >= allWords.length) { alert("🎉 本单元已全部完成！"); showPage("unit-select"); return; }
+  const w = allWords[wordIndex];
+  if (!w?.word) { wordIndex++; startWord(); return; }
+  if (wordIndex > 0 && wordIndex % PER_REVIEW === 0) {
+    reviewBatch = allWords.slice(wordIndex - PER_REVIEW, wordIndex);
+    reviewIdx = 0;
+    startReview();
+    return;
+  }
+  showCurrentWord();
+}
+function showCurrentWord() {
+  updateProgress();
+  wordStartTime = Date.now();
+  const w = allWords[wordIndex];
+  document.getElementById("p1-word").textContent = w.word;
+  document.getElementById("p1-ipa").textContent  = w.ipa || "";
+  document.getElementById("p1-score").style.display = "none";
+  document.getElementById("p1-next").disabled = true;
+  showPage("p1-pronounce");
+  saveProgress();
+}
+
+/* ═══════════════════════════════════════════════
+   P1 发音
+═══════════════════════════════════════════════ */
+function playWord() {
+  const w = allWords[wordIndex];
+  if (!w) return;
+  if (w.audio) { new Audio(mediaUrl(w.audio)).play().catch(()=>{}); return; }
+  synthesizer?.speakTextAsync(w.word, ()=>{}, e=>console.error(e));
+}
+function toggleRecord() {
+  if (!speechConfig) { alert("语音服务未初始化"); return; }
+  const btn = document.getElementById("p1-record");
+  if (isRecording) {
+    try {
+      recogStream?.stopContinuousRecognitionAsync(()=>{
+        isRecording = false;
+        btn.classList.remove("recording"); btn.innerHTML='<i class="fas fa-microphone"></i> 朗读评分';
+        const res = window._p1LastResult;
+        window._p1LastResult = null;
+        let score = 0, fb = "";
+        if (res) {
+          fb = res.text||"";
+          try {
+            const j = JSON.parse(res.properties.getProperty(SpeechSDK.PropertyId.SpeechServiceResponse_JsonResult,"{}"));
+            const n = j.NBest?.[0];
+            if (n?.PronunciationAssessment) { score = n.PronunciationAssessment.AccuracyScore??0; fb = n.Lexical||fb; }
+          } catch(e){}
+        } else { fb = "未检测到发音"; }
+        setScoreRing(score);
+        document.getElementById("p1-feedback").textContent = fb;
+        document.getElementById("p1-score").style.display = "block";
+        document.getElementById("p1-next").disabled = score < MIN_SCORE;
+      }, e=>{ isRecording=false; btn.classList.remove("recording"); btn.innerHTML='<i class="fas fa-microphone"></i> 朗读评分'; });
+    } catch(e){ isRecording=false; btn.classList.remove("recording"); btn.innerHTML='<i class="fas fa-microphone"></i> 朗读评分'; }
+    return;
+  }
+  isRecording = true;
+  window._p1LastResult = null;
+  btn.classList.add("recording"); btn.innerHTML='<i class="fas fa-stop"></i> 点击结束录音';
+  const refText = allWords[wordIndex].word;
+  const rec = new SpeechSDK.SpeechRecognizer(speechConfig, SpeechSDK.AudioConfig.fromDefaultMicrophoneInput());
+  try {
+    const pa = new SpeechSDK.PronunciationAssessmentConfig(refText,
+      SpeechSDK.PronunciationAssessmentGradingSystem?.HundredMark??1,
+      SpeechSDK.PronunciationAssessmentGranularity?.Word??1, false);
+    pa?.applyTo?.(rec);
+  } catch(e){}
+  rec.recognized = (s, e) => {
+    if (e.result.reason === SpeechSDK.ResultReason.RecognizedSpeech && e.result.text) {
+      window._p1LastResult = e.result;
+    }
+  };
+  rec.startContinuousRecognitionAsync(()=>{}, err=>{
+    isRecording=false; btn.classList.remove("recording"); btn.innerHTML='<i class="fas fa-microphone"></i> 朗读评分';
+    console.error(err);
+  });
+  recogStream = rec;
+}
+function setScoreRing(score) {
+  const s = Math.round(score);
+  const arc = document.getElementById("p1-ring-arc");
+  const num = document.getElementById("p1-score-num");
+  const circ = 2*Math.PI*30;
+  arc.setAttribute("stroke-dashoffset", circ - (score/100)*circ);
+  const color = score>=MIN_SCORE?"#4ade80":score>=60?"#fbbf24":"#f87171";
+  arc.setAttribute("stroke", color);
+  num.textContent = s; num.style.color = color;
+}
+
+/* ═══════════════════════════════════════════════
+   P2 图片
+═══════════════════════════════════════════════ */
+function goP2() {
+  const w = allWords[wordIndex];
+  document.getElementById("p2-word").textContent = w.word;
+  const grid = document.getElementById("p2-imgs");
+  grid.innerHTML = "";
+  [w.img1, w.img2].forEach((src, i)=>{
+    const card = document.createElement("div"); card.className="img-card";
+    const img  = document.createElement("img"); img.alt=""; img.src = mediaUrl(src)||"";
+    const cap  = document.createElement("div"); cap.className="img-cap";
+    cap.textContent = w.image_prompts?.[i] || "";
+    card.appendChild(img); card.appendChild(cap); grid.appendChild(card);
+  });
+  showPage("p2-image");
+  saveProgress();
+}
+
+/* ═══════════════════════════════════════════════
+   P3 选义
+═══════════════════════════════════════════════ */
+function goP3() {
+  const w = allWords[wordIndex];
+  document.getElementById("p3-word").textContent = w.word;
+  const opts = [w.meaning_cn];
+  const pool  = (unitData.words||[]).filter(x=>x.meaning_cn&&x.meaning_cn!==w.meaning_cn).map(x=>x.meaning_cn);
+  while (opts.length<4&&pool.length) opts.push(pool.splice(Math.floor(Math.random()*pool.length),1)[0]);
+  while (opts.length<4) opts.push("—");
+  opts.sort(()=>Math.random()-.5);
+  const ci = opts.indexOf(w.meaning_cn);
+  const div = document.getElementById("p3-opts"); div.innerHTML="";
+  opts.forEach((t,i)=>{
+    const b = document.createElement("button"); b.className="opt-btn";
+    b.innerHTML=`<span class="opt-letter">${String.fromCharCode(65+i)}</span>${t}`;
+    b.onclick=()=>{
+      div.querySelectorAll(".opt-btn").forEach(x=>x.disabled=true);
+      b.classList.add(i===ci?"correct":"wrong");
+      const fb = document.getElementById("p3-feedback");
+      fb.style.display="block";
+      fb.className = i===ci ? "fb-box fb-correct" : "fb-box fb-wrong";
+      fb.textContent = i===ci ? `✓ 正确！${w.usage?"  "+w.usage:""}` : `✗ 正确答案：${w.meaning_cn}`;
+      document.getElementById("p3-next").disabled=false;
+    };
+    div.appendChild(b);
+  });
+  document.getElementById("p3-feedback").style.display="none";
+  document.getElementById("p3-next").disabled=true;
+  showPage("p3-choice");
+  saveProgress();
+}
+
+/* ═══════════════════════════════════════════════
+   例句：任意词汇点击查词（基于语境）& 朗读
+═══════════════════════════════════════════════ */
+function makeClickableExampleHtml(sentence) {
+  if (!sentence) return "";
+  const esc = (s)=>String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/"/g,"&quot;");
+  return sentence.replace(/\b([\w']+)\b/g, (m)=>{
+    if (!/[a-zA-Z]/.test(m)) return m;
+    const s = esc(sentence), w = esc(m), wJs = m.replace(/'/g,"\\'").replace(/\\/g,"\\\\");
+    return `<span class="word-click" data-s="${s}" data-w="${w}" onclick="onWordClick(this,'${wJs}')" title="点击发音并查词">${esc(m)}</span>`;
+  });
+}
+function onWordClick(el, wordJs) {
+  speakWord(wordJs);
+  lookupWordInContext(el);
+}
+function lookupWordInContext(el) {
+  const sentence = el.getAttribute("data-s")||"";
+  const word = el.getAttribute("data-w")||"";
+  if (!word) return;
+  const modal = document.getElementById("word-modal");
+  const bodyEl = document.getElementById("word-modal-body");
+  document.getElementById("word-modal-word").textContent = word;
+  modal.classList.add("show");
+  bodyEl.innerHTML = '<div class="word-modal-loading"><span class="spin">⟳</span> 正在查询（基于句子语境）…</div>';
+  (async function(){
+    try {
+      const prompt = `你是初中英语教师。请根据下面这句话的语境，解释句中划线单词的含义。
+【整句】${sentence}
+【待解释的词】"${word}"
+
+要求（必须做到）：
+1. 词义必须基于该词在此句中的具体用法，给出语境下的释义，而非泛泛的词典释义
+2. 1-2句简洁中文解释
+3. 可简要说明该词在本句中的词性、搭配或用法
+4. 面向八年级学生，控制在100字内`;
+      const resp = await fetch("https://api.deepseek.com/v1/chat/completions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Authorization": "Bearer " + DEEPSEEK_KEY },
+        body: JSON.stringify({
+          model: "deepseek-chat",
+          messages: [{ role: "user", content: prompt }],
+          temperature: 0.2,
+          max_tokens: 350
+        })
+      });
+      if (!resp.ok) throw new Error("API " + resp.status);
+      const data = await resp.json();
+      const content = (data.choices?.[0]?.message?.content || "未获取到释义").replace(/\n/g, "<br>");
+      bodyEl.innerHTML = content;
+    } catch (e) {
+      bodyEl.innerHTML = '<div class="word-modal-error">查词失败：' + (e.message || "网络错误") + '</div>';
+    }
+  })();
+}
+function speakWord(word) {
+  if (!synthesizer) { alert("语音服务未初始化"); return; }
+  const w = String(word || "").trim();
+  if (!w) return;
+  synthesizer.speakTextAsync(w, ()=>{}, e=>console.error("TTS:", e));
+}
+function closeWordModal() {
+  document.getElementById("word-modal").classList.remove("show");
+}
+
+/* ═══════════════════════════════════════════════
+   P4 例句
+═══════════════════════════════════════════════ */
+function goP4() {
+  const w = allWords[wordIndex];
+  document.getElementById("p4-word").textContent = w.word;
+  document.getElementById("p4-meaning").textContent = w.meaning_cn||"";
+  document.getElementById("p4-usage").textContent   = (w.usage||"")+(w.collocations?" | "+w.collocations:"");
+  const list = document.getElementById("p4-examples-list"); list.innerHTML="";
+  const exs = w.examples||[];
+  const need=2, rc={};
+  exs.forEach((_,i)=>rc[i]=0);
+  window._p4rc=rc; window._p4need=need;
+  window._p4refSentences = exs.map(ex=>ex.en||"");
+  window._p4exLastResult = {};
+  exs.forEach((ex,i)=>{
+    const box = document.createElement("div"); box.className="ex-card";
+    const enRaw = ex.en||"";
+    const enHtml = makeClickableExampleHtml(enRaw);
+    box.innerHTML=`
+      <div class="ex-num">例句 ${i+1}</div>
+      <div class="ex-en">${enHtml}</div>
+      <div class="ex-actions">
+        <button class="btn btn-play" style="padding:7px 14px;font-size:.82rem" onclick="playExample(${i})"><i class="fas fa-play"></i> 播放</button>
+        <button class="reveal-btn" onclick="toggleCn(this)">显示中文</button>
+        <span class="rec-counter" id="ex-cnt-${i}">朗读 0/${need}（需≥75分）</span>
+        <button class="btn btn-rec" style="padding:7px 14px;font-size:.82rem" id="ex-rec-${i}" onclick="toggleExRecord(${i})"><i class="fas fa-microphone"></i></button>
+      </div>
+      <div class="ex-fb" id="ex-fb-${i}" style="display:none;margin-top:8px;font-size:.85rem"></div>
+      <div class="ex-cn" id="ex-cn-${i}" style="display:none">${(ex.cn||"").replace(/</g,"&lt;")}</div>
+    `;
+    list.appendChild(box);
+  });
+  window.playExample=(i)=>{
+    const ww=allWords[wordIndex];
+    const aud=i===0?ww.audio_ex0:ww.audio_ex1;
+    if(aud){new Audio(mediaUrl(aud)).play().catch(()=>{}); return;}
+    const en=(ww.examples||[])[i]?.en||"";
+    if(en&&synthesizer) synthesizer.speakTextAsync(en,()=>{},e=>console.error(e));
+  };
+  window.toggleCn=(btn)=>{
+    const cn=btn.closest(".ex-card").querySelector(".ex-cn");
+    if(!cn)return;
+    const show=cn.style.display==="none";
+    cn.style.display=show?"block":"none"; btn.textContent=show?"隐藏中文":"显示中文";
+  };
+  const EX_MIN_SCORE = 75;
+  window.toggleExRecord=(j)=>{
+    const rc=window._p4rc, need=window._p4need, refSentences=window._p4refSentences||[];
+    if(rc[j]>=need)return;
+    const btn=document.getElementById("ex-rec-"+j);
+    const cntEl=document.getElementById("ex-cnt-"+j);
+    const fbEl=document.getElementById("ex-fb-"+j);
+    if(btn.dataset.rec==="1"){
+      const rec=window._exRec&&window._exRec[j];
+      if(rec){ rec.stopContinuousRecognitionAsync(()=>{
+        btn.dataset.rec="0"; btn.innerHTML='<i class="fas fa-microphone"></i>';
+        const res = window._p4exLastResult[j];
+        window._p4exLastResult[j]=null;
+        let score = 0;
+        if (res) {
+          try {
+            const json = JSON.parse(res.properties.getProperty(SpeechSDK.PropertyId.SpeechServiceResponse_JsonResult,"{}"));
+            const n = json.NBest?.[0];
+            if (n?.PronunciationAssessment) score = n.PronunciationAssessment.AccuracyScore??0;
+          } catch(e){}
+        }
+        if (score >= EX_MIN_SCORE) {
+          rc[j]++;
+          fbEl.style.display="block";
+          fbEl.style.color="var(--green)";
+          fbEl.innerHTML=`✓ ${Math.round(score)}分 通过`;
+          cntEl.textContent=`朗读 ${rc[j]}/${need}（需≥75分）`;
+        } else {
+          fbEl.style.display="block";
+          fbEl.style.color=score>0?"#fbbf24":"var(--red)";
+          fbEl.innerHTML=score>0 ? `✗ ${Math.round(score)}分，需达到75分，请重试` : "✗ 未检测到发音，请重试";
+        }
+        const done=Object.keys(rc).every(k=>rc[k]>=need);
+        document.getElementById("p4-next").disabled=!done;
+        if(window._exRec) delete window._exRec[j];
+      },()=>{btn.dataset.rec="0"; btn.innerHTML='<i class="fas fa-microphone"></i>';}); }
+      return;
+    }
+    btn.dataset.rec="1"; btn.innerHTML='<i class="fas fa-stop"></i> 点击结束';
+    fbEl.style.display="none";
+    const refText = refSentences[j]||"";
+    const rec=new SpeechSDK.SpeechRecognizer(speechConfig,SpeechSDK.AudioConfig.fromDefaultMicrophoneInput());
+    try {
+      const gran = SpeechSDK.PronunciationAssessmentGranularity?.FullSentence ?? 2;
+      const pa = new SpeechSDK.PronunciationAssessmentConfig(refText,
+        SpeechSDK.PronunciationAssessmentGradingSystem?.HundredMark??1, gran, false);
+      pa?.applyTo?.(rec);
+    } catch(e){}
+    rec.recognized = (s, e) => {
+      if (e.result.reason === SpeechSDK.ResultReason.RecognizedSpeech && e.result.text) {
+        window._p4exLastResult[j] = e.result;
+      }
+    };
+    if(!window._exRec) window._exRec={};
+    window._exRec[j]=rec;
+    rec.startContinuousRecognitionAsync(()=>{}, (err)=>{
+      btn.dataset.rec="0"; btn.innerHTML='<i class="fas fa-microphone"></i>';
+      if(window._exRec) delete window._exRec[j];
+      console.error(err);
+    });
+  };
+  document.getElementById("p4-next").disabled = exs.length>0;
+  showPage("p4-examples");
+  saveProgress();
+}
+
+function nextWord() {
+  const w = allWords[wordIndex];
+  if (w?.word) {
+    const dur = Date.now() - wordStartTime;
+    wordTimings[w.word] = (wordTimings[w.word] || 0) + dur;
+  }
+  wordIndex++; saveProgress(); startWord();
+}
+
+/* ═══════════════════════════════════════════════
+   复习流程
+═══════════════════════════════════════════════ */
+function setReviewDots(active) {
+  ["rd1","rd2","rd3"].forEach((id,i)=>{
+    const el=document.getElementById(id);
+    if(el){ if(i<active-1) el.className="step-dot done"; else if(i===active-1) el.className="step-dot active"; else el.className="step-dot"; }
+  });
+}
+function setReviewChip(word) {
+  document.getElementById("review-chip-word").textContent = word||"";
+}
+
+// 为每步复习生成独立的随机排列，使各步测试不同单词
+function _shuffleIdx(n) {
+  const a = Array.from({length:n},(_,i)=>i);
+  for (let i=n-1;i>0;i--) { const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; }
+  return a;
+}
+function _makeReviewOrders(n) {
+  return { socratic:_shuffleIdx(n), fill:_shuffleIdx(n), dictation:_shuffleIdx(n), translation:_shuffleIdx(n) };
+}
+
+function startReview() {
+  reviewOrders = _makeReviewOrders(reviewBatch.length);
+  reviewStep = 1;
+  ["review-step1","review-step2","review-step4"].forEach(id=>{
+    document.getElementById(id).style.display=id==="review-step1"?"block":"none";
+  });
+  setReviewDots(1);
+  showPage("p-review");
+  showSocraticQuestion();
+  saveProgress();
+}
+
+function showSocraticQuestion() {
+  const w = reviewOrders ? reviewBatch[reviewOrders.socratic[reviewIdx]] : reviewBatch[reviewIdx];
+  const q = (w.socratic_questions||[])[0];
+  if (!q) { reviewStep2(); return; }
+  document.getElementById("review-socratic-q").textContent = q.question||"";
+  const opts = document.getElementById("review-socratic-opts"); opts.innerHTML="";
+  [...reviewBatch].sort(()=>Math.random()-.5).map(x=>x.word).forEach(wo=>{
+    const b=document.createElement("button"); b.className="opt-btn"; b.textContent=wo;
+    b.onclick=()=>{
+      opts.querySelectorAll(".opt-btn").forEach(x=>x.disabled=true);
+      const ok=wo.toLowerCase()===w.word.toLowerCase();
+      reviewLogs.push({ type:"socratic", word:w.word, question:q.question||"", userAnswer:wo, correct:w.word, ok });
+      b.classList.add(ok?"correct":"wrong");
+      if(!ok) opts.querySelectorAll(".opt-btn").forEach(x=>{ if(x.textContent.toLowerCase()===w.word.toLowerCase()) x.classList.add("correct"); });
+      const fb=document.getElementById("review-socratic-fb");
+      fb.className="fb-box "+(ok?"fb-correct":"fb-wrong");
+      fb.style.display="block";
+      fb.textContent=ok?"✓ 正确！"+(q.answer_hint?"  "+q.answer_hint:""):"✗ 答案是「"+w.word+"」"+(q.answer_hint?"  "+q.answer_hint:"");
+      document.getElementById("review-socratic-next").disabled=false;
+    };
+    opts.appendChild(b);
+  });
+  document.getElementById("review-socratic-fb").style.display="none";
+  document.getElementById("review-socratic-next").disabled=true;
+}
+
+function reviewStep2() {
+  reviewStep = 2;
+  document.getElementById("review-step1").style.display="none";
+  document.getElementById("review-step2").style.display="block";
+  setReviewDots(2);
+  showPage("p-review");
+  saveProgress();
+  const w = reviewOrders ? reviewBatch[reviewOrders.fill[reviewIdx]] : reviewBatch[reviewIdx];
+  const fb=w.fill_blank||{};
+  const sents=fb.sentences||[], opts=fb.options||[], ci=fb.correct_index??0;
+  const sent=(sents[0]||"").trim();
+  const qDiv=document.getElementById("review-fill-q"); qDiv.innerHTML="";
+  if(sent){
+    const d=document.createElement("div"); d.className="fill-sent";
+    d.innerHTML=sent.replace(/___/g,"<mark>___</mark>");
+    qDiv.appendChild(d);
+  }
+  qDiv.innerHTML+='<p style="font-size:.85rem;color:var(--sub);margin-bottom:10px">'+(sent?"选出正确的词填入空白：":"选出最符合词义的选项：")+"</p>";
+  const div=document.getElementById("review-fill-opts"); div.innerHTML="";
+  const choices=opts.length?opts:sents;
+  choices.forEach((t,i)=>{
+    const b=document.createElement("button"); b.className="opt-btn"; b.textContent=t;
+    b.onclick=()=>{
+      div.querySelectorAll(".opt-btn").forEach(x=>x.disabled=true);
+      const ok=i===ci;
+      reviewLogs.push({ type:"fill", word:w.word, sentence:sent, userChoice:t, correctChoice:choices[ci]||"", ok });
+      b.classList.add(ok?"correct":"wrong");
+      const fb2=document.getElementById("review-fill-fb");
+      fb2.className="fb-box "+(ok?"fb-correct":"fb-wrong");
+      fb2.style.display="block";
+      fb2.textContent=ok?"✓ 正确！":"✗ 正确答案："+(choices[ci]||"");
+      document.getElementById("review-fill-next").disabled=false;
+    };
+    div.appendChild(b);
+  });
+  document.getElementById("review-fill-fb").style.display="none";
+  document.getElementById("review-fill-next").disabled=true;
+}
+
+function goToTranslationStep() {
+  reviewStep = 3;
+  document.getElementById("review-step2").style.display="none";
+  document.getElementById("review-step4").style.display="block";
+  setReviewDots(3);
+  saveProgress();
+  window._dictWord = reviewOrders ? reviewBatch[reviewOrders.translation[reviewIdx]] : reviewBatch[reviewIdx];
+  const exs=window._dictWord.examples||[];
+  window._transSentence = exs[0]?.en||exs[Math.floor(Math.random()*exs.length)]?.en||"";
+  const _ex = (window._dictWord?.examples||[]).find(e=>e.en===window._transSentence)
+              || (window._dictWord?.examples||[])[0] || {};
+  window._transRefCn = _ex.cn || "";
+  document.getElementById("review-trans-en").textContent = window._transSentence || "（无例句）";
+  document.getElementById("review-trans-result").style.display="none";
+}
+
+/* ═══════════════════════════════════════════════
+   翻译朗读 + DeepSeek 评价（持续识别，手动开始/停止）
+═══════════════════════════════════════════════ */
+function toggleTransRecord() {
+  if (!speechConfig) { alert("语音服务未初始化"); return; }
+  const btn = document.getElementById("review-trans-record");
+
+  if (transRecording) {
+    // ── 停止录音 ──
+    transRecording = false;
+    btn.innerHTML = '<i class="fas fa-microphone"></i> 朗读中文翻译';
+    btn.classList.remove("recording");
+    if (window._transRec) {
+      window._transRec.stopContinuousRecognitionAsync(
+        async () => {
+          const text = (window._transFullText||"").trim();
+          const resultDiv = document.getElementById("review-trans-result");
+          if (!text) {
+            resultDiv.style.display = "block";
+            resultDiv.innerHTML = `<div class="fb-box" style="background:rgba(148,163,184,.07);border-color:var(--border);color:var(--sub)">未识别到语音，请重试</div>`;
+    return;
+  }
+          await evaluateTranslation(window._transSentence||"", text, window._transRefCn||"");
+        },
+        e => console.error("stop err:", e)
+      );
+    }
+    return;
+  }
+
+  // ── 开始录音 ──
+  transRecording = true;
+  window._transFullText = "";
+  btn.innerHTML = '<i class="fas fa-stop"></i> 点击停止录音';
+  btn.classList.add("recording");
+  document.getElementById("review-trans-result").style.display = "none";
+
+  const zhCfg = SpeechSDK.SpeechConfig.fromSubscription(AZURE_KEY, AZURE_REGION);
+  zhCfg.speechRecognitionLanguage = "zh-CN";
+  const rec = new SpeechSDK.SpeechRecognizer(zhCfg, SpeechSDK.AudioConfig.fromDefaultMicrophoneInput());
+  window._transRec = rec;
+
+  // 实时显示识别到的片段
+  rec.recognized = (s, e) => {
+    if (e.result.reason === SpeechSDK.ResultReason.RecognizedSpeech && e.result.text) {
+      window._transFullText += e.result.text;
+      const resultDiv = document.getElementById("review-trans-result");
+      resultDiv.style.display = "block";
+      resultDiv.innerHTML = `<div class="fb-box" style="background:rgba(148,163,184,.07);border-color:var(--border);color:var(--text2)">
+        识别中：<span style="color:var(--text)">${window._transFullText}</span>
+      </div>`;
+    }
+  };
+
+  rec.startContinuousRecognitionAsync(
+    () => {},
+    e => {
+      transRecording = false;
+      btn.innerHTML = '<i class="fas fa-microphone"></i> 朗读中文翻译';
+      btn.classList.remove("recording");
+      console.error("start err:", e);
+    }
+  );
+}
+
+async function evaluateTranslation(enText, studentCn, refCn) {
+  const resultDiv=document.getElementById("review-trans-result");
+  resultDiv.style.display="block";
+  resultDiv.innerHTML=`<div class="eval-loading"><span class="spin">⟳</span> DeepSeek 正在评价…</div>`;
+  document.getElementById("review-trans-next").disabled=false;
+  try {
+    const prompt=`你是初中英语翻译评价专家，帮助八年级学生提升英译中能力。
+英文原句：${enText}
+参考中文：${refCn||"（无）"}
+学生朗读的中文翻译：${studentCn}
+
+请用JSON格式返回评价，包含这些字段：
+- score: 整数0-100（语义准确度）
+- correct: 翻译正确/较好的部分（简洁，1句）
+- issues: 主要问题或遗漏（1-2句，没有则写"无明显问题"）
+- standard: 最佳参考翻译（1句）
+- tip: 针对性的学习建议（1句，结合初中生水平）`;
+
+    const resp=await fetch("https://api.deepseek.com/v1/chat/completions",{
+      method:"POST",
+      headers:{"Content-Type":"application/json","Authorization":"Bearer "+DEEPSEEK_KEY},
+      body:JSON.stringify({
+        model:"deepseek-chat",
+        messages:[{role:"user",content:prompt}],
+        response_format:{type:"json_object"},
+        temperature:0.3,max_tokens:400
+      })
+    });
+    if(!resp.ok) throw new Error("API "+resp.status);
+    const data=await resp.json();
+    const ev=JSON.parse(data.choices[0].message.content);
+    const s=ev.score??0;
+    reviewLogs.push({ type:"translation", word:window._dictWord?.word||"", en:enText, studentCn, score:s, correct:ev.correct||"", issues:ev.issues||"", standard:ev.standard||"" });
+    const cls=s>=80?"eval-score-hi":s>=55?"eval-score-mid":"eval-score-lo";
+    resultDiv.innerHTML=`
+      <div class="eval-card">
+        <div class="eval-score-row">
+          <div class="eval-score-circle ${cls}">${s}</div>
+          <div>
+            <div style="font-size:.75rem;font-weight:800;color:var(--sub);letter-spacing:.05em;margin-bottom:4px">DEEPSEEK 评分</div>
+            <div style="font-size:.85rem;color:var(--sub)">你说的：<span style="color:var(--text)">${studentCn}</span></div>
+          </div>
+        </div>
+        ${ev.correct?`<div class="eval-row"><span class="eval-lbl">✓ 正确</span><span class="eval-val" style="color:var(--green)">${ev.correct}</span></div>`:""}
+        ${ev.issues?`<div class="eval-row"><span class="eval-lbl">⚠ 问题</span><span class="eval-val" style="color:#fca5a5">${ev.issues}</span></div>`:""}
+        <div class="eval-row"><span class="eval-lbl">📝 标准</span><span class="eval-val">${ev.standard||refCn||"—"}</span></div>
+        ${ev.tip?`<div class="eval-tip">💡 ${ev.tip}</div>`:""}
+      </div>`;
+  } catch(e) {
+    resultDiv.innerHTML=`<div class="eval-card"><p style="color:var(--sub);font-size:.88rem">评价暂不可用：${e.message}</p></div>`;
+    console.error("DeepSeek eval:", e);
+  }
+}
+
+/* ═══════════════════════════════════════════════
+   复习完成
+═══════════════════════════════════════════════ */
+function finishReview() {
+  reviewIdx++;
+  if (reviewIdx < reviewBatch.length) {
+    ["review-step1","review-step2","review-step4"].forEach(id=>{
+      document.getElementById(id).style.display=id==="review-step1"?"block":"none";
+    });
+    setReviewDots(1);
+    document.getElementById("review-socratic-opts").innerHTML="";
+    document.getElementById("review-socratic-fb").style.display="none";
+    document.getElementById("review-socratic-next").disabled=true;
+    showSocraticQuestion();
+  } else {
+    saveProgress();
+    showCurrentWord();
+  }
+}
+
+/* ═══════════════════════════════════════════════
+   EmailJS 学习报告发送
+═══════════════════════════════════════════════ */
+function escapeHtml(s) { if (!s) return ""; return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
+function formatDateTime(d) {
+  if (!d) return "-";
+  const x = d instanceof Date ? d : new Date(d);
+  return x.getFullYear()+"-"+("0"+(x.getMonth()+1)).slice(-2)+"-"+("0"+x.getDate()).slice(-2)+" "+
+    ("0"+x.getHours()).slice(-2)+":"+("0"+x.getMinutes()).slice(-2)+":"+("0"+x.getSeconds()).slice(-2);
+}
+function formatDuration(ms) {
+  if (!ms||ms<0) return "0s";
+  const s=Math.floor(ms/1000), m=Math.floor(s/60), h=Math.floor(m/60);
+  if (h>0) return h+"h "+m%60+"min "+s%60+"s";
+  if (m>0) return m+"min "+s%60+"s";
+  return s+"s";
+}
+function buildReportDetailsHtml() {
+  let html = "";
+  if (Object.keys(wordTimings).length > 0) {
+    html += "<h3 style=\"font-size:14px;margin:12px 0 8px;color:#333;\">⏱️ 每个单词学习时间</h3>";
+    html += "<table style=\"border-collapse:collapse;width:100%;font-size:13px;\"><tr style=\"background:#f0f0f0;\"><th style=\"border:1px solid #ddd;padding:6px;text-align:left;\">单词</th><th style=\"border:1px solid #ddd;padding:6px;text-align:left;\">学习时长</th></tr>";
+    Object.entries(wordTimings).forEach(([w,t])=>{
+      html += "<tr><td style=\"border:1px solid #ddd;padding:5px;\">"+escapeHtml(w)+"</td><td style=\"border:1px solid #ddd;padding:5px;\">"+(t/1000).toFixed(1)+" 秒</td></tr>";
+    });
+    html += "</table>";
+  }
+  if (reviewLogs.length > 0) {
+    html += "<h3 style=\"font-size:14px;margin:16px 0 8px;color:#333;\">📋 复习阶段做题过程与结果</h3>";
+    const socraticLogs = reviewLogs.filter(r=>r.type==="socratic");
+    const fillLogs = reviewLogs.filter(r=>r.type==="fill");
+    const transLogs = reviewLogs.filter(r=>r.type==="translation");
+    if (socraticLogs.length) {
+      html += "<p style=\"font-weight:700;margin:8px 0 4px;\">🧠 情景联想</p><table style=\"border-collapse:collapse;width:100%;font-size:12px;\"><tr style=\"background:#f0f0f0;\"><th style=\"border:1px solid #ddd;padding:5px;\">单词</th><th style=\"border:1px solid #ddd;padding:5px;\">题目</th><th style=\"border:1px solid #ddd;padding:5px;\">学生答案</th><th style=\"border:1px solid #ddd;padding:5px;\">正确答案</th><th style=\"border:1px solid #ddd;padding:5px;\">对错</th></tr>";
+      socraticLogs.forEach(r=>{ html += "<tr style=\"background:"+(r.ok?"#f0fff0":"#fff0f0")+";\"><td style=\"border:1px solid #ddd;padding:5px;\">"+escapeHtml(r.word)+"</td><td style=\"border:1px solid #ddd;padding:5px;\">"+escapeHtml(r.question.substring(0,50)+(r.question.length>50?"…":""))+"</td><td style=\"border:1px solid #ddd;padding:5px;\">"+escapeHtml(r.userAnswer)+"</td><td style=\"border:1px solid #ddd;padding:5px;\">"+escapeHtml(r.correct)+"</td><td style=\"border:1px solid #ddd;padding:5px;\">"+(r.ok?"✓":"✗")+"</td></tr>"; });
+      html += "</table>";
+    }
+    if (fillLogs.length) {
+      html += "<p style=\"font-weight:700;margin:8px 0 4px;\">✏️ 句子填空</p><table style=\"border-collapse:collapse;width:100%;font-size:12px;\"><tr style=\"background:#f0f0f0;\"><th style=\"border:1px solid #ddd;padding:5px;\">单词</th><th style=\"border:1px solid #ddd;padding:5px;\">句子</th><th style=\"border:1px solid #ddd;padding:5px;\">学生选择</th><th style=\"border:1px solid #ddd;padding:5px;\">正确答案</th><th style=\"border:1px solid #ddd;padding:5px;\">对错</th></tr>";
+      fillLogs.forEach(r=>{ html += "<tr style=\"background:"+(r.ok?"#f0fff0":"#fff0f0")+";\"><td style=\"border:1px solid #ddd;padding:5px;\">"+escapeHtml(r.word)+"</td><td style=\"border:1px solid #ddd;padding:5px;\">"+escapeHtml(r.sentence.substring(0,40)+(r.sentence.length>40?"…":""))+"</td><td style=\"border:1px solid #ddd;padding:5px;\">"+escapeHtml(r.userChoice)+"</td><td style=\"border:1px solid #ddd;padding:5px;\">"+escapeHtml(r.correctChoice)+"</td><td style=\"border:1px solid #ddd;padding:5px;\">"+(r.ok?"✓":"✗")+"</td></tr>"; });
+      html += "</table>";
+    }
+    if (transLogs.length) {
+      html += "<p style=\"font-weight:700;margin:8px 0 4px;\">🌏 翻译朗读 · AI评价</p><table style=\"border-collapse:collapse;width:100%;font-size:12px;\"><tr style=\"background:#f0f0f0;\"><th style=\"border:1px solid #ddd;padding:5px;\">单词</th><th style=\"border:1px solid #ddd;padding:5px;\">英文</th><th style=\"border:1px solid #ddd;padding:5px;\">学生翻译</th><th style=\"border:1px solid #ddd;padding:5px;\">得分</th><th style=\"border:1px solid #ddd;padding:5px;\">标准参考</th></tr>";
+      transLogs.forEach(r=>{ html += "<tr><td style=\"border:1px solid #ddd;padding:5px;\">"+escapeHtml(r.word)+"</td><td style=\"border:1px solid #ddd;padding:5px;\">"+escapeHtml(r.en.substring(0,35)+(r.en.length>35?"…":""))+"</td><td style=\"border:1px solid #ddd;padding:5px;\">"+escapeHtml(r.studentCn.substring(0,25)+(r.studentCn.length>25?"…":""))+"</td><td style=\"border:1px solid #ddd;padding:5px;\">"+r.score+"</td><td style=\"border:1px solid #ddd;padding:5px;\">"+escapeHtml((r.standard||"").substring(0,30))+"</td></tr>"; });
+      html += "</table>";
+    }
+  }
+  if (!html) html = "<p style=\"color:#999;\">暂无学习数据（需完成部分单词学习或复习后发送）</p>";
+  return html;
+}
+function sendLearningReport() {
+  if (reportSent) { alert("报告已发送过"); return; }
+  const hasData = Object.keys(wordTimings).length > 0 || reviewLogs.length > 0;
+  if (!hasData) { alert("暂无学习数据，请先完成部分单词学习或复习后再发送报告"); return; }
+  if (typeof emailjs === "undefined") { alert("邮件服务未加载，请刷新页面后重试"); return; }
+  const endTime = new Date();
+  const startT = sessionStartTime || endTime;
+  const durationMs = endTime - startT;
+  const studentName = localStorage.getItem("authing-user") || localStorage.getItem("current-user") || "未登录";
+  const contentName = "人教版词汇 Unit" + currentUnit + " - " + (document.title || "词汇学习");
+  const choiceLogs = reviewLogs.filter(r=>r.type==="socratic"||r.type==="fill");
+  const transLogs = reviewLogs.filter(r=>r.type==="translation");
+  const reviewCorrect = choiceLogs.filter(r=>r.ok).length;
+  const reviewTotal = choiceLogs.length;
+  const avgTransScore = transLogs.length ? Math.round(transLogs.reduce((a,x)=>a+x.score,0)/transLogs.length) : null;
+  const score = reviewTotal ? reviewCorrect : (avgTransScore!==null ? avgTransScore : 0);
+  const total = reviewTotal || (avgTransScore!==null ? 100 : 0);
+  const accuracy = total > 0 ? Math.round((reviewTotal ? reviewCorrect/reviewTotal : avgTransScore/100) * 100) + "%" : "-";
+  const templateParams = {
+    student_name: studentName,
+    content_name: contentName,
+    page_url: location.href,
+    page_url_display: contentName,
+    start_time: formatDateTime(startT),
+    end_time: formatDateTime(endTime),
+    duration: formatDuration(durationMs),
+    score: score,
+    total: total,
+    accuracy: accuracy,
+    details_html: buildReportDetailsHtml()
+  };
+  try {
+    emailjs.init(EMAILJS_PUBLIC_KEY);
+    emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
+      .then(() => { reportSent = true; alert("✅ 学习报告已发送给老师"); })
+      .catch(() => { alert("❌ 报告发送失败，请检查网络后重试"); });
+  } catch (e) { alert("发送失败：" + (e.message || "未知错误")); }
+}
+
+/* ═══════════════════════════════════════════════
+   启动 & 关闭保存
+═══════════════════════════════════════════════ */
+window.addEventListener("beforeunload", ()=>saveProgress());
+window.addEventListener("pagehide", ()=>saveProgress());
+(async()=>{
+  await initSpeech();
+  loadUnitList();
+  const p = loadProgress();
+  if (p && currentUnit) {
+    if (confirm("📖 检测到上次进度，是否恢复到关闭前的页面？")) resumeUnit();
+  }
+})();
+  </script>
+</body>
+</html>
