@@ -108,26 +108,52 @@
     return "人教版英语 " + grade + " · " + unit + " 词汇例句";
   }
 
+  function getRolesInAnalysis(analysis) {
+    var roles = {};
+    if (!analysis || !analysis.length) return roles;
+    for (var i = 0; i < analysis.length; i++) {
+      var r = analysis[i].role;
+      if (r && r !== "Punctuation" && ROLE_COLORS[r]) roles[r] = true;
+    }
+    return roles;
+  }
+
+  var ROLE_ORDER = ["Subject","Predicate","LinkingVerb","Predicative","Object","ObjectComplement","Attribute","Adverbial","Complement","MainClause","SubordinateClause","Conjunction","Appositive"];
+
+  function getMiniTagsForRoles(roles) {
+    var html = "";
+    for (var i = 0; i < ROLE_ORDER.length; i++) {
+      var r = ROLE_ORDER[i];
+      if (roles[r]) {
+        var v = ROLE_COLORS[r];
+        if (v && v[1] !== "标点") {
+          html += '<span class="mini-tag" style="color:' + v[0] + ';border-color:' + v[0] + '">' + v[1] + "</span>";
+        }
+      }
+    }
+    return html;
+  }
+
+  function getLegendItemsForRoles(roles) {
+    var html = "";
+    for (var i = 0; i < ROLE_ORDER.length; i++) {
+      var r = ROLE_ORDER[i];
+      if (roles[r]) {
+        var v = ROLE_COLORS[r];
+        if (v && v[1] !== "标点") {
+          html += '<span class="legend-item"><span class="legend-dot" style="background:' + v[0] + '"></span>' + v[1] + "</span>";
+        }
+      }
+    }
+    return html;
+  }
+
   function buildPdfHtml(data, pageTitle, analysisMap) {
     analysisMap = analysisMap || {};
-    var legendItems = "";
-    for (var k in ROLE_COLORS) {
-      var v = ROLE_COLORS[k];
-      if (v[1] !== "标点") {
-        legendItems += '<span class="legend-item"><span class="legend-dot" style="background:' + v[0] + '"></span>' + v[1] + "</span>";
-      }
-    }
-
     var words = (data && data.units && data.units[0] && data.units[0].words) ? data.units[0].words : [];
-    var blocks = [];
-    var miniTags = "";
-    for (var k in ROLE_COLORS) {
-      var v = ROLE_COLORS[k];
-      if (v[1] !== "标点") {
-        miniTags += '<span class="mini-tag" style="color:' + v[0] + ';border-color:' + v[0] + '">' + v[1] + "</span>";
-      }
-    }
+    var allRolesUsed = {};
 
+    var blocks = [];
     for (var w = 0; w < words.length; w++) {
       var word = words[w];
       var examples = word.examples || [];
@@ -148,8 +174,11 @@
         var cn = ex.cn || "";
         var initials = getInitials(en);
         var analysis = analysisMap[en];
+        var rolesInThis = getRolesInAnalysis(analysis);
+        for (var r in rolesInThis) allRolesUsed[r] = true;
+        var miniTags = getMiniTagsForRoles(rolesInThis);
         var analysisHtml = analysis && analysis.length
-          ? '<div class="analysis">' + renderAnalysisHtml(analysis) + '</div><div class="analysis-legend-mini">' + miniTags + "</div>"
+          ? '<div class="analysis">' + renderAnalysisHtml(analysis) + (miniTags ? '</div><div class="analysis-legend-mini">' + miniTags + "</div>" : "</div>")
           : '<div class="analysis-hint">（分析中...）</div>';
 
         rows.push(
@@ -168,6 +197,8 @@
       }
       blocks.push('<div class="word-block">' + wordHeader + rows.join("") + "</div>");
     }
+
+    var legendItems = getLegendItemsForRoles(allRolesUsed);
 
     return (
       "<!DOCTYPE html><html lang=\"zh-CN\"><head><meta charset=\"UTF-8\"><title>" +
@@ -205,7 +236,7 @@
       "<p>例句朗读 · 句子结构分析 · 中文对照 · 首字母背诵</p>" +
       '<p style="margin-top:4px;font-size:8pt;color:#888">左侧：英文例句 + 句子成分彩色标注 &nbsp;|&nbsp; 中间：对折线 &nbsp;|&nbsp; 右侧：中文翻译 + 首字母提示</p>' +
       "</div>" +
-      '<div class="legend"><strong style="margin-right:4px">句子成分图例：</strong>' + legendItems + "</div>" +
+      (legendItems ? '<div class="legend"><strong style="margin-right:4px">句子成分图例（本页出现的成分）：</strong>' + legendItems + "</div>" : "") +
       blocks.join("") +
       "</body></html>"
     );
