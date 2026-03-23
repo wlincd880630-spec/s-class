@@ -1,0 +1,2190 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <script>window.MEDIA_BASE="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/";window.MEDIA_PREFIX="Grammar/DQ主谓宾和非谓语";window.mediaUrl=function(p){if(!p)return"";if(/^(https?:|\/\/|data:)/.test(String(p)))return p;return(window.MEDIA_BASE||"")+(window.MEDIA_PREFIX||"")+"/"+String(p).replace(/^\//,"");};</script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>谓语时态与非谓语动词 — 互动课 第 3 页</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --paper: #fff9e8;
+      --paper-edge: #e8dcc4;
+      --crayon-red: #e85d5d;
+      --crayon-blue: #4a90d9;
+      --crayon-green: #5cb85c;
+      --crayon-yellow: #ffd54f;
+      --crayon-pink: #ff8fab;
+      --crayon-purple: #9b7edc;
+      --crayon-orange: #ff9f43;
+      --ink: #2c2c2c;
+      --shadow: rgba(44, 44, 44, 0.15);
+      --finite: #c62828;
+      --nonfinite: #6a1b9a;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      font-family: "ZCOOL KuaiLe", "Patrick Hand", cursive, sans-serif;
+      background: linear-gradient(145deg, #b8e6ff 0%, #c8f4e0 38%, #ffe8a3 100%);
+      background-attachment: fixed;
+      overflow-x: hidden;
+    }
+
+    @media (min-width: 640px) {
+      html { overflow-x: hidden; }
+      body {
+        zoom: 1.35;
+        width: min(920px, calc(100vw / 1.35));
+        max-width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        box-sizing: border-box;
+      }
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.07;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    #app {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 1rem 0.5rem 5.5rem;
+      min-height: 100vh;
+    }
+
+    h1 {
+      font-size: clamp(0.9rem, 2.6vw, 1.15rem);
+      text-align: center;
+      margin-bottom: 0.5rem;
+      color: var(--ink);
+      text-shadow: 2px 2px 0 rgba(255,255,255,0.5);
+    }
+
+    .progress-tag {
+      text-align: center;
+      font-size: 0.78rem;
+      color: #555;
+      margin-bottom: 0.65rem;
+    }
+
+    .board {
+      background: var(--paper);
+      border: 3px solid var(--ink);
+      border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+      padding: clamp(0.85rem, 3vw, 1.35rem);
+      box-shadow: 6px 8px 0 var(--paper-edge), 12px 14px 24px var(--shadow);
+      min-height: 300px;
+    }
+
+    .board--blackboard {
+      background: linear-gradient(145deg, #2d4a3e 0%, #1e3328 100%);
+      color: #f0f0e8;
+      border-color: #4a6b5c;
+    }
+
+    .board--blackboard .zh-text { color: #e8f0e8; }
+    .board--blackboard .en-sentence { color: #f5f5f0; }
+
+    .step-panel.active {
+      display: block;
+      animation: stepIn 0.4s ease;
+    }
+    .step-panel { display: none; }
+    @keyframes stepIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .step-panel.active { animation: none; }
+    }
+
+    .zh-text {
+      font-size: clamp(0.95rem, 2.5vw, 1.12rem);
+      line-height: 1.65;
+      color: var(--ink);
+      text-align: center;
+      margin: 0.5rem 0;
+    }
+
+    .en-sentence {
+      font-family: "Patrick Hand", cursive;
+      font-size: clamp(1.2rem, 3.8vw, 1.75rem);
+      text-align: center;
+      margin: 0.85rem 0;
+      line-height: 1.45;
+      color: var(--ink);
+    }
+    .en-sentence--quiz {
+      line-height: 1.85;
+    }
+    .sentence-tts-row {
+      display: flex;
+      flex-wrap: nowrap;
+      align-items: flex-start;
+      justify-content: center;
+      gap: 0.45rem;
+      margin: 0.65rem 0;
+    }
+    .sentence-tts-row--tap {
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .sentence-tts-row__text {
+      flex: 1;
+      min-width: 0;
+      text-align: center;
+    }
+    .sentence-tts-row__text .en-sentence,
+    .sentence-tts-row__text .p3-sentence-tap {
+      margin: 0;
+    }
+    .tts-read-btn {
+      flex-shrink: 0;
+      width: 2.35rem;
+      height: 2.35rem;
+      border: 2px solid var(--ink);
+      border-radius: 50%;
+      background: linear-gradient(180deg, #fff 0%, #f0f0f0 100%);
+      cursor: pointer;
+      font-size: 1.05rem;
+      line-height: 1;
+      padding: 0;
+      box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.12);
+    }
+    .board--blackboard .tts-read-btn {
+      border-color: rgba(255, 255, 255, 0.55);
+      background: linear-gradient(180deg, #fff 0%, #e8f4ec 100%);
+    }
+    .word-fix-wrap {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      vertical-align: middle;
+      margin: 0 0.12em;
+      position: relative;
+    }
+    .word-fix-top {
+      font-family: "Patrick Hand", cursive;
+      font-size: 0.82em;
+      color: #1b5e20;
+      font-weight: bold;
+      line-height: 1.1;
+      margin-bottom: 0.08em;
+    }
+    .word-fix-bad {
+      position: relative;
+      color: #888;
+      text-decoration: line-through;
+      text-decoration-color: var(--crayon-red);
+      text-decoration-thickness: 2px;
+    }
+    .word-fix-x {
+      display: inline-block;
+      margin-left: 0.12em;
+      color: var(--crayon-red);
+      font-weight: bold;
+      font-size: 1.05em;
+      text-decoration: none;
+      vertical-align: middle;
+    }
+
+    .board-icons {
+      display: flex;
+      justify-content: center;
+      gap: 1.25rem;
+      margin: 0.5rem 0 0.75rem;
+      font-size: 2rem;
+      filter: drop-shadow(2px 2px 0 rgba(0,0,0,0.15));
+    }
+
+    .choice-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.65rem;
+      margin: 1rem 0;
+    }
+
+    .choice-chip {
+      padding: 0.5rem 1rem;
+      border: 3px solid var(--ink);
+      border-radius: 12px;
+      background: linear-gradient(180deg, #fff 0%, #f4f4f4 100%);
+      font-size: 1.05rem;
+      color: #000;
+      cursor: default;
+      box-shadow: 3px 4px 0 var(--shadow);
+      transition: transform 0.25s ease, box-shadow 0.25s;
+    }
+    .board--blackboard .choice-chip,
+    .board--blackboard .choice-chip--winner {
+      color: #000;
+    }
+    .choice-chip--winner {
+      border-color: var(--crayon-red);
+      background: linear-gradient(180deg, #ffe0e0 0%, #fff 100%);
+      transform: scale(1.12);
+      box-shadow: 0 0 0 4px rgba(232, 93, 93, 0.45);
+      animation: pulseWin 0.9s ease infinite;
+    }
+    @keyframes pulseWin {
+      0%, 100% { box-shadow: 0 0 0 4px rgba(232, 93, 93, 0.45); }
+      50% { box-shadow: 0 0 0 8px rgba(232, 93, 93, 0.25); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .choice-chip--winner { animation: none; }
+    }
+
+    .pic-frame {
+      margin: 0.5rem auto;
+      max-width: 280px;
+      padding: 0.5rem;
+      background: #fffef6;
+      border: 3px dashed var(--crayon-orange);
+      border-radius: 14px;
+      text-align: center;
+    }
+    .pic-frame img {
+      max-width: 100%;
+      height: auto;
+      max-height: 220px;
+      object-fit: contain;
+      vertical-align: middle;
+      border-radius: 8px;
+    }
+
+    .pic-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.5rem;
+      margin: 0.75rem 0;
+    }
+    .pic-grid .pic-frame {
+      max-width: 140px;
+      flex: 1 1 120px;
+    }
+    .pic-grid .pic-frame img { max-height: 100px; }
+
+    .pic-grid--ambig {
+      margin-top: 0.85rem;
+      max-width: 560px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .pic-with-q {
+      position: relative;
+      display: inline-block;
+      max-width: 100%;
+    }
+    .pic-with-q img {
+      display: block;
+      max-height: 100px;
+      width: auto;
+      margin: 0 auto;
+    }
+    .pic-qmark {
+      position: absolute;
+      top: 2px;
+      right: 2px;
+      min-width: 1.65rem;
+      height: 1.65rem;
+      line-height: 1.45rem;
+      padding: 0 0.2rem;
+      text-align: center;
+      font-family: "Patrick Hand", cursive;
+      font-size: 1.35rem;
+      font-weight: bold;
+      color: var(--crayon-red);
+      background: rgba(255, 255, 255, 0.92);
+      border: 3px solid var(--ink);
+      border-radius: 50%;
+      box-shadow: 2px 2px 0 var(--shadow);
+      pointer-events: none;
+    }
+
+    .tf-row {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin: 1rem 0;
+      flex-wrap: wrap;
+    }
+
+    .crayon-btn {
+      font-family: inherit;
+      padding: 0.55rem 1.35rem;
+      font-size: 1.05rem;
+      border: 3px solid var(--ink);
+      border-radius: 12px 10px 14px 11px;
+      cursor: pointer;
+      box-shadow: 4px 5px 0 var(--shadow);
+      background: linear-gradient(180deg, #fff 0%, #f0f0f0 100%);
+    }
+    .crayon-btn:hover:not(:disabled) {
+      filter: brightness(1.03);
+    }
+    .crayon-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    .crayon-btn--green {
+      border-color: var(--crayon-green);
+      background: linear-gradient(180deg, #e8f8e8 0%, #fff 100%);
+    }
+    .crayon-btn--red {
+      border-color: var(--crayon-red);
+      background: linear-gradient(180deg, #ffe8e8 0%, #fff 100%);
+    }
+    .crayon-btn--yellow {
+      border-color: var(--crayon-yellow);
+      background: linear-gradient(180deg, #fff8e0 0%, #fff 100%);
+    }
+
+    .feedback-box {
+      margin: 0.85rem auto;
+      max-width: 520px;
+      padding: 0.85rem 1rem;
+      text-align: left;
+      border-left: 5px solid var(--crayon-orange);
+      background: rgba(255, 213, 79, 0.28);
+      border-radius: 0 12px 12px 0;
+      font-size: 0.95rem;
+      line-height: 1.7;
+      color: var(--ink);
+    }
+
+    .speaker-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 3rem;
+      height: 3rem;
+      margin-left: 0.5rem;
+      border-radius: 50%;
+      border: 3px solid var(--crayon-blue);
+      background: linear-gradient(180deg, #e3f0ff 0%, #fff 100%);
+      cursor: pointer;
+      font-size: 1.35rem;
+      vertical-align: middle;
+      box-shadow: 3px 4px 0 var(--shadow);
+    }
+    .speaker-btn:active { transform: scale(0.96); }
+
+    .kiwi-big {
+      font-family: "Patrick Hand", cursive;
+      font-size: clamp(2.5rem, 8vw, 3.5rem);
+      text-align: center;
+      color: var(--crayon-green);
+      text-shadow: 2px 2px 0 var(--paper-edge);
+      margin: 0.5rem 0;
+    }
+
+    .teacher-box {
+      margin: 1rem auto;
+      max-width: 540px;
+      padding: 1rem 1.15rem;
+      background: #fff;
+      border: 3px solid var(--ink);
+      border-radius: 12px 18px 14px 16px;
+      box-shadow: 4px 6px 0 var(--shadow);
+      text-align: left;
+      font-size: 0.98rem;
+      line-height: 1.75;
+      color: #1a1a1a;
+    }
+    .board--blackboard .teacher-box {
+      color: #1a1a1a;
+    }
+
+    .fight-stage {
+      position: relative;
+      min-height: 140px;
+      margin: 1rem 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+    .fighter {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.25rem;
+      font-family: "Patrick Hand", cursive;
+      font-size: 1.75rem;
+      font-weight: bold;
+      animation: fightLeft 0.55s ease-in-out infinite alternate;
+    }
+    .fighter--b {
+      animation-name: fightRight;
+    }
+    .fighter .glove {
+      font-size: 1.5rem;
+    }
+    @keyframes fightLeft {
+      from { transform: translateX(0) rotate(-4deg); }
+      to { transform: translateX(12px) rotate(6deg); }
+    }
+    @keyframes fightRight {
+      from { transform: translateX(0) rotate(4deg); }
+      to { transform: translateX(-12px) rotate(-6deg); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .fighter, .fighter--b { animation: none; }
+    }
+    .fight-burst {
+      position: absolute;
+      font-size: 2rem;
+      animation: burstPop 0.6s ease infinite;
+    }
+    @keyframes burstPop {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.15); opacity: 0.85; }
+    }
+
+    .verb-finite {
+      color: var(--finite);
+      font-weight: bold;
+      padding: 0.08em 0.2em;
+      border-radius: 6px;
+      background: rgba(198, 40, 40, 0.12);
+      border-bottom: 4px solid var(--finite);
+    }
+    .verb-nonfinite {
+      color: var(--nonfinite);
+      font-weight: bold;
+      padding: 0.08em 0.2em;
+      border-radius: 6px;
+      background: rgba(106, 27, 154, 0.12);
+      border-bottom: 4px solid var(--nonfinite);
+    }
+    .verb-legend {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1.25rem;
+      margin-top: 1rem;
+      font-size: 0.92rem;
+    }
+    .verb-legend span { max-width: 220px; text-align: center; line-height: 1.5; }
+
+    .hint-prompt {
+      font-size: 0.88rem;
+      color: #666;
+      text-align: center;
+      margin: 0.5rem 0;
+    }
+    .board--blackboard .hint-prompt { color: #c8ddd0; }
+
+    .footer-bar {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 0.75rem 1rem calc(0.75rem + env(safe-area-inset-bottom));
+      background: linear-gradient(transparent, rgba(255,249,232,0.96) 40%);
+      display: flex;
+      justify-content: center;
+      z-index: 150;
+    }
+    .footer-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem 1rem;
+      width: 100%;
+      max-width: 960px;
+    }
+    .page-nav-link {
+      font-family: "ZCOOL KuaiLe", sans-serif;
+      font-size: 0.88rem;
+      padding: 0.5rem 0.95rem;
+      border: 2px solid var(--ink);
+      border-radius: 999px;
+      background: linear-gradient(180deg, #f8fbff 0%, #e8eef5 100%);
+      color: var(--ink);
+      text-decoration: none;
+      white-space: nowrap;
+      box-shadow: 2px 3px 0 var(--shadow);
+      transition: transform 0.12s ease;
+    }
+    a.page-nav-link:hover {
+      transform: translateY(-1px);
+    }
+    .page-nav-link--disabled {
+      opacity: 0.42;
+      pointer-events: none;
+      cursor: default;
+      box-shadow: none;
+    }
+    .next-btn {
+      font-family: "ZCOOL KuaiLe", sans-serif;
+      font-size: 1.08rem;
+      padding: 0.65rem 1.6rem;
+      background: linear-gradient(180deg, var(--crayon-yellow) 0%, #ffc107 100%);
+      border: 3px solid var(--ink);
+      border-radius: 14px 10px 16px 12px;
+      box-shadow: 4px 5px 0 var(--shadow);
+      cursor: pointer;
+    }
+    .next-btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    .success-overlay {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 200;
+      overflow: hidden;
+    }
+    .confetti {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      top: -12px;
+      animation: fall 2.8s linear forwards;
+    }
+    @keyframes fall {
+      to { transform: translateY(100vh) rotate(720deg); opacity: 0.35; }
+    }
+
+    /* Part 6–8：主谓宾拖拽 / 点选 / 练习区 */
+    .p3-drop-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.65rem;
+      margin: 1.1rem 0;
+      align-items: stretch;
+    }
+    .p3-drop-zone {
+      min-width: 92px;
+      min-height: 52px;
+      padding: 0.45rem 0.5rem;
+      border: 3px dashed var(--ink);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.55);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .board--blackboard .p3-drop-zone {
+      background: rgba(0, 0, 0, 0.2);
+      border-color: rgba(255, 255, 255, 0.45);
+    }
+    .p3-drop-zone__label {
+      font-size: 0.78rem;
+      color: #666;
+      margin-bottom: 0.25rem;
+    }
+    .board--blackboard .p3-drop-zone__label { color: #c8ddd0; }
+    .p3-drop-zone.drag-over {
+      background: rgba(255, 213, 79, 0.35);
+      border-color: var(--crayon-orange);
+    }
+    .p3-drop-zone.wrong-flash {
+      animation: p3shake 0.35s ease;
+    }
+    .p3-drop-zone.filled-correct {
+      border-style: solid;
+      border-color: var(--crayon-green);
+      background: rgba(92, 184, 92, 0.2);
+    }
+    .p3-drop-zone .dropped-chip {
+      font-family: "Patrick Hand", cursive;
+      font-size: 1.05rem;
+      color: var(--ink);
+      text-align: center;
+    }
+    /* 黑板 + 绿框内英文：白字易读 */
+    .board--blackboard .p3-drop-zone.filled-correct .dropped-chip {
+      color: #fff;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+    }
+    .p3-draggable {
+      display: inline-block;
+      padding: 0.2rem 0.45rem;
+      margin: 0.08rem;
+      border-radius: 8px;
+      border: 2px dashed var(--crayon-blue);
+      background: rgba(74, 144, 217, 0.12);
+      cursor: grab;
+      touch-action: none;
+      user-select: none;
+      font-family: "Patrick Hand", cursive;
+      font-size: clamp(1.05rem, 3.2vw, 1.35rem);
+    }
+    .p3-draggable:active { cursor: grabbing; }
+    .p3-draggable.is-dragging {
+      opacity: 0.85;
+      z-index: 50;
+      box-shadow: 4px 6px 0 var(--shadow);
+    }
+    .p3-chip-pool {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.5rem;
+      margin: 0.85rem 0;
+      min-height: 48px;
+    }
+    .p3-sentence-tap {
+      font-family: "Patrick Hand", cursive;
+      font-size: clamp(1.05rem, 3.5vw, 1.4rem);
+      text-align: center;
+      line-height: 1.75;
+      margin: 0.75rem 0;
+      color: var(--ink);
+    }
+    .board--blackboard .p3-sentence-tap { color: #f5f5f0; }
+    .p3-tap {
+      padding: 0.06em 0.12em;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s;
+    }
+    .p3-tap.wrong-flash {
+      animation: p3shake 0.35s ease;
+    }
+    @keyframes p3shake {
+      0%, 100% { transform: translateX(0); }
+      30% { transform: translateX(-5px); }
+      60% { transform: translateX(5px); }
+    }
+    .p3-tap.tap-pred-done {
+      color: var(--finite);
+      font-weight: bold;
+      box-shadow: 0 0 0 3px rgba(198, 40, 40, 0.35);
+      background: rgba(198, 40, 40, 0.12);
+    }
+    .p3-tap.tap-nf-done {
+      color: #ffeb3b;
+      font-weight: bold;
+      box-shadow: 0 0 0 3px rgba(255, 235, 59, 0.55);
+      background: rgba(255, 235, 59, 0.22);
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    }
+    .p3-board-lines {
+      text-align: left;
+      max-width: 520px;
+      margin: 0.75rem auto;
+      font-family: "Patrick Hand", cursive;
+      font-size: clamp(0.95rem, 2.8vw, 1.12rem);
+      line-height: 1.85;
+      color: #e8f0e8;
+    }
+    .p3-board-lines .nf-blink {
+      color: #e1bee7;
+      font-weight: bold;
+      animation: nfBlink 1.1s ease-in-out infinite;
+    }
+    @keyframes nfBlink {
+      0%, 100% { opacity: 1; text-shadow: 0 0 8px rgba(186, 104, 200, 0.9); }
+      50% { opacity: 0.55; text-shadow: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .nf-blink { animation: none; opacity: 1; text-decoration: underline; }
+    }
+    .summary-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      max-width: 520px;
+      margin: 1rem auto;
+    }
+    .summary-card {
+      padding: 0.85rem 1rem;
+      border: 3px solid var(--ink);
+      border-radius: 14px 10px 16px 12px;
+      background: linear-gradient(180deg, #fffef8 0%, #ffe8c8 100%);
+      box-shadow: 4px 5px 0 var(--shadow);
+      text-align: left;
+      font-size: 0.92rem;
+      line-height: 1.65;
+      color: #1a1a1a;
+      opacity: 0;
+      transform: translateY(16px) scale(0.96);
+      animation: cardPop 0.55s ease forwards;
+    }
+    .summary-card:nth-child(1) { animation-delay: 0.05s; }
+    .summary-card:nth-child(2) { animation-delay: 0.2s; }
+    .summary-card:nth-child(3) { animation-delay: 0.35s; }
+    @keyframes cardPop {
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .summary-card { opacity: 1; transform: none; animation: none; }
+    }
+    .p3-ghost {
+      position: fixed;
+      pointer-events: none;
+      z-index: 300;
+      padding: 0.2rem 0.5rem;
+      border: 2px solid var(--crayon-blue);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.95);
+      font-family: "Patrick Hand", cursive;
+      font-size: 1.15rem;
+      box-shadow: 4px 5px 0 var(--shadow);
+    }
+    .teacher-finale-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+    .teacher-finale {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      gap: 1rem;
+      justify-content: center;
+    }
+    .teacher-finale img {
+      max-width: 160px;
+      border: 3px solid var(--ink);
+      border-radius: 8px;
+      background: #fffef6;
+    }
+    .speech-bubble {
+      max-width: 420px;
+      padding: 1rem 1.25rem;
+      background: #fff;
+      border: 3px solid var(--ink);
+      border-radius: 10px 20px 18px 12px;
+      font-size: 1rem;
+      line-height: 1.65;
+      box-shadow: 4px 5px 0 var(--shadow);
+      color: #1a1a1a;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <h1>谓语时态与非谓语动词 — 互动课 第 3 页</h1>
+    <p class="progress-tag" id="progressLabel"></p>
+    <div class="board" id="mainBoard">
+      <div id="stepMount"></div>
+    </div>
+  </div>
+  <div class="success-overlay" id="confettiRoot" aria-hidden="true"></div>
+  <div class="footer-bar">
+    <div class="footer-toolbar">
+      <a class="page-nav-link" href="page2.html" title="返回第 2 页">← 上一页</a>
+      <button type="button" class="next-btn" id="nextBtn">下一步 Next →</button>
+      <a class="page-nav-link" href="page4.html" title="无需完成本页步骤，直接进入第 4 页">下一页 →</a>
+    </div>
+  </div>
+
+  <script>
+(function () {
+  "use strict";
+
+  /** Azure Speech：密钥写在页内便于课件直连；公开发布建议改为后端代理。 */
+  var AZURE_SPEECH_KEY =
+    "DKRXk8ueSfo5NdIOMqFRTCAfpeGDezJ3Snf5K8gGgtyqxiWdugLzJQQJ99BLACHYHv6XJ3w3AAAYACOGUYP9";
+  var AZURE_REGION = "eastus2";
+  var TTS_VOICE = "en-US-AriaNeural";
+  var P3IMG = (window.mediaUrl && window.mediaUrl("asset/img/")) || "asset/img/";
+
+  var TOTAL_STATES = 62;
+  var PRACTICE_START = 27;
+  var PRACTICE_END = 58;
+  var FINAL_START = 59;
+  var STEVEN_APPLES = "Steven likes eating apples.";
+  var P3_KIWI_SENT = "Steven likes kiwis.";
+  var P3_KIWI_EATING = "Steven likes eating kiwis.";
+  var state = 1;
+  var phase = 0;
+  var quizIndex = 0;
+  var quizAnswered = false;
+
+  /** 第八部分前：点选 / 拖拽 交互状态 */
+  var ux = {
+    s24done: false,
+    predOk: false,
+    nfOk: false,
+    svoDone: false
+  };
+
+  /**
+   * 8 句练习：spans 为 [文案, 类型] 类型 p=谓语 n=非谓语 x=普通（展示）
+   * subj/pred/nf/obj 为拖拽块文本
+   */
+  var EXERCISES = [
+    {
+      level: "A1",
+      tts: "I enjoy playing tennis.",
+      subj: "I",
+      pred: "enjoy",
+      nf: "playing",
+      obj: "playing tennis",
+      spans: [["I ", "x"], ["enjoy ", "p"], ["playing ", "n"], ["tennis.", "x"]]
+    },
+    {
+      level: "A1",
+      tts: "She wants to buy a new dress.",
+      subj: "She",
+      pred: "wants",
+      nf: "to buy",
+      obj: "to buy a new dress",
+      spans: [["She ", "x"], ["wants ", "p"], ["to buy ", "n"], ["a new dress.", "x"]]
+    },
+    {
+      level: "A2",
+      tts: "The boys finished cleaning the room.",
+      subj: "The boys",
+      pred: "finished",
+      nf: "cleaning",
+      obj: "cleaning the room",
+      spans: [["The boys ", "x"], ["finished ", "p"], ["cleaning ", "n"], ["the room.", "x"]]
+    },
+    {
+      level: "A2",
+      tts: "We plan to visit Beijing next month.",
+      subj: "We",
+      pred: "plan",
+      nf: "to visit",
+      obj: "to visit Beijing",
+      spans: [["We ", "x"], ["plan ", "p"], ["to visit ", "n"], ["Beijing next month.", "x"]]
+    },
+    {
+      level: "B1",
+      tts: "He avoids answering my questions.",
+      subj: "He",
+      pred: "avoids",
+      nf: "answering",
+      obj: "answering my questions",
+      spans: [["He ", "x"], ["avoids ", "p"], ["answering ", "n"], ["my questions.", "x"]]
+    },
+    {
+      level: "B1",
+      tts: "My parents expect me to pass the exam.",
+      subj: "My parents",
+      pred: "expect",
+      nf: "to pass",
+      obj: "me to pass the exam",
+      spans: [["My parents ", "x"], ["expect ", "p"], ["me ", "x"], ["to pass ", "n"], ["the exam.", "x"]]
+    },
+    {
+      level: "B2",
+      tts: "The teacher makes the students read aloud.",
+      subj: "The teacher",
+      pred: "makes",
+      nf: "read",
+      obj: "the students read aloud",
+      spans: [
+        ["The teacher ", "x"],
+        ["makes ", "p"],
+        ["the students ", "x"],
+        ["read ", "n"],
+        ["aloud.", "x"]
+      ]
+    },
+    {
+      level: "B2",
+      tts: "I heard him sing a beautiful song.",
+      subj: "I",
+      pred: "heard",
+      nf: "sing",
+      obj: "him sing a beautiful song",
+      spans: [["I ", "x"], ["heard ", "p"], ["him ", "x"], ["sing ", "n"], ["a beautiful song.", "x"]]
+    }
+  ];
+
+  var nextBtn = document.getElementById("nextBtn");
+  var stepMount = document.getElementById("stepMount");
+  var mainBoard = document.getElementById("mainBoard");
+  var progressLabel = document.getElementById("progressLabel");
+  var confettiRoot = document.getElementById("confettiRoot");
+
+  var QUIZ = [
+    {
+      en: "The sun rise in the east.",
+      ttsCorrect: "The sun rises in the east.",
+      ok: false,
+      explain: "主语 The sun 是第三人称单数，谓语动词需要加 s，应为 rises。",
+      fix: { wrong: "rise", correct: "rises" }
+    },
+    {
+      en: "He play football yesterday.",
+      ttsCorrect: "He played football yesterday.",
+      ok: false,
+      explain: "yesterday 表示过去发生的事情，谓语动词需要用过去式，应为 played。",
+      fix: { wrong: "play", correct: "played" }
+    },
+    {
+      en: "Look! The birds are flying in the sky.",
+      ttsCorrect: "Look! The birds are flying in the sky.",
+      ok: true,
+      explain: "Look 提示正在发生的动作，用 be + doing 形式，非常棒！",
+      fix: null
+    },
+    {
+      en: "I will go to the zoo tomorrow.",
+      ttsCorrect: "I will go to the zoo tomorrow.",
+      ok: true,
+      explain: "tomorrow 表示将来的计划，用 will + 动词原形，完全正确！",
+      fix: null
+    },
+    {
+      en: "She have finished her homework.",
+      ttsCorrect: "She has finished her homework.",
+      ok: false,
+      explain: "主语 She 是第三人称单数，助动词应该用 has，应为 has finished。",
+      fix: { wrong: "have", correct: "has" }
+    }
+  ];
+
+  var S15_QA = [
+    {
+      q: "在这个句子中，老师加入了什么动作？",
+      a: "eating（吃）"
+    },
+    {
+      q: "为什么要加入这个动作？",
+      a: "为了让句意极其精准（明确是吃猕猴桃，而不是养 kiwi 鸟），消除歧义。"
+    },
+    {
+      q: "如果不把第二个动词“变身”，两个动词原形能直接挤在一个简单句里吗？",
+      a: "在英语简单句里通常不行——两个核心动词容易“打架”，所以要通过 -ing 等形式让后面的动词退让。"
+    }
+  ];
+
+  function escapeHtml(s) {
+    return String(s)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+
+  function escapeXml(s) {
+    return escapeHtml(s);
+  }
+
+  function p3TtsBtn(plain) {
+    return (
+      '<button type="button" class="tts-read-btn" data-tts-read="' +
+      encodeURIComponent(plain) +
+      '" title="Azure 朗读" aria-label="朗读英文">🔊</button>'
+    );
+  }
+
+  function escapeRegExp(s) {
+    return String(s).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  }
+
+  /** 步骤 11：三种歧义可能，缩略图 + 角标问号 */
+  function htmlAmbigThumb(src, alt, labelZh) {
+    return (
+      '<div class="pic-frame">' +
+      '<div class="pic-with-q">' +
+      "<!-- 配图：python generate_images.py 写入 asset/img/ -->" +
+      '<img src="' +
+      escapeHtml(src) +
+      '" alt="' +
+      escapeHtml(alt) +
+      '" />' +
+      '<span class="pic-qmark" aria-hidden="true">?</span>' +
+      "</div>" +
+      '<div class="zh-text" style="font-size:0.85rem;">' +
+      escapeHtml(labelZh) +
+      "</div></div>"
+    );
+  }
+
+  /** 错题在公布答案后：错误词上方显示正确形式，错误词带删除线 + 红叉 */
+  function buildQuizSentenceHtml(q, withCorrection) {
+    if (!withCorrection || q.ok || !q.fix) {
+      return escapeHtml(q.en);
+    }
+    var wrong = q.fix.wrong;
+    var correct = q.fix.correct;
+    var re = new RegExp("(\\b" + escapeRegExp(wrong) + "\\b)");
+    var parts = q.en.split(re);
+    var html = "";
+    for (var i = 0; i < parts.length; i++) {
+      if (parts[i] === wrong) {
+        html +=
+          '<span class="word-fix-wrap"><span class="word-fix-top">' +
+          escapeHtml(correct) +
+          '</span><span class="word-fix-bad">' +
+          escapeHtml(wrong) +
+          '<span class="word-fix-x" aria-hidden="true">✕</span></span></span>';
+      } else {
+        html += escapeHtml(parts[i]);
+      }
+    }
+    return html;
+  }
+
+  function exBlockIndex() {
+    if (state < PRACTICE_START || state > PRACTICE_END) return -1;
+    return state - PRACTICE_START;
+  }
+  function exNum() {
+    return Math.floor(exBlockIndex() / 4);
+  }
+  function exStep() {
+    return exBlockIndex() % 4;
+  }
+  function currentEx() {
+    return EXERCISES[exNum()] || EXERCISES[0];
+  }
+
+  /** 步骤 59–61：8 句复习（与 EXERCISES / 练习非谓语块一致） */
+  function htmlP3EightSentencesReview() {
+    var nfs = ["playing", "to buy", "cleaning", "to visit", "answering", "to pass", "read", "sing"];
+    var inner = '<div class="p3-board-lines">';
+    for (var li = 0; li < EXERCISES.length; li++) {
+      var line = EXERCISES[li].tts;
+      var nf = nfs[li];
+      var idx = line.indexOf(nf);
+      if (idx < 0) {
+        inner += "<div>" + escapeHtml(line) + "</div>";
+      } else {
+        inner +=
+          "<div>" +
+          escapeHtml(line.slice(0, idx)) +
+          '<span class="nf-blink">' +
+          escapeHtml(nf) +
+          "</span>" +
+          escapeHtml(line.slice(idx + nf.length)) +
+          "</div>";
+      }
+    }
+    inner += "</div>";
+    return (
+      '<div class="p3-review-block">' +
+      '<p class="zh-text">刚才练过的 8 个句子（闪烁为非谓语形式）</p>' +
+      inner +
+      '<p class="hint-prompt">大声读一读闪烁的非谓语部分。</p>' +
+      "</div>"
+    );
+  }
+
+  function shuffle(arr) {
+    var a = arr.slice();
+    for (var i = a.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = a[i];
+      a[i] = a[j];
+      a[j] = t;
+    }
+    return a;
+  }
+
+  function playBeep() {
+    try {
+      var Ctx = window.AudioContext || window.webkitAudioContext;
+      if (!Ctx) return;
+      var ctx = new Ctx();
+      var o = ctx.createOscillator();
+      var g = ctx.createGain();
+      o.connect(g);
+      g.connect(ctx.destination);
+      o.frequency.value = 660;
+      g.gain.setValueAtTime(0.12, ctx.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.12);
+      o.start(ctx.currentTime);
+      o.stop(ctx.currentTime + 0.13);
+    } catch (e) {}
+  }
+
+  function htmlDropZones3(prefix, filled) {
+    filled = filled || {};
+    var roles = [
+      { key: "subject", zh: "主语" },
+      { key: "predicate", zh: "谓语" },
+      { key: "object", zh: "宾语" }
+    ];
+    var h = '<div class="p3-drop-row" id="' + prefix + 'Row">';
+    for (var i = 0; i < roles.length; i++) {
+      var r = roles[i];
+      var v = filled[r.key];
+      var cls = "p3-drop-zone";
+      if (v) cls += " filled-correct";
+      h +=
+        '<div class="' +
+        cls +
+        '" data-accept="' +
+        r.key +
+        '" id="' +
+        prefix +
+        r.key +
+        '">' +
+        '<span class="p3-drop-zone__label">' +
+        escapeHtml(r.zh) +
+        '</span><div class="p3-drop-slot">';
+      if (v) {
+        h += '<div class="dropped-chip">' + escapeHtml(v) + "</div>";
+      }
+      h += "</div></div>";
+    }
+    h += "</div>";
+    return h;
+  }
+
+  function buildTapSentenceHTML(ex) {
+    var h = '<p class="p3-sentence-tap" id="p3TapSentence">';
+    for (var i = 0; i < ex.spans.length; i++) {
+      var pair = ex.spans[i];
+      var txt = pair[0];
+      var typ = pair[1];
+      if (typ === "p" || typ === "n") {
+        var cls = "p3-tap";
+        if (typ === "p" && ux.predOk) cls += " tap-pred-done";
+        if (typ === "n" && ux.nfOk) cls += " tap-nf-done";
+        h +=
+          '<span class="' +
+          cls +
+          '" data-tap="' +
+          typ +
+          '" role="button" tabindex="0">' +
+          escapeHtml(txt) +
+          "</span>";
+      } else {
+        h += "<span>" + escapeHtml(txt) + "</span>";
+      }
+    }
+    h += "</p>";
+    return h;
+  }
+
+  /**
+   * 通用 Azure TTS：朗读英文（或 SSML 安全转义后的文本）
+   */
+  function speakAzure(text) {
+    if (!text) return;
+    var endpoint = "https://" + AZURE_REGION + ".tts.speech.microsoft.com/cognitiveservices/v1";
+    var ssml =
+      '<speak version="1.0" xml:lang="en-US">' +
+      '<voice xml:lang="en-US" name="' +
+      TTS_VOICE +
+      '">' +
+      escapeXml(text) +
+      "</voice></speak>";
+    fetch(endpoint, {
+      method: "POST",
+      headers: {
+        "Ocp-Apim-Subscription-Key": AZURE_SPEECH_KEY,
+        "Content-Type": "application/ssml+xml",
+        "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3",
+        "User-Agent": "ESL-Page3"
+      },
+      body: ssml
+    })
+      .then(function (r) {
+        if (!r.ok) throw new Error("TTS " + r.status);
+        return r.arrayBuffer();
+      })
+      .then(function (buf) {
+        var blob = new Blob([buf], { type: "audio/mpeg" });
+        var url = URL.createObjectURL(blob);
+        var audio = new Audio(url);
+        audio.play().finally(function () {
+          setTimeout(function () {
+            URL.revokeObjectURL(url);
+          }, 60000);
+        });
+      })
+      .catch(function (e) {
+        console.warn("TTS:", e);
+      });
+  }
+
+  function launchConfetti() {
+    confettiRoot.innerHTML = "";
+    confettiRoot.setAttribute("aria-hidden", "false");
+    var colors = ["#e85d5d", "#9b7edc", "#4a90d9", "#5cb85c", "#ffd54f", "#ff8fab"];
+    for (var i = 0; i < 40; i++) {
+      var c = document.createElement("div");
+      c.className = "confetti";
+      c.style.left = Math.random() * 100 + "vw";
+      c.style.background = colors[i % colors.length];
+      c.style.animationDuration = 2.2 + Math.random() * 1.2 + "s";
+      confettiRoot.appendChild(c);
+    }
+  }
+
+  function setBlackboard(on) {
+    mainBoard.className = "board" + (on ? " board--blackboard" : "");
+  }
+
+  function progressText() {
+    return "第 3 页 · 步骤 " + state + " / " + TOTAL_STATES;
+  }
+
+  function canAdvanceNext() {
+    if (state >= 3 && state <= 7) {
+      return quizAnswered;
+    }
+    if (state === 24) return ux.s24done;
+    if (state >= PRACTICE_START && state <= PRACTICE_END) {
+      var st = exStep();
+      if (st === 1) return ux.predOk;
+      if (st === 2) return ux.nfOk;
+      if (st === 3) return ux.svoDone;
+    }
+    return true;
+  }
+
+  function render() {
+    progressLabel.textContent = progressText();
+    var html = "";
+    var bb = false;
+    nextBtn.disabled = !canAdvanceNext();
+
+    if (state === 1) {
+      bb = true;
+      if (phase === 0) {
+        html =
+          '<div class="step-panel active">' +
+          '<div class="board-icons" aria-hidden="true">🧩 🔍</div>' +
+          '<p class="zh-text">谓语动词的词性是？</p>' +
+          '<p class="hint-prompt">点击「下一步」查看参考答案。</p></div>';
+      } else {
+        html =
+          '<div class="step-panel active">' +
+          '<div class="board-icons" aria-hidden="true">🧩 🔍</div>' +
+          '<p class="zh-text">谓语动词的词性是？</p>' +
+          '<p class="zh-text" style="font-size:1.15rem;margin-top:0.75rem;"><strong>动词 (Verb)</strong></p></div>';
+      }
+    } else if (state === 2) {
+      bb = true;
+      if (phase === 0) {
+        html =
+          '<div class="step-panel active">' +
+          '<p class="zh-text">时态变化需要在哪里体现？请选择：主语 / 谓语 / 宾语？</p>' +
+          '<div class="choice-row">' +
+          '<span class="choice-chip">主语</span>' +
+          '<span class="choice-chip">谓语</span>' +
+          '<span class="choice-chip">宾语</span>' +
+          "</div>" +
+          '<p class="hint-prompt">点击「下一步」揭晓正确答案。</p></div>';
+      } else {
+        html =
+          '<div class="step-panel active">' +
+          '<p class="zh-text">时态变化需要在哪里体现？</p>' +
+          '<div class="choice-row">' +
+          '<span class="choice-chip">主语</span>' +
+          '<span class="choice-chip choice-chip--winner">谓语</span>' +
+          '<span class="choice-chip">宾语</span>' +
+          "</div>" +
+          '<p class="zh-text" style="margin-top:0.75rem;">正确：<strong>谓语</strong>上要体现时态变化。</p></div>';
+      }
+    } else if (state >= 3 && state <= 7) {
+      var q = QUIZ[quizIndex];
+      html = '<div class="step-panel active">';
+      html +=
+        '<div class="sentence-tts-row">' +
+        '<div class="sentence-tts-row__text">' +
+        '<p class="en-sentence en-sentence--quiz">' +
+        (quizAnswered ? buildQuizSentenceHtml(q, true) : escapeHtml(q.en)) +
+        "</p></div>" +
+        p3TtsBtn(q.ttsCorrect || q.en) +
+        "</div>";
+      if (!quizAnswered) {
+        html +=
+          '<div class="tf-row">' +
+          '<button type="button" class="crayon-btn crayon-btn--green" data-tf="true">正确 ✓</button>' +
+          '<button type="button" class="crayon-btn crayon-btn--red" data-tf="false">错误 ✗</button>' +
+          "</div>" +
+          '<p class="hint-prompt">可点击 🔊 听朗读；再判断对错，选择后点「下一步」。</p>';
+      } else {
+        var correct = q.ok;
+        var userPicked = sessionStorage.getItem("p3_tf") === "true";
+        var isRight = userPicked === correct;
+        html +=
+          '<p class="zh-text">' +
+          (isRight ? "判断正确！" : "判断有误，请看解析。") +
+          "</p>";
+        html +=
+          '<div class="feedback-box"><strong>参考答案：</strong>这句话应判为「' +
+          (correct ? "正确" : "错误") +
+          "」。" +
+          escapeHtml(q.explain) +
+          "</div>";
+      }
+      html += "</div>";
+    } else if (state === 8) {
+      html =
+        '<div class="step-panel active">' +
+        '<p class="zh-text">点击小喇叭，听单词发音。</p>' +
+        '<div class="kiwi-big">kiwi' +
+        '<button type="button" class="speaker-btn" id="kiwiSpeak" aria-label="播放 kiwi">🔊</button>' +
+        "</div></div>";
+    } else if (state === 9) {
+      html = '<div class="step-panel active"><p class="zh-text">kiwi 这个词有多个意思哦！</p><div class="pic-grid">';
+      if (phase >= 0) {
+        html +=
+          '<div class="pic-frame">' +
+          "<!-- 配图：python generate_images.py 写入 asset/img/ -->" +
+          '<img src="' +
+          P3IMG +
+          'p3_nz_map.png" alt="New Zealand map" /><div class="zh-text" style="font-size:0.85rem;">新西兰</div></div>';
+      }
+      if (phase >= 1) {
+        html +=
+          '<div class="pic-frame">' +
+          "<!-- 配图：python generate_images.py 写入 asset/img/ -->" +
+          '<img src="' +
+          P3IMG +
+          'p3_kiwi_bird.png" alt="Kiwi bird" /><div class="zh-text" style="font-size:0.85rem;">Kiwi 鸟</div></div>';
+      }
+      if (phase >= 2) {
+        html +=
+          '<div class="pic-frame">' +
+          "<!-- 配图：python generate_images.py 写入 asset/img/ -->" +
+          '<img src="' +
+          P3IMG +
+          'p3_kiwi_fruit.png" alt="Kiwi fruit" /><div class="zh-text" style="font-size:0.85rem;">猕猴桃</div></div>';
+      }
+      html += "</div>";
+      if (phase < 2) {
+        html += '<p class="hint-prompt">点击「下一步」依次显示更多含义。</p>';
+      }
+      html += "</div>";
+    } else if (state === 10) {
+      html =
+        '<div class="step-panel active">' +
+        '<div class="sentence-tts-row">' +
+        '<div class="sentence-tts-row__text"><p class="en-sentence">' +
+        escapeHtml(P3_KIWI_SENT) +
+        "</p></div>" +
+        p3TtsBtn(P3_KIWI_SENT) +
+        "</div>" +
+        '<p class="zh-text">可点击 🔊 听朗读。</p></div>';
+    } else if (state === 11) {
+      html =
+        '<div class="step-panel active">' +
+        '<div class="sentence-tts-row">' +
+        '<div class="sentence-tts-row__text"><p class="en-sentence">' +
+        escapeHtml(P3_KIWI_SENT) +
+        "</p></div>" +
+        p3TtsBtn(P3_KIWI_SENT) +
+        "</div>" +
+        '<p class="zh-text" style="font-size:1.05rem;">这个句子是在说什么？你会不会产生理解上的误区呢？</p>' +
+        '<div class="pic-grid pic-grid--ambig">' +
+        htmlAmbigThumb(P3IMG + "p3_nz_map.png", "New Zealand map", "新西兰") +
+        htmlAmbigThumb(P3IMG + "p3_kiwi_bird.png", "Kiwi bird", "Kiwi 鸟") +
+        htmlAmbigThumb(P3IMG + "p3_kiwi_fruit.png", "Kiwi fruit", "猕猴桃") +
+        "</div></div>";
+    } else if (state === 12) {
+      if (phase === 0) {
+        html =
+          '<div class="step-panel active">' +
+          '<div class="sentence-tts-row">' +
+          '<div class="sentence-tts-row__text"><p class="en-sentence">' +
+          escapeHtml(P3_KIWI_SENT) +
+          "</p></div>" +
+          p3TtsBtn(P3_KIWI_SENT) +
+          "</div>" +
+          '<p class="zh-text">想一想：我们怎么消除这句话的歧义？</p>' +
+          '<p class="hint-prompt">点击「下一步」查看引导。</p></div>';
+      } else {
+        html =
+          '<div class="step-panel active">' +
+          '<div class="sentence-tts-row">' +
+          '<div class="sentence-tts-row__text"><p class="en-sentence">' +
+          escapeHtml(P3_KIWI_SENT) +
+          "</p></div>" +
+          p3TtsBtn(P3_KIWI_SENT) +
+          "</div>" +
+          '<p class="zh-text" style="text-align:left;max-width:520px;margin-left:auto;margin-right:auto;line-height:1.75;">' +
+          "Steven 是喜欢新西兰？喜欢 kiwi 鸟？还是喜欢吃猕猴桃？我们应该如何完善这个句子，让它不会有歧义呢？" +
+          "</p></div>";
+      }
+    } else if (state === 13) {
+      html =
+        '<div class="step-panel active">' +
+        '<p class="zh-text">新句子：</p>' +
+        '<div class="sentence-tts-row">' +
+        '<div class="sentence-tts-row__text"><p class="en-sentence">' +
+        escapeHtml(P3_KIWI_EATING) +
+        "</p></div>" +
+        p3TtsBtn(P3_KIWI_EATING) +
+        "</div></div>";
+    } else if (state === 14) {
+      var pair = S15_QA[Math.floor(phase / 2)];
+      var showA = phase % 2 === 1;
+      html =
+        '<div class="step-panel active">' +
+        '<div class="sentence-tts-row">' +
+        '<div class="sentence-tts-row__text"><p class="en-sentence">' +
+        escapeHtml(P3_KIWI_EATING) +
+        "</p></div>" +
+        p3TtsBtn(P3_KIWI_EATING) +
+        "</div>";
+      if (pair) {
+        if (!showA) {
+          html += '<p class="zh-text">' + escapeHtml(pair.q) + "</p>";
+          html += '<p class="hint-prompt">点击「下一步」显示答案。</p>';
+        } else {
+          html += '<p class="zh-text">' + escapeHtml(pair.q) + "</p>";
+          html += '<div class="feedback-box">' + escapeHtml(pair.a) + "</div>";
+        }
+      }
+      html += "</div>";
+    } else if (state === 15) {
+      bb = true;
+      html =
+        '<div class="step-panel active">' +
+        '<div class="teacher-box" style="background:#fffef8;color:#1a1a1a;">' +
+        "<p>在<strong>中文</strong>里，如果一句话有多个动作，我们可以直接排队把它们连起来（比如：<strong>喜欢 + 吃</strong>）。</p>" +
+        "<p style=\"margin-top:0.65rem;\">但是，在<strong>英语的简单句</strong>中，通常只能有一个<strong>「核心动词」</strong>。如果强行把两个<strong>动词原形</strong>放在一起，它们就会<strong>「打架」</strong>！</p>" +
+        "</div></div>";
+    } else if (state === 16) {
+      html =
+        '<div class="step-panel active">' +
+        '<p class="zh-text">两个动词「打起来了」——</p>' +
+        '<div class="fight-stage">' +
+        '<span class="fight-burst" aria-hidden="true">💥</span>' +
+        '<div class="fighter"><span class="glove">🥊</span>like</div>' +
+        '<div class="fighter fighter--b">eat<span class="glove">🥊</span></div>' +
+        "</div>" +
+        '<div class="sentence-tts-row">' +
+        '<div class="sentence-tts-row__text"><p class="en-sentence" style="font-size:1.1rem;">like … eat （原形并列会冲突）</p></div>' +
+        p3TtsBtn("like eat. Two verb bases conflict in a simple English sentence.") +
+        "</div></div>";
+    } else if (state === 17) {
+      bb = true;
+      html =
+        '<div class="step-panel active">' +
+        '<div class="teacher-box" style="background:#fffef8;color:#1a1a1a;">' +
+        "所以，后加入的动词必须<strong>退让</strong>，它需要<strong>「变身」</strong>（改变自己的样子，比如加上 <strong>-ing</strong>），这样句子就能和平相处了。" +
+        "</div></div>";
+    } else if (state === 18) {
+      html =
+        '<div class="step-panel active">' +
+        '<p class="zh-text">看图对应句子里的成分：</p>' +
+        '<div class="pic-grid" style="max-width:560px;margin-left:auto;margin-right:auto;">' +
+        '<div class="pic-frame">' +
+        "<!-- 配图：python generate_images.py 写入 asset/img/ -->" +
+        '<img src="' +
+        P3IMG +
+        'p3_steven_avatar.png" alt="Steven" /></div>' +
+        '<div class="pic-frame">' +
+        "<!-- 配图：python generate_images.py 写入 asset/img/ -->" +
+        '<img src="' +
+        P3IMG +
+        'p3_heart_like.png" alt="like heart" /></div>' +
+        '<div class="pic-frame">' +
+        "<!-- 配图：python generate_images.py 写入 asset/img/ -->" +
+        '<img src="' +
+        P3IMG +
+        'p3_mouth_eat.png" alt="eating mouth" /></div>' +
+        '<div class="pic-frame">' +
+        "<!-- 配图：python generate_images.py 写入 asset/img/ -->" +
+        '<img src="' +
+        P3IMG +
+        'p3_apples.png" alt="apples" /></div>' +
+        "</div>" +
+        '<div class="sentence-tts-row">' +
+        '<div class="sentence-tts-row__text"><p class="en-sentence" style="font-size:1.15rem;">Steven — likes — eating — apples</p></div>' +
+        p3TtsBtn(STEVEN_APPLES) +
+        "</div></div>";
+    } else if (state === 19) {
+      bb = true;
+      if (phase === 0) {
+        html =
+          '<div class="step-panel active">' +
+          '<div class="sentence-tts-row">' +
+          '<div class="sentence-tts-row__text"><p class="en-sentence">' +
+          escapeHtml(P3_KIWI_EATING) +
+          "</p></div>" +
+          p3TtsBtn(P3_KIWI_EATING) +
+          "</div>" +
+          '<p class="zh-text">在这个句子中，哪个动词是真正的「老大」（核心动词）？它是如何体现出来的？</p>' +
+          '<p class="hint-prompt">点击「下一步」查看解析。</p></div>';
+      } else {
+        html =
+          '<div class="step-panel active">' +
+          '<div class="sentence-tts-row">' +
+          '<div class="sentence-tts-row__text"><p class="en-sentence">' +
+          escapeHtml(P3_KIWI_EATING) +
+          "</p></div>" +
+          p3TtsBtn(P3_KIWI_EATING) +
+          "</div>" +
+          '<div class="teacher-box" style="background:#fffef8;color:#1a1a1a;">' +
+          "<p><strong>likes</strong> 是真正的老大。因为它紧跟在主语 Steven 后面，并且加上了 <strong>'s'</strong>，这体现了<strong>一般现在时</strong>和<strong>第三人称单数</strong>。</p>" +
+          "<p style=\"margin-top:0.65rem;\">英语中，<strong>能够体现时间和主语变化的动词</strong>，就是<strong>谓语动词 (Finite / Predicate Verb)</strong>。</p>" +
+          "</div></div>";
+      }
+    } else if (state === 20) {
+      bb = true;
+      if (phase === 0) {
+        html =
+          '<div class="step-panel active">' +
+          '<div class="sentence-tts-row">' +
+          '<div class="sentence-tts-row__text"><p class="en-sentence">' +
+          escapeHtml(P3_KIWI_EATING) +
+          "</p></div>" +
+          p3TtsBtn(P3_KIWI_EATING) +
+          "</div>" +
+          '<p class="zh-text">那 <strong>eating</strong> 算什么呢？</p>' +
+          '<p class="hint-prompt">点击「下一步」查看定义。</p></div>';
+      } else {
+        html =
+          '<div class="step-panel active">' +
+          '<div class="sentence-tts-row">' +
+          '<div class="sentence-tts-row__text"><p class="en-sentence">' +
+          escapeHtml(P3_KIWI_EATING) +
+          "</p></div>" +
+          p3TtsBtn(P3_KIWI_EATING) +
+          "</div>" +
+          '<div class="teacher-box" style="background:#fffef8;color:#1a1a1a;">' +
+          "<p><strong>eating</strong> 为了和平相处，加上了 <strong>-ing</strong> 进行了变身。它<strong>失去了体现时态的资格</strong>，在这里它的作用变成了「喜欢的对象」（相当于说明喜欢的是哪一种行为/事物）。</p>" +
+          "<p style=\"margin-top:0.65rem;\">这种<strong>改变了形态、不再充当谓语</strong>的动词，我们统称为<strong>非谓语动词 (Non-finite Verb)</strong>。</p>" +
+          "</div></div>";
+      }
+    } else if (state === 21) {
+      html =
+        '<div class="step-panel active">' +
+        '<p class="zh-text" style="margin-bottom:1rem;">总结（颜色区分）</p>' +
+        '<div class="sentence-tts-row">' +
+        '<div class="sentence-tts-row__text"><p class="en-sentence" style="font-size:clamp(1.35rem,4.5vw,2rem);margin:0;">' +
+        'Steven <span class="verb-finite">likes</span> <span class="verb-nonfinite">eating</span> apples.' +
+        "</p></div>" +
+        p3TtsBtn(STEVEN_APPLES) +
+        "</div>" +
+        '<div class="verb-legend">' +
+        '<span><span class="verb-finite">likes</span><br/>谓语动词（老大，管时态）</span>' +
+        '<span><span class="verb-nonfinite">eating</span><br/>非谓语动词（变身，不管时态）</span>' +
+        "</div>" +
+        '<p class="hint-prompt">点击「下一步」继续：动手拆解主谓宾。</p></div>';
+    } else if (state === 23) {
+      bb = true;
+      html =
+        '<div class="step-panel active">' +
+        '<div class="sentence-tts-row">' +
+        '<div class="sentence-tts-row__text"><p class="en-sentence" style="font-size:clamp(1.2rem,4vw,1.75rem);margin:0;">' +
+        escapeHtml(STEVEN_APPLES) +
+        "</p></div>" +
+        p3TtsBtn(STEVEN_APPLES) +
+        "</div>" +
+        htmlDropZones3("p6", {}) +
+        '<p class="hint-prompt">下方三个虚线框分别是【主语】【谓语】【宾语】。下一步开始拖拽。</p></div>';
+    } else if (state === 24) {
+      bb = true;
+      html =
+        '<div class="step-panel active">' +
+        '<p class="zh-text">请从句子中选取正确的内容，拖入对应的框中。</p>' +
+        '<div class="sentence-tts-row" style="margin-bottom:0.35rem;">' +
+        '<span class="zh-text" style="margin:0;font-size:0.82rem;opacity:0.9;">整句朗读</span>' +
+        p3TtsBtn(STEVEN_APPLES) +
+        "</div>" +
+        '<p class="en-sentence" id="p6DragLine" style="margin-bottom:0.5rem;">' +
+        '<span class="p3-draggable" data-chunk="subject" draggable="true">Steven</span>' +
+        '<span class="p3-draggable" data-chunk="predicate" draggable="true">likes</span>' +
+        '<span class="p3-draggable" data-chunk="object" draggable="true">eating apples</span>' +
+        "</p>" +
+        htmlDropZones3(
+          "p6d",
+          ux.s24done
+            ? { subject: "Steven", predicate: "likes", object: "eating apples" }
+            : {}
+        ) +
+        (ux.s24done
+          ? '<p class="zh-text" style="color:#b8f0b8;">太棒了，完全正确！</p>'
+          : '<p class="hint-prompt">可用手或鼠标拖入；拖对后会出现成功提示。</p>') +
+        "</div>";
+    } else if (state === 25) {
+      bb = true;
+      html =
+        '<div class="step-panel active">' +
+        '<div class="sentence-tts-row">' +
+        '<div class="sentence-tts-row__text"><p class="en-sentence" style="margin:0;">' +
+        escapeHtml(STEVEN_APPLES) +
+        "</p></div>" +
+        p3TtsBtn(STEVEN_APPLES) +
+        "</div>" +
+        '<p class="zh-text" style="max-width:520px;margin-left:auto;margin-right:auto;line-height:1.75;">' +
+        "仔细观察，我们发现【宾语】框里竟然包含了一个动作 (eating)！可是我们学过，宾语通常是名词（人或事物）。为什么动作能跑到宾语的位置呢？" +
+        "</p></div>";
+    } else if (state === 26) {
+      bb = true;
+      html =
+        '<div class="step-panel active">' +
+        '<div class="sentence-tts-row">' +
+        '<div class="sentence-tts-row__text"><p class="en-sentence" style="margin:0;">' +
+        escapeHtml(STEVEN_APPLES) +
+        "</p></div>" +
+        p3TtsBtn(STEVEN_APPLES) +
+        "</div>" +
+        '<div class="teacher-box" style="background:#fffef8;color:#1a1a1a;margin-top:0.75rem;">' +
+        "因为 <strong>eating</strong> 已经「变身」成了<strong>非谓语动词（动名词）</strong>！它在这里不再表示一个正在发生的动作，而是变成了一件事情（吃苹果这件事）。所以，<strong>动作的对象不仅可以是具体的东西，还可以是一件事情！</strong>" +
+        "</div></div>";
+    } else if (state >= PRACTICE_START && state <= PRACTICE_END) {
+      bb = true;
+      var ex = currentEx();
+      var st = exStep();
+      html = '<div class="step-panel active">';
+      html += '<p class="zh-text" style="font-size:0.82rem;opacity:0.9;">练习 ' + (exNum() + 1) + "/8 · " + escapeHtml(ex.level) + "</p>";
+      if (st === 0) {
+        html +=
+          '<div class="sentence-tts-row">' +
+          '<div class="sentence-tts-row__text"><p class="en-sentence en-sentence--quiz" style="margin:0;">' +
+          escapeHtml(ex.tts) +
+          "</p></div>" +
+          p3TtsBtn(ex.tts) +
+          "</div>";
+        html += '<p class="hint-prompt">可点击 🔊 听朗读后再点「下一步」。</p>';
+      } else if (st === 1) {
+        html += '<p class="zh-text">请点击句子中的【谓语动词】（真正的老大）。</p>';
+        html +=
+          '<div class="sentence-tts-row sentence-tts-row--tap">' +
+          '<div class="sentence-tts-row__text">' +
+          buildTapSentenceHTML(ex) +
+          "</div>" +
+          p3TtsBtn(ex.tts) +
+          "</div>";
+        html += '<p class="hint-prompt">点对后点「下一步」。</p>';
+      } else if (st === 2) {
+        html += '<p class="zh-text">请点击句子中的【非谓语动词】（变身的动作）。</p>';
+        html +=
+          '<div class="sentence-tts-row sentence-tts-row--tap">' +
+          '<div class="sentence-tts-row__text">' +
+          buildTapSentenceHTML(ex) +
+          "</div>" +
+          p3TtsBtn(ex.tts) +
+          "</div>";
+        html += '<p class="hint-prompt">点对后点「下一步」。</p>';
+      } else {
+        html += '<p class="zh-text">请把句子拆解，将三个词块拖入【主语】【谓语】【宾语】。</p>';
+        html +=
+          '<div class="sentence-tts-row sentence-tts-row--tap">' +
+          '<div class="sentence-tts-row__text">' +
+          buildTapSentenceHTML(ex) +
+          "</div>" +
+          p3TtsBtn(ex.tts) +
+          "</div>";
+        html += htmlDropZones3(
+          "exd",
+          ux.svoDone
+            ? { subject: ex.subj, predicate: ex.pred, object: ex.obj }
+            : {}
+        );
+        var order = shuffle(["subject", "predicate", "object"]);
+        html +=
+          '<div class="p3-chip-pool" id="exChipPool"' +
+          (ux.svoDone ? ' style="display:none"' : "") +
+          ">";
+        for (var ci = 0; ci < order.length; ci++) {
+          var role = order[ci];
+          var label = role === "subject" ? ex.subj : role === "predicate" ? ex.pred : ex.obj;
+          html +=
+            '<span class="p3-draggable" data-chunk="' +
+            role +
+            '" draggable="true">' +
+            escapeHtml(label) +
+            "</span>";
+        }
+        html += "</div>";
+        html += ux.svoDone
+          ? '<p class="zh-text" style="color:#b8f0b8;">正确！进入下一题。</p>'
+          : '<p class="hint-prompt">三个块拖入对应虚线框。</p>';
+      }
+      html += "</div>";
+    } else if (state === 59) {
+      bb = true;
+      html = '<div class="step-panel active">' + htmlP3EightSentencesReview() + "</div>";
+    } else if (state === 60) {
+      bb = true;
+      html =
+        '<div class="step-panel active">' +
+        htmlP3EightSentencesReview() +
+        '<p class="zh-text" style="font-size:1.05rem;max-width:520px;margin-left:auto;margin-right:auto;line-height:1.75;margin-top:1rem;">' +
+        "大声读出这些闪烁的单词，观察非谓语动词的样子，它们都有哪些特点？" +
+        "</p>" +
+        '<p class="hint-prompt">想好后点击「下一步」。</p></div>';
+    } else if (state === 61) {
+      bb = true;
+      html = '<div class="step-panel active">' + htmlP3EightSentencesReview();
+      if (phase === 0) {
+        html +=
+          '<p class="zh-text" style="margin-top:1rem;">准备好总结了吗？</p>' +
+          '<p class="hint-prompt">点击「下一步」弹出三张总结卡。</p>';
+      } else {
+        html += '<div class="summary-cards" style="margin-top:1rem;">';
+        html +=
+          '<div class="summary-card"><strong>卡片一：动词 + ing（doing）</strong><br/>例如：playing, cleaning, answering …… 常作宾语或表「一件事」。</div>';
+        html +=
+          '<div class="summary-card"><strong>卡片二：to + 动词原形（to do）</strong><br/>例如：to buy, to visit, to pass …… 常表将要、打算或一次具体行为。</div>';
+        html +=
+          '<div class="summary-card"><strong>卡片三：动词原形（do）</strong><br/>例如：read, sing …… 常藏在 make, let, hear, see 等动词后面，被悄悄「扒掉」了 to 的外套！</div>';
+        html += "</div>";
+      }
+      html += "</div>";
+    } else if (state === 62) {
+      html =
+        '<div class="step-panel active teacher-finale-wrap">' +
+        '<div class="teacher-finale">' +
+        '<div><img src="' + P3IMG + 'teacher_steven.png" alt="Teacher" /></div>' +
+        '<div class="speech-bubble">' +
+        "<strong>恭喜你！</strong>今天不仅掌握了主谓宾，还抓住了英语里非常重要的<strong>非谓语动词</strong>。<br/><br/>" +
+        '<span style="display:inline-flex;align-items:center;gap:0.35rem;flex-wrap:wrap;justify-content:center;">You are a grammar master now!' +
+        p3TtsBtn("You are a grammar master now!") +
+        "</span></div></div></div>";
+    }
+
+    setBlackboard(bb);
+    stepMount.innerHTML = html;
+    bindStepEvents();
+  }
+
+  var _p3drag = null;
+
+  function resetPracticeUx() {
+    ux.predOk = false;
+    ux.nfOk = false;
+    ux.svoDone = false;
+  }
+
+  function clearP3Ghost() {
+    if (_p3drag && _p3drag.ghost && _p3drag.ghost.parentNode) {
+      _p3drag.ghost.parentNode.removeChild(_p3drag.ghost);
+    }
+    _p3drag = null;
+  }
+
+  function onP3PointerMove(e) {
+    if (!_p3drag) return;
+    _p3drag.ghost.style.left = e.clientX - _p3drag.offX + "px";
+    _p3drag.ghost.style.top = e.clientY - _p3drag.offY + "px";
+  }
+
+  function onP3PointerUp(e) {
+    if (!_p3drag) return;
+    var role = _p3drag.role;
+    var sourceEl = _p3drag.sourceEl;
+    var prefix = _p3drag.prefix;
+    var expected = _p3drag.expected;
+    var onComplete = _p3drag.onComplete;
+    clearP3Ghost();
+    document.removeEventListener("pointermove", onP3PointerMove);
+    document.removeEventListener("pointerup", onP3PointerUp);
+    document.removeEventListener("pointercancel", onP3PointerUp);
+    sourceEl.classList.remove("is-dragging");
+    try {
+      sourceEl.releasePointerCapture(e.pointerId);
+    } catch (err) {}
+
+    var dropEl = document.elementFromPoint(e.clientX, e.clientY);
+    if (!dropEl) {
+      sourceEl.style.visibility = "";
+      return;
+    }
+    var zone = dropEl.closest(".p3-drop-zone");
+    if (!zone || zone.getAttribute("data-accept") !== role) {
+      sourceEl.style.visibility = "";
+      if (zone) {
+        zone.classList.add("wrong-flash");
+        setTimeout(function () {
+          zone.classList.remove("wrong-flash");
+        }, 400);
+      }
+      return;
+    }
+    var exp = expected[role];
+    if (sourceEl.textContent.trim() !== exp) {
+      sourceEl.style.visibility = "";
+      return;
+    }
+    var slot = zone.querySelector(".p3-drop-slot");
+    if (!slot || slot.querySelector(".dropped-chip")) {
+      sourceEl.style.visibility = "";
+      return;
+    }
+    slot.innerHTML = '<div class="dropped-chip">' + escapeHtml(exp) + "</div>";
+    zone.classList.add("filled-correct");
+    sourceEl.style.visibility = "hidden";
+    playBeep();
+    if (onComplete) onComplete();
+  }
+
+  function beginP3Drag(e, sourceEl, prefix, expected, onComplete) {
+    if (e.pointerType === "mouse" && e.button !== 0) return;
+    e.preventDefault();
+    var role = sourceEl.getAttribute("data-chunk");
+    if (!role) return;
+    var ghost = document.createElement("div");
+    ghost.className = "p3-ghost";
+    ghost.textContent = sourceEl.textContent;
+    document.body.appendChild(ghost);
+    var rect = sourceEl.getBoundingClientRect();
+    var offX = e.clientX - rect.left;
+    var offY = e.clientY - rect.top;
+    ghost.style.left = e.clientX - offX + "px";
+    ghost.style.top = e.clientY - offY + "px";
+    _p3drag = { ghost: ghost, sourceEl: sourceEl, role: role, prefix: prefix, expected: expected, offX: offX, offY: offY, onComplete: onComplete };
+    sourceEl.classList.add("is-dragging");
+    try {
+      sourceEl.setPointerCapture(e.pointerId);
+    } catch (err2) {}
+    document.addEventListener("pointermove", onP3PointerMove);
+    document.addEventListener("pointerup", onP3PointerUp);
+    document.addEventListener("pointercancel", onP3PointerUp);
+  }
+
+  function checkThreeZonesFilled(rowId) {
+    var row = document.getElementById(rowId);
+    if (!row) return false;
+    var slots = row.querySelectorAll(".p3-drop-slot");
+    if (slots.length !== 3) return false;
+    for (var i = 0; i < slots.length; i++) {
+      if (!slots[i].querySelector(".dropped-chip")) return false;
+    }
+    return true;
+  }
+
+  function attachP3Interactions() {
+    clearP3Ghost();
+    document.removeEventListener("pointermove", onP3PointerMove);
+    document.removeEventListener("pointerup", onP3PointerUp);
+    document.removeEventListener("pointercancel", onP3PointerUp);
+
+    if (state === 24 && !ux.s24done) {
+      var exp24 = { subject: "Steven", predicate: "likes", object: "eating apples" };
+      stepMount.querySelectorAll("#p6DragLine .p3-draggable").forEach(function (el) {
+        el.addEventListener("pointerdown", function (e) {
+          beginP3Drag(e, el, "p6d", exp24, function () {
+            if (checkThreeZonesFilled("p6dRow")) {
+              ux.s24done = true;
+              launchConfetti();
+              render();
+            }
+          });
+        });
+      });
+    }
+
+    if (state >= PRACTICE_START && state <= PRACTICE_END && exStep() === 3 && !ux.svoDone) {
+      var ex = currentEx();
+      var expEx = { subject: ex.subj, predicate: ex.pred, object: ex.obj };
+      var pool = stepMount.querySelector("#exChipPool");
+      if (pool) {
+        pool.querySelectorAll(".p3-draggable").forEach(function (el) {
+          el.addEventListener("pointerdown", function (e) {
+            beginP3Drag(e, el, "exd", expEx, function () {
+              if (checkThreeZonesFilled("exdRow")) {
+                ux.svoDone = true;
+                playBeep();
+                render();
+              }
+            });
+          });
+        });
+      }
+    }
+
+    stepMount.querySelectorAll("[data-tap]").forEach(function (sp) {
+      sp.addEventListener("click", function () {
+        if (state < PRACTICE_START || state > PRACTICE_END) return;
+        var st = exStep();
+        var typ = sp.getAttribute("data-tap");
+        if (st === 1) {
+          if (typ === "p") {
+            ux.predOk = true;
+            playBeep();
+            render();
+          } else if (typ === "n") {
+            sp.classList.add("wrong-flash");
+            setTimeout(function () {
+              sp.classList.remove("wrong-flash");
+            }, 400);
+          }
+        } else if (st === 2) {
+          if (typ === "n") {
+            ux.nfOk = true;
+            playBeep();
+            render();
+          } else if (typ === "p") {
+            sp.classList.add("wrong-flash");
+            setTimeout(function () {
+              sp.classList.remove("wrong-flash");
+            }, 400);
+          }
+        }
+      });
+    });
+  }
+
+  function bindStepEvents() {
+    var k = document.getElementById("kiwiSpeak");
+    if (k) {
+      k.addEventListener("click", function () {
+        speakAzure("kiwi");
+      });
+    }
+    var tfBtns = stepMount.querySelectorAll("[data-tf]");
+    tfBtns.forEach(function (b) {
+      b.addEventListener("click", function () {
+        if (quizAnswered) return;
+        quizAnswered = true;
+        sessionStorage.setItem("p3_tf", b.getAttribute("data-tf"));
+        render();
+      });
+    });
+    attachP3Interactions();
+  }
+
+  function onEnterState() {}
+
+  function advance() {
+    if (state === 1) {
+      if (phase === 0) {
+        phase = 1;
+        render();
+        return;
+      }
+      state = 2;
+      phase = 0;
+      render();
+      return;
+    }
+    if (state === 2) {
+      if (phase === 0) {
+        phase = 1;
+        render();
+        return;
+      }
+      state = 3;
+      quizIndex = 0;
+      quizAnswered = false;
+      phase = 0;
+      render();
+      onEnterState();
+      return;
+    }
+    if (state >= 3 && state <= 7) {
+      if (!quizAnswered) return;
+      if (state === 7) {
+        state = 8;
+        quizIndex = 0;
+        quizAnswered = false;
+        phase = 0;
+        render();
+        return;
+      }
+      state++;
+      quizIndex++;
+      quizAnswered = false;
+      phase = 0;
+      render();
+      onEnterState();
+      return;
+    }
+    if (state === 8) {
+      state = 9;
+      phase = 0;
+      render();
+      return;
+    }
+    if (state === 9) {
+      if (phase < 2) {
+        phase++;
+        render();
+        return;
+      }
+      state = 10;
+      phase = 0;
+      render();
+      onEnterState();
+      return;
+    }
+    if (state === 10) {
+      state = 11;
+      render();
+      return;
+    }
+    if (state === 11) {
+      state = 12;
+      phase = 0;
+      render();
+      return;
+    }
+    if (state === 12) {
+      if (phase === 0) {
+        phase = 1;
+        render();
+        return;
+      }
+      state = 13;
+      phase = 0;
+      render();
+      onEnterState();
+      return;
+    }
+    if (state === 13) {
+      state = 14;
+      phase = 0;
+      render();
+      return;
+    }
+    if (state === 14) {
+      if (phase < S15_QA.length * 2 - 1) {
+        phase++;
+        render();
+        return;
+      }
+      state = 15;
+      phase = 0;
+      render();
+      return;
+    }
+    if (state >= 15 && state <= 17) {
+      state++;
+      phase = 0;
+      render();
+      return;
+    }
+    if (state === 18) {
+      state = 19;
+      phase = 0;
+      render();
+      return;
+    }
+    if (state === 19) {
+      if (phase === 0) {
+        phase = 1;
+        render();
+        return;
+      }
+      state = 20;
+      phase = 0;
+      render();
+      return;
+    }
+    if (state === 20) {
+      if (phase === 0) {
+        phase = 1;
+        render();
+        return;
+      }
+      state = 21;
+      phase = 0;
+      render();
+      launchConfetti();
+      nextBtn.textContent = "下一步 Next →";
+      nextBtn.disabled = false;
+      return;
+    }
+    if (state === 21) {
+      state = 23;
+      ux.s24done = false;
+      phase = 0;
+      render();
+      return;
+    }
+    if (state === 23) {
+      state = 24;
+      ux.s24done = false;
+      render();
+      return;
+    }
+    if (state === 24) {
+      if (!ux.s24done) return;
+      state = 25;
+      render();
+      return;
+    }
+    if (state === 25) {
+      state = 26;
+      render();
+      return;
+    }
+    if (state === 26) {
+      state = 27;
+      resetPracticeUx();
+      phase = 0;
+      render();
+      onEnterState();
+      return;
+    }
+    if (state >= PRACTICE_START && state <= PRACTICE_END) {
+      if (!canAdvanceNext()) return;
+      if (state === PRACTICE_END) {
+        state = FINAL_START;
+        phase = 0;
+        render();
+        return;
+      }
+      state++;
+      if (exStep() === 0) {
+        resetPracticeUx();
+      }
+      if (exStep() === 3) {
+        ux.svoDone = false;
+      }
+      render();
+      if (exStep() === 0) {
+        onEnterState();
+      }
+      return;
+    }
+    if (state === 59) {
+      state = 60;
+      render();
+      return;
+    }
+    if (state === 60) {
+      state = 61;
+      phase = 0;
+      render();
+      return;
+    }
+    if (state === 61) {
+      if (phase === 0) {
+        phase = 1;
+        render();
+        return;
+      }
+      state = 62;
+      phase = 0;
+      render();
+      nextBtn.textContent = "本页结束 ✓";
+      nextBtn.disabled = true;
+      launchConfetti();
+      onEnterState();
+      return;
+    }
+  }
+
+  document.getElementById("mainBoard").addEventListener("click", function (e) {
+    var b = e.target.closest(".tts-read-btn[data-tts-read]");
+    if (!b || !stepMount.contains(b)) return;
+    var enc = b.getAttribute("data-tts-read");
+    if (enc) speakAzure(decodeURIComponent(enc));
+  });
+
+  nextBtn.addEventListener("click", function () {
+    if (state === 62) return;
+    if (!canAdvanceNext()) return;
+    advance();
+  });
+
+  render();
+})();
+  </script>
+</body>
+</html>

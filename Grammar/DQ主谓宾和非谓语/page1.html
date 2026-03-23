@@ -1,0 +1,1264 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <script>window.MEDIA_BASE="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/";window.MEDIA_PREFIX="Grammar/DQ主谓宾和非谓语";window.mediaUrl=function(p){if(!p)return"";if(/^(https?:|\/\/|data:)/.test(String(p)))return p;return(window.MEDIA_BASE||"")+(window.MEDIA_PREFIX||"")+"/"+String(p).replace(/^\//,"");};</script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>主语 · 谓语 · 宾语 — 互动课 第 1 课</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --paper: #fff9e8;
+      --paper-edge: #e8dcc4;
+      --crayon-red: #e85d5d;
+      --crayon-blue: #4a90d9;
+      --crayon-green: #5cb85c;
+      --crayon-yellow: #ffd54f;
+      --crayon-pink: #ff8fab;
+      --crayon-purple: #9b7edc;
+      --crayon-orange: #ff9f43;
+      --ink: #2c2c2c;
+      --shadow: rgba(44, 44, 44, 0.15);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      font-family: "ZCOOL KuaiLe", "Patrick Hand", cursive, sans-serif;
+      background: linear-gradient(145deg, #87ceeb 0%, #98d8c8 40%, #f7e98e 100%);
+      background-attachment: fixed;
+      overflow-x: hidden;
+    }
+
+    /* 平板 / 电脑 / 宽屏：整体缩放（约 135%，较原先 150% 缩小 10%） */
+    @media (min-width: 640px) {
+      html {
+        overflow-x: hidden;
+      }
+      body {
+        zoom: 1.35;
+        width: min(920px, calc(100vw / 1.35));
+        max-width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        box-sizing: border-box;
+      }
+    }
+
+    /* 手绘噪点背景 */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.08;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    #app {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 1.25rem 1rem 5.5rem;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h1 {
+      font-size: clamp(1rem, 3vw, 1.35rem);
+      color: var(--ink);
+      text-align: center;
+      margin-bottom: 0.75rem;
+      text-shadow: 2px 2px 0 rgba(255,255,255,0.6);
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+    h1.visible { opacity: 1; }
+
+    /* 画板 / 卡纸 */
+    .board {
+      position: relative;
+      width: 100%;
+      background: var(--paper);
+      border-radius: 8px 14px 10px 12px;
+      padding: clamp(1rem, 4vw, 2rem);
+      box-shadow:
+        6px 8px 0 var(--paper-edge),
+        12px 14px 24px var(--shadow);
+      border: 3px solid var(--ink);
+      border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+      min-height: min(70vh, 560px);
+    }
+
+    .board-inner {
+      position: relative;
+      min-height: 320px;
+    }
+
+    /* 步骤内容通用 */
+    .step {
+      display: none;
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
+    }
+    .step.active {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .step.fade-out {
+      opacity: 0;
+      transform: translateY(-8px);
+      pointer-events: none;
+    }
+
+    .en-text {
+      font-family: "Patrick Hand", cursive;
+      font-size: clamp(1.15rem, 3.2vw, 1.5rem);
+      line-height: 1.45;
+      color: var(--ink);
+      text-align: center;
+      margin: 0.5rem 0 1rem;
+    }
+
+    .en-text--two-lines {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.4rem;
+      line-height: 1.4;
+    }
+    .en-text--two-lines .en-line {
+      display: block;
+      max-width: 42ch;
+      margin: 0 auto;
+    }
+
+    .zh-text {
+      font-size: clamp(1rem, 2.8vw, 1.25rem);
+      line-height: 1.6;
+      color: var(--ink);
+      text-align: center;
+      margin: 0.5rem 0;
+    }
+    .drag-prompt em {
+      font-style: italic;
+      font-family: "Patrick Hand", cursive;
+    }
+
+    /* 固定三列：左 Steven | 中 Heart | 右 Apples，全程不换位置 */
+    .lesson-trio {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      align-items: flex-end;
+      gap: clamp(0.35rem, 1.5vw, 0.85rem);
+      margin-top: 0.5rem;
+      width: 100%;
+      max-width: 100%;
+    }
+
+    .pic-slot {
+      text-align: center;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      min-height: 220px;
+    }
+
+    .pic-frame {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      min-height: 200px;
+      padding: 0.5rem;
+      background: #fffef6;
+      border-radius: 12px;
+      border: none;
+      box-shadow: 0 3px 0 rgba(44, 44, 44, 0.06);
+    }
+
+    .pic-frame img {
+      display: block;
+      max-height: 200px;
+      width: auto;
+      max-width: 100%;
+      height: auto;
+      object-fit: contain;
+      background: #fffef6;
+      border: none;
+      border-radius: 8px;
+    }
+
+    .pic-frame--placeholder {
+      min-height: 200px;
+      background: #fff9e8;
+      opacity: 0.92;
+    }
+
+    .lesson-trio--compact .pic-slot {
+      min-height: 120px;
+    }
+    .lesson-trio--compact .pic-frame {
+      min-height: 100px;
+      padding: 0.35rem;
+    }
+    .lesson-trio--compact .pic-frame img {
+      max-height: 100px;
+    }
+
+    .pic-label {
+      margin-top: 0.35rem;
+      font-family: "Patrick Hand", cursive;
+      font-size: 1.1rem;
+      color: var(--crayon-blue);
+    }
+
+    /* 中间栏心形：统一 heart.png，入场动画（始终在中间栏） */
+    .heart-float {
+      width: 88px;
+      height: 88px;
+      max-width: 100%;
+      opacity: 0;
+      pointer-events: none;
+      object-fit: contain;
+    }
+
+    .heart-float.anim {
+      animation: heartPopCenter 2s ease forwards;
+    }
+
+    @keyframes heartPopCenter {
+      0% {
+        opacity: 0;
+        transform: scale(0.25) translateY(12px);
+      }
+      55% { opacity: 1; transform: scale(1.05) translateY(0); }
+      100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+
+    /* 苹果堆 + 爆炸 */
+    .apples-wrap {
+      opacity: 0;
+      transform: scale(0.5);
+      transition: opacity 0.4s ease;
+    }
+    .apples-wrap.show {
+      opacity: 1;
+      transform: scale(1);
+      animation: popIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+
+    @keyframes popIn {
+      from { transform: scale(0.3) rotate(-5deg); opacity: 0; }
+      to { transform: scale(1) rotate(0deg); opacity: 1; }
+    }
+
+    .explosion {
+      position: absolute;
+      left: 50%;
+      top: 45%;
+      width: 120px;
+      height: 120px;
+      margin: -60px 0 0 -60px;
+      pointer-events: none;
+      z-index: 4;
+    }
+    .explosion span {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      margin: -7px 0 0 -7px;
+      opacity: 0;
+    }
+    .explosion.boom span {
+      animation: explodeParticle 0.7s ease-out forwards;
+    }
+    .explosion span:nth-child(1) { background: var(--crayon-yellow); animation-delay: 0s; --dx: -50px; --dy: -40px; }
+    .explosion span:nth-child(2) { background: var(--crayon-orange); animation-delay: 0.03s; --dx: 45px; --dy: -35px; }
+    .explosion span:nth-child(3) { background: var(--crayon-pink); animation-delay: 0.06s; --dx: -40px; --dy: 40px; }
+    .explosion span:nth-child(4) { background: var(--crayon-green); animation-delay: 0.09s; --dx: 48px; --dy: 38px; }
+    .explosion span:nth-child(5) { background: var(--crayon-blue); animation-delay: 0.12s; --dx: 0; --dy: -55px; }
+    .explosion span:nth-child(6) { background: var(--crayon-purple); animation-delay: 0.15s; --dx: -55px; --dy: 0; }
+    .explosion span:nth-child(7) { background: var(--crayon-red); animation-delay: 0.18s; --dx: 52px; --dy: 5px; }
+    .explosion span:nth-child(8) { background: var(--crayon-yellow); animation-delay: 0.21s; --dx: -30px; --dy: -50px; }
+
+    @keyframes explodeParticle {
+      0% { opacity: 1; transform: translate(0, 0) scale(1); }
+      100% { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(0.2); }
+    }
+
+    /* 高亮总结 */
+    .highlight-line {
+      font-size: clamp(0.95rem, 2.5vw, 1.15rem);
+      line-height: 1.85;
+      text-align: left;
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 1rem 1.25rem;
+      background: rgba(255, 213, 79, 0.25);
+      border-left: 5px solid var(--crayon-orange);
+      border-radius: 4px 12px 8px 6px;
+    }
+    .highlight-line em {
+      font-style: normal;
+      padding: 0 0.15em;
+      border-radius: 4px;
+    }
+    .hl-subject { background: rgba(74, 144, 217, 0.35); }
+    .hl-predicate { background: rgba(92, 184, 92, 0.35); }
+    .hl-object { background: rgba(232, 93, 93, 0.3); }
+
+    /* 拖拽区 */
+    .drag-section {
+      margin-top: 1rem;
+    }
+    .drag-prompt {
+      margin-bottom: 1rem;
+    }
+
+    .labels-pool {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+      min-height: 52px;
+    }
+
+    .drag-label {
+      font-family: "ZCOOL KuaiLe", sans-serif;
+      padding: 0.5rem 1rem;
+      background: linear-gradient(180deg, #fff 0%, #f0f0f0 100%);
+      border: 3px solid var(--ink);
+      border-radius: 8px 12px 10px 9px;
+      cursor: grab;
+      box-shadow: 3px 4px 0 var(--shadow);
+      font-size: 1.1rem;
+      touch-action: none;
+      user-select: none;
+      transition: transform 0.15s ease, box-shadow 0.15s;
+    }
+    .drag-label:active { cursor: grabbing; }
+    .drag-label.dragging {
+      opacity: 0.85;
+      transform: scale(1.05) rotate(-2deg);
+      z-index: 100;
+    }
+    .drag-label.placed {
+      visibility: hidden;
+      position: absolute;
+      width: 0;
+      height: 0;
+      overflow: hidden;
+    }
+
+    .sentence-strip {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: flex-end;
+      gap: clamp(0.35rem, 2vw, 0.75rem);
+      margin: 1rem 0;
+      font-family: "Patrick Hand", cursive;
+      font-size: clamp(1.4rem, 4vw, 2rem);
+    }
+
+    .word-unit {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .word-text {
+      padding: 0.15rem 0.5rem;
+      border-bottom: 3px wavy var(--crayon-blue);
+    }
+
+    .drop-zone {
+      min-width: 88px;
+      min-height: 48px;
+      border: 3px dashed var(--ink);
+      border-radius: 6px 10px 8px 7px;
+      background: rgba(255,255,255,0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s, border-color 0.2s, transform 0.2s;
+    }
+    .drop-zone.drag-over {
+      background: rgba(255, 213, 79, 0.45);
+      border-style: solid;
+      transform: scale(1.03);
+    }
+    .drop-zone.correct {
+      border-color: var(--crayon-green);
+      background: rgba(92, 184, 92, 0.25);
+      border-style: solid;
+    }
+    .drop-zone.wrong-shake {
+      animation: shake 0.45s ease;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20% { transform: translateX(-8px); }
+      40% { transform: translateX(8px); }
+      60% { transform: translateX(-5px); }
+      80% { transform: translateX(5px); }
+    }
+
+    .drop-zone .filled-tag {
+      font-family: "ZCOOL KuaiLe", sans-serif;
+      font-size: 1rem;
+      padding: 0.25rem 0.5rem;
+      background: #fff;
+      border: 2px solid var(--ink);
+      border-radius: 6px;
+    }
+
+    /* State 12 成功 */
+    .success-overlay {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 200;
+      overflow: hidden;
+    }
+    .confetti {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      top: -12px;
+      opacity: 0.9;
+      animation: fall linear forwards;
+    }
+    @keyframes fall {
+      to {
+        transform: translateY(100vh) rotate(720deg);
+        opacity: 0.3;
+      }
+    }
+
+    .def-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+    .def-card {
+      padding: 0.85rem;
+      border: 3px solid var(--ink);
+      border-radius: 10px 6px 12px 8px;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+    .def-card:nth-child(1) { background: rgba(74, 144, 217, 0.2); }
+    .def-card:nth-child(2) { background: rgba(92, 184, 92, 0.2); }
+    .def-card:nth-child(3) { background: rgba(232, 93, 93, 0.18); }
+
+    /* 底部按钮 */
+    .footer-bar {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 0.85rem 1rem calc(0.85rem + env(safe-area-inset-bottom));
+      background: linear-gradient(transparent, rgba(255,249,232,0.95) 30%);
+      display: flex;
+      justify-content: center;
+      z-index: 150;
+    }
+    .footer-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem 1rem;
+      width: 100%;
+      max-width: 960px;
+    }
+    .page-nav-link {
+      font-family: "ZCOOL KuaiLe", sans-serif;
+      font-size: 0.88rem;
+      padding: 0.5rem 0.95rem;
+      border: 2px solid var(--ink);
+      border-radius: 999px;
+      background: linear-gradient(180deg, #f8fbff 0%, #e8eef5 100%);
+      color: var(--ink);
+      text-decoration: none;
+      white-space: nowrap;
+      box-shadow: 2px 3px 0 var(--shadow);
+      transition: transform 0.12s ease;
+    }
+    a.page-nav-link:hover {
+      transform: translateY(-1px);
+    }
+    .page-nav-link--disabled {
+      opacity: 0.42;
+      pointer-events: none;
+      cursor: default;
+      box-shadow: none;
+    }
+
+    .next-btn {
+      font-family: "ZCOOL KuaiLe", sans-serif;
+      font-size: 1.15rem;
+      padding: 0.65rem 2.4rem;
+      background: linear-gradient(180deg, var(--crayon-yellow) 0%, #ffc107 100%);
+      border: 3px solid var(--ink);
+      border-radius: 12px 8px 14px 10px;
+      box-shadow: 4px 5px 0 var(--shadow);
+      cursor: pointer;
+      transition: transform 0.12s ease, box-shadow 0.12s;
+    }
+    .next-btn:hover { transform: translateY(-2px); box-shadow: 6px 7px 0 var(--shadow); }
+    .next-btn:active { transform: translateY(2px); box-shadow: 2px 3px 0 var(--shadow); }
+    .next-btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .state-hint {
+      text-align: center;
+      font-size: 0.85rem;
+      color: #555;
+      margin-top: 0.5rem;
+    }
+
+    .hidden { display: none !important; }
+
+    /* 回顾三问横向 */
+    .review-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 0.75rem;
+      margin: 1rem 0;
+    }
+    .review-q {
+      padding: 0.65rem;
+      border: 2px dashed var(--crayon-purple);
+      border-radius: 8px;
+      font-size: 0.95rem;
+      text-align: center;
+      background: rgba(155, 126, 220, 0.12);
+    }
+    .review-a {
+      font-family: "Patrick Hand", cursive;
+      font-size: 1.35rem;
+      margin-top: 0.35rem;
+      color: var(--crayon-blue);
+    }
+
+    .sentence-tts-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem 0.55rem;
+      margin: 0.5rem 0;
+    }
+    .tts-read-btn {
+      flex-shrink: 0;
+      width: 2.35rem;
+      height: 2.35rem;
+      border: 2px solid var(--ink);
+      border-radius: 50%;
+      background: linear-gradient(180deg, #fff 0%, #f0f0f0 100%);
+      cursor: pointer;
+      font-size: 1.05rem;
+      line-height: 1;
+      padding: 0;
+      box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.12);
+    }
+    .tts-read-btn:hover {
+      transform: scale(1.06);
+    }
+    .tts-read-btn:active {
+      transform: scale(0.96);
+    }
+
+    @media (max-width: 520px) {
+      .lesson-trio {
+        gap: 0.25rem;
+      }
+      .pic-slot {
+        min-height: 160px;
+      }
+      .pic-frame {
+        min-height: 140px;
+      }
+      .pic-frame img {
+        max-height: 140px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <h1 id="pageTitle" class="visible">主语 · 谓语 · 宾语 — 互动课 第 1 课</h1>
+
+    <div class="board" id="stageBoard" role="main">
+      <div class="board-inner" id="stageClickArea">
+        <!-- State 1：左 Steven | 中右占位（位置固定） -->
+        <section class="step active" data-state="1" aria-live="polite">
+          <div class="lesson-trio">
+            <div class="pic-slot pic-slot--left">
+              <div class="pic-frame">
+                <!-- 此处图片由 generate_images.py + s-calss.json 调用 Vertex Imagen 4 生成 -->
+                <img src="asset/img/teacher_steven.png" alt="Steven the teacher" />
+              </div>
+              <div class="pic-label">Steven</div>
+            </div>
+            <div class="pic-slot pic-slot--center">
+              <div class="pic-frame pic-frame--placeholder" aria-hidden="true"></div>
+            </div>
+            <div class="pic-slot pic-slot--right">
+              <div class="pic-frame pic-frame--placeholder" aria-hidden="true"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- State 2：中间 heart.png 入场动画 -->
+        <section class="step" data-state="2" aria-hidden="true">
+          <div class="lesson-trio">
+            <div class="pic-slot pic-slot--left">
+              <div class="pic-frame">
+                <img src="asset/img/teacher_steven.png" alt="Steven" />
+              </div>
+              <div class="pic-label">Steven</div>
+            </div>
+            <div class="pic-slot pic-slot--center">
+              <div class="pic-frame">
+                <img src="asset/img/heart.png" alt="" class="heart-float" id="heartEl" width="88" height="88" />
+              </div>
+              <div class="pic-label">Heart</div>
+            </div>
+            <div class="pic-slot pic-slot--right">
+              <div class="pic-frame pic-frame--placeholder" aria-hidden="true"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- State 3：中间爆炸 + heart.png；右侧苹果 -->
+        <section class="step" data-state="3" aria-hidden="true">
+          <div class="lesson-trio">
+            <div class="pic-slot pic-slot--left">
+              <div class="pic-frame">
+                <img src="asset/img/teacher_steven.png" alt="Steven" />
+              </div>
+              <div class="pic-label">Steven</div>
+            </div>
+            <div class="pic-slot pic-slot--center">
+              <div class="pic-frame" style="position: relative;">
+                <div class="explosion" id="explosionEl" aria-hidden="true">
+                  <span></span><span></span><span></span><span></span>
+                  <span></span><span></span><span></span><span></span>
+                </div>
+                <img src="asset/img/heart.png" alt="Heart" width="88" height="88" style="position: relative; z-index: 2;" />
+              </div>
+              <div class="pic-label">Heart</div>
+            </div>
+            <div class="pic-slot pic-slot--right">
+              <div class="pic-frame apples-wrap" id="applesEl">
+                <img src="asset/img/apples.png" alt="Apples" />
+              </div>
+              <div class="pic-label">Apples</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- State 4 -->
+        <section class="step" data-state="4">
+          <div class="lesson-trio" style="margin-bottom: 0.5rem;">
+            <div class="pic-slot pic-slot--left">
+              <div class="pic-frame">
+                <img src="asset/img/teacher_steven.png" alt="" />
+              </div>
+              <div class="pic-label">Steven</div>
+            </div>
+            <div class="pic-slot pic-slot--center">
+              <div class="pic-frame">
+                <img src="asset/img/heart.png" alt="Heart" />
+              </div>
+              <div class="pic-label">Heart</div>
+            </div>
+            <div class="pic-slot pic-slot--right">
+              <div class="pic-frame">
+                <img src="asset/img/apples.png" alt="Apples" />
+              </div>
+              <div class="pic-label">Apples</div>
+            </div>
+          </div>
+          <div class="sentence-tts-row" style="flex-direction: column; align-items: stretch;">
+            <p class="en-text en-text--two-lines" id="ttsLine4" style="margin: 0;">
+              <span class="en-line">What do these pictures tell us about Steven?</span>
+              <span class="en-line">Can you compose a sentence using what you see in the pictures?</span>
+            </p>
+            <button
+              type="button"
+              class="tts-read-btn"
+              data-tts-read="What%20do%20these%20pictures%20tell%20us%20about%20Steven%3F%20Can%20you%20compose%20a%20sentence%20using%20what%20you%20see%20in%20the%20pictures%3F"
+              title="Azure 朗读"
+              aria-label="朗读英文"
+            >
+              🔊
+            </button>
+          </div>
+        </section>
+
+        <!-- State 5 -->
+        <section class="step" data-state="5">
+          <div class="lesson-trio" style="margin-bottom: 0.5rem;">
+            <div class="pic-slot pic-slot--left">
+              <div class="pic-frame">
+                <img src="asset/img/teacher_steven.png" alt="" />
+              </div>
+              <div class="pic-label">Steven</div>
+            </div>
+            <div class="pic-slot pic-slot--center">
+              <div class="pic-frame">
+                <img src="asset/img/heart.png" alt="Heart" />
+              </div>
+              <div class="pic-label">Heart</div>
+            </div>
+            <div class="pic-slot pic-slot--right">
+              <div class="pic-frame">
+                <img src="asset/img/apples.png" alt="Apples" />
+              </div>
+              <div class="pic-label">Apples</div>
+            </div>
+          </div>
+          <div class="sentence-tts-row">
+            <p class="en-text" style="font-size: clamp(1.5rem, 4vw, 2rem); color: var(--crayon-blue); margin: 0;">
+              Steven likes apples.
+            </p>
+            <button
+              type="button"
+              class="tts-read-btn"
+              data-tts-read="Steven%20likes%20apples."
+              title="Azure 朗读"
+              aria-label="朗读例句"
+            >
+              🔊
+            </button>
+          </div>
+        </section>
+
+        <!-- State 6 -->
+        <section class="step" data-state="6">
+          <div class="lesson-trio lesson-trio--compact" style="margin-bottom: 0.75rem;">
+            <div class="pic-slot pic-slot--left">
+              <div class="pic-frame"><img src="asset/img/teacher_steven.png" alt="" /></div>
+              <div class="pic-label">Steven</div>
+            </div>
+            <div class="pic-slot pic-slot--center">
+              <div class="pic-frame"><img src="asset/img/heart.png" alt="" /></div>
+              <div class="pic-label">Heart</div>
+            </div>
+            <div class="pic-slot pic-slot--right">
+              <div class="pic-frame"><img src="asset/img/apples.png" alt="" /></div>
+              <div class="pic-label">Apples</div>
+            </div>
+          </div>
+          <p class="zh-text">这句话包含三个成分。请分别说出它们各是什么。</p>
+          <div class="sentence-tts-row">
+            <p class="en-text" style="margin: 0; font-size: clamp(1.35rem, 3.8vw, 1.75rem); color: var(--crayon-blue);">
+              Steven likes apples.
+            </p>
+            <button
+              type="button"
+              class="tts-read-btn"
+              data-tts-read="Steven%20likes%20apples."
+              title="Azure 朗读"
+              aria-label="朗读例句"
+            >
+              🔊
+            </button>
+          </div>
+        </section>
+
+        <!-- State 7 -->
+        <section class="step" data-state="7">
+          <div class="lesson-trio lesson-trio--compact" style="margin-bottom: 0.75rem;">
+            <div class="pic-slot pic-slot--left">
+              <div class="pic-frame"><img src="asset/img/teacher_steven.png" alt="" /></div>
+              <div class="pic-label">Steven</div>
+            </div>
+            <div class="pic-slot pic-slot--center">
+              <div class="pic-frame"><img src="asset/img/heart.png" alt="" /></div>
+              <div class="pic-label">Heart</div>
+            </div>
+            <div class="pic-slot pic-slot--right">
+              <div class="pic-frame"><img src="asset/img/apples.png" alt="" /></div>
+              <div class="pic-label">Apples</div>
+            </div>
+          </div>
+          <p class="zh-text" style="text-align: left; max-width: 520px; margin: 0 auto;">
+            1. 主语（主人公）：Steven<br />
+            2. 谓语（表示的动作）：喜欢（like）<br />
+            3. 宾语（动作涉及的对象）：apples（苹果）
+          </p>
+        </section>
+
+        <!-- State 8 -->
+        <section class="step" data-state="8">
+          <div class="lesson-trio lesson-trio--compact" style="margin-bottom: 0.75rem;">
+            <div class="pic-slot pic-slot--left">
+              <div class="pic-frame"><img src="asset/img/teacher_steven.png" alt="" /></div>
+              <div class="pic-label">Steven</div>
+            </div>
+            <div class="pic-slot pic-slot--center">
+              <div class="pic-frame"><img src="asset/img/heart.png" alt="" /></div>
+              <div class="pic-label">Heart</div>
+            </div>
+            <div class="pic-slot pic-slot--right">
+              <div class="pic-frame"><img src="asset/img/apples.png" alt="" /></div>
+              <div class="pic-label">Apples</div>
+            </div>
+          </div>
+          <div class="review-grid">
+            <div class="review-q">谁发出了动作？（对应主语）</div>
+            <div class="review-q">动作是什么？（对应谓语）</div>
+            <div class="review-q">动作作用的对象是什么？（对应宾语）</div>
+          </div>
+        </section>
+
+        <!-- State 9 -->
+        <section class="step" data-state="9">
+          <div class="lesson-trio lesson-trio--compact" style="margin-bottom: 0.75rem;">
+            <div class="pic-slot pic-slot--left">
+              <div class="pic-frame"><img src="asset/img/teacher_steven.png" alt="" /></div>
+              <div class="pic-label">Steven</div>
+            </div>
+            <div class="pic-slot pic-slot--center">
+              <div class="pic-frame"><img src="asset/img/heart.png" alt="" /></div>
+              <div class="pic-label">Heart</div>
+            </div>
+            <div class="pic-slot pic-slot--right">
+              <div class="pic-frame"><img src="asset/img/apples.png" alt="" /></div>
+              <div class="pic-label">Apples</div>
+            </div>
+          </div>
+          <div class="review-grid">
+            <div class="review-q">谁发出了动作？<div class="review-a">Steven</div></div>
+            <div class="review-q">动作是什么？<div class="review-a">喜欢（like）</div></div>
+            <div class="review-q">动作作用的对象是什么？<div class="review-a">apples（苹果）</div></div>
+          </div>
+        </section>
+
+        <!-- State 10 -->
+        <section class="step" data-state="10">
+          <div class="lesson-trio lesson-trio--compact" style="margin-bottom: 0.75rem;">
+            <div class="pic-slot pic-slot--left">
+              <div class="pic-frame"><img src="asset/img/teacher_steven.png" alt="" /></div>
+              <div class="pic-label">Steven</div>
+            </div>
+            <div class="pic-slot pic-slot--center">
+              <div class="pic-frame"><img src="asset/img/heart.png" alt="" /></div>
+              <div class="pic-label">Heart</div>
+            </div>
+            <div class="pic-slot pic-slot--right">
+              <div class="pic-frame"><img src="asset/img/apples.png" alt="" /></div>
+              <div class="pic-label">Apples</div>
+            </div>
+          </div>
+          <p class="zh-text highlight-line">
+            一句简单句通常包含若干成分：<em class="hl-subject">主语</em>用来说明「谁」或「什么」；<em class="hl-predicate">谓语</em>用来说明主语「做了什么」或「处于何种状态」；<em class="hl-object">宾语</em>表示动作所涉及的人或事物。在英语语法中，上述成分分别称为：<strong>主语（subject）、谓语（predicate / verb phrase）、宾语（object）</strong>。
+          </p>
+        </section>
+
+        <!-- State 11–12 拖拽 -->
+        <section class="step" data-state="11">
+          <div class="lesson-trio lesson-trio--compact" style="margin-bottom: 0.75rem;">
+            <div class="pic-slot pic-slot--left">
+              <div class="pic-frame"><img src="asset/img/teacher_steven.png" alt="" /></div>
+              <div class="pic-label">Steven</div>
+            </div>
+            <div class="pic-slot pic-slot--center">
+              <div class="pic-frame"><img src="asset/img/heart.png" alt="" /></div>
+              <div class="pic-label">Heart</div>
+            </div>
+            <div class="pic-slot pic-slot--right">
+              <div class="pic-frame"><img src="asset/img/apples.png" alt="" /></div>
+              <div class="pic-label">Apples</div>
+            </div>
+          </div>
+          <div class="drag-section">
+            <p class="zh-text drag-prompt">
+              请根据上述说明，将「主语」「谓语」「宾语」与下面英文句中的相应部分一一对应。
+            </p>
+            <div class="sentence-tts-row">
+              <p class="en-text" style="margin: 0; font-size: clamp(1.35rem, 3.8vw, 1.75rem);">Steven likes apples.</p>
+              <button
+                type="button"
+                class="tts-read-btn"
+                data-tts-read="Steven%20likes%20apples."
+                title="Azure 朗读"
+                aria-label="朗读例句"
+              >
+                🔊
+              </button>
+            </div>
+            <div class="labels-pool" id="labelsPool">
+              <div class="drag-label" draggable="true" data-tag="subject" id="lab-subject">主语</div>
+              <div class="drag-label" draggable="true" data-tag="predicate" id="lab-predicate">谓语</div>
+              <div class="drag-label" draggable="true" data-tag="object" id="lab-object">宾语</div>
+            </div>
+            <div class="sentence-strip">
+              <div class="word-unit">
+                <span class="word-text">Steven</span>
+                <div class="drop-zone" data-accept="subject" id="dz-subject"></div>
+              </div>
+              <div class="word-unit">
+                <span class="word-text">likes</span>
+                <div class="drop-zone" data-accept="predicate" id="dz-predicate"></div>
+              </div>
+              <div class="word-unit">
+                <span class="word-text">apples</span>
+                <div class="drop-zone" data-accept="object" id="dz-object"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="step" data-state="12">
+          <div class="lesson-trio lesson-trio--compact" style="margin-bottom: 0.75rem;">
+            <div class="pic-slot pic-slot--left">
+              <div class="pic-frame"><img src="asset/img/teacher_steven.png" alt="" /></div>
+              <div class="pic-label">Steven</div>
+            </div>
+            <div class="pic-slot pic-slot--center">
+              <div class="pic-frame"><img src="asset/img/heart.png" alt="" /></div>
+              <div class="pic-label">Heart</div>
+            </div>
+            <div class="pic-slot pic-slot--right">
+              <div class="pic-frame"><img src="asset/img/apples.png" alt="" /></div>
+              <div class="pic-label">Apples</div>
+            </div>
+          </div>
+          <p class="zh-text" style="color: var(--crayon-green); font-size: 1.3rem;">很好！你已正确完成主语、谓语、宾语与句子成分的对应。</p>
+          <div class="def-cards" id="defCards">
+            <div class="def-card"><strong>主语（Subject）</strong><br />表示句子说明的对象，即「谁」或「什么」，一般位于谓语之前。</div>
+            <div class="def-card"><strong>谓语（Predicate / Verb Phrase）</strong><br />说明主语的动作或状态，即「做了什么」或「怎样」，通常以动词为核心。</div>
+            <div class="def-card"><strong>宾语（Object）</strong><br />表示动作所涉及的人或事物；在及物动词后常作宾语。</div>
+          </div>
+        </section>
+      </div>
+
+      <p class="state-hint" id="stateHint">请点击下方「继续」按钮以进入下一步。</p>
+    </div>
+  </div>
+
+  <div class="success-overlay" id="confettiRoot" aria-hidden="true"></div>
+
+  <div class="footer-bar">
+    <div class="footer-toolbar">
+      <a class="page-nav-link" href="index.html" title="返回课程导航首页">← 课程首页</a>
+      <button type="button" class="next-btn" id="nextBtn">继续 Next →</button>
+      <a class="page-nav-link" href="page2.html" title="无需完成本页步骤，直接进入第 2 页">下一页 →</a>
+    </div>
+  </div>
+
+  <script>
+(function () {
+  "use strict";
+
+  /** Azure Speech：密钥写在页内便于课件直连；公开发布建议改为后端代理。 */
+  var AZURE_SPEECH_KEY =
+    "DKRXk8ueSfo5NdIOMqFRTCAfpeGDezJ3Snf5K8gGgtyqxiWdugLzJQQJ99BLACHYHv6XJ3w3AAAYACOGUYP9";
+  var AZURE_REGION = "eastus2";
+  var TTS_VOICE = "en-US-AriaNeural";
+
+  var state = 1;
+  var maxState = 12;
+  var steps = document.querySelectorAll(".step");
+  var nextBtn = document.getElementById("nextBtn");
+  var stateHint = document.getElementById("stateHint");
+  var heartEl = document.getElementById("heartEl");
+  var explosionEl = document.getElementById("explosionEl");
+  var applesEl = document.getElementById("applesEl");
+
+  function showStep(n) {
+    steps.forEach(function (el) {
+      var s = parseInt(el.getAttribute("data-state"), 10);
+      el.classList.toggle("active", s === n);
+      el.setAttribute("aria-hidden", s === n ? "false" : "true");
+    });
+    nextBtn.disabled = false;
+    if (n === 11) {
+      nextBtn.disabled = true;
+      nextBtn.textContent = "请将标签拖入对应位置";
+      stateHint.textContent = "三个标签全部正确放置后将自动进入总结";
+    } else if (n === 12) {
+      nextBtn.textContent = "本课结束 ✓";
+      nextBtn.disabled = true;
+      stateHint.textContent = "";
+    } else {
+      nextBtn.textContent = "继续 Next →";
+      stateHint.textContent = "请点击下方「继续」按钮以进入下一步。";
+    }
+  }
+
+  function advance() {
+    if (state >= maxState) return;
+    if (state === 11) return;
+
+    var next = state + 1;
+    if (next === 2) {
+      state = 2;
+      showStep(2);
+      requestAnimationFrame(function () {
+        if (heartEl) heartEl.classList.add("anim");
+      });
+      return;
+    }
+    if (next === 3) {
+      state = 3;
+      showStep(3);
+      requestAnimationFrame(function () {
+        if (explosionEl) {
+          explosionEl.classList.remove("boom");
+          void explosionEl.offsetWidth;
+          explosionEl.classList.add("boom");
+        }
+        setTimeout(function () {
+          if (applesEl) applesEl.classList.add("show");
+        }, 200);
+      });
+      return;
+    }
+
+    state = next;
+    showStep(state);
+  }
+
+  function speakAzure(text) {
+    if (!text) return;
+    var endpoint =
+      "https://" + AZURE_REGION + ".tts.speech.microsoft.com/cognitiveservices/v1";
+    var ssml =
+      '<speak version="1.0" xml:lang="en-US">' +
+      '<voice xml:lang="en-US" name="' +
+      TTS_VOICE +
+      '">' +
+      escapeXml(text) +
+      "</voice></speak>";
+
+    fetch(endpoint, {
+      method: "POST",
+      headers: {
+        "Ocp-Apim-Subscription-Key": AZURE_SPEECH_KEY,
+        "Content-Type": "application/ssml+xml",
+        "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3",
+        "User-Agent": "ESL-SPA-Page1"
+      },
+      body: ssml
+    })
+      .then(function (res) {
+        if (!res.ok) throw new Error("TTS " + res.status);
+        return res.arrayBuffer();
+      })
+      .then(function (buf) {
+        var blob = new Blob([buf], { type: "audio/mpeg" });
+        var url = URL.createObjectURL(blob);
+        var audio = new Audio(url);
+        audio.play().finally(function () {
+          setTimeout(function () {
+            URL.revokeObjectURL(url);
+          }, 60000);
+        });
+      })
+      .catch(function (err) {
+        console.warn("Azure TTS:", err);
+      });
+  }
+
+  function escapeXml(s) {
+    return s
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+
+  document.getElementById("stageBoard").addEventListener("click", function (e) {
+    var b = e.target.closest(".tts-read-btn[data-tts-read]");
+    if (!b) return;
+    var enc = b.getAttribute("data-tts-read");
+    if (enc) speakAzure(decodeURIComponent(enc));
+  });
+
+  nextBtn.addEventListener("click", function () {
+    advance();
+  });
+
+  /* ——— 拖拽 State 11 ——— */
+  var correctCount = 0;
+  var pool = document.getElementById("labelsPool");
+
+  function resetDragState() {
+    correctCount = 0;
+    document.querySelectorAll(".drop-zone").forEach(function (z) {
+      z.innerHTML = "";
+      z.classList.remove("correct", "wrong-shake", "drag-over");
+    });
+    document.querySelectorAll(".drag-label").forEach(function (lab) {
+      lab.classList.remove("placed", "dragging");
+      lab.setAttribute("draggable", "true");
+      if (pool && lab.parentElement !== pool) pool.appendChild(lab);
+    });
+  }
+
+  function onAllCorrect() {
+    if (state === 12) return;
+    pendingTag = null;
+    state = 12;
+    showStep(12);
+    launchConfetti();
+    nextBtn.disabled = true;
+    nextBtn.textContent = "本课结束 ✓";
+  }
+
+  function launchConfetti() {
+    var root = document.getElementById("confettiRoot");
+    if (!root) return;
+    root.innerHTML = "";
+    root.setAttribute("aria-hidden", "false");
+    var colors = [
+      "#e85d5d",
+      "#4a90d9",
+      "#5cb85c",
+      "#ffd54f",
+      "#ff8fab",
+      "#9b7edc",
+      "#ff9f43"
+    ];
+    for (var i = 0; i < 48; i++) {
+      var c = document.createElement("div");
+      c.className = "confetti";
+      c.style.left = Math.random() * 100 + "vw";
+      c.style.background = colors[i % colors.length];
+      c.style.animationDuration = 2.5 + Math.random() * 2 + "s";
+      c.style.animationDelay = Math.random() * 0.3 + "s";
+      root.appendChild(c);
+    }
+    setTimeout(function () {
+      root.innerHTML = "";
+      root.setAttribute("aria-hidden", "true");
+    }, 5000);
+  }
+
+  var dragEl = null;
+
+  document.querySelectorAll(".drag-label").forEach(function (lab) {
+    lab.addEventListener("dragstart", function (e) {
+      dragEl = lab;
+      lab.classList.add("dragging");
+      e.dataTransfer.setData("text/plain", lab.getAttribute("data-tag"));
+      e.dataTransfer.effectAllowed = "move";
+    });
+    lab.addEventListener("dragend", function () {
+      lab.classList.remove("dragging");
+      dragEl = null;
+    });
+  });
+
+  document.querySelectorAll(".drop-zone").forEach(function (zone) {
+    zone.addEventListener("dragover", function (e) {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = "move";
+      zone.classList.add("drag-over");
+    });
+    zone.addEventListener("dragleave", function () {
+      zone.classList.remove("drag-over");
+    });
+    zone.addEventListener("drop", function (e) {
+      e.preventDefault();
+      zone.classList.remove("drag-over");
+      var tag = e.dataTransfer.getData("text/plain");
+      var accept = zone.getAttribute("data-accept");
+      if (!dragEl || zone.querySelector(".filled-tag")) return;
+
+      if (tag === accept) {
+        zone.classList.add("correct");
+        var span = document.createElement("span");
+        span.className = "filled-tag";
+        span.textContent = dragEl.textContent.trim();
+        zone.appendChild(span);
+        dragEl.classList.add("placed");
+        dragEl.setAttribute("draggable", "false");
+        correctCount++;
+        if (correctCount >= 3) onAllCorrect();
+      } else {
+        zone.classList.add("wrong-shake");
+        setTimeout(function () {
+          zone.classList.remove("wrong-shake");
+        }, 450);
+      }
+    });
+  });
+
+  /* 触摸拖拽简化：点击标签再点击目标区 */
+  var pendingTag = null;
+  document.addEventListener(
+    "click",
+    function (e) {
+      if (state !== 11) return;
+      var lab = e.target.closest(".drag-label");
+      var zone = e.target.closest(".drop-zone");
+      if (lab && !lab.classList.contains("placed")) {
+        document.querySelectorAll(".drag-label").forEach(function (l) {
+          l.style.outline = "none";
+        });
+        pendingTag = lab;
+        lab.style.outline = "3px solid var(--crayon-orange)";
+        return;
+      }
+      if (zone && pendingTag && !zone.querySelector(".filled-tag")) {
+        var tag = pendingTag.getAttribute("data-tag");
+        var accept = zone.getAttribute("data-accept");
+        if (tag === accept) {
+          zone.classList.add("correct");
+          var span = document.createElement("span");
+          span.className = "filled-tag";
+          span.textContent = pendingTag.textContent.trim();
+          zone.appendChild(span);
+          pendingTag.classList.add("placed");
+          pendingTag.setAttribute("draggable", "false");
+          pendingTag.style.outline = "none";
+          correctCount++;
+          pendingTag = null;
+          if (correctCount >= 3) onAllCorrect();
+        } else {
+          zone.classList.add("wrong-shake");
+          setTimeout(function () {
+            zone.classList.remove("wrong-shake");
+          }, 450);
+        }
+      }
+    },
+    true
+  );
+
+  showStep(1);
+})();
+  </script>
+  <script>(function(){if(!window.mediaUrl)return;document.querySelectorAll("img[src]").forEach(function(el){var s=(el.getAttribute("src")||"").trim();if(!s||/^(https?:|\/\/|data:)/.test(s))return;el.src=window.mediaUrl(s);});})();</script>
+</body>
+</html>
