@@ -9,6 +9,7 @@
   <script src="https://aka.ms/csspeech/jsbrowserpackageraw"></script>
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
   <script src="../../vocab_pdf.js"></script>
+  <script src="../../vocab_teacher_wordlist.js"></script>
   <style>
     :root {
       --bg:        #0d0f1a;
@@ -371,9 +372,14 @@
           </div>
         </div>
       </div>
-      <button class="btn btn-primary btn-next" id="p1-next" disabled onclick="goP2()">
-        下一步 · 图片记忆 <i class="fas fa-arrow-right"></i>
-      </button>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:12px">
+        <button class="btn btn-ghost" id="p1-prev" onclick="prevWord()" title="回顾上一个单词">
+          <i class="fas fa-arrow-left"></i> 上一个单词
+        </button>
+        <button class="btn btn-primary btn-next" id="p1-next" disabled onclick="goP2()">
+          下一步 · 图片记忆 <i class="fas fa-arrow-right"></i>
+        </button>
+      </div>
       </div>
     </div>
 
@@ -734,6 +740,8 @@ function showCurrentWord() {
   document.getElementById("p1-ipa").textContent  = w.ipa || "";
   document.getElementById("p1-score").style.display = "none";
   document.getElementById("p1-next").disabled = true;
+  const prevBtn = document.getElementById("p1-prev");
+  if (prevBtn) prevBtn.disabled = wordIndex <= 0;
   showPage("p1-pronounce");
   saveProgress();
 }
@@ -1046,6 +1054,13 @@ function goP4() {
   document.getElementById("p4-next").disabled = exs.length>0;
   showPage("p4-examples");
   saveProgress();
+}
+
+function prevWord() {
+  if (wordIndex <= 0) return;
+  wordIndex--;
+  saveProgress();
+  startWord();
 }
 
 function nextWord() {
