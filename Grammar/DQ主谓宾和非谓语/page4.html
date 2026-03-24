@@ -595,7 +595,16 @@
     "DKRXk8ueSfo5NdIOMqFRTCAfpeGDezJ3Snf5K8gGgtyqxiWdugLzJQQJ99BLACHYHv6XJ3w3AAAYACOGUYP9";
   var AZURE_REGION = "eastus2";
   var TTS_VOICE = "en-US-AriaNeural";
-  var P4_IMG_FALLBACK = "asset/img/p4_placeholder.png";
+  /** 图片统一走腾讯 COS；page4verbs.js 中路径为相对 asset/img/... */
+  var DQ_GRAMMAR_COS =
+    "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/DQ主谓宾和非谓语/";
+  function dqAssetUrl(p) {
+    if (!p) return "";
+    p = String(p);
+    if (/^https?:\/\//i.test(p)) return p;
+    return DQ_GRAMMAR_COS + p.replace(/^\//, "");
+  }
+  var P4_IMG_FALLBACK = dqAssetUrl("asset/img/p4_placeholder.png");
 
   var state = 1;
   var track = null;
@@ -1151,7 +1160,7 @@
             '<div class="pic-frame">' +
             "<!-- 例句场景：example_pic_prompt -->" +
             '<img src="' +
-            escapeHtml(v.example_image || P4_IMG_FALLBACK) +
+            escapeHtml(dqAssetUrl(v.example_image) || P4_IMG_FALLBACK) +
             '" onerror="this.onerror=null;this.src=\'' +
             P4_IMG_FALLBACK +
             '\'" alt="' +
@@ -1208,7 +1217,7 @@
             '<div class="pic-frame">' +
             "<!-- 练习场景：practice_1_pic_prompt，须与 example_pic_prompt 区分 -->" +
             '<img src="' +
-            escapeHtml(v.practice_image || P4_IMG_FALLBACK) +
+            escapeHtml(dqAssetUrl(v.practice_image) || P4_IMG_FALLBACK) +
             '" onerror="this.onerror=null;this.src=\'' +
             P4_IMG_FALLBACK +
             '\'" alt="' +
