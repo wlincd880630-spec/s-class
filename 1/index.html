@@ -1,0 +1,1371 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>教研点名 · 分组 · 材料上传</title>
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+  <style>
+    :root {
+      --bg: #0f1419;
+      --panel: #1a2332;
+      --border: #2d3a4f;
+      --text: #e8eef5;
+      --muted: #8b9cb3;
+      --accent: #3d8bfd;
+      --ok: #34c759;
+      --bad: #ff5c5c;
+      --warn: #ffb020;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      min-height: 100vh;
+    }
+    header {
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+      background: var(--panel);
+    }
+    header h1 { margin: 0; font-size: 1.25rem; font-weight: 600; }
+    header p { margin: 0.35rem 0 0; color: var(--muted); font-size: 0.875rem; }
+    nav.tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      padding: 0.75rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+      background: #141c28;
+    }
+    nav.tabs button {
+      padding: 0.45rem 0.9rem;
+      border: 1px solid var(--border);
+      background: var(--panel);
+      color: var(--text);
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+    nav.tabs button.active {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    main { padding: 1.25rem; max-width: 900px; margin: 0 auto; }
+    section.panel {
+      display: none;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+    }
+    section.panel.active { display: block; }
+    .row { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; }
+    .grow { flex: 1; min-width: 120px; }
+    button.primary {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      padding: 0.55rem 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 500;
+    }
+    button.primary:disabled { opacity: 0.45; cursor: not-allowed; }
+    button.ghost {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+      padding: 0.55rem 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    button.ok { background: var(--ok); color: #fff; border: none; }
+    button.bad { background: var(--bad); color: #fff; border: none; }
+    input, select, textarea {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 0.5rem 0.65rem;
+      border-radius: 8px;
+      width: 100%;
+      max-width: 100%;
+    }
+    textarea { min-height: 80px; resize: vertical; }
+    .card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem;
+      margin-top: 1rem;
+    }
+    .big-name { font-size: 1.75rem; font-weight: 700; margin: 0.25rem 0; }
+    .campus-tag {
+      display: inline-block;
+      background: #2a3548;
+      color: var(--muted);
+      padding: 0.2rem 0.6rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+    }
+    .progress { color: var(--muted); font-size: 0.9rem; margin-bottom: 0.5rem; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+    th, td { border: 1px solid var(--border); padding: 0.45rem 0.5rem; text-align: left; }
+    th { background: #222b3d; }
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.65);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .modal-backdrop.show { display: flex; }
+    .modal {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem;
+      max-width: 420px;
+      width: 100%;
+    }
+    .group-box {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.75rem;
+      margin-bottom: 0.75rem;
+      background: var(--bg);
+    }
+    .group-box h4 { margin: 0 0 0.5rem; color: var(--accent); font-size: 0.95rem; }
+    #qrCanvas { max-width: 220px; height: auto; border-radius: 8px; background: #fff; padding: 8px; }
+    .hint { color: var(--muted); font-size: 0.8rem; margin-top: 0.5rem; }
+    .upload-list { max-height: 480px; overflow: auto; font-size: 0.85rem; }
+    .upload-toolbar { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; margin-bottom: 0.75rem; }
+    .upload-table-wrap { overflow: auto; max-height: 420px; border: 1px solid var(--border); border-radius: 8px; }
+    .upload-table-wrap table { font-size: 0.82rem; }
+    .upload-table-wrap td { vertical-align: middle; }
+    .thumb-preview { width: 56px; height: 56px; object-fit: cover; border-radius: 6px; cursor: pointer; border: 1px solid var(--border); }
+    .tag-status { font-size: 0.72rem; padding: 0.15rem 0.4rem; border-radius: 4px; background: #2a3548; color: var(--muted); }
+    .tag-status.ok { background: #1e3d2e; color: #6ee7a8; }
+    .tag-status.fail { background: #3d1e1e; color: #ff9b9b; }
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.5rem; margin-top: 0.75rem; }
+    .stat-card { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 0.5rem 0.65rem; font-size: 0.82rem; }
+    .stat-card.warn { border-color: var(--warn); }
+    .btn-tiny { padding: 0.25rem 0.5rem; font-size: 0.75rem; border-radius: 6px; border: 1px solid var(--border); background: var(--panel); color: var(--text); cursor: pointer; }
+    .modal-wide { max-width: 560px; }
+    .modal-wide img { max-width: 100%; border-radius: 8px; border: 1px solid var(--border); }
+    code { background: #222b3d; padding: 0.1rem 0.35rem; border-radius: 4px; font-size: 0.85em; }
+    .lan-banner {
+      display: none;
+      background: linear-gradient(90deg, #3d2a1a, #2a2318);
+      border-bottom: 1px solid var(--warn);
+      padding: 0.75rem 1.25rem;
+      font-size: 0.88rem;
+      line-height: 1.55;
+    }
+    .lan-banner strong { color: #ffc14d; }
+    .lan-banner code { font-size: 0.85em; word-break: break-all; }
+  </style>
+</head>
+<body>
+  <div id="lanAccessBanner" class="lan-banner">
+    <strong>局域网访问提示：</strong>您当前可能是<strong>双击打开的网页</strong>或用了 <code>localhost</code> / <code>127.0.0.1</code>。
+    这类地址<strong>只有本机</strong>能打开，同 WiFi 下的手机和其他电脑<strong>无法访问</strong>。<br />
+    正确做法：在<strong>放本网页的文件夹</strong>里双击运行 <code>启动局域网访问.bat</code>（会开端口 <code>8765</code>），
+    按黑窗口里显示的 <code>http://192.168.x.x:8765/index.html</code>，在手机浏览器里<strong>整段输入</strong>（把 x.x 换成你电脑的实际网段）。<br />
+    若仍打不开：① 确认手机与电脑是<strong>同一 WiFi</strong>（不要用「访客 WiFi」）；② Windows 防火墙放行端口 8765（可右键「以管理员运行」<code>添加防火墙规则-教研端口.bat</code>）。
+  </div>
+  <script>
+    (function () {
+      var h = location.hostname;
+      var p = location.protocol;
+      var onlyLocal =
+        p === 'file:' ||
+        h === 'localhost' ||
+        h === '127.0.0.1' ||
+        h === '' ||
+        h === '[::1]' ||
+        h === '::1';
+      var el = document.getElementById('lanAccessBanner');
+      if (el && onlyLocal) el.style.display = 'block';
+    })();
+  </script>
+  <header>
+    <h1>英语组 · 教研点名</h1>
+    <p>按名单顺序点名、导出记录、随机抽人、按出席分组；材料上传与 DeepSeek 识别记录（默认开启）。</p>
+  </header>
+  <nav class="tabs" id="tabs"></nav>
+  <main>
+    <!-- 名单 -->
+    <section class="panel active" id="panel-roster" data-tab="名单与设置">
+      <h2 style="margin-top:0;font-size:1.1rem;">英语组教师名单（已按「英语组名单.jpg」内置 15 人）</h2>
+      <p class="hint">在下方文本框中编辑，每行一位：<code>姓名,校区</code> 或 <code>姓名	校区</code>（支持逗号或 Tab）。保存后刷新点名数据。</p>
+      <textarea id="rosterRaw" rows="16" placeholder="刘宇航,中海&#10;范相君,东湖"></textarea>
+      <div class="row" style="margin-top:0.75rem;">
+        <button type="button" class="primary" id="btnSaveRoster">保存名单</button>
+        <span id="rosterMsg" class="hint"></span>
+      </div>
+      <div class="card">
+        <strong>DeepSeek API</strong>
+        <p class="hint">页面已内置默认密钥；若填写下方输入框并保存，将<strong>优先使用您保存的密钥</strong>（仅本机）。请勿将含密钥的 HTML 上传到公开仓库。</p>
+        <input type="password" id="deepseekKey" placeholder="留空则使用内置密钥" autocomplete="off" style="max-width:400px;margin-top:0.5rem;" />
+        <button type="button" class="ghost" id="btnSaveKey" style="margin-top:0.5rem;">保存自定义密钥</button>
+        <button type="button" class="ghost" id="btnClearKey" style="margin-top:0.5rem;">清除自定义（恢复内置）</button>
+      </div>
+    </section>
+
+    <!-- 点名 -->
+    <section class="panel" id="panel-roll" data-tab="点名">
+      <div class="progress" id="rollProgress"></div>
+      <div class="card" id="rollCard">
+        <span class="campus-tag" id="rollCampus">—</span>
+        <p class="big-name" id="rollName">请先保存名单</p>
+        <div class="row" style="margin-top:1rem;">
+          <button type="button" class="primary ok" id="btnPresent">出席</button>
+          <button type="button" class="primary bad" id="btnAbsent">缺席</button>
+          <button type="button" class="ghost" id="btnSkip">跳过（稍后）</button>
+        </div>
+      </div>
+      <div class="row" style="margin-top:1rem;">
+        <button type="button" class="primary" id="btnExportTxt" disabled>点名结束并导出 TXT</button>
+        <button type="button" class="ghost" id="btnResetRoll">重置本次点名</button>
+      </div>
+      <div class="card" style="margin-top:1rem;">
+        <strong>当前会话预览</strong>
+        <div style="overflow:auto;max-height:240px;margin-top:0.5rem;">
+          <table id="previewTable"><thead><tr><th>姓名</th><th>校区</th><th>状态</th><th>缺席原因</th></tr></thead><tbody></tbody></table>
+        </div>
+      </div>
+    </section>
+
+    <!-- 随机 & 分组 -->
+    <section class="panel" id="panel-random" data-tab="随机 / 分组">
+      <div class="card">
+        <h3 style="margin-top:0;font-size:1rem;">随机抽取</h3>
+        <div class="row">
+          <label class="grow"><input type="checkbox" id="pickFromPresent" checked /> 仅从「已标记出席」的教师中抽取（若尚无记录则从全体）</label>
+        </div>
+        <button type="button" class="primary" id="btnRandomPick" style="margin-top:0.75rem;">抽取一位</button>
+        <p id="randomResult" class="big-name" style="margin-top:0.75rem;color:var(--accent);"></p>
+      </div>
+      <div class="card">
+        <h3 style="margin-top:0;font-size:1rem;">随机组队（按出席教师）</h3>
+        <p class="hint">使用当前点名结果中状态为「出席」的教师；若尚未点名，则使用全体教师。</p>
+        <div class="row">
+          <label>每组人数 <input type="number" id="groupSize" min="2" max="50" value="4" style="width:100px;" /></label>
+          <button type="button" class="primary" id="btnGroup">生成分组</button>
+        </div>
+        <div id="groupOutput" style="margin-top:1rem;"></div>
+      </div>
+    </section>
+
+    <!-- 上传 -->
+    <section class="panel" id="panel-upload" data-tab="材料上传">
+      <div class="card" style="margin-top:0;border-color:var(--accent);">
+        <strong>部署到自己的网站（HTTPS）后，老师能用手机访问并上传吗？</strong>
+        <p class="hint" style="margin-top:0.5rem;"><strong>可以。</strong>把本页 <code>index.html</code>（及同目录若以后有拆分出的 js/css）放到你的前端静态空间后，把链接发给老师即可，例如 <code>https://你的域名/路径/index.html</code>，上传专用短链为 <code>…/index.html?upload=1</code>，二维码也会按当前域名生成。</p>
+        <p class="hint"><strong>但要注意三点：</strong></p>
+        <ul class="hint" style="margin:0.35rem 0 0 1.1rem;padding:0;">
+          <li style="margin-bottom:0.35rem;"><strong>数据不在你的服务器上：</strong>记录存在<strong>每位老师自己浏览器</strong>的本地存储里，互不相通。教研组长要汇总，仍需各人「导出同步包」发给你再「导入」，或以后加真正的后端/数据库。</li>
+          <li style="margin-bottom:0.35rem;"><strong>API 密钥不要写在公网页面里：</strong>当前若把密钥写进 HTML，任何人打开网页都能在源代码里看到并盗用。公网部署请删掉内置密钥，只在本机用「保存自定义密钥」；理想做法是你方服务器做一个转发接口，密钥只放在服务器环境变量里。</li>
+          <li><strong>浏览器直接调 DeepSeek 可能被拦截：</strong>部分环境下跨域（CORS）会导致识图接口失败；若部署后识别一直失败，需要在你自己的域名下加一层后端代理再调 DeepSeek。</li>
+        </ul>
+      </div>
+      <p class="hint"><strong>仅局域网用时：</strong>手机与电脑数据不互通。可在电脑上双击运行文件夹里的 <code>启动局域网访问.bat</code>，用手机访问窗口里给出的 <code>http://电脑IP:8765/...</code>（不要用 localhost、不要只靠 <code>file:///</code> 打开 html）。手机上传后可「导出同步包」到电脑「导入」合并。</p>
+      <div class="row" style="margin-bottom:1rem;">
+        <button type="button" class="primary" id="btnGenQr">生成上传页二维码</button>
+        <canvas id="qrCanvas" width="200" height="200" style="display:none;"></canvas>
+      </div>
+      <p id="qrUrl" class="hint" style="word-break:break-all;"></p>
+      <div class="card">
+        <h3 style="margin-top:0;font-size:1rem;">本机上传 / 补录</h3>
+        <label>教师 <select id="uploadTeacher"></select></label>
+        <label style="display:block;margin-top:0.5rem;">试卷照片 <input type="file" id="uploadFile" accept="image/*" capture="environment" /></label>
+        <label style="display:block;margin-top:0.5rem;">文字说明（可选，强烈建议填写单元/题型，识图失败时会自动改用文字分析） <textarea id="uploadNote" rows="2" placeholder="例：人教版八下 Unit3 同步小卷，已订正"></textarea></label>
+        <label style="display:block;margin-top:0.5rem;">
+          <input type="checkbox" id="callDeepseek" checked /> 调用 DeepSeek：先尝试图像理解，失败则仅用文字说明生成教研记录摘要
+        </label>
+        <label style="display:block;margin-top:0.35rem;">
+          <input type="checkbox" id="saveThumb" checked /> 保存缩略图到本地（便于核对；若浏览器提示空间不足可取消）
+        </label>
+        <button type="button" class="primary" id="btnUpload" style="margin-top:0.75rem;">上传并识别记录</button>
+        <span id="uploadBusy" class="hint" style="margin-left:0.5rem;display:none;color:var(--accent);">识别中，请稍候…</span>
+        <div class="row" style="margin-top:1rem;">
+          <button type="button" class="ghost" id="btnExportSync">导出同步包 (JSON)</button>
+          <button type="button" class="ghost" id="btnImportSync">导入同步包</button>
+          <button type="button" class="ghost" id="btnExportUploadTxt">导出上传记录 (TXT 表)</button>
+          <input type="file" id="importSyncFile" accept="application/json" style="display:none;" />
+        </div>
+      </div>
+      <div class="card">
+        <strong>上传活跃度（本地汇总）</strong>
+        <p class="hint">近 30 天无记录的教师卡片会高亮，便于督促自学打卡。</p>
+        <div id="uploadStats" class="stats-grid"></div>
+      </div>
+      <div class="card">
+        <strong>识别与上传记录</strong>
+        <div class="upload-toolbar">
+          <label style="margin:0;display:flex;align-items:center;gap:0.35rem;">筛选
+            <select id="uploadFilterTeacher" style="width:auto;min-width:10rem;"></select>
+          </label>
+          <button type="button" class="ghost" id="btnRefreshUploadTable">刷新列表</button>
+        </div>
+        <div class="upload-table-wrap">
+          <table id="uploadRecordsTable">
+            <thead><tr><th>时间</th><th>教师</th><th>校区</th><th>缩略图</th><th>状态</th><th>AI 摘要</th><th>备注</th><th>操作</th></tr></thead>
+            <tbody id="uploadRecordsBody"></tbody>
+          </table>
+        </div>
+        <p id="uploadEmptyHint" class="hint" style="margin-top:0.5rem;display:none;">暂无记录，请先上传照片。</p>
+      </div>
+    </section>
+  </main>
+
+  <div class="modal-backdrop" id="modalUploadDetail">
+    <div class="modal modal-wide">
+      <h3 style="margin-top:0;">记录详情</h3>
+      <div id="modalUploadDetailBody"></div>
+      <div class="row" style="margin-top:1rem;justify-content:flex-end;">
+        <button type="button" class="ghost" id="btnCloseUploadDetail">关闭</button>
+        <button type="button" class="primary" id="btnReanalyzeUpload">用当前摘要再整理一次</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="modalAbsent">
+    <div class="modal">
+      <h3 style="margin-top:0;">缺席原因</h3>
+      <p class="hint">请填写原因后确认。</p>
+      <textarea id="absentReason" placeholder="例如：公假、病假、事假…"></textarea>
+      <div class="row" style="margin-top:1rem;justify-content:flex-end;">
+        <button type="button" class="ghost" id="btnCancelAbsent">取消</button>
+        <button type="button" class="primary bad" id="btnConfirmAbsent">确认缺席</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 手机上传极简页：?upload=1 -->
+  <div id="mobileUploadOnly" style="display:none;padding:1rem;max-width:480px;margin:0 auto;">
+    <h1 style="font-size:1.2rem;">教研材料上传</h1>
+    <label>教师 <select id="mTeacher"></select></label>
+    <label style="display:block;margin-top:0.75rem;">照片 <input type="file" id="mFile" accept="image/*" capture="environment" /></label>
+    <label style="display:block;margin-top:0.75rem;">文字说明（可选） <textarea id="mNote" rows="2"></textarea></label>
+    <button type="button" class="primary" id="mSubmit" style="margin-top:1rem;width:100%;padding:0.75rem;">提交</button>
+    <p id="mMsg" class="hint" style="margin-top:1rem;"></p>
+    <p class="hint">提交后可在本页底部导出 JSON，通过微信发到电脑端导入。</p>
+    <button type="button" class="ghost" id="mExport" style="margin-top:0.5rem;">导出本条同步包</button>
+  </div>
+
+  <script>
+    /** 升级键名：内置英语组名单后，与旧示例名单 localStorage 区分 */
+    const STORAGE_ROSTER = 'jy_roster_text_v2_english';
+    const STORAGE_ROLL = 'jy_roll_session_v2_english';
+    const STORAGE_UPLOADS = 'jy_uploads_db_v2';
+    const STORAGE_UPLOADS_LEGACY = 'jy_uploads_db_v1';
+    const STORAGE_KEY = 'jy_deepseek_key_v1';
+
+    /** 内置密钥（用户要求写入代码）；设置页保存的密钥优先 */
+    const DEEPSEEK_API_KEY_BUILTIN = 'sk-daa16008e81843deba6fefe9dce51465';
+
+    function getDeepseekKey() {
+      const custom = (localStorage.getItem(STORAGE_KEY) || '').trim();
+      return custom || DEEPSEEK_API_KEY_BUILTIN;
+    }
+
+    /** 来源：英语组名单.jpg（排名顺序） */
+    const DEFAULT_ROSTER = [
+      { name: '刘宇航', campus: '中海' },
+      { name: '范相君', campus: '东湖' },
+      { name: '张丽', campus: '鹭洲里' },
+      { name: '杜冬菊', campus: '东湖' },
+      { name: '姜林君', campus: '鹭洲里' },
+      { name: '胡晟雪', campus: '攀成钢' },
+      { name: '唐姗姗', campus: '优品道' },
+      { name: '刘元光', campus: '优品道' },
+      { name: '肖梓栩', campus: '攀成钢' },
+      { name: '黄琴', campus: '优品道' },
+      { name: '吴玲', campus: '攀成钢' },
+      { name: '谢沁珍', campus: '中海' },
+      { name: '苏月', campus: '攀成钢' },
+      { name: '兰雪', campus: '中海' },
+      { name: '王龙', campus: '总部' },
+    ];
+
+    function parseRosterText(text) {
+      const lines = text.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+      const out = [];
+      for (const line of lines) {
+        let name, campus;
+        if (line.includes('\t')) {
+          const p = line.split('\t');
+          name = (p[0] || '').trim();
+          campus = (p.slice(1).join('\t') || '').trim();
+        } else if (line.includes(',')) {
+          const i = line.indexOf(',');
+          name = line.slice(0, i).trim();
+          campus = line.slice(i + 1).trim();
+        } else {
+          name = line;
+          campus = '';
+        }
+        if (name) out.push({ name, campus: campus || '—' });
+      }
+      return out;
+    }
+
+    function rosterToText(list) {
+      return list.map(t => `${t.name},${t.campus}`).join('\n');
+    }
+
+    let teachers = [];
+    let rollIndex = 0;
+    /** @type {Record<string, { status: 'pending'|'present'|'absent', reason: string }>} */
+    let rollState = {};
+
+    function loadTeachers() {
+      const raw = localStorage.getItem(STORAGE_ROSTER);
+      if (raw) {
+        teachers = parseRosterText(raw);
+      } else {
+        teachers = [...DEFAULT_ROSTER];
+        localStorage.setItem(STORAGE_ROSTER, rosterToText(teachers));
+      }
+      if (!teachers.length) teachers = [...DEFAULT_ROSTER];
+    }
+
+    function loadRollSession() {
+      try {
+        const s = JSON.parse(localStorage.getItem(STORAGE_ROLL) || '{}');
+        if (s && typeof s.rollState === 'object') rollState = s.rollState;
+        if (typeof s.rollIndex === 'number') rollIndex = s.rollIndex;
+      } catch (_) {
+        rollState = {};
+        rollIndex = 0;
+      }
+    }
+
+    function saveRollSession() {
+      localStorage.setItem(STORAGE_ROLL, JSON.stringify({ rollState, rollIndex }));
+    }
+
+    function initRollState() {
+      rollState = {};
+      teachers.forEach(t => {
+        rollState[t.name] = { status: 'pending', reason: '' };
+      });
+      rollIndex = 0;
+      saveRollSession();
+    }
+
+    function normalizeUploadDb(db) {
+      const out = {};
+      for (const name of Object.keys(db || {})) {
+        const arr = Array.isArray(db[name]) ? db[name] : [];
+        out[name] = arr.map(r => ({
+          id: r.id || (typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : 'r_' + Date.now() + '_' + Math.random().toString(36).slice(2, 9)),
+          at: r.at || new Date().toISOString(),
+          fileName: r.fileName || '',
+          note: r.note || '',
+          summary: r.summary || '',
+          status: r.status || 'legacy',
+          thumbDataUrl: r.thumbDataUrl || null,
+          visionDetail: r.visionDetail || ''
+        }));
+      }
+      return out;
+    }
+
+    function getUploadDb() {
+      try {
+        let raw = localStorage.getItem(STORAGE_UPLOADS);
+        if (!raw) raw = localStorage.getItem(STORAGE_UPLOADS_LEGACY) || '';
+        return normalizeUploadDb(raw ? JSON.parse(raw) : {});
+      } catch (_) {
+        return {};
+      }
+    }
+
+    function saveUploadDb(db) {
+      try {
+        localStorage.setItem(STORAGE_UPLOADS, JSON.stringify(db));
+      } catch (e) {
+        if (e && (e.name === 'QuotaExceededError' || e.code === 22)) {
+          const stripped = {};
+          for (const n of Object.keys(db)) {
+            stripped[n] = (db[n] || []).map(r => {
+              const c = { ...r };
+              delete c.thumbDataUrl;
+              return c;
+            });
+          }
+          localStorage.setItem(STORAGE_UPLOADS, JSON.stringify(stripped));
+          throw new Error('浏览器存储空间不足，已去掉缩略图后重试保存。建议导出备份后清理旧记录。');
+        }
+        throw e;
+      }
+    }
+
+    function mergeUploadDb(incoming) {
+      const db = getUploadDb();
+      const inn = normalizeUploadDb(incoming);
+      for (const name of Object.keys(inn)) {
+        if (!db[name]) db[name] = [];
+        db[name] = db[name].concat(inn[name] || []);
+      }
+      saveUploadDb(db);
+    }
+
+    // --- UI: tabs ---
+    const panels = [...document.querySelectorAll('section.panel')];
+    const tabNav = document.getElementById('tabs');
+    panels.forEach((p, i) => {
+      const t = p.dataset.tab || `Tab${i}`;
+      const b = document.createElement('button');
+      b.textContent = t;
+      b.type = 'button';
+      if (p.classList.contains('active')) b.classList.add('active');
+      b.addEventListener('click', () => {
+        tabNav.querySelectorAll('button').forEach(x => x.classList.remove('active'));
+        panels.forEach(x => x.classList.remove('active'));
+        b.classList.add('active');
+        p.classList.add('active');
+      });
+      tabNav.appendChild(b);
+    });
+
+    const rosterRaw = document.getElementById('rosterRaw');
+    const rosterMsg = document.getElementById('rosterMsg');
+    document.getElementById('btnSaveRoster').addEventListener('click', () => {
+      const list = parseRosterText(rosterRaw.value);
+      if (!list.length) {
+        rosterMsg.textContent = '名单为空，请至少填写一行。';
+        rosterMsg.style.color = 'var(--bad)';
+        return;
+      }
+      localStorage.setItem(STORAGE_ROSTER, rosterRaw.value.trim());
+      teachers = list;
+      initRollState();
+      rosterMsg.textContent = '已保存 ' + list.length + ' 人，已重置点名进度。';
+      rosterMsg.style.color = 'var(--ok)';
+      refreshRollUI();
+      fillTeacherSelects();
+    });
+
+    const deepseekKey = document.getElementById('deepseekKey');
+    document.getElementById('btnSaveKey').addEventListener('click', () => {
+      localStorage.setItem(STORAGE_KEY, deepseekKey.value.trim());
+      alert('已保存到本地浏览器。');
+    });
+    deepseekKey.value = localStorage.getItem(STORAGE_KEY) || '';
+    document.getElementById('btnClearKey').addEventListener('click', () => {
+      localStorage.removeItem(STORAGE_KEY);
+      deepseekKey.value = '';
+      alert('已清除自定义密钥，将使用页面内置密钥。');
+    });
+
+    function refreshRollUI() {
+      const prog = document.getElementById('rollProgress');
+      const nameEl = document.getElementById('rollName');
+      const campusEl = document.getElementById('rollCampus');
+      const btnExport = document.getElementById('btnExportTxt');
+
+      if (!teachers.length) {
+        prog.textContent = '';
+        nameEl.textContent = '无名单';
+        campusEl.textContent = '—';
+        btnExport.disabled = true;
+        return;
+      }
+
+      const done = teachers.filter(t => rollState[t.name]?.status !== 'pending').length;
+      prog.textContent = `进度：${done} / ${teachers.length} · 当前第 ${rollIndex + 1} 位`;
+
+      const cur = teachers[rollIndex];
+      if (cur) {
+        nameEl.textContent = cur.name;
+        campusEl.textContent = cur.campus;
+      } else {
+        nameEl.textContent = '已全部浏览完，可导出或重置';
+        campusEl.textContent = '—';
+      }
+
+      const allDone = teachers.every(t => rollState[t.name]?.status !== 'pending');
+      btnExport.disabled = !allDone;
+
+      const tbody = document.querySelector('#previewTable tbody');
+      tbody.innerHTML = '';
+      teachers.forEach(t => {
+        const r = rollState[t.name] || { status: 'pending', reason: '' };
+        const tr = document.createElement('tr');
+        const st = r.status === 'present' ? '出席' : r.status === 'absent' ? '缺席' : '待定';
+        tr.innerHTML = `<td>${escapeHtml(t.name)}</td><td>${escapeHtml(t.campus)}</td><td>${st}</td><td>${escapeHtml(r.reason)}</td>`;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function escapeHtml(s) {
+      const d = document.createElement('div');
+      d.textContent = s;
+      return d.innerHTML;
+    }
+
+    document.getElementById('btnPresent').addEventListener('click', () => {
+      const cur = teachers[rollIndex];
+      if (!cur) return;
+      rollState[cur.name] = { status: 'present', reason: '' };
+      if (rollIndex < teachers.length - 1) rollIndex++;
+      saveRollSession();
+      refreshRollUI();
+    });
+
+    const modalAbsent = document.getElementById('modalAbsent');
+    const absentReason = document.getElementById('absentReason');
+    document.getElementById('btnAbsent').addEventListener('click', () => {
+      const cur = teachers[rollIndex];
+      if (!cur) return;
+      absentReason.value = rollState[cur.name]?.reason || '';
+      modalAbsent.classList.add('show');
+    });
+    document.getElementById('btnCancelAbsent').addEventListener('click', () => {
+      modalAbsent.classList.remove('show');
+    });
+    document.getElementById('btnConfirmAbsent').addEventListener('click', () => {
+      const cur = teachers[rollIndex];
+      if (!cur) return;
+      const reason = absentReason.value.trim();
+      if (!reason) {
+        alert('请填写缺席原因。');
+        return;
+      }
+      rollState[cur.name] = { status: 'absent', reason };
+      modalAbsent.classList.remove('show');
+      if (rollIndex < teachers.length - 1) rollIndex++;
+      saveRollSession();
+      refreshRollUI();
+    });
+
+    document.getElementById('btnSkip').addEventListener('click', () => {
+      if (rollIndex < teachers.length - 1) rollIndex++;
+      else rollIndex = 0;
+      saveRollSession();
+      refreshRollUI();
+    });
+
+    document.getElementById('btnResetRoll').addEventListener('click', () => {
+      if (!confirm('确定重置本次点名？')) return;
+      initRollState();
+      refreshRollUI();
+    });
+
+    document.getElementById('btnExportTxt').addEventListener('click', () => {
+      const lines = [];
+      lines.push('教研点名记录');
+      lines.push('导出时间\t' + new Date().toLocaleString('zh-CN'));
+      lines.push('');
+      lines.push(['姓名', '校区', '出席', '缺席原因'].join('\t'));
+      teachers.forEach(t => {
+        const r = rollState[t.name] || {};
+        const present = r.status === 'present' ? '是' : r.status === 'absent' ? '否' : '';
+        const reason = r.status === 'absent' ? (r.reason || '') : '';
+        lines.push([t.name, t.campus, present, reason].join('\t'));
+      });
+      const blob = new Blob(['\ufeff' + lines.join('\r\n')], { type: 'text/plain;charset=utf-8' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = '教研点名记录_' + formatDateFile() + '.txt';
+      a.click();
+      URL.revokeObjectURL(a.href);
+    });
+
+    function formatDateFile() {
+      const d = new Date();
+      return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()) + '_' + pad(d.getHours()) + pad(d.getMinutes());
+    }
+    function pad(n) { return n < 10 ? '0' + n : '' + n; }
+
+    // 随机抽取
+    document.getElementById('btnRandomPick').addEventListener('click', () => {
+      const fromPresent = document.getElementById('pickFromPresent').checked;
+      let pool = teachers.map(t => t);
+      if (fromPresent) {
+        const p = teachers.filter(t => rollState[t.name]?.status === 'present');
+        if (p.length) pool = p;
+      }
+      if (!pool.length) {
+        document.getElementById('randomResult').textContent = '没有可抽取的教师';
+        return;
+      }
+      const t = pool[Math.floor(Math.random() * pool.length)];
+      document.getElementById('randomResult').textContent = t.name + '（' + t.campus + '）';
+    });
+
+    // 分组
+    document.getElementById('btnGroup').addEventListener('click', () => {
+      const size = parseInt(document.getElementById('groupSize').value, 10) || 4;
+      let pool = teachers.filter(t => rollState[t.name]?.status === 'present');
+      if (!pool.length) pool = [...teachers];
+      const shuffled = shuffle([...pool]);
+      const groups = [];
+      for (let i = 0; i < shuffled.length; i += size) {
+        groups.push(shuffled.slice(i, i + size));
+      }
+      const out = document.getElementById('groupOutput');
+      out.innerHTML = '';
+      groups.forEach((g, idx) => {
+        const div = document.createElement('div');
+        div.className = 'group-box';
+        div.innerHTML = '<h4>第 ' + (idx + 1) + ' 组</h4><p style="margin:0;">' +
+          g.map(t => escapeHtml(t.name) + '（' + escapeHtml(t.campus) + '）').join('、') + '</p>';
+        out.appendChild(div);
+      });
+    });
+
+    function shuffle(arr) {
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function fillTeacherSelects() {
+      const sel = document.getElementById('uploadTeacher');
+      const msel = document.getElementById('mTeacher');
+      const filt = document.getElementById('uploadFilterTeacher');
+      [sel, msel].forEach(s => {
+        if (!s) return;
+        s.innerHTML = '';
+        teachers.forEach(t => {
+          const o = document.createElement('option');
+          o.value = t.name;
+          o.textContent = t.name + ' · ' + t.campus;
+          s.appendChild(o);
+        });
+      });
+      if (filt) {
+        const keep = filt.value;
+        filt.innerHTML = '';
+        const all = document.createElement('option');
+        all.value = '';
+        all.textContent = '全部教师';
+        filt.appendChild(all);
+        teachers.forEach(t => {
+          const o = document.createElement('option');
+          o.value = t.name;
+          o.textContent = t.name + ' · ' + t.campus;
+          filt.appendChild(o);
+        });
+        if (keep && [...filt.options].some(o => o.value === keep)) filt.value = keep;
+      }
+      renderUploadStats();
+      renderUploadRecordsTable();
+    }
+
+    function campusOfTeacher(name) {
+      const t = teachers.find(x => x.name === name);
+      return t ? t.campus : '—';
+    }
+
+    function renderUploadStats() {
+      const el = document.getElementById('uploadStats');
+      if (!el) return;
+      const db = getUploadDb();
+      if (!teachers.length) {
+        el.innerHTML = '<p class="hint">暂无名单</p>';
+        return;
+      }
+      const now = Date.now();
+      const d30 = 30 * 864e5;
+      el.innerHTML = '';
+      teachers.forEach(t => {
+        const arr = db[t.name] || [];
+        const recent30 = arr.filter(r => now - new Date(r.at).getTime() <= d30).length;
+        let last = '—';
+        if (arr.length) {
+          const maxAt = arr.reduce((m, r) => Math.max(m, new Date(r.at).getTime()), 0);
+          last = new Date(maxAt).toLocaleDateString('zh-CN');
+        }
+        const div = document.createElement('div');
+        div.className = 'stat-card' + (recent30 === 0 ? ' warn' : '');
+        div.innerHTML =
+          '<strong>' +
+          escapeHtml(t.name) +
+          '</strong> <span style="color:var(--muted)">' +
+          escapeHtml(t.campus) +
+          '</span><br/>累计 <strong>' +
+          arr.length +
+          '</strong> 次 · 近30天 <strong>' +
+          recent30 +
+          '</strong> 次<br/>最近：' +
+          escapeHtml(last);
+        el.appendChild(div);
+      });
+    }
+
+    let uploadDetailCtx = { teacherName: '', recordId: '' };
+
+    function statusLabel(status) {
+      if (status === 'vision_ok') return { text: '图像识别', cls: 'ok' };
+      if (status === 'text_ok' || status === 'vision_failed_text_ok') return { text: '文字整理', cls: 'ok' };
+      if (status === 'vision_failed' || status === 'failed') return { text: '识别受限', cls: 'fail' };
+      if (status === 'no_ai') return { text: '仅存档', cls: '' };
+      return { text: status || '—', cls: '' };
+    }
+
+    function renderUploadRecordsTable() {
+      const tbody = document.getElementById('uploadRecordsBody');
+      const emptyHint = document.getElementById('uploadEmptyHint');
+      if (!tbody) return;
+      const db = getUploadDb();
+      const filter = (document.getElementById('uploadFilterTeacher') && document.getElementById('uploadFilterTeacher').value) || '';
+      const rows = [];
+      const names = filter ? [filter] : teachers.map(t => t.name);
+      names.forEach(name => {
+        (db[name] || []).forEach(r => {
+          rows.push({ name, r });
+        });
+      });
+      rows.sort((a, b) => new Date(b.r.at) - new Date(a.r.at));
+      tbody.innerHTML = '';
+      if (!rows.length) {
+        if (emptyHint) emptyHint.style.display = 'block';
+        return;
+      }
+      if (emptyHint) emptyHint.style.display = 'none';
+      rows.forEach(({ name, r }) => {
+        const tr = document.createElement('tr');
+        const st = statusLabel(r.status);
+        const d = new Date(r.at).toLocaleString('zh-CN');
+        const sum = (r.summary || '').replace(/\s+/g, ' ');
+        const sumShort = sum.length > 120 ? sum.slice(0, 120) + '…' : sum;
+        const thumbCell = r.thumbDataUrl
+          ? '<img class="thumb-preview" src="' + r.thumbDataUrl + '" alt="" data-t="' + escapeHtml(name) + '" data-id="' + escapeHtml(r.id) + '" />'
+          : '—';
+        tr.innerHTML =
+          '<td>' +
+          escapeHtml(d) +
+          '</td><td>' +
+          escapeHtml(name) +
+          '</td><td>' +
+          escapeHtml(campusOfTeacher(name)) +
+          '</td><td>' +
+          thumbCell +
+          '</td><td><span class="tag-status ' +
+          st.cls +
+          '">' +
+          escapeHtml(st.text) +
+          '</span></td><td title="' +
+          escapeHtml(sum) +
+          '">' +
+          escapeHtml(sumShort) +
+          '</td><td>' +
+          escapeHtml((r.note || '').slice(0, 40)) +
+          (r.note && r.note.length > 40 ? '…' : '') +
+          '</td><td><button type="button" class="btn-tiny btn-detail" data-t="' +
+          escapeHtml(name) +
+          '" data-id="' +
+          escapeHtml(r.id) +
+          '">详情</button> <button type="button" class="btn-tiny btn-del-upload" data-t="' +
+          escapeHtml(name) +
+          '" data-id="' +
+          escapeHtml(r.id) +
+          '">删除</button></td>';
+        tbody.appendChild(tr);
+      });
+      tbody.querySelectorAll('.thumb-preview').forEach(img => {
+        img.addEventListener('click', () => openUploadDetail(img.dataset.t, img.dataset.id));
+      });
+      tbody.querySelectorAll('.btn-detail').forEach(btn => {
+        btn.addEventListener('click', () => openUploadDetail(btn.dataset.t, btn.dataset.id));
+      });
+      tbody.querySelectorAll('.btn-del-upload').forEach(btn => {
+        btn.addEventListener('click', () => deleteUploadRecord(btn.dataset.t, btn.dataset.id));
+      });
+    }
+
+    function findRecord(name, id) {
+      const db = getUploadDb();
+      const arr = db[name] || [];
+      return arr.find(x => x.id === id);
+    }
+
+    function openUploadDetail(name, id) {
+      const r = findRecord(name, id);
+      if (!r) return;
+      uploadDetailCtx = { teacherName: name, recordId: id };
+      const body = document.getElementById('modalUploadDetailBody');
+      const showVision =
+        r.visionDetail && String(r.visionDetail).trim() && String(r.visionDetail).trim() !== String(r.summary || '').trim();
+      const visionBlock = showVision
+        ? '<p><strong>图像理解（补充）</strong></p><p style="white-space:pre-wrap;color:var(--muted);font-size:0.9rem;">' +
+          escapeHtml(r.visionDetail) +
+          '</p>'
+        : '';
+      body.innerHTML =
+        '<p><strong>' +
+        escapeHtml(name) +
+        '</strong> · ' +
+        escapeHtml(campusOfTeacher(name)) +
+        '</p><p class="hint">' +
+        escapeHtml(new Date(r.at).toLocaleString('zh-CN')) +
+        ' · ' +
+        escapeHtml(r.fileName || '') +
+        '</p>' +
+        (r.thumbDataUrl ? '<p><img src="' + r.thumbDataUrl + '" alt="缩略图" /></p>' : '') +
+        visionBlock +
+        '<p><strong>归档摘要</strong></p><p style="white-space:pre-wrap;">' +
+        escapeHtml(r.summary || '—') +
+        '</p>' +
+        (r.note ? '<p><strong>备注</strong></p><p style="white-space:pre-wrap;">' + escapeHtml(r.note) + '</p>' : '');
+      document.getElementById('modalUploadDetail').classList.add('show');
+    }
+
+    function deleteUploadRecord(name, id) {
+      if (!confirm('确定删除该条上传记录？')) return;
+      const db = getUploadDb();
+      if (!db[name]) return;
+      db[name] = db[name].filter(x => x.id !== id);
+      if (!db[name].length) delete db[name];
+      saveUploadDb(db);
+      renderUploadStats();
+      renderUploadRecordsTable();
+      document.getElementById('modalUploadDetail').classList.remove('show');
+    }
+
+    document.getElementById('btnCloseUploadDetail').addEventListener('click', () => {
+      document.getElementById('modalUploadDetail').classList.remove('show');
+    });
+    document.getElementById('modalUploadDetail').addEventListener('click', e => {
+      if (e.target.id === 'modalUploadDetail') document.getElementById('modalUploadDetail').classList.remove('show');
+    });
+
+    document.getElementById('btnReanalyzeUpload').addEventListener('click', async () => {
+      const { teacherName, recordId } = uploadDetailCtx;
+      const r = findRecord(teacherName, recordId);
+      if (!r) return;
+      const raw = [r.summary, r.note].filter(Boolean).join('\n');
+      if (!raw.trim()) {
+        alert('无可用文字再整理');
+        return;
+      }
+      try {
+        const merged = await deepseekPolishRecord(raw);
+        const db = getUploadDb();
+        const arr = db[teacherName] || [];
+        const idx = arr.findIndex(x => x.id === recordId);
+        if (idx >= 0) {
+          arr[idx].summary = merged;
+          arr[idx].status = 'text_ok';
+          db[teacherName] = arr;
+          saveUploadDb(db);
+          openUploadDetail(teacherName, recordId);
+          renderUploadStats();
+          renderUploadRecordsTable();
+        }
+      } catch (e) {
+        alert('整理失败：' + e.message);
+      }
+    });
+
+    const uploadFilterEl = document.getElementById('uploadFilterTeacher');
+    if (uploadFilterEl) uploadFilterEl.addEventListener('change', () => renderUploadRecordsTable());
+    const btnRefUp = document.getElementById('btnRefreshUploadTable');
+    if (btnRefUp) btnRefUp.addEventListener('click', () => { renderUploadStats(); renderUploadRecordsTable(); });
+
+    document.getElementById('btnExportUploadTxt').addEventListener('click', () => {
+      const db = getUploadDb();
+      const lines = [];
+      lines.push(['教师', '校区', '上传时间', '状态', 'AI摘要', '备注', '文件名'].join('\t'));
+      teachers.forEach(t => {
+        (db[t.name] || []).forEach(r => {
+          const st = statusLabel(r.status).text;
+          lines.push(
+            [t.name, t.campus, new Date(r.at).toLocaleString('zh-CN'), st, r.summary || '', r.note || '', r.fileName || ''].join('\t')
+          );
+        });
+      });
+      const blob = new Blob(['\ufeff' + lines.join('\r\n')], { type: 'text/plain;charset=utf-8' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = '教研上传识别记录_' + formatDateFile() + '.txt';
+      a.click();
+      URL.revokeObjectURL(a.href);
+    });
+
+    document.getElementById('btnGenQr').addEventListener('click', () => {
+      const canvas = document.getElementById('qrCanvas');
+      const urlEl = document.getElementById('qrUrl');
+      const u = new URL(window.location.href);
+      u.searchParams.set('upload', '1');
+      const url = u.toString();
+      urlEl.textContent = '请用局域网 HTTP 打开本页（勿用 file://），扫码地址：' + url;
+      if (typeof QRCode === 'undefined') {
+        urlEl.textContent += ' （二维码库加载失败，请检查网络）';
+        return;
+      }
+      QRCode.toCanvas(canvas, url, { width: 200, margin: 2 }, err => {
+        if (err) {
+          urlEl.textContent = '二维码生成失败：' + err.message;
+          return;
+        }
+        canvas.style.display = 'block';
+      });
+    });
+
+    async function fileToCompressedBase64(file, maxSide = 1280, quality = 0.82) {
+      return compressImageFile(file, maxSide, quality);
+    }
+
+    async function deepseekChat(messages) {
+      const key = getDeepseekKey();
+      if (!key) throw new Error('未配置 DeepSeek API 密钥');
+      const res = await fetch('https://api.deepseek.com/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + key
+        },
+        body: JSON.stringify({
+          model: 'deepseek-chat',
+          messages,
+          max_tokens: 400
+        })
+      });
+      if (!res.ok) {
+        const t = await res.text();
+        throw new Error('API 错误 ' + res.status + ': ' + t.slice(0, 200));
+      }
+      const data = await res.json();
+      const txt = data.choices?.[0]?.message?.content;
+      if (!txt) throw new Error('无返回内容');
+      return txt.trim();
+    }
+
+    async function deepseekSummarizeImageBase64(dataUrl) {
+      return deepseekChat([
+        {
+          role: 'user',
+          content: [
+            {
+              type: 'text',
+              text:
+                '你是英语教研组材料检查助手。这是一张教师自行刷题/小卷的照片。请用中文简洁输出（不超过 150 字），包含：\n' +
+                '1）能看出的题型（阅读/语法/写作/词汇等）或卷面标题；2）书写与完成度（空白多不多，粗略低/中/高）；3）是否像已订正（有红笔/批改痕迹则说明）。\n' +
+                '看不清的不要编造。开头可加标签【英语教研自学】。'
+            },
+            { type: 'image_url', image_url: { url: dataUrl } }
+          ]
+        }
+      ]);
+    }
+
+    async function deepseekSummarizeText(note) {
+      return deepseekChat([
+        {
+          role: 'user',
+          content:
+            '以下是英语组教师教研自学/刷题的文字说明。请整理为一条客观打卡记录（不超过 90 字），不要添加未出现的信息，开头可加【英语教研自学】。说明原文：\n' +
+            note
+        }
+      ]);
+    }
+
+    async function deepseekPolishRecord(blobText) {
+      return deepseekChat([
+        {
+          role: 'user',
+          content:
+            '将下列教研自学记录合并、去口语化，输出一条简洁记录（不超过 100 字），保留关键事实，不添加新信息：\n' +
+            blobText
+        }
+      ]);
+    }
+
+    async function compressImageFile(file, maxSide, quality) {
+      const bitmap = await createImageBitmap(file);
+      const scale = Math.min(1, maxSide / Math.max(bitmap.width, bitmap.height));
+      const w = Math.round(bitmap.width * scale);
+      const h = Math.round(bitmap.height * scale);
+      const c = document.createElement('canvas');
+      c.width = w;
+      c.height = h;
+      const ctx = c.getContext('2d');
+      ctx.drawImage(bitmap, 0, 0, w, h);
+      return new Promise((resolve, reject) => {
+        c.toBlob(
+          blob => {
+            if (!blob) return reject(new Error('压缩失败'));
+            const r = new FileReader();
+            r.onload = () => resolve(r.result);
+            r.onerror = reject;
+            r.readAsDataURL(blob);
+          },
+          'image/jpeg',
+          quality
+        );
+      });
+    }
+
+    async function runUploadRecognition(dataUrl, note, useVision) {
+      if (useVision) {
+        try {
+          const visionDetail = await deepseekSummarizeImageBase64(dataUrl);
+          return { summary: visionDetail, status: 'vision_ok', visionDetail };
+        } catch (e) {
+          const errMsg = (e && e.message) || String(e);
+          if (note && note.trim()) {
+            try {
+              const t = await deepseekSummarizeText(note);
+              return {
+                summary: '【图像未识别】' + errMsg.slice(0, 80) + '。依据文字说明整理：' + t,
+                status: 'vision_failed_text_ok',
+                visionDetail: ''
+              };
+            } catch {
+              return {
+                summary: '【图像未识别】' + errMsg.slice(0, 120) + ' | 备注：' + note,
+                status: 'vision_failed',
+                visionDetail: ''
+              };
+            }
+          }
+          return {
+            summary:
+              '【图像未识别】' +
+              errMsg.slice(0, 160) +
+              '。建议补充「文字说明」后重新上传，或检查网络与 API 额度。',
+            status: 'vision_failed',
+            visionDetail: ''
+          };
+        }
+      }
+      if (note && note.trim()) {
+        try {
+          const t = await deepseekSummarizeText(note);
+          return { summary: t, status: 'text_ok', visionDetail: '' };
+        } catch {
+          return { summary: '（未调用图像）' + note, status: 'no_ai', visionDetail: '' };
+        }
+      }
+      return { summary: '已上传图片（未启用 AI 且无文字说明）', status: 'no_ai', visionDetail: '' };
+    }
+
+    document.getElementById('btnUpload').addEventListener('click', async () => {
+      const name = document.getElementById('uploadTeacher').value;
+      const file = document.getElementById('uploadFile').files?.[0];
+      const note = (document.getElementById('uploadNote') && document.getElementById('uploadNote').value.trim()) || '';
+      const busy = document.getElementById('uploadBusy');
+      const btnUp = document.getElementById('btnUpload');
+      if (!file) {
+        alert('请选择图片文件');
+        return;
+      }
+      const useAi = document.getElementById('callDeepseek').checked;
+      const wantThumb = document.getElementById('saveThumb').checked;
+      btnUp.disabled = true;
+      if (busy) busy.style.display = 'inline';
+      let dataUrl;
+      let thumbDataUrl = null;
+      try {
+        dataUrl = await fileToCompressedBase64(file);
+        if (wantThumb) {
+          try {
+            thumbDataUrl = await compressImageFile(file, 360, 0.68);
+            if (thumbDataUrl && thumbDataUrl.length > 180000) thumbDataUrl = await compressImageFile(file, 240, 0.6);
+          } catch (_) {
+            thumbDataUrl = null;
+          }
+        }
+      } catch (e) {
+        alert('图片处理失败：' + e.message);
+        btnUp.disabled = false;
+        if (busy) busy.style.display = 'none';
+        return;
+      }
+      let rec;
+      try {
+        rec = await runUploadRecognition(dataUrl, note, useAi);
+      } catch (e) {
+        rec = { summary: '【识别异常】' + ((e && e.message) || String(e)), status: 'failed', visionDetail: '' };
+      }
+      const id = typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : 'r_' + Date.now();
+      const db = getUploadDb();
+      if (!db[name]) db[name] = [];
+      db[name].push({
+        id,
+        at: new Date().toISOString(),
+        summary: rec.summary || '（无摘要）',
+        note,
+        fileName: file.name,
+        status: rec.status,
+        visionDetail: rec.visionDetail || '',
+        thumbDataUrl
+      });
+      try {
+        saveUploadDb(db);
+      } catch (e) {
+        alert(e.message || String(e));
+        db[name].pop();
+        db[name].push({
+          id,
+          at: new Date().toISOString(),
+          summary: rec.summary || '（无摘要）',
+          note,
+          fileName: file.name,
+          status: rec.status,
+          visionDetail: rec.visionDetail || '',
+          thumbDataUrl: null
+        });
+        try {
+          saveUploadDb(db);
+        } catch (e2) {
+          alert('保存失败：' + (e2.message || String(e2)));
+          btnUp.disabled = false;
+          if (busy) busy.style.display = 'none';
+          return;
+        }
+      }
+      alert('已记录到教师：' + name);
+      document.getElementById('uploadFile').value = '';
+      if (document.getElementById('uploadNote')) document.getElementById('uploadNote').value = '';
+      renderUploadStats();
+      renderUploadRecordsTable();
+      btnUp.disabled = false;
+      if (busy) busy.style.display = 'none';
+    });
+
+    document.getElementById('btnExportSync').addEventListener('click', () => {
+      const db = getUploadDb();
+      const blob = new Blob([JSON.stringify({ uploads: db, exportedAt: new Date().toISOString() }, null, 2)], {
+        type: 'application/json'
+      });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = '教研上传同步包_' + formatDateFile() + '.json';
+      a.click();
+      URL.revokeObjectURL(a.href);
+    });
+
+    document.getElementById('btnImportSync').addEventListener('click', () => {
+      document.getElementById('importSyncFile').click();
+    });
+    document.getElementById('importSyncFile').addEventListener('change', e => {
+      const f = e.target.files?.[0];
+      if (!f) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        try {
+          const j = JSON.parse(reader.result);
+          const incoming = j.uploads || j;
+          if (typeof incoming !== 'object') throw new Error('格式无效');
+          mergeUploadDb(normalizeUploadDb(incoming));
+          alert('导入成功');
+          renderUploadStats();
+          renderUploadRecordsTable();
+        } catch (err) {
+          alert('导入失败：' + err.message);
+        }
+        e.target.value = '';
+      };
+      reader.readAsText(f, 'UTF-8');
+    });
+
+    // --- Mobile upload page ---
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('upload') === '1') {
+      document.querySelector('header').style.display = 'none';
+      document.getElementById('tabs').style.display = 'none';
+      document.querySelector('main').style.display = 'none';
+      document.getElementById('mobileUploadOnly').style.display = 'block';
+      loadTeachers();
+      fillTeacherSelects();
+
+      document.getElementById('mSubmit').addEventListener('click', async () => {
+        const name = document.getElementById('mTeacher').value;
+        const file = document.getElementById('mFile').files?.[0];
+        const note = (document.getElementById('mNote') && document.getElementById('mNote').value.trim()) || '';
+        const msg = document.getElementById('mMsg');
+        if (!file) {
+          msg.textContent = '请选择照片';
+          return;
+        }
+        msg.textContent = '识别与保存中…';
+        let dataUrl;
+        let thumbDataUrl = null;
+        try {
+          dataUrl = await fileToCompressedBase64(file);
+          try {
+            thumbDataUrl = await compressImageFile(file, 360, 0.68);
+            if (thumbDataUrl && thumbDataUrl.length > 180000) thumbDataUrl = await compressImageFile(file, 240, 0.6);
+          } catch (_) {
+            thumbDataUrl = null;
+          }
+        } catch (e) {
+          msg.textContent = '失败：' + e.message;
+          return;
+        }
+        const useAi = true;
+        let rec;
+        try {
+          rec = await runUploadRecognition(dataUrl, note, useAi);
+        } catch (e) {
+          rec = { summary: '【识别异常】' + ((e && e.message) || String(e)), status: 'failed', visionDetail: '' };
+        }
+        const id = typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : 'r_' + Date.now();
+        const db = getUploadDb();
+        if (!db[name]) db[name] = [];
+        const row = {
+          id,
+          at: new Date().toISOString(),
+          summary: rec.summary,
+          note,
+          fileName: file.name,
+          status: rec.status,
+          visionDetail: rec.visionDetail || '',
+          thumbDataUrl
+        };
+        db[name].push(row);
+        try {
+          saveUploadDb(db);
+        } catch (e) {
+          row.thumbDataUrl = null;
+          db[name][db[name].length - 1] = row;
+          try {
+            saveUploadDb(db);
+          } catch (e2) {
+            msg.textContent = '保存失败：' + (e2.message || String(e2));
+            db[name].pop();
+            return;
+          }
+        }
+        msg.textContent = '已保存。可导出同步包发到电脑端合并。';
+        document.getElementById('mFile').value = '';
+        if (document.getElementById('mNote')) document.getElementById('mNote').value = '';
+      });
+
+      document.getElementById('mExport').addEventListener('click', () => {
+        const db = getUploadDb();
+        const blob = new Blob([JSON.stringify({ uploads: db }, null, 2)], { type: 'application/json' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = '手机上传同步包.json';
+        a.click();
+        URL.revokeObjectURL(a.href);
+      });
+    } else {
+      loadTeachers();
+      rosterRaw.value = localStorage.getItem(STORAGE_ROSTER) || rosterToText(teachers);
+      loadRollSession();
+      if (!Object.keys(rollState).length) initRollState();
+      refreshRollUI();
+      fillTeacherSelects();
+    }
+  </script>
+</body>
+</html>
