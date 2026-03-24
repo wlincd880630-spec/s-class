@@ -1,0 +1,2590 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>主系表 · 非谓语终极大关 — 互动课 第 4 页</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --paper: #fff8f0;
+      --paper-edge: #e8d4c4;
+      --ink: #2c2c2c;
+      --shadow: rgba(44, 44, 44, 0.14);
+      --subj-purple: #9b86c8;
+      --subj-purple-soft: rgba(155, 134, 200, 0.35);
+      --link-orange: #f4a23a;
+      --link-orange-soft: rgba(244, 162, 58, 0.38);
+      --pred-mint: #5cbf9a;
+      --pred-mint-soft: rgba(92, 191, 154, 0.35);
+      --nf-magic: #8b6bb8;
+      --star-gold: #ffd54f;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      font-family: "ZCOOL KuaiLe", "Patrick Hand", cursive, sans-serif;
+      background: linear-gradient(155deg, #e8d4f5 0%, #ffd8c2 42%, #ffeaa7 100%);
+      background-attachment: fixed;
+      overflow-x: hidden;
+      color: var(--ink);
+    }
+
+    @media (min-width: 640px) {
+      html { overflow-x: hidden; }
+      body {
+        zoom: 1.28;
+        width: min(920px, calc(100vw / 1.28));
+        max-width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+      }
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.07;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    #app {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 1.1rem 1rem 5.8rem;
+    }
+
+    h1 {
+      font-size: clamp(1rem, 3vw, 1.32rem);
+      text-align: center;
+      margin-bottom: 0.5rem;
+      text-shadow: 2px 2px 0 rgba(255, 255, 255, 0.65);
+    }
+
+    .board {
+      width: 100%;
+      background: var(--paper);
+      border: 3px solid var(--ink);
+      border-radius: 255px 18px 235px 18px / 18px 235px 18px 255px;
+      padding: clamp(1rem, 3.5vw, 1.55rem);
+      box-shadow: 6px 8px 0 var(--paper-edge), 12px 16px 28px var(--shadow);
+      min-height: min(52vh, 420px);
+    }
+
+    .p4-step {
+      display: none;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.45s ease, transform 0.45s ease;
+    }
+    .p4-step.active {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .zh-text {
+      font-size: clamp(0.94rem, 2.5vw, 1.1rem);
+      line-height: 1.72;
+      text-align: center;
+      margin: 0.4rem 0;
+    }
+
+    .en-text {
+      font-family: "Patrick Hand", cursive;
+      font-size: clamp(1.05rem, 2.8vw, 1.38rem);
+      text-align: center;
+      margin: 0.4rem 0;
+    }
+
+    .color-subj { color: #6b5a9e; font-weight: bold; }
+    .color-lv { color: #c77d12; font-weight: bold; }
+    .color-pred { color: #2d8a65; font-weight: bold; }
+
+    .state-hint {
+      text-align: center;
+      font-size: 0.88rem;
+      color: #555;
+      margin-top: 0.75rem;
+      min-height: 1.4em;
+    }
+
+    .illusion-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+    .illusion-card {
+      flex: 1 1 240px;
+      max-width: 320px;
+      padding: 0.85rem 1rem;
+      background: linear-gradient(165deg, #fffef8 0%, #f5f0ff 100%);
+      border: 3px dashed var(--subj-purple);
+      border-radius: 20px;
+      position: relative;
+    }
+    .illusion-card .mag-glass {
+      position: absolute;
+      top: -0.35rem;
+      right: 0.35rem;
+      font-size: 1.65rem;
+      filter: drop-shadow(1px 2px 0 rgba(0,0,0,0.12));
+      pointer-events: none;
+    }
+    .illusion-card .drop-slot {
+      min-height: 52px;
+      margin-top: 0.65rem;
+      border: 3px dashed rgba(244, 162, 58, 0.55);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.82rem;
+      color: #888;
+      transition: background 0.25s, border-color 0.25s;
+    }
+    .illusion-card .drop-slot.filled-ok {
+      border-style: solid;
+      border-color: var(--pred-mint);
+      background: var(--pred-mint-soft);
+      color: var(--ink);
+      font-weight: bold;
+    }
+    .illus-drop-target {
+      touch-action: none;
+      min-height: 52px;
+    }
+    .illusion-card .drop-slot.drag-over {
+      border-color: var(--link-orange);
+      background: var(--link-orange-soft);
+    }
+    .illus-sentence-card {
+      -webkit-user-select: none;
+      user-select: none;
+    }
+    .illus-sentence-card .drop-slot {
+      min-height: 80px;
+      padding: 0.55rem 0.45rem;
+      touch-action: none;
+      cursor: pointer;
+      box-sizing: border-box;
+    }
+    .illus-sentence-card .drop-slot.wrong-shake {
+      animation: shake 0.45s ease;
+    }
+    .illus-sentence-card .drop-slot.filled-ok {
+      cursor: default;
+    }
+
+    .illus-reveal-pair {
+      margin-top: 0.25rem;
+    }
+    .illus-reveal-pair .illusion-card {
+      padding: 0.7rem 0.9rem;
+    }
+
+    .tag-pool {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.65rem;
+      margin: 1rem 0 0.5rem;
+    }
+    .vocab-ex-slot {
+      touch-action: none;
+      min-height: 48px;
+    }
+    .drag-tag {
+      padding: 0.45rem 0.85rem;
+      background: #fff;
+      border: 3px solid var(--ink);
+      border-radius: 999px;
+      cursor: grab;
+      font-size: 0.88rem;
+      box-shadow: 3px 4px 0 var(--paper-edge);
+      max-width: 100%;
+      text-align: center;
+      touch-action: none;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+    .drag-tag.dragging { opacity: 0.55; }
+    .drag-tag.placed {
+      cursor: default;
+      opacity: 0.45;
+      pointer-events: none;
+    }
+    .drag-tag.illus-selected {
+      outline: 3px solid var(--link-orange);
+      outline-offset: 2px;
+    }
+
+    .speech-wrap {
+      display: flex;
+      justify-content: center;
+      margin: 0.75rem 0;
+    }
+    .speech-bubble {
+      max-width: 520px;
+      padding: 0.75rem 1rem;
+      background: #fff;
+      border: 3px solid var(--ink);
+      border-radius: 18px 18px 18px 4px;
+      font-size: 0.95rem;
+      line-height: 1.65;
+      opacity: 0;
+      transform: scale(0.92);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+    .speech-bubble.reveal {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .tts-read-btn {
+      width: 2.4rem;
+      height: 2.4rem;
+      border-radius: 50%;
+      border: 3px solid var(--ink);
+      background: linear-gradient(180deg, #ffeaa7, #fdcb6e);
+      cursor: pointer;
+      font-size: 1.1rem;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+    .tts-read-btn:active { transform: scale(0.96); }
+
+    .teacher-bubble {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.65rem;
+      max-width: 580px;
+      margin: 0.75rem auto;
+    }
+    .pic-frame {
+      flex: 0 0 auto;
+      width: 88px;
+      min-height: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.35rem;
+      background: #fffef8;
+      border-radius: 14px;
+      border: 2px solid rgba(44,44,44,0.08);
+    }
+    .pic-frame img {
+      max-width: 100%;
+      max-height: 96px;
+      object-fit: contain;
+    }
+    .bubble {
+      flex: 1;
+      padding: 0.75rem 1rem;
+      background: #fff;
+      border: 3px solid var(--ink);
+      border-radius: 18px 18px 18px 4px;
+      font-size: 0.92rem;
+      line-height: 1.65;
+    }
+
+    .book-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1.25rem;
+      margin: 1.2rem 0;
+    }
+    .magic-book {
+      width: min(200px, 42vw);
+      padding: 1rem 0.75rem 1.15rem;
+      text-align: center;
+      border: 4px solid var(--ink);
+      border-radius: 8px 16px 12px 14px;
+      cursor: pointer;
+      background: linear-gradient(145deg, #fff9e6 0%, #ffd8a8 100%);
+      box-shadow: 5px 6px 0 #c4a574, 0 0 24px rgba(255, 213, 79, 0.45);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .magic-book:hover {
+      transform: translateY(-4px) rotate(-1deg);
+      box-shadow: 6px 8px 0 #c4a574, 0 0 32px rgba(255, 213, 79, 0.65);
+    }
+    .magic-book.senior {
+      background: linear-gradient(145deg, #e8e0ff 0%, #b8a0e0 100%);
+      box-shadow: 5px 6px 0 #6b5a9e, 0 0 24px rgba(155, 134, 200, 0.5);
+    }
+    .magic-book.senior:hover {
+      box-shadow: 6px 8px 0 #6b5a9e, 0 0 34px rgba(155, 134, 200, 0.7);
+    }
+    .magic-book .book-emoji { font-size: 2.2rem; margin-bottom: 0.35rem; }
+
+    .vocab-scroll {
+      max-height: min(52vh, 380px);
+      overflow-y: auto;
+      overflow-x: hidden;
+      margin: 0.65rem auto;
+      padding: 0.5rem 0.55rem;
+      background: rgba(255, 255, 255, 0.72);
+      border: 2px dashed var(--subj-purple);
+      border-radius: 14px;
+      font-size: 0.84rem;
+      line-height: 1.5;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+      -webkit-overflow-scrolling: touch;
+    }
+    .vocab-category {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+    .vocab-cat-head {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.4rem;
+      width: 100%;
+      margin: 0;
+      padding: 0.5rem 0.55rem;
+      text-align: left;
+      font-family: inherit;
+      font-size: 0.82rem;
+      border: 2px solid #7b6ba8;
+      border-radius: 12px;
+      background: linear-gradient(180deg, #f0e8ff 0%, #e4d8f8 100%);
+      cursor: pointer;
+      box-shadow: 2px 3px 0 rgba(90, 74, 138, 0.35);
+      color: var(--ink);
+      transition: transform 0.12s, box-shadow 0.12s;
+    }
+    .vocab-cat-head:hover,
+    .vocab-cat-head:focus {
+      outline: none;
+      filter: brightness(1.04);
+      transform: translateY(-1px);
+    }
+    .vocab-cat-head-text {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.12rem;
+    }
+    .vocab-cat-title {
+      font-weight: 700;
+      color: #4a3d6e;
+      font-size: 0.88rem;
+    }
+    .vocab-cat-hint {
+      font-size: 0.72rem;
+      opacity: 0.82;
+      font-style: italic;
+      color: #5a4a7a;
+      word-break: break-word;
+    }
+    .vocab-cat-badge {
+      flex-shrink: 0;
+      font-size: 0.72rem;
+      opacity: 0.85;
+      padding: 0.15rem 0.4rem;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.65);
+      align-self: center;
+    }
+    .vocab-cat-chevron {
+      flex-shrink: 0;
+      font-size: 0.7rem;
+      opacity: 0.75;
+      align-self: center;
+      width: 1.1rem;
+      text-align: center;
+    }
+    .vocab-cat-note {
+      margin: 0 0.15rem 0.1rem;
+      padding: 0.4rem 0.55rem;
+      font-size: 0.78rem;
+      line-height: 1.45;
+      color: #3d3558;
+      background: rgba(92, 191, 154, 0.14);
+      border-radius: 10px;
+      border-left: 3px solid #5cbf9a;
+    }
+    /* [hidden] 须压过下面的 display:flex，否则词条区域无法真正折叠 */
+    .vocab-cat-body[hidden],
+    .vocab-cat-note[hidden] {
+      display: none !important;
+    }
+    .vocab-cat-body {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      padding: 0.15rem 0 0.25rem 0.35rem;
+      border-left: 2px dashed rgba(107, 90, 158, 0.35);
+      margin-left: 0.35rem;
+    }
+    .vocab-line {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      margin: 0;
+      padding: 0.55rem 0.7rem;
+      text-align: left;
+      font-family: inherit;
+      font-size: 0.88rem;
+      border: 2px solid var(--ink);
+      border-radius: 12px;
+      background: linear-gradient(180deg, #fffef8, #f3ecff);
+      cursor: pointer;
+      box-shadow: 2px 3px 0 var(--paper-edge);
+      transition: transform 0.15s, box-shadow 0.15s;
+      color: var(--ink);
+    }
+    .vocab-line:hover,
+    .vocab-line:focus {
+      transform: translateY(-2px);
+      box-shadow: 3px 5px 0 var(--paper-edge);
+      outline: none;
+    }
+    .vocab-line:active {
+      transform: translateY(0);
+    }
+    .vocab-line-phrase {
+      font-family: "Patrick Hand", cursive;
+      font-size: 1.02rem;
+      color: #4a3d6e;
+    }
+    .vocab-back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      margin-bottom: 0.65rem;
+      padding: 0.4rem 0.85rem;
+      font-family: inherit;
+      font-size: 0.88rem;
+      border: 3px solid var(--ink);
+      border-radius: 999px;
+      background: linear-gradient(180deg, #e8d4f5, #d4c4f5);
+      cursor: pointer;
+      box-shadow: 2px 3px 0 var(--paper-edge);
+    }
+    .vocab-back-btn:hover {
+      filter: brightness(1.03);
+    }
+    .vocab-detail-title {
+      text-align: center;
+      font-size: 1.05rem;
+      color: #5a4a8a;
+      margin-bottom: 0.45rem;
+    }
+    .vocab-example-block {
+      max-width: 520px;
+      margin: 0 auto 0.85rem;
+      padding: 0.65rem 0.85rem;
+      background: rgba(155, 134, 200, 0.12);
+      border-radius: 12px;
+      border: 2px dashed rgba(107, 90, 158, 0.35);
+    }
+    .vocab-example-block .en-line {
+      font-family: "Patrick Hand", cursive;
+      font-size: 1.12rem;
+      text-align: center;
+      margin-bottom: 0.35rem;
+    }
+    .vocab-example-block .zh-line {
+      font-size: 0.88rem;
+      text-align: center;
+      color: #444;
+      margin-bottom: 0.4rem;
+      white-space: pre-line;
+      line-height: 1.65;
+    }
+    .vocab-subsec {
+      margin: 0.85rem 0 0.35rem;
+      font-size: 0.95rem;
+      text-align: center;
+      color: #5a4a8a;
+    }
+    .vocab-ex-slot {
+      position: relative;
+      min-width: 56px;
+      min-height: 44px;
+      padding-top: 0.35rem;
+    }
+    .vocab-ex-slot::before {
+      content: attr(data-idx);
+      position: absolute;
+      top: 2px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.62rem;
+      color: #888;
+      font-weight: bold;
+    }
+    .vocab-done-tag {
+      text-align: center;
+      font-size: 0.86rem;
+      color: #2d8a65;
+      font-weight: bold;
+      margin: 0.35rem 0;
+      min-height: 1.2em;
+    }
+    .vocab-detail-section {
+      margin: 0.85rem 0 1rem;
+      padding: 0.65rem 0.55rem 0.75rem;
+      border-radius: 14px;
+      border: 2px dashed rgba(107, 90, 158, 0.28);
+      background: rgba(255, 255, 255, 0.45);
+    }
+    .vocab-detail-section h3.vocab-subsec {
+      margin-top: 0.15rem;
+    }
+    .vocab-detail-step-label {
+      text-align: center;
+      font-size: 0.88rem;
+      color: #5a4a8a;
+      margin: 0.15rem 0 0.5rem;
+      padding: 0.25rem 0.65rem;
+      display: inline-block;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .vocab-step-panel[hidden] {
+      display: none !important;
+    }
+
+    .lesson-title {
+      text-align: center;
+      font-size: 1.05rem;
+      margin-bottom: 0.5rem;
+      color: #5a4a8a;
+    }
+    .logic-box {
+      max-width: 560px;
+      margin: 0.5rem auto 0.85rem;
+      padding: 0.75rem 1rem;
+      background: linear-gradient(165deg, #2d3a4e 0%, #1e2836 100%);
+      color: #f5f5f0;
+      border-radius: 12px;
+      border: 3px solid var(--ink);
+      font-size: 0.92rem;
+      line-height: 1.7;
+    }
+    .logic-box .hl-s { color: #d4c4f5; font-weight: bold; }
+    .logic-box .hl-l { color: #ffd49c; font-weight: bold; }
+    .logic-box .hl-p { color: #a8e8d0; font-weight: bold; }
+
+    .practice-pic {
+      max-width: 280px;
+      margin: 0.5rem auto;
+      text-align: center;
+    }
+    .practice-pic img {
+      max-width: 100%;
+      max-height: 180px;
+      border-radius: 12px;
+      border: 3px solid var(--ink);
+    }
+
+    /* 词表详情里例句图 / 造句图：更大展示（四套分级练习仍用上面默认尺寸） */
+    .practice-pic.vocab-detail-pic {
+      max-width: min(100%, 680px);
+      margin: 0.65rem auto 0.85rem;
+    }
+    .practice-pic.vocab-detail-pic img {
+      max-height: min(52vh, 400px);
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+    }
+
+    .slot-strip {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: stretch;
+      gap: 0.4rem;
+      margin: 0.75rem 0;
+    }
+    .magic-slot {
+      min-width: 72px;
+      min-height: 48px;
+      padding: 0.35rem 0.45rem;
+      border: 3px dashed rgba(155, 134, 200, 0.85);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "Patrick Hand", cursive;
+      font-size: 1.05rem;
+      background: rgba(255, 255, 255, 0.75);
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .magic-slot.filled.subj { border-color: var(--subj-purple); background: var(--subj-purple-soft); }
+    .magic-slot.filled.lv { border-color: var(--link-orange); background: var(--link-orange-soft); }
+    .magic-slot.filled.pred { border-color: var(--pred-mint); background: var(--pred-mint-soft); }
+    .magic-slot.wrong-shake {
+      animation: shake 0.45s ease;
+    }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-6px); }
+      75% { transform: translateX(6px); }
+    }
+
+    .chip-pool {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.45rem;
+      margin: 0.65rem 0;
+      min-height: 48px;
+    }
+    .word-chip {
+      padding: 0.35rem 0.65rem;
+      background: #fff;
+      border: 2px solid var(--ink);
+      border-radius: 8px;
+      cursor: grab;
+      font-family: "Patrick Hand", cursive;
+      font-size: 1.02rem;
+      touch-action: none;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+    .word-chip.placed { opacity: 0.4; pointer-events: none; cursor: default; }
+    .word-chip.dragging { opacity: 0.6; }
+
+    .boss-title {
+      text-align: center;
+      font-size: 1.08rem;
+      margin-bottom: 0.5rem;
+      color: #4a3d7a;
+    }
+    .boss-sky {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.5rem;
+      margin: 0.65rem 0;
+      min-height: 120px;
+      padding: 0.5rem;
+      background: rgba(232, 212, 245, 0.35);
+      border-radius: 16px;
+      border: 2px dashed rgba(107, 90, 158, 0.4);
+    }
+    .boss-sentence {
+      padding: 0.4rem 0.65rem;
+      background: #fff;
+      border: 3px solid var(--ink);
+      border-radius: 10px;
+      font-family: "Patrick Hand", cursive;
+      font-size: 0.95rem;
+      cursor: grab;
+      max-width: 100%;
+      box-shadow: 2px 3px 0 var(--paper-edge);
+      touch-action: none;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+    .boss-sentence.placed {
+      cursor: default;
+      box-shadow: none;
+    }
+
+    .cauldron-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 0.85rem;
+    }
+    .cauldron {
+      flex: 1 1 200px;
+      max-width: 280px;
+      min-height: 160px;
+      padding: 0.5rem;
+      border-radius: 40% 40% 35% 35%;
+      border: 5px solid #3d2a5c;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: box-shadow 0.25s, transform 0.2s;
+      touch-action: manipulation;
+    }
+    .cauldron.svo {
+      background: linear-gradient(180deg, #6b4c9a 0%, #4a356e 55%, #2d1f45 100%);
+      box-shadow: inset 0 -12px 24px rgba(0,0,0,0.35), 0 0 0 3px rgba(244, 162, 58, 0.25);
+    }
+    .cauldron.linking {
+      background: linear-gradient(180deg, #5cbf9a 0%, #3a9b78 50%, #1e5c45 100%);
+      box-shadow: inset 0 -12px 24px rgba(0,0,0,0.28), 0 0 0 3px rgba(155, 134, 200, 0.35);
+    }
+    .cauldron.drag-over {
+      transform: scale(1.03);
+      box-shadow: inset 0 -12px 24px rgba(0,0,0,0.35), 0 0 0 5px var(--star-gold);
+    }
+    .cauldron-label {
+      color: #fff;
+      font-size: 0.78rem;
+      text-align: center;
+      margin-bottom: 0.35rem;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.4);
+      line-height: 1.35;
+    }
+    .cauldron-inner {
+      flex: 1;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.35rem;
+      overflow-y: auto;
+      max-height: 200px;
+    }
+    .cauldron-inner .boss-sentence {
+      font-size: 0.82rem;
+      cursor: default;
+    }
+
+    .footer-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 0.55rem 0.75rem;
+      background: rgba(255, 248, 240, 0.94);
+      border-top: 3px solid var(--ink);
+      z-index: 40;
+    }
+    .footer-toolbar {
+      max-width: 920px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .page-nav-link {
+      color: #4a356e;
+      font-size: 0.88rem;
+      text-decoration: none;
+      border-bottom: 2px solid transparent;
+    }
+    .page-nav-link:hover { border-bottom-color: var(--link-orange); }
+    button.page-nav-link {
+      cursor: pointer;
+      font: inherit;
+      background: none;
+      border: none;
+      padding: 0;
+      color: #4a356e;
+      font-size: 0.88rem;
+      border-bottom: 2px solid transparent;
+    }
+    button.page-nav-link:hover { border-bottom-color: var(--link-orange); }
+
+    .next-btn {
+      padding: 0.45rem 1.1rem;
+      font-family: inherit;
+      font-size: 0.92rem;
+      border: 3px solid var(--ink);
+      border-radius: 999px;
+      background: linear-gradient(180deg, #fff, #ffeaa7);
+      cursor: pointer;
+      box-shadow: 3px 4px 0 var(--paper-edge);
+    }
+    .next-btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    .success-overlay {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 100;
+      overflow: hidden;
+    }
+    .confetti {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      top: -12px;
+      border-radius: 2px;
+      animation: cf linear forwards;
+    }
+    @keyframes cf {
+      to { transform: translateY(110vh) rotate(720deg); opacity: 0.15; }
+    }
+
+    .grad-overlay {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at 50% 40%, rgba(255,234,167,0.5) 0%, transparent 55%);
+      pointer-events: none;
+      z-index: 50;
+      animation: gradPulse 2.5s ease-in-out infinite;
+    }
+    @keyframes gradPulse {
+      0%, 100% { opacity: 0.65; }
+      50% { opacity: 1; }
+    }
+
+    .vocab-hint-row {
+      text-align: center;
+      margin: 0.15rem 0 0.4rem;
+    }
+    .vocab-hint-toggle {
+      font-family: inherit;
+      font-size: 0.82rem;
+      cursor: pointer;
+      border: none;
+      background: transparent;
+      color: #5a4580;
+      text-decoration: underline;
+      padding: 0.12rem 0.35rem;
+    }
+    .vocab-hint-toggle:hover { color: #c77d12; }
+    .vocab-hint-zh {
+      font-size: 0.84rem;
+      line-height: 1.55;
+      text-align: left;
+      max-width: 520px;
+      margin: 0.4rem auto 0;
+      padding: 0.45rem 0.65rem;
+      background: rgba(155, 134, 200, 0.14);
+      border-radius: 10px;
+      color: var(--ink);
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <h1>主系表 · 非谓语魔法 — 第 4 页（终极大关）</h1>
+
+    <div class="board" id="p4Board">
+      <!-- State 1：两句 + 听辨 + 气泡（同屏） -->
+      <div class="p4-step active" data-p4-step="1">
+        <p class="zh-text">识破伪装：两个句子都有 <strong class="color-lv">is swimming</strong>，它们真的一样吗？</p>
+        <div class="illusion-row">
+          <div class="illusion-card">
+            <span class="mag-glass" aria-hidden="true">🔍</span>
+            <p class="en-text"><span class="color-subj">He</span> <span class="color-lv">is swimming</span>.</p>
+          </div>
+          <div class="illusion-card">
+            <span class="mag-glass" aria-hidden="true">🔍</span>
+            <p class="en-text"><span class="color-subj">His hobby</span> <span class="color-lv">is</span> <span class="color-pred">swimming</span>.</p>
+          </div>
+        </div>
+        <div class="speech-wrap" style="align-items:flex-start;gap:0.5rem;margin-top:0.85rem">
+          <button type="button" class="tts-read-btn" id="illusTtsBtn" title="朗读英文问题" aria-label="朗读">🔊</button>
+          <div class="speech-bubble" id="illusBubble" role="status">
+            仔细看，这两个句子都有 <strong>is swimming</strong>，它们都是主系表结构吗？
+          </div>
+        </div>
+        <p class="zh-text" style="font-size:0.88rem">先点 🔊 听英文，气泡会「嘭」地出现；再点下一步。</p>
+      </div>
+
+      <!-- State 2 拖拽标签（勿对整卡设 pointer-events:none，否则槽位无法接拖放） -->
+      <div class="p4-step" data-p4-step="2">
+        <p class="zh-text">把标签<strong>拖到</strong>对应句子下面的框里，拖错会晃一晃提示 ✨<br /><span style="font-size:0.86rem;opacity:0.92">手机或拖不动时：<strong>先点标签</strong>，再<strong>点灰色框</strong>放入。</span></p>
+        <div class="illusion-row illus-drag-row" style="margin-bottom:0.35rem">
+          <div class="illusion-card illus-sentence-card">
+            <p class="en-text"><span class="color-subj">He</span> <span class="color-lv">is swimming</span>.</p>
+            <div class="drop-slot illus-drop-target" id="dropLeft3" data-accept="prog" role="button" tabindex="0" aria-label="左句：进行时标签放这里"></div>
+          </div>
+          <div class="illusion-card illus-sentence-card">
+            <p class="en-text"><span class="color-subj">His hobby</span> <span class="color-lv">is</span> <span class="color-pred">swimming</span>.</p>
+            <div class="drop-slot illus-drop-target" id="dropRight3" data-accept="link" role="button" tabindex="0" aria-label="右句：主系表标签放这里"></div>
+          </div>
+        </div>
+        <div class="tag-pool" id="illusTagPool"></div>
+      </div>
+
+      <!-- State 3 教师揭示（保留两句对照，与讲解同屏） -->
+      <div class="p4-step" data-p4-step="3">
+        <p class="zh-text" style="font-size:0.92rem;margin-bottom:0.35rem">
+          再对照下面两句，边读边听老师拆解「同一个 <strong class="color-lv">is swimming</strong>」：
+        </p>
+        <div class="illusion-row illus-reveal-pair">
+          <div class="illusion-card">
+            <span class="mag-glass" aria-hidden="true">🔍</span>
+            <p class="en-text"><span class="color-subj">He</span> <span class="color-lv">is swimming</span>.</p>
+          </div>
+          <div class="illusion-card">
+            <span class="mag-glass" aria-hidden="true">🔍</span>
+            <p class="en-text"><span class="color-subj">His hobby</span> <span class="color-lv">is</span> <span class="color-pred">swimming</span>.</p>
+          </div>
+        </div>
+        <div class="teacher-bubble">
+          <div class="pic-frame">
+            <img src="asset/img/teacher_steven.png" alt="教师" />
+          </div>
+          <div class="bubble">
+            左边的 <strong>swimming</strong> 表示<strong>正在进行的动作</strong>，<strong class="color-lv">is</strong> 在这里是<strong>助动词</strong>（和后面的 -ing 一起构成进行时）→ <strong>他正在游泳</strong>。<br /><br />
+            右边的 <strong>swimming</strong> 已经变成<strong>一件事</strong>，<strong class="color-lv">is</strong> 是魔法等号（系动词）→ <strong>他的爱好 = 游泳这件事</strong>。<br /><br />
+            <strong>小秘诀：</strong>试着把前后互换——<em>Swimming is his hobby</em> 意思仍成立，就是主系表！
+          </div>
+        </div>
+      </div>
+
+      <!-- State 4 魔法书 -->
+      <div class="p4-step" data-p4-step="4">
+        <p class="zh-text">高阶魔法书：选一条路线。初中 / 高中词条、例句、看图造句、排序与配图英文说明均来自课程文档 <strong>page4.docx</strong>（已导入为数据文件）。</p>
+        <div class="book-row">
+          <div class="magic-book" id="bookJunior" role="button" tabindex="0">
+            <div class="book-emoji">📘</div>
+            <strong>Junior High</strong><br /><span style="font-size:0.82rem">初中魔法</span>
+          </div>
+          <div class="magic-book senior" id="bookSenior" role="button" tabindex="0">
+            <div class="book-emoji">📕</div>
+            <strong>Senior High</strong><br /><span style="font-size:0.82rem">高中魔法</span>
+          </div>
+        </div>
+        <p class="zh-text" style="font-size:0.85rem;opacity:0.9">点选一本书进入「分级词表 + 系动词精讲」。</p>
+      </div>
+
+      <!-- State 5 词表（竖向列表 → 点词条进详情：例句 + 看图造句 + 排序） -->
+      <div class="p4-step" data-p4-step="5">
+        <p class="lesson-title" id="vocabLevelTitle">魔法词表</p>
+        <p class="zh-text" id="vocabCountLine"></p>
+        <div id="vocabListScreen">
+          <div class="vocab-scroll" id="vocabMount" role="list" aria-label="词汇列表"></div>
+        </div>
+        <div id="vocabDetailScreen" hidden>
+          <button type="button" class="vocab-back-btn" id="vocabBackBtn" aria-label="返回词表">
+            ← 返回词表
+          </button>
+          <div id="vocabDetailInner"></div>
+        </div>
+        <p class="zh-text" id="vocabFooterZh" style="font-size:0.86rem">
+          例句下的中文可含「写作应用」段落（与 page4.docx 一致）。配图请用导出 JSON 跑 Vertex；点击词条进入例句 → 看图造句 → 排序。
+        </p>
+      </div>
+
+      <!-- State 6+ 动态：精讲 / 填空 / Boss / 毕业 -->
+      <div class="p4-step" data-p4-step="dyn"></div>
+    </div>
+
+    <p class="state-hint" id="stateHint">点击「下一步」继续。</p>
+  </div>
+
+  <div class="success-overlay" id="confettiRoot" aria-hidden="true"></div>
+  <div id="fireworkRoot" class="success-overlay" aria-hidden="true"></div>
+
+  <div class="footer-bar">
+    <div class="footer-toolbar">
+      <a class="page-nav-link" href="index.html" title="返回主系表课程列表">课程列表</a>
+      <button type="button" class="page-nav-link" id="navPrevStep" disabled title="撤回本页内上一步">← 上一步</button>
+      <button type="button" class="next-btn" id="nextBtn">下一步 →</button>
+    </div>
+  </div>
+
+  <script src="cos-config.js"></script>
+  <script src="linking-assets.js"></script>
+  <script src="p4-linking-vocab-packs.js"></script>
+  <script src="p4-linking-triplets.js"></script>
+  <script src="p4-linking-data.js"></script>
+  <script>
+(function () {
+  "use strict";
+
+  var AZURE_SPEECH_KEY =
+    "DKRXk8ueSfo5NdIOMqFRTCAfpeGDezJ3Snf5K8gGgtyqxiWdugLzJQQJ99BLACHYHv6XJ3w3AAAYACOGUYP9";
+  var AZURE_REGION = "eastus2";
+  var TTS_VOICE = "en-US-AriaNeural";
+
+  var BANK = window.LINKING_P4_BANK;
+  if (!BANK) {
+    console.error("LINKING_P4_BANK missing — load p4-linking-data.js");
+  }
+
+  var state = 1;
+  var level = null;
+  var illusTtsPlayed = false;
+  var illusDragDone = false;
+  var practiceIndex = 0;
+  var practiceComplete = false;
+  var bossPlaced = {};
+  var bossDone = false;
+  var linkP4NavStack = [];
+
+  var nextBtn = document.getElementById("nextBtn");
+  var prevBtn = document.getElementById("navPrevStep");
+  var stateHint = document.getElementById("stateHint");
+  var steps = document.querySelectorAll(".p4-step");
+  var dynStep = document.querySelector('.p4-step[data-p4-step="dyn"]');
+
+  function assetUrl(rel) {
+    return typeof window.linkingAssetUrl === "function" ? window.linkingAssetUrl(rel) : rel;
+  }
+  function rewriteDynImages() {
+    if (typeof window.linkingRewriteImages === "function" && dynStep) window.linkingRewriteImages(dynStep);
+  }
+
+  var buildDragEl = null;
+  var buildPending = null;
+  var bossDragEl = null;
+  var bossTapSentence = null;
+  var currentBossTapHandler = null;
+  var illusTagPending = null;
+  var vocabDetailOpen = false;
+  var vocabDetailStep = 0;
+  var vocabDragChip = null;
+  var vocabChipPending = null;
+  var vocabDetailEntry = null;
+
+  /** 平板 / 触屏：HTML5 drag 不可靠，改用 pointer + 点选 */
+  function wantTouchStyleDnD() {
+    try {
+      if (window.matchMedia("(pointer: coarse)").matches) return true;
+      if (window.matchMedia("(hover: none)").matches) return true;
+    } catch (e) {}
+    return false;
+  }
+
+  /**
+   * pointerdown → pointerup 时在落点用 elementFromPoint 找槽位（触屏拖放）。
+   */
+  function bindPointerDragPlace(el, opts) {
+    var matchSlot = opts.matchSlot;
+    var onDrop = opts.onDrop;
+    var activeId = null;
+    function end(e) {
+      if (activeId === null || e.pointerId !== activeId) return;
+      activeId = null;
+      el.classList.remove("dragging");
+      try {
+        el.releasePointerCapture(e.pointerId);
+      } catch (err) {}
+      if (el.classList.contains("placed")) return;
+      var under = document.elementFromPoint(e.clientX, e.clientY);
+      if (!under) return;
+      var slot = matchSlot(under, el);
+      if (slot) onDrop(slot, el);
+    }
+    el.addEventListener(
+      "pointerdown",
+      function (e) {
+        if (el.classList.contains("placed")) return;
+        if (e.pointerType === "mouse" && e.button !== 0) return;
+        /* 不 preventDefault，以免阻断同一次触摸产生的 click（点选 + 点槽） */
+        activeId = e.pointerId;
+        el.classList.add("dragging");
+        try {
+          el.setPointerCapture(e.pointerId);
+        } catch (err) {}
+      },
+      { passive: true }
+    );
+    el.addEventListener("pointerup", end);
+    el.addEventListener("pointercancel", end);
+  }
+
+  function tryVocabChipSlot(slot, chip) {
+    if (!slot || !chip) return;
+    var kind = slot.getAttribute("data-vex");
+    var wid = chip.dataset.wid;
+    if (chip.dataset.vex !== kind) return;
+    if (slot.dataset.pieceId) return;
+    var acc = slot.getAttribute("data-accept");
+    if (wid !== acc) {
+      slot.classList.add("wrong-shake");
+      setTimeout(function () {
+        slot.classList.remove("wrong-shake");
+      }, 450);
+      return;
+    }
+    slot.innerHTML =
+      '<span class="vocab-fill-text" style="display:block;padding-top:0.72rem;text-align:center;font-family:Patrick Hand,cursive;font-size:1.05rem">' +
+      escapeHtml(chip.textContent) +
+      "</span>";
+    slot.dataset.pieceId = wid;
+    slot.classList.add("filled", slot.getAttribute("data-role") || "pred");
+    chip.classList.add("placed");
+    chip.setAttribute("draggable", "false");
+    vocabDragChip = null;
+    checkVocabSectionComplete(kind);
+  }
+
+  function tryPracticeSlotDrop(slot, chip, p) {
+    if (!chip || (slot.textContent && slot.textContent.trim())) return;
+    var wid = chip.dataset.wid;
+    var acc = slot.getAttribute("data-accept");
+    if (wid !== acc) {
+      slot.classList.add("wrong-shake");
+      setTimeout(function () {
+        slot.classList.remove("wrong-shake");
+      }, 450);
+      return;
+    }
+    slot.textContent = chip.textContent;
+    slot.classList.add("filled", slot.getAttribute("data-role") || "pred");
+    chip.classList.add("placed");
+    chip.setAttribute("draggable", "false");
+    buildDragEl = null;
+    checkPracticeSlots(p);
+  }
+
+  function tryBossCauldronDrop(cauldron, el, list) {
+    cauldron.classList.remove("drag-over");
+    var bid = el.dataset.bossId;
+    var item = list.filter(function (x) {
+      return x.id === bid;
+    })[0];
+    if (!item) return;
+    var bucket = cauldron.getAttribute("data-bucket");
+    if (!el || el.classList.contains("placed")) return;
+    if (item.bucket !== bucket) {
+      el.classList.add("wrong-shake");
+      setTimeout(function () {
+        el.classList.remove("wrong-shake");
+      }, 450);
+      return;
+    }
+    var inner = bucket === "svo" ? document.getElementById("innerSvo") : document.getElementById("innerLink");
+    el.classList.add("placed");
+    el.setAttribute("draggable", "false");
+    inner.appendChild(el);
+    bossPlaced[bid] = true;
+    playSuccessChime();
+    if (Object.keys(bossPlaced).length >= list.length) {
+      bossDone = true;
+      stateHint.textContent = "全对！魔法锅沸腾啦——";
+      burstFireworks();
+      updateNextEnabled();
+    }
+  }
+
+  function onVocabDetailTap(e) {
+    if (!vocabDetailOpen) return;
+    var chip = e.target.closest && e.target.closest("#vocabMakePool .word-chip, #vocabSortPool .word-chip");
+    var slot = e.target.closest && e.target.closest(".vocab-ex-slot");
+    if (chip && !chip.classList.contains("placed")) {
+      document.querySelectorAll("#vocabMakePool .word-chip, #vocabSortPool .word-chip").forEach(function (c) {
+        c.style.outline = "none";
+      });
+      chip.style.outline = "3px solid #f4a23a";
+      vocabChipPending = chip;
+      return;
+    }
+    if (slot && vocabChipPending && !slot.dataset.pieceId) {
+      tryVocabChipSlot(slot, vocabChipPending);
+      if (vocabChipPending && vocabChipPending.classList.contains("placed")) {
+        vocabChipPending.style.outline = "none";
+        vocabChipPending = null;
+      }
+    }
+  }
+
+  function maxState() {
+    var p = level && BANK ? BANK[level].practices.length : 0;
+    if (p === 0) return 7;
+    return 5 + 2 * p + 2;
+  }
+
+  function updatePrevBtn() {
+    if (!prevBtn) return;
+    if (vocabDetailOpen && vocabDetailStep > 0) {
+      prevBtn.disabled = false;
+      return;
+    }
+    prevBtn.disabled = linkP4NavStack.length === 0 && !vocabDetailOpen;
+  }
+
+  function snapLinkP4() {
+    var bp = {};
+    for (var k in bossPlaced) {
+      if (Object.prototype.hasOwnProperty.call(bossPlaced, k)) bp[k] = bossPlaced[k];
+    }
+    return {
+      state: state,
+      level: level,
+      illusTtsPlayed: illusTtsPlayed,
+      illusDragDone: illusDragDone,
+      practiceIndex: practiceIndex,
+      practiceComplete: practiceComplete,
+      bossPlaced: bp,
+      bossDone: bossDone,
+      vocabDetailOpen: vocabDetailOpen
+    };
+  }
+
+  function restoreLinkP4(s) {
+    if (vocabDetailOpen) closeVocabDetail();
+    vocabDragChip = null;
+    vocabDetailEntry = null;
+    state = s.state;
+    level = s.level;
+    illusTtsPlayed = s.illusTtsPlayed;
+    illusDragDone = s.illusDragDone;
+    practiceIndex = s.practiceIndex;
+    practiceComplete = s.practiceComplete;
+    bossPlaced = {};
+    for (var k in s.bossPlaced) {
+      if (Object.prototype.hasOwnProperty.call(s.bossPlaced, k)) bossPlaced[k] = s.bossPlaced[k];
+    }
+    bossDone = s.bossDone;
+    showStepPanel(state);
+    if (state === 2) initIllusionTags();
+    if (state === 5 && level) fillVocab();
+    applyDynContent();
+    setHints();
+    updateNextEnabled();
+    updatePrevBtn();
+  }
+
+  function retreatLinkP4() {
+    if (vocabDetailOpen) {
+      if (vocabDetailStep > 0) {
+        setVocabDetailStep(vocabDetailStep - 1);
+        return;
+      }
+      closeVocabDetail();
+      updatePrevBtn();
+      return;
+    }
+    if (!linkP4NavStack.length) return;
+    restoreLinkP4(linkP4NavStack.pop());
+  }
+
+  function escapeXml(s) {
+    return String(s)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+
+  function escapeHtml(s) {
+    return escapeXml(s);
+  }
+
+  function speakAzure(text) {
+    if (!text) return;
+    if (!AZURE_SPEECH_KEY) {
+      console.warn("[TTS] Azure Speech 密钥为空，跳过朗读（不使用浏览器语音）。");
+      return;
+    }
+    var endpoint = "https://" + AZURE_REGION + ".tts.speech.microsoft.com/cognitiveservices/v1";
+    var ssml =
+      '<speak version="1.0" xml:lang="en-US">' +
+      '<voice xml:lang="en-US" name="' +
+      TTS_VOICE +
+      '">' +
+      escapeXml(text) +
+      "</voice></speak>";
+    fetch(endpoint, {
+      method: "POST",
+      headers: {
+        "Ocp-Apim-Subscription-Key": AZURE_SPEECH_KEY,
+        "Content-Type": "application/ssml+xml",
+        "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3",
+        "User-Agent": "ESL-Linking-P4"
+      },
+      body: ssml
+    })
+      .then(function (r) {
+        if (!r.ok) throw new Error("TTS " + r.status);
+        return r.arrayBuffer();
+      })
+      .then(function (buf) {
+        var blob = new Blob([buf], { type: "audio/mpeg" });
+        var url = URL.createObjectURL(blob);
+        var audio = new Audio(url);
+        audio.play().finally(function () {
+          setTimeout(function () {
+            URL.revokeObjectURL(url);
+          }, 60000);
+        });
+      })
+      .catch(function (err) {
+        console.warn("[TTS] Azure 请求失败，已跳过（不使用浏览器朗读）。", err);
+      });
+  }
+
+  function playSuccessChime() {
+    try {
+      var Ctx = window.AudioContext || window.webkitAudioContext;
+      if (!Ctx) return;
+      var ctx = new Ctx();
+      var o = ctx.createOscillator();
+      var g = ctx.createGain();
+      o.type = "sine";
+      o.frequency.value = 659.25;
+      g.gain.value = 0.09;
+      o.connect(g);
+      g.connect(ctx.destination);
+      o.start();
+      o.stop(ctx.currentTime + 0.12);
+    } catch (e) {}
+  }
+
+  function shuffle(arr) {
+    for (var i = arr.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = arr[i];
+      arr[i] = arr[j];
+      arr[j] = t;
+    }
+  }
+
+  /** 有中文参考译时：显示提示 / 隐藏提示 */
+  function vocabHintRowHtml(hintZh, btnId, panelId) {
+    var h = hintZh && String(hintZh).trim() ? String(hintZh).trim() : "";
+    if (!h) return "";
+    return (
+      '<div class="vocab-hint-row">' +
+      '<button type="button" class="vocab-hint-toggle" id="' +
+      btnId +
+      '" aria-expanded="false" aria-controls="' +
+      panelId +
+      '">显示提示</button>' +
+      '<p class="vocab-hint-zh" id="' +
+      panelId +
+      '" hidden role="region">提示：' +
+      escapeHtml(h) +
+      "</p></div>"
+    );
+  }
+
+  function bindVocabHintToggle(btnId, panelId) {
+    var btn = document.getElementById(btnId);
+    var panel = document.getElementById(panelId);
+    if (!btn || !panel) return;
+    btn.addEventListener("click", function () {
+      var opening = panel.hidden;
+      panel.hidden = !opening;
+      btn.textContent = opening ? "隐藏提示" : "显示提示";
+      btn.setAttribute("aria-expanded", opening ? "true" : "false");
+    });
+  }
+
+  function showStepPanel(n) {
+    steps.forEach(function (el) {
+      var s = el.getAttribute("data-p4-step");
+      if (s === "dyn") {
+        el.classList.toggle("active", n > 5 && n <= maxState());
+      } else {
+        el.classList.toggle("active", parseInt(s, 10) === n);
+      }
+    });
+  }
+
+  function isVocabSlotsComplete(kind) {
+    var slots = document.querySelectorAll('.vocab-ex-slot[data-vex="' + kind + '"]');
+    if (!slots.length) return false;
+    var ok = true;
+    slots.forEach(function (s) {
+      if (s.dataset.pieceId !== s.getAttribute("data-accept")) ok = false;
+    });
+    return ok;
+  }
+
+  /** 词表详情分步：0 例句 / 1 看图造句 / 2 句子排序（同屏仅显示一步） */
+  function setVocabDetailStep(s) {
+    if (!vocabDetailOpen) return;
+    vocabDetailStep = Math.max(0, Math.min(2, s));
+    for (var i = 0; i < 3; i++) {
+      var el = document.getElementById("vocabStepPanel" + i);
+      if (el) el.hidden = i !== vocabDetailStep;
+    }
+    var lab = document.getElementById("vocabDetailStepLabel");
+    if (lab) {
+      var titles = ["例句学习", "看图造句", "句子排序"];
+      lab.textContent = vocabDetailStep + 1 + " / 3 · " + titles[vocabDetailStep];
+    }
+    setHints();
+    updateNextEnabled();
+    updatePrevBtn();
+  }
+
+  function updateNextEnabled() {
+    var mx = maxState();
+    if (state === 1) {
+      nextBtn.disabled = !illusTtsPlayed;
+      return;
+    }
+    if (state === 2) {
+      nextBtn.disabled = !illusDragDone;
+      return;
+    }
+    if (state === 4) {
+      nextBtn.disabled = true;
+      return;
+    }
+    if (state === 5 && vocabDetailOpen) {
+      if (vocabDetailStep === 0) {
+        nextBtn.disabled = false;
+      } else if (vocabDetailStep === 1) {
+        nextBtn.disabled = !isVocabSlotsComplete("make");
+      } else {
+        nextBtn.disabled = !isVocabSlotsComplete("sort");
+      }
+      if (nextBtn && vocabDetailStep === 2 && isVocabSlotsComplete("sort")) {
+        nextBtn.textContent = "完成 · 返回词表 →";
+      } else if (nextBtn) {
+        nextBtn.textContent = "下一步 →";
+      }
+      return;
+    }
+    if (state > 5 && state < mx - 1) {
+      var rel = state - 6;
+      if (rel % 2 === 1 && !practiceComplete) {
+        nextBtn.disabled = true;
+        return;
+      }
+    }
+    if (state === mx - 1) {
+      nextBtn.disabled = !bossDone;
+      return;
+    }
+    if (state >= mx) {
+      nextBtn.disabled = true;
+      return;
+    }
+    nextBtn.disabled = false;
+  }
+
+  function burstConfetti(n, dur) {
+    var root = document.getElementById("confettiRoot");
+    root.innerHTML = "";
+    root.setAttribute("aria-hidden", "false");
+    var colors = ["#9b86c8", "#f4a23a", "#5cbf9a", "#ffd54f", "#ce93d8"];
+    for (var i = 0; i < n; i++) {
+      var c = document.createElement("div");
+      c.className = "confetti";
+      c.style.left = Math.random() * 100 + "vw";
+      c.style.background = colors[i % colors.length];
+      c.style.animationDuration = dur * 0.35 + Math.random() * 0.9 + "s";
+      root.appendChild(c);
+    }
+    setTimeout(function () {
+      root.innerHTML = "";
+      root.setAttribute("aria-hidden", "true");
+    }, dur * 1000);
+  }
+
+  function burstFireworks() {
+    var root = document.getElementById("fireworkRoot");
+    root.setAttribute("aria-hidden", "false");
+    burstConfetti(28, 2.8);
+    setTimeout(function () {
+      burstConfetti(36, 3.6);
+    }, 320);
+    setTimeout(function () {
+      root.setAttribute("aria-hidden", "true");
+    }, 4000);
+  }
+
+  function clearIllusTagSelect() {
+    if (illusTagPending) {
+      illusTagPending.classList.remove("illus-selected");
+      illusTagPending = null;
+    }
+  }
+
+  function checkIllusBothFilled() {
+    if (
+      document.getElementById("dropLeft3").classList.contains("filled-ok") &&
+      document.getElementById("dropRight3").classList.contains("filled-ok")
+    ) {
+      illusDragDone = true;
+      stateHint.textContent = "分类正确！可以进入下一关啦。";
+      clearIllusTagSelect();
+      updateNextEnabled();
+    }
+  }
+
+  /**
+   * tid: "prog" | "link"
+   */
+  function tryPlaceIllusTag(z, tid) {
+    if (state !== 2 || !tid) return;
+    var pool = document.getElementById("illusTagPool");
+    if (!pool || !z) return;
+    if (z.classList.contains("filled-ok")) return;
+
+    var accept = z.getAttribute("data-accept");
+    if (tid !== accept) {
+      z.classList.add("wrong-shake");
+      setTimeout(function () {
+        z.classList.remove("wrong-shake");
+      }, 450);
+      return;
+    }
+
+    var tagEl = pool.querySelector('.drag-tag[data-tag-id="' + tid + '"]');
+    if (!tagEl || tagEl.classList.contains("placed")) return;
+
+    z.textContent = tagEl.textContent;
+    z.classList.add("filled-ok");
+    z.classList.remove("drag-over");
+    tagEl.classList.add("placed");
+    tagEl.classList.remove("illus-selected", "dragging");
+    if (illusTagPending && illusTagPending.dataset.tagId === tid) {
+      illusTagPending.classList.remove("illus-selected");
+      illusTagPending = null;
+    }
+    document.querySelectorAll(".illus-drop-target").forEach(function (node) {
+      node.classList.remove("drag-over");
+    });
+    playSuccessChime();
+    miniCelebrate();
+    checkIllusBothFilled();
+  }
+
+  function initIllusionTags() {
+    clearIllusTagSelect();
+    var pool = document.getElementById("illusTagPool");
+    pool.innerHTML = "";
+    var tags = [
+      { id: "prog", text: "动作正在发生（进行时）" },
+      { id: "link", text: "描述一件事情（主系表）" }
+    ];
+    shuffle(tags);
+    tags.forEach(function (t) {
+      var el = document.createElement("div");
+      el.className = "drag-tag";
+      el.textContent = t.text;
+      el.dataset.tagId = t.id;
+      el.draggable = !wantTouchStyleDnD();
+      if (wantTouchStyleDnD()) {
+        bindPointerDragPlace(el, {
+          matchSlot: function (under) {
+            return under.closest && under.closest(".illus-drop-target");
+          },
+          onDrop: function (z, tagEl) {
+            tryPlaceIllusTag(z, tagEl.dataset.tagId);
+          }
+        });
+      }
+      el.setAttribute("tabindex", "0");
+      el.setAttribute("role", "button");
+      el.addEventListener("dragstart", function (e) {
+        if (el.classList.contains("placed")) {
+          e.preventDefault();
+          return;
+        }
+        clearIllusTagSelect();
+        el.classList.add("dragging");
+        try {
+          e.dataTransfer.setData("text/plain", t.id);
+          e.dataTransfer.setData("tag-id", t.id);
+          e.dataTransfer.effectAllowed = "move";
+        } catch (err) {}
+      });
+      el.addEventListener("dragend", function () {
+        el.classList.remove("dragging");
+        document.querySelectorAll(".illus-drop-target").forEach(function (node) {
+          node.classList.remove("drag-over");
+        });
+      });
+      pool.appendChild(el);
+    });
+
+    ["dropLeft3", "dropRight3"].forEach(function (id) {
+      var z = document.getElementById(id);
+      z.textContent = "拖到此处（或先点标签再点我）";
+      z.classList.remove("filled-ok", "drag-over", "wrong-shake");
+    });
+    illusDragDone = false;
+  }
+
+  (function bindIllusBoardDnDOnce() {
+    var board = document.getElementById("p4Board");
+    if (!board || board.dataset.illusDndBound === "1") return;
+    board.dataset.illusDndBound = "1";
+
+    board.addEventListener(
+      "dragover",
+      function (e) {
+        if (state !== 2) return;
+        var z = e.target.closest && e.target.closest(".illus-drop-target");
+        if (!z) return;
+        e.preventDefault();
+        e.dataTransfer.dropEffect = "move";
+        document.querySelectorAll(".illus-drop-target").forEach(function (node) {
+          node.classList.toggle("drag-over", node === z);
+        });
+      },
+      false
+    );
+
+    board.addEventListener(
+      "dragleave",
+      function (e) {
+        var z = e.target.closest && e.target.closest(".illus-drop-target");
+        if (!z) return;
+        var rel = e.relatedTarget;
+        if (!rel || !z.contains(rel)) z.classList.remove("drag-over");
+      },
+      false
+    );
+
+    board.addEventListener(
+      "drop",
+      function (e) {
+        if (state !== 2) return;
+        var z = e.target.closest && e.target.closest(".illus-drop-target");
+        if (!z) return;
+        e.preventDefault();
+        e.stopPropagation();
+        z.classList.remove("drag-over");
+        var tid =
+          (e.dataTransfer && e.dataTransfer.getData("text/plain")) ||
+          (e.dataTransfer && e.dataTransfer.getData("tag-id")) ||
+          "";
+        tryPlaceIllusTag(z, tid.trim());
+      },
+      false
+    );
+  })();
+
+  document.addEventListener(
+    "click",
+    function (e) {
+      if (state !== 2) return;
+      var pool = document.getElementById("illusTagPool");
+      if (!pool) return;
+      var tag = e.target.closest && e.target.closest("#illusTagPool .drag-tag");
+      var slot = e.target.closest && e.target.closest("#dropLeft3, #dropRight3");
+      if (tag && pool.contains(tag) && !tag.classList.contains("placed")) {
+        pool.querySelectorAll(".drag-tag").forEach(function (t) {
+          t.classList.remove("illus-selected");
+        });
+        tag.classList.add("illus-selected");
+        illusTagPending = tag;
+        return;
+      }
+      if (slot && illusTagPending && !slot.classList.contains("filled-ok")) {
+        var tid = illusTagPending.dataset.tagId;
+        tryPlaceIllusTag(slot, tid);
+        return;
+      }
+    },
+    true
+  );
+
+  document.addEventListener(
+    "keydown",
+    function (e) {
+      if (state !== 2) return;
+      if (e.key !== "Enter" && e.key !== " ") return;
+      var slot = e.target.closest && e.target.closest("#dropLeft3, #dropRight3");
+      if (!slot || !illusTagPending || slot.classList.contains("filled-ok")) return;
+      e.preventDefault();
+      tryPlaceIllusTag(slot, illusTagPending.dataset.tagId);
+    },
+    true
+  );
+
+  function miniCelebrate() {
+    burstConfetti(14, 2.2);
+  }
+
+  function closeVocabDetail() {
+    vocabDetailOpen = false;
+    vocabDetailStep = 0;
+    vocabDragChip = null;
+    vocabChipPending = null;
+    vocabDetailEntry = null;
+    if (nextBtn) nextBtn.textContent = "下一步 →";
+    var ls = document.getElementById("vocabListScreen");
+    var ds = document.getElementById("vocabDetailScreen");
+    var inner = document.getElementById("vocabDetailInner");
+    var fb = document.getElementById("vocabFooterZh");
+    if (ls) ls.hidden = false;
+    if (ds) ds.hidden = true;
+    if (inner) inner.innerHTML = "";
+    if (fb) fb.style.display = "";
+    updateNextEnabled();
+    setHints();
+    updatePrevBtn();
+  }
+
+  function bindVocabDetailDnD(entry) {
+    function fillPool(poolEl, words, kind) {
+      if (!poolEl) return;
+      poolEl.innerHTML = "";
+      var order = words.map(function (_, i) {
+        return i;
+      });
+      shuffle(order);
+      order.forEach(function (i) {
+        var w = words[i];
+        var chip = document.createElement("span");
+        chip.className = "word-chip";
+        chip.textContent = w.text;
+        chip.dataset.wid = w.id;
+        chip.dataset.vex = kind;
+        chip.draggable = !wantTouchStyleDnD();
+        if (wantTouchStyleDnD()) {
+          bindPointerDragPlace(chip, {
+            matchSlot: function (under, c) {
+              return under.closest && under.closest('.vocab-ex-slot[data-vex="' + c.dataset.vex + '"]');
+            },
+            onDrop: tryVocabChipSlot
+          });
+        }
+        chip.addEventListener("dragstart", function (ev) {
+          if (chip.classList.contains("placed")) {
+            ev.preventDefault();
+            return;
+          }
+          vocabDragChip = chip;
+          chip.classList.add("dragging");
+          try {
+            ev.dataTransfer.setData("text/plain", w.id);
+            ev.dataTransfer.effectAllowed = "move";
+          } catch (err) {}
+        });
+        chip.addEventListener("dragend", function () {
+          chip.classList.remove("dragging");
+          vocabDragChip = null;
+        });
+        poolEl.appendChild(chip);
+      });
+    }
+
+    fillPool(document.getElementById("vocabMakePool"), entry.make_words, "make");
+    fillPool(document.getElementById("vocabSortPool"), entry.sort_words, "sort");
+
+    document.querySelectorAll(".vocab-ex-slot").forEach(function (slot) {
+      slot.addEventListener("dragover", function (e) {
+        e.preventDefault();
+      });
+      slot.addEventListener("drop", function (e) {
+        e.preventDefault();
+        var chip = vocabDragChip;
+        if (!chip) return;
+        tryVocabChipSlot(slot, chip);
+      });
+    });
+  }
+
+  function checkVocabSectionComplete(kind) {
+    var slots = document.querySelectorAll('.vocab-ex-slot[data-vex="' + kind + '"]');
+    var ok = true;
+    slots.forEach(function (s) {
+      if (s.dataset.pieceId !== s.getAttribute("data-accept")) ok = false;
+    });
+    if (!ok) return;
+    var el = document.getElementById(kind === "make" ? "vocabMakeDone" : "vocabSortDone");
+    if (el) {
+      el.textContent = kind === "make" ? "看图造句完成 ✓" : "句子排序完成 ✓";
+    }
+    playSuccessChime();
+    miniCelebrate();
+    if (vocabDetailEntry) {
+      if (kind === "make" && vocabDetailEntry.make_en) speakAzure(vocabDetailEntry.make_en);
+      if (kind === "sort" && vocabDetailEntry.sort_en) speakAzure(vocabDetailEntry.sort_en);
+    }
+    updateNextEnabled();
+  }
+
+  function openVocabDetail(index) {
+    var getE = window.LINKING_P4_getVocabEntries;
+    if (!getE || !level) return;
+    var entries = getE(level);
+    var e = entries[index];
+    if (!e) return;
+
+    vocabDetailEntry = e;
+    vocabDetailOpen = true;
+    document.getElementById("vocabListScreen").hidden = true;
+    document.getElementById("vocabDetailScreen").hidden = false;
+    document.getElementById("vocabFooterZh").style.display = "none";
+
+    var makeSlots = e.make_answer
+      .map(function (id, idx) {
+        var mw = e.make_words.filter(function (x) {
+          return x.id === id;
+        })[0] || { role: "pred" };
+        return (
+          '<div class="magic-slot vocab-ex-slot" data-vex="make" data-accept="' +
+          escapeHtml(id) +
+          '" data-role="' +
+          escapeHtml(mw.role) +
+          '" data-idx="' +
+          (idx + 1) +
+          '"></div>'
+        );
+      })
+      .join("");
+
+    var sortSlots = e.sort_answer
+      .map(function (id, idx) {
+        var sw = e.sort_words.filter(function (x) {
+          return x.id === id;
+        })[0] || { role: "pred" };
+        return (
+          '<div class="magic-slot vocab-ex-slot" data-vex="sort" data-accept="' +
+          escapeHtml(id) +
+          '" data-role="' +
+          escapeHtml(sw.role) +
+          '" data-idx="' +
+          (idx + 1) +
+          '"></div>'
+        );
+      })
+      .join("");
+
+    document.getElementById("vocabDetailInner").innerHTML =
+      '<p class="vocab-detail-title">「' +
+      escapeHtml(e.phrase) +
+      "」</p>" +
+      '<p id="vocabDetailStepLabel" class="vocab-detail-step-label" aria-live="polite">1 / 3 · 例句学习</p>' +
+      '<section id="vocabStepPanel0" class="vocab-step-panel vocab-detail-section" aria-label="例句与图一">' +
+      '<h3 class="vocab-subsec">① 例句学习（配插图一）</h3>' +
+      '<div class="vocab-example-block">' +
+      '<p class="en-text en-line">' +
+      escapeHtml(e.example_en) +
+      "</p>" +
+      '<p class="zh-line">' +
+      escapeHtml(e.example_cn) +
+      "</p>" +
+      '<div class="speech-wrap" style="justify-content:center;margin-top:0.35rem">' +
+      '<button type="button" class="tts-read-btn" id="vocabDetailTts" title="朗读例句">🔊</button>' +
+      "</div></div>" +
+      '<p class="zh-text" style="font-size:0.8rem;opacity:0.88">下图仅对应<strong>这一句</strong>例句。</p>' +
+      '<div class="practice-pic vocab-detail-pic">' +
+      "<!-- 图一：asset/img/p4_vocab/{idx}_{level}_{slug}_ex.png（generate_images.py --only-linking-vocab-imagen） -->" +
+      '<img src="' +
+      escapeHtml(assetUrl(e.example_image || "asset/img/p4_placeholder.png")) +
+      '" alt="' +
+      escapeHtml(e.example_pic_prompt) +
+      '" title="Imagen 例句图 prompt（可复制控制台或导出 JSON）" data-imagen-en="' +
+      escapeXml(e.example_imagen_en || "") +
+      '" onerror="this.onerror=null;this.src=\'' +
+      String(assetUrl("asset/img/p4_placeholder.png")).replace(/\\/g, "\\\\").replace(/'/g, "\\'") +
+      '\'" />' +
+      "</div></section>" +
+      '<section id="vocabStepPanel1" class="vocab-step-panel vocab-detail-section" hidden aria-label="看图造句与图二">' +
+      '<h3 class="vocab-subsec">② 看图造句（配插图二 · 另一情景）</h3>' +
+      '<p class="zh-text" style="font-size:0.92rem;text-align:center;max-width:520px;margin-left:auto;margin-right:auto">' +
+      escapeHtml(e.make_cn) +
+      "</p>" +
+      vocabHintRowHtml(e.make_hint_zh, "vocabMakeHintBtn", "vocabMakeHint") +
+      '<div class="practice-pic vocab-detail-pic">' +
+      "<!-- 图二：asset/img/p4_vocab/{idx}_{level}_{slug}_mk.png -->" +
+      '<img src="' +
+      escapeHtml(assetUrl(e.make_image || "asset/img/p4_placeholder.png")) +
+      '" alt="' +
+      escapeHtml(e.make_pic_prompt) +
+      '" title="Imagen 造句图 prompt" data-imagen-en="' +
+      escapeXml(e.make_imagen_en || "") +
+      '" onerror="this.onerror=null;this.src=\'' +
+      String(assetUrl("asset/img/p4_placeholder.png")).replace(/\\/g, "\\\\").replace(/'/g, "\\'") +
+      '\'" />' +
+      "</div>" +
+      '<div class="speech-wrap" style="justify-content:center;margin:0.35rem 0">' +
+      '<button type="button" class="tts-read-btn" id="vocabMakeTts" title="朗读造句目标句">🔊</button>' +
+      "</div>" +
+      '<div class="slot-strip" id="vocabMakeStrip">' +
+      makeSlots +
+      "</div>" +
+      '<p class="zh-text" style="font-size:0.8rem;opacity:0.88">平板：可先<strong>点词块</strong>再<strong>点空格</strong>，或按住拖动。</p>' +
+      '<div class="chip-pool" id="vocabMakePool"></div>' +
+      '<p class="vocab-done-tag" id="vocabMakeDone"></p></section>' +
+      '<section id="vocabStepPanel2" class="vocab-step-panel vocab-detail-section" hidden aria-label="句子排序">' +
+      '<h3 class="vocab-subsec">③ 句子排序（第三句 · 无图）</h3>' +
+      '<p class="zh-text" style="font-size:0.92rem;text-align:center;max-width:520px;margin-left:auto;margin-right:auto">' +
+      escapeHtml(e.sort_cn) +
+      "</p>" +
+      vocabHintRowHtml(e.sort_hint_zh, "vocabSortHintBtn", "vocabSortHint") +
+      '<div class="speech-wrap" style="justify-content:center;margin:0.35rem 0">' +
+      '<button type="button" class="tts-read-btn" id="vocabSortTts" title="朗读排序目标句">🔊</button>' +
+      "</div>" +
+      '<div class="slot-strip" id="vocabSortStrip">' +
+      sortSlots +
+      "</div>" +
+      '<p class="zh-text" style="font-size:0.8rem;opacity:0.88">平板：可先<strong>点词块</strong>再<strong>点空格</strong>，或按住拖动。</p>' +
+      '<div class="chip-pool" id="vocabSortPool"></div>' +
+      '<p class="vocab-done-tag" id="vocabSortDone"></p></section>';
+
+    if (typeof window.linkingRewriteImages === "function") {
+      window.linkingRewriteImages(document.getElementById("vocabDetailInner"));
+    }
+
+    document.getElementById("vocabDetailTts").addEventListener("click", function () {
+      speakAzure(e.example_en);
+    });
+    document.getElementById("vocabMakeTts").addEventListener("click", function () {
+      speakAzure(e.make_en);
+    });
+    document.getElementById("vocabSortTts").addEventListener("click", function () {
+      speakAzure(e.sort_en);
+    });
+
+    bindVocabHintToggle("vocabMakeHintBtn", "vocabMakeHint");
+    bindVocabHintToggle("vocabSortHintBtn", "vocabSortHint");
+
+    var vdInner = document.getElementById("vocabDetailInner");
+    if (vdInner && vdInner.dataset.vocabTapBound !== "1") {
+      vdInner.dataset.vocabTapBound = "1";
+      vdInner.addEventListener("click", onVocabDetailTap, true);
+    }
+    vocabChipPending = null;
+
+    bindVocabDetailDnD(e);
+    setVocabDetailStep(0);
+  }
+
+  function fillVocab() {
+    closeVocabDetail();
+    var getE = window.LINKING_P4_getVocabEntries;
+    var getG = window.LINKING_P4_getVocabCategoryGroups;
+    if (!getE || !level) return;
+    var entries = getE(level);
+    var vm = document.getElementById("vocabMount");
+    if (!vm) return;
+    document.getElementById("vocabLevelTitle").textContent =
+      level === "junior" ? "初中魔法 · 词表（按用法分类）" : "高中魔法 · 词表（按用法分类）";
+    if (!entries.length) {
+      document.getElementById("vocabCountLine").textContent =
+        "当前 0 条：词表已清空，等待新版「主系表 + 非谓语」整合内容。";
+      vm.innerHTML =
+        '<p class="zh-text" style="padding:0.75rem 0.35rem;text-align:center;line-height:1.65;opacity:0.92">暂无词条。请将整理好的搭配写入 <code style="font-size:0.82em">p4-linking-data.js</code>，并按需补充 <code style="font-size:0.82em">p4-linking-vocab-packs.js</code>、<code style="font-size:0.82em">p4-linking-triplets.js</code>。</p>';
+      vm.onclick = null;
+      return;
+    }
+    var groups = getG ? getG(level) : null;
+    var nCat = groups ? groups.length : 0;
+    document.getElementById("vocabCountLine").textContent =
+      "共 " +
+      entries.length +
+      " 条，已归为 " +
+      (nCat || 1) +
+      " 类。默认仅显示分类条；点标题展开该类下的词条与拓展说明，再点词条进入练习。";
+    if (!groups || !groups.length) {
+      vm.innerHTML = entries
+        .map(function (entry, i) {
+          return (
+            '<button type="button" class="vocab-line" data-vidx="' +
+            i +
+            '" role="listitem"><span class="vocab-line-phrase">' +
+            escapeHtml(entry.phrase) +
+            '</span><span style="font-size:0.74rem;opacity:0.72;margin-left:auto">练习 →</span></button>'
+          );
+        })
+        .join("");
+    } else {
+      vm.innerHTML = groups
+        .map(function (g, gi) {
+          var expanded = false;
+          var hidBody = " hidden";
+          var noteHtml = g.note
+            ? '<p class="vocab-cat-note" id="vocabCatNote_' +
+              gi +
+              '" hidden>' +
+              escapeHtml(g.note) +
+              "</p>"
+            : "";
+          var lines = g.items
+            .map(function (it) {
+              return (
+                '<button type="button" class="vocab-line" data-vidx="' +
+                it.index +
+                '" role="listitem"><span class="vocab-line-phrase">' +
+                escapeHtml(it.phrase) +
+                '</span><span style="font-size:0.74rem;opacity:0.72;margin-left:auto">拓展 →</span></button>'
+              );
+            })
+            .join("");
+          return (
+            '<div class="vocab-category" data-cat-id="' +
+            escapeHtml(g.id) +
+            '">' +
+            '<button type="button" class="vocab-cat-head" id="vocabCatHead_' +
+            gi +
+            '" aria-expanded="' +
+            expanded +
+            '" aria-controls="vocabCatBody_' +
+            gi +
+            '">' +
+            '<span class="vocab-cat-head-text">' +
+            '<span class="vocab-cat-title">' +
+            escapeHtml(g.title) +
+            "</span>" +
+            (g.hint
+              ? '<span class="vocab-cat-hint">' + escapeHtml(g.hint) + "</span>"
+              : "") +
+            "</span>" +
+            '<span class="vocab-cat-badge">' +
+            g.items.length +
+            " 条</span>" +
+            '<span class="vocab-cat-chevron" aria-hidden="true">' +
+            (expanded ? "▲" : "▼") +
+            "</span>" +
+            "</button>" +
+            noteHtml +
+            '<div class="vocab-cat-body" id="vocabCatBody_' +
+            gi +
+            '" role="group" aria-labelledby="vocabCatHead_' +
+            gi +
+            '"' +
+            hidBody +
+            ">" +
+            lines +
+            "</div></div>"
+          );
+        })
+        .join("");
+    }
+    vm.onclick = function (ev) {
+      var t = ev.target;
+      var head = t.closest && t.closest(".vocab-cat-head");
+      if (head && vm.contains(head)) {
+        ev.preventDefault();
+        var cat = head.closest(".vocab-category");
+        if (!cat) return;
+        var body = cat.querySelector(".vocab-cat-body");
+        var note = cat.querySelector(".vocab-cat-note");
+        var exp = head.getAttribute("aria-expanded") === "true";
+        var next = !exp;
+        head.setAttribute("aria-expanded", next ? "true" : "false");
+        if (body) body.hidden = !next;
+        if (note) note.hidden = !next;
+        var ch = head.querySelector(".vocab-cat-chevron");
+        if (ch) ch.textContent = next ? "▲" : "▼";
+        return;
+      }
+      var line = t.closest && t.closest(".vocab-line");
+      if (line && vm.contains(line)) {
+        var vidx = line.getAttribute("data-vidx");
+        if (vidx != null) openVocabDetail(parseInt(vidx, 10));
+      }
+    };
+  }
+
+  function currentPractice() {
+    return BANK[level].practices[practiceIndex] || null;
+  }
+
+  function renderTeach() {
+    var p = currentPractice();
+    if (!p) return;
+    practiceComplete = false;
+    dynStep.innerHTML =
+      '<p class="lesson-title">高阶系动词 · 逻辑精讲（' +
+      (practiceIndex + 1) +
+      "/" +
+      BANK[level].practices.length +
+      "）</p>" +
+      '<p class="zh-text">当前魔法词：<strong class="color-lv">' +
+      p.linking_verb +
+      "</strong>　搭配：<strong>" +
+      p.pattern +
+      "</strong></p>" +
+      '<div class="logic-box">' +
+      p.logic_explanation +
+      "</div>" +
+      '<div class="speech-wrap" style="margin-top:0.5rem"><button type="button" class="tts-read-btn" id="teachTtsBtn" title="朗读英文讲解">🔊</button></div>' +
+      '<p class="zh-text" style="font-size:0.86rem">点 🔊 听英文版小结（Azure 语音）。</p>';
+
+    rewriteDynImages();
+
+    document.getElementById("teachTtsBtn").addEventListener("click", function () {
+      speakAzure(p.tts_logic);
+    });
+    setTimeout(function () {
+      speakAzure(p.tts_logic);
+    }, 400);
+  }
+
+  function wordMetaMap(p) {
+    var m = {};
+    p.practice_words.forEach(function (w) {
+      m[w.id] = w;
+    });
+    return m;
+  }
+
+  function renderPractice() {
+    teardownPracticeClick();
+    var p = currentPractice();
+    if (!p) return;
+    practiceComplete = false;
+    var meta = wordMetaMap(p);
+    var slotsHtml = p.practice_answer
+      .map(function (id, idx) {
+        return (
+          '<div class="magic-slot" data-slot-idx="' +
+          idx +
+          '" data-accept="' +
+          id +
+          '" data-role="' +
+          (meta[id] && meta[id].role ? meta[id].role : "pred") +
+          '"></div>'
+        );
+      })
+      .join("");
+    var practicePic = assetUrl(
+      "asset/img/" + (p.practice_image && p.practice_image.length ? p.practice_image : "p4_placeholder.png")
+    );
+    dynStep.innerHTML =
+      '<p class="lesson-title">看图组句 · 魔法槽位（' +
+      (practiceIndex + 1) +
+      "/" +
+      BANK[level].practices.length +
+      "）</p>" +
+      '<p class="zh-text">' +
+      p.practice_cn +
+      "</p>" +
+      '<div class="practice-pic">' +
+      "<!-- Vertex：练习图见 linking-imagen-prompts.json page4_pack；生成：python generate_images.py --only-linking-p4（仓库根目录）-->" +
+      '<img src="' +
+      practicePic +
+      '" alt="' +
+      (p.practice_pic_prompt || "").replace(/"/g, "") +
+      '" />' +
+      "</div>" +
+      '<div class="slot-strip" id="p4SlotStrip">' +
+      slotsHtml +
+      "</div>" +
+      '<div class="chip-pool" id="p4ChipPool"></div>' +
+      '<p class="zh-text" style="font-size:0.84rem">提示：拖入后会出现 <span class="color-subj">主语紫</span>、<span class="color-lv">系动橙</span>、<span class="color-pred">表语绿</span>。平板可先<strong>点词块</strong>再<strong>点槽位</strong>。</p>';
+
+    rewriteDynImages();
+
+    var pool = document.getElementById("p4ChipPool");
+    pool.innerHTML = "";
+    var order = p.practice_words.map(function (_, i) {
+      return i;
+    });
+    shuffle(order);
+    order.forEach(function (i) {
+      var w = p.practice_words[i];
+      var chip = document.createElement("span");
+      chip.className = "word-chip";
+      chip.textContent = w.text;
+      chip.dataset.wid = w.id;
+      chip.draggable = !wantTouchStyleDnD();
+      if (wantTouchStyleDnD()) {
+        bindPointerDragPlace(chip, {
+          matchSlot: function (under) {
+            return under.closest && under.closest("#p4SlotStrip .magic-slot");
+          },
+          onDrop: function (slot, c) {
+            tryPracticeSlotDrop(slot, c, p);
+          }
+        });
+      }
+      chip.addEventListener("dragstart", function (e) {
+        buildDragEl = chip;
+        chip.classList.add("dragging");
+        e.dataTransfer.setData("wid", w.id);
+      });
+      chip.addEventListener("dragend", function () {
+        chip.classList.remove("dragging");
+        buildDragEl = null;
+      });
+      pool.appendChild(chip);
+    });
+
+    document.querySelectorAll("#p4SlotStrip .magic-slot").forEach(function (slot) {
+      slot.addEventListener("dragover", function (e) {
+        e.preventDefault();
+      });
+      slot.addEventListener("drop", function (e) {
+        e.preventDefault();
+        var chip = buildDragEl;
+        if (!chip) return;
+        tryPracticeSlotDrop(slot, chip, p);
+      });
+    });
+
+    buildPending = null;
+    document.addEventListener("click", onPracticeClick, true);
+  }
+
+  function onPracticeClick(e) {
+    if (!level || !BANK[level]) return;
+    if (state < 6 || state > 5 + BANK[level].practices.length * 2) return;
+    if ((state - 6) % 2 !== 1) return;
+    var p = currentPractice();
+    if (!p || practiceComplete) return;
+    var pool = document.getElementById("p4ChipPool");
+    if (!pool) return;
+    var chip = e.target.closest("#p4ChipPool .word-chip");
+    var slot = e.target.closest("#p4SlotStrip .magic-slot");
+    if (chip && !chip.classList.contains("placed")) {
+      pool.querySelectorAll(".word-chip").forEach(function (c) {
+        c.style.outline = "none";
+      });
+      chip.style.outline = "3px solid #f4a23a";
+      buildPending = chip;
+      return;
+    }
+    if (slot && buildPending && !slot.textContent.trim()) {
+      var wid = buildPending.dataset.wid;
+      if (slot.getAttribute("data-accept") === wid) {
+        slot.textContent = buildPending.textContent;
+        slot.classList.add("filled", slot.getAttribute("data-role") || "pred");
+        buildPending.classList.add("placed");
+        buildPending.setAttribute("draggable", "false");
+        buildPending.style.outline = "none";
+        buildPending = null;
+        checkPracticeSlots(p);
+      } else {
+        slot.classList.add("wrong-shake");
+        setTimeout(function () {
+          slot.classList.remove("wrong-shake");
+        }, 450);
+      }
+    }
+  }
+
+  function checkPracticeSlots(p) {
+    var ok = true;
+    document.querySelectorAll("#p4SlotStrip .magic-slot").forEach(function (slot, idx) {
+      var id = p.practice_answer[idx];
+      if (slot.textContent.trim() !== metaText(p, id)) ok = false;
+    });
+    if (ok) {
+      practiceComplete = true;
+      stateHint.textContent = "句子正确！紫·橙·绿 结构已点亮。";
+      speakAzure(p.tts_sentence);
+      miniCelebrate();
+      updateNextEnabled();
+    }
+  }
+
+  function metaText(p, id) {
+    for (var i = 0; i < p.practice_words.length; i++) {
+      if (p.practice_words[i].id === id) return p.practice_words[i].text;
+    }
+    return "";
+  }
+
+  function teardownBossTap() {
+    if (currentBossTapHandler) {
+      document.removeEventListener("click", currentBossTapHandler, true);
+      currentBossTapHandler = null;
+    }
+    bossTapSentence = null;
+  }
+
+  function teardownPracticeClick() {
+    document.removeEventListener("click", onPracticeClick, true);
+    teardownBossTap();
+  }
+
+  function renderBoss() {
+    bossPlaced = {};
+    bossDone = false;
+    teardownPracticeClick();
+    bossTapSentence = null;
+    var list = BANK.boss || [];
+    dynStep.innerHTML =
+      '<p class="boss-title">终极魔法阵 · 句子分拣</p>' +
+      '<p class="zh-text">把六个句子拖进正确的魔法锅：<strong>主谓宾</strong>（Boss + Action）还是 <strong>主系表</strong>（Boss = State）？</p>' +
+      '<p class="zh-text" style="font-size:0.86rem;opacity:0.9">平板：可先<strong>点句子条</strong>再<strong>点魔法锅</strong>，或按住拖动。</p>' +
+      '<div class="boss-sky" id="bossSky"></div>' +
+      '<div class="cauldron-row">' +
+      '<div class="cauldron svo" data-bucket="svo" id="cauldronSvo">' +
+      '<div class="cauldron-label">主谓宾魔法锅<br />(Boss + Action)</div>' +
+      '<div class="cauldron-inner" id="innerSvo"></div></div>' +
+      '<div class="cauldron linking" data-bucket="linking" id="cauldronLink">' +
+      '<div class="cauldron-label">主系表魔法锅<br />(Boss = State)</div>' +
+      '<div class="cauldron-inner" id="innerLink"></div></div>' +
+      "</div>";
+
+    rewriteDynImages();
+
+    var sky = document.getElementById("bossSky");
+    list.forEach(function (s) {
+      var el = document.createElement("div");
+      el.className = "boss-sentence";
+      el.textContent = s.text;
+      el.dataset.bossId = s.id;
+      el.dataset.bucket = s.bucket;
+      el.draggable = !wantTouchStyleDnD();
+      if (wantTouchStyleDnD()) {
+        bindPointerDragPlace(el, {
+          matchSlot: function (under) {
+            return under.closest && under.closest(".cauldron");
+          },
+          onDrop: function (cald, sentenceEl) {
+            tryBossCauldronDrop(cald, sentenceEl, list);
+          }
+        });
+      }
+      el.addEventListener("dragstart", function (e) {
+        if (el.classList.contains("placed")) {
+          e.preventDefault();
+          return;
+        }
+        bossDragEl = el;
+        e.dataTransfer.setData("boss-id", s.id);
+      });
+      el.addEventListener("dragend", function () {
+        bossDragEl = null;
+      });
+      sky.appendChild(el);
+    });
+
+    ["cauldronSvo", "cauldronLink"].forEach(function (cid) {
+      var c = document.getElementById(cid);
+      c.addEventListener("dragover", function (e) {
+        e.preventDefault();
+        c.classList.add("drag-over");
+      });
+      c.addEventListener("dragleave", function () {
+        c.classList.remove("drag-over");
+      });
+      c.addEventListener("drop", function (e) {
+        e.preventDefault();
+        var bid = e.dataTransfer.getData("boss-id");
+        var el = sky.querySelector('.boss-sentence[data-boss-id="' + bid + '"]');
+        if (!el) return;
+        tryBossCauldronDrop(c, el, list);
+      });
+    });
+
+    teardownBossTap();
+    currentBossTapHandler = function (e) {
+      var skyEl = document.getElementById("bossSky");
+      if (!skyEl || bossDone) return;
+      var sent = e.target.closest && e.target.closest("#bossSky .boss-sentence");
+      var cald = e.target.closest && e.target.closest(".cauldron");
+      if (sent && skyEl.contains(sent) && !sent.classList.contains("placed")) {
+        skyEl.querySelectorAll(".boss-sentence").forEach(function (s) {
+          s.style.outline = "none";
+        });
+        sent.style.outline = "3px solid #f4a23a";
+        bossTapSentence = sent;
+        return;
+      }
+      if (cald && bossTapSentence && !bossTapSentence.classList.contains("placed")) {
+        tryBossCauldronDrop(cald, bossTapSentence, list);
+        if (bossTapSentence.classList.contains("placed")) {
+          bossTapSentence.style.outline = "none";
+          bossTapSentence = null;
+        }
+      }
+    };
+    document.addEventListener("click", currentBossTapHandler, true);
+  }
+
+  function renderGraduation() {
+    dynStep.innerHTML =
+      '<div class="grad-overlay" aria-hidden="true"></div>' +
+      '<div class="teacher-bubble" style="position:relative;z-index:55">' +
+      '<div class="pic-frame">' +
+      '<img src="asset/img/teacher_steven.png" alt="教师" />' +
+      "</div>" +
+      '<div class="bubble">' +
+      "<strong>Congratulations!</strong><br />" +
+      "你已经看透了英语句子的两大终极骨架（<strong>主谓宾</strong> 与 <strong>主系表</strong>），任何非谓语的伪装都逃不过你的眼睛啦！" +
+      "</div></div>" +
+      '<p class="zh-text" style="position:relative;z-index:55">可回到课程首页或复习第 1–4 页。</p>';
+    rewriteDynImages();
+    burstConfetti(30, 3.5);
+  }
+
+  function applyDynContent() {
+    var mx = maxState();
+    if (state <= 5) return;
+    var pLen = level && BANK ? BANK[level].practices.length : 0;
+    if (pLen === 0) {
+      if (state === mx) {
+        teardownPracticeClick();
+        renderGraduation();
+        return;
+      }
+      if (state === mx - 1) {
+        teardownPracticeClick();
+        renderBoss();
+        return;
+      }
+      return;
+    }
+    if (state === mx) {
+      teardownPracticeClick();
+      renderGraduation();
+      return;
+    }
+    if (state === mx - 1) {
+      teardownPracticeClick();
+      renderBoss();
+      return;
+    }
+    var rel = state - 6;
+    practiceIndex = Math.floor(rel / 2);
+    if (rel % 2 === 0) {
+      teardownPracticeClick();
+      renderTeach();
+    } else {
+      renderPractice();
+    }
+  }
+
+  function setHints() {
+    stateHint.textContent = "";
+    if (state === 1)
+      stateHint.textContent = illusTtsPlayed
+        ? "可以点下一步，进入拖拽分类。"
+        : "请看两句英文，先点 🔊 听问题，气泡会出现。";
+    if (state === 2)
+      stateHint.textContent = "拖进框里，或先点标签再点「拖到此处」灰框。";
+    if (state === 3) stateHint.textContent = "读完教师的「终极魔法逻辑」后点下一步。";
+    if (state === 4) stateHint.textContent = "请选择 Junior 或 Senior 魔法书。";
+    if (state === 5 && vocabDetailOpen) {
+      var stepHints = [
+        "当前：例句（1/3）。点「下一步」进入看图造句。",
+        "当前：看图造句（2/3）。组句全对后可点「下一步」。",
+        "当前：句子排序（3/3）。排对后可点「完成 · 返回词表」。"
+      ];
+      stateHint.textContent =
+        stepHints[vocabDetailStep] + " 「← 上一步」可退回上一步；「← 返回词表」直接结束本条。";
+    } else if (state === 5) {
+      var ec = 0;
+      if (level && window.LINKING_P4_getVocabEntries) {
+        try {
+          ec = window.LINKING_P4_getVocabEntries(level).length;
+        } catch (err) {}
+      }
+      stateHint.textContent = ec
+        ? "竖向滑动浏览；点词条后分三步：例句 → 看图造句 → 句子排序。"
+        : "当前词表为空；点「下一步」直接进入句子分拣关。";
+    }
+    if (state >= 6 && state < maxState() - 1) {
+      var r = state - 6;
+      if (r % 2 === 0) stateHint.textContent = "听懂逻辑后点下一步组句。";
+      else if (!practiceComplete) stateHint.textContent = "把词块拖进魔法槽（也可先点词块再点槽）。";
+    }
+    if (state === maxState() - 1 && !bossDone)
+      stateHint.textContent = "六个句子全部入锅即通关。";
+    updateNextEnabled();
+  }
+
+  function goState(n) {
+    state = n;
+    showStepPanel(state);
+    if (state === 2) initIllusionTags();
+    if (state === 5 && level) fillVocab();
+    applyDynContent();
+    setHints();
+    updatePrevBtn();
+  }
+
+  document.getElementById("vocabBackBtn").addEventListener("click", function () {
+    closeVocabDetail();
+  });
+
+  document.getElementById("illusTtsBtn").addEventListener("click", function () {
+    document.getElementById("illusBubble").classList.add("reveal");
+    illusTtsPlayed = true;
+    speakAzure(
+      "Look carefully. Both sentences have is swimming. Are they both linking-verb structures?"
+    );
+    setHints();
+  });
+
+  document.getElementById("bookJunior").addEventListener("click", function () {
+    linkP4NavStack.push(snapLinkP4());
+    level = "junior";
+    goState(5);
+  });
+  document.getElementById("bookSenior").addEventListener("click", function () {
+    linkP4NavStack.push(snapLinkP4());
+    level = "senior";
+    goState(5);
+  });
+  function bookKey(e, fn) {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      fn();
+    }
+  }
+  document.getElementById("bookJunior").addEventListener("keydown", function (e) {
+    bookKey(e, function () {
+      linkP4NavStack.push(snapLinkP4());
+      level = "junior";
+      goState(5);
+    });
+  });
+  document.getElementById("bookSenior").addEventListener("keydown", function (e) {
+    bookKey(e, function () {
+      linkP4NavStack.push(snapLinkP4());
+      level = "senior";
+      goState(5);
+    });
+  });
+
+  nextBtn.addEventListener("click", function () {
+    var mx = maxState();
+    if (state >= mx) return;
+    if (state === 5 && vocabDetailOpen) {
+      if (vocabDetailStep === 0) {
+        setVocabDetailStep(1);
+        return;
+      }
+      if (vocabDetailStep === 1) {
+        if (!isVocabSlotsComplete("make")) return;
+        setVocabDetailStep(2);
+        return;
+      }
+      if (vocabDetailStep === 2) {
+        if (!isVocabSlotsComplete("sort")) return;
+        closeVocabDetail();
+        return;
+      }
+    }
+    if (state === 1 && !illusTtsPlayed) return;
+    if (state === 2 && !illusDragDone) return;
+    if (state > 5 && state < mx - 1) {
+      var rel = state - 6;
+      if (rel % 2 === 1 && !practiceComplete) return;
+    }
+    if (state === mx - 1 && !bossDone) return;
+    if (state === 4) return;
+
+    linkP4NavStack.push(snapLinkP4());
+    if (state < 4) {
+      goState(state + 1);
+      return;
+    }
+    if (state === 5) {
+      practiceIndex = 0;
+      goState(6);
+      return;
+    }
+    if (state >= 6 && state < mx - 1) {
+      var r = state - 6;
+      if (r % 2 === 1) {
+        teardownPracticeClick();
+        practiceIndex++;
+      }
+      goState(state + 1);
+      return;
+    }
+    if (state === mx - 1) {
+      goState(mx);
+      return;
+    }
+  });
+
+  if (prevBtn) prevBtn.addEventListener("click", retreatLinkP4);
+
+  goState(1);
+})();
+  </script>
+</body>
+</html>

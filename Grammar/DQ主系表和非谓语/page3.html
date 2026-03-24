@@ -1,0 +1,1541 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>主系表 · 非谓语魔法 — 互动课 第 3 页</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --paper: #fff8f0;
+      --paper-edge: #e8d4c4;
+      --ink: #2c2c2c;
+      --shadow: rgba(44, 44, 44, 0.14);
+      --subj-purple: #9b86c8;
+      --subj-purple-soft: rgba(155, 134, 200, 0.35);
+      --link-orange: #f4a23a;
+      --link-orange-soft: rgba(244, 162, 58, 0.38);
+      --pred-mint: #5cbf9a;
+      --pred-mint-soft: rgba(92, 191, 154, 0.35);
+      --nf-magic: #8b6bb8;
+      --nf-glow: rgba(186, 140, 255, 0.55);
+      --star-gold: #ffd54f;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      font-family: "ZCOOL KuaiLe", "Patrick Hand", cursive, sans-serif;
+      background: linear-gradient(155deg, #e8d4f5 0%, #ffd8c2 42%, #ffeaa7 100%);
+      background-attachment: fixed;
+      overflow-x: hidden;
+      color: var(--ink);
+    }
+
+    @media (min-width: 640px) {
+      html { overflow-x: hidden; }
+      body {
+        zoom: 1.3;
+        width: min(920px, calc(100vw / 1.3));
+        max-width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+      }
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.07;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    #app {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 1.15rem 1rem 5.8rem;
+    }
+
+    h1 {
+      font-size: clamp(1rem, 3vw, 1.35rem);
+      text-align: center;
+      margin-bottom: 0.6rem;
+      text-shadow: 2px 2px 0 rgba(255, 255, 255, 0.65);
+    }
+
+    .board {
+      width: 100%;
+      background: var(--paper);
+      border: 3px solid var(--ink);
+      border-radius: 255px 18px 235px 18px / 18px 235px 18px 255px;
+      padding: clamp(1rem, 3.8vw, 1.65rem);
+      box-shadow: 6px 8px 0 var(--paper-edge), 12px 16px 28px var(--shadow);
+      min-height: min(58vh, 460px);
+    }
+
+    .step {
+      display: none;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.48s ease, transform 0.48s ease;
+    }
+    .step.active {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .zh-text {
+      font-size: clamp(0.96rem, 2.6vw, 1.12rem);
+      line-height: 1.7;
+      text-align: center;
+      margin: 0.4rem 0;
+    }
+
+    .en-text {
+      font-family: "Patrick Hand", cursive;
+      font-size: clamp(1.08rem, 3vw, 1.4rem);
+      text-align: center;
+      margin: 0.45rem 0;
+      line-height: 1.45;
+    }
+
+    .magic-board {
+      max-width: 620px;
+      margin: 0.5rem auto;
+      padding: 1rem 1.15rem;
+      background: linear-gradient(165deg, #2d3a4e 0%, #1e2836 100%);
+      color: #f5f5f0;
+      border-radius: 12px 18px 14px 16px;
+      border: 4px solid var(--ink);
+      box-shadow: inset 0 0 0 3px rgba(255, 255, 255, 0.06);
+      font-size: clamp(0.92rem, 2.4vw, 1.05rem);
+      line-height: 1.75;
+      text-align: left;
+    }
+    .magic-board .hl-s { color: #d4c4f5; font-weight: bold; }
+    .magic-board .hl-l { color: #ffd49c; font-weight: bold; }
+    .magic-board .hl-p { color: #a8e8d0; font-weight: bold; }
+
+    .color-subj { color: #6b5a9e; font-weight: bold; }
+    .color-lv { color: #c77d12; font-weight: bold; }
+    .color-pred { color: #2d8a65; font-weight: bold; }
+    .nf-verb {
+      color: var(--nf-magic);
+      font-weight: bold;
+      text-shadow: 0 0 10px var(--nf-glow), 0 0 2px #fff;
+      padding: 0 0.08em;
+      border-radius: 4px;
+    }
+
+    .pic-frame {
+      max-width: 300px;
+      margin: 0.5rem auto;
+      min-height: 150px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.5rem;
+      background: #fffef8;
+      border-radius: 14px;
+      box-shadow: inset 0 0 0 2px rgba(44, 44, 44, 0.06);
+    }
+    .pic-frame img {
+      max-height: 200px;
+      max-width: 100%;
+      object-fit: contain;
+      border-radius: 8px;
+    }
+
+    /* State 3 冲突：拖拽卡片进主语/表语位 → 慢速弹开 */
+    .conflict-stage {
+      position: relative;
+      min-height: 260px;
+      margin: 1rem 0;
+    }
+    .slot-row {
+      display: flex;
+      justify-content: center;
+      align-items: stretch;
+      gap: 0.65rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.5rem;
+    }
+    .role-box-drop {
+      min-width: 124px;
+      min-height: 104px;
+      border: 3px dashed rgba(155, 134, 200, 0.85);
+      border-radius: 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 0.35rem 0.25rem 0.5rem;
+      background: rgba(255, 255, 255, 0.65);
+      position: relative;
+      transition: border-color 0.25s, box-shadow 0.25s;
+    }
+    .role-box-drop .zone-label {
+      font-size: 0.72rem;
+      color: #6b5a9e;
+      font-weight: bold;
+      margin-bottom: 0.25rem;
+    }
+    .role-box-drop--pred {
+      border-color: rgba(92, 191, 154, 0.9);
+    }
+    .role-box-drop--pred .zone-label {
+      color: #2d8a65;
+    }
+    .role-box-drop.drag-over {
+      border-style: solid;
+      box-shadow: 0 0 0 3px rgba(244, 162, 58, 0.45);
+    }
+    .role-box-drop.slot-reject {
+      animation: slotRejectPulse 0.65s ease;
+    }
+    @keyframes slotRejectPulse {
+      0%, 100% { transform: translateX(0); border-color: inherit; }
+      20% { transform: translateX(-5px); box-shadow: 0 0 12px rgba(232, 93, 93, 0.55); }
+      40% { transform: translateX(5px); }
+      60% { transform: translateX(-3px); }
+    }
+
+    .bridge-is {
+      font-family: "Patrick Hand", cursive;
+      font-size: 2.2rem;
+      color: var(--link-orange);
+      text-shadow: 0 0 16px rgba(244, 162, 58, 0.8);
+      animation: bridgePulse 1.2s ease-in-out infinite;
+      align-self: center;
+      padding: 0.25rem 0.5rem;
+      border-radius: 12px;
+      border: 3px dashed transparent;
+    }
+    .bridge-is.bridge-drop.drag-over {
+      border-color: rgba(244, 162, 58, 0.6);
+    }
+    .bridge-is.bridge-nope {
+      animation: bridgeNope 0.55s ease;
+    }
+    @keyframes bridgePulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.08); }
+    }
+    @keyframes bridgeNope {
+      0%, 100% { transform: scale(1) rotate(0deg); }
+      25% { transform: scale(0.92) rotate(-4deg); }
+      75% { transform: scale(0.92) rotate(4deg); }
+    }
+
+    .verb-card-pool {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1.15rem;
+      margin-top: 0.85rem;
+      flex-wrap: wrap;
+      padding: 0.65rem;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.45);
+      border: 2px dashed rgba(44, 44, 44, 0.15);
+    }
+    .verb-card-pool > .hint-mini {
+      width: 100%;
+      text-align: center;
+      font-size: 0.78rem;
+      color: #666;
+      margin-bottom: 0.15rem;
+    }
+    .verb-card {
+      font-family: "Patrick Hand", cursive;
+      font-size: 1.5rem;
+      padding: 0.5rem 1.15rem;
+      background: linear-gradient(165deg, #fff0f3, #ffd6e0);
+      border: 4px solid var(--ink);
+      border-radius: 16px;
+      box-shadow: 4px 5px 0 var(--shadow);
+      cursor: grab;
+      touch-action: none;
+      user-select: none;
+      min-width: 108px;
+      text-align: center;
+    }
+    .verb-card:active {
+      cursor: grabbing;
+    }
+    .verb-card.dragging {
+      opacity: 0.88;
+      transform: scale(1.04) rotate(-2deg);
+      z-index: 30;
+    }
+    .verb-card.rejecting {
+      pointer-events: none;
+      z-index: 20;
+    }
+    /* 卡片进入槽内短暂停留再被弹回（总时长约 2.3s） */
+    .verb-card.reject-animate-subj {
+      animation: verbRejectFromSubj 2.35s cubic-bezier(0.25, 0.46, 0.2, 1) forwards;
+    }
+    .verb-card.reject-animate-pred {
+      animation: verbRejectFromPred 2.35s cubic-bezier(0.25, 0.46, 0.2, 1) forwards;
+    }
+    @keyframes verbRejectFromSubj {
+      0% {
+        transform: scale(0.88) translateY(10px);
+        opacity: 1;
+        filter: brightness(1);
+      }
+      14% {
+        transform: scale(1.06) translateY(-4px);
+        opacity: 1;
+        filter: brightness(1.05);
+      }
+      26% {
+        transform: scale(1) translateY(2px);
+        opacity: 1;
+      }
+      42% {
+        transform: scale(0.97) translate(-8px, 28px) rotate(-6deg);
+        opacity: 1;
+      }
+      70% {
+        transform: scale(0.75) translate(-55px, 95px) rotate(-14deg);
+        opacity: 0.75;
+      }
+      100% {
+        transform: scale(0.5) translate(-95px, 165px) rotate(-22deg);
+        opacity: 0;
+      }
+    }
+    @keyframes verbRejectFromPred {
+      0% {
+        transform: scale(0.88) translateY(10px);
+        opacity: 1;
+        filter: brightness(1);
+      }
+      14% {
+        transform: scale(1.06) translateY(-4px);
+        opacity: 1;
+        filter: brightness(1.05);
+      }
+      26% {
+        transform: scale(1) translateY(2px);
+        opacity: 1;
+      }
+      42% {
+        transform: scale(0.97) translate(8px, 28px) rotate(6deg);
+        opacity: 1;
+      }
+      70% {
+        transform: scale(0.75) translate(55px, 95px) rotate(14deg);
+        opacity: 0.75;
+      }
+      100% {
+        transform: scale(0.5) translate(95px, 165px) rotate(22deg);
+        opacity: 0;
+      }
+    }
+    .verb-card.reject-bridge-animate {
+      animation: verbRejectBridge 1.1s cubic-bezier(0.33, 0.66, 0.2, 1) forwards;
+    }
+    @keyframes verbRejectBridge {
+      0% {
+        transform: scale(0.9) translateY(4px);
+        opacity: 1;
+      }
+      25% {
+        transform: scale(1.12) translateY(-8px);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(0.45) translateY(100px) rotate(8deg);
+        opacity: 0;
+      }
+    }
+
+    .conflict-toast {
+      text-align: center;
+      font-size: 0.88rem;
+      min-height: 1.4em;
+      margin-top: 0.5rem;
+      color: #8a3d3d;
+      font-weight: bold;
+      transition: opacity 0.3s;
+    }
+
+    /* State 5 变身 */
+    .transform-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin: 1rem 0;
+      font-family: "Patrick Hand", cursive;
+      font-size: clamp(1.2rem, 3.5vw, 1.75rem);
+    }
+    .cloak-plus {
+      color: var(--nf-magic);
+      font-weight: bold;
+      animation: sparkle 0.8s ease infinite alternate;
+    }
+    @keyframes sparkle {
+      from { opacity: 0.6; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1.05); }
+    }
+
+    .hero-sent {
+      font-family: "Patrick Hand", cursive;
+      font-size: clamp(1.35rem, 4vw, 2rem);
+      text-align: center;
+      padding: 0.65rem 1rem;
+      margin: 0.6rem 0;
+      border-radius: 14px;
+      border: 3px dashed var(--ink);
+      background: linear-gradient(90deg, var(--subj-purple-soft), var(--link-orange-soft), var(--pred-mint-soft));
+    }
+
+    .tip-card {
+      max-width: 600px;
+      margin: 0.6rem auto;
+      padding: 0.85rem 1rem;
+      background: rgba(255, 248, 230, 0.96);
+      border-left: 5px solid var(--link-orange);
+      border-radius: 6px 12px;
+      font-size: clamp(0.9rem, 2.3vw, 1.03rem);
+      line-height: 1.75;
+      text-align: left;
+    }
+
+    .scroll-summary {
+      max-width: 620px;
+      margin: 0.5rem auto;
+      padding: 1.1rem 1.2rem;
+      background: linear-gradient(180deg, #fff9e6, #ffe8cc);
+      border: 4px solid #8b6914;
+      border-radius: 4px 20px 8px 16px;
+      box-shadow: 6px 6px 0 rgba(44, 44, 44, 0.12);
+      font-size: clamp(0.9rem, 2.3vw, 1.05rem);
+      line-height: 1.8;
+      text-align: left;
+    }
+    .scroll-summary strong { color: #6b4a9e; }
+
+    /* 组句槽位 */
+    .build-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 0.4rem;
+      margin: 0.75rem 0;
+      font-family: "Patrick Hand", cursive;
+      font-size: clamp(1.05rem, 2.8vw, 1.35rem);
+    }
+    .build-slot {
+      min-width: 72px;
+      min-height: 44px;
+      border: 3px dashed var(--ink);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.2rem 0.4rem;
+    }
+    .build-slot.filled { border-style: solid; background: #fff; }
+    .build-slot.wrong-shake { animation: sh 0.45s ease; }
+    @keyframes sh {
+      0%, 100% { transform: translateX(0); }
+      33% { transform: translateX(-6px); }
+      66% { transform: translateX(6px); }
+    }
+
+    .chip-pool {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.5rem;
+      margin: 0.65rem 0;
+    }
+    .word-chip {
+      padding: 0.35rem 0.65rem;
+      border: 3px solid var(--ink);
+      border-radius: 10px;
+      background: #fff;
+      cursor: grab;
+      font-family: "Patrick Hand", cursive;
+      font-size: 1.05rem;
+      box-shadow: 2px 3px 0 var(--shadow);
+      touch-action: none;
+      user-select: none;
+    }
+    .word-chip.dragging { opacity: 0.85; transform: scale(1.05); }
+    .word-chip.placed { visibility: hidden; width: 0; height: 0; padding: 0; overflow: hidden; border: none; }
+
+    /* 测验空白 */
+    .quiz-line {
+      font-family: "Patrick Hand", cursive;
+      font-size: clamp(1.1rem, 3.2vw, 1.5rem);
+      text-align: center;
+      margin: 0.75rem 0;
+      line-height: 1.5;
+    }
+    .quiz-blank {
+      display: inline-block;
+      min-width: 120px;
+      min-height: 40px;
+      vertical-align: middle;
+      border: 3px dashed var(--ink);
+      border-radius: 8px;
+      margin: 0 0.2rem;
+      background: rgba(255, 255, 255, 0.75);
+    }
+    .quiz-blank.filled { border-style: solid; background: #e8f8f2; }
+
+    .quiz-feedback {
+      margin-top: 0.75rem;
+      padding: 0.65rem;
+      border-radius: 10px;
+      background: var(--pred-mint-soft);
+      border: 2px solid var(--pred-mint);
+      font-size: 0.95rem;
+      display: none;
+    }
+    .quiz-feedback.show { display: block; }
+
+    .reveal-btn, .ghost-btn {
+      display: block;
+      margin: 0.65rem auto;
+      padding: 0.45rem 1.1rem;
+      font-family: inherit;
+      font-size: 0.95rem;
+      border: 3px solid var(--ink);
+      border-radius: 10px;
+      background: linear-gradient(180deg, #fff, #f0e8ff);
+      cursor: pointer;
+      box-shadow: 2px 3px 0 var(--shadow);
+    }
+    .answer-hidden {
+      display: none;
+      margin-top: 0.65rem;
+      padding: 0.75rem;
+      background: rgba(155, 134, 200, 0.2);
+      border-radius: 10px;
+      text-align: left;
+      font-size: 0.95rem;
+      line-height: 1.65;
+    }
+    .answer-hidden.show { display: block; }
+
+    .state-hint {
+      text-align: center;
+      font-size: 0.84rem;
+      color: #555;
+      margin-top: 0.6rem;
+    }
+
+    .footer-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 50;
+      background: rgba(255, 252, 245, 0.97);
+      border-top: 3px solid var(--ink);
+      padding: 0.5rem 0.65rem;
+    }
+    .footer-toolbar {
+      max-width: 920px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+    }
+    .page-nav-link {
+      font-size: 0.78rem;
+      color: #444;
+      text-decoration: none;
+      padding: 0.3rem 0.5rem;
+    }
+    button.page-nav-link {
+      cursor: pointer;
+      font: inherit;
+      background: none;
+      border: none;
+    }
+    .next-btn {
+      font-family: inherit;
+      font-size: 0.98rem;
+      padding: 0.48rem 1.2rem;
+      background: linear-gradient(180deg, var(--link-orange), #e89420);
+      color: #fff;
+      border: 3px solid var(--ink);
+      border-radius: 12px;
+      cursor: pointer;
+      box-shadow: 3px 4px 0 var(--shadow);
+    }
+    .next-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    .tts-read-btn {
+      margin-left: 0.3rem;
+      padding: 0.1rem 0.38rem;
+      font-size: 0.8rem;
+      border: 2px solid var(--ink);
+      border-radius: 7px;
+      background: #fff;
+      cursor: pointer;
+      vertical-align: middle;
+    }
+
+    .success-overlay {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 200;
+      overflow: hidden;
+    }
+    .confetti {
+      position: absolute;
+      width: 9px;
+      height: 9px;
+      top: -10px;
+      animation: cf linear forwards;
+    }
+    @keyframes cf {
+      to { transform: translateY(110vh) rotate(720deg); opacity: 0.2; }
+    }
+
+    .teacher-bubble {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.65rem;
+      max-width: 560px;
+      margin: 0.75rem auto;
+    }
+    .teacher-bubble .pic-frame {
+      flex: 0 0 auto;
+      width: 88px;
+      min-height: 100px;
+      margin: 0;
+    }
+    .bubble {
+      flex: 1;
+      padding: 0.75rem 1rem;
+      background: #fff;
+      border: 3px solid var(--ink);
+      border-radius: 18px 18px 18px 4px;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <h1>主系表 · 非谓语魔法 — 第 3 页</h1>
+
+    <div class="board" id="stageBoard">
+      <!-- 1 复习 -->
+      <section class="step active" data-state="1">
+        <div class="magic-board">
+          <span class="hl-s">【主语】</span>和<span class="hl-p">【表语】</span>常常是<strong>名词</strong>、<strong>形容词</strong>，也可以是<strong>名词化的非谓语短语</strong>（如动名词、不定式短语）；中间的<span class="hl-l">魔法桥（系动词）</span>把它们连成「是什么 / 怎么样」。
+        </div>
+        <p class="zh-text">先快速复习：主系表两端多为「名 / 形」或「名词化了的动作」，中间是系动词。</p>
+      </section>
+
+      <!-- 2 挑战 -->
+      <section class="step" data-state="2">
+        <p class="zh-text">
+          可是，如果我想说「我的梦想是去环游世界」，或者汉语里的「眼见为实」——这里的「环游」「看」都是<strong>动作</strong>呀！<br />动作能直接站在【主语】和【表语】的位置上吗？
+        </p>
+        <p class="en-text" style="font-size:0.95rem;opacity:0.88">（听英文提问）</p>
+      </section>
+
+      <!-- 3 拖拽卡片 → 主语位/表语位无法接受动词原形 → 慢速弹开 -->
+      <section class="step" data-state="3">
+        <p class="zh-text">
+          请<strong>拖动</strong>下面的 <strong>see</strong> / <strong>believe</strong> 卡片，试着放进<strong>主语位</strong>或<strong>表语位</strong>。<br />
+          系动词 <strong class="color-lv">is</strong> 会像魔法盾一样，让「动词原形」待不住——你会看到卡片被<strong>慢慢弹开</strong>。<br />
+          <small style="opacity:0.88">（需各在「主语位」「表语位」试一次，再点下一步。拖到中间的 is 上也会提示哦。）</small>
+        </p>
+        <div class="conflict-stage" id="conflictStage3">
+          <div class="slot-row">
+            <div
+              class="role-box-drop role-box-drop--subj"
+              id="zoneSubj3"
+              data-zone="subj"
+              data-drop-verb="1"
+            >
+              <span class="zone-label">主语位</span>
+            </div>
+            <div class="bridge-is bridge-drop" id="zoneBridge3" data-zone="bridge" data-drop-verb="1">is</div>
+            <div
+              class="role-box-drop role-box-drop--pred"
+              id="zonePred3"
+              data-zone="pred"
+              data-drop-verb="1"
+            >
+              <span class="zone-label">表语位</span>
+            </div>
+          </div>
+          <div class="verb-card-pool" id="verbCardPool3">
+            <span class="hint-mini">👇 动词卡片（可拖拽）</span>
+            <div class="verb-card" id="verbCardSee" draggable="true" data-verb="see">see</div>
+            <div class="verb-card" id="verbCardBelieve" draggable="true" data-verb="believe">believe</div>
+          </div>
+          <p class="conflict-toast" id="conflictToast3" aria-live="polite"></p>
+        </div>
+      </section>
+
+      <!-- 4 解释 -->
+      <section class="step" data-state="4">
+        <div class="tip-card">
+          <strong>解释：</strong>动词原形表示「动作」，而主语 / 表语位置上需要的是<strong>名词性</strong>的成分（人或事物、概念）。所以不能直接把<strong>动词原形</strong>放进主语位或表语位——要先把动作<strong>名词化</strong>，变成非谓语（如 -ing / to do）等形式！
+        </div>
+      </section>
+
+      <!-- 5 -ing 变身 -->
+      <section class="step" data-state="5">
+        <p class="zh-text">看！动词披上 <strong class="nf-verb">-ing</strong> 斗篷，变成「一件事」：</p>
+        <div class="pic-frame" style="max-width:200px;min-height:100px;margin-bottom:0.5rem">
+          <!-- 由 pic.json 调用 Vertex AI 生成蜡笔画 p3_eye_seeing.png（Zootopia 风可参考主课 page3） -->
+          <img src="asset/img/p3_eye_seeing.png" alt="Seeing" style="max-height:100px" />
+        </div>
+        <div class="transform-row">
+          <span>see</span>
+          <span class="cloak-plus">+ ing →</span>
+          <span class="nf-verb">Seeing</span>
+        </div>
+        <div class="transform-row">
+          <span>believe</span>
+          <span class="cloak-plus">+ ing →</span>
+          <span class="nf-verb">believing</span>
+        </div>
+        <p class="zh-text">现在它们可以稳稳落在主语、表语的位置上啦。</p>
+      </section>
+
+      <!-- 6 谚语句 -->
+      <section class="step" data-state="6">
+        <p class="hero-sent">
+          <span class="color-subj">Seeing</span>
+          <span class="color-lv"> is </span>
+          <span class="color-pred">believing</span>.
+        </p>
+        <p class="zh-text">经典主系表谚语：「眼见为实」。</p>
+      </section>
+
+      <!-- 7 教师讲解 doing -->
+      <section class="step" data-state="7">
+        <div class="teacher-bubble">
+          <div class="pic-frame">
+            <!-- 由 pic.json 调用 Vertex AI 生成蜡笔画；可与 page1 共用 -->
+            <img src="asset/img/teacher_steven.png" alt="Steven" />
+          </div>
+          <div class="bubble">
+            变成 <strong class="nf-verb">-ing</strong> 后，动作成了<strong>一件事</strong>（动名词）。<strong>Seeing</strong>（看这件事）和 <strong>believing</strong>（相信这件事）在这里像名词一样作主语 / 表语，描述普遍道理。
+          </div>
+        </div>
+      </section>
+
+      <!-- 8 男孩地球仪 -->
+      <section class="step" data-state="8">
+        <p class="zh-text">那「我的梦想是环游世界」用英语怎么说呢？</p>
+        <div class="pic-frame" style="max-width:320px">
+          <!-- 由 pic.json 调用 Vertex AI 生成蜡笔画 p3_boy_globe.png -->
+          <img src="asset/img/p3_boy_globe.png" alt="Boy and globe" />
+        </div>
+      </section>
+
+      <!-- 9 组句拖拽 -->
+      <section class="step" data-state="9">
+        <p class="zh-text">拖拽词块到横线里，组成正确句子（多余词块不要放进槽里）。</p>
+        <div class="build-row" id="buildSlots">
+          <div class="build-slot" data-build-idx="0" data-accept="md"></div>
+          <div class="build-slot" data-build-idx="1" data-accept="is"></div>
+          <div class="build-slot" data-build-idx="2" data-accept="tot"></div>
+          <div class="build-slot" data-build-idx="3" data-accept="tw"></div>
+        </div>
+        <p class="en-text" style="font-size:0.9rem">目标：My dream is to travel the world.</p>
+        <div class="chip-pool" id="buildPool"></div>
+      </section>
+
+      <!-- 10 高亮 + TTS -->
+      <section class="step" data-state="10">
+        <p class="hero-sent">
+          <span class="color-subj">My dream</span>
+          <span class="color-lv"> is </span>
+          <span class="color-pred">to travel the world</span>.
+        </p>
+        <p class="zh-text">表语是未来的目标 → 常用 <strong class="nf-verb">to do</strong>。</p>
+      </section>
+
+      <!-- 11 为何 to do -->
+      <section class="step" data-state="11">
+        <p class="zh-text">为什么用 <strong>to travel</strong> 而不是 <strong>traveling</strong>？</p>
+        <button type="button" class="reveal-btn" id="btnWhyTodo">显示答案</button>
+        <div class="answer-hidden" id="whyTodoAns">
+          <strong>答：</strong><strong>dream / plan / goal</strong> 常指向<strong>尚未发生</strong>的事，表语多用 <strong>to do</strong> 表示「要去做的那件事」；而 <strong>doing</strong> 更常表已经习惯的事实或泛指活动（上一句谚语即是一例）。
+        </div>
+      </section>
+
+      <!-- 12 测验1 -->
+      <section class="step" data-state="12">
+        <span class="badge-level" style="display:inline-block;padding:0.15rem 0.5rem;border:2px solid #333;border-radius:8px;font-size:0.75rem">测验 1/3</span>
+        <div class="quiz-line" id="quiz1Line"></div>
+        <div class="chip-pool" id="quiz1Pool"></div>
+        <div class="quiz-feedback" id="quiz1Fb"></div>
+      </section>
+
+      <!-- 13 测验2 -->
+      <section class="step" data-state="13">
+        <span class="badge-level" style="display:inline-block;padding:0.15rem 0.5rem;border:2px solid #333;border-radius:8px;font-size:0.75rem">测验 2/3</span>
+        <div class="quiz-line" id="quiz2Line"></div>
+        <div class="chip-pool" id="quiz2Pool"></div>
+        <div class="quiz-feedback" id="quiz2Fb"></div>
+      </section>
+
+      <!-- 14 测验3 -->
+      <section class="step" data-state="14">
+        <span class="badge-level" style="display:inline-block;padding:0.15rem 0.5rem;border:2px solid #333;border-radius:8px;font-size:0.75rem">测验 3/3</span>
+        <div class="quiz-line" id="quiz3Line"></div>
+        <div class="chip-pool" id="quiz3Pool"></div>
+        <div class="quiz-feedback" id="quiz3Fb"></div>
+      </section>
+
+      <!-- 15 总结卷轴 -->
+      <section class="step" data-state="15">
+        <div class="scroll-summary">
+          <strong>魔法总结卷轴</strong><br /><br />
+          当<strong>动作</strong>想在主系表里当【主语】或【表语】时，要<strong>非谓语变身</strong>！<br /><br />
+          <strong>doing（-ing）：</strong>常表普遍事实、习惯、经验。（例：Seeing is believing.）<br /><br />
+          <strong>to do：</strong>常表未来计划、目标、将要做的事。（例：My dream is to travel the world.）
+        </div>
+      </section>
+
+      <!-- 16 收官 -->
+      <section class="step" data-state="16">
+        <div class="teacher-bubble">
+          <div class="pic-frame">
+            <img src="asset/img/teacher_steven.png" alt="Steven" />
+          </div>
+          <div class="bubble">
+            <strong>You've mastered the magic of non-finite verbs in linking structures!</strong><br />
+            动作与状态的魔法，你都更清楚啦！继续加油！
+          </div>
+        </div>
+      </section>
+
+      <p class="state-hint" id="stateHint">点击「下一步」继续。</p>
+    </div>
+  </div>
+
+  <div class="success-overlay" id="confettiRoot" aria-hidden="true"></div>
+
+  <div class="footer-bar">
+    <div class="footer-toolbar">
+      <a class="page-nav-link" href="index.html" title="返回主系表课程列表">课程列表</a>
+      <button type="button" class="page-nav-link" id="navPrevStep" disabled title="撤回本页内上一步">← 上一步</button>
+      <button type="button" class="next-btn" id="nextBtn">下一步 →</button>
+    </div>
+  </div>
+
+  <script src="cos-config.js"></script>
+  <script src="linking-assets.js"></script>
+  <script>
+(function () {
+  "use strict";
+
+  var AZURE_SPEECH_KEY =
+    "DKRXk8ueSfo5NdIOMqFRTCAfpeGDezJ3Snf5K8gGgtyqxiWdugLzJQQJ99BLACHYHv6XJ3w3AAAYACOGUYP9";
+  var AZURE_REGION = "eastus2";
+  var TTS_VOICE = "en-US-AriaNeural";
+
+  var QUIZ_DATA = [
+    {
+      html: "___ in the sea is very exciting.",
+      options: [
+        { id: "swim", text: "To swim", correct: false },
+        { id: "swimming", text: "Swimming", correct: true }
+      ],
+      tts: "Swimming in the sea is very exciting.",
+      explain: "作主语、表泛指活动时，常用 doing（动名词）。"
+    },
+    {
+      html: "His plan for tomorrow is ___ the museum.",
+      options: [
+        { id: "visiting", text: "visiting", correct: false },
+        { id: "tovisit", text: "to visit", correct: true }
+      ],
+      tts: "His plan for tomorrow is to visit the museum.",
+      explain: "tomorrow 提示未来安排，plan 后用 to do 更自然。"
+    },
+    {
+      html: "My favorite hobby is ___ books.",
+      options: [
+        { id: "toread", text: "to read", correct: false },
+        { id: "reading", text: "reading", correct: true }
+      ],
+      tts: "My favorite hobby is reading books.",
+      explain: "hobby 表长期习惯、爱好，常用 doing。"
+    }
+  ];
+
+  var BUILD_PIECES = [
+    { id: "md", text: "My dream" },
+    { id: "is", text: "is" },
+    { id: "tot", text: "to travel" },
+    { id: "tw", text: "the world" },
+    { id: "bad", text: "travel" }
+  ];
+
+  var state = 1;
+  var maxState = 16;
+  var p3lsStack = [];
+  var steps = document.querySelectorAll(".step");
+  var nextBtn = document.getElementById("nextBtn");
+  var prevBtn = document.getElementById("navPrevStep");
+  var stateHint = document.getElementById("stateHint");
+
+  var buildFilled = 0;
+  var buildDragEl = null;
+  var buildPending = null;
+  var quizCorrect = [false, false, false];
+  var quizDrag = [null, null, null];
+  var whyRevealed = false;
+
+  var conflictSubjHit = false;
+  var conflictPredHit = false;
+  var conflictDragCard = null;
+  var conflictPending = null;
+  var conflictBusy = false;
+
+  function setConflictToast(t) {
+    var el = document.getElementById("conflictToast3");
+    if (el) el.textContent = t || "";
+  }
+
+  function resetConflictState() {
+    conflictSubjHit = false;
+    conflictPredHit = false;
+    conflictDragCard = null;
+    conflictPending = null;
+    conflictBusy = false;
+    var pool = document.getElementById("verbCardPool3");
+    var see = document.getElementById("verbCardSee");
+    var bel = document.getElementById("verbCardBelieve");
+    if (!pool) return;
+    [see, bel].forEach(function (card) {
+      if (!card) return;
+      pool.appendChild(card);
+      card.classList.remove(
+        "rejecting",
+        "reject-animate-subj",
+        "reject-animate-pred",
+        "reject-bridge-animate",
+        "dragging"
+      );
+      card.style.cssText = "";
+      card.style.outline = "none";
+      card.setAttribute("draggable", "true");
+    });
+    setConflictToast("");
+    ["zoneSubj3", "zonePred3"].forEach(function (id) {
+      var z = document.getElementById(id);
+      if (z) z.classList.remove("slot-reject", "drag-over");
+    });
+    var br = document.getElementById("zoneBridge3");
+    if (br) br.classList.remove("bridge-nope", "drag-over");
+  }
+
+  function conflictTryEnableNext() {
+    if (state !== 3) return;
+    if (conflictSubjHit && conflictPredHit) {
+      nextBtn.disabled = false;
+      nextBtn.textContent = "下一步 Next →";
+      setConflictToast("主语位、表语位都试过了——动词原形确实待不住！可以点下一步了。");
+      stateHint.textContent =
+        "你已体验：主语位与表语位都不能直接放动词原形。请点击「下一步」。";
+    }
+  }
+
+  function startVerbReject(card, zoneType) {
+    if (!card || card.classList.contains("rejecting") || conflictBusy) return;
+    if (state !== 3) return;
+
+    var pool = document.getElementById("verbCardPool3");
+    var zone =
+      zoneType === "subj"
+        ? document.getElementById("zoneSubj3")
+        : zoneType === "pred"
+          ? document.getElementById("zonePred3")
+          : document.getElementById("zoneBridge3");
+    if (!zone || !pool) return;
+
+    conflictBusy = true;
+    card.classList.add("rejecting");
+    zone.appendChild(card);
+
+    var animClass;
+    var ms;
+    if (zoneType === "subj") {
+      animClass = "reject-animate-subj";
+      ms = 2380;
+      zone.classList.add("slot-reject");
+      setConflictToast("主语位要的是「谁/什么」，不能直接放动词原形——慢慢被弹开啦！");
+      conflictSubjHit = true;
+    } else if (zoneType === "pred") {
+      animClass = "reject-animate-pred";
+      ms = 2380;
+      zone.classList.add("slot-reject");
+      setConflictToast("表语位说明状态或身份，也不能直接塞动词原形！");
+      conflictPredHit = true;
+    } else {
+      animClass = "reject-bridge-animate";
+      ms = 1120;
+      zone.classList.add("bridge-nope");
+      setConflictToast("is 是系动词（魔法桥），这里不放单词卡片哦！");
+    }
+
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () {
+        card.classList.add(animClass);
+      });
+    });
+
+    setTimeout(function () {
+      card.classList.remove(animClass, "rejecting");
+      zone.classList.remove("slot-reject", "bridge-nope");
+      pool.appendChild(card);
+      card.style.opacity = "";
+      card.style.transform = "";
+      card.setAttribute("draggable", "true");
+      conflictBusy = false;
+      conflictTryEnableNext();
+    }, ms);
+  }
+
+  function speakAzure(text) {
+    if (!text) return;
+    var endpoint =
+      "https://" + AZURE_REGION + ".tts.speech.microsoft.com/cognitiveservices/v1";
+    var ssml =
+      '<speak version="1.0" xml:lang="en-US"><voice xml:lang="en-US" name="' +
+      TTS_VOICE +
+      '">' +
+      esc(text) +
+      "</voice></speak>";
+    fetch(endpoint, {
+      method: "POST",
+      headers: {
+        "Ocp-Apim-Subscription-Key": AZURE_SPEECH_KEY,
+        "Content-Type": "application/ssml+xml",
+        "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3",
+        "User-Agent": "ESL-Linking-P3"
+      },
+      body: ssml
+    })
+      .then(function (r) {
+        if (!r.ok) throw new Error("TTS " + r.status);
+        return r.arrayBuffer();
+      })
+      .then(function (buf) {
+        var u = URL.createObjectURL(new Blob([buf], { type: "audio/mpeg" }));
+        var a = new Audio(u);
+        a.play().finally(function () {
+          setTimeout(function () {
+            URL.revokeObjectURL(u);
+          }, 60000);
+        });
+      })
+      .catch(function (e) {
+        console.warn(e);
+      });
+  }
+
+  function esc(s) {
+    return String(s)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+
+  function showStep(n) {
+    steps.forEach(function (el) {
+      var s = parseInt(el.dataset.state, 10);
+      el.classList.toggle("active", s === n);
+    });
+
+    nextBtn.disabled = false;
+    stateHint.textContent = "点击「下一步」继续。";
+
+    if (n === 3) {
+      resetConflictState();
+      nextBtn.disabled = true;
+      nextBtn.textContent = "请先试一试拖拽";
+      stateHint.textContent =
+        "拖动 see / believe 卡片到「主语位」「表语位」各试一次（顺序不限）；也可拖到 is 上看提示。";
+      setConflictToast("");
+    } else if (n === 9) {
+      initBuild();
+      nextBtn.disabled = true;
+      nextBtn.textContent = "请先组句正确";
+      stateHint.textContent = "把词块拖进四个槽：My dream / is / to travel / the world（不要放入单独的 travel）。";
+    } else if (n >= 12 && n <= 14) {
+      var qi = n - 12;
+      if (!quizCorrect[qi]) {
+        nextBtn.disabled = true;
+        nextBtn.textContent = "请先完成测验";
+        stateHint.textContent = "把正确选项拖入句中空白。";
+      } else {
+        nextBtn.textContent = "下一步 →";
+      }
+      initQuiz(n - 12);
+    } else if (n === 11) {
+      whyRevealed = false;
+      document.getElementById("whyTodoAns").classList.remove("show");
+      document.getElementById("btnWhyTodo").style.display = "block";
+    } else if (n === 16) {
+      nextBtn.disabled = true;
+      nextBtn.textContent = "本页完成 ✓";
+      stateHint.textContent = "";
+      confettiBig();
+    } else {
+      nextBtn.textContent = "下一步 →";
+    }
+    if (prevBtn) prevBtn.disabled = p3lsStack.length === 0;
+  }
+
+  function initBuild() {
+    buildFilled = 0;
+    var pool = document.getElementById("buildPool");
+    pool.innerHTML = "";
+    document.querySelectorAll(".build-slot").forEach(function (slot) {
+      slot.textContent = "";
+      slot.classList.remove("filled", "wrong-shake");
+    });
+    var order = BUILD_PIECES.map(function (p, i) {
+      return i;
+    });
+    shuffle(order);
+    order.forEach(function (i) {
+      var p = BUILD_PIECES[i];
+      var el = document.createElement("span");
+      el.className = "word-chip";
+      el.textContent = p.text;
+      el.dataset.pieceId = p.id;
+      el.draggable = true;
+      pool.appendChild(el);
+      el.addEventListener("dragstart", function (e) {
+        buildDragEl = el;
+        el.classList.add("dragging");
+        e.dataTransfer.setData("text/plain", p.id);
+      });
+      el.addEventListener("dragend", function () {
+        el.classList.remove("dragging");
+        buildDragEl = null;
+      });
+    });
+  }
+
+  function shuffle(arr) {
+    for (var i = arr.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = arr[i];
+      arr[i] = arr[j];
+      arr[j] = t;
+    }
+  }
+
+  function checkBuildComplete() {
+    var ok = true;
+    document.querySelectorAll(".build-slot").forEach(function (slot) {
+      var acc = slot.dataset.accept;
+      var txt = slot.textContent.trim();
+      if (!txt || slot.dataset.pieceId !== acc) ok = false;
+    });
+    if (ok) {
+      buildFilled = 4;
+      nextBtn.disabled = false;
+      nextBtn.textContent = "下一步 Next →";
+      stateHint.textContent = "组句正确！请继续。";
+      speakAzure("My dream is to travel the world.");
+      miniConfetti();
+    }
+  }
+
+  function initQuiz(idx) {
+    if (quizCorrect[idx]) return;
+    var data = QUIZ_DATA[idx];
+    var lineEl = document.getElementById("quiz" + (idx + 1) + "Line");
+    var poolEl = document.getElementById("quiz" + (idx + 1) + "Pool");
+    var fbEl = document.getElementById("quiz" + (idx + 1) + "Fb");
+    fbEl.classList.remove("show");
+    fbEl.textContent = "";
+
+    var blankId = "qb" + idx;
+    lineEl.innerHTML =
+      data.html.replace(
+        "___",
+        '<span class="quiz-blank" id="' +
+          blankId +
+          '" data-quiz-idx="' +
+          idx +
+          '"></span>'
+      ) + ' <button type="button" class="tts-read-btn" title="朗读">🔊</button>';
+
+    var readBtn = lineEl.querySelector(".tts-read-btn");
+    if (readBtn) {
+      readBtn.addEventListener("click", function () {
+        speakAzure(data.tts.replace(/\s+/g, " ").trim());
+      });
+    }
+
+    poolEl.innerHTML = "";
+    quizDrag[idx] = null;
+    var opts = data.options.slice();
+    shuffle(opts);
+    opts.forEach(function (opt) {
+      var chip = document.createElement("span");
+      chip.className = "word-chip";
+      chip.textContent = opt.text;
+      chip.dataset.quizIdx = String(idx);
+      chip.dataset.correct = opt.correct ? "1" : "0";
+      chip.draggable = true;
+      poolEl.appendChild(chip);
+      chip.addEventListener("dragstart", function (e) {
+        quizDrag[idx] = chip;
+        chip.classList.add("dragging");
+        e.dataTransfer.setData("text/plain", opt.correct ? "1" : "0");
+        e.dataTransfer.setData("quiz-chip", "1");
+      });
+      chip.addEventListener("dragend", function () {
+        chip.classList.remove("dragging");
+        quizDrag[idx] = null;
+      });
+    });
+
+    setTimeout(function () {
+      speakAzure(data.tts);
+    }, 450);
+  }
+
+  function handleQuizDrop(e, blank) {
+    e.preventDefault();
+    var q = parseInt(blank.dataset.quizIdx, 10);
+    if (isNaN(q) || quizCorrect[q]) return;
+    var data = QUIZ_DATA[q];
+    var fbEl = document.getElementById("quiz" + (q + 1) + "Fb");
+    var isCorrect = e.dataTransfer.getData("text/plain") === "1";
+    var chip = quizDrag[q];
+    if (!chip) return;
+    if (blank.textContent.trim()) return;
+
+    if (isCorrect) {
+      blank.textContent = chip.textContent;
+      blank.classList.add("filled");
+      chip.classList.add("placed");
+      chip.setAttribute("draggable", "false");
+      fbEl.textContent = data.explain;
+      fbEl.classList.add("show");
+      quizCorrect[q] = true;
+      speakAzure(data.tts);
+      miniConfetti();
+      nextBtn.disabled = false;
+      nextBtn.textContent = "下一步 Next →";
+      stateHint.textContent = "答对了！可进入下一题。";
+    } else {
+      blank.classList.add("wrong-shake");
+      setTimeout(function () {
+        blank.classList.remove("wrong-shake");
+      }, 450);
+    }
+  }
+
+  document.getElementById("stageBoard").addEventListener("dragover", function (e) {
+    if (e.target.closest && (e.target.closest(".quiz-blank") || e.target.closest(".build-slot")))
+      e.preventDefault();
+  });
+  document.getElementById("stageBoard").addEventListener("drop", function (e) {
+    var blank = e.target.closest && e.target.closest(".quiz-blank");
+    if (!blank) return;
+    handleQuizDrop(e, blank);
+  });
+
+  function miniConfetti() {
+    burst(16, 2);
+  }
+
+  function confettiBig() {
+    burst(42, 4.5);
+  }
+
+  function burst(n, dur) {
+    var root = document.getElementById("confettiRoot");
+    root.innerHTML = "";
+    root.setAttribute("aria-hidden", "false");
+    var colors = ["#9b86c8", "#f4a23a", "#5cbf9a", "#ffd54f", "#ce93d8"];
+    for (var i = 0; i < n; i++) {
+      var c = document.createElement("div");
+      c.className = "confetti";
+      c.style.left = Math.random() * 100 + "vw";
+      c.style.background = colors[i % colors.length];
+      c.style.animationDuration = dur * 0.4 + Math.random() * 0.8 + "s";
+      root.appendChild(c);
+    }
+    setTimeout(function () {
+      root.innerHTML = "";
+      root.setAttribute("aria-hidden", "true");
+    }, dur * 1000);
+  }
+
+  document.querySelectorAll(".build-slot").forEach(function (slot) {
+    slot.addEventListener("dragover", function (e) {
+      e.preventDefault();
+    });
+    slot.addEventListener("drop", function (e) {
+      e.preventDefault();
+      if (state !== 9) return;
+      var id = e.dataTransfer.getData("text/plain");
+      var chip = buildDragEl;
+      if (!chip || !id) return;
+      var acc = slot.dataset.accept;
+      if (slot.textContent) return;
+
+      if (id === acc) {
+        slot.textContent = chip.textContent;
+        slot.dataset.pieceId = id;
+        slot.classList.add("filled");
+        chip.classList.add("placed");
+        chip.setAttribute("draggable", "false");
+        checkBuildComplete();
+      } else {
+        slot.classList.add("wrong-shake");
+        setTimeout(function () {
+          slot.classList.remove("wrong-shake");
+        }, 450);
+      }
+    });
+  });
+
+  document.addEventListener(
+    "click",
+    function (e) {
+      if (state !== 9) return;
+      var chip = e.target.closest(".word-chip[data-piece-id]");
+      var slot = e.target.closest(".build-slot");
+      if (chip && chip.closest("#buildPool") && !chip.classList.contains("placed")) {
+        buildPending = chip;
+        document.querySelectorAll("#buildPool .word-chip").forEach(function (c) {
+          c.style.outline = "none";
+        });
+        chip.style.outline = "3px solid #f4a23a";
+        return;
+      }
+      if (slot && buildPending && !slot.textContent) {
+        var id = buildPending.dataset.pieceId;
+        if (slot.dataset.accept === id) {
+          slot.textContent = buildPending.textContent;
+          slot.dataset.pieceId = id;
+          slot.classList.add("filled");
+          buildPending.classList.add("placed");
+          buildPending.setAttribute("draggable", "false");
+          buildPending.style.outline = "none";
+          buildPending = null;
+          checkBuildComplete();
+        } else {
+          slot.classList.add("wrong-shake");
+          setTimeout(function () {
+            slot.classList.remove("wrong-shake");
+          }, 450);
+        }
+      }
+    },
+    true
+  );
+
+  document.addEventListener(
+    "click",
+    function (e) {
+      var q = state - 12;
+      if (q < 0 || q > 2) return;
+      if (quizCorrect[q]) return;
+      var chip = e.target.closest("#quiz" + (q + 1) + "Pool .word-chip");
+      var blank = document.getElementById("qb" + q);
+      if (!blank) return;
+      if (chip && !chip.classList.contains("placed")) {
+        document.querySelectorAll("#quiz" + (q + 1) + "Pool .word-chip").forEach(function (c) {
+          c.style.outline = "none";
+        });
+        chip.style.outline = "3px solid #f4a23a";
+        quizDrag[q] = chip;
+        return;
+      }
+      var blankHit = e.target.closest && e.target.closest(".quiz-blank");
+      if (blankHit && blankHit.id === "qb" + q && quizDrag[q] && !blankHit.textContent.trim()) {
+        var correct = quizDrag[q].dataset.correct === "1";
+        var data = QUIZ_DATA[q];
+        var fbEl = document.getElementById("quiz" + (q + 1) + "Fb");
+        if (correct) {
+          blankHit.textContent = quizDrag[q].textContent;
+          blankHit.classList.add("filled");
+          quizDrag[q].classList.add("placed");
+          quizDrag[q].setAttribute("draggable", "false");
+          quizDrag[q].style.outline = "none";
+          fbEl.textContent = data.explain;
+          fbEl.classList.add("show");
+          quizCorrect[q] = true;
+          speakAzure(data.tts);
+          miniConfetti();
+          nextBtn.disabled = false;
+          nextBtn.textContent = "下一步 Next →";
+        } else {
+          blankHit.classList.add("wrong-shake");
+          setTimeout(function () {
+            blankHit.classList.remove("wrong-shake");
+          }, 450);
+        }
+      }
+    },
+    true
+  );
+
+  document.getElementById("btnWhyTodo").addEventListener("click", function () {
+    document.getElementById("whyTodoAns").classList.add("show");
+    whyRevealed = true;
+    this.style.display = "none";
+  });
+
+  (function bindConflictInteraction() {
+    var pool = document.getElementById("verbCardPool3");
+    if (!pool) return;
+    pool.querySelectorAll(".verb-card").forEach(function (card) {
+      card.addEventListener("dragstart", function (e) {
+        if (state !== 3) return;
+        if (card.classList.contains("rejecting") || conflictBusy) {
+          e.preventDefault();
+          return;
+        }
+        conflictDragCard = card;
+        card.classList.add("dragging");
+        e.dataTransfer.setData("verb-card", "1");
+      });
+      card.addEventListener("dragend", function () {
+        card.classList.remove("dragging");
+        conflictDragCard = null;
+      });
+    });
+    ["zoneSubj3", "zonePred3", "zoneBridge3"].forEach(function (id) {
+      var z = document.getElementById(id);
+      if (!z) return;
+      z.addEventListener("dragover", function (e) {
+        if (state !== 3) return;
+        e.preventDefault();
+        z.classList.add("drag-over");
+      });
+      z.addEventListener("dragleave", function () {
+        z.classList.remove("drag-over");
+      });
+      z.addEventListener("drop", function (e) {
+        if (state !== 3) return;
+        e.preventDefault();
+        z.classList.remove("drag-over");
+        if (e.dataTransfer.getData("verb-card") !== "1") return;
+        var c = conflictDragCard;
+        if (!c || c.classList.contains("rejecting")) return;
+        var zt = z.getAttribute("data-zone");
+        if (zt === "subj") startVerbReject(c, "subj");
+        else if (zt === "pred") startVerbReject(c, "pred");
+        else startVerbReject(c, "bridge");
+      });
+    });
+  })();
+
+  document.addEventListener(
+    "click",
+    function (e) {
+      if (state !== 3) return;
+      var pool = document.getElementById("verbCardPool3");
+      if (!pool) return;
+      var card = e.target.closest(".verb-card");
+      var zone = e.target.closest("[data-drop-verb]");
+      if (card && pool.contains(card) && !card.classList.contains("rejecting") && !conflictBusy) {
+        conflictPending = card;
+        pool.querySelectorAll(".verb-card").forEach(function (c) {
+          c.style.outline = "none";
+        });
+        card.style.outline = "3px solid #f4a23a";
+        setConflictToast("已选中卡片，再点「主语位」「表语位」或 is。");
+        return;
+      }
+      if (zone && conflictPending && zone.getAttribute("data-drop-verb")) {
+        if (conflictPending.classList.contains("rejecting") || conflictBusy) return;
+        var zt = zone.getAttribute("data-zone");
+        if (zt === "subj") startVerbReject(conflictPending, "subj");
+        else if (zt === "pred") startVerbReject(conflictPending, "pred");
+        else startVerbReject(conflictPending, "bridge");
+        conflictPending.style.outline = "none";
+        conflictPending = null;
+      }
+    },
+    true
+  );
+
+  nextBtn.addEventListener("click", function () {
+    if (state >= maxState) return;
+    if (state === 3 && (!conflictSubjHit || !conflictPredHit)) {
+      stateHint.textContent =
+        "请先在「主语位」和「表语位」各拖入一次卡片（观察慢速弹开），再点下一步。";
+      return;
+    }
+    if (state === 9 && buildFilled < 4) return;
+    if (state >= 12 && state <= 14 && !quizCorrect[state - 12]) return;
+    if (state === 11 && !whyRevealed) {
+      stateHint.textContent = "请先点击「显示答案」。";
+      return;
+    }
+
+    p3lsStack.push(state);
+    state++;
+    showStep(state);
+
+    if (state === 2) {
+      setTimeout(function () {
+        speakAzure(
+          "What if I want to say my dream is to travel the world, or use the English saying Seeing is believing for 眼见为实? These ideas involve actions. Can bare verbs like see or believe stand alone in the subject or predicative position?"
+        );
+      }, 300);
+    }
+    if (state === 6) {
+      setTimeout(function () {
+        speakAzure("Seeing is believing.");
+      }, 350);
+    }
+    if (state === 10) {
+      setTimeout(function () {
+        speakAzure("My dream is to travel the world.");
+      }, 350);
+    }
+  });
+
+  if (prevBtn) {
+    prevBtn.addEventListener("click", function () {
+      if (!p3lsStack.length) return;
+      state = p3lsStack.pop();
+      showStep(state);
+    });
+  }
+
+  showStep(1);
+})();
+  </script>
+</body>
+</html>

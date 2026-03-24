@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>主系表 · 魔法桥 — 互动课 第 1 页</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --paper: #fff8f0;
+      --paper-edge: #e8d4c4;
+      --ink: #2c2c2c;
+      --shadow: rgba(44, 44, 44, 0.14);
+      /* 魔法与温暖：主语紫 / 系动词橙 / 表语薄荷绿 */
+      --subj-purple: #9b86c8;
+      --subj-purple-soft: rgba(155, 134, 200, 0.35);
+      --link-orange: #f4a23a;
+      --link-orange-soft: rgba(244, 162, 58, 0.38);
+      --pred-mint: #5cbf9a;
+      --pred-mint-soft: rgba(92, 191, 154, 0.35);
+      --magic-glow: rgba(255, 220, 150, 0.85);
+      --star-gold: #ffd54f;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      font-family: "ZCOOL KuaiLe", "Patrick Hand", cursive, sans-serif;
+      background: linear-gradient(155deg, #e8d4f5 0%, #ffd8c2 42%, #ffeaa7 100%);
+      background-attachment: fixed;
+      overflow-x: hidden;
+      color: var(--ink);
+    }
+
+    @media (min-width: 640px) {
+      html { overflow-x: hidden; }
+      body {
+        zoom: 1.32;
+        width: min(920px, calc(100vw / 1.32));
+        max-width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+      }
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.07;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    #app {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 1.2rem 1rem 5.75rem;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h1 {
+      font-size: clamp(1rem, 3vw, 1.38rem);
+      text-align: center;
+      margin-bottom: 0.65rem;
+      text-shadow: 2px 2px 0 rgba(255, 255, 255, 0.65);
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+    h1.visible { opacity: 1; }
+
+    .board {
+      position: relative;
+      width: 100%;
+      background: var(--paper);
+      border: 3px solid var(--ink);
+      border-radius: 255px 18px 235px 18px / 18px 235px 18px 255px;
+      padding: clamp(1rem, 4vw, 1.85rem);
+      box-shadow: 6px 8px 0 var(--paper-edge), 12px 16px 28px var(--shadow);
+      min-height: min(68vh, 520px);
+    }
+
+    .step {
+      display: none;
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
+    }
+    .step.active {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .en-text {
+      font-family: "Patrick Hand", cursive;
+      font-size: clamp(1.12rem, 3vw, 1.48rem);
+      line-height: 1.5;
+      text-align: center;
+      margin: 0.5rem 0 0.85rem;
+    }
+
+    .zh-text {
+      font-size: clamp(1rem, 2.7vw, 1.22rem);
+      line-height: 1.65;
+      text-align: center;
+      margin: 0.45rem 0;
+    }
+
+    /* 三格叙事：Steven | 桥 | 太阳 */
+    .magic-trio {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      align-items: end;
+      gap: clamp(0.3rem, 1.2vw, 0.75rem);
+      margin: 0.75rem 0 1rem;
+      width: 100%;
+    }
+    .lesson-trio-compact .pic-slot { min-height: 130px; }
+    .lesson-trio-compact .pic-frame { min-height: 110px; }
+
+    .pic-slot {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      min-height: 200px;
+      position: relative;
+    }
+
+    .pic-frame {
+      width: 100%;
+      min-height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.45rem;
+      background: #fffef8;
+      border-radius: 14px;
+      box-shadow: inset 0 0 0 2px rgba(44, 44, 44, 0.06);
+    }
+
+    .pic-frame img {
+      max-height: 175px;
+      width: auto;
+      max-width: 100%;
+      object-fit: contain;
+      border-radius: 8px;
+    }
+
+    .name-tag {
+      margin-top: 0.4rem;
+      font-family: "Patrick Hand", cursive;
+      font-size: 1.2rem;
+      color: var(--subj-purple);
+      font-weight: bold;
+    }
+
+    /* State2：魔法桥自右侧滑入并发光 */
+    .bridge-slot {
+      opacity: 0;
+      transform: translateX(40px) scale(0.85);
+      filter: blur(2px);
+      transition: opacity 0.7s ease, transform 0.85s cubic-bezier(0.22, 1, 0.36, 1), filter 0.8s ease;
+    }
+    .bridge-slot.reveal {
+      opacity: 1;
+      transform: translateX(0) scale(1);
+      filter: blur(0);
+    }
+
+    .bridge-glow {
+      position: relative;
+      border-radius: 16px;
+      padding: 0.35rem;
+      background: radial-gradient(ellipse at center, var(--magic-glow) 0%, transparent 70%);
+      animation: pulseGlow 2.2s ease-in-out infinite;
+    }
+    @keyframes pulseGlow {
+      0%, 100% { box-shadow: 0 0 12px rgba(244, 162, 58, 0.45); }
+      50% { box-shadow: 0 0 28px rgba(255, 213, 79, 0.75), 0 0 48px rgba(155, 134, 200, 0.35); }
+    }
+
+    /* 无图时蜡笔风占位：等号桥 */
+    .crayon-bridge-fallback {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 140px;
+      font-family: "Patrick Hand", cursive;
+    }
+    .crayon-bridge-fallback.show { display: flex; }
+    .crayon-eq {
+      font-size: 4.5rem;
+      line-height: 1;
+      color: var(--link-orange);
+      text-shadow: 3px 3px 0 var(--ink), -1px -1px 0 #fff;
+      filter: drop-shadow(0 0 12px rgba(255, 200, 100, 0.9));
+    }
+    .crayon-bridge-label {
+      font-size: 0.95rem;
+      margin-top: 0.25rem;
+      color: var(--ink);
+      opacity: 0.85;
+    }
+
+    /* State3：太阳 + 星星 */
+    .sun-slot {
+      opacity: 0;
+      transform: scale(0.2) rotate(-12deg);
+      transition: opacity 0.5s ease, transform 0.65s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .sun-slot.reveal {
+      opacity: 1;
+      transform: scale(1) rotate(0deg);
+    }
+
+    .sun-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .star-burst {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+    .star-burst span {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 12px;
+      height: 12px;
+      background: var(--star-gold);
+      clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+      margin: -6px 0 0 -6px;
+      opacity: 0;
+      transform: scale(0);
+    }
+    .star-burst.sparkle span {
+      animation: starPop 0.9s ease-out forwards;
+    }
+    .star-burst span:nth-child(1) { --sx: -42px; --sy: -38px; animation-delay: 0.05s; }
+    .star-burst span:nth-child(2) { --sx: 48px; --sy: -28px; animation-delay: 0.12s; }
+    .star-burst span:nth-child(3) { --sx: -35px; --sy: 40px; animation-delay: 0.18s; }
+    .star-burst span:nth-child(4) { --sx: 40px; --sy: 36px; animation-delay: 0.24s; }
+    .star-burst span:nth-child(5) { --sx: 0; --sy: -52px; animation-delay: 0.3s; }
+
+    @keyframes starPop {
+      0% { opacity: 0; transform: translate(0, 0) scale(0); }
+      40% { opacity: 1; transform: translate(calc(var(--sx) * 0.5), calc(var(--sy) * 0.5)) scale(1.2); }
+      100% { opacity: 0.85; transform: translate(var(--sx), var(--sy)) scale(0.6); }
+    }
+
+    .crayon-sun-fallback {
+      display: none;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #fff9c4, var(--star-gold) 45%, #f9a825 100%);
+      border: 4px solid var(--ink);
+      box-shadow: 4px 5px 0 rgba(44, 44, 44, 0.12);
+      position: relative;
+    }
+    .crayon-sun-fallback.show { display: block; }
+    .crayon-sun-fallback::before {
+      content: "";
+      position: absolute;
+      inset: -18px;
+      border-radius: 50%;
+      background: repeating-conic-gradient(from 0deg, transparent 0deg 8deg, rgba(249, 168, 37, 0.35) 8deg 10deg);
+      z-index: -1;
+      animation: sunRay 8s linear infinite;
+    }
+    @keyframes sunRay {
+      to { transform: rotate(360deg); }
+    }
+    .sun-face {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.8rem;
+    }
+
+    .sentence-hero {
+      font-family: "Patrick Hand", cursive;
+      font-size: clamp(1.5rem, 4.5vw, 2.1rem);
+      text-align: center;
+      margin: 0.75rem 0;
+      padding: 0.5rem 1rem;
+      border-radius: 12px;
+      background: linear-gradient(90deg, var(--subj-purple-soft), var(--link-orange-soft), var(--pred-mint-soft));
+      border: 2px dashed var(--ink);
+    }
+    .sentence-hero .w-subj { color: #6b5a9e; font-weight: bold; }
+    .sentence-hero .w-lv { color: #c77d12; font-weight: bold; }
+    .sentence-hero .w-pred { color: #2d8a65; font-weight: bold; }
+
+    .highlight-card {
+      max-width: 640px;
+      margin: 0.75rem auto;
+      padding: 1.1rem 1.25rem;
+      font-size: clamp(0.92rem, 2.4vw, 1.08rem);
+      line-height: 1.85;
+      text-align: left;
+      background: rgba(255, 248, 230, 0.92);
+      border-left: 6px solid var(--link-orange);
+      border-radius: 6px 14px 10px 8px;
+      box-shadow: 3px 4px 0 rgba(44, 44, 44, 0.06);
+    }
+    .highlight-card em {
+      font-style: normal;
+      font-weight: bold;
+      padding: 0 0.12em;
+      border-radius: 4px;
+    }
+    .hl-subj { background: var(--subj-purple-soft); color: #5a4a7a; }
+    .hl-lv { background: var(--link-orange-soft); color: #8a5a12; }
+    .hl-pred { background: var(--pred-mint-soft); color: #1f6b52; }
+
+    /* 拖拽 */
+    .drag-section { margin-top: 0.85rem; }
+    .labels-pool {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.7rem;
+      margin-bottom: 1.1rem;
+      min-height: 52px;
+    }
+    .drag-label {
+      padding: 0.45rem 0.95rem;
+      border: 3px solid var(--ink);
+      border-radius: 10px 14px 11px 12px;
+      cursor: grab;
+      box-shadow: 3px 4px 0 var(--shadow);
+      font-size: 1.05rem;
+      touch-action: none;
+      user-select: none;
+      transition: transform 0.15s ease;
+    }
+    .drag-label:active { cursor: grabbing; }
+    .drag-label.dragging {
+      opacity: 0.88;
+      transform: scale(1.06) rotate(-2deg);
+      z-index: 100;
+    }
+    .drag-label.tag-subj { background: linear-gradient(180deg, #e8dff5, var(--subj-purple-soft)); color: #4a3d66; }
+    .drag-label.tag-lv { background: linear-gradient(180deg, #fff3e0, var(--link-orange-soft)); color: #7a4f0a; }
+    .drag-label.tag-pred { background: linear-gradient(180deg, #e8f8f2, var(--pred-mint-soft)); color: #1d5c45; }
+    .drag-label.placed {
+      visibility: hidden;
+      position: absolute;
+      width: 0;
+      height: 0;
+      overflow: hidden;
+    }
+
+    .sentence-strip {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: flex-end;
+      gap: clamp(0.35rem, 2vw, 0.7rem);
+      margin: 0.85rem 0;
+      font-family: "Patrick Hand", cursive;
+      font-size: clamp(1.35rem, 4vw, 1.95rem);
+    }
+    .word-unit { display: flex; flex-direction: column; align-items: center; gap: 0.35rem; }
+    .word-text {
+      padding: 0.12rem 0.45rem;
+      border-bottom: 3px wavy var(--link-orange);
+    }
+
+    .drop-zone {
+      min-width: 92px;
+      min-height: 48px;
+      touch-action: none;
+      border: 3px dashed var(--ink);
+      border-radius: 8px 12px 9px 10px;
+      background: rgba(255, 255, 255, 0.65);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s, border-color 0.2s, transform 0.2s;
+    }
+    .drop-zone.drag-over {
+      background: rgba(255, 234, 167, 0.55);
+      border-style: solid;
+      transform: scale(1.04);
+    }
+    .drop-zone.correct {
+      border-color: var(--pred-mint);
+      background: var(--pred-mint-soft);
+      border-style: solid;
+    }
+    .drop-zone.wrong-shake { animation: shake 0.45s ease; }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-7px); }
+      75% { transform: translateX(7px); }
+    }
+    .drop-zone .filled-tag {
+      font-size: 0.95rem;
+      padding: 0.2rem 0.45rem;
+      background: #fff;
+      border: 2px solid var(--ink);
+      border-radius: 6px;
+    }
+
+    .def-grid {
+      display: grid;
+      gap: 0.65rem;
+      margin-top: 1rem;
+      max-width: 560px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .def-card {
+      padding: 0.75rem 1rem;
+      border-radius: 12px;
+      border: 3px solid var(--ink);
+      font-size: clamp(0.9rem, 2.3vw, 1.02rem);
+      line-height: 1.55;
+      box-shadow: 3px 4px 0 var(--shadow);
+    }
+    .def-card strong {
+      font-family: "Patrick Hand", cursive;
+      font-size: 1.15rem;
+      display: block;
+      margin-bottom: 0.25rem;
+    }
+    .def-card--subj { background: var(--subj-purple-soft); border-color: var(--subj-purple); }
+    .def-card--lv { background: var(--link-orange-soft); border-color: var(--link-orange); }
+    .def-card--pred { background: var(--pred-mint-soft); border-color: var(--pred-mint); }
+
+    .success-burst {
+      animation: successPop 0.65s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    @keyframes successPop {
+      from { transform: scale(0.92); opacity: 0.5; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .state-hint {
+      text-align: center;
+      font-size: 0.88rem;
+      color: #555;
+      margin-top: 0.75rem;
+    }
+
+    .footer-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 50;
+      background: rgba(255, 252, 245, 0.96);
+      border-top: 3px solid var(--ink);
+      padding: 0.55rem 0.75rem;
+      box-shadow: 0 -4px 18px rgba(44, 44, 44, 0.08);
+    }
+    .footer-toolbar {
+      max-width: 920px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+    .page-nav-link {
+      font-size: 0.82rem;
+      color: #444;
+      text-decoration: none;
+      padding: 0.35rem 0.6rem;
+      border-radius: 8px;
+      border: 2px dashed transparent;
+    }
+    .page-nav-link:hover { border-color: var(--subj-purple); color: var(--ink); }
+    button.page-nav-link {
+      cursor: pointer;
+      font: inherit;
+    }
+    .next-btn {
+      font-family: inherit;
+      font-size: 1rem;
+      padding: 0.5rem 1.35rem;
+      background: linear-gradient(180deg, var(--link-orange), #e89420);
+      color: #fff;
+      border: 3px solid var(--ink);
+      border-radius: 12px 16px 13px 14px;
+      cursor: pointer;
+      box-shadow: 3px 4px 0 var(--shadow);
+      transition: transform 0.12s ease;
+    }
+    .next-btn:hover:not(:disabled) { transform: translateY(-1px); }
+    .next-btn:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .success-overlay {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 200;
+      overflow: hidden;
+    }
+    .confetti {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      top: -12px;
+      opacity: 0.9;
+      animation: fall linear forwards;
+    }
+    @keyframes fall {
+      to {
+        transform: translateY(110vh) rotate(720deg);
+        opacity: 0.3;
+      }
+    }
+
+    .tts-read-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-left: 0.35rem;
+      padding: 0.15rem 0.45rem;
+      font-size: 0.85rem;
+      border: 2px solid var(--ink);
+      border-radius: 8px;
+      background: #fff;
+      cursor: pointer;
+      vertical-align: middle;
+    }
+    .tts-read-btn:hover { background: var(--paper); }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <h1 id="pageTitle" class="visible">主系表 · 魔法桥 — 第 1 页</h1>
+
+    <div class="board" id="stageBoard">
+      <div class="board-inner">
+        <!-- State 1 -->
+        <section class="step active" data-state="1" aria-hidden="false">
+          <div class="magic-trio">
+            <div class="pic-slot">
+              <div class="pic-frame">
+                <!-- 配图：Vertex Imagen → 主系表和非谓语/asset/img/teacher_steven.png -->
+                <img src="asset/img/teacher_steven.png" alt="Steven" />
+              </div>
+              <div class="name-tag">Steven</div>
+            </div>
+            <div class="pic-slot" style="min-height:120px"></div>
+            <div class="pic-slot" style="min-height:120px"></div>
+          </div>
+          <p class="zh-text">欢迎来到「主系表」第一课：我们从一幅画开始。</p>
+        </section>
+
+        <!-- State 2 -->
+        <section class="step" data-state="2" aria-hidden="true">
+          <div class="magic-trio">
+            <div class="pic-slot">
+              <div class="pic-frame">
+                <img src="asset/img/teacher_steven.png" alt="Steven" />
+              </div>
+              <div class="name-tag">Steven</div>
+            </div>
+            <div class="pic-slot">
+              <div class="bridge-glow bridge-slot" id="bridgeReveal">
+                <div class="pic-frame" style="min-height:160px">
+                  <!-- 配图：asset/img/magic_bridge.png -->
+                  <img
+                    id="imgBridge"
+                    src="asset/img/magic_bridge.png"
+                    alt="魔法桥"
+                    onerror="this.style.display='none'; document.getElementById('bridgeFallback').classList.add('show');"
+                  />
+                  <div id="bridgeFallback" class="crayon-bridge-fallback" aria-hidden="true">
+                    <span class="crayon-eq">=</span>
+                    <span class="crayon-bridge-label">magic bridge</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="pic-slot" style="min-height:120px"></div>
+          </div>
+          <p class="zh-text">看，Steven 和右边之间出现了一座发光的「魔法桥」——像不像等号？</p>
+        </section>
+
+        <!-- State 3 -->
+        <section class="step" data-state="3" aria-hidden="true">
+          <div class="magic-trio">
+            <div class="pic-slot">
+              <div class="pic-frame">
+                <img src="asset/img/teacher_steven.png" alt="Steven" />
+              </div>
+              <div class="name-tag">Steven</div>
+            </div>
+            <div class="pic-slot">
+              <div class="bridge-glow bridge-slot reveal" id="bridgeHold">
+                <div class="pic-frame" style="min-height:160px">
+                  <img
+                    src="asset/img/magic_bridge.png"
+                    alt="魔法桥"
+                    onerror="this.style.display='none'; document.getElementById('bridgeFallback2').classList.add('show');"
+                  />
+                  <div id="bridgeFallback2" class="crayon-bridge-fallback" aria-hidden="true">
+                    <span class="crayon-eq">=</span>
+                    <span class="crayon-bridge-label">linking</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="pic-slot">
+              <div class="sun-wrap pic-frame" style="min-height:180px">
+                <div class="star-burst" id="starBurst" aria-hidden="true">
+                  <span></span><span></span><span></span><span></span><span></span>
+                </div>
+                <!-- 配图：asset/img/happy_sun.png -->
+                <img
+                  id="imgSun"
+                  class="sun-slot"
+                  src="asset/img/happy_sun.png"
+                  alt="开心的太阳"
+                  style="max-height:160px; position:relative; z-index:1"
+                  onerror="this.style.display='none'; document.getElementById('sunFallback').classList.add('show','reveal'); document.getElementById('starBurst').classList.add('sparkle');"
+                />
+                <div id="sunFallback" class="crayon-sun-fallback sun-slot" aria-hidden="true">
+                  <span class="sun-face" role="img" aria-label="happy">😊</span>
+                </div>
+              </div>
+              <div class="name-tag" style="color:var(--pred-mint)">Happy</div>
+            </div>
+          </div>
+          <p class="zh-text">右边是「开心的太阳」——表示一种<strong>心情 / 状态</strong>。</p>
+        </section>
+
+        <!-- State 4 -->
+        <section class="step" data-state="4" aria-hidden="true">
+          <div class="magic-trio lesson-trio-compact">
+            <div class="pic-slot" style="min-height:140px">
+              <div class="pic-frame" style="min-height:120px">
+                <img src="asset/img/teacher_steven.png" alt="" style="max-height:110px" />
+              </div>
+            </div>
+            <div class="pic-slot" style="min-height:140px">
+              <div class="pic-frame" style="min-height:120px">
+                <img src="asset/img/magic_bridge.png" alt="" style="max-height:100px;display:block;margin:auto" onerror="this.style.display='none'; var s=this.nextElementSibling; if(s) s.style.display='block';" />
+                <span class="crayon-eq" style="font-size:3rem;display:none;text-align:center;margin:auto">=</span>
+              </div>
+            </div>
+            <div class="pic-slot" style="min-height:140px">
+              <div class="pic-frame" style="min-height:120px">
+                <img src="asset/img/happy_sun.png" alt="" style="max-height:110px" onerror="this.style.display='none'" />
+              </div>
+            </div>
+          </div>
+          <p class="en-text" id="state4En">
+            What do the pictures tell us about Steven? Is he DOING something, or is he IN A STATE?
+            <button type="button" class="tts-read-btn" data-tts-read="What%20do%20the%20pictures%20tell%20us%20about%20Steven%3F%20Is%20he%20DOING%20something%2C%20or%20is%20he%20IN%20A%20STATE%3F" title="Azure 朗读">🔊</button>
+          </p>
+          <p class="zh-text">这些画告诉你：Steven 是在<strong>做动作</strong>，还是在一种<strong>状态</strong>里？</p>
+        </section>
+
+        <!-- State 5 -->
+        <section class="step" data-state="5" aria-hidden="true">
+          <p class="sentence-hero">
+            <span class="w-subj">Steven</span>
+            <span class="w-lv"> is </span>
+            <span class="w-pred">happy</span>.
+          </p>
+          <p class="zh-text">我们可以用一句话把它们连起来：</p>
+        </section>
+
+        <!-- State 6 -->
+        <section class="step" data-state="6" aria-hidden="true">
+          <p class="sentence-hero">
+            <span class="w-subj">Steven</span><span class="w-lv"> is </span><span class="w-pred">happy</span>.
+          </p>
+          <p class="zh-text">
+            这句话是在描述 Steven「做了什么动作」（如吃、跑），还是只说明他「怎么样」？
+            <button type="button" class="tts-read-btn" data-tts-read="Does%20this%20sentence%20describe%20something%20Steven%20does%2C%20like%20eating%20or%20running%2C%20or%20does%20it%20only%20say%20how%20he%20is%3F" title="Azure 朗读英文问题">🔊</button>
+          </p>
+          <p class="en-text" style="font-size:1rem;opacity:0.9">
+            Does this sentence describe something Steven does, like eating or running, or does it only say how he is?
+          </p>
+        </section>
+
+        <!-- State 7 -->
+        <section class="step" data-state="7" aria-hidden="true">
+          <p class="sentence-hero">
+            <span class="w-subj">Steven</span><span class="w-lv"> is </span><span class="w-pred">happy</span>.
+          </p>
+          <p class="zh-text">没有具体的动作！这句话是在描述 Steven 的<strong>状态</strong>，或者说他<strong>怎么样</strong>。</p>
+        </section>
+
+        <!-- State 8 -->
+        <section class="step" data-state="8" aria-hidden="true">
+          <div class="highlight-card">
+            当我们想描述一个人或事物「是什么」或者「怎么样」时，我们用一座<strong>「魔法桥」</strong>（像等号一样）把主人公和他的状态连接起来。在英语里，这座桥叫作<em class="hl-lv">【系动词】</em>，桥对面的状态叫作<em class="hl-pred">【表语】</em>；而主人公就是<em class="hl-subj">【主语】</em>。
+          </div>
+        </section>
+
+        <!-- State 9 拖拽 -->
+        <section class="step" data-state="9" aria-hidden="true">
+          <p class="zh-text">现在，你能将<strong>主语</strong>、<strong>系动词</strong>、<strong>表语</strong>与 <em>Steven is happy</em> 一一对应起来吗？</p>
+          <p class="zh-text" style="font-size:0.88rem;opacity:0.9">平板：可先<strong>点彩色标签</strong>，再<strong>点下方虚线框</strong>；也可按住拖动。</p>
+          <div class="drag-section">
+            <div class="labels-pool" id="labelsPool">
+              <div class="drag-label tag-subj" draggable="true" data-tag="subject">主语 Subject</div>
+              <div class="drag-label tag-lv" draggable="true" data-tag="linking">系动词 Linking V.</div>
+              <div class="drag-label tag-pred" draggable="true" data-tag="predicative">表语 Predicative</div>
+            </div>
+            <div class="sentence-strip">
+              <div class="word-unit">
+                <span class="word-text">Steven</span>
+                <div class="drop-zone" data-accept="subject" id="dz1"></div>
+              </div>
+              <div class="word-unit">
+                <span class="word-text">is</span>
+                <div class="drop-zone" data-accept="linking" id="dz2"></div>
+              </div>
+              <div class="word-unit">
+                <span class="word-text">happy</span>
+                <div class="drop-zone" data-accept="predicative" id="dz3"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- State 10 总结卡片 -->
+        <section class="step" data-state="10" aria-hidden="true">
+          <p class="zh-text success-burst" style="color:#2d7a52;font-size:1.15rem">太棒了！你已经对齐了主系表！</p>
+          <div class="def-grid">
+            <div class="def-card def-card--subj">
+              <strong>主语 Subject</strong>
+              被描述的主角——句子讲的就是「谁」或「什么」。
+            </div>
+            <div class="def-card def-card--lv">
+              <strong>系动词 Linking verb</strong>
+              一般不表示「某人做了什么事」，而像一座「等号 / 魔法桥」，把主角和后面的状态或身份说明连起来。
+            </div>
+            <div class="def-card def-card--pred">
+              <strong>表语 Predicative</strong>
+              说明主角的身份、特征或状态——主角「是什么 / 怎么样」。
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <p class="state-hint" id="stateHint">请点击下方「下一步」继续。</p>
+    </div>
+  </div>
+
+  <div class="success-overlay" id="confettiRoot" aria-hidden="true"></div>
+
+  <div class="footer-bar">
+    <div class="footer-toolbar">
+      <a class="page-nav-link" href="index.html" title="返回主系表课程列表">课程列表</a>
+      <button type="button" class="page-nav-link" id="navPrevStep" disabled title="撤回本页内上一步">← 上一步</button>
+      <button type="button" class="next-btn" id="nextBtn">下一步 →</button>
+    </div>
+  </div>
+
+  <script src="cos-config.js"></script>
+  <script src="linking-assets.js"></script>
+  <script>
+(function () {
+  "use strict";
+
+  var AZURE_SPEECH_KEY =
+    "DKRXk8ueSfo5NdIOMqFRTCAfpeGDezJ3Snf5K8gGgtyqxiWdugLzJQQJ99BLACHYHv6XJ3w3AAAYACOGUYP9";
+  var AZURE_REGION = "eastus2";
+  var TTS_VOICE = "en-US-AriaNeural";
+
+  var state = 1;
+  var maxState = 10;
+  var steps = document.querySelectorAll(".step");
+  var nextBtn = document.getElementById("nextBtn");
+  var prevBtn = document.getElementById("navPrevStep");
+  var stateHint = document.getElementById("stateHint");
+  var bridgeReveal = document.getElementById("bridgeReveal");
+  var bridgeHold = document.getElementById("bridgeHold");
+  var starBurst = document.getElementById("starBurst");
+
+  function showStep(n) {
+    steps.forEach(function (el) {
+      var s = parseInt(el.getAttribute("data-state"), 10);
+      el.classList.toggle("active", s === n);
+      el.setAttribute("aria-hidden", s === n ? "false" : "true");
+    });
+
+    if (n === 9) {
+      nextBtn.disabled = true;
+      nextBtn.textContent = "请拖拽标签到对应框内";
+      stateHint.textContent = "将紫 / 橙 / 绿标签拖到 Steven、is、happy 下方；全部正确后将自动显示总结。";
+    } else if (n === 10) {
+      nextBtn.textContent = "本页完成 ✓";
+      nextBtn.disabled = true;
+      stateHint.textContent = "";
+    } else {
+      nextBtn.disabled = false;
+      nextBtn.textContent = "下一步 →";
+      stateHint.textContent = "请点击下方「下一步」继续。";
+    }
+    updatePrevBtn();
+  }
+
+  function updatePrevBtn() {
+    if (prevBtn) prevBtn.disabled = state <= 1;
+  }
+
+  function retreatLesson() {
+    if (state <= 1) return;
+    if (state === 10) {
+      resetDragState();
+      state = 9;
+      showStep(9);
+      return;
+    }
+    if (state === 9) {
+      state = 8;
+      showStep(8);
+      return;
+    }
+    state--;
+    showStep(state);
+    if (state < 2 && bridgeReveal) bridgeReveal.classList.remove("reveal");
+    if (state < 3) {
+      if (bridgeHold) bridgeHold.classList.remove("reveal");
+      var sunImg = document.getElementById("imgSun");
+      var sunFb = document.getElementById("sunFallback");
+      if (sunImg) sunImg.classList.remove("reveal");
+      if (sunFb) sunFb.classList.remove("reveal");
+      if (starBurst) starBurst.classList.remove("sparkle");
+    }
+  }
+
+  function speakAzure(text) {
+    if (!text) return;
+    var endpoint =
+      "https://" + AZURE_REGION + ".tts.speech.microsoft.com/cognitiveservices/v1";
+    var ssml =
+      '<speak version="1.0" xml:lang="en-US">' +
+      '<voice xml:lang="en-US" name="' +
+      TTS_VOICE +
+      '">' +
+      escapeXml(text) +
+      "</voice></speak>";
+
+    fetch(endpoint, {
+      method: "POST",
+      headers: {
+        "Ocp-Apim-Subscription-Key": AZURE_SPEECH_KEY,
+        "Content-Type": "application/ssml+xml",
+        "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3",
+        "User-Agent": "ESL-SPA-LinkingV-Page1"
+      },
+      body: ssml
+    })
+      .then(function (res) {
+        if (!res.ok) throw new Error("TTS " + res.status);
+        return res.arrayBuffer();
+      })
+      .then(function (buf) {
+        var blob = new Blob([buf], { type: "audio/mpeg" });
+        var url = URL.createObjectURL(blob);
+        var audio = new Audio(url);
+        audio.play().finally(function () {
+          setTimeout(function () {
+            URL.revokeObjectURL(url);
+          }, 60000);
+        });
+      })
+      .catch(function (err) {
+        console.warn("Azure TTS:", err);
+      });
+  }
+
+  function escapeXml(s) {
+    return String(s)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+
+  document.getElementById("stageBoard").addEventListener("click", function (e) {
+    var b = e.target.closest(".tts-read-btn[data-tts-read]");
+    if (!b) return;
+    var enc = b.getAttribute("data-tts-read");
+    if (enc) speakAzure(decodeURIComponent(enc));
+  });
+
+  function advance() {
+    if (state >= maxState) return;
+    if (state === 9) return;
+
+    var next = state + 1;
+    state = next;
+    showStep(state);
+
+    if (state === 2) {
+      requestAnimationFrame(function () {
+        if (bridgeReveal) bridgeReveal.classList.add("reveal");
+      });
+    }
+    if (state === 3) {
+      requestAnimationFrame(function () {
+        if (bridgeHold) bridgeHold.classList.add("reveal");
+        var sunImg = document.getElementById("imgSun");
+        var sunFb = document.getElementById("sunFallback");
+        if (sunImg) sunImg.classList.add("reveal");
+        if (sunFb) sunFb.classList.add("reveal");
+        if (starBurst) starBurst.classList.add("sparkle");
+      });
+    }
+    if (state === 4) {
+      var t =
+        "What do the pictures tell us about Steven? Is he DOING something, or is he IN A STATE?";
+      setTimeout(function () {
+        speakAzure(t);
+      }, 400);
+    }
+    if (state === 6) {
+      setTimeout(function () {
+        speakAzure(
+          "Does this sentence describe something Steven does, like eating or running, or does it only say how he is?"
+        );
+      }, 400);
+    }
+  }
+
+  nextBtn.addEventListener("click", function () {
+    advance();
+  });
+  if (prevBtn) prevBtn.addEventListener("click", retreatLesson);
+
+  var correctCount = 0;
+  var pool = document.getElementById("labelsPool");
+  var pendingTag = null;
+
+  function resetDragState() {
+    correctCount = 0;
+    pendingTag = null;
+    document.querySelectorAll(".drop-zone").forEach(function (z) {
+      z.innerHTML = "";
+      z.classList.remove("correct", "wrong-shake", "drag-over");
+    });
+    document.querySelectorAll(".drag-label").forEach(function (lab) {
+      lab.classList.remove("placed", "dragging");
+      lab.setAttribute("draggable", wantTouchStyleDnD() ? "false" : "true");
+      lab.style.outline = "none";
+      if (pool && lab.parentElement !== pool) pool.appendChild(lab);
+    });
+  }
+
+  function launchConfetti() {
+    var root = document.getElementById("confettiRoot");
+    if (!root) return;
+    root.innerHTML = "";
+    root.setAttribute("aria-hidden", "false");
+    var colors = ["#9b86c8", "#f4a23a", "#5cbf9a", "#ffd54f", "#e8a0bf", "#7eb8da"];
+    for (var i = 0; i < 44; i++) {
+      var c = document.createElement("div");
+      c.className = "confetti";
+      c.style.left = Math.random() * 100 + "vw";
+      c.style.background = colors[i % colors.length];
+      c.style.animationDuration = 2.4 + Math.random() * 2 + "s";
+      c.style.animationDelay = Math.random() * 0.25 + "s";
+      root.appendChild(c);
+    }
+    setTimeout(function () {
+      root.innerHTML = "";
+      root.setAttribute("aria-hidden", "true");
+    }, 4800);
+  }
+
+  function onAllCorrect() {
+    if (state === 10) return;
+    pendingTag = null;
+    state = 10;
+    showStep(10);
+    launchConfetti();
+  }
+
+  function wantTouchStyleDnD() {
+    try {
+      if (window.matchMedia("(pointer: coarse)").matches) return true;
+      if (window.matchMedia("(hover: none)").matches) return true;
+    } catch (e) {}
+    return false;
+  }
+
+  function bindPointerDragPlace(el, opts) {
+    var matchSlot = opts.matchSlot;
+    var onDrop = opts.onDrop;
+    var activeId = null;
+    function end(e) {
+      if (activeId === null || e.pointerId !== activeId) return;
+      activeId = null;
+      el.classList.remove("dragging");
+      try {
+        el.releasePointerCapture(e.pointerId);
+      } catch (err) {}
+      if (el.classList.contains("placed")) return;
+      var under = document.elementFromPoint(e.clientX, e.clientY);
+      if (!under) return;
+      var slot = matchSlot(under, el);
+      if (slot) onDrop(slot, el);
+    }
+    el.addEventListener(
+      "pointerdown",
+      function (e) {
+        if (state !== 9 || el.classList.contains("placed")) return;
+        if (e.pointerType === "mouse" && e.button !== 0) return;
+        activeId = e.pointerId;
+        el.classList.add("dragging");
+        try {
+          el.setPointerCapture(e.pointerId);
+        } catch (err) {}
+      },
+      { passive: true }
+    );
+    el.addEventListener("pointerup", end);
+    el.addEventListener("pointercancel", end);
+  }
+
+  function tryPage1LabelDrop(zone, lab) {
+    if (state !== 9 || !zone || !lab) return;
+    zone.classList.remove("drag-over");
+    var tag = lab.getAttribute("data-tag");
+    var accept = zone.getAttribute("data-accept");
+    if (zone.querySelector(".filled-tag")) return;
+    if (tag === accept) {
+      zone.classList.add("correct");
+      var span = document.createElement("span");
+      span.className = "filled-tag";
+      span.textContent = lab.textContent.trim();
+      zone.appendChild(span);
+      lab.classList.add("placed");
+      lab.setAttribute("draggable", "false");
+      correctCount++;
+      if (correctCount >= 3) onAllCorrect();
+    } else {
+      zone.classList.add("wrong-shake");
+      setTimeout(function () {
+        zone.classList.remove("wrong-shake");
+      }, 450);
+    }
+  }
+
+  var dragEl = null;
+  document.querySelectorAll(".drag-label").forEach(function (lab) {
+    lab.setAttribute("draggable", wantTouchStyleDnD() ? "false" : "true");
+    if (wantTouchStyleDnD()) {
+      bindPointerDragPlace(lab, {
+        matchSlot: function (under) {
+          return under.closest && under.closest(".drop-zone");
+        },
+        onDrop: tryPage1LabelDrop
+      });
+    }
+    lab.addEventListener("dragstart", function (e) {
+      if (state !== 9) return;
+      dragEl = lab;
+      lab.classList.add("dragging");
+      e.dataTransfer.setData("text/plain", lab.getAttribute("data-tag"));
+      e.dataTransfer.effectAllowed = "move";
+    });
+    lab.addEventListener("dragend", function () {
+      lab.classList.remove("dragging");
+      dragEl = null;
+    });
+  });
+
+  document.querySelectorAll(".drop-zone").forEach(function (zone) {
+    zone.addEventListener("dragover", function (e) {
+      if (state !== 9) return;
+      e.preventDefault();
+      e.dataTransfer.dropEffect = "move";
+      zone.classList.add("drag-over");
+    });
+    zone.addEventListener("dragleave", function () {
+      zone.classList.remove("drag-over");
+    });
+    zone.addEventListener("drop", function (e) {
+      if (state !== 9) return;
+      e.preventDefault();
+      zone.classList.remove("drag-over");
+      if (!dragEl || zone.querySelector(".filled-tag")) return;
+      tryPage1LabelDrop(zone, dragEl);
+    });
+  });
+
+  document.addEventListener(
+    "click",
+    function (e) {
+      if (state !== 9) return;
+      var lab = e.target.closest(".drag-label");
+      var zone = e.target.closest(".drop-zone");
+      if (lab && !lab.classList.contains("placed")) {
+        document.querySelectorAll(".drag-label").forEach(function (l) {
+          l.style.outline = "none";
+        });
+        pendingTag = lab;
+        lab.style.outline = "3px solid #f4a23a";
+        return;
+      }
+      if (zone && pendingTag && !zone.querySelector(".filled-tag")) {
+        tryPage1LabelDrop(zone, pendingTag);
+        if (pendingTag && pendingTag.classList.contains("placed")) {
+          pendingTag.style.outline = "none";
+          pendingTag = null;
+        }
+      }
+    },
+    true
+  );
+
+  showStep(1);
+})();
+  </script>
+</body>
+</html>
