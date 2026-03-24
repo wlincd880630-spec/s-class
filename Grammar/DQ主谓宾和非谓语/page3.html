@@ -2,7 +2,6 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
-  <script>window.MEDIA_BASE="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/";window.MEDIA_PREFIX="Grammar/DQ主谓宾和非谓语";window.mediaUrl=function(p){if(!p)return"";if(/^(https?:|\/\/|data:)/.test(String(p)))return p;return(window.MEDIA_BASE||"")+(window.MEDIA_PREFIX||"")+"/"+String(p).replace(/^\//,"");};</script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>谓语时态与非谓语动词 — 互动课 第 3 页</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -522,8 +521,13 @@
       box-shadow: 2px 3px 0 var(--shadow);
       transition: transform 0.12s ease;
     }
-    a.page-nav-link:hover {
+    a.page-nav-link:hover,
+    button.page-nav-link:hover {
       transform: translateY(-1px);
+    }
+    button.page-nav-link {
+      cursor: pointer;
+      font: inherit;
     }
     .page-nav-link--disabled {
       opacity: 0.42;
@@ -788,9 +792,9 @@
   <div class="success-overlay" id="confettiRoot" aria-hidden="true"></div>
   <div class="footer-bar">
     <div class="footer-toolbar">
-      <a class="page-nav-link" href="page2.html" title="返回第 2 页">← 上一页</a>
-      <button type="button" class="next-btn" id="nextBtn">下一步 Next →</button>
-      <a class="page-nav-link" href="page4.html" title="无需完成本页步骤，直接进入第 4 页">下一页 →</a>
+      <a class="page-nav-link" href="index.html" title="返回本系列课程列表">课程列表</a>
+      <button type="button" class="page-nav-link" id="navPrevStep" disabled title="撤回本课内上一步">← 上一步</button>
+      <button type="button" class="next-btn" id="nextBtn">下一步 →</button>
     </div>
   </div>
 
@@ -803,7 +807,7 @@
     "DKRXk8ueSfo5NdIOMqFRTCAfpeGDezJ3Snf5K8gGgtyqxiWdugLzJQQJ99BLACHYHv6XJ3w3AAAYACOGUYP9";
   var AZURE_REGION = "eastus2";
   var TTS_VOICE = "en-US-AriaNeural";
-  var P3IMG = (window.mediaUrl && window.mediaUrl("asset/img/")) || "asset/img/";
+  var P3IMG = "asset/img/";
 
   var TOTAL_STATES = 62;
   var PRACTICE_START = 27;
@@ -911,6 +915,8 @@
   ];
 
   var nextBtn = document.getElementById("nextBtn");
+  var prevBtn = document.getElementById("navPrevStep");
+  var p3NavStack = [];
   var stepMount = document.getElementById("stepMount");
   var mainBoard = document.getElementById("mainBoard");
   var progressLabel = document.getElementById("progressLabel");
@@ -1234,6 +1240,42 @@
     return "第 3 页 · 步骤 " + state + " / " + TOTAL_STATES;
   }
 
+  function snapP3() {
+    return {
+      state: state,
+      phase: phase,
+      quizIndex: quizIndex,
+      quizAnswered: quizAnswered,
+      ux: {
+        s24done: ux.s24done,
+        predOk: ux.predOk,
+        nfOk: ux.nfOk,
+        svoDone: ux.svoDone
+      }
+    };
+  }
+
+  function restoreP3(s) {
+    state = s.state;
+    phase = s.phase;
+    quizIndex = s.quizIndex;
+    quizAnswered = s.quizAnswered;
+    ux.s24done = s.ux.s24done;
+    ux.predOk = s.ux.predOk;
+    ux.nfOk = s.ux.nfOk;
+    ux.svoDone = s.ux.svoDone;
+  }
+
+  function updatePrevBtn() {
+    if (prevBtn) prevBtn.disabled = p3NavStack.length === 0;
+  }
+
+  function retreatP3() {
+    if (!p3NavStack.length) return;
+    restoreP3(p3NavStack.pop());
+    render();
+  }
+
   function canAdvanceNext() {
     if (state >= 3 && state <= 7) {
       return quizAnswered;
@@ -1250,6 +1292,7 @@
 
   function render() {
     progressLabel.textContent = progressText();
+    updatePrevBtn();
     var html = "";
     var bb = false;
     nextBtn.disabled = !canAdvanceNext();
@@ -1927,6 +1970,7 @@
         }
       });
     });
+    updatePrevBtn();
   }
 
   function bindStepEvents() {
@@ -2180,8 +2224,10 @@
   nextBtn.addEventListener("click", function () {
     if (state === 62) return;
     if (!canAdvanceNext()) return;
+    p3NavStack.push(snapP3());
     advance();
   });
+  if (prevBtn) prevBtn.addEventListener("click", retreatP3);
 
   render();
 })();

@@ -2,7 +2,6 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
-  <script>window.MEDIA_BASE="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/";window.MEDIA_PREFIX="Grammar/DQ主谓宾和非谓语";window.mediaUrl=function(p){if(!p)return"";if(/^(https?:|\/\/|data:)/.test(String(p)))return p;return(window.MEDIA_BASE||"")+(window.MEDIA_PREFIX||"")+"/"+String(p).replace(/^\//,"");};</script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>非谓语三种形态 · 分级精讲 — 互动课 第 4 页</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -380,8 +379,13 @@
       box-shadow: 2px 3px 0 var(--shadow);
       transition: transform 0.12s ease;
     }
-    a.page-nav-link:hover {
+    a.page-nav-link:hover,
+    button.page-nav-link:hover {
       transform: translateY(-1px);
+    }
+    button.page-nav-link {
+      cursor: pointer;
+      font: inherit;
     }
     .page-nav-link--disabled {
       opacity: 0.42;
@@ -563,9 +567,9 @@
   <div class="success-overlay" id="confettiRoot" aria-hidden="true"></div>
   <div class="footer-bar">
     <div class="footer-toolbar">
-      <a class="page-nav-link" href="page3.html" title="返回第 3 页">← 上一页</a>
-      <button type="button" class="next-btn" id="nextBtn">下一步 Next →</button>
-      <span class="page-nav-link page-nav-link--disabled" aria-disabled="true">下一页 →</span>
+      <a class="page-nav-link" href="index.html" title="返回本系列课程列表">课程列表</a>
+      <button type="button" class="page-nav-link" id="navPrevStep" disabled title="撤回本课内上一步">← 上一步</button>
+      <button type="button" class="next-btn" id="nextBtn">下一步 →</button>
     </div>
   </div>
 
@@ -579,7 +583,7 @@
    * 数据在 page4verbs.js：纯 SVO/SVOC；初中 70 条（doing29+to_do29+bare12）、高中 100 条（doing44+to_do44+bare12）；单词表按 doing / to do / 裸 do 分组；裸不定式仅 12 个使役/感官词。
    * Schema：example_sentence + example_pic_prompt（Step B 例句图）；
    * practice_1_cn + practice_1_pic_prompt + practice_1_words/answer（Step C 看图造句，与例句不同）；
-   * practice_2_*（Step D 排序）。
+   * practice_2_*（Step D 句子排序）。
    */
   if (typeof VERB_ITEMS === "undefined" || !VERB_ITEMS.length) {
     console.error("page4verbs.js 未加载或 VERB_ITEMS 为空");
@@ -591,7 +595,7 @@
     "DKRXk8ueSfo5NdIOMqFRTCAfpeGDezJ3Snf5K8gGgtyqxiWdugLzJQQJ99BLACHYHv6XJ3w3AAAYACOGUYP9";
   var AZURE_REGION = "eastus2";
   var TTS_VOICE = "en-US-AriaNeural";
-  var P4_IMG_FALLBACK = (window.mediaUrl && window.mediaUrl("asset/img/p4_placeholder.png")) || "asset/img/p4_placeholder.png";
+  var P4_IMG_FALLBACK = "asset/img/p4_placeholder.png";
 
   var state = 1;
   var track = null;
@@ -602,6 +606,7 @@
   var verbDone = {};
 
   var nextBtn = document.getElementById("nextBtn");
+  var prevBtn = document.getElementById("navPrevStep");
   var stepMount = document.getElementById("stepMount");
   var confettiRoot = document.getElementById("confettiRoot");
   document.body.classList.remove("theme-junior", "theme-senior");
@@ -741,7 +746,7 @@
         " · 单词表（按形式分组，任选一词，无需按顺序）";
     } else if (state === 6) {
       var v = currentVerb();
-      var names = ["逻辑精讲", "例句", "看图造句", "连词成句"];
+      var names = ["逻辑精讲", "例句", "看图造句", "句子排序"];
       el.textContent =
         "第 4 页 · " +
         (track === "junior" ? "初中" : "高中") +
@@ -950,6 +955,49 @@
     return "裸不定式 do";
   }
 
+  function updatePrevBtn() {
+    if (prevBtn) prevBtn.disabled = state <= 1;
+  }
+
+  function retreatP4() {
+    if (state <= 1) return;
+    if (state === 7) {
+      state = 8;
+      render();
+      return;
+    }
+    if (state === 6) {
+      if (subStep > 0) {
+        subStep--;
+        if (subStep < 3) ux.p2 = false;
+        if (subStep < 2) ux.p1 = false;
+        render();
+        return;
+      }
+      state = 8;
+      verbIndex = -1;
+      render();
+      return;
+    }
+    if (state === 8) {
+      state = 5;
+      track = null;
+      verbIndex = -1;
+      subStep = 0;
+      ux.p1 = false;
+      ux.p2 = false;
+      render();
+      return;
+    }
+    if (state === 5) {
+      state = 4;
+      render();
+      return;
+    }
+    state--;
+    render();
+  }
+
   function render() {
     applyBodyTheme();
 
@@ -1097,12 +1145,13 @@
             '">' +
             escapeHtml(v.level + " · " + typeLabel(v.type)) +
             "</span>" +
-            '<p class="zh-text">Step B · 例句（配图与下面练习不是同一张图）</p>' +
-            '<p class="hint-prompt" style="margin-top:0;">例句配图说明（供生成 / 无障碍）：</p>' +
+            '<p class="zh-text">Step B · 例句</p>' +
+            '<p class="hint-prompt" style="margin-top:0;">下图<strong>只对应</strong>本句例句；与 Step C、D 的配图不是同一张。</p>' +
+            '<p class="hint-prompt" style="font-size:0.82rem;opacity:0.88;margin-top:0.15rem;">插图 alt 为场景说明（制图 / 读屏）。</p>' +
             '<div class="pic-frame">' +
             "<!-- 例句场景：example_pic_prompt -->" +
             '<img src="' +
-            escapeHtml((window.mediaUrl && window.mediaUrl(v.example_image)) || v.example_image || P4_IMG_FALLBACK) +
+            escapeHtml(v.example_image || P4_IMG_FALLBACK) +
             '" onerror="this.onerror=null;this.src=\'' +
             P4_IMG_FALLBACK +
             '\'" alt="' +
@@ -1115,7 +1164,7 @@
             "</p>" +
             ttsReadBtnHtml(v.example_sentence) +
             "</div>" +
-            '<p class="hint-prompt">点击 🔊 听例句朗读，然后进入造句练习。</p>' +
+            '<p class="hint-prompt">可点 🔊 听本句朗读，再进入下一步。</p>' +
             "</div>";
         } else if (subStep === 2) {
           var slots1 = "";
@@ -1153,13 +1202,13 @@
             '">' +
             escapeHtml(v.level + " · " + typeLabel(v.type)) +
             "</span>" +
-            '<p class="zh-text">Step C · 看图造句（拖拽词块到横线槽）</p>' +
-            '<p class="hint-prompt" style="opacity:0.95;">本步英文句与 Step B 例句不同；配图只对应下面中文提示与词块造句。</p>' +
-            '<p class="hint-prompt" style="margin-top:0;">练习配图说明（供生成 / 无障碍）：</p>' +
+            '<p class="zh-text">Step C · 看图造句</p>' +
+            '<p class="hint-prompt" style="opacity:0.95;margin-top:0;">请把词块<strong>拖入横线槽</strong>，连成完整英文；目标句与 Step B <strong>不是同一句</strong>。</p>' +
+            '<p class="hint-prompt" style="font-size:0.82rem;opacity:0.88;margin-top:0.15rem;">本步配图只配合下方中文提示与组句；插图 alt 为场景说明（制图 / 读屏）。</p>' +
             '<div class="pic-frame">' +
             "<!-- 练习场景：practice_1_pic_prompt，须与 example_pic_prompt 区分 -->" +
             '<img src="' +
-            escapeHtml((window.mediaUrl && window.mediaUrl(v.practice_image)) || v.practice_image || P4_IMG_FALLBACK) +
+            escapeHtml(v.practice_image || P4_IMG_FALLBACK) +
             '" onerror="this.onerror=null;this.src=\'' +
             P4_IMG_FALLBACK +
             '\'" alt="' +
@@ -1224,9 +1273,8 @@
             '">' +
             escapeHtml(v.level + " · " + typeLabel(v.type)) +
             "</span>" +
-            '<p class="zh-text">Step D · 连词成句（拖拽排序）</p>' +
-            '<p class="hint-prompt" style="opacity:0.95;">本步为另一句全新英文，与例句、看图造句均不相同。</p>' +
-            '<p class="en-sentence" style="font-size:1rem;opacity:0.9;">Put the words in order — English only.</p>' +
+            '<p class="zh-text">Step D · 句子排序</p>' +
+            '<p class="hint-prompt" style="opacity:0.95;margin-top:0;">将词块<strong>拖入槽内</strong>并排出<strong>正确语序</strong>；本句与 Step B 例句、Step C 造句<strong>均不相同</strong>（第三句 · 无图）。</p>' +
             '<div class="p4-slots-row" id="p4Slots2">' +
             slots2 +
             "</div>" +
@@ -1243,7 +1291,7 @@
                 "</p>" +
                 ttsReadBtnHtml(v.practice_2_answer.join(" ")) +
                 "</div>"
-              : '<p class="hint-prompt">全部拖入后自动检查；完成后可点击 🔊 听整句。</p>') +
+              : '<p class="hint-prompt">拖满后自动检查；完成后可点 🔊 听整句。</p>') +
             "</div>";
           showNext = ux.p2;
         }
@@ -1356,8 +1404,9 @@
     if (state === 6 && subStep === 3 && ux.p2) {
       nextBtn.textContent = "返回单词表 →";
     } else {
-      nextBtn.textContent = "下一步 Next →";
+      nextBtn.textContent = "下一步 →";
     }
+    updatePrevBtn();
   }
 
   function onEnterState() {}
@@ -1408,6 +1457,7 @@
     if (state === 7) return;
     advance();
   });
+  if (prevBtn) prevBtn.addEventListener("click", retreatP4);
 
   render();
 })();

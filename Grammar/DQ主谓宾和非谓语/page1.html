@@ -2,7 +2,6 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
-  <script>window.MEDIA_BASE="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/";window.MEDIA_PREFIX="Grammar/DQ主谓宾和非谓语";window.mediaUrl=function(p){if(!p)return"";if(/^(https?:|\/\/|data:)/.test(String(p)))return p;return(window.MEDIA_BASE||"")+(window.MEDIA_PREFIX||"")+"/"+String(p).replace(/^\//,"");};</script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>主语 · 谓语 · 宾语 — 互动课 第 1 课</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -505,8 +504,13 @@
       box-shadow: 2px 3px 0 var(--shadow);
       transition: transform 0.12s ease;
     }
-    a.page-nav-link:hover {
+    a.page-nav-link:hover,
+    button.page-nav-link:hover {
       transform: translateY(-1px);
+    }
+    button.page-nav-link {
+      cursor: pointer;
+      font: inherit;
     }
     .page-nav-link--disabled {
       opacity: 0.42;
@@ -969,9 +973,9 @@
 
   <div class="footer-bar">
     <div class="footer-toolbar">
-      <a class="page-nav-link" href="index.html" title="返回课程导航首页">← 课程首页</a>
-      <button type="button" class="next-btn" id="nextBtn">继续 Next →</button>
-      <a class="page-nav-link" href="page2.html" title="无需完成本页步骤，直接进入第 2 页">下一页 →</a>
+      <a class="page-nav-link" href="index.html" title="返回本系列课程列表">课程列表</a>
+      <button type="button" class="page-nav-link" id="navPrevStep" disabled title="撤回本课内上一步">← 上一步</button>
+      <button type="button" class="next-btn" id="nextBtn">下一步 →</button>
     </div>
   </div>
 
@@ -989,6 +993,7 @@
   var maxState = 12;
   var steps = document.querySelectorAll(".step");
   var nextBtn = document.getElementById("nextBtn");
+  var prevBtn = document.getElementById("navPrevStep");
   var stateHint = document.getElementById("stateHint");
   var heartEl = document.getElementById("heartEl");
   var explosionEl = document.getElementById("explosionEl");
@@ -1010,8 +1015,35 @@
       nextBtn.disabled = true;
       stateHint.textContent = "";
     } else {
-      nextBtn.textContent = "继续 Next →";
-      stateHint.textContent = "请点击下方「继续」按钮以进入下一步。";
+      nextBtn.textContent = "下一步 →";
+      stateHint.textContent = "请点击下方「下一步」进入下一环节。";
+    }
+    updatePrevBtn();
+  }
+
+  function updatePrevBtn() {
+    if (prevBtn) prevBtn.disabled = state <= 1;
+  }
+
+  function retreatLesson() {
+    if (state <= 1) return;
+    if (state === 12) {
+      resetDragState();
+      state = 11;
+      showStep(11);
+      return;
+    }
+    if (state === 11) {
+      state = 10;
+      showStep(10);
+      return;
+    }
+    state--;
+    showStep(state);
+    if (state < 2 && heartEl) heartEl.classList.remove("anim");
+    if (state < 3) {
+      if (explosionEl) explosionEl.classList.remove("boom");
+      if (applesEl) applesEl.classList.remove("show");
     }
   }
 
@@ -1107,6 +1139,7 @@
   nextBtn.addEventListener("click", function () {
     advance();
   });
+  if (prevBtn) prevBtn.addEventListener("click", retreatLesson);
 
   /* ——— 拖拽 State 11 ——— */
   var correctCount = 0;
@@ -1259,6 +1292,5 @@
   showStep(1);
 })();
   </script>
-  <script>(function(){if(!window.mediaUrl)return;document.querySelectorAll("img[src]").forEach(function(el){var s=(el.getAttribute("src")||"").trim();if(!s||/^(https?:|\/\/|data:)/.test(s))return;el.src=window.mediaUrl(s);});})();</script>
 </body>
 </html>

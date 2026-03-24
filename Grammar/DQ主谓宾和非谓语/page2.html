@@ -2,7 +2,6 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
-  <script>window.MEDIA_BASE="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/";window.MEDIA_PREFIX="Grammar/DQ主谓宾和非谓语";window.mediaUrl=function(p){if(!p)return"";if(/^(https?:|\/\/|data:)/.test(String(p)))return p;return(window.MEDIA_BASE||"")+(window.MEDIA_PREFIX||"")+"/"+String(p).replace(/^\//,"");};</script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>主语 · 谓语 · 宾语 — 互动课 第 2 页</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -474,8 +473,13 @@
       box-shadow: 2px 3px 0 var(--shadow);
       transition: transform 0.12s ease;
     }
-    a.page-nav-link:hover {
+    a.page-nav-link:hover,
+    button.page-nav-link:hover {
       transform: translateY(-1px);
+    }
+    button.page-nav-link {
+      cursor: pointer;
+      font: inherit;
     }
     .page-nav-link--disabled {
       opacity: 0.42;
@@ -552,9 +556,9 @@
 
   <div class="footer-bar">
     <div class="footer-toolbar">
-      <a class="page-nav-link" href="page1.html" title="返回第 1 课">← 上一页</a>
-      <button type="button" class="next-btn" id="nextBtn" disabled>下一步 Next →</button>
-      <a class="page-nav-link" href="page3.html" title="无需完成本页步骤，直接进入第 3 页">下一页 →</a>
+      <a class="page-nav-link" href="index.html" title="返回本系列课程列表">课程列表</a>
+      <button type="button" class="page-nav-link" id="navPrevStep" disabled title="撤回本课内上一步">← 上一步</button>
+      <button type="button" class="next-btn" id="nextBtn" disabled>下一步 →</button>
     </div>
   </div>
 
@@ -567,7 +571,7 @@
     "DKRXk8ueSfo5NdIOMqFRTCAfpeGDezJ3Snf5K8gGgtyqxiWdugLzJQQJ99BLACHYHv6XJ3w3AAAYACOGUYP9";
   var AZURE_REGION = "eastus2";
   var TTS_VOICE = "en-US-AriaNeural";
-  var IMG = (window.mediaUrl && window.mediaUrl("asset/img/")) || "asset/img/";
+  var IMG = "asset/img/";
 
   var PRACTICE_STEPS = 5;
   var SENTENCE_COUNT = 4;
@@ -660,7 +664,9 @@
   ];
 
   var state = 1;
+  var p2NavStack = [];
   var nextBtn = document.getElementById("nextBtn");
+  var prevBtn = document.getElementById("navPrevStep");
   var stepMount = document.getElementById("stepMount");
   var mainBoard = document.getElementById("mainBoard");
   var progressLabel = document.getElementById("progressLabel");
@@ -780,18 +786,23 @@
     return a;
   }
 
+  function updatePrevBtn() {
+    if (prevBtn) prevBtn.disabled = p2NavStack.length === 0;
+  }
+
   function render() {
     try {
       if (!stepMount || !nextBtn || !mainBoard) {
         console.error("page2: 缺少必要 DOM 节点");
         return;
       }
+      updatePrevBtn();
       session.dragTag = null;
       session.pendingLabel = null;
       session.pendingSwapItem = null;
       nextBtn.disabled = true;
       if (state !== TOTAL_STATES) {
-        nextBtn.textContent = "下一步 Next →";
+        nextBtn.textContent = "下一步 →";
       }
 
       if (state <= PRACTICE_TOTAL) {
@@ -884,7 +895,7 @@
           '">' +
           '<!-- 此处由 pic.json 调用 Vertex 生成蜡笔画 -->' +
           '<img src="' +
-          escapeHtml((window.mediaUrl && window.mediaUrl(item.data.src)) || item.data.src) +
+          escapeHtml(item.data.src) +
           '" alt="' +
           escapeHtml(item.data.alt) +
           '" draggable="false" />' +
@@ -1283,7 +1294,7 @@
     html += '<div class="teacher-finale">';
     html +=
       '<div><!-- 此处由 pic.json 调用 Vertex 生成蜡笔画 -->' +
-      '<img src="' + (window.mediaUrl ? window.mediaUrl("asset/img/teacher_steven.png") : "asset/img/teacher_steven.png") + '" alt="Teacher" /></div>';
+      '<img src="asset/img/teacher_steven.png" alt="Teacher" /></div>';
     html +=
       '<div class="speech-bubble">' +
       "<strong>记住：</strong>不管句子有多长，只要抓住<strong>主语、谓语、宾语</strong>这条骨架，就能更清楚地读懂英语句子。<br/><br/>" +
@@ -1321,9 +1332,16 @@
       if (p && p.step === 5 && nextBtn.disabled) return;
     }
 
+    p2NavStack.push(state);
     state++;
     if (state > TOTAL_STATES) state = TOTAL_STATES;
 
+    render();
+  }
+
+  function retreatLesson() {
+    if (!p2NavStack.length) return;
+    state = p2NavStack.pop();
     render();
   }
 
@@ -1338,6 +1356,7 @@
     if (state >= TOTAL_STATES) return;
     advance();
   });
+  if (prevBtn) prevBtn.addEventListener("click", retreatLesson);
 
   render();
 })();
