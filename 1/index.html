@@ -198,7 +198,7 @@
   </script>
   <header>
     <h1>英语组 · 教研点名</h1>
-    <p>按名单顺序点名、导出记录、随机抽人、按出席分组；材料上传与 DeepSeek 识别记录（默认开启）。</p>
+    <p>点名 · 分组 · 上传与 AI 记录</p>
   </header>
   <nav class="tabs" id="tabs"></nav>
   <main>
@@ -217,6 +217,44 @@
         <input type="password" id="deepseekKey" placeholder="留空则使用内置密钥" autocomplete="off" style="max-width:400px;margin-top:0.5rem;" />
         <button type="button" class="ghost" id="btnSaveKey" style="margin-top:0.5rem;">保存自定义密钥</button>
         <button type="button" class="ghost" id="btnClearKey" style="margin-top:0.5rem;">清除自定义（恢复内置）</button>
+      </div>
+      <div class="card">
+        <strong>云端汇总（Supabase，推荐公网部署使用）</strong>
+        <p class="hint">老师用手机上传后，数据默认只存在他自己手机里。配置好后，上传会<strong>同时写入云端表</strong>，您在本电脑打开<strong>同一个网站</strong>，进入「云端汇总」即可查看全员记录。</p>
+        <label>Project URL <input type="url" id="supabaseUrl" placeholder="https://xxxx.supabase.co" autocomplete="off" /></label>
+        <label style="display:block;margin-top:0.5rem;">anon public key <input type="password" id="supabaseAnon" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6..." autocomplete="off" /></label>
+        <div class="row" style="margin-top:0.5rem;">
+          <button type="button" class="primary" id="btnSaveSupabase">保存云端配置（本浏览器）</button>
+          <button type="button" class="ghost" id="btnTestSupabase">测试拉取</button>
+        </div>
+        <p id="supabaseSaveMsg" class="hint"></p>
+        <details class="hint" style="margin-top:0.75rem;cursor:pointer;">
+          <summary style="color:var(--accent);">首次使用：在 Supabase 里建表（点开展开 SQL）</summary>
+          <pre style="margin:0.5rem 0 0;font-size:0.72rem;white-space:pre-wrap;word-break:break-all;background:var(--bg);padding:0.75rem;border-radius:8px;border:1px solid var(--border);">-- 在 Supabase → SQL Editor 中执行一次
+create table if not exists public.jy_uploads (
+  id uuid primary key default gen_random_uuid(),
+  client_record_id text,
+  teacher_name text not null,
+  campus text,
+  summary text,
+  note text,
+  file_name text,
+  status text,
+  exercise_title text,
+  score int,
+  score_detail text,
+  created_at timestamptz not null default now()
+);
+alter table public.jy_uploads enable row level security;
+create policy "jy_uploads_insert" on public.jy_uploads for insert to anon with check (true);
+create policy "jy_uploads_select" on public.jy_uploads for select to anon using (true);
+
+-- 若表是早期建的、没有打分字段，在 SQL Editor 再执行一次下面三行：
+-- alter table public.jy_uploads add column if not exists exercise_title text;
+-- alter table public.jy_uploads add column if not exists score int;
+-- alter table public.jy_uploads add column if not exists score_detail text;</pre>
+          <p class="hint" style="margin-top:0.5rem;">说明：上述策略允许任何人读写该表，仅适合<strong>内部小范围</strong>链接。若链接会公开，请改为登录用户可读或自建后端。</p>
+        </details>
       </div>
     </section>
 
@@ -266,63 +304,90 @@
     </section>
 
     <!-- 上传 -->
-    <section class="panel" id="panel-upload" data-tab="材料上传">
-      <div class="card" style="margin-top:0;border-color:var(--accent);">
-        <strong>部署到自己的网站（HTTPS）后，老师能用手机访问并上传吗？</strong>
-        <p class="hint" style="margin-top:0.5rem;"><strong>可以。</strong>把本页 <code>index.html</code>（及同目录若以后有拆分出的 js/css）放到你的前端静态空间后，把链接发给老师即可，例如 <code>https://你的域名/路径/index.html</code>，上传专用短链为 <code>…/index.html?upload=1</code>，二维码也会按当前域名生成。</p>
-        <p class="hint"><strong>但要注意三点：</strong></p>
-        <ul class="hint" style="margin:0.35rem 0 0 1.1rem;padding:0;">
-          <li style="margin-bottom:0.35rem;"><strong>数据不在你的服务器上：</strong>记录存在<strong>每位老师自己浏览器</strong>的本地存储里，互不相通。教研组长要汇总，仍需各人「导出同步包」发给你再「导入」，或以后加真正的后端/数据库。</li>
-          <li style="margin-bottom:0.35rem;"><strong>API 密钥不要写在公网页面里：</strong>当前若把密钥写进 HTML，任何人打开网页都能在源代码里看到并盗用。公网部署请删掉内置密钥，只在本机用「保存自定义密钥」；理想做法是你方服务器做一个转发接口，密钥只放在服务器环境变量里。</li>
-          <li><strong>浏览器直接调 DeepSeek 可能被拦截：</strong>部分环境下跨域（CORS）会导致识图接口失败；若部署后识别一直失败，需要在你自己的域名下加一层后端代理再调 DeepSeek。</li>
-        </ul>
-      </div>
-      <p class="hint"><strong>仅局域网用时：</strong>手机与电脑数据不互通。可在电脑上双击运行文件夹里的 <code>启动局域网访问.bat</code>，用手机访问窗口里给出的 <code>http://电脑IP:8765/...</code>（不要用 localhost、不要只靠 <code>file:///</code> 打开 html）。手机上传后可「导出同步包」到电脑「导入」合并。</p>
-      <div class="row" style="margin-bottom:1rem;">
-        <button type="button" class="primary" id="btnGenQr">生成上传页二维码</button>
+    <section class="panel" id="panel-upload" data-tab="上传">
+      <div class="row" style="margin-bottom:0.75rem;align-items:center;">
+        <button type="button" class="primary" id="btnGenQr">手机上传二维码</button>
         <canvas id="qrCanvas" width="200" height="200" style="display:none;"></canvas>
       </div>
-      <p id="qrUrl" class="hint" style="word-break:break-all;"></p>
+      <p id="qrUrl" class="hint" style="word-break:break-all;margin:0 0 0.75rem;"></p>
       <div class="card">
-        <h3 style="margin-top:0;font-size:1rem;">本机上传 / 补录</h3>
         <label>教师 <select id="uploadTeacher"></select></label>
-        <label style="display:block;margin-top:0.5rem;">试卷照片 <input type="file" id="uploadFile" accept="image/*" capture="environment" /></label>
-        <label style="display:block;margin-top:0.5rem;">文字说明（可选，强烈建议填写单元/题型，识图失败时会自动改用文字分析） <textarea id="uploadNote" rows="2" placeholder="例：人教版八下 Unit3 同步小卷，已订正"></textarea></label>
-        <label style="display:block;margin-top:0.5rem;">
-          <input type="checkbox" id="callDeepseek" checked /> 调用 DeepSeek：先尝试图像理解，失败则仅用文字说明生成教研记录摘要
+        <label style="display:block;margin-top:0.5rem;">练习卷 <select id="uploadExercise"></select></label>
+        <label style="display:block;margin-top:0.5rem;">照片（可多选） <input type="file" id="uploadFile" accept="image/*" capture="environment" multiple /></label>
+        <label style="display:block;margin-top:0.5rem;">备注 <textarea id="uploadNote" rows="2" placeholder="选填"></textarea></label>
+        <label style="display:block;margin-top:0.5rem;font-size:0.88rem;color:var(--muted);">
+          <input type="checkbox" id="callDeepseek" checked /> AI 摘要与打分
         </label>
-        <label style="display:block;margin-top:0.35rem;">
-          <input type="checkbox" id="saveThumb" checked /> 保存缩略图到本地（便于核对；若浏览器提示空间不足可取消）
+        <label style="display:block;font-size:0.88rem;color:var(--muted);">
+          <input type="checkbox" id="saveThumb" checked /> 缩略图
         </label>
-        <button type="button" class="primary" id="btnUpload" style="margin-top:0.75rem;">上传并识别记录</button>
-        <span id="uploadBusy" class="hint" style="margin-left:0.5rem;display:none;color:var(--accent);">识别中，请稍候…</span>
-        <div class="row" style="margin-top:1rem;">
-          <button type="button" class="ghost" id="btnExportSync">导出同步包 (JSON)</button>
-          <button type="button" class="ghost" id="btnImportSync">导入同步包</button>
-          <button type="button" class="ghost" id="btnExportUploadTxt">导出上传记录 (TXT 表)</button>
+        <label style="display:block;font-size:0.88rem;color:var(--muted);">
+          <input type="checkbox" id="syncToCloud" checked /> 同步云端
+        </label>
+        <button type="button" class="primary" id="btnUpload" style="margin-top:0.65rem;">提交</button>
+        <span id="uploadBusy" class="hint" style="margin-left:0.5rem;display:none;color:var(--accent);">处理中…</span>
+        <div class="row" style="margin-top:0.75rem;">
+          <button type="button" class="ghost" id="btnExportSync">导出 JSON</button>
+          <button type="button" class="ghost" id="btnImportSync">导入</button>
+          <button type="button" class="ghost" id="btnExportUploadTxt">导出 TXT</button>
           <input type="file" id="importSyncFile" accept="application/json" style="display:none;" />
         </div>
       </div>
       <div class="card">
-        <strong>上传活跃度（本地汇总）</strong>
-        <p class="hint">近 30 天无记录的教师卡片会高亮，便于督促自学打卡。</p>
-        <div id="uploadStats" class="stats-grid"></div>
+        <strong style="font-size:0.95rem;">统计</strong>
+        <div id="uploadStats" class="stats-grid" style="margin-top:0.5rem;"></div>
       </div>
       <div class="card">
-        <strong>识别与上传记录</strong>
         <div class="upload-toolbar">
-          <label style="margin:0;display:flex;align-items:center;gap:0.35rem;">筛选
-            <select id="uploadFilterTeacher" style="width:auto;min-width:10rem;"></select>
+          <label style="margin:0;display:flex;align-items:center;gap:0.35rem;font-size:0.9rem;">筛选
+            <select id="uploadFilterTeacher" style="width:auto;min-width:9rem;"></select>
           </label>
-          <button type="button" class="ghost" id="btnRefreshUploadTable">刷新列表</button>
+          <button type="button" class="ghost" id="btnRefreshUploadTable">刷新</button>
         </div>
         <div class="upload-table-wrap">
           <table id="uploadRecordsTable">
-            <thead><tr><th>时间</th><th>教师</th><th>校区</th><th>缩略图</th><th>状态</th><th>AI 摘要</th><th>备注</th><th>操作</th></tr></thead>
+            <thead><tr><th>时间</th><th>教师</th><th>校区</th><th>练习卷</th><th>分数</th><th>缩略图</th><th>状态</th><th>AI 摘要</th><th>备注</th><th>操作</th></tr></thead>
             <tbody id="uploadRecordsBody"></tbody>
           </table>
         </div>
-        <p id="uploadEmptyHint" class="hint" style="margin-top:0.5rem;display:none;">暂无记录，请先上传照片。</p>
+        <p id="uploadEmptyHint" class="hint" style="margin-top:0.35rem;display:none;">暂无</p>
+      </div>
+    </section>
+
+    <!-- 云端汇总（组长查看全员上传） -->
+    <section class="panel" id="panel-cloud" data-tab="云端汇总">
+      <p class="hint">老师在自己手机上传并勾选「同步到云端」后，记录会进入 Supabase。您用电脑浏览器打开<strong>与老师们相同的网站地址</strong>（不要用 file://），进入本页，点击拉取即可。</p>
+      <p id="cloudConfigHint" class="hint" style="color:var(--warn);"></p>
+      <div class="row" style="margin-bottom:0.75rem;">
+        <button type="button" class="primary" id="btnFetchCloud">拉取云端记录</button>
+        <button type="button" class="ghost" id="btnExportCloudTxt">导出本页表格为 TXT</button>
+      </div>
+      <p id="cloudFetchMsg" class="hint"></p>
+      <div class="upload-table-wrap" style="max-height:520px;">
+        <table>
+          <thead><tr><th>上传时间</th><th>教师</th><th>校区</th><th>练习卷</th><th>分数</th><th>状态</th><th>AI 摘要</th><th>备注</th><th>文件名</th></tr></thead>
+          <tbody id="cloudRecordsBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 今日练习排名 -->
+    <section class="panel" id="panel-rank" data-tab="今日练习·排名">
+      <p class="hint">依据上传时 DeepSeek 对<strong>作答照片</strong>的识图评分（满分100）。照片模糊时分数仅作参考。可按练习卷筛选；数据来自<strong>本机</strong>记录，要看全员请用「从云端生成排名」。</p>
+      <div class="upload-toolbar">
+        <label style="margin:0;display:flex;align-items:center;gap:0.35rem;">练习卷
+          <select id="rankFilterExercise" style="width:auto;min-width:12rem;"></select>
+        </label>
+        <button type="button" class="primary" id="btnRefreshRank">刷新本机排名</button>
+        <button type="button" class="ghost" id="btnRankFromCloud">从云端生成排名</button>
+        <button type="button" class="ghost" id="btnExportRankTxt">导出排名 TXT</button>
+      </div>
+      <p id="rankMsg" class="hint"></p>
+      <div class="upload-table-wrap" style="max-height:480px;">
+        <table>
+          <thead><tr><th>名次</th><th>教师</th><th>校区</th><th>练习卷</th><th>分数</th><th>评语</th><th>上传时间</th></tr></thead>
+          <tbody id="rankTableBody"></tbody>
+        </table>
       </div>
     </section>
   </main>
@@ -351,15 +416,15 @@
   </div>
 
   <!-- 手机上传极简页：?upload=1 -->
-  <div id="mobileUploadOnly" style="display:none;padding:1rem;max-width:480px;margin:0 auto;">
-    <h1 style="font-size:1.2rem;">教研材料上传</h1>
-    <label>教师 <select id="mTeacher"></select></label>
-    <label style="display:block;margin-top:0.75rem;">照片 <input type="file" id="mFile" accept="image/*" capture="environment" /></label>
-    <label style="display:block;margin-top:0.75rem;">文字说明（可选） <textarea id="mNote" rows="2"></textarea></label>
-    <button type="button" class="primary" id="mSubmit" style="margin-top:1rem;width:100%;padding:0.75rem;">提交</button>
-    <p id="mMsg" class="hint" style="margin-top:1rem;"></p>
-    <p class="hint">提交后可在本页底部导出 JSON，通过微信发到电脑端导入。</p>
-    <button type="button" class="ghost" id="mExport" style="margin-top:0.5rem;">导出本条同步包</button>
+  <div id="mobileUploadOnly" style="display:none;padding:1rem;max-width:420px;margin:0 auto;">
+    <h1 style="font-size:1.1rem;margin:0 0 0.75rem;">上传</h1>
+    <label style="font-size:0.95rem;">教师 <select id="mTeacher" style="font-size:0.95rem;"></select></label>
+    <label style="display:block;margin-top:0.65rem;font-size:0.95rem;">练习卷 <select id="mExercise" style="font-size:0.95rem;"></select></label>
+    <label style="display:block;margin-top:0.65rem;font-size:0.95rem;">照片 <input type="file" id="mFile" accept="image/*" capture="environment" multiple /></label>
+    <label style="display:block;margin-top:0.65rem;font-size:0.95rem;">备注 <textarea id="mNote" rows="2" placeholder="选填" style="font-size:0.95rem;"></textarea></label>
+    <button type="button" class="primary" id="mSubmit" style="margin-top:0.85rem;width:100%;padding:0.7rem;">提交</button>
+    <p id="mMsg" class="hint" style="margin-top:0.65rem;font-size:0.85rem;"></p>
+    <button type="button" class="ghost" id="mExport" style="margin-top:0.5rem;width:100%;font-size:0.88rem;">导出 JSON</button>
   </div>
 
   <script>
@@ -369,13 +434,66 @@
     const STORAGE_UPLOADS = 'jy_uploads_db_v2';
     const STORAGE_UPLOADS_LEGACY = 'jy_uploads_db_v1';
     const STORAGE_KEY = 'jy_deepseek_key_v1';
+    const STORAGE_SUPABASE = 'jy_supabase_cfg_v1';
+
+    /**
+     * 部署到公网后请填写（与下方「名单与设置」里保存的配置二选一，以本处为全员默认）。
+     * 获取方式：Supabase 控制台 → Project Settings → API → Project URL / anon public key
+     */
+    /** 来自 Supabase 控制台 General 中的项目引用（与 Project URL 子域名一致） */
+    const SUPABASE_URL_DEPLOY = 'https://hsteqxivtlbyhwpsjvzp.supabase.co';
+    /** publishable（sb_publishable_…）或旧版 anon JWT（eyJ…）均可；勿填 service_role */
+    const SUPABASE_ANON_KEY_DEPLOY = 'sb_publishable_VtGFZ0lG2dVLxpLC4-1QdA_TauhBNu_';
 
     /** 内置密钥（用户要求写入代码）；设置页保存的密钥优先 */
+    /** DeepSeek API（内置，与「名单与设置」中自定义密钥二选一） */
     const DEEPSEEK_API_KEY_BUILTIN = 'sk-daa16008e81843deba6fefe9dce51465';
 
     function getDeepseekKey() {
       const custom = (localStorage.getItem(STORAGE_KEY) || '').trim();
       return custom || DEEPSEEK_API_KEY_BUILTIN;
+    }
+
+    function getSupabaseConfig() {
+      let url = '';
+      let anon = '';
+      try {
+        const j = JSON.parse(localStorage.getItem(STORAGE_SUPABASE) || '{}');
+        url = (j.url || '').trim();
+        anon = (j.anon || '').trim();
+      } catch (_) {}
+      if (!url) url = (SUPABASE_URL_DEPLOY || '').trim();
+      if (!anon) anon = (SUPABASE_ANON_KEY_DEPLOY || '').trim();
+      if (!url || !anon) return null;
+      return { url: url.replace(/\/$/, ''), anon };
+    }
+
+    async function supabaseRestInsert(row) {
+      const cfg = getSupabaseConfig();
+      if (!cfg) return { ok: false, error: '未配置 Supabase' };
+      const res = await fetch(cfg.url + '/rest/v1/jy_uploads', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          apikey: cfg.anon,
+          Authorization: 'Bearer ' + cfg.anon,
+          Prefer: 'return=minimal'
+        },
+        body: JSON.stringify(row)
+      });
+      if (!res.ok) return { ok: false, error: (await res.text()).slice(0, 500) };
+      return { ok: true };
+    }
+
+    async function supabaseRestSelectAll() {
+      const cfg = getSupabaseConfig();
+      if (!cfg) throw new Error('未配置 Supabase');
+      const u = cfg.url + '/rest/v1/jy_uploads?select=*&order=created_at.desc&limit=800';
+      const res = await fetch(u, {
+        headers: { apikey: cfg.anon, Authorization: 'Bearer ' + cfg.anon }
+      });
+      if (!res.ok) throw new Error(await res.text());
+      return res.json();
     }
 
     /** 来源：英语组名单.jpg（排名顺序） */
@@ -396,6 +514,21 @@
       { name: '兰雪', campus: '中海' },
       { name: '王龙', campus: '总部' },
     ];
+
+    /** 今日教研会练习（与组内 PDF 文件名一致） */
+    const TODAY_EXERCISES = [
+      { id: 'word-32', title: '高三英语词形填空练习卷（第32套）' },
+      { id: 'word-33', title: '高三英语词形填空练习卷（第33套）' },
+      { id: 'word-34', title: '高三英语词形填空练习卷（第34套）' },
+      { id: 'cloze-32', title: '高三英语完形填空练习卷（第32套）' },
+      { id: 'cloze-33', title: '高三英语完形填空练习卷（第33套）' },
+      { id: 'cloze-34', title: '高三英语完形填空练习卷（第34套）' }
+    ];
+
+    function exerciseTitleById(id) {
+      const x = TODAY_EXERCISES.find(e => e.id === id);
+      return x ? x.title : '';
+    }
 
     function parseRosterText(text) {
       const lines = text.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
@@ -474,8 +607,22 @@
           note: r.note || '',
           summary: r.summary || '',
           status: r.status || 'legacy',
-          thumbDataUrl: r.thumbDataUrl || null,
-          visionDetail: r.visionDetail || ''
+          thumbDataUrl: r.thumbDataUrl || (Array.isArray(r.thumbDataUrls) && r.thumbDataUrls[0]) || null,
+          thumbDataUrls: Array.isArray(r.thumbDataUrls)
+            ? r.thumbDataUrls
+            : r.thumbDataUrl
+              ? [r.thumbDataUrl]
+              : [],
+          visionDetail: r.visionDetail || '',
+          exerciseId: r.exerciseId || '',
+          exerciseTitle: r.exerciseTitle || '',
+          score: (function () {
+            if (r.score == null || r.score === '') return null;
+            const s = Math.round(Number(r.score));
+            if (isNaN(s)) return null;
+            return Math.max(0, Math.min(100, s));
+          })(),
+          scoreComment: r.scoreComment || ''
         }));
       }
       return out;
@@ -501,6 +648,7 @@
             stripped[n] = (db[n] || []).map(r => {
               const c = { ...r };
               delete c.thumbDataUrl;
+              delete c.thumbDataUrls;
               return c;
             });
           }
@@ -535,6 +683,8 @@
         panels.forEach(x => x.classList.remove('active'));
         b.classList.add('active');
         p.classList.add('active');
+        if (p.id === 'panel-cloud' && typeof updateCloudConfigBanner === 'function') updateCloudConfigBanner();
+        if (p.id === 'panel-rank' && typeof renderRankTableLocal === 'function') renderRankTableLocal();
       });
       tabNav.appendChild(b);
     });
@@ -567,6 +717,327 @@
       localStorage.removeItem(STORAGE_KEY);
       deepseekKey.value = '';
       alert('已清除自定义密钥，将使用页面内置密钥。');
+    });
+
+    function loadSupabaseInputs() {
+      const uEl = document.getElementById('supabaseUrl');
+      const aEl = document.getElementById('supabaseAnon');
+      if (!uEl || !aEl) return;
+      try {
+        const j = JSON.parse(localStorage.getItem(STORAGE_SUPABASE) || '{}');
+        uEl.value = j.url || '';
+        aEl.value = j.anon || '';
+      } catch (_) {}
+    }
+
+    let lastCloudRows = [];
+    let lastRankRows = [];
+
+    function updateCloudConfigBanner() {
+      const el = document.getElementById('cloudConfigHint');
+      if (!el) return;
+      if (getSupabaseConfig()) {
+        el.textContent = '已检测到 Supabase 配置（本机 localStorage 或页面内嵌常量），可直接点「拉取云端记录」。';
+        el.style.color = 'var(--ok)';
+      } else {
+        el.textContent =
+          '未配置云端：请到「名单与设置」填写 Supabase 的 Project URL 与 anon key 并保存；或把代码里的 SUPABASE_URL_DEPLOY、SUPABASE_ANON_KEY_DEPLOY 填好后重新上传网站，老师手机无需任何额外设置即可同步。';
+        el.style.color = 'var(--warn)';
+      }
+    }
+
+    document.getElementById('btnSaveSupabase').addEventListener('click', () => {
+      const url = (document.getElementById('supabaseUrl').value || '').trim();
+      const anon = (document.getElementById('supabaseAnon').value || '').trim();
+      const msg = document.getElementById('supabaseSaveMsg');
+      if (!url || !anon) {
+        msg.textContent = '请填写 URL 和 anon key。';
+        msg.style.color = 'var(--bad)';
+        return;
+      }
+      localStorage.setItem(STORAGE_SUPABASE, JSON.stringify({ url, anon }));
+      msg.textContent = '已保存。老师与您使用同一网址时，建议在 HTML 中填写 SUPABASE_*_DEPLOY，否则老师浏览器里没有这份配置，仅您本机保存时只有您能同步。';
+      msg.style.color = 'var(--ok)';
+      updateCloudConfigBanner();
+    });
+
+    document.getElementById('btnTestSupabase').addEventListener('click', async () => {
+      const msg = document.getElementById('supabaseSaveMsg');
+      try {
+        const rows = await supabaseRestSelectAll();
+        msg.textContent = '连接正常，当前表内约有 ' + rows.length + ' 条记录（最多返回 800 条）。';
+        msg.style.color = 'var(--ok)';
+      } catch (e) {
+        msg.textContent = '失败：' + ((e && e.message) || String(e)).slice(0, 280);
+        msg.style.color = 'var(--bad)';
+      }
+    });
+
+    document.getElementById('btnFetchCloud').addEventListener('click', async () => {
+      const msg = document.getElementById('cloudFetchMsg');
+      const tbody = document.getElementById('cloudRecordsBody');
+      msg.textContent = '拉取中…';
+      updateCloudConfigBanner();
+      if (!getSupabaseConfig()) {
+        msg.textContent = '未配置 Supabase，无法拉取。';
+        msg.style.color = 'var(--bad)';
+        return;
+      }
+      try {
+        lastCloudRows = await supabaseRestSelectAll();
+        tbody.innerHTML = '';
+        if (!lastCloudRows.length) {
+          msg.textContent = '云端暂无数据。请确认老师上传时勾选了「同时同步到云端」，且已在 Supabase 执行建表 SQL。';
+          msg.style.color = 'var(--muted)';
+          return;
+        }
+        lastCloudRows.forEach(r => {
+          const tr = document.createElement('tr');
+          const t = r.created_at ? new Date(r.created_at).toLocaleString('zh-CN') : '—';
+          const sum = (r.summary || '').replace(/\s+/g, ' ');
+          const sumShort = sum.length > 80 ? sum.slice(0, 80) + '…' : sum;
+          const exFull = r.exercise_title || '';
+          const exShort = exFull ? (exFull.length > 20 ? exFull.slice(0, 18) + '…' : exFull) : '—';
+          const sc = r.score != null && r.score !== '' ? String(r.score) : '—';
+          tr.innerHTML =
+            '<td>' +
+            escapeHtml(t) +
+            '</td><td>' +
+            escapeHtml(r.teacher_name || '') +
+            '</td><td>' +
+            escapeHtml(r.campus || '') +
+            '</td><td title="' +
+            escapeHtml(exFull) +
+            '">' +
+            escapeHtml(exShort) +
+            '</td><td>' +
+            escapeHtml(sc) +
+            '</td><td>' +
+            escapeHtml(r.status || '') +
+            '</td><td title="' +
+            escapeHtml(sum) +
+            '">' +
+            escapeHtml(sumShort) +
+            '</td><td>' +
+            escapeHtml((r.note || '').slice(0, 40)) +
+            '</td><td>' +
+            escapeHtml(r.file_name || '') +
+            '</td>';
+          tbody.appendChild(tr);
+        });
+        msg.textContent = '已加载 ' + lastCloudRows.length + ' 条。';
+        msg.style.color = 'var(--ok)';
+      } catch (e) {
+        msg.textContent = '拉取失败：' + ((e && e.message) || String(e)).slice(0, 400);
+        msg.style.color = 'var(--bad)';
+      }
+    });
+
+    document.getElementById('btnExportCloudTxt').addEventListener('click', () => {
+      if (!lastCloudRows.length) {
+        alert('请先点击「拉取云端记录」');
+        return;
+      }
+      const lines = [['上传时间', '教师', '校区', '练习卷', '分数', '状态', 'AI摘要', '备注', '文件名'].join('\t')];
+      lastCloudRows.forEach(r => {
+        const t = r.created_at ? new Date(r.created_at).toLocaleString('zh-CN') : '';
+        lines.push(
+          [
+            t,
+            r.teacher_name || '',
+            r.campus || '',
+            r.exercise_title || '',
+            r.score != null ? r.score : '',
+            r.status || '',
+            r.summary || '',
+            r.note || '',
+            r.file_name || ''
+          ].join('\t')
+        );
+      });
+      const blob = new Blob(['\ufeff' + lines.join('\r\n')], { type: 'text/plain;charset=utf-8' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = '云端上传汇总_' + formatDateFile() + '.txt';
+      a.click();
+      URL.revokeObjectURL(a.href);
+    });
+
+    function buildRankRowsFromLocalDb() {
+      const db = getUploadDb();
+      const filt = (document.getElementById('rankFilterExercise') && document.getElementById('rankFilterExercise').value) || '';
+      const rows = [];
+      teachers.forEach(t => {
+        (db[t.name] || []).forEach(r => {
+          if (r.score == null || isNaN(r.score)) return;
+          if (filt && r.exerciseId !== filt) return;
+          rows.push({
+            teacherName: t.name,
+            campus: t.campus,
+            exerciseTitle: r.exerciseTitle || '',
+            score: Math.round(Number(r.score)),
+            scoreComment: r.scoreComment || '',
+            at: r.at
+          });
+        });
+      });
+      rows.sort((a, b) => {
+        if (b.score !== a.score) return b.score - a.score;
+        return new Date(b.at) - new Date(a.at);
+      });
+      let lastScore = null;
+      let rank = 0;
+      rows.forEach((row, i) => {
+        const pos = i + 1;
+        if (row.score !== lastScore) {
+          rank = pos;
+          lastScore = row.score;
+        }
+        row.rank = rank;
+      });
+      return rows;
+    }
+
+    function applyRankOrdering(rows) {
+      rows.sort((a, b) => {
+        if (b.score !== a.score) return b.score - a.score;
+        return new Date(b.at) - new Date(a.at);
+      });
+      let lastScore = null;
+      let rank = 0;
+      rows.forEach((row, i) => {
+        const pos = i + 1;
+        if (row.score !== lastScore) {
+          rank = pos;
+          lastScore = row.score;
+        }
+        row.rank = rank;
+      });
+      return rows;
+    }
+
+    function renderRankTable(rows, sourceLabel) {
+      lastRankRows = rows;
+      const tbody = document.getElementById('rankTableBody');
+      const msg = document.getElementById('rankMsg');
+      if (!tbody) return;
+      tbody.innerHTML = '';
+      if (!rows.length) {
+        if (msg) {
+          msg.textContent = sourceLabel + '：暂无带分数的记录。请上传作答照片并等待 DeepSeek 打分成功；或换一张练习卷筛选。';
+          msg.style.color = 'var(--muted)';
+        }
+        return;
+      }
+      rows.forEach(row => {
+        const tr = document.createElement('tr');
+        const t = row.at ? new Date(row.at).toLocaleString('zh-CN') : '—';
+        const ex = row.exerciseTitle || '—';
+        const exS = ex.length > 20 ? ex.slice(0, 18) + '…' : ex;
+        const cm = (row.scoreComment || '').slice(0, 70);
+        tr.innerHTML =
+          '<td>' +
+          escapeHtml(String(row.rank)) +
+          '</td><td>' +
+          escapeHtml(row.teacherName) +
+          '</td><td>' +
+          escapeHtml(row.campus) +
+          '</td><td title="' +
+          escapeHtml(row.exerciseTitle || '') +
+          '">' +
+          escapeHtml(exS) +
+          '</td><td><strong>' +
+          escapeHtml(String(row.score)) +
+          '</strong></td><td title="' +
+          escapeHtml(row.scoreComment || '') +
+          '">' +
+          escapeHtml(cm) +
+          '</td><td>' +
+          escapeHtml(t) +
+          '</td>';
+        tbody.appendChild(tr);
+      });
+      if (msg) {
+        msg.textContent = sourceLabel + '：共 ' + rows.length + ' 条，按分数从高到低（同分同名次）。';
+        msg.style.color = 'var(--ok)';
+      }
+    }
+
+    function renderRankTableLocal() {
+      renderRankTable(buildRankRowsFromLocalDb(), '本机');
+    }
+
+    async function renderRankTableFromCloud() {
+      const msg = document.getElementById('rankMsg');
+      if (!getSupabaseConfig()) {
+        if (msg) {
+          msg.textContent = '未配置 Supabase，无法从云端拉取。';
+          msg.style.color = 'var(--bad)';
+        }
+        return;
+      }
+      if (msg) {
+        msg.textContent = '正在从云端拉取…';
+        msg.style.color = 'var(--accent)';
+      }
+      try {
+        const raw = await supabaseRestSelectAll();
+        const filt = (document.getElementById('rankFilterExercise') && document.getElementById('rankFilterExercise').value) || '';
+        const wantTitle = filt ? exerciseTitleById(filt) : '';
+        const rows = [];
+        raw.forEach(r => {
+          const sc = r.score != null && r.score !== '' ? Number(r.score) : NaN;
+          if (isNaN(sc)) return;
+          const exTitle = r.exercise_title || '';
+          if (wantTitle && exTitle !== wantTitle) return;
+          rows.push({
+            teacherName: r.teacher_name || '—',
+            campus: r.campus || '—',
+            exerciseTitle: exTitle,
+            score: Math.max(0, Math.min(100, Math.round(sc))),
+            scoreComment: r.score_detail || '',
+            at: r.created_at
+          });
+        });
+        applyRankOrdering(rows);
+        renderRankTable(rows, '云端');
+      } catch (e) {
+        if (msg) {
+          msg.textContent = '云端排名失败：' + ((e && e.message) || String(e)).slice(0, 300);
+          msg.style.color = 'var(--bad)';
+        }
+      }
+    }
+
+    document.getElementById('btnRefreshRank').addEventListener('click', () => renderRankTableLocal());
+    document.getElementById('btnRankFromCloud').addEventListener('click', () => renderRankTableFromCloud());
+    const rankFilterExerciseEl = document.getElementById('rankFilterExercise');
+    if (rankFilterExerciseEl) rankFilterExerciseEl.addEventListener('change', () => renderRankTableLocal());
+    document.getElementById('btnExportRankTxt').addEventListener('click', () => {
+      if (!lastRankRows.length) {
+        alert('请先刷新排名或从云端生成排名');
+        return;
+      }
+      const lines = [['名次', '教师', '校区', '练习卷', '分数', '评语', '上传时间'].join('\t')];
+      lastRankRows.forEach(row => {
+        lines.push(
+          [
+            row.rank,
+            row.teacherName,
+            row.campus,
+            row.exerciseTitle || '',
+            row.score,
+            (row.scoreComment || '').replace(/\s+/g, ' '),
+            row.at ? new Date(row.at).toLocaleString('zh-CN') : ''
+          ].join('\t')
+        );
+      });
+      const blob = new Blob(['\ufeff' + lines.join('\r\n')], { type: 'text/plain;charset=utf-8' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = '今日练习排名_' + formatDateFile() + '.txt';
+      a.click();
+      URL.revokeObjectURL(a.href);
     });
 
     function refreshRollUI() {
@@ -734,10 +1205,48 @@
       return arr;
     }
 
+    function fillExerciseSelects() {
+      const sel = document.getElementById('uploadExercise');
+      const msel = document.getElementById('mExercise');
+      const rankF = document.getElementById('rankFilterExercise');
+      [sel, msel].forEach(s => {
+        if (!s) return;
+        const keep = s.value;
+        s.innerHTML = '';
+        const ph = document.createElement('option');
+        ph.value = '';
+        ph.textContent = '请选择';
+        s.appendChild(ph);
+        TODAY_EXERCISES.forEach(ex => {
+          const o = document.createElement('option');
+          o.value = ex.id;
+          o.textContent = ex.title;
+          s.appendChild(o);
+        });
+        if (keep && [...s.options].some(o => o.value === keep)) s.value = keep;
+      });
+      if (rankF) {
+        const rk = rankF.value;
+        rankF.innerHTML = '';
+        const all = document.createElement('option');
+        all.value = '';
+        all.textContent = '全部';
+        rankF.appendChild(all);
+        TODAY_EXERCISES.forEach(ex => {
+          const o = document.createElement('option');
+          o.value = ex.id;
+          o.textContent = ex.title;
+          rankF.appendChild(o);
+        });
+        if (rk && [...rankF.options].some(o => o.value === rk)) rankF.value = rk;
+      }
+    }
+
     function fillTeacherSelects() {
       const sel = document.getElementById('uploadTeacher');
       const msel = document.getElementById('mTeacher');
       const filt = document.getElementById('uploadFilterTeacher');
+      fillExerciseSelects();
       [sel, msel].forEach(s => {
         if (!s) return;
         s.innerHTML = '';
@@ -753,7 +1262,7 @@
         filt.innerHTML = '';
         const all = document.createElement('option');
         all.value = '';
-        all.textContent = '全部教师';
+        all.textContent = '全部';
         filt.appendChild(all);
         teachers.forEach(t => {
           const o = document.createElement('option');
@@ -844,6 +1353,9 @@
         const d = new Date(r.at).toLocaleString('zh-CN');
         const sum = (r.summary || '').replace(/\s+/g, ' ');
         const sumShort = sum.length > 120 ? sum.slice(0, 120) + '…' : sum;
+        const exTitle = r.exerciseTitle || '';
+        const exShort = !exTitle ? '—' : exTitle.length > 22 ? exTitle.slice(0, 20) + '…' : exTitle;
+        const scoreCell = r.score != null && !isNaN(r.score) ? '<strong>' + escapeHtml(String(r.score)) + '</strong>' : '—';
         const thumbCell = r.thumbDataUrl
           ? '<img class="thumb-preview" src="' + r.thumbDataUrl + '" alt="" data-t="' + escapeHtml(name) + '" data-id="' + escapeHtml(r.id) + '" />'
           : '—';
@@ -854,6 +1366,12 @@
           escapeHtml(name) +
           '</td><td>' +
           escapeHtml(campusOfTeacher(name)) +
+          '</td><td title="' +
+          escapeHtml(exTitle) +
+          '">' +
+          escapeHtml(exShort) +
+          '</td><td>' +
+          scoreCell +
           '</td><td>' +
           thumbCell +
           '</td><td><span class="tag-status ' +
@@ -917,7 +1435,27 @@
         ' · ' +
         escapeHtml(r.fileName || '') +
         '</p>' +
-        (r.thumbDataUrl ? '<p><img src="' + r.thumbDataUrl + '" alt="缩略图" /></p>' : '') +
+        (Array.isArray(r.thumbDataUrls) && r.thumbDataUrls.length
+          ? '<p style="display:flex;flex-wrap:wrap;gap:0.35rem;">' +
+            r.thumbDataUrls
+              .slice(0, 4)
+              .map(u => '<img src="' + u + '" alt="" style="max-width:45%;max-height:180px;border-radius:8px;border:1px solid var(--border);" />')
+              .join('') +
+            '</p>'
+          : r.thumbDataUrl
+            ? '<p><img src="' + r.thumbDataUrl + '" alt="缩略图" style="max-width:100%;border-radius:8px;" /></p>'
+            : '') +
+        (r.exerciseTitle
+          ? '<p><strong>练习卷</strong> ' + escapeHtml(r.exerciseTitle) + '</p>'
+          : '') +
+        (r.score != null && !isNaN(r.score)
+          ? '<p><strong>DeepSeek 评分</strong> ' +
+            escapeHtml(String(r.score)) +
+            ' / 100' +
+            (r.scoreComment
+              ? '</p><p style="white-space:pre-wrap;color:var(--muted);font-size:0.9rem;">' + escapeHtml(r.scoreComment) + '</p>'
+              : '</p>')
+          : '') +
         visionBlock +
         '<p><strong>归档摘要</strong></p><p style="white-space:pre-wrap;">' +
         escapeHtml(r.summary || '—') +
@@ -981,12 +1519,22 @@
     document.getElementById('btnExportUploadTxt').addEventListener('click', () => {
       const db = getUploadDb();
       const lines = [];
-      lines.push(['教师', '校区', '上传时间', '状态', 'AI摘要', '备注', '文件名'].join('\t'));
+      lines.push(['教师', '校区', '练习卷', '分数', '上传时间', '状态', 'AI摘要', '备注', '文件名'].join('\t'));
       teachers.forEach(t => {
         (db[t.name] || []).forEach(r => {
           const st = statusLabel(r.status).text;
           lines.push(
-            [t.name, t.campus, new Date(r.at).toLocaleString('zh-CN'), st, r.summary || '', r.note || '', r.fileName || ''].join('\t')
+            [
+              t.name,
+              t.campus,
+              r.exerciseTitle || '',
+              r.score != null ? r.score : '',
+              new Date(r.at).toLocaleString('zh-CN'),
+              st,
+              r.summary || '',
+              r.note || '',
+              r.fileName || ''
+            ].join('\t')
           );
         });
       });
@@ -1004,9 +1552,9 @@
       const u = new URL(window.location.href);
       u.searchParams.set('upload', '1');
       const url = u.toString();
-      urlEl.textContent = '请用局域网 HTTP 打开本页（勿用 file://），扫码地址：' + url;
+      urlEl.textContent = url;
       if (typeof QRCode === 'undefined') {
-        urlEl.textContent += ' （二维码库加载失败，请检查网络）';
+        urlEl.textContent = '二维码加载失败';
         return;
       }
       QRCode.toCanvas(canvas, url, { width: 200, margin: 2 }, err => {
@@ -1022,7 +1570,7 @@
       return compressImageFile(file, maxSide, quality);
     }
 
-    async function deepseekChat(messages) {
+    async function deepseekChat(messages, maxTokens) {
       const key = getDeepseekKey();
       if (!key) throw new Error('未配置 DeepSeek API 密钥');
       const res = await fetch('https://api.deepseek.com/chat/completions', {
@@ -1034,7 +1582,7 @@
         body: JSON.stringify({
           model: 'deepseek-chat',
           messages,
-          max_tokens: 400
+          max_tokens: maxTokens != null ? maxTokens : 400
         })
       });
       if (!res.ok) {
@@ -1048,21 +1596,39 @@
     }
 
     async function deepseekSummarizeImageBase64(dataUrl) {
-      return deepseekChat([
+      return deepseekChat(
+        [
+          {
+            role: 'user',
+            content: [
+              {
+                type: 'text',
+                text:
+                  '你是英语教研组材料检查助手。这是一张教师自行刷题/小卷的照片。请用中文简洁输出（不超过 150 字），包含：\n' +
+                  '1）能看出的题型（阅读/语法/写作/词汇等）或卷面标题；2）书写与完成度（空白多不多，粗略低/中/高）；3）是否像已订正（有红笔/批改痕迹则说明）。\n' +
+                  '看不清的不要编造。开头可加标签【英语教研自学】。'
+              },
+              { type: 'image_url', image_url: { url: dataUrl } }
+            ]
+          }
+        ],
+        450
+      );
+    }
+
+    async function deepseekSummarizeImagesBase64(dataUrls) {
+      const n = dataUrls.length;
+      const parts = [
         {
-          role: 'user',
-          content: [
-            {
-              type: 'text',
-              text:
-                '你是英语教研组材料检查助手。这是一张教师自行刷题/小卷的照片。请用中文简洁输出（不超过 150 字），包含：\n' +
-                '1）能看出的题型（阅读/语法/写作/词汇等）或卷面标题；2）书写与完成度（空白多不多，粗略低/中/高）；3）是否像已订正（有红笔/批改痕迹则说明）。\n' +
-                '看不清的不要编造。开头可加标签【英语教研自学】。'
-            },
-            { type: 'image_url', image_url: { url: dataUrl } }
-          ]
+          type: 'text',
+          text:
+            '你是英语教研组材料检查助手。教师上传了同一套练习的 ' +
+            n +
+            ' 张连续照片（按先后顺序）。请综合全部图片，用中文简洁输出（不超过 220 字）：整体题型与完成度、各页是否互补、空白与订正情况；看不清处勿编造。开头可加【英语教研自学】。'
         }
-      ]);
+      ];
+      dataUrls.forEach(url => parts.push({ type: 'image_url', image_url: { url } }));
+      return deepseekChat([{ role: 'user', content: parts }], 650);
     }
 
     async function deepseekSummarizeText(note) {
@@ -1085,6 +1651,107 @@
             blobText
         }
       ]);
+    }
+
+    function parseScoreFromAi(text) {
+      const t = (text || '').trim();
+      let j = null;
+      try {
+        const start = t.indexOf('{');
+        const end = t.lastIndexOf('}');
+        if (start >= 0 && end > start) j = JSON.parse(t.slice(start, end + 1));
+      } catch (_) {}
+      if (!j || (typeof j.score !== 'number' && typeof j.score !== 'string')) {
+        const m = t.match(/"score"\s*:\s*(\d+)/);
+        if (m) j = { score: parseInt(m[1], 10), reason: t.slice(0, 120) };
+      }
+      if (!j) return { score: null, scoreComment: t.slice(0, 200) };
+      let s = Math.round(Number(j.score));
+      if (isNaN(s)) return { score: null, scoreComment: (j.reason || t).slice(0, 200) };
+      s = Math.max(0, Math.min(100, s));
+      return { score: s, scoreComment: String(j.reason || '').slice(0, 200) };
+    }
+
+    async function deepseekScoreExerciseVision(dataUrl, exerciseTitle, note) {
+      const extra = note ? '\n教师补充说明（可作参考）：' + note : '';
+      return deepseekChat(
+        [
+          {
+            role: 'user',
+            content: [
+              {
+                type: 'text',
+                text:
+                  '你是高中英语阅卷助手。教师完成教研练习「' +
+                  exerciseTitle +
+                  '」并上传作答照片。请根据照片中可见的手写或填写作答尽量客观评分（满分100）。' +
+                  '词形填空侧重词形变化与语法形式；完形填空侧重上下文逻辑与词汇选择。模糊、反光、裁切导致无法辨认处应保守扣分，不要编造看不清的内容。' +
+                  extra +
+                  '\n请只输出一行合法 JSON，不要 markdown 代码块，不要其它任何文字：{"score":0到100的整数,"reason":"80字内简要评语"}'
+              },
+              { type: 'image_url', image_url: { url: dataUrl } }
+            ]
+          }
+        ],
+        500
+      );
+    }
+
+    async function deepseekScoreExerciseVisionMulti(dataUrls, exerciseTitle, note) {
+      const extra = note ? '\n教师补充说明（可作参考）：' + note : '';
+      const parts = [
+        {
+          type: 'text',
+          text:
+            '你是高中英语阅卷助手。教师完成教研练习「' +
+            exerciseTitle +
+            '」，共上传 ' +
+            dataUrls.length +
+            ' 张作答照片（按顺序，可能为正反面或多页）。请综合全部图片阅卷，给出**一个**总分（满分100），不要逐张打分。' +
+            '词形填空侧重词形与语法；完形填空侧重逻辑与词汇。模糊处保守扣分，勿编造。' +
+            extra +
+            '\n只输出一行合法 JSON：{"score":0到100的整数,"reason":"100字内综合评语"}'
+        }
+      ];
+      dataUrls.forEach(url => parts.push({ type: 'image_url', image_url: { url } }));
+      return deepseekChat([{ role: 'user', content: parts }], 550);
+    }
+
+    async function deepseekScoreExerciseText(exerciseTitle, note) {
+      return deepseekChat([
+        {
+          role: 'user',
+          content:
+            '教师完成「' +
+            exerciseTitle +
+            '」，因无法看图，仅根据其文字自述估计完成度并给出一个参考分（满分100）。自述：\n' +
+            note +
+            '\n只输出一行 JSON：{"score":整数,"reason":"60字内说明依据为自述故仅供参考"}'
+        }
+      ]);
+    }
+
+    async function tryScoreExercise(dataUrls, exerciseTitle, note, useVision) {
+      if (!exerciseTitle) return { score: null, scoreComment: '' };
+      const list = Array.isArray(dataUrls) ? dataUrls.filter(Boolean) : dataUrls ? [dataUrls] : [];
+      try {
+        if (useVision && list.length) {
+          const raw =
+            list.length === 1
+              ? await deepseekScoreExerciseVision(list[0], exerciseTitle, note)
+              : await deepseekScoreExerciseVisionMulti(list, exerciseTitle, note);
+          return parseScoreFromAi(raw);
+        }
+      } catch (_) {}
+      if (note && note.trim()) {
+        try {
+          const raw = await deepseekScoreExerciseText(exerciseTitle, note);
+          return parseScoreFromAi(raw);
+        } catch (e) {
+          return { score: null, scoreComment: '打分失败：' + ((e && e.message) || String(e)).slice(0, 120) };
+        }
+      }
+      return { score: null, scoreComment: useVision ? '识图打分失败且无文字说明' : '未启用识图且无说明' };
     }
 
     async function compressImageFile(file, maxSide, quality) {
@@ -1112,10 +1779,14 @@
       });
     }
 
-    async function runUploadRecognition(dataUrl, note, useVision) {
-      if (useVision) {
+    async function runUploadRecognition(dataUrls, note, useVision) {
+      const list = Array.isArray(dataUrls) ? dataUrls.filter(Boolean) : dataUrls ? [dataUrls] : [];
+      if (useVision && list.length) {
         try {
-          const visionDetail = await deepseekSummarizeImageBase64(dataUrl);
+          const visionDetail =
+            list.length === 1
+              ? await deepseekSummarizeImageBase64(list[0])
+              : await deepseekSummarizeImagesBase64(list);
           return { summary: visionDetail, status: 'vision_ok', visionDetail };
         } catch (e) {
           const errMsg = (e && e.message) || String(e);
@@ -1156,32 +1827,86 @@
       return { summary: '已上传图片（未启用 AI 且无文字说明）', status: 'no_ai', visionDetail: '' };
     }
 
+    const MAX_UPLOAD_IMAGES = 12;
+
+    async function compressFilesToDataUrls(files, wantThumb) {
+      const dataUrls = [];
+      const thumbs = [];
+      for (let i = 0; i < files.length; i++) {
+        const f = files[i];
+        const maxSide = files.length > 4 ? (i === 0 ? 1120 : 880) : i === 0 ? 1280 : 960;
+        const q = i === 0 ? 0.82 : 0.76;
+        dataUrls.push(await compressImageFile(f, maxSide, q));
+        if (wantThumb) {
+          try {
+            let th = await compressImageFile(f, 320, 0.65);
+            if (th && th.length > 90000) th = await compressImageFile(f, 220, 0.58);
+            thumbs.push(th);
+          } catch (_) {
+            thumbs.push(null);
+          }
+        }
+      }
+      const tlist = wantThumb ? thumbs.filter(Boolean).slice(0, 4) : [];
+      return { dataUrls, thumbs: tlist };
+    }
+
+    async function trySyncRecordToCloud(payload) {
+      if (!getSupabaseConfig()) return { skipped: true };
+      const chk = document.getElementById('syncToCloud');
+      if (chk && !chk.checked) return { skipped: true };
+      const row = {
+        client_record_id: payload.id,
+        teacher_name: payload.teacherName,
+        campus: payload.campus || '—',
+        summary: payload.summary || '',
+        note: payload.note || '',
+        file_name: payload.fileName || '',
+        status: payload.status || '',
+        created_at: payload.at,
+        exercise_title: payload.exerciseTitle || null,
+        score: payload.score != null ? payload.score : null,
+        score_detail: payload.scoreComment || null
+      };
+      const ins = await supabaseRestInsert(row);
+      return ins.ok ? { skipped: false, ok: true } : { skipped: false, ok: false, error: ins.error };
+    }
+
     document.getElementById('btnUpload').addEventListener('click', async () => {
       const name = document.getElementById('uploadTeacher').value;
-      const file = document.getElementById('uploadFile').files?.[0];
+      const files = Array.from(document.getElementById('uploadFile').files || []);
       const note = (document.getElementById('uploadNote') && document.getElementById('uploadNote').value.trim()) || '';
       const busy = document.getElementById('uploadBusy');
       const btnUp = document.getElementById('btnUpload');
-      if (!file) {
-        alert('请选择图片文件');
+      if (!files.length) {
+        alert('请至少选择一张图片（可多选）');
+        return;
+      }
+      if (files.length > MAX_UPLOAD_IMAGES) {
+        alert('一次最多 ' + MAX_UPLOAD_IMAGES + ' 张，请分批上传');
+        return;
+      }
+      const exId = (document.getElementById('uploadExercise') && document.getElementById('uploadExercise').value) || '';
+      const exTitle = exerciseTitleById(exId);
+      if (!exId || !exTitle) {
+        alert('请选择练习卷');
         return;
       }
       const useAi = document.getElementById('callDeepseek').checked;
       const wantThumb = document.getElementById('saveThumb').checked;
       btnUp.disabled = true;
-      if (busy) busy.style.display = 'inline';
-      let dataUrl;
+      if (busy) {
+        busy.style.display = 'inline';
+        busy.textContent = '压缩 ' + files.length + ' 张图并请求 DeepSeek…';
+      }
+      let dataUrls;
       let thumbDataUrl = null;
+      let thumbDataUrls = [];
       try {
-        dataUrl = await fileToCompressedBase64(file);
-        if (wantThumb) {
-          try {
-            thumbDataUrl = await compressImageFile(file, 360, 0.68);
-            if (thumbDataUrl && thumbDataUrl.length > 180000) thumbDataUrl = await compressImageFile(file, 240, 0.6);
-          } catch (_) {
-            thumbDataUrl = null;
-          }
-        }
+        const pack = await compressFilesToDataUrls(files, wantThumb);
+        dataUrls = pack.dataUrls;
+        thumbDataUrls = pack.thumbs;
+        thumbDataUrl = thumbDataUrls[0] || null;
       } catch (e) {
         alert('图片处理失败：' + e.message);
         btnUp.disabled = false;
@@ -1190,22 +1915,43 @@
       }
       let rec;
       try {
-        rec = await runUploadRecognition(dataUrl, note, useAi);
+        rec = await runUploadRecognition(dataUrls, note, useAi);
       } catch (e) {
         rec = { summary: '【识别异常】' + ((e && e.message) || String(e)), status: 'failed', visionDetail: '' };
       }
+      let score = null;
+      let scoreComment = '';
+      if (useAi && exTitle) {
+        if (busy) busy.textContent = 'DeepSeek 正综合 ' + dataUrls.length + ' 张图打分…';
+        try {
+          const sc = await tryScoreExercise(dataUrls, exTitle, note, true);
+          score = sc.score;
+          scoreComment = sc.scoreComment || '';
+        } catch (e) {
+          scoreComment = '打分异常：' + ((e && e.message) || String(e)).slice(0, 80);
+        }
+      }
+      let summaryLine = rec.summary || '（无摘要）';
+      if (score != null) summaryLine = '【' + score + '分】' + (scoreComment ? scoreComment + ' | ' : '') + summaryLine;
+      const fileLabel = files.length + '张：' + files.map(f => f.name).join(' | ');
       const id = typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : 'r_' + Date.now();
+      const atIso = new Date().toISOString();
       const db = getUploadDb();
       if (!db[name]) db[name] = [];
       db[name].push({
         id,
-        at: new Date().toISOString(),
-        summary: rec.summary || '（无摘要）',
+        at: atIso,
+        summary: summaryLine,
         note,
-        fileName: file.name,
+        fileName: fileLabel,
         status: rec.status,
         visionDetail: rec.visionDetail || '',
-        thumbDataUrl
+        thumbDataUrl,
+        thumbDataUrls,
+        exerciseId: exId,
+        exerciseTitle: exTitle,
+        score,
+        scoreComment
       });
       try {
         saveUploadDb(db);
@@ -1214,13 +1960,18 @@
         db[name].pop();
         db[name].push({
           id,
-          at: new Date().toISOString(),
-          summary: rec.summary || '（无摘要）',
+          at: atIso,
+          summary: summaryLine,
           note,
-          fileName: file.name,
+          fileName: fileLabel,
           status: rec.status,
           visionDetail: rec.visionDetail || '',
-          thumbDataUrl: null
+          thumbDataUrl: null,
+          thumbDataUrls: [],
+          exerciseId: exId,
+          exerciseTitle: exTitle,
+          score,
+          scoreComment
         });
         try {
           saveUploadDb(db);
@@ -1231,13 +1982,32 @@
           return;
         }
       }
-      alert('已记录到教师：' + name);
+      let doneMsg = '已记录到教师：' + name;
+      if (score != null) doneMsg += '（得分 ' + score + '）';
+      const syncRes = await trySyncRecordToCloud({
+        id,
+        teacherName: name,
+        campus: campusOfTeacher(name),
+        summary: summaryLine,
+        note,
+        fileName: fileLabel,
+        status: rec.status || '',
+        at: atIso,
+        exerciseTitle: exTitle,
+        score,
+        scoreComment
+      });
+      if (!syncRes.skipped && !syncRes.ok) doneMsg += '\n\n⚠ 云端同步失败：' + (syncRes.error || '未知错误');
+      alert(doneMsg);
       document.getElementById('uploadFile').value = '';
       if (document.getElementById('uploadNote')) document.getElementById('uploadNote').value = '';
       renderUploadStats();
       renderUploadRecordsTable();
       btnUp.disabled = false;
-      if (busy) busy.style.display = 'none';
+      if (busy) {
+        busy.style.display = 'none';
+        busy.textContent = '识别与评分中，请稍候…';
+      }
     });
 
     document.getElementById('btnExportSync').addEventListener('click', () => {
@@ -1288,24 +2058,32 @@
 
       document.getElementById('mSubmit').addEventListener('click', async () => {
         const name = document.getElementById('mTeacher').value;
-        const file = document.getElementById('mFile').files?.[0];
+        const files = Array.from(document.getElementById('mFile').files || []);
         const note = (document.getElementById('mNote') && document.getElementById('mNote').value.trim()) || '';
+        const exId = (document.getElementById('mExercise') && document.getElementById('mExercise').value) || '';
+        const exTitle = exerciseTitleById(exId);
         const msg = document.getElementById('mMsg');
-        if (!file) {
-          msg.textContent = '请选择照片';
+        if (!files.length) {
+          msg.textContent = '请至少选择一张照片（可多选）';
           return;
         }
-        msg.textContent = '识别与保存中…';
-        let dataUrl;
+        if (files.length > MAX_UPLOAD_IMAGES) {
+          msg.textContent = '一次最多 ' + MAX_UPLOAD_IMAGES + ' 张';
+          return;
+        }
+        if (!exId || !exTitle) {
+          msg.textContent = '请选择练习卷';
+          return;
+        }
+        msg.textContent = '处理 ' + files.length + ' 张图…';
+        let dataUrls;
         let thumbDataUrl = null;
+        let thumbDataUrls = [];
         try {
-          dataUrl = await fileToCompressedBase64(file);
-          try {
-            thumbDataUrl = await compressImageFile(file, 360, 0.68);
-            if (thumbDataUrl && thumbDataUrl.length > 180000) thumbDataUrl = await compressImageFile(file, 240, 0.6);
-          } catch (_) {
-            thumbDataUrl = null;
-          }
+          const pack = await compressFilesToDataUrls(files, true);
+          dataUrls = pack.dataUrls;
+          thumbDataUrls = pack.thumbs;
+          thumbDataUrl = thumbDataUrls[0] || null;
         } catch (e) {
           msg.textContent = '失败：' + e.message;
           return;
@@ -1313,28 +2091,48 @@
         const useAi = true;
         let rec;
         try {
-          rec = await runUploadRecognition(dataUrl, note, useAi);
+          rec = await runUploadRecognition(dataUrls, note, useAi);
         } catch (e) {
           rec = { summary: '【识别异常】' + ((e && e.message) || String(e)), status: 'failed', visionDetail: '' };
         }
+        msg.textContent = 'DeepSeek 综合 ' + dataUrls.length + ' 张图打分…';
+        let score = null;
+        let scoreComment = '';
+        try {
+          const sc = await tryScoreExercise(dataUrls, exTitle, note, true);
+          score = sc.score;
+          scoreComment = sc.scoreComment || '';
+        } catch (e) {
+          scoreComment = '打分异常：' + ((e && e.message) || String(e)).slice(0, 80);
+        }
+        let summaryLine = rec.summary || '（无摘要）';
+        if (score != null) summaryLine = '【' + score + '分】' + (scoreComment ? scoreComment + ' | ' : '') + summaryLine;
+        const fileLabel = files.length + '张：' + files.map(f => f.name).join(' | ');
         const id = typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : 'r_' + Date.now();
+        const atIso = new Date().toISOString();
         const db = getUploadDb();
         if (!db[name]) db[name] = [];
         const row = {
           id,
-          at: new Date().toISOString(),
-          summary: rec.summary,
+          at: atIso,
+          summary: summaryLine,
           note,
-          fileName: file.name,
+          fileName: fileLabel,
           status: rec.status,
           visionDetail: rec.visionDetail || '',
-          thumbDataUrl
+          thumbDataUrl,
+          thumbDataUrls,
+          exerciseId: exId,
+          exerciseTitle: exTitle,
+          score,
+          scoreComment
         };
         db[name].push(row);
         try {
           saveUploadDb(db);
         } catch (e) {
           row.thumbDataUrl = null;
+          row.thumbDataUrls = [];
           db[name][db[name].length - 1] = row;
           try {
             saveUploadDb(db);
@@ -1344,7 +2142,23 @@
             return;
           }
         }
-        msg.textContent = '已保存。可导出同步包发到电脑端合并。';
+        const syncRes = await trySyncRecordToCloud({
+          id,
+          teacherName: name,
+          campus: campusOfTeacher(name),
+          summary: summaryLine,
+          note,
+          fileName: fileLabel,
+          status: rec.status || '',
+          at: atIso,
+          exerciseTitle: exTitle,
+          score,
+          scoreComment
+        });
+        let tail = '可导出同步包发到电脑端合并。';
+        if (score != null) tail = '得分 ' + score + '。' + tail;
+        if (!syncRes.skipped && !syncRes.ok) tail = '⚠ 云端同步失败：' + (syncRes.error || '') + '。' + tail;
+        msg.textContent = '已保存。' + tail;
         document.getElementById('mFile').value = '';
         if (document.getElementById('mNote')) document.getElementById('mNote').value = '';
       });
@@ -1365,6 +2179,8 @@
       if (!Object.keys(rollState).length) initRollState();
       refreshRollUI();
       fillTeacherSelects();
+      loadSupabaseInputs();
+      updateCloudConfigBanner();
     }
   </script>
 </body>
