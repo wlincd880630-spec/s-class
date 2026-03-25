@@ -252,7 +252,8 @@ create policy "jy_uploads_select" on public.jy_uploads for select to anon using 
 -- 若表是早期建的、没有打分字段，在 SQL Editor 再执行一次下面三行：
 -- alter table public.jy_uploads add column if not exists exercise_title text;
 -- alter table public.jy_uploads add column if not exists score int;
--- alter table public.jy_uploads add column if not exists score_detail text;</pre>
+-- alter table public.jy_uploads add column if not exists score_detail text;
+-- 加列后若仍报错，可在 SQL Editor 执行：NOTIFY pgrst, 'reload schema';</pre>
           <p class="hint" style="margin-top:0.5rem;">说明：上述策略允许任何人读写该表，仅适合<strong>内部小范围</strong>链接。若链接会公开，请改为登录用户可读或自建后端。</p>
         </details>
       </div>
@@ -471,18 +472,35 @@ create policy "jy_uploads_select" on public.jy_uploads for select to anon using 
     async function supabaseRestInsert(row) {
       const cfg = getSupabaseConfig();
       if (!cfg) return { ok: false, error: '未配置 Supabase' };
-      const res = await fetch(cfg.url + '/rest/v1/jy_uploads', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          apikey: cfg.anon,
-          Authorization: 'Bearer ' + cfg.anon,
-          Prefer: 'return=minimal'
-        },
-        body: JSON.stringify(row)
-      });
-      if (!res.ok) return { ok: false, error: (await res.text()).slice(0, 500) };
-      return { ok: true };
+      const post = body =>
+        fetch(cfg.url + '/rest/v1/jy_uploads', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            apikey: cfg.anon,
+            Authorization: 'Bearer ' + cfg.anon,
+            Prefer: 'return=minimal'
+          },
+          body: JSON.stringify(body)
+        });
+      let res = await post(row);
+      if (res.ok) return { ok: true };
+      let errText = await res.text();
+      const needLegacy =
+        errText.includes('exercise_title') ||
+        errText.includes('score_detail') ||
+        errText.includes('PGRST204') ||
+        errText.includes('schema cache');
+      if (needLegacy) {
+        const mini = { ...row };
+        delete mini.exercise_title;
+        delete mini.score;
+        delete mini.score_detail;
+        res = await post(mini);
+        if (res.ok) return { ok: true, degraded: true };
+        errText = await res.text();
+      }
+      return { ok: false, error: errText.slice(0, 500) };
     }
 
     async function supabaseRestSelectAll() {
@@ -1731,9 +1749,33 @@ create policy "jy_uploads_select" on public.jy_uploads for select to anon using 
       ]);
     }
 
+    async function deepseekScoreExerciseTitleOnly(exerciseTitle) {
+      return deepseekChat(
+        [
+          {
+            role: 'user',
+            content:
+              '无法看到答题图片。教师完成的练习是：「' +
+              exerciseTitle +
+              '」。请仅根据题型名称输出一个参考分（50–75 之间的整数，表示假设已认真完成但未核验），并一句话说明线下须核对答题纸。只输出一行 JSON：{"score":整数,"reason":"不超过55字"}'
+          }
+        ],
+        350
+      );
+    }
+
+    function humanizeVisionError(errMsg) {
+      const s = String(errMsg || '');
+      if (s.includes('400') && (s.includes('deserialize') || s.includes('unknown variant')))
+        return '当前 DeepSeek 聊天接口不支持传图，已按文字/练习名处理。';
+      if (s.includes('400')) return '识图请求被拒绝。';
+      return s.length > 100 ? s.slice(0, 100) + '…' : s;
+    }
+
     async function tryScoreExercise(dataUrls, exerciseTitle, note, useVision) {
       if (!exerciseTitle) return { score: null, scoreComment: '' };
       const list = Array.isArray(dataUrls) ? dataUrls.filter(Boolean) : dataUrls ? [dataUrls] : [];
+      let visionFailed = false;
       try {
         if (useVision && list.length) {
           const raw =
@@ -1742,7 +1784,9 @@ create policy "jy_uploads_select" on public.jy_uploads for select to anon using 
               : await deepseekScoreExerciseVisionMulti(list, exerciseTitle, note);
           return parseScoreFromAi(raw);
         }
-      } catch (_) {}
+      } catch (_) {
+        visionFailed = true;
+      }
       if (note && note.trim()) {
         try {
           const raw = await deepseekScoreExerciseText(exerciseTitle, note);
@@ -1751,7 +1795,19 @@ create policy "jy_uploads_select" on public.jy_uploads for select to anon using 
           return { score: null, scoreComment: '打分失败：' + ((e && e.message) || String(e)).slice(0, 120) };
         }
       }
-      return { score: null, scoreComment: useVision ? '识图打分失败且无文字说明' : '未启用识图且无说明' };
+      if (visionFailed) {
+        try {
+          const raw = await deepseekScoreExerciseTitleOnly(exerciseTitle);
+          const p = parseScoreFromAi(raw);
+          const tail = p.scoreComment ? p.scoreComment + ' ' : '';
+          return {
+            score: p.score,
+            scoreComment: tail + '（接口不支持识图，参考分未核验答题）'
+          };
+        } catch (_) {}
+        return { score: null, scoreComment: '识图不可用且无备注，未打分' };
+      }
+      return { score: null, scoreComment: '未启用识图且无说明' };
     }
 
     async function compressImageFile(file, maxSide, quality) {
@@ -1779,7 +1835,8 @@ create policy "jy_uploads_select" on public.jy_uploads for select to anon using 
       });
     }
 
-    async function runUploadRecognition(dataUrls, note, useVision) {
+    async function runUploadRecognition(dataUrls, note, useVision, exerciseTitle) {
+      const ex = exerciseTitle || '';
       const list = Array.isArray(dataUrls) ? dataUrls.filter(Boolean) : dataUrls ? [dataUrls] : [];
       if (useVision && list.length) {
         try {
@@ -1790,27 +1847,42 @@ create policy "jy_uploads_select" on public.jy_uploads for select to anon using 
           return { summary: visionDetail, status: 'vision_ok', visionDetail };
         } catch (e) {
           const errMsg = (e && e.message) || String(e);
+          const shortH = humanizeVisionError(errMsg);
           if (note && note.trim()) {
             try {
               const t = await deepseekSummarizeText(note);
               return {
-                summary: '【图像未识别】' + errMsg.slice(0, 80) + '。依据文字说明整理：' + t,
+                summary: '【' + shortH + '】' + t,
                 status: 'vision_failed_text_ok',
                 visionDetail: ''
               };
             } catch {
               return {
-                summary: '【图像未识别】' + errMsg.slice(0, 120) + ' | 备注：' + note,
+                summary: '【' + shortH + '】' + note,
                 status: 'vision_failed',
                 visionDetail: ''
               };
             }
           }
+          if (ex) {
+            try {
+              const t = await deepseekChat(
+                [
+                  {
+                    role: 'user',
+                    content:
+                      '教师提交了练习「' +
+                      ex +
+                      '」的照片，但接口无法分析图像。请用一句话（不超过70字）说明：已记录上传、答题纸需线下核对；不要输出 JSON、不要复述技术错误。'
+                  }
+                ],
+                200
+              );
+              return { summary: (t && t.trim()) || shortH, status: 'text_only_no_image', visionDetail: '' };
+            } catch (_) {}
+          }
           return {
-            summary:
-              '【图像未识别】' +
-              errMsg.slice(0, 160) +
-              '。建议补充「文字说明」后重新上传，或检查网络与 API 额度。',
+            summary: shortH + ' 可在「备注」简述完成情况，或检查 Key/额度。',
             status: 'vision_failed',
             visionDetail: ''
           };
@@ -1869,7 +1941,9 @@ create policy "jy_uploads_select" on public.jy_uploads for select to anon using 
         score_detail: payload.scoreComment || null
       };
       const ins = await supabaseRestInsert(row);
-      return ins.ok ? { skipped: false, ok: true } : { skipped: false, ok: false, error: ins.error };
+      return ins.ok
+        ? { skipped: false, ok: true, degraded: !!ins.degraded }
+        : { skipped: false, ok: false, error: ins.error };
     }
 
     document.getElementById('btnUpload').addEventListener('click', async () => {
@@ -1915,7 +1989,7 @@ create policy "jy_uploads_select" on public.jy_uploads for select to anon using 
       }
       let rec;
       try {
-        rec = await runUploadRecognition(dataUrls, note, useAi);
+        rec = await runUploadRecognition(dataUrls, note, useAi, exTitle);
       } catch (e) {
         rec = { summary: '【识别异常】' + ((e && e.message) || String(e)), status: 'failed', visionDetail: '' };
       }
@@ -1998,6 +2072,9 @@ create policy "jy_uploads_select" on public.jy_uploads for select to anon using 
         scoreComment
       });
       if (!syncRes.skipped && !syncRes.ok) doneMsg += '\n\n⚠ 云端同步失败：' + (syncRes.error || '未知错误');
+      if (!syncRes.skipped && syncRes.ok && syncRes.degraded)
+        doneMsg +=
+          '\n\n⚠ 云端表缺少新字段，已按旧结构同步。请在 Supabase 执行 ALTER 添加 exercise_title、score、score_detail，必要时执行 NOTIFY pgrst, \'reload schema\';';
       alert(doneMsg);
       document.getElementById('uploadFile').value = '';
       if (document.getElementById('uploadNote')) document.getElementById('uploadNote').value = '';
@@ -2091,7 +2168,7 @@ create policy "jy_uploads_select" on public.jy_uploads for select to anon using 
         const useAi = true;
         let rec;
         try {
-          rec = await runUploadRecognition(dataUrls, note, useAi);
+          rec = await runUploadRecognition(dataUrls, note, useAi, exTitle);
         } catch (e) {
           rec = { summary: '【识别异常】' + ((e && e.message) || String(e)), status: 'failed', visionDetail: '' };
         }
@@ -2158,6 +2235,8 @@ create policy "jy_uploads_select" on public.jy_uploads for select to anon using 
         let tail = '可导出同步包发到电脑端合并。';
         if (score != null) tail = '得分 ' + score + '。' + tail;
         if (!syncRes.skipped && !syncRes.ok) tail = '⚠ 云端同步失败：' + (syncRes.error || '') + '。' + tail;
+        if (!syncRes.skipped && syncRes.ok && syncRes.degraded)
+          tail = '⚠ 云端缺列已降级同步，请到 Supabase 加列。' + tail;
         msg.textContent = '已保存。' + tail;
         document.getElementById('mFile').value = '';
         if (document.getElementById('mNote')) document.getElementById('mNote').value = '';
