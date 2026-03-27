@@ -1,0 +1,2575 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>课后作业 · 音节与闭音节（一题一页 · Azure）</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Comic+Neue:wght@400;700&family=Noto+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --cream: #fff8f0;
+      --peach: #ffd4c8;
+      --blush: #ff9aa8;
+      --mint: #b8e8d0;
+      --sky: #a8d8f0;
+      --lilac: #d4c4f7;
+      --ink: #3d3545;
+      --ink-soft: #6b6170;
+      --card: #fffefb;
+      --shadow: rgba(61, 53, 69, 0.12);
+      --ok: #2d8a5e;
+      --bad: #c44d4d;
+      --font-display: "Comic Neue", "Nunito", system-ui, sans-serif;
+      --font-body: "Nunito", system-ui, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body {
+      font-family: var(--font-body);
+      color: var(--ink);
+      min-height: 100%;
+      background: linear-gradient(165deg, var(--cream) 0%, #ffe8ec 38%, #e8f6ff 100%);
+      background-attachment: fixed;
+      padding: clamp(0.6rem, 2vw, 1.2rem);
+      line-height: 1.6;
+    }
+    .shell {
+      max-width: 640px;
+      margin: 0 auto;
+      min-height: calc(100vh - 1.5rem);
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .hero {
+      text-align: center;
+      margin-bottom: 0.75rem;
+    }
+    .hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(1.25rem, 4.2vw, 1.75rem);
+      font-weight: 800;
+      color: var(--ink);
+      text-shadow: 2px 2px 0 rgba(255, 154, 168, 0.45);
+    }
+    .hero p {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--ink-soft);
+      margin-top: 0.25rem;
+    }
+    .progress-wrap {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      margin-bottom: 0.65rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .progress-text {
+      font-weight: 800;
+      font-size: 0.88rem;
+      color: var(--ink-soft);
+    }
+    .dots {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.28rem;
+      justify-content: center;
+      max-width: 100%;
+    }
+    .dots i {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: rgba(61, 53, 69, 0.18);
+      transition: transform 0.2s, background 0.2s;
+    }
+    .dots i.on { background: var(--blush); transform: scale(1.35); }
+    .dots i.done { background: var(--mint); }
+    .card {
+      flex: 1;
+      background: var(--card);
+      border-radius: 28px;
+      border: 3px solid var(--ink);
+      box-shadow: 8px 8px 0 var(--shadow);
+      padding: clamp(1.1rem, 4vw, 1.65rem);
+      position: relative;
+      overflow: hidden;
+    }
+    .card::before {
+      content: "";
+      position: absolute;
+      top: -40%;
+      right: -25%;
+      width: 55%;
+      height: 80%;
+      background: radial-gradient(circle, rgba(255, 212, 200, 0.55), transparent 70%);
+      pointer-events: none;
+    }
+    .card-inner { position: relative; z-index: 1; }
+    .q-label {
+      font-size: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      margin-bottom: 0.5rem;
+    }
+    .q-body {
+      font-family: var(--font-display);
+      font-size: clamp(1.05rem, 3.5vw, 1.28rem);
+      font-weight: 700;
+      line-height: 1.45;
+      margin-bottom: 1rem;
+    }
+    .q-body .q-line {
+      display: block;
+    }
+    .q-body .q-line.q-zh {
+      margin-bottom: 0.5rem;
+    }
+    .q-body .q-line.q-en {
+      font-family: var(--font-body);
+      font-size: 0.94em;
+      font-weight: 700;
+      color: var(--ink-soft);
+      letter-spacing: 0.01em;
+    }
+    .intro-desc {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--ink-soft);
+      line-height: 1.55;
+      margin-bottom: 0.75rem;
+    }
+    .intro-desc .q-line.q-en {
+      margin-top: 0.35rem;
+    }
+    .opts label {
+      display: block;
+      margin: 0.4rem 0;
+      padding: 0.65rem 0.85rem;
+      border-radius: 16px;
+      border: 2px solid rgba(61, 53, 69, 0.2);
+      background: rgba(255, 255, 255, 0.85);
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.92rem;
+      line-height: 1.45;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .opts label:hover {
+      border-color: var(--ink);
+      background: rgba(184, 232, 208, 0.35);
+    }
+    .opts input { margin-right: 0.5rem; vertical-align: middle; }
+    .ipa-grid { display: grid; gap: 0.65rem; margin-top: 0.5rem; }
+    .ipa-row {
+      display: grid;
+      grid-template-columns: 2.5rem 1fr;
+      gap: 0.5rem;
+      align-items: center;
+    }
+    .ipa-row .letter {
+      font-family: var(--font-display);
+      font-size: 1.65rem;
+      font-weight: 800;
+      text-align: center;
+      background: var(--peach);
+      border-radius: 12px;
+      border: 2px solid var(--ink);
+      padding: 0.2rem;
+    }
+    .ipa-row select {
+      width: 100%;
+      padding: 0.55rem 0.75rem;
+      border-radius: 12px;
+      border: 2px solid var(--ink);
+      font-weight: 700;
+      font-size: clamp(1.2rem, 4.2vw, 1.55rem);
+      font-family: "Noto Sans", "Segoe UI", "Lucida Sans Unicode", sans-serif;
+      background: #fff;
+      line-height: 1.35;
+    }
+    .ipa-row select option {
+      font-size: 1.15rem;
+      font-family: "Noto Sans", "Segoe UI", "Lucida Sans Unicode", sans-serif;
+    }
+    #explain-body .ipa-inline {
+      font-family: "Noto Sans", "Segoe UI", "Lucida Sans Unicode", sans-serif;
+      font-size: 1.2em;
+      font-weight: 800;
+    }
+    .btn {
+      font-family: var(--font-body);
+      font-weight: 800;
+      border: 3px solid var(--ink);
+      border-radius: 999px;
+      padding: 0.55rem 1.35rem;
+      background: linear-gradient(180deg, var(--mint), #9dd9b8);
+      cursor: pointer;
+      box-shadow: 3px 3px 0 var(--shadow);
+      font-size: 0.95rem;
+      margin-top: 0.85rem;
+    }
+    .btn:hover { filter: brightness(1.03); transform: translateY(-1px); }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; filter: none; }
+    .btn-secondary { background: linear-gradient(180deg, var(--sky), #8bc8e8); }
+    .btn-pink { background: linear-gradient(180deg, var(--blush), #ff7a8c); color: #fff; text-shadow: 0 1px 0 rgba(0,0,0,0.15); }
+    .btn-row { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; margin-top: 1rem; }
+    .explain {
+      margin-top: 1rem;
+      padding: 0.85rem 1rem;
+      border-radius: 18px;
+      background: linear-gradient(135deg, rgba(255, 248, 220, 0.95), rgba(255, 228, 210, 0.9));
+      border: 2px dashed rgba(61, 53, 69, 0.25);
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--ink);
+      display: none;
+    }
+    .explain.show { display: block; }
+    .explain h4 { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ok); margin-bottom: 0.35rem; }
+    .explain.bad h4 { color: var(--bad); }
+    .muted { font-size: 0.82rem; font-weight: 700; color: var(--ink-soft); margin-top: 0.5rem; }
+    .section-lab {
+      margin-top: 1.5rem;
+      padding-top: 1.25rem;
+      border-top: 3px dashed rgba(61, 53, 69, 0.15);
+    }
+    .word-tabs { display: flex; flex-wrap: wrap; gap: 0.35rem; margin: 0.65rem 0; }
+    .word-tabs button {
+      font-weight: 800;
+      padding: 0.35rem 0.65rem;
+      border: 2px solid var(--ink);
+      border-radius: 999px;
+      background: #fff;
+      cursor: pointer;
+      font-size: 0.8rem;
+    }
+    .word-tabs button.is-on { background: var(--peach); box-shadow: 2px 2px 0 var(--shadow); }
+    .letters {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      justify-content: center;
+      gap: 0.08rem;
+      margin: 0.65rem 0;
+      font-family: var(--font-display);
+      font-size: clamp(1.65rem, 6vw, 2.6rem);
+    }
+    .letters .ch {
+      padding: 0.2rem 0.28rem;
+      border: 3px solid var(--ink);
+      border-radius: 12px;
+      background: var(--cream);
+      cursor: pointer;
+      user-select: none;
+      min-width: 1.1em;
+      text-align: center;
+    }
+    .letters .ch.vowel-pick { background: var(--peach); }
+    .letters .ch.vowel-ans { outline: 3px solid var(--ok); }
+    .gap {
+      width: clamp(0.5rem, 2.2vw, 0.75rem);
+      min-width: 14px;
+      align-self: stretch;
+      min-height: 2.5rem;
+      cursor: pointer;
+      border-radius: 6px;
+      position: relative;
+    }
+    .gap::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 10%;
+      bottom: 10%;
+      width: 4px;
+      transform: translateX(-50%);
+      background: rgba(61, 53, 69, 0.32);
+      border-radius: 3px;
+    }
+    .gap:hover::after {
+      width: 6px;
+      background: var(--ink);
+      box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.85);
+    }
+    .gap.sel {
+      background: rgba(168, 216, 240, 0.85);
+      border-radius: 8px;
+      box-shadow: inset 0 0 0 2px var(--ink);
+    }
+    .gap.sel::after {
+      width: 8px;
+      top: 6%;
+      bottom: 6%;
+      background: var(--ink);
+      border-radius: 4px;
+      box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.95), 0 2px 10px rgba(61, 53, 69, 0.35);
+    }
+    .gap.ok { background: rgba(45, 138, 94, 0.35); }
+    .gap.ok::after {
+      width: 7px;
+      background: var(--ok);
+      box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.9);
+    }
+    .gap.bad { background: rgba(196, 77, 77, 0.28); }
+    .gap.bad::after {
+      width: 6px;
+      background: var(--bad);
+      box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.9);
+    }
+    .lab-step { margin-top: 0.85rem; padding-top: 0.75rem; border-top: 2px dashed rgba(61, 53, 69, 0.12); }
+    .lab-step h3 { font-size: 0.95rem; margin-bottom: 0.35rem; }
+    .score-bar {
+      height: 1rem;
+      border: 2px solid var(--ink);
+      border-radius: 8px;
+      overflow: hidden;
+      background: #eee;
+      margin: 0.45rem 0;
+    }
+    .score-bar > i { display: block; height: 100%; background: linear-gradient(90deg, var(--mint), var(--sky)); width: 0%; transition: width 0.35s ease; }
+    .phoneme-grid { width: 100%; border-collapse: collapse; font-size: 0.78rem; margin-top: 0.45rem; }
+    .phoneme-grid th, .phoneme-grid td { border: 2px solid var(--ink); padding: 0.22rem 0.3rem; text-align: center; }
+    .phoneme-grid th { background: var(--mint); }
+    .ph-low { background: rgba(196, 77, 77, 0.12); }
+    .ph-mid { background: rgba(255, 154, 168, 0.3); }
+    .ph-high { background: rgba(184, 232, 208, 0.55); }
+    .rec-pulse {
+      display: inline-block;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--bad);
+      margin-right: 0.35rem;
+      animation: pulse 1s ease infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+    .pass-counter { font-weight: 900; font-size: 0.98rem; color: var(--ok); margin: 0.45rem 0; }
+    .pill {
+      display: inline-block;
+      padding: 0.12rem 0.45rem;
+      border-radius: 999px;
+      background: var(--lilac);
+      font-size: 0.72rem;
+      font-weight: 800;
+      margin-left: 0.35rem;
+    }
+    .hidden { display: none !important; }
+    .word-stage {
+      margin: 0.75rem 0;
+      padding: 0.65rem 0.5rem;
+      border-radius: 20px;
+      border: 3px solid var(--ink);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(255, 248, 240, 0.88));
+      box-shadow: 4px 4px 0 var(--shadow);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .word-stage.pulse-ok {
+      animation: stage-pop 0.55s ease;
+    }
+    @keyframes stage-pop {
+      0% { transform: scale(1); }
+      35% { transform: scale(1.03); box-shadow: 6px 6px 0 var(--mint); }
+      100% { transform: scale(1); }
+    }
+    .ch.vowel-bad-pick {
+      background: rgba(196, 77, 77, 0.22) !important;
+      border-color: var(--bad) !important;
+    }
+    .ch.vowel-missed {
+      outline: 3px dashed var(--bad);
+      outline-offset: 2px;
+    }
+    .gap.gap-locked {
+      opacity: 0.38;
+      pointer-events: none;
+      cursor: not-allowed;
+      filter: grayscale(0.25);
+    }
+    .lab-hint-line {
+      font-size: 0.8rem;
+      font-weight: 800;
+      color: var(--ink-soft);
+      margin: 0.35rem 0 0.15rem;
+    }
+    .lab-step-cue {
+      font-size: clamp(0.88rem, 2.8vw, 0.98rem);
+      font-weight: 800;
+      line-height: 1.55;
+      margin: 0 0 0.75rem;
+      padding: 0.6rem 0.85rem;
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(184, 232, 208, 0.45), rgba(168, 216, 240, 0.35));
+      border: 2px solid rgba(61, 53, 69, 0.18);
+      color: var(--ink);
+    }
+    .lab-step-cue strong { color: var(--ink); }
+    .lab-read-block.hidden-until-gap { display: none; }
+    .lab-read-block.visible { display: block; }
+    .lab-word-ref {
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: var(--ink-soft);
+      text-align: center;
+      margin: -0.35rem 0 0.5rem;
+    }
+    .lab-progress {
+      font-weight: 900;
+      font-size: 0.95rem;
+      text-align: center;
+      margin: 0.2rem 0 0.65rem;
+      color: var(--ink);
+    }
+    .reading-score-highlight {
+      font-family: var(--font-display);
+      font-size: clamp(1.15rem, 4vw, 1.55rem);
+      font-weight: 800;
+      text-align: center;
+      margin: 0.5rem 0 0.35rem;
+      padding: 0.45rem 0.65rem;
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(184, 232, 208, 0.65), rgba(168, 216, 240, 0.5));
+      border: 2px solid var(--ink);
+    }
+    .lab-all-done {
+      text-align: center;
+      padding: 1rem 0.5rem;
+    }
+    .lab-all-done .big { font-size: 1.2rem; font-weight: 900; margin-bottom: 0.5rem; }
+    .lab-all-done .btn-start-dict {
+      margin-top: 0.85rem;
+    }
+    .dict-slots {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.35rem;
+      margin: 0.75rem 0;
+      font-family: var(--font-display);
+      font-size: clamp(1.35rem, 5vw, 1.95rem);
+      font-weight: 800;
+    }
+    .dict-slot {
+      width: 1.2em;
+      min-width: 1.75rem;
+      height: 1.45em;
+      border: 3px solid var(--ink);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #fff;
+      text-transform: lowercase;
+    }
+    .dict-slot.empty { color: rgba(61, 53, 69, 0.22); }
+    .dict-keyboard {
+      display: grid;
+      grid-template-columns: repeat(13, 1fr);
+      gap: 0.32rem;
+      width: 100%;
+      max-width: 100%;
+      margin: 0.55rem 0 0.35rem;
+    }
+    @media (max-width: 540px) {
+      .dict-keyboard { grid-template-columns: repeat(7, 1fr); }
+    }
+    .dict-key {
+      font-family: var(--font-body);
+      font-weight: 800;
+      border: 2px solid var(--ink);
+      border-radius: 10px;
+      padding: 0.42rem 0.15rem;
+      background: linear-gradient(180deg, #fff, var(--cream));
+      cursor: pointer;
+      font-size: 0.82rem;
+      box-shadow: 2px 2px 0 var(--shadow);
+    }
+    .dict-key:hover { filter: brightness(1.03); }
+    .dict-key:active { transform: translateY(1px); }
+    .dict-key:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
+    .dict-feedback {
+      margin-top: 0.65rem;
+      padding: 0.65rem 0.85rem;
+      border-radius: 16px;
+      font-weight: 800;
+      font-size: 0.92rem;
+      text-align: center;
+      display: none;
+    }
+    .dict-feedback.show { display: block; }
+    .dict-feedback.ok {
+      background: rgba(184, 232, 208, 0.55);
+      border: 2px solid var(--ok);
+      color: var(--ink);
+    }
+    .dict-feedback.bad {
+      background: rgba(196, 77, 77, 0.15);
+      border: 2px solid var(--bad);
+      color: var(--ink);
+    }
+    .teacher-toolbar {
+      width: 100%;
+      max-width: 640px;
+      margin: 0 auto 0.65rem;
+      padding: 0.55rem 0.75rem;
+      border-radius: 16px;
+      border: 2px dashed rgba(61, 53, 69, 0.22);
+      background: rgba(255, 255, 255, 0.65);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.45rem 0.65rem;
+      font-size: 0.82rem;
+      font-weight: 800;
+    }
+    body.teacher-mode .teacher-toolbar {
+      border-color: rgba(61, 53, 69, 0.45);
+      background: rgba(212, 196, 247, 0.35);
+    }
+    .teacher-toolbar .teacher-only {
+      display: none;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.45rem 0.65rem;
+      flex: 1;
+      min-width: 0;
+    }
+    body.teacher-mode .teacher-toolbar .teacher-only {
+      display: flex;
+    }
+    .teacher-toolbar label.chk-teach {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      cursor: pointer;
+      user-select: none;
+    }
+    .teacher-toolbar select {
+      flex: 1;
+      min-width: 12rem;
+      padding: 0.4rem 0.5rem;
+      border-radius: 10px;
+      border: 2px solid var(--ink);
+      font-weight: 700;
+      font-size: 0.8rem;
+    }
+    .teacher-toolbar .btn-tiny {
+      font-family: var(--font-body);
+      font-weight: 800;
+      border: 2px solid var(--ink);
+      border-radius: 10px;
+      padding: 0.35rem 0.65rem;
+      background: var(--lilac);
+      cursor: pointer;
+      font-size: 0.78rem;
+    }
+    .teacher-toolbar .btn-tiny:hover { filter: brightness(1.05); }
+    .dots.teacher-on i { cursor: pointer; }
+    .dots.teacher-on i:hover { transform: scale(1.5); background: var(--sky) !important; }
+    .opts label.opt-label {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.4rem;
+    }
+    .opts label.opt-label input { margin-top: 0.35rem; flex-shrink: 0; }
+    .opt-letter { flex-shrink: 0; font-weight: 800; padding-top: 0.15rem; }
+    .opt-body { flex: 1; min-width: 0; }
+    .opt-body .opt-line-opt { display: block; line-height: 1.45; }
+    .opt-body .opt-line-opt.opt-en {
+      font-weight: 700;
+      font-size: 0.92rem;
+    }
+    .opt-body .opt-line-opt.opt-zh {
+      font-weight: 700;
+      font-size: 0.82rem;
+      color: var(--ink-soft);
+      margin-top: 0.2rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header class="hero">
+      <h1>🌸 课后作业 · 音节与闭音节</h1>
+      <p id="hero-sub">一题一页 · 提交后查看解析 · 对应 The Magic of Syllables</p>
+    </header>
+
+    <div class="teacher-toolbar" id="teacher-toolbar" aria-label="教师模式工具栏">
+      <label class="chk-teach" title="需输入密码验证"><input type="checkbox" id="chk-teacher" />教师模式（密码）</label>
+      <div class="teacher-only">
+        <select id="teacher-jump" title="跳转到指定题目"></select>
+        <button type="button" class="btn-tiny" id="teacher-prev">← 上一题</button>
+        <button type="button" class="btn-tiny" id="teacher-next">下一题 →</button>
+        <button type="button" class="btn-tiny" id="teacher-lab">长词实验室</button>
+        <button type="button" class="btn-tiny" id="teacher-dict">听写测验</button>
+      </div>
+    </div>
+
+    <div class="progress-wrap">
+      <span class="progress-text" id="progress-text">准备开始</span>
+      <div class="dots" id="dots" aria-hidden="true"></div>
+    </div>
+
+    <main class="card" id="deck-card">
+      <div class="card-inner" id="deck-root"></div>
+    </main>
+
+    <section class="section-lab card hidden" id="lab-section" style="margin-top:1rem;box-shadow:6px 6px 0 var(--shadow);">
+      <div class="card-inner">
+        <p class="q-label">长词实验室</p>
+        <p class="lab-progress" id="lab-progress" aria-live="polite"></p>
+        <div class="word-tabs" id="word-tabs"></div>
+        <div id="lab-root"></div>
+      </div>
+    </section>
+
+    <section class="section-lab card hidden" id="dictation-section" style="margin-top:1rem;box-shadow:6px 6px 0 var(--shadow);">
+      <div class="card-inner">
+        <p class="q-label">听写 · 典型长词</p>
+        <p class="lab-progress" id="dict-progress" aria-live="polite"></p>
+        <div class="word-tabs" id="dict-tabs"></div>
+        <div id="dict-root"></div>
+      </div>
+    </section>
+  </div>
+
+  <script src="asset/mp3/tts-urls.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/microsoft-cognitiveservices-speech-sdk@1.40.0/distrib/browser/microsoft.cognitiveservices.speech.sdk.bundle-min.js"></script>
+  <script>
+    (function () {
+      var CONFIG = {
+        AZURE_SPEECH_KEYS: [
+          "DKRXk8ueSfo5NdIOMqFRTCAfpeGDezJ3Snf5K8gGgtyqxiWdugLzJQQJ99BLACHYHv6XJ3w3AAAYACOGUYP9",
+          "43gMKIlSRVGT9PnAFgWkdXyogwXfudT33O2Zk6QtfTKuY1nm01BdJQQJ99BLACHYHv6XJ3w3AAAYACOGts5S"
+        ],
+        AZURE_SPEECH_REGION: "eastus2"
+      };
+      var AEN = "en-US-JennyNeural";
+
+      /** Google AI Studio（Gemini）生成的拓展题，已写入本文件 */
+      var GEMINI_EXTRA = {
+        extra_mc: [
+          { id: "g1", q: { zh: "什么是音节？", en: "What is a syllable?" }, options: [{ en: "A part of a word with only consonants.", zh: "单词里只有辅音的那一部分。" }, { en: "A part of a word with at least one vowel sound.", zh: "单词里至少包含一个元音音素的那一部分。" }, { en: "A single letter.", zh: "单个字母。" }, { en: "A whole word.", zh: "整个单词。" }], correct: 1, explain_zh: "音节是单词的一部分，它必须至少包含一个元音音素。元音音素是音节的核心，没有它就不能构成音节。例如，在单词“cat”中，只有一个音节，它的核心是元音音素/æ/。" },
+          { id: "g2", q: { zh: "哪个是元音音素？", en: "Which of these is a vowel sound?" }, options: [{ en: "/b/ as in ball", zh: "/b/，如 ball 中的 b" }, { en: "/s/ as in sun", zh: "/s/，如 sun 中的 s" }, { en: "/aɪ/ as in bike", zh: "/aɪ/，如 bike 中的元音" }, { en: "/t/ as in top", zh: "/t/，如 top 中的 t" }], correct: 2, explain_zh: "元音音素发音时气流在口腔中基本不受阻碍，听起来更响亮、更开放。/b/、/s/、/t/ 是辅音；/aɪ/（如 bike 中的元音）是元音音素。" },
+          { id: "g3", q: { zh: "单词 banana 有几个音节？", en: "How many syllables are in the word 'banana'?" }, options: ["One", "Two", "Three", "Four"], correct: 2, explain_zh: "可以拍手或感受下巴开合：ba-na-na 是三拍，对应三个音节，每个音节里都有元音音素。" },
+          { id: "g4", q: { zh: "单词 cat 属于哪种音节？", en: "What kind of syllable is 'cat'?" }, options: [{ en: "Open syllable", zh: "开音节" }, { en: "Magic e syllable", zh: "魔法 e 音节" }, { en: "Closed syllable", zh: "闭音节" }, { en: "Vowel team syllable", zh: "元音组合音节" }], correct: 2, explain_zh: "cat 的结构是辅音 + 元音 + 辅音，元音后面有辅音“关门”，属于闭音节，元音常读短音。" },
+          { id: "g5", q: { zh: "为什么 CVC 单词（如 dog）里的元音通常发短音？", en: "Why does the vowel in a CVC word like 'dog' usually make a short sound?" }, options: [{ en: "Because it's at the end of the word.", zh: "因为它在词尾。" }, { en: "Because it's followed by a consonant.", zh: "因为它后面跟着辅音。" }, { en: "Because it's the only vowel.", zh: "因为它是唯一的元音字母。" }, { en: "Because it's a long word.", zh: "因为单词很长。" }], correct: 1, explain_zh: "CVC 里元音后面紧跟辅音，音节被“关上”，元音往往没有空间拖成长音，所以多读短音。" },
+          { id: "g6", q: { zh: "把 /b/, /æ/, /g/ 连读拼合，会得到哪个单词？", en: "If you blend /b/, /æ/, /g/, what word do you get?" }, options: ["big", "bag", "bug", "beg"], correct: 1, explain_zh: "把 /b/-/æ/-/g/ 连读拼合，就会得到 bag，这就是拼读 blending。" }
+        ],
+        extra_tf: [
+          { id: "gt1", q: { zh: "每个音节都必须至少有一个元音音素。", en: "Every syllable must have at least one vowel sound." }, correct: true, explain_zh: "正确。音节需要“元音核”；只有辅音一般不能单独构成音节。" },
+          { id: "gt3", q: { zh: "闭音节以元音音素结尾。", en: "A closed syllable ends with a vowel sound." }, correct: false, explain_zh: "错误。闭音节以辅音音收尾（关门），元音多读短音；以元音音收尾的多是开音节。" },
+          { id: "gt4", q: { zh: "字母和声音是完全一回事。", en: "Letters and sounds are exactly the same thing." }, correct: false, explain_zh: "错误。字母是书写符号，音素是声音；同一字母在不同词里可发不同音。" },
+          { id: "gt5", q: { zh: "CVC 词里元音通常发字母名称的长音。", en: "In a CVC word, the vowel usually makes its long letter name sound." }, correct: false, explain_zh: "错误。CVC 闭音节里元音通常读短音，而不是字母名称的长音。" }
+        ]
+      };
+
+      /** 课堂常见「两个闭音节」双音节词（CVC/CVCC 等，切分参考教材） */
+      var LAB_POOL = [
+        { word: "mitten", cutAfter: 2, parts: ["mit", "ten"] },
+        { word: "cotton", cutAfter: 2, parts: ["cot", "ton"] },
+        { word: "pumpkin", cutAfter: 3, parts: ["pump", "kin"] },
+        { word: "backpack", cutAfter: 3, parts: ["back", "pack"] },
+        { word: "picnic", cutAfter: 2, parts: ["pic", "nic"] },
+        { word: "napkin", cutAfter: 2, parts: ["nap", "kin"] },
+        { word: "rabbit", cutAfter: 2, parts: ["rab", "bit"] },
+        { word: "basket", cutAfter: 2, parts: ["bas", "ket"] },
+        { word: "velvet", cutAfter: 2, parts: ["vel", "vet"] },
+        { word: "puppet", cutAfter: 2, parts: ["pup", "pet"] },
+        { word: "sunset", cutAfter: 3, parts: ["sun", "set"] },
+        { word: "magnet", cutAfter: 2, parts: ["mag", "net"] },
+        { word: "tennis", cutAfter: 2, parts: ["ten", "nis"] },
+        { word: "dentist", cutAfter: 3, parts: ["den", "tist"] },
+        { word: "insect", cutAfter: 2, parts: ["in", "sect"] },
+        { word: "tablet", cutAfter: 2, parts: ["tab", "let"] },
+        { word: "target", cutAfter: 2, parts: ["tar", "get"] },
+        { word: "helmet", cutAfter: 2, parts: ["hel", "met"] },
+        { word: "cactus", cutAfter: 2, parts: ["cac", "tus"] },
+        { word: "traffic", cutAfter: 3, parts: ["traf", "fic"] },
+        { word: "wisdom", cutAfter: 2, parts: ["wis", "dom"] },
+        { word: "plastic", cutAfter: 3, parts: ["plas", "tic"] },
+        { word: "robin", cutAfter: 2, parts: ["rob", "in"] },
+        { word: "cabin", cutAfter: 2, parts: ["cab", "in"] },
+        { word: "comic", cutAfter: 2, parts: ["com", "ic"] },
+        { word: "limit", cutAfter: 2, parts: ["lim", "it"] },
+        { word: "visit", cutAfter: 2, parts: ["vis", "it"] },
+        { word: "bandit", cutAfter: 2, parts: ["ban", "dit"] },
+        { word: "pencil", cutAfter: 2, parts: ["pen", "cil"] }
+      ];
+
+      var LAB_WORD_TOTAL = 20;
+      /** 从本轮 LAB_WORDS 中选出的听写词：双闭音节、课堂高频代表（与 LAB 前 20 词索引对应） */
+      var DICTATION_LAB_INDICES = [0, 2, 3, 4, 6, 10, 11, 13];
+      var PASS_SCORE = 80;
+      var TEACHER_PASSWORD = "123888";
+      var TEACHER_SESSION_KEY = "hw_syl_teacher_ok";
+
+      function buildDeck() {
+        var d = [];
+        d.push({
+          type: "intro",
+          id: "intro",
+          title: { zh: "欢迎你，小读者！", en: "Welcome, young reader!" },
+          body: {
+            zh: "下面每页一题。先想一想，再选答案并点「提交答案」，会看到解析。全部完成后进入「长词实验室」。Azure 密钥已内置；朗读需允许麦克风。",
+            en: "One question per page. Think, choose an answer, then tap Submit to read the feedback. When you finish everything, you will open the Long-word Lab. Azure keys are built into this page; allow the microphone for the reading tasks."
+          }
+        });
+        d.push({
+          type: "mc",
+          id: "en26",
+          q: { zh: "英语字母表有多少个字母？", en: "How many letters are there in the English alphabet?" },
+          options: ["twenty six", "twenti six", "twanty sax", "twenty sax"],
+          correct: 0,
+          explain_zh: "英语字母表共有 26 个字母。注意英文拼写是 twenty six，两个单词分开写；其他选项是常见拼写玩笑或错误形式。"
+        });
+        d.push({
+          type: "mc",
+          id: "syll_method",
+          q: { zh: "我们通过什么来判断单词里有几个音节？", en: "How do we tell how many syllables a word has?" },
+          options: [
+            { en: "Clap the beats: usually one vowel sound per beat.", zh: "跟着节拍拍手：通常一拍对应一个元音音素。" },
+            { en: "Count vowel letters only — that equals syllables.", zh: "只数元音字母的个数——那就是音节数。" },
+            { en: "Longer spelling means more syllables.", zh: "拼写越长，音节就越多。" },
+            { en: "Count consonant letters only.", zh: "只数辅音字母的个数。" }
+          ],
+          correct: 0,
+          explain_zh: "课堂常用「拍手/节拍」感受音节；每个音节一般有一个元音音素（元音核）。仅数元音字母不准确（如 silent e、字母组合等），不能只看长短或辅音个数。"
+        });
+        d.push({
+          type: "ipa",
+          id: "ipa_cvc",
+          q: {
+            zh: "为 A E I O U 选择它们在 <strong>典型 CVC 闭音节</strong>里常对应的 <strong>短元音音标</strong>（点击下拉框选择）。",
+            en: "For A E I O U, pick each letter’s <strong>typical short vowel IPA</strong> in a <strong>CVC closed syllable</strong> (use the drop-down menu)."
+          },
+          explain_zh: "在典型 CVC 闭音节里，AEIOU 多读短音：A /æ/、E /e/、I /ɪ/、O 英音常 /ɒ/ 美音可更接近 /ɑː/、U /ʌ/。音标会因教材与口音略有差异，以老师示范为准。"
+        });
+        d.push({
+          type: "mc",
+          id: "a3",
+          q: {
+            zh: "「闭音节」在单音节 CVC 结构里，元音后面的辅音常被比喻成什么？",
+            en: "In a one-syllable CVC word, the consonant after the vowel is often compared to what?"
+          },
+          options: [
+            { en: "A closed door", zh: "一扇关上的门" },
+            { en: "A little car", zh: "一辆小汽车" },
+            { en: "A clap / one beat", zh: "拍一下手／一拍" }
+          ],
+          correct: 0,
+          explain_zh: "课件用“门”比喻：辅音像门把元音“关住”，所以元音往往读短音。"
+        });
+        d.push({
+          type: "mc",
+          id: "a4",
+          q: {
+            zh: "在典型的 CVC 闭音节单词里，元音字母通常发什么音？",
+            en: "In a typical CVC closed syllable, the vowel letter usually makes which kind of sound?"
+          },
+          options: [
+            { en: "The letter name (long sound)", zh: "字母名称音（长音）" },
+            { en: "A short vowel sound", zh: "短元音" },
+            { en: "No sound", zh: "不发音" }
+          ],
+          correct: 1,
+          explain_zh: "闭音节里元音常被后面的辅音“关住”，一般读短音，而不是读字母本名的长音。"
+        });
+        d.push({
+          type: "tf",
+          id: "a6",
+          q: {
+            zh: "判断：两个元音字母之间如果有两个辅音字母，课堂上常从这两个辅音的中间切开划分音节。",
+            en: "True or false: With two vowel letters and two consonants between them, we often split between those two consonants."
+          },
+          correct: true,
+          explain_zh: "正确。这是常见教学口诀之一（两辅夹中间从中划），适合课堂练习；个别词仍有例外，以教材为准。"
+        });
+        d.push({
+          type: "tf",
+          id: "a7",
+          q: {
+            zh: "判断：中间只有一个辅音字母时，也一定用「两辅音从中间划」的口诀。",
+            en: "True or false: If there is only one consonant between vowels, we still always use the “split between two consonants” rule."
+          },
+          correct: false,
+          explain_zh: "错误。只有“两个辅音夹在中间”才用该口诀；只有一个辅音时要按本词规则与读音划分。"
+        });
+        var bs = [
+          { id: "b1", q: { zh: "单词 <strong>cat</strong> 有几个音节？", en: "How many syllables in <strong>cat</strong>?" }, options: ["1", "2", "3"], correct: 0, explain_zh: "cat 一拍一个元音核，单音节。" },
+          { id: "b2", q: { zh: "单词 <strong>mango</strong> 有几个音节？", en: "How many syllables in <strong>mango</strong>?" }, options: ["1", "2", "3"], correct: 1, explain_zh: "man-go，两拍，两音节。" },
+          { id: "b3", q: { zh: "单词 <strong>robot</strong> 有几个音节？", en: "How many syllables in <strong>robot</strong>?" }, options: ["1", "2", "3"], correct: 1, explain_zh: "ro-bot，两音节。" },
+          { id: "b4", q: { zh: "单词 <strong>tornado</strong> 有几个音节？", en: "How many syllables in <strong>tornado</strong>?" }, options: ["2", "3", "4"], correct: 1, explain_zh: "tor-na-do，三音节。" },
+          { id: "b5", q: { zh: "单词 <strong>watermelon</strong> 有几个音节？", en: "How many syllables in <strong>watermelon</strong>?" }, options: ["3", "4", "5"], correct: 1, explain_zh: "wa-ter-me-lon，四音节。" },
+          { id: "b6", q: { zh: "下列哪一组是 <strong>pumpkin</strong> 常见的课堂音节划分？", en: "Which split matches common classroom practice for <strong>pumpkin</strong>?" }, options: ["pum · pkin", "pump · kin", "pu · mpkin"], correct: 1, explain_zh: "双 p 中间切开：pump · kin。" },
+          { id: "b7", q: { zh: "下列哪一组是 <strong>backpack</strong> 常见的课堂音节划分？", en: "Which split matches common classroom practice for <strong>backpack</strong>?" }, options: ["bac · kpack", "back · pack", "b · ackpack"], correct: 1, explain_zh: "在 ck 与 p 之间切：back · pack。下一题会问你「为什么」这样切。" }
+        ];
+        bs.forEach(function (x) { d.push({ type: "mc", id: x.id, q: x.q, options: x.options, correct: x.correct, explain_zh: x.explain_zh }); });
+        d.push({
+          type: "mc",
+          id: "b7b",
+          q: {
+            zh: "做完上一题的划分后：<strong>backpack → back · pack</strong>。为什么还要在 <strong>ck</strong> 和 <strong>p</strong> 之间切分，而不是把 <strong>c</strong> 和 <strong>k</strong> 从中间拆开？",
+            en: "After splitting <strong>backpack</strong> as <strong>back · pack</strong>, why break between <strong>ck</strong> and <strong>p</strong>, not between <strong>c</strong> and <strong>k</strong>?"
+          },
+          options: [
+            { en: "Any two adjacent consonants should be split in the middle.", zh: "任意两个相邻辅音都要从正中间切开。" },
+            { en: "The letters ck often spell one /k/ sound; split after ck, before p, the next part is pack.", zh: "字母 ck 常一起表示一个 /k/ 音；在 ck 之后、p 之前切分，后一段读 pack。" },
+            { en: "The first syllable always ends at the letter b.", zh: "第一个音节总是在字母 b 处结束。" },
+            { en: "Split before ck so bc forms one syllable.", zh: "在 ck 前切分，让 bc 组成一个音节。" }
+          ],
+          correct: 1,
+          explain_zh: "在 backpack 里，<strong>ck</strong> 是常见字母组合，通常一起表示<strong>一个</strong> /k/ 音，所以不在 c 与 k 中间硬拆。课堂划分常是 <strong>back | pack</strong>：第一段 back 以 /k/ 收尾，第二段从 <strong>p</strong> 起读 <strong>pack</strong>。不同教材表述可能略有差异，以老师示范为准。"
+        });
+        GEMINI_EXTRA.extra_mc.forEach(function (x) {
+          d.push({ type: "mc", id: x.id, q: x.q, options: x.options, correct: x.correct, explain_zh: x.explain_zh });
+        });
+        GEMINI_EXTRA.extra_tf.forEach(function (x) {
+          d.push({ type: "tf", id: x.id, q: x.q, correct: x.correct, explain_zh: x.explain_zh });
+        });
+        return d;
+      }
+
+      var DECK = buildDeck();
+      var idx = 0;
+      var submitted = false;
+      var teacherMode = false;
+      var labOpened = false;
+      var dictationOpened = false;
+
+      var SESSION_LOG_KEY = "hw_syllables_study_v1";
+      var sessionStudyLog = null;
+
+      function initStudyLog() {
+        sessionStudyLog = {
+          runId: "run_" + Date.now() + "_" + Math.random().toString(36).slice(2, 9),
+          page: typeof location !== "undefined" ? location.href.split("?")[0] : "",
+          startedAt: new Date().toISOString(),
+          deckAnswers: [],
+          labEvents: [],
+          dictationEvents: []
+        };
+        persistStudyLog();
+      }
+
+      function persistStudyLog() {
+        if (!sessionStudyLog) return;
+        sessionStudyLog.lastSavedAt = new Date().toISOString();
+        try {
+          localStorage.setItem(SESSION_LOG_KEY, JSON.stringify(sessionStudyLog));
+        } catch (eP) {}
+      }
+
+      function logDeckAnswer(entry) {
+        if (!sessionStudyLog) initStudyLog();
+        entry.at = entry.at || new Date().toISOString();
+        sessionStudyLog.deckAnswers.push(entry);
+        persistStudyLog();
+      }
+
+      function logLabEvent(entry) {
+        if (!sessionStudyLog) initStudyLog();
+        entry.at = entry.at || new Date().toISOString();
+        sessionStudyLog.labEvents.push(entry);
+        persistStudyLog();
+      }
+
+      function logDictationEvent(entry) {
+        if (!sessionStudyLog) initStudyLog();
+        if (!sessionStudyLog.dictationEvents) sessionStudyLog.dictationEvents = [];
+        entry.at = entry.at || new Date().toISOString();
+        sessionStudyLog.dictationEvents.push(entry);
+        persistStudyLog();
+      }
+
+      function stripHtml(s) {
+        return String(s || "").replace(/<[^>]*>/g, "");
+      }
+
+      function deckItemLabel(item, i) {
+        var t = i + 1 + ". ";
+        if (item.type === "intro") return t + "开始 / Intro";
+        if (item.id) t += item.id + " · ";
+        var q = item.q;
+        if (typeof q === "object" && q && q.zh) {
+          var s = stripHtml(q.zh).replace(/\s+/g, " ").trim().slice(0, 28);
+          return t + s + (stripHtml(q.zh).length > 28 ? "…" : "");
+        }
+        return t + (item.type || "?");
+      }
+
+      function fillTeacherJump() {
+        var sel = document.getElementById("teacher-jump");
+        if (!sel) return;
+        sel.innerHTML = "";
+        DECK.forEach(function (item, i) {
+          var o = document.createElement("option");
+          o.value = String(i);
+          o.textContent = deckItemLabel(item, i);
+          sel.appendChild(o);
+        });
+        sel.value = String(idx);
+      }
+
+      function showDeckUi() {
+        labOpened = false;
+        dictationOpened = false;
+        document.getElementById("deck-card").classList.remove("hidden");
+        document.querySelector(".progress-wrap").classList.remove("hidden");
+        var hp = document.getElementById("hero-sub");
+        if (hp) {
+          hp.textContent = teacherMode
+            ? "教师模式 · 可自由选题 · 选项含中英文对照"
+            : "一题一页 · 提交后查看解析 · 对应 The Magic of Syllables";
+        }
+        document.getElementById("lab-section").classList.add("hidden");
+        var ds = document.getElementById("dictation-section");
+        if (ds) ds.classList.add("hidden");
+      }
+
+      function jumpToDeck(newIdx) {
+        if (newIdx < 0 || newIdx >= DECK.length) return;
+        if (labOpened) showDeckUi();
+        idx = newIdx;
+        submitted = false;
+        renderDots();
+        renderDeck();
+        var sel = document.getElementById("teacher-jump");
+        if (sel) sel.value = String(idx);
+      }
+
+      function setTeacherMode(on) {
+        teacherMode = !!on;
+        document.body.classList.toggle("teacher-mode", teacherMode);
+        var dots = document.getElementById("dots");
+        if (dots) dots.classList.toggle("teacher-on", teacherMode);
+        var hp = document.getElementById("hero-sub");
+        if (hp && !labOpened && !dictationOpened) {
+          hp.textContent = teacherMode
+            ? "教师模式 · 可自由选题 · 选项含中英文对照"
+            : "一题一页 · 提交后查看解析 · 对应 The Magic of Syllables";
+        }
+        fillTeacherJump();
+      }
+
+      var ipaLetters = [
+        { letter: "A", options: ["/æ/", "/eɪ/", "/ɑː/", "/ʌ/"], correct: "/æ/" },
+        { letter: "E", options: ["/e/", "/iː/", "/ɪ/", "/ə/"], correct: "/e/" },
+        { letter: "I", options: ["/ɪ/", "/aɪ/", "/iː/", "/e/"], correct: "/ɪ/" },
+        { letter: "O", options: ["/ɒ/", "/oʊ/", "/ʌ/", "/ɔː/"], correct: "/ɒ/" },
+        { letter: "U", options: ["/ʌ/", "/uː/", "/ʊ/", "/ɑː/"], correct: "/ʌ/" }
+      ];
+
+      /** 题干：中文一行，英文另起一行（均支持 HTML 如 strong） */
+      function formatQuestionHtml(q) {
+        if (q == null) return "";
+        if (typeof q === "object" && !Array.isArray(q)) {
+          var zh = q.zh != null ? String(q.zh) : "";
+          var en = q.en != null ? String(q.en) : "";
+          var html = "";
+          if (zh) html += '<div class="q-line q-zh">' + zh + "</div>";
+          if (en) html += '<div class="q-line q-en">' + en + "</div>";
+          return html || "";
+        }
+        return '<div class="q-line q-zh">' + String(q) + "</div>";
+      }
+
+      function normalizeMcOption(opt) {
+        if (opt == null) return { en: "", zh: "" };
+        if (typeof opt === "string") return { en: opt, zh: "" };
+        if (typeof opt === "object") {
+          return {
+            en: opt.en != null ? String(opt.en) : "",
+            zh: opt.zh != null ? String(opt.zh) : ""
+          };
+        }
+        return { en: String(opt), zh: "" };
+      }
+
+      /** 选项：英文一行 + 中文一行（无中文时仅英文一行） */
+      function formatOptionHtml(opt) {
+        var o = normalizeMcOption(opt);
+        if (!o.zh) {
+          return '<span class="opt-line-opt opt-en">' + o.en + "</span>";
+        }
+        return (
+          '<span class="opt-line-opt opt-en">' +
+          o.en +
+          '</span><span class="opt-line-opt opt-zh">' +
+          o.zh +
+          "</span>"
+        );
+      }
+
+      function shuffleInPlace(arr) {
+        for (var i = arr.length - 1; i > 0; i--) {
+          var j = Math.floor(Math.random() * (i + 1));
+          var t = arr[i];
+          arr[i] = arr[j];
+          arr[j] = t;
+        }
+        return arr;
+      }
+
+      var LAB_WORDS = LAB_POOL.slice(0, Math.min(LAB_WORD_TOTAL, LAB_POOL.length));
+      function buildDictationWords() {
+        var out = [];
+        for (var d = 0; d < DICTATION_LAB_INDICES.length; d++) {
+          var ii = DICTATION_LAB_INDICES[d];
+          if (ii >= 0 && ii < LAB_WORDS.length) out.push(LAB_WORDS[ii]);
+        }
+        if (!out.length) {
+          var cap = Math.min(8, LAB_WORDS.length);
+          for (var j = 0; j < cap; j++) out.push(LAB_WORDS[j]);
+        }
+        return out;
+      }
+      var DICTATION_WORDS = buildDictationWords();
+
+      /** 打乱选择题选项，返回 { labels, correctIdx }；labels 为 { en, zh } */
+      function shuffleMcOptions(item) {
+        var pairs = item.options.map(function (opt, i) {
+          return { opt: normalizeMcOption(opt), isAns: i === item.correct };
+        });
+        shuffleInPlace(pairs);
+        var correctIdx = -1;
+        for (var k = 0; k < pairs.length; k++) {
+          if (pairs[k].isAns) correctIdx = k;
+        }
+        return {
+          labels: pairs.map(function (p) {
+            return p.opt;
+          }),
+          correctIdx: correctIdx
+        };
+      }
+
+      function getAzureKeys() {
+        var keys = (CONFIG.AZURE_SPEECH_KEYS || []).map(function (k) { return (k || "").trim(); }).filter(Boolean);
+        return keys;
+      }
+
+      function getAzureRegion() {
+        return (CONFIG.AZURE_SPEECH_REGION || "eastus2").trim();
+      }
+
+      function renderDots() {
+        var el = document.getElementById("dots");
+        el.innerHTML = "";
+        for (var i = 0; i < DECK.length; i++) {
+          var dot = document.createElement("i");
+          if (i < idx) dot.classList.add("done");
+          if (i === idx) dot.classList.add("on");
+          el.appendChild(dot);
+        }
+        document.getElementById("progress-text").textContent = "第 " + (idx + 1) + " / " + DECK.length + " 页";
+      }
+
+      function renderDeck() {
+        submitted = false;
+        if (!state.studyLogStarted) {
+          initStudyLog();
+          state.studyLogStarted = true;
+        }
+        state.deckPageEnteredAt = Date.now();
+        var root = document.getElementById("deck-root");
+        root.innerHTML = "";
+        var item = DECK[idx];
+        if (!item) return;
+
+        if (item.type === "intro") {
+          root.innerHTML =
+            '<p class="q-label">开始</p><div class="q-body">' +
+            formatQuestionHtml(item.title) +
+            '</div><div class="intro-desc">' +
+            formatQuestionHtml(item.body) +
+            '</div><div class="btn-row"><button type="button" class="btn" id="btn-next-only">下一页 →</button></div>';
+          document.getElementById("btn-next-only").addEventListener("click", function () {
+            logDeckAnswer({
+              deckIndex: idx,
+              id: "intro",
+              type: "intro",
+              action: "next",
+              durationMs: state.deckPageEnteredAt ? Date.now() - state.deckPageEnteredAt : null
+            });
+            idx++;
+            if (idx >= DECK.length) finishDeck();
+            else {
+              renderDots();
+              renderDeck();
+            }
+          });
+          renderDots();
+          fillTeacherJump();
+          return;
+        }
+
+        var label = item.type === "tf" ? "判断题" : item.type === "ipa" ? "音标题" : "选择题";
+        var head = '<p class="q-label">' + label + "</p><div class=\"q-body\">" + formatQuestionHtml(item.q) + "</div>";
+        var shuffledMcCorrect = null;
+        if (item.type === "mc" || item.type === "tf") {
+          root.innerHTML = head + '<div class="opts" id="opts-host"></div>';
+          var host = document.getElementById("opts-host");
+          if (item.type === "mc") {
+            var sm = shuffleMcOptions(item);
+            shuffledMcCorrect = sm.correctIdx;
+            sm.labels.forEach(function (opt, oi) {
+              var lab = document.createElement("label");
+              lab.className = "opt-label";
+              var inp = document.createElement("input");
+              inp.type = "radio";
+              inp.name = "q";
+              inp.value = String(oi);
+              var letter = String.fromCharCode(65 + oi);
+              var spanL = document.createElement("span");
+              spanL.className = "opt-letter";
+              spanL.textContent = letter + ".";
+              var spanB = document.createElement("span");
+              spanB.className = "opt-body";
+              spanB.innerHTML = formatOptionHtml(opt);
+              lab.appendChild(inp);
+              lab.appendChild(spanL);
+              lab.appendChild(spanB);
+              host.appendChild(lab);
+            });
+          } else {
+            var tfPairs = [
+              { val: "true", opt: { en: "True", zh: "正确" } },
+              { val: "false", opt: { en: "False", zh: "错误" } }
+            ];
+            shuffleInPlace(tfPairs);
+            tfPairs.forEach(function (row, oi) {
+              var lab = document.createElement("label");
+              lab.className = "opt-label";
+              var inp = document.createElement("input");
+              inp.type = "radio";
+              inp.name = "q";
+              inp.value = row.val;
+              var letterTf = String.fromCharCode(65 + oi);
+              var spanL2 = document.createElement("span");
+              spanL2.className = "opt-letter";
+              spanL2.textContent = letterTf + ".";
+              var spanB2 = document.createElement("span");
+              spanB2.className = "opt-body";
+              spanB2.innerHTML = formatOptionHtml(row.opt);
+              lab.appendChild(inp);
+              lab.appendChild(spanL2);
+              lab.appendChild(spanB2);
+              host.appendChild(lab);
+            });
+          }
+        }
+        if (item.type === "ipa") {
+          root.innerHTML =
+            '<p class="q-label">' +
+            label +
+            '</p><div class="q-body">' +
+            formatQuestionHtml(item.q) +
+            '</div><div class="ipa-grid" id="ipa-host"></div>';
+          var ih = document.getElementById("ipa-host");
+          ipaLetters.forEach(function (row, ri) {
+            var wrap = document.createElement("div");
+            wrap.className = "ipa-row";
+            var L = document.createElement("div");
+            L.className = "letter";
+            L.textContent = row.letter;
+            var sel = document.createElement("select");
+            sel.dataset.idx = String(ri);
+            var ph = document.createElement("option");
+            ph.value = "";
+            ph.textContent = "请选择音标 (Please choose)";
+            ph.selected = true;
+            ph.disabled = true;
+            sel.appendChild(ph);
+            var order = shuffleInPlace(row.options.slice());
+            order.forEach(function (sym) {
+              var opt = document.createElement("option");
+              opt.value = sym;
+              opt.textContent = sym;
+              sel.appendChild(opt);
+            });
+            wrap.appendChild(L);
+            wrap.appendChild(sel);
+            ih.appendChild(wrap);
+          });
+        }
+
+        var ex = document.createElement("div");
+        ex.className = "explain";
+        ex.id = "explain-box";
+        ex.innerHTML = "<h4></h4><div id=\"explain-body\"></div>";
+        root.appendChild(ex);
+
+        var row = document.createElement("div");
+        row.className = "btn-row";
+        var btnSub = document.createElement("button");
+        btnSub.type = "button";
+        btnSub.className = "btn";
+        btnSub.id = "btn-submit";
+        btnSub.textContent = "提交答案";
+        var btnNext = document.createElement("button");
+        btnNext.type = "button";
+        btnNext.className = "btn btn-secondary hidden";
+        btnNext.id = "btn-next";
+        btnNext.textContent = "下一页 →";
+        row.appendChild(btnSub);
+        row.appendChild(btnNext);
+        root.appendChild(row);
+
+        btnSub.addEventListener("click", function () {
+          if (submitted) return;
+          var ok = false;
+          var expl = item.explain_zh || "";
+          if (item.type === "mc") {
+            var sel = root.querySelector('input[name="q"]:checked');
+            if (!sel) {
+              alert("请先选择一个选项。");
+              return;
+            }
+            if (shuffledMcCorrect === null) return;
+            ok = Number(sel.value) === shuffledMcCorrect;
+          } else if (item.type === "tf") {
+            var sel2 = root.querySelector('input[name="q"]:checked');
+            if (!sel2) {
+              alert("请先选择正确或错误。");
+              return;
+            }
+            ok = (sel2.value === "true") === item.correct;
+          } else if (item.type === "ipa") {
+            ok = true;
+            var lines = [];
+            var missingIpa = false;
+            ipaLetters.forEach(function (row, ri) {
+              var s = root.querySelector('select[data-idx="' + ri + '"]');
+              var pick = s ? s.value : "";
+              if (pick === "") {
+                missingIpa = true;
+                lines.push(row.letter + "：尚未选择");
+                return;
+              }
+              if (pick !== row.correct) ok = false;
+              lines.push(
+                row.letter +
+                  "：你选 <span class=\"ipa-inline\">" +
+                  pick +
+                  "</span>" +
+                  (pick === row.correct ? " ✓" : "（应为 <span class=\"ipa-inline\">" + row.correct + "</span>）")
+              );
+            });
+            if (missingIpa) {
+              alert("请为 A、E、I、O、U 每一行都选择一个音标，不能只保留「请选择音标」。");
+              return;
+            }
+            expl = lines.join("<br>") + "<br><br>" + item.explain_zh;
+          }
+          var durationMs = state.deckPageEnteredAt ? Date.now() - state.deckPageEnteredAt : null;
+          var logDetail = {};
+          if (item.type === "mc") {
+            var selLog = root.querySelector('input[name="q"]:checked');
+            logDetail.selectedShuffledIndex = selLog ? Number(selLog.value) : null;
+            logDetail.correctShuffledIndex = shuffledMcCorrect;
+          } else if (item.type === "tf") {
+            var selTf = root.querySelector('input[name="q"]:checked');
+            logDetail.selectedValue = selTf ? selTf.value : null;
+            logDetail.correctBoolean = item.correct;
+          } else if (item.type === "ipa") {
+            logDetail.ipaPicks = {};
+            ipaLetters.forEach(function (rowI, ri) {
+              var sI = root.querySelector('select[data-idx="' + ri + '"]');
+              logDetail.ipaPicks[rowI.letter] = sI ? sI.value : "";
+            });
+            logDetail.allLettersCorrect = ok;
+          }
+          logDeckAnswer({
+            deckIndex: idx,
+            id: item.id,
+            type: item.type,
+            correct: ok,
+            durationMs: durationMs,
+            detail: logDetail
+          });
+          submitted = true;
+          var box = document.getElementById("explain-box");
+          var h = box.querySelector("h4");
+          var bd = document.getElementById("explain-body");
+          box.classList.add("show");
+          box.classList.toggle("bad", !ok);
+          h.textContent = ok ? "回答正确" : "再想一想";
+          bd.innerHTML = expl;
+          btnSub.disabled = true;
+          btnNext.classList.remove("hidden");
+        });
+
+        btnNext.addEventListener("click", function () {
+          idx++;
+          if (idx >= DECK.length) finishDeck();
+          else {
+            renderDots();
+            renderDeck();
+          }
+        });
+
+        renderDots();
+        fillTeacherJump();
+      }
+
+      function finishDeck() {
+        labOpened = true;
+        dictationOpened = false;
+        state.labCompleteLogged = false;
+        state.dictationIndex = 0;
+        state.dictationCompleteLogged = false;
+        state.dictationAdvancing = false;
+        logLabEvent({
+          step: "deck_finished_enter_lab",
+          deckQuestionCount: DECK.length,
+          labWordCount: LAB_WORDS.length
+        });
+        document.getElementById("deck-card").classList.add("hidden");
+        document.querySelector(".progress-wrap").classList.add("hidden");
+        var hp = document.getElementById("hero-sub");
+        if (hp) hp.textContent = "题库已完成 · 下面进入长词实验室";
+        document.getElementById("lab-section").classList.remove("hidden");
+        initLab();
+      }
+
+      function isVowel(ch) {
+        return "aeiou".indexOf(String(ch).toLowerCase()) >= 0;
+      }
+
+      var state = {
+        wordIndex: 0,
+        listening: false,
+        activeRecognizer: null,
+        wordProgress: {},
+        labRead: { ttsUnlocked: {} },
+        labLastResult: null,
+        deckPageEnteredAt: null,
+        studyLogStarted: false,
+        labAdvancing: false,
+        labCompleteLogged: false,
+        dictationIndex: 0,
+        dictationCompleteLogged: false,
+        dictationAdvancing: false
+      };
+
+      function wordKey(w) {
+        return String(w).toLowerCase();
+      }
+
+      function getWordProgress(w) {
+        var k = wordKey(w);
+        if (!state.wordProgress[k]) {
+          state.wordProgress[k] = {
+            vowelSubmitted: false,
+            gapSubmitted: false,
+            vowelPicked: {},
+            gapPick: null
+          };
+        }
+        return state.wordProgress[k];
+      }
+
+      function speakAzure(text) {
+        var vn = AEN;
+        if (typeof window !== "undefined" && window.hasLocalTtsMp3 && window.hasLocalTtsMp3(text, vn)) {
+          return window.playLocalTtsMp3(text, vn).catch(function () {
+            return speakAzureLive(text);
+          });
+        }
+        return speakAzureLive(text);
+      }
+
+      function speakAzureLive(text) {
+        return new Promise(function (resolve, reject) {
+          if (typeof SpeechSDK === "undefined") {
+            reject(new Error("no sdk"));
+            return;
+          }
+          var lastErr = null;
+          var keys = getAzureKeys();
+          var region = getAzureRegion();
+          function tryKey(ki) {
+            if (ki >= keys.length) {
+              reject(lastErr || new Error("tts failed"));
+              return;
+            }
+            var sc = SpeechSDK.SpeechConfig.fromSubscription(keys[ki], region);
+            sc.speechSynthesisVoiceName = AEN;
+            var syn = new SpeechSDK.SpeechSynthesizer(sc, undefined);
+            syn.speakTextAsync(
+              text,
+              function (r) {
+                try { syn.close(); } catch (e) {}
+                if (r.reason === SpeechSDK.ResultReason.SynthesizingAudioCompleted) resolve();
+                else {
+                  lastErr = new Error(r.errorDetails || "fail");
+                  tryKey(ki + 1);
+                }
+              },
+              function (err) {
+                try { syn.close(); } catch (e2) {}
+                lastErr = err;
+                tryKey(ki + 1);
+              }
+            );
+          }
+          tryKey(0);
+        });
+      }
+
+      function numOr0(v) {
+        var n = Number(v);
+        return n > 0 || v === 0 ? n : 0;
+      }
+
+      /** Azure PA JSON 常把分放在 PronunciationAssessment.AccuracyScore / PronScore，而非顶层 */
+      function extractAssessmentScore(obj) {
+        if (obj == null || typeof obj !== "object") return null;
+        var pa = obj.PronunciationAssessment || obj.pronunciationAssessment;
+        var order = ["AccuracyScore", "PronScore", "PronunciationScore", "accuracyScore", "pronScore", "pronunciationScore", "FluencyScore"];
+        for (var i = 0; i < order.length; i++) {
+          var k = order[i];
+          if (obj[k] != null && obj[k] !== "") {
+            var n = Number(obj[k]);
+            if (!isNaN(n)) return n;
+          }
+        }
+        if (pa && typeof pa === "object") {
+          for (var j = 0; j < order.length; j++) {
+            var k2 = order[j];
+            if (pa[k2] != null && pa[k2] !== "") {
+              var n2 = Number(pa[k2]);
+              if (!isNaN(n2)) return n2;
+            }
+          }
+        }
+        return null;
+      }
+
+      function scoreFromWordOrPhoneme(obj) {
+        var s = extractAssessmentScore(obj);
+        return s != null ? s : 0;
+      }
+
+      function phonemeSymbol(p) {
+        if (!p || typeof p !== "object") return "";
+        return (
+          p.Phoneme ||
+          p.phoneme ||
+          p.Phone ||
+          p.phone ||
+          p.IPA ||
+          p.ipa ||
+          p.Display ||
+          ""
+        );
+      }
+
+      function collectPhonemeRowsFromWord(w) {
+        var raw = w.Phonemes || w.phonemes;
+        if (raw && raw.length) {
+          return raw.map(function (p) {
+            return { ph: phonemeSymbol(p), score: scoreFromWordOrPhoneme(p) };
+          });
+        }
+        var sylls = w.Syllables || w.syllables;
+        if (!sylls || !sylls.length) return [];
+        var out = [];
+        sylls.forEach(function (sy) {
+          var ps = sy.Phonemes || sy.phonemes || [];
+          ps.forEach(function (p) {
+            out.push({ ph: phonemeSymbol(p), score: scoreFromWordOrPhoneme(p) });
+          });
+        });
+        return out;
+      }
+
+      function wordRowFromApiWord(w) {
+        if (!w) return null;
+        var wordText = w.Word || w.word || "";
+        var wScore = extractAssessmentScore(w);
+        if (wScore === null || wScore === undefined || isNaN(wScore)) {
+          var n1 = Number(w.PronunciationScore != null ? w.PronunciationScore : w.pronunciationScore);
+          var n2 = Number(w.AccuracyScore != null ? w.AccuracyScore : w.accuracyScore);
+          if (!isNaN(n1)) wScore = n1;
+          else if (!isNaN(n2)) wScore = n2;
+          else wScore = 0;
+        }
+        return {
+          word: wordText,
+          score: wScore,
+          phonemes: collectPhonemeRowsFromWord(w)
+        };
+      }
+
+      function deepFindPronAssessment(obj, depth) {
+        if (!obj || typeof obj !== "object" || depth > 10) return null;
+        if (obj.PronunciationAssessment && typeof obj.PronunciationAssessment === "object") return obj.PronunciationAssessment;
+        if (obj.pronunciationAssessment && typeof obj.pronunciationAssessment === "object") return obj.pronunciationAssessment;
+        if (obj.PronScore != null || obj.AccuracyScore != null || obj.pronScore != null) return obj;
+        for (var k in obj) {
+          if (!Object.prototype.hasOwnProperty.call(obj, k)) continue;
+          var f = deepFindPronAssessment(obj[k], depth + 1);
+          if (f && (f.PronScore != null || f.AccuracyScore != null || f.pronScore != null)) return f;
+        }
+        return null;
+      }
+
+      function applySpeechRecognitionTimeouts(sc) {
+        try {
+          sc.setProperty(SpeechSDK.PropertyId.SpeechServiceConnection_InitialSilenceTimeoutMs, "15000");
+          sc.setProperty(SpeechSDK.PropertyId.SpeechServiceConnection_EndSilenceTimeoutMs, "4000");
+        } catch (eT) {}
+        try {
+          if (SpeechSDK.OutputFormat && SpeechSDK.OutputFormat.Detailed != null) {
+            sc.outputFormat = SpeechSDK.OutputFormat.Detailed;
+          }
+        } catch (eO) {}
+      }
+
+      function parsePronunciationJson(result) {
+        var words = [];
+        var overall = { pron: 0, accuracy: 0, fluency: 0, completeness: 0 };
+        try {
+          if (SpeechSDK.PronunciationAssessmentResult && SpeechSDK.PronunciationAssessmentResult.fromResult) {
+            var pa = SpeechSDK.PronunciationAssessmentResult.fromResult(result);
+            overall.pron = numOr0(pa.pronunciationScore) || numOr0(pa.pronScore);
+            overall.accuracy = numOr0(pa.accuracyScore);
+            overall.fluency = numOr0(pa.fluencyScore);
+            overall.completeness = numOr0(pa.completenessScore);
+            var detail = pa.detailResult;
+            if (typeof detail === "string") {
+              try {
+                detail = JSON.parse(detail);
+              } catch (eD) {
+                detail = null;
+              }
+            }
+            if (detail && detail.Words && detail.Words.length) {
+              words = detail.Words.map(wordRowFromApiWord).filter(function (r) {
+                return r && (r.word || r.phonemes.length);
+              });
+            }
+          }
+        } catch (e1) {}
+
+        try {
+          var jsonStr = result.properties.getProperty(SpeechSDK.PropertyId.SpeechServiceResponse_JsonResult);
+          if (!jsonStr) jsonStr = result.properties.getProperty("JsonResult");
+          if (!jsonStr && result.json) jsonStr = typeof result.json === "string" ? result.json : JSON.stringify(result.json);
+          if (!jsonStr) {
+            if (overall.pron || overall.accuracy) return { overall: overall, words: words };
+            return { overall: overall, words: words };
+          }
+          var jo = JSON.parse(jsonStr);
+          var nb = (jo.NBest && jo.NBest[0]) || (jo.nBest && jo.nBest[0]) || jo;
+          var p = (nb && (nb.PronunciationAssessment || nb.pronunciationAssessment)) || deepFindPronAssessment(jo, 0);
+          if (p) {
+            if (!overall.pron) overall.pron = numOr0(p.PronScore) || numOr0(p.pronunciationScore) || numOr0(p.pronScore);
+            if (!overall.accuracy) overall.accuracy = numOr0(p.AccuracyScore) || numOr0(p.accuracyScore);
+            if (!overall.fluency) overall.fluency = numOr0(p.FluencyScore) || numOr0(p.fluencyScore);
+            if (!overall.completeness) overall.completeness = numOr0(p.CompletenessScore) || numOr0(p.completenessScore);
+            var nested = p.PronunciationAssessment || p.pronunciationAssessment;
+            if (nested && typeof nested === "object") {
+              if (!overall.pron) overall.pron = extractAssessmentScore(p) || overall.pron;
+              if (!overall.accuracy) overall.accuracy = numOr0(nested.AccuracyScore) || overall.accuracy;
+            }
+          }
+          var wlist = (nb && (nb.Words || nb.words)) || [];
+          if (wlist.length) {
+            var fromJson = wlist
+              .map(wordRowFromApiWord)
+              .filter(function (r) {
+                return r && (r.word || r.phonemes.length);
+              });
+            if (fromJson.length) words = fromJson;
+          }
+        } catch (e2) {}
+
+        if (!overall.pron && overall.accuracy) overall.pron = overall.accuracy;
+        return { overall: overall, words: words };
+      }
+
+      function scoreClass(s) {
+        if (s >= 85) return "ph-high";
+        if (s >= 60) return "ph-mid";
+        return "ph-low";
+      }
+
+      /** 长词实验室：连续识别，由学生点「开始录音」→ 朗读 →「结束录音并评测」 */
+      function beginLabPronunciationSession(referenceWord, onStarted, onFail) {
+        if (typeof SpeechSDK === "undefined") {
+          onFail(new Error("语音 SDK 未加载"));
+          return;
+        }
+        state.labLastResult = null;
+        var keys = getAzureKeys();
+        var region = getAzureRegion();
+        var ki = 0;
+        function tryKey() {
+          if (ki >= keys.length) {
+            onFail(new Error("无法开始录音，请检查密钥或网络。"));
+            return;
+          }
+          var sc = SpeechSDK.SpeechConfig.fromSubscription(keys[ki], region);
+          sc.speechRecognitionLanguage = "en-US";
+          applySpeechRecognitionTimeouts(sc);
+          var audio = SpeechSDK.AudioConfig.fromDefaultMicrophoneInput();
+          var recognizer = new SpeechSDK.SpeechRecognizer(sc, audio);
+          var pa = new SpeechSDK.PronunciationAssessmentConfig(
+            referenceWord,
+            SpeechSDK.PronunciationAssessmentGradingSystem.HundredMark,
+            SpeechSDK.PronunciationAssessmentGranularity.Phoneme,
+            true
+          );
+          if (typeof pa.enableProsodyAssessment === "function") pa.enableProsodyAssessment();
+          pa.applyTo(recognizer);
+          recognizer.recognized = function (s, e) {
+            if (e.result.reason === SpeechSDK.ResultReason.RecognizedSpeech) {
+              state.labLastResult = e.result;
+            }
+          };
+          recognizer.startContinuousRecognitionAsync(
+            function () {
+              state.activeRecognizer = recognizer;
+              state.listening = true;
+              onStarted();
+            },
+            function () {
+              try { recognizer.close(); } catch (e0) {}
+              ki++;
+              tryKey();
+            }
+          );
+        }
+        tryKey();
+      }
+
+      function endLabPronunciationSession(onDone) {
+        var rec = state.activeRecognizer;
+        if (!rec) {
+          onDone(new Error("当前未在录音。"));
+          return;
+        }
+        state.activeRecognizer = null;
+        var saved = rec;
+        saved.stopContinuousRecognitionAsync(
+          function () {
+            state.listening = false;
+            try { saved.close(); } catch (e1) {}
+            var r = state.labLastResult;
+            state.labLastResult = null;
+            if (r) onDone(null, r);
+            else {
+              onDone(new Error("未识别到语音。请再试：先点「开始录音」，朗读后点「结束录音并评测」。"));
+            }
+          },
+          function (err) {
+            state.listening = false;
+            try { saved.close(); } catch (e2) {}
+            onDone(err || new Error("结束录音失败"));
+          }
+        );
+      }
+
+      function stopAssessmentEarly() {
+        var rec = state.activeRecognizer;
+        if (!rec) {
+          state.listening = false;
+          return;
+        }
+        state.activeRecognizer = null;
+        state.labLastResult = null;
+        try {
+          rec.stopContinuousRecognitionAsync(
+            function () {
+              state.listening = false;
+              try { rec.close(); } catch (e3) {}
+            },
+            function () {
+              state.listening = false;
+              try { rec.close(); } catch (e4) {}
+            }
+          );
+        } catch (e5) {
+          try { rec.close(); } catch (e6) {}
+          state.listening = false;
+        }
+      }
+
+      function renderLab() {
+        var root = document.getElementById("lab-root");
+        root.innerHTML = "";
+        var lp = document.getElementById("lab-progress");
+        if (state.wordIndex >= LAB_WORDS.length) {
+          if (lp) lp.textContent = "长词 · 已全部完成（共 " + LAB_WORDS.length + " 个）";
+          root.innerHTML =
+            '<div class="lab-all-done"><p class="big">已完成全部 ' +
+            LAB_WORDS.length +
+            " 个长词练习。</p><p class=\"muted\">本次作答记录（选择题/判断/音标、长词元音与切分、朗读分数、听写与时间等）已保存在本机浏览器 <code>localStorage</code> 键 <strong>" +
+            SESSION_LOG_KEY +
+            "</strong> 中，供教师导出或备份。</p>" +
+            (DICTATION_WORDS.length
+              ? '<p class="muted" style="margin-top:0.55rem">接下来：根据刚才练习过的 <strong>典型 ' +
+                DICTATION_WORDS.length +
+                " 个长词</strong>做听写。先点 <strong>TTS</strong> 听音，再用下方 26 个字母按顺序拼写并提交。</p><button type=\"button\" class=\"btn btn-start-dict\" id=\"btn-start-dictation\">开始听写（" +
+                DICTATION_WORDS.length +
+                " 词）</button>"
+              : "") +
+            "</div>";
+          var btnStartDict = document.getElementById("btn-start-dictation");
+          if (btnStartDict) btnStartDict.addEventListener("click", startDictationPhase);
+          if (!state.labCompleteLogged) {
+            state.labCompleteLogged = true;
+            logLabEvent({ step: "lab_all_complete", totalWords: LAB_WORDS.length });
+          }
+          return;
+        }
+        var meta = LAB_WORDS[state.wordIndex];
+        if (!meta) return;
+        if (lp) {
+          lp.textContent =
+            "长词 " + (state.wordIndex + 1) + " / " + LAB_WORDS.length + " · 当前词：" + meta.word;
+        }
+
+        var w = meta.word;
+        var wk = wordKey(w);
+        var prog = getWordProgress(w);
+
+        var statLine = null;
+
+        function refreshReadStat() {
+          if (!statLine) return;
+          if (state.labRead.ttsUnlocked[wk]) {
+            statLine.textContent = "已完成一次录音评测，可随时点「TTS 示范跟读」。";
+            statLine.style.color = "var(--ok)";
+          } else {
+            statLine.textContent =
+              "请先：① 点「开始录音」→ ② 朗读单词 → ③ 点「结束录音并评测」。任意分数完成一次后即可听示范。";
+            statLine.style.color = "var(--ink-soft)";
+          }
+        }
+
+        function syncTtsButton() {
+          var can = !!state.labRead.ttsUnlocked[wk];
+          btnTts.disabled = !can;
+          btnTts.textContent = can ? "🔊 TTS 示范跟读" : "🔊 TTS 示范（先完成录音）";
+        }
+
+        function syncRecButton() {
+          var on = state.listening;
+          var adv = !!state.labAdvancing;
+          var done = readAssessmentDone;
+          btnRecStart.disabled = on || !prog.gapSubmitted || adv || done;
+          btnRecStop.disabled = !on || adv || done;
+          btnAbort.disabled = !on || adv || done;
+        }
+
+        var stepCue = document.createElement("div");
+        stepCue.className = "lab-step-cue";
+        stepCue.id = "lab-step-cue";
+        root.appendChild(stepCue);
+
+        var wordRef = document.createElement("p");
+        wordRef.className = "lab-word-ref";
+        wordRef.innerHTML = "课堂参考划分：<span class=\"pill\">" + meta.parts.join(" · ") + "</span>";
+        wordRef.style.display = prog.gapSubmitted ? "block" : "none";
+        root.appendChild(wordRef);
+
+        function updateStepCue() {
+          if (!prog.vowelSubmitted) {
+            stepCue.innerHTML =
+              "<strong>步骤 1</strong> · 点击字母，选出本词中<strong>所有元音</strong>（任意字母均可点选）。选好后点击「<strong>提交 · 判断元音</strong>」。";
+          } else if (!prog.gapSubmitted) {
+            stepCue.innerHTML =
+              "<strong>步骤 2</strong> · 在字母之间的<strong>竖线</strong>上点击<strong>一处</strong>，标出音节划分位置；再点击「<strong>提交 · 判断音节切分</strong>」。";
+          } else {
+            stepCue.innerHTML =
+              "<strong>步骤 3</strong> · ① 点「<strong>开始录音</strong>」→ ② 大声朗读单词 → ③ 点「<strong>结束录音并评测</strong>」。完成一次后即可听示范（不限分数）。参考划分见下方。";
+          }
+        }
+        updateStepCue();
+
+        var stage = document.createElement("div");
+        stage.className = "word-stage";
+        stage.id = "lab-word-stage";
+        var lettersWrap = document.createElement("div");
+        lettersWrap.className = "letters";
+        lettersWrap.id = "lab-stage-letters";
+
+        function paintLettersAndGaps() {
+          lettersWrap.querySelectorAll(".ch").forEach(function (el) {
+            var idx = Number(el.dataset.idx);
+            el.classList.remove("vowel-pick", "vowel-ans", "vowel-bad-pick", "vowel-missed");
+            if (!prog.vowelSubmitted) {
+              el.style.cursor = "pointer";
+              if (prog.vowelPicked[idx]) el.classList.add("vowel-pick");
+            } else {
+              el.style.cursor = "default";
+              if (isVowel(w[idx])) {
+                el.classList.add("vowel-ans");
+                if (!prog.vowelPicked[idx]) el.classList.add("vowel-missed");
+              } else if (prog.vowelPicked[idx]) {
+                el.classList.add("vowel-bad-pick");
+              }
+            }
+          });
+          lettersWrap.querySelectorAll(".gap").forEach(function (gapEl) {
+            var a = Number(gapEl.dataset.after);
+            gapEl.classList.remove("sel", "ok", "bad", "gap-locked");
+            if (!prog.vowelSubmitted) {
+              gapEl.classList.add("gap-locked");
+            } else if (!prog.gapSubmitted) {
+              if (prog.gapPick === a) gapEl.classList.add("sel");
+            } else {
+              if (a === meta.cutAfter) gapEl.classList.add("ok");
+              else if (prog.gapPick === a) gapEl.classList.add("bad");
+            }
+          });
+        }
+
+        var jj;
+        for (jj = 0; jj < w.length; jj++) {
+          (function (jx) {
+            var ch = document.createElement("span");
+            ch.className = "ch";
+            ch.textContent = w[jx];
+            ch.dataset.idx = String(jx);
+            ch.addEventListener("click", function () {
+              if (prog.vowelSubmitted) return;
+              prog.vowelPicked[jx] = !prog.vowelPicked[jx];
+              ch.classList.toggle("vowel-pick", !!prog.vowelPicked[jx]);
+            });
+            lettersWrap.appendChild(ch);
+          })(jj);
+          if (jj < w.length - 1) {
+            (function (afterIdx) {
+              var gap = document.createElement("div");
+              gap.className = "gap";
+              gap.dataset.after = String(afterIdx);
+              gap.addEventListener("click", function () {
+                if (!prog.vowelSubmitted || prog.gapSubmitted) return;
+                prog.gapPick = afterIdx;
+                lettersWrap.querySelectorAll(".gap").forEach(function (gg) {
+                  gg.classList.remove("sel");
+                });
+                gap.classList.add("sel");
+              });
+              lettersWrap.appendChild(gap);
+            })(jj);
+          }
+        }
+
+        stage.appendChild(lettersWrap);
+
+        var vowelMsg = document.createElement("p");
+        vowelMsg.className = "muted";
+        vowelMsg.style.marginTop = "0.45rem";
+        stage.appendChild(vowelMsg);
+
+        var gapMsg = document.createElement("p");
+        gapMsg.className = "muted";
+        gapMsg.style.marginTop = "0.2rem";
+        stage.appendChild(gapMsg);
+
+        var rowBtns = document.createElement("div");
+        rowBtns.className = "btn-row";
+        rowBtns.style.marginTop = "0.5rem";
+        var bVowel = document.createElement("button");
+        bVowel.type = "button";
+        bVowel.className = "btn";
+        bVowel.textContent = prog.vowelSubmitted ? "元音已提交" : "提交 · 判断元音";
+        bVowel.disabled = prog.vowelSubmitted;
+        bVowel.className = "btn" + (prog.vowelSubmitted ? " btn-secondary" : "");
+        var bGap = document.createElement("button");
+        bGap.type = "button";
+        bGap.textContent = prog.gapSubmitted ? "切分已提交" : "提交 · 判断音节切分";
+        bGap.disabled = !prog.vowelSubmitted || prog.gapSubmitted;
+        bGap.className = "btn" + (bGap.disabled ? " btn-secondary" : "");
+        rowBtns.appendChild(bVowel);
+        rowBtns.appendChild(bGap);
+        stage.appendChild(rowBtns);
+
+        root.appendChild(stage);
+
+        var s3 = document.createElement("div");
+        s3.id = "lab-read-section";
+        s3.className =
+          "lab-step lab-read-block" + (prog.gapSubmitted ? " visible" : " hidden-until-gap");
+        statLine = document.createElement("div");
+        statLine.className = "pass-counter";
+        statLine.style.color = "var(--ink-soft)";
+        statLine.style.marginBottom = "0.5rem";
+        s3.appendChild(statLine);
+        refreshReadStat();
+        var status = document.createElement("div");
+        status.className = "muted";
+        status.id = "lab-status";
+        s3.appendChild(status);
+        var bar = document.createElement("div");
+        bar.className = "score-bar";
+        bar.innerHTML = "<i id=\"score-fill\"></i>";
+        s3.appendChild(bar);
+        var scoreText = document.createElement("div");
+        scoreText.id = "score-text";
+        scoreText.className = "muted";
+        scoreText.style.fontWeight = "800";
+        s3.appendChild(scoreText);
+        var readingScoreHighlight = document.createElement("div");
+        readingScoreHighlight.id = "reading-score-highlight";
+        readingScoreHighlight.className = "reading-score-highlight";
+        readingScoreHighlight.style.display = "none";
+        s3.appendChild(readingScoreHighlight);
+        var tableHost = document.createElement("div");
+        tableHost.id = "phoneme-host";
+        s3.appendChild(tableHost);
+        var row3 = document.createElement("div");
+        row3.className = "btn-row";
+        var btnRecStart = document.createElement("button");
+        btnRecStart.type = "button";
+        btnRecStart.className = "btn";
+        btnRecStart.textContent = "🎤 开始录音";
+        var btnRecStop = document.createElement("button");
+        btnRecStop.type = "button";
+        btnRecStop.className = "btn";
+        btnRecStop.textContent = "⏹ 结束录音并评测";
+        btnRecStop.disabled = true;
+        btnRecStop.classList.add("btn-secondary");
+        var btnAbort = document.createElement("button");
+        btnAbort.type = "button";
+        btnAbort.className = "btn btn-secondary";
+        btnAbort.textContent = "取消录音";
+        btnAbort.disabled = true;
+        var btnTts = document.createElement("button");
+        btnTts.type = "button";
+        btnTts.className = "btn btn-pink";
+        btnTts.textContent = "🔊 TTS 示范";
+        var btnNextWord = document.createElement("button");
+        btnNextWord.type = "button";
+        btnNextWord.className = "btn";
+        btnNextWord.id = "lab-btn-next-word";
+        btnNextWord.textContent = "下一词 →";
+        btnNextWord.style.display = "none";
+        btnNextWord.setAttribute("aria-label", "听完示范朗读后进入下一个单词");
+        row3.appendChild(btnRecStart);
+        row3.appendChild(btnRecStop);
+        row3.appendChild(btnAbort);
+        row3.appendChild(btnTts);
+        row3.appendChild(btnNextWord);
+        s3.appendChild(row3);
+        root.appendChild(s3);
+
+        var readAssessmentDone = false;
+
+        paintLettersAndGaps();
+
+        bVowel.addEventListener("click", function () {
+          if (prog.vowelSubmitted) return;
+          prog.vowelSubmitted = true;
+          bVowel.disabled = true;
+          bVowel.textContent = "元音已提交";
+          bVowel.classList.add("btn-secondary");
+          bGap.disabled = false;
+          bGap.classList.remove("btn-secondary");
+          var vowelOk = true;
+          for (var k = 0; k < w.length; k++) {
+            if (isVowel(w[k]) !== !!prog.vowelPicked[k]) vowelOk = false;
+          }
+          vowelMsg.textContent = vowelOk
+            ? "✓ 元音选择正确。"
+            : "反馈：绿色为正确元音；橙虚线为漏选；红底为误选的辅音。";
+          paintLettersAndGaps();
+          updateStepCue();
+          logLabEvent({
+            step: "vowel_submit",
+            word: w,
+            wordIndex: state.wordIndex,
+            vowelCorrect: vowelOk
+          });
+          if (vowelOk) {
+            stage.classList.remove("pulse-ok");
+            void stage.offsetWidth;
+            stage.classList.add("pulse-ok");
+          }
+        });
+
+        bGap.addEventListener("click", function () {
+          if (!prog.vowelSubmitted || prog.gapSubmitted) return;
+          if (prog.gapPick === null || prog.gapPick === undefined) {
+            gapMsg.textContent = "请先在相邻字母之间的竖线上点选一条切分缝。";
+            return;
+          }
+          prog.gapSubmitted = true;
+          bGap.disabled = true;
+          bGap.classList.add("btn-secondary");
+          bGap.textContent = "切分已提交";
+          var gapOk = prog.gapPick === meta.cutAfter;
+          gapMsg.textContent = gapOk
+            ? "✓ 音节切分正确（" + meta.parts.join(" · ") + "）。"
+            : "反馈：绿色为推荐切分缝；红色为你所选位置。";
+          paintLettersAndGaps();
+          wordRef.style.display = "block";
+          s3.classList.remove("hidden-until-gap");
+          s3.classList.add("visible");
+          updateStepCue();
+          if (gapOk) {
+            stage.classList.remove("pulse-ok");
+            void stage.offsetWidth;
+            stage.classList.add("pulse-ok");
+          }
+          syncRecButton();
+          refreshReadStat();
+          logLabEvent({
+            step: "gap_submit",
+            word: w,
+            wordIndex: state.wordIndex,
+            gapCorrect: gapOk,
+            pickedCutAfter: prog.gapPick,
+            expectedCutAfter: meta.cutAfter
+          });
+        });
+
+        function setListening(on) {
+          state.listening = on;
+          syncRecButton();
+          if (on) {
+            status.innerHTML =
+              '<span class="rec-pulse"></span><strong>录音中</strong>：请朗读 <strong>' +
+              w +
+              "</strong>。读完后点「结束录音并评测」。";
+          } else {
+            status.innerHTML = "";
+          }
+        }
+
+        function showResult(result) {
+          var parsed = parsePronunciationJson(result);
+          var sc = parsed.overall.pron || parsed.overall.accuracy || 0;
+          var fill = document.getElementById("score-fill");
+          if (fill) fill.style.width = Math.min(100, sc) + "%";
+          var passed = false;
+          if (parsed.overall.pron) passed = parsed.overall.pron >= PASS_SCORE;
+          else if (parsed.overall.accuracy) passed = parsed.overall.accuracy >= PASS_SCORE;
+          scoreText.textContent =
+            "发音分：" +
+            (parsed.overall.pron || "—") +
+            " · 准确度：" +
+            (parsed.overall.accuracy || "—") +
+            (passed ? " · 本次达标（≥" + PASS_SCORE + "）" : "");
+
+          var rh = document.getElementById("reading-score-highlight");
+          if (rh) {
+            rh.style.display = "block";
+            var pv =
+              parsed.overall.pron != null && !isNaN(Number(parsed.overall.pron))
+                ? Math.round(Number(parsed.overall.pron))
+                : "—";
+            var av =
+              parsed.overall.accuracy != null && !isNaN(Number(parsed.overall.accuracy))
+                ? Math.round(Number(parsed.overall.accuracy))
+                : "—";
+            rh.innerHTML =
+              "本次朗读得分：发音分 <strong>" + pv + "</strong>　·　准确度 <strong>" + av + "</strong>";
+          }
+
+          var host = document.getElementById("phoneme-host");
+          host.innerHTML = "";
+          if (!parsed.words.length) {
+            host.innerHTML = "<p class=\"muted\">无音素表 · 识别：" + (result.text || "") + "</p>";
+          } else {
+            var tbl = document.createElement("table");
+            tbl.className = "phoneme-grid";
+            tbl.innerHTML = "<thead><tr><th>片段</th><th>分</th><th>音素</th></tr></thead>";
+            var tb = document.createElement("tbody");
+            parsed.words.forEach(function (wr) {
+              var tr = document.createElement("tr");
+              var td1 = document.createElement("td");
+              td1.textContent = wr.word;
+              var td2 = document.createElement("td");
+              td2.textContent = wr.score != null ? String(Math.round(wr.score)) : "—";
+              td2.className = scoreClass(wr.score || 0);
+              var td3 = document.createElement("td");
+              td3.style.textAlign = "left";
+              wr.phonemes.forEach(function (ph) {
+                var sp = document.createElement("span");
+                sp.style.display = "inline-block";
+                sp.style.margin = "0.12rem";
+                sp.style.padding = "0.08rem 0.28rem";
+                sp.style.borderRadius = "6px";
+                sp.className = scoreClass(ph.score || 0);
+                sp.textContent = (ph.ph || "?") + " " + Math.round(ph.score || 0);
+                td3.appendChild(sp);
+              });
+              tr.appendChild(td1);
+              tr.appendChild(td2);
+              tr.appendChild(td3);
+              tb.appendChild(tr);
+            });
+            tbl.appendChild(tb);
+            host.appendChild(tbl);
+          }
+
+          state.labRead.ttsUnlocked[wk] = true;
+          refreshReadStat();
+          syncTtsButton();
+
+          var snapIdx = state.wordIndex;
+          var snapW = w;
+          logLabEvent({
+            step: "read_assessment",
+            word: snapW,
+            wordIndex: snapIdx,
+            recognizedText: result.text || "",
+            pronScore: parsed.overall.pron,
+            accuracyScore: parsed.overall.accuracy,
+            fluencyScore: parsed.overall.fluency,
+            completenessScore: parsed.overall.completeness,
+            atOrAbove80: passed
+          });
+
+          readAssessmentDone = true;
+          btnNextWord.style.display = "";
+          syncRecButton();
+          var stEl = document.getElementById("lab-status");
+          if (stEl) {
+            stEl.textContent =
+              snapIdx + 1 < LAB_WORDS.length
+                ? "分数已出。请先点「TTS 示范跟读」听标准发音，准备好后再点「下一词」继续。"
+                : "分数已出。请先点「TTS 示范跟读」听标准发音，再点「下一词」查看完成页。";
+          }
+          if (prog.gapSubmitted) {
+            stepCue.innerHTML =
+              "<strong>步骤 3（已完成评测）</strong> · 点 <strong>TTS 示范跟读</strong> 听标准音 → 再点 <strong>下一词</strong> 进入" +
+              (snapIdx + 1 < LAB_WORDS.length ? "下一单词。" : "完成页。");
+          }
+        }
+
+        btnNextWord.addEventListener("click", function () {
+          if (!readAssessmentDone) return;
+          var nextI = state.wordIndex + 1;
+          logLabEvent({
+            step: "lab_manual_next_word",
+            word: LAB_WORDS[state.wordIndex] ? LAB_WORDS[state.wordIndex].word : "",
+            wordIndex: state.wordIndex,
+            nextIndex: nextI
+          });
+          state.wordIndex = nextI;
+          initLab();
+        });
+
+        btnRecStart.addEventListener("click", function () {
+          if (!prog.gapSubmitted || state.listening) return;
+          var rh = document.getElementById("reading-score-highlight");
+          if (rh) {
+            rh.style.display = "none";
+            rh.innerHTML = "";
+          }
+          document.getElementById("score-fill").style.width = "0%";
+          scoreText.textContent = "";
+          document.getElementById("phoneme-host").innerHTML = "";
+          status.textContent = "正在连接麦克风…";
+          beginLabPronunciationSession(
+            w,
+            function () {
+              setListening(true);
+            },
+            function (err) {
+              state.listening = false;
+              syncRecButton();
+              status.textContent = (err && err.message) || "无法开始录音";
+            }
+          );
+        });
+
+        btnRecStop.addEventListener("click", function () {
+          if (!state.listening) return;
+          status.textContent = "正在结束识别…";
+          endLabPronunciationSession(function (err, result) {
+            setListening(false);
+            if (err) {
+              status.textContent = (err && err.message) || "评测失败";
+              return;
+            }
+            status.textContent = "识别文本：" + (result.text || "");
+            showResult(result);
+          });
+        });
+
+        btnAbort.addEventListener("click", function () {
+          if (!state.listening) return;
+          stopAssessmentEarly();
+          setListening(false);
+          syncRecButton();
+          status.textContent = "已取消本次录音。需要时请重新点「开始录音」。";
+        });
+
+        btnTts.addEventListener("click", function () {
+          if (btnTts.disabled) return;
+          speakAzure(w).catch(function () {
+            alert("TTS 失败，请检查密钥或网络。");
+          });
+        });
+
+        syncRecButton();
+        syncTtsButton();
+
+        if (prog.vowelSubmitted) {
+          var vowelOk2 = true;
+          for (var k2 = 0; k2 < w.length; k2++) {
+            if (isVowel(w[k2]) !== !!prog.vowelPicked[k2]) vowelOk2 = false;
+          }
+          vowelMsg.textContent = vowelOk2
+            ? "✓ 元音选择正确。"
+            : "提示：绿色为应选的元音；橙虚线为漏选；红底为误选的辅音字母。";
+        }
+        if (prog.gapSubmitted) {
+          var gapOk2 = prog.gapPick === meta.cutAfter;
+          gapMsg.textContent = gapOk2
+            ? "✓ 音节切分正确（" + meta.parts.join(" · ") + "）。"
+            : "提示：绿色缝为推荐切分；你选的缝为红色。";
+        }
+      }
+
+      function initLab() {
+        var tabs = document.getElementById("word-tabs");
+        tabs.innerHTML = "";
+        if (teacherMode) {
+          tabs.style.display = "flex";
+          LAB_WORDS.forEach(function (meta, i) {
+            var b = document.createElement("button");
+            b.type = "button";
+            b.textContent = meta.word;
+            if (i === state.wordIndex) b.classList.add("is-on");
+            b.addEventListener("click", function () {
+              state.wordIndex = i;
+              state.labAdvancing = false;
+              tabs.querySelectorAll("button").forEach(function (x, j) {
+                x.classList.toggle("is-on", j === i);
+              });
+              renderLab();
+            });
+            tabs.appendChild(b);
+          });
+        } else {
+          tabs.style.display = "none";
+        }
+        renderLab();
+      }
+
+      function startDictationPhase() {
+        dictationOpened = true;
+        document.getElementById("lab-section").classList.add("hidden");
+        document.getElementById("dictation-section").classList.remove("hidden");
+        state.dictationIndex = 0;
+        state.dictationCompleteLogged = false;
+        state.dictationAdvancing = false;
+        var hp = document.getElementById("hero-sub");
+        if (hp) hp.textContent = "听写练习 · 听 TTS 后点击字母拼写";
+        logDictationEvent({
+          step: "lab_to_dictation",
+          dictationWordCount: DICTATION_WORDS.length,
+          words: DICTATION_WORDS.map(function (m) {
+            return m.word;
+          })
+        });
+        initDictation();
+      }
+
+      function initDictation() {
+        var tabs = document.getElementById("dict-tabs");
+        if (!tabs) return;
+        tabs.innerHTML = "";
+        if (teacherMode) {
+          tabs.classList.remove("hidden");
+          tabs.style.display = "flex";
+          DICTATION_WORDS.forEach(function (meta, i) {
+            var b = document.createElement("button");
+            b.type = "button";
+            b.textContent = String(i + 1);
+            b.setAttribute("title", "教师跳转 · 第 " + (i + 1) + " 题：" + meta.word);
+            b.setAttribute("aria-label", "跳到听写第 " + (i + 1) + " 题");
+            if (i === state.dictationIndex) b.classList.add("is-on");
+            b.addEventListener("click", function () {
+              state.dictationIndex = i;
+              state.dictationAdvancing = false;
+              tabs.querySelectorAll("button").forEach(function (x, j) {
+                x.classList.toggle("is-on", j === i);
+              });
+              renderDictation();
+            });
+            tabs.appendChild(b);
+          });
+        } else {
+          tabs.classList.add("hidden");
+          tabs.style.display = "";
+        }
+        renderDictation();
+      }
+
+      function renderDictation() {
+        var root = document.getElementById("dict-root");
+        var dp = document.getElementById("dict-progress");
+        if (!root || !dp) return;
+        root.innerHTML = "";
+        if (state.dictationIndex >= DICTATION_WORDS.length) {
+          dp.textContent = "听写 · 已全部完成（共 " + DICTATION_WORDS.length + " 个）";
+          root.innerHTML =
+            '<div class="lab-all-done"><p class="big">听写已全部完成。</p><p class="muted">完整学习记录仍保存在 <code>localStorage</code> 键 <strong>' +
+            SESSION_LOG_KEY +
+            "</strong>（含每题听写对错、用时与拼写内容）。</p></div>";
+          if (!state.dictationCompleteLogged) {
+            state.dictationCompleteLogged = true;
+            logDictationEvent({ step: "dictation_all_complete", totalWords: DICTATION_WORDS.length });
+          }
+          return;
+        }
+
+        var meta = DICTATION_WORDS[state.dictationIndex];
+        var w = meta.word;
+        var pageEnteredAt = Date.now();
+        dp.textContent =
+          "听写 " +
+          (state.dictationIndex + 1) +
+          " / " +
+          DICTATION_WORDS.length +
+          " · 听 TTS 后凭记忆拼写";
+
+        logDictationEvent({
+          step: "dictation_word_enter",
+          word: w,
+          dictIndex: state.dictationIndex,
+          expectedLength: w.length
+        });
+
+        var cue = document.createElement("p");
+        cue.className = "lab-step-cue";
+        cue.innerHTML =
+          "<strong>听写步骤</strong> · ① 点 <strong>TTS 朗读</strong> 听单词 · ② 点击下方字母依次拼写（可点「删一格」改错）· ③ 点 <strong>提交</strong> 判对错 · 随后自动进入下一词。";
+        root.appendChild(cue);
+
+        var answer = "";
+
+        var slotRow = document.createElement("div");
+        slotRow.className = "dict-slots";
+        slotRow.setAttribute("aria-label", "拼写格子");
+        function redrawSlots() {
+          slotRow.innerHTML = "";
+          var i;
+          for (i = 0; i < w.length; i++) {
+            (function (ix) {
+              var s = document.createElement("span");
+              s.className = "dict-slot" + (ix >= answer.length ? " empty" : "");
+              s.textContent = ix < answer.length ? answer[ix] : "·";
+              slotRow.appendChild(s);
+            })(i);
+          }
+        }
+        redrawSlots();
+        root.appendChild(slotRow);
+
+        var rowTop = document.createElement("div");
+        rowTop.className = "btn-row";
+        rowTop.style.marginTop = "0.35rem";
+        var btnTts = document.createElement("button");
+        btnTts.type = "button";
+        btnTts.className = "btn btn-pink";
+        btnTts.textContent = "🔊 TTS 朗读单词";
+        rowTop.appendChild(btnTts);
+        root.appendChild(rowTop);
+
+        var kb = document.createElement("div");
+        kb.className = "dict-keyboard";
+        var letters = "abcdefghijklmnopqrstuvwxyz".split("");
+        var letterBtns = [];
+        function setKbDisabled(dis) {
+          letterBtns.forEach(function (b) {
+            b.disabled = dis;
+          });
+          btnBack.disabled = dis;
+          btnSubmit.disabled = dis;
+          btnTts.disabled = dis;
+        }
+
+        letters.forEach(function (ch) {
+          var b = document.createElement("button");
+          b.type = "button";
+          b.className = "dict-key";
+          b.textContent = ch.toUpperCase();
+          b.addEventListener("click", function () {
+            if (state.dictationAdvancing || roundSubmitted) return;
+            if (answer.length >= w.length) return;
+            answer += ch;
+            redrawSlots();
+          });
+          kb.appendChild(b);
+          letterBtns.push(b);
+        });
+        root.appendChild(kb);
+
+        var rowAct = document.createElement("div");
+        rowAct.className = "btn-row";
+        var btnBack = document.createElement("button");
+        btnBack.type = "button";
+        btnBack.className = "btn btn-secondary";
+        btnBack.textContent = "删一格";
+        var btnSubmit = document.createElement("button");
+        btnSubmit.type = "button";
+        btnSubmit.className = "btn";
+        btnSubmit.textContent = "提交";
+        rowAct.appendChild(btnBack);
+        rowAct.appendChild(btnSubmit);
+        root.appendChild(rowAct);
+
+        var fb = document.createElement("div");
+        fb.className = "dict-feedback";
+        fb.id = "dict-feedback";
+        root.appendChild(fb);
+
+        var roundSubmitted = false;
+
+        btnBack.addEventListener("click", function () {
+          if (state.dictationAdvancing || roundSubmitted) return;
+          if (!answer.length) return;
+          answer = answer.slice(0, -1);
+          redrawSlots();
+        });
+
+        btnTts.addEventListener("click", function () {
+          if (state.dictationAdvancing || btnTts.disabled) return;
+          logDictationEvent({
+            step: "dictation_tts",
+            word: w,
+            dictIndex: state.dictationIndex
+          });
+          speakAzure(w).catch(function () {
+            alert("TTS 失败，请检查密钥或网络。");
+          });
+        });
+
+        btnSubmit.addEventListener("click", function () {
+          if (state.dictationAdvancing || roundSubmitted) return;
+          if (answer.length !== w.length) {
+            fb.className = "dict-feedback show bad";
+            fb.textContent = "请填满所有拼写格子后再提交。";
+            return;
+          }
+          roundSubmitted = true;
+          var ok = wordKey(answer) === wordKey(w);
+          var durationMs = Date.now() - pageEnteredAt;
+          logDictationEvent({
+            step: "dictation_submit",
+            word: w,
+            dictIndex: state.dictationIndex,
+            studentAnswer: answer,
+            correct: ok,
+            durationMs: durationMs
+          });
+          fb.className = "dict-feedback show " + (ok ? "ok" : "bad");
+          fb.textContent = ok
+            ? "✓ 拼写正确！即将进入下一词…"
+            : teacherMode
+              ? "未完全正确 · 参考拼写：" + w + " · 即将进入下一词…"
+              : "未完全正确。可回想刚才的朗读再核对，即将进入下一词…";
+          setKbDisabled(true);
+          state.dictationAdvancing = true;
+          var nextI = state.dictationIndex + 1;
+          setTimeout(function () {
+            state.dictationAdvancing = false;
+            state.dictationIndex = nextI;
+            initDictation();
+          }, 2200);
+        });
+      }
+
+      document.getElementById("dots").addEventListener("click", function (e) {
+        if (!teacherMode) return;
+        var t = e.target;
+        if (t.tagName !== "I") return;
+        var children = [].slice.call(e.currentTarget.children);
+        var ii = children.indexOf(t);
+        if (ii >= 0) jumpToDeck(ii);
+      });
+
+      (function initTeacherUi() {
+        var chk = document.getElementById("chk-teacher");
+        var sel = document.getElementById("teacher-jump");
+        function persistTeacher(on) {
+          try {
+            if (on) sessionStorage.setItem(TEACHER_SESSION_KEY, "1");
+            else sessionStorage.removeItem(TEACHER_SESSION_KEY);
+          } catch (e1) {}
+        }
+        function teacherStorageOk() {
+          try {
+            return sessionStorage.getItem(TEACHER_SESSION_KEY) === "1";
+          } catch (e2) {
+            return false;
+          }
+        }
+        chk.addEventListener("change", function () {
+          if (chk.checked) {
+            var pw = prompt("请输入教师密码");
+            if (pw !== TEACHER_PASSWORD) {
+              chk.checked = false;
+              alert("密码错误，无法开启教师模式。");
+              return;
+            }
+            persistTeacher(true);
+            setTeacherMode(true);
+          } else {
+            persistTeacher(false);
+            setTeacherMode(false);
+          }
+        });
+        sel.addEventListener("change", function () {
+          jumpToDeck(Number(sel.value));
+        });
+        document.getElementById("teacher-prev").addEventListener("click", function () {
+          jumpToDeck(idx - 1);
+        });
+        document.getElementById("teacher-next").addEventListener("click", function () {
+          jumpToDeck(idx + 1);
+        });
+        document.getElementById("teacher-lab").addEventListener("click", function () {
+          finishDeck();
+        });
+        document.getElementById("teacher-dict").addEventListener("click", function () {
+          document.getElementById("deck-card").classList.add("hidden");
+          document.querySelector(".progress-wrap").classList.add("hidden");
+          document.getElementById("lab-section").classList.add("hidden");
+          dictationOpened = true;
+          labOpened = true;
+          state.dictationIndex = 0;
+          state.dictationCompleteLogged = false;
+          state.dictationAdvancing = false;
+          var hp2 = document.getElementById("hero-sub");
+          if (hp2) hp2.textContent = "教师预览 · 听写测验";
+          document.getElementById("dictation-section").classList.remove("hidden");
+          logDictationEvent({
+            step: "teacher_open_dictation",
+            dictationWordCount: DICTATION_WORDS.length
+          });
+          initDictation();
+        });
+        if (teacherStorageOk()) {
+          chk.checked = true;
+          setTeacherMode(true);
+        }
+        fillTeacherJump();
+      })();
+
+      renderDeck();
+    })();
+  </script>
+</body>
+</html>

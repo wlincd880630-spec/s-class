@@ -1,0 +1,4252 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>The Magic of Syllables — Closed Syllables</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Finger+Paint&family=Comic+Neue:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+  <style>
+    /* Azure 密钥请在页面内填写并保存到本机 localStorage，勿提交到公开仓库；生产环境建议后端代理 TTS。 */
+    :root {
+      --cream: #fffdd0;
+      --pink: #ffb7b2;
+      --mint: #b2e2f2;
+      --lilac: #d1d1f7;
+      --ink: #3d3a45;
+      --ink-soft: #6b6578;
+      --white: #fffef8;
+      --shadow: rgba(61, 58, 69, 0.18);
+      --font-display: "Comic Sans MS", "Finger Paint", "Comic Neue", cursive, sans-serif;
+      --font-body: "Comic Sans MS", "Comic Neue", system-ui, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body {
+      font-family: var(--font-body);
+      font-weight: 400;
+      color: var(--ink);
+      background: var(--cream);
+      background-image:
+        repeating-linear-gradient(125deg, rgba(255, 183, 178, 0.22) 0 2px, transparent 2px 14px),
+        repeating-linear-gradient(-125deg, rgba(178, 226, 242, 0.25) 0 2px, transparent 2px 18px),
+        radial-gradient(ellipse 90% 70% at 15% 20%, rgba(209, 209, 247, 0.45), transparent 55%),
+        radial-gradient(ellipse 80% 50% at 85% 75%, rgba(255, 253, 208, 0.9), transparent 50%);
+      overflow: hidden;
+    }
+
+    .deck {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0.6rem 0.85rem 0.4rem;
+    }
+
+    .slide {
+      flex: 1;
+      min-height: 0;
+      display: none;
+      flex-direction: column;
+      align-items: stretch;
+      justify-content: flex-start;
+      padding: 0.5rem 0.15rem;
+      animation: slideIn 0.45s ease;
+    }
+    .slide.active { display: flex; }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(12px) rotate(-0.3deg); }
+      to { opacity: 1; transform: translateY(0) rotate(0); }
+    }
+
+    .slide-inner {
+      flex: 1;
+      min-height: 0;
+      overflow: auto;
+      background: var(--white);
+      border: 4px solid var(--ink);
+      border-radius: 28px 18px 32px 22px / 22px 28px 20px 30px;
+      box-shadow: 6px 6px 0 var(--shadow), 0 0 0 1px rgba(255, 255, 255, 0.6) inset;
+      padding: clamp(0.85rem, 2.5vw, 1.6rem);
+      position: relative;
+      background-image:
+        repeating-linear-gradient(135deg, transparent, transparent 10px, rgba(61, 58, 69, 0.04) 10px, rgba(61, 58, 69, 0.04) 11px),
+        repeating-linear-gradient(-55deg, transparent, transparent 16px, rgba(255, 183, 178, 0.08) 16px, rgba(255, 183, 178, 0.08) 17px);
+    }
+
+    .slide-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.55rem, 5vw, 2.35rem);
+      text-align: center;
+      color: var(--ink);
+      margin-bottom: 0.5rem;
+      text-shadow: 2px 2px 0 var(--pink), 4px 4px 0 rgba(178, 226, 242, 0.6);
+      line-height: 1.15;
+    }
+    .slide-sub {
+      text-align: center;
+      font-size: clamp(0.95rem, 2.4vw, 1.1rem);
+      color: var(--ink-soft);
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .panel {
+      flex: 1 1 240px;
+      max-width: 420px;
+      padding: 0.85rem 1rem;
+      border: 3px dashed var(--ink);
+      border-radius: 18px;
+      background: var(--mint);
+      background-image: repeating-linear-gradient(-40deg, transparent, transparent 6px, rgba(255, 255, 255, 0.35) 6px, rgba(255, 255, 255, 0.35) 7px);
+    }
+    .panel.vowel-panel { background-color: var(--pink); }
+    .panel.con-panel { background-color: var(--lilac); }
+
+    .panel h3 {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      margin-bottom: 0.6rem;
+      text-align: center;
+    }
+
+    .letter-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      justify-content: center;
+    }
+
+    .v-letter {
+      width: 3rem;
+      height: 3rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-size: 1.45rem;
+      border: 3px solid var(--ink);
+      border-radius: 12px 16px 14px 10px;
+      background: var(--cream);
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s;
+      box-shadow: 3px 3px 0 var(--shadow);
+      user-select: none;
+    }
+    .v-letter:hover { transform: rotate(-3deg) scale(1.05); }
+    .v-letter.picked {
+      background: var(--lilac);
+      transform: scale(1.08) rotate(2deg);
+      box-shadow: 4px 4px 0 var(--pink);
+    }
+
+    .illustration {
+      margin: 0.5rem auto 1rem;
+      text-align: center;
+    }
+    .illustration img {
+      max-width: min(100%, 420px);
+      height: auto;
+      border: 4px solid var(--ink);
+      border-radius: 20px;
+      background: var(--cream);
+      display: block;
+      margin: 0 auto;
+      box-shadow: 5px 5px 0 var(--shadow);
+    }
+    .illustration figcaption {
+      font-size: 0.72rem;
+      color: var(--ink-soft);
+      margin-top: 0.35rem;
+      max-width: 36rem;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.35;
+    }
+
+    .speak {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 2.25rem;
+      height: 2.25rem;
+      margin-left: 0.35rem;
+      border: 3px solid var(--ink);
+      border-radius: 50%;
+      background: var(--mint);
+      cursor: pointer;
+      font-size: 1rem;
+      vertical-align: middle;
+      transition: transform 0.12s;
+      flex-shrink: 0;
+    }
+    .speak:hover { transform: scale(1.08); }
+    .speak:active { transform: scale(0.95); }
+    .game-speak-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 2.25rem;
+      padding: 0.45rem 0.85rem;
+      margin-left: 0;
+      border: 3px solid var(--ink);
+      border-radius: 14px;
+      background: var(--mint);
+      cursor: pointer;
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: 0.95rem;
+      transition: transform 0.12s;
+    }
+    .game-speak-btn:hover { transform: scale(1.03); }
+
+    .lead {
+      font-size: clamp(1rem, 2.5vw, 1.15rem);
+      line-height: 1.55;
+      margin-bottom: 0.75rem;
+      font-weight: 700;
+    }
+
+    .cvc-demo {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 0.35rem;
+      margin: 1rem 0;
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 6vw, 2.6rem);
+    }
+    .cvc-box {
+      padding: 0.25rem 0.5rem;
+      border: 3px solid var(--ink);
+      border-radius: 10px;
+      background: var(--cream);
+    }
+    .cvc-box.v { background: var(--pink); }
+
+    .door-stage {
+      position: relative;
+      width: min(100%, 320px);
+      height: 140px;
+      margin: 1rem auto;
+      border: 3px solid var(--ink);
+      border-radius: 16px;
+      background: var(--lilac);
+      background-image: repeating-linear-gradient(45deg, transparent, transparent 8px, rgba(255, 255, 255, 0.25) 8px, rgba(255, 255, 255, 0.25) 9px);
+      overflow: hidden;
+    }
+    .door-vowel {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      font-family: var(--font-display);
+      font-size: 3rem;
+    }
+    .door-flap {
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(-50deg, var(--mint), var(--mint) 4px, rgba(61, 58, 69, 0.12) 4px, rgba(61, 58, 69, 0.12) 5px);
+      border-left: 4px solid var(--ink);
+      transform-origin: right center;
+      transition: transform 0.55s cubic-bezier(0.34, 1.3, 0.64, 1);
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding-right: 0.5rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+    .door-stage.closed .door-flap { transform: scaleX(1); }
+    .door-stage:not(.closed) .door-flap { transform: scaleX(0.12); }
+    .door-hint {
+      text-align: center;
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-top: 0.25rem;
+    }
+
+    .tap-word {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 8vw, 3.2rem);
+      text-align: center;
+      cursor: pointer;
+      padding: 1rem;
+      border: 4px dashed var(--ink);
+      border-radius: 20px;
+      background: var(--cream);
+      margin: 0.75rem auto;
+      max-width: 22rem;
+      transition: background 0.25s;
+      user-select: none;
+    }
+    .tap-word.split {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      border-style: solid;
+      background: var(--mint);
+    }
+    .syll-part {
+      padding: 0.2rem 0.55rem;
+      border: 3px solid var(--ink);
+      border-radius: 12px;
+      background: var(--pink);
+      animation: pop 0.4s ease;
+    }
+    @keyframes pop {
+      from { transform: scale(0.6); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    .hint-tap { text-align: center; font-size: 0.9rem; color: var(--ink-soft); margin-top: 0.25rem; }
+
+    .lab-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-top: 0.75rem;
+    }
+    .lab-card {
+      border: 3px solid var(--ink);
+      border-radius: 18px;
+      padding: 1rem;
+      background: var(--cream);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      min-height: 120px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.15s;
+    }
+    .lab-card:hover { transform: rotate(-1deg); }
+    .lab-card .word-line {
+      font-family: var(--font-display);
+      font-size: 1.85rem;
+      position: relative;
+      z-index: 1;
+    }
+    .lab-card .slash {
+      position: absolute;
+      width: 4px;
+      height: 140%;
+      background: var(--ink);
+      left: 50%;
+      top: -20%;
+      transform: translateX(-50%) rotate(0deg) scaleY(0);
+      transform-origin: center top;
+      transition: transform 0.5s cubic-bezier(0.34, 1.2, 0.64, 1);
+      z-index: 2;
+      border-radius: 2px;
+    }
+    .lab-card.slashed .slash {
+      transform: translateX(-50%) rotate(18deg) scaleY(1);
+    }
+    .lab-card.slashed .word-line { opacity: 0.85; }
+    .lab-card .parts {
+      display: none;
+      gap: 0.35rem;
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      margin-top: 0.5rem;
+      z-index: 1;
+    }
+    .lab-card.slashed .parts { display: flex; }
+    .lab-note { font-size: 0.82rem; font-weight: 700; color: var(--ink-soft); margin-top: 0.35rem; text-align: center; }
+
+    .game-area {
+      margin-top: 0.75rem;
+    }
+    .game-word {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      text-align: center;
+      margin-bottom: 0.75rem;
+    }
+    .slots {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      justify-content: center;
+      min-height: 3.5rem;
+      margin-bottom: 1rem;
+    }
+    .slot {
+      min-width: 5.5rem;
+      min-height: 3rem;
+      border: 3px dashed var(--ink);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      transition: background 0.2s;
+    }
+    .slot.filled { border-style: solid; background: var(--pink); }
+    .slot.drag-over { background: var(--mint); }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      justify-content: center;
+    }
+    .chip {
+      padding: 0.35rem 0.75rem;
+      border: 3px solid var(--ink);
+      border-radius: 255px 12px 240px 12px / 12px 240px 12px 255px;
+      background: var(--lilac);
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      cursor: grab;
+      box-shadow: 3px 3px 0 var(--shadow);
+      user-select: none;
+      touch-action: none;
+    }
+    .chip:active { cursor: grabbing; }
+    .chip.used { opacity: 0.35; pointer-events: none; }
+
+    .game-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      justify-content: center;
+      margin-top: 0.75rem;
+    }
+    .btn {
+      font-family: var(--font-body);
+      font-weight: 700;
+      padding: 0.45rem 1.1rem;
+      border: 3px solid var(--ink);
+      border-radius: 14px;
+      background: linear-gradient(180deg, #ffe566, #ffd54f);
+      cursor: pointer;
+      box-shadow: 4px 4px 0 var(--shadow);
+      font-size: 0.95rem;
+    }
+    .btn:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0 var(--shadow); }
+    .feedback {
+      text-align: center;
+      min-height: 1.5rem;
+      font-weight: 700;
+      margin-top: 0.5rem;
+    }
+    .feedback.ok { color: #2e7d32; }
+    .feedback.no { color: #c62828; }
+
+    .nav-bar {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      padding: 0.5rem 0.15rem 0.15rem;
+    }
+    .nav-bar .btn { flex: 0 0 auto; }
+    .dots {
+      display: flex;
+      gap: 0.35rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      flex: 1;
+    }
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--ink);
+      opacity: 0.22;
+      border: 2px solid var(--ink);
+      cursor: pointer;
+    }
+    .dot.on { opacity: 1; background: var(--pink); }
+
+    @media (max-width: 520px) {
+      .deck { padding: 0.4rem 0.5rem; }
+      .speak { width: 2rem; height: 2rem; font-size: 0.9rem; }
+    }
+
+    /* —— 第1页：26 字母分类 —— */
+    .prompt-banner {
+      text-align: center;
+      font-size: clamp(1rem, 2.8vw, 1.2rem);
+      font-weight: 800;
+      padding: 0.65rem 0.85rem;
+      margin: 0.5rem 0;
+      background: linear-gradient(90deg, var(--pink), var(--lilac));
+      border: 3px solid var(--ink);
+      border-radius: 14px;
+      animation: pop 0.5s ease;
+    }
+    .prompt-banner[hidden] { display: none !important; }
+
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      justify-content: center;
+      margin: 0.45rem 0;
+    }
+
+    .classify-pool {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.42rem;
+      justify-content: center;
+      padding: 0.75rem 0.7rem;
+      min-height: 5.25rem;
+      border: 3px dashed var(--ink);
+      border-radius: 16px;
+      background:
+        linear-gradient(125deg, rgba(255, 214, 102, 0.55) 0%, rgba(255, 138, 180, 0.4) 38%, rgba(129, 212, 250, 0.45) 72%, rgba(197, 202, 255, 0.5) 100%),
+        linear-gradient(180deg, #fff8e7 0%, #fff0f5 100%);
+      margin-bottom: 0.65rem;
+      box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.65);
+    }
+    .classify-pool:empty::after {
+      content: "字母都分完啦 ✓";
+      color: var(--ink-soft);
+      font-weight: 700;
+      width: 100%;
+      text-align: center;
+      padding: 0.5rem;
+    }
+
+    .lz {
+      width: clamp(2.85rem, 7vw, 3.5rem);
+      height: clamp(2.85rem, 7vw, 3.5rem);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-size: clamp(1.38rem, 4.2vw, 1.85rem);
+      font-weight: 800;
+      line-height: 1;
+      border: 3px solid var(--ink);
+      border-radius: 12px;
+      cursor: grab;
+      box-shadow: 3px 4px 0 rgba(61, 58, 69, 0.22);
+      user-select: none;
+      touch-action: none;
+      transition: transform 0.12s, outline 0.12s, box-shadow 0.12s;
+    }
+    /* 按字母顺序轮换 7 种色带，不对应元音/辅音，避免在池里剧透 */
+    .lz-tone-0 {
+      background: linear-gradient(155deg, #ffe082 0%, #ffb74d 100%);
+      color: #3e2723;
+      border-color: #e65100;
+    }
+    .lz-tone-1 {
+      background: linear-gradient(155deg, #b2ebf2 0%, #4dd0e1 100%);
+      color: #004d40;
+      border-color: #00838f;
+    }
+    .lz-tone-2 {
+      background: linear-gradient(155deg, #f8bbd9 0%, #f06292 100%);
+      color: #4a148c;
+      border-color: #ad1457;
+    }
+    .lz-tone-3 {
+      background: linear-gradient(155deg, #c5e1a5 0%, #7cb342 100%);
+      color: #1b5e20;
+      border-color: #558b2f;
+    }
+    .lz-tone-4 {
+      background: linear-gradient(155deg, #d1c4e9 0%, #9575cd 100%);
+      color: #311b92;
+      border-color: #5e35b1;
+    }
+    .lz-tone-5 {
+      background: linear-gradient(155deg, #ffccbc 0%, #ff7043 100%);
+      color: #bf360c;
+      border-color: #d84315;
+    }
+    .lz-tone-6 {
+      background: linear-gradient(155deg, #e1bee7 0%, #ba68c8 100%);
+      color: #4a148c;
+      border-color: #8e24aa;
+    }
+    .lz:active { cursor: grabbing; }
+    .lz.pick {
+      outline: 4px solid #c2185b;
+      transform: scale(1.08);
+      z-index: 2;
+      box-shadow: 4px 5px 0 rgba(194, 24, 91, 0.35);
+    }
+
+    .classify-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.65rem;
+      margin-bottom: 0.5rem;
+    }
+    @media (max-width: 640px) {
+      .classify-row { grid-template-columns: 1fr; }
+    }
+
+    .drop-box {
+      border: 4px solid var(--ink);
+      border-radius: 18px;
+      min-height: 140px;
+      padding: 0.5rem;
+      display: flex;
+      flex-direction: column;
+    }
+    .drop-box.vowel {
+      background: var(--pink);
+      background-image: repeating-linear-gradient(-45deg, transparent, transparent 8px, rgba(255, 255, 255, 0.25) 8px, rgba(255, 255, 255, 0.25) 9px);
+    }
+    .drop-box.con {
+      background: var(--lilac);
+      background-image: repeating-linear-gradient(45deg, transparent, transparent 8px, rgba(255, 255, 255, 0.2) 8px, rgba(255, 255, 255, 0.2) 9px);
+    }
+    .drop-box h4 {
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+      text-align: center;
+      margin-bottom: 0.35rem;
+    }
+    .drop-inner {
+      flex: 1;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+      align-content: flex-start;
+      justify-content: center;
+      padding: 0.35rem;
+      border: 2px dashed rgba(61, 58, 69, 0.35);
+      border-radius: 12px;
+      min-height: 72px;
+    }
+    .drop-inner.dragover { background: rgba(255, 255, 255, 0.45); }
+
+    .class-feedback {
+      text-align: center;
+      min-height: 1.4rem;
+      font-weight: 800;
+      margin: 0.35rem 0;
+    }
+    .class-feedback.ok { color: #2e7d32; }
+    .class-feedback.err { color: #c62828; }
+
+    /* —— 小车比喻动画 —— */
+    .car-demo-wrap {
+      margin-top: 0.75rem;
+      padding: 0.75rem;
+      border: 3px solid var(--ink);
+      border-radius: 18px;
+      background: var(--white);
+    }
+    .car-demo-wrap[hidden] { display: none !important; }
+    .car-scene {
+      position: relative;
+      height: 88px;
+      margin: 0.65rem 0;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 3px solid var(--ink);
+      background: linear-gradient(180deg, #b8e0ff 0%, #e8f4ff 40%, #d4d4d8 40%, #9a9a9e 100%);
+    }
+    .car-road {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 42%;
+      background: repeating-linear-gradient(90deg, #555 0 28px, #444 28px 30px);
+    }
+    .car-road::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 50%;
+      height: 3px;
+      background: repeating-linear-gradient(90deg, #f5f5a8 0 16px, transparent 16px 32px);
+      transform: translateY(-50%);
+    }
+    .car-stop-sign {
+      position: absolute;
+      left: 48%;
+      bottom: 38%;
+      width: 36px;
+      height: 36px;
+      background: #e53935;
+      color: #fff;
+      font-size: 0.45rem;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
+      border: 2px solid var(--ink);
+      z-index: 2;
+      line-height: 1;
+      text-align: center;
+      padding: 2px;
+    }
+    .car-body {
+      position: absolute;
+      bottom: 28%;
+      width: 44px;
+      height: 28px;
+      background: #ffcc4d;
+      border: 3px solid var(--ink);
+      border-radius: 6px 10px 8px 8px;
+      z-index: 3;
+      left: 6%;
+      box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.15);
+    }
+    .car-body::after {
+      content: "";
+      position: absolute;
+      right: 4px;
+      top: 4px;
+      width: 14px;
+      height: 10px;
+      background: rgba(255, 255, 255, 0.65);
+      border-radius: 2px;
+    }
+    .car-scene.run-stop .car-body {
+      animation: carStop 4s ease-in-out forwards;
+    }
+    @keyframes carStop {
+      0% { left: 6%; }
+      55% { left: 38%; }
+      100% { left: 38%; }
+    }
+    .car-scene.run-free .car-stop-sign { display: none; }
+    .car-scene.run-free .car-body {
+      animation: carFree 3.5s ease-in-out forwards;
+    }
+    @keyframes carFree {
+      0% { left: 6%; }
+      100% { left: 72%; }
+    }
+    .car-caption {
+      font-size: 0.82rem;
+      font-weight: 800;
+      text-align: center;
+      margin-top: 0.25rem;
+      color: var(--ink-soft);
+    }
+
+    /* —— 第2页：元音 + CVC 词表 —— */
+    .cvc-page-questions {
+      background: rgba(255, 255, 255, 0.65);
+      border: 3px dashed var(--ink);
+      border-radius: 16px;
+      padding: 0.65rem 0.85rem;
+      margin-bottom: 0.75rem;
+    }
+    .cvc-page-questions p {
+      font-size: clamp(0.95rem, 2.2vw, 1.08rem);
+      font-weight: 800;
+      margin: 0.35rem 0;
+      line-height: 1.45;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .cvc-vowel-board {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+    }
+    @media (max-width: 900px) {
+      .cvc-vowel-board { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 480px) {
+      .cvc-vowel-board { grid-template-columns: 1fr; }
+    }
+    .cvc-vowel-block {
+      border: 3px solid var(--ink);
+      border-radius: 16px;
+      padding: 0.45rem 0.4rem 0.55rem;
+      min-height: 0;
+    }
+    .cvc-vowel-block[data-v="A"] { background: linear-gradient(180deg, #ffe4ec, var(--pink)); }
+    .cvc-vowel-block[data-v="E"] { background: linear-gradient(180deg, #fff8e1, #ffe082); }
+    .cvc-vowel-block[data-v="I"] { background: linear-gradient(180deg, #e8f5e9, #a5d6a7); }
+    .cvc-vowel-block[data-v="O"] { background: linear-gradient(180deg, #e3f2fd, var(--mint)); }
+    .cvc-vowel-block[data-v="U"] { background: linear-gradient(180deg, #ede7f6, var(--lilac)); }
+    .cvc-vowel-block h4 {
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      text-align: center;
+      margin-bottom: 0.35rem;
+      text-shadow: 1px 1px 0 #fff;
+    }
+    .cvc-word-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.28rem;
+    }
+    @media (min-width: 520px) {
+      .cvc-word-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    button.cvc-word {
+      font-family: var(--font-display);
+      font-size: 0.92rem;
+      font-weight: 800;
+      padding: 0.32rem 0.2rem;
+      border: 2px solid var(--ink);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.88);
+      cursor: pointer;
+      box-shadow: 2px 2px 0 var(--shadow);
+      transition: transform 0.1s, background 0.15s;
+    }
+    button.cvc-word:hover {
+      transform: scale(1.04);
+      background: #fff;
+    }
+    button.cvc-word:active { transform: scale(0.98); }
+    .cvc-conclusion {
+      margin-top: 0.65rem;
+      padding: 0.75rem 0.9rem;
+      border: 3px solid var(--ink);
+      border-radius: 16px;
+      background: repeating-linear-gradient(135deg, #fffef8, #fffef8 10px, rgba(178, 226, 242, 0.25) 10px, rgba(178, 226, 242, 0.25) 11px);
+    }
+    .cvc-conclusion[hidden] { display: none !important; }
+    .cvc-conclusion h4 {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      margin-bottom: 0.45rem;
+      text-align: center;
+    }
+    .cvc-conclusion ul {
+      list-style: none;
+      font-size: 0.88rem;
+      font-weight: 700;
+      line-height: 1.55;
+      max-width: 40rem;
+      margin: 0 auto;
+    }
+    .cvc-conclusion li { margin: 0.25rem 0; padding-left: 0.15rem; }
+
+    .cvc-student-input {
+      background: rgba(255, 255, 255, 0.72);
+      border: 3px dashed var(--ink);
+      border-radius: 16px;
+      padding: 0.65rem 0.85rem;
+      margin-bottom: 0.75rem;
+    }
+    .cvc-student-input label {
+      display: block;
+      font-weight: 800;
+      font-size: 0.92rem;
+      margin-bottom: 0.35rem;
+    }
+    .cvc-student-input .cvc-input-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      align-items: center;
+    }
+    .cvc-student-input input[type="text"] {
+      flex: 1 1 12rem;
+      min-width: 0;
+      font-family: var(--font-body);
+      font-size: 1rem;
+      font-weight: 700;
+      padding: 0.45rem 0.65rem;
+      border: 3px solid var(--ink);
+      border-radius: 12px;
+      background: #fff;
+    }
+    .cvc-input-feedback {
+      font-size: 0.82rem;
+      font-weight: 700;
+      margin: 0.4rem 0 0;
+      line-height: 1.45;
+      min-height: 1.35em;
+    }
+    .cvc-input-feedback.ok { color: #2e7d32; }
+    .cvc-input-feedback.err { color: #c62828; }
+    .cvc-input-feedback.mix { color: var(--ink-soft); }
+    .cvc-empty-msg {
+      grid-column: 1 / -1;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--ink-soft);
+      text-align: center;
+      padding: 0.35rem 0.2rem;
+      font-style: italic;
+    }
+
+    /* —— 第3页：音节 · 音乐 beat · watermelon —— */
+    .syll-video-block {
+      margin: 0.65rem 0;
+      padding: 0.55rem;
+      border: 3px solid var(--ink);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.55);
+    }
+    .syll-video-block video {
+      width: 100%;
+      max-height: 42vh;
+      border-radius: 12px;
+      border: 3px solid var(--ink);
+      background: #000;
+    }
+    .beat-big {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 10vw, 4rem);
+      text-align: center;
+      padding: 0.75rem;
+      margin: 0.5rem 0;
+      background: linear-gradient(90deg, var(--pink), var(--mint));
+      border: 4px solid var(--ink);
+      border-radius: 20px;
+      text-shadow: 3px 3px 0 #fff;
+      letter-spacing: 0.15em;
+    }
+    .syll-reveal {
+      margin: 0.5rem 0;
+      padding: 0.65rem 0.75rem;
+      border-radius: 14px;
+      border: 2px dashed var(--ink);
+      background: rgba(255, 253, 208, 0.65);
+      font-weight: 800;
+      font-size: 0.92rem;
+      line-height: 1.5;
+    }
+    .syll-reveal[hidden] { display: none !important; }
+    .watermelon-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.65rem;
+      padding: 0.85rem;
+      margin: 0.5rem 0;
+      border: 4px solid var(--ink);
+      border-radius: 20px;
+      background: linear-gradient(180deg, #e8f5e9, #fff8e1);
+    }
+    .wm-visual-wrap {
+      width: min(200px, 52vw);
+      aspect-ratio: 1;
+      border-radius: 16px;
+      border: 3px solid var(--ink);
+      overflow: hidden;
+      background: var(--mint);
+      flex-shrink: 0;
+    }
+    .wm-visual-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      vertical-align: top;
+    }
+    .wm-visual-wrap .wm-emoji-fallback {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: clamp(4rem, 22vw, 6rem);
+      line-height: 1;
+    }
+    .wm-word-block {
+      text-align: center;
+      width: 100%;
+    }
+    .watermelon-card .wm-word {
+      font-family: var(--font-display);
+      font-size: clamp(1.6rem, 5vw, 2.4rem);
+      font-weight: 800;
+    }
+    .wm-claps {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.2rem;
+      margin-top: 0.45rem;
+      font-size: clamp(1.65rem, 5.5vw, 2.35rem);
+      line-height: 1;
+      letter-spacing: 0.02em;
+    }
+    .wm-claps[hidden] {
+      display: none !important;
+    }
+
+    /* —— 音节的数量（多词拍手） —— */
+    .sc-page-lead {
+      text-align: center;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--ink-soft);
+      line-height: 1.5;
+      max-width: 36rem;
+      margin: 0 auto 0.55rem;
+    }
+    .sc-block {
+      margin: 0.45rem 0;
+    }
+    .sc-block .watermelon-card {
+      margin-top: 0.35rem;
+      margin-bottom: 0.35rem;
+    }
+    .sc-show-chain {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.4rem;
+      margin: 0.5rem 0;
+    }
+    .sc-show-chain .btn {
+      min-width: 14rem;
+    }
+    .sc-inner-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      justify-content: center;
+      margin: 0.35rem 0 0.25rem;
+    }
+    .sc-inner-actions .btn {
+      font-size: 0.88rem;
+    }
+
+    /* —— 闭音节单词的特点 · 小房子（更形象的屋顶/烟囱/木墙/窗灯/门把） —— */
+    .closed-syll-trait-page {
+      background:
+        radial-gradient(ellipse 85% 55% at 18% 12%, rgba(255, 255, 255, 0.75), transparent 52%),
+        radial-gradient(ellipse 70% 45% at 88% 8%, rgba(255, 248, 220, 0.55), transparent 48%),
+        linear-gradient(180deg, #d9eef9 0%, #fff8e8 22%, #ffe8cf 52%, #ffd4a8 100%);
+      border: 3px solid var(--ink);
+      border-radius: 18px;
+      padding: 0.75rem 0.55rem 0.85rem;
+      margin: 0.5rem 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .closed-syll-trait-page::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 38%;
+      background: linear-gradient(
+        180deg,
+        transparent 0%,
+        rgba(129, 199, 132, 0.22) 35%,
+        rgba(76, 175, 80, 0.35) 100%
+      );
+      border-radius: 0 0 14px 14px;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .closed-syll-trait-page .csh-intro,
+    .closed-syll-trait-page .csh-grid,
+    .closed-syll-trait-page .btn-row {
+      position: relative;
+      z-index: 1;
+    }
+    .csh-intro {
+      text-align: center;
+      font-weight: 800;
+      font-size: 0.9rem;
+      margin-bottom: 0.6rem;
+      line-height: 1.5;
+      color: var(--ink);
+      padding: 0 0.25rem;
+    }
+    .csh-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.65rem 0.5rem;
+      max-width: 28rem;
+      margin: 0 auto;
+      padding-bottom: 0.35rem;
+    }
+    @media (min-width: 520px) {
+      .csh-grid {
+        gap: 0.85rem 0.95rem;
+      }
+    }
+    .csh-house {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      padding-bottom: 0.2rem;
+      filter: drop-shadow(3px 6px 0 rgba(61, 58, 69, 0.12)) drop-shadow(0 10px 14px rgba(45, 42, 60, 0.18));
+    }
+    .csh-house::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: 1.05rem;
+      transform: translateX(-50%);
+      width: 82%;
+      max-width: 8.5rem;
+      height: 0.65rem;
+      background: radial-gradient(ellipse 100% 100% at 50% 50%, rgba(61, 58, 69, 0.2), transparent 72%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .csh-roof-wrap {
+      position: relative;
+      width: 92%;
+      max-width: 10rem;
+      height: 2.25rem;
+      margin-bottom: -7px;
+      z-index: 3;
+    }
+    .csh-chimney {
+      position: absolute;
+      left: 12%;
+      bottom: 0.28rem;
+      width: 0.58rem;
+      height: 1.1rem;
+      background:
+        repeating-linear-gradient(180deg, #b0897a 0, #b0897a 3px, #8d5e4f 3px, #8d5e4f 5px),
+        linear-gradient(90deg, #c9a08f, #8d6456);
+      border: 2px solid var(--ink);
+      border-radius: 2px 2px 0 0;
+      box-shadow: inset -3px 0 0 rgba(0, 0, 0, 0.12);
+      z-index: 4;
+    }
+    .csh-chimney::after {
+      content: "";
+      position: absolute;
+      left: -3px;
+      right: -3px;
+      top: -6px;
+      height: 7px;
+      background: linear-gradient(180deg, #6d4c41, #4e342e);
+      border: 2px solid var(--ink);
+      border-radius: 2px;
+      box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    }
+    .csh-roof {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 100%;
+      background:
+        repeating-linear-gradient(
+          102deg,
+          transparent 0,
+          transparent 5px,
+          rgba(0, 0, 0, 0.07) 5px,
+          rgba(0, 0, 0, 0.07) 6px
+        ),
+        repeating-linear-gradient(
+          -102deg,
+          transparent 0,
+          transparent 5px,
+          rgba(255, 255, 255, 0.14) 5px,
+          rgba(255, 255, 255, 0.14) 6px
+        ),
+        linear-gradient(180deg, #ef6c57 0%, #c0392b 42%, #922b21 100%);
+      border: 3px solid var(--ink);
+      border-bottom: none;
+      border-radius: 4px 4px 0 0;
+      clip-path: polygon(6% 100%, 50% 0%, 94% 100%);
+      box-shadow:
+        inset 0 -10px 14px rgba(0, 0, 0, 0.2),
+        inset 0 5px 0 rgba(255, 255, 255, 0.22);
+      z-index: 2;
+    }
+    .csh-roof::after {
+      content: "";
+      position: absolute;
+      left: 12%;
+      right: 12%;
+      top: 0;
+      height: 6px;
+      background: linear-gradient(180deg, rgba(255, 235, 200, 0.95), rgba(200, 80, 60, 0.35));
+      clip-path: polygon(0 100%, 50% 0%, 100% 100%);
+      opacity: 0.9;
+      pointer-events: none;
+    }
+    .csh-wall {
+      display: flex;
+      flex-direction: row;
+      align-items: stretch;
+      position: relative;
+      z-index: 2;
+      width: 90%;
+      max-width: 9.5rem;
+      min-height: 5.25rem;
+      padding-bottom: 7px;
+      border: 3px solid var(--ink);
+      border-radius: 0 0 14px 14px;
+      overflow: hidden;
+      background: linear-gradient(180deg, #6d4c41 0%, #6d4c41 calc(100% - 7px), #90a4ae calc(100% - 7px), #546e7a 100%);
+      box-shadow:
+        inset 0 2px 0 rgba(255, 255, 255, 0.12),
+        0 6px 0 rgba(61, 58, 69, 0.08);
+    }
+    .csh-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 0.38rem 0.12rem 0.42rem;
+      background:
+        repeating-linear-gradient(
+          180deg,
+          transparent 0,
+          transparent 8px,
+          rgba(78, 52, 32, 0.07) 8px,
+          rgba(78, 52, 32, 0.07) 9px
+        ),
+        linear-gradient(145deg, #fff3e0 0%, #f0d4b0 45%, #d7b894 100%);
+    }
+    .csh-windows {
+      display: flex;
+      gap: 0.42rem;
+      margin-bottom: 0.2rem;
+    }
+    .csh-windows span {
+      position: relative;
+      width: 0.64rem;
+      height: 0.64rem;
+      background: linear-gradient(145deg, #fffde7 0%, #ffe082 45%, #ffb300 100%);
+      border: 2px solid #4e342e;
+      border-radius: 4px;
+      box-shadow:
+        inset 0 0 8px rgba(255, 193, 7, 0.55),
+        0 1px 0 rgba(255, 255, 255, 0.65);
+    }
+    .csh-windows span::before,
+    .csh-windows span::after {
+      content: "";
+      position: absolute;
+      background: #4e342e;
+      z-index: 1;
+    }
+    .csh-windows span::before {
+      left: 50%;
+      top: 3px;
+      bottom: 3px;
+      width: 2px;
+      transform: translateX(-50%);
+    }
+    .csh-windows span::after {
+      top: 50%;
+      left: 3px;
+      right: 3px;
+      height: 2px;
+      transform: translateY(-50%);
+    }
+    .csh-letters {
+      font-family: var(--font-display);
+      font-size: clamp(1.28rem, 4.2vw, 1.68rem);
+      font-weight: 800;
+      color: #3e2723;
+      text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.45), 2px 2px 0 rgba(93, 64, 55, 0.15);
+      letter-spacing: 0.03em;
+    }
+    .csh-door {
+      width: 2.2rem;
+      flex-shrink: 0;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background:
+        linear-gradient(90deg, rgba(0, 0, 0, 0.14), transparent 28%, transparent 72%, rgba(0, 0, 0, 0.1)),
+        repeating-linear-gradient(
+          90deg,
+          transparent 0,
+          transparent 7px,
+          rgba(0, 0, 0, 0.05) 7px,
+          rgba(0, 0, 0, 0.05) 8px
+        ),
+        linear-gradient(180deg, #66bb6a 0%, #2e7d32 40%, #1b5e20 100%);
+      border-left: 3px dashed rgba(255, 252, 230, 0.95);
+      border-radius: 10px 0 0 0;
+      box-shadow:
+        inset 5px 0 10px rgba(0, 0, 0, 0.18),
+        inset -2px 0 0 rgba(255, 255, 255, 0.15),
+        -4px 0 0 #5d4037,
+        -7px 0 0 #3e2723;
+    }
+    .csh-door::after {
+      content: "";
+      position: absolute;
+      right: 5px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 7px;
+      height: 7px;
+      background: radial-gradient(circle at 32% 32%, #ffe082, #f57f17);
+      border: 2px solid #4e342e;
+      border-radius: 50%;
+      box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.35);
+      pointer-events: none;
+    }
+    .csh-door-cons {
+      position: relative;
+      z-index: 1;
+      font-family: var(--font-display);
+      font-size: clamp(1.2rem, 3.8vw, 1.55rem);
+      font-weight: 800;
+      color: #fffef5;
+      text-shadow:
+        0 1px 0 rgba(0, 0, 0, 0.35),
+        1px 2px 0 rgba(0, 0, 0, 0.2);
+    }
+    .csh-word-cap {
+      position: relative;
+      z-index: 2;
+      margin-top: 0.35rem;
+      font-size: 0.8rem;
+      font-weight: 800;
+      color: var(--ink);
+      padding: 0.18rem 0.55rem;
+      background: rgba(255, 255, 255, 0.88);
+      border-radius: 999px;
+      border: 2px dashed var(--ink-soft);
+      box-shadow: 0 2px 0 rgba(61, 58, 69, 0.08);
+    }
+    .closed-syll-trait-ans {
+      margin-top: 0.6rem;
+      text-align: left;
+      font-size: 0.9rem;
+      line-height: 1.65;
+    }
+    .closed-syll-trait-ans[hidden] {
+      display: none !important;
+    }
+
+    /* —— 音节分步课（cactus～ostrich 共用布局与样式） —— */
+    .cact-lesson .slide-sub {
+      text-align: center;
+    }
+    .cact-lesson-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+      gap: 0.65rem 0.85rem;
+      align-items: stretch;
+      margin-top: 0.35rem;
+      min-height: 0;
+    }
+    @media (max-width: 720px) {
+      .cact-lesson-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .cact-lesson-left {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      min-height: 0;
+    }
+    .cact-lesson-left .cact-hero {
+      flex: 1;
+      margin: 0;
+      min-height: min(52vh, 22rem);
+      flex-direction: column;
+      justify-content: center;
+    }
+    .cact-lesson-right {
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      border: 3px dashed var(--ink-soft);
+      border-radius: 16px;
+      background: rgba(255, 253, 208, 0.5);
+      padding: 0.5rem 0.55rem 0.55rem;
+    }
+    .cact-flow-hint {
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: var(--ink-soft);
+      text-align: center;
+      margin: 0 0 0.4rem;
+      line-height: 1.45;
+    }
+    .cact-flow-hint[hidden] {
+      display: none !important;
+    }
+    .cact-flow-scroll {
+      flex: 1;
+      min-height: 12rem;
+      max-height: min(52vh, 26rem);
+      overflow-y: auto;
+      padding-right: 0.2rem;
+      margin-bottom: 0.45rem;
+    }
+    .cact-flow-panels {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .cact-flow-panel {
+      border: 2px solid var(--ink);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.92);
+      padding: 0.5rem 0.55rem;
+      animation: cactPanelIn 0.4s ease;
+      box-shadow: 3px 3px 0 var(--shadow);
+    }
+    .cact-flow-panel[hidden] {
+      display: none !important;
+    }
+    @keyframes cactPanelIn {
+      from {
+        opacity: 0;
+        transform: translateX(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+    .cact-flow-panel-inner {
+      text-align: left;
+    }
+    .cact-flow-badge {
+      display: inline-block;
+      font-family: var(--font-display);
+      font-size: 0.82rem;
+      font-weight: 800;
+      padding: 0.12rem 0.45rem;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--pink), var(--mint));
+      border: 2px solid var(--ink);
+      margin-bottom: 0.35rem;
+    }
+    .cact-flow-sub {
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: var(--ink-soft);
+      margin: 0 0 0.3rem;
+    }
+    .cact-flow-body {
+      font-size: 0.88rem;
+      font-weight: 700;
+      line-height: 1.55;
+      color: var(--ink);
+      margin: 0;
+    }
+    .cact-flow-body strong {
+      font-weight: 800;
+    }
+    .cact-flow-body .muted {
+      color: var(--ink-soft);
+      font-weight: 700;
+    }
+    .cact-next-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem 0.65rem;
+      padding-top: 0.15rem;
+      border-top: 2px dashed rgba(61, 58, 69, 0.2);
+    }
+    .cact-flow-progress {
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: var(--ink-soft);
+    }
+    .cact-hero {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem 1rem;
+      margin: 0.5rem 0 0.65rem;
+      padding: 0.55rem;
+      border: 3px dashed var(--ink-soft);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.55);
+    }
+    .cact-img-wrap {
+      width: min(160px, 42vw);
+      aspect-ratio: 1;
+      border-radius: 14px;
+      border: 3px solid var(--ink);
+      overflow: hidden;
+      background: linear-gradient(180deg, #e8f5e9, #c8e6c9);
+      flex-shrink: 0;
+    }
+    .cact-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .cact-img-wrap .cact-emoji-fb {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: clamp(3.5rem, 18vw, 5rem);
+      line-height: 1;
+    }
+    .cact-word-panel {
+      text-align: center;
+      min-width: min(100%, 18rem);
+    }
+    .cact-chars-row {
+      display: flex;
+      flex-wrap: nowrap;
+      align-items: stretch;
+      justify-content: center;
+      gap: 0.06rem;
+      font-family: var(--font-display);
+      font-size: clamp(1.65rem, 6vw, 2.35rem);
+      font-weight: 800;
+    }
+    .cact-chars-row .cact-ch {
+      padding: 0.15rem 0.12rem;
+      min-width: 0.55em;
+      text-align: center;
+      border-radius: 6px;
+      transition: background 0.25s, color 0.25s, box-shadow 0.25s;
+    }
+    .cact-chars-row .cact-ch.is-vowel-hl {
+      background: linear-gradient(180deg, #fff59d, #ffee58);
+      box-shadow: 0 0 0 3px var(--ink);
+      color: var(--ink);
+    }
+    .cact-chars-row .cact-ch.is-consonant-hl {
+      background: linear-gradient(180deg, #e1bee7, #ce93d8);
+      box-shadow: 0 0 0 3px var(--ink);
+      color: var(--ink);
+    }
+    .syl-step3-answer strong {
+      display: inline-block;
+      margin: 0 0.06em;
+      padding: 0.08em 0.2em;
+      border-radius: 6px;
+      background: linear-gradient(180deg, #e1bee7, #ce93d8);
+      box-shadow: 0 0 0 2px var(--ink);
+      font-weight: 800;
+    }
+    .cact-slot {
+      width: 0.42rem;
+      margin: 0 0.02rem;
+      position: relative;
+      align-self: stretch;
+      min-height: 2.6rem;
+      display: flex;
+      justify-content: center;
+    }
+    .cact-slot::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      transform: translateX(-50%);
+      background: repeating-linear-gradient(
+        180deg,
+        var(--ink-soft),
+        var(--ink-soft) 4px,
+        transparent 4px,
+        transparent 7px
+      );
+      opacity: 0;
+      visibility: hidden;
+      border-radius: 1px;
+      transition: opacity 0.2s ease;
+    }
+    .cact-slot.is-cut-guide-visible::after {
+      opacity: 0.35;
+      visibility: visible;
+    }
+    .cact-scissor {
+      position: absolute;
+      left: 50%;
+      top: -2.4rem;
+      transform: translateX(-50%) rotate(-90deg);
+      font-size: 1.65rem;
+      line-height: 1;
+      filter: drop-shadow(1px 2px 0 rgba(61, 58, 69, 0.25));
+      opacity: 0;
+      pointer-events: none;
+      z-index: 3;
+    }
+    .cact-scissor.run {
+      animation: cact-scissor-cut 1.15s cubic-bezier(0.45, 0, 0.2, 1) forwards;
+    }
+    @keyframes cact-scissor-cut {
+      0% {
+        top: -2.4rem;
+        opacity: 1;
+      }
+      92% {
+        top: calc(100% + 0.15rem);
+        opacity: 1;
+      }
+      100% {
+        top: calc(100% + 0.15rem);
+        opacity: 0.75;
+      }
+    }
+    .cact-split-row {
+      display: none;
+      justify-content: center;
+      align-items: center;
+      gap: 0.65rem;
+      font-family: var(--font-display);
+      font-size: clamp(1.55rem, 5.5vw, 2.1rem);
+      font-weight: 800;
+    }
+    .cact-split-row.is-on {
+      display: flex;
+      animation: pop 0.45s ease;
+    }
+    .cact-split-row span {
+      padding: 0.25rem 0.5rem;
+      border: 3px solid var(--ink);
+      border-radius: 12px;
+      background: linear-gradient(180deg, #ffe082, #ffcc80);
+    }
+    .cact-step-block {
+      margin: 0.55rem 0;
+      padding: 0.55rem 0.65rem;
+      border: 2px dashed var(--ink-soft);
+      border-radius: 14px;
+      background: rgba(255, 253, 208, 0.45);
+    }
+    .cact-step-block h3,
+    .cact-step-block h4 {
+      font-family: var(--font-display);
+      text-align: center;
+      margin: 0 0 0.4rem;
+      font-size: 1.05rem;
+    }
+    .cact-step-block h4 {
+      font-size: 0.98rem;
+      margin-top: 0.35rem;
+    }
+    .cact-step-line {
+      font-size: 0.88rem;
+      font-weight: 700;
+      line-height: 1.5;
+      margin: 0.25rem 0;
+      color: var(--ink);
+    }
+    .cact-step-line .muted {
+      color: var(--ink-soft);
+      font-weight: 700;
+    }
+    .cact-reveal {
+      margin-top: 0.35rem;
+      padding: 0.45rem 0.55rem;
+      border-radius: 10px;
+      border: 2px solid var(--ink);
+      background: #fff;
+      font-weight: 800;
+      font-size: 0.88rem;
+      line-height: 1.5;
+    }
+    .cact-reveal[hidden] {
+      display: none !important;
+    }
+    .cact-step-block .btn-row {
+      margin-top: 0.35rem;
+    }
+    .cact-step-block[hidden] {
+      display: none !important;
+    }
+
+    .hw-syl-slide-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      text-align: center;
+      max-width: 48rem;
+      margin: 0 auto;
+      padding: 0.35rem 0.5rem 1rem;
+    }
+    .hw-syl-slide-inner .hw-syl-root {
+      width: 100%;
+    }
+    .hw-syl-hint {
+      font-size: clamp(0.82rem, 2.4vw, 0.95rem);
+      font-weight: 700;
+      color: var(--ink-soft);
+      line-height: 1.55;
+      max-width: 34rem;
+      margin: 0.35rem auto 0.65rem;
+    }
+    .hw-syl-prog {
+      margin-top: 0.25rem !important;
+      font-size: clamp(1rem, 3vw, 1.2rem) !important;
+    }
+    .hw-syl-word-panel {
+      margin: 0.85rem auto 0.5rem;
+      min-width: min(100%, 28rem);
+    }
+    .hw-syl-slide-inner .cact-chars-row {
+      font-size: clamp(2.35rem, 11vw, 4.5rem);
+      gap: 0.1rem;
+    }
+    .hw-syl-slide-inner .cact-chars-row .cact-ch {
+      padding: 0.28rem 0.22rem;
+      min-width: 0.52em;
+    }
+    .hw-syl-slide-inner .cact-slot {
+      min-height: 3.4rem;
+    }
+    .hw-syl-slide-inner .cact-scissor {
+      font-size: clamp(2rem, 7vw, 3rem);
+      top: -3rem;
+    }
+    .hw-syl-slide-inner .cact-scissor.run {
+      animation: cact-scissor-cut-hw 1.15s cubic-bezier(0.45, 0, 0.2, 1) forwards;
+    }
+    @keyframes cact-scissor-cut-hw {
+      0% {
+        top: -3rem;
+        opacity: 1;
+      }
+      92% {
+        top: calc(100% + 0.2rem);
+        opacity: 1;
+      }
+      100% {
+        top: calc(100% + 0.2rem);
+        opacity: 0.75;
+      }
+    }
+    .hw-syl-slide-inner .cact-split-row {
+      font-size: clamp(1.75rem, 6vw, 2.85rem);
+      gap: 0.85rem;
+      margin-top: 0.35rem;
+    }
+    .hw-syl-slide-inner .cact-split-row span {
+      padding: 0.35rem 0.65rem;
+    }
+    .hw-syl-slot-clickable {
+      cursor: pointer;
+      min-width: 1.1rem !important;
+      margin: 0 0.12rem !important;
+    }
+    .hw-syl-slot-clickable:focus-visible {
+      outline: 3px solid var(--ink);
+      outline-offset: 2px;
+      border-radius: 4px;
+    }
+    .hw-syl-btn-row {
+      margin-top: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+    .hw-syl-reset-btn {
+      font-size: 0.88rem;
+      padding: 0.45rem 0.85rem;
+      background: rgba(255, 255, 255, 0.85);
+      border: 2px dashed var(--ink-soft);
+      box-shadow: 2px 2px 0 var(--shadow);
+    }
+  </style>
+</head>
+<body>
+  <div class="deck">
+    <!-- Slide 1：26 字母 + Azure TTS + 分类 + 小车比喻 -->
+    <section class="slide active" data-slide="0" aria-label="Slide 1">
+      <div class="slide-inner">
+        <h1 class="slide-title">The Magic of Syllables</h1>
+
+        <div class="prompt-banner" id="banner-p1-question">
+          英文字母分为两类，是哪两类？
+        </div>
+        <div class="btn-row" style="flex-direction: column; align-items: center; gap: 0.35rem;">
+          <button type="button" class="btn" id="btn-p1-next" style="min-width: 12rem; font-size: 1.05rem; padding: 0.55rem 1.4rem">
+            下一步
+          </button>
+          <p id="p1-next-hint" style="font-size: 0.85rem; font-weight: 800; color: var(--ink-soft); text-align: center; margin: 0; max-width: 24rem; line-height: 1.45">
+            第 1 步：听英文提问
+          </p>
+        </div>
+
+        <div class="syll-reveal" id="banner-p1-answer-line" hidden style="text-align: center; font-size: 1rem">
+          两大类：<strong>元音字母 Vowels</strong> 与 <strong>辅音字母 Consonants</strong>。
+        </div>
+
+        <div id="page1-classify-area" hidden>
+          <div class="prompt-banner" id="banner-p1-instruction" hidden style="margin-bottom: 0.45rem">
+            请把<strong>元音字母</strong>放进<strong>粉盒子</strong>，其余稍后放进<strong>紫盒子</strong>（辅音盒）。
+          </div>
+          <p style="text-align:center;font-weight:800;font-size:0.88rem;margin:0.45rem 0 0.35rem;">
+            字母池（可拖拽，或：先点字母再点盒子）
+          </p>
+          <div class="classify-pool" id="letter-pool" aria-label="字母池"></div>
+
+          <div class="classify-row">
+            <div class="drop-box vowel" id="drop-vowel" data-box="vowel">
+              <h4>Vowels 元音盒（粉） <button type="button" class="speak" data-speak="The letters A, E, I, O, and U are vowel letters. Put them in the pink vowel box." title="Azure English">🔊</button></h4>
+              <div class="drop-inner" id="inner-vowel"></div>
+            </div>
+            <div class="drop-box con" id="drop-con" data-box="con">
+              <h4>Consonants 辅音盒（紫） <button type="button" class="speak" data-speak="The other letters are consonant letters. In this lesson, Y is grouped with the consonants. Put the rest in the purple consonant box." title="Azure English">🔊</button></h4>
+              <div class="drop-inner" id="inner-con"></div>
+            </div>
+          </div>
+
+          <div class="btn-row">
+            <button type="button" class="btn" id="btn-move-rest">把剩下的放进辅音盒</button>
+            <button type="button" class="btn" id="btn-check-letters">检查分类 ✓</button>
+            <button type="button" class="btn" id="btn-reset-letters">重置字母</button>
+          </div>
+          <p class="class-feedback" id="letter-class-feedback" aria-live="polite"></p>
+        </div>
+
+        <div class="prompt-banner" id="banner-q2" hidden>
+          什么是元音字母和辅音字母？
+        </div>
+        <div class="btn-row">
+          <button type="button" class="btn" id="btn-play-q2">🔊 听讲解（Azure）</button>
+          <button type="button" class="btn" id="btn-show-metaphor">看动画：气流比喻 🚗</button>
+        </div>
+
+        <div class="car-demo-wrap" id="car-metaphor" hidden>
+          <p style="text-align:center;font-weight:800;margin-bottom:0.35rem;">小车在公路上跑 = 气流；<strong>停牌</strong> = 气流被「挡住」</p>
+          <div class="car-scene" id="scene-stop" aria-label="辅音比喻：遇阻停车">
+            <div class="car-road"></div>
+            <div class="car-stop-sign">停</div>
+            <div class="car-body" aria-hidden="true"></div>
+          </div>
+          <p class="car-caption">辅音：气流在口腔中有阻碍、摩擦或停顿 —— 像遇到停牌，小车要<strong>停下来</strong>。</p>
+
+          <div class="car-scene" id="scene-free" aria-label="元音比喻：一路畅通">
+            <div class="car-road"></div>
+            <div class="car-body" aria-hidden="true"></div>
+          </div>
+          <p class="car-caption">元音：气流从喉咙出来较<strong>畅通</strong>，口腔阻碍小 —— 像路上没有停牌，小车可以<strong>一直开</strong>。</p>
+
+          <div class="btn-row">
+            <button type="button" class="btn" id="btn-replay-cars">重播动画 + Azure 解说</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 2：音乐中的节拍（视频 + beat） -->
+    <section class="slide" data-slide="1" aria-label="音乐中的节拍" id="slide-music-beat">
+      <div class="slide-inner">
+        <h2 class="slide-title">音乐中的节拍</h2>
+
+        <div class="syll-video-block">
+          <p style="font-weight:800;text-align:center;margin-bottom:0.35rem;">歌曲：We Will Rock You（课堂节选）</p>
+          <video id="wwry-local" controls playsinline preload="metadata" poster="">
+            <source src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/media/We-Will-Rock-You.mp4" type="video/mp4" />
+            浏览器不支持 video 标签。
+          </video>
+        </div>
+
+        <div class="btn-row" style="flex-direction: column; align-items: center; gap: 0.35rem; margin: 0.55rem 0">
+          <button type="button" class="btn" id="btn-beat-next" style="min-width: 12rem; font-size: 1.05rem; padding: 0.55rem 1.4rem">
+            下一步
+          </button>
+          <p
+            id="beat-next-hint"
+            style="font-size: 0.85rem; font-weight: 800; color: var(--ink-soft); text-align: center; margin: 0; max-width: 26rem; line-height: 1.45"
+          >
+            第 1 步：听英文指令，跟音乐拍子拍手
+          </p>
+        </div>
+
+        <div class="syll-reveal" id="syll-panel-post" hidden>
+          <p style="margin-bottom: 0.45rem">想一想：你拍手是跟着音乐的什么在拍？</p>
+        </div>
+
+        <div class="beat-big" id="syll-beat-word" hidden>BEAT · 节拍</div>
+
+        <div class="syll-reveal" id="syll-panel-eng-beat" hidden aria-hidden="true"></div>
+      </div>
+    </section>
+
+    <!-- Slide 3：单词中的音节（watermelon） -->
+    <section class="slide" data-slide="2" aria-label="单词中的音节" id="slide-word-syllables">
+      <div class="slide-inner">
+        <h2 class="slide-title">单词中的音节</h2>
+
+        <div class="btn-row" style="flex-direction: column; align-items: center; gap: 0.35rem; margin: 0.55rem 0">
+          <button type="button" class="btn" id="btn-word-syll-next" style="min-width: 12rem; font-size: 1.05rem; padding: 0.55rem 1.4rem">
+            下一步
+          </button>
+          <p
+            id="word-syll-next-hint"
+            style="font-size: 0.85rem; font-weight: 800; color: var(--ink-soft); text-align: center; margin: 0; max-width: 26rem; line-height: 1.45"
+          >
+            第 1 步：听单词 watermelon 与活动说明（跟读拍手）
+          </p>
+        </div>
+
+        <div class="syll-reveal" style="margin-top: 0.35rem">
+          <p style="text-align:center;margin-bottom:0.45rem;font-weight:800;">看西瓜 · 读单词</p>
+          <div class="watermelon-card">
+            <div class="wm-visual-wrap">
+              <img
+                id="wm-photo"
+                src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/media/watermelon.png"
+                width="200"
+                height="200"
+                alt="Watermelon 西瓜"
+              />
+              <div class="wm-emoji-fallback" id="wm-emoji-fallback" hidden aria-hidden="true">🍉</div>
+            </div>
+            <div class="wm-word-block">
+              <div class="wm-word">watermelon</div>
+              <div class="wm-claps" id="wm-claps" hidden aria-hidden="true" role="img" aria-label="四拍，对应四个音节 wa · ter · me · lon">
+                <span aria-hidden="true">👏</span>
+                <span aria-hidden="true">👏</span>
+                <span aria-hidden="true">👏</span>
+                <span aria-hidden="true">👏</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="syll-reveal" id="syll-conclusion-box" hidden>
+          <h4 style="font-family:var(--font-display);text-align:center;margin-bottom:0.5rem;">结论</h4>
+          <ul style="list-style:none;font-weight:800;line-height:1.6;font-size:0.95rem;">
+            <li>· 单词里的<strong>音节</strong>，就像音乐里的<strong>节拍</strong>，我们可以用手拍出来。</li>
+            <li>· 学习单词的<strong>音节</strong>，帮助我们<strong>更好地朗读</strong>和<strong>记忆拼写</strong>。</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 4：音节的数量（watermelon / mango / cat / robot / tornado） -->
+    <section class="slide" data-slide="3" aria-label="音节的数量" id="slide-syllable-count">
+      <div class="slide-inner">
+        <h2 class="slide-title">音节的数量</h2>
+        <p class="sc-page-lead">
+          每个音节大约对应一次「拍手」：音节越多，通常拍的次数越多（每个音节一般有一个元音核）。先观察 <strong>watermelon</strong>，再依次尝试
+          <strong>mango</strong>、<strong>cat</strong>、<strong>robot</strong>、<strong>tornado</strong>。
+        </p>
+
+        <div class="syll-reveal sc-block" id="sc-block-watermelon">
+          <p style="text-align: center; font-weight: 800; margin-bottom: 0.35rem">watermelon · 4 个音节</p>
+          <div class="watermelon-card">
+            <div class="wm-visual-wrap">
+              <img
+                id="sc-img-watermelon"
+                src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/media/watermelon.png"
+                width="200"
+                height="200"
+                alt="watermelon"
+              />
+              <div class="wm-emoji-fallback" id="sc-fb-watermelon" hidden aria-hidden="true">🍉</div>
+            </div>
+            <div class="wm-word-block">
+              <div class="wm-word">watermelon</div>
+              <div class="wm-claps" role="img" aria-label="四拍 wa ter me lon">
+                <span aria-hidden="true">👏</span>
+                <span aria-hidden="true">👏</span>
+                <span aria-hidden="true">👏</span>
+                <span aria-hidden="true">👏</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sc-show-chain">
+          <button type="button" class="btn" id="btn-sc-show-mango">展示 mango 与图片</button>
+        </div>
+
+        <div class="syll-reveal sc-block" id="sc-block-mango" hidden>
+          <p style="text-align: center; font-weight: 800; margin-bottom: 0.35rem">mango · 2 个音节</p>
+          <div class="watermelon-card">
+            <div class="wm-visual-wrap">
+              <img id="sc-img-mango" src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/media/mango.png" width="200" height="200" alt="mango" />
+              <div class="wm-emoji-fallback" id="sc-fb-mango" hidden aria-hidden="true">🥭</div>
+            </div>
+            <div class="wm-word-block">
+              <div class="wm-word">mango</div>
+              <div class="wm-claps" id="sc-claps-mango" hidden aria-hidden="true" role="img" aria-label="两拍 man go">
+                <span aria-hidden="true">👏</span>
+                <span aria-hidden="true">👏</span>
+              </div>
+              <div class="sc-inner-actions">
+                <button type="button" class="btn" id="btn-sc-speak-mango">🔊 Azure 朗读 mango</button>
+                <button type="button" class="btn" id="btn-sc-claps-mango">在单词下方显示拍手</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sc-show-chain">
+          <button type="button" class="btn" id="btn-sc-show-cat" hidden disabled>展示 cat 与图片</button>
+        </div>
+
+        <div class="syll-reveal sc-block" id="sc-block-cat" hidden>
+          <p style="text-align: center; font-weight: 800; margin-bottom: 0.35rem">cat · 1 个音节（闭音节短元音）</p>
+          <div class="watermelon-card">
+            <div class="wm-visual-wrap">
+              <img id="sc-img-cat" src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/media/cat.png" width="200" height="200" alt="cat" />
+              <div class="wm-emoji-fallback" id="sc-fb-cat" hidden aria-hidden="true">🐱</div>
+            </div>
+            <div class="wm-word-block">
+              <div class="wm-word">cat</div>
+              <div class="wm-claps" id="sc-claps-cat" hidden aria-hidden="true" role="img" aria-label="一拍 cat">
+                <span aria-hidden="true">👏</span>
+              </div>
+              <div class="sc-inner-actions">
+                <button type="button" class="btn" id="btn-sc-speak-cat">🔊 Azure 朗读 cat</button>
+                <button type="button" class="btn" id="btn-sc-claps-cat">在单词下方显示拍手</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sc-show-chain">
+          <button type="button" class="btn" id="btn-sc-show-robot" hidden disabled>展示 robot 与图片</button>
+        </div>
+
+        <div class="syll-reveal sc-block" id="sc-block-robot" hidden>
+          <p style="text-align: center; font-weight: 800; margin-bottom: 0.35rem">robot · 2 个音节</p>
+          <div class="watermelon-card">
+            <div class="wm-visual-wrap">
+              <img id="sc-img-robot" src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/media/robot.png" width="200" height="200" alt="robot" />
+              <div class="wm-emoji-fallback" id="sc-fb-robot" hidden aria-hidden="true">🤖</div>
+            </div>
+            <div class="wm-word-block">
+              <div class="wm-word">robot</div>
+              <div class="wm-claps" id="sc-claps-robot" hidden aria-hidden="true" role="img" aria-label="两拍 ro bot">
+                <span aria-hidden="true">👏</span>
+                <span aria-hidden="true">👏</span>
+              </div>
+              <div class="sc-inner-actions">
+                <button type="button" class="btn" id="btn-sc-speak-robot">🔊 Azure 朗读 robot</button>
+                <button type="button" class="btn" id="btn-sc-claps-robot">在单词下方显示拍手</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sc-show-chain">
+          <button type="button" class="btn" id="btn-sc-show-tornado" hidden disabled>展示 tornado 与图片</button>
+        </div>
+
+        <div class="syll-reveal sc-block" id="sc-block-tornado" hidden>
+          <p style="text-align: center; font-weight: 800; margin-bottom: 0.35rem">tornado · 3 个音节</p>
+          <div class="watermelon-card">
+            <div class="wm-visual-wrap">
+              <img id="sc-img-tornado" src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/media/tornado.png" width="200" height="200" alt="tornado" />
+              <div class="wm-emoji-fallback" id="sc-fb-tornado" hidden aria-hidden="true">🌪️</div>
+            </div>
+            <div class="wm-word-block">
+              <div class="wm-word">tornado</div>
+              <div class="wm-claps" id="sc-claps-tornado" hidden aria-hidden="true" role="img" aria-label="三拍 tor na do">
+                <span aria-hidden="true">👏</span>
+                <span aria-hidden="true">👏</span>
+                <span aria-hidden="true">👏</span>
+              </div>
+              <div class="sc-inner-actions">
+                <button type="button" class="btn" id="btn-sc-speak-tornado">🔊 Azure 朗读 tornado</button>
+                <button type="button" class="btn" id="btn-sc-claps-tornado">在单词下方显示拍手</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 5：第一种音节类型 · 闭音节（CVC） -->
+    <section class="slide" data-slide="4" aria-label="第一种音节类型 闭音节" id="slide-cvc-vowels">
+      <div class="slide-inner">
+        <h2 class="slide-title">第一种音节类型 闭音节</h2>
+
+        <div class="cvc-page-questions">
+          <p>
+            What sound does each vowel letter make in a CVC word?
+            <button type="button" class="speak" data-speak="What sound does each vowel letter make in a CVC word?" aria-label="Azure 朗读问题 1">🔊</button>
+          </p>
+          <p>
+            Can you think of a CVC word for each vowel letter A, E, I, O, or U?
+            <button type="button" class="speak" data-speak="Can you think of a CVC word for each vowel letter A, E, I, O, or U?" aria-label="Azure 朗读问题 2">🔊</button>
+          </p>
+        </div>
+
+        <div class="cvc-student-input">
+          <label for="cvc-word-input">输入 CVC 单词（可多词，用空格或英文逗号分隔）</label>
+          <div class="cvc-input-row">
+            <input type="text" id="cvc-word-input" autocomplete="off" placeholder="例如：cat, pen, big" maxlength="500" />
+            <button type="button" class="btn" id="btn-cvc-add-words">生成单词卡片</button>
+            <button type="button" class="btn" id="btn-cvc-fill-ten">补全到每元音 10 词</button>
+            <button type="button" class="btn" id="btn-cvc-clear-cards" style="background: rgba(255, 255, 255, 0.9)">清空词卡</button>
+          </div>
+          <p class="cvc-input-feedback mix" id="cvc-input-feedback" aria-live="polite"></p>
+        </div>
+
+        <div class="cvc-vowel-board" id="cvc-vowel-board" aria-label="按中间元音 A E I O U 分列的 CVC 词卡"></div>
+
+        <div class="btn-row">
+          <button type="button" class="btn" id="btn-reveal-cvc-rule">揭晓结论：CVC 里元音发什么音？</button>
+        </div>
+
+        <div class="cvc-conclusion" id="cvc-conclusion" hidden>
+          <h4>我们一起得出结论（CVC = Consonant–Vowel–Consonant）</h4>
+          <ul>
+            <li><strong>A</strong> 在 CVC 中常发 <strong>短音 /æ/</strong>（如 <em>cat</em> 里的 a，嘴张大「啊」）</li>
+            <li><strong>E</strong> 在 CVC 中常发 <strong>短音 /e/</strong>（如 <em>pen</em> 里的 e）</li>
+            <li><strong>I</strong> 在 CVC 中常发 <strong>短音 /ɪ/</strong>（如 <em>big</em> 里的 i）</li>
+            <li><strong>O</strong> 在 CVC 中常发 <strong>短音</strong>（如 <em>hot</em> 里的 o；英音多 /ɒ/，美音常更接近 /ɑː/，以教师示范为准）</li>
+            <li><strong>U</strong> 在 CVC 中常发 <strong>短音 /ʌ/</strong>（如 <em>cup</em> 里的 u）</li>
+          </ul>
+          <div class="btn-row" style="margin-top:0.55rem;">
+            <button type="button" class="btn" id="btn-speak-cvc-rule-en">🔊 Azure：用英语总结短元音</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 6：闭音节单词的特点（小房子图示） -->
+    <section class="slide" data-slide="5" aria-label="闭音节单词的特点" id="slide-closed-syllable-trait">
+      <div class="slide-inner">
+        <h2 class="slide-title">闭音节单词的特点</h2>
+        <p class="slide-sub" style="text-align: center; margin-top: 0.15rem">一扇关上的门 · 元音被「关在家里」</p>
+
+        <div class="closed-syll-trait-page">
+          <p class="csh-intro">
+            下面用<strong>单音节 CVC 词</strong>来感受「关门」：每个词一座小房子，<strong>门都是关着的</strong>，门上只写着这一音节里<strong>元音后面的那个辅音字母</strong>（即单词的最后一个字母）。看一看
+            <strong>got、him、wed、bet、men、nod</strong>，想一想它们有什么<strong>共同点</strong>？
+          </p>
+
+          <div class="csh-grid" role="list" aria-label="六个闭音节例词小房子">
+            <div class="csh-house" role="listitem">
+              <div class="csh-roof-wrap" aria-hidden="true">
+                <div class="csh-chimney"></div>
+                <div class="csh-roof"></div>
+              </div>
+              <div class="csh-wall">
+                <div class="csh-body">
+                  <div class="csh-windows"><span></span><span></span></div>
+                  <span class="csh-letters">go</span>
+                </div>
+                <div class="csh-door" aria-label="门关着，门上是辅音字母 t" title="门关着">
+                  <span class="csh-door-cons">t</span>
+                </div>
+              </div>
+              <span class="csh-word-cap">got</span>
+            </div>
+
+            <div class="csh-house" role="listitem">
+              <div class="csh-roof-wrap" aria-hidden="true">
+                <div class="csh-chimney"></div>
+                <div class="csh-roof"></div>
+              </div>
+              <div class="csh-wall">
+                <div class="csh-body">
+                  <div class="csh-windows"><span></span><span></span></div>
+                  <span class="csh-letters">hi</span>
+                </div>
+                <div class="csh-door" aria-label="门关着，辅音 m" title="门关着">
+                  <span class="csh-door-cons">m</span>
+                </div>
+              </div>
+              <span class="csh-word-cap">him</span>
+            </div>
+
+            <div class="csh-house" role="listitem">
+              <div class="csh-roof-wrap" aria-hidden="true">
+                <div class="csh-chimney"></div>
+                <div class="csh-roof"></div>
+              </div>
+              <div class="csh-wall">
+                <div class="csh-body">
+                  <div class="csh-windows"><span></span><span></span></div>
+                  <span class="csh-letters">we</span>
+                </div>
+                <div class="csh-door" title="门关着">
+                  <span class="csh-door-cons">d</span>
+                </div>
+              </div>
+              <span class="csh-word-cap">wed</span>
+            </div>
+
+            <div class="csh-house" role="listitem">
+              <div class="csh-roof-wrap" aria-hidden="true">
+                <div class="csh-chimney"></div>
+                <div class="csh-roof"></div>
+              </div>
+              <div class="csh-wall">
+                <div class="csh-body">
+                  <div class="csh-windows"><span></span><span></span></div>
+                  <span class="csh-letters">be</span>
+                </div>
+                <div class="csh-door" title="门关着">
+                  <span class="csh-door-cons">t</span>
+                </div>
+              </div>
+              <span class="csh-word-cap">bet</span>
+            </div>
+
+            <div class="csh-house" role="listitem">
+              <div class="csh-roof-wrap" aria-hidden="true">
+                <div class="csh-chimney"></div>
+                <div class="csh-roof"></div>
+              </div>
+              <div class="csh-wall">
+                <div class="csh-body">
+                  <div class="csh-windows"><span></span><span></span></div>
+                  <span class="csh-letters">me</span>
+                </div>
+                <div class="csh-door" title="门关着">
+                  <span class="csh-door-cons">n</span>
+                </div>
+              </div>
+              <span class="csh-word-cap">men</span>
+            </div>
+
+            <div class="csh-house" role="listitem">
+              <div class="csh-roof-wrap" aria-hidden="true">
+                <div class="csh-chimney"></div>
+                <div class="csh-roof"></div>
+              </div>
+              <div class="csh-wall">
+                <div class="csh-body">
+                  <div class="csh-windows"><span></span><span></span></div>
+                  <span class="csh-letters">no</span>
+                </div>
+                <div class="csh-door" title="门关着">
+                  <span class="csh-door-cons">d</span>
+                </div>
+              </div>
+              <span class="csh-word-cap">nod</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="btn-row" style="margin-top: 0.55rem">
+          <button type="button" class="btn" id="btn-reveal-closed-trait">揭晓共同点</button>
+        </div>
+
+        <div class="syll-reveal closed-syll-trait-ans" id="closed-trait-answer" hidden>
+          <p style="margin: 0; font-weight: 800">
+            这些单词<strong>都以辅音字母结尾</strong>。末尾的辅音像一扇<strong>关上的门</strong>，把元音字母<strong>「关在家里」</strong>，元音的声音<strong>不易拖长</strong>，所以在<strong>这类闭音节（如 CVC）</strong>里，元音字母通常发<strong>短音</strong>（多音节词中某一音节也可能是闭音节，规则要放到该音节上看）。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 7～15：识别音节（cactus → ostrich，同一结构、同一流程） -->
+    <section class="slide" data-slide="6" aria-label="音节划分 cactus" id="slide-cactus-syllables">
+      <div class="slide-inner cact-lesson"><div class="syl-lesson-root" data-syl-id="cactus"></div></div>
+    </section>
+
+    <section class="slide" aria-label="音节划分 mitten">
+      <div class="slide-inner cact-lesson"><div class="syl-lesson-root" data-syl-id="mitten"></div></div>
+    </section>
+    <section class="slide" aria-label="音节划分 magnet">
+      <div class="slide-inner cact-lesson"><div class="syl-lesson-root" data-syl-id="magnet"></div></div>
+    </section>
+    <section class="slide" aria-label="音节划分 sunset">
+      <div class="slide-inner cact-lesson"><div class="syl-lesson-root" data-syl-id="sunset"></div></div>
+    </section>
+    <section class="slide" aria-label="音节划分 hundred">
+      <div class="slide-inner cact-lesson"><div class="syl-lesson-root" data-syl-id="hundred"></div></div>
+    </section>
+    <section class="slide" aria-label="音节划分 address">
+      <div class="slide-inner cact-lesson"><div class="syl-lesson-root" data-syl-id="address"></div></div>
+    </section>
+    <section class="slide" aria-label="音节划分 contract">
+      <div class="slide-inner cact-lesson"><div class="syl-lesson-root" data-syl-id="contract"></div></div>
+    </section>
+    <section class="slide" aria-label="音节划分 instruct">
+      <div class="slide-inner cact-lesson"><div class="syl-lesson-root" data-syl-id="instruct"></div></div>
+    </section>
+    <section class="slide" aria-label="音节划分 ostrich">
+      <div class="slide-inner cact-lesson"><div class="syl-lesson-root" data-syl-id="ostrich"></div></div>
+    </section>
+
+    <!-- 课后作业：每词一页（交互 + Azure 朗读） -->
+    <section class="slide hw-syl-slide" aria-label="作业 cotton">
+      <div class="slide-inner hw-syl-slide-inner"><div class="hw-syl-root" data-hw-syl="cotton"></div></div>
+    </section>
+    <section class="slide hw-syl-slide" aria-label="作业 traffic">
+      <div class="slide-inner hw-syl-slide-inner"><div class="hw-syl-root" data-hw-syl="traffic"></div></div>
+    </section>
+    <section class="slide hw-syl-slide" aria-label="作业 nutmeg">
+      <div class="slide-inner hw-syl-slide-inner"><div class="hw-syl-root" data-hw-syl="nutmeg"></div></div>
+    </section>
+    <section class="slide hw-syl-slide" aria-label="作业 wisdom">
+      <div class="slide-inner hw-syl-slide-inner"><div class="hw-syl-root" data-hw-syl="wisdom"></div></div>
+    </section>
+    <section class="slide hw-syl-slide" aria-label="作业 distress">
+      <div class="slide-inner hw-syl-slide-inner"><div class="hw-syl-root" data-hw-syl="distress"></div></div>
+    </section>
+    <section class="slide hw-syl-slide" aria-label="作业 abstract">
+      <div class="slide-inner hw-syl-slide-inner"><div class="hw-syl-root" data-hw-syl="abstract"></div></div>
+    </section>
+    <section class="slide hw-syl-slide" aria-label="作业 gossip">
+      <div class="slide-inner hw-syl-slide-inner"><div class="hw-syl-root" data-hw-syl="gossip"></div></div>
+    </section>
+    <section class="slide hw-syl-slide" aria-label="作业 sputter">
+      <div class="slide-inner hw-syl-slide-inner"><div class="hw-syl-root" data-hw-syl="sputter"></div></div>
+    </section>
+    <section class="slide hw-syl-slide" aria-label="作业 kitten">
+      <div class="slide-inner hw-syl-slide-inner"><div class="hw-syl-root" data-hw-syl="kitten"></div></div>
+    </section>
+    <section class="slide hw-syl-slide" aria-label="作业 rotten">
+      <div class="slide-inner hw-syl-slide-inner"><div class="hw-syl-root" data-hw-syl="rotten"></div></div>
+    </section>
+    <section class="slide hw-syl-slide" aria-label="作业 velvet">
+      <div class="slide-inner hw-syl-slide-inner"><div class="hw-syl-root" data-hw-syl="velvet"></div></div>
+    </section>
+    <section class="slide hw-syl-slide" aria-label="作业 napkin">
+      <div class="slide-inner hw-syl-slide-inner"><div class="hw-syl-root" data-hw-syl="napkin"></div></div>
+    </section>
+    <section class="slide hw-syl-slide" aria-label="作业 pumpkin">
+      <div class="slide-inner hw-syl-slide-inner"><div class="hw-syl-root" data-hw-syl="pumpkin"></div></div>
+    </section>
+    <section class="slide hw-syl-slide" aria-label="作业 complex">
+      <div class="slide-inner hw-syl-slide-inner"><div class="hw-syl-root" data-hw-syl="complex"></div></div>
+    </section>
+    <section class="slide hw-syl-slide" aria-label="作业 entrap">
+      <div class="slide-inner hw-syl-slide-inner"><div class="hw-syl-root" data-hw-syl="entrap"></div></div>
+    </section>
+    <section class="slide hw-syl-slide" aria-label="作业 impress">
+      <div class="slide-inner hw-syl-slide-inner"><div class="hw-syl-root" data-hw-syl="impress"></div></div>
+    </section>
+    <section class="slide hw-syl-slide" aria-label="作业 helmet">
+      <div class="slide-inner hw-syl-slide-inner"><div class="hw-syl-root" data-hw-syl="helmet"></div></div>
+    </section>
+    <section class="slide hw-syl-slide" aria-label="作业 admit">
+      <div class="slide-inner hw-syl-slide-inner"><div class="hw-syl-root" data-hw-syl="admit"></div></div>
+    </section>
+    <section class="slide hw-syl-slide" aria-label="作业 backpack">
+      <div class="slide-inner hw-syl-slide-inner"><div class="hw-syl-root" data-hw-syl="backpack"></div></div>
+    </section>
+
+    <!-- 小结 -->
+    <section class="slide" aria-label="Slide 小结">
+      <div class="slide-inner">
+        <h2 class="slide-title">小结 · 记住啦</h2>
+        <ul style="font-size:1.05rem;font-weight:700;line-height:1.7;max-width:32rem;margin:0 auto;list-style:none;">
+          <li>✏️ 闭音节：元音后面有辅音「关门」→ <strong>短元音</strong>
+            <button type="button" class="speak" data-speak="In a closed syllable, the vowel is closed in and usually says its short sound." aria-label="朗读小结1">🔊</button>
+          </li>
+          <li style="margin-top:0.5rem;">✏️ 两个元音之间若有两个辅音字母 → 常在<strong>两辅音中间劈开</strong>（许多双音节词如此；也有例外，需结合词形与读音）
+            <button type="button" class="speak" data-speak="When two consonants stand between two vowels, we often split between them. There are exceptions." aria-label="朗读小结2">🔊</button>
+          </li>
+          <li style="margin-top:0.5rem;">✏️ 多听多读：<strong>节拍</strong>就是 <strong>syllables</strong>
+            <button type="button" class="speak" data-speak="Syllables are the beats we hear in a word. Great job today!" aria-label="朗读小结3">🔊</button>
+          </li>
+        </ul>
+        <figure class="illustration" style="margin-top:1.2rem;">
+          <img
+            src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='360' height='200' viewBox='0 0 360 200'%3E%3Crect fill='%23ffb7b2' width='360' height='200' rx='16'/%3E%3Ctext x='180' y='105' text-anchor='middle' font-size='14' fill='%233d3a45'%3EYou did it!%3C/text%3E%3C/svg%3E"
+            width="360"
+            height="200"
+            alt="Vertex AI image prompt: Celebration scene with stars and confetti drawn in thick crayon strokes, trophy made of colored wax lines, warm encouraging mood for elementary students, Crayon drawing style, storybook illustration, soft textures, pastel rainbow macaron palette, no text in image."
+          />
+        </figure>
+      </div>
+    </section>
+
+    <nav class="nav-bar" aria-label="幻灯片导航">
+      <button type="button" class="btn" id="btn-prev" aria-label="上一页">← 上一页</button>
+      <div class="dots" id="dots" role="tablist" aria-label="页码"></div>
+      <button type="button" class="btn" id="btn-next" aria-label="下一页">下一页 →</button>
+    </nav>
+  </div>
+
+  <!--
+    安全说明：将密钥写在本文件内会在浏览器中暴露给任何打开页面的人。
+    以下 CONFIG 供课堂离线/内网使用；公开部署请改用后端代理，勿把密钥写进可公开访问的 HTML。
+  -->
+  <script src="asset/mp3/tts-urls.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/microsoft-cognitiveservices-speech-sdk@1.40.0/distrib/browser/microsoft.cognitiveservices.speech.sdk.bundle-min.js"></script>
+  <script>
+    (function () {
+      /** @type {{ AZURE_SPEECH_KEY: string, AZURE_SPEECH_REGION: string }} */
+      /* 课堂离线使用：密钥写在文件中。若失效请在 Azure 门户轮换密钥后替换下方字符串。 */
+      var CONFIG = {
+        AZURE_SPEECH_KEY:
+          "DKRXk8ueSfo5NdIOMqFRTCAfpeGDezJ3Snf5K8gGgtyqxiWdugLzJQQJ99BLACHYHv6XJ3w3AAAYACOGUYP9",
+        AZURE_SPEECH_REGION: "eastus2"
+      };
+
+      var AZH = "zh-CN-XiaoxiaoNeural";
+      var AEN = "en-US-JennyNeural";
+
+      var azureSpeaking = false;
+      var currentSynth = null;
+
+      function getAzureCreds() {
+        var ik = document.getElementById("azure-key");
+        var irg = document.getElementById("azure-region");
+        var k = (CONFIG.AZURE_SPEECH_KEY || "").trim();
+        if (!k && ik) {
+          k = (ik.value || "").trim();
+        }
+        if (!k) {
+          k = localStorage.getItem("azure_speech_key") || "";
+        }
+        var r = "eastus2";
+        if (irg && (irg.value || "").trim()) {
+          r = (irg.value || "").trim();
+        } else if ((CONFIG.AZURE_SPEECH_REGION || "").trim()) {
+          r = (CONFIG.AZURE_SPEECH_REGION || "").trim();
+        } else if (localStorage.getItem("azure_speech_region")) {
+          r = localStorage.getItem("azure_speech_region");
+        }
+        return { key: k, region: r || "eastus2" };
+      }
+
+      function azureSpeak(text, voiceName) {
+        var vn = voiceName || AZH;
+        if (typeof window !== "undefined" && window.hasLocalTtsMp3 && window.hasLocalTtsMp3(text, vn)) {
+          if (azureSpeaking && currentSynth) {
+            try {
+              currentSynth.close();
+            } catch (e0) {}
+            currentSynth = null;
+            azureSpeaking = false;
+          }
+          return window.playLocalTtsMp3(text, vn).catch(function () {
+            return azureSpeakLive(text, vn);
+          });
+        }
+        return azureSpeakLive(text, vn);
+      }
+
+      function azureSpeakLive(text, voiceName) {
+        return new Promise(function (resolve, reject) {
+          var creds = getAzureCreds();
+          if (!creds.key) {
+            alert("未配置 Azure Speech 密钥：请在 HTML 内 CONFIG.AZURE_SPEECH_KEY 中填写，或设置 localStorage.azure_speech_key。");
+            reject(new Error("no key"));
+            return;
+          }
+          if (typeof SpeechSDK === "undefined") {
+            alert("Azure Speech SDK 未加载，请检查网络后刷新页面。");
+            reject(new Error("no sdk"));
+            return;
+          }
+          if (azureSpeaking && currentSynth) {
+            try {
+              currentSynth.close();
+            } catch (e1) {}
+            currentSynth = null;
+            azureSpeaking = false;
+          }
+          var sc = SpeechSDK.SpeechConfig.fromSubscription(creds.key, creds.region);
+          sc.speechSynthesisVoiceName = voiceName || AZH;
+          currentSynth = new SpeechSDK.SpeechSynthesizer(sc, undefined);
+          azureSpeaking = true;
+          currentSynth.speakTextAsync(
+            text,
+            function (r) {
+              azureSpeaking = false;
+              try {
+                currentSynth.close();
+              } catch (e2) {}
+              currentSynth = null;
+              if (r.reason === SpeechSDK.ResultReason.SynthesizingAudioCompleted) resolve();
+              else reject(new Error(r.errorDetails || "synthesis failed"));
+            },
+            function (err) {
+              azureSpeaking = false;
+              try {
+                currentSynth.close();
+              } catch (e3) {}
+              currentSynth = null;
+              alert("Azure 朗读失败：" + (err || "未知错误") + "。请核对密钥、区域与 Speech 服务是否已开通。");
+              reject(err);
+            }
+          );
+        });
+      }
+
+      function speak(text) {
+        return azureSpeak(text, AEN);
+      }
+
+      var pool = document.getElementById("letter-pool");
+      var innerV = document.getElementById("inner-vowel");
+      var innerC = document.getElementById("inner-con");
+      var fbClass = document.getElementById("letter-class-feedback");
+      var picked = null;
+
+      function clearPick() {
+        if (picked) picked.classList.remove("pick");
+        picked = null;
+        document.querySelectorAll(".lz").forEach(function (x) {
+          x.classList.remove("pick");
+        });
+      }
+
+      function makeLetter(ch) {
+        var el = document.createElement("div");
+        var tone = (ch.charCodeAt(0) - 65) % 7;
+        el.className = "lz lz-tone-" + tone;
+        el.textContent = ch;
+        el.draggable = true;
+        el.dataset.letter = ch;
+        el.setAttribute("aria-label", "字母 " + ch);
+        el.addEventListener("click", function (e) {
+          e.stopPropagation();
+          if (picked === el) {
+            clearPick();
+            return;
+          }
+          clearPick();
+          picked = el;
+          el.classList.add("pick");
+        });
+        el.addEventListener("dragstart", function (e) {
+          e.dataTransfer.setData("text/plain", ch);
+          e.dataTransfer.effectAllowed = "move";
+        });
+        return el;
+      }
+
+      function initLetters() {
+        pool.innerHTML = "";
+        innerV.innerHTML = "";
+        innerC.innerHTML = "";
+        fbClass.textContent = "";
+        fbClass.className = "class-feedback";
+        clearPick();
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").forEach(function (ch) {
+          pool.appendChild(makeLetter(ch));
+        });
+      }
+
+      function wireDrop(inner) {
+        inner.addEventListener("dragover", function (e) {
+          e.preventDefault();
+          inner.classList.add("dragover");
+        });
+        inner.addEventListener("dragleave", function () {
+          inner.classList.remove("dragover");
+        });
+        inner.addEventListener("drop", function (e) {
+          e.preventDefault();
+          inner.classList.remove("dragover");
+          var ch = e.dataTransfer.getData("text/plain");
+          var lz = pool.querySelector('.lz[data-letter="' + ch + '"]') ||
+            innerV.querySelector('.lz[data-letter="' + ch + '"]') ||
+            innerC.querySelector('.lz[data-letter="' + ch + '"]');
+          if (lz) inner.appendChild(lz);
+          clearPick();
+        });
+        inner.addEventListener("click", function () {
+          if (picked && picked.parentNode) {
+            inner.appendChild(picked);
+            clearPick();
+          }
+        });
+      }
+
+      wireDrop(innerV);
+      wireDrop(innerC);
+
+      var areaP1 = document.getElementById("page1-classify-area");
+      var lineP1Ans = document.getElementById("banner-p1-answer-line");
+      var bannerInstr = document.getElementById("banner-p1-instruction");
+      var btnP1Next = document.getElementById("btn-p1-next");
+      var p1NextHint = document.getElementById("p1-next-hint");
+      var p1NextStep = 0;
+
+      function speakP1Instruction() {
+        speak(
+          "Please put the vowel letters in the pink box. You will put the rest in the purple consonant box in a moment."
+        ).catch(function () {});
+      }
+
+      if (btnP1Next) {
+        btnP1Next.addEventListener("click", function () {
+          p1NextStep += 1;
+          if (p1NextStep === 1) {
+            speak("The letters of the English alphabet are divided into two types. What are the two types?").catch(function () {});
+            if (p1NextHint) {
+              p1NextHint.textContent = "第 2 步：揭晓答案，并显示元音 / 辅音盒";
+            }
+          } else if (p1NextStep === 2) {
+            speak("The two types are vowels and consonants.").catch(function () {});
+            if (lineP1Ans) {
+              lineP1Ans.hidden = false;
+            }
+            if (areaP1) {
+              areaP1.hidden = false;
+            }
+            if (p1NextHint) {
+              p1NextHint.textContent = "第 3 步：活动说明（英文朗读）";
+            }
+          } else if (p1NextStep === 3) {
+            if (bannerInstr) {
+              bannerInstr.hidden = false;
+            }
+            speakP1Instruction();
+            if (p1NextHint) {
+              p1NextHint.textContent = "请拖动字母分类；下方可继续「听讲解」「看动画」。";
+            }
+            btnP1Next.disabled = true;
+            btnP1Next.textContent = "本段完成 ✓";
+          }
+        });
+      }
+
+      document.getElementById("btn-move-rest").addEventListener("click", function () {
+        while (pool.firstChild) {
+          innerC.appendChild(pool.firstChild);
+        }
+        clearPick();
+        fbClass.textContent = "剩余字母已全部放入辅音盒。";
+        fbClass.className = "class-feedback";
+      });
+
+      document.getElementById("btn-check-letters").addEventListener("click", function () {
+        if (pool.children.length > 0) {
+          fbClass.textContent = "还有字母在字母池里，或先点「把剩下的放进辅音盒」。";
+          fbClass.className = "class-feedback err";
+          return;
+        }
+        var v = Array.prototype.map.call(innerV.querySelectorAll(".lz"), function (x) {
+          return x.dataset.letter;
+        }).sort().join("");
+        var c = Array.prototype.map.call(innerC.querySelectorAll(".lz"), function (x) {
+          return x.dataset.letter;
+        }).sort().join("");
+        if (v === "AEIOU" && c === "BCDFGHJKLMNPQRSTVWXYZ") {
+          fbClass.textContent = "完全正确！元音 5 个，辅音 21 个（含 Y）。";
+          fbClass.className = "class-feedback ok";
+          speak("Excellent! That sorting is correct.").catch(function () {});
+        } else {
+          fbClass.textContent = "再检查：元音盒应恰好是 A E I O U；Y 在本课放在辅音盒。";
+          fbClass.className = "class-feedback err";
+          speak("Not quite. The pink box should have A, E, I, O, and U. Y belongs with the consonants in this lesson.").catch(
+            function () {}
+          );
+        }
+      });
+
+      document.getElementById("btn-reset-letters").addEventListener("click", function () {
+        initLetters();
+      });
+
+      document.getElementById("btn-play-q2").addEventListener("click", function () {
+        document.getElementById("banner-q2").hidden = false;
+        azureSpeak(
+          "元音字母是 A、E、I、O、U。发元音时，气流从喉咙出来比较畅通，口腔里的阻碍很小。辅音字母是其余的二十一个字母。发辅音时，气流在口腔里会受到阻碍、摩擦或完全阻塞，所以听起来像被「挡住」了一下。",
+          AZH
+        ).catch(function () {});
+      });
+
+      function runCarMetaphor(withNarration) {
+        var wrap = document.getElementById("car-metaphor");
+        var s1 = document.getElementById("scene-stop");
+        var s2 = document.getElementById("scene-free");
+        wrap.hidden = false;
+        s1.classList.remove("run-stop");
+        s2.classList.remove("run-free");
+        void s1.offsetWidth;
+        void s2.offsetWidth;
+        s1.classList.add("run-stop");
+        s2.classList.add("run-free");
+        if (withNarration) {
+          azureSpeak(
+            "辅音就像路上的停牌，气流要停一下，有阻碍。元音像没有停牌的大路，气流更畅通，可以一直往前走。",
+            AZH
+          ).catch(function () {});
+        }
+      }
+
+      document.getElementById("btn-show-metaphor").addEventListener("click", function () {
+        runCarMetaphor(true);
+      });
+      document.getElementById("btn-replay-cars").addEventListener("click", function () {
+        runCarMetaphor(true);
+      });
+
+      initLetters();
+
+      document.querySelectorAll(".speak[data-speak]").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          speak(btn.getAttribute("data-speak") || "").catch(function () {});
+        });
+      });
+      var CVC_MID = { A: 1, E: 1, I: 1, O: 1, U: 1 };
+      var CVC_TARGET_PER_VOWEL = 10;
+      var CVC_BY_VOWEL = {
+        A: ["cat", "mat", "hat", "map", "rat", "jam", "fan", "bat", "cap", "bag"],
+        E: ["pen", "pet", "leg", "red", "bed", "hen", "net", "ten", "men", "web"],
+        I: ["big", "kit", "pig", "pin", "sit", "tin", "win", "lip", "rip", "dip"],
+        O: ["dog", "hot", "fox", "hop", "pot", "log", "mom", "cop", "rod", "dot"],
+        U: ["cub", "bus", "mud", "fun", "sun", "run", "tug", "cup", "hut", "nut"]
+      };
+
+      function normalizeCvcInput(raw) {
+        return raw
+          .split(/[\s,，、;；]+/)
+          .map(function (s) {
+            return s.trim();
+          })
+          .filter(Boolean);
+      }
+
+      function validateCvcWord(token) {
+        var w = token.trim().toLowerCase();
+        if (w.length !== 3 || !/^[a-z]{3}$/.test(w)) {
+          return { ok: false };
+        }
+        var mid = w[1].toUpperCase();
+        if (!CVC_MID[mid]) {
+          return { ok: false };
+        }
+        if (CVC_MID[w[0].toUpperCase()] || CVC_MID[w[2].toUpperCase()]) {
+          return { ok: false };
+        }
+        return { ok: true, vowel: mid, word: w };
+      }
+
+      function createCvcWordButton(w) {
+        var wb = document.createElement("button");
+        wb.type = "button";
+        wb.className = "cvc-word";
+        wb.textContent = w;
+        wb.setAttribute("data-word", w);
+        wb.setAttribute("aria-label", "Azure 朗读 " + w);
+        wb.addEventListener("click", function () {
+          speak(w).catch(function () {});
+        });
+        return wb;
+      }
+
+      function initCvcStudentBoard() {
+        var board = document.getElementById("cvc-vowel-board");
+        if (!board) return;
+        board.innerHTML = "";
+        "AEIOU".split("").forEach(function (v) {
+          var block = document.createElement("div");
+          block.className = "cvc-vowel-block";
+          block.setAttribute("data-v", v);
+          var h = document.createElement("h4");
+          h.textContent = v;
+          var grid = document.createElement("div");
+          grid.className = "cvc-word-grid";
+          grid.setAttribute("data-vowel-col", v);
+          var empty = document.createElement("span");
+          empty.className = "cvc-empty-msg";
+          empty.textContent = "（输入单词后显示在此）";
+          grid.appendChild(empty);
+          block.appendChild(h);
+          block.appendChild(grid);
+          board.appendChild(block);
+        });
+      }
+
+      function removeCvcEmptyPlaceholder(grid) {
+        var ph = grid.querySelector(".cvc-empty-msg");
+        if (ph) {
+          ph.remove();
+        }
+      }
+
+      function clearStudentCvcCards() {
+        document.querySelectorAll(".cvc-word-grid[data-vowel-col]").forEach(function (grid) {
+          grid.innerHTML = "";
+          var empty = document.createElement("span");
+          empty.className = "cvc-empty-msg";
+          empty.textContent = "（输入单词后显示在此）";
+          grid.appendChild(empty);
+        });
+        var fb = document.getElementById("cvc-input-feedback");
+        if (fb) {
+          fb.textContent = "";
+          fb.className = "cvc-input-feedback mix";
+        }
+      }
+
+      function addCvcWordsFromInput() {
+        var input = document.getElementById("cvc-word-input");
+        var board = document.getElementById("cvc-vowel-board");
+        var fb = document.getElementById("cvc-input-feedback");
+        if (!input || !board || !fb) return;
+        var parts = normalizeCvcInput(input.value);
+        if (parts.length === 0) {
+          fb.textContent = "请先输入至少一个单词。";
+          fb.className = "cvc-input-feedback err";
+          return;
+        }
+        var added = [];
+        var bad = [];
+        var skippedDup = [];
+        parts.forEach(function (tok) {
+          var r = validateCvcWord(tok);
+          if (!r.ok) {
+            bad.push(tok);
+            return;
+          }
+          var grid = board.querySelector('.cvc-word-grid[data-vowel-col="' + r.vowel + '"]');
+          if (!grid) return;
+          if (grid.querySelector('[data-word="' + r.word + '"]')) {
+            skippedDup.push(r.word);
+            return;
+          }
+          removeCvcEmptyPlaceholder(grid);
+          grid.appendChild(createCvcWordButton(r.word));
+          added.push(r.word);
+        });
+        var msg = [];
+        if (added.length) msg.push("已添加：" + added.join("、"));
+        if (skippedDup.length) msg.push("已跳过重复：" + skippedDup.join("、"));
+        if (bad.length) {
+          msg.push("未识别（须 3 个英文字母、中间为 A/E/I/O/U、首尾为辅音字母）：" + bad.join("、"));
+        }
+        fb.textContent = msg.join(" ") || "未添加任何词卡。";
+        if (bad.length && !added.length) {
+          fb.className = "cvc-input-feedback err";
+        } else if (added.length && !bad.length && !skippedDup.length) {
+          fb.className = "cvc-input-feedback ok";
+        } else {
+          fb.className = "cvc-input-feedback mix";
+        }
+      }
+
+      function fillCvcColumnsToTen() {
+        var board = document.getElementById("cvc-vowel-board");
+        var fb = document.getElementById("cvc-input-feedback");
+        if (!board || !fb) return;
+        var target = CVC_TARGET_PER_VOWEL;
+        var parts = [];
+        "AEIOU".split("").forEach(function (v) {
+          var grid = board.querySelector('.cvc-word-grid[data-vowel-col="' + v + '"]');
+          if (!grid) return;
+          var existing = {};
+          grid.querySelectorAll("button.cvc-word").forEach(function (btn) {
+            var w = btn.getAttribute("data-word");
+            if (w) existing[w] = 1;
+          });
+          var n = Object.keys(existing).length;
+          var need = target - n;
+          if (need <= 0) return;
+          var added = 0;
+          var list = CVC_BY_VOWEL[v] || [];
+          for (var i = 0; i < list.length && need > 0; i++) {
+            var w = list[i];
+            if (existing[w]) continue;
+            removeCvcEmptyPlaceholder(grid);
+            grid.appendChild(createCvcWordButton(w));
+            existing[w] = 1;
+            need -= 1;
+            added += 1;
+          }
+          if (added) parts.push(v + " 补 " + added + " 个");
+        });
+        if (parts.length === 0) {
+          fb.textContent = "每个元音列都已有至少 " + target + " 个不同单词，无需补全。";
+          fb.className = "cvc-input-feedback ok";
+        } else {
+          fb.textContent = "已从词库补全：" + parts.join("；") + "（与已有词不重复；每列最多 " + target + " 个）。";
+          fb.className = "cvc-input-feedback ok";
+        }
+      }
+
+      initCvcStudentBoard();
+
+      var btnCvcAdd = document.getElementById("btn-cvc-add-words");
+      var btnCvcFillTen = document.getElementById("btn-cvc-fill-ten");
+      var btnCvcClear = document.getElementById("btn-cvc-clear-cards");
+      var cvcWordInput = document.getElementById("cvc-word-input");
+      if (btnCvcAdd) {
+        btnCvcAdd.addEventListener("click", addCvcWordsFromInput);
+      }
+      if (btnCvcFillTen) {
+        btnCvcFillTen.addEventListener("click", fillCvcColumnsToTen);
+      }
+      if (btnCvcClear) {
+        btnCvcClear.addEventListener("click", clearStudentCvcCards);
+      }
+      if (cvcWordInput) {
+        cvcWordInput.addEventListener("keydown", function (e) {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            addCvcWordsFromInput();
+          }
+        });
+      }
+
+      function wireMusicBeatLesson() {
+        var post = document.getElementById("syll-panel-post");
+        var beatEl = document.getElementById("syll-beat-word");
+        var pEng = document.getElementById("syll-panel-eng-beat");
+        var btnBeatNext = document.getElementById("btn-beat-next");
+        var beatNextHint = document.getElementById("beat-next-hint");
+
+        function en(t) {
+          return speak(t).catch(function () {});
+        }
+
+        var beatStep = 0;
+        var beatBusy = false;
+
+        var beatHints = [
+          "第 1 步：听英文指令，跟音乐拍子拍手",
+          "第 2 步：观看本地视频，看完后点击下一步",
+          "第 3 步：听英文提问",
+          "第 4 步：揭晓 Beat，听讲解"
+        ];
+
+        function updateBeatHint() {
+          if (!beatNextHint || !btnBeatNext || btnBeatNext.disabled) return;
+          var i = Math.min(Math.max(beatStep, 0), beatHints.length - 1);
+          beatNextHint.textContent = beatHints[i];
+        }
+
+        function finishBeatStep(nextStep) {
+          beatStep = nextStep;
+          updateBeatHint();
+          beatBusy = false;
+        }
+
+        if (btnBeatNext) {
+          btnBeatNext.addEventListener("click", function () {
+            if (beatBusy || btnBeatNext.disabled) return;
+            beatBusy = true;
+            var s = beatStep + 1;
+
+            if (s === 1) {
+              en("Feel the beats of the music! Clap your hands with the steady pulse.").then(
+                function () {
+                  finishBeatStep(1);
+                },
+                function () {
+                  finishBeatStep(1);
+                }
+              );
+              return;
+            }
+
+            if (s === 2) {
+              if (post) post.hidden = false;
+              en(
+                "When you clapped, what part of the music were you following? You were clapping with the beat!"
+              ).then(
+                function () {
+                  finishBeatStep(2);
+                },
+                function () {
+                  finishBeatStep(2);
+                }
+              );
+              return;
+            }
+
+            if (s === 3) {
+              if (beatEl) beatEl.hidden = false;
+              if (pEng) {
+                pEng.hidden = false;
+                pEng.setAttribute("aria-hidden", "false");
+              }
+              en("Beat! The steady pulse you feel in music is called the beat.").then(
+                function () {
+                  finishBeatStep(3);
+                },
+                function () {
+                  finishBeatStep(3);
+                }
+              );
+              return;
+            }
+
+            if (s === 4) {
+              en("In English, we talk about beat in words too — like the steady parts we feel when we say a word.").then(
+                function () {
+                  beatStep = 4;
+                  btnBeatNext.disabled = true;
+                  btnBeatNext.textContent = "本段完成 ✓";
+                  if (beatNextHint) {
+                    beatNextHint.textContent = "请翻到下一页「单词中的音节」，继续学习 watermelon。";
+                  }
+                  beatBusy = false;
+                },
+                function () {
+                  beatStep = 4;
+                  btnBeatNext.disabled = true;
+                  btnBeatNext.textContent = "本段完成 ✓";
+                  if (beatNextHint) {
+                    beatNextHint.textContent = "请翻到下一页「单词中的音节」，继续学习 watermelon。";
+                  }
+                  beatBusy = false;
+                }
+              );
+              return;
+            }
+
+            beatBusy = false;
+          });
+        }
+      }
+
+      function wireWordSyllablesLesson() {
+        var cbox = document.getElementById("syll-conclusion-box");
+        var btnWordNext = document.getElementById("btn-word-syll-next");
+        var wordNextHint = document.getElementById("word-syll-next-hint");
+
+        var wm = document.getElementById("wm-photo");
+        var wmf = document.getElementById("wm-emoji-fallback");
+        var wmClaps = document.getElementById("wm-claps");
+        if (wm && wmf) {
+          wm.addEventListener("error", function () {
+            wm.style.display = "none";
+            wmf.hidden = false;
+            wmf.setAttribute("aria-hidden", "false");
+          });
+        }
+
+        function en(t) {
+          return speak(t).catch(function () {});
+        }
+
+        var wordStep = 0;
+        var wordBusy = false;
+
+        var wordHints = [
+          "第 1 步：听单词 watermelon 与活动说明（跟读拍手）",
+          "第 2 步：听提问：这个单词可以拍几下手？",
+          "第 3 步：听讲解：高音、元音与音节",
+          "点击下一步：显示中文结论并听英文总结"
+        ];
+
+        function updateWordHint() {
+          if (!wordNextHint || !btnWordNext || btnWordNext.disabled) return;
+          var i = Math.min(Math.max(wordStep, 0), wordHints.length - 1);
+          wordNextHint.textContent = wordHints[i];
+        }
+
+        function finishWordStep(nextStep) {
+          wordStep = nextStep;
+          updateWordHint();
+          wordBusy = false;
+        }
+
+        if (wmClaps) {
+          wmClaps.hidden = true;
+          wmClaps.setAttribute("aria-hidden", "true");
+        }
+
+        if (btnWordNext) {
+          btnWordNext.addEventListener("click", function () {
+            if (wordBusy || btnWordNext.disabled) return;
+            wordBusy = true;
+            var s = wordStep + 1;
+
+            if (s === 1) {
+              en("watermelon")
+                .then(function () {
+                  return en(
+                    "Listen carefully. Clap along with the word watermelon and feel the rhythm inside the word."
+                  );
+                })
+                .then(
+                  function () {
+                    if (wmClaps) {
+                      wmClaps.hidden = false;
+                      wmClaps.setAttribute("aria-hidden", "false");
+                    }
+                    finishWordStep(1);
+                  },
+                  function () {
+                    if (wmClaps) {
+                      wmClaps.hidden = false;
+                      wmClaps.setAttribute("aria-hidden", "false");
+                    }
+                    finishWordStep(1);
+                  }
+                );
+              return;
+            }
+
+            if (s === 2) {
+              en(
+                "How many times can you clap for this word? Watermelon has four syllables, so you might clap four times: wa, ter, me, lon."
+              ).then(
+                function () {
+                  finishWordStep(2);
+                },
+                function () {
+                  finishWordStep(2);
+                }
+              );
+              return;
+            }
+
+            if (s === 3) {
+              en(
+                "The louder or stronger parts in a word often come from vowel sounds. Each clap can stand for one syllable — one beat in the word."
+              ).then(
+                function () {
+                  finishWordStep(3);
+                },
+                function () {
+                  finishWordStep(3);
+                }
+              );
+              return;
+            }
+
+            if (s === 4) {
+              if (cbox) cbox.hidden = false;
+              en("Syllables are the beats of a word. Learning syllables helps us read and spell better.").then(
+                function () {
+                  wordStep = 4;
+                  btnWordNext.disabled = true;
+                  btnWordNext.textContent = "本段完成 ✓";
+                  if (wordNextHint) {
+                    wordNextHint.textContent = "请翻到下一页「音节的数量」，对比更多单词的拍手次数。";
+                  }
+                  wordBusy = false;
+                },
+                function () {
+                  wordStep = 4;
+                  btnWordNext.disabled = true;
+                  btnWordNext.textContent = "本段完成 ✓";
+                  if (wordNextHint) {
+                    wordNextHint.textContent = "请翻到下一页「音节的数量」，对比更多单词的拍手次数。";
+                  }
+                  wordBusy = false;
+                }
+              );
+              return;
+            }
+
+            wordBusy = false;
+          });
+        }
+      }
+
+      wireMusicBeatLesson();
+      wireWordSyllablesLesson();
+
+      function wireSyllableCountPage() {
+        var root = document.getElementById("slide-syllable-count");
+        if (!root) return;
+
+        function bindImgFallback(imgId, fbId) {
+          var img = document.getElementById(imgId);
+          var fb = document.getElementById(fbId);
+          if (img && fb) {
+            img.addEventListener("error", function () {
+              img.style.display = "none";
+              fb.hidden = false;
+              fb.setAttribute("aria-hidden", "false");
+            });
+          }
+        }
+
+        bindImgFallback("sc-img-watermelon", "sc-fb-watermelon");
+        bindImgFallback("sc-img-mango", "sc-fb-mango");
+        bindImgFallback("sc-img-cat", "sc-fb-cat");
+        bindImgFallback("sc-img-robot", "sc-fb-robot");
+        bindImgFallback("sc-img-tornado", "sc-fb-tornado");
+
+        function enWord(w) {
+          return speak(w).catch(function () {});
+        }
+
+        function showClaps(id, btn) {
+          var el = document.getElementById(id);
+          if (el) {
+            el.hidden = false;
+            el.setAttribute("aria-hidden", "false");
+          }
+          if (btn) {
+            btn.disabled = true;
+            btn.textContent = "已显示拍手";
+          }
+        }
+
+        var btnShowMango = document.getElementById("btn-sc-show-mango");
+        if (btnShowMango) {
+          btnShowMango.addEventListener("click", function () {
+            var blk = document.getElementById("sc-block-mango");
+            if (blk) blk.hidden = false;
+            btnShowMango.disabled = true;
+            btnShowMango.textContent = "已展示 mango";
+          });
+        }
+
+        var btnSpeakMango = document.getElementById("btn-sc-speak-mango");
+        var btnClapsMango = document.getElementById("btn-sc-claps-mango");
+        if (btnSpeakMango) {
+          btnSpeakMango.addEventListener("click", function () {
+            enWord("mango");
+          });
+        }
+        if (btnClapsMango) {
+          btnClapsMango.addEventListener("click", function () {
+            showClaps("sc-claps-mango", btnClapsMango);
+            var next = document.getElementById("btn-sc-show-cat");
+            if (next) {
+              next.hidden = false;
+              next.disabled = false;
+            }
+          });
+        }
+
+        var btnShowCat = document.getElementById("btn-sc-show-cat");
+        if (btnShowCat) {
+          btnShowCat.addEventListener("click", function () {
+            var blk = document.getElementById("sc-block-cat");
+            if (blk) blk.hidden = false;
+            btnShowCat.disabled = true;
+            btnShowCat.textContent = "已展示 cat";
+          });
+        }
+        var btnSpeakCat = document.getElementById("btn-sc-speak-cat");
+        var btnClapsCat = document.getElementById("btn-sc-claps-cat");
+        if (btnSpeakCat) {
+          btnSpeakCat.addEventListener("click", function () {
+            enWord("cat");
+          });
+        }
+        if (btnClapsCat) {
+          btnClapsCat.addEventListener("click", function () {
+            showClaps("sc-claps-cat", btnClapsCat);
+            var next = document.getElementById("btn-sc-show-robot");
+            if (next) {
+              next.hidden = false;
+              next.disabled = false;
+            }
+          });
+        }
+
+        var btnShowRobot = document.getElementById("btn-sc-show-robot");
+        if (btnShowRobot) {
+          btnShowRobot.addEventListener("click", function () {
+            var blk = document.getElementById("sc-block-robot");
+            if (blk) blk.hidden = false;
+            btnShowRobot.disabled = true;
+            btnShowRobot.textContent = "已展示 robot";
+          });
+        }
+        var btnSpeakRobot = document.getElementById("btn-sc-speak-robot");
+        var btnClapsRobot = document.getElementById("btn-sc-claps-robot");
+        if (btnSpeakRobot) {
+          btnSpeakRobot.addEventListener("click", function () {
+            enWord("robot");
+          });
+        }
+        if (btnClapsRobot) {
+          btnClapsRobot.addEventListener("click", function () {
+            showClaps("sc-claps-robot", btnClapsRobot);
+            var next = document.getElementById("btn-sc-show-tornado");
+            if (next) {
+              next.hidden = false;
+              next.disabled = false;
+            }
+          });
+        }
+
+        var btnShowTornado = document.getElementById("btn-sc-show-tornado");
+        if (btnShowTornado) {
+          btnShowTornado.addEventListener("click", function () {
+            var blk = document.getElementById("sc-block-tornado");
+            if (blk) blk.hidden = false;
+            btnShowTornado.disabled = true;
+            btnShowTornado.textContent = "已展示 tornado";
+          });
+        }
+        var btnSpeakTornado = document.getElementById("btn-sc-speak-tornado");
+        var btnClapsTornado = document.getElementById("btn-sc-claps-tornado");
+        if (btnSpeakTornado) {
+          btnSpeakTornado.addEventListener("click", function () {
+            enWord("tornado");
+          });
+        }
+        if (btnClapsTornado) {
+          btnClapsTornado.addEventListener("click", function () {
+            showClaps("sc-claps-tornado", btnClapsTornado);
+          });
+        }
+      }
+
+      wireSyllableCountPage();
+
+      var SYLLABLE_LESSON_TITLE =
+        "\u8bc6\u522b\u5355\u8bcd\u4e2d\u7684\u97f3\u8282\u6570\u91cf\u548c\u97f3\u8282\u7c7b\u578b";
+
+      var SYLLABLE_LESSON_DB = {
+        cactus: {
+          word: "cactus",
+          img: "media/cactus.png",
+          emoji: "\uD83C\uDF35",
+          cutAfter: 2,
+          parts: ["cac", "tus"],
+          step3Html:
+            "\u5728 <strong>a</strong> \u4e0e <strong>u</strong> \u4e4b\u95f4\u6709\u8f85\u97f3\u5b57\u6bcd <strong>c</strong> \u548c <strong>t</strong>\u3002\u4e24\u4e2a\u8f85\u97f3\u5939\u5728\u4e2d\u95f4\u65f6\uff0c\u5e38\u5728<strong>\u4e2d\u95f4\u5207\u5f00</strong>\u5212\u5206\u97f3\u8282\u3002",
+          step4Line:
+            "\u5212\u5206\u97f3\u8282\uff1a\u526a\u5200\u4ece\u7b2c\u4e8c\u4e2a <strong>c</strong> \u4e0e <strong>t</strong> \u4e4b\u95f4<strong>\u81ea\u4e0a\u800c\u4e0b</strong>\u5212\u8fc7\u3002",
+          syls: [
+            {
+              h: "cac",
+              ans5:
+                "\u7ed3\u5c3e\u662f\u8f85\u97f3\u5b57\u6bcd <strong>c</strong> \u2192 \u628a\u5143\u97f3 <strong>a</strong> \u300c\u5173\u4f4f\u300d\u2192 <strong>\u95ed\u97f3\u8282</strong>\u3002",
+              ans6: "<strong>\u77ed\u97f3</strong>\uff08\u5982 a \u53d1 /\u00e6/\uff0c\u7c7b\u4f3c <em>cat</em> \u91cc\u7684 a\uff09\u3002"
+            },
+            {
+              h: "tus",
+              ans5:
+                "\u7ed3\u5c3e\u662f\u8f85\u97f3\u5b57\u6bcd <strong>s</strong> \u2192 \u5143\u97f3 <strong>u</strong> \u88ab\u5173\u4f4f \u2192 <strong>\u95ed\u97f3\u8282</strong>\u3002",
+              ans6: "<strong>\u77ed\u97f3</strong>\uff08\u5982 u \u5e38\u53d1 /\u028c/\uff0c\u7c7b\u4f3c <em>cup</em> \u91cc\u7684 u\uff1b\u975e\u91cd\u8bfb\u65f6\u5e38\u5f31\u8bfb\u4e3a /\u0259/\uff09\u3002"
+            }
+          ]
+        },
+        mitten: {
+          word: "mitten",
+          img: "media/mitten.png",
+          emoji: "\uD83E\uDDE4",
+          cutAfter: 2,
+          parts: ["mit", "ten"],
+          step4Line: "\u5212\u5206\u97f3\u8282\uff1a\u526a\u5200\u4ece\u4e24\u4e2a <strong>t</strong> \u4e4b\u95f4<strong>\u81ea\u4e0a\u800c\u4e0b</strong>\u5212\u8fc7\u3002",
+          step3Html:
+            "\u5728 <strong>i</strong> \u4e0e <strong>e</strong> \u4e4b\u95f4\u6709\u8f85\u97f3\u5b57\u6bcd <strong>t</strong> \u548c <strong>t</strong>\u3002\u4e24\u4e2a\u76f8\u540c\u8f85\u97f3\u5e76\u6392\u65f6\uff0c\u5e38\u5728<strong>\u4e2d\u95f4\u5207\u5f00</strong>\u5212\u5206\u97f3\u8282\u3002",
+          syls: [
+            {
+              h: "mit",
+              ans5:
+                "\u7ed3\u5c3e\u662f\u8f85\u97f3\u5b57\u6bcd <strong>t</strong> \u2192 \u628a\u5143\u97f3 <strong>i</strong> \u300c\u5173\u4f4f\u300d\u2192 <strong>\u95ed\u97f3\u8282</strong>\u3002",
+              ans6: "<strong>\u77ed\u97f3</strong>\uff08i \u7c7b\u4f3c <em>sit</em> \u91cc\u7684 i\uff09\u3002"
+            },
+            {
+              h: "ten",
+              ans5:
+                "\u7ed3\u5c3e\u662f\u8f85\u97f3\u5b57\u6bcd <strong>n</strong> \u2192 \u5143\u97f3 <strong>e</strong> \u88ab\u5173\u4f4f \u2192 <strong>\u95ed\u97f3\u8282</strong>\u3002",
+              ans6: "<strong>\u77ed\u97f3</strong>\uff08e \u7c7b\u4f3c <em>pen</em> \u91cc\u7684 e\uff1b\u975e\u91cd\u8bfb\u65f6\u5e38\u5f31\u8bfb\u4e3a /\u0259/ \u6216\u4e0e n \u8fde\u8bfb\uff09\u3002"
+            }
+          ]
+        },
+        magnet: {
+          word: "magnet",
+          img: "media/magnet.png",
+          emoji: "\uD83E\uDDF2",
+          cutAfter: 2,
+          parts: ["mag", "net"],
+          step4Line:
+            "\u5212\u5206\u97f3\u8282\uff1a\u526a\u5200\u4ece <strong>g</strong> \u4e0e <strong>n</strong> \u4e4b\u95f4<strong>\u81ea\u4e0a\u800c\u4e0b</strong>\u5212\u8fc7\u3002",
+          step3Html:
+            "\u5728 <strong>a</strong> \u4e0e <strong>e</strong> \u4e4b\u95f4\u6709\u8f85\u97f3\u5b57\u6bcd <strong>g</strong> \u548c <strong>n</strong>\u3002\u4e24\u4e2a\u8f85\u97f3\u5939\u5728\u4e2d\u95f4\u65f6\uff0c\u5e38\u5728<strong>\u4e2d\u95f4\u5207\u5f00</strong>\u5212\u5206\u97f3\u8282\u3002",
+          syls: [
+            {
+              h: "mag",
+              ans5:
+                "\u7ed3\u5c3e\u662f\u8f85\u97f3 <strong>g</strong> \u2192 \u5143\u97f3 <strong>a</strong> \u88ab\u5173\u4f4f \u2192 <strong>\u95ed\u97f3\u8282</strong>\u3002",
+              ans6: "<strong>\u77ed\u97f3</strong>\uff08a \u7c7b\u4f3c <em>bag</em> \u91cc\u7684 a\uff09\u3002"
+            },
+            {
+              h: "net",
+              ans5:
+                "\u7ed3\u5c3e\u662f\u8f85\u97f3 <strong>t</strong> \u2192 <strong>\u95ed\u97f3\u8282</strong>\u3002",
+              ans6: "<strong>\u77ed\u97f3</strong>\uff08e \u7c7b\u4f3c <em>pen</em> \u91cc\u7684 e\uff09\u3002"
+            }
+          ]
+        },
+        sunset: {
+          word: "sunset",
+          img: "media/sunset.png",
+          emoji: "\uD83C\uDF05",
+          cutAfter: 2,
+          parts: ["sun", "set"],
+          step4Line:
+            "\u5212\u5206\u97f3\u8282\uff1a\u526a\u5200\u4ece <strong>n</strong> \u4e0e <strong>s</strong> \u4e4b\u95f4<strong>\u81ea\u4e0a\u800c\u4e0b</strong>\u5212\u8fc7\u3002",
+          step3Html:
+            "\u5728 <strong>u</strong> \u4e0e <strong>e</strong> \u4e4b\u95f4\u6709\u8f85\u97f3\u5b57\u6bcd <strong>n</strong> \u548c <strong>s</strong>\u3002\u4e24\u4e2a\u8f85\u97f3\u5939\u5728\u4e2d\u95f4\u65f6\uff0c\u5e38\u5728<strong>\u4e2d\u95f4\u5207\u5f00</strong>\u3002",
+          syls: [
+            {
+              h: "sun",
+              ans5:
+                "\u7ed3\u5c3e\u662f\u8f85\u97f3 <strong>n</strong> \u2192 <strong>\u95ed\u97f3\u8282</strong>\u3002",
+              ans6: "<strong>\u77ed\u97f3</strong>\uff08u \u7c7b\u4f3c <em>cup</em> \u91cc\u7684 u\uff09\u3002"
+            },
+            {
+              h: "set",
+              ans5:
+                "\u7ed3\u5c3e\u662f\u8f85\u97f3 <strong>t</strong> \u2192 <strong>\u95ed\u97f3\u8282</strong>\u3002",
+              ans6: "<strong>\u77ed\u97f3</strong>\uff08e \u7c7b\u4f3c <em>bed</em> \u91cc\u7684 e\uff09\u3002"
+            }
+          ]
+        },
+        hundred: {
+          word: "hundred",
+          img: "media/hundred.png",
+          emoji: "\uD83D\uDCAF",
+          cutAfter: 2,
+          parts: ["hun", "dred"],
+          step4Line:
+            "\u5212\u5206\u97f3\u8282\uff1a\u526a\u5200\u4ece <strong>n</strong> \u4e0e <strong>d</strong> \u4e4b\u95f4<strong>\u81ea\u4e0a\u800c\u4e0b</strong>\u5212\u8fc7\u3002",
+          step3Html:
+            "\u5728 <strong>u</strong> \u4e0e <strong>e</strong> \u4e4b\u95f4\u6709\u8f85\u97f3 <strong>n</strong>\u3001<strong>d</strong>\u3001<strong>r</strong> \u4e09\u4e2a\u8fde\u5728\u4e00\u8d77\u3002\u5e38\u89c1\u89c4\u5219\uff1a\u524d\u9762\u4e00\u4e2a\u5f52\u4e0a\u97f3\u8282\uff0c\u540e\u9762\u4e24\u4e2a\u5f52\u4e0b\u97f3\u8282 \u2192 <strong>hun \u00b7 dred</strong>\u3002",
+          syls: [
+            {
+              h: "hun",
+              ans5:
+                "\u7ed3\u5c3e\u662f\u8f85\u97f3 <strong>n</strong> \u2192 <strong>\u95ed\u97f3\u8282</strong>\u3002",
+              ans6: "<strong>\u77ed\u97f3</strong>\uff08u \u7c7b\u4f3c <em>sun</em> \u91cc\u7684 u\uff09\u3002"
+            },
+            {
+              h: "dred",
+              ans5:
+                "\u7ed3\u5c3e\u662f\u8f85\u97f3 <strong>d</strong> \u2192 <strong>\u95ed\u97f3\u8282</strong>\u3002",
+              ans6: "<strong>\u77ed\u97f3</strong>\uff08e \u7c7b\u4f3c <em>red</em> \u91cc\u7684 e\uff09\u3002"
+            }
+          ]
+        },
+        address: {
+          word: "address",
+          img: "media/address.png",
+          emoji: "\u2709\uFE0F",
+          cutAfter: 1,
+          parts: ["ad", "dress"],
+          step4Line:
+            "\u5212\u5206\u97f3\u8282\uff1a\u526a\u5200\u4ece\u7b2c\u4e00\u4e2a <strong>d</strong> \u4e0e\u7b2c\u4e8c\u4e2a <strong>d</strong> \u4e4b\u95f4<strong>\u81ea\u4e0a\u800c\u4e0b</strong>\u5212\u8fc7\u3002",
+          step3Html:
+            "\u5728 <strong>a</strong> \u4e0e <strong>e</strong> \u4e4b\u95f4\u6709\u8f85\u97f3 <strong>d</strong>\u3001<strong>d</strong>\u3001<strong>r</strong>\u3002\u4e09\u4e2a\u8f85\u97f3\u8fde\u6392\u65f6\uff0c\u5e38\u628a<strong>\u7b2c\u4e00\u4e2a d</strong> \u5212\u7ed9\u4e0a\u4e00\u97f3\u8282\uff1a<strong>ad \u00b7 dress</strong>\u3002",
+          syls: [
+            {
+              h: "ad",
+              ans5:
+                "\u7ed3\u5c3e\u662f\u8f85\u97f3 <strong>d</strong> \u2192 \u7ed3\u6784\u4e0a\u662f<strong>\u95ed\u97f3\u8282</strong>\uff08\u6b64\u8bcd\u9996\u8282\u5e38\u5f31\u8bfb /\u0259/\uff09\u3002",
+              ans6: "\u5143\u97f3\u5f31\u8bfb\u65f6\u53d8\u5316\u8f83\u5927\uff0c\u53ef\u6574\u4f53\u542c <strong>address</strong> \u7684\u8282\u594f\u3002"
+            },
+            {
+              h: "dress",
+              ans5:
+                "\u7ed3\u5c3e\u662f\u8f85\u97f3 <strong>s</strong> \uff08\u53cc\u5199 ss\uff09\u2192 <strong>\u95ed\u97f3\u8282</strong>\u3002",
+              ans6: "<strong>\u77ed\u97f3</strong>\uff08e \u7c7b\u4f3c <em>dress</em> \u91cc\u7684 e\uff09\u3002"
+            }
+          ]
+        },
+        contract: {
+          word: "contract",
+          img: "media/contract.png",
+          emoji: "\uD83D\uDCDC",
+          cutAfter: 2,
+          parts: ["con", "tract"],
+          step4Line:
+            "\u5212\u5206\u97f3\u8282\uff1a\u526a\u5200\u4ece <strong>n</strong> \u4e0e <strong>t</strong> \u4e4b\u95f4<strong>\u81ea\u4e0a\u800c\u4e0b</strong>\u5212\u8fc7\u3002",
+          step3Html:
+            "\u5728 <strong>o</strong> \u4e0e <strong>a</strong> \u4e4b\u95f4\u6709\u8f85\u97f3 <strong>n</strong>\u3001<strong>t</strong>\u3001<strong>r</strong>\u3002\u540d\u8bcd\u5e38\u89c1\u5212\u5206\uff1a<strong>con \u00b7 tract</strong>\u3002",
+          syls: [
+            {
+              h: "con",
+              ans5:
+                "\u7ed3\u5c3e\u662f\u8f85\u97f3 <strong>n</strong> \u2192 <strong>\u95ed\u97f3\u8282</strong>\u3002",
+              ans6: "<strong>\u77ed\u97f3</strong>\uff08o \u7c7b\u4f3c <em>hot</em> \u91cc\u7684 o\uff09\u3002"
+            },
+            {
+              h: "tract",
+              ans5:
+                "\u7ed3\u5c3e\u6709\u8f85\u97f3 <strong>t</strong> \u2192 <strong>\u95ed\u97f3\u8282</strong>\u3002",
+              ans6: "<strong>\u77ed\u97f3</strong>\uff08a \u5728\u6b64\u8282\u4e2d\u5e38\u4e3a\u77ed\u97f3\uff09\u3002"
+            }
+          ]
+        },
+        instruct: {
+          word: "instruct",
+          img: "media/instruct.png",
+          emoji: "\uD83D\uDCDD",
+          cutAfter: 1,
+          parts: ["in", "struct"],
+          step4Line:
+            "\u5212\u5206\u97f3\u8282\uff1a\u526a\u5200\u4ece <strong>n</strong> \u4e0e <strong>s</strong> \u4e4b\u95f4<strong>\u81ea\u4e0a\u800c\u4e0b</strong>\u5212\u8fc7\u3002",
+          step3Html:
+            "\u5728 <strong>i</strong> \u4e0e <strong>u</strong> \u4e4b\u95f4\u6709\u8f85\u97f3 <strong>n</strong>\u3001<strong>s</strong>\u3001<strong>t</strong>\u3001<strong>r</strong> \u56db\u4e2a\u8fde\u5728\u4e00\u8d77\u3002\u5e38\u6309\u8bfb\u97f3\u5206\u6210 <strong>in \u00b7 struct</strong>\u3002",
+          syls: [
+            {
+              h: "in",
+              ans5:
+                "\u7ed3\u5c3e\u662f\u8f85\u97f3 <strong>n</strong> \u2192 <strong>\u95ed\u97f3\u8282</strong>\u3002",
+              ans6: "<strong>\u77ed\u97f3</strong>\uff08i \u7c7b\u4f3c <em>in</em> \u91cc\u7684 i\uff09\u3002"
+            },
+            {
+              h: "struct",
+              ans5:
+                "\u7ed3\u5c3e\u6709\u8f85\u97f3 <strong>t</strong> \u2192 <strong>\u95ed\u97f3\u8282</strong>\u3002",
+              ans6: "<strong>\u77ed\u97f3</strong>\uff08u \u7c7b\u4f3c <em>strut</em> \u91cc\u7684 u\uff09\u3002"
+            }
+          ]
+        },
+        ostrich: {
+          word: "ostrich",
+          img: "media/ostrich.png",
+          emoji: "\uD83D\uDC26",
+          cutAfter: 1,
+          parts: ["os", "trich"],
+          step4Line:
+            "\u5212\u5206\u97f3\u8282\uff1a\u526a\u5200\u4ece <strong>s</strong> \u4e0e <strong>t</strong> \u4e4b\u95f4<strong>\u81ea\u4e0a\u800c\u4e0b</strong>\u5212\u8fc7\u3002",
+          step3Html:
+            "\u5728 <strong>o</strong> \u4e0e <strong>i</strong> \u4e4b\u95f4\u6709\u8f85\u97f3 <strong>s</strong>\u3001<strong>t</strong>\u3001<strong>r</strong>\u3002\u5e38\u89c1\u5212\u5206\uff1a<strong>os \u00b7 trich</strong>\u3002",
+          syls: [
+            {
+              h: "os",
+              ans5:
+                "\u7ed3\u5c3e\u662f\u8f85\u97f3 <strong>s</strong> \u2192 <strong>\u95ed\u97f3\u8282</strong>\u3002",
+              ans6: "<strong>\u77ed\u97f3</strong>\uff08o \u7c7b\u4f3c <em>hot</em> \u91cc\u7684 o\uff09\u3002"
+            },
+            {
+              h: "trich",
+              ans5:
+                "\u7ed3\u5c3e\u6709\u5b57\u6bcd\u7ec4 <strong>ch</strong> \u2192 \u5143\u97f3 <strong>i</strong> \u88ab\u5173\u4f4f \u2192 <strong>\u95ed\u97f3\u8282</strong>\u3002",
+              ans6: "<strong>\u77ed\u97f3</strong>\uff08i \u7c7b\u4f3c <em>sit</em> \u91cc\u7684 i\uff09\u3002"
+            }
+          ]
+        }
+      };
+
+      var HOMEWORK_SYLLABLE_ORDER = [
+        "cotton",
+        "traffic",
+        "nutmeg",
+        "wisdom",
+        "distress",
+        "abstract",
+        "gossip",
+        "sputter",
+        "kitten",
+        "rotten",
+        "velvet",
+        "napkin",
+        "pumpkin",
+        "complex",
+        "entrap",
+        "impress",
+        "helmet",
+        "admit",
+        "backpack"
+      ];
+
+      var HOMEWORK_SYLLABLE_DB = {
+        cotton: { word: "cotton", cutAfter: 2, parts: ["cot", "ton"] },
+        traffic: { word: "traffic", cutAfter: 3, parts: ["traf", "fic"] },
+        nutmeg: { word: "nutmeg", cutAfter: 2, parts: ["nut", "meg"] },
+        wisdom: { word: "wisdom", cutAfter: 2, parts: ["wis", "dom"] },
+        distress: { word: "distress", cutAfter: 2, parts: ["dis", "tress"] },
+        abstract: { word: "abstract", cutAfter: 1, parts: ["ab", "stract"] },
+        gossip: { word: "gossip", cutAfter: 2, parts: ["gos", "sip"] },
+        sputter: { word: "sputter", cutAfter: 3, parts: ["sput", "ter"] },
+        kitten: { word: "kitten", cutAfter: 2, parts: ["kit", "ten"] },
+        rotten: { word: "rotten", cutAfter: 2, parts: ["rot", "ten"] },
+        velvet: { word: "velvet", cutAfter: 2, parts: ["vel", "vet"] },
+        napkin: { word: "napkin", cutAfter: 2, parts: ["nap", "kin"] },
+        pumpkin: { word: "pumpkin", cutAfter: 3, parts: ["pump", "kin"] },
+        complex: { word: "complex", cutAfter: 2, parts: ["com", "plex"] },
+        entrap: { word: "entrap", cutAfter: 1, parts: ["en", "trap"] },
+        impress: { word: "impress", cutAfter: 1, parts: ["im", "press"] },
+        helmet: { word: "helmet", cutAfter: 2, parts: ["hel", "met"] },
+        admit: { word: "admit", cutAfter: 1, parts: ["ad", "mit"] },
+        backpack: { word: "backpack", cutAfter: 3, parts: ["back", "pack"] }
+      };
+
+      function appendSyllableCharRow(panel, word, cutAfter) {
+        var row = document.createElement("div");
+        row.className = "cact-chars-row";
+        row.setAttribute("aria-label", word + " \u5b57\u6bcd");
+        for (var i = 0; i < word.length; i++) {
+          var ch = word[i];
+          var span = document.createElement("span");
+          span.className = "cact-ch";
+          span.textContent = ch;
+          var low = ch.toLowerCase();
+          if ("aeiou".indexOf(low) >= 0) {
+            span.classList.add("cact-vowel");
+            span.setAttribute("data-letter", low);
+          }
+          row.appendChild(span);
+          if (i === cutAfter) {
+            var slot = document.createElement("div");
+            slot.className = "cact-slot";
+            slot.setAttribute("aria-hidden", "true");
+            var sci = document.createElement("span");
+            sci.className = "cact-scissor";
+            sci.title = "\u526a\u5200";
+            sci.textContent = "\u2702";
+            slot.appendChild(sci);
+            row.appendChild(slot);
+          }
+        }
+        panel.appendChild(row);
+      }
+
+      function runScissorAnimation(root, done) {
+        var charsRow = root.querySelector(".cact-chars-row");
+        var splitRow = root.querySelector(".cact-split-row");
+        var scissor = root.querySelector(".cact-scissor");
+        var cutSlot = root.querySelector(".cact-slot");
+        if (!charsRow || !splitRow || !scissor) {
+          if (typeof done === "function") done();
+          return;
+        }
+        if (cutSlot) cutSlot.classList.add("is-cut-guide-visible");
+        var cutDone = false;
+        function finish() {
+          if (cutDone) return;
+          cutDone = true;
+          charsRow.style.display = "none";
+          splitRow.classList.add("is-on");
+          if (typeof done === "function") done();
+        }
+        scissor.classList.remove("run");
+        void scissor.offsetWidth;
+        scissor.classList.add("run");
+        var t = window.setTimeout(finish, 1400);
+        scissor.addEventListener(
+          "animationend",
+          function onEnd() {
+            window.clearTimeout(t);
+            finish();
+          },
+          { once: true }
+        );
+      }
+
+      function flowPanelHtml(badge, subtitle, bodyHtml) {
+        var sub = subtitle ? '<p class="cact-flow-sub">' + subtitle + "</p>" : "";
+        return (
+          '<div class="cact-flow-panel-inner">' +
+          '<span class="cact-flow-badge">' +
+          badge +
+          "</span>" +
+          sub +
+          '<div class="cact-flow-body">' +
+          bodyHtml +
+          "</div></div>"
+        );
+      }
+
+      function vowelsInWordBoldHtml(w) {
+        var out = [];
+        for (var i = 0; i < w.length; i++) {
+          var c = w[i].toLowerCase();
+          if ("aeiou".indexOf(c) >= 0) out.push("<strong>" + w[i] + "</strong>");
+        }
+        return out.join("\u3001");
+      }
+
+      function bindSyllableNextFlow(root, panelsRoot, nextBtn, progressEl, hintEl, stepDefs) {
+        var cur = -1;
+        var busy = false;
+        var total = stepDefs.length;
+        var panels = [];
+
+        function setProgress() {
+          if (progressEl) {
+            progressEl.textContent = "\u7b2c " + (cur + 1) + " / " + total + " \u6b65";
+          }
+        }
+
+        function atEnd() {
+          nextBtn.disabled = true;
+          nextBtn.textContent = "\u5df2\u5b8c\u6210 \u2713";
+        }
+
+        stepDefs.forEach(function (def) {
+          var el = document.createElement("div");
+          el.className = "cact-flow-panel";
+          el.setAttribute("hidden", "");
+          el.innerHTML = def.html;
+          panelsRoot.appendChild(el);
+          panels.push(el);
+        });
+
+        function release() {
+          busy = false;
+          nextBtn.disabled = false;
+          if (cur >= total - 1) atEnd();
+        }
+
+        function goNext() {
+          if (busy) return;
+          if (cur >= total - 1) return;
+          cur++;
+          if (hintEl && cur === 0) hintEl.hidden = true;
+          var p = panels[cur];
+          if (p) {
+            p.hidden = false;
+            try {
+              p.scrollIntoView({ behavior: "smooth", block: "nearest" });
+            } catch (eScroll) {}
+          }
+          setProgress();
+          var def = stepDefs[cur];
+          if (def && typeof def.onEnter === "function") {
+            busy = true;
+            nextBtn.disabled = true;
+            def.onEnter(function () {
+              release();
+            }, root);
+          } else {
+            if (cur >= total - 1) atEnd();
+          }
+        }
+
+        if (progressEl) {
+          progressEl.textContent = "0 / " + total + " \u6b65\uff08\u70b9\u51fb\u4e0b\u4e00\u6b65\uff09";
+        }
+        nextBtn.addEventListener("click", goNext);
+      }
+
+      function buildMetaStepDefs(meta) {
+        var word = meta.word;
+        var p0 = meta.parts[0];
+        var p1 = meta.parts[1];
+        var s0 = meta.syls[0];
+        var s1 = meta.syls[1];
+
+        function vowelIndicesInWord(wword) {
+          var w = (wword || "").toLowerCase();
+          var vi = [];
+          for (var i = 0; i < w.length; i++) {
+            if ("aeiou".indexOf(w[i]) >= 0) vi.push(i);
+          }
+          return vi;
+        }
+
+        function consonantCountBetweenFirstTwoVowels(wword) {
+          var vi = vowelIndicesInWord(wword);
+          if (vi.length < 2) return 0;
+          return vi[1] - vi[0] - 1;
+        }
+
+        function pairThinkReveal(badge, subThink, bodyThink, bodyReveal, onReveal) {
+          var second = {
+            html: flowPanelHtml(badge, subThink + " \u00b7 \u63ed\u6653", bodyReveal)
+          };
+          if (typeof onReveal === "function") second.onEnter = onReveal;
+          return [
+            { html: flowPanelHtml(badge, subThink, bodyThink) },
+            second
+          ];
+        }
+
+        function applyStep3ConsonantHighlight(done, r, wword) {
+          var vi = vowelIndicesInWord(wword);
+          if (vi.length >= 2) {
+            var chars = r.querySelectorAll(".cact-chars-row .cact-ch");
+            for (var j = vi[0] + 1; j < vi[1]; j++) {
+              if (chars[j]) chars[j].classList.add("is-consonant-hl");
+            }
+          }
+          if (typeof done === "function") done();
+        }
+
+        var vHtml = vowelsInWordBoldHtml(word);
+        var ccBetweenVowels = consonantCountBetweenFirstTwoVowels(word);
+        var step4ThisWordNote =
+          ccBetweenVowels === 2
+            ? "<br><strong>\u672c\u8bcd\uff1a</strong>\u6b63\u597d\u662f<strong>\u4e24\u4e2a</strong>\u8f85\u97f3\uff0c\u53ef\u7528\u4e0a\u9762\u201c\u4ece\u4e2d\u95f4\u5212\u5f00\u201d\u7684\u53e3\u8bc0\u3002"
+            : ccBetweenVowels === 1
+            ? "<br><strong>\u672c\u8bcd\uff1a</strong>\u4e2d\u95f4\u53ea\u6709 1 \u4e2a\u8f85\u97f3\uff0c\u4e0d\u9002\u7528\u201c\u4e24\u4e2a\u4ece\u4e2d\u95f4\u5212\u201d\uff1b\u8bf7\u4ee5\u4e0b\u65b9\u52a8\u753b\u4e0e\u6559\u6750\u89c4\u5219\u4e3a\u51c6\u3002"
+            : ccBetweenVowels >= 3
+            ? "<br><strong>\u672c\u8bcd\uff1a</strong>\u4e2d\u95f4\u6709 " +
+              ccBetweenVowels +
+              " \u4e2a\u8f85\u97f3\uff0c\u9700\u6309\u5177\u4f53\u89c4\u5219\u5212\u5206\uff08\u89c1\u4e0b\u65b9\u52a8\u753b\uff09\u3002"
+            : "";
+        var step4ThinkRule =
+          "\u8bf7\u5148<strong>\u6570\u4e00\u6570</strong>\uff1a\u7b2c\u4e00\u4e2a\u5143\u97f3\u4e0e\u7b2c\u4e8c\u4e2a\u5143\u97f3\u4e4b\u95f4\uff0c\u4e00\u5171\u6709 <strong>" +
+          ccBetweenVowels +
+          "</strong> \u4e2a<strong>\u8f85\u97f3\u5b57\u6bcd</strong>\uff08\u5de6\u4fa7\u6de1\u7d2a\u8272\u9ad8\u4eae\u5df2\u6807\u51fa\u5b83\u4eec\uff09\u3002<br>" +
+          "<strong>\u5212\u5206\u53e3\u8bc0\uff1a</strong>\u5982\u679c\u4e2d\u95f4\u6070\u597d\u662f<strong>\u4e24\u4e2a</strong>\u8f85\u97f3\u5b57\u6bcd\uff0c\u6211\u4eec\u5e38\u4ece\u8fd9<strong>\u4e24\u4e2a\u8f85\u97f3\u7684\u4e2d\u95f4</strong>\u5212\u5f00\u6765\u5212\u5206\u97f3\u8282\uff1a\u524d\u4e00\u4e2a\u8f85\u97f3\u5f52\u4e0a\u4e00\u8282\uff0c\u540e\u4e00\u4e2a\u8f85\u97f3\u5f52\u4e0b\u4e00\u8282\u3002" +
+          step4ThisWordNote;
+        var step4RevealExtra =
+          ccBetweenVowels === 2
+            ? "<strong>\u5bf9\u5e94\u53e3\u8bc0\uff1a</strong>\u4e24\u4e2a\u8f85\u97f3\u4ece<strong>\u4e2d\u95f4\u5207\u5f00</strong>\u2192 <strong>" +
+              p0 +
+              "</strong> \u00b7 <strong>" +
+              p1 +
+              "</strong>\u3002<br>"
+            : "";
+
+        return [].concat(
+          [
+            {
+              html: flowPanelHtml(
+                "Step 1",
+                "\u6574\u8bcd\u89c2\u5bdf",
+                "\u627e\u5230\u5355\u8bcd\u91cc\u7684<strong>\u5143\u97f3\u5b57\u6bcd</strong>\u3002\u8bf7\u5148\u81ea\u5df1\u627e\u4e00\u627e\u3001\u60f3\u4e00\u60f3\uff1a\u54ea\u4e9b\u5b57\u6bcd\u662f\u5143\u97f3\uff1f<br>\u60f3\u597d\u540e\u518d\u70b9\u300c<strong>\u4e0b\u4e00\u6b65</strong>\u300d\u63ed\u6653\u7b54\u6848\uff08\u5de6\u4fa7\u9ad8\u4eae\u968f\u4e4b\u663e\u793a\uff09\u3002"
+              )
+            },
+            {
+              html: flowPanelHtml(
+                "Step 1",
+                "\u6574\u8bcd\u89c2\u5bdf \u00b7 \u63ed\u6653",
+                "<strong>\u63ed\u6653\uff1a</strong>\u5143\u97f3\u4e3a " +
+                  vHtml +
+                  "\u3002\u5de6\u4fa7\u5df2\u4e3a\u4f60\u9ad8\u4eae\u663e\u793a\u3002"
+              ),
+              onEnter: function (done, r) {
+                r.querySelectorAll(".cact-vowel").forEach(function (el) {
+                  el.classList.add("is-vowel-hl");
+                });
+                done();
+              }
+            }
+          ],
+          pairThinkReveal(
+            "Step 2",
+            "\u6574\u8bcd\u89c2\u5bdf",
+            "\u8fd9\u4e2a\u5355\u8bcd\u6709\u51e0\u4e2a<strong>\u97f3\u8282</strong>\uff1f\uff08\u53ef\u5148\u62cd\u624b\u542c\u62cd\u6570\uff0c\u518d\u70b9\u300c\u4e0b\u4e00\u6b65\u300d\u63ed\u6653\u7b54\u6848\u3002\uff09",
+            "<strong>\u63ed\u6653\uff1a</strong>\u6709 <strong>" + meta.parts.length + "</strong> \u4e2a\u97f3\u8282\u3002",
+            null
+          ),
+          pairThinkReveal(
+            "Step 3",
+            "\u6574\u8bcd\u89c2\u5bdf",
+            "\u5728\u4e24\u4e2a\u5143\u97f3\u5b57\u6bcd\u4e4b\u95f4\uff0c\u6709\u54ea\u4e9b<strong>\u8f85\u97f3\u5b57\u6bcd</strong>\uff1f\u8bf7\u5148\u601d\u8003\uff0c\u518d\u70b9\u300c\u4e0b\u4e00\u6b65\u300d\u63ed\u6653\u7b54\u6848\u3002",
+            "<strong>\u63ed\u6653\uff1a</strong><span class=\"syl-step3-answer\">" + meta.step3Html + "</span>",
+            function (done, r) {
+              applyStep3ConsonantHighlight(done, r, meta.word);
+            }
+          ),
+          pairThinkReveal(
+            "Step 4",
+            "\u5212\u5206\u97f3\u8282",
+            '<span class="muted">Step 4</span> ' +
+              step4ThinkRule +
+              "<br>" +
+              meta.step4Line +
+              "<br>\u60f3\u597d\u5207\u5206\u4f4d\u7f6e\u540e\uff0c\u70b9\u300c\u4e0b\u4e00\u6b65\u300d\u64ad\u653e\u5212\u5206\u52a8\u753b\u5e76\u63ed\u6653\u3002",
+            "<strong>\u63ed\u6653\uff1a</strong>" +
+              step4RevealExtra +
+              "\u5df2\u64ad\u653e\u5212\u5206\u52a8\u753b\uff0c\u5de6\u4fa7\u5c55\u793a <strong>" +
+              p0 +
+              "</strong> \u00b7 <strong>" +
+              p1 +
+              "</strong>\u3002",
+            function (done, r) {
+              runScissorAnimation(r, done);
+            }
+          ),
+          pairThinkReveal(
+            "Step 5",
+            "\u7b2c\u4e00\u4e2a\u97f3\u8282 <strong>" + s0.h + "</strong>",
+            "\u8fd9\u4e00\u8282\uff08<strong>" +
+              s0.h +
+              "</strong>\uff09\u7684\u7ed3\u5c3e\u662f\u4ec0\u4e48\u5b57\u6bcd\uff1f\u5b83\u662f\u4ec0\u4e48\u97f3\u8282\uff1f\u8bf7\u5148\u601d\u8003\uff0c\u518d\u70b9\u300c\u4e0b\u4e00\u6b65\u300d\u63ed\u6653\u3002",
+            "<strong>\u63ed\u6653\uff1a</strong>" + s0.ans5,
+            null
+          ),
+          pairThinkReveal(
+            "Step 6",
+            "\u7b2c\u4e00\u4e2a\u97f3\u8282 <strong>" + s0.h + "</strong>",
+            "\u5143\u97f3\u5b57\u6bcd\u5728\u95ed\u97f3\u8282\u91cc\u901a\u5e38\u600e\u4e48\u53d1\u97f3\uff1f\u8bf7\u5148\u601d\u8003\uff0c\u518d\u70b9\u300c\u4e0b\u4e00\u6b65\u300d\u63ed\u6653\u3002",
+            "<strong>\u63ed\u6653\uff1a</strong>" + s0.ans6,
+            null
+          ),
+          pairThinkReveal(
+            "Step 7",
+            "\u7b2c\u4e00\u4e2a\u97f3\u8282 <strong>" + s0.h + "</strong>",
+            "\u8bf7\u81ea\u5df1\u62fc\u8bfb\u97f3\u8282 <strong>" +
+              s0.h +
+              "</strong>\u3002\u60f3\u542c\u5bf9\u7167\u65f6\uff0c\u518d\u70b9\u300c\u4e0b\u4e00\u6b65\u300d\u64ad\u653e Azure \u6717\u8bfb\u3002",
+            "<strong>\u63ed\u6653\uff1a</strong>\u5df2\u64ad\u653e\u6717\u8bfb <strong>" +
+              s0.h +
+              "</strong>\u3002\u53ef\u4e0e\u4f60\u7684\u53d1\u97f3\u5bf9\u7167\u3002",
+            function (done) {
+              speak(s0.h)
+                .then(function () {
+                  done();
+                })
+                .catch(function () {
+                  done();
+                });
+            }
+          ),
+          pairThinkReveal(
+            "Step 5",
+            "\u7b2c\u4e8c\u4e2a\u97f3\u8282 <strong>" + s1.h + "</strong>",
+            "\u8fd9\u4e00\u8282\uff08<strong>" +
+              s1.h +
+              "</strong>\uff09\u7684\u7ed3\u5c3e\u662f\u4ec0\u4e48\u5b57\u6bcd\uff1f\u5b83\u662f\u4ec0\u4e48\u97f3\u8282\uff1f\u8bf7\u5148\u601d\u8003\uff0c\u518d\u70b9\u300c\u4e0b\u4e00\u6b65\u300d\u63ed\u6653\u3002",
+            "<strong>\u63ed\u6653\uff1a</strong>" + s1.ans5,
+            null
+          ),
+          pairThinkReveal(
+            "Step 6",
+            "\u7b2c\u4e8c\u4e2a\u97f3\u8282 <strong>" + s1.h + "</strong>",
+            "\u5143\u97f3\u5b57\u6bcd\u5728\u95ed\u97f3\u8282\u91cc\u901a\u5e38\u600e\u4e48\u53d1\u97f3\uff1f\u8bf7\u5148\u601d\u8003\uff0c\u518d\u70b9\u300c\u4e0b\u4e00\u6b65\u300d\u63ed\u6653\u3002",
+            "<strong>\u63ed\u6653\uff1a</strong>" + s1.ans6,
+            null
+          ),
+          pairThinkReveal(
+            "Step 7",
+            "\u7b2c\u4e8c\u4e2a\u97f3\u8282 <strong>" + s1.h + "</strong>",
+            "\u8bf7\u81ea\u5df1\u62fc\u8bfb\u97f3\u8282 <strong>" +
+              s1.h +
+              "</strong>\u3002\u60f3\u542c\u5bf9\u7167\u65f6\uff0c\u518d\u70b9\u300c\u4e0b\u4e00\u6b65\u300d\u64ad\u653e Azure \u6717\u8bfb\u3002",
+            "<strong>\u63ed\u6653\uff1a</strong>\u5df2\u64ad\u653e\u6717\u8bfb <strong>" +
+              s1.h +
+              "</strong>\u3002\u53ef\u4e0e\u4f60\u7684\u53d1\u97f3\u5bf9\u7167\u3002",
+            function (done) {
+              speak(s1.h)
+                .then(function () {
+                  done();
+                })
+                .catch(function () {
+                  done();
+                });
+            }
+          ),
+          pairThinkReveal(
+            "\u8fde\u8bfb\u6574\u8bcd",
+            "\u8fde\u8bfb\u6574\u8bcd",
+            "\u8bf7\u628a\u4e24\u4e2a\u97f3\u8282\u8fde\u8d77\u6765\uff0c\u8bd5\u8bfb\u6574\u8bcd <strong>" +
+              word +
+              "</strong>\u3002\u51c6\u5907\u597d\u540e\u70b9\u300c\u4e0b\u4e00\u6b65\u300d\u63ed\u6653\u5e76\u542c\u6574\u8bcd\u6717\u8bfb\u3002",
+            "<strong>\u63ed\u6653\uff1a</strong><strong>" +
+              p0 +
+              "</strong> + <strong>" +
+              p1 +
+              "</strong> \u2192 <strong>" +
+              word +
+              "</strong>\u3002\u5df2\u64ad\u653e\u6574\u8bcd\u6717\u8bfb\u3002",
+            function (done) {
+              speak(word)
+                .then(function () {
+                  done();
+                })
+                .catch(function () {
+                  done();
+                });
+            }
+          )
+        );
+      }
+
+      function buildSyllableLessonMount(host, meta) {
+        host.innerHTML = "";
+        var word = meta.word;
+        var h2 = document.createElement("h2");
+        h2.className = "slide-title";
+        h2.textContent = SYLLABLE_LESSON_TITLE;
+        host.appendChild(h2);
+        var sub = document.createElement("p");
+        sub.className = "slide-sub";
+        sub.innerHTML = "\u8bfb\u5355\u8bcd \u00b7 <strong>" + word + "</strong>";
+        host.appendChild(sub);
+
+        var grid = document.createElement("div");
+        grid.className = "cact-lesson-grid";
+        var left = document.createElement("div");
+        left.className = "cact-lesson-left";
+        left.setAttribute("aria-label", "\u5355\u8bcd\u3001\u914d\u56fe\u4e0e\u5212\u5206\u52a8\u753b");
+        var hero = document.createElement("div");
+        hero.className = "cact-hero";
+        var imgWrap = document.createElement("div");
+        imgWrap.className = "cact-img-wrap";
+        var img = document.createElement("img");
+        img.className = "syl-lesson-photo";
+        img.alt = word + " \u914d\u56fe";
+        img.width = 200;
+        img.height = 200;
+        img.src = meta.img;
+        var emo = document.createElement("div");
+        emo.className = "cact-emoji-fb";
+        emo.setAttribute("hidden", "");
+        emo.setAttribute("aria-hidden", "true");
+        emo.textContent = meta.emoji;
+        img.addEventListener("error", function () {
+          img.style.display = "none";
+          emo.hidden = false;
+          emo.setAttribute("aria-hidden", "false");
+        });
+        imgWrap.appendChild(img);
+        imgWrap.appendChild(emo);
+        var wpanel = document.createElement("div");
+        wpanel.className = "cact-word-panel";
+        var pl = document.createElement("p");
+        pl.className = "cact-step-line muted";
+        pl.style.marginTop = "0";
+        pl.textContent = "\u5355\u8bcd";
+        wpanel.appendChild(pl);
+        appendSyllableCharRow(wpanel, word, meta.cutAfter);
+        var splitRow = document.createElement("div");
+        splitRow.className = "cact-split-row";
+        splitRow.setAttribute("aria-label", "\u5212\u5206\u540e\u7684\u97f3\u8282");
+        meta.parts.forEach(function (p) {
+          var sp = document.createElement("span");
+          sp.textContent = p;
+          splitRow.appendChild(sp);
+        });
+        wpanel.appendChild(splitRow);
+        hero.appendChild(imgWrap);
+        hero.appendChild(wpanel);
+        left.appendChild(hero);
+
+        var right = document.createElement("aside");
+        right.className = "cact-lesson-right";
+        right.setAttribute("aria-label", "\u6b65\u9aa4\u4e0e\u7b54\u6848");
+        var hint = document.createElement("p");
+        hint.className = "cact-flow-hint";
+        hint.textContent = "\u70b9\u51fb\u300c\u4e0b\u4e00\u6b65\u300d\u4f9d\u6b21\u63ed\u6653\u6bcf\u4e00\u6b65\u3002";
+        var scroll = document.createElement("div");
+        scroll.className = "cact-flow-scroll";
+        var panelsRoot = document.createElement("div");
+        panelsRoot.className = "cact-flow-panels";
+        scroll.appendChild(panelsRoot);
+        var nextRow = document.createElement("div");
+        nextRow.className = "cact-next-row";
+        var nextBtn = document.createElement("button");
+        nextBtn.type = "button";
+        nextBtn.className = "btn cact-btn-next";
+        nextBtn.textContent = "\u4e0b\u4e00\u6b65";
+        var prog = document.createElement("span");
+        prog.className = "cact-flow-progress";
+        nextRow.appendChild(nextBtn);
+        nextRow.appendChild(prog);
+        right.appendChild(hint);
+        right.appendChild(scroll);
+        right.appendChild(nextRow);
+        grid.appendChild(left);
+        grid.appendChild(right);
+        host.appendChild(grid);
+
+        bindSyllableNextFlow(host, panelsRoot, nextBtn, prog, hint, buildMetaStepDefs(meta));
+      }
+
+      function resetHomeworkCutState(wpanel) {
+        var charsRow = wpanel.querySelector(".cact-chars-row");
+        var splitRow = wpanel.querySelector(".cact-split-row");
+        var scissor = wpanel.querySelector(".cact-scissor");
+        var cutSlot = wpanel.querySelector(".cact-slot");
+        if (charsRow) charsRow.style.display = "";
+        if (splitRow) splitRow.classList.remove("is-on");
+        if (scissor) scissor.classList.remove("run");
+        if (cutSlot) cutSlot.classList.remove("is-cut-guide-visible");
+      }
+
+      function buildHomeworkSylMount(host, meta, idxOneBased, total) {
+        host.innerHTML = "";
+        var h2 = document.createElement("h2");
+        h2.className = "slide-title";
+        h2.textContent = "\u8bfe\u540e\u4f5c\u4e1a \u00b7 \u97f3\u8282\u5212\u5206";
+        host.appendChild(h2);
+        var prog = document.createElement("p");
+        prog.className = "slide-sub hw-syl-prog";
+        prog.textContent = "\u7b2c " + idxOneBased + " / " + total + " \u8bcd \u00b7 " + meta.word;
+        host.appendChild(prog);
+        var ins = document.createElement("p");
+        ins.className = "hw-syl-hint";
+        ins.innerHTML =
+          "\u70b9\u51fb<strong>\u5143\u97f3\u5b57\u6bcd</strong>\u9ad8\u4eae\uff1b\u70b9\u51fb<strong>\u4e2d\u95f4\u526a\u5200\u4f4d\u7f6e</strong>\u64ad\u653e\u5212\u5206\u52a8\u753b\uff1b\u70b9\u4e0b\u65b9\u6309\u94ae\u7528 <strong>Azure</strong> \u6717\u8bfb\u5bf9\u7167\u53d1\u97f3\u3002\uff08\u5212\u5206\u4ee5\u5e38\u89c1\u6559\u5b66\u89c4\u5219\u4e3a\u4f8b\uff0c\u4e2a\u522b\u8bcd\u53ef\u6709\u4e0d\u540c\u5212\u6cd5\u6216\u8bfb\u97f3\u3002\uff09";
+        host.appendChild(ins);
+
+        var wpanel = document.createElement("div");
+        wpanel.className = "cact-word-panel hw-syl-word-panel";
+        appendSyllableCharRow(wpanel, meta.word, meta.cutAfter);
+        var splitRow = document.createElement("div");
+        splitRow.className = "cact-split-row";
+        splitRow.setAttribute("aria-label", "\u5212\u5206\u540e\u7684\u97f3\u8282");
+        meta.parts.forEach(function (p) {
+          var sp = document.createElement("span");
+          sp.textContent = p;
+          splitRow.appendChild(sp);
+        });
+        wpanel.appendChild(splitRow);
+        host.appendChild(wpanel);
+
+        wpanel.querySelectorAll(".cact-vowel").forEach(function (el) {
+          el.style.cursor = "pointer";
+          el.title = "\u70b9\u51fb\u9ad8\u4eae/\u53d6\u6d88\u8be5\u5143\u97f3";
+          el.addEventListener("click", function (ev) {
+            ev.stopPropagation();
+            el.classList.toggle("is-vowel-hl");
+          });
+        });
+
+        var cutSlot = wpanel.querySelector(".cact-slot");
+        var cutBusy = false;
+        var cutDone = false;
+        function tryPlayCut() {
+          if (cutBusy || cutDone) return;
+          cutBusy = true;
+          runScissorAnimation(wpanel, function () {
+            cutBusy = false;
+            cutDone = true;
+          });
+        }
+        if (cutSlot) {
+          cutSlot.classList.add("hw-syl-slot-clickable");
+          cutSlot.setAttribute("role", "button");
+          cutSlot.setAttribute("tabindex", "0");
+          cutSlot.setAttribute(
+            "aria-label",
+            "\u97f3\u8282\u5212\u5206\u70b9\uff0c\u70b9\u51fb\u64ad\u653e\u52a8\u753b"
+          );
+          cutSlot.title = "\u70b9\u6b64\u64ad\u653e\u97f3\u8282\u5212\u5206\u52a8\u753b";
+          cutSlot.addEventListener("click", function (ev) {
+            ev.stopPropagation();
+            tryPlayCut();
+          });
+          cutSlot.addEventListener("keydown", function (ev) {
+            if (ev.key === "Enter" || ev.key === " ") {
+              ev.preventDefault();
+              tryPlayCut();
+            }
+          });
+        }
+
+        var btnRow = document.createElement("div");
+        btnRow.className = "btn-row hw-syl-btn-row";
+        var tts = document.createElement("button");
+        tts.type = "button";
+        tts.className = "btn";
+        tts.textContent = "\ud83d\udd0a Azure \u6717\u8bfb\u5355\u8bcd";
+        tts.setAttribute("aria-label", "Azure \u6717\u8bfb " + meta.word);
+        tts.addEventListener("click", function () {
+          speak(meta.word).catch(function () {});
+        });
+        btnRow.appendChild(tts);
+        var resetBtn = document.createElement("button");
+        resetBtn.type = "button";
+        resetBtn.className = "btn hw-syl-reset-btn";
+        resetBtn.textContent = "\u91cd\u770b\u5212\u5206\u52a8\u753b";
+        resetBtn.setAttribute("aria-label", "\u91cd\u7f6e\u4e3a\u5b57\u6bcd\u884c\u5e76\u53ef\u518d\u6b21\u64ad\u653e\u52a8\u753b");
+        resetBtn.addEventListener("click", function () {
+          resetHomeworkCutState(wpanel);
+          cutDone = false;
+          cutBusy = false;
+        });
+        btnRow.appendChild(resetBtn);
+        host.appendChild(btnRow);
+      }
+
+      function initSyllablePracticeMounts() {
+        document.querySelectorAll(".syl-lesson-root").forEach(function (host) {
+          var id = (host.getAttribute("data-syl-id") || "").trim().toLowerCase();
+          var meta = SYLLABLE_LESSON_DB[id];
+          if (!meta) return;
+          buildSyllableLessonMount(host, meta);
+        });
+        var ord = HOMEWORK_SYLLABLE_ORDER;
+        document.querySelectorAll(".hw-syl-root").forEach(function (host) {
+          if (host.dataset.wired) return;
+          host.dataset.wired = "1";
+          var id = (host.getAttribute("data-hw-syl") || "").trim().toLowerCase();
+          var meta = HOMEWORK_SYLLABLE_DB[id];
+          if (!meta) return;
+          var idx = ord.indexOf(id);
+          buildHomeworkSylMount(host, meta, (idx >= 0 ? idx : 0) + 1, ord.length);
+        });
+      }
+
+      initSyllablePracticeMounts();
+
+      var btnRevealCvc = document.getElementById("btn-reveal-cvc-rule");
+      var elCvcConclusion = document.getElementById("cvc-conclusion");
+      if (btnRevealCvc && elCvcConclusion) {
+        btnRevealCvc.addEventListener("click", function () {
+          elCvcConclusion.hidden = false;
+          btnRevealCvc.setAttribute("aria-expanded", "true");
+        });
+      }
+
+      var btnRevealClosedTrait = document.getElementById("btn-reveal-closed-trait");
+      var elClosedTraitAns = document.getElementById("closed-trait-answer");
+      if (btnRevealClosedTrait && elClosedTraitAns) {
+        btnRevealClosedTrait.addEventListener("click", function () {
+          elClosedTraitAns.hidden = false;
+          btnRevealClosedTrait.setAttribute("aria-expanded", "true");
+          btnRevealClosedTrait.disabled = true;
+          btnRevealClosedTrait.textContent = "已揭晓 ✓";
+        });
+      }
+
+      var btnSpeakCvcEn = document.getElementById("btn-speak-cvc-rule-en");
+      if (btnSpeakCvcEn) {
+        btnSpeakCvcEn.addEventListener("click", function () {
+          speak(
+            "In a C V C word, the vowel is closed in by consonants. A usually has a short A sound as in cat. E usually has a short E sound as in pen. I usually has a short I sound as in big. O usually has a short O sound as in hot. U usually has a short U sound as in cup. We call these short vowel sounds."
+          ).catch(function () {});
+        });
+      }
+
+      var slides = Array.prototype.slice.call(document.querySelectorAll(".slide"));
+      var total = slides.length;
+      var cur = 0;
+      var dotsEl = document.getElementById("dots");
+
+      for (var d = 0; d < total; d++) {
+        (function (i) {
+          var dot = document.createElement("button");
+          dot.type = "button";
+          dot.className = "dot" + (i === 0 ? " on" : "");
+          dot.setAttribute("aria-label", "第 " + (i + 1) + " 页");
+          dot.addEventListener("click", function () { go(i); });
+          dotsEl.appendChild(dot);
+        })(d);
+      }
+
+      function go(n) {
+        cur = Math.max(0, Math.min(total - 1, n));
+        slides.forEach(function (s, i) {
+          s.classList.toggle("active", i === cur);
+        });
+        Array.prototype.forEach.call(dotsEl.querySelectorAll(".dot"), function (dot, i) {
+          dot.classList.toggle("on", i === cur);
+        });
+      }
+
+      document.getElementById("btn-prev").addEventListener("click", function () { go(cur - 1); });
+      document.getElementById("btn-next").addEventListener("click", function () { go(cur + 1); });
+
+      document.addEventListener("keydown", function (e) {
+        if (e.target.matches("input, textarea, select")) return;
+        if (e.key === "ArrowRight" || e.key === "PageDown") { e.preventDefault(); go(cur + 1); }
+        if (e.key === "ArrowLeft" || e.key === "PageUp") { e.preventDefault(); go(cur - 1); }
+      });
+
+      var door = document.getElementById("door-stage");
+      var toggleDoor = document.getElementById("toggle-door");
+      if (door && toggleDoor) {
+        toggleDoor.addEventListener("click", function () {
+          door.classList.toggle("closed");
+        });
+      }
+
+      document.querySelectorAll(".lab-card").forEach(function (card) {
+        card.addEventListener("click", function () {
+          card.classList.toggle("slashed");
+          if (card.classList.contains("slashed")) {
+            speak(card.getAttribute("data-speak") || "").catch(function () {});
+          }
+        });
+        card.addEventListener("keydown", function (e) {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            card.click();
+          }
+        });
+      });
+
+    })();
+  </script>
+</body>
+</html>
