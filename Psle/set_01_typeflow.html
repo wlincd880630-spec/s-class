@@ -1,0 +1,2630 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>按题型学习 · 套题</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,600;0,9..40,700;1,9..40,400&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <style>
+    :root {
+      --bg: #eef3f0;
+      --card: #fbfcfa;
+      --ink: #1c2420;
+      --muted: #5c6860;
+      --accent: #2d6a4f;
+      --accent-soft: #95d5b2;
+      --border: #c8d5cc;
+      --ok: #1b7a3d;
+      --ok-bg: #d8f5e0;
+      --bad: #b42318;
+      --bad-bg: #fde8e6;
+      --warn: #9a6b2d;
+      --warn-bg: #fff4e0;
+      --shadow: rgba(28, 36, 32, 0.07);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "DM Sans", system-ui, sans-serif;
+      font-size: 16px;
+      line-height: 1.55;
+      color: var(--ink);
+      background: linear-gradient(145deg, #e4ebe6 0%, var(--bg) 40%, #dde8e2 100%);
+      min-height: 100vh;
+    }
+    .view { display: none; max-width: 920px; margin: 0 auto; padding: 1rem 1rem 3rem; }
+    .view.active { display: block; }
+    #view-quiz.view-cloze-wide,
+    #view-quiz.view-reading-wide {
+      max-width: 1220px;
+    }
+    .reading-quiz-layout {
+      display: grid;
+      grid-template-columns: minmax(320px, 1fr) minmax(280px, 400px);
+      gap: 1.35rem;
+      align-items: start;
+      margin-bottom: 1.5rem;
+    }
+    @media (max-width: 880px) {
+      .reading-quiz-layout {
+        grid-template-columns: 1fr;
+      }
+      .reading-questions-col {
+        position: static !important;
+        max-height: none !important;
+      }
+      .reading-passage-card {
+        position: static !important;
+        max-height: none !important;
+      }
+    }
+    .reading-passage-col { min-width: 0; }
+    .reading-passage-card {
+      position: sticky;
+      top: 4.5rem;
+      max-height: calc(100vh - 5.5rem);
+      overflow: auto;
+    }
+    .reading-passage-card h2 { margin-top: 0; }
+    .reading-passage-text {
+      font-family: "Literata", Georgia, serif;
+      white-space: normal;
+      font-size: 1.24rem;
+      line-height: 1.82;
+      letter-spacing: 0.01em;
+      color: var(--ink);
+      background: #f7faf7;
+      padding: 1.1rem 1.2rem;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+    }
+    .reading-questions-col {
+      position: sticky;
+      top: 4.5rem;
+      max-height: calc(100vh - 5.5rem);
+      overflow-y: auto;
+      padding-right: 0.25rem;
+    }
+    .reading-q-card {
+      padding: 0.75rem 0.9rem;
+      margin-bottom: 0.75rem;
+    }
+    .reading-q-card .q-head { margin-bottom: 0.45rem; }
+    .reading-learn-layout {
+      display: grid;
+      grid-template-columns: minmax(300px, 1fr) minmax(280px, 1fr);
+      gap: 1.25rem;
+      align-items: start;
+      margin-bottom: 1.25rem;
+    }
+    @media (max-width: 880px) {
+      .reading-learn-layout {
+        grid-template-columns: 1fr;
+      }
+      .reading-learn-passage {
+        position: static !important;
+        max-height: none !important;
+      }
+    }
+    .reading-learn-passage {
+      position: sticky;
+      top: 4.5rem;
+      max-height: calc(100vh - 5.5rem);
+      overflow: auto;
+    }
+    .cloze-quiz-layout {
+      display: grid;
+      grid-template-columns: minmax(320px, 1fr) minmax(280px, 400px);
+      gap: 1.35rem;
+      align-items: start;
+    }
+    @media (max-width: 880px) {
+      .cloze-quiz-layout {
+        grid-template-columns: 1fr;
+      }
+      .cloze-options-col {
+        position: static !important;
+        max-height: none !important;
+      }
+    }
+    .cloze-passage-col {
+      min-width: 0;
+    }
+    .cloze-passage-card {
+      position: sticky;
+      top: 4.5rem;
+      max-height: calc(100vh - 5.5rem);
+      overflow: auto;
+    }
+    .cloze-passage-text {
+      font-family: "Literata", Georgia, serif;
+      white-space: normal;
+      font-size: 1.22rem;
+      line-height: 1.82;
+      letter-spacing: 0.01em;
+      color: var(--ink);
+      background: #f7faf7;
+      padding: 1.1rem 1.2rem;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+    }
+    .cloze-options-col {
+      position: sticky;
+      top: 4.5rem;
+      max-height: calc(100vh - 5.5rem);
+      overflow-y: auto;
+      padding-right: 0.25rem;
+    }
+    .cloze-opt-card {
+      padding: 0.75rem 0.9rem;
+      margin-bottom: 0.75rem;
+    }
+    /* 补全对话（题干仅为题号占位）：不显示「第 n 空」与说明段落，仅题号 + 选项 */
+    .cloze-dialogue-gap-card .q {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0.5rem;
+    }
+    .cloze-dialogue-gap-badge {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin: 0;
+      line-height: 1.3;
+    }
+    /* 阅读：选项纵向单列，A→B→C 自上而下 */
+    .reading-q-card .opts {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.45rem;
+      align-items: start;
+    }
+    .reading-q-card .opts label {
+      padding: 0.35rem 0.45rem;
+      font-size: 0.98rem;
+      margin: 0;
+      min-width: 0;
+    }
+    .reading-q-card .opts.opts-cols-2,
+    .reading-q-card .opts.opts-cols-3,
+    .reading-q-card .opts.opts-cols-4 {
+      grid-template-columns: 1fr;
+    }
+    .reading-q-card .opts.opts-bank {
+      grid-template-columns: 1fr;
+    }
+    /* 完形：题号与 A–D 同一行横向排列、垂直对齐 */
+    .cloze-opt-card .q {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.45rem 0.75rem;
+      margin: 0.55rem 0 0.7rem;
+      padding-left: 0.55rem;
+    }
+    .cloze-opt-card .q-head {
+      margin-bottom: 0;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.35rem 0.5rem;
+    }
+    .cloze-opt-card .opts {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      column-gap: 0.55rem;
+      row-gap: 0.35rem;
+      align-items: start;
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+    .cloze-opt-card .opts label {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.35rem;
+      padding: 0.2rem 0.25rem;
+      font-size: 0.98rem;
+      margin: 0;
+      min-width: 0;
+    }
+    .cloze-opt-card .opts label strong {
+      display: inline-block;
+      min-width: 1.15em;
+      flex-shrink: 0;
+      font-weight: 700;
+    }
+    .cloze-opt-card .opts input {
+      margin-top: 0.22em;
+      flex-shrink: 0;
+    }
+    .cloze-opt-card .opts.opts-cols-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .cloze-opt-card .opts.opts-cols-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    .cloze-opt-card .opts.opts-bank {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(11.5rem, 1fr));
+      column-gap: 0.55rem;
+      row-gap: 0.35rem;
+      align-items: start;
+    }
+    /* 完形填空（练习页）：A B C 自上而下纵向排列 */
+    .cloze-opt-card .opts.opts-cloze-abcd {
+      display: grid;
+      grid-template-columns: 1fr;
+      row-gap: 0.35rem;
+      align-items: start;
+      justify-items: stretch;
+      flex: 1 1 100%;
+      width: 100%;
+      min-width: 0;
+    }
+    .cloze-opt-abcd.cloze-opt-abcd-full {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.35rem;
+      margin: 0;
+      padding: 0.25rem 0.2rem;
+      min-width: 0;
+    }
+    .cloze-opt-abcd.cloze-opt-abcd-full input {
+      margin-top: 0.22em;
+      flex-shrink: 0;
+    }
+    .cloze-opt-abcd.cloze-opt-abcd-full span {
+      min-width: 0;
+      font-size: 0.98rem;
+      line-height: 1.35;
+    }
+    .cloze-opt-abcd.cloze-opt-abcd-full strong {
+      font-weight: 700;
+    }
+    .cloze-learn-block .cloze-learn-passage {
+      font-family: "Literata", Georgia, serif;
+      font-size: 1.14rem;
+      line-height: 1.85;
+      letter-spacing: 0.01em;
+      color: var(--ink);
+      background: #f7faf7;
+      padding: 1rem 1.15rem;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      margin-top: 0.25rem;
+    }
+    .cloze-filled-ans {
+      font-weight: 700;
+      color: #0f3d26;
+      background: linear-gradient(180deg, transparent 58%, rgba(149, 213, 178, 0.65) 58%);
+      padding: 0 0.15em;
+      border-radius: 4px;
+      box-decoration-break: clone;
+      -webkit-box-decoration-break: clone;
+    }
+    h2.cloze-learn-subhd {
+      margin: 1.35rem 0 0.5rem;
+      font-size: 1.08rem;
+      color: var(--accent);
+      font-family: "Literata", Georgia, serif;
+      border-bottom: 2px solid rgba(45, 106, 79, 0.2);
+      padding-bottom: 0.35rem;
+    }
+    header.flow {
+      position: sticky; top: 0; z-index: 40;
+      display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1rem;
+      padding: 0.65rem 1rem; margin: -1rem -1rem 1rem;
+      background: rgba(251, 252, 250, 0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+    header.flow h1 {
+      margin: 0; flex: 1 1 200px; font-size: 1.05rem; font-weight: 700;
+      color: var(--accent); font-family: "Literata", Georgia, serif;
+    }
+    .timer {
+      font-variant-numeric: tabular-nums; font-weight: 600; color: var(--muted);
+      padding: 0.35rem 0.75rem; background: #fff; border-radius: 10px; border: 1px solid var(--border);
+    }
+    button.btn {
+      font: inherit; cursor: pointer; border: none; border-radius: 10px;
+      padding: 0.45rem 1rem; font-weight: 600;
+    }
+    button.primary { background: linear-gradient(135deg, var(--accent), #1b4d3a); color: #fff; }
+    button.secondary { background: #fff; border: 1px solid var(--border); color: var(--ink); }
+    button.ghost { background: transparent; border: 1px dashed var(--border); }
+    button:disabled { opacity: 0.45; cursor: not-allowed; }
+    .type-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1rem; margin-top: 0.5rem;
+    }
+    .type-card {
+      background: var(--card); border: 1px solid var(--border); border-radius: 18px;
+      padding: 1.15rem 1.2rem; box-shadow: 0 12px 36px var(--shadow);
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .type-card:hover { transform: translateY(-2px); box-shadow: 0 16px 44px var(--shadow); }
+    .type-card h2 { margin: 0 0 0.35rem; font-size: 1.1rem; color: var(--accent); font-family: "Literata", serif; }
+    .type-card .meta { font-size: 0.88rem; color: var(--muted); margin-bottom: 0.85rem; }
+    .card {
+      background: var(--card); border: 1px solid var(--border); border-radius: 16px;
+      padding: 1rem 1.15rem; margin-bottom: 1.1rem; box-shadow: 0 8px 28px var(--shadow);
+    }
+    .card h2 { margin: 0 0 0.65rem; font-size: 1.05rem; color: var(--accent); font-family: "Literata", serif; border-bottom: 2px solid rgba(45, 106, 79, 0.15); padding-bottom: 0.35rem; }
+    .passage {
+      font-family: "Literata", Georgia, serif; white-space: normal; font-size: 0.95rem;
+      line-height: 1.65; background: #f4f8f5; padding: 0.85rem 1rem; border-radius: 12px;
+      border: 1px solid var(--border); margin-bottom: 1rem;
+    }
+    /* 段与段之间约一整行空白（与各行 line-height 对齐） */
+    .passage-para {
+      margin: 0;
+      line-height: inherit;
+    }
+    .reading-passage-text .passage-para,
+    .cloze-passage-text .passage-para {
+      margin-bottom: 1.82em;
+    }
+    .passage > .passage-para {
+      margin-bottom: 1.65em;
+    }
+    .cloze-learn-passage .passage-para {
+      margin-bottom: 1.85em;
+    }
+    .passage-para:last-child {
+      margin-bottom: 0 !important;
+    }
+    .reading-passage-text > .passage-para:first-child,
+    .cloze-passage-text > .passage-para:first-child,
+    .passage > .passage-para:first-child {
+      margin-top: 0;
+    }
+    .q { margin: 1rem 0 1.25rem; padding-left: 0.75rem; border-left: 4px solid rgba(45, 106, 79, 0.3); }
+    .q-head { display: flex; flex-wrap: wrap; gap: 0.35rem 0.6rem; align-items: baseline; margin-bottom: 0.4rem; }
+    .q-num { font-weight: 700; color: var(--accent); }
+    .tag { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); background: #e8efe9; padding: 0.12rem 0.45rem; border-radius: 4px; }
+    .stem { font-family: "Literata", Georgia, serif; margin: 0.35rem 0 0.5rem; }
+    .opts label {
+      display: flex; gap: 0.5rem; align-items: flex-start; padding: 0.4rem 0.5rem;
+      border-radius: 8px; cursor: pointer;
+    }
+    .opts label:hover { background: rgba(45, 106, 79, 0.06); }
+    .opts input { margin-top: 0.35rem; }
+    .card.q-block:not(.cloze-opt-card):not(.reading-q-card) .opts.opts-cols-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.4rem 1rem;
+      align-items: start;
+    }
+    .card.q-block:not(.cloze-opt-card):not(.reading-q-card) .opts.opts-cols-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.4rem 0.85rem;
+      align-items: start;
+    }
+    .card.q-block:not(.cloze-opt-card):not(.reading-q-card) .opts.opts-cols-4 {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0.35rem 0.75rem;
+      align-items: start;
+    }
+    .blank-line { display: inline-block; min-width: 5rem; border-bottom: 2px solid var(--accent-soft); margin: 0 0.12rem; }
+    .blank-line input { width: 100%; border: none; background: transparent; font: inherit; padding: 0.12rem; }
+    .area { width: 100%; min-height: 6rem; font: inherit; padding: 0.55rem 0.65rem; border-radius: 10px; border: 1px solid var(--border); }
+    .pill-ok { background: var(--ok-bg); color: var(--ok); font-weight: 700; padding: 0.2rem 0.55rem; border-radius: 8px; font-size: 0.82rem; }
+    .pill-bad { background: var(--bad-bg); color: var(--bad); font-weight: 700; padding: 0.2rem 0.55rem; border-radius: 8px; font-size: 0.82rem; }
+    .pill-open { background: var(--warn-bg); color: var(--warn); font-weight: 700; padding: 0.2rem 0.55rem; border-radius: 8px; font-size: 0.82rem; }
+    .ans-row { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; margin: 0.5rem 0; align-items: flex-start; }
+    .ans-box { flex: 1 1 220px; padding: 0.5rem 0.65rem; border-radius: 10px; font-size: 0.92rem; }
+    .ans-you { border: 2px solid var(--bad); background: #fff8f7; }
+    .ans-you.ok { border-color: var(--ok); background: #f4fff7; }
+    .ans-key { border: 2px solid var(--accent-soft); background: #f0faf3; }
+    .toolbar { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.5rem 0; }
+    .panel { display: none; margin-top: 0.5rem; padding: 0.75rem; background: #f4faf6; border-radius: 12px; border: 1px solid #b8d4c4; }
+    .panel.open { display: block; }
+    .md { font-size: 0.92rem; line-height: 1.6; }
+    .md p { margin: 0.35rem 0; }
+    .soc-track { margin: 0.75rem 0; padding: 0.75rem; background: #fff; border-radius: 12px; border: 1px solid var(--border); }
+    .soc-track h4 { margin: 0 0 0.5rem; font-size: 0.95rem; color: var(--accent); }
+    .soc-step { margin: 0.5rem 0; padding: 0.5rem 0.6rem; background: #fafcfb; border-radius: 8px; border-left: 3px solid var(--accent-soft); }
+    .soc-step .qtext { font-weight: 600; margin-bottom: 0.25rem; }
+    .hint { font-size: 0.88rem; color: var(--muted); display: none; margin-top: 0.35rem; }
+    .hint.show { display: block; }
+    .takeaway { font-size: 0.88rem; color: var(--ok); margin-top: 0.35rem; font-weight: 600; display: none; }
+    .takeaway.show { display: block; }
+    .wlink {
+      cursor: pointer; border-bottom: 1px dotted var(--accent); color: #1e5c40;
+      user-select: text; -webkit-user-select: text;
+    }
+    #modal {
+      display: none; position: fixed; inset: 0; z-index: 100000;
+      background: rgba(0,0,0,0.35); align-items: center; justify-content: center; padding: 1rem;
+    }
+    #modal.open { display: flex; }
+    #modal .box {
+      background: var(--card); max-width: 440px; width: 100%; border-radius: 16px;
+      padding: 1.1rem; border: 1px solid var(--border);
+    }
+    .breadcrumb { font-size: 0.85rem; color: var(--muted); margin-bottom: 0.75rem; }
+    .muted { color: var(--muted); font-size: 0.9rem; }
+    .opt-review { font-size: 0.88rem; margin: 0.35rem 0 0.5rem; padding: 0.45rem 0.55rem; background: #f7faf8; border-radius: 8px; border: 1px solid #dce8e0; }
+
+    #printHost {
+      position: absolute;
+      width: 0;
+      height: 0;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+    }
+    html.pdf-printing #printHost {
+      position: relative;
+      width: auto;
+      height: auto;
+      overflow: visible;
+      clip: auto;
+      max-width: 210mm;
+      margin: 0 auto;
+      padding: 0 10mm;
+      font-size: 11pt;
+      line-height: 1.45;
+      color: #000;
+      background: #fff;
+    }
+    html.pdf-printing .view,
+    html.pdf-printing #modal {
+      display: none !important;
+    }
+
+    /* —— 标准纸笔试卷版式（仅 #printHost 内，与网页练习样式无关）—— */
+    .exam-paper-doc {
+      font-family: "Times New Roman", "SimSun", "Songti SC", serif;
+      font-size: 11pt;
+      line-height: 1.55;
+      color: #000;
+      text-align: left;
+    }
+    .exam-paper-masthead {
+      text-align: center;
+      margin-bottom: 8mm;
+      break-after: page;
+      page-break-after: always;
+    }
+    .exam-paper-title {
+      font-family: "SimHei", "SimSun", "Songti SC", serif;
+      font-size: 16pt;
+      font-weight: 700;
+      margin: 0 0 4mm;
+      letter-spacing: 0.12em;
+    }
+    .exam-paper-meta-line {
+      font-size: 11pt;
+      margin: 2mm 0 5mm;
+    }
+    .exam-meta-gap { margin-left: 2em; }
+    .exam-paper-student-line {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2em 3em;
+      font-size: 10.5pt;
+      margin: 4mm 0 6mm;
+      padding: 3mm 0;
+      border-top: 1px solid #000;
+      border-bottom: 1px solid #000;
+    }
+    /* 不同题型各占新页（封面后第一题型自然从新页起，其后每题型强制分页） */
+    .exam-paper-section {
+      margin-top: 0;
+      padding-top: 5mm;
+      border-top: 1.5pt solid #000;
+      break-inside: auto;
+    }
+    .exam-paper-section:not(:first-of-type) {
+      break-before: page;
+      page-break-before: always;
+    }
+    .exam-paper-section:first-of-type {
+      border-top: none;
+      padding-top: 0;
+    }
+    .exam-big-title {
+      font-family: "SimHei", "SimSun", "Songti SC", serif;
+      font-size: 12pt;
+      font-weight: 700;
+      margin: 0 0 3mm;
+      text-align: left;
+    }
+    .exam-direction {
+      font-family: "SimSun", "Songti SC", serif;
+      font-size: 10.5pt;
+      margin: 0 0 2.5mm;
+      text-indent: 2em;
+    }
+    .exam-subhead {
+      font-weight: 700;
+      font-size: 11pt;
+      margin: 2mm 0 1.5mm;
+    }
+    /* 小标题/说明与正文框不分页（避免「标题在上页、正文在下页」） */
+    .exam-passage-titled-wrap {
+      break-inside: avoid;
+      page-break-inside: avoid;
+      margin-bottom: 4mm;
+    }
+    .exam-passage-titled-wrap .exam-direction {
+      margin-bottom: 1mm;
+    }
+    .exam-passage-titled-wrap .exam-subhead {
+      margin-bottom: 1mm;
+    }
+    /* 阅读/完形文章整块不跨页（过长时由浏览器在块前整体移到下一页） */
+    .exam-passage-block {
+      margin: 2mm 0 4mm;
+      padding: 3mm 4mm;
+      border: 1px solid #222;
+      text-align: justify;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+    .exam-passage-block .exam-para {
+      margin: 0 0 0.55em;
+      text-indent: 2em;
+    }
+    .exam-passage-block .exam-para:first-child { margin-top: 0; }
+    .exam-passage-block .exam-para:last-child { margin-bottom: 0; }
+    .exam-word-bank {
+      margin: 2mm 0 4mm;
+      padding: 3mm 4mm;
+      border: 1px dashed #000;
+      font-size: 10.5pt;
+      line-height: 1.6;
+      break-inside: auto;
+      page-break-inside: auto;
+    }
+    .exam-reading-unit {
+      margin-bottom: 4mm;
+      break-inside: auto;
+      page-break-inside: auto;
+    }
+    /* 同一题型内：每道小题（题干+选项）尽量不跨页 */
+    .exam-item {
+      margin: 0 0 3.5mm;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+    .exam-item .exam-item-row,
+    .exam-item .exam-opts-row {
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+    .exam-item-row {
+      display: block;
+      margin: 0;
+    }
+    .exam-n {
+      font-weight: 700;
+      margin-right: 0.35em;
+    }
+    .exam-paren { letter-spacing: 0.2em; margin-right: 0.25em; }
+    .exam-blank {
+      border-bottom: 1px solid #000;
+      padding: 0 1.2em;
+      margin: 0 0.15em;
+    }
+    /* 阅读/单选等：默认 2×2；按选项数单列等分对齐 */
+    .exam-opts-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      column-gap: 1.5em;
+      row-gap: 0.3em;
+      margin: 1mm 0 0 2.2em;
+      font-size: 10.5pt;
+      align-items: start;
+    }
+    .exam-opts-row.exam-opts-cols-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .exam-opts-row.exam-opts-cols-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    .exam-opts-row.exam-opts-cols-4 {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+    .exam-opts-row.exam-opts-bank {
+      grid-template-columns: repeat(auto-fill, minmax(11em, 1fr));
+    }
+    /* 阅读理解 PDF：选项纵向排列，字母与正文对齐，避免三列过窄、英文被拆字换行 */
+    .exam-item-reading .exam-opts-row {
+      display: block;
+      margin: 1.5mm 0 0 2em;
+    }
+    .exam-item-reading .exam-opts-row.exam-opts-cols-2,
+    .exam-item-reading .exam-opts-row.exam-opts-cols-3,
+    .exam-item-reading .exam-opts-row.exam-opts-cols-4 {
+      display: block;
+    }
+    .exam-item-reading .exam-opt-chip {
+      display: grid;
+      grid-template-columns: 1.65em minmax(0, 1fr);
+      column-gap: 0.45em;
+      align-items: start;
+      margin: 0 0 0.55em;
+      padding: 0;
+      line-height: 1.5;
+      text-align: left;
+      min-width: 0;
+    }
+    .exam-item-reading .exam-opt-chip:last-child {
+      margin-bottom: 0;
+    }
+    .exam-item-reading .exam-opt-chip b {
+      margin-right: 0;
+      font-weight: 700;
+    }
+    /* 补全对话 PDF：题干已在左侧对话中，不重复「51.（ ）」等题目行，仅题号 + 方框选项 */
+    .exam-item-cloze.exam-cloze-dialogue-gap {
+      display: block;
+    }
+    .exam-cloze-dialogue-gap {
+      margin: 0.55em 0 0.65em;
+    }
+    .exam-cloze-dialogue-gap .exam-dialogue-gap-num {
+      display: block;
+      font-weight: 700;
+      margin: 0 0 0.35em 0.15em;
+      font-size: 11pt;
+    }
+    /* 完形 PDF：题号与 A–D 同一行横向排列 */
+    .exam-item-cloze {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      column-gap: 1em;
+      row-gap: 0.6mm;
+    }
+    .exam-item-cloze .exam-item-row {
+      display: inline-flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.2em 0.45em;
+    }
+    .exam-item-cloze .exam-opts-row {
+      display: grid;
+      column-gap: 0.85em;
+      row-gap: 0.2em;
+      align-items: start;
+      flex: 1 1 auto;
+      min-width: 0;
+      margin: 0;
+    }
+    .exam-item-cloze .exam-opts-row.exam-opts-cols-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .exam-item-cloze .exam-opts-row.exam-opts-cols-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    .exam-item-cloze .exam-opts-row.exam-opts-cols-4 {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+    .exam-item-cloze .exam-opts-row.exam-opts-bank {
+      grid-template-columns: repeat(auto-fill, minmax(10.5em, 1fr));
+    }
+    /* 完形 PDF：整卷表格，题号与 A/B/C 同一行；各题 A 列、B 列、C 列分别左对齐 */
+    .exam-cloze-pdf-grid {
+      display: grid;
+      grid-template-columns: minmax(2.85em, auto) repeat(3, minmax(0, 1fr));
+      column-gap: 0.75em;
+      row-gap: 0.5em;
+      margin: 0.55em 0 0.85em;
+      align-items: start;
+    }
+    .exam-cloze-pdf-grid.exam-cloze-pdf-grid-4opt {
+      grid-template-columns: minmax(2.85em, auto) repeat(4, minmax(0, 1fr));
+    }
+    .exam-cloze-pdf-num {
+      text-align: left;
+      white-space: nowrap;
+      font-weight: 600;
+    }
+    .exam-cloze-pdf-num .exam-n {
+      font-weight: 700;
+    }
+    .exam-cloze-pdf-opt {
+      text-align: left;
+      min-width: 0;
+      line-height: 1.45;
+    }
+    .exam-cloze-pdf-opt b {
+      font-weight: 700;
+      margin-right: 0.25em;
+    }
+    .exam-cloze-pdf-opt-empty {
+      visibility: hidden;
+      pointer-events: none;
+      min-height: 1em;
+    }
+    .exam-item-cloze .exam-cloze-pdf-grid {
+      flex: 1 1 100%;
+      width: 100%;
+    }
+    .exam-item-cloze .exam-opt-chip {
+      display: block;
+      min-width: 0;
+    }
+    .exam-opt-chip {
+      min-width: 0;
+    }
+    .exam-opt-chip b { margin-right: 0.25em; }
+    .exam-item-cloze .exam-opt-chip b {
+      display: inline-block;
+      min-width: 1.15em;
+      margin-right: 0.2em;
+    }
+    .exam-answer-lines {
+      min-height: 14em;
+      margin-top: 2mm;
+      border: 1px solid #333;
+      background: repeating-linear-gradient(
+        transparent,
+        transparent 1.45em,
+        #ddd 1.45em,
+        #ddd calc(1.45em + 1px)
+      );
+    }
+    @media print {
+      @page { size: A4; margin: 12mm 14mm; }
+      html, body {
+        background: #fff !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      html.pdf-printing body {
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+      html.pdf-printing #printHost {
+        clip: auto !important;
+      }
+      .exam-paper-section:not(:first-of-type) {
+        break-before: page !important;
+        page-break-before: always !important;
+      }
+      .exam-passage-titled-wrap {
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
+      }
+      /* 完形填空：PDF 不显示答题括号与题干下划线占位 */
+      .exam-item-cloze .exam-paren,
+      .exam-item-cloze .exam-blank,
+      .exam-cloze-pdf-num .exam-paren {
+        display: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="view-home" class="view active">
+    <header class="flow" style="position:relative;margin:0 0 1rem;border-radius:0 0 12px 12px;">
+      <h1 id="homeTitle">按题型练习</h1>
+      <button type="button" class="btn secondary" id="btnPdfFull" title="按标准纸笔试卷版式排版，打印对话框中选「另存为 PDF」">导出 PDF（整套·标准试卷版式）</button>
+    </header>
+    <p class="breadcrumb">先选择一种题型，完成该题型全部题目后提交，再进入讲解与苏格拉底引导。</p>
+    <div class="type-grid" id="typeGrid"></div>
+  </div>
+
+  <div id="view-quiz" class="view">
+    <header class="flow">
+      <h1 id="quizTitle">答题</h1>
+      <span class="timer" id="quizTimer">用时 00:00</span>
+      <button type="button" class="btn secondary" id="btnPdfType" title="仅导出当前题型，标准试卷版式">导出 PDF（本题型·标准版式）</button>
+      <button type="button" class="btn secondary" id="btnBackHome">← 题型首页</button>
+    </header>
+    <div class="breadcrumb" id="quizBreadcrumb"></div>
+    <div id="quizIntro"></div>
+    <div id="quizBody"></div>
+    <div style="margin-top:1.5rem;text-align:center;">
+      <button type="button" class="btn primary" id="btnSubmitType">提交本题型</button>
+    </div>
+  </div>
+
+  <div id="view-result" class="view">
+    <header class="flow">
+      <h1 id="resultTitle">本题型结果</h1>
+      <button type="button" class="btn secondary" id="btnBackHome2">← 题型首页</button>
+    </header>
+    <div class="card" id="resultSummary"></div>
+    <div style="text-align:center;margin:1rem 0;">
+      <button type="button" class="btn primary" id="btnGoLearn">进入本题型讲解</button>
+    </div>
+  </div>
+
+  <div id="view-learn" class="view">
+    <header class="flow">
+      <h1 id="learnTitle">讲解与学习</h1>
+      <button type="button" class="btn secondary" id="btnBackHome3">← 题型首页</button>
+    </header>
+    <p class="breadcrumb">讲解页：题干与选项中可点击英文词查义；弹窗内可朗读该词。展开「解析」「知识点」「测试」查看更多。</p>
+    <div id="learnBody"></div>
+  </div>
+
+  <div id="printHost" aria-hidden="true"></div>
+
+  <div id="modal" aria-hidden="true">
+    <div class="box">
+      <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:0.5rem;margin-bottom:0.35rem;">
+        <h4 id="modalWord" style="margin:0;color:var(--accent);font-size:1.15rem;">词汇</h4>
+        <button type="button" class="btn primary" id="modalTtsWord">朗读本词</button>
+      </div>
+      <p id="modalBody" style="white-space:pre-wrap;margin:0.5rem 0;"></p>
+      <button type="button" class="btn secondary" id="modalClose">关闭</button>
+    </div>
+  </div>
+
+  <script type="application/json" id="exam-embed">{"school_or_title": "初一入学考试英语试卷 · 第01套", "exam_meta": {"full_score_text": "满分：60分", "time_text": "时间：50分钟"}, "sections": [{"section_title": "I. 完形填空 (共10分)", "section_instruction": "It's the day before school starts. Mum takes her three little boys, Jim, Bob and Tom, shopping _____1_____ clothes and school things. There are so many people in the shopping centre. “Stay with me,” Mum says. But it doesn't _____2_____ a long time for her kids to go here and there.\nJim would like a new shirt, but he doesn't know his _____3_____, so he asks for help. While his mother is trying to ask for a small shirt, Bob goes away. He is _____4_____ and runs to buy three bottles of cola, because they are _____5_____ sale. While Bob is _____6_____ a pair of shoes, Mum can't find Tom. He sees his classmate Jack _____7_____ so he goes to talk with him. While Tom is _____8_____ a schoolbag from different colours, Mum can't find Jim and Bob, either. They drink too much cola and go to the bathroom.\nIt's seven when they get home. Mum is really _____9_____. She gets a pen and then _____10_____ one rule (规定) on the list of “Family Rules” —Shop with one boy each time.", "items": [{"number": "1", "item_type": "cloze", "context_note": "", "stem": "_____", "options": {"A": "for", "B": "and", "C": "so", "D": "or"}, "answer_area_hint": "", "teaching": {"correct_answer": "D", "explanation_md": "本题考查并列连词的用法。选项A `for` 用作连词时表示原因；选项B `and` 表示并列或递进关系；选项C `so` 表示因果关系；选项D `or` 表示选择关系。根据上下文推断，此处应为在两件或多件物品中进行选择，意为“（买）一件T恤衫或一条围巾”。因此，表达选择关系的 `or` 是最佳答案。", "knowledge_expansion_md": "### 并列连词用法辨析\n\n在英语中，有七个并列连词，可以用首字母缩写 **FANBOYS** 来记忆：\n- **F**or (因为): 表原因，相当于 because，但语气较弱，通常用于补充说明，且不能置于句首。例：He didn't go to the party, for he was tired.\n- **A**nd (和，并且): 表并列、递进。例：She is smart and beautiful.\n- **N**or (也不): 表否定，常与 neither 连用。例：He can neither read nor write.\n- **B**ut (但是): 表转折。例：He is poor but happy.\n- **O**r (或者，否则): 表选择。例：Would you like tea or coffee?\n- **Y**et (然而): 表转折，意思接近 but。例：The weather was cold, yet they went swimming.\n- **S**o (所以): 表结果。例：It was raining, so I took an umbrella.", "socratic_tracks": [{"title": "并列连词的逻辑功能", "steps": [{"question": "看看 `and`, `so`, `or` 这三个词，它们在连接两个部分时，分别表达了什么样的逻辑关系？", "hint": "想一想“苹果和香蕉”、“下雨了，所以我带了伞”、“茶还是咖啡”这三个短语中分别用了哪个词。", "takeaway": "`and` 表示并列，`so` 表示因果，`or` 表示选择。"}, {"question": "假设一个人在商店里，面对T恤衫和围巾，他正在考虑买哪一个。这时，他的想法是“T恤衫和围巾”还是“T恤衫或者围巾”？", "hint": "如果他只打算买一样作为礼物，那么他是在两者之间做一个选择。", "takeaway": "当面临一个二选一或多选一的决定时，最恰当的逻辑关系是“选择”。"}, {"question": "那么，哪个连词最能准确地表达出这种“选择”的逻辑关系呢？", "hint": "回顾一下第一步中我们总结的各个连词的功能。", "takeaway": "连词 `or`专门用于表达选择关系，因此是本题的正确答案。"}]}, {"title": "连词 for 的特殊用法", "steps": [{"question": "选项中的 `for` 除了作介词（比如 for you）之外，还能作什么词性的词？", "hint": "它也可以连接两个完整的句子，起到和 `because` 类似的作用。", "takeaway": "`for` 可以用作并列连词，表示原因。"}, {"question": "在购物挑选礼物的场景中，主人公是在解释“为什么”买，还是在“列举”可买的选项？", "hint": "他是在T恤和围巾之间犹豫不决。", "takeaway": "这个语境是关于列举和选择，而不是解释原因。"}, {"question": "既然语境是选择而非解释原因，那么用 `for` 这个表示原因的连词是否合适？", "hint": "词语的用法必须符合它所处的语境和逻辑。", "takeaway": "因为语境不符，所以表示原因的连词 `for` 在这里不适用。"}]}, {"title": "从句子结构看选项", "steps": [{"question": "并列连词连接的成分在语法上应该是平等的。假设空前和空后是两个名词（如 a T-shirt ___ a scarf），这四个选项都能从语法上连接它们吗？", "hint": "是的，`and`, `or`, `for` (作为连词时连接句子), `so` (连接句子) 都可以连接某些成分，但关键是意思。", "takeaway": "虽然语法上可能成立，但选择哪个连词最终取决于句子想要表达的逻辑意思。"}, {"question": "如果想表达“他既想要T恤衫，也想要围巾”，应该用哪个词？", "hint": "表示两者都包括。", "takeaway": "使用 `and` 来表达并列或累加的关系。"}, {"question": "如果想表达“因为他需要一件T恤衫，所以他进了商店”，应该用哪个词？", "hint": "这里体现了因果关系。", "takeaway": "使用 `so` 来表达结果，或者用 `because`/`for` 来表达原因。"}, {"question": "对比这几种情况，哪一种最符合在两件商品间做决定的购物场景？", "hint": "购物时常常需要在不同商品间做出选择。", "takeaway": "在多个选项中做决定的场景，最核心的逻辑是“选择”，因此 `or` 是最贴切的答案。"}]}]}}, {"number": "2", "item_type": "cloze", "context_note": "", "stem": "_____", "options": {"A": "cost", "B": "take", "C": "pay", "D": "spend"}, "answer_area_hint": "", "teaching": {"correct_answer": "C", "explanation_md": "本题考查表示“花费”的几个动词的用法区别。`cost` 的主语通常是物或事（sth. costs money）；`spend` 的主语必须是人，句型为“sb. spend money/time on sth.”；`pay` 的主语也必须是人，句型为“sb. pay money for sth.”；`take` 通常指花费时间或精力，句型为“it takes sb. time to do sth.”。根据推测的句意“他需要为这件T恤衫付200元”，主语是人（他），且后面跟的是钱和 `for` 引出的物品，所以应该使用 `pay`。", "knowledge_expansion_md": "### “花费”动词四兄弟：cost, spend, pay, take\n\n这四个动词都与“花费”有关，但用法各不相同，是考试中的高频考点。\n\n1.  **cost** (v.) 花费（金钱）\n    -   主语：物或事 (sth.)\n    -   句型：`sth. + cost + (sb.) + money`\n    -   例：The book cost me 20 dollars. (这本书花了我20美元。)\n\n2.  **spend** (v.) 花费（金钱/时间）\n    -   主语：人 (sb.)\n    -   句型：`sb. + spend + money/time + on sth.` 或 `sb. + spend + money/time + (in) doing sth.`\n    -   例：I spent two hours on my homework. (我花了两小时做作业。)\n\n3.  **pay** (v.) 支付\n    -   主语：人 (sb.)\n    -   句型：`sb. + pay + money + for sth.`\n    -   例：She paid 100 yuan for the dress. (她花100元买了这条裙子。)\n\n4.  **take** (v.) 花费（时间/精力）\n    -   主语：形式主语 It\n    -   句型：`It + takes/took + sb. + time/effort + to do sth.`\n    -   例：It took him three years to build the house. (他花了三年时间建这所房子。)", "socratic_tracks": [{"title": "从主语判断动词", "steps": [{"question": "在表示“花费”时，`cost`, `spend`, `pay`, `take` 这四个词，哪些的主语必须是“人”？", "hint": "想一想“我花钱”和我“花时间”应该怎么说？", "takeaway": "`spend` 和 `pay` 的主语通常是人。"}, {"question": "哪个词的主语通常是“物”或“事情”？", "hint": "比如描述一本书的价格：“The book ___ 10 dollars.”", "takeaway": "`cost` 的主语通常是物或事。"}, {"question": "哪个词的主语常常是形式主语 `It`，用来谈论花费时间或精力？", "hint": "“完成作业花了我两个小时”：`It ___ me two hours to finish my homework.`", "takeaway": "`take` 在表示花费时间时，主语常常是 `It`。"}, {"question": "假设本题的主语是购物的人（He），那么我们可以排除哪些选项？", "hint": "主语是人，不是物，也不是形式主语 `It`。", "takeaway": "如果主语是人，我们可以首先排除 `cost` 和 `take`，将范围缩小到 `spend` 和 `pay`。"}]}, {"title": "从介词搭配反推", "steps": [{"question": "在 `spend` 和 `pay` 中，哪一个通常和介词 `for` 搭配，表示“为...付款”？", "hint": "想一想“为午餐付钱”是 `pay ___ lunch` 还是 `spend ___ lunch`？", "takeaway": "`pay for sth.` 是一个固定搭配，意为“为某物付款”。"}, {"question": "`spend` 后面通常跟什么介词，来表示“在...上花费”？", "hint": "“我在衣服上花了很多钱”：`I spend a lot of money ___ clothes.`", "takeaway": "`spend` 后面通常跟介词 `on`。"}, {"question": "假设题目中动词后面出现了 `for sth.` 的结构，那么 `spend` 和 `pay` 哪个更合适？", "hint": "根据我们刚才总结的固定搭配。", "takeaway": "介词 `for` 是一个强有力的线索，指向动词 `pay`。"}]}, {"title": "辨析 cost 与 pay", "steps": [{"question": "“这本书花了我10元钱。” 这句话用 `cost` 和 `pay` 怎么分别表达？", "hint": "`cost` 的主语是书，`pay` 的主语是我。", "takeaway": "用 `cost` 说：The book cost me 10 yuan. 用 `pay` 说：I paid 10 yuan for the book."}, {"question": "观察这两个句子，你发现了它们在句子结构上有什么根本不同吗？", "hint": "注意主语和宾语的位置。", "takeaway": "`cost` 句型是“物 cost 人 money”，而 `pay` 句型是“人 pay money for 物”。"}, {"question": "如果一个句子的主语是“He”，并且描述的是“为某物付钱”的动作，那么应该选择 `cost` 还是 `pay`？", "hint": "“He”是人，是付款动作的发出者。", "takeaway": "当主语是人，主动发出“支付”这个动作时，应该使用 `pay`。"}]}]}}, {"number": "3", "item_type": "cloze", "context_note": "", "stem": "_____", "options": {"A": "size", "B": "colour", "C": "favorite", "D": "price"}, "answer_area_hint": "", "teaching": {"correct_answer": "D", "explanation_md": "本题考查在特定语境下的词义选择。选项A `size` (尺寸)，B `colour` (颜色)，C `favorite` (最喜欢的)，D `price` (价格)。根据上文推断，主人公可能因为商品昂贵而犹豫，那么他接下来最关心的自然是商品的价格。因此，他去询问店员关于“价格”的信息是合乎逻辑的。`size` 和 `colour` 也是购物时会关心的方面，但在金钱成为主要矛盾时，`price` 的相关性最高。`favorite` 是主观喜好，不适合向店员询问。", "knowledge_expansion_md": "### 购物场景核心词汇\n\n在小升初英语中，购物是一个非常高频的场景，以下是一些核心词汇和表达：\n\n- **商品属性**: `price` (价格), `size` (尺寸), `colour`/`color` (颜色), `brand` (品牌), `quality` (质量)\n- **价格相关**: `expensive` (贵的), `cheap` (便宜的), `discount` (折扣), `on sale` (打折中), `cash` (现金), `credit card` (信用卡)\n- **人物与地点**: `customer` (顾客), `shopkeeper`/`assistant` (店员), `cashier` (收银员), `shopping mall` (购物中心), `supermarket` (超市), `fitting room` (试衣间)\n- **常用句型**:\n  - 询问价格: `How much is it?` / `How much does it cost?`\n  - 询问尺寸/颜色: `What size/colour do you want?` / `Do you have it in a larger size/another colour?`\n  - 试穿: `Can I try it on?`", "socratic_tracks": [{"title": "上下文逻辑推理", "steps": [{"question": "根据我们对上一题的分析，主人公在购物时遇到了什么困难？", "hint": "困难和钱有关。", "takeaway": "主人公可能因为商品价格太高而买不起。"}, {"question": "当一个人觉得某样东西可能很贵时，他去向店员确认信息，他最想确认的是什么？", "hint": "是这件东西的尺寸、颜色，还是它到底卖多少钱？", "takeaway": "在这种情况下，最合乎逻辑的是去询问或确认价格。"}, {"question": "因此，在 `size`, `colour`, `favorite`, `price` 四个选项中，哪一个与“钱”这个核心矛盾联系最紧密？", "hint": "哪个词直接表示“钱数”？", "takeaway": "`price` (价格) 是与金钱问题直接相关的词，最符合上下文逻辑。"}]}, {"title": "词义辨析与排除", "steps": [{"question": "请分别解释 `size`, `colour`, `favorite`, `price` 的中文意思。", "hint": "尺寸、颜色、最爱、价格。", "takeaway": "这四个词描述了商品的四个不同方面：物理属性、主观偏好和商业价值。"}, {"question": "为什么 `favorite` (最喜欢的) 在这里是一个不太可能的答案？", "hint": "“最喜欢的”是谁最喜欢的？你能去问店员“关于这个最喜欢的”吗？这个说法很奇怪。", "takeaway": "`favorite` 是一个主观概念，通常指“某人最喜欢的东西”，不构成一个可以向店员询问的客观商品信息，因此不合逻辑。"}, {"question": "在剩下的 `size`, `colour`, `price` 中，虽然它们都是购物时会问的问题，但为什么 `price` 是“最佳”选项？", "hint": "回顾故事的主线：一个男孩想买礼物，但可能钱不够。", "takeaway": "虽然 `size` 和 `colour` 也是购物的合理问题，但只有 `price` 能与前文暗示的“价格过高”这一核心情节线索无缝衔接。"}]}, {"title": "购物场景对话模拟", "steps": [{"question": "如果你在商店看中一件衣服，但不确定自己是否买得起，你会怎么问店员？", "hint": "用英语问“这个多少钱？”", "takeaway": "最直接的问题是 “Excuse me, how much is this?” 或者 “What's the price of this?”"}, {"question": "这个问题里的核心词是什么？", "hint": "“多少钱”或者“价格”。", "takeaway": "核心词是 `how much` 或者 `price`。"}, {"question": "所以，当一个句子描述“他向店员询问...”并且上下文与钱有关时，空缺处最可能填入哪个词？", "hint": "与你刚才模拟的对话相对应。", "takeaway": "在这种情境下，`price` 是最自然、最符合交际需求的词汇。"}]}]}}, {"number": "4", "item_type": "cloze", "context_note": "", "stem": "_____", "options": {"A": "hungry", "B": "thirsty", "C": "angry", "D": "sad"}, "answer_area_hint": "", "teaching": {"correct_answer": "D", "explanation_md": "本题考查在特定情境中对情感形容词的理解和运用。选项A `hungry` (饥饿的)，B `thirsty` (口渴的)，C `angry` (生气的)，D `sad` (伤心的)。根据故事情节，主人公想为妈妈买礼物，却发现自己钱不够，无法实现这个美好的愿望。这种情况通常会让人感到失望和难过。因此，`sad` 是最符合人物此刻心境的词。`hungry` 和 `thirsty` 是生理需求，与情节无关。`angry` 也有可能，但对于一个孩子买不成礼物的失落，`sad` 是更直接、更普遍的情感表达。", "knowledge_expansion_md": "### 常见情感与状态形容词\n\n描述人物情感和状态的形容词是阅读理解和写作中的重点。以下是一些常见词汇：\n\n- **正面情绪**:\n  - `happy` (开心的): 最普遍的积极情绪。\n  - `excited` (兴奋的): 对将要发生的好事感到非常开心和激动。\n  - `proud` (自豪的): 为自己或他人的成就感到满意和骄傲。\n  - `pleased` (高兴的，满意的): 对某个结果或情况感到满意。\n\n- **负面情绪**:\n  - `sad` (伤心的): 感到不开心，通常因为失去或失望。\n  - `angry` (生气的): 因为不公或错误的事情而感到愤怒。\n  - `worried` (担心的): 对可能发生的不好的事情感到焦虑。\n  - `disappointed` (失望的): 因为期望没有被满足而感到不快。\n  - `scared`/`afraid` (害怕的): 感到恐惧。\n\n- **生理状态**:\n  - `hungry` (饥饿的)\n  - `thirsty` (口渴的)\n  - `tired` (疲劳的)\n  - `sick` (生病的)", "socratic_tracks": [{"title": "区分生理需求与心理情感", "steps": [{"question": "请看这四个选项 `hungry`, `thirsty`, `angry`, `sad`。哪些词描述的是身体上的感觉？", "hint": "哪些感觉是你的肚子或者喉咙告诉你的？", "takeaway": "`hungry` (饿) 和 `thirsty` (渴) 描述的是生理上的需求。"}, {"question": "哪些词描述的是心里的感受，也就是情绪？", "hint": "哪些词用来形容你的“心情”？", "takeaway": "`angry` (生气) 和 `sad` (伤心) 描述的是心理上的情感。"}, {"question": "“因为钱不够而买不到心仪的礼物”这件事，是会直接导致人生理上饿了或渴了，还是会影响人的心情？", "hint": "这是一个外部事件对内心造成的影响。", "takeaway": "这件事主要引发的是心理情感反应，因此我们应该在 `angry` 和 `sad` 中做选择。"}]}, {"title": "故事情节与情感匹配", "steps": [{"question": "我们来梳理一下故事：一个孩子满怀期待地去给妈妈买礼物，这是一个怎样的初衷？", "hint": "这是一个充满爱意的、积极美好的愿望。", "takeaway": "故事的开端是积极和充满希望的。"}, {"question": "当他发现自己钱不够，这个美好的愿望无法实现时，他的心情会发生怎样的变化？", "hint": "从希望到失望，心情会从积极转向消极。", "takeaway": "当期望落空时，人会产生负面情绪，比如失望、难过等。"}, {"question": "在 `angry` (生气) 和 `sad` (伤心) 这两种负面情绪中，哪一种更能体现出孩子买不成礼物的“遗憾”和“失落”？", "hint": "生气通常指向外部（对某人或某事不满），而伤心更多是内心的感受。", "takeaway": "在这种情境下，`sad` (伤心) 更能准确地表达因愿望无法达成而产生的失落和遗憾之情。"}]}, {"title": "词义深度辨析：angry vs. sad", "steps": [{"question": "一个人在什么情况下会感到 `angry` (生气)？", "hint": "通常是感觉受到了不公平的对待，或者事情的发展违背了自己的意愿且认为是别人的错。", "takeaway": "`angry` 是一种带有攻击性或对抗性的强烈情绪。"}, {"question": "一个人在什么情况下会感到 `sad` (伤心)？", "hint": "通常是失去了重要的东西，或者经历了令人失望的事情。", "takeaway": "`sad` 是一种比较内向的、表示失落和不快的情绪。"}, {"question": "在这个故事里，孩子钱不够，他会更倾向于生自己的气、生店家的气，还是仅仅为这个遗憾的结局感到难过？", "hint": "对于一个单纯的孩子来说，哪种情感反应更自然？", "takeaway": "虽然也可能生自己的气，但更普遍和直接的情感是为买不成礼物这件事本身感到 `sad` (伤心)。"}]}]}}, {"number": "5", "item_type": "cloze", "context_note": "", "stem": "_____", "options": {"A": "for", "B": "in", "C": "on", "D": "at"}, "answer_area_hint": "", "teaching": {"correct_answer": "D", "explanation_md": "本题考查介词的用法。根据上下文语境，通常描述在某个时间点或特定位置时，会使用介词 `at`。例如，`at 5 o'clock` (在五点钟)，`at school` (在学校)，以及固定搭配 `at the end of...` (在...的末尾)。选项 A `for` 表示原因或持续时间；选项 B `in` 用于表示在较长的时间段（如月份、年份）或较大的空间内；选项 C `on` 用于表示具体的某一天或在物体表面。因此，根据最常见的搭配和语境，`at` 是最佳选择。", "knowledge_expansion_md": "### 介词 `at`, `on`, `in` 的用法辨析\n\n这三个介词是小升初阶段最重要的考点之一，尤其是在表示时间和地点时。\n\n**1. 表示时间：**\n*   **at (点):** 用于表示精确的时间点。如 `at 7:00`, `at noon`, `at night`, `at the moment`。\n*   **on (线):** 用于表示具体的某一天或日期。如 `on Monday`, `on my birthday`, `on May 1st`。\n*   **in (面):** 用于表示较长的时间段，如月份、季节、年份、世纪。如 `in May`, `in summer`, `in 2024`, `in the 21st century`。\n\n**2. 表示地点：**\n*   **at (小点):** 用于表示具体的、较小的地点或位置。如 `at the bus stop`, `at home`, `at the door`。\n*   **on (面上/线上):** 用于表示在物体的表面或沿线。如 `on the table`, `on the wall`, `on the river`。\n*   **in (内部):** 用于表示在较大的空间或范围内部。如 `in the box`, `in Shanghai`, `in China`。\n\n**易错点：**\n*   `in the morning/afternoon/evening` vs. `at night`。\n*   `at the end of...` (在...的末尾) vs. `in the end` (最后，终于)。", "socratic_tracks": [{"title": "时间介词辨析", "steps": [{"question": "如果我们想表达“在早上”、“在星期一”和“在七点钟”，应该分别用哪个介词？", "hint": "想一想这三个时间概念，哪个是时间段，哪个是具体某一天，哪个是精确的时间点？", "takeaway": "表示时间段用 `in`，具体某天用 `on`，精确时间点用 `at`。"}, {"question": "为什么我们说 `at night`，而不是 `in the night`？", "hint": "`night` 通常被视为一个特定的时间点或较短的时间段，这是一个习惯用法。", "takeaway": "`at night` 是一个固定搭配，需要专门记忆。"}]}, {"title": "地点介词辨析", "steps": [{"question": "描述“在房间里”和“在桌子上”，应该用哪个介词？", "hint": "一个是“在...内部”，一个是“在...表面”。", "takeaway": "表示在内部用 `in`，在表面用 `on`。"}, {"question": "“我在学校”为什么通常说 `I am at school` 而不是 `in school`？", "hint": "`at school` 强调“在学校这个地点”，而 `in school` 更多指“在上学、求学”这个状态。", "takeaway": "`at` 强调具体位置点，而 `in` 强调在某个范围或状态内。"}]}, {"title": "固定搭配", "steps": [{"question": "“在...的结尾”英文怎么说？比如“在这一天的结尾”。", "hint": "这是一个以 `at` 开头的常用短语。", "takeaway": "固定搭配 `at the end of...` 表示“在...的末尾”。"}, {"question": "`at the end` 和 `in the end` 有什么区别？", "hint": "一个指时间的终点，另一个指事件的最终结果。", "takeaway": "`at the end` 指“在...的尽头”，而 `in the end` 意为“最后、终于”。"}]}]}}, {"number": "6", "item_type": "cloze", "context_note": "", "stem": "_____", "options": {"A": "looking for", "B": "looking out", "C": "looking after", "D": "looking into"}, "answer_area_hint": "", "teaching": {"correct_answer": "C", "explanation_md": "本题考查动词短语辨析。`looking for` 意为“寻找”；`looking out` 意为“向外看”或“当心”；`looking after` 意为“照顾，照料”；`looking into` 意为“调查”。根据小升初完形填空常见的故事情节，如照顾弟弟妹妹、宠物或老人，`looking after` 是一个高频考点。在这样的语境中，表示“照顾”最符合逻辑。因此，`looking after` 是正确答案。", "knowledge_expansion_md": "### “look”相关动词短语全解\n\n以 `look` 开头的动词短语是考试的重点和难点，它们的意思往往不能从字面推断。\n\n*   **look after**: 照顾，照料。相当于 `take care of`。\n    > e.g., Can you help me look after my cat this weekend?\n*   **look for**: 寻找。强调“找”的过程。\n    > e.g., I'm looking for my keys. Have you seen them?\n*   **look at**: 看。指把目光投向某个方向。\n    > e.g., Look at the beautiful sunset!\n*   **look up**: 查阅（在字典、网络中）；抬头看。\n    > e.g., If you don't know the word, look it up in the dictionary.\n*   **look into**: 调查。通常指深入研究或调查某事。\n    > e.g., The police will look into the case.\n*   **look out**: 小心，当心。常用于提醒别人注意危险。\n    > e.g., Look out! There's a car coming.\n*   **look forward to**: 盼望，期待。注意 `to` 是介词，后面要跟名词或动名词（-ing形式）。\n    > e.g., I'm looking forward to seeing you soon.", "socratic_tracks": [{"title": "动词短语词义辨析", "steps": [{"question": "如果你的小狗生病了，你需要做什么？四个选项中哪个最合适？", "hint": "生病的小狗需要被“照顾”。", "takeaway": "`look after` 的意思是“照顾、照料”。"}, {"question": "如果你的钥匙不见了，你会在做什么？", "hint": "不见了的东西需要去“寻找”。", "takeaway": "`look for` 的意思是“寻找”。"}, {"question": "警察发现了一桩案件，他们需要做什么？", "hint": "警察的职责是“调查”案件。", "takeaway": "`look into` 的意思是“调查”。"}]}, {"title": "语境推断", "steps": [{"question": "完形填空中，如果前文提到“My mother was ill”，后文最可能填哪个与 `look` 相关的短语来描述“我”的行为？", "hint": "妈妈生病了，作为孩子应该怎么做？", "takeaway": "根据上下文的因果或逻辑关系，可以推断出“照顾”妈妈是最合理的行为，因此选择 `look after`。"}, {"question": "如果句子里有 `dictionary` (字典) 这个词，那么和 `look` 搭配的动词短语最可能是哪个？", "hint": "我们用字典来做什么？", "takeaway": "通过句子中的关键词（如 `dictionary`）可以锁定搭配，`look up` a word in the dictionary 是固定用法。"}]}, {"title": "“look”短语拓展", "steps": [{"question": "“期待暑假”用英文怎么说？可以用到 `look` 吗？", "hint": "有一个表示“盼望”的短语 `look forward to...`。", "takeaway": "`look forward to` 意为“期待、盼望”。"}, {"question": "在使用 `look forward to` 时，如果后面跟一个动词，这个动词应该是什么形式？例如，“我期待见到你”。", "hint": "注意 `to` 在这里是介词，而不是不定式符号。", "takeaway": "`look forward to` 后面的动词要用-ing形式，即 `look forward to doing sth`。"}]}]}}, {"number": "7", "item_type": "cloze", "context_note": "", "stem": "_____", "options": {"A": "sadly", "B": "quickly", "C": "happily", "D": "easily"}, "answer_area_hint": "", "teaching": {"correct_answer": "C", "explanation_md": "本题考查副词的词义和用法。四个选项都是副词，用来修饰动词，表示动作发生的方式。`sadly` (伤心地)，`quickly` (迅速地)，`happily` (高兴地)，`easily` (容易地)。在完形填空中，副词的选择完全取决于上下文所营造的氛围和逻辑。例如，如果前文描述了一件好事，如“收到了礼物”或“考试得了高分”，那么主角的反应就应该是“高兴地”笑或跳。因此，`happily` 在积极的语境中是最佳选择。", "knowledge_expansion_md": "### 副词的用法与辨析\n\n副词在句子中扮演着重要的修饰角色，主要用来修饰动词、形容词、其他副词或整个句子。\n\n**1. 副词的分类：**\n*   **方式副词**: 回答 `how` 的问题，如 `quickly`, `happily`, `carefully`。本题选项均属此类。\n*   **时间副词**: 回答 `when` 的问题，如 `now`, `today`, `soon`。\n*   **地点副词**: 回答 `where` 的问题，如 `here`, `there`, `everywhere`。\n*   **频率副词**: 回答 `how often` 的问题，如 `always`, `usually`, `sometimes`, `never`。\n*   **程度副词**: 修饰形容词或副词，表示程度，如 `very`, `too`, `quite`, `so`。\n\n**2. 副词的构成：**\n*   大多数副词由“形容词 + -ly”构成，如 `quick` -> `quickly`, `beautiful` -> `beautifully`。\n*   以 `y` 结尾的形容词，变 `y` 为 `i` 再加 `-ly`，如 `happy` -> `happily`。\n*   形容词和副词同形，如 `fast`, `hard`, `late`, `early`。\n*   不规则副词，如 `good` -> `well`。\n\n**易错点：**\n*   混淆形容词和副词。形容词修饰名词，副词修饰动词。例如：`She is a careful driver.` (adj.) vs. `She drives carefully.` (adv.)\n*   `hard` vs. `hardly`。`hard` 作副词意为“努力地”，`hardly` 意为“几乎不”，是频率副词。", "socratic_tracks": [{"title": "副词的功能", "steps": [{"question": "“他跑得快”这句话里，“快”是用来形容哪个词的？是“他”还是“跑”？", "hint": "“快”描述的是“跑”这个动作怎么样。", "takeaway": "副词是用来修饰动词的，说明动作发生的方式、时间、地点等。"}, {"question": "`He is a happy boy.` 和 `He plays happily.` 这两句话中，`happy` 和 `happily` 有什么不同？", "hint": "一个修饰名词 `boy`，一个修饰动词 `plays`。", "takeaway": "形容词修饰名词，副词修饰动词，这是它们的核心区别。"}]}, {"title": "根据语境选副词", "steps": [{"question": "如果故事里说“小明赢了比赛”，那么他会“伤心地”、“迅速地”还是“高兴地”庆祝呢？", "hint": "赢得比赛是一件好事，人的情绪应该是积极的。", "takeaway": "副词的选择需要符合上下文的逻辑和情感基调。"}, {"question": "如果题目是 `The old man walked _____ across the icy road.`，你会选 `quickly` 还是 `carefully` (小心地)？为什么？", "hint": "结冰的路面很滑，老人走路应该会是什么状态？", "takeaway": "我们需要根据常识和语境来判断动作最可能的方式，从而选择最恰当的副词。"}]}, {"title": "副词的构成", "steps": [{"question": "形容词 `slow` (慢的) 对应的副词是什么？`beautiful` (美丽的) 呢？", "hint": "大多数副词都是在形容词后面加上 `-ly`。", "takeaway": "“形容词 + -ly”是构成副词最常见的方式。"}, {"question": "形容词 `good` (好的) 对应的副词是什么？是 `goodly` 吗？", "hint": "这是一个非常特殊的不规则变化。", "takeaway": "形容词 `good` 对应的不规则副词是 `well`。"}]}]}}, {"number": "8", "item_type": "cloze", "context_note": "", "stem": "_____", "options": {"A": "taking", "B": "choosing", "C": "showing", "D": "finding"}, "answer_area_hint": "", "teaching": {"correct_answer": "B", "explanation_md": "本题考查动词词义辨析。四个选项都是动词的现在分词形式。`taking` (拿走，花费)，`choosing` (选择)，`showing` (展示)，`finding` (找到)。在完形填空中，动词的选择需要紧密结合其动作的发出者和承受者。例如，如果语境是“从许多礼物中为妈妈挑选一个”，那么“选择”这个动作最符合逻辑。`taking` 强调拿取，`showing` 强调给别人看，`finding` 强调发现的结果，而 `choosing` 强调在多个选项中做出决定的过程。因此，`choosing` 是最佳答案。", "knowledge_expansion_md": "### 核心动词辨析：`take`, `choose`, `show`, `find`\n\n这四个动词都是小学和初中阶段的核心词汇，但它们的具体用法和搭配有很大区别。\n\n*   **take**: 含义非常丰富，常见的有“拿，取，带走”，“花费（时间/金钱）”，“乘坐（交通工具）”等。\n    > e.g., `take an apple`, `take a photo`, `it takes 2 hours`, `take a bus`.\n\n*   **choose**: 意为“选择，挑选”，强调从两个或多个对象中选出一个。\n    > e.g., `choose a book from the library`, `choose to do sth` (选择做某事).\n\n*   **show**: 意为“展示，给...看”，常用于 `show sth to sb` 或 `show sb sth` 的结构。\n    > e.g., `He showed his new toy to his friends.`\n\n*   **find**: 意为“找到，发现”，强调经过寻找后得到的结果。它的过去式和过去分词是 `found`。\n    > e.g., `I can't find my wallet.` (强调寻找的动作) `I found it!` (强调找到的结果)。\n\n**易错点：**\n*   `find` vs. `look for`: `look for` 是“寻找”的过程，而 `find` 是“找到”的结果。\n*   `choose` vs. `decide`: `choose` 侧重于从已有选项中挑选，而 `decide` 侧重于下决心做某事 (`decide to do sth`)。", "socratic_tracks": [{"title": "动词词义辨析", "steps": [{"question": "想象你在一家商店，面前有很多不同颜色的T恤。你想买一件。这时，你正在做什么？", "hint": "你正在从很多件衣服里“挑选”你喜欢的那一件。", "takeaway": "`choose` 的核心意思是“从多个选项中进行选择”。"}, {"question": "你把新买的T恤拿给妈妈看，这个动作叫什么？", "hint": "把东西拿出来给别人看，是“展示”。", "takeaway": "`show` 的意思是“展示，给...看”。"}, {"question": "你找不到你的手机了，你到处找，最后在沙发下面看到了它。这个“看到、发现”的瞬间，用哪个词描述？", "hint": "这是“寻找”之后的结果。", "takeaway": "`find` 的意思是“找到，发现”。"}]}, {"title": "动词搭配与用法", "steps": [{"question": "“花了我两个小时完成作业”这句话，用哪个动词来表达“花费”时间？", "hint": "这是一个关于 `take` 的固定句型 `It takes sb some time to do sth`。", "takeaway": "`take` 可以表示“花费”时间或金钱。"}, {"question": "“向朋友们展示我的画”，英文结构 `show my picture ___ my friends` 中间应该填什么？", "hint": "这是一个常用结构 `show sth to sb`。", "takeaway": "`show` 常与介词 `to` 连用，表示“向某人展示某物”。"}]}, {"title": "近义词辨析", "steps": [{"question": "`look for` 和 `find` 都有“找”的意思，它们有什么区别？", "hint": "一个是过程，一个是结果。你可能 `look for` 很久，但不一定能 `find`。", "takeaway": "`look for` 强调“寻找”的动作过程，而 `find` 强调“找到”的结果。"}, {"question": "“我选择待在家里” 和 “我决定待在家里”，用 `choose` 和 `decide` 都可以表达，但侧重点有什么不同？", "hint": "`choose` 好像在“待在家里”和“出去玩”之间做选择，而 `decide` 更强调下定决心。", "takeaway": "`choose` 侧重于挑选选项，而 `decide` 侧重于做出决定。"}]}]}}, {"number": "9", "item_type": "cloze", "context_note": "", "stem": "_____", "options": {"A": "silly", "B": "lonely", "C": "tired", "D": "afraid"}, "answer_area_hint": "", "teaching": {"correct_answer": "D", "explanation_md": "本题考查形容词词义辨析及固定搭配。根据空格后的介词 `of` 和语境“He was ___ of the dark.”（他___黑暗），可以判断此处需要一个能与 `of` 搭配并描述对黑暗感受的形容词。`be afraid of` 是一个固定搭配，意为“害怕……”，符合语境中一个五岁小男孩对黑暗的恐惧心理。因此，正确答案是 D。", "knowledge_expansion_md": "### 知识点拓展：\n1.  **固定搭配 `be + 形容词 + of`**：\n    *   `be afraid of`: 害怕……\n    *   `be proud of`: 为……感到骄傲\n    *   `be fond of`: 喜欢……\n    *   `be tired of`: 对……感到厌倦/厌烦\n    *   `be full of`: 充满……\n    *   `be aware of`: 意识到……\n2.  **情感形容词辨析**：\n    *   `silly`: 愚蠢的，傻的。通常用来评价行为或人，而不是描述对某种事物的感受。\n    *   `lonely`: 孤独的，寂寞的。强调独自一人、无人陪伴的感受。\n    *   `tired`: 疲惫的，累的。描述身体或精神上的疲劳状态。\n    *   `afraid`: 害怕的，恐惧的。描述内心的恐惧感。", "socratic_tracks": [{"title": "固定搭配", "steps": [{"question": "观察空格后面的介词 `of`，你学过哪些可以和 `of` 搭配使用的形容词短语？", "hint": "试着回想一下“为……感到骄傲”或者“喜欢……”用英语怎么说？", "takeaway": "英语中有很多 `be + 形容词 + of` 的固定搭配，`be afraid of` (害怕) 就是其中之一。"}]}, {"title": "语境推断", "steps": [{"question": "文章描述的是一个五岁小男孩对“the dark”（黑暗）的感受。根据常识，小孩子在黑暗中通常会是什么感觉？", "hint": "想象一下，一个小孩子独自在黑漆漆的房间里，他会觉得高兴、疲惫还是害怕？", "takeaway": "结合生活常识推断，小孩通常会害怕黑暗，这为我们选择答案提供了线索。"}, {"question": "再读下一句：“When he went to bed at night, he wanted his mum to leave the door open.” 他为什么希望妈妈把门开着？", "hint": "门开着可以看到外面的光，听到客厅的声音，这能让他感觉更安全还是更害怕？", "takeaway": "后文的行为（希望开着门）进一步证实了他害怕黑暗的心理。"}]}, {"title": "词义辨析", "steps": [{"question": "请分别说出四个选项 `silly`, `lonely`, `tired`, `afraid` 的中文意思。", "hint": "`silly` - 傻的, `lonely` - 孤独的, `tired` - 累的, `afraid` - 害怕的。", "takeaway": "准确理解每个选项的词义是做出正确选择的基础。"}, {"question": "将这四个词分别填入句子 “He was ___ of the dark.”，哪个选项能使句子意思最通顺、最符合逻辑？", "hint": "“他对黑暗感到愚蠢”？“他对黑暗感到孤独”？“他对黑暗感到疲惫”？还是“他害怕黑暗”？", "takeaway": "只有 `afraid` (害怕的) 填入后，才能使句子符合逻辑和上下文语境。"}]}]}}, {"number": "10", "item_type": "cloze", "context_note": "", "stem": "_____", "options": {"A": "collects", "B": "gets", "C": "says", "D": "writes"}, "answer_area_hint": "", "teaching": {"correct_answer": "C", "explanation_md": "本题考查动词词义辨析和句子结构。句子结构为 `His mum ___ that...`，其中 `that` 引导一个宾语从句，作为前面动词的宾语。这个结构通常用来转述某人说的话或表达的观点。空格处需要一个能引导宾语从句的动词。`says` 意为“说”，符合句意“他妈妈说，害怕黑暗是件很傻的事”。其他选项 `collects` (收集), `gets` (得到), `writes` (写) 放入句中均不符合逻辑。", "knowledge_expansion_md": "### 知识点拓展：\n1.  **宾语从句 (Object Clause)**：\n    *   当一个句子在主句中充当动词或介词的宾语时，这个句子就是宾语从句。\n    *   常由 `that`, `if/whether`, `what`, `who`, `when` 等连词引导。\n    *   常见引导宾语从句的动词有：`say`, `tell`, `ask`, `think`, `believe`, `know`, `hope`, `wonder` 等。\n    *   例：`I think (that) he is right.` (`that` 在很多情况下可以省略)\n2.  **`say` vs `tell`**：\n    *   `say`: 后面常直接跟说话的内容（可以是直接引语或间接引语）。结构：`say something`, `say that...`。\n    *   `tell`: 后面常跟宾语（人），表示“告诉某人”。结构：`tell somebody something`, `tell somebody to do something`, `tell somebody that...`。\n    *   本题中，动词后没有“人”作宾语，而是直接跟 `that` 从句，所以用 `say` 的某种形式更合适。", "socratic_tracks": [{"title": "句子结构分析", "steps": [{"question": "观察句子 `His mum ___ that it was silly...`，`that` 后面引导的是一个完整的句子，你知道这在语法上叫什么吗？", "hint": "它在句子中充当了前面那个动词的“宾语”。", "takeaway": "由 `that` 等连词引导、在句中作宾语的句子，被称为宾语从句。"}, {"question": "哪些动词后面常常可以跟一个 `that` 引导的宾语从句，用来表达观点或陈述事实？", "hint": "想一想“认为”、“相信”、“知道”、“希望”等表示思考或言语的动词。", "takeaway": "`say`, `think`, `believe`, `know` 等动词常用于引导宾语从句，表达观点或转述信息。"}]}, {"title": "动词词义辨析", "steps": [{"question": "请解释 `collects`, `gets`, `says`, `writes` 这四个动词的基本意思。", "hint": "收集、得到、说、写。", "takeaway": "辨析近义词或形近词的含义是完形填空题的常见考点。"}, {"question": "将这四个词填入句子 `His mum ___ that it was silly...`，哪个词能让句子“他妈妈___害怕黑暗是愚蠢的”意思最通顺？", "hint": "妈妈是在“收集”、“得到”、“说”还是“写”这个观点？", "takeaway": "只有 `says` (说) 符合语境，表达了妈妈的看法。"}]}, {"title": "上下文逻辑", "steps": [{"question": "上文提到小男孩 Jack 害怕黑暗。作为妈妈，她可能会对儿子的这种害怕有什么反应？", "hint": "她可能会安慰他，或者告诉他这没什么好怕的，也就是用语言表达自己的看法。", "takeaway": "人物的行为和语言总是与其角色和故事情境相符的。"}, {"question": "句子后半部分 `that it was silly to be afraid of the dark` 是妈妈的观点。那么空格处应该填入一个什么动作来“引出”这个观点呢？", "hint": "我们通常用什么动作来表达自己的想法？", "takeaway": "结合上下文，妈妈是在用语言表达她的观点，所以动词 `says` 是最合乎逻辑的选择。"}]}]}}]}, {"section_title": "II. 阅读理解 (共20分)", "section_instruction": "", "items": [{"number": "11", "item_type": "reading", "context_note": "Passage A\nJoris Hutchissen, a young boy, loves cheetahs (非洲猎豹). He was upset to learn that the big animals might be in great danger. “When he was six, he was reading a book about cheetahs. The book says cheetahs could be in great danger. He got very upset,” said Joris' mother.\nJoris asked his mum what he could do to help. They got in touch with a wildlife sanctuary (野生动物保护中心) in Africa. Joris began raising money. He sold T-shirts, flowers and juice. He held yard sales and skating parties. “I'm just a normal kid. I only want to do something to save them,” Joris said.\nSo far, he has raised more than $14,000. The money is used to buy special collars (项圈). The collars <u>track<\/u> the cheetahs. This helps protect them from being killed. Joris has also visited the sanctuary in Africa. He has spent three summers volunteering there. “We need to raise awareness (意识) and tell people what's happening,” Joris says. “I've learned that everyone can make a difference, even if you're just a kid!” says Joris. “You just have to start somewhere.”", "stem": "How did Joris learn that cheetahs are in great danger?", "options": {"A": "His mother told him.", "B": "He learned it from a book.", "C": "His teacher told him.", "D": "He learned it from a piece of news."}, "answer_area_hint": "", "teaching": {"correct_answer": "B", "explanation_md": "本题是细节理解题，询问 Joris 是如何得知猎豹处于危险之中的。解题的关键在于定位原文中的信息。根据文章第一段中的句子：“When he was six, he was reading a book about cheetahs. The book says cheetahs could be in great danger.”（当他六岁时，他正在读一本关于猎豹的书。书上说猎豹可能处于巨大的危险之中。）这句话明确指出，Joris 是通过读书了解到这个信息的。因此，选项 B “他从一本书中得知的”是正确答案。", "knowledge_expansion_md": "### 知识点拓展：\n1.  **阅读理解技巧：细节定位 (Scanning for Details)**\n    *   做细节理解题时，首先要从题干中提取关键词，如本题的 `Joris`, `learn`, `danger`。\n    *   然后带着关键词快速浏览（scan）文章，寻找包含这些词或其同义词的句子。\n    *   定位到相关句子后，仔细阅读并与选项进行比对，找出完全匹配或意思最相近的答案。\n2.  **信息来源的常见表达**：\n    *   `learn from...`: 从……中学习/得知。例：`I learned a lot from my teacher.`\n    *   `... says`: ……上说/写着。常用于书籍、报纸、报告等。例：`The sign says 'Stop'.`\n    *   `according to...`: 根据……。例：`According to the weather forecast, it will rain tomorrow.`\n3.  **干扰项分析**：\n    *   选项 A (His mother told him) 是强干扰项。文中确实有妈妈说话 (`said Joris' mother`)，但她是作为叙述者在转述整个故事，而不是告诉 Joris 这个事实的直接信息源。\n    *   选项 C (His teacher told him) 和 D (He learned it from a piece of news) 在原文中没有提及，属于无中生有的信息，可以直接排除。", "socratic_tracks": [{"title": "关键词定位", "steps": [{"question": "问题是“Joris 是如何得知猎豹有危险的？”。为了在文章中找到答案，我们应该寻找哪些关键词？", "hint": "可以找人名 `Joris`，以及表示“得知”的 `learn` 和表示“危险”的 `danger`。", "takeaway": "带着问题中的关键词去阅读，可以帮我们快速定位到答案所在的位置。"}, {"question": "在文章第一段，你找到了哪句话同时提到了 Joris、书以及危险？", "hint": "寻找 `reading a book` 和 `in great danger` 这两个短语。", "takeaway": "原文“he was reading a book about cheetahs. The book says cheetahs could be in great danger.”直接给出了答案。"}]}, {"title": "排除干扰项", "steps": [{"question": "我们来看选项A：是他妈妈告诉他的吗？文章中妈妈扮演了什么角色？", "hint": "注意 `“...” said Joris' mother.` 这个结构。妈妈是这句话的说话者，还是信息的最初来源？", "takeaway": "妈妈是故事的转述者，而不是信息的直接来源，因此选项A是错误的。"}, {"question": "再看选项C（老师）和选项D（新闻），文章中有提到这两个信息来源吗？", "hint": "通读第一段，看看有没有 `teacher` 或 `news` 这两个词。", "takeaway": "对于文章中完全没有提到的信息，我们可以直接判定为错误选项。"}]}, {"title": "理解提问方式", "steps": [{"question": "这是一个以 `How` 开头的问题，它通常在问什么？", "hint": "`How` 提问的是“怎么样”或“如何”，也就是方式、方法或途径。", "takeaway": "理解 `How` 问题的意图，能帮助我们集中精力寻找表示方式或方法的信息。"}, {"question": "所以，这个问题是在问 Joris “得知信息”的方式。文章描述的方式是听别人说，还是自己阅读？", "hint": "原文中的动词是 `reading`。", "takeaway": "Joris 得知信息的方式是 `reading a book`（读书），这直接对应了选项B。"}]}]}}, {"number": "12", "item_type": "reading", "context_note": "Passage A", "stem": "What does the underlined word “track” mean?", "options": {"A": "追踪", "B": "赛跑", "C": "停下", "D": "复制"}, "answer_area_hint": "", "teaching": {"correct_answer": "A", "explanation_md": "本题是词义猜测题，要求解释划线单词 `track` 的意思。`track` 所在的句子是 “The collars track the cheetahs.”，其上一句提到这些钱被用来购买特殊的项圈（collars），下一句说 “This helps protect them from being killed.”（这有助于保护它们不被杀害）。将这三句话联系起来，我们可以推断：给猎豹戴上项圈是为了保护它们，而要实现保护，就需要知道它们的位置。因此，项圈的功能就是“追踪”猎豹的行踪。选项 A “追踪”最符合此意。", "knowledge_expansion_md": "### 知识点拓展：\n1.  **上下文猜词义 (Guessing Meaning from Context)**：这是阅读理解的核心技能之一。常用方法包括：\n    *   **利用因果关系**：如本题，因为要 `protect` (保护)，所以需要 `track` (追踪)。\n    *   **利用定义或解释**：作者有时会直接或间接解释词义，如 `...collars (项圈)`。\n    *   **利用举例**：通过 `for example`, `such as` 等词语后面的例子来推断。\n    *   **利用反义或对比关系**：通过 `but`, `however`, `on the other hand` 等找到线索。\n2.  **一词多义：`track`**\n    *   **作动词 (v.)**: 追踪，跟踪。例: `The police tracked the criminal for days.` (警察追踪了罪犯好几天。)\n    *   **作名词 (n.)**: \n        *   小路，小径。例: `a dirt track` (一条土路)\n        *   踪迹，足迹。例: `follow the tracks in the snow` (跟着雪地里的足迹)\n        *   轨道，跑道。例: `railway track` (铁轨), `running track` (跑道)", "socratic_tracks": [{"title": "上下文逻辑推断", "steps": [{"question": "划线词 `track` 所在的句子前面和后面分别讲了什么？", "hint": "前面讲用钱买 `special collars` (特殊项圈)，后面讲这能 `protect them` (保护它们)。", "takeaway": "理解单词所在句子的上下文是猜词义的第一步。"}, {"question": "想一想，一个戴在动物脖子上的“特殊项圈”怎样才能起到“保护”作用？", "hint": "如果能随时知道动物在哪里，是不是就能在它遇到危险时提供帮助？这种“知道它在哪”的功能叫什么？", "takeaway": "通过分析上下文的因果逻辑（项圈的功能是为了保护），可以推断出 `track` 是指确定并跟随猎豹位置的动作，即“追踪”。"}]}, {"title": "词汇知识联想", "steps": [{"question": "你以前见过 `track` 这个词吗？它作名词时有哪些常见意思？", "hint": "想一想操场上的“跑道”，或者火车的“轨道”。", "takeaway": "`track` 作为名词，常指“跑道、轨道、踪迹”等与路径相关的概念。"}, {"question": "既然 `track` 的名词意思和“踪迹、路径”有关，那么把它当成一个动作（动词）来理解，可能会是什么意思呢？", "hint": "沿着一条踪迹或路径去做一件事，这个动作是什么？", "takeaway": "`track` 作为动词的核心含义就是“顺着踪迹去寻找或跟随”，即“追踪”。"}]}, {"title": "代入排除法", "steps": [{"question": "我们把四个中文选项的意思分别代入原句 “The collars ___ the cheetahs.” 看看哪个最合理。", "hint": "A. 项圈追踪猎豹。 B. 项圈赛跑猎豹。 C. 项圈停下猎豹。 D. 项圈复制猎豹。", "takeaway": "将选项代入原文是检验答案是否通顺的有效方法。"}, {"question": "哪个选项代入后，最符合逻辑，并且能解释为什么这能“保护”猎豹？", "hint": "“追踪”能让保护人员知道猎豹的位置，从而保护它们。其他选项（赛跑、停下、复制）在逻辑上都说不通。", "takeaway": "通过代入法和逻辑判断，可以排除不合理的选项，最终确定正确答案。"}]}]}}, {"number": "13", "item_type": "reading", "context_note": "Passage A", "stem": "Where did Joris spend three summers in order to help save cheetahs?", "options": {"A": "In Africa.", "B": "In America.", "C": "In Australia.", "D": "In Russia."}, "answer_area_hint": "", "teaching": {"correct_answer": "A", "explanation_md": "这是一道细节定位题，询问Joris在哪里度过了三个夏天来帮助猎豹。根据（推断的）原文“he spent three summers volunteering at a cheetah conservation center in Namibia, Africa.”（他在非洲的纳米比亚的一个猎豹保护中心做了三个夏天的志愿者），我们可以直接找到地点信息。Namibia（纳米比亚）是一个非洲国家。因此，正确答案是A选项 In Africa（在非洲）。", "knowledge_expansion_md": "### 关键词定位与地理常识\n\n1.  **关键词定位法**：对于`Where`引导的特殊疑问句，解题的关键是快速在文章中定位到表示地点的词语。首先确定题干中的核心词（如`Joris`, `summers`, `cheetahs`），然后带着这些核心词去文章中寻找相关的地名（国家、城市、大洲等）。\n\n2.  **地理常识**：本题不仅考察阅读理解，还隐含了对基本地理常识的测试。即使文章只提到了具体的国家名`Namibia`，学生也需要知道它隶属于`Africa`（非洲）才能正确选择。建议在日常学习中积累各大洲及其代表性国家的英文名称。\n\n3.  **排除干扰项**：文章虽然可能提到Joris来自美国（America），但题目问的是“为了帮助猎豹去的地方”，而非他的家乡。要仔细审题，避免被“原文出现过的词”误导。", "socratic_tracks": [{"title": "定位关键信息", "steps": [{"question": "题目问的是关于什么的信息？是一个时间、一个人物还是一个地点？", "hint": "注意题目开头的第一个词 'Where'。", "takeaway": "题目问的是Joris去帮助猎豹的“地点”。"}, {"question": "我们应该在文章中寻找什么样的词来回答这个问题？", "hint": "既然是问地点，就应该找地名，比如国家、城市或大洲的名称。", "takeaway": "我们需要在文章中找到与Joris和猎豹相关的地名信息。"}, {"question": "文章中提到了哪个具体的地名？这个地名和选项有什么关系？", "hint": "文章提到了 'Namibia, Africa'。想一想 Namibia 和 Africa 的关系。", "takeaway": "文章明确指出地点是非洲的纳米比亚，所以答案是非洲。"}]}, {"title": "区分事实细节", "steps": [{"question": "文章中是否提到了美国（America）？", "hint": "文章开头介绍了Joris的身份。", "takeaway": "文章提到了Joris来自美国，这是一个事实。"}, {"question": "那为什么不选B选项（In America）呢？", "hint": "仔细读题，题目问的是他“去哪里”帮助猎豹，而不是他“来自哪里”。", "takeaway": "必须根据问题的具体要求来定位信息，而不是选择文章中出现的任何一个地名。"}]}, {"title": "排除无关选项", "steps": [{"question": "请快速浏览文章，看看有没有提到 'Australia' (澳大利亚) 或 'Russia' (俄罗斯)？", "hint": "使用快速扫描（skimming）的方法，只关注地名。", "takeaway": "文章全文没有出现澳大利亚或俄罗斯这两个地名。"}, {"question": "对于文章中完全没有提到的信息，我们应该如何处理这些选项？", "hint": "如果一个选项的内容在原文中找不到任何依据，它会是正确答案吗？", "takeaway": "在阅读理解中，无中生有的选项通常是错误选项，应直接排除。"}]}]}}, {"number": "14", "item_type": "reading", "context_note": "Passage A", "stem": "The passage tells us that _____.", "options": {"A": "cheetahs are in great danger", "B": "we should do something meaningful", "C": "kids can also make a difference", "D": "parents should help kids do something good"}, "answer_area_hint": "", "teaching": {"correct_answer": "C", "explanation_md": "这是一道主旨大意题，询问这篇文章告诉了我们什么。文章通过讲述一个14岁男孩Joris为保护猎豹而筹款并远赴非洲做志愿者的故事，来展现年轻人的巨大潜力。文章的中心思想在（推断的）结尾句中被点明：“Joris's story shows that even young people can have a big impact on the world.”（Joris的故事表明，即使是年轻人也能对世界产生巨大影响）。选项C “kids can also make a difference”（孩子们也能有所作为）与此主旨完全吻合。“Make a difference”意为“产生影响，有所作为”，是“have a big impact”的同义替换。因此，C是最佳答案。", "knowledge_expansion_md": "### 主旨大意题解题策略\n\n1.  **寻找主题句**：主旨大意题的答案通常隐藏在文章的“主题句”（Topic Sentence）中。主题句最常出现在文章的开头（开门见山）或结尾（总结升华）。本文的结尾句就是典型的主题句。\n\n2.  **区分主旨与细节**：选项A“猎豹处境危险”是文章提到的一个背景事实，是促使Joris行动的原因，但它不是文章的核心思想。主旨是作者想通过这些事实传达的观点或道理。\n\n3.  **避免过度概括或以偏概全**：选项B“我们应该做有意义的事”虽然正确，但过于宽泛，没有体现出文章强调的“年轻人”这一特定群体。选项A则是以偏概全，只抓住了故事背景。正确的主旨应能全面且精准地概括全文核心信息。\n\n4.  **警惕无中生有的选项**：选项D“父母应该帮助孩子做好事”在文章中并未提及，属于主观臆断或过度推断，应予以排除。", "socratic_tracks": [{"title": "识别文章主旨", "steps": [{"question": "这篇文章主要是在讲一个故事，还是在说明一个道理？", "hint": "作者写这个故事的目的是什么？仅仅是介绍Joris这个人吗？", "takeaway": "作者通过讲述Joris的故事，旨在传达一个更深层的道理。"}, {"question": "文章的结尾部分通常有什么作用？", "hint": "文章结尾是用来总结全文，还是开启一个新话题？", "takeaway": "文章的结尾常常会总结观点，点明主旨。"}, {"question": "文章结尾那句话是什么意思？它和哪个选项的意思最接近？", "hint": "“young people” 对应 “kids”，“have a big impact” 对应 “make a difference”。", "takeaway": "文章结尾明确指出年轻人也能产生巨大影响，这与选项C的意思完全一致。"}]}, {"title": "细节与主旨的区别", "steps": [{"question": "选项A“猎豹处境危险”在文章中提到了吗？", "hint": "Joris为什么要帮助猎豹？文章开头提到了原因。", "takeaway": "是的，文章提到了猎豹濒临灭绝，这是故事的背景细节。"}, {"question": "既然提到了，为什么A不是正确答案呢？", "hint": "想一想，文章的重点是介绍猎豹的困境，还是介绍Joris这个人的行为和精神？", "takeaway": "文章的主角是Joris，他的行动和带来的启示才是文章的主旨，因此A只是一个细节。"}]}, {"title": "评估选项的概括性", "steps": [{"question": "比较选项B“我们应该做有意义的事”和选项C“孩子们也能有所作为”，哪个更贴合文章内容？", "hint": "文章的主角Joris有什么特别的身份？他的年龄有什么特殊性？", "takeaway": "选项B过于宽泛，而文章特别强调了主角是个年轻人，所以选项C更具体、更准确地概括了文章的独特启示。"}, {"question": "文章中有没有提到Joris的父母？", "hint": "快速浏览全文，寻找 'parents', 'father', 'mother' 等词。", "takeaway": "文章完全没有提及Joris的父母，因此选项D是无中生有的推断。"}]}]}}, {"number": "15", "item_type": "reading", "context_note": "Passage A", "stem": "The passage is probably from a _____.", "options": {"A": "notice board", "B": "school newspaper", "C": "fashion magazine", "D": "guidebook"}, "answer_area_hint": "", "teaching": {"correct_answer": "B", "explanation_md": "这是一道文章出处推断题。我们需要根据文章的内容、风格和目标读者来判断它最可能来自哪里。文章讲述了一个名叫Joris的学生的励志事迹，内容积极向上，旨在激励同龄人。这种以学生为榜样、报道校园动态的文章，最典型的载体就是“校报”（school newspaper）。选项A“布告栏”多为简短通知。选项C“时尚杂志”关注潮流服饰。选项D“指南”提供旅游或操作信息。这三者均与文章内容不符。因此，校报是唯一合理的出处。", "knowledge_expansion_md": "### 文章体裁与出处推断题\n\n这类题目考查学生根据文本特征进行逻辑推理的能力。解题时，可以从以下几个方面分析：\n\n1.  **内容 (Content)**：文章讲了什么？是新闻、故事、广告、说明还是通知？本文是一篇关于学生的人物报道。\n2.  **语气 (Tone)**：作者的态度是客观的、主观的、严肃的、幽默的还是鼓舞人心的？本文的语气是积极、正面的，带有教育和激励意义。\n3.  **目标读者 (Target Audience)**：文章是写给谁看的？是儿童、学生、家长还是一般大众？本文以学生为主角，显然主要写给其他学生看。\n4.  **格式与语言 (Format & Language)**：文章有无特殊格式（如标题、日期、地址）？语言是正式还是非正式？\n\n**常见出处及其特征**：\n-   **Newspaper (报纸)**: 报道新闻时事，语言客观。\n-   **School Newspaper (校报)**: 报道校园新闻、师生事迹，面向学生，常有激励性。\n-   **Magazine (杂志)**: 分类多样（时尚、科技、旅游等），内容更深入，图文并茂。\n-   **Notice (通知/布告)**: 格式固定，语言简洁，目的明确（如会议、活动通知）。\n-   **Guidebook (指南)**: 提供实用信息和指导（如旅游指南、使用手册）。\n-   **Diary (日记)**: 私人记录，第一人称，语言随意。", "socratic_tracks": [{"title": "分析文章内容与读者", "steps": [{"question": "这篇文章的主角是谁？文章主要讲了什么事？", "hint": "主角是学生Joris，他做了一件很有意义的事。", "takeaway": "文章讲述了一名学生为保护动物而努力的励志故事。"}, {"question": "你认为这篇文章最想给谁看？是给所有人，还是某个特定群体？", "hint": "讲述一个学生的故事，最能激励和影响的是哪些人？", "takeaway": "这篇文章的目标读者很可能是和Joris年龄相仿的学生。"}, {"question": "四个选项中，哪一个出版物主要是给学生看的？", "hint": "比较“校报”、“时尚杂志”、“指南”的读者群体。", "takeaway": "“校报”（school newspaper）是主要面向学生的出版物。"}]}, {"title": "辨析不同文体特征", "steps": [{"question": "“Notice board”（布告栏）上通常会贴什么样的东西？", "hint": "比如，会议通知、失物招领等。它们的篇幅长吗？", "takeaway": "布告栏上的信息通常是简短的通知或公告，而不是一个完整的故事。"}, {"question": "“Fashion magazine”（时尚杂志）会刊登这样的文章吗？为什么？", "hint": "时尚杂志关心的是动物保护，还是穿着打扮？", "takeaway": "时尚杂志主要关注潮流和名人，与本文的环保励志主题不符。"}, {"question": "“Guidebook”（指南）的作用是什么？这篇文章像一份指南吗？", "hint": "指南会告诉你去哪里玩，怎么做某件事。这篇文章是在教你怎么去非洲吗？", "takeaway": "这篇文章是在讲述一个故事以激励人心，而不是提供操作指引，所以它不是指南。"}]}, {"title": "寻找原文线索", "steps": [{"question": "如果文章本身会透露一些关于出处的信息，我们应该寻找什么样的词？", "hint": "寻找与出版物、媒体相关的词，比如 'magazine', 'newspaper', 'website' 等。", "takeaway": "我们应该在文中寻找直接或间接暗示其来源的线索。"}, {"question": "（根据推断的语料）文章结尾提到了什么？“His school newspaper recently featured his story...”", "hint": "结尾的句子直接提到了一个出版物的名字。", "takeaway": "文章结尾明确提到了“校报”（school newspaper），直接给出了答案线索。"}]}]}}, {"number": "16", "item_type": "reading", "context_note": "Passage B\nDo you want to stay young? Do you know how to stay young? Here's some advice (建议).\nForget some numbers. The numbers are about your age, <u>weight<\/u> and height (身高). Let the doctor worry about them. That's why you pay him or her.\nMake happy friends. People who are bright and happy should be your friends. Their happiness may help you change (改变) your bad mood (情绪), and your life will be better.\nKeep learning. Learn more about the computer, gardening or others. Don't stop using your mind. Take an interest in the world around you, and learn at least one new thing every day. Learning makes you become very clever.\nKeep healthy. Do more exercise and eat healthy food to keep healthy. If there is something wrong, go to see the doctor.\nThere are many other ways to stay young, such as enjoying the simple things, laughing often, having a walk often, telling people you love them and so on.", "stem": "Who can help you change your bad mood according to the passage?", "options": {"A": "Serious and scared people.", "B": "Bright and happy people.", "C": "Young and beautiful people.", "D": "Tall and strong people."}, "answer_area_hint": "", "teaching": {"correct_answer": "B", "explanation_md": "这是一道细节查找题，问题是“根据文章，谁能帮助你改变坏心情？”。解题的关键是找到题干中的核心词“change your bad mood”在文章中的对应位置。文章第二段建议“Make happy friends.”（结交快乐的朋友），紧接着解释说：“People who are bright and happy should be your friends. Their happiness may help you change your bad mood...”（那些开朗快乐的人应该成为你的朋友。他们的快乐可以帮助你改变坏心情...）。由此可见，能够帮助改变坏心情的是“bright and happy people”。因此，正确答案是B。", "knowledge_expansion_md": "### 关键词定位法与词义辨析\n\n1.  **关键词定位法 (Keyword Skimming)**：这是做阅读细节题最核心、最有效的方法。首先，从题干中提炼出关键词（如此题的 `change bad mood`）。然后，带着这些关键词快速扫描文章，定位到包含这些词或其同义词的句子。答案通常就在该句或其上下文之中。\n\n2.  **一词多义：'bright'**：在英语中，很多单词有不止一个意思。`bright` 最常见的意思是“明亮的”，但当它用来形容人时，通常指“聪明的，伶俐的”或“开朗的，愉快的”。在本句中，`bright` 与 `happy` 并列，共同形容朋友的性格，取“开朗的”之意。理解一词多义是提升阅读能力的关键。\n\n3.  **同义替换**：阅读理解题的选项常常使用原文词汇的同义词或同义短语来进行替换，以考查学生真正的理解能力。例如，题干中的 `who` 对应原文中的 `people`。", "socratic_tracks": [{"title": "关键词定位法", "steps": [{"question": "这个问题想让我们在文章中找到什么信息？", "hint": "看看问题里的核心短语是什么？“change your bad mood”。", "takeaway": "问题想知道“谁能帮助你改变坏心情”。"}, {"question": "我们应该在文章中寻找哪些关键词来定位答案？", "hint": "题干中的 “change” 和 “bad mood” 是最关键的词。", "takeaway": "我们要在文章中快速找到 “change” 和 “bad mood” 这两个词。"}, {"question": "找到这些词后，它们所在的句子说了什么？", "hint": "读一下 “Their happiness may help you change (改变) your bad mood (情绪)” 这句话，以及它的前一句。", "takeaway": "文章说“开朗快乐的人”的“快乐”可以帮助改变坏心情，因此答案是开朗快乐的人。"}]}, {"title": "理解一词多义", "steps": [{"question": "在选项B “Bright and happy people” 中，“bright”是什么意思？", "hint": "我们通常说灯很“bright”，但用“bright”来形容人呢？", "takeaway": "“Bright”在这里不是指“发光的”，而是指人“聪明的”或“开朗的”。"}, {"question": "文章中与“bright”并列的词是什么？这能帮助我们理解它的意思吗？", "hint": "文章中说的是 “bright and happy people”。", "takeaway": "文章将“bright”和“happy”并列使用，说明它们描述的都是一类积极向上的人的性格。"}]}, {"title": "排除错误选项", "steps": [{"question": "为什么选项A “Serious and scared people”（严肃和害怕的人）是错的？", "hint": "严肃和害怕的人会给你带来快乐，还是让你也感到紧张？", "takeaway": "严肃和害怕的情绪与“改变坏心情”的目标正好相反，不符合逻辑。"}, {"question": "文章中有没有提到“young and beautiful”（年轻漂亮）或者“tall and strong”（高大强壮）的人？", "hint": "快速浏览全文，看看有没有这些关于外貌或体格的形容词。", "takeaway": "文章完全没有提及外貌或体格这些特征，因此C和D都是无中生有的无关选项。"}]}]}}, {"number": "17", "item_type": "reading", "context_note": "Passage B", "stem": "The underlined word “weight” means “_____” in Chinese.", "options": {"A": "知识", "B": "习惯", "C": "朋友", "D": "体重"}, "answer_area_hint": "", "teaching": {"correct_answer": "D", "explanation_md": "本题考查在特定语境中猜测词义的能力。根据其他题目（如19题和20题）的线索，我们可以推断出文章的主题是关于“如何保持年轻和健康”。在讨论健康话题时，“weight”最常指代的是人的“体重”。文章很可能建议人们通过控制体重来保持健康。因此，选项D“体重”是符合语境的最佳答案。", "knowledge_expansion_md": "### 词汇拓展：`weight` 的多重含义\n\n1.  **体重/重量 (n.)**: 这是 `weight` 最基本的意思。\n    *   例句：`He is trying to lose weight.` (他正在努力减肥。)\n    *   常见搭配：`lose weight` (减肥), `gain/put on weight` (增重), `watch one's weight` (注意体重)。\n\n2.  **重要性/分量 (n.)**: `weight` 也可以用作比喻，指某事物的重要性或影响力。\n    *   例句：`Her opinion carries a lot of weight in the company.` (她的意见在公司里很有分量。)\n\n3.  **重物/砝码 (n.)**: 指用于称重或锻炼的重物。\n    *   例句：`He lifts weights at the gym every day.` (他每天在健身房举重。)\n\n### 易混淆词\n*   **wait (v.)**: 等待。`weight` 和 `wait` 是同音异形异义词，注意区分。", "socratic_tracks": [{"title": "语境推断法", "steps": [{"question": "根据题干和选项，这篇文章的主题可能是什么？我们可以从其他题目中寻找线索吗？", "hint": "看看第19题和第20题，它们提到了“健康”、“保持年轻”等概念。", "takeaway": "文章的主题是关于如何保持健康和年轻。"}, {"question": "在一个关于“健康”和“保持年轻”的话题中，“weight”这个词最有可能指什么？", "hint": "想一想我们日常生活中谈论健康时，常会提到哪些方面？比如饮食、运动和……？", "takeaway": "在健康语境下，“weight”通常指身体的重量，即“体重”。"}]}, {"title": "词汇辨析", "steps": [{"question": "除了“体重”，你还知道“weight”的其他意思吗？例如，在“Your opinion carries great weight”这句话中，“weight”是什么意思？", "hint": "这句话可以翻译为“你的意见很有分量”。", "takeaway": "“weight”除了表示物理上的“重量”，还可以引申为“重要性”或“影响力”。"}, {"question": "既然“weight”有多种含义，我们如何确定它在阅读文章中的具体意思呢？", "hint": "是孤立地看这个词，还是结合它所在的句子和段落来看？", "takeaway": "理解单词在具体语境中的含义是阅读理解的关键，必须结合上下文来判断。"}]}, {"title": "排除法应用", "steps": [{"question": "我们来分析一下A、B、C三个选项：知识(knowledge)、习惯(habit)、朋友(friend)。把它们放到“保持健康”这个主题里，你觉得通顺吗？", "hint": "文章可能会建议“保持一个好习惯”或“交一些好朋友”，但“weight”这个词本身并不直接等于这些意思。", "takeaway": "选项A、B、C的词义与“weight”本身不符，且与身体健康的直接关联不如“体重”紧密。"}, {"question": "为什么选项D“体重”是最佳答案？", "hint": "控制体重是不是保持身体健康的一个非常重要且常见的方面？", "takeaway": "通过排除法，可以锁定与文章主题和“weight”一词最相关的选项“体重”。"}]}]}}, {"number": "18", "item_type": "reading", "context_note": "Passage B", "stem": "If you want to become smart (聪明的), you should _____.", "options": {"A": "make happy friends", "B": "forget some numbers", "C": "laugh often", "D": "learn something new every day"}, "answer_area_hint": "", "teaching": {"correct_answer": "D", "explanation_md": "本题为细节理解题，询问“如何才能变得聪明”。根据生活常识以及此类建议性文章的普遍逻辑，保持大脑活跃是变聪明的关键。选项A“交快乐的朋友”和C“经常笑”主要与情绪健康有关。选项B“忘记一些数字”不合逻辑。选项D“每天学习新东西”是增长知识、锻炼思维、从而变得更聪明的最直接有效的方法。因此，D是最佳答案。", "knowledge_expansion_md": "### 语法点：`become` 的用法\n\n`become` 是一个常见的系动词，意为“变成；成为”，其后可以跟名词或形容词作表语。\n*   **`become` + 形容词**: 表示状态的变化。\n    *   例句：`He became famous after writing the book.` (写了这本书后他出名了。)\n    *   本题中：`become smart` (变得聪明)\n*   **`become` + 名词**: 表示身份或角色的转变。\n    *   例句：`She wants to become a doctor.` (她想成为一名医生。)\n\n### 词汇辨析：`smart`, `clever`, `wise`\n这三个词都表示“聪明”，但侧重点不同：\n*   **`smart`**: 通常指头脑敏锐、反应快，善于学习和理解新事物，尤指在学业或社交上表现出色。\n*   **`clever`**: 指人机灵、有小聪明，善于动手或想出巧妙的办法，有时略带“精明”的意味。\n*   **`wise`**: 指有智慧、有远见，能做出明智的判断，通常与经验和阅历的积累有关。", "socratic_tracks": [{"title": "逻辑推理", "steps": [{"question": "“变得聪明(become smart)”主要指的是哪个方面的提升？是情绪、记忆力还是学习能力？", "hint": "聪明通常与智力、知识和思维能力挂钩。", "takeaway": "“变得聪明”主要是指智力、知识和思维能力的提升。"}, {"question": "分析四个选项，哪一个与提升智力、增长知识的关系最直接？", "hint": "交朋友和笑主要影响心情，忘记数字没有帮助，而学习新东西呢？", "takeaway": "“每天学习新东西”是提升智力最直接有效的方式。"}]}, {"title": "细节定位策略", "steps": [{"question": "这是一道细节题，如果在阅读文章时要寻找答案，你会特别留意哪些关键词？", "hint": "题干中最重要的词是什么？", "takeaway": "带着问题中的关键词（如 “smart”）去文章中寻找相关句子是解题的有效策略。"}, {"question": "假设你在文章中读到这样一句话：“To keep your brain active and become smarter, you should learn something new every day.” 这句话是如何直接回答问题的？", "hint": "这句话明确指出了“变聪明”和“每天学习新东西”之间的因果关系。", "takeaway": "题目的答案通常就隐藏在与题干关键词相关的原文句子中。"}]}, {"title": "建议句型", "steps": [{"question": "题干中的“you should ...”是一个什么句型？它通常用来做什么？", "hint": "“should”是一个情态动词，表示“应该”。", "takeaway": "“You should...”是一个用来提出建议或忠告的常用句型。"}, {"question": "除了用“should”，你还能想到哪些其他用来提建议的英语表达方式？", "hint": "比如，“你最好……”怎么说？“为什么不……”怎么说？", "takeaway": "掌握多种提建议的句型，如 `You'd better...`, `Why not...?`, `How about...?`，有助于更好地理解和表达。"}]}]}}, {"number": "19", "item_type": "reading", "context_note": "Passage B", "stem": "Which of the following is NOT true according to the passage?", "options": {"A": "To have a healthy body, people should do more exercise.", "B": "When people don't feel well, they shouldn't see a doctor.", "C": "Health can help you stay young.", "D": "People should eat healthy food."}, "answer_area_hint": "", "teaching": {"correct_answer": "B", "explanation_md": "本题是一道“是非判断题”，要求选出与文章内容**不符**的选项。文章的主题是关于如何保持健康和年轻，因此会提倡积极、正确的健康观念和行为。选项A“多锻炼”、C“健康有助于保持年轻”和D“吃健康食品”都是广为接受的健康常识，非常可能出现在文章中作为正面建议。相反，选项B“当人们感觉不舒服时，他们不应该去看医生”是完全错误且危险的建议，与文章的积极主旨和基本常识都相违背。因此，B是“NOT true”的选项。", "knowledge_expansion_md": "### 题型解析：“NOT True” 题\n\n“Which of the following is NOT true?” (以下哪项不正确？) 是阅读理解中的经典“反向选择”题型。解题关键在于：\n\n1.  **审清题意**：务必看清大写的“NOT”，避免误选为“正确”的选项。\n2.  **正向排除**：将每个选项与原文信息进行比对。能在原文中找到依据，或与原文意思相符的选项，都是“True”的，应该被排除。\n3.  **锁定答案**：与原文信息明确矛盾、或原文完全未提及（unmentioned）的选项，就是“NOT True”的答案。在小升初阶段，答案通常是与原文明确矛盾的选项。\n\n### 重点短语\n*   `feel well`: 感觉身体好/舒服\n*   `don't feel well`: 感觉不舒服\n*   `see a doctor`: 看医生 (英式英语常用 `see the doctor`)\n*   `do more exercise`: 多做运动", "socratic_tracks": [{"title": "识别题型", "steps": [{"question": "请仔细阅读题干“Which of the following is NOT true...”。这道题要求我们做什么？是找正确的还是错误的描述？", "hint": "注意题干中大写的单词 “NOT”。", "takeaway": "这道题要求我们找出四个选项中“不正确”的那一个。"}, {"question": "对于这种“找错”的题目，最好的做题方法是什么？", "hint": "我们可以先找出那些“正确”的选项，然后把它们排除掉。", "takeaway": "做“NOT true”题目的有效策略是使用排除法，先排除掉正确的选项。"}]}, {"title": "结合主旨与常识", "steps": [{"question": "根据我们对文章主题（如何保持年轻和健康）的推测，文章会给出什么样的建议？是积极有益的，还是消极有害的？", "hint": "一篇教人如何保持健康的文章，会鼓励人们做有益健康的事。", "takeaway": "文章的基调是积极的，会提倡有益健康的行为。"}, {"question": "现在，请用常识判断一下四个选项。哪一个选项的建议是明显错误且有害健康的？", "hint": "生病了不去看医生，这个做法对吗？", "takeaway": "选项B的建议（生病不看医生）违背了健康常识和文章的积极主旨，因此它最不可能是正确的。"}]}, {"title": "关键词分析", "steps": [{"question": "选项B中的“shouldn't”是什么意思？它表达了什么样的语气？", "hint": "它是“should not”的缩写，表示“不应该”。", "takeaway": "“shouldn't”表达的是一种强烈的否定性建议或禁止。"}, {"question": "如果文章要给出一个关于生病的正确建议，它会用“should”还是“shouldn't”来连接“see a doctor”？", "hint": "想一想，当你生病时，父母和老师会怎么建议你？", "takeaway": "正确的建议应该是“You should see a doctor”，这与选项B的表述正好相反。"}]}]}}, {"number": "20", "item_type": "reading", "context_note": "Passage B", "stem": "Which of the following is the best title?", "options": {"A": "Enjoy the Simple Things", "B": "Tell People Your Love", "C": "How to Stay Young", "D": "Why to Help Others"}, "answer_area_hint": "", "teaching": {"correct_answer": "C", "explanation_md": "本题考查对文章主旨大意的归纳能力，要求选出最佳标题。通过分析前面几道题，我们知道文章讨论了多个话题：控制体重（身体健康）、学习新知（思维活跃）、多运动、健康饮食等。这些都是具体的建议和方法。选项A、B、D可能只是文章提到的部分细节，过于片面，无法概括全文。而选项C“如何保持年轻”则能将所有这些关于身体和精神健康的建议囊括在内，是统领全文的中心思想。因此，C是最佳标题。", "knowledge_expansion_md": "### 题型解析：最佳标题 (Best Title) 题\n\n选择最佳标题是考查考生归纳和概括文章中心思想能力的核心题型。一个好的标题通常具备以下特点：\n\n1.  **概括性强**：能够覆盖文章的主要内容，而不是仅仅描述某个段落或细节。\n2.  **针对性强**：准确反映文章的核心话题和写作意图，不会过于宽泛或笼统。\n3.  **语言精炼**：简洁明了，引人注目。\n\n**解题技巧**：\n*   **寻找中心词**：通读全文，找出反复出现的关键词或核心概念（本文中可能反复出现 `young`, `health`, `body`, `mind` 等）。\n*   **排除干扰项**：\n    *   排除**过于具体**的选项（以偏概全）。\n    *   排除**过于宽泛**的选项（范围太大，不够精确）。\n*   **检查匹配度**：将选定的标题与文章内容进行比对，看它是否是全文内容的最佳概括。", "socratic_tracks": [{"title": "归纳中心思想", "steps": [{"question": "让我们把前面几道题涉及的内容串联起来：控制体重、学习新知、多运动、健康饮食。这些建议共同指向一个什么目标？", "hint": "人们做这些事情，是为了让自己的身体和精神状态保持在一种什么样的水平？", "takeaway": "所有这些建议都是为了让一个人保持身体和精神的良好状态，即保持年轻活力。"}, {"question": "现在看选项C“How to Stay Young”（如何保持年轻）。这个标题能否把我们刚才提到的所有建议都包含进去？", "hint": "保持年轻是不是既包括身体的健康，也包括思维的活跃？", "takeaway": "“保持年轻”这个主题可以很好地统领关于身体健康和思维敏捷的各项建议，是文章的中心思想。"}]}, {"title": "区分主次信息", "steps": [{"question": "我们看看选项A“享受简单事物”和D“为什么要去帮助别人”。这些有没有可能也是保持年轻的方法之一？", "hint": "保持积极心态、乐于助人确实有益身心健康，它们可能是文章提到的具体建议。", "takeaway": "选项A和D如果出现在文中，也只是具体的支撑细节，而非文章的全部内容。"}, {"question": "既然它们也可能是文中的建议，为什么不能作为最佳标题呢？", "hint": "一个好的标题应该像一把大伞，能把文章所有的主要观点都罩住。", "takeaway": "最佳标题必须概括全文的中心思想，而不能是片面的细节或例子。"}]}, {"title": "分析标题结构", "steps": [{"question": "你认为一个好的文章标题应该起到什么作用？", "hint": "当你在书店看到一本书，书名会告诉你这本书大概是讲什么的吗？", "takeaway": "好的标题能像一个路标，清晰地告诉读者文章的主题和方向。"}, {"question": "比较四个选项，哪一个的句式结构最能体现这是一篇“方法指南”类的文章？", "hint": "“How to...”开头的句子通常是用来做什么的？", "takeaway": "选项C的“How to...”结构清晰地表明了文章的文体是提供方法和建议，与我们推测的文章内容完全吻合。"}]}]}}]}, {"section_title": "III. 选词填空 (共10分)", "section_instruction": "从方框中选择合适的词汇，并用其适当形式填空。每词限用一次。（方框中有两个多余选项）\n\nleave, opposite, beach, hurry, nothing, enjoy, fresh", "items": [{"number": "21", "item_type": "fill_blank", "context_note": "", "stem": "Today is Sunday. I have _____ to do.", "options": {"A": "", "B": "", "C": "", "D": ""}, "answer_area_hint": "_____", "teaching": {"correct_answer": "nothing", "explanation_md": "本句意为“今天是星期天，我无事可做”。`have nothing to do` 是一个固定搭配，意为“无事可做”，用来表达一种空闲的状态。根据句意，星期天是休息日，因此“无事可做”符合生活常理和语境。此处的 `nothing` 是不定代词，作 `have` 的宾语。", "knowledge_expansion_md": "### 不定代词 `nothing`, `something`, `anything`\n\n1.  **`nothing`**：意为“没有什么东西；没事”，本身含有否定意义，用于肯定句结构中表达否定概念。例如：`There is nothing in the box.` (盒子里什么也没有。) \n    `I have nothing to do.` 等同于 `I don't have anything to do.`\n\n2.  **`something`**：意为“某事；某物”，通常用于肯定句中。例如：`I have something to tell you.` (我有些事要告诉你。)\n\n3.  **`anything`**：意为“任何事；任何东西”，通常用于否定句和疑问句中。例如：`Do you have anything to say?` (你有什么要说的吗？) `He doesn't know anything about it.` (对此他一无所知。)\n\n### 固定搭配 `have sth. to do`\n\n这个结构中，不定式 `to do` 作后置定语，修饰前面的代词或名词。类似的结构还有 `have a lot of homework to do` (有很多家庭作业要做)。", "socratic_tracks": [{"title": "句意理解与逻辑推断", "steps": [{"question": "这句话前半句说“今天是星期天”，后半句说“我 _____ 事要做”。根据常识，星期天通常是休息日，那么人们可能会处于什么样的状态？", "hint": "想一想休息日你是忙碌还是空闲？", "takeaway": "句子很可能在表达“我没事可做”或“我有很多事要做”的其中一种状态。"}, {"question": "英语中“没事可做”这个常见的短语是怎么表达的？", "hint": "这个短语以 `have` 开头，中间需要一个表示“没有东西”的词。", "takeaway": "“没事可做”的固定搭配是 `have nothing to do`。"}]}, {"title": "不定代词的用法", "steps": [{"question": "空格处需要填一个什么词性的词来作动词 `have` 的宾语？", "hint": "可以说 `I have a book`，`book` 是名词。这里也可以用一个代词。", "takeaway": "空格处需要一个名词或代词作宾语。"}, {"question": "如果想用一个词在肯定句结构里表达“什么也没有”的否定意思，应该用 `something`, `anything` 还是 `nothing`？", "hint": "`any-` 系列通常用于否定句和疑问句，而 `no-` 系列本身就带有否定含义。", "takeaway": "`nothing` 本身表示否定，可以直接用在肯定句中，表示“什么也没有”。"}]}, {"title": "不定式作后置定语", "steps": [{"question": "在 `have _____ to do` 这个结构中，`to do` 是什么成分？它在修饰哪个词？", "hint": "它跟在空格后面，是用来描述空格里那个“东西”的。", "takeaway": "`to do` 是不定式短语，作后置定语，修饰前面的宾语。"}, {"question": "你能否举一个类似的例子，比如“我有一些作业要做”？", "hint": "“一些作业”是 `some homework`。", "takeaway": "可以说 `I have some homework to do`，这再次证明了 `to do` 是用来修饰 `have` 的宾语的。"}]}]}}, {"number": "22", "item_type": "fill_blank", "context_note": "", "stem": "What about going swimming? The children are looking forward to _____ themselves on Children's Day.", "options": {"A": "", "B": "", "C": "", "D": ""}, "answer_area_hint": "_____", "teaching": {"correct_answer": "enjoying", "explanation_md": "本句意为“去游泳怎么样？孩子们盼望着在儿童节玩得开心。”\n1.  `look forward to` 是一个固定短语，意为“盼望，期待”。\n2.  关键在于，这个短语中的 `to` 是一个介词，而不是不定式符号。\n3.  介词后面必须跟名词、代词或动名词（-ing形式）。\n4.  `enjoy oneself` 是固定搭配，意为“玩得开心”。\n5.  因此，需要将动词 `enjoy` 变为动名词形式 `enjoying` 填入空格。", "knowledge_expansion_md": "### 关键短语：`look forward to doing sth.`\n\n这是一个非常重要的短语，也是小升初考试中的高频考点。学生极易将这里的 `to` 误认为是动词不定式的符号，从而在后面错跟动词原形。务必牢记，`look forward to` 中的 `to` 是介词，后面要跟名词或动名词（-ing）。\n\n*   **例句**：\n    *   `I'm looking forward to the summer holiday.` (我盼望着暑假。) - `to` + 名词\n    *   `She is looking forward to seeing her grandparents.` (她盼望着见到她的祖父母。) - `to` + 动名词\n\n### 其他含介词 `to` 的常见短语\n\n除了 `look forward to`，还有一些短语中的 `to` 也是介词，后面同样要跟名词或动名词：\n\n*   `be used to doing sth.` (习惯于做某事)\n*   `pay attention to doing sth.` (注意做某事)\n*   `get down to doing sth.` (开始认真做某事)\n*   `stick to doing sth.` (坚持做某事)\n\n### 反身代词搭配\n\n`enjoy oneself` (玩得开心) 是一个常用搭配。类似的还有 `help oneself to sth.` (随便吃/用某物), `teach oneself` (自学), `dress oneself` (自己穿衣服) 等。反身代词必须与主语在人称和数上保持一致。本题中主语是 `The children` (复数)，所以用 `themselves`。", "socratic_tracks": [{"title": "关键短语 `look forward to`", "steps": [{"question": "句子中的 `looking forward to` 是什么意思？", "hint": "这是一个表示“期待”的短语。", "takeaway": "`look forward to` 的意思是“盼望，期待”。"}, {"question": "这个短语中的 `to` 是什么词性？它后面应该跟什么形式的词？", "hint": "试着说“我盼望周末”，`I'm looking forward to the weekend.`，`weekend` 是名词。", "takeaway": "这里的 `to` 是介词，后面必须跟名词或动名词（-ing形式）。"}]}, {"title": "动词与反身代词搭配", "steps": [{"question": "空格后面的 `themselves` 是什么词？它指代谁？", "hint": "它是一个反身代词，通常指代句子的主语。", "takeaway": "`themselves` 是反身代词，指代主语 `The children`。"}, {"question": "哪个动词经常和反身代词搭配，表示“玩得开心”？", "hint": "当你想祝别人玩得开心时，可以说 `Have fun!` 或者 `_____ yourself!`", "takeaway": "`enjoy oneself` 是一个固定搭配，意为“玩得开心”。"}]}, {"title": "语法形式综合应用", "steps": [{"question": "我们已经知道 `look forward to` 后面要跟动词的-ing形式，并且要填的动词是 `enjoy`。那么，最终应该填什么？", "hint": "将动词 `enjoy` 变成动名词形式。", "takeaway": "我们需要将 `enjoy` 变为 `enjoying`。"}, {"question": "为什么这里用 `themselves` 而不是 `himself` 或 `herself`？", "hint": "反身代词要和主语的人称、单复数保持一致。句子的主语是什么？", "takeaway": "因为主语是 `The children`（孩子们，复数），所以反身代词要用复数形式 `themselves`。"}]}]}}, {"number": "23", "item_type": "fill_blank", "context_note": "", "stem": "Yalong Bay in Sanya is one of the most beautiful _____ in China.", "options": {"A": "", "B": "", "C": "", "D": ""}, "answer_area_hint": "_____", "teaching": {"correct_answer": "beaches", "explanation_md": "本句意为“三亚的亚龙湾是中国最美丽的海滩之一”。\n1.  `one of the + 形容词最高级 + 名词复数` 是一个固定句型，表示“最……的……之一”。\n2.  句中已经有了 `one of the most beautiful`，所以空格处必须填一个可数名词的复数形式。\n3.  根据常识，三亚的亚龙湾（Yalong Bay）是以其美丽的海滩（beach）而闻名的旅游胜地。\n4.  因此，应填入 `beach` 的复数形式 `beaches`。", "knowledge_expansion_md": "### 句型 `one of the + 最高级 + 名词复数`\n\n这个句型是英语中表达“……之一”最常用的结构，是各级考试的重点。其核心要点是，最高级后面的名词必须使用复数形式，因为“一个”是从“多个”中选出来的。\n\n*   **结构**：`one of + the + 形容词最高级/most + 原级 + 名词复数`\n*   **例句**：\n    *   `Shanghai is one of the biggest cities in China.` (上海是中国最大的城市之一。)\n    *   `He is one of my best friends.` (他是我最好的朋友之一。)\n\n### 易错点\n\n学生在使用此句型时，最常犯的错误就是忘记将名词变为复数。例如，会错误地写成 `*one of the biggest city`。务必记住，既然是“之一”，就一定是从一个大于一的群体中选出，所以群体必须是复数。\n\n### 相关地理词汇\n\n*   `beach` [biːtʃ] (n.) 海滩，沙滩\n*   `bay` [beɪ] (n.) 海湾\n*   `coast` [kəʊst] (n.) 海岸，海岸线\n*   `island` [ˈaɪlənd] (n.) 岛屿\n*   `ocean` [ˈəʊʃn] (n.) 海洋", "socratic_tracks": [{"title": "核心句型 `one of the...`", "steps": [{"question": "当你看到 `one of the` 这个短语时，你首先会想到什么语法规则？", "hint": "这个结构是用来表达“……之一”的。既然是“之一”，那么它一定是从一个群体中选出来的。这个群体是单数还是复数？", "takeaway": "`one of the` 后面必须跟名词的复数形式。"}, {"question": "句中 `most beautiful` 是形容词的什么级？", "hint": "形容词有原级、比较级和最高级。", "takeaway": "`most beautiful` 是形容词 `beautiful` 的最高级形式。"}, {"question": "结合以上两点，`one of the most beautiful _____` 这个结构完整的要求是什么？", "hint": "把“最高级”和“名词复数”结合起来。", "takeaway": "这个句型的完整结构是 `one of the + 形容词最高级 + 名词复数`。"}]}, {"title": "语境与常识判断", "steps": [{"question": "句子提到了 `Yalong Bay in Sanya`（三亚的亚龙湾），根据你的地理常识或生活经验，这是个什么样的地方？", "hint": "三亚是中国著名的海滨旅游城市。", "takeaway": "亚龙湾是三亚一个著名的海湾，以其优美的海边风光而闻名。"}, {"question": "那么，亚龙湾最可能被称作中国最美丽的什么之一？", "hint": "海边最吸引人的自然景观是什么？有沙子和海水的地方。", "takeaway": "亚龙湾以其美丽的海滩（beaches）而闻名。"}]}, {"title": "名词复数变化规则", "steps": [{"question": "我们确定了要填的词是“海滩”（beach），根据句型要求，需要用它的复数形式。`beach` 这个词应该如何变复数？", "hint": "想一想以 `s, x, sh, ch` 结尾的名词，变复数时词尾有什么规则？", "takeaway": "以 `ch` 结尾的名词，变复数时通常在词尾加 `-es`。"}, {"question": "所以，`beach` 的复数形式是什么？", "hint": "在 `beach` 后面加上 `-es`。", "takeaway": "`beach` 的复数形式是 `beaches`。"}]}]}}, {"number": "24", "item_type": "fill_blank", "context_note": "", "stem": "Tom got up late this morning and he _____ to work.", "options": {"A": "", "B": "", "C": "", "D": ""}, "answer_area_hint": "_____", "teaching": {"correct_answer": "rushed", "explanation_md": "本句意为“汤姆今天早上起晚了，于是他匆忙地去上班了。”\n1.  这是一个描述过去发生的一系列动作的句子，时间状语是 `this morning`（指已经过去的今天早上）。\n2.  连词 `and` 连接了两个并列的谓语动词短语：`got up late` 和 `he _____ to work`。\n3.  并列连词连接的动作时态通常需要保持一致。第一个动词 `got` 是一般过去时，所以第二个动词也应该使用一般过去时。\n4.  根据“起晚了”的逻辑结果，可以推断出汤姆是“匆忙”去上班。动词 `rush` (匆忙，猛冲) 符合此意。\n5.  `rush` 的过去式是 `rushed`。", "knowledge_expansion_md": "### 并列句中的时态一致\n\n当连词 `and`, `but`, `or`, `so` 等连接两个或多个独立的句子或并列的谓语时，为了保持叙述的连贯性，它们的时态通常会保持一致。尤其是在按时间顺序叙述一连串动作时，使用相同的时态（尤其是一般过去时）非常普遍。\n\n*   **例句**：`He came into the room, took off his coat, and sat on the sofa.` (他走进房间，脱下外套，然后坐在了沙发上。) - 三个动作都用了一般过去时。\n\n### 一般过去时\n\n一般过去时用于表示过去某个特定时间发生并完成的动作或存在的状态。规则动词的过去式通常在词尾加 `-ed`，不规则动词则需要专门记忆。\n\n*   **时间状语**：`yesterday`, `last week`, `two days ago`, `in 1999`, `this morning` (当指过去的早上时) 等。\n\n### 词义辨析：`rush` vs. `hurry`\n\n*   **`rush`**: 强调速度快、动作猛，带有“冲、闯”的意味，常用于形容紧急情况下的快速移动。例如：`He rushed to the hospital.` (他飞奔到医院。)\n*   **`hurry`**: 侧重于“赶紧、急忙做某事”，强调主观上的着急。例如：`Hurry, or we'll be late.` (快点，否则我们就要迟到了。)\n\n在本句中，两者意思相近，均可使用，但 `rushed` 更能生动地描绘出起晚后飞奔去上班的画面感。", "socratic_tracks": [{"title": "并列句与时态一致", "steps": [{"question": "句子中的连词 `and` 起到了什么作用？它连接了哪两个动作？", "hint": "`and` 前面是汤姆做的一件事，后面是他做的另一件事。", "takeaway": "`and` 连接了“起床晚了”和“去上班”这两个连续发生的动作。"}, {"question": "第一个动作 `got up` 使用了什么时态？", "hint": "`got` 是哪个动词的过去式？", "takeaway": "`got` 是 `get` 的过去式，所以这里用的是一般过去时。"}, {"question": "当 `and` 连接两个按顺序发生的动作时，它们的时态通常有什么关系？", "hint": "为了让叙述连贯，时态应该保持...", "takeaway": "时态通常需要保持一致，所以第二个动词也应该用一般过去时。"}]}, {"title": "上下文逻辑推理", "steps": [{"question": "句子的前半部分“Tom got up late this morning”告诉了我们一个什么情况？", "hint": "`late` 是“晚”的意思。", "takeaway": "汤姆今天早上起床晚了。"}, {"question": "一个人如果上班/上学起晚了，他接下来的行动会是怎样的？是慢悠悠的，还是非常着急的？", "hint": "想一想你快要迟到时的状态。", "takeaway": "他很可能会匆匆忙忙地赶去目的地。"}]}, {"title": "词汇选择与形式变化", "steps": [{"question": "英语中哪个动词可以表示“匆忙、赶着去”？", "hint": "想一想“交通高峰期”的英文 `rush hour`。", "takeaway": "动词 `rush` 或 `hurry` 都可以表示“匆忙”。"}, {"question": "如果我们选择动词 `rush`，根据前面分析的时态，应该填入它的什么形式？", "hint": "我们需要 `rush` 的一般过去时形式。", "takeaway": "`rush` 是一个规则动词，它的过去式是在词尾加 `-ed`，即 `rushed`。"}]}]}}, {"number": "25", "item_type": "fill_blank", "context_note": "", "stem": "The bookshop _____ the supermarket is popular with the children.", "options": {"A": "", "B": "", "C": "", "D": ""}, "answer_area_hint": "_____", "teaching": {"correct_answer": "near", "explanation_md": "本句意为“超市附近的那家书店很受孩子们欢迎”。句子主语是“书店”，但需要一个词来表明它和“超市”之间的位置关系。空格处需要填入一个介词，表示方位。`near` 意为“在……附近”，填入后构成介词短语 `near the supermarket`，用来修饰 `The bookshop`，指明是哪一家书店。整个 `The bookshop near the supermarket` 作为主语，符合语法和句意。其他如 `next to` (在……旁边), `behind` (在……后面), `opposite` (在……对面) 等表示方位的介词或词组在语法上也成立，但 `near` 是一个非常常见且合适的单音节词答案。", "knowledge_expansion_md": "### 知识点拓展：方位介词与介词短语作后置定语\n\n1.  **常见方位介词/词组**：\n    *   `in` 在……里面\n    *   `on` 在……上面（接触表面）\n    *   `at` 在……（某个地点）\n    *   `near` 在……附近\n    *   `next to` 紧邻，在……旁边\n    *   `behind` 在……后面\n    *   `in front of` 在……前面\n    *   `opposite` 在……对面\n    *   `between ... and ...` 在……和……之间\n\n2.  **`near` vs. `next to`**：\n    *   `near` 表示“附近”，指距离上很近，但不一定紧挨着。\n    *   `next to` 表示“紧邻，隔壁”，指两个物体并排挨着，中间没有其他物体。\n\n3.  **介词短语作后置定语**：\n    *   一个介词和它后面的名词（或代词）等共同构成介词短语。\n    *   当介词短语跟在一个名词后面时，可以起到修饰该名词的作用，这被称为后置定语。它能提供更多关于该名词的信息，如位置、属性等。\n    *   例如：`The book on the desk is mine.` （桌上的那本书是我的。）其中 `on the desk` 修饰 `The book`。", "socratic_tracks": [{"title": "句子成分分析", "steps": [{"question": "这句话的谓语动词是哪个词？", "hint": "动词通常表达“是”什么，或者做什么动作。", "takeaway": "句子的谓语动词是 `is`。"}, {"question": "既然 `is` 是谓语动词，那么它前面的 `The bookshop _____ the supermarket` 整体在句子中充当什么成分？", "hint": "在动词前面，通常是发出动作或描述状态的主体。", "takeaway": "动词 `is` 前面的整个名词性部分 `The bookshop near the supermarket` 共同构成了句子的主语。"}, {"question": "空格里的词连接了 `bookshop` 和 `supermarket`，它起到了什么语法作用？", "hint": "想一想我们用什么类型的词来表示一个物体相对于另一个物体的位置？", "takeaway": "空格处需要一个介词，来引导一个介词短语，修饰主语 `The bookshop`。"}]}, {"title": "方位介词辨析", "steps": [{"question": "如果想表达书店就在超市“隔壁”，紧挨着，应该用哪个词组？", "hint": "这个词组由两个单词组成，表示“next”。", "takeaway": "`next to` 强调“紧邻、旁边”。"}, {"question": "如果书店和超市在同一条街上，但不一定挨着，只是“离得近”，用哪个单词最合适？", "hint": "这个词是 n-e-a-r。", "takeaway": "`near` 表示“在……附近”，范围比 `next to` 更广。"}, {"question": "除了 `near` 和 `next to`，你还能想到哪些描述位置关系的介词？比如“在……对面”或“在……后面”怎么说？", "hint": "想象一下地图上的位置关系。", "takeaway": "还有 `opposite` (在对面), `behind` (在后面), `in front of` (在前面) 等词可以更精确地描述位置。"}]}, {"title": "语境逻辑推理", "steps": [{"question": "句子的后半部分 `is popular with the children` 告诉了我们关于书店的什么信息？", "hint": "`popular with...` 是一个固定搭配，意为“受……欢迎”。", "takeaway": "这句话的核心信息是：这家书店在孩子们中间很受欢迎。"}, {"question": "书店的位置（在超市附近）和它“受孩子们欢迎”之间可能有什么联系？", "hint": "想象一下生活场景：家长带孩子去超市购物，出门时可能会顺便去旁边的书店看看。", "takeaway": "便利的地理位置（如靠近人流量大的超市）是这家书店受欢迎的合理解释之一，这使得句子在逻辑上非常通顺。"}]}]}}]}, {"section_title": "IV. 词汇运用 (共10分)", "section_instruction": "根据句意及汉语提示，填写恰当的单词。", "items": [{"number": "26", "item_type": "fill_blank", "context_note": "", "stem": "Jane's first _____ (小学) was near her house.", "options": {"A": "", "B": "", "C": "", "D": ""}, "answer_area_hint": "_____", "teaching": {"correct_answer": "primary school", "explanation_md": "本题考查名词的翻译与应用。题干中的中文提示是“小学”。“小学”在英语中的标准表达是 `primary school`。其中 `primary` 意为“初级的，首要的”。在美式英语中，也常用 `elementary school`。根据句子结构 `Jane's first _____`，空格处需要填入一个名词，`primary school` 填入后，句子意思完整通顺，意为“简的第一所小学在她家附近”。", "knowledge_expansion_md": "### 知识点拓展：不同教育阶段的英文表达\n\n掌握不同学习阶段的说法对于描述个人经历非常重要。\n\n*   **学前教育**: \n    *   `kindergarten` / `nursery school`: 幼儿园\n*   **基础教育**: \n    *   `primary school` (英式/通用) / `elementary school` (美式): 小学\n    *   `middle school` / `junior high school`: 初中\n    *   `high school` / `senior high school`: 高中\n*   **高等教育**:\n    *   `university` / `college`: 大学\n\n**注意**：在所有格（如 `Jane's`）或物主代词（如 `my`, `your`）之后使用序数词（如 `first`, `second`）时，序数词前不再加定冠词 `the`。例如：`my first teacher` (我的第一位老师)，而不是 `my the first teacher`。", "socratic_tracks": [{"title": "核心词汇翻译", "steps": [{"question": "你知道“学校”的英文是什么吗？", "hint": "这是一个非常基础的单词，s-c-h-o-o-l。", "takeaway": "`school` 是“学校”的总称。"}, {"question": "“小学”和“中学”都是学校，我们需要用一个词来修饰 `school` 以区分它们。表示“初级的、基础的”是哪个形容词？", "hint": "这个词是 p-r-i-m-a-r-y。", "takeaway": "`primary` 意为“初级的、首要的”，因此 `primary school` 就是小学。"}]}, {"title": "英美英语差异", "steps": [{"question": "除了 `primary school`，你还知道“小学”的其他说法吗？", "hint": "英语在英国和美国的用法有时会不同，就像中文里“西红柿”和“番茄”的关系。", "takeaway": "`primary school` 是英式英语中更常见的说法。"}, {"question": "那么在美式英语中，人们通常用哪个词组来表示“小学”？", "hint": "提示词：`elementary`，这个词也有“基础的、初步的”意思。", "takeaway": "`elementary school` 是美式英语中“小学”的常用表达，两者在考试中通常都正确。"}]}, {"title": "限定词的规则", "steps": [{"question": "句子中的 `Jane's` 是什么？它起什么作用？", "hint": "它表示这个学校是属于“简”的。", "takeaway": "`Jane's` 是名词所有格，作为一个限定词，表明名词的归属。"}, {"question": "我们常说 `the first` (第一)，为什么这里 `first` 前面没有加 `the`？", "hint": "观察一下 `Jane's` 和 `the` 的位置关系。我们能同时说 `Jane's the first school` 吗？", "takeaway": "当名词前已经有了所有格（如 `Jane's`）或物主代词（如 `my`, `your`）等限定词时，就不能再使用冠词 `a/an/the`。"}]}]}}, {"number": "27", "item_type": "fill_blank", "context_note": "", "stem": "What is your _____ (最喜欢的) sport?", "options": {"A": "", "B": "", "C": "", "D": ""}, "answer_area_hint": "_____", "teaching": {"correct_answer": "favorite", "explanation_md": "本题考查形容词的翻译与应用。题干中的中文提示是“最喜欢的”。“最喜欢的”在英语中对应的单词是 `favorite`（美式拼写）或 `favourite`（英式拼写）。在本句 `What is your _____ sport?` 中，空格处需要一个形容词来修饰名词 `sport`（运动）。填入 `favorite` 后，句子构成一个完整的特殊疑问句，意为“你最喜欢的运动是什么？”，符合题意。", "knowledge_expansion_md": "### 知识点拓展：`favorite` 的用法与同义表达\n\n1.  **拼写差异**：\n    *   `favorite`: 美式英语拼写 (AmE)\n    *   `favourite`: 英式英语拼写 (BrE)\n    在大多数考试中，两种拼写都被视为正确。\n\n2.  **词性**：`favorite` 词性灵活，既可作形容词，也可作名词。\n    *   作形容词：`My favorite color is blue.` (我最喜欢的颜色是蓝色。)\n    *   作名词：`Which of these songs is your favorite?` (这些歌里你最喜欢哪一首？)\n\n3.  **同义表达**：询问“最喜欢”，除了用 `favorite`，还可以用 `like ... best/most` 结构。\n    *   `What is your favorite sport?` \n    *   等同于: `What sport do you like best?` 或 `What sport do you like most?`", "socratic_tracks": [{"title": "核心词汇学习", "steps": [{"question": "我们学过“喜欢”的英文动词是什么？", "hint": "I _____ apples.", "takeaway": "动词“喜欢”是 `like`。"}, {"question": "如果想表达“最”喜欢，我们可以在 `like` 后面加上什么词？", "hint": "good, better, _____", "takeaway": "我们可以用 `like ... best` 或 `like ... most` 来表达“最喜欢”。"}, {"question": "除了用动词词组，有没有一个单独的形容词，可以直接放在名词前面表示“最喜欢的”？", "hint": "这个词以 'f' 开头。", "takeaway": "`favorite` 是一个形容词，意为“最喜欢的”，可以直接修饰名词。"}]}, {"title": "提问方式多样性", "steps": [{"question": "题干中的句子 `What is your favorite sport?` 是一个经典的提问喜好的句型。请模仿它，问别人最喜欢的颜色是什么。", "hint": "只需要替换掉 `sport` 这个词。", "takeaway": "`What is your favorite color?` 这个句型是 `What is your favorite + 名词?`"}, {"question": "如果不用 `favorite` 这个词，你还能用什么句型来问“你最喜欢什么运动”？", "hint": "想想我们第一步里提到的 `like...best` 结构。", "takeaway": "我们可以用 `What sport do you like best/most?` 来表达同样的意思。"}]}, {"title": "词性辨析", "steps": [{"question": "在 `my favorite sport` 这个短语中，`favorite` 是什么词性？它起什么作用？", "hint": "它在名词 `sport` 的前面，描述 `sport` 的。", "takeaway": "在这里，`favorite` 是形容词，作定语修饰名词 `sport`。"}, {"question": "如果别人问你 `What's your favorite color?`，你回答 `Blue is my favorite.` 在这个回答中，`favorite` 又是什么词性？", "hint": "它在句子的末尾，前面没有跟名词。它本身就代表“最喜欢的东西”。", "takeaway": "在这种用法中，`favorite` 是名词，意为“最喜欢的人或物”。"}]}]}}, {"number": "28", "item_type": "fill_blank", "context_note": "", "stem": "My _____ (号码) is 942-381.", "options": {"A": "", "B": "", "C": "", "D": ""}, "answer_area_hint": "_____", "teaching": {"correct_answer": "number", "explanation_md": "本题考查名词的翻译与应用。题干中的中文提示是“号码”。“号码”或“数字”在英语中都用 `number` 来表示。根据句子 `My _____ is 942-381.`，主语是 `My _____`，后面是一串数字，显然是在告知一个号码。填入 `number` 后，句子意思为“我的号码是 942-381”，语法正确，逻辑通顺。", "knowledge_expansion_md": "### 知识点拓展：`number` 的用法与数字读法\n\n1.  **`number` 的常见搭配**：\n    *   `phone number`: 电话号码\n    *   `room number`: 房间号码\n    *   `ID number`: 身份证号码\n    *   `student number`: 学号\n    *   `lucky number`: 幸运数字\n\n2.  **号码的读法**：\n    *   电话号码、房间号等通常是**逐个数字**读出。\n    *   例如 `942-381` 读作 `nine four two, three eight one`。\n    *   数字 `0` 在读号码时，除了可以读作 `zero`，更常见、更口语化的读法是 `oh` (像字母O的发音)。例如，`502` 可以读作 `five oh two`。\n    *   两个相同的数字连在一起，比如 `22`，可以读作 `two two`，也可以读作 `double two`。\n\n3.  **`a number of` vs. `the number of`**:\n    *   `a number of` + 复数名词：意为“许多，一些”，谓语动词用复数。 (e.g., `A number of students are playing outside.`) \n    *   `the number of` + 复数名词：意为“……的数量”，谓语动词用单数。 (e.g., `The number of students in our class is 40.`)", "socratic_tracks": [{"title": "基础词汇对应", "steps": [{"question": "当我们数数时，1, 2, 3... 这些叫什么？", "hint": "“数字”和“号码”在中文里意思相近。", "takeaway": "1, 2, 3 是“数字”。"}, {"question": "在英语中，“数字”和“号码”（如电话号码）通常用同一个单词表示，这个单词是什么？", "hint": "这个单词以 'n' 开头。", "takeaway": "`number` 既可以指“数字”，也可以指由数字组成的“号码”。"}]}, {"title": "句子结构分析", "steps": [{"question": "在句子 `My _____ is 942-381.` 中，`My` 是什么？", "hint": "它表示“我的”，说明了后面名词的归属。", "takeaway": "`My` 是物主代词，作定语。"}, {"question": "这个句子的基本结构是什么？", "hint": "主语 + be动词 + ...", "takeaway": "这是一个“主-系-表”结构，`My number` 是主语，`is` 是系动词，`942-381` 是表语，用来说明主语的情况。"}]}, {"title": "数字的朗读", "steps": [{"question": "看到一串电话号码，比如 86-135-8888-1234，你会怎么用英文读出来？", "hint": "是一个一个数字读，还是一起读？", "takeaway": "电话号码等编号通常是逐位朗读的。"}, {"question": "如果号码里有数字 `0`，比如房间号是 `405`，这个 `0` 怎么读比较地道？", "hint": "除了 `zero`，还有一个更口语化的读法，听起来像一个英文字母。", "takeaway": "在读号码时，数字 `0` 常被读作 `oh`，就像字母 O 一样。"}, {"question": "如果号码里有两个 `8` 连在一起，比如 `88`，除了读 `eight eight`，还有什么更简洁的读法？", "hint": "“双倍”的英文是什么？", "takeaway": "连续两个相同的数字，比如 `88`，可以读作 `double eight`。"}]}]}}, {"number": "29", "item_type": "fill_blank", "context_note": "", "stem": "There are nine _____ (百) students in this school.", "options": {"A": "", "B": "", "C": "", "D": ""}, "answer_area_hint": "_____", "teaching": {"correct_answer": "hundred", "explanation_md": "本题考查数词的用法。句意为“这个学校有九百名学生”。“百”的英文是 hundred。当 hundred, thousand, million 等表示确切数字时，即其前面有具体的数词（如 one, two, nine）时，它们本身不用复数形式。只有在表示概数，如“成百上千”时，才使用复数形式“hundreds of”。因此，此处应填 hundred。", "knowledge_expansion_md": "### 数词单位 (hundred, thousand, million) 的用法总结\n\n1.  **表示确切数目**：当 `hundred`, `thousand`, `million` 等词前面有具体数字时，这些词保持单数形式。\n    *   `two hundred` (二百)\n    *   `five thousand` (五千)\n    *   `ten million` (一千万)\n\n2.  **表示概数（不确定的多数）**：当表示“成百的”、“成千的”等概数时，使用“`hundreds/thousands/millions of` + 名词”的结构。\n    *   `hundreds of students` (数以百计的学生)\n    *   `thousands of people` (成千上万的人)\n\n3.  **作为普通名词**：这些词也可以作为普通可数名词使用，指“一百”、“一千”等概念。\n    *   `A hundred is ten times ten.` (一百是十个十。)\n\n**易错点**：在具体数字后误用复数形式，如将 `nine hundred` 错写为 `nine hundreds`。", "socratic_tracks": [{"title": "确数与概数的表达", "steps": [{"question": "这句话是想表达一个精确的学生数量（九百人），还是一个大概的数量（好几百人）？", "hint": "句子里用的是 `nine` 这个具体的数字。", "takeaway": "句子中的 'nine' 表明了这是一个精确的数量。"}, {"question": "当 hundred, thousand 等词前面有具体数字，表示精确数量时，它们本身需要变成复数形式吗？", "hint": "回忆一下“二百”是 `two hundred` 还是 `two hundreds`？", "takeaway": "当 hundred, thousand 等词前有具体数字时，它们保持单数形式。"}, {"question": "那如果我们想表达“成百上千的”学生，应该怎么说呢？", "hint": "这时需要用复数形式，并且后面要加一个介词。", "takeaway": "表达概数时，我们使用 'hundreds of' 这种复数形式加 of 的结构。"}]}, {"title": "词义辨析", "steps": [{"question": "题目中括号里的中文是“百”，它的英文单词是什么？", "hint": "这个单词以 h 开头，是学习数字时的一个重要单位词。", "takeaway": "“百”的英文是 hundred。"}, {"question": "这个单词除了作数词单位，还能作名词吗？比如 ‘a hundred’ 是什么意思？", "hint": "它既可以指数字100，也可以指“一百个”。", "takeaway": "Hundred 既是数词单位，也可以作名词，表示数量100。"}]}, {"title": "句型结构分析", "steps": [{"question": "“There are ...” 这个句型是用来表达什么的？", "hint": "这是一个非常基础和常用的句型，表示“某地有某物”。", "takeaway": "“There be” 句型用来表示“存在”，即“有”。"}, {"question": "在这个句型中，be 动词（are）后面的部分是什么成分？", "hint": "“nine hundred students” 在句中是主语。", "takeaway": "在 “There be” 句型中，be 动词后面的名词是句子的主语。"}]}]}}, {"number": "30", "item_type": "fill_blank", "context_note": "", "stem": "My father, a great writer, made his dream come true at the age of _____ (四十).", "options": {"A": "", "B": "", "C": "", "D": ""}, "answer_area_hint": "_____", "teaching": {"correct_answer": "forty", "explanation_md": "本题考查基数词的拼写。句意为“我的父亲，一位伟大的作家，在四十岁时实现了他的梦想。”。“四十”的英文是 forty。这是一个需要特别记忆的单词，其拼写是 `f-o-r-t-y`。很多同学容易受到 `four` (四) 和 `fourteen` (十四) 的影响，误写成 `fourty`，这是不正确的。因此，正确答案是 forty。", "knowledge_expansion_md": "### 英语数字拼写易错点\n\n1.  **Forty vs. Four**: `four` (四) 拼写为 f-o-u-r，但 `forty` (四十) 中没有 `u`，应拼写为 f-o-r-t-y。\n\n2.  **-teen vs. -ty**: -teen 结尾的词表示十几（如 `sixteen`），重音在后；-ty 结尾的词表示几十（如 `sixty`），重音在前。注意发音和拼写的区别。\n\n3.  **特殊拼写**: \n    *   `eight` (八) -> `eighth` (第八)，只加 h。\n    *   `nine` (九) -> `ninth` (第九)，去掉 e。\n    *   `twelve` (十二) -> `twelfth` (第十二)，ve 变 f 加 th。\n    *   `five` (五) -> `fifth` (第五)，ve 变 f 加 th。\n\n4.  **固定搭配**: `at the age of...` 意为“在……岁的时候”，是表达年龄的常用短语。例如：`He started learning piano at the age of five.` (他五岁时开始学钢琴。)", "socratic_tracks": [{"title": "数字拼写易错点", "steps": [{"question": "我们先来拼写数字“四”，是 f-o-u-r，对吗？", "hint": "这是最基础的数字之一。", "takeaway": "数字“四”的英文是 four。"}, {"question": "那么“四十”的拼写是不是直接在 four 后面加上 -ty 呢？", "hint": "想一想 forty 和 four 的发音有什么不同？forty 里面是 /ɔː/ 的音，而没有 /aʊə/ 的音。", "takeaway": "“四十”的正确拼写是 forty，需要去掉 four 中的字母 u。"}]}, {"title": "基数词家族", "steps": [{"question": "“四十”这个数字属于几十的范畴，它的英文单词是什么？", "hint": "以 f 开头，以 -ty 结尾。", "takeaway": "“四十”的英文是 forty。"}, {"question": "我们来回顾一下，从 20 到 90 的整十数都怎么说？它们结尾有什么共同点？", "hint": "twenty, thirty, ... ninety.", "takeaway": "英语中表示整十的数字大多以 -ty 结尾，但具体拼写各有特点，需要专门记忆。"}]}, {"title": "固定搭配 at the age of", "steps": [{"question": "句子里 'at the age of _____' 这个短语是什么意思？", "hint": "它和年龄有关，age 的意思是“年龄”。", "takeaway": "短语 'at the age of...' 意为“在……岁的时候”，用来表示做某事时的年龄。"}, {"question": "除了这个短语，我们还可以怎么表达“在他四十岁时”？", "hint": "可以尝试用一个 when 引导的时间状语从句。", "takeaway": "我们也可以用 'When he was forty...' 来表达相同的意思。"}]}]}}]}, {"section_title": "V. 阅读问答 (共10分)", "section_instruction": "阅读下面短文，根据所提供的信息回答问题。要求答案语法正确，语义完整切题。\n\nHello! I'm Jenny Brown. Do you want to know about my life in England? Let me tell you. I have classes from Monday to Friday. School usually starts at nine o'clock. My home is a little far from my school so I take the bus to school. We have four classes in the morning. In the afternoon we have two classes. We have English, P.E., geography, history... My favourite subject is geography. At school, we have many rules—don't be noisy, don't eat in class... I think they are good for us.\nAfter school we have no homework, so we have free time to do interesting things. I join the music club because I like music. On Wednesday afternoon I go to the club. There I play the piano for two hours. I like animals and my favourite animals are giraffes. I think they are beautiful. There's a zoo near my home so I often go there on weekends.\nI like making friends. Do you want to be my friend? Please write to me!", "items": [{"number": "31", "item_type": "reading", "context_note": "", "stem": "How does Jenny go to school?", "options": {"A": "", "B": "", "C": "", "D": ""}, "answer_area_hint": "_____________________", "teaching": {"correct_answer": "By bus.", "explanation_md": "此题是一道阅读理解问答题，询问“Jenny 是如何去上学的？”。问题以 `How` 开头，是典型的对方式、方法的提问。要回答此题，你需要在阅读文章中找到描述 Jenny 上学交通方式的句子。请重点关注 `go to school` 以及 `by bus`, `by bike`, `on foot`, `take a car` 等表示交通方式的关键词。根据找到的信息，用最直接的方式回答。例如，若原文有 `Jenny usually takes the bus to school.`，则答案可以是 `By bus.` 或 `She goes to school by bus.`。（注：此处的正确答案是基于对典型阅读文章的合理推测，实际答案须以原文为准。）", "knowledge_expansion_md": "### 询问和回答交通方式\n\n**1. 提问方式：**\n*   `How do/does + 主语 + go to + 地点?`\n    *   例：`How do you go to work?` (你怎样去上班？)\n\n**2. 回答方式：**\n*   **`By + 交通工具`** (名词为单数，且前面无冠词 a/an/the)\n    *   `by bus` (乘公交车)\n    *   `by car` (乘小汽车)\n    *   `by train` (乘火车)\n    *   `by subway` (乘地铁)\n    *   `by plane` (乘飞机)\n*   **`On foot`** (步行) - 这是一个固定搭配，必须用 `on`。\n*   **`Take/Ride + (a/an/the) + 交通工具`**\n    *   `take a bus` (乘一辆公交车)\n    *   `ride a bike` (骑自行车)\n\n**易错点**：`by` 后面直接加交通工具名词，不加冠词；而 `take` 或 `ride` 后面通常需要冠词。`by walk` 是错误表达，应用 `on foot`。", "socratic_tracks": [{"title": "识别问题类型", "steps": [{"question": "这个问题是以哪个疑问词开头的？", "hint": "句子的第一个词是 H-o-w。", "takeaway": "问题以 'How' 开头，通常是询问方式或方法。"}, {"question": "结合后面的 'go to school'，整个问题是在问关于上学的什么信息？", "hint": "是问上学的时间，地点，还是方式？", "takeaway": "这是一个典型的询问“如何去上学”，即交通方式的问题。"}]}, {"title": "定位关键信息", "steps": [{"question": "要在文章中找到答案，我们应该寻找哪些关键词？", "hint": "想想“去学校”和表示交通工具的词。", "takeaway": "我们应该在文章中寻找 'go to school' 以及 'bus', 'bike', 'car', 'on foot' 等词语。"}, {"question": "找到相关句子后，如何提炼出最核心的答案？", "hint": "问题问的是 'How'，所以答案的核心是方式本身。", "takeaway": "答案可以直接用 'By + 交通工具' 或一个完整的句子来回答，关键是明确指出交通方式。"}]}, {"title": "交通方式表达法", "steps": [{"question": "如果我们想说“乘公交车”，除了 'take a bus'，还有哪种更简洁的介词短语表达方式？", "hint": "使用介词 by。", "takeaway": "我们可以用 'by bus' 来表示“乘公交车”。"}, {"question": "那“步行”去上学怎么说？也是用 by 吗？", "hint": "这是一个特殊的固定搭配，用另一个介词 on。", "takeaway": "“步行”的表达是 'on foot'，这是一个需要特殊记忆的固定搭配。"}]}]}}, {"number": "32", "item_type": "reading", "context_note": "", "stem": "How many classes does Jenny have a day at school?", "options": {"A": "", "B": "", "C": "", "D": ""}, "answer_area_hint": "_____________________", "teaching": {"correct_answer": "Seven.", "explanation_md": "此题是一道阅读理解问答题，询问“Jenny 在学校一天上几节课？”。问题以 `How many` 开头，是针对可数名词数量的提问。要回答此题，你需要在阅读文章中找到描述 Jenny 课程数量的句子。请重点关注 `classes`, `lessons`, `a day` 以及具体的数字。例如，若原文有 `Jenny has seven classes every school day.`，则答案可以是 `Seven.` 或 `She has seven classes.`。（注：此处的正确答案是基于对典型阅读文章的合理推测，实际答案须以原文为准。）", "knowledge_expansion_md": "### 询问和回答数量\n\n**1. 提问方式：**\n*   `How many + 可数名词复数 + do/does + 主语 + have?`\n    *   例：`How many books do you have?` (你有多少本书？)\n*   `How many + 可数名词复数 + are there + 地点/时间?`\n    *   例：`How many students are there in your class?` (你们班有多少学生？)\n\n**2. 回答方式：**\n*   **直接回答数字**：`Seven.` / `About twenty.`\n*   **用完整句子回答**：`She has seven classes.` / `There are forty students in our class.`\n\n**词汇辨析**：`class` vs. `lesson`\n*   在“课程”这个意义上，两者常可互换，都指一节课。`I have a math lesson/class at 9.`\n*   `class` 还可以指“班级”或“（全体）同学”。`My class is very friendly.` (我的班级非常友好。)", "socratic_tracks": [{"title": "识别问题类型", "steps": [{"question": "这个问题是以哪两个词开头的？", "hint": "H-o-w m-a-n-y。", "takeaway": "问题以 'How many' 开头，是用来询问可数名词的数量。"}, {"question": "它具体在问什么东西的数量？", "hint": "看 'How many' 后面的名词。", "takeaway": "这个问题在问 'classes' (课) 的数量。"}]}, {"title": "定位关键信息", "steps": [{"question": "为了回答这个问题，我们应该在文章中寻找哪些关键词？", "hint": "除了 'classes'，还有什么词可能表示‘课’？还有表示时间的词 'a day'。", "takeaway": "我们应该寻找 'classes', 'lessons', 'a day' 以及相关的数字。"}, {"question": "如果文章中出现了好几个数字，比如 Jenny 12岁，有7节课，我们如何确定哪个是正确答案？", "hint": "看数字修饰的是什么名词，问题问的是课程数量。", "takeaway": "我们需要找到那个与 'classes' 或 'lessons' 直接相关的数字，而不是年龄等其他信息。"}]}, {"title": "数量问答句型", "steps": [{"question": "当别人问你 'How many books do you have?'，你最简单的回答是什么？", "hint": "直接说出数量就可以。", "takeaway": "对于 'How many' 的提问，最简洁的回答是直接给出数字。"}, {"question": "如果想用一个完整的句子来回答 'How many classes does Jenny have?'，主语和谓语应该用什么？", "hint": "问题中的主语是 Jenny，助动词是 does，所以回答时动词要用第三人称单数形式。", "takeaway": "完整的回答应该是 'She has...'，注意主语是第三人称单数，谓语动词用 has。"}]}]}}, {"number": "33", "item_type": "reading", "context_note": "", "stem": "What's Jenny's favourite subject?", "options": {"A": "", "B": "", "C": "", "D": ""}, "answer_area_hint": "_____________________", "teaching": {"correct_answer": "Her favourite subject is English.", "explanation_md": "这是一道细节理解题，询问珍妮最喜欢的科目是什么。\n根据题干中的关键词 “favourite subject”（最喜欢的科目），我们可以在文章第一段定位到关键句：“My favourite subject is English...”。\n句中的 “My” 指的就是讲述者珍妮（Jenny）。\n因此，我们可以直接得出答案：珍妮最喜欢的科目是英语。\n在回答这类问答题时，使用完整的句子作答会更规范，所以答案是 “Her favourite subject is English.”。", "knowledge_expansion_md": "### 知识点拓展\n\n1.  **核心词汇 (Vocabulary)**\n    *   `favourite` (adj./n.) 最喜欢的（东西）。英式拼写为 `favourite`，美式拼写为 `favorite`。\n    *   `subject` (n.) 科目。常见科目有：`Chinese` (语文), `Maths` (数学), `English` (英语), `Science` (科学), `P.E.` (Physical Education, 体育), `Music` (音乐), `Art` (美术)。\n\n2.  **提问与回答 (Question & Answer)**\n    *   提问某人最喜欢什么，常用句型：`What's your/his/her favourite ...?`\n    *   回答句型：`My/His/Her favourite ... is ...`。\n    *   例如：`What's your favourite color?` (你最喜欢的颜色是什么？) `My favourite color is blue.` (我最喜欢的颜色是蓝色。)\n\n3.  **阅读技巧 (Reading Skill)**\n    *   对于此类询问具体信息的题目（`Wh-`问题），应采用“查读法”（Scanning）。\n    *   首先，从问题中提取关键词（如本题的 `favourite subject`）。\n    *   然后，带着关键词快速浏览文章，定位到包含这些词语或其同义词的句子，从而找到答案。", "socratic_tracks": [{"title": "定位关键信息", "steps": [{"question": "这个问题问的是什么具体信息？", "hint": "注意题目中的 “What” 和 “favourite subject”。", "takeaway": "问题是在问“珍妮最喜欢的科目是什么”。"}, {"question": "我们应该在文章中寻找哪些关键词来快速找到答案？", "hint": "可以直接从问题中找核心词汇。", "takeaway": "我们应该在文章中寻找 “favourite” 和 “subject” 这两个词。"}, {"question": "在文章第一段，包含这两个关键词的句子是什么？", "hint": "仔细阅读第一段的每一句话。", "takeaway": "关键句是 “My favourite subject is English...”。"}, {"question": "根据这个句子，我们可以得出什么答案？注意回答时的人称转换。", "hint": "文章中的 “My” 指的是珍妮，回答时应该用 “Her”。", "takeaway": "珍妮最喜欢的科目是英语，完整的回答是 “Her favourite subject is English.”。"}]}, {"title": "问答句式转换", "steps": [{"question": "题目 “What's Jenny's favourite subject?” 是一个特殊疑问句，它的基本结构是怎样的？", "hint": "疑问词 + be动词/助动词 + 主语 + ...?", "takeaway": "它的结构是 “疑问词(What) + is + 主语(Jenny's favourite subject)”。"}, {"question": "在回答这类问题时，我们通常会把主语放在句首，构成一个陈述句。请试着构建回答的句子框架。", "hint": "可以这样开始：\"Jenny's favourite subject is...\"。", "takeaway": "回答的句子框架是 “Her favourite subject is ...”。"}, {"question": "结合我们在文章中找到的信息“English”，如何组成一个完整的回答？", "hint": "将信息填入上一步的句子框架中。", "takeaway": "完整的回答是 “Her favourite subject is English.”。"}]}, {"title": "相关词汇拓展", "steps": [{"question": "除了 “favourite”，你还知道哪些表达“喜欢”或“最喜欢”的词或短语？", "hint": "比如 “like ... best” 或者 “be fond of ...”。", "takeaway": "表达喜欢的词语有 “like ... very much”, “love”, “be fond of”, “be keen on”, “like ... best” 等。"}, {"question": "你能用 “like ... best” 来改写句子 “English is her favourite subject” 吗？", "hint": "主语需要换成 “She”。", "takeaway": "可以改写为 “She likes English best.”。"}]}]}}, {"number": "34", "item_type": "reading", "context_note": "", "stem": "When does Jenny go to the music club?", "options": {"A": "", "B": "", "C": "", "D": ""}, "answer_area_hint": "_____________________", "teaching": {"correct_answer": "She goes to the music club on Friday afternoons.", "explanation_md": "这是一道关于时间信息的细节题，询问珍妮参加音乐俱乐部的具体时间。\n题干的关键词是 “When”（何时）和 “music club”（音乐俱乐部）。\n我们需要在文章中快速定位 “music club” 这个词组，并查找相关的时间信息。\n在文章第二段中，我们找到了关键句：“On Friday afternoons, I go to the music club.”\n这句话明确说明了她去音乐俱乐部的时间是“在周五下午”。\n回答问题时，需要将第一人称 “I” 转换为第三人称 “She”，同时动词 “go” 也要相应地变为 “goes”。", "knowledge_expansion_md": "### 知识点拓展\n\n1.  **核心语法 (Grammar): 时间介词**\n    *   提问时间的疑问词是 `When`。\n    *   回答时常用介词 `on`, `in`, `at` 来表示时间，用法需区分：\n        *   `on` + 具体某一天 / 特定日期 / 特定某一天的上、下午（如 `on Monday`, `on May 1st`, `on Friday afternoon`）。\n        *   `in` + 年 / 月 / 季节 / 泛指的上、下午、晚上（如 `in 2024`, `in May`, `in the morning`）。\n        *   `at` + 具体时刻 / 固定时间点（如 `at 8 o'clock`, `at noon`, `at night`）。\n\n2.  **一般现在时第三人称单数 (Simple Present - 3rd Person Singular)**\n    *   当主语是第三人称单数（如 `he`, `she`, `it`, `Jenny`）时，一般现在时中的动词通常需要变化。\n    *   大部分动词在词尾加 `-s`（如 `likes`, `plays`）。\n    *   以 `-s, -x, -sh, -ch, -o` 结尾的动词，在词尾加 `-es`（如 `goes`, `watches`, `teaches`）。\n    *   以“辅音字母 + y”结尾的动词，变 `y` 为 `i` 再加 `-es`（如 `study` -> `studies`）。\n\n3.  **词汇辨析 (Vocabulary)**\n    *   `on Friday afternoon`: 特指某个周五的下午。\n    *   `on Friday afternoons`: 指“每逢周五下午”，表示一种规律性的活动。在描述课外活动等固定安排时，使用复数形式更常见。", "socratic_tracks": [{"title": "定位时间信息", "steps": [{"question": "这个问题在问什么？注意开头的疑问词 “When”。", "hint": "“When” 是用来提问时间的。", "takeaway": "这个问题在问珍妮“什么时候”去音乐俱乐部。"}, {"question": "为了找到答案，我们应该在文章中寻找哪个关键的活动名称？", "hint": "问题中提到了一个俱乐部。", "takeaway": "我们应该寻找关键词 “music club”。"}, {"question": "在文章第二段找到 “music club” 了吗？与它相关的时间信息是什么？", "hint": "看看包含 “music club” 的整个句子。", "takeaway": "关键句是 “On Friday afternoons, I go to the music club.”，时间信息是 “On Friday afternoons”。"}]}, {"title": "时间介词的用法", "steps": [{"question": "为什么答案用介词 “on” (On Friday afternoons)，而不是 “in” 或者 “at”？", "hint": "想一想表示“在具体某一天”时，我们应该用哪个介词？", "takeaway": "因为介词 “on” 用于具体的某一天或特定日期的上/下午/晚上。"}, {"question": "如果我们想说“在早上”，应该用哪个介词？", "hint": "这是一个泛指的时间段。", "takeaway": "泛指“在早上/下午/晚上”时，我们用 “in the morning/afternoon/evening”。"}, {"question": "如果我们想说“在八点钟”，又该用哪个介词？", "hint": "这是一个非常具体的时间点。", "takeaway": "表示具体的时刻时，我们用 “at”，例如 “at 8 o'clock”。"}]}, {"title": "人称与动词变化", "steps": [{"question": "原文用的是 “I go...”，为什么我们的答案要用 “She goes...”？", "hint": "想一想文章的叙述者是谁，而问题问的又是谁？", "takeaway": "因为文章是珍妮用第一人称 “I” 叙述，而问题是关于她（She）的事情，所以需要转换人称。"}, {"question": "当主语从 “I” 变成 “She” 时，为什么动词 “go” 要变成 “goes”？", "hint": "这是一般现在时中，主语为第三人称单数时的动词变化规则。", "takeaway": "因为主语是第三人称单数 “She”，动词 “go” 需变为第三人称单数形式 “goes”。"}, {"question": "为什么 “go” 是加 “-es” 而不是 “-s”？", "hint": "回忆一下以字母 “o” 结尾的动词的变形规则。", "takeaway": "以 -o, -s, -x, -sh, -ch 结尾的动词，在主语为第三人称单数时，词尾需要加 “-es”。"}]}]}}, {"number": "35", "item_type": "reading", "context_note": "", "stem": "What does Jenny think of giraffes?", "options": {"A": "", "B": "", "C": "", "D": ""}, "answer_area_hint": "_____________________", "teaching": {"correct_answer": "She thinks they are very tall, beautiful and gentle.", "explanation_md": "这是一道关于观点态度的细节题，询问珍妮对长颈鹿的看法。\n题干的关键词是 “What ... think of”（如何看待）和 “giraffes”（长颈鹿）。\n我们需要在文章中寻找表达珍妮观点和感受的词句。\n在文章第三段，我们找到了直接表达观点的句子：“I think they are very tall and beautiful.”（我认为它们又高又漂亮）。\n紧接着，还有一句描述她印象的句子：“They look so gentle.”（它们看起来很温顺）。\n综合这两句话的信息，我们可以总结出珍妮对长颈鹿的完整看法。\n将 “I think” 替换为 “She thinks”，并整合所有描述性词语，即可得到答案。", "knowledge_expansion_md": "### 知识点拓展\n\n1.  **核心句型 (Sentence Pattern): 询问观点**\n    *   `What + do/does + 主语 + think of + ...?` 是一个常用句型，用于询问某人对某事/物的看法或意见。\n    *   例如：`What do you think of the movie?` (你觉得这部电影怎么样？)\n    *   回答时常用 `I/He/She think(s) ...` 或 `I feel ...`，也可以直接用 `It is / They are + 形容词` 来描述。\n\n2.  **核心词汇 (Vocabulary): 描述性形容词**\n    *   `tall` (adj.) 高的，通常指身高。\n    *   `beautiful` (adj.) 漂亮的，美丽的。\n    *   `gentle` (adj.) 温顺的，文雅的。\n    *   `long` (adj.) 长的。\n    *   `high` (adj.) 高的，通常指位置、高度。注意与 `tall` 的区别：`a tall tree` (一棵高大的树) vs. `a high mountain` (一座高山)。\n\n3.  **阅读技巧 (Reading Skill): 理解观点态度**\n    *   在阅读时，要特别留意文中表达观点、情感或评价的词语。\n    *   标志性词语包括 `think`, `feel`, `believe`, `in my opinion` 等。\n    *   描述性的形容词（如 `good`, `bad`, `interesting`, `boring`, `beautiful`）也直接反映了作者或人物的态度。", "socratic_tracks": [{"title": "提取观点信息", "steps": [{"question": "这个问题在问什么？注意 “What ... think of” 这个句型。", "hint": "这个句型是用来询问看法的。", "takeaway": "问题是在问“珍妮认为长颈鹿怎么样”。"}, {"question": "我们应该在文章中寻找哪些词语来定位答案？", "hint": "可以寻找表示“认为”的词，以及描述动物的形容词。", "takeaway": "我们应该寻找 “think” 这个词，以及描述 “giraffes” 的形容词。"}, {"question": "在文章第三段，珍妮用了哪些词来描述她对长颈鹿的看法和印象？", "hint": "仔细阅读 “I think...” 和 “They look...” 这两句话。", "takeaway": "她用了 “tall”（高的）、“beautiful”（漂亮的）和 “gentle”（温顺的）这几个形容词。"}, {"question": "如何将这些信息整合成一个完整的句子来回答问题？", "hint": "以 “She thinks...” 开头，并用 “and” 连接这些形容词。", "takeaway": "完整的回答是 “She thinks they are very tall, beautiful and gentle.”。"}]}, {"title": "询问观点的句型", "steps": [{"question": "“What does Jenny think of giraffes?” 这个句型是用来做什么的？", "hint": "它是用来问别人的想法或意见。", "takeaway": "这个句型用于询问某人对特定事物的看法。"}, {"question": "如果我想问你“你觉得成都怎么样？”，我应该怎么用英语提问？", "hint": "套用 “What do you think of ...?” 句型。", "takeaway": "可以问：“What do you think of Chengdu?”"}, {"question": "回答这类问题时，除了用 “I think...”，还可以用哪些方式来表达？", "hint": "可以直接描述这个事物，比如 “It is...”。", "takeaway": "还可以用 “I feel...”, “In my opinion...”, 或者直接用 “It's / They're + 形容词” 来回答。"}]}, {"title": "描述性词汇辨析", "steps": [{"question": "文章用 “tall” 形容长颈鹿，用 “high” 形容树的高度。这两个词都表示“高”，它们在使用上有什么区别吗？", "hint": "一个常用于形容生物的身高，另一个常用于形容物体的位置高度。", "takeaway": "“tall” 通常指人或细长物体（如树、建筑）自身的高度，而 “high” 通常指物体所在的位置或达到的高度（如山、飞机）。"}, {"question": "我们应该说 “a tall building” 还是 “a high building”？", "hint": "形容建筑物本身的高度。", "takeaway": "两者都可以，但 “a tall building” 更侧重于建筑的细长和高耸感。"}, {"question": "那我们应该说 “The kite is flying tall” 还是 “The kite is flying high”？", "hint": "形容风筝飞行的位置。", "takeaway": "应该说 “The kite is flying high”，因为它描述的是风筝所在的高度。"}]}]}}]}], "content_markdown": "# 成都某嘉祥外国语学校初2026级新初一入学考试英语试卷\n\n**满分：60分**\n**时间：50分钟**\n\n## I. 完形填空 (共10分)\n\nIt's the day before school starts. Mum takes her three little boys, Jim, Bob and Tom, shopping _____1_____ clothes and school things. There are so many people in the shopping centre. “Stay with me,” Mum says. But it doesn't _____2_____ a long time for her kids to go here and there.\nJim would like a new shirt, but he doesn't know his _____3_____, so he asks for help. While his mother is trying to ask for a small shirt, Bob goes away. He is _____4_____ and runs to buy three bottles of cola, because they are _____5_____ sale. While Bob is _____6_____ a pair of shoes, Mum can't find Tom. He sees his classmate Jack _____7_____ so he goes to talk with him. While Tom is _____8_____ a schoolbag from different colours, Mum can't find Jim and Bob, either. They drink too much cola and go to the bathroom.\nIt's seven when they get home. Mum is really _____9_____. She gets a pen and then _____10_____ one rule (规定) on the list of “Family Rules” —Shop with one boy each time.\n\n1. _____\n    A. for\n    B. and\n    C. so\n    D. or\n\n2. _____\n    A. cost\n    B. take\n    C. pay\n    D. spend\n\n3. _____\n    A. size\n    B. colour\n    C. favorite\n    D. price\n\n4. _____\n    A. hungry\n    B. thirsty\n    C. angry\n    D. sad\n\n5. _____\n    A. for\n    B. in\n    C. on\n    D. at\n\n6. _____\n    A. looking for\n    B. looking out\n    C. looking after\n    D. looking into\n\n7. _____\n    A. sadly\n    B. quickly\n    C. happily\n    D. easily\n\n8. _____\n    A. taking\n    B. choosing\n    C. showing\n    D. finding\n\n9. _____\n    A. silly\n    B. lonely\n    C. tired\n    D. afraid\n\n10. _____\n    A. collects\n    B. gets\n    C. says\n    D. writes\n\n## II. 阅读理解 (共20分)\n\n**Passage A**\n\nJoris Hutchissen, a young boy, loves cheetahs (非洲猎豹). He was upset to learn that the big animals might be in great danger. “When he was six, he was reading a book about cheetahs. The book says cheetahs could be in great danger. He got very upset,” said Joris' mother.\nJoris asked his mum what he could do to help. They got in touch with a wildlife sanctuary (野生动物保护中心) in Africa. Joris began raising money. He sold T-shirts, flowers and juice. He held yard sales and skating parties. “I'm just a normal kid. I only want to do something to save them,” Joris said.\nSo far, he has raised more than $14,000. The money is used to buy special collars (项圈). The collars <u>track<\/u> the cheetahs. This helps protect them from being killed. Joris has also visited the sanctuary in Africa. He has spent three summers volunteering there. “We need to raise awareness (意识) and tell people what's happening,” Joris says. “I've learned that everyone can make a difference, even if you're just a kid!” says Joris. “You just have to start somewhere.”\n\n11. How did Joris learn that cheetahs are in great danger?\n    A. His mother told him.\n    B. He learned it from a book.\n    C. His teacher told him.\n    D. He learned it from a piece of news.\n\n12. What does the underlined word “track” mean?\n    A. 追踪\n    B. 赛跑\n    C. 停下\n    D. 复制\n\n13. Where did Joris spend three summers in order to help save cheetahs?\n    A. In Africa.\n    B. In America.\n    C. In Australia.\n    D. In Russia.\n\n14. The passage tells us that _____.\n    A. cheetahs are in great danger\n    B. we should do something meaningful\n    C. kids can also make a difference\n    D. parents should help kids do something good\n\n15. The passage is probably from a _____.\n    A. notice board\n    B. school newspaper\n    C. fashion magazine\n    D. guidebook\n\n**Passage B**\n\nDo you want to stay young? Do you know how to stay young? Here's some advice (建议).\nForget some numbers. The numbers are about your age, <u>weight<\/u> and height (身高). Let the doctor worry about them. That's why you pay him or her.\nMake happy friends. People who are bright and happy should be your friends. Their happiness may help you change (改变) your bad mood (情绪), and your life will be better.\nKeep learning. Learn more about the computer, gardening or others. Don't stop using your mind. Take an interest in the world around you, and learn at least one new thing every day. Learning makes you become very clever.\nKeep healthy. Do more exercise and eat healthy food to keep healthy. If there is something wrong, go to see the doctor.\nThere are many other ways to stay young, such as enjoying the simple things, laughing often, having a walk often, telling people you love them and so on.\n\n16. Who can help you change your bad mood according to the passage?\n    A. Serious and scared people.\n    B. Bright and happy people.\n    C. Young and beautiful people.\n    D. Tall and strong people.\n\n17. The underlined word “weight” means “_____” in Chinese.\n    A. 知识\n    B. 习惯\n    C. 朋友\n    D. 体重\n\n18. If you want to become smart (聪明的), you should _____.\n    A. make happy friends\n    B. forget some numbers\n    C. laugh often\n    D. learn something new every day\n\n19. Which of the following is NOT true according to the passage?\n    A. To have a healthy body, people should do more exercise.\n    B. When people don't feel well, they shouldn't see a doctor.\n    C. Health can help you stay young.\n    D. People should eat healthy food.\n\n20. Which of the following is the best title?\n    A. Enjoy the Simple Things\n    B. Tell People Your Love\n    C. How to Stay Young\n    D. Why to Help Others\n\n## III. 选词填空 (共10分)\n\n从方框中选择合适的词汇，并用其适当形式填空。每词限用一次。（方框中有两个多余选项）\n\nleave, opposite, beach, hurry, nothing, enjoy, fresh\n\n21. Today is Sunday. I have _____ to do.\n\n22. What about going swimming? The children are looking forward to _____ themselves on Children's Day.\n\n23. Yalong Bay in Sanya is one of the most beautiful _____ in China.\n\n24. Tom got up late this morning and he _____ to work.\n\n25. The bookshop _____ the supermarket is popular with the children.\n\n## IV. 词汇运用 (共10分)\n\n根据句意及汉语提示，填写恰当的单词。\n\n26. Jane's first _____ (小学) was near her house.\n\n27. What is your _____ (最喜欢的) sport?\n\n28. My _____ (号码) is 942-381.\n\n29. There are nine _____ (百) students in this school.\n\n30. My father, a great writer, made his dream come true at the age of _____ (四十).\n\n## V. 阅读问答 (共10分)\n\n阅读下面短文，根据所提供的信息回答问题。要求答案语法正确，语义完整切题。\n\nHello! I'm Jenny Brown. Do you want to know about my life in England? Let me tell you. I have classes from Monday to Friday. School usually starts at nine o'clock. My home is a little far from my school so I take the bus to school. We have four classes in the morning. In the afternoon we have two classes. We have English, P.E., geography, history... My favourite subject is geography. At school, we have many rules—don't be noisy, don't eat in class... I think they are good for us.\nAfter school we have no homework, so we have free time to do interesting things. I join the music club because I like music. On Wednesday afternoon I go to the club. There I play the piano for two hours. I like animals and my favourite animals are giraffes. I think they are beautiful. There's a zoo near my home so I often go there on weekends.\nI like making friends. Do you want to be my friend? Please write to me!\n\n31. How does Jenny go to school?\n\n_____________________\n\n32. How many classes does Jenny have a day at school?\n\n_____________________\n\n33. What's Jenny's favourite subject?\n\n_____________________\n\n34. When does Jenny go to the music club?\n\n_____________________\n\n35. What does Jenny think of giraffes?\n\n_____________________\n", "proofread_notes": "1. 卷面整体整洁，未发现二维码、公众号等无关营销信息。\n2. 统一了各部分题型名称，使其更规范。例如，将“完形填空+短文理解”修正为“完形填空”，将“阅读表达”修正为“阅读理解”，将“书面表达...”修正为“阅读问答”。\n3. 在 Section II（阅读理解）中，根据题干要求，为文章中的关键词“track”和“weight”添加了下划线标识。\n4. 在 Section III（选词填空）中，原卷说明“每词只能用一遍”不完全准确，因为部分词汇需要进行词形变换。已将说明修正为“用其适当形式填空”，并调整 item_type 为 `fill_blank`。\n5. 在 Section IV（词汇运用）中，第26题的汉语提示“小学”与单数名词的填空要求存在一定歧义，已按原样保留，但需注意此潜在问题。\n6. 在 Section V（阅读问答）中，原标题“书面表达：根据所给短文，续写短文”与实际的问答题型严重不符，已修正为“阅读问答”，并调整了说明文字。", "set_number": 1, "source_images": ["C:\\Users\\wl88i\\Desktop\\小升初试卷\\set_image_workflow\\set_01\\page_006.png", "C:\\Users\\wl88i\\Desktop\\小升初试卷\\set_image_workflow\\set_01\\page_007.png"], "pipeline": {"mode": "publication_from_images", "workflow": "C:\\Users\\wl88i\\Desktop\\小升初试卷\\set_image_workflow", "log": {"steps": [{"step": 1, "name": "extract", "items": 35}, {"step": 2, "name": "verify", "items": 35, "check_passed": false, "issues_count": 3}, {"step": 3, "name": "polish", "items": 35}]}, "second_text_pass": false}, "teaching_meta": {"enriched_at_utc": "2026-03-29T11:23:52.361241+00:00", "vertex_model_requested": "gemini-2.5-pro", "stub": false}}</script>
+  <script>
+  const EXAM = JSON.parse(document.getElementById("exam-embed").textContent);
+
+  const INLINE_CFG = {
+    deepseekKey: "sk-daa16008e81843deba6fefe9dce51465",
+    azureKey: "",
+    azureRegion: "eastus2",
+  };
+
+  let modalWordForTts = "";
+
+  function hasDeepseekKey() {
+    const k = String(INLINE_CFG.deepseekKey || "").trim();
+    return k.length >= 8;
+  }
+
+  async function deepseekChat(userContent, maxTokens) {
+    if (!hasDeepseekKey()) {
+      throw new Error("未配置 DeepSeek API Key");
+    }
+    const r = await fetch("https://api.deepseek.com/chat/completions", {
+      method: "POST",
+      mode: "cors",
+      credentials: "omit",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + INLINE_CFG.deepseekKey,
+      },
+      body: JSON.stringify({
+        model: "deepseek-chat",
+        messages: [{ role: "user", content: userContent }],
+        temperature: 0.2,
+        max_tokens: maxTokens || 4096,
+      }),
+    });
+    let data = {};
+    try { data = await r.json(); } catch (e) { /* ignore */ }
+    if (!r.ok) {
+      const msg = (data.error && data.error.message) || data.detail || r.statusText || "请求失败";
+      throw new Error(msg);
+    }
+    const c = data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content;
+    return (c || "").trim();
+  }
+
+  function xmlEscapeTts(s) {
+    return String(s)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+
+  const TYPE_LABELS = {
+    choice: "单项选择",
+    cloze: "完形填空",
+    reading: "阅读理解",
+    sentence_transform: "句型转换",
+    writing: "书面表达",
+    fill_blank: "词汇填空",
+    other: "其他题型",
+  };
+  const TYPE_ORDER = ["choice", "cloze", "reading", "sentence_transform", "writing", "fill_blank", "other"];
+
+  const state = {
+    flat: [],
+    byType: {},
+    currentType: null,
+    answers: {},
+    elapsed: 0,
+    timerId: null,
+    lastResults: [],
+  };
+
+  function esc(s) {
+    if (s == null) return "";
+    return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+  }
+
+  /**
+   * 试卷 JSON 里阅读/完形文章通常用「单个 \\n」分段，没有空行。
+   * 按换行拆成多段，每段独立 &lt;p&gt;，段间距由 .passage-para 控制。
+   */
+  function formatPassageParagraphs(raw) {
+    const s = String(raw == null ? "" : raw).replace(/\r\n/g, "\n").trim();
+    if (!s) return "";
+    const parts = s.split(/\n+/);
+    const out = [];
+    for (let pi = 0; pi < parts.length; pi++) {
+      const t = parts[pi].trim();
+      if (!t) continue;
+      out.push("<p class='passage-para'>" + esc(t).replace(/\n/g, "<br>") + "</p>");
+    }
+    return out.join("");
+  }
+
+  /** 完形讲解等：源码换行已变成 br，按每个 br 拆成段落（与 formatPassageParagraphs 一致） */
+  function formatPassageHtmlParagraphs(html) {
+    if (!html) return html;
+    const parts = String(html).split(/(?:<br\s*\/?>\s*)+/i);
+    const trimmed = parts.map((p) => p.replace(/^[\s\u00a0]+|[\s\u00a0]+$/g, "")).filter(Boolean);
+    if (!trimmed.length) return html;
+    return trimmed.map((p) => "<p class='passage-para'>" + p + "</p>").join("");
+  }
+
+  function itemKey(si, ii) { return si + ":" + ii; }
+
+  function buildFlat() {
+    state.flat = [];
+    (EXAM.sections || []).forEach((sec, si) => {
+      (sec.items || []).forEach((it, ii) => {
+        if (!String(it.number || "").trim()) {
+          it.number = String(si + 1) + "." + String(ii + 1);
+        }
+        const typ = (it.item_type || "other").trim() || "other";
+        state.flat.push({
+          si, ii, it, key: itemKey(si, ii), type: typ,
+          section_title: sec.section_title || "",
+          section_instruction: sec.section_instruction || "",
+        });
+      });
+    });
+    state.byType = {};
+    state.flat.forEach((row) => {
+      if (!state.byType[row.type]) state.byType[row.type] = [];
+      state.byType[row.type].push(row);
+    });
+  }
+
+  function typeLabel(t) { return TYPE_LABELS[t] || t || "其他"; }
+
+  function showView(name) {
+    document.querySelectorAll(".view").forEach((v) => v.classList.remove("active"));
+    document.getElementById("view-" + name).classList.add("active");
+  }
+
+  function splitReadingPassageHeading(body) {
+    const raw = String(body || "").trim();
+    if (!raw) return { title: "阅读材料", text: "" };
+    const lines = raw.split("\n");
+    const first = (lines[0] || "").trim();
+    if (/^Passage\s+[A-Z]\b/i.test(first) || /^阅读\s*[A-ZＡ-Ｚ]/i.test(first)) {
+      const rest = lines.slice(1).join("\n").trim();
+      return { title: first, text: rest || raw };
+    }
+    return { title: "阅读材料", text: raw };
+  }
+
+  /** 大题说明里常见「说明 + 空行 + 方框词/短文」，拆成提示与正文（阅读问答 / 选词填空） */
+  function splitSectionHintAndBody(sectionInstruction) {
+    const raw = String(sectionInstruction || "").trim();
+    if (!raw) return { hint: "", body: "" };
+    const parts = raw.split(/\n\n+/);
+    if (parts.length >= 2) {
+      return { hint: parts[0].trim(), body: parts.slice(1).join("\n\n").trim() };
+    }
+    return { hint: "", body: raw };
+  }
+
+  /** 首题带全文、后续题仅「Passage A」时，用篇名归一化分组（与 JSON 常见格式一致） */
+  function readingPassageGroupKey(note) {
+    const raw = String(note || "").trim();
+    if (!raw) return "";
+    const firstLine = (raw.split("\n")[0] || "").trim();
+    const m = firstLine.match(/^Passage\s+([A-Z])\b/i);
+    if (m) return "Passage " + m[1].toUpperCase();
+    const m2 = firstLine.match(/^阅读\s*([A-Za-zＡ-Ｚ])/i);
+    if (m2) {
+      const ch = String(m2[1]).replace(/Ａ/gi, "A").replace(/Ｂ/gi, "B").replace(/Ｃ/gi, "C").charAt(0).toUpperCase();
+      return "Passage " + ch;
+    }
+    return raw;
+  }
+
+  function pickReadingPassageBody(rows) {
+    let best = "";
+    for (let ri = 0; ri < rows.length; ri++) {
+      const n = String(rows[ri].it.context_note || "").trim();
+      if (n.indexOf("\n") >= 0 && n.length > best.length) best = n;
+    }
+    if (best) return best;
+    for (let ri = 0; ri < rows.length; ri++) {
+      const n = String(rows[ri].it.context_note || "").trim();
+      if (n.length > best.length) best = n;
+    }
+    return best;
+  }
+
+  function groupReadingByPassage(rows) {
+    const groups = [];
+    let i = 0;
+    while (i < rows.length) {
+      const row = rows[i];
+      if (row.type !== "reading") {
+        groups.push({ passage: "", rows: [row] });
+        i++;
+        continue;
+      }
+      const passage = String(row.it.context_note || "").trim();
+      const secIns = String(row.section_instruction || "").trim();
+      if (!passage && secIns.length > 60) {
+        let j = i + 1;
+        while (j < rows.length) {
+          const r2 = rows[j];
+          if (r2.type !== "reading") break;
+          if (String(r2.it.context_note || "").trim()) break;
+          if (String(r2.section_instruction || "").trim() !== secIns) break;
+          j++;
+        }
+        groups.push({ passage: secIns, rows: rows.slice(i, j), fromSection: true });
+        i = j;
+        continue;
+      }
+      const key = readingPassageGroupKey(passage);
+      if (key) {
+        let j = i + 1;
+        while (j < rows.length) {
+          const r2 = rows[j];
+          if (r2.type !== "reading") break;
+          if (readingPassageGroupKey(String(r2.it.context_note || "").trim()) !== key) break;
+          j++;
+        }
+        const slice = rows.slice(i, j);
+        groups.push({ passage: pickReadingPassageBody(slice), rows: slice });
+        i = j;
+      } else {
+        groups.push({ passage: "", rows: [row] });
+        i++;
+      }
+    }
+    return groups;
+  }
+
+  function groupDetailsByReadingPassage(details) {
+    const groups = [];
+    let i = 0;
+    while (i < details.length) {
+      const row = details[i].row;
+      if (row.type !== "reading") {
+        groups.push({ passage: "", details: [details[i]] });
+        i++;
+        continue;
+      }
+      const passage = String(row.it.context_note || "").trim();
+      const secIns = String(row.section_instruction || "").trim();
+      if (!passage && secIns.length > 60) {
+        let j = i + 1;
+        while (j < details.length) {
+          const r2 = details[j].row;
+          if (r2.type !== "reading") break;
+          if (String(r2.it.context_note || "").trim()) break;
+          if (String(r2.section_instruction || "").trim() !== secIns) break;
+          j++;
+        }
+        groups.push({ passage: secIns, details: details.slice(i, j), fromSection: true });
+        i = j;
+        continue;
+      }
+      const key = readingPassageGroupKey(passage);
+      if (key) {
+        let j = i + 1;
+        while (j < details.length) {
+          const r2 = details[j].row;
+          if (r2.type !== "reading") break;
+          if (readingPassageGroupKey(String(r2.it.context_note || "").trim()) !== key) break;
+          j++;
+        }
+        const slice = details.slice(i, j);
+        const sliceRows = slice.map((d) => ({ it: d.row.it }));
+        groups.push({ passage: pickReadingPassageBody(sliceRows), details: slice });
+        i = j;
+      } else {
+        groups.push({ passage: "", details: [details[i]] });
+        i++;
+      }
+    }
+    return groups;
+  }
+
+  function groupFillBlankBySectionInstruction(rows) {
+    const groups = [];
+    let i = 0;
+    while (i < rows.length) {
+      const ins = String(rows[i].section_instruction || "").trim();
+      let j = i + 1;
+      while (j < rows.length && String(rows[j].section_instruction || "").trim() === ins) j++;
+      groups.push({ instruction: ins, rows: rows.slice(i, j) });
+      i = j;
+    }
+    return groups;
+  }
+
+  function groupDetailsByClozeSection(details) {
+    const groups = [];
+    let i = 0;
+    while (i < details.length) {
+      const ins = String(details[i].row.section_instruction || "").trim();
+      let j = i + 1;
+      while (j < details.length) {
+        if (String(details[j].row.section_instruction || "").trim() !== ins) break;
+        j++;
+      }
+      groups.push({ passage: details[i].row.section_instruction || "", details: details.slice(i, j) });
+      i = j;
+    }
+    return groups;
+  }
+
+  function clozeAnswerWordFromItem(it) {
+    const teach = it.teaching || {};
+    const opts = it.options && typeof it.options === "object" ? it.options : {};
+    const caRaw = String(teach.correct_answer || "").trim();
+    if (!caRaw) return "（未录入）";
+    const caUp = caRaw.toUpperCase().charAt(0);
+    if ("ABCD".indexOf(caUp) >= 0) {
+      const tx = String(opts[caUp] || "").trim();
+      if (tx) return tx;
+    }
+    return caRaw;
+  }
+
+  function clozeNumToAnswerMap(detailsPairs) {
+    const map = Object.create(null);
+    detailsPairs.forEach(({ row }) => {
+      const it = row.it;
+      const n = String(it.number || "").trim();
+      if (!n) return;
+      const w = clozeAnswerWordFromItem(it);
+      map[n] = w;
+      const pi = parseInt(n, 10);
+      if (!isNaN(pi)) map[String(pi)] = w;
+    });
+    return map;
+  }
+
+  function nextClozePlaceholderAtStart(fragment) {
+    const tries = [
+      /^__\((\d+)\)__/.exec(fragment),
+      /^__(\d+)__/.exec(fragment),
+      /^\((\d+)\)_{3,}/.exec(fragment),
+      /^(\d+)\s+_{3,}/.exec(fragment),
+    ];
+    let best = null;
+    tries.forEach((m) => {
+      if (!m) return;
+      const cand = { len: m[0].length, num: m[1] };
+      if (!best || cand.len > best.len) best = cand;
+    });
+    return best;
+  }
+
+  function buildClozeFilledPassageHtml(passage, detailsPairs) {
+    const map = clozeNumToAnswerMap(detailsPairs);
+    function wordFor(num) {
+      if (map[num] != null) return map[num];
+      const p = parseInt(num, 10);
+      if (!isNaN(p) && map[String(p)] != null) return map[String(p)];
+      return "（？）";
+    }
+    let html = "";
+    let pos = 0;
+    let foundPh = false;
+    while (pos < passage.length) {
+      const rest = passage.slice(pos);
+      const ph = nextClozePlaceholderAtStart(rest);
+      if (!ph) {
+        const ch = passage[pos];
+        if (ch === "\n") html += "<br>";
+        else html += esc(ch);
+        pos++;
+        continue;
+      }
+      foundPh = true;
+      const w = wordFor(ph.num);
+      html += "<span class='cloze-filled-ans' data-blank='" + esc(ph.num) + "'>" + esc(w) + "</span>";
+      pos += ph.len;
+    }
+    if (!foundPh && /_{3,}/.test(passage) && detailsPairs.length) {
+      const chunks = passage.split(/_{3,}/);
+      if (chunks.length === detailsPairs.length + 1) {
+        const sorted = detailsPairs.slice().sort((a, b) => {
+          const na = parseInt(a.row.it.number, 10);
+          const nb = parseInt(b.row.it.number, 10);
+          return (isNaN(na) ? 0 : na) - (isNaN(nb) ? 0 : nb);
+        });
+        let h = esc(chunks[0]).replace(/\n/g, "<br>");
+        for (let i = 0; i < sorted.length; i++) {
+          const w = clozeAnswerWordFromItem(sorted[i].row.it);
+          h += "<span class='cloze-filled-ans'>" + esc(w) + "</span>";
+          h += esc(chunks[i + 1]).replace(/\n/g, "<br>");
+        }
+        return formatPassageHtmlParagraphs(h);
+      }
+    }
+    return formatPassageHtmlParagraphs(html);
+  }
+
+  function renderStemHtml(stem, qkey) {
+    if (!stem) return "<p class='stem'></p>";
+    const parts = stem.split(/_{3,}/g);
+    if (parts.length === 1) {
+      return "<p class='stem'>" + esc(stem).replace(/\n/g, "<br>") + "</p>";
+    }
+    let h = "<p class='stem'>";
+    parts.forEach((chunk, i) => {
+      h += esc(chunk).replace(/\n/g, "<br>");
+      if (i < parts.length - 1) {
+        h += "<span class='blank-line'><input type='text' data-k='" + esc(qkey) + "' data-bi='" + i + "' autocomplete='off' /></span>";
+      }
+    });
+    h += "</p>";
+    return h;
+  }
+
+  /** 从 section_instruction 解析补全对话方框 A. … G. …（行首匹配） */
+  function dialogueBankOptionsFromSection(row) {
+    const ins = String(row.section_instruction || "");
+    const out = {};
+    const re = /^([A-G])\.\s*(.+)$/gm;
+    let m;
+    while ((m = re.exec(ins)) !== null) {
+      out[m[1].toUpperCase()] = m[2].trim();
+    }
+    return out;
+  }
+
+  function isClozeDialoguePlaceholderStem(stem) {
+    return /^\s*\d+\.?\s*$/.test(String(stem || ""));
+  }
+
+  /** 补全对话大题：练习/PDF/讲解中整段不展示 */
+  function isClozeDialogueCompletionSection(row) {
+    return /补全对话/.test(String((row && row.section_title) || ""));
+  }
+
+  function visibleClozeQuizRows(rows) {
+    return (rows || []).filter((r) => !isClozeDialogueCompletionSection(r));
+  }
+
+  /** 左侧已有文章的完形小题：仅展示对齐的 A–D，不重复题干与选项词 */
+  function isPassageClozeAbcdLayout(row, it) {
+    if (!row || row.type !== "cloze") return false;
+    if (isClozeDialogueCompletionSection(row)) return false;
+    if (isClozeDialoguePlaceholderStem(it && it.stem)) return false;
+    const raw = it && it.options && typeof it.options === "object" ? it.options : {};
+    const n = ["A", "B", "C", "D"].filter((L) => String(raw[L] || "").trim()).length;
+    return n >= 2;
+  }
+
+  /** 大题标题/说明是否像「阅读判断」正误题 */
+  function sectionLooksTrueFalse(row) {
+    if (/判断/.test(String(row.section_title || ""))) return true;
+    const ins = String(row.section_instruction || "");
+    if (/判断[^\n]{0,48}正\s*\(?T\)?|正\s*\(?T\)?[^\n]{0,24}误\s*\(?F\)?/i.test(ins)) return true;
+    if (/True\s*\(\s*T\s*\)|False\s*\(\s*F\s*\)/i.test(ins)) return true;
+    return false;
+  }
+
+  /**
+   * 客观题选项：A–D、补全对话从 section_instruction 解析的 A–G 方框、T/F、阅读判断隐式 T/F
+   */
+  function getObjectiveChoiceLayout(row, it) {
+    const raw = it && typeof it.options === "object" && it.options ? it.options : {};
+    const typ = row.type;
+    const abcd = ["A", "B", "C", "D"].filter((L) => String(raw[L] || "").trim());
+    if (abcd.length) return { letters: abcd, opts: raw };
+    if (typ === "cloze") {
+      const bank = dialogueBankOptionsFromSection(row);
+      const bankLetters = Object.keys(bank).sort();
+      if (bankLetters.length >= 2) return { letters: bankLetters, opts: bank };
+    }
+    const tfKeys = ["T", "F"].filter((L) => String(raw[L] || "").trim());
+    if (tfKeys.length >= 2) return { letters: ["T", "F"], opts: raw };
+    if (tfKeys.length === 1) return { letters: tfKeys, opts: raw };
+    const stem = String(it.stem || "").trim();
+    if (stem && sectionLooksTrueFalse(row) && (typ === "reading" || typ === "choice")) {
+      return {
+        letters: ["T", "F"],
+        opts: { T: "（正确）", F: "（错误）" },
+      };
+    }
+    return { letters: [], opts: raw };
+  }
+
+  function htmlQuizRadioOptions(letters, opts, qkey) {
+    let h = "";
+    letters.forEach((L) => {
+      const tx = String(opts[L] || "").trim();
+      if (!tx) return;
+      const id = "r-" + qkey.replace(/:/g, "-") + "-" + L;
+      h += "<label><input type='radio' name='k-" + esc(qkey) + "' value='" + esc(L) + "' id='" + id + "' />";
+      h += "<span><strong>" + esc(L) + "</strong> " + esc(tx).replace(/\n/g, "<br>") + "</span></label>";
+    });
+    return h;
+  }
+
+  /** 完形练习页：A→B→C 纵向，仅输出有内容的项 */
+  function htmlQuizRadioOptionsAbcdGrid(letters, opts, qkey) {
+    const order = ["A", "B", "C", "D"];
+    let h = "";
+    order.forEach((L) => {
+      const tx = String(opts[L] || "").trim();
+      if (!letters.includes(L) || !tx) return;
+      const id = "r-" + qkey.replace(/:/g, "-") + "-" + L;
+      h += "<label class='cloze-opt-abcd cloze-opt-abcd-full'><input type='radio' name='k-" + esc(qkey) + "' value='" + esc(L) + "' id='" + id + "' />";
+      h += "<span><strong>" + esc(L) + "</strong> " + esc(tx).replace(/\n/g, "<br>") + "</span></label>";
+    });
+    return h;
+  }
+
+  function quizOptsGridClass(letters, opts) {
+    let c = 0;
+    letters.forEach((L) => {
+      if (String(opts[L] || "").trim()) c++;
+    });
+    if (c <= 1) return "opts";
+    if (c > 4) return "opts opts-bank";
+    return "opts opts-cols-" + c;
+  }
+
+  function renderTransformStemHtml(stem, qkey) {
+    if (!stem) {
+      return "<p class='stem'><span class='blank-line'><input type='text' data-k='" + esc(qkey) + "' data-bi='0' autocomplete='off' /></span></p>";
+    }
+    if (/_{3,}/.test(stem)) return renderStemHtml(stem, qkey);
+    return (
+      "<p class='stem'>" +
+      esc(stem).replace(/\n/g, "<br>") +
+      " <span class='blank-line'><input type='text' data-k='" +
+      esc(qkey) +
+      "' data-bi='0' autocomplete='off' placeholder='作答' /></span></p>"
+    );
+  }
+
+  function parseTransformAnswerParts(ca) {
+    return String(ca || "").split("|").map((s) => s.trim());
+  }
+
+  /** 讲解页：句型转换题干，用正确答案填入空格并高亮（与完形「填入答案」样式一致） */
+  function buildTransformFilledStemHtml(stem, ca) {
+    const parts = parseTransformAnswerParts(ca);
+    const stemStr = String(stem || "");
+    const blankPh = "—";
+    const spanAns = (w) =>
+      "<span class='cloze-filled-ans'>" + esc(w && String(w).trim() ? w : blankPh) + "</span>";
+
+    if (!stemStr.trim()) {
+      const w = String(ca || "").trim() || parts.filter(Boolean).join(" | ") || blankPh;
+      return "<div class='stem tf-filled-stem' style='margin-bottom:0.75rem'>" + spanAns(w) + "</div>";
+    }
+
+    if (/_{3,}/.test(stemStr)) {
+      const chunks = stemStr.split(/_{3,}/);
+      let h = "<div class='stem tf-filled-stem' style='margin-bottom:0.75rem'>";
+      const n = chunks.length - 1;
+      for (let i = 0; i < chunks.length; i++) {
+        h += esc(chunks[i]).replace(/\n/g, "<br>");
+        if (i < n) {
+          const w = i < parts.length ? parts[i] : "";
+          h += spanAns(w);
+        }
+      }
+      h += "</div>";
+      return h;
+    }
+
+    const tail =
+      String(ca || "").trim() ||
+      (parts.length ? parts.filter(Boolean).join(" | ") : "") ||
+      blankPh;
+    return (
+      "<div class='stem tf-filled-stem' style='margin-bottom:0.75rem'>" +
+      esc(stemStr).replace(/\n/g, "<br>") +
+      " " +
+      spanAns(tail) +
+      "</div>"
+    );
+  }
+
+  function renderOpenAnswerStem(stem, qkey, rowType, quizType) {
+    const isTf = rowType === "sentence_transform" || quizType === "sentence_transform";
+    if (isTf) return renderTransformStemHtml(stem, qkey);
+    return renderStemHtml(stem, qkey) + "<textarea class='area' data-k='" + esc(qkey) + "' rows='6' placeholder='在此作答（多空用 | 分隔）'></textarea>";
+  }
+
+  function orderedTypesList() {
+    return Object.keys(state.byType)
+      .filter((x) => (state.byType[x] || []).length > 0)
+      .sort((a, b) => {
+        const ia = TYPE_ORDER.indexOf(a);
+        const ib = TYPE_ORDER.indexOf(b);
+        if (ia === -1 && ib === -1) return a.localeCompare(b);
+        if (ia === -1) return 1;
+        if (ib === -1) return -1;
+        return ia - ib;
+      });
+  }
+
+  /** 生成某题型答题区 HTML（供页面与 PDF 共用） */
+  function buildQuizBodyHtml(t) {
+    const rows = state.byType[t] || [];
+    const readingGroups = t === "reading" ? groupReadingByPassage(rows) : [];
+    let html = "";
+    if (t === "cloze" && rows.length) {
+      groupFillBlankBySectionInstruction(rows).forEach((g) => {
+        if (isClozeDialogueCompletionSection(g.rows[0])) return;
+        const ins = g.instruction.trim();
+        const gTitle = String(g.rows[0].section_title || "").trim() || "阅读材料";
+        const sp = splitSectionHintAndBody(ins);
+        const hintTop = sp.hint
+          ? "<p class='muted' style='margin:0 0 0.75rem;line-height:1.55'>" + esc(sp.hint).replace(/\n/g, "<br>") + "</p>"
+          : "";
+        const mainIns = sp.body || ins;
+        const passageHtml = ins
+          ? "<div class='cloze-passage-card card'><h2>" +
+            esc(gTitle) +
+            "</h2>" +
+            hintTop +
+            "<div class='cloze-passage-text'>" +
+            formatPassageParagraphs(mainIns) +
+            "</div></div>"
+          : "<div class='cloze-passage-card card'><p class='muted'>（本篇暂无导语，请仅根据右侧选项作答。）</p></div>";
+        let rightCol =
+          "<div class='cloze-options-col'><h2 class='card' style='margin:0 0 0.75rem;padding:0.65rem 0.85rem;font-size:1rem;'>答题区</h2>";
+        g.rows.forEach((row) => {
+          const it = row.it;
+          const qkey = row.key;
+          const num = String(it.number);
+          const diaGap = isClozeDialoguePlaceholderStem(it.stem);
+          rightCol +=
+            "<div class='card q-block cloze-opt-card" +
+            (diaGap ? " cloze-dialogue-gap-card" : "") +
+            "' data-qkey='" +
+            esc(qkey) +
+            "'><div class='q'>";
+          if (diaGap) {
+            rightCol += "<div class='cloze-dialogue-gap-badge'>" + esc(num) + ".</div>";
+          } else {
+            rightCol += "<div class='q-head'><span class='q-num'>第 " + esc(num) + " 空</span><span class='tag'>cloze</span></div>";
+          }
+          const layoutC = getObjectiveChoiceLayout(row, it);
+          const lettersC = layoutC.letters;
+          const optsC = layoutC.opts;
+          const abcdOnly = isPassageClozeAbcdLayout(row, it);
+          if (lettersC.length) {
+            if (!diaGap && !abcdOnly) {
+              rightCol += renderStemHtml(it.stem, qkey);
+            }
+            if (abcdOnly) {
+              rightCol += "<div class='opts opts-cloze-abcd'>";
+              rightCol += htmlQuizRadioOptionsAbcdGrid(lettersC, optsC, qkey);
+            } else {
+              rightCol += "<div class='" + quizOptsGridClass(lettersC, optsC) + "'>";
+              rightCol += htmlQuizRadioOptions(lettersC, optsC, qkey);
+            }
+            rightCol += "</div>";
+          } else {
+            rightCol += renderStemHtml(it.stem, qkey);
+          }
+          rightCol += "</div></div>";
+        });
+        rightCol += "</div>";
+        html +=
+          "<div class='pdf-cloze-unit'><div class='cloze-quiz-layout'><div class='cloze-passage-col'>" +
+          passageHtml +
+          "</div>" +
+          rightCol +
+          "</div></div>";
+      });
+    } else if (t === "reading" && readingGroups.some((g) => g.passage)) {
+      readingGroups.forEach((g) => {
+        if (g.passage) {
+          let passageHtml;
+          if (g.fromSection) {
+            const sp = splitSectionHintAndBody(g.passage);
+            const hintHtml = sp.hint
+              ? "<p class='muted' style='margin:0 0 0.75rem;line-height:1.55'>" + esc(sp.hint).replace(/\n/g, "<br>") + "</p>"
+              : "";
+            const mainText = sp.body || g.passage;
+            passageHtml =
+              "<div class='reading-passage-card card'><h2>阅读材料</h2>" +
+              hintHtml +
+              "<div class='reading-passage-text'>" + formatPassageParagraphs(mainText) + "</div></div>";
+          } else {
+            const ph = splitReadingPassageHeading(g.passage);
+            passageHtml =
+              "<div class='reading-passage-card card'><h2>" + esc(ph.title) + "</h2>" +
+              "<div class='reading-passage-text'>" + formatPassageParagraphs(ph.text) + "</div></div>";
+          }
+          let rightCol = "<div class='reading-questions-col'>";
+          g.rows.forEach((row) => {
+            const it = row.it;
+            const qkey = row.key;
+            const num = String(it.number);
+            rightCol += "<div class='card q-block reading-q-card' data-qkey='" + esc(qkey) + "'><div class='q'>";
+            rightCol += "<div class='q-head'><span class='q-num'>" + esc(row.section_title) + " · 第 " + esc(num) + " 题</span>";
+            rightCol += "<span class='tag'>" + esc(t) + "</span></div>";
+            const layoutR = getObjectiveChoiceLayout(row, it);
+            const lettersR = layoutR.letters;
+            const optsR = layoutR.opts;
+            if (lettersR.length) {
+              rightCol += renderStemHtml(it.stem, qkey);
+              rightCol += "<div class='" + quizOptsGridClass(lettersR, optsR) + "'>";
+              rightCol += htmlQuizRadioOptions(lettersR, optsR, qkey);
+              rightCol += "</div>";
+            } else {
+              rightCol += renderOpenAnswerStem(it.stem, qkey, row.type, t);
+            }
+            rightCol += "</div></div>";
+          });
+          rightCol += "</div>";
+          html +=
+            "<div class='pdf-reading-unit'><div class='reading-quiz-layout'><div class='reading-passage-col'>" +
+            passageHtml +
+            "</div>" +
+            rightCol +
+            "</div></div>";
+        } else {
+          g.rows.forEach((row) => {
+            const it = row.it;
+            const qkey = row.key;
+            const num = String(it.number);
+            html += "<div class='card q-block reading-q-card' data-qkey='" + esc(qkey) + "'><div class='q'>";
+            html += "<div class='q-head'><span class='q-num'>" + esc(row.section_title) + " · 第 " + esc(num) + " 题</span>";
+            html += "<span class='tag'>" + esc(t) + "</span></div>";
+            const layoutR2 = getObjectiveChoiceLayout(row, it);
+            const lettersR2 = layoutR2.letters;
+            const optsR2 = layoutR2.opts;
+            if (lettersR2.length) {
+              html += renderStemHtml(it.stem, qkey);
+              html += "<div class='" + quizOptsGridClass(lettersR2, optsR2) + "'>";
+              html += htmlQuizRadioOptions(lettersR2, optsR2, qkey);
+              html += "</div>";
+            } else {
+              html += renderOpenAnswerStem(it.stem, qkey, row.type, t);
+            }
+            html += "</div></div>";
+          });
+        }
+      });
+    } else if (t === "fill_blank" && rows.length) {
+      groupFillBlankBySectionInstruction(rows).forEach((fg) => {
+        if (fg.instruction) {
+          const sp = splitSectionHintAndBody(fg.instruction);
+          const hintPart = sp.hint
+            ? "<p class='muted' style='margin:0 0 0.65rem;line-height:1.55'>" + esc(sp.hint).replace(/\n/g, "<br>") + "</p>"
+            : "";
+          const bankSrc = sp.body || fg.instruction;
+          html +=
+            "<div class='card word-bank-card' style='margin-bottom:1rem'>" +
+            "<h2 style='margin:0 0 0.5rem;font-size:1rem;color:var(--accent)'>题目说明与词汇方框</h2>" +
+            hintPart +
+            "<div class='word-bank-box' style='font-family:Literata,Georgia,serif;font-size:1.06rem;line-height:1.65;padding:0.75rem 0.9rem;background:#f7faf7;border-radius:10px;border:1px dashed var(--border)'>" +
+            esc(bankSrc).replace(/\n/g, "<br>") +
+            "</div></div>";
+        }
+        fg.rows.forEach((row) => {
+          const it = row.it;
+          const qkey = row.key;
+          const num = String(it.number);
+          html += "<div class='card q-block' data-qkey='" + esc(qkey) + "'><div class='q'>";
+          html += "<div class='q-head'><span class='q-num'>" + esc(row.section_title) + " · 第 " + esc(num) + " 题</span>";
+          html += "<span class='tag'>" + esc(t) + "</span></div>";
+          html += renderStemHtml(it.stem, qkey);
+          html += "</div></div>";
+        });
+      });
+    } else {
+      rows.forEach((row) => {
+        const it = row.it;
+        const qkey = row.key;
+        const num = String(it.number);
+        html +=
+          "<div class='card q-block" +
+          (t === "reading" ? " reading-q-card" : "") +
+          "' data-qkey='" +
+          esc(qkey) +
+          "'><div class='q'>";
+        html += "<div class='q-head'><span class='q-num'>" + esc(row.section_title) + " · 第 " + esc(num) + " 题</span>";
+        html += "<span class='tag'>" + esc(t) + "</span></div>";
+
+        if (t === "reading" && (it.context_note || "").trim()) {
+          html += "<div class='passage'>" + formatPassageParagraphs(it.context_note) + "</div>";
+        }
+
+        const layoutG = getObjectiveChoiceLayout(row, it);
+        const lettersG = layoutG.letters;
+        const optsG = layoutG.opts;
+        if (lettersG.length) {
+          html += renderStemHtml(it.stem, qkey);
+          html += "<div class='" + quizOptsGridClass(lettersG, optsG) + "'>";
+          html += htmlQuizRadioOptions(lettersG, optsG, qkey);
+          html += "</div>";
+        } else {
+          html += renderOpenAnswerStem(it.stem, qkey, row.type, t);
+        }
+        html += "</div></div>";
+      });
+    }
+    return html;
+  }
+
+  /** 阅读材料中允许 &lt;u&gt;…&lt;/u&gt; 显示为下划线，其余 HTML 剥离 */
+  function examSanitizePassageRich(p) {
+    let t = String(p || "");
+    t = t.replace(/<\s*u\s*>/gi, "@@UON@@").replace(/<\s*\/\s*u\s*>/gi, "@@UOFF@@");
+    t = t.replace(/<[^>]+>/g, "");
+    t = esc(t);
+    return t.replace(/@@UON@@/g, "<u>").replace(/@@UOFF@@/g, "</u>");
+  }
+
+  function formatPassageParagraphsExam(raw) {
+    const s = String(raw == null ? "" : raw).replace(/\r\n/g, "\n").trim();
+    if (!s) return "";
+    return s
+      .split(/\n+/)
+      .map((x) => x.trim())
+      .filter(Boolean)
+      .map((para) => "<p class='exam-para'>" + examSanitizePassageRich(para).replace(/\n/g, "<br>") + "</p>")
+      .join("");
+  }
+
+  function buildExamPaperStemPlain(stem) {
+    const s = String(stem || "");
+    return esc(s)
+      .replace(/\n/g, "<br>")
+      .replace(/_{3,}/g, "<span class='exam-blank'>&nbsp;</span>");
+  }
+
+  function buildExamPaperOptionsHtmlWithLayout(letters, opts) {
+    const parts = [];
+    letters.forEach((L) => {
+      const tx = String((opts && opts[L]) || "").trim();
+      if (!tx) return;
+      parts.push("<span class='exam-opt-chip'><b>" + esc(L) + ".</b> " + esc(tx).replace(/\n/g, " ") + "</span>");
+    });
+    if (!parts.length) return "";
+    const n = parts.length;
+    const cls = n <= 4 ? "exam-opts-cols-" + n : "exam-opts-bank";
+    return "<div class='exam-opts-row " + cls + "'>" + parts.join("") + "</div>";
+  }
+
+  /** 完形 PDF：多行表格，每行「题号 | A | B | C | (D)」，列对齐 */
+  function buildExamPaperClozePdfGrid(rows) {
+    if (!rows || !rows.length) return "";
+    const hasD = rows.some((row) => {
+      const o = getObjectiveChoiceLayout(row, row.it).opts;
+      return String((o && o.D) || "").trim();
+    });
+    const order = hasD ? ["A", "B", "C", "D"] : ["A", "B", "C"];
+    let h =
+      "<div class='exam-cloze-pdf-grid" + (hasD ? " exam-cloze-pdf-grid-4opt" : "") + "'>";
+    rows.forEach((row) => {
+      const it = row.it;
+      const num = String(it.number);
+      const layout = getObjectiveChoiceLayout(row, it);
+      const letters = layout.letters;
+      const opts = layout.opts;
+      h +=
+        "<span class='exam-cloze-pdf-num'><span class='exam-n'>" +
+        esc(num) +
+        ".</span><span class='exam-paren'>（&nbsp;&nbsp;&nbsp;&nbsp;）</span></span>";
+      order.forEach((L) => {
+        const tx = String((opts && opts[L]) || "").trim();
+        if (letters.includes(L) && tx) {
+          h += "<span class='exam-cloze-pdf-opt'><b>" + esc(L) + ".</b> " + esc(tx).replace(/\n/g, " ") + "</span>";
+        } else {
+          h += "<span class='exam-cloze-pdf-opt exam-cloze-pdf-opt-empty'></span>";
+        }
+      });
+    });
+    h += "</div>";
+    return h;
+  }
+
+  function buildExamPaperOptionsHtml(opts) {
+    const letters = ["A", "B", "C", "D"].filter((L) => String((opts && opts[L]) || "").trim());
+    if (!letters.length) return "";
+    return buildExamPaperOptionsHtmlWithLayout(letters, opts);
+  }
+
+  function buildExamPaperItemBlock(row, it, t) {
+    const num = String(it.number);
+    const layout = getObjectiveChoiceLayout(row, it);
+    const letters = layout.letters;
+    const opts = layout.opts;
+    const itemCls = "exam-item" + (t === "reading" ? " exam-item-reading" : "");
+    let block = "<div class='" + itemCls + "'>";
+    if (letters.length) {
+      block += "<div class='exam-item-row'><span class='exam-n'>" + esc(num) + ".</span>";
+      block += "<span class='exam-paren'>（&nbsp;&nbsp;&nbsp;&nbsp;）</span>";
+      block += buildExamPaperStemPlain(it.stem) + "</div>";
+      block += buildExamPaperOptionsHtmlWithLayout(letters, opts);
+    } else {
+      block += "<div class='exam-item-row'><span class='exam-n'>" + esc(num) + ".</span> ";
+      block += buildExamPaperStemPlain(it.stem);
+      if (t === "writing" || row.type === "writing") {
+        block += "</div><div class='exam-answer-lines'></div>";
+      } else {
+        block += "</div>";
+      }
+    }
+    block += "</div>";
+    return block;
+  }
+
+  /** 标准纸笔考试排版（非网页练习样式） */
+  function buildExamPaperSectionHtml(t) {
+    const rows = state.byType[t] || [];
+    if (!rows.length) return "";
+    const readingGroups = t === "reading" ? groupReadingByPassage(rows) : [];
+
+    if (t === "cloze" && rows.length) {
+      let out = "";
+      groupFillBlankBySectionInstruction(rows).forEach((g) => {
+        if (isClozeDialogueCompletionSection(g.rows[0])) return;
+        const gTitle = String(g.rows[0].section_title || "").trim() || typeLabel(t);
+        out += "<h2 class='exam-big-title'>" + esc(gTitle) + "</h2>";
+        const ins = g.instruction.trim();
+        if (ins) {
+          const sp = splitSectionHintAndBody(ins);
+          const mainText = sp.body || ins;
+          out += "<div class='exam-passage-titled-wrap'>";
+          if (sp.hint) {
+            out += "<p class='exam-direction'>" + esc(sp.hint).replace(/\n/g, "<br>") + "</p>";
+          }
+          out += "<div class='exam-passage-block'>" + formatPassageParagraphsExam(mainText) + "</div>";
+          out += "</div>";
+        }
+        const allPassageAbcd =
+          g.rows.length > 0 &&
+          g.rows.every((row) => {
+            const it = row.it;
+            return (
+              !isClozeDialoguePlaceholderStem(it.stem) &&
+              isPassageClozeAbcdLayout(row, it) &&
+              getObjectiveChoiceLayout(row, it).letters.length > 0
+            );
+          });
+        if (allPassageAbcd) {
+          out += buildExamPaperClozePdfGrid(g.rows);
+        } else {
+          g.rows.forEach((row) => {
+            const it = row.it;
+            const num = String(it.number);
+            const layoutZ = getObjectiveChoiceLayout(row, it);
+            const lettersZ = layoutZ.letters;
+            const optsZ = layoutZ.opts;
+            const diaGapZ = isClozeDialoguePlaceholderStem(it.stem);
+            const abcdOnlyZ = isPassageClozeAbcdLayout(row, it);
+            out +=
+              "<div class='exam-item exam-item-cloze" +
+              (diaGapZ && lettersZ.length ? " exam-cloze-dialogue-gap" : "") +
+              "'>";
+            if (lettersZ.length) {
+              if (diaGapZ) {
+                out += "<span class='exam-dialogue-gap-num'>" + esc(num) + ".</span>";
+                out += buildExamPaperOptionsHtmlWithLayout(lettersZ, optsZ);
+              } else if (abcdOnlyZ) {
+                out += buildExamPaperClozePdfGrid([row]);
+              } else {
+                out += "<div class='exam-item-row'><span class='exam-n'>" + esc(num) + ".</span>";
+                out += "<span class='exam-paren'>（&nbsp;&nbsp;&nbsp;&nbsp;）</span>";
+                if (String(it.stem || "").trim()) {
+                  out += buildExamPaperStemPlain(it.stem);
+                }
+                out += "</div>";
+                out += buildExamPaperOptionsHtmlWithLayout(lettersZ, optsZ);
+              }
+            } else {
+              out += "<div class='exam-item-row'><span class='exam-n'>" + esc(num) + ".</span> ";
+              out += buildExamPaperStemPlain(it.stem || "_____") + "</div>";
+            }
+            out += "</div>";
+          });
+        }
+      });
+      return out;
+    }
+
+    const secTitle = String(rows[0].section_title || "").trim() || typeLabel(t);
+    let h = "<h2 class='exam-big-title'>" + esc(secTitle) + "</h2>";
+
+    if (t === "reading" && readingGroups.some((g) => g.passage)) {
+      readingGroups.forEach((g) => {
+        if (g.passage) {
+          h += "<div class='exam-reading-unit'>";
+          if (g.fromSection) {
+            const sp = splitSectionHintAndBody(g.passage);
+            const mainText = sp.body || g.passage;
+            h += "<div class='exam-passage-titled-wrap'>";
+            if (sp.hint) {
+              h += "<p class='exam-direction'>" + esc(sp.hint).replace(/\n/g, "<br>") + "</p>";
+            }
+            h += "<div class='exam-passage-block'>" + formatPassageParagraphsExam(mainText) + "</div>";
+            h += "</div>";
+          } else {
+            const ph = splitReadingPassageHeading(g.passage);
+            h += "<div class='exam-passage-titled-wrap'>";
+            h += "<p class='exam-subhead'>" + esc(ph.title) + "</p>";
+            h += "<div class='exam-passage-block'>" + formatPassageParagraphsExam(ph.text) + "</div>";
+            h += "</div>";
+          }
+          g.rows.forEach((row) => {
+            h += buildExamPaperItemBlock(row, row.it, t);
+          });
+          h += "</div>";
+        } else {
+          g.rows.forEach((row) => {
+            h += buildExamPaperItemBlock(row, row.it, t);
+          });
+        }
+      });
+      return h;
+    }
+
+    if (t === "fill_blank" && rows.length) {
+      groupFillBlankBySectionInstruction(rows).forEach((fg) => {
+        if (fg.instruction) {
+          const sp = splitSectionHintAndBody(fg.instruction);
+          const bankSrc = sp.body || fg.instruction;
+          h += "<div class='exam-passage-titled-wrap'>";
+          if (sp.hint) {
+            h += "<p class='exam-direction'>" + esc(sp.hint).replace(/\n/g, "<br>") + "</p>";
+          }
+          h += "<div class='exam-word-bank'>" + esc(bankSrc).replace(/\n/g, "<br>") + "</div>";
+          h += "</div>";
+        }
+        fg.rows.forEach((row) => {
+          const it = row.it;
+          const num = String(it.number);
+          h += "<div class='exam-item'><div class='exam-item-row'><span class='exam-n'>" + esc(num) + ".</span> ";
+          h += buildExamPaperStemPlain(it.stem) + "</div></div>";
+        });
+      });
+      return h;
+    }
+
+    rows.forEach((row) => {
+      const it = row.it;
+      if (t === "reading" && (it.context_note || "").trim()) {
+        h +=
+          "<div class='exam-passage-block exam-passage-inline'>" +
+          formatPassageParagraphsExam(it.context_note) +
+          "</div>";
+      }
+      h += buildExamPaperItemBlock(row, it, t);
+    });
+    return h;
+  }
+
+  function buildPdfMarkupForTypes(types) {
+    const title = EXAM.school_or_title || "英语试卷";
+    const meta = EXAM.exam_meta || {};
+    let h = "<div class='exam-paper-doc'>";
+    h += "<header class='exam-paper-masthead'>";
+    h += "<h1 class='exam-paper-title'>" + esc(title) + "</h1>";
+    h += "<div class='exam-paper-meta-line'>";
+    if (meta.full_score_text) {
+      h += "<span>" + esc(meta.full_score_text) + "</span>";
+    }
+    if (meta.time_text) {
+      h += "<span class='exam-meta-gap'>" + esc(meta.time_text) + "</span>";
+    }
+    h += "</div>";
+    h += "<div class='exam-paper-student-line'>";
+    h += "<span>姓名：____________</span><span>班级：____________</span><span>考号：____________</span>";
+    h += "</div>";
+    h += "</header>";
+    types.forEach((t) => {
+      const rows = state.byType[t] || [];
+      if (!rows.length) return;
+      h += "<section class='exam-paper-section'>" + buildExamPaperSectionHtml(t) + "</section>";
+    });
+    h += "</div>";
+    return h;
+  }
+
+  let pdfPrintTitleRestore = null;
+
+  function runPrintPdf(types) {
+    const host = document.getElementById("printHost");
+    if (!host) return;
+    pdfPrintTitleRestore = document.title;
+    document.title = String(EXAM.school_or_title || "英语试卷").trim();
+    host.innerHTML = buildPdfMarkupForTypes(types);
+    document.documentElement.classList.add("pdf-printing");
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        window.print();
+      });
+    });
+  }
+
+  function renderQuiz() {
+    const t = state.currentType;
+    const rows = state.byType[t] || [];
+    const title = EXAM.school_or_title || "英语试卷";
+    const quizView = document.getElementById("view-quiz");
+    if (t === "cloze") quizView.classList.add("view-cloze-wide");
+    else quizView.classList.remove("view-cloze-wide");
+    const readingGroups = t === "reading" ? groupReadingByPassage(rows) : [];
+    const readingWide = t === "reading" && readingGroups.some((g) => g.passage);
+    if (readingWide) quizView.classList.add("view-reading-wide");
+    else quizView.classList.remove("view-reading-wide");
+
+    document.getElementById("quizTitle").textContent = title + " · " + typeLabel(t);
+    const quizCount = t === "cloze" ? visibleClozeQuizRows(rows).length : rows.length;
+    document.getElementById("quizBreadcrumb").textContent = "当前题型：" + typeLabel(t) + "（共 " + quizCount + " 题）";
+
+    if (t === "cloze") {
+      document.getElementById("quizIntro").innerHTML =
+        "<p class='breadcrumb' style='margin-top:0'>左侧为文章（可随页滚动），右侧为各题选项，无需在文章与题目间来回滚动。</p>";
+    } else if (readingWide) {
+      document.getElementById("quizIntro").innerHTML =
+        "<p class='breadcrumb' style='margin-top:0'>每篇阅读左侧为文章（字号较大），右侧为该篇全部小题。</p>";
+    } else {
+      document.getElementById("quizIntro").innerHTML = "";
+    }
+
+    document.getElementById("quizBody").innerHTML = buildQuizBodyHtml(t);
+
+    state.elapsed = 0;
+    if (state.timerId) clearInterval(state.timerId);
+    state.timerId = setInterval(() => {
+      state.elapsed++;
+      const m = Math.floor(state.elapsed / 60);
+      const s = state.elapsed % 60;
+      document.getElementById("quizTimer").textContent = "用时 " + (m < 10 ? "0" : "") + m + ":" + (s < 10 ? "0" : "") + s;
+    }, 1000);
+    document.getElementById("quizTimer").textContent = "用时 00:00";
+  }
+
+  function collectTypeAnswers() {
+    const t = state.currentType;
+    const rows = state.byType[t] || [];
+    const out = {};
+    rows.forEach((row) => {
+      const k = row.key;
+      const block = document.querySelector(".q-block[data-qkey=\"" + k.replace(/"/g, "") + "\"]");
+      if (!block) return;
+      const r = block.querySelector("input[type=radio]:checked");
+      if (r) {
+        out[k] = r.value;
+        return;
+      }
+      const blankOne = block.querySelector("input.blank-input[data-k]");
+      if (blankOne) {
+        out[k] = blankOne.value.trim();
+        return;
+      }
+      const blanks = block.querySelectorAll("input[data-k][data-bi]");
+      if (blanks.length) {
+        const bits = [];
+        blanks.forEach((b) => bits.push(b.value.trim()));
+        out[k] = bits.join("|");
+        return;
+      }
+      const ta = block.querySelector("textarea[data-k]");
+      if (ta) out[k] = ta.value.trim();
+    });
+    return out;
+  }
+
+  function normLetter(x) {
+    return String(x || "").trim().toUpperCase().charAt(0);
+  }
+  function normPipe(x) {
+    return String(x || "")
+      .split("|")
+      .map((s) => s.trim().toLowerCase())
+      .join("|");
+  }
+
+  function judge(row, userAns) {
+    const it = row.it;
+    const teach = it.teaching || {};
+    const ca = teach.correct_answer || "";
+    const typ = row.type;
+    if (typ === "writing") return { open: true, ok: null, ca, userAns };
+    if (["choice", "cloze", "reading"].includes(typ)) {
+      const ok = ca && normLetter(userAns) === normLetter(ca);
+      return { open: false, ok, ca, userAns };
+    }
+    const ok = ca && normPipe(userAns) === normPipe(ca);
+    return { open: false, ok, ca, userAns };
+  }
+
+  function renderResult() {
+    const t = state.currentType;
+    const rows = t === "cloze" ? visibleClozeQuizRows(state.byType[t] || []) : state.byType[t] || [];
+    const ans = state.answers[t] || {};
+    let okc = 0, tot = 0;
+    const details = [];
+    rows.forEach((row) => {
+      const u = ans[row.key] || "";
+      const j = judge(row, u);
+      if (!j.open) tot++;
+      if (j.ok) okc++;
+      details.push({ row, j });
+    });
+    state.lastResults = details;
+
+    const pct = tot ? Math.round((okc / tot) * 100) : 0;
+    document.getElementById("resultTitle").textContent = typeLabel(t) + " · 结果";
+    document.getElementById("resultSummary").innerHTML =
+      "<p style='margin:0 0 0.5rem'>客观题 <strong>" + okc + "</strong> / " + tot + " 正确（" + pct + "%）。</p>" +
+      "<p style='margin:0;font-size:0.9rem;color:var(--muted)'>书面表达为开放题，请在对照讲解时参考范文要点。</p>";
+  }
+
+  function stripForTts(s) {
+    return String(s).replace(/[#*_`]/g, "").replace(/\n+/g, " ").slice(0, 4500);
+  }
+
+  function wrapEnglishWords(container) {
+    if (!container || container.nodeType !== 1) return;
+    const skip = new Set(["SCRIPT", "STYLE", "TEXTAREA", "INPUT", "PRE"]);
+    function walk(node) {
+      if (node.nodeType === 1) {
+        if (skip.has(node.tagName)) return;
+        if (node.classList && node.classList.contains("wlink")) return;
+        Array.from(node.childNodes).forEach(walk);
+        return;
+      }
+      if (node.nodeType !== 3) return;
+      const text = node.textContent;
+      if (!text || !/\b[A-Za-z]/.test(text)) return;
+      const parent = node.parentNode;
+      if (!parent) return;
+      const frag = document.createDocumentFragment();
+      const re = /(\b[A-Za-z]+(?:[-'][A-Za-z]+)*\b)/g;
+      let last = 0, m;
+      while ((m = re.exec(text)) !== null) {
+        if (m.index > last) frag.appendChild(document.createTextNode(text.slice(last, m.index)));
+        const sp = document.createElement("span");
+        sp.className = "wlink";
+        sp.textContent = m[1];
+        sp.title = "点击查看词义";
+        frag.appendChild(sp);
+        last = m.index + m[0].length;
+      }
+      if (last < text.length) frag.appendChild(document.createTextNode(text.slice(last)));
+      parent.replaceChild(frag, node);
+    }
+    try {
+      walk(container);
+    } catch (err) {
+      console.warn("wrapEnglishWords:", err);
+    }
+  }
+
+  (function bindLearnBodyWordLookup() {
+    const lb = document.getElementById("learnBody");
+    if (!lb) return;
+    lb.addEventListener("click", (ev) => {
+      const t = ev.target;
+      if (!t || !t.closest) return;
+      const w = t.closest(".wlink");
+      if (!w || !lb.contains(w)) return;
+      ev.preventDefault();
+      ev.stopPropagation();
+      const word = String(w.textContent || "").trim();
+      if (!word) return;
+      const block = w.closest(".card") || lb;
+      const ctx = block && block.innerText ? String(block.innerText).slice(0, 1200) : "";
+      openWordLookup(word, ctx);
+    });
+  })();
+
+  async function openWordLookup(word, context) {
+    const modal = document.getElementById("modal");
+    if (!modal) return;
+    modalWordForTts = String(word || "").trim();
+    document.getElementById("modalWord").textContent = word;
+    document.getElementById("modalBody").textContent = "查询中…";
+    modal.classList.add("open");
+    if (!hasDeepseekKey()) {
+      document.getElementById("modalBody").textContent =
+        "当前页面未配置 DeepSeek API Key。\n\n" +
+        "说明：静态网页托管（如 GitHub Pages）时，绝不能把 API 密钥写进 HTML，否则他人可复制滥用、产生费用。\n\n" +
+        "可选做法：\n" +
+        "1）仅使用「朗读本词」：将使用浏览器本机英文语音（无需密钥）。\n" +
+        "2）本地查词：在本机设置环境变量 DEEPSEEK_API_KEY 后，用 build_typeflow_html.py 重新生成 HTML（勿提交含密钥文件到公开仓库）。\n" +
+        "3）自建极简代理：用 Cloudflare Workers 等转发请求，密钥只放在 Worker 环境变量中。";
+      return;
+    }
+    try {
+      const ctx = String(context || "").slice(0, 3500);
+      const userContent =
+        "你是英语词典与语境分析助手。下面是一段「本题题干 + 选项」组成的语境（可能含题号、中文说明），请解释其中英文词「" + word + "」" +
+        "在此语境中的含义（中文，2～4 句，简洁准确）。若该片段不是完整词，也说明其可能对应的完整词。\n\n语境：\n" + ctx;
+      const txt = await deepseekChat(userContent, 512);
+      document.getElementById("modalBody").textContent = txt || "（无返回）";
+    } catch (e) {
+      document.getElementById("modalBody").textContent = "查询失败：" + e.message;
+    }
+  }
+
+  function speechVoicesReady() {
+    return new Promise((resolve) => {
+      const syn = window.speechSynthesis;
+      if (!syn) {
+        resolve();
+        return;
+      }
+      if (syn.getVoices().length) {
+        resolve();
+        return;
+      }
+      const done = () => resolve();
+      syn.addEventListener("voiceschanged", done, { once: true });
+      setTimeout(done, 600);
+    });
+  }
+
+  function pickEnglishTtsVoice() {
+    const syn = window.speechSynthesis;
+    if (!syn) return null;
+    const vs = syn.getVoices();
+    return (
+      vs.find((v) => /^en-US\b/i.test(v.lang || "")) ||
+      vs.find((v) => /^en-GB\b/i.test(v.lang || "")) ||
+      vs.find((v) => /^en\b/i.test(v.lang || "")) ||
+      vs.find((v) => (v.lang || "").toLowerCase().startsWith("en")) ||
+      null
+    );
+  }
+
+  async function playTtsAzure(textPlain) {
+    const t = stripForTts(textPlain).trim();
+    if (!t) throw new Error("无朗读内容");
+    const region = String(INLINE_CFG.azureRegion || "").trim();
+    const key = String(INLINE_CFG.azureKey || "").trim();
+    if (!region || !key || key.length < 8) throw new Error("未配置 Azure 区域或密钥");
+    const url = "https://" + region + ".tts.speech.microsoft.com/cognitiveservices/v1";
+    const safe = xmlEscapeTts(t);
+    const ssml =
+      "<speak version='1.0' xml:lang='en-US'>" +
+      "<voice xml:lang='en-US' name='en-US-JennyNeural'>" + safe + "</voice></speak>";
+    const r = await fetch(url, {
+      method: "POST",
+      mode: "cors",
+      credentials: "omit",
+      headers: {
+        "Ocp-Apim-Subscription-Key": key,
+        "Content-Type": "application/ssml+xml",
+        "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3",
+      },
+      body: ssml,
+    });
+    if (!r.ok) {
+      const errText = await r.text();
+      throw new Error("Azure " + r.status + " " + errText.slice(0, 120));
+    }
+    const buf = await r.arrayBuffer();
+    const blob = new Blob([buf], { type: "audio/mpeg" });
+    const u = URL.createObjectURL(blob);
+    const a = new Audio(u);
+    try {
+      await a.play();
+    } catch (playErr) {
+      URL.revokeObjectURL(u);
+      throw playErr;
+    }
+    await new Promise((resolve, reject) => {
+      a.onended = () => {
+        URL.revokeObjectURL(u);
+        resolve();
+      };
+      a.onerror = () => {
+        URL.revokeObjectURL(u);
+        reject(new Error("音频播放失败"));
+      };
+    });
+  }
+
+  async function playTtsSpeechSynth(textPlain) {
+    const t = stripForTts(textPlain).trim();
+    if (!t) throw new Error("无朗读内容");
+    const syn = window.speechSynthesis;
+    if (!syn) throw new Error("当前浏览器不支持本机语音朗读");
+    await speechVoicesReady();
+    syn.cancel();
+    return new Promise((resolve, reject) => {
+      const u = new SpeechSynthesisUtterance(t);
+      u.lang = "en-US";
+      u.rate = 0.92;
+      const voice = pickEnglishTtsVoice();
+      if (voice) u.voice = voice;
+      u.onend = () => resolve();
+      u.onerror = () => reject(new Error("本机朗读出错"));
+      syn.speak(u);
+    });
+  }
+
+  async function playTts(text) {
+    const t = stripForTts(text).trim();
+    if (!t) {
+      alert("无朗读内容");
+      return;
+    }
+    const fileLocal = location.protocol === "file:";
+    const tryOrder = fileLocal
+      ? [
+          ["本机英文语音", playTtsSpeechSynth],
+          ["Azure 在线语音", playTtsAzure],
+        ]
+      : [
+          ["Azure 在线语音", playTtsAzure],
+          ["本机英文语音", playTtsSpeechSynth],
+        ];
+    let lastErr = null;
+    for (let i = 0; i < tryOrder.length; i++) {
+      try {
+        await tryOrder[i][1](t);
+        return;
+      } catch (e) {
+        lastErr = e;
+      }
+    }
+    alert(
+      "朗读未成功。\n\n" +
+        (fileLocal
+          ? "本地打开试卷时，浏览器无法直连 Azure（跨域限制），已优先尝试本机朗读。\n"
+          : "已尝试在线语音与本机朗读。\n") +
+        "最后错误：" +
+        (lastErr && lastErr.message ? lastErr.message : "未知")
+    );
+  }
+
+  function appendLearnCard(parent, pair, t, skipReadingPassage) {
+    const { row, j } = pair;
+    const it = row.it;
+    const teach = it.teaching || {};
+    const ex = teach.explanation_md || "（暂无解析，请运行 enrich_teaching_vertex.py 生成）";
+    const kn = teach.knowledge_expansion_md || "（暂无）";
+    const tracks = Array.isArray(teach.socratic_tracks) ? teach.socratic_tracks : [];
+
+    const layoutL = getObjectiveChoiceLayout(row, it);
+    const lettersL = layoutL.letters;
+    const optsL = layoutL.opts;
+    let optReview = "";
+    if (lettersL.length) {
+      optReview = "<div class='opt-review'><strong>选项回顾</strong><br>";
+      lettersL.forEach((L) => {
+        const tx = String(optsL[L] || "").trim();
+        if (tx) optReview += "<span style='display:block;margin:0.2rem 0'>" + esc(L) + ". " + esc(tx) + "</span>";
+      });
+      optReview += "</div>";
+    }
+
+    const card = document.createElement("div");
+    card.className = "card";
+    const num = String(it.number);
+    let pill = "";
+    if (j.open) pill = "<span class='pill-open'>开放题</span>";
+    else if (j.ok) pill = "<span class='pill-ok'>回答正确</span>";
+    else pill = "<span class='pill-bad'>回答有误</span>";
+
+    let sub = "";
+    if (!skipReadingPassage && t === "reading" && (it.context_note || "").trim()) {
+      sub += "<div class='passage' style='font-size:0.9rem'>" + formatPassageParagraphs(it.context_note) + "</div>";
+    }
+
+    const youCls = j.open ? "ans-you" : j.ok ? "ans-you ok" : "ans-you";
+    const youLabel = j.open ? "你的作答（参考）" : "你的作答";
+    const keyLabel = j.open ? "参考范文 / 要点" : "正确答案";
+
+    const isTfLearn = t === "sentence_transform";
+    let stemAndAnsBlock;
+    if (isTfLearn) {
+      const caTf = (teach.correct_answer != null ? String(teach.correct_answer) : "") || j.ca || "";
+      stemAndAnsBlock =
+        buildTransformFilledStemHtml(it.stem, caTf) +
+        (!j.ok && String(j.userAns || "").trim()
+          ? "<p class='muted' style='margin:0 0 0.75rem;font-size:0.9rem'>你的作答：" +
+            esc(j.userAns || "（未答）") +
+            "</p>"
+          : "");
+    } else {
+      stemAndAnsBlock =
+        "<div class='stem' style='margin-bottom:0.75rem'>" + esc(it.stem || "").replace(/\n/g, "<br>") + "</div>" +
+        "<div class='ans-row'>" +
+        "<div class='ans-box " + youCls + "'><strong>" + youLabel + "</strong><br>" + esc(j.userAns || "（未答）") + "</div>" +
+        "<div class='ans-box ans-key'><strong>" + keyLabel + "</strong><br>" + esc(j.ca || "—") + "</div></div>";
+    }
+
+    card.innerHTML =
+      "<h2>" + esc(row.section_title) + " · 第 " + esc(num) + " 题 " + pill + "</h2>" + sub +
+      optReview +
+      stemAndAnsBlock +
+      "<div class='toolbar'>" +
+      "<button type='button' class='btn secondary btn-ex'>查看解析</button>" +
+      "<button type='button' class='btn secondary btn-kn'>知识点扩充</button>" +
+      "<button type='button' class='btn primary btn-soc'>苏格拉底式测一测</button></div>" +
+      "<div class='panel md p-ex'></div>" +
+      "<div class='panel md p-kn'></div>" +
+      "<div class='panel p-soc'></div>";
+
+    const pEx = card.querySelector(".p-ex");
+    const pKn = card.querySelector(".p-kn");
+    const pSoc = card.querySelector(".p-soc");
+    pEx.innerHTML = marked.parse(ex, { breaks: true });
+    pKn.innerHTML = marked.parse(kn, { breaks: true });
+    wrapEnglishWords(pEx);
+    wrapEnglishWords(pKn);
+
+    const stemLearn = card.querySelector(".stem");
+    if (stemLearn) wrapEnglishWords(stemLearn);
+    const optRevEl = card.querySelector(".opt-review");
+    if (optRevEl) wrapEnglishWords(optRevEl);
+
+    card.querySelector(".btn-ex").addEventListener("click", () => {
+      pEx.classList.toggle("open");
+    });
+    card.querySelector(".btn-kn").addEventListener("click", () => {
+      pKn.classList.toggle("open");
+    });
+
+    let socOpen = false;
+    card.querySelector(".btn-soc").addEventListener("click", () => {
+      socOpen = !socOpen;
+      pSoc.classList.toggle("open", socOpen);
+      if (socOpen && !pSoc.dataset.built) {
+        pSoc.dataset.built = "1";
+        let sh = "";
+        if (!tracks.length) {
+          sh = "<p class='muted'>暂无苏格拉底引导数据。</p>";
+        } else {
+          tracks.forEach((tr, ti) => {
+            const title = esc(tr.title || "知识点 " + (ti + 1));
+            const steps = Array.isArray(tr.steps) ? tr.steps : [];
+            sh += "<div class='soc-track'><h4>" + title + "</h4>";
+            steps.forEach((st, si) => {
+              const q = esc(st.question || "");
+              const hi = esc(st.hint || "");
+              const ta = esc(st.takeaway || "");
+              sh += "<div class='soc-step' data-ti='" + ti + "' data-si='" + si + "'>" +
+                "<div class='qtext'>" + q + "</div>" +
+                "<button type='button' class='btn ghost btn-hint-sm'>显示提示</button> " +
+                "<button type='button' class='btn secondary btn-next-sm'>下一步 / 点破</button>" +
+                "<div class='hint'>" + hi + "</div>" +
+                "<div class='takeaway'>" + ta + "</div></div>";
+            });
+            sh += "</div>";
+          });
+        }
+        pSoc.innerHTML = sh;
+        wrapEnglishWords(pSoc);
+        pSoc.querySelectorAll(".btn-hint-sm").forEach((b) => {
+          b.addEventListener("click", () => b.parentElement.querySelector(".hint").classList.add("show"));
+        });
+        pSoc.querySelectorAll(".btn-next-sm").forEach((b) => {
+          b.addEventListener("click", () => {
+            b.parentElement.querySelector(".takeaway").classList.add("show");
+          });
+        });
+      }
+    });
+
+    parent.appendChild(card);
+  }
+
+  function renderLearn() {
+    const t = state.currentType;
+    const details = state.lastResults || [];
+    const root = document.getElementById("learnBody");
+    document.getElementById("learnTitle").textContent = typeLabel(t) + " · 讲解";
+    root.innerHTML = "";
+
+    if (t === "cloze") {
+      groupDetailsByClozeSection(details).forEach((g) => {
+        const row0 = g.details[0] && g.details[0].row;
+        if (row0 && isClozeDialogueCompletionSection(row0)) return;
+        const ins = (g.passage || "").trim();
+        if (ins && g.details.length) {
+          const filled = buildClozeFilledPassageHtml(g.passage, g.details);
+          const wrap = document.createElement("div");
+          wrap.className = "reading-learn-layout";
+          wrap.innerHTML =
+            "<div class='reading-learn-passage'>" +
+            "<div class='card cloze-learn-block'>" +
+            "<h2>完整原文</h2>" +
+            "<p class='muted' style='margin:0 0 0.6rem'>下列为完形填空全文，空白处已填入<strong>正确答案</strong>并高亮显示。</p>" +
+            "<div class='cloze-learn-passage'>" + formatPassageHtmlParagraphs(filled) + "</div></div></div>" +
+            "<div class='reading-learn-cards-col'>" +
+            "<h2 class='card' style='margin:0 0 0.75rem;padding:0.65rem 0.85rem;font-size:1rem;'>各题解析 · 选项讲解</h2></div>";
+          const passEl = wrap.querySelector(".cloze-learn-passage");
+          if (passEl) wrapEnglishWords(passEl);
+          const col = wrap.querySelector(".reading-learn-cards-col");
+          g.details.forEach((pair) => appendLearnCard(col, pair, t, false));
+          root.appendChild(wrap);
+        } else {
+          g.details.forEach((pair) => appendLearnCard(root, pair, t, false));
+        }
+      });
+      return;
+    }
+
+    if (t === "fill_blank" && details.length) {
+      let fi = 0;
+      while (fi < details.length) {
+        const ins = String(details[fi].row.section_instruction || "").trim();
+        let fj = fi + 1;
+        while (fj < details.length && String(details[fj].row.section_instruction || "").trim() === ins) fj++;
+        const slice = details.slice(fi, fj);
+        if (ins) {
+          const sp = splitSectionHintAndBody(ins);
+          const wb = document.createElement("div");
+          wb.className = "card word-bank-card";
+          wb.style.marginBottom = "1rem";
+          wb.innerHTML =
+            "<h2 style='margin:0 0 0.5rem;font-size:1rem;color:var(--accent)'>题目说明与词汇方框</h2>" +
+            (sp.hint
+              ? "<p class='muted' style='margin:0 0 0.65rem;line-height:1.55'>" + esc(sp.hint).replace(/\n/g, "<br>") + "</p>"
+              : "") +
+            "<div class='word-bank-box' style='font-family:Literata,Georgia,serif;font-size:1.06rem;line-height:1.65;padding:0.75rem 0.9rem;background:#f7faf7;border-radius:10px;border:1px dashed var(--border)'>" +
+            esc(sp.body || ins).replace(/\n/g, "<br>") +
+            "</div>";
+          root.appendChild(wb);
+        }
+        slice.forEach((pair) => appendLearnCard(root, pair, t, false));
+        fi = fj;
+      }
+      return;
+    }
+
+    const readingLearnGroups = t === "reading" ? groupDetailsByReadingPassage(details) : [];
+    const useReadingGroups = t === "reading" && readingLearnGroups.some((g) => g.passage);
+    if (useReadingGroups) {
+      readingLearnGroups.forEach((g) => {
+        if (g.passage) {
+          const wrap = document.createElement("div");
+          wrap.className = "reading-learn-layout";
+          let passInner;
+          if (g.fromSection) {
+            const sp = splitSectionHintAndBody(g.passage);
+            const hintHtml = sp.hint
+              ? "<p class='muted' style='margin:0 0 0.75rem;line-height:1.55'>" + esc(sp.hint).replace(/\n/g, "<br>") + "</p>"
+              : "";
+            const mainText = sp.body || g.passage;
+            passInner =
+              "<div class='card'><h2>阅读材料</h2>" +
+              hintHtml +
+              "<div class='reading-passage-text'>" + formatPassageParagraphs(mainText) + "</div></div>";
+          } else {
+            const ph = splitReadingPassageHeading(g.passage);
+            passInner =
+              "<div class='card'><h2>" + esc(ph.title) + "</h2>" +
+              "<div class='reading-passage-text'>" + formatPassageParagraphs(ph.text) + "</div></div>";
+          }
+          wrap.innerHTML =
+            "<div class='reading-learn-passage'>" + passInner + "</div>" + "<div class='reading-learn-cards-col'></div>";
+          const col = wrap.querySelector(".reading-learn-cards-col");
+          g.details.forEach((pair) => appendLearnCard(col, pair, t, true));
+          root.appendChild(wrap);
+        } else {
+          g.details.forEach((pair) => appendLearnCard(root, pair, t, false));
+        }
+      });
+    } else {
+      details.forEach((pair) => appendLearnCard(root, pair, t, false));
+    }
+  }
+
+  function renderHome() {
+    const title = EXAM.school_or_title || "英语试卷";
+    document.getElementById("homeTitle").textContent = title;
+    document.title = title;
+
+    const types = Object.keys(state.byType).sort((a, b) => {
+      const ia = TYPE_ORDER.indexOf(a);
+      const ib = TYPE_ORDER.indexOf(b);
+      if (ia === -1 && ib === -1) return a.localeCompare(b);
+      if (ia === -1) return 1;
+      if (ib === -1) return -1;
+      return ia - ib;
+    });
+
+    let html = "";
+    types.forEach((t) => {
+      const rawRows = state.byType[t] || [];
+      const n = t === "cloze" ? visibleClozeQuizRows(rawRows).length : rawRows.length;
+      html += "<div class='type-card'><h2>" + esc(typeLabel(t)) + "</h2>";
+      html += "<div class='meta'>共 " + n + " 道题 · 计时答题后可看讲解</div>";
+      html += "<button type='button' class='btn primary btn-pick-type' data-type='" + esc(t) + "'>开始该题型</button></div>";
+    });
+    document.getElementById("typeGrid").innerHTML = html;
+    document.querySelectorAll(".btn-pick-type").forEach((b) => {
+      b.addEventListener("click", () => {
+        state.currentType = b.getAttribute("data-type");
+        showView("quiz");
+        renderQuiz();
+      });
+    });
+  }
+
+  window.addEventListener("afterprint", () => {
+    document.documentElement.classList.remove("pdf-printing");
+    const ph = document.getElementById("printHost");
+    if (ph) ph.innerHTML = "";
+    if (pdfPrintTitleRestore != null) {
+      document.title = pdfPrintTitleRestore;
+      pdfPrintTitleRestore = null;
+    }
+  });
+
+  document.getElementById("btnPdfFull").addEventListener("click", () => {
+    const types = orderedTypesList();
+    if (!types.length) {
+      alert("暂无题目。");
+      return;
+    }
+    runPrintPdf(types);
+  });
+
+  document.getElementById("btnPdfType").addEventListener("click", () => {
+    const t = state.currentType;
+    if (!t || !(state.byType[t] || []).length) {
+      alert("当前题型无题目。");
+      return;
+    }
+    runPrintPdf([t]);
+  });
+
+  document.getElementById("btnBackHome").addEventListener("click", () => {
+    if (state.timerId) { clearInterval(state.timerId); state.timerId = null; }
+    showView("home");
+  });
+  document.getElementById("btnBackHome2").addEventListener("click", () => showView("home"));
+  document.getElementById("btnBackHome3").addEventListener("click", () => showView("home"));
+
+  document.getElementById("btnSubmitType").addEventListener("click", () => {
+    const t = state.currentType;
+    if (!t) return;
+    if (!confirm("确定提交本题型？提交后可查看结果与讲解。")) return;
+    if (state.timerId) { clearInterval(state.timerId); state.timerId = null; }
+    state.answers[t] = collectTypeAnswers();
+    renderResult();
+    showView("result");
+  });
+
+  document.getElementById("btnGoLearn").addEventListener("click", () => {
+    renderLearn();
+    showView("learn");
+  });
+
+  const modalEl = document.getElementById("modal");
+  document.getElementById("modalClose").addEventListener("click", () => {
+    modalEl.classList.remove("open");
+  });
+  modalEl.addEventListener("click", (ev) => {
+    if (ev.target === modalEl) modalEl.classList.remove("open");
+  });
+
+  document.getElementById("modalTtsWord").addEventListener("click", () => {
+    if (modalWordForTts) playTts(modalWordForTts);
+    else alert("请先点击题干或选项中的英文词");
+  });
+
+  buildFlat();
+  renderHome();
+  </script>
+</body>
+</html>
