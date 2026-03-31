@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Elephants and Life Lessons | 2020年成都中考选词填空</title>
+    <style>
+        :root {
+            --primary: #1565c0;
+            --secondary: #0d47a1;
+            --accent: #ef6c00;
+            --gold: #ffd54f;
+            --highlight: #e3f2fd;
+            --filled: #2e7d32;
+            --bg-light: #f1f8ff;
+            --text-dim: #90a4ae;
+            --header-h: 50px;
+        }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--primary);
+            margin: 0;
+            height: 100vh;
+            height: 100dvh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            color: #333;
+        }
+        header {
+            background-color: #fff;
+            padding: 0 15px;
+            height: var(--header-h);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-bottom: 3px solid var(--gold);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            flex-shrink: 0;
+            position: relative;
+        }
+        h1 { font-size: 1rem; color: var(--primary); margin: 0; font-family: Georgia, serif; font-weight: bold; }
+        .progress-indicator {
+            position: absolute;
+            right: 15px;
+            font-size: 0.75rem;
+            color: #607d8b;
+            background: #eceff1;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-weight: bold;
+        }
+        .main-stage { display: flex; flex: 1; overflow: hidden; position: relative; }
+        .article-pane {
+            flex: 1;
+            background-color: #fff;
+            padding: 36px;
+            overflow-y: auto;
+            border-right: 1px solid #e0e0e0;
+            font-family: Georgia, serif;
+            font-size: 1.2rem;
+            line-height: 2.2;
+            color: var(--secondary);
+            scroll-behavior: smooth;
+            padding-bottom: 100px;
+        }
+        .explain-pane {
+            flex: 0.8;
+            background-color: #f5f7fa;
+            padding: 20px;
+            overflow-y: auto;
+            cursor: pointer;
+        }
+        @media (max-width: 900px) {
+            .main-stage { flex-direction: column; }
+            .article-pane {
+                flex: 0.45;
+                padding: 18px 14px;
+                border-right: none;
+                border-bottom: 2px solid #ddd;
+                font-size: 1.1rem;
+                line-height: 2;
+            }
+            .explain-pane { flex: 0.55; padding: 14px; }
+            h1 { font-size: 0.9rem; }
+        }
+        .segment {
+            transition: all 0.45s ease;
+            padding: 4px 6px;
+            border-radius: 6px;
+            margin: 2px 0;
+            display: inline;
+            line-height: inherit;
+            -webkit-box-decoration-break: clone;
+            box-decoration-break: clone;
+            cursor: pointer;
+        }
+        .segment.dimmed { opacity: 0.38; }
+        .segment.active {
+            background-color: var(--highlight);
+            color: #000;
+            border-bottom: 2px solid var(--accent);
+        }
+        .blank-placeholder {
+            display: inline-block;
+            min-width: 44px;
+            border-bottom: 2px solid var(--accent);
+            color: var(--accent);
+            text-align: center;
+            font-weight: bold;
+            padding: 0 4px;
+        }
+        .filled-word {
+            color: var(--filled);
+            border-bottom: 2px solid var(--filled);
+            font-weight: bold;
+        }
+        .info-box {
+            background: #fff;
+            padding: 18px;
+            border-radius: 12px;
+            margin-bottom: 14px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+            border-left: 5px solid var(--primary);
+            position: relative;
+        }
+        .info-box h3 {
+            margin: 0 0 8px 0;
+            color: var(--primary);
+            font-size: 1rem;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 8px;
+        }
+        .next-hint {
+            position: absolute;
+            bottom: 12px;
+            right: 14px;
+            color: var(--text-dim);
+            font-size: 0.8rem;
+            animation: bounce 2s infinite;
+        }
+        @keyframes bounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
+        .grammar-tag { background: #e8f5e9; border-color: #43a047; }
+        .golden-tag { background: #fff8e1; border-color: #ffb300; }
+        .link-tag { background: #e3f2fd; border-color: #1e88e5; }
+        .overlay {
+            position: fixed;
+            inset: 0;
+            background: #fff;
+            z-index: 200;
+            display: none;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+        .overlay.active { display: flex; }
+        .intro-container {
+            min-height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(rgba(21, 101, 192, 0.88), rgba(13, 71, 161, 0.92));
+            color: #fff;
+            text-align: center;
+            padding: 26px 14px;
+        }
+        .intro-content {
+            width: 100%;
+            max-width: 660px;
+            background: rgba(0,0,0,0.62);
+            padding: 28px;
+            border-radius: 14px;
+        }
+        .key-point {
+            display: inline-block;
+            background: var(--gold);
+            color: #222;
+            padding: 4px 12px;
+            border-radius: 20px;
+            margin: 4px;
+            font-size: 0.82rem;
+            font-weight: bold;
+        }
+        .start-btn {
+            background: var(--gold);
+            border: none;
+            color: #333;
+            padding: 12px 38px;
+            border-radius: 30px;
+            font-size: 1.08rem;
+            font-weight: bold;
+            margin-top: 22px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 213, 79, 0.38);
+        }
+        .word-bank {
+            background: #fff;
+            padding: 14px;
+            border-radius: 8px;
+            margin-bottom: 18px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            text-align: center;
+            font-family: Georgia, serif;
+            font-weight: bold;
+            border: 2px dashed #cfd8dc;
+        }
+        .word-bank span { display: inline-block; margin: 5px 10px; color: #37474f; }
+        .quiz-wrapper { max-width: 820px; margin: 20px auto; padding: 0 15px 80px 15px; width: 100%; }
+        .quiz-card {
+            background: #fff;
+            padding: 18px;
+            margin-bottom: 18px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+            border-left: 4px solid transparent;
+        }
+        .quiz-card:hover { border-left-color: var(--primary); }
+        .quiz-q { font-weight: bold; font-size: 1.02rem; margin-bottom: 12px; color: var(--primary); }
+        .quiz-meta {
+            font-size: 0.75rem;
+            color: #fff;
+            background: var(--primary);
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-left: 8px;
+            font-weight: normal;
+        }
+        .option-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 11px;
+            margin: 8px 0;
+            background: #f8f9fa;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.98rem;
+        }
+        .option-label:hover { background: #e3f2fd; border-color: #90caf9; }
+        .feedback {
+            display: none;
+            margin-top: 14px;
+            padding: 12px;
+            border-radius: 6px;
+            line-height: 1.5;
+            font-size: 0.93rem;
+        }
+        .feedback.correct { background: #d4efdf; color: #145a32; border: 1px solid #a9dfbf; }
+        .feedback.wrong { background: #fadbd8; color: #7b241c; border: 1px solid #f5b7b1; }
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-thumb { background: #b0bec5; border-radius: 4px; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>📘 Elephants and Life Lessons</h1>
+    <div class="progress-indicator" id="progressText">Intro</div>
+</header>
+
+<div class="main-stage">
+    <div id="introOverlay" class="overlay active">
+        <div class="intro-container">
+            <div class="intro-content">
+                <h2 style="font-size:1.2rem;color:var(--gold);margin-bottom:6px;font-weight:normal;">成都中考英语 • 选词填空</h2>
+                <h1 style="font-size:2.15rem;margin-bottom:10px;color:#fff;">2020年 B卷 短文填空</h1>
+                <p style="font-size:1.08rem;margin-bottom:18px;font-style:italic;">Elephants, Rope and Growth Mindset</p>
+                <div style="text-align:left;margin-bottom:20px;line-height:1.62;font-size:0.95rem;">
+                    <p>本文通过“大象被细绳束缚”的故事，说明很多时候真正限制我们的不是外在条件，而是曾经失败带来的心理暗示。题目重点考查词形变化、固定搭配和语义逻辑。</p>
+                </div>
+                <div style="margin-bottom:18px;">
+                    <span class="key-point">词形变化</span><span class="key-point">语境推断</span><span class="key-point">成长思维</span>
+                </div>
+                <button class="start-btn" onclick="changeStep(1)">开始学习</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="article-pane" id="articlePane"></div>
+    <div class="explain-pane" id="explainPane" onclick="changeStep(1)">
+        <div style="text-align:center;color:#90a4ae;margin-top:50px;">
+            <p>点击“开始学习”进入第 1 题。</p>
+        </div>
+    </div>
+
+    <div id="quizOverlay" class="overlay">
+        <div style="background:var(--primary);color:#fff;padding:40px 20px;text-align:center;flex-shrink:0;">
+            <h1 style="color:#fff;margin-top:0;">Final Challenge</h1>
+            <p>20 Questions • 词义 / 语法 / 篇章理解</p>
+            <button onclick="readFullText()" style="margin-top:8px;margin-right:8px;padding:8px 18px;border-radius:18px;border:1px solid #fff;background:transparent;color:#fff;cursor:pointer;">🔊 全文朗读</button>
+            <button onclick="location.reload()" style="margin-top:14px;padding:8px 18px;border-radius:18px;border:1px solid #fff;background:transparent;color:#fff;cursor:pointer;">重新开始</button>
+        </div>
+        <div class="quiz-wrapper" id="quizContainer"></div>
+    </div>
+</div>
+
+<script>
+    const wordBankHtml = `<div class="word-bank">
+        <span>able</span><span>catch</span><span>difficult</span><span>hold</span><span>learn</span><span>little</span><br>
+        <span>possible</span><span>speech</span><span>success</span><span>tie</span><span>true</span><span>we</span>
+    </div>`;
+
+    const textSegments = [
+        { type: "text", text: "A man walking through an elephant camp was surprised to find that the elephants were not being kept in cages or held by chains. All that was holding them back from running away from the camp was a small piece of rope - it was just " },
+        { type: "q", id: 1, pre: "", word: "tied", orig: "tie", post: " to one of their legs. " },
+        { type: "text", text: "As the man looked at the elephants, he could not understand it. Why did not the elephants just use their power to break the rope and run away? Wanting to know the " },
+        { type: "q", id: 2, pre: "", word: "truth", orig: "true", post: ", he asked a trainer nearby why it was so. \"When they were very young and much smaller, we used the same size of rope to tie them, and at that age, it was enough " },
+        { type: "q", id: 3, pre: "", word: "to hold", orig: "hold", post: " them. As they grew up, they still believed that they could not break away. Even now, they believe the rope can still control them, so they have the " },
+        { type: "q", id: 4, pre: "", word: "least", orig: "little", post: " courage to try to break free,\" the trainer answered. " },
+        { type: "text", text: "The man was " },
+        { type: "q", id: 5, pre: "", word: "speechless", orig: "speech", post: ". These animals were " },
+        { type: "q", id: 6, pre: "", word: "able", orig: "able", post: " to break away from the rope whenever they wanted, but it was only because over time, they believed that it was just " },
+        { type: "q", id: 7, pre: "", word: "impossible", orig: "possible", post: ". How many of us go through life like the elephants, believing that it was beyond our " },
+        { type: "q", id: 8, pre: "", word: "ability", orig: "able", post: " to do something only because we failed once or some times before? Failure is part of " },
+        { type: "q", id: 9, pre: "", word: "learning", orig: "learn", post: ". If we fail at something, we can still get something from it. Failure in the past does not mean we can never " },
+        { type: "q", id: 10, pre: "", word: "succeed", orig: "success", post: " in the future. We should keep on trying with confidence even after we have experienced failures in life." }
+    ];
+
+    const explanations = {
+        "1": {
+            title: "Verb Form: Past Participle（动词变过去分词）",
+            analysis: "【详细解析】空前是 \"was just\"，后面接 \"to one of their legs\"，语义是“被绑在腿上”，说明主语与动词 tie 构成被动关系。被动结构中需要过去分词，所以填 tied。若填 tie 原形会导致 \"was tie\" 的语法错误；若填 tying（现在分词）则会变成进行意义，不符合“已经被系住”的状态语义。",
+            grammar: "Passive Voice with Participle（被动语态中的过去分词）",
+            g_content: "【语法详解】be + 过去分词可表示“被……”或“处于……状态”。本句虽然有进行背景，但该空本质仍需要过去分词来体现被动关系。常见搭配：be tied to, be connected to, be attached to。",
+            golden: "The boat was tied to a tree, so it did not drift away.（小船被系在树上，所以没有漂走。）",
+            link: "【知识拓展】词形变化：tie-tied-tied-tying。易错点：很多同学会把 tied 误写成 tieed；另外注意 tying 是去掉 ie 再加 -ing。近义表达：be fastened to / be bound to。"
+        },
+        "2": {
+            title: "Word Class Shift: true -> truth（词性转换）",
+            analysis: "【详细解析】空前是定冠词 the，空后是逗号并接完整分句，说明该空要填名词作宾语/抽象对象。true 是形容词，不能直接放在 the 后单独充当名词。应转换为名词 truth，构成 \"know the truth\"（知道真相）这一高频搭配。",
+            grammar: "Noun Required after Article（冠词后接名词）",
+            g_content: "【语法详解】冠词 the 后常接名词性成分。形容词若要表达抽象概念，通常要进行派生：true -> truth，wide -> width，long -> length。",
+            golden: "At last, she told me the truth about what happened.（最后，她把发生的真相告诉了我。）",
+            link: "【知识拓展】同族词：true（adj.）truly（adv.）truth（n.）truthful（adj.诚实的）。易错点：truth 不是在 true 后直接加 -th，而是拼写整体变化。"
+        },
+        "3": {
+            title: "Infinitive Pattern: enough to do（不定式结构）",
+            analysis: "【详细解析】句子骨架是 \"it was enough ___ them\"，enough 后面常接不定式，表达“足以做某事”。因此用 to hold。若填 holding，会破坏 enough to do 的固定语法框架；若只填 hold，也缺少不定式标记 to。",
+            grammar: "enough + to-infinitive（enough 后接不定式）",
+            g_content: "【语法详解】经典结构：adj./adv. + enough + to do sth。例：strong enough to lift, old enough to drive。该结构强调“达到某种程度，足以……”。",
+            golden: "The box is light enough to carry with one hand.（这个箱子够轻，一只手就能提。）",
+            link: "【知识拓展】易错对比：too ... to ...（太……而不能……）与 enough to ...（足够……可以……）。相关短语：hold back（阻止），hold on（坚持/稍等），hold up（举起）。"
+        },
+        "4": {
+            title: "Degree Meaning: least（程度最低）",
+            analysis: "【详细解析】空后是 courage（不可数名词），语境表达“他们几乎没有勇气去尝试挣脱”。在这类否定语义里，least 能准确传达“最少、几乎没有”。如果填 little，语气只是“少”；填 less 通常需要比较对象，单句中不完整。",
+            grammar: "little-less-least（比较级与最高级）",
+            g_content: "【语法详解】little 作为“少”时，其比较级是 less，最高级是 least。与抽象名词连用时，least 常用于强调极低程度：the least interest, the least courage。",
+            golden: "He showed the least fear when everyone else was nervous.（当别人都紧张时，他表现出最少的恐惧。）",
+            link: "【知识拓展】固定搭配：not in the least（一点也不）。易错点：least 不等于 last；拼写和意义都不同。"
+        },
+        "5": {
+            title: "Derivation: speech -> speechless（派生形容词）",
+            analysis: "【详细解析】空前有系动词 was，空后句号结束，说明这里要填形容词作表语，描述人的状态。speech 是名词“演讲/言语”，不能直接作表语。加后缀 -less 后变为 speechless，意为“说不出话的”，与上下文“男人听完后震惊”高度吻合。",
+            grammar: "Predicative Adjective（表语形容词）",
+            g_content: "【语法详解】系动词（be, seem, become 等）后通常接形容词作表语。后缀 -less 表示“没有……的”：careless, hopeless, homeless, speechless。",
+            golden: "I was speechless when I heard the surprising news.（听到这个令人惊讶的消息时，我一时说不出话。）",
+            link: "【知识拓展】词族：speak（v.）speech（n.）speechless（adj.）。易错点：不要写成 \"was speech\"；词性不对。"
+        },
+        "6": {
+            title: "Fixed Phrase: be able to（能力表达）",
+            analysis: "【详细解析】句子是 \"These animals were ___ to break away\"，空后直接接 to do，最自然搭配是 be able to do。该表达强调“具备能力做某事”，语义上与前文“其实它们能挣脱”完全一致。",
+            grammar: "be able to do sth（能够做某事）",
+            g_content: "【语法详解】be able to 可在各种时态中使用：am/is/are able to, was/were able to, will be able to。与 can 相比，be able to 的时态变化更完整。",
+            golden: "After months of training, she was able to swim across the river.（经过几个月训练后，她能游过这条河了。）",
+            link: "【知识拓展】易错点：不要写成 \"were ability to\"。ability 是名词，able 才是形容词。近义表达：can / be capable of。"
+        },
+        "7": {
+            title: "Negative Prefix: possible -> impossible（否定前缀）",
+            analysis: "【详细解析】句子表达“它们认为那是……”，结合前文“虽然有能力但不敢尝试”，语义应为“不可能”。possible 为肯定义，不符合语境；应加前缀 im- 变为 impossible。该空位于系动词 was 后，也需要形容词形式作表语。",
+            grammar: "Prefix Negation（前缀构成反义词）",
+            g_content: "【语法详解】常见否定前缀有 un-, in-, im-, ir-, dis-。possible 前通常用 im-：impossible。该词常见结构：It is impossible to do sth。",
+            golden: "At first it seemed impossible, but they finally made it.（起初看起来不可能，但他们最终做到了。）",
+            link: "【知识拓展】词族：possible（adj.）possibly（adv.）possibility（n.）impossible（adj.）。易错点：不是 inpossible。"
+        },
+        "8": {
+            title: "Noun Form: able -> ability（形容词转名词）",
+            analysis: "【详细解析】空前是形容词性物主代词 our，后面应接名词。原词 able 为形容词，需转换为名词 ability，构成 beyond our ability（超出我们的能力范围）。这是中考高频固定表达。",
+            grammar: "Possessive + Noun（物主代词后接名词）",
+            g_content: "【语法详解】my/your/his/her/our/their 后通常接名词。常见派生：able -> ability，possible -> possibility，active -> activity。",
+            golden: "Finishing the work in one day is beyond my ability now.（现在让我一天完成这项工作，超出了我的能力。）",
+            link: "【知识拓展】易错点：ability 拼写为 a-b-i-l-i-t-y；不要漏写 i。近义短语：beyond one’s power / out of one’s reach。"
+        },
+        "9": {
+            title: "Gerund as Noun: learning（动名词名词化）",
+            analysis: "【详细解析】句型是 \"Failure is part of ___\"，of 后要接名词性成分。learn 是动词原形，不能直接放在介词后。learning 既可作动名词也可名词，表示“学习过程”，与句意“失败是学习的一部分”完全贴合。",
+            grammar: "Preposition + Noun/Gerund（介词后接名词或动名词）",
+            g_content: "【语法详解】介词（of, in, on, by, for 等）后不能直接接动词原形，通常接名词、代词或 V-ing 形式。比如：be good at reading, learn by doing。",
+            golden: "Making mistakes is a natural part of learning.（犯错是学习中很自然的一部分。）",
+            link: "【知识拓展】词族：learn（v.）learner（n.）learning（n./v-ing）。易错点：part of learn 是错误结构。"
+        },
+        "10": {
+            title: "Word Family: success -> succeed（名词转动词）",
+            analysis: "【详细解析】空前是情态动词 can，后面必须接动词原形。success 是名词“成功”，不能直接作谓语动词。应转为动词 succeed，构成 can succeed in the future。语义为“过去失败不代表未来不能成功”，与全文主旨形成呼应。",
+            grammar: "Modal Verb + Base Verb（情态动词后接动词原形）",
+            g_content: "【语法详解】can/could/may/might/must/should/will/would 后一律接动词原形。succeed 常与 in 搭配：succeed in doing sth（成功做成某事）。",
+            golden: "If you keep trying, you can succeed in the end.（如果你坚持尝试，最终就能成功。）",
+            link: "【知识拓展】词族链：succeed（v.）success（n.）successful（adj.）successfully（adv.）。易错点：can 后不能接 success 或 succeeded。"
+        }
+    };
+
+    const quizItems = [
+        { q: "What is the central message of the passage?", options: ["Elephants are easy to train.", "Past failure can limit our mind if we let it.", "Ropes are stronger than chains.", "Animals cannot think."], ans: 1, type: "Main Idea", exp: "文章核心是“心理限制比外在限制更可怕”，对应 B。" },
+        { q: "In blank 1, why is \"tied\" correct?", options: ["Because it is an adjective.", "Because it is the past tense.", "Because it is a past participle after \"was\".", "Because it is a noun."], ans: 2, type: "Grammar", exp: "\"was tied\" 为被动结构，需过去分词。" },
+        { q: "Blank 2 should be \"truth\" because ____.", options: ["it is a verb", "it is a noun after \"the\"", "it is an adverb", "it is plural"], ans: 1, type: "Word Form", exp: "the 后一般接名词，这里需名词 truth。" },
+        { q: "Which structure is used in blank 3?", options: ["too...to...", "enough to do", "so...that...", "be used to doing"], ans: 1, type: "Grammar", exp: "原句是 enough to hold。" },
+        { q: "Blank 4 uses \"least\" mainly to show ____.", options: ["the strongest courage", "a comparison with all", "almost no courage", "present time"], ans: 2, type: "Vocabulary", exp: "have the least courage 强调“最少/几乎没有勇气”。" },
+        { q: "The word \"speechless\" in blank 5 means ____.", options: ["unable to speak", "good at speech", "wanting to cry", "very noisy"], ans: 0, type: "Vocabulary", exp: "speechless 表示“无话可说的”。" },
+        { q: "Which option best fits blank 7?", options: ["possible", "impossible", "possibly", "possibility"], ans: 1, type: "Word Form", exp: "句意是否定，且此处需要形容词作表语：impossible。" },
+        { q: "Blank 8 should be \"ability\" because it follows ____.", options: ["beyond our", "so", "very", "can"], ans: 0, type: "Grammar", exp: "beyond our 后要接名词，ability 符合。" },
+        { q: "Why is blank 9 \"learning\"?", options: ["Because it is the present tense.", "Because part of is followed by a noun/gerund.", "Because it is comparative.", "Because it is passive."], ans: 1, type: "Grammar", exp: "part of + 名词/动名词，learning 最自然。" },
+        { q: "Blank 10 should be \"succeed\" since it comes after ____.", options: ["in", "can", "future", "never"], ans: 1, type: "Grammar", exp: "情态动词 can 后接动词原形 succeed。" },
+        { q: "Why didn't the elephants run away?", options: ["The rope was too strong.", "They were too hungry to move.", "They believed they could not break free.", "The trainer watched them all day."], ans: 2, type: "Detail", exp: "核心原因是心理限制：它们“相信自己挣脱不了”。" },
+        { q: "Which sentence best shows the turning point of the man's understanding?", options: ["He bought a rope.", "He asked the trainer nearby.", "He entered the camp.", "He saw many chains."], ans: 1, type: "Detail", exp: "是询问训练员后，男人才知道背后的原因。" },
+        { q: "In this passage, \"break free\" is closest in meaning to ____.", options: ["be caught", "get away", "keep quiet", "fall asleep"], ans: 1, type: "Vocabulary", exp: "break free 指“挣脱、逃开”，与 get away 最接近。" },
+        { q: "The phrase \"beyond our ability\" means ____.", options: ["easy for us", "within our plan", "too difficult for us now", "very interesting to us"], ans: 2, type: "Vocabulary", exp: "表示“超出我们的能力范围”。" },
+        { q: "Which word from the bank can form both an adjective and a noun pair?", options: ["able -> ability", "tie -> tyingly", "speech -> speechly", "success -> successed"], ans: 0, type: "Word Form", exp: "able/ability 是规范词族变化；其余选项形式错误。" },
+        { q: "Choose the correct sentence.", options: ["He can succeeds in life.", "He can succeed in life.", "He can success in life.", "He can successful in life."], ans: 1, type: "Grammar", exp: "情态动词 can 后接动词原形 succeed。" },
+        { q: "Which is the best title for the story?", options: ["A Strong Rope", "A Talking Trainer", "The Elephant and the Invisible Chain", "How to Build a Camp"], ans: 2, type: "Main Idea", exp: "“看不见的锁链”最能概括心理束缚主题。" },
+        { q: "What life lesson can we learn?", options: ["Never trust trainers.", "Physical power is useless.", "Past failures should not define the future.", "Animals are smarter than humans."], ans: 2, type: "Inference", exp: "文章结尾明确强调：过去失败不等于未来不能成功。" },
+        { q: "Which structure is correct?", options: ["part of learn", "part of learning", "part to learn", "part for learn"], ans: 1, type: "Grammar", exp: "介词 of 后接名词或动名词，故用 learning。" },
+        { q: "Fill in: Only by trying again can we ____ in the future.", options: ["success", "successful", "succeed", "successfully"], ans: 2, type: "Word Form", exp: "can 后用动词原形 succeed；其他词性不对。" }
+    ];
+
+    let currentStep = 0;
+    const totalSteps = 12; // 0 Intro, 1-10 learning, 11 review, 12 quiz
+
+    const articlePane = document.getElementById("articlePane");
+    const explainPane = document.getElementById("explainPane");
+    const introOverlay = document.getElementById("introOverlay");
+    const quizOverlay = document.getElementById("quizOverlay");
+    const progressText = document.getElementById("progressText");
+    const AZURE_KEY = "DKRXk8ueSfo5NdIOMqFRTCAfpeGDezJ3Snf5K8gGgtyqxiWdugLzJQQJ99BLACHYHv6XJ3w3AAAYACOGUYP9";
+    const AZURE_REGION = "eastus2";
+    let currentAudio = null;
+
+    function init() {
+        renderArticle();
+        renderQuiz();
+        updateView();
+    }
+
+    function renderArticle() {
+        let html = wordBankHtml + "<div style='margin-top:20px;'>";
+        textSegments.forEach((seg, index) => {
+            if (seg.type === "text") {
+                html += `<div id="seg-${index}" class="segment">${seg.text}</div>`;
+            } else {
+                html += `<div id="seg-${index}" class="segment" data-qid="${seg.id}" onclick="jumpToQ(${index}, event)">
+                    ${seg.pre}<span id="blank-${seg.id}" class="blank-placeholder">[${seg.id}]</span>${seg.post}
+                </div>`;
+            }
+        });
+        html += "</div>";
+        articlePane.innerHTML = html;
+    }
+
+    function renderQuiz() {
+        const container = document.getElementById("quizContainer");
+        quizItems.forEach((item, idx) => {
+            const optionsHTML = item.options.map((opt, optIdx) => `
+                <label class="option-label">
+                    <input type="radio" name="q${idx}" onclick="checkQuiz(${idx}, ${optIdx}, ${item.ans})">
+                    ${opt}
+                </label>
+            `).join("");
+            container.innerHTML += `
+                <div class="quiz-card">
+                    <div class="quiz-q">${idx + 1}. ${item.q}<span class="quiz-meta">${item.type}</span></div>
+                    <div>${optionsHTML}</div>
+                    <div id="feedback-${idx}" class="feedback"></div>
+                </div>
+            `;
+        });
+    }
+
+    window.jumpToQ = function(domIndex, event) {
+        event.stopPropagation();
+        if (currentStep === 0 || currentStep >= 11) return;
+        const seg = textSegments[domIndex];
+        if (seg && seg.id) {
+            currentStep = seg.id;
+            updateView();
+        }
+    };
+
+    window.changeStep = function(dir) {
+        const newStep = currentStep + dir;
+        if (newStep < 0 || newStep > totalSteps) return;
+        currentStep = newStep;
+        updateView();
+    };
+
+    window.checkQuiz = function(qIdx, userAns, correctAns) {
+        const feedbackEl = document.getElementById(`feedback-${qIdx}`);
+        const inputs = document.getElementsByName(`q${qIdx}`);
+        inputs.forEach(i => i.disabled = true);
+        feedbackEl.style.display = "block";
+        if (userAns === correctAns) {
+            feedbackEl.className = "feedback correct";
+            feedbackEl.innerHTML = `✅ <strong>正确!</strong><br>${quizItems[qIdx].exp}`;
+        } else {
+            feedbackEl.className = "feedback wrong";
+            feedbackEl.innerHTML = `❌ <strong>错误</strong><br>${quizItems[qIdx].exp}`;
+        }
+    };
+
+    function updateView() {
+        introOverlay.classList.remove("active");
+        quizOverlay.classList.remove("active");
+
+        if (currentStep === 0) {
+            introOverlay.classList.add("active");
+            progressText.innerText = "Intro";
+            return;
+        }
+        if (currentStep === 12) {
+            quizOverlay.classList.add("active");
+            progressText.innerText = "Final Quiz";
+            return;
+        }
+
+        const isReview = (currentStep === 11);
+        const targetQId = currentStep;
+
+        const allSegments = document.querySelectorAll(".segment");
+        allSegments.forEach(el => {
+            el.classList.remove("active");
+            el.classList.add("dimmed");
+            const segQId = parseInt(el.dataset.qid);
+            if (segQId && segQId < targetQId) {
+                const blank = document.getElementById(`blank-${segQId}`);
+                const data = textSegments.find(s => s.id === segQId);
+                blank.innerHTML = data.word;
+                blank.className = "filled-word";
+            }
+        });
+
+        if (isReview) {
+            progressText.innerText = "Review";
+            allSegments.forEach(el => {
+                el.classList.remove("dimmed", "active");
+                const segQId = parseInt(el.dataset.qid);
+                if (segQId) {
+                    const blank = document.getElementById(`blank-${segQId}`);
+                    const data = textSegments.find(s => s.id === segQId);
+                    blank.innerHTML = data.word;
+                    blank.className = "filled-word";
+                }
+            });
+            articlePane.scrollTop = 0;
+            explainPane.innerHTML = `
+                <div class="info-box" style="text-align:center;padding-top:36px;cursor:default;">
+                    <h2 style="color:var(--primary);font-size:1.75rem;">🎉 恭喜完成!</h2>
+                    <p style="color:#607d8b;margin-bottom:26px;">你已完成 2020 选词填空分步学习。</p>
+                    <button class="start-btn" onclick="readFullText()" style="font-size:1rem;padding:10px 30px;margin-right:10px;background:#90caf9;">
+                        🔊 全文朗读
+                    </button>
+                    <button class="start-btn" onclick="changeStep(1)" style="font-size:1.1rem;padding:13px 36px;animation:bounce 2s infinite;">
+                        👉 进入综合测试
+                    </button>
+                </div>
+            `;
+            explainPane.onclick = null;
+            return;
+        }
+
+        progressText.innerText = `Q ${targetQId} / 10`;
+        let activeDomId = "";
+        textSegments.forEach((seg, idx) => {
+            if (seg.id === targetQId) activeDomId = `seg-${idx}`;
+        });
+
+        const activeEl = document.getElementById(activeDomId);
+        if (activeEl) {
+            activeEl.classList.remove("dimmed");
+            activeEl.classList.add("active");
+            activeEl.scrollIntoView({ behavior: "smooth", block: "center", inline: "center" });
+            const blank = document.getElementById(`blank-${targetQId}`);
+            blank.innerHTML = "_______";
+            blank.className = "blank-placeholder";
+        }
+
+        renderExplanation(targetQId);
+        explainPane.onclick = function() { changeStep(1); };
+    }
+
+    function renderExplanation(qId) {
+        const data = explanations[qId];
+        const segData = textSegments.find(s => s.id === qId);
+        explainPane.innerHTML = `
+            <div class="info-box">
+                <div style="display:flex;justify-content:space-between;align-items:center;">
+                    <span style="background:var(--primary);color:#fff;padding:2px 8px;border-radius:3px;font-size:0.8rem;">Q${qId}</span>
+                    <div class="next-hint">点击继续 ➔</div>
+                </div>
+                <h2 style="margin:10px 0;color:var(--accent);">答案: ${segData.word}</h2>
+                <p style="color:#607d8b;font-size:0.9rem;">原词: <strong>${segData.orig}</strong></p>
+                <p style="margin-top:12px;line-height:1.6;">${data.analysis}</p>
+            </div>
+            <div class="info-box grammar-tag">
+                <h3>📘 ${data.grammar}</h3>
+                <p>${data.g_content}</p>
+            </div>
+            <div class="info-box golden-tag">
+                <h3>✨ 核心例句</h3>
+                <p>${data.golden}</p>
+            </div>
+            <div class="info-box link-tag">
+                <h3>🔗 知识拓展</h3>
+                <p>${data.link}</p>
+            </div>
+        `;
+        explainPane.scrollTop = 0;
+    }
+
+    async function playAzureTTS(text) {
+        if (currentAudio) {
+            currentAudio.pause();
+            currentAudio = null;
+        }
+        try {
+            const url = `https://${AZURE_REGION}.tts.speech.microsoft.com/cognitiveservices/v1`;
+            const ssml = `
+                <speak version='1.0' xml:lang='en-US'>
+                    <voice xml:lang='en-US' xml:gender='Female' name='en-US-AvaNeural'>
+                        ${text}
+                    </voice>
+                </speak>`;
+            const response = await fetch(url, {
+                method: "POST",
+                headers: {
+                    "Ocp-Apim-Subscription-Key": AZURE_KEY,
+                    "Content-Type": "application/ssml+xml",
+                    "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3"
+                },
+                body: ssml
+            });
+            if (!response.ok) throw new Error(`Azure API Error: ${response.statusText}`);
+            const blob = await response.blob();
+            const audioUrl = URL.createObjectURL(blob);
+            currentAudio = new Audio(audioUrl);
+            currentAudio.play();
+        } catch (error) {
+            console.error("TTS Error:", error);
+            alert("Azure 语音播放失败，请检查网络或密钥配置。");
+        }
+    }
+
+    function getFullText() {
+        return textSegments.map(seg => {
+            if (seg.type === "text") return seg.text;
+            return `${seg.pre || ""}${seg.word}${seg.post || ""}`;
+        }).join(" ").replace(/\s+/g, " ").trim();
+    }
+
+    window.readFullText = async function() {
+        const text = getFullText();
+        await playAzureTTS(text);
+    };
+
+    init();
+</script>
+</body>
+</html>

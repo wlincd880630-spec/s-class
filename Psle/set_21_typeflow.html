@@ -1,0 +1,3778 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>按题型学习 · 套题</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,600;0,9..40,700;1,9..40,400&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <style>
+    :root {
+      --bg: #eef3f0;
+      --card: #fbfcfa;
+      --ink: #1c2420;
+      --muted: #5c6860;
+      --accent: #2d6a4f;
+      --accent-soft: #95d5b2;
+      --border: #c8d5cc;
+      --ok: #1b7a3d;
+      --ok-bg: #d8f5e0;
+      --bad: #b42318;
+      --bad-bg: #fde8e6;
+      --warn: #9a6b2d;
+      --warn-bg: #fff4e0;
+      --shadow: rgba(28, 36, 32, 0.07);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "DM Sans", system-ui, sans-serif;
+      font-size: 16px;
+      line-height: 1.55;
+      color: var(--ink);
+      background: linear-gradient(145deg, #e4ebe6 0%, var(--bg) 40%, #dde8e2 100%);
+      min-height: 100vh;
+    }
+    .view { display: none; max-width: 920px; margin: 0 auto; padding: 1rem 1rem 3rem; }
+    .view.active { display: block; }
+    #view-quiz.view-cloze-wide,
+    #view-quiz.view-reading-wide {
+      max-width: 1220px;
+    }
+    .reading-quiz-layout {
+      display: grid;
+      grid-template-columns: minmax(320px, 1fr) minmax(280px, 400px);
+      gap: 1.35rem;
+      align-items: start;
+      margin-bottom: 1.5rem;
+    }
+    @media (max-width: 880px) {
+      .reading-quiz-layout {
+        grid-template-columns: 1fr;
+      }
+      .reading-questions-col {
+        position: static !important;
+        max-height: none !important;
+      }
+      .reading-passage-card {
+        position: static !important;
+        max-height: none !important;
+      }
+    }
+    .reading-passage-col { min-width: 0; }
+    .reading-passage-card {
+      position: sticky;
+      top: 4.5rem;
+      max-height: calc(100vh - 5.5rem);
+      overflow: auto;
+    }
+    .reading-passage-card h2 { margin-top: 0; }
+    .reading-passage-text {
+      font-family: "Literata", Georgia, serif;
+      white-space: normal;
+      font-size: 1.24rem;
+      line-height: 1.82;
+      letter-spacing: 0.01em;
+      color: var(--ink);
+      background: #f7faf7;
+      padding: 1.1rem 1.2rem;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+    }
+    .reading-questions-col {
+      position: sticky;
+      top: 4.5rem;
+      max-height: calc(100vh - 5.5rem);
+      overflow-y: auto;
+      padding-right: 0.25rem;
+    }
+    .reading-q-card {
+      padding: 0.75rem 0.9rem;
+      margin-bottom: 0.75rem;
+    }
+    .reading-q-card .q-head { margin-bottom: 0.45rem; }
+    .reading-learn-layout {
+      display: grid;
+      grid-template-columns: minmax(300px, 1fr) minmax(280px, 1fr);
+      gap: 1.25rem;
+      align-items: start;
+      margin-bottom: 1.25rem;
+    }
+    @media (max-width: 880px) {
+      .reading-learn-layout {
+        grid-template-columns: 1fr;
+      }
+      .reading-learn-passage {
+        position: static !important;
+        max-height: none !important;
+      }
+    }
+    .reading-learn-passage {
+      position: sticky;
+      top: 4.5rem;
+      max-height: calc(100vh - 5.5rem);
+      overflow: auto;
+    }
+    .cloze-quiz-layout {
+      display: grid;
+      grid-template-columns: minmax(320px, 1fr) minmax(280px, 400px);
+      gap: 1.35rem;
+      align-items: start;
+    }
+    @media (max-width: 880px) {
+      .cloze-quiz-layout {
+        grid-template-columns: 1fr;
+      }
+      .cloze-options-col {
+        position: static !important;
+        max-height: none !important;
+      }
+    }
+    .cloze-passage-col {
+      min-width: 0;
+    }
+    .cloze-passage-card {
+      position: sticky;
+      top: 4.5rem;
+      max-height: calc(100vh - 5.5rem);
+      overflow: auto;
+    }
+    .cloze-passage-text {
+      font-family: "Literata", Georgia, serif;
+      white-space: normal;
+      font-size: 1.22rem;
+      line-height: 1.82;
+      letter-spacing: 0.01em;
+      color: var(--ink);
+      background: #f7faf7;
+      padding: 1.1rem 1.2rem;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+    }
+    .cloze-inline-fill-unit .cloze-passage-card {
+      position: static;
+      max-height: none;
+    }
+    .cloze-inline-blank .blank-input {
+      min-width: 4.2em;
+      max-width: 12em;
+      vertical-align: baseline;
+    }
+    .cloze-options-col {
+      position: sticky;
+      top: 4.5rem;
+      max-height: calc(100vh - 5.5rem);
+      overflow-y: auto;
+      padding-right: 0.25rem;
+    }
+    .cloze-opt-card {
+      padding: 0.75rem 0.9rem;
+      margin-bottom: 0.75rem;
+    }
+    /* 补全对话（题干仅为题号占位）：不显示「第 n 空」与说明段落，仅题号 + 选项 */
+    .cloze-dialogue-gap-card .q {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0.5rem;
+    }
+    .cloze-dialogue-gap-badge {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin: 0;
+      line-height: 1.3;
+    }
+    /* 阅读：选项纵向单列，A→B→C 自上而下 */
+    .reading-q-card .opts {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.45rem;
+      align-items: start;
+    }
+    .reading-q-card .opts label {
+      padding: 0.35rem 0.45rem;
+      font-size: 0.98rem;
+      margin: 0;
+      min-width: 0;
+    }
+    .reading-q-card .opts.opts-cols-2,
+    .reading-q-card .opts.opts-cols-3,
+    .reading-q-card .opts.opts-cols-4 {
+      grid-template-columns: 1fr;
+    }
+    .reading-q-card .opts.opts-bank {
+      grid-template-columns: 1fr;
+    }
+    /* 完形：题号与 A–D 同一行横向排列、垂直对齐 */
+    .cloze-opt-card .q {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.45rem 0.75rem;
+      margin: 0.55rem 0 0.7rem;
+      padding-left: 0.55rem;
+    }
+    .cloze-opt-card .q-head {
+      margin-bottom: 0;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.35rem 0.5rem;
+    }
+    .cloze-opt-card .opts {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      column-gap: 0.55rem;
+      row-gap: 0.35rem;
+      align-items: start;
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+    .cloze-opt-card .opts label {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.35rem;
+      padding: 0.2rem 0.25rem;
+      font-size: 0.98rem;
+      margin: 0;
+      min-width: 0;
+    }
+    .cloze-opt-card .opts label strong {
+      display: inline-block;
+      min-width: 1.15em;
+      flex-shrink: 0;
+      font-weight: 700;
+    }
+    .cloze-opt-card .opts input {
+      margin-top: 0.22em;
+      flex-shrink: 0;
+    }
+    .cloze-opt-card .opts.opts-cols-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .cloze-opt-card .opts.opts-cols-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    .cloze-opt-card .opts.opts-bank {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(11.5rem, 1fr));
+      column-gap: 0.55rem;
+      row-gap: 0.35rem;
+      align-items: start;
+    }
+    /* 完形填空（练习页）：A B C 自上而下纵向排列 */
+    .cloze-opt-card .opts.opts-cloze-abcd {
+      display: grid;
+      grid-template-columns: 1fr;
+      row-gap: 0.35rem;
+      align-items: start;
+      justify-items: stretch;
+      flex: 1 1 100%;
+      width: 100%;
+      min-width: 0;
+    }
+    .cloze-opt-abcd.cloze-opt-abcd-full {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.35rem;
+      margin: 0;
+      padding: 0.25rem 0.2rem;
+      min-width: 0;
+    }
+    .cloze-opt-abcd.cloze-opt-abcd-full input {
+      margin-top: 0.22em;
+      flex-shrink: 0;
+    }
+    .cloze-opt-abcd.cloze-opt-abcd-full span {
+      min-width: 0;
+      font-size: 0.98rem;
+      line-height: 1.35;
+    }
+    .cloze-opt-abcd.cloze-opt-abcd-full strong {
+      font-weight: 700;
+    }
+    .cloze-learn-block .cloze-learn-passage {
+      font-family: "Literata", Georgia, serif;
+      font-size: 1.14rem;
+      line-height: 1.85;
+      letter-spacing: 0.01em;
+      color: var(--ink);
+      background: #f7faf7;
+      padding: 1rem 1.15rem;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      margin-top: 0.25rem;
+    }
+    .cloze-filled-ans {
+      font-weight: 700;
+      color: #0f3d26;
+      background: linear-gradient(180deg, transparent 58%, rgba(149, 213, 178, 0.65) 58%);
+      padding: 0 0.15em;
+      border-radius: 4px;
+      box-decoration-break: clone;
+      -webkit-box-decoration-break: clone;
+    }
+    h2.cloze-learn-subhd {
+      margin: 1.35rem 0 0.5rem;
+      font-size: 1.08rem;
+      color: var(--accent);
+      font-family: "Literata", Georgia, serif;
+      border-bottom: 2px solid rgba(45, 106, 79, 0.2);
+      padding-bottom: 0.35rem;
+    }
+    header.flow {
+      position: sticky; top: 0; z-index: 40;
+      display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1rem;
+      padding: 0.65rem 1rem; margin: -1rem -1rem 1rem;
+      background: rgba(251, 252, 250, 0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+    header.flow h1 {
+      margin: 0; flex: 1 1 200px; font-size: 1.05rem; font-weight: 700;
+      color: var(--accent); font-family: "Literata", Georgia, serif;
+    }
+    .timer {
+      font-variant-numeric: tabular-nums; font-weight: 600; color: var(--muted);
+      padding: 0.35rem 0.75rem; background: #fff; border-radius: 10px; border: 1px solid var(--border);
+    }
+    button.btn {
+      font: inherit; cursor: pointer; border: none; border-radius: 10px;
+      padding: 0.45rem 1rem; font-weight: 600;
+    }
+    button.primary { background: linear-gradient(135deg, var(--accent), #1b4d3a); color: #fff; }
+    button.secondary { background: #fff; border: 1px solid var(--border); color: var(--ink); }
+    button.ghost { background: transparent; border: 1px dashed var(--border); }
+    button:disabled { opacity: 0.45; cursor: not-allowed; }
+    .type-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1rem; margin-top: 0.5rem;
+    }
+    .type-card {
+      background: var(--card); border: 1px solid var(--border); border-radius: 18px;
+      padding: 1.15rem 1.2rem; box-shadow: 0 12px 36px var(--shadow);
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .type-card:hover { transform: translateY(-2px); box-shadow: 0 16px 44px var(--shadow); }
+    .type-card h2 { margin: 0 0 0.35rem; font-size: 1.1rem; color: var(--accent); font-family: "Literata", serif; }
+    .type-card .meta { font-size: 0.88rem; color: var(--muted); margin-bottom: 0.85rem; }
+    .card {
+      background: var(--card); border: 1px solid var(--border); border-radius: 16px;
+      padding: 1rem 1.15rem; margin-bottom: 1.1rem; box-shadow: 0 8px 28px var(--shadow);
+    }
+    .card h2 { margin: 0 0 0.65rem; font-size: 1.05rem; color: var(--accent); font-family: "Literata", serif; border-bottom: 2px solid rgba(45, 106, 79, 0.15); padding-bottom: 0.35rem; }
+    .passage {
+      font-family: "Literata", Georgia, serif; white-space: normal; font-size: 0.95rem;
+      line-height: 1.65; background: #f4f8f5; padding: 0.85rem 1rem; border-radius: 12px;
+      border: 1px solid var(--border); margin-bottom: 1rem;
+    }
+    /* 段与段之间约一整行空白（与各行 line-height 对齐） */
+    .passage-para {
+      margin: 0;
+      line-height: inherit;
+    }
+    .reading-passage-text .passage-para,
+    .cloze-passage-text .passage-para {
+      margin-bottom: 1.82em;
+    }
+    .passage > .passage-para {
+      margin-bottom: 1.65em;
+    }
+    .cloze-learn-passage .passage-para {
+      margin-bottom: 1.85em;
+    }
+    .passage-para:last-child {
+      margin-bottom: 0 !important;
+    }
+    .reading-passage-text > .passage-para:first-child,
+    .cloze-passage-text > .passage-para:first-child,
+    .passage > .passage-para:first-child {
+      margin-top: 0;
+    }
+    .q { margin: 1rem 0 1.25rem; padding-left: 0.75rem; border-left: 4px solid rgba(45, 106, 79, 0.3); }
+    .q-head { display: flex; flex-wrap: wrap; gap: 0.35rem 0.6rem; align-items: baseline; margin-bottom: 0.4rem; }
+    .q-num { font-weight: 700; color: var(--accent); }
+    .tag { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); background: #e8efe9; padding: 0.12rem 0.45rem; border-radius: 4px; }
+    .stem { font-family: "Literata", Georgia, serif; margin: 0.35rem 0 0.5rem; }
+    .phonetic-ul {
+      text-decoration: underline;
+      text-underline-offset: 0.15em;
+      text-decoration-thickness: 0.09em;
+      font-weight: 600;
+    }
+    .writing-stem { margin: 0.35rem 0 0.6rem; }
+    .writing-stem-text {
+      font-family: "Literata", Georgia, serif;
+      line-height: 1.6;
+      margin: 0.4rem 0;
+    }
+    .writing-prompt-table {
+      width: 100%;
+      max-width: 36rem;
+      border-collapse: collapse;
+      margin: 0.55rem 0 0.75rem;
+      font-family: "Literata", Georgia, serif;
+      font-size: 0.98rem;
+      line-height: 1.45;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .writing-prompt-table th,
+    .writing-prompt-table td {
+      border: 1px solid var(--border);
+      padding: 0.45rem 0.65rem;
+      text-align: left;
+      vertical-align: top;
+    }
+    .writing-prompt-table thead th {
+      background: rgba(45, 106, 79, 0.08);
+      font-weight: 700;
+      color: var(--accent);
+    }
+    .writing-prompt-table tbody tr:nth-child(even) {
+      background: rgba(45, 106, 79, 0.03);
+    }
+    .exam-writing-stem-wrap .writing-prompt-table {
+      max-width: none;
+    }
+    .reading-passage-text .writing-prompt-table {
+      max-width: none;
+    }
+    .reading-passage-text .writing-section-from-instruction {
+      margin: 0.35rem 0 0.5rem;
+    }
+    .opts label {
+      display: flex; gap: 0.5rem; align-items: flex-start; padding: 0.4rem 0.5rem;
+      border-radius: 8px; cursor: pointer;
+    }
+    .opts label:hover { background: rgba(45, 106, 79, 0.06); }
+    .opts input { margin-top: 0.35rem; }
+    .card.q-block:not(.cloze-opt-card):not(.reading-q-card) .opts.opts-cols-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.4rem 1rem;
+      align-items: start;
+    }
+    .card.q-block:not(.cloze-opt-card):not(.reading-q-card) .opts.opts-cols-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.4rem 0.85rem;
+      align-items: start;
+    }
+    .card.q-block:not(.cloze-opt-card):not(.reading-q-card) .opts.opts-cols-4 {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0.35rem 0.75rem;
+      align-items: start;
+    }
+    .blank-line { display: inline-block; min-width: 5rem; border-bottom: 2px solid var(--accent-soft); margin: 0 0.12rem; }
+    .blank-line input { width: 100%; border: none; background: transparent; font: inherit; padding: 0.12rem; }
+    .area { width: 100%; min-height: 6rem; font: inherit; padding: 0.55rem 0.65rem; border-radius: 10px; border: 1px solid var(--border); }
+    .pill-ok { background: var(--ok-bg); color: var(--ok); font-weight: 700; padding: 0.2rem 0.55rem; border-radius: 8px; font-size: 0.82rem; }
+    .pill-bad { background: var(--bad-bg); color: var(--bad); font-weight: 700; padding: 0.2rem 0.55rem; border-radius: 8px; font-size: 0.82rem; }
+    .pill-open { background: var(--warn-bg); color: var(--warn); font-weight: 700; padding: 0.2rem 0.55rem; border-radius: 8px; font-size: 0.82rem; }
+    .ans-row { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; margin: 0.5rem 0; align-items: flex-start; }
+    .ans-box { flex: 1 1 220px; padding: 0.5rem 0.65rem; border-radius: 10px; font-size: 0.92rem; }
+    .ans-you { border: 2px solid var(--bad); background: #fff8f7; }
+    .ans-you.ok { border-color: var(--ok); background: #f4fff7; }
+    .ans-key { border: 2px solid var(--accent-soft); background: #f0faf3; }
+    .toolbar { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.5rem 0; }
+    .panel { display: none; margin-top: 0.5rem; padding: 0.75rem; background: #f4faf6; border-radius: 12px; border: 1px solid #b8d4c4; }
+    .panel.open { display: block; }
+    .md { font-size: 0.92rem; line-height: 1.6; }
+    .md p { margin: 0.35rem 0; }
+    .soc-track { margin: 0.75rem 0; padding: 0.75rem; background: #fff; border-radius: 12px; border: 1px solid var(--border); }
+    .soc-track h4 { margin: 0 0 0.5rem; font-size: 0.95rem; color: var(--accent); }
+    .soc-step { margin: 0.5rem 0; padding: 0.5rem 0.6rem; background: #fafcfb; border-radius: 8px; border-left: 3px solid var(--accent-soft); }
+    .soc-step .qtext { font-weight: 600; margin-bottom: 0.25rem; }
+    .hint { font-size: 0.88rem; color: var(--muted); display: none; margin-top: 0.35rem; }
+    .hint.show { display: block; }
+    .takeaway { font-size: 0.88rem; color: var(--ok); margin-top: 0.35rem; font-weight: 600; display: none; }
+    .takeaway.show { display: block; }
+    .wlink {
+      cursor: pointer; border-bottom: 1px dotted var(--accent); color: #1e5c40;
+      user-select: text; -webkit-user-select: text;
+    }
+    #modal {
+      display: none; position: fixed; inset: 0; z-index: 100000;
+      background: rgba(0,0,0,0.35); align-items: center; justify-content: center; padding: 1rem;
+    }
+    #modal.open { display: flex; }
+    #modal .box {
+      background: var(--card); max-width: 440px; width: 100%; border-radius: 16px;
+      padding: 1.1rem; border: 1px solid var(--border);
+    }
+    .breadcrumb { font-size: 0.85rem; color: var(--muted); margin-bottom: 0.75rem; }
+    .muted { color: var(--muted); font-size: 0.9rem; }
+    .opt-review { font-size: 0.88rem; margin: 0.35rem 0 0.5rem; padding: 0.45rem 0.55rem; background: #f7faf8; border-radius: 8px; border: 1px solid #dce8e0; }
+
+    #printHost {
+      position: absolute;
+      width: 0;
+      height: 0;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+    }
+    html.pdf-printing #printHost {
+      position: relative;
+      width: auto;
+      height: auto;
+      overflow: visible;
+      clip: auto;
+      max-width: 210mm;
+      margin: 0 auto;
+      padding: 0 10mm;
+      font-size: 11pt;
+      line-height: 1.45;
+      color: #000;
+      background: #fff;
+    }
+    html.pdf-printing .view,
+    html.pdf-printing #modal {
+      display: none !important;
+    }
+
+    /* —— 标准纸笔试卷版式（仅 #printHost 内，与网页练习样式无关）—— */
+    .exam-paper-doc {
+      font-family: "Times New Roman", "SimSun", "Songti SC", serif;
+      font-size: 11pt;
+      line-height: 1.55;
+      color: #000;
+      text-align: left;
+    }
+    .exam-paper-masthead {
+      text-align: center;
+      margin-bottom: 8mm;
+      break-after: page;
+      page-break-after: always;
+    }
+    .exam-paper-title {
+      font-family: "SimHei", "SimSun", "Songti SC", serif;
+      font-size: 16pt;
+      font-weight: 700;
+      margin: 0 0 4mm;
+      letter-spacing: 0.12em;
+    }
+    .exam-paper-meta-line {
+      font-size: 11pt;
+      margin: 2mm 0 5mm;
+    }
+    .exam-meta-gap { margin-left: 2em; }
+    .exam-paper-student-line {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2em 3em;
+      font-size: 10.5pt;
+      margin: 4mm 0 6mm;
+      padding: 3mm 0;
+      border-top: 1px solid #000;
+      border-bottom: 1px solid #000;
+    }
+    /* 不同题型各占新页（封面后第一题型自然从新页起，其后每题型强制分页） */
+    .exam-paper-section {
+      margin-top: 0;
+      padding-top: 5mm;
+      border-top: 1.5pt solid #000;
+      break-inside: auto;
+    }
+    .exam-paper-section:not(:first-of-type) {
+      break-before: page;
+      page-break-before: always;
+    }
+    .exam-paper-section:first-of-type {
+      border-top: none;
+      padding-top: 0;
+    }
+    .exam-big-title {
+      font-family: "SimHei", "SimSun", "Songti SC", serif;
+      font-size: 12pt;
+      font-weight: 700;
+      margin: 0 0 3mm;
+      text-align: left;
+    }
+    .exam-direction {
+      font-family: "SimSun", "Songti SC", serif;
+      font-size: 10.5pt;
+      margin: 0 0 2.5mm;
+      text-indent: 2em;
+    }
+    .exam-subhead {
+      font-weight: 700;
+      font-size: 11pt;
+      margin: 2mm 0 1.5mm;
+    }
+    /* 小标题/说明与正文框不分页（避免「标题在上页、正文在下页」） */
+    .exam-passage-titled-wrap {
+      break-inside: avoid;
+      page-break-inside: avoid;
+      margin-bottom: 4mm;
+    }
+    .exam-passage-titled-wrap .exam-direction {
+      margin-bottom: 1mm;
+    }
+    .exam-passage-titled-wrap .exam-subhead {
+      margin-bottom: 1mm;
+    }
+    /* 阅读/完形文章整块不跨页（过长时由浏览器在块前整体移到下一页） */
+    .exam-passage-block {
+      margin: 2mm 0 4mm;
+      padding: 3mm 4mm;
+      border: 1px solid #222;
+      text-align: justify;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+    .exam-passage-block .exam-para {
+      margin: 0 0 0.55em;
+      text-indent: 2em;
+    }
+    .exam-passage-block .exam-para:first-child { margin-top: 0; }
+    .exam-passage-block .exam-para:last-child { margin-bottom: 0; }
+    .exam-word-bank {
+      margin: 2mm 0 4mm;
+      padding: 3mm 4mm;
+      border: 1px dashed #000;
+      font-size: 10.5pt;
+      line-height: 1.6;
+      break-inside: auto;
+      page-break-inside: auto;
+    }
+    .exam-reading-unit {
+      margin-bottom: 4mm;
+      break-inside: auto;
+      page-break-inside: auto;
+    }
+    /* 同一题型内：每道小题（题干+选项）尽量不跨页 */
+    .exam-item {
+      margin: 0 0 3.5mm;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+    .exam-item .exam-item-row,
+    .exam-item .exam-opts-row {
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+    .exam-item-row {
+      display: block;
+      margin: 0;
+    }
+    .exam-n {
+      font-weight: 700;
+      margin-right: 0.35em;
+    }
+    .exam-paren { letter-spacing: 0.2em; margin-right: 0.25em; }
+    .exam-blank {
+      border-bottom: 1px solid #000;
+      padding: 0 1.2em;
+      margin: 0 0.15em;
+    }
+    /* 阅读/单选等：默认 2×2；按选项数单列等分对齐 */
+    .exam-opts-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      column-gap: 1.5em;
+      row-gap: 0.3em;
+      margin: 1mm 0 0 2.2em;
+      font-size: 10.5pt;
+      align-items: start;
+    }
+    .exam-opts-row.exam-opts-cols-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .exam-opts-row.exam-opts-cols-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    .exam-opts-row.exam-opts-cols-4 {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+    .exam-opts-row.exam-opts-bank {
+      grid-template-columns: repeat(auto-fill, minmax(11em, 1fr));
+    }
+    /* 阅读理解 PDF：选项纵向排列，字母与正文对齐，避免三列过窄、英文被拆字换行 */
+    .exam-item-reading .exam-opts-row {
+      display: block;
+      margin: 1.5mm 0 0 2em;
+    }
+    .exam-item-reading .exam-opts-row.exam-opts-cols-2,
+    .exam-item-reading .exam-opts-row.exam-opts-cols-3,
+    .exam-item-reading .exam-opts-row.exam-opts-cols-4 {
+      display: block;
+    }
+    .exam-item-reading .exam-opt-chip {
+      display: grid;
+      grid-template-columns: 1.65em minmax(0, 1fr);
+      column-gap: 0.45em;
+      align-items: start;
+      margin: 0 0 0.55em;
+      padding: 0;
+      line-height: 1.5;
+      text-align: left;
+      min-width: 0;
+    }
+    .exam-item-reading .exam-opt-chip:last-child {
+      margin-bottom: 0;
+    }
+    .exam-item-reading .exam-opt-chip b {
+      margin-right: 0;
+      font-weight: 700;
+    }
+    /* 补全对话 PDF：题干已在左侧对话中，不重复「51.（ ）」等题目行，仅题号 + 方框选项 */
+    .exam-item-cloze.exam-cloze-dialogue-gap {
+      display: block;
+    }
+    .exam-cloze-dialogue-gap {
+      margin: 0.55em 0 0.65em;
+    }
+    .exam-cloze-dialogue-gap .exam-dialogue-gap-num {
+      display: block;
+      font-weight: 700;
+      margin: 0 0 0.35em 0.15em;
+      font-size: 11pt;
+    }
+    /* 完形 PDF：题号与 A–D 同一行横向排列 */
+    .exam-item-cloze {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      column-gap: 1em;
+      row-gap: 0.6mm;
+    }
+    .exam-item-cloze .exam-item-row {
+      display: inline-flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.2em 0.45em;
+    }
+    .exam-item-cloze .exam-opts-row {
+      display: grid;
+      column-gap: 0.85em;
+      row-gap: 0.2em;
+      align-items: start;
+      flex: 1 1 auto;
+      min-width: 0;
+      margin: 0;
+    }
+    .exam-item-cloze .exam-opts-row.exam-opts-cols-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .exam-item-cloze .exam-opts-row.exam-opts-cols-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    .exam-item-cloze .exam-opts-row.exam-opts-cols-4 {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+    .exam-item-cloze .exam-opts-row.exam-opts-bank {
+      grid-template-columns: repeat(auto-fill, minmax(10.5em, 1fr));
+    }
+    /* 完形 PDF：整卷表格，题号与 A/B/C 同一行；各题 A 列、B 列、C 列分别左对齐 */
+    .exam-cloze-pdf-grid {
+      display: grid;
+      grid-template-columns: minmax(2.85em, auto) repeat(3, minmax(0, 1fr));
+      column-gap: 0.75em;
+      row-gap: 0.5em;
+      margin: 0.55em 0 0.85em;
+      align-items: start;
+    }
+    .exam-cloze-pdf-grid.exam-cloze-pdf-grid-4opt {
+      grid-template-columns: minmax(2.85em, auto) repeat(4, minmax(0, 1fr));
+    }
+    .exam-cloze-pdf-grid.exam-cloze-pdf-grid-5opt {
+      grid-template-columns: minmax(2.85em, auto) repeat(5, minmax(0, 1fr));
+    }
+    .exam-cloze-pdf-grid.exam-cloze-pdf-grid-6opt {
+      grid-template-columns: minmax(2.85em, auto) repeat(6, minmax(0, 1fr));
+    }
+    .exam-cloze-pdf-grid.exam-cloze-pdf-grid-7opt {
+      grid-template-columns: minmax(2.85em, auto) repeat(7, minmax(0, 1fr));
+    }
+    .exam-cloze-pdf-num {
+      text-align: left;
+      white-space: nowrap;
+      font-weight: 600;
+    }
+    .exam-cloze-pdf-num .exam-n {
+      font-weight: 700;
+    }
+    .exam-cloze-pdf-opt {
+      text-align: left;
+      min-width: 0;
+      line-height: 1.45;
+    }
+    .exam-cloze-pdf-opt b {
+      font-weight: 700;
+      margin-right: 0.25em;
+    }
+    .exam-cloze-pdf-opt-empty {
+      visibility: hidden;
+      pointer-events: none;
+      min-height: 1em;
+    }
+    .exam-item-cloze .exam-cloze-pdf-grid {
+      flex: 1 1 100%;
+      width: 100%;
+    }
+    .exam-item-cloze .exam-opt-chip {
+      display: block;
+      min-width: 0;
+    }
+    .exam-opt-chip {
+      min-width: 0;
+    }
+    .exam-opt-chip b { margin-right: 0.25em; }
+    .exam-item-cloze .exam-opt-chip b {
+      display: inline-block;
+      min-width: 1.15em;
+      margin-right: 0.2em;
+    }
+    .exam-answer-lines {
+      min-height: 14em;
+      margin-top: 2mm;
+      border: 1px solid #333;
+      background: repeating-linear-gradient(
+        transparent,
+        transparent 1.45em,
+        #ddd 1.45em,
+        #ddd calc(1.45em + 1px)
+      );
+    }
+    @media print {
+      @page { size: A4; margin: 12mm 14mm; }
+      html, body {
+        background: #fff !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      html.pdf-printing body {
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+      html.pdf-printing #printHost {
+        clip: auto !important;
+      }
+      .exam-paper-section:not(:first-of-type) {
+        break-before: page !important;
+        page-break-before: always !important;
+      }
+      .exam-passage-titled-wrap {
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
+      }
+      /* 完形填空：PDF 不显示答题括号与题干下划线占位 */
+      .exam-item-cloze .exam-paren,
+      .exam-item-cloze .exam-blank,
+      .exam-cloze-pdf-num .exam-paren {
+        display: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="view-home" class="view active">
+    <header class="flow" style="position:relative;margin:0 0 1rem;border-radius:0 0 12px 12px;">
+      <h1 id="homeTitle">按题型练习</h1>
+      <button type="button" class="btn secondary" id="btnPdfFull" title="按标准纸笔试卷版式排版，打印对话框中选「另存为 PDF」">导出 PDF（整套·标准试卷版式）</button>
+    </header>
+    <p class="breadcrumb">先选择一种题型，完成该题型全部题目后提交，再进入讲解与苏格拉底引导。</p>
+    <div class="type-grid" id="typeGrid"></div>
+  </div>
+
+  <div id="view-quiz" class="view">
+    <header class="flow">
+      <h1 id="quizTitle">答题</h1>
+      <span class="timer" id="quizTimer">用时 00:00</span>
+      <button type="button" class="btn secondary" id="btnPdfType" title="仅导出当前题型，标准试卷版式">导出 PDF（本题型·标准版式）</button>
+      <button type="button" class="btn secondary" id="btnBackHome">← 题型首页</button>
+    </header>
+    <div class="breadcrumb" id="quizBreadcrumb"></div>
+    <div id="quizIntro"></div>
+    <div id="quizBody"></div>
+    <div style="margin-top:1.5rem;text-align:center;">
+      <button type="button" class="btn primary" id="btnSubmitType">提交本题型</button>
+    </div>
+  </div>
+
+  <div id="view-result" class="view">
+    <header class="flow">
+      <h1 id="resultTitle">本题型结果</h1>
+      <button type="button" class="btn secondary" id="btnBackHome2">← 题型首页</button>
+    </header>
+    <div class="card" id="resultSummary"></div>
+    <div style="text-align:center;margin:1rem 0;">
+      <button type="button" class="btn primary" id="btnGoLearn">进入本题型讲解</button>
+    </div>
+  </div>
+
+  <div id="view-learn" class="view">
+    <header class="flow">
+      <h1 id="learnTitle">讲解与学习</h1>
+      <button type="button" class="btn secondary" id="btnBackHome3">← 题型首页</button>
+    </header>
+    <p class="breadcrumb">讲解页：题干与选项中可点击英文词查义；弹窗内可朗读该词。展开「解析」「知识点」「测试」查看更多。</p>
+    <div id="learnBody"></div>
+  </div>
+
+  <div id="printHost" aria-hidden="true"></div>
+
+  <div id="modal" aria-hidden="true">
+    <div class="box">
+      <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:0.5rem;margin-bottom:0.35rem;">
+        <h4 id="modalWord" style="margin:0;color:var(--accent);font-size:1.15rem;">词汇</h4>
+        <button type="button" class="btn primary" id="modalTtsWord">朗读本词</button>
+      </div>
+      <p id="modalBody" style="white-space:pre-wrap;margin:0.5rem 0;"></p>
+      <button type="button" class="btn secondary" id="modalClose">关闭</button>
+    </div>
+  </div>
+
+  <script type="application/json" id="exam-embed">{"school_or_title": "初一入学考试英语试卷 · 第21套", "exam_meta": {"full_score_text": "满分:45分", "time_text": "时间:60分钟", "type_cards": [{"sections": [0], "title": "I. 单选题", "range_text": "第1-5题"}, {"sections": [1], "title": "II. 按要求用适当的介词填空", "range_text": "第6-10题"}, {"sections": [2], "title": "III. 阅读选择", "range_text": "第11-20题"}, {"sections": [3], "title": "IV. 任务型阅读", "range_text": "第21-22题"}, {"sections": [4], "title": "书面表达", "range_text": "按要求完成句子第23-26题；第27题"}]}, "sections": [{"section_title": "I. 单选题", "section_instruction": "(共5分)", "items": [{"number": "1", "item_type": "choice", "context_note": "", "stem": "It _____ sunny and warm next Monday.", "options": {"A": "will be", "B": "is", "C": "was", "D": ""}, "answer_area_hint": ""}, {"number": "2", "item_type": "choice", "context_note": "", "stem": "—What did you do during the holidays?\n—I _____ many books.", "options": {"A": "was reading", "B": "readed", "C": "read", "D": ""}, "answer_area_hint": ""}, {"number": "3", "item_type": "choice", "context_note": "", "stem": "I saw _____ interesting bird in a book yesterday.", "options": {"A": "a", "B": "an", "C": "/", "D": ""}, "answer_area_hint": ""}, {"number": "4", "item_type": "choice", "context_note": "", "stem": "My ruler is _____ than yours.", "options": {"A": "long", "B": "longer", "C": "longest", "D": ""}, "answer_area_hint": ""}, {"number": "5", "item_type": "choice", "context_note": "", "stem": "They went to the park _____ eight o'clock in the morning.", "options": {"A": "of", "B": "on", "C": "at", "D": ""}, "answer_area_hint": ""}]}, {"section_title": "II. 按要求用适当的介词填空", "section_instruction": "(共10分)", "items": [{"number": "6", "item_type": "fill_blank", "context_note": "", "stem": "Have you got any photos _____ your pet?", "options": {}, "answer_area_hint": ""}, {"number": "7", "item_type": "fill_blank", "context_note": "", "stem": "What will you do _____ her?", "options": {}, "answer_area_hint": ""}, {"number": "8", "item_type": "fill_blank", "context_note": "", "stem": "My birthday is _____ spring.", "options": {}, "answer_area_hint": ""}, {"number": "9", "item_type": "fill_blank", "context_note": "", "stem": "She often dances _____ TV programs.", "options": {}, "answer_area_hint": ""}, {"number": "10", "item_type": "fill_blank", "context_note": "", "stem": "Eric is short. Danny is tall. Danny sits _____ Eric.", "options": {}, "answer_area_hint": ""}]}, {"section_title": "III. 阅读选择", "section_instruction": "(共10分)\n\n**A**\nThe NCP hit China during the Spring Festival of 2020. For several(几个) months, people had to stay at home. Students couldn't go back to school. Workers couldn't go back to the factories. Many people got sick(生病). Doctors, nurses and scientists worked very hard to help them get rid of(摆脱) the NCP. How to protect(保护) yourself from coronavirus(冠状病毒)? You should wear a mask(口罩) in public places, wash your hands frequently, eat healthy food and open the windows to keep the fresh air into the house.\n\n**B**\nA man finds a good bird in a shop. It can talk in twelve languages and sing ten famous songs. The man buys it at once. He pays(支付) 50,000 yuan for it. He sends it to his mother. It's a present for her birthday. The day after his mother's birthday, he talks to his mother on the phone. \"What do you think of the bird, mother?\" he asks. \"Oh, it's very nice to eat. Thank you, son!\"", "items": [{"number": "11", "item_type": "reading", "context_note": "Passage A", "stem": "The NCP hit China during the _____ of 2020.", "options": {"A": "Spring Festival", "B": "Mid-Autumn Festival", "C": "summer holiday", "D": ""}, "answer_area_hint": ""}, {"number": "12", "item_type": "reading", "context_note": "Passage A", "stem": "For several months, students couldn't _____.", "options": {"A": "stay at home", "B": "go back to school", "C": "go back to the factory", "D": ""}, "answer_area_hint": ""}, {"number": "13", "item_type": "reading", "context_note": "Passage A", "stem": "_____ worked very hard to help the sick people.", "options": {"A": "Only doctors", "B": "Only nurses", "C": "Doctors, nurses and scientists", "D": ""}, "answer_area_hint": ""}, {"number": "14", "item_type": "reading", "context_note": "Passage A", "stem": "You should _____ to protect yourself from coronavirus.", "options": {"A": "wash your hands frequently", "B": "eat a lot of food", "C": "wear a sweater", "D": ""}, "answer_area_hint": ""}, {"number": "15", "item_type": "reading", "context_note": "Passage A", "stem": "You should _____ to keep the fresh air into the house.", "options": {"A": "close the windows", "B": "open the windows", "C": "wear a mask", "D": ""}, "answer_area_hint": ""}, {"number": "16", "item_type": "reading", "context_note": "Passage B", "stem": "Where does the man find the bird?", "options": {"A": "In a restaurant.", "B": "In a shop.", "C": "At home.", "D": ""}, "answer_area_hint": ""}, {"number": "17", "item_type": "reading", "context_note": "Passage B", "stem": "How much is the bird?", "options": {"A": "5,000 yuan.", "B": "50,000 dollars.", "C": "50,000 yuan.", "D": ""}, "answer_area_hint": ""}, {"number": "18", "item_type": "reading", "context_note": "Passage B", "stem": "How many languages can the bird speak?", "options": {"A": "Twelve.", "B": "Ten.", "C": "Two.", "D": ""}, "answer_area_hint": ""}, {"number": "19", "item_type": "reading", "context_note": "Passage B", "stem": "How may the man feel at last?", "options": {"A": "He's happy.", "B": "He's excited.", "C": "He's sad.", "D": ""}, "answer_area_hint": ""}, {"number": "20", "item_type": "reading", "context_note": "Passage B", "stem": "What does his mother think of the bird?", "options": {"A": "It's very nice to eat.", "B": "It's very beautiful.", "C": "It's very clever.", "D": ""}, "answer_area_hint": ""}]}, {"section_title": "IV. 任务型阅读", "section_instruction": "(共10分)\n\n**Oliver's Travel**\nOliver is an English boy. He studies in a university in London. Last winter holiday, he took a trip in China. It was great fun!\nOn the first day, he flew to Beijing. He went ice-skating in an ice rink(冰场). He fell down for several times, but luckily he didn't hurt. On the second day, he took the No. 811 bus to the Badaling Great Wall. He climbed the Great Wall and took a lot of pictures there. On the third day, he visited the Palace Museum in the morning and Beihai Park in the afternoon. The museum was amazing and the park was beautiful.\nOn the fourth day, he went to Sanya by train. It was hot and sunny in Sanya. The water was warm. He went to the beach to surf(冲浪) and swim. He enjoyed the sunshine and the fresh fruits there very much. After that, he came back home. What a wonderful holiday!", "items": [{"number": "21.1", "item_type": "reading", "context_note": "", "stem": "How many cities did Oliver visit in China?", "options": {"A": "Two.", "B": "Three.", "C": "Four.", "D": ""}, "answer_area_hint": ""}, {"number": "21.2", "item_type": "reading", "context_note": "", "stem": "How did Oliver go to Beijing from London?", "options": {"A": "By subway.", "B": "By bus.", "C": "By plane.", "D": ""}, "answer_area_hint": ""}, {"number": "21.3", "item_type": "reading", "context_note": "", "stem": "What did Oliver do in Beijing?", "options": {"A": "He went ice-skating and climbed the Great Wall.", "B": "He took pictures and visited the Palace Museum and Beihai Park.", "C": "Both A and B.", "D": ""}, "answer_area_hint": ""}, {"number": "22.1", "item_type": "writing", "context_note": "", "stem": "When did Oliver take a trip in China?", "options": {}, "answer_area_hint": ""}, {"number": "22.2", "item_type": "writing", "context_note": "", "stem": "Did Oliver go to the beach and park in Sanya?", "options": {}, "answer_area_hint": ""}]}, {"section_title": "V. 按要求完成句子", "section_instruction": "(共10分)", "items": [{"number": "23", "item_type": "sentence_transform", "context_note": "", "stem": "I bought a dictionary yesterday. (改为否定句)\nI _____ a dictionary yesterday.", "options": {}, "answer_area_hint": ""}, {"number": "24", "item_type": "sentence_transform", "context_note": "", "stem": "Lucy watched a film with her friends yesterday. (用 now 改写句子)\nLucy _____ a film with her friends now.", "options": {}, "answer_area_hint": ""}, {"number": "25", "item_type": "sentence_transform", "context_note": "", "stem": "John saw a film last Monday. (改为一般疑问句)\n_____ John _____ a film last Monday?", "options": {}, "answer_area_hint": ""}, {"number": "26", "item_type": "sentence_transform", "context_note": "", "stem": "Wu Binbin is <u>52 kilograms<\/u>. (对画线部分提问)\n_____ is Wu Binbin?", "options": {}, "answer_area_hint": ""}, {"number": "27", "item_type": "writing", "context_note": "", "stem": "Why are you tired? (根据自己的实际情况回答)", "options": {}, "answer_area_hint": ""}]}], "content_markdown": "## 成都某嘉祥外国语学校 初2025级新初一分班真卷英语\n\n**(满分:45分 时间:60分钟)**\n\n### I. 单选题\n(共5分)\n\n1. It _____ sunny and warm next Monday.\n\tA. will be\n\tB. is\n\tC. was\n\n2. —What did you do during the holidays?\n—I _____ many books.\n\tA. was reading\n\tB. readed\n\tC. read\n\n3. I saw _____ interesting bird in a book yesterday.\n\tA. a\n\tB. an\n\tC. /\n\n4. My ruler is _____ than yours.\n\tA. long\n\tB. longer\n\tC. longest\n\n5. They went to the park _____ eight o'clock in the morning.\n\tA. of\n\tB. on\n\tC. at\n\n### II. 按要求用适当的介词填空\n(共10分)\n\n6. Have you got any photos _____ your pet?\n\n7. What will you do _____ her?\n\n8. My birthday is _____ spring.\n\n9. She often dances _____ TV programs.\n\n10. Eric is short. Danny is tall. Danny sits _____ Eric.\n\n### III. 阅读选择\n(共10分)\n\n**A**\nThe NCP hit China during the Spring Festival of 2020. For several(几个) months, people had to stay at home. Students couldn't go back to school. Workers couldn't go back to the factories. Many people got sick(生病). Doctors, nurses and scientists worked very hard to help them get rid of(摆脱) the NCP. How to protect(保护) yourself from coronavirus(冠状病毒)? You should wear a mask(口罩) in public places, wash your hands frequently, eat healthy food and open the windows to keep the fresh air into the house.\n\n**B**\nA man finds a good bird in a shop. It can talk in twelve languages and sing ten famous songs. The man buys it at once. He pays(支付) 50,000 yuan for it. He sends it to his mother. It's a present for her birthday. The day after his mother's birthday, he talks to his mother on the phone. \"What do you think of the bird, mother?\" he asks. \"Oh, it's very nice to eat. Thank you, son!\"\n\n11. The NCP hit China during the _____ of 2020.\n\tA. Spring Festival\n\tB. Mid-Autumn Festival\n\tC. summer holiday\n\n12. For several months, students couldn't _____.\n\tA. stay at home\n\tB. go back to school\n\tC. go back to the factory\n\n13. _____ worked very hard to help the sick people.\n\tA. Only doctors\n\tB. Only nurses\n\tC. Doctors, nurses and scientists\n\n14. You should _____ to protect yourself from coronavirus.\n\tA. wash your hands frequently\n\tB. eat a lot of food\n\tC. wear a sweater\n\n15. You should _____ to keep the fresh air into the house.\n\tA. close the windows\n\tB. open the windows\n\tC. wear a mask\n\n16. Where does the man find the bird?\n\tA. In a restaurant.\n\tB. In a shop.\n\tC. At home.\n\n17. How much is the bird?\n\tA. 5,000 yuan.\n\tB. 50,000 dollars.\n\tC. 50,000 yuan.\n\n18. How many languages can the bird speak?\n\tA. Twelve.\n\tB. Ten.\n\tC. Two.\n\n19. How may the man feel at last?\n\tA. He's happy.\n\tB. He's excited.\n\tC. He's sad.\n\n20. What does his mother think of the bird?\n\tA. It's very nice to eat.\n\tB. It's very beautiful.\n\tC. It's very clever.\n\n### IV. 任务型阅读\n(共10分)\n\n**Oliver's Travel**\nOliver is an English boy. He studies in a university in London. Last winter holiday, he took a trip in China. It was great fun!\nOn the first day, he flew to Beijing. He went ice-skating in an ice rink(冰场). He fell down for several times, but luckily he didn't hurt. On the second day, he took the No. 811 bus to the Badaling Great Wall. He climbed the Great Wall and took a lot of pictures there. On the third day, he visited the Palace Museum in the morning and Beihai Park in the afternoon. The museum was amazing and the park was beautiful.\nOn the fourth day, he went to Sanya by train. It was hot and sunny in Sanya. The water was warm. He went to the beach to surf(冲浪) and swim. He enjoyed the sunshine and the fresh fruits there very much. After that, he came back home. What a wonderful holiday!\n\n21.1. How many cities did Oliver visit in China?\n\tA. Two.\n\tB. Three.\n\tC. Four.\n\n21.2. How did Oliver go to Beijing from London?\n\tA. By subway.\n\tB. By bus.\n\tC. By plane.\n\n21.3. What did Oliver do in Beijing?\n\tA. He went ice-skating and climbed the Great Wall.\n\tB. He took pictures and visited the Palace Museum and Beihai Park.\n\tC. Both A and B.\n\n22.1. When did Oliver take a trip in China?\n\n22.2. Did Oliver go to the beach and park in Sanya?\n\n### V. 按要求完成句子\n(共10分)\n\n23. I bought a dictionary yesterday. (改为否定句)\nI _____ a dictionary yesterday.\n\n24. Lucy watched a film with her friends yesterday. (用 now 改写句子)\nLucy _____ a film with her friends now.\n\n25. John saw a film last Monday. (改为一般疑问句)\n_____ John _____ a film last Monday?\n\n26. Wu Binbin is <u>52 kilograms<\/u>. (对画线部分提问)\n_____ is Wu Binbin?\n\n27. Why are you tired? (根据自己的实际情况回答)\n", "proofread_notes": "1. **Content Cleanup**: Removed non-academic content including a numerical prefix from the title and promotional text ('右侧扫码·视频讲解') from the Section IV title and question 25 stem. The original paper contained QR codes, which have been omitted.\n2. **Numbering & Structure**: The hierarchical questions in Section IV (e.g., 21 with sub-parts) were flattened into distinct items (21.1, 21.2, etc.) in both the JSON structure and the markdown for consistency.\n3. **Item Type Correction**: Changed `item_type` for questions 22.1 and 22.2 to `writing` to reflect their short-answer nature.\n4. **Schema Compliance**: Normalized all 3-option multiple-choice questions to a 4-option format by adding an empty 'D' option.\n5. **Readability**: Shortened verbose context notes in the reading section (e.g., 'This question is based on Passage A' to 'Passage A').", "set_number": 21, "source_images": ["C:\\Users\\wl88i\\Desktop\\小升初试卷\\set_image_workflow\\set_21\\page_037.png"], "pipeline": {"mode": "publication_from_images", "workflow": "C:\\Users\\wl88i\\Desktop\\小升初试卷\\set_image_workflow", "log": {"steps": [{"step": 1, "name": "extract", "items": 30}, {"step": 2, "name": "verify", "items": 30, "check_passed": true, "issues_count": 0}, {"step": 3, "name": "polish", "items": 30}]}, "second_text_pass": false}}</script>
+  <script>
+  const EXAM = JSON.parse(document.getElementById("exam-embed").textContent);
+
+  const INLINE_CFG = {
+    deepseekKey: "sk-daa16008e81843deba6fefe9dce51465",
+    azureKey: "",
+    azureRegion: "eastus2",
+  };
+
+  let modalWordForTts = "";
+
+  function hasDeepseekKey() {
+    const k = String(INLINE_CFG.deepseekKey || "").trim();
+    return k.length >= 8;
+  }
+
+  async function deepseekChat(userContent, maxTokens) {
+    if (!hasDeepseekKey()) {
+      throw new Error("未配置 DeepSeek API Key");
+    }
+    const r = await fetch("https://api.deepseek.com/chat/completions", {
+      method: "POST",
+      mode: "cors",
+      credentials: "omit",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + INLINE_CFG.deepseekKey,
+      },
+      body: JSON.stringify({
+        model: "deepseek-chat",
+        messages: [{ role: "user", content: userContent }],
+        temperature: 0.2,
+        max_tokens: maxTokens || 4096,
+      }),
+    });
+    let data = {};
+    try { data = await r.json(); } catch (e) { /* ignore */ }
+    if (!r.ok) {
+      const msg = (data.error && data.error.message) || data.detail || r.statusText || "请求失败";
+      throw new Error(msg);
+    }
+    const c = data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content;
+    return (c || "").trim();
+  }
+
+  function xmlEscapeTts(s) {
+    return String(s)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+
+  const TYPE_LABELS = {
+    phonetics: "语音辨识",
+    choice: "单项选择",
+    cloze: "完形填空",
+    grammar_fill: "语法填空",
+    reading: "阅读理解",
+    sentence_transform: "句型转换",
+    writing: "书面表达",
+    fill_blank: "词汇填空",
+    fill_blank_be: "用 am / is / are 填空",
+    fill_blank_word_form: "词汇变形填空",
+    other: "其他题型",
+  };
+  const TYPE_ORDER = [
+    "phonetics",
+    "choice",
+    "cloze",
+    "reading",
+    "grammar_fill",
+    "sentence_transform",
+    "writing",
+    "fill_blank_be",
+    "fill_blank_word_form",
+    "fill_blank",
+    "other",
+  ];
+
+  function isFillBlankQuizType(t) {
+    return t === "fill_blank" || t === "fill_blank_be" || t === "fill_blank_word_form";
+  }
+
+  function isClozeLikeQuizType(t) {
+    return t === "cloze" || t === "grammar_fill";
+  }
+
+  function isSectionShardId(t) {
+    return typeof t === "string" && /^sec:\d+$/.test(t);
+  }
+  function isTypeCardId(t) {
+    return typeof t === "string" && /^tc:\d+$/.test(t);
+  }
+  function parseTypeCardIndex(t) {
+    const m = /^tc:(\d+)$/.exec(String(t || ""));
+    return m ? parseInt(m[1], 10) : -1;
+  }
+  /** 首页大题卡：sec:N 或 tc:N（exam_meta.type_cards 合并多节） */
+  function isPaperShardId(t) {
+    return isSectionShardId(t) || isTypeCardId(t);
+  }
+  function getTypeCards() {
+    const meta = EXAM.exam_meta;
+    if (!meta) return null;
+    const tc = meta.type_cards;
+    return Array.isArray(tc) && tc.length ? tc : null;
+  }
+  function rowsForPaperShard(t) {
+    if (isTypeCardId(t)) {
+      const idx = parseTypeCardIndex(t);
+      const cards = getTypeCards();
+      if (!cards || idx < 0 || idx >= cards.length) return [];
+      const secs = cards[idx].sections;
+      if (!Array.isArray(secs)) return [];
+      const out = [];
+      secs.forEach((si) => {
+        (state.bySection["sec:" + si] || []).forEach((r) => out.push(r));
+      });
+      return out;
+    }
+    if (isSectionShardId(t)) return state.bySection[t] || [];
+    return state.byType[t] || [];
+  }
+  function parseSectionShardIndex(t) {
+    const m = /^sec:(\d+)$/.exec(String(t || ""));
+    return m ? parseInt(m[1], 10) : -1;
+  }
+  const SECTION_ROMAN = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII"];
+  function sectionRomanFromIndex(si) {
+    if (si >= 0 && si < SECTION_ROMAN.length) return SECTION_ROMAN[si];
+    return String(si + 1);
+  }
+  function sectionShardLabel(shardId) {
+    const si = parseSectionShardIndex(shardId);
+    if (si < 0) return String(shardId || "");
+    const sec = (EXAM.sections || [])[si];
+    const st = sec && String(sec.section_title || "").trim();
+    if (st) return st;
+    const rows = state.bySection[shardId] || [];
+    const st2 = rows.length ? String(rows[0].section_title || "").trim() : "";
+    if (st2) return st2;
+    const rt = rows[0] && rows[0].type;
+    const typeHint = rt && TYPE_LABELS[rt] ? "（" + TYPE_LABELS[rt] + "）" : "";
+    return "第 " + sectionRomanFromIndex(si) + " 部分" + typeHint;
+  }
+  function sectionRowsRenderKind(rows) {
+    if (!rows || !rows.length) return "empty";
+    const t0 = rows[0].type;
+    for (let ri = 1; ri < rows.length; ri++) {
+      if (rows[ri].type !== t0) return "mixed";
+    }
+    if (t0 === "reading") return "reading";
+    if (isClozeLikeQuizType(t0)) return "cloze";
+    if (isFillBlankQuizType(t0)) return "fill_blank";
+    return t0;
+  }
+  function sectionRowsPrimaryType(rows) {
+    if (!rows || !rows.length) return "other";
+    return rows[0].type;
+  }
+  function sectionsInPaperOrder() {
+    const seen = Object.create(null);
+    const out = [];
+    (state.flat || []).forEach((row) => {
+      const id = "sec:" + row.si;
+      if (seen[id]) return;
+      if (!(state.bySection[id] || []).length) return;
+      seen[id] = true;
+      out.push(id);
+    });
+    return out;
+  }
+
+  /** exam_meta.section_card_overrides[si]：可选 title（首页/顶栏标题）、range_text（首页副标题题号，缺省则按大题顺序累加） */
+  function getSectionCardOverride(si) {
+    const meta = EXAM.exam_meta;
+    if (!meta) return null;
+    const arr = meta.section_card_overrides;
+    if (!Array.isArray(arr) || si < 0 || si >= arr.length) return null;
+    const o = arr[si];
+    if (!o || typeof o !== "object") return null;
+    return o;
+  }
+
+  const state = {
+    flat: [],
+    byType: {},
+    bySection: {},
+    currentType: null,
+    answers: {},
+    elapsed: 0,
+    timerId: null,
+    lastResults: [],
+  };
+
+  function esc(s) {
+    if (s == null) return "";
+    return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+  }
+
+  /** 语音辨识题干：仅允许 &lt;u&gt;…&lt;/u&gt; 标画线部分，其余 HTML 剥离 */
+  function stemHtmlWithAllowedUnderline(raw) {
+    let t = String(raw || "");
+    t = t.replace(/<\s*u\s*>/gi, "@@UON@@").replace(/<\s*\/\s*u\s*>/gi, "@@UOFF@@");
+    t = t.replace(/<[^>]+>/g, "");
+    t = esc(t);
+    return t
+      .replace(/@@UON@@/g, "<u class=\"phonetic-ul\">")
+      .replace(/@@UOFF@@/g, "</u>")
+      .replace(/\n/g, "<br>");
+  }
+
+  function writingStemHasPipeTable(stem) {
+    return /^\s*\|/m.test(String(stem || ""));
+  }
+
+  function splitMarkdownPipeRow(line) {
+    return String(line || "")
+      .trim()
+      .replace(/^\|/, "")
+      .replace(/\|$/, "")
+      .split("|")
+      .map((c) => c.trim());
+  }
+
+  function isMarkdownTableSeparatorRow(line) {
+    const cells = splitMarkdownPipeRow(line);
+    return cells.length > 0 && cells.every((c) => /^[\s\-:|]+$/.test(c));
+  }
+
+  /** GitHub 风格 | 表格 | 行 → HTML（用于书面表达题干） */
+  function markdownPipeTableLinesToHtml(tableLines) {
+    const lines = tableLines || [];
+    if (lines.length < 2) return "";
+    const rowCells = lines.map(splitMarkdownPipeRow);
+    let bodyStart = 0;
+    let thead = "";
+    if (lines.length >= 2 && isMarkdownTableSeparatorRow(lines[1])) {
+      thead =
+        "<thead><tr>" +
+        rowCells[0].map((c) => "<th>" + esc(c) + "</th>").join("") +
+        "</tr></thead>";
+      bodyStart = 2;
+    }
+    let body = "<tbody>";
+    for (let r = bodyStart; r < rowCells.length; r++) {
+      body +=
+        "<tr>" + rowCells[r].map((c) => "<td>" + esc(c) + "</td>").join("") + "</tr>";
+    }
+    body += "</tbody>";
+    return '<table class="writing-prompt-table">' + thead + body + "</table>";
+  }
+
+  /** 将正文与 GitHub 风格 | 表格 | 行块拆成交替片段（书面题干 / 大题说明共用） */
+  function partitionMarkdownTextAndPipeTables(raw) {
+    const str = String(raw || "").replace(/\r\n/g, "\n");
+    const lines = str.split("\n");
+    const chunks = [];
+    let textBuf = [];
+    let i = 0;
+    function flushText() {
+      if (!textBuf.length) return;
+      const t = textBuf.join("\n").trim();
+      if (t) chunks.push({ kind: "text", text: t });
+      textBuf = [];
+    }
+    while (i < lines.length) {
+      if (/^\s*\|/.test(lines[i])) {
+        flushText();
+        const tbl = [];
+        while (i < lines.length && /^\s*\|/.test(lines[i])) {
+          tbl.push(lines[i]);
+          i++;
+        }
+        if (tbl.length >= 2) chunks.push({ kind: "table", lines: tbl });
+        else textBuf.push.apply(textBuf, tbl);
+      } else {
+        textBuf.push(lines[i]);
+        i++;
+      }
+    }
+    flushText();
+    return chunks;
+  }
+
+  function writingMixedMarkdownToHtml(raw, renderTextChunk) {
+    let html = "";
+    partitionMarkdownTextAndPipeTables(raw).forEach((ch) => {
+      if (ch.kind === "text") html += renderTextChunk(ch.text);
+      else html += markdownPipeTableLinesToHtml(ch.lines);
+    });
+    return html;
+  }
+
+  /** 书面表达题干：正文段落 + Markdown 管道表格 → HTML */
+  function writingPromptToHtml(stem) {
+    return writingMixedMarkdownToHtml(
+      stem,
+      (t) =>
+        "<div class='writing-stem-text'>" + esc(t).replace(/\n/g, "<br>") + "</div>",
+    );
+  }
+
+  /**
+   * 试卷 JSON 里阅读/完形文章通常用「单个 \\n」分段，没有空行。
+   * 按换行拆成多段，每段独立 &lt;p&gt;，段间距由 .passage-para 控制。
+   */
+  function formatPassageParagraphs(raw) {
+    const s = String(raw == null ? "" : raw).replace(/\r\n/g, "\n").trim();
+    if (!s) return "";
+    const parts = s.split(/\n+/);
+    const out = [];
+    for (let pi = 0; pi < parts.length; pi++) {
+      const t = parts[pi].trim();
+      if (!t) continue;
+      out.push("<p class='passage-para'>" + esc(t).replace(/\n/g, "<br>") + "</p>");
+    }
+    return out.join("");
+  }
+
+  /** 完形讲解等：源码换行已变成 br，按每个 br 拆成段落（与 formatPassageParagraphs 一致） */
+  function formatPassageHtmlParagraphs(html) {
+    if (!html) return html;
+    const parts = String(html).split(/(?:<br\s*\/?>\s*)+/i);
+    const trimmed = parts.map((p) => p.replace(/^[\s\u00a0]+|[\s\u00a0]+$/g, "")).filter(Boolean);
+    if (!trimmed.length) return html;
+    return trimmed.map((p) => "<p class='passage-para'>" + p + "</p>").join("");
+  }
+
+  function itemKey(si, ii) { return si + ":" + ii; }
+
+  function buildFlat() {
+    state.flat = [];
+    (EXAM.sections || []).forEach((sec, si) => {
+      (sec.items || []).forEach((it, ii) => {
+        if (!String(it.number || "").trim()) {
+          it.number = String(si + 1) + "." + String(ii + 1);
+        }
+        const typ = (it.item_type || "other").trim() || "other";
+        state.flat.push({
+          si, ii, it, key: itemKey(si, ii), type: typ,
+          section_title: sec.section_title || "",
+          section_instruction: sec.section_instruction || "",
+        });
+      });
+    });
+    state.byType = {};
+    state.bySection = {};
+    state.flat.forEach((row) => {
+      if (!state.byType[row.type]) state.byType[row.type] = [];
+      state.byType[row.type].push(row);
+      const sid = "sec:" + row.si;
+      if (!state.bySection[sid]) state.bySection[sid] = [];
+      state.bySection[sid].push(row);
+    });
+  }
+
+  function typeLabel(t) {
+    if (isTypeCardId(t)) {
+      const idx = parseTypeCardIndex(t);
+      const cards = getTypeCards();
+      const sp = cards && cards[idx];
+      if (sp && String(sp.title || "").trim()) return String(sp.title).trim();
+      return "大题 " + (idx >= 0 ? idx + 1 : "");
+    }
+    if (isSectionShardId(t)) {
+      const si = parseSectionShardIndex(t);
+      const ov = getSectionCardOverride(si);
+      if (ov && String(ov.title || "").trim()) return String(ov.title).trim();
+      return sectionShardLabel(t);
+    }
+    return TYPE_LABELS[t] || t || "其他";
+  }
+
+  function showView(name) {
+    document.querySelectorAll(".view").forEach((v) => v.classList.remove("active"));
+    document.getElementById("view-" + name).classList.add("active");
+  }
+
+  function splitReadingPassageHeading(body) {
+    const raw = String(body || "").trim();
+    if (!raw) return { title: "阅读材料", text: "" };
+    const lines = raw.split("\n");
+    const first = (lines[0] || "").trim();
+    if (/^Passage\s+[A-Z]\b/i.test(first) || /^阅读\s*[A-ZＡ-Ｚ]/i.test(first)) {
+      const rest = lines.slice(1).join("\n").trim();
+      return { title: first, text: rest || raw };
+    }
+    if (/^[A-Z]$/i.test(first)) {
+      const rest = lines.slice(1).join("\n").trim();
+      return { title: "Passage " + first.toUpperCase(), text: rest || raw };
+    }
+    return { title: "阅读材料", text: raw };
+  }
+
+  /** 大题说明里常见「说明 + 空行 + 方框词/短文」，拆成提示与正文（阅读问答 / 选词填空） */
+  function splitSectionHintAndBody(sectionInstruction) {
+    const raw = String(sectionInstruction || "").trim();
+    if (!raw) return { hint: "", body: "" };
+    const parts = raw.split(/\n\n+/);
+    if (parts.length >= 2) {
+      return { hint: parts[0].trim(), body: parts.slice(1).join("\n\n").trim() };
+    }
+    return { hint: "", body: raw };
+  }
+
+  /**
+   * 阅读/书面左侧材料来自整段 section_instruction（fromSection）时，全文即正文。
+   * 若仍走 splitSectionHintAndBody，首段会被当成灰色「导语」，与后续段落样式不一致（如 set_05 Passage A/B）。
+   */
+  function passageHtmlFromSectionInstruction(passage) {
+    const s = String(passage || "").trim();
+    if (!s) return "";
+    if (writingStemHasPipeTable(s)) {
+      return writingMixedMarkdownToHtml(
+        s,
+        (t) =>
+          "<div class='writing-stem-text writing-section-from-instruction'>" +
+          esc(t).replace(/\n/g, "<br>") +
+          "</div>",
+      );
+    }
+    return formatPassageParagraphs(s);
+  }
+
+  function passageExamHtmlFromSectionInstruction(passage) {
+    const s = String(passage || "").trim();
+    if (!s) return "";
+    if (writingStemHasPipeTable(s)) {
+      return writingMixedMarkdownToHtml(s, (t) => formatPassageParagraphsExam(t));
+    }
+    return formatPassageParagraphsExam(s);
+  }
+
+  function isReadingPassageLetterKey(key) {
+    return /^Passage\s+[A-Z]$/i.test(String(key || "").trim());
+  }
+
+  /** 首题带全文、后续题仅「Passage A」时，用篇名归一化分组（与 JSON 常见格式一致） */
+  function readingPassageGroupKey(note) {
+    const raw = String(note || "").trim();
+    if (!raw) return "";
+    const firstLine = (raw.split("\n")[0] || "").trim();
+    const mapCnNum = {
+      一: "A",
+      二: "B",
+      三: "C",
+      四: "D",
+      五: "E",
+      六: "F",
+      七: "G",
+      八: "H",
+      九: "I",
+      十: "J",
+    };
+    const m = firstLine.match(/^Passage\s+([A-Z])\b/i);
+    if (m) return "Passage " + m[1].toUpperCase();
+    const m2 = firstLine.match(/^阅读\s*([A-Za-zＡ-Ｚ])/i);
+    if (m2) {
+      const ch = String(m2[1]).replace(/Ａ/gi, "A").replace(/Ｂ/gi, "B").replace(/Ｃ/gi, "C").charAt(0).toUpperCase();
+      return "Passage " + ch;
+    }
+    const mSee = firstLine.match(
+      /^See\s+Passage\s*[（(]([一二三四五六七八九十]+)[）)]\s*[.。]?\s*$/i,
+    );
+    if (mSee) {
+      const L = mapCnNum[mSee[1]];
+      if (L) return "Passage " + L;
+    }
+    const mHeadCn = firstLine.match(/^[（(]([一二三四五六七八九十]+)[）)]/);
+    if (mHeadCn) {
+      const L = mapCnNum[mHeadCn[1]];
+      if (L) return "Passage " + L;
+    }
+    const mcn = firstLine.match(/^根据材料[（(]([一二三四五六七八九十]+)[）)]/);
+    if (mcn) {
+      const L = mapCnNum[mcn[1]];
+      if (L) return "Passage " + L;
+    }
+    return raw;
+  }
+
+  function pickReadingPassageBody(rows) {
+    let best = "";
+    for (let ri = 0; ri < rows.length; ri++) {
+      const n = String(rows[ri].it.context_note || "").trim();
+      if (n.indexOf("\n") >= 0 && n.length > best.length) best = n;
+    }
+    if (best) return best;
+    for (let ri = 0; ri < rows.length; ri++) {
+      const n = String(rows[ri].it.context_note || "").trim();
+      if (n.length > best.length) best = n;
+    }
+    return best;
+  }
+
+  /** context_note 仅为篇名标签、无正文时，用大题 section_instruction 作为阅读/书面材料 */
+  function isTrivialReadingPassageBody(text) {
+    const t = String(text || "").trim();
+    if (!t) return true;
+    if (/^Passage\s+[A-Z]$/i.test(t)) return true;
+    /* set_16 等：Passage C (Swansea Zoo Poster) 单行篇名 */
+    if (
+      /^Passage\s+[A-Z]\b/i.test(t) &&
+      t.indexOf("\n") < 0 &&
+      t.length < 500
+    )
+      return true;
+    if (/^阅读\s*[A-ZＡ-Ｚ]$/i.test(t)) return true;
+    /* set_04 等：context_note 为单行英文篇名，如 "Reading passage about Linda and Mary" */
+    if (/^Reading passage\b/i.test(t) && t.indexOf("\n") < 0 && t.length < 220) return true;
+    /* set_07 等：单行篇名 "Passage about …"，正文在大题 section_instruction */
+    if (/^Passage\s+/i.test(t) && t.indexOf("\n") < 0 && t.length < 320) return true;
+    /* set_15 等：context_note 为「根据材料(一)作答。」，正文在大题 section_instruction 的 (一)(二) 篇 */
+    if (
+      /^根据材料[（(][一二三四五六七八九十0-9]+[）)]/.test(t) &&
+      t.indexOf("\n") < 0 &&
+      t.length < 120
+    )
+      return true;
+    return false;
+  }
+
+  /** 真题中阅读 A/B 小题可能标为 choice / 填空判断，但 context_note 含 Passage A|B，应与 reading 一样聚篇展示 */
+  function isPassageKeyedQuizRow(row) {
+    if (row.type === "reading") return true;
+    if (row.type !== "choice" && !isFillBlankQuizType(row.type)) return false;
+    return !!readingPassageGroupKey(String(row.it.context_note || "").trim());
+  }
+
+  /**
+   * 大题说明里多篇用 Markdown 标题 **A** / **B** 分隔（如 set_05），按 Passage A|B 只取对应正文。
+   */
+  function extractReadingBlockForPassageLetter(fullText, passageKey) {
+    const pk = String(passageKey || "").trim();
+    const mPk = /^Passage\s+([A-Z])$/i.exec(pk);
+    if (!mPk) return String(fullText || "").trim();
+    const letter = mPk[1].toUpperCase();
+    const t = String(fullText || "");
+    const cnDigit = { A: "一", B: "二", C: "三", D: "四" };
+    const dig = cnDigit[letter];
+    if (dig) {
+      const mdCn = new RegExp("\\*\\*\\s*[（(]" + dig + "[）)]\\s*\\*\\*", "m");
+      const mc = mdCn.exec(t);
+      if (mc) {
+        const bodyStartCn = mc.index + mc[0].length;
+        const tailCn = t.slice(bodyStartCn);
+        let endCn = tailCn.length;
+        const order = "一二三四五六七八九十";
+        const di = order.indexOf(dig);
+        if (di >= 0 && di < order.length - 1) {
+          const nextD = order[di + 1];
+          const nxMd = tailCn.search(new RegExp("\\*\\*\\s*[（(]" + nextD + "[）)]\\s*\\*\\*"));
+          if (nxMd >= 0) endCn = nxMd;
+        }
+        const outCn = tailCn.slice(0, endCn).trim();
+        if (outCn.length >= 15) return outCn;
+      }
+    }
+    const escL = letter.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const mdHdr = new RegExp("\\*\\*\\s*" + escL + "\\s*\\*\\*", "i");
+    const mm = mdHdr.exec(t);
+    let bodyStart;
+    if (mm) {
+      bodyStart = mm.index + mm[0].length;
+    } else {
+      const plain = new RegExp("(?:^|[\\r\\n])\\s*Passage\\s+" + escL + "\\b", "i");
+      const mp = plain.exec(t);
+      if (mp) {
+        bodyStart = mp.index + mp[0].length;
+      } else {
+        /* set_16 等：篇首为单独一行的 A / B / C，非 Passage A 字样 */
+        const singleLetterHdr = new RegExp("(?:^|[\\r\\n])\\s*" + escL + "\\s*(?:\\r?\\n)+", "i");
+        const ms = singleLetterHdr.exec(t);
+        if (ms) bodyStart = ms.index + ms[0].length;
+        else return t.trim();
+      }
+    }
+    const tail = t.slice(bodyStart);
+    let end = tail.length;
+    const mdNext = tail.search(/\*\*\s*[A-Za-z]\s*\*\*/);
+    if (mdNext >= 0) end = mdNext;
+    const nc = letter.charCodeAt(0) + 1;
+    if (nc <= "Z".charCodeAt(0)) {
+      const nL = String.fromCharCode(nc);
+      const nEsc = nL.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      const reNextSep = new RegExp("\\r?\\n\\s*" + nEsc + "\\s*\\r?\\n");
+      const nx = tail.search(reNextSep);
+      if (nx >= 0 && nx < end) end = nx;
+      const rePassageNext = new RegExp("\\r?\\n\\s*Passage\\s+" + nEsc + "\\b", "i");
+      const nxp = tail.search(rePassageNext);
+      if (nxp >= 0 && nxp < end) end = nxp;
+    }
+    const out = tail.slice(0, end).trim();
+    return out.length >= 15 ? out : t.trim();
+  }
+
+  function passageOrSectionBodyForSlice(slice, bodyFromPick) {
+    const sec0 = slice.length ? String(slice[0].section_instruction || "").trim() : "";
+    if (isTrivialReadingPassageBody(bodyFromPick) && sec0.length > 80) {
+      const cn = slice.length ? String(slice[0].it.context_note || "").trim() : "";
+      const pk = readingPassageGroupKey(cn);
+      let passage = sec0;
+      if (/^Passage\s+[A-Z]$/i.test(pk)) {
+        const part = extractReadingBlockForPassageLetter(sec0, pk);
+        if (part.length >= 15) passage = part;
+      }
+      return { passage, fromSection: true };
+    }
+    return { passage: bodyFromPick, fromSection: false };
+  }
+
+  function groupReadingByPassage(rows) {
+    const groups = [];
+    let i = 0;
+    while (i < rows.length) {
+      const row = rows[i];
+      if (!isPassageKeyedQuizRow(row)) {
+        groups.push({ passage: "", rows: [row] });
+        i++;
+        continue;
+      }
+      const passage = String(row.it.context_note || "").trim();
+      const secIns = String(row.section_instruction || "").trim();
+      if (!passage && secIns.length > 60 && row.type === "reading") {
+        let j = i + 1;
+        while (j < rows.length) {
+          const r2 = rows[j];
+          if (r2.type !== "reading") break;
+          if (String(r2.it.context_note || "").trim()) break;
+          if (String(r2.section_instruction || "").trim() !== secIns) break;
+          j++;
+        }
+        groups.push({ passage: secIns, rows: rows.slice(i, j), fromSection: true });
+        i = j;
+        continue;
+      }
+      const key = readingPassageGroupKey(passage);
+      if (key) {
+        let j = i + 1;
+        const secIns0 = String(row.section_instruction || "").trim();
+        const keyIsLetter = isReadingPassageLetterKey(key);
+        while (j < rows.length) {
+          const r2 = rows[j];
+          if (!isPassageKeyedQuizRow(r2)) break;
+          const k2 = readingPassageGroupKey(String(r2.it.context_note || "").trim());
+          if (k2 === key) {
+            j++;
+            continue;
+          }
+          if (
+            !keyIsLetter &&
+            isReadingPassageLetterKey(k2) &&
+            String(r2.section_instruction || "").trim() === secIns0
+          ) {
+            j++;
+            continue;
+          }
+          break;
+        }
+        const slice = rows.slice(i, j);
+        const body = pickReadingPassageBody(slice);
+        const ps = passageOrSectionBodyForSlice(slice, body);
+        groups.push({ passage: ps.passage, rows: slice, fromSection: !!ps.fromSection });
+        i = j;
+      } else {
+        groups.push({ passage: "", rows: [row] });
+        i++;
+      }
+    }
+    return groups;
+  }
+
+  function groupWritingByPassage(rows) {
+    const groups = [];
+    let i = 0;
+    while (i < rows.length) {
+      const row = rows[i];
+      if (row.type !== "writing") {
+        groups.push({ passage: "", rows: [row] });
+        i++;
+        continue;
+      }
+      const passage = String(row.it.context_note || "").trim();
+      const secIns = String(row.section_instruction || "").trim();
+      if (!passage && secIns.length > 60) {
+        let j = i + 1;
+        while (j < rows.length) {
+          const r2 = rows[j];
+          if (r2.type !== "writing") break;
+          if (String(r2.it.context_note || "").trim()) break;
+          if (String(r2.section_instruction || "").trim() !== secIns) break;
+          j++;
+        }
+        groups.push({ passage: secIns, rows: rows.slice(i, j), fromSection: true });
+        i = j;
+        continue;
+      }
+      const key = readingPassageGroupKey(passage);
+      if (key) {
+        let j = i + 1;
+        while (j < rows.length) {
+          const r2 = rows[j];
+          if (r2.type !== "writing") break;
+          if (readingPassageGroupKey(String(r2.it.context_note || "").trim()) !== key) break;
+          j++;
+        }
+        const slice = rows.slice(i, j);
+        const body = pickReadingPassageBody(slice);
+        const ps = passageOrSectionBodyForSlice(slice, body);
+        groups.push({ passage: ps.passage, rows: slice, fromSection: !!ps.fromSection });
+        i = j;
+      } else {
+        groups.push({ passage: "", rows: [row] });
+        i++;
+      }
+    }
+    return groups;
+  }
+
+  function groupDetailsByReadingPassage(details) {
+    const groups = [];
+    let i = 0;
+    while (i < details.length) {
+      const row = details[i].row;
+      if (!isPassageKeyedQuizRow(row)) {
+        groups.push({ passage: "", details: [details[i]] });
+        i++;
+        continue;
+      }
+      const passage = String(row.it.context_note || "").trim();
+      const secIns = String(row.section_instruction || "").trim();
+      if (!passage && secIns.length > 60 && row.type === "reading") {
+        let j = i + 1;
+        while (j < details.length) {
+          const r2 = details[j].row;
+          if (r2.type !== "reading") break;
+          if (String(r2.it.context_note || "").trim()) break;
+          if (String(r2.section_instruction || "").trim() !== secIns) break;
+          j++;
+        }
+        groups.push({ passage: secIns, details: details.slice(i, j), fromSection: true });
+        i = j;
+        continue;
+      }
+      const key = readingPassageGroupKey(passage);
+      if (key) {
+        let j = i + 1;
+        const secIns0 = String(row.section_instruction || "").trim();
+        const keyIsLetter = isReadingPassageLetterKey(key);
+        while (j < details.length) {
+          const r2 = details[j].row;
+          if (!isPassageKeyedQuizRow(r2)) break;
+          const k2 = readingPassageGroupKey(String(r2.it.context_note || "").trim());
+          if (k2 === key) {
+            j++;
+            continue;
+          }
+          if (
+            !keyIsLetter &&
+            isReadingPassageLetterKey(k2) &&
+            String(r2.section_instruction || "").trim() === secIns0
+          ) {
+            j++;
+            continue;
+          }
+          break;
+        }
+        const slice = details.slice(i, j);
+        const sliceRows = slice.map((d) => d.row);
+        const body = pickReadingPassageBody(sliceRows);
+        const ps = passageOrSectionBodyForSlice(
+          slice.map((d) => d.row),
+          body,
+        );
+        groups.push({ passage: ps.passage, details: slice, fromSection: !!ps.fromSection });
+        i = j;
+      } else {
+        groups.push({ passage: "", details: [details[i]] });
+        i++;
+      }
+    }
+    return groups;
+  }
+
+  function groupDetailsByWritingPassage(details) {
+    const groups = [];
+    let i = 0;
+    while (i < details.length) {
+      const row = details[i].row;
+      if (row.type !== "writing") {
+        groups.push({ passage: "", details: [details[i]] });
+        i++;
+        continue;
+      }
+      const passage = String(row.it.context_note || "").trim();
+      const secIns = String(row.section_instruction || "").trim();
+      if (!passage && secIns.length > 60) {
+        let j = i + 1;
+        while (j < details.length) {
+          const r2 = details[j].row;
+          if (r2.type !== "writing") break;
+          if (String(r2.it.context_note || "").trim()) break;
+          if (String(r2.section_instruction || "").trim() !== secIns) break;
+          j++;
+        }
+        groups.push({ passage: secIns, details: details.slice(i, j), fromSection: true });
+        i = j;
+        continue;
+      }
+      const key = readingPassageGroupKey(passage);
+      if (key) {
+        let j = i + 1;
+        while (j < details.length) {
+          const r2 = details[j].row;
+          if (r2.type !== "writing") break;
+          if (readingPassageGroupKey(String(r2.it.context_note || "").trim()) !== key) break;
+          j++;
+        }
+        const slice = details.slice(i, j);
+        const sliceRows = slice.map((d) => d.row);
+        const body = pickReadingPassageBody(sliceRows);
+        const ps = passageOrSectionBodyForSlice(
+          slice.map((d) => d.row),
+          body,
+        );
+        groups.push({ passage: ps.passage, details: slice, fromSection: !!ps.fromSection });
+        i = j;
+      } else {
+        groups.push({ passage: "", details: [details[i]] });
+        i++;
+      }
+    }
+    return groups;
+  }
+
+  function groupFillBlankBySectionInstruction(rows) {
+    const groups = [];
+    let i = 0;
+    while (i < rows.length) {
+      const ins = String(rows[i].section_instruction || "").trim();
+      let j = i + 1;
+      while (j < rows.length && String(rows[j].section_instruction || "").trim() === ins) j++;
+      groups.push({ instruction: ins, rows: rows.slice(i, j) });
+      i = j;
+    }
+    return groups;
+  }
+
+  function sectionInstructionHasClozeInlineBlanks(ins) {
+    const s = String(ins || "");
+    if (/\(\d+\)[^_\n\r]*_{3,}/.test(s)) return true;
+    if (/[a-zA-Z]?__\d+__/.test(s)) return true;
+    return false;
+  }
+
+  /** 大题说明里 (53) Y_____ 或 f__1__ 式文中空，小题无 stem、无 A–D（首字母填空等） */
+  function isClozeInlineFillSectionGroup(g) {
+    if (!g || !g.rows || !g.rows.length) return false;
+    const ins = String(g.instruction || "").trim();
+    if (!ins || !sectionInstructionHasClozeInlineBlanks(ins)) return false;
+    return g.rows.every((r) => {
+      const it = r.it;
+      if (String(it.stem || "").trim()) return false;
+      return getObjectiveChoiceLayout(r, it).letters.length === 0;
+    });
+  }
+
+  function collectClozeInlineBlankMatches(s) {
+    const str = String(s || "");
+    const hits = [];
+    const reParen = /\(\d+\)[^_\n\r]*_{3,}/g;
+    const reLetterNum = /[a-zA-Z]?__\d+__/g;
+    let m;
+    while ((m = reParen.exec(str)) !== null) {
+      hits.push({ i: m.index, len: m[0].length, m0: m[0] });
+    }
+    while ((m = reLetterNum.exec(str)) !== null) {
+      hits.push({ i: m.index, len: m[0].length, m0: m[0] });
+    }
+    hits.sort((a, b) => a.i - b.i);
+    const merged = [];
+    let lastEnd = -1;
+    hits.forEach((h) => {
+      if (h.i < lastEnd) return;
+      merged.push(h);
+      lastEnd = h.i + h.len;
+    });
+    return merged;
+  }
+
+  function clozeInlineMatchToNum(m0) {
+    const a = /^\((\d+)\)/.exec(m0);
+    if (a) return a[1];
+    const b = /__(\d+)__/.exec(m0);
+    return b ? b[1] : "";
+  }
+
+  function htmlClozeInstructionWithInlineBlanks(ins, rows) {
+    const rowByNum = Object.create(null);
+    rows.forEach((r) => {
+      const n = String(r.it.number || "").trim();
+      if (n) rowByNum[n] = r;
+    });
+    const s = String(ins || "");
+    const hits = collectClozeInlineBlankMatches(s);
+    let out = "";
+    let li = 0;
+    hits.forEach((h) => {
+      out += esc(s.slice(li, h.i)).replace(/\n/g, "<br>");
+      li = h.i + h.len;
+      const num = clozeInlineMatchToNum(h.m0);
+      const rk = num ? rowByNum[num] : null;
+      if (rk) {
+        out +=
+          "<span class='blank-line cloze-inline-blank'><input type='text' class='blank-input' data-k='" +
+          esc(rk.key) +
+          "' data-bi='0' autocomplete='off' /></span>";
+      } else {
+        out += esc(h.m0).replace(/\n/g, "<br>");
+      }
+    });
+    out += esc(s.slice(li)).replace(/\n/g, "<br>");
+    return "<div class='cloze-passage-text cloze-inline-passage'>" + out + "</div>";
+  }
+
+  function buildClozeInlinePassagePdfHtml(ins, rows) {
+    const rowByNum = Object.create(null);
+    rows.forEach((r) => {
+      const n = String(r.it.number || "").trim();
+      if (n) rowByNum[n] = r;
+    });
+    const s = String(ins || "");
+    const hits = collectClozeInlineBlankMatches(s);
+    let out = "";
+    let li = 0;
+    hits.forEach((h) => {
+      out += esc(s.slice(li, h.i)).replace(/\n/g, "<br>");
+      li = h.i + h.len;
+      const num = clozeInlineMatchToNum(h.m0);
+      const rk = num ? rowByNum[num] : null;
+      out += rk ? "<span class='exam-blank'>&nbsp;</span>" : esc(h.m0).replace(/\n/g, "<br>");
+    });
+    out += esc(s.slice(li)).replace(/\n/g, "<br>");
+    return "<div class='cloze-passage-text'>" + out + "</div>";
+  }
+
+  function groupDetailsByClozeSection(details) {
+    const groups = [];
+    let i = 0;
+    while (i < details.length) {
+      const ins = String(details[i].row.section_instruction || "").trim();
+      let j = i + 1;
+      while (j < details.length) {
+        if (String(details[j].row.section_instruction || "").trim() !== ins) break;
+        j++;
+      }
+      groups.push({ passage: details[i].row.section_instruction || "", details: details.slice(i, j) });
+      i = j;
+    }
+    return groups;
+  }
+
+  function clozeAnswerWordFromItem(it) {
+    const teach = it.teaching || {};
+    const opts = it.options && typeof it.options === "object" ? it.options : {};
+    const caRaw = String(teach.correct_answer || "").trim();
+    if (!caRaw) return "（未录入）";
+    const caUp = caRaw.toUpperCase().charAt(0);
+    if ("ABCDEFG".indexOf(caUp) >= 0) {
+      const tx = String(opts[caUp] || "").trim();
+      if (tx) return tx;
+    }
+    return caRaw;
+  }
+
+  function clozeNumToAnswerMap(detailsPairs) {
+    const map = Object.create(null);
+    detailsPairs.forEach(({ row }) => {
+      const it = row.it;
+      const n = String(it.number || "").trim();
+      if (!n) return;
+      const w = clozeAnswerWordFromItem(it);
+      map[n] = w;
+      const pi = parseInt(n, 10);
+      if (!isNaN(pi)) map[String(pi)] = w;
+    });
+    return map;
+  }
+
+  function nextClozePlaceholderAtStart(fragment) {
+    const tries = [
+      /^__\((\d+)\)__/.exec(fragment),
+      /^__(\d+)__/.exec(fragment),
+      /^[a-zA-Z]?__(\d+)__/.exec(fragment),
+      /^\((\d+)\)_{3,}/.exec(fragment),
+      /^\((\d+)\)[^_\n\r]*_{3,}/.exec(fragment),
+      /^(\d+)\s+_{3,}/.exec(fragment),
+    ];
+    let best = null;
+    tries.forEach((m) => {
+      if (!m) return;
+      const cand = { len: m[0].length, num: m[1] };
+      if (!best || cand.len > best.len) best = cand;
+    });
+    return best;
+  }
+
+  function buildClozeFilledPassageHtml(passage, detailsPairs) {
+    const map = clozeNumToAnswerMap(detailsPairs);
+    function wordFor(num) {
+      if (map[num] != null) return map[num];
+      const p = parseInt(num, 10);
+      if (!isNaN(p) && map[String(p)] != null) return map[String(p)];
+      return "（？）";
+    }
+    let html = "";
+    let pos = 0;
+    let foundPh = false;
+    while (pos < passage.length) {
+      const rest = passage.slice(pos);
+      const ph = nextClozePlaceholderAtStart(rest);
+      if (!ph) {
+        const ch = passage[pos];
+        if (ch === "\n") html += "<br>";
+        else html += esc(ch);
+        pos++;
+        continue;
+      }
+      foundPh = true;
+      const w = wordFor(ph.num);
+      html += "<span class='cloze-filled-ans' data-blank='" + esc(ph.num) + "'>" + esc(w) + "</span>";
+      pos += ph.len;
+    }
+    if (!foundPh && /_{3,}/.test(passage) && detailsPairs.length) {
+      const chunks = passage.split(/_{3,}/);
+      if (chunks.length === detailsPairs.length + 1) {
+        const sorted = detailsPairs.slice().sort((a, b) => {
+          const na = parseInt(a.row.it.number, 10);
+          const nb = parseInt(b.row.it.number, 10);
+          return (isNaN(na) ? 0 : na) - (isNaN(nb) ? 0 : nb);
+        });
+        let h = esc(chunks[0]).replace(/\n/g, "<br>");
+        for (let i = 0; i < sorted.length; i++) {
+          const w = clozeAnswerWordFromItem(sorted[i].row.it);
+          h += "<span class='cloze-filled-ans'>" + esc(w) + "</span>";
+          h += esc(chunks[i + 1]).replace(/\n/g, "<br>");
+        }
+        return formatPassageHtmlParagraphs(h);
+      }
+    }
+    return formatPassageHtmlParagraphs(html);
+  }
+
+  function renderStemHtml(stem, qkey, opt) {
+    opt = opt || {};
+    const seg = (chunk) =>
+      opt.allowUnderline ? stemHtmlWithAllowedUnderline(chunk) : esc(chunk).replace(/\n/g, "<br>");
+    if (!String(stem || "").trim()) {
+      return opt.placeholderParen ? "<p class='stem'>（ ）</p>" : "<p class='stem'></p>";
+    }
+    const parts = stem.split(/_{3,}/g);
+    if (parts.length === 1) {
+      return "<p class='stem'>" + seg(stem) + "</p>";
+    }
+    let h = "<p class='stem'>";
+    parts.forEach((chunk, i) => {
+      h += seg(chunk);
+      if (i < parts.length - 1) {
+        h += "<span class='blank-line'><input type='text' data-k='" + esc(qkey) + "' data-bi='" + i + "' autocomplete='off' /></span>";
+      }
+    });
+    h += "</p>";
+    return h;
+  }
+
+  /** 从 section_instruction 解析补全对话方框 A. … G. …（行首匹配） */
+  function dialogueBankOptionsFromSection(row) {
+    const ins = String(row.section_instruction || "");
+    const out = {};
+    const re = /^([A-G])\.\s*(.+)$/gm;
+    let m;
+    while ((m = re.exec(ins)) !== null) {
+      out[m[1].toUpperCase()] = m[2].trim();
+    }
+    return out;
+  }
+
+  function isClozeDialoguePlaceholderStem(stem) {
+    return /^\s*\d+\.?\s*$/.test(String(stem || ""));
+  }
+
+  /** 补全对话大题：练习/PDF/讲解中整段不展示 */
+  function isClozeDialogueCompletionSection(row) {
+    return /补全对话/.test(String((row && row.section_title) || ""));
+  }
+
+  function visibleClozeQuizRows(rows) {
+    return (rows || []).filter((r) => !isClozeDialogueCompletionSection(r));
+  }
+
+  function sectionCardQuestionCount(rows) {
+    if (!rows || !rows.length) return 0;
+    const eff = sectionRowsRenderKind(rows);
+    if (isClozeLikeQuizType(eff)) return visibleClozeQuizRows(rows).length;
+    return rows.length;
+  }
+
+  /** 全卷连续题号区间（与首页卡片「共 n 道」计数规则一致）；供无 range_text 时使用 */
+  function sectionGlobalQuestionRangeLabel(si) {
+    let start = 0;
+    for (let i = 0; i < si; i++) {
+      start += sectionCardQuestionCount(state.bySection["sec:" + i] || []);
+    }
+    const rows = state.bySection["sec:" + si] || [];
+    const cnt = sectionCardQuestionCount(rows);
+    if (!cnt) return "";
+    const lo = start + 1;
+    const hi = start + cnt;
+    return lo === hi ? "第 " + lo + " 题" : "第 " + lo + "–" + hi + " 题";
+  }
+
+  /** 左侧已有文章的完形/语法填空小题：仅展示纵向 A–D(或含 E…)，不重复题干与选项词 */
+  function isPassageClozeAbcdLayout(row, it) {
+    if (!row || !isClozeLikeQuizType(row.type)) return false;
+    if (isClozeDialogueCompletionSection(row)) return false;
+    const raw = it && it.options && typeof it.options === "object" ? it.options : {};
+    const n = ["A", "B", "C", "D", "E", "F", "G"].filter((L) => String(raw[L] || "").trim()).length;
+    return n >= 2;
+  }
+
+  /** 大题标题/说明是否像「阅读判断」正误题 */
+  function sectionLooksTrueFalse(row) {
+    if (/判断/.test(String(row.section_title || ""))) return true;
+    const ins = String(row.section_instruction || "");
+    if (/判断[^\n]{0,48}正\s*\(?T\)?|正\s*\(?T\)?[^\n]{0,24}误\s*\(?F\)?/i.test(ins)) return true;
+    if (/True\s*\(\s*T\s*\)|False\s*\(\s*F\s*\)/i.test(ins)) return true;
+    /* 语音辨识等：「是(T)否(F)相同」 */
+    if (/是\s*\(?T\)?\s*否\s*\(?F\)?/i.test(ins)) return true;
+    if (/判断/.test(ins) && /(画线|划线)部分/.test(ins) && /是否相同/.test(ins)) return true;
+    return false;
+  }
+
+  /**
+   * 客观题选项：A–D、补全对话从 section_instruction 解析的 A–G 方框、T/F、阅读判断隐式 T/F
+   */
+  function getObjectiveChoiceLayout(row, it) {
+    const raw = it && typeof it.options === "object" && it.options ? it.options : {};
+    const typ = row.type;
+    const optLetters = ["A", "B", "C", "D", "E", "F", "G"].filter((L) => String(raw[L] || "").trim());
+    if (optLetters.length) return { letters: optLetters, opts: raw };
+    if (isClozeLikeQuizType(typ)) {
+      const bank = dialogueBankOptionsFromSection(row);
+      const bankLetters = Object.keys(bank).sort();
+      if (bankLetters.length >= 2) return { letters: bankLetters, opts: bank };
+    }
+    const tfKeys = ["T", "F"].filter((L) => String(raw[L] || "").trim());
+    if (tfKeys.length >= 2) return { letters: ["T", "F"], opts: raw };
+    if (tfKeys.length === 1) return { letters: tfKeys, opts: raw };
+    const stem = String(it.stem || "").trim();
+    if (
+      stem &&
+      sectionLooksTrueFalse(row) &&
+      (typ === "reading" || typ === "choice" || typ === "other" || typ === "phonetics")
+    ) {
+      const insTf = String(row.section_instruction || "");
+      const phoneticOther =
+        typ === "phonetics" ||
+        (typ === "other" && (/发音/i.test(insTf) || /画线部分/i.test(insTf) || /划线部分/i.test(insTf)));
+      return {
+        letters: ["T", "F"],
+        opts: phoneticOther
+          ? { T: "（相同）", F: "（不相同）" }
+          : { T: "（正确）", F: "（错误）" },
+      };
+    }
+    /**
+     * 阅读 JSON 常把「判断正误」标成 fill_blank + 空 options；大题标题含「阅读」但 section_instruction 未必含「判断」。
+     * 有 teaching 答案 T/F，或 context_note 含判断/See Passage 指引时，按客观 T/F 渲染单选，勿用文本框。
+     */
+    const cnRd = String(it.context_note || "");
+    const caRd = String((it.teaching && it.teaching.correct_answer) || "").trim().toUpperCase();
+    const tfByTeaching = caRd === "T" || caRd === "F";
+    const tfByReadingNote =
+      /判断|正误|True\s*\(\s*T|错误的写|正确的写|写\s*["""']?[TFtf]/i.test(cnRd) ||
+      /^See\s+Passage\s*[（(]/i.test(cnRd.trim());
+    if (
+      typ === "fill_blank" &&
+      /阅读/.test(String(row.section_title || "")) &&
+      stem &&
+      !/_{3,}/.test(stem) &&
+      (tfByTeaching || tfByReadingNote)
+    ) {
+      return { letters: ["T", "F"], opts: { T: "T", F: "F" } };
+    }
+    return { letters: [], opts: raw };
+  }
+
+  function htmlQuizRadioOptions(letters, opts, qkey) {
+    let h = "";
+    letters.forEach((L) => {
+      const tx = String(opts[L] || "").trim();
+      if (!tx) return;
+      const id = "r-" + qkey.replace(/:/g, "-") + "-" + L;
+      h += "<label><input type='radio' name='k-" + esc(qkey) + "' value='" + esc(L) + "' id='" + id + "' />";
+      h += "<span><strong>" + esc(L) + "</strong> " + esc(tx).replace(/\n/g, "<br>") + "</span></label>";
+    });
+    return h;
+  }
+
+  /** 完形/语法填空练习页：选项自上而下纵向排列 */
+  function htmlQuizRadioOptionsAbcdGrid(letters, opts, qkey) {
+    let h = "";
+    letters.forEach((L) => {
+      const tx = String(opts[L] || "").trim();
+      if (!tx) return;
+      const id = "r-" + qkey.replace(/:/g, "-") + "-" + L;
+      h += "<label class='cloze-opt-abcd cloze-opt-abcd-full'><input type='radio' name='k-" + esc(qkey) + "' value='" + esc(L) + "' id='" + id + "' />";
+      h += "<span><strong>" + esc(L) + "</strong> " + esc(tx).replace(/\n/g, "<br>") + "</span></label>";
+    });
+    return h;
+  }
+
+  function quizOptsGridClass(letters, opts) {
+    let c = 0;
+    letters.forEach((L) => {
+      if (String(opts[L] || "").trim()) c++;
+    });
+    if (c <= 1) return "opts";
+    if (c > 4) return "opts opts-bank";
+    return "opts opts-cols-" + c;
+  }
+
+  function renderTransformStemHtml(stem, qkey) {
+    if (!stem) {
+      return "<p class='stem'><span class='blank-line'><input type='text' data-k='" + esc(qkey) + "' data-bi='0' autocomplete='off' /></span></p>";
+    }
+    if (/_{3,}/.test(stem)) return renderStemHtml(stem, qkey);
+    return (
+      "<p class='stem'>" +
+      esc(stem).replace(/\n/g, "<br>") +
+      " <span class='blank-line'><input type='text' data-k='" +
+      esc(qkey) +
+      "' data-bi='0' autocomplete='off' placeholder='作答' /></span></p>"
+    );
+  }
+
+  function parseTransformAnswerParts(ca) {
+    return String(ca || "").split("|").map((s) => s.trim());
+  }
+
+  /** 讲解页：句型转换题干，用正确答案填入空格并高亮（与完形「填入答案」样式一致） */
+  function buildTransformFilledStemHtml(stem, ca) {
+    const parts = parseTransformAnswerParts(ca);
+    const stemStr = String(stem || "");
+    const blankPh = "—";
+    const spanAns = (w) =>
+      "<span class='cloze-filled-ans'>" + esc(w && String(w).trim() ? w : blankPh) + "</span>";
+
+    if (!stemStr.trim()) {
+      const w = String(ca || "").trim() || parts.filter(Boolean).join(" | ") || blankPh;
+      return "<div class='stem tf-filled-stem' style='margin-bottom:0.75rem'>" + spanAns(w) + "</div>";
+    }
+
+    if (/_{3,}/.test(stemStr)) {
+      const chunks = stemStr.split(/_{3,}/);
+      let h = "<div class='stem tf-filled-stem' style='margin-bottom:0.75rem'>";
+      const n = chunks.length - 1;
+      for (let i = 0; i < chunks.length; i++) {
+        h += esc(chunks[i]).replace(/\n/g, "<br>");
+        if (i < n) {
+          const w = i < parts.length ? parts[i] : "";
+          h += spanAns(w);
+        }
+      }
+      h += "</div>";
+      return h;
+    }
+
+    const tail =
+      String(ca || "").trim() ||
+      (parts.length ? parts.filter(Boolean).join(" | ") : "") ||
+      blankPh;
+    return (
+      "<div class='stem tf-filled-stem' style='margin-bottom:0.75rem'>" +
+      esc(stemStr).replace(/\n/g, "<br>") +
+      " " +
+      spanAns(tail) +
+      "</div>"
+    );
+  }
+
+  function renderOpenAnswerStem(stem, qkey, rowType, quizType) {
+    const isTf = rowType === "sentence_transform" || quizType === "sentence_transform";
+    if (isTf) return renderTransformStemHtml(stem, qkey);
+    if (
+      rowType === "writing" &&
+      quizType === "writing" &&
+      writingStemHasPipeTable(stem)
+    ) {
+      return (
+        "<div class='stem writing-stem'>" +
+        writingPromptToHtml(stem) +
+        "</div><textarea class='area' data-k='" +
+        esc(qkey) +
+        "' rows='8' placeholder='在此续写全文'></textarea>"
+      );
+    }
+    return renderStemHtml(stem, qkey) + "<textarea class='area' data-k='" + esc(qkey) + "' rows='6' placeholder='在此作答（多空用 | 分隔）'></textarea>";
+  }
+
+  /** 按真题卷面顺序：自上而下扫 sections→items，题型首次出现顺序（与 buildFlat 的 state.flat 一致） */
+  function typesInPaperAppearanceOrder() {
+    const seen = Object.create(null);
+    const out = [];
+    (state.flat || []).forEach((row) => {
+      const t = row.type;
+      if (seen[t]) return;
+      if (!(state.byType[t] || []).length) return;
+      seen[t] = true;
+      out.push(t);
+    });
+    return out;
+  }
+
+  function orderedTypesList() {
+    const cards = getTypeCards();
+    if (cards) return cards.map((_, i) => "tc:" + i);
+    const orderRaw = EXAM.exam_meta && String(EXAM.exam_meta.type_card_order || "").toLowerCase();
+    if (orderRaw === "paper_sections" || orderRaw === "sections") {
+      return sectionsInPaperOrder();
+    }
+    if (orderRaw === "paper") {
+      return typesInPaperAppearanceOrder();
+    }
+    return Object.keys(state.byType)
+      .filter((x) => (state.byType[x] || []).length > 0)
+      .sort((a, b) => {
+        const ia = TYPE_ORDER.indexOf(a);
+        const ib = TYPE_ORDER.indexOf(b);
+        if (ia === -1 && ib === -1) return a.localeCompare(b);
+        if (ia === -1) return 1;
+        if (ib === -1) return -1;
+        return ia - ib;
+      });
+  }
+
+  /** 生成某题型答题区 HTML（供页面与 PDF 共用）；quizType 为内容分支，tag 为题卡角标文案 */
+  function buildQuizBodyHtmlByType(quizType, rows, displayTag) {
+    const tag = displayTag != null ? displayTag : quizType;
+    const readingGroups = groupReadingByPassage(rows);
+    const usePassageReadingLayout =
+      readingGroups.some((g) => g.passage) &&
+      quizType !== "writing" &&
+      !isClozeLikeQuizType(quizType);
+    const writingGroups = quizType === "writing" ? groupWritingByPassage(rows) : [];
+    let html = "";
+    if (isClozeLikeQuizType(quizType) && rows.length) {
+      groupFillBlankBySectionInstruction(rows).forEach((g) => {
+        if (isClozeDialogueCompletionSection(g.rows[0])) return;
+        if (isClozeInlineFillSectionGroup(g)) {
+          const gTitle = String(g.rows[0].section_title || "").trim() || "阅读材料";
+          html +=
+            "<div class='pdf-cloze-unit cloze-inline-fill-unit'><div class='cloze-passage-card card'>" +
+            "<h2>" +
+            esc(gTitle) +
+            "</h2>" +
+            htmlClozeInstructionWithInlineBlanks(g.instruction, g.rows) +
+            "</div></div>";
+          return;
+        }
+        const ins = g.instruction.trim();
+        const gTitle = String(g.rows[0].section_title || "").trim() || "阅读材料";
+        const sp = splitSectionHintAndBody(ins);
+        const hintTop = sp.hint
+          ? "<p class='muted' style='margin:0 0 0.75rem;line-height:1.55'>" + esc(sp.hint).replace(/\n/g, "<br>") + "</p>"
+          : "";
+        const mainIns = sp.body || ins;
+        const passageHtml = ins
+          ? "<div class='cloze-passage-card card'><h2>" +
+            esc(gTitle) +
+            "</h2>" +
+            hintTop +
+            "<div class='cloze-passage-text'>" +
+            formatPassageParagraphs(mainIns) +
+            "</div></div>"
+          : "<div class='cloze-passage-card card'><p class='muted'>（本篇暂无导语，请仅根据右侧选项作答。）</p></div>";
+        let rightCol =
+          "<div class='cloze-options-col'><h2 class='card' style='margin:0 0 0.75rem;padding:0.65rem 0.85rem;font-size:1rem;'>答题区</h2>";
+        g.rows.forEach((row) => {
+          const it = row.it;
+          const qkey = row.key;
+          const num = String(it.number);
+          const diaGap = isClozeDialoguePlaceholderStem(it.stem);
+          rightCol +=
+            "<div class='card q-block cloze-opt-card" +
+            (diaGap ? " cloze-dialogue-gap-card" : "") +
+            "' data-qkey='" +
+            esc(qkey) +
+            "'><div class='q'>";
+          if (diaGap) {
+            rightCol += "<div class='cloze-dialogue-gap-badge'>" + esc(num) + ".</div>";
+          } else {
+            rightCol +=
+              "<div class='q-head'><span class='q-num'>第 " + esc(num) + " 空</span><span class='tag'>" + esc(tag) + "</span></div>";
+          }
+          const layoutC = getObjectiveChoiceLayout(row, it);
+          const lettersC = layoutC.letters;
+          const optsC = layoutC.opts;
+          const abcdOnly = isPassageClozeAbcdLayout(row, it);
+          if (lettersC.length) {
+            if (!diaGap && !abcdOnly) {
+              rightCol += renderStemHtml(it.stem, qkey);
+            }
+            if (abcdOnly) {
+              rightCol += "<div class='opts opts-cloze-abcd'>";
+              rightCol += htmlQuizRadioOptionsAbcdGrid(lettersC, optsC, qkey);
+            } else {
+              rightCol += "<div class='" + quizOptsGridClass(lettersC, optsC) + "'>";
+              rightCol += htmlQuizRadioOptions(lettersC, optsC, qkey);
+            }
+            rightCol += "</div>";
+          } else {
+            rightCol += renderStemHtml(it.stem, qkey);
+          }
+          rightCol += "</div></div>";
+        });
+        rightCol += "</div>";
+        html +=
+          "<div class='pdf-cloze-unit'><div class='cloze-quiz-layout'><div class='cloze-passage-col'>" +
+          passageHtml +
+          "</div>" +
+          rightCol +
+          "</div></div>";
+      });
+    } else if (usePassageReadingLayout) {
+      readingGroups.forEach((g) => {
+        if (g.passage) {
+          let passageHtml;
+          if (g.fromSection) {
+            passageHtml =
+              "<div class='reading-passage-card card'><h2>阅读材料</h2>" +
+              "<div class='reading-passage-text'>" + passageHtmlFromSectionInstruction(g.passage) + "</div></div>";
+          } else {
+            const ph = splitReadingPassageHeading(g.passage);
+            passageHtml =
+              "<div class='reading-passage-card card'><h2>" + esc(ph.title) + "</h2>" +
+              "<div class='reading-passage-text'>" + formatPassageParagraphs(ph.text) + "</div></div>";
+          }
+          let rightCol = "<div class='reading-questions-col'>";
+          g.rows.forEach((row) => {
+            const it = row.it;
+            const qkey = row.key;
+            const num = String(it.number);
+            rightCol += "<div class='card q-block reading-q-card' data-qkey='" + esc(qkey) + "'><div class='q'>";
+            rightCol += "<div class='q-head'><span class='q-num'>" + esc(row.section_title) + " · 第 " + esc(num) + " 题</span>";
+            rightCol += "<span class='tag'>" + esc(tag) + "</span></div>";
+            const layoutR = getObjectiveChoiceLayout(row, it);
+            const lettersR = layoutR.letters;
+            const optsR = layoutR.opts;
+            if (lettersR.length) {
+              rightCol += renderStemHtml(it.stem, qkey);
+              rightCol += "<div class='" + quizOptsGridClass(lettersR, optsR) + "'>";
+              rightCol += htmlQuizRadioOptions(lettersR, optsR, qkey);
+              rightCol += "</div>";
+            } else {
+              rightCol += renderOpenAnswerStem(it.stem, qkey, row.type, quizType);
+            }
+            rightCol += "</div></div>";
+          });
+          rightCol += "</div>";
+          html +=
+            "<div class='pdf-reading-unit'><div class='reading-quiz-layout'><div class='reading-passage-col'>" +
+            passageHtml +
+            "</div>" +
+            rightCol +
+            "</div></div>";
+        } else {
+          g.rows.forEach((row) => {
+            const it = row.it;
+            const qkey = row.key;
+            const num = String(it.number);
+            html += "<div class='card q-block reading-q-card' data-qkey='" + esc(qkey) + "'><div class='q'>";
+            html += "<div class='q-head'><span class='q-num'>" + esc(row.section_title) + " · 第 " + esc(num) + " 题</span>";
+            html += "<span class='tag'>" + esc(tag) + "</span></div>";
+            const layoutR2 = getObjectiveChoiceLayout(row, it);
+            const lettersR2 = layoutR2.letters;
+            const optsR2 = layoutR2.opts;
+            if (lettersR2.length) {
+              html += renderStemHtml(it.stem, qkey);
+              html += "<div class='" + quizOptsGridClass(lettersR2, optsR2) + "'>";
+              html += htmlQuizRadioOptions(lettersR2, optsR2, qkey);
+              html += "</div>";
+            } else {
+              html += renderOpenAnswerStem(it.stem, qkey, row.type, quizType);
+            }
+            html += "</div></div>";
+          });
+        }
+      });
+    } else if (quizType === "writing" && writingGroups.some((g) => g.passage)) {
+      writingGroups.forEach((g) => {
+        if (g.passage) {
+          const writingCardTitle =
+            String((g.rows[0] && g.rows[0].section_title) || "").trim() || "书面表达";
+          let passageHtmlW;
+          if (g.fromSection) {
+            passageHtmlW =
+              "<div class='reading-passage-card card'><h2>" + esc(writingCardTitle) + "</h2>" +
+              "<div class='reading-passage-text'>" + passageHtmlFromSectionInstruction(g.passage) + "</div></div>";
+          } else {
+            const phw = splitReadingPassageHeading(g.passage);
+            passageHtmlW =
+              "<div class='reading-passage-card card'><h2>" + esc(phw.title) + "</h2>" +
+              "<div class='reading-passage-text'>" + formatPassageParagraphs(phw.text) + "</div></div>";
+          }
+          let rightColW = "<div class='reading-questions-col'>";
+          g.rows.forEach((row) => {
+            const itw = row.it;
+            const qkeyW = row.key;
+            const numW = String(itw.number);
+            rightColW += "<div class='card q-block reading-q-card' data-qkey='" + esc(qkeyW) + "'><div class='q'>";
+            rightColW +=
+              "<div class='q-head'><span class='q-num'>" +
+              esc(row.section_title) +
+              " · 第 " +
+              esc(numW) +
+              " 题</span>";
+            rightColW += "<span class='tag'>" + esc(tag) + "</span></div>";
+            rightColW += renderOpenAnswerStem(itw.stem, qkeyW, row.type, quizType);
+            rightColW += "</div></div>";
+          });
+          rightColW += "</div>";
+          html +=
+            "<div class='pdf-reading-unit'><div class='reading-quiz-layout'><div class='reading-passage-col'>" +
+            passageHtmlW +
+            "</div>" +
+            rightColW +
+            "</div></div>";
+        } else {
+          g.rows.forEach((row) => {
+            const itx = row.it;
+            const qkeyX = row.key;
+            const numX = String(itx.number);
+            html += "<div class='card q-block reading-q-card' data-qkey='" + esc(qkeyX) + "'><div class='q'>";
+            html +=
+              "<div class='q-head'><span class='q-num'>" +
+              esc(row.section_title) +
+              " · 第 " +
+              esc(numX) +
+              " 题</span>";
+            html += "<span class='tag'>" + esc(tag) + "</span></div>";
+            html += renderOpenAnswerStem(itx.stem, qkeyX, row.type, quizType);
+            html += "</div></div>";
+          });
+        }
+      });
+    } else if (isFillBlankQuizType(quizType) && rows.length) {
+      groupFillBlankBySectionInstruction(rows).forEach((fg) => {
+        if (fg.instruction) {
+          const sp = splitSectionHintAndBody(fg.instruction);
+          const hintPart = sp.hint
+            ? "<p class='muted' style='margin:0 0 0.65rem;line-height:1.55'>" + esc(sp.hint).replace(/\n/g, "<br>") + "</p>"
+            : "";
+          const bankSrc = sp.body || fg.instruction;
+          html +=
+            "<div class='card word-bank-card' style='margin-bottom:1rem'>" +
+            "<h2 style='margin:0 0 0.5rem;font-size:1rem;color:var(--accent)'>题目说明与词汇方框</h2>" +
+            hintPart +
+            "<div class='word-bank-box' style='font-family:Literata,Georgia,serif;font-size:1.06rem;line-height:1.65;padding:0.75rem 0.9rem;background:#f7faf7;border-radius:10px;border:1px dashed var(--border)'>" +
+            esc(bankSrc).replace(/\n/g, "<br>") +
+            "</div></div>";
+        }
+        fg.rows.forEach((row) => {
+          const it = row.it;
+          const qkey = row.key;
+          const num = String(it.number);
+          html += "<div class='card q-block' data-qkey='" + esc(qkey) + "'><div class='q'>";
+          html += "<div class='q-head'><span class='q-num'>" + esc(row.section_title) + " · 第 " + esc(num) + " 题</span>";
+          html += "<span class='tag'>" + esc(tag) + "</span></div>";
+          html += renderStemHtml(it.stem, qkey);
+          html += "</div></div>";
+        });
+      });
+    } else {
+      if (quizType === "phonetics" && rows.length) {
+        const insPh = String(rows[0].section_instruction || "").trim();
+        if (insPh) {
+          html +=
+            "<div class='card' style='margin-bottom:1rem;padding:0.75rem 1rem'><p class='muted' style='margin:0;line-height:1.55'>" +
+            esc(insPh).replace(/\n/g, "<br>") +
+            "</p></div>";
+        }
+      }
+      const stemOptBase =
+        quizType === "phonetics" ? { allowUnderline: true, placeholderParen: true } : { placeholderParen: true };
+      rows.forEach((row) => {
+        const it = row.it;
+        const qkey = row.key;
+        const num = String(it.number);
+        html +=
+          "<div class='card q-block" +
+          (quizType === "reading" ? " reading-q-card" : "") +
+          "' data-qkey='" +
+          esc(qkey) +
+          "'><div class='q'>";
+        html += "<div class='q-head'><span class='q-num'>" + esc(row.section_title) + " · 第 " + esc(num) + " 题</span>";
+        html += "<span class='tag'>" + esc(tag) + "</span></div>";
+
+        if (quizType === "reading" && (it.context_note || "").trim()) {
+          html += "<div class='passage'>" + formatPassageParagraphs(it.context_note) + "</div>";
+        }
+
+        const layoutG = getObjectiveChoiceLayout(row, it);
+        const lettersG = layoutG.letters;
+        const optsG = layoutG.opts;
+        if (lettersG.length) {
+          html += renderStemHtml(it.stem, qkey, stemOptBase);
+          html += "<div class='" + quizOptsGridClass(lettersG, optsG) + "'>";
+          html += htmlQuizRadioOptions(lettersG, optsG, qkey);
+          html += "</div>";
+        } else {
+          html += renderOpenAnswerStem(it.stem, qkey, row.type, quizType);
+        }
+        html += "</div></div>";
+      });
+    }
+    return html;
+  }
+
+  function buildQuizBodyHtmlMixedSection(rows) {
+    let html = "";
+    let i = 0;
+    while (i < rows.length) {
+      let j = i + 1;
+      while (j < rows.length && rows[j].type === rows[i].type) j++;
+      const chunk = rows.slice(i, j);
+      const typ = rows[i].type;
+      html += buildQuizBodyHtmlByType(typ, chunk, typ);
+      i = j;
+    }
+    return html;
+  }
+
+  function buildQuizBodyHtml(t) {
+    const isBlock = isPaperShardId(t);
+    const rows = isBlock ? rowsForPaperShard(t) : (state.byType[t] || []);
+    if (!rows.length) return "";
+    const effective = isBlock ? sectionRowsRenderKind(rows) : t;
+    const displayTag = isBlock ? sectionRowsPrimaryType(rows) : t;
+    if (isBlock && effective === "mixed") return buildQuizBodyHtmlMixedSection(rows);
+    return buildQuizBodyHtmlByType(effective, rows, displayTag);
+  }
+
+  /** 阅读材料中允许 &lt;u&gt;…&lt;/u&gt; 显示为下划线，其余 HTML 剥离 */
+  function examSanitizePassageRich(p) {
+    let t = String(p || "");
+    t = t.replace(/<\s*u\s*>/gi, "@@UON@@").replace(/<\s*\/\s*u\s*>/gi, "@@UOFF@@");
+    t = t.replace(/<[^>]+>/g, "");
+    t = esc(t);
+    return t.replace(/@@UON@@/g, "<u>").replace(/@@UOFF@@/g, "</u>");
+  }
+
+  function formatPassageParagraphsExam(raw) {
+    const s = String(raw == null ? "" : raw).replace(/\r\n/g, "\n").trim();
+    if (!s) return "";
+    return s
+      .split(/\n+/)
+      .map((x) => x.trim())
+      .filter(Boolean)
+      .map((para) => "<p class='exam-para'>" + examSanitizePassageRich(para).replace(/\n/g, "<br>") + "</p>")
+      .join("");
+  }
+
+  function buildExamPaperStemPlain(stem, allowUnderline) {
+    const s = String(stem || "");
+    if (allowUnderline) {
+      return stemHtmlWithAllowedUnderline(s).replace(/_{3,}/g, "<span class='exam-blank'>&nbsp;</span>");
+    }
+    return esc(s)
+      .replace(/\n/g, "<br>")
+      .replace(/_{3,}/g, "<span class='exam-blank'>&nbsp;</span>");
+  }
+
+  function buildExamPaperOptionsHtmlWithLayout(letters, opts) {
+    const parts = [];
+    letters.forEach((L) => {
+      const tx = String((opts && opts[L]) || "").trim();
+      if (!tx) return;
+      parts.push("<span class='exam-opt-chip'><b>" + esc(L) + ".</b> " + esc(tx).replace(/\n/g, " ") + "</span>");
+    });
+    if (!parts.length) return "";
+    const n = parts.length;
+    const cls = n <= 4 ? "exam-opts-cols-" + n : "exam-opts-bank";
+    return "<div class='exam-opts-row " + cls + "'>" + parts.join("") + "</div>";
+  }
+
+  /** 完形 PDF：多行表格，每行「题号 | A | B | …」，列对齐 */
+  function buildExamPaperClozePdfGrid(rows) {
+    if (!rows || !rows.length) return "";
+    const union = new Set();
+    rows.forEach((row) => {
+      getObjectiveChoiceLayout(row, row.it).letters.forEach((L) => union.add(L));
+    });
+    const order = ["A", "B", "C", "D", "E", "F", "G"].filter((L) => union.has(L));
+    const nOpt = order.length;
+    const optCls =
+      nOpt >= 7
+        ? " exam-cloze-pdf-grid-7opt"
+        : nOpt >= 6
+          ? " exam-cloze-pdf-grid-6opt"
+          : nOpt >= 5
+            ? " exam-cloze-pdf-grid-5opt"
+            : nOpt >= 4
+              ? " exam-cloze-pdf-grid-4opt"
+              : "";
+    let h = "<div class='exam-cloze-pdf-grid" + optCls + "'>";
+    rows.forEach((row) => {
+      const it = row.it;
+      const num = String(it.number);
+      const layout = getObjectiveChoiceLayout(row, it);
+      const letters = layout.letters;
+      const opts = layout.opts;
+      h +=
+        "<span class='exam-cloze-pdf-num'><span class='exam-n'>" +
+        esc(num) +
+        ".</span><span class='exam-paren'>（&nbsp;&nbsp;&nbsp;&nbsp;）</span></span>";
+      order.forEach((L) => {
+        const tx = String((opts && opts[L]) || "").trim();
+        if (letters.includes(L) && tx) {
+          h += "<span class='exam-cloze-pdf-opt'><b>" + esc(L) + ".</b> " + esc(tx).replace(/\n/g, " ") + "</span>";
+        } else {
+          h += "<span class='exam-cloze-pdf-opt exam-cloze-pdf-opt-empty'></span>";
+        }
+      });
+    });
+    h += "</div>";
+    return h;
+  }
+
+  function buildExamPaperOptionsHtml(opts) {
+    const letters = ["A", "B", "C", "D"].filter((L) => String((opts && opts[L]) || "").trim());
+    if (!letters.length) return "";
+    return buildExamPaperOptionsHtmlWithLayout(letters, opts);
+  }
+
+  function buildExamPaperItemBlock(row, it, t) {
+    const num = String(it.number);
+    const layout = getObjectiveChoiceLayout(row, it);
+    const letters = layout.letters;
+    const opts = layout.opts;
+    const itemCls = "exam-item" + (t === "reading" ? " exam-item-reading" : "");
+    let block = "<div class='" + itemCls + "'>";
+    if (letters.length) {
+      block += "<div class='exam-item-row'><span class='exam-n'>" + esc(num) + ".</span>";
+      block += "<span class='exam-paren'>（&nbsp;&nbsp;&nbsp;&nbsp;）</span>";
+      block += buildExamPaperStemPlain(it.stem, row.type === "phonetics") + "</div>";
+      block += buildExamPaperOptionsHtmlWithLayout(letters, opts);
+    } else {
+      block += "<div class='exam-item-row'><span class='exam-n'>" + esc(num) + ".</span>";
+      if (
+        (t === "writing" || row.type === "writing") &&
+        writingStemHasPipeTable(it.stem)
+      ) {
+        block += "</div><div class='exam-writing-stem-wrap'>" + writingPromptToHtml(it.stem) + "</div>";
+      } else {
+        block += " " + buildExamPaperStemPlain(it.stem, row.type === "phonetics") + "</div>";
+      }
+      if (t === "writing" || row.type === "writing") {
+        block += "<div class='exam-answer-lines'></div>";
+      }
+    }
+    block += "</div>";
+    return block;
+  }
+
+  /** PDF：按 groupReadingByPassage 输出「文章框 + 小题」（与练习页聚篇一致） */
+  function buildExamPaperReadingGroupsHtml(readingGroups) {
+    let frag = "";
+    readingGroups.forEach((g) => {
+      if (g.passage) {
+        frag += "<div class='exam-reading-unit'>";
+        if (g.fromSection) {
+          frag += "<div class='exam-passage-titled-wrap'>";
+          frag +=
+            "<div class='exam-passage-block'>" +
+            passageExamHtmlFromSectionInstruction(g.passage) +
+            "</div>";
+          frag += "</div>";
+        } else {
+          const ph = splitReadingPassageHeading(g.passage);
+          frag += "<div class='exam-passage-titled-wrap'>";
+          frag += "<p class='exam-subhead'>" + esc(ph.title) + "</p>";
+          frag += "<div class='exam-passage-block'>" + formatPassageParagraphsExam(ph.text) + "</div>";
+          frag += "</div>";
+        }
+        g.rows.forEach((row) => {
+          frag += buildExamPaperItemBlock(
+            row,
+            row.it,
+            isPassageKeyedQuizRow(row) ? "reading" : row.type,
+          );
+        });
+        frag += "</div>";
+      } else {
+        g.rows.forEach((row) => {
+          frag += buildExamPaperItemBlock(
+            row,
+            row.it,
+            isPassageKeyedQuizRow(row) ? "reading" : row.type,
+          );
+        });
+      }
+    });
+    return frag;
+  }
+
+  /** 合并大题 PDF：去掉子节自带的卷面大标题，只保留 type_cards 总标题 */
+  function stripLeadingExamBigTitleHtml(inner) {
+    return String(inner || "").replace(
+      /^\s*<h2\b[^>]*\bclass=['"]exam-big-title['"][^>]*>[\s\S]*?<\/h2>\s*/i,
+      "",
+    );
+  }
+
+  function buildExamPaperTypeCardHtml(tcId) {
+    const idx = parseTypeCardIndex(tcId);
+    const cards = getTypeCards();
+    if (!cards || idx < 0 || idx >= cards.length) return "";
+    const spec = cards[idx];
+    const secs = spec.sections;
+    if (!Array.isArray(secs) || !secs.length) return "";
+    const mainTitle = String(spec.title || "").trim() || "大题";
+    let h = "<h2 class='exam-big-title'>" + esc(mainTitle) + "</h2>";
+    secs.forEach((si) => {
+      const chunk = buildExamPaperSectionHtml("sec:" + si);
+      h += stripLeadingExamBigTitleHtml(chunk);
+    });
+    return h;
+  }
+
+  /** 标准纸笔考试排版（非网页练习样式）；rowsOverride 用于 sec:N 大题卡 */
+  function buildExamPaperSectionHtml(shardOrType, rowsOverride) {
+    if (isTypeCardId(shardOrType)) {
+      return buildExamPaperTypeCardHtml(shardOrType);
+    }
+    const isSec = isSectionShardId(shardOrType);
+    const rows =
+      rowsOverride != null
+        ? rowsOverride
+        : isSec
+          ? (state.bySection[shardOrType] || [])
+          : (state.byType[shardOrType] || []);
+    if (!rows.length) return "";
+    const qt = isSec ? sectionRowsRenderKind(rows) : shardOrType;
+    if (isSec && qt === "mixed") {
+      const readingGroupsMix = groupReadingByPassage(rows);
+      if (readingGroupsMix.some((g) => g.passage)) {
+        return (
+          "<h2 class='exam-big-title'>" +
+          esc(sectionShardLabel(shardOrType)) +
+          "</h2>" +
+          buildExamPaperReadingGroupsHtml(readingGroupsMix)
+        );
+      }
+      let mix = "<h2 class='exam-big-title'>" + esc(sectionShardLabel(shardOrType)) + "</h2>";
+      rows.forEach((row) => {
+        const it = row.it;
+        if (row.type === "reading" && (it.context_note || "").trim()) {
+          mix +=
+            "<div class='exam-passage-block exam-passage-inline'>" +
+            formatPassageParagraphsExam(it.context_note) +
+            "</div>";
+        }
+        mix += buildExamPaperItemBlock(row, it, row.type);
+      });
+      return mix;
+    }
+    const readingGroups = groupReadingByPassage(rows);
+    const writingGroupsEp = qt === "writing" ? groupWritingByPassage(rows) : [];
+
+    if (isClozeLikeQuizType(qt) && rows.length) {
+      let out = "";
+      groupFillBlankBySectionInstruction(rows).forEach((g) => {
+        if (isClozeDialogueCompletionSection(g.rows[0])) return;
+        const gTitle = String(g.rows[0].section_title || "").trim() || typeLabel(qt);
+        out += "<h2 class='exam-big-title'>" + esc(gTitle) + "</h2>";
+        if (isClozeInlineFillSectionGroup(g)) {
+          out += "<div class='exam-passage-titled-wrap'><div class='exam-passage-block'>";
+          out += buildClozeInlinePassagePdfHtml(g.instruction, g.rows);
+          out += "</div></div>";
+          return;
+        }
+        const ins = g.instruction.trim();
+        if (ins) {
+          const sp = splitSectionHintAndBody(ins);
+          const mainText = sp.body || ins;
+          out += "<div class='exam-passage-titled-wrap'>";
+          if (sp.hint) {
+            out += "<p class='exam-direction'>" + esc(sp.hint).replace(/\n/g, "<br>") + "</p>";
+          }
+          out += "<div class='exam-passage-block'>" + formatPassageParagraphsExam(mainText) + "</div>";
+          out += "</div>";
+        }
+        const allPassageAbcd =
+          g.rows.length > 0 &&
+          g.rows.every((row) => {
+            const it = row.it;
+            return (
+              !isClozeDialoguePlaceholderStem(it.stem) &&
+              isPassageClozeAbcdLayout(row, it) &&
+              getObjectiveChoiceLayout(row, it).letters.length > 0
+            );
+          });
+        if (allPassageAbcd) {
+          out += buildExamPaperClozePdfGrid(g.rows);
+        } else {
+          g.rows.forEach((row) => {
+            const it = row.it;
+            const num = String(it.number);
+            const layoutZ = getObjectiveChoiceLayout(row, it);
+            const lettersZ = layoutZ.letters;
+            const optsZ = layoutZ.opts;
+            const diaGapZ = isClozeDialoguePlaceholderStem(it.stem);
+            const abcdOnlyZ = isPassageClozeAbcdLayout(row, it);
+            out +=
+              "<div class='exam-item exam-item-cloze" +
+              (diaGapZ && lettersZ.length ? " exam-cloze-dialogue-gap" : "") +
+              "'>";
+            if (lettersZ.length) {
+              if (diaGapZ) {
+                out += "<span class='exam-dialogue-gap-num'>" + esc(num) + ".</span>";
+                out += buildExamPaperOptionsHtmlWithLayout(lettersZ, optsZ);
+              } else if (abcdOnlyZ) {
+                out += buildExamPaperClozePdfGrid([row]);
+              } else {
+                out += "<div class='exam-item-row'><span class='exam-n'>" + esc(num) + ".</span>";
+                out += "<span class='exam-paren'>（&nbsp;&nbsp;&nbsp;&nbsp;）</span>";
+                if (String(it.stem || "").trim()) {
+                  out += buildExamPaperStemPlain(it.stem);
+                }
+                out += "</div>";
+                out += buildExamPaperOptionsHtmlWithLayout(lettersZ, optsZ);
+              }
+            } else {
+              out += "<div class='exam-item-row'><span class='exam-n'>" + esc(num) + ".</span> ";
+              out += buildExamPaperStemPlain(it.stem || "_____") + "</div>";
+            }
+            out += "</div>";
+          });
+        }
+      });
+      return out;
+    }
+
+    const secTitle = isSec
+      ? sectionShardLabel(shardOrType)
+      : String(rows[0].section_title || "").trim() || typeLabel(qt);
+    let h = "<h2 class='exam-big-title'>" + esc(secTitle) + "</h2>";
+    if (qt === "phonetics") {
+      const insPh0 = String(rows[0].section_instruction || "").trim();
+      if (insPh0) {
+        h += "<p class='exam-direction'>" + esc(insPh0).replace(/\n/g, "<br>") + "</p>";
+      }
+    }
+
+    if (!isClozeLikeQuizType(qt) && qt !== "writing" && readingGroups.some((g) => g.passage)) {
+      h += buildExamPaperReadingGroupsHtml(readingGroups);
+      return h;
+    }
+
+    if (qt === "writing" && writingGroupsEp.some((g) => g.passage)) {
+      let hw = "";
+      writingGroupsEp.forEach((g) => {
+        const wTitle = String(g.rows[0].section_title || "").trim() || typeLabel(qt);
+        hw += "<h2 class='exam-big-title'>" + esc(wTitle) + "</h2>";
+        if (g.passage) {
+          hw += "<div class='exam-reading-unit'>";
+          if (g.fromSection) {
+            hw += "<div class='exam-passage-titled-wrap'>";
+            hw += "<div class='exam-passage-block'>" + passageExamHtmlFromSectionInstruction(g.passage) + "</div>";
+            hw += "</div>";
+          } else {
+            const phw = splitReadingPassageHeading(g.passage);
+            hw += "<div class='exam-passage-titled-wrap'>";
+            hw += "<p class='exam-subhead'>" + esc(phw.title) + "</p>";
+            hw += "<div class='exam-passage-block'>" + formatPassageParagraphsExam(phw.text) + "</div>";
+            hw += "</div>";
+          }
+          g.rows.forEach((row) => {
+            hw += buildExamPaperItemBlock(row, row.it, qt);
+          });
+          hw += "</div>";
+        } else {
+          g.rows.forEach((row) => {
+            hw += buildExamPaperItemBlock(row, row.it, qt);
+          });
+        }
+      });
+      return hw;
+    }
+
+    if (isFillBlankQuizType(qt) && rows.length) {
+      groupFillBlankBySectionInstruction(rows).forEach((fg) => {
+        if (fg.instruction) {
+          const sp = splitSectionHintAndBody(fg.instruction);
+          const bankSrc = sp.body || fg.instruction;
+          h += "<div class='exam-passage-titled-wrap'>";
+          if (sp.hint) {
+            h += "<p class='exam-direction'>" + esc(sp.hint).replace(/\n/g, "<br>") + "</p>";
+          }
+          h += "<div class='exam-word-bank'>" + esc(bankSrc).replace(/\n/g, "<br>") + "</div>";
+          h += "</div>";
+        }
+        fg.rows.forEach((row) => {
+          const it = row.it;
+          const num = String(it.number);
+          h += "<div class='exam-item'><div class='exam-item-row'><span class='exam-n'>" + esc(num) + ".</span> ";
+          h += buildExamPaperStemPlain(it.stem) + "</div></div>";
+        });
+      });
+      return h;
+    }
+
+    rows.forEach((row) => {
+      const it = row.it;
+      if (qt === "reading" && (it.context_note || "").trim()) {
+        h +=
+          "<div class='exam-passage-block exam-passage-inline'>" +
+          formatPassageParagraphsExam(it.context_note) +
+          "</div>";
+      }
+      h += buildExamPaperItemBlock(row, it, qt);
+    });
+    return h;
+  }
+
+  function buildPdfMarkupForTypes(types) {
+    const title = EXAM.school_or_title || "英语试卷";
+    const meta = EXAM.exam_meta || {};
+    let h = "<div class='exam-paper-doc'>";
+    h += "<header class='exam-paper-masthead'>";
+    h += "<h1 class='exam-paper-title'>" + esc(title) + "</h1>";
+    h += "<div class='exam-paper-meta-line'>";
+    if (meta.full_score_text) {
+      h += "<span>" + esc(meta.full_score_text) + "</span>";
+    }
+    if (meta.time_text) {
+      h += "<span class='exam-meta-gap'>" + esc(meta.time_text) + "</span>";
+    }
+    h += "</div>";
+    h += "<div class='exam-paper-student-line'>";
+    h += "<span>姓名：____________</span><span>班级：____________</span><span>考号：____________</span>";
+    h += "</div>";
+    h += "</header>";
+    types.forEach((tid) => {
+      const rows = rowsForPaperShard(tid);
+      if (!rows.length) return;
+      h +=
+        "<section class='exam-paper-section'>" +
+        buildExamPaperSectionHtml(tid, isSectionShardId(tid) ? rows : undefined) +
+        "</section>";
+    });
+    h += "</div>";
+    return h;
+  }
+
+  let pdfPrintTitleRestore = null;
+
+  function runPrintPdf(types) {
+    const host = document.getElementById("printHost");
+    if (!host) return;
+    pdfPrintTitleRestore = document.title;
+    document.title = String(EXAM.school_or_title || "英语试卷").trim();
+    host.innerHTML = buildPdfMarkupForTypes(types);
+    document.documentElement.classList.add("pdf-printing");
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        window.print();
+      });
+    });
+  }
+
+  function renderQuiz() {
+    const t = state.currentType;
+    const isBlock = isPaperShardId(t);
+    const rows = isBlock ? rowsForPaperShard(t) : (state.byType[t] || []);
+    const effectiveType = isBlock ? sectionRowsRenderKind(rows) : t;
+    const title = EXAM.school_or_title || "英语试卷";
+    const quizView = document.getElementById("view-quiz");
+    if (isClozeLikeQuizType(effectiveType)) quizView.classList.add("view-cloze-wide");
+    else quizView.classList.remove("view-cloze-wide");
+    const passageGroupsQuiz = groupReadingByPassage(rows);
+    const writingGroupsRq = effectiveType === "writing" ? groupWritingByPassage(rows) : [];
+    const readingWide =
+      !isClozeLikeQuizType(effectiveType) &&
+      effectiveType !== "writing" &&
+      passageGroupsQuiz.some((g) => g.passage);
+    const writingWide = effectiveType === "writing" && writingGroupsRq.some((g) => g.passage);
+    if (readingWide || writingWide) quizView.classList.add("view-reading-wide");
+    else quizView.classList.remove("view-reading-wide");
+
+    document.getElementById("quizTitle").textContent = title + " · " + typeLabel(t);
+    const quizCount = isClozeLikeQuizType(effectiveType)
+      ? visibleClozeQuizRows(rows).length
+      : rows.length;
+    document.getElementById("quizBreadcrumb").textContent =
+      "当前大题：" + typeLabel(t) + "（共 " + quizCount + " 题）";
+
+    if (isClozeLikeQuizType(effectiveType)) {
+      document.getElementById("quizIntro").innerHTML =
+        "<p class='breadcrumb' style='margin-top:0'>左侧为完形/语法填空或对话材料（可随页滚动）。有右栏时在栏内选 A–G；无右栏时在文中括号/横线处直接输入答案。</p>";
+    } else if (readingWide) {
+      document.getElementById("quizIntro").innerHTML =
+        "<p class='breadcrumb' style='margin-top:0'>每篇阅读左侧为文章（字号较大），右侧为该篇全部小题。</p>";
+    } else if (writingWide) {
+      document.getElementById("quizIntro").innerHTML =
+        "<p class='breadcrumb' style='margin-top:0'>左侧为阅读材料，右侧为问答题作答区。</p>";
+    } else {
+      document.getElementById("quizIntro").innerHTML = "";
+    }
+
+    document.getElementById("quizBody").innerHTML = buildQuizBodyHtml(t);
+
+    state.elapsed = 0;
+    if (state.timerId) clearInterval(state.timerId);
+    state.timerId = setInterval(() => {
+      state.elapsed++;
+      const m = Math.floor(state.elapsed / 60);
+      const s = state.elapsed % 60;
+      document.getElementById("quizTimer").textContent = "用时 " + (m < 10 ? "0" : "") + m + ":" + (s < 10 ? "0" : "") + s;
+    }, 1000);
+    document.getElementById("quizTimer").textContent = "用时 00:00";
+  }
+
+  function collectTypeAnswers() {
+    const t = state.currentType;
+    const rows = isPaperShardId(t) ? rowsForPaperShard(t) : (state.byType[t] || []);
+    const out = {};
+    rows.forEach((row) => {
+      const k = row.key;
+      const kEsc = k.replace(/\\/g, "\\\\").replace(/"/g, '\\"');
+      let block = document.querySelector(".q-block[data-qkey=\"" + kEsc + "\"]");
+      if (!block) {
+        const inlineInp = document.querySelector(
+          "#quizBody .cloze-inline-passage input[data-k=\"" + kEsc + "\"]",
+        );
+        if (inlineInp) {
+          out[k] = String(inlineInp.value || "").trim();
+          return;
+        }
+        return;
+      }
+      const r = block.querySelector("input[type=radio]:checked");
+      if (r) {
+        out[k] = r.value;
+        return;
+      }
+      const blankOne = block.querySelector("input.blank-input[data-k]");
+      if (blankOne) {
+        out[k] = blankOne.value.trim();
+        return;
+      }
+      const blanks = block.querySelectorAll("input[data-k][data-bi]");
+      if (blanks.length) {
+        const bits = [];
+        blanks.forEach((b) => bits.push(b.value.trim()));
+        out[k] = bits.join("|");
+        return;
+      }
+      const ta = block.querySelector("textarea[data-k]");
+      if (ta) out[k] = ta.value.trim();
+    });
+    return out;
+  }
+
+  function normLetter(x) {
+    return String(x || "").trim().toUpperCase().charAt(0);
+  }
+  function normPipe(x) {
+    return String(x || "")
+      .split("|")
+      .map((s) => s.trim().toLowerCase())
+      .join("|");
+  }
+
+  function judge(row, userAns) {
+    const it = row.it;
+    const teach = it.teaching || {};
+    const ca = teach.correct_answer || "";
+    const typ = row.type;
+    if (typ === "writing") return { open: true, ok: null, ca, userAns };
+    if (typ === "cloze") {
+      const layout = getObjectiveChoiceLayout(row, it);
+      if (layout.letters.length === 0 && !String(it.stem || "").trim()) {
+        const ok =
+          !!ca &&
+          String(userAns || "").trim().toLowerCase() === String(ca || "").trim().toLowerCase();
+        return { open: false, ok, ca, userAns };
+      }
+    }
+    if (["choice", "cloze", "grammar_fill", "reading", "other", "phonetics"].includes(typ)) {
+      const ok = ca && normLetter(userAns) === normLetter(ca);
+      return { open: false, ok, ca, userAns };
+    }
+    const ok = ca && normPipe(userAns) === normPipe(ca);
+    return { open: false, ok, ca, userAns };
+  }
+
+  function renderResult() {
+    const t = state.currentType;
+    const rowsRaw = isPaperShardId(t) ? rowsForPaperShard(t) : (state.byType[t] || []);
+    const effectiveType = isPaperShardId(t) ? sectionRowsRenderKind(rowsRaw) : t;
+    const rows = isClozeLikeQuizType(effectiveType)
+      ? visibleClozeQuizRows(rowsRaw)
+      : rowsRaw;
+    const ans = state.answers[t] || {};
+    let okc = 0, tot = 0;
+    const details = [];
+    rows.forEach((row) => {
+      const u = ans[row.key] || "";
+      const j = judge(row, u);
+      if (!j.open) tot++;
+      if (j.ok) okc++;
+      details.push({ row, j });
+    });
+    state.lastResults = details;
+
+    const pct = tot ? Math.round((okc / tot) * 100) : 0;
+    document.getElementById("resultTitle").textContent = typeLabel(t) + " · 结果";
+    document.getElementById("resultSummary").innerHTML =
+      "<p style='margin:0 0 0.5rem'>客观题 <strong>" + okc + "</strong> / " + tot + " 正确（" + pct + "%）。</p>" +
+      "<p style='margin:0;font-size:0.9rem;color:var(--muted)'>书面表达为开放题，请在对照讲解时参考范文要点。</p>";
+  }
+
+  function stripForTts(s) {
+    return String(s).replace(/[#*_`]/g, "").replace(/\n+/g, " ").slice(0, 4500);
+  }
+
+  function wrapEnglishWords(container) {
+    if (!container || container.nodeType !== 1) return;
+    const skip = new Set(["SCRIPT", "STYLE", "TEXTAREA", "INPUT", "PRE"]);
+    function walk(node) {
+      if (node.nodeType === 1) {
+        if (skip.has(node.tagName)) return;
+        if (node.classList && node.classList.contains("wlink")) return;
+        Array.from(node.childNodes).forEach(walk);
+        return;
+      }
+      if (node.nodeType !== 3) return;
+      const text = node.textContent;
+      if (!text || !/\b[A-Za-z]/.test(text)) return;
+      const parent = node.parentNode;
+      if (!parent) return;
+      const frag = document.createDocumentFragment();
+      const re = /(\b[A-Za-z]+(?:[-'][A-Za-z]+)*\b)/g;
+      let last = 0, m;
+      while ((m = re.exec(text)) !== null) {
+        if (m.index > last) frag.appendChild(document.createTextNode(text.slice(last, m.index)));
+        const sp = document.createElement("span");
+        sp.className = "wlink";
+        sp.textContent = m[1];
+        sp.title = "点击查看词义";
+        frag.appendChild(sp);
+        last = m.index + m[0].length;
+      }
+      if (last < text.length) frag.appendChild(document.createTextNode(text.slice(last)));
+      parent.replaceChild(frag, node);
+    }
+    try {
+      walk(container);
+    } catch (err) {
+      console.warn("wrapEnglishWords:", err);
+    }
+  }
+
+  (function bindLearnBodyWordLookup() {
+    const lb = document.getElementById("learnBody");
+    if (!lb) return;
+    lb.addEventListener("click", (ev) => {
+      const t = ev.target;
+      if (!t || !t.closest) return;
+      const w = t.closest(".wlink");
+      if (!w || !lb.contains(w)) return;
+      ev.preventDefault();
+      ev.stopPropagation();
+      const word = String(w.textContent || "").trim();
+      if (!word) return;
+      const block = w.closest(".card") || lb;
+      const ctx = block && block.innerText ? String(block.innerText).slice(0, 1200) : "";
+      openWordLookup(word, ctx);
+    });
+  })();
+
+  async function openWordLookup(word, context) {
+    const modal = document.getElementById("modal");
+    if (!modal) return;
+    modalWordForTts = String(word || "").trim();
+    document.getElementById("modalWord").textContent = word;
+    document.getElementById("modalBody").textContent = "查询中…";
+    modal.classList.add("open");
+    if (!hasDeepseekKey()) {
+      document.getElementById("modalBody").textContent =
+        "当前页面未配置 DeepSeek API Key。\n\n" +
+        "说明：静态网页托管（如 GitHub Pages）时，绝不能把 API 密钥写进 HTML，否则他人可复制滥用、产生费用。\n\n" +
+        "可选做法：\n" +
+        "1）仅使用「朗读本词」：将使用浏览器本机英文语音（无需密钥）。\n" +
+        "2）本地查词：在本机设置环境变量 DEEPSEEK_API_KEY 后，用 build_typeflow_html.py 重新生成 HTML（勿提交含密钥文件到公开仓库）。\n" +
+        "3）自建极简代理：用 Cloudflare Workers 等转发请求，密钥只放在 Worker 环境变量中。";
+      return;
+    }
+    try {
+      const ctx = String(context || "").slice(0, 3500);
+      const userContent =
+        "你是英语词典与语境分析助手。下面是一段「本题题干 + 选项」组成的语境（可能含题号、中文说明），请解释其中英文词「" + word + "」" +
+        "在此语境中的含义（中文，2～4 句，简洁准确）。若该片段不是完整词，也说明其可能对应的完整词。\n\n语境：\n" + ctx;
+      const txt = await deepseekChat(userContent, 512);
+      document.getElementById("modalBody").textContent = txt || "（无返回）";
+    } catch (e) {
+      document.getElementById("modalBody").textContent = "查询失败：" + e.message;
+    }
+  }
+
+  function speechVoicesReady() {
+    return new Promise((resolve) => {
+      const syn = window.speechSynthesis;
+      if (!syn) {
+        resolve();
+        return;
+      }
+      if (syn.getVoices().length) {
+        resolve();
+        return;
+      }
+      const done = () => resolve();
+      syn.addEventListener("voiceschanged", done, { once: true });
+      setTimeout(done, 600);
+    });
+  }
+
+  function pickEnglishTtsVoice() {
+    const syn = window.speechSynthesis;
+    if (!syn) return null;
+    const vs = syn.getVoices();
+    return (
+      vs.find((v) => /^en-US\b/i.test(v.lang || "")) ||
+      vs.find((v) => /^en-GB\b/i.test(v.lang || "")) ||
+      vs.find((v) => /^en\b/i.test(v.lang || "")) ||
+      vs.find((v) => (v.lang || "").toLowerCase().startsWith("en")) ||
+      null
+    );
+  }
+
+  async function playTtsAzure(textPlain) {
+    const t = stripForTts(textPlain).trim();
+    if (!t) throw new Error("无朗读内容");
+    const region = String(INLINE_CFG.azureRegion || "").trim();
+    const key = String(INLINE_CFG.azureKey || "").trim();
+    if (!region || !key || key.length < 8) throw new Error("未配置 Azure 区域或密钥");
+    const url = "https://" + region + ".tts.speech.microsoft.com/cognitiveservices/v1";
+    const safe = xmlEscapeTts(t);
+    const ssml =
+      "<speak version='1.0' xml:lang='en-US'>" +
+      "<voice xml:lang='en-US' name='en-US-JennyNeural'>" + safe + "</voice></speak>";
+    const r = await fetch(url, {
+      method: "POST",
+      mode: "cors",
+      credentials: "omit",
+      headers: {
+        "Ocp-Apim-Subscription-Key": key,
+        "Content-Type": "application/ssml+xml",
+        "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3",
+      },
+      body: ssml,
+    });
+    if (!r.ok) {
+      const errText = await r.text();
+      throw new Error("Azure " + r.status + " " + errText.slice(0, 120));
+    }
+    const buf = await r.arrayBuffer();
+    const blob = new Blob([buf], { type: "audio/mpeg" });
+    const u = URL.createObjectURL(blob);
+    const a = new Audio(u);
+    try {
+      await a.play();
+    } catch (playErr) {
+      URL.revokeObjectURL(u);
+      throw playErr;
+    }
+    await new Promise((resolve, reject) => {
+      a.onended = () => {
+        URL.revokeObjectURL(u);
+        resolve();
+      };
+      a.onerror = () => {
+        URL.revokeObjectURL(u);
+        reject(new Error("音频播放失败"));
+      };
+    });
+  }
+
+  async function playTtsSpeechSynth(textPlain) {
+    const t = stripForTts(textPlain).trim();
+    if (!t) throw new Error("无朗读内容");
+    const syn = window.speechSynthesis;
+    if (!syn) throw new Error("当前浏览器不支持本机语音朗读");
+    await speechVoicesReady();
+    syn.cancel();
+    return new Promise((resolve, reject) => {
+      const u = new SpeechSynthesisUtterance(t);
+      u.lang = "en-US";
+      u.rate = 0.92;
+      const voice = pickEnglishTtsVoice();
+      if (voice) u.voice = voice;
+      u.onend = () => resolve();
+      u.onerror = () => reject(new Error("本机朗读出错"));
+      syn.speak(u);
+    });
+  }
+
+  async function playTts(text) {
+    const t = stripForTts(text).trim();
+    if (!t) {
+      alert("无朗读内容");
+      return;
+    }
+    const fileLocal = location.protocol === "file:";
+    const tryOrder = fileLocal
+      ? [
+          ["本机英文语音", playTtsSpeechSynth],
+          ["Azure 在线语音", playTtsAzure],
+        ]
+      : [
+          ["Azure 在线语音", playTtsAzure],
+          ["本机英文语音", playTtsSpeechSynth],
+        ];
+    let lastErr = null;
+    for (let i = 0; i < tryOrder.length; i++) {
+      try {
+        await tryOrder[i][1](t);
+        return;
+      } catch (e) {
+        lastErr = e;
+      }
+    }
+    alert(
+      "朗读未成功。\n\n" +
+        (fileLocal
+          ? "本地打开试卷时，浏览器无法直连 Azure（跨域限制），已优先尝试本机朗读。\n"
+          : "已尝试在线语音与本机朗读。\n") +
+        "最后错误：" +
+        (lastErr && lastErr.message ? lastErr.message : "未知")
+    );
+  }
+
+  function appendLearnCard(parent, pair, t, skipReadingPassage) {
+    const { row, j } = pair;
+    const it = row.it;
+    const teach = it.teaching || {};
+    const ex = teach.explanation_md || "（暂无解析，请运行 enrich_teaching_vertex.py 生成）";
+    const kn = teach.knowledge_expansion_md || "（暂无）";
+    const tracks = Array.isArray(teach.socratic_tracks) ? teach.socratic_tracks : [];
+
+    const layoutL = getObjectiveChoiceLayout(row, it);
+    const lettersL = layoutL.letters;
+    const optsL = layoutL.opts;
+    let optReview = "";
+    if (lettersL.length) {
+      optReview = "<div class='opt-review'><strong>选项回顾</strong><br>";
+      lettersL.forEach((L) => {
+        const tx = String(optsL[L] || "").trim();
+        if (tx) optReview += "<span style='display:block;margin:0.2rem 0'>" + esc(L) + ". " + esc(tx) + "</span>";
+      });
+      optReview += "</div>";
+    }
+
+    const card = document.createElement("div");
+    card.className = "card";
+    const num = String(it.number);
+    let pill = "";
+    if (j.open) pill = "<span class='pill-open'>开放题</span>";
+    else if (j.ok) pill = "<span class='pill-ok'>回答正确</span>";
+    else pill = "<span class='pill-bad'>回答有误</span>";
+
+    let sub = "";
+    if (!skipReadingPassage && t === "reading" && (it.context_note || "").trim()) {
+      sub += "<div class='passage' style='font-size:0.9rem'>" + formatPassageParagraphs(it.context_note) + "</div>";
+    }
+
+    const youCls = j.open ? "ans-you" : j.ok ? "ans-you ok" : "ans-you";
+    const youLabel = j.open ? "你的作答（参考）" : "你的作答";
+    const keyLabel = j.open ? "参考范文 / 要点" : "正确答案";
+
+    const isTfLearn = t === "sentence_transform";
+    let stemAndAnsBlock;
+    if (isTfLearn) {
+      const caTf = (teach.correct_answer != null ? String(teach.correct_answer) : "") || j.ca || "";
+      stemAndAnsBlock =
+        buildTransformFilledStemHtml(it.stem, caTf) +
+        (!j.ok && String(j.userAns || "").trim()
+          ? "<p class='muted' style='margin:0 0 0.75rem;font-size:0.9rem'>你的作答：" +
+            esc(j.userAns || "（未答）") +
+            "</p>"
+          : "");
+    } else {
+      const stemLearnInner =
+        t === "phonetics"
+          ? stemHtmlWithAllowedUnderline(it.stem || "")
+          : t === "writing" && writingStemHasPipeTable(it.stem)
+            ? writingPromptToHtml(it.stem)
+            : esc(it.stem || "").replace(/\n/g, "<br>");
+      stemAndAnsBlock =
+        "<div class='stem' style='margin-bottom:0.75rem'>" + stemLearnInner + "</div>" +
+        "<div class='ans-row'>" +
+        "<div class='ans-box " + youCls + "'><strong>" + youLabel + "</strong><br>" + esc(j.userAns || "（未答）") + "</div>" +
+        "<div class='ans-box ans-key'><strong>" + keyLabel + "</strong><br>" + esc(j.ca || "—") + "</div></div>";
+    }
+
+    card.innerHTML =
+      "<h2>" + esc(row.section_title) + " · 第 " + esc(num) + " 题 " + pill + "</h2>" + sub +
+      optReview +
+      stemAndAnsBlock +
+      "<div class='toolbar'>" +
+      "<button type='button' class='btn secondary btn-ex'>查看解析</button>" +
+      "<button type='button' class='btn secondary btn-kn'>知识点扩充</button>" +
+      "<button type='button' class='btn primary btn-soc'>苏格拉底式测一测</button></div>" +
+      "<div class='panel md p-ex'></div>" +
+      "<div class='panel md p-kn'></div>" +
+      "<div class='panel p-soc'></div>";
+
+    const pEx = card.querySelector(".p-ex");
+    const pKn = card.querySelector(".p-kn");
+    const pSoc = card.querySelector(".p-soc");
+    pEx.innerHTML = marked.parse(ex, { breaks: true });
+    pKn.innerHTML = marked.parse(kn, { breaks: true });
+    wrapEnglishWords(pEx);
+    wrapEnglishWords(pKn);
+
+    const stemLearn = card.querySelector(".stem");
+    if (stemLearn) wrapEnglishWords(stemLearn);
+    const optRevEl = card.querySelector(".opt-review");
+    if (optRevEl) wrapEnglishWords(optRevEl);
+
+    card.querySelector(".btn-ex").addEventListener("click", () => {
+      pEx.classList.toggle("open");
+    });
+    card.querySelector(".btn-kn").addEventListener("click", () => {
+      pKn.classList.toggle("open");
+    });
+
+    let socOpen = false;
+    card.querySelector(".btn-soc").addEventListener("click", () => {
+      socOpen = !socOpen;
+      pSoc.classList.toggle("open", socOpen);
+      if (socOpen && !pSoc.dataset.built) {
+        pSoc.dataset.built = "1";
+        let sh = "";
+        if (!tracks.length) {
+          sh = "<p class='muted'>暂无苏格拉底引导数据。</p>";
+        } else {
+          tracks.forEach((tr, ti) => {
+            const title = esc(tr.title || "知识点 " + (ti + 1));
+            const steps = Array.isArray(tr.steps) ? tr.steps : [];
+            sh += "<div class='soc-track'><h4>" + title + "</h4>";
+            steps.forEach((st, si) => {
+              const q = esc(st.question || "");
+              const hi = esc(st.hint || "");
+              const ta = esc(st.takeaway || "");
+              sh += "<div class='soc-step' data-ti='" + ti + "' data-si='" + si + "'>" +
+                "<div class='qtext'>" + q + "</div>" +
+                "<button type='button' class='btn ghost btn-hint-sm'>显示提示</button> " +
+                "<button type='button' class='btn secondary btn-next-sm'>下一步 / 点破</button>" +
+                "<div class='hint'>" + hi + "</div>" +
+                "<div class='takeaway'>" + ta + "</div></div>";
+            });
+            sh += "</div>";
+          });
+        }
+        pSoc.innerHTML = sh;
+        wrapEnglishWords(pSoc);
+        pSoc.querySelectorAll(".btn-hint-sm").forEach((b) => {
+          b.addEventListener("click", () => b.parentElement.querySelector(".hint").classList.add("show"));
+        });
+        pSoc.querySelectorAll(".btn-next-sm").forEach((b) => {
+          b.addEventListener("click", () => {
+            b.parentElement.querySelector(".takeaway").classList.add("show");
+          });
+        });
+      }
+    });
+
+    parent.appendChild(card);
+  }
+
+  function renderLearn() {
+    const t = state.currentType;
+    const rowsLearn = isPaperShardId(t) ? rowsForPaperShard(t) : (state.byType[t] || []);
+    const effectiveType = isPaperShardId(t) ? sectionRowsRenderKind(rowsLearn) : t;
+    const details = state.lastResults || [];
+    const root = document.getElementById("learnBody");
+    document.getElementById("learnTitle").textContent = typeLabel(t) + " · 讲解";
+    root.innerHTML = "";
+
+    if (isPaperShardId(t) && effectiveType === "mixed") {
+      details.forEach((pair) => appendLearnCard(root, pair, pair.row.type, false));
+      return;
+    }
+
+    if (isClozeLikeQuizType(effectiveType)) {
+      groupDetailsByClozeSection(details).forEach((g) => {
+        const row0 = g.details[0] && g.details[0].row;
+        if (row0 && isClozeDialogueCompletionSection(row0)) return;
+        const ins = (g.passage || "").trim();
+        if (ins && g.details.length) {
+          const filled = buildClozeFilledPassageHtml(g.passage, g.details);
+          const wrap = document.createElement("div");
+          wrap.className = "reading-learn-layout";
+          wrap.innerHTML =
+            "<div class='reading-learn-passage'>" +
+            "<div class='card cloze-learn-block'>" +
+            "<h2>完整原文</h2>" +
+            "<p class='muted' style='margin:0 0 0.6rem'>下列为完形填空全文，空白处已填入<strong>正确答案</strong>并高亮显示。</p>" +
+            "<div class='cloze-learn-passage'>" + formatPassageHtmlParagraphs(filled) + "</div></div></div>" +
+            "<div class='reading-learn-cards-col'>" +
+            "<h2 class='card' style='margin:0 0 0.75rem;padding:0.65rem 0.85rem;font-size:1rem;'>各题解析 · 选项讲解</h2></div>";
+          const passEl = wrap.querySelector(".cloze-learn-passage");
+          if (passEl) wrapEnglishWords(passEl);
+          const col = wrap.querySelector(".reading-learn-cards-col");
+          g.details.forEach((pair) => appendLearnCard(col, pair, effectiveType, false));
+          root.appendChild(wrap);
+        } else {
+          g.details.forEach((pair) => appendLearnCard(root, pair, effectiveType, false));
+        }
+      });
+      return;
+    }
+
+    if (isFillBlankQuizType(effectiveType) && details.length) {
+      let fi = 0;
+      while (fi < details.length) {
+        const ins = String(details[fi].row.section_instruction || "").trim();
+        let fj = fi + 1;
+        while (fj < details.length && String(details[fj].row.section_instruction || "").trim() === ins) fj++;
+        const slice = details.slice(fi, fj);
+        if (ins) {
+          const sp = splitSectionHintAndBody(ins);
+          const wb = document.createElement("div");
+          wb.className = "card word-bank-card";
+          wb.style.marginBottom = "1rem";
+          wb.innerHTML =
+            "<h2 style='margin:0 0 0.5rem;font-size:1rem;color:var(--accent)'>题目说明与词汇方框</h2>" +
+            (sp.hint
+              ? "<p class='muted' style='margin:0 0 0.65rem;line-height:1.55'>" + esc(sp.hint).replace(/\n/g, "<br>") + "</p>"
+              : "") +
+            "<div class='word-bank-box' style='font-family:Literata,Georgia,serif;font-size:1.06rem;line-height:1.65;padding:0.75rem 0.9rem;background:#f7faf7;border-radius:10px;border:1px dashed var(--border)'>" +
+            esc(sp.body || ins).replace(/\n/g, "<br>") +
+            "</div>";
+          root.appendChild(wb);
+        }
+        slice.forEach((pair) => appendLearnCard(root, pair, effectiveType, false));
+        fi = fj;
+      }
+      return;
+    }
+
+    const readingLearnGroups =
+      effectiveType === "reading" || isTypeCardId(t)
+        ? groupDetailsByReadingPassage(details)
+        : [];
+    const writingLearnGroups =
+      effectiveType === "writing" ? groupDetailsByWritingPassage(details) : [];
+    const useReadingGroups =
+      (effectiveType === "reading" || isTypeCardId(t)) &&
+      readingLearnGroups.some((g) => g.passage);
+    const useWritingLearnGroups =
+      effectiveType === "writing" && writingLearnGroups.some((g) => g.passage);
+    if (useReadingGroups) {
+      readingLearnGroups.forEach((g) => {
+        if (g.passage) {
+          const wrap = document.createElement("div");
+          wrap.className = "reading-learn-layout";
+          let passInner;
+          if (g.fromSection) {
+            passInner =
+              "<div class='card'><h2>阅读材料</h2>" +
+              "<div class='reading-passage-text'>" + passageHtmlFromSectionInstruction(g.passage) + "</div></div>";
+          } else {
+            const ph = splitReadingPassageHeading(g.passage);
+            passInner =
+              "<div class='card'><h2>" + esc(ph.title) + "</h2>" +
+              "<div class='reading-passage-text'>" + formatPassageParagraphs(ph.text) + "</div></div>";
+          }
+          wrap.innerHTML =
+            "<div class='reading-learn-passage'>" + passInner + "</div>" + "<div class='reading-learn-cards-col'></div>";
+          const col = wrap.querySelector(".reading-learn-cards-col");
+          g.details.forEach((pair) => appendLearnCard(col, pair, effectiveType, true));
+          root.appendChild(wrap);
+        } else {
+          g.details.forEach((pair) => appendLearnCard(root, pair, effectiveType, false));
+        }
+      });
+    } else if (useWritingLearnGroups) {
+      writingLearnGroups.forEach((g) => {
+        if (g.passage) {
+          const wrapW = document.createElement("div");
+          wrapW.className = "reading-learn-layout";
+          const writingLearnTitle =
+            String((g.details[0] && g.details[0].row && g.details[0].row.section_title) || "").trim() ||
+            "书面表达";
+          let passInnerW;
+          if (g.fromSection) {
+            passInnerW =
+              "<div class='card'><h2>" + esc(writingLearnTitle) + "</h2>" +
+              "<div class='reading-passage-text'>" + passageHtmlFromSectionInstruction(g.passage) + "</div></div>";
+          } else {
+            const phw = splitReadingPassageHeading(g.passage);
+            passInnerW =
+              "<div class='card'><h2>" + esc(phw.title) + "</h2>" +
+              "<div class='reading-passage-text'>" + formatPassageParagraphs(phw.text) + "</div></div>";
+          }
+          wrapW.innerHTML =
+            "<div class='reading-learn-passage'>" + passInnerW + "</div>" + "<div class='reading-learn-cards-col'></div>";
+          const colW = wrapW.querySelector(".reading-learn-cards-col");
+          g.details.forEach((pair) => appendLearnCard(colW, pair, effectiveType, true));
+          root.appendChild(wrapW);
+        } else {
+          g.details.forEach((pair) => appendLearnCard(root, pair, effectiveType, false));
+        }
+      });
+    } else {
+      details.forEach((pair) => appendLearnCard(root, pair, effectiveType, false));
+    }
+  }
+
+  function renderHome() {
+    const title = EXAM.school_or_title || "英语试卷";
+    document.getElementById("homeTitle").textContent = title;
+    document.title = title;
+
+    const types = orderedTypesList();
+
+    let html = "";
+    types.forEach((t) => {
+      const rawRows = isPaperShardId(t) ? rowsForPaperShard(t) : (state.byType[t] || []);
+      const eff = isPaperShardId(t) ? sectionRowsRenderKind(rawRows) : t;
+      const n = isClozeLikeQuizType(eff)
+        ? visibleClozeQuizRows(rawRows).length
+        : rawRows.length;
+      html += "<div class='type-card'><h2>" + esc(typeLabel(t)) + "</h2>";
+      let metaLine;
+      if (isTypeCardId(t)) {
+        const idx = parseTypeCardIndex(t);
+        const cards = getTypeCards();
+        const spec = cards && cards[idx];
+        const rng = spec && String(spec.range_text || "").trim();
+        metaLine = (rng ? rng + " · " : "") + "共 " + n + " 道题 · 计时答题后可看讲解";
+      } else if (isSectionShardId(t)) {
+        const si = parseSectionShardIndex(t);
+        const ov = getSectionCardOverride(si);
+        const rng = (ov && String(ov.range_text || "").trim()) || sectionGlobalQuestionRangeLabel(si);
+        metaLine = (rng ? rng + " · " : "") + "共 " + n + " 道题 · 计时答题后可看讲解";
+      } else {
+        metaLine = "共 " + n + " 道题 · 计时答题后可看讲解";
+      }
+      html += "<div class='meta'>" + esc(metaLine) + "</div>";
+      html += "<button type='button' class='btn primary btn-pick-type' data-type='" + esc(t) + "'>开始该题型</button></div>";
+    });
+    document.getElementById("typeGrid").innerHTML = html;
+    document.querySelectorAll(".btn-pick-type").forEach((b) => {
+      b.addEventListener("click", () => {
+        state.currentType = b.getAttribute("data-type");
+        showView("quiz");
+        renderQuiz();
+      });
+    });
+  }
+
+  window.addEventListener("afterprint", () => {
+    document.documentElement.classList.remove("pdf-printing");
+    const ph = document.getElementById("printHost");
+    if (ph) ph.innerHTML = "";
+    if (pdfPrintTitleRestore != null) {
+      document.title = pdfPrintTitleRestore;
+      pdfPrintTitleRestore = null;
+    }
+  });
+
+  document.getElementById("btnPdfFull").addEventListener("click", () => {
+    const types = orderedTypesList();
+    if (!types.length) {
+      alert("暂无题目。");
+      return;
+    }
+    runPrintPdf(types);
+  });
+
+  document.getElementById("btnPdfType").addEventListener("click", () => {
+    const t = state.currentType;
+    const rows = isPaperShardId(t) ? rowsForPaperShard(t) : (state.byType[t] || []);
+    if (!t || !rows.length) {
+      alert("当前大题无题目。");
+      return;
+    }
+    runPrintPdf([t]);
+  });
+
+  document.getElementById("btnBackHome").addEventListener("click", () => {
+    if (state.timerId) { clearInterval(state.timerId); state.timerId = null; }
+    showView("home");
+  });
+  document.getElementById("btnBackHome2").addEventListener("click", () => showView("home"));
+  document.getElementById("btnBackHome3").addEventListener("click", () => showView("home"));
+
+  document.getElementById("btnSubmitType").addEventListener("click", () => {
+    const t = state.currentType;
+    if (!t) return;
+    if (!confirm("确定提交本题块？提交后可查看结果与讲解。")) return;
+    if (state.timerId) { clearInterval(state.timerId); state.timerId = null; }
+    state.answers[t] = collectTypeAnswers();
+    renderResult();
+    showView("result");
+  });
+
+  document.getElementById("btnGoLearn").addEventListener("click", () => {
+    renderLearn();
+    showView("learn");
+  });
+
+  const modalEl = document.getElementById("modal");
+  document.getElementById("modalClose").addEventListener("click", () => {
+    modalEl.classList.remove("open");
+  });
+  modalEl.addEventListener("click", (ev) => {
+    if (ev.target === modalEl) modalEl.classList.remove("open");
+  });
+
+  document.getElementById("modalTtsWord").addEventListener("click", () => {
+    if (modalWordForTts) playTts(modalWordForTts);
+    else alert("请先点击题干或选项中的英文词");
+  });
+
+  buildFlat();
+  renderHome();
+  </script>
+</body>
+</html>
