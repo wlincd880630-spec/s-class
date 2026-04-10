@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>定语从句综合强化训练 · Relative Clauses</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Nunito:wght@400;700;800&family=Noto+Sans+SC:wght@400;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Serif+SC:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root { 
+            --font-family: 'Nunito', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            --font-family-title: 'Fredoka', sans-serif;
+            --bg-gradient: linear-gradient(135deg, #e0f2fe 0%, #f0fdf4 100%);
+            --primary-color: #0ea5e9;
+            --color-primary: #0ea5e9;
+            --color-primary-hover: #0284c7;
+            --secondary-color: #10b981;
+            --glass-bg: rgba(255, 255, 255, 0.95);
+            --shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 10px 30px -5px rgba(0, 0, 0, 0.1);
+            --radius: 16px;
+            --radius-lg: 24px;
+        }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body {
+            margin: 0; padding: 0;
+            font-family: var(--font-family);
+            background: var(--bg-gradient);
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex; flex-direction: column; align-items: center;
+        }
+
+        /* 欢迎页面 */
+        #welcome-view {
+            position: fixed; inset: 0; z-index: 1000;
+            background: var(--bg-gradient);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            text-align: center; padding: 20px;
+        }
+        .welcome-card {
+            background: var(--glass-bg);
+            padding: 3rem; border-radius: 2rem;
+            box-shadow: var(--shadow);
+            max-width: 600px; width: 90%;
+            animation: slideUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+        .welcome-card h1 {
+            font-family: var(--font-family-title);
+            font-size: 2.5rem; color: #1e293b; margin-bottom: 0.5rem;
+        }
+        
+        .welcome-card p {
+            color: #64748b;
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        /* 主容器 + Logo */
+        #app-frame {
+            width: 100%; max-width: 1200px;
+            margin: 24px auto;
+            padding: 32px;
+            display: none;
+            position: relative;
+            background: var(--glass-bg);
+            border-radius: 32px;
+            border: 4px solid rgba(255,255,255,0.5);
+            box-shadow: var(--shadow-md);
+        }
+.section-card {
+            background: var(--glass-bg);
+            border-radius: 1.5rem; padding: 2rem;
+            margin-bottom: 2rem; box-shadow: var(--shadow);
+        }
+
+        h2 { font-family: var(--font-family-title); color: var(--primary-color); border-bottom: 2px dashed #cbd5e1; padding-bottom: 10px; margin-top: 0;}
+
+        .exercise-item { margin-bottom: 25px; padding-bottom: 15px; border-bottom: 1px solid #f1f5f9; }
+        .exercise-item:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+        .instruction { font-weight: 700; color: #64748b; margin-bottom: 10px; font-size: 0.9rem; }
+        .sentence-box { font-size: 1.1rem; color: #1e293b; line-height: 1.6; }
+        
+        input[type="text"] {
+            border: none; border-bottom: 2px solid #cbd5e1;
+            padding: 5px 10px; font-size: 1rem;
+            font-family: var(--font-family); width: 100%; max-width: 400px;
+            transition: all 0.3s; background: transparent;
+        }
+        input[type="text"]:focus { outline: none; border-bottom-color: var(--primary-color); background: #f8fafc; }
+
+        .choice-btn {
+            display: block; width: 100%; text-align: left;
+            padding: 12px 20px; margin: 8px 0;
+            background: white; border: 1.5px solid #e2e8f0;
+            border-radius: 10px; cursor: pointer; transition: 0.2s;
+            font-size: 1rem; color: #1e293b; font-family: var(--font-family);
+        }
+        .choice-btn:hover { background: #f0f9ff; border-color: var(--primary-color); }
+
+        /* 按钮样式 */
+        .btn-main {
+            background: var(--primary-color); color: white;
+            padding: 14px 32px; border-radius: 16px;
+            font-family: var(--font-family-title); font-size: 1rem; font-weight: 700;
+            border: none; cursor: pointer; transition: 0.2s;
+            box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
+        }
+        .btn-main:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(14, 165, 233, 0.35); }
+
+        .print-btn {
+            position: fixed; top: 20px; right: 20px;
+            background: white; border: none; padding: 10px;
+            border-radius: 50%; cursor: pointer; box-shadow: var(--shadow);
+            z-index: 100;
+        }
+        .print-btn i { color: var(--primary-color); }
+
+        /* 打印适配（PDF 也带 Logo，答题横线不显示 Placeholder，防止题目跨页被截断） */
+        @media print {
+            body { background: white; }
+            .print-btn, #welcome-view, .btn-main { display: none !important; }
+            #app-frame { display: block !important; padding: 0; padding-top: 50px !important; max-width: 100%; }
+/* 保证 Section 和具体的每一道题(包含选项)不会被强行切断，避免一半在上一页一半在下一页 */
+            .section-card { box-shadow: none; border: 1px solid #eee; break-inside: avoid; margin-bottom: 30px; }
+            .exercise-item { break-inside: avoid; page-break-inside: avoid; }
+            
+            input[type="text"] { border-bottom: 1px solid black; }
+            input[type="text"]::placeholder { color: transparent !important; opacity: 0 !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <button class="print-btn" onclick="window.print()"><i class="fas fa-print"></i></button>
+
+    <div id="welcome-view">
+        <div class="welcome-card">
+            <div style="font-size: 4rem; margin-bottom: 1rem;">✍️</div>
+            <h1>Relative Clauses 03</h1>
+            <p>综合强化练习：包含 who/whom/which、介词+which 及其与 where/when 的替换用法。</p>
+            <button class="btn-main" onclick="startApp()">开始练习 →</button>
+        </div>
+    </div>
+
+    <div id="app-frame">
+        
+        <div class="section-card">
+            <h2>Part 1: Combine the Sentences</h2>
+            <p class="instruction" style="margin-bottom: 20px;">Use appropriate relative pronouns (who, which) or "prep. + which" to combine the two simple sentences into one relative clause.</p>
+            
+            <div class="exercise-item">
+                <div class="instruction">1. We should actively participate in extra-curricular activities. They can broaden our horizons.</div>
+                <div class="sentence-box">
+                    <input type="text" placeholder="Write your combined sentence here...">
+                </div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="instruction">2. Mr. Chen is an inspiring teacher. He always encourages us to overcome difficulties.</div>
+                <div class="sentence-box">
+                    <input type="text" placeholder="Write your combined sentence here...">
+                </div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="instruction">3. Hard work is a reliable weapon. We can defeat any academic challenges with it.</div>
+                <div class="sentence-box">
+                    <input type="text" placeholder="Write your combined sentence here...">
+                </div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="instruction">4. Our school provides us with a broad stage. Every student can shine on it.</div>
+                <div class="sentence-box">
+                    <input type="text" placeholder="Write your combined sentence here...">
+                </div>
+            </div>
+        </div>
+
+        <div class="section-card">
+            <h2>Part 2: Fill in the Blanks</h2>
+            <p class="instruction" style="margin-bottom: 20px;">Fill in the blanks with suitable relative pronouns (who/whom/which), relative adverbs (when/where), or "prep. + which".</p>
+
+            <div class="exercise-item">
+                <div class="sentence-box">
+                    1. The exchange student <input type="text" style="width: 100px;" placeholder="..."> we invited to our English corner is from London.
+                </div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="sentence-box">
+                    2. The dictionary <input type="text" style="width: 100px;" placeholder="..."> my parents bought for me is essential for my writing.
+                </div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="sentence-box">
+                    3. Group discussion is an effective method <input type="text" style="width: 100px;" placeholder="..."> we can exchange our ideas.
+                </div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="sentence-box">
+                    4. The school library is a peaceful environment <input type="text" style="width: 100px;" placeholder="..."> we can fully focus on reading.
+                </div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="sentence-box">
+                    5. I will always cherish the three golden years <input type="text" style="width: 100px;" placeholder="..."> we fought for our shared dreams.
+                </div>
+            </div>
+        </div>
+
+        <div class="section-card">
+            <h2>Part 3: Sentence Splitting</h2>
+            <p class="instruction" style="margin-bottom: 20px;">Split each complex sentence below into two independent simple sentences.</p>
+
+            <div class="exercise-item">
+                <div class="instruction">1. Lack of sleep is the exact reason for which many teenagers feel tired in class.</div>
+                <div class="sentence-box">
+                    Sentence A: <input type="text" placeholder="First simple sentence..."><br>
+                    Sentence B: <input type="text" style="margin-top: 8px;" placeholder="Second simple sentence...">
+                </div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="instruction">2. The student who won the first prize in the physics competition is my deskmate.</div>
+                <div class="sentence-box">
+                    Sentence A: <input type="text" placeholder="First simple sentence..."><br>
+                    Sentence B: <input type="text" style="margin-top: 8px;" placeholder="Second simple sentence...">
+                </div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="instruction">3. The graduation day on which we will say goodbye to our beloved teachers is coming.</div>
+                <div class="sentence-box">
+                    Sentence A: <input type="text" placeholder="First simple sentence..."><br>
+                    Sentence B: <input type="text" style="margin-top: 8px;" placeholder="Second simple sentence...">
+                </div>
+            </div>
+        </div>
+
+        <div class="section-card">
+            <h2>Part 4: Identify the Grammatical Roles</h2>
+            <p class="instruction" style="margin-bottom: 20px;">Identify the grammatical role of the underlined relative word(s) in the relative clause.</p>
+
+            <div class="exercise-item">
+                <div class="sentence-box">1. The science fiction novel <ins><strong>which</strong></ins> you recommended to me is extremely fascinating.</div>
+                <div class="options-container" style="margin-top: 10px;">
+                    <button class="choice-btn">A. 主语 (Subject)</button>
+                    <button class="choice-btn">B. 宾语 (Object)</button>
+                    <button class="choice-btn">C. 时间状语 (Adverbial of Time)</button>
+                    <button class="choice-btn">D. 地点状语 (Adverbial of Place)</button>
+                </div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="sentence-box">2. The old stadium <ins><strong>in which</strong></ins> we used to play football has been rebuilt.</div>
+                <div class="options-container" style="margin-top: 10px;">
+                    <button class="choice-btn">A. 主语 (Subject)</button>
+                    <button class="choice-btn">B. 宾语 (Object)</button>
+                    <button class="choice-btn">C. 时间状语 (Adverbial of Time)</button>
+                    <button class="choice-btn">D. 地点状语 (Adverbial of Place)</button>
+                </div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="sentence-box">3. We will never forget the exciting moment <ins><strong>at which</strong></ins> our class won the championship.</div>
+                <div class="options-container" style="margin-top: 10px;">
+                    <button class="choice-btn">A. 主语 (Subject)</button>
+                    <button class="choice-btn">B. 宾语 (Object)</button>
+                    <button class="choice-btn">C. 时间状语 (Adverbial of Time)</button>
+                    <button class="choice-btn">D. 地点状语 (Adverbial of Place)</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // 启动应用，切换页面显示
+        function startApp() {
+            document.getElementById('welcome-view').style.display = 'none';
+            document.getElementById('app-frame').style.display = 'block';
+            window.scrollTo(0, 0);
+        }
+
+        // 简单的选择题交互
+        document.querySelectorAll('.choice-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const parent = this.parentElement;
+                parent.querySelectorAll('.choice-btn').forEach(b => {
+                    b.style.borderColor = '#e2e8f0';
+                    b.style.background = 'white';
+                });
+                this.style.borderColor = 'var(--primary-color)';
+                this.style.background = '#f0f9ff';
+            });
+        });
+
+        // 打印/导出 PDF 时去掉答题横线上的占位符文本，打印结束后恢复
+        window.addEventListener('beforeprint', function() {
+            document.querySelectorAll('input[type="text"]').forEach(function(inp) {
+                inp.dataset.placeholderBackup = inp.getAttribute('placeholder') || '';
+                inp.removeAttribute('placeholder');
+            });
+        });
+        window.addEventListener('afterprint', function() {
+            document.querySelectorAll('input[type="text"]').forEach(function(inp) {
+                if (inp.dataset.placeholderBackup) {
+                    inp.setAttribute('placeholder', inp.dataset.placeholderBackup);
+                    delete inp.dataset.placeholderBackup;
+                }
+            });
+        });
+    </script>
+</body>
+</html>

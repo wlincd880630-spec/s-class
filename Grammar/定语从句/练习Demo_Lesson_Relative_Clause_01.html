@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>定语从句专项练习 · Relative Clauses · ESL 语法教学</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Nunito:wght@400;700;800&family=Noto+Sans+SC:wght@400;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Serif+SC:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root { 
+            --font-family: 'Nunito', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            --font-family-title: 'Fredoka', sans-serif;
+            --bg-gradient: linear-gradient(135deg, #e0f2fe 0%, #f0fdf4 100%);
+            --primary-color: #0ea5e9;
+            --color-primary: #0ea5e9;
+            --color-primary-hover: #0284c7;
+            --secondary-color: #10b981;
+            --glass-bg: rgba(255, 255, 255, 0.95);
+            --shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 10px 30px -5px rgba(0, 0, 0, 0.1);
+            --radius: 16px;
+            --radius-lg: 24px;
+        }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body {
+            margin: 0; padding: 0;
+            font-family: var(--font-family);
+            background: var(--bg-gradient);
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex; flex-direction: column; align-items: center;
+        }
+
+        /* 欢迎页面 */
+        #welcome-view {
+            position: fixed; inset: 0; z-index: 1000;
+            background: var(--bg-gradient);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            text-align: center; padding: 20px;
+        }
+        .welcome-card {
+            background: var(--glass-bg);
+            padding: 3rem; border-radius: 2rem;
+            box-shadow: var(--shadow);
+            max-width: 600px; width: 90%;
+            animation: slideUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+        .welcome-card h1 {
+            font-family: var(--font-family-title);
+            font-size: 2.5rem; color: #1e293b; margin-bottom: 0.5rem;
+        }
+
+        /* 主容器 + Logo（与课件统一） */
+        #app-frame {
+            width: 100%; max-width: 1200px;
+            margin: 24px auto;
+            padding: 32px;
+            display: none;
+            position: relative;
+            background: var(--glass-bg);
+            border-radius: 32px;
+            border: 4px solid rgba(255,255,255,0.5);
+            box-shadow: var(--shadow-md);
+        }
+.section-card {
+            background: var(--glass-bg);
+            border-radius: 1.5rem; padding: 2rem;
+            margin-bottom: 2rem; box-shadow: var(--shadow);
+        }
+
+        h2 { font-family: var(--font-family-title); color: var(--primary-color); border-bottom: 2px dashed #cbd5e1; padding-bottom: 10px; }
+
+        .exercise-item { margin-bottom: 25px; padding-bottom: 15px; border-bottom: 1px solid #f1f5f9; }
+        .instruction { font-weight: 700; color: #64748b; margin-bottom: 10px; font-size: 0.9rem; }
+        .sentence-box { font-size: 1.1rem; color: #1e293b; line-height: 1.6; }
+        
+        input[type="text"] {
+            border: none; border-bottom: 2px solid #cbd5e1;
+            padding: 5px 10px; font-size: 1rem;
+            font-family: var(--font-family); width: 100%; max-width: 400px;
+            transition: all 0.3s; background: transparent;
+        }
+        input[type="text"]:focus { outline: none; border-bottom-color: var(--primary-color); background: #f8fafc; }
+
+        .choice-btn {
+            display: block; width: 100%; text-align: left;
+            padding: 12px 20px; margin: 8px 0;
+            background: white; border: 1.5px solid #e2e8f0;
+            border-radius: 10px; cursor: pointer; transition: 0.2s;
+        }
+        .choice-btn:hover { background: #f0f9ff; border-color: var(--primary-color); }
+
+        /* 按钮样式 */
+        .btn-main {
+            background: var(--primary-color); color: white;
+            padding: 14px 32px; border-radius: 16px;
+            font-family: var(--font-family-title); font-size: 1rem; font-weight: 700;
+            border: none; cursor: pointer; transition: 0.2s;
+            box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
+        }
+        .btn-main:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(14, 165, 233, 0.35); }
+
+        .print-btn {
+            position: fixed; top: 20px; right: 20px;
+            background: white; border: none; padding: 10px;
+            border-radius: 50%; cursor: pointer; box-shadow: var(--shadow);
+            z-index: 100;
+        }
+
+        /* 打印适配（PDF 也带 Logo，答题横线不显示 Your answer） */
+        @media print {
+            body { background: white; }
+            .print-btn, #welcome-view, .btn-main { display: none !important; }
+            #app-frame { display: block !important; padding: 0; padding-top: 50px !important; max-width: 100%; }
+.section-card { box-shadow: none; border: 1px solid #eee; break-inside: avoid; }
+            input[type="text"] { border-bottom: 1px solid black; }
+            input[type="text"]::placeholder { color: transparent !important; opacity: 0 !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <button class="print-btn" onclick="window.print()"><i class="fas fa-print"></i></button>
+
+    <div id="welcome-view">
+        <div class="welcome-card">
+            <div style="font-size: 4rem; margin-bottom: 1rem;">✍️</div>
+            <h1>Relative Clauses 01</h1>
+            <p style="color: #64748b; font-size: 1.1rem; margin-bottom: 2rem;">
+                定语从句专项练习：Who vs Whom
+            </p>
+            <button class="btn-main" onclick="startApp()">开始练习 →</button>
+        </div>
+    </div>
+
+    <div id="app-frame">
+        <div class="section-card">
+            <h2>Part 1: Combine the Sentences</h2>
+            <p class="instruction">使用 who 或 whom 将两个简单句合并为一个定语从句。</p>
+            
+            <div class="exercise-item">
+                <div class="sentence-box">
+                    1. The scientist discovered the new element. He was awarded the Nobel Prize.<br>
+                    <input type="text" placeholder=" ">
+                </div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="sentence-box">
+                    2. The volunteers helped clean up the beach. They were highly praised.<br>
+                    <input type="text" placeholder=" ">
+                </div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="sentence-box">
+                    3. The candidates showed great potential. The company interviewed them yesterday.<br>
+                    <input type="text" placeholder=" ">
+                </div>
+            </div>
+        </div>
+
+        <div class="section-card">
+            <h2>Part 2: Fill in the Blanks</h2>
+            <p class="instruction">填入 who 或 whom。</p>
+            
+            <div class="exercise-item">
+                <div class="sentence-box">
+                    1. Students ________ want to apply for the scholarship must submit applications before Friday.
+                </div>
+            </div>
+            <div class="exercise-item">
+                <div class="sentence-box">
+                    2. The professor ________ we met at the academic conference is a famous historian.
+                </div>
+            </div>
+            <div class="exercise-item">
+                <div class="sentence-box">
+                    3. Do you know the girl ________ won the first prize in the national English speech contest?
+                </div>
+            </div>
+            <div class="exercise-item">
+                <div class="sentence-box">
+                    4. The children ________ the teacher encouraged are now very confident.
+                </div>
+            </div>
+        </div>
+
+        <div class="section-card">
+            <h2>Part 3: Sentence Splitting</h2>
+            <p class="instruction">将下列句子拆分为两个独立的简单句。</p>
+            
+            <div class="exercise-item">
+                <div class="sentence-box">
+                    1. People who are exposed to too much stress are more likely to suffer from health problems.<br>
+                    A: <input type="text" style="width: 80%;"><br>
+                    B: <input type="text" style="width: 80%;">
+                </div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="sentence-box">
+                    2. The passengers who survived the plane crash felt incredibly lucky.<br>
+                    A: <input type="text" style="width: 80%;"><br>
+                    B: <input type="text" style="width: 80%;">
+                </div>
+            </div>
+        </div>
+
+        <div class="section-card">
+            <h2>Part 4: Multiple Choice</h2>
+            <p class="instruction">选择与英文句子最贴切的中文翻译。</p>
+
+            <div class="exercise-item">
+                <div class="sentence-box">1. I still remember the teacher who always encouraged me.</div>
+                <button class="choice-btn">A. 我依然记得那位总是鼓励我的老师。</button>
+                <button class="choice-btn">B. 我依然记得老师，他鼓励我经历艰难时刻。</button>
+            </div>
+
+            <div class="exercise-item">
+                <div class="sentence-box">2. Anyone who breaks the law should be punished.</div>
+                <button class="choice-btn">A. 任何触犯法律的人都应该受到惩罚。</button>
+                <button class="choice-btn">B. 有人触犯法律，他们应该被惩罚。</button>
+            </div>
+
+            <div class="exercise-item">
+                <div class="sentence-box">3. Employees who have worked for over ten years will get extra leave.</div>
+                <button class="choice-btn">A. 员工工作十年后可以得到额外的休假。</button>
+                <button class="choice-btn">B. 工作超过十年的员工将获得额外的带薪休假。</button>
+            </div>
+
+            <div class="exercise-item">
+                <div class="sentence-box">4. He is the kind of person who never gives up easily.</div>
+                <button class="choice-btn">A. 他是一个即使面对困难也从不轻易放弃的人。</button>
+                <button class="choice-btn">B. 他是那种从不轻易放弃的人。</button>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 50px; color: #94a3b8; font-size: 0.9rem;">
+            © ESL Grammar Master - 定语从句专项系列
+        </div>
+    </div>
+
+    <script>
+        function startApp() {
+            document.getElementById('welcome-view').style.display = 'none';
+            document.getElementById('app-frame').style.display = 'block';
+            window.scrollTo(0, 0);
+        }
+
+        // 简单的选择题交互
+        document.querySelectorAll('.choice-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const parent = this.parentElement;
+                parent.querySelectorAll('.choice-btn').forEach(b => b.style.borderColor = '#e2e8f0');
+                this.style.borderColor = 'var(--primary-color)';
+                this.style.background = '#f0f9ff';
+            });
+        });
+
+        // 打印/导出 PDF 时去掉答题横线上的 "Your answer..."，打印结束后恢复
+        window.addEventListener('beforeprint', function() {
+            document.querySelectorAll('input[type="text"]').forEach(function(inp) {
+                inp.dataset.placeholderBackup = inp.getAttribute('placeholder') || '';
+                inp.removeAttribute('placeholder');
+            });
+        });
+        window.addEventListener('afterprint', function() {
+            document.querySelectorAll('input[type="text"]').forEach(function(inp) {
+                if (inp.dataset.placeholderBackup) {
+                    inp.setAttribute('placeholder', inp.dataset.placeholderBackup);
+                    delete inp.dataset.placeholderBackup;
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>定语从句专项练习 · Relative Clauses (which)</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Nunito:wght@400;700;800&family=Noto+Sans+SC:wght@400;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Serif+SC:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root { 
+            --font-family: 'Nunito', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            --font-family-title: 'Fredoka', sans-serif;
+            --bg-gradient: linear-gradient(135deg, #e0f2fe 0%, #f0fdf4 100%);
+            --primary-color: #0ea5e9;
+            --color-primary: #0ea5e9;
+            --color-primary-hover: #0284c7;
+            --secondary-color: #10b981;
+            --glass-bg: rgba(255, 255, 255, 0.95);
+            --shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 10px 30px -5px rgba(0, 0, 0, 0.1);
+            --radius: 16px;
+            --radius-lg: 24px;
+        }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body {
+            margin: 0; padding: 0;
+            font-family: var(--font-family);
+            background: var(--bg-gradient);
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex; flex-direction: column; align-items: center;
+        }
+
+        /* 欢迎页面 */
+        #welcome-view {
+            position: fixed; inset: 0; z-index: 1000;
+            background: var(--bg-gradient);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            text-align: center; padding: 20px;
+        }
+        .welcome-card {
+            background: var(--glass-bg);
+            padding: 3rem; border-radius: 2rem;
+            box-shadow: var(--shadow);
+            max-width: 600px; width: 90%;
+            animation: slideUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+        .welcome-card h1 {
+            font-family: var(--font-family-title);
+            font-size: 2.5rem; color: #1e293b; margin-bottom: 0.5rem;
+        }
+        
+        .welcome-card p {
+            color: #64748b;
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+
+        /* 主容器 + Logo（与课件统一） */
+        #app-frame {
+            width: 100%; max-width: 1200px;
+            margin: 24px auto;
+            padding: 32px;
+            display: none;
+            position: relative;
+            background: var(--glass-bg);
+            border-radius: 32px;
+            border: 4px solid rgba(255,255,255,0.5);
+            box-shadow: var(--shadow-md);
+        }
+.section-card {
+            background: var(--glass-bg);
+            border-radius: 1.5rem; padding: 2rem;
+            margin-bottom: 2rem; box-shadow: var(--shadow);
+        }
+
+        h2 { font-family: var(--font-family-title); color: var(--primary-color); border-bottom: 2px dashed #cbd5e1; padding-bottom: 10px; }
+
+        .exercise-item { margin-bottom: 25px; padding-bottom: 15px; border-bottom: 1px solid #f1f5f9; }
+        .exercise-item:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+        .instruction { font-weight: 700; color: #64748b; margin-bottom: 10px; font-size: 0.9rem; }
+        .sentence-box { font-size: 1.1rem; color: #1e293b; line-height: 1.6; }
+        
+        input[type="text"] {
+            border: none; border-bottom: 2px solid #cbd5e1;
+            padding: 5px 10px; font-size: 1rem;
+            font-family: var(--font-family); width: 100%; max-width: 400px;
+            transition: all 0.3s; background: transparent;
+        }
+        input[type="text"]:focus { outline: none; border-bottom-color: var(--primary-color); background: #f8fafc; }
+
+        /* 单选框样式（用于角色选择） */
+        .role-selector {
+            margin-top: 12px;
+            font-size: 0.95rem;
+            color: #475569;
+            background: #f8fafc;
+            display: inline-block;
+            padding: 8px 15px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+        .role-selector label { cursor: pointer; margin-right: 15px; }
+        .role-selector input[type="radio"] { accent-color: var(--primary-color); margin-right: 5px; }
+
+        .choice-btn {
+            display: block; width: 100%; text-align: left;
+            padding: 12px 20px; margin: 8px 0;
+            background: white; border: 1.5px solid #e2e8f0;
+            border-radius: 10px; cursor: pointer; transition: 0.2s;
+            font-size: 1rem; color: #1e293b; font-family: var(--font-family);
+        }
+        .choice-btn:hover { background: #f0f9ff; border-color: var(--primary-color); }
+
+        /* 按钮样式 */
+        .btn-main {
+            background: var(--primary-color); color: white;
+            padding: 14px 32px; border-radius: 16px;
+            font-family: var(--font-family-title); font-size: 1rem; font-weight: 700;
+            border: none; cursor: pointer; transition: 0.2s;
+            box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
+        }
+        .btn-main:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(14, 165, 233, 0.35); }
+
+        .print-btn {
+            position: fixed; top: 20px; right: 20px;
+            background: white; border: none; padding: 10px;
+            border-radius: 50%; cursor: pointer; box-shadow: var(--shadow);
+            z-index: 100;
+        }
+        .print-btn i { color: var(--primary-color); }
+
+        /* 打印适配（PDF 也带 Logo，答题横线不显示 Your answer） */
+        @media print {
+            body { background: white; }
+            .print-btn, #welcome-view, .btn-main { display: none !important; }
+            #app-frame { display: block !important; padding: 0; padding-top: 50px !important; max-width: 100%; }
+.section-card { box-shadow: none; border: 1px solid #eee; break-inside: avoid; margin-bottom: 30px; }
+            input[type="text"] { border-bottom: 1px solid black; }
+            input[type="text"]::placeholder { color: transparent !important; opacity: 0 !important; }
+            .role-selector { border: none; background: transparent; padding: 5px 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <button class="print-btn" onclick="window.print()"><i class="fas fa-print"></i></button>
+
+    <div id="welcome-view">
+        <div class="welcome-card">
+            <div style="font-size: 4rem; margin-bottom: 1rem;">✍️</div>
+            <h1>Relative Clauses 02</h1>
+            <p>专项练习：重点掌握 which 在定语从句中作主语和宾语的用法。</p>
+            <button class="btn-main" onclick="startApp()">开始练习 →</button>
+        </div>
+    </div>
+
+    <div id="app-frame">
+        
+        <div class="section-card">
+            <h2>Part 1: Combine the Sentences</h2>
+            <p class="instruction" style="margin-bottom: 20px;">Use <strong>which</strong> to combine the two sentences into one relative clause. Then, label the role of "which" (Subject or Object).</p>
+            
+            <div class="exercise-item">
+                <div class="instruction">1. We have a new chemistry laboratory. It looks very modern.</div>
+                <div class="sentence-box">
+                    <input type="text" placeholder="Write your combined sentence here...">
+                    <br>
+                    <div class="role-selector">
+                        <span>which 在从句中的角色：</span>
+                        <label><input type="radio" name="q1_role"> 主语 (Subject)</label>
+                        <label><input type="radio" name="q1_role"> 宾语 (Object)</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="instruction">2. My mom bought me a reading lamp. It protects the eyes.</div>
+                <div class="sentence-box">
+                    <input type="text" placeholder="Write your combined sentence here...">
+                    <br>
+                    <div class="role-selector">
+                        <span>which 在从句中的角色：</span>
+                        <label><input type="radio" name="q2_role"> 主语 (Subject)</label>
+                        <label><input type="radio" name="q2_role"> 宾语 (Object)</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="instruction">3. I can't find the test paper. The teacher handed it out just now.</div>
+                <div class="sentence-box">
+                    <input type="text" placeholder="Write your combined sentence here...">
+                    <br>
+                    <div class="role-selector">
+                        <span>which 在从句中的角色：</span>
+                        <label><input type="radio" name="q3_role"> 主语 (Subject)</label>
+                        <label><input type="radio" name="q3_role"> 宾语 (Object)</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-card">
+            <h2>Part 2: Fill in the Blanks</h2>
+            <p class="instruction" style="margin-bottom: 20px;">Fill in the blanks with appropriate relative pronouns. (Hint: Think about whether it acts as a subject or an object.)</p>
+
+            <div class="exercise-item">
+                <div class="sentence-box">
+                    1. Students love the extra-curricular activities <input type="text" style="width: 80px;" placeholder="..."> help them relax.
+                </div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="sentence-box">
+                    2. The study method <input type="text" style="width: 80px;" placeholder="..."> the top student shared works perfectly for me.
+                </div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="sentence-box">
+                    3. The math question <input type="text" style="width: 80px;" placeholder="..."> is on the blackboard is very difficult.
+                </div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="sentence-box">
+                    4. The English novel <input type="text" style="width: 80px;" placeholder="..."> we are reading is written by Charles Dickens.
+                </div>
+            </div>
+        </div>
+
+        <div class="section-card">
+            <h2>Part 3: Sentence Splitting</h2>
+            <p class="instruction" style="margin-bottom: 20px;">Split each sentence below into two simple sentences.</p>
+
+            <div class="exercise-item">
+                <div class="instruction">1. The basketball match which took place yesterday was really exciting.</div>
+                <div class="sentence-box">
+                    Sentence 1: <input type="text" placeholder="First simple sentence..."><br>
+                    Sentence 2: <input type="text" style="margin-top: 8px;" placeholder="Second simple sentence...">
+                </div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="instruction">2. My roommate accidentally broke the pen which I bought yesterday.</div>
+                <div class="sentence-box">
+                    Sentence 1: <input type="text" placeholder="First simple sentence..."><br>
+                    Sentence 2: <input type="text" style="margin-top: 8px;" placeholder="Second simple sentence...">
+                </div>
+            </div>
+        </div>
+
+        <div class="section-card">
+            <h2>Part 4: Multiple Choice</h2>
+            <p class="instruction" style="margin-bottom: 20px;">Choose the correct relative pronoun to complete each sentence.</p>
+
+            <div class="exercise-item">
+                <div class="sentence-box">1. I lost the notebook ________ contains all my history notes.</div>
+                <div class="options-container" style="margin-top: 10px;">
+                    <button class="choice-btn">A. who</button>
+                    <button class="choice-btn">B. which</button>
+                    <button class="choice-btn">C. whom</button>
+                    <button class="choice-btn">D. what</button>
+                </div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="sentence-box">2. Have you finished the homework ________ was assigned by Mr. Li?</div>
+                <div class="options-container" style="margin-top: 10px;">
+                    <button class="choice-btn">A. which</button>
+                    <button class="choice-btn">B. who</button>
+                    <button class="choice-btn">C. whose</button>
+                    <button class="choice-btn">D. whom</button>
+                </div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="sentence-box">3. The school bus ________ picks us up every morning is always on time.</div>
+                <div class="options-container" style="margin-top: 10px;">
+                    <button class="choice-btn">A. what</button>
+                    <button class="choice-btn">B. whom</button>
+                    <button class="choice-btn">C. which</button>
+                    <button class="choice-btn">D. who</button>
+                </div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="sentence-box">4. I prefer the schoolbag ________ has many small pockets.</div>
+                <div class="options-container" style="margin-top: 10px;">
+                    <button class="choice-btn">A. who</button>
+                    <button class="choice-btn">B. whom</button>
+                    <button class="choice-btn">C. whose</button>
+                    <button class="choice-btn">D. which</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // 启动练习应用
+        function startApp() {
+            document.getElementById('welcome-view').style.display = 'none';
+            document.getElementById('app-frame').style.display = 'block';
+            window.scrollTo(0, 0);
+        }
+
+        // 选择题交互反馈
+        document.querySelectorAll('.choice-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const parent = this.parentElement;
+                // 重置当前题目其他按钮的样式
+                parent.querySelectorAll('.choice-btn').forEach(b => {
+                    b.style.borderColor = '#e2e8f0';
+                    b.style.background = 'white';
+                });
+                // 激活当前点击的按钮样式
+                this.style.borderColor = 'var(--primary-color)';
+                this.style.background = '#f0f9ff';
+            });
+        });
+
+        // 打印/导出 PDF 优化：打印时去掉输入框内的 "Placeholder" 占位符提示，打印结束后恢复
+        window.addEventListener('beforeprint', function() {
+            document.querySelectorAll('input[type="text"]').forEach(function(inp) {
+                inp.dataset.placeholderBackup = inp.getAttribute('placeholder') || '';
+                inp.removeAttribute('placeholder');
+            });
+        });
+        window.addEventListener('afterprint', function() {
+            document.querySelectorAll('input[type="text"]').forEach(function(inp) {
+                if (inp.dataset.placeholderBackup) {
+                    inp.setAttribute('placeholder', inp.dataset.placeholderBackup);
+                    delete inp.dataset.placeholderBackup;
+                }
+            });
+        });
+    </script>
+</body>
+</html>

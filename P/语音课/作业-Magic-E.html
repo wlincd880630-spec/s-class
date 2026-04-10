@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>课后作业 · 音节与闭音节（一题一页 · Azure）</title>
+  <title>课后作业 · Magic E / 魔法 E（一题一页 · Azure）</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Comic+Neue:wght@400;700&family=Noto+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet" />
@@ -647,8 +647,8 @@
 <body>
   <div class="shell">
     <header class="hero">
-      <h1>🌸 课后作业 · 音节与闭音节</h1>
-      <p id="hero-sub">一题一页 · 提交后查看解析 · 对应 The Magic of Syllables</p>
+      <h1>🌸 课后作业 · Magic E（魔法 E）</h1>
+      <p id="hero-sub">选择题少练 · 长词拆分与听写多练 · 对应课件 The Magic of Syllables · Magic E</p>
     </header>
 
     <div class="teacher-toolbar" id="teacher-toolbar" aria-label="教师模式工具栏">
@@ -682,7 +682,7 @@
 
     <section class="section-lab card hidden" id="dictation-section" style="margin-top:1rem;box-shadow:6px 6px 0 var(--shadow);">
       <div class="card-inner">
-        <p class="q-label">听写 · 典型长词</p>
+        <p class="q-label">听写 · Magic E 词汇</p>
         <p class="lab-progress" id="dict-progress" aria-live="polite"></p>
         <div class="word-tabs" id="dict-tabs"></div>
         <div id="dict-root"></div>
@@ -690,7 +690,7 @@
     </section>
   </div>
 
-  <script src="asset/mp3/tts-urls.js"></script>
+  <script src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/P/语音课/asset/mp3/tts-urls.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/microsoft-cognitiveservices-speech-sdk@1.40.0/distrib/browser/microsoft.cognitiveservices.speech.sdk.bundle-min.js"></script>
   <script>
     (function () {
@@ -703,60 +703,36 @@
       };
       var AEN = "en-US-JennyNeural";
 
-      /** Google AI Studio（Gemini）生成的拓展题，已写入本文件 */
-      var GEMINI_EXTRA = {
-        extra_mc: [
-          { id: "g1", q: { zh: "什么是音节？", en: "What is a syllable?" }, options: [{ en: "A part of a word with only consonants.", zh: "单词里只有辅音的那一部分。" }, { en: "A part of a word with at least one vowel sound.", zh: "单词里至少包含一个元音音素的那一部分。" }, { en: "A single letter.", zh: "单个字母。" }, { en: "A whole word.", zh: "整个单词。" }], correct: 1, explain_zh: "音节是单词的一部分，它必须至少包含一个元音音素。元音音素是音节的核心，没有它就不能构成音节。例如，在单词“cat”中，只有一个音节，它的核心是元音音素/æ/。" },
-          { id: "g2", q: { zh: "哪个是元音音素？", en: "Which of these is a vowel sound?" }, options: [{ en: "/b/ as in ball", zh: "/b/，如 ball 中的 b" }, { en: "/s/ as in sun", zh: "/s/，如 sun 中的 s" }, { en: "/aɪ/ as in bike", zh: "/aɪ/，如 bike 中的元音" }, { en: "/t/ as in top", zh: "/t/，如 top 中的 t" }], correct: 2, explain_zh: "元音音素发音时气流在口腔中基本不受阻碍，听起来更响亮、更开放。/b/、/s/、/t/ 是辅音；/aɪ/（如 bike 中的元音）是元音音素。" },
-          { id: "g3", q: { zh: "单词 banana 有几个音节？", en: "How many syllables are in the word 'banana'?" }, options: ["One", "Two", "Three", "Four"], correct: 2, explain_zh: "可以拍手或感受下巴开合：ba-na-na 是三拍，对应三个音节，每个音节里都有元音音素。" },
-          { id: "g4", q: { zh: "单词 cat 属于哪种音节？", en: "What kind of syllable is 'cat'?" }, options: [{ en: "Open syllable", zh: "开音节" }, { en: "Magic e syllable", zh: "魔法 e 音节" }, { en: "Closed syllable", zh: "闭音节" }, { en: "Vowel team syllable", zh: "元音组合音节" }], correct: 2, explain_zh: "cat 的结构是辅音 + 元音 + 辅音，元音后面有辅音“关门”，属于闭音节，元音常读短音。" },
-          { id: "g5", q: { zh: "为什么 CVC 单词（如 dog）里的元音通常发短音？", en: "Why does the vowel in a CVC word like 'dog' usually make a short sound?" }, options: [{ en: "Because it's at the end of the word.", zh: "因为它在词尾。" }, { en: "Because it's followed by a consonant.", zh: "因为它后面跟着辅音。" }, { en: "Because it's the only vowel.", zh: "因为它是唯一的元音字母。" }, { en: "Because it's a long word.", zh: "因为单词很长。" }], correct: 1, explain_zh: "CVC 里元音后面紧跟辅音，音节被“关上”，元音往往没有空间拖成长音，所以多读短音。" },
-          { id: "g6", q: { zh: "把 /b/, /æ/, /g/ 连读拼合，会得到哪个单词？", en: "If you blend /b/, /æ/, /g/, what word do you get?" }, options: ["big", "bag", "bug", "beg"], correct: 1, explain_zh: "把 /b/-/æ/-/g/ 连读拼合，就会得到 bag，这就是拼读 blending。" }
-        ],
-        extra_tf: [
-          { id: "gt1", q: { zh: "每个音节都必须至少有一个元音音素。", en: "Every syllable must have at least one vowel sound." }, correct: true, explain_zh: "正确。音节需要“元音核”；只有辅音一般不能单独构成音节。" },
-          { id: "gt3", q: { zh: "闭音节以元音音素结尾。", en: "A closed syllable ends with a vowel sound." }, correct: false, explain_zh: "错误。闭音节以辅音音收尾（关门），元音多读短音；以元音音收尾的多是开音节。" },
-          { id: "gt4", q: { zh: "字母和声音是完全一回事。", en: "Letters and sounds are exactly the same thing." }, correct: false, explain_zh: "错误。字母是书写符号，音素是声音；同一字母在不同词里可发不同音。" },
-          { id: "gt5", q: { zh: "CVC 词里元音通常发字母名称的长音。", en: "In a CVC word, the vowel usually makes its long letter name sound." }, correct: false, explain_zh: "错误。CVC 闭音节里元音通常读短音，而不是字母名称的长音。" }
-        ]
-      };
+      var GEMINI_EXTRA = { extra_mc: [], extra_tf: [] };
 
-      /** 课堂常见「两个闭音节」双音节词（CVC/CVCC 等，切分参考教材） */
+      /** 长词实验室：含 Magic e / VCe 等（切分与 parts 供对照；含少量单音节 VCe 如 grape） */
       var LAB_POOL = [
-        { word: "mitten", cutAfter: 2, parts: ["mit", "ten"] },
-        { word: "cotton", cutAfter: 2, parts: ["cot", "ton"] },
-        { word: "pumpkin", cutAfter: 3, parts: ["pump", "kin"] },
-        { word: "backpack", cutAfter: 3, parts: ["back", "pack"] },
-        { word: "picnic", cutAfter: 2, parts: ["pic", "nic"] },
-        { word: "napkin", cutAfter: 2, parts: ["nap", "kin"] },
-        { word: "rabbit", cutAfter: 2, parts: ["rab", "bit"] },
-        { word: "basket", cutAfter: 2, parts: ["bas", "ket"] },
-        { word: "velvet", cutAfter: 2, parts: ["vel", "vet"] },
-        { word: "puppet", cutAfter: 2, parts: ["pup", "pet"] },
-        { word: "sunset", cutAfter: 3, parts: ["sun", "set"] },
-        { word: "magnet", cutAfter: 2, parts: ["mag", "net"] },
-        { word: "tennis", cutAfter: 2, parts: ["ten", "nis"] },
-        { word: "dentist", cutAfter: 3, parts: ["den", "tist"] },
-        { word: "insect", cutAfter: 2, parts: ["in", "sect"] },
-        { word: "tablet", cutAfter: 2, parts: ["tab", "let"] },
-        { word: "target", cutAfter: 2, parts: ["tar", "get"] },
-        { word: "helmet", cutAfter: 2, parts: ["hel", "met"] },
-        { word: "cactus", cutAfter: 2, parts: ["cac", "tus"] },
-        { word: "traffic", cutAfter: 3, parts: ["traf", "fic"] },
-        { word: "wisdom", cutAfter: 2, parts: ["wis", "dom"] },
-        { word: "plastic", cutAfter: 3, parts: ["plas", "tic"] },
-        { word: "robin", cutAfter: 2, parts: ["rob", "in"] },
-        { word: "cabin", cutAfter: 2, parts: ["cab", "in"] },
-        { word: "comic", cutAfter: 2, parts: ["com", "ic"] },
-        { word: "limit", cutAfter: 2, parts: ["lim", "it"] },
-        { word: "visit", cutAfter: 2, parts: ["vis", "it"] },
-        { word: "bandit", cutAfter: 2, parts: ["ban", "dit"] },
-        { word: "pencil", cutAfter: 2, parts: ["pen", "cil"] }
+        { word: "cupcake", cutAfter: 2, parts: ["cup", "cake"] },
+        { word: "pancake", cutAfter: 2, parts: ["pan", "cake"] },
+        { word: "mistake", cutAfter: 2, parts: ["mis", "take"] },
+        { word: "bedtime", cutAfter: 2, parts: ["bed", "time"] },
+        { word: "inside", cutAfter: 1, parts: ["in", "side"] },
+        { word: "beside", cutAfter: 1, parts: ["be", "side"] },
+        { word: "invite", cutAfter: 1, parts: ["in", "vite"] },
+        { word: "complete", cutAfter: 2, parts: ["com", "plete"] },
+        { word: "explode", cutAfter: 1, parts: ["ex", "plode"] },
+        { word: "reptile", cutAfter: 2, parts: ["rep", "tile"] },
+        { word: "grape", cutAfter: 1, parts: ["gr", "ape"] },
+        { word: "landscape", cutAfter: 3, parts: ["land", "scape"] },
+        { word: "homemade", cutAfter: 3, parts: ["home", "made"] },
+        { word: "fireplace", cutAfter: 3, parts: ["fire", "place"] },
+        { word: "template", cutAfter: 2, parts: ["tem", "plate"] },
+        { word: "update", cutAfter: 1, parts: ["up", "date"] },
+        { word: "perfume", cutAfter: 2, parts: ["per", "fume"] },
+        { word: "costume", cutAfter: 2, parts: ["cos", "tume"] },
+        { word: "include", cutAfter: 1, parts: ["in", "clude"] },
+        { word: "parade", cutAfter: 1, parts: ["pa", "rade"] },
+        { word: "migrate", cutAfter: 1, parts: ["mi", "grate"] }
       ];
 
-      var LAB_WORD_TOTAL = 20;
-      /** 从本轮 LAB_WORDS 中选出的听写词：双闭音节、课堂高频代表（与 LAB 前 20 词索引对应） */
-      var DICTATION_LAB_INDICES = [0, 2, 3, 4, 6, 10, 11, 13];
+      var LAB_WORD_TOTAL = 28;
+      /** 听写：自列表前部顺取，不含 himself / herself / timetable；不另补题 */
+      var DICTATION_LAB_INDICES = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
       var PASS_SCORE = 80;
       var TEACHER_PASSWORD = "123888";
       var TEACHER_SESSION_KEY = "hw_syl_teacher_ok";
@@ -766,123 +742,55 @@
         d.push({
           type: "intro",
           id: "intro",
-          title: { zh: "欢迎你，小读者！", en: "Welcome, young reader!" },
+          title: { zh: "Magic E · 少选题多动手", en: "Magic E — light quiz, heavy practice" },
           body: {
-            zh: "下面每页一题。先想一想，再选答案并点「提交答案」，会看到解析。全部完成后进入「长词实验室」。Azure 密钥已内置；朗读需允许麦克风。",
-            en: "One question per page. Think, choose an answer, then tap Submit to read the feedback. When you finish everything, you will open the Long-word Lab. Azure keys are built into this page; allow the microphone for the reading tasks."
+            zh: "本页作业<strong>选择题很少</strong>，重点在<strong>长词实验室</strong>与<strong>听写</strong>。Magic e（silent e）常让前面的元音字母读得更像「字母本名」的长音，且词尾的 e 常不发音；具体以老师示范为准。",
+            en: "Few quiz questions; focus on the lab and dictation. A silent e often signals a long vowel sound for the vowel before it; follow your teacher’s model."
           }
         });
         d.push({
           type: "mc",
-          id: "en26",
-          q: { zh: "英语字母表有多少个字母？", en: "How many letters are there in the English alphabet?" },
-          options: ["twenty six", "twenti six", "twanty sax", "twenty sax"],
-          correct: 0,
-          explain_zh: "英语字母表共有 26 个字母。注意英文拼写是 twenty six，两个单词分开写；其他选项是常见拼写玩笑或错误形式。"
-        });
-        d.push({
-          type: "mc",
-          id: "syll_method",
-          q: { zh: "我们通过什么来判断单词里有几个音节？", en: "How do we tell how many syllables a word has?" },
+          id: "me1",
+          q: {
+            zh: "在 <strong>cake</strong> 这类 <strong>a_e</strong> 模式里，词尾的 <strong>e</strong> 在课堂里常被说成什么作用？",
+            en: "In a word like <strong>cake</strong> (a_e), what does the final <strong>e</strong> often do in class?"
+          },
           options: [
-            { en: "Clap the beats: usually one vowel sound per beat.", zh: "跟着节拍拍手：通常一拍对应一个元音音素。" },
-            { en: "Count vowel letters only — that equals syllables.", zh: "只数元音字母的个数——那就是音节数。" },
-            { en: "Longer spelling means more syllables.", zh: "拼写越长，音节就越多。" },
-            { en: "Count consonant letters only.", zh: "只数辅音字母的个数。" }
+            { en: "It is always loudly pronounced /iː/.", zh: "它总是大声读成 /iː/。" },
+            { en: "It is often silent, and it helps the first vowel sound longer / “say its name”.", zh: "常常不发音，并提示前面的元音读长音／更像字母名。" },
+            { en: "It turns every consonant into /k/.", zh: "它把所有辅音都变成 /k/。" }
           ],
-          correct: 0,
-          explain_zh: "课堂常用「拍手/节拍」感受音节；每个音节一般有一个元音音素（元音核）。仅数元音字母不准确（如 silent e、字母组合等），不能只看长短或辅音个数。"
+          correct: 1,
+          explain_zh: "Magic e 课堂常用说法是：末尾 e 常不发音，但「提醒」前面的元音读长音（如 cake 里的 a）。双音节长词里也可能出现带 silent e 的音节（如 <strong>cup·cake</strong> 里的 cake）。"
         });
         d.push({
           type: "ipa",
-          id: "ipa_cvc",
+          id: "ipa_me",
           q: {
-            zh: "为 A E I O U 选择它们在 <strong>典型 CVC 闭音节</strong>里常对应的 <strong>短元音音标</strong>（点击下拉框选择）。",
-            en: "For A E I O U, pick each letter’s <strong>typical short vowel IPA</strong> in a <strong>CVC closed syllable</strong> (use the drop-down menu)."
+            zh: "为 A E I O U 选择在 <strong>典型 Magic e（CVCe）模式</strong>里常对应的<strong>长元音音标</strong>。",
+            en: "For A E I O U, pick each letter’s <strong>typical long vowel IPA</strong> in a <strong>Magic e (CVCe)</strong> pattern."
           },
-          explain_zh: "在典型 CVC 闭音节里，AEIOU 多读短音：A /æ/、E /e/、I /ɪ/、O 英音常 /ɒ/ 美音可更接近 /ɑː/、U /ʌ/。音标会因教材与口音略有差异，以老师示范为准。"
-        });
-        d.push({
-          type: "mc",
-          id: "a3",
-          q: {
-            zh: "「闭音节」在单音节 CVC 结构里，元音后面的辅音常被比喻成什么？",
-            en: "In a one-syllable CVC word, the consonant after the vowel is often compared to what?"
-          },
-          options: [
-            { en: "A closed door", zh: "一扇关上的门" },
-            { en: "A little car", zh: "一辆小汽车" },
-            { en: "A clap / one beat", zh: "拍一下手／一拍" }
-          ],
-          correct: 0,
-          explain_zh: "课件用“门”比喻：辅音像门把元音“关住”，所以元音往往读短音。"
-        });
-        d.push({
-          type: "mc",
-          id: "a4",
-          q: {
-            zh: "在典型的 CVC 闭音节单词里，元音字母通常发什么音？",
-            en: "In a typical CVC closed syllable, the vowel letter usually makes which kind of sound?"
-          },
-          options: [
-            { en: "The letter name (long sound)", zh: "字母名称音（长音）" },
-            { en: "A short vowel sound", zh: "短元音" },
-            { en: "No sound", zh: "不发音" }
-          ],
-          correct: 1,
-          explain_zh: "闭音节里元音常被后面的辅音“关住”，一般读短音，而不是读字母本名的长音。"
+          explain_zh: "与开音节长音一致：A /eɪ/、E /iː/、I /aɪ/、O /oʊ/、U /juː/。个别词有例外，以教材与口音为准。"
         });
         d.push({
           type: "tf",
-          id: "a6",
+          id: "me2",
           q: {
-            zh: "判断：两个元音字母之间如果有两个辅音字母，课堂上常从这两个辅音的中间切开划分音节。",
-            en: "True or false: With two vowel letters and two consonants between them, we often split between those two consonants."
+            zh: "判断：单词 <strong>cupcake</strong> 里，第二段 <strong>cake</strong> 带有「元音 + 辅音 + e」的 Magic e 拼写模式。",
+            en: "True or false: In <strong>cupcake</strong>, the second part <strong>cake</strong> shows a Magic e spelling pattern (vowel + consonant + e)."
           },
           correct: true,
-          explain_zh: "正确。这是常见教学口诀之一（两辅夹中间从中划），适合课堂练习；个别词仍有例外，以教材为准。"
+          explain_zh: "正确。<strong>c-a-k-e</strong> 是常见的 a_e 模式，末尾 e 常不发音，a 多读字母本名的长音。"
         });
         d.push({
           type: "tf",
-          id: "a7",
+          id: "me3",
           q: {
-            zh: "判断：中间只有一个辅音字母时，也一定用「两辅音从中间划」的口诀。",
-            en: "True or false: If there is only one consonant between vowels, we still always use the “split between two consonants” rule."
+            zh: "判断：只要单词末尾有字母 e，前面的元音<strong>一定</strong>读长音。",
+            en: "True or false: If a word ends with the letter e, the vowel before it <strong>always</strong> makes a long sound."
           },
           correct: false,
-          explain_zh: "错误。只有“两个辅音夹在中间”才用该口诀；只有一个辅音时要按本词规则与读音划分。"
-        });
-        var bs = [
-          { id: "b1", q: { zh: "单词 <strong>cat</strong> 有几个音节？", en: "How many syllables in <strong>cat</strong>?" }, options: ["1", "2", "3"], correct: 0, explain_zh: "cat 一拍一个元音核，单音节。" },
-          { id: "b2", q: { zh: "单词 <strong>mango</strong> 有几个音节？", en: "How many syllables in <strong>mango</strong>?" }, options: ["1", "2", "3"], correct: 1, explain_zh: "man-go，两拍，两音节。" },
-          { id: "b3", q: { zh: "单词 <strong>robot</strong> 有几个音节？", en: "How many syllables in <strong>robot</strong>?" }, options: ["1", "2", "3"], correct: 1, explain_zh: "ro-bot，两音节。" },
-          { id: "b4", q: { zh: "单词 <strong>tornado</strong> 有几个音节？", en: "How many syllables in <strong>tornado</strong>?" }, options: ["2", "3", "4"], correct: 1, explain_zh: "tor-na-do，三音节。" },
-          { id: "b5", q: { zh: "单词 <strong>watermelon</strong> 有几个音节？", en: "How many syllables in <strong>watermelon</strong>?" }, options: ["3", "4", "5"], correct: 1, explain_zh: "wa-ter-me-lon，四音节。" },
-          { id: "b6", q: { zh: "下列哪一组是 <strong>pumpkin</strong> 常见的课堂音节划分？", en: "Which split matches common classroom practice for <strong>pumpkin</strong>?" }, options: ["pum · pkin", "pump · kin", "pu · mpkin"], correct: 1, explain_zh: "双 p 中间切开：pump · kin。" },
-          { id: "b7", q: { zh: "下列哪一组是 <strong>backpack</strong> 常见的课堂音节划分？", en: "Which split matches common classroom practice for <strong>backpack</strong>?" }, options: ["bac · kpack", "back · pack", "b · ackpack"], correct: 1, explain_zh: "在 ck 与 p 之间切：back · pack。下一题会问你「为什么」这样切。" }
-        ];
-        bs.forEach(function (x) { d.push({ type: "mc", id: x.id, q: x.q, options: x.options, correct: x.correct, explain_zh: x.explain_zh }); });
-        d.push({
-          type: "mc",
-          id: "b7b",
-          q: {
-            zh: "做完上一题的划分后：<strong>backpack → back · pack</strong>。为什么还要在 <strong>ck</strong> 和 <strong>p</strong> 之间切分，而不是把 <strong>c</strong> 和 <strong>k</strong> 从中间拆开？",
-            en: "After splitting <strong>backpack</strong> as <strong>back · pack</strong>, why break between <strong>ck</strong> and <strong>p</strong>, not between <strong>c</strong> and <strong>k</strong>?"
-          },
-          options: [
-            { en: "Any two adjacent consonants should be split in the middle.", zh: "任意两个相邻辅音都要从正中间切开。" },
-            { en: "The letters ck often spell one /k/ sound; split after ck, before p, the next part is pack.", zh: "字母 ck 常一起表示一个 /k/ 音；在 ck 之后、p 之前切分，后一段读 pack。" },
-            { en: "The first syllable always ends at the letter b.", zh: "第一个音节总是在字母 b 处结束。" },
-            { en: "Split before ck so bc forms one syllable.", zh: "在 ck 前切分，让 bc 组成一个音节。" }
-          ],
-          correct: 1,
-          explain_zh: "在 backpack 里，<strong>ck</strong> 是常见字母组合，通常一起表示<strong>一个</strong> /k/ 音，所以不在 c 与 k 中间硬拆。课堂划分常是 <strong>back | pack</strong>：第一段 back 以 /k/ 收尾，第二段从 <strong>p</strong> 起读 <strong>pack</strong>。不同教材表述可能略有差异，以老师示范为准。"
-        });
-        GEMINI_EXTRA.extra_mc.forEach(function (x) {
-          d.push({ type: "mc", id: x.id, q: x.q, options: x.options, correct: x.correct, explain_zh: x.explain_zh });
-        });
-        GEMINI_EXTRA.extra_tf.forEach(function (x) {
-          d.push({ type: "tf", id: x.id, q: x.q, correct: x.correct, explain_zh: x.explain_zh });
+          explain_zh: "错误。例如 <strong>give</strong>、<strong>love</strong> 等词尾有 e，但读音要按整词学习；Magic e 是线索而不是绝对规则。"
         });
         return d;
       }
@@ -894,7 +802,7 @@
       var labOpened = false;
       var dictationOpened = false;
 
-      var SESSION_LOG_KEY = "hw_syllables_study_v1";
+      var SESSION_LOG_KEY = "hw_magic_e_v1";
       var sessionStudyLog = null;
 
       function initStudyLog() {
@@ -1140,7 +1048,7 @@
         if (hp) {
           hp.textContent = teacherMode
             ? "教师模式 · 可自由选题 · 选项含中英文对照"
-            : "一题一页 · 提交后查看解析 · 对应 The Magic of Syllables";
+            : "选择题少练 · 拆分与听写多练 · 对应课件 The Magic of Syllables · Magic E";
         }
         document.getElementById("lab-section").classList.add("hidden");
         var ds = document.getElementById("dictation-section");
@@ -1167,17 +1075,17 @@
         if (hp && !labOpened && !dictationOpened) {
           hp.textContent = teacherMode
             ? "教师模式 · 可自由选题 · 选项含中英文对照"
-            : "一题一页 · 提交后查看解析 · 对应 The Magic of Syllables";
+            : "选择题少练 · 拆分与听写多练 · 对应课件 The Magic of Syllables · Magic E";
         }
         fillTeacherJump();
       }
 
       var ipaLetters = [
-        { letter: "A", options: ["/æ/", "/eɪ/", "/ɑː/", "/ʌ/"], correct: "/æ/" },
-        { letter: "E", options: ["/e/", "/iː/", "/ɪ/", "/ə/"], correct: "/e/" },
-        { letter: "I", options: ["/ɪ/", "/aɪ/", "/iː/", "/e/"], correct: "/ɪ/" },
-        { letter: "O", options: ["/ɒ/", "/oʊ/", "/ʌ/", "/ɔː/"], correct: "/ɒ/" },
-        { letter: "U", options: ["/ʌ/", "/uː/", "/ʊ/", "/ɑː/"], correct: "/ʌ/" }
+        { letter: "A", options: ["/æ/", "/eɪ/", "/ɑː/", "/ʌ/"], correct: "/eɪ/" },
+        { letter: "E", options: ["/e/", "/iː/", "/ɪ/", "/ə/"], correct: "/iː/" },
+        { letter: "I", options: ["/ɪ/", "/aɪ/", "/iː/", "/e/"], correct: "/aɪ/" },
+        { letter: "O", options: ["/ɒ/", "/oʊ/", "/ʌ/", "/ɔː/"], correct: "/oʊ/" },
+        { letter: "U", options: ["/ʌ/", "/juː/", "/ʊ/", "/ɑː/"], correct: "/juː/" }
       ];
 
       /** 题干：中文一行，英文另起一行（均支持 HTML 如 strong） */
@@ -1550,6 +1458,12 @@
         var hp = document.getElementById("hero-sub");
         if (hp) hp.textContent = "题库已完成 · 下面进入长词实验室";
         document.getElementById("lab-section").classList.remove("hidden");
+        var dsFd = document.getElementById("dictation-section");
+        if (dsFd) dsFd.classList.add("hidden");
+        var drFd = document.getElementById("dict-root");
+        if (drFd) drFd.innerHTML = "";
+        var dpFd = document.getElementById("dict-progress");
+        if (dpFd) dpFd.textContent = "";
         initLab();
       }
 
@@ -1592,12 +1506,14 @@
 
       function speakAzure(text) {
         var vn = AEN;
-        if (typeof window !== "undefined" && window.hasLocalTtsMp3 && window.hasLocalTtsMp3(text, vn)) {
-          return window.playLocalTtsMp3(text, vn).catch(function () {
-            return speakAzureLive(text);
+        var tLive = String(text || "").trim();
+        var tKey = tLive.toLowerCase();
+        if (typeof window !== "undefined" && window.hasLocalTtsMp3 && window.hasLocalTtsMp3(tKey, vn)) {
+          return window.playLocalTtsMp3(tKey, vn).catch(function () {
+            return speakAzureLive(tLive);
           });
         }
-        return speakAzureLive(text);
+        return speakAzureLive(tLive);
       }
 
       function speakAzureLive(text) {
@@ -1918,8 +1834,56 @@
         }
       }
 
+      /** 听写与长词实验室分区：完成全部长词后，在下方独立「听写」卡片显示入口，不塞进 lab-root */
+      function showDictationEntryCard() {
+        if (!DICTATION_WORDS.length || dictationOpened) return;
+        var ds = document.getElementById("dictation-section");
+        var dr = document.getElementById("dict-root");
+        var dp = document.getElementById("dict-progress");
+        if (!ds || !dr) return;
+        ds.classList.remove("hidden");
+        if (dp) dp.textContent = "听写 · 尚未开始（与上方「长词实验室」分开）";
+        dr.innerHTML = "";
+        var wrap = document.createElement("div");
+        wrap.className = "dict-entry-wrap";
+        var p = document.createElement("p");
+        p.className = "muted";
+        p.style.marginTop = "0.25rem";
+        p.style.lineHeight = "1.55";
+        p.textContent =
+          "听写只在下面这张卡片里进行，不会出现在长词实验室里。共 " +
+          DICTATION_WORDS.length +
+          " 个词：先听 TTS，再用字母拼写并提交。";
+        var btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "btn btn-start-dict";
+        btn.id = "btn-start-dictation";
+        btn.textContent = "开始听写（" + DICTATION_WORDS.length + " 词）";
+        btn.addEventListener("click", startDictationPhase);
+        wrap.appendChild(p);
+        wrap.appendChild(btn);
+        dr.appendChild(wrap);
+        var tabs = document.getElementById("dict-tabs");
+        if (tabs) {
+          tabs.innerHTML = "";
+          tabs.style.display = "none";
+          tabs.classList.add("hidden");
+        }
+      }
+
       function renderLab() {
         var root = document.getElementById("lab-root");
+        if (!root) return;
+        if (state.wordIndex < LAB_WORDS.length) {
+          var dsH = document.getElementById("dictation-section");
+          if (dsH && !dictationOpened) {
+            dsH.classList.add("hidden");
+            var drH = document.getElementById("dict-root");
+            if (drH) drH.innerHTML = "";
+            var dpH = document.getElementById("dict-progress");
+            if (dpH) dpH.textContent = "";
+          }
+        }
         root.innerHTML = "";
         var lp = document.getElementById("lab-progress");
         if (state.wordIndex >= LAB_WORDS.length) {
@@ -1930,16 +1894,10 @@
             " 个长词练习。</p><p class=\"muted\">本次作答记录（选择题/判断/音标、长词元音与切分、朗读分数、听写与时间等）已保存在本机浏览器 <code>localStorage</code> 键 <strong>" +
             SESSION_LOG_KEY +
             "</strong> 中，供教师导出或备份。</p>" +
-            (DICTATION_WORDS.length
-              ? '<p class="muted" style="margin-top:0.55rem">接下来：根据刚才练习过的 <strong>典型 ' +
-                DICTATION_WORDS.length +
-                " 个长词</strong>做听写。先点 <strong>TTS</strong> 听音，再用下方 26 个字母按顺序拼写并提交。</p><button type=\"button\" class=\"btn btn-start-dict\" id=\"btn-start-dictation\">开始听写（" +
-                DICTATION_WORDS.length +
-                " 词）</button>"
-              : '<div class="hw-report" style="margin-top:0.85rem">' + buildHwReportContentHtml() + "</div>") +
-            "</div>";
-          var btnStartDict = document.getElementById("btn-start-dictation");
-          if (btnStartDict) btnStartDict.addEventListener("click", startDictationPhase);
+            '<div class="hw-report" style="margin-top:0.85rem">' +
+            buildHwReportContentHtml() +
+            "</div></div>";
+          showDictationEntryCard();
           if (!state.labCompleteLogged) {
             state.labCompleteLogged = true;
             logLabEvent({ step: "lab_all_complete", totalWords: LAB_WORDS.length });
@@ -2426,8 +2384,9 @@
 
         btnTts.addEventListener("click", function () {
           if (btnTts.disabled) return;
-          speakAzure(w).catch(function () {
-            alert("TTS 失败，请检查密钥或网络。");
+          speakAzure(w).catch(function (err) {
+            console.warn("lab TTS", w, err);
+            alert("TTS 失败，请检查密钥或网络，或用本地服务器打开页面（部分浏览器对 file:// 限制音频）。\n" + ((err && err.message) || ""));
           });
         });
 
@@ -2661,8 +2620,9 @@
             word: w,
             dictIndex: state.dictationIndex
           });
-          speakAzure(w).catch(function () {
-            alert("TTS 失败，请检查密钥或网络。");
+          speakAzure(w).catch(function (err) {
+            console.warn("lab TTS", w, err);
+            alert("TTS 失败，请检查密钥或网络，或用本地服务器打开页面（部分浏览器对 file:// 限制音频）。\n" + ((err && err.message) || ""));
           });
         });
 
