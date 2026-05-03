@@ -1,0 +1,562 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>第06讲 · Page 07 · 口语辩论赛（语音博弈）</title>
+  <!--
+    Vertex Imagen 3.0 Fast 资产提示词：
+    1) 背景：A classic middle school entrance gate or hallway, afternoon sunlight, hand-drawn crayon illustration style, slightly blurred background to focus on the character.
+    2) 主任（愤怒）：A strict middle school male teacher standing with arms crossed, wearing glasses and a suit, angry expression, high-end crayon art style, transparent background.
+       文件：assets/vertex/l06-page07-teacher-angry.png（用户图 + rembg u2netp 抠透明底）。
+    3) 主任（放行）：The same strict male teacher, but now with a gentle smile and a nodding gesture, crayon art style, transparent background.
+       文件：assets/vertex/l06-page07-teacher-smile.png
+    4) 麦克风图标：A vintage glowing microphone icon, wrapped in magical crayon strokes, transparent background.
+  -->
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
+  <script src="https://aka.ms/csspeech/jsbrowserpackageraw"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/lesson-screen-16x9.css" />
+  <style>
+    :root{
+      --ink:#2b1c16;--edge:#5d4037;--cream:#fff8e8;--warn:#ef5350;--ok:#66bb6a;--vio:#7e57c2;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;width:100%;height:100%;overflow:hidden;touch-action:manipulation;background:#1f1723;color:#fff}
+    body.has-lesson-pager{--lesson-foot-h:0px;--lesson-pager-gap:4.35rem}
+    .app{
+      position:relative;width:100%;height:100%;overflow:hidden;
+      display:flex;flex-direction:column;
+      border:6px solid rgba(255,213,79,.38);
+      border-radius:255px 18px 235px 22px / 22px 235px 22px 255px;
+      background:
+        linear-gradient(165deg, rgba(44,24,16,.45) 0%, rgba(26,15,24,.38) 45%, rgba(255,245,228,.06) 100%),
+        url("assets/vertex/l06-page07-school-gate.png"),
+        linear-gradient(168deg,#1a0f14 0%,#2d1f27 45%,#4e342e 100%);
+      background-size:cover,cover,cover;background-position:center;
+      box-shadow:inset 0 0 80px rgba(0,0,0,.46);
+      font-family:system-ui,"Microsoft YaHei",sans-serif;
+    }
+    .sr-only{
+      position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
+      clip:rect(0,0,0,0);white-space:nowrap;border:0
+    }
+    body.state-recording .lesson-pager{pointer-events:none;opacity:.52}
+    .top{
+      position:relative;z-index:30;width:min(96%,1060px);margin:10px auto 0;padding:10px 14px;
+      border:5px solid var(--edge);border-radius:24px 14px 24px 14px;
+      background:linear-gradient(180deg,#fffef7,#ffe0b2);color:#4e342e;
+      display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;
+    }
+    .tag,.stage{font-weight:900;font-size:clamp(11px,.95vw,14px);border-radius:999px;padding:6px 12px;white-space:nowrap}
+    .tag{border:3px solid #f0ad4e;background:linear-gradient(180deg,#fff8dc,#ffcc80)}
+    .stage{border:3px solid #9575cd;background:linear-gradient(180deg,#ede7f6,#d1c4e9)}
+    .title{font-family:"ZCOOL KuaiLe",sans-serif;font-size:clamp(16px,1.85vw,26px);margin:0;color:#4a148c;text-align:center}
+    .hint{
+      position:relative;z-index:12;width:min(95%,980px);margin:18px auto 6px;padding:10px 14px;
+      border:4px solid rgba(126,87,194,.52);border-radius:18px 12px 16px 14px;
+      background:linear-gradient(180deg,rgba(38,22,48,.76),rgba(22,12,28,.82));
+      color:#fff8e1;font-size:clamp(12px,1vw,14px);font-weight:800;line-height:1.45;
+      flex-shrink:0
+    }
+    .hint-main{display:block}
+    .hint-target{display:inline-flex;margin-top:6px;padding:3px 10px;border-radius:999px;background:rgba(255,213,79,.2);border:2px solid rgba(255,213,79,.45);font-weight:900}
+    .arena{
+      position:relative;flex:1;min-height:360px;
+      padding-top:8px;
+      isolation:isolate
+    }
+    .teacher-anchor{
+      position:absolute;left:50%;top:clamp(44px,9vh,118px);transform:translate(-50%,-16px);z-index:20;
+      perspective:960px;
+      filter:drop-shadow(0 22px 38px rgba(0,0,0,.4))
+    }
+    .teacher-wrap{
+      position:relative;width:min(42vw,420px);height:min(54vh,480px)
+    }
+    .teacher{
+      position:absolute;inset:0;background-repeat:no-repeat;background-position:center bottom;background-size:contain;
+      transition:opacity .28s ease, transform .35s ease;
+      filter:
+        drop-shadow(0 16px 26px rgba(0,0,0,.38))
+        drop-shadow(0 6px 12px rgba(0,0,0,.28))
+        drop-shadow(0 -3px 14px rgba(255,230,180,.22));
+      transform:translateZ(12px) rotateY(-2deg)
+    }
+    .teacher.angry{background-image:url("assets/vertex/l06-page07-teacher-angry.png");opacity:1}
+    .teacher.smile{background-image:url("assets/vertex/l06-page07-teacher-smile.png");opacity:0}
+    .teacher-wrap.pass .teacher.angry{opacity:0}
+    .teacher-wrap.pass .teacher.smile{opacity:1}
+    .bubble{
+      position:absolute;left:50%;top:8px;transform:translateX(-50%);z-index:28;
+      width:min(86vw,760px);padding:12px 14px;border-radius:22px 14px 24px 16px;
+      border:5px solid rgba(93,64,55,.62);background:linear-gradient(180deg,#fffef8,#ffe8c8);
+      color:#4e342e;box-shadow:0 14px 34px rgba(0,0,0,.35);
+      max-height:min(34vh,260px);overflow:auto;
+      -webkit-overflow-scrolling:touch
+    }
+    .bubble h3{margin:0 0 6px;font-family:"ZCOOL KuaiLe",sans-serif;color:#4a148c;font-size:clamp(14px,1.2vw,18px)}
+    .bubble p{margin:0;font-size:clamp(13px,1.12vw,17px);line-height:1.55;font-weight:820}
+    .speech-box{
+      position:absolute;left:50%;bottom:12%;transform:translateX(-50%);z-index:23;
+      width:min(88vw,860px);padding:12px 14px;border-radius:18px 12px 18px 12px;
+      border:4px dashed rgba(255,255,255,.45);background:rgba(22,10,25,.58);backdrop-filter:blur(2px)
+    }
+    .speech-line{margin:0;color:#fffde7;font-size:clamp(13px,1.1vw,16px);font-weight:780;line-height:1.5}
+    .speech-line b{color:#ffe082}
+    .coach-card{
+      margin-top:8px;padding:8px 10px;border-radius:12px;border:2px solid rgba(255,255,255,.26);
+      background:rgba(255,255,255,.08);color:#fffde7;font-size:clamp(12px,.95vw,14px);line-height:1.45;font-weight:760
+    }
+    .confirm-row{display:none;gap:8px;margin-top:8px;justify-content:flex-end}
+    .confirm-row.show{display:flex}
+    .mini-btn{
+      appearance:none;border:3px solid rgba(255,255,255,.45);border-radius:999px;padding:6px 12px;background:rgba(0,0,0,.28);
+      color:#fffde7;font-weight:900;cursor:pointer;font-size:12px
+    }
+    .mic-zone{
+      position:absolute;left:50%;bottom:max(56px,calc(env(safe-area-inset-bottom) + 34px));transform:translateX(-50%);
+      z-index:26;display:flex;flex-direction:column;align-items:center;gap:8px
+    }
+    .mic-btn{
+      appearance:none;border:none;cursor:pointer;position:relative;
+      width:96px;height:96px;border-radius:50%;
+      background:radial-gradient(circle at 34% 30%,#fff,#ffe082 34%,#ffb300 65%,#ef6c00 100%);
+      border:6px solid rgba(93,64,55,.8);box-shadow:0 8px 24px rgba(0,0,0,.45),inset 0 0 20px rgba(255,255,255,.28);
+      display:grid;place-items:center;touch-action:manipulation;
+    }
+    .mic-btn::before{
+      content:"🎙";font-size:34px;filter:drop-shadow(0 2px 2px rgba(0,0,0,.25));
+    }
+    .mic-label{font-size:clamp(12px,.96vw,14px);font-weight:900;color:#fffde7;text-shadow:0 2px 6px rgba(0,0,0,.45)}
+    .mic-btn.disabled{filter:grayscale(1) brightness(.68);cursor:not-allowed}
+    .ring{position:absolute;left:50%;top:50%;width:26px;height:26px;border-radius:50%;border:3px solid rgba(129,212,250,.95);pointer-events:none}
+    .overlay-lock{position:fixed;inset:0;background:transparent;display:none;z-index:80}
+    .overlay-lock.show{display:block}
+    .result{
+      position:fixed;inset:0;display:none;place-items:center;z-index:90;background:rgba(7,3,10,.8)
+    }
+    .result.show{display:grid}
+    .result-card{
+      width:min(88vw,660px);padding:22px 20px;text-align:center;border-radius:24px 14px 22px 16px;
+      border:6px solid #ffd54f;background:linear-gradient(180deg,#fffde7,#ffe082);color:#4e342e;
+      box-shadow:0 30px 80px rgba(0,0,0,.5)
+    }
+    .medal{display:inline-block;margin:10px 0 14px;padding:16px 20px;border:6px solid #c62828;border-radius:12px;
+      background:linear-gradient(165deg,#fff8e1,#ffecb3);font-weight:1000;letter-spacing:.05em;color:#b71c1c;transform:rotate(-2deg)}
+    .next{display:inline-flex;margin-top:12px;padding:12px 18px;border-radius:999px;text-decoration:none;font-weight:1000;color:#4e342e;border:5px solid var(--edge);background:linear-gradient(180deg,#fffef5,#ffcc80)}
+    .confetti{position:fixed;width:10px;height:10px;border-radius:2px;pointer-events:none;z-index:88}
+    @media (max-width: 820px){
+      .arena{min-height:300px}
+      .teacher-anchor{top:clamp(40px,10vh,128px);transform:translate(-50%,-12px)}
+      .teacher-wrap{width:min(56vw,420px)}
+      .speech-box{bottom:18%}
+      .bubble{max-height:min(38vh,220px)}
+    }
+  </style>
+</head>
+<body class="has-lesson-pager">
+  <main class="app" id="app">
+    <header class="top">
+      <div class="tag">第06讲 · P07</div>
+      <h1 class="title">口语辩论赛 · Mr. Smith Gatekeeper</h1>
+      <div class="stage" id="stageChip">第 1 / 3 关</div>
+    </header>
+    <section class="hint" id="taskHint">任务加载中…</section>
+
+    <section class="arena">
+      <div class="teacher-anchor" id="teacherAnchor">
+        <div class="teacher-wrap" id="teacherWrap">
+          <div class="teacher angry"></div>
+          <div class="teacher smile"></div>
+        </div>
+      </div>
+      <aside class="bubble" id="bubble">
+        <h3>教导主任 · 当前判词</h3>
+        <p id="bubbleText">Welcome to the debate zone.</p>
+      </aside>
+      <section class="speech-box">
+        <p class="speech-line"><b>你的英语辩解：</b><span id="spokenText">（点击下方麦克风开始录音，再次点击结束）</span></p>
+        <p class="speech-line" id="judgeLine"><b>系统状态：</b>等待本关开场…</p>
+        <div class="coach-card" id="coachCard">表达脚手架：I have to..., because... / I must..., because... / Can I..., please?</div>
+        <div class="confirm-row" id="confirmRow">
+          <button type="button" class="mini-btn" id="btnRetry">重录</button>
+          <button type="button" class="mini-btn" id="btnSubmit">提交判定</button>
+        </div>
+      </section>
+      <div class="mic-zone">
+        <button type="button" id="micBtn" class="mic-btn"><span class="sr-only">点击开始或结束录音</span></button>
+        <div class="mic-label" id="micLabel">点击麦克风开始录音 · 再次点击结束</div>
+      </div>
+    </section>
+
+    <div class="overlay-lock" id="overlayLock"></div>
+    <section class="result" id="result">
+      <div class="result-card">
+        <h2 style="margin:0;font-family:'ZCOOL KuaiLe',sans-serif;color:#4a148c;">辩论通关</h2>
+        <div class="medal">NEGOTIATION EXPERT<br />ACCESS GRANTED</div>
+        <p style="margin:0;font-weight:900;line-height:1.55;">你已经把情态动词带进真实交际：规则冲突里，语气与逻辑同样重要。</p>
+        <a class="next" href="lesson06-page08-escape.html">前往 Page 08 · 禁闭室大逃脱 →</a>
+      </div>
+    </section>
+  </main>
+
+  <nav class="lesson-pager" aria-label="课程页导航">
+    <a class="pager-prev" href="lesson06-page06-diary.html">← 上一页 · Page 06</a>
+    <span class="pager-mid">L06 · Page 07 / 11</span>
+    <a class="pager-next" href="lesson06-page08-escape.html">下一页 · Page 08 →</a>
+  </nav>
+
+  <script>
+    (function () {
+      "use strict";
+
+      var AZURE_KEY = "DKRXk8ueSfo5NdIOMqFRTCAfpeGDezJ3Snf5K8gGgtyqxiWdugLzJQQJ99BLACHYHv6XJ3w3AAAYACOGUYP9";
+      var AZURE_REGION = "eastus2";
+      var DEEPSEEK_KEY = "sk-daa16008e81843deba6fefe9dce51465";
+      var DEEPSEEK_ENDPOINT = "https://api.deepseek.com/v1/chat/completions";
+
+      var SCENARIOS = [
+        { id: "s1", boss: "Stop right there! You mustn't bring your mobile phone to school. Give it to me!", hint: "向主任解释，你今天放学后不得不给妈妈打电话，因为她要来接你。", target: "have to" },
+        { id: "s2", boss: "Hey! You can't run in the hallways. You must walk slowly!", hint: "向主任解释，你不是故意违反规则，而是你不得不赶去上数学课，你已经迟到了。", target: "have to" },
+        { id: "s3", boss: "Look at your clothes! We have school rules. You must wear your school uniform every day.", hint: "向主任求情，并解释你的校服湿了，你今天不得不穿这件T恤。", target: "have to, can i" },
+        { id: "s4", boss: "What are you doing? You mustn't eat in the classroom. Go to the dining hall!", hint: "向主任解释，你胃痛，你不得不现在吃点药。", target: "have to" },
+        { id: "s5", boss: "It is 6:00 PM. The library is closing. You have to leave right now!", hint: "向主任展示你强烈的内在意愿，表示你必须完成这份科学作业，因为明天就要交了。", target: "must" },
+        { id: "s6", boss: "You can't play basketball now. It is your turn to clean the classroom!", hint: "向主任解释，教练说篮球队今天不得不训练。但承诺你晚点会回来打扫。", target: "have to, can" }
+      ];
+
+      var STATE = { INTRO: "INTRO", READY: "READY", RECORDING: "RECORDING", THINKING: "THINKING", SPEAKING: "SPEAKING", FINISH: "FINISH" };
+      var state = STATE.INTRO;
+      var rounds = buildRounds();
+      var idx = 0;
+      var sttRec = null;
+      var heardText = "";
+      var ringTimer = null;
+      var lastTranscript = "";
+
+      var teacherWrap = document.getElementById("teacherWrap");
+      var bubbleText = document.getElementById("bubbleText");
+      var taskHint = document.getElementById("taskHint");
+      var stageChip = document.getElementById("stageChip");
+      var micBtn = document.getElementById("micBtn");
+      var micLabel = document.getElementById("micLabel");
+      var spokenText = document.getElementById("spokenText");
+      var judgeLine = document.getElementById("judgeLine");
+      var coachCard = document.getElementById("coachCard");
+      var confirmRow = document.getElementById("confirmRow");
+      var btnRetry = document.getElementById("btnRetry");
+      var btnSubmit = document.getElementById("btnSubmit");
+      var result = document.getElementById("result");
+      var overlayLock = document.getElementById("overlayLock");
+
+      function setState(next) {
+        state = next;
+        var locked = next === STATE.THINKING || next === STATE.SPEAKING || next === STATE.INTRO || next === STATE.FINISH;
+        overlayLock.classList.toggle("show", locked);
+        micBtn.classList.toggle("disabled", locked);
+        document.body.classList.toggle("state-recording", next === STATE.RECORDING);
+      }
+
+      function pickRandom(arr, n) {
+        var a = arr.slice();
+        for (var i = a.length - 1; i > 0; i--) {
+          var j = Math.floor(Math.random() * (i + 1));
+          var t = a[i]; a[i] = a[j]; a[j] = t;
+        }
+        return a.slice(0, n);
+      }
+
+      function buildRounds() {
+        var mustPool = SCENARIOS.filter(function (s) { return s.target.indexOf("must") >= 0; });
+        var canPool = SCENARIOS.filter(function (s) { return s.target.indexOf("can") >= 0; });
+        var havePool = SCENARIOS.filter(function (s) { return s.target.indexOf("have to") >= 0; });
+        var mustOne = pickRandom(mustPool, 1)[0];
+        var canOne = pickRandom(canPool, 1)[0];
+        var haveCandidates = havePool.filter(function (s) { return s.id !== canOne.id; });
+        var haveOne = pickRandom(haveCandidates, 1)[0];
+        return pickRandom([mustOne, canOne, haveOne], 3);
+      }
+
+      function localJudge(round, userText) {
+        var s = String(userText || "").toLowerCase();
+        var hasEnough = s.split(/\s+/).filter(Boolean).length >= 5;
+        var target = round.target.toLowerCase();
+        var ok = true;
+        if (target.indexOf("must") >= 0) ok = ok && /\bmust\b/.test(s);
+        if (target.indexOf("have to") >= 0) ok = ok && (/\bhave\s+to\b/.test(s) || /\bhas\s+to\b/.test(s) || /\bhad\s+to\b/.test(s));
+        if (target.indexOf("can i") >= 0) ok = ok && /\bcan\s+i\b/.test(s);
+        else if (target.indexOf("can") >= 0) ok = ok && /\bcan\b/.test(s);
+        return ok && hasEnough ? "ACCESS GRANTED" : "【目标句型】再补齐 " + round.target + "；【表达建议】给出 because 理由并说完整句。";
+      }
+
+      function formatCoachReply(round, reply) {
+        if (/ACCESS GRANTED/i.test(reply)) return reply;
+        if (String(reply).indexOf("【") >= 0) return String(reply);
+        return "【目标句型】" + round.target + "；【主任追问】" + String(reply);
+      }
+
+      function deepJudge(round, userText) {
+        if (!DEEPSEEK_KEY) return Promise.resolve(localJudge(round, userText));
+        var system =
+          "你是一位严格但讲理的教导主任。学生现在的任务是：" + round.hint +
+          "。学生刚才对你说的话是：" + userText +
+          "。请判断：第一，学生是否准确使用了" + round.target +
+          "；第二，语法和发音是否基本正确，逻辑是否通顺。" +
+          "如果完全通过，请只回复 ACCESS GRANTED。" +
+          "如果有缺陷（比如把have to说成了must，或者发音残缺），请用中文进行简短（50字内）的严厉反问与纠正。";
+        var controller = typeof AbortController !== "undefined" ? new AbortController() : null;
+        var timeoutId = window.setTimeout(function () { if (controller) controller.abort(); }, 10000);
+        return fetch(DEEPSEEK_ENDPOINT, {
+          method: "POST",
+          signal: controller ? controller.signal : undefined,
+          headers: { "Content-Type": "application/json", Authorization: "Bearer " + DEEPSEEK_KEY },
+          body: JSON.stringify({ model: "deepseek-chat", temperature: 0.2, max_tokens: 130, messages: [{ role: "system", content: system }] })
+        })
+          .then(function (r) { window.clearTimeout(timeoutId); return r.ok ? r.json() : null; })
+          .then(function (data) {
+            var t = data && data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content;
+            return t ? String(t).trim() : localJudge(round, userText);
+          })
+          .catch(function () { window.clearTimeout(timeoutId); return localJudge(round, userText); });
+      }
+
+      function speakNpc(text, style) {
+        if (!window.SpeechSDK) return Promise.resolve();
+        return new Promise(function (resolve) {
+          try {
+            var cfg = SpeechSDK.SpeechConfig.fromSubscription(AZURE_KEY, AZURE_REGION);
+            cfg.speechSynthesisVoiceName = "en-US-ChristopherNeural";
+            var syn = new SpeechSDK.SpeechSynthesizer(cfg);
+            var safe = String(text).replace(/&/g, "&amp;").replace(/</g, "&lt;");
+            var ssml =
+              '<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xmlns:mstts="http://www.w3.org/2001/mstts" xml:lang="en-US">' +
+              '<voice name="en-US-ChristopherNeural"><mstts:express-as style="' + (style || "angry") + '">' +
+              '<prosody rate="+4%" pitch="-5%">' + safe + "</prosody></mstts:express-as></voice></speak>";
+            syn.speakSsmlAsync(ssml, function () { syn.close(); resolve(); }, function () { syn.close(); resolve(); });
+          } catch (e) { resolve(); }
+        });
+      }
+
+      function startStt() {
+        return new Promise(function (resolve) {
+          heardText = "";
+          if (!window.SpeechSDK) return resolve("");
+          try {
+            var cfg = SpeechSDK.SpeechConfig.fromSubscription(AZURE_KEY, AZURE_REGION);
+            cfg.speechRecognitionLanguage = "en-US";
+            var audio = SpeechSDK.AudioConfig.fromDefaultMicrophoneInput();
+            sttRec = new SpeechSDK.SpeechRecognizer(cfg, audio);
+            sttRec.recognized = function (_, ev) {
+              if (ev && ev.result && ev.result.text) {
+                heardText = (heardText + " " + ev.result.text).trim();
+                spokenText.textContent = heardText;
+              }
+            };
+            sttRec.startContinuousRecognitionAsync(function () { resolve(); }, function () { resolve(); });
+          } catch (e) { resolve(); }
+        });
+      }
+
+      function stopStt() {
+        return new Promise(function (resolve) {
+          if (!sttRec) return resolve(heardText || "");
+          try {
+            sttRec.stopContinuousRecognitionAsync(function () {
+              try { sttRec.close(); } catch (e) {}
+              sttRec = null;
+              resolve((heardText || "").trim());
+            }, function () {
+              try { sttRec.close(); } catch (e) {}
+              sttRec = null;
+              resolve((heardText || "").trim());
+            });
+          } catch (e) {
+            sttRec = null;
+            resolve((heardText || "").trim());
+          }
+        });
+      }
+
+      function spawnRing() {
+        var r = document.createElement("div");
+        r.className = "ring";
+        var hs = [190, 290, 36, 120][Math.floor(Math.random() * 4)];
+        r.style.borderColor = "hsla(" + hs + ",85%,70%,0.95)";
+        micBtn.appendChild(r);
+        anime({ targets: r, scale: [0.6, 4], opacity: [0.95, 0], duration: 820, easing: "easeOutCubic", complete: function () { try { r.remove(); } catch (e) {} } });
+      }
+
+      function setRoundUi(round) {
+        stageChip.textContent = "第 " + (idx + 1) + " / 3 关";
+        taskHint.innerHTML = '<span class="hint-main"><strong>任务：</strong>' + round.hint + '</span>' +
+          '<span class="hint-target"><strong>目标句型：</strong>' + round.target + "</span>";
+        bubbleText.textContent = round.boss;
+        judgeLine.innerHTML = "<b>系统状态：</b>请听主任发难，然后点击麦克风用英语辩解。";
+        spokenText.textContent = "（点击下方麦克风开始录音，再次点击结束）";
+        coachCard.textContent = "表达脚手架：" + (round.target.indexOf("must") >= 0 ? "I must..., because..." : round.target.indexOf("can") >= 0 ? "I have to..., and can I..., please?" : "I have to..., because...");
+        confirmRow.classList.remove("show");
+        teacherWrap.classList.remove("pass");
+      }
+
+      function startRound() {
+        if (idx >= rounds.length) return finishAll();
+        var round = rounds[idx];
+        setRoundUi(round);
+        setState(STATE.INTRO);
+        anime({ targets: teacherWrap, translateX: [-420, -0], opacity: [0, 1], duration: 720, easing: "easeOutExpo" }).finished
+          .then(function () {
+            setState(STATE.SPEAKING);
+            return speakNpc(round.boss, "angry");
+          })
+          .then(function () { setState(STATE.READY); micLabel.textContent = "点击麦克风开始录音 · 再次点击结束"; });
+      }
+
+      function failFx() {
+        anime({ targets: teacherWrap, translateX: [0, -14, 14, -10, 10, -6, 6, 0], duration: 520, easing: "easeOutElastic(1, .6)" });
+        try {
+          var ctx = new (window.AudioContext || window.webkitAudioContext)();
+          var o = ctx.createOscillator(); var g = ctx.createGain();
+          o.type = "square"; o.frequency.value = 220; o.connect(g); g.connect(ctx.destination);
+          g.gain.value = 0.0001; o.start();
+          g.gain.exponentialRampToValueAtTime(0.07, ctx.currentTime + 0.02);
+          g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.22);
+          o.stop(ctx.currentTime + 0.24); window.setTimeout(function () { try { ctx.close(); } catch (e) {} }, 340);
+        } catch (e) {}
+      }
+
+      function onPassRound() {
+        teacherWrap.classList.add("pass");
+        bubbleText.textContent = "Okay, I understand. You can go.";
+        judgeLine.innerHTML = "<b>系统状态：</b>本关放行，2秒后进入下一关。";
+        setState(STATE.SPEAKING);
+        speakNpc("Okay, I understand. You can go.", "cheerful").then(function () {
+          window.setTimeout(function () {
+            idx += 1;
+            if (idx >= rounds.length) finishAll();
+            else startRound();
+          }, 1800);
+        });
+      }
+
+      function finishAll() {
+        setState(STATE.FINISH);
+        micLabel.textContent = "已通关";
+        judgeLine.innerHTML = "<b>系统状态：</b>三关全部放行，谈判专家认证完成。";
+        anime({ targets: teacherWrap, translateX: [0, 220], duration: 760, easing: "easeOutQuad" }).finished.then(function () {
+          result.classList.add("show");
+          anime({ targets: ".result-card", scale: [0.35, 1.07, 1], opacity: [0, 1], duration: 880, easing: "easeOutElastic(1, .55)" });
+          for (var i = 0; i < 64; i++) {
+            var c = document.createElement("div");
+            c.className = "confetti";
+            c.style.left = (10 + Math.random() * 80) + "vw";
+            c.style.top = "-6vh";
+            c.style.background = "hsl(" + (Math.random() * 360) + ",90%,62%)";
+            document.body.appendChild(c);
+            anime({
+              targets: c,
+              translateY: ["0vh", (70 + Math.random() * 30) + "vh"],
+              translateX: [(Math.random() - 0.5) * 40, (Math.random() - 0.5) * 120],
+              rotate: Math.random() * 700,
+              opacity: [1, 1, 0],
+              delay: Math.random() * 260,
+              duration: 1600 + Math.random() * 900,
+              easing: "easeOutQuad",
+              complete: function () { try { c.remove(); } catch (e) {} }
+            });
+          }
+        });
+      }
+
+      function evaluate(text) {
+        var round = rounds[idx];
+        setState(STATE.THINKING);
+        micLabel.textContent = "主任思考中...";
+        judgeLine.innerHTML = "<b>系统状态：</b>主任思考中...";
+        deepJudge(round, text).then(function (reply) {
+          var ok = /ACCESS GRANTED/i.test(reply);
+          if (ok) onPassRound();
+          else {
+            setState(STATE.READY);
+            micLabel.textContent = "重试本关：点击麦克风录音";
+            bubbleText.textContent = formatCoachReply(round, reply);
+            judgeLine.innerHTML = "<b>系统状态：</b>未通过：请按反馈重说。";
+            failFx();
+          }
+        });
+      }
+
+      function startRecording() {
+        if (state !== STATE.READY) return;
+        heardText = "";
+        lastTranscript = "";
+        setState(STATE.RECORDING);
+        micLabel.textContent = "正在录音… 再次点击结束";
+        judgeLine.innerHTML = "<b>系统状态：</b>录音中，请完整表达你的理由。";
+        spokenText.textContent = "（识别中…）";
+        confirmRow.classList.remove("show");
+        anime({ targets: micBtn, scale: [1, 1.1], duration: 120, easing: "easeOutQuad" });
+        if (ringTimer) { clearInterval(ringTimer); ringTimer = null; }
+        ringTimer = window.setInterval(spawnRing, 180);
+        spawnRing();
+        startStt();
+      }
+
+      function endRecording() {
+        if (state !== STATE.RECORDING) return;
+        if (ringTimer) { clearInterval(ringTimer); ringTimer = null; }
+        anime({ targets: micBtn, scale: [1.1, 1], duration: 160, easing: "easeOutQuad" });
+        stopStt().then(function (text) {
+          var finalText = (text || "").trim();
+          lastTranscript = finalText;
+          spokenText.textContent = finalText || "（未识别到有效英文，请重试并更清晰说完整句）";
+          if (!finalText) {
+            setState(STATE.READY);
+            micLabel.textContent = "未识别到语音，点击重试";
+            judgeLine.innerHTML = "<b>系统状态：</b>请再次点击麦克风录音，语速稍慢。";
+            return;
+          }
+          setState(STATE.READY);
+          micLabel.textContent = "检查识别后可重录或提交";
+          judgeLine.innerHTML = "<b>系统状态：</b>请确认识别文本，再提交判定。";
+          confirmRow.classList.add("show");
+        });
+      }
+
+      function onMicPrimary(ev) {
+        ev.preventDefault();
+        if (micBtn.classList.contains("disabled")) return;
+        if (state === STATE.RECORDING) {
+          endRecording();
+          return;
+        }
+        if (state === STATE.READY) {
+          startRecording();
+        }
+      }
+
+      micBtn.addEventListener("click", onMicPrimary);
+      window.addEventListener("blur", function () { if (state === STATE.RECORDING) endRecording(); });
+      window.addEventListener("pagehide", function () { if (state === STATE.RECORDING) endRecording(); });
+      document.addEventListener("visibilitychange", function () {
+        if (document.hidden && state === STATE.RECORDING) endRecording();
+      });
+      btnRetry.addEventListener("click", function () {
+        if (state !== STATE.READY) return;
+        lastTranscript = "";
+        spokenText.textContent = "（点击下方麦克风开始录音，再次点击结束）";
+        judgeLine.innerHTML = "<b>系统状态：</b>请重录并完整表达理由。";
+        confirmRow.classList.remove("show");
+      });
+      btnSubmit.addEventListener("click", function () {
+        if (state !== STATE.READY || !lastTranscript) return;
+        confirmRow.classList.remove("show");
+        evaluate(lastTranscript);
+      });
+
+      startRound();
+    })();
+  </script>
+</body>
+</html>

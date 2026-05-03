@@ -1,0 +1,704 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>第06讲 · Page 10 · 背诵讲义（分层版）</title>
+  <link rel="stylesheet" href="../assets/lesson-screen-16x9.css" />
+  <style>
+    :root {
+      --paper: #fff9f0;
+      --ink: #333;
+      --ink-soft: #666;
+      --crayon-red: #e85d4c;
+      --crayon-blue: #4a90d9;
+      --crayon-green: #5cb85c;
+      --crayon-orange: #f0ad4e;
+      --crayon-purple: #9b59b6;
+      --shadow: rgba(60, 40, 20, 0.12);
+      --easy-bg: rgba(92, 184, 92, 0.12);
+      --mid-bg: rgba(74, 144, 217, 0.12);
+      --hard-bg: rgba(232, 93, 76, 0.12);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+      background:
+        radial-gradient(circle at 10% 15%, rgba(255, 220, 180, 0.38) 0%, transparent 42%),
+        radial-gradient(circle at 90% 85%, rgba(200, 230, 255, 0.32) 0%, transparent 40%),
+        linear-gradient(168deg, #ffeaa7 0%, #fab1a0 30%, #dfe6e9 100%);
+      line-height: 1.65;
+      padding: 1rem 1rem 3rem;
+      font-size: 16px;
+    }
+    body.has-lesson-pager {
+      --lesson-foot-h: 0px;
+      --lesson-pager-gap: 4.35rem;
+    }
+
+    .handout-pdf-bar {
+      max-width: 860px;
+      margin: 0 auto 0.75rem;
+      padding: 0 1rem;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .btn-handout-pdf {
+      font-size: 0.92rem;
+      padding: 0.5rem 1.15rem;
+      border-radius: 999px;
+      border: 3px solid var(--crayon-orange);
+      background: linear-gradient(180deg, #fff 0%, #fff9f0 100%);
+      color: #1565c0;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 2px 3px 0 rgba(0, 0, 0, 0.08);
+      touch-action: manipulation;
+    }
+    .btn-handout-pdf:hover { background: #e3f2fd; }
+
+    .sheet {
+      max-width: 860px;
+      margin: 0 auto;
+      background: var(--paper);
+      border-radius: 12px 28px 16px 20px;
+      border: 4px solid var(--crayon-orange);
+      box-shadow: 6px 8px 0 var(--crayon-red), 14px 18px 32px var(--shadow);
+      padding: 1.5rem 1.5rem 2rem;
+      position: relative;
+    }
+    .sheet::before {
+      content: "";
+      position: absolute;
+      inset: 10px;
+      border: 2px dashed rgba(180, 140, 90, 0.38);
+      border-radius: 6px 22px 10px 8px;
+      pointer-events: none;
+    }
+    .inner { position: relative; z-index: 1; }
+
+    .doc-title {
+      font-size: 1.45rem;
+      text-align: center;
+      color: var(--crayon-red);
+      margin: 0 0 0.4rem;
+      line-height: 1.32;
+      font-weight: 900;
+    }
+    .doc-subtitle {
+      text-align: center;
+      margin: 0 0 1rem;
+      color: #1565c0;
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    .print-header {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem 2rem;
+      align-items: flex-end;
+      margin-bottom: 1rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 3px solid var(--crayon-blue);
+    }
+    .print-header .field {
+      flex: 1;
+      min-width: 140px;
+      font-size: 0.92rem;
+    }
+    .print-header .field label {
+      display: block;
+      margin-bottom: 0.2rem;
+      color: var(--ink-soft);
+      font-weight: 700;
+    }
+    .print-header .line {
+      border-bottom: 2px solid var(--ink);
+      min-height: 1.45rem;
+      margin-top: 0.15rem;
+    }
+
+    .intro {
+      border: 3px solid var(--crayon-blue);
+      border-radius: 14px;
+      padding: 0.8rem 1rem;
+      background: linear-gradient(180deg, rgba(227, 242, 253, 0.55), rgba(255, 249, 240, 0.95));
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+    }
+    .intro strong { color: #0d47a1; }
+    .map-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 0.6rem;
+      font-size: 0.86rem;
+      background: rgba(255, 255, 255, 0.72);
+    }
+    .map-table th,
+    .map-table td {
+      border: 2px solid rgba(93, 64, 55, 0.24);
+      padding: 0.4rem 0.45rem;
+      vertical-align: top;
+    }
+    .map-table th {
+      background: rgba(74, 144, 217, 0.14);
+      color: #0d47a1;
+      font-weight: 900;
+    }
+    .contrast-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.55rem;
+      margin-top: 0.55rem;
+    }
+    @media (max-width: 680px) {
+      .contrast-grid { grid-template-columns: 1fr; }
+    }
+    .contrast-card {
+      border-radius: 10px;
+      border: 2px dashed rgba(93, 64, 55, 0.38);
+      background: rgba(255, 255, 255, 0.8);
+      padding: 0.45rem 0.55rem;
+      font-size: 0.84rem;
+      line-height: 1.5;
+    }
+    .contrast-card strong { color: #6a1b9a; }
+    .summary-pairs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.6rem;
+      margin-top: 0.6rem;
+    }
+    @media (max-width: 700px) {
+      .summary-pairs { grid-template-columns: 1fr; }
+    }
+    .summary-pair-card {
+      border-radius: 10px;
+      border: 2px dashed rgba(93, 64, 55, 0.35);
+      padding: 0.55rem 0.6rem;
+      background: rgba(255, 255, 255, 0.78);
+      font-size: 0.85rem;
+      line-height: 1.5;
+    }
+    .summary-pair-card strong { color: #6a1b9a; }
+
+    h2.section-title {
+      font-size: 1.12rem;
+      color: #1a237e;
+      margin: 1.2rem 0 0.7rem;
+      padding-bottom: 0.35rem;
+      border-bottom: 3px solid rgba(74, 144, 217, 0.35);
+    }
+    .level-card {
+      border-radius: 14px;
+      border: 3px solid rgba(93, 64, 55, 0.35);
+      padding: 0.9rem 1rem;
+      margin-bottom: 0.85rem;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+    .level-easy { background: var(--easy-bg); border-color: rgba(92, 184, 92, 0.5); }
+    .level-mid { background: var(--mid-bg); border-color: rgba(74, 144, 217, 0.5); }
+    .level-hard { background: var(--hard-bg); border-color: rgba(232, 93, 76, 0.5); }
+
+    .level-title {
+      margin: 0 0 0.4rem;
+      font-size: 1rem;
+      font-weight: 900;
+      color: #4e342e;
+    }
+    .point {
+      border-radius: 12px;
+      border: 2px dashed rgba(93, 64, 55, 0.35);
+      background: rgba(255, 255, 255, 0.72);
+      padding: 0.65rem 0.75rem;
+      margin-top: 0.55rem;
+    }
+    .point h3 {
+      margin: 0 0 0.35rem;
+      font-size: 0.95rem;
+      color: #4a148c;
+    }
+    .rule {
+      margin: 0 0 0.35rem;
+      font-size: 0.88rem;
+      color: #5d4037;
+      font-weight: 700;
+    }
+    .ex-list {
+      margin: 0.3rem 0 0;
+      padding-left: 1.1rem;
+      font-size: 0.9rem;
+    }
+    .ex-list li { margin: 0.28rem 0; }
+    .en { font-weight: 800; color: #1b5e20; }
+    .zh { color: var(--ink-soft); font-size: 0.84rem; }
+    .emotion-box {
+      margin-top: 0.45rem;
+      border-radius: 10px;
+      border: 2px solid rgba(93, 64, 55, 0.22);
+      background: rgba(255, 255, 255, 0.82);
+      padding: 0.45rem 0.55rem;
+      font-size: 0.83rem;
+      line-height: 1.55;
+      color: #5d4037;
+    }
+    .emotion-box strong { color: #4a148c; }
+    .emo-tag {
+      display: inline-block;
+      margin-right: 0.32rem;
+      margin-top: 0.15rem;
+      padding: 0.08rem 0.36rem;
+      border-radius: 999px;
+      border: 1px solid rgba(93, 64, 55, 0.35);
+      background: rgba(255, 248, 225, 0.95);
+      font-size: 0.76rem;
+      font-weight: 800;
+      color: #6d4c41;
+    }
+    .drill-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.6rem;
+      margin-top: 0.7rem;
+    }
+    @media (max-width: 680px) {
+      .drill-grid { grid-template-columns: 1fr; }
+    }
+    .drill-card {
+      border-radius: 12px;
+      border: 2px dashed rgba(74, 144, 217, 0.42);
+      background: rgba(255, 255, 255, 0.78);
+      padding: 0.55rem 0.65rem;
+      font-size: 0.85rem;
+    }
+    .drill-card p { margin: 0.2rem 0; }
+    .answer {
+      color: #0d47a1;
+      font-weight: 800;
+      font-size: 0.83rem;
+    }
+    .quick-check {
+      margin-top: 0.8rem;
+      border-radius: 12px;
+      border: 2px solid rgba(93, 64, 55, 0.28);
+      background: rgba(255, 255, 255, 0.78);
+      padding: 0.6rem 0.75rem;
+      font-size: 0.86rem;
+    }
+    .quick-check ul {
+      margin: 0.3rem 0 0;
+      padding-left: 1.1rem;
+    }
+
+    .pitfall {
+      margin-top: 1rem;
+      padding: 0.65rem 0.8rem;
+      border-radius: 12px;
+      border: 2px dashed #c62828;
+      background: rgba(255, 235, 238, 0.82);
+      color: #b71c1c;
+      font-weight: 800;
+      font-size: 0.86rem;
+    }
+
+    @media print {
+      @page { size: A4 portrait; margin: 12mm; }
+      body {
+        background: #fff !important;
+        color: #000 !important;
+        padding: 0 !important;
+      }
+      .handout-pdf-bar,
+      nav.lesson-pager { display: none !important; }
+      .sheet {
+        border: 1px solid #333 !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        padding: 10mm !important;
+        max-width: 100% !important;
+      }
+      .sheet::before { display: none !important; }
+      h2.section-title {
+        break-after: avoid-page;
+        page-break-after: avoid;
+        break-inside: avoid;
+        page-break-inside: avoid;
+        margin-top: 0.7rem !important;
+      }
+      h2.section-title + .level-card {
+        break-before: avoid-page;
+        page-break-before: avoid;
+      }
+      .level-card,
+      .point {
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+    }
+  </style>
+</head>
+<body class="has-lesson-pager">
+  <div class="handout-pdf-bar">
+    <button type="button" class="btn-handout-pdf" id="btnPrint">一键导出 / 打印 A4 讲义</button>
+  </div>
+
+  <main class="sheet">
+    <div class="inner">
+      <h1 class="doc-title">第06讲 · 情态与责任 · 分层背诵讲义</h1>
+      <p class="doc-subtitle">按中考难度分为：简单（基础）/ 中等（综合）/ 难度高（推断与易错）</p>
+
+      <div class="print-header">
+        <div class="field"><label>姓名</label><div class="line"></div></div>
+        <div class="field"><label>班级</label><div class="line"></div></div>
+        <div class="field"><label>日期</label><div class="line"></div></div>
+      </div>
+
+      <section class="intro">
+        <strong>使用方法：</strong>每个知识点先背“判定规则”，再背例句。建议做“英译中 + 中译英 + 语境替换”三步训练，避免只记单词不记语气。
+        <table class="map-table">
+          <thead>
+            <tr>
+              <th>功能</th>
+              <th>核心形式</th>
+              <th>判定关键词</th>
+              <th>易错提醒</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>能力</td>
+              <td><code>can + V</code></td>
+              <td>会不会、能不能做</td>
+              <td>不要误当“允许”</td>
+            </tr>
+            <tr>
+              <td>许可</td>
+              <td><code>Can I ...?</code></td>
+              <td>可不可以、被允许吗</td>
+              <td>礼貌可升级 <code>Could I ...?</code></td>
+            </tr>
+            <tr>
+              <td>主观义务</td>
+              <td><code>must</code></td>
+              <td>我必须、我一定要</td>
+              <td><code>must</code> 无过去式</td>
+            </tr>
+            <tr>
+              <td>客观义务</td>
+              <td><code>have to / had to</code></td>
+              <td>规则要求、现实逼迫</td>
+              <td>过去时间优先 <code>had to</code></td>
+            </tr>
+            <tr>
+              <td>绝对禁止</td>
+              <td><code>mustn't</code></td>
+              <td>不准、严禁、危险红线</td>
+              <td>不是“没必要”</td>
+            </tr>
+            <tr>
+              <td>不必</td>
+              <td><code>don't have to</code></td>
+              <td>可做可不做</td>
+              <td>不是“禁止”</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <h2 class="section-title">A. 简单（基础必会）</h2>
+      <article class="level-card level-easy">
+        <p class="level-title">目标：能分清「能力 / 许可 / 禁止 / 不必」</p>
+
+        <div class="point">
+          <h3>1) can 表能力（会、能做到）</h3>
+          <p class="rule">规则：主语本身具备技能或能力时，用 <code>can + 动词原形</code>。</p>
+          <ul class="ex-list">
+            <li><span class="en">My little sister can read simple English stories.</span><br /><span class="zh">我妹妹会读简单英文故事。</span></li>
+            <li><span class="en">He can fix basic computer problems by himself.</span><br /><span class="zh">他能自己解决基础电脑问题。</span></li>
+            <li><span class="en">Can you explain this question in Chinese?</span><br /><span class="zh">你能用中文解释这道题吗？</span></li>
+          </ul>
+          <div class="emotion-box">
+            <strong>情感语气：</strong>能力型 <code>can</code> 常带“自信、鼓励、认可”。<br />
+            <span class="emo-tag">鼓励</span>Teacher: <span class="en">You can do it step by step.</span><br />
+            <span class="emo-tag">认可</span>Parent: <span class="en">You can handle this challenge now.</span>
+          </div>
+        </div>
+
+        <div class="point">
+          <h3>2) can 表许可（可以，被允许）</h3>
+          <p class="rule">规则：向别人请求允许或说明规则允许，用 can。</p>
+          <ul class="ex-list">
+            <li><span class="en">Can I borrow your ruler for a minute?</span><br /><span class="zh">我可以借你的尺子用一分钟吗？</span></li>
+            <li><span class="en">You can use your dictionary during group work.</span><br /><span class="zh">小组活动时你可以用词典。</span></li>
+            <li><span class="en">Students can leave after they finish the quiz.</span><br /><span class="zh">学生做完小测后可以离开。</span></li>
+          </ul>
+          <div class="emotion-box">
+            <strong>情感语气：</strong>许可型 <code>can</code> 语气中性直接；换成 <code>Could I...?</code> 会更礼貌、更克制。<br />
+            <span class="emo-tag">直接请求</span><span class="en">Can I open the window?</span><br />
+            <span class="emo-tag">礼貌请求</span><span class="en">Could I open the window, please?</span>
+          </div>
+        </div>
+
+        <div class="point">
+          <h3>3) mustn't vs don't have to（绝对禁止 vs 不必）</h3>
+          <p class="rule">规则：<code>mustn't</code> = 不准做；<code>don't have to</code> = 没必要做（可做可不做）。</p>
+          <ul class="ex-list">
+            <li><span class="en">You mustn't cross the road when the light is red.</span><br /><span class="zh">红灯时你绝对不能过马路。</span></li>
+            <li><span class="en">You don't have to bring lunch tomorrow; the school provides it.</span><br /><span class="zh">明天你不必带午饭，学校会提供。</span></li>
+            <li><span class="en">We mustn't talk loudly in the library.</span><br /><span class="zh">我们在图书馆绝对不准大声说话。</span></li>
+          </ul>
+          <div class="contrast-grid">
+            <div class="contrast-card"><strong>mustn't：</strong>You mustn't touch this switch.（碰了会有危险）</div>
+            <div class="contrast-card"><strong>don't have to：</strong>You don't have to come so early.（来不来都可以）</div>
+          </div>
+          <div class="emotion-box">
+            <strong>情感语气：</strong><code>mustn't</code> 带“警告、严厉、边界感”；<code>don't have to</code> 带“放松、减压、给选择”。<br />
+            <span class="emo-tag">严厉警示</span><span class="en">You mustn't go near that wire.</span><br />
+            <span class="emo-tag">减压安抚</span><span class="en">You don't have to finish all of it tonight.</span>
+          </div>
+        </div>
+      </article>
+
+      <h2 class="section-title">B. 中等（综合应用）</h2>
+      <article class="level-card level-mid">
+        <p class="level-title">目标：能根据“义务来源”和“句型变化”做出准确选择</p>
+
+        <div class="point">
+          <h3>1) must vs have to（主观要求 vs 客观要求）</h3>
+          <p class="rule">规则：<code>must</code> 多表示说话人主观“我必须”；<code>have to</code> 多表示规则/现实“不得不”。</p>
+          <ul class="ex-list">
+            <li><span class="en">I must finish this report tonight because I promised my team.</span><br /><span class="zh">我今晚必须完成报告，因为我答应了团队。（主观）</span></li>
+            <li><span class="en">We have to wear uniforms on Mondays.</span><br /><span class="zh">我们周一必须穿校服。（校规）</span></li>
+            <li><span class="en">I don't like it, but I have to get up at 5:30 for the bus.</span><br /><span class="zh">我不喜欢，但为了校车我不得不5:30起床。（客观现实）</span></li>
+          </ul>
+          <div class="emotion-box">
+            <strong>情感语气：</strong><code>must</code> 更像“我内心下决心”；<code>have to</code> 更像“现实逼我这么做”。<br />
+            <span class="emo-tag">坚定决心</span><span class="en">I must change my habits this month.</span><br />
+            <span class="emo-tag">无奈客观</span><span class="en">I have to cancel the trip because of the rain.</span>
+          </div>
+        </div>
+
+        <div class="point">
+          <h3>2) Must I ...? 的否定回答</h3>
+          <p class="rule">规则：问句 <code>Must I ...?</code> 否定回答通常是 <code>No, you don't have to.</code>（表示不必）。</p>
+          <ul class="ex-list">
+            <li><span class="en">Must I hand in it today? — No, you don't have to.</span><br /><span class="zh">我今天必须交吗？— 不必。</span></li>
+            <li><span class="en">Must we finish all ten questions now? — No, you don't have to.</span><br /><span class="zh">我们现在必须做完十题吗？— 不必。</span></li>
+          </ul>
+          <div class="emotion-box">
+            <strong>情感语气：</strong>这个回答常用于“缓和压力”，语义是“可以不现在做”，不是“禁止你做”。<br />
+            <span class="emo-tag">缓和语气</span><span class="en">No, you don't have to. Take your time.</span>
+          </div>
+        </div>
+
+        <div class="point">
+          <h3>3) have to 的疑问句与否定句</h3>
+          <p class="rule">规则：一般现在时用 <code>do/does + 主语 + have to ...?</code>；否定用 <code>don't / doesn't have to</code>。</p>
+          <ul class="ex-list">
+            <li><span class="en">Do you have to stay at school after class?</span><br /><span class="zh">你课后必须留校吗？</span></li>
+            <li><span class="en">She doesn't have to take the bus; her dad drives her.</span><br /><span class="zh">她不必坐公交，她爸爸接送。</span></li>
+            <li><span class="en">Do we have to submit a doctor's note?</span><br /><span class="zh">我们必须提交医生证明吗？</span></li>
+          </ul>
+          <div class="emotion-box">
+            <strong>情感语气：</strong><code>Do we have to...?</code> 常含“确认规则/表达顾虑”；<code>don't have to</code> 带“如释重负”。<br />
+            <span class="emo-tag">确认规则</span><span class="en">Do we have to wear ties every day?</span><br />
+            <span class="emo-tag">松一口气</span><span class="en">Great, we don't have to pay today.</span>
+          </div>
+        </div>
+
+        <div class="point">
+          <h3>4) 课堂高频交际模板（中考口语/书面都实用）</h3>
+          <p class="rule">规则：把情态词放进“解释原因 + 请求通融”模板，表达更完整。</p>
+          <ul class="ex-list">
+            <li><span class="en">I have to leave early because my mom is waiting outside.</span><br /><span class="zh">我得提前离开，因为我妈妈在外面等我。</span></li>
+            <li><span class="en">Could I hand it in tomorrow? I must check the data again tonight.</span><br /><span class="zh">我可以明天交吗？我今晚必须再核对数据。</span></li>
+            <li><span class="en">Do we have to finish all parts today, or can we do Part B tomorrow?</span><br /><span class="zh">我们今天必须全部做完吗，还是 B 部分可以明天做？</span></li>
+          </ul>
+        </div>
+      </article>
+
+      <h2 class="section-title">C. 难度高（推断与高频易错）</h2>
+      <article class="level-card level-hard">
+        <p class="level-title">目标：掌握中考高频陷阱：推测语气、过去义务、语义误判</p>
+
+        <div class="point">
+          <h3>1) must / can't 表推测（不是禁止）</h3>
+          <p class="rule">规则：有证据的肯定推测用 <code>must</code>；否定推测用 <code>can't</code>。注意这不是“禁止”。</p>
+          <ul class="ex-list">
+            <li><span class="en">The lights are on. Mr. Brown must be in his office.</span><br /><span class="zh">灯亮着，布朗老师一定在办公室。（推测）</span></li>
+            <li><span class="en">He can't be at home now; I just saw him at the station.</span><br /><span class="zh">他现在不可能在家，我刚在车站见过他。</span></li>
+            <li><span class="en">This must be your notebook; your name is on it.</span><br /><span class="zh">这一定是你的笔记本，上面有你的名字。</span></li>
+          </ul>
+          <div class="emotion-box">
+            <strong>情感语气：</strong>推测 <code>must</code> 有“把握很高”的笃定；<code>can't</code> 有“强烈否定”的判断感。<br />
+            <span class="emo-tag">笃定</span><span class="en">She must be the team leader.</span><br />
+            <span class="emo-tag">强否定</span><span class="en">He can't be serious.</span>
+          </div>
+        </div>
+
+        <div class="point">
+          <h3>2) must 没有过去式：过去“不得不”用 had to</h3>
+          <p class="rule">规则：出现 yesterday / last night / in 2024 等过去时间，优先考虑 <code>had to</code>。</p>
+          <ul class="ex-list">
+            <li><span class="en">My bike was broken, so I had to walk home yesterday.</span><br /><span class="zh">昨天我的自行车坏了，所以我不得不走回家。</span></li>
+            <li><span class="en">We had to cancel the trip because of the storm.</span><br /><span class="zh">因为暴风雨，我们不得不取消行程。</span></li>
+            <li><span class="en">She had to stay up late to finish the project.</span><br /><span class="zh">她不得不熬夜完成项目。</span></li>
+          </ul>
+          <div class="emotion-box">
+            <strong>情感语气：</strong><code>had to</code> 常带“当时客观压力/无奈回顾”的感觉，叙事感比现在时更强。<br />
+            <span class="emo-tag">回顾无奈</span><span class="en">I had to miss the party because I was ill.</span>
+          </div>
+        </div>
+
+        <div class="point">
+          <h3>3) 交际语气：礼貌请求可用 Could I...?</h3>
+          <p class="rule">规则：考试常见 can I...；真实口语中更礼貌可用 could I...（许可语气更委婉）。</p>
+          <ul class="ex-list">
+            <li><span class="en">Could I leave five minutes early for my doctor's appointment?</span><br /><span class="zh">我可以提前五分钟离开去看医生吗？</span></li>
+            <li><span class="en">Could I ask one more question before we finish?</span><br /><span class="zh">结束前我可以再问一个问题吗？</span></li>
+          </ul>
+          <div class="emotion-box">
+            <strong>情感语气：</strong><code>Could I...?</code> 比 <code>Can I...?</code> 更委婉，常用于正式场景、求人帮忙或需要照顾对方感受时。<br />
+            <span class="emo-tag">更有分寸</span><span class="en">Could I speak to you for a moment?</span>
+          </div>
+        </div>
+
+        <div class="point">
+          <h3>4) 高阶语感：mustn't 与 can't 的差别</h3>
+          <p class="rule">规则：<code>mustn't</code> 常是规则“禁止做”；<code>can't</code> 常是“不能/不可能”。</p>
+          <ul class="ex-list">
+            <li><span class="en">You mustn't enter this lab without a teacher.</span><br /><span class="zh">没有老师带领，你不准进入这个实验室。（规则禁止）</span></li>
+            <li><span class="en">This answer can't be right because the units don't match.</span><br /><span class="zh">这个答案不可能对，因为单位都不匹配。（逻辑否定）</span></li>
+            <li><span class="en">He can't finish it in two minutes; it's too complex.</span><br /><span class="zh">他两分钟内不可能完成，这太复杂了。（能力/现实不可能）</span></li>
+          </ul>
+          <div class="emotion-box">
+            <strong>情感语气：</strong><code>mustn't</code> 是“规则红线”；<code>can't</code> 常是“事实不可能/能力做不到”，语气重心不同。<br />
+            <span class="emo-tag">红线管理</span><span class="en">You mustn't copy others' homework.</span><br />
+            <span class="emo-tag">事实判断</span><span class="en">This machine can't work without power.</span>
+          </div>
+        </div>
+      </article>
+
+      <h2 class="section-title">D. 实战微练（讲义内即练即查）</h2>
+      <article class="level-card level-mid">
+        <p class="level-title">说明：先独立填空，再看右下角答案；建议做“为什么不是别的选项”的口头解释。</p>
+        <div class="drill-grid">
+          <div class="drill-card">
+            <p>1) The sign says “No Photos”. Visitors ______ take photos here.</p>
+            <p class="answer">答案：mustn't（绝对禁止）</p>
+          </div>
+          <div class="drill-card">
+            <p>2) Must I finish this today? — No, you ______.</p>
+            <p class="answer">答案：don't have to（不必）</p>
+          </div>
+          <div class="drill-card">
+            <p>3) My bike broke down, so I ______ walk to school yesterday.</p>
+            <p class="answer">答案：had to（过去“不得不”）</p>
+          </div>
+          <div class="drill-card">
+            <p>4) Whose bag is this? It ______ be Lucy's. Her name is on it.</p>
+            <p class="answer">答案：must（肯定推测）</p>
+          </div>
+          <div class="drill-card">
+            <p>5) ______ I use your phone for one minute?</p>
+            <p class="answer">答案：Can / Could（请求许可）</p>
+          </div>
+          <div class="drill-card">
+            <p>6) He ______ be in class now. I just saw him at the hospital.</p>
+            <p class="answer">答案：can't（否定推测）</p>
+          </div>
+        </div>
+        <div class="quick-check">
+          <strong>5秒自检清单：</strong>
+          <ul>
+            <li>看到“规则、标志、危险”先想：是不是 <code>mustn't</code>。</li>
+            <li>看到“可做可不做”先想：是不是 <code>don't have to</code>。</li>
+            <li>看到过去时间词先检查：是否要用 <code>had to</code>。</li>
+            <li>看到证据推断先区分：<code>must be</code> / <code>can't be</code>。</li>
+          </ul>
+        </div>
+      </article>
+
+      <h2 class="section-title">E. 结课总复盘融合（原 Page 11 核心）</h2>
+      <article class="level-card level-hard">
+        <p class="level-title">目标：把全讲最易混点做最后一次“成对辨析”与“快测复核”。</p>
+
+        <div class="summary-pairs">
+          <div class="summary-pair-card">
+            <strong>mustn't vs don't have to</strong><br />
+            <span class="en">You mustn't park here.</span><br />
+            <span class="zh">你不准在这停车（禁止）。</span><br />
+            <span class="en">You don't have to park here.</span><br />
+            <span class="zh">你不必在这停车（可选）。</span>
+          </div>
+          <div class="summary-pair-card">
+            <strong>must vs have to</strong><br />
+            <span class="en">I must call my grandma tonight.</span><br />
+            <span class="zh">我今晚必须给奶奶打电话（主观）。</span><br />
+            <span class="en">I have to wear a uniform at school.</span><br />
+            <span class="zh">我在学校必须穿校服（客观）。</span>
+          </div>
+          <div class="summary-pair-card">
+            <strong>must be vs can't be</strong><br />
+            <span class="en">The lights are on. He must be at home.</span><br />
+            <span class="zh">灯亮着，他一定在家（肯定推测）。</span><br />
+            <span class="en">He can't be at home. I saw him outside.</span><br />
+            <span class="zh">他不可能在家，我刚在外面看见他。</span>
+          </div>
+          <div class="summary-pair-card">
+            <strong>have to vs had to</strong><br />
+            <span class="en">I have to finish it today.</span><br />
+            <span class="zh">我今天不得不完成（现在）。</span><br />
+            <span class="en">I had to finish it yesterday.</span><br />
+            <span class="zh">我昨天不得不完成（过去）。</span>
+          </div>
+        </div>
+
+        <div class="quick-check" style="margin-top:0.7rem">
+          <strong>结课快测（再核对 4 题）：</strong>
+          <ul>
+            <li>The sign says “Danger”. You ______ swim here. <span class="answer">[mustn't]</span></li>
+            <li>Must I finish this now? — No, you ______. <span class="answer">[don't have to]</span></li>
+            <li>My bike was broken, so I ______ walk home yesterday. <span class="answer">[had to]</span></li>
+            <li>That man ______ be our teacher; our teacher is abroad. <span class="answer">[can't]</span></li>
+          </ul>
+        </div>
+
+        <div class="pitfall" style="margin-top:0.7rem">
+          结课金句：先判断“语义”（能力/许可/义务/禁止/推测），再选“形式”。<br />
+          出现过去时间词时优先检查 <strong>had to</strong>；危险禁令优先检查 <strong>mustn't</strong>。
+        </div>
+      </article>
+
+      <div class="pitfall">
+        高频避坑：<strong>mustn't</strong>（绝对禁止）≠ <strong>don't have to</strong>（不必）。<br />
+        推测题中“他不可能是...”常用 <strong>can't be</strong>，不是 <strong>mustn't be</strong>。
+      </div>
+    </div>
+  </main>
+
+  <nav class="lesson-pager" aria-label="课程页导航">
+    <a class="pager-prev" href="lesson06-page09-exam.html">← 上一页 · Page 09</a>
+    <span class="pager-mid">L06 · Page 10 / 10</span>
+    <span class="pager-next" aria-disabled="true" style="opacity:0.45">已是最后一页</span>
+  </nav>
+
+  <script>
+    (function () {
+      var btn = document.getElementById("btnPrint");
+      if (!btn) return;
+      btn.addEventListener("click", function () {
+        window.print();
+      });
+    })();
+  </script>
+</body>
+</html>

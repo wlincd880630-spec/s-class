@@ -1,0 +1,827 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>第05讲 · Page 08 · 终极试炼场</title>
+  <script src="https://aka.ms/csspeech/jsbrowserpackageraw"></script>
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
+  <link rel="stylesheet" href="../assets/lesson-screen-16x9.css" />
+  <!--
+    视觉资产占位：
+    - 考场背景图：assets/vertex/page08-exam-hall-bg.png
+      Prompt: A grand, brightly lit magical examination hall inside an ancient academy.
+      Rows of neat wooden desks, magical glowing orbs on the ceiling, hand-drawn crayon illustration style, no people.
+    - 判分印章：assets/vertex/page08-graded-stamp.png
+      Prompt: A vintage red wax seal stamp with the text "Graded", vector crayon style.
+  -->
+  <style>
+    :root {
+      --ink: #2c2436;
+      --edge: #5d4037;
+      --paper: #fff8dc;
+      --paper2: #f5e0af;
+      --red: #c62828;
+      --blue: #1565c0;
+      --gold: #ffd54f;
+      --green: #2e7d32;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      color: var(--ink);
+      font-family: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+      background: #140c18;
+    }
+    .bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background:
+        linear-gradient(rgba(20, 12, 24, .24), rgba(20, 12, 24, .42)),
+        url("https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/vertex/page08-exam-hall-bg.png"),
+        radial-gradient(ellipse 80% 60% at 50% 30%, #7e5d8d, #160d1b 70%);
+      background-size: cover;
+      background-position: center;
+    }
+    .bg::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      opacity: .16;
+      background-image:
+        repeating-linear-gradient(8deg, rgba(255,255,255,.14), rgba(255,255,255,.14) 0 1px, transparent 2px 8px),
+        repeating-linear-gradient(-8deg, rgba(93,64,55,.18), rgba(93,64,55,.18) 0 1px, transparent 2px 9px);
+      mix-blend-mode: overlay;
+    }
+    .app {
+      position: relative;
+      z-index: 1;
+      width: 100vw;
+      height: 100vh;
+      padding: 14px;
+      display: grid;
+      grid-template-rows: auto 1fr;
+      gap: 10px;
+    }
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      border: 4px solid var(--edge);
+      border-radius: 999px;
+      background: rgba(255, 248, 236, .96);
+      padding: 8px 14px;
+      box-shadow: 0 8px 22px rgba(0,0,0,.18);
+      font-weight: 900;
+    }
+    .topbar strong { color: #4a148c; }
+    #examStatus {
+      flex: 1 1 auto;
+      min-width: 0;
+      text-align: center;
+      font-weight: 700;
+      font-size: clamp(22px, 3.3vw, 28px);
+      line-height: 1.35;
+    }
+    #examStatus .score-pill {
+      display: inline-block;
+      margin-left: 6px;
+      padding: 4px 14px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, #ffecb3, #ffe082);
+      border: 2px solid #f57f17;
+      color: #bf360c;
+      font-weight: 900;
+      font-size: 1em;
+      white-space: nowrap;
+    }
+    #examStatus .score-pill[hidden] {
+      display: none !important;
+    }
+    .exam-grid {
+      min-height: 0;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      transition: filter .3s;
+    }
+    .paper {
+      position: relative;
+      border: 5px solid var(--edge);
+      border-radius: 18px 13px 20px 15px;
+      background:
+        radial-gradient(circle at 20% 12%, rgba(255,255,255,.7), transparent 18%),
+        radial-gradient(circle at 88% 80%, rgba(93,64,55,.1), transparent 20%),
+        linear-gradient(180deg, var(--paper), var(--paper2));
+      box-shadow: 8px 12px 0 rgba(0,0,0,.14), inset 0 0 22px rgba(93,64,55,.1);
+      overflow: hidden;
+      filter: saturate(1.04);
+      transform: none;
+    }
+    .scroll {
+      height: 100%;
+      overflow: auto;
+      padding: 14px;
+      /* 为底部固定「提交」按钮预留可滚动空间，避免最后一题与按钮抢点 */
+      padding-bottom: max(5.5rem, calc(env(safe-area-inset-bottom, 0px) + 4.5rem));
+      scrollbar-width: thin;
+      scrollbar-color: #8d6e63 rgba(255, 248, 236, .55);
+    }
+    .scroll::-webkit-scrollbar { width: 12px; }
+    .scroll::-webkit-scrollbar-track { background: rgba(255,248,236,.6); border-radius: 99px; }
+    .scroll::-webkit-scrollbar-thumb { background: #8d6e63; border-radius: 99px; border: 3px solid rgba(255,248,236,.85); }
+    .paper h1 {
+      margin: 0 0 10px;
+      color: #4a148c;
+      font-size: clamp(2.4rem, 5vw, 3.6rem);
+      line-height: 1.28;
+    }
+    .q-card {
+      border: 3px dashed #8d6e63;
+      border-radius: 16px;
+      background: rgba(255,255,255,.62);
+      padding: 16px;
+      margin-bottom: 14px;
+    }
+    .q-card.q-ok { border-color: #43a047; background: rgba(232,245,233,.55); }
+    .q-card.q-wrong { border-color: #c62828; background: rgba(255,235,238,.45); }
+    .q-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+    .tag {
+      border: 2px solid #ef6c00;
+      border-radius: 999px;
+      background: #fff3e0;
+      color: #e65100;
+      padding: 5px 14px;
+      font-size: 24px;
+      font-weight: 900;
+    }
+    .speak {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      border: 3px solid var(--blue);
+      background: #e3f2fd;
+      cursor: pointer;
+    }
+    .q-text {
+      font-size: clamp(36px, 3.4vw, 54px);
+      color: #1a237e;
+      font-weight: 900;
+      line-height: 1.45;
+      margin: 8px 0;
+    }
+    .options {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .opt {
+      border: 3px solid #6d4c41;
+      border-radius: 999px;
+      background: #fffdf7;
+      padding: 12px 18px;
+      cursor: pointer;
+      font-weight: 900;
+      font-size: clamp(28px, 2.8vw, 44px);
+      text-align: left;
+      transition: background .12s, transform .12s;
+    }
+    .opt:hover { transform: translateY(-1px); }
+    .opt.on { background: linear-gradient(180deg, #cfd8dc, #78909c); color: #fff; }
+    .q-review {
+      display: none;
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 2px dashed rgba(93,64,55,.35);
+    }
+    .q-review.show { display: block; }
+    .btn-review {
+      border: 3px solid #7b1fa2;
+      border-radius: 999px;
+      background: linear-gradient(180deg, #f3e5f5, #e1bee7);
+      padding: 10px 22px;
+      font-size: clamp(26px, 2.6vw, 38px);
+      font-weight: 900;
+      cursor: pointer;
+      font-family: inherit;
+      margin-bottom: 8px;
+    }
+    .review {
+      display: none;
+      margin: 0;
+      border: 3px solid #6d4c41;
+      border-radius: 16px 12px 18px 13px;
+      background: #fffdf5;
+      padding: 16px 18px;
+      color: #4a148c;
+      font-weight: 650;
+      font-size: clamp(26px, 2.7vw, 32px);
+      line-height: 1.55;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    .review.show { display: block; }
+    .review .review-body {
+      text-align: left;
+    }
+    .review .review-note {
+      margin: 0 0 14px;
+      font-size: 0.92em;
+      color: #5d4037;
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: rgba(255, 243, 224, 0.65);
+      border: 2px dashed rgba(141, 110, 99, 0.45);
+    }
+    .review .review-sub {
+      margin: 18px 0 10px;
+      font-size: 1.06em;
+      font-weight: 950;
+      color: #4a148c;
+      border-left: 6px solid #9c27b0;
+      padding: 6px 0 6px 14px;
+      background: linear-gradient(90deg, rgba(243, 229, 245, 0.55), transparent);
+      border-radius: 0 12px 12px 0;
+    }
+    .review .review-body p {
+      margin: 0 0 14px;
+      line-height: 1.62;
+    }
+    .review .review-body .review-ext {
+      margin-top: 10px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: rgba(227, 242, 253, 0.55);
+      border: 2px solid rgba(21, 101, 192, 0.22);
+    }
+    .review .review-body .review-ext strong {
+      color: #0d47a1;
+    }
+    .submit {
+      position: fixed;
+      left: 50%;
+      bottom: max(12px, env(safe-area-inset-bottom, 0px));
+      z-index: 100;
+      transform: translateX(-50%);
+      border: 5px solid var(--edge);
+      border-radius: 999px;
+      padding: 14px 34px;
+      font-size: clamp(20px, 2vw, 32px);
+      font-weight: 1000;
+      background: linear-gradient(180deg, #fff9c4, #ffca28);
+      box-shadow: 0 10px 24px rgba(0,0,0,.24), 4px 6px 0 rgba(93,64,55,.18);
+      cursor: pointer;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .submit:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+      filter: grayscale(0.35);
+    }
+    .stamp {
+      position: fixed;
+      left: 50%;
+      top: 42%;
+      z-index: 165;
+      transform: translate(-50%, -50%) rotate(-12deg) scale(0);
+      width: min(320px, 50vw);
+      min-height: min(320px, 50vw);
+      border: 14px solid rgba(183, 28, 28, .9);
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 36px 16px 20px;
+      color: #b71c1c;
+      background:
+        radial-gradient(circle, rgba(255,255,255,.88), rgba(255,235,238,.5)),
+        url("https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/vertex/page08-graded-stamp.png");
+      background-size: cover;
+      font-size: clamp(42px, 7vw, 86px);
+      font-weight: 1000;
+      text-align: center;
+      opacity: 0;
+      pointer-events: none;
+      box-shadow: 0 12px 30px rgba(0,0,0,.25);
+    }
+    body.exam-overlay-open .stamp {
+      pointer-events: auto;
+    }
+    .stamp-close {
+      position: absolute;
+      top: max(10px, 4%);
+      right: max(10px, 4%);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 3px solid rgba(183, 28, 28, .85);
+      background: rgba(255, 255, 255, 0.96);
+      color: #b71c1c;
+      font-size: 22px;
+      font-weight: 900;
+      line-height: 1;
+      cursor: pointer;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+      box-shadow: 0 4px 10px rgba(0,0,0,.15);
+      z-index: 5;
+    }
+    .stamp-close:hover { filter: brightness(1.06); }
+    .stamp-close:focus-visible {
+      outline: 3px solid #1565c0;
+      outline-offset: 2px;
+    }
+    .stamp-score {
+      display: block;
+      line-height: 1.1;
+    }
+    .dim {
+      position: fixed;
+      inset: 0;
+      z-index: 125;
+      background: rgba(20,12,24,.55);
+      opacity: 0;
+      pointer-events: none;
+      cursor: pointer;
+      transition: opacity .35s ease;
+    }
+    body.exam-overlay-open .dim {
+      pointer-events: auto;
+    }
+    .next-page {
+      position: fixed;
+      right: 18px;
+      bottom: max(12px, env(safe-area-inset-bottom, 0px));
+      z-index: 140;
+      display: none;
+      text-decoration: none;
+      color: #4e342e;
+      border: 4px solid var(--edge);
+      border-radius: 999px;
+      background: linear-gradient(180deg, #c8e6c9, #66bb6a);
+      padding: 13px 20px;
+      font-weight: 1000;
+      box-shadow: 5px 7px 0 rgba(0,0,0,.12);
+    }
+    .next-page.show { display: block; }
+    .status {
+      margin-top: 8px;
+      border-radius: 10px;
+      padding: 12px;
+      background: #fff8e1;
+      font-weight: 800;
+      font-size: clamp(22px, 2.6vw, 30px);
+      color: #4e342e;
+    }
+  </style>
+</head>
+<body>
+  <div class="bg"></div>
+  <div class="app" id="app">
+    <header class="topbar">
+      <strong>Lesson 05 · 终极试炼场</strong>
+      <span id="examStatus">已作答 <strong id="answeredCount">0</strong> / 20<span id="scorePill" class="score-pill" hidden> · 得分 <strong id="scoreDisplay">—</strong>/100</span> · Detectives, silence please.</span>
+      <button class="speak" id="openingVoice" aria-label="播放考场播报">🔊</button>
+    </header>
+    <main class="exam-grid" id="examGrid">
+      <section class="paper" id="paper">
+        <div class="scroll">
+          <h1>成都中考模拟卷 · 共 20 题（基础 / 提高 / 挑战）</h1>
+          <div id="questionList"></div>
+          <div class="status" id="scoreHint">在试卷上点击选项作答，完成后点「提交试卷」。</div>
+        </div>
+      </section>
+    </main>
+  </div>
+  <div class="dim" id="dim" role="button" tabindex="-1" aria-label="点击关闭分数面板"></div>
+  <div class="stamp" id="stamp" aria-live="polite">
+    <button type="button" class="stamp-close" id="stampClose" aria-label="关闭分数印章">✕</button>
+    <span class="stamp-score" id="stampScore">0/100</span>
+  </div>
+  <button type="button" class="submit" id="submitExam" aria-label="提交试卷并批改">📝 提交试卷</button>
+  <a class="next-page" id="nextPage" href="lesson05-page09-archive.html">🎓 前往档案室领取毕业讲义</a>
+
+  <script>
+    (function () {
+      "use strict";
+
+      var AZURE_KEY = "DKRXk8ueSfo5NdIOMqFRTCAfpeGDezJ3Snf5K8gGgtyqxiWdugLzJQQJ99BLACHYHv6XJ3w3AAAYACOGUYP9";
+      var AZURE_REGION = "eastus2";
+
+      var EXAM_DATABASE = [
+        { id: 1, q: "The beautiful photo of Jinli isn't _____. It's hers.", options: ["A. my", "B. mine", "C. me", "D. I"], answer: "B", tag: "2023成都A卷", tier: "基础", point: "名物代 mine" },
+        { id: 2, q: "There _____ a pen and two books on the desk.", options: ["A. is", "B. are", "C. has", "D. have"], answer: "A", tag: "人教7A U3", tier: "基础", point: "There be 就近" },
+        { id: 3, q: "September 10th is _____ Day in China. We should thank our teachers.", options: ["A. Teacher's", "B. Teachers'", "C. Teachers", "D. Teacher"], answer: "B", tag: "教材GF", tier: "基础", point: "复数所有格" },
+        { id: 4, q: "The library is _____ the classroom building.", options: ["A. in front of", "B. in the front of", "C. on", "D. under"], answer: "A", tag: "7A Unit3", tier: "基础", point: "in front of" },
+        { id: 5, q: "—Is this _____ dictionary? —Yes, it's mine.", options: ["A. you", "B. your", "C. yours", "D. you're"], answer: "B", tag: "成都变式", tier: "基础", point: "形物代 your" },
+        { id: 6, q: "There _____ some milk and two apples in the fridge.", options: ["A. is", "B. are", "C. has", "D. have"], answer: "A", tag: "原创·分层", tier: "基础", point: "不可数+就近" },
+        { id: 7, q: "My sister likes playing _____ piano in the school music club.", options: ["A. /", "B. a", "C. the", "D. an"], answer: "C", tag: "人教7A", tier: "提高", point: "play the + 乐器" },
+        { id: 8, q: "Chengdu is famous _____ its hotpot and tea culture.", options: ["A. for", "B. of", "C. at", "D. with"], answer: "A", tag: "成都情境", tier: "提高", point: "be famous for" },
+        { id: 9, q: "Neither my brother nor my parents _____ going to the show tonight.", options: ["A. is", "B. are", "C. am", "D. be"], answer: "B", tag: "主谓一致", tier: "提高", point: "就近/复数" },
+        { id: 10, q: "Each of the students in our class _____ a new English dictionary.", options: ["A. have", "B. has", "C. are having", "D. having"], answer: "B", tag: "语法综合", tier: "提高", point: "Each of + 单数谓语" },
+        { id: 11, q: "The number of the students in this school _____ about 2,000.", options: ["A. is", "B. are", "C. has", "D. have"], answer: "A", tag: "中考常考", tier: "提高", point: "The number of…is" },
+        { id: 12, q: "Not only my parents but also I _____ interested in history.", options: ["A. am", "B. is", "C. are", "D. be"], answer: "A", tag: "并列主语", tier: "提高", point: "Not only…but also 就近 I" },
+        { id: 13, q: "_____ fine weather it is! Let's go for a picnic.", options: ["A. What", "B. What a", "C. How", "D. How a"], answer: "A", tag: "感叹句", tier: "挑战", point: "What + 不可数" },
+        { id: 14, q: "There _____ two pens and a ruler in the pencil box.", options: ["A. is", "B. are", "C. has", "D. have"], answer: "B", tag: "There be 综合", tier: "挑战", point: "复数优先项" },
+        { id: 15, q: "Could you tell me _____? I want to borrow some books.", options: ["A. where is the library", "B. where the library is", "C. where does the library", "D. where the library does"], answer: "B", tag: "宾语从句", tier: "挑战", point: "陈述语序" },
+        { id: 16, q: "This new storybook only _____ me 30 yuan. What a bargain!", options: ["A. took", "B. spent", "C. cost", "D. paid"], answer: "C", tag: "动词辨析", tier: "挑战", point: "sth. cost sb." },
+        { id: 17, q: "—_____ is it from your school to the subway station? —About fifteen minutes' walk.", options: ["A. How far", "B. How long", "C. How soon", "D. How often"], answer: "A", tag: "疑问词组", tier: "挑战", point: "How far 问距离" },
+        { id: 18, q: "There isn't _____ milk in the bottle. Let's buy some.", options: ["A. some", "B. any", "C. many", "D. few"], answer: "B", tag: "人教7A U5", tier: "挑战", point: "否定句 any" },
+        { id: 19, q: "Tom is one of the boys who _____ from England in our grade.", options: ["A. comes", "B. come", "C. coming", "D. to come"], answer: "B", tag: "定语从句入门", tier: "挑战", point: "先行词复数" },
+        { id: 20, q: "If it _____ sunny tomorrow, we'll go hiking in Longquan Mountain.", options: ["A. is", "B. will be", "C. was", "D. is going to"], answer: "A", tag: "条件状语从句", tier: "挑战", point: "主将从现" }
+      ];
+
+      /**
+       * 预置「苏格拉底式阅卷详解」(HTML，已排版)。点击按钮即展示，不请求网络。
+       */
+      var PREWRITTEN_REVIEWS = {
+        1: "<div class=\"review-body\"><p class=\"review-note\">本题围绕物主代词。请对照自己错选的选项，看下面辨析。</p><h4 class=\"review-sub\">【考点回顾】</h4><p>考查<strong>名词性物主代词 <span lang=\"en\">mine</span></strong>与形容词性物主代词 <span lang=\"en\">my</span> 的区别：空格后<strong>是否还有名词</strong>。</p><h4 class=\"review-sub\">【选项辨析】</h4><p><strong>A. my</strong>：形物代，后面<strong>必须再接名词</strong>；本句空格在句末作表语后已无名词，排除。<br><strong>B. mine</strong>：<strong>名物代</strong>，相当于 <span lang=\"en\">my photo</span>，可单独使用，<strong>正确</strong>。<br><strong>C. me</strong>：宾格「我」，不表示「我的（那张照片）」。<br><strong>D. I</strong>：主格，不作「所属」讲。</p><h4 class=\"review-sub\">【解题步骤】</h4><p>① 看空格后有没有名词 → 没有 → 倾向名物代。<br>② 代入朗读：<span lang=\"en\">It isn't mine.</span> 语义完整。</p><div class=\"review-ext\"><strong>【同类拓展】</strong><br>① <span lang=\"en\">This pen isn't _____. It's _____. (my / mine)</span> → my pen / Mine。<br>② <span lang=\"en\">—Whose bag is this? —It's _____.</span>（答 <span lang=\"en\">hers</span>）</div><h4 class=\"review-sub\">【启发提问】</h4><p>若把 <span lang=\"en\">my</span> 填进去，后面还缺什么词句子才完整？</p></div>",
+
+        2: "<div class=\"review-body\"><p class=\"review-note\">There be 与 <span lang=\"en\">have/has</span> 别混用；be 与谁一致看「离它最近」的名词。</p><h4 class=\"review-sub\">【考点回顾】</h4><p><span lang=\"en\">There be</span> 的<strong>就近原则</strong>：与 <span lang=\"en\">be</span> 紧挨着的第一个主语在数上保持一致。</p><h4 class=\"review-sub\">【选项辨析】</h4><p>主语为 <span lang=\"en\">a pen and two books</span>，<strong>最靠近动词的是单数 <span lang=\"en\">a pen</span></strong>，故用 <strong><span lang=\"en\">is</span></strong>。<br><span lang=\"en\">are</span> 与「先出现复数主语」的语序更配；<span lang=\"en\">has/have</span> 不能用于 <span lang=\"en\">There</span> 句型。</p><h4 class=\"review-sub\">【解题步骤】</h4><p>① 划去 <span lang=\"en\">and</span> 之后部分，先看 <span lang=\"en\">There ___ a pen</span> → 单数 → <span lang=\"en\">is</span>。</p><div class=\"review-ext\"><strong>【同类拓展】</strong><br>① <span lang=\"en\">There _____ a book and some pens on the desk.</span>（<span lang=\"en\">is</span>）<br>② <span lang=\"en\">There _____ some pens and a book on the desk.</span>（<span lang=\"en\">are</span>）</div><h4 class=\"review-sub\">【启发提问】</h4><p>若把 <span lang=\"en\">a pen and two books</span> 顺序对调，<span lang=\"en\">be</span> 要不要改？</p></div>",
+
+        3: "<div class=\"review-body\"><p class=\"review-note\">节日前后常考复数所有格 <span lang=\"en\">Teachers'</span>。</p><h4 class=\"review-sub\">【考点回顾】</h4><p>「教师节」= 全体教师们的节日 → 复数 <span lang=\"en\">teachers</span> 加 <strong>所有格 <span lang=\"en\">'</span></strong>。</p><h4 class=\"review-sub\">【选项辨析】</h4><p><strong>A. Teacher's</strong>：单数教师，不符合「全体教师」习惯表达。<br><strong>B. Teachers'</strong>：复数以 <span lang=\"en\">s</span> 结尾，只加 <strong><span lang=\"en\">'</span></strong>，<strong>正确</strong>。<br><strong>C. Teachers</strong>：缺所有格。<br><strong>D. Teacher</strong>：单数名词不能单独作定语。</p><div class=\"review-ext\"><strong>【同类拓展】</strong><br><span lang=\"en\">Children's Day</span>（不规则复数加 <span lang=\"en\">'s</span>）。</div><h4 class=\"review-sub\">【启发提问】</h4><p>若写成 <span lang=\"en\">Teacher's Day</span>，暗示几位老师过节？</p></div>",
+
+        4: "<div class=\"review-body\"><h4 class=\"review-sub\">【考点回顾】</h4><p><span lang=\"en\">in front of</span>（外部前面） vs <span lang=\"en\">in the front of</span>（内部前部）。</p><h4 class=\"review-sub\">【选项辨析】</h4><p>图书馆与教学楼是<strong>两栋独立建筑</strong>，用 <strong><span lang=\"en\">in front of</span></strong>。<br><span lang=\"en\">in the front of the classroom</span> 才指「教室内部前排」。</p><div class=\"review-ext\"><strong>【同类拓展】</strong><br><span lang=\"en\">The cat is hiding _____ the sofa. (behind / in the front of)</span></div><h4 class=\"review-sub\">【启发提问】</h4><p>主语若站在「建筑物内部」描述前排座位，该用哪一条？</p></div>",
+
+        5: "<div class=\"review-body\"><h4 class=\"review-sub\">【考点回顾】</h4><p>名词 <span lang=\"en\">dictionary</span> 前用<strong>形容词性物主代词 <span lang=\"en\">your</span></strong>。</p><h4 class=\"review-sub\">【选项辨析】</h4><p><strong>A. you</strong>：主格/宾格，不表所属。<br><strong>B. your</strong>：后接名词，<strong>正确</strong>。<br><strong>C. yours</strong>：名物代，后<strong>不可</strong>再跟 <span lang=\"en\">dictionary</span>。<br><strong>D. you're</strong> = you are。</p><div class=\"review-ext\"><strong>【同类拓展】</strong><br><span lang=\"en\">This is _____ pen. (her / hers)</span> → <span lang=\"en\">her</span>。</div><h4 class=\"review-sub\">【启发提问】</h4><p>若选 <span lang=\"en\">yours</span>，句子应改写成什么？</p></div>",
+
+        6: "<div class=\"review-body\"><h4 class=\"review-sub\">【考点回顾】</h4><p>There be 就近 + <span lang=\"en\">milk</span> 不可数 → 单数谓语。</p><h4 class=\"review-sub\">【选项辨析】</h4><p>与 <span lang=\"en\">be</span> 最近的是 <span lang=\"en\">some milk</span>（不可数）→ <strong><span lang=\"en\">is</span></strong>。<br>后面 <span lang=\"en\">and two apples</span> 不改变「先主语」原则下的这一题标准考法。</p><div class=\"review-ext\"><strong>【同类拓展】</strong><br><span lang=\"en\">There _____ some water and two apples in the bowl.</span>（<span lang=\"en\">is</span>）</div><h4 class=\"review-sub\">【启发提问】</h4><p>若把 <span lang=\"en\">milk and apples</span> 顺序对调，谓语可能变吗？</p></div>",
+
+        7: "<div class=\"review-body\"><h4 class=\"review-sub\">【考点回顾】</h4><p>「演奏乐器」用 <span lang=\"en\">play the + 乐器</span>。</p><h4 class=\"review-sub\">【选项辨析】</h4><p>球类/棋类常无冠词，<strong>钢琴、小提琴等</strong>用 <strong><span lang=\"en\">the</span></strong>。</p><div class=\"review-ext\"><strong>【同类拓展】</strong><br><span lang=\"en\">play ____ guitar / play ____ basketball</span> → the / 零冠词。</div><h4 class=\"review-sub\">【启发提问】</h4><p>为什么「运动」和「乐器」冠词习惯不同？</p></div>",
+
+        8: "<div class=\"review-body\"><h4 class=\"review-sub\">【考点回顾】</h4><p>固定搭配 <span lang=\"en\">be famous for</span>（因……著名）。</p><h4 class=\"review-sub\">【选项辨析】</h4><p><span lang=\"en\">for</span> 后接「出名原因」；<span lang=\"en\">of</span> 多表所属等，此句语境不选。</p><div class=\"review-ext\"><strong>【同类拓展】</strong><br><span lang=\"en\">Sichuan is famous _____ its food.</span>（<span lang=\"en\">for</span>）</div><h4 class=\"review-sub\">【启发提问】</h4><p><span lang=\"en\">be famous as</span> 与 <span lang=\"en\">for</span> 语义有何差别？</p></div>",
+
+        9: "<div class=\"review-body\"><h4 class=\"review-sub\">【考点回顾】</h4><p><span lang=\"en\">Neither…nor…</span> 谓语常遵循<strong>就近原则</strong>，此处靠近动词的是 <span lang=\"en\">my parents</span>（复数）。</p><h4 class=\"review-sub\">【选项辨析】</h4><p>→ <strong><span lang=\"en\">are</span></strong>。<br>勿见 <span lang=\"en\">brother</span> 单数就选 <span lang=\"en\">is</span>，要看与谓语相邻的主语。</p><div class=\"review-ext\"><strong>【同类拓展】</strong><br><span lang=\"en\">Neither he nor his parents _____ ready.</span>（<span lang=\"en\">are</span>）</div><h4 class=\"review-sub\">【启发提问】</h4><p>若改成 <span lang=\"en\">Neither my parents nor my brother…</span>，谓语又与谁一致？</p></div>",
+
+        10: "<div class=\"review-body\"><h4 class=\"review-sub\">【考点回顾】</h4><p><span lang=\"en\">Each of + 复数名词</span>，谓语用<strong>单数</strong>。</p><h4 class=\"review-sub\">【选项辨析】</h4><p>核心主语是 <span lang=\"en\">Each</span> → <strong><span lang=\"en\">has</span></strong>。</p><div class=\"review-ext\"><strong>【同类拓展】</strong><br><span lang=\"en\">Each of the boys _____ a hat.</span>（<span lang=\"en\">has</span>）</div><h4 class=\"review-sub\">【启发提问】</h4><p>「each」与「every」作主语时谓语单复数习惯一致吗？</p></div>",
+
+        11: "<div class=\"review-body\"><h4 class=\"review-sub\">【考点回顾】</h4><p><span lang=\"en\">The number of …</span> 表示「……的数量」，作主语时谓语<strong>单数</strong>。</p><h4 class=\"review-sub\">【选项辨析】</h4><p>→ <strong><span lang=\"en\">is</span></strong>。<br>勿与 <span lang=\"en\">a number of（许多）</span> 混淆（其后谓语常复数）。</p><div class=\"review-ext\"><strong>【同类拓展】</strong><br><span lang=\"en\">A number of students _____ playing outside.</span>（<span lang=\"en\">are</span>）</div><h4 class=\"review-sub\">【启发提问】</h4><p>句首是 <span lang=\"en\">The number</span> 还是 <span lang=\"en\">A number</span>，如何快速判断谓语？</p></div>",
+
+        12: "<div class=\"review-body\"><h4 class=\"review-sub\">【考点回顾】</h4><p><span lang=\"en\">Not only A but also B</span> 谓语就近：<strong>靠近的是 <span lang=\"en\">I</span></strong> → <span lang=\"en\">am</span>。</p><h4 class=\"review-sub\">【选项辨析】</h4><p><strong><span lang=\"en\">am</span></strong> 仅与 <span lang=\"en\">I</span> 搭配。</p><div class=\"review-ext\"><strong>【同类拓展】</strong><br><span lang=\"en\">Not only my sister but also I _____ fond of music.</span>（<span lang=\"en\">am</span>）</div><h4 class=\"review-sub\">【启发提问】</h4><p>若 <span lang=\"en\">but also</span> 后是 <span lang=\"en\">he</span>，谓语选什么？</p></div>",
+
+        13: "<div class=\"review-body\"><h4 class=\"review-sub\">【考点回顾】</h4><p>感叹句：<span lang=\"en\">weather</span> 不可数 → <strong><span lang=\"en\">What + 形容词 + 不可数名词</span></strong>，不加 <span lang=\"en\">a</span>。</p><h4 class=\"review-sub\">【选项辨析】</h4><p><strong><span lang=\"en\">What fine weather</span></strong> ✓；<span lang=\"en\">What a fine weather</span> ✗。</p><div class=\"review-ext\"><strong>【同类拓展】</strong><br><span lang=\"en\">_____ important information it is!</span>（<span lang=\"en\">What</span>）</div><h4 class=\"review-sub\">【启发提问】</h4><p>若名词可数且单数，中间要多一个什么词？</p></div>",
+
+        14: "<div class=\"review-body\"><h4 class=\"review-sub\">【考点回顾】</h4><p>There be 就近：先出现 <span lang=\"en\">two pens</span>（复数）→ <strong><span lang=\"en\">are</span></strong>。</p><h4 class=\"review-sub\">【选项辨析】</h4><p>与第 6 题对比：谁离 <span lang=\"en\">There</span> 更近决定单复数。</p><div class=\"review-ext\"><strong>【同类拓展】</strong><br>见题 2、题 6。</div><h4 class=\"review-sub\">【启发提问】</h4><p>把 <span lang=\"en\">a ruler and two pens</span> 写在同一句里，谓语先看谁？</p></div>",
+
+        15: "<div class=\"review-body\"><h4 class=\"review-sub\">【考点回顾】</h4><p>宾语从句用<strong>陈述语序</strong>：连接词 + 主语 + 谓语。</p><h4 class=\"review-sub\">【选项辨析】</h4><p><strong><span lang=\"en\">where the library is</span></strong> ✓；<span lang=\"en\">where is the library</span> 是疑问语序，用于独立问句。</p><div class=\"review-ext\"><strong>【同类拓展】</strong><br><span lang=\"en\">Could you tell me how ____ there? (to get / do I get)</span> → <span lang=\"en\">to get</span> / <span lang=\"en\">I can get</span>（陈述序）。</div><h4 class=\"review-sub\">【启发提问】</h4><p>把从句单独拿出来，读起来像不像陈述句？</p></div>",
+
+        16: "<div class=\"review-body\"><h4 class=\"review-sub\">【考点回顾】</h4><p>「物作主语花费金钱」用 <span lang=\"en\">cost</span>：<span lang=\"en\">Sth. costs sb. + 金额</span>。</p><h4 class=\"review-sub\">【选项辨析】</h4><p><span lang=\"en\">spend / pay</span> 主语多为人；<span lang=\"en\">take</span> 常表时间。</p><div class=\"review-ext\"><strong>【同类拓展】</strong><br><span lang=\"en\">The coat _____ me 200 yuan.</span>（<span lang=\"en\">cost</span>）</div><h4 class=\"review-sub\">【启发提问】</h4><p>若主语改成 <span lang=\"en\">I</span>，哪个「花费」动词最自然？</p></div>",
+
+        17: "<div class=\"review-body\"><h4 class=\"review-sub\">【考点回顾】</h4><p>答语「步行十五分钟」表<strong>距离</strong> → <span lang=\"en\">How far</span>。</p><h4 class=\"review-sub\">【选项辨析】</h4><p><span lang=\"en\">How long</span> 多长时常；<span lang=\"en\">How soon</span> 多久以后；<span lang=\"en\">How often</span> 频率。</p><div class=\"review-ext\"><strong>【同类拓展】</strong><br><span lang=\"en\">_____ does it take? —Two hours.</span>（<span lang=\"en\">How long</span>）</div><h4 class=\"review-sub\">【启发提问】</h4><p>问「多远」与「多久」英语疑问词各是什么？</p></div>",
+
+        18: "<div class=\"review-body\"><h4 class=\"review-sub\">【考点回顾】</h4><p>否定句中「一些」常用 <strong><span lang=\"en\">any</span></strong>，不用 <span lang=\"en\">some</span>（教材常规考法）。</p><h4 class=\"review-sub\">【选项辨析】</h4><p><span lang=\"en\">milk</span> 不可数，排除 <span lang=\"en\">many/few</span>。</p><div class=\"review-ext\"><strong>【同类拓展】</strong><br><span lang=\"en\">I don't have _____ money.</span>（<span lang=\"en\">any</span>）</div><h4 class=\"review-sub\">【启发提问】</h4><p>什么语境下否定句里仍可能出现 <span lang=\"en\">some</span>？</p></div>",
+
+        19: "<div class=\"review-body\"><h4 class=\"review-sub\">【考点回顾】</h4><p>定语从句先行词 <span lang=\"en\">the boys</span>（人、复数），从句谓语与<strong>先行词</strong>一致 → <strong><span lang=\"en\">come</span></strong>。</p><h4 class=\"review-sub\">【选项辨析】</h4><p>勿被句首 <span lang=\"en\">Tom is one of…</span> 误导选单数；关系词 <span lang=\"en\">who</span> 指代 <span lang=\"en\">boys</span>。</p><div class=\"review-ext\"><strong>【同类拓展】</strong><br><span lang=\"en\">He is one of the students who _____ from Chengdu.</span>（<span lang=\"en\">come</span>）</div><h4 class=\"review-sub\">【启发提问】</h4><p>若改成 <span lang=\"en\">the only one of the boys who…</span>，谓语还可能一样吗？（进阶思考）</p></div>",
+
+        20: "<div class=\"review-body\"><h4 class=\"review-sub\">【考点回顾】</h4><p>条件状语从句表将来：<strong>主将从现</strong>——<span lang=\"en\">if</span> 从句用一般现在时，主句 <span lang=\"en\">will</span>。</p><h4 class=\"review-sub\">【选项辨析】</h4><p>从句：<span lang=\"en\">If it <strong>is</strong> sunny tomorrow</span>；勿在从句中用 <span lang=\"en\">will be</span>（本题常规考法）。</p><div class=\"review-ext\"><strong>【同类拓展】</strong><br><span lang=\"en\">If it rains tomorrow, we _____ at home.</span>（<span lang=\"en\">will stay</span>）</div><h4 class=\"review-sub\">【启发提问】</h4><p>「主将从现」里的「现」指的是哪种时态？</p></div>"
+      };
+
+      var answers = {};
+      var wrongIds = [];
+      var reviewed = {};
+      var reviewCache = {};
+
+      function $(id) { return document.getElementById(id); }
+
+      function playExamVoice(text, voiceType) {
+        if (!window.SpeechSDK) return Promise.resolve(false);
+        return new Promise(function (resolve) {
+          var cfg = SpeechSDK.SpeechConfig.fromSubscription(AZURE_KEY, AZURE_REGION);
+          cfg.speechSynthesisVoiceName = voiceType === "exam" ? "en-US-ChristopherNeural" : "en-US-AriaNeural";
+          var synth = new SpeechSDK.SpeechSynthesizer(cfg);
+          synth.speakTextAsync(text, function () { synth.close(); resolve(true); }, function () { synth.close(); resolve(false); });
+        });
+      }
+
+      function beep() {
+        try {
+          var AC = window.AudioContext || window.webkitAudioContext;
+          var ac = new AC();
+          var osc = ac.createOscillator();
+          var gain = ac.createGain();
+          osc.type = "sine";
+          osc.frequency.value = 880;
+          gain.gain.setValueAtTime(.12, ac.currentTime);
+          gain.gain.exponentialRampToValueAtTime(.0001, ac.currentTime + .09);
+          osc.connect(gain);
+          gain.connect(ac.destination);
+          osc.start();
+          osc.stop(ac.currentTime + .1);
+          setTimeout(function () { ac.close(); }, 180);
+        } catch (e) {}
+      }
+
+      function renderQuestions() {
+        var list = $("questionList");
+        list.innerHTML = "";
+        EXAM_DATABASE.forEach(function (q) {
+          var card = document.createElement("div");
+          card.className = "q-card";
+          card.id = "qCard" + q.id;
+          card.innerHTML =
+            '<div class="q-head"><span class="tag">' + q.tier + " · " + q.tag + " · " + q.point + '</span><button type="button" class="speak" data-speak="' + q.id + '">🔊</button></div>' +
+            '<div class="q-text">' + q.id + ". " + q.q + "</div>" +
+            '<div class="options">' + q.options.map(function (op) {
+              var letter = op.charAt(0);
+              return '<button type="button" class="opt" data-q="' + q.id + '" data-a="' + letter + '">' + op + "</button>";
+            }).join("") + "</div>" +
+            '<div class="q-review" id="qReview' + q.id + '">' +
+            '<button type="button" class="btn-review" data-review="' + q.id + '">苏格拉底式阅卷详解</button>' +
+            '<div class="review" id="review' + q.id + '"></div></div>';
+          list.appendChild(card);
+        });
+        list.addEventListener("click", function (ev) {
+          var rb = ev.target.closest(".btn-review[data-review]");
+          if (rb) {
+            loadReview(Number(rb.dataset.review));
+            return;
+          }
+          var opt = ev.target.closest(".opt[data-q]");
+          var sp = ev.target.closest(".speak[data-speak]");
+          if (opt) chooseAnswer(Number(opt.dataset.q), opt.dataset.a);
+          if (sp) {
+            var qq = EXAM_DATABASE.find(function (x) { return x.id === Number(sp.dataset.speak); });
+            if (qq) playExamVoice(qq.q.replace("_____", "blank"), "item");
+          }
+        });
+      }
+
+      function updateAnsweredCount() {
+        var n = Object.keys(answers).length;
+        var el = $("answeredCount");
+        if (el) el.textContent = String(n);
+      }
+
+      function chooseAnswer(qid, letter) {
+        answers[qid] = letter;
+        document.querySelectorAll("#qCard" + qid + " .opt[data-q]").forEach(function (el) {
+          el.classList.toggle("on", el.dataset.a === letter);
+        });
+        updateAnsweredCount();
+        beep();
+      }
+
+      function resetStampForAnimation() {
+        var st = $("stamp");
+        if (window.anime) anime.remove(st);
+        st.style.opacity = "0";
+        st.style.transform = "translate(-50%, -50%) rotate(-12deg) scale(0)";
+      }
+
+      function resetPaperTransform() {
+        var paper = $("paper");
+        if (!paper) return;
+        if (window.anime) anime.remove(paper);
+        paper.style.removeProperty("transform");
+      }
+
+      function updateScoreBanner(score) {
+        var pill = $("scorePill");
+        var disp = $("scoreDisplay");
+        if (disp) disp.textContent = String(score);
+        if (pill) pill.hidden = false;
+      }
+
+      function dismissResultsOverlay() {
+        document.body.classList.remove("exam-overlay-open");
+        $("submitExam").disabled = false;
+        if (window.anime) {
+          try {
+            anime({ targets: "#dim", opacity: 0, duration: 320, easing: "linear" });
+            anime({
+              targets: "#stamp",
+              opacity: 0,
+              scale: 0.35,
+              duration: 280,
+              easing: "easeInQuad",
+              complete: function () {
+                resetStampForAnimation();
+              }
+            });
+            anime({ targets: "#paper", translateX: 0, rotate: 0, duration: 450, easing: "easeOutQuad", complete: resetPaperTransform });
+          } catch (e) {
+            $("dim").style.opacity = "0";
+            resetStampForAnimation();
+            resetPaperTransform();
+          }
+        } else {
+          $("dim").style.opacity = "0";
+          resetStampForAnimation();
+          resetPaperTransform();
+        }
+        var hint = $("scoreHint");
+        if (hint && hint.textContent.indexOf("满分") >= 0) {
+          hint.textContent = "满分！可以前往档案室。";
+        } else if (hint) {
+          hint.textContent =
+            "错题卡片下方可点「苏格拉底式阅卷详解」查看详解与同类拓展。需要看清试卷时，点分数印章上的 ✕ 或点击灰色遮罩收起面板。";
+        }
+      }
+
+      function submitExam() {
+        reviewed = {};
+        reviewCache = {};
+        document.body.classList.remove("exam-overlay-open");
+        $("submitExam").disabled = false;
+        resetPaperTransform();
+        resetStampForAnimation();
+        $("dim").style.opacity = "0";
+        EXAM_DATABASE.forEach(function (q) {
+          var rb = $("review" + q.id);
+          if (rb) {
+            rb.classList.remove("show");
+            rb.innerHTML = "";
+          }
+        });
+        var correct = 0;
+        wrongIds = [];
+        EXAM_DATABASE.forEach(function (q) {
+          var ok = answers[q.id] === q.answer;
+          if (ok) correct += 1;
+          else wrongIds.push(q.id);
+        });
+        var score = Math.round((correct / EXAM_DATABASE.length) * 100);
+        $("stampScore").textContent = score + "/100";
+        updateScoreBanner(score);
+        if (window.anime) {
+          try {
+            anime({
+              targets: "#dim",
+              opacity: [0, 1],
+              duration: 360,
+              easing: "linear",
+              complete: function () {
+                document.body.classList.add("exam-overlay-open");
+                $("submitExam").disabled = true;
+              }
+            });
+            anime({
+              targets: "#stamp",
+              opacity: [0, 1],
+              scale: [0, 1.12, 1],
+              rotate: [-14, -12],
+              delay: 180,
+              duration: 780,
+              easing: "easeOutElastic(1,.58)",
+              complete: function () {
+                $("stamp").style.opacity = "1";
+                $("stamp").style.transform = "translate(-50%, -50%) rotate(-12deg) scale(1)";
+              }
+            });
+          } catch (animErr) {
+            $("dim").style.opacity = "1";
+            $("stamp").style.opacity = "1";
+            $("stamp").style.transform = "translate(-50%, -50%) rotate(-12deg) scale(1)";
+            document.body.classList.add("exam-overlay-open");
+            $("submitExam").disabled = true;
+          }
+        } else {
+          $("dim").style.opacity = "1";
+          $("stamp").style.opacity = "1";
+          $("stamp").style.transform = "translate(-50%, -50%) rotate(-12deg) scale(1)";
+          document.body.classList.add("exam-overlay-open");
+          $("submitExam").disabled = true;
+        }
+        markWrong();
+        if (score === 100) unlockNext();
+      }
+
+      function markWrong() {
+        EXAM_DATABASE.forEach(function (q) {
+          var card = $("qCard" + q.id);
+          var rw = $("qReview" + q.id);
+          var ok = answers[q.id] === q.answer;
+          card.classList.toggle("q-ok", ok);
+          card.classList.toggle("q-wrong", !ok);
+          if (rw) {
+            rw.classList.toggle("show", !ok);
+            $("review" + q.id).classList.remove("show");
+          }
+        });
+        $("scoreHint").textContent = wrongIds.length
+          ? "错题卡片下方可点「苏格拉底式阅卷详解」查看预置详解与同类拓展。全部错题都查看过后，可解锁前往档案室。交卷后点 ✕ 或灰色遮罩可收起分数面板。"
+          : "满分！可以前往档案室。点 ✕ 或灰色遮罩可收起分数面板。";
+      }
+
+      function loadReview(qid) {
+        if (wrongIds.indexOf(qid) < 0) return;
+        var box = $("review" + qid);
+        box.classList.add("show");
+        if (reviewCache[qid]) {
+          box.innerHTML = reviewCache[qid];
+          reviewed[qid] = true;
+          if (wrongIds.every(function (id) { return reviewed[id]; })) unlockNext();
+          return;
+        }
+        var q = EXAM_DATABASE.find(function (x) { return x.id === qid; });
+        var html = PREWRITTEN_REVIEWS[qid];
+        if (html) {
+          reviewCache[qid] = html;
+          box.innerHTML = html;
+        } else if (q) {
+          var fb = document.createElement("div");
+          fb.className = "review-body";
+          fb.style.whiteSpace = "pre-wrap";
+          fb.textContent = localHint(q);
+          box.innerHTML = "";
+          box.appendChild(fb);
+          reviewCache[qid] = box.innerHTML;
+        }
+        reviewed[qid] = true;
+        if (wrongIds.every(function (id) { return reviewed[id]; })) unlockNext();
+      }
+
+      function localHint(q) {
+        var tail =
+          "\n【同类拓展】（离线示例）\n1) 再造一句含同一结构的句子并自判对错。\n2) 把题干关键词替换成人名/地名后再选一次。\n【启发提问】题干里哪个词决定了谓语或介词的选择？";
+        if (/There be|就近|There/.test(q.point)) {
+          return (
+            "【考点回顾】" +
+            q.point +
+            "\n【选项辨析】There be 句型不能用 have/has。谓语与离它最近的名词保持数的一致。\n【解题步骤】①找谓语位置 ②看最近名词单复数 ③排除 has/have。\n【启发提问】如果把 and 两边的名词顺序对调，谓语要不要改？" +
+            tail
+          );
+        }
+        if (/物主|形物代|名物代/.test(q.point)) {
+          return (
+            "【考点回顾】" +
+            q.point +
+            "\n【选项辨析】形容词性物主代词后必须接名词；名词性物主代词单独使用，相当于名词。\n【解题步骤】看空格后有无名词→决定用哪一类物主词。\n【启发提问】能否把选项代入后朗读整句检查是否完整？" +
+            tail
+          );
+        }
+        if (/所有格/.test(q.point)) {
+          return (
+            "【考点回顾】" +
+            q.point +
+            "\n【选项辨析】复数名词以 s 结尾时常加撇号在 s 后表示「们的」。\n【解题步骤】先判断拥有一方是单数还是群体→写对应所有格。\n【启发提问】Teachers 与 Teachers' 在句中角色有何不同？" +
+            tail
+          );
+        }
+        if (/宾语|陈述语序/.test(q.point)) {
+          return (
+            "【考点回顾】" +
+            q.point +
+            "\n【选项辨析】宾语从句要用陈述语序：连接词 + 主语 + 谓语。\n【解题步骤】把从句单独拿出来看是否像陈述句。\n【启发提问】where is the library 何时成立？放进从句里应改成什么？" +
+            tail
+          );
+        }
+        if (/条件|主将从现/.test(q.point)) {
+          return (
+            "【考点回顾】" +
+            q.point +
+            "\n【选项辨析】if 引导的条件状语从句表将来时常用一般现在时，主句才用 will。\n【解题步骤】圈出主从句→先填从句时态。\n【启发提问】tomorrow 出现在从句里能否直接用 will？" +
+            tail
+          );
+        }
+        return (
+          "【考点回顾】" +
+          q.point +
+          "\n【选项辨析】请核对题干语境与固定搭配。\n【解题步骤】①译中文②排除明显不合语法项③代入朗读。\n【启发提问】哪个选项最贴合语境关键词？" +
+          tail
+        );
+      }
+
+      function unlockNext() {
+        $("nextPage").classList.add("show");
+        if (window.anime) anime({ targets: "#nextPage", opacity: [0, 1], translateY: [20, 0], duration: 520, easing: "easeOutBack" });
+      }
+
+      function init() {
+        renderQuestions();
+        updateAnsweredCount();
+        $("submitExam").addEventListener("click", submitExam);
+        $("stampClose").addEventListener("click", function (ev) {
+          ev.stopPropagation();
+          dismissResultsOverlay();
+        });
+        $("dim").addEventListener("click", dismissResultsOverlay);
+        document.addEventListener("keydown", function (ev) {
+          if (ev.key === "Escape" && document.body.classList.contains("exam-overlay-open")) {
+            dismissResultsOverlay();
+          }
+        });
+        $("openingVoice").addEventListener("click", function () {
+          playExamVoice("Detectives, silence please. The final trial begins now.", "exam");
+        });
+      }
+
+      init();
+    })();
+  </script>
+</body>
+</html>

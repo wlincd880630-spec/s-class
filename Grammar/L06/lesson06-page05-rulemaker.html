@@ -1,0 +1,1456 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>第06讲 · Page 05 · 规则定制工坊（综合输出）</title>
+  <!--
+    Vertex Imagen 3.0 Fast · 校长室讲台与双黑板（可与 assets/vertex 对齐后替换 url）
+    背景提示词：A grand wooden podium in a magical school, two large floating blackboards in the background.
+      Warm magical lighting, high-end crayon illustration style.
+    左侧黑板：A classic dark green school blackboard with a wooden frame, crayon art style.
+    右侧软木板：A cozy cork notice board with pinned paper notes, crayon art style.
+  -->
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
+  <script src="https://aka.ms/csspeech/jsbrowserpackageraw"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/lesson-screen-16x9.css" />
+  <style>
+    :root {
+      --ink: #2c1810;
+      --paper: #fff9f0;
+      --edge: #5d4037;
+      --must: #c62828;
+      --haveto: #37474f;
+      --mustnt: #283593;
+      --donthave: #f9a825;
+      --can: #00897b;
+      --cannot: #00695c;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      touch-action: manipulation;
+      background: #1a0f18;
+      color: var(--ink);
+      font-family: system-ui, "Microsoft YaHei", sans-serif;
+    }
+    body.has-lesson-pager { --lesson-foot-h: 0px; --lesson-pager-gap: 4.35rem; }
+
+    .app {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      justify-content: flex-start;
+      border: 6px solid rgba(255, 213, 79, 0.38);
+      border-radius: 255px 18px 235px 22px / 22px 235px 22px 255px;
+      background:
+        linear-gradient(165deg, rgba(44, 24, 16, 0.55) 0%, rgba(26, 15, 24, 0.35) 45%, rgba(255, 245, 228, 0.12) 100%),
+        radial-gradient(ellipse 90% 80% at 50% 20%, rgba(255, 213, 79, 0.15), transparent 55%),
+        linear-gradient(168deg, #1e120c 0%, #3e2723 40%, #5d4037 65%, #2c1810 100%);
+      background-size: cover;
+      box-shadow: inset 0 0 80px rgba(0, 0, 0, 0.45);
+    }
+    .app::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: repeating-linear-gradient(95deg, rgba(255, 255, 255, 0.02) 0 2px, transparent 2px 14px);
+      opacity: 0.5;
+    }
+
+    .top-bar {
+      position: relative;
+      z-index: 40;
+      flex-shrink: 0;
+      align-self: center;
+      width: min(96%, 1100px);
+      margin-top: max(8px, env(safe-area-inset-top));
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: start;
+      gap: 10px;
+      padding: 10px 16px;
+      border: 5px solid var(--edge);
+      border-radius: 26px 14px 24px 16px;
+      background: linear-gradient(180deg, #fffef7 0%, #ffe0b2 100%);
+      box-shadow: 6px 8px 0 rgba(62, 39, 35, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.85);
+    }
+    .top-bar > div:nth-child(2) {
+      min-width: 0;
+    }
+    .lesson-tag {
+      align-self: center;
+      border: 3px solid #f0ad4e;
+      border-radius: 999px;
+      padding: 6px 12px;
+      font-weight: 1000;
+      font-size: clamp(11px, 0.95vw, 14px);
+      color: #4e342e;
+      background: linear-gradient(180deg, #fff8dc, #ffcc80);
+      white-space: nowrap;
+    }
+    h1 {
+      margin: 0;
+      font-family: "ZCOOL KuaiLe", sans-serif;
+      font-size: clamp(17px, 2vw, 30px);
+      color: #4a148c;
+      text-shadow: 2px 2px 0 rgba(255, 213, 79, 0.5);
+      line-height: 1.15;
+    }
+    details.rule-hint {
+      margin-top: 6px;
+      font-size: clamp(9px, 0.78vw, 11px);
+      font-weight: 750;
+      color: #5d4037;
+      cursor: pointer;
+    }
+    details.rule-hint summary {
+      list-style: none;
+      outline: none;
+      user-select: none;
+    }
+    details.rule-hint summary::-webkit-details-marker { display: none; }
+    details.rule-hint summary::before {
+      content: "ⓘ ";
+      color: #7e57c2;
+      font-weight: 900;
+    }
+    details.rule-hint p {
+      margin: 6px 0 0;
+      line-height: 1.45;
+    }
+    details.rule-hint .hint-block {
+      margin-top: 10px;
+      padding-top: 8px;
+      border-top: 2px dashed rgba(93, 64, 55, 0.25);
+    }
+    details.rule-hint .hint-block:first-of-type {
+      margin-top: 6px;
+      padding-top: 0;
+      border-top: none;
+    }
+    details.rule-hint strong {
+      color: #4a148c;
+    }
+
+    .golden-strip {
+      flex-shrink: 0;
+      align-self: center;
+      width: min(98%, 1080px);
+      margin: 0 6px;
+      padding: 8px 12px 10px;
+      border-radius: 18px 12px 16px 14px;
+      border: 4px solid rgba(126, 87, 194, 0.45);
+      background:
+        linear-gradient(165deg, rgba(255, 255, 255, 0.14) 0%, transparent 42%),
+        linear-gradient(180deg, rgba(38, 22, 48, 0.65), rgba(22, 12, 28, 0.78));
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+    }
+    .golden-strip-inner {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 8px 12px;
+      align-items: center;
+    }
+    @media (max-width: 720px) {
+      .golden-strip-inner {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+      .btn-golden-speak { justify-self: center; }
+    }
+    .golden-label {
+      font-family: "ZCOOL KuaiLe", sans-serif;
+      font-size: clamp(11px, 1vw, 14px);
+      font-weight: 1000;
+      color: #ffe082;
+      white-space: nowrap;
+      text-shadow: 0 1px 6px rgba(0, 0, 0, 0.45);
+    }
+    .golden-text {
+      min-width: 0;
+    }
+    .golden-en {
+      margin: 0;
+      font-family: "Patrick Hand", cursive;
+      font-size: clamp(14px, 1.35vw, 20px);
+      font-weight: 900;
+      color: #fffde7;
+      line-height: 1.25;
+      letter-spacing: 0.02em;
+    }
+    .golden-zh {
+      margin: 4px 0 0;
+      font-size: clamp(9px, 0.82vw, 12px);
+      font-weight: 780;
+      color: rgba(255, 249, 230, 0.88);
+      line-height: 1.35;
+    }
+    .btn-golden-speak {
+      appearance: none;
+      border: 4px solid var(--edge);
+      border-radius: 999px;
+      padding: 8px 14px;
+      cursor: pointer;
+      font-weight: 1000;
+      font-family: inherit;
+      font-size: clamp(11px, 0.95vw, 14px);
+      color: #4e342e;
+      background: linear-gradient(180deg, #fffef5 0%, #ffcc80 100%);
+      box-shadow: 2px 4px 0 rgba(62, 39, 35, 0.18);
+      white-space: nowrap;
+      touch-action: manipulation;
+    }
+    .btn-golden-speak:active {
+      transform: translateY(2px);
+      box-shadow: 0 1px 0 rgba(62, 39, 35, 0.15);
+    }
+
+    .board-micro {
+      margin: 0;
+      font-size: clamp(9px, 0.78vw, 11px);
+      font-weight: 800;
+      color: rgba(255, 248, 225, 0.82);
+      text-align: center;
+      opacity: 0.95;
+      line-height: 1.3;
+    }
+    .score-chip {
+      align-self: center;
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-weight: 1000;
+      font-size: clamp(12px, 1vw, 15px);
+      color: #3e2723;
+      background: linear-gradient(180deg, #e8f5e9, #a5d6a7);
+      border: 3px solid #66bb6a;
+      white-space: nowrap;
+    }
+
+    .stage {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      padding: 6px 8px 4px;
+      gap: 6px;
+      z-index: 5;
+    }
+    .workbench-split {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: row;
+      align-items: stretch;
+      gap: 10px;
+      padding: 0 4px;
+    }
+    .pick-panel {
+      flex: 0 0 33%;
+      max-width: 34%;
+      min-width: 200px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding: 10px 10px 12px;
+      border-radius: 18px 12px 16px 14px;
+      border: 5px solid rgba(93, 64, 55, 0.5);
+      background: linear-gradient(175deg, #fffef9 0%, #ffe8c8 100%);
+      box-shadow: inset 0 0 24px rgba(255, 213, 79, 0.12), 4px 6px 0 rgba(62, 39, 35, 0.12);
+      overflow: hidden;
+      touch-action: pan-y;
+    }
+    .pick-heading {
+      margin: 0;
+      font-family: "ZCOOL KuaiLe", sans-serif;
+      font-size: clamp(12px, 1.05vw, 15px);
+      font-weight: 1000;
+      color: #4a148c;
+      flex-shrink: 0;
+    }
+    .modal-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 6px;
+      flex-shrink: 0;
+      min-height: 132px;
+      align-content: start;
+    }
+    .modal-choice {
+      margin: 0;
+      padding: 8px 6px;
+      border-radius: 12px 8px 12px 10px;
+      border: 3px solid rgba(0, 0, 0, 0.28);
+      font-family: "Patrick Hand", cursive;
+      font-weight: 1000;
+      font-size: clamp(12px, 1vw, 16px);
+      color: #fff;
+      cursor: pointer;
+      touch-action: manipulation;
+      box-shadow: 0 3px 0 rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.28);
+    }
+    .modal-choice.selected {
+      outline: 4px solid #ffd54f;
+      box-shadow: 0 0 16px rgba(255, 213, 79, 0.55), 0 3px 0 rgba(0, 0, 0, 0.2);
+    }
+    .modal-choice.chip-can { background: linear-gradient(175deg, #26a69a, #00695c); }
+    .modal-choice.chip-cannot { background: linear-gradient(175deg, #00897b, #004d40); }
+    .modal-choice.chip-must { background: linear-gradient(175deg, #ef5350, #b71c1c); }
+    .modal-choice.chip-haveto { background: linear-gradient(175deg, #607d8b, #263238); }
+    .modal-choice.chip-mustnt { background: linear-gradient(175deg, #5c6bc0, #1a237e); }
+    .modal-choice.chip-donthave { background: linear-gradient(175deg, #ffca28, #f57f17); color: #3e2723; }
+    .phrase-list {
+      flex: 1;
+      min-height: 80px;
+      overflow-y: auto;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      padding-right: 4px;
+      scrollbar-width: thin;
+    }
+    .phrase-choice {
+      margin: 0;
+      padding: 8px 10px;
+      border-radius: 14px 8px 12px 10px;
+      border: 3px solid rgba(93, 64, 55, 0.38);
+      background: linear-gradient(165deg, #fffdf8, #fff3e0);
+      font-family: "Patrick Hand", cursive;
+      font-size: clamp(13px, 1.12vw, 18px);
+      color: #3e2723;
+      text-align: left;
+      cursor: pointer;
+      touch-action: manipulation;
+      line-height: 1.25;
+    }
+    .phrase-choice.selected {
+      border-color: #7e57c2;
+      background: linear-gradient(165deg, #f3e5f5, #e1bee7);
+      box-shadow: 0 0 12px rgba(126, 87, 194, 0.35);
+    }
+    .pick-placeholder {
+      margin: 0;
+      padding: 12px 8px;
+      font-size: clamp(11px, 0.95vw, 14px);
+      font-weight: 780;
+      color: rgba(93, 64, 55, 0.78);
+      text-align: center;
+      line-height: 1.4;
+    }
+    .drag-clone-pick {
+      position: fixed;
+      z-index: 9999;
+      pointer-events: none;
+      opacity: 0.94;
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.38);
+    }
+
+    .rule-panel {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 12px;
+      padding: 14px 14px 18px;
+      border-radius: 22px 14px 20px 16px;
+      position: relative;
+      transition: border-color 0.25s ease, background 0.25s ease;
+    }
+    .rule-panel--school {
+      border: 6px solid rgba(129, 199, 132, 0.65);
+      background:
+        linear-gradient(rgba(46, 125, 50, 0.22), rgba(27, 94, 32, 0.35)),
+        repeating-linear-gradient(transparent 0 26px, rgba(255, 255, 255, 0.04) 26px 27px),
+        rgba(18, 10, 22, 0.35);
+    }
+    .rule-panel--family {
+      border: 6px solid rgba(255, 183, 77, 0.72);
+      background:
+        linear-gradient(rgba(141, 110, 99, 0.22), rgba(109, 76, 65, 0.38)),
+        repeating-linear-gradient(88deg, transparent 0 11px, rgba(255, 255, 255, 0.03) 11px 12px),
+        rgba(18, 10, 22, 0.35);
+    }
+    .round-badge {
+      font-family: "ZCOOL KuaiLe", sans-serif;
+      font-weight: 1000;
+      font-size: clamp(14px, 1.35vw, 20px);
+      color: #fff8e1;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
+      text-align: center;
+    }
+    .sentence-live {
+      width: 100%;
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 22px 20px;
+      border-radius: 22px 12px 20px 14px;
+      border: 5px solid rgba(255, 255, 255, 0.22);
+      background: rgba(0, 0, 0, 0.28);
+      font-family: "Patrick Hand", cursive;
+      font-size: clamp(20px, 2.4vw, 34px);
+      font-weight: 900;
+      color: #fffde7;
+      line-height: 1.35;
+      text-align: center;
+      box-shadow: inset 0 0 28px rgba(0, 0, 0, 0.25);
+    }
+    .sentence-live .sw { color: #ffe082; margin-right: 0.15em; }
+    .sentence-live .dot { margin-left: 0.05em; }
+    .blank-piece {
+      display: inline-block;
+      margin: 0 0.12em;
+      padding: 2px 10px 4px;
+      min-width: 2.5em;
+      border-radius: 10px 6px 10px 8px;
+      border: 3px dashed rgba(255, 241, 118, 0.55);
+      background: rgba(0, 0, 0, 0.25);
+      color: #fff9c4;
+      vertical-align: baseline;
+    }
+    .blank-piece.filled {
+      border-style: solid;
+      border-color: rgba(129, 212, 250, 0.65);
+      color: #e1f5fe;
+    }
+    .btn-submit-rule {
+      appearance: none;
+      border: 5px solid var(--edge);
+      border-radius: 999px;
+      padding: 12px 28px;
+      font-family: "ZCOOL KuaiLe", sans-serif;
+      font-weight: 1000;
+      font-size: clamp(15px, 1.35vw, 20px);
+      cursor: pointer;
+      color: #4e342e;
+      background: linear-gradient(180deg, #fffef5 0%, #ffcc80 100%);
+      box-shadow: 4px 6px 0 rgba(62, 39, 35, 0.18);
+      touch-action: manipulation;
+    }
+    .btn-submit-rule:active {
+      transform: translateY(3px);
+      box-shadow: 1px 2px 0 rgba(62, 39, 35, 0.15);
+    }
+    .btn-submit-rule:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+      transform: none;
+    }
+    .preview-hint {
+      margin: 0;
+      font-size: clamp(11px, 0.95vw, 14px);
+      font-weight: 820;
+      color: rgba(255, 248, 225, 0.88);
+      text-align: center;
+    }
+    @keyframes slotShake {
+      0%, 100% { transform: translateX(0); }
+      20% { transform: translateX(-6px); }
+      40% { transform: translateX(6px); }
+      60% { transform: translateX(-4px); }
+      80% { transform: translateX(4px); }
+    }
+    .rule-panel.shake-panel { animation: slotShake 0.42s ease-in-out; }
+    #submitRing {
+      position: absolute;
+      left: 50%;
+      top: 42%;
+      margin-left: -22px;
+      margin-top: -22px;
+      width: 44px;
+      height: 44px;
+      pointer-events: none;
+    }
+
+    .board-micro {
+      margin: 0;
+      font-size: clamp(10px, 0.88vw, 13px);
+      font-weight: 800;
+      color: rgba(255, 248, 225, 0.88);
+      text-align: center;
+      line-height: 1.35;
+    }
+
+    .magic-ring {
+      position: absolute;
+      left: 50%;
+      top: -14px;
+      width: 36px;
+      height: 36px;
+      margin-left: -18px;
+      border: 3px solid rgba(129, 212, 250, 0.65);
+      border-radius: 50%;
+      animation: spinRing 1.2s linear infinite;
+      opacity: 0;
+      pointer-events: none;
+    }
+    .magic-ring.on { opacity: 1; }
+    @keyframes spinRing {
+      to { transform: rotate(360deg); }
+    }
+
+    .bubble {
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 500;
+      width: min(90vw, 520px);
+      display: none;
+      padding: 20px 20px 16px;
+      border: 6px solid var(--edge);
+      border-radius: 28px 14px 26px 16px;
+      background: linear-gradient(180deg, #fffef9, #ffe0b2);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+      text-align: center;
+    }
+    .bubble.show { display: block; }
+    .bubble h2 {
+      margin: 0 0 10px;
+      font-family: "ZCOOL KuaiLe", sans-serif;
+      color: #4a148c;
+      font-size: clamp(20px, 2vw, 28px);
+    }
+    .bubble p { margin: 0; font-weight: 850; color: #4e342e; line-height: 1.5; font-size: clamp(13px, 1.1vw, 16px); }
+    .btn {
+      margin-top: 14px;
+      border: 4px solid var(--edge);
+      border-radius: 999px;
+      padding: 10px 22px;
+      font-weight: 1000;
+      cursor: pointer;
+      background: linear-gradient(180deg, #fffef5, #ffcc80);
+      font-family: inherit;
+    }
+
+    .ui-lock {
+      position: fixed;
+      inset: 0;
+      z-index: 450;
+      display: none;
+      background: transparent;
+    }
+    .ui-lock.show { display: block; }
+
+    .finish {
+      position: fixed;
+      inset: 0;
+      z-index: 600;
+      display: none;
+      place-items: center;
+      background: rgba(10, 6, 12, 0.82);
+      padding: 20px;
+    }
+    .finish.show { display: grid; }
+    .finish-card {
+      max-width: 560px;
+      padding: 24px 22px;
+      border-radius: 24px 14px 22px 16px;
+      border: 6px solid #ffd54f;
+      background: linear-gradient(180deg, #fffde7, #ffe082);
+      text-align: center;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+    }
+    .finish-card h2 {
+      font-family: "ZCOOL KuaiLe", sans-serif;
+      color: #4a148c;
+      margin: 0 0 12px;
+    }
+    .gold-stamp {
+      display: inline-block;
+      margin: 12px 0;
+      padding: 18px 22px;
+      border: 6px solid #c62828;
+      border-radius: 12px;
+      background: linear-gradient(165deg, #fff8e1, #ffecb3);
+      font-weight: 1000;
+      color: #b71c1c;
+      letter-spacing: 0.06em;
+      box-shadow: 4px 6px 0 rgba(62, 39, 35, 0.25);
+      transform: rotate(-2deg);
+    }
+    .finish-card a.btn-link {
+      display: inline-flex;
+      margin-top: 14px;
+      text-decoration: none;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .firework-particle {
+      position: fixed;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 590;
+    }
+
+    @media (max-width: 720px) {
+      .workbench-split {
+        flex-direction: column;
+      }
+      .pick-panel {
+        flex: 0 0 auto;
+        max-width: none;
+      }
+      .phrase-list {
+        max-height: 28vh;
+      }
+    }
+  </style>
+</head>
+<body class="has-lesson-pager">
+  <main class="app" id="app">
+    <header class="top-bar">
+      <div class="lesson-tag">第06讲 · P05</div>
+      <div>
+        <h1>规则定制工坊 · Rule Maker</h1>
+        <details class="rule-hint">
+          <summary>玩法 · 教师串讲 · 双引擎</summary>
+          <div class="hint-block">
+            <p><strong>身体参与</strong>：左侧点选或拖到句中空格；情态词进第一空，短语进第二空。</p>
+            <p><strong>听觉锚点</strong>：每条「颁布成功」自动 TTS；也可先点页面中部<strong>金句条「听示范」</strong>跟读。</p>
+            <p><strong>可复述金句</strong>：<span lang="en">We must follow the rules, but we don't have to be perfect.</span>（must 守底线，don't have to 留余地）</p>
+          </div>
+          <div class="hint-block">
+            <p><strong>教师串讲约 30 秒（建议）</strong>：同学们，本页<strong>前 5 条</strong>是<strong>校纪硬度</strong>——秩序、安全、统一；<strong>后 5 条</strong>是<strong>家里弹性</strong>——习惯、体谅、商量。同一短语在不同场景里语气可能完全不同：先问「这是公共规则还是家庭约定？」再选情态词。</p>
+          </div>
+          <div class="hint-block">
+            <p>校园 5 条 + 家庭 5 条（同一界面逐条颁布）。先过本地搭配矩阵，再过 DeepSeek；离谱句会被吐槽，可改选后重试。</p>
+          </div>
+        </details>
+      </div>
+      <div class="score-chip"><span id="prog">0</span> / 10 条已颁布</div>
+    </header>
+
+    <div class="stage">
+    <div class="golden-strip" role="region" aria-label="本页金句听觉锚点">
+      <div class="golden-strip-inner">
+        <span class="golden-label">听觉锚点</span>
+        <div class="golden-text">
+          <p class="golden-en" lang="en">We must follow the rules, but we don't have to be perfect.</p>
+          <p class="golden-zh">前 5 条偏「硬」（校园公约）；后 5 条偏「柔」（家庭约定）。点 🔊 先建立语感，再在左侧点选拼装。</p>
+        </div>
+        <button type="button" class="btn-golden-speak" id="btnGoldenSpeak" aria-label="朗读金句示范">🔊 听示范</button>
+      </div>
+    </div>
+    <section class="workbench workbench-split" aria-label="选择与拼装">
+      <aside class="pick-panel" id="pickPanel">
+        <p class="pick-heading">情态动词（点选或拖到句中第一个空格）</p>
+        <div class="modal-grid" id="modalGrid" role="group" aria-label="情态动词">
+          <button type="button" class="modal-choice chip-can" data-modal="can">can</button>
+          <button type="button" class="modal-choice chip-cannot" data-modal="cannot">cannot</button>
+          <button type="button" class="modal-choice chip-must" data-modal="must">must</button>
+          <button type="button" class="modal-choice chip-haveto" data-modal="have to">have to</button>
+          <button type="button" class="modal-choice chip-mustnt" data-modal="mustn't">mustn't</button>
+          <button type="button" class="modal-choice chip-donthave" data-modal="don't have to">don't have to</button>
+        </div>
+        <p class="pick-heading">短语词条 · 本局剩余 <span id="remainCount">10</span></p>
+        <div class="phrase-list" id="phraseList" role="listbox" aria-label="行为短语"></div>
+      </aside>
+      <section class="rule-panel rule-panel--school" id="rulePanel" aria-live="polite">
+        <div class="round-badge" id="roundBadge">第 1 / 10 条 · 校园公约</div>
+        <p class="board-micro" id="roundMicro">硬度 · 秩序 / 安全 / 统一</p>
+        <div class="sentence-live" id="sentenceLive">
+          <span class="sw">We</span>
+          <span class="blank-piece" id="dispModal">_____</span>
+          <span class="blank-piece" id="dispPhrase">_____</span><span class="dot">.</span>
+        </div>
+        <div class="magic-ring" id="submitRing" aria-hidden="true"></div>
+        <button type="button" class="btn-submit-rule" id="btnSubmitRule">颁布本条</button>
+        <p class="preview-hint" id="previewHint">左侧点选或拖到句中空格；选好后点「颁布本条」</p>
+      </section>
+    </section>
+
+    </div>
+
+    <aside class="bubble" id="bubble" role="dialog" aria-modal="true" aria-labelledby="bubbleTitle">
+      <h2 id="bubbleTitle">教导主任有话说</h2>
+      <p id="bubbleText"></p>
+      <button type="button" class="btn" id="bubbleOk">知道了，重拼</button>
+    </aside>
+
+    <div class="ui-lock" id="uiLock"></div>
+
+    <section class="finish" id="finish">
+      <div class="finish-card">
+        <h2>秩序重建完成！</h2>
+        <div class="gold-stamp">CHIEF DETECTIVE<br />HEADMASTER</div>
+        <p style="margin:0;font-weight:900;color:#4e342e;line-height:1.5;">
+          你已走完<strong>情境 → 辨析 → 产出</strong>里的产出环：10 条规则既合语法又合常理。下一步「真实运用」会在日记与口语里继续打磨。
+        </p>
+        <a class="btn btn-link" id="nextLink" href="lesson06-page06-diary.html">前往 Page 06 · 实战照妖镜（日记纠错）→</a>
+      </div>
+    </section>
+  </main>
+
+  <nav class="lesson-pager" aria-label="课程页导航">
+    <a class="pager-prev" href="lesson06-page04-mustnt-donthaveto.html">← 上一页 · Page 04</a>
+    <span class="pager-mid">L06 · Page 05 / 11</span>
+    <a class="pager-next" href="lesson06-page06-diary.html">下一页 · Page 06 →</a>
+  </nav>
+
+  <script>
+    (function () {
+      "use strict";
+
+      /** L06·P05：课程主轴「情境→辨析(P04)→产出(本页)→真实运用」中的产出环；双引擎 = 本地脚手架 + 云端最近发展区。 */
+      var GOLDEN_QUOTE_EN = "We must follow the rules, but we don't have to be perfect.";
+      /** Azure / DeepSeek 按课程设置直写。 */
+      var AZURE_KEY = "DKRXk8ueSfo5NdIOMqFRTCAfpeGDezJ3Snf5K8gGgtyqxiWdugLzJQQJ99BLACHYHv6XJ3w3AAAYACOGUYP9";
+      var AZURE_REGION = "eastus2";
+      var DEEPSEEK_KEY = "sk-daa16008e81843deba6fefe9dce51465";
+      var DEEPSEEK_ENDPOINT = "https://api.deepseek.com/v1/chat/completions";
+
+      var PHRASES = [
+        "arrive late for class",
+        "run in the hallways",
+        "eat in the dining hall",
+        "wear a uniform",
+        "keep quiet in the library",
+        "fight with classmates",
+        "bring mobile phones to school",
+        "clean the classroom every day",
+        "hand in homework on time",
+        "listen to music in class",
+        "make the bed in the morning",
+        "help with housework",
+        "stay up too late",
+        "leave dirty dishes in the sink",
+        "read a book before sleep",
+        "go out on school nights",
+        "wash hands before meals",
+        "respect older people",
+        "cheat on an exam",
+        "talk loudly in public",
+        "take photos in the museum",
+        "park the car in front of the gate",
+        "practice the piano for an hour",
+        "walk the dog after dinner",
+        "eat too much junk food",
+        "cross the street on a red light",
+        "pay attention to the teacher",
+        "bring outside food into the cinema",
+        "finish reading the task",
+        "return the books on time"
+      ];
+
+      var MODALS = ["can", "cannot", "must", "have to", "mustn't", "don't have to"];
+
+      /**
+       * 教研矩阵：每条例句在「校」「家」场景下允许的情态动词集合。
+       * 设计意图：覆盖中考高频搭配，同时拦截「鼓励迟到 / 作弊」等荒谬规则。
+       */
+      var ALLOW = [
+        { school: ["mustn't", "cannot"], family: ["mustn't", "cannot"] },
+        { school: ["mustn't", "cannot"], family: ["mustn't", "cannot"] },
+        { school: ["must", "have to", "can"], family: ["must", "can", "have to"] },
+        { school: ["must", "have to"], family: ["don't have to", "can"] },
+        { school: ["must", "have to"], family: ["must", "have to"] },
+        { school: ["mustn't", "cannot"], family: ["mustn't", "cannot"] },
+        { school: ["cannot", "mustn't"], family: ["cannot", "mustn't"] },
+        { school: ["must", "have to"], family: ["must", "have to"] },
+        { school: ["must", "have to"], family: ["must", "have to"] },
+        { school: ["cannot", "mustn't"], family: ["cannot", "mustn't"] },
+        { school: ["must", "have to"], family: ["must", "have to"] },
+        { school: ["must", "have to", "can"], family: ["must", "have to", "can"] },
+        { school: ["mustn't", "cannot"], family: ["mustn't", "cannot"] },
+        { school: ["mustn't"], family: ["mustn't"] },
+        { school: ["must", "can"], family: ["must", "can"] },
+        { school: ["cannot", "mustn't"], family: ["mustn't", "cannot"] },
+        { school: ["must"], family: ["must"] },
+        { school: ["must"], family: ["must"] },
+        { school: ["mustn't", "cannot"], family: ["mustn't", "cannot"] },
+        { school: ["mustn't", "cannot"], family: ["mustn't", "cannot"] },
+        { school: ["can", "mustn't"], family: ["can", "mustn't"] },
+        { school: ["mustn't", "cannot"], family: ["mustn't", "cannot"] },
+        { school: ["must", "have to", "can"], family: ["must", "have to", "can"] },
+        { school: ["must", "have to"], family: ["must", "have to"] },
+        { school: ["mustn't"], family: ["mustn't"] },
+        { school: ["mustn't", "cannot"], family: ["mustn't", "cannot"] },
+        { school: ["must"], family: ["must"] },
+        { school: ["mustn't", "cannot"], family: ["mustn't", "cannot"] },
+        { school: ["must", "have to"], family: ["must", "have to"] },
+        { school: ["must", "have to"], family: ["must", "have to"] }
+      ];
+
+      function normalizeModal(m) {
+        var s = (m || "").trim().toLowerCase();
+        if (s === "can't") return "cannot";
+        return s;
+      }
+
+      function buildSentence(modal, phrase) {
+        var m = modal.trim();
+        return "We " + m + " " + phrase + ".";
+      }
+
+      function offlineValidate(modal, phraseIdx, board) {
+        var m = normalizeModal(modal);
+        var row = ALLOW[phraseIdx];
+        if (!row) return { ok: false, roast: "短语索引异常，请刷新页面。" };
+        var list = board === "school" ? row.school : row.family;
+        if (list.indexOf(m) >= 0) return { ok: true };
+        return {
+          ok: false,
+          roast: roastForWrong(m, phraseIdx, board)
+        };
+      }
+
+      function roastForWrong(modal, phraseIdx, board) {
+        var p = PHRASES[phraseIdx];
+        var m = normalizeModal(modal);
+        if (/cheat|fight|junk|red light|park.*gate|outside food into the cinema|stay up too late|dirty dishes|late for class|run in the hall|music in class|phones/.test(p)) {
+          if (m === "must" || m === "have to" || m === "can") {
+            return "大侦探，这条行为多半是「红线」或「义务禁止」——你想鼓励大家" + p + "？校规可不是段子手文案哦。";
+          }
+        }
+        if (/wear a uniform/.test(p) && board === "school" && m === "don't have to") {
+          return "大侦探，在学校讨论制服：通常是硬性要求。想一想 must / have to 比「没必要穿」更符合真实校纪。";
+        }
+        if (/wear a uniform/.test(p) && board === "family" && (m === "must" || m === "have to")) {
+          return "在家场景里，制服往往不是硬性 daily 义务；试试 don't have to / can 表达「在家可放松」。";
+        }
+        return "大侦探，情态动词的「语气」与场景不匹配哦。试试换一个情态词，或换一条更贴场景的短语。";
+      }
+
+      function deepseekReview(sentence, boardType) {
+        if (!DEEPSEEK_KEY) return Promise.resolve(null);
+        var scene =
+          boardType === "school"
+            ? "校园公约（School Rules），偏校纪、安全与公共秩序"
+            : "家庭约定（Family Rules），偏生活习惯、亲子约定";
+        return fetch(DEEPSEEK_ENDPOINT, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Authorization: "Bearer " + DEEPSEEK_KEY },
+          body: JSON.stringify({
+            model: "deepseek-chat",
+            temperature: 0.2,
+            max_tokens: 120,
+            messages: [
+              {
+                role: "system",
+                content:
+                  "你是一位幽默的教导主任。学生拼装了一句英文规则。你需要判断这句规则在现实校园或家庭中是否合乎常理。如果合情合理，只回复单词 VALID。如果荒谬（例如规定学生必须上课迟到，或者绝对禁止做作业），请用中文进行简短（50字内）的吐槽与反问。不要输出其他英文解释。"
+              },
+              {
+                role: "user",
+                content: "规则句子：" + sentence + "\n场景说明：" + scene + "\n请先判断是否 VALID；若离谱则只给中文吐槽。"
+              }
+            ]
+          })
+        })
+          .then(function (r) {
+            return r.ok ? r.json() : null;
+          })
+          .then(function (data) {
+            var t =
+              data &&
+              data.choices &&
+              data.choices[0] &&
+              data.choices[0].message &&
+              data.choices[0].message.content;
+            return t ? String(t).trim() : null;
+          })
+          .catch(function () {
+            return null;
+          });
+      }
+
+      var synthPending = null;
+      function speakRule(text) {
+        if (!window.SpeechSDK) {
+          fallbackSpeech(text);
+          return;
+        }
+        try {
+          if (synthPending) {
+            try {
+              synthPending.close();
+            } catch (e) {}
+            synthPending = null;
+          }
+          var cfg = SpeechSDK.SpeechConfig.fromSubscription(AZURE_KEY, AZURE_REGION);
+          cfg.speechSynthesisVoiceName = "en-US-AriaNeural";
+          var syn = new SpeechSDK.SpeechSynthesizer(cfg);
+          var ssml =
+            '<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xmlns:mstts="http://www.w3.org/2001/mstts" xml:lang="en-US">' +
+            '<voice name="en-US-AriaNeural">' +
+            '<mstts:express-as style="serious">' +
+            "<prosody rate=\"-4%\">" +
+            escapeXml(text) +
+            "</prosody>" +
+            "</mstts:express-as>" +
+            "</voice></speak>";
+          syn.speakSsmlAsync(
+            ssml,
+            function () {
+              syn.close();
+            },
+            function () {
+              syn.close();
+              fallbackSpeech(text);
+            }
+          );
+          synthPending = syn;
+        } catch (err) {
+          fallbackSpeech(text);
+        }
+      }
+
+      function escapeXml(s) {
+        return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/\"/g, "&quot;");
+      }
+
+      function fallbackSpeech(text) {
+        try {
+          var u = new SpeechSynthesisUtterance(text);
+          u.lang = "en-US";
+          u.rate = 0.92;
+          window.speechSynthesis.speak(u);
+        } catch (e) {}
+      }
+
+      var MODAL_CHIP = {
+        can: "chip-can",
+        cannot: "chip-cannot",
+        must: "chip-must",
+        "have to": "chip-haveto",
+        "mustn't": "chip-mustnt",
+        "don't have to": "chip-donthave"
+      };
+
+      var modalGrid = null;
+      var phraseList = null;
+      var remainCountEl = null;
+      var rulePanel = null;
+      var roundBadge = null;
+      var roundMicro = null;
+      var dispModal = null;
+      var dispPhrase = null;
+      var previewHint = null;
+      var btnSubmitRule = null;
+      var submitRing = null;
+
+      var progEl = null;
+      var bubble = null;
+      var bubbleText = null;
+      var bubbleOk = null;
+      var uiLock = null;
+      var finish = null;
+
+      function ensureDomRefs() {
+        modalGrid = document.getElementById("modalGrid");
+        phraseList = document.getElementById("phraseList");
+        remainCountEl = document.getElementById("remainCount");
+        rulePanel = document.getElementById("rulePanel");
+        roundBadge = document.getElementById("roundBadge");
+        roundMicro = document.getElementById("roundMicro");
+        dispModal = document.getElementById("dispModal");
+        dispPhrase = document.getElementById("dispPhrase");
+        previewHint = document.getElementById("previewHint");
+        btnSubmitRule = document.getElementById("btnSubmitRule");
+        submitRing = document.getElementById("submitRing");
+        progEl = document.getElementById("prog");
+        bubble = document.getElementById("bubble");
+        bubbleText = document.getElementById("bubbleText");
+        bubbleOk = document.getElementById("bubbleOk");
+        uiLock = document.getElementById("uiLock");
+        finish = document.getElementById("finish");
+      }
+
+      var lockedCount = 0;
+      var remaining = [];
+      var selectedModal = null;
+      var selectedPhraseIdx = null;
+      var validating = false;
+      var pickDrag = null;
+
+      function animeRun(opts) {
+        if (window.anime) return window.anime(opts).finished;
+        return Promise.resolve();
+      }
+
+      function setBusy(on) {
+        if (!uiLock) return;
+        uiLock.classList.toggle("show", on);
+      }
+
+      function shuffle(arr) {
+        var a = arr.slice();
+        for (var i = a.length - 1; i > 0; i--) {
+          var j = Math.floor(Math.random() * (i + 1));
+          var t = a[i];
+          a[i] = a[j];
+          a[j] = t;
+        }
+        return a;
+      }
+
+      function pickPhraseIndices() {
+        return shuffle(PHRASES.map(function (_, i) {
+          return i;
+        })).slice(0, 10);
+      }
+
+      function currentBoard() {
+        return lockedCount < 5 ? "school" : "family";
+      }
+
+      function updateRoundChrome() {
+        if (!roundBadge || !rulePanel || !roundMicro) return;
+        var nextNum = lockedCount + 1;
+        var b = currentBoard();
+        roundBadge.textContent =
+          "第 " + nextNum + " / 10 条 · " + (b === "school" ? "校园公约" : "家庭约定");
+        rulePanel.classList.remove("rule-panel--school", "rule-panel--family");
+        rulePanel.classList.add(b === "school" ? "rule-panel--school" : "rule-panel--family");
+        roundMicro.textContent =
+          b === "school" ? "硬度 · 秩序 / 安全 / 统一" : "弹性 · 习惯 / 体谅 / 商量";
+      }
+
+      function refreshDisplayBlanks() {
+        if (!dispModal || !dispPhrase) return;
+        dispModal.textContent = selectedModal || "_____";
+        dispPhrase.textContent = selectedPhraseIdx != null ? PHRASES[selectedPhraseIdx] : "_____";
+        dispModal.classList.toggle("filled", !!selectedModal);
+        dispPhrase.classList.toggle("filled", selectedPhraseIdx != null);
+      }
+
+      function rectHitPx(x, y, rect, pad) {
+        pad = pad || 0;
+        return (
+          x >= rect.left - pad &&
+          x <= rect.right + pad &&
+          y >= rect.top - pad &&
+          y <= rect.bottom + pad
+        );
+      }
+
+      function removePickDragClone() {
+        if (pickDrag && pickDrag.clone) {
+          try {
+            pickDrag.clone.remove();
+          } catch (e) {}
+        }
+        pickDrag = null;
+      }
+
+      function onPickDragMove(ev) {
+        if (!pickDrag) return;
+        pickDrag.clone.style.transform =
+          "translate(" + (ev.clientX - pickDrag.startX) + "px," + (ev.clientY - pickDrag.startY) + "px)";
+      }
+
+      function onPickDragUp(ev) {
+        if (!pickDrag) return;
+        ensureDomRefs();
+        if (!dispPhrase || !dispModal) {
+          removePickDragClone();
+          return;
+        }
+        window.removeEventListener("pointermove", onPickDragMove);
+        window.removeEventListener("pointerup", onPickDragUp);
+        window.removeEventListener("pointercancel", onPickDragUp);
+        var srcBtn = pickDrag.sourceBtn;
+        if (srcBtn) srcBtn.dataset.suppressClick = "1";
+        var x = ev.clientX;
+        var y = ev.clientY;
+        var rPhrase = dispPhrase.getBoundingClientRect();
+        var rModal = dispModal.getBoundingClientRect();
+        var DROP_PAD = 28;
+        if (pickDrag.type === "phrase" && rectHitPx(x, y, rPhrase, DROP_PAD)) {
+          selectedPhraseIdx = pickDrag.phraseIdx;
+          renderPhraseList();
+          refreshDisplayBlanks();
+        } else if (pickDrag.type === "modal" && rectHitPx(x, y, rModal, DROP_PAD)) {
+          selectedModal = pickDrag.modalKey;
+          syncModalSelected();
+          refreshDisplayBlanks();
+        }
+        removePickDragClone();
+      }
+
+      function startPhrasePickDrag(btn, phraseIdx, clientX, clientY) {
+        var clone = btn.cloneNode(true);
+        clone.classList.add("drag-clone-pick");
+        clone.style.position = "fixed";
+        var rect = btn.getBoundingClientRect();
+        clone.style.left = rect.left + "px";
+        clone.style.top = rect.top + "px";
+        clone.style.width = rect.width + "px";
+        clone.style.boxSizing = "border-box";
+        document.body.appendChild(clone);
+        pickDrag = {
+          type: "phrase",
+          clone: clone,
+          phraseIdx: phraseIdx,
+          sourceBtn: btn,
+          startX: clientX,
+          startY: clientY
+        };
+        window.addEventListener("pointermove", onPickDragMove);
+        window.addEventListener("pointerup", onPickDragUp);
+        window.addEventListener("pointercancel", onPickDragUp);
+      }
+
+      function startModalPickDrag(btn, modalKey, clientX, clientY) {
+        var clone = document.createElement("div");
+        clone.className = btn.className + " drag-clone-pick";
+        clone.textContent = btn.textContent || modalKey;
+        clone.style.position = "fixed";
+        var rect = btn.getBoundingClientRect();
+        clone.style.left = rect.left + "px";
+        clone.style.top = rect.top + "px";
+        clone.style.minWidth = rect.width + "px";
+        clone.style.boxSizing = "border-box";
+        document.body.appendChild(clone);
+        pickDrag = {
+          type: "modal",
+          clone: clone,
+          modalKey: modalKey,
+          sourceBtn: btn,
+          startX: clientX,
+          startY: clientY
+        };
+        window.addEventListener("pointermove", onPickDragMove);
+        window.addEventListener("pointerup", onPickDragUp);
+        window.addEventListener("pointercancel", onPickDragUp);
+      }
+
+      function bindPhraseDragArm(btn, phraseIdx) {
+        btn.addEventListener("pointerdown", function (ev) {
+          if (validating) return;
+          var arm = { x: ev.clientX, y: ev.clientY };
+          function move(ev2) {
+            if (!arm || pickDrag) return;
+            var dx = Math.abs(ev2.clientX - arm.x);
+            var dy = Math.abs(ev2.clientY - arm.y);
+            if (dx + dy > 10) {
+              try {
+                btn.setPointerCapture(ev.pointerId);
+              } catch (e) {}
+              window.removeEventListener("pointermove", move);
+              window.removeEventListener("pointerup", cancelArm);
+              startPhrasePickDrag(btn, phraseIdx, arm.x, arm.y);
+              arm = null;
+            }
+          }
+          function cancelArm() {
+            window.removeEventListener("pointermove", move);
+            window.removeEventListener("pointerup", cancelArm);
+            arm = null;
+          }
+          window.addEventListener("pointermove", move);
+          window.addEventListener("pointerup", cancelArm, { once: true });
+        });
+      }
+
+      function bindModalDragArm(btn, modalKey) {
+        btn.addEventListener("pointerdown", function (ev) {
+          if (validating) return;
+          var arm = { x: ev.clientX, y: ev.clientY };
+          function move(ev2) {
+            if (!arm || pickDrag) return;
+            var dx = Math.abs(ev2.clientX - arm.x);
+            var dy = Math.abs(ev2.clientY - arm.y);
+            if (dx + dy > 10) {
+              try {
+                btn.setPointerCapture(ev.pointerId);
+              } catch (e) {}
+              window.removeEventListener("pointermove", move);
+              window.removeEventListener("pointerup", cancelArm);
+              startModalPickDrag(btn, modalKey, arm.x, arm.y);
+              arm = null;
+            }
+          }
+          function cancelArm() {
+            window.removeEventListener("pointermove", move);
+            window.removeEventListener("pointerup", cancelArm);
+            arm = null;
+          }
+          window.addEventListener("pointermove", move);
+          window.addEventListener("pointerup", cancelArm, { once: true });
+        });
+      }
+
+      function renderModalGrid() {
+        if (!modalGrid) return;
+        if (!modalGrid.querySelector(".modal-choice")) {
+          modalGrid.innerHTML = "";
+          MODALS.forEach(function (m) {
+            var b = document.createElement("button");
+            b.type = "button";
+            b.className = "modal-choice " + (MODAL_CHIP[m] || "");
+            b.dataset.modal = m;
+            b.textContent = m;
+            modalGrid.appendChild(b);
+          });
+        }
+        modalGrid.querySelectorAll(".modal-choice").forEach(function (btn) {
+          var m = btn.dataset.modal;
+          if (!m || btn.dataset.pickUiBound === "1") return;
+          btn.dataset.pickUiBound = "1";
+          btn.addEventListener("click", function () {
+            if (validating) return;
+            if (btn.dataset.suppressClick === "1") {
+              btn.dataset.suppressClick = "";
+              return;
+            }
+            selectedModal = m;
+            syncModalSelected();
+            refreshDisplayBlanks();
+          });
+          bindModalDragArm(btn, m);
+        });
+      }
+
+      function syncModalSelected() {
+        if (!modalGrid) return;
+        modalGrid.querySelectorAll(".modal-choice").forEach(function (el) {
+          el.classList.toggle("selected", el.dataset.modal === selectedModal);
+        });
+      }
+
+      function bindPhraseListDelegation() {
+        if (!phraseList || phraseList.dataset.delegateBound === "1") return;
+        phraseList.dataset.delegateBound = "1";
+        phraseList.addEventListener("click", function (ev) {
+          var raw = ev.target;
+          var t = raw && raw.closest ? raw.closest(".phrase-choice") : null;
+          if (!t || validating) return;
+          if (t.dataset.suppressClick === "1") {
+            t.dataset.suppressClick = "";
+            return;
+          }
+          var idx = parseInt(t.dataset.idx, 10);
+          if (isNaN(idx)) return;
+          selectedPhraseIdx = idx;
+          phraseList.querySelectorAll(".phrase-choice").forEach(function (el) {
+            el.classList.toggle("selected", parseInt(el.dataset.idx, 10) === selectedPhraseIdx);
+          });
+          refreshDisplayBlanks();
+        });
+      }
+
+      function renderPhraseList() {
+        if (!phraseList) return;
+        bindPhraseListDelegation();
+        phraseList.innerHTML = "";
+        remaining
+          .slice()
+          .sort(function (a, b) {
+            return a - b;
+          })
+          .forEach(function (pi) {
+            var btn = document.createElement("button");
+            btn.type = "button";
+            btn.className = "phrase-choice";
+            btn.setAttribute("role", "option");
+            btn.dataset.idx = String(pi);
+            btn.textContent = PHRASES[pi];
+            bindPhraseDragArm(btn, pi);
+            phraseList.appendChild(btn);
+          });
+        if (remainCountEl) remainCountEl.textContent = String(remaining.length);
+      }
+
+      function validateCurrent() {
+        if (validating) return;
+        ensureDomRefs();
+        if (!previewHint || !submitRing || !rulePanel) return;
+        if (!selectedModal || selectedPhraseIdx == null) {
+          previewHint.textContent = "请先点选或拖入：情态词 + 短语";
+          return;
+        }
+        var board = currentBoard();
+        var sentence = buildSentence(selectedModal, PHRASES[selectedPhraseIdx]);
+        var local = offlineValidate(selectedModal, selectedPhraseIdx, board);
+
+        validating = true;
+        setBusy(true);
+        submitRing.classList.add("on");
+
+        function applyResult(finalOk, roast) {
+          submitRing.classList.remove("on");
+          validating = false;
+          if (finalOk) {
+            lockedCount++;
+            if (progEl) progEl.textContent = String(lockedCount);
+            speakRule(sentence);
+            remaining = remaining.filter(function (x) {
+              return x !== selectedPhraseIdx;
+            });
+            selectedModal = null;
+            selectedPhraseIdx = null;
+            syncModalSelected();
+            renderPhraseList();
+            refreshDisplayBlanks();
+            previewHint.textContent =
+              lockedCount >= 10 ? "全部颁布完成！" : "本条已通过！继续下一条。";
+            animeRun({
+              targets: rulePanel,
+              scale: [1, 1.02, 1],
+              duration: 480,
+              easing: "easeOutElastic(1, .55)"
+            }).then(function () {
+              setBusy(false);
+              if (lockedCount >= 10) {
+                showFinish();
+              } else {
+                updateRoundChrome();
+              }
+            });
+          } else {
+            if (!rulePanel) return;
+            rulePanel.classList.add("shake-panel");
+            animeRun({
+              targets: rulePanel,
+              translateX: [0, -6, 6, -4, 4, 0],
+              duration: 420,
+              easing: "easeInOutQuad"
+            }).then(function () {
+              rulePanel.classList.remove("shake-panel");
+              if (bubbleText) bubbleText.textContent = roast || "再想想看～";
+              if (bubble) bubble.classList.add("show");
+              setBusy(true);
+            });
+          }
+        }
+
+        if (DEEPSEEK_KEY && local.ok) {
+          deepseekReview(sentence, board)
+            .then(function (cloud) {
+              if (!cloud || !String(cloud).trim()) {
+                applyResult(true);
+                return;
+              }
+              if (!/^VALID\b/i.test(String(cloud).trim())) {
+                applyResult(false, cloud);
+              } else {
+                applyResult(true);
+              }
+            })
+            .catch(function () {
+              applyResult(true);
+            });
+          return;
+        }
+
+        window.setTimeout(function () {
+          applyResult(local.ok, local.roast);
+        }, local.ok ? 320 : 0);
+      }
+
+      function showFinish() {
+        spawnFireworks();
+        if (finish) finish.classList.add("show");
+        animeRun({
+          targets: ".finish-card",
+          scale: [0.2, 1.05, 1],
+          opacity: [0, 1],
+          duration: 780,
+          easing: "easeOutElastic(1, .52)"
+        });
+      }
+
+      function spawnFireworks() {
+        var host = document.getElementById("app");
+        var rect = host.getBoundingClientRect();
+        var colors = ["#ff7043", "#ffca28", "#66bb6a", "#42a5f5", "#ab47bc"];
+        for (var i = 0; i < 36; i++) {
+          var p = document.createElement("div");
+          p.className = "firework-particle";
+          p.style.left = rect.width * 0.2 + Math.random() * rect.width * 0.6 + "px";
+          p.style.top = rect.height * 0.25 + Math.random() * rect.height * 0.35 + "px";
+          p.style.background = colors[i % colors.length];
+          document.body.appendChild(p);
+          if (window.anime) {
+            anime({
+              targets: p,
+              translateX: (Math.random() - 0.5) * 220,
+              translateY: (Math.random() - 0.5) * 220,
+              opacity: [1, 0],
+              scale: [1, 0.2],
+              duration: 900 + Math.random() * 400,
+              easing: "easeOutQuad",
+              complete: function () {
+                try {
+                  p.remove();
+                } catch (e) {}
+              }
+            });
+          }
+        }
+      }
+
+      var __rulemakerInited = false;
+
+      function init() {
+        ensureDomRefs();
+        if (__rulemakerInited) return;
+        if (!modalGrid || !phraseList || !dispModal || !dispPhrase) {
+          console.warn("[rulemaker] 缺少关键节点（#modalGrid / #phraseList / 句中空格），无法初始化。");
+          return;
+        }
+        remaining = pickPhraseIndices();
+        lockedCount = 0;
+        selectedModal = null;
+        selectedPhraseIdx = null;
+        if (progEl) progEl.textContent = "0";
+        renderModalGrid();
+        renderPhraseList();
+        updateRoundChrome();
+        refreshDisplayBlanks();
+        if (previewHint) previewHint.textContent = "左侧点选或拖到句中空格；选好后点「颁布本条」";
+        var btnGolden = document.getElementById("btnGoldenSpeak");
+        if (btnGolden && btnGolden.dataset.rulemakerGoldenBound !== "1") {
+          btnGolden.dataset.rulemakerGoldenBound = "1";
+          btnGolden.addEventListener("click", function () {
+            speakRule(GOLDEN_QUOTE_EN);
+          });
+        }
+        __rulemakerInited = true;
+      }
+
+      function safeBoot() {
+        try {
+          init();
+        } catch (err) {
+          console.error("[rulemaker]", err);
+        }
+      }
+
+      safeBoot();
+      if (!__rulemakerInited) {
+        document.addEventListener("DOMContentLoaded", safeBoot);
+        window.addEventListener("load", safeBoot);
+      }
+
+      if (bubbleOk && bubble) {
+        bubbleOk.addEventListener("click", function () {
+          bubble.classList.remove("show");
+          setBusy(false);
+        });
+      }
+      if (btnSubmitRule) {
+        btnSubmitRule.addEventListener("click", validateCurrent);
+      }
+    })();
+  </script>
+</body>
+</html>

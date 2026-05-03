@@ -1,0 +1,2539 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <!-- spa-assets-inlined -->
+
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>第01讲 · 终极试炼场 · 一般现在时综合测试</title>
+  <script src="../assets/lesson-tts-azure-config.js"></script>
+  <script src="../assets/lesson-tts-azure-play.js"></script>
+  <style>
+    :root {
+      --paper: #fff9f0;
+      --crayon-red: #e85d4c;
+      --crayon-blue: #4a90d9;
+      --crayon-green: #5cb85c;
+      --crayon-purple: #9b59b6;
+      --crayon-orange: #f0ad4e;
+      --ink: #2c2c2c;
+      --shadow: rgba(60, 40, 20, 0.12);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+      background:
+        radial-gradient(circle at 15% 25%, rgba(255, 220, 180, 0.4) 0%, transparent 45%),
+        radial-gradient(circle at 85% 75%, rgba(200, 230, 255, 0.35) 0%, transparent 40%),
+        linear-gradient(168deg, #ffeaa7 0%, #fab1a0 38%, #dfe6e9 100%);
+      color: var(--ink);
+      padding: 1rem;
+      padding-bottom: 4rem;
+    }
+    .book {
+      max-width: 720px;
+      margin: 0 auto;
+      background: var(--paper);
+      border-radius: 8px 28px 12px 20px;
+      border: 4px solid var(--crayon-orange);
+      box-shadow:
+        6px 8px 0 var(--crayon-red),
+        12px 16px 24px var(--shadow);
+      padding: 1.35rem 1.5rem 2rem;
+      position: relative;
+    }
+    .book::before {
+      content: "";
+      position: absolute;
+      inset: 8px;
+      border: 2px dashed rgba(200, 160, 100, 0.45);
+      border-radius: 4px 20px 8px 6px;
+      pointer-events: none;
+    }
+    .top-bar {
+      position: relative;
+      z-index: 1;
+      padding: 0.4rem 0.85rem;
+      margin-bottom: 1rem;
+      background: linear-gradient(90deg, rgba(255, 255, 255, 0.75), rgba(255, 248, 230, 0.95));
+      border-radius: 999px;
+      border: 3px solid var(--crayon-blue);
+      font-size: 0.88rem;
+      color: #444;
+      text-align: center;
+      box-shadow: 2px 3px 0 rgba(0, 0, 0, 0.06);
+    }
+    .top-bar strong { color: var(--crayon-red); }
+    h1.page-title {
+      font-family: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+      font-size: 1.42rem;
+      margin: 0 0 0.75rem;
+      color: var(--crayon-red);
+      text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.06);
+      text-align: center;
+    }
+    .btn-row {
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+      margin-top: 1rem;
+    }
+    button.crayon {
+      touch-action: manipulation;
+      font-family: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+      font-size: 1.05rem;
+      padding: 0.45rem 1rem;
+      border: none;
+      border-radius: 255px 25px 225px 25px / 25px 225px 25px 255px;
+      cursor: pointer;
+      color: #fff;
+      box-shadow: 3px 4px 0 rgba(0, 0, 0, 0.15);
+      transition: transform 0.08s ease, box-shadow 0.08s ease, background 0.2s ease;
+    }
+    button.crayon:hover:not(:disabled) { transform: translateY(-1px) rotate(-0.3deg); }
+    button.crayon:active:not(:disabled) {
+      transform: translateY(2px);
+      box-shadow: 1px 2px 0 rgba(0, 0, 0, 0.12);
+    }
+    button.crayon:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
+    .b-red { background: var(--crayon-red); }
+    .b-blue { background: var(--crayon-blue); }
+    .b-green { background: var(--crayon-green); }
+    .b-purple { background: var(--crayon-purple); }
+    .b-orange { background: var(--crayon-orange); color: #3d2a0a !important; }
+    .b-kraft { background: #8d6e63; color: #fff !important; }
+    .stage { position: relative; z-index: 1; }
+    .hidden { display: none !important; }
+    .quiz-head {
+      margin-bottom: 1rem;
+    }
+    .progress-wrap {
+      height: 14px;
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.08);
+      overflow: hidden;
+      border: 2px solid rgba(0, 0, 0, 0.12);
+      margin-bottom: 0.45rem;
+    }
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--crayon-green), var(--crayon-blue));
+      border-radius: 999px;
+      transition: width 0.35s ease;
+    }
+    .quiz-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.86rem;
+      color: #555;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+    }
+    .stars {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.15rem;
+      align-items: center;
+      font-size: 0.95rem;
+      letter-spacing: 0.05em;
+    }
+    .q-type-tag {
+      display: inline-block;
+      font-size: 0.72rem;
+      padding: 0.15rem 0.45rem;
+      border-radius: 6px;
+      background: rgba(74, 144, 217, 0.2);
+      color: #1565c0;
+      margin-bottom: 0.5rem;
+    }
+    .q-text {
+      font-family: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+      font-size: 1.35rem;
+      line-height: 1.5;
+      color: #1a1a2e;
+      margin: 0.5rem 0 1rem;
+      padding: 0.85rem 1rem;
+      background: linear-gradient(180deg, #fff 0%, #fffdf8 100%);
+      border-left: 6px solid var(--crayon-blue);
+      border-radius: 4px 14px 18px 4px;
+    }
+    .options-wrap {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 0.45rem 0.55rem;
+      align-items: stretch;
+    }
+    .opt-btn {
+      flex: 1 1 calc(50% - 0.3rem);
+      min-width: 8.5rem;
+      text-align: left;
+      font-family: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+      font-size: 1.05rem;
+      padding: 0.45rem 0.75rem;
+      border-radius: 12px;
+      border: 3px solid rgba(0, 0, 0, 0.12);
+      background: rgba(255, 255, 255, 0.85);
+      cursor: pointer;
+      touch-action: manipulation;
+      transition: border-color 0.2s, background 0.2s, transform 0.08s ease;
+    }
+    .opt-btn:active:not(:disabled) {
+      transform: scale(0.98);
+    }
+    @media (min-width: 560px) {
+      .opt-btn {
+        flex: 1 1 calc(25% - 0.45rem);
+        min-width: 7rem;
+      }
+    }
+    .opt-btn:hover:not(:disabled) {
+      border-color: var(--crayon-blue);
+      background: rgba(227, 242, 253, 0.6);
+    }
+    .opt-btn.selected {
+      border-color: var(--crayon-purple);
+      background: rgba(155, 89, 182, 0.15);
+      font-weight: 700;
+    }
+    .opt-btn:disabled { cursor: default; opacity: 0.95; }
+    .opt-btn.correct {
+      border-color: var(--crayon-green);
+      background: rgba(92, 184, 92, 0.25);
+    }
+    .opt-btn.wrong-pick {
+      border-color: #c0392b;
+      background: rgba(231, 76, 60, 0.15);
+    }
+    .fill-input {
+      width: 100%;
+      font-family: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+      font-size: 1.15rem;
+      padding: 0.55rem 0.75rem;
+      border-radius: 12px;
+      border: 3px dashed var(--crayon-orange);
+      background: rgba(255, 255, 255, 0.9);
+      margin-bottom: 0.75rem;
+    }
+    .fill-input:disabled { opacity: 0.85; background: #f5f5f5; }
+    .result-board {
+      text-align: center;
+    }
+    .score-big {
+      font-size: 2.75rem;
+      font-weight: 800;
+      color: var(--crayon-red);
+      text-shadow: 2px 3px 0 rgba(0, 0, 0, 0.08);
+      margin: 0.5rem 0;
+    }
+    .result-stats {
+      font-size: 0.95rem;
+      color: #444;
+      margin: 0.75rem 0;
+    }
+    .weak-box {
+      text-align: left;
+      margin: 1rem 0;
+      padding: 0.75rem 1rem;
+      border-radius: 12px;
+      background: rgba(240, 173, 78, 0.18);
+      border: 2px dashed var(--crayon-orange);
+      font-size: 0.88rem;
+      line-height: 1.55;
+      max-height: 12rem;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .wrong-detail-wrap {
+      text-align: left;
+      margin: 1rem 0 0;
+      padding: 0.65rem 0.85rem;
+      border-radius: 14px;
+      border: 3px dashed rgba(192, 57, 43, 0.45);
+      background: rgba(255, 243, 224, 0.65);
+    }
+    .wrong-detail-wrap h3 {
+      margin: 0 0 0.5rem;
+      font-size: 0.92rem;
+      color: #c0392b;
+    }
+    .wrong-list-scroll {
+      margin: 0;
+      padding: 0 0 0 1.1rem;
+      max-height: 14rem;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      font-size: 0.82rem;
+      line-height: 1.55;
+      color: #444;
+    }
+    .wrong-list-scroll li {
+      margin: 0.25rem 0;
+    }
+    .q-explain {
+      margin: 0.75rem 0 0;
+      padding: 0.65rem 0.85rem;
+      border-radius: 12px;
+      background: rgba(227, 242, 253, 0.65);
+      border: 2px dashed rgba(74, 144, 217, 0.35);
+      font-size: 0.88rem;
+      line-height: 1.6;
+      color: #37474f;
+      text-align: left;
+    }
+    .q-pitfall {
+      margin: 0.55rem 0 0;
+      padding: 0.65rem 0.85rem;
+      border-radius: 12px;
+      background: rgba(255, 243, 224, 0.9);
+      border: 2px solid rgba(192, 57, 43, 0.25);
+      font-size: 0.86rem;
+      line-height: 1.65;
+      color: #5d4037;
+      text-align: left;
+    }
+    .q-skill {
+      margin: 0.55rem 0 0;
+      padding: 0.55rem 0.8rem;
+      border-radius: 12px;
+      background: rgba(92, 184, 92, 0.12);
+      border: 2px dashed rgba(92, 184, 92, 0.32);
+      font-size: 0.85rem;
+      line-height: 1.6;
+      color: #2e7d32;
+      text-align: left;
+    }
+    .production-box {
+      text-align: left;
+      margin: 1rem 0 0;
+      padding: 0.85rem 1rem;
+      border-radius: 14px;
+      background: rgba(227, 242, 253, 0.72);
+      border: 2px dashed rgba(74, 144, 217, 0.35);
+      font-size: 0.88rem;
+      line-height: 1.62;
+      color: #37474f;
+    }
+    .production-box h3 {
+      margin: 0 0 0.45rem;
+      font-size: 0.95rem;
+      color: #1565c0;
+    }
+    .production-box p {
+      margin: 0.35rem 0 0;
+    }
+    .data-error-panel {
+      min-height: 52vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem 0.5rem 2rem;
+    }
+    .data-error-inner {
+      max-width: 26rem;
+      padding: 1.35rem 1.5rem 1.5rem;
+      border-radius: 18px 28px 16px 22px;
+      border: 4px solid var(--crayon-orange);
+      background: linear-gradient(180deg, #fffdf6 0%, #fff9f0 100%);
+      box-shadow: 6px 8px 0 var(--crayon-red), 10px 14px 24px var(--shadow);
+      text-align: center;
+    }
+    .data-error-inner .err-icon {
+      font-size: 2.2rem;
+      line-height: 1;
+      margin-bottom: 0.65rem;
+    }
+    .data-error-inner .err-title {
+      font-family: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+      font-size: 1.05rem;
+      color: #c0392b;
+      margin: 0 0 0.75rem;
+      line-height: 1.55;
+    }
+    .data-error-inner .err-hint {
+      font-size: 0.82rem;
+      color: #555;
+      line-height: 1.65;
+      margin: 0;
+    }
+    .data-error-inner code {
+      font-size: 0.78rem;
+      background: rgba(0, 0, 0, 0.06);
+      padding: 0.1rem 0.35rem;
+      border-radius: 4px;
+    }
+    #confetti-canvas {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 999;
+    }
+    .lesson-footer-nav {
+      max-width: 720px;
+      margin: 1rem auto 0;
+      padding: 0.5rem;
+      text-align: center;
+      font-size: 0.84rem;
+      color: #555;
+    }
+    .lesson-footer-nav a {
+      color: var(--crayon-blue);
+      text-decoration: none;
+      font-weight: 700;
+    }
+    @media print {
+      body { background: #fff !important; padding: 0 !important; }
+      .book { box-shadow: none !important; border: none !important; max-width: 100% !important; }
+      .top-bar { border: 1px solid #ccc !important; }
+      .lesson-footer-nav, button, .btn-row, .quiz-head { display: none !important; }
+      .options-wrap { flex-wrap: wrap !important; }
+      .opt-btn { flex: 1 1 22% !important; min-width: 5.5rem !important; border-width: 1px !important; }
+      .q-text { border-left-width: 3px !important; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+    }
+  </style>
+  <style>
+/* inlined from assets/lesson-screen-16x9.css */
+/**
+ * Lesson 01 / 02 / 03 / 05 统一大屏布局 + 统一字体/字号
+ * 桌面端（约平板横屏以上）：主舞台为视口内最大内接 16:9 矩形，四边留白最小；背景仅露窄边。
+ * 字体：系统无衬线 + 雅黑/苹方/思源黑体，保证课堂可读；英文例句与中文同一栈，仅字号放大。
+ * 各课 HTML 于 head 末引入外部样式表 lesson-screen-16x9.css（勿在本注释中写尖括号 link 标签，以免内联进 HTML 后被误匹配）
+ */
+
+:root {
+  --lesson-font-sans: system-ui, -apple-system, "Segoe UI", "Helvetica Neue", Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+  --lesson-font-zh: var(--lesson-font-sans);
+  --lesson-font-en: var(--lesson-font-sans);
+  /* 根字号：随视口略放大，带动全站 rem */
+  --lesson-fs-html: clamp(16px, 0.55vw + 14px, 20px);
+  --lesson-fs-topbar: clamp(0.88rem, 0.38vw + 0.78rem, 1.02rem);
+  --lesson-fs-body: clamp(0.92rem, 0.42vw + 0.82rem, 1.05rem);
+  --lesson-fs-small: clamp(0.8rem, 0.28vw + 0.72rem, 0.92rem);
+  --lesson-fs-h1: clamp(1.2rem, 0.85vw + 0.95rem, 1.48rem);
+  --lesson-fs-h2: clamp(1.05rem, 0.62vw + 0.86rem, 1.22rem);
+  --lesson-fs-h3: clamp(0.98rem, 0.48vw + 0.8rem, 1.1rem);
+  --lesson-fs-h4: clamp(0.92rem, 0.36vw + 0.76rem, 1.02rem);
+  --lesson-fs-btn: clamp(0.9rem, 0.36vw + 0.8rem, 1.02rem);
+  /* 英文例句 / 展示行：明显大于正文 */
+  --lesson-fs-example: clamp(1.05rem, 0.58vw + 0.9rem, 1.32rem);
+  --lesson-fs-en-line: var(--lesson-fs-example);
+}
+
+/* 主舞台内子元素默认继承字体，压过各页内联里的 Patrick / ZCOOL（后文对 .en / [lang=en] / 例句容器再单独放大） */
+html body .book *:not(code):not(kbd):not(samp):not(pre):not([lang="en"]):not(.en),
+html body .shell *:not(code):not(kbd):not(samp):not(pre):not([lang="en"]):not(.en),
+html body .app *:not(code):not(kbd):not(samp):not(pre):not([lang="en"]):not(.en),
+html body .wrap *:not(code):not(kbd):not(samp):not(pre):not([lang="en"]):not(.en),
+html body .page-wrap *:not(code):not(kbd):not(samp):not(pre):not([lang="en"]):not(.en),
+html body .desk *:not(code):not(kbd):not(samp):not(pre):not([lang="en"]):not(.en),
+html body main.sheet *:not(code):not(kbd):not(samp):not(pre):not([lang="en"]):not(.en) {
+  font-family: inherit;
+}
+
+html {
+  height: 100%;
+  font-size: var(--lesson-fs-html);
+}
+
+body {
+  --lesson-s-t: env(safe-area-inset-top, 0px);
+  --lesson-s-b: env(safe-area-inset-bottom, 0px);
+  --lesson-s-l: env(safe-area-inset-left, 0px);
+  --lesson-s-r: env(safe-area-inset-right, 0px);
+  /* 底部流式页脚（L01/L02 等）预留高度，避免主舞台 + 页脚超出视口 */
+  --lesson-foot-h: 0px;
+  /* 固定底栏占位（L01/L02/L03/L05 统一） */
+  --lesson-pager-gap: 4.35rem;
+  --lesson-l03-pager-gap: var(--lesson-pager-gap);
+  /* 讲义页顶栏工具条粗略高度（打印条 + 可选姓名栏等） */
+  --lesson-handout-chrome: 0px;
+
+  margin: 0 !important;
+  min-height: 100dvh !important;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--lesson-font-zh);
+  line-height: 1.55;
+}
+
+body:has(> .handout-pdf-bar):has(> main.sheet) {
+  --lesson-handout-chrome: 3.75rem;
+  justify-content: flex-start;
+}
+
+body.has-lesson-pager:has(> main.sheet) {
+  --lesson-handout-chrome: 8.5rem;
+  justify-content: flex-start;
+}
+
+/* 去掉各页内联的 body 大留白；L03 单独处理底栏 */
+body:not(.has-lesson-pager) {
+  padding: var(--lesson-s-t) var(--lesson-s-r) var(--lesson-s-b) var(--lesson-s-l) !important;
+}
+
+body.has-lesson-pager {
+  padding-top: max(4px, var(--lesson-s-t)) !important;
+  padding-left: max(4px, var(--lesson-s-l)) !important;
+  padding-right: max(4px, var(--lesson-s-r)) !important;
+  padding-bottom: max(var(--lesson-pager-gap, 4.35rem), var(--lesson-s-b)) !important;
+}
+
+/* —— 全讲统一「页间导航」：固定底栏（与 L03 lesson-pager 视觉一致，兼容旧 class 名） —— */
+body.has-lesson-pager nav.lesson-pager,
+body.has-lesson-pager nav.lesson-footer-nav,
+body.has-lesson-pager div.lesson-footer-nav,
+body.has-lesson-pager nav.page-foot,
+body.has-lesson-pager nav.footer-nav,
+body.has-lesson-pager div.footer-nav {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 200;
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  gap: 0.45rem;
+  padding: 0.42rem 0.55rem;
+  padding-bottom: max(0.42rem, env(safe-area-inset-bottom, 0px));
+  background: rgba(255, 249, 240, 0.98);
+  border-top: 3px solid #5d4037;
+  box-shadow: 0 -8px 22px rgba(0, 0, 0, 0.1);
+  font-family: var(--lesson-font-zh);
+}
+
+body.has-lesson-pager nav.lesson-pager a,
+body.has-lesson-pager nav.lesson-pager .pager-muted,
+body.has-lesson-pager nav.lesson-footer-nav a,
+body.has-lesson-pager div.lesson-footer-nav a,
+body.has-lesson-pager nav.page-foot a,
+body.has-lesson-pager nav.footer-nav a,
+body.has-lesson-pager div.footer-nav a,
+body.has-lesson-pager nav.lesson-footer-nav > span:not(.nav-sep),
+body.has-lesson-pager div.lesson-footer-nav > span:not(.nav-sep),
+body.has-lesson-pager nav.page-foot > span:not(.nav-sep),
+body.has-lesson-pager nav.footer-nav > span:not(.nav-sep),
+body.has-lesson-pager div.footer-nav > span:not(.nav-sep) {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  line-height: 1.35;
+  font-size: clamp(0.7rem, 2.6vw, 0.82rem);
+  font-weight: 800;
+  padding: 0.42rem 0.4rem;
+  border-radius: 999px;
+  border: 3px solid #5d4037;
+  box-shadow: 3px 4px 0 rgba(0, 0, 0, 0.1);
+}
+
+body.has-lesson-pager nav.lesson-pager a,
+body.has-lesson-pager nav.lesson-footer-nav a,
+body.has-lesson-pager div.lesson-footer-nav a,
+body.has-lesson-pager nav.page-foot a,
+body.has-lesson-pager nav.footer-nav a,
+body.has-lesson-pager div.footer-nav a {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+body.has-lesson-pager nav.lesson-pager a:hover,
+body.has-lesson-pager nav.lesson-footer-nav a:hover,
+body.has-lesson-pager div.lesson-footer-nav a:hover,
+body.has-lesson-pager nav.page-foot a:hover,
+body.has-lesson-pager nav.footer-nav a:hover,
+body.has-lesson-pager div.footer-nav a:hover {
+  filter: brightness(1.05);
+}
+
+body.has-lesson-pager nav.lesson-pager .pager-prev,
+body.has-lesson-pager nav.lesson-footer-nav a:first-of-type,
+body.has-lesson-pager div.lesson-footer-nav a:first-of-type,
+body.has-lesson-pager nav.page-foot a:first-of-type,
+body.has-lesson-pager nav.footer-nav a:first-of-type,
+body.has-lesson-pager div.footer-nav a:first-of-type {
+  color: #1565c0;
+  background: rgba(255, 249, 240, 0.98);
+}
+
+body.has-lesson-pager nav.lesson-pager .pager-next,
+body.has-lesson-pager nav.lesson-footer-nav a:last-of-type,
+body.has-lesson-pager div.lesson-footer-nav a:last-of-type,
+body.has-lesson-pager nav.page-foot a:last-of-type,
+body.has-lesson-pager nav.footer-nav a:last-of-type,
+body.has-lesson-pager div.footer-nav a:last-of-type {
+  color: #4e342e;
+  background: linear-gradient(180deg, #ffe082, #ffca28);
+  box-shadow: 0 0 12px rgba(255, 143, 0, 0.35), 3px 4px 0 rgba(0, 0, 0, 0.1);
+}
+
+/* 三链接旧版：中间 <a> 用中性色（非首非尾的链接） */
+body.has-lesson-pager nav.lesson-footer-nav a:not(:first-of-type):not(:last-of-type),
+body.has-lesson-pager div.lesson-footer-nav a:not(:first-of-type):not(:last-of-type),
+body.has-lesson-pager nav.page-foot a:not(:first-of-type):not(:last-of-type),
+body.has-lesson-pager nav.footer-nav a:not(:first-of-type):not(:last-of-type),
+body.has-lesson-pager div.footer-nav a:not(:first-of-type):not(:last-of-type) {
+  color: #37474f;
+  background: rgba(236, 239, 241, 0.96);
+  box-shadow: 2px 3px 0 rgba(0, 0, 0, 0.08);
+}
+
+body.has-lesson-pager nav.lesson-pager .pager-mid {
+  color: #37474f;
+  background: rgba(236, 239, 241, 0.96);
+  box-shadow: 2px 3px 0 rgba(0, 0, 0, 0.08);
+}
+
+body.has-lesson-pager nav.lesson-pager .pager-muted,
+body.has-lesson-pager nav.lesson-footer-nav > span:not(.nav-sep),
+body.has-lesson-pager div.lesson-footer-nav > span:not(.nav-sep),
+body.has-lesson-pager nav.page-foot > span:not(.nav-sep),
+body.has-lesson-pager nav.footer-nav > span:not(.nav-sep),
+body.has-lesson-pager div.footer-nav > span:not(.nav-sep) {
+  color: #78909c;
+  background: rgba(236, 239, 241, 0.95);
+  cursor: default;
+  box-shadow: 2px 3px 0 rgba(0, 0, 0, 0.06);
+}
+
+body.has-lesson-pager .lesson-footer-nav .nav-sep,
+body.has-lesson-pager div.lesson-footer-nav .nav-sep,
+body.has-lesson-pager nav.page-foot .nav-sep,
+body.has-lesson-pager nav.footer-nav .nav-sep,
+body.has-lesson-pager div.footer-nav .nav-sep,
+body.has-lesson-pager div.footer-nav .sep {
+  display: none;
+}
+
+/* L05 Page04：屏内阶段分页条与固定页间底栏错开，避免被遮挡 */
+body.has-lesson-pager .book .pager-foot {
+  margin-bottom: max(0.75rem, var(--lesson-pager-gap, 4.35rem));
+}
+
+/* 英文例句 / 片段：与中文同栈，字号用 --lesson-fs-example（勿给整段中文误标 lang="en"） */
+body .book [lang="en"],
+body .shell [lang="en"],
+body .app [lang="en"],
+body .wrap [lang="en"],
+body .page-wrap [lang="en"],
+body .desk [lang="en"],
+body main.sheet [lang="en"],
+body .book .en,
+body .shell .en,
+body .app .en,
+body .wrap .en,
+body .page-wrap .en,
+body .desk .en,
+body main.sheet .en {
+  font-family: var(--lesson-font-en);
+  font-size: var(--lesson-fs-example);
+}
+
+/* 压过各页内联里对 .en 的 Patrick Hand（与上条同义，提高权重） */
+html body .book .en,
+html body .shell .en,
+html body .app .en,
+html body .wrap .en,
+html body .page-wrap .en,
+html body .desk .en,
+html body main.sheet .en {
+  font-family: var(--lesson-font-en) !important;
+  font-size: var(--lesson-fs-example) !important;
+}
+
+/* 常见「整句英文」容器（部分页未加 .en） */
+body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) :is(
+  .sentence-en,
+  .gold-line,
+  .trap-line,
+  .mirror-word,
+  .contrast-line,
+  .sentence-line,
+  .sentence-main,
+  .voice-line-en,
+  .example-en,
+  .en-line,
+  .ipa-bar
+) {
+  font-family: var(--lesson-font-en);
+  font-size: var(--lesson-fs-example);
+}
+
+/* 标题层级（主舞台内） */
+body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) :is(h1) {
+  font-family: var(--lesson-font-zh);
+  font-size: var(--lesson-fs-h1);
+  line-height: 1.25;
+}
+
+body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) :is(h2) {
+  font-family: var(--lesson-font-zh);
+  font-size: var(--lesson-fs-h2);
+  line-height: 1.3;
+}
+
+body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) :is(h3) {
+  font-family: var(--lesson-font-zh);
+  font-size: var(--lesson-fs-h3);
+  line-height: 1.35;
+}
+
+body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) :is(h4) {
+  font-family: var(--lesson-font-zh);
+  font-size: var(--lesson-fs-h4);
+  line-height: 1.4;
+}
+
+/* 常见标题/条类名（与 h1 同级视觉的条目标题） */
+body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) :is(
+  .page-title,
+  .stage-title,
+  .doc-title,
+  .goal-title,
+  .machine-title,
+  .section-title,
+  .section-label,
+  .column-title,
+  .sk-title,
+  .time-machine .machine-title
+) {
+  font-family: var(--lesson-font-zh);
+  font-size: var(--lesson-fs-h2);
+  line-height: 1.3;
+}
+
+body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) :is(h1.page-title) {
+  font-size: var(--lesson-fs-h1);
+}
+
+/* 顶栏 / 副标题 / 提示条 */
+body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) :is(
+  .top-bar,
+  .top,
+  .sub-hint,
+  .page-subtitle,
+  .hint:not(.no-print),
+  .audio-chip,
+  .phase-pill
+) {
+  font-family: var(--lesson-font-zh);
+  font-size: var(--lesson-fs-topbar);
+}
+
+body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) :is(.page-subtitle, .hint) {
+  font-size: var(--lesson-fs-body);
+  line-height: 1.55;
+}
+
+/* 标签式导航按钮 */
+body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) :is(
+  .phase-tabs button,
+  .tabs .tab,
+  .tab,
+  .phase-nav button
+) {
+  font-family: var(--lesson-font-zh);
+  font-size: var(--lesson-fs-small);
+}
+
+/* 可点击控件：与正文协调 */
+body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) :is(
+  button:not(.hotspot),
+  .btn,
+  .crayon,
+  .btn-row button,
+  .btn-handout-pdf,
+  .btn-glasses,
+  .btn-notes,
+  .btn-tts,
+  input,
+  select,
+  textarea
+) {
+  font-family: var(--lesson-font-zh);
+  font-size: var(--lesson-fs-btn);
+}
+
+body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) :is(button.crayon, .crayon) {
+  font-family: var(--lesson-font-zh);
+}
+
+/* 代码与等宽保持可读 */
+body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) :is(code, kbd, samp, pre) {
+  font-family: ui-monospace, "Cascadia Mono", "Consolas", monospace;
+  font-size: 0.92em;
+}
+
+/* —— 主舞台：默认流式（小屏）；桌面端见下方 media —— */
+body > .book,
+body > .shell,
+body > .app,
+body > .wrap,
+body > .page-wrap,
+body > .desk,
+body > #shakeHost,
+body > .layout,
+body > main.sheet {
+  width: 100%;
+  max-width: 100%;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  box-sizing: border-box;
+  flex: 1 1 auto;
+  min-height: 0;
+  font-family: var(--lesson-font-zh);
+  font-size: 1rem;
+}
+
+/* 正文段落与列表（不覆盖带内联 font-size 的特例时，由继承生效；此处略抬一级） */
+body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) :is(
+  p,
+  li,
+  dd,
+  dt,
+  .guide,
+  .card,
+  .intro-board,
+  .goal-board,
+  .nav-list,
+  .blueprint,
+  .tree-story,
+  .ai-out,
+  .ai-bubble
+) {
+  font-family: var(--lesson-font-zh);
+  font-size: var(--lesson-fs-body);
+}
+
+/* 外层已控宽时，内层 .book 铺满，避免双层 max-width 夹心过窄 */
+body > .shell > .book,
+body > .app > .book,
+body > .page-wrap > .book,
+body > .wrap > .book {
+  width: 100% !important;
+  max-width: none !important;
+}
+
+/* 底部导航与主舞台同宽（仅 body 直接子级，避免误伤页内 .footer-nav） */
+body > .lesson-footer-nav,
+body > nav.lesson-footer-nav,
+body > nav.page-foot,
+body > nav.lesson-pager,
+body > nav.footer-nav,
+body > div.footer-nav {
+  width: 100%;
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+  font-family: var(--lesson-font-zh);
+  font-size: var(--lesson-fs-small);
+  flex-shrink: 0;
+}
+
+.lesson-footer-nav a,
+body > nav.page-foot a {
+  font-family: var(--lesson-font-zh);
+  font-size: inherit;
+}
+
+/* 讲义顶栏与主画布同宽（桌面端由 media 覆盖为 16:9 宽度） */
+body > .handout-pdf-bar,
+body.has-lesson-pager > .handout-pdf-bar,
+body.has-lesson-pager > .name-toolbar {
+  width: 100%;
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+/* 桌面：视口内最大 16:9 内接矩形 */
+@media (min-width: 769px) and (min-height: 560px) {
+  body:not(.has-lesson-pager) > .book,
+  body:not(.has-lesson-pager) > .shell,
+  body:not(.has-lesson-pager) > .app,
+  body:not(.has-lesson-pager) > .wrap,
+  body:not(.has-lesson-pager) > .page-wrap,
+  body:not(.has-lesson-pager) > .desk,
+  body:not(.has-lesson-pager) > #shakeHost,
+  body:not(.has-lesson-pager) > .layout,
+  body:not(.has-lesson-pager) > main.sheet {
+    --stage-vw: calc(100vw - var(--lesson-s-l) - var(--lesson-s-r));
+    --stage-vh: calc(100dvh - var(--lesson-foot-h) - var(--lesson-handout-chrome) - var(--lesson-s-t) - var(--lesson-s-b));
+    width: min(var(--stage-vw), calc(var(--stage-vh) * 16 / 9)) !important;
+    max-width: min(var(--stage-vw), calc(var(--stage-vh) * 16 / 9)) !important;
+    height: min(var(--stage-vh), calc(var(--stage-vw) * 9 / 16)) !important;
+    max-height: min(var(--stage-vh), calc(var(--stage-vw) * 9 / 16)) !important;
+    aspect-ratio: 16 / 9;
+    flex: 0 0 auto;
+    overflow: auto;
+  }
+
+  body.has-lesson-pager > .book,
+  body.has-lesson-pager > .shell,
+  body.has-lesson-pager > .app,
+  body.has-lesson-pager > .wrap,
+  body.has-lesson-pager > .page-wrap,
+  body.has-lesson-pager > .desk,
+  body.has-lesson-pager > #shakeHost,
+  body.has-lesson-pager > .layout,
+  body.has-lesson-pager > main.sheet {
+    --stage-vw: calc(100vw - var(--lesson-s-l) - var(--lesson-s-r) - 8px);
+    --stage-vh: calc(
+      100dvh - var(--lesson-pager-gap, 4.35rem) - var(--lesson-handout-chrome) - max(4px, var(--lesson-s-t)) - max(4px, var(--lesson-s-b))
+    );
+    width: min(var(--stage-vw), calc(var(--stage-vh) * 16 / 9)) !important;
+    max-width: min(var(--stage-vw), calc(var(--stage-vh) * 16 / 9)) !important;
+    height: min(var(--stage-vh), calc(var(--stage-vw) * 9 / 16)) !important;
+    max-height: min(var(--stage-vh), calc(var(--stage-vw) * 9 / 16)) !important;
+    aspect-ratio: 16 / 9;
+    flex: 0 0 auto;
+    overflow: auto;
+  }
+
+  body > .lesson-footer-nav,
+  body > nav.lesson-footer-nav,
+  body > nav.page-foot,
+  body > nav.lesson-pager,
+  body > nav.footer-nav,
+  body > div.footer-nav {
+    width: min(
+        calc(100vw - var(--lesson-s-l) - var(--lesson-s-r)),
+        calc((100dvh - var(--lesson-foot-h) - var(--lesson-s-t) - var(--lesson-s-b)) * 16 / 9)
+      )
+      !important;
+    max-width: min(
+        calc(100vw - var(--lesson-s-l) - var(--lesson-s-r)),
+        calc((100dvh - var(--lesson-foot-h) - var(--lesson-s-t) - var(--lesson-s-b)) * 16 / 9)
+      )
+      !important;
+  }
+
+  body.has-lesson-pager > .lesson-footer-nav,
+  body.has-lesson-pager > nav.lesson-footer-nav,
+  body.has-lesson-pager > nav.page-foot {
+    width: min(
+        calc(100vw - var(--lesson-s-l) - var(--lesson-s-r) - 8px),
+        calc((100dvh - var(--lesson-pager-gap, 4.35rem) - max(4px, var(--lesson-s-t)) - max(4px, var(--lesson-s-b))) * 16 / 9)
+      )
+      !important;
+    max-width: min(
+        calc(100vw - var(--lesson-s-l) - var(--lesson-s-r) - 8px),
+        calc((100dvh - var(--lesson-pager-gap, 4.35rem) - max(4px, var(--lesson-s-t)) - max(4px, var(--lesson-s-b))) * 16 / 9)
+      )
+      !important;
+  }
+
+  /* 固定底栏铺满视口（勿用 16:9 画布宽度约束，否则底栏短于屏幕） */
+  body.has-lesson-pager > nav.lesson-pager,
+  body.has-lesson-pager > nav.lesson-footer-nav,
+  body.has-lesson-pager > div.lesson-footer-nav,
+  body.has-lesson-pager > nav.page-foot,
+  body.has-lesson-pager > nav.footer-nav,
+  body.has-lesson-pager > div.footer-nav {
+    width: 100% !important;
+    max-width: none !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  body > .handout-pdf-bar,
+  body.has-lesson-pager > .handout-pdf-bar,
+  body.has-lesson-pager > .name-toolbar {
+    width: min(
+        calc(100vw - var(--lesson-s-l) - var(--lesson-s-r)),
+        calc((100dvh - var(--lesson-foot-h) - var(--lesson-handout-chrome) - var(--lesson-s-t) - var(--lesson-s-b)) * 16 / 9)
+      )
+      !important;
+    max-width: min(
+        calc(100vw - var(--lesson-s-l) - var(--lesson-s-r)),
+        calc((100dvh - var(--lesson-foot-h) - var(--lesson-handout-chrome) - var(--lesson-s-t) - var(--lesson-s-b)) * 16 / 9)
+      )
+      !important;
+  }
+
+  body.has-lesson-pager > .handout-pdf-bar,
+  body.has-lesson-pager > .name-toolbar {
+    width: min(
+        calc(100vw - var(--lesson-s-l) - var(--lesson-s-r) - 8px),
+        calc((100dvh - var(--lesson-pager-gap, 4.35rem) - var(--lesson-handout-chrome) - max(4px, var(--lesson-s-t)) - max(4px, var(--lesson-s-b))) * 16 / 9)
+      )
+      !important;
+    max-width: min(
+        calc(100vw - var(--lesson-s-l) - var(--lesson-s-r) - 8px),
+        calc((100dvh - var(--lesson-pager-gap, 4.35rem) - var(--lesson-handout-chrome) - max(4px, var(--lesson-s-t)) - max(4px, var(--lesson-s-b))) * 16 / 9)
+      )
+      !important;
+  }
+
+  /* 讲义页首行提示：与主画布同宽 */
+  body:has(> main.sheet) > p.no-print-hint {
+    width: min(
+        calc(100vw - var(--lesson-s-l) - var(--lesson-s-r)),
+        calc((100dvh - var(--lesson-foot-h) - var(--lesson-handout-chrome) - var(--lesson-s-t) - var(--lesson-s-b)) * 16 / 9)
+      )
+      !important;
+    max-width: min(
+        calc(100vw - var(--lesson-s-l) - var(--lesson-s-r)),
+        calc((100dvh - var(--lesson-foot-h) - var(--lesson-handout-chrome) - var(--lesson-s-t) - var(--lesson-s-b)) * 16 / 9)
+      )
+      !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    box-sizing: border-box;
+  }
+
+  body.has-lesson-pager:has(> main.sheet) > p.no-print-hint {
+    width: min(
+        calc(100vw - var(--lesson-s-l) - var(--lesson-s-r) - 8px),
+        calc((100dvh - var(--lesson-pager-gap, 4.35rem) - var(--lesson-handout-chrome) - max(4px, var(--lesson-s-t)) - max(4px, var(--lesson-s-b))) * 16 / 9)
+      )
+      !important;
+    max-width: min(
+        calc(100vw - var(--lesson-s-l) - var(--lesson-s-r) - 8px),
+        calc((100dvh - var(--lesson-pager-gap, 4.35rem) - var(--lesson-handout-chrome) - max(4px, var(--lesson-s-t)) - max(4px, var(--lesson-s-b))) * 16 / 9)
+      )
+      !important;
+  }
+}
+
+@media (max-width: 768px), (max-height: 559px) {
+  body > .book,
+  body > .shell,
+  body > .app,
+  body > .wrap,
+  body > .page-wrap,
+  body > .desk,
+  body > #shakeHost,
+  body > .layout,
+  body > main.sheet {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    max-height: none !important;
+    min-height: 0 !important;
+    aspect-ratio: unset !important;
+    flex: 1 1 auto;
+    overflow: visible;
+  }
+
+  body {
+    justify-content: flex-start;
+  }
+}
+
+@media print {
+  body > .book,
+  body > .shell,
+  body > .app,
+  body > .wrap,
+  body > .page-wrap,
+  body > .desk,
+  body > #shakeHost,
+  body > .layout,
+  body > main.sheet {
+    width: 100% !important;
+    max-width: none !important;
+    height: auto !important;
+    max-height: none !important;
+    min-height: 0 !important;
+    aspect-ratio: unset !important;
+    overflow: visible !important;
+  }
+
+  body.has-lesson-pager nav.lesson-pager,
+  body.has-lesson-pager nav.lesson-pager.no-print,
+  body.has-lesson-pager nav.lesson-footer-nav,
+  body.has-lesson-pager div.lesson-footer-nav,
+  body.has-lesson-pager nav.page-foot,
+  body.has-lesson-pager nav.footer-nav,
+  body.has-lesson-pager div.footer-nav {
+    display: none !important;
+  }
+}
+
+/* —— 可读字体：压过各页内联里对 body / h1 / .en 等的卡通字体（依赖更高选择器权重） —— */
+html body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) {
+  font-family: var(--lesson-font-zh);
+}
+
+html body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) button.crayon,
+html body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) .crayon {
+  font-family: var(--lesson-font-zh);
+}
+
+html body > .lesson-footer-nav,
+html body > nav.lesson-footer-nav,
+html body > nav.page-foot,
+html body > nav.footer-nav,
+html body > div.footer-nav,
+html body > .lesson-progress-chip,
+html body > nav.lesson-pager {
+  font-family: var(--lesson-font-zh);
+}
+
+
+</style>
+</head>
+<body class="has-lesson-pager">
+  <div class="book">
+    <div class="top-bar"><strong>第01讲</strong> · 终极试炼场 · 一般现在时综合（50题 · 选择20/排序10/填空10/改错10）</div>
+    <div class="stage" id="app">
+      <noscript><p style="text-align:center;color:#c62828;">请启用 JavaScript 后刷新本页。</p></noscript>
+    </div>
+  </div>
+  <canvas id="confetti-canvas" class="hidden" aria-hidden="true"></canvas>
+  <nav class="lesson-footer-nav">
+    <a href="index.html">课程目录</a>
+    <span> · </span>
+    <a href="lesson01-page08-wrap.html">本讲小结</a>
+    <span> · </span>
+    <a href="lesson01-handout-zhongkao.html">第01讲学霸笔记</a>
+  </nav>
+  <div id="pdf-student-root" class="hidden" aria-hidden="true"></div>
+  <script charset="utf-8">
+window.L01_QUESTIONS = [
+  {
+    "level": 1,
+    "type": "choice",
+    "source": "教研·第一讲一般现在时综合（肯定/否定/疑问·三单·has·+es·y→ies）",
+    "question": "Does she ___ English every morning?",
+    "options": [
+      "A. study",
+      "B. studies",
+      "C. studying",
+      "D. studied"
+    ],
+    "answer": "A",
+    "explanation": "一般现在时疑问句中，Does 一出场，后面的实义动词必须回到原形，所以要用 study。",
+    "id": 1
+  },
+  {
+    "level": 1,
+    "type": "choice",
+    "source": "教研·第一讲一般现在时综合（肯定/否定/疑问·三单·has·+es·y→ies）",
+    "question": "They ___ like cold weather. They prefer warm days.",
+    "options": [
+      "A. don't",
+      "B. doesn't",
+      "C. isn't",
+      "D. aren't"
+    ],
+    "answer": "A",
+    "explanation": "实义动词 like 的否定：主语 they 为复数，用 don't + like。",
+    "id": 2
+  },
+  {
+    "level": 1,
+    "type": "choice",
+    "source": "教研·第一讲一般现在时综合（肯定/否定/疑问·三单·has·+es·y→ies）",
+    "question": "___ your brother have a pet dog?",
+    "options": [
+      "A. Do",
+      "B. Does",
+      "C. Is",
+      "D. Are"
+    ],
+    "answer": "B",
+    "explanation": "have 作实义动词“有”，第三人称单数主语用 Does 提问。",
+    "id": 3
+  },
+  {
+    "level": 1,
+    "type": "choice",
+    "source": "教研·第一讲一般现在时综合（肯定/否定/疑问·三单·has·+es·y→ies）",
+    "question": "My cat ___ fish for dinner.",
+    "options": [
+      "A. love",
+      "B. loves",
+      "C. loving",
+      "D. loved"
+    ],
+    "answer": "B",
+    "explanation": "第三人称单数，一般现在时 love → loves。",
+    "id": 4
+  },
+  {
+    "level": 1,
+    "type": "choice",
+    "source": "教研·第一讲一般现在时综合（肯定/否定/疑问·三单·has·+es·y→ies）",
+    "question": "The boys ___ football after school.",
+    "options": [
+      "A. play",
+      "B. plays",
+      "C. playing",
+      "D. played"
+    ],
+    "answer": "A",
+    "explanation": "boys 为复数，谓语用原形 play。",
+    "id": 5
+  },
+  {
+    "level": 1,
+    "type": "choice",
+    "source": "教研·第一讲一般现在时综合（肯定/否定/疑问·三单·has·+es·y→ies）",
+    "question": "She ___ to music on the bus.",
+    "options": [
+      "A. listen",
+      "B. listens",
+      "C. listening",
+      "D. listened"
+    ],
+    "answer": "B",
+    "explanation": "She 为三单，listen → listens。",
+    "id": 6
+  },
+  {
+    "level": 2,
+    "type": "choice",
+    "source": "教研·第一讲一般现在时综合（肯定/否定/疑问·三单·has·+es·y→ies）",
+    "question": "He usually ___ a book in the library after class.",
+    "options": [
+      "A. read",
+      "B. reads",
+      "C. reading",
+      "D. is read"
+    ],
+    "answer": "B",
+    "explanation": "usually 表习惯，一般现在时；he 为三单，reads。",
+    "id": 7
+  },
+  {
+    "level": 2,
+    "type": "choice",
+    "source": "教研·第一讲一般现在时综合（肯定/否定/疑问·三单·has·+es·y→ies）",
+    "question": "___ there any milk in the fridge?",
+    "options": [
+      "A. Is",
+      "B. Are",
+      "C. Do",
+      "D. Does"
+    ],
+    "answer": "A",
+    "explanation": "there be 结构；milk 不可数，用 Is there。",
+    "id": 8
+  },
+  {
+    "level": 2,
+    "type": "choice",
+    "source": "教研·第一讲一般现在时综合（肯定/否定/疑问·三单·has·+es·y→ies）",
+    "question": "There ___ some apples on the table.",
+    "options": [
+      "A. is",
+      "B. are",
+      "C. am",
+      "D. be"
+    ],
+    "answer": "B",
+    "explanation": "apples 为复数，There are。",
+    "id": 9
+  },
+  {
+    "level": 2,
+    "type": "choice",
+    "source": "教研·第一讲一般现在时综合（肯定/否定/疑问·三单·has·+es·y→ies）",
+    "question": "She ___ her homework before dinner every day.",
+    "options": [
+      "A. finish",
+      "B. finishes",
+      "C. finishing",
+      "D. finished"
+    ],
+    "answer": "B",
+    "explanation": "第三人称单数，finish → finishes（+es）。",
+    "id": 10
+  },
+  {
+    "level": 2,
+    "type": "choice",
+    "source": "教研·第一讲一般现在时综合（肯定/否定/疑问·三单·has·+es·y→ies）",
+    "question": "The baby ___ when he is hungry.",
+    "options": [
+      "A. cry",
+      "B. cries",
+      "C. crying",
+      "D. cried"
+    ],
+    "answer": "B",
+    "explanation": "辅音+y 结尾变 y 为 i 再加 es：cries。",
+    "id": 11
+  },
+  {
+    "level": 2,
+    "type": "choice",
+    "source": "教研·第一讲一般现在时综合（肯定/否定/疑问·三单·has·+es·y→ies）",
+    "question": "Lucy ___ to draw pictures every weekend.",
+    "options": [
+      "A. try",
+      "B. tries",
+      "C. trying",
+      "D. tried"
+    ],
+    "answer": "B",
+    "explanation": "y 前为辅音字母，变 tries。",
+    "id": 12
+  },
+  {
+    "level": 2,
+    "type": "choice",
+    "source": "教研·第一讲一般现在时综合（肯定/否定/疑问·三单·has·+es·y→ies）",
+    "question": "Tom ___ a blue schoolbag and three notebooks.",
+    "options": [
+      "A. have",
+      "B. has",
+      "C. having",
+      "D. haves"
+    ],
+    "answer": "B",
+    "explanation": "第三人称单数表“拥有”用 has。",
+    "id": 13
+  },
+  {
+    "level": 2,
+    "type": "choice",
+    "source": "教研·第一讲一般现在时综合（肯定/否定/疑问·三单·has·+es·y→ies）",
+    "question": "My parents ___ TV in the living room in the evening.",
+    "options": [
+      "A. watch",
+      "B. watches",
+      "C. watching",
+      "D. watched"
+    ],
+    "answer": "A",
+    "explanation": "parents 为复数，watch 用原形。",
+    "id": 14
+  },
+  {
+    "level": 2,
+    "type": "choice",
+    "source": "教研·第一讲一般现在时综合（肯定/否定/疑问·三单·has·+es·y→ies）",
+    "question": "___ you enjoy swimming in summer?",
+    "options": [
+      "A. Do",
+      "B. Does",
+      "C. Are",
+      "D. Is"
+    ],
+    "answer": "A",
+    "explanation": "实义动词 enjoy 的一般疑问句，主语 you 用 Do。",
+    "id": 15
+  },
+  {
+    "level": 3,
+    "type": "choice",
+    "source": "教研·第一讲一般现在时综合（肯定/否定/疑问·三单·has·+es·y→ies）",
+    "question": "She ___ not walk to school on rainy days.",
+    "options": [
+      "A. do",
+      "B. does",
+      "C. is",
+      "D. are"
+    ],
+    "answer": "B",
+    "explanation": "walk 为实义动词，三单否定用 doesn't（此处空格填 does，与 not 构成 doesn't）。",
+    "id": 16
+  },
+  {
+    "level": 3,
+    "type": "choice",
+    "source": "教研·第一讲一般现在时综合（肯定/否定/疑问·三单·has·+es·y→ies）",
+    "question": "What ___ your uncle do? — He is a cook.",
+    "options": [
+      "A. do",
+      "B. does",
+      "C. is",
+      "D. are"
+    ],
+    "answer": "B",
+    "explanation": "询问职业“What does … do?”；your uncle 为三单，用 does。",
+    "id": 17
+  },
+  {
+    "level": 2,
+    "type": "choice",
+    "source": "教研·第一讲一般现在时综合（肯定/否定/疑问·三单·has·+es·y→ies）",
+    "question": "Kevin and I ___ in the same grade.",
+    "options": [
+      "A. am",
+      "B. is",
+      "C. are",
+      "D. be"
+    ],
+    "answer": "C",
+    "explanation": "Kevin and I 为复数概念，用 are。",
+    "id": 18
+  },
+  {
+    "level": 2,
+    "type": "choice",
+    "source": "教研·第一讲一般现在时综合（肯定/否定/疑问·三单·has·+es·y→ies）",
+    "question": "The music ___ very beautiful.",
+    "options": [
+      "A. sound",
+      "B. sounds",
+      "C. sounding",
+      "D. sounded"
+    ],
+    "answer": "B",
+    "explanation": "music 为不可数名词，视作单数，sound → sounds。",
+    "id": 19
+  },
+  {
+    "level": 3,
+    "type": "choice",
+    "source": "教研·第一讲一般现在时综合（肯定/否定/疑问·三单·has·+es·y→ies）",
+    "question": "___ Mr Green teach science? — Yes, he does.",
+    "options": [
+      "A. Do",
+      "B. Does",
+      "C. Is",
+      "D. Are"
+    ],
+    "answer": "B",
+    "explanation": "实义动词 teach 的一般疑问句，Mr Green 为三单，用 Does。",
+    "id": 20
+  },
+  {
+    "level": 2,
+    "type": "order",
+    "source": "教研·第一讲一般现在时综合（肯定/否定/疑问·三单·has·+es·y→ies）",
+    "question": "【排序】将下列词语连成一句正确的否定句（可写缩写形式，句末标点可省略）：not / like / He / does / coffee",
+    "answer": "He does not like coffee.|He doesn't like coffee.",
+    "explanation": "第三人称单数否定：does not / doesn't + 动词原形 like。",
+    "id": 21
+  },
+  {
+    "level": 2,
+    "type": "order",
+    "source": "教研·第一讲一般现在时综合（肯定/否定/疑问·三单·has·+es·y→ies）",
+    "question": "【排序】连成正确的一般疑问句：you / Do / help / your / parents / ?",
+    "answer": "Do you help your parents?",
+    "explanation": "第二人称一般疑问句：Do + you + 动词原形。",
+    "id": 22
+  },
+  {
+    "level": 1,
+    "type": "order",
+    "source": "教研·第一讲一般现在时综合（肯定/否定/疑问·三单·has·+es·y→ies）",
+    "question": "【排序】连成肯定陈述句：every / morning / She / brushes / her / teeth",
+    "answer": "She brushes her teeth every morning.",
+    "explanation": "She 为三单，brush → brushes（+es）。",
+    "id": 23
+  },
+  {
+    "level": 2,
+    "type": "order",
+    "source": "教研·第一讲一般现在时综合（肯定/否定/疑问·三单·has·+es·y→ies）",
+    "question": "【排序】连成疑问句：the / piano / Does / play / Lucy / ?",
+    "answer": "Does Lucy play the piano?",
+    "explanation": "Does + 主语 + 动词原形 play。",
+    "id": 24
+  },
+  {
+    "level": 2,
+    "type": "order",
+    "source": "教研·第一讲一般现在时综合（肯定/否定/疑问·三单·has·+es·y→ies）",
+    "question": "【排序】连成否定句：don't / They / here / live",
+    "answer": "They don't live here.|They do not live here.",
+    "explanation": "复数主语否定：don't + live。",
+    "id": 25
+  },
+  {
+    "level": 2,
+    "type": "order",
+    "source": "教研·第一讲一般现在时综合（肯定/否定/疑问·三单·has·+es·y→ies）",
+    "question": "【排序】连成肯定句：a / We / have / garden / big",
+    "answer": "We have a big garden.",
+    "explanation": "主语 We 用 have 表拥有。",
+    "id": 26
+  },
+  {
+    "level": 2,
+    "type": "order",
+    "source": "教研·第一讲一般现在时综合（肯定/否定/疑问·三单·has·+es·y→ies）",
+    "question": "【排序】连成肯定句：watches / father / news / My / the / .",
+    "answer": "My father watches the news.",
+    "explanation": "My father 为三单，watch → watches。",
+    "id": 27
+  },
+  {
+    "level": 3,
+    "type": "order",
+    "source": "教研·第一讲一般现在时综合（肯定/否定/疑问·三单·has·+es·y→ies）",
+    "question": "【排序】连成肯定句：hard / every / The / tries / child / day",
+    "answer": "The child tries hard every day.",
+    "explanation": "try 以辅音+y 结尾，三单 tries。",
+    "id": 28
+  },
+  {
+    "level": 2,
+    "type": "order",
+    "source": "教研·第一讲一般现在时综合（肯定/否定/疑问·三单·has·+es·y→ies）",
+    "question": "【排序】连成肯定句：high / sky / It / in / flies / the / very",
+    "answer": "It flies very high in the sky.",
+    "explanation": "fly 变三单 flies（特殊变化）。",
+    "id": 29
+  },
+  {
+    "level": 3,
+    "type": "order",
+    "source": "教研·第一讲一般现在时综合（肯定/否定/疑问·三单·has·+es·y→ies）",
+    "question": "【排序】连成特殊疑问句：usually / you / do / Where / study / ?",
+    "answer": "Where do you usually study?",
+    "explanation": "Where + do + you + 动词原形（疑问语序）。",
+    "id": 30
+  },
+  {
+    "level": 1,
+    "type": "fill",
+    "source": "教研·第一讲一般现在时综合（肯定/否定/疑问·三单·has·+es·y→ies）",
+    "question": "He often ___ (watch) cartoons on Saturday evening.",
+    "answer": "watches",
+    "explanation": "He 为三单，watch 以 ch 结尾加 es。",
+    "id": 31
+  },
+  {
+    "level": 2,
+    "type": "fill",
+    "source": "教研·第一讲一般现在时综合（肯定/否定/疑问·三单·has·+es·y→ies）",
+    "question": "My sister ___ (study) English for twenty minutes every night.",
+    "answer": "studies",
+    "explanation": "study → studies（辅音+y → ies）。",
+    "id": 32
+  },
+  {
+    "level": 2,
+    "type": "fill",
+    "source": "教研·第一讲一般现在时综合（肯定/否定/疑问·三单·has·+es·y→ies）",
+    "question": "They ___ (not like) carrots. They prefer tomatoes.",
+    "answer": "don't like|do not like",
+    "explanation": "复数主语否定：don't + like。",
+    "id": 33
+  },
+  {
+    "level": 2,
+    "type": "fill",
+    "source": "教研·第一讲一般现在时综合（肯定/否定/疑问·三单·has·+es·y→ies）",
+    "question": "___ (be) there a ruler in your pencil case?",
+    "answer": "Is",
+    "explanation": "a ruler 单数，There is 的一般疑问句将 Is 提前。",
+    "id": 34
+  },
+  {
+    "level": 1,
+    "type": "fill",
+    "source": "教研·第一讲一般现在时综合（肯定/否定/疑问·三单·has·+es·y→ies）",
+    "question": "She ___ (wash) her hands before meals.",
+    "answer": "washes",
+    "explanation": "wash 以 sh 结尾，三单加 es。",
+    "id": 35
+  },
+  {
+    "level": 2,
+    "type": "fill",
+    "source": "教研·第一讲一般现在时综合（肯定/否定/疑问·三单·has·+es·y→ies）",
+    "question": "___ (Do) your grandparents live in this city?",
+    "answer": "Do",
+    "explanation": "grandparents 为复数，助动词用 Do。",
+    "id": 36
+  },
+  {
+    "level": 2,
+    "type": "fill",
+    "source": "教研·第一讲一般现在时综合（肯定/否定/疑问·三单·has·+es·y→ies）",
+    "question": "Ben ___ (have) a pet turtle. It's green.",
+    "answer": "has",
+    "explanation": "Ben 为三单，“有”用 has。",
+    "id": 37
+  },
+  {
+    "level": 2,
+    "type": "fill",
+    "source": "教研·第一讲一般现在时综合（肯定/否定/疑问·三单·has·+es·y→ies）",
+    "question": "The little girls ___ (cry) when they see the doctor.",
+    "answer": "cry",
+    "explanation": "girls 复数，谓语用原形 cry。",
+    "id": 38
+  },
+  {
+    "level": 2,
+    "type": "fill",
+    "source": "教研·第一讲一般现在时综合（肯定/否定/疑问·三单·has·+es·y→ies）",
+    "question": "There ___ (be) some water in the bottle.",
+    "answer": "is",
+    "explanation": "water 不可数，视为单数，用 is。",
+    "id": 39
+  },
+  {
+    "level": 3,
+    "type": "fill",
+    "source": "教研·第一讲一般现在时综合（肯定/否定/疑问·三单·has·+es·y→ies）",
+    "question": "Mrs White ___ (not teach) on Sundays. She only teaches on weekdays.",
+    "answer": "doesn't teach|does not teach",
+    "explanation": "三单否定：doesn't + 动词原形 teach。",
+    "id": 40
+  },
+  {
+    "level": 2,
+    "type": "correct",
+    "source": "教研·第一讲一般现在时综合（肯定/否定/疑问·三单·has·+es·y→ies）",
+    "question": "【改错】写出正确句子：She go to school by bus every day.",
+    "answer": "She goes to school by bus every day.",
+    "explanation": "第三人称单数一般现在时 go → goes。",
+    "id": 41
+  },
+  {
+    "level": 2,
+    "type": "correct",
+    "source": "教研·第一讲一般现在时综合（肯定/否定/疑问·三单·has·+es·y→ies）",
+    "question": "【改错】写出正确句子：He don't like swimming in winter.",
+    "answer": "He doesn't like swimming in winter.",
+    "explanation": "He 为三单，否定用 doesn't，不用 don't。",
+    "id": 42
+  },
+  {
+    "level": 2,
+    "type": "correct",
+    "source": "教研·第一讲一般现在时综合（肯定/否定/疑问·三单·has·+es·y→ies）",
+    "question": "【改错】写出正确句子：Does you play the violin after school?",
+    "answer": "Do you play the violin after school?",
+    "explanation": "主语 you 搭配助动词 Do，不是 Does。",
+    "id": 43
+  },
+  {
+    "level": 2,
+    "type": "correct",
+    "source": "教研·第一讲一般现在时综合（肯定/否定/疑问·三单·has·+es·y→ies）",
+    "question": "【改错】写出正确句子：My sister have a new pink bike.",
+    "answer": "My sister has a new pink bike.",
+    "explanation": "第三人称单数表“有”用 has。",
+    "id": 44
+  },
+  {
+    "level": 2,
+    "type": "correct",
+    "source": "教研·第一讲一般现在时综合（肯定/否定/疑问·三单·has·+es·y→ies）",
+    "question": "【改错】写出正确句子：The dogs is very friendly.",
+    "answer": "The dogs are very friendly.",
+    "explanation": "dogs 复数，be 动词用 are。",
+    "id": 45
+  },
+  {
+    "level": 3,
+    "type": "correct",
+    "source": "教研·第一讲一般现在时综合（肯定/否定/疑问·三单·has·+es·y→ies）",
+    "question": "【改错】写出正确句子：He watches not TV on school nights.",
+    "answer": "He doesn't watch TV on school nights.|He does not watch TV on school nights.",
+    "explanation": "实义动词否定结构为 doesn't + 动词原形，不能写成 watches not。",
+    "id": 46
+  },
+  {
+    "level": 2,
+    "type": "correct",
+    "source": "教研·第一讲一般现在时综合（肯定/否定/疑问·三单·has·+es·y→ies）",
+    "question": "【改错】写出正确句子：They plays basketball every Tuesday.",
+    "answer": "They play basketball every Tuesday.",
+    "explanation": "they 为复数，谓语用原形 play。",
+    "id": 47
+  },
+  {
+    "level": 2,
+    "type": "correct",
+    "source": "教研·第一讲一般现在时综合（肯定/否定/疑问·三单·has·+es·y→ies）",
+    "question": "【改错】写出正确句子：She study science at a new school.",
+    "answer": "She studies science at a new school.",
+    "explanation": "study → studies（三单）。",
+    "id": 48
+  },
+  {
+    "level": 3,
+    "type": "correct",
+    "source": "教研·第一讲一般现在时综合（肯定/否定/疑问·三单·has·+es·y→ies）",
+    "question": "【改错】写出正确句子：Where do Tom go every weekend?",
+    "answer": "Where does Tom go every weekend?",
+    "explanation": "Tom 为三单，疑问句用 does，谓语用原形 go。",
+    "id": 49
+  },
+  {
+    "level": 2,
+    "type": "correct",
+    "source": "教研·第一讲一般现在时综合（肯定/否定/疑问·三单·has·+es·y→ies）",
+    "question": "【改错】写出正确句子：The baby crys when he is tired.",
+    "answer": "The baby cries when he is tired.",
+    "explanation": "cry 的三单为 cries，不是 crys。",
+    "id": 50
+  }
+];
+</script>
+  <script>
+(function () {
+  "use strict";
+
+  /* 题库内嵌于上方 <script>（window.L01_QUESTIONS，教研按知识点分类命题） */
+
+  function validateQuestionBank(raw) {
+    if (raw === undefined || raw === null) {
+      return { ok: false, code: "missing" };
+    }
+    if (!Array.isArray(raw)) {
+      return { ok: false, code: "not_array" };
+    }
+    if (raw.length === 0) {
+      return { ok: false, code: "empty" };
+    }
+    for (let i = 0; i < raw.length; i++) {
+      const q = raw[i];
+      if (!q || typeof q !== "object") {
+        return { ok: false, code: "bad_item" };
+      }
+      if (!q.type || q.question == null || q.answer == null) {
+        return { ok: false, code: "bad_shape" };
+      }
+      if (q.type === "choice" && (!Array.isArray(q.options) || q.options.length === 0)) {
+        return { ok: false, code: "bad_choice" };
+      }
+    }
+    return { ok: true };
+  }
+
+  var QUESTIONS = [];
+  var DATA_LOAD_ERROR = null;
+  try {
+    var _rawBank = window.L01_QUESTIONS;
+    var _v = validateQuestionBank(_rawBank);
+    if (_v.ok) {
+      QUESTIONS = _rawBank;
+    } else {
+      DATA_LOAD_ERROR = _v.code || "unknown";
+    }
+  } catch (e) {
+    DATA_LOAD_ERROR = "exception";
+    QUESTIONS = [];
+  }
+
+  const TOTAL = QUESTIONS.length;
+
+  function typeLabel(t) {
+    const m = {
+      choice: "选择题",
+      order: "排序题",
+      fill: "填空题",
+      correct: "改错题",
+      transform: "句型转换"
+    };
+    return m[t] || t;
+  }
+
+  function inputPlaceholderForType(t) {
+    if (t === "order") {
+      return "请写出完整、正确的英文句子（注意大小写与标点）";
+    }
+    if (t === "correct") {
+      return "请写出改正后的完整句子";
+    }
+    return "请在此输入答案";
+  }
+  const app = document.getElementById("app");
+  const confettiCanvas = document.getElementById("confetti-canvas");
+
+  const SKILL_LABELS = {
+    be_family: "状态家族 / Be 句",
+    svo_family: "动作家族 / 实义动词句",
+    third_person: "第三人称单数",
+    do_does: "Do / Does 疑问句",
+    dont_doesnt: "don't / doesn't 否定句",
+    there_be: "there be 结构",
+    frequency: "频率副词与日常表达",
+    has_have: "have / has",
+    sentence_order: "语序与完整句",
+    correction: "改错诊断",
+    transform: "句型转换",
+    mixed_review: "综合辨析"
+  };
+
+  const ERROR_LABELS = {
+    aux_base_form: "助动词后未还原原形",
+    third_person_tail: "第三人称单数尾巴错误",
+    be_do_confusion: "be / do 结构混用",
+    there_be_match: "there be 主谓一致",
+    frequency_signal: "频率词信号判断",
+    wh_question: "特殊疑问句语序",
+    sentence_order: "语序与标点",
+    correction_logic: "改错定位不准",
+    transform_logic: "句型转换链条错误"
+  };
+
+  let html2PdfLoadPromise = null;
+  function loadHtml2Pdf() {
+    if (typeof window.html2pdf === "function") {
+      return Promise.resolve();
+    }
+    if (html2PdfLoadPromise) {
+      return html2PdfLoadPromise;
+    }
+    html2PdfLoadPromise = new Promise(function (resolve, reject) {
+      var s = document.createElement("script");
+      s.src = "https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js";
+      s.crossOrigin = "anonymous";
+      s.referrerPolicy = "no-referrer";
+      s.onload = function () {
+        resolve();
+      };
+      s.onerror = function () {
+        reject(new Error("无法从 CDN 加载 html2pdf.js，请联网后重试，或用 http-server 本地打开。"));
+      };
+      document.head.appendChild(s);
+    });
+    return html2PdfLoadPromise;
+  }
+
+  const state = {
+    phase: "home",
+    mode: "all",
+    order: [],
+    currentIndex: 0,
+    results: [],
+    answered: false,
+    correct: false,
+    userInput: "",
+    selectedChoice: null
+  };
+
+  function escapeHtml(s) {
+    return String(s)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+
+  function normalizeAns(s) {
+    return String(s)
+      .trim()
+      .toLowerCase()
+      .replace(/\s+/g, " ")
+      .replace(/[.?!]$/g, "");
+  }
+
+  /** 填空题：忽略首尾空格、大小写、连续空格；兼容常见不可见空白 */
+  function normalizeFillAns(s) {
+    return String(s)
+      .replace(/[\u00a0\u2000-\u200b\ufeff]/g, " ")
+      .trim()
+      .toLowerCase()
+      .replace(/\s+/g, " ")
+      .replace(/[.?!]+$/g, "");
+  }
+
+  function checkAnswer(user, q) {
+    const correct = String(q.answer);
+    if (q.type === "fill") {
+      const u = normalizeFillAns(user);
+      if (correct.indexOf("|") !== -1) {
+        return correct.split("|").some(function (x) {
+          return normalizeFillAns(x) === u;
+        });
+      }
+      return normalizeFillAns(correct) === u;
+    }
+    const u = normalizeAns(user);
+    if (q.type === "choice") {
+      const letter = String(correct).trim().toUpperCase();
+      if (u === letter.toLowerCase()) return true;
+      const opt = q.options;
+      if (opt) {
+        for (let i = 0; i < opt.length; i++) {
+          const optLetter = String.fromCharCode(65 + i);
+          if (letter === optLetter && u === normalizeAns(opt[i])) return true;
+          if (u === normalizeAns(opt[i])) return true;
+        }
+      }
+      return false;
+    }
+    if (correct.indexOf("|") !== -1) {
+      return correct.split("|").some(function (x) {
+        return normalizeAns(x) === u;
+      });
+    }
+    return normalizeAns(correct) === u;
+  }
+
+  function inferSkillTag(q) {
+    var text = String((q.question || "") + " " + (q.explanation || "")).toLowerCase();
+    if (/there/.test(text) && /milk|apples|ruler|water/.test(text)) return "there_be";
+    if (/what .* do\?|where .* do|what does/.test(text)) return "wh_question";
+    if (/does|do /.test(text) && /question|提问|一般疑问/.test(text)) return "do_does";
+    if (/doesn't|does not|don't|do not|否定/.test(text)) return "dont_doesnt";
+    if (/has|have|拥有/.test(text)) return "has_have";
+    if (/usually|every day|weekend|often|seldom|always|how often/.test(text)) return "frequency";
+    if (/brush|finish|watch|study|cry|flies|goes|tries|loves|listens/.test(text) || /三单|第三人称单数/.test(text)) return "third_person";
+    if (q.type === "order") return "sentence_order";
+    if (q.type === "correct") return "correction";
+    if (q.type === "transform") return "transform";
+    if (/am|is|are/.test(text) && /where|happy|teacher|dogs|music/.test(text)) return "be_family";
+    if (/play|read|walk|teach|live|study|enjoy/.test(text)) return "svo_family";
+    return "mixed_review";
+  }
+
+  function inferErrorTag(q) {
+    var text = String((q.question || "") + " " + (q.explanation || "")).toLowerCase();
+    if (/does|doesn't|do |don't/.test(text) && /原形|study|play|teach|like|go/.test(text)) return "aux_base_form";
+    if (/三单|第三人称单数|ies|es|\+es|tries|studies|cries|goes|watches/.test(text)) return "third_person_tail";
+    if (/there be|there/.test(text)) return "there_be_match";
+    if (/usually|every day|weekend|often|seldom|always|how often/.test(text)) return "frequency_signal";
+    if (/what|where/.test(text) && /do|does|疑问语序/.test(text)) return "wh_question";
+    if (q.type === "order") return "sentence_order";
+    if (q.type === "correct") return "correction_logic";
+    if (q.type === "transform") return "transform_logic";
+    if (/am|is|are|don't|doesn't|do|does/.test(text)) return "be_do_confusion";
+    return "correction_logic";
+  }
+
+  function skillLabelOf(q) {
+    return SKILL_LABELS[inferSkillTag(q)] || "综合考点";
+  }
+
+  function errorLabelOf(q) {
+    return ERROR_LABELS[inferErrorTag(q)] || "综合错误";
+  }
+
+  function buildProductionPrompt() {
+    var wrong = state.results.filter(function (r) { return !r.ok; });
+    if (!wrong.length) {
+      return {
+        title: "输出升级任务",
+        body: "请不用看答案，口头说出 5 句《My Daily Day》：至少 2 句日常习惯、1 句家人日常、1 句否定句、1 句一般疑问句。"
+      };
+    }
+    var tags = {};
+    wrong.forEach(function (r) {
+      var q = QUESTIONS[r.qIndex];
+      tags[inferSkillTag(q)] = (tags[inferSkillTag(q)] || 0) + 1;
+    });
+    var top = Object.keys(tags).sort(function (a, b) { return tags[b] - tags[a]; })[0];
+    if (top === "third_person" || top === "do_does" || top === "dont_doesnt") {
+      return {
+        title: "针对性补救输出",
+        body: "请用 he / she / my father 各说 1 句；再把其中 2 句分别改成否定句和一般疑问句，专门训练三单与 do / does 链条。"
+      };
+    }
+    if (top === "there_be" || top === "be_family") {
+      return {
+        title: "针对性补救输出",
+        body: "请围绕你的教室或书包，说 4 句 there be / be 句，例如地点、物品、状态、人物位置，让 be 句真正稳定下来。"
+      };
+    }
+    return {
+      title: "针对性补救输出",
+      body: "请围绕《我的日常一天》写 5 句：1 句频率、1 句时间、1 句家人习惯、1 句否定、1 句提问，把错因重新用对。"
+    };
+  }
+
+  function runConfetti() {
+    if (!confettiCanvas || !confettiCanvas.getContext) {
+      return;
+    }
+    confettiCanvas.classList.remove("hidden");
+    const ctx = confettiCanvas.getContext("2d");
+    const w = (confettiCanvas.width = window.innerWidth);
+    const h = (confettiCanvas.height = window.innerHeight);
+    const pieces = [];
+    const colors = ["#e85d4c", "#4a90d9", "#5cb85c", "#f0ad4e", "#9b59b6", "#ffeaa7"];
+    for (let i = 0; i < 120; i++) {
+      pieces.push({
+        x: Math.random() * w,
+        y: Math.random() * -h * 0.35,
+        r: 4 + Math.random() * 8,
+        vy: 2 + Math.random() * 5,
+        vx: (Math.random() - 0.5) * 3.5,
+        rot: Math.random() * Math.PI * 2,
+        vr: (Math.random() - 0.5) * 0.2,
+        c: colors[Math.floor(Math.random() * colors.length)]
+      });
+    }
+    let frames = 0;
+    function tick() {
+      frames++;
+      ctx.clearRect(0, 0, w, h);
+      pieces.forEach(function (p) {
+        p.y += p.vy;
+        p.x += p.vx;
+        p.rot += p.vr;
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rot);
+        ctx.fillStyle = p.c;
+        ctx.fillRect(-p.r, -p.r, p.r * 2, p.r * 1.15);
+        ctx.restore();
+      });
+      if (frames < 200) {
+        requestAnimationFrame(tick);
+      } else {
+        ctx.clearRect(0, 0, w, h);
+        confettiCanvas.classList.add("hidden");
+      }
+    }
+    tick();
+  }
+
+  function renderDataError() {
+    return (
+      '<div class="data-error-panel" role="alert">' +
+      '<div class="data-error-inner">' +
+      '<div class="err-icon" aria-hidden="true">⚠️</div>' +
+      '<p class="err-title">题库数据异常：本页内嵌的 <code>window.L01_QUESTIONS</code> 未正确解析。</p>' +
+      '<p class="err-hint">请将脚本与 <code>lesson01-exercise.html</code> 放在同一目录；若使用本地服务器，请确认路径未被拦截。刷新页面后仍无效，可用 <code>build_l01_data.py</code> 重新生成题库。</p>' +
+      "</div></div>"
+    );
+  }
+
+  function renderHome() {
+    return (
+      '<h1 class="page-title">终极试炼场 · 50题巅峰挑战</h1>' +
+      '<div class="production-box"><h3>本页角色：诊断 + 输出闭环</h3><p>这不是单纯刷题页，而是用 50 题把三单、原形、there be、句型转换和日常表达逐项诊断出来。做完后请按照结果页的“本关产出任务”补说 / 补写，真正完成《我的日常一天》。</p></div>' +
+      '<div class="btn-row">' +
+      '<button type="button" class="crayon b-green" id="btnStart">开始在线挑战</button>' +
+      '<button type="button" class="crayon b-orange" id="btnPdfStudent">📥 下载 PDF 纸质版作业</button>' +
+      "</div>"
+    );
+  }
+
+  function levelStars(lv) {
+    return "⭐".repeat(lv);
+  }
+
+  /** 若题库未写 pitfall，则按题型拼接中考避坑话术 */
+  function pitfallGuidance(q) {
+    if (q.pitfall) {
+      return q.pitfall;
+    }
+    var extra = "";
+    if (q.type === "choice") {
+      extra = "选项里若出现「助动词 + 动词 + 多余 s」，多为照妖镜法则未落实。";
+    } else if (q.type === "fill") {
+      extra = "填空先圈主语与括号提示；news / each / neither…nor 等要重新认定谓语一致。";
+    } else if (q.type === "order") {
+      extra = "排序先摆助动词与主语，再确认动词原形位置。";
+    } else {
+      extra = "改错优先查主谓一致与否定/疑问结构，别把魔法尾巴叠在助动词后面。";
+    }
+    return extra + (q.explanation ? " " + q.explanation : "");
+  }
+
+  function renderQuiz() {
+    const idx = state.currentIndex;
+    const qIdx = state.order[idx];
+    const q = QUESTIONS[qIdx];
+    const progress = ((idx + 1) / state.order.length) * 100;
+    let html = "";
+    html += '<div class="quiz-head">';
+    html += '<div class="progress-wrap"><div class="progress-bar" style="width:' + progress + '%"></div></div>';
+    html += '<div class="quiz-meta">';
+    html += "<span>进度：" + (idx + 1) + " / " + state.order.length + "</span>";
+    html += '<span class="stars">难度：' + levelStars(q.level) + " L" + q.level + "</span>";
+    html += "</div></div>";
+
+    html += '<span class="q-type-tag">' + escapeHtml(typeLabel(q.type)) + " · 第 " + q.id + " 题</span>";
+    html += '<div class="q-skill"><strong>能力点：</strong>' + escapeHtml(skillLabelOf(q)) + ' · <strong>错因标签：</strong>' + escapeHtml(errorLabelOf(q)) + "</div>";
+    if (q.source) {
+      html += '<p style="font-size:0.78rem;color:#777;margin:0 0 0.35rem">出处：' + escapeHtml(q.source) + "</p>";
+    }
+    html += '<div class="q-text">' + escapeHtml(q.question) + "</div>";
+
+    if (q.type === "choice" && q.options) {
+      html += '<div class="options-wrap" id="options-wrap">';
+      const ansLetter = String(q.answer).trim().toUpperCase();
+      q.options.forEach(function (opt, i) {
+        const letter = String.fromCharCode(65 + i);
+        let cls = "opt-btn";
+        if (state.answered) {
+          const isCorrect = letter === ansLetter;
+          const pick = state.selectedChoice === i;
+          if (isCorrect) cls += " correct";
+          else if (pick) cls += " wrong-pick";
+        } else if (state.selectedChoice === i) {
+          cls += " selected";
+        }
+        html +=
+          '<button type="button" class="' +
+          cls +
+          '" data-opt-index="' +
+          i +
+          '"' +
+          (state.answered ? " disabled" : "") +
+          ">" +
+          escapeHtml(opt) +
+          "</button>";
+      });
+      html += "</div>";
+    } else {
+      html +=
+        '<input type="text" class="fill-input" id="fill-input" placeholder="' +
+        escapeHtml(inputPlaceholderForType(q.type)) +
+        '" value="' +
+        escapeHtml(state.userInput) +
+        '"' +
+        (state.answered ? " disabled" : "") +
+        " />";
+    }
+
+    html +=
+      '<div class="btn-row" style="flex-direction:row;flex-wrap:wrap;justify-content:center">' +
+      '<button type="button" class="crayon b-red" id="btnSubmit"' +
+      (state.answered ? " disabled" : "") +
+      ">提交</button></div>";
+
+    if (state.answered) {
+      if (q.explanation) {
+        html +=
+          '<div class="q-explain"><strong>解析：</strong>' + escapeHtml(q.explanation) + "</div>";
+      }
+      html +=
+        '<div class="q-pitfall"><strong>考点避坑指引：</strong>' +
+        escapeHtml(pitfallGuidance(q)) +
+        "</div>";
+      html +=
+        '<div class="btn-row" style="flex-direction:row;justify-content:center;margin-top:1rem">' +
+        '<button type="button" class="crayon b-blue" id="btnNext">下一题</button></div>';
+    }
+
+    return html;
+  }
+
+  function analyzeWeakTypes() {
+    const wrong = state.results.filter(function (r) {
+      return !r.ok;
+    });
+    if (wrong.length === 0) {
+      return "本次无错题，继续保持！";
+    }
+    const counts = { choice: 0, order: 0, fill: 0, correct: 0, transform: 0 };
+    wrong.forEach(function (r) {
+      const q = QUESTIONS[r.qIndex];
+      if (counts[q.type] !== undefined) counts[q.type]++;
+    });
+    const parts = [];
+    if (counts.choice) parts.push("选择题 " + counts.choice + " 道");
+    if (counts.order) parts.push("排序题 " + counts.order + " 道");
+    if (counts.fill) parts.push("填空题 " + counts.fill + " 道");
+    if (counts.correct) parts.push("改错题 " + counts.correct + " 道");
+    if (counts.transform) parts.push("句型转换 " + counts.transform + " 道");
+    return "易错题型分布：" + parts.join(" / ") + "。建议针对错题类型专项复习。";
+  }
+
+  function analyzeWeakSkills() {
+    const wrong = state.results.filter(function (r) {
+      return !r.ok;
+    });
+    if (wrong.length === 0) {
+      return "能力维度：三单、原形、there be、句型转换都较稳定，可以直接进入口头 / 书面输出。";
+    }
+    const counts = {};
+    wrong.forEach(function (r) {
+      const q = QUESTIONS[r.qIndex];
+      const key = inferSkillTag(q);
+      counts[key] = (counts[key] || 0) + 1;
+    });
+    const parts = Object.keys(counts)
+      .sort(function (a, b) { return counts[b] - counts[a]; })
+      .slice(0, 3)
+      .map(function (k) {
+        return (SKILL_LABELS[k] || k) + " " + counts[k] + " 题";
+      });
+    return "能力薄弱区：" + parts.join(" / ") + "。";
+  }
+
+  function renderResult() {
+    const ok = state.results.filter(function (r) {
+      return r.ok;
+    }).length;
+    const total = state.results.length;
+    const pct = total ? Math.round((ok / total) * 1000) / 10 : 0;
+    let html = "";
+    html += '<div class="result-board">';
+    html += "<h1 class=\"page-title\">试炼结算</h1>";
+    html += '<div class="score-big">' + ok + " / " + total + "</div>";
+    html += '<p class="result-stats">正确率：' + pct + "%</p>";
+    html += '<div class="weak-box">' + escapeHtml(analyzeWeakTypes()) + "</div>";
+    html += '<div class="weak-box">' + escapeHtml(analyzeWeakSkills()) + "</div>";
+    const wrongRows = state.results
+      .filter(function (r) {
+        return !r.ok;
+      })
+      .map(function (r) {
+        const qq = QUESTIONS[r.qIndex];
+        const label = qq ? typeLabel(qq.type) + " · #" + qq.id + " · " + skillLabelOf(qq) + " · " + errorLabelOf(qq) : "题 #" + r.qIndex;
+        const snippet = qq && qq.question ? String(qq.question).replace(/\s+/g, " ").slice(0, 72) : "";
+        return "<li>" + escapeHtml(label) + (snippet ? " — " + escapeHtml(snippet + (snippet.length >= 72 ? "…" : "")) : "") + "</li>";
+      });
+    if (wrongRows.length > 0) {
+      html += '<div class="wrong-detail-wrap">';
+      html += "<h3>错题一览（" + wrongRows.length + " 道）</h3>";
+      html += '<ul class="wrong-list-scroll">' + wrongRows.join("") + "</ul>";
+      html += "</div>";
+    }
+    var production = buildProductionPrompt();
+    html += '<div class="production-box">';
+    html += "<h3>" + escapeHtml(production.title) + "</h3>";
+    html += "<p>" + escapeHtml(production.body) + "</p>";
+    html += "</div>";
+    html += '<div class="btn-row">';
+    html += '<button type="button" class="crayon b-green" id="btnRetryWrong">重刷错题</button>';
+    html += '<button type="button" class="crayon b-purple" id="btnRestartAll">全部重刷</button>';
+    html += '<button type="button" class="crayon b-purple" id="btnPdfStudent2">📥 下载 PDF 纸质版作业</button>';
+    html += '<button type="button" class="crayon b-blue" id="btnBackHome">返回首页</button>';
+    html += "</div></div>";
+    return html;
+  }
+
+  function render() {
+    if (state.phase === "home") {
+      app.innerHTML = renderHome();
+    } else if (state.phase === "quiz") {
+      app.innerHTML = renderQuiz();
+    } else {
+      app.innerHTML = renderResult();
+    }
+  }
+
+  function startQuiz(orderIds) {
+    state.phase = "quiz";
+    state.mode = orderIds.length === TOTAL ? "all" : "wrong";
+    state.order = orderIds.slice();
+    state.currentIndex = 0;
+    state.results = [];
+    state.answered = false;
+    state.correct = false;
+    state.userInput = "";
+    state.selectedChoice = null;
+    render();
+  }
+
+  function buildPdfStyleBlock() {
+    return (
+      "<style>" +
+      ".pdf-root{box-sizing:border-box;width:700px;max-width:700px;margin:0;padding:28px 32px 36px;background:#fffef9;color:#0f172a;" +
+      "font-family:'Noto Serif SC','Source Han Serif SC','Songti SC','Microsoft YaHei',serif;font-size:10.5pt;line-height:1.68;-webkit-font-smoothing:antialiased;" +
+      "text-rendering:geometricPrecision;overflow:visible;}" +
+      ".pdf-root .en{font-family:'Source Sans 3','Segoe UI',Calibri,sans-serif;font-size:10pt;letter-spacing:0.02em;line-height:1.55;}" +
+      ".pdf-hd{text-align:center;border-bottom:2pt solid #c45c3e;padding-bottom:12px;margin-bottom:16px;}" +
+      ".pdf-title{font-size:18pt;font-weight:700;color:#0f172a;letter-spacing:0.04em;margin:0 0 4px;}" +
+      ".pdf-sub{font-size:9.5pt;color:#64748b;margin:0;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;}" +
+      ".pdf-meta{display:flex;flex-wrap:wrap;gap:10px 20px;margin:14px 0 18px;padding:12px 14px;background:linear-gradient(90deg,rgba(196,92,62,0.06),rgba(59,130,246,0.05));" +
+      "border-radius:6px;border:0.75pt dashed rgba(15,23,42,0.18);font-size:10pt;color:#334155;}" +
+      ".pdf-meta span{min-width:120px;border-bottom:0.75pt solid rgba(15,23,42,0.25);padding-bottom:2px;display:inline-block;}" +
+      ".pdf-q{display:flex;gap:8px 10px;align-items:flex-start;margin-bottom:14px;padding:11px 13px;background:#fff;border-radius:8px;border:0.75pt solid rgba(15,23,42,0.1);" +
+      "box-shadow:0 0.5pt 0 rgba(15,23,42,0.06);page-break-inside:avoid;break-inside:avoid;-webkit-column-break-inside:avoid;}" +
+      ".pdf-num{flex:0 0 auto;min-width:1.5em;font-weight:700;color:#b45309;font-size:10.5pt;line-height:1.5;}" +
+      ".pdf-stem{display:block;flex:1;min-width:0;margin:0;padding:0;overflow:visible;}" +
+      ".pdf-opts{display:grid;gap:7px 8px;margin:10px 0 0 0;width:100%;box-sizing:border-box;page-break-inside:avoid;break-inside:avoid;}" +
+      ".pdf-opts-1{grid-template-columns:minmax(0,1fr);}" +
+      ".pdf-opts-2{grid-template-columns:repeat(2,minmax(0,1fr));}" +
+      ".pdf-opts-3{grid-template-columns:repeat(3,minmax(0,1fr));}" +
+      ".pdf-opts-4{grid-template-columns:repeat(4,minmax(0,1fr));}" +
+      ".pdf-opt{min-width:0;margin:0;padding:6px 8px;border:0.75pt solid #94a3b8;border-radius:5px;background:#f8fafc;" +
+      "box-sizing:border-box;line-height:1.4;font-size:9.5pt;word-wrap:break-word;overflow-wrap:break-word;page-break-inside:avoid;break-inside:avoid;" +
+      "-webkit-print-color-adjust:exact;print-color-adjust:exact;}" +
+      ".pdf-blank{display:block;width:100%;min-width:88%;border-bottom:1.5pt solid #334155;margin-top:10px;min-height:1.35em;}" +
+      ".pdf-foot{margin-top:22px;padding-top:10px;border-top:0.75pt solid #e2e8f0;font-size:8.5pt;color:#94a3b8;text-align:center;}" +
+      "</style>"
+    );
+  }
+
+  function buildPdfStudentHtml() {
+    let h = '<div class="pdf-root">' + buildPdfStyleBlock();
+    h += '<header class="pdf-hd">';
+    h += '<h1 class="pdf-title">第一讲 · 一般现在时综合测试</h1>';
+    h += '<p class="pdf-sub">学生作业单 · 闭卷笔答</p>';
+    h += "</header>";
+    h += '<div class="pdf-meta">';
+    h += "<span>姓名：____________</span><span>班级：____________</span><span>日期：____________</span><span>得分：____________</span>";
+    h += "</div>";
+    for (let i = 0; i < QUESTIONS.length; i++) {
+      const q = QUESTIONS[i];
+      h += '<div class="pdf-q">';
+      h += '<span class="pdf-num">' + (i + 1) + ".</span>";
+      h += '<div class="pdf-stem"><span class="en">' + escapeHtml(q.question) + "</span>";
+      if (q.type === "choice" && q.options) {
+        const cols = Math.min(4, Math.max(1, q.options.length));
+        h += '<div class="pdf-opts pdf-opts-' + cols + '">';
+        q.options.forEach(function (o) {
+          h += '<div class="pdf-opt en">' + escapeHtml(o) + "</div>";
+        });
+        h += "</div>";
+      } else {
+        h += '<div class="pdf-blank">&nbsp;</div>';
+      }
+      h += "</div></div>";
+    }
+    h +=
+      '<p class="pdf-foot">一般现在时综合 · 选择/排序/填空/改错 · 共 ' + QUESTIONS.length + " 题</p>";
+    h += "</div>";
+    return h;
+  }
+
+  function downloadPdf(html, filename) {
+    return loadHtml2Pdf().then(function () {
+      return new Promise(function (resolve, reject) {
+        if (typeof window.html2pdf !== "function") {
+          reject(new Error("html2pdf 未就绪"));
+          return;
+        }
+        if (!QUESTIONS || QUESTIONS.length === 0) {
+          reject(new Error("题库未加载：请确认本页内嵌的 window.L01_QUESTIONS 完整"));
+          return;
+        }
+        const mask = document.createElement("div");
+        mask.setAttribute("aria-busy", "true");
+        mask.style.cssText =
+          "position:fixed;inset:0;background:rgba(15,23,42,0.5);z-index:2147483000;display:flex;align-items:center;justify-content:center;color:#fff;font-size:17px;font-family:system-ui,sans-serif;";
+        mask.textContent = "正在生成 PDF…";
+        document.body.appendChild(mask);
+
+        const iframe = document.createElement("iframe");
+        iframe.setAttribute("title", "pdf-export");
+        iframe.style.cssText =
+          "position:fixed;left:0;top:0;width:704px;min-height:400px;border:0;z-index:2147482000;background:#fffef9;box-shadow:none;";
+        const docHtml =
+          "<!DOCTYPE html><html lang=\"zh-CN\"><head><meta charset=\"utf-8\"/>" +
+          "<style>html,body{margin:0;padding:0;background:#fffef9;font-family:system-ui,-apple-system,'Segoe UI','Microsoft YaHei',sans-serif;}</style></head><body>" +
+          html +
+          "</body></html>";
+        iframe.srcdoc = docHtml;
+        document.body.appendChild(iframe);
+
+        function cleanup() {
+          mask.remove();
+          iframe.remove();
+        }
+
+        function runSave() {
+          const idoc = iframe.contentDocument;
+          if (!idoc || !idoc.body) {
+            cleanup();
+            reject(new Error("iframe 文档未就绪"));
+            return;
+          }
+          const root = idoc.querySelector(".pdf-root") || idoc.body;
+          root.style.boxSizing = "border-box";
+          root.style.width = "700px";
+          root.style.maxWidth = "700px";
+          const h = Math.max(idoc.body.scrollHeight, root.scrollHeight, 800);
+          iframe.style.height = h + 32 + "px";
+
+          const opt = {
+            margin: [12, 11, 12, 11],
+            filename: filename,
+            image: { type: "jpeg", quality: 0.96 },
+            html2canvas: {
+              scale: 2,
+              useCORS: true,
+              allowTaint: true,
+              backgroundColor: "#fffef9",
+              logging: false,
+              scrollX: 0,
+              scrollY: 0,
+              foreignObjectRendering: false
+            },
+            jsPDF: { unit: "mm", format: "a4", orientation: "portrait", compress: true },
+            pagebreak: {
+              mode: ["css", "legacy"],
+              avoid: [".pdf-q", ".pdf-opts"]
+            }
+          };
+
+          function finishOk() {
+            cleanup();
+            resolve();
+          }
+          function finishErr(e) {
+            cleanup();
+            reject(e || new Error("PDF 导出失败"));
+          }
+          function runPdf(fob) {
+            opt.html2canvas.foreignObjectRendering = fob;
+            return Promise.resolve(window.html2pdf().set(opt).from(root).save());
+          }
+          runPdf(false)
+            .then(finishOk)
+            .catch(function () {
+              return runPdf(true).then(finishOk);
+            })
+            .catch(finishErr);
+        }
+
+        iframe.onload = function () {
+          const idoc = iframe.contentDocument;
+          const waitFonts =
+            idoc.fonts && idoc.fonts.ready
+              ? idoc.fonts.ready
+              : Promise.resolve();
+          waitFonts
+            .then(function () {
+              return new Promise(function (r) {
+                requestAnimationFrame(function () {
+                  setTimeout(r, 250);
+                });
+              });
+            })
+            .then(runSave)
+            .catch(function (err) {
+              cleanup();
+              reject(err);
+            });
+        };
+
+        iframe.onerror = function () {
+          cleanup();
+          reject(new Error("iframe 加载失败"));
+        };
+      });
+    });
+  }
+
+  function downloadBothPdfs() {
+    downloadPdf(buildPdfStudentHtml(), "第一讲_一般现在时综合测试.pdf").catch(function (err) {
+      alert("PDF 生成失败：" + (err && err.message ? err.message : String(err)));
+    });
+  }
+
+  function bind() {
+    app.addEventListener("click", function (e) {
+      if (e.target.closest("#btnStart")) {
+        e.preventDefault();
+        const order = [];
+        for (let i = 0; i < TOTAL; i++) order.push(i);
+        startQuiz(order);
+        return;
+      }
+      if (e.target.closest("#btnPdfStudent")) {
+        e.preventDefault();
+        downloadBothPdfs();
+        return;
+      }
+      if (e.target.closest("#btnPdfStudent2")) {
+        e.preventDefault();
+        downloadPdf(buildPdfStudentHtml(), "第一讲_一般现在时综合测试.pdf").catch(function (err) {
+          alert("PDF 失败：" + (err && err.message ? err.message : String(err)));
+        });
+        return;
+      }
+      if (e.target.closest("#btnBackHome")) {
+        e.preventDefault();
+        state.phase = "home";
+        render();
+        return;
+      }
+      if (e.target.closest("#btnRestartAll")) {
+        e.preventDefault();
+        const order = [];
+        for (let i = 0; i < TOTAL; i++) order.push(i);
+        startQuiz(order);
+        return;
+      }
+      if (e.target.closest("#btnRetryWrong")) {
+        e.preventDefault();
+        const wrongIdx = [];
+        state.results.forEach(function (r) {
+          if (!r.ok) wrongIdx.push(r.qIndex);
+        });
+        if (wrongIdx.length === 0) {
+          alert("没有错题，可尝试「全部重刷」。");
+          return;
+        }
+        startQuiz(wrongIdx);
+        return;
+      }
+
+      if (state.phase !== "quiz") return;
+      const qIdx = state.order[state.currentIndex];
+      const q = QUESTIONS[qIdx];
+
+      if (!state.answered && e.target.closest(".opt-btn")) {
+        const btn = e.target.closest(".opt-btn");
+        const i = parseInt(btn.getAttribute("data-opt-index"), 10);
+        state.selectedChoice = i;
+        render();
+        return;
+      }
+
+      if (e.target.closest("#btnSubmit")) {
+        e.preventDefault();
+        if (state.answered) return;
+        let user = "";
+        if (q.type === "choice") {
+          if (state.selectedChoice === null) {
+            alert("请选择一项。");
+            return;
+          }
+          user = String.fromCharCode(65 + state.selectedChoice);
+        } else {
+          const inp = document.getElementById("fill-input");
+          user = inp ? String(inp.value).replace(/[\u00a0\u2000-\u200b\ufeff]/g, " ").trim() : "";
+          if (!user) {
+            alert("请输入答案。");
+            return;
+          }
+          state.userInput = user;
+        }
+        state.correct = checkAnswer(user, q);
+        state.answered = true;
+        state.results.push({ qIndex: qIdx, ok: state.correct });
+        if (state.correct) runConfetti();
+        render();
+        return;
+      }
+
+      if (e.target.closest("#btnNext")) {
+        e.preventDefault();
+        if (state.currentIndex + 1 >= state.order.length) {
+          state.phase = "result";
+          render();
+        } else {
+          state.currentIndex++;
+          state.answered = false;
+          state.correct = false;
+          state.userInput = "";
+          state.selectedChoice = null;
+          render();
+        }
+      }
+    });
+
+    app.addEventListener("input", function (e) {
+      if (e.target.id === "fill-input" && state.phase === "quiz" && !state.answered) {
+        state.userInput = e.target.value;
+      }
+    });
+  }
+
+  try {
+    if (!TOTAL || DATA_LOAD_ERROR) {
+      app.innerHTML = renderDataError();
+    } else {
+      bind();
+      render();
+    }
+  } catch (err) {
+    app.innerHTML =
+      '<div class="data-error-panel"><div class="data-error-inner">' +
+      '<div class="err-icon" aria-hidden="true">⚠️</div>' +
+      '<p class="err-title">页面脚本运行出错</p>' +
+      '<p class="err-hint">' +
+      escapeHtml(err && err.message ? err.message : String(err)) +
+      "</p></div></div>";
+  }
+})();
+  </script>
+</body>
+</html>

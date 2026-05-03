@@ -1,0 +1,3551 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <!-- spa-assets-inlined -->
+
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>第02讲 · Page 7 · 句式变变变</title>
+  <script src="../assets/lesson-tts-azure-config.js"></script>
+  <script src="../assets/lesson-tts-azure-play.js"></script>
+<script crossorigin="anonymous">
+/* inlined: https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js */
+/*
+ * anime.js v3.2.1
+ * (c) 2020 Julian Garnier
+ * Released under the MIT license
+ * animejs.com
+ */
+
+!function(n,e){"object"==typeof exports&&"undefined"!=typeof module?module.exports=e():"function"==typeof define&&define.amd?define(e):n.anime=e()}(this,function(){"use strict";var n={update:null,begin:null,loopBegin:null,changeBegin:null,change:null,changeComplete:null,loopComplete:null,complete:null,loop:1,direction:"normal",autoplay:!0,timelineOffset:0},e={duration:1e3,delay:0,endDelay:0,easing:"easeOutElastic(1, .5)",round:0},t=["translateX","translateY","translateZ","rotate","rotateX","rotateY","rotateZ","scale","scaleX","scaleY","scaleZ","skew","skewX","skewY","perspective","matrix","matrix3d"],r={CSS:{},springs:{}};function a(n,e,t){return Math.min(Math.max(n,e),t)}function o(n,e){return n.indexOf(e)>-1}function u(n,e){return n.apply(null,e)}var i={arr:function(n){return Array.isArray(n)},obj:function(n){return o(Object.prototype.toString.call(n),"Object")},pth:function(n){return i.obj(n)&&n.hasOwnProperty("totalLength")},svg:function(n){return n instanceof SVGElement},inp:function(n){return n instanceof HTMLInputElement},dom:function(n){return n.nodeType||i.svg(n)},str:function(n){return"string"==typeof n},fnc:function(n){return"function"==typeof n},und:function(n){return void 0===n},nil:function(n){return i.und(n)||null===n},hex:function(n){return/(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i.test(n)},rgb:function(n){return/^rgb/.test(n)},hsl:function(n){return/^hsl/.test(n)},col:function(n){return i.hex(n)||i.rgb(n)||i.hsl(n)},key:function(t){return!n.hasOwnProperty(t)&&!e.hasOwnProperty(t)&&"targets"!==t&&"keyframes"!==t}};function c(n){var e=/\(([^)]+)\)/.exec(n);return e?e[1].split(",").map(function(n){return parseFloat(n)}):[]}function s(n,e){var t=c(n),o=a(i.und(t[0])?1:t[0],.1,100),u=a(i.und(t[1])?100:t[1],.1,100),s=a(i.und(t[2])?10:t[2],.1,100),f=a(i.und(t[3])?0:t[3],.1,100),l=Math.sqrt(u/o),d=s/(2*Math.sqrt(u*o)),p=d<1?l*Math.sqrt(1-d*d):0,v=1,h=d<1?(d*l-f)/p:-f+l;function g(n){var t=e?e*n/1e3:n;return t=d<1?Math.exp(-t*d*l)*(v*Math.cos(p*t)+h*Math.sin(p*t)):(v+h*t)*Math.exp(-t*l),0===n||1===n?n:1-t}return e?g:function(){var e=r.springs[n];if(e)return e;for(var t=0,a=0;;)if(1===g(t+=1/6)){if(++a>=16)break}else a=0;var o=t*(1/6)*1e3;return r.springs[n]=o,o}}function f(n){return void 0===n&&(n=10),function(e){return Math.ceil(a(e,1e-6,1)*n)*(1/n)}}var l,d,p=function(){var n=11,e=1/(n-1);function t(n,e){return 1-3*e+3*n}function r(n,e){return 3*e-6*n}function a(n){return 3*n}function o(n,e,o){return((t(e,o)*n+r(e,o))*n+a(e))*n}function u(n,e,o){return 3*t(e,o)*n*n+2*r(e,o)*n+a(e)}return function(t,r,a,i){if(0<=t&&t<=1&&0<=a&&a<=1){var c=new Float32Array(n);if(t!==r||a!==i)for(var s=0;s<n;++s)c[s]=o(s*e,t,a);return function(n){return t===r&&a===i?n:0===n||1===n?n:o(f(n),r,i)}}function f(r){for(var i=0,s=1,f=n-1;s!==f&&c[s]<=r;++s)i+=e;var l=i+(r-c[--s])/(c[s+1]-c[s])*e,d=u(l,t,a);return d>=.001?function(n,e,t,r){for(var a=0;a<4;++a){var i=u(e,t,r);if(0===i)return e;e-=(o(e,t,r)-n)/i}return e}(r,l,t,a):0===d?l:function(n,e,t,r,a){for(var u,i,c=0;(u=o(i=e+(t-e)/2,r,a)-n)>0?t=i:e=i,Math.abs(u)>1e-7&&++c<10;);return i}(r,i,i+e,t,a)}}}(),v=(l={linear:function(){return function(n){return n}}},d={Sine:function(){return function(n){return 1-Math.cos(n*Math.PI/2)}},Circ:function(){return function(n){return 1-Math.sqrt(1-n*n)}},Back:function(){return function(n){return n*n*(3*n-2)}},Bounce:function(){return function(n){for(var e,t=4;n<((e=Math.pow(2,--t))-1)/11;);return 1/Math.pow(4,3-t)-7.5625*Math.pow((3*e-2)/22-n,2)}},Elastic:function(n,e){void 0===n&&(n=1),void 0===e&&(e=.5);var t=a(n,1,10),r=a(e,.1,2);return function(n){return 0===n||1===n?n:-t*Math.pow(2,10*(n-1))*Math.sin((n-1-r/(2*Math.PI)*Math.asin(1/t))*(2*Math.PI)/r)}}},["Quad","Cubic","Quart","Quint","Expo"].forEach(function(n,e){d[n]=function(){return function(n){return Math.pow(n,e+2)}}}),Object.keys(d).forEach(function(n){var e=d[n];l["easeIn"+n]=e,l["easeOut"+n]=function(n,t){return function(r){return 1-e(n,t)(1-r)}},l["easeInOut"+n]=function(n,t){return function(r){return r<.5?e(n,t)(2*r)/2:1-e(n,t)(-2*r+2)/2}},l["easeOutIn"+n]=function(n,t){return function(r){return r<.5?(1-e(n,t)(1-2*r))/2:(e(n,t)(2*r-1)+1)/2}}}),l);function h(n,e){if(i.fnc(n))return n;var t=n.split("(")[0],r=v[t],a=c(n);switch(t){case"spring":return s(n,e);case"cubicBezier":return u(p,a);case"steps":return u(f,a);default:return u(r,a)}}function g(n){try{return document.querySelectorAll(n)}catch(n){return}}function m(n,e){for(var t=n.length,r=arguments.length>=2?arguments[1]:void 0,a=[],o=0;o<t;o++)if(o in n){var u=n[o];e.call(r,u,o,n)&&a.push(u)}return a}function y(n){return n.reduce(function(n,e){return n.concat(i.arr(e)?y(e):e)},[])}function b(n){return i.arr(n)?n:(i.str(n)&&(n=g(n)||n),n instanceof NodeList||n instanceof HTMLCollection?[].slice.call(n):[n])}function M(n,e){return n.some(function(n){return n===e})}function x(n){var e={};for(var t in n)e[t]=n[t];return e}function w(n,e){var t=x(n);for(var r in n)t[r]=e.hasOwnProperty(r)?e[r]:n[r];return t}function k(n,e){var t=x(n);for(var r in e)t[r]=i.und(n[r])?e[r]:n[r];return t}function O(n){return i.rgb(n)?(t=/rgb\((\d+,\s*[\d]+,\s*[\d]+)\)/g.exec(e=n))?"rgba("+t[1]+",1)":e:i.hex(n)?(r=n.replace(/^#?([a-f\d])([a-f\d])([a-f\d])$/i,function(n,e,t,r){return e+e+t+t+r+r}),a=/^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(r),"rgba("+parseInt(a[1],16)+","+parseInt(a[2],16)+","+parseInt(a[3],16)+",1)"):i.hsl(n)?function(n){var e,t,r,a=/hsl\((\d+),\s*([\d.]+)%,\s*([\d.]+)%\)/g.exec(n)||/hsla\((\d+),\s*([\d.]+)%,\s*([\d.]+)%,\s*([\d.]+)\)/g.exec(n),o=parseInt(a[1],10)/360,u=parseInt(a[2],10)/100,i=parseInt(a[3],10)/100,c=a[4]||1;function s(n,e,t){return t<0&&(t+=1),t>1&&(t-=1),t<1/6?n+6*(e-n)*t:t<.5?e:t<2/3?n+(e-n)*(2/3-t)*6:n}if(0==u)e=t=r=i;else{var f=i<.5?i*(1+u):i+u-i*u,l=2*i-f;e=s(l,f,o+1/3),t=s(l,f,o),r=s(l,f,o-1/3)}return"rgba("+255*e+","+255*t+","+255*r+","+c+")"}(n):void 0;var e,t,r,a}function C(n){var e=/[+-]?\d*\.?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?(%|px|pt|em|rem|in|cm|mm|ex|ch|pc|vw|vh|vmin|vmax|deg|rad|turn)?$/.exec(n);if(e)return e[1]}function P(n,e){return i.fnc(n)?n(e.target,e.id,e.total):n}function I(n,e){return n.getAttribute(e)}function D(n,e,t){if(M([t,"deg","rad","turn"],C(e)))return e;var a=r.CSS[e+t];if(!i.und(a))return a;var o=document.createElement(n.tagName),u=n.parentNode&&n.parentNode!==document?n.parentNode:document.body;u.appendChild(o),o.style.position="absolute",o.style.width=100+t;var c=100/o.offsetWidth;u.removeChild(o);var s=c*parseFloat(e);return r.CSS[e+t]=s,s}function B(n,e,t){if(e in n.style){var r=e.replace(/([a-z])([A-Z])/g,"$1-$2").toLowerCase(),a=n.style[e]||getComputedStyle(n).getPropertyValue(r)||"0";return t?D(n,a,t):a}}function T(n,e){return i.dom(n)&&!i.inp(n)&&(!i.nil(I(n,e))||i.svg(n)&&n[e])?"attribute":i.dom(n)&&M(t,e)?"transform":i.dom(n)&&"transform"!==e&&B(n,e)?"css":null!=n[e]?"object":void 0}function E(n){if(i.dom(n)){for(var e,t=n.style.transform||"",r=/(\w+)\(([^)]*)\)/g,a=new Map;e=r.exec(t);)a.set(e[1],e[2]);return a}}function F(n,e,t,r){var a,u=o(e,"scale")?1:0+(o(a=e,"translate")||"perspective"===a?"px":o(a,"rotate")||o(a,"skew")?"deg":void 0),i=E(n).get(e)||u;return t&&(t.transforms.list.set(e,i),t.transforms.last=e),r?D(n,i,r):i}function A(n,e,t,r){switch(T(n,e)){case"transform":return F(n,e,r,t);case"css":return B(n,e,t);case"attribute":return I(n,e);default:return n[e]||0}}function N(n,e){var t=/^(\*=|\+=|-=)/.exec(n);if(!t)return n;var r=C(n)||0,a=parseFloat(e),o=parseFloat(n.replace(t[0],""));switch(t[0][0]){case"+":return a+o+r;case"-":return a-o+r;case"*":return a*o+r}}function S(n,e){if(i.col(n))return O(n);if(/\s/g.test(n))return n;var t=C(n),r=t?n.substr(0,n.length-t.length):n;return e?r+e:r}function L(n,e){return Math.sqrt(Math.pow(e.x-n.x,2)+Math.pow(e.y-n.y,2))}function j(n){for(var e,t=n.points,r=0,a=0;a<t.numberOfItems;a++){var o=t.getItem(a);a>0&&(r+=L(e,o)),e=o}return r}function q(n){if(n.getTotalLength)return n.getTotalLength();switch(n.tagName.toLowerCase()){case"circle":return o=n,2*Math.PI*I(o,"r");case"rect":return 2*I(a=n,"width")+2*I(a,"height");case"line":return L({x:I(r=n,"x1"),y:I(r,"y1")},{x:I(r,"x2"),y:I(r,"y2")});case"polyline":return j(n);case"polygon":return t=(e=n).points,j(e)+L(t.getItem(t.numberOfItems-1),t.getItem(0))}var e,t,r,a,o}function H(n,e){var t=e||{},r=t.el||function(n){for(var e=n.parentNode;i.svg(e)&&i.svg(e.parentNode);)e=e.parentNode;return e}(n),a=r.getBoundingClientRect(),o=I(r,"viewBox"),u=a.width,c=a.height,s=t.viewBox||(o?o.split(" "):[0,0,u,c]);return{el:r,viewBox:s,x:s[0]/1,y:s[1]/1,w:u,h:c,vW:s[2],vH:s[3]}}function V(n,e,t){function r(t){void 0===t&&(t=0);var r=e+t>=1?e+t:0;return n.el.getPointAtLength(r)}var a=H(n.el,n.svg),o=r(),u=r(-1),i=r(1),c=t?1:a.w/a.vW,s=t?1:a.h/a.vH;switch(n.property){case"x":return(o.x-a.x)*c;case"y":return(o.y-a.y)*s;case"angle":return 180*Math.atan2(i.y-u.y,i.x-u.x)/Math.PI}}function $(n,e){var t=/[+-]?\d*\.?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?/g,r=S(i.pth(n)?n.totalLength:n,e)+"";return{original:r,numbers:r.match(t)?r.match(t).map(Number):[0],strings:i.str(n)||e?r.split(t):[]}}function W(n){return m(n?y(i.arr(n)?n.map(b):b(n)):[],function(n,e,t){return t.indexOf(n)===e})}function X(n){var e=W(n);return e.map(function(n,t){return{target:n,id:t,total:e.length,transforms:{list:E(n)}}})}function Y(n,e){var t=x(e);if(/^spring/.test(t.easing)&&(t.duration=s(t.easing)),i.arr(n)){var r=n.length;2===r&&!i.obj(n[0])?n={value:n}:i.fnc(e.duration)||(t.duration=e.duration/r)}var a=i.arr(n)?n:[n];return a.map(function(n,t){var r=i.obj(n)&&!i.pth(n)?n:{value:n};return i.und(r.delay)&&(r.delay=t?0:e.delay),i.und(r.endDelay)&&(r.endDelay=t===a.length-1?e.endDelay:0),r}).map(function(n){return k(n,t)})}function Z(n,e){var t=[],r=e.keyframes;for(var a in r&&(e=k(function(n){for(var e=m(y(n.map(function(n){return Object.keys(n)})),function(n){return i.key(n)}).reduce(function(n,e){return n.indexOf(e)<0&&n.push(e),n},[]),t={},r=function(r){var a=e[r];t[a]=n.map(function(n){var e={};for(var t in n)i.key(t)?t==a&&(e.value=n[t]):e[t]=n[t];return e})},a=0;a<e.length;a++)r(a);return t}(r),e)),e)i.key(a)&&t.push({name:a,tweens:Y(e[a],n)});return t}function G(n,e){var t;return n.tweens.map(function(r){var a=function(n,e){var t={};for(var r in n){var a=P(n[r],e);i.arr(a)&&1===(a=a.map(function(n){return P(n,e)})).length&&(a=a[0]),t[r]=a}return t.duration=parseFloat(t.duration),t.delay=parseFloat(t.delay),t}(r,e),o=a.value,u=i.arr(o)?o[1]:o,c=C(u),s=A(e.target,n.name,c,e),f=t?t.to.original:s,l=i.arr(o)?o[0]:f,d=C(l)||C(s),p=c||d;return i.und(u)&&(u=f),a.from=$(l,p),a.to=$(N(u,l),p),a.start=t?t.end:0,a.end=a.start+a.delay+a.duration+a.endDelay,a.easing=h(a.easing,a.duration),a.isPath=i.pth(o),a.isPathTargetInsideSVG=a.isPath&&i.svg(e.target),a.isColor=i.col(a.from.original),a.isColor&&(a.round=1),t=a,a})}var Q={css:function(n,e,t){return n.style[e]=t},attribute:function(n,e,t){return n.setAttribute(e,t)},object:function(n,e,t){return n[e]=t},transform:function(n,e,t,r,a){if(r.list.set(e,t),e===r.last||a){var o="";r.list.forEach(function(n,e){o+=e+"("+n+") "}),n.style.transform=o}}};function z(n,e){X(n).forEach(function(n){for(var t in e){var r=P(e[t],n),a=n.target,o=C(r),u=A(a,t,o,n),i=N(S(r,o||C(u)),u),c=T(a,t);Q[c](a,t,i,n.transforms,!0)}})}function _(n,e){return m(y(n.map(function(n){return e.map(function(e){return function(n,e){var t=T(n.target,e.name);if(t){var r=G(e,n),a=r[r.length-1];return{type:t,property:e.name,animatable:n,tweens:r,duration:a.end,delay:r[0].delay,endDelay:a.endDelay}}}(n,e)})})),function(n){return!i.und(n)})}function R(n,e){var t=n.length,r=function(n){return n.timelineOffset?n.timelineOffset:0},a={};return a.duration=t?Math.max.apply(Math,n.map(function(n){return r(n)+n.duration})):e.duration,a.delay=t?Math.min.apply(Math,n.map(function(n){return r(n)+n.delay})):e.delay,a.endDelay=t?a.duration-Math.max.apply(Math,n.map(function(n){return r(n)+n.duration-n.endDelay})):e.endDelay,a}var J=0;var K=[],U=function(){var n;function e(t){for(var r=K.length,a=0;a<r;){var o=K[a];o.paused?(K.splice(a,1),r--):(o.tick(t),a++)}n=a>0?requestAnimationFrame(e):void 0}return"undefined"!=typeof document&&document.addEventListener("visibilitychange",function(){en.suspendWhenDocumentHidden&&(nn()?n=cancelAnimationFrame(n):(K.forEach(function(n){return n._onDocumentVisibility()}),U()))}),function(){n||nn()&&en.suspendWhenDocumentHidden||!(K.length>0)||(n=requestAnimationFrame(e))}}();function nn(){return!!document&&document.hidden}function en(t){void 0===t&&(t={});var r,o=0,u=0,i=0,c=0,s=null;function f(n){var e=window.Promise&&new Promise(function(n){return s=n});return n.finished=e,e}var l,d,p,v,h,g,y,b,M=(d=w(n,l=t),p=w(e,l),v=Z(p,l),h=X(l.targets),g=_(h,v),y=R(g,p),b=J,J++,k(d,{id:b,children:[],animatables:h,animations:g,duration:y.duration,delay:y.delay,endDelay:y.endDelay}));f(M);function x(){var n=M.direction;"alternate"!==n&&(M.direction="normal"!==n?"normal":"reverse"),M.reversed=!M.reversed,r.forEach(function(n){return n.reversed=M.reversed})}function O(n){return M.reversed?M.duration-n:n}function C(){o=0,u=O(M.currentTime)*(1/en.speed)}function P(n,e){e&&e.seek(n-e.timelineOffset)}function I(n){for(var e=0,t=M.animations,r=t.length;e<r;){var o=t[e],u=o.animatable,i=o.tweens,c=i.length-1,s=i[c];c&&(s=m(i,function(e){return n<e.end})[0]||s);for(var f=a(n-s.start-s.delay,0,s.duration)/s.duration,l=isNaN(f)?1:s.easing(f),d=s.to.strings,p=s.round,v=[],h=s.to.numbers.length,g=void 0,y=0;y<h;y++){var b=void 0,x=s.to.numbers[y],w=s.from.numbers[y]||0;b=s.isPath?V(s.value,l*x,s.isPathTargetInsideSVG):w+l*(x-w),p&&(s.isColor&&y>2||(b=Math.round(b*p)/p)),v.push(b)}var k=d.length;if(k){g=d[0];for(var O=0;O<k;O++){d[O];var C=d[O+1],P=v[O];isNaN(P)||(g+=C?P+C:P+" ")}}else g=v[0];Q[o.type](u.target,o.property,g,u.transforms),o.currentValue=g,e++}}function D(n){M[n]&&!M.passThrough&&M[n](M)}function B(n){var e=M.duration,t=M.delay,l=e-M.endDelay,d=O(n);M.progress=a(d/e*100,0,100),M.reversePlayback=d<M.currentTime,r&&function(n){if(M.reversePlayback)for(var e=c;e--;)P(n,r[e]);else for(var t=0;t<c;t++)P(n,r[t])}(d),!M.began&&M.currentTime>0&&(M.began=!0,D("begin")),!M.loopBegan&&M.currentTime>0&&(M.loopBegan=!0,D("loopBegin")),d<=t&&0!==M.currentTime&&I(0),(d>=l&&M.currentTime!==e||!e)&&I(e),d>t&&d<l?(M.changeBegan||(M.changeBegan=!0,M.changeCompleted=!1,D("changeBegin")),D("change"),I(d)):M.changeBegan&&(M.changeCompleted=!0,M.changeBegan=!1,D("changeComplete")),M.currentTime=a(d,0,e),M.began&&D("update"),n>=e&&(u=0,M.remaining&&!0!==M.remaining&&M.remaining--,M.remaining?(o=i,D("loopComplete"),M.loopBegan=!1,"alternate"===M.direction&&x()):(M.paused=!0,M.completed||(M.completed=!0,D("loopComplete"),D("complete"),!M.passThrough&&"Promise"in window&&(s(),f(M)))))}return M.reset=function(){var n=M.direction;M.passThrough=!1,M.currentTime=0,M.progress=0,M.paused=!0,M.began=!1,M.loopBegan=!1,M.changeBegan=!1,M.completed=!1,M.changeCompleted=!1,M.reversePlayback=!1,M.reversed="reverse"===n,M.remaining=M.loop,r=M.children;for(var e=c=r.length;e--;)M.children[e].reset();(M.reversed&&!0!==M.loop||"alternate"===n&&1===M.loop)&&M.remaining++,I(M.reversed?M.duration:0)},M._onDocumentVisibility=C,M.set=function(n,e){return z(n,e),M},M.tick=function(n){i=n,o||(o=i),B((i+(u-o))*en.speed)},M.seek=function(n){B(O(n))},M.pause=function(){M.paused=!0,C()},M.play=function(){M.paused&&(M.completed&&M.reset(),M.paused=!1,K.push(M),C(),U())},M.reverse=function(){x(),M.completed=!M.reversed,C()},M.restart=function(){M.reset(),M.play()},M.remove=function(n){rn(W(n),M)},M.reset(),M.autoplay&&M.play(),M}function tn(n,e){for(var t=e.length;t--;)M(n,e[t].animatable.target)&&e.splice(t,1)}function rn(n,e){var t=e.animations,r=e.children;tn(n,t);for(var a=r.length;a--;){var o=r[a],u=o.animations;tn(n,u),u.length||o.children.length||r.splice(a,1)}t.length||r.length||e.pause()}return en.version="3.2.1",en.speed=1,en.suspendWhenDocumentHidden=!0,en.running=K,en.remove=function(n){for(var e=W(n),t=K.length;t--;)rn(e,K[t])},en.get=A,en.set=z,en.convertPx=D,en.path=function(n,e){var t=i.str(n)?g(n)[0]:n,r=e||100;return function(n){return{property:n,el:t,svg:H(t),totalLength:q(t)*(r/100)}}},en.setDashoffset=function(n){var e=q(n);return n.setAttribute("stroke-dasharray",e),e},en.stagger=function(n,e){void 0===e&&(e={});var t=e.direction||"normal",r=e.easing?h(e.easing):null,a=e.grid,o=e.axis,u=e.from||0,c="first"===u,s="center"===u,f="last"===u,l=i.arr(n),d=l?parseFloat(n[0]):parseFloat(n),p=l?parseFloat(n[1]):0,v=C(l?n[1]:n)||0,g=e.start||0+(l?d:0),m=[],y=0;return function(n,e,i){if(c&&(u=0),s&&(u=(i-1)/2),f&&(u=i-1),!m.length){for(var h=0;h<i;h++){if(a){var b=s?(a[0]-1)/2:u%a[0],M=s?(a[1]-1)/2:Math.floor(u/a[0]),x=b-h%a[0],w=M-Math.floor(h/a[0]),k=Math.sqrt(x*x+w*w);"x"===o&&(k=-x),"y"===o&&(k=-w),m.push(k)}else m.push(Math.abs(u-h));y=Math.max.apply(Math,m)}r&&(m=m.map(function(n){return r(n/y)*y})),"reverse"===t&&(m=m.map(function(n){return o?n<0?-1*n:-n:Math.abs(y-n)}))}return g+(l?(p-d)/y:d)*(Math.round(100*m[e])/100)+v}},en.timeline=function(n){void 0===n&&(n={});var t=en(n);return t.duration=0,t.add=function(r,a){var o=K.indexOf(t),u=t.children;function c(n){n.passThrough=!0}o>-1&&K.splice(o,1);for(var s=0;s<u.length;s++)c(u[s]);var f=k(r,w(e,n));f.targets=f.targets||n.targets;var l=t.duration;f.autoplay=!1,f.direction=t.direction,f.timelineOffset=i.und(a)?l:N(a,l),c(t),t.seek(f.timelineOffset);var d=en(f);c(d),u.push(d);var p=R(u,n);return t.delay=p.delay,t.endDelay=p.endDelay,t.duration=p.duration,t.seek(0),t.reset(),t.autoplay&&t.play(),t},t},en.easing=h,en.penner=v,en.random=function(n,e){return Math.floor(Math.random()*(e-n+1))+n},en});
+</script>
+  <style>
+    :root {
+      --paper: #fff9f0;
+      /* 语义色死锁（出版级） */
+      --state-blue: #4a90d9;
+      --habit-green: #43a047;
+      --now-red: #e85d4c;
+      --warning-orange: #ff8f00;
+      --now-accent: var(--warning-orange);
+      --semantic-state-be: var(--state-blue);
+      --semantic-action-habit: var(--habit-green);
+      --semantic-now-warning: var(--now-red);
+      --semantic-now-accent: var(--warning-orange);
+      --crayon-red: var(--now-red);
+      --crayon-blue: var(--state-blue);
+      --habit-green: var(--semantic-action-habit);
+      --crayon-purple: #9b59b6;
+      --ink: #2c2c2c;
+      --shadow: rgba(60, 40, 20, 0.15);
+      --rail-border: rgba(180, 140, 90, 0.5);
+    }
+    * { box-sizing: border-box; }
+    html { min-height: 100%; background: var(--paper); }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+      color: var(--ink);
+      background: var(--paper);
+      background-image: url("https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/images/l02/bg-detective-desk.png");
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      padding: 0.65rem;
+      padding-bottom: 4.5rem;
+    }
+    body.tts-busy { cursor: wait; pointer-events: none; }
+    .tts-lock-overlay {
+      position: fixed; inset: 0; z-index: 10000; cursor: wait; background: transparent;
+ }
+    body.tts-busy .tts-lock-overlay { pointer-events: auto; }
+
+    .book {
+      max-width: 920px;
+      margin: 0 auto;
+      background: rgba(255, 249, 240, 0.96);
+      border-radius: 10px 28px 14px 18px;
+      border: 4px solid var(--crayon-red);
+      box-shadow: 6px 8px 0 var(--crayon-red), 0 12px 36px var(--shadow);
+      padding: 1rem 1.15rem 1.5rem;
+      position: relative;
+    }
+    .book::before {
+      content: ""; position: absolute; inset: 8px;
+      border: 2px dashed rgba(200, 160, 100, 0.45);
+      border-radius: 4px 20px 8px 6px; pointer-events: none;
+    }
+
+    .top-bar {
+      position: relative; z-index: 2;
+      padding: 0.45rem 0.9rem; margin-bottom: 0.75rem;
+      background: linear-gradient(90deg, rgba(255,255,255,0.92), rgba(255,248,230,0.96));
+      border-radius: 999px; border: 3px solid var(--crayon-blue);
+      font-size: clamp(0.78rem, 2.2vw, 0.95rem); text-align: center;
+      box-shadow: 2px 3px 0 rgba(0,0,0,0.06);
+    }
+    .top-bar strong { color: var(--crayon-red); }
+
+    .phase-jump {
+      display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem;
+      position: relative; z-index: 2;
+    }
+    .phase-tab {
+      font-family: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+      font-size: 0.92rem;
+      padding: 0.4rem 0.85rem;
+      border: 3px solid var(--crayon-purple);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.85);
+      cursor: pointer;
+      touch-action: manipulation;
+      font-weight: 700;
+    }
+    .phase-tab.active { background: var(--habit-green); color: #fff; border-color: var(--habit-green); }
+
+    .phase-panel { display: none; position: relative; z-index: 2; }
+    .phase-panel.is-active { display: block; }
+
+    .stage-title {
+      font-size: 1.12rem; color: var(--crayon-red); margin: 0 0 0.5rem;
+    }
+    .hint {
+      font-size: 0.86rem; color: #444; line-height: 1.55; margin: 0 0 0.85rem;
+    }
+
+    .demo-board {
+      font-family: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+      font-size: clamp(1.05rem, 3vw, 1.35rem);
+      padding: 1rem;
+      background: rgba(255,255,255,0.92);
+      border: 3px dashed var(--rail-border);
+      border-radius: 14px;
+      margin-bottom: 1rem;
+      min-height: 3.5rem;
+ }
+    .token-row {
+      display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem;
+    }
+    .word-chip {
+      display: inline-block;
+      padding: 0.2rem 0.5rem;
+      border-radius: 8px;
+      border: 3px solid rgba(74, 144, 217, 0.55);
+      background: rgba(227, 242, 253, 0.5);
+      transition: transform 0.2s ease;
+    }
+    .word-chip.be { border-color: var(--habit-green); background: rgba(67, 160, 71, 0.15); font-weight: 800; }
+    .word-chip.not-slot {
+      min-width: 2.2rem; min-height: 2rem;
+      border-style: dashed; border-color: #bbb;
+      background: rgba(255,255,255,0.6);
+    }
+    .word-chip.not-slot.filled {
+      border-color: var(--crayon-red);
+      background: rgba(255, 235, 238, 0.85);
+      font-weight: 800; color: var(--crayon-red);
+    }
+
+    .crayon-btn {
+      font-family: inherit;
+      font-weight: 800;
+      padding: 0.55rem 1rem;
+      border-radius: 12px;
+      border: 3px solid var(--crayon-blue);
+      background: linear-gradient(180deg, #e3f2fd, #bbdefb);
+      cursor: pointer;
+      touch-action: manipulation;
+      margin-bottom: 0.75rem;
+    }
+    .crayon-btn:disabled { opacity: 0.55; cursor: not-allowed; }
+
+    .shield-fly {
+      position: fixed;
+      z-index: 8000;
+      font-family: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+      font-weight: 800;
+      padding: 0.35rem 0.65rem;
+      background: linear-gradient(135deg, #ffecb3, #ffe082);
+      border: 4px solid var(--semantic-now-accent);
+      border-radius: 12px;
+      box-shadow: 3px 4px 0 rgba(0,0,0,0.12);
+      pointer-events: none;
+      opacity: 0;
+    }
+
+    .drop-zone {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 4rem;
+      min-height: 2.4rem;
+      border: 3px dashed #bdbdbd;
+      border-radius: 10px;
+      margin: 0 0.2rem;
+      vertical-align: middle;
+      background: rgba(255,255,255,0.7);
+    }
+    .drop-zone.active { border-color: var(--habit-green); background: rgba(200, 230, 201, 0.35); }
+    .drop-zone.wrong-flash,
+    .p3-wh-slot.wrong-flash { animation: wrong-flash 0.5s ease; }
+    @keyframes wrong-flash {
+      0%, 100% { background: rgba(255,255,255,0.7); }
+      50% { background: rgba(255, 205, 210, 0.9); }
+    }
+
+    .drag-chip {
+      display: inline-block;
+      padding: 0.35rem 0.75rem;
+      border-radius: 10px;
+      border: 3px solid var(--crayon-red);
+      background: #fff8e1;
+      cursor: grab;
+      font-family: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+      font-weight: 800;
+      touch-action: none;
+    }
+    .drag-chip.dragging { opacity: 0.85; cursor: grabbing; }
+
+    .frog-chip {
+      cursor: pointer;
+      border-color: var(--habit-green) !important;
+      background: rgba(200, 230, 201, 0.5) !important;
+    }
+    .frog-chip.wrong { animation: wrong-flash 0.55s ease; }
+    .big-q {
+      font-size: 3rem;
+      line-height: 1;
+      color: var(--crayon-blue);
+      display: inline-block;
+      opacity: 0;
+      transform: scale(0.2);
+    }
+
+    .wh-palette {
+      display: flex; flex-wrap: wrap; gap: 0.45rem; margin: 0.75rem 0;
+    }
+    .wh-btn {
+      padding: 0.4rem 0.75rem;
+      border-radius: 999px;
+      border: 3px solid var(--crayon-purple);
+      background: #fff;
+      font-family: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .wh-btn.picked { background: var(--crayon-blue); color: #fff; border-color: var(--crayon-blue); }
+    .wh-btn:disabled { opacity: 0.45; cursor: default; }
+
+    /* Phase 3 Wh 侦探分步 */
+    .p3-step-banner {
+      font-size: 0.88rem;
+      padding: 0.5rem 0.75rem;
+      border-radius: 10px;
+      border: 3px dashed var(--crayon-purple);
+      background: rgba(155, 89, 182, 0.08);
+      margin-bottom: 0.75rem;
+      line-height: 1.5;
+    }
+    .p3-step-banner strong { color: var(--crayon-red); }
+
+    /* 阶段三：Wh- 例句橱窗（演示用，与下方互动串联） */
+    .p3-wh-intro {
+      margin: 0 0 0.65rem !important;
+      padding: 0.45rem 0.65rem;
+      border-radius: 10px;
+      background: rgba(74, 144, 217, 0.08);
+      border-left: 4px solid var(--crayon-blue);
+    }
+    .p3-wh-gallery {
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+      margin: 0 0 1rem;
+      width: 100%;
+    }
+    .p3-wh-card {
+      font-family: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+      width: 100%;
+      max-width: 100%;
+      padding: 0.7rem 0.9rem;
+      border-radius: 12px;
+      border: 3px solid var(--rail-border);
+      background: rgba(255, 255, 255, 0.94);
+      box-shadow: 2px 3px 0 rgba(60, 40, 20, 0.06);
+      font-size: clamp(0.98rem, 2.5vw, 1.12rem);
+      line-height: 1.5;
+    }
+    .p3-wh-card .tag {
+      display: inline-block;
+      font-weight: 800;
+      padding: 0.12rem 0.5rem;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      margin: 0 0.45rem 0 0;
+      vertical-align: middle;
+      border: 2px solid var(--crayon-purple);
+      background: rgba(155, 89, 182, 0.12);
+      color: var(--crayon-purple);
+    }
+    .p3-wh-card .zh-hint {
+      font-family: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+      display: inline;
+      font-size: 0.82rem;
+      color: #555;
+      margin: 0;
+      line-height: 1.5;
+    }
+    .p3-wh-card .stem {
+      display: block;
+      width: 100%;
+      color: var(--ink);
+      margin: 0.4rem 0 0.15rem;
+    }
+    .p3-wh-card .stem u,
+    .p3-wh-card .stem .hl {
+      text-decoration: underline;
+      text-decoration-style: wavy;
+      text-decoration-color: var(--crayon-orange);
+      text-underline-offset: 3px;
+    }
+    .p3-wh-card .arrow {
+      display: block;
+      width: 100%;
+      color: var(--crayon-red);
+      font-weight: 800;
+      margin: 0.2rem 0;
+      font-size: 0.92rem;
+    }
+    .p3-wh-card .q {
+      display: block;
+      width: 100%;
+      color: var(--crayon-blue);
+      font-weight: 800;
+      margin: 0.1rem 0 0;
+    }
+
+    .word-chip.be-picked {
+      outline: 4px solid var(--habit-green);
+      box-shadow: 0 0 0 3px rgba(67, 160, 71, 0.35);
+      animation: be-pulse 0.9s ease infinite;
+    }
+    @keyframes be-pulse {
+      50% { outline-color: var(--crayon-blue); }
+    }
+    .p3-front-slot {
+      min-width: 5.5rem;
+      min-height: 2.35rem;
+      border: 3px dashed var(--crayon-blue);
+      border-radius: 10px;
+      background: rgba(227, 242, 253, 0.65);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+      font-size: 0.75rem;
+      color: var(--crayon-blue);
+      vertical-align: middle;
+    }
+    .p3-front-slot.active,
+    .p3-wh-slot.active {
+      border-color: var(--habit-green);
+      background: rgba(200, 230, 201, 0.45);
+    }
+    .p3-front-slot.filled-be {
+      border-style: solid;
+      font-weight: 800;
+      font-size: 1.05rem;
+      color: var(--ink);
+    }
+    .p3-wh-slot {
+      min-width: 5rem;
+      min-height: 2.35rem;
+      border: 3px dashed var(--crayon-purple);
+      border-radius: 10px;
+      background: rgba(243, 229, 245, 0.75);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      vertical-align: middle;
+      font-family: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+      font-size: 0.78rem;
+      color: var(--crayon-purple);
+    }
+    .p3-wh-slot.filled { border-style: solid; font-weight: 800; font-size: 1.05rem; color: var(--ink); }
+    .wh-drag {
+      cursor: grab;
+      touch-action: none;
+    }
+    .wh-drag:active { cursor: grabbing; }
+    .p3-omit-gone {
+      opacity: 0.35;
+      text-decoration: line-through;
+      transition: opacity 0.4s ease;
+    }
+    .p3-omit-removed { display: none !important; }
+
+    /* Phase 4 arena */
+    .arena-hud {
+      display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; justify-content: space-between;
+      margin-bottom: 0.75rem;
+    }
+    .timer {
+      font-size: 1.4rem; font-weight: 800; color: var(--crayon-red);
+      font-variant-numeric: tabular-nums;
+    }
+    .hp-bar-wrap {
+      flex: 1; min-width: 140px; max-width: 280px;
+      height: 18px; border-radius: 999px;
+      border: 3px solid var(--crayon-red);
+      background: rgba(0,0,0,0.06); overflow: hidden;
+    }
+    .hp-bar { height: 100%; width: 100%; background: linear-gradient(90deg, #ef5350, #e85d4c); transition: width 0.35s ease; }
+    .score { font-weight: 800; color: var(--habit-green); }
+
+    .battle-task {
+      font-family: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+      font-size: clamp(1rem, 2.8vw, 1.25rem);
+      padding: 0.85rem;
+      background: rgba(255,255,255,0.92);
+      border: 3px dashed var(--rail-border);
+      border-radius: 12px;
+      margin-bottom: 0.75rem;
+    }
+    .battle-affirm {
+      color: #555; font-size: 0.9em; margin-bottom: 0.35rem;
+    }
+    .opt-grid {
+      display: flex; flex-direction: column; gap: 0.5rem;
+    }
+    .opt-btn {
+      text-align: left;
+      font-family: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+      font-size: 1.05rem;
+      padding: 0.55rem 0.85rem;
+      border-radius: 10px;
+      border: 3px solid #90a4ae;
+      background: #eceff1;
+      cursor: pointer;
+      touch-action: manipulation;
+    }
+    .opt-btn:hover:not(:disabled) { background: #fff; }
+    .opt-btn:disabled { opacity: 0.55; }
+
+    .battle-task.ok-flash {
+      animation: battle-ok-pulse 0.45s ease-out;
+      border-color: var(--habit-green) !important;
+    }
+    @keyframes battle-ok-pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(67, 160, 71, 0); background: rgba(255, 255, 255, 0.92); }
+      50% { box-shadow: 0 0 0 8px rgba(67, 160, 71, 0.35); background: rgba(200, 230, 201, 0.35); }
+    }
+
+    .mirror-card {
+      margin-top: 0.65rem;
+      padding: 0.65rem;
+      border-radius: 12px;
+      border: 3px solid var(--crayon-red);
+      background: rgba(255, 235, 238, 0.65);
+      font-size: 0.86rem;
+      display: none;
+    }
+    .mirror-card.show { display: block; }
+
+    .teacher-log {
+      margin-top: 1rem;
+      width: 100%;
+      min-height: 5rem;
+      font-size: 0.82rem;
+      padding: 0.5rem;
+      border-radius: 10px;
+      border: 2px dashed rgba(74, 144, 217, 0.45);
+      font-family: inherit;
+    }
+
+    .result-overlay {
+      position: fixed; inset: 0; z-index: 9000;
+      background: rgba(20, 15, 10, 0.72);
+      display: none; align-items: center; justify-content: center; padding: 1rem;
+    }
+    .result-overlay.show { display: flex; }
+    .result-panel {
+      background: var(--paper);
+      border-radius: 18px;
+      border: 5px solid var(--habit-green);
+      padding: 1.25rem;
+      max-width: 400px;
+      text-align: center;
+    }
+    .result-panel h3 { margin: 0 0 0.5rem; color: var(--habit-green); }
+    .result-panel .rank { font-size: 1.15rem; font-weight: 800; color: var(--crayon-red); margin: 0.5rem 0; }
+
+    .footer-nav {
+      margin-top: 1.15rem; text-align: center; font-size: 0.84rem;
+      position: relative; z-index: 2;
+    }
+    .footer-nav a { color: var(--crayon-blue); font-weight: 700; text-decoration: none; }
+    .nav-sep { margin: 0 0.35rem; color: #aaa; }
+  </style>
+  <style>
+/* inlined from assets/lesson-screen-16x9.css */
+/**
+ * Lesson 01 / 02 / 03 / 05 统一大屏布局 + 统一字体/字号
+ * 桌面端（约平板横屏以上）：主舞台为视口内最大内接 16:9 矩形，四边留白最小；背景仅露窄边。
+ * 字体：系统无衬线 + 雅黑/苹方/思源黑体，保证课堂可读；英文例句与中文同一栈，仅字号放大。
+ * 各课 HTML 于 head 末引入外部样式表 lesson-screen-16x9.css（勿在本注释中写尖括号 link 标签，以免内联进 HTML 后被误匹配）
+ */
+
+:root {
+  --lesson-font-sans: system-ui, -apple-system, "Segoe UI", "Helvetica Neue", Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+  --lesson-font-zh: var(--lesson-font-sans);
+  --lesson-font-en: var(--lesson-font-sans);
+  /* 根字号：随视口略放大，带动全站 rem */
+  --lesson-fs-html: clamp(16px, 0.55vw + 14px, 20px);
+  --lesson-fs-topbar: clamp(0.88rem, 0.38vw + 0.78rem, 1.02rem);
+  --lesson-fs-body: clamp(0.92rem, 0.42vw + 0.82rem, 1.05rem);
+  --lesson-fs-small: clamp(0.8rem, 0.28vw + 0.72rem, 0.92rem);
+  --lesson-fs-h1: clamp(1.2rem, 0.85vw + 0.95rem, 1.48rem);
+  --lesson-fs-h2: clamp(1.05rem, 0.62vw + 0.86rem, 1.22rem);
+  --lesson-fs-h3: clamp(0.98rem, 0.48vw + 0.8rem, 1.1rem);
+  --lesson-fs-h4: clamp(0.92rem, 0.36vw + 0.76rem, 1.02rem);
+  --lesson-fs-btn: clamp(0.9rem, 0.36vw + 0.8rem, 1.02rem);
+  /* 英文例句 / 展示行：明显大于正文 */
+  --lesson-fs-example: clamp(1.05rem, 0.58vw + 0.9rem, 1.32rem);
+  --lesson-fs-en-line: var(--lesson-fs-example);
+}
+
+/* 主舞台内子元素默认继承字体，压过各页内联里的 Patrick / ZCOOL（后文对 .en / [lang=en] / 例句容器再单独放大） */
+html body .book *:not(code):not(kbd):not(samp):not(pre):not([lang="en"]):not(.en),
+html body .shell *:not(code):not(kbd):not(samp):not(pre):not([lang="en"]):not(.en),
+html body .app *:not(code):not(kbd):not(samp):not(pre):not([lang="en"]):not(.en),
+html body .wrap *:not(code):not(kbd):not(samp):not(pre):not([lang="en"]):not(.en),
+html body .page-wrap *:not(code):not(kbd):not(samp):not(pre):not([lang="en"]):not(.en),
+html body .desk *:not(code):not(kbd):not(samp):not(pre):not([lang="en"]):not(.en),
+html body main.sheet *:not(code):not(kbd):not(samp):not(pre):not([lang="en"]):not(.en) {
+  font-family: inherit;
+}
+
+html {
+  height: 100%;
+  font-size: var(--lesson-fs-html);
+}
+
+body {
+  --lesson-s-t: env(safe-area-inset-top, 0px);
+  --lesson-s-b: env(safe-area-inset-bottom, 0px);
+  --lesson-s-l: env(safe-area-inset-left, 0px);
+  --lesson-s-r: env(safe-area-inset-right, 0px);
+  /* 底部流式页脚（L01/L02 等）预留高度，避免主舞台 + 页脚超出视口 */
+  --lesson-foot-h: 0px;
+  /* 固定底栏占位（L01/L02/L03/L05 统一） */
+  --lesson-pager-gap: 4.35rem;
+  --lesson-l03-pager-gap: var(--lesson-pager-gap);
+  /* 讲义页顶栏工具条粗略高度（打印条 + 可选姓名栏等） */
+  --lesson-handout-chrome: 0px;
+
+  margin: 0 !important;
+  min-height: 100dvh !important;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--lesson-font-zh);
+  line-height: 1.55;
+}
+
+body:has(> .handout-pdf-bar):has(> main.sheet) {
+  --lesson-handout-chrome: 3.75rem;
+  justify-content: flex-start;
+}
+
+body.has-lesson-pager:has(> main.sheet) {
+  --lesson-handout-chrome: 8.5rem;
+  justify-content: flex-start;
+}
+
+/* 去掉各页内联的 body 大留白；L03 单独处理底栏 */
+body:not(.has-lesson-pager) {
+  padding: var(--lesson-s-t) var(--lesson-s-r) var(--lesson-s-b) var(--lesson-s-l) !important;
+}
+
+body.has-lesson-pager {
+  padding-top: max(4px, var(--lesson-s-t)) !important;
+  padding-left: max(4px, var(--lesson-s-l)) !important;
+  padding-right: max(4px, var(--lesson-s-r)) !important;
+  padding-bottom: max(var(--lesson-pager-gap, 4.35rem), var(--lesson-s-b)) !important;
+}
+
+/* —— 全讲统一「页间导航」：固定底栏（与 L03 lesson-pager 视觉一致，兼容旧 class 名） —— */
+body.has-lesson-pager nav.lesson-pager,
+body.has-lesson-pager nav.lesson-footer-nav,
+body.has-lesson-pager div.lesson-footer-nav,
+body.has-lesson-pager nav.page-foot,
+body.has-lesson-pager nav.footer-nav,
+body.has-lesson-pager div.footer-nav {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 200;
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  gap: 0.45rem;
+  padding: 0.42rem 0.55rem;
+  padding-bottom: max(0.42rem, env(safe-area-inset-bottom, 0px));
+  background: rgba(255, 249, 240, 0.98);
+  border-top: 3px solid #5d4037;
+  box-shadow: 0 -8px 22px rgba(0, 0, 0, 0.1);
+  font-family: var(--lesson-font-zh);
+}
+
+body.has-lesson-pager nav.lesson-pager a,
+body.has-lesson-pager nav.lesson-pager .pager-muted,
+body.has-lesson-pager nav.lesson-footer-nav a,
+body.has-lesson-pager div.lesson-footer-nav a,
+body.has-lesson-pager nav.page-foot a,
+body.has-lesson-pager nav.footer-nav a,
+body.has-lesson-pager div.footer-nav a,
+body.has-lesson-pager nav.lesson-footer-nav > span:not(.nav-sep),
+body.has-lesson-pager div.lesson-footer-nav > span:not(.nav-sep),
+body.has-lesson-pager nav.page-foot > span:not(.nav-sep),
+body.has-lesson-pager nav.footer-nav > span:not(.nav-sep),
+body.has-lesson-pager div.footer-nav > span:not(.nav-sep) {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  line-height: 1.35;
+  font-size: clamp(0.7rem, 2.6vw, 0.82rem);
+  font-weight: 800;
+  padding: 0.42rem 0.4rem;
+  border-radius: 999px;
+  border: 3px solid #5d4037;
+  box-shadow: 3px 4px 0 rgba(0, 0, 0, 0.1);
+}
+
+body.has-lesson-pager nav.lesson-pager a,
+body.has-lesson-pager nav.lesson-footer-nav a,
+body.has-lesson-pager div.lesson-footer-nav a,
+body.has-lesson-pager nav.page-foot a,
+body.has-lesson-pager nav.footer-nav a,
+body.has-lesson-pager div.footer-nav a {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+body.has-lesson-pager nav.lesson-pager a:hover,
+body.has-lesson-pager nav.lesson-footer-nav a:hover,
+body.has-lesson-pager div.lesson-footer-nav a:hover,
+body.has-lesson-pager nav.page-foot a:hover,
+body.has-lesson-pager nav.footer-nav a:hover,
+body.has-lesson-pager div.footer-nav a:hover {
+  filter: brightness(1.05);
+}
+
+body.has-lesson-pager nav.lesson-pager .pager-prev,
+body.has-lesson-pager nav.lesson-footer-nav a:first-of-type,
+body.has-lesson-pager div.lesson-footer-nav a:first-of-type,
+body.has-lesson-pager nav.page-foot a:first-of-type,
+body.has-lesson-pager nav.footer-nav a:first-of-type,
+body.has-lesson-pager div.footer-nav a:first-of-type {
+  color: #1565c0;
+  background: rgba(255, 249, 240, 0.98);
+}
+
+body.has-lesson-pager nav.lesson-pager .pager-next,
+body.has-lesson-pager nav.lesson-footer-nav a:last-of-type,
+body.has-lesson-pager div.lesson-footer-nav a:last-of-type,
+body.has-lesson-pager nav.page-foot a:last-of-type,
+body.has-lesson-pager nav.footer-nav a:last-of-type,
+body.has-lesson-pager div.footer-nav a:last-of-type {
+  color: #4e342e;
+  background: linear-gradient(180deg, #ffe082, #ffca28);
+  box-shadow: 0 0 12px rgba(255, 143, 0, 0.35), 3px 4px 0 rgba(0, 0, 0, 0.1);
+}
+
+/* 三链接旧版：中间 <a> 用中性色（非首非尾的链接） */
+body.has-lesson-pager nav.lesson-footer-nav a:not(:first-of-type):not(:last-of-type),
+body.has-lesson-pager div.lesson-footer-nav a:not(:first-of-type):not(:last-of-type),
+body.has-lesson-pager nav.page-foot a:not(:first-of-type):not(:last-of-type),
+body.has-lesson-pager nav.footer-nav a:not(:first-of-type):not(:last-of-type),
+body.has-lesson-pager div.footer-nav a:not(:first-of-type):not(:last-of-type) {
+  color: #37474f;
+  background: rgba(236, 239, 241, 0.96);
+  box-shadow: 2px 3px 0 rgba(0, 0, 0, 0.08);
+}
+
+body.has-lesson-pager nav.lesson-pager .pager-mid {
+  color: #37474f;
+  background: rgba(236, 239, 241, 0.96);
+  box-shadow: 2px 3px 0 rgba(0, 0, 0, 0.08);
+}
+
+body.has-lesson-pager nav.lesson-pager .pager-muted,
+body.has-lesson-pager nav.lesson-footer-nav > span:not(.nav-sep),
+body.has-lesson-pager div.lesson-footer-nav > span:not(.nav-sep),
+body.has-lesson-pager nav.page-foot > span:not(.nav-sep),
+body.has-lesson-pager nav.footer-nav > span:not(.nav-sep),
+body.has-lesson-pager div.footer-nav > span:not(.nav-sep) {
+  color: #78909c;
+  background: rgba(236, 239, 241, 0.95);
+  cursor: default;
+  box-shadow: 2px 3px 0 rgba(0, 0, 0, 0.06);
+}
+
+body.has-lesson-pager .lesson-footer-nav .nav-sep,
+body.has-lesson-pager div.lesson-footer-nav .nav-sep,
+body.has-lesson-pager nav.page-foot .nav-sep,
+body.has-lesson-pager nav.footer-nav .nav-sep,
+body.has-lesson-pager div.footer-nav .nav-sep,
+body.has-lesson-pager div.footer-nav .sep {
+  display: none;
+}
+
+/* L05 Page04：屏内阶段分页条与固定页间底栏错开，避免被遮挡 */
+body.has-lesson-pager .book .pager-foot {
+  margin-bottom: max(0.75rem, var(--lesson-pager-gap, 4.35rem));
+}
+
+/* 英文例句 / 片段：与中文同栈，字号用 --lesson-fs-example（勿给整段中文误标 lang="en"） */
+body .book [lang="en"],
+body .shell [lang="en"],
+body .app [lang="en"],
+body .wrap [lang="en"],
+body .page-wrap [lang="en"],
+body .desk [lang="en"],
+body main.sheet [lang="en"],
+body .book .en,
+body .shell .en,
+body .app .en,
+body .wrap .en,
+body .page-wrap .en,
+body .desk .en,
+body main.sheet .en {
+  font-family: var(--lesson-font-en);
+  font-size: var(--lesson-fs-example);
+}
+
+/* 压过各页内联里对 .en 的 Patrick Hand（与上条同义，提高权重） */
+html body .book .en,
+html body .shell .en,
+html body .app .en,
+html body .wrap .en,
+html body .page-wrap .en,
+html body .desk .en,
+html body main.sheet .en {
+  font-family: var(--lesson-font-en) !important;
+  font-size: var(--lesson-fs-example) !important;
+}
+
+/* 常见「整句英文」容器（部分页未加 .en） */
+body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) :is(
+  .sentence-en,
+  .gold-line,
+  .trap-line,
+  .mirror-word,
+  .contrast-line,
+  .sentence-line,
+  .sentence-main,
+  .voice-line-en,
+  .example-en,
+  .en-line,
+  .ipa-bar
+) {
+  font-family: var(--lesson-font-en);
+  font-size: var(--lesson-fs-example);
+}
+
+/* 标题层级（主舞台内） */
+body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) :is(h1) {
+  font-family: var(--lesson-font-zh);
+  font-size: var(--lesson-fs-h1);
+  line-height: 1.25;
+}
+
+body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) :is(h2) {
+  font-family: var(--lesson-font-zh);
+  font-size: var(--lesson-fs-h2);
+  line-height: 1.3;
+}
+
+body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) :is(h3) {
+  font-family: var(--lesson-font-zh);
+  font-size: var(--lesson-fs-h3);
+  line-height: 1.35;
+}
+
+body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) :is(h4) {
+  font-family: var(--lesson-font-zh);
+  font-size: var(--lesson-fs-h4);
+  line-height: 1.4;
+}
+
+/* 常见标题/条类名（与 h1 同级视觉的条目标题） */
+body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) :is(
+  .page-title,
+  .stage-title,
+  .doc-title,
+  .goal-title,
+  .machine-title,
+  .section-title,
+  .section-label,
+  .column-title,
+  .sk-title,
+  .time-machine .machine-title
+) {
+  font-family: var(--lesson-font-zh);
+  font-size: var(--lesson-fs-h2);
+  line-height: 1.3;
+}
+
+body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) :is(h1.page-title) {
+  font-size: var(--lesson-fs-h1);
+}
+
+/* 顶栏 / 副标题 / 提示条 */
+body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) :is(
+  .top-bar,
+  .top,
+  .sub-hint,
+  .page-subtitle,
+  .hint:not(.no-print),
+  .audio-chip,
+  .phase-pill
+) {
+  font-family: var(--lesson-font-zh);
+  font-size: var(--lesson-fs-topbar);
+}
+
+body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) :is(.page-subtitle, .hint) {
+  font-size: var(--lesson-fs-body);
+  line-height: 1.55;
+}
+
+/* 标签式导航按钮 */
+body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) :is(
+  .phase-tabs button,
+  .tabs .tab,
+  .tab,
+  .phase-nav button
+) {
+  font-family: var(--lesson-font-zh);
+  font-size: var(--lesson-fs-small);
+}
+
+/* 可点击控件：与正文协调 */
+body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) :is(
+  button:not(.hotspot),
+  .btn,
+  .crayon,
+  .btn-row button,
+  .btn-handout-pdf,
+  .btn-glasses,
+  .btn-notes,
+  .btn-tts,
+  input,
+  select,
+  textarea
+) {
+  font-family: var(--lesson-font-zh);
+  font-size: var(--lesson-fs-btn);
+}
+
+body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) :is(button.crayon, .crayon) {
+  font-family: var(--lesson-font-zh);
+}
+
+/* 代码与等宽保持可读 */
+body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) :is(code, kbd, samp, pre) {
+  font-family: ui-monospace, "Cascadia Mono", "Consolas", monospace;
+  font-size: 0.92em;
+}
+
+/* —— 主舞台：默认流式（小屏）；桌面端见下方 media —— */
+body > .book,
+body > .shell,
+body > .app,
+body > .wrap,
+body > .page-wrap,
+body > .desk,
+body > #shakeHost,
+body > .layout,
+body > main.sheet {
+  width: 100%;
+  max-width: 100%;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  box-sizing: border-box;
+  flex: 1 1 auto;
+  min-height: 0;
+  font-family: var(--lesson-font-zh);
+  font-size: 1rem;
+}
+
+/* 正文段落与列表（不覆盖带内联 font-size 的特例时，由继承生效；此处略抬一级） */
+body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) :is(
+  p,
+  li,
+  dd,
+  dt,
+  .guide,
+  .card,
+  .intro-board,
+  .goal-board,
+  .nav-list,
+  .blueprint,
+  .tree-story,
+  .ai-out,
+  .ai-bubble
+) {
+  font-family: var(--lesson-font-zh);
+  font-size: var(--lesson-fs-body);
+}
+
+/* 外层已控宽时，内层 .book 铺满，避免双层 max-width 夹心过窄 */
+body > .shell > .book,
+body > .app > .book,
+body > .page-wrap > .book,
+body > .wrap > .book {
+  width: 100% !important;
+  max-width: none !important;
+}
+
+/* 底部导航与主舞台同宽（仅 body 直接子级，避免误伤页内 .footer-nav） */
+body > .lesson-footer-nav,
+body > nav.lesson-footer-nav,
+body > nav.page-foot,
+body > nav.lesson-pager,
+body > nav.footer-nav,
+body > div.footer-nav {
+  width: 100%;
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+  font-family: var(--lesson-font-zh);
+  font-size: var(--lesson-fs-small);
+  flex-shrink: 0;
+}
+
+.lesson-footer-nav a,
+body > nav.page-foot a {
+  font-family: var(--lesson-font-zh);
+  font-size: inherit;
+}
+
+/* 讲义顶栏与主画布同宽（桌面端由 media 覆盖为 16:9 宽度） */
+body > .handout-pdf-bar,
+body.has-lesson-pager > .handout-pdf-bar,
+body.has-lesson-pager > .name-toolbar {
+  width: 100%;
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+/* 桌面：视口内最大 16:9 内接矩形 */
+@media (min-width: 769px) and (min-height: 560px) {
+  body:not(.has-lesson-pager) > .book,
+  body:not(.has-lesson-pager) > .shell,
+  body:not(.has-lesson-pager) > .app,
+  body:not(.has-lesson-pager) > .wrap,
+  body:not(.has-lesson-pager) > .page-wrap,
+  body:not(.has-lesson-pager) > .desk,
+  body:not(.has-lesson-pager) > #shakeHost,
+  body:not(.has-lesson-pager) > .layout,
+  body:not(.has-lesson-pager) > main.sheet {
+    --stage-vw: calc(100vw - var(--lesson-s-l) - var(--lesson-s-r));
+    --stage-vh: calc(100dvh - var(--lesson-foot-h) - var(--lesson-handout-chrome) - var(--lesson-s-t) - var(--lesson-s-b));
+    width: min(var(--stage-vw), calc(var(--stage-vh) * 16 / 9)) !important;
+    max-width: min(var(--stage-vw), calc(var(--stage-vh) * 16 / 9)) !important;
+    height: min(var(--stage-vh), calc(var(--stage-vw) * 9 / 16)) !important;
+    max-height: min(var(--stage-vh), calc(var(--stage-vw) * 9 / 16)) !important;
+    aspect-ratio: 16 / 9;
+    flex: 0 0 auto;
+    overflow: auto;
+  }
+
+  body.has-lesson-pager > .book,
+  body.has-lesson-pager > .shell,
+  body.has-lesson-pager > .app,
+  body.has-lesson-pager > .wrap,
+  body.has-lesson-pager > .page-wrap,
+  body.has-lesson-pager > .desk,
+  body.has-lesson-pager > #shakeHost,
+  body.has-lesson-pager > .layout,
+  body.has-lesson-pager > main.sheet {
+    --stage-vw: calc(100vw - var(--lesson-s-l) - var(--lesson-s-r) - 8px);
+    --stage-vh: calc(
+      100dvh - var(--lesson-pager-gap, 4.35rem) - var(--lesson-handout-chrome) - max(4px, var(--lesson-s-t)) - max(4px, var(--lesson-s-b))
+    );
+    width: min(var(--stage-vw), calc(var(--stage-vh) * 16 / 9)) !important;
+    max-width: min(var(--stage-vw), calc(var(--stage-vh) * 16 / 9)) !important;
+    height: min(var(--stage-vh), calc(var(--stage-vw) * 9 / 16)) !important;
+    max-height: min(var(--stage-vh), calc(var(--stage-vw) * 9 / 16)) !important;
+    aspect-ratio: 16 / 9;
+    flex: 0 0 auto;
+    overflow: auto;
+  }
+
+  body > .lesson-footer-nav,
+  body > nav.lesson-footer-nav,
+  body > nav.page-foot,
+  body > nav.lesson-pager,
+  body > nav.footer-nav,
+  body > div.footer-nav {
+    width: min(
+        calc(100vw - var(--lesson-s-l) - var(--lesson-s-r)),
+        calc((100dvh - var(--lesson-foot-h) - var(--lesson-s-t) - var(--lesson-s-b)) * 16 / 9)
+      )
+      !important;
+    max-width: min(
+        calc(100vw - var(--lesson-s-l) - var(--lesson-s-r)),
+        calc((100dvh - var(--lesson-foot-h) - var(--lesson-s-t) - var(--lesson-s-b)) * 16 / 9)
+      )
+      !important;
+  }
+
+  body.has-lesson-pager > .lesson-footer-nav,
+  body.has-lesson-pager > nav.lesson-footer-nav,
+  body.has-lesson-pager > nav.page-foot {
+    width: min(
+        calc(100vw - var(--lesson-s-l) - var(--lesson-s-r) - 8px),
+        calc((100dvh - var(--lesson-pager-gap, 4.35rem) - max(4px, var(--lesson-s-t)) - max(4px, var(--lesson-s-b))) * 16 / 9)
+      )
+      !important;
+    max-width: min(
+        calc(100vw - var(--lesson-s-l) - var(--lesson-s-r) - 8px),
+        calc((100dvh - var(--lesson-pager-gap, 4.35rem) - max(4px, var(--lesson-s-t)) - max(4px, var(--lesson-s-b))) * 16 / 9)
+      )
+      !important;
+  }
+
+  /* 固定底栏铺满视口（勿用 16:9 画布宽度约束，否则底栏短于屏幕） */
+  body.has-lesson-pager > nav.lesson-pager,
+  body.has-lesson-pager > nav.lesson-footer-nav,
+  body.has-lesson-pager > div.lesson-footer-nav,
+  body.has-lesson-pager > nav.page-foot,
+  body.has-lesson-pager > nav.footer-nav,
+  body.has-lesson-pager > div.footer-nav {
+    width: 100% !important;
+    max-width: none !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  body > .handout-pdf-bar,
+  body.has-lesson-pager > .handout-pdf-bar,
+  body.has-lesson-pager > .name-toolbar {
+    width: min(
+        calc(100vw - var(--lesson-s-l) - var(--lesson-s-r)),
+        calc((100dvh - var(--lesson-foot-h) - var(--lesson-handout-chrome) - var(--lesson-s-t) - var(--lesson-s-b)) * 16 / 9)
+      )
+      !important;
+    max-width: min(
+        calc(100vw - var(--lesson-s-l) - var(--lesson-s-r)),
+        calc((100dvh - var(--lesson-foot-h) - var(--lesson-handout-chrome) - var(--lesson-s-t) - var(--lesson-s-b)) * 16 / 9)
+      )
+      !important;
+  }
+
+  body.has-lesson-pager > .handout-pdf-bar,
+  body.has-lesson-pager > .name-toolbar {
+    width: min(
+        calc(100vw - var(--lesson-s-l) - var(--lesson-s-r) - 8px),
+        calc((100dvh - var(--lesson-pager-gap, 4.35rem) - var(--lesson-handout-chrome) - max(4px, var(--lesson-s-t)) - max(4px, var(--lesson-s-b))) * 16 / 9)
+      )
+      !important;
+    max-width: min(
+        calc(100vw - var(--lesson-s-l) - var(--lesson-s-r) - 8px),
+        calc((100dvh - var(--lesson-pager-gap, 4.35rem) - var(--lesson-handout-chrome) - max(4px, var(--lesson-s-t)) - max(4px, var(--lesson-s-b))) * 16 / 9)
+      )
+      !important;
+  }
+
+  /* 讲义页首行提示：与主画布同宽 */
+  body:has(> main.sheet) > p.no-print-hint {
+    width: min(
+        calc(100vw - var(--lesson-s-l) - var(--lesson-s-r)),
+        calc((100dvh - var(--lesson-foot-h) - var(--lesson-handout-chrome) - var(--lesson-s-t) - var(--lesson-s-b)) * 16 / 9)
+      )
+      !important;
+    max-width: min(
+        calc(100vw - var(--lesson-s-l) - var(--lesson-s-r)),
+        calc((100dvh - var(--lesson-foot-h) - var(--lesson-handout-chrome) - var(--lesson-s-t) - var(--lesson-s-b)) * 16 / 9)
+      )
+      !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    box-sizing: border-box;
+  }
+
+  body.has-lesson-pager:has(> main.sheet) > p.no-print-hint {
+    width: min(
+        calc(100vw - var(--lesson-s-l) - var(--lesson-s-r) - 8px),
+        calc((100dvh - var(--lesson-pager-gap, 4.35rem) - var(--lesson-handout-chrome) - max(4px, var(--lesson-s-t)) - max(4px, var(--lesson-s-b))) * 16 / 9)
+      )
+      !important;
+    max-width: min(
+        calc(100vw - var(--lesson-s-l) - var(--lesson-s-r) - 8px),
+        calc((100dvh - var(--lesson-pager-gap, 4.35rem) - var(--lesson-handout-chrome) - max(4px, var(--lesson-s-t)) - max(4px, var(--lesson-s-b))) * 16 / 9)
+      )
+      !important;
+  }
+}
+
+@media (max-width: 768px), (max-height: 559px) {
+  body > .book,
+  body > .shell,
+  body > .app,
+  body > .wrap,
+  body > .page-wrap,
+  body > .desk,
+  body > #shakeHost,
+  body > .layout,
+  body > main.sheet {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    max-height: none !important;
+    min-height: 0 !important;
+    aspect-ratio: unset !important;
+    flex: 1 1 auto;
+    overflow: visible;
+  }
+
+  body {
+    justify-content: flex-start;
+  }
+}
+
+@media print {
+  body > .book,
+  body > .shell,
+  body > .app,
+  body > .wrap,
+  body > .page-wrap,
+  body > .desk,
+  body > #shakeHost,
+  body > .layout,
+  body > main.sheet {
+    width: 100% !important;
+    max-width: none !important;
+    height: auto !important;
+    max-height: none !important;
+    min-height: 0 !important;
+    aspect-ratio: unset !important;
+    overflow: visible !important;
+  }
+
+  body.has-lesson-pager nav.lesson-pager,
+  body.has-lesson-pager nav.lesson-pager.no-print,
+  body.has-lesson-pager nav.lesson-footer-nav,
+  body.has-lesson-pager div.lesson-footer-nav,
+  body.has-lesson-pager nav.page-foot,
+  body.has-lesson-pager nav.footer-nav,
+  body.has-lesson-pager div.footer-nav {
+    display: none !important;
+  }
+}
+
+/* —— 可读字体：压过各页内联里对 body / h1 / .en 等的卡通字体（依赖更高选择器权重） —— */
+html body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) {
+  font-family: var(--lesson-font-zh);
+}
+
+html body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) button.crayon,
+html body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) .crayon {
+  font-family: var(--lesson-font-zh);
+}
+
+html body > .lesson-footer-nav,
+html body > nav.lesson-footer-nav,
+html body > nav.page-foot,
+html body > nav.footer-nav,
+html body > div.footer-nav,
+html body > .lesson-progress-chip,
+html body > nav.lesson-pager {
+  font-family: var(--lesson-font-zh);
+}
+
+
+</style>
+  <script>
+/* inlined: assets/tts-manifest.js */
+/* 由 scripts/download-azure-tts.mjs 生成；请勿手改大段（可重新运行脚本覆盖） */
+window.__LESSON_TTS_MANIFEST = {
+  "过去事情讲从前，标志词汇记心间。Be 动词分 was 和 were，实义动词要变脸。规则加 ed 有四法，不规则词靠魔法。若是 Did 来带队，动词乖乖回原形。": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/31484288c6af827d3e32.mp3",
+  "A great number of beautiful flowers are planted on the second ring road in Chengdu these days.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/c8e057d78bdb522fef50.mp3",
+  "a smart whiteboard": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/9a5a748a50e7fd9b0225.mp3",
+  "A. To play": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/405921b6fcf4cae8cf11.mp3",
+  "A. Who is this?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/dc45b09b82cfb3ad44c0.mp3",
+  "Actions speak louder than words.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/adf2673df18450f94bf1.mp3",
+  "Alba and Ben are very tall.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/6fd1850ea8317b4e7267.mp3",
+  "Although we felt tired, we achieved a lot and smiled happily.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/ab4d21ff18dd636901e3.mp3",
+  "Are they coming to the party?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/d4e0d8b02b2e7bbf780e.mp3",
+  "Are they swimming at the moment?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/37ef224151e79a887987.mp3",
+  "Are you coming by bus or on foot?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/2211e7cc70e92712b33b.mp3",
+  "Are you listening to me?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/9caedc1e307d76cc0f18.mp3",
+  "at the moment": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/6a27fb2bd8112955575b.mp3",
+  "B. To clean up": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/69ba32575d8230ee9d4e.mp3",
+  "B. Whose things are these?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/bbc849ba7c9f076aa47f.mp3",
+  "Baris listens to music in his room.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/7658a26575c38778bfe0.mp3",
+  "Be quiet! The students are taking an English exam.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/15912f766b53be0270f8.mp3",
+  "Birds fly in the sky.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/9b73ec92177fa15d834e.mp3",
+  "Bread and butter is a common breakfast in the UK.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/3759c6a3686205b79d5b.mp3",
+  "But now, the government has taken action to protect it.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/011fb317e34537eb5338.mp3",
+  "Confucius was a great teacher.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/4be86e1cc76b49608997.mp3",
+  "Dad is driving a car.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/9f318db306ae72ae312f.mp3",
+  "Did they arrive at the train station before eight o'clock?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/58929109aad38eae269e.mp3",
+  "Did you catch the early bus to the panda research base?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/7d5e578e516746b6ec76.mp3",
+  "Did you understand the main idea of the passage in class?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/14492ee474716edc61a3.mp3",
+  "Do they live near the park?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/4749ecaaea35e66a39ae.mp3",
+  "Do you agree that reading widens our minds?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/de1a94cd58872604d725.mp3",
+  "Do you play football on Saturdays?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/c78a2a3a7d7fe62abba9.mp3",
+  "Do you want to stay home or go out tonight?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/5dfea9ce9b397f8879d7.mp3",
+  "Does he go to school by subway every day?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/e9470b1d337dd7965896.mp3",
+  "Does she have a sister in Grade Nine?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/34954a461fca34c16912.mp3",
+  "Does she often help you with your maths?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/b849140ce98c355cfc6c.mp3",
+  "Does she speak French?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/ae89e3913fd3ac9d1fc0.mp3",
+  "Does your brother study French as a second language?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/70ec16d836df7d612378.mp3",
+  "Either you or he has to hand in the form today.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/35968c20a7fd43308948.mp3",
+  "every morning": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/19c6456a63669d09249b.mp3",
+  "Every week, we change seats.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/1195fa05aa5c80724e3c.mp3",
+  "Everyone is here except Tom.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/eeab70fbcbabad76df87.mp3",
+  "Everyone knows that health comes first.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/0d60631b69440aa0c951.mp3",
+  "Finally, I realized the greatness of our history and felt very proud.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/069603290d741e6fcfa8.mp3",
+  "First, we protected the environment by picking up rubbish along the river.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/172c169b6fa05fd99cd2.mp3",
+  "First, we swept the floor and cleaned the public seats.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/5f80c8e1fe463ca89f34.mp3",
+  "Flight CA123 takes off on time even in bad weather.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/dd818bdc73f702d97d51.mp3",
+  "Food is life.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/017dc23a0b73f765265f.mp3",
+  "Good habits shape our future day by day.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/99a6e4811eb47504661e.mp3",
+  "Grandma made a delicious cake for my birthday party.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/dcc4ce373fd45aef7e78.mp3",
+  "Grandma told me that a friend in need is a friend indeed.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/7c49b25ebed783e7ec52.mp3",
+  "Great ideas come to me in the shower sometimes.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/20d23e311f2f42306799.mp3",
+  "Great job.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/b96d412edbe8e03a1486.mp3",
+  "He doesn't have much free time on weekdays.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/99b4531507cdff0e659e.mp3",
+  "He doesn't watch horror movies.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/45dfb3dd4ff67d9614ee.mp3",
+  "He hardly ever eats fast food for lunch.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/d5b26bc6770e6c5cb4e1.mp3",
+  "He has a clear plan for the next five years.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/aef03d9ce81aea96472e.mp3",
+  "He is eating an apple.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/33cd998121282233006c.mp3",
+  "He is eating lunch right now.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/05a2df585fe9366d0d39.mp3",
+  "He is often mistaken for his twin brother.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/55734d2d2261de943985.mp3",
+  "He is reading a newspaper.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/4c4563a15cb9f2f5745f.mp3",
+  "He is running in the park.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/cf87f1e1b45be5729f95.mp3",
+  "He isn't lazy; he just needs a clearer goal.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/a9ffafe673b01cab9ee8.mp3",
+  "He isn't working today.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/38161f23c217c60daab9.mp3",
+  "He knew the answer, but he still listened to others carefully.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/925192a26138b3df856c.mp3",
+  "He learned in class that water freezes at zero degrees Celsius.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/509c88558d4ba538ef13.mp3",
+  "He lived in a small town near the mountains for five years.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/116dca25feb349897eed.mp3",
+  "He never drinks coffee.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/8d5d8337c33efd2ce781.mp3",
+  "He often reads on the bus to save time.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/499536e67b82524fecdf.mp3",
+  "He plays basketball and runs every afternoon.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/d94447eba3e155b05abc.mp3",
+  "He practices the piano every weekend without fail.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/fe22c61a9b9e76da8b94.mp3",
+  "He read the detective story twice and wrote a short review.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/6392e1ac105d7265574d.mp3",
+  "He reads a book before bed.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/0c784537719d9e49de98.mp3",
+  "He reads English every morning.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/944dd942ae73ab27debe.mp3",
+  "He tries again every time he fails.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/31ec2111430087e21c25.mp3",
+  "He understood the true meaning of teamwork after the game.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/e4851a3e3cf621101d6e.mp3",
+  "He was very tired after the long train journey yesterday.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/b00a098f1e06a1315030.mp3",
+  "He watches documentaries that broaden his view.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/1a8deeb5803018c704c8.mp3",
+  "Honesty is the best policy in the long run.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/9299a0fb6ade5341a304.mp3",
+  "I am cleaning the room now.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/f01a8c0a4bb78cd4f14b.mp3",
+  "I am doing my homework now.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/81391e8d16e4f705a1b7.mp3",
+  "I am drinking water.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/57ce82a3b630560b2dba.mp3",
+  "I am not afraid of making mistakes when I speak English.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/4b5b93c824b0c91ac4ed.mp3",
+  "I am not watching TV now.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/66ba853e0b7b9d33fadc.mp3",
+  "I am reading an interesting book.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/7623ee3bb4c266f7c567.mp3",
+  "I am responsible for my own progress.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/3cc0022a2024af460bd3.mp3",
+  "I am tired.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/d1457057d14c5b972bf0.mp3",
+  "I am understanding.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/d4e7a331c5baabc12f0c.mp3",
+  "I clean my room every weekend.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/046d9a11ab98d43fefd1.mp3",
+  "I didn't finish my science project until Sunday evening.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/3e1341e0fe6a86dfc679.mp3",
+  "I don't always agree with him, but I respect him.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/2b51ed2f7a49f40c2365.mp3",
+  "I don't like bananas.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/0753a30dacb471a7b7e5.mp3",
+  "I experienced the charm of traditional Chinese culture.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/47c0d54c8dfb9ef4afe5.mp3",
+  "I experienced the deep charm of traditional Chinese culture.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/7faaed993ed00b2d73a5.mp3",
+  "I go to school every day.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/6235ea3076e01cdcbd6e.mp3",
+  "I love hiking.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/077068eed062a8a1e789.mp3",
+  "I love music very much.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/7434be360f4d388004f4.mp3",
+  "I often listen to the news or music.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/8254d00875ac916ef1f6.mp3",
+  "I only played computer games when I had free time.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/103aa102cc4e04a020b1.mp3",
+  "I play basketball every weekend with my brother and my friends.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/6c3f9bfb90e90ba100fe.mp3",
+  "I play it three times a week.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/d1d3a177ba76511a2cd8.mp3",
+  "I play the guitar in the school band.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/4ebb3650d63a3ab4a8c6.mp3",
+  "I put my umbrella by the door when I came in from the rain.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/330d5454b563e279ea8a.mp3",
+  "I read English books every morning.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/ca3cc673d321acb369ab.mp3",
+  "I realized the importance of protecting the environment.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/1ebecbf86ef892918945.mp3",
+  "I sometimes doubt myself, and that is OK.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/11c7c2f19f8a14e27560.mp3",
+  "I understand this rule now.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/810e60903b9cc5c478fa.mp3",
+  "I usually finish my homework before dinner.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/216da4be8b3338aac281.mp3",
+  "I usually review my notes before bed.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/0f592a9f6925cad2619b.mp3",
+  "I was in the countryside with my grandparents last summer.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/4191da7e857aaa3e6f18.mp3",
+  "I will call you when he comes back.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/68a212f6a65abb223d0b.mp3",
+  "I will remind you when the deadline draws near.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/eaef9e2f0314ab16db7b.mp3",
+  "I won't leave until you promise to be safe.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/4f6dc52adbdb12347207.mp3",
+  "I'm 13 years old.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/51c909261e76c340fa64.mp3",
+  "If it rains tomorrow, we will stay indoors.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/cd6ebc11f71a0ad1defb.mp3",
+  "In a word, I understood the true meaning of cultural protection.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/8d2ba1ff4cfe6d9aa9cf.mp3",
+  "In the past, I didn't like reading books at all.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/d462e0e2b012dd619c43.mp3",
+  "Is he playing soccer in the park?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/d1f458bb954803bb502c.mp3",
+  "Is he talking on the phone?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/93f1c4e7607329500d47.mp3",
+  "Is she a singer or an actress?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/904683131e6f0f33dcba.mp3",
+  "Is this room tidy or not?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/ca636340cf53b03b139d.mp3",
+  "It is a good time to review grammar now.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/21be982c8bf9a19bbe2b.mp3",
+  "It is cold outside.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/b99dc9387f72e37d4cf4.mp3",
+  "It meant a lot to me because teamwork made everything better.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/ec6ce00278829e897bd1.mp3",
+  "It was rainy and cold when we arrived in Chengdu last Friday.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/4ea6da27aec066ac6358.mp3",
+  "It's behind the bookcase.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/c8c910a7cd798f500891.mp3",
+  "It's behind the box.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/32f42bdf49d9e4da8823.mp3",
+  "It's next to the bookcase.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/c0047ce45c405f0a024d.mp3",
+  "It's on the chair.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/85f28af7cd805d2ff54d.mp3",
+  "It's on the desk.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/53c213e9c9acde12220b.mp3",
+  "It's only a 10-minute walk.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/d346c77e707d8881c79b.mp3",
+  "It's under the bed.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/46067abfaef376ee5976.mp3",
+  "Jamila runs in the park after school on Thursdays.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/095f2504b2d8f20a7662.mp3",
+  "Kate often practices the violin on weekends, but she is playing basketball with her friends right now.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/418989c7efe97a27b36c.mp3",
+  "Knowledge is power.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/6ecb0a33873b6b0e4574.mp3",
+  "Last Saturday, we went to the city park to do some volunteer work.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/2710e45412141c46bb5d.mp3",
+  "Last summer holiday, I (1)____(go) to Chengdu with my parents. We (2)____(visit) the Sanxingdui Museum on the first day. The ancient masks (3)____(be) amazing! I (4)____(feel) very proud of our culture. On the second day, we (5)____(take) a bus to the panda base. We (6)____(see) many cute pandas eating bamboo. It (7)____(start) to rain in the afternoon, so we (8)____(not climb) the mountain. Instead, we (9)____(eat) some delicious hot pot. We really had a great time! I (10)____(hope) to travel there again in the future!": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/be241aaa8332f88193a9.mp3",
+  "Last Sunday , I went to the Sanxingdui Museum with my classmates . At first , I didn't understand the history well . But when the local guide introduced the ancient bronze masks , I experienced the magic of traditional Chinese culture . Suddenly , it started to rain outside . We stayed in the museum and bought some special gifts . The rain stopped two hours later . We took a bus home safely . I achieved a lot and felt really proud of our culture .": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/aa6d4eaedf202df79323.mp3",
+  "Last Sunday, I took a bus to the Sanxingdui Museum with my friends.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/b7b09420573dbf08a42b.mp3",
+  "Last weekend, our class organized a trip to the Sanxingdui Museum.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/9d90d669b9ba2dacde12.mp3",
+  "Lily and Lucy's bags": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/b92a47a08cc118b04e29.mp3",
+  "Lily and Lucy's room": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/9da343f8db74334bf3e3.mp3",
+  "Lily's and Lucy's bags": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/7fa73319ce4ee8adb8e4.mp3",
+  "Lily's and Lucy's room": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/924421df751592259eaa.mp3",
+  "Linda studies chemistry until midnight before exams.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/6317f04c5a3442915949.mp3",
+  "Look! Emma is reading an English book.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/3872860abad3b86191ec.mp3",
+  "Mike and Tom's room": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/e9ae5b2aaa265309f8d7.mp3",
+  "Mike and Tom's rooms": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/5da2fdf369f636753251.mp3",
+  "Mike's and Tom's room": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/59654d60d81ba68644ab.mp3",
+  "Mike's and Tom's rooms": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/3366b1fb282484edf47b.mp3",
+  "Mom is cooking soup.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/d5415f638cff35c4130f.mp3",
+  "My birthday is on 28th July.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/3784514214dff2b9ea35.mp3",
+  "My cousin cleaned the classroom after school yesterday afternoon.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/4ab50c949b5d3dd86ed3.mp3",
+  "My dad works in a bank.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/c2231076b4042760981e.mp3",
+  "My family": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/bb47d7d4f800a7658b8e.mp3",
+  "My father has a new car.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/5f164047574d62062184.mp3",
+  "My favourite food is beef noodles.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/a1413e24e3b8b3bd6821.mp3",
+  "My favourite subject is music.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/d010d3a01eebd64d660f.mp3",
+  "My mom is cooking dinner.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/1718038c3882727fb4c3.mp3",
+  "My mother bought some fresh fruit at the market this morning.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/ddb771f9b2207f0ce18e.mp3",
+  "My name is Emma Miller.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/d7991fbb82e580772083.mp3",
+  "My parents were proud of my progress last term.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/abb80e29e7da07836afd.mp3",
+  "My sister studies harder than anyone else in her class.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/e94d7415176128a1584b.mp3",
+  "Neither he nor his parents are free this weekend.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/5f6e8b60fcaf6e9e0dfc.mp3",
+  "Neither Tom nor his sister is willing to give up.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/157895ca77675e864434.mp3",
+  "No, Sandra isn't feeling well.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/7910d5e8a61651d4ef43.mp3",
+  "Nobody wants to repeat the same mistake twice.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/aead7acede95b41651a9.mp3",
+  "Not goes after the be verb.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/ca72c760fc28d4dbffb2.mp3",
+  "Now drag the be verb to the beginning.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/acf21bc3f373814518f6.mp3",
+  "Nowadays, I spend at least an hour reading every day.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/a976f31e81e802040f4d.mp3",
+  "Our class was not quiet during the break.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/17cf06230062d4d2ef93.mp3",
+  "Our English teacher taught us how to write a good diary last term.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/137f1b61ea431fcae531.mp3",
+  "Our teacher said that light travels faster than sound.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/33c72d13d0489018e2be.mp3",
+  "People often threw rubbish into it.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/555ae23c3f5c5489d3c2.mp3",
+  "Physics is my favourite subject this term.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/3f51170fb0ac73cae5db.mp3",
+  "Please turn off the lights before you leave.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/393f24e104bdc99f9946.mp3",
+  "Practice makes perfect.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/2c06db6691b3926b596e.mp3",
+  "Put the ball above the bed.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/fed0c0bdc287993e692f.mp3",
+  "Put the ball at the chair.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/5b58d824e382c09c6d9a.mp3",
+  "Put the ball next to the bed.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/c8d20ca59ec94c1bc564.mp3",
+  "Put the ball on the right side of the desk.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/faa614cffbeff056e05f.mp3",
+  "Put the ball under the chair.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/99a9615743a19ccb2405.mp3",
+  "Put the book beneath the desk.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/a23dfcc29ea9d1139567.mp3",
+  "Put the book on the desk.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/c779aa9bd212fbce8370.mp3",
+  "Put the book on the left side of the chair.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/b22f10f6acb61d1503f0.mp3",
+  "Put the book over the chair.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/67be5e8dd2af61963f82.mp3",
+  "Put the glove above the chair.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/bbc44068f1bffce31fb1.mp3",
+  "Put the glove beneath the chair.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/76f59f54f88662b4cc14.mp3",
+  "Put the glove beside the chair.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/a1b98bd41a8782ff07fc.mp3",
+  "Put the glove on the bed.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/ee4124ad8fc3fe5d6232.mp3",
+  "Put the keys at the desk.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/0cfeb751dd9232110d0d.mp3",
+  "Put the keys next to the bed.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/f08026a9d26a44ffca6a.mp3",
+  "Put the keys over the desk.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/ac2cde9c11b41d3a8370.mp3",
+  "Put the schoolbag below the bed.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/b20f2ac0c7c302dd6e99.mp3",
+  "Put the schoolbag beside the desk.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/b574a8e0e0d93433a040.mp3",
+  "Put the schoolbag on the bed.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/6475ed35323b5b298cdc.mp3",
+  "Put the schoolbag on the chair.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/88eccbf1e52a3a8a3d67.mp3",
+  "Reading opens up a whole new world for me now.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/537b9fa95ebce831508b.mp3",
+  "School starts at eight on weekdays.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/4ab56d3070bb76d5d805.mp3",
+  "Scientists proved long ago that the moon has no air of its own.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/73112007d36a2d6d2f51.mp3",
+  "She believes that effort matters more than talent.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/40f450b469ecf1fc7b76.mp3",
+  "She didn't forget to bring the map when we climbed the hill.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/f73eea2667899d427799.mp3",
+  "She doesn't do her homework carelessly.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/784ac35ee9e9df39f3bc.mp3",
+  "She drank a cup of hot milk before she went to bed last night.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/a596499a38fa8d46dcfa.mp3",
+  "She enjoys the story and plays the piano well.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/a93e5e87017ce3c73633.mp3",
+  "She experienced the beauty of traditional Chinese culture in Xi'an.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/b28b0065c32b1316db6b.mp3",
+  "She fixes her bike by herself on weekends.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/a647c1d6e51dd87977c5.mp3",
+  "She has nothing to prove to anyone else.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/e3cb677174c58aa678b3.mp3",
+  "She is always polite to strangers.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/c68b3a51dc241f525fa1.mp3",
+  "She is confident and well prepared for the exam.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/b2a345d2aada0e41ee89.mp3",
+  "She is drawing a picture.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/e091ca12efbbb072f1a9.mp3",
+  "She is never late for important meetings.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/b4844231fd0f22fd5c7f.mp3",
+  "She is wearing a red dress today.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/3b1d6b61b765ed861ed2.mp3",
+  "She is writing an email.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/bcb2ba4e7ac9dac68a09.mp3",
+  "She isn't at home tonight.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/f4eaac64376931050a83.mp3",
+  "She likes chocolate ice cream.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/64524bce958098954213.mp3",
+  "She likes to exercise.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/28671939b79f4e51fd36.mp3",
+  "She often helps her classmates with English.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/c9cf11f90147569be54e.mp3",
+  "She planned a surprise birthday party for her best friend.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/f9cb6ab39c430f144d10.mp3",
+  "She plays piano at the weekend.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/fd82f6e52c037273b0ee.mp3",
+  "She seldom complains even when life gets hard.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/2bdd8f1642600c3b5587.mp3",
+  "She will feel better after she gets some sleep.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/32b46e989f1df398cc98.mp3",
+  "Sometimes the hardest part is to begin.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/055a28d11e306901a5b5.mp3",
+  "Sorry, I can't talk right now because I am playing the piano.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/1d75e5caebfa2e210349.mp3",
+  "Suraj and Nikita eat chocolate every day.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/8001e8d40dc062323d58.mp3",
+  "Suzy is always humming tunes.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/7839e88defb4798dafe2.mp3",
+  "Ten years ago, the river in my hometown was very dirty.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/d064fc5b40efa4504c91.mp3",
+  "The answer is sometimes simpler than we think.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/bd5ea06ed13baf0fa6c0.mp3",
+  "The bird is flying.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/0b60f535eb4c2247926c.mp3",
+  "The book belongs to me.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/394c21aede5e3e32f467.mp3",
+  "The book explains that practice makes perfect.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/96a21a6b3e16aa00ab4c.mp3",
+  "The book on the desk is mine.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/4b77ad96dfaf52d5dbd8.mp3",
+  "The boys are watching a football match.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/069e2b4fd63bd47b1159.mp3",
+  "The bus stopped suddenly because a cat ran across the street.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/b0b68ec0ff1772ad2780.mp3",
+  "The cat is sleeping on the mat.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/cb2fe4f3e223105a9b6c.mp3",
+  "The cat is sleeping on the sofa.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/2fd3d9f04df7b4c259cc.mp3",
+  "The cats sleep for ten hours every night.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/92e9604f6ad41c353b37.mp3",
+  "The class goes on a trip every spring.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/f05995144fa693ac94d6.mp3",
+  "The dining hall is across from the sports field.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/befbfb6b7f3c86fe3c32.mp3",
+  "The dog is sleeping.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/46050cd2187d41991982.mp3",
+  "The dog sleeps in the garden.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/da9c0ac121d3da6a8c8d.mp3",
+  "The earth goes around the sun.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/4a2db7af4035c52c95b5.mp3",
+  "The film begins in ten minutes.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/f7964dbeb3cb764ec672.mp3",
+  "The girls are dancing.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/6be644bcbfdb7880273d.mp3",
+  "The hall is usually quiet during the exam.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/e1d5e42d73790cec1ca1.mp3",
+  "The keys are under the desk.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/42c5559cb034aaa7636e.mp3",
+  "The local guide introduced the history of the ancient bronze masks to us.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/1568c62fcbe9dfa244be.mp3",
+  "The news is more surprising than we expected.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/616ae4b087de781a8882.mp3",
+  "The old bridge was very famous years ago.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/e9217e4521017f3d09b0.mp3",
+  "The pair of shoes is on sale today.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/b839b5a1d39d62e5a634.mp3",
+  "The passengers are ready to start their trip.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/59e1b65ffa4936a9c500.mp3",
+  "The school gate is open today.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/19534ebc0a550d01c98c.mp3",
+  "The school library is very big.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/cd4a52962262435c3348.mp3",
+  "The shop opens at nine and closes at six.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/168e0c2dc9a9d4a8931b.mp3",
+  "The soup smells good.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/e19828ddf016fbfdee47.mp3",
+  "The stadium is crowded.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/c1458ead3f7b1d55dd23.mp3",
+  "The sun rises in the east and sets in the west.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/eddf38eb39158e4a304c.mp3",
+  "The sun rises in the east.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/2dcae322509af4a6be70.mp3",
+  "The team has enough time to finish the project.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/472cfe23019ca7b89600.mp3",
+  "The team is hardworking.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/a6bac092bf1e91106342.mp3",
+  "The train is late today.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/7a7f7718e86566e8c912.mp3",
+  "The train leaves at seven fifteen every morning.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/c83402570ba8caf03a66.mp3",
+  "The train leaves the station at 9:00.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/a9bc4ccf7234e33ddec4.mp3",
+  "The water is clean and clear today.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/64b8644ea2a23bffaab6.mp3",
+  "The weather": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/f89c1aa041023ca82ef6.mp3",
+  "The weather is sunny today.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/a95b02144de62302fcd6.mp3",
+  "The weather was cloudy yesterday.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/ea256d8b4da7f033668e.mp3",
+  "The woman is drinking water.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/0407e0f85150f179f741.mp3",
+  "Then, we provided the old people with warm water and help.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/5b393e029265d35764d7.mp3",
+  "Then, we threw the waste into the correct recycling bins.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/74e33ba11e60cf7b8214.mp3",
+  "There are two cups and a plate on the table.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/80c2c01a0c93a2c86023.mp3",
+  "There is a cup and two plates on the table.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/32ba4204c7df0759da4c.mp3",
+  "There is a pen and two books on the desk.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/0d87a35098cd31798237.mp3",
+  "There were no green trees or beautiful flowers around it.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/79670e822d0a1cfb78c3.mp3",
+  "They are at the library, not at home.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/e0fc37712fb27641ba1c.mp3",
+  "They are at the shopping centre.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/334ff2c5578ddcf55a43.mp3",
+  "They are dancing to music.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/6041fdbf54d0e9d1fe24.mp3",
+  "They are excited to see the show.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/01527945023f3c89ed0d.mp3",
+  "They are playing a game.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/8cf4bfaa11ffb180fe3d.mp3",
+  "They are playing basketball.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/4e3ab1b7bc750c5d7e73.mp3",
+  "They are playing football in the garden.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/ad12cad215c85f9c4589.mp3",
+  "They are playing football.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/e7827478f0d9df3ceb73.mp3",
+  "They are strong.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/53d11bef55e7b59ddb07.mp3",
+  "They carried the heavy books to the reading room together.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/516abf05d2199794fd89.mp3",
+  "They make delicious jiaozi.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/96219e0859893c60b773.mp3",
+  "They play soccer after school.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/744a52238cc94d7ca3aa.mp3",
+  "They seldom stay up late on school nights.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/05b7c4080bcc5c6a13c0.mp3",
+  "They watch TV after homework.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/3f56e2b64c528334e261.mp3",
+  "They went to the nature park and saw many lovely animals.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/93942f36ab9d92b10203.mp3",
+  "They were at the beach last Sunday.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/36bb2970c3110c59b8a8.mp3",
+  "They were at the museum this morning.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/4656bf7fad3f53ad0d0c.mp3",
+  "They were not at home last night because they visited their grandparents.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/3de89036ab8a0160773d.mp3",
+  "They will not succeed unless each member does his part.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/e1f3423bcb3d26b191f0.mp3",
+  "This isn't what we agreed on yesterday.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/05db82a425588c49d20a.mp3",
+  "Those results aren't good enough yet.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/8968cc03acdeeefe227a.mp3",
+  "Tom and Jerry are both fond of science fiction.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/9a5bcef14f44bf3d41d6.mp3",
+  "Tom reads English aloud for twenty minutes each morning.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/ca2b6f007c9f77a53b9d.mp3",
+  "Tom studied harder than before and passed the exam easily.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/36db7c35a8663b639708.mp3",
+  "Try Where for places.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/c80b0582ee16cbb62bea.mp3",
+  "Water boils at 100 degrees Celsius at sea level.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/c223a756410d755a3749.mp3",
+  "We achieved our goals through hard work and patience.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/57f88b63fc56eb4cc9e2.mp3",
+  "We always walk to school unless it rains hard.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/f712150bbd4d39182b94.mp3",
+  "We are learning new words.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/e651504901e9e7641ed2.mp3",
+  "We are not afraid of a long journey ahead.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/b9c88ffcc0eabd5070d5.mp3",
+  "We are studying English this week.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/a5db236bc9f1234d332d.mp3",
+  "We bought some special souvenirs for our families.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/721147301e04bb1154b3.mp3",
+  "We don't give up when things get tough.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/9406c359b45b89a3ea04.mp3",
+  "We don't usually stay up past eleven.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/5af5eaba61a25c343699.mp3",
+  "We learn about different plants and animals.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/52cb849a92a2ba877589.mp3",
+  "We saw many amazing ancient treasures in the museum.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/12a476b476e3cdb9800c.mp3",
+  "We sometimes walk home together after school.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/99ae1ef97b77eded57d6.mp3",
+  "We spend most of the time in our classroom.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/d3b13c64ea3c069059d4.mp3",
+  "We study in the library.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/66cdbd284fe9b4a2b97f.mp3",
+  "We usually eat dinner at 7 p.m.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/ae66206a71b4196548f3.mp3",
+  "We usually take a walk along the river after dinner these days.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/0da7bd9ca2e32d77fcc8.mp3",
+  "We visit our grandparents often.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/87ec2e0eac4f7d229d69.mp3",
+  "We walk to school every morning.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/8298843bd57fdfbc7bfe.mp3",
+  "We watched an English movie about space travel last weekend.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/001d91095b0ae22f8ad2.mp3",
+  "We were excited about the school trip to the science museum.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/e1e27eb9c7f278e2876e.mp3",
+  "We will miss the train unless we hurry.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/02c965c4885a54c932e0.mp3",
+  "We will start as soon as the teacher arrives.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/ccbda79134f4e5abfb09.mp3",
+  "What did she buy for her father's birthday at the shopping mall?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/ac986c3f073e67cc1470.mp3",
+  "Where did he meet his old friends from primary school?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/b8367f204ae0ad1d8da9.mp3",
+  "Where is he playing soccer?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/abc586536baf96f9f550.mp3",
+  "Wolves take good care of their babies.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/47311d3805c61afad187.mp3",
+  "Would you like tea or coffee?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/966e7f2b2ea435ca8381.mp3",
+  "Yes, I am sure.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/802e24860a78f4f2c59c.mp3",
+  "Yes, it's raining.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/06522fc43f9201d018b5.mp3",
+  "Yesterday, my classmates and I planned a meaningful charity activity.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/60758fdafd329486f9e8.mp3",
+  "You are what you eat.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/9ca6fc78e71809c53808.mp3",
+  "You were excited to share your experience.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/137d706156bae6268dc2.mp3",
+  "You will pass the exam if you work hard enough.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/c4514b34806df02d7b1f.mp3",
+  "我是保护重要人物的保镖，我永远走在我的老板前面。 My、your、his、her、its、our、their，都是我的分身。": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/7ebc2033c1938abee4a6.mp3",
+  "我是超人，我喜欢单打独斗，我永远自己行侠仗义。 Mine、yours、his、hers、its、ours、theirs，都是我的分身。": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/82af81d70c6d44e24222.mp3",
+  "Excellent! Everything is in order now.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/a60990684681058b88a6.mp3",
+  "Whose bag is this?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/52a7a9f46537ecfae032.mp3",
+  "Whose books are these?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/29e772686233f2f508b5.mp3",
+  "Whose dictionary is this?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/7185e204cf7736244b16.mp3",
+  "Whose glasses are these?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/a07fa0b1479e1e042661.mp3",
+  "Whose sneakers are these?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/20df5b0df3cd71193eb9.mp3",
+  "Whose socks are these?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/356c4cfd0b4785c41e8e.mp3",
+  "Whose trumpet is this?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/e516e47e78d385a70129.mp3",
+  "Whose water bottle is this?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/assets/tts-mp3/c9092d54e8b14c1b04f6.mp3"
+};
+
+</script>
+  <script>
+/* inlined: assets/lesson-tts-bootstrap.js */
+/**
+ * 本地 MP3 优先（配合 assets/tts-manifest.js 中 window.__LESSON_TTS_MANIFEST）。
+ * 1) playLocalIfAvailable：直接按文案查找并播放。
+ * 2) fetch 拦截：课件内对 Azure TTS 的 fetch(SSML) 若 manifest 有对应句，则改为 fetch(本地 mp3) 并返回同形态 Response，无需改各页 speak()。
+ *
+ * 可选：window.__AZURE_SPEECH_KEY__ 供仍走在线时的密钥（勿写入仓库）。
+ */
+(function () {
+  "use strict";
+
+  function norm(s) {
+    return String(s || "")
+      .replace(/\s+/g, " ")
+      .trim();
+  }
+
+  function map() {
+    return typeof window !== "undefined" && window.__LESSON_TTS_MANIFEST ? window.__LESSON_TTS_MANIFEST : {};
+  }
+
+  /** 从 SSML 中取 <voice>…</voice> 内纯文本（去内层标签与常见实体；须与 manifest 键一致） */
+  function extractSsmlVoicePlain(ssml) {
+    var m = String(ssml).match(/<voice[^>]*>([\s\S]*?)<\/voice>/i);
+    if (!m) return "";
+    var inner = m[1].replace(/<[^>]+>/g, " ");
+    inner = inner
+      .replace(/&#39;/g, "'")
+      .replace(/&#039;/g, "'")
+      .replace(/&apos;/g, "'")
+      .replace(/&#x27;/gi, "'")
+      .replace(/&quot;/g, '"')
+      .replace(/&lt;/g, "<")
+      .replace(/&gt;/g, ">")
+      .replace(/&nbsp;/g, " ")
+      .replace(/&amp;/g, "&");
+    return norm(inner);
+  }
+
+  function isAzureTtsRequest(input, init) {
+    try {
+      var u = typeof input === "string" ? input : input && input.url;
+      if (!u || String(u).indexOf("tts.speech.microsoft.com") === -1) return false;
+      if (!init || String(init.method || "GET").toUpperCase() !== "POST") return false;
+      var ct = "";
+      if (init.headers) {
+        if (typeof init.headers.get === "function") ct = init.headers.get("Content-Type") || "";
+        else ct = init.headers["Content-Type"] || init.headers["content-type"] || "";
+      }
+      if (!ct || String(ct).indexOf("ssml") === -1) return false;
+      var body = init.body;
+      if (typeof body !== "string" || body.indexOf("<speak") === -1) return false;
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  var origFetch = typeof window.fetch === "function" ? window.fetch.bind(window) : null;
+
+  if (origFetch) {
+    window.fetch = function (input, init) {
+      if (isAzureTtsRequest(input, init) && map() && typeof init.body === "string") {
+        var phrase = extractSsmlVoicePlain(init.body);
+        if (phrase) {
+          var m = map();
+          var rel = m[phrase] || m[norm(phrase)];
+          if (rel) {
+            return origFetch(rel, { method: "GET", credentials: "same-origin", cache: "force-cache" })
+              .then(function (res) {
+                if (!res.ok) return origFetch(input, init);
+                return res;
+              })
+              .catch(function () {
+                return origFetch(input, init);
+              });
+          }
+        }
+      }
+      return origFetch(input, init);
+    };
+  }
+
+  /**
+   * @param {string} text
+   * @returns {Promise<boolean>} true 已播放本地文件
+   */
+  function playLocalIfAvailable(text) {
+    var k = norm(text);
+    if (!k) return Promise.resolve(false);
+    var m = map();
+    var rel = m[k] || m[text] || m[String(text || "").trim()];
+    if (!rel) return Promise.resolve(false);
+    return new Promise(function (resolve) {
+      var a = new Audio(rel);
+      var done = false;
+      function fin(ok) {
+        if (done) return;
+        done = true;
+        resolve(!!ok);
+      }
+      a.onended = function () {
+        fin(true);
+      };
+      a.onerror = function () {
+        fin(false);
+      };
+      var p = a.play();
+      if (p && typeof p.catch === "function") {
+        p.catch(function () {
+          fin(false);
+        });
+      }
+    });
+  }
+
+  window.LessonTTSBootstrap = {
+    norm: norm,
+    playLocalIfAvailable: playLocalIfAvailable,
+    extractSsmlVoicePlain: extractSsmlVoicePlain
+  };
+})();
+
+</script>
+  <script>
+/* inlined: assets/lesson-speak-local.js */
+/**
+ * 统一朗读：优先 L03 专用 manifest → 全局 tts-manifest 本地 MP3 → Azure SSML（需 window.__AZURE_SPEECH_KEY__）。
+ * 不使用浏览器 speechSynthesis。请在 tts-manifest.js / l03-audio-manifest.js 与对应 mp3 就绪后离线使用。
+ */
+(function () {
+  "use strict";
+
+  function norm(s) {
+    return String(s || "")
+      .replace(/\s+/g, " ")
+      .trim();
+  }
+
+  function xmlEscape(s) {
+    return String(s)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+
+  function playBlob(blob, resolve) {
+    var u = URL.createObjectURL(blob);
+    var a = new Audio(u);
+    var done = false;
+    function fin() {
+      if (done) return;
+      done = true;
+      try {
+        URL.revokeObjectURL(u);
+      } catch (e) {}
+      resolve();
+    }
+    a.onended = fin;
+    a.onerror = fin;
+    var p = a.play();
+    if (p && typeof p.catch === "function") p.catch(fin);
+    setTimeout(fin, 60000);
+  }
+
+  function tryL03Local(t) {
+    return new Promise(function (resolve) {
+      var E = typeof window !== "undefined" && window.L03AudioManifest && window.L03AudioManifest.entries;
+      if (!E) {
+        resolve(false);
+        return;
+      }
+      var rel = E[t] || E[norm(t)];
+      if (!rel) {
+        resolve(false);
+        return;
+      }
+      var a = new Audio(rel);
+      var done = false;
+      function fin(ok) {
+        if (done) return;
+        done = true;
+        resolve(!!ok);
+      }
+      a.onended = function () {
+        fin(true);
+      };
+      a.onerror = function () {
+        fin(false);
+      };
+      var p = a.play();
+      if (p && typeof p.catch === "function") {
+        p.catch(function () {
+          fin(false);
+        });
+      }
+    });
+  }
+
+  function tryGlobalLocal(t) {
+    if (!window.LessonTTSBootstrap || !window.LessonTTSBootstrap.playLocalIfAvailable) {
+      return Promise.resolve(false);
+    }
+    return window.LessonTTSBootstrap.playLocalIfAvailable(t);
+  }
+
+  function speakAzureSsml(text, lang) {
+    return new Promise(function (resolve) {
+      var key =
+        (typeof window !== "undefined" && window.__AZURE_SPEECH_KEY__) ||
+        (typeof window !== "undefined" && window.__AZURE_TTS_KEY__) ||
+        "";
+      var region =
+        (typeof window !== "undefined" && window.__AZURE_SPEECH_REGION__) ||
+        (typeof window !== "undefined" && window.__AZURE_TTS_REGION__) ||
+        "eastus2";
+      if (!key) {
+        console.error(
+          "[LessonSpeak] 无离线语音：manifest 未命中或 assets/tts-mp3 中缺少对应文件，且未配置 window.__AZURE_SPEECH_KEY__。朗读文本预览:",
+          String(text).slice(0, 120)
+        );
+        resolve();
+        return;
+      }
+      var l = lang || "en-US";
+      var voice = /^zh/i.test(l) ? "zh-CN-YunxiNeural" : "en-US-JennyNeural";
+      var ssml =
+        "<speak version='1.0' xml:lang='" +
+        xmlEscape(l) +
+        "'><voice xml:lang='" +
+        xmlEscape(l) +
+        "' name='" +
+        xmlEscape(voice) +
+        "'>" +
+        xmlEscape(norm(text)) +
+        "</voice></speak>";
+      var url = "https://" + region + ".tts.speech.microsoft.com/cognitiveservices/v1";
+      fetch(url, {
+        method: "POST",
+        headers: {
+          "Ocp-Apim-Subscription-Key": key,
+          "Content-Type": "application/ssml+xml",
+          "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3"
+        },
+        body: ssml
+      })
+        .then(function (res) {
+          if (!res.ok) {
+            return res.text().then(function (t) {
+              throw new Error(String(res.status) + " " + t.slice(0, 120));
+            });
+          }
+          return res.blob();
+        })
+        .then(function (blob) {
+          playBlob(blob, resolve);
+        })
+        .catch(function () {
+          resolve();
+        });
+    });
+  }
+
+  /**
+   * @param {string} text
+   * @param {{ lang?: string }} [opts]  lang 默认 en-US；中文例句用 zh-CN
+   */
+  function playText(text, opts) {
+    opts = opts || {};
+    var lang = opts.lang || "en-US";
+    var t = norm(text);
+    if (!t) return Promise.resolve();
+    return tryL03Local(t).then(function (ok) {
+      if (ok) return;
+      return tryGlobalLocal(t).then(function (ok2) {
+        if (ok2) return;
+        var key =
+          (typeof window !== "undefined" && window.__AZURE_SPEECH_KEY__) ||
+          (typeof window !== "undefined" && window.__AZURE_TTS_KEY__) ||
+          "";
+        if (!key) {
+          return Promise.reject(
+            new Error(
+              "[LessonSpeak] 离线无音频：请补全 assets/tts-mp3 与 manifest，或配置 window.__AZURE_SPEECH_KEY__"
+            )
+          );
+        }
+        return speakAzureSsml(t, lang);
+      });
+    });
+  }
+
+  function playEnglish(text) {
+    return playText(text, { lang: "en-US" });
+  }
+
+  window.LessonSpeak = {
+    norm: norm,
+    playText: playText,
+    playEnglish: playEnglish
+  };
+})();
+
+</script>
+</head>
+<body class="has-lesson-pager">
+  <div class="book">
+    <div class="top-bar" id="topBar">
+      <strong>第02讲</strong> · Page 7 · 正在进行时：句式变变变
+    </div>
+
+    <nav class="phase-jump" aria-label="阶段切换">
+      <button type="button" class="phase-tab active" data-phase="1">阶段一 · 否定魔法</button>
+      <button type="button" class="phase-tab" data-phase="2">阶段二 · 青蛙跳跃</button>
+      <button type="button" class="phase-tab" data-phase="3">阶段三 · Wh- 侦探</button>
+      <button type="button" class="phase-tab" data-phase="4">阶段四 · 终极竞技</button>
+    </nav>
+
+    <!-- 阶段一 -->
+    <div class="phase-panel is-active" data-phase="1" id="panel-1">
+      <h2 class="stage-title">否定魔法 (Negative Shield)</h2>
+      <p class="hint">not 盾牌必须紧跟在 <strong>Be 动词</strong> 后面，像盾牌一样挡住整个动作。</p>
+      <div class="demo-board">
+        <div class="token-row" id="p1DemoTokens">
+          <span class="word-chip">I</span>
+          <span class="word-chip be" id="p1DemoBe">am</span>
+          <span class="word-chip not-slot" id="p1NotSlot"></span>
+          <span class="word-chip">watching</span>
+          <span class="word-chip">TV</span>
+          <span class="word-chip">now</span>
+          <span class="word-chip">.</span>
+        </div>
+      </div>
+      <button type="button" class="crayon-btn" id="p1SummonBtn">召唤 NOT 盾牌</button>
+      <div id="p1PracticeWrap" style="display:none;">
+        <p class="hint" id="p1PracticeHint"></p>
+        <div class="demo-board" id="p1PracticeBoard"></div>
+        <div style="margin-top:0.75rem;">
+          <span class="hint" style="display:inline;margin-right:0.5rem;">拖动 not 到正确位置：</span>
+          <span class="drag-chip" id="p1NotDrag" draggable="true">not</span>
+        </div>
+        <p class="hint" id="p1Feedback" style="min-height:1.5rem;color:var(--crayon-red);"></p>
+        <button type="button" class="crayon-btn" id="p1NextDrill" style="display:none;">下一题</button>
+      </div>
+    </div>
+
+    <!-- 阶段二 -->
+    <div class="phase-panel" data-phase="2" id="panel-2">
+      <h2 class="stage-title">青蛙跳跃 (The Frog Leap)</h2>
+      <p class="hint">一般疑问句要把 <strong>Be 动词</strong> 跳到句首，像青蛙一跃到最前！</p>
+      <div class="demo-board">
+        <div class="token-row" id="p2DemoBefore">
+          <span class="word-chip">They</span>
+          <span class="word-chip be" id="p2DemoBe">are</span>
+          <span class="word-chip">swimming</span>
+          <span class="word-chip">at</span>
+          <span class="word-chip">the</span>
+          <span class="word-chip">moment</span>
+          <span class="word-chip">.</span>
+        </div>
+        <div class="token-row" id="p2DemoAfter" style="display:none;margin-top:0.5rem;">
+          <span class="word-chip be" id="p2DemoBeMoved">Are</span>
+          <span class="word-chip">they</span>
+          <span class="word-chip">swimming</span>
+          <span class="word-chip">at</span>
+          <span class="word-chip">the</span>
+          <span class="word-chip">moment</span>
+          <span class="big-q" id="p2BigQ">?</span>
+        </div>
+      </div>
+      <button type="button" class="crayon-btn" id="p2LeapBtn">发起提问</button>
+      <div id="p2Challenge" style="display:none;">
+        <p class="hint" id="p2ChalStem"></p>
+        <div class="token-row" id="p2ChalWords"></div>
+        <p class="hint" id="p2ChalFb" style="color:var(--crayon-red);min-height:1.4rem;"></p>
+      </div>
+    </div>
+
+    <!-- 阶段三 -->
+    <div class="phase-panel" data-phase="3" id="panel-3">
+      <h2 class="stage-title">侦探寻踪 (Wh- Detective)</h2>
+      <p class="hint p3-wh-intro">下列六组 <strong>Wh-</strong> 示范（<strong>Where / What / Who / When / How / Which</strong>），每组占一行阅读：先看<strong>划线（波浪线）</strong>在问什么，再选对疑问词；下方互动关是其中 <strong>Where</strong> 的完整拖放演练。</p>
+      <div class="p3-wh-gallery" aria-label="Wh- 疑问词例句演示">
+        <div class="p3-wh-card">
+          <span class="tag">Where</span>
+          <p class="zh-hint">问地点 · 对「在哪儿」拍照</p>
+          <p class="stem">He is playing soccer <span class="hl">in the park</span>.</p>
+          <p class="arrow">→ 省略地点状语，把 Where 放在最前：</p>
+          <p class="q">Where is he playing soccer?</p>
+        </div>
+        <div class="p3-wh-card">
+          <span class="tag">What</span>
+          <p class="zh-hint">问事情 / 动作 · 对「在干什么」拍照</p>
+          <p class="stem">They are <span class="hl">watching a cartoon</span> now.</p>
+          <p class="arrow">→ 省略划线动作，常用 doing 概括：</p>
+          <p class="q">What are they doing now?</p>
+        </div>
+        <div class="p3-wh-card">
+          <span class="tag">Who</span>
+          <p class="zh-hint">问人 · 对「是谁」拍照</p>
+          <p class="stem"><span class="hl">My sister</span> is cooking soup in the kitchen.</p>
+          <p class="arrow">→ 省略主语 Who，其余语序跟一般疑问：</p>
+          <p class="q">Who is cooking soup in the kitchen?</p>
+        </div>
+        <div class="p3-wh-card">
+          <span class="tag">When</span>
+          <p class="zh-hint">问时间 · 对「什么时候」拍照</p>
+          <p class="stem">We are meeting <span class="hl">at five o'clock</span>.</p>
+          <p class="arrow">→ 省略时间状语：</p>
+          <p class="q">When are we meeting?</p>
+        </div>
+        <div class="p3-wh-card">
+          <span class="tag">How</span>
+          <p class="zh-hint">问方式 / 状况 · 对「怎样去、感觉如何」拍照</p>
+          <p class="stem">She is coming <span class="hl">by bus</span>.</p>
+          <p class="arrow">→ 省略方式状语：</p>
+          <p class="q">How is she coming?</p>
+        </div>
+        <div class="p3-wh-card">
+          <span class="tag">Which</span>
+          <p class="zh-hint">问哪一个 · 在有限范围内挑选</p>
+          <p class="stem">You are reading <span class="hl">the English book</span> on the desk.</p>
+          <p class="arrow">→ Which + 名词 + 一般疑问语序：</p>
+          <p class="q">Which book are you reading on the desk?</p>
+        </div>
+      </div>
+      <p class="p3-step-banner" id="p3StepBanner"><strong>Step ①</strong> 请看陈述句，先<strong>点击</strong>句中的 <strong>Be 动词</strong>，让它高亮。</p>
+      <div class="demo-board">
+        <div id="p3Stage"></div>
+      </div>
+      <div id="p3WhWrap" style="display:none;margin-top:0.75rem;">
+        <p class="hint" style="margin:0 0 0.5rem;">从下方<strong>拖动</strong>正确的 Wh- 词到最前方的紫色虚线框（在 Be 动词之前）：</p>
+        <div class="wh-palette" id="p3WhPalette"></div>
+      </div>
+      <p class="hint" id="p3Fb" style="color:var(--crayon-red);min-height:1.4rem;"></p>
+      <button type="button" class="crayon-btn" id="p3ResetBtn">重来本阶段演示</button>
+    </div>
+
+    <!-- 阶段四 -->
+    <div class="phase-panel" data-phase="4" id="panel-4">
+      <h2 class="stage-title">终极竞技 (Battle Arena)</h2>
+      <p class="hint">1 分钟限时，题目来自本页内置「进行时」题库（句式转换 / 选择 / 填空）。每题只出现一次。</p>
+      <div style="margin-bottom:0.5rem;">
+        <label class="hint">学员代号（教师登记用）：</label>
+        <input type="text" id="studentId" placeholder="如：第3组-李明" style="max-width:220px;padding:0.35rem;border-radius:8px;border:2px solid #ccc;" />
+      </div>
+      <div class="arena-hud">
+        <div class="timer" id="battleTimer">60.0</div>
+        <div class="hp-bar-wrap"><div class="hp-bar" id="hpBar"></div></div>
+        <div class="score">得分 <span id="battleScore">0</span></div>
+      </div>
+      <button type="button" class="crayon-btn" id="btnBattle">开始 1 分钟挑战</button>
+      <div id="battleActive" style="display:none;">
+        <div class="battle-task">
+          <div class="battle-affirm" id="battleAffirm"></div>
+          <div id="battlePrompt"></div>
+        </div>
+        <div class="opt-grid" id="battleOpts"></div>
+        <div class="mirror-card" id="battleMirror"></div>
+      </div>
+      <label class="hint" style="display:block;margin-top:0.75rem;">课堂记录（教师可复制汇总）</label>
+      <textarea class="teacher-log" id="teacherLog" readonly placeholder="开始挑战后，每次作答会追加一行记录…"></textarea>
+    </div>
+
+    <nav class="footer-nav">
+      <a href="lesson02-page06-force5.html">← Page 6</a>
+      <span class="nav-sep">|</span>
+      <span>Page 7</span>
+      <span class="nav-sep">|</span>
+      <a href="lesson02-page08-wrap.html" id="btnNext">结业典礼 →</a>
+    </nav>
+  </div>
+
+  <div class="shield-fly" id="shieldFly">not</div>
+  <div class="result-overlay" id="resultOverlay">
+    <div class="result-panel">
+      <h3>时间到！</h3>
+      <p>得分 <span id="resScore">0</span> · 正确 <span id="resCorrect">0</span> · 失误 <span id="resWrong">0</span></p>
+      <p class="rank" id="resRank"></p>
+      <p class="hint" id="resDetail"></p>
+      <button type="button" class="crayon-btn" id="resDone">完成</button>
+    </div>
+  </div>
+
+  <script>
+const FULL_QUESTION_BANK = [
+  {
+    "id": "Q01",
+    "kind": "transform",
+    "taskType": "neg",
+    "affirm": "He is playing soccer in the park.",
+    "correct": "He isn't playing soccer in the park.",
+    "distractors": [
+      "He is playing soccer in the park.",
+      "He is playing soccer in the park?",
+      "He isn't play soccer in the park."
+    ],
+    "explanation": "否定句：在 Be 动词后加 not（常缩写为 isn't / aren't / 'm not）。"
+  },
+  {
+    "id": "Q02",
+    "kind": "transform",
+    "taskType": "neg",
+    "affirm": "She is reading in the library.",
+    "correct": "She isn't reading in the library.",
+    "distractors": [
+      "She is reading in the library.",
+      "She is reading in the library?",
+      "She isn't read in the library."
+    ],
+    "explanation": "否定句：在 Be 动词后加 not（常缩写为 isn't / aren't / 'm not）。"
+  },
+  {
+    "id": "Q03",
+    "kind": "transform",
+    "taskType": "neg",
+    "affirm": "They are swimming in the pool.",
+    "correct": "They aren't swimming in the pool.",
+    "distractors": [
+      "They are swimming in the pool.",
+      "They are swimming in the pool?",
+      "They aren't swimm in the pool."
+    ],
+    "explanation": "否定句：在 Be 动词后加 not（常缩写为 isn't / aren't / 'm not）。"
+  },
+  {
+    "id": "Q04",
+    "kind": "transform",
+    "taskType": "neg",
+    "affirm": "We are having dinner now.",
+    "correct": "We aren't having dinner now.",
+    "distractors": [
+      "We are having dinner now.",
+      "We are having dinner now?",
+      "We aren't hav dinner now."
+    ],
+    "explanation": "否定句：在 Be 动词后加 not（常缩写为 isn't / aren't / 'm not）。"
+  },
+  {
+    "id": "Q05",
+    "kind": "transform",
+    "taskType": "neg",
+    "affirm": "Tom is doing homework at home.",
+    "correct": "Tom isn't doing homework at home.",
+    "distractors": [
+      "Tom is doing homework at home.",
+      "Tom is doing homework at home?",
+      "Tom isn't do homework at home."
+    ],
+    "explanation": "否定句：在 Be 动词后加 not（常缩写为 isn't / aren't / 'm not）。"
+  },
+  {
+    "id": "Q06",
+    "kind": "transform",
+    "taskType": "neg",
+    "affirm": "The cat is sleeping on the sofa.",
+    "correct": "The cat isn't sleeping on the sofa.",
+    "distractors": [
+      "The cat is sleeping on the sofa.",
+      "The cat is sleeping on the sofa?",
+      "The cat isn't sleep on the sofa."
+    ],
+    "explanation": "否定句：在 Be 动词后加 not（常缩写为 isn't / aren't / 'm not）。"
+  },
+  {
+    "id": "Q07",
+    "kind": "transform",
+    "taskType": "neg",
+    "affirm": "I am watching TV now.",
+    "correct": "I'm not watching TV now.",
+    "distractors": [
+      "I am watching TV now.",
+      "I am watching TV now?",
+      "I'm not watch TV now."
+    ],
+    "explanation": "否定句：在 Be 动词后加 not（常缩写为 isn't / aren't / 'm not）。"
+  },
+  {
+    "id": "Q08",
+    "kind": "transform",
+    "taskType": "neg",
+    "affirm": "My sister is dancing in the hall.",
+    "correct": "My sister isn't dancing in the hall.",
+    "distractors": [
+      "My sister is dancing in the hall.",
+      "My sister is dancing in the hall?",
+      "My sister isn't danc in the hall."
+    ],
+    "explanation": "否定句：在 Be 动词后加 not（常缩写为 isn't / aren't / 'm not）。"
+  },
+  {
+    "id": "Q09",
+    "kind": "transform",
+    "taskType": "neg",
+    "affirm": "The students are playing basketball.",
+    "correct": "The students aren't playing basketball.",
+    "distractors": [
+      "The students are playing basketball.",
+      "The students are playing basketball?",
+      "The students aren't play basketball."
+    ],
+    "explanation": "否定句：在 Be 动词后加 not（常缩写为 isn't / aren't / 'm not）。"
+  },
+  {
+    "id": "Q10",
+    "kind": "transform",
+    "taskType": "neg",
+    "affirm": "Kate is drawing pictures in the art room.",
+    "correct": "Kate isn't drawing pictures in the art room.",
+    "distractors": [
+      "Kate is drawing pictures in the art room.",
+      "Kate is drawing pictures in the art room?",
+      "Kate isn't draw pictures in the art room."
+    ],
+    "explanation": "否定句：在 Be 动词后加 not（常缩写为 isn't / aren't / 'm not）。"
+  },
+  {
+    "id": "Q11",
+    "kind": "transform",
+    "taskType": "ynq",
+    "affirm": "He is playing soccer in the park.",
+    "correct": "Is he playing soccer in the park?",
+    "distractors": [
+      "He is playing soccer in the park.",
+      "He is playing soccer in the park?",
+      "Is he playing soccer in the park."
+    ],
+    "explanation": "一般疑问句：Be 动词提前，句末问号；人称代词主语小写。"
+  },
+  {
+    "id": "Q12",
+    "kind": "transform",
+    "taskType": "ynq",
+    "affirm": "She is reading in the library.",
+    "correct": "Is she reading in the library?",
+    "distractors": [
+      "She is reading in the library.",
+      "She is reading in the library?",
+      "Is she reading in the library."
+    ],
+    "explanation": "一般疑问句：Be 动词提前，句末问号；人称代词主语小写。"
+  },
+  {
+    "id": "Q13",
+    "kind": "transform",
+    "taskType": "ynq",
+    "affirm": "They are swimming in the pool.",
+    "correct": "Are they swimming in the pool?",
+    "distractors": [
+      "They are swimming in the pool.",
+      "They are swimming in the pool?",
+      "Are they swimming in the pool."
+    ],
+    "explanation": "一般疑问句：Be 动词提前，句末问号；人称代词主语小写。"
+  },
+  {
+    "id": "Q14",
+    "kind": "transform",
+    "taskType": "ynq",
+    "affirm": "We are having dinner now.",
+    "correct": "Are we having dinner now?",
+    "distractors": [
+      "We are having dinner now.",
+      "We are having dinner now?",
+      "Are we having dinner now."
+    ],
+    "explanation": "一般疑问句：Be 动词提前，句末问号；人称代词主语小写。"
+  },
+  {
+    "id": "Q15",
+    "kind": "transform",
+    "taskType": "ynq",
+    "affirm": "The dog is barking loudly.",
+    "correct": "Is the dog barking loudly?",
+    "distractors": [
+      "The dog is barking loudly.",
+      "The dog is barking loudly?",
+      "Is the dog barking loudly."
+    ],
+    "explanation": "一般疑问句：Be 动词提前，句末问号；人称代词主语小写。"
+  },
+  {
+    "id": "Q16",
+    "kind": "transform",
+    "taskType": "ynq",
+    "affirm": "Anna is talking on the phone.",
+    "correct": "Is Anna talking on the phone?",
+    "distractors": [
+      "Anna is talking on the phone.",
+      "Anna is talking on the phone?",
+      "Is Anna talking on the phone."
+    ],
+    "explanation": "一般疑问句：Be 动词提前，句末问号；人称代词主语小写。"
+  },
+  {
+    "id": "Q17",
+    "kind": "transform",
+    "taskType": "ynq",
+    "affirm": "The children are playing games.",
+    "correct": "Are the children playing games?",
+    "distractors": [
+      "The children are playing games.",
+      "The children are playing games?",
+      "Are the children playing games."
+    ],
+    "explanation": "一般疑问句：Be 动词提前，句末问号；人称代词主语小写。"
+  },
+  {
+    "id": "Q18",
+    "kind": "transform",
+    "taskType": "ynq",
+    "affirm": "Mike is riding a bike.",
+    "correct": "Is Mike riding a bike?",
+    "distractors": [
+      "Mike is riding a bike.",
+      "Mike is riding a bike?",
+      "Is Mike riding a bike."
+    ],
+    "explanation": "一般疑问句：Be 动词提前，句末问号；人称代词主语小写。"
+  },
+  {
+    "id": "Q19",
+    "kind": "transform",
+    "taskType": "ynq",
+    "affirm": "Lucy and Tom are studying English.",
+    "correct": "Are Lucy and Tom studying English?",
+    "distractors": [
+      "Lucy and Tom are studying English.",
+      "Lucy and Tom are studying English?",
+      "Are Lucy and Tom studying English."
+    ],
+    "explanation": "一般疑问句：Be 动词提前，句末问号；人称代词主语小写。"
+  },
+  {
+    "id": "Q20",
+    "kind": "transform",
+    "taskType": "ynq",
+    "affirm": "Grandma is cooking soup in the kitchen.",
+    "correct": "Is grandma cooking soup in the kitchen?",
+    "distractors": [
+      "Grandma is cooking soup in the kitchen.",
+      "Grandma is cooking soup in the kitchen?",
+      "Is grandma cooking soup in the kitchen."
+    ],
+    "explanation": "一般疑问句：Be 动词提前，句末问号；人称代词主语小写。"
+  },
+  {
+    "id": "Q21",
+    "kind": "transform",
+    "taskType": "wh_where",
+    "affirm": "He is playing soccer in the park.",
+    "correct": "Where is he playing soccer?",
+    "distractors": [
+      "What is he playing soccer?",
+      "Where he is playing soccer?",
+      "Where are he playing soccer?"
+    ],
+    "explanation": "对地点提问：Where + 一般疑问语序，去掉原地点状语。"
+  },
+  {
+    "id": "Q22",
+    "kind": "transform",
+    "taskType": "wh_where",
+    "affirm": "She is reading in the library.",
+    "correct": "Where is she reading?",
+    "distractors": [
+      "What is she reading?",
+      "Where she is reading?",
+      "Where are she reading?"
+    ],
+    "explanation": "对地点提问：Where + 一般疑问语序，去掉原地点状语。"
+  },
+  {
+    "id": "Q23",
+    "kind": "transform",
+    "taskType": "wh_where",
+    "affirm": "They are having lunch in the cafeteria.",
+    "correct": "Where are they having lunch?",
+    "distractors": [
+      "What are they having lunch?",
+      "Where they are having lunch?",
+      "Where is they having lunch?"
+    ],
+    "explanation": "对地点提问：Where + 一般疑问语序，去掉原地点状语。"
+  },
+  {
+    "id": "Q24",
+    "kind": "transform",
+    "taskType": "wh_where",
+    "affirm": "We are skating on the ice.",
+    "correct": "Where are we skating?",
+    "distractors": [
+      "What are we skating?",
+      "Where we are skating?",
+      "Where is we skating?"
+    ],
+    "explanation": "对地点提问：Where + 一般疑问语序，去掉原地点状语。"
+  },
+  {
+    "id": "Q25",
+    "kind": "transform",
+    "taskType": "wh_where",
+    "affirm": "Tom is fishing in the river.",
+    "correct": "Where is Tom fishing?",
+    "distractors": [
+      "What is Tom fishing?",
+      "Tom is fishing in the river?",
+      "Where are Tom fishing?"
+    ],
+    "explanation": "对地点提问：Where + 一般疑问语序，去掉原地点状语。"
+  },
+  {
+    "id": "Q26",
+    "kind": "transform",
+    "taskType": "wh_where",
+    "affirm": "The cat is sleeping on the sofa.",
+    "correct": "Where is the cat sleeping?",
+    "distractors": [
+      "What is the cat sleeping?",
+      "The cat is sleeping on the sofa?",
+      "Where are the cat sleeping?"
+    ],
+    "explanation": "对地点提问：Where + 一般疑问语序，去掉原地点状语。"
+  },
+  {
+    "id": "Q27",
+    "kind": "transform",
+    "taskType": "wh_where",
+    "affirm": "I am doing my homework at home.",
+    "correct": "Where am I doing my homework?",
+    "distractors": [
+      "What am I doing my homework?",
+      "Where I am doing my homework?",
+      "Where is I doing my homework?"
+    ],
+    "explanation": "对地点提问：Where + 一般疑问语序，去掉原地点状语。"
+  },
+  {
+    "id": "Q28",
+    "kind": "transform",
+    "taskType": "wh_where",
+    "affirm": "The birds are singing in the tree.",
+    "correct": "Where are the birds singing?",
+    "distractors": [
+      "What are the birds singing?",
+      "The birds are singing in the tree?",
+      "Where is the birds singing?"
+    ],
+    "explanation": "对地点提问：Where + 一般疑问语序，去掉原地点状语。"
+  },
+  {
+    "id": "Q29",
+    "kind": "transform",
+    "taskType": "wh_where",
+    "affirm": "Kate is dancing in the hall.",
+    "correct": "Where is Kate dancing?",
+    "distractors": [
+      "What is Kate dancing?",
+      "Kate is dancing in the hall?",
+      "Where are Kate dancing?"
+    ],
+    "explanation": "对地点提问：Where + 一般疑问语序，去掉原地点状语。"
+  },
+  {
+    "id": "Q30",
+    "kind": "transform",
+    "taskType": "wh_where",
+    "affirm": "The team is practicing on the field.",
+    "correct": "Where is the team practicing?",
+    "distractors": [
+      "What is the team practicing?",
+      "The team is practicing on the field?",
+      "Where are the team practicing?"
+    ],
+    "explanation": "对地点提问：Where + 一般疑问语序，去掉原地点状语。"
+  },
+  {
+    "id": "Q31",
+    "kind": "fill",
+    "taskType": "fill",
+    "affirm": "He ______ TV now. (watch)",
+    "prompt": "用现在进行时填空：He ______ TV now. (watch)",
+    "correct": "is watching",
+    "distractors": [
+      "watches",
+      "watched",
+      "watch"
+    ],
+    "explanation": "现在进行时结构：be + 动词-ing，注意主谓一致。"
+  },
+  {
+    "id": "Q32",
+    "kind": "fill",
+    "taskType": "fill",
+    "affirm": "Listen! The baby ______. (cry)",
+    "prompt": "用现在进行时填空：Listen! The baby ______. (cry)",
+    "correct": "is crying",
+    "distractors": [
+      "cries",
+      "cried",
+      "cry"
+    ],
+    "explanation": "现在进行时结构：be + 动词-ing，注意主谓一致。"
+  },
+  {
+    "id": "Q33",
+    "kind": "fill",
+    "taskType": "fill",
+    "affirm": "They ______ football on the playground. (play)",
+    "prompt": "用现在进行时填空：They ______ football on the playground. (play)",
+    "correct": "are playing",
+    "distractors": [
+      "play",
+      "played",
+      "plays"
+    ],
+    "explanation": "现在进行时结构：be + 动词-ing，注意主谓一致。"
+  },
+  {
+    "id": "Q34",
+    "kind": "fill",
+    "taskType": "fill",
+    "affirm": "She ______ a letter to her friend. (write)",
+    "prompt": "用现在进行时填空：She ______ a letter to her friend. (write)",
+    "correct": "is writing",
+    "distractors": [
+      "writes",
+      "wrote",
+      "write"
+    ],
+    "explanation": "现在进行时结构：be + 动词-ing，注意主谓一致。"
+  },
+  {
+    "id": "Q35",
+    "kind": "fill",
+    "taskType": "fill",
+    "affirm": "We ______ for the bus at the station. (wait)",
+    "prompt": "用现在进行时填空：We ______ for the bus at the station. (wait)",
+    "correct": "are waiting",
+    "distractors": [
+      "wait",
+      "waited",
+      "waits"
+    ],
+    "explanation": "现在进行时结构：be + 动词-ing，注意主谓一致。"
+  },
+  {
+    "id": "Q36",
+    "kind": "fill",
+    "taskType": "fill",
+    "affirm": "It ______ heavily outside. (rain)",
+    "prompt": "用现在进行时填空：It ______ heavily outside. (rain)",
+    "correct": "is raining",
+    "distractors": [
+      "rains",
+      "rained",
+      "rain"
+    ],
+    "explanation": "现在进行时结构：be + 动词-ing，注意主谓一致。"
+  },
+  {
+    "id": "Q37",
+    "kind": "fill",
+    "taskType": "fill",
+    "affirm": "My parents ______ dinner in the kitchen. (cook)",
+    "prompt": "用现在进行时填空：My parents ______ dinner in the kitchen. (cook)",
+    "correct": "are cooking",
+    "distractors": [
+      "cook",
+      "cooked",
+      "cooks"
+    ],
+    "explanation": "现在进行时结构：be + 动词-ing，注意主谓一致。"
+  },
+  {
+    "id": "Q38",
+    "kind": "fill",
+    "taskType": "fill",
+    "affirm": "He ______ the piano in the music room. (practice)",
+    "prompt": "用现在进行时填空：He ______ the piano in the music room. (practice)",
+    "correct": "is practicing",
+    "distractors": [
+      "practices",
+      "practiced",
+      "practice"
+    ],
+    "explanation": "现在进行时结构：be + 动词-ing，注意主谓一致。"
+  },
+  {
+    "id": "Q39",
+    "kind": "fill",
+    "taskType": "fill",
+    "affirm": "The students ______ an English song. (sing)",
+    "prompt": "用现在进行时填空：The students ______ an English song. (sing)",
+    "correct": "are singing",
+    "distractors": [
+      "sing",
+      "sang",
+      "sings"
+    ],
+    "explanation": "现在进行时结构：be + 动词-ing，注意主谓一致。"
+  },
+  {
+    "id": "Q40",
+    "kind": "fill",
+    "taskType": "fill",
+    "affirm": "Look! The car ______ fast. (move)",
+    "prompt": "用现在进行时填空：Look! The car ______ fast. (move)",
+    "correct": "is moving",
+    "distractors": [
+      "moves",
+      "moved",
+      "move"
+    ],
+    "explanation": "现在进行时结构：be + 动词-ing，注意主谓一致。"
+  },
+  {
+    "id": "Q41",
+    "kind": "choice",
+    "taskType": "choice",
+    "affirm": "—",
+    "prompt": "下列哪一句是现在进行时？",
+    "correct": "She is studying English at the moment.",
+    "distractors": [
+      "She studies English every day.",
+      "She studied English yesterday.",
+      "She will study English tomorrow."
+    ],
+    "explanation": "抓住标志词或结构：be + v-ing；与一般现在时、过去时、将来时区分。"
+  },
+  {
+    "id": "Q42",
+    "kind": "choice",
+    "taskType": "choice",
+    "affirm": "—",
+    "prompt": "下列哪一句是现在进行时？",
+    "correct": "They are playing chess now.",
+    "distractors": [
+      "They play chess on Sundays.",
+      "They played chess last night.",
+      "They will play chess later."
+    ],
+    "explanation": "抓住标志词或结构：be + v-ing；与一般现在时、过去时、将来时区分。"
+  },
+  {
+    "id": "Q43",
+    "kind": "choice",
+    "taskType": "choice",
+    "affirm": "—",
+    "prompt": "下列哪一句是现在进行时？",
+    "correct": "I am reading a storybook.",
+    "distractors": [
+      "I read storybooks every week.",
+      "I read a storybook yesterday.",
+      "I will read a storybook tonight."
+    ],
+    "explanation": "抓住标志词或结构：be + v-ing；与一般现在时、过去时、将来时区分。"
+  },
+  {
+    "id": "Q44",
+    "kind": "choice",
+    "taskType": "choice",
+    "affirm": "—",
+    "prompt": "下列哪一句是现在进行时？",
+    "correct": "He is fixing his bike in the yard.",
+    "distractors": [
+      "He fixes his bike alone.",
+      "He fixed his bike yesterday.",
+      "He will fix his bike soon."
+    ],
+    "explanation": "抓住标志词或结构：be + v-ing；与一般现在时、过去时、将来时区分。"
+  },
+  {
+    "id": "Q45",
+    "kind": "choice",
+    "taskType": "choice",
+    "affirm": "—",
+    "prompt": "下列哪一句是现在进行时？",
+    "correct": "We are waiting for our teacher.",
+    "distractors": [
+      "We wait for our teacher every morning.",
+      "We waited for our teacher just now.",
+      "We will wait for our teacher later."
+    ],
+    "explanation": "抓住标志词或结构：be + v-ing；与一般现在时、过去时、将来时区分。"
+  },
+  {
+    "id": "Q46",
+    "kind": "choice",
+    "taskType": "choice",
+    "affirm": "—",
+    "prompt": "下列哪一句是现在进行时？",
+    "correct": "It is getting dark outside.",
+    "distractors": [
+      "It gets dark at six.",
+      "It got dark suddenly.",
+      "It will get dark soon."
+    ],
+    "explanation": "抓住标志词或结构：be + v-ing；与一般现在时、过去时、将来时区分。"
+  },
+  {
+    "id": "Q47",
+    "kind": "choice",
+    "taskType": "choice",
+    "affirm": "—",
+    "prompt": "下列哪一句是现在进行时？",
+    "correct": "The girls are skipping rope in the park.",
+    "distractors": [
+      "The girls skip rope after school.",
+      "The girls skipped rope yesterday.",
+      "The girls will skip rope tomorrow."
+    ],
+    "explanation": "抓住标志词或结构：be + v-ing；与一般现在时、过去时、将来时区分。"
+  },
+  {
+    "id": "Q48",
+    "kind": "choice",
+    "taskType": "choice",
+    "affirm": "—",
+    "prompt": "下列哪一句是现在进行时？",
+    "correct": "My brother is not sleeping.",
+    "distractors": [
+      "My brother doesn't sleep well.",
+      "My brother didn't sleep last night.",
+      "My brother won't sleep early."
+    ],
+    "explanation": "抓住标志词或结构：be + v-ing；与一般现在时、过去时、将来时区分。"
+  },
+  {
+    "id": "Q49",
+    "kind": "choice",
+    "taskType": "choice",
+    "affirm": "—",
+    "prompt": "下列哪一句是现在进行时？",
+    "correct": "Are you listening to me?",
+    "distractors": [
+      "Do you listen to me?",
+      "Did you listen to me?",
+      "Will you listen to me?"
+    ],
+    "explanation": "抓住标志词或结构：be + v-ing；与一般现在时、过去时、将来时区分。"
+  },
+  {
+    "id": "Q50",
+    "kind": "choice",
+    "taskType": "choice",
+    "affirm": "—",
+    "prompt": "下列哪一句是现在进行时？",
+    "correct": "Is the phone ringing?",
+    "distractors": [
+      "Does the phone ring?",
+      "Did the phone ring?",
+      "Will the phone ring?"
+    ],
+    "explanation": "抓住标志词或结构：be + v-ing；与一般现在时、过去时、将来时区分。"
+  }
+];
+(function () {
+  "use strict";
+
+  var state = { ttsLoading: false, ttsWatchdog: null };
+  var ttsLockOverlay = null;
+
+  function setTtsLoading(on) {
+    document.body.classList.toggle("tts-busy", on);
+    if (on) {
+      if (!ttsLockOverlay) {
+        ttsLockOverlay = document.createElement("div");
+        ttsLockOverlay.className = "tts-lock-overlay";
+        ttsLockOverlay.setAttribute("aria-hidden", "true");
+        document.body.appendChild(ttsLockOverlay);
+      }
+    } else if (ttsLockOverlay && ttsLockOverlay.parentNode) {
+      ttsLockOverlay.remove();
+      ttsLockOverlay = null;
+    }
+  }
+
+  function releaseTts() {
+    if (state.ttsWatchdog) {
+      clearTimeout(state.ttsWatchdog);
+      state.ttsWatchdog = null;
+    }
+    state.ttsLoading = false;
+    setTtsLoading(false);
+  }
+
+  function armTtsWatchdog() {
+    if (state.ttsWatchdog) clearTimeout(state.ttsWatchdog);
+    state.ttsWatchdog = setTimeout(function () {
+      state.ttsWatchdog = null;
+      state.ttsLoading = false;
+      setTtsLoading(false);
+    }, 3000);
+  }
+
+  /** 本地 MP3（manifest）优先，其次 Azure SSML；不再使用 speechSynthesis */
+  function speakTtsWeb(text, opts) {
+    opts = opts || {};
+    void opts;
+    if (!window.LessonSpeak || !window.LessonSpeak.playEnglish) {
+      return Promise.resolve();
+    }
+    return window.LessonSpeak.playEnglish(String(text || ""));
+  }
+
+  function withTtsLock(fn) {
+    if (state.ttsLoading) return Promise.resolve();
+    state.ttsLoading = true;
+    setTtsLoading(true);
+    armTtsWatchdog();
+    return Promise.resolve()
+      .then(fn)
+      .catch(function () {})
+      .finally(function () {
+        releaseTts();
+      });
+  }
+
+  function speakTts(text, opts) {
+    return withTtsLock(function () {
+      return speakTtsWeb(text, opts || {});
+    });
+  }
+
+  function playCheer() {
+    try {
+      var ctx = new (window.AudioContext || window.webkitAudioContext)();
+      var t = ctx.currentTime;
+      [523.25, 659.25, 783.99].forEach(function (freq, i) {
+        var o = ctx.createOscillator();
+        var g = ctx.createGain();
+        o.type = "sine";
+        o.frequency.value = freq;
+        g.gain.setValueAtTime(0.12, t + i * 0.05);
+        g.gain.exponentialRampToValueAtTime(0.01, t + 0.35 + i * 0.05);
+        o.connect(g);
+        g.connect(ctx.destination);
+        o.start(t + i * 0.05);
+        o.stop(t + 0.4 + i * 0.05);
+      });
+    } catch (e) {}
+  }
+
+  function playSuccessBeep() {
+    try {
+      var ctx = new (window.AudioContext || window.webkitAudioContext)();
+      var o = ctx.createOscillator();
+      var g = ctx.createGain();
+      o.type = "sine";
+      o.frequency.value = 990;
+      g.gain.setValueAtTime(0.1, ctx.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.1);
+      o.connect(g);
+      g.connect(ctx.destination);
+      o.start(ctx.currentTime);
+      o.stop(ctx.currentTime + 0.11);
+    } catch (e) {}
+  }
+
+  function resetTransientUI() {
+    var shield = document.getElementById("shieldFly");
+    if (window.anime) {
+      try {
+        anime.remove(shield);
+        var b1 = document.getElementById("p1DemoBe");
+        var b2 = document.getElementById("p2DemoBe");
+        if (b1) anime.remove(b1);
+        if (b2) anime.remove(b2);
+      } catch (e) {}
+    }
+    if (shield) {
+      shield.style.opacity = "0";
+      shield.style.transform = "";
+      shield.style.left = "";
+      shield.style.top = "";
+    }
+    var be2 = document.getElementById("p2DemoBe");
+    if (be2) {
+      be2.style.transform = "";
+      be2.textContent = "are";
+    }
+    var before = document.getElementById("p2DemoBefore");
+    var after = document.getElementById("p2DemoAfter");
+    if (before) before.style.display = "flex";
+    if (after) after.style.display = "none";
+    var leapBtn = document.getElementById("p2LeapBtn");
+    if (leapBtn) leapBtn.disabled = false;
+    try {
+      if (typeof window.__p3Reset === "function") window.__p3Reset();
+    } catch (e) {}
+  }
+
+  function shuffle(a) {
+    var x = a.slice();
+    for (var i = x.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = x[i];
+      x[i] = x[j];
+      x[j] = t;
+    }
+    return x;
+  }
+
+  function defaultPrompt(taskType) {
+    if (taskType === "neg") return "改为否定句：";
+    if (taskType === "ynq") return "改为一般疑问句：";
+    if (taskType === "wh_where") return "对划线部分（地点）提问：";
+    return "";
+  }
+
+  function materializeArenaFromBank() {
+    return FULL_QUESTION_BANK.map(function (raw) {
+      var d = (raw.distractors || []).filter(function (x) {
+        return x && x !== raw.correct;
+      });
+      var seen = {};
+      d = d.filter(function (x) {
+        if (seen[x]) return false;
+        seen[x] = true;
+        return true;
+      });
+      while (d.length < 3) d.push(raw.correct + " \u00d7");
+      var opts = shuffle([raw.correct].concat(d.slice(0, 3)));
+      var promptText = raw.prompt || defaultPrompt(raw.taskType);
+      return {
+        id: raw.id,
+        type: raw.taskType,
+        kind: raw.kind,
+        affirm: raw.affirm,
+        prompt: promptText,
+        correct: raw.correct,
+        options: opts,
+        explanation: raw.explanation || "",
+        mirror: raw.explanation || ""
+      };
+    });
+  }
+
+  var arenaPool = materializeArenaFromBank();
+  document.getElementById("topBar").innerHTML =
+    "<strong>第02讲</strong> · Page 7 · 句式变变变 <small style='font-weight:600;opacity:.85'>（竞技题库 " +
+    arenaPool.length +
+    " 题）</small>";
+  document.getElementById("btnBattle").disabled = false;
+
+  document.querySelectorAll(".phase-tab").forEach(function (tab) {
+    tab.addEventListener("click", function () {
+      var ph = tab.getAttribute("data-phase");
+      resetTransientUI();
+      document.querySelectorAll(".phase-tab").forEach(function (t) {
+        t.classList.toggle("active", t === tab);
+      });
+      document.querySelectorAll(".phase-panel").forEach(function (p) {
+        p.classList.toggle("is-active", p.getAttribute("data-phase") === ph);
+      });
+    });
+  });
+
+  var p1DemoDone = false;
+  document.getElementById("p1SummonBtn").addEventListener("click", function () {
+    if (p1DemoDone) return;
+    p1DemoDone = true;
+    var btn = this;
+    btn.disabled = true;
+    var slot = document.getElementById("p1NotSlot");
+    var be = document.getElementById("p1DemoBe");
+    var shield = document.getElementById("shieldFly");
+    var br = be.getBoundingClientRect();
+    var sr = slot.getBoundingClientRect();
+    shield.style.position = "fixed";
+    shield.style.left = br.right + 10 + "px";
+    shield.style.top = br.top + "px";
+    shield.style.opacity = "1";
+    shield.style.transform = "scale(0.25) rotate(14deg)";
+    shield.style.zIndex = "8000";
+
+    function finishDemo() {
+      shield.style.opacity = "0";
+      slot.textContent = "not";
+      slot.classList.add("filled");
+      if (window.anime) {
+        anime({
+          targets: slot,
+          scale: [0.82, 1],
+          duration: 420,
+          easing: "easeOutBack"
+        });
+      }
+      speakTts("I am not watching TV now.", { intonation: "statement" }).catch(function () {});
+      document.getElementById("p1PracticeWrap").style.display = "block";
+      startP1Drill(0);
+    }
+
+    if (window.anime) {
+      anime({
+        targets: shield,
+        left: sr.left + sr.width / 2 - 28,
+        top: sr.top + sr.height / 2 - 18,
+        scale: [0.25, 1.14, 1],
+        rotate: [14, -4, 0],
+        duration: 950,
+        easing: "easeOutElastic(1, .72)",
+        complete: function () {
+          anime({
+            targets: shield,
+            opacity: 0,
+            duration: 200,
+            complete: finishDemo
+          });
+        }
+      });
+    } else {
+      finishDemo();
+    }
+  });
+
+  var P1_DRILLS = [
+    { sentence: ["She", "is", "reading", "a", "book", "."], beIndex: 1 },
+    { sentence: ["We", "are", "having", "dinner", "now", "."], beIndex: 1 },
+    { sentence: ["Tom", "is", "doing", "homework", "."], beIndex: 1 }
+  ];
+  var p1DrillIndex = 0;
+
+  function startP1Drill(i) {
+    p1DrillIndex = i;
+    if (i >= P1_DRILLS.length) {
+      document.getElementById("p1PracticeHint").textContent = "全部通关！进入阶段二继续青蛙跳跃。";
+      document.getElementById("p1PracticeBoard").innerHTML = "";
+      document.getElementById("p1NotDrag").style.display = "none";
+      return;
+    }
+    var d = P1_DRILLS[i];
+    document.getElementById("p1Feedback").textContent = "";
+    document.getElementById("p1NextDrill").style.display = "none";
+    document.getElementById("p1PracticeHint").textContent = "第 " + (i + 1) + " / " + P1_DRILLS.length + " 题：把 not 拖到 Be 动词后面。";
+    var board = document.getElementById("p1PracticeBoard");
+    board.innerHTML = "";
+    d.sentence.forEach(function (w, idx) {
+      var span = document.createElement("span");
+      span.className = "word-chip" + (w === "is" || w === "are" || w === "am" ? " be" : "");
+      span.textContent = w;
+      board.appendChild(span);
+      if (idx === d.beIndex) {
+        var z = document.createElement("span");
+        z.className = "drop-zone";
+        z.dataset.slot = "after-be";
+        board.appendChild(z);
+        var z2 = document.createElement("span");
+        z2.className = "drop-zone";
+        z2.dataset.slot = "wrong-ing";
+        z2.title = "陷阱位";
+        board.appendChild(z2);
+      }
+    });
+    setupP1Drop();
+  }
+
+  function setupP1Drop() {
+    var drag = document.getElementById("p1NotDrag");
+    drag.style.display = "inline-block";
+    drag.dataset.used = "";
+    document.querySelectorAll("#p1PracticeBoard .drop-zone").forEach(function (z) {
+      z.textContent = z.textContent || "\u3000";
+      z.addEventListener("dragover", function (e) {
+        e.preventDefault();
+        z.classList.add("active");
+      });
+      z.addEventListener("dragleave", function () {
+        z.classList.remove("active");
+      });
+      z.addEventListener("drop", function (e) {
+        e.preventDefault();
+        z.classList.remove("active");
+        if (z.dataset.slot === "after-be") {
+          z.textContent = "not";
+          z.style.fontWeight = "800";
+          z.style.color = "var(--crayon-red)";
+          document.getElementById("p1Feedback").textContent = "\u2713 正确！not 紧跟 Be 动词。";
+          speakTts("Great job.", {}).catch(function () {});
+          document.getElementById("p1NextDrill").style.display = "inline-block";
+        } else {
+          z.classList.add("wrong-flash");
+          document.getElementById("p1Feedback").textContent =
+            "\u26A0\uFE0F 错误！not 盾牌必须紧跟在状态家族 Be 动词的后面，保护动作不被干扰！";
+          speakTts("Not goes after the be verb.", {}).catch(function () {});
+        }
+      });
+    });
+  }
+
+  document.getElementById("p1NextDrill").addEventListener("click", function () {
+    startP1Drill(p1DrillIndex + 1);
+  });
+
+  document.getElementById("p2LeapBtn").addEventListener("click", function () {
+    var btn = this;
+    btn.disabled = true;
+    var before = document.getElementById("p2DemoBefore");
+    var after = document.getElementById("p2DemoAfter");
+    var be = document.getElementById("p2DemoBe");
+
+    function showQuestion() {
+      be.textContent = "are";
+      be.style.transform = "";
+      if (window.anime) try { anime.remove(be); } catch (e) {}
+      before.style.display = "none";
+      after.style.display = "flex";
+      if (window.anime) {
+        anime({ targets: "#p2BigQ", opacity: [0, 1], scale: [0.2, 1], duration: 500, easing: "easeOutBack" });
+      }
+      speakTts("Are they swimming at the moment?", { intonation: "question" }).catch(function () {});
+      document.getElementById("p2Challenge").style.display = "block";
+      setupP2Challenge();
+    }
+
+    if (window.anime) {
+      anime({
+        targets: be,
+        translateX: [
+          { value: -48, duration: 220, easing: "easeOutQuad" },
+          { value: -125, duration: 360, easing: "easeInOutQuad" }
+        ],
+        translateY: [
+          { value: -40, duration: 280, easing: "easeOutQuad" },
+          { value: 0, duration: 300, easing: "easeInQuad" }
+        ],
+        update: function (anim) {
+          if (anim.progress > 82) be.textContent = "Are";
+        },
+        complete: function () {
+          showQuestion();
+        }
+      });
+    } else {
+      showQuestion();
+    }
+  });
+
+  var P2_ROUNDS = [
+    {
+      words: ["The", "cat", "is", "sleeping", "."],
+      be: "is",
+      ynqTokens: ["Is", "the", "cat", "sleeping", "?"],
+      ynqTts: "Is the cat sleeping?"
+    },
+    {
+      words: ["You", "are", "listening", "to", "music", "."],
+      be: "are",
+      ynqTokens: ["Are", "you", "listening", "to", "music", "?"],
+      ynqTts: "Are you listening to music?"
+    },
+    {
+      words: ["My", "friends", "are", "playing", "football", "."],
+      be: "are",
+      ynqTokens: ["Are", "my", "friends", "playing", "football", "?"],
+      ynqTts: "Are my friends playing football?"
+    }
+  ];
+  var p2Round = 0;
+
+  function showP2YnqResult(tokens) {
+    var wrap = document.getElementById("p2ChalWords");
+    wrap.innerHTML = "";
+    wrap.classList.add("p2-ynq-line");
+    tokens.forEach(function (w) {
+      var s = document.createElement("span");
+      if (w === "?") {
+        s.className = "big-q";
+        s.style.opacity = "1";
+        s.style.transform = "scale(1)";
+        s.textContent = w;
+      } else {
+        s.className = "word-chip" + (/^(Is|Are|Am)$/i.test(w) ? " be" : "");
+        s.textContent = w;
+      }
+      wrap.appendChild(s);
+    });
+  }
+
+  function setupP2Challenge() {
+    if (p2Round >= P2_ROUNDS.length) {
+      document.getElementById("p2ChalStem").textContent = "\u6311\u6218\u5b8c\u6210\uff01\u4e09\u8f6e\u90fd\u5df2\u8df3\u51fa\u4e00\u822c\u7591\u95ee\u53e5\u3002";
+      document.getElementById("p2ChalWords").innerHTML = "";
+      document.getElementById("p2ChalWords").classList.remove("p2-ynq-line");
+      return;
+    }
+    var r = P2_ROUNDS[p2Round];
+    document.getElementById("p2ChalStem").textContent = "\u70b9\u51fb\u5e94\u5f53\u300c\u8df3\u5230\u53e5\u9996\u300d\u7684 Be \u52a8\u8bcd\uff08\u9648\u8ff0\u53e5\uff09\uff1a";
+    document.getElementById("p2ChalFb").textContent = "";
+    document.getElementById("p2ChalWords").classList.remove("p2-ynq-line");
+    var wrap = document.getElementById("p2ChalWords");
+    wrap.innerHTML = "";
+    r.words.forEach(function (w) {
+      if (w === ".") return;
+      var s = document.createElement("span");
+      s.className = "word-chip frog-chip";
+      s.textContent = w;
+      s.addEventListener("click", function () {
+        if (w === r.be) {
+          document.getElementById("p2ChalFb").style.color = "var(--habit-green)";
+          document.getElementById("p2ChalFb").textContent =
+            "\u2713 \u5c31\u662f\u5b83\uff01\u4e00\u822c\u7591\u95ee\u53e5\u5df2\u751f\u6210\uff1a";
+          document.getElementById("p2ChalStem").textContent = "\u4e00\u822c\u7591\u95ee\u53e5\uff08Be \u8df3\u5230\u53e5\u9996\uff0c\u53e5\u672b\u95ee\u53f7\uff09\uff1a";
+          showP2YnqResult(r.ynqTokens);
+          speakTts(r.ynqTts, { intonation: "question" }).catch(function () {});
+          if (window.anime) {
+            anime({
+              targets: "#p2ChalWords .big-q",
+              opacity: [0.4, 1],
+              scale: [0.5, 1],
+              duration: 450,
+              easing: "easeOutBack"
+            });
+          }
+          p2Round++;
+          setTimeout(setupP2Challenge, 1100);
+        } else {
+          s.classList.add("wrong");
+          document.getElementById("p2ChalFb").style.color = "var(--crayon-red)";
+          document.getElementById("p2ChalFb").textContent =
+            "\u26A0\uFE0F \u53ea\u6709 Be \u52a8\u8bcd\u6709\u9b54\u6cd5\u8df3\u8dc3\u80fd\u529b\uff0c\u5b9e\u4e49\u52a8\u8bcd\u8df3\u4e0d\u52a8\u54e6\uff01";
+        }
+      });
+      wrap.appendChild(s);
+    });
+  }
+
+  /* ---------- Phase 3：点击 Be → 拖 Be 变一般疑问 → 拖 Wh- 并省略划线部分 ---------- */
+  var P3_SCENARIO = {
+    words: ["He", "is", "playing", "soccer", "in the park", "."],
+    beIndex: 1,
+    subjectLower: "he",
+    ynqBeDisplay: "Is",
+    omitIndex: 4,
+    whCorrect: "Where",
+    stepHint1: "请看现在进行时的<strong>陈述句</strong>，先点击句中的 <strong>Be 动词</strong>（高亮表示已选中）。",
+    stepHint2: "一般疑问句要把 <strong>Be 动词</strong>挪到<strong>全句最前</strong>。请<strong>拖动</strong>高亮的 Be 到左侧蓝色虚线框（句首）。",
+    stepHint3: "特殊疑问句 = <strong>Wh-</strong> + <strong>一般疑问句</strong>。请拖动正确的 Wh- 词到<strong>最前方</strong>紫框；问地点时，句中原先的<strong>地点状语</strong>要省略。",
+    finalExplain: "\uD83D\uDD0D 侦探出马：Wh- + 一般疑问语序，并去掉被提问的划线信息！",
+    ttsYnq: "Is he playing soccer in the park?",
+    ttsWh: "Where is he playing soccer?"
+  };
+
+  var p3Step = 1;
+  var p3BeEl = null;
+
+  function setP3Banner(html) {
+    document.getElementById("p3StepBanner").innerHTML = html;
+  }
+
+  function setP3Fb(msg, ok) {
+    var el = document.getElementById("p3Fb");
+    el.style.color = ok ? "var(--habit-green)" : "var(--crayon-red)";
+    el.textContent = msg || "";
+  }
+
+  function resetP3() {
+    p3Step = 1;
+    p3BeEl = null;
+    document.getElementById("p3WhWrap").style.display = "none";
+    setP3Fb("", false);
+    setP3Banner(
+      "<strong>Step \u2460</strong> " + P3_SCENARIO.stepHint1
+    );
+    renderP3Statement();
+  }
+
+  function renderP3Statement() {
+    var stage = document.getElementById("p3Stage");
+    stage.innerHTML = "";
+    var row = document.createElement("div");
+    row.className = "token-row";
+    row.id = "p3RowStatement";
+    P3_SCENARIO.words.forEach(function (w, idx) {
+      var span = document.createElement("span");
+      span.className = "word-chip" + (idx === P3_SCENARIO.beIndex ? " be" : "");
+      span.textContent = w;
+      if (idx === P3_SCENARIO.beIndex) {
+        span.id = "p3BeChip";
+        span.draggable = false;
+        span.addEventListener("click", onP3BeClick);
+      }
+      row.appendChild(span);
+    });
+    stage.appendChild(row);
+  }
+
+  function onP3BeClick() {
+    if (p3Step !== 1) return;
+    p3BeEl = document.getElementById("p3BeChip");
+    if (!p3BeEl) return;
+    p3BeEl.classList.add("be-picked");
+    p3BeEl.draggable = true;
+    p3BeEl.removeEventListener("click", onP3BeClick);
+    p3BeEl.addEventListener("dragstart", onP3BeDragStart);
+    p3Step = 2;
+    setP3Banner("<strong>Step \u2461</strong> " + P3_SCENARIO.stepHint2);
+    setP3Fb("\u2713 很好！现在请把 Be 拖到句首蓝色框。", true);
+
+    var row = document.getElementById("p3RowStatement");
+    var slot = document.createElement("span");
+    slot.id = "p3BeFrontSlot";
+    slot.className = "p3-front-slot";
+    slot.textContent = "\u53e5\u9996";
+    slot.addEventListener("dragover", function (e) {
+      e.preventDefault();
+      slot.classList.add("active");
+    });
+    slot.addEventListener("dragleave", function () {
+      slot.classList.remove("active");
+    });
+    slot.addEventListener("drop", onP3BeDropFront);
+
+    row.insertBefore(slot, row.firstChild);
+    speakTts("Now drag the be verb to the beginning.", {}).catch(function () {});
+  }
+
+  function onP3BeDragStart(e) {
+    e.dataTransfer.setData("text/plain", "be");
+    e.dataTransfer.effectAllowed = "move";
+  }
+
+  function onP3BeDropFront(e) {
+    e.preventDefault();
+    var slot = document.getElementById("p3BeFrontSlot");
+    if (slot) slot.classList.remove("active");
+    if (e.dataTransfer.getData("text/plain") !== "be") return;
+    if (p3Step !== 2) return;
+
+    p3BeEl.style.display = "none";
+    slot.textContent = P3_SCENARIO.ynqBeDisplay;
+    slot.classList.add("filled-be");
+    slot.classList.remove("p3-front-slot");
+    slot.classList.add("word-chip", "be");
+
+    var rowEl = document.getElementById("p3RowStatement");
+    if (rowEl && rowEl.children[1] && rowEl.children[1].textContent === "He") {
+      rowEl.children[1].textContent = P3_SCENARIO.subjectLower;
+    }
+
+    var dot = null;
+    document.querySelectorAll("#p3RowStatement .word-chip").forEach(function (c) {
+      if (c.textContent === ".") {
+        dot = c;
+      }
+    });
+    if (dot) {
+      dot.textContent = "?";
+      dot.style.fontSize = "1.35rem";
+      dot.style.fontWeight = "800";
+    }
+
+    p3Step = 3;
+    setP3Banner("<strong>Step \u2462</strong> " + P3_SCENARIO.stepHint3);
+    setP3Fb("\u2713 一般疑问句已就绪！请拖动 Wh- 词到最前面的紫框。", true);
+    document.getElementById("p3WhWrap").style.display = "block";
+    buildP3WhPalette();
+    prependP3WhSlot();
+
+    speakTts(P3_SCENARIO.ttsYnq, { intonation: "question" }).catch(function () {});
+  }
+
+  function prependP3WhSlot() {
+    var row = document.getElementById("p3RowStatement");
+    var whSlot = document.createElement("span");
+    whSlot.id = "p3WhSlot";
+    whSlot.className = "p3-wh-slot";
+    whSlot.textContent = "Wh-";
+    whSlot.addEventListener("dragover", function (e) {
+      e.preventDefault();
+      whSlot.classList.add("active");
+    });
+    whSlot.addEventListener("dragleave", function () {
+      whSlot.classList.remove("active");
+    });
+    whSlot.addEventListener("drop", onP3WhDrop);
+    row.insertBefore(whSlot, row.firstChild);
+  }
+
+  function buildP3WhPalette() {
+    var pal = document.getElementById("p3WhPalette");
+    pal.innerHTML = "";
+    ["Where", "What", "Who", "When", "How", "Which", "Why"].forEach(function (w) {
+      var s = document.createElement("span");
+      s.className = "drag-chip wh-drag";
+      s.textContent = w;
+      s.draggable = true;
+      s.dataset.wh = w;
+      s.addEventListener("dragstart", function (e) {
+        e.dataTransfer.setData("text/plain", "wh:" + w);
+        e.dataTransfer.effectAllowed = "copy";
+      });
+      pal.appendChild(s);
+    });
+  }
+
+  function onP3WhDrop(e) {
+    e.preventDefault();
+    var whSlot = document.getElementById("p3WhSlot");
+    if (whSlot) whSlot.classList.remove("active");
+
+    var raw = e.dataTransfer.getData("text/plain") || "";
+    if (raw.indexOf("wh:") !== 0) return;
+    var picked = raw.slice(3);
+    if (p3Step !== 3) return;
+
+    if (picked !== P3_SCENARIO.whCorrect) {
+      setP3Fb("\u26A0\uFE0F \u9488\u5bf9\u5730\u70b9\u63d0\u95ee\u8981\u7528 Where\uff0c\u8bf7\u518d\u62d6\u4e00\u6b21\u3002", false);
+      if (whSlot) {
+        whSlot.classList.add("wrong-flash");
+        setTimeout(function () {
+          whSlot.classList.remove("wrong-flash");
+        }, 550);
+      }
+      speakTts("Try Where for places.", {}).catch(function () {});
+      return;
+    }
+
+    whSlot.textContent = P3_SCENARIO.whCorrect;
+    whSlot.classList.add("filled");
+    whSlot.classList.remove("p3-wh-slot");
+
+    var omitIdx = P3_SCENARIO.omitIndex;
+    var all = document.querySelectorAll("#p3RowStatement .word-chip");
+    all.forEach(function (node, i) {
+      if (node.textContent === P3_SCENARIO.words[omitIdx]) {
+        node.classList.add("p3-omit-removed");
+      }
+    });
+
+    var beAtFront = document.querySelector("#p3RowStatement .filled-be");
+    if (beAtFront && beAtFront.textContent === P3_SCENARIO.ynqBeDisplay) {
+      beAtFront.textContent = P3_SCENARIO.words[P3_SCENARIO.beIndex];
+    }
+
+    p3Step = 4;
+    setP3Banner(
+      "<strong>\u901a\u5173</strong> \u7279\u6b8a\u7591\u95ee\u53e5 = <strong>Wh-</strong> + <strong>\u4e00\u822c\u7591\u95ee\u8bed\u5e8f</strong>\uff0c\u5e76\u7701\u7565<strong>\u5212\u7ebf\uff08\u88ab\u63d0\u95ee\u5185\u5bb9\uff09</strong>\u3002"
+    );
+    setP3Fb(P3_SCENARIO.finalExplain, true);
+    document.getElementById("p3WhWrap").style.display = "none";
+
+    speakTts(P3_SCENARIO.ttsWh, { intonation: "question" }).catch(function () {});
+
+    if (window.anime) {
+      anime({
+        targets: "#p3RowStatement",
+        translateX: [4, 0],
+        duration: 400,
+        easing: "easeOutQuad"
+      });
+    }
+  }
+
+  document.getElementById("p3ResetBtn").addEventListener("click", function () {
+    resetP3();
+  });
+
+  window.__p3Reset = resetP3;
+  resetP3();
+
+  var arenaUsed = {};
+  var battleScore = 0;
+  var battleCorrect = 0;
+  var battleWrong = 0;
+  var battleHp = 100;
+  var battleTimerId = null;
+  var battleEndTime = 0;
+  var currentBattle = null;
+
+  function logTeacher(line) {
+    var ta = document.getElementById("teacherLog");
+    var sid = document.getElementById("studentId").value.trim() || "\u672a\u7f72\u540d";
+    ta.value += "[" + new Date().toLocaleTimeString() + "] " + sid + " \u00b7 " + line + "\n";
+  }
+
+  function pickBattleQuestion() {
+    var avail = arenaPool.filter(function (q) {
+      return !arenaUsed[q.id];
+    });
+    if (!avail.length) return null;
+    return avail[Math.floor(Math.random() * avail.length)];
+  }
+
+  function renderBattle() {
+    var q = pickBattleQuestion();
+    var affEl = document.getElementById("battleAffirm");
+    if (!q) {
+      affEl.textContent = "";
+      document.getElementById("battlePrompt").textContent = "\u9898\u5e93\u5df2\u7528\u5c3d\uff0c\u672c\u8f6e\u65e0\u91cd\u590d\u9898\u53ef\u505a\u3002";
+      return;
+    }
+    currentBattle = q;
+    arenaUsed[q.id] = 1;
+    if (q.affirm && q.kind !== "choice") {
+      affEl.textContent = "\u539f\u53e5\uff1a " + q.affirm;
+      affEl.style.display = "block";
+    } else {
+      affEl.textContent = "";
+      affEl.style.display = "none";
+    }
+    document.getElementById("battlePrompt").innerHTML = "<strong>" + q.prompt + "</strong>\uff08\u9009\u4e00\uff09";
+    document.getElementById("battleMirror").classList.remove("show");
+    var row = document.getElementById("battleOpts");
+    row.innerHTML = "";
+    q.options.forEach(function (opt) {
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "opt-btn";
+      b.textContent = opt;
+      b.addEventListener("click", function () {
+        onBattleAnswer(opt, q);
+      });
+      row.appendChild(b);
+    });
+  }
+
+  function onBattleAnswer(opt, q) {
+    if (!currentBattle) return;
+    var ok = opt === q.correct;
+    document.querySelectorAll("#battleOpts .opt-btn").forEach(function (b) {
+      b.disabled = true;
+    });
+    var mir = document.getElementById("battleMirror");
+    var taskEl = document.querySelector("#battleActive .battle-task");
+    if (ok) {
+      battleScore += 10;
+      battleCorrect++;
+      playCheer();
+      playSuccessBeep();
+      if (taskEl) {
+        taskEl.classList.remove("ok-flash");
+        void taskEl.offsetWidth;
+        taskEl.classList.add("ok-flash");
+        setTimeout(function () {
+          taskEl.classList.remove("ok-flash");
+        }, 500);
+      }
+      speakTts(q.correct, { intonation: q.type === "ynq" || q.type === "wh_where" ? "question" : "statement" }).catch(
+        function () {}
+      );
+      logTeacher("\u2713 " + q.id + " \u6b63\u786e \u2192 " + q.correct);
+    } else {
+      battleWrong++;
+      battleHp = Math.max(0, battleHp - 15);
+      document.getElementById("hpBar").style.width = battleHp + "%";
+      mir.innerHTML =
+        "\u7167\u5996\u955c\uff1a<strong>" +
+        (q.explanation || q.mirror || "\u7559\u610f Be \u52a8\u8bcd\u4f4d\u7f6e\u4e0e not\uff0c\u4ee5\u53ca\u7591\u95ee\u8bed\u5e8f\u3002") +
+        "</strong><br />\u6b63\u89e3\uff1a" +
+        q.correct;
+      mir.classList.add("show");
+      speakTts(q.correct, { intonation: q.type === "ynq" || q.type === "wh_where" ? "question" : "statement" }).catch(
+        function () {}
+      );
+      logTeacher("\u2717 " + q.id + " \u9519\u9009\u300c" + opt + "\u300d");
+    }
+    document.getElementById("battleScore").textContent = String(battleScore);
+    setTimeout(function () {
+      if (Date.now() < battleEndTime) renderBattle();
+    }, ok ? 380 : 850);
+  }
+
+  function endBattle() {
+    if (battleTimerId) {
+      clearInterval(battleTimerId);
+      battleTimerId = null;
+    }
+    document.getElementById("battleActive").style.display = "none";
+    document.getElementById("btnBattle").disabled = false;
+    var rank = "\u89c1\u4e60\u53e5\u5f0f\u624b";
+    if (battleScore >= 120) rank = "\u9ec4\u91d1\u53e5\u5f0f\u5927\u5e08";
+    else if (battleScore >= 80) rank = "\u767d\u94f6\u53e5\u5f0f\u9ad8\u624b";
+    else if (battleScore >= 40) rank = "\u9752\u94dc\u53e5\u5f0f\u52c7\u58eb";
+    document.getElementById("resScore").textContent = String(battleScore);
+    document.getElementById("resCorrect").textContent = String(battleCorrect);
+    document.getElementById("resWrong").textContent = String(battleWrong);
+    document.getElementById("resRank").textContent = "\u7b49\u7ea7\u8bc4\u5b9a\uff1a\u300c" + rank + "\u300d";
+    document.getElementById("resDetail").textContent =
+      "\u672c\u9898\u6c60\u5171 " + arenaPool.length + " \u9898\u3002\u5df2\u7b54\u4e0d\u91cd\u590d " + Object.keys(arenaUsed).length + " \u9898\u3002";
+    document.getElementById("resultOverlay").classList.add("show");
+    logTeacher("\u2014\u2014 \u672c\u8f6e\u7ed3\u675f \u5f97\u5206 " + battleScore + " \u2014\u2014");
+  }
+
+  document.getElementById("btnBattle").addEventListener("click", function () {
+    if (!arenaPool.length) {
+      alert("\u9898\u5e93\u672a\u521d\u59cb\u5316\u3002");
+      return;
+    }
+    if (battleTimerId) {
+      clearInterval(battleTimerId);
+      battleTimerId = null;
+    }
+    battleScore = 0;
+    battleCorrect = 0;
+    battleWrong = 0;
+    battleHp = 100;
+    arenaUsed = {};
+    document.getElementById("hpBar").style.width = "100%";
+    document.getElementById("battleScore").textContent = "0";
+    document.getElementById("battleActive").style.display = "block";
+    this.disabled = true;
+    battleEndTime = Date.now() + 60000;
+    document.getElementById("battleTimer").textContent = "60.0";
+    renderBattle();
+    battleTimerId = setInterval(function () {
+      var left = (battleEndTime - Date.now()) / 1000;
+      if (left <= 0) {
+        document.getElementById("battleTimer").textContent = "0.0";
+        endBattle();
+        return;
+      }
+      document.getElementById("battleTimer").textContent = left.toFixed(1);
+    }, 100);
+  });
+
+  document.getElementById("resDone").addEventListener("click", function () {
+    window.location.href = "lesson02-page08-wrap.html";
+  });
+})();
+  </script>
+</body>
+</html>

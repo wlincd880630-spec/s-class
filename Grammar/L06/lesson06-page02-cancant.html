@@ -1,0 +1,1306 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>第06讲 · Page 02 · Can 能力与许可分拣</title>
+  <script src="https://aka.ms/csspeech/jsbrowserpackageraw"></script>
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
+  <script src="../assets/lesson-tts-azure-config.js"></script>
+  <link rel="stylesheet" href="../assets/lesson-screen-16x9.css" />
+  <!--
+    Vertex Imagen 3.0 Fast 资源预留：
+    - 背景图：A cozy but slightly magical middle school principal's office designed for an interactive English lesson game, high-end hand-drawn crayon storybook illustration style. Warm sunlight through windows, large wooden desk in foreground, stacks of papers, school rule posters, two subtle empty spaces on left and right for future scanner machines, soft parchment colors, whimsical but clean, classroom-friendly, no text, no characters, 16:9 widescreen composition, detailed but not cluttered.
+      建议路径：assets/vertex/l06-page02-principal-office-bg.png
+    - 左侧 Ability 扫描仪：A magical glowing scanner machine made of wood and brass, with a blue lightning bolt symbol representing Ability, crayon art style, transparent background.
+      建议路径：assets/vertex/l06-page02-ability-scanner.png
+    - 右侧 Permission 扫描仪：A magical glowing scanner machine with a green stamp symbol representing Permission, crayon art style, transparent background.
+      建议路径：assets/vertex/l06-page02-permission-scanner.png
+  -->
+  <style>
+    :root {
+      --ink: #2c2436;
+      --paper: #fff9f0;
+      --paper-deep: #f8e1b7;
+      --edge: #5d4037;
+      --gold: #ffd54f;
+      --gold-deep: #f0ad4e;
+      --blue: #1565c0;
+      --blue-soft: #b3e5fc;
+      --green: #2e7d32;
+      --green-soft: #c8e6c9;
+      --red: #d84315;
+      --purple: #5e2388;
+      --shadow: rgba(45, 28, 18, 0.22);
+    }
+
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 18% 16%, rgba(255, 232, 166, 0.45), transparent 30%),
+        radial-gradient(circle at 82% 82%, rgba(179, 229, 252, 0.34), transparent 34%),
+        linear-gradient(168deg, #ffeaa7 0%, #fab1a0 36%, #dfe6e9 100%);
+      touch-action: none;
+    }
+
+    body.has-lesson-pager {
+      --lesson-foot-h: 0px;
+      --lesson-pager-gap: 4.35rem;
+    }
+
+    .app {
+      position: relative;
+      isolation: isolate;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      border: 5px solid rgba(93, 64, 55, 0.55);
+      border-radius: 255px 18px 225px 18px / 18px 225px 18px 255px;
+      background:
+        linear-gradient(180deg, rgba(255, 248, 230, 0.08), rgba(96, 55, 30, 0.12)),
+        url("assets/vertex/l06-page02-principal-office-bg.png"),
+        radial-gradient(circle at 50% 18%, rgba(255, 248, 220, 0.95) 0 9%, transparent 21%),
+        linear-gradient(90deg, transparent 0 12%, rgba(93, 64, 55, 0.22) 12.4% 13.2%, transparent 13.6% 32%, rgba(93, 64, 55, 0.2) 32.4% 33.2%, transparent 33.6% 66%, rgba(93, 64, 55, 0.2) 66.4% 67.2%, transparent 67.6% 87%, rgba(93, 64, 55, 0.22) 87.4% 88.2%, transparent 88.6% 100%),
+        radial-gradient(ellipse at 18% 74%, rgba(255, 224, 130, 0.38), transparent 28%),
+        radial-gradient(ellipse at 82% 74%, rgba(200, 230, 201, 0.36), transparent 28%),
+        linear-gradient(180deg, #ffe9b5 0%, #f8c982 48%, #a86c43 100%);
+      background-size: cover, cover, cover, cover, cover, cover, cover;
+      background-position: center, center, center, center, center, center, center;
+      box-shadow: inset 0 0 64px rgba(93, 64, 55, 0.22), 0 20px 42px rgba(0, 0, 0, 0.24);
+    }
+
+    .app::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background:
+        repeating-linear-gradient(8deg, rgba(93, 64, 55, 0.055) 0 1px, transparent 2px 9px),
+        radial-gradient(ellipse at 50% 72%, rgba(255, 249, 240, 0.3), transparent 42%),
+        linear-gradient(180deg, transparent 0 64%, rgba(72, 38, 18, 0.16) 64.5% 100%);
+      mix-blend-mode: multiply;
+      pointer-events: none;
+    }
+
+    .top-bar {
+      position: absolute;
+      left: 50%;
+      top: max(12px, env(safe-area-inset-top));
+      z-index: 10;
+      transform: translateX(-50%);
+      width: min(92%, 1040px);
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      border: 4px solid var(--edge);
+      border-radius: 24px 12px 22px 18px;
+      background: rgba(255, 249, 240, 0.92);
+      box-shadow: 5px 7px 0 rgba(93, 64, 55, 0.16), 0 10px 24px rgba(0, 0, 0, 0.14);
+      backdrop-filter: blur(4px);
+    }
+
+    .lesson-tag {
+      display: inline-grid;
+      place-items: center;
+      min-width: 84px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, #fff3cd, #ffcc80);
+      border: 3px solid var(--gold-deep);
+      color: #4e342e;
+      font-weight: 1000;
+      box-shadow: 2px 3px 0 rgba(0, 0, 0, 0.09);
+    }
+
+    .title-block {
+      min-width: 0;
+      text-align: center;
+    }
+
+    .title-block h1 {
+      margin: 0;
+      color: var(--purple);
+      font-size: clamp(20px, 2.1vw, 34px);
+      line-height: 1.05;
+      font-weight: 1000;
+      text-shadow: 1px 2px 0 rgba(255, 213, 79, 0.45);
+    }
+
+    .title-block p {
+      margin: 4px 0 0;
+      color: #6d4c41;
+      font-size: clamp(12px, 1vw, 15px);
+      font-weight: 800;
+    }
+
+    .score-chip {
+      display: grid;
+      gap: 2px;
+      min-width: 116px;
+      padding: 6px 12px;
+      border: 3px solid rgba(46, 125, 50, 0.72);
+      border-radius: 18px 9px 16px 11px;
+      background: rgba(232, 245, 233, 0.92);
+      color: var(--green);
+      font-weight: 1000;
+      text-align: center;
+      box-shadow: 2px 3px 0 rgba(0, 0, 0, 0.08);
+    }
+
+    .rule-ribbon {
+      position: absolute;
+      left: 50%;
+      top: clamp(114px, 16vh, 150px);
+      z-index: 7;
+      transform: translateX(-50%);
+      width: min(88%, 820px);
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 8px;
+      align-items: stretch;
+      pointer-events: none;
+    }
+
+    .rule-card {
+      border: 3px dashed rgba(93, 64, 55, 0.45);
+      border-radius: 18px 10px 18px 12px;
+      background: rgba(255, 249, 240, 0.84);
+      padding: 8px 12px;
+      text-align: center;
+      box-shadow: 3px 4px 0 rgba(0, 0, 0, 0.06);
+      font-weight: 900;
+      color: #4e342e;
+    }
+
+    .rule-card strong { display: block; font-size: clamp(16px, 1.35vw, 21px); }
+    .rule-card span { display: block; margin-top: 2px; font-size: clamp(12px, 0.92vw, 14px); color: #795548; }
+    .vs {
+      display: grid;
+      place-items: center;
+      width: 54px;
+      border: 4px solid var(--edge);
+      border-radius: 50%;
+      background: var(--gold);
+      color: #4e342e;
+      font-size: 19px;
+      font-weight: 1000;
+      box-shadow: 3px 4px 0 rgba(0, 0, 0, 0.13);
+    }
+
+    .scanner {
+      position: absolute;
+      bottom: clamp(78px, 12vh, 116px);
+      z-index: 4;
+      width: min(28vw, 330px);
+      height: clamp(185px, 26vh, 260px);
+      display: grid;
+      grid-template-rows: clamp(72px, 11vh, 96px) auto auto;
+      align-content: stretch;
+      justify-items: center;
+      padding: 14px 14px 14px;
+      border: 5px solid rgba(93, 64, 55, 0.85);
+      background: rgba(255, 249, 240, 0.74);
+      box-shadow: 8px 11px 0 rgba(93, 64, 55, 0.16), inset 0 0 24px rgba(255, 255, 255, 0.44);
+      transition: transform 0.2s ease, filter 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .scanner.ability {
+      left: clamp(18px, 4.5vw, 72px);
+      border-radius: 34px 14px 28px 18px / 16px 30px 18px 34px;
+    }
+
+    .scanner.permission {
+      right: clamp(18px, 4.5vw, 72px);
+      border-radius: 14px 34px 18px 28px / 30px 16px 34px 18px;
+    }
+
+    .scanner.active-drop {
+      transform: translateY(-8px) scale(1.03);
+      box-shadow: 0 0 32px rgba(255, 213, 79, 0.7), 8px 11px 0 rgba(93, 64, 55, 0.16);
+    }
+
+    .scanner.correct {
+      animation: pulseOk 0.55s ease;
+    }
+
+    .scanner.wrong {
+      animation: pulseBad 0.5s ease;
+    }
+
+    .scanner-machine {
+      position: relative;
+      grid-row: 1;
+      align-self: start;
+      width: min(46%, 110px);
+      height: clamp(64px, 9.5vh, 86px);
+      overflow: hidden;
+      border: 5px solid var(--edge);
+      border-radius: 28px 12px 24px 16px;
+      background:
+        var(--scanner-img),
+        radial-gradient(circle at 50% 34%, rgba(255, 255, 255, 0.8), transparent 35%),
+        linear-gradient(180deg, #f7d99a, #9f6a3a);
+      background-size: contain, cover, cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      box-shadow: inset 0 0 18px rgba(255, 255, 255, 0.36), 0 10px 18px rgba(0, 0, 0, 0.18);
+      z-index: 1;
+    }
+
+    .ability .scanner-machine {
+      --scanner-img: url("assets/vertex/l06-page02-ability-scanner.png");
+      filter: drop-shadow(0 0 14px rgba(21, 101, 192, 0.42));
+    }
+
+    .permission .scanner-machine {
+      --scanner-img: url("assets/vertex/l06-page02-permission-scanner.png");
+      filter: drop-shadow(0 0 14px rgba(46, 125, 50, 0.42));
+    }
+
+    .scanner-symbol {
+      position: absolute;
+      left: 50%;
+      top: 44%;
+      transform: translate(-50%, -50%);
+      width: 58px;
+      height: 58px;
+      display: grid;
+      place-items: center;
+      border: 4px solid rgba(255, 255, 255, 0.92);
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.78);
+      font-size: 30px;
+      box-shadow: 0 0 18px currentColor;
+    }
+
+    .scanner-machine .scanner-symbol {
+      width: clamp(34px, 5vw, 48px);
+      height: clamp(34px, 5vw, 48px);
+      font-size: clamp(18px, 2.7vw, 26px);
+    }
+
+    .ability .scanner-symbol { color: var(--blue); }
+    .permission .scanner-symbol { color: var(--green); }
+
+    .scanner h2 {
+      grid-row: 2;
+      position: relative;
+      z-index: 2;
+      margin: 0;
+      font-size: clamp(19px, 1.8vw, 28px);
+      line-height: 1;
+      color: var(--scanner-color);
+      font-weight: 1000;
+      text-shadow: 1px 2px 0 rgba(255, 255, 255, 0.7);
+    }
+
+    .ability { --scanner-color: var(--blue); }
+    .permission { --scanner-color: var(--green); }
+
+    .scanner p {
+      grid-row: 3;
+      position: relative;
+      z-index: 2;
+      margin: 7px 0 0;
+      max-width: 220px;
+      font-weight: 900;
+      line-height: 1.32;
+      color: #5d4037;
+      text-align: center;
+      font-size: clamp(12px, 0.96vw, 15px);
+    }
+
+    .card-zone {
+      position: absolute;
+      left: 50%;
+      top: clamp(278px, 48vh, 360px);
+      z-index: 8;
+      width: min(55vw, 676px);
+      height: clamp(248px, 39vh, 351px);
+      transform: translateX(-50%);
+      pointer-events: none;
+    }
+
+    .sentence-card {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: min(100%, 650px);
+      min-height: 190px;
+      transform: translate(-50%, -50%);
+      transform-origin: center;
+      padding: 23px 26px 21px;
+      border: 5px solid var(--edge);
+      border-radius: 255px 18px 225px 18px / 18px 225px 18px 255px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(255, 249, 240, 0.92)),
+        repeating-linear-gradient(-4deg, rgba(93, 64, 55, 0.05), rgba(93, 64, 55, 0.05) 0 1px, transparent 2px 8px);
+      box-shadow: 8px 12px 0 rgba(93, 64, 55, 0.16), 0 18px 28px rgba(0, 0, 0, 0.18);
+      pointer-events: auto;
+      user-select: none;
+      touch-action: none;
+    }
+
+    .sentence-card.is-top {
+      cursor: grab;
+    }
+
+    .sentence-card.dragging {
+      cursor: grabbing;
+      z-index: 50 !important;
+      box-shadow: 0 22px 44px rgba(0, 0, 0, 0.24), 0 0 26px rgba(255, 213, 79, 0.42);
+    }
+
+    .sentence-card.locked {
+      pointer-events: none;
+      filter: saturate(0.82);
+    }
+
+    .card-kicker {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 10px;
+      color: #795548;
+      font-size: 18px;
+      font-weight: 1000;
+    }
+
+    .speaker-dot {
+      appearance: none;
+      border: 3px solid rgba(93, 64, 55, 0.48);
+      border-radius: 999px;
+      background: rgba(255, 243, 205, 0.86);
+      padding: 4px 9px;
+      color: #4e342e;
+      font-size: 17px;
+      font-family: inherit;
+      font-weight: 1000;
+      cursor: pointer;
+      touch-action: manipulation;
+      box-shadow: 2px 3px 0 rgba(0, 0, 0, 0.08);
+    }
+
+    .speaker-dot:active {
+      transform: translateY(2px);
+      box-shadow: 0 1px 0 rgba(0, 0, 0, 0.08);
+    }
+
+    .dialogue-lines {
+      display: grid;
+      gap: 6px;
+      margin: 0;
+      color: #2b2118;
+      font-size: clamp(21px, 2.25vw, 34px);
+      line-height: 1.18;
+      font-weight: 1000;
+      text-align: left;
+    }
+
+    .dialogue-line {
+      margin: 0;
+      padding: 4px 8px;
+      border-radius: 12px 8px 12px 9px;
+      background: rgba(255, 255, 255, 0.34);
+    }
+
+    .dialogue-line.focus {
+      color: #3e2723;
+      background: rgba(255, 213, 79, 0.34);
+      box-shadow: inset 4px 0 0 var(--gold-deep);
+    }
+
+    .target-can {
+      color: var(--purple);
+      text-decoration: underline wavy rgba(94, 35, 136, 0.48);
+      text-underline-offset: 4px;
+    }
+
+    .card-hint {
+      margin: 10px 0 0;
+      color: #6d4c41;
+      text-align: center;
+      font-size: clamp(17px, 1.43vw, 21px);
+      font-weight: 800;
+    }
+
+    .status-panel {
+      position: absolute;
+      left: 50%;
+      bottom: 12px;
+      z-index: 12;
+      transform: translateX(-50%);
+      width: min(84%, 760px);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      border: 3px solid rgba(93, 64, 55, 0.68);
+      border-radius: 20px 10px 18px 12px;
+      background: rgba(255, 249, 240, 0.92);
+      box-shadow: 0 -4px 18px rgba(0, 0, 0, 0.12);
+      font-weight: 900;
+    }
+
+    .status-text {
+      color: #5d4037;
+      min-width: 0;
+      text-align: center;
+      font-size: clamp(13px, 1.12vw, 16px);
+    }
+
+    .nav-link,
+    .small-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 3px solid var(--edge);
+      border-radius: 999px;
+      background: linear-gradient(180deg, #fff9f0, #ffd180);
+      color: #4e342e;
+      text-decoration: none;
+      padding: 7px 13px;
+      font-weight: 1000;
+      cursor: pointer;
+      box-shadow: 2px 3px 0 rgba(0, 0, 0, 0.1);
+      white-space: nowrap;
+    }
+
+    .small-btn {
+      font-family: inherit;
+      font-size: 14px;
+    }
+
+    .mentor-bubble {
+      position: absolute;
+      left: 50%;
+      top: clamp(172px, 30vh, 240px);
+      z-index: 80;
+      width: min(78vw, 560px);
+      transform: translateX(-50%) scale(0.96);
+      display: none;
+      padding: 18px 20px;
+      border: 5px solid var(--edge);
+      border-radius: 28px 14px 30px 18px;
+      background: rgba(255, 249, 240, 0.98);
+      box-shadow: 9px 12px 0 rgba(93, 64, 55, 0.16), 0 22px 48px rgba(0, 0, 0, 0.28);
+      text-align: center;
+    }
+
+    .mentor-bubble.show {
+      display: block;
+    }
+
+    .mentor-bubble h3 {
+      margin: 0 0 8px;
+      color: var(--purple);
+      font-size: clamp(22px, 2.1vw, 32px);
+    }
+
+    .mentor-bubble p {
+      margin: 0;
+      color: #4e342e;
+      font-size: clamp(17px, 1.55vw, 24px);
+      line-height: 1.45;
+      font-weight: 900;
+    }
+
+    .mentor-actions {
+      margin-top: 14px;
+    }
+
+    .thinking {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+    }
+
+    .thinking span {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--gold-deep);
+      animation: bounce 0.7s ease-in-out infinite alternate;
+    }
+
+    .thinking span:nth-child(2) { animation-delay: 0.12s; }
+    .thinking span:nth-child(3) { animation-delay: 0.24s; }
+
+    .finish-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 100;
+      display: none;
+      place-items: center;
+      background: rgba(23, 12, 8, 0.55);
+      backdrop-filter: blur(3px);
+      text-align: center;
+    }
+
+    .finish-overlay.show {
+      display: grid;
+    }
+
+    .finish-panel {
+      width: min(90vw, 980px);
+      max-height: min(86vh, 680px);
+      overflow: auto;
+      padding: 24px;
+      border: 6px solid #8b6914;
+      border-radius: 34px 16px 30px 18px;
+      background: linear-gradient(180deg, #fffde7, #ffe0a3);
+      box-shadow: 10px 14px 0 rgba(0, 0, 0, 0.18), 0 0 44px rgba(255, 213, 79, 0.55);
+    }
+
+    .gold-stamp {
+      display: grid;
+      place-items: center;
+      width: min(44vw, 320px);
+      min-height: 112px;
+      margin: 0 auto 12px;
+      border: 8px solid #b8860b;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle, #fff8dc 0 24%, #ffd54f 25% 62%, #ffb300 63% 100%);
+      color: #5d2f00;
+      font-size: clamp(20px, 2.45vw, 36px);
+      line-height: 1.05;
+      font-weight: 1000;
+      text-transform: uppercase;
+      transform: rotate(-5deg);
+      box-shadow: inset 0 0 22px rgba(255, 255, 255, 0.62), 0 0 28px rgba(255, 193, 7, 0.7);
+    }
+
+    .finish-panel p {
+      margin: 0 0 16px;
+      color: #4e342e;
+      font-size: clamp(16px, 1.35vw, 20px);
+      font-weight: 900;
+    }
+
+    .summary-title {
+      margin: 0 0 8px;
+      color: var(--purple);
+      font-size: clamp(28px, 3vw, 48px);
+      line-height: 1.08;
+      font-weight: 1000;
+      text-shadow: 1px 2px 0 rgba(255, 213, 79, 0.58);
+    }
+
+    .summary-subtitle {
+      margin: 0 auto 16px;
+      max-width: 760px;
+      color: #5d4037;
+      font-size: clamp(15px, 1.25vw, 19px);
+      font-weight: 900;
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin: 12px 0 14px;
+      text-align: left;
+    }
+
+    .summary-card {
+      border: 4px solid rgba(93, 64, 55, 0.72);
+      border-radius: 22px 12px 20px 14px;
+      background: rgba(255, 249, 240, 0.9);
+      padding: 14px 16px;
+      box-shadow: 4px 6px 0 rgba(93, 64, 55, 0.12);
+    }
+
+    .summary-card.ability {
+      border-color: rgba(21, 101, 192, 0.72);
+    }
+
+    .summary-card.permission {
+      border-color: rgba(46, 125, 50, 0.72);
+    }
+
+    .summary-card h3 {
+      margin: 0 0 8px;
+      font-size: clamp(20px, 1.9vw, 30px);
+      line-height: 1.1;
+      font-weight: 1000;
+    }
+
+    .summary-card.ability h3 { color: var(--blue); }
+    .summary-card.permission h3 { color: var(--green); }
+
+    .summary-card ul {
+      margin: 0;
+      padding-left: 1.2em;
+      color: #4e342e;
+      font-size: clamp(14px, 1.08vw, 17px);
+      line-height: 1.5;
+      font-weight: 850;
+    }
+
+    .summary-formula {
+      margin: 8px auto 16px;
+      padding: 10px 14px;
+      max-width: 760px;
+      border: 3px dashed rgba(93, 64, 55, 0.45);
+      border-radius: 18px 10px 18px 12px;
+      background: rgba(255, 255, 255, 0.62);
+      color: #4e342e;
+      font-size: clamp(15px, 1.2vw, 18px);
+      line-height: 1.5;
+      font-weight: 1000;
+    }
+
+    @keyframes pulseOk {
+      0% { filter: drop-shadow(0 0 0 rgba(76, 175, 80, 0)); }
+      50% { filter: drop-shadow(0 0 26px rgba(76, 175, 80, 0.95)); }
+      100% { filter: drop-shadow(0 0 0 rgba(76, 175, 80, 0)); }
+    }
+
+    @keyframes pulseBad {
+      0%, 100% { filter: drop-shadow(0 0 0 rgba(216, 67, 21, 0)); }
+      50% { filter: drop-shadow(0 0 28px rgba(216, 67, 21, 0.95)); }
+    }
+
+    @keyframes bounce {
+      from { transform: translateY(0); opacity: 0.55; }
+      to { transform: translateY(-7px); opacity: 1; }
+    }
+
+    @media (max-width: 760px), (max-height: 560px) {
+      .top-bar {
+        grid-template-columns: 1fr;
+        gap: 6px;
+        padding: 8px;
+      }
+      .lesson-tag,
+      .score-chip {
+        justify-self: center;
+        min-width: 0;
+      }
+      .rule-ribbon {
+        top: 168px;
+        grid-template-columns: 1fr;
+      }
+      .vs { display: none; }
+      .scanner {
+        width: 42vw;
+        height: 170px;
+        bottom: 68px;
+        grid-template-rows: 78px auto auto;
+        padding: 10px;
+      }
+      .scanner-machine {
+        width: 76px;
+        height: 62px;
+      }
+      .scanner p {
+        display: none;
+      }
+      .card-zone {
+        top: 56%;
+        width: 84vw;
+      }
+      .mentor-bubble {
+        top: 42%;
+        width: min(86vw, 520px);
+      }
+      .status-panel {
+        grid-template-columns: 1fr;
+        gap: 6px;
+      }
+      .summary-grid {
+        grid-template-columns: 1fr;
+      }
+      .finish-panel {
+        padding: 16px;
+      }
+    }
+  </style>
+</head>
+<body class="has-lesson-pager">
+  <main class="app" id="app">
+    <header class="top-bar">
+      <div class="lesson-tag">第06讲 · P02</div>
+      <div class="title-block">
+        <h1>魔法分拣局：Can 是能力，还是许可？</h1>
+        <p>把卡片拖进正确扫描仪：自身会不会 = Ability；规则允不允许 = Permission</p>
+      </div>
+      <div class="score-chip">
+        <span>通关进度</span>
+        <span><b id="doneCount">0</b> / <b id="totalCount">10</b></span>
+      </div>
+    </header>
+
+    <section class="rule-ribbon" aria-label="分辨口诀">
+      <div class="rule-card">
+        <strong>Ability · 内在能力</strong>
+        <span>会不会、能不能做到：speak / swim / draw</span>
+      </div>
+      <div class="vs">VS</div>
+      <div class="rule-card">
+        <strong>Permission · 外界许可</strong>
+        <span>可不可以、允不允许：Can I...? / You can...</span>
+      </div>
+    </section>
+
+    <section class="scanner ability" id="abilityDrop" data-type="ability" aria-label="Ability scanner">
+      <div class="scanner-machine" aria-hidden="true"><div class="scanner-symbol">⚡</div></div>
+      <h2>ABILITY</h2>
+      <p>自身能力扫描仪：这个 can 在说“我会 / 我能做到”。</p>
+    </section>
+
+    <section class="scanner permission" id="permissionDrop" data-type="permission" aria-label="Permission scanner">
+      <div class="scanner-machine" aria-hidden="true"><div class="scanner-symbol">✓</div></div>
+      <h2>PERMISSION</h2>
+      <p>许可规则扫描仪：这个 can 在说“允许 / 不允许”。</p>
+    </section>
+
+    <section class="card-zone" id="cardZone" aria-label="Card stack"></section>
+
+    <aside class="mentor-bubble" id="mentorBubble" role="dialog" aria-live="polite" aria-label="导师提示">
+      <h3>校长办公室 AI 导师</h3>
+      <p id="mentorText"><span class="thinking"><span></span><span></span><span></span></span></p>
+      <div class="mentor-actions">
+        <button class="small-btn" type="button" id="mentorOk">我懂了，重新分拣</button>
+      </div>
+    </aside>
+
+    <section class="finish-overlay" id="finishOverlay">
+      <div class="finish-panel">
+        <div class="gold-stamp">SUPER DETECTIVE<br />GREEN LIGHT CLEARED!</div>
+        <h2 class="summary-title">Can 身份结案总结</h2>
+        <p class="summary-subtitle">同一个 <strong>can</strong>，进入不同语境，会变成两张完全不同的通行证。</p>
+        <div class="summary-grid" aria-label="Can 两种用法总结">
+          <section class="summary-card ability">
+            <h3>ABILITY · 自身能力</h3>
+            <ul>
+              <li>核心问题：这个人 / 动物 / 事物 <strong>会不会做</strong>？</li>
+              <li>常见动作：speak, swim, dance, draw, solve, remember。</li>
+              <li>例句：<strong>He can draw very well.</strong></li>
+            </ul>
+          </section>
+          <section class="summary-card permission">
+            <h3>PERMISSION · 外界许可</h3>
+            <ul>
+              <li>核心问题：规则、老师、家长、场所 <strong>允不允许</strong>？</li>
+              <li>常见线索：Can I...? / Can we...? / You can... / We cannot...</li>
+              <li>例句：<strong>Can I go to the restroom?</strong></li>
+            </ul>
+          </section>
+        </div>
+        <div class="summary-formula">
+          判断口诀：先别翻译 can，先问语境。<br />
+          <strong>会不会 = Ability；允不允许 = Permission。</strong>
+        </div>
+        <a class="nav-link" href="lesson06-page03-musthaveto.html">前往 Page 03 · 内心之火与外界枷锁</a>
+      </div>
+    </section>
+
+    <footer class="status-panel">
+      <div class="status-text" id="statusText">拖动最上面的语料卡。读句子，问自己：这是“会不会”，还是“允不允许”？</div>
+      <button class="small-btn" type="button" id="resetBtn">重开本局</button>
+    </footer>
+  </main>
+
+  <nav class="lesson-pager" aria-label="课程页导航">
+    <a class="pager-prev" href="lesson06-page01-leadin.html">← 上一页 · Page 01</a>
+    <span class="pager-mid">L06 · Page 02 / 07</span>
+    <a class="pager-next" href="lesson06-page03-musthaveto.html">下一页 · Page 03 →</a>
+  </nav>
+
+  <script>
+    (function () {
+      "use strict";
+
+      const ABILITY_SENTENCES = [
+        {
+          lines: ["Coach: The river is wide today.", "Tom: I learned swimming last summer.", "Tom: I can swim across it slowly.", "Coach: Good. Show me your skill first."],
+          focus: 2
+        },
+        {
+          lines: ["Music teacher: We need someone for the school show.", "Lily: I practice after dinner every day.", "Lily: I can play the piano for the class.", "Music teacher: Great, let's rehearse."],
+          focus: 2
+        },
+        {
+          lines: ["Dad: This map is all in English.", "Emma: I know many place words.", "Emma: I can read the signs for you.", "Dad: Then you are our guide."],
+          focus: 2
+        },
+        {
+          lines: ["Art teacher: The poster needs a panda.", "Jack: I draw animals every weekend.", "Jack: I can draw one in ten minutes.", "Art teacher: Perfect. Use the big paper."],
+          focus: 2
+        },
+        {
+          lines: ["Mum: Grandpa has a new phone.", "Ben: I taught him yesterday.", "Ben: He can send photos now.", "Mum: That is real progress."],
+          focus: 2
+        },
+        {
+          lines: ["Class monitor: The math puzzle is hard.", "Nina: Give me a minute.", "Nina: I can solve it with a table.", "Class monitor: Show us your method."],
+          focus: 2
+        },
+        {
+          lines: ["Tour guide: Listen to the bird in the tree.", "Student: It is small, but strong.", "Student: It can fly high above the lake.", "Tour guide: Yes, that is its ability."],
+          focus: 2
+        },
+        {
+          lines: ["Teacher: Who will introduce Chengdu in English?", "Leo: I prepared five sentences.", "Leo: I can speak a little English.", "Teacher: Start with your favorite place."],
+          focus: 2
+        },
+        {
+          lines: ["Friend: The dance looks difficult.", "Amy: I have practiced for two months.", "Amy: I can dance the whole part now.", "Friend: You look confident."],
+          focus: 2
+        },
+        {
+          lines: ["Brother: Do you remember Mr. Green's number?", "Sister: Sorry, there are eleven digits.", "Sister: I cannot remember it without my notebook.", "Brother: Then check the notebook first."],
+          focus: 2
+        }
+      ].map((item, index) => ({ id: "A" + (index + 1), type: "ability", ...item }));
+
+      const PERMISSION_SENTENCES = [
+        {
+          lines: ["Student: Mr. Smith, I finished the exercise.", "Student: Can I go to the restroom?", "Teacher: Yes, but come back in two minutes.", "Student: Thank you, sir."],
+          focus: 1
+        },
+        {
+          lines: ["Librarian: This is a quiet reading room.", "Boy: My sandwich smells good.", "Librarian: We cannot eat in the library.", "Boy: Sorry, I will eat outside."],
+          focus: 2
+        },
+        {
+          lines: ["Mum: The family dinner starts at seven.", "Daughter: Can I watch TV after dinner?", "Mum: Yes, after you finish the dishes.", "Daughter: Deal!"],
+          focus: 1
+        },
+        {
+          lines: ["Guard: This museum has old paintings.", "Visitor: May I take pictures?", "Guard: Visitors can take photos without flash.", "Visitor: I will turn off the flash."],
+          focus: 2
+        },
+        {
+          lines: ["Teacher: Today is our sports meeting.", "Student: The sun is really hot.", "Teacher: You can wear your own cap today.", "Student: Great. I will bring a blue one."],
+          focus: 2
+        },
+        {
+          lines: ["Driver: I will stop near the school gate.", "Police officer: Look at the sign.", "Police officer: You cannot park your car here.", "Driver: Sorry, I will move it."],
+          focus: 2
+        },
+        {
+          lines: ["Class monitor: The meeting is not over.", "Student: Can I leave the room now?", "Class monitor: No. You cannot leave without asking the teacher.", "Student: I understand."],
+          focus: 2
+        },
+        {
+          lines: ["Teacher: The classroom is too warm.", "Mike: Can I open the window?", "Teacher: Yes, open it a little.", "Mike: OK, just a little."],
+          focus: 1
+        },
+        {
+          lines: ["Girl: I forgot my dictionary.", "Partner: We are doing pair work.", "Partner: You can use my dictionary.", "Girl: Thanks. I will return it soon."],
+          focus: 2
+        },
+        {
+          lines: ["Coach: The gym is free after four.", "Students: Can we play basketball on weekends?", "Coach: Yes, but you must book the court first.", "Students: We will book it today."],
+          focus: 1
+        }
+      ].map((item, index) => ({ id: "P" + (index + 1), type: "permission", ...item }));
+
+      const app = document.getElementById("app");
+      const cardZone = document.getElementById("cardZone");
+      const abilityDrop = document.getElementById("abilityDrop");
+      const permissionDrop = document.getElementById("permissionDrop");
+      const doneCount = document.getElementById("doneCount");
+      const totalCount = document.getElementById("totalCount");
+      const statusText = document.getElementById("statusText");
+      const mentorBubble = document.getElementById("mentorBubble");
+      const mentorText = document.getElementById("mentorText");
+      const mentorOk = document.getElementById("mentorOk");
+      const finishOverlay = document.getElementById("finishOverlay");
+      const resetBtn = document.getElementById("resetBtn");
+
+      let deck = [];
+      let activeCard = null;
+      let activeItem = null;
+      let drag = null;
+      let solved = 0;
+      let isAnimating = false;
+      let isWaitingForAI = false;
+
+      function qs(sel, root = document) {
+        return root.querySelector(sel);
+      }
+
+      function shuffle(items) {
+        const arr = items.slice();
+        for (let i = arr.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+      }
+
+      function sample(items, n) {
+        return shuffle(items).slice(0, n);
+      }
+
+      function runAnime(opts) {
+        if (window.anime) return window.anime(opts);
+        const targets = Array.isArray(opts.targets) ? opts.targets : [opts.targets];
+        targets.forEach((el) => {
+          if (!el || !el.style) return;
+          if (opts.opacity) el.style.opacity = Array.isArray(opts.opacity) ? opts.opacity[1] : opts.opacity;
+          if (opts.translateX || opts.translateY || opts.scale) {
+            const x = Array.isArray(opts.translateX) ? opts.translateX[1] : opts.translateX || 0;
+            const y = Array.isArray(opts.translateY) ? opts.translateY[1] : opts.translateY || 0;
+            const s = Array.isArray(opts.scale) ? opts.scale[1] : opts.scale || 1;
+            el.style.transform = `translate(${x}px, ${y}px) scale(${s})`;
+          }
+        });
+        return { finished: Promise.resolve() };
+      }
+
+      function setStatus(text) {
+        statusText.textContent = text;
+      }
+
+      function setLocked(locked) {
+        isAnimating = locked;
+        app.classList.toggle("locked", locked);
+      }
+
+      function makeDeck() {
+        deck = shuffle([...sample(ABILITY_SENTENCES, 5), ...sample(PERMISSION_SENTENCES, 5)]);
+        solved = 0;
+        totalCount.textContent = String(deck.length);
+        doneCount.textContent = "0";
+        finishOverlay.classList.remove("show");
+        renderDeck();
+      }
+
+      function renderDeck() {
+        cardZone.innerHTML = "";
+        deck.forEach((item, index) => {
+          const card = document.createElement("article");
+          const depth = deck.length - 1 - index;
+          card.className = "sentence-card";
+          card.dataset.id = item.id;
+          card.dataset.type = item.type;
+          card.style.zIndex = String(index + 1);
+          card.style.transform = `translate(calc(-50% + ${Math.min(depth, 4) * 8}px), calc(-50% + ${Math.min(depth, 4) * 7}px)) rotate(${(depth % 5 - 2) * 1.2}deg)`;
+          card.style.opacity = String(Math.max(0.42, 1 - depth * 0.08));
+          card.innerHTML = `
+            <div class="card-kicker">
+              <span>Can Context Card</span>
+              <button class="speaker-dot" type="button" aria-label="朗读当前对话">🔊 点击朗读</button>
+            </div>
+            <div class="dialogue-lines">${renderDialogue(item)}</div>
+            <p class="card-hint">读完整语境：这个 can 是能力，还是许可？</p>
+          `;
+          const speakButton = card.querySelector(".speaker-dot");
+          speakButton.addEventListener("pointerdown", (event) => {
+            event.stopPropagation();
+          });
+          speakButton.addEventListener("click", async (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            setStatus("正在朗读当前对话...");
+            const ok = await playDialogue(item);
+            setStatus(ok ? "本地 Google TTS 朗读完成。现在判断：会不会，还是允不允许？" : "本地 Google TTS 音频未播放，请检查 mp3 文件路径。");
+          });
+          cardZone.appendChild(card);
+        });
+        activateTopCard();
+      }
+
+      function activateTopCard() {
+        const cards = [...cardZone.querySelectorAll(".sentence-card")];
+        cards.forEach((card) => {
+          card.classList.remove("is-top");
+          card.classList.add("locked");
+          card.removeEventListener("pointerdown", onPointerDown);
+        });
+        activeCard = cards[cards.length - 1] || null;
+        activeItem = deck[deck.length - 1] || null;
+        if (!activeCard || !activeItem) {
+          showFinish();
+          return;
+        }
+        activeCard.classList.add("is-top");
+        activeCard.classList.remove("locked");
+        activeCard.addEventListener("pointerdown", onPointerDown);
+        setStatus(`当前对话已准备好。点击卡片右上角朗读，再判断 can 的身份。`);
+      }
+
+      function renderDialogue(item) {
+        return item.lines
+          .map((line, index) => {
+            const cls = index === item.focus ? "dialogue-line focus" : "dialogue-line";
+            return `<p class="${cls}">${highlightCan(escapeHtml(line))}</p>`;
+          })
+          .join("");
+      }
+
+      function highlightCan(safeLine) {
+        return safeLine.replace(/\b(can|cannot)\b/gi, '<span class="target-can">$1</span>');
+      }
+
+      function escapeHtml(text) {
+        return String(text)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#39;");
+      }
+
+      async function playDialogue(item) {
+        const localOk = await playLocalDialogue(item);
+        if (localOk) return true;
+        return false;
+      }
+
+      function playAudioFile(src) {
+        return new Promise((resolve) => {
+          const audio = new Audio(src);
+          audio.addEventListener("ended", () => resolve(true), { once: true });
+          audio.addEventListener("error", () => resolve(false), { once: true });
+          const p = audio.play();
+          if (p && typeof p.catch === "function") {
+            p.catch((err) => {
+              console.warn("[L06P02] 本地音频播放失败:", src, err);
+              resolve(false);
+            });
+          }
+        });
+      }
+
+      async function playLocalDialogue(item) {
+        if (!item || !item.id || !Array.isArray(item.lines)) return false;
+        setStatus("正在播放本地 Google TTS 语音...");
+        for (let i = 0; i < item.lines.length; i += 1) {
+          const src = `assets/tts-mp3/l06-page02/${item.id}-${String(i + 1).padStart(2, "0")}.mp3`;
+          const ok = await playAudioFile(src);
+          if (!ok) return false;
+          await wait(120);
+        }
+        return true;
+      }
+
+      function wait(ms) {
+        return new Promise((resolve) => setTimeout(resolve, ms));
+      }
+
+      function onPointerDown(event) {
+        if (isAnimating || isWaitingForAI || !activeCard || event.button > 0) return;
+        event.preventDefault();
+        const rect = activeCard.getBoundingClientRect();
+        drag = {
+          pointerId: event.pointerId,
+          startX: event.clientX,
+          startY: event.clientY,
+          cardX: rect.left + rect.width / 2,
+          cardY: rect.top + rect.height / 2
+        };
+        activeCard.setPointerCapture(event.pointerId);
+        activeCard.classList.add("dragging");
+        runAnime({
+          targets: activeCard,
+          scale: 1.08,
+          duration: 160,
+          easing: "easeOutCubic"
+        });
+        window.addEventListener("pointermove", onPointerMove);
+        window.addEventListener("pointerup", onPointerUp);
+        window.addEventListener("pointercancel", onPointerUp);
+      }
+
+      function onPointerMove(event) {
+        if (!drag || !activeCard) return;
+        const dx = event.clientX - drag.startX;
+        const dy = event.clientY - drag.startY;
+        activeCard.style.transform = `translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px)) rotate(${dx * 0.018}deg) scale(1.08)`;
+        highlightDrop(event.clientX, event.clientY);
+      }
+
+      async function onPointerUp(event) {
+        if (!drag || !activeCard || !activeItem) return;
+        const point = { x: event.clientX, y: event.clientY };
+        window.removeEventListener("pointermove", onPointerMove);
+        window.removeEventListener("pointerup", onPointerUp);
+        window.removeEventListener("pointercancel", onPointerUp);
+        activeCard.classList.remove("dragging");
+        clearDropHighlight();
+        let target = null;
+        if (isInside(point, abilityDrop)) target = "ability";
+        if (isInside(point, permissionDrop)) target = "permission";
+        if (!target) {
+          await returnCard("还没有投进扫描仪。把卡片放到左边或右边的大机器里。");
+          drag = null;
+          return;
+        }
+        if (target === activeItem.type) {
+          await handleCorrect(target);
+        } else {
+          await handleWrong(target);
+        }
+        drag = null;
+      }
+
+      function isInside(point, el) {
+        const rect = el.getBoundingClientRect();
+        return point.x >= rect.left && point.x <= rect.right && point.y >= rect.top && point.y <= rect.bottom;
+      }
+
+      function highlightDrop(x, y) {
+        abilityDrop.classList.toggle("active-drop", isInside({ x, y }, abilityDrop));
+        permissionDrop.classList.toggle("active-drop", isInside({ x, y }, permissionDrop));
+      }
+
+      function clearDropHighlight() {
+        abilityDrop.classList.remove("active-drop");
+        permissionDrop.classList.remove("active-drop");
+      }
+
+      async function returnCard(message) {
+        setLocked(true);
+        setStatus(message);
+        await runAnime({
+          targets: activeCard,
+          translateX: 0,
+          translateY: 0,
+          scale: 1,
+          rotate: 0,
+          duration: 520,
+          easing: "easeOutElastic(1, .65)"
+        }).finished;
+        activeCard.style.transform = "translate(-50%, -50%) rotate(0deg) scale(1)";
+        setLocked(false);
+      }
+
+      async function handleCorrect(target) {
+        setLocked(true);
+        const dropEl = target === "ability" ? abilityDrop : permissionDrop;
+        dropEl.classList.add("correct");
+        setTimeout(() => dropEl.classList.remove("correct"), 620);
+        setStatus(target === "ability" ? "正确！这是自身能力：会不会做到。" : "正确！这是外界许可：允不允许做。");
+        const dropRect = dropEl.getBoundingClientRect();
+        const cardRect = activeCard.getBoundingClientRect();
+        const tx = dropRect.left + dropRect.width / 2 - (cardRect.left + cardRect.width / 2);
+        const ty = dropRect.top + dropRect.height * 0.58 - (cardRect.top + cardRect.height / 2);
+        await runAnime({
+          targets: activeCard,
+          translateX: tx,
+          translateY: ty,
+          scale: 0,
+          opacity: 0,
+          rotate: target === "ability" ? -13 : 13,
+          duration: 430,
+          easing: "easeInBack"
+        }).finished;
+        deck.pop();
+        solved += 1;
+        doneCount.textContent = String(solved);
+        renderDeck();
+        setLocked(false);
+      }
+
+      async function handleWrong(target) {
+        setLocked(true);
+        const dropEl = target === "ability" ? abilityDrop : permissionDrop;
+        dropEl.classList.add("wrong");
+        setTimeout(() => dropEl.classList.remove("wrong"), 540);
+        await runAnime({
+          targets: activeCard,
+          translateX: [
+            { value: -16, duration: 70 },
+            { value: 14, duration: 70 },
+            { value: -10, duration: 60 },
+            { value: 8, duration: 60 },
+            { value: 0, duration: 60 }
+          ],
+          easing: "easeInOutSine"
+        }).finished;
+        await runAnime({
+          targets: activeCard,
+          translateX: 0,
+          translateY: 0,
+          scale: 1,
+          rotate: 0,
+          duration: 480,
+          easing: "easeOutElastic(1, .72)"
+        }).finished;
+        activeCard.style.transform = "translate(-50%, -50%) rotate(0deg) scale(1)";
+        setLocked(false);
+        showMentor(activeItem, target);
+      }
+
+      function showMentor(item, wrongTarget) {
+        isWaitingForAI = true;
+        mentorBubble.classList.add("show");
+        mentorText.innerHTML = '<span class="thinking"><span></span><span></span><span></span></span>';
+        setStatus("导师正在追问：错因不是单词，而是语境身份。");
+        setTimeout(() => {
+          mentorText.textContent = buildSocraticHint(item, wrongTarget);
+        }, 520);
+      }
+
+      function buildSocraticHint(item, wrongTarget) {
+        const focusLine = item.lines[item.focus] || item.lines.join(" ");
+        if (item.type === "ability") {
+          return `大侦探，"${focusLine}" 前面有练习、学习或本领线索。它是在说“会不会做到”，还是谁批准呢？`;
+        }
+        if (/cannot|can't/i.test(focusLine)) {
+          return `大侦探，"${focusLine}" 放在图书馆、停车处或规则场景里，是做不到，还是规则不允许？`;
+        }
+        if (/Can I|Can we/i.test(focusLine)) {
+          return `大侦探，问 “Can I / Can we...?” 时，通常是在申请技能，还是申请许可？`;
+        }
+        return `大侦探，"${focusLine}" 前后有人给规则或同意吗？如果有，就是 Permission。`;
+      }
+
+      mentorOk.addEventListener("click", () => {
+        mentorBubble.classList.remove("show");
+        isWaitingForAI = false;
+        setStatus("再试一次：Ability 看“会不会”，Permission 看“允不允许”。");
+      });
+
+      function showFinish() {
+        setLocked(true);
+        finishOverlay.classList.add("show");
+        setStatus("通关！你已经拿到绿色通行证。");
+        runAnime({
+          targets: ".gold-stamp",
+          translateY: [-260, 0],
+          scale: [1.35, 1],
+          rotate: [-22, -5],
+          duration: 760,
+          easing: "easeOutBounce"
+        });
+        runAnime({
+          targets: app,
+          translateX: [
+            { value: -6, duration: 50 },
+            { value: 6, duration: 50 },
+            { value: -4, duration: 50 },
+            { value: 0, duration: 50 }
+          ],
+          easing: "easeInOutSine"
+        });
+      }
+
+      resetBtn.addEventListener("click", () => {
+        if (isAnimating || isWaitingForAI) return;
+        setStatus("已重开本局：系统重新抽取 Ability 与 Permission 各 5 张。");
+        makeDeck();
+      });
+
+      makeDeck();
+    })();
+  </script>
+</body>
+</html>

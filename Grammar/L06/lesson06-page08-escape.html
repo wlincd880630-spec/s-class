@@ -1,0 +1,1550 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>第06讲 · Page 08 · 禁闭室大逃脱</title>
+  <!--
+    Vertex Imagen 3.0 Fast（素材占位，缺失时用渐变兜底）
+    1 禁闭室：A dark, damp school detention room, flickering bulb, crayon style.
+    2 铁门：A massive iron door with three padlock slots + glowing runes, transparent PNG.
+    3 自由：Bright sunny campus behind door — layer under split doors.
+  -->
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
+  <script src="https://aka.ms/csspeech/jsbrowserpackageraw"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/lesson-screen-16x9.css" />
+  <style>
+    :root {
+      --edge: #5d4037;
+      --cream: #fff8e8;
+      --ink: #3e2723;
+      --gold-bright: #f4e4a8;
+      --gold-mid: #c9a227;
+      --gold-dark: #6b5320;
+      --iron: #3a3d48;
+      --iron-deep: #1e2128;
+      --locks-open: 0;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    html,
+    body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      touch-action: manipulation;
+      background: #0a070c;
+      color: var(--cream);
+      font-family: system-ui, "Microsoft YaHei", sans-serif;
+    }
+    body.has-lesson-pager {
+      --lesson-foot-h: 0px;
+      --lesson-pager-gap: 4.35rem;
+    }
+    .app {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      border: 8px solid rgba(55, 42, 32, 0.95);
+      border-radius: 255px 18px 235px 22px / 22px 235px 22px 255px;
+      box-shadow:
+        inset 0 0 0 2px rgba(255, 213, 79, 0.22),
+        inset 0 0 80px rgba(0, 0, 0, 0.45),
+        0 24px 60px rgba(0, 0, 0, 0.65);
+      background-color: #0c080e;
+      background-image:
+        radial-gradient(ellipse 100% 55% at 50% -8%, rgba(255, 200, 120, 0.07), transparent 52%),
+        radial-gradient(ellipse 70% 45% at 85% 95%, rgba(60, 30, 90, 0.18), transparent),
+        radial-gradient(ellipse 50% 35% at 12% 70%, rgba(40, 70, 55, 0.12), transparent),
+        linear-gradient(165deg, #140c12 0%, #1f151e 38%, #121018 100%),
+        url("assets/vertex/l06-page08-detention-bg.png");
+      background-size: cover, cover, cover, cover, cover;
+      background-position: center;
+    }
+    .app::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      pointer-events: none;
+      z-index: 1;
+      box-shadow: inset 0 0 140px 50px rgba(0, 0, 0, 0.72);
+      opacity: calc(0.92 - var(--locks-open) * 0.06);
+      transition: opacity 1.1s ease;
+    }
+    .app::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      pointer-events: none;
+      z-index: 2;
+      opacity: 0.045;
+      mix-blend-mode: overlay;
+      background-image:
+        repeating-linear-gradient(0deg, transparent 0 2px, rgba(0, 0, 0, 0.06) 2px 3px),
+        repeating-linear-gradient(90deg, transparent 0 2px, rgba(255, 255, 255, 0.04) 2px 3px);
+    }
+    .top-bar {
+      position: relative;
+      z-index: 40;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 10px;
+      width: min(96%, 1040px);
+      margin: 10px auto 0;
+      padding: 10px 14px;
+      border: 5px solid var(--edge);
+      border-radius: 22px 14px 20px 14px;
+      background: linear-gradient(180deg, #fffef7, #ffe0b2);
+      color: #4e342e;
+    }
+    .tag {
+      border: 3px solid #f0ad4e;
+      border-radius: 999px;
+      padding: 6px 12px;
+      font-weight: 900;
+      font-size: clamp(11px, 0.95vw, 14px);
+      background: linear-gradient(180deg, #fff8dc, #ffcc80);
+    }
+    .top-bar h1 {
+      margin: 0;
+      font-family: "ZCOOL KuaiLe", sans-serif;
+      font-size: clamp(15px, 1.7vw, 24px);
+      color: #4a148c;
+      text-align: center;
+    }
+    .chip {
+      border: 3px solid #9575cd;
+      border-radius: 999px;
+      padding: 6px 12px;
+      font-weight: 900;
+      font-size: clamp(11px, 0.92vw, 13px);
+      background: linear-gradient(180deg, #ede7f6, #d1c4e9);
+      white-space: nowrap;
+    }
+    .hint-strip {
+      width: min(94%, 920px);
+      margin: 8px auto 0;
+      padding: 12px 18px;
+      border-radius: 16px;
+      border: 4px solid rgba(126, 87, 194, 0.55);
+      background:
+        linear-gradient(175deg, rgba(34, 22, 42, 0.92), rgba(18, 10, 22, 0.94)),
+        repeating-linear-gradient(
+          -3deg,
+          transparent,
+          transparent 18px,
+          rgba(255, 224, 130, 0.04) 18px,
+          rgba(255, 224, 130, 0.04) 19px
+        );
+      font-size: clamp(12px, 1vw, 14px);
+      font-weight: 780;
+      line-height: 1.45;
+      text-align: center;
+      position: relative;
+      z-index: 35;
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    }
+    .hint-strip strong {
+      color: #ffe082;
+    }
+
+    .scene {
+      position: absolute;
+      inset: 0;
+      z-index: 8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      perspective: 1500px;
+      padding-bottom: 5rem;
+    }
+    .scene-atmo {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .atmo-bulb {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: min(120%, 900px);
+      height: 42%;
+      transform: translateX(-50%);
+      background: radial-gradient(ellipse closest-side at 50% 0%, rgba(255, 220, 160, 0.22), transparent 68%);
+      animation: bulbFlicker 5.4s ease-in-out infinite;
+      opacity: calc(0.62 + var(--locks-open) * 0.1);
+    }
+    @keyframes bulbFlicker {
+      0%,
+      100% {
+        filter: brightness(1);
+      }
+      41% {
+        filter: brightness(1.08);
+      }
+      43% {
+        filter: brightness(0.88);
+      }
+      45% {
+        filter: brightness(1.05);
+      }
+      87% {
+        filter: brightness(0.94);
+      }
+    }
+    .atmo-mist {
+      position: absolute;
+      inset: auto -10% 12%;
+      height: 28%;
+      background: linear-gradient(180deg, transparent, rgba(20, 28, 36, 0.35));
+      opacity: 0.65;
+    }
+
+    .freedom-layer {
+      position: absolute;
+      inset: -4%;
+      z-index: 0;
+      opacity: 0;
+      transform: scale(1.02);
+      border-radius: 18px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.5), rgba(180, 230, 255, 0.25)),
+        url("assets/vertex/l06-page08-freedom-bg.png"),
+        linear-gradient(165deg, #87ceeb 0%, #98fb98 45%, #fff9c4 100%);
+      background-size: cover, cover, cover;
+      transition: opacity 1s ease;
+      pointer-events: none;
+    }
+    .freedom-layer.show {
+      opacity: 1;
+    }
+
+    .door-box {
+      position: relative;
+      z-index: 5;
+      width: min(74vw, 740px);
+      height: min(64vh, 580px);
+      transform-style: preserve-3d;
+      filter: drop-shadow(0 28px 48px rgba(0, 0, 0, 0.65));
+    }
+    .door-frame {
+      position: absolute;
+      inset: 0;
+      border-radius: 14px 14px 18px 18px;
+      background:
+        linear-gradient(180deg, rgba(42, 44, 54, 0.97), rgba(18, 18, 26, 0.99)),
+        repeating-linear-gradient(
+          92deg,
+          rgba(255, 255, 255, 0.03) 0 1px,
+          transparent 1px 14px
+        ),
+        radial-gradient(ellipse 85% 55% at 50% 15%, rgba(90, 110, 160, 0.18), transparent 58%);
+      box-shadow:
+        inset 0 0 0 3px rgba(70, 62, 52, 0.85),
+        inset 0 -24px 50px rgba(0, 0, 0, 0.55),
+        inset 0 12px 28px rgba(120, 110, 130, 0.08),
+        0 22px 56px rgba(0, 0, 0, 0.62),
+        0 0 0 8px rgba(35, 28, 22, 0.65);
+      overflow: hidden;
+    }
+    .door-frame::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      pointer-events: none;
+      opacity: 0.55;
+      background-image:
+        radial-gradient(circle at 16px 18px, rgba(110, 112, 125, 0.55) 0 4px, transparent 5px),
+        radial-gradient(circle at calc(100% - 16px) 18px, rgba(110, 112, 125, 0.55) 0 4px, transparent 5px),
+        radial-gradient(circle at 16px calc(100% - 18px), rgba(110, 112, 125, 0.45) 0 4px, transparent 5px),
+        radial-gradient(circle at calc(100% - 16px) calc(100% - 18px), rgba(110, 112, 125, 0.45) 0 4px, transparent 5px);
+      background-size: 100% 100%;
+    }
+    .door-frame::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      border-radius: inherit;
+      box-shadow: inset 0 0 70px rgba(0, 0, 0, 0.45);
+      opacity: calc(0.95 - var(--locks-open) * 0.14);
+      transition: opacity 1s ease;
+    }
+    .door-split {
+      position: absolute;
+      inset: 14px;
+      display: flex;
+      perspective: inherit;
+      transform-style: preserve-3d;
+      gap: 3px;
+      background: rgba(0, 0, 0, 0.35);
+      border-radius: 8px;
+      box-shadow: inset 0 0 24px rgba(0, 0, 0, 0.65);
+    }
+    .door-leaf {
+      flex: 1;
+      height: 100%;
+      background:
+        linear-gradient(
+          98deg,
+          var(--iron-deep) 0%,
+          #353842 18%,
+          var(--iron) 42%,
+          #2e3038 62%,
+          #252830 100%
+        ),
+        repeating-linear-gradient(
+          88deg,
+          transparent 0 21px,
+          rgba(0, 0, 0, 0.11) 21px 22px
+        );
+      border: 3px solid rgba(18, 14, 12, 0.95);
+      box-shadow:
+        inset -14px 0 28px rgba(0, 0, 0, 0.55),
+        inset 6px 0 16px rgba(255, 255, 255, 0.04);
+      transform-origin: center center;
+      backface-visibility: hidden;
+    }
+    .door-leaf.left {
+      border-radius: 10px 3px 3px 10px;
+      transform-origin: left center;
+      box-shadow:
+        inset -12px 0 26px rgba(0, 0, 0, 0.5),
+        inset 4px 0 12px rgba(160, 175, 210, 0.06);
+    }
+    .door-leaf.right {
+      border-radius: 3px 10px 10px 3px;
+      transform-origin: right center;
+      box-shadow:
+        inset 12px 0 26px rgba(0, 0, 0, 0.5),
+        inset -4px 0 12px rgba(160, 175, 210, 0.05);
+    }
+    .runes {
+      position: absolute;
+      inset: 16% 7%;
+      pointer-events: none;
+      opacity: calc(0.42 + var(--locks-open) * 0.07);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(11px, 1.15vw, 16px);
+      letter-spacing: 0.12em;
+      color: rgba(200, 185, 255, 0.55);
+      text-align: center;
+      line-height: 1.65;
+      text-shadow: 0 0 18px rgba(130, 100, 200, 0.35);
+    }
+
+    .locks-row {
+      position: absolute;
+      top: 11%;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: flex-end;
+      gap: clamp(18px, 3.4vw, 40px);
+      z-index: 15;
+      padding: 8px 14px 10px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0.28), rgba(20, 14, 22, 0.35));
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 10px 28px rgba(0, 0, 0, 0.45);
+    }
+    .locks-row::before {
+      content: "";
+      position: absolute;
+      left: 12%;
+      right: 12%;
+      top: 50%;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, rgba(200, 170, 90, 0.35), transparent);
+      pointer-events: none;
+    }
+
+    .padlock-btn {
+      appearance: none;
+      position: relative;
+      width: clamp(58px, 9vw, 84px);
+      height: clamp(86px, 11.5vw, 118px);
+      padding: 0;
+      border: none;
+      cursor: pointer;
+      background: transparent;
+      filter: drop-shadow(0 10px 16px rgba(0, 0, 0, 0.55));
+      transition: transform 0.22s ease, filter 0.22s ease;
+    }
+    .padlock-btn:focus-visible {
+      outline: 3px solid rgba(255, 213, 79, 0.85);
+      outline-offset: 4px;
+    }
+    .pl-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+    }
+    .pl-shackle {
+      width: 64%;
+      height: 30px;
+      border: 5px solid #c9a035;
+      border-bottom: none;
+      border-radius: 22px 22px 0 0;
+      background: linear-gradient(90deg, #5c4a30, #9a844c 48%, #5c4a30);
+      box-shadow:
+        inset 0 3px 6px rgba(255, 255, 255, 0.28),
+        inset 0 -2px 6px rgba(0, 0, 0, 0.35),
+        0 -2px 4px rgba(0, 0, 0, 0.45);
+    }
+    .pl-body {
+      width: 76%;
+      height: 54px;
+      margin-top: -4px;
+      border-radius: 12px 12px 14px 14px;
+      background: linear-gradient(158deg, #fff6c8 0%, #f0d060 22%, #c9a227 58%, #7a5a18);
+      box-shadow:
+        0 10px 20px rgba(0, 0, 0, 0.55),
+        inset 0 3px 5px rgba(255, 255, 255, 0.45),
+        inset 0 -10px 18px rgba(0, 0, 0, 0.22);
+      display: grid;
+      place-items: center;
+      position: relative;
+    }
+    .pl-keyhole {
+      width: 15px;
+      height: 18px;
+      border-radius: 50% 50% 35% 35%;
+      background: radial-gradient(circle at 45% 35%, #3a3530, #0c0a08);
+      box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.85);
+    }
+    .pl-keyhole::after {
+      content: "";
+      display: block;
+      width: 7px;
+      height: 12px;
+      margin: -2px auto 0;
+      border-radius: 0 0 4px 4px;
+      background: linear-gradient(180deg, #1a1612, #080604);
+    }
+    .pl-tag {
+      position: absolute;
+      bottom: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      min-width: 1.5em;
+      text-align: center;
+      font-size: clamp(11px, 1vw, 13px);
+      font-weight: 1000;
+      font-family: "ZCOOL KuaiLe", sans-serif;
+      color: rgba(255, 232, 160, 0.92);
+      text-shadow: 0 2px 6px rgba(0, 0, 0, 0.85);
+    }
+    .padlock-btn:hover:not(:disabled):not(.done) {
+      transform: translateY(-4px) scale(1.03);
+      filter: drop-shadow(0 14px 22px rgba(0, 0, 0, 0.55)) brightness(1.05);
+    }
+    .padlock-btn.is-active:not(.done) {
+      animation: lockGlow 1.35s ease-in-out infinite;
+    }
+    @keyframes lockGlow {
+      0%,
+      100% {
+        filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.55)) drop-shadow(0 0 12px rgba(255, 210, 90, 0.55));
+      }
+      50% {
+        filter: drop-shadow(0 12px 22px rgba(0, 0, 0, 0.55)) drop-shadow(0 0 22px rgba(255, 230, 140, 0.85));
+      }
+    }
+    .padlock-btn:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+      filter: grayscale(0.85) brightness(0.75);
+    }
+    .padlock-btn.done {
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .voice-lock {
+      appearance: none;
+      margin: 0;
+      padding: 0;
+      font: inherit;
+      position: absolute;
+      bottom: 11%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: clamp(112px, 16vw, 148px);
+      height: clamp(112px, 16vw, 148px);
+      border-radius: 50%;
+      border: 6px solid rgba(55, 48, 42, 0.95);
+      background:
+        radial-gradient(circle at 35% 28%, #5a585f 0%, #222026 42%, #121016 100%);
+      display: grid;
+      place-items: center;
+      z-index: 90;
+      opacity: 0.38;
+      transition: opacity 0.45s ease, box-shadow 0.45s ease, transform 0.3s ease, border-color 0.35s ease;
+      cursor: not-allowed;
+      box-shadow: inset 0 4px 18px rgba(0, 0, 0, 0.65), 0 12px 28px rgba(0, 0, 0, 0.45);
+    }
+    .voice-lock:disabled {
+      opacity: 0.38;
+      cursor: not-allowed;
+    }
+    .voice-lock.lit:not(:disabled) {
+      opacity: 1;
+      cursor: pointer;
+      border-color: rgba(255, 200, 120, 0.55);
+      animation: breathe 2.2s ease-in-out infinite;
+    }
+    .voice-lock.lit.recording {
+      animation: none;
+      transform: translateX(-50%) scale(1.06);
+      border-color: rgba(255, 120, 90, 0.75);
+      box-shadow:
+        0 0 36px rgba(255, 110, 80, 0.55),
+        0 0 80px rgba(255, 180, 100, 0.25),
+        inset 0 4px 18px rgba(0, 0, 0, 0.55);
+    }
+    .voice-lock.judging {
+      pointer-events: none;
+      cursor: wait;
+      opacity: 0.88;
+    }
+    @keyframes breathe {
+      0%,
+      100% {
+        box-shadow:
+          inset 0 4px 18px rgba(0, 0, 0, 0.55),
+          0 0 26px rgba(255, 210, 120, 0.45),
+          0 0 52px rgba(160, 120, 255, 0.28);
+      }
+      50% {
+        box-shadow:
+          inset 0 4px 18px rgba(0, 0, 0, 0.55),
+          0 0 42px rgba(255, 230, 160, 0.65),
+          0 0 72px rgba(180, 140, 255, 0.38);
+      }
+    }
+    .mic-svg {
+      width: 52%;
+      height: 52%;
+      fill: none;
+      stroke: rgba(235, 232, 248, 0.94);
+      stroke-width: 2.6;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.65));
+    }
+    .voice-eq {
+      position: absolute;
+      bottom: 14%;
+      left: 50%;
+      transform: translateX(-50%);
+      display: none;
+      align-items: flex-end;
+      gap: 4px;
+      height: 22px;
+    }
+    .voice-lock.lit.recording .mic-svg {
+      opacity: 0.35;
+    }
+    .voice-lock.lit.recording .voice-eq {
+      display: flex;
+    }
+    .voice-eq span {
+      width: 5px;
+      border-radius: 99px;
+      background: linear-gradient(180deg, #ffb74d, #ff7043);
+      animation: eqBar 0.55s ease-in-out infinite alternate;
+    }
+    .voice-eq span:nth-child(1) {
+      height: 35%;
+      animation-delay: 0s;
+    }
+    .voice-eq span:nth-child(2) {
+      height: 65%;
+      animation-delay: 0.08s;
+    }
+    .voice-eq span:nth-child(3) {
+      height: 100%;
+      animation-delay: 0.16s;
+    }
+    .voice-eq span:nth-child(4) {
+      height: 55%;
+      animation-delay: 0.24s;
+    }
+    .voice-eq span:nth-child(5) {
+      height: 40%;
+      animation-delay: 0.32s;
+    }
+    @keyframes eqBar {
+      from {
+        transform: scaleY(0.35);
+        opacity: 0.65;
+      }
+      to {
+        transform: scaleY(1);
+        opacity: 1;
+      }
+    }
+
+    .dim {
+      position: fixed;
+      inset: 0;
+      background: rgba(4, 2, 8, 0.72);
+      z-index: 60;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s ease;
+    }
+    .dim.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .quiz-panel {
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%) scale(0.92);
+      z-index: 70;
+      width: min(92vw, 560px);
+      max-height: min(78vh, 620px);
+      overflow: auto;
+      padding: 18px 18px 16px;
+      border-radius: 22px 14px 22px 16px;
+      border: 6px solid rgba(93, 64, 55, 0.65);
+      background: repeating-linear-gradient(transparent 0 26px, rgba(141, 110, 99, 0.08) 26px 27px),
+        linear-gradient(175deg, #fffdf8, #ffe8c8);
+      color: var(--ink);
+      box-shadow: 0 28px 70px rgba(0, 0, 0, 0.55);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s ease, transform 0.35s ease;
+    }
+    .quiz-panel.show {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translate(-50%, -50%) scale(1);
+    }
+    .quiz-panel h3 {
+      margin: 0 0 10px;
+      font-family: "ZCOOL KuaiLe", sans-serif;
+      color: #4a148c;
+      font-size: clamp(15px, 1.35vw, 20px);
+    }
+    .quiz-stem {
+      font-family: "Patrick Hand", "Comic Sans MS", cursive;
+      font-size: clamp(15px, 1.45vw, 21px);
+      line-height: 1.55;
+      margin-bottom: 14px;
+      font-weight: 700;
+    }
+    .opts {
+      display: grid;
+      gap: 8px;
+    }
+    .opt-btn {
+      appearance: none;
+      text-align: left;
+      padding: 12px 14px;
+      border-radius: 14px 10px 14px 12px;
+      border: 4px solid rgba(93, 64, 55, 0.45);
+      background: #fffdf7;
+      font-family: "Patrick Hand", cursive;
+      font-size: clamp(14px, 1.25vw, 19px);
+      font-weight: 800;
+      cursor: pointer;
+      color: var(--ink);
+      transition: background 0.15s ease, transform 0.12s ease;
+    }
+    .opt-btn:hover:not(:disabled) {
+      background: #fff3e0;
+      transform: translateX(4px);
+    }
+    .opt-btn:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
+
+    .ai-bubble {
+      position: fixed;
+      z-index: 110;
+      left: 50%;
+      bottom: max(90px, calc(env(safe-area-inset-bottom) + 76px));
+      transform: translateX(-50%);
+      width: min(92vw, 520px);
+      padding: 14px 16px;
+      border-radius: 20px 12px 22px 14px;
+      border: 5px solid rgba(126, 87, 194, 0.55);
+      background: linear-gradient(175deg, #ede7f6, #fffde7);
+      color: #4e342e;
+      font-weight: 780;
+      line-height: 1.5;
+      display: none;
+      box-shadow: 0 18px 44px rgba(0, 0, 0, 0.35);
+    }
+    .ai-bubble.show {
+      display: block;
+    }
+    .ai-bubble button {
+      margin-top: 10px;
+      appearance: none;
+      border: 4px solid var(--edge);
+      border-radius: 999px;
+      padding: 8px 16px;
+      font-weight: 900;
+      cursor: pointer;
+      background: linear-gradient(180deg, #fffef5, #ffcc80);
+    }
+
+    .chant-hint {
+      position: fixed;
+      left: 50%;
+      top: calc(env(safe-area-inset-top, 0px) + clamp(108px, 14vh, 158px));
+      transform: translateX(-50%);
+      z-index: 38;
+      width: min(92vw, 720px);
+      max-height: min(38vh, 280px);
+      overflow: auto;
+      padding: 12px 18px;
+      text-align: center;
+      font-weight: 820;
+      font-size: clamp(12px, 1.15vw, 16px);
+      color: #fffef5;
+      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.75);
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 0.45s ease, visibility 0.45s ease;
+      border-radius: 16px;
+      background: linear-gradient(175deg, rgba(34, 26, 52, 0.94), rgba(22, 14, 30, 0.96));
+      border: 2px solid rgba(200, 170, 255, 0.42);
+      box-shadow: 0 14px 40px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.07);
+      line-height: 1.55;
+    }
+    .chant-hint.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .flash-white {
+      position: fixed;
+      inset: 0;
+      z-index: 95;
+      background: #fff;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .finish-layer {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: none;
+      place-items: center;
+      background: rgba(6, 4, 10, 0.82);
+      padding: 20px;
+    }
+    .finish-layer.show {
+      display: grid;
+    }
+    .finish-card {
+      max-width: 560px;
+      padding: 22px;
+      border-radius: 24px;
+      border: 6px solid #ffd54f;
+      background: linear-gradient(180deg, #fffde7, #ffe082);
+      color: #4e342e;
+      text-align: center;
+    }
+    .medal {
+      display: inline-block;
+      margin: 12px 0;
+      padding: 16px 22px;
+      border: 6px solid #c62828;
+      border-radius: 12px;
+      font-weight: 1000;
+      color: #b71c1c;
+      background: linear-gradient(165deg, #fff8e1, #ffecb3);
+      transform: rotate(-2deg);
+    }
+    .finish-card a {
+      display: inline-flex;
+      margin-top: 12px;
+      padding: 12px 18px;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 1000;
+      color: #4e342e;
+      border: 5px solid var(--edge);
+      background: linear-gradient(180deg, #fffef5, #ffcc80);
+    }
+
+    /* 低于 quiz-panel(70)，避免挡住羊皮纸选项；高于 dim(60)，burst 时挡住背后交互 */
+    .ui-lock {
+      position: fixed;
+      inset: 0;
+      z-index: 65;
+      background: transparent;
+      display: none;
+    }
+    .ui-lock.show {
+      display: block;
+    }
+
+    .coin {
+      position: fixed;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 25%, #fff9c4, #ffb300 55%, #e65100);
+      pointer-events: none;
+      z-index: 99;
+    }
+
+    .sr-only {
+      position: absolute !important;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+  </style>
+</head>
+<body class="has-lesson-pager">
+  <main class="app" id="appRoot">
+    <header class="top-bar">
+      <span class="tag">第06讲 · P08</span>
+      <h1>禁闭室大逃脱 · Rule Breakers Detention</h1>
+      <span class="chip" id="lockChip">密码锁 0 / 3</span>
+    </header>
+    <p class="hint-strip">
+      <strong>任务</strong>：依次解开三道<strong>情态动词真题锁</strong>；三锁全开后，听一遍示范并跟读<strong>终极咒语</strong>（下方横幅双语对照）。
+    </p>
+
+    <!-- 必须在 .scene 外且 z-index 高于任务条，否则咒语全文被挡住 -->
+    <div class="chant-hint" id="chantHint" role="status" aria-live="polite" aria-atomic="true"></div>
+
+    <section class="scene" aria-label="禁闭室大门">
+      <div class="scene-atmo" aria-hidden="true">
+        <div class="atmo-bulb"></div>
+        <div class="atmo-mist"></div>
+      </div>
+      <div class="freedom-layer" id="freedomLayer"></div>
+
+      <div class="door-box" id="doorBox">
+        <div class="door-frame">
+          <div class="runes">RULES · MUST · HAVE TO · MUST NOT · CAN · MAGIC LOCK</div>
+          <div class="door-split" id="doorSplit">
+            <div class="door-leaf left" id="doorLeft"></div>
+            <div class="door-leaf right" id="doorRight"></div>
+          </div>
+          <div class="locks-row" role="group" aria-label="三道真题锁">
+            <button type="button" class="padlock-btn" id="lockBtn0" aria-label="密码锁 1">
+              <span class="pl-inner">
+                <span class="pl-shackle" aria-hidden="true"></span>
+                <span class="pl-body" aria-hidden="true"><span class="pl-keyhole"></span></span>
+                <span class="pl-tag">①</span>
+              </span>
+            </button>
+            <button type="button" class="padlock-btn" id="lockBtn1" aria-label="密码锁 2">
+              <span class="pl-inner">
+                <span class="pl-shackle" aria-hidden="true"></span>
+                <span class="pl-body" aria-hidden="true"><span class="pl-keyhole"></span></span>
+                <span class="pl-tag">②</span>
+              </span>
+            </button>
+            <button type="button" class="padlock-btn" id="lockBtn2" aria-label="密码锁 3">
+              <span class="pl-inner">
+                <span class="pl-shackle" aria-hidden="true"></span>
+                <span class="pl-body" aria-hidden="true"><span class="pl-keyhole"></span></span>
+                <span class="pl-tag">③</span>
+              </span>
+            </button>
+          </div>
+          <button type="button" class="voice-lock" id="voiceLock" disabled title="先解开三把锁" aria-label="咒语麦克风，三锁全开后可用">
+            <svg class="mic-svg" viewBox="0 0 48 48" aria-hidden="true">
+              <path fill="none" d="M24 32c4 0 7-3 7-7V15c0-4-3-7-7-7s-7 3-7 7v10c0 4 3 7 7 7z" />
+              <path fill="none" d="M13 21v3c0 6 5 11 11 11s11-5 11-11v-3M24 35v7M19 42h10" />
+            </svg>
+            <div class="voice-eq" aria-hidden="true">
+              <span></span><span></span><span></span><span></span><span></span>
+            </div>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <div class="dim" id="dimLayer"></div>
+    <aside class="quiz-panel" id="quizPanel" role="dialog" aria-modal="true" aria-labelledby="quizTitle">
+      <h3 id="quizTitle">羊皮纸 · 单选题</h3>
+      <div class="quiz-stem" id="quizStem"></div>
+      <div class="opts" id="quizOpts"></div>
+    </aside>
+    <aside class="ai-bubble" id="aiBubble">
+      <div id="aiText"></div>
+      <button type="button" id="aiOk">知道了</button>
+    </aside>
+
+    <div class="flash-white" id="flashWhite"></div>
+    <div class="ui-lock" id="uiLock"></div>
+
+    <section class="finish-layer" id="finishLayer">
+      <div class="finish-card">
+        <h2 style="margin: 0; font-family: 'ZCOOL KuaiLe', sans-serif; color: #4a148c">破局而出</h2>
+        <div class="medal">RULE BREAKER<br />ESCAPED</div>
+        <p style="margin: 0; font-weight: 900; line-height: 1.55">你用情态动词的逻辑轰开了禁闭室大门——规则保护我们，也给我们留有不必完美的余地。</p>
+        <a href="lesson06-page09-exam.html">前往 Page 09 · 终极试炼场 →</a>
+      </div>
+    </section>
+  </main>
+
+  <nav class="lesson-pager" aria-label="课程页导航">
+    <a class="pager-prev" href="lesson06-page07-debate.html">← 上一页 · Page 07</a>
+    <span class="pager-mid">L06 · Page 08 / 11</span>
+    <a class="pager-next" href="lesson06-page09-exam.html">下一页 · Page 09 →</a>
+  </nav>
+
+  <script>
+    (function () {
+      "use strict";
+
+      var AZURE_KEY = "DKRXk8ueSfo5NdIOMqFRTCAfpeGDezJ3Snf5K8gGgtyqxiWdugLzJQQJ99BLACHYHv6XJ3w3AAAYACOGUYP9";
+      var AZURE_REGION = "eastus2";
+      var DEEPSEEK_KEY = "sk-daa16008e81843deba6fefe9dce51465";
+      var DEEPSEEK_ENDPOINT = "https://api.deepseek.com/v1/chat/completions";
+
+      var CHANT_EN = "We must follow the rules, but we don't have to be perfect.";
+      var CHANT_ZH = "我们必须遵守规则，但我们不必完美。";
+
+      var BANK = [
+        {
+          topic: "must vs have to",
+          stem: "I cannot go out to play. I _____ finish my homework first.",
+          opts: ["have to", "must", "can", "may"],
+          ans: 0
+        },
+        {
+          topic: "mustn't vs don't have to",
+          stem: "The sign says Danger. You _____ swim here!",
+          opts: ["mustn't", "don't have to", "can't", "shouldn't"],
+          ans: 0
+        },
+        {
+          topic: "can 许可",
+          stem: "_____ I borrow your dictionary, please?",
+          opts: ["Can", "Must", "Should", "Need"],
+          ans: 0
+        },
+        {
+          topic: "mustn't 禁止",
+          stem: "We _____ eat or drink in the computer room. It is a strict rule.",
+          opts: ["mustn't", "don't have to", "can't", "may not"],
+          ans: 0
+        },
+        {
+          topic: "don't have to",
+          stem: "Tomorrow is a holiday. You _____ wake up early.",
+          opts: ["don't have to", "mustn't", "can't", "shouldn't"],
+          ans: 0
+        },
+        {
+          topic: "have to 过去式",
+          stem: "My bike was broken yesterday, so I _____ walk home.",
+          opts: ["had to", "must", "have to", "musted"],
+          ans: 0
+        },
+        {
+          topic: "can 能力",
+          stem: "My brother is only four, but he _____ play the piano well.",
+          opts: ["can", "must", "should", "may"],
+          ans: 0
+        },
+        {
+          topic: "must 主观",
+          stem: "I _____ buy a gift for my mother today. It is her birthday.",
+          opts: ["must", "have to", "can", "may"],
+          ans: 0
+        },
+        {
+          topic: "Must 疑问否定答",
+          stem: "Must I finish it now? No, you _____.",
+          opts: ["don't have to", "mustn't", "can't", "needn't"],
+          ans: 0
+        },
+        {
+          topic: "have to 疑问",
+          stem: "_____ you wear a uniform every day?",
+          opts: ["Do you have to", "Must you", "Are you have to", "Have you to"],
+          ans: 0
+        },
+        {
+          topic: "can't 推测否定",
+          stem: "That man _____ be Mr. Li. He has gone to Beijing.",
+          opts: ["can't", "mustn't", "doesn't have to", "must not"],
+          ans: 0
+        },
+        {
+          topic: "must 推测肯定",
+          stem: "The light is on. He _____ be at home.",
+          opts: ["must", "can", "may", "might"],
+          ans: 0
+        }
+      ];
+
+      var STATE = {
+        IDLE: "IDLE",
+        QUIZ: "QUIZ",
+        AI_WRONG: "AI_WRONG",
+        LOCK_ANIM: "LOCK_ANIM",
+        VOICE_READY: "VOICE_READY",
+        RECORDING: "RECORDING",
+        CHANT_AI: "CHANT_AI",
+        ESCAPE: "ESCAPE",
+        DONE: "DONE"
+      };
+      var state = STATE.IDLE;
+      var rounds = [];
+      var solved = 0;
+      var activeLockIdx = null;
+      var sttRec = null;
+      var heardChant = "";
+      var heardInterim = "";
+
+      var lockChip = document.getElementById("lockChip");
+      var lockBtns = [document.getElementById("lockBtn0"), document.getElementById("lockBtn1"), document.getElementById("lockBtn2")];
+      var voiceLock = document.getElementById("voiceLock");
+      var chantHint = document.getElementById("chantHint");
+      var dimLayer = document.getElementById("dimLayer");
+      var quizPanel = document.getElementById("quizPanel");
+      var quizStem = document.getElementById("quizStem");
+      var quizOpts = document.getElementById("quizOpts");
+      var aiBubble = document.getElementById("aiBubble");
+      var aiText = document.getElementById("aiText");
+      var aiOk = document.getElementById("aiOk");
+      var flashWhite = document.getElementById("flashWhite");
+      var uiLock = document.getElementById("uiLock");
+      var finishLayer = document.getElementById("finishLayer");
+      var doorLeft = document.getElementById("doorLeft");
+      var doorRight = document.getElementById("doorRight");
+      var freedomLayer = document.getElementById("freedomLayer");
+      var appRoot = document.getElementById("appRoot");
+
+      function setBusy(on) {
+        uiLock.classList.toggle("show", on);
+      }
+
+      function setState(s) {
+        state = s;
+      }
+
+      function shuffleArr(arr) {
+        var a = arr.slice();
+        for (var i = a.length - 1; i > 0; i--) {
+          var j = Math.floor(Math.random() * (i + 1));
+          var t = a[i];
+          a[i] = a[j];
+          a[j] = t;
+        }
+        return a;
+      }
+
+      // 打乱选项顺序并同步 ans，避免正确答案总固定在首项
+      function shuffleQuestion(q) {
+        var pairs = q.opts.map(function (text, i) {
+          return { text: text, orig: i };
+        });
+        var shuffled = shuffleArr(pairs);
+        var newAns = -1;
+        for (var k = 0; k < shuffled.length; k++) {
+          if (shuffled[k].orig === q.ans) {
+            newAns = k;
+            break;
+          }
+        }
+        return {
+          topic: q.topic,
+          stem: q.stem,
+          opts: shuffled.map(function (p) {
+            return p.text;
+          }),
+          ans: newAns < 0 ? q.ans : newAns
+        };
+      }
+
+      function shufflePick3() {
+        var ix = BANK.map(function (_, i) {
+          return i;
+        });
+        for (var i = ix.length - 1; i > 0; i--) {
+          var j = Math.floor(Math.random() * (i + 1));
+          var t = ix[i];
+          ix[i] = ix[j];
+          ix[j] = t;
+        }
+        return [shuffleQuestion(BANK[ix[0]]), shuffleQuestion(BANK[ix[1]]), shuffleQuestion(BANK[ix[2]])];
+      }
+
+      function speakLine(text, style) {
+        if (!window.SpeechSDK) return Promise.resolve();
+        return new Promise(function (resolve) {
+          try {
+            var cfg = SpeechSDK.SpeechConfig.fromSubscription(AZURE_KEY, AZURE_REGION);
+            cfg.speechSynthesisVoiceName = "en-US-ChristopherNeural";
+            var syn = new SpeechSDK.SpeechSynthesizer(cfg);
+            var safe = String(text).replace(/&/g, "&amp;").replace(/</g, "&lt;");
+            var ssml =
+              '<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xmlns:mstts="http://www.w3.org/2001/mstts" xml:lang="en-US">' +
+              '<voice name="en-US-ChristopherNeural">' +
+              (style
+                ? '<mstts:express-as style="' + style + '"><prosody rate="-2%">' + safe + "</prosody></mstts:express-as>"
+                : "<prosody rate=\"-2%\">" + safe + "</prosody>") +
+              "</voice></speak>";
+            syn.speakSsmlAsync(
+              ssml,
+              function () {
+                syn.close();
+                resolve();
+              },
+              function () {
+                syn.close();
+                resolve();
+              }
+            );
+          } catch (e) {
+            resolve();
+          }
+        });
+      }
+
+      function deepSeek(payload, system) {
+        if (!DEEPSEEK_KEY) return Promise.resolve(null);
+        var ctrl = typeof AbortController !== "undefined" ? new AbortController() : null;
+        var tid = window.setTimeout(function () {
+          if (ctrl) ctrl.abort();
+        }, 10000);
+        return fetch(DEEPSEEK_ENDPOINT, {
+          method: "POST",
+          signal: ctrl ? ctrl.signal : undefined,
+          headers: { "Content-Type": "application/json", Authorization: "Bearer " + DEEPSEEK_KEY },
+          body: JSON.stringify({
+            model: "deepseek-chat",
+            temperature: 0.25,
+            max_tokens: 140,
+            messages: [
+              { role: "system", content: system },
+              { role: "user", content: payload }
+            ]
+          })
+        })
+          .then(function (r) {
+            window.clearTimeout(tid);
+            return r.ok ? r.json() : null;
+          })
+          .then(function (data) {
+            var t = data && data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content;
+            return t ? String(t).trim() : null;
+          })
+          .catch(function () {
+            window.clearTimeout(tid);
+            return null;
+          });
+      }
+
+      function wrongExplain(q, pickedIdx) {
+        var picked = q.opts[pickedIdx];
+        var correct = q.opts[q.ans];
+        var sys =
+          "你是中考英语教研员。学生做错了单选题。考点：" +
+          q.topic +
+          "。题干：" +
+          q.stem +
+          "。学生选了：" +
+          picked +
+          "。正确应为：" +
+          correct +
+          "。请只用中文给出一句40字内的苏格拉底式反问，禁止直接复述正确答案英文选项。";
+        return deepSeek("请开始。", sys).then(function (txt) {
+          return txt || "再想一想：语境更像义务、禁止，还是不必？";
+        });
+      }
+
+      function localChantOk(t) {
+        var s = String(t || "")
+          .toLowerCase()
+          .replace(/\s+/g, " ")
+          .trim();
+        var a = /we\s+must\s+follow\s+the\s+rules/.test(s);
+        var b = /don'?t\s+have\s+to\s+be\s+perfect/.test(s) || /do\s+not\s+have\s+to\s+be\s+perfect/.test(s);
+        return a && b;
+      }
+
+      function chantJudge(stt) {
+        if (localChantOk(stt)) return Promise.resolve("ACCESS GRANTED");
+        var sys =
+          "你是口语纠音老师。学生应念：" +
+          CHANT_EN +
+          "。识别文本：" +
+          stt +
+          "。若关键短语齐全且大意正确，只回复 ACCESS GRANTED；否则中文50字内指出漏读或替换错误。";
+        return deepSeek("请判定。", sys).then(function (txt) {
+          if (txt && /ACCESS GRANTED/i.test(txt)) return "ACCESS GRANTED";
+          return txt || "请大声、完整地包含 must follow the rules 与 don't have to be perfect。";
+        });
+      }
+
+      function updateChip() {
+        lockChip.textContent = "密码锁 " + solved + " / 3";
+        appRoot.style.setProperty("--locks-open", String(solved));
+      }
+
+      function openQuiz(lockIdx) {
+        if (state === STATE.ESCAPE || state === STATE.DONE || state === STATE.RECORDING || state === STATE.CHANT_AI) return;
+        var q = rounds[lockIdx];
+        if (!q || lockBtns[lockIdx].classList.contains("done")) return;
+        activeLockIdx = lockIdx;
+        lockBtns.forEach(function (b, i) {
+          b.classList.toggle("is-active", i === lockIdx);
+        });
+        setState(STATE.QUIZ);
+        dimLayer.classList.add("show");
+        quizStem.textContent = q.stem;
+        quizOpts.innerHTML = "";
+        q.opts.forEach(function (opt, i) {
+          var b = document.createElement("button");
+          b.type = "button";
+          b.className = "opt-btn";
+          b.textContent = opt;
+          b.dataset.idx = String(i);
+          b.addEventListener("click", function () {
+            onPick(i);
+          });
+          quizOpts.appendChild(b);
+        });
+        quizPanel.classList.add("show");
+        setBusy(true);
+        speakLine("Show me your logic.", "serious");
+      }
+
+      function closeQuiz() {
+        quizPanel.classList.remove("show");
+        dimLayer.classList.remove("show");
+        setBusy(false);
+        lockBtns.forEach(function (b) {
+          b.classList.remove("is-active");
+        });
+        activeLockIdx = null;
+        if (state === STATE.QUIZ) setState(STATE.IDLE);
+      }
+
+      function onPick(idx) {
+        if (state !== STATE.QUIZ || activeLockIdx === null) return;
+        var q = rounds[activeLockIdx];
+        var btns = quizOpts.querySelectorAll(".opt-btn");
+        btns.forEach(function (b) {
+          b.disabled = true;
+        });
+        if (idx === q.ans) {
+          var lockJustSolved = activeLockIdx;
+          closeQuiz();
+          burstLock(lockJustSolved);
+        } else {
+          wrongExplain(q, idx).then(function (msg) {
+            aiText.textContent = msg;
+            aiBubble.classList.add("show");
+            setState(STATE.AI_WRONG);
+          });
+        }
+      }
+
+      function burstLock(lockIdx) {
+        setState(STATE.LOCK_ANIM);
+        setBusy(true);
+        var btn = lockBtns[lockIdx];
+        anime({
+          targets: flashWhite,
+          opacity: [0, 0.85, 0],
+          duration: 380,
+          easing: "easeOutQuad"
+        });
+        anime({
+          targets: btn,
+          scale: [1, 2],
+          opacity: [1, 0],
+          rotate: Math.random() * 24 - 12,
+          duration: 620,
+          easing: "easeInQuad",
+          complete: function () {
+            btn.classList.add("done");
+            solved++;
+            updateChip();
+            setBusy(false);
+            if (solved >= 3) armVoice();
+            else setState(STATE.IDLE);
+          }
+        });
+      }
+
+      function armVoice() {
+        chantHint.innerHTML =
+          "<strong style=\"color:#ffe082\">终极咒语 · Ultimate chant</strong><br/>" +
+          "<span style=\"font-size:1.06em;font-weight:900;letter-spacing:.02em\">" +
+          CHANT_EN +
+          "</span><br/><span style=\"opacity:.94;font-weight:780\">" +
+          CHANT_ZH +
+          "</span>";
+        chantHint.classList.add("show");
+        voiceLock.classList.add("lit");
+        voiceLock.disabled = false;
+        setVoiceUiReady();
+        setState(STATE.VOICE_READY);
+        speakLine(CHANT_EN, "serious").catch(function () {});
+      }
+
+      function startStt() {
+        return new Promise(function (resolve) {
+          heardChant = "";
+          heardInterim = "";
+          if (!window.SpeechSDK) return resolve("");
+          try {
+            var cfg = SpeechSDK.SpeechConfig.fromSubscription(AZURE_KEY, AZURE_REGION);
+            cfg.speechRecognitionLanguage = "en-US";
+            var audio = SpeechSDK.AudioConfig.fromDefaultMicrophoneInput();
+            sttRec = new SpeechSDK.SpeechRecognizer(cfg, audio);
+            sttRec.recognizing = function (_, ev) {
+              if (ev && ev.result && ev.result.text) {
+                heardInterim = ev.result.text.trim();
+              }
+            };
+            sttRec.recognized = function (_, ev) {
+              if (ev && ev.result && ev.result.text) {
+                heardChant = (heardChant + " " + ev.result.text).trim();
+              }
+            };
+            sttRec.startContinuousRecognitionAsync(
+              function () {
+                resolve();
+              },
+              function () {
+                resolve();
+              }
+            );
+          } catch (e) {
+            resolve("");
+          }
+        });
+      }
+
+      function stopStt() {
+        return new Promise(function (resolve) {
+          function mergeText() {
+            var a = (heardChant || "").trim();
+            var b = (heardInterim || "").trim();
+            if (a && b && a.indexOf(b) !== -1) return a;
+            if (a && b) return (a + " " + b).trim();
+            return a || b;
+          }
+          if (!sttRec) return resolve(mergeText());
+          try {
+            sttRec.stopContinuousRecognitionAsync(
+              function () {
+                try {
+                  sttRec.close();
+                } catch (e) {}
+                sttRec = null;
+                resolve(mergeText());
+              },
+              function () {
+                try {
+                  sttRec.close();
+                } catch (e) {}
+                sttRec = null;
+                resolve(mergeText());
+              }
+            );
+          } catch (e) {
+            sttRec = null;
+            resolve(mergeText());
+          }
+        });
+      }
+
+      function setVoiceUiReady() {
+        voiceLock.title = "点击开始录音";
+        voiceLock.setAttribute("aria-pressed", "false");
+        voiceLock.setAttribute("aria-label", "点击开始录音念咒语");
+      }
+
+      function setVoiceUiRecording() {
+        voiceLock.title = "再次点击结束录音";
+        voiceLock.setAttribute("aria-pressed", "true");
+        voiceLock.setAttribute("aria-label", "正在录音，再次点击结束");
+      }
+
+      function onVoiceClick() {
+        if (!voiceLock.classList.contains("lit") || voiceLock.disabled) return;
+        if (state === STATE.ESCAPE || state === STATE.DONE) return;
+        if (state === STATE.VOICE_READY) {
+          heardChant = "";
+          setState(STATE.RECORDING);
+          voiceLock.classList.add("recording");
+          setVoiceUiRecording();
+          startStt();
+          return;
+        }
+        if (state === STATE.RECORDING) {
+          voiceLock.classList.remove("recording");
+          stopStt().then(function (txt) {
+            if (!txt) {
+              aiText.textContent = "没有识别到英文，请再试一次，语速放慢。";
+              aiBubble.classList.add("show");
+              setState(STATE.VOICE_READY);
+              setVoiceUiReady();
+              return;
+            }
+            setBusy(true);
+            voiceLock.classList.add("judging");
+            setState(STATE.CHANT_AI);
+            chantJudge(txt).then(function (res) {
+              voiceLock.classList.remove("judging");
+              setBusy(false);
+              if (/ACCESS GRANTED/i.test(res)) runEscape();
+              else {
+                aiText.textContent = res;
+                aiBubble.classList.add("show");
+                setState(STATE.VOICE_READY);
+                setVoiceUiReady();
+              }
+            });
+          });
+        }
+      }
+
+      function runEscape() {
+        setState(STATE.ESCAPE);
+        setBusy(true);
+        anime({
+          targets: flashWhite,
+          opacity: [0, 1, 0.4],
+          duration: 500,
+          easing: "easeInQuad",
+          complete: function () {
+            anime({
+              targets: flashWhite,
+              opacity: [0.4, 0],
+              duration: 400,
+              easing: "easeOutQuad"
+            });
+          }
+        });
+        speakLine("Freedom waits beyond the gate.", "cheerful").catch(function () {});
+        var leftAnim = anime({
+          targets: doorLeft,
+          translateX: ["0%", "-48%"],
+          rotateY: [0, -65],
+          duration: 2500,
+          easing: "easeInCubic"
+        });
+        var rightAnim = anime({
+          targets: doorRight,
+          translateX: ["0%", "48%"],
+          rotateY: [0, 65],
+          duration: 2500,
+          easing: "easeInCubic"
+        });
+        Promise.all([leftAnim.finished, rightAnim.finished]).then(function () {
+          freedomLayer.classList.add("show");
+          anime({
+            targets: appRoot,
+            filter: ["brightness(1)", "brightness(1.25)", "brightness(1.12)"],
+            duration: 1200,
+            easing: "easeOutQuad"
+          });
+          dropMedalAndCoins();
+          setBusy(false);
+          setState(STATE.DONE);
+        });
+      }
+
+      function dropMedalAndCoins() {
+        finishLayer.classList.add("show");
+        anime({
+          targets: ".finish-card",
+          translateY: [-120, 12, 0],
+          scale: [0.4, 1.05, 1],
+          opacity: [0, 1],
+          duration: 900,
+          easing: "easeOutElastic(1, .55)"
+        });
+        for (var i = 0; i < 48; i++) {
+          var c = document.createElement("div");
+          c.className = "coin";
+          c.style.left = Math.random() * 100 + "vw";
+          c.style.top = "-5vh";
+          document.body.appendChild(c);
+          anime({
+            targets: c,
+            translateY: [0, 80 + Math.random() * 90 + "vh"],
+            translateX: [(Math.random() - 0.5) * 120, (Math.random() - 0.5) * 160],
+            rotate: Math.random() * 720,
+            opacity: [1, 1, 0],
+            duration: 1400 + Math.random() * 900,
+            easing: "easeOutQuad",
+            complete: function (el) {
+              return function () {
+                try {
+                  el.remove();
+                } catch (e) {}
+              };
+            }(c)
+          });
+        }
+      }
+
+      aiOk.addEventListener("click", function () {
+        aiBubble.classList.remove("show");
+        setBusy(false);
+        if (state === STATE.AI_WRONG) {
+          quizOpts.querySelectorAll(".opt-btn").forEach(function (b) {
+            b.disabled = false;
+          });
+          setState(STATE.QUIZ);
+        }
+      });
+
+      lockBtns.forEach(function (btn, i) {
+        btn.addEventListener("click", function () {
+          openQuiz(i);
+        });
+      });
+
+      voiceLock.addEventListener("click", onVoiceClick);
+
+      window.addEventListener("blur", function () {
+        if (state === STATE.RECORDING) onVoiceClick();
+      });
+
+      rounds = shufflePick3();
+      updateChip();
+    })();
+  </script>
+</body>
+</html>

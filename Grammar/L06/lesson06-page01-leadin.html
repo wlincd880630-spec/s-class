@@ -1,0 +1,752 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>第06讲 · Page 01 · Chaos Town Lead-in</title>
+  <script src="https://aka.ms/csspeech/jsbrowserpackageraw"></script>
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
+  <link rel="stylesheet" href="../assets/lesson-screen-16x9.css" />
+  <!--
+    Veo 视频生成指令：
+    - Hallway: chaotic school hallway, students skateboarding and running past lockers, papers flying.
+    - Classroom: chaotic classroom rock band, drums and guitar, messy desks, dramatic shadows.
+    - Library: chaotic library hotpot scene, steam, wobbling books, librarian shadow.
+
+    资源预留（请替换为实际生成结果）：
+    - 走廊视频：assets/vertex/l06-page01-hallway-chaos.mp4
+    - 教室视频：assets/vertex/l06-page01-classroom-chaos.mp4
+    - 图书馆视频：assets/vertex/l06-page01-library-chaos.mp4
+    - Fallback 图片：assets/vertex/l06-page01-chaos-fallback.png
+
+    Vertex 角色图：
+    - 教导主任：assets/vertex/l06-page01-principal-angry.png
+  -->
+  <style>
+    :root {
+      --ink: #fef2d7;
+      --paper: #fff7e8;
+      --edge: #5d4037;
+      --danger: rgba(180, 0, 0, 0.7);
+      --mask: rgba(15, 10, 15, 0);
+      --gold: #ffd54f;
+      --cyan: #80d8ff;
+      --ok: #7cb342;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+      background: #130d17;
+      color: var(--ink);
+    }
+    body {
+      position: relative;
+    }
+    .app {
+      position: relative;
+      isolation: isolate;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      border: 4px solid rgba(255, 214, 79, 0.3);
+      border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+      box-shadow: inset 0 0 80px rgba(0, 0, 0, 0.45), 0 18px 32px rgba(0, 0, 0, 0.35);
+    }
+    .app.locked {
+      pointer-events: none;
+    }
+    .bg-fallback,
+    #chaos-bg,
+    #overlay-mask {
+      position: absolute;
+      inset: 0;
+    }
+    .bg-fallback {
+      z-index: 0;
+      background:
+        radial-gradient(circle at 22% 16%, rgba(228, 74, 74, 0.3), transparent 30%),
+        radial-gradient(circle at 78% 82%, rgba(113, 29, 157, 0.36), transparent 36%),
+        radial-gradient(circle at 50% 50%, rgba(39, 18, 30, 0.75), rgba(7, 4, 11, 0.95)),
+        url("assets/vertex/l06-page01-chaos-fallback.png");
+      background-size: cover;
+      background-position: center;
+      filter: saturate(1.12) contrast(1.08);
+    }
+    #chaos-bg {
+      z-index: 1;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 0.35s ease;
+      background: #120b18;
+    }
+    .video-ready #chaos-bg {
+      opacity: 1;
+    }
+    #overlay-mask {
+      z-index: 2;
+      background: var(--mask);
+      transition: background-color 0.3s ease;
+      pointer-events: none;
+    }
+
+    .scene-question {
+      position: absolute;
+      left: 50%;
+      top: 24px;
+      z-index: 8;
+      width: min(86%, 840px);
+      transform: translateX(-50%);
+      display: grid;
+      justify-items: center;
+      gap: 10px;
+      pointer-events: none;
+    }
+    .question-card {
+      min-width: min(90vw, 560px);
+      border: 4px solid rgba(255, 232, 166, 0.92);
+      border-radius: 24px 12px 22px 16px;
+      background: rgba(18, 10, 25, 0.78);
+      padding: 14px 22px;
+      box-shadow: 0 0 28px rgba(255, 193, 7, 0.38), 0 12px 28px rgba(0, 0, 0, 0.36);
+      color: #fff7d6;
+      text-align: center;
+      backdrop-filter: blur(4px);
+    }
+    .question-kicker {
+      font-weight: 900;
+      color: #b3e5fc;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: clamp(13px, 1.1vw, 16px);
+    }
+    .question-text {
+      margin-top: 4px;
+      font-size: clamp(34px, 4vw, 66px);
+      line-height: 1.08;
+      font-weight: 1000;
+      text-shadow: 0 0 22px rgba(255, 214, 79, 0.58);
+    }
+    .question-hint {
+      margin-top: 6px;
+      color: #ffe0b2;
+      font-size: clamp(14px, 1.3vw, 20px);
+      font-weight: 800;
+    }
+    .flow-btn {
+      pointer-events: auto;
+      border: 4px solid #5d4037;
+      border-radius: 999px;
+      background: linear-gradient(180deg, #fff8dc, #ffcc80);
+      color: #4e342e;
+      padding: 10px 24px;
+      font-weight: 1000;
+      box-shadow: 0 8px 0 rgba(0, 0, 0, 0.18), 0 0 18px rgba(255, 193, 7, 0.35);
+      cursor: pointer;
+    }
+    .flow-btn:disabled {
+      opacity: 0.58;
+      cursor: wait;
+    }
+    .principal-layer {
+      position: absolute;
+      right: 5%;
+      bottom: 18%;
+      z-index: 9;
+      width: min(35vw, 360px);
+      display: grid;
+      justify-items: center;
+      gap: 8px;
+      opacity: 0;
+      transform: translateY(28px) scale(0.92);
+      pointer-events: none;
+    }
+    .principal-layer.show {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+    .principal-img {
+      width: 100%;
+      filter: drop-shadow(0 18px 20px rgba(0, 0, 0, 0.55)) drop-shadow(0 0 18px rgba(255, 193, 7, 0.28));
+    }
+    .speech-bubble {
+      width: min(420px, 42vw);
+      border: 4px solid #5d4037;
+      border-radius: 24px 14px 26px 16px;
+      background: rgba(255, 248, 220, 0.96);
+      color: #3e2723;
+      padding: 12px 14px;
+      font-size: clamp(17px, 1.7vw, 28px);
+      line-height: 1.25;
+      font-weight: 1000;
+      text-align: center;
+      box-shadow: 5px 8px 0 rgba(0, 0, 0, 0.18);
+    }
+    .scene-controls {
+      position: absolute;
+      left: 50%;
+      bottom: 20px;
+      z-index: 10;
+      width: min(92%, 920px);
+      transform: translateX(-50%);
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      pointer-events: auto;
+    }
+    .scene-tab {
+      border: 4px solid rgba(255, 232, 166, 0.8);
+      border-radius: 18px 12px 20px 14px;
+      background: rgba(19, 11, 28, 0.78);
+      color: #fff8dc;
+      padding: 10px;
+      font-weight: 1000;
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.34);
+      cursor: pointer;
+      backdrop-filter: blur(5px);
+      transition: transform 0.16s ease, background 0.16s ease, border-color 0.16s ease;
+    }
+    .scene-tab:hover { transform: translateY(-2px); }
+    .scene-tab.active {
+      border-color: #ffca28;
+      background: rgba(98, 52, 16, 0.86);
+      box-shadow: 0 0 18px rgba(255, 193, 7, 0.45), 0 8px 18px rgba(0, 0, 0, 0.34);
+    }
+    .scene-tab .scene-en {
+      display: none;
+      margin-right: 0.35em;
+    }
+    .scene-tab.revealed .scene-en {
+      display: inline;
+    }
+    .scene-tab.done::after {
+      content: "  ✓";
+      color: #b9f6ca;
+    }
+
+    .reveal {
+      position: absolute;
+      inset: 0;
+      z-index: 12;
+      display: grid;
+      place-items: center;
+      gap: 14px;
+      text-align: center;
+      pointer-events: none;
+      opacity: 0;
+    }
+    .reveal.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .line-1,
+    .line-2 {
+      margin: 0;
+      text-transform: uppercase;
+      font-family: "ZCOOL KuaiLe", "Microsoft YaHei", sans-serif;
+      letter-spacing: 0.04em;
+      color: #fff8d8;
+      text-shadow:
+        0 0 24px rgba(255, 203, 110, 0.7),
+        0 5px 14px rgba(0, 0, 0, 0.6);
+      border: 3px solid rgba(255, 245, 209, 0.76);
+      border-radius: 20px 12px 24px 16px;
+      padding: 12px 16px;
+      background: rgba(9, 6, 14, 0.74);
+      max-width: min(90%, 920px);
+      opacity: 0;
+    }
+    .line-1 {
+      font-size: clamp(32px, 4.2vw, 66px);
+    }
+    .line-2 {
+      font-size: clamp(46px, 6vw, 92px);
+      font-weight: 900;
+      color: #ffeb99;
+      border-color: rgba(255, 224, 130, 0.88);
+    }
+    .next-btn {
+      border: 4px solid #33691e;
+      border-radius: 999px;
+      padding: 14px 30px;
+      font-size: clamp(20px, 2.3vw, 34px);
+      font-weight: 900;
+      color: #1b5e20;
+      background: linear-gradient(180deg, #dcf8c4, #9ccc65);
+      box-shadow: 0 0 28px rgba(139, 195, 74, 0.74), 0 8px 18px rgba(0, 0, 0, 0.36);
+      text-decoration: none;
+      transform: translateY(26px);
+      opacity: 0;
+      pointer-events: none;
+    }
+    .next-btn.ready {
+      pointer-events: auto;
+      animation: glowBtn 1s ease-in-out infinite alternate;
+    }
+    @keyframes glowBtn {
+      from { box-shadow: 0 0 14px rgba(139, 195, 74, 0.6), 0 8px 18px rgba(0, 0, 0, 0.36); }
+      to { box-shadow: 0 0 30px rgba(174, 234, 0, 0.9), 0 12px 22px rgba(0, 0, 0, 0.42); }
+    }
+
+    .video-audio-hint {
+      position: absolute;
+      left: 50%;
+      bottom: calc(118px + env(safe-area-inset-bottom, 0px));
+      z-index: 24;
+      transform: translateX(-50%);
+      margin: 0;
+      padding: 8px 14px;
+      max-width: min(92vw, 520px);
+      border-radius: 999px;
+      border: 3px solid rgba(255, 213, 79, 0.55);
+      background: rgba(25, 15, 28, 0.72);
+      color: #fff8e1;
+      font-size: clamp(11px, 1vw, 14px);
+      font-weight: 850;
+      text-align: center;
+      pointer-events: none;
+      box-shadow: 0 6px 22px rgba(0, 0, 0, 0.35);
+      backdrop-filter: blur(6px);
+      transition: opacity 0.35s ease, transform 0.35s ease;
+    }
+    .video-audio-hint.is-done {
+      opacity: 0;
+      transform: translateX(-50%) translateY(8px);
+      pointer-events: none;
+    }
+
+    @media (max-width: 980px) {
+      .scene-question {
+        top: 14px;
+      }
+      .principal-layer {
+        right: 1%;
+        bottom: 24%;
+        width: min(44vw, 270px);
+      }
+      .speech-bubble {
+        width: min(380px, 54vw);
+      }
+      .scene-controls {
+        grid-template-columns: 1fr;
+        gap: 7px;
+        bottom: 12px;
+      }
+    }
+  </style>
+</head>
+<body class="has-lesson-pager">
+  <div id="shakeHost" class="app">
+    <div class="bg-fallback"></div>
+    <video id="chaos-bg" autoplay loop muted playsinline preload="auto" poster="assets/vertex/l06-page01-chaos-fallback.png"></video>
+    <div id="overlay-mask"></div>
+    <p id="videoAudioHint" class="video-audio-hint">轻触任意处开启背景视频环境音（音量约 30%）</p>
+
+    <section class="scene-question" aria-live="polite">
+      <div class="question-card">
+        <div class="question-kicker" id="sceneKicker">观察地点 · Step 1</div>
+        <div class="question-text" id="questionText">Where is this?</div>
+        <div class="question-hint" id="questionHint">先观察视频，不急着说答案。</div>
+      </div>
+      <button id="flowBtn" class="flow-btn" type="button">下一个</button>
+    </section>
+
+    <section id="principalLayer" class="principal-layer" aria-live="polite">
+      <div class="speech-bubble" id="speechBubble">Hey! Stop right there! Don't run in the hallways!</div>
+      <img class="principal-img" src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L06/assets/vertex/l06-page01-principal-angry.png" alt="教导主任" />
+    </section>
+
+    <div class="scene-controls" aria-label="场景切换">
+      <button class="scene-tab active" data-scene="hallway" type="button"><span class="scene-en">Hallway</span><span class="scene-zh">走廊</span></button>
+      <button class="scene-tab" data-scene="classroom" type="button"><span class="scene-en">Classroom</span><span class="scene-zh">教室</span></button>
+      <button class="scene-tab" data-scene="library" type="button"><span class="scene-en">Library</span><span class="scene-zh">图书馆</span></button>
+    </div>
+
+    <section id="reveal" class="reveal" aria-live="polite">
+      <h1 class="line-1">Welcome to the Chaos Town.</h1>
+      <h2 class="line-2">WE NEED RULES!</h2>
+      <a id="nextBtn" class="next-btn" href="./lesson06-page02-cancant.html">🟢 拿上绿灯通行证，重建秩序（前往 Page 02）</a>
+    </section>
+  </div>
+
+  <nav class="lesson-pager" aria-label="课程页导航">
+    <a class="pager-prev" href="../L05/lesson05-page09-handout.html">← 返回 L05 总结</a>
+    <span class="pager-mid">L06 · Page 01 / 07</span>
+    <a class="pager-next" href="./lesson06-page02-cancant.html">下一页 →</a>
+  </nav>
+
+  <script>
+    (() => {
+      const AZURE_KEY = "DKRXk8ueSfo5NdIOMqFRTCAfpeGDezJ3Snf5K8gGgtyqxiWdugLzJQQJ99BLACHYHv6XJ3w3AAAYACOGUYP9";
+      const AZURE_REGION = "eastus2";
+      const LINES = {
+        hallway: "Hey! Stop right there! Don't run in the hallways!",
+        classroom: "Take off your headphones! Don't listen to music here!",
+        library: "What are you doing? Stop eating in the library!"
+      };
+      const SCENE_VIDEOS = {
+        hallway: "assets/vertex/l06-page01-hallway-chaos.mp4",
+        classroom: "assets/vertex/l06-page01-classroom-chaos.mp4",
+        library: "assets/vertex/l06-page01-library-chaos.mp4"
+      };
+      const SCENE_LABELS = {
+        hallway: { en: "Hallway", zh: "走廊" },
+        classroom: { en: "Classroom", zh: "教室" },
+        library: { en: "Library", zh: "图书馆" }
+      };
+      const SCENE_QUESTIONS = {
+        hallway: {
+          place: "Where is this?",
+          action: "What is happening here?",
+          hint1: "看走廊、储物柜、飞起来的纸。",
+          hint2: "他们是在慢慢走，还是在走廊里乱跑？"
+        },
+        classroom: {
+          place: "Where is this?",
+          action: "What is happening here?",
+          hint1: "看桌椅、黑板和教室空间。",
+          hint2: "他们是在认真上课，还是在教室里听音乐？"
+        },
+        library: {
+          place: "Where is this?",
+          action: "What is happening here?",
+          hint1: "看书架、阅读桌和安静空间。",
+          hint2: "他们是在安静阅读，还是在图书馆吃东西？"
+        }
+      };
+      const DEFAULT_MASK = "rgba(15, 10, 15, 0)";
+      const DEEP_MASK = "rgba(0, 0, 0, 0)";
+      /** 浏览器自动播放策略：先静音；首次交互后取消静音并设音量约 30% */
+      const VIDEO_VOLUME = 0.3;
+      let videoAudioUnlocked = false;
+
+      const app = document.getElementById("shakeHost");
+      const overlay = document.getElementById("overlay-mask");
+      const video = document.getElementById("chaos-bg");
+      const sceneQuestion = document.querySelector(".scene-question");
+      const sceneControls = document.querySelector(".scene-controls");
+      const sceneKicker = document.getElementById("sceneKicker");
+      const questionText = document.getElementById("questionText");
+      const questionHint = document.getElementById("questionHint");
+      const flowBtn = document.getElementById("flowBtn");
+      const principalLayer = document.getElementById("principalLayer");
+      const speechBubble = document.getElementById("speechBubble");
+      const reveal = document.getElementById("reveal");
+      const line1 = reveal.querySelector(".line-1");
+      const line2 = reveal.querySelector(".line-2");
+      const nextBtn = document.getElementById("nextBtn");
+      const sceneTabs = Array.from(document.querySelectorAll(".scene-tab"));
+      const completedScenes = new Set();
+      const sceneSteps = { hallway: 0, classroom: 0, library: 0 };
+      let uiLocked = false;
+      let revealPlayed = false;
+      let currentScene = "hallway";
+
+      function escapeXml(text) {
+        return text
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&apos;");
+      }
+
+      function setLock(flag) {
+        uiLocked = flag;
+        flowBtn.disabled = flag;
+        sceneTabs.forEach((btn) => {
+          btn.disabled = flag;
+        });
+      }
+
+      async function playAngryRoar(text) {
+        if (!window.SpeechSDK || !AZURE_KEY || !AZURE_REGION) {
+          return false;
+        }
+        const ssml =
+          "<speak version='1.0' xml:lang='en-US' xmlns='http://www.w3.org/2001/10/synthesis' " +
+          "xmlns:mstts='https://www.w3.org/2001/mstts'>" +
+          "<voice name='en-US-GuyNeural'>" +
+          "<mstts:express-as style='angry'>" +
+          "<prosody rate='+10%' pitch='-10%'>" + escapeXml(text) + "</prosody>" +
+          "</mstts:express-as>" +
+          "</voice></speak>";
+
+        return new Promise((resolve) => {
+          try {
+            const speechConfig = window.SpeechSDK.SpeechConfig.fromSubscription(AZURE_KEY, AZURE_REGION);
+            speechConfig.speechSynthesisLanguage = "en-US";
+            speechConfig.speechSynthesisVoiceName = "en-US-GuyNeural";
+            const audioConfig = window.SpeechSDK.AudioConfig.fromDefaultSpeakerOutput();
+            const synthesizer = new window.SpeechSDK.SpeechSynthesizer(speechConfig, audioConfig);
+            synthesizer.speakSsmlAsync(
+              ssml,
+              () => {
+                synthesizer.close();
+                resolve(true);
+              },
+              (err) => {
+                console.error("Azure TTS error:", err);
+                synthesizer.close();
+                resolve(false);
+              }
+            );
+          } catch (err) {
+            console.error("Azure TTS init failed:", err);
+            resolve(false);
+          }
+        });
+      }
+
+      function shakeScreen() {
+        anime.remove(app);
+        return anime({
+          targets: app,
+          translateX: [0, -18, 16, -12, 10, -6, 4, 0],
+          duration: 450,
+          easing: "easeInOutSine"
+        }).finished;
+      }
+
+      function crimsonFlash() {
+        anime.remove(overlay);
+        return anime({
+          targets: overlay,
+          backgroundColor: ["rgba(180, 0, 0, 0.7)", DEFAULT_MASK],
+          duration: 800,
+          easing: "easeOutQuad"
+        }).finished;
+      }
+
+      async function runReveal() {
+        if (revealPlayed) return;
+        revealPlayed = true;
+        if (video && !video.paused) video.pause();
+        hidePrincipal();
+        anime({
+          targets: [sceneQuestion, sceneControls],
+          opacity: 0,
+          translateY: [0, 18],
+          duration: 320,
+          easing: "easeInQuad",
+          complete: () => {
+            sceneQuestion.style.pointerEvents = "none";
+            sceneControls.style.pointerEvents = "none";
+          }
+        });
+
+        anime({
+          targets: overlay,
+          backgroundColor: [DEFAULT_MASK, DEEP_MASK],
+          duration: 460,
+          easing: "easeOutQuad"
+        });
+
+        reveal.classList.add("show");
+        anime.set([line1, line2, nextBtn], { opacity: 0, translateY: 0, scale: 1 });
+
+        await anime({
+          targets: line1,
+          opacity: [0, 1],
+          translateY: [-160, 0],
+          scale: [0.82, 1],
+          duration: 900,
+          easing: "easeOutExpo"
+        }).finished;
+
+        await new Promise((r) => setTimeout(r, 800));
+        await Promise.all([
+          anime({
+            targets: line2,
+            opacity: [0, 1],
+            translateY: [-140, 0],
+            scale: [0.78, 1],
+            duration: 980,
+            easing: "easeOutExpo"
+          }).finished,
+          anime({
+            targets: app,
+            translateX: [0, -10, 8, -6, 4, 0],
+            duration: 520,
+            easing: "easeInOutSine"
+          }).finished
+        ]);
+
+        await anime({
+          targets: nextBtn,
+          opacity: [0, 1],
+          translateY: [26, 0],
+          duration: 600,
+          easing: "easeOutCubic"
+        }).finished;
+        nextBtn.classList.add("ready");
+      }
+
+      function applyVideoSound() {
+        if (!video) return;
+        video.volume = VIDEO_VOLUME;
+        video.muted = !videoAudioUnlocked;
+      }
+
+      function unlockVideoAudio() {
+        if (videoAudioUnlocked) return;
+        videoAudioUnlocked = true;
+        applyVideoSound();
+        const hint = document.getElementById("videoAudioHint");
+        if (hint) {
+          hint.classList.add("is-done");
+          setTimeout(() => hint.remove(), 400);
+        }
+        const again = video.play();
+        if (again && typeof again.catch === "function") {
+          again.catch(() => {});
+        }
+      }
+
+      function playLoopScene(sceneId) {
+        currentScene = sceneId;
+        video.loop = true;
+        applyVideoSound();
+        video.src = SCENE_VIDEOS[sceneId];
+        video.load();
+        const playAttempt = video.play();
+        if (playAttempt && typeof playAttempt.catch === "function") {
+          playAttempt.catch(() => {
+            document.body.classList.remove("video-ready");
+          });
+        }
+      }
+
+      function hidePrincipal() {
+        principalLayer.classList.remove("show");
+        anime({
+          targets: principalLayer,
+          opacity: 0,
+          translateY: 28,
+          scale: 0.92,
+          duration: 240,
+          easing: "easeInQuad"
+        });
+      }
+
+      function showPrincipal(sceneId) {
+        speechBubble.textContent = LINES[sceneId];
+        principalLayer.classList.add("show");
+        anime.remove(principalLayer);
+        return anime({
+          targets: principalLayer,
+          opacity: [0, 1],
+          translateY: [36, 0],
+          scale: [0.86, 1],
+          duration: 580,
+          easing: "easeOutBack"
+        }).finished;
+      }
+
+      function updateSceneUI() {
+        const step = sceneSteps[currentScene];
+        const q = SCENE_QUESTIONS[currentScene];
+        sceneTabs.forEach((btn) => {
+          const scene = btn.dataset.scene;
+          btn.classList.toggle("active", scene === currentScene);
+          btn.classList.toggle("done", completedScenes.has(scene));
+          btn.classList.toggle("revealed", sceneSteps[scene] > 0 || completedScenes.has(scene));
+        });
+        const label = SCENE_LABELS[currentScene];
+        sceneKicker.textContent =
+          (step === 0 ? "观察地点" : label.en + " " + label.zh) + " · Step " + Math.min(step + 1, 3);
+        if (step === 0) {
+          questionText.textContent = q.place;
+          questionHint.textContent = q.hint1;
+          flowBtn.textContent = "下一个";
+        } else if (step === 1) {
+          questionText.textContent = q.action;
+          questionHint.textContent = q.hint2;
+          flowBtn.textContent = "请教导主任出场";
+        } else {
+          questionText.textContent = "What rule do we need?";
+          questionHint.textContent = "听教导主任给出规则。";
+          flowBtn.textContent = completedScenes.has(currentScene) ? "重播规则语音" : "播放规则语音";
+        }
+      }
+
+      function switchScene(sceneId) {
+        if (uiLocked || !SCENE_VIDEOS[sceneId]) return;
+        hidePrincipal();
+        playLoopScene(sceneId);
+        updateSceneUI();
+        anime({
+          targets: ".question-card",
+          opacity: [0, 1],
+          translateY: [-14, 0],
+          duration: 340,
+          easing: "easeOutCubic"
+        });
+      }
+
+      async function completeCurrentScene() {
+        setLock(true);
+        try {
+          hidePrincipal();
+          await showPrincipal(currentScene);
+          await Promise.all([shakeScreen(), crimsonFlash()]);
+          await playAngryRoar(LINES[currentScene]);
+          completedScenes.add(currentScene);
+          sceneSteps[currentScene] = 2;
+          updateSceneUI();
+        } finally {
+          setLock(false);
+        }
+        if (completedScenes.size === 3) {
+          setTimeout(runReveal, 900);
+        }
+      }
+
+      async function advanceFlow() {
+        if (uiLocked) return;
+        const step = sceneSteps[currentScene];
+        if (step === 0) {
+          sceneSteps[currentScene] = 1;
+          hidePrincipal();
+          updateSceneUI();
+        } else {
+          sceneSteps[currentScene] = 2;
+          updateSceneUI();
+          await completeCurrentScene();
+        }
+      }
+
+      sceneTabs.forEach((button) => {
+        button.addEventListener("click", () => switchScene(button.dataset.scene));
+      });
+
+      flowBtn.addEventListener("click", advanceFlow);
+
+      document.body.addEventListener(
+        "pointerdown",
+        () => {
+          unlockVideoAudio();
+        },
+        { once: true, capture: true }
+      );
+
+      video.addEventListener("error", () => {
+        document.body.classList.remove("video-ready");
+      });
+      video.addEventListener("loadeddata", () => {
+        document.body.classList.add("video-ready");
+      });
+      video.addEventListener("canplay", () => {
+        document.body.classList.add("video-ready");
+      });
+
+      switchScene(currentScene);
+    })();
+  </script>
+</body>
+</html>

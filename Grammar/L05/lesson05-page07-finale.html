@@ -1,0 +1,1003 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>第05讲 · Page 07 · 终极解密</title>
+  <script src="https://aka.ms/csspeech/jsbrowserpackageraw"></script>
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
+  <script src="../assets/lesson-drag-touch.js"></script>
+  <link rel="stylesheet" href="../assets/lesson-screen-16x9.css" />
+  <!--
+    视觉资产：
+    - 大门舞台背景：assets/vertex/page07-finale-door-bg.png（迷宫石门插画）
+    - 通行证叠字底图：assets/vertex/page07-pass-certificate-bg.png（羊皮纸证书质感横幅）
+
+    语料来源：
+    - 物主代词 mine / my 辨析：成都中考题型改编
+    - parents' advice：2020 成都中考所有格题型改编
+    - There is a pen and two books：There be 就近原则中考预测题
+  -->
+  <style>
+    :root {
+      --ink: #2c2436;
+      --edge: #5d4037;
+      --paper: #fff8ec;
+      --gold: #ffd54f;
+      --gold2: #ffb300;
+      --purple: #5e2388;
+      --blue: #1565c0;
+      --ok: #2e7d32;
+      --bad: #c62828;
+      --door-open: 0;
+      --glow: 0;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      color: var(--ink);
+      background: #120a16;
+      font-family: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+    }
+    body.has-lesson-pager { overflow: hidden; }
+    .bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 50% 45%, rgba(255, 213, 79, .32), transparent 22%),
+        radial-gradient(ellipse 90% 70% at 50% 100%, #3d2848, #120a16 70%);
+    }
+    .shell {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      height: 100%;
+      min-height: 0;
+    }
+    .book {
+      height: 100%;
+      min-height: 0;
+      display: grid;
+      grid-template-rows: auto 1fr;
+      border: 5px solid #8b6914;
+      border-radius: 16px 26px 18px 22px;
+      background: linear-gradient(180deg, #fff9ef, #f0e4d4);
+      box-shadow: 0 16px 46px rgba(0,0,0,.38);
+      overflow: hidden;
+      filter: saturate(1.05) contrast(1.02);
+    }
+    .top {
+      margin: 12px;
+      border: 3px solid #4a6fa5;
+      border-radius: 999px;
+      text-align: center;
+      padding: 9px 14px;
+      background: linear-gradient(180deg, #fff, #ffeccd);
+      font-weight: 900;
+      color: #4a148c;
+    }
+    .stage {
+      position: relative;
+      min-height: 0;
+      margin: 0 12px 12px;
+      border: 4px solid var(--edge);
+      border-radius: 18px;
+      overflow: hidden;
+      background:
+        linear-gradient(rgba(255, 253, 246, .72), rgba(255, 253, 246, .72)),
+        url("https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/vertex/page07-finale-door-bg.png"),
+        radial-gradient(circle at 50% 40%, #684a78, #211129 70%);
+      background-size: cover;
+      background-position: center;
+    }
+    .stage::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: .18;
+      background-image:
+        repeating-linear-gradient(8deg, rgba(93,64,55,.08), rgba(93,64,55,.08) 1px, transparent 2px, transparent 7px),
+        repeating-linear-gradient(-6deg, rgba(255,255,255,.12), rgba(255,255,255,.12) 1px, transparent 2px, transparent 8px);
+      mix-blend-mode: multiply;
+    }
+    .door-world {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      grid-template-columns: 1fr minmax(460px, 62%) 1fr;
+      align-items: center;
+      padding: 18px;
+      gap: 12px;
+    }
+    .side-panel {
+      align-self: stretch;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      justify-content: center;
+      pointer-events: auto;
+    }
+    .panel-card {
+      border: 3px dashed #8d6e63;
+      border-radius: 18px 14px 20px 15px;
+      background: rgba(255, 253, 246, .94);
+      padding: 12px;
+      box-shadow: 4px 6px 0 rgba(93,64,55,.13);
+    }
+    .panel-card h3 { margin: 0 0 8px; color: #4a148c; }
+    .panel-card p { margin: 0; line-height: 1.5; font-weight: 800; }
+    .door-wrap {
+      position: relative;
+      aspect-ratio: 11 / 12;
+      max-height: 94%;
+      margin: auto;
+      filter: drop-shadow(0 18px 24px rgba(0,0,0,.28));
+    }
+    .portal {
+      position: absolute;
+      inset: 8% 18%;
+      border-radius: 45% 45% 8% 8%;
+      background: radial-gradient(circle, rgba(255,255,255,.92), rgba(255,235,130,.8) 18%, rgba(66,165,245,.38) 42%, transparent 68%);
+      opacity: calc(var(--door-open) * .95);
+      transform: scale(calc(.72 + var(--door-open) * .34));
+      filter: blur(calc(6px - var(--door-open) * 3px));
+      z-index: 0;
+    }
+    .door-leaf {
+      position: absolute;
+      top: 4%;
+      bottom: 0;
+      width: 50%;
+      z-index: 2;
+      background:
+        linear-gradient(90deg, rgba(255,255,255,.16), transparent 22%),
+        repeating-linear-gradient(88deg, rgba(255,255,255,.08), rgba(255,255,255,.08) 0 3px, transparent 4px 16px),
+        linear-gradient(180deg, #89633f, #4b2f22);
+      border: 5px solid #3e241a;
+      box-shadow: inset 0 0 22px rgba(0,0,0,.35), 0 0 calc(var(--glow) * 26px) rgba(255,213,79,.7);
+    }
+    .door-left {
+      left: 0;
+      border-radius: 44% 0 0 8%;
+      transform-origin: left center;
+    }
+    .door-right {
+      right: 0;
+      border-radius: 0 44% 8% 0;
+      transform-origin: right center;
+    }
+    .door-cracks {
+      position: absolute;
+      inset: 13% 11% 12%;
+      z-index: 4;
+      pointer-events: none;
+      opacity: calc(.25 + var(--glow) * .75);
+    }
+    .door-cracks path {
+      stroke: #fff59d;
+      stroke-width: 4;
+      stroke-linecap: round;
+      filter: drop-shadow(0 0 8px rgba(255,213,79,.9));
+      stroke-dasharray: 8 8;
+      animation: crackFlow 1.1s linear infinite;
+    }
+    @keyframes crackFlow { to { stroke-dashoffset: -32; } }
+    .mic-core {
+      position: absolute;
+      left: 50%;
+      top: 46%;
+      z-index: 6;
+      transform: translate(-50%, -50%);
+      width: 116px;
+      height: 116px;
+      border: 5px solid #5d4037;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(180deg, #fff8e1, #ffd54f);
+      font-size: 54px;
+      box-shadow: 0 0 0 10px rgba(255,213,79,.16), 0 0 calc(18px + var(--glow) * 28px) rgba(255,213,79,.7);
+      transition: transform .2s, filter .2s;
+    }
+    .mic-core.ready {
+      color: #fff;
+      background: linear-gradient(180deg, #ffca28, #f57f17);
+      animation: micPulse .75s infinite alternate;
+    }
+    @keyframes micPulse { to { transform: translate(-50%, -50%) scale(1.06); } }
+    .lock-row {
+      position: absolute;
+      left: 50%;
+      top: 72%;
+      z-index: 7;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 18px;
+    }
+    .lock {
+      width: 86px;
+      height: 94px;
+      border: 4px solid #4e342e;
+      border-radius: 20px 16px 22px 18px;
+      background: linear-gradient(180deg, #fff59d, #f9a825);
+      cursor: pointer;
+      font-size: 34px;
+      font-weight: 1000;
+      color: #4e342e;
+      box-shadow: 4px 8px 0 rgba(0,0,0,.16);
+      position: relative;
+    }
+    .lock::before {
+      content: "";
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      top: -28px;
+      height: 36px;
+      border: 6px solid #4e342e;
+      border-bottom: 0;
+      border-radius: 28px 28px 0 0;
+      background: transparent;
+    }
+    .lock.opened {
+      color: #1b5e20;
+      background: linear-gradient(180deg, #c8e6c9, #66bb6a);
+      filter: drop-shadow(0 0 14px rgba(102,187,106,.9));
+    }
+    .spell-zone {
+      display: none;
+      gap: 10px;
+      flex-direction: column;
+    }
+    .spell-zone.show { display: flex; }
+    .spell-btn {
+      width: 100%;
+      border: 4px solid #5d4037;
+      border-radius: 24px 18px 26px 20px;
+      background: linear-gradient(180deg, #fff9c4, #ffca28);
+      padding: 14px;
+      font-size: clamp(18px, 2vw, 28px);
+      font-weight: 1000;
+      cursor: pointer;
+      box-shadow: 5px 7px 0 rgba(93,64,55,.16);
+    }
+    .spell-btn.recording {
+      color: #fff;
+      background: linear-gradient(180deg, #ef5350, #c62828);
+      animation: recPulse .8s infinite alternate;
+    }
+    @keyframes recPulse {
+      from { transform: scale(.99); }
+      to { transform: scale(1.02); box-shadow: 0 0 30px rgba(198,40,40,.45); }
+    }
+    .wave {
+      display: none;
+      height: 32px;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+    }
+    .wave.on { display: flex; }
+    .wave i {
+      width: 8px;
+      height: 10px;
+      border-radius: 99px;
+      background: #42a5f5;
+      animation: waveUp .75s infinite ease-in-out;
+    }
+    .wave i:nth-child(2) { animation-delay: .1s; }
+    .wave i:nth-child(3) { animation-delay: .2s; }
+    .wave i:nth-child(4) { animation-delay: .3s; }
+    .wave i:nth-child(5) { animation-delay: .4s; }
+    @keyframes waveUp { 50% { height: 31px; } }
+    .result-box {
+      min-height: 72px;
+      border: 2px dashed #90caf9;
+      border-radius: 14px;
+      background: #eef7ff;
+      padding: 10px;
+      line-height: 1.5;
+      font-weight: 800;
+      color: #1a237e;
+    }
+    .loading {
+      pointer-events: none;
+      opacity: .62;
+    }
+    .modal {
+      position: fixed;
+      inset: 0;
+      z-index: 500;
+      display: none;
+      place-items: center;
+      background: rgba(18, 10, 22, .48);
+    }
+    .modal.show { display: grid; }
+    .parchment {
+      width: min(680px, 92vw);
+      border: 6px solid #6d4c41;
+      border-radius: 24px 18px 28px 20px;
+      background: linear-gradient(180deg, #fff8dc, #f6dfaa);
+      padding: 18px;
+      box-shadow: 12px 16px 0 rgba(0,0,0,.15);
+    }
+    .parchment h2 { margin: 0 0 8px; color: #4a148c; }
+    .question {
+      border: 3px dashed #8d6e63;
+      border-radius: 16px;
+      background: rgba(255,255,255,.58);
+      padding: 12px;
+      color: #1a237e;
+      font-size: clamp(20px, 2vw, 30px);
+      font-weight: 900;
+      line-height: 1.45;
+    }
+    .blank {
+      display: inline-block;
+      min-width: 110px;
+      border-bottom: 4px solid #4a148c;
+      text-align: center;
+      color: #c62828;
+    }
+    .choice-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 14px 0;
+    }
+    .choice {
+      border: 3px solid #6d4c41;
+      border-radius: 999px;
+      background: #fff;
+      padding: 8px 18px;
+      font-size: 20px;
+      font-weight: 900;
+      cursor: grab;
+      touch-action: none;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+    .choice.choice-picked {
+      box-shadow: 0 0 0 4px rgba(21, 101, 192, 0.55);
+      background: #e3f2fd;
+    }
+    .drop-blank {
+      touch-action: manipulation;
+    }
+    .drop-blank {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 130px;
+      min-height: 42px;
+      border: 3px dashed #1565c0;
+      border-radius: 12px;
+      background: #e3f2fd;
+      color: #0d47a1;
+      margin: 0 4px;
+      vertical-align: middle;
+    }
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+    .btn {
+      border: 3px solid #5d4037;
+      border-radius: 999px;
+      background: linear-gradient(180deg, #fff9c4, #ffd54f);
+      padding: 9px 16px;
+      font-weight: 900;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .btn:disabled { opacity: .5; cursor: not-allowed; }
+    .light-mask {
+      position: fixed;
+      inset: 0;
+      z-index: 700;
+      pointer-events: none;
+      opacity: 0;
+      background: radial-gradient(circle at 50% 50%, #fff 0 10%, rgba(255,255,255,.95) 28%, rgba(255,255,255,0) 70%);
+    }
+    /* 终极通行证：全屏居中 + 生成底图 + 叠字（资产：assets/vertex/page07-pass-certificate-bg.png） */
+    .pass {
+      position: fixed;
+      inset: 0;
+      z-index: 720;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: max(16px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(16px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+      pointer-events: none;
+    }
+    .pass.show {
+      display: flex;
+      pointer-events: auto;
+    }
+    .pass-scrim {
+      position: absolute;
+      inset: 0;
+      background: rgba(12, 6, 18, 0.58);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      opacity: 0;
+    }
+    .pass-card {
+      position: relative;
+      z-index: 1;
+      width: min(560px, 94vw);
+      max-width: 100%;
+      border-radius: 22px;
+      overflow: hidden;
+      box-shadow:
+        0 28px 70px rgba(0, 0, 0, 0.48),
+        0 0 0 1px rgba(255, 255, 255, 0.14),
+        inset 0 1px 0 rgba(255, 255, 255, 0.35);
+      transform: translateY(12px) scale(0.94);
+      opacity: 0;
+    }
+    .pass-card-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(255, 253, 248, 0.75) 0%, rgba(255, 248, 236, 0.88) 45%, rgba(245, 232, 210, 0.92) 100%),
+        url("https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/vertex/page07-pass-certificate-bg.png") center / cover no-repeat;
+      filter: saturate(1.08);
+    }
+    .pass-card-bg::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border: 3px solid rgba(142, 36, 170, 0.35);
+      border-radius: 22px;
+      pointer-events: none;
+      box-shadow: inset 0 0 40px rgba(94, 35, 120, 0.12);
+    }
+    .pass-card-inner {
+      position: relative;
+      z-index: 2;
+      padding: clamp(22px, 4vw, 34px) clamp(20px, 4vw, 32px) clamp(24px, 4vw, 32px);
+      text-align: center;
+    }
+    .pass-kicker {
+      margin: 0 0 6px;
+      font-size: clamp(11px, 1.8vw, 13px);
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #6a1b9a;
+      opacity: 0.92;
+    }
+    .pass-title {
+      margin: 0 0 14px;
+      font-size: clamp(1.35rem, 3.4vw, 1.85rem);
+      font-weight: 950;
+      color: #311b92;
+      text-shadow: 0 2px 0 rgba(255, 255, 255, 0.65), 0 6px 22px rgba(74, 20, 140, 0.22);
+      letter-spacing: 0.02em;
+    }
+    .pass-divider {
+      height: 3px;
+      width: min(220px, 55%);
+      margin: 0 auto 14px;
+      border-radius: 99px;
+      background: linear-gradient(90deg, transparent, rgba(255, 179, 0, 0.95), rgba(142, 36, 170, 0.65), transparent);
+      opacity: 0.95;
+    }
+    .pass-desc {
+      margin: 0 auto 20px;
+      max-width: 42em;
+      font-size: clamp(14px, 2.3vw, 17px);
+      font-weight: 750;
+      line-height: 1.65;
+      color: #37474f;
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+    }
+    .pass-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      text-decoration: none;
+      color: #3e2723;
+      font-weight: 950;
+      font-size: clamp(16px, 2.4vw, 20px);
+      padding: 14px 28px;
+      border-radius: 999px;
+      border: 4px solid #5d4037;
+      background: linear-gradient(180deg, #fffde7, #ffca28);
+      box-shadow: 0 8px 0 rgba(62, 39, 35, 0.22), 0 14px 32px rgba(255, 143, 0, 0.35);
+      transition: transform 0.15s ease, filter 0.15s ease;
+    }
+    .pass-cta:hover {
+      filter: brightness(1.04);
+      transform: translateY(-2px);
+    }
+    .pass-cta:focus-visible {
+      outline: 3px solid #1565c0;
+      outline-offset: 3px;
+    }
+    .pass-cta-icon {
+      display: inline-grid;
+      place-items: center;
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: linear-gradient(180deg, #42a5f5, #1565c0);
+      color: #fff;
+      font-size: 16px;
+      line-height: 1;
+      box-shadow: 0 2px 0 rgba(13, 71, 161, 0.45);
+    }
+    .opening-quote {
+      margin: 12px 0 0;
+      padding: 10px 12px;
+      border-left: 4px solid rgba(142, 36, 170, 0.45);
+      border-radius: 0 12px 12px 0;
+      background: rgba(255, 255, 255, 0.55);
+      font-size: clamp(12px, 1.9vw, 14px);
+      font-weight: 700;
+      font-style: italic;
+      color: #455a64;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body class="has-lesson-pager">
+  <div class="bg"></div>
+  <div class="shell">
+    <main class="book" id="book">
+      <header class="top">第05讲 · Page 07 · 高潮解密 · 中考真题密码锁</header>
+      <section class="stage" id="stage">
+        <div class="door-world">
+          <aside class="side-panel">
+            <div class="panel-card">
+              <h3>任务目标</h3>
+              <p>破解三道中考真题锁，再用英语念出终极咒语，开启前往 Page 08 的时空之门。</p>
+              <p class="opening-quote" lang="en" id="openingQuote">Detectives, only those who master the law of ownership and existence can pass!</p>
+            </div>
+          </aside>
+
+          <div class="door-wrap" id="doorWrap">
+            <div class="portal"></div>
+            <div class="door-leaf door-left"></div>
+            <div class="door-leaf door-right"></div>
+            <svg class="door-cracks" viewBox="0 0 360 420" aria-hidden="true">
+              <path d="M180 20 L168 72 L188 110 L174 156 L196 210 L181 260 L205 320 L190 390" fill="none" />
+              <path d="M162 135 L112 168 L126 202 L84 240" fill="none" />
+              <path d="M200 208 L258 230 L238 270 L302 318" fill="none" />
+            </svg>
+            <div class="mic-core" id="micCore">🎙️</div>
+            <div class="lock-row">
+              <button class="lock" data-lock="1">1</button>
+              <button class="lock" data-lock="2">2</button>
+              <button class="lock" data-lock="3">3</button>
+            </div>
+          </div>
+
+          <aside class="side-panel">
+            <div class="panel-card spell-zone" id="spellZone">
+              <h3>终极语音锁</h3>
+              <p>请用英语大声念出（建议句）：<br><strong>彼得的书桌上有一台电脑和一些书。</strong><br><span style="font-size:13px;font-weight:700;color:#5d4037">→ There is a computer and some books on Peter&apos;s desk.</span></p>
+              <button type="button" class="spell-btn" id="spellBtn">🎤 点击开始录音</button>
+              <div class="wave" id="wave"><i></i><i></i><i></i><i></i><i></i></div>
+              <div class="result-box" id="sttText">点击「开始录音」后说话；再次点击结束录音。Azure 识别结果将显示于此，并由 DeepSeek 给出简短评价。</div>
+            </div>
+            <div class="panel-card">
+              <h3>通关进度</h3>
+              <p id="groupText">第 1 组 / 3</p>
+              <p id="progressText">已开启 0 / 3 把真题锁。</p>
+              <button class="btn" id="nextLockGroup" style="margin-top:10px" disabled>下一组密码</button>
+            </div>
+          </aside>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <nav class="lesson-pager">
+    <a href="lesson05-page06-preposition-possessive.html">← Page 06</a>
+    <span class="cur">Page 07</span>
+    <a href="lesson05-page08-exam.html">Page 08 →</a>
+  </nav>
+
+  <div class="modal" id="quizModal">
+    <div class="parchment">
+      <h2 id="quizTitle">真题锁</h2>
+      <div class="question" id="quizText"></div>
+      <div class="choice-row" id="choiceRow"></div>
+      <div class="result-box" id="judgeText">把正确答案拖到空格里。</div>
+      <div class="modal-actions">
+        <button class="btn" id="btnCheck">检查密码</button>
+        <button class="btn" id="btnClose">稍后再试</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="light-mask" id="lightMask"></div>
+  <div class="pass" id="finalPass" role="dialog" aria-modal="true" aria-labelledby="passTitle" aria-hidden="true">
+    <div class="pass-scrim" aria-hidden="true"></div>
+    <article class="pass-card">
+      <div class="pass-card-bg" aria-hidden="true"></div>
+      <div class="pass-card-inner">
+        <p class="pass-kicker">Lesson 05 · Final Trial</p>
+        <h1 class="pass-title" id="passTitle">终极试炼通行证</h1>
+        <div class="pass-divider" aria-hidden="true"></div>
+        <p class="pass-desc">你已经掌握所有格、物主代词、There be 和方位表达。凭此证可进入 Page 08 终极试炼场。</p>
+        <a class="pass-cta" href="lesson05-page08-exam.html"><span class="pass-cta-icon" aria-hidden="true">⏭</span><span>踏入终极试炼场</span></a>
+      </div>
+    </article>
+  </div>
+
+  <script>
+    (function () {
+      "use strict";
+
+      var AZURE_KEY = "DKRXk8ueSfo5NdIOMqFRTCAfpeGDezJ3Snf5K8gGgtyqxiWdugLzJQQJ99BLACHYHv6XJ3w3AAAYACOGUYP9";
+      var AZURE_REGION = "eastus2";
+      var DEEPSEEK_KEY = "sk-daa16008e81843deba6fefe9dce51465";
+      var DEEPSEEK_ENDPOINT = "https://api.deepseek.com/v1/chat/completions";
+      var ULTIMATE_SPELL = "There is a computer and some books on Peter's desk.";
+
+      var LOCK_GROUPS = [
+        [
+          { id: 1, type: "pronoun", text: "The beautiful photo of Jinli isn't _____ (my/mine). It's hers.", target: "mine", distractor: "my", tip: "第1组 · 2023成都中考原题" },
+          { id: 2, type: "possessive", text: "We should listen to our _____ (parents) advice.", target: "parents'", distractor: "parent's", tip: "第1组 · 2020成都中考原题" },
+          { id: 3, type: "therebe", text: "There _____ (be) a pen and two books on the desk.", target: "is", distractor: "are", tip: "第1组 · There be 就近原则" }
+        ],
+        [
+          { id: 1, type: "pronoun", text: "The red cap on the chair is _____ (her/hers).", target: "hers", distractor: "her", tip: "第2组 · 物主代词辨析" },
+          { id: 2, type: "possessive", text: "This is _____ (Tom) dictionary.", target: "Tom's", distractor: "Toms", tip: "第2组 · 名词所有格" },
+          { id: 3, type: "therebe", text: "There _____ (be) two books under the chair.", target: "are", distractor: "is", tip: "第2组 · There be 单复数" }
+        ],
+        [
+          { id: 1, type: "pronoun", text: "My parents' room is next to _____ (our/ours).", target: "ours", distractor: "our", tip: "第3组 · 成都中考题型改编" },
+          { id: 2, type: "possessive", text: "The _____ (students) centre is across from the library.", target: "students'", distractor: "student's", tip: "第3组 · 复数所有格" },
+          { id: 3, type: "therebe", text: "There _____ (be) a library and two classroom buildings in our school.", target: "is", distractor: "are", tip: "第3组 · 就近原则综合" }
+        ]
+      ];
+
+      var LockLogic = {
+        groupIndex: 0,
+        opened: {},
+        current: null,
+        dropped: "",
+        pendingPick: "",
+        _touchDnDDestroy: null,
+        init: function () {
+          document.querySelectorAll(".lock").forEach(function (btn) {
+            btn.addEventListener("click", function () {
+              LockLogic.openModal(Number(btn.dataset.lock));
+            });
+          });
+          document.getElementById("btnCheck").addEventListener("click", LockLogic.check);
+          document.getElementById("btnClose").addEventListener("click", function () {
+            document.getElementById("quizModal").classList.remove("show");
+          });
+          document.getElementById("nextLockGroup").addEventListener("click", LockLogic.nextGroup);
+          LockLogic.updateProgress();
+        },
+        currentGroup: function () {
+          return LOCK_GROUPS[LockLogic.groupIndex] || LOCK_GROUPS[0];
+        },
+        openModal: function (id) {
+          var q = LockLogic.currentGroup().find(function (x) { return x.id === id; });
+          if (!q || LockLogic.opened[id]) return;
+          LockLogic.current = q;
+          LockLogic.dropped = "";
+          LockLogic.pendingPick = "";
+          if (LockLogic._touchDnDDestroy) {
+            LockLogic._touchDnDDestroy();
+            LockLogic._touchDnDDestroy = null;
+          }
+          document.getElementById("quizTitle").textContent = "第 " + id + " 把真题锁 · " + q.tip;
+          document.getElementById("quizText").innerHTML = q.text.replace("_____", '<span class="drop-blank" id="dropBlank">拖到这里 / 点选后点此格</span>');
+          document.getElementById("judgeText").textContent = "把正确答案拖入空格，或先点选项再点空格（适合触摸屏）。";
+          var row = document.getElementById("choiceRow");
+          row.innerHTML = "";
+          [q.target, q.distractor].sort(function () { return Math.random() - .5; }).forEach(function (word) {
+            var c = document.createElement("div");
+            c.className = "choice";
+            c.draggable = true;
+            c.textContent = word;
+            c.addEventListener("dragstart", function (ev) { ev.dataTransfer.setData("text/plain", word); });
+            row.appendChild(c);
+          });
+          setTimeout(function () {
+            var blank = document.getElementById("dropBlank");
+            blank.addEventListener("dragover", function (ev) { ev.preventDefault(); });
+            blank.addEventListener("drop", function (ev) {
+              ev.preventDefault();
+              LockLogic.dropped = ev.dataTransfer.getData("text/plain");
+              blank.textContent = LockLogic.dropped;
+            });
+            blank.addEventListener("click", function () {
+              if (LockLogic.pendingPick) {
+                LockLogic.dropped = LockLogic.pendingPick;
+                blank.textContent = LockLogic.dropped;
+              }
+            });
+            row.querySelectorAll(".choice").forEach(function (c) {
+              c.addEventListener("click", function () {
+                LockLogic.pendingPick = c.textContent.trim();
+                row.querySelectorAll(".choice").forEach(function (x) { x.classList.remove("choice-picked"); });
+                c.classList.add("choice-picked");
+              });
+            });
+          }, 0);
+          if (window.LessonDnD) {
+            LockLogic._touchDnDDestroy = LessonDnD.bindTouchDrop({
+              root: document.getElementById("quizModal"),
+              dragSelector: ".choice",
+              dropSelector: ".drop-blank",
+              getPayload: function (el) {
+                return el.textContent.trim();
+              },
+              onDrop: function (o) {
+                LockLogic.dropped = o.payload;
+                o.dropEl.textContent = o.payload;
+                document.getElementById("choiceRow").querySelectorAll(".choice").forEach(function (x) {
+                  x.classList.toggle("choice-picked", x.textContent.trim() === o.payload);
+                });
+              }
+            });
+          }
+          document.getElementById("quizModal").classList.add("show");
+        },
+        check: function () {
+          var q = LockLogic.current;
+          if (!q) return;
+          if (LockLogic.dropped === q.target) {
+            LockLogic.opened[q.id] = true;
+            document.querySelector('.lock[data-lock="' + q.id + '"]').classList.add("opened");
+            document.getElementById("quizModal").classList.remove("show");
+            LockLogic.burstLock(q.id);
+            LockLogic.updateProgress();
+            if (Object.keys(LockLogic.opened).length === 3) {
+              if (LockLogic.groupIndex >= LOCK_GROUPS.length - 1) {
+                VoiceLogic.unlock();
+              } else {
+                document.getElementById("nextLockGroup").disabled = false;
+                document.getElementById("progressText").textContent = "本组已破解！点击“下一组密码”。";
+              }
+            }
+          } else {
+            LockLogic.askGuardian(q);
+          }
+        },
+        burstLock: function (id) {
+          var lock = document.querySelector('.lock[data-lock="' + id + '"]');
+          if (!window.anime || !lock) return;
+          anime({ targets: lock, rotate: [0, -6, 6, 0], scale: [1, 1.12, 1], duration: 650, easing: "easeOutBack" });
+        },
+        updateProgress: function () {
+          var n = Object.keys(LockLogic.opened).length;
+          document.getElementById("groupText").textContent = "第 " + (LockLogic.groupIndex + 1) + " 组 / " + LOCK_GROUPS.length;
+          document.getElementById("progressText").textContent = "已开启 " + n + " / 3 把真题锁。";
+          document.documentElement.style.setProperty("--glow", String((LockLogic.groupIndex * 3 + n) / (LOCK_GROUPS.length * 3)));
+          document.getElementById("nextLockGroup").disabled = !(n === 3 && LockLogic.groupIndex < LOCK_GROUPS.length - 1);
+        },
+        nextGroup: function () {
+          if (LockLogic.groupIndex >= LOCK_GROUPS.length - 1) return;
+          LockLogic.groupIndex += 1;
+          LockLogic.opened = {};
+          LockLogic.current = null;
+          LockLogic.dropped = "";
+          document.querySelectorAll(".lock").forEach(function (lock) { lock.classList.remove("opened"); });
+          LockLogic.updateProgress();
+          if (window.anime) anime({ targets: ".lock", scale: [0.8, 1], opacity: [0, 1], delay: anime.stagger(90), duration: 520, easing: "easeOutBack" });
+        },
+        askGuardian: function (q) {
+          var local = {
+            pronoun: "大侦探，空格后面还有名词吗？如果没有名词，my 和 mine 哪个能单独站住？",
+            possessive: "大侦探，parents 是几个人？复数已经有 s 时，所有格魔法符号应该放在哪里？",
+            therebe: "大侦探，There 后面第一个名词是什么？be 动词要先听谁的指挥？"
+          };
+          AIJudge.ask("学生选错了：" + q.text + "。请用中文苏格拉底式反问引导，不给答案，限50字。", function (msg) {
+            document.getElementById("judgeText").textContent = msg || local[q.type];
+          }, function () {
+            document.getElementById("judgeText").textContent = local[q.type];
+          });
+          if (window.anime) anime({ targets: "#doorWrap", translateX: [0, -9, 9, -5, 5, 0], duration: 520, easing: "easeInOutSine" });
+        }
+      };
+
+      var VoiceLogic = {
+        recognizer: null,
+        text: "",
+        recording: false,
+        init: function () {
+          var btn = document.getElementById("spellBtn");
+          btn.addEventListener("click", VoiceLogic.toggle);
+        },
+        toggle: function () {
+          if (VoiceLogic.recording) VoiceLogic.stop();
+          else VoiceLogic.start();
+        },
+        unlock: function () {
+          document.getElementById("spellZone").classList.add("show");
+          document.getElementById("micCore").classList.add("ready");
+          SpeechMagic.speak("The three locks are open. Say the final spell!").catch(function () {});
+        },
+        start: function () {
+          if (VoiceLogic.recording) return;
+          if (!window.SpeechSDK) {
+            document.getElementById("sttText").textContent = "Azure Speech SDK 未加载。";
+            return;
+          }
+          VoiceLogic.text = "";
+          var speechConfig = SpeechSDK.SpeechConfig.fromSubscription(AZURE_KEY, AZURE_REGION);
+          speechConfig.speechRecognitionLanguage = "en-US";
+          var audioConfig = SpeechSDK.AudioConfig.fromDefaultMicrophoneInput();
+          VoiceLogic.recognizer = new SpeechSDK.SpeechRecognizer(speechConfig, audioConfig);
+          VoiceLogic.recognizer.recognized = function (_, e) {
+            if (e && e.result && e.result.text) VoiceLogic.text += " " + e.result.text;
+            document.getElementById("sttText").textContent = (VoiceLogic.text.trim() || "…") + "\n\n（录音中，结束后将提交评价）";
+          };
+          VoiceLogic.recognizer.recognizing = function (_, e) {
+            if (e && e.result && e.result.text) {
+              document.getElementById("sttText").textContent = (VoiceLogic.text + " " + e.result.text).trim() + "\n\n（录音中…）";
+            }
+          };
+          VoiceLogic.recording = true;
+          document.getElementById("spellBtn").classList.add("recording");
+          document.getElementById("spellBtn").textContent = "⏹ 点击结束录音";
+          document.getElementById("wave").classList.add("on");
+          VoiceLogic.recognizer.startContinuousRecognitionAsync(function () {}, function (err) {
+            document.getElementById("sttText").textContent = "录音失败：" + err;
+            VoiceLogic.recording = false;
+            document.getElementById("spellBtn").classList.remove("recording");
+            document.getElementById("spellBtn").textContent = "🎤 点击开始录音";
+          });
+        },
+        stop: function () {
+          if (!VoiceLogic.recording || !VoiceLogic.recognizer) return;
+          VoiceLogic.recording = false;
+          document.getElementById("spellBtn").classList.remove("recording");
+          document.getElementById("spellBtn").textContent = "🎤 点击开始录音";
+          document.getElementById("wave").classList.remove("on");
+          var rec = VoiceLogic.recognizer;
+          VoiceLogic.recognizer = null;
+          rec.stopContinuousRecognitionAsync(function () {
+            rec.close();
+            var text = VoiceLogic.text.trim();
+            document.getElementById("sttText").textContent = text ? "【Azure 识别】\n" + text : "没有识别到，请再试一次。";
+            if (text) AIJudge.judgeSpell(text);
+          }, function () {
+            rec.close();
+          });
+        }
+      };
+
+      var AIJudge = {
+        setLoading: function (on) {
+          document.getElementById("stage").classList.toggle("loading", on);
+          if (on) document.getElementById("sttText").textContent = "正在感应魔法能量...";
+        },
+        ask: function (prompt, ok, fail, systemMsg) {
+          fetch(DEEPSEEK_ENDPOINT, {
+            method: "POST",
+            headers: { "Content-Type": "application/json", "Authorization": "Bearer " + DEEPSEEK_KEY },
+            body: JSON.stringify({
+              model: "deepseek-chat",
+              messages: [
+                { role: "system", content: systemMsg || "你是中文苏格拉底式迷宫守卫。只用简体中文，简洁提问引导。" },
+                { role: "user", content: prompt }
+              ],
+              temperature: 0.2
+            })
+          }).then(function (res) {
+            if (!res.ok) throw new Error(String(res.status));
+            return res.json();
+          }).then(function (data) {
+            ok(data && data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content);
+          }).catch(fail);
+        },
+        judgeSpell: function (text) {
+          AIJudge.setLoading(true);
+          var prompt =
+            "你是初中英语教师。目标英文句：" +
+            ULTIMATE_SPELL +
+            "（含义：彼得的书桌上有一台电脑和一些书）。学生通过语音识别得到的英文是：" +
+            text +
+            "。请先判断要点是否覆盖：There is / a computer / some books（或同类表达）/ on Peter's desk（或 Peter's desk）。若整体正确或仅有轻微口音拼写问题，第一行只回复「评定：通过」；若有明显遗漏或语法错误，第一行回复「评定：待改进」，然后用中文分2～4句简短指出问题并鼓励，总字数120字内。";
+          AIJudge.ask(
+            prompt,
+            function (msg) {
+            AIJudge.setLoading(false);
+            var m = String(msg || "");
+            document.getElementById("sttText").textContent =
+              "【Azure 识别】\n" + text + "\n\n【DeepSeek 评价】\n" + (m || "（无回复）");
+            if (/评定[:：]\s*通过/.test(m)) Portal.open();
+          },
+            function () {
+            AIJudge.setLoading(false);
+            var t = text.toLowerCase().replace(/[^a-z0-9\s]/g, " ");
+            if (t.indexOf("there is") >= 0 && t.indexOf("computer") >= 0 && t.indexOf("peter") >= 0 && t.indexOf("desk") >= 0) {
+              document.getElementById("sttText").textContent = "【Azure】\n" + text + "\n\n（DeepSeek 不可用，本地判定：通过）";
+              Portal.open();
+            } else {
+              document.getElementById("sttText").textContent =
+                "【Azure】\n" + text + "\n\n（DeepSeek 不可用）请尽量说出：There is a computer and some books on Peter's desk.";
+            }
+          },
+            "你是初中英语教师。用简体中文写评价，并严格遵守用户关于「评定：通过/待改进」的格式要求。"
+          );
+        }
+      };
+
+      var SpeechMagic = {
+        speak: function (text) {
+          if (!window.SpeechSDK) return Promise.resolve(false);
+          return new Promise(function (resolve) {
+            var speechConfig = SpeechSDK.SpeechConfig.fromSubscription(AZURE_KEY, AZURE_REGION);
+            speechConfig.speechSynthesisVoiceName = "en-US-ChristopherNeural";
+            var synthesizer = new SpeechSDK.SpeechSynthesizer(speechConfig);
+            synthesizer.speakTextAsync(text, function () {
+              synthesizer.close();
+              resolve(true);
+            }, function () {
+              synthesizer.close();
+              resolve(false);
+            });
+          });
+        }
+      };
+
+      var Portal = {
+        open: function () {
+          document.documentElement.style.setProperty("--door-open", "1");
+          document.documentElement.style.setProperty("--glow", "1");
+          var fp = document.getElementById("finalPass");
+          fp.classList.add("show");
+          fp.setAttribute("aria-hidden", "false");
+          if (window.anime) {
+            anime({ targets: ".door-left", translateX: "-74%", rotateY: -16, duration: 1600, easing: "easeInOutCubic" });
+            anime({ targets: ".door-right", translateX: "74%", rotateY: 16, duration: 1600, easing: "easeInOutCubic" });
+            anime({ targets: "#lightMask", opacity: [0, 1, .18], scale: [1, 2.2, 1.4], duration: 1900, easing: "easeOutQuad" });
+            anime({
+              targets: "#finalPass .pass-scrim",
+              opacity: [0, 1],
+              duration: 420,
+              easing: "linear",
+              delay: 900
+            });
+            anime({
+              targets: "#finalPass .pass-card",
+              translateY: [36, 0],
+              scale: [0.82, 1],
+              opacity: [0, 1],
+              delay: 1020,
+              duration: 880,
+              easing: "easeOutBack"
+            });
+          } else {
+            var scrim = fp.querySelector(".pass-scrim");
+            var card = fp.querySelector(".pass-card");
+            if (scrim) scrim.style.opacity = "1";
+            if (card) {
+              card.style.opacity = "1";
+              card.style.transform = "translateY(0) scale(1)";
+            }
+          }
+          SpeechMagic.speak("Excellent. The portal is open. Welcome to the final challenge!").catch(function () {});
+        }
+      };
+
+      function init() {
+        LockLogic.init();
+        VoiceLogic.init();
+      }
+
+      init();
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,2517 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <!-- spa-assets-inlined -->
+
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>第05讲 · Page 01 · 开学第一课（视听探案）</title>
+  <script src="../assets/lesson-tts-azure-config.js"></script>
+  <script src="../assets/lesson-tts-azure-play.js"></script>
+<style>
+    :root {
+      --paper: #fff9f0;
+      --ink: #2c2c2c;
+      --crayon-red: #e85d4c;
+      --crayon-blue: #4a90d9;
+      --crayon-green: #43a047;
+      --crayon-gold: #f0ad4e;
+      --border-dark: #5d4037;
+      --shadow-strong: 0 10px 0 rgba(232, 93, 76, 0.22), 0 22px 40px rgba(0, 0, 0, 0.22);
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      font-family: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+      color: var(--ink);
+      background: #141018;
+    }
+
+    body { padding: 12px; overflow-x: hidden; }
+
+    .book {
+      position: relative;
+      max-width: 1120px;
+      min-height: calc(100vh - 24px);
+      margin: 0 auto;
+      border: 4px solid #f39c12;
+      border-radius: 14px 30px 16px 24px;
+      background: var(--paper);
+      box-shadow: var(--shadow-strong);
+      overflow: hidden;
+    }
+
+    .book::before {
+      content: "";
+      position: absolute;
+      inset: 10px;
+      border: 2px dashed rgba(93, 64, 55, 0.28);
+      border-radius: 10px 20px 12px 18px;
+      pointer-events: none;
+    }
+
+    .top-bar {
+      position: relative;
+      z-index: 5;
+      margin: 12px 12px 0;
+      border: 3px solid var(--crayon-blue);
+      border-radius: 999px;
+      background: linear-gradient(180deg, #fff, #fff4db);
+      text-align: center;
+      padding: 10px 16px;
+      font-size: clamp(14px, 2.7vw, 19px);
+    }
+
+    .top-bar strong { color: var(--crayon-red); letter-spacing: 1px; }
+
+    .hud {
+      position: absolute;
+      z-index: 12;
+      right: 14px;
+      top: 64px;
+      display: none;
+      align-items: center;
+      gap: 10px;
+      border: 3px solid var(--border-dark);
+      border-radius: 999px;
+      padding: 6px 12px;
+      background: rgba(255, 255, 255, 0.92);
+      box-shadow: 0 5px 0 rgba(93, 64, 55, 0.18);
+    }
+
+    .hud.show { display: flex; }
+
+    .hud .label { font-size: 13px; color: #6d4c41; }
+    .hud .value {
+      font-family: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+      font-size: clamp(28px, 4.2vw, 40px);
+      font-weight: 800;
+      color: #b71c1c;
+      min-width: 120px;
+      text-align: right;
+      text-shadow: 0 0 12px rgba(255, 87, 34, 0.35);
+      letter-spacing: 0.02em;
+    }
+    .hud .btn-notes {
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 800;
+      padding: 6px 10px;
+      border: 2px solid var(--border-dark);
+      border-radius: 999px;
+      background: linear-gradient(180deg, #e3f2fd, #90caf9);
+      cursor: pointer;
+      color: #0d47a1;
+    }
+    .notes-pop {
+      position: absolute;
+      right: 8px;
+      top: 118px;
+      z-index: 14;
+      width: min(320px, 88vw);
+      max-height: 52vh;
+      overflow: auto;
+      border: 3px solid var(--border-dark);
+      border-radius: 14px;
+      background: rgba(255, 254, 247, 0.98);
+      padding: 10px 12px;
+      font-size: 13px;
+      line-height: 1.5;
+      color: #4e342e;
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28);
+      display: none;
+    }
+    .notes-pop.show { display: block; }
+    .notes-pop h4 { margin: 0 0 8px; font-size: 14px; color: #6a1b9a; }
+    .notes-pop ul { margin: 0; padding-left: 1.1em; }
+    .notes-pop li { margin: 4px 0; }
+    .spark-part {
+      position: absolute;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 11;
+      background: radial-gradient(circle at 30% 30%, #fff9c4, #ffb300 55%, #e65100);
+      box-shadow: 0 0 10px rgba(255, 171, 0, 0.9);
+    }
+    .stage {
+      position: relative;
+      margin: 10px 14px 14px;
+      border: 3px solid var(--border-dark);
+      border-radius: 16px 26px 14px 20px;
+      height: min(66vh, 640px);
+      overflow: hidden;
+      background: #111;
+    }
+
+    .vertex-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url("https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/img/bg-clean-classroom.png");
+      background-size: cover;
+      background-position: center;
+      filter: saturate(1.05) contrast(1.02);
+      transform: scale(1.02);
+    }
+
+    .vertex-bg::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 90% 70% at 50% 20%, rgba(255, 255, 255, 0.2), transparent 55%);
+      mix-blend-mode: soft-light;
+      pointer-events: none;
+    }
+
+    .items-layer { position: absolute; inset: 0; z-index: 8; }
+
+    .item {
+      position: absolute;
+      width: clamp(74px, 9.6vw, 104px);
+      height: clamp(74px, 9.6vw, 104px);
+      border: 3px solid #4e342e;
+      border-radius: 14px 18px 12px 16px;
+      background: rgba(255, 255, 255, 0.92);
+      box-shadow: 0 6px 0 rgba(0, 0, 0, 0.18);
+      cursor: pointer;
+      touch-action: manipulation;
+      overflow: hidden;
+      transition: transform 160ms ease, filter 160ms ease;
+    }
+
+    .item:hover { transform: translateY(-4px) rotate(-1deg); }
+    .item.locked { opacity: 0.72; filter: grayscale(0.18); cursor: not-allowed; }
+    .item.solved { opacity: 0; pointer-events: none; transform: scale(0.18); }
+
+    .item img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      padding: 6px;
+    }
+
+    .video-layer {
+      position: absolute;
+      inset: 0;
+      z-index: 30;
+      background: #000;
+      display: grid;
+      place-items: center;
+    }
+
+    .video-card {
+      width: min(980px, 96vw);
+      border-radius: 18px 10px 22px 14px;
+      overflow: hidden;
+      border: 4px solid rgba(255, 255, 255, 0.22);
+      box-shadow: 0 18px 60px rgba(0, 0, 0, 0.55);
+      background: #000;
+    }
+
+    video {
+      width: 100%;
+      height: auto;
+      display: block;
+      max-height: min(72vh, 720px);
+      background: #000;
+    }
+
+    .poster {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      background:
+        radial-gradient(circle at 30% 20%, rgba(255,255,255,0.25), transparent 40%),
+        linear-gradient(135deg, #2b1f3a, #4b2f63);
+      color: #fff;
+      text-align: center;
+      padding: 18px;
+    }
+
+    .poster h2 {
+      margin: 0 0 10px;
+      font-size: clamp(22px, 3.4vw, 34px);
+      letter-spacing: 1px;
+    }
+
+    .poster p { margin: 0 0 14px; opacity: 0.92; }
+
+    .play-video {
+      border: 3px solid rgba(255,255,255,0.55);
+      border-radius: 999px;
+      padding: 12px 18px;
+      cursor: pointer;
+      background: linear-gradient(180deg, #ffef99, #fdd835);
+      color: #3e2723;
+      font-family: inherit;
+      font-size: 18px;
+      box-shadow: 0 8px 0 rgba(0,0,0,0.25);
+      touch-action: manipulation;
+    }
+
+    .quiz-layer {
+      position: absolute;
+      inset: 0;
+      z-index: 35;
+      display: none;
+      place-items: center;
+      padding: 14px;
+      background: rgba(0, 0, 0, 0.42);
+    }
+
+    .quiz-layer.show { display: grid; }
+
+    .quiz-card {
+      width: min(760px, 96vw);
+      border: 4px solid var(--border-dark);
+      border-radius: 18px 10px 22px 14px;
+      background: rgba(255, 254, 247, 0.95);
+      padding: 12px;
+      box-shadow: 0 12px 0 rgba(93, 64, 55, 0.18);
+      clip-path: polygon(0% 6%, 6% 0%, 18% 3%, 30% 0%, 44% 4%, 58% 0%, 72% 5%, 86% 2%, 100% 8%, 98% 22%, 100% 38%, 96% 54%, 100% 70%, 97% 86%, 100% 100%, 84% 98%, 70% 100%, 56% 97%, 42% 100%, 28% 97%, 14% 100%, 0% 96%, 3% 80%, 0% 64%, 4% 48%, 0% 32%, 3% 18%);
+    }
+
+    .quiz-card h3 { margin: 0 0 8px; color: #bf360c; font-size: 22px; }
+    .quiz-card p { margin: 0 0 10px; color: #6d4c41; }
+
+    .quiz-row { border: 2px dashed rgba(93, 64, 55, 0.35); border-radius: 12px; padding: 10px; background: #fff; margin-bottom: 10px; }
+    .quiz-row .q { margin: 0 0 8px; font-size: 18px; color: #4e342e; }
+    .opts { display: grid; grid-template-columns: 1fr; gap: 8px; }
+    .opt {
+      border: 3px solid var(--border-dark);
+      border-radius: 10px 14px 10px 14px;
+      background: #fff8e1;
+      padding: 9px 10px;
+      text-align: left;
+      font-family: inherit;
+      cursor: pointer;
+      touch-action: manipulation;
+    }
+    .opt.correct { border-color: var(--crayon-green); background: #e8f5e9; }
+    .opt.wrong { border-color: var(--crayon-red); background: #ffebee; }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+      display: none;
+      place-items: center;
+      z-index: 60;
+      padding: 16px;
+    }
+
+    .modal-backdrop.show { display: grid; }
+
+    .modal {
+      width: min(920px, 96vw);
+      border: 4px solid var(--border-dark);
+      border-radius: 18px 10px 22px 14px;
+      background: #fffef7;
+      box-shadow: 0 10px 0 rgba(93, 64, 55, 0.18);
+      padding: 12px;
+      clip-path: polygon(0% 6%, 6% 0%, 18% 3%, 30% 0%, 44% 4%, 58% 0%, 72% 5%, 86% 2%, 100% 8%, 98% 22%, 100% 38%, 96% 54%, 100% 70%, 97% 86%, 100% 100%, 84% 98%, 70% 100%, 56% 97%, 42% 100%, 28% 97%, 14% 100%, 0% 96%, 3% 80%, 0% 64%, 4% 48%, 0% 32%, 3% 18%);
+    }
+
+    .inspect {
+      display: grid;
+      grid-template-columns: minmax(220px, 320px) 1fr;
+      gap: 12px;
+      align-items: start;
+    }
+
+    .inspect-visual {
+      border: 3px dashed rgba(93, 64, 55, 0.35);
+      border-radius: 12px;
+      padding: 10px;
+      background: #fff;
+      text-align: center;
+    }
+
+    .inspect-visual img { width: min(240px, 72vw); height: auto; margin: 0 auto; display: block; }
+
+    .tag {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 8px 14px;
+      border: 2px solid #6d4c41;
+      border-radius: 6px 10px 8px 12px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(255,248,225,0.95));
+      box-shadow: 0 4px 0 rgba(93, 64, 55, 0.18);
+      transform: rotate(-2deg);
+      font-family: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+      font-size: 34px;
+      color: #4e342e;
+      position: relative;
+    }
+
+    .tag::before {
+      content: "";
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      width: 2px;
+      height: 12px;
+      background: #8d6e63;
+      transform: translateX(-50%) rotate(6deg);
+      box-shadow: 10px 2px 0 #8d6e63;
+    }
+
+    .answer-line { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+    .answer-line input {
+      flex: 1 1 320px;
+      border: 3px solid var(--border-dark);
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-family: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+      font-size: 26px;
+      background: #fff;
+    }
+
+    .send-btn {
+      border: 3px solid var(--border-dark);
+      border-radius: 999px;
+      padding: 10px 14px;
+      cursor: pointer;
+      background: linear-gradient(180deg, #e1bee7, #ce93d8);
+      font-family: inherit;
+      touch-action: manipulation;
+    }
+
+    .send-btn:disabled { opacity: 0.68; cursor: wait; }
+
+    .ai-bubble {
+      margin-top: 8px;
+      border: 3px solid var(--border-dark);
+      border-radius: 12px;
+      padding: 10px;
+      background: #fff;
+      min-height: 54px;
+      line-height: 1.45;
+    }
+
+    .ai-bubble.ok { border-color: var(--crayon-green); background: #eefaf0; }
+    .ai-bubble.err { border-color: var(--crayon-red); background: #fff1f1; }
+
+    .ai-loader {
+      position: fixed;
+      inset: 0;
+      display: none;
+      place-items: center;
+      z-index: 70;
+      background: rgba(0, 0, 0, 0.35);
+    }
+
+    .ai-loader.show { display: grid; }
+
+    .loader-card {
+      width: min(420px, 92vw);
+      border: 4px solid var(--border-dark);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.95);
+      padding: 14px;
+      text-align: center;
+      box-shadow: 0 10px 0 rgba(93, 64, 55, 0.18);
+    }
+
+    .mglass { width: 120px; height: 120px; margin: 6px auto 10px; }
+    .mglass svg { width: 100%; height: 100%; display: block; }
+
+    .report-backdrop {
+      position: fixed;
+      inset: 0;
+      display: none;
+      place-items: center;
+      z-index: 80;
+      background: rgba(0, 0, 0, 0.45);
+      padding: 16px;
+    }
+
+    .report-backdrop.show { display: grid; }
+
+    .report {
+      width: min(760px, 96vw);
+      border: 4px solid #6a1b9a;
+      border-radius: 18px 10px 22px 14px;
+      background: linear-gradient(180deg, #fffaf2, #f3e5f5);
+      padding: 14px;
+      box-shadow: 0 12px 0 rgba(106, 27, 154, 0.18);
+      text-align: center;
+    }
+
+    .medal {
+      width: min(220px, 60vw);
+      height: min(220px, 60vw);
+      margin: 10px auto 8px;
+      border-radius: 50%;
+      border: 6px solid #ffb300;
+      background:
+        radial-gradient(circle at 30% 25%, rgba(255,255,255,0.85), transparent 40%),
+        radial-gradient(circle at 70% 70%, rgba(255, 213, 79, 0.55), transparent 45%),
+        conic-gradient(from 210deg, #ffd54f, #ffecb3, #ffb300, #ff8f00, #ffd54f);
+      box-shadow: 0 0 0 6px rgba(255, 193, 7, 0.25), 0 14px 0 rgba(93, 64, 55, 0.18);
+      display: grid;
+      place-items: center;
+      animation: medalShine 2.2s ease-in-out infinite;
+    }
+
+    @keyframes medalShine {
+      0%, 100% { filter: saturate(1) brightness(1); transform: rotate(-1deg) scale(1); }
+      50% { filter: saturate(1.15) brightness(1.05); transform: rotate(1deg) scale(1.03); }
+    }
+
+    .next-btn {
+      border: 3px solid #4e342e;
+      border-radius: 999px;
+      text-decoration: none;
+      background: linear-gradient(180deg, #b3e5fc, #4fc3f7);
+      color: #004d40;
+      padding: 10px 16px;
+      display: inline-block;
+      box-shadow: 0 4px 0 rgba(0, 0, 0, 0.24);
+      margin-top: 12px;
+    }
+
+    @media (max-width: 900px) {
+      .inspect { grid-template-columns: 1fr; }
+    }
+  </style>
+  <style>
+/* inlined from assets/lesson-screen-16x9.css */
+/**
+ * Lesson 01 / 02 / 03 / 05 统一大屏布局 + 统一字体/字号
+ * 桌面端（约平板横屏以上）：主舞台为视口内最大内接 16:9 矩形，四边留白最小；背景仅露窄边。
+ * 字体：系统无衬线 + 雅黑/苹方/思源黑体，保证课堂可读；英文例句与中文同一栈，仅字号放大。
+ * 各课 HTML 于 head 末引入外部样式表 lesson-screen-16x9.css（勿在本注释中写尖括号 link 标签，以免内联进 HTML 后被误匹配）
+ */
+
+:root {
+  --lesson-font-sans: system-ui, -apple-system, "Segoe UI", "Helvetica Neue", Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+  --lesson-font-zh: var(--lesson-font-sans);
+  --lesson-font-en: var(--lesson-font-sans);
+  /* 根字号：随视口略放大，带动全站 rem */
+  --lesson-fs-html: clamp(16px, 0.55vw + 14px, 20px);
+  --lesson-fs-topbar: clamp(0.88rem, 0.38vw + 0.78rem, 1.02rem);
+  --lesson-fs-body: clamp(0.92rem, 0.42vw + 0.82rem, 1.05rem);
+  --lesson-fs-small: clamp(0.8rem, 0.28vw + 0.72rem, 0.92rem);
+  --lesson-fs-h1: clamp(1.2rem, 0.85vw + 0.95rem, 1.48rem);
+  --lesson-fs-h2: clamp(1.05rem, 0.62vw + 0.86rem, 1.22rem);
+  --lesson-fs-h3: clamp(0.98rem, 0.48vw + 0.8rem, 1.1rem);
+  --lesson-fs-h4: clamp(0.92rem, 0.36vw + 0.76rem, 1.02rem);
+  --lesson-fs-btn: clamp(0.9rem, 0.36vw + 0.8rem, 1.02rem);
+  /* 英文例句 / 展示行：明显大于正文 */
+  --lesson-fs-example: clamp(1.05rem, 0.58vw + 0.9rem, 1.32rem);
+  --lesson-fs-en-line: var(--lesson-fs-example);
+}
+
+/* 主舞台内子元素默认继承字体，压过各页内联里的 Patrick / ZCOOL（后文对 .en / [lang=en] / 例句容器再单独放大） */
+html body .book *:not(code):not(kbd):not(samp):not(pre):not([lang="en"]):not(.en),
+html body .shell *:not(code):not(kbd):not(samp):not(pre):not([lang="en"]):not(.en),
+html body .app *:not(code):not(kbd):not(samp):not(pre):not([lang="en"]):not(.en),
+html body .wrap *:not(code):not(kbd):not(samp):not(pre):not([lang="en"]):not(.en),
+html body .page-wrap *:not(code):not(kbd):not(samp):not(pre):not([lang="en"]):not(.en),
+html body .desk *:not(code):not(kbd):not(samp):not(pre):not([lang="en"]):not(.en),
+html body main.sheet *:not(code):not(kbd):not(samp):not(pre):not([lang="en"]):not(.en) {
+  font-family: inherit;
+}
+
+html {
+  height: 100%;
+  font-size: var(--lesson-fs-html);
+}
+
+body {
+  --lesson-s-t: env(safe-area-inset-top, 0px);
+  --lesson-s-b: env(safe-area-inset-bottom, 0px);
+  --lesson-s-l: env(safe-area-inset-left, 0px);
+  --lesson-s-r: env(safe-area-inset-right, 0px);
+  /* 底部流式页脚（L01/L02 等）预留高度，避免主舞台 + 页脚超出视口 */
+  --lesson-foot-h: 0px;
+  /* 固定底栏占位（L01/L02/L03/L05 统一） */
+  --lesson-pager-gap: 4.35rem;
+  --lesson-l03-pager-gap: var(--lesson-pager-gap);
+  /* 讲义页顶栏工具条粗略高度（打印条 + 可选姓名栏等） */
+  --lesson-handout-chrome: 0px;
+
+  margin: 0 !important;
+  min-height: 100dvh !important;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--lesson-font-zh);
+  line-height: 1.55;
+}
+
+body:has(> .handout-pdf-bar):has(> main.sheet) {
+  --lesson-handout-chrome: 3.75rem;
+  justify-content: flex-start;
+}
+
+body.has-lesson-pager:has(> main.sheet) {
+  --lesson-handout-chrome: 8.5rem;
+  justify-content: flex-start;
+}
+
+/* 去掉各页内联的 body 大留白；L03 单独处理底栏 */
+body:not(.has-lesson-pager) {
+  padding: var(--lesson-s-t) var(--lesson-s-r) var(--lesson-s-b) var(--lesson-s-l) !important;
+}
+
+body.has-lesson-pager {
+  padding-top: max(4px, var(--lesson-s-t)) !important;
+  padding-left: max(4px, var(--lesson-s-l)) !important;
+  padding-right: max(4px, var(--lesson-s-r)) !important;
+  padding-bottom: max(var(--lesson-pager-gap, 4.35rem), var(--lesson-s-b)) !important;
+}
+
+/* —— 全讲统一「页间导航」：固定底栏（与 L03 lesson-pager 视觉一致，兼容旧 class 名） —— */
+body.has-lesson-pager nav.lesson-pager,
+body.has-lesson-pager nav.lesson-footer-nav,
+body.has-lesson-pager div.lesson-footer-nav,
+body.has-lesson-pager nav.page-foot,
+body.has-lesson-pager nav.footer-nav,
+body.has-lesson-pager div.footer-nav {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 200;
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  gap: 0.45rem;
+  padding: 0.42rem 0.55rem;
+  padding-bottom: max(0.42rem, env(safe-area-inset-bottom, 0px));
+  background: rgba(255, 249, 240, 0.98);
+  border-top: 3px solid #5d4037;
+  box-shadow: 0 -8px 22px rgba(0, 0, 0, 0.1);
+  font-family: var(--lesson-font-zh);
+}
+
+body.has-lesson-pager nav.lesson-pager a,
+body.has-lesson-pager nav.lesson-pager .pager-muted,
+body.has-lesson-pager nav.lesson-footer-nav a,
+body.has-lesson-pager div.lesson-footer-nav a,
+body.has-lesson-pager nav.page-foot a,
+body.has-lesson-pager nav.footer-nav a,
+body.has-lesson-pager div.footer-nav a,
+body.has-lesson-pager nav.lesson-footer-nav > span:not(.nav-sep),
+body.has-lesson-pager div.lesson-footer-nav > span:not(.nav-sep),
+body.has-lesson-pager nav.page-foot > span:not(.nav-sep),
+body.has-lesson-pager nav.footer-nav > span:not(.nav-sep),
+body.has-lesson-pager div.footer-nav > span:not(.nav-sep) {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  line-height: 1.35;
+  font-size: clamp(0.7rem, 2.6vw, 0.82rem);
+  font-weight: 800;
+  padding: 0.42rem 0.4rem;
+  border-radius: 999px;
+  border: 3px solid #5d4037;
+  box-shadow: 3px 4px 0 rgba(0, 0, 0, 0.1);
+}
+
+body.has-lesson-pager nav.lesson-pager a,
+body.has-lesson-pager nav.lesson-footer-nav a,
+body.has-lesson-pager div.lesson-footer-nav a,
+body.has-lesson-pager nav.page-foot a,
+body.has-lesson-pager nav.footer-nav a,
+body.has-lesson-pager div.footer-nav a {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+body.has-lesson-pager nav.lesson-pager a:hover,
+body.has-lesson-pager nav.lesson-footer-nav a:hover,
+body.has-lesson-pager div.lesson-footer-nav a:hover,
+body.has-lesson-pager nav.page-foot a:hover,
+body.has-lesson-pager nav.footer-nav a:hover,
+body.has-lesson-pager div.footer-nav a:hover {
+  filter: brightness(1.05);
+}
+
+body.has-lesson-pager nav.lesson-pager .pager-prev,
+body.has-lesson-pager nav.lesson-footer-nav a:first-of-type,
+body.has-lesson-pager div.lesson-footer-nav a:first-of-type,
+body.has-lesson-pager nav.page-foot a:first-of-type,
+body.has-lesson-pager nav.footer-nav a:first-of-type,
+body.has-lesson-pager div.footer-nav a:first-of-type {
+  color: #1565c0;
+  background: rgba(255, 249, 240, 0.98);
+}
+
+body.has-lesson-pager nav.lesson-pager .pager-next,
+body.has-lesson-pager nav.lesson-footer-nav a:last-of-type,
+body.has-lesson-pager div.lesson-footer-nav a:last-of-type,
+body.has-lesson-pager nav.page-foot a:last-of-type,
+body.has-lesson-pager nav.footer-nav a:last-of-type,
+body.has-lesson-pager div.footer-nav a:last-of-type {
+  color: #4e342e;
+  background: linear-gradient(180deg, #ffe082, #ffca28);
+  box-shadow: 0 0 12px rgba(255, 143, 0, 0.35), 3px 4px 0 rgba(0, 0, 0, 0.1);
+}
+
+/* 三链接旧版：中间 <a> 用中性色（非首非尾的链接） */
+body.has-lesson-pager nav.lesson-footer-nav a:not(:first-of-type):not(:last-of-type),
+body.has-lesson-pager div.lesson-footer-nav a:not(:first-of-type):not(:last-of-type),
+body.has-lesson-pager nav.page-foot a:not(:first-of-type):not(:last-of-type),
+body.has-lesson-pager nav.footer-nav a:not(:first-of-type):not(:last-of-type),
+body.has-lesson-pager div.footer-nav a:not(:first-of-type):not(:last-of-type) {
+  color: #37474f;
+  background: rgba(236, 239, 241, 0.96);
+  box-shadow: 2px 3px 0 rgba(0, 0, 0, 0.08);
+}
+
+body.has-lesson-pager nav.lesson-pager .pager-mid {
+  color: #37474f;
+  background: rgba(236, 239, 241, 0.96);
+  box-shadow: 2px 3px 0 rgba(0, 0, 0, 0.08);
+}
+
+body.has-lesson-pager nav.lesson-pager .pager-muted,
+body.has-lesson-pager nav.lesson-footer-nav > span:not(.nav-sep),
+body.has-lesson-pager div.lesson-footer-nav > span:not(.nav-sep),
+body.has-lesson-pager nav.page-foot > span:not(.nav-sep),
+body.has-lesson-pager nav.footer-nav > span:not(.nav-sep),
+body.has-lesson-pager div.footer-nav > span:not(.nav-sep) {
+  color: #78909c;
+  background: rgba(236, 239, 241, 0.95);
+  cursor: default;
+  box-shadow: 2px 3px 0 rgba(0, 0, 0, 0.06);
+}
+
+body.has-lesson-pager .lesson-footer-nav .nav-sep,
+body.has-lesson-pager div.lesson-footer-nav .nav-sep,
+body.has-lesson-pager nav.page-foot .nav-sep,
+body.has-lesson-pager nav.footer-nav .nav-sep,
+body.has-lesson-pager div.footer-nav .nav-sep,
+body.has-lesson-pager div.footer-nav .sep {
+  display: none;
+}
+
+/* L05 Page04：屏内阶段分页条与固定页间底栏错开，避免被遮挡 */
+body.has-lesson-pager .book .pager-foot {
+  margin-bottom: max(0.75rem, var(--lesson-pager-gap, 4.35rem));
+}
+
+/* 英文例句 / 片段：与中文同栈，字号用 --lesson-fs-example（勿给整段中文误标 lang="en"） */
+body .book [lang="en"],
+body .shell [lang="en"],
+body .app [lang="en"],
+body .wrap [lang="en"],
+body .page-wrap [lang="en"],
+body .desk [lang="en"],
+body main.sheet [lang="en"],
+body .book .en,
+body .shell .en,
+body .app .en,
+body .wrap .en,
+body .page-wrap .en,
+body .desk .en,
+body main.sheet .en {
+  font-family: var(--lesson-font-en);
+  font-size: var(--lesson-fs-example);
+}
+
+/* 压过各页内联里对 .en 的 Patrick Hand（与上条同义，提高权重） */
+html body .book .en,
+html body .shell .en,
+html body .app .en,
+html body .wrap .en,
+html body .page-wrap .en,
+html body .desk .en,
+html body main.sheet .en {
+  font-family: var(--lesson-font-en) !important;
+  font-size: var(--lesson-fs-example) !important;
+}
+
+/* 常见「整句英文」容器（部分页未加 .en） */
+body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) :is(
+  .sentence-en,
+  .gold-line,
+  .trap-line,
+  .mirror-word,
+  .contrast-line,
+  .sentence-line,
+  .sentence-main,
+  .voice-line-en,
+  .example-en,
+  .en-line,
+  .ipa-bar
+) {
+  font-family: var(--lesson-font-en);
+  font-size: var(--lesson-fs-example);
+}
+
+/* 标题层级（主舞台内） */
+body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) :is(h1) {
+  font-family: var(--lesson-font-zh);
+  font-size: var(--lesson-fs-h1);
+  line-height: 1.25;
+}
+
+body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) :is(h2) {
+  font-family: var(--lesson-font-zh);
+  font-size: var(--lesson-fs-h2);
+  line-height: 1.3;
+}
+
+body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) :is(h3) {
+  font-family: var(--lesson-font-zh);
+  font-size: var(--lesson-fs-h3);
+  line-height: 1.35;
+}
+
+body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) :is(h4) {
+  font-family: var(--lesson-font-zh);
+  font-size: var(--lesson-fs-h4);
+  line-height: 1.4;
+}
+
+/* 常见标题/条类名（与 h1 同级视觉的条目标题） */
+body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) :is(
+  .page-title,
+  .stage-title,
+  .doc-title,
+  .goal-title,
+  .machine-title,
+  .section-title,
+  .section-label,
+  .column-title,
+  .sk-title,
+  .time-machine .machine-title
+) {
+  font-family: var(--lesson-font-zh);
+  font-size: var(--lesson-fs-h2);
+  line-height: 1.3;
+}
+
+body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) :is(h1.page-title) {
+  font-size: var(--lesson-fs-h1);
+}
+
+/* 顶栏 / 副标题 / 提示条 */
+body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) :is(
+  .top-bar,
+  .top,
+  .sub-hint,
+  .page-subtitle,
+  .hint:not(.no-print),
+  .audio-chip,
+  .phase-pill
+) {
+  font-family: var(--lesson-font-zh);
+  font-size: var(--lesson-fs-topbar);
+}
+
+body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) :is(.page-subtitle, .hint) {
+  font-size: var(--lesson-fs-body);
+  line-height: 1.55;
+}
+
+/* 标签式导航按钮 */
+body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) :is(
+  .phase-tabs button,
+  .tabs .tab,
+  .tab,
+  .phase-nav button
+) {
+  font-family: var(--lesson-font-zh);
+  font-size: var(--lesson-fs-small);
+}
+
+/* 可点击控件：与正文协调 */
+body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) :is(
+  button:not(.hotspot),
+  .btn,
+  .crayon,
+  .btn-row button,
+  .btn-handout-pdf,
+  .btn-glasses,
+  .btn-notes,
+  .btn-tts,
+  input,
+  select,
+  textarea
+) {
+  font-family: var(--lesson-font-zh);
+  font-size: var(--lesson-fs-btn);
+}
+
+body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) :is(button.crayon, .crayon) {
+  font-family: var(--lesson-font-zh);
+}
+
+/* 代码与等宽保持可读 */
+body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) :is(code, kbd, samp, pre) {
+  font-family: ui-monospace, "Cascadia Mono", "Consolas", monospace;
+  font-size: 0.92em;
+}
+
+/* —— 主舞台：默认流式（小屏）；桌面端见下方 media —— */
+body > .book,
+body > .shell,
+body > .app,
+body > .wrap,
+body > .page-wrap,
+body > .desk,
+body > #shakeHost,
+body > .layout,
+body > main.sheet {
+  width: 100%;
+  max-width: 100%;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  box-sizing: border-box;
+  flex: 1 1 auto;
+  min-height: 0;
+  font-family: var(--lesson-font-zh);
+  font-size: 1rem;
+}
+
+/* 正文段落与列表（不覆盖带内联 font-size 的特例时，由继承生效；此处略抬一级） */
+body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) :is(
+  p,
+  li,
+  dd,
+  dt,
+  .guide,
+  .card,
+  .intro-board,
+  .goal-board,
+  .nav-list,
+  .blueprint,
+  .tree-story,
+  .ai-out,
+  .ai-bubble
+) {
+  font-family: var(--lesson-font-zh);
+  font-size: var(--lesson-fs-body);
+}
+
+/* 外层已控宽时，内层 .book 铺满，避免双层 max-width 夹心过窄 */
+body > .shell > .book,
+body > .app > .book,
+body > .page-wrap > .book,
+body > .wrap > .book {
+  width: 100% !important;
+  max-width: none !important;
+}
+
+/* 底部导航与主舞台同宽（仅 body 直接子级，避免误伤页内 .footer-nav） */
+body > .lesson-footer-nav,
+body > nav.lesson-footer-nav,
+body > nav.page-foot,
+body > nav.lesson-pager,
+body > nav.footer-nav,
+body > div.footer-nav {
+  width: 100%;
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+  font-family: var(--lesson-font-zh);
+  font-size: var(--lesson-fs-small);
+  flex-shrink: 0;
+}
+
+.lesson-footer-nav a,
+body > nav.page-foot a {
+  font-family: var(--lesson-font-zh);
+  font-size: inherit;
+}
+
+/* 讲义顶栏与主画布同宽（桌面端由 media 覆盖为 16:9 宽度） */
+body > .handout-pdf-bar,
+body.has-lesson-pager > .handout-pdf-bar,
+body.has-lesson-pager > .name-toolbar {
+  width: 100%;
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+/* 桌面：视口内最大 16:9 内接矩形 */
+@media (min-width: 769px) and (min-height: 560px) {
+  body:not(.has-lesson-pager) > .book,
+  body:not(.has-lesson-pager) > .shell,
+  body:not(.has-lesson-pager) > .app,
+  body:not(.has-lesson-pager) > .wrap,
+  body:not(.has-lesson-pager) > .page-wrap,
+  body:not(.has-lesson-pager) > .desk,
+  body:not(.has-lesson-pager) > #shakeHost,
+  body:not(.has-lesson-pager) > .layout,
+  body:not(.has-lesson-pager) > main.sheet {
+    --stage-vw: calc(100vw - var(--lesson-s-l) - var(--lesson-s-r));
+    --stage-vh: calc(100dvh - var(--lesson-foot-h) - var(--lesson-handout-chrome) - var(--lesson-s-t) - var(--lesson-s-b));
+    width: min(var(--stage-vw), calc(var(--stage-vh) * 16 / 9)) !important;
+    max-width: min(var(--stage-vw), calc(var(--stage-vh) * 16 / 9)) !important;
+    height: min(var(--stage-vh), calc(var(--stage-vw) * 9 / 16)) !important;
+    max-height: min(var(--stage-vh), calc(var(--stage-vw) * 9 / 16)) !important;
+    aspect-ratio: 16 / 9;
+    flex: 0 0 auto;
+    overflow: auto;
+  }
+
+  body.has-lesson-pager > .book,
+  body.has-lesson-pager > .shell,
+  body.has-lesson-pager > .app,
+  body.has-lesson-pager > .wrap,
+  body.has-lesson-pager > .page-wrap,
+  body.has-lesson-pager > .desk,
+  body.has-lesson-pager > #shakeHost,
+  body.has-lesson-pager > .layout,
+  body.has-lesson-pager > main.sheet {
+    --stage-vw: calc(100vw - var(--lesson-s-l) - var(--lesson-s-r) - 8px);
+    --stage-vh: calc(
+      100dvh - var(--lesson-pager-gap, 4.35rem) - var(--lesson-handout-chrome) - max(4px, var(--lesson-s-t)) - max(4px, var(--lesson-s-b))
+    );
+    width: min(var(--stage-vw), calc(var(--stage-vh) * 16 / 9)) !important;
+    max-width: min(var(--stage-vw), calc(var(--stage-vh) * 16 / 9)) !important;
+    height: min(var(--stage-vh), calc(var(--stage-vw) * 9 / 16)) !important;
+    max-height: min(var(--stage-vh), calc(var(--stage-vw) * 9 / 16)) !important;
+    aspect-ratio: 16 / 9;
+    flex: 0 0 auto;
+    overflow: auto;
+  }
+
+  body > .lesson-footer-nav,
+  body > nav.lesson-footer-nav,
+  body > nav.page-foot,
+  body > nav.lesson-pager,
+  body > nav.footer-nav,
+  body > div.footer-nav {
+    width: min(
+        calc(100vw - var(--lesson-s-l) - var(--lesson-s-r)),
+        calc((100dvh - var(--lesson-foot-h) - var(--lesson-s-t) - var(--lesson-s-b)) * 16 / 9)
+      )
+      !important;
+    max-width: min(
+        calc(100vw - var(--lesson-s-l) - var(--lesson-s-r)),
+        calc((100dvh - var(--lesson-foot-h) - var(--lesson-s-t) - var(--lesson-s-b)) * 16 / 9)
+      )
+      !important;
+  }
+
+  body.has-lesson-pager > .lesson-footer-nav,
+  body.has-lesson-pager > nav.lesson-footer-nav,
+  body.has-lesson-pager > nav.page-foot {
+    width: min(
+        calc(100vw - var(--lesson-s-l) - var(--lesson-s-r) - 8px),
+        calc((100dvh - var(--lesson-pager-gap, 4.35rem) - max(4px, var(--lesson-s-t)) - max(4px, var(--lesson-s-b))) * 16 / 9)
+      )
+      !important;
+    max-width: min(
+        calc(100vw - var(--lesson-s-l) - var(--lesson-s-r) - 8px),
+        calc((100dvh - var(--lesson-pager-gap, 4.35rem) - max(4px, var(--lesson-s-t)) - max(4px, var(--lesson-s-b))) * 16 / 9)
+      )
+      !important;
+  }
+
+  /* 固定底栏铺满视口（勿用 16:9 画布宽度约束，否则底栏短于屏幕） */
+  body.has-lesson-pager > nav.lesson-pager,
+  body.has-lesson-pager > nav.lesson-footer-nav,
+  body.has-lesson-pager > div.lesson-footer-nav,
+  body.has-lesson-pager > nav.page-foot,
+  body.has-lesson-pager > nav.footer-nav,
+  body.has-lesson-pager > div.footer-nav {
+    width: 100% !important;
+    max-width: none !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  body > .handout-pdf-bar,
+  body.has-lesson-pager > .handout-pdf-bar,
+  body.has-lesson-pager > .name-toolbar {
+    width: min(
+        calc(100vw - var(--lesson-s-l) - var(--lesson-s-r)),
+        calc((100dvh - var(--lesson-foot-h) - var(--lesson-handout-chrome) - var(--lesson-s-t) - var(--lesson-s-b)) * 16 / 9)
+      )
+      !important;
+    max-width: min(
+        calc(100vw - var(--lesson-s-l) - var(--lesson-s-r)),
+        calc((100dvh - var(--lesson-foot-h) - var(--lesson-handout-chrome) - var(--lesson-s-t) - var(--lesson-s-b)) * 16 / 9)
+      )
+      !important;
+  }
+
+  body.has-lesson-pager > .handout-pdf-bar,
+  body.has-lesson-pager > .name-toolbar {
+    width: min(
+        calc(100vw - var(--lesson-s-l) - var(--lesson-s-r) - 8px),
+        calc((100dvh - var(--lesson-pager-gap, 4.35rem) - var(--lesson-handout-chrome) - max(4px, var(--lesson-s-t)) - max(4px, var(--lesson-s-b))) * 16 / 9)
+      )
+      !important;
+    max-width: min(
+        calc(100vw - var(--lesson-s-l) - var(--lesson-s-r) - 8px),
+        calc((100dvh - var(--lesson-pager-gap, 4.35rem) - var(--lesson-handout-chrome) - max(4px, var(--lesson-s-t)) - max(4px, var(--lesson-s-b))) * 16 / 9)
+      )
+      !important;
+  }
+
+  /* 讲义页首行提示：与主画布同宽 */
+  body:has(> main.sheet) > p.no-print-hint {
+    width: min(
+        calc(100vw - var(--lesson-s-l) - var(--lesson-s-r)),
+        calc((100dvh - var(--lesson-foot-h) - var(--lesson-handout-chrome) - var(--lesson-s-t) - var(--lesson-s-b)) * 16 / 9)
+      )
+      !important;
+    max-width: min(
+        calc(100vw - var(--lesson-s-l) - var(--lesson-s-r)),
+        calc((100dvh - var(--lesson-foot-h) - var(--lesson-handout-chrome) - var(--lesson-s-t) - var(--lesson-s-b)) * 16 / 9)
+      )
+      !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    box-sizing: border-box;
+  }
+
+  body.has-lesson-pager:has(> main.sheet) > p.no-print-hint {
+    width: min(
+        calc(100vw - var(--lesson-s-l) - var(--lesson-s-r) - 8px),
+        calc((100dvh - var(--lesson-pager-gap, 4.35rem) - var(--lesson-handout-chrome) - max(4px, var(--lesson-s-t)) - max(4px, var(--lesson-s-b))) * 16 / 9)
+      )
+      !important;
+    max-width: min(
+        calc(100vw - var(--lesson-s-l) - var(--lesson-s-r) - 8px),
+        calc((100dvh - var(--lesson-pager-gap, 4.35rem) - var(--lesson-handout-chrome) - max(4px, var(--lesson-s-t)) - max(4px, var(--lesson-s-b))) * 16 / 9)
+      )
+      !important;
+  }
+}
+
+@media (max-width: 768px), (max-height: 559px) {
+  body > .book,
+  body > .shell,
+  body > .app,
+  body > .wrap,
+  body > .page-wrap,
+  body > .desk,
+  body > #shakeHost,
+  body > .layout,
+  body > main.sheet {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    max-height: none !important;
+    min-height: 0 !important;
+    aspect-ratio: unset !important;
+    flex: 1 1 auto;
+    overflow: visible;
+  }
+
+  body {
+    justify-content: flex-start;
+  }
+}
+
+@media print {
+  body > .book,
+  body > .shell,
+  body > .app,
+  body > .wrap,
+  body > .page-wrap,
+  body > .desk,
+  body > #shakeHost,
+  body > .layout,
+  body > main.sheet {
+    width: 100% !important;
+    max-width: none !important;
+    height: auto !important;
+    max-height: none !important;
+    min-height: 0 !important;
+    aspect-ratio: unset !important;
+    overflow: visible !important;
+  }
+
+  body.has-lesson-pager nav.lesson-pager,
+  body.has-lesson-pager nav.lesson-pager.no-print,
+  body.has-lesson-pager nav.lesson-footer-nav,
+  body.has-lesson-pager div.lesson-footer-nav,
+  body.has-lesson-pager nav.page-foot,
+  body.has-lesson-pager nav.footer-nav,
+  body.has-lesson-pager div.footer-nav {
+    display: none !important;
+  }
+}
+
+/* —— 可读字体：压过各页内联里对 body / h1 / .en 等的卡通字体（依赖更高选择器权重） —— */
+html body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) {
+  font-family: var(--lesson-font-zh);
+}
+
+html body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) button.crayon,
+html body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) .crayon {
+  font-family: var(--lesson-font-zh);
+}
+
+html body > .lesson-footer-nav,
+html body > nav.lesson-footer-nav,
+html body > nav.page-foot,
+html body > nav.footer-nav,
+html body > div.footer-nav,
+html body > .lesson-progress-chip,
+html body > nav.lesson-pager {
+  font-family: var(--lesson-font-zh);
+}
+
+
+</style>
+  <script>
+/* inlined: assets/tts-manifest.js */
+/* 由 scripts/download-azure-tts.mjs 生成；请勿手改大段（可重新运行脚本覆盖） */
+window.__LESSON_TTS_MANIFEST = {
+  "过去事情讲从前，标志词汇记心间。Be 动词分 was 和 were，实义动词要变脸。规则加 ed 有四法，不规则词靠魔法。若是 Did 来带队，动词乖乖回原形。": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/31484288c6af827d3e32.mp3",
+  "A great number of beautiful flowers are planted on the second ring road in Chengdu these days.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/c8e057d78bdb522fef50.mp3",
+  "a smart whiteboard": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/9a5a748a50e7fd9b0225.mp3",
+  "A. To play": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/405921b6fcf4cae8cf11.mp3",
+  "A. Who is this?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/dc45b09b82cfb3ad44c0.mp3",
+  "Actions speak louder than words.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/adf2673df18450f94bf1.mp3",
+  "Alba and Ben are very tall.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/6fd1850ea8317b4e7267.mp3",
+  "Although we felt tired, we achieved a lot and smiled happily.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/ab4d21ff18dd636901e3.mp3",
+  "Are they coming to the party?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/d4e0d8b02b2e7bbf780e.mp3",
+  "Are they swimming at the moment?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/37ef224151e79a887987.mp3",
+  "Are you coming by bus or on foot?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/2211e7cc70e92712b33b.mp3",
+  "Are you listening to me?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/9caedc1e307d76cc0f18.mp3",
+  "at the moment": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/6a27fb2bd8112955575b.mp3",
+  "B. To clean up": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/69ba32575d8230ee9d4e.mp3",
+  "B. Whose things are these?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/bbc849ba7c9f076aa47f.mp3",
+  "Baris listens to music in his room.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/7658a26575c38778bfe0.mp3",
+  "Be quiet! The students are taking an English exam.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/15912f766b53be0270f8.mp3",
+  "Birds fly in the sky.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/9b73ec92177fa15d834e.mp3",
+  "Bread and butter is a common breakfast in the UK.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/3759c6a3686205b79d5b.mp3",
+  "But now, the government has taken action to protect it.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/011fb317e34537eb5338.mp3",
+  "Confucius was a great teacher.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/4be86e1cc76b49608997.mp3",
+  "Dad is driving a car.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/9f318db306ae72ae312f.mp3",
+  "Did they arrive at the train station before eight o'clock?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/58929109aad38eae269e.mp3",
+  "Did you catch the early bus to the panda research base?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/7d5e578e516746b6ec76.mp3",
+  "Did you understand the main idea of the passage in class?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/14492ee474716edc61a3.mp3",
+  "Do they live near the park?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/4749ecaaea35e66a39ae.mp3",
+  "Do you agree that reading widens our minds?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/de1a94cd58872604d725.mp3",
+  "Do you play football on Saturdays?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/c78a2a3a7d7fe62abba9.mp3",
+  "Do you want to stay home or go out tonight?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/5dfea9ce9b397f8879d7.mp3",
+  "Does he go to school by subway every day?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/e9470b1d337dd7965896.mp3",
+  "Does she have a sister in Grade Nine?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/34954a461fca34c16912.mp3",
+  "Does she often help you with your maths?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/b849140ce98c355cfc6c.mp3",
+  "Does she speak French?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/ae89e3913fd3ac9d1fc0.mp3",
+  "Does your brother study French as a second language?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/70ec16d836df7d612378.mp3",
+  "Either you or he has to hand in the form today.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/35968c20a7fd43308948.mp3",
+  "every morning": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/19c6456a63669d09249b.mp3",
+  "Every week, we change seats.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/1195fa05aa5c80724e3c.mp3",
+  "Everyone is here except Tom.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/eeab70fbcbabad76df87.mp3",
+  "Everyone knows that health comes first.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/0d60631b69440aa0c951.mp3",
+  "Finally, I realized the greatness of our history and felt very proud.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/069603290d741e6fcfa8.mp3",
+  "First, we protected the environment by picking up rubbish along the river.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/172c169b6fa05fd99cd2.mp3",
+  "First, we swept the floor and cleaned the public seats.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/5f80c8e1fe463ca89f34.mp3",
+  "Flight CA123 takes off on time even in bad weather.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/dd818bdc73f702d97d51.mp3",
+  "Food is life.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/017dc23a0b73f765265f.mp3",
+  "Good habits shape our future day by day.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/99a6e4811eb47504661e.mp3",
+  "Grandma made a delicious cake for my birthday party.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/dcc4ce373fd45aef7e78.mp3",
+  "Grandma told me that a friend in need is a friend indeed.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/7c49b25ebed783e7ec52.mp3",
+  "Great ideas come to me in the shower sometimes.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/20d23e311f2f42306799.mp3",
+  "Great job.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/b96d412edbe8e03a1486.mp3",
+  "He doesn't have much free time on weekdays.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/99b4531507cdff0e659e.mp3",
+  "He doesn't watch horror movies.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/45dfb3dd4ff67d9614ee.mp3",
+  "He hardly ever eats fast food for lunch.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/d5b26bc6770e6c5cb4e1.mp3",
+  "He has a clear plan for the next five years.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/aef03d9ce81aea96472e.mp3",
+  "He is eating an apple.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/33cd998121282233006c.mp3",
+  "He is eating lunch right now.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/05a2df585fe9366d0d39.mp3",
+  "He is often mistaken for his twin brother.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/55734d2d2261de943985.mp3",
+  "He is reading a newspaper.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/4c4563a15cb9f2f5745f.mp3",
+  "He is running in the park.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/cf87f1e1b45be5729f95.mp3",
+  "He isn't lazy; he just needs a clearer goal.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/a9ffafe673b01cab9ee8.mp3",
+  "He isn't working today.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/38161f23c217c60daab9.mp3",
+  "He knew the answer, but he still listened to others carefully.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/925192a26138b3df856c.mp3",
+  "He learned in class that water freezes at zero degrees Celsius.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/509c88558d4ba538ef13.mp3",
+  "He lived in a small town near the mountains for five years.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/116dca25feb349897eed.mp3",
+  "He never drinks coffee.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/8d5d8337c33efd2ce781.mp3",
+  "He often reads on the bus to save time.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/499536e67b82524fecdf.mp3",
+  "He plays basketball and runs every afternoon.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/d94447eba3e155b05abc.mp3",
+  "He practices the piano every weekend without fail.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/fe22c61a9b9e76da8b94.mp3",
+  "He read the detective story twice and wrote a short review.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/6392e1ac105d7265574d.mp3",
+  "He reads a book before bed.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/0c784537719d9e49de98.mp3",
+  "He reads English every morning.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/944dd942ae73ab27debe.mp3",
+  "He tries again every time he fails.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/31ec2111430087e21c25.mp3",
+  "He understood the true meaning of teamwork after the game.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/e4851a3e3cf621101d6e.mp3",
+  "He was very tired after the long train journey yesterday.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/b00a098f1e06a1315030.mp3",
+  "He watches documentaries that broaden his view.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/1a8deeb5803018c704c8.mp3",
+  "Honesty is the best policy in the long run.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/9299a0fb6ade5341a304.mp3",
+  "I am cleaning the room now.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/f01a8c0a4bb78cd4f14b.mp3",
+  "I am doing my homework now.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/81391e8d16e4f705a1b7.mp3",
+  "I am drinking water.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/57ce82a3b630560b2dba.mp3",
+  "I am not afraid of making mistakes when I speak English.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/4b5b93c824b0c91ac4ed.mp3",
+  "I am not watching TV now.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/66ba853e0b7b9d33fadc.mp3",
+  "I am reading an interesting book.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/7623ee3bb4c266f7c567.mp3",
+  "I am responsible for my own progress.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/3cc0022a2024af460bd3.mp3",
+  "I am tired.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/d1457057d14c5b972bf0.mp3",
+  "I am understanding.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/d4e7a331c5baabc12f0c.mp3",
+  "I clean my room every weekend.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/046d9a11ab98d43fefd1.mp3",
+  "I didn't finish my science project until Sunday evening.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/3e1341e0fe6a86dfc679.mp3",
+  "I don't always agree with him, but I respect him.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/2b51ed2f7a49f40c2365.mp3",
+  "I don't like bananas.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/0753a30dacb471a7b7e5.mp3",
+  "I experienced the charm of traditional Chinese culture.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/47c0d54c8dfb9ef4afe5.mp3",
+  "I experienced the deep charm of traditional Chinese culture.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/7faaed993ed00b2d73a5.mp3",
+  "I go to school every day.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/6235ea3076e01cdcbd6e.mp3",
+  "I love hiking.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/077068eed062a8a1e789.mp3",
+  "I love music very much.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/7434be360f4d388004f4.mp3",
+  "I often listen to the news or music.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/8254d00875ac916ef1f6.mp3",
+  "I only played computer games when I had free time.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/103aa102cc4e04a020b1.mp3",
+  "I play basketball every weekend with my brother and my friends.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/6c3f9bfb90e90ba100fe.mp3",
+  "I play it three times a week.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/d1d3a177ba76511a2cd8.mp3",
+  "I play the guitar in the school band.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/4ebb3650d63a3ab4a8c6.mp3",
+  "I put my umbrella by the door when I came in from the rain.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/330d5454b563e279ea8a.mp3",
+  "I read English books every morning.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/ca3cc673d321acb369ab.mp3",
+  "I realized the importance of protecting the environment.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/1ebecbf86ef892918945.mp3",
+  "I sometimes doubt myself, and that is OK.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/11c7c2f19f8a14e27560.mp3",
+  "I understand this rule now.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/810e60903b9cc5c478fa.mp3",
+  "I usually finish my homework before dinner.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/216da4be8b3338aac281.mp3",
+  "I usually review my notes before bed.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/0f592a9f6925cad2619b.mp3",
+  "I was in the countryside with my grandparents last summer.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/4191da7e857aaa3e6f18.mp3",
+  "I will call you when he comes back.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/68a212f6a65abb223d0b.mp3",
+  "I will remind you when the deadline draws near.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/eaef9e2f0314ab16db7b.mp3",
+  "I won't leave until you promise to be safe.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/4f6dc52adbdb12347207.mp3",
+  "I'm 13 years old.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/51c909261e76c340fa64.mp3",
+  "If it rains tomorrow, we will stay indoors.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/cd6ebc11f71a0ad1defb.mp3",
+  "In a word, I understood the true meaning of cultural protection.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/8d2ba1ff4cfe6d9aa9cf.mp3",
+  "In the past, I didn't like reading books at all.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/d462e0e2b012dd619c43.mp3",
+  "Is he playing soccer in the park?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/d1f458bb954803bb502c.mp3",
+  "Is he talking on the phone?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/93f1c4e7607329500d47.mp3",
+  "Is she a singer or an actress?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/904683131e6f0f33dcba.mp3",
+  "Is this room tidy or not?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/ca636340cf53b03b139d.mp3",
+  "It is a good time to review grammar now.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/21be982c8bf9a19bbe2b.mp3",
+  "It is cold outside.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/b99dc9387f72e37d4cf4.mp3",
+  "It meant a lot to me because teamwork made everything better.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/ec6ce00278829e897bd1.mp3",
+  "It was rainy and cold when we arrived in Chengdu last Friday.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/4ea6da27aec066ac6358.mp3",
+  "It's behind the bookcase.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/c8c910a7cd798f500891.mp3",
+  "It's behind the box.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/32f42bdf49d9e4da8823.mp3",
+  "It's next to the bookcase.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/c0047ce45c405f0a024d.mp3",
+  "It's on the chair.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/85f28af7cd805d2ff54d.mp3",
+  "It's on the desk.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/53c213e9c9acde12220b.mp3",
+  "It's only a 10-minute walk.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/d346c77e707d8881c79b.mp3",
+  "It's under the bed.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/46067abfaef376ee5976.mp3",
+  "Jamila runs in the park after school on Thursdays.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/095f2504b2d8f20a7662.mp3",
+  "Kate often practices the violin on weekends, but she is playing basketball with her friends right now.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/418989c7efe97a27b36c.mp3",
+  "Knowledge is power.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/6ecb0a33873b6b0e4574.mp3",
+  "Last Saturday, we went to the city park to do some volunteer work.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/2710e45412141c46bb5d.mp3",
+  "Last summer holiday, I (1)____(go) to Chengdu with my parents. We (2)____(visit) the Sanxingdui Museum on the first day. The ancient masks (3)____(be) amazing! I (4)____(feel) very proud of our culture. On the second day, we (5)____(take) a bus to the panda base. We (6)____(see) many cute pandas eating bamboo. It (7)____(start) to rain in the afternoon, so we (8)____(not climb) the mountain. Instead, we (9)____(eat) some delicious hot pot. We really had a great time! I (10)____(hope) to travel there again in the future!": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/be241aaa8332f88193a9.mp3",
+  "Last Sunday , I went to the Sanxingdui Museum with my classmates . At first , I didn't understand the history well . But when the local guide introduced the ancient bronze masks , I experienced the magic of traditional Chinese culture . Suddenly , it started to rain outside . We stayed in the museum and bought some special gifts . The rain stopped two hours later . We took a bus home safely . I achieved a lot and felt really proud of our culture .": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/aa6d4eaedf202df79323.mp3",
+  "Last Sunday, I took a bus to the Sanxingdui Museum with my friends.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/b7b09420573dbf08a42b.mp3",
+  "Last weekend, our class organized a trip to the Sanxingdui Museum.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/9d90d669b9ba2dacde12.mp3",
+  "Lily and Lucy's bags": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/b92a47a08cc118b04e29.mp3",
+  "Lily and Lucy's room": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/9da343f8db74334bf3e3.mp3",
+  "Lily's and Lucy's bags": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/7fa73319ce4ee8adb8e4.mp3",
+  "Lily's and Lucy's room": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/924421df751592259eaa.mp3",
+  "Linda studies chemistry until midnight before exams.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/6317f04c5a3442915949.mp3",
+  "Look! Emma is reading an English book.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/3872860abad3b86191ec.mp3",
+  "Mike and Tom's room": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/e9ae5b2aaa265309f8d7.mp3",
+  "Mike and Tom's rooms": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/5da2fdf369f636753251.mp3",
+  "Mike's and Tom's room": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/59654d60d81ba68644ab.mp3",
+  "Mike's and Tom's rooms": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/3366b1fb282484edf47b.mp3",
+  "Mom is cooking soup.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/d5415f638cff35c4130f.mp3",
+  "My birthday is on 28th July.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/3784514214dff2b9ea35.mp3",
+  "My cousin cleaned the classroom after school yesterday afternoon.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/4ab50c949b5d3dd86ed3.mp3",
+  "My dad works in a bank.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/c2231076b4042760981e.mp3",
+  "My family": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/bb47d7d4f800a7658b8e.mp3",
+  "My father has a new car.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/5f164047574d62062184.mp3",
+  "My favourite food is beef noodles.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/a1413e24e3b8b3bd6821.mp3",
+  "My favourite subject is music.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/d010d3a01eebd64d660f.mp3",
+  "My mom is cooking dinner.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/1718038c3882727fb4c3.mp3",
+  "My mother bought some fresh fruit at the market this morning.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/ddb771f9b2207f0ce18e.mp3",
+  "My name is Emma Miller.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/d7991fbb82e580772083.mp3",
+  "My parents were proud of my progress last term.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/abb80e29e7da07836afd.mp3",
+  "My sister studies harder than anyone else in her class.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/e94d7415176128a1584b.mp3",
+  "Neither he nor his parents are free this weekend.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/5f6e8b60fcaf6e9e0dfc.mp3",
+  "Neither Tom nor his sister is willing to give up.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/157895ca77675e864434.mp3",
+  "No, Sandra isn't feeling well.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/7910d5e8a61651d4ef43.mp3",
+  "Nobody wants to repeat the same mistake twice.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/aead7acede95b41651a9.mp3",
+  "Not goes after the be verb.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/ca72c760fc28d4dbffb2.mp3",
+  "Now drag the be verb to the beginning.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/acf21bc3f373814518f6.mp3",
+  "Nowadays, I spend at least an hour reading every day.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/a976f31e81e802040f4d.mp3",
+  "Our class was not quiet during the break.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/17cf06230062d4d2ef93.mp3",
+  "Our English teacher taught us how to write a good diary last term.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/137f1b61ea431fcae531.mp3",
+  "Our teacher said that light travels faster than sound.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/33c72d13d0489018e2be.mp3",
+  "People often threw rubbish into it.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/555ae23c3f5c5489d3c2.mp3",
+  "Physics is my favourite subject this term.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/3f51170fb0ac73cae5db.mp3",
+  "Please turn off the lights before you leave.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/393f24e104bdc99f9946.mp3",
+  "Practice makes perfect.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/2c06db6691b3926b596e.mp3",
+  "Put the ball above the bed.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/fed0c0bdc287993e692f.mp3",
+  "Put the ball at the chair.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/5b58d824e382c09c6d9a.mp3",
+  "Put the ball next to the bed.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/c8d20ca59ec94c1bc564.mp3",
+  "Put the ball on the right side of the desk.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/faa614cffbeff056e05f.mp3",
+  "Put the ball under the chair.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/99a9615743a19ccb2405.mp3",
+  "Put the book beneath the desk.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/a23dfcc29ea9d1139567.mp3",
+  "Put the book on the desk.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/c779aa9bd212fbce8370.mp3",
+  "Put the book on the left side of the chair.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/b22f10f6acb61d1503f0.mp3",
+  "Put the book over the chair.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/67be5e8dd2af61963f82.mp3",
+  "Put the glove above the chair.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/bbc44068f1bffce31fb1.mp3",
+  "Put the glove beneath the chair.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/76f59f54f88662b4cc14.mp3",
+  "Put the glove beside the chair.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/a1b98bd41a8782ff07fc.mp3",
+  "Put the glove on the bed.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/ee4124ad8fc3fe5d6232.mp3",
+  "Put the keys at the desk.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/0cfeb751dd9232110d0d.mp3",
+  "Put the keys next to the bed.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/f08026a9d26a44ffca6a.mp3",
+  "Put the keys over the desk.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/ac2cde9c11b41d3a8370.mp3",
+  "Put the schoolbag below the bed.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/b20f2ac0c7c302dd6e99.mp3",
+  "Put the schoolbag beside the desk.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/b574a8e0e0d93433a040.mp3",
+  "Put the schoolbag on the bed.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/6475ed35323b5b298cdc.mp3",
+  "Put the schoolbag on the chair.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/88eccbf1e52a3a8a3d67.mp3",
+  "Reading opens up a whole new world for me now.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/537b9fa95ebce831508b.mp3",
+  "School starts at eight on weekdays.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/4ab56d3070bb76d5d805.mp3",
+  "Scientists proved long ago that the moon has no air of its own.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/73112007d36a2d6d2f51.mp3",
+  "She believes that effort matters more than talent.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/40f450b469ecf1fc7b76.mp3",
+  "She didn't forget to bring the map when we climbed the hill.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/f73eea2667899d427799.mp3",
+  "She doesn't do her homework carelessly.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/784ac35ee9e9df39f3bc.mp3",
+  "She drank a cup of hot milk before she went to bed last night.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/a596499a38fa8d46dcfa.mp3",
+  "She enjoys the story and plays the piano well.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/a93e5e87017ce3c73633.mp3",
+  "She experienced the beauty of traditional Chinese culture in Xi'an.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/b28b0065c32b1316db6b.mp3",
+  "She fixes her bike by herself on weekends.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/a647c1d6e51dd87977c5.mp3",
+  "She has nothing to prove to anyone else.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/e3cb677174c58aa678b3.mp3",
+  "She is always polite to strangers.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/c68b3a51dc241f525fa1.mp3",
+  "She is confident and well prepared for the exam.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/b2a345d2aada0e41ee89.mp3",
+  "She is drawing a picture.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/e091ca12efbbb072f1a9.mp3",
+  "She is never late for important meetings.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/b4844231fd0f22fd5c7f.mp3",
+  "She is wearing a red dress today.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/3b1d6b61b765ed861ed2.mp3",
+  "She is writing an email.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/bcb2ba4e7ac9dac68a09.mp3",
+  "She isn't at home tonight.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/f4eaac64376931050a83.mp3",
+  "She likes chocolate ice cream.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/64524bce958098954213.mp3",
+  "She likes to exercise.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/28671939b79f4e51fd36.mp3",
+  "She often helps her classmates with English.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/c9cf11f90147569be54e.mp3",
+  "She planned a surprise birthday party for her best friend.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/f9cb6ab39c430f144d10.mp3",
+  "She plays piano at the weekend.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/fd82f6e52c037273b0ee.mp3",
+  "She seldom complains even when life gets hard.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/2bdd8f1642600c3b5587.mp3",
+  "She will feel better after she gets some sleep.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/32b46e989f1df398cc98.mp3",
+  "Sometimes the hardest part is to begin.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/055a28d11e306901a5b5.mp3",
+  "Sorry, I can't talk right now because I am playing the piano.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/1d75e5caebfa2e210349.mp3",
+  "Suraj and Nikita eat chocolate every day.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/8001e8d40dc062323d58.mp3",
+  "Suzy is always humming tunes.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/7839e88defb4798dafe2.mp3",
+  "Ten years ago, the river in my hometown was very dirty.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/d064fc5b40efa4504c91.mp3",
+  "The answer is sometimes simpler than we think.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/bd5ea06ed13baf0fa6c0.mp3",
+  "The bird is flying.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/0b60f535eb4c2247926c.mp3",
+  "The book belongs to me.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/394c21aede5e3e32f467.mp3",
+  "The book explains that practice makes perfect.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/96a21a6b3e16aa00ab4c.mp3",
+  "The book on the desk is mine.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/4b77ad96dfaf52d5dbd8.mp3",
+  "The boys are watching a football match.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/069e2b4fd63bd47b1159.mp3",
+  "The bus stopped suddenly because a cat ran across the street.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/b0b68ec0ff1772ad2780.mp3",
+  "The cat is sleeping on the mat.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/cb2fe4f3e223105a9b6c.mp3",
+  "The cat is sleeping on the sofa.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/2fd3d9f04df7b4c259cc.mp3",
+  "The cats sleep for ten hours every night.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/92e9604f6ad41c353b37.mp3",
+  "The class goes on a trip every spring.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/f05995144fa693ac94d6.mp3",
+  "The dining hall is across from the sports field.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/befbfb6b7f3c86fe3c32.mp3",
+  "The dog is sleeping.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/46050cd2187d41991982.mp3",
+  "The dog sleeps in the garden.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/da9c0ac121d3da6a8c8d.mp3",
+  "The earth goes around the sun.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/4a2db7af4035c52c95b5.mp3",
+  "The film begins in ten minutes.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/f7964dbeb3cb764ec672.mp3",
+  "The girls are dancing.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/6be644bcbfdb7880273d.mp3",
+  "The hall is usually quiet during the exam.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/e1d5e42d73790cec1ca1.mp3",
+  "The keys are under the desk.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/42c5559cb034aaa7636e.mp3",
+  "The local guide introduced the history of the ancient bronze masks to us.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/1568c62fcbe9dfa244be.mp3",
+  "The news is more surprising than we expected.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/616ae4b087de781a8882.mp3",
+  "The old bridge was very famous years ago.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/e9217e4521017f3d09b0.mp3",
+  "The pair of shoes is on sale today.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/b839b5a1d39d62e5a634.mp3",
+  "The passengers are ready to start their trip.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/59e1b65ffa4936a9c500.mp3",
+  "The school gate is open today.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/19534ebc0a550d01c98c.mp3",
+  "The school library is very big.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/cd4a52962262435c3348.mp3",
+  "The shop opens at nine and closes at six.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/168e0c2dc9a9d4a8931b.mp3",
+  "The soup smells good.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/e19828ddf016fbfdee47.mp3",
+  "The stadium is crowded.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/c1458ead3f7b1d55dd23.mp3",
+  "The sun rises in the east and sets in the west.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/eddf38eb39158e4a304c.mp3",
+  "The sun rises in the east.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/2dcae322509af4a6be70.mp3",
+  "The team has enough time to finish the project.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/472cfe23019ca7b89600.mp3",
+  "The team is hardworking.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/a6bac092bf1e91106342.mp3",
+  "The train is late today.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/7a7f7718e86566e8c912.mp3",
+  "The train leaves at seven fifteen every morning.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/c83402570ba8caf03a66.mp3",
+  "The train leaves the station at 9:00.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/a9bc4ccf7234e33ddec4.mp3",
+  "The water is clean and clear today.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/64b8644ea2a23bffaab6.mp3",
+  "The weather": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/f89c1aa041023ca82ef6.mp3",
+  "The weather is sunny today.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/a95b02144de62302fcd6.mp3",
+  "The weather was cloudy yesterday.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/ea256d8b4da7f033668e.mp3",
+  "The woman is drinking water.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/0407e0f85150f179f741.mp3",
+  "Then, we provided the old people with warm water and help.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/5b393e029265d35764d7.mp3",
+  "Then, we threw the waste into the correct recycling bins.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/74e33ba11e60cf7b8214.mp3",
+  "There are two cups and a plate on the table.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/80c2c01a0c93a2c86023.mp3",
+  "There is a cup and two plates on the table.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/32ba4204c7df0759da4c.mp3",
+  "There is a pen and two books on the desk.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/0d87a35098cd31798237.mp3",
+  "There were no green trees or beautiful flowers around it.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/79670e822d0a1cfb78c3.mp3",
+  "They are at the library, not at home.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/e0fc37712fb27641ba1c.mp3",
+  "They are at the shopping centre.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/334ff2c5578ddcf55a43.mp3",
+  "They are dancing to music.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/6041fdbf54d0e9d1fe24.mp3",
+  "They are excited to see the show.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/01527945023f3c89ed0d.mp3",
+  "They are playing a game.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/8cf4bfaa11ffb180fe3d.mp3",
+  "They are playing basketball.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/4e3ab1b7bc750c5d7e73.mp3",
+  "They are playing football in the garden.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/ad12cad215c85f9c4589.mp3",
+  "They are playing football.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/e7827478f0d9df3ceb73.mp3",
+  "They are strong.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/53d11bef55e7b59ddb07.mp3",
+  "They carried the heavy books to the reading room together.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/516abf05d2199794fd89.mp3",
+  "They make delicious jiaozi.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/96219e0859893c60b773.mp3",
+  "They play soccer after school.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/744a52238cc94d7ca3aa.mp3",
+  "They seldom stay up late on school nights.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/05b7c4080bcc5c6a13c0.mp3",
+  "They watch TV after homework.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/3f56e2b64c528334e261.mp3",
+  "They went to the nature park and saw many lovely animals.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/93942f36ab9d92b10203.mp3",
+  "They were at the beach last Sunday.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/36bb2970c3110c59b8a8.mp3",
+  "They were at the museum this morning.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/4656bf7fad3f53ad0d0c.mp3",
+  "They were not at home last night because they visited their grandparents.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/3de89036ab8a0160773d.mp3",
+  "They will not succeed unless each member does his part.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/e1f3423bcb3d26b191f0.mp3",
+  "This isn't what we agreed on yesterday.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/05db82a425588c49d20a.mp3",
+  "Those results aren't good enough yet.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/8968cc03acdeeefe227a.mp3",
+  "Tom and Jerry are both fond of science fiction.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/9a5bcef14f44bf3d41d6.mp3",
+  "Tom reads English aloud for twenty minutes each morning.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/ca2b6f007c9f77a53b9d.mp3",
+  "Tom studied harder than before and passed the exam easily.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/36db7c35a8663b639708.mp3",
+  "Try Where for places.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/c80b0582ee16cbb62bea.mp3",
+  "Water boils at 100 degrees Celsius at sea level.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/c223a756410d755a3749.mp3",
+  "We achieved our goals through hard work and patience.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/57f88b63fc56eb4cc9e2.mp3",
+  "We always walk to school unless it rains hard.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/f712150bbd4d39182b94.mp3",
+  "We are learning new words.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/e651504901e9e7641ed2.mp3",
+  "We are not afraid of a long journey ahead.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/b9c88ffcc0eabd5070d5.mp3",
+  "We are studying English this week.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/a5db236bc9f1234d332d.mp3",
+  "We bought some special souvenirs for our families.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/721147301e04bb1154b3.mp3",
+  "We don't give up when things get tough.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/9406c359b45b89a3ea04.mp3",
+  "We don't usually stay up past eleven.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/5af5eaba61a25c343699.mp3",
+  "We learn about different plants and animals.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/52cb849a92a2ba877589.mp3",
+  "We saw many amazing ancient treasures in the museum.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/12a476b476e3cdb9800c.mp3",
+  "We sometimes walk home together after school.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/99ae1ef97b77eded57d6.mp3",
+  "We spend most of the time in our classroom.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/d3b13c64ea3c069059d4.mp3",
+  "We study in the library.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/66cdbd284fe9b4a2b97f.mp3",
+  "We usually eat dinner at 7 p.m.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/ae66206a71b4196548f3.mp3",
+  "We usually take a walk along the river after dinner these days.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/0da7bd9ca2e32d77fcc8.mp3",
+  "We visit our grandparents often.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/87ec2e0eac4f7d229d69.mp3",
+  "We walk to school every morning.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/8298843bd57fdfbc7bfe.mp3",
+  "We watched an English movie about space travel last weekend.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/001d91095b0ae22f8ad2.mp3",
+  "We were excited about the school trip to the science museum.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/e1e27eb9c7f278e2876e.mp3",
+  "We will miss the train unless we hurry.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/02c965c4885a54c932e0.mp3",
+  "We will start as soon as the teacher arrives.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/ccbda79134f4e5abfb09.mp3",
+  "What did she buy for her father's birthday at the shopping mall?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/ac986c3f073e67cc1470.mp3",
+  "Where did he meet his old friends from primary school?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/b8367f204ae0ad1d8da9.mp3",
+  "Where is he playing soccer?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/abc586536baf96f9f550.mp3",
+  "Wolves take good care of their babies.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/47311d3805c61afad187.mp3",
+  "Would you like tea or coffee?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/966e7f2b2ea435ca8381.mp3",
+  "Yes, I am sure.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/802e24860a78f4f2c59c.mp3",
+  "Yes, it's raining.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/06522fc43f9201d018b5.mp3",
+  "Yesterday, my classmates and I planned a meaningful charity activity.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/60758fdafd329486f9e8.mp3",
+  "You are what you eat.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/9ca6fc78e71809c53808.mp3",
+  "You were excited to share your experience.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/137d706156bae6268dc2.mp3",
+  "You will pass the exam if you work hard enough.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/c4514b34806df02d7b1f.mp3",
+  "我是保护重要人物的保镖，我永远走在我的老板前面。 My、your、his、her、its、our、their，都是我的分身。": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/7ebc2033c1938abee4a6.mp3",
+  "我是超人，我喜欢单打独斗，我永远自己行侠仗义。 Mine、yours、his、hers、its、ours、theirs，都是我的分身。": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/82af81d70c6d44e24222.mp3",
+  "Excellent! Everything is in order now.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/a60990684681058b88a6.mp3",
+  "Whose bag is this?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/52a7a9f46537ecfae032.mp3",
+  "Whose books are these?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/29e772686233f2f508b5.mp3",
+  "Whose dictionary is this?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/7185e204cf7736244b16.mp3",
+  "Whose glasses are these?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/a07fa0b1479e1e042661.mp3",
+  "Whose sneakers are these?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/20df5b0df3cd71193eb9.mp3",
+  "Whose socks are these?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/356c4cfd0b4785c41e8e.mp3",
+  "Whose trumpet is this?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/e516e47e78d385a70129.mp3",
+  "Whose water bottle is this?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/tts-mp3/c9092d54e8b14c1b04f6.mp3"
+};
+
+</script>
+  <script>
+/* inlined: assets/lesson-tts-bootstrap.js */
+/**
+ * 本地 MP3 优先（配合 assets/tts-manifest.js 中 window.__LESSON_TTS_MANIFEST）。
+ * 1) playLocalIfAvailable：直接按文案查找并播放。
+ * 2) fetch 拦截：课件内对 Azure TTS 的 fetch(SSML) 若 manifest 有对应句，则改为 fetch(本地 mp3) 并返回同形态 Response，无需改各页 speak()。
+ *
+ * 可选：window.__AZURE_SPEECH_KEY__ 供仍走在线时的密钥（勿写入仓库）。
+ */
+(function () {
+  "use strict";
+
+  function norm(s) {
+    return String(s || "")
+      .replace(/\s+/g, " ")
+      .trim();
+  }
+
+  function map() {
+    return typeof window !== "undefined" && window.__LESSON_TTS_MANIFEST ? window.__LESSON_TTS_MANIFEST : {};
+  }
+
+  /** 从 SSML 中取 <voice>…</voice> 内纯文本（去内层标签与常见实体；须与 manifest 键一致） */
+  function extractSsmlVoicePlain(ssml) {
+    var m = String(ssml).match(/<voice[^>]*>([\s\S]*?)<\/voice>/i);
+    if (!m) return "";
+    var inner = m[1].replace(/<[^>]+>/g, " ");
+    inner = inner
+      .replace(/&#39;/g, "'")
+      .replace(/&#039;/g, "'")
+      .replace(/&apos;/g, "'")
+      .replace(/&#x27;/gi, "'")
+      .replace(/&quot;/g, '"')
+      .replace(/&lt;/g, "<")
+      .replace(/&gt;/g, ">")
+      .replace(/&nbsp;/g, " ")
+      .replace(/&amp;/g, "&");
+    return norm(inner);
+  }
+
+  function isAzureTtsRequest(input, init) {
+    try {
+      var u = typeof input === "string" ? input : input && input.url;
+      if (!u || String(u).indexOf("tts.speech.microsoft.com") === -1) return false;
+      if (!init || String(init.method || "GET").toUpperCase() !== "POST") return false;
+      var ct = "";
+      if (init.headers) {
+        if (typeof init.headers.get === "function") ct = init.headers.get("Content-Type") || "";
+        else ct = init.headers["Content-Type"] || init.headers["content-type"] || "";
+      }
+      if (!ct || String(ct).indexOf("ssml") === -1) return false;
+      var body = init.body;
+      if (typeof body !== "string" || body.indexOf("<speak") === -1) return false;
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  var origFetch = typeof window.fetch === "function" ? window.fetch.bind(window) : null;
+
+  if (origFetch) {
+    window.fetch = function (input, init) {
+      if (isAzureTtsRequest(input, init) && map() && typeof init.body === "string") {
+        var phrase = extractSsmlVoicePlain(init.body);
+        if (phrase) {
+          var m = map();
+          var rel = m[phrase] || m[norm(phrase)];
+          if (rel) {
+            return origFetch(rel, { method: "GET", credentials: "same-origin", cache: "force-cache" })
+              .then(function (res) {
+                if (!res.ok) return origFetch(input, init);
+                return res;
+              })
+              .catch(function () {
+                return origFetch(input, init);
+              });
+          }
+        }
+      }
+      return origFetch(input, init);
+    };
+  }
+
+  /**
+   * @param {string} text
+   * @returns {Promise<boolean>} true 已播放本地文件
+   */
+  function playLocalIfAvailable(text) {
+    var k = norm(text);
+    if (!k) return Promise.resolve(false);
+    var m = map();
+    var rel = m[k] || m[text] || m[String(text || "").trim()];
+    if (!rel) return Promise.resolve(false);
+    return new Promise(function (resolve) {
+      var a = new Audio(rel);
+      var done = false;
+      function fin(ok) {
+        if (done) return;
+        done = true;
+        resolve(!!ok);
+      }
+      a.onended = function () {
+        fin(true);
+      };
+      a.onerror = function () {
+        fin(false);
+      };
+      var p = a.play();
+      if (p && typeof p.catch === "function") {
+        p.catch(function () {
+          fin(false);
+        });
+      }
+    });
+  }
+
+  window.LessonTTSBootstrap = {
+    norm: norm,
+    playLocalIfAvailable: playLocalIfAvailable,
+    extractSsmlVoicePlain: extractSsmlVoicePlain
+  };
+})();
+
+</script>
+  <script>
+/* inlined: assets/l05-tts-local-only.js */
+/**
+ * 第05讲统一：朗读仅使用 assets/tts-manifest.js 中的本地 MP3，不请求 Azure。
+ * 依赖顺序：tts-manifest.js → lesson-tts-bootstrap.js → 本文件。
+ */
+(function () {
+  "use strict";
+
+  function status(el, msg) {
+    if (el && typeof el.textContent !== "undefined") el.textContent = msg;
+  }
+
+  /**
+   * @param {string} ssml
+   * @param {HTMLElement|null} statusEl
+   * @returns {Promise<boolean>}
+   */
+  function playSsml(ssml, statusEl) {
+    var Boot = window.LessonTTSBootstrap;
+    if (!Boot || typeof Boot.extractSsmlVoicePlain !== "function" || typeof Boot.playLocalIfAvailable !== "function") {
+      console.warn("[L05Speak] LessonTTSBootstrap 未就绪");
+      status(statusEl, "未加载 tts-manifest / lesson-tts-bootstrap");
+      return Promise.resolve(false);
+    }
+    var plain = Boot.extractSsmlVoicePlain(String(ssml || ""));
+    if (!plain) {
+      status(statusEl, "无可朗读文本");
+      return Promise.resolve(false);
+    }
+    status(statusEl, "正在播放本地 MP3…");
+    return Boot.playLocalIfAvailable(plain).then(function (ok) {
+      if (ok) {
+        status(statusEl, "本地 MP3");
+        return true;
+      }
+      status(statusEl, "暂无离线语音（请运行 inventory + download-azure-tts）");
+      console.warn("[L05Speak] manifest 未命中:", plain.slice(0, 160));
+      return false;
+    });
+  }
+
+  /**
+   * @param {string} text
+   * @param {HTMLElement|null} statusEl
+   * @returns {Promise<boolean>}
+   */
+  function playText(text, statusEl) {
+    var Boot = window.LessonTTSBootstrap;
+    if (!Boot || typeof Boot.playLocalIfAvailable !== "function") {
+      status(statusEl, "未加载 lesson-tts-bootstrap");
+      return Promise.resolve(false);
+    }
+    var t = Boot.norm ? Boot.norm(text) : String(text || "").replace(/\s+/g, " ").trim();
+    if (!t) return Promise.resolve(false);
+    status(statusEl, "正在播放本地 MP3…");
+    return Boot.playLocalIfAvailable(t).then(function (ok) {
+      if (ok) {
+        status(statusEl, "本地 MP3");
+        return true;
+      }
+      status(statusEl, "暂无离线语音（请运行 inventory + download-azure-tts）");
+      console.warn("[L05Speak] manifest 未命中:", t.slice(0, 160));
+      return false;
+    });
+  }
+
+  window.L05SpeakLocalOnly = {
+    playSsml: playSsml,
+    playText: playText
+  };
+})();
+
+</script>
+</head>
+<body class="has-lesson-pager">
+  <div class="book" id="app">
+    <div class="top-bar"><strong>第05讲</strong> · Page 01 · 视听探案：失物招领</div>
+    <section class="stage" id="stage">
+      <div class="vertex-bg" id="vertexBg" aria-hidden="true"></div>
+
+      <div class="hud show" id="hud">
+        <span class="label">归还进度</span>
+        <span class="value" id="progressText">0 / 8</span>
+        <button type="button" class="btn-notes" id="btnNotes" title="已归还物品的所有格提示">侦探笔记</button>
+      </div>
+      <div class="notes-pop" id="notesPop" aria-live="polite">
+        <h4>侦探笔记 · 所有格提示</h4>
+        <p style="margin:0 0 6px;font-size:12px;color:#6d4c41">随归还进度解锁；未归还项显示为「???」。</p>
+        <ul id="notesList"></ul>
+      </div>
+
+      <div class="items-layer" id="itemsLayer"></div>
+
+      <div class="video-layer" id="videoLayer">
+        <div class="video-card" id="videoCard">
+          <div style="position:relative;">
+            <video id="introVideo" playsinline webkit-playsinline controlslist="nodownload" poster="">
+              <source src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/video/l05-p01-intro.mp4" type="video/mp4" />
+            </video>
+            <div class="poster" id="videoPoster">
+              <div>
+                <h2>暑假开学第一课</h2>
+                <p>点击播放：老师因教室混乱大发雷霆（本地视频 <code>assets/video/l05-p01-intro.mp4</code>）</p>
+                <button class="play-video" id="playVideoBtn" type="button">▶️ 播放开场视频</button>
+                <div style="height:10px"></div>
+                <button class="play-video" id="fullscreenVideoBtn" type="button" style="background:linear-gradient(180deg,#e1f5fe,#b3e5fc);">🖥️ 全屏播放（推荐）</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="quiz-layer" id="quizLayer">
+        <div class="quiz-card">
+          <h3>视频结束 · 互动理解</h3>
+          <p>只有两题都选对，才会进入“教室搜索模式”。</p>
+          <div id="quizMount"></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="modal-backdrop" id="inspectBackdrop" role="dialog" aria-modal="true" aria-label="侦探调查">
+      <div class="modal">
+        <div class="inspect">
+          <div class="inspect-visual">
+            <img id="inspectImg" alt="物品" />
+            <div class="tag" id="ownerTag">Peter</div>
+          </div>
+          <div>
+            <p style="margin:0 0 8px;color:#6d4c41;font-size:15px;">老师提问（离线 MP3）</p>
+            <p id="askText" style="margin:0 0 8px;font-family:system-ui,Segoe UI,Microsoft YaHei,sans-serif;font-size:30px;color:#3e2723;">Whose bag is this?</p>
+            <div class="answer-line">
+              <input id="answerInput" type="text" placeholder="请输入完整英文句子..." autocomplete="off" />
+              <button class="send-btn" id="sendBtn" type="button">提交给探案助手</button>
+            </div>
+            <div class="ai-bubble" id="aiBubble">等待提交...</div>
+            <div style="margin-top:10px;text-align:right;">
+              <button class="send-btn" id="closeInspect" type="button" style="background:linear-gradient(180deg,#ffecb3,#ffe082);">关闭</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ai-loader" id="aiLoader">
+      <div class="loader-card">
+        <div class="mglass" id="mglass">
+          <svg viewBox="0 0 120 120" aria-hidden="true">
+            <circle cx="52" cy="52" r="34" fill="rgba(227,242,253,0.95)" stroke="#4e342e" stroke-width="5" />
+            <line x1="76" y1="76" x2="108" y2="108" stroke="#4e342e" stroke-width="8" stroke-linecap="round" />
+            <circle cx="52" cy="52" r="18" fill="rgba(255,255,255,0.55)" stroke="#4e342e" stroke-width="3" />
+          </svg>
+        </div>
+        <div style="font-size:16px;color:#4e342e;"><strong>探案助手正在思考...</strong></div>
+        <div style="font-size:13px;color:#6d4c41;margin-top:6px;">已禁用浏览器语音：仅本地 MP3（manifest）负责朗读。</div>
+      </div>
+    </div>
+
+    <div class="report-backdrop" id="reportBackdrop" role="dialog" aria-modal="true" aria-label="结案报告">
+      <div class="report">
+        <h2 style="margin:0 0 8px;color:#6a1b9a;">大侦探结案报告</h2>
+        <div style="color:#4e342e;font-size:16px;">归还用时：<strong id="finalTime">00:00</strong></div>
+        <div class="medal" aria-label="勋章">
+          <div>
+            <div style="font-size:44px;line-height:1;">🥇</div>
+            <div style="font-size:18px;color:#4e342e;font-weight:900;margin-top:6px;">Golden Space Detective</div>
+            <div style="font-size:14px;color:#4e342e;margin-top:6px;">黄金空间大侦探</div>
+          </div>
+        </div>
+        <p style="margin:10px 0 0;font-size:18px;line-height:1.45;color:#3e2723;">💡 表达归属有魔法：名词后面加 <strong>'s</strong>（或复数 <strong>s'</strong>）！</p>
+        <div class="rule-compare" style="margin:14px auto 0;max-width:520px;text-align:left;border:3px dashed #8d6e63;border-radius:14px;padding:12px 14px;background:rgba(255,255,255,.92);font-size:14px;line-height:1.55;color:#4e342e">
+          <strong style="color:#6a1b9a">规则对比卡</strong>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px">
+            <div style="border:2px solid #1565c0;border-radius:10px;padding:8px;background:#e3f2fd">
+              <span lang="en" style="font-family:system-ui,Segoe UI,Microsoft YaHei,sans-serif;font-size:22px;color:#0d47a1">'s</span>
+              <div style="font-size:12px;margin-top:4px">单数 / 不规则复数：加撇 <strong>s</strong></div>
+              <div lang="en" style="font-family:system-ui,Segoe UI,Microsoft YaHei,sans-serif;font-size:20px;margin-top:6px;color:#1565c0">Peter's bag</div>
+            </div>
+            <div style="border:2px solid #c62828;border-radius:10px;padding:8px;background:#ffebee">
+              <span lang="en" style="font-family:system-ui,Segoe UI,Microsoft YaHei,sans-serif;font-size:22px;color:#b71c1c">s'</span>
+              <div style="font-size:12px;margin-top:4px">复数已有 <strong>s</strong>：只加撇</div>
+              <div lang="en" style="font-family:system-ui,Segoe UI,Microsoft YaHei,sans-serif;font-size:18px;margin-top:6px;color:#c62828">grandparents' glasses</div>
+            </div>
+          </div>
+        </div>
+        <a class="next-btn" href="lesson05-page02-possessive.html">⏭️ 前往所有权炼金炉 (Page 02)</a>
+      </div>
+    </div>
+  </div>
+
+  <nav class="lesson-pager no-print" aria-label="页间导航">
+    <span class="pager-muted">Page 01 · 开篇</span>
+    <a href="lesson05-page02-possessive.html">前往 Page 02 · 所有权</a>
+  </nav>
+
+  <script>
+/* inlined: https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js */
+/*
+ * anime.js v3.2.2
+ * (c) 2023 Julian Garnier
+ * Released under the MIT license
+ * animejs.com
+ */
+
+!function(n,e){"object"==typeof exports&&"undefined"!=typeof module?module.exports=e():"function"==typeof define&&define.amd?define(e):n.anime=e()}(this,function(){"use strict";var i={update:null,begin:null,loopBegin:null,changeBegin:null,change:null,changeComplete:null,loopComplete:null,complete:null,loop:1,direction:"normal",autoplay:!0,timelineOffset:0},M={duration:1e3,delay:0,endDelay:0,easing:"easeOutElastic(1, .5)",round:0},j=["translateX","translateY","translateZ","rotate","rotateX","rotateY","rotateZ","scale","scaleX","scaleY","scaleZ","skew","skewX","skewY","perspective","matrix","matrix3d"],l={CSS:{},springs:{}};function C(n,e,t){return Math.min(Math.max(n,e),t)}function u(n,e){return-1<n.indexOf(e)}function o(n,e){return n.apply(null,e)}var w={arr:function(n){return Array.isArray(n)},obj:function(n){return u(Object.prototype.toString.call(n),"Object")},pth:function(n){return w.obj(n)&&n.hasOwnProperty("totalLength")},svg:function(n){return n instanceof SVGElement},inp:function(n){return n instanceof HTMLInputElement},dom:function(n){return n.nodeType||w.svg(n)},str:function(n){return"string"==typeof n},fnc:function(n){return"function"==typeof n},und:function(n){return void 0===n},nil:function(n){return w.und(n)||null===n},hex:function(n){return/(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i.test(n)},rgb:function(n){return/^rgb/.test(n)},hsl:function(n){return/^hsl/.test(n)},col:function(n){return w.hex(n)||w.rgb(n)||w.hsl(n)},key:function(n){return!i.hasOwnProperty(n)&&!M.hasOwnProperty(n)&&"targets"!==n&&"keyframes"!==n}};function d(n){n=/\(([^)]+)\)/.exec(n);return n?n[1].split(",").map(function(n){return parseFloat(n)}):[]}function c(r,t){var n=d(r),e=C(w.und(n[0])?1:n[0],.1,100),a=C(w.und(n[1])?100:n[1],.1,100),o=C(w.und(n[2])?10:n[2],.1,100),n=C(w.und(n[3])?0:n[3],.1,100),u=Math.sqrt(a/e),i=o/(2*Math.sqrt(a*e)),c=i<1?u*Math.sqrt(1-i*i):0,s=i<1?(i*u-n)/c:-n+u;function f(n){var e=t?t*n/1e3:n,e=i<1?Math.exp(-e*i*u)*(+Math.cos(c*e)+s*Math.sin(c*e)):(1+s*e)*Math.exp(-e*u);return 0===n||1===n?n:1-e}return t?f:function(){var n=l.springs[r];if(n)return n;for(var e=0,t=0;;)if(1===f(e+=1/6)){if(16<=++t)break}else t=0;return n=e*(1/6)*1e3,l.springs[r]=n}}function q(e){return void 0===e&&(e=10),function(n){return Math.ceil(C(n,1e-6,1)*e)*(1/e)}}var H=function(b,e,M,t){if(0<=b&&b<=1&&0<=M&&M<=1){var x=new Float32Array(11);if(b!==e||M!==t)for(var n=0;n<11;++n)x[n]=k(.1*n,b,M);return function(n){return b===e&&M===t||0===n||1===n?n:k(r(n),e,t)}}function r(n){for(var e=0,t=1;10!==t&&x[t]<=n;++t)e+=.1;var r=e+.1*((n-x[--t])/(x[t+1]-x[t])),a=O(r,b,M);if(.001<=a){for(var o=n,u=r,i=b,c=M,s=0;s<4;++s){var f=O(u,i,c);if(0===f)return u;u-=(k(u,i,c)-o)/f}return u}if(0===a)return r;for(var l,d,p=n,h=e,g=e+.1,m=b,v=M,y=0;0<(l=k(d=h+(g-h)/2,m,v)-p)?g=d:h=d,1e-7<Math.abs(l)&&++y<10;);return d}};function r(n,e){return 1-3*e+3*n}function k(n,e,t){return((r(e,t)*n+(3*t-6*e))*n+3*e)*n}function O(n,e,t){return 3*r(e,t)*n*n+2*(3*t-6*e)*n+3*e}e={linear:function(){return function(n){return n}}},t={Sine:function(){return function(n){return 1-Math.cos(n*Math.PI/2)}},Expo:function(){return function(n){return n?Math.pow(2,10*n-10):0}},Circ:function(){return function(n){return 1-Math.sqrt(1-n*n)}},Back:function(){return function(n){return n*n*(3*n-2)}},Bounce:function(){return function(n){for(var e,t=4;n<((e=Math.pow(2,--t))-1)/11;);return 1/Math.pow(4,3-t)-7.5625*Math.pow((3*e-2)/22-n,2)}},Elastic:function(n,e){void 0===e&&(e=.5);var t=C(n=void 0===n?1:n,1,10),r=C(e,.1,2);return function(n){return 0===n||1===n?n:-t*Math.pow(2,10*(n-1))*Math.sin((n-1-r/(2*Math.PI)*Math.asin(1/t))*(2*Math.PI)/r)}}},["Quad","Cubic","Quart","Quint"].forEach(function(n,e){t[n]=function(){return function(n){return Math.pow(n,e+2)}}}),Object.keys(t).forEach(function(n){var r=t[n];e["easeIn"+n]=r,e["easeOut"+n]=function(e,t){return function(n){return 1-r(e,t)(1-n)}},e["easeInOut"+n]=function(e,t){return function(n){return n<.5?r(e,t)(2*n)/2:1-r(e,t)(-2*n+2)/2}},e["easeOutIn"+n]=function(e,t){return function(n){return n<.5?(1-r(e,t)(1-2*n))/2:(r(e,t)(2*n-1)+1)/2}}});var e,t,s=e;function P(n,e){if(w.fnc(n))return n;var t=n.split("(")[0],r=s[t],a=d(n);switch(t){case"spring":return c(n,e);case"cubicBezier":return o(H,a);case"steps":return o(q,a);default:return o(r,a)}}function a(n){try{return document.querySelectorAll(n)}catch(n){}}function I(n,e){for(var t,r=n.length,a=2<=arguments.length?e:void 0,o=[],u=0;u<r;u++)u in n&&(t=n[u],e.call(a,t,u,n))&&o.push(t);return o}function f(n){return n.reduce(function(n,e){return n.concat(w.arr(e)?f(e):e)},[])}function p(n){return w.arr(n)?n:(n=w.str(n)?a(n)||n:n)instanceof NodeList||n instanceof HTMLCollection?[].slice.call(n):[n]}function h(n,e){return n.some(function(n){return n===e})}function g(n){var e,t={};for(e in n)t[e]=n[e];return t}function x(n,e){var t,r=g(n);for(t in n)r[t]=(e.hasOwnProperty(t)?e:n)[t];return r}function D(n,e){var t,r=g(n);for(t in e)r[t]=(w.und(n[t])?e:n)[t];return r}function V(n){var e,t,r,a,o,u,i;return w.rgb(n)?(e=/rgb\((\d+,\s*[\d]+,\s*[\d]+)\)/g.exec(t=n))?"rgba("+e[1]+",1)":t:w.hex(n)?(e=(e=n).replace(/^#?([a-f\d])([a-f\d])([a-f\d])$/i,function(n,e,t,r){return e+e+t+t+r+r}),e=/^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(e),"rgba("+parseInt(e[1],16)+","+parseInt(e[2],16)+","+parseInt(e[3],16)+",1)"):w.hsl(n)?(t=/hsl\((\d+),\s*([\d.]+)%,\s*([\d.]+)%\)/g.exec(t=n)||/hsla\((\d+),\s*([\d.]+)%,\s*([\d.]+)%,\s*([\d.]+)\)/g.exec(t),n=parseInt(t[1],10)/360,u=parseInt(t[2],10)/100,i=parseInt(t[3],10)/100,t=t[4]||1,0==u?r=a=o=i:(r=c(u=2*i-(i=i<.5?i*(1+u):i+u-i*u),i,n+1/3),a=c(u,i,n),o=c(u,i,n-1/3)),"rgba("+255*r+","+255*a+","+255*o+","+t+")"):void 0;function c(n,e,t){return t<0&&(t+=1),1<t&&--t,t<1/6?n+6*(e-n)*t:t<.5?e:t<2/3?n+(e-n)*(2/3-t)*6:n}}function B(n){n=/[+-]?\d*\.?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?(%|px|pt|em|rem|in|cm|mm|ex|ch|pc|vw|vh|vmin|vmax|deg|rad|turn)?$/.exec(n);if(n)return n[1]}function m(n,e){return w.fnc(n)?n(e.target,e.id,e.total):n}function v(n,e){return n.getAttribute(e)}function y(n,e,t){var r,a,o;return h([t,"deg","rad","turn"],B(e))?e:(r=l.CSS[e+t],w.und(r)?(a=document.createElement(n.tagName),(n=n.parentNode&&n.parentNode!==document?n.parentNode:document.body).appendChild(a),a.style.position="absolute",a.style.width=100+t,o=100/a.offsetWidth,n.removeChild(a),n=o*parseFloat(e),l.CSS[e+t]=n):r)}function $(n,e,t){var r;if(e in n.style)return r=e.replace(/([a-z])([A-Z])/g,"$1-$2").toLowerCase(),e=n.style[e]||getComputedStyle(n).getPropertyValue(r)||"0",t?y(n,e,t):e}function b(n,e){return w.dom(n)&&!w.inp(n)&&(!w.nil(v(n,e))||w.svg(n)&&n[e])?"attribute":w.dom(n)&&h(j,e)?"transform":w.dom(n)&&"transform"!==e&&$(n,e)?"css":null!=n[e]?"object":void 0}function W(n){if(w.dom(n)){for(var e,t=n.style.transform||"",r=/(\w+)\(([^)]*)\)/g,a=new Map;e=r.exec(t);)a.set(e[1],e[2]);return a}}function X(n,e,t,r){var a=u(e,"scale")?1:0+(u(a=e,"translate")||"perspective"===a?"px":u(a,"rotate")||u(a,"skew")?"deg":void 0),o=W(n).get(e)||a;return t&&(t.transforms.list.set(e,o),t.transforms.last=e),r?y(n,o,r):o}function T(n,e,t,r){switch(b(n,e)){case"transform":return X(n,e,r,t);case"css":return $(n,e,t);case"attribute":return v(n,e);default:return n[e]||0}}function E(n,e){var t=/^(\*=|\+=|-=)/.exec(n);if(!t)return n;var r=B(n)||0,a=parseFloat(e),o=parseFloat(n.replace(t[0],""));switch(t[0][0]){case"+":return a+o+r;case"-":return a-o+r;case"*":return a*o+r}}function Y(n,e){var t;return w.col(n)?V(n):/\s/g.test(n)?n:(t=(t=B(n))?n.substr(0,n.length-t.length):n,e?t+e:t)}function F(n,e){return Math.sqrt(Math.pow(e.x-n.x,2)+Math.pow(e.y-n.y,2))}function Z(n){for(var e,t=n.points,r=0,a=0;a<t.numberOfItems;a++){var o=t.getItem(a);0<a&&(r+=F(e,o)),e=o}return r}function G(n){if(n.getTotalLength)return n.getTotalLength();switch(n.tagName.toLowerCase()){case"circle":return 2*Math.PI*v(n,"r");case"rect":return 2*v(t=n,"width")+2*v(t,"height");case"line":return F({x:v(t=n,"x1"),y:v(t,"y1")},{x:v(t,"x2"),y:v(t,"y2")});case"polyline":return Z(n);case"polygon":return e=n.points,Z(n)+F(e.getItem(e.numberOfItems-1),e.getItem(0))}var e,t}function Q(n,e){var e=e||{},n=e.el||function(n){for(var e=n.parentNode;w.svg(e)&&w.svg(e.parentNode);)e=e.parentNode;return e}(n),t=n.getBoundingClientRect(),r=v(n,"viewBox"),a=t.width,t=t.height,e=e.viewBox||(r?r.split(" "):[0,0,a,t]);return{el:n,viewBox:e,x:+e[0],y:+e[1],w:a,h:t,vW:e[2],vH:e[3]}}function z(n,e){var t=/[+-]?\d*\.?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?/g,r=Y(w.pth(n)?n.totalLength:n,e)+"";return{original:r,numbers:r.match(t)?r.match(t).map(Number):[0],strings:w.str(n)||e?r.split(t):[]}}function A(n){return I(n?f(w.arr(n)?n.map(p):p(n)):[],function(n,e,t){return t.indexOf(n)===e})}function _(n){var t=A(n);return t.map(function(n,e){return{target:n,id:e,total:t.length,transforms:{list:W(n)}}})}function R(e){for(var t=I(f(e.map(function(n){return Object.keys(n)})),function(n){return w.key(n)}).reduce(function(n,e){return n.indexOf(e)<0&&n.push(e),n},[]),a={},n=0;n<t.length;n++)!function(n){var r=t[n];a[r]=e.map(function(n){var e,t={};for(e in n)w.key(e)?e==r&&(t.value=n[e]):t[e]=n[e];return t})}(n);return a}function J(n,e){var t,r=[],a=e.keyframes;for(t in e=a?D(R(a),e):e)w.key(t)&&r.push({name:t,tweens:function(n,t){var e,r=g(t),a=(/^spring/.test(r.easing)&&(r.duration=c(r.easing)),w.arr(n)&&(2===(e=n.length)&&!w.obj(n[0])?n={value:n}:w.fnc(t.duration)||(r.duration=t.duration/e)),w.arr(n)?n:[n]);return a.map(function(n,e){n=w.obj(n)&&!w.pth(n)?n:{value:n};return w.und(n.delay)&&(n.delay=e?0:t.delay),w.und(n.endDelay)&&(n.endDelay=e===a.length-1?t.endDelay:0),n}).map(function(n){return D(n,r)})}(e[t],n)});return r}function K(i,c){var s;return i.tweens.map(function(n){var n=function(n,e){var t,r={};for(t in n){var a=m(n[t],e);w.arr(a)&&1===(a=a.map(function(n){return m(n,e)})).length&&(a=a[0]),r[t]=a}return r.duration=parseFloat(r.duration),r.delay=parseFloat(r.delay),r}(n,c),e=n.value,t=w.arr(e)?e[1]:e,r=B(t),a=T(c.target,i.name,r,c),o=s?s.to.original:a,u=w.arr(e)?e[0]:o,a=B(u)||B(a),r=r||a;return w.und(t)&&(t=o),n.from=z(u,r),n.to=z(E(t,u),r),n.start=s?s.end:0,n.end=n.start+n.delay+n.duration+n.endDelay,n.easing=P(n.easing,n.duration),n.isPath=w.pth(e),n.isPathTargetInsideSVG=n.isPath&&w.svg(c.target),n.isColor=w.col(n.from.original),n.isColor&&(n.round=1),s=n})}var U={css:function(n,e,t){return n.style[e]=t},attribute:function(n,e,t){return n.setAttribute(e,t)},object:function(n,e,t){return n[e]=t},transform:function(n,e,t,r,a){var o;r.list.set(e,t),e!==r.last&&!a||(o="",r.list.forEach(function(n,e){o+=e+"("+n+") "}),n.style.transform=o)}};function nn(n,u){_(n).forEach(function(n){for(var e in u){var t=m(u[e],n),r=n.target,a=B(t),o=T(r,e,a,n),t=E(Y(t,a||B(o)),o),a=b(r,e);U[a](r,e,t,n.transforms,!0)}})}function en(n,e){return I(f(n.map(function(o){return e.map(function(n){var e,t,r=o,a=b(r.target,n.name);if(a)return t=(e=K(n,r))[e.length-1],{type:a,property:n.name,animatable:r,tweens:e,duration:t.end,delay:e[0].delay,endDelay:t.endDelay}})})),function(n){return!w.und(n)})}function tn(n,e){function t(n){return n.timelineOffset||0}var r=n.length,a={};return a.duration=r?Math.max.apply(Math,n.map(function(n){return t(n)+n.duration})):e.duration,a.delay=r?Math.min.apply(Math,n.map(function(n){return t(n)+n.delay})):e.delay,a.endDelay=r?a.duration-Math.max.apply(Math,n.map(function(n){return t(n)+n.duration-n.endDelay})):e.endDelay,a}var rn=0;var N,S=[],an=("undefined"!=typeof document&&document.addEventListener("visibilitychange",function(){L.suspendWhenDocumentHidden&&(n()?N=cancelAnimationFrame(N):(S.forEach(function(n){return n._onDocumentVisibility()}),an()))}),function(){!(N||n()&&L.suspendWhenDocumentHidden)&&0<S.length&&(N=requestAnimationFrame(on))});function on(n){for(var e=S.length,t=0;t<e;){var r=S[t];r.paused?(S.splice(t,1),e--):(r.tick(n),t++)}N=0<t?requestAnimationFrame(on):void 0}function n(){return document&&document.hidden}function L(n){var c,s=0,f=0,l=0,d=0,p=null;function h(n){var e=window.Promise&&new Promise(function(n){return p=n});return n.finished=e}e=x(i,n=n=void 0===n?{}:n),t=J(r=x(M,n),n),n=_(n.targets),r=tn(t=en(n,t),r),a=rn,rn++;var e,t,r,a,k=D(e,{id:a,children:[],animatables:n,animations:t,duration:r.duration,delay:r.delay,endDelay:r.endDelay});h(k);function g(){var n=k.direction;"alternate"!==n&&(k.direction="normal"!==n?"normal":"reverse"),k.reversed=!k.reversed,c.forEach(function(n){return n.reversed=k.reversed})}function m(n){return k.reversed?k.duration-n:n}function o(){s=0,f=m(k.currentTime)*(1/L.speed)}function v(n,e){e&&e.seek(n-e.timelineOffset)}function y(e){for(var n=0,t=k.animations,r=t.length;n<r;){for(var a=t[n],o=a.animatable,u=a.tweens,i=u.length-1,c=u[i],i=(i&&(c=I(u,function(n){return e<n.end})[0]||c),C(e-c.start-c.delay,0,c.duration)/c.duration),s=isNaN(i)?1:c.easing(i),f=c.to.strings,l=c.round,d=[],p=c.to.numbers.length,h=void 0,g=0;g<p;g++){var m=void 0,v=c.to.numbers[g],y=c.from.numbers[g]||0,m=c.isPath?function(e,t,n){function r(n){return e.el.getPointAtLength(1<=t+(n=void 0===n?0:n)?t+n:0)}var a=Q(e.el,e.svg),o=r(),u=r(-1),i=r(1),c=n?1:a.w/a.vW,s=n?1:a.h/a.vH;switch(e.property){case"x":return(o.x-a.x)*c;case"y":return(o.y-a.y)*s;case"angle":return 180*Math.atan2(i.y-u.y,i.x-u.x)/Math.PI}}(c.value,s*v,c.isPathTargetInsideSVG):y+s*(v-y);!l||c.isColor&&2<g||(m=Math.round(m*l)/l),d.push(m)}var b=f.length;if(b)for(var h=f[0],M=0;M<b;M++){f[M];var x=f[M+1],w=d[M];isNaN(w)||(h+=x?w+x:w+" ")}else h=d[0];U[a.type](o.target,a.property,h,o.transforms),a.currentValue=h,n++}}function b(n){k[n]&&!k.passThrough&&k[n](k)}function u(n){var e=k.duration,t=k.delay,r=e-k.endDelay,a=m(n);if(k.progress=C(a/e*100,0,100),k.reversePlayback=a<k.currentTime,c){var o=a;if(k.reversePlayback)for(var u=d;u--;)v(o,c[u]);else for(var i=0;i<d;i++)v(o,c[i])}!k.began&&0<k.currentTime&&(k.began=!0,b("begin")),!k.loopBegan&&0<k.currentTime&&(k.loopBegan=!0,b("loopBegin")),a<=t&&0!==k.currentTime&&y(0),(r<=a&&k.currentTime!==e||!e)&&y(e),t<a&&a<r?(k.changeBegan||(k.changeBegan=!0,k.changeCompleted=!1,b("changeBegin")),b("change"),y(a)):k.changeBegan&&(k.changeCompleted=!0,k.changeBegan=!1,b("changeComplete")),k.currentTime=C(a,0,e),k.began&&b("update"),e<=n&&(f=0,k.remaining&&!0!==k.remaining&&k.remaining--,k.remaining?(s=l,b("loopComplete"),k.loopBegan=!1,"alternate"===k.direction&&g()):(k.paused=!0,k.completed||(k.completed=!0,b("loopComplete"),b("complete"),!k.passThrough&&"Promise"in window&&(p(),h(k)))))}return k.reset=function(){var n=k.direction;k.passThrough=!1,k.currentTime=0,k.progress=0,k.paused=!0,k.began=!1,k.loopBegan=!1,k.changeBegan=!1,k.completed=!1,k.changeCompleted=!1,k.reversePlayback=!1,k.reversed="reverse"===n,k.remaining=k.loop,c=k.children;for(var e=d=c.length;e--;)k.children[e].reset();(k.reversed&&!0!==k.loop||"alternate"===n&&1===k.loop)&&k.remaining++,y(k.reversed?k.duration:0)},k._onDocumentVisibility=o,k.set=function(n,e){return nn(n,e),k},k.tick=function(n){u(((l=n)+(f-(s=s||l)))*L.speed)},k.seek=function(n){u(m(n))},k.pause=function(){k.paused=!0,o()},k.play=function(){k.paused&&(k.completed&&k.reset(),k.paused=!1,S.push(k),o(),an())},k.reverse=function(){g(),k.completed=!k.reversed,o()},k.restart=function(){k.reset(),k.play()},k.remove=function(n){cn(A(n),k)},k.reset(),k.autoplay&&k.play(),k}function un(n,e){for(var t=e.length;t--;)h(n,e[t].animatable.target)&&e.splice(t,1)}function cn(n,e){var t=e.animations,r=e.children;un(n,t);for(var a=r.length;a--;){var o=r[a],u=o.animations;un(n,u),u.length||o.children.length||r.splice(a,1)}t.length||r.length||e.pause()}return L.version="3.2.1",L.speed=1,L.suspendWhenDocumentHidden=!0,L.running=S,L.remove=function(n){for(var e=A(n),t=S.length;t--;)cn(e,S[t])},L.get=T,L.set=nn,L.convertPx=y,L.path=function(n,e){var t=w.str(n)?a(n)[0]:n,r=e||100;return function(n){return{property:n,el:t,svg:Q(t),totalLength:G(t)*(r/100)}}},L.setDashoffset=function(n){var e=G(n);return n.setAttribute("stroke-dasharray",e),e},L.stagger=function(n,e){var i=(e=void 0===e?{}:e).direction||"normal",c=e.easing?P(e.easing):null,s=e.grid,f=e.axis,l=e.from||0,d="first"===l,p="center"===l,h="last"===l,g=w.arr(n),m=g?parseFloat(n[0]):parseFloat(n),v=g?parseFloat(n[1]):0,y=B(g?n[1]:n)||0,b=e.start||0+(g?m:0),M=[],x=0;return function(n,e,t){if(d&&(l=0),p&&(l=(t-1)/2),h&&(l=t-1),!M.length){for(var r,a,o,u=0;u<t;u++)s?(r=p?(s[0]-1)/2:l%s[0],a=p?(s[1]-1)/2:Math.floor(l/s[0]),r=r-u%s[0],a=a-Math.floor(u/s[0]),o=Math.sqrt(r*r+a*a),"x"===f&&(o=-r),M.push(o="y"===f?-a:o)):M.push(Math.abs(l-u)),x=Math.max.apply(Math,M);c&&(M=M.map(function(n){return c(n/x)*x})),"reverse"===i&&(M=M.map(function(n){return f?n<0?-1*n:-n:Math.abs(x-n)}))}return b+(g?(v-m)/x:m)*(Math.round(100*M[e])/100)+y}},L.timeline=function(u){var i=L(u=void 0===u?{}:u);return i.duration=0,i.add=function(n,e){var t=S.indexOf(i),r=i.children;function a(n){n.passThrough=!0}-1<t&&S.splice(t,1);for(var o=0;o<r.length;o++)a(r[o]);t=D(n,x(M,u)),t.targets=t.targets||u.targets,n=i.duration,t.autoplay=!1,t.direction=i.direction,t.timelineOffset=w.und(e)?n:E(e,n),a(i),i.seek(t.timelineOffset),e=L(t),a(e),r.push(e),n=tn(r,u);return i.delay=n.delay,i.endDelay=n.endDelay,i.duration=n.duration,i.seek(0),i.reset(),i.autoplay&&i.play(),i},i},L.easing=P,L.penner=s,L.random=function(n,e){return Math.floor(Math.random()*(e-n+1))+n},L});
+</script>
+  <script>
+/* inlined: https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js */
+/**
+ * Minified by jsDelivr using Terser v5.37.0.
+ * Original file: /npm/canvas-confetti@1.9.3/dist/confetti.browser.js
+ *
+ * Do NOT use SRI with dynamically generated files! More information: https://www.jsdelivr.com/using-sri-with-dynamic-files
+ */
+!function(t,e){!function t(e,a,n,r){var o=!!(e.Worker&&e.Blob&&e.Promise&&e.OffscreenCanvas&&e.OffscreenCanvasRenderingContext2D&&e.HTMLCanvasElement&&e.HTMLCanvasElement.prototype.transferControlToOffscreen&&e.URL&&e.URL.createObjectURL),i="function"==typeof Path2D&&"function"==typeof DOMMatrix,l=function(){if(!e.OffscreenCanvas)return!1;var t=new OffscreenCanvas(1,1),a=t.getContext("2d");a.fillRect(0,0,1,1);var n=t.transferToImageBitmap();try{a.createPattern(n,"no-repeat")}catch(t){return!1}return!0}();function s(){}function c(t){var n=a.exports.Promise,r=void 0!==n?n:e.Promise;return"function"==typeof r?new r(t):(t(s,s),null)}var h,f,u,d,m,g,p,b,M,v,y,w=(h=l,f=new Map,{transform:function(t){if(h)return t;if(f.has(t))return f.get(t);var e=new OffscreenCanvas(t.width,t.height);return e.getContext("2d").drawImage(t,0,0),f.set(t,e),e},clear:function(){f.clear()}}),x=(m=Math.floor(1e3/60),g={},p=0,"function"==typeof requestAnimationFrame&&"function"==typeof cancelAnimationFrame?(u=function(t){var e=Math.random();return g[e]=requestAnimationFrame((function a(n){p===n||p+m-1<n?(p=n,delete g[e],t()):g[e]=requestAnimationFrame(a)})),e},d=function(t){g[t]&&cancelAnimationFrame(g[t])}):(u=function(t){return setTimeout(t,m)},d=function(t){return clearTimeout(t)}),{frame:u,cancel:d}),C=(v={},function(){if(b)return b;if(!n&&o){var e=["var CONFETTI, SIZE = {}, module = {};","("+t.toString()+")(this, module, true, SIZE);","onmessage = function(msg) {","  if (msg.data.options) {","    CONFETTI(msg.data.options).then(function () {","      if (msg.data.callback) {","        postMessage({ callback: msg.data.callback });","      }","    });","  } else if (msg.data.reset) {","    CONFETTI && CONFETTI.reset();","  } else if (msg.data.resize) {","    SIZE.width = msg.data.resize.width;","    SIZE.height = msg.data.resize.height;","  } else if (msg.data.canvas) {","    SIZE.width = msg.data.canvas.width;","    SIZE.height = msg.data.canvas.height;","    CONFETTI = module.exports.create(msg.data.canvas);","  }","}"].join("\n");try{b=new Worker(URL.createObjectURL(new Blob([e])))}catch(t){return void 0!==typeof console&&"function"==typeof console.warn&&console.warn("🎊 Could not load worker",t),null}!function(t){function e(e,a){t.postMessage({options:e||{},callback:a})}t.init=function(e){var a=e.transferControlToOffscreen();t.postMessage({canvas:a},[a])},t.fire=function(a,n,r){if(M)return e(a,null),M;var o=Math.random().toString(36).slice(2);return M=c((function(n){function i(e){e.data.callback===o&&(delete v[o],t.removeEventListener("message",i),M=null,w.clear(),r(),n())}t.addEventListener("message",i),e(a,o),v[o]=i.bind(null,{data:{callback:o}})}))},t.reset=function(){for(var e in t.postMessage({reset:!0}),v)v[e](),delete v[e]}}(b)}return b}),I={particleCount:50,angle:90,spread:45,startVelocity:45,decay:.9,gravity:1,drift:0,ticks:200,x:.5,y:.5,shapes:["square","circle"],zIndex:100,colors:["#26ccff","#a25afd","#ff5e7e","#88ff5a","#fcff42","#ffa62d","#ff36ff"],disableForReducedMotion:!1,scalar:1};function T(t,e,a){return function(t,e){return e?e(t):t}(t&&null!=t[e]?t[e]:I[e],a)}function E(t){return t<0?0:Math.floor(t)}function P(t){return parseInt(t,16)}function S(t){return t.map(O)}function O(t){var e=String(t).replace(/[^0-9a-f]/gi,"");return e.length<6&&(e=e[0]+e[0]+e[1]+e[1]+e[2]+e[2]),{r:P(e.substring(0,2)),g:P(e.substring(2,4)),b:P(e.substring(4,6))}}function k(t){t.width=document.documentElement.clientWidth,t.height=document.documentElement.clientHeight}function B(t){var e=t.getBoundingClientRect();t.width=e.width,t.height=e.height}function F(t,e){e.x+=Math.cos(e.angle2D)*e.velocity+e.drift,e.y+=Math.sin(e.angle2D)*e.velocity+e.gravity,e.velocity*=e.decay,e.flat?(e.wobble=0,e.wobbleX=e.x+10*e.scalar,e.wobbleY=e.y+10*e.scalar,e.tiltSin=0,e.tiltCos=0,e.random=1):(e.wobble+=e.wobbleSpeed,e.wobbleX=e.x+10*e.scalar*Math.cos(e.wobble),e.wobbleY=e.y+10*e.scalar*Math.sin(e.wobble),e.tiltAngle+=.1,e.tiltSin=Math.sin(e.tiltAngle),e.tiltCos=Math.cos(e.tiltAngle),e.random=Math.random()+2);var a=e.tick++/e.totalTicks,n=e.x+e.random*e.tiltCos,r=e.y+e.random*e.tiltSin,o=e.wobbleX+e.random*e.tiltCos,l=e.wobbleY+e.random*e.tiltSin;if(t.fillStyle="rgba("+e.color.r+", "+e.color.g+", "+e.color.b+", "+(1-a)+")",t.beginPath(),i&&"path"===e.shape.type&&"string"==typeof e.shape.path&&Array.isArray(e.shape.matrix))t.fill(function(t,e,a,n,r,o,i){var l=new Path2D(t),s=new Path2D;s.addPath(l,new DOMMatrix(e));var c=new Path2D;return c.addPath(s,new DOMMatrix([Math.cos(i)*r,Math.sin(i)*r,-Math.sin(i)*o,Math.cos(i)*o,a,n])),c}(e.shape.path,e.shape.matrix,e.x,e.y,.1*Math.abs(o-n),.1*Math.abs(l-r),Math.PI/10*e.wobble));else if("bitmap"===e.shape.type){var s=Math.PI/10*e.wobble,c=.1*Math.abs(o-n),h=.1*Math.abs(l-r),f=e.shape.bitmap.width*e.scalar,u=e.shape.bitmap.height*e.scalar,d=new DOMMatrix([Math.cos(s)*c,Math.sin(s)*c,-Math.sin(s)*h,Math.cos(s)*h,e.x,e.y]);d.multiplySelf(new DOMMatrix(e.shape.matrix));var m=t.createPattern(w.transform(e.shape.bitmap),"no-repeat");m.setTransform(d),t.globalAlpha=1-a,t.fillStyle=m,t.fillRect(e.x-f/2,e.y-u/2,f,u),t.globalAlpha=1}else if("circle"===e.shape)t.ellipse?t.ellipse(e.x,e.y,Math.abs(o-n)*e.ovalScalar,Math.abs(l-r)*e.ovalScalar,Math.PI/10*e.wobble,0,2*Math.PI):function(t,e,a,n,r,o,i,l,s){t.save(),t.translate(e,a),t.rotate(o),t.scale(n,r),t.arc(0,0,1,i,l,s),t.restore()}(t,e.x,e.y,Math.abs(o-n)*e.ovalScalar,Math.abs(l-r)*e.ovalScalar,Math.PI/10*e.wobble,0,2*Math.PI);else if("star"===e.shape)for(var g=Math.PI/2*3,p=4*e.scalar,b=8*e.scalar,M=e.x,v=e.y,y=5,x=Math.PI/y;y--;)M=e.x+Math.cos(g)*b,v=e.y+Math.sin(g)*b,t.lineTo(M,v),g+=x,M=e.x+Math.cos(g)*p,v=e.y+Math.sin(g)*p,t.lineTo(M,v),g+=x;else t.moveTo(Math.floor(e.x),Math.floor(e.y)),t.lineTo(Math.floor(e.wobbleX),Math.floor(r)),t.lineTo(Math.floor(o),Math.floor(l)),t.lineTo(Math.floor(n),Math.floor(e.wobbleY));return t.closePath(),t.fill(),e.tick<e.totalTicks}function A(t,a){var i,l=!t,s=!!T(a||{},"resize"),h=!1,f=T(a,"disableForReducedMotion",Boolean),u=o&&!!T(a||{},"useWorker")?C():null,d=l?k:B,m=!(!t||!u)&&!!t.__confetti_initialized,g="function"==typeof matchMedia&&matchMedia("(prefers-reduced-motion)").matches;function p(e,a,o){for(var l,s,h,f,u,m=T(e,"particleCount",E),g=T(e,"angle",Number),p=T(e,"spread",Number),b=T(e,"startVelocity",Number),M=T(e,"decay",Number),v=T(e,"gravity",Number),y=T(e,"drift",Number),C=T(e,"colors",S),I=T(e,"ticks",Number),P=T(e,"shapes"),O=T(e,"scalar"),k=!!T(e,"flat"),B=function(t){var e=T(t,"origin",Object);return e.x=T(e,"x",Number),e.y=T(e,"y",Number),e}(e),A=m,R=[],N=t.width*B.x,z=t.height*B.y;A--;)R.push((l={x:N,y:z,angle:g,spread:p,startVelocity:b,color:C[A%C.length],shape:P[(f=0,u=P.length,Math.floor(Math.random()*(u-f))+f)],ticks:I,decay:M,gravity:v,drift:y,scalar:O,flat:k},s=void 0,h=void 0,s=l.angle*(Math.PI/180),h=l.spread*(Math.PI/180),{x:l.x,y:l.y,wobble:10*Math.random(),wobbleSpeed:Math.min(.11,.1*Math.random()+.05),velocity:.5*l.startVelocity+Math.random()*l.startVelocity,angle2D:-s+(.5*h-Math.random()*h),tiltAngle:(.5*Math.random()+.25)*Math.PI,color:l.color,shape:l.shape,tick:0,totalTicks:l.ticks,decay:l.decay,drift:l.drift,random:Math.random()+2,tiltSin:0,tiltCos:0,wobbleX:0,wobbleY:0,gravity:3*l.gravity,ovalScalar:.6,scalar:l.scalar,flat:l.flat}));return i?i.addFettis(R):(i=function(t,e,a,o,i){var l,s,h=e.slice(),f=t.getContext("2d"),u=c((function(e){function c(){l=s=null,f.clearRect(0,0,o.width,o.height),w.clear(),i(),e()}l=x.frame((function e(){!n||o.width===r.width&&o.height===r.height||(o.width=t.width=r.width,o.height=t.height=r.height),o.width||o.height||(a(t),o.width=t.width,o.height=t.height),f.clearRect(0,0,o.width,o.height),(h=h.filter((function(t){return F(f,t)}))).length?l=x.frame(e):c()})),s=c}));return{addFettis:function(t){return h=h.concat(t),u},canvas:t,promise:u,reset:function(){l&&x.cancel(l),s&&s()}}}(t,R,d,a,o),i.promise)}function b(a){var n=f||T(a,"disableForReducedMotion",Boolean),r=T(a,"zIndex",Number);if(n&&g)return c((function(t){t()}));l&&i?t=i.canvas:l&&!t&&(t=function(t){var e=document.createElement("canvas");return e.style.position="fixed",e.style.top="0px",e.style.left="0px",e.style.pointerEvents="none",e.style.zIndex=t,e}(r),document.body.appendChild(t)),s&&!m&&d(t);var o={width:t.width,height:t.height};function b(){if(u){var e={getBoundingClientRect:function(){if(!l)return t.getBoundingClientRect()}};return d(e),void u.postMessage({resize:{width:e.width,height:e.height}})}o.width=o.height=null}function M(){i=null,s&&(h=!1,e.removeEventListener("resize",b)),l&&t&&(document.body.contains(t)&&document.body.removeChild(t),t=null,m=!1)}return u&&!m&&u.init(t),m=!0,u&&(t.__confetti_initialized=!0),s&&!h&&(h=!0,e.addEventListener("resize",b,!1)),u?u.fire(a,o,M):p(a,o,M)}return b.reset=function(){u&&u.reset(),i&&i.reset()},b}function R(){return y||(y=A(null,{useWorker:!0,resize:!0})),y}a.exports=function(){return R().apply(this,arguments)},a.exports.reset=function(){R().reset()},a.exports.create=A,a.exports.shapeFromPath=function(t){if(!i)throw new Error("path confetti are not supported in this browser");var e,a;"string"==typeof t?e=t:(e=t.path,a=t.matrix);var n=new Path2D(e),r=document.createElement("canvas").getContext("2d");if(!a){for(var o,l,s=1e3,c=s,h=s,f=0,u=0,d=0;d<s;d+=2)for(var m=0;m<s;m+=2)r.isPointInPath(n,d,m,"nonzero")&&(c=Math.min(c,d),h=Math.min(h,m),f=Math.max(f,d),u=Math.max(u,m));o=f-c,l=u-h;var g=Math.min(10/o,10/l);a=[g,0,0,g,-Math.round(o/2+c)*g,-Math.round(l/2+h)*g]}return{type:"path",path:e,matrix:a}},a.exports.shapeFromText=function(t){var e,a=1,n="#000000",r='"Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", "EmojiOne Color", "Android Emoji", "Twemoji Mozilla", "system emoji", sans-serif';"string"==typeof t?e=t:(e=t.text,a="scalar"in t?t.scalar:a,r="fontFamily"in t?t.fontFamily:r,n="color"in t?t.color:n);var o=10*a,i=o+"px "+r,l=new OffscreenCanvas(o,o),s=l.getContext("2d");s.font=i;var c=s.measureText(e),h=Math.ceil(c.actualBoundingBoxRight+c.actualBoundingBoxLeft),f=Math.ceil(c.actualBoundingBoxAscent+c.actualBoundingBoxDescent),u=c.actualBoundingBoxLeft+2,d=c.actualBoundingBoxAscent+2;h+=4,f+=4,(s=(l=new OffscreenCanvas(h,f)).getContext("2d")).font=i,s.fillStyle=n,s.fillText(e,u,d);var m=1/a;return{type:"bitmap",bitmap:l.transferToImageBitmap(),matrix:[m,0,0,m,-h*m/2,-f*m/2]}}}(function(){return void 0!==t?t:"undefined"!=typeof self?self:this||{}}(),e,!1),t.confetti=e.exports}(window,{});
+//# sourceMappingURL=/sm/0e9ac22f62a550282b886b288da51d7892173a94bbd286c2ffc6e7b881509c88.map
+</script>
+  <script>
+    "use strict";
+
+    /**
+     * SECURITY (CRITICAL)
+     * - 下方 API Keys 仅供本地 Demo。
+     * - 生产环境请通过后端 Proxy 转发，严禁在前端暴露 Key。
+     *
+     * Vertex Imagen 3.0 Fast（资源生成/获取）——建议用 Google Cloud CLI 工作流：
+     * 1) 安装 gcloud CLI，并完成 `gcloud auth login` 与 `gcloud config set project project-ec12c6e5-5e03-4771-add`
+     * 2) 启用 Vertex AI API（Console 或 `gcloud services enable aiplatform.googleapis.com`）
+     * 3) 使用 Vertex 的图像生成能力导出 PNG，然后放到本目录 `assets/img/` 下：
+     *    - assets/img/bg-clean-classroom.png
+     *    - assets/img/item-bag.png / item-glasses.png / item-trumpet.png / item-socks.png / item-shoes.png / item-books.png
+     * 4) 本页面会自动引用这些文件；若文件不存在，会回退到内嵌 SVG（保证可运行）。
+     *
+     * Prompt（与你的需求一致）：
+     * - 背景图：A high-end, clean version of a classroom after being organized, soft sunlight, crayon art style.
+     * - 物品项：Individual high-quality illustrations for: a blue schoolbag, a pair of black glasses, a red trumpet,
+     *          white socks, a pair of sneakers, and a stack of books. Style: Crayon sketch, 3D-like depth but 2D hand-drawn texture.
+     */
+
+    const DEEPSEEK = {
+      key: (typeof window !== "undefined" && window.__DEEPSEEK_API_KEY__) || "",
+      endpoint: "https://api.deepseek.com/v1/chat/completions",
+      model: "deepseek-chat"
+    };
+
+    const VERTEX_ASSETS = {
+      bg: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/img/bg-clean-classroom.png",
+      items: {
+        bag: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/img/item-bag.png",
+        glasses: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/img/item-glasses.png",
+        trumpet: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/img/item-trumpet.png",
+        socks: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/img/item-socks.png",
+        shoes: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/img/item-shoes.png",
+        books: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/img/item-books.png",
+        dictionary: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/img/item-dictionary.png",
+        waterbottle: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/img/item-waterbottle.png"
+      }
+    };
+
+    const CLASSROOM_ITEMS = [
+      { id: "bag", label: "bag", owner: "Peter", kind: "bag", pos: { left: "10%", top: "58%" } },
+      { id: "glasses", label: "glasses", owner: "grandparents", kind: "glasses", plural: true, pos: { left: "24%", top: "66%" } },
+      { id: "trumpet", label: "trumpet", owner: "Li Xin", kind: "trumpet", pos: { left: "38%", top: "54%" } },
+      { id: "socks", label: "socks", owner: "Lucy", kind: "socks", plural: true, pos: { left: "52%", top: "62%" } },
+      { id: "shoes", label: "sneakers", owner: "Tom", kind: "shoes", plural: true, pos: { left: "66%", top: "58%" } },
+      { id: "books", label: "books", owner: "my parents", kind: "books", plural: true, pos: { left: "78%", top: "52%" } },
+      { id: "dictionary", label: "dictionary", owner: "our class", kind: "dictionary", pos: { left: "42%", top: "40%" } },
+      { id: "bottle", label: "water bottle", owner: "Lucy", kind: "waterbottle", pos: { left: "56%", top: "38%" } }
+    ];
+
+    const QUIZ = [
+      {
+        title: "1) 老师刚才愤怒地说了什么？",
+        options: [
+          { text: "A. Who is this?", correct: false },
+          { text: "B. Whose things are these?", correct: true }
+        ]
+      },
+      {
+        title: "2) 老师现在的目的是？",
+        options: [
+          { text: "A. To play", correct: false },
+          { text: "B. To clean up", correct: true }
+        ]
+      }
+    ];
+
+    const refs = {
+      stage: document.getElementById("stage"),
+      vertexBg: document.getElementById("vertexBg"),
+      itemsLayer: document.getElementById("itemsLayer"),
+      hud: document.getElementById("hud"),
+      progressText: document.getElementById("progressText"),
+      videoLayer: document.getElementById("videoLayer"),
+      videoCard: document.getElementById("videoCard"),
+      introVideo: document.getElementById("introVideo"),
+      videoPoster: document.getElementById("videoPoster"),
+      playVideoBtn: document.getElementById("playVideoBtn"),
+      fullscreenVideoBtn: document.getElementById("fullscreenVideoBtn"),
+      quizLayer: document.getElementById("quizLayer"),
+      quizMount: document.getElementById("quizMount"),
+      inspectBackdrop: document.getElementById("inspectBackdrop"),
+      inspectImg: document.getElementById("inspectImg"),
+      ownerTag: document.getElementById("ownerTag"),
+      askText: document.getElementById("askText"),
+      answerInput: document.getElementById("answerInput"),
+      sendBtn: document.getElementById("sendBtn"),
+      aiBubble: document.getElementById("aiBubble"),
+      closeInspect: document.getElementById("closeInspect"),
+      aiLoader: document.getElementById("aiLoader"),
+      mglass: document.getElementById("mglass"),
+      reportBackdrop: document.getElementById("reportBackdrop"),
+      finalTime: document.getElementById("finalTime"),
+      btnNotes: document.getElementById("btnNotes"),
+      notesPop: document.getElementById("notesPop"),
+      notesList: document.getElementById("notesList")
+    };
+
+    const state = {
+      phase: "video",
+      quizIndex: 0,
+      searchUnlocked: false,
+      solved: new Set(),
+      currentId: null,
+      aiBusy: false,
+      timerOn: false,
+      t0: 0,
+      raf: 0,
+      loaderSpin: null
+    };
+
+    function escapeHtml(s) {
+      return String(s)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#39;");
+    }
+
+    function formatTime(ms) {
+      const s = Math.floor(ms / 1000);
+      const mm = String(Math.floor(s / 60)).padStart(2, "0");
+      const ss = String(s % 60).padStart(2, "0");
+      return mm + ":" + ss;
+    }
+
+    function startTimer() {
+      if (state.timerOn) return;
+      state.timerOn = true;
+      state.t0 = performance.now();
+      const tick = () => {
+        if (!state.timerOn) return;
+        refs.progressText.textContent = state.solved.size + " / " + CLASSROOM_ITEMS.length + " · " + formatTime(performance.now() - state.t0);
+        state.raf = requestAnimationFrame(tick);
+      };
+      state.raf = requestAnimationFrame(tick);
+    }
+
+    function stopTimer() {
+      state.timerOn = false;
+      cancelAnimationFrame(state.raf);
+      return performance.now() - state.t0;
+    }
+
+    function updateProgressOnly() {
+      const extra = state.timerOn ? " · " + formatTime(performance.now() - state.t0) : "";
+      refs.progressText.textContent = state.solved.size + " / " + CLASSROOM_ITEMS.length + extra;
+    }
+
+    async function playVoice(text, isTeacher, teacherEmotion) {
+      void isTeacher;
+      void teacherEmotion;
+      const line = String(text || "").trim();
+      if (!line) return;
+      if (!window.L05SpeakLocalOnly || typeof window.L05SpeakLocalOnly.playText !== "function") {
+        console.warn("[L05] 未加载 l05-tts-local-only.js");
+        return;
+      }
+      await window.L05SpeakLocalOnly.playText(line, null);
+    }
+
+    function ownerPossessive(owner) {
+      const o = owner.trim();
+      if (/^my\s+parents$/i.test(o)) return "parents'";
+      if (/^our\s+class$/i.test(o)) return "our class's";
+      if (/s$/i.test(o)) return o + "'";
+      return o + "'s";
+    }
+
+    function escapeRegExp(text) {
+      return String(text).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    }
+
+    function localJudge(userInput, owner, itemLabel) {
+      const norm = userInput.toLowerCase().replace(/[.!?]/g, "").replace(/\s+/g, " ").trim();
+      const poss = ownerPossessive(owner).toLowerCase().replace(/\s+/g, " ");
+      const item = itemLabel.toLowerCase();
+      const possCore = escapeRegExp(poss).replace(/'/g, "['’]");
+      const patterns = [
+        new RegExp("\\b(?:it is|it's)\\s+" + possCore + "\\s+" + item + "\\b"),
+        new RegExp("\\b" + possCore + "\\s+" + item + "\\b"),
+        new RegExp("\\b(?:these are|they are)\\s+" + possCore + "\\s+" + item + "\\b"),
+        new RegExp("\\b" + item + "\\s+is\\s+" + possCore + "\\b"),
+        new RegExp("\\b" + item + "\\s+are\\s+" + possCore + "\\b")
+      ];
+      if (owner.toLowerCase() === "my parents" && item === "books") {
+        patterns.push(/\bparents['\u2019]s\s+books?\b/);
+      }
+      if (owner.toLowerCase() === "our class" && item === "dictionary") {
+        patterns.push(/\bour\s+class['\u2019]s\s+dictionary\b/);
+      }
+      const ok = patterns.some(re => re.test(norm));
+      if (ok) return { ok: true, reply: "Great detective work — ownership is clear." };
+      return { ok: false, reply: "侦探，你看 " + owner + " 和 " + itemLabel + " 之间，是不是缺了一个表示‘所属关系’的钩子？" };
+    }
+
+    function parseJsonStrict(content) {
+      const cleaned = String(content || "")
+        .trim()
+        .replace(/^```json/i, "")
+        .replace(/^```/, "")
+        .replace(/```$/, "")
+        .trim();
+      try {
+        const p = JSON.parse(cleaned);
+        return { ok: Boolean(p.ok), reply: String(p.reply || "").trim() };
+      } catch {
+        return null;
+      }
+    }
+
+    async function askDetectiveAI(userInput, owner, itemLabel) {
+      const local = localJudge(userInput, owner, itemLabel);
+      const prompt = [
+        "你是「探案助手」。学生输入：`" + userInput + "`。",
+        "请判断是否正确表达物品 `" + itemLabel + "` 属于 `" + owner + "`（正确使用 's / s'）。",
+        "若正确：reply 用简短英文表扬；若不正确：reply 用中文启发式提问，绝不直接给出正确句子或正确词形。",
+        "严格输出 JSON：{\"ok\":true/false,\"reply\":\"...\"}，reply 60 字以内。"
+      ].join("\n");
+
+      try {
+        const res = await fetch(DEEPSEEK.endpoint, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + DEEPSEEK.key
+          },
+          body: JSON.stringify({
+            model: DEEPSEEK.model,
+            temperature: 0.2,
+            max_tokens: 220,
+            messages: [
+              { role: "system", content: "你是中考英语语法教练，只输出 JSON。" },
+              { role: "user", content: prompt }
+            ]
+          })
+        });
+        if (!res.ok) throw new Error("DeepSeek HTTP " + res.status);
+        const data = await res.json();
+        const content = data.choices && data.choices[0] && data.choices[0].message
+          ? data.choices[0].message.content
+          : "";
+        const parsed = parseJsonStrict(content);
+        if (parsed && parsed.reply) return parsed;
+        return local;
+      } catch (e) {
+        console.warn(e);
+        return local;
+      }
+    }
+
+    function svgFallback(kind) {
+      const head = "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'>";
+      const end = "</svg>";
+      const map = {
+        bag: head + "<rect x='16' y='28' width='88' height='72' rx='14' fill='#64b5f6' stroke='#4e342e' stroke-width='5'/><path d='M30 30c0-12 10-22 22-22s22 10 22 22' fill='none' stroke='#4e342e' stroke-width='5'/>" + end,
+        glasses: head + "<rect x='10' y='44' width='40' height='30' rx='12' fill='#eeeeee' stroke='#4e342e' stroke-width='5'/><rect x='70' y='44' width='40' height='30' rx='12' fill='#eeeeee' stroke='#4e342e' stroke-width='5'/><line x1='50' y1='58' x2='70' y2='58' stroke='#4e342e' stroke-width='5'/>" + end,
+        trumpet: head + "<path d='M18 52h26l28-18v52L44 70H18z' fill='#ff7043' stroke='#4e342e' stroke-width='5'/><circle cx='92' cy='58' r='16' fill='#ffd54f' stroke='#4e342e' stroke-width='5'/>" + end,
+        socks: head + "<path d='M34 26c10 0 18 8 18 18v44c0 10-8 18-18 18s-18-8-18-18V44c0-10 8-18 18-18z' fill='#fff' stroke='#4e342e' stroke-width='5'/><path d='M86 26c10 0 18 8 18 18v44c0 10-8 18-18 18s-18-8-18-18V44c0-10 8-18 18-18z' fill='#fff' stroke='#4e342e' stroke-width='5'/>" + end,
+        shoes: head + "<path d='M22 78c10-18 34-22 52-10 10 8 12 22 4 32-10 12-30 14-46 6-12-6-16-18-10-28z' fill='#5c6bc0' stroke='#4e342e' stroke-width='5'/><path d='M74 70c12-10 30-6 38 8 6 12 2 24-10 30-14 8-34 4-42-10-6-12-2-24 14-28z' fill='#7e57c2' stroke='#4e342e' stroke-width='5'/>" + end,
+        books: head + "<path d='M22 30h40c10 0 16 6 16 16v56H38c-10 0-16-6-16-16z' fill='#aed581' stroke='#4e342e' stroke-width='5'/><path d='M98 30H58c-10 0-16 6-16 16v56h40c10 0 16-6 16-16z' fill='#c5e1a5' stroke='#4e342e' stroke-width='5'/>" + end
+      };
+      return "data:image/svg+xml;utf8," + encodeURIComponent((map[kind] || map.bag));
+    }
+
+    function bindImageWithFallback(imgEl, url, kind) {
+      /* dictionary / waterbottle：仅用 Vertex 目录下 PNG，不使用 SVG 回退 */
+      if (kind === "dictionary" || kind === "waterbottle") {
+        imgEl.removeAttribute("data-fallback");
+        imgEl.src = url;
+        imgEl.onerror = function () {
+          imgEl.onerror = null;
+          imgEl.style.background = "repeating-linear-gradient(135deg,#eceff1,#eceff1 6px,#cfd8dc 6px,#cfd8dc 12px)";
+          imgEl.style.objectFit = "none";
+        };
+        return;
+      }
+      imgEl.dataset.fallback = svgFallback(kind);
+      imgEl.src = url;
+      imgEl.onerror = () => {
+        imgEl.onerror = null;
+        imgEl.src = imgEl.dataset.fallback;
+      };
+    }
+
+    function renderItems() {
+      refs.itemsLayer.innerHTML = "";
+      for (const it of CLASSROOM_ITEMS) {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "item locked";
+        btn.dataset.id = it.id;
+        btn.style.left = it.pos.left;
+        btn.style.top = it.pos.top;
+        const img = document.createElement("img");
+        img.alt = it.label;
+        bindImageWithFallback(img, VERTEX_ASSETS.items[it.kind] || "", it.kind);
+        btn.appendChild(img);
+        btn.addEventListener("click", () => openInspect(it.id));
+        refs.itemsLayer.appendChild(btn);
+      }
+      updateProgressOnly();
+    }
+
+    function unlockSearchMode() {
+      state.searchUnlocked = true;
+      refs.itemsLayer.querySelectorAll(".item").forEach(el => el.classList.remove("locked"));
+      startTimer();
+      updateProgressOnly();
+    }
+
+    async function dismissVideoToSearch() {
+      if (window.anime) {
+        await anime({
+          targets: refs.videoLayer,
+          opacity: [1, 0],
+          translateY: [0, 18],
+          duration: 650,
+          easing: "easeInOutQuad"
+        }).finished;
+      }
+      refs.videoLayer.style.display = "none";
+      if (window.anime) {
+        anime({
+          targets: [refs.vertexBg, refs.itemsLayer],
+          opacity: [0.35, 1],
+          duration: 700,
+          easing: "easeOutQuad"
+        });
+      } else {
+        refs.vertexBg.style.opacity = "1";
+        refs.itemsLayer.style.opacity = "1";
+      }
+      unlockSearchMode();
+    }
+
+    function renderQuiz() {
+      const step = QUIZ[state.quizIndex];
+      refs.quizMount.innerHTML = "";
+      const row = document.createElement("div");
+      row.className = "quiz-row";
+      const q = document.createElement("p");
+      q.className = "q";
+      q.textContent = step.title;
+      const opts = document.createElement("div");
+      opts.className = "opts";
+      step.options.forEach(o => {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.className = "opt";
+        b.textContent = o.text;
+        b.addEventListener("click", () => onQuizPick(b, o.correct));
+        opts.appendChild(b);
+      });
+      row.appendChild(q);
+      row.appendChild(opts);
+      refs.quizMount.appendChild(row);
+    }
+
+    function onQuizPick(btn, correct) {
+      if (!correct) {
+        btn.classList.add("wrong");
+        if (window.anime) anime({ targets: btn, translateX: [0, -8, 8, -6, 6, 0], duration: 420, easing: "easeInOutSine" });
+        setTimeout(() => btn.classList.remove("wrong"), 520);
+        return;
+      }
+      btn.classList.add("correct");
+      state.quizIndex += 1;
+      if (state.quizIndex < QUIZ.length) {
+        setTimeout(() => renderQuiz(), 420);
+      } else {
+        refs.quizLayer.classList.remove("show");
+        dismissVideoToSearch();
+      }
+    }
+
+    function wireVideo() {
+      async function startPlayback(requestFullscreen) {
+        refs.videoPoster.style.display = "none";
+        if (requestFullscreen) {
+          try {
+            const el = refs.videoCard;
+            if (el.requestFullscreen) await el.requestFullscreen();
+            else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+          } catch (e) {
+            console.warn("fullscreen request failed:", e);
+          }
+        }
+        try {
+          await refs.introVideo.play();
+        } catch (e) {
+          console.warn(e);
+          refs.videoPoster.style.display = "grid";
+        }
+      }
+
+      refs.playVideoBtn.addEventListener("click", () => startPlayback(false));
+      refs.fullscreenVideoBtn.addEventListener("click", () => startPlayback(true));
+
+      refs.introVideo.addEventListener("ended", () => {
+        refs.quizLayer.classList.add("show");
+        renderQuiz();
+      });
+    }
+
+    function setLoader(on) {
+      refs.aiLoader.classList.toggle("show", on);
+      if (on) {
+        if (window.anime) {
+          state.loaderSpin = anime({ targets: refs.mglass, rotate: "1turn", duration: 1100, easing: "linear", loop: true });
+        }
+      } else if (state.loaderSpin) {
+        state.loaderSpin.pause();
+        state.loaderSpin = null;
+        refs.mglass.style.transform = "";
+      }
+    }
+
+    function getItem(id) {
+      return CLASSROOM_ITEMS.find(x => x.id === id) || null;
+    }
+
+    /** Plural nouns: Whose … are these? Singular: Whose … is this? */
+    function whoseQuestion(it) {
+      if (it.plural) {
+        return "Whose " + it.label + " are these?";
+      }
+      return "Whose " + it.label + " is this?";
+    }
+
+    async function openInspect(id) {
+      if (!state.searchUnlocked) return;
+      if (state.solved.has(id)) return;
+      const it = getItem(id);
+      if (!it) return;
+      state.currentId = id;
+
+      bindImageWithFallback(refs.inspectImg, VERTEX_ASSETS.items[it.kind] || "", it.kind);
+      refs.ownerTag.textContent = it.owner;
+      refs.askText.textContent = whoseQuestion(it);
+      refs.answerInput.value = "";
+      refs.aiBubble.classList.remove("ok", "err");
+      refs.aiBubble.textContent = "请输入完整句子，再提交。";
+
+      refs.inspectBackdrop.classList.add("show");
+      if (window.anime) {
+        anime({ targets: ".modal", scale: [0.92, 1], rotate: [1.6, 0], duration: 420, easing: "easeOutBack" });
+        anime({ targets: refs.inspectImg, scale: [0.55, 1.08, 1], rotate: [-2.2, 1.1, 0], duration: 760, easing: "easeOutElastic(1, .75)" });
+      }
+      await playVoice(whoseQuestion(it), true, "angry");
+    }
+
+    function closeInspect() {
+      refs.inspectBackdrop.classList.remove("show");
+    }
+
+    async function submitAnswer() {
+      if (state.aiBusy) return;
+      const it = getItem(state.currentId);
+      if (!it) return;
+      const ans = refs.answerInput.value.trim();
+      if (!ans) {
+        refs.aiBubble.classList.add("err");
+        refs.aiBubble.textContent = "先写完整句子，再提交。";
+        return;
+      }
+      state.aiBusy = true;
+      refs.sendBtn.disabled = true;
+      setLoader(true);
+      const r = await askDetectiveAI(ans, it.owner, it.label);
+      setLoader(false);
+      refs.sendBtn.disabled = false;
+      state.aiBusy = false;
+
+      refs.aiBubble.classList.toggle("ok", r.ok);
+      refs.aiBubble.classList.toggle("err", !r.ok);
+      refs.aiBubble.textContent = r.reply || "（无反馈）";
+
+      if (r.ok) {
+        closeInspect();
+        solveItem(it);
+      }
+    }
+
+    function possessiveHint(it) {
+      const o = ownerPossessive(it.owner);
+      if (it.plural) return o + " " + it.label + "（复数用 Whose … are these?）";
+      return o + " " + it.label + "（单数用 Whose … is this?）";
+    }
+
+    function renderNotesList() {
+      if (!refs.notesList) return;
+      refs.notesList.innerHTML = "";
+      CLASSROOM_ITEMS.forEach((it) => {
+        const li = document.createElement("li");
+        if (state.solved.has(it.id)) {
+          li.textContent = it.label + " → " + possessiveHint(it);
+        } else {
+          li.textContent = it.label + " → ???";
+          li.style.opacity = "0.55";
+        }
+        refs.notesList.appendChild(li);
+      });
+    }
+
+    function flyParticlesToLost(fromEl, done) {
+      if (!window.anime) {
+        if (typeof done === "function") done();
+        return;
+      }
+      const stage = refs.stage;
+      const st = stage.getBoundingClientRect();
+      const fr = fromEl.getBoundingClientRect();
+      /* 原失物箱大致区域（舞台内坐标），无 DOM 时仍作火花汇聚点 */
+      const x1 = st.width * 0.1;
+      const y1 = st.height * 0.88;
+      const n = 16;
+      let left = n;
+      const finishOne = () => {
+        left -= 1;
+        if (left <= 0 && typeof done === "function") done();
+      };
+      for (let i = 0; i < n; i++) {
+        const p = document.createElement("span");
+        p.className = "spark-part";
+        const x0 = fr.left - st.left + fr.width / 2 + (Math.random() - 0.5) * 40;
+        const y0 = fr.top - st.top + fr.height / 2 + (Math.random() - 0.5) * 30;
+        p.style.left = x0 + "px";
+        p.style.top = y0 + "px";
+        stage.appendChild(p);
+        anime({
+          targets: p,
+          translateX: [0, x1 - x0 + (Math.random() - 0.5) * 24],
+          translateY: [0, y1 - y0 + (Math.random() - 0.5) * 20],
+          scale: [1.4, 0.35],
+          opacity: [1, 0.85, 0],
+          duration: 620 + Math.random() * 180,
+          easing: "easeInQuad",
+          complete: () => {
+            p.remove();
+            finishOne();
+          }
+        });
+      }
+    }
+
+    function solveItem(it) {
+      const el = refs.itemsLayer.querySelector(".item[data-id=\"" + it.id + "\"]");
+      if (!el || state.solved.has(it.id)) return;
+      state.solved.add(it.id);
+
+      const from = el.getBoundingClientRect();
+      const centerX = window.innerWidth / 2;
+      const centerY = window.innerHeight / 2;
+      const dx = centerX - (from.left + from.width / 2);
+      const dy = centerY - (from.top + from.height / 2);
+
+      const runShrink = () => {
+        if (window.anime) {
+          anime({
+            targets: el,
+            translateX: [0, dx * 0.25, dx],
+            translateY: [0, dy - 90, dy],
+            scale: [1, 1.12, 0.05],
+            opacity: [1, 1, 0],
+            filter: ["brightness(1)", "brightness(1.25)", "brightness(1.8)"],
+            duration: 900,
+            easing: "easeInOutSine",
+            complete: () => el.classList.add("solved")
+          });
+        } else {
+          el.classList.add("solved");
+        }
+      };
+
+      flyParticlesToLost(el, runShrink);
+      renderNotesList();
+
+      updateProgressOnly();
+
+      if (state.solved.size === CLASSROOM_ITEMS.length) {
+        const ms = stopTimer();
+        refs.progressText.textContent = CLASSROOM_ITEMS.length + " / " + CLASSROOM_ITEMS.length;
+        celebrate();
+        endLesson(ms);
+      }
+    }
+
+    function celebrate() {
+      if (!window.confetti) return;
+      const duration = 1600;
+      const end = Date.now() + duration;
+      (function frame() {
+        confetti({ particleCount: 3, angle: 60, spread: 55, origin: { x: 0 } });
+        confetti({ particleCount: 3, angle: 120, spread: 55, origin: { x: 1 } });
+        if (Date.now() < end) requestAnimationFrame(frame);
+      })();
+    }
+
+    async function endLesson(ms) {
+      await playVoice("Excellent! Everything is in order now.", true, "cheerful");
+      refs.finalTime.textContent = formatTime(ms);
+      refs.reportBackdrop.classList.add("show");
+      if (window.anime) {
+        anime({ targets: ".report", scale: [0.92, 1], translateY: [18, 0], duration: 650, easing: "easeOutElastic(1, .75)" });
+      }
+    }
+
+    function initVertexBg() {
+      const testImg = new Image();
+      testImg.onload = () => { refs.vertexBg.style.backgroundImage = "url(\"" + VERTEX_ASSETS.bg + "\")"; };
+      testImg.onerror = () => {
+        refs.vertexBg.style.backgroundImage = "none";
+        refs.vertexBg.style.background = "linear-gradient(180deg,#dff3ff,#ffe0b2,#d7ccc8)";
+      };
+      testImg.src = VERTEX_ASSETS.bg;
+    }
+
+    function init() {
+      initVertexBg();
+      renderItems();
+      renderNotesList();
+      wireVideo();
+
+      refs.vertexBg.style.opacity = "0.35";
+      refs.itemsLayer.style.opacity = "0.35";
+
+      refs.btnNotes.addEventListener("click", (e) => {
+        e.stopPropagation();
+        refs.notesPop.classList.toggle("show");
+        renderNotesList();
+      });
+      document.addEventListener("click", (e) => {
+        if (refs.notesPop.contains(e.target) || e.target === refs.btnNotes) return;
+        refs.notesPop.classList.remove("show");
+      });
+
+      refs.closeInspect.addEventListener("click", closeInspect);
+      refs.sendBtn.addEventListener("click", submitAnswer);
+      refs.answerInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          submitAnswer();
+        }
+      });
+    }
+
+    init();
+  </script>
+</body>
+</html>

@@ -1,0 +1,2890 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <!-- spa-assets-inlined -->
+
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>第03讲 · Page 05 · 时光打印机 · 图片对比发现式版</title>
+  <script src="../assets/lesson-tts-azure-config.js"></script>
+  <script src="../assets/lesson-tts-azure-play.js"></script>
+<script>
+/* inlined: https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js */
+/*
+ * anime.js v3.2.2
+ * (c) 2023 Julian Garnier
+ * Released under the MIT license
+ * animejs.com
+ */
+
+!function(n,e){"object"==typeof exports&&"undefined"!=typeof module?module.exports=e():"function"==typeof define&&define.amd?define(e):n.anime=e()}(this,function(){"use strict";var i={update:null,begin:null,loopBegin:null,changeBegin:null,change:null,changeComplete:null,loopComplete:null,complete:null,loop:1,direction:"normal",autoplay:!0,timelineOffset:0},M={duration:1e3,delay:0,endDelay:0,easing:"easeOutElastic(1, .5)",round:0},j=["translateX","translateY","translateZ","rotate","rotateX","rotateY","rotateZ","scale","scaleX","scaleY","scaleZ","skew","skewX","skewY","perspective","matrix","matrix3d"],l={CSS:{},springs:{}};function C(n,e,t){return Math.min(Math.max(n,e),t)}function u(n,e){return-1<n.indexOf(e)}function o(n,e){return n.apply(null,e)}var w={arr:function(n){return Array.isArray(n)},obj:function(n){return u(Object.prototype.toString.call(n),"Object")},pth:function(n){return w.obj(n)&&n.hasOwnProperty("totalLength")},svg:function(n){return n instanceof SVGElement},inp:function(n){return n instanceof HTMLInputElement},dom:function(n){return n.nodeType||w.svg(n)},str:function(n){return"string"==typeof n},fnc:function(n){return"function"==typeof n},und:function(n){return void 0===n},nil:function(n){return w.und(n)||null===n},hex:function(n){return/(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i.test(n)},rgb:function(n){return/^rgb/.test(n)},hsl:function(n){return/^hsl/.test(n)},col:function(n){return w.hex(n)||w.rgb(n)||w.hsl(n)},key:function(n){return!i.hasOwnProperty(n)&&!M.hasOwnProperty(n)&&"targets"!==n&&"keyframes"!==n}};function d(n){n=/\(([^)]+)\)/.exec(n);return n?n[1].split(",").map(function(n){return parseFloat(n)}):[]}function c(r,t){var n=d(r),e=C(w.und(n[0])?1:n[0],.1,100),a=C(w.und(n[1])?100:n[1],.1,100),o=C(w.und(n[2])?10:n[2],.1,100),n=C(w.und(n[3])?0:n[3],.1,100),u=Math.sqrt(a/e),i=o/(2*Math.sqrt(a*e)),c=i<1?u*Math.sqrt(1-i*i):0,s=i<1?(i*u-n)/c:-n+u;function f(n){var e=t?t*n/1e3:n,e=i<1?Math.exp(-e*i*u)*(+Math.cos(c*e)+s*Math.sin(c*e)):(1+s*e)*Math.exp(-e*u);return 0===n||1===n?n:1-e}return t?f:function(){var n=l.springs[r];if(n)return n;for(var e=0,t=0;;)if(1===f(e+=1/6)){if(16<=++t)break}else t=0;return n=e*(1/6)*1e3,l.springs[r]=n}}function q(e){return void 0===e&&(e=10),function(n){return Math.ceil(C(n,1e-6,1)*e)*(1/e)}}var H=function(b,e,M,t){if(0<=b&&b<=1&&0<=M&&M<=1){var x=new Float32Array(11);if(b!==e||M!==t)for(var n=0;n<11;++n)x[n]=k(.1*n,b,M);return function(n){return b===e&&M===t||0===n||1===n?n:k(r(n),e,t)}}function r(n){for(var e=0,t=1;10!==t&&x[t]<=n;++t)e+=.1;var r=e+.1*((n-x[--t])/(x[t+1]-x[t])),a=O(r,b,M);if(.001<=a){for(var o=n,u=r,i=b,c=M,s=0;s<4;++s){var f=O(u,i,c);if(0===f)return u;u-=(k(u,i,c)-o)/f}return u}if(0===a)return r;for(var l,d,p=n,h=e,g=e+.1,m=b,v=M,y=0;0<(l=k(d=h+(g-h)/2,m,v)-p)?g=d:h=d,1e-7<Math.abs(l)&&++y<10;);return d}};function r(n,e){return 1-3*e+3*n}function k(n,e,t){return((r(e,t)*n+(3*t-6*e))*n+3*e)*n}function O(n,e,t){return 3*r(e,t)*n*n+2*(3*t-6*e)*n+3*e}e={linear:function(){return function(n){return n}}},t={Sine:function(){return function(n){return 1-Math.cos(n*Math.PI/2)}},Expo:function(){return function(n){return n?Math.pow(2,10*n-10):0}},Circ:function(){return function(n){return 1-Math.sqrt(1-n*n)}},Back:function(){return function(n){return n*n*(3*n-2)}},Bounce:function(){return function(n){for(var e,t=4;n<((e=Math.pow(2,--t))-1)/11;);return 1/Math.pow(4,3-t)-7.5625*Math.pow((3*e-2)/22-n,2)}},Elastic:function(n,e){void 0===e&&(e=.5);var t=C(n=void 0===n?1:n,1,10),r=C(e,.1,2);return function(n){return 0===n||1===n?n:-t*Math.pow(2,10*(n-1))*Math.sin((n-1-r/(2*Math.PI)*Math.asin(1/t))*(2*Math.PI)/r)}}},["Quad","Cubic","Quart","Quint"].forEach(function(n,e){t[n]=function(){return function(n){return Math.pow(n,e+2)}}}),Object.keys(t).forEach(function(n){var r=t[n];e["easeIn"+n]=r,e["easeOut"+n]=function(e,t){return function(n){return 1-r(e,t)(1-n)}},e["easeInOut"+n]=function(e,t){return function(n){return n<.5?r(e,t)(2*n)/2:1-r(e,t)(-2*n+2)/2}},e["easeOutIn"+n]=function(e,t){return function(n){return n<.5?(1-r(e,t)(1-2*n))/2:(r(e,t)(2*n-1)+1)/2}}});var e,t,s=e;function P(n,e){if(w.fnc(n))return n;var t=n.split("(")[0],r=s[t],a=d(n);switch(t){case"spring":return c(n,e);case"cubicBezier":return o(H,a);case"steps":return o(q,a);default:return o(r,a)}}function a(n){try{return document.querySelectorAll(n)}catch(n){}}function I(n,e){for(var t,r=n.length,a=2<=arguments.length?e:void 0,o=[],u=0;u<r;u++)u in n&&(t=n[u],e.call(a,t,u,n))&&o.push(t);return o}function f(n){return n.reduce(function(n,e){return n.concat(w.arr(e)?f(e):e)},[])}function p(n){return w.arr(n)?n:(n=w.str(n)?a(n)||n:n)instanceof NodeList||n instanceof HTMLCollection?[].slice.call(n):[n]}function h(n,e){return n.some(function(n){return n===e})}function g(n){var e,t={};for(e in n)t[e]=n[e];return t}function x(n,e){var t,r=g(n);for(t in n)r[t]=(e.hasOwnProperty(t)?e:n)[t];return r}function D(n,e){var t,r=g(n);for(t in e)r[t]=(w.und(n[t])?e:n)[t];return r}function V(n){var e,t,r,a,o,u,i;return w.rgb(n)?(e=/rgb\((\d+,\s*[\d]+,\s*[\d]+)\)/g.exec(t=n))?"rgba("+e[1]+",1)":t:w.hex(n)?(e=(e=n).replace(/^#?([a-f\d])([a-f\d])([a-f\d])$/i,function(n,e,t,r){return e+e+t+t+r+r}),e=/^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(e),"rgba("+parseInt(e[1],16)+","+parseInt(e[2],16)+","+parseInt(e[3],16)+",1)"):w.hsl(n)?(t=/hsl\((\d+),\s*([\d.]+)%,\s*([\d.]+)%\)/g.exec(t=n)||/hsla\((\d+),\s*([\d.]+)%,\s*([\d.]+)%,\s*([\d.]+)\)/g.exec(t),n=parseInt(t[1],10)/360,u=parseInt(t[2],10)/100,i=parseInt(t[3],10)/100,t=t[4]||1,0==u?r=a=o=i:(r=c(u=2*i-(i=i<.5?i*(1+u):i+u-i*u),i,n+1/3),a=c(u,i,n),o=c(u,i,n-1/3)),"rgba("+255*r+","+255*a+","+255*o+","+t+")"):void 0;function c(n,e,t){return t<0&&(t+=1),1<t&&--t,t<1/6?n+6*(e-n)*t:t<.5?e:t<2/3?n+(e-n)*(2/3-t)*6:n}}function B(n){n=/[+-]?\d*\.?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?(%|px|pt|em|rem|in|cm|mm|ex|ch|pc|vw|vh|vmin|vmax|deg|rad|turn)?$/.exec(n);if(n)return n[1]}function m(n,e){return w.fnc(n)?n(e.target,e.id,e.total):n}function v(n,e){return n.getAttribute(e)}function y(n,e,t){var r,a,o;return h([t,"deg","rad","turn"],B(e))?e:(r=l.CSS[e+t],w.und(r)?(a=document.createElement(n.tagName),(n=n.parentNode&&n.parentNode!==document?n.parentNode:document.body).appendChild(a),a.style.position="absolute",a.style.width=100+t,o=100/a.offsetWidth,n.removeChild(a),n=o*parseFloat(e),l.CSS[e+t]=n):r)}function $(n,e,t){var r;if(e in n.style)return r=e.replace(/([a-z])([A-Z])/g,"$1-$2").toLowerCase(),e=n.style[e]||getComputedStyle(n).getPropertyValue(r)||"0",t?y(n,e,t):e}function b(n,e){return w.dom(n)&&!w.inp(n)&&(!w.nil(v(n,e))||w.svg(n)&&n[e])?"attribute":w.dom(n)&&h(j,e)?"transform":w.dom(n)&&"transform"!==e&&$(n,e)?"css":null!=n[e]?"object":void 0}function W(n){if(w.dom(n)){for(var e,t=n.style.transform||"",r=/(\w+)\(([^)]*)\)/g,a=new Map;e=r.exec(t);)a.set(e[1],e[2]);return a}}function X(n,e,t,r){var a=u(e,"scale")?1:0+(u(a=e,"translate")||"perspective"===a?"px":u(a,"rotate")||u(a,"skew")?"deg":void 0),o=W(n).get(e)||a;return t&&(t.transforms.list.set(e,o),t.transforms.last=e),r?y(n,o,r):o}function T(n,e,t,r){switch(b(n,e)){case"transform":return X(n,e,r,t);case"css":return $(n,e,t);case"attribute":return v(n,e);default:return n[e]||0}}function E(n,e){var t=/^(\*=|\+=|-=)/.exec(n);if(!t)return n;var r=B(n)||0,a=parseFloat(e),o=parseFloat(n.replace(t[0],""));switch(t[0][0]){case"+":return a+o+r;case"-":return a-o+r;case"*":return a*o+r}}function Y(n,e){var t;return w.col(n)?V(n):/\s/g.test(n)?n:(t=(t=B(n))?n.substr(0,n.length-t.length):n,e?t+e:t)}function F(n,e){return Math.sqrt(Math.pow(e.x-n.x,2)+Math.pow(e.y-n.y,2))}function Z(n){for(var e,t=n.points,r=0,a=0;a<t.numberOfItems;a++){var o=t.getItem(a);0<a&&(r+=F(e,o)),e=o}return r}function G(n){if(n.getTotalLength)return n.getTotalLength();switch(n.tagName.toLowerCase()){case"circle":return 2*Math.PI*v(n,"r");case"rect":return 2*v(t=n,"width")+2*v(t,"height");case"line":return F({x:v(t=n,"x1"),y:v(t,"y1")},{x:v(t,"x2"),y:v(t,"y2")});case"polyline":return Z(n);case"polygon":return e=n.points,Z(n)+F(e.getItem(e.numberOfItems-1),e.getItem(0))}var e,t}function Q(n,e){var e=e||{},n=e.el||function(n){for(var e=n.parentNode;w.svg(e)&&w.svg(e.parentNode);)e=e.parentNode;return e}(n),t=n.getBoundingClientRect(),r=v(n,"viewBox"),a=t.width,t=t.height,e=e.viewBox||(r?r.split(" "):[0,0,a,t]);return{el:n,viewBox:e,x:+e[0],y:+e[1],w:a,h:t,vW:e[2],vH:e[3]}}function z(n,e){var t=/[+-]?\d*\.?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?/g,r=Y(w.pth(n)?n.totalLength:n,e)+"";return{original:r,numbers:r.match(t)?r.match(t).map(Number):[0],strings:w.str(n)||e?r.split(t):[]}}function A(n){return I(n?f(w.arr(n)?n.map(p):p(n)):[],function(n,e,t){return t.indexOf(n)===e})}function _(n){var t=A(n);return t.map(function(n,e){return{target:n,id:e,total:t.length,transforms:{list:W(n)}}})}function R(e){for(var t=I(f(e.map(function(n){return Object.keys(n)})),function(n){return w.key(n)}).reduce(function(n,e){return n.indexOf(e)<0&&n.push(e),n},[]),a={},n=0;n<t.length;n++)!function(n){var r=t[n];a[r]=e.map(function(n){var e,t={};for(e in n)w.key(e)?e==r&&(t.value=n[e]):t[e]=n[e];return t})}(n);return a}function J(n,e){var t,r=[],a=e.keyframes;for(t in e=a?D(R(a),e):e)w.key(t)&&r.push({name:t,tweens:function(n,t){var e,r=g(t),a=(/^spring/.test(r.easing)&&(r.duration=c(r.easing)),w.arr(n)&&(2===(e=n.length)&&!w.obj(n[0])?n={value:n}:w.fnc(t.duration)||(r.duration=t.duration/e)),w.arr(n)?n:[n]);return a.map(function(n,e){n=w.obj(n)&&!w.pth(n)?n:{value:n};return w.und(n.delay)&&(n.delay=e?0:t.delay),w.und(n.endDelay)&&(n.endDelay=e===a.length-1?t.endDelay:0),n}).map(function(n){return D(n,r)})}(e[t],n)});return r}function K(i,c){var s;return i.tweens.map(function(n){var n=function(n,e){var t,r={};for(t in n){var a=m(n[t],e);w.arr(a)&&1===(a=a.map(function(n){return m(n,e)})).length&&(a=a[0]),r[t]=a}return r.duration=parseFloat(r.duration),r.delay=parseFloat(r.delay),r}(n,c),e=n.value,t=w.arr(e)?e[1]:e,r=B(t),a=T(c.target,i.name,r,c),o=s?s.to.original:a,u=w.arr(e)?e[0]:o,a=B(u)||B(a),r=r||a;return w.und(t)&&(t=o),n.from=z(u,r),n.to=z(E(t,u),r),n.start=s?s.end:0,n.end=n.start+n.delay+n.duration+n.endDelay,n.easing=P(n.easing,n.duration),n.isPath=w.pth(e),n.isPathTargetInsideSVG=n.isPath&&w.svg(c.target),n.isColor=w.col(n.from.original),n.isColor&&(n.round=1),s=n})}var U={css:function(n,e,t){return n.style[e]=t},attribute:function(n,e,t){return n.setAttribute(e,t)},object:function(n,e,t){return n[e]=t},transform:function(n,e,t,r,a){var o;r.list.set(e,t),e!==r.last&&!a||(o="",r.list.forEach(function(n,e){o+=e+"("+n+") "}),n.style.transform=o)}};function nn(n,u){_(n).forEach(function(n){for(var e in u){var t=m(u[e],n),r=n.target,a=B(t),o=T(r,e,a,n),t=E(Y(t,a||B(o)),o),a=b(r,e);U[a](r,e,t,n.transforms,!0)}})}function en(n,e){return I(f(n.map(function(o){return e.map(function(n){var e,t,r=o,a=b(r.target,n.name);if(a)return t=(e=K(n,r))[e.length-1],{type:a,property:n.name,animatable:r,tweens:e,duration:t.end,delay:e[0].delay,endDelay:t.endDelay}})})),function(n){return!w.und(n)})}function tn(n,e){function t(n){return n.timelineOffset||0}var r=n.length,a={};return a.duration=r?Math.max.apply(Math,n.map(function(n){return t(n)+n.duration})):e.duration,a.delay=r?Math.min.apply(Math,n.map(function(n){return t(n)+n.delay})):e.delay,a.endDelay=r?a.duration-Math.max.apply(Math,n.map(function(n){return t(n)+n.duration-n.endDelay})):e.endDelay,a}var rn=0;var N,S=[],an=("undefined"!=typeof document&&document.addEventListener("visibilitychange",function(){L.suspendWhenDocumentHidden&&(n()?N=cancelAnimationFrame(N):(S.forEach(function(n){return n._onDocumentVisibility()}),an()))}),function(){!(N||n()&&L.suspendWhenDocumentHidden)&&0<S.length&&(N=requestAnimationFrame(on))});function on(n){for(var e=S.length,t=0;t<e;){var r=S[t];r.paused?(S.splice(t,1),e--):(r.tick(n),t++)}N=0<t?requestAnimationFrame(on):void 0}function n(){return document&&document.hidden}function L(n){var c,s=0,f=0,l=0,d=0,p=null;function h(n){var e=window.Promise&&new Promise(function(n){return p=n});return n.finished=e}e=x(i,n=n=void 0===n?{}:n),t=J(r=x(M,n),n),n=_(n.targets),r=tn(t=en(n,t),r),a=rn,rn++;var e,t,r,a,k=D(e,{id:a,children:[],animatables:n,animations:t,duration:r.duration,delay:r.delay,endDelay:r.endDelay});h(k);function g(){var n=k.direction;"alternate"!==n&&(k.direction="normal"!==n?"normal":"reverse"),k.reversed=!k.reversed,c.forEach(function(n){return n.reversed=k.reversed})}function m(n){return k.reversed?k.duration-n:n}function o(){s=0,f=m(k.currentTime)*(1/L.speed)}function v(n,e){e&&e.seek(n-e.timelineOffset)}function y(e){for(var n=0,t=k.animations,r=t.length;n<r;){for(var a=t[n],o=a.animatable,u=a.tweens,i=u.length-1,c=u[i],i=(i&&(c=I(u,function(n){return e<n.end})[0]||c),C(e-c.start-c.delay,0,c.duration)/c.duration),s=isNaN(i)?1:c.easing(i),f=c.to.strings,l=c.round,d=[],p=c.to.numbers.length,h=void 0,g=0;g<p;g++){var m=void 0,v=c.to.numbers[g],y=c.from.numbers[g]||0,m=c.isPath?function(e,t,n){function r(n){return e.el.getPointAtLength(1<=t+(n=void 0===n?0:n)?t+n:0)}var a=Q(e.el,e.svg),o=r(),u=r(-1),i=r(1),c=n?1:a.w/a.vW,s=n?1:a.h/a.vH;switch(e.property){case"x":return(o.x-a.x)*c;case"y":return(o.y-a.y)*s;case"angle":return 180*Math.atan2(i.y-u.y,i.x-u.x)/Math.PI}}(c.value,s*v,c.isPathTargetInsideSVG):y+s*(v-y);!l||c.isColor&&2<g||(m=Math.round(m*l)/l),d.push(m)}var b=f.length;if(b)for(var h=f[0],M=0;M<b;M++){f[M];var x=f[M+1],w=d[M];isNaN(w)||(h+=x?w+x:w+" ")}else h=d[0];U[a.type](o.target,a.property,h,o.transforms),a.currentValue=h,n++}}function b(n){k[n]&&!k.passThrough&&k[n](k)}function u(n){var e=k.duration,t=k.delay,r=e-k.endDelay,a=m(n);if(k.progress=C(a/e*100,0,100),k.reversePlayback=a<k.currentTime,c){var o=a;if(k.reversePlayback)for(var u=d;u--;)v(o,c[u]);else for(var i=0;i<d;i++)v(o,c[i])}!k.began&&0<k.currentTime&&(k.began=!0,b("begin")),!k.loopBegan&&0<k.currentTime&&(k.loopBegan=!0,b("loopBegin")),a<=t&&0!==k.currentTime&&y(0),(r<=a&&k.currentTime!==e||!e)&&y(e),t<a&&a<r?(k.changeBegan||(k.changeBegan=!0,k.changeCompleted=!1,b("changeBegin")),b("change"),y(a)):k.changeBegan&&(k.changeCompleted=!0,k.changeBegan=!1,b("changeComplete")),k.currentTime=C(a,0,e),k.began&&b("update"),e<=n&&(f=0,k.remaining&&!0!==k.remaining&&k.remaining--,k.remaining?(s=l,b("loopComplete"),k.loopBegan=!1,"alternate"===k.direction&&g()):(k.paused=!0,k.completed||(k.completed=!0,b("loopComplete"),b("complete"),!k.passThrough&&"Promise"in window&&(p(),h(k)))))}return k.reset=function(){var n=k.direction;k.passThrough=!1,k.currentTime=0,k.progress=0,k.paused=!0,k.began=!1,k.loopBegan=!1,k.changeBegan=!1,k.completed=!1,k.changeCompleted=!1,k.reversePlayback=!1,k.reversed="reverse"===n,k.remaining=k.loop,c=k.children;for(var e=d=c.length;e--;)k.children[e].reset();(k.reversed&&!0!==k.loop||"alternate"===n&&1===k.loop)&&k.remaining++,y(k.reversed?k.duration:0)},k._onDocumentVisibility=o,k.set=function(n,e){return nn(n,e),k},k.tick=function(n){u(((l=n)+(f-(s=s||l)))*L.speed)},k.seek=function(n){u(m(n))},k.pause=function(){k.paused=!0,o()},k.play=function(){k.paused&&(k.completed&&k.reset(),k.paused=!1,S.push(k),o(),an())},k.reverse=function(){g(),k.completed=!k.reversed,o()},k.restart=function(){k.reset(),k.play()},k.remove=function(n){cn(A(n),k)},k.reset(),k.autoplay&&k.play(),k}function un(n,e){for(var t=e.length;t--;)h(n,e[t].animatable.target)&&e.splice(t,1)}function cn(n,e){var t=e.animations,r=e.children;un(n,t);for(var a=r.length;a--;){var o=r[a],u=o.animations;un(n,u),u.length||o.children.length||r.splice(a,1)}t.length||r.length||e.pause()}return L.version="3.2.1",L.speed=1,L.suspendWhenDocumentHidden=!0,L.running=S,L.remove=function(n){for(var e=A(n),t=S.length;t--;)cn(e,S[t])},L.get=T,L.set=nn,L.convertPx=y,L.path=function(n,e){var t=w.str(n)?a(n)[0]:n,r=e||100;return function(n){return{property:n,el:t,svg:Q(t),totalLength:G(t)*(r/100)}}},L.setDashoffset=function(n){var e=G(n);return n.setAttribute("stroke-dasharray",e),e},L.stagger=function(n,e){var i=(e=void 0===e?{}:e).direction||"normal",c=e.easing?P(e.easing):null,s=e.grid,f=e.axis,l=e.from||0,d="first"===l,p="center"===l,h="last"===l,g=w.arr(n),m=g?parseFloat(n[0]):parseFloat(n),v=g?parseFloat(n[1]):0,y=B(g?n[1]:n)||0,b=e.start||0+(g?m:0),M=[],x=0;return function(n,e,t){if(d&&(l=0),p&&(l=(t-1)/2),h&&(l=t-1),!M.length){for(var r,a,o,u=0;u<t;u++)s?(r=p?(s[0]-1)/2:l%s[0],a=p?(s[1]-1)/2:Math.floor(l/s[0]),r=r-u%s[0],a=a-Math.floor(u/s[0]),o=Math.sqrt(r*r+a*a),"x"===f&&(o=-r),M.push(o="y"===f?-a:o)):M.push(Math.abs(l-u)),x=Math.max.apply(Math,M);c&&(M=M.map(function(n){return c(n/x)*x})),"reverse"===i&&(M=M.map(function(n){return f?n<0?-1*n:-n:Math.abs(x-n)}))}return b+(g?(v-m)/x:m)*(Math.round(100*M[e])/100)+y}},L.timeline=function(u){var i=L(u=void 0===u?{}:u);return i.duration=0,i.add=function(n,e){var t=S.indexOf(i),r=i.children;function a(n){n.passThrough=!0}-1<t&&S.splice(t,1);for(var o=0;o<r.length;o++)a(r[o]);t=D(n,x(M,u)),t.targets=t.targets||u.targets,n=i.duration,t.autoplay=!1,t.direction=i.direction,t.timelineOffset=w.und(e)?n:E(e,n),a(i),i.seek(t.timelineOffset),e=L(t),a(e),r.push(e),n=tn(r,u);return i.delay=n.delay,i.endDelay=n.endDelay,i.duration=n.duration,i.seek(0),i.reset(),i.autoplay&&i.play(),i},i},L.easing=P,L.penner=s,L.random=function(n,e){return Math.floor(Math.random()*(e-n+1))+n},L});
+</script>
+  <style>
+    :root {
+      --paper: #fff9f0;
+      --ink: #2c2c2c;
+      --habit-green: #43a047;
+      --state-blue: #4a90d9;
+      --now-accent: #ff8f00;
+      --crayon-purple: #9b59b6;
+      --crayon-red: #e85d4c;
+      --gold-star: #ffc107;
+      --shadow: rgba(60, 40, 20, 0.12);
+      --wobble: 255px 15px 225px 15px / 15px 225px 15px 255px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+      background:
+        radial-gradient(circle at 14% 18%, rgba(255, 220, 180, 0.42) 0%, transparent 44%),
+        radial-gradient(circle at 86% 78%, rgba(200, 230, 255, 0.35) 0%, transparent 42%),
+        linear-gradient(168deg, #ffeaa7 0%, #fab1a0 36%, #dfe6e9 100%);
+      color: var(--ink);
+      padding: 0.75rem;
+      padding-bottom: 8.25rem;
+    }
+    body.is-busy .side-lobby,
+    body.is-busy .yesterday-btn,
+    body.is-busy .recite-bar {
+      pointer-events: none;
+      opacity: 0.55;
+    }
+    .en, .screen-line, .verb-hero, .stamp-ed, .particle, .vh-ch, .conveyor-belt {
+      font-family: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+    }
+    .book {
+      max-width: 1120px;
+      margin: 0 auto;
+      background: var(--paper);
+      border-radius: var(--wobble);
+      border: 3px solid rgba(200, 160, 100, 0.5);
+      box-shadow: 6px 8px 0 var(--crayon-red), 14px 18px 28px var(--shadow);
+      padding: 1rem 1.05rem 1.35rem;
+      position: relative;
+      clip-path: polygon(
+        0% 1.2%, 3% 0%, 7% 1.5%, 12% 0.3%, 18% 1.1%, 24% 0%, 30% 1.4%, 38% 0.2%, 45% 1%, 52% 0%, 60% 1.3%, 68% 0.4%, 76% 1%, 84% 0%, 92% 1.2%, 100% 0.4%,
+        100% 98.8%, 97% 100%, 91% 98.5%, 86% 99.7%, 79% 98.9%, 72% 100%, 65% 98.6%, 57% 99.8%, 48% 99%, 40% 100%, 32% 98.7%, 24% 99.6%, 16% 99%, 8% 100%, 0% 99.2%
+      );
+    }
+    .book::before {
+      content: "";
+      position: absolute;
+      inset: 10px;
+      border: 2px dashed rgba(200, 160, 100, 0.38);
+      border-radius: 220px 20px 200px 24px / 18px 210px 22px 240px;
+      pointer-events: none;
+    }
+    .top-bar {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      font-size: 0.9rem;
+      padding: 0.4rem 0.7rem;
+      margin-bottom: 0.5rem;
+      border-radius: var(--wobble);
+      border: 3px solid var(--state-blue);
+      background: linear-gradient(90deg, rgba(255,255,255,0.9), rgba(255,248,230,0.95));
+    }
+    .top-bar strong { color: var(--crayon-red); }
+    h1 {
+      position: relative;
+      z-index: 2;
+      margin: 0 0 0.35rem;
+      font-size: clamp(1.02rem, 3vw, 1.32rem);
+      color: #1a237e;
+      text-align: center;
+    }
+    .subtitle {
+      position: relative;
+      z-index: 2;
+      margin: 0 0 0.75rem;
+      font-size: 0.8rem;
+      line-height: 1.55;
+      text-align: center;
+      color: #555;
+    }
+    .page-layout {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+    @media (min-width: 900px) {
+      .page-layout {
+        flex-direction: row;
+        align-items: flex-start;
+      }
+      .side-lobby {
+        flex: 0 0 300px;
+        max-width: 320px;
+      }
+      .print-main { flex: 1; min-width: 0; }
+    }
+    .side-lobby {
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+    }
+    .orb-row {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
+    }
+    .energy-orb {
+      flex: 1;
+      min-height: 4.5rem;
+      border-radius: 999px;
+      border: 4px solid #5d4037;
+      font-family: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+      font-size: 0.82rem;
+      font-weight: 800;
+      cursor: pointer;
+      padding: 0.45rem 0.35rem;
+      line-height: 1.35;
+      box-shadow: 0 4px 0 rgba(0,0,0,0.15);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      background: linear-gradient(165deg, #fff 0%, #e8f5e9 55%, #c8e6c9 100%);
+    }
+    .energy-orb small { font-size: 0.68rem; font-weight: 700; opacity: 0.85; }
+    .energy-orb.irregular {
+      background: linear-gradient(165deg, #fff 0%, #f3e5f5 50%, #e1bee7 100%);
+    }
+    .energy-orb.is-open {
+      outline: 3px dashed var(--state-blue);
+      outline-offset: 3px;
+      transform: translateY(-2px);
+    }
+    .energy-orb:active { transform: translateY(1px); box-shadow: 0 2px 0 rgba(0,0,0,0.12); }
+    .orb-panel {
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transition: max-height 0.45s ease, opacity 0.35s ease;
+      border-radius: 16px;
+      border: 3px solid rgba(200, 160, 100, 0.45);
+      background: rgba(255,255,255,0.65);
+    }
+    .orb-panel.is-open {
+      max-height: 340px;
+      opacity: 1;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .orb-panel.regular { border-color: rgba(67, 160, 71, 0.55); }
+    .orb-panel.irregular { border-color: rgba(155, 89, 182, 0.5); }
+    .orb-panel-inner {
+      padding: 0.45rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.32rem;
+      justify-content: center;
+    }
+    .verb-pill {
+      font-family: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+      font-size: clamp(0.74rem, 1.9vw, 0.9rem);
+      font-weight: 800;
+      padding: 0.32rem 0.48rem 0.28rem;
+      min-height: 2.1rem;
+      border-radius: 14px 10px 16px 12px;
+      border: 2px solid #5d4037;
+      background: linear-gradient(180deg, #fff, #f5f0e6);
+      cursor: pointer;
+      box-shadow: 2px 3px 0 rgba(0,0,0,0.1);
+      position: relative;
+    }
+    .verb-pill.is-active {
+      outline: 3px dashed var(--state-blue);
+      outline-offset: 1px;
+      background: linear-gradient(180deg, #e3f2fd, #bbdefb);
+    }
+    .verb-pill.tag-regular { border-color: var(--habit-green); }
+    .verb-pill.tag-irregular { border-color: var(--crayon-purple); }
+    .verb-pill .tag-mini {
+      display: block;
+      font-size: 0.58rem;
+      font-weight: 700;
+      opacity: 0.72;
+      font-family: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+    }
+    .verb-pill.is-memo::after {
+      content: "★";
+      position: absolute;
+      top: -6px;
+      right: -4px;
+      font-size: 0.95rem;
+      color: var(--gold-star);
+      text-shadow: 0 0 4px rgba(255, 193, 7, 0.9);
+      line-height: 1;
+    }
+    .print-main { min-width: 0; }
+    .conveyor-wrap {
+      perspective: 520px;
+      margin-bottom: 0.5rem;
+    }
+    .conveyor-belt {
+      height: 22px;
+      margin: 0 0.35rem 0.25rem;
+      border-radius: 8px;
+      border: 2px solid #5d4037;
+      background: repeating-linear-gradient(
+        90deg,
+        #90a4ae 0px,
+        #90a4ae 14px,
+        #cfd8dc 14px,
+        #cfd8dc 28px
+      );
+      transform: rotateX(28deg);
+      transform-origin: center bottom;
+      box-shadow: inset 0 2px 0 rgba(255,255,255,0.35);
+      animation: beltMove 2.2s linear infinite;
+      opacity: 0.85;
+    }
+    @keyframes beltMove {
+      from { background-position: 0 0; }
+      to { background-position: 56px 0; }
+    }
+    .screen-wrap {
+      border-radius: 22px 16px 24px 18px;
+      border: 4px solid #5d4037;
+      background: linear-gradient(180deg, #eceff1, #cfd8dc);
+      box-shadow: inset 0 0 0 3px rgba(255,255,255,0.5), 5px 6px 0 rgba(0,0,0,0.12);
+      padding: 0.55rem;
+    }
+    .screen-inner {
+      border-radius: 16px 12px 18px 14px;
+      border: 3px dashed rgba(93, 64, 55, 0.35);
+      background: rgba(255, 253, 248, 0.96);
+      padding: 0.65rem 0.75rem 0.85rem;
+      position: relative;
+      overflow: hidden;
+      transition: filter 0.55s ease;
+    }
+    .screen-inner.is-past {
+      filter: sepia(0.52) grayscale(0.28) contrast(1.05);
+    }
+    .screen-inner.is-past::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.14;
+      mix-blend-mode: multiply;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.65'/%3E%3C/svg%3E");
+      z-index: 4;
+    }
+    .screen-inner.shake {
+      animation: screenShake 0.5s ease-out;
+    }
+    @keyframes screenShake {
+      0%, 100% { transform: translate(0, 0); }
+      18% { transform: translate(-5px, 3px); }
+      36% { transform: translate(5px, -3px); }
+      54% { transform: translate(-4px, -2px); }
+      72% { transform: translate(4px, 2px); }
+    }
+    .photo-stack {
+      position: relative;
+      z-index: 5;
+      width: 100%;
+      height: min(42vw, 280px);
+      min-height: 160px;
+      margin: 0 auto 0.45rem;
+      border-radius: 14px 12px 16px 14px;
+      border: 3px solid #5d4037;
+      background: rgba(255, 255, 255, 0.55);
+      overflow: hidden;
+      cursor: pointer;
+    }
+    .photo-stack img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .photo-stack .img-now {
+      z-index: 2;
+      opacity: 1;
+    }
+    .photo-stack .img-past {
+      z-index: 1;
+      opacity: 0;
+      filter: sepia(0.4) saturate(0.85) contrast(1.05);
+    }
+    .photo-stack.is-past-view .img-now { opacity: 0; }
+    .photo-stack.is-past-view .img-past { opacity: 1; }
+    .img-fallback {
+      display: none;
+      position: absolute;
+      inset: 0;
+      z-index: 4;
+      align-items: center;
+      justify-content: center;
+      font-size: clamp(2.8rem, 12vw, 4.5rem);
+      background: linear-gradient(145deg, #e8f5e9, #fff9c4);
+    }
+    .img-fallback.is-on { display: flex; }
+    .question-bubble {
+      position: relative;
+      z-index: 5;
+      width: 100%;
+      margin: 0 0 0.45rem;
+      padding: 0.5rem 0.6rem;
+      border-radius: 18px 18px 18px 4px;
+      border: 3px solid var(--state-blue);
+      background: rgba(255, 255, 255, 0.95);
+      font-size: 0.8rem;
+      line-height: 1.55;
+      color: #333;
+      cursor: pointer;
+      box-shadow: 3px 4px 0 rgba(0,0,0,0.08);
+    }
+    .question-bubble small {
+      display: block;
+      margin-top: 0.25rem;
+      color: #666;
+      font-size: 0.72rem;
+    }
+    .question-bubble.is-done {
+      opacity: 0.72;
+      border-style: dashed;
+    }
+    .screen-line {
+      position: relative;
+      z-index: 5;
+      font-size: clamp(0.88rem, 2.4vw, 1.05rem);
+      line-height: 1.55;
+      color: #333;
+      margin: 0 0 0.45rem;
+      min-height: 3.1em;
+    }
+    .screen-line.is-phased-out {
+      visibility: hidden;
+      min-height: 0;
+      height: 0;
+      margin: 0;
+      overflow: hidden;
+    }
+    .yesterday-btn.is-locked {
+      position: relative;
+      filter: grayscale(0.35);
+    }
+    .yesterday-btn.is-locked::after {
+      content: "🔒";
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 0.85rem;
+    }
+    .verb-hero-wrap {
+      position: relative;
+      z-index: 5;
+      min-height: 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .verb-hero {
+      font-size: clamp(1.65rem, 5vw, 2.35rem);
+      font-weight: 800;
+      color: #37474f;
+      transition: color 0.3s ease;
+      max-width: 100%;
+      text-align: center;
+      word-break: break-word;
+      line-height: 1.05;
+      padding: 0 0.2rem;
+    }
+    .verb-hero.is-long {
+      font-size: clamp(0.92rem, 3.4vw, 1.45rem);
+    }
+    .verb-hero.is-irregular-past {
+      color: var(--crayon-purple);
+      text-shadow: 0 0 14px rgba(155, 89, 182, 0.55);
+    }
+    .vh-ch {
+      display: inline-block;
+      font-weight: 800;
+      transform-origin: center bottom;
+    }
+    .vh-clone { color: var(--state-blue); }
+    .hl-usually, .hl-base {
+      color: var(--habit-green);
+      font-weight: 800;
+    }
+    .hl-time {
+      color: var(--state-blue);
+      font-weight: 800;
+    }
+    .hl-past-verb { font-weight: 800; }
+    .hl-stem { color: #2e7d32; }
+    .hl-ed {
+      color: var(--now-accent);
+      font-weight: 900;
+      animation: edFlash 0.65s ease-in-out 2;
+    }
+    @keyframes edFlash {
+      0%, 100% { color: var(--now-accent); filter: brightness(1); }
+      50% { color: #ff5722; filter: brightness(1.25); }
+    }
+    .stamp-ed {
+      position: absolute;
+      left: 50%;
+      top: -120%;
+      transform: translateX(-50%) rotate(-6deg);
+      font-size: clamp(2rem, 6.5vw, 3rem);
+      font-weight: 900;
+      color: var(--crayon-red);
+      text-shadow: 3px 4px 0 rgba(0,0,0,0.15), 0 0 12px rgba(255, 87, 34, 0.45);
+      border: 5px solid var(--crayon-red);
+      border-radius: 12px;
+      padding: 0.12rem 0.4rem 0;
+      background: rgba(255, 235, 238, 0.95);
+      pointer-events: none;
+      z-index: 8;
+      opacity: 0;
+    }
+    .particle-layer {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 6;
+    }
+    .particle {
+      position: absolute;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--crayon-purple);
+      opacity: 0;
+    }
+    .time-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      align-items: center;
+      justify-content: center;
+      margin-top: 0.55rem;
+    }
+    .yesterday-btn {
+      font-family: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+      font-size: 1rem;
+      font-weight: 900;
+      padding: 0.55rem 1.25rem;
+      border-radius: 999px;
+      border: 4px solid #5d4037;
+      background: linear-gradient(180deg, #b3e5fc, #4fc3f7);
+      color: #01579b;
+      cursor: pointer;
+      box-shadow: 0 5px 0 rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.65);
+    }
+    .yesterday-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+    .now-btn {
+      font-family: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+      font-size: 0.88rem;
+      font-weight: 800;
+      padding: 0.45rem 0.95rem;
+      border-radius: 999px;
+      border: 3px solid #5d4037;
+      background: linear-gradient(180deg, #fff9c4, #fff176);
+      cursor: pointer;
+      box-shadow: 0 3px 0 rgba(0,0,0,0.12);
+    }
+    .recite-bar {
+      margin-top: 0.55rem;
+      padding: 0.5rem 0.55rem;
+      border-radius: 14px;
+      border: 2px dashed rgba(74, 144, 217, 0.4);
+      background: rgba(255,255,255,0.75);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      justify-content: center;
+      align-items: center;
+    }
+    .recite-bar button {
+      font-family: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+      font-size: 0.78rem;
+      font-weight: 800;
+      padding: 0.38rem 0.65rem;
+      border-radius: 999px;
+      border: 2px solid #5d4037;
+      background: #fff;
+      cursor: pointer;
+    }
+    .recite-bar button.is-on {
+      background: #e8f5e9;
+      border-color: var(--habit-green);
+    }
+    .memo-btn {
+      background: linear-gradient(180deg, #fff8e1, #ffecb3) !important;
+      border-color: #f9a825 !important;
+    }
+    .gold-key-panel {
+      max-width: min(300px, 88vw);
+      margin-bottom: 0.35rem;
+      padding: 0.45rem 0.6rem;
+      border-radius: 14px;
+      border: 3px solid rgba(255, 143, 0, 0.45);
+      background: rgba(255, 248, 230, 0.96);
+      font-size: 0.74rem;
+      line-height: 1.5;
+      color: #4e342e;
+      min-height: 2.6rem;
+      box-shadow: 0 4px 14px var(--shadow);
+    }
+    .gold-key-panel[hidden] { display: none !important; }
+    .gold-key-panel .src { color: #1565c0; font-weight: 800; }
+    .toast {
+      position: fixed;
+      right: 0.75rem;
+      bottom: 5.5rem;
+      max-width: min(92vw, 320px);
+      padding: 0.55rem 0.7rem;
+      border-radius: 14px;
+      border: 3px solid #5d4037;
+      background: rgba(255, 249, 240, 0.98);
+      font-size: 0.82rem;
+      line-height: 1.45;
+      box-shadow: 6px 8px 24px var(--shadow);
+      z-index: 80;
+      opacity: 0;
+      transform: translateY(12px);
+      pointer-events: none;
+      transition: opacity 0.35s ease, transform 0.35s ease;
+    }
+    .toast.is-show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    body.has-lesson-pager .toast {
+      bottom: 6.25rem;
+      z-index: 210;
+    }
+    .progress-dock {
+      position: fixed;
+      right: 0.75rem;
+      bottom: 1rem;
+      z-index: 60;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 0.45rem;
+    }
+    .progress-bar-wrap {
+      width: min(220px, 70vw);
+      height: 12px;
+      border-radius: 999px;
+      border: 2px solid #5d4037;
+      background: rgba(255,255,255,0.85);
+      overflow: hidden;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #81c784, #43a047);
+      transition: width 0.4s ease;
+    }
+    .progress-label {
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: #37474f;
+    }
+  </style>
+  <style>
+/* inlined from L03/assets/css/l03-pager.css */
+/* 第03讲 · L03 专用底栏周边（底栏条本体见 ../../assets/lesson-screen-16x9.css） */
+
+/* Page05：右侧进度区整体上移，避免压住底栏 */
+body.has-lesson-pager .progress-dock {
+  bottom: 3.65rem;
+}
+
+/* Page07：掌握进度条置于底栏之上 */
+body.has-lesson-pager .lesson-progress-chip {
+  position: fixed;
+  right: 0.65rem;
+  bottom: 3.65rem;
+  z-index: 199;
+  max-width: min(92vw, 340px);
+  text-align: right;
+  font-size: 0.76rem;
+  font-weight: 800;
+  color: #37474f;
+  line-height: 1.35;
+  pointer-events: none;
+}
+
+</style>
+  <style>
+/* inlined from L03/assets/css/l03-layout.css */
+/*
+ * 第03讲 lesson03-page01 ~ page15：主区在父级内铺满
+ * 视口级 16:9 舞台由 ../assets/lesson-screen-16x9.css 统一控制；此处不再限制 max-width。
+ */
+#shakeHost,
+.book,
+.page-wrap,
+.desk,
+.wrap {
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  max-width: none;
+  box-sizing: border-box;
+}
+
+/* Page15：首块提示与工具条在舞台内全宽对齐 */
+body.has-lesson-pager > .no-print:first-of-type {
+  max-width: none;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+</style>
+  <style>
+/* inlined from assets/lesson-screen-16x9.css */
+/**
+ * Lesson 01 / 02 / 03 / 05 统一大屏布局 + 统一字体/字号
+ * 桌面端（约平板横屏以上）：主舞台为视口内最大内接 16:9 矩形，四边留白最小；背景仅露窄边。
+ * 字体：系统无衬线 + 雅黑/苹方/思源黑体，保证课堂可读；英文例句与中文同一栈，仅字号放大。
+ * 各课 HTML 于 head 末引入外部样式表 lesson-screen-16x9.css（勿在本注释中写尖括号 link 标签，以免内联进 HTML 后被误匹配）
+ */
+
+:root {
+  --lesson-font-sans: system-ui, -apple-system, "Segoe UI", "Helvetica Neue", Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+  --lesson-font-zh: var(--lesson-font-sans);
+  --lesson-font-en: var(--lesson-font-sans);
+  /* 根字号：随视口略放大，带动全站 rem */
+  --lesson-fs-html: clamp(16px, 0.55vw + 14px, 20px);
+  --lesson-fs-topbar: clamp(0.88rem, 0.38vw + 0.78rem, 1.02rem);
+  --lesson-fs-body: clamp(0.92rem, 0.42vw + 0.82rem, 1.05rem);
+  --lesson-fs-small: clamp(0.8rem, 0.28vw + 0.72rem, 0.92rem);
+  --lesson-fs-h1: clamp(1.2rem, 0.85vw + 0.95rem, 1.48rem);
+  --lesson-fs-h2: clamp(1.05rem, 0.62vw + 0.86rem, 1.22rem);
+  --lesson-fs-h3: clamp(0.98rem, 0.48vw + 0.8rem, 1.1rem);
+  --lesson-fs-h4: clamp(0.92rem, 0.36vw + 0.76rem, 1.02rem);
+  --lesson-fs-btn: clamp(0.9rem, 0.36vw + 0.8rem, 1.02rem);
+  /* 英文例句 / 展示行：明显大于正文 */
+  --lesson-fs-example: clamp(1.05rem, 0.58vw + 0.9rem, 1.32rem);
+  --lesson-fs-en-line: var(--lesson-fs-example);
+}
+
+/* 主舞台内子元素默认继承字体，压过各页内联里的 Patrick / ZCOOL（后文对 .en / [lang=en] / 例句容器再单独放大） */
+html body .book *:not(code):not(kbd):not(samp):not(pre):not([lang="en"]):not(.en),
+html body .shell *:not(code):not(kbd):not(samp):not(pre):not([lang="en"]):not(.en),
+html body .app *:not(code):not(kbd):not(samp):not(pre):not([lang="en"]):not(.en),
+html body .wrap *:not(code):not(kbd):not(samp):not(pre):not([lang="en"]):not(.en),
+html body .page-wrap *:not(code):not(kbd):not(samp):not(pre):not([lang="en"]):not(.en),
+html body .desk *:not(code):not(kbd):not(samp):not(pre):not([lang="en"]):not(.en),
+html body main.sheet *:not(code):not(kbd):not(samp):not(pre):not([lang="en"]):not(.en) {
+  font-family: inherit;
+}
+
+html {
+  height: 100%;
+  font-size: var(--lesson-fs-html);
+}
+
+body {
+  --lesson-s-t: env(safe-area-inset-top, 0px);
+  --lesson-s-b: env(safe-area-inset-bottom, 0px);
+  --lesson-s-l: env(safe-area-inset-left, 0px);
+  --lesson-s-r: env(safe-area-inset-right, 0px);
+  /* 底部流式页脚（L01/L02 等）预留高度，避免主舞台 + 页脚超出视口 */
+  --lesson-foot-h: 0px;
+  /* 固定底栏占位（L01/L02/L03/L05 统一） */
+  --lesson-pager-gap: 4.35rem;
+  --lesson-l03-pager-gap: var(--lesson-pager-gap);
+  /* 讲义页顶栏工具条粗略高度（打印条 + 可选姓名栏等） */
+  --lesson-handout-chrome: 0px;
+
+  margin: 0 !important;
+  min-height: 100dvh !important;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--lesson-font-zh);
+  line-height: 1.55;
+}
+
+body:has(> .handout-pdf-bar):has(> main.sheet) {
+  --lesson-handout-chrome: 3.75rem;
+  justify-content: flex-start;
+}
+
+body.has-lesson-pager:has(> main.sheet) {
+  --lesson-handout-chrome: 8.5rem;
+  justify-content: flex-start;
+}
+
+/* 去掉各页内联的 body 大留白；L03 单独处理底栏 */
+body:not(.has-lesson-pager) {
+  padding: var(--lesson-s-t) var(--lesson-s-r) var(--lesson-s-b) var(--lesson-s-l) !important;
+}
+
+body.has-lesson-pager {
+  padding-top: max(4px, var(--lesson-s-t)) !important;
+  padding-left: max(4px, var(--lesson-s-l)) !important;
+  padding-right: max(4px, var(--lesson-s-r)) !important;
+  padding-bottom: max(var(--lesson-pager-gap, 4.35rem), var(--lesson-s-b)) !important;
+}
+
+/* —— 全讲统一「页间导航」：固定底栏（与 L03 lesson-pager 视觉一致，兼容旧 class 名） —— */
+body.has-lesson-pager nav.lesson-pager,
+body.has-lesson-pager nav.lesson-footer-nav,
+body.has-lesson-pager div.lesson-footer-nav,
+body.has-lesson-pager nav.page-foot,
+body.has-lesson-pager nav.footer-nav,
+body.has-lesson-pager div.footer-nav {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 200;
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  gap: 0.45rem;
+  padding: 0.42rem 0.55rem;
+  padding-bottom: max(0.42rem, env(safe-area-inset-bottom, 0px));
+  background: rgba(255, 249, 240, 0.98);
+  border-top: 3px solid #5d4037;
+  box-shadow: 0 -8px 22px rgba(0, 0, 0, 0.1);
+  font-family: var(--lesson-font-zh);
+}
+
+body.has-lesson-pager nav.lesson-pager a,
+body.has-lesson-pager nav.lesson-pager .pager-muted,
+body.has-lesson-pager nav.lesson-footer-nav a,
+body.has-lesson-pager div.lesson-footer-nav a,
+body.has-lesson-pager nav.page-foot a,
+body.has-lesson-pager nav.footer-nav a,
+body.has-lesson-pager div.footer-nav a,
+body.has-lesson-pager nav.lesson-footer-nav > span:not(.nav-sep),
+body.has-lesson-pager div.lesson-footer-nav > span:not(.nav-sep),
+body.has-lesson-pager nav.page-foot > span:not(.nav-sep),
+body.has-lesson-pager nav.footer-nav > span:not(.nav-sep),
+body.has-lesson-pager div.footer-nav > span:not(.nav-sep) {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  line-height: 1.35;
+  font-size: clamp(0.7rem, 2.6vw, 0.82rem);
+  font-weight: 800;
+  padding: 0.42rem 0.4rem;
+  border-radius: 999px;
+  border: 3px solid #5d4037;
+  box-shadow: 3px 4px 0 rgba(0, 0, 0, 0.1);
+}
+
+body.has-lesson-pager nav.lesson-pager a,
+body.has-lesson-pager nav.lesson-footer-nav a,
+body.has-lesson-pager div.lesson-footer-nav a,
+body.has-lesson-pager nav.page-foot a,
+body.has-lesson-pager nav.footer-nav a,
+body.has-lesson-pager div.footer-nav a {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+body.has-lesson-pager nav.lesson-pager a:hover,
+body.has-lesson-pager nav.lesson-footer-nav a:hover,
+body.has-lesson-pager div.lesson-footer-nav a:hover,
+body.has-lesson-pager nav.page-foot a:hover,
+body.has-lesson-pager nav.footer-nav a:hover,
+body.has-lesson-pager div.footer-nav a:hover {
+  filter: brightness(1.05);
+}
+
+body.has-lesson-pager nav.lesson-pager .pager-prev,
+body.has-lesson-pager nav.lesson-footer-nav a:first-of-type,
+body.has-lesson-pager div.lesson-footer-nav a:first-of-type,
+body.has-lesson-pager nav.page-foot a:first-of-type,
+body.has-lesson-pager nav.footer-nav a:first-of-type,
+body.has-lesson-pager div.footer-nav a:first-of-type {
+  color: #1565c0;
+  background: rgba(255, 249, 240, 0.98);
+}
+
+body.has-lesson-pager nav.lesson-pager .pager-next,
+body.has-lesson-pager nav.lesson-footer-nav a:last-of-type,
+body.has-lesson-pager div.lesson-footer-nav a:last-of-type,
+body.has-lesson-pager nav.page-foot a:last-of-type,
+body.has-lesson-pager nav.footer-nav a:last-of-type,
+body.has-lesson-pager div.footer-nav a:last-of-type {
+  color: #4e342e;
+  background: linear-gradient(180deg, #ffe082, #ffca28);
+  box-shadow: 0 0 12px rgba(255, 143, 0, 0.35), 3px 4px 0 rgba(0, 0, 0, 0.1);
+}
+
+/* 三链接旧版：中间 <a> 用中性色（非首非尾的链接） */
+body.has-lesson-pager nav.lesson-footer-nav a:not(:first-of-type):not(:last-of-type),
+body.has-lesson-pager div.lesson-footer-nav a:not(:first-of-type):not(:last-of-type),
+body.has-lesson-pager nav.page-foot a:not(:first-of-type):not(:last-of-type),
+body.has-lesson-pager nav.footer-nav a:not(:first-of-type):not(:last-of-type),
+body.has-lesson-pager div.footer-nav a:not(:first-of-type):not(:last-of-type) {
+  color: #37474f;
+  background: rgba(236, 239, 241, 0.96);
+  box-shadow: 2px 3px 0 rgba(0, 0, 0, 0.08);
+}
+
+body.has-lesson-pager nav.lesson-pager .pager-mid {
+  color: #37474f;
+  background: rgba(236, 239, 241, 0.96);
+  box-shadow: 2px 3px 0 rgba(0, 0, 0, 0.08);
+}
+
+body.has-lesson-pager nav.lesson-pager .pager-muted,
+body.has-lesson-pager nav.lesson-footer-nav > span:not(.nav-sep),
+body.has-lesson-pager div.lesson-footer-nav > span:not(.nav-sep),
+body.has-lesson-pager nav.page-foot > span:not(.nav-sep),
+body.has-lesson-pager nav.footer-nav > span:not(.nav-sep),
+body.has-lesson-pager div.footer-nav > span:not(.nav-sep) {
+  color: #78909c;
+  background: rgba(236, 239, 241, 0.95);
+  cursor: default;
+  box-shadow: 2px 3px 0 rgba(0, 0, 0, 0.06);
+}
+
+body.has-lesson-pager .lesson-footer-nav .nav-sep,
+body.has-lesson-pager div.lesson-footer-nav .nav-sep,
+body.has-lesson-pager nav.page-foot .nav-sep,
+body.has-lesson-pager nav.footer-nav .nav-sep,
+body.has-lesson-pager div.footer-nav .nav-sep,
+body.has-lesson-pager div.footer-nav .sep {
+  display: none;
+}
+
+/* L05 Page04：屏内阶段分页条与固定页间底栏错开，避免被遮挡 */
+body.has-lesson-pager .book .pager-foot {
+  margin-bottom: max(0.75rem, var(--lesson-pager-gap, 4.35rem));
+}
+
+/* 英文例句 / 片段：与中文同栈，字号用 --lesson-fs-example（勿给整段中文误标 lang="en"） */
+body .book [lang="en"],
+body .shell [lang="en"],
+body .app [lang="en"],
+body .wrap [lang="en"],
+body .page-wrap [lang="en"],
+body .desk [lang="en"],
+body main.sheet [lang="en"],
+body .book .en,
+body .shell .en,
+body .app .en,
+body .wrap .en,
+body .page-wrap .en,
+body .desk .en,
+body main.sheet .en {
+  font-family: var(--lesson-font-en);
+  font-size: var(--lesson-fs-example);
+}
+
+/* 压过各页内联里对 .en 的 Patrick Hand（与上条同义，提高权重） */
+html body .book .en,
+html body .shell .en,
+html body .app .en,
+html body .wrap .en,
+html body .page-wrap .en,
+html body .desk .en,
+html body main.sheet .en {
+  font-family: var(--lesson-font-en) !important;
+  font-size: var(--lesson-fs-example) !important;
+}
+
+/* 常见「整句英文」容器（部分页未加 .en） */
+body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) :is(
+  .sentence-en,
+  .gold-line,
+  .trap-line,
+  .mirror-word,
+  .contrast-line,
+  .sentence-line,
+  .sentence-main,
+  .voice-line-en,
+  .example-en,
+  .en-line,
+  .ipa-bar
+) {
+  font-family: var(--lesson-font-en);
+  font-size: var(--lesson-fs-example);
+}
+
+/* 标题层级（主舞台内） */
+body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) :is(h1) {
+  font-family: var(--lesson-font-zh);
+  font-size: var(--lesson-fs-h1);
+  line-height: 1.25;
+}
+
+body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) :is(h2) {
+  font-family: var(--lesson-font-zh);
+  font-size: var(--lesson-fs-h2);
+  line-height: 1.3;
+}
+
+body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) :is(h3) {
+  font-family: var(--lesson-font-zh);
+  font-size: var(--lesson-fs-h3);
+  line-height: 1.35;
+}
+
+body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) :is(h4) {
+  font-family: var(--lesson-font-zh);
+  font-size: var(--lesson-fs-h4);
+  line-height: 1.4;
+}
+
+/* 常见标题/条类名（与 h1 同级视觉的条目标题） */
+body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) :is(
+  .page-title,
+  .stage-title,
+  .doc-title,
+  .goal-title,
+  .machine-title,
+  .section-title,
+  .section-label,
+  .column-title,
+  .sk-title,
+  .time-machine .machine-title
+) {
+  font-family: var(--lesson-font-zh);
+  font-size: var(--lesson-fs-h2);
+  line-height: 1.3;
+}
+
+body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) :is(h1.page-title) {
+  font-size: var(--lesson-fs-h1);
+}
+
+/* 顶栏 / 副标题 / 提示条 */
+body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) :is(
+  .top-bar,
+  .top,
+  .sub-hint,
+  .page-subtitle,
+  .hint:not(.no-print),
+  .audio-chip,
+  .phase-pill
+) {
+  font-family: var(--lesson-font-zh);
+  font-size: var(--lesson-fs-topbar);
+}
+
+body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) :is(.page-subtitle, .hint) {
+  font-size: var(--lesson-fs-body);
+  line-height: 1.55;
+}
+
+/* 标签式导航按钮 */
+body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) :is(
+  .phase-tabs button,
+  .tabs .tab,
+  .tab,
+  .phase-nav button
+) {
+  font-family: var(--lesson-font-zh);
+  font-size: var(--lesson-fs-small);
+}
+
+/* 可点击控件：与正文协调 */
+body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) :is(
+  button:not(.hotspot),
+  .btn,
+  .crayon,
+  .btn-row button,
+  .btn-handout-pdf,
+  .btn-glasses,
+  .btn-notes,
+  .btn-tts,
+  input,
+  select,
+  textarea
+) {
+  font-family: var(--lesson-font-zh);
+  font-size: var(--lesson-fs-btn);
+}
+
+body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) :is(button.crayon, .crayon) {
+  font-family: var(--lesson-font-zh);
+}
+
+/* 代码与等宽保持可读 */
+body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) :is(code, kbd, samp, pre) {
+  font-family: ui-monospace, "Cascadia Mono", "Consolas", monospace;
+  font-size: 0.92em;
+}
+
+/* —— 主舞台：默认流式（小屏）；桌面端见下方 media —— */
+body > .book,
+body > .shell,
+body > .app,
+body > .wrap,
+body > .page-wrap,
+body > .desk,
+body > #shakeHost,
+body > .layout,
+body > main.sheet {
+  width: 100%;
+  max-width: 100%;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  box-sizing: border-box;
+  flex: 1 1 auto;
+  min-height: 0;
+  font-family: var(--lesson-font-zh);
+  font-size: 1rem;
+}
+
+/* 正文段落与列表（不覆盖带内联 font-size 的特例时，由继承生效；此处略抬一级） */
+body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) :is(
+  p,
+  li,
+  dd,
+  dt,
+  .guide,
+  .card,
+  .intro-board,
+  .goal-board,
+  .nav-list,
+  .blueprint,
+  .tree-story,
+  .ai-out,
+  .ai-bubble
+) {
+  font-family: var(--lesson-font-zh);
+  font-size: var(--lesson-fs-body);
+}
+
+/* 外层已控宽时，内层 .book 铺满，避免双层 max-width 夹心过窄 */
+body > .shell > .book,
+body > .app > .book,
+body > .page-wrap > .book,
+body > .wrap > .book {
+  width: 100% !important;
+  max-width: none !important;
+}
+
+/* 底部导航与主舞台同宽（仅 body 直接子级，避免误伤页内 .footer-nav） */
+body > .lesson-footer-nav,
+body > nav.lesson-footer-nav,
+body > nav.page-foot,
+body > nav.lesson-pager,
+body > nav.footer-nav,
+body > div.footer-nav {
+  width: 100%;
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+  font-family: var(--lesson-font-zh);
+  font-size: var(--lesson-fs-small);
+  flex-shrink: 0;
+}
+
+.lesson-footer-nav a,
+body > nav.page-foot a {
+  font-family: var(--lesson-font-zh);
+  font-size: inherit;
+}
+
+/* 讲义顶栏与主画布同宽（桌面端由 media 覆盖为 16:9 宽度） */
+body > .handout-pdf-bar,
+body.has-lesson-pager > .handout-pdf-bar,
+body.has-lesson-pager > .name-toolbar {
+  width: 100%;
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+/* 桌面：视口内最大 16:9 内接矩形 */
+@media (min-width: 769px) and (min-height: 560px) {
+  body:not(.has-lesson-pager) > .book,
+  body:not(.has-lesson-pager) > .shell,
+  body:not(.has-lesson-pager) > .app,
+  body:not(.has-lesson-pager) > .wrap,
+  body:not(.has-lesson-pager) > .page-wrap,
+  body:not(.has-lesson-pager) > .desk,
+  body:not(.has-lesson-pager) > #shakeHost,
+  body:not(.has-lesson-pager) > .layout,
+  body:not(.has-lesson-pager) > main.sheet {
+    --stage-vw: calc(100vw - var(--lesson-s-l) - var(--lesson-s-r));
+    --stage-vh: calc(100dvh - var(--lesson-foot-h) - var(--lesson-handout-chrome) - var(--lesson-s-t) - var(--lesson-s-b));
+    width: min(var(--stage-vw), calc(var(--stage-vh) * 16 / 9)) !important;
+    max-width: min(var(--stage-vw), calc(var(--stage-vh) * 16 / 9)) !important;
+    height: min(var(--stage-vh), calc(var(--stage-vw) * 9 / 16)) !important;
+    max-height: min(var(--stage-vh), calc(var(--stage-vw) * 9 / 16)) !important;
+    aspect-ratio: 16 / 9;
+    flex: 0 0 auto;
+    overflow: auto;
+  }
+
+  body.has-lesson-pager > .book,
+  body.has-lesson-pager > .shell,
+  body.has-lesson-pager > .app,
+  body.has-lesson-pager > .wrap,
+  body.has-lesson-pager > .page-wrap,
+  body.has-lesson-pager > .desk,
+  body.has-lesson-pager > #shakeHost,
+  body.has-lesson-pager > .layout,
+  body.has-lesson-pager > main.sheet {
+    --stage-vw: calc(100vw - var(--lesson-s-l) - var(--lesson-s-r) - 8px);
+    --stage-vh: calc(
+      100dvh - var(--lesson-pager-gap, 4.35rem) - var(--lesson-handout-chrome) - max(4px, var(--lesson-s-t)) - max(4px, var(--lesson-s-b))
+    );
+    width: min(var(--stage-vw), calc(var(--stage-vh) * 16 / 9)) !important;
+    max-width: min(var(--stage-vw), calc(var(--stage-vh) * 16 / 9)) !important;
+    height: min(var(--stage-vh), calc(var(--stage-vw) * 9 / 16)) !important;
+    max-height: min(var(--stage-vh), calc(var(--stage-vw) * 9 / 16)) !important;
+    aspect-ratio: 16 / 9;
+    flex: 0 0 auto;
+    overflow: auto;
+  }
+
+  body > .lesson-footer-nav,
+  body > nav.lesson-footer-nav,
+  body > nav.page-foot,
+  body > nav.lesson-pager,
+  body > nav.footer-nav,
+  body > div.footer-nav {
+    width: min(
+        calc(100vw - var(--lesson-s-l) - var(--lesson-s-r)),
+        calc((100dvh - var(--lesson-foot-h) - var(--lesson-s-t) - var(--lesson-s-b)) * 16 / 9)
+      )
+      !important;
+    max-width: min(
+        calc(100vw - var(--lesson-s-l) - var(--lesson-s-r)),
+        calc((100dvh - var(--lesson-foot-h) - var(--lesson-s-t) - var(--lesson-s-b)) * 16 / 9)
+      )
+      !important;
+  }
+
+  body.has-lesson-pager > .lesson-footer-nav,
+  body.has-lesson-pager > nav.lesson-footer-nav,
+  body.has-lesson-pager > nav.page-foot {
+    width: min(
+        calc(100vw - var(--lesson-s-l) - var(--lesson-s-r) - 8px),
+        calc((100dvh - var(--lesson-pager-gap, 4.35rem) - max(4px, var(--lesson-s-t)) - max(4px, var(--lesson-s-b))) * 16 / 9)
+      )
+      !important;
+    max-width: min(
+        calc(100vw - var(--lesson-s-l) - var(--lesson-s-r) - 8px),
+        calc((100dvh - var(--lesson-pager-gap, 4.35rem) - max(4px, var(--lesson-s-t)) - max(4px, var(--lesson-s-b))) * 16 / 9)
+      )
+      !important;
+  }
+
+  /* 固定底栏铺满视口（勿用 16:9 画布宽度约束，否则底栏短于屏幕） */
+  body.has-lesson-pager > nav.lesson-pager,
+  body.has-lesson-pager > nav.lesson-footer-nav,
+  body.has-lesson-pager > div.lesson-footer-nav,
+  body.has-lesson-pager > nav.page-foot,
+  body.has-lesson-pager > nav.footer-nav,
+  body.has-lesson-pager > div.footer-nav {
+    width: 100% !important;
+    max-width: none !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  body > .handout-pdf-bar,
+  body.has-lesson-pager > .handout-pdf-bar,
+  body.has-lesson-pager > .name-toolbar {
+    width: min(
+        calc(100vw - var(--lesson-s-l) - var(--lesson-s-r)),
+        calc((100dvh - var(--lesson-foot-h) - var(--lesson-handout-chrome) - var(--lesson-s-t) - var(--lesson-s-b)) * 16 / 9)
+      )
+      !important;
+    max-width: min(
+        calc(100vw - var(--lesson-s-l) - var(--lesson-s-r)),
+        calc((100dvh - var(--lesson-foot-h) - var(--lesson-handout-chrome) - var(--lesson-s-t) - var(--lesson-s-b)) * 16 / 9)
+      )
+      !important;
+  }
+
+  body.has-lesson-pager > .handout-pdf-bar,
+  body.has-lesson-pager > .name-toolbar {
+    width: min(
+        calc(100vw - var(--lesson-s-l) - var(--lesson-s-r) - 8px),
+        calc((100dvh - var(--lesson-pager-gap, 4.35rem) - var(--lesson-handout-chrome) - max(4px, var(--lesson-s-t)) - max(4px, var(--lesson-s-b))) * 16 / 9)
+      )
+      !important;
+    max-width: min(
+        calc(100vw - var(--lesson-s-l) - var(--lesson-s-r) - 8px),
+        calc((100dvh - var(--lesson-pager-gap, 4.35rem) - var(--lesson-handout-chrome) - max(4px, var(--lesson-s-t)) - max(4px, var(--lesson-s-b))) * 16 / 9)
+      )
+      !important;
+  }
+
+  /* 讲义页首行提示：与主画布同宽 */
+  body:has(> main.sheet) > p.no-print-hint {
+    width: min(
+        calc(100vw - var(--lesson-s-l) - var(--lesson-s-r)),
+        calc((100dvh - var(--lesson-foot-h) - var(--lesson-handout-chrome) - var(--lesson-s-t) - var(--lesson-s-b)) * 16 / 9)
+      )
+      !important;
+    max-width: min(
+        calc(100vw - var(--lesson-s-l) - var(--lesson-s-r)),
+        calc((100dvh - var(--lesson-foot-h) - var(--lesson-handout-chrome) - var(--lesson-s-t) - var(--lesson-s-b)) * 16 / 9)
+      )
+      !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    box-sizing: border-box;
+  }
+
+  body.has-lesson-pager:has(> main.sheet) > p.no-print-hint {
+    width: min(
+        calc(100vw - var(--lesson-s-l) - var(--lesson-s-r) - 8px),
+        calc((100dvh - var(--lesson-pager-gap, 4.35rem) - var(--lesson-handout-chrome) - max(4px, var(--lesson-s-t)) - max(4px, var(--lesson-s-b))) * 16 / 9)
+      )
+      !important;
+    max-width: min(
+        calc(100vw - var(--lesson-s-l) - var(--lesson-s-r) - 8px),
+        calc((100dvh - var(--lesson-pager-gap, 4.35rem) - var(--lesson-handout-chrome) - max(4px, var(--lesson-s-t)) - max(4px, var(--lesson-s-b))) * 16 / 9)
+      )
+      !important;
+  }
+}
+
+@media (max-width: 768px), (max-height: 559px) {
+  body > .book,
+  body > .shell,
+  body > .app,
+  body > .wrap,
+  body > .page-wrap,
+  body > .desk,
+  body > #shakeHost,
+  body > .layout,
+  body > main.sheet {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    max-height: none !important;
+    min-height: 0 !important;
+    aspect-ratio: unset !important;
+    flex: 1 1 auto;
+    overflow: visible;
+  }
+
+  body {
+    justify-content: flex-start;
+  }
+}
+
+@media print {
+  body > .book,
+  body > .shell,
+  body > .app,
+  body > .wrap,
+  body > .page-wrap,
+  body > .desk,
+  body > #shakeHost,
+  body > .layout,
+  body > main.sheet {
+    width: 100% !important;
+    max-width: none !important;
+    height: auto !important;
+    max-height: none !important;
+    min-height: 0 !important;
+    aspect-ratio: unset !important;
+    overflow: visible !important;
+  }
+
+  body.has-lesson-pager nav.lesson-pager,
+  body.has-lesson-pager nav.lesson-pager.no-print,
+  body.has-lesson-pager nav.lesson-footer-nav,
+  body.has-lesson-pager div.lesson-footer-nav,
+  body.has-lesson-pager nav.page-foot,
+  body.has-lesson-pager nav.footer-nav,
+  body.has-lesson-pager div.footer-nav {
+    display: none !important;
+  }
+}
+
+/* —— 可读字体：压过各页内联里对 body / h1 / .en 等的卡通字体（依赖更高选择器权重） —— */
+html body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) {
+  font-family: var(--lesson-font-zh);
+}
+
+html body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) button.crayon,
+html body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) .crayon {
+  font-family: var(--lesson-font-zh);
+}
+
+html body > .lesson-footer-nav,
+html body > nav.lesson-footer-nav,
+html body > nav.page-foot,
+html body > nav.footer-nav,
+html body > div.footer-nav,
+html body > .lesson-progress-chip,
+html body > nav.lesson-pager {
+  font-family: var(--lesson-font-zh);
+}
+
+
+</style>
+</head>
+<body class="has-lesson-pager">
+  <div class="book">
+    <div class="top-bar"><strong>第03讲</strong> · Page 05 · 时光打印机 · 图片对比 + 发现式学习</div>
+    <h1>图片先行 · 苏格拉底提问 · 盖章派 vs 魔法派</h1>
+    <p class="subtitle"></p>
+
+    <div class="page-layout">
+      <aside class="side-lobby">
+        <div class="orb-row">
+          <button type="button" class="energy-orb regular is-open" id="orbReg" aria-expanded="true">🛡️ 盖章派<br><small>Regular · 30</small></button>
+          <button type="button" class="energy-orb irregular" id="orbIrr" aria-expanded="false">✨ 魔法派<br><small>Irregular · 30</small></button>
+        </div>
+        <div class="orb-panel regular is-open" id="panelReg" role="region" aria-label="规则动词词卡">
+          <div class="orb-panel-inner" id="deckRegular"></div>
+        </div>
+        <div class="orb-panel irregular" id="panelIrr" role="region" aria-label="不规则动词词卡" hidden>
+          <div class="orb-panel-inner" id="deckIrregular"></div>
+        </div>
+      </aside>
+
+      <main class="print-main">
+        <div class="conveyor-wrap">
+          <div class="conveyor-belt" aria-hidden="true"></div>
+          <div class="screen-wrap">
+            <div class="screen-inner" id="screenInner">
+              <div class="photo-stack" id="photoStack" title="点击图画或下方气泡，解锁句子与时光按钮">
+                <img class="img-now" id="imgNowEl" alt="Usually — 平时" decoding="async" />
+                <img class="img-past" id="imgPastEl" alt="Yesterday — 过去" decoding="async" />
+                <div class="img-fallback" id="imgFallback" aria-hidden="true">📖</div>
+              </div>
+              <button type="button" class="question-bubble" id="questionBubble" aria-label="老师的提问，点击查看现在时句子"></button>
+              <p class="screen-line" id="screenSentence"></p>
+              <div class="verb-hero-wrap" id="verbHeroWrap">
+                <div class="particle-layer" id="particleLayer"></div>
+                <div class="stamp-ed" id="stampEd">ed</div>
+                <div class="verb-hero" id="verbHero">work</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="time-actions">
+          <button type="button" class="now-btn" id="btnNow">☀️ Now（平时）</button>
+          <button type="button" class="yesterday-btn" id="btnYesterday">🕰️ Yesterday（过去）</button>
+        </div>
+        <div class="recite-bar" id="reciteBar">
+          <button type="button" id="btnLoop" aria-pressed="false">🔂 循环朗读</button>
+          <button type="button" id="btnSlow" aria-pressed="false">🐢 慢速跟读</button>
+          <button type="button" class="memo-btn" id="btnMemo">🎙️ 我已背诵</button>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status"></div>
+
+  <div class="progress-dock">
+    <div class="gold-key-panel" id="goldKey" hidden>
+      <span class="src" id="goldSrc"></span>
+      <div id="goldNote"></div>
+    </div>
+    <div class="progress-label" id="progressLabel">已探索 0 / 60（规则 0 · 不规则 0） · 已背诵 0 / 60</div>
+    <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progressFill"></div></div>
+  </div>
+
+  <nav class="lesson-pager" aria-label="第03讲·页面导航">
+    <a class="pager-prev" href="lesson03-page04-patterns.html">← 上一页 · Page 04 · 句式魔法阵</a>
+    <a class="pager-next" href="lesson03-page06-regular.html">下一页 · Page 06 · 拼写炼金实验室 →</a>
+  </nav>
+
+  <script>
+/* inlined: L03/assets/js/l03-audio-manifest.js */
+window.L03AudioManifest = {
+  "voice": "en-US-AvaMultilingualNeural",
+  "region": "eastus2",
+  "count": 244,
+  "entries": {
+    "Great! The form of be changes with time.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/e79977e18b9d65832b.mp3",
+    "The weather was cloudy yesterday.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/2bd3f0380b18335343.mp3",
+    "They were at the beach last Sunday.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/5df13f883998741c06.mp3",
+    "Confucius was a great teacher.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/36b9fe5431b72de85c.mp3",
+    "The weather is sunny today.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/b0ccfa4c33fe451c68.mp3",
+    "I was in the countryside with my grandparents last summer.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/749efd22d24e14bbb9.mp3",
+    "Our class was not quiet during the break.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/c2177f632e8546ad60.mp3",
+    "The old bridge was very famous years ago.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/cbce2d35b790943bb6.mp3",
+    "You were excited to share your experience.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/f6cb959791d0c6bfbd.mp3",
+    "My parents were proud of my progress last term.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/09e8931892223fb439.mp3",
+    "They were at the museum this morning.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/5bb6518d97bcb2e880.mp3",
+    "It is a good time to review grammar now.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/b2850b892c4cb664b6.mp3",
+    "The school gate is open today.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/ce7490e4a7a7957199.mp3",
+    "I was only five years old in this photo.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/0b736d5fd3d3cc6b15.mp3",
+    "He was at a summer camp last July.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/c9cdfc9dc084514d83.mp3",
+    "She was not at home yesterday.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/2b16ca83745bad1557.mp3",
+    "It was a wonderful day!": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/ab6b361b3d148adf36.mp3",
+    "Confucius was a great teacher in ancient China.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/ef7c4647cff570ecb9.mp3",
+    "The weather was sunny and hot.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/1f5ad32b15cbc6db1a.mp3",
+    "We were very tired but happy after the trip.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/e22145453bc7216e8b.mp3",
+    "Were you excited to share your experience?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/7bfb313b9a2f47f07b.mp3",
+    "My family were at the beach making sandcastles.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/7107e3fc658aba3461.mp3",
+    "She was at a summer camp last July.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/372c534e51d9961239.mp3",
+    "She was not at a summer camp last July.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/514b303443d68e3b1e.mp3",
+    "Was she at a summer camp last July?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/588494ff35fd244774.mp3",
+    "We were tired at the party yesterday.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/d5493aa04c06876aaf.mp3",
+    "We were not tired at the party yesterday.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/f532ba4ade17b1ee76.mp3",
+    "Were we tired at the party yesterday?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/0281d34417af37b356.mp3",
+    "The weather was sunny last weekend.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/392af964bdb00d5608.mp3",
+    "The weather was not sunny last weekend.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/f9a453cb5b1d238615.mp3",
+    "Was the weather sunny last weekend?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/bf3954d40d721abd22.mp3",
+    "They were on the school bus this morning.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/9a36714f59a11a3aa8.mp3",
+    "They were not on the school bus this morning.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/3f3414ae0ade663836.mp3",
+    "Were they on the school bus this morning?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/279a7b1945b5d238bb.mp3",
+    "He achieved his dream of becoming a doctor through years of hard work.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/c7412a8116670b447b.mp3",
+    "I experienced the charm of traditional culture at the Sanxingdui Museum.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/4171fd66603a00cef3.mp3",
+    "My teacher encouraged me to take part in the English speech contest.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/9f23ff268abc747105.mp3",
+    "I practiced every day and finally improved my writing skills.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/5de058e40a654e8c0a.mp3",
+    "The guide introduced the history of Chengdu to us in great detail.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/67be6fed347f0b9a26.mp3",
+    "We prepared carefully for the upcoming exam and felt quite confident.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/6054f00d17372a5d6c.mp3",
+    "I realized the importance of health after I got a bad cold.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/da19082d489bfc642c.mp3",
+    "My friend recommended an excellent book about history to me.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/b27b6ecc8d1154ceb1.mp3",
+    "We protected the environment by picking up rubbish in the park.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/b6719c50d22adcf09f.mp3",
+    "He developed a good habit of reading for half an hour every night.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/c4cc1ef4dd9f033e98.mp3",
+    "I imagined what my future life would be like ten years later.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/9e6afd9f283262b8f6.mp3",
+    "Our class organized a meaningful charity sale to help those in need.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/9584d0d7ffa0c766bc.mp3",
+    "The volunteers provided the elderly people with warm food and help.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/d3679c8f30c7e31134.mp3",
+    "I noticed that a little girl was crying in the corner of the library.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/eda74381ce80a21056.mp3",
+    "No one believed that the little boy could win the first prize.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/3782d6f535dbf31c9e.mp3",
+    "Our team worked together and won the game in the end.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/b506632f0d80db18a8.mp3",
+    "Last week, I shared my wonderful reading experience with my classmates.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/dc4ec93c3285e8b0ad.mp3",
+    "We visited the Sanxingdui Museum and saw many ancient treasures.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/ac302ec6ee2c04a383.mp3",
+    "The rain stopped an hour ago, and a beautiful rainbow appeared.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/2a754caf119d7a7ed3.mp3",
+    "We planned a meaningful school trip to the local countryside.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/d89093fa30db173cde.mp3",
+    "To improve my English, I practiced speaking it every morning.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/a891cab1d808137138.mp3",
+    "She studied several museum labels and wrote a short cultural report.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/e7651e0298d35510c4.mp3",
+    "The hero cried with happiness when he finally saw his family again.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/c51951a2f01aa8509c.mp3",
+    "He carried heavy tools all morning and never complained once.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/3bc787759470a74619.mp3",
+    "My friends worried about the exam, so we reviewed the key points together.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/6a80a12ad237a3383a.mp3",
+    "I tried to explain Chengdu culture in simple English to foreign guests.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/36f8d996e96e6fd54d.mp3",
+    "We copied the ancient patterns carefully when we did the art workshop.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/56a0c0479dd1d3558b.mp3",
+    "We shopped for eco-friendly bags instead of plastic ones at the market.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/6195f650a583609d79.mp3",
+    "He dropped a plastic bottle on the lawn, then picked it up at once.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/975773a182d7db8692.mp3",
+    "They moved to a new community with more green spaces and fresh air.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/7a63e3a620070ef87e.mp3",
+    "I understood the true meaning of teamwork after the basketball game.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/1c2bcee50bdbf45357.mp3",
+    "I forgot to bring my umbrella, but luckily a stranger helped me.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/87430db37a5ba77468.mp3",
+    "She chose to follow her heart and became a successful artist.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/58dbf037aa2fec50f0.mp3",
+    "The seeds I planted last spring grew into beautiful flowers.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/813dac2bae3d1cd4a5.mp3",
+    "The gift meant a lot to me because it was from my best friend.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/13cb025058a8a6360e.mp3",
+    "Chengdu became a modern city with a long and rich history.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/ec2e58ec9e90754eac.mp3",
+    "I drew a conclusion that patience is the key to success.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/761856375f0808f67a.mp3",
+    "We swept the floor and cleaned the windows for the old man.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/81a0bf0c4b24771986.mp3",
+    "He threw the waste bottle into the correct bin for recycling.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/5ac60f756ddf1642a6.mp3",
+    "The two leaders shook hands and reached an agreement.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/44665602e1bed27223.mp3",
+    "I woke up early this morning to see the beautiful sunrise.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/bd515548597ebad5a4.mp3",
+    "My teacher kept encouraging me when I was in trouble.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/91049e4c6649cf6762.mp3",
+    "We lost the game, but we learned how to support each other.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/d44eb7e80ff7fb7417.mp3",
+    "The traditional culture of China spread all over the world.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/f5bc92f714283c4e3d.mp3",
+    "The good news brought a big smile to everyone's face.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/78d865801534b1dc68.mp3",
+    "I went to the countryside to enjoy the fresh air and quiet life.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/e3dc33f2d4095e9d98.mp3",
+    "I saw the famous Guest-Greeting Pine in Mount Huangshan.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/62a22b672f3ae49a4c.mp3",
+    "I spent my weekend visiting the panda research base in Chengdu.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/3f0cf8e89d67f45a62.mp3",
+    "We took many photos of the sandcastle on the beach.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/e0b5e52b551a0ea381.mp3",
+    "We ate some traditional food and it tasted really delicious.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/8d36f3dc7fce0b7187.mp3",
+    "I bought some special gifts for my family in the museum shop.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/c5dd6047c7d8ba0398.mp3",
+    "I made a meaningful plan for my future summer holiday.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/d72c61c8f913a1bc73.mp3",
+    "I read a history book that helped me understand our culture better.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/163992fac4f40ec582.mp3",
+    "He wrote an email to thank the people who helped him.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/281698c991ed143f75.mp3",
+    "The girl practiced hard and finally won the first prize.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/e4de9307b7cddec24c.mp3",
+    "I did my part in the community cleanup and felt proud of myself.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/c21b37350765846633.mp3",
+    "We had a meaningful discussion about volunteer work last Monday.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/edc398b4f2bb33de19.mp3",
+    "My parents gave me a meaningful book as a gift.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/372e6f1781de5d9c31.mp3",
+    "It began to rain heavily when we climbed the mountain.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/ee489716c8ffa0032e.mp3",
+    "I knew more about Sanxingdui after listening to the guide's lecture.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/5aee6b91954e099c09.mp3",
+    "The fans shouted with joy when their favorite star appeared.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/ffe039b04d13a1576d.mp3",
+    "We cleaned the park and collected lots of plastic bottles.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/7e252af54820e278cb.mp3",
+    "She washed every cup carefully before the evening party.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/106f7d6d597060d8f6.mp3",
+    "We watched a film about wild pandas and talked about protection.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/cf3f08809306fb94af.mp3",
+    "He dropped a plastic bottle on the grass, then picked it up at once.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/01bc13817e67fffe23.mp3",
+    "We chatted online with students from another city about green travel.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/48c70ddcdc1bb99520.mp3",
+    "I bought some special gifts in the museum shop.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/087bca8026b99ed2ee.mp3",
+    "I thought it was a wonderful idea to help others in need.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/b951dc6e6d49f96138.mp3",
+    "We caught the early bus to the panda base on time.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/2cbbd19173567d0d32.mp3",
+    "The volunteer taught us how to protect wild animals.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/f2f37686bcaf9ca47c.mp3",
+    "My parents gave me a meaningful book as a birthday gift.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/59e88cc60f0cdaf80c.mp3",
+    "We sat under the big tree and shared our stories happily.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/fbd80b37521d1fbe30.mp3",
+    "I found a lost dog and took it to the police station.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/e85ef3006312b09d33.mp3",
+    "We went to the countryside to enjoy the fresh air.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/428709ac71d0d6738f.mp3",
+    "We took many amazing photos during the school trip.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/82c8ac43bd9bc45733.mp3",
+    "We made a detailed plan for the summer holiday.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/efd55ed798925240b6.mp3",
+    "I spent the whole morning cleaning up the city park.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/5ce94a37d86c99915a.mp3",
+    "We left the hotel early to avoid the heavy traffic.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/c3f66ff9e74f7a5cc1.mp3",
+    "I felt very proud when I stood on the top of the mountain.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/78230be54319965319.mp3",
+    "The old man told us a story about the ancient city.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/032bd531628aefba85.mp3",
+    "I met a friendly foreign tourist in the museum.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/b7bbb5d245093e6dc9.mp3",
+    "I read an excellent sci-fi book yesterday evening.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/f5832b6144d527c63d.mp3",
+    "He put the rubbish into the correct recycling bin.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/98f093ac72f0eb7a97.mp3",
+    "She cut the paper carefully to make a beautiful kite.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/4864128b1a17dc82a1.mp3",
+    "My mother let me choose the place for our family trip.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/0dab71d42bc384228c.mp3",
+    "We understood the true meaning of teamwork until we lost the game.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/c29bd6a7ef38461266.mp3",
+    "We didn't understand the true meaning of teamwork until we lost the game.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/13d33366354236eee5.mp3",
+    "Did we understand the true meaning of teamwork until we lost the game?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/b945ed5f55eff8aa6d.mp3",
+    "When did we understand the true meaning of teamwork?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/2eb40c24d5b9d0b48a.mp3",
+    "You experienced the charm of traditional Chinese culture in the museum.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/cae1c422643cc7d2bd.mp3",
+    "You didn't experience the charm of traditional Chinese culture in the museum.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/9f0d8c1d7d2d737623.mp3",
+    "Did you experience the charm of traditional Chinese culture in the museum?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/5ddf2a43f07c48ca0d.mp3",
+    "Where did you experience the charm of traditional Chinese culture?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/b8c1b84cd8a9988c2c.mp3",
+    "She chose to give up her dream when facing difficulties.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/758a43af1b5779ab02.mp3",
+    "She didn't choose to give up her dream when facing difficulties.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/3f529bfacd510a5d38.mp3",
+    "Did she choose to give up her dream when facing difficulties?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/bcccf89e0825685769.mp3",
+    "When did she choose to give up her dream?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/f146221a3cdecd74da.mp3",
+    "He achieved his goal because he worked hard and stayed patient.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/53d1f76a76236bf46c.mp3",
+    "He didn't achieve his goal because he worked hard and stayed patient.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/415b63d3c850317b63.mp3",
+    "Did he achieve his goal because he worked hard and stayed patient?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/3e90a3abd88be885c6.mp3",
+    "Why did he achieve his goal?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/c2b3c1a63bfb081ccf.mp3",
+    "I forgot to express my thanks to the kind volunteers.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/d64bc506c7f45f3f9c.mp3",
+    "I didn't forget to express my thanks to the kind volunteers.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/1afa023bc73c36a9da.mp3",
+    "Did I forget to express my thanks to the kind volunteers?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/5c1347b4fc03421b6f.mp3",
+    "What did I forget?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/0249e5c04c949b576a.mp3",
+    "The bad weather brought us down during the school trip.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/15abf4707a73c14f49.mp3",
+    "The bad weather didn't bring us down during the school trip.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/4911a694eb78c7fe58.mp3",
+    "Did the bad weather bring us down during the school trip?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/67acea612763a46647.mp3",
+    "When did the bad weather bring us down?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/5139eb84bed0ff74d1.mp3",
+    "You bought any meaningful souvenirs for your family in Chengdu.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/c9df4054c866458147.mp3",
+    "You didn't buy any meaningful souvenirs for your family in Chengdu.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/af9712157e62d55a78.mp3",
+    "Did you buy any meaningful souvenirs for your family in Chengdu?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/7ba3669a609ad7dca7.mp3",
+    "Where did you buy any meaningful souvenirs for your family?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/aa9b31d598239be0a3.mp3",
+    "The local guide taught us how to make traditional paper-cutting.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/9343d66463549ea844.mp3",
+    "The local guide didn't teach us how to make traditional paper-cutting.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/ffe1b126a7afb08dd7.mp3",
+    "Did the local guide teach us how to make traditional paper-cutting?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/439791098929ff4c06.mp3",
+    "What did the local guide teach us?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/1762302e56fbc73a52.mp3",
+    "These small trees grew well without enough water and sunshine.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/ce52259baefe95e0e1.mp3",
+    "These small trees didn't grow well without enough water and sunshine.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/4cba84cc09e78ae040.mp3",
+    "Did these small trees grow well without enough water and sunshine?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/e55120e317ec44d0ba.mp3",
+    "How did these small trees grow?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/bb1301f30c11ec7c8c.mp3",
+    "A good citizen threw rubbish everywhere in the public park.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/8b9db0cf009669af10.mp3",
+    "A good citizen didn't throw rubbish everywhere in the public park.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/49a33df759972cc42b.mp3",
+    "Did a good citizen throw rubbish everywhere in the public park?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/3500c4ca39f6b5701d.mp3",
+    "Where did a good citizen throw rubbish everywhere?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/5e3a6589e3bf03f65f.mp3",
+    "He realized the importance of protecting wild animals.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/162eae904c2a63a6a6.mp3",
+    "He didn't realize the importance of protecting wild animals.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/bd1fb26fef657d7bbc.mp3",
+    "Did he realize the importance of protecting wild animals?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/b8a10acdc7ba15529d.mp3",
+    "What did he realize?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/0d39890a8a9e486c51.mp3",
+    "My parents encouraged me to spend too much time on computer games.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/89310eb5ef7af3e3c0.mp3",
+    "My parents didn't encourage me to spend too much time on computer games.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/cb0204da51edc7a336.mp3",
+    "Did my parents encourage me to spend too much time on computer games?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/99f63f0f04f81a38af.mp3",
+    "What did my parents encourage me?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/b832441c873be125af.mp3",
+    "You developed a good habit of reading books every day.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/6334f59d801147e952.mp3",
+    "You didn't develop a good habit of reading books every day.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/8456178d82a3b895f4.mp3",
+    "Did you develop a good habit of reading books every day?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/435cdbbfad009fea93.mp3",
+    "What did you develop?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/e0e7dcddb8bb999ad0.mp3",
+    "Our class organized a charity sale to help the poor children.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/22f0e1694048fd545d.mp3",
+    "Our class didn't organize a charity sale to help the poor children.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/1298c2bffc6ac0ab6a.mp3",
+    "Did our class organize a charity sale to help the poor children?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/575d5636942263fe32.mp3",
+    "What did our class organize?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/03325fb825c8f806f4.mp3",
+    "They prepared carefully for the coming English speech contest.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/9bacfdd525f0517373.mp3",
+    "They didn't prepare carefully for the coming English speech contest.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/5091ba915126c82746.mp3",
+    "Did they prepare carefully for the coming English speech contest?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/67a12d838567354915.mp3",
+    "How did they prepare?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/1a9be067a52df4b9b0.mp3",
+    "Chengdu became a modern city in just a few years.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/3297a48e2ffff802b7.mp3",
+    "Chengdu didn't become a modern city in just a few years.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/d0f6d60efdbf629725.mp3",
+    "Did chengdu become a modern city in just a few years?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/6ae9e675e180a490a2.mp3",
+    "How did chengdu become a modern city?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/6c8845cd5e85230fe3.mp3",
+    "The special gift meant friendship between the two classmates.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/a77be6bdafbc9186e5.mp3",
+    "The special gift didn't mean friendship between the two classmates.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/d152a2472b883c6dee.mp3",
+    "Did the special gift mean friendship between the two classmates?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/3e23c938b56f7244e5.mp3",
+    "What did the special gift mean?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/320d89263abe8d28e5.mp3",
+    "We caught the early bus to the panda research base.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/0ed1d937bb5af5fad1.mp3",
+    "We didn't catch the early bus to the panda research base.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/16ab3330be06ab7a4d.mp3",
+    "Did we catch the early bus to the panda research base?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/6f64c7949571d53c23.mp3",
+    "Where did we catch the early bus?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/7f1e6d1c06b13cabcb.mp3",
+    "She studied hard enough to pass the final physics exam.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/15f8aa4280e3bb5c6c.mp3",
+    "She didn't study hard enough to pass the final physics exam.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/88978f1847efb832b1.mp3",
+    "Did she study hard enough to pass the final physics exam?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/19730c7487bcc80545.mp3",
+    "Why did she study hard enough?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/45a05b96bb8644d910.mp3",
+    "The heavy rain stopped until midnight.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/4cb156b4a1aa3286ef.mp3",
+    "The heavy rain didn't stop until midnight.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/c5f437eb08372de35e.mp3",
+    "Did the heavy rain stop until midnight?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/e2d8a598b139954e50.mp3",
+    "When did the heavy rain stop?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/eb155c097d39b128ae.mp3",
+    "I went to the countryside to enjoy the fresh air.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/60b4f855dea441d286.mp3",
+    "I didn't go to the countryside to enjoy the fresh air.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/d4ef131ad6ba77a867.mp3",
+    "Did I go to the countryside to enjoy the fresh air?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/1b73503581e2d6dbe7.mp3",
+    "Where did I go?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/3e448623b3ea8c42e2.mp3",
+    "You saw the famous Guest-Greeting Pine on the mountain.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/27ee490accb6b79033.mp3",
+    "You didn't see the famous Guest-Greeting Pine on the mountain.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/f021360ddaa3fcb7d6.mp3",
+    "Did you see the famous Guest-Greeting Pine on the mountain?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/07a91a7be8f02925ef.mp3",
+    "Where did you see the famous Guest-Greeting Pine?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/46285317206cccb526.mp3",
+    "We had a great time at the boring party.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/c54f9be060c349e19e.mp3",
+    "We didn't have a great time at the boring party.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/1ce0f2a33003ca39ae.mp3",
+    "Did we have a great time at the boring party?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/574d57784b727d2a79.mp3",
+    "Where did we have a great time?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/fc9d518babf29b60f3.mp3",
+    "She took many beautiful photos during the summer holiday.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/e18b985e0b8e7ffd19.mp3",
+    "She didn't take many beautiful photos during the summer holiday.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/dfbda35aa6a424e03c.mp3",
+    "Did she take many beautiful photos during the summer holiday?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/9b1e78f8bfb09ced78.mp3",
+    "When did she take many beautiful photos?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/82cf6cd83628fbc004.mp3",
+    "He made a detailed plan for his weekend.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/cc4783a1302a52f07a.mp3",
+    "He didn't make a detailed plan for his weekend.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/da0878d46781b0cdaa.mp3",
+    "Did he make a detailed plan for his weekend?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/cd1284634897f96d17.mp3",
+    "What did he make?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/f8e3f1742fb6c73929.mp3",
+    "You read the history book about the ancient Silk Road.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/4733c961ddeaa19db0.mp3",
+    "You didn't read the history book about the ancient Silk Road.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/60e45b131f7b9a57f2.mp3",
+    "Did you read the history book about the ancient Silk Road?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/13ccdbbc34cbea549d.mp3",
+    "What did you read the history book?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/2e513a11b7e1a0e139.mp3",
+    "The boys played basketball on the playground yesterday.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/6e0de9a8fa703472d0.mp3",
+    "The boys didn't play basketball on the playground yesterday.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/25e0ed5781992f0779.mp3",
+    "Did the boys play basketball on the playground yesterday?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/d2ad7bf2ed99ec454d.mp3",
+    "Where did the boys play basketball?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/c225d438f202fb6f18.mp3",
+    "They visited the Sanxingdui Museum last Sunday.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/1a01b11831cc449fa5.mp3",
+    "They didn't visit the Sanxingdui Museum last Sunday.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/6c0593b261c8ca74de.mp3",
+    "Did they visit the Sanxingdui Museum last Sunday?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/13f4bed22adb5a9175.mp3",
+    "When did they visit the Sanxingdui Museum?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/d50433b7b7b19876da.mp3",
+    "Our school team won the match this time.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/408f85464a39514ec2.mp3",
+    "Our school team didn't win the match this time.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/945b596c4eb11d7525.mp3",
+    "Did our school team win the match this time?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/178083b48fec3e8a8c.mp3",
+    "When did our school team win the match?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/7058361cca26bc0fab.mp3",
+    "We ate any traditional food because we were full.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/25202e3a870053dcda.mp3",
+    "We didn't eat any traditional food because we were full.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/4181081a92359980ee.mp3",
+    "Did we eat any traditional food because we were full?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/18d08e348cc6446207.mp3",
+    "Why did we eat any traditional food?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/f4265c802aac048a12.mp3",
+    "Did you experience the traditional culture?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/d6363c181fa85a5077.mp3",
+    "Our class didn't organize a charity sale.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/316b2f056a6da425a1.mp3",
+    "Did she study hard for the exam?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/c2e6d4a048ed7c4fde.mp3",
+    "When did you understand the meaning?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/4d5279f940a2794d5b.mp3",
+    "What did she buy yesterday?": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/audio/9be13eb28a3a6867c4.mp3"
+  }
+};
+
+</script>
+  <script>
+/* inlined: L03/assets/js/l03-azure-tts.js */
+;(function () {
+  "use strict";
+
+  var state = {
+    audio: null,
+    requestId: 0,
+    missing: {}
+  };
+
+  function manifestEntries() {
+    if (!window.L03AudioManifest || !window.L03AudioManifest.entries) return null;
+    return window.L03AudioManifest.entries;
+  }
+
+  function normalizeText(s) {
+    return String(s || "").replace(/\s+/g, " ").trim();
+  }
+
+  function mapRateToPlayback(rateVal, slow) {
+    if (slow) return 0.72;
+    if (typeof rateVal === "string" && /%$/.test(rateVal)) {
+      var n = parseFloat(rateVal);
+      if (!Number.isNaN(n)) {
+        var r = 1 + n / 100;
+        if (r < 0.55) r = 0.55;
+        if (r > 1.4) r = 1.4;
+        return r;
+      }
+    }
+    if (typeof rateVal === "number" && isFinite(rateVal)) {
+      if (rateVal < 0.55) return 0.55;
+      if (rateVal > 1.4) return 1.4;
+      return rateVal;
+    }
+    return 0.92;
+  }
+
+  function resolveAudioPath(text) {
+    var entries = manifestEntries();
+    if (!entries) return "";
+    var t1 = String(text || "");
+    if (entries[t1]) return entries[t1];
+    var t2 = normalizeText(t1);
+    if (entries[t2]) return entries[t2];
+    return "";
+  }
+
+  function stop() {
+    state.requestId++;
+    if (state.audio) {
+      try {
+        state.audio.pause();
+        state.audio.currentTime = 0;
+        state.audio.src = "";
+      } catch (e) {}
+      state.audio = null;
+    }
+  }
+
+  function speak(text, opts) {
+    opts = opts || {};
+    return new Promise(function (resolve) {
+      var line = normalizeText(text);
+      if (!line) {
+        resolve();
+        return;
+      }
+      var src = resolveAudioPath(line);
+      if (!src) {
+        if (!state.missing[line]) {
+          state.missing[line] = true;
+          console.warn("[L03 Audio Missing]", line);
+        }
+        resolve();
+        return;
+      }
+
+      stop();
+      var id = state.requestId;
+      var a = new Audio(src);
+      a.playbackRate = mapRateToPlayback(opts.rate, opts.slow);
+      state.audio = a;
+
+      var done = false;
+      function fin() {
+        if (done) return;
+        done = true;
+        if (state.audio === a) state.audio = null;
+        resolve();
+      }
+      a.onended = fin;
+      a.onerror = fin;
+      var p = a.play();
+      if (p && typeof p.catch === "function") p.catch(fin);
+      window.setTimeout(function () {
+        if (id !== state.requestId) return;
+        fin();
+      }, 20000);
+    });
+  }
+
+  function isReady() {
+    return !!manifestEntries();
+  }
+
+  window.L03AzureTTS = {
+    speak: speak,
+    stop: stop,
+    configure: function () {},
+    isReady: isReady
+  };
+})();
+
+</script>
+  <script>
+  (function () {
+    "use strict";
+
+    var VERB_MASTER_POOL = {
+      regular: [
+        { base: "achieve", past: "achieved", rule: "direct", linePresent: "He usually works hard to achieve small goals every term.", linePast: "He achieved his dream of becoming a doctor through years of hard work.", source: "教研·高阶", note: "奋斗与成就主题。", imgPromptNow: "A student looking at a distant high mountain labeled 'DREAM' under bright morning sun.", imgPromptPast: "A student standing on the mountain top, arms wide open, under a nostalgic sunset sky.", teacherQuestion: "Look! What is the student usually looking at? What does <strong>achieve</strong> mean in life?" },
+        { base: "experience", past: "experienced", rule: "drop_e", linePresent: "We usually experience school trips through stories and photos first.", linePast: "I experienced the charm of traditional culture at the Sanxingdui Museum.", source: "教研·高阶", note: "文化见闻·三星堆高频。", imgPromptNow: "A curious boy standing at the entrance of a mysterious museum, bright colors.", imgPromptPast: "The boy wearing VR glasses, seeing ancient treasures flying around him in a nostalgic dream.", teacherQuestion: "Look! Where is the boy? What do you think <strong>experience</strong> will mean during the visit?" },
+        { base: "encourage", past: "encouraged", rule: "drop_e", linePresent: "Good teachers usually encourage shy students with warm smiles.", linePast: "My teacher encouraged me to take part in the English speech contest.", source: "教研·高阶", note: "师生情谊·突破自我。", imgPromptNow: "A teacher smiling and making a 'fighting' gesture to a nervous student.", imgPromptPast: "The student speaking confidently on a stage, the teacher clapping proudly in vintage light.", teacherQuestion: "Look! What does the teacher usually do? How does <strong>encourage</strong> change the student?" },
+        { base: "improve", past: "improved", rule: "drop_e", linePresent: "I usually improve my notes by adding one English sentence every day.", linePast: "I practiced every day and finally improved my writing skills.", source: "教研·高阶", note: "学习方法与进步。", imgPromptNow: "A girl practicing writing English letters under a bright desk lamp.", imgPromptPast: "The girl holding an 'A+' exam paper with a big smile, sepia tone.", teacherQuestion: "Look! What does the girl usually do at night? What does <strong>improve</strong> mean here?" },
+        { base: "introduce", past: "introduced", rule: "drop_e", linePresent: "A guide usually introduces safety rules before a museum tour.", linePast: "The guide introduced the history of Chengdu to us in great detail.", source: "教研·高阶", note: "家乡介绍·导游语境。", imgPromptNow: "A guide holding a megaphone, ready to talk to a group of tourists.", imgPromptPast: "The guide pointing at an old map of Chengdu, telling historical stories in soft light.", teacherQuestion: "Look! What does a guide usually do first? Which verb is <strong>introduce</strong>?" },
+        { base: "prepare", past: "prepared", rule: "drop_e", linePresent: "We usually prepare our schoolbags the night before a big test.", linePast: "We prepared carefully for the upcoming exam and felt quite confident.", source: "教研·高阶", note: "备考·有备无患。", imgPromptNow: "A student organizing stationery and books neatly on a desk.", imgPromptPast: "The student writing an exam paper focusedly, an old clock showing time passing.", teacherQuestion: "Look! What does the student usually do the day before? What is <strong>prepare</strong>?" },
+        { base: "realize", past: "realized", rule: "drop_e", linePresent: "We sometimes realize small truths only after we make mistakes.", linePast: "I realized the importance of health after I got a bad cold.", source: "教研·高阶", note: "感悟发现·万能结尾。", imgPromptNow: "A person walking in the rain without an umbrella, looking frustrated.", imgPromptPast: "The person lying in bed with a thermometer, looking thoughtful in vintage light.", teacherQuestion: "Look! What happens first? When do we <strong>realize</strong> something important?" },
+        { base: "recommend", past: "recommended", rule: "direct", linePresent: "My friend usually recommends good films after each holiday.", linePast: "My friend recommended an excellent book about history to me.", source: "教研·高阶", note: "书目电影推荐。", imgPromptNow: "A friend holding up a book labeled 'HISTORY' with a big smile.", imgPromptPast: "Two friends talking happily in a cozy bookstore, holding the book in nostalgic light.", teacherQuestion: "Look! What do friends usually share? Find the verb <strong>recommend</strong>." },
+        { base: "protect", past: "protected", rule: "direct", linePresent: "Our club usually protects birds by cleaning wetlands on weekends.", linePast: "We protected the environment by picking up rubbish in the park.", source: "教研·高阶", note: "环保行动。", imgPromptNow: "A park with some rubbish left on the grass, bright colors.", imgPromptPast: "Kids wearing gloves, picking up rubbish and planting small trees in sepia tone.", teacherQuestion: "Look! What is wrong in the first picture? What should we <strong>protect</strong>?" },
+        { base: "develop", past: "developed", rule: "direct", linePresent: "He usually develops a reading list at the start of each month.", linePast: "He developed a good habit of reading for half an hour every night.", source: "教研·高阶", note: "习惯养成。", imgPromptNow: "A person looking at a stack of books, planning a reading schedule.", imgPromptPast: "The person reading peacefully under a lamp, a vintage clock ticking.", teacherQuestion: "Look! What habit does he usually <strong>develop</strong>?" },
+        { base: "imagine", past: "imagined", rule: "drop_e", linePresent: "Children usually imagine stories when they look at clouds.", linePast: "I imagined what my future life would be like ten years later.", source: "教研·高阶", note: "畅想未来。", imgPromptNow: "A student looking out of a window, colorful clouds above the head.", imgPromptPast: "A futuristic city with flying cars appearing in the clouds in nostalgic light.", teacherQuestion: "Look! What does the student usually do by the window? What does <strong>imagine</strong> mean?" },
+        { base: "organize", past: "organized", rule: "drop_e", linePresent: "Our class usually organizes meetings to plan volunteer work.", linePast: "Our class organized a meaningful charity sale to help those in need.", source: "教研·高阶", note: "社会实践·志愿。", imgPromptNow: "Students sitting together and discussing a plan, bright sun.", imgPromptPast: "A busy charity sale scene with students selling toys and books, vintage feel.", teacherQuestion: "Look! What do students usually do first? How do they <strong>organize</strong> an event?" },
+        { base: "provide", past: "provided", rule: "drop_e", linePresent: "The center usually provides hot soup in winter for workers.", linePast: "The volunteers provided the elderly people with warm food and help.", source: "教研·高阶", note: "志愿服务·关爱老人。", imgPromptNow: "Volunteers holding bags of warm food, ready to go.", imgPromptPast: "Volunteers handing soup and blankets to old people in a nostalgic winter scene.", teacherQuestion: "Look! What do volunteers usually <strong>provide</strong>?" },
+        { base: "notice", past: "noticed", rule: "drop_e", linePresent: "I usually notice small changes in my friends' feelings.", linePast: "I noticed that a little girl was crying in the corner of the library.", source: "教研·高阶", note: "细节观察·故事开头。", imgPromptNow: "A boy walking through a library hallway, looking around.", imgPromptPast: "The boy finding a little girl crying in a corner of the library, sepia tone.", teacherQuestion: "Look! What does the boy usually do? What does he <strong>notice</strong>?" },
+        { base: "believe", past: "believed", rule: "drop_e", linePresent: "People usually believe in hard work more than luck.", linePast: "No one believed that the little boy could win the first prize.", source: "教研·高阶", note: "励志故事·出人意料。", imgPromptNow: "A small boy looking at a far-off finish line on a race track.", imgPromptPast: "The boy crossing the finish line first, people cheering in nostalgic light.", teacherQuestion: "Look! What do people usually doubt? Who will they <strong>believe</strong> in the end?" },
+        { base: "work", past: "worked", rule: "direct", linePresent: "Our team usually practices passing and running on the playground after school.", linePast: "Our team worked together and won the game in the end.", source: "2024成都真题", note: "团队合作金句。", teacherQuestion: "Look at the picture. What does the team usually do together after school?" },
+        { base: "share", past: "shared", rule: "drop_e", linePresent: "In our reading club, I often share short passages that touch my heart.", linePast: "Last week, I shared my wonderful reading experience with my classmates.", source: "2022成都真题", note: "阅读分享核心语块。", teacherQuestion: "Look at the picture. How does the student usually share reading with others?" },
+        { base: "visit", past: "visited", rule: "direct", linePresent: "We usually visit science museums when the school organizes study trips.", linePast: "We visited the Sanxingdui Museum and saw many ancient treasures.", source: "2024成都语境", note: "博物馆黄金模板。", teacherQuestion: "Look at the picture. Where do the students usually go on study trips?" },
+        { base: "stop", past: "stopped", rule: "double", linePresent: "Summer showers usually stop as quickly as they begin in Chengdu.", linePast: "The rain stopped an hour ago, and a beautiful rainbow appeared.", source: "人教八上", note: "雨停+彩虹画面。", teacherQuestion: "Look at the picture. What is the weather usually like? What happens next?" },
+        { base: "plan", past: "planned", rule: "double", linePresent: "Our class usually plans volunteer activities at the start of each term.", linePast: "We planned a meaningful school trip to the local countryside.", source: "人教八上", note: "meaningful school trip。", teacherQuestion: "Look at the picture. What do students usually do before a trip?" },
+        { base: "practice", past: "practiced", rule: "drop_e", linePresent: "I usually practice listening by repeating short dialogues from our textbook.", linePast: "To improve my English, I practiced speaking it every morning.", source: "人教七下", note: "To improve…, I practiced…。", teacherQuestion: "Look at the picture. How does the boy usually improve his English?" },
+        { base: "study", past: "studied", rule: "y_to_i", linePresent: "She usually studies English by reading aloud and keeping a word diary.", linePast: "She studied several museum labels and wrote a short cultural report.", source: "人教七下", note: "博物馆标签+文化报告。", teacherQuestion: "Look at the picture. How does she usually study English?" },
+        { base: "cry", past: "cried", rule: "y_to_i", linePresent: "Little children usually cry when they lose a toy or feel left out.", linePast: "The hero cried with happiness when he finally saw his family again.", source: "人教八上", note: "cry with happiness。", teacherQuestion: "Look at the picture. When do children usually cry?" },
+        { base: "carry", past: "carried", rule: "y_to_i", linePresent: "Volunteers usually carry water and tools up the hill for tree planting.", linePast: "He carried heavy tools all morning and never complained once.", source: "劳动实践", note: "毅力描写。", teacherQuestion: "Look at the picture. What do volunteers usually carry?" },
+        { base: "worry", past: "worried", rule: "y_to_i", linePresent: "Good friends usually worry about each other before important exams.", linePast: "My friends worried about the exam, so we reviewed the key points together.", source: "人教八上", note: "担心→互助。", teacherQuestion: "Look at the picture. What do friends usually worry about?" },
+        { base: "try", past: "tried", rule: "y_to_i", linePresent: "I usually try a new study method every month to find what fits me.", linePast: "I tried to explain Chengdu culture in simple English to foreign guests.", source: "成都文化", note: "try to explain…。", teacherQuestion: "Look at the picture. What do you usually try to do in public?" },
+        { base: "copy", past: "copied", rule: "y_to_i", linePresent: "We usually copy beautiful sentences into our writing notebooks after class.", linePast: "We copied the ancient patterns carefully when we did the art workshop.", source: "人教八下", note: "传统文化活动。", teacherQuestion: "Look at the picture. What do students usually copy in the workshop?" },
+        { base: "shop", past: "shopped", rule: "double", linePresent: "We usually shop for school supplies together before the new term starts.", linePast: "We shopped for eco-friendly bags instead of plastic ones at the market.", source: "人教八上", note: "instead of 环保。", teacherQuestion: "Look at the picture. Where do students usually shop before school starts?" },
+        { base: "drop", past: "dropped", rule: "double", linePresent: "Be careful—the little boy usually drops his gloves on the playground.", linePast: "He dropped a plastic bottle on the lawn, then picked it up at once.", source: "人教七下", note: "文明瞬间。", teacherQuestion: "Look at the picture. What sometimes drops on the ground?" },
+        { base: "move", past: "moved", rule: "drop_e", linePresent: "Many families usually move in summer when schools are on holiday.", linePast: "They moved to a new community with more green spaces and fresh air.", source: "人教八上", note: "居住环境。", teacherQuestion: "Look at the picture. When do families usually move?" }
+      ],
+      irregular: [
+        { base: "understand", past: "understood", linePresent: "We usually understand instructions better after we try as a team.", linePast: "I understood the true meaning of teamwork after the basketball game.", source: "教研·高阶", note: "团队感悟。", imgPromptNow: "Two kids looking at a messy puzzle on the floor, looking confused.", imgPromptPast: "The puzzle is complete, the two kids are hugging with a heart above, sepia tone.", teacherQuestion: "Look! Are the kids confused at first? When do they <strong>understand</strong>?" },
+        { base: "forget", past: "forgot", linePresent: "I usually forget small things when I rush to school.", linePast: "I forgot to bring my umbrella, but luckily a stranger helped me.", source: "教研·高阶", note: "突发+助人。", imgPromptNow: "A person running in the heavy rain, hands over head.", imgPromptPast: "An umbrella left alone on a wooden table in nostalgic light.", teacherQuestion: "Look! What do people sometimes forget on rainy days?" },
+        { base: "choose", past: "chose", linePresent: "Teenagers usually choose clubs that match their hobbies.", linePast: "She chose to follow her heart and became a successful artist.", source: "教研·高阶", note: "人生选择。", imgPromptNow: "A girl standing at a crossroad with two signs pointing different ways.", imgPromptPast: "The girl walking firmly on a path leading to an art gallery, vintage feel.", teacherQuestion: "Look! What does the girl usually face? What will she <strong>choose</strong>?" },
+        { base: "grow", past: "grew", linePresent: "We usually grow sunflowers on the school farm each spring.", linePast: "The seeds I planted last spring grew into beautiful flowers.", source: "教研·高阶", note: "劳动教育。", imgPromptNow: "A boy looking at seeds in the soil, bright morning sun.", imgPromptPast: "Giant sunflowers blooming, the boy watering them in nostalgic light.", teacherQuestion: "Look! What do seeds usually do in spring? How do plants <strong>grow</strong>?" },
+        { base: "mean", past: "meant", linePresent: "Small gifts usually mean friendship between classmates.", linePast: "The gift meant a lot to me because it was from my best friend.", source: "教研·高阶", note: "情感价值。", imgPromptNow: "Two kids exchanging a small gift box, bright colors.", imgPromptPast: "A kid holding the gift tightly with a very happy face, sepia tone.", teacherQuestion: "Look! What does a small gift usually <strong>mean</strong>?" },
+        { base: "become", past: "became", linePresent: "Chengdu usually becomes more lively during the Spring Festival.", linePast: "Chengdu became a modern city with a long and rich history.", source: "教研·高阶", note: "城市发展。", imgPromptNow: "A boy practicing the trumpet in his room, looking focused.", imgPromptPast: "The boy performing on a grand stage as a famous musician, vintage light.", teacherQuestion: "Look! What can a city or a person <strong>become</strong> after years of change?" },
+        { base: "draw", past: "drew", linePresent: "We usually draw mind maps to review before exams.", linePast: "I drew a conclusion that patience is the key to success.", source: "教研·高阶", note: "学习心得。", imgPromptNow: "A student thinking hard over a difficult problem, bright light.", imgPromptPast: "The student writing 'Patience is Key' in a notebook, looking relieved.", teacherQuestion: "Look! What does the student usually do after thinking?" },
+        { base: "sweep", past: "swept", linePresent: "We usually sweep the classroom floor every Friday afternoon.", linePast: "We swept the floor and cleaned the windows for the old man.", source: "教研·高阶", note: "劳动服务。", imgPromptNow: "A person holding a broom in a messy room.", imgPromptPast: "The room is clean and bright, the person smiling in nostalgic light.", teacherQuestion: "Look! What do volunteers usually sweep?" },
+        { base: "throw", past: "threw", linePresent: "We usually throw balls in games, not litter on the street.", linePast: "He threw the waste bottle into the correct bin for recycling.", source: "教研·高阶", note: "环保分类。", imgPromptNow: "A person holding an empty plastic bottle, bright colors.", imgPromptPast: "The bottle flying into a blue recycling bin, sepia tone.", teacherQuestion: "Look! Where should we throw plastic bottles?" },
+        { base: "shake", past: "shook", linePresent: "Leaders usually shake hands after a friendly talk.", linePast: "The two leaders shook hands and reached an agreement.", source: "教研·高阶", note: "达成共识。", imgPromptNow: "Two people sitting at a table looking at each other.", imgPromptPast: "Two people shaking hands with satisfied smiles, vintage feel.", teacherQuestion: "Look! What do people usually do after a successful talk?" },
+        { base: "wake", past: "woke", linePresent: "I usually wake up early on school days.", linePast: "I woke up early this morning to see the beautiful sunrise.", source: "教研·高阶", note: "游记画面。", imgPromptNow: "A person sleeping soundly in a dark room.", imgPromptPast: "The person standing at a window watching the sunrise, nostalgic light.", teacherQuestion: "Look! What does the person usually do at sunrise?" },
+        { base: "keep", past: "kept", linePresent: "Good friends usually keep cheering each other during hard times.", linePast: "My teacher kept encouraging me when I was in trouble.", source: "教研·高阶", note: "持续支持。", imgPromptNow: "A teacher seeing a sad student in the hallway.", imgPromptPast: "The teacher holding the student's hands and talking warmly, vintage feel.", teacherQuestion: "Look! What does the teacher usually keep doing?" },
+        { base: "lose", past: "lost", linePresent: "Teams usually lose matches sometimes, but they learn lessons.", linePast: "We lost the game, but we learned how to support each other.", source: "教研·高阶", note: "挫折教育。", imgPromptNow: "Players preparing for a match on a court.", imgPromptPast: "Players hugging each other despite losing the game, nostalgic light.", teacherQuestion: "Look! What can we learn even if we lose?" },
+        { base: "spread", past: "spread", linePresent: "Good ideas usually spread quickly among students online.", linePast: "The traditional culture of China spread all over the world.", source: "教研·高阶", note: "文化传播。", imgPromptNow: "An old man showing a Peking Opera mask to a child.", imgPromptPast: "The mask in the center, surrounded by flags of many countries, vintage feel.", teacherQuestion: "Look! How does culture usually spread?" },
+        { base: "bring", past: "brought", linePresent: "She usually brings fruit to share when we have a picnic in the park.", linePast: "The good news brought a big smile to everyone's face.", source: "教研·高阶", note: "情绪描写。", imgPromptNow: "A girl running towards a group of people with a letter.", imgPromptPast: "Everyone smiling brightly after reading the letter, nostalgic feel.", teacherQuestion: "Look! What good news can bring to people's faces?" },
+        { base: "go", past: "went", linePresent: "I usually go cycling by the river when the weather is fine.", linePast: "I went to the countryside to enjoy the fresh air and quiet life.", source: "人教八上", note: "假期生活。", teacherQuestion: "Look at the picture. Where does the family usually like to go?" },
+        { base: "see", past: "saw", linePresent: "We usually see photos of famous peaks in our geography class.", linePast: "I saw the famous Guest-Greeting Pine in Mount Huangshan.", source: "人教八上", note: "写景专有名词。", teacherQuestion: "Look at the picture. What do kids usually see in geography class?" },
+        { base: "spend", past: "spent", linePresent: "I usually spend Saturday mornings reading in the school library.", linePast: "I spent my weekend visiting the panda research base in Chengdu.", source: "2024成都真题", note: "panda research base。", teacherQuestion: "Look at the picture. How does the girl usually plan her weekend?" },
+        { base: "take", past: "took", linePresent: "We usually take group photos in front of our school gate on Sports Day.", linePast: "We took many photos of the sandcastle on the beach.", source: "2018成都真题", note: "游记活动。", teacherQuestion: "Look at the picture. What do kids usually do on the beach?" },
+        { base: "eat", past: "ate", linePresent: "We usually eat light meals at noon so we stay energetic in the afternoon.", linePast: "We ate some traditional food and it tasted really delicious.", source: "人教八上", note: "饮食文化。", teacherQuestion: "Look at the picture. What does the family usually do at the table?" },
+        { base: "buy", past: "bought", linePresent: "I usually buy small gifts for my parents when I travel with the school.", linePast: "I bought some special gifts for my family in the museum shop.", source: "2018成都真题", note: "museum shop。", teacherQuestion: "Look at the picture. What does the girl usually do in the museum shop?" },
+        { base: "make", past: "made", linePresent: "I usually make a weekly study plan so I don't stay up too late.", linePast: "I made a meaningful plan for my future summer holiday.", source: "人教八上", note: "计划类作文。", teacherQuestion: "Look at the picture. What does the boy usually do with his notebook?" },
+        { base: "read", past: "read", linePresent: "I usually read history stories because they help me think about the present.", linePast: "I read a history book that helped me understand our culture better.", source: "2022成都真题", note: "定语从句。", teacherQuestion: "Look at the picture. What does the girl usually do in the library?" },
+        { base: "write", past: "wrote", linePresent: "He usually writes short thank-you notes when someone helps him.", linePast: "He wrote an email to thank the people who helped him.", source: "人教八上", note: "感谢信。", teacherQuestion: "Look at the picture. What is the boy usually thinking about?" },
+        { base: "win", past: "won", linePresent: "The girl usually wins school races because she trains every morning.", linePast: "The girl practiced hard and finally won the first prize.", source: "2024成都真题", note: "励志线。", teacherQuestion: "Look at the picture. What does the girl usually do on the track?" },
+        { base: "do", past: "did", linePresent: "I usually do volunteer work on Sundays if I finish my homework early.", linePast: "I did my part in the community cleanup and felt proud of myself.", source: "人教八下", note: "社会责任。", teacherQuestion: "Look at the picture. What do you usually do on Sundays?" },
+        { base: "have", past: "had", linePresent: "We usually have a class meeting on Monday to plan the new week.", linePast: "We had a meaningful discussion about volunteer work last Monday.", source: "人教八上", note: "have a discussion。", teacherQuestion: "Look at the picture. What do students usually have on Monday?" },
+        { base: "give", past: "gave", linePresent: "Teachers usually give us useful tips before we enter the exam room.", linePast: "My parents gave me a meaningful book as a gift.", source: "人教八上", note: "感恩主题。", teacherQuestion: "Look at the picture. What do teachers usually give students?" },
+        { base: "begin", past: "began", linePresent: "The film usually begins after everyone finds a seat in the hall.", linePast: "It began to rain heavily when we climbed the mountain.", source: "人教八上", note: "开场与天气。", teacherQuestion: "Look at the picture. When does the film usually begin?" },
+        { base: "know", past: "knew", linePresent: "I usually know little about ancient Shu until I read more local books.", linePast: "I knew more about Sanxingdui after listening to the guide's lecture.", source: "2024成都语境", note: "博物馆研学。", teacherQuestion: "Look at the picture. How do we usually know more about history?" }
+      ]
+    };
+    var BASE_STYLE =
+      "A high-quality crayon drawing, children's storybook illustration style, paper texture background, clean educational layout.";
+    var NOW_VIBE = "bright colors, energetic daytime lighting, vivid.";
+    var PAST_VIBE =
+      "nostalgic memory style, slightly muted vintage colors, sepia tone, evening sunset light, retro feel.";
+
+    var IMG_SCENES = {
+      work: {
+        now: "A diverse team of students working hard together on a robot project, smiling.",
+        past: "The same team of students happily holding a winning trophy together."
+      },
+      share: {
+        now: "A student happily sharing a beautiful storybook with classmates in a bright classroom.",
+        past: "A student standing in front of the class, sharing a book."
+      },
+      visit: {
+        now: "Students looking at ancient bronze masks in Sanxingdui Museum, looking amazed.",
+        past: "Students taking notes while looking at museum treasures."
+      },
+      stop: {
+        now: "Kids holding an umbrella in heavy rain.",
+        past: "The rain stopped, a beautiful rainbow appearing in the sky, kids smiling."
+      },
+      plan: {
+        now: "A group of students sitting around a table, drawing a map for a school trip.",
+        past: "Students pointing at a countryside map, making a plan."
+      },
+      practice: {
+        now: "A boy reading an English book aloud in the morning sun.",
+        past: "A boy practicing speaking English in front of a mirror."
+      },
+      decide: {
+        now: "Kids looking at a dirty park, thinking.",
+        past: "Kids picking up trash and planting small trees to protect the environment."
+      },
+      arrive: {
+        now: "A yellow school bus driving on the road.",
+        past: "A yellow school bus arriving at the school gate on time, kids getting off."
+      },
+      shout: {
+        now: "Fans watching a sports game, getting excited.",
+        past: "Fans shouting with joy, raising their hands in a stadium."
+      },
+      stay: {
+        now: "A boy looking at books on a desk.",
+        past: "A boy staying at home, studying hard under a desk lamp."
+      },
+      go: {
+        now: "A family packing bags for a trip.",
+        past: "A family walking happily in the green countryside, breathing fresh air."
+      },
+      see: {
+        now: "Kids looking at mountains in the distance.",
+        past: "Kids pointing at the famous Guest-Greeting Pine tree on Mount Huangshan."
+      },
+      spend: {
+        now: "A girl looking at a calendar for the weekend.",
+        past: "A girl watching cute pandas eating bamboo in the Chengdu research base."
+      },
+      take: {
+        now: "Kids playing with sand on the beach.",
+        past: "Kids taking photos of a huge beautiful sandcastle on the beach."
+      },
+      eat: {
+        now: "A family sitting at a dining table, waiting for food.",
+        past: "A family eating delicious traditional Chinese food, smiling."
+      },
+      buy: {
+        now: "A girl looking at souvenirs in a museum shop.",
+        past: "A girl buying a special gift box for her family."
+      },
+      make: {
+        now: "A boy holding a blank notebook.",
+        past: "A boy writing a detailed summer holiday plan in a notebook."
+      },
+      read: {
+        now: "A girl looking at a bookshelf in a library.",
+        past: "A girl reading a thick history book, looking deeply engaged."
+      },
+      write: {
+        now: "A boy thinking about who to thank.",
+        past: "A boy happily typing a thank-you email on a laptop."
+      },
+      win: {
+        now: "A girl practicing running hard on a track.",
+        past: "A girl standing on a podium, holding a gold medal, winning the first prize."
+      }
+    };
+
+    var TEACHER_Q = {
+      work: "Look at the picture. What does the team usually do together after school?",
+      share: "Look at the picture. How does the student usually share reading with others?",
+      visit: "Look at the picture. Where do the students usually go on study trips?",
+      stop: "Look at the picture. What is the weather usually like? What happens next?",
+      plan: "Look at the picture. What do students usually do before a trip?",
+      practice: "Look at the picture. How does the boy usually improve his English?",
+      decide: "Look at the picture. What are the kids usually thinking about?",
+      arrive: "Look at the picture. What usually happens with the school bus?",
+      shout: "Look at the picture. How do fans usually show their feelings at a game?",
+      stay: "Look at the picture. What does the boy usually do when exams are coming?",
+      play: "Look at the picture. What do the students usually do on the court after big tests?",
+      go: "Look at the picture. Where does the family usually like to go?",
+      see: "Look at the picture. What do kids usually see in geography class?",
+      spend: "Look at the picture. How does the girl usually plan her weekend?",
+      take: "Look at the picture. What do kids usually do on the beach?",
+      eat: "Look at the picture. What does the family usually do at the table?",
+      buy: "Look at the picture. What does the girl usually do in the museum shop?",
+      make: "Look at the picture. What does the boy usually do with his notebook?",
+      read: "Look at the picture. What does the girl usually do in the library?",
+      write: "Look at the picture. What is the boy usually thinking about?",
+      win: "Look at the picture. What does the girl usually do on the track?"
+    };
+
+    var EMOJI_FALLBACK = {
+      play: "🏀",
+      go: "🚶",
+      work: "🤝",
+      visit: "🏛️",
+      stop: "🌈",
+      study: "📚",
+      eat: "🍜",
+      buy: "🎁",
+      see: "🌲",
+      take: "📷",
+      read: "📖",
+      write: "✉️",
+      win: "🏅",
+      spend: "🐼",
+      make: "📝",
+      clean: "🧹",
+      wash: "🫧",
+      watch: "🎬",
+      shout: "📣",
+      stay: "🏠",
+      brush: "🪥",
+      smell: "☕",
+      paint: "🎨",
+      help: "🤲",
+      share: "📗",
+      practice: "🗣️",
+      arrive: "🚌",
+      taste: "😋",
+      live: "🏙️",
+      move: "📦",
+      phone: "📞",
+      hope: "🌱",
+      like: "⭐",
+      cry: "😢",
+      carry: "📦",
+      worry: "💭",
+      try: "💪",
+      copy: "✏️",
+      shop: "🛒",
+      drop: "💧",
+      do: "🧹",
+      have: "👥",
+      give: "🗺️",
+      begin: "🎬",
+      know: "🎭",
+      speak: "🎤",
+      come: "🚪",
+      run: "🏃",
+      sit: "🪑",
+      tell: "🤫",
+      find: "👛",
+      hear: "👂",
+      feel: "😌",
+      keep: "📔",
+      meet: "🤝",
+      sleep: "😴",
+      bring: "🍪",
+      catch: "🚌",
+      teach: "🧑‍🏫",
+      think: "💡",
+      achieve: "🏔️",
+      experience: "🏛️",
+      encourage: "💪",
+      improve: "✍️",
+      introduce: "📣",
+      prepare: "📚",
+      realize: "💡",
+      recommend: "📕",
+      protect: "🌳",
+      develop: "📖",
+      imagine: "☁️",
+      organize: "🤝",
+      provide: "🍲",
+      notice: "👀",
+      believe: "🏃",
+      understand: "🧩",
+      forget: "☂️",
+      choose: "🛤️",
+      grow: "🌻",
+      mean: "🎁",
+      become: "🎺",
+      draw: "📐",
+      sweep: "🧹",
+      throw: "♻️",
+      shake: "🤝",
+      wake: "🌅",
+      keep: "💬",
+      lose: "🤗",
+      spread: "🎭"
+    };
+
+    function enrichVerbEntry(v) {
+      v.imgNow = v.base + "-now.png";
+      v.imgPast = v.base + "-past.png";
+      if (v.imgPromptNow && v.imgPromptPast) {
+        if (v.imgPromptNow.indexOf("crayon drawing") === -1) {
+          v.imgPromptNow = BASE_STYLE + " " + v.imgPromptNow + " " + NOW_VIBE;
+          v.imgPromptPast = BASE_STYLE + " " + v.imgPromptPast + " " + PAST_VIBE;
+        }
+      } else {
+        var sc = IMG_SCENES[v.base];
+        if (sc) {
+          v.imgPromptNow = BASE_STYLE + " " + sc.now + " " + NOW_VIBE;
+          v.imgPromptPast = BASE_STYLE + " " + sc.past + " " + PAST_VIBE;
+        } else {
+          v.imgPromptNow =
+            BASE_STYLE +
+            " Illustration inspired by this habit sentence: " +
+            v.linePresent +
+            " " +
+            NOW_VIBE;
+          v.imgPromptPast =
+            BASE_STYLE +
+            " Same characters or setting in nostalgic memory, inspired by: " +
+            v.linePast +
+            " " +
+            PAST_VIBE;
+        }
+      }
+      if (!v.teacherQuestion) {
+        v.teacherQuestion =
+          TEACHER_Q[v.base] ||
+          "Look at the picture. What do people usually do in this scene? Find the verb <strong>" +
+            v.base +
+            "</strong>.";
+      }
+    }
+    VERB_MASTER_POOL.regular.forEach(enrichVerbEntry);
+    VERB_MASTER_POOL.irregular.forEach(enrichVerbEntry);
+
+    var AFFIX = {
+      achieve: ["achiev", "ed"], experience: ["experienc", "ed"], encourage: ["encourag", "ed"], improve: ["improv", "ed"],
+      introduce: ["introduc", "ed"], prepare: ["prepar", "ed"], realize: ["realiz", "ed"], recommend: ["recommend", "ed"],
+      protect: ["protect", "ed"], develop: ["develop", "ed"], imagine: ["imagin", "ed"], organize: ["organiz", "ed"],
+      provide: ["provid", "ed"], notice: ["notic", "ed"], believe: ["believ", "ed"],
+      work: ["work", "ed"], share: ["shar", "ed"], visit: ["visit", "ed"], stop: ["stop", "ped"], plan: ["plan", "ned"],
+      practice: ["practic", "ed"], shout: ["shout", "ed"], move: ["mov", "ed"],
+      study: ["studi", "ed"], cry: ["cri", "ed"], carry: ["carri", "ed"], worry: ["worri", "ed"], try: ["tri", "ed"],
+      copy: ["copi", "ed"], shop: ["shop", "ped"], drop: ["drop", "ped"]
+    };
+
+    var LS_KEY = "l03p05_memo_v3";
+    var LS_EXPLORE = "l03p05_explore_v3";
+    var UNLOCK_EXPLORE = 20;
+    var UNLOCK_EACH_TRACK = 8;
+    var memorized = {};
+    var explored = {};
+
+    function loadMemo() {
+      try {
+        var raw = localStorage.getItem(LS_KEY);
+        if (!raw) return;
+        var arr = JSON.parse(raw);
+        if (Array.isArray(arr)) {
+          memorized = {};
+          arr.forEach(function (id) {
+            memorized[id] = true;
+          });
+        }
+      } catch (e) {
+        memorized = {};
+      }
+    }
+    function saveMemo() {
+      try {
+        localStorage.setItem(LS_KEY, JSON.stringify(Object.keys(memorized)));
+      } catch (e) {}
+    }
+
+    function loadExplore() {
+      try {
+        var raw = localStorage.getItem(LS_EXPLORE);
+        if (!raw) return;
+        var arr = JSON.parse(raw);
+        explored = {};
+        if (Array.isArray(arr)) arr.forEach(function (id) { explored[id] = true; });
+      } catch (e) {
+        explored = {};
+      }
+    }
+    function saveExplore() {
+      try {
+        localStorage.setItem(LS_EXPLORE, JSON.stringify(Object.keys(explored)));
+      } catch (e) {}
+    }
+
+    var flatList = []
+      .concat(
+        VERB_MASTER_POOL.regular.map(function (v, i) {
+          var aff = AFFIX[v.base] || [v.past.slice(0, -2), "ed"];
+          return {
+            id: "r" + (i + 1),
+            category: "regular",
+            base: v.base,
+            past: v.past,
+            ruleType: v.rule,
+            pastStem: aff[0],
+            pastSuffix: aff[1],
+            baseSentence: v.linePresent,
+            pastSentence: v.linePast,
+            source: v.source,
+            note: v.note,
+            imgNow: v.imgNow,
+            imgPast: v.imgPast,
+            imgPromptNow: v.imgPromptNow,
+            imgPromptPast: v.imgPromptPast,
+            teacherQuestion: v.teacherQuestion
+          };
+        })
+      )
+      .concat(
+        VERB_MASTER_POOL.irregular.map(function (v, i) {
+          return {
+            id: "i" + (i + 1),
+            category: "irregular",
+            base: v.base,
+            past: v.past,
+            baseSentence: v.linePresent,
+            pastSentence: v.linePast,
+            source: v.source,
+            note: v.note,
+            imgNow: v.imgNow,
+            imgPast: v.imgPast,
+            imgPromptNow: v.imgPromptNow,
+            imgPromptPast: v.imgPromptPast,
+            teacherQuestion: v.teacherQuestion
+          };
+        })
+      );
+
+    var byId = {};
+    flatList.forEach(function (x) {
+      byId[x.id] = x;
+    });
+
+    var screenInner = document.getElementById("screenInner");
+    var screenSentence = document.getElementById("screenSentence");
+    var verbHero = document.getElementById("verbHero");
+    var stampEd = document.getElementById("stampEd");
+    var particleLayer = document.getElementById("particleLayer");
+    var deckRegular = document.getElementById("deckRegular");
+    var deckIrregular = document.getElementById("deckIrregular");
+    var orbReg = document.getElementById("orbReg");
+    var orbIrr = document.getElementById("orbIrr");
+    var panelReg = document.getElementById("panelReg");
+    var panelIrr = document.getElementById("panelIrr");
+    var btnNow = document.getElementById("btnNow");
+    var btnYesterday = document.getElementById("btnYesterday");
+    var btnLoop = document.getElementById("btnLoop");
+    var btnSlow = document.getElementById("btnSlow");
+    var btnMemo = document.getElementById("btnMemo");
+    var goldKey = document.getElementById("goldKey");
+    var goldSrc = document.getElementById("goldSrc");
+    var goldNote = document.getElementById("goldNote");
+    var toast = document.getElementById("toast");
+    var progressLabel = document.getElementById("progressLabel");
+    var progressFill = document.getElementById("progressFill");
+    var photoStack = document.getElementById("photoStack");
+    var imgNowEl = document.getElementById("imgNowEl");
+    var imgPastEl = document.getElementById("imgPastEl");
+    var imgFallback = document.getElementById("imgFallback");
+    var questionBubble = document.getElementById("questionBubble");
+
+    var current = flatList[0];
+    var isPast = false;
+    var busy = false;
+    var discoveryRevealed = false;
+    var imgFail = false;
+    var loopOn = false;
+    var slowOn = false;
+    var speakToken = 0;
+
+    function escapeHtml(s) {
+      return String(s)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+    function escapeRe(s) {
+      return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    }
+
+    var TIME_RE =
+      /\b(Last\s+(?:week|month|year|Sunday|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|night|summer)|Yesterday|yesterday|last\s+(?:night|week|month|year)|finally|in\s+the\s+end|in\s+\d{4}|an\s+hour\s+ago|ago)\b/gi;
+
+    function highlightPresent(sentence, base) {
+      var t = escapeHtml(sentence);
+      t = t.replace(/\b(usually|often|always|sometimes|every\s+day)\b/gi, function (m) {
+        return '<span class="hl-usually">' + m + "</span>";
+      });
+      var re = new RegExp("\\b" + escapeRe(base) + "\\b", "gi");
+      t = t.replace(re, function (m) {
+        return '<span class="hl-base">' + m + "</span>";
+      });
+      return t;
+    }
+
+    function highlightPast(sentence, item) {
+      var t = escapeHtml(sentence);
+      t = t.replace(TIME_RE, function (m) {
+        return '<span class="hl-time">' + m + "</span>";
+      });
+      var reP = new RegExp("\\b" + escapeRe(item.past) + "\\b", item.past === "read" ? "i" : "gi");
+      if (item.category === "regular" && item.pastStem && item.pastSuffix) {
+        t = t.replace(reP, function () {
+          return (
+            '<span class="hl-past-verb"><span class="hl-stem">' +
+            escapeHtml(item.pastStem) +
+            '</span><span class="hl-ed">' +
+            escapeHtml(item.pastSuffix) +
+            "</span></span>"
+          );
+        });
+      } else {
+        t = t.replace(reP, function (m) {
+          return '<span class="hl-past-verb is-irregular-past" style="color:var(--crayon-purple)">' + m + "</span>";
+        });
+      }
+      return t;
+    }
+
+    function setBusy(on) {
+      busy = on;
+      document.body.classList.toggle("is-busy", on);
+      btnYesterday.disabled = on;
+    }
+
+    function playLowHum() {
+      try {
+        var AC = window.AudioContext || window.webkitAudioContext;
+        if (!AC) return;
+        var ctx = new AC();
+        var o = ctx.createOscillator();
+        var g = ctx.createGain();
+        o.type = "sine";
+        o.frequency.setValueAtTime(110, ctx.currentTime);
+        o.frequency.exponentialRampToValueAtTime(72, ctx.currentTime + 0.35);
+        g.gain.setValueAtTime(0.06, ctx.currentTime);
+        g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.45);
+        o.connect(g);
+        g.connect(ctx.destination);
+        o.start();
+        o.stop(ctx.currentTime + 0.46);
+      } catch (e) {}
+    }
+
+    function playStampThud() {
+      try {
+        var AC = window.AudioContext || window.webkitAudioContext;
+        if (!AC) return;
+        var ctx = new AC();
+        var o = ctx.createOscillator();
+        var g = ctx.createGain();
+        o.type = "square";
+        o.frequency.setValueAtTime(95, ctx.currentTime);
+        o.frequency.exponentialRampToValueAtTime(40, ctx.currentTime + 0.08);
+        g.gain.setValueAtTime(0.18, ctx.currentTime);
+        g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.15);
+        o.connect(g);
+        g.connect(ctx.destination);
+        o.start();
+        o.stop(ctx.currentTime + 0.16);
+      } catch (e) {}
+    }
+
+    function stopSpeak() {
+      speakToken++;
+      if (window.L03AzureTTS) window.L03AzureTTS.stop();
+    }
+
+    function speakLine(text, token) {
+      return new Promise(function (resolve) {
+        if (token !== speakToken) {
+          resolve();
+          return;
+        }
+        if (!window.L03AzureTTS || !window.L03AzureTTS.isReady()) {
+          resolve();
+          return;
+        }
+        var rate = slowOn ? "-35%" : "-8%";
+        window.L03AzureTTS
+          .speak(text, { rate: rate })
+          .then(function () {
+            if (token !== speakToken) {
+              resolve();
+              return;
+            }
+            if (loopOn && isPast) {
+              window.setTimeout(function () {
+                if (token !== speakToken) {
+                  resolve();
+                  return;
+                }
+                speakLine(text, token).then(resolve);
+              }, 280);
+            } else {
+              resolve();
+            }
+          })
+          .catch(resolve);
+      });
+    }
+
+    function showToast(msg) {
+      toast.textContent = msg;
+      toast.classList.add("is-show");
+      window.setTimeout(function () {
+        toast.classList.remove("is-show");
+      }, 2600);
+    }
+
+    function ruleLabel(rule) {
+      if (rule === "direct") return "直加-ed";
+      if (rule === "drop_e") return "去e-ed";
+      if (rule === "y_to_i") return "y→i-ed";
+      if (rule === "double") return "双写-ed";
+      return "";
+    }
+
+    function exploredBreakdown() {
+      var reg = 0;
+      var irr = 0;
+      Object.keys(explored).forEach(function (id) {
+        if (id.charAt(0) === "r") reg++;
+        else if (id.charAt(0) === "i") irr++;
+      });
+      return { reg: reg, irr: irr, total: reg + irr };
+    }
+
+    function updateProgressUI() {
+      var m = Object.keys(memorized).length;
+      var br = exploredBreakdown();
+      progressLabel.textContent =
+        "已探索 " +
+        br.total +
+        " / 60（规则 " +
+        br.reg +
+        " · 不规则 " +
+        br.irr +
+        "） · 已背诵 " +
+        m +
+        " / 60";
+      progressFill.style.width = (Math.max(br.total, m) / 60) * 100 + "%";
+    }
+
+    function logImagePromptsFor(item) {
+      console.log("[L03·P05] 绘图 Prompt —", item.base, "NOW:\n", item.imgPromptNow);
+      console.log("[L03·P05] 绘图 Prompt —", item.base, "PAST:\n", item.imgPromptPast);
+    }
+
+    function setYesterdayLocked(lock) {
+      btnYesterday.disabled = lock || busy;
+      btnYesterday.classList.toggle("is-locked", !!lock);
+    }
+
+    function applyDiscoveryUI() {
+      questionBubble.innerHTML =
+        current.teacherQuestion +
+        '<small>看图画 → 想一想 → 点这里或点上图，解锁「平时」金句与 Yesterday 按钮。</small>';
+      questionBubble.classList.toggle("is-done", discoveryRevealed);
+      setYesterdayLocked(!discoveryRevealed || isPast);
+      screenSentence.classList.toggle("is-phased-out", !discoveryRevealed && !isPast);
+    }
+
+    function setupImagesForCurrent() {
+      imgFail = false;
+      imgFallback.classList.remove("is-on");
+      imgNowEl.style.display = "";
+      imgPastEl.style.display = "";
+      var basePath = "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/img/";
+      var errOnce = false;
+      function onErr() {
+        if (errOnce) return;
+        errOnce = true;
+        imgFail = true;
+        imgNowEl.style.display = "none";
+        imgPastEl.style.display = "none";
+        imgFallback.textContent = EMOJI_FALLBACK[current.base] || "📖";
+        imgFallback.classList.add("is-on");
+      }
+      imgNowEl.onerror = onErr;
+      imgPastEl.onerror = onErr;
+      imgNowEl.src = basePath + current.imgNow;
+      imgPastEl.src = basePath + current.imgPast;
+      photoStack.classList.remove("is-past-view");
+      anime.remove([imgNowEl, imgPastEl]);
+      imgNowEl.style.opacity = "1";
+      imgPastEl.style.opacity = "0";
+    }
+
+
+    function revealDiscovery() {
+      if (discoveryRevealed) return;
+      discoveryRevealed = true;
+      applyDiscoveryUI();
+      refreshScreen();
+    }
+
+    function runPhotoCrossfade(cb) {
+      anime.remove([imgNowEl, imgPastEl]);
+      if (imgFail) {
+        imgFallback.style.filter = "sepia(0.5)";
+        if (cb) cb();
+        return;
+      }
+      anime({
+        targets: imgNowEl,
+        opacity: [1, 0],
+        duration: 550,
+        easing: "easeInOutQuad"
+      });
+      anime({
+        targets: imgPastEl,
+        opacity: [0, 1],
+        duration: 550,
+        easing: "easeInOutQuad",
+        complete: function () {
+          photoStack.classList.add("is-past-view");
+          if (cb) cb();
+        }
+      });
+    }
+
+    function speakPastProgressive(text, token) {
+      if (!window.L03AzureTTS || !window.L03AzureTTS.isReady()) return;
+      var rates = ["-35%", "-18%", "-8%"];
+      var step = 0;
+      function speakOne() {
+        if (token !== speakToken || step >= rates.length) return;
+        var rate = rates[step++];
+        window.L03AzureTTS.speak(text, { rate: rate }).then(function () {
+          window.setTimeout(speakOne, 280);
+        });
+      }
+      speakOne();
+    }
+
+    function registerExplore() {
+      if (explored[current.id]) return;
+      explored[current.id] = true;
+      saveExplore();
+      updateProgressUI();
+    }
+
+    function updateGoldKey() {
+      if (isPast) {
+        goldKey.hidden = false;
+        goldSrc.textContent = "「" + current.source + "」";
+        goldNote.textContent = current.note;
+      } else {
+        goldKey.hidden = true;
+        goldSrc.textContent = "";
+        goldNote.textContent = "";
+      }
+    }
+
+    function syncPillStars() {
+      document.querySelectorAll(".verb-pill").forEach(function (p) {
+        var id = p.getAttribute("data-id");
+        p.classList.toggle("is-memo", !!memorized[id]);
+      });
+      updateProgressUI();
+    }
+
+    function refreshScreen() {
+      screenInner.classList.toggle("is-past", isPast);
+      if (!discoveryRevealed && !isPast) {
+        screenSentence.innerHTML = "";
+        verbHero.textContent = current.base;
+        verbHero.classList.remove("is-irregular-past");
+        updateGoldKey();
+        return;
+      }
+      if (isPast) {
+        screenSentence.innerHTML = highlightPast(current.pastSentence, current);
+        verbHero.textContent = current.past;
+        verbHero.classList.toggle("is-irregular-past", current.category === "irregular");
+      } else {
+        screenSentence.innerHTML = highlightPresent(current.baseSentence, current.base);
+        verbHero.textContent = current.base;
+        verbHero.classList.remove("is-irregular-past");
+      }
+      updateGoldKey();
+    }
+
+    function setPastSentenceOnly() {
+      screenInner.classList.add("is-past");
+      screenSentence.innerHTML = highlightPast(current.pastSentence, current);
+      updateGoldKey();
+    }
+
+    function runStampAnimation(cb) {
+      stampEd.textContent = "ed";
+      stampEd.style.opacity = "1";
+      stampEd.style.top = "-120%";
+      anime.remove(stampEd);
+      anime({
+        targets: stampEd,
+        top: ["-120%", "42%"],
+        opacity: [1, 1],
+        scale: [0.4, 1.25, 1],
+        rotate: [-12, -4],
+        duration: 380,
+        easing: "easeInQuad",
+        complete: function () {
+          screenInner.classList.add("shake");
+          playStampThud();
+          window.setTimeout(function () {
+            screenInner.classList.remove("shake");
+          }, 520);
+          anime({
+            targets: stampEd,
+            opacity: 0,
+            scale: 1.2,
+            duration: 220,
+            easing: "easeOutQuad",
+            complete: function () {
+              stampEd.style.top = "-120%";
+              if (cb) cb();
+            }
+          });
+        }
+      });
+    }
+
+    function runDoubleLetterAnim(cb) {
+      var w = current.base;
+      var letters = w.split("");
+      verbHero.innerHTML = letters
+        .map(function (ch) {
+          return '<span class="vh-ch">' + escapeHtml(ch) + "</span>";
+        })
+        .join("") + '<span class="vh-ch vh-clone">' + escapeHtml(letters[letters.length - 1]) + "</span>";
+      var clone = verbHero.querySelector(".vh-clone");
+      anime.remove(clone);
+      anime({
+        targets: clone,
+        translateX: [0, 16, 0],
+        scale: [1, 1.4, 1],
+        duration: 420,
+        easing: "easeInOutQuad",
+        complete: function () {
+          verbHero.textContent = current.base;
+          if (cb) cb();
+        }
+      });
+    }
+
+    function spawnParticles() {
+      particleLayer.innerHTML = "";
+      for (var i = 0; i < 18; i++) {
+        var p = document.createElement("span");
+        p.className = "particle";
+        p.style.left = 38 + Math.random() * 44 + "%";
+        p.style.top = 36 + Math.random() * 30 + "%";
+        particleLayer.appendChild(p);
+      }
+      var nodes = particleLayer.querySelectorAll(".particle");
+      anime({
+        targets: nodes,
+        translateX: function () {
+          return anime.random(-55, 55);
+        },
+        translateY: function () {
+          return anime.random(-45, 45);
+        },
+        scale: [0, 1.2, 0],
+        opacity: [0, 0.9, 0],
+        duration: 720,
+        delay: anime.stagger(35),
+        easing: "easeOutExpo"
+      });
+    }
+
+    function runMagicAnimation(cb) {
+      anime.remove(verbHero);
+      anime({
+        targets: verbHero,
+        scale: [1, 1.12, 0.9, 1.1, 1],
+        rotate: [0, -22, 20, -14, 0],
+        filter: ["blur(0px)", "blur(0px)", "blur(6px)", "blur(10px)", "blur(2px)"],
+        duration: 780,
+        easing: "easeInOutQuad",
+        complete: function () {
+          spawnParticles();
+          verbHero.textContent = current.past;
+          verbHero.classList.add("is-irregular-past");
+          anime.set(verbHero, { filter: "blur(0px)", scale: 1 });
+          anime({
+            targets: verbHero,
+            scale: [0.15, 1.18, 1],
+            opacity: [0.45, 1, 1],
+            duration: 440,
+            easing: "easeOutBack",
+            complete: function () {
+              if (cb) cb();
+            }
+          });
+        }
+      });
+    }
+
+    function afterPastTransform() {
+      screenSentence.innerHTML = highlightPast(current.pastSentence, current);
+      screenSentence.classList.remove("is-phased-out");
+      verbHero.textContent = current.past;
+      verbHero.classList.toggle("is-irregular-past", current.category === "irregular");
+      speakToken++;
+      var tok = speakToken;
+      speakPastProgressive(current.pastSentence, tok);
+      registerExplore();
+      applyDiscoveryUI();
+      setBusy(false);
+    }
+
+    function runPastVerbAnimChain() {
+      if (current.category === "regular") {
+        if (current.ruleType === "double") {
+          verbHero.textContent = current.base;
+          verbHero.classList.remove("is-irregular-past");
+          runDoubleLetterAnim(function () {
+            verbHero.textContent = current.past;
+            runStampAnimation(afterPastTransform);
+          });
+        } else {
+          verbHero.textContent = current.past;
+          verbHero.classList.remove("is-irregular-past");
+          runStampAnimation(afterPastTransform);
+        }
+      } else {
+        verbHero.textContent = current.base;
+        verbHero.classList.remove("is-irregular-past");
+        runMagicAnimation(afterPastTransform);
+      }
+    }
+
+    function transitionToPast() {
+      if (busy || isPast || !discoveryRevealed) return;
+      setBusy(true);
+      isPast = true;
+      stopSpeak();
+      runPhotoCrossfade(function () {
+        playLowHum();
+        setPastSentenceOnly();
+        runPastVerbAnimChain();
+      });
+    }
+
+    function transitionToPresent() {
+      if (busy) return;
+      stopSpeak();
+      loopOn = false;
+      btnLoop.classList.remove("is-on");
+      btnLoop.setAttribute("aria-pressed", "false");
+      isPast = false;
+      screenInner.classList.remove("is-past");
+      anime.remove(stampEd);
+      stampEd.style.opacity = "0";
+      stampEd.style.top = "-120%";
+      particleLayer.innerHTML = "";
+      verbHero.innerHTML = "";
+      verbHero.textContent = current.base;
+      photoStack.classList.remove("is-past-view");
+      if (!imgFail) {
+        anime.remove([imgNowEl, imgPastEl]);
+        imgNowEl.style.opacity = "1";
+        imgPastEl.style.opacity = "0";
+      } else {
+        imgFallback.style.filter = "";
+      }
+      refreshScreen();
+      applyDiscoveryUI();
+    }
+
+    function selectAction(item) {
+      stopSpeak();
+      loopOn = false;
+      btnLoop.classList.remove("is-on");
+      btnLoop.setAttribute("aria-pressed", "false");
+      current = item;
+      isPast = false;
+      discoveryRevealed = false;
+      screenInner.classList.remove("is-past");
+      anime.remove(stampEd);
+      stampEd.style.opacity = "0";
+      stampEd.style.top = "-120%";
+      particleLayer.innerHTML = "";
+      verbHero.innerHTML = "";
+      verbHero.textContent = item.base;
+      verbHero.classList.toggle("is-long", item.base.length > 9);
+      logImagePromptsFor(current);
+      setupImagesForCurrent();
+      applyDiscoveryUI();
+      syncActivePill();
+      refreshScreen();
+    }
+
+    function syncActivePill() {
+      document.querySelectorAll(".verb-pill").forEach(function (c) {
+        c.classList.toggle("is-active", c.getAttribute("data-id") === current.id);
+      });
+    }
+
+    function buildDeck() {
+      VERB_MASTER_POOL.regular.forEach(function (v, i) {
+        var item = byId["r" + (i + 1)];
+        var btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "verb-pill tag-regular";
+        btn.setAttribute("data-id", item.id);
+        btn.innerHTML = escapeHtml(v.base) + '<span class="tag-mini">' + ruleLabel(v.rule) + "</span>";
+        btn.addEventListener("click", function () {
+          selectAction(item);
+        });
+        deckRegular.appendChild(btn);
+      });
+      VERB_MASTER_POOL.irregular.forEach(function (v, i) {
+        var item = byId["i" + (i + 1)];
+        var btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "verb-pill tag-irregular";
+        btn.setAttribute("data-id", item.id);
+        btn.innerHTML = escapeHtml(v.base) + '<span class="tag-mini">不规则</span>';
+        btn.addEventListener("click", function () {
+          selectAction(item);
+        });
+        deckIrregular.appendChild(btn);
+      });
+    }
+
+    function openPanel(which) {
+      if (which === "reg") {
+        panelReg.classList.add("is-open");
+        panelReg.hidden = false;
+        orbReg.classList.add("is-open");
+        orbReg.setAttribute("aria-expanded", "true");
+        panelIrr.classList.remove("is-open");
+        panelIrr.hidden = true;
+        orbIrr.classList.remove("is-open");
+        orbIrr.setAttribute("aria-expanded", "false");
+      } else {
+        panelIrr.classList.add("is-open");
+        panelIrr.hidden = false;
+        orbIrr.classList.add("is-open");
+        orbIrr.setAttribute("aria-expanded", "true");
+        panelReg.classList.remove("is-open");
+        panelReg.hidden = true;
+        orbReg.classList.remove("is-open");
+        orbReg.setAttribute("aria-expanded", "false");
+      }
+    }
+
+    orbReg.addEventListener("click", function () {
+      openPanel("reg");
+    });
+    orbIrr.addEventListener("click", function () {
+      openPanel("irr");
+    });
+
+    btnNow.addEventListener("click", function () {
+      if (busy) return;
+      transitionToPresent();
+    });
+    btnYesterday.addEventListener("click", function () {
+      transitionToPast();
+    });
+
+    photoStack.addEventListener("click", function () {
+      revealDiscovery();
+    });
+    questionBubble.addEventListener("click", function () {
+      revealDiscovery();
+    });
+
+    btnLoop.addEventListener("click", function () {
+      if (!isPast) {
+        showToast("请先按 Yesterday 进入过去时，再循环朗读金句。");
+        return;
+      }
+      loopOn = !loopOn;
+      btnLoop.classList.toggle("is-on", loopOn);
+      btnLoop.setAttribute("aria-pressed", loopOn ? "true" : "false");
+      if (loopOn) {
+        stopSpeak();
+        speakToken++;
+        speakLine(current.pastSentence, speakToken);
+      } else {
+        stopSpeak();
+      }
+    });
+
+    btnSlow.addEventListener("click", function () {
+      slowOn = !slowOn;
+      btnSlow.classList.toggle("is-on", slowOn);
+      btnSlow.setAttribute("aria-pressed", slowOn ? "true" : "false");
+      if (isPast) {
+        stopSpeak();
+        speakToken++;
+        speakLine(current.pastSentence, speakToken);
+      }
+    });
+
+    btnMemo.addEventListener("click", function () {
+      if (!isPast) {
+        showToast("请先完成 Yesterday 变身，再确认背诵哦。");
+        return;
+      }
+      memorized[current.id] = true;
+      saveMemo();
+      syncPillStars();
+      showToast("已收录：「" + current.base + "」金句进入你的星星本！（" + current.source + "）");
+    });
+
+    loadMemo();
+    loadExplore();
+    buildDeck();
+    syncPillStars();
+    updateProgressUI();
+    selectAction(flatList[0]);
+    openPanel("reg");
+  })();
+  </script>
+</body>
+</html>

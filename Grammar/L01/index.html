@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>第01讲 · 课程导航 · 一般现在时（动作家族 & 状态家族）</title>
+  <script src="../assets/lesson-tts-azure-config.js"></script>
+  <script src="../assets/lesson-tts-azure-play.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --paper: #fff9f0;
+      --crayon-red: #e85d4c;
+      --crayon-blue: #4a90d9;
+      --crayon-green: #5cb85c;
+      --crayon-purple: #9b59b6;
+      --crayon-orange: #f0ad4e;
+      --ink: #2c2c2c;
+      --shadow: rgba(60, 40, 20, 0.12);
+    }
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "ZCOOL KuaiLe", "Microsoft YaHei", sans-serif;
+      background:
+        radial-gradient(circle at 15% 25%, rgba(255, 220, 180, 0.4) 0%, transparent 45%),
+        radial-gradient(circle at 85% 75%, rgba(200, 230, 255, 0.35) 0%, transparent 40%),
+        linear-gradient(168deg, #ffeaa7 0%, #fab1a0 38%, #dfe6e9 100%);
+      color: var(--ink);
+      padding: 1rem;
+      padding-bottom: 3rem;
+    }
+    .book {
+      max-width: 720px;
+      margin: 0 auto;
+      background: var(--paper);
+      border-radius: 8px 28px 12px 20px;
+      border: 4px solid var(--crayon-orange);
+      box-shadow:
+        6px 8px 0 var(--crayon-red),
+        12px 16px 24px var(--shadow);
+      padding: 1.35rem 1.5rem 2rem;
+      position: relative;
+    }
+    .book::before {
+      content: "";
+      position: absolute;
+      inset: 8px;
+      border: 2px dashed rgba(200, 160, 100, 0.45);
+      border-radius: 4px 20px 8px 6px;
+      pointer-events: none;
+    }
+    .top-bar {
+      position: relative;
+      z-index: 1;
+      padding: 0.4rem 0.85rem;
+      margin-bottom: 1.1rem;
+      background: linear-gradient(90deg, rgba(255, 255, 255, 0.85), rgba(255, 248, 230, 0.95));
+      border-radius: 999px;
+      border: 3px solid var(--crayon-blue);
+      font-size: 0.95rem;
+      color: #333;
+      text-align: center;
+      box-shadow: 2px 3px 0 rgba(0, 0, 0, 0.06);
+    }
+    .top-bar strong {
+      color: var(--crayon-red);
+    }
+    h1 {
+      position: relative;
+      z-index: 1;
+      font-size: 1.35rem;
+      margin: 0 0 0.75rem;
+      color: var(--crayon-red);
+      text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.06);
+    }
+    .intro-board,
+    .goal-board,
+    .route-board {
+      position: relative;
+      z-index: 1;
+      margin-bottom: 1rem;
+      padding: 0.85rem 1rem;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.84);
+      border: 3px solid rgba(74, 144, 217, 0.28);
+      box-shadow: 2px 3px 0 rgba(0, 0, 0, 0.05);
+    }
+    .intro-board p,
+    .route-board p {
+      margin: 0;
+      line-height: 1.7;
+      font-size: 0.94rem;
+    }
+    .goal-title,
+    .route-title {
+      margin: 0 0 0.55rem;
+      color: #1a237e;
+      font-size: 0.98rem;
+    }
+    .goal-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.55rem;
+    }
+    @media (min-width: 620px) {
+      .goal-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    .goal-card {
+      padding: 0.65rem 0.75rem;
+      border-radius: 12px;
+      background: linear-gradient(180deg, rgba(255, 249, 240, 0.98), rgba(255, 255, 255, 0.92));
+      border: 2px dashed rgba(240, 173, 78, 0.55);
+      line-height: 1.6;
+      font-size: 0.9rem;
+    }
+    .goal-card strong {
+      color: var(--crayon-red);
+    }
+    ol.nav-list {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      padding: 0 0 0 1.15rem;
+      list-style: none;
+      counter-reset: nav;
+    }
+    ol.nav-list li {
+      counter-increment: nav;
+      margin-bottom: 0.65rem;
+      padding-left: 0.25rem;
+    }
+    ol.nav-list li::before {
+      content: "P" counter(nav, decimal-leading-zero) " ";
+      font-weight: 800;
+      color: var(--crayon-orange);
+      margin-right: 0.35rem;
+    }
+    ol.nav-list a {
+      color: var(--crayon-blue);
+      font-weight: 700;
+      text-decoration: none;
+      border-bottom: 2px dashed rgba(74, 144, 217, 0.45);
+    }
+    ol.nav-list a:hover {
+      color: var(--crayon-purple);
+      border-bottom-color: var(--crayon-purple);
+    }
+    .nav-role {
+      display: inline-block;
+      margin-left: 0.5rem;
+      font-size: 0.76rem;
+      padding: 0.08rem 0.45rem;
+      border-radius: 999px;
+      background: rgba(92, 184, 92, 0.15);
+      color: #2e7d32;
+      font-weight: 700;
+      vertical-align: middle;
+    }
+    .nav-note {
+      margin: 0.18rem 0 0 0;
+      color: #666;
+      font-size: 0.84rem;
+      line-height: 1.55;
+    }
+  </style>
+  <link rel="stylesheet" href="../assets/lesson-screen-16x9.css" />
+</head>
+<body>
+  <div class="book">
+    <div class="top-bar">
+      <strong>第01讲</strong> · 课程导航 · 一般现在时
+    </div>
+    <h1>动作家族 & 状态家族</h1>
+    <div class="intro-board">
+      <p>本讲不是冷冰冰的入学测，而是<strong>七升八暑期的稳启动课</strong>：先把一般现在时的基本盘彻底夯实，再把所有内容最终汇成一个真实产出任务 <strong>《我的日常一天》</strong>。</p>
+    </div>
+    <section class="goal-board" aria-label="本讲目标">
+      <h2 class="goal-title">本讲过关目标</h2>
+      <div class="goal-grid">
+        <div class="goal-card"><strong>结构目标</strong>：分清 <code>be 句</code> 与 <code>实义动词句</code>，掌握陈述、否定、一般疑问、特殊疑问四种句型。</div>
+        <div class="goal-card"><strong>命题目标</strong>：稳拿三单、<code>do / does</code>、<code>there be</code>、频率副词、时间表达等中考基础分。</div>
+        <div class="goal-card"><strong>教材衔接</strong>：对接七上日常生活与作息表达，为 L02 的“正在发生”描写建立静态表达底座。</div>
+        <div class="goal-card"><strong>最终产出</strong>：能用 5-8 句完成《My Daily Day / 我的日常一天》口头或书面微写作。</div>
+      </div>
+    </section>
+    <ol class="nav-list">
+      <li>
+        <a href="lesson01-page01-present.html">动作家族与状态家族（入门）</a><span class="nav-role">输入</span>
+        <p class="nav-note">低压复习 + 家族归类，先让学生重新找回“句子结构感”。</p>
+      </li>
+      <li>
+        <a href="lesson01-page02-concept-map.html">一般现在时概念图</a><span class="nav-role">整理</span>
+        <p class="nav-note">把“动作 / 状态 / 习惯 / 真理 / 日程”拉成一张可迁移的概念图。</p>
+      </li>
+      <li>
+        <a href="lesson01-page03-be-magic.html">Be 动词变身与对战</a><span class="nav-role">建模</span>
+        <p class="nav-note">锁定 <code>am / is / are</code>，解决状态句最核心的桥梁选择。</p>
+      </li>
+      <li>
+        <a href="lesson01-page04-slp-advanced.html">状态家族的否定与提问</a><span class="nav-role">操练</span>
+        <p class="nav-note">把状态句的否定、提问和简答做成课堂自动化反应。</p>
+      </li>
+      <li>
+        <a href="lesson01-page05-svo-rules.html">动作家族的头号规则（第三人称单数）</a><span class="nav-role">命题点</span>
+        <p class="nav-note">攻克三单变化，这是本讲最核心、最容易失分的中考考点。</p>
+      </li>
+      <li>
+        <a href="lesson01-page06-svo-negative.html">否定句 don't / doesn't</a><span class="nav-role">纠错</span>
+        <p class="nav-note">建立“照妖镜法则”：<code>doesn't</code> 一出现，后面动词必须回原形。</p>
+      </li>
+      <li>
+        <a href="lesson01-page07-svo-question.html">一般疑问 Do / Does</a><span class="nav-role">纠错</span>
+        <p class="nav-note">完成从陈述句到提问句的变式迁移，服务听力、阅读和改错题。</p>
+      </li>
+      <li>
+        <a href="lesson01-page08-wrap.html">本讲小结与迁移</a><span class="nav-role">输出</span>
+        <p class="nav-note">用《我的日常一天》把语法知识真正转成可说、可写的表达能力。</p>
+      </li>
+      <li>
+        <a href="lesson01-handout-zhongkao.html">讲义 · 一般现在时</a><span class="nav-role">固化</span>
+        <p class="nav-note">背诵讲义负责课后固化，承接课堂结构与高频例句输入。</p>
+      </li>
+      <li>
+        <a href="lesson01-exercise.html">终极试炼场 · 50 题综合测试</a><span class="nav-role">诊断</span>
+        <p class="nav-note">按题型检测：三单、原形、there be、句型转换与综合迁移是否真正掌握。</p>
+      </li>
+    </ol>
+    <section class="route-board" aria-label="建议路线">
+      <h2 class="route-title">建议课堂路线</h2>
+      <p><strong>P1-P2</strong> 建立总图景，<strong>P3-P7</strong> 逐项练结构，<strong>P8</strong> 完成微写作输出，最后用<strong>讲义 + 试炼</strong> 做“课上形成规则、课后形成记忆、测试形成反馈”的闭环。</p>
+    </section>
+  </div>
+</body>
+</html>

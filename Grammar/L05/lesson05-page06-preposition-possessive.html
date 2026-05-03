@@ -1,0 +1,1931 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <!-- spa-assets-inlined -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>第05讲 · Page 06 · 方位介词 × 所有格融合</title>
+  <script>
+    (function (w) {
+      if (!w) return;
+      w.__AZURE_SPEECH_KEY__ = "DKRXk8ueSfo5NdIOMqFRTCAfpeGDezJ3Snf5K8gGgtyqxiWdugLzJQQJ99BLACHYHv6XJ3w3AAAYACOGUYP9";
+      w.__AZURE_SPEECH_REGION__ = "eastus2";
+    })(typeof window !== "undefined" ? window : null);
+  </script>
+  <script src="../assets/lesson-tts-azure-config.js"></script>
+  <script src="../assets/lesson-tts-azure-play.js"></script>
+  <script src="https://aka.ms/csspeech/jsbrowserpackageraw"></script>
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
+  <link rel="stylesheet" href="../assets/lesson-screen-16x9.css" />
+  <!--
+    教材/真题句型来源（课堂改编）：
+    - 7A Unit 2 / Unit 3：物品归属 + 位置描述
+    - 7B Unit 3：yours / mine 等名词性物主代词
+    - 成都中考 2018-2020：方位 + 所有格/物主代词综合表达
+
+    图片占位（PNG）：
+    - assets/vertex/page06-room-cluttered.png
+    - assets/vertex/page06-owner-cards.png
+    - assets/vertex/page06-item-icons.png
+    - assets/vertex/page06-medal.png
+  -->
+  <style>
+    :root {
+      --ink: #2c2436;
+      --edge: #5d4037;
+      --blue: #1565c0;
+      --orange: #ef6c00;
+      --purple: #7b1fa2;
+      --ok: #2e7d32;
+      --bad: #c62828;
+    }
+    * { box-sizing: border-box; }
+    /* 与 L05 其他页一致：全屏底 + 16:9 舞台由 lesson-screen-16x9.css 控制 body > .shell */
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+      color: var(--ink);
+    }
+    body {
+      background: #140c18;
+    }
+    .bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background: radial-gradient(ellipse 90% 70% at 50% 100%, #3d2848, #0f0814);
+    }
+    .shell {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      height: 100%;
+      min-height: 0;
+    }
+    .book {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      min-height: 0;
+      border: 5px solid #8b6914;
+      border-radius: 14px 24px 16px 20px;
+      background: linear-gradient(180deg, #fff9ef, #f0e4d4);
+      box-shadow: 0 14px 42px rgba(0, 0, 0, 0.35);
+      overflow: hidden;
+    }
+    .top {
+      margin: 12px;
+      border: 3px solid #4a6fa5;
+      border-radius: 999px;
+      text-align: center;
+      padding: 10px 14px;
+      background: linear-gradient(180deg, #fff, #ffeccd);
+      font-size: clamp(14px, 1.8vw, 20px);
+    }
+    .top strong { color: #c62828; }
+    .tabs {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+      margin: 0 12px 10px;
+    }
+    .tabs button {
+      border: 2px dashed #8d6e63;
+      border-radius: 999px;
+      padding: 6px 12px;
+      font-size: 13px;
+      background: #fff;
+      cursor: pointer;
+    }
+    .tabs button.on {
+      border-style: solid;
+      background: #e3f2fd;
+      color: #0d47a1;
+      font-weight: 800;
+    }
+    .tabs button.lock { opacity: .5; cursor: not-allowed; }
+    .deck {
+      position: relative;
+      flex: 1 1 auto;
+      min-height: 0;
+      border-top: 2px dashed rgba(95, 67, 52, 0.24);
+      padding: 10px;
+      overflow: hidden;
+    }
+    .slide {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      bottom: 10px;
+      left: 10px;
+      border: 3px solid var(--edge);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 12px;
+      display: none;
+      overflow: auto;
+    }
+    .slide.show {
+      display: block;
+    }
+    .slide[data-s="0"].show {
+      display: flex;
+      flex-direction: column;
+    }
+    .slide[data-s="0"] .hero {
+      flex: 1 1 auto;
+      min-height: 0;
+    }
+    .hero {
+      border-radius: 14px;
+      background: linear-gradient(155deg, #ffe0f1, #e1f5fe 60%, #fff8e1);
+      display: grid;
+      place-items: center;
+      text-align: center;
+    }
+    .hero h1 {
+      margin: 0;
+      color: #6a1b9a;
+      font-size: clamp(30px, 5vw, 54px);
+      line-height: 1.2;
+    }
+    .hero p {
+      margin: 14px 0 20px;
+      color: #4a148c;
+      font-size: clamp(19px, 2.3vw, 28px);
+    }
+    .btn {
+      border: 3px solid var(--edge);
+      border-radius: 999px;
+      padding: 9px 16px;
+      font-size: 16px;
+      font-weight: 800;
+      background: linear-gradient(180deg, #fff9c4, #ffd54f);
+      cursor: pointer;
+    }
+    .btn:disabled { opacity: .5; cursor: not-allowed; }
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      align-items: start;
+    }
+    @media (max-width: 980px) {
+      .row { grid-template-columns: 1fr; }
+      .slide { inset: 8px; }
+    }
+    .card {
+      border: 3px solid var(--edge);
+      border-radius: 14px;
+      background: #fff;
+      padding: 10px;
+    }
+    .room {
+      position: relative;
+      border: 3px solid #6d4c41;
+      border-radius: 12px;
+      overflow: hidden;
+      aspect-ratio: 16 / 9;
+      background: #eceff1;
+    }
+    .room img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .room.row-strip {
+      aspect-ratio: 16 / 6;
+      background: #fff;
+    }
+    .room.row-strip img {
+      object-fit: contain;
+    }
+    .hot {
+      position: absolute;
+      border: 3px solid rgba(255, 241, 118, .95);
+      background: rgba(255, 235, 59, .22);
+      border-radius: 9px;
+      opacity: 0;
+      transition: opacity .2s;
+    }
+    .hot.on { opacity: 1; }
+    .hot.hit { background: rgba(102, 187, 106, .3); border-color: #2e7d32; opacity: 1; }
+    .float-text {
+      position: absolute;
+      max-width: 64%;
+      padding: 8px 12px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, .95);
+      border: 2px solid #8d6e63;
+      color: #1a237e;
+      font-size: clamp(18px, 1.5vw, 24px);
+      line-height: 1.5;
+      font-weight: 800;
+      opacity: 0;
+      pointer-events: none;
+    }
+    .status {
+      margin-top: 8px;
+      min-height: 32px;
+      border-radius: 8px;
+      padding: 7px 8px;
+      background: #fff8e1;
+      font-size: 14px;
+    }
+    .ok { border: 2px solid #81c784; background: #e8f5e9; color: #1b5e20; }
+    .bad { border: 2px solid #ef9a9a; background: #ffebee; color: #b71c1c; }
+    .template {
+      margin-top: 8px;
+      border: 2px dashed #90caf9;
+      border-radius: 12px;
+      background: #eef7ff;
+      padding: 10px;
+      font-size: 18px;
+      line-height: 1.8;
+    }
+    select, input {
+      border: 2px solid #8d6e63;
+      border-radius: 9px;
+      padding: 6px 8px;
+      font-size: 16px;
+      font-family: inherit;
+      background: #fff;
+    }
+    .chip {
+      display: inline-block;
+      border: 2px solid #ef6c00;
+      border-radius: 999px;
+      background: #fff3e0;
+      color: #e65100;
+      padding: 4px 10px;
+      margin-right: 6px;
+      font-size: 13px;
+      font-weight: 800;
+    }
+    .sum-line {
+      border: 2px solid #bcaaa4;
+      border-radius: 10px;
+      background: #fff;
+      padding: 8px;
+      margin-bottom: 8px;
+      line-height: 1.6;
+      font-size: 18px;
+    }
+    .c-item { color: var(--blue); font-weight: 800; }
+    .c-prep { color: var(--orange); font-weight: 800; }
+    .c-own { color: var(--purple); font-weight: 800; }
+    .note {
+      border: 3px dashed #7e57c2;
+      border-radius: 14px;
+      background: #f3e5f5;
+      padding: 10px;
+      line-height: 1.65;
+    }
+    .note input { width: 150px; }
+    .q { margin: 8px 0; font-size: 20px; color: #0d47a1; font-weight: 800; }
+    .tts-line-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 8px 0;
+    }
+    .tts-line-row .q {
+      margin: 0;
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+    .hero-tts-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin: 14px 0 20px;
+    }
+    .hero-tts-row p {
+      margin: 0;
+    }
+    .demo-tts-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .demo-sentence {
+      margin-top: 10px;
+      border: 3px solid #8d6e63;
+      border-radius: 12px;
+      background: #fff;
+      color: #1a237e;
+      padding: 12px 14px;
+      min-height: 84px;
+      font-size: clamp(24px, 1.8vw, 34px);
+      line-height: 1.45;
+      font-weight: 800;
+    }
+    .azure-tts-btn {
+      flex: 0 0 auto;
+      width: 44px;
+      height: 44px;
+      padding: 0;
+      border: 3px solid var(--blue);
+      border-radius: 50%;
+      background: #e3f2fd;
+      font-size: 20px;
+      line-height: 1;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .azure-tts-btn:hover {
+      background: #bbdefb;
+    }
+    .azure-tts-btn:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(21, 101, 192, 0.45);
+    }
+    .azure-tts-btn:disabled {
+      opacity: 0.38;
+      cursor: not-allowed;
+    }
+    .azure-tts-btn--sm {
+      width: 34px;
+      height: 34px;
+      font-size: 15px;
+    }
+    .medal {
+      position: relative;
+      min-height: 170px;
+      border: 2px dashed #ffd54f;
+      border-radius: 12px;
+      background: #fffde7;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+    }
+    .medal img { width: min(160px, 42vw); opacity: 0; transform: scale(.6); }
+    .confetti {
+      position: absolute;
+      top: -14px;
+      width: 10px;
+      height: 14px;
+      border-radius: 3px;
+      opacity: 0;
+    }
+    .progress {
+      flex-shrink: 0;
+      height: 10px;
+      background: #d7ccc8;
+      border-top: 2px solid rgba(95, 67, 52, .4);
+    }
+    .progress > i {
+      display: block;
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #42a5f5, #ab47bc);
+      transition: width .25s;
+    }
+    .crayon-panel {
+      border: 3px solid var(--edge);
+      border-radius: 18px 13px 20px 15px;
+      background: rgba(255, 253, 246, .96);
+      padding: 12px;
+      box-shadow: 5px 7px 0 rgba(93, 64, 55, .12);
+    }
+    .lexicon-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+    @media (max-width: 1100px) { .lexicon-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    .lex-card {
+      display: grid;
+      grid-template-columns: 54px 1fr;
+      gap: 8px;
+      align-items: center;
+      border: 2px dashed #8d6e63;
+      border-radius: 14px;
+      background: linear-gradient(180deg, #fff, #fff8e1);
+      padding: 8px;
+      cursor: pointer;
+      text-align: left;
+      font-family: inherit;
+    }
+    .lex-card b { color: #4a148c; display: block; font-size: 13px; }
+    .lex-card span { color: #1a237e; font-weight: 800; font-size: 15px; line-height: 1.3; }
+    .lex-carousel {
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: 14px;
+      align-items: stretch;
+      min-height: 0;
+    }
+    @media (max-width: 980px) { .lex-carousel { grid-template-columns: 1fr; } }
+    .lex-image {
+      position: relative;
+      border: 4px solid #6d4c41;
+      border-radius: 18px;
+      overflow: hidden;
+      background: #eceff1;
+      aspect-ratio: 16 / 9;
+    }
+    .lex-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .lex-badge {
+      position: absolute;
+      left: 12px;
+      top: 12px;
+      padding: 6px 12px;
+      border: 3px solid #6d4c41;
+      border-radius: 999px;
+      background: rgba(255, 248, 225, .94);
+      color: #4a148c;
+      font-weight: 900;
+    }
+    .lex-big-card {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      border: 3px dashed #8d6e63;
+      border-radius: 18px;
+      background: linear-gradient(180deg, #fff, #fff8e1);
+      padding: 14px;
+      min-height: 100%;
+    }
+    .lex-big-card h2 {
+      margin: 0;
+      color: #4a148c;
+      font-size: clamp(22px, 2.4vw, 36px);
+    }
+    .lex-task {
+      border: 2px dashed #90caf9;
+      border-radius: 14px;
+      background: #eef7ff;
+      padding: 10px;
+      color: #0d47a1;
+      font-weight: 900;
+      line-height: 1.5;
+    }
+    .lex-answer {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .lex-answer input {
+      flex: 1 1 220px;
+      min-width: 0;
+      font-size: 18px;
+    }
+    .lex-sentence {
+      min-height: 76px;
+      border: 3px solid #8d6e63;
+      border-radius: 14px;
+      background: #fffdf7;
+      padding: 12px;
+      color: #1a237e;
+      font-size: clamp(19px, 1.8vw, 28px);
+      font-weight: 900;
+      line-height: 1.45;
+      opacity: .42;
+    }
+    .lex-sentence.show { opacity: 1; background: #e8f5e9; border-color: #2e7d32; }
+    .lex-controls {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: auto;
+    }
+    .lex-controls .btn { padding-left: 8px; padding-right: 8px; }
+    .mini-scene {
+      width: 50px;
+      height: 42px;
+      border: 2px solid #6d4c41;
+      border-radius: 10px;
+      position: relative;
+      background: #fffde7;
+    }
+    .mini-scene::before {
+      content: "";
+      position: absolute;
+      left: 15px;
+      top: 12px;
+      width: 20px;
+      height: 18px;
+      border: 3px solid #8d6e63;
+      border-radius: 5px;
+      background: #ffecb3;
+    }
+    .mini-scene::after {
+      content: "";
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #42a5f5;
+      box-shadow: 1px 2px 0 rgba(0,0,0,.12);
+    }
+    .mini-scene.in::after { left: 20px; top: 17px; }
+    .mini-scene.on::after { left: 20px; top: 2px; }
+    .mini-scene.under::after { left: 20px; top: 31px; }
+    .mini-scene.behind::after { left: 9px; top: 15px; opacity: .6; }
+    .mini-scene.front::after { left: 31px; top: 16px; }
+    .mini-scene.next::after { left: 38px; top: 16px; }
+    .mini-scene.between::after { left: 20px; top: 16px; }
+    .detective-grid {
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 12px;
+      height: 100%;
+      min-height: 0;
+    }
+    @media (max-width: 980px) { .detective-grid { grid-template-columns: 1fr; } }
+    .detective-room {
+      position: relative;
+      border: 4px solid #6d4c41;
+      border-radius: 16px;
+      overflow: hidden;
+      aspect-ratio: 16 / 9;
+      background: #eceff1;
+    }
+    .detective-room img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .hunt-item {
+      position: absolute;
+      border: 3px solid rgba(255, 241, 118, .88);
+      background: rgba(255, 235, 59, .2);
+      border-radius: 10px;
+      cursor: pointer;
+      opacity: .18;
+      transition: opacity .2s, transform .2s;
+    }
+    .hunt-item:hover, .hunt-item.glow { opacity: 1; }
+    .hunt-item.glow {
+      border-color: #00c853;
+      box-shadow: 0 0 0 6px rgba(0, 200, 83, .12), 0 0 24px rgba(0, 200, 83, .55);
+      animation: cluePulse 1s infinite alternate;
+    }
+    .hunt-item.bad-hit { border-color: #d32f2f; background: rgba(244, 67, 54, .28); opacity: 1; }
+    @keyframes cluePulse {
+      from { transform: scale(.985); }
+      to { transform: scale(1.035); }
+    }
+    .listen-play, .speech-main-btn {
+      width: 100%;
+      border-radius: 20px 15px 22px 16px;
+      font-size: clamp(18px, 2vw, 28px);
+      padding: 14px 18px;
+      box-shadow: 4px 6px 0 rgba(93,64,55,.18);
+    }
+    .speech-main-btn.recording {
+      color: #fff;
+      background: linear-gradient(180deg, #ef5350, #c62828);
+      animation: recPulse .8s infinite alternate;
+    }
+    @keyframes recPulse {
+      from { transform: scale(.99); box-shadow: 0 0 0 rgba(198,40,40,0); }
+      to { transform: scale(1.02); box-shadow: 0 0 28px rgba(198,40,40,.45); }
+    }
+    .wave {
+      display: none;
+      height: 34px;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      margin: 10px 0;
+    }
+    .wave.on { display: flex; }
+    .wave i {
+      width: 7px;
+      height: 12px;
+      border-radius: 999px;
+      background: #42a5f5;
+      animation: waveUp .75s infinite ease-in-out;
+    }
+    .wave i:nth-child(2) { animation-delay: .1s; }
+    .wave i:nth-child(3) { animation-delay: .2s; }
+    .wave i:nth-child(4) { animation-delay: .3s; }
+    .wave i:nth-child(5) { animation-delay: .4s; }
+    @keyframes waveUp {
+      0%, 100% { height: 10px; }
+      50% { height: 32px; }
+    }
+    .speech-result {
+      min-height: 72px;
+      border: 2px dashed #90caf9;
+      border-radius: 14px;
+      background: #eef7ff;
+      padding: 10px;
+      line-height: 1.5;
+      color: #1a237e;
+      font-weight: 800;
+    }
+    .ai-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 500;
+      display: none;
+      place-items: center;
+      background: rgba(20, 12, 24, .46);
+    }
+    .ai-modal.show { display: grid; }
+    .ai-box {
+      width: min(560px, 92vw);
+      border: 5px solid #6d4c41;
+      border-radius: 24px 18px 28px 20px;
+      background: #fffdf5;
+      padding: 18px;
+      box-shadow: 10px 14px 0 rgba(0,0,0,.12);
+    }
+    .ai-box h3 { margin: 0 0 8px; color: #4a148c; }
+    .ai-box p { margin: 0; line-height: 1.55; font-weight: 800; }
+    .sr-only-compat { display: none !important; }
+  </style>
+</head>
+<body class="has-lesson-pager">
+  <div class="bg" aria-hidden="true"></div>
+  <div class="shell">
+    <div class="book" id="book">
+      <header class="top"><strong>第05讲 · Page 06</strong> · 寻宝任务 · 方位介词 × 归属表达融合</header>
+      <div class="tabs" id="tabs">
+        <button data-s="0" class="on">0 入口</button>
+        <button data-s="1">1 展示</button>
+        <button data-s="2">2 模仿</button>
+        <button data-s="3">3 归纳</button>
+        <button data-s="4">4 练习</button>
+        <button data-s="5">5 竞赛</button>
+      </div>
+      <div class="deck">
+        <section class="slide show" data-s="0">
+          <div class="hero">
+            <div>
+              <h1>寻宝任务：这是谁的？在哪儿？</h1>
+              <div class="hero-tts-row">
+                <p lang="en" id="heroEnLine">Whose things are these? Where are they?</p>
+                <button type="button" class="azure-tts-btn azure-tts-btn--sm" id="heroTts" aria-label="朗读英文副标题">🔊</button>
+              </div>
+              <button class="btn" id="btnStart">开始挑战</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide" data-s="1">
+          <div class="row">
+            <div class="card">
+              <h3 style="margin:0 0 8px;color:#4a148c">观察老师展示</h3>
+              <div class="room" id="roomDemo">
+                <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/vertex/page06-room-cluttered.png" alt="房间杂物图" />
+                <div class="hot" data-id="schoolbag" style="left:32.95%;top:46.88%;width:8.34%;height:19.12%"></div>
+                <div class="hot" data-id="cap" style="left:48.27%;top:42.03%;width:6.3%;height:17.44%"></div>
+                <div class="hot" data-id="glasses" style="left:60.7%;top:37.37%;width:7.97%;height:5.69%"></div>
+                <div class="hot" data-id="ruler" style="left:95.02%;top:45.67%;width:4.04%;height:37.78%"></div>
+                <div class="hot" data-id="bottle" style="left:1.57%;top:61.9%;width:3.41%;height:17.54%"></div>
+                <div class="float-text" id="floatText"></div>
+              </div>
+            </div>
+            <div class="card">
+              <h3 style="margin:0 0 8px;color:#6a1b9a">听并定位</h3>
+              <div class="status" id="demoStatus">点击“下一句”，每次播放 1 句；语音结束后才显示句子。</div>
+              <div class="demo-tts-row">
+                <button class="btn" id="btnDemoNext">下一句</button>
+                <button class="btn" id="btnReplay">从头开始</button>
+                <button type="button" class="azure-tts-btn azure-tts-btn--sm" id="demoTts" aria-label="朗读演示四句">🔊</button>
+              </div>
+              <div class="demo-sentence" id="demoSentence" lang="en">（语音结束后在这里显示句子）</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide" data-s="2">
+          <div class="row">
+            <div class="card">
+              <h3 style="margin:0 0 8px;color:#4a148c">观察新场景后构句</h3>
+              <div class="room">
+                <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/vertex/page06-room-cluttered.png" alt="练习房间图" />
+              </div>
+              <div class="room row-strip" style="margin-top:8px">
+                <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/vertex/page06-owner-cards.png" alt="人物卡片 Peter Ella Tom Lucy" />
+              </div>
+              <div class="room row-strip" style="margin-top:8px">
+                <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/vertex/page06-item-icons.png" alt="物品图标 schoolbag cap glasses ruler water bottle" />
+              </div>
+              <div style="margin-top:8px"><span class="chip" id="buildDone">已正确 0 / 3 句</span></div>
+            </div>
+            <div class="card" id="buildPanel">
+              <div class="template" lang="en">
+                The
+                <select id="selItem">
+                  <option value="">(item)</option>
+                  <option>schoolbag</option><option>cap</option><option>glasses</option><option>ruler</option><option>water bottle</option>
+                </select>
+                is
+                <select id="selPrep">
+                  <option value="">(prep)</option>
+                  <option>on</option><option>under</option><option>behind</option><option>next to</option>
+                </select>
+                the
+                <select id="selRef">
+                  <option value="">(reference)</option>
+                  <option>bed</option><option>desk</option><option>chair</option><option>bookshelf</option><option>door</option>
+                </select>.
+                It's
+                <select id="selOwner">
+                  <option value="">(owner)</option>
+                  <option>Peter's</option><option>Ella's</option><option>my grandparents'</option><option>our teacher's</option><option>mine</option><option>hers</option><option>theirs</option>
+                </select>.
+              </div>
+              <button class="btn" id="btnBuild" style="margin-top:8px">构建句子</button>
+              <div class="status" id="buildStatus">提示：句子要和图片中的“物品 + 位置 + 归属”一致。</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide" data-s="3">
+          <div class="crayon-panel">
+            <h3 style="margin:0 0 10px;color:#4a148c">30个黄金方位语料库 · 听例句，提取目标方位词组</h3>
+            <div class="lex-carousel">
+              <div class="lex-image">
+                <img id="lexImg" src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/external/assets/vertex/page07-race-scene-1.png?v=20260428" alt="语料场景图" />
+                <div class="lex-badge" id="lexBadge">1 / 30</div>
+              </div>
+              <div class="lex-big-card">
+                <h2 id="lexCategory">个人空间</h2>
+                <div class="lex-task">学生任务：听例句，写出你听到的“目标方位词组”。</div>
+                <div class="lex-answer">
+                  <input id="lexGuess" placeholder="例如：on Peter's desk" />
+                  <button class="btn" id="lexCheck">检查提取</button>
+                </div>
+                <div class="status" id="lexStatus">先点击“朗读例句”，不要急着显示答案。</div>
+                <div class="lex-sentence" id="lexSentence">例句已隐藏，老师点击“显示例句”后出现。</div>
+                <div style="display:flex;gap:8px;flex-wrap:wrap">
+                  <button class="btn" id="lexSpeak">🔊 朗读例句</button>
+                  <button class="btn" id="lexReveal">显示例句 / 答案</button>
+                </div>
+                <div class="lex-controls">
+                  <button class="btn" id="lexPrev">← 上一张</button>
+                  <button class="btn" id="lexRandom">随机</button>
+                  <button class="btn" id="lexNext">下一张 →</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="sr-only-compat">
+            <div id="sumList"></div><div id="noteBox"></div><input id="n1a" /><input id="n1b" /><input id="n2a" /><input id="n2b" /><button id="btnNote"></button><div id="noteStatus"></div>
+          </div>
+        </section>
+
+        <section class="slide" data-s="4">
+          <div class="detective-grid">
+            <div class="crayon-panel">
+              <div class="detective-room" id="listenRoom">
+                <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/external/assets/vertex/page07-race-scene-1.png?v=20260428" alt="听音寻物全景图" />
+              </div>
+            </div>
+            <div class="crayon-panel">
+              <h3 style="margin:0 0 8px;color:#4a148c;text-align:center">听音寻物侦探赛</h3>
+              <button class="btn listen-play" id="listenPlay">▶️ 播放线索</button>
+              <div class="status" id="listenStatus">先听线索，再点击图中正确物品。</div>
+              <div style="margin-top:10px">
+                <span class="chip" id="listenStep">1 / 5</span>
+                <span class="chip" id="listenGroup">第 1 组 / 3</span>
+                <span class="chip" id="listenScore">得分 0</span>
+              </div>
+              <button class="btn" id="listenNextGroup" style="margin-top:10px" disabled>下一组</button>
+            </div>
+          </div>
+          <div class="sr-only-compat">
+            <div id="huntCount"></div><div id="huntScore"></div><div id="huntScene"></div><div id="huntPrompt"></div><div id="huntRoom"><img alt="" /></div><div id="huntStatus"></div>
+          </div>
+        </section>
+
+        <section class="slide" data-s="5">
+          <div class="detective-grid">
+            <div class="crayon-panel">
+              <div class="detective-room" id="speechRoom">
+                <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/external/assets/vertex/page07-race-scene-1.png?v=20260428" alt="口语汇报全景图" />
+              </div>
+            </div>
+            <div class="crayon-panel">
+              <h3 style="margin:0 0 8px;color:#4a148c;text-align:center">大侦探口语汇报</h3>
+              <button class="btn" id="speechDraw">🎲 抽取任务</button>
+              <div class="status" id="speechTask">先抽取一个线索物品。</div>
+              <button class="btn speech-main-btn" id="speechRecord" style="margin-top:10px">🎤 开始描述</button>
+              <div class="wave" id="speechWave"><i></i><i></i><i></i><i></i><i></i></div>
+              <div class="speech-result" id="speechText">识别文本会显示在这里。</div>
+              <div class="status" id="speechStatus">AI导师将检查所有格、物主代词和方位介词。</div>
+            </div>
+          </div>
+          <div class="sr-only-compat">
+            <span id="raceScore"></span><span id="raceCombo"></span><span id="raceAcc"></span><span id="raceScene"></span><span id="raceTimer"></span><span id="raceEach"></span><div id="racePrompt"></div><button id="btnRaceStart"></button><div id="raceRoom"><img alt="" /></div><div id="raceStatus"></div><div id="raceResult"></div><div id="medalBox"><img id="medalImg" alt="" /></div>
+          </div>
+        </section>
+      </div>
+      <div class="progress"><i id="progressFill"></i></div>
+    </div>
+  </div>
+
+  <nav class="lesson-pager" aria-label="页间导航">
+    <a class="pager-prev" href="lesson05-page05-prepositions.html">← Page 05</a>
+    <span class="cur">Page 06</span>
+    <a class="pager-next" href="lesson05-page07-finale.html">Page 07 · 终极关卡 &#x23ed;&#xfe0f;</a>
+  </nav>
+
+  <script>
+    (function () {
+      "use strict";
+
+      var S = {
+        cur: 0,
+        unlock: [true, true, true, true, true, true],
+        demoBusy: false,
+        demoIdx: 0,
+        buildOK: 0,
+        buildHits: {},
+        successSentences: [],
+        huntIdx: 0,
+        huntScore: 0,
+        raceOn: false,
+        raceLeft: 90,
+        raceEach: 10,
+        raceScore: 0,
+        raceCombo: 0,
+        raceAns: 0,
+        raceOK: 0,
+        raceRound: 0,
+        raceTotalRounds: 8,
+        raceCur: null,
+        raceMainTick: null,
+        raceEachTick: null
+      };
+
+      var DEMO = [
+        {
+          id: "bottle",
+          text: "The water bottle is next to the bed. It's Peter's.",
+          x: "6%",
+          y: "58%"
+        },
+        {
+          id: "cap",
+          text: "The red cap is on the chair. It's Ella's.",
+          x: "52%",
+          y: "40%"
+        },
+        {
+          id: "glasses",
+          text: "The glasses are on the bookshelf. They're my grandparents'.",
+          x: "62%",
+          y: "30%"
+        },
+        {
+          id: "ruler",
+          text: "The ruler is behind the door. It's our teacher's.",
+          x: "86%",
+          y: "38%"
+        }
+      ];
+
+      var BUILD_TARGETS = [
+        { item: "water bottle", prep: "next to", ref: "bed", owner: "Peter's", id: "bottle" },
+        { item: "cap", prep: "on", ref: "chair", owner: "Ella's", id: "cap" },
+        { item: "glasses", prep: "on", ref: "bookshelf", owner: "my grandparents'", id: "glasses" },
+        { item: "ruler", prep: "behind", ref: "door", owner: "our teacher's", id: "ruler" },
+        { item: "schoolbag", prep: "under", ref: "desk", owner: "mine", id: "schoolbag" }
+      ];
+
+      var SCENE_HOTSPOT_A = {
+        bed: { left: 0, top: 34.4, width: 21.99, height: 43.92 },
+        desk: { left: 44.85, top: 40.96, width: 47.62, height: 55.04 },
+        bookshelf: { left: 61.76, top: 7.52, width: 19.48, height: 46.29 },
+        door: { left: 83.91, top: 2.32, width: 14.2, height: 71.99 },
+        window: { left: 26.4, top: 4.87, width: 31.98, height: 39.55 },
+        schoolbag: { left: 12.66, top: 70.85, width: 13.38, height: 24.51 },
+        cap: { left: 75.6, top: 52.53, width: 9.48, height: 13.12 },
+        dictionary: { left: 66.32, top: 24.37, width: 5.28, height: 10.48 },
+        "pencil case": { left: 63.56, top: 50.71, width: 7.84, height: 7.75 },
+        "water bottle": { left: 26.24, top: 43.42, width: 3.9, height: 11.12 },
+        shoes: { left: 83.7, top: 79.69, width: 13.38, height: 18.04 },
+        notebook: { left: 4.1, top: 56.09, width: 11.94, height: 11.85 }
+      };
+      var SCENE_HOTSPOT_B = {
+        "teacher desk": { left: 35.98, top: 41.05, width: 29.68, height: 22.32 },
+        "student desk": { left: 68.94, top: 52.71, width: 18.66, height: 23.42 },
+        bookshelf: { left: 14.81, top: 4.69, width: 16.35, height: 54.13 },
+        door: { left: 87.54, top: 3.42, width: 11.38, height: 60.96 },
+        window: { left: 1.64, top: 2.05, width: 12.15, height: 40.18 },
+        blackboard: { left: 32.6, top: 5.42, width: 43.21, height: 32.8 },
+        schoolbag: { left: 16.97, top: 73.4, width: 10.3, height: 20.59 },
+        "water bottle": { left: 65.61, top: 64.47, width: 5.64, height: 21.87 }
+      };
+      var SCENE_HOTSPOT_C = {
+        counter: { left: 2.2, top: 36.95, width: 67.04, height: 39.91 },
+        table: { left: 31.11, top: 56.63, width: 51.15, height: 40.46 },
+        fridge: { left: 80.98, top: 10.52, width: 18.3, height: 68.16 },
+        window: { left: 31.42, top: 2.78, width: 23.07, height: 33.62 },
+        door: { left: 69.14, top: 8.34, width: 14.71, height: 55.77 },
+        cabinet: { left: 54.89, top: 5.24, width: 13.69, height: 24.24 },
+        mug: { left: 60.85, top: 50.83, width: 15.86, height: 25.71 },
+        apple: { left: 82.39, top: 51.47, width: 11.78, height: 20.48 },
+        "water bottle": { left: 24.65, top: 31.39, width: 4.36, height: 14.49 },
+        dictionary: { left: 3.49, top: 20.18, width: 9.28, height: 8.84 }
+      };
+      var SCENES = [
+        {
+          id: "A",
+          name: "卧室场景",
+          image: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/vertex/page07-race-scene-1.png",
+          hotspots: SCENE_HOTSPOT_A
+        },
+        {
+          id: "B",
+          name: "教室场景",
+          image: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/vertex/page07-race-scene-2.png",
+          hotspots: SCENE_HOTSPOT_B
+        },
+        {
+          id: "C",
+          name: "厨房场景",
+          image: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/vertex/page07-race-scene-3.png",
+          hotspots: SCENE_HOTSPOT_C
+        }
+      ];
+
+      var HUNT_TASKS = [
+        { sceneId: "A", prompt: "Find Peter's schoolbag. It's near the bed.", id: "schoolbag" },
+        { sceneId: "B", prompt: "Find Ella's water bottle. It's on the student desk.", id: "water bottle" },
+        { sceneId: "C", prompt: "Find my dictionary. It's in the cabinet.", id: "dictionary" },
+        { sceneId: "A", prompt: "Find the red cap. It's on the desk.", id: "cap" },
+        { sceneId: "B", prompt: "Find the schoolbag. It's in the classroom.", id: "schoolbag" },
+        { sceneId: "C", prompt: "Find the mug. It's on the table.", id: "mug" },
+        { sceneId: "A", prompt: "Find the pencil case. It's on the desk.", id: "pencil case" },
+        { sceneId: "C", prompt: "Find the apple. It's on the counter.", id: "apple" },
+        { sceneId: "A", prompt: "Find the notebook. It's on the bed.", id: "notebook" }
+      ];
+
+      var RACE_TASKS = [
+        { sceneId: "A", sentence: "The schoolbag is near the bed. It's Peter's.", id: "schoolbag" },
+        { sceneId: "B", sentence: "The water bottle is on the student desk. It's hers.", id: "water bottle" },
+        { sceneId: "C", sentence: "The dictionary is in the cabinet. It's mine.", id: "dictionary" },
+        { sceneId: "A", sentence: "The red cap is on the desk. It's Ella's.", id: "cap" },
+        { sceneId: "B", sentence: "The schoolbag is in the classroom. It's his.", id: "schoolbag" },
+        { sceneId: "C", sentence: "The mug is on the table. It's ours.", id: "mug" },
+        { sceneId: "A", sentence: "The pencil case is on the desk. It's our teacher's.", id: "pencil case" },
+        { sceneId: "C", sentence: "The apple is on the counter. It's hers.", id: "apple" },
+        { sceneId: "A", sentence: "The notebook is on the bed. It's mine.", id: "notebook" }
+      ];
+
+      var E = {
+        tabs: document.getElementById("tabs"),
+        slides: [].slice.call(document.querySelectorAll(".slide")),
+        progressFill: document.getElementById("progressFill"),
+        btnStart: document.getElementById("btnStart"),
+        roomDemo: document.getElementById("roomDemo"),
+        demoStatus: document.getElementById("demoStatus"),
+        btnDemoNext: document.getElementById("btnDemoNext"),
+        btnReplay: document.getElementById("btnReplay"),
+        demoSentence: document.getElementById("demoSentence"),
+        floatText: document.getElementById("floatText"),
+        buildDone: document.getElementById("buildDone"),
+        selItem: document.getElementById("selItem"),
+        selPrep: document.getElementById("selPrep"),
+        selRef: document.getElementById("selRef"),
+        selOwner: document.getElementById("selOwner"),
+        btnBuild: document.getElementById("btnBuild"),
+        buildStatus: document.getElementById("buildStatus"),
+        buildPanel: document.getElementById("buildPanel"),
+        sumList: document.getElementById("sumList"),
+        n1a: document.getElementById("n1a"),
+        n1b: document.getElementById("n1b"),
+        n2a: document.getElementById("n2a"),
+        n2b: document.getElementById("n2b"),
+        btnNote: document.getElementById("btnNote"),
+        noteStatus: document.getElementById("noteStatus"),
+        noteBox: document.getElementById("noteBox"),
+        huntCount: document.getElementById("huntCount"),
+        huntScore: document.getElementById("huntScore"),
+        huntScene: document.getElementById("huntScene"),
+        huntPrompt: document.getElementById("huntPrompt"),
+        huntRoom: document.getElementById("huntRoom"),
+        huntStatus: document.getElementById("huntStatus"),
+        raceScore: document.getElementById("raceScore"),
+        raceCombo: document.getElementById("raceCombo"),
+        raceAcc: document.getElementById("raceAcc"),
+        raceScene: document.getElementById("raceScene"),
+        raceTimer: document.getElementById("raceTimer"),
+        raceEach: document.getElementById("raceEach"),
+        racePrompt: document.getElementById("racePrompt"),
+        btnRaceStart: document.getElementById("btnRaceStart"),
+        raceRoom: document.getElementById("raceRoom"),
+        raceStatus: document.getElementById("raceStatus"),
+        raceResult: document.getElementById("raceResult"),
+        medalBox: document.getElementById("medalBox"),
+        medalImg: document.getElementById("medalImg")
+      };
+
+      function norm(s) {
+        return String(s || "").replace(/[’‘]/g, "'").replace(/\s+/g, " ").trim().toLowerCase();
+      }
+
+      function speakEn(text) {
+        var t = String(text || "").trim();
+        if (!t) return Promise.resolve(false);
+        if (typeof window.playLessonAzureTtsPlain === "function") return window.playLessonAzureTtsPlain(t);
+        return Promise.resolve(false);
+      }
+
+      function wait(ms) {
+        return new Promise(function (resolve) { setTimeout(resolve, ms); });
+      }
+
+      function setProgress() {
+        E.progressFill.style.width = ((S.cur / 5) * 100).toFixed(0) + "%";
+      }
+
+      function unlock(i) {
+        if (S.unlock[i]) return;
+        S.unlock[i] = true;
+        var b = E.tabs.querySelector('button[data-s="' + i + '"]');
+        if (!b) return;
+        b.disabled = false;
+        b.classList.remove("lock");
+        if (window.anime) anime({ targets: b, scale: [0.75, 1], opacity: [0, 1], duration: 420, easing: "easeOutBack" });
+      }
+
+      function show(i) {
+        if (!S.unlock[i]) return;
+        S.cur = i;
+        E.slides.forEach(function (s) { s.classList.toggle("show", Number(s.dataset.s) === i); });
+        E.tabs.querySelectorAll("button").forEach(function (b) { b.classList.toggle("on", Number(b.dataset.s) === i); });
+        setProgress();
+      }
+
+      function pulseDemoHot(id) {
+        E.roomDemo.querySelectorAll(".hot").forEach(function (h) { h.classList.remove("on"); });
+        var h = E.roomDemo.querySelector('.hot[data-id="' + id + '"]');
+        if (!h) return;
+        h.classList.add("on");
+        if (window.anime) anime({ targets: h, scale: [0.96, 1.04, 1], duration: 900, easing: "easeInOutSine" });
+      }
+
+      async function playDemoNext() {
+        if (S.demoBusy) return;
+        if (S.demoIdx >= DEMO.length) {
+          E.demoStatus.textContent = "4/4 句已展示，已解锁下一步。";
+          unlock(2);
+          return;
+        }
+        S.demoBusy = true;
+        E.btnDemoNext.disabled = true;
+        var d = DEMO[S.demoIdx];
+        pulseDemoHot(d.id);
+        E.demoStatus.textContent = "正在播放第 " + (S.demoIdx + 1) + " 句...";
+        await speakEn(d.text).catch(function () { return false; });
+        E.demoSentence.textContent = d.text;
+        S.demoIdx += 1;
+        if (S.demoIdx >= DEMO.length) {
+          E.demoStatus.textContent = "4/4 句已展示完成，点击上方“2 模仿”继续。";
+          unlock(2);
+        } else {
+          E.demoStatus.textContent = "已展示第 " + S.demoIdx + " 句，点击“下一句”继续。";
+        }
+        E.btnDemoNext.disabled = false;
+        S.demoBusy = false;
+      }
+
+      function resetDemo() {
+        S.demoBusy = false;
+        S.demoIdx = 0;
+        E.btnDemoNext.disabled = false;
+        E.demoSentence.textContent = "（语音结束后在这里显示句子）";
+        E.demoStatus.textContent = "已重置。点击“下一句”开始第 1 句。";
+        E.roomDemo.querySelectorAll(".hot").forEach(function (h) { h.classList.remove("on"); });
+      }
+
+      function resetBuildPanelShake() {
+        E.buildPanel.classList.remove("shake");
+        void E.buildPanel.offsetWidth;
+        E.buildPanel.classList.add("shake");
+      }
+
+      function markHotById(container, id) {
+        container.querySelectorAll(".hot").forEach(function (h) { h.classList.remove("hit"); });
+        var h = container.querySelector('.hot[data-id="' + id + '"]');
+        if (h) h.classList.add("hit");
+      }
+
+      function getSceneById(sceneId) {
+        return SCENES.find(function (s) { return s.id === sceneId; }) || SCENES[0];
+      }
+
+      function applySceneToRoom(roomEl, sceneId) {
+        if (!roomEl) return;
+        var scene = getSceneById(sceneId);
+        var img = roomEl.querySelector("img");
+        if (img) {
+          img.src = scene.image;
+          img.alt = scene.name + " 寻宝场景";
+        }
+        roomEl.querySelectorAll(".hot[data-id]").forEach(function (hot) {
+          hot.parentNode.removeChild(hot);
+        });
+        Object.keys(scene.hotspots).forEach(function (id) {
+          var box = scene.hotspots[id];
+          var hot = document.createElement("div");
+          hot.className = "hot";
+          hot.setAttribute("data-id", id);
+          hot.style.left = box.left + "%";
+          hot.style.top = box.top + "%";
+          hot.style.width = box.width + "%";
+          hot.style.height = box.height + "%";
+          hot.style.opacity = ".25";
+          roomEl.appendChild(hot);
+        });
+      }
+
+      function checkBuild() {
+        var item = E.selItem.value;
+        var prep = E.selPrep.value;
+        var ref = E.selRef.value;
+        var owner = E.selOwner.value;
+        if (!item || !prep || !ref || !owner) {
+          E.buildStatus.className = "status bad";
+          E.buildStatus.textContent = "四个空都要选。";
+          resetBuildPanelShake();
+          return;
+        }
+        var target = BUILD_TARGETS.find(function (t) {
+          return t.item === item && t.prep === prep && t.ref === ref && t.owner === owner;
+        });
+        if (!target) {
+          E.buildStatus.className = "status bad";
+          E.buildStatus.textContent = "句子语法或场景不匹配，请重试。";
+          resetBuildPanelShake();
+          return;
+        }
+        if (!S.buildHits[target.id]) {
+          S.buildHits[target.id] = true;
+          S.buildOK += 1;
+          S.successSentences.push("The " + item + " is " + prep + " the " + ref + ". It's " + owner + ".");
+        }
+        E.buildDone.textContent = "已正确 " + S.buildOK + " / 3 句";
+        E.buildStatus.className = "status ok";
+        E.buildStatus.textContent = "正确！继续构建下一句。";
+        speakEn("The " + item + " is " + prep + " the " + ref + ". It's " + owner + ".").catch(function () {});
+        if (S.buildOK >= 3) {
+          unlock(3);
+          E.buildStatus.textContent = "已达标，进入归纳。";
+        }
+      }
+
+      function renderSummary() {
+        E.sumList.innerHTML = "";
+        S.successSentences.slice(0, 3).forEach(function (s, idx) {
+          var line = document.createElement("div");
+          line.className = "sum-line";
+          var html = s
+            .replace(/The (schoolbag|cap|glasses|ruler|water bottle)/i, 'The <span class="c-item">$1</span>')
+            .replace(/\b(on|under|behind|next to)\b/i, '<span class="c-prep">$1</span>')
+            .replace(/It's (Peter's|Ella's|my grandparents'|our teacher's|mine|hers|theirs)\./i, "It's <span class=\"c-own\">$1</span>.");
+          line.innerHTML = (idx + 1) + ". " + html;
+          E.sumList.appendChild(line);
+        });
+      }
+
+      function checkNote() {
+        var a = norm(E.n1a.value);
+        var b = norm(E.n1b.value);
+        var c = norm(E.n2a.value);
+        var d = norm(E.n2b.value);
+        var ok1 = (a.includes("be") || a.includes("系动词")) && (b.includes("方位") || b.includes("介词") || /on|under|behind|next to/.test(b));
+        var ok2 = (c.includes("名词所有格") || c.includes("所有格")) && (d.includes("物主代词") || d.includes("名词性物主代词"));
+        if (ok1 && ok2) {
+          E.noteStatus.className = "status ok";
+          E.noteStatus.textContent = "笔记完成。";
+          if (window.anime) {
+            anime({
+              targets: E.noteBox,
+              boxShadow: ["0 0 0 rgba(123,31,162,0)", "0 0 26px rgba(123,31,162,.65)", "0 0 0 rgba(123,31,162,0)"],
+              duration: 1200,
+              easing: "easeOutQuad"
+            });
+          }
+          speakEn("Position uses be verb plus preposition. Ownership uses possessive or possessive pronoun.").catch(function () {});
+          unlock(4);
+        } else {
+          E.noteStatus.className = "status bad";
+          E.noteStatus.textContent = "再想想：位置结构 + 归属结构。";
+        }
+      }
+
+      function setHuntTask() {
+        var t = HUNT_TASKS[S.huntIdx];
+        var scene = getSceneById(t.sceneId);
+        E.huntCount.textContent = "任务 " + (S.huntIdx + 1) + " / " + HUNT_TASKS.length;
+        E.huntScore.textContent = "得分 " + S.huntScore;
+        E.huntScene.textContent = scene.name;
+        E.huntPrompt.textContent = t.prompt;
+        E.huntStatus.className = "status";
+        E.huntStatus.textContent = "点击正确物品。";
+        applySceneToRoom(E.huntRoom, t.sceneId);
+        speakEn(t.prompt).catch(function () {});
+      }
+
+      function bindHuntClick() {
+        E.huntRoom.addEventListener("click", function (ev) {
+          var hot = ev.target.closest(".hot[data-id]");
+          if (!hot) return;
+          var target = HUNT_TASKS[S.huntIdx];
+          if (!target) return;
+          var id = hot.getAttribute("data-id");
+          if (id === target.id) {
+            S.huntScore += 1;
+            hot.classList.add("hit");
+            E.huntStatus.className = "status ok";
+            E.huntStatus.textContent = "Great!";
+            setTimeout(function () {
+              hot.classList.remove("hit");
+              S.huntIdx += 1;
+              if (S.huntIdx >= HUNT_TASKS.length) {
+                var passLine = Math.max(4, Math.ceil(HUNT_TASKS.length * 0.75));
+                var ok = S.huntScore >= passLine;
+                E.huntStatus.className = ok ? "status ok" : "status bad";
+                E.huntStatus.textContent = "完成：得分 " + S.huntScore + " / " + HUNT_TASKS.length + "。" + (ok ? " 已解锁竞赛。" : " 未达标，建议重做。");
+                if (ok) {
+                  unlock(5);
+                  show(5);
+                }
+              } else {
+                setHuntTask();
+              }
+            }, 420);
+          } else {
+            E.huntStatus.className = "status bad";
+            E.huntStatus.textContent = "Not this one. Try again.";
+          }
+          E.huntScore.textContent = "得分 " + S.huntScore;
+        });
+      }
+
+      function updateRaceBoard() {
+        E.raceScore.textContent = "分数 " + S.raceScore;
+        E.raceCombo.textContent = "连击 x" + S.raceCombo;
+        var acc = S.raceAns ? Math.round((S.raceOK / S.raceAns) * 100) : 0;
+        E.raceAcc.textContent = "正确率 " + acc + "%";
+      }
+
+      function setRaceRound() {
+        if (!S.raceOn) return;
+        if (S.raceRound >= S.raceTotalRounds) {
+          endRace();
+          return;
+        }
+        S.raceCur = RACE_TASKS[S.raceRound];
+        var scene = getSceneById(S.raceCur.sceneId);
+        E.raceScene.textContent = scene.name;
+        applySceneToRoom(E.raceRoom, S.raceCur.sceneId);
+        E.racePrompt.textContent = S.raceCur.sentence;
+        speakEn(S.raceCur.sentence).catch(function () {});
+        S.raceEach = 10;
+        E.raceEach.textContent = "/ " + S.raceEach + "s";
+        clearInterval(S.raceEachTick);
+        S.raceEachTick = setInterval(function () {
+          S.raceEach -= 1;
+          E.raceEach.textContent = "/ " + Math.max(0, S.raceEach) + "s";
+          if (S.raceEach <= 0) {
+            clearInterval(S.raceEachTick);
+            S.raceCombo = 0;
+            E.raceStatus.className = "status";
+            E.raceStatus.textContent = "本轮超时，进入下一轮。";
+            updateRaceBoard();
+            S.raceRound += 1;
+            setRaceRound();
+          }
+        }, 1000);
+      }
+
+      function setRacePreview() {
+        var t = RACE_TASKS[Math.min(S.raceRound, RACE_TASKS.length - 1)] || RACE_TASKS[0];
+        if (!t) return;
+        var scene = getSceneById(t.sceneId);
+        E.raceScene.textContent = scene.name;
+        applySceneToRoom(E.raceRoom, t.sceneId);
+        E.racePrompt.textContent = "预览：" + t.sentence;
+      }
+
+      function bindRaceClick() {
+        E.raceRoom.addEventListener("click", function (ev) {
+          if (!S.raceOn || !S.raceCur) return;
+          var hot = ev.target.closest(".hot[data-id]");
+          if (!hot) return;
+          clearInterval(S.raceEachTick);
+          var id = hot.getAttribute("data-id");
+          S.raceAns += 1;
+          if (id === S.raceCur.id) {
+            S.raceOK += 1;
+            S.raceCombo += 1;
+            S.raceScore += 10 + (S.raceCombo - 1) * 2;
+            E.raceStatus.className = "status ok";
+            E.raceStatus.textContent = "命中！+" + (10 + (S.raceCombo - 1) * 2) + " 分";
+            hot.classList.add("hit");
+            setTimeout(function () { hot.classList.remove("hit"); }, 300);
+          } else {
+            S.raceCombo = 0;
+            E.raceStatus.className = "status bad";
+            E.raceStatus.textContent = "点错了，连击中断。";
+          }
+          updateRaceBoard();
+          S.raceRound += 1;
+          setRaceRound();
+        });
+      }
+
+      function spawnConfetti() {
+        if (!window.anime) return;
+        var colors = ["#ff7043", "#29b6f6", "#ffee58", "#66bb6a", "#ab47bc"];
+        for (var i = 0; i < 34; i++) {
+          var c = document.createElement("div");
+          c.className = "confetti";
+          c.style.background = colors[i % colors.length];
+          c.style.left = (8 + Math.random() * 84) + "%";
+          E.medalBox.appendChild(c);
+          anime({
+            targets: c,
+            opacity: [0, 1, 1, 0],
+            translateY: [-10, 200 + Math.random() * 80],
+            translateX: [0, -30 + Math.random() * 60],
+            rotate: [0, Math.random() * 300],
+            duration: 1200 + Math.random() * 800,
+            easing: "easeOutQuad",
+            complete: function (anim) {
+              var t = anim.animatables[0] && anim.animatables[0].target;
+              if (t && t.parentNode) t.parentNode.removeChild(t);
+            }
+          });
+        }
+      }
+
+      function endRace() {
+        S.raceOn = false;
+        clearInterval(S.raceMainTick);
+        clearInterval(S.raceEachTick);
+        var acc = S.raceAns ? Math.round((S.raceOK / S.raceAns) * 100) : 0;
+        var rank = "寻宝学徒";
+        if (S.raceScore >= 95) rank = "语法传奇";
+        else if (S.raceScore >= 65) rank = "定位大师";
+        E.raceResult.textContent = "成绩：" + S.raceScore + " 分，正确率 " + acc + "%，评级：「" + rank + "」。";
+        if (acc >= 80) {
+          E.raceStatus.className = "status ok";
+          E.raceStatus.textContent = "达标！勋章解锁。";
+          if (window.anime) {
+            anime({ targets: E.medalImg, opacity: [0, 1], scale: [0.55, 1.05, 1], duration: 1200, easing: "easeOutElastic(1, .6)" });
+          } else {
+            E.medalImg.style.opacity = 1;
+            E.medalImg.style.transform = "scale(1)";
+          }
+          spawnConfetti();
+        } else {
+          E.raceStatus.className = "status bad";
+          E.raceStatus.textContent = "未达标，可再次挑战。";
+        }
+      }
+
+      function startRace() {
+        S.raceOn = true;
+        S.raceLeft = 90;
+        S.raceScore = 0;
+        S.raceCombo = 0;
+        S.raceAns = 0;
+        S.raceOK = 0;
+        S.raceRound = 0;
+        S.raceTotalRounds = RACE_TASKS.length;
+        E.raceTimer.textContent = "90";
+        E.raceStatus.className = "status";
+        E.raceStatus.textContent = "开始！听句子并点击对应物品。";
+        E.medalImg.style.opacity = 0;
+        E.medalImg.style.transform = "scale(.6)";
+        updateRaceBoard();
+        setRaceRound();
+        clearInterval(S.raceMainTick);
+        S.raceMainTick = setInterval(function () {
+          S.raceLeft -= 1;
+          E.raceTimer.textContent = String(Math.max(0, S.raceLeft));
+          if (S.raceLeft <= 0) endRace();
+        }, 1000);
+      }
+
+      function bindTabs() {
+        E.tabs.addEventListener("click", function (ev) {
+          var b = ev.target.closest("button[data-s]");
+          if (!b || b.disabled) return;
+          show(Number(b.dataset.s));
+        });
+      }
+
+      function init() {
+        bindTabs();
+        E.btnStart.addEventListener("click", function () {
+          unlock(1);
+          show(1);
+          resetDemo();
+        });
+        E.btnDemoNext.addEventListener("click", playDemoNext);
+        E.btnReplay.addEventListener("click", resetDemo);
+
+        var heroTtsBtn = document.getElementById("heroTts");
+        if (heroTtsBtn) {
+          heroTtsBtn.addEventListener("click", function () {
+            var el = document.getElementById("heroEnLine");
+            speakEn(el ? el.textContent : "").catch(function () {});
+          });
+        }
+        var demoTtsBtn = document.getElementById("demoTts");
+        if (demoTtsBtn) {
+          demoTtsBtn.addEventListener("click", function () {
+            var idx = Math.min(S.demoIdx, DEMO.length - 1);
+            if (idx < 0 || !DEMO[idx]) return;
+            speakEn(DEMO[idx].text).catch(function () {});
+          });
+        }
+
+        E.btnBuild.addEventListener("click", checkBuild);
+        E.btnNote.addEventListener("click", checkNote);
+        E.btnRaceStart.addEventListener("click", startRace);
+
+        // Tab 3/4/5 已由新版“语料库/听音寻物/口语诊断”模块接管。
+
+        bindHuntClick();
+        bindRaceClick();
+
+        if (window.anime) {
+          anime({ targets: "#book", opacity: [0, 1], translateY: [18, 0], duration: 700, easing: "easeOutQuad" });
+        }
+        setProgress();
+      }
+
+      init();
+    })();
+  </script>
+  <div class="ai-modal" id="aiModal" aria-live="polite">
+    <div class="ai-box">
+      <h3>侦探助手</h3>
+      <p id="aiModalText">正在分析...</p>
+      <button class="btn" id="aiModalClose" style="margin-top:12px">知道了</button>
+    </div>
+  </div>
+  <script>
+    (function () {
+      "use strict";
+
+      var AZURE_KEY = "DKRXk8ueSfo5NdIOMqFRTCAfpeGDezJ3Snf5K8gGgtyqxiWdugLzJQQJ99BLACHYHv6XJ3w3AAAYACOGUYP9";
+      var AZURE_REGION = "eastus2";
+      var DEEPSEEK_KEY = "sk-daa16008e81843deba6fefe9dce51465";
+      var DEEPSEEK_ENDPOINT = "https://api.deepseek.com/v1/chat/completions";
+
+      var ADV_SCENES = {
+        bedroom: {
+          name: "卧室场景",
+          image: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/vertex/page07-race-scene-1.png",
+          hotspots: {
+            bed: { left: 0, top: 34.4, width: 21.99, height: 43.92 },
+            desk: { left: 44.85, top: 40.96, width: 47.62, height: 55.04 },
+            bookshelf: { left: 61.76, top: 7.52, width: 19.48, height: 46.29 },
+            schoolbag: { left: 12.66, top: 70.85, width: 13.38, height: 24.51 },
+            cap: { left: 75.6, top: 52.53, width: 9.48, height: 13.12 },
+            dictionary: { left: 66.32, top: 24.37, width: 5.28, height: 10.48 },
+            "pencil case": { left: 63.56, top: 50.71, width: 7.84, height: 7.75 },
+            "water bottle": { left: 26.24, top: 43.42, width: 3.9, height: 11.12 },
+            shoes: { left: 83.7, top: 79.69, width: 13.38, height: 18.04 },
+            notebook: { left: 4.1, top: 56.09, width: 11.94, height: 11.85 }
+          }
+        },
+        classroom: {
+          name: "教室场景",
+          image: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/vertex/page07-race-scene-2.png",
+          hotspots: {
+            "teacher desk": { left: 35.98, top: 41.05, width: 29.68, height: 22.32 },
+            "student desk": { left: 68.94, top: 52.71, width: 18.66, height: 23.42 },
+            bookshelf: { left: 14.81, top: 4.69, width: 16.35, height: 54.13 },
+            door: { left: 87.54, top: 3.42, width: 11.38, height: 60.96 },
+            window: { left: 1.64, top: 2.05, width: 12.15, height: 40.18 },
+            blackboard: { left: 32.6, top: 5.42, width: 43.21, height: 32.8 },
+            schoolbag: { left: 16.97, top: 73.4, width: 10.3, height: 20.59 },
+            "water bottle": { left: 65.61, top: 64.47, width: 5.64, height: 21.87 }
+          }
+        },
+        kitchen: {
+          name: "厨房场景",
+          image: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/vertex/page07-race-scene-3.png",
+          hotspots: {
+            counter: { left: 2.2, top: 36.95, width: 67.04, height: 39.91 },
+            table: { left: 31.11, top: 56.63, width: 51.15, height: 40.46 },
+            fridge: { left: 80.98, top: 10.52, width: 18.3, height: 68.16 },
+            window: { left: 31.42, top: 2.78, width: 23.07, height: 33.62 },
+            door: { left: 69.14, top: 8.34, width: 14.71, height: 55.77 },
+            cabinet: { left: 54.89, top: 5.24, width: 13.69, height: 24.24 },
+            mug: { left: 39.72, top: 55.27, width: 6.36, height: 10.3 },
+            apple: { left: 55.97, top: 36.22, width: 5.28, height: 6.29 },
+            "water bottle": { left: 24.65, top: 31.39, width: 4.36, height: 14.49 },
+            dictionary: { left: 3.49, top: 20.18, width: 9.28, height: 8.84 }
+          }
+        }
+      };
+
+      var LEXICON = [
+        { cat: "个人空间", phrase: "on Peter's desk", sentence: "There is a dictionary on Peter's desk.", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/vertex/page07-race-scene-1.png" },
+        { cat: "个人空间", phrase: "under the chair", sentence: "The red cap is under the chair.", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/vertex/page07-race-scene-1.png" },
+        { cat: "个人空间", phrase: "in my schoolbag", sentence: "There are two books in my schoolbag.", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/vertex/page07-race-scene-1.png" },
+        { cat: "个人空间", phrase: "on her bed", sentence: "Ella's pencil case is on her bed.", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/vertex/page07-race-scene-1.png" },
+        { cat: "个人空间", phrase: "under my grandparents' table", sentence: "The shoes are under my grandparents' table.", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/vertex/page07-race-scene-1.png" },
+        { cat: "个人空间", phrase: "in the pencil box", sentence: "My eraser is in the pencil box.", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/vertex/page07-race-scene-1.png" },
+        { cat: "个人空间", phrase: "on the sofa", sentence: "My sister's bag is on the sofa.", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/vertex/page07-race-scene-1.png" },
+        { cat: "个人空间", phrase: "under his dictionary", sentence: "The key is under his dictionary.", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/vertex/page07-race-scene-1.png" },
+        { cat: "校园布局", phrase: "in front of the blackboard", sentence: "The teacher is in front of the blackboard.", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/vertex/page07-race-scene-2.png" },
+        { cat: "校园布局", phrase: "behind the teachers' desk", sentence: "The clock is behind the teachers' desk.", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/vertex/page07-race-scene-2.png" },
+        { cat: "校园布局", phrase: "next to the art building", sentence: "The library is next to the art building.", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/vertex/page07-race-scene-2.png" },
+        { cat: "校园布局", phrase: "in front of the library", sentence: "There is a playground in front of the library.", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/vertex/page07-race-scene-2.png" },
+        { cat: "校园布局", phrase: "behind the dining hall", sentence: "The sports field is behind the dining hall.", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/vertex/page07-race-scene-2.png" },
+        { cat: "校园布局", phrase: "next to the sports field", sentence: "The classroom building is next to the sports field.", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/vertex/page07-race-scene-2.png" },
+        { cat: "校园布局", phrase: "between the gym and the library", sentence: "The art building is between the gym and the library.", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/vertex/page07-race-scene-2.png" },
+        { cat: "校园布局", phrase: "across from the student centre", sentence: "A new library is across from the student centre.", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/vertex/page07-race-scene-2.png" },
+        { cat: "社区规划", phrase: "near the post office", sentence: "There is a pay phone near the post office.", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/vertex/page07-race-scene-3.png" },
+        { cat: "社区规划", phrase: "across from the bank", sentence: "The hotel is across from the bank.", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/vertex/page07-race-scene-3.png" },
+        { cat: "社区规划", phrase: "between the hotel and the hospital", sentence: "The restaurant is between the hotel and the hospital.", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/vertex/page07-race-scene-3.png" },
+        { cat: "社区规划", phrase: "next to the police station", sentence: "The supermarket is next to the police station.", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/vertex/page07-race-scene-3.png" },
+        { cat: "社区规划", phrase: "in front of the supermarket", sentence: "There is a bus stop in front of the supermarket.", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/vertex/page07-race-scene-3.png" },
+        { cat: "社区规划", phrase: "on Bridge Street", sentence: "The bank is on Bridge Street.", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/vertex/page07-race-scene-3.png" },
+        { cat: "社区规划", phrase: "behind the restaurant", sentence: "The park is behind the restaurant.", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/vertex/page07-race-scene-3.png" },
+        { cat: "社区规划", phrase: "near the pay phone", sentence: "The post office is near the pay phone.", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/vertex/page07-race-scene-3.png" },
+        { cat: "中考长句", phrase: "on my sister's desk", sentence: "There is a computer on my sister's desk.", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/vertex/page07-race-scene-1.png" },
+        { cat: "中考长句", phrase: "in front of my house", sentence: "There was a small park in front of my house.", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/vertex/page07-race-scene-3.png" },
+        { cat: "中考长句", phrase: "across from the old school", sentence: "A new library is built across from the old school.", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/vertex/page07-race-scene-2.png" },
+        { cat: "中考长句", phrase: "under Tom's chair", sentence: "There are two books under Tom's chair.", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/vertex/page07-race-scene-2.png" },
+        { cat: "中考长句", phrase: "next to ours", sentence: "My parents' room is next to ours.", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/vertex/page07-race-scene-1.png" },
+        { cat: "中考长句", phrase: "in front of Lucy's schoolbag", sentence: "The keys are in front of Lucy's schoolbag.", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/vertex/page07-race-scene-1.png" }
+      ];
+      var lexIndex = 0;
+      var lexBound = false;
+
+      LEXICON.forEach(function (item, idx) {
+        item.img = "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/vertex/page06-lexicon-" + String(idx + 1).padStart(2, "0") + ".png?v=20260428";
+      });
+
+      var LISTEN_GROUPS = [
+        [
+          { scene: "bedroom", clue: "Whose schoolbag is this? It is near Peter's bed.", target: "schoolbag" },
+          { scene: "classroom", clue: "Where is Ella's water bottle? It is on the student desk.", target: "water bottle" },
+          { scene: "kitchen", clue: "Find the dictionary. It is in the cabinet over the counter.", target: "dictionary" },
+          { scene: "bedroom", clue: "Where is the red cap? It is on the desk.", target: "cap" },
+          { scene: "kitchen", clue: "Where is the mug? It is on the table.", target: "mug" }
+        ],
+        [
+          { scene: "bedroom", clue: "Find the pencil case. It is on the desk.", target: "pencil case" },
+          { scene: "classroom", clue: "Find the schoolbag. It is in the classroom.", target: "schoolbag" },
+          { scene: "kitchen", clue: "Find the apple. It is on the counter.", target: "apple" },
+          { scene: "bedroom", clue: "Where is the notebook? It is on the bed.", target: "notebook" },
+          { scene: "bedroom", clue: "Find the shoes. They are near the door.", target: "shoes" }
+        ],
+        [
+          { scene: "bedroom", clue: "Find the water bottle. It is next to the window.", target: "water bottle" },
+          { scene: "classroom", clue: "Where is the blackboard? It is in front of the classroom.", target: "blackboard" },
+          { scene: "kitchen", clue: "Find the cabinet. It is over the counter.", target: "cabinet" },
+          { scene: "bedroom", clue: "Where is the dictionary? It is on the bookshelf.", target: "dictionary" },
+          { scene: "classroom", clue: "Find the student desk. It is near the water bottle.", target: "student desk" }
+        ]
+      ];
+
+      var SPEECH_TASKS = [
+        { scene: "bedroom", item: "Peter's schoolbag", id: "schoolbag", position: "near the bed", expected: "Peter's schoolbag is near the bed." },
+        { scene: "classroom", item: "Ella's water bottle", id: "water bottle", position: "on the student desk", expected: "Ella's water bottle is on the student desk." },
+        { scene: "kitchen", item: "my dictionary", id: "dictionary", position: "on the counter", expected: "My dictionary is in the cabinet." },
+        { scene: "bedroom", item: "Ella's cap", id: "cap", position: "on the desk", expected: "Ella's cap is on the desk." },
+        { scene: "classroom", item: "Tom's schoolbag", id: "schoolbag", position: "in the classroom", expected: "Tom's schoolbag is in the classroom." },
+        { scene: "kitchen", item: "Lucy's mug", id: "mug", position: "on the table", expected: "Lucy's mug is on the table." },
+        { scene: "bedroom", item: "our teacher's pencil case", id: "pencil case", position: "on the desk", expected: "Our teacher's pencil case is on the desk." },
+        { scene: "kitchen", item: "Ella's apple", id: "apple", position: "on the counter", expected: "Ella's apple is on the counter." }
+      ];
+
+      var listenIndex = 0;
+      var listenGroupIndex = 0;
+      var listenReady = false;
+      var listenScore = 0;
+      var currentSpeechTask = null;
+      var recognizer = null;
+      var recording = false;
+      var recognizedText = "";
+
+      function $(id) { return document.getElementById(id); }
+
+      function speak(text) {
+        if (typeof window.playLessonAzureTtsPlain === "function") return window.playLessonAzureTtsPlain(text);
+        return Promise.resolve(false);
+      }
+
+      function miniClass(text) {
+        if (/between/.test(text)) return "between";
+        if (/in front/.test(text)) return "front";
+        if (/behind/.test(text)) return "behind";
+        if (/next to|near|across/.test(text)) return "next";
+        if (/\bunder\b/.test(text)) return "under";
+        if (/\bon\b/.test(text)) return "on";
+        return "in";
+      }
+
+      function renderLexicon() {
+        var item = LEXICON[lexIndex];
+        if (!item || !$("lexImg")) return;
+        $("lexImg").src = item.img;
+        $("lexBadge").textContent = (lexIndex + 1) + " / " + LEXICON.length;
+        $("lexCategory").textContent = item.cat;
+        $("lexGuess").value = "";
+        $("lexSentence").textContent = "例句已隐藏，老师点击“显示例句”后出现。";
+        $("lexSentence").classList.remove("show");
+        $("lexStatus").className = "status";
+        $("lexStatus").textContent = "先点击“朗读例句”，请学生提取目标方位词组。";
+        if (!lexBound) {
+          lexBound = true;
+          $("lexSpeak").addEventListener("click", function () {
+            speak(LEXICON[lexIndex].sentence).catch(function () {});
+          });
+          $("lexReveal").addEventListener("click", function () {
+            var cur = LEXICON[lexIndex];
+            $("lexSentence").innerHTML = cur.sentence + '<br><span style="color:#ef6c00">目标词组：' + cur.phrase + "</span>";
+            $("lexSentence").classList.add("show");
+          });
+          $("lexCheck").addEventListener("click", function () {
+            var cur = LEXICON[lexIndex];
+            var guess = String($("lexGuess").value || "").trim().toLowerCase();
+            var ans = cur.phrase.toLowerCase();
+            if (guess && (guess === ans || ans.indexOf(guess) >= 0 || guess.indexOf(ans) >= 0)) {
+              $("lexStatus").className = "status ok";
+              $("lexStatus").textContent = "提取准确，可以让学生解释为什么用这个介词。";
+            } else {
+              $("lexStatus").className = "status bad";
+              $("lexStatus").textContent = "还可以再听一次：注意介词 + 所有格/名词结构。";
+            }
+          });
+          $("lexPrev").addEventListener("click", function () {
+            lexIndex = (lexIndex + LEXICON.length - 1) % LEXICON.length;
+            renderLexicon();
+          });
+          $("lexNext").addEventListener("click", function () {
+            lexIndex = (lexIndex + 1) % LEXICON.length;
+            renderLexicon();
+          });
+          $("lexRandom").addEventListener("click", function () {
+            lexIndex = Math.floor(Math.random() * LEXICON.length);
+            renderLexicon();
+          });
+        }
+      }
+
+      function renderRoomHotspots(room, mode) {
+        if (!room) return;
+        var sceneKey = room.dataset.scene || "bedroom";
+        var scene = ADV_SCENES[sceneKey] || ADV_SCENES.bedroom;
+        var img = room.querySelector("img");
+        if (img) {
+          img.src = scene.image;
+          img.alt = scene.name;
+        }
+        room.querySelectorAll(".hunt-item").forEach(function (x) { x.remove(); });
+        Object.keys(scene.hotspots).forEach(function (id) {
+          var b = scene.hotspots[id];
+          var hot = document.createElement("div");
+          hot.className = "hunt-item";
+          hot.dataset.id = id;
+          hot.style.left = b.left + "%";
+          hot.style.top = b.top + "%";
+          hot.style.width = b.width + "%";
+          hot.style.height = b.height + "%";
+          if (mode === "listen") {
+            hot.addEventListener("click", function () { handleListenHit(id, hot); });
+          }
+          room.appendChild(hot);
+        });
+      }
+
+      function setListenTask() {
+        var group = LISTEN_GROUPS[listenGroupIndex] || LISTEN_GROUPS[0];
+        var task = group[Math.min(listenIndex, group.length - 1)];
+        $("listenStep").textContent = (listenIndex + 1) + " / " + group.length;
+        $("listenGroup").textContent = "第 " + (listenGroupIndex + 1) + " 组 / " + LISTEN_GROUPS.length;
+        $("listenScore").textContent = "得分 " + listenScore;
+        $("listenNextGroup").disabled = true;
+        $("listenRoom").dataset.scene = task.scene;
+        $("listenStatus").textContent = (ADV_SCENES[task.scene] ? ADV_SCENES[task.scene].name : "") + "：点击播放线索，再找对应物品。";
+        listenReady = false;
+        renderRoomHotspots($("listenRoom"), "listen");
+        return task;
+      }
+
+      function playListenClue() {
+        var task = setListenTask();
+        $("listenPlay").disabled = true;
+        $("listenStatus").textContent = "正在播放线索...";
+        speak(task.clue).then(function () {
+          listenReady = true;
+          $("listenStatus").textContent = "现在点击正确物品。";
+          $("listenPlay").disabled = false;
+        }).catch(function () {
+          listenReady = true;
+          $("listenStatus").textContent = "播放失败，也可以直接根据提示点击。";
+          $("listenPlay").disabled = false;
+        });
+      }
+
+      function handleListenHit(id, hot) {
+        if (!listenReady) {
+          $("listenStatus").textContent = "先点击播放线索。";
+          return;
+        }
+        var group = LISTEN_GROUPS[listenGroupIndex] || LISTEN_GROUPS[0];
+        var task = group[Math.min(listenIndex, group.length - 1)];
+        if (id === task.target) {
+          listenScore += 1;
+          hot.classList.add("glow");
+          $("listenStatus").className = "status ok";
+          $("listenStatus").textContent = "★ Great job!";
+          speak("Great job!").catch(function () {});
+          if (window.anime) anime({ targets: hot, scale: [1, 1.12, 1], duration: 520, easing: "easeOutBack" });
+          setTimeout(function () {
+            listenIndex += 1;
+            $("listenStatus").className = "status";
+            if (listenIndex >= group.length) {
+              listenReady = false;
+              $("listenStep").textContent = group.length + " / " + group.length;
+              $("listenStatus").className = "status ok";
+              $("listenStatus").textContent = "本组完成！点击“下一组”继续。";
+              $("listenNextGroup").disabled = listenGroupIndex >= LISTEN_GROUPS.length - 1;
+              if (listenGroupIndex >= LISTEN_GROUPS.length - 1) {
+                $("listenStatus").textContent = "三组全部完成！可以进入竞赛。";
+              }
+            } else {
+              setListenTask();
+            }
+          }, 850);
+        } else {
+          hot.classList.add("bad-hit");
+          $("listenStatus").className = "status bad";
+          $("listenStatus").textContent = "再听一次，注意物品和位置。";
+          if (window.anime) anime({ targets: hot, translateX: [0, -7, 7, -4, 4, 0], duration: 450, easing: "easeInOutSine" });
+          setTimeout(function () { hot.classList.remove("bad-hit"); }, 700);
+        }
+      }
+
+      function drawSpeechTask() {
+        currentSpeechTask = SPEECH_TASKS[Math.floor(Math.random() * SPEECH_TASKS.length)];
+        $("speechTask").textContent = "任务：" + currentSpeechTask.item + " · " + currentSpeechTask.position;
+        $("speechText").textContent = "请说一句完整英文描述。";
+        $("speechStatus").className = "status";
+        $("speechStatus").textContent = "必须包含所有格和方位介词。";
+        $("speechRoom").dataset.scene = currentSpeechTask.scene;
+        renderRoomHotspots($("speechRoom"), "speech");
+        var hot = $("speechRoom").querySelector('.hunt-item[data-id="' + currentSpeechTask.id + '"]');
+        if (hot) hot.classList.add("glow");
+      }
+
+      function showAiModal(text) {
+        $("aiModalText").textContent = text;
+        $("aiModal").classList.add("show");
+      }
+
+      function forceChineseFeedback(text) {
+        var raw = String(text || "").trim();
+        if (!raw) return "回答已收到。请检查是否说清了“是谁的”和“在哪里”。";
+        if (/[\u4e00-\u9fa5]/.test(raw)) return raw;
+        if (/correct|well done|good|great|accurate|right/i.test(raw)) {
+          return "表达正确！你说清了物品归属，也准确描述了位置。继续保持。";
+        }
+        return "请再想一想：你的句子里有没有说清楚“是谁的”？方位介词和图片位置一致吗？";
+      }
+
+      function setSpeechLoading(on) {
+        $("speechRecord").disabled = on;
+        $("speechDraw").disabled = on;
+        if (on) $("speechStatus").textContent = "侦探助手正在分析句子逻辑...";
+      }
+
+      function startRecording() {
+        if (!currentSpeechTask) drawSpeechTask();
+        if (!window.SpeechSDK) {
+          showAiModal("Azure Speech SDK 未加载，请检查网络后重试。");
+          return;
+        }
+        recognizedText = "";
+        var speechConfig = SpeechSDK.SpeechConfig.fromSubscription(AZURE_KEY, AZURE_REGION);
+        speechConfig.speechRecognitionLanguage = "en-US";
+        var audioConfig = SpeechSDK.AudioConfig.fromDefaultMicrophoneInput();
+        recognizer = new SpeechSDK.SpeechRecognizer(speechConfig, audioConfig);
+        recognizer.recognized = function (_, e) {
+          if (e && e.result && e.result.text) recognizedText += " " + e.result.text;
+          $("speechText").textContent = recognizedText.trim() || "正在识别...";
+        };
+        recognizer.canceled = function (_, e) {
+          $("speechStatus").className = "status bad";
+          $("speechStatus").textContent = "识别中断：" + (e && e.errorDetails ? e.errorDetails : "请重试");
+        };
+        recording = true;
+        $("speechRecord").classList.add("recording");
+        $("speechRecord").textContent = "■ 结束录音";
+        $("speechWave").classList.add("on");
+        $("speechStatus").className = "status";
+        $("speechStatus").textContent = "正在倾听...";
+        recognizer.startContinuousRecognitionAsync(function () {}, function (err) {
+          recording = false;
+          $("speechStatus").className = "status bad";
+          $("speechStatus").textContent = "录音启动失败：" + err;
+        });
+      }
+
+      function stopRecording() {
+        if (!recognizer) return;
+        $("speechRecord").classList.remove("recording");
+        $("speechWave").classList.remove("on");
+        $("speechRecord").textContent = "🎤 开始描述";
+        recording = false;
+        recognizer.stopContinuousRecognitionAsync(function () {
+          recognizer.close();
+          recognizer = null;
+          var text = recognizedText.trim();
+          $("speechText").textContent = text || "没有识别到内容，请再试一次。";
+          if (text) evaluateSpeech(text);
+        }, function () {
+          recognizer.close();
+          recognizer = null;
+        });
+      }
+
+      function evaluateSpeech(text) {
+        if (!currentSpeechTask) return;
+        setSpeechLoading(true);
+        var prompt = "物品是 " + currentSpeechTask.item + "，位置是 " + currentSpeechTask.position + "。学生说了: '" + text + "'。请判断语法（必须含所有格和方位介词）和位置准确性。无论正确或错误，都必须只用简体中文回复。若对，用中文表扬；若错，用中文苏格拉底式反问引导。限 50 字，不要出现英文句子。";
+        fetch(DEEPSEEK_ENDPOINT, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + DEEPSEEK_KEY
+          },
+          body: JSON.stringify({
+            model: "deepseek-chat",
+            messages: [
+              { role: "system", content: "你是中国初中英语口语教练。所有反馈必须使用简体中文，不允许输出英文评价。" },
+              { role: "user", content: prompt }
+            ],
+            temperature: 0.2
+          })
+        })
+          .then(function (res) {
+            if (!res.ok) throw new Error("DeepSeek " + res.status);
+            return res.json();
+          })
+          .then(function (data) {
+            var msg = data && data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content;
+            $("speechStatus").className = "status ok";
+            $("speechStatus").textContent = "AI评价完成。";
+            showAiModal(forceChineseFeedback(msg));
+          })
+          .catch(function (err) {
+            $("speechStatus").className = "status bad";
+            $("speechStatus").textContent = "AI分析失败：" + err.message;
+            showAiModal("AI暂时没有回应。你可以先检查：是否说出了物品是谁的，以及它在哪里？");
+          })
+          .finally(function () {
+            setSpeechLoading(false);
+          });
+      }
+
+      function initAdvancedPractice() {
+        renderLexicon();
+        renderRoomHotspots($("listenRoom"), "listen");
+        renderRoomHotspots($("speechRoom"), "speech");
+        setListenTask();
+        $("listenPlay").addEventListener("click", playListenClue);
+        $("listenNextGroup").addEventListener("click", function () {
+          if (listenGroupIndex >= LISTEN_GROUPS.length - 1) return;
+          listenGroupIndex += 1;
+          listenIndex = 0;
+          listenScore = 0;
+          $("listenStatus").className = "status";
+          setListenTask();
+        });
+        $("speechDraw").addEventListener("click", drawSpeechTask);
+        $("speechRecord").addEventListener("click", function () {
+          if (recording) stopRecording();
+          else startRecording();
+        });
+        $("aiModalClose").addEventListener("click", function () { $("aiModal").classList.remove("show"); });
+      }
+
+      initAdvancedPractice();
+    })();
+  </script>
+</body>
+</html>

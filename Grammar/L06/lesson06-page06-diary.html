@@ -1,0 +1,1105 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>第06讲 · Page 06 · 实战照妖镜（日记纠错）</title>
+  <!--
+    Vertex Imagen 3.0 Fast · 书桌夜景（assets 占位，无图时深色渐变兜底）
+    提示词：A messy teenager desk at night, illuminated by a warm desk lamp. Scattered stationeries, books, high-end crayon illustration style.
+    放大镜道具（可选 PNG）：assets/vertex/l06-page06-lens.png — glowing magical magnifying glass, crayon style, transparent background.
+
+    【设计自检 / 教学逻辑】
+    - 三处错词分别锚定：义务 vs 禁止（have to vs mustn't）、红线禁止 vs 不必（mustn't/cannot vs don't have to）、生命危险语境下的绝对禁止（mustn't）。
+    - 交互：探索（放大镜悬停）→ 聚焦（点击）→ 产出（替换词）→ 元认知（错则 DeepSeek 反问，对则正向反馈），符合「侦测—修正—巩固」流程。
+    - 触控降级：细指针下放大镜跟手；粗指针/触摸下列为「点词纠错模式」，避免误触与遮挡。
+
+    【“教学法 GPT vs 稳健工程 Codex”合成结论 — 本轮升级】
+    - 教学法：编辑弹窗打开时暂停「放大镜猎寻」隐喻，恢复文本光标，符合 Prompt「暂时解除放大镜跟随」；成功反馈拆成「输入框消散 → 正文改写」，强化侦探闭环。
+    - 工程：节流镜片震动避免 mousemove 噪声；submit 与 meta 防空；结算叠加轻微屏幕 Shake + 信纸亮度脉冲；DeepSeek system 与 Prompt 全文对齐。
+  -->
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
+  <script src="https://aka.ms/csspeech/jsbrowserpackageraw"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/lesson-screen-16x9.css" />
+  <style>
+    :root {
+      --ink: #2c1810;
+      --paper: #fff9f0;
+      --edge: #5d4037;
+      --lamp: #ffb74d;
+      --err-glow: rgba(211, 47, 47, 0.95);
+      --ok-glow: rgba(46, 125, 50, 0.95);
+      --purple: #4a148c;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      touch-action: manipulation;
+      background: #130a12;
+      color: var(--ink);
+      font-family: system-ui, "Microsoft YaHei", sans-serif;
+    }
+    body.has-lesson-pager { --lesson-foot-h: 0px; --lesson-pager-gap: 4.35rem; }
+
+    .app {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      border: 6px solid rgba(255, 213, 79, 0.38);
+      border-radius: 255px 18px 235px 22px / 22px 235px 22px 255px;
+      background:
+        linear-gradient(165deg, rgba(44, 24, 16, 0.55) 0%, rgba(26, 15, 24, 0.35) 45%, rgba(255, 245, 228, 0.08) 100%),
+        radial-gradient(ellipse 90% 80% at 50% 18%, rgba(255, 183, 77, 0.12), transparent 55%),
+        url("assets/vertex/l06-page06-desk-bg.png"),
+        linear-gradient(168deg, #1a0f14 0%, #2d1f27 45%, #4e342e 100%);
+      background-size: cover, cover, cover, cover;
+      background-position: center, center, center, center;
+      background-repeat: no-repeat;
+      box-shadow: inset 0 0 80px rgba(0, 0, 0, 0.45);
+    }
+
+    .top-bar {
+      flex-shrink: 0;
+      align-self: center;
+      width: min(96%, 1080px);
+      margin-top: max(8px, env(safe-area-inset-top));
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 16px;
+      border: 5px solid var(--edge);
+      border-radius: 26px 14px 24px 16px;
+      background: linear-gradient(180deg, #fffef7 0%, #ffe0b2 100%);
+      box-shadow: 6px 8px 0 rgba(62, 39, 35, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.85);
+      z-index: 40;
+    }
+    .lesson-tag {
+      border: 3px solid #f0ad4e;
+      border-radius: 999px;
+      padding: 6px 12px;
+      font-weight: 1000;
+      font-size: clamp(11px, 0.95vw, 14px);
+      color: #4e342e;
+      background: linear-gradient(180deg, #fff8dc, #ffcc80);
+      white-space: nowrap;
+    }
+    h1 {
+      margin: 0;
+      font-family: "ZCOOL KuaiLe", sans-serif;
+      font-size: clamp(16px, 1.85vw, 26px);
+      color: var(--purple);
+      text-shadow: 2px 2px 0 rgba(255, 213, 79, 0.45);
+      line-height: 1.15;
+    }
+    .score-chip {
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-weight: 1000;
+      font-size: clamp(11px, 0.95vw, 14px);
+      color: #3e2723;
+      background: linear-gradient(180deg, #e8f5e9, #a5d6a7);
+      border: 3px solid #66bb6a;
+      white-space: nowrap;
+    }
+
+    .stage {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 8px 10px 10px;
+      gap: 8px;
+      position: relative;
+      z-index: 5;
+    }
+
+    .task-strip {
+      width: min(96%, 920px);
+      padding: 10px 14px;
+      border-radius: 18px 12px 16px 14px;
+      border: 4px solid rgba(126, 87, 194, 0.45);
+      background: linear-gradient(180deg, rgba(38, 22, 48, 0.72), rgba(22, 12, 28, 0.82));
+      color: #fff8e1;
+      font-size: clamp(11px, 0.95vw, 14px);
+      font-weight: 780;
+      line-height: 1.45;
+      text-align: center;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.28);
+    }
+    .task-strip strong { color: #ffe082; }
+
+    .desk-stage {
+      position: relative;
+      width: min(96%, 920px);
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .parchment {
+      position: relative;
+      width: 100%;
+      max-height: 100%;
+      overflow: auto;
+      padding: 22px 22px 26px;
+      border-radius: 22px 14px 20px 16px / 16px 20px 16px 22px;
+      border: 6px solid rgba(93, 64, 55, 0.55);
+      background:
+        repeating-linear-gradient(transparent 0 27px, rgba(141, 110, 99, 0.09) 27px 28px),
+        linear-gradient(175deg, #fffdf8 0%, #ffe8c8 55%, #ffd9a3 100%);
+      box-shadow:
+        inset 0 0 40px rgba(255, 255, 255, 0.35),
+        8px 12px 0 rgba(62, 39, 35, 0.18),
+        0 24px 48px rgba(0, 0, 0, 0.35);
+      cursor: none;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    .parchment.zoom-160 {
+      zoom: 1.5;
+    }
+    @supports not (zoom: 1) {
+      .parchment.zoom-160 {
+        transform: scale(1.5);
+        transform-origin: center top;
+      }
+    }
+    body.touch-mode .parchment { cursor: auto; }
+    body.editor-open #magicLens {
+      opacity: 0 !important;
+      transition: opacity 0.2s ease;
+    }
+    body.editor-open .parchment {
+      cursor: auto;
+    }
+
+    .parchment-inner {
+      font-family: "Patrick Hand", "Comic Sans MS", cursive;
+      font-size: clamp(15px, 1.45vw, 22px);
+      line-height: 1.75;
+      color: #3e2723;
+      letter-spacing: 0.02em;
+    }
+    .parchment-inner p { margin: 0 0 0.65em; }
+
+    .diary-error {
+      position: relative;
+      display: inline;
+      padding: 0 2px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.2s ease, box-shadow 0.2s ease;
+    }
+    body.touch-mode .diary-error:not(.is-fixed) {
+      box-shadow: 0 0 0 1px rgba(211, 47, 47, 0.28);
+    }
+    .diary-error.is-hover:not(.is-fixed) {
+      animation: errPulse 1.1s ease-in-out infinite;
+      background: rgba(255, 205, 210, 0.35);
+    }
+    .diary-error.is-fixed .err-wrong {
+      text-decoration: line-through;
+      text-decoration-thickness: 2px;
+      text-decoration-color: #c62828;
+      color: rgba(62, 39, 35, 0.65);
+    }
+    .err-right {
+      display: inline;
+      margin-left: 0.28em;
+      font-weight: 900;
+      color: #1b5e20;
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+    }
+    @keyframes errPulse {
+      0%, 100% { text-shadow: 0 0 6px rgba(211, 47, 47, 0.35); }
+      50% { text-shadow: 0 0 14px rgba(211, 47, 47, 0.85); }
+    }
+
+    #magicLens {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 104px;
+      height: 104px;
+      margin-left: -52px;
+      margin-top: -52px;
+      pointer-events: none;
+      z-index: 120;
+      filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.45));
+      transition: opacity 0.25s ease;
+      opacity: 1;
+    }
+    body.touch-mode #magicLens { opacity: 0; }
+
+    .lens-svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+      transform-origin: 52px 52px;
+    }
+    .lens-svg.lens-quake { animation: lensShake 0.38s ease-in-out; }
+    @keyframes lensShake {
+      0%, 100% { transform: rotate(0deg); }
+      25% { transform: rotate(-4deg); }
+      75% { transform: rotate(4deg); }
+    }
+
+    .edit-pop {
+      position: fixed;
+      z-index: 200;
+      min-width: min(92vw, 380px);
+      padding: 14px 14px 12px;
+      border-radius: 20px 12px 18px 14px;
+      border: 5px solid rgba(93, 64, 55, 0.55);
+      background: linear-gradient(175deg, #fffef9 0%, #ffe8c8 100%);
+      box-shadow: 0 22px 50px rgba(0, 0, 0, 0.45);
+      display: none;
+    }
+    .edit-pop.show { display: block; }
+    .edit-pop h3 {
+      margin: 0 0 8px;
+      font-family: "ZCOOL KuaiLe", sans-serif;
+      font-size: clamp(14px, 1.2vw, 18px);
+      color: var(--purple);
+    }
+    .edit-pop .micro {
+      margin: 0 0 10px;
+      font-size: clamp(11px, 0.92vw, 13px);
+      font-weight: 780;
+      color: #5d4037;
+      line-height: 1.45;
+    }
+    .edit-row {
+      display: flex;
+      gap: 8px;
+      align-items: stretch;
+    }
+    .edit-pop input {
+      flex: 1;
+      min-width: 0;
+      padding: 10px 12px;
+      border-radius: 14px 10px 14px 12px;
+      border: 3px solid rgba(93, 64, 55, 0.38);
+      font-family: "Patrick Hand", cursive;
+      font-size: clamp(15px, 1.35vw, 20px);
+      font-weight: 800;
+      color: #3e2723;
+      background: #fffdf7;
+    }
+    .edit-pop button.submit {
+      appearance: none;
+      border: 4px solid var(--edge);
+      border-radius: 999px;
+      padding: 10px 16px;
+      font-weight: 1000;
+      font-family: inherit;
+      font-size: clamp(12px, 1vw, 15px);
+      cursor: pointer;
+      color: #4e342e;
+      background: linear-gradient(180deg, #fffef5 0%, #ffcc80 100%);
+      box-shadow: 2px 4px 0 rgba(62, 39, 35, 0.18);
+      white-space: nowrap;
+      touch-action: manipulation;
+    }
+    .edit-pop button.ghost {
+      margin-top: 8px;
+      width: 100%;
+      appearance: none;
+      border: none;
+      background: transparent;
+      color: #6d4c41;
+      font-weight: 800;
+      cursor: pointer;
+      font-size: clamp(11px, 0.95vw, 13px);
+    }
+
+    .bubble-ai {
+      position: fixed;
+      z-index: 220;
+      left: 50%;
+      bottom: max(72px, calc(env(safe-area-inset-bottom) + 68px));
+      transform: translateX(-50%);
+      width: min(92vw, 520px);
+      padding: 14px 16px;
+      border-radius: 22px 14px 24px 16px;
+      border: 5px solid rgba(126, 87, 194, 0.55);
+      background: linear-gradient(175deg, #ede7f6 0%, #fffde7 100%);
+      box-shadow: 0 18px 44px rgba(0, 0, 0, 0.35);
+      display: none;
+    }
+    .bubble-ai.show { display: block; }
+    .bubble-ai h4 {
+      margin: 0 0 8px;
+      font-family: "ZCOOL KuaiLe", sans-serif;
+      color: #4a148c;
+      font-size: clamp(13px, 1.1vw, 16px);
+    }
+    .bubble-ai p { margin: 0; line-height: 1.5; font-weight: 780; color: #4e342e; }
+    .bubble-ai .btn-row { margin-top: 10px; text-align: right; }
+    .bubble-ai button {
+      appearance: none;
+      border: 4px solid var(--edge);
+      border-radius: 999px;
+      padding: 8px 16px;
+      font-weight: 1000;
+      cursor: pointer;
+      background: linear-gradient(180deg, #fffef5 0%, #ffcc80 100%);
+    }
+    .micro-toast {
+      position: fixed;
+      left: 50%;
+      top: max(16px, calc(env(safe-area-inset-top) + 8px));
+      transform: translateX(-50%);
+      z-index: 240;
+      width: min(92vw, 640px);
+      padding: 10px 14px;
+      border-radius: 14px 10px 14px 12px;
+      border: 4px solid rgba(255, 213, 79, 0.65);
+      background: linear-gradient(180deg, rgba(46, 125, 50, 0.92), rgba(27, 94, 32, 0.92));
+      color: #fffde7;
+      font-size: clamp(12px, 1vw, 15px);
+      font-weight: 860;
+      text-align: center;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .ui-lock {
+      position: fixed;
+      inset: 0;
+      z-index: 150;
+      background: transparent;
+      display: none;
+    }
+    .ui-lock.show { display: block; }
+
+    .finish-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 300;
+      display: none;
+      place-items: center;
+      background: rgba(10, 6, 12, 0.82);
+      padding: 20px;
+    }
+    .finish-overlay.show { display: grid; }
+    .finish-card {
+      max-width: 560px;
+      padding: 22px 20px;
+      border-radius: 24px 14px 22px 16px;
+      border: 6px solid #ffd54f;
+      background: linear-gradient(180deg, #fffde7, #ffe082);
+      text-align: center;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+    }
+    .finish-card h2 {
+      font-family: "ZCOOL KuaiLe", sans-serif;
+      color: #4a148c;
+      margin: 0 0 10px;
+    }
+    .stamp {
+      display: inline-block;
+      margin: 10px 0 14px;
+      padding: 16px 20px;
+      border: 6px solid #c62828;
+      border-radius: 12px;
+      background: linear-gradient(165deg, #fff8e1, #ffecb3);
+      font-weight: 1000;
+      color: #b71c1c;
+      letter-spacing: 0.06em;
+      transform: rotate(-2deg);
+      box-shadow: 4px 6px 0 rgba(62, 39, 35, 0.25);
+    }
+    .finish-card a.btn-link {
+      display: inline-flex;
+      margin-top: 12px;
+      padding: 12px 18px;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 1000;
+      color: #4e342e;
+      border: 5px solid var(--edge);
+      background: linear-gradient(180deg, #fffef5 0%, #ffcc80 100%);
+    }
+
+    .particle {
+      position: fixed;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 190;
+    }
+
+    @media (max-width: 720px) {
+      .parchment { padding: 16px 14px 18px; }
+    }
+  </style>
+</head>
+<body class="has-lesson-pager">
+  <main class="app" id="app">
+    <header class="top-bar">
+      <div class="lesson-tag">第06讲 · P06</div>
+      <div>
+        <h1>实战照妖镜 · Diary Fix</h1>
+      </div>
+      <div class="score-chip">已修正 <span id="fixCount" aria-live="polite">0</span> / 3</div>
+    </header>
+
+    <div class="stage">
+      <div class="task-strip" role="note">
+        <strong>任务</strong>：用放大镜寻找日记里<strong>三处情态动词误用</strong>；点击错词，输入<strong>恰当替换</strong>。
+        <span class="touch-hint" style="display:none">（触摸模式：直接点红色闪烁词）</span>
+      </div>
+
+      <div class="desk-stage">
+        <div class="parchment zoom-160" id="parchment" aria-label="英文日记">
+          <div class="parchment-inner" id="diaryRoot"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="magicLens" aria-hidden="true">
+      <svg class="lens-svg" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="lg" cx="45%" cy="40%" r="60%">
+            <stop offset="0%" stop-color="rgba(255,255,255,0.85)" />
+            <stop offset="55%" stop-color="rgba(179, 229, 252, 0.35)" />
+            <stop offset="100%" stop-color="rgba(33, 150, 243, 0.15)" />
+          </radialGradient>
+        </defs>
+        <circle cx="52" cy="52" r="34" fill="url(#lg)" stroke="rgba(93,64,55,0.85)" stroke-width="5" />
+        <circle cx="52" cy="52" r="26" fill="none" stroke="rgba(255,255,255,0.55)" stroke-width="2" />
+        <path d="M78 78 L108 108" stroke="rgba(93,64,55,0.9)" stroke-width="12" stroke-linecap="round" />
+        <circle cx="108" cy="108" r="10" fill="rgba(255,213,79,0.65)" stroke="rgba(93,64,55,0.75)" stroke-width="3" />
+      </svg>
+    </div>
+
+    <aside class="edit-pop" id="editPop" role="dialog" aria-modal="true" aria-labelledby="editTitle">
+      <h3 id="editTitle">替换这个词</h3>
+      <p class="micro" id="editMicro"></p>
+      <div class="edit-row">
+        <input id="editInput" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" />
+        <button type="button" class="submit" id="btnSubmitFix">提交</button>
+      </div>
+      <button type="button" class="ghost" id="btnCancelFix">取消（Esc）</button>
+    </aside>
+
+    <aside class="bubble-ai" id="aiBubble" role="dialog" aria-modal="true">
+      <h4>心理医生 · 苏格拉底提示</h4>
+      <p id="aiText"></p>
+      <div class="btn-row">
+        <button type="button" id="aiOk">我懂了，重写</button>
+      </div>
+    </aside>
+    <div class="micro-toast" id="microToast" aria-live="polite"></div>
+
+    <div class="ui-lock" id="uiLock"></div>
+
+    <section class="finish-overlay" id="finishOverlay">
+      <div class="finish-card">
+        <h2>逻辑照妖完毕</h2>
+        <div class="stamp">LOGIC MASTER<br />CLEARED</div>
+        <p style="margin:0;font-weight:900;color:#4e342e;line-height:1.55;">
+          你已把青春期日记里的情态动词拉回<strong>真实世界的语气梯度</strong>：义务、不必、绝对禁止。
+        </p>
+        <a class="btn-link" href="lesson06-page07-debate.html">前往 Page 07 · 口语辩论赛 →</a>
+      </div>
+    </section>
+  </main>
+
+  <nav class="lesson-pager" aria-label="课程页导航">
+    <a class="pager-prev" href="lesson06-page05-rulemaker.html">← 上一页 · Page 05</a>
+    <span class="pager-mid">L06 · Page 06 / 11</span>
+    <a class="pager-next" href="lesson06-page07-debate.html">下一页 · Page 07 →</a>
+  </nav>
+
+  <script>
+    (function () {
+      "use strict";
+
+      var AZURE_KEY = "DKRXk8ueSfo5NdIOMqFRTCAfpeGDezJ3Snf5K8gGgtyqxiWdugLzJQQJ99BLACHYHv6XJ3w3AAAYACOGUYP9";
+      var AZURE_REGION = "eastus2";
+      var DEEPSEEK_KEY = "sk-daa16008e81843deba6fefe9dce51465";
+      var DEEPSEEK_ENDPOINT = "https://api.deepseek.com/v1/chat/completions";
+
+      var SEGMENTS = [
+        [{ type: "text", value: "Dear Diary," }],
+        [
+          { type: "text", value: "Today is the worst day ever! My mom is so strict. I " },
+          { type: "err", id: "1", wrong: "mustn't" },
+          { type: "text", value: " clean my room every day. It makes me so tired!" }
+        ],
+        [
+          { type: "text", value: "Tomorrow is my 13th birthday. I am so happy! But my mom says I " },
+          { type: "err", id: "2", wrong: "do not have to" },
+          {
+            type: "text",
+            value: " invite my best friend Leo because he is too noisy. I really want him to come!"
+          }
+        ],
+        [
+          {
+            type: "text",
+            value:
+              "I am so angry right now. I just want to run away. The sign near the river says Danger, but I "
+          },
+          { type: "err", id: "3", wrong: "do not have to" },
+          { type: "text", value: " swim there to relax! I am brave enough!" }
+        ],
+        [{ type: "text", value: "Nobody understands me." }]
+      ];
+
+      var ERROR_META = {
+        "1": {
+          micro: "考点：妈妈的严格要求更像「不得不」，不是「不准你做」。",
+          placeholder: "如：have to",
+          original:
+            "Today is the worst day ever! My mom is so strict. I mustn't clean my room every day. It makes me so tired!",
+          answerHint: "have to（客观义务：不得不打扫）",
+          explain: function () {
+            return "判定正确：这是外界长期要求，所以是 have to（不得不），不是 mustn't（禁止）。";
+          },
+          accept: function (raw) {
+            var s = normalizeAns(raw);
+            return /\bhave\s+to\b/.test(s) || s.indexOf("haveto") >= 0;
+          }
+        },
+        "2": {
+          micro: "考点：如果你强烈想邀请，但妈妈不允许——更像「不准 / 不能」，不是「没必要」。",
+          placeholder: "如：mustn't 或 can't",
+          original:
+            "Tomorrow is my 13th birthday. I am so happy! But my mom says I do not have to invite my best friend Leo because he is too noisy. I really want him to come!",
+          answerHint: "mustn't / cannot（禁止或不允许邀请）",
+          explain: function (raw) {
+            var s = normalizeAns(raw);
+            if (/\bmustn'?t\b/.test(s) || /\bmust\s+not\b/.test(s)) {
+              return "判定正确：mustn't 强调强禁止，语气最硬。";
+            }
+            return "判定正确：can't/cannot 表示不被允许，也符合语境。";
+          },
+          accept: function (raw) {
+            var s = normalizeAns(raw);
+            return (
+              /\bmustn'?t\b/.test(s) ||
+              /\bmust\s+not\b/.test(s) ||
+              /\bcannot\b/.test(s) ||
+              /\bcan\s*not\b/.test(s) ||
+              /\bcan'?t\b/.test(s)
+            );
+          }
+        },
+        "3": {
+          micro: "考点：危险水域是生命安全红线——更像「绝对禁止」，不是「不必」。",
+          placeholder: "如：mustn't",
+          original:
+            "The sign near the river says Danger, but I do not have to swim there to relax! I am brave enough!",
+          answerHint: "mustn't（绝对禁止下水）",
+          explain: function () {
+            return "判定正确：危险水域是安全红线，这里必须用 mustn't 表达绝对禁止。";
+          },
+          accept: function (raw) {
+            var s = normalizeAns(raw);
+            return /\bmustn'?t\b/.test(s) || /\bmust\s+not\b/.test(s);
+          }
+        }
+      };
+
+      function normalizeAns(s) {
+        return String(s || "")
+          .trim()
+          .toLowerCase()
+          .replace(/\s+/g, " ")
+          .replace(/[.!?]+$/g, "");
+      }
+
+      function animeRun(opts) {
+        if (window.anime) return window.anime(opts).finished;
+        return Promise.resolve();
+      }
+
+      function playHealChime() {
+        try {
+          var ctx = new (window.AudioContext || window.webkitAudioContext)();
+          var o = ctx.createOscillator();
+          var g = ctx.createGain();
+          o.type = "sine";
+          o.frequency.value = 880;
+          g.gain.value = 0.0001;
+          o.connect(g);
+          g.connect(ctx.destination);
+          o.start();
+          var t = ctx.currentTime;
+          g.gain.exponentialRampToValueAtTime(0.08, t + 0.02);
+          g.gain.exponentialRampToValueAtTime(0.0001, t + 0.22);
+          o.stop(t + 0.24);
+          window.setTimeout(function () {
+            try {
+              ctx.close();
+            } catch (e) {}
+          }, 400);
+        } catch (e) {}
+      }
+
+      function speakAzure(text, voice, style) {
+        if (!window.SpeechSDK) return;
+        try {
+          var cfg = SpeechSDK.SpeechConfig.fromSubscription(AZURE_KEY, AZURE_REGION);
+          cfg.speechSynthesisVoiceName = voice || "en-US-AriaNeural";
+          var syn = new SpeechSDK.SpeechSynthesizer(cfg);
+          var safe = String(text).replace(/&/g, "&amp;").replace(/</g, "&lt;");
+          var ssml =
+            '<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xmlns:mstts="http://www.w3.org/2001/mstts" xml:lang="en-US">' +
+            '<voice name="' +
+            (voice || "en-US-AriaNeural") +
+            '">' +
+            (style
+              ? '<mstts:express-as style="' + style + '"><prosody rate="-2%">' + safe + "</prosody></mstts:express-as>"
+              : "<prosody rate=\"-2%\">" + safe + "</prosody>") +
+            "</voice></speak>";
+          syn.speakSsmlAsync(
+            ssml,
+            function () {
+              syn.close();
+            },
+            function () {
+              syn.close();
+            }
+          );
+        } catch (e) {}
+      }
+
+      function deepSeekCoach(userPayload) {
+        if (!DEEPSEEK_KEY) return Promise.resolve(null);
+        var controller = typeof AbortController !== "undefined" ? new AbortController() : null;
+        var timeoutId = window.setTimeout(function () {
+          if (controller) controller.abort();
+        }, 8000);
+        return fetch(DEEPSEEK_ENDPOINT, {
+          method: "POST",
+          signal: controller ? controller.signal : undefined,
+          headers: { "Content-Type": "application/json", Authorization: "Bearer " + DEEPSEEK_KEY },
+          body: JSON.stringify({
+            model: "deepseek-chat",
+            temperature: 0.3,
+            max_tokens: 120,
+            messages: [
+              {
+                role: "system",
+                content:
+                  "你是一位温柔的心理医生兼中考英语名师。学生在修改一篇青春期日记时，找出了情态动词的错误，但他修改的新单词依然不对。用户消息中会依次给出：原句是：……学生试图将其修改为：……正确答案应该是：……请据此用中文进行极度简短（50字内）的苏格拉底式反问。例如若把不准游泳改成了 can，你要反问：大侦探，危险水域是可以随便去的吗？体会一下生命安全面前的绝对禁止哦。语气幽默、启发性强。不要输出英文。"
+              },
+              { role: "user", content: userPayload }
+            ]
+          })
+        })
+          .then(function (r) {
+            window.clearTimeout(timeoutId);
+            return r.ok ? r.json() : null;
+          })
+          .then(function (data) {
+            var t =
+              data &&
+              data.choices &&
+              data.choices[0] &&
+              data.choices[0].message &&
+              data.choices[0].message.content;
+            return t ? String(t).trim() : null;
+          })
+          .catch(function () {
+            window.clearTimeout(timeoutId);
+            return null;
+          });
+      }
+
+      var diaryRoot = document.getElementById("diaryRoot");
+      var parchment = document.getElementById("parchment");
+      var lens = document.getElementById("magicLens");
+      var editPop = document.getElementById("editPop");
+      var editMicro = document.getElementById("editMicro");
+      var editInput = document.getElementById("editInput");
+      var btnSubmitFix = document.getElementById("btnSubmitFix");
+      var btnCancelFix = document.getElementById("btnCancelFix");
+      var aiBubble = document.getElementById("aiBubble");
+      var aiText = document.getElementById("aiText");
+      var aiOk = document.getElementById("aiOk");
+      var microToast = document.getElementById("microToast");
+      var uiLock = document.getElementById("uiLock");
+      var fixCountEl = document.getElementById("fixCount");
+      var finishOverlay = document.getElementById("finishOverlay");
+
+      var fixed = new Set();
+      var busy = false;
+      var activeId = null;
+      var lensQuakeUntil = 0;
+      var lastLensErrId = null;
+      var STATE = {
+        IDLE: "IDLE",
+        EDITING: "EDITING",
+        AI_WAIT: "AI_WAIT",
+        FINISHING: "FINISHING"
+      };
+      var appState = STATE.IDLE;
+
+      function setBusy(on) {
+        busy = on;
+        uiLock.classList.toggle("show", on);
+      }
+
+      function setState(next) {
+        appState = next;
+      }
+
+      function isEditingOpen() {
+        return appState === STATE.EDITING;
+      }
+
+      function renderDiary() {
+        diaryRoot.innerHTML = "";
+        SEGMENTS.forEach(function (parts) {
+          var p = document.createElement("p");
+          parts.forEach(function (chunk) {
+            if (chunk.type === "text") {
+              p.appendChild(document.createTextNode(chunk.value));
+            } else if (chunk.type === "err") {
+              var span = document.createElement("span");
+              span.className = "diary-error";
+              span.dataset.id = chunk.id;
+              span.dataset.wrong = chunk.wrong;
+              var inner = document.createElement("span");
+              inner.className = "err-wrong";
+              inner.textContent = chunk.wrong;
+              span.appendChild(inner);
+              p.appendChild(span);
+            }
+          });
+          diaryRoot.appendChild(p);
+        });
+      }
+
+      function updateFixCount() {
+        fixCountEl.textContent = String(fixed.size);
+      }
+
+      function moveLens(clientX, clientY) {
+        lens.style.transform = "translate(" + clientX + "px," + clientY + "px)";
+      }
+
+      function setHoverFromPoint(clientX, clientY) {
+        if (document.body.classList.contains("editor-open")) return;
+        var el = document.elementFromPoint(clientX, clientY);
+        var hit = el && el.closest ? el.closest(".diary-error:not(.is-fixed)") : null;
+        diaryRoot.querySelectorAll(".diary-error.is-hover").forEach(function (n) {
+          n.classList.remove("is-hover");
+        });
+        if (hit) {
+          hit.classList.add("is-hover");
+          var now = Date.now();
+          var hid = hit.dataset.id;
+          if (now >= lensQuakeUntil || hid !== lastLensErrId) {
+            lensQuakeUntil = now + 360;
+            lastLensErrId = hid;
+            var svg = lens.querySelector(".lens-svg");
+            if (svg) {
+              svg.classList.add("lens-quake");
+              window.setTimeout(function () {
+                svg.classList.remove("lens-quake");
+              }, 380);
+            }
+          }
+        } else {
+          lastLensErrId = null;
+        }
+      }
+
+      function openEditor(id, anchorRect) {
+        if (busy || appState === STATE.FINISHING || appState === STATE.AI_WAIT) return;
+        activeId = id;
+        setState(STATE.EDITING);
+        var meta = ERROR_META[id];
+        editMicro.textContent = meta ? meta.micro : "";
+        editInput.value = "";
+        editInput.placeholder = meta && meta.placeholder ? meta.placeholder : "输入替换短语（情态动词短语）";
+        document.body.classList.add("editor-open");
+        editPop.classList.add("show");
+        editInput.focus();
+
+        var pad = 12;
+        var left = anchorRect.left + anchorRect.width / 2 - editPop.offsetWidth / 2;
+        var top = anchorRect.top - editPop.offsetHeight - pad;
+        if (top < 12) top = anchorRect.bottom + pad;
+        left = Math.max(12, Math.min(left, window.innerWidth - editPop.offsetWidth - 12));
+        top = Math.max(12, Math.min(top, window.innerHeight - editPop.offsetHeight - 12));
+        editPop.style.left = left + "px";
+        editPop.style.top = top + "px";
+      }
+
+      function closeEditor() {
+        if (busy && appState !== STATE.EDITING) return;
+        activeId = null;
+        document.body.classList.remove("editor-open");
+        try {
+          if (window.anime) anime.remove(editPop);
+        } catch (e) {}
+        editPop.style.opacity = "";
+        editPop.style.transform = "";
+        editPop.classList.remove("show");
+        editInput.value = "";
+        editInput.placeholder = "";
+        if (appState !== STATE.FINISHING) setState(STATE.IDLE);
+      }
+
+      function applyFix(id, userText) {
+        var span = diaryRoot.querySelector('.diary-error[data-id="' + id + '"]');
+        if (!span || span.classList.contains("is-fixed")) return;
+        var meta = ERROR_META[id];
+        if (!meta.accept(userText)) {
+          return false;
+        }
+        var display = String(userText).trim();
+        span.classList.add("is-fixed");
+        fixed.add(id);
+        updateFixCount();
+
+        var right = document.createElement("span");
+        right.className = "err-right";
+        right.textContent = display;
+        span.appendChild(right);
+
+        for (var i = 0; i < 26; i++) {
+          var p = document.createElement("div");
+          p.className = "particle";
+          p.style.background = "hsl(" + (120 + Math.random() * 40) + ", 70%, 55%)";
+          p.style.left = span.getBoundingClientRect().left + Math.random() * 80 + "px";
+          p.style.top = span.getBoundingClientRect().top + Math.random() * 30 + "px";
+          document.body.appendChild(p);
+          animeRun({
+            targets: p,
+            translateY: [-10 - Math.random() * 40, -90 - Math.random() * 40],
+            translateX: [(Math.random() - 0.5) * 60, (Math.random() - 0.5) * 90],
+            opacity: [1, 0],
+            duration: 650 + Math.random() * 300,
+            easing: "easeOutQuad",
+            complete: function () {
+              try {
+                p.remove();
+              } catch (e) {}
+            }
+          });
+        }
+
+        playHealChime();
+        speakAzure("Nice fix. Keep thinking like a detective.", "en-US-AriaNeural", "cheerful");
+        if (meta && typeof meta.explain === "function") {
+          showMicroToast(meta.explain(userText));
+        } else {
+          showMicroToast("修正成功：先判断语气，再选情态动词。");
+        }
+
+        if (fixed.size >= 3) {
+          celebrateFinish();
+        }
+        return true;
+      }
+
+      function celebrateFinish() {
+        setState(STATE.FINISHING);
+        setBusy(true);
+        var host = document.getElementById("app");
+        animeRun({
+          targets: host,
+          filter: ["brightness(1)", "brightness(1.16)", "brightness(1)"],
+          translateX: [0, -5, 5, -4, 4, -3, 3, 0],
+          duration: 1500,
+          easing: "easeInOutQuad"
+        });
+        animeRun({
+          targets: parchment,
+          filter: ["brightness(1)", "brightness(1.08)", "brightness(1)"],
+          boxShadow: [
+            "inset 0 0 40px rgba(255, 255, 255, 0.35), 8px 12px 0 rgba(62, 39, 35, 0.18), 0 24px 48px rgba(0, 0, 0, 0.35)",
+            "inset 0 0 52px rgba(255, 235, 120, 0.55), 8px 12px 0 rgba(62, 39, 35, 0.18), 0 28px 56px rgba(255, 193, 7, 0.38)",
+            "inset 0 0 40px rgba(255, 255, 255, 0.35), 8px 12px 0 rgba(62, 39, 35, 0.18), 0 24px 48px rgba(0, 0, 0, 0.35)"
+          ],
+          duration: 1500,
+          easing: "easeInOutQuad"
+        }).then(function () {
+          finishOverlay.classList.add("show");
+          animeRun({
+            targets: ".finish-card",
+            scale: [0.3, 1.06, 1],
+            opacity: [0, 1],
+            translateY: [-80, 6, 0],
+            duration: 820,
+            easing: "easeOutElastic(1, .52)"
+          });
+          animeRun({
+            targets: host,
+            translateX: [0, -7, 7, -5, 5, 0],
+            duration: 420,
+            easing: "easeOutElastic(1, .62)"
+          });
+          speakAzure(
+            "Logic master cleared. Rules protect us, even on bad days.",
+            "en-US-AriaNeural",
+            "cheerful"
+          );
+          setBusy(false);
+        });
+      }
+
+      function showAi(text) {
+        aiText.textContent = text || "再想想看：语气是「不必」还是「千万别」？";
+        aiBubble.classList.add("show");
+      }
+
+      function hideAi() {
+        aiBubble.classList.remove("show");
+      }
+
+      function showMicroToast(text) {
+        if (!microToast) return;
+        microToast.textContent = text;
+        animeRun({
+          targets: microToast,
+          opacity: [0, 1, 1, 0],
+          translateY: [-10, 0, 0, -8],
+          duration: 2200,
+          easing: "easeOutQuad"
+        });
+      }
+
+      function handleWrongAttempt(id, userText) {
+        setState(STATE.AI_WAIT);
+        setBusy(true);
+        var meta = ERROR_META[id] || {};
+        var payload =
+          "原句是：" +
+          meta.original +
+          "\n学生试图将其修改为：" +
+          userText +
+          "\n正确答案应该是：" +
+          meta.answerHint;
+
+        animeRun({
+          targets: editPop,
+          translateX: [0, -8, 8, -6, 6, 0],
+          duration: 520,
+          easing: "easeOutElastic(1, .55)"
+        });
+
+        aiText.textContent = "思考中…";
+        aiBubble.classList.add("show");
+
+        deepSeekCoach(payload).then(function (txt) {
+          showAi(txt || "再想想看：这里更像义务、禁止，还是不必？");
+          setBusy(false);
+          setState(STATE.EDITING);
+        }).catch(function () {
+          showAi("网络开小差了。先自问：这里更像「不必」，还是「千万别」？");
+          setBusy(false);
+          setState(STATE.EDITING);
+        });
+      }
+
+      btnSubmitFix.addEventListener("click", function () {
+        if (!activeId || busy || appState !== STATE.EDITING) return;
+        var id = activeId;
+        var val = editInput.value;
+        if (!String(val || "").trim()) {
+          showMicroToast("先输入一个情态动词或短语，再提交。");
+          animeRun({
+            targets: editInput,
+            translateX: [0, -5, 5, -4, 4, 0],
+            duration: 260,
+            easing: "easeOutQuad"
+          });
+          return;
+        }
+        var meta = ERROR_META[id];
+        if (!meta || typeof meta.accept !== "function") return;
+        if (meta.accept(val)) {
+          animeRun({
+            targets: editPop,
+            translateY: [0, -28],
+            opacity: [1, 0],
+            duration: 420,
+            easing: "easeInQuad"
+          }).then(function () {
+            closeEditor();
+            applyFix(id, val);
+          });
+        } else {
+          handleWrongAttempt(id, val);
+        }
+      });
+
+      btnCancelFix.addEventListener("click", function () {
+        if (busy || appState !== STATE.EDITING) return;
+        closeEditor();
+      });
+
+      aiOk.addEventListener("click", function () {
+        hideAi();
+        editInput.value = "";
+        if (isEditingOpen() && editPop.classList.contains("show")) editInput.focus();
+      });
+
+      document.addEventListener("keydown", function (ev) {
+        if (ev.key === "Escape" && !busy && appState === STATE.EDITING && editPop.classList.contains("show")) {
+          closeEditor();
+        }
+      });
+
+      parchment.addEventListener("click", function (ev) {
+        if (busy || appState === STATE.AI_WAIT || appState === STATE.FINISHING) return;
+        var t = ev.target && ev.target.closest ? ev.target.closest(".diary-error") : null;
+        if (!t || t.classList.contains("is-fixed")) return;
+        ev.preventDefault();
+        openEditor(t.dataset.id, t.getBoundingClientRect());
+      });
+
+      document.addEventListener("mousemove", function (ev) {
+        if (document.body.classList.contains("touch-mode")) return;
+        moveLens(ev.clientX, ev.clientY);
+        setHoverFromPoint(ev.clientX, ev.clientY);
+      });
+
+      window.addEventListener(
+        "touchstart",
+        function () {
+          document.body.classList.add("touch-mode");
+          var th = document.querySelector(".touch-hint");
+          if (th) th.style.display = "inline";
+        },
+        { passive: true, once: true }
+      );
+
+      if (window.matchMedia && window.matchMedia("(pointer: coarse)").matches) {
+        document.body.classList.add("touch-mode");
+        var th2 = document.querySelector(".touch-hint");
+        if (th2) th2.style.display = "inline";
+      }
+
+      renderDiary();
+      updateFixCount();
+      moveLens(window.innerWidth / 2, window.innerHeight / 2);
+    })();
+  </script>
+</body>
+</html>

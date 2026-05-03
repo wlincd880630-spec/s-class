@@ -1,0 +1,1270 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>第06讲 · Page 04 · 电网与鸟笼（mustn't / don't have to）</title>
+  <!--
+    Vertex Imagen 3.0 Fast · 全局背景（与 P02/P03 同目录 assets/vertex）
+    文件：assets/vertex/l06-page04-split-room-bg.png
+    生成脚本：L06/generate_l06_page04_bg_imagen.py
+    提示词摘要：分屏魔法房间，左暗风暴电光、右明亮阳光与敞开鸟笼意象，蜡笔绘本 16:9。
+    道具叠加（可选）：左侧电网 l06-page04-fence.png · 右侧鸟笼 l06-page04-cage-open.png
+  -->
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/lesson-screen-16x9.css" />
+  <style>
+    :root {
+      --paper: #faf3e8;
+      --ink: #2c1f28;
+      --edge: #5d4037;
+      --volt: #9575cd;
+      --volt-deep: #4527a0;
+      --volt-glow: rgba(171, 71, 255, 0.65);
+      --sun: #fff9c4;
+      --free-glow: rgba(255, 213, 79, 0.85);
+      --cream: #fff8ee;
+      --forbid-bg: rgba(18, 8, 28, 0.78);
+      --free-bg: rgba(255, 251, 235, 0.72);
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+      background: #120a14;
+      color: var(--ink);
+      touch-action: none;
+    }
+    body.has-lesson-pager {
+      --lesson-foot-h: 0px;
+      --lesson-pager-gap: 4.35rem;
+    }
+    .app {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      border: 6px solid rgba(255, 213, 79, 0.42);
+      border-radius: 255px 22px 235px 20px / 22px 235px 22px 255px;
+      /* 与 P02/P03 一致：实拍背景图 + 轻罩层保证前景可读；无图时最后一层渐变兜底 */
+      background:
+        linear-gradient(
+          105deg,
+          rgba(22, 10, 28, 0.42) 0%,
+          rgba(22, 12, 35, 0.18) 46%,
+          rgba(255, 250, 235, 0.2) 54%,
+          rgba(255, 236, 179, 0.28) 100%
+        ),
+        url("assets/vertex/l06-page04-split-room-bg.png"),
+        linear-gradient(102deg, #120715 0%, #231435 38%, #fffaf0 54%, #ffe9b0 78%, #ffd54f 100%);
+      background-size: cover, cover, cover;
+      background-position: center, center, center;
+      background-repeat: no-repeat;
+      box-shadow:
+        inset 0 0 100px rgba(0, 0, 0, 0.38),
+        inset 0 -40px 90px rgba(103, 58, 183, 0.12),
+        0 22px 48px rgba(0, 0, 0, 0.42);
+    }
+    .app::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.09), transparent 42%),
+        repeating-linear-gradient(
+          88deg,
+          rgba(255, 255, 255, 0.03) 0 1px,
+          transparent 1px 14px
+        );
+      opacity: 0.85;
+    }
+    .app::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        repeating-linear-gradient(9deg, rgba(255,255,255,.045) 0 1px, transparent 2px 11px),
+        radial-gradient(circle at 24% 46%, rgba(126, 87, 194, 0.22), transparent 48%),
+        radial-gradient(circle at 76% 44%, rgba(255, 213, 79, 0.18), transparent 48%);
+      mix-blend-mode: soft-light;
+    }
+    .top-bar {
+      position: absolute;
+      left: 50%;
+      top: max(12px, env(safe-area-inset-top));
+      z-index: 40;
+      width: min(94%, 1040px);
+      transform: translateX(-50%);
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 18px;
+      border: 5px solid var(--edge);
+      border-radius: 28px 14px 26px 16px / 16px 26px 16px 28px;
+      background:
+        linear-gradient(175deg, rgba(255, 255, 255, 0.55) 0%, transparent 42%),
+        linear-gradient(180deg, #fffdf7 0%, #ffe8c4 48%, #ffd9a3 100%);
+      box-shadow:
+        6px 9px 0 rgba(62, 39, 35, 0.18),
+        inset 0 1px 0 rgba(255, 255, 255, 0.75),
+        0 0 40px rgba(255, 213, 79, 0.22);
+      text-align: center;
+      backdrop-filter: blur(8px);
+    }
+    .lesson-tag, .score-chip {
+      border: 3px solid #f0ad4e;
+      border-radius: 999px;
+      background: linear-gradient(180deg, #fff8dc, #ffcc80);
+      padding: 7px 12px;
+      font-weight: 1000;
+      color: #4e342e;
+      white-space: nowrap;
+      font-size: clamp(12px, 1vw, 15px);
+    }
+    h1 {
+      margin: 0;
+      font-family: "ZCOOL KuaiLe", system-ui, sans-serif;
+      color: #4a148c;
+      font-size: clamp(19px, 2.25vw, 36px);
+      line-height: 1.12;
+      letter-spacing: 0.02em;
+      text-shadow:
+        2px 2px 0 rgba(255, 213, 79, 0.65),
+        0 0 28px rgba(142, 36, 170, 0.25);
+    }
+    .subtitle {
+      margin: 6px 0 0;
+      color: #5d4037;
+      font-size: clamp(11px, 1vw, 15px);
+      font-weight: 850;
+      opacity: 0.92;
+      line-height: 1.35;
+    }
+    .arena {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: calc(82px + env(safe-area-inset-top, 0px));
+      bottom: calc(96px + env(safe-area-inset-bottom, 0px));
+      z-index: 5;
+      display: flex;
+      flex-direction: row;
+      align-items: stretch;
+      gap: 0;
+      padding: 12px 14px 128px;
+    }
+    .arena-seam {
+      flex: 0 0 clamp(36px, 4vw, 52px);
+      align-self: stretch;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 18px 0;
+      border-radius: 22px;
+      background: linear-gradient(180deg, #5e35b1 0%, #7e57c2 38%, #ffb74d 72%, #ffd54f 100%);
+      box-shadow:
+        inset 0 0 24px rgba(255, 255, 255, 0.35),
+        4px 0 14px rgba(94, 53, 177, 0.35),
+        -4px 0 14px rgba(255, 193, 7, 0.35);
+      position: relative;
+      z-index: 6;
+    }
+    .arena-seam::before {
+      content: "";
+      position: absolute;
+      inset: 6px;
+      border-radius: 16px;
+      border: 2px dashed rgba(255, 255, 255, 0.45);
+      opacity: 0.7;
+      pointer-events: none;
+    }
+    .seam-inner {
+      position: relative;
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      font-family: "ZCOOL KuaiLe", sans-serif;
+      font-size: clamp(13px, 1.35vw, 17px);
+      font-weight: 1000;
+      color: rgba(255, 255, 255, 0.98);
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+      letter-spacing: 0.15em;
+      line-height: 1.5;
+      padding: 8px 0;
+    }
+    .zone {
+      flex: 1;
+      position: relative;
+      display: grid;
+      place-items: center;
+      align-content: center;
+      min-height: 0;
+      border-radius: 32px 16px 30px 18px / 18px 30px 18px 32px;
+      transition: box-shadow 0.28s ease, filter 0.28s ease, transform 0.28s ease;
+      overflow: hidden;
+    }
+    .zone::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      border-radius: inherit;
+      opacity: 0.55;
+    }
+    .zone-forbid {
+      margin-right: 0;
+      border: 6px solid rgba(171, 71, 255, 0.55);
+      background:
+        repeating-linear-gradient(-22deg, transparent 0 14px, rgba(103, 58, 183, 0.06) 14px 15px),
+        radial-gradient(ellipse 95% 85% at 50% 108%, rgba(103, 58, 183, 0.55), transparent 58%),
+        radial-gradient(ellipse 70% 50% at 30% 22%, rgba(156, 39, 176, 0.35), transparent 52%),
+        var(--forbid-bg);
+      box-shadow:
+        inset 0 0 90px rgba(0, 0, 0, 0.55),
+        inset 0 -30px 70px rgba(74, 20, 140, 0.35),
+        0 12px 36px rgba(49, 27, 146, 0.45);
+    }
+    .zone-forbid::before {
+      background: radial-gradient(circle at 50% 0%, rgba(186, 104, 255, 0.15), transparent 55%);
+    }
+    .zone-free {
+      margin-left: 0;
+      border: 6px solid rgba(255, 183, 77, 0.65);
+      background:
+        repeating-linear-gradient(18deg, transparent 0 16px, rgba(255, 213, 79, 0.06) 16px 17px),
+        radial-gradient(ellipse 88% 72% at 58% 28%, rgba(255, 249, 196, 0.85), transparent 58%),
+        radial-gradient(ellipse 90% 80% at 50% 110%, rgba(255, 224, 130, 0.45), transparent 55%),
+        var(--free-bg);
+      box-shadow:
+        inset 0 0 70px rgba(255, 248, 225, 0.85),
+        inset 0 -24px 60px rgba(255, 193, 7, 0.18),
+        0 12px 32px rgba(255, 171, 64, 0.28);
+    }
+    .zone-free::before {
+      background: radial-gradient(circle at 70% 18%, rgba(255, 255, 255, 0.65), transparent 48%);
+      opacity: 0.9;
+    }
+    .zone-label {
+      position: absolute;
+      top: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 10px 18px;
+      border-radius: 999px;
+      font-family: "ZCOOL KuaiLe", system-ui, sans-serif;
+      font-weight: 1000;
+      font-size: clamp(13px, 1.2vw, 18px);
+      white-space: nowrap;
+      z-index: 3;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+    }
+    .zone-forbid .zone-label {
+      background: linear-gradient(175deg, #f3e5f5 0%, #e1bee7 55%, #ce93d8 100%);
+      color: #311b92;
+      border: 4px solid #9575cd;
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
+    }
+    .zone-free .zone-label {
+      background: linear-gradient(175deg, #fffef5 0%, #fff9c4 45%, #ffe082 100%);
+      color: #e65100;
+      border: 4px solid #ffb74d;
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.65);
+    }
+    .zone-hint {
+      position: absolute;
+      bottom: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(92%, 340px);
+      text-align: center;
+      font-size: clamp(11px, 1vw, 14px);
+      font-weight: 880;
+      line-height: 1.45;
+      z-index: 3;
+      padding: 8px 12px;
+      border-radius: 16px 10px 16px 12px;
+    }
+    .zone-forbid .zone-hint {
+      color: #f3e5f5;
+      background: rgba(49, 27, 146, 0.42);
+      border: 2px solid rgba(186, 104, 255, 0.45);
+      backdrop-filter: blur(4px);
+    }
+    .zone-free .zone-hint {
+      color: #5d4037;
+      background: rgba(255, 253, 240, 0.72);
+      border: 2px solid rgba(255, 183, 77, 0.55);
+      box-shadow: 0 4px 12px rgba(255, 171, 64, 0.15);
+    }
+    .prop-frame {
+      position: relative;
+      padding: clamp(12px, 2vh, 22px);
+      border-radius: 36px 18px 34px 20px / 20px 34px 20px 36px;
+      z-index: 2;
+    }
+    .zone-forbid .prop-frame {
+      background: radial-gradient(ellipse 80% 70% at 50% 40%, rgba(103, 58, 183, 0.35), transparent 65%);
+      border: 4px solid rgba(186, 104, 255, 0.45);
+      box-shadow:
+        inset 0 0 40px rgba(103, 58, 183, 0.35),
+        0 0 32px rgba(126, 87, 194, 0.35);
+    }
+    .zone-free .prop-frame {
+      background: radial-gradient(ellipse 85% 75% at 48% 42%, rgba(255, 248, 225, 0.95), transparent 62%);
+      border: 4px solid rgba(255, 213, 79, 0.55);
+      box-shadow:
+        inset 0 0 36px rgba(255, 236, 179, 0.65),
+        0 0 28px rgba(255, 213, 79, 0.35);
+    }
+    .fence-art, .cage-art {
+      position: relative;
+      width: min(40vw, 268px);
+      height: min(26vh, 228px);
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      pointer-events: none;
+    }
+    .fence-art {
+      filter: drop-shadow(0 0 18px rgba(103, 58, 183, 0.55));
+      background-image: url("assets/vertex/l06-page04-fence.png");
+    }
+    .cage-art {
+      filter: drop-shadow(0 0 16px rgba(255, 213, 79, 0.55));
+      background-image: url("assets/vertex/l06-page04-cage-open.png");
+    }
+    .fence-art.no-img-fallback,
+    .cage-art.no-img-fallback {
+      background-image: none;
+    }
+    .fence-art.no-img-fallback::before {
+      content: "⚡";
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      font-size: clamp(72px, 12vw, 120px);
+      text-shadow: 0 0 40px var(--volt-glow);
+      animation: zapPulse 1.1s ease-in-out infinite;
+    }
+    .cage-art.no-img-fallback::before {
+      content: "🕊";
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      font-size: clamp(64px, 11vw, 108px);
+      filter: drop-shadow(0 4px 12px rgba(255, 193, 7, 0.65));
+      animation: cageGlow 2s ease-in-out infinite;
+    }
+    @keyframes zapPulse {
+      0%, 100% { transform: scale(1); filter: brightness(1); }
+      50% { transform: scale(1.06); filter: brightness(1.25); }
+    }
+    @keyframes cageGlow {
+      0%, 100% { opacity: 0.92; transform: translateY(0); }
+      50% { opacity: 1; transform: translateY(-4px); }
+    }
+    .fence-art.live {
+      animation: fenceFlash 0.38s ease-in-out infinite;
+    }
+    @keyframes fenceFlash {
+      0%, 100% { filter: drop-shadow(0 0 22px rgba(103, 58, 183, 0.75)); }
+      50% { filter: drop-shadow(0 0 46px rgba(180, 68, 255, 0.95)); }
+    }
+    .cage-art.warm {
+      animation: cageWarm 0.45s ease-in-out infinite;
+    }
+    @keyframes cageWarm {
+      0%, 100% { filter: drop-shadow(0 0 18px rgba(255, 213, 79, 0.55)); }
+      50% { filter: drop-shadow(0 0 38px rgba(255, 235, 120, 0.92)); }
+    }
+    .spark {
+      position: absolute;
+      width: 8px;
+      height: 14px;
+      border-radius: 40%;
+      background: linear-gradient(180deg, #e1bee7, #7e57c2);
+      opacity: 0;
+      pointer-events: none;
+      box-shadow: 0 0 12px #b388ff;
+    }
+    .sentence-card {
+      position: absolute;
+      left: 50%;
+      bottom: calc(env(safe-area-inset-bottom, 0px) + 4.55rem);
+      z-index: 30;
+      width: min(88vw, 740px);
+      min-height: 118px;
+      transform: translateX(-50%);
+      padding: 22px 26px 20px;
+      border: 6px solid var(--edge);
+      border-radius: 38px 18px 36px 20px / 20px 36px 20px 38px;
+      background:
+        repeating-linear-gradient(transparent 0 27px, rgba(141, 110, 99, 0.06) 27px 28px),
+        linear-gradient(168deg, #fffdf8 0%, #fff4e0 42%, #f0dcc8 100%);
+      color: #3e2723;
+      box-shadow:
+        10px 13px 0 rgba(93, 64, 55, 0.2),
+        0 18px 42px rgba(62, 39, 35, 0.28),
+        inset 0 1px 0 rgba(255, 255, 255, 0.85);
+      cursor: grab;
+      user-select: none;
+      touch-action: none;
+      text-align: center;
+      font-weight: 1000;
+    }
+    .sentence-card::before,
+    .sentence-card::after {
+      content: "";
+      position: absolute;
+      top: -6px;
+      width: 42px;
+      height: 22px;
+      border-radius: 4px;
+      opacity: 0.88;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    }
+    .sentence-card::before {
+      left: 18%;
+      background: linear-gradient(90deg, #ffccbc, #ffab91);
+      transform: rotate(-8deg);
+    }
+    .sentence-card::after {
+      right: 16%;
+      background: linear-gradient(90deg, #c5cae9, #9fa8da);
+      transform: rotate(6deg);
+    }
+    .sentence-card.dragging { cursor: grabbing; z-index: 90; }
+    .speaker-dot {
+      appearance: none;
+      border: 3px solid rgba(93, 64, 55, 0.48);
+      border-radius: 999px;
+      background: rgba(255, 243, 205, 0.86);
+      padding: 4px 9px;
+      color: #4e342e;
+      font-size: clamp(12px, 1.1vw, 16px);
+      font-family: inherit;
+      font-weight: 1000;
+      cursor: pointer;
+      touch-action: manipulation;
+      box-shadow: 2px 3px 0 rgba(0, 0, 0, 0.08);
+      z-index: 5;
+    }
+    .speaker-dot:active {
+      transform: translateY(2px);
+      box-shadow: 0 1px 0 rgba(0, 0, 0, 0.08);
+    }
+    .sentence-card .card-speak {
+      position: absolute;
+      top: 14px;
+      right: 16px;
+    }
+    .sentence-card .line {
+      margin: 0;
+      padding-right: min(104px, 22vw);
+      font-family: "Patrick Hand", "Segoe UI", cursive;
+      font-size: clamp(22px, 2.65vw, 38px);
+      line-height: 1.22;
+      letter-spacing: 0.03em;
+      color: #2d1f14;
+    }
+    .sentence-card .sub {
+      margin: 12px 0 0;
+      font-size: clamp(12px, 1.08vw, 15px);
+      font-weight: 880;
+      color: #6d4c41;
+      font-family: system-ui, "Microsoft YaHei", sans-serif;
+    }
+    .sentence-card.zapped {
+      filter: grayscale(0.85) brightness(0.55) contrast(1.15);
+    }
+    .sentence-card.freed {
+      opacity: 0;
+    }
+    .feedback {
+      position: absolute;
+      left: 50%;
+      bottom: calc(env(safe-area-inset-bottom, 0px) + 0.35rem);
+      z-index: 35;
+      width: min(90%, 840px);
+      transform: translateX(-50%);
+      padding: 10px 18px;
+      border: 4px solid rgba(93, 64, 55, 0.42);
+      border-radius: 999px;
+      background: linear-gradient(180deg, rgba(255, 253, 248, 0.98), rgba(255, 236, 200, 0.92));
+      color: #4e342e;
+      text-align: center;
+      font-weight: 950;
+      font-size: clamp(12px, 1.08vw, 15px);
+      box-shadow: 0 6px 22px rgba(93, 64, 55, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    }
+    .bubble {
+      position: absolute;
+      left: 50%;
+      top: 26%;
+      z-index: 220;
+      width: min(88vw, 580px);
+      transform: translateX(-50%);
+      display: none;
+      padding: 22px 22px 20px;
+      border: 6px solid var(--edge);
+      border-radius: 32px 16px 34px 18px / 18px 34px 18px 32px;
+      background:
+        linear-gradient(165deg, rgba(255, 255, 255, 0.45) 0%, transparent 48%),
+        linear-gradient(180deg, #fffef9 0%, #ffe8c4 100%);
+      box-shadow:
+        10px 12px 0 rgba(62, 39, 35, 0.14),
+        0 26px 52px rgba(0, 0, 0, 0.28),
+        inset 0 2px 0 rgba(255, 255, 255, 0.85);
+      font-weight: 900;
+      color: #4e342e;
+      text-align: center;
+    }
+    .bubble.show { display: block; }
+    .bubble h2 {
+      margin: 0 0 10px;
+      font-family: "ZCOOL KuaiLe", sans-serif;
+      color: #4a148c;
+      font-size: clamp(21px, 2.1vw, 30px);
+      text-shadow: 1px 1px 0 rgba(255, 213, 79, 0.45);
+    }
+    .btn {
+      border: 4px solid var(--edge);
+      border-radius: 999px;
+      background: linear-gradient(180deg, #fffef5 0%, #ffcc80 100%);
+      color: #4e342e;
+      font-family: inherit;
+      font-weight: 1000;
+      padding: 10px 22px;
+      cursor: pointer;
+      margin-top: 12px;
+      box-shadow: 4px 6px 0 rgba(93, 64, 55, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.75);
+      transition: transform 0.12s ease, box-shadow 0.12s ease;
+    }
+    .btn:active {
+      transform: translateY(2px);
+      box-shadow: 2px 3px 0 rgba(93, 64, 55, 0.18);
+    }
+    .ui-lock {
+      position: absolute;
+      inset: 0;
+      z-index: 200;
+      display: none;
+      background: transparent;
+      pointer-events: auto;
+    }
+    .ui-lock.show { display: block; }
+    .finish {
+      position: absolute;
+      inset: 0;
+      z-index: 150;
+      display: none;
+      place-items: center;
+      background: rgba(14, 8, 14, 0.58);
+      backdrop-filter: blur(3px);
+    }
+    .finish.show { display: grid; }
+    .finish-card {
+      width: min(90vw, 880px);
+      padding: 26px 24px;
+      border: 7px solid #a1887f;
+      border-radius: 38px 20px 34px 22px / 22px 34px 22px 38px;
+      background:
+        linear-gradient(168deg, rgba(255, 255, 255, 0.5) 0%, transparent 45%),
+        linear-gradient(180deg, #fffef5 0%, #ffe9c5 55%, #ffd699 100%);
+      text-align: center;
+      box-shadow:
+        0 0 48px rgba(255, 213, 79, 0.55),
+        12px 16px 0 rgba(62, 39, 35, 0.14),
+        inset 0 2px 0 rgba(255, 255, 255, 0.85);
+    }
+    .finish-card h2 {
+      margin: 0 0 10px;
+      font-family: "ZCOOL KuaiLe", sans-serif;
+      color: #4a148c;
+      font-size: clamp(26px, 2.9vw, 44px);
+      text-shadow: 2px 2px 0 rgba(255, 213, 79, 0.55);
+    }
+    .gold-stamp {
+      display: grid;
+      place-items: center;
+      width: min(52vw, 340px);
+      min-height: 108px;
+      margin: 12px auto;
+      border: 8px solid #b8860b;
+      border-radius: 50%;
+      background: radial-gradient(circle, #fff8dc 0 22%, #ffd54f 23% 62%, #ffb300 63% 100%);
+      color: #5d2f00;
+      font-size: clamp(15px, 1.65vw, 22px);
+      line-height: 1.15;
+      font-weight: 1000;
+      transform: rotate(-4deg);
+      box-shadow: inset 0 0 22px rgba(255, 255, 255, 0.55), 0 0 26px rgba(255, 193, 7, 0.65);
+      padding: 12px;
+    }
+    .summary-mini {
+      margin: 12px auto;
+      max-width: 720px;
+      text-align: left;
+      display: grid;
+      gap: 10px;
+      font-size: clamp(14px, 1.15vw, 17px);
+      font-weight: 880;
+      color: #4e342e;
+    }
+    .summary-mini div {
+      padding: 10px 12px;
+      border-radius: 14px 10px 14px 12px;
+      border: 3px solid rgba(93, 64, 55, 0.35);
+      background: rgba(255, 249, 240, 0.92);
+    }
+    /* 判题正确：短时庆祝层（低于顶栏，避免挡住标题） */
+    .correct-fx {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: min(22%, 160px);
+      z-index: 38;
+      pointer-events: none;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+    .correct-pop {
+      padding: 12px 26px;
+      border-radius: 999px;
+      font-family: "ZCOOL KuaiLe", system-ui, sans-serif;
+      font-weight: 1000;
+      font-size: clamp(18px, 2.8vw, 30px);
+      letter-spacing: 0.04em;
+      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
+      box-shadow:
+        0 10px 28px rgba(0, 0, 0, 0.28),
+        inset 0 2px 0 rgba(255, 255, 255, 0.35);
+      transform: scale(0.6);
+      opacity: 0;
+      max-width: min(92vw, 560px);
+      text-align: center;
+      line-height: 1.25;
+    }
+    .correct-pop.mustnt {
+      color: #f3e5f5;
+      border: 4px solid rgba(206, 147, 216, 0.95);
+      background: linear-gradient(165deg, #6a1b9a 0%, #4527a0 48%, #311b92 100%);
+    }
+    .correct-pop.free {
+      color: #4e342e;
+      border: 4px solid rgba(255, 213, 79, 0.95);
+      background: linear-gradient(165deg, #fffde7 0%, #ffe082 45%, #ffb74d 100%);
+    }
+    .feather-layer {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 25;
+      overflow: hidden;
+    }
+    .feather {
+      position: absolute;
+      width: 14px;
+      height: 28px;
+      border-radius: 50% 50% 40% 60%;
+      background: linear-gradient(135deg, #fffde7, #eeeeee);
+      opacity: 0.92;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
+    }
+    .border-flash {
+      position: absolute;
+      inset: 0;
+      z-index: 4;
+      pointer-events: none;
+      opacity: 0;
+      box-shadow: inset 0 0 0 0 rgba(33, 150, 243, 0);
+      transition: opacity 0.12s ease;
+    }
+    .border-flash.on {
+      opacity: 1;
+      box-shadow: inset 0 0 50px rgba(33, 150, 243, 0.35), inset 0 0 90px rgba(244, 67, 54, 0.22);
+    }
+    @media (max-width: 720px) {
+      .arena {
+        flex-direction: column;
+        padding: 8px 10px 138px;
+        gap: 10px;
+      }
+      .arena-seam {
+        flex: 0 0 auto;
+        width: 100%;
+        height: 44px;
+        margin: 0;
+        writing-mode: horizontal-tb;
+      }
+      .seam-inner {
+        writing-mode: horizontal-tb;
+        letter-spacing: 0.35em;
+        padding: 6px 10px;
+      }
+      .zone { min-height: 24vh; }
+      .fence-art, .cage-art {
+        width: min(62vw, 240px);
+        height: min(18vh, 148px);
+      }
+      .prop-frame { padding: 10px; }
+    }
+  </style>
+</head>
+<body class="has-lesson-pager">
+  <main class="app" id="app">
+    <div class="border-flash" id="borderFlash" aria-hidden="true"></div>
+    <header class="top-bar">
+      <div class="lesson-tag">第06讲 · P04</div>
+      <div>
+        <h1>电网与鸟笼：禁止 vs 不必</h1>
+        <p class="subtitle">mustn't = 高压红线 · don't have to = 门开着，你可自由</p>
+      </div>
+      <div class="score-chip"><span id="score">0</span> / <span id="total">6</span></div>
+    </header>
+
+    <section class="arena" aria-hidden="false">
+      <div class="zone zone-forbid" id="zoneForbid" data-zone="mustnt">
+        <div class="zone-label">mustn't · 致命电网</div>
+        <div class="prop-frame">
+          <div class="fence-art no-img-fallback" id="fenceArt" aria-hidden="true"></div>
+        </div>
+        <p class="zone-hint">绝对禁止：触碰规则会有严重后果</p>
+      </div>
+      <div class="arena-seam" aria-hidden="true">
+        <div class="seam-inner">边界</div>
+      </div>
+      <div class="zone zone-free" id="zoneFree" data-zone="donthave">
+        <div class="zone-label">don't have to · 自由鸟笼</div>
+        <div class="prop-frame">
+          <div class="cage-art no-img-fallback" id="cageArt" aria-hidden="true"></div>
+        </div>
+        <p class="zone-hint">没有必要：可做可不做，你有选择权</p>
+      </div>
+    </section>
+
+    <div class="feather-layer" id="featherLayer" aria-hidden="true"></div>
+    <div class="correct-fx" id="correctFx" aria-hidden="true"></div>
+
+    <div class="sentence-card" id="card" aria-label="情境卡片">
+      <button class="speaker-dot card-speak" type="button" id="cardSpeakBtn" aria-label="朗读英文句子">🔊 朗读</button>
+      <p class="line" id="cardText"></p>
+      <p class="sub" id="cardCue">拖到左侧电网（禁止）或右侧鸟笼（不必）</p>
+    </div>
+
+    <aside class="bubble" id="bubble">
+      <h2>判官提示</h2>
+      <p id="bubbleText"></p>
+      <button class="btn" type="button" id="bubbleOk">我懂了</button>
+    </aside>
+
+    <div class="ui-lock" id="uiLock"></div>
+
+    <section class="finish" id="finish">
+      <div class="finish-card">
+        <h2>规则边界大师认证</h2>
+        <div class="gold-stamp">RULE BOUNDARY<br />MASTER</div>
+        <p style="margin:0 0 10px;font-weight:900;color:#4e342e;">
+          你已分清：<strong>mustn't</strong> 是「绝对不能碰」的高压线；<strong>don't have to</strong> 是「没必要被勉强」的自由。
+        </p>
+        <div class="summary-mini">
+          <div><strong>mustn't</strong>：语气硬、后果重；常与安全、法律、校规红线相关。</div>
+          <div><strong>don't have to</strong>：语气松；表示没有义务，不等于「禁止」。</div>
+        </div>
+        <a class="btn" href="lesson06-page05-rulemaker.html" style="text-decoration:none;display:inline-flex;">前往 Page 05 · 规则定制工坊 →</a>
+      </div>
+    </section>
+
+    <div class="feedback" id="feedback">分拣句子：想想是「绝对不能」还是「其实可以不」？</div>
+  </main>
+
+  <nav class="lesson-pager" aria-label="课程页导航">
+    <a class="pager-prev" href="lesson06-page03-musthaveto.html">← 上一页 · Page 03</a>
+    <span class="pager-mid">L06 · Page 04 / 07</span>
+    <a class="pager-next" href="lesson06-page05-rulemaker.html">下一页 · Page 05 →</a>
+  </nav>
+
+  <script>
+    (() => {
+      const CORPUS = [
+        {
+          text: "The sign says No Parking. You mustn't park your car here.",
+          type: "mustnt",
+          wrongHint: "这是「禁止停车」的红牌：绝不是「你有权停或不停」。想一想：危险程度是「没必要」还是「绝对不准」？"
+        },
+        {
+          text: "The water is very deep and dangerous. Children mustn't swim in this river.",
+          type: "mustnt",
+          wrongHint: "深水危险不是「不必游」，而是「绝对不许拿生命开玩笑」。体会后果的严重性。"
+        },
+        {
+          text: "This is a secret between us. You mustn't tell anyone else.",
+          type: "mustnt",
+          wrongHint: "秘密不是「说不说都行」，而是「绝对不能泄密」。语气要比 don't have to 硬得多。"
+        },
+        {
+          text: "We are in the reading room. We mustn't talk loudly.",
+          type: "mustnt",
+          wrongHint: "阅览室要保持安静：这是硬性禁止，不是「小声聊天也行」的自由选项。"
+        },
+        {
+          text: "The traffic light is red. You mustn't cross the street now.",
+          type: "mustnt",
+          wrongHint: "红灯过马路只是「没必要过吗」？这会出人命——必须是绝对禁止 mustn't。"
+        },
+        {
+          text: "You are driving a car. You mustn't drink any alcohol.",
+          type: "mustnt",
+          wrongHint: "酒驾不是「今晚可以不喝」，而是法律与安全意义上的零容忍。"
+        },
+        {
+          text: "Tomorrow is Sunday. I don't have to get up early.",
+          type: "donthave",
+          wrongHint: "周日不必早起：重点是「没有义务」，不是「不准早起」。想想哪边更像轻松的选择权？"
+        },
+        {
+          text: "We have plenty of time. You don't have to run.",
+          type: "donthave",
+          wrongHint: "时间充裕时「不必跑」：没人逼你冲刺，这不是禁止跑步。"
+        },
+        {
+          text: "My mum has already cooked dinner. I don't have to cook tonight.",
+          type: "donthave",
+          wrongHint: "妈妈做好了饭：你是「没必要再做」，不是「不准进厨房」。"
+        },
+        {
+          text: "The museum is free today. We don't have to pay for the tickets.",
+          type: "donthave",
+          wrongHint: "免费参观：强调「不必付钱」，并不是禁止你掏钱捐助哦。"
+        },
+        {
+          text: "You can do this homework tomorrow. You don't have to finish it right now.",
+          type: "donthave",
+          wrongHint: "允许明天写：你现在「不必立刻完成」，这和「不准写」完全相反。"
+        },
+        {
+          text: "It is not raining outside. You don't have to take an umbrella.",
+          type: "donthave",
+          wrongHint: "没下雨：带伞不是义务，属于「可以不带的轻松语气」。"
+        }
+      ];
+
+      const app = document.getElementById("app");
+      const card = document.getElementById("card");
+      const cardText = document.getElementById("cardText");
+      const zoneForbid = document.getElementById("zoneForbid");
+      const zoneFree = document.getElementById("zoneFree");
+      const fenceArt = document.getElementById("fenceArt");
+      const cageArt = document.getElementById("cageArt");
+      const feedback = document.getElementById("feedback");
+      const bubble = document.getElementById("bubble");
+      const bubbleText = document.getElementById("bubbleText");
+      const bubbleOk = document.getElementById("bubbleOk");
+      const uiLock = document.getElementById("uiLock");
+      const finish = document.getElementById("finish");
+      const borderFlash = document.getElementById("borderFlash");
+      const featherLayer = document.getElementById("featherLayer");
+      const scoreEl = document.getElementById("score");
+      const totalEl = document.getElementById("total");
+      const cardSpeakBtn = document.getElementById("cardSpeakBtn");
+
+      let deck = [];
+      let idx = 0;
+      let current = null;
+      let locked = false;
+      let drag = null;
+      let busy = false;
+
+      function shuffle(a) {
+        const arr = a.slice();
+        for (let i = arr.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+      }
+
+      function animeRun(opts) {
+        if (window.anime) return window.anime(opts).finished;
+        return Promise.resolve();
+      }
+
+      function tryUseVertexPng(imgEl, url) {
+        const probe = new Image();
+        probe.onload = () => {
+          imgEl.classList.remove("no-img-fallback");
+          imgEl.style.backgroundImage = `url("${url}")`;
+        };
+        probe.onerror = () => {};
+        probe.src = url;
+      }
+
+      tryUseVertexPng(fenceArt, new URL("assets/vertex/l06-page04-fence.png", document.baseURI).href);
+      tryUseVertexPng(cageArt, new URL("assets/vertex/l06-page04-cage-open.png", document.baseURI).href);
+
+      let sharedAudioCtx = null;
+      function ensureAudioCtx() {
+        try {
+          const Ctx = window.AudioContext || window.webkitAudioContext;
+          if (!Ctx) return Promise.resolve(null);
+          if (!sharedAudioCtx) sharedAudioCtx = new Ctx();
+          if (sharedAudioCtx.state === "suspended") return sharedAudioCtx.resume().then(() => sharedAudioCtx);
+          return Promise.resolve(sharedAudioCtx);
+        } catch (e) {
+          return Promise.resolve(null);
+        }
+      }
+
+      /** 判对提示音：mustn't 三连电击感 · don't have to 上扬琶音 */
+      function playCorrectStinger(zone) {
+        return ensureAudioCtx().then((ctx) => {
+          if (!ctx) return;
+          const t0 = ctx.currentTime;
+          const master = ctx.createGain();
+          master.gain.value = zone === "mustnt" ? 0.11 : 0.13;
+          master.connect(ctx.destination);
+          if (zone === "mustnt") {
+            [440, 660, 990].forEach((freq, i) => {
+              const o = ctx.createOscillator();
+              const g = ctx.createGain();
+              o.type = "square";
+              o.frequency.value = freq;
+              const start = t0 + i * 0.052;
+              g.gain.setValueAtTime(0.0001, start);
+              g.gain.exponentialRampToValueAtTime(0.32, start + 0.018);
+              g.gain.exponentialRampToValueAtTime(0.0001, start + 0.088);
+              o.connect(g);
+              g.connect(master);
+              o.start(start);
+              o.stop(start + 0.095);
+            });
+          } else {
+            [523.25, 659.25, 783.99, 987.77].forEach((freq, i) => {
+              const o = ctx.createOscillator();
+              const g = ctx.createGain();
+              o.type = "sine";
+              o.frequency.value = freq;
+              const start = t0 + i * 0.068;
+              g.gain.setValueAtTime(0.0001, start);
+              g.gain.exponentialRampToValueAtTime(0.38, start + 0.022);
+              g.gain.exponentialRampToValueAtTime(0.0001, start + 0.17);
+              o.connect(g);
+              g.connect(master);
+              o.start(start);
+              o.stop(start + 0.19);
+            });
+          }
+        });
+      }
+
+      function showCorrectPop(zone) {
+        const host = document.getElementById("correctFx");
+        if (!host) return;
+        host.innerHTML = "";
+        const el = document.createElement("div");
+        el.className = `correct-pop ${zone === "mustnt" ? "mustnt" : "free"}`;
+        el.textContent = zone === "mustnt" ? "⚡ 判定正确 · 高压红线！" : "🕊 判定正确 · 自由选择！";
+        host.appendChild(el);
+        if (window.anime) {
+          anime({
+            targets: el,
+            scale: [0.35, 1.06, 1],
+            opacity: [0, 1],
+            translateY: [28, 0],
+            duration: 560,
+            easing: "easeOutElastic(1, .58)",
+          });
+          setTimeout(() => {
+            anime({
+              targets: el,
+              opacity: 0,
+              translateY: -22,
+              scale: 0.92,
+              duration: 420,
+              easing: "easeInQuad",
+              complete: () => {
+                host.innerHTML = "";
+              },
+            });
+          }, 980);
+        } else {
+          el.style.opacity = "1";
+          el.style.transform = "scale(1)";
+          setTimeout(() => {
+            host.innerHTML = "";
+          }, 1400);
+        }
+      }
+
+      function playZap() {
+        try {
+          const ctx = new (window.AudioContext || window.webkitAudioContext)();
+          const o = ctx.createOscillator();
+          const g = ctx.createGain();
+          o.type = "square";
+          o.frequency.value = 220;
+          g.gain.value = 0.06;
+          o.connect(g);
+          g.connect(ctx.destination);
+          o.start();
+          setTimeout(() => {
+            o.stop();
+            ctx.close();
+          }, 120);
+        } catch (e) {}
+      }
+
+      function playChirp() {
+        try {
+          const ctx = new (window.AudioContext || window.webkitAudioContext)();
+          const o = ctx.createOscillator();
+          const g = ctx.createGain();
+          o.type = "sine";
+          o.frequency.setValueAtTime(880, ctx.currentTime);
+          o.frequency.exponentialRampToValueAtTime(1320, ctx.currentTime + 0.12);
+          g.gain.value = 0.07;
+          o.connect(g);
+          g.connect(ctx.destination);
+          o.start();
+          setTimeout(() => {
+            o.stop();
+            ctx.close();
+          }, 160);
+        } catch (e) {}
+      }
+
+      function resetCardTransform() {
+        card.style.transform = "translateX(-50%)";
+        card.style.opacity = "1";
+        card.style.filter = "";
+        card.classList.remove("dragging", "zapped", "freed");
+      }
+
+      function playAudioFile(src) {
+        return new Promise((resolve) => {
+          const audio = new Audio(src);
+          audio.addEventListener("ended", () => resolve(true), { once: true });
+          audio.addEventListener("error", () => resolve(false), { once: true });
+          const p = audio.play();
+          if (p && typeof p.catch === "function") {
+            p.catch((err) => {
+              console.warn("[L06P04] 本地音频播放失败:", src, err);
+              resolve(false);
+            });
+          }
+        });
+      }
+
+      async function playCardTts() {
+        if (!current) return;
+        const i = CORPUS.findIndex((c) => c.text === current.text);
+        if (i < 0) return;
+        const src = `assets/tts-mp3/l06-page04/${String(i + 1).padStart(2, "0")}.mp3`;
+        const ok = await playAudioFile(src);
+        feedback.textContent = ok
+          ? "本地 Google TTS 朗读完成。想想语气再分拣。"
+          : "本地 Google TTS 音频未播放，请检查 mp3 文件路径。";
+      }
+
+      cardSpeakBtn.addEventListener("pointerdown", (e) => e.stopPropagation());
+      cardSpeakBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        playCardTts();
+      });
+
+      function targetZoneAt(x, y) {
+        const rL = zoneForbid.getBoundingClientRect();
+        const rR = zoneFree.getBoundingClientRect();
+        if (x >= rL.left && x <= rL.right && y >= rL.top && y <= rL.bottom) return "mustnt";
+        if (x >= rR.left && x <= rR.right && y >= rR.top && y <= rR.bottom) return "donthave";
+        return null;
+      }
+
+      function spawnFeathers() {
+        featherLayer.innerHTML = "";
+        const base = cageArt.getBoundingClientRect();
+        const appRect = app.getBoundingClientRect();
+        for (let i = 0; i < 8; i++) {
+          const f = document.createElement("div");
+          f.className = "feather";
+          const ox = (base.left - appRect.left) + base.width * (0.35 + Math.random() * 0.3);
+          const oy = (base.top - appRect.top) + base.height * 0.45;
+          f.style.left = ox + "px";
+          f.style.top = oy + "px";
+          f.style.transform = "rotate(" + (Math.random() * 40 - 20) + "deg)";
+          featherLayer.appendChild(f);
+          anime({
+            targets: f,
+            translateY: [-10 - Math.random() * 24, -140 - Math.random() * 90],
+            translateX: [(Math.random() - 0.5) * 80, (Math.random() - 0.5) * 120],
+            opacity: [1, 0],
+            duration: 900 + Math.random() * 400,
+            easing: "easeOutCubic",
+            delay: i * 40
+          });
+        }
+        setTimeout(() => { featherLayer.innerHTML = ""; }, 1600);
+      }
+
+      function setupDeck() {
+        deck = shuffle(CORPUS).slice(0, 6);
+        idx = 0;
+        totalEl.textContent = String(deck.length);
+        scoreEl.textContent = "0";
+        showCard();
+      }
+
+      function showCard() {
+        current = deck[idx];
+        if (!current) return showFinish();
+        resetCardTransform();
+        cardText.textContent = current.text;
+        feedback.textContent = "想想：这是「绝对不能」的高压线，还是「其实可以不」的轻松？";
+        resetCardTransform();
+      }
+
+      function showFinish() {
+        finish.classList.add("show");
+        animeRun({ targets: ".finish-card", translateY: [-180, 0], scale: [1.12, 1], duration: 720, easing: "easeOutBack" });
+      }
+
+      async function onCorrect(zone) {
+        busy = true;
+        uiLock.classList.add("show");
+        locked = true;
+        scoreEl.textContent = String(Number(scoreEl.textContent) + 1);
+        showCorrectPop(zone);
+        playCorrectStinger(zone);
+        await animeRun({
+          targets: card,
+          scale: [1, 1.1, 1],
+          duration: 260,
+          easing: "easeOutQuad",
+        });
+        if (zone === "mustnt") {
+          feedback.textContent = "正确：绝对禁止 mustn't —— 电网亮警示！";
+          fenceArt.classList.add("live");
+          borderFlash.classList.add("on");
+          playZap();
+          card.classList.add("zapped");
+          await animeRun({
+            targets: app,
+            translateX: [0, -10, 10, -8, 8, -4, 0],
+            duration: 420,
+            easing: "easeInOutSine"
+          });
+          borderFlash.classList.remove("on");
+          fenceArt.classList.remove("live");
+          await animeRun({ targets: card, scale: [1, 0.15], opacity: [1, 0], duration: 380, easing: "easeInBack" });
+        } else {
+          feedback.textContent = "正确：不必 don't have to —— 鸟笼门开着，轻松飞走！";
+          cageArt.classList.add("warm");
+          playChirp();
+          spawnFeathers();
+          await animeRun({ targets: card, translateY: [0, -28], scale: [1, 0.72], opacity: [1, 0], duration: 520, easing: "easeInQuad" });
+          cageArt.classList.remove("warm");
+        }
+        card.style.opacity = "1";
+        card.style.transform = "translateX(-50%)";
+        card.classList.remove("zapped");
+        idx += 1;
+        locked = false;
+        busy = false;
+        uiLock.classList.remove("show");
+        showCard();
+      }
+
+      async function onWrong() {
+        busy = true;
+        locked = true;
+        uiLock.classList.add("show");
+        bubbleText.textContent = current.wrongHint;
+        bubble.classList.add("show");
+        await animeRun({
+          targets: card,
+          translateX: ["-50%", "-50%"],
+          translateY: [0, 6, -10, 8, -6, 0],
+          duration: 380,
+          easing: "easeInOutSine"
+        });
+        await animeRun({
+          targets: card,
+          translateX: "-50%",
+          translateY: 0,
+          duration: 420,
+          easing: "easeOutElastic(1, .72)"
+        });
+        busy = false;
+      }
+
+      bubbleOk.addEventListener("click", () => {
+        bubble.classList.remove("show");
+        locked = false;
+        uiLock.classList.remove("show");
+        resetCardTransform();
+      });
+
+      card.addEventListener("pointerdown", (e) => {
+        if (e.target.closest(".speaker-dot")) return;
+        if (locked || busy || !current) return;
+        e.preventDefault();
+        drag = { x: e.clientX, y: e.clientY, id: e.pointerId };
+        card.setPointerCapture(e.pointerId);
+        card.classList.add("dragging");
+      });
+
+      window.addEventListener("pointermove", (e) => {
+        if (!drag || locked || busy) return;
+        const dx = e.clientX - drag.x;
+        const dy = e.clientY - drag.y;
+        card.style.transform = `translate(calc(-50% + ${dx}px), ${dy}px) scale(1.03)`;
+        const z = targetZoneAt(e.clientX, e.clientY);
+        fenceArt.classList.toggle("live", z === "mustnt");
+        cageArt.classList.toggle("warm", z === "donthave");
+        borderFlash.classList.toggle("on", z === "mustnt");
+      });
+
+      window.addEventListener("pointerup", async (e) => {
+        if (!drag || locked || busy) return;
+        if (e.pointerId !== drag.id) return;
+        card.releasePointerCapture(e.pointerId);
+        drag = null;
+        card.classList.remove("dragging");
+        fenceArt.classList.remove("live");
+        cageArt.classList.remove("warm");
+        borderFlash.classList.remove("on");
+        const z = targetZoneAt(e.clientX, e.clientY);
+        if (!z) {
+          await animeRun({
+            targets: card,
+            translateX: "-50%",
+            translateY: 0,
+            scale: 1,
+            duration: 420,
+            easing: "easeOutElastic(1, .66)"
+          });
+          resetCardTransform();
+          return;
+        }
+        const ok = z === current.type;
+        if (ok) await onCorrect(z);
+        else await onWrong();
+      });
+
+      setupDeck();
+    })();
+  </script>
+</body>
+</html>

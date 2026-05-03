@@ -1,0 +1,1083 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>第05讲 · Page 09 · 大侦探结案报告</title>
+  <script src="https://aka.ms/csspeech/jsbrowserpackageraw"></script>
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
+  <link rel="stylesheet" href="../assets/lesson-screen-16x9.css" />
+  <!--
+    Vertex AI Imagen 3.0 Fast 资产生成说明
+    项目ID：project-ec12c6e5-5e03-4771-add
+    验证方式：Google Cloud CLI
+
+    生成后建议保存到 assets/vertex/：
+    1. page09-library-bg.png
+       Prompt: A cinematic, high-end crayon illustration of a magical library at night. Glowing scrolls,
+       flying books, warm candlelight reflecting on aged wooden floors, storybook style, extremely detailed.
+    2. page09-knowledge-tree-core.png
+       Prompt: A magnificent, glowing magical tree with roots shaped like pens and branches shaped like golden scrolls,
+       hand-drawn crayon art.
+    3. page09-branch-alchemy-pot.png / page09-branch-hero-cape.png / page09-branch-magnet.png / page09-branch-compass.png
+       Prompt: Four separate elegant, aged parchment cards, each representing a topic:
+       'Alchemy Pot', 'Hero Cape', 'Magnet', 'Compass'. Crayon art style.
+    4. page09-final-badge.png
+       Prompt: A hyper-detailed gold detective badge with a star and a magnifying glass,
+       encrusted with small gems, crayon-sketch style.
+  -->
+  <style>
+    :root {
+      --ink: #2c2436;
+      --paper: #fff8ec;
+      --edge: #5d4037;
+      --gold: #ffd54f;
+      --gold2: #ffb300;
+      --purple: #5e2388;
+      --blue: #1565c0;
+      --green: #2e7d32;
+      --bg-url: url("https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/vertex/page09-library-bg.png");
+      --tree-url: url("https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/vertex/page09-knowledge-tree-core.png");
+      --badge-url: url("https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/vertex/page09-final-badge.png");
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 10% 15%, rgba(255, 220, 180, 0.38) 0%, transparent 42%),
+        radial-gradient(circle at 90% 85%, rgba(200, 230, 255, 0.32) 0%, transparent 40%),
+        linear-gradient(168deg, #ffeaa7 0%, #fab1a0 30%, #dfe6e9 100%);
+      overflow: auto;
+      font-family: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+      padding: 1rem 1rem 3rem;
+      line-height: 1.65;
+      font-size: 16px;
+    }
+    .handout-toolbar {
+      max-width: 860px;
+      margin: 0 auto 0.75rem;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0 1rem;
+      background: transparent;
+      box-shadow: none;
+      font-weight: 700;
+      flex-wrap: wrap;
+    }
+    .handout-toolbar strong,
+    .handout-toolbar span { display: none; }
+    .handout-toolbar .toolbar-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+    .btn-handout-pdf {
+      font-family: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+      font-size: 0.92rem;
+      padding: 0.5rem 1.15rem;
+      border-radius: 999px;
+      border: 3px solid #f0ad4e;
+      background: linear-gradient(180deg, #fff 0%, #fff9f0 100%);
+      color: #1565c0;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 2px 3px 0 rgba(0, 0, 0, 0.08);
+      touch-action: manipulation;
+    }
+    .btn-handout-pdf:hover { background: #e3f2fd; }
+    .screen-app {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      padding: 14px;
+      background:
+        linear-gradient(rgba(18,10,22,.2), rgba(18,10,22,.5)),
+        var(--bg-url),
+        radial-gradient(ellipse at 50% 30%, #684a78, #130b18 72%);
+      background-size: cover;
+      background-position: center;
+    }
+    .screen-app::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: .18;
+      background-image:
+        repeating-linear-gradient(8deg, rgba(255,255,255,.16), rgba(255,255,255,.16) 0 1px, transparent 2px 8px),
+        repeating-linear-gradient(-8deg, rgba(93,64,55,.16), rgba(93,64,55,.16) 0 1px, transparent 2px 9px);
+      mix-blend-mode: overlay;
+    }
+    .book {
+      position: relative;
+      z-index: 1;
+      height: 100%;
+      border: 5px solid #8b6914;
+      border-radius: 18px 28px 20px 24px;
+      background: rgba(255, 249, 239, .9);
+      box-shadow: 0 18px 48px rgba(0,0,0,.36);
+      overflow: hidden;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+    }
+    .top {
+      margin: 12px;
+      padding: 10px 16px;
+      border: 3px solid #4a6fa5;
+      border-radius: 999px;
+      text-align: center;
+      background: linear-gradient(180deg, #fff, #ffeccd);
+      font-weight: 1000;
+      color: #4a148c;
+      font-size: clamp(16px, 1.5vw, 24px);
+    }
+    .tree-stage {
+      position: relative;
+      min-height: 0;
+      margin: 0 12px;
+      border: 4px solid var(--edge);
+      border-radius: 20px;
+      background: radial-gradient(circle at 50% 50%, rgba(255,213,79,.18), rgba(255,253,246,.72) 40%, rgba(255,248,225,.92));
+      overflow: hidden;
+    }
+    .tree-core {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: min(300px, 28vw);
+      aspect-ratio: 1;
+      transform: translate(-50%, -50%) scale(.6);
+      border: 5px solid var(--edge);
+      border-radius: 50%;
+      background:
+        var(--tree-url),
+        radial-gradient(circle, #fffde7, #ffd54f);
+      background-size: cover;
+      background-position: center;
+      display: grid;
+      place-items: end center;
+      padding: 20px;
+      color: #4a148c;
+      font-weight: 1000;
+      text-align: center;
+      box-shadow: 0 0 34px rgba(255,213,79,.65), inset 0 0 18px rgba(93,64,55,.15);
+      z-index: 4;
+    }
+    .branch-line {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 36%;
+      height: 6px;
+      border-radius: 999px;
+      transform-origin: left center;
+      background: linear-gradient(90deg, #8d6e63, rgba(255,213,79,.9));
+      box-shadow: 0 0 16px rgba(255,213,79,.55);
+      z-index: 2;
+      opacity: 0;
+    }
+    .branch-card {
+      position: absolute;
+      width: min(310px, 26vw);
+      min-height: 158px;
+      border: 4px solid var(--edge);
+      border-radius: 22px 16px 24px 18px;
+      padding: 12px;
+      background:
+        linear-gradient(rgba(255,253,246,.78), rgba(255,248,225,.86)),
+        var(--card-img),
+        linear-gradient(180deg, #fffdf5, #f4dca5);
+      background-size: cover;
+      background-position: center;
+      box-shadow: 7px 9px 0 rgba(93,64,55,.14);
+      cursor: pointer;
+      transform: scale(.72);
+      opacity: 0;
+      z-index: 3;
+    }
+    .branch-card h2 { margin: 0 0 6px; color: #4a148c; font-size: clamp(18px, 1.6vw, 28px); }
+    .branch-card p { margin: 0; font-weight: 900; line-height: 1.42; }
+    .branch-card small { display: block; margin-top: 8px; color: #0d47a1; font-weight: 900; }
+    .branch-card.active {
+      z-index: 8;
+      box-shadow: 0 0 0 6px rgba(255,213,79,.18), 0 0 34px rgba(255,213,79,.72), 7px 9px 0 rgba(93,64,55,.14);
+    }
+    .branch-a { left: 5%; top: 8%; --card-img: url("https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/vertex/page09-branch-alchemy-pot.png"); }
+    .branch-b { right: 5%; top: 8%; --card-img: url("https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/vertex/page09-branch-hero-cape.png"); }
+    .branch-c { left: 5%; bottom: 8%; --card-img: url("https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/vertex/page09-branch-magnet.png"); }
+    .branch-d { right: 5%; bottom: 8%; --card-img: url("https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/vertex/page09-branch-compass.png"); }
+    .line-a { transform: rotate(210deg); }
+    .line-b { transform: rotate(-30deg); }
+    .line-c { transform: rotate(150deg); }
+    .line-d { transform: rotate(30deg); }
+    .bottom-actions {
+      z-index: 2;
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      padding: 12px;
+      flex-wrap: wrap;
+    }
+    .glow-btn {
+      border: 5px solid var(--edge);
+      border-radius: 999px;
+      padding: 14px 28px;
+      background: linear-gradient(90deg, #fff9c4, #ffca28, #fff9c4);
+      background-size: 200% 100%;
+      color: #4e342e;
+      font-size: clamp(18px, 2vw, 30px);
+      font-weight: 1000;
+      cursor: pointer;
+      box-shadow: 0 0 20px rgba(255,213,79,.5), 5px 7px 0 rgba(93,64,55,.16);
+      animation: shine 1.8s linear infinite;
+    }
+    @keyframes shine { to { background-position: 200% 0; } }
+    .preview-card {
+      display: none;
+      border: 4px solid var(--edge);
+      border-radius: 18px;
+      padding: 12px;
+      background: #fffdf5;
+      font-weight: 900;
+      max-width: 440px;
+    }
+    .preview-card.show { display: block; }
+    .badge-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 30;
+      display: grid;
+      place-items: center;
+      pointer-events: none;
+    }
+    .final-badge {
+      width: min(320px, 42vw);
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background:
+        var(--badge-url),
+        radial-gradient(circle, #fffde7, #ffb300);
+      background-size: cover;
+      background-position: center;
+      border: 6px solid #5d4037;
+      box-shadow: 0 0 0 14px rgba(255,213,79,.18), 0 0 60px rgba(255,213,79,.9);
+      opacity: 0;
+      transform: scale(.25);
+    }
+    .lesson06-card {
+      display: none;
+      position: absolute;
+      right: 24px;
+      bottom: 82px;
+      z-index: 15;
+      width: min(360px, 32vw);
+      border: 4px solid var(--edge);
+      border-radius: 20px;
+      background: #fffdf5;
+      padding: 14px;
+      box-shadow: 7px 9px 0 rgba(93,64,55,.16);
+      font-weight: 900;
+    }
+    .lesson06-card.show { display: block; }
+    .lesson06-card a { color: #4a148c; text-decoration: none; }
+    #confettiCanvas {
+      position: fixed;
+      inset: 0;
+      z-index: 29;
+      pointer-events: none;
+    }
+    .print-handout {
+      display: block;
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 1.5rem 1.5rem 2rem;
+      color: #111;
+      background: var(--paper);
+      border-radius: 12px 28px 16px 20px;
+      border: 4px solid #f0ad4e;
+      box-shadow: 6px 8px 0 #e85d4c, 14px 18px 32px rgba(60, 40, 20, 0.1);
+      font-size: 0.94rem;
+      line-height: 1.62;
+      position: relative;
+    }
+    .print-handout::before {
+      content: "";
+      position: absolute;
+      inset: 10px;
+      border: 2px dashed rgba(180, 140, 90, 0.38);
+      border-radius: 6px 22px 10px 8px;
+      pointer-events: none;
+    }
+    .print-handout > * {
+      position: relative;
+      z-index: 1;
+    }
+    .screen-app, .badge-overlay, #confettiCanvas, .lesson06-card { display: none; }
+    .print-cover {
+      border: none;
+      border-radius: 0;
+      padding: 0 0 0.8rem;
+      margin-bottom: 0.25rem;
+      background: transparent;
+    }
+    .print-kicker {
+      text-align: center;
+      font-size: 9pt;
+      letter-spacing: .08em;
+      color: #555;
+      margin-bottom: 1mm;
+    }
+    .print-cover h1 {
+      text-align: center;
+      margin: 0 0 0.75rem;
+      font-size: 1.48rem;
+      line-height: 1.3;
+      color: #e85d4c;
+      text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.06);
+    }
+    .print-subtitle {
+      text-align: center;
+      font-size: 0.92rem;
+      margin: 0 0 0.75rem;
+      color: #333;
+    }
+    .print-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.75rem;
+      font-size: 0.88rem;
+      border-top: 2px dashed rgba(180, 140, 90, 0.38);
+      padding-top: 0.55rem;
+    }
+    .print-meta span {
+      flex: 1;
+      border-bottom: 1px solid #333;
+      padding-bottom: 1mm;
+    }
+    .print-section {
+      page-break-inside: avoid;
+      break-inside: avoid;
+      border: none;
+      border-radius: 0;
+      padding: 0;
+      margin: 0 0 0.25rem;
+      background: transparent;
+    }
+    .print-section h2 {
+      margin: 1.6rem 0 0.75rem;
+      font-size: 1.12rem;
+      line-height: 1.35;
+      color: #1a237e;
+      border-bottom: 3px solid rgba(74, 144, 217, 0.35);
+      padding-bottom: 0.35rem;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      flex-wrap: wrap;
+    }
+    .print-section:first-of-type h2 { margin-top: 0; }
+    .print-section h3 {
+      margin: 0.75rem 0 0.45rem;
+      font-size: 1rem;
+      color: #0d47a1;
+    }
+    .print-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 0.5rem 0;
+      table-layout: fixed;
+      font-size: 0.84rem;
+    }
+    .print-table th,
+    .print-table td {
+      border: 2px solid rgba(0, 0, 0, 0.1);
+      padding: 0.4rem 0.5rem;
+      vertical-align: top;
+    }
+    .print-table th {
+      background: rgba(74, 144, 217, 0.15);
+      color: #0d47a1;
+      font-weight: 800;
+    }
+    .print-two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+    }
+    .print-pillars {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.65rem;
+    }
+    .print-pillar {
+      text-align: center;
+      padding: 0.85rem 0.65rem;
+      border-radius: 16px;
+      border: 3px dashed rgba(155, 89, 182, 0.45);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.9) 0%, rgba(243, 229, 245, 0.45) 100%);
+      min-height: auto;
+      font-size: 0.9rem;
+    }
+    .print-pillar strong {
+      display: block;
+      color: #4a148c;
+      margin-bottom: 1mm;
+    }
+    .ex-pair {
+      page-break-inside: avoid;
+      break-inside: avoid;
+      border-radius: 12px;
+      border: 3px solid rgba(74, 144, 217, 0.45);
+      background: rgba(74, 144, 217, 0.08);
+      padding: 0.58rem 0.72rem;
+      margin: 0.45rem 0;
+    }
+    .en-line {
+      font-weight: 800;
+      font-size: var(--lesson-fs-example, 1.05rem);
+    }
+    .zh-line {
+      margin: 0.18rem 0 0;
+      color: #444;
+    }
+    .warn-strip {
+      padding: 0.55rem 0.75rem;
+      border-radius: 10px;
+      background: rgba(211, 47, 47, 0.1);
+      border: none;
+      border-left: 5px solid #e53935;
+      color: #b71c1c;
+      margin: 0.5rem 0;
+      font-weight: 700;
+      font-size: 0.86rem;
+    }
+    .print-list {
+      margin: 1mm 0 0 4mm;
+      padding-left: 4mm;
+    }
+    .print-list li { margin-bottom: .8mm; }
+    .practice-box {
+      border: 2px dashed rgba(46, 125, 50, 0.4);
+      border-radius: 12px;
+      padding: 0.55rem 0.65rem;
+      background: rgba(232, 245, 233, 0.5);
+      margin-top: 0.5rem;
+    }
+    .answer-line {
+      display: inline-block;
+      min-width: 28mm;
+      border-bottom: 1px solid #333;
+      height: 4mm;
+    }
+    .print-footer {
+      page-break-inside: avoid;
+      border-top: 3px solid rgba(74, 144, 217, 0.35);
+      padding-top: 0.75rem;
+      margin-top: 1rem;
+      font-size: 0.86rem;
+      text-align: center;
+    }
+    .page-break {
+      break-before: page;
+      page-break-before: always;
+    }
+
+    @page { size: A4 portrait; margin: 10mm; }
+    @media print {
+      html, body {
+        width: auto !important;
+        height: auto !important;
+        overflow: visible !important;
+        background: #fff !important;
+        color: #000 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      .handout-toolbar, .screen-app, .badge-overlay, #confettiCanvas, .lesson06-card {
+        display: none !important;
+      }
+      .print-handout {
+        display: block !important;
+        width: auto !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        font-family: "Microsoft YaHei", "PingFang SC", system-ui, sans-serif;
+        font-size: 9.8pt;
+        line-height: 1.42;
+        color: #111;
+      }
+      .print-cover {
+        page-break-inside: avoid;
+        break-inside: avoid;
+        border: 2.2px solid #111;
+        border-radius: 4mm;
+        padding: 5mm;
+        margin-bottom: 5mm;
+        background: linear-gradient(180deg, #fffdf8, #fff4df);
+      }
+      .print-kicker {
+        text-align: center;
+        font-size: 9pt;
+        letter-spacing: .08em;
+        color: #555;
+        margin-bottom: 1mm;
+      }
+      .print-cover h1 {
+        text-align: center;
+        margin: 0 0 2mm;
+        font-size: 19pt;
+        line-height: 1.18;
+      }
+      .print-subtitle {
+        text-align: center;
+        font-size: 10.5pt;
+        margin: 0 0 4mm;
+        color: #333;
+      }
+      .print-meta {
+        display: flex;
+        justify-content: space-between;
+        gap: 6mm;
+        font-size: 10.5pt;
+        border-top: 1.2px dashed #555;
+        padding-top: 3mm;
+      }
+      .print-meta span {
+        flex: 1;
+        border-bottom: 1px solid #333;
+        padding-bottom: 1mm;
+      }
+      .print-section {
+        page-break-inside: avoid;
+        break-inside: avoid;
+        border: 1.4px solid #222;
+        border-radius: 3mm;
+        padding: 3.5mm;
+        margin: 0 0 4.2mm;
+        background: #fff;
+      }
+      .print-section h2 {
+        margin: 0 0 2.5mm;
+        font-size: 13.2pt;
+        line-height: 1.25;
+        color: #0d47a1;
+        border-bottom: 1.8px solid #90caf9;
+        padding-bottom: 1.5mm;
+      }
+      .print-section h3 {
+        margin: 2.5mm 0 1.3mm;
+        font-size: 10.8pt;
+        color: #4a148c;
+      }
+      .print-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 2mm 0;
+        table-layout: fixed;
+      }
+      .print-table th,
+      .print-table td {
+        border: 1px solid #333;
+        padding: 1.65mm 1.9mm;
+        vertical-align: top;
+      }
+      .print-table th {
+        background: #eaf3ff;
+        color: #0d47a1;
+        font-weight: 800;
+      }
+      .print-two-col {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 3mm;
+      }
+      .print-pillars {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 2.2mm;
+      }
+      .print-pillar {
+        border: 1.2px dashed #777;
+        border-radius: 2.5mm;
+        padding: 2mm;
+        background: #fffdf5;
+        min-height: 26mm;
+      }
+      .print-pillar strong {
+        display: block;
+        color: #4a148c;
+        margin-bottom: 1mm;
+      }
+      .ex-pair {
+        page-break-inside: avoid;
+        break-inside: avoid;
+        border-left: 3px solid #4a90d9;
+        background: #f6fbff;
+        padding: 1.8mm 2.4mm;
+        margin: 1.6mm 0;
+        border-radius: 1.6mm;
+      }
+      .en-line {
+        font-weight: 800;
+        font-size: 10.4pt;
+      }
+      .zh-line {
+        margin: .8mm 0 0;
+        color: #444;
+      }
+      .warn-strip {
+        border: 1.3px dashed #c62828;
+        border-left: 4px solid #c62828;
+        background: #fff2f2;
+        color: #8a1111;
+        border-radius: 2mm;
+        padding: 2mm 2.4mm;
+        margin: 2mm 0;
+        font-weight: 700;
+      }
+      .print-list {
+        margin: 1mm 0 0 4mm;
+        padding-left: 4mm;
+      }
+      .print-list li { margin-bottom: .8mm; }
+      .practice-box {
+        border: 1.2px dashed #777;
+        border-radius: 2.5mm;
+        padding: 2.2mm;
+        background: #fffdf8;
+        margin-top: 2mm;
+      }
+      .answer-line {
+        display: inline-block;
+        min-width: 28mm;
+        border-bottom: 1px solid #333;
+        height: 4mm;
+      }
+      .print-footer {
+        page-break-inside: avoid;
+        border-top: 2px solid #000;
+        padding-top: 3mm;
+        margin-top: 4mm;
+        font-size: 10pt;
+      }
+      .page-break {
+        break-before: page;
+        page-break-before: always;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="handout-toolbar">
+    <strong>Lesson 05 出版级讲义预览</strong>
+    <span>屏幕呈现即纸质内容，打印将自动隐藏工具栏。</span>
+    <div class="toolbar-actions">
+      <button class="btn-handout-pdf" id="printBtnTop">🖨️ 打印 / 保存为 PDF（推荐 · 印刷级）</button>
+    </div>
+  </div>
+  <canvas id="confettiCanvas"></canvas>
+  <div class="screen-app">
+    <main class="book">
+      <header class="top">Lesson 05 · 大侦探结案报告 · 所有权与空间秩序</header>
+      <section class="tree-stage" id="treeStage">
+        <div class="branch-line line-a"></div>
+        <div class="branch-line line-b"></div>
+        <div class="branch-line line-c"></div>
+        <div class="branch-line line-d"></div>
+        <div class="tree-core">所有权<br>与空间秩序</div>
+        <article class="branch-card branch-a" data-branch="a">
+          <h2>Alchemy Pot</h2>
+          <p>'s 与 ' 的炼金规则：单数加 's，复数已有 s 只加 '。</p>
+          <small>口诀：一个人的东西加 's，一群人的 s 后挂小尾巴。</small>
+        </article>
+        <article class="branch-card branch-b" data-branch="b">
+          <h2>Hero Cape</h2>
+          <p>物主代词像披风：mine = my + noun，hers = her + noun。</p>
+          <small>口诀：后面没名词，超人自己飞。</small>
+        </article>
+        <article class="branch-card branch-c" data-branch="c">
+          <h2>Magnet</h2>
+          <p>There be 就近原则：be 动词被最近的名词吸住。</p>
+          <small>口诀：There 后第一个名词，就是磁铁。</small>
+        </article>
+        <article class="branch-card branch-d" data-branch="d">
+          <h2>Compass</h2>
+          <p>30 个黄金方位短语：on, under, behind, in front of, next to...</p>
+          <small>口诀：先找参照物，再选方向词。</small>
+        </article>
+        <aside class="lesson06-card" id="lesson06Card">
+          <h2>下一讲预告</h2>
+          <p>Lesson 06 将进入更复杂的阅读定位与写作升级任务。</p>
+          <a href="../L06/lesson06-page01-leadin.html">进入 Lesson 06 →</a>
+        </aside>
+      </section>
+      <footer class="bottom-actions">
+        <button class="glow-btn" id="printBtn">🖨️ 生成 A4 纸质结案报告</button>
+        <div class="preview-card" id="branchPreview">点击知识分支，查看中考必背口诀。</div>
+      </footer>
+    </main>
+    <div class="badge-overlay"><div class="final-badge" id="finalBadge"></div></div>
+  </div>
+
+  <section class="print-handout">
+    <div class="print-cover">
+      <div class="print-kicker">Chengdu Senior High School Entrance Exam · Grammar Toolkit</div>
+      <h1>大侦探结案报告 - Lesson 05 专题讲义</h1>
+      <p class="print-subtitle">所有权表达 · 物主代词 · There be · 方位介词 · 阅读定位与写作输出</p>
+      <div class="print-meta">
+        <span>姓名：__________</span>
+        <span>班级：__________</span>
+        <span>完成时间：2026-04-27</span>
+      </div>
+    </div>
+
+    <section class="print-section">
+      <h2>一、全景知识地图：本讲到底考什么？</h2>
+      <h3>学习目标（从语言能力出发）</h3>
+      <table class="print-table">
+        <thead><tr><th>能力目标</th><th>学生要能做到</th><th>对应中考任务</th></tr></thead>
+        <tbody>
+          <tr><td>识别归属</td><td>判断“谁的东西”，正确使用 Peter's / parents' / mine / hers。</td><td>单选、完形、短文填空</td></tr>
+          <tr><td>描述存在</td><td>用 There is / There are 说明某处有什么，并遵守就近原则。</td><td>语法选择、看图写句</td></tr>
+          <tr><td>定位空间</td><td>围绕参照物使用 on / under / behind / in front of / next to。</td><td>阅读定位、地图题、写作</td></tr>
+          <tr><td>组织表达</td><td>写出 5-8 句描述房间/校园/社区的短文。</td><td>书面表达、任务型写作</td></tr>
+        </tbody>
+      </table>
+      <div class="print-pillars">
+        <div class="print-pillar"><strong>1. 名词所有格</strong>谁的东西？<br>Peter's / my parents' / Teachers' Day</div>
+        <div class="print-pillar"><strong>2. 物主代词</strong>后面有没有名词？<br>my book → mine<br>her cap → hers</div>
+        <div class="print-pillar"><strong>3. There be</strong>某处有什么？<br>There is/are + 名词 + 地点</div>
+        <div class="print-pillar"><strong>4. 方位介词</strong>在哪里？<br>on / under / behind / in front of / next to</div>
+      </div>
+      <div class="warn-strip">中考核心判断顺序：先看“谁的”还是“在哪里”，再看空格后有没有名词，最后看 There 后第一个名词。</div>
+    </section>
+
+    <section class="print-section">
+      <h2>二、三步判断流程：考试时怎么想？</h2>
+      <table class="print-table">
+        <thead><tr><th>Step</th><th>问题</th><th>如果是……</th><th>立即反应</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>题目问“谁的”还是“在哪里”？</td><td>谁的</td><td>进入所有格/物主代词判断</td></tr>
+          <tr><td>2</td><td>空格后面有没有名词？</td><td>有名词 / 无名词</td><td>my/her/our + 名词；mine/hers/ours 单独用</td></tr>
+          <tr><td>3</td><td>句首是否 There？</td><td>There is/are</td><td>看 There 后第一个名词，决定 is/are</td></tr>
+          <tr><td>4</td><td>是否出现图片/地图/房间？</td><td>位置关系</td><td>先找参照物，再选介词短语</td></tr>
+        </tbody>
+      </table>
+      <div class="warn-strip">一句口诀：先定功能，再看后位；先看最近名词，再找参照物。</div>
+    </section>
+
+    <section class="print-section">
+      <h2>三、模块 A：名词所有格（Possessive Nouns）</h2>
+      <table class="print-table">
+        <thead><tr><th>情况</th><th>形式</th><th>中考判断</th><th>例句</th></tr></thead>
+        <tbody>
+          <tr><td>单数人名/名词</td><td>Peter's / Lucy's</td><td>一个人拥有，加 's</td><td>This is <strong>Peter's</strong> bag.</td></tr>
+          <tr><td>规则复数</td><td>parents' / students'</td><td>已经有 s，只加 '</td><td>Listen to our <strong>parents'</strong> advice.</td></tr>
+          <tr><td>节日/机构名称</td><td>Teachers' Day</td><td>一群老师的节日</td><td>September 10th is <strong>Teachers' Day</strong>.</td></tr>
+        </tbody>
+      </table>
+      <div class="ex-pair"><div class="en-line">The beautiful photo of Jinli is not mine. It is Lucy's.</div><p class="zh-line">锦里的漂亮照片不是我的，是 Lucy 的。（所有格 + 物主代词综合）</p></div>
+      <div class="ex-pair"><div class="en-line">My parents' room is next to ours.</div><p class="zh-line">我父母的房间挨着我们的房间。（复数所有格 + ours）</p></div>
+      <div class="ex-pair"><div class="en-line">Ms. Gao's office is next to the library.</div><p class="zh-line">高老师的办公室在图书馆旁边。（人名所有格 + 方位）</p></div>
+    </section>
+
+    <section class="print-section">
+      <h2>四、模块 B：物主代词（Possessive Pronouns）</h2>
+      <table class="print-table">
+        <thead><tr><th>形容词性</th><th>名词性</th><th>本质公式</th><th>例句</th></tr></thead>
+        <tbody>
+          <tr><td>my + 名词</td><td>mine</td><td>mine = my + noun</td><td>This book is <strong>mine</strong>.</td></tr>
+          <tr><td>her + 名词</td><td>hers</td><td>hers = her + noun</td><td>The red cap is <strong>hers</strong>.</td></tr>
+          <tr><td>their + 名词</td><td>theirs</td><td>theirs = their + noun</td><td>The glasses are <strong>theirs</strong>.</td></tr>
+        </tbody>
+      </table>
+      <div class="warn-strip">红线：空格后有名词，用 my/her/our；空格后没有名词，用 mine/hers/ours。</div>
+      <div class="ex-pair"><div class="en-line">The red cap on the chair is hers.</div><p class="zh-line">椅子上的红帽子是她的。（hers 后不再加 cap）</p></div>
+      <div class="ex-pair"><div class="en-line">This schoolbag is not mine. It is his.</div><p class="zh-line">这个书包不是我的，是他的。（mine / his 都可单独使用）</p></div>
+    </section>
+
+    <section class="print-section">
+      <h2>五、模块 C：There be 与就近原则</h2>
+      <table class="print-table">
+        <thead><tr><th>结构</th><th>判断方法</th><th>正确例句</th><th>易错点</th></tr></thead>
+        <tbody>
+          <tr><td>There is + 单数</td><td>最近名词是 a/an/单数</td><td>There <strong>is</strong> a pen on the desk.</td><td>不要看后面还有复数</td></tr>
+          <tr><td>There are + 复数</td><td>最近名词是复数</td><td>There <strong>are</strong> two books under the chair.</td><td>books 复数 → are</td></tr>
+          <tr><td>否定/疑问</td><td>some → any；回答用 there</td><td>Is there a library? Yes, there is.</td><td>不用 it is 回答</td></tr>
+        </tbody>
+      </table>
+      <div class="ex-pair"><div class="en-line">There is a pen and two books on the desk.</div><p class="zh-line">桌上有一支笔和两本书。（就近 a pen → is）</p></div>
+      <div class="ex-pair"><div class="en-line">There are two books and a pen on the desk.</div><p class="zh-line">桌上有两本书和一支笔。（就近 two books → are）</p></div>
+      <div class="ex-pair"><div class="en-line">There isn't any milk in the glass.</div><p class="zh-line">杯子里没有牛奶。（否定句中常用 any）</p></div>
+    </section>
+
+    <section class="print-section">
+      <h2>六、模块 D：方位介词黄金短语</h2>
+      <div class="print-two-col">
+        <div>
+          <h3>个人空间</h3>
+          <ul class="print-list">
+            <li>on Peter's desk</li><li>under the chair</li><li>in my schoolbag</li><li>on her bed</li><li>under my grandparents' table</li>
+          </ul>
+        </div>
+        <div>
+          <h3>校园/社区</h3>
+          <ul class="print-list">
+            <li>in front of the blackboard</li><li>behind the teachers' desk</li><li>between the gym and the library</li><li>across from the bank</li><li>near the post office</li>
+          </ul>
+        </div>
+      </div>
+      <div class="warn-strip">写作顺序：物品 + be + 方位介词短语。阅读顺序：先找参照物，再锁定方向词。</div>
+      <div class="ex-pair"><div class="en-line">A new library is built across from the old school.</div><p class="zh-line">新图书馆建在老学校对面。（阅读定位高频）</p></div>
+      <div class="ex-pair"><div class="en-line">The keys are in front of Lucy's schoolbag.</div><p class="zh-line">钥匙在 Lucy 的书包前面。（方位 + 所有格）</p></div>
+    </section>
+
+    <section class="print-section">
+      <h2>七、30个黄金方位短语全表</h2>
+      <table class="print-table">
+        <thead><tr><th>个人空间</th><th>校园布局</th><th>社区规划</th><th>中考长句抓手</th></tr></thead>
+        <tbody>
+          <tr><td>on Peter's desk<br>under the chair<br>in my schoolbag<br>on her bed</td><td>in front of the blackboard<br>behind the teachers' desk<br>next to the art building<br>in front of the library</td><td>near the post office<br>across from the bank<br>between the hotel and the hospital<br>next to the police station</td><td>on my sister's desk<br>in front of my house<br>across from the old school</td></tr>
+          <tr><td>under my grandparents' table<br>in the pencil box<br>on the sofa<br>under his dictionary</td><td>behind the dining hall<br>next to the sports field<br>between the gym and the library<br>across from the student centre</td><td>in front of the supermarket<br>on Bridge Street<br>behind the restaurant<br>near the pay phone</td><td>under Tom's chair<br>next to ours<br>in front of Lucy's schoolbag</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="print-section page-break">
+      <h2>八、中考题型映射：看到题目先想什么？</h2>
+      <table class="print-table">
+        <thead><tr><th>题型信号</th><th>常见设问</th><th>第一反应</th><th>例题</th></tr></thead>
+        <tbody>
+          <tr><td>空格后无名词</td><td>my / mine</td><td>选名词性物主代词</td><td>The photo isn't _____. It's hers.</td></tr>
+          <tr><td>复数名词 + advice/room</td><td>parent's / parents'</td><td>先判断是否复数</td><td>our parents' advice</td></tr>
+          <tr><td>There 后多个名词</td><td>is / are</td><td>看最近名词</td><td>There is a pen and two books.</td></tr>
+          <tr><td>图片/地图/校园</td><td>in / on / under / across from</td><td>先找参照物</td><td>The bank is across from the hotel.</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="print-section">
+      <h2>九、分层诊断练习</h2>
+      <h3>A层 · 基础选择</h3>
+      <div class="practice-box">1. The book is not _____. It is Peter's. (my / mine) <span class="answer-line"></span></div>
+      <div class="practice-box">2. We should listen to our _____ advice. (parents / parents') <span class="answer-line"></span></div>
+      <div class="practice-box">3. There _____ a computer and some books on the desk. (is / are) <span class="answer-line"></span></div>
+      <div class="practice-box">4. The cap is _____ the chair. (on / at) <span class="answer-line"></span></div>
+      <div class="practice-box">5. My parents' room is next to _____. (our / ours) <span class="answer-line"></span></div>
+      <h3>B层 · 句子改错</h3>
+      <div class="practice-box">6. This is Peter bag. → <span class="answer-line"></span></div>
+      <div class="practice-box">7. There are a desk and two chairs in the room. → <span class="answer-line"></span></div>
+      <div class="practice-box">8. The red cap is her. → <span class="answer-line"></span></div>
+      <h3>C层 · 看图写句（自评）</h3>
+      <div class="practice-box">9. 写一句 There be + 方位：<span class="answer-line"></span></div>
+      <div class="practice-box">10. 写一句 所有格/物主代词 + 方位：<span class="answer-line"></span></div>
+      <h3>答案区（折叠讲评用）</h3>
+      <table class="print-table">
+        <tbody>
+          <tr><td>1. mine</td><td>2. parents'</td><td>3. is</td><td>4. on</td><td>5. ours</td></tr>
+          <tr><td>6. Peter's bag</td><td>7. There is...</td><td>8. hers</td><td>9-10. 句子完整、位置清楚即可</td><td></td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="print-section">
+      <h2>十、结案输出模板：5-8句小作文</h2>
+      <div class="ex-pair"><div class="en-line">This is my dream room.</div><p class="zh-line">开头：介绍主题。</p></div>
+      <div class="ex-pair"><div class="en-line">There is a big desk next to the window.</div><p class="zh-line">家具布局：There be + 方位。</p></div>
+      <div class="ex-pair"><div class="en-line">A schoolbag is on Peter's bed. It is his.</div><p class="zh-line">物品位置 + 归属。</p></div>
+      <div class="ex-pair"><div class="en-line">There are some books in my schoolbag.</div><p class="zh-line">There are + 复数名词。</p></div>
+      <div class="ex-pair"><div class="en-line">I like my room because it is tidy and beautiful.</div><p class="zh-line">结尾评价。</p></div>
+      <table class="print-table">
+        <thead><tr><th>评分维度</th><th>满分标准</th><th>自评分</th></tr></thead>
+        <tbody>
+          <tr><td>句数与结构</td><td>5-8句，有开头、主体、结尾</td><td>____ / 2</td></tr>
+          <tr><td>There be</td><td>至少1句正确使用</td><td>____ / 2</td></tr>
+          <tr><td>方位介词</td><td>至少2个不同方位短语</td><td>____ / 2</td></tr>
+          <tr><td>归属表达</td><td>至少1个所有格或物主代词</td><td>____ / 2</td></tr>
+          <tr><td>准确性</td><td>拼写、大小写、标点基本正确</td><td>____ / 2</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="print-section">
+      <h2>十一、2018-2025 成都中考考点汇总</h2>
+      <ul class="print-list">
+        <li><strong>2018-2020：</strong>完成对话和短文填空中常考“校园/社区位置描述”。</li>
+        <li><strong>2020：</strong>物主代词与名词所有格辨析，常结合家庭成员或物品归属。</li>
+        <li><strong>2021-2023：</strong>阅读理解图片/地图定位题，常见 across from / near / in front of。</li>
+        <li><strong>2024-2025：</strong>There be 就近原则和写作综合表达仍是高频基础能力点。</li>
+      </ul>
+    </section>
+
+    <div class="print-footer">
+      <strong>结案签名：</strong>我能用英语说明“谁的物品在哪里”，并能在中考题中判断所有格、物主代词、There be 与方位介词。签名：____________
+    </div>
+  </section>
+
+  <script>
+    (function () {
+      "use strict";
+
+      var AZURE_KEY = "DKRXk8ueSfo5NdIOMqFRTCAfpeGDezJ3Snf5K8gGgtyqxiWdugLzJQQJ99BLACHYHv6XJ3w3AAAYACOGUYP9";
+      var AZURE_REGION = "eastus2";
+      var FINAL_TEXT = "Congratulations, Detective! You have mastered the magic of ownership and the logic of space!";
+      var BRANCHES = {
+        a: {
+          title: "Alchemy Pot",
+          speech: "For possessive nouns, add apostrophe s for one owner, and add only an apostrophe after plural s.",
+          text: "'s 与 ' 的炼金规则：一个人的东西加 's；复数已有 s，只在后面加 '。"
+        },
+        b: {
+          title: "Hero Cape",
+          speech: "Mine means my thing. Hers means her thing. If there is no noun after it, use a possessive pronoun.",
+          text: "物主代词披风公式：mine = my + noun；hers = her + noun。后面没名词，用超人形态。"
+        },
+        c: {
+          title: "Magnet",
+          speech: "In There be sentences, the verb follows the nearest noun. The first noun is the magnet.",
+          text: "There be 磁铁原则：be 动词听最近名词指挥，先看 There 后第一个名词。"
+        },
+        d: {
+          title: "Compass",
+          speech: "For position, find the reference object first, then choose the right preposition.",
+          text: "方位罗盘：先找参照物，再选方向词，最后把短语放进句子。"
+        }
+      };
+
+      function playFinalSpeech(text) {
+        if (!window.SpeechSDK) return Promise.resolve(false);
+        var ssml =
+          "<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xmlns:mstts='https://www.w3.org/2001/mstts' xml:lang='en-US'>" +
+          "<voice name='en-US-AriaNeural'><mstts:express-as style='cheerful' styledegree='1.7'>" +
+          escapeXml(text) +
+          "</mstts:express-as></voice></speak>";
+        return new Promise(function (resolve) {
+          var cfg = SpeechSDK.SpeechConfig.fromSubscription(AZURE_KEY, AZURE_REGION);
+          var synth = new SpeechSDK.SpeechSynthesizer(cfg);
+          synth.speakSsmlAsync(ssml, function () {
+            synth.close();
+            resolve(true);
+          }, function () {
+            synth.close();
+            resolve(false);
+          });
+        });
+      }
+
+      function escapeXml(s) {
+        return String(s || "")
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&apos;");
+      }
+
+      function growTree() {
+        if (!window.anime) return;
+        anime({ targets: ".tree-core", scale: [.45, 1], opacity: [0, 1], duration: 950, easing: "easeOutElastic(1,.65)" });
+        anime({ targets: ".branch-line", opacity: [0, 1], scaleX: [0, 1], delay: anime.stagger(180, { start: 420 }), duration: 760, easing: "easeOutQuad" });
+        anime({ targets: ".branch-card", opacity: [0, 1], scale: [.72, 1], delay: anime.stagger(190, { start: 760 }), duration: 720, easing: "easeOutBack" });
+      }
+
+      function selectBranch(key) {
+        var data = BRANCHES[key];
+        if (!data) return;
+        document.querySelectorAll(".branch-card").forEach(function (card) {
+          card.classList.toggle("active", card.dataset.branch === key);
+        });
+        var preview = document.getElementById("branchPreview");
+        preview.classList.add("show");
+        preview.innerHTML = "<strong>" + data.title + "</strong><br>" + data.text;
+        playFinalSpeech(data.speech).catch(function () {});
+        if (window.anime) anime({ targets: preview, scale: [.92, 1], opacity: [0, 1], duration: 360, easing: "easeOutBack" });
+      }
+
+      function launchConfetti() {
+        var canvas = document.getElementById("confettiCanvas");
+        var ctx = canvas.getContext("2d");
+        var dpr = window.devicePixelRatio || 1;
+        canvas.width = Math.floor(window.innerWidth * dpr);
+        canvas.height = Math.floor(window.innerHeight * dpr);
+        ctx.scale(dpr, dpr);
+        var colors = ["#ff7043", "#29b6f6", "#ffee58", "#66bb6a", "#ab47bc", "#ffd54f"];
+        var pieces = [];
+        for (var i = 0; i < 160; i++) {
+          pieces.push({
+            x: window.innerWidth / 2 + (Math.random() - .5) * 160,
+            y: window.innerHeight * .34,
+            vx: (Math.random() - .5) * 9,
+            vy: -7 - Math.random() * 8,
+            g: .16 + Math.random() * .08,
+            r: 4 + Math.random() * 5,
+            c: colors[i % colors.length],
+            rot: Math.random() * 360,
+            vr: -8 + Math.random() * 16
+          });
+        }
+        var frame = 0;
+        function tick() {
+          frame += 1;
+          ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+          pieces.forEach(function (p) {
+            p.x += p.vx;
+            p.y += p.vy;
+            p.vy += p.g;
+            p.rot += p.vr;
+            ctx.save();
+            ctx.translate(p.x, p.y);
+            ctx.rotate(p.rot * Math.PI / 180);
+            ctx.fillStyle = p.c;
+            ctx.fillRect(-p.r, -p.r / 2, p.r * 2, p.r);
+            ctx.restore();
+          });
+          if (frame < 220) requestAnimationFrame(tick);
+          else ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+        }
+        tick();
+      }
+
+      function finaleRitual() {
+        var badge = document.getElementById("finalBadge");
+        setTimeout(function () {
+          if (window.anime) {
+            anime({ targets: badge, opacity: [0, 1], scale: [.25, 1.15, 1], duration: 1200, easing: "easeOutElastic(1,.6)" });
+            anime({ targets: "#lesson06Card", opacity: [0, 1], translateY: [24, 0], delay: 1150, duration: 680, easing: "easeOutBack", begin: function () {
+              document.getElementById("lesson06Card").classList.add("show");
+            } });
+          } else {
+            badge.style.opacity = 1;
+            badge.style.transform = "scale(1)";
+            document.getElementById("lesson06Card").classList.add("show");
+          }
+          launchConfetti();
+          playFinalSpeech(FINAL_TEXT).catch(function () {});
+        }, 2000);
+      }
+
+      function init() {
+        growTree();
+        finaleRitual();
+        document.querySelectorAll(".branch-card").forEach(function (card) {
+          card.addEventListener("click", function () { selectBranch(card.dataset.branch); });
+        });
+        document.getElementById("printBtn").addEventListener("click", function () {
+          window.print();
+        });
+        var topPrint = document.getElementById("printBtnTop");
+        if (topPrint) {
+          topPrint.addEventListener("click", function () {
+            window.print();
+          });
+        }
+      }
+
+      init();
+    })();
+  </script>
+</body>
+</html>

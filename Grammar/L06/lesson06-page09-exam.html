@@ -1,0 +1,1074 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>第06讲 · Page 09 · 终极试炼场</title>
+  <!--
+    Vertex Imagen 3.0 Fast — 考场全局背景
+    A grand, brightly lit magical examination hall inside an ancient academy. Rows of neat wooden desks,
+    floating magical candles on the ceiling, hand-drawn crayon illustration style, no people, wide angle.
+
+    Vertex Imagen 3.0 Fast — 判分印章（可选）
+    A vintage glowing red wax seal stamp with the text GRADED or 100, crayon art style, transparent background.
+  -->
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
+  <script src="https://aka.ms/csspeech/jsbrowserpackageraw"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/lesson-screen-16x9.css" />
+  <style>
+    :root {
+      --paper: #fff9f0;
+      --paper-edge: #e8dcc8;
+      --ink: #3e2723;
+      --edge: #5d4037;
+      --wrong: #c62828;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    html,
+    body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      touch-action: manipulation;
+      color: var(--ink);
+      font-family: system-ui, "Microsoft YaHei", sans-serif;
+    }
+    body.has-lesson-pager {
+      --lesson-foot-h: 0px;
+      --lesson-pager-gap: 4.35rem;
+    }
+
+    .exam-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background:
+        linear-gradient(180deg, rgba(18, 12, 28, 0.45), rgba(28, 18, 36, 0.35)),
+        url("assets/vertex/l06-page09-exam-hall.png"),
+        linear-gradient(165deg, #2a2235 0%, #1a1422 50%, #252030 100%);
+      background-size: cover, cover, cover;
+      background-position: center;
+    }
+
+    .app-root {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      border: 6px solid rgba(255, 213, 79, 0.28);
+      border-radius: 255px 18px 235px 22px / 22px 235px 22px 255px;
+      overflow: hidden;
+    }
+
+    .top-strip {
+      flex-shrink: 0;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      margin: 8px min(2%, 12px) 0;
+      border: 5px solid var(--edge);
+      border-radius: 20px 14px 18px 14px;
+      background: linear-gradient(180deg, #fffef7, #ffe0b2);
+      color: #4e342e;
+    }
+    .top-strip h1 {
+      margin: 0;
+      font-family: "ZCOOL KuaiLe", sans-serif;
+      font-size: clamp(14px, 1.55vw, 22px);
+      color: #4a148c;
+      text-align: center;
+    }
+    .tag {
+      border: 3px solid #f0ad4e;
+      border-radius: 999px;
+      padding: 5px 10px;
+      font-weight: 900;
+      font-size: clamp(10px, 0.85vw, 13px);
+      background: linear-gradient(180deg, #fff8dc, #ffcc80);
+    }
+    .timer-chip {
+      border: 3px solid #9575cd;
+      border-radius: 999px;
+      padding: 5px 10px;
+      font-weight: 900;
+      font-size: clamp(10px, 0.82vw, 12px);
+      background: linear-gradient(180deg, #ede7f6, #d1c4e9);
+      white-space: nowrap;
+    }
+
+    /* 试题区单独放大 75%（约 175%）；顶栏与底部页导航不加 zoom */
+    .exam-scroll {
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 8px min(2%, 14px) calc(var(--lesson-pager-gap, 4.35rem) + 72px);
+      zoom: 1.75;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(141, 110, 99, 0.85) rgba(255, 249, 240, 0.35);
+    }
+    .exam-scroll::-webkit-scrollbar {
+      width: 11px;
+    }
+    .exam-scroll::-webkit-scrollbar-track {
+      background: rgba(40, 30, 45, 0.25);
+      border-radius: 999px;
+      border: 2px solid rgba(93, 64, 55, 0.25);
+    }
+    .exam-scroll::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, #d7ccc8, #a1887f);
+      border-radius: 999px;
+      border: 2px solid rgba(62, 39, 35, 0.35);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
+    }
+
+    .exam-stage {
+      transform-origin: 50% 35%;
+      max-width: min(960px, 96vw);
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .paper-col {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .section-banner {
+      margin: 6px 0 4px;
+      padding: 12px 16px;
+      border-radius: 16px 12px 18px 14px;
+      border: 5px solid rgba(93, 64, 55, 0.45);
+      font-family: "ZCOOL KuaiLe", sans-serif;
+      font-weight: 900;
+      font-size: clamp(14px, 1.35vw, 18px);
+      text-align: center;
+      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.18);
+    }
+    .section-banner.section-easy {
+      background: linear-gradient(175deg, #e8f5e9, #c8e6c9);
+      color: #1b5e20;
+    }
+    .section-banner.section-medium {
+      background: linear-gradient(175deg, #fff8e1, #ffecb3);
+      color: #e65100;
+    }
+    .section-banner.section-hard {
+      background: linear-gradient(175deg, #fce4ec, #f8bbd0);
+      color: #880e4f;
+    }
+
+    .diff-badge {
+      display: inline-block;
+      margin-left: 8px;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: clamp(10px, 0.78vw, 12px);
+      font-weight: 900;
+      vertical-align: middle;
+      border: 2px solid rgba(0, 0, 0, 0.08);
+    }
+    .diff-badge.diff-easy {
+      background: #c8e6c9;
+      color: #1b5e20;
+    }
+    .diff-badge.diff-medium {
+      background: #ffe082;
+      color: #e65100;
+    }
+    .diff-badge.diff-hard {
+      background: #f48fb1;
+      color: #4a148c;
+    }
+
+    .q-card {
+      border-radius: 18px 12px 20px 14px;
+      border: 5px solid rgba(93, 64, 55, 0.55);
+      padding: 14px 14px 12px;
+      background:
+        radial-gradient(ellipse 120% 90% at 50% 35%, rgba(255, 255, 255, 0.65), transparent 62%),
+        linear-gradient(165deg, var(--paper), #f5ebe0);
+      box-shadow:
+        4px 6px 0 rgba(62, 39, 35, 0.12),
+        8px 12px 24px rgba(0, 0, 0, 0.18),
+        inset 0 1px 0 rgba(255, 255, 255, 0.65);
+    }
+    .q-head {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+    }
+    .q-num {
+      font-family: "ZCOOL KuaiLe", sans-serif;
+      font-weight: 900;
+      color: #4a148c;
+      font-size: clamp(14px, 1.15vw, 18px);
+      min-width: 2em;
+    }
+    .q-num.warn-blink {
+      color: var(--wrong);
+      animation: blinkRed 0.55s ease-in-out infinite;
+    }
+    @keyframes blinkRed {
+      0%,
+      100% {
+        opacity: 1;
+        filter: drop-shadow(0 0 6px rgba(198, 40, 40, 0.65));
+      }
+      50% {
+        opacity: 0.55;
+      }
+    }
+    .q-stem {
+      font-family: "Patrick Hand", cursive;
+      font-size: clamp(14px, 1.25vw, 18px);
+      font-weight: 700;
+      line-height: 1.55;
+      flex: 1;
+    }
+    .speak-mini {
+      flex-shrink: 0;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 4px solid rgba(126, 87, 194, 0.55);
+      background: linear-gradient(180deg, #ede7f6, #fffef7);
+      cursor: pointer;
+      font-size: 18px;
+      line-height: 1;
+      display: grid;
+      place-items: center;
+    }
+    .speak-mini:hover {
+      transform: scale(1.06);
+    }
+    .speak-mini:active {
+      transform: scale(0.96);
+    }
+
+    .opts-row {
+      display: grid;
+      gap: 8px;
+    }
+    .opt-line {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 10px;
+      border-radius: 14px 10px 14px 12px;
+      border: 4px solid rgba(93, 64, 55, 0.35);
+      background: rgba(255, 253, 247, 0.92);
+      cursor: pointer;
+      font-family: "Patrick Hand", cursive;
+      font-size: clamp(13px, 1.12vw, 17px);
+      font-weight: 800;
+      text-align: left;
+      transition: background 0.15s ease, border-color 0.15s ease;
+    }
+    .opt-line:hover {
+      background: #fff3e0;
+    }
+    .opt-line.selected {
+      border-color: rgba(62, 39, 35, 0.85);
+      background: linear-gradient(180deg, #fffde7, #ffe0b2);
+      box-shadow: inset 0 0 0 1px rgba(62, 39, 35, 0.15);
+    }
+    .opt-letter {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 3px solid rgba(62, 39, 35, 0.55);
+      display: grid;
+      place-items: center;
+      font-weight: 1000;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+
+    .post-grade-box {
+      display: none;
+      margin-top: 12px;
+      padding: 12px 14px;
+      border-radius: 14px 12px 16px 14px;
+      border: 5px solid rgba(56, 142, 60, 0.42);
+      background: linear-gradient(175deg, rgba(232, 245, 233, 0.97), rgba(255, 253, 247, 0.98));
+      font-size: clamp(12px, 1.02vw, 14px);
+      line-height: 1.58;
+      color: #3e2723;
+    }
+    .q-card.graded .post-grade-box {
+      display: block;
+    }
+    .pg-head {
+      margin-bottom: 8px;
+      font-weight: 1000;
+      font-family: "ZCOOL KuaiLe", sans-serif;
+    }
+    .pg-ok {
+      color: #2e7d32;
+    }
+    .pg-bad {
+      color: #c62828;
+    }
+    .pg-line {
+      margin: 6px 0;
+      font-weight: 780;
+    }
+    .pg-block {
+      margin-top: 10px;
+      padding-top: 8px;
+      border-top: 2px dashed rgba(93, 64, 55, 0.22);
+    }
+    .pg-block strong {
+      display: block;
+      margin-bottom: 4px;
+      color: #4a148c;
+      font-size: clamp(12px, 1.05vw, 14px);
+    }
+    .pg-block p {
+      margin: 0;
+      font-weight: 760;
+    }
+    .pg-extend {
+      border-top-color: rgba(126, 87, 194, 0.28);
+    }
+
+    .submit-fab {
+      position: fixed;
+      right: max(16px, env(safe-area-inset-right));
+      bottom: calc(var(--lesson-pager-gap, 4.35rem) + 8px);
+      z-index: 60;
+      padding: 16px 28px;
+      border-radius: 999px;
+      border: 6px solid var(--edge);
+      font-family: "ZCOOL KuaiLe", sans-serif;
+      font-size: clamp(16px, 1.6vw, 22px);
+      font-weight: 900;
+      cursor: pointer;
+      color: #4e342e;
+      background: linear-gradient(180deg, #fff59d, #ffb74d);
+      box-shadow: 0 14px 36px rgba(0, 0, 0, 0.38);
+      transition: transform 0.15s ease, opacity 0.2s ease;
+    }
+    .submit-fab:hover:not(:disabled) {
+      transform: translateY(-3px) scale(1.02);
+    }
+    .submit-fab:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .grade-dim {
+      position: fixed;
+      inset: 0;
+      z-index: 70;
+      background: rgba(8, 4, 14, 0);
+      pointer-events: none;
+      transition: background 0.35s ease;
+    }
+    .grade-dim.on {
+      pointer-events: auto;
+      background: rgba(8, 4, 14, 0.72);
+    }
+
+    .stamp-layer {
+      position: fixed;
+      inset: 0;
+      z-index: 75;
+      display: grid;
+      place-items: center;
+      pointer-events: none;
+    }
+    .stamp-seal {
+      width: min(42vw, 220px);
+      height: min(42vw, 220px);
+      border-radius: 50%;
+      background:
+        url("assets/vertex/l06-page09-seal.png") center/contain no-repeat,
+        radial-gradient(circle at 40% 35%, #ffcdd2, #c62828 52%, #8b0000);
+      border: 8px solid rgba(90, 12, 12, 0.65);
+      box-shadow: 0 22px 50px rgba(0, 0, 0, 0.55), inset 0 2px 0 rgba(255, 255, 255, 0.22);
+      display: grid;
+      place-items: center;
+      font-family: Georgia, serif;
+      font-weight: 1000;
+      color: #fff8e7;
+      text-shadow: 0 3px 10px rgba(0, 0, 0, 0.45);
+      opacity: 0;
+      transform: translateY(-120vh) scale(0.4);
+    }
+    .stamp-seal .score-txt {
+      font-size: clamp(28px, 5vw, 44px);
+      text-align: center;
+      line-height: 1.15;
+    }
+
+    .ui-lock {
+      position: fixed;
+      inset: 0;
+      z-index: 90;
+      background: transparent;
+      display: none;
+    }
+    .ui-lock.show {
+      display: block;
+    }
+
+    .sr-only {
+      position: absolute !important;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+  </style>
+</head>
+<body class="has-lesson-pager">
+  <div class="exam-bg" aria-hidden="true"></div>
+
+  <main class="app-root" id="appRoot">
+    <header class="top-strip">
+      <span class="tag">第06讲 · P09</span>
+      <h1>终极试炼场 · Final Trial（全真模拟）</h1>
+      <span class="timer-chip" id="progressChip">作答 0 / 18</span>
+    </header>
+
+    <div class="exam-scroll" id="examScroll">
+      <div class="exam-stage" id="examStage">
+        <section class="paper-col" id="paperCol" aria-label="试卷题干区（分层练习）"></section>
+      </div>
+    </div>
+
+    <button type="button" class="submit-fab" id="submitBtn">交卷</button>
+
+    <div class="grade-dim" id="gradeDim" aria-hidden="true"></div>
+    <div class="stamp-layer" aria-hidden="true">
+      <div class="stamp-seal" id="stampSeal">
+        <div class="score-txt" id="stampScore"></div>
+      </div>
+    </div>
+
+    <div class="ui-lock" id="uiLock"></div>
+  </main>
+
+  <nav class="lesson-pager" aria-label="课程页导航">
+    <a class="pager-prev" href="lesson06-page08-escape.html">← 上一页 · Page 08</a>
+    <span class="pager-mid">L06 · Page 09 / 11</span>
+    <a class="pager-next" href="lesson06-page10-handout.html">下一页 · Page 10 →</a>
+  </nav>
+
+  <script>
+    (function () {
+      "use strict";
+
+      var AZURE_KEY = "DKRXk8ueSfo5NdIOMqFRTCAfpeGDezJ3Snf5K8gGgtyqxiWdugLzJQQJ99BLACHYHv6XJ3w3AAAYACOGUYP9";
+      var AZURE_REGION = "eastus2";
+
+      var LETTERS = ["A", "B", "C", "D"];
+
+      var SECTION_TITLES = {
+        easy: "第一部分 · 基础巩固（简单）",
+        medium: "第二部分 · 综合运用（中等）",
+        hard: "第三部分 · 冲刺拔高（较难）"
+      };
+
+      var DIFF_LABEL = {
+        easy: "简单",
+        medium: "中等",
+        hard: "较难"
+      };
+
+      var RAW_BANK = [
+        {
+          level: "easy",
+          stem: "_____ I use your dictionary for a minute? I forgot mine.",
+          opts: ["Can", "Must", "Should", "Will"],
+          ans: 0,
+          detailZh:
+            "向别人借东西、征求许可时常用 Can I...? / Could I...?。Must 多表示「必须」，语气偏强硬，不适合当面礼貌借物；Should 表建议对方怎样做，也不贴切。",
+          extendZh: "同类练习：Could I borrow your pen for just a second?"
+        },
+        {
+          level: "easy",
+          stem: "We _____ eat snacks in the science lab. It's dangerous.",
+          opts: ["mustn't", "don't have to", "can't", "needn't"],
+          ans: 0,
+          detailZh:
+            "实验室禁止饮食属于规章制度里的「严禁」，常用 mustn't / can't 表示禁止。Don't have to 表示「不必」，与「不许吃」相反。",
+          extendZh: "同类拓展：You mustn't run in the hospital corridors."
+        },
+        {
+          level: "easy",
+          stem: "Tomorrow is a day off. You _____ get up at six.",
+          opts: ["don't have to", "mustn't", "can't", "shouldn't"],
+          ans: 0,
+          detailZh: "放假不必早起 = 没有义务去做，用 don't have to。Mustn't 是禁止，不能表达「可以不」。",
+          extendZh: "同类拓展：On Sundays I don't have to wear my school uniform."
+        },
+        {
+          level: "easy",
+          stem: "My cousin is only five, but he _____ say the alphabet backwards!",
+          opts: ["can", "must", "should", "may"],
+          ans: 0,
+          detailZh: "描述具备某种能力「会做某事」用 can。Must 表义务，与「这么小却会……」的能力展示不符。",
+          extendZh: "同类拓展：She can swim across the pool though she's only six."
+        },
+        {
+          level: "easy",
+          stem: "Must I hand in the poster today? No, you _____. Monday is fine.",
+          opts: ["don't have to", "mustn't", "can't", "shouldn't"],
+          ans: 0,
+          detailZh:
+            "以 Must I...? 提问时，否定回答常用 don't have to / needn't，表示「不必」。Mustn't 表示禁止，用来回答 Must I 会造成语义错位。",
+          extendZh: "同类拓展：—Must I leave now? —No, you don't have to."
+        },
+        {
+          level: "easy",
+          stem: "_____ you wear sports shoes for PE class?",
+          opts: ["Do you have to", "Are you have to", "Must you to", "Have you to"],
+          ans: 0,
+          detailZh:
+            "询问客观规定「是不是不得不」，结构用 Do you have to...?。Are you have to / Must you to 均为错误句式。",
+          extendZh: "同类拓展：Does everyone have to bring a water bottle?"
+        },
+        {
+          level: "medium",
+          stem: "The bridge was closed yesterday, so we _____ take the long way home.",
+          opts: ["had to", "must", "have to", "musted"],
+          ans: 0,
+          detailZh: "must 没有过去式；过去「不得不」用 had to。Musted 为错误形式。",
+          extendZh: "同类拓展：My phone died, so I had to borrow hers to call home."
+        },
+        {
+          level: "medium",
+          stem: "It's Grandma's birthday—I _____ buy her flowers before noon.",
+          opts: ["must", "have to", "can", "may"],
+          ans: 0,
+          detailZh: "表达主观强烈意愿「我一定要……」常用 must；have to 更偏外界强加的义务，此处情感驱动选 must 更自然。",
+          extendZh: "同类拓展：I must call him today—it's been weeks."
+        },
+        {
+          level: "medium",
+          stem: "The traffic law says we _____ wear helmets when we ride e-bikes.",
+          opts: ["have to", "must", "can", "may"],
+          ans: 0,
+          detailZh: "法规条文常用 have to 强调客观约束（不得不服从）；本题语境与「法律写明」高度贴合。",
+          extendZh: "同类拓展：Drivers have to wear seat belts—it's the law."
+        },
+        {
+          level: "medium",
+          stem: "Whose notebook is this? It _____ be Lily's—look at the cartoon cat sticker.",
+          opts: ["must", "might", "can", "should"],
+          ans: 0,
+          detailZh: "有证据支持的肯定推测「一定是」用 must be / must + V。might 语气偏弱，与「贴纸证据」不匹配。",
+          extendZh: "同类拓展：The footprints are small—it must be a child's."
+        },
+        {
+          level: "medium",
+          stem: "That tall man _____ be our PE teacher. Our PE teacher is on sick leave.",
+          opts: ["can't", "mustn't", "shouldn't", "needn't"],
+          ans: 0,
+          detailZh: "依据事实否定推测「不可能是」，用 can't be。Mustn't 表禁止，不作否定推测。",
+          extendZh: "同类拓展：He can't be in two cities at the same time."
+        },
+        {
+          level: "medium",
+          stem: "The river looks calm but the sign says Danger—you _____ swim here.",
+          opts: ["mustn't", "don't have to", "can't", "may not"],
+          ans: 0,
+          detailZh: "警示「严禁下水」用 mustn't / can't 表禁止。Don't have to 表示不必，与警示含义相反。",
+          extendZh: "同类拓展：You mustn't climb over the fence."
+        },
+        {
+          level: "hard",
+          stem: "The living-room lights are off and the car is gone. My parents _____ be at home now.",
+          opts: ["can't", "must", "may", "should"],
+          ans: 0,
+          detailZh: "根据现象（灯灭、车不在）推断「不可能在家」，否定推测用 can't。Must be 与语境矛盾。",
+          extendZh: "同类拓展：The shop is closed—it can't be open at midnight."
+        },
+        {
+          level: "hard",
+          stem: "You've slept ten hours—you _____ still feel sleepy!",
+          opts: ["can't", "mustn't", "shouldn't", "needn't"],
+          ans: 0,
+          detailZh: "常理推断「睡了十小时按理不可能仍困」，否定推测用 can't。语气可带轻微责备或调侃。",
+          extendZh: "同类拓展：You can't be serious—that's impossible!"
+        },
+        {
+          level: "hard",
+          stem: "I took an umbrella, but in the end I _____ use it—the sky cleared.",
+          opts: ["didn't have to", "mustn't", "can't", "shouldn't"],
+          ans: 0,
+          detailZh: "「带了伞但最终没用上」＝事实上不必使用，用 didn't have to。Mustn't 表禁止，不适用。",
+          extendZh: "同类拓展：We didn't have to pay—the museum was free that day."
+        },
+        {
+          level: "hard",
+          stem: "The homework looks difficult, but it _____ be easier than we think—let's try first.",
+          opts: ["may", "must", "can't", "should"],
+          ans: 0,
+          detailZh: "表示不确定的「也许、可能」用 may / might / could。Must 表把握过大的肯定推测，与 let's try 不符。",
+          extendZh: "同类拓展：It may rain later, so take an umbrella."
+        },
+        {
+          level: "hard",
+          stem: "You _____ forget your passport—without it you can't board the plane.",
+          opts: ["mustn't", "don't have to", "can't", "needn't"],
+          ans: 0,
+          detailZh: "严重后果情形强调「绝对不能忘」，用 mustn't forget。Don't have to forget 语义不通。",
+          extendZh: "同类拓展：You mustn't tell anyone—it's a secret."
+        },
+        {
+          level: "hard",
+          stem: "I'm not sure—_____ I leave my bag here for a moment?",
+          opts: ["Could", "Must", "Should", "Need"],
+          ans: 0,
+          detailZh: "委婉征求许可可用 Could I...? / Can I...?。Must I 变成「我必须吗」，语气不符。",
+          extendZh: "同类拓展：Could I ask you something personal?"
+        }
+      ];
+
+      var exam = [];
+      var answers = [];
+      var graded = false;
+      var score = 0;
+
+      var paperCol = document.getElementById("paperCol");
+      var submitBtn = document.getElementById("submitBtn");
+      var uiLock = document.getElementById("uiLock");
+      var gradeDim = document.getElementById("gradeDim");
+      var stampSeal = document.getElementById("stampSeal");
+      var stampScore = document.getElementById("stampScore");
+      var progressChip = document.getElementById("progressChip");
+
+      function setBusy(on) {
+        uiLock.classList.toggle("show", on);
+      }
+
+      function shuffleArr(arr) {
+        var a = arr.slice();
+        for (var i = a.length - 1; i > 0; i--) {
+          var j = Math.floor(Math.random() * (i + 1));
+          var t = a[i];
+          a[i] = a[j];
+          a[j] = t;
+        }
+        return a;
+      }
+
+      function shuffleQuestion(q) {
+        var pairs = q.opts.map(function (text, i) {
+          return { text: text, orig: i };
+        });
+        var shuffled = shuffleArr(pairs);
+        var newAns = -1;
+        for (var k = 0; k < shuffled.length; k++) {
+          if (shuffled[k].orig === q.ans) {
+            newAns = k;
+            break;
+          }
+        }
+        return {
+          level: q.level,
+          stem: q.stem,
+          opts: shuffled.map(function (p) {
+            return p.text;
+          }),
+          ans: newAns >= 0 ? newAns : q.ans,
+          detailZh: q.detailZh,
+          extendZh: q.extendZh
+        };
+      }
+
+      function buildExam() {
+        exam = RAW_BANK.map(shuffleQuestion);
+        answers = exam.map(function () {
+          return null;
+        });
+      }
+
+      function playRustle() {
+        try {
+          var AC = window.AudioContext || window.webkitAudioContext;
+          if (!AC) return;
+          var ctx = new AC();
+          var len = Math.floor(ctx.sampleRate * 0.075);
+          var buf = ctx.createBuffer(1, len, ctx.sampleRate);
+          var data = buf.getChannelData(0);
+          for (var i = 0; i < len; i++) {
+            data[i] = (Math.random() * 2 - 1) * 0.2;
+          }
+          var src = ctx.createBufferSource();
+          src.buffer = buf;
+          var lp = ctx.createBiquadFilter();
+          lp.type = "lowpass";
+          lp.frequency.value = 900;
+          var g = ctx.createGain();
+          g.gain.value = 0.35;
+          src.connect(lp);
+          lp.connect(g);
+          g.connect(ctx.destination);
+          src.start();
+          src.onended = function () {
+            try {
+              ctx.close();
+            } catch (e) {}
+          };
+        } catch (e) {}
+      }
+
+      function speakOpening() {
+        if (!window.SpeechSDK) return Promise.resolve();
+        return new Promise(function (resolve) {
+          try {
+            var cfg = SpeechSDK.SpeechConfig.fromSubscription(AZURE_KEY, AZURE_REGION);
+            cfg.speechSynthesisVoiceName = "en-US-ChristopherNeural";
+            var syn = new SpeechSDK.SpeechSynthesizer(cfg);
+            var line = "Detectives, silence please. The final trial begins now.";
+            var safe = line.replace(/&/g, "&amp;").replace(/</g, "&lt;");
+            var ssml =
+              '<speak version="1.0" xmlns="http://www.w3.org/2001/synthesis" xmlns:mstts="http://www.w3.org/2001/mstts" xml:lang="en-US">' +
+              '<voice name="en-US-ChristopherNeural">' +
+              '<mstts:express-as style="serious"><prosody rate="-3%">' +
+              safe +
+              "</prosody></mstts:express-as></voice></speak>";
+            syn.speakSsmlAsync(
+              ssml,
+              function () {
+                syn.close();
+                resolve();
+              },
+              function () {
+                syn.close();
+                resolve();
+              }
+            );
+          } catch (e) {
+            resolve();
+          }
+        });
+      }
+
+      function speakStem(idx) {
+        if (!window.SpeechSDK) return Promise.resolve();
+        var q = exam[idx];
+        if (!q) return Promise.resolve();
+        return new Promise(function (resolve) {
+          try {
+            var cfg = SpeechSDK.SpeechConfig.fromSubscription(AZURE_KEY, AZURE_REGION);
+            cfg.speechSynthesisVoiceName = "en-US-AriaNeural";
+            var syn = new SpeechSDK.SpeechSynthesizer(cfg);
+            var text = q.stem.replace(/_____/g, "blank");
+            var safe = text.replace(/&/g, "&amp;").replace(/</g, "&lt;");
+            var ssml =
+              '<speak version="1.0" xmlns="http://www.w3.org/2001/synthesis" xml:lang="en-US">' +
+              '<voice name="en-US-AriaNeural"><prosody rate="-2%">' +
+              safe +
+              "</prosody></voice></speak>";
+            syn.speakSsmlAsync(
+              ssml,
+              function () {
+                syn.close();
+                resolve();
+              },
+              function () {
+                syn.close();
+                resolve();
+              }
+            );
+          } catch (e) {
+            resolve();
+          }
+        });
+      }
+
+      function escapeHtml(s) {
+        return String(s)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/"/g, "&quot;");
+      }
+
+      function buildPostGradeHtml(qi) {
+        var q = exam[qi];
+        var ok = answers[qi] === q.ans;
+        var ca = LETTERS[q.ans];
+        var ct = q.opts[q.ans];
+        var pa = answers[qi] !== null && answers[qi] !== undefined ? LETTERS[answers[qi]] : "—";
+        var pt = answers[qi] !== null && answers[qi] !== undefined ? q.opts[answers[qi]] : "—";
+        return (
+          '<div class="pg-head">' +
+          (ok ? '<span class="pg-ok">✓ 回答正确</span>' : '<span class="pg-bad">✗ 回答错误</span>') +
+          "</div>" +
+          '<p class="pg-line"><strong>正确答案：</strong>' +
+          ca +
+          ". " +
+          escapeHtml(ct) +
+          "</p>" +
+          (ok
+            ? ""
+            : '<p class="pg-line"><strong>你的作答：</strong>' + pa + ". " + escapeHtml(pt) + "</p>") +
+          '<div class="pg-block"><strong>详细解析</strong><p>' +
+          escapeHtml(q.detailZh) +
+          "</p></div>" +
+          '<div class="pg-block pg-extend"><strong>同类拓展</strong><p>' +
+          escapeHtml(q.extendZh) +
+          "</p></div>"
+        );
+      }
+
+      function revealAllExplanations() {
+        for (var qi = 0; qi < totalQ(); qi++) {
+          var card = document.getElementById("card-" + qi);
+          var box = document.getElementById("post-grade-" + qi);
+          if (box) {
+            box.innerHTML = buildPostGradeHtml(qi);
+          }
+          if (card) {
+            card.classList.add("graded");
+          }
+        }
+      }
+
+      function totalQ() {
+        return exam.length;
+      }
+
+      function updateProgress() {
+        var n = answers.filter(function (a) {
+          return a !== null && a !== undefined;
+        }).length;
+        progressChip.textContent = "作答 " + n + " / " + totalQ();
+      }
+
+      function selectOption(qIdx, optIdx) {
+        if (graded) return;
+        answers[qIdx] = optIdx;
+        playRustle();
+
+        var card = document.getElementById("card-" + qIdx);
+        if (card) {
+          card.querySelectorAll(".opt-line").forEach(function (el, i) {
+            el.classList.toggle("selected", i === optIdx);
+          });
+        }
+        updateProgress();
+      }
+
+      function diffClass(level) {
+        if (level === "easy") return "diff-easy";
+        if (level === "hard") return "diff-hard";
+        return "diff-medium";
+      }
+
+      function render() {
+        paperCol.innerHTML = "";
+
+        exam.forEach(function (q, qi) {
+          if (qi === 0 || q.level !== exam[qi - 1].level) {
+            var ban = document.createElement("div");
+            ban.className = "section-banner section-" + q.level;
+            ban.textContent = SECTION_TITLES[q.level] || "";
+            paperCol.appendChild(ban);
+          }
+
+          var card = document.createElement("article");
+          card.className = "q-card";
+          card.id = "card-" + qi;
+          card.innerHTML =
+            '<div class="q-head">' +
+            '<span class="q-num" id="num-' +
+            qi +
+            '">第 ' +
+            (qi + 1) +
+            ' 题</span>' +
+            '<span class="diff-badge ' +
+            diffClass(q.level) +
+            '">' +
+            (DIFF_LABEL[q.level] || "") +
+            "</span>" +
+            '<div style="flex:1">' +
+            '<div class="q-stem" id="stem-' +
+            qi +
+            '">' +
+            q.stem +
+            "</div>" +
+            "</div>" +
+            '<button type="button" class="speak-mini" data-qi="' +
+            qi +
+            '" aria-label="朗读题干">🔊</button>' +
+            "</div>" +
+            '<div class="opts-row" id="opts-' +
+            qi +
+            '"></div>' +
+            '<div class="post-grade-box" id="post-grade-' +
+            qi +
+            '"></div>';
+
+          var optsRow = card.querySelector("#opts-" + qi);
+          q.opts.forEach(function (optText, oi) {
+            var btn = document.createElement("button");
+            btn.type = "button";
+            btn.className = "opt-line";
+            btn.innerHTML =
+              '<span class="opt-letter">' +
+              LETTERS[oi] +
+              '</span><span class="opt-txt">' +
+              optText +
+              "</span>";
+            btn.addEventListener("click", function () {
+              selectOption(qi, oi);
+            });
+            optsRow.appendChild(btn);
+          });
+
+          card.querySelector(".speak-mini").addEventListener("click", function () {
+            speakStem(+this.getAttribute("data-qi"));
+          });
+
+          paperCol.appendChild(card);
+        });
+      }
+
+      function computeScore() {
+        var s = 0;
+        var t = totalQ();
+        for (var i = 0; i < t; i++) {
+          if (answers[i] === exam[i].ans) s++;
+        }
+        return s;
+      }
+
+      function wrongIndices() {
+        var w = [];
+        var t = totalQ();
+        for (var i = 0; i < t; i++) {
+          if (answers[i] !== exam[i].ans) w.push(i);
+        }
+        return w;
+      }
+
+      function runSubmitAnimationThenGrade() {
+        setBusy(true);
+        submitBtn.disabled = true;
+        gradeDim.classList.add("on");
+
+        var paper = document.getElementById("paperCol");
+
+        var tl = anime.timeline({
+          easing: "easeInOutQuad",
+          complete: function () {
+            score = computeScore();
+            var tq = totalQ();
+            stampScore.innerHTML = score + " / " + tq + '<br/><span style="font-size:55%">GRADED</span>';
+
+            anime({
+              targets: stampSeal,
+              opacity: [0, 1],
+              translateY: [-420, 0],
+              scale: [0.35, 1],
+              duration: 950,
+              easing: "easeOutElastic(1, .58)",
+              complete: function () {
+                anime({
+                  targets: "#appRoot",
+                  translateX: [6, -6, 5, -4, 0],
+                  duration: 420,
+                  easing: "easeOutQuad",
+                  complete: function () {
+                    if (typeof anime.set === "function") anime.set("#appRoot", { translateX: 0 });
+                  }
+                });
+                setTimeout(function () {
+                  anime({
+                    targets: stampSeal,
+                    opacity: 0,
+                    scale: 0.4,
+                    duration: 380,
+                    easing: "easeInQuad",
+                    complete: function () {
+                      stampSeal.style.opacity = 0;
+                      stampSeal.style.transform = "none";
+                      gradeDim.classList.remove("on");
+                      finalizeGradeUi();
+                    }
+                  });
+                }, 520);
+              }
+            });
+          }
+        });
+
+        tl.add({
+          targets: paper,
+          translateY: ["0%", "1.5%"],
+          scale: [1, 0.96],
+          duration: 700
+        });
+      }
+
+      function finalizeGradeUi() {
+        graded = true;
+        var wrong = wrongIndices();
+        wrong.forEach(function (qi) {
+          var num = document.getElementById("num-" + qi);
+          if (num) num.classList.add("warn-blink");
+        });
+
+        revealAllExplanations();
+
+        anime({
+          targets: paperCol,
+          translateY: 0,
+          scale: 1,
+          duration: 500,
+          easing: "easeOutQuad"
+        });
+
+        submitBtn.disabled = false;
+        submitBtn.textContent = "已交卷";
+        setBusy(false);
+        var tq = totalQ();
+        progressChip.textContent =
+          "得分 " + score + " / " + tq + " · 下方每题含解析与同类拓展 · 可用底栏前往下一页";
+      }
+
+      submitBtn.addEventListener("click", function () {
+        if (graded) return;
+        var incomplete = answers.some(function (a) {
+          return a === null || a === undefined;
+        });
+        if (incomplete) {
+          alert("还有题目未作答，请完成全部 " + totalQ() + " 道题后再交卷。");
+          return;
+        }
+        runSubmitAnimationThenGrade();
+      });
+
+      buildExam();
+      render();
+      updateProgress();
+      speakOpening();
+    })();
+  </script>
+</body>
+</html>
