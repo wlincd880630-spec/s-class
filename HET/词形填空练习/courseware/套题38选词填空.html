@@ -1,0 +1,1927 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>短文填空 · 套题 38｜2022 年武侯区二诊 · 词形课件</title>
+  <style>
+    :root {
+      --ng-bg0: #0c0b09;
+      --ng-gold: #c9a24d;
+      --ng-gold-dim: #8a7035;
+      --ng-cream: #ebe4d6;
+      --ng-muted: #a89f8f;
+      --ng-card: rgba(28, 24, 20, 0.92);
+      --ng-line: rgba(201, 162, 77, 0.35);
+      --ng-accent: #4a7c7c;
+      --ok: #66c38a;
+      --bad: #e28585;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      height: 100%;
+      margin: 0;
+      background: var(--ng-bg0);
+      color: var(--ng-cream);
+      font-family: "Source Sans 3", "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    .app {
+      min-height: 100%;
+      display: flex;
+      flex-direction: row;
+      align-items: stretch;
+      justify-content: center;
+      padding: 12px;
+      background:
+        radial-gradient(1200px 600px at 20% -10%, rgba(201, 162, 77, 0.12), transparent 55%),
+        radial-gradient(900px 500px at 110% 30%, rgba(74, 124, 124, 0.12), transparent 50%),
+        var(--ng-bg0);
+      gap: 0;
+    }
+    .course-nav {
+      display: flex;
+      flex-direction: row;
+      align-items: stretch;
+      flex-shrink: 0;
+      width: min(230px, 30vw);
+      max-height: min(96vh, calc(100vh - 24px));
+      align-self: center;
+      border: 1px solid var(--ng-line);
+      border-radius: 4px;
+      background: rgba(20, 17, 14, 0.94);
+      overflow: hidden;
+      transition: width .22s ease;
+    }
+    .course-nav.is-collapsed { width: 40px; }
+    .course-nav-edge {
+      flex-shrink: 0;
+      width: 40px;
+      border: none;
+      border-right: 1px solid var(--ng-line);
+      background: rgba(28, 24, 20, 0.95);
+      color: var(--ng-gold);
+      font-size: 18px;
+      cursor: pointer;
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      letter-spacing: .15em;
+      font-weight: 700;
+      padding: 8px 0;
+    }
+    .course-nav-edge:hover { background: rgba(201, 162, 77, 0.12); }
+    .course-nav-panel {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .course-nav.is-collapsed .course-nav-panel { display: none; }
+    .course-nav-heading {
+      margin: 0;
+      padding: 10px 12px 6px;
+      font-size: clamp(11px, 1vw, 13px);
+      color: var(--ng-muted);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      border-bottom: 1px solid rgba(201, 162, 77, 0.2);
+    }
+    .course-nav-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 8px 6px 12px;
+    }
+    .course-nav-scroll::-webkit-scrollbar { width: 5px; }
+    .course-nav-scroll::-webkit-scrollbar-thumb {
+      background: rgba(201, 162, 77, .35);
+      border-radius: 99px;
+    }
+    .course-nav-h {
+      font-size: clamp(11px, .95vw, 13px);
+      color: var(--ng-accent);
+      font-weight: 700;
+      margin: 0 6px 6px;
+      padding-bottom: 4px;
+      border-bottom: 1px dashed rgba(74, 124, 124, .45);
+    }
+    .course-nav-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .course-nav-list li { margin: 0; }
+    button.nav-vocab-link {
+      display: block;
+      width: 100%;
+      text-align: left;
+      margin: 0 0 3px;
+      padding: 7px 10px;
+      font: inherit;
+      font-size: clamp(12px, 1.05vw, 15px);
+      color: #e8dfd0;
+      background: rgba(0, 0, 0, .2);
+      border: 1px solid transparent;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button.nav-vocab-link:hover {
+      border-color: rgba(201, 162, 77, .35);
+      background: rgba(201, 162, 77, .08);
+    }
+    button.nav-vocab-link.is-active {
+      color: var(--ng-gold);
+      border-color: rgba(201, 162, 77, .55);
+      background: rgba(201, 162, 77, .12);
+      font-weight: 700;
+    }
+    .deck-stage {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .deck-shell {
+      width: min(100vw - 24px, calc((100vh - 24px) * 16 / 9));
+      height: min(100vh - 24px, calc((100vw - 24px) * 9 / 16));
+      aspect-ratio: 16 / 9;
+      border: 1px solid var(--ng-line);
+      border-radius: 4px;
+      overflow: hidden;
+      background: linear-gradient(168deg, #14110e 0%, #1f1a15 38%, #0b0a08 100%);
+      box-shadow: 0 0 0 3px rgba(201, 162, 77, .15), 0 28px 90px rgba(0, 0, 0, .65);
+    }
+    .deck {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      padding: clamp(14px, 1.6vw, 28px) clamp(18px, 2.2vw, 36px);
+    }
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-shrink: 0;
+      border-bottom: 1px solid var(--ng-line);
+      padding-bottom: 10px;
+      margin-bottom: 10px;
+    }
+    .brand {
+      font-size: clamp(14px, 1.35vw, 20px);
+      color: var(--ng-gold);
+      letter-spacing: .04em;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    .progress {
+      font-size: clamp(12px, 1.1vw, 15px);
+      color: var(--ng-muted);
+    }
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+    select, button {
+      font: inherit;
+      border-radius: 3px;
+    }
+    select {
+      background: var(--ng-card);
+      color: var(--ng-cream);
+      border: 1px solid var(--ng-line);
+      padding: 6px 10px;
+      font-size: clamp(11px, 1vw, 14px);
+    }
+    button.nav {
+      background: linear-gradient(180deg, #2a241c, #1a1612);
+      color: var(--ng-cream);
+      border: 1px solid var(--ng-gold-dim);
+      padding: 7px 14px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    button.nav:hover { border-color: var(--ng-gold); color: #fff; }
+    button.nav:disabled { opacity: .35; cursor: not-allowed; }
+    .slide-body {
+      flex: 1;
+      min-height: 0;
+      overflow: auto;
+      padding: 8px 6px 12px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .slide-body::-webkit-scrollbar { width: 6px; }
+    .slide-body::-webkit-scrollbar-thumb {
+      background: rgba(201, 162, 77, .35);
+      border-radius: 99px;
+    }
+    .slide-body-inner {
+      width: calc(100% / 1.75);
+      max-width: calc(100% / 1.75);
+      transform: scale(1.75);
+      transform-origin: center center;
+      box-sizing: border-box;
+      flex: 0 0 auto;
+    }
+    h1.slide-title {
+      font-size: clamp(22px, 2.6vw, 40px);
+      margin: 0 0 10px;
+      line-height: 1.15;
+      color: #f3ead8;
+    }
+    h2.slide-h2 {
+      font-size: clamp(18px, 2vw, 30px);
+      margin: 0 0 8px;
+      color: var(--ng-gold);
+    }
+    p, li {
+      font-size: clamp(14px, 1.25vw, 20px);
+      line-height: 1.45;
+      margin: 0 0 10px;
+      color: #e8dfd0;
+    }
+    .tag {
+      display: inline-block;
+      font-size: clamp(11px, .95vw, 14px);
+      padding: 3px 10px;
+      border: 1px solid var(--ng-line);
+      color: var(--ng-gold);
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .card {
+      background: var(--ng-card);
+      border: 1px solid var(--ng-line);
+      border-radius: 6px;
+      padding: clamp(10px, 1.1vw, 16px);
+      margin-bottom: 10px;
+    }
+    .card h3 {
+      margin: 0 0 6px;
+      font-size: clamp(15px, 1.35vw, 22px);
+      color: #fff;
+    }
+    .mono {
+      font-family: ui-monospace, Consolas, monospace;
+      font-size: .95em;
+      color: #cfe8e4;
+    }
+    .sense {
+      font-size: clamp(13px, 1.15vw, 18px);
+      color: #d7cfc2;
+      border-left: 3px solid var(--ng-accent);
+      padding-left: 12px;
+      margin: 8px 0 12px;
+    }
+    .row-audio {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      margin: 8px 0;
+    }
+    button.tts {
+      background: rgba(74, 124, 124, .25);
+      border: 1px solid rgba(74, 124, 124, .65);
+      color: #dff5f3;
+      padding: 6px 12px;
+      cursor: pointer;
+      font-size: clamp(12px, 1.05vw, 16px);
+    }
+    button.tts:hover { background: rgba(74, 124, 124, .4); }
+    button.tts:disabled { opacity: .5; cursor: wait; }
+    .hidden-reveal {
+      display: none;
+      margin-top: 6px;
+      padding: 10px;
+      background: rgba(0,0,0,.25);
+      border-radius: 4px;
+      border: 1px dashed rgba(201, 162, 77, .35);
+    }
+    .hidden-reveal.show { display: block; }
+    .spell-zone {
+      display: inline-block;
+      min-width: min(96%, 520px);
+      padding: 12px 14px;
+      margin: 10px 0;
+      border: 1px dashed var(--ng-line);
+      border-radius: 6px;
+      cursor: pointer;
+      background: rgba(0,0,0,.2);
+      user-select: none;
+    }
+    .spell-zone:focus { outline: 2px solid var(--ng-gold); outline-offset: 2px; }
+    .letter-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px 6px;
+      justify-content: center;
+      min-height: 2.2em;
+    }
+    .letter-chip {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 1.15em;
+      font-family: ui-monospace, Consolas, monospace;
+      font-size: clamp(17px, 1.9vw, 28px);
+      font-weight: 700;
+      padding: 2px 4px;
+      border-radius: 3px;
+    }
+    .letter-chip.blind { color: #5c574e; background: rgba(255,255,255,.04); }
+    .letter-chip.shown { color: var(--ng-gold); background: rgba(201,162,77,.12); }
+    .usage-strip {
+      margin-top: 10px;
+      padding: 10px 12px;
+      border: 1px dashed var(--ng-line);
+      border-radius: 6px;
+      cursor: pointer;
+      background: rgba(0,0,0,.15);
+    }
+    .usage-strip:focus { outline: 2px solid var(--ng-gold); outline-offset: 2px; }
+    .usage-strip.is-revealed {
+      border-style: solid;
+      border-color: rgba(201, 162, 77, .4);
+      background: rgba(0,0,0,.22);
+    }
+    .usage-strip-hint {
+      margin: 0;
+      font-size: clamp(12px, 1.05vw, 16px);
+      color: var(--ng-muted);
+      line-height: 1.4;
+    }
+    .usage-strip.is-revealed .usage-strip-hint { display: none; }
+    .usage-sentence-zh-persistent {
+      margin: 8px 0 0;
+      font-size: clamp(13px, 1.1vw, 17px);
+      color: #c8bba8;
+      line-height: 1.55;
+      padding: 8px 10px;
+      background: rgba(0, 0, 0, .2);
+      border-radius: 4px;
+      border-left: 3px solid rgba(201, 162, 77, .45);
+    }
+    .exam-sentence-zh {
+      margin: 10px 0 0;
+      font-size: clamp(13px, 1.1vw, 17px);
+      color: #c8bba8;
+      line-height: 1.55;
+    }
+    .exam-blank-card {
+      margin-top: 10px;
+      padding: 10px 12px;
+      border: 1px dashed var(--ng-line);
+      border-radius: 6px;
+      background: rgba(0,0,0,.15);
+      line-height: 1.65;
+      font-size: clamp(14px, 1.15vw, 18px);
+    }
+    .exam-blank {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 0;
+      cursor: pointer;
+      color: var(--ng-gold);
+      border-bottom: 2px solid rgba(201, 162, 77, .72);
+      padding: 0 2px;
+      user-select: none;
+    }
+    .exam-blank:focus {
+      outline: 2px solid var(--ng-gold);
+      outline-offset: 2px;
+      border-radius: 3px;
+    }
+    .exam-blank-mask { letter-spacing: .04em; }
+    .exam-blank-ans { display: none; font-weight: 700; }
+    .exam-blank.is-revealed .exam-blank-mask { display: none; }
+    .exam-blank.is-revealed .exam-blank-ans { display: inline; }
+    details.card.grammar-induct-details {
+      margin-top: 12px;
+      border-left: 3px solid var(--ng-accent);
+      background: rgba(74, 124, 124, .08);
+    }
+    .grammar-induct-summary {
+      list-style: none;
+      cursor: pointer;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 6px 14px;
+      user-select: none;
+    }
+    .grammar-induct-summary::-webkit-details-marker { display: none; }
+    .grammar-induct-summary::marker { content: ""; }
+    .grammar-induct-summary .grammar-induct-title {
+      margin: 0;
+      font-size: clamp(14px,1.2vw,18px);
+      color: var(--ng-gold);
+      font-weight: 700;
+    }
+    .grammar-induct-hint { font-size: clamp(11px,.95vw,14px); color: #8ebdb8; }
+    .grammar-induct-hint-open { display: none; }
+    details[open].grammar-induct-details > .grammar-induct-summary .grammar-induct-hint-closed { display: none; }
+    details[open].grammar-induct-details > .grammar-induct-summary .grammar-induct-hint-open { display: inline; }
+    .grammar-induct-inner {
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(201, 162, 77, .2);
+    }
+    .passage {
+      font-size: clamp(13px,1.15vw,18px);
+      line-height: 1.5;
+      color: #efe6d8;
+    }
+    .passage .blank {
+      display: inline-block;
+      min-width: 2.8em;
+      border-bottom: 2px solid var(--ng-gold);
+      margin: 0 2px;
+      text-align: center;
+      color: var(--ng-gold);
+      font-weight: 700;
+      font-family: ui-monospace, Consolas, monospace;
+    }
+    .bank {
+      font-size: clamp(12px,1.05vw,16px);
+      color: var(--ng-muted);
+      margin-top: 8px;
+    }
+    .practice-input {
+      width: 7.2em;
+      border: none;
+      border-bottom: 2px solid var(--ng-gold);
+      background: transparent;
+      color: #fff;
+      text-align: center;
+      font: inherit;
+      font-family: ui-monospace, Consolas, monospace;
+      outline: none;
+      margin: 0 2px;
+    }
+    .practice-input::placeholder { color: #7f7566; }
+    .score {
+      font-size: clamp(12px, 1vw, 15px);
+      color: var(--ng-muted);
+      margin-top: 4px;
+    }
+    .score .ok { color: var(--ok); font-weight: 700; }
+    .score .bad { color: var(--bad); font-weight: 700; }
+    .toast {
+      position: absolute;
+      left: 50%;
+      bottom: 14px;
+      transform: translateX(-50%);
+      background: rgba(180, 40, 40, .92);
+      color: #fff;
+      padding: 8px 14px;
+      border-radius: 4px;
+      font-size: 14px;
+      display: none;
+      max-width: 92%;
+      text-align: center;
+      z-index: 20;
+    }
+    .toast.show { display: block; }
+    .footnote {
+      font-size: clamp(11px,.95vw,14px);
+      color: var(--ng-muted);
+      margin-top: 8px;
+    }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    @media (max-width: 720px) {
+      .app { flex-direction: column; align-items: stretch; }
+      .course-nav {
+        width: 100% !important;
+        max-height: min(220px, 32vh);
+        align-self: stretch;
+      }
+      .course-nav.is-collapsed { width: 100% !important; max-height: 48px; }
+      .course-nav-edge {
+        writing-mode: horizontal-tb;
+        width: auto;
+        min-width: 72px;
+        padding: 10px 12px;
+      }
+      .grid-2 { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="course-nav" id="courseNav" aria-label="词汇目录">
+      <button type="button" class="course-nav-edge" id="navToggle" aria-expanded="true" aria-controls="courseNavPanel" title="折叠/展开目录">目录</button>
+      <div class="course-nav-panel" id="courseNavPanel">
+        <p class="course-nav-heading">词汇流 · 点击跳转 Step1</p>
+        <div class="course-nav-scroll" id="courseNavScroll"></div>
+      </div>
+    </aside>
+
+    <div class="deck-stage">
+      <div class="deck-shell">
+        <div class="deck">
+          <div class="topbar">
+            <div class="brand">Word Forms Lab · Cloze</div>
+            <div class="progress" id="progress">—</div>
+            <div class="controls">
+              <span id="ttsBadge" class="footnote" style="margin-right:6px;max-width:min(42vw,220px);line-height:1.25;"></span>
+              <label class="footnote" style="margin:0;display:flex;align-items:center;gap:6px;">
+                朗读声音
+                <select id="voiceSel" aria-label="朗读声音">
+                  <option value="en-US-AvaNeural" selected>Ava（美）</option>
+                  <option value="en-US-JennyNeural">Jenny（美）</option>
+                  <option value="en-US-GuyNeural">Guy（美）</option>
+                  <option value="en-GB-SoniaNeural">Sonia（英）</option>
+                </select>
+              </label>
+              <button type="button" class="nav" id="prevBtn">上一页</button>
+              <button type="button" class="nav" id="nextBtn">下一页</button>
+            </div>
+          </div>
+          <div class="slide-body" id="slideRoot"></div>
+          <div class="toast" id="toast" role="status"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const AZURE_SPEECH_KEY =
+      "DKRXk8ueSfo5NdIOMqFRTCAfpeGDezJ3Snf5K8gGgtyqxiWdugLzJQQJ99BLACHYHv6XJ3w3AAAYACOGUYP9";
+    const AZURE_SPEECH_REGION = "eastus2";
+    const AZURE_TTS_PROSODY_RATE = "-15%";
+    const audioCache = new Map();
+    let currentTtsAudio = null;
+    const HET_CLOZE_ASSETS_BASE = "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/HET/词形填空练习/courseware/Assets/";
+    let __hetManifestMap = null;
+    function __hetNorm(s) {
+      return String(s || "").replace(/\s+/g, " ").trim();
+    }
+    async function __hetEnsureManifest() {
+      if (__hetManifestMap) return __hetManifestMap;
+      const res = await fetch(HET_CLOZE_ASSETS_BASE + "manifest.json", { cache: "force-cache" });
+      if (!res.ok) throw new Error("manifest " + res.status);
+      const data = await res.json();
+      __hetManifestMap = new Map();
+      for (const ent of Object.values(data)) {
+        const t = __hetNorm(ent.text);
+        if (t && ent.file) __hetManifestMap.set(t, ent.file);
+      }
+      return __hetManifestMap;
+    }
+
+
+    function refreshTtsBadge() {
+      const el = document.getElementById("ttsBadge");
+      if (!el) return;
+      el.textContent = "引擎：Azure REST（与主课件同接口）";
+    }
+    function escapeSsmlText(s) {
+      return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;");
+    }
+    function voiceGenderAndLang(voiceName) {
+      if (voiceName.indexOf("Guy") !== -1) return { gender: "Male", lang: "en-US" };
+      if (voiceName.indexOf("Sonia") !== -1 || voiceName.indexOf("en-GB") !== -1) return { gender: "Female", lang: "en-GB" };
+      return { gender: "Female", lang: "en-US" };
+    }
+    function playUrl(url) {
+      if (currentTtsAudio) { currentTtsAudio.pause(); currentTtsAudio = null; }
+      const a = new Audio(url);
+      currentTtsAudio = a;
+      return a.play();
+    }
+    function playAzureTTS(text) {
+      if (!AZURE_SPEECH_KEY) return Promise.reject(new Error("未配置 Azure Speech Key。"));
+      const endpoint = `https://${AZURE_SPEECH_REGION}.tts.speech.microsoft.com/cognitiveservices/v1`;
+      const voice = document.getElementById("voiceSel")?.value || "en-US-AvaNeural";
+      const g = voiceGenderAndLang(voice);
+      const cacheKey = `${voice}|${text}|${AZURE_TTS_PROSODY_RATE}`;
+      if (audioCache.has(cacheKey)) return playUrl(audioCache.get(cacheKey));
+      const ssml = `<?xml version="1.0" encoding="utf-8"?>
+<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="${g.lang}">
+  <voice name="${voice}">
+    <prosody rate="${AZURE_TTS_PROSODY_RATE}">${escapeSsmlText(text)}</prosody>
+  </voice>
+</speak>`;
+      return fetch(endpoint, {
+        method: "POST",
+        headers: {
+          "Ocp-Apim-Subscription-Key": AZURE_SPEECH_KEY,
+          "Content-Type": "application/ssml+xml",
+          "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3",
+        },
+        body: ssml,
+      }).then((res) => {
+        if (!res.ok) return res.text().then((t) => { throw new Error(`Azure ${res.status}: ${(t || "").slice(0, 120)}`); });
+        return res.blob();
+      }).then((blob) => {
+        const u = URL.createObjectURL(blob);
+        audioCache.set(cacheKey, u);
+        return playUrl(u);
+      });
+    }
+    async function playTts(text) {
+      const key = __hetNorm(text);
+      try {
+        const map = await __hetEnsureManifest();
+        const rel = map.get(key);
+        if (rel) {
+          const url = HET_CLOZE_ASSETS_BASE + String(rel).replace(/^\/+/g, "");
+          await playUrl(url);
+          return;
+        }
+      } catch (e) {
+        console.warn("[het-cloze] COS mp3:", e && e.message ? e.message : e);
+      }
+      await playAzureTTS(text);
+    }
+    function showToast(msg, ms = 3200) {
+      const el = document.getElementById("toast");
+      el.textContent = msg;
+      el.classList.add("show");
+      clearTimeout(showToast._t);
+      showToast._t = setTimeout(() => el.classList.remove("show"), ms);
+    }
+    function escapeHtml(s) {
+      return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+    }
+
+    async function bindTtsButtons(root) {
+      root.querySelectorAll("button.tts").forEach((btn) => {
+        btn.addEventListener("click", async () => {
+          const t = btn.getAttribute("data-text") || "";
+          btn.disabled = true;
+          try { await playTts(t); } catch (e) { showToast(e.message || String(e)); }
+          finally { btn.disabled = false; }
+        });
+      });
+      root.querySelectorAll("button.reveal").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const id = btn.getAttribute("data-target");
+          const box = id && document.getElementById(id);
+          if (box) box.classList.add("show");
+        });
+      });
+    }
+
+    function bindVocabInteractions(root) {
+      root.querySelectorAll(".spell-zone").forEach((zone) => {
+        const word = zone.getAttribute("data-spell") || "";
+        const chars = [...word];
+        const chips = zone.querySelectorAll(".letter-chip");
+        let idx = 0;
+        const countEl = zone.querySelector(".spell-count");
+        const noteTarget = zone.getAttribute("data-reveal-note");
+        const revealNext = () => {
+          if (idx >= chars.length) return;
+          const ch = chars[idx];
+          chips[idx].textContent = ch === " " ? "·" : ch;
+          chips[idx].classList.remove("blind");
+          chips[idx].classList.add("shown");
+          idx++;
+          if (countEl) countEl.textContent = String(idx);
+          if (noteTarget && idx >= chars.length) {
+            const box = document.getElementById(noteTarget);
+            if (box) box.classList.add("show");
+          }
+        };
+        zone.addEventListener("click", (e) => {
+          if (e.target.closest("button") || e.target.closest("a")) return;
+          revealNext();
+        });
+      });
+      root.querySelectorAll(".usage-strip").forEach((strip) => {
+        const reveal = () => {
+          const body = strip.querySelector(".usage-strip-body");
+          if (body) body.classList.add("show");
+          strip.classList.add("is-revealed");
+        };
+        strip.addEventListener("click", (e) => { if (!e.target.closest("button")) reveal(); });
+        strip.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") { e.preventDefault(); reveal(); }
+        });
+      });
+      root.querySelectorAll(".practice-input").forEach((inp) => {
+        inp.addEventListener("input", () => { inp.style.borderBottomColor = "var(--ng-gold)"; });
+      });
+      root.querySelectorAll(".exam-blank").forEach((blank) => {
+        const toggle = () => blank.classList.toggle("is-revealed");
+        blank.addEventListener("click", toggle);
+        blank.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            toggle();
+          }
+        });
+      });
+      root.querySelectorAll("#checkPracticeBtn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const inputs = [...root.querySelectorAll(".practice-input")];
+          let ok = 0;
+          inputs.forEach((inp) => {
+            const n = Number(inp.dataset.num);
+            const user = (inp.value || "").trim().toLowerCase().replace(/\s+/g, " ");
+            const ans = (PRACTICE_ANS[n] || "").trim().toLowerCase().replace(/\s+/g, " ");
+            if (!user) return;
+            if (user === ans) { ok++; inp.style.borderBottomColor = "var(--ok)"; }
+            else inp.style.borderBottomColor = "var(--bad)";
+          });
+          const total = inputs.length;
+          const score = root.querySelector("#practiceScore");
+          if (score) score.innerHTML = `已答对 <span class="ok">${ok}</span> / ${total}。${ok === total ? "全部正确！" : "请继续检查词形。"}`
+        });
+      });
+    }
+
+    function spellBlock(word, revealNoteId) {
+      const chars = [...word];
+      const chips = chars.map(() => `<span class="letter-chip blind">□</span>`).join("");
+      const noteAttr = revealNoteId ? ` data-reveal-note="${escapeHtml(revealNoteId)}"` : "";
+      const hint = revealNoteId
+        ? `点击词区逐字母显示；全部显示后自动出现拼写提示 · <span class="spell-count">0</span> / ${chars.length}`
+        : `点击词区逐字母显示 · <span class="spell-count">0</span> / ${chars.length}`;
+      return `<div class="spell-zone" data-spell="${escapeHtml(word)}" tabindex="0"${noteAttr}>
+        <div class="letter-row">${chips}</div>
+        <p class="footnote" style="margin:6px 0 0;">${hint}</p>
+      </div>`;
+    }
+
+    function uid() { return "x_" + Math.random().toString(36).slice(2, 10); }
+
+    function derivativeInductHtml(d) {
+      if (!d.induct || !Array.isArray(d.induct.peers) || !d.induct.peers.length) return "";
+      const title = d.induct.title || "归纳 · 同类构词";
+      const peers = d.induct.peers.map((w) => `<span class="mono">${escapeHtml(w)}</span>`).join(" · ");
+      const tip = d.induct.tip ? `<p class="footnote" style="margin:10px 0 0;">${escapeHtml(d.induct.tip)}</p>` : "";
+      return `<details class="card grammar-induct-details">
+        <summary class="grammar-induct-summary">
+          <h3 class="grammar-induct-title">${escapeHtml(title)}</h3>
+          <span class="grammar-induct-hint grammar-induct-hint-closed">点击展开</span>
+          <span class="grammar-induct-hint grammar-induct-hint-open">点击收起</span>
+        </summary>
+        <div class="grammar-induct-inner">
+          <p style="margin:0;line-height:1.65;font-size:clamp(13px,1.15vw,18px);">${peers}</p>
+          ${tip}
+        </div>
+      </details>`;
+    }
+
+    function slidesFromUnit(unit, articleTag) {
+      const h = unit.headword;
+      const sid = uid();
+      const out = [];
+      out.push(`<div class="tag">${escapeHtml(articleTag)} · 词汇流 · ${escapeHtml(h)}</div>
+        <h2 class="slide-h2">Step 1 · 听音 → 拼写 → A2 释义</h2>
+        <p class="sense">本页例句与释义均为教学自编，服务短文填空词形判断。</p>
+        <div class="row-audio"><button type="button" class="tts" data-text="${escapeHtml(unit.ttsWord || unit.spell)}">① 听单词发音</button></div>
+        ${spellBlock(unit.spell)}
+        <div class="row-audio" style="margin-top:10px;">
+          <button type="button" class="tts" data-text="${escapeHtml(unit.defReadAloud)}">② 听英文释义（A2）</button>
+          <button type="button" class="nav reveal" data-target="def_${sid}">③ 点击显示释义文字</button>
+        </div>
+        <div class="hidden-reveal" id="def_${sid}">
+          <p style="margin:0;font-size:clamp(14px,1.2vw,19px);line-height:1.4;"><strong>A2 meaning:</strong> ${escapeHtml(unit.defA2)}</p>
+        </div>`);
+
+      const usageTotal = unit.usages.length;
+      unit.usages.forEach((u, ui) => {
+        const idx = ui + 1;
+        const rephraseId = `reph_${uid()}`;
+        const oneCard = `<div class="card">
+            <div class="row-audio"><button type="button" class="tts" data-text="${escapeHtml(u.sentence)}">听例句</button></div>
+            <p class="usage-sentence-zh-persistent"><strong>【译文】</strong>${escapeHtml(u.sentenceZh || "")}</p>
+            <p class="footnote" style="margin:6px 0 0;">本页仅含第 ${idx} 条用法。先听句，再点击三块信息。</p>
+            <div class="usage-strip" tabindex="0"><p class="usage-strip-hint">① 点击显示中文用法标签</p><div class="usage-strip-body hidden-reveal"><p style="margin:0;color:var(--ng-gold);font-weight:700;">${escapeHtml(u.label)}</p></div></div>
+            <div class="usage-strip" tabindex="0"><p class="usage-strip-hint">② 点击显示英文例句</p><div class="usage-strip-body hidden-reveal"><p style="margin:0;">${escapeHtml(u.sentence)}</p></div></div>
+            <div class="usage-strip" tabindex="0"><p class="usage-strip-hint">③ 点击显示解释</p><div class="usage-strip-body hidden-reveal"><p style="margin:0;"><strong>解释：</strong>${escapeHtml(u.explain)}</p><p class="footnote" style="margin:8px 0 0;"><button type="button" class="nav reveal" data-target="${escapeHtml(rephraseId)}">点击显示 Rephrase</button></p><div class="hidden-reveal" id="${escapeHtml(rephraseId)}"><p class="footnote" style="margin:0;"><strong>Rephrase：</strong>${escapeHtml(u.rephrase)}</p></div></div></div>
+          </div>`;
+        out.push(`<div class="tag">${escapeHtml(articleTag)} · 词汇流 · ${escapeHtml(h)}</div>
+          <h2 class="slide-h2">Step 2 · 常见用法（${idx} / ${usageTotal}）</h2>${oneCard}`);
+      });
+
+      (unit.derivatives || []).forEach((d) => {
+        const derivNoteId = d.note ? `dnote_${uid()}` : "";
+        out.push(`<div class="tag">${escapeHtml(articleTag)} · 词汇流 · ${escapeHtml(h)}</div>
+          <h2 class="slide-h2">Step 3 · ${escapeHtml(d.q)}</h2>
+          <div class="row-audio"><button type="button" class="tts" data-text="${escapeHtml(d.readAloud || d.answer)}">听目标词发音</button></div>
+          ${spellBlock(d.answer, derivNoteId)}
+          ${d.note ? `<div class="hidden-reveal" id="${escapeHtml(derivNoteId)}"><p class="footnote" style="margin:0;"><strong>拼写提示：</strong>${escapeHtml(d.note)}</p></div>` : ""}
+          ${derivativeInductHtml(d)}
+          ${d.exampleSentence ? `<div class="card" style="margin-top:12px;"><div class="row-audio"><button type="button" class="tts" data-text="${escapeHtml(d.exampleSentence)}">听 Step3 派生配套例句</button></div><p class="usage-sentence-zh-persistent" style="margin:10px 0 0;"><strong>【译文】</strong>${escapeHtml(d.exampleZh || "")}</p></div>` : ""}`);
+      });
+
+      if (unit.examTarget) {
+        const e = unit.examTarget;
+        const examples = Array.isArray(e.examExamples) && e.examExamples.length ? e.examExamples : [{
+          readSentence: e.readSentence, readSentenceZh: e.readSentenceZh, blankAnswer: e.form,
+        }];
+        const nEx = examples.length;
+        examples.forEach((ex, i) => {
+          const idx = i + 1;
+          const rs = String(ex.readSentence || "");
+          const ba = String(ex.blankAnswer || e.form || "");
+          const re = new RegExp(ba.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "i");
+          const m = rs.match(re);
+          const line = m
+            ? rs.replace(re, `<span class="exam-blank" role="button" tabindex="0" aria-label="点击显示答案"><span class="exam-blank-mask">__________</span><span class="exam-blank-ans">${escapeHtml(ba)}</span></span>`)
+            : `${escapeHtml(rs)} <span class="exam-blank" role="button" tabindex="0" aria-label="点击显示答案"><span class="exam-blank-mask">__________</span><span class="exam-blank-ans">${escapeHtml(ba)}</span></span>`;
+          out.push(`<div class="tag">${escapeHtml(articleTag)} · 词汇流 · ${escapeHtml(h)}</div>
+            <h2 class="slide-h2">${nEx > 1 ? `Step 4 · 考点词形测试（${idx}/${nEx}）` : "Step 4 · 考点词形测试"}</h2>
+            ${i === 0 ? `<p class="sense">先看语境填词形，再核对答案。该步骤对应短文填空真实考法。</p>` : ""}
+            <div class="row-audio"><button type="button" class="tts" data-text="${escapeHtml(rs)}">听完整句（含答案）</button></div>
+            <div class="card">
+              <p class="exam-blank-card">${line}</p>
+              <p class="footnote" style="margin:8px 0 0;">点击横线可显示 / 隐藏答案</p>
+            </div>
+            <p class="exam-sentence-zh"><strong>【译文】</strong>${escapeHtml(ex.readSentenceZh || "")}</p>
+            ${(e.note && i === nEx - 1) ? `<p class="footnote">${escapeHtml(e.note)}</p>` : ""}`);
+        });
+      }
+      return out;
+    }
+
+    function renderPassage(raw, answerList, mode) {
+      const parts = raw.split(/(__\d+__)/g);
+      return parts.map((p) => {
+        const m = /^__(\d+)__$/.exec(p);
+        if (!m) return escapeHtml(p).replace(/\n/g, "<br/>");
+        const num = Number(m[1]);
+        const ans = answerList[num] || "";
+        if (mode === "key") return `<span class="blank">${escapeHtml(ans)}</span>`;
+        if (mode === "study") return `<span class="blank">(${num})</span>`;
+        return `<input class="practice-input" data-num="${num}" placeholder="(${num})" />`;
+      }).join("");
+    }
+
+    const WORD_BANK = ["because", "deep", "encourage", "include", "little", "physical", "press", "spread", "stand", "three", "usual", "while"];
+    const PRACTICE_ANS = {
+        "1": "Pressing",
+        "2": "physical",
+        "3": "less",
+        "4": "third",
+        "5": "while",
+        "6": "including",
+        "7": "spread",
+        "8": "usual",
+        "9": "deeply",
+        "10": "encouraged"
+    };
+    const PASSAGE = `Baduanjin is broken down into eight sections. There are different names for each of the movements. For example, the first movement is called "Support the sky by putting something under it", and it is also called "__1__ the sky with two hands". You need to continue raising your hands overhead and rise up on your feet. The movements are __2__ exercises which can help you improve health and feel __3__ stressed.
+These days, a video of children playing baduanjin is spreading online. It was created by a group of __4__ graders at a primary school in Shanghai as a result of project-based learning. The video was produced on the topic of health care in autumn. A teacher says it has been a long tradition for their school to encourage students to learn about the world on the theme they've chosen by themselves. Most students chose dishes and desserts they usually have in autumn, __5__ this group decided to learn baduanjin and share it with their classmates, as it has become a popular exercise in workplaces, __6__ some of their parents' offices. The video was praised by the students and parents who __7__ it on their WeChat. Such programs are not __8__ homework that can be done in one day with knowledge of subjects but require students to think __9__, do research, work with others and present their findings with different skills. This can not only help with the independence in study but also improve the ability to work in groups. Students are __10__ to discover problems in real life and find solutions.`;
+    const VOCAB_UNITS = [
+        {
+                "headword": "press",
+                "spell": "press",
+                "ttsWord": "press",
+                "defA2": "To push something firmly.",
+                "defReadAloud": "To apply pressure to something to flatten, shape, or smooth it.",
+                "usages": [
+                        {
+                                "label": "press the button",
+                                "sentence": "If there is a fire, you must press the red button to ring the alarm.",
+                                "sentenceZh": "如果发生火灾，你必须按下红色按钮拉响警报。",
+                                "explain": "按压某物。",
+                                "rephrase": "You need to push the red button if you see a fire."
+                        },
+                        {
+                                "label": "press heavily",
+                                "sentence": "The doctor asked him to press heavily on the wound to stop the bleeding.",
+                                "sentenceZh": "医生让他用力按住伤口以止血。",
+                                "explain": "动副搭配：用力按压。",
+                                "rephrase": "The doctor told him to push the cut hard to keep blood from coming out."
+                        }
+                ],
+                "derivatives": [
+                        {
+                                "q": "现在分词/动名词 Pressing",
+                                "answer": "Pressing",
+                                "readAloud": "Pressing",
+                                "note": "Pressing the sky",
+                                "exampleSentence": "Pressing the flowers between heavy books is a good way to keep their beauty.",
+                                "exampleZh": "把花压在厚重的书本之间是保持它们美丽的好方法。",
+                                "induct": {
+                                        "title": "归纳 · 动名词作名字/称呼",
+                                        "peers": [
+                                                "Running Wolf",
+                                                "Flying Tiger",
+                                                "Rising Sun",
+                                                "Silent Hill",
+                                                "Bright Star",
+                                                "Cooling Fan"
+                                        ],
+                                        "tip": "此处作为专有动作名称，首字母大写。"
+                                }
+                        },
+                        {
+                                "q": "名词 pressure",
+                                "answer": "pressure",
+                                "readAloud": "pressure",
+                                "note": "under pressure",
+                                "exampleSentence": "Many middle school students are under great pressure before the final exams.",
+                                "exampleZh": "许多中学生在期末考试前面临着巨大的压力。",
+                                "induct": {
+                                        "title": "归纳 · 同根名词",
+                                        "peers": [
+                                                "under pressure",
+                                                "air pressure",
+                                                "blood pressure",
+                                                "low pressure",
+                                                "high pressure",
+                                                "peer pressure"
+                                        ],
+                                        "tip": "意为“压力”，常与介词 under 搭配。"
+                                }
+                        }
+                ],
+                "examTarget": {
+                        "form": "Pressing",
+                        "examExamples": [
+                                {
+                                        "readSentence": "Pressing the red button is the only way to start this heavy machine.",
+                                        "readSentenceZh": "按下红色按钮是启动这台重型机器的唯一方法。",
+                                        "blankAnswer": "Pressing"
+                                },
+                                {
+                                        "readSentence": "If you want to stop the bleeding, you must press heavily on the wound.",
+                                        "readSentenceZh": "如果你想止血，你必须在伤口上重重地按压。",
+                                        "blankAnswer": "press"
+                                },
+                                {
+                                        "readSentence": "Many teenagers are under great pressure before the high school entrance exam.",
+                                        "readSentenceZh": "许多青少年在中考前面临着巨大的压力。",
+                                        "blankAnswer": "pressure"
+                                }
+                        ],
+                        "note": "套题38 · 考点：作动作的专属名称（动名词），对应中文八段锦的“双手托天”，填 Pressing，注意首字母大写。"
+                }
+        },
+        {
+                "headword": "physical",
+                "spell": "physical",
+                "ttsWord": "physical",
+                "defA2": "Relating to the body rather than the mind.",
+                "defReadAloud": "Of or relating to the body as opposed to the mind.",
+                "usages": [
+                        {
+                                "label": "physical exercise",
+                                "sentence": "Doing physical exercise every day can make us stronger and healthier.",
+                                "sentenceZh": "每天进行体育锻炼能让我们更强壮、更健康。",
+                                "explain": "身体锻炼，体育锻炼。",
+                                "rephrase": "Moving your body daily makes you strong and well."
+                        },
+                        {
+                                "label": "physical health",
+                                "sentence": "We should pay attention to both our mental health and physical health.",
+                                "sentenceZh": "我们应该同时关注我们的心理健康和身体健康。",
+                                "explain": "身体健康。",
+                                "rephrase": "It is important to care for both your mind and your body."
+                        },
+                        {
+                                "label": "physical education (PE)",
+                                "sentence": "Students like physical education because they can relax on the playground.",
+                                "sentenceZh": "学生们喜欢体育课，因为他们可以在操场上放松。",
+                                "explain": "体育课（专有名词）。",
+                                "rephrase": "Kids enjoy sports classes since they can rest and play outside."
+                        }
+                ],
+                "derivatives": [
+                        {
+                                "q": "名词 physics",
+                                "answer": "physics",
+                                "readAloud": "physics",
+                                "note": "learn physics",
+                                "exampleSentence": "Physics is an important subject that helps us understand the laws of nature.",
+                                "exampleZh": "物理是一门帮助我们理解自然规律的重要学科。",
+                                "induct": {
+                                        "title": "归纳 · 形容词变名词",
+                                        "peers": [
+                                                "study physics",
+                                                "physics lab",
+                                                "physics laws",
+                                                "physics notes",
+                                                "physics class",
+                                                "physics club"
+                                        ],
+                                        "tip": "physics 意为“物理学”。"
+                                }
+                        },
+                        {
+                                "q": "副词 physically",
+                                "answer": "physically",
+                                "readAloud": "physically",
+                                "note": "physically tired",
+                                "exampleSentence": "After the long trip, the travelers felt physically tired but mentally happy.",
+                                "exampleZh": "漫长的旅行之后，旅客们感到身体疲惫但精神愉悦。",
+                                "induct": {
+                                        "title": "归纳 · -ly 副词",
+                                        "peers": [
+                                                "physically",
+                                                "mentally",
+                                                "widely",
+                                                "badly",
+                                                "nearly",
+                                                "truly"
+                                        ],
+                                        "tip": "意为“身体上地”。"
+                                }
+                        }
+                ],
+                "examTarget": {
+                        "form": "physical",
+                        "examExamples": [
+                                {
+                                        "readSentence": "Morning stretching is a physical exercise that needs little equipment but builds flexibility.",
+                                        "readSentenceZh": "晨练伸展是一种几乎不需要器材却能增强柔韧性的身体锻炼。",
+                                        "blankAnswer": "physical"
+                                },
+                                {
+                                        "readSentence": "As a science lover, he finds physics to be the most interesting subject.",
+                                        "readSentenceZh": "作为一个科学爱好者，他发现物理是最有趣的科目。",
+                                        "blankAnswer": "physics"
+                                },
+                                {
+                                        "readSentence": "After climbing sixty steps, Grandma felt physically weak but refused to sit down.",
+                                        "readSentenceZh": "爬了六十级台阶后，奶奶觉得身体虚弱但仍不肯坐下休息。",
+                                        "blankAnswer": "physically"
+                                }
+                        ],
+                        "note": "套题38 · 考点：作定语修饰名词 exercises，表示“身体锻炼”，直接填入形容词 physical。"
+                }
+        },
+        {
+                "headword": "little",
+                "spell": "little",
+                "ttsWord": "little",
+                "defA2": "Small in size or amount.",
+                "defReadAloud": "Small in size, amount, or degree.",
+                "usages": [
+                        {
+                                "label": "a little bit",
+                                "sentence": "The math problem is a little bit hard, but I will try my best to solve it.",
+                                "sentenceZh": "这道数学题有一点难，但我会尽力解决它。",
+                                "explain": "一点点，修饰形容词。",
+                                "rephrase": "The question is slightly difficult, but I will try to fix it."
+                        },
+                        {
+                                "label": "little + 不可数名词",
+                                "sentence": "Hurry up! We have little time left before the school bus leaves.",
+                                "sentenceZh": "快点！校车开走前我们几乎没时间了。",
+                                "explain": "表否定：几乎没有。",
+                                "rephrase": "Run fast! We have almost no time before the bus goes."
+                        }
+                ],
+                "derivatives": [
+                        {
+                                "q": "比较级 less",
+                                "answer": "less",
+                                "readAloud": "less",
+                                "note": "feel less worried",
+                                "exampleSentence": "Listening to soft music can make you feel less nervous before an exam.",
+                                "exampleZh": "听轻音乐能让你在考试前感觉不那么紧张。",
+                                "induct": {
+                                        "title": "归纳 · 不规则比较级",
+                                        "peers": [
+                                                "less money",
+                                                "less time",
+                                                "less noise",
+                                                "less sugar",
+                                                "less milk",
+                                                "less detail"
+                                        ],
+                                        "tip": "little 的比较级是 less，意为“更少，没那么……”。"
+                                }
+                        },
+                        {
+                                "q": "最高级 least",
+                                "answer": "least",
+                                "readAloud": "least",
+                                "note": "at least",
+                                "exampleSentence": "To keep fit, you should exercise for at least thirty minutes every day.",
+                                "exampleZh": "为了保持健康，你每天至少应该锻炼三十分钟。",
+                                "induct": {
+                                        "title": "归纳 · 最高级及短语",
+                                        "peers": [
+                                                "at least",
+                                                "least of all",
+                                                "not in the least",
+                                                "last but not least",
+                                                "to say the least",
+                                                "a least favorite"
+                                        ],
+                                        "tip": "at least 意为“至少”。"
+                                }
+                        }
+                ],
+                "examTarget": {
+                        "form": "less",
+                        "examExamples": [
+                                {
+                                        "readSentence": "After a short nap, drivers often feel less sleepy on the highway late at night.",
+                                        "readSentenceZh": "短暂小睡后，司机们在深夜公路上往往没那么困倦。",
+                                        "blankAnswer": "less"
+                                },
+                                {
+                                        "readSentence": "Hurry up! We have very little time left before the movie starts.",
+                                        "readSentenceZh": "快点！在电影开始前我们几乎没有时间了。",
+                                        "blankAnswer": "little"
+                                },
+                                {
+                                        "readSentence": "To stay healthy, you should drink at least eight glasses of water daily.",
+                                        "readSentenceZh": "为了保持健康，你每天应该喝至少八杯水。",
+                                        "blankAnswer": "least"
+                                }
+                        ],
+                        "note": "套题38 · 考点：结合前后语境（改善健康），压力应该变小，故填入 little 的比较级 less。"
+                }
+        },
+        {
+                "headword": "three",
+                "spell": "three",
+                "ttsWord": "three",
+                "defA2": "The number 3.",
+                "defReadAloud": "Equivalent to the sum of one and two; one more than two.",
+                "usages": [
+                        {
+                                "label": "three times",
+                                "sentence": "I have been to the beautiful capital city Beijing three times in my life.",
+                                "sentenceZh": "我这辈子去过美丽的首都北京三次。",
+                                "explain": "三次。",
+                                "rephrase": "I visited the great city of Beijing exactly three times."
+                        },
+                        {
+                                "label": "three of us",
+                                "sentence": "The three of us will work as a team to finish the science project together.",
+                                "sentenceZh": "我们三个人将作为一个团队一起完成这个科学项目。",
+                                "explain": "基数词用法。",
+                                "rephrase": "Our group has three people, and we will do the task together."
+                        }
+                ],
+                "derivatives": [
+                        {
+                                "q": "序数词 third",
+                                "answer": "third",
+                                "readAloud": "third",
+                                "note": "third graders",
+                                "exampleSentence": "The girl in the third row answered the teacher's question correctly.",
+                                "exampleZh": "第三排的女孩正确地回答了老师的问题。",
+                                "induct": {
+                                        "title": "归纳 · 不规则序数词",
+                                        "peers": [
+                                                "one - first",
+                                                "two - second",
+                                                "three - third",
+                                                "five - fifth",
+                                                "eight - eighth",
+                                                "nine - ninth"
+                                        ],
+                                        "tip": "three 变序数词为 third。"
+                                }
+                        }
+                ],
+                "examTarget": {
+                        "form": "third",
+                        "examExamples": [
+                                {
+                                        "readSentence": "The clever boy in the third row answered the teacher's question perfectly.",
+                                        "readSentenceZh": "第三排那个聪明的男孩完美地回答了老师的问题。",
+                                        "blankAnswer": "third"
+                                },
+                                {
+                                        "readSentence": "The three of us will work together as a team to finish the science project.",
+                                        "readSentenceZh": "我们三个人将作为一个团队一起完成这个科学项目。",
+                                        "blankAnswer": "three"
+                                }
+                        ],
+                        "note": "套题38 · 考点：此处表达“三年级的学生”，需要将基数词变序数词，填 third。(注：原题方框词 OCR 误识别为 there，实为 three)。"
+                }
+        },
+        {
+                "headword": "while",
+                "spell": "while",
+                "ttsWord": "while",
+                "defA2": "During the time that; comparing two different facts.",
+                "defReadAloud": "During the time that; whereas (indicating a contrast).",
+                "usages": [
+                        {
+                                "label": "while 引导对比转折",
+                                "sentence": "Some students like reading quietly, while others prefer playing noisy sports.",
+                                "sentenceZh": "一些学生喜欢安静地阅读，而另一些则更喜欢喧闹的运动。",
+                                "explain": "连词，表示“然而，而”。",
+                                "rephrase": "Some kids enjoy reading, but other kids like loud games."
+                        },
+                        {
+                                "label": "while + 过去进行时",
+                                "sentence": "While I was walking along the street, I met my old primary school friend.",
+                                "sentenceZh": "当我在街上走着的时候，我遇到了我的小学老朋友。",
+                                "explain": "引导时间状语从句。",
+                                "rephrase": "When I was walking down the road, I saw an old friend."
+                        },
+                        {
+                                "label": "for a while",
+                                "sentence": "You look very tired. You'd better sit down and rest for a while.",
+                                "sentenceZh": "你看起来很累。你最好坐下来休息一会儿。",
+                                "explain": "名词短语：一会儿。",
+                                "rephrase": "You seem tired. Please take a seat and rest for a short time."
+                        }
+                ],
+                "derivatives": [
+                        {
+                                "q": "近义连词 whereas",
+                                "answer": "whereas",
+                                "readAloud": "whereas",
+                                "note": "然而",
+                                "exampleSentence": "He loves going to the beach, whereas his brother prefers climbing mountains.",
+                                "exampleZh": "他喜欢去海滩，而他哥哥更喜欢爬山。",
+                                "induct": {
+                                        "title": "归纳 · 连词替换",
+                                        "peers": [
+                                                "while",
+                                                "whereas",
+                                                "although",
+                                                "though",
+                                                "instead",
+                                                "yet"
+                                        ],
+                                        "tip": "在表示转折对比时可以替换使用。"
+                                }
+                        }
+                ],
+                "examTarget": {
+                        "form": "while",
+                        "examExamples": [
+                                {
+                                        "readSentence": "Some students like reading quietly, while others prefer playing noisy sports outside.",
+                                        "readSentenceZh": "有些学生喜欢安静地阅读，而另一些则更喜欢在外面进行吵闹的运动。",
+                                        "blankAnswer": "while"
+                                },
+                                {
+                                        "readSentence": "He enjoys swimming in the sea, whereas his brother loves climbing high mountains.",
+                                        "readSentenceZh": "他喜欢在海里游泳，而他哥哥喜欢爬高山。",
+                                        "blankAnswer": "whereas"
+                                }
+                        ],
+                        "note": "套题38 · 考点：前后两句话呈现明显的对比（Most students vs this group），填并列连词 while。"
+                }
+        },
+        {
+                "headword": "include",
+                "spell": "include",
+                "ttsWord": "include",
+                "defA2": "To contain something as a part of something else.",
+                "defReadAloud": "To comprise or contain as part of a whole.",
+                "usages": [
+                        {
+                                "label": "include sth",
+                                "sentence": "The price of the hotel room includes a free breakfast and swimming pool use.",
+                                "sentenceZh": "酒店房间的价格包括免费早餐和游泳池的使用。",
+                                "explain": "动词，包括。",
+                                "rephrase": "You get a free morning meal and a pool with the room price."
+                        },
+                        {
+                                "label": "be included in",
+                                "sentence": "Make sure all your great ideas are included in the final writing report.",
+                                "sentenceZh": "确保你所有很棒的想法都包含在最终的书面报告中。",
+                                "explain": "被动语态。",
+                                "rephrase": "Be sure the final paper has all your good thoughts."
+                        }
+                ],
+                "derivatives": [
+                        {
+                                "q": "介词 including",
+                                "answer": "including",
+                                "readAloud": "including",
+                                "note": "including our town",
+                                "exampleSentence": "Twenty schools joined the online contest, including a small team from our mountain town.",
+                                "exampleZh": "二十所学校参加了网上竞赛，其中包括我们山镇的一支小队。",
+                                "induct": {
+                                        "title": "归纳 · 介词用法",
+                                        "peers": [
+                                                "include",
+                                                "including",
+                                                "team",
+                                                "schools",
+                                                "slowly",
+                                                "carefully"
+                                        ],
+                                        "tip": "包括（某人/某物），放在名词/代词前作介词。"
+                                }
+                        }
+                ],
+                "examTarget": {
+                        "form": "including",
+                        "examExamples": [
+                                {
+                                        "readSentence": "The city marathon welcomed every district, including runners who had never joined a race.",
+                                        "readSentenceZh": "城市马拉松欢迎各个区参加，其中包括从未参加过比赛的跑者。",
+                                        "blankAnswer": "including"
+                                },
+                                {
+                                        "readSentence": "The price of this modern hotel room includes a free breakfast and Wi-Fi.",
+                                        "readSentenceZh": "这间现代酒店客房的价格包括免费早餐和无线网络。",
+                                        "blankAnswer": "includes"
+                                }
+                        ],
+                        "note": "套题38 · 考点：作介词引出具体的包含对象（父母的办公室），填 including。"
+                }
+        },
+        {
+                "headword": "spread",
+                "spell": "spread",
+                "ttsWord": "spread",
+                "defA2": "To reach a larger area or affect a larger number of people.",
+                "defReadAloud": "To open out so as to extend its surface area, width, or length.",
+                "usages": [
+                        {
+                                "label": "spread the news",
+                                "sentence": "With the help of the Internet, we can spread the good news very quickly.",
+                                "sentenceZh": "在互联网的帮助下，我们能非常快地传播这个好消息。",
+                                "explain": "传播消息。",
+                                "rephrase": "The web helps us share good information fast to everyone."
+                        },
+                        {
+                                "label": "spread to",
+                                "sentence": "The big fire in the forest spread to the nearby village in just two hours.",
+                                "sentenceZh": "森林里的大火仅用了两个小时就蔓延到了附近的村庄。",
+                                "explain": "蔓延到某地。",
+                                "rephrase": "The forest fire reached the village nearby in only two hours."
+                        },
+                        {
+                                "label": "spread butter",
+                                "sentence": "My little sister likes to spread butter on her bread for breakfast every day.",
+                                "sentenceZh": "我妹妹喜欢每天早饭时在她的面包上涂黄油。",
+                                "explain": "涂抹。",
+                                "rephrase": "My sister enjoys putting butter over her bread every morning."
+                        }
+                ],
+                "derivatives": [
+                        {
+                                "q": "一般过去时 spread",
+                                "answer": "spread",
+                                "readAloud": "spread",
+                                "note": "news that spread fast",
+                                "exampleSentence": "The exciting news spread across the whole school before the morning class.",
+                                "exampleZh": "这个令人兴奋的消息在早读课前传遍了全校。",
+                                "induct": {
+                                        "title": "归纳 · 不规则动词的过去式",
+                                        "peers": [
+                                                "spread - spread - spread",
+                                                "cut - cut - cut",
+                                                "hit - hit - hit",
+                                                "let - let - let",
+                                                "put - put - put",
+                                                "cost - cost - cost"
+                                        ],
+                                        "tip": "spread 的过去式和过去分词与原形相同。"
+                                }
+                        }
+                ],
+                "examTarget": {
+                        "form": "spread",
+                        "examExamples": [
+                                {
+                                        "readSentence": "With the help of smartphones, good news can spread across the world quickly.",
+                                        "readSentenceZh": "在智能手机的帮助下，好消息能迅速传遍世界。",
+                                        "blankAnswer": "spread"
+                                },
+                                {
+                                        "readSentence": "The exciting news of his victory spread through the whole school yesterday.",
+                                        "readSentenceZh": "昨天，他获胜的激动人心的消息传遍了全校。",
+                                        "blankAnswer": "spread"
+                                }
+                        ],
+                        "note": "套题38 · 考点：定语从句的谓语。根据主句“was praised”可知为过去时，spread 过去式同形，填 spread。"
+                }
+        },
+        {
+                "headword": "usual",
+                "spell": "usual",
+                "ttsWord": "usual",
+                "defA2": "Normal; happening most often.",
+                "defReadAloud": "Customarily or typically occurring or done.",
+                "usages": [
+                        {
+                                "label": "usual time",
+                                "sentence": "Please come to the classroom at the usual time tomorrow morning.",
+                                "sentenceZh": "明早请在平常的时间来教室。",
+                                "explain": "平常的，普通的（修饰名词）。",
+                                "rephrase": "Please be in the class at the normal time tomorrow."
+                        },
+                        {
+                                "label": "as usual",
+                                "sentence": "It is raining heavily outside, but the school bus arrived on time as usual.",
+                                "sentenceZh": "外面下着大雨，但校车像往常一样准时到达了。",
+                                "explain": "像往常一样（固定词组）。",
+                                "rephrase": "The bus came perfectly on time like it always does, despite the rain."
+                        },
+                        {
+                                "label": "than usual",
+                                "sentence": "He woke up much earlier than usual to prepare for the final exam.",
+                                "sentenceZh": "他比平时醒得早得多，为期末考试做准备。",
+                                "explain": "比平时……",
+                                "rephrase": "He got out of bed very early compared to normal days."
+                        }
+                ],
+                "derivatives": [
+                        {
+                                "q": "副词 usually",
+                                "answer": "usually",
+                                "readAloud": "usually",
+                                "note": "they usually have",
+                                "exampleSentence": "I usually go to the public library to read books on Saturday afternoons.",
+                                "exampleZh": "我通常星期六下午去公共图书馆看书。",
+                                "induct": {
+                                        "title": "归纳 · 频度副词",
+                                        "peers": [
+                                                "usually",
+                                                "often",
+                                                "sometimes",
+                                                "seldom",
+                                                "never",
+                                                "rarely"
+                                        ],
+                                        "tip": "在句子中作状语，表示“通常地”。"
+                                }
+                        },
+                        {
+                                "q": "反义词 unusual",
+                                "answer": "unusual",
+                                "readAloud": "unusual",
+                                "note": "unusual weather",
+                                "exampleSentence": "It is highly unusual for him to be late for school without any reason.",
+                                "exampleZh": "他没有任何理由上学迟到是非常反常的。",
+                                "induct": {
+                                        "title": "归纳 · un- 否定前缀",
+                                        "peers": [
+                                                "usual weather",
+                                                "unusual weather",
+                                                "usual habit",
+                                                "unusual habit",
+                                                "usual path",
+                                                "unusual path"
+                                        ],
+                                        "tip": "意为“不寻常的，反常的”。"
+                                }
+                        }
+                ],
+                "examTarget": {
+                        "form": "usual",
+                        "examExamples": [
+                                {
+                                        "readSentence": "The science fair is not usual homework that you finish with one worksheet overnight.",
+                                        "readSentenceZh": "科学展不是那种靠一张练习纸一夜之间就能完成的寻常作业。",
+                                        "blankAnswer": "usual"
+                                },
+                                {
+                                        "readSentence": "I usually go to the public library to borrow science books on weekends.",
+                                        "readSentenceZh": "我通常周末去公共图书馆借阅科学书籍。",
+                                        "blankAnswer": "usually"
+                                },
+                                {
+                                        "readSentence": "It is highly unusual for the hard-working student to be late for class.",
+                                        "readSentenceZh": "这个努力的学生上课迟到是非常反常的。",
+                                        "blankAnswer": "unusual"
+                                }
+                        ],
+                        "note": "套题38 · 考点：作定语修饰名词 homework，意为“寻常的/普通的”，填形容词 usual。"
+                }
+        },
+        {
+                "headword": "deep",
+                "spell": "deep",
+                "ttsWord": "deep",
+                "defA2": "Going a long way down from the top or surface.",
+                "defReadAloud": "Extending far down from the top or surface.",
+                "usages": [
+                        {
+                                "label": "deep water",
+                                "sentence": "Children should not swim in the deep water because it is too dangerous.",
+                                "sentenceZh": "孩子们不应该在深水中游泳，因为那太危险了。",
+                                "explain": "具体的深度：深的。",
+                                "rephrase": "Kids must stay away from deep rivers for safety."
+                        },
+                        {
+                                "label": "take a deep breath",
+                                "sentence": "If you feel nervous before the speech, just close your eyes and take a deep breath.",
+                                "sentenceZh": "如果你在演讲前感到紧张，就闭上眼睛深呼吸。",
+                                "explain": "固定搭配：深呼吸。",
+                                "rephrase": "Breathe in heavily if you are worried about your talk."
+                        },
+                        {
+                                "label": "deep love",
+                                "sentence": "The great writer showed his deep love for his motherland in this famous book.",
+                                "sentenceZh": "这位伟大的作家在这本名著中展现了他对祖国深沉的爱。",
+                                "explain": "抽象的深度：深厚的，深沉的。",
+                                "rephrase": "The author proved his strong love for his country in the book."
+                        }
+                ],
+                "derivatives": [
+                        {
+                                "q": "副词 deeply",
+                                "answer": "deeply",
+                                "readAloud": "deeply",
+                                "note": "think deeply",
+                                "exampleSentence": "The scientist looked at the sky and thought deeply about the future of human beings.",
+                                "exampleZh": "那位科学家看着天空，深深地思考着人类的未来。",
+                                "induct": {
+                                        "title": "归纳 · -ly 副词",
+                                        "peers": [
+                                                "deeply",
+                                                "widely",
+                                                "badly",
+                                                "sadly",
+                                                "nearly",
+                                                "truly"
+                                        ],
+                                        "tip": "常修饰动词，表示抽象程度的“深深地”。"
+                                }
+                        },
+                        {
+                                "q": "名词 depth",
+                                "answer": "depth",
+                                "readAloud": "depth",
+                                "note": "the depth of the river",
+                                "exampleSentence": "No one knows the exact depth of the mysterious lake in the forest.",
+                                "exampleZh": "没人知道森林里那个神秘湖泊的确切深度。",
+                                "induct": {
+                                        "title": "归纳 · 名词词性转化",
+                                        "peers": [
+                                                "river depth",
+                                                "ocean depth",
+                                                "measure depth",
+                                                "water depth",
+                                                "depth chart",
+                                                "safe depth"
+                                        ],
+                                        "tip": "意为“深度”。"
+                                }
+                        }
+                ],
+                "examTarget": {
+                        "form": "deeply",
+                        "examExamples": [
+                                {
+                                        "readSentence": "Before choosing a career path, you should think deeply about what skills truly fit you.",
+                                        "readSentenceZh": "在选定职业道路之前，你应当深入思考哪些能力真正适合自己。",
+                                        "blankAnswer": "deeply"
+                                },
+                                {
+                                        "readSentence": "The divers followed a narrow tunnel into a deep cave under the mountain.",
+                                        "readSentenceZh": "潜水员们沿着狭窄的通道进入山下很深的洞穴。",
+                                        "blankAnswer": "deep"
+                                },
+                                {
+                                        "readSentence": "The brave explorers want to find out the exact depth of the mysterious cave.",
+                                        "readSentenceZh": "勇敢的探险家们想找出这个神秘洞穴的确切深度。",
+                                        "blankAnswer": "depth"
+                                }
+                        ],
+                        "note": "套题38 · 考点：修饰谓语动词 think，表达“深入地思考”，填入副词 deeply。"
+                }
+        },
+        {
+                "headword": "encourage",
+                "spell": "encourage",
+                "ttsWord": "encourage",
+                "defA2": "To give someone confidence or hope.",
+                "defReadAloud": "To give support, confidence, or hope to someone.",
+                "usages": [
+                        {
+                                "label": "encourage sb to do",
+                                "sentence": "My English teacher often encourages me to read more original English books.",
+                                "sentenceZh": "我的英语老师经常鼓励我读更多英文原著。",
+                                "explain": "鼓励某人做某事。",
+                                "rephrase": "The teacher tells me I should read more English storybooks."
+                        },
+                        {
+                                "label": "encourage independent thinking",
+                                "sentence": "Our school tries its best to encourage independent thinking among teenagers.",
+                                "sentenceZh": "我们学校尽最大努力鼓励青少年独立思考。",
+                                "explain": "动宾搭配。",
+                                "rephrase": "The school supports students to think for themselves."
+                        }
+                ],
+                "derivatives": [
+                        {
+                                "q": "被动语态 are encouraged",
+                                "answer": "encouraged",
+                                "readAloud": "encouraged",
+                                "note": "are encouraged to",
+                                "exampleSentence": "At the community center, newcomers are encouraged to join reading circles on Friday nights.",
+                                "exampleZh": "在社区中心，新来的人被鼓励参加周五晚上的读书圈活动。",
+                                "induct": {
+                                        "title": "归纳 · 被动语态用法",
+                                        "peers": [
+                                                "encourage",
+                                                "encouraged",
+                                                "newcomers",
+                                                "circles",
+                                                "slowly",
+                                                "carefully"
+                                        ],
+                                        "tip": "be encouraged to do 意为“被鼓励去做某事”。"
+                                }
+                        },
+                        {
+                                "q": "名词 encouragement",
+                                "answer": "encouragement",
+                                "readAloud": "encouragement",
+                                "note": "with his encouragement",
+                                "exampleSentence": "With the warm encouragement of my friends, I successfully finished the race.",
+                                "exampleZh": "在朋友们温暖的鼓励下，我成功地完成了比赛。",
+                                "induct": {
+                                        "title": "归纳 · -ment 名词后缀",
+                                        "peers": [
+                                                "encouragement",
+                                                "development",
+                                                "agreement",
+                                                "management",
+                                                "measurement",
+                                                "punishment"
+                                        ],
+                                        "tip": "意为“鼓励，鼓舞”。"
+                                }
+                        }
+                ],
+                "examTarget": {
+                        "form": "encouraged",
+                        "examExamples": [
+                                {
+                                        "readSentence": "Young parents are encouraged to report broken playground equipment as soon as they find it.",
+                                        "readSentenceZh": "鼓励年轻父母一旦发现操场设施损坏就立即上报。",
+                                        "blankAnswer": "encouraged"
+                                },
+                                {
+                                        "readSentence": "My English teacher often encourages me to read more original English storybooks.",
+                                        "readSentenceZh": "我的英语老师经常鼓励我读更多的原版英文故事书。",
+                                        "blankAnswer": "encourages"
+                                },
+                                {
+                                        "readSentence": "With the warm encouragement of his friends, the boy successfully completed the challenge.",
+                                        "readSentenceZh": "在朋友们温暖的鼓励下，男孩成功地完成了挑战。",
+                                        "blankAnswer": "encouragement"
+                                }
+                        ],
+                        "note": "套题38 · 考点：学生是动作的承受者（被鼓励），构成 be encouraged to do 被动句型，填 encouraged。"
+                }
+        },
+        {
+                "headword": "because",
+                "spell": "because",
+                "ttsWord": "because",
+                "defA2": "For the reason that.",
+                "defReadAloud": "For the reason that; since.",
+                "usages": [
+                        {
+                                "label": "because + 从句",
+                                "sentence": "He was late for school this morning because he missed the early bus.",
+                                "sentenceZh": "他今天早上上学迟到了，因为他错过了早班车。",
+                                "explain": "引导原因状语从句。",
+                                "rephrase": "He didn't arrive on time since he failed to catch the bus."
+                        },
+                        {
+                                "label": "because of + n.",
+                                "sentence": "The football match was put off because of the terrible rainstorm yesterday.",
+                                "sentenceZh": "由于昨天可怕的暴雨，足球比赛被推迟了。",
+                                "explain": "后接名词短语。",
+                                "rephrase": "The heavy rain forced the match to be delayed."
+                        }
+                ],
+                "derivatives": [
+                        {
+                                "q": "引导原因词辨析 since/as",
+                                "answer": "since",
+                                "readAloud": "since",
+                                "note": "since everyone is here",
+                                "exampleSentence": "Since everyone is here, let's start the meeting right now.",
+                                "exampleZh": "既然大家都到了，我们现在就开始开会吧。",
+                                "induct": {
+                                        "title": "归纳 · 同义连词",
+                                        "peers": [
+                                                "because",
+                                                "since",
+                                                "as",
+                                                "now that",
+                                                "seeing that",
+                                                "given that"
+                                        ],
+                                        "tip": "since/as 侧重于大家已知的原因，语气较 because 弱。"
+                                }
+                        }
+                ],
+                "examTarget": {
+                        "form": "because",
+                        "examExamples": [
+                                {
+                                        "readSentence": "You shouldn't give up your dream just because you failed an exam once.",
+                                        "readSentenceZh": "你不应该仅仅因为一次考试失败就放弃你的梦想。",
+                                        "blankAnswer": "because"
+                                },
+                                {
+                                        "readSentence": "Since everyone is already here, let's start our group meeting right now.",
+                                        "readSentenceZh": "既然大家都到了，我们现在就开始小组会议吧。",
+                                        "blankAnswer": "Since"
+                                }
+                        ],
+                        "note": "套题38 · 干扰项，易与表示对比的 while 混淆。原题考查逻辑连词的正确使用。"
+                }
+        },
+        {
+                "headword": "stand",
+                "spell": "stand",
+                "ttsWord": "stand",
+                "defA2": "To be on your feet; to be in a vertical position.",
+                "defReadAloud": "Have or maintain an upright position, supported by one's feet.",
+                "usages": [
+                        {
+                                "label": "stand up",
+                                "sentence": "The students stand up and say hello to the teacher when class begins.",
+                                "sentenceZh": "开始上课时，学生们起立并向老师问好。",
+                                "explain": "起立。",
+                                "rephrase": "The kids get on their feet to greet the teacher."
+                        },
+                        {
+                                "label": "can't stand doing",
+                                "sentence": "I really can't stand working in such a noisy and dirty environment.",
+                                "sentenceZh": "我真的受不了在这么吵闹和肮脏的环境中工作。",
+                                "explain": "受不了做某事（常见高频考点）。",
+                                "rephrase": "I hate being in a loud and dirty place so much."
+                        },
+                        {
+                                "label": "stand in line",
+                                "sentence": "Please stand in line and wait patiently when you buy tickets at the cinema.",
+                                "sentenceZh": "在电影院买票时请排队耐心等待。",
+                                "explain": "排队站立。",
+                                "rephrase": "Wait in a row nicely when getting cinema tickets."
+                        }
+                ],
+                "derivatives": [
+                        {
+                                "q": "一般过去时 stood",
+                                "answer": "stood",
+                                "readAloud": "stood",
+                                "note": "stood there",
+                                "exampleSentence": "The old man stood silently in the rain, waiting for his grandson to return.",
+                                "exampleZh": "老人静静地站在雨中，等待着孙子的归来。",
+                                "induct": {
+                                        "title": "归纳 · 不规则动词",
+                                        "peers": [
+                                                "stand - stood - stood",
+                                                "understand - understood - understood",
+                                                "win - won - won",
+                                                "find - found - found",
+                                                "hold - held - held",
+                                                "sell - sold - sold"
+                                        ],
+                                        "tip": "stand 过去式和过去分词均为 stood。"
+                                }
+                        }
+                ],
+                "examTarget": {
+                        "form": "stand",
+                        "examExamples": [
+                                {
+                                        "readSentence": "The brave soldier was proud to stand there and guard his motherland.",
+                                        "readSentenceZh": "这位勇敢的士兵很自豪地站在那里保卫他的祖国。",
+                                        "blankAnswer": "stand"
+                                },
+                                {
+                                        "readSentence": "The old man stood silently in the rain, waiting for the bus to arrive.",
+                                        "readSentenceZh": "老人静静地站在雨中，等待公共汽车的到来。",
+                                        "blankAnswer": "stood"
+                                }
+                        ],
+                        "note": "套题38 · 干扰项，易与本题第1空 Pressing the sky 产生动词混淆，考验学生对动作本质的理解能力。"
+                }
+        }
+];
+    const slides = [];
+    function add(html, meta) { slides.push({ html, meta: meta || null }); }
+    function pushVocabProgram(units, articleTag) {
+      units.forEach((u) => {
+        const parts = slidesFromUnit(u, articleTag);
+        parts.forEach((html, i) => add(html, i === 0 ? { vocabStart: { article: articleTag, headword: u.headword } } : null));
+      });
+    }
+
+    add(`<div class="tag">课程地图</div>
+      <h1 class="slide-title">短文填空 · 套题 38｜2022 年武侯区二诊 · 八段锦 · 项目式学习</h1>
+      <p>本套结构：背景输入 → 词汇四步流 → 证据链 → 半独立练习 → 独立作答 → 答案复盘。Step3 派生配套例句均<strong>不复述本题英文原文</strong>。</p>
+      <div class="card"><h3>本题节奏</h3>
+        <ol>
+          <li>传统文化 · 体育健康 · 项目式学习 · 说明/记叙</li>
+          <li>方框 12 词 · 语篇 10 空；干扰项：<strong>because / stand</strong></li>
+          <li>复盘：<span class="mono">1 Pressing · 2 physical · 3 less · 4 third · 5 while · 6 including · 7 spread · 8 usual · 9 deeply · 10 encouraged</span></li>
+        </ol>
+      </div>`);
+
+    add(`<div class="tag">背景导入</div>
+      <h2 class="slide-h2">八段锦 · 项目式学习 · 词形与逻辑连接</h2>
+      <p>关注词性槽与证据链；核对答案清单见复盘页。</p>
+      <div class="row-audio"><button type="button" class="tts" data-text="Slow movements can still train focus when classrooms turn into little studios.">听迁移句（自编）</button></div>`);
+
+    add(`<div class="tag">方框词</div>
+      <h2 class="slide-h2">词库（12 词 · 10 空）</h2>
+      <p class="mono">because / deep / encourage / include / little / physical / press / spread / stand / three / usual / while</p>
+      <div class="card"><h3>策略提示</h3><p>先标出十大槽位，再回填变形；干扰项勿强行代入。</p></div>`);
+
+    pushVocabProgram(VOCAB_UNITS, "本题");
+
+    add(`<div class="tag">证据链</div>
+      <h2 class="slide-h2">槽位梳理（1–5）</h2>
+      <div class="sense">结合词性、搭配与比较结构判定前五空；口述证据后再书写。</div>`);
+
+    add(`<div class="tag">证据链</div>
+      <h2 class="slide-h2">槽位梳理（6–10）</h2>
+      <div class="sense">处理后五空：注意被动、不定式、比较级、名动形转换。</div>`);
+
+    add(`<div class="tag">半独立</div>
+      <h2 class="slide-h2">语篇填空（编号提示 · 1–10）</h2>
+      <p>只显示编号，先判定词性与词形。</p>
+      <div class="passage">${renderPassage(PASSAGE, PRACTICE_ANS, "study")}</div>
+      <p class="bank">词库：${WORD_BANK.join(" / ")}</p>`);
+
+    add(`<div class="tag">独立作答</div>
+      <h2 class="slide-h2">独立作答页（答案隐藏）</h2>
+      <div class="passage">${renderPassage(PASSAGE, PRACTICE_ANS, "practice")}</div>
+      <div class="row-audio" style="margin-top:10px;"><button type="button" class="nav" id="checkPracticeBtn">一键核对</button></div>
+      <p id="practiceScore" class="score">先独立填写，再点击核对。</p>`);
+
+    add(`<div class="tag">答案</div>
+      <h2 class="slide-h2">答案与词形</h2>
+      <div class="passage">${renderPassage(PASSAGE, PRACTICE_ANS, "key")}</div>
+      <div class="card"><h3>快速核对清单</h3><p class="mono">1 Pressing · 2 physical · 3 less · 4 third · 5 while · 6 including · 7 spread · 8 usual · 9 deeply · 10 encouraged</p></div>`);
+
+    const vocabNavEntries = [];
+    let idx = 0;
+
+    function fillCourseNav() {
+      const scroll = document.getElementById("courseNavScroll");
+      const list = vocabNavEntries.map((e) => `<li><button type="button" class="nav-vocab-link" data-slide-index="${e.index}">${escapeHtml(e.headword)}</button></li>`).join("");
+      scroll.innerHTML = `<div class="course-nav-h">本题词汇流（12 词族 · 方框 12 词）</div><ul class="course-nav-list">${list}</ul>`;
+      scroll.querySelectorAll(".nav-vocab-link").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const i = Number(btn.getAttribute("data-slide-index"));
+          if (!Number.isNaN(i)) { idx = i; render(); }
+        });
+      });
+    }
+
+    function syncNavActive() {
+      const sorted = [...vocabNavEntries].sort((a, b) => a.index - b.index);
+      document.querySelectorAll(".nav-vocab-link").forEach((btn) => {
+        const i = Number(btn.getAttribute("data-slide-index"));
+        const pos = sorted.findIndex((e) => e.index === i);
+        const nextStart = pos >= 0 && pos < sorted.length - 1 ? sorted[pos + 1].index : slides.length;
+        btn.classList.toggle("is-active", idx >= i && idx < nextStart);
+      });
+    }
+
+    function render() {
+      const root = document.getElementById("slideRoot");
+      root.innerHTML = `<div class="slide-body-inner">${slides[idx].html}</div>`;
+      document.getElementById("progress").textContent = `Slide ${idx + 1} / ${slides.length}`;
+      document.getElementById("prevBtn").disabled = idx === 0;
+      document.getElementById("nextBtn").disabled = idx === slides.length - 1;
+      bindTtsButtons(root);
+      bindVocabInteractions(root);
+      syncNavActive();
+    }
+
+    slides.forEach((s, i) => {
+      if (s.meta && s.meta.vocabStart) {
+        vocabNavEntries.push({ index: i, article: s.meta.vocabStart.article, headword: s.meta.vocabStart.headword });
+      }
+    });
+    fillCourseNav();
+
+    document.getElementById("navToggle").addEventListener("click", () => {
+      const nav = document.getElementById("courseNav");
+      const btn = document.getElementById("navToggle");
+      const collapsed = nav.classList.toggle("is-collapsed");
+      btn.setAttribute("aria-expanded", collapsed ? "false" : "true");
+      btn.textContent = collapsed ? "展开" : "目录";
+    });
+    document.getElementById("prevBtn").addEventListener("click", () => { idx = Math.max(0, idx - 1); render(); });
+    document.getElementById("nextBtn").addEventListener("click", () => { idx = Math.min(slides.length - 1, idx + 1); render(); });
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight" || e.key === "PageDown") document.getElementById("nextBtn").click();
+      if (e.key === "ArrowLeft" || e.key === "PageUp") document.getElementById("prevBtn").click();
+    });
+
+    refreshTtsBadge();
+    render();
+  </script>
+</body>
+</html>

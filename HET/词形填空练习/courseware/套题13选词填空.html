@@ -1,0 +1,2363 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>短文填空 · 套题13 · 英国遛狗无人机 · 词形课件</title>
+  <style>
+    :root {
+      --ng-bg0: #0c0b09;
+      --ng-gold: #c9a24d;
+      --ng-gold-dim: #8a7035;
+      --ng-cream: #ebe4d6;
+      --ng-muted: #a89f8f;
+      --ng-card: rgba(28, 24, 20, 0.92);
+      --ng-line: rgba(201, 162, 77, 0.35);
+      --ng-accent: #4a7c7c;
+      --ok: #66c38a;
+      --bad: #e28585;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      height: 100%;
+      margin: 0;
+      background: var(--ng-bg0);
+      color: var(--ng-cream);
+      font-family: "Source Sans 3", "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    .app {
+      min-height: 100%;
+      display: flex;
+      flex-direction: row;
+      align-items: stretch;
+      justify-content: center;
+      padding: 12px;
+      background:
+        radial-gradient(1200px 600px at 20% -10%, rgba(201, 162, 77, 0.12), transparent 55%),
+        radial-gradient(900px 500px at 110% 30%, rgba(74, 124, 124, 0.12), transparent 50%),
+        var(--ng-bg0);
+      gap: 0;
+    }
+    .course-nav {
+      display: flex;
+      flex-direction: row;
+      align-items: stretch;
+      flex-shrink: 0;
+      width: min(230px, 30vw);
+      max-height: min(96vh, calc(100vh - 24px));
+      align-self: center;
+      border: 1px solid var(--ng-line);
+      border-radius: 4px;
+      background: rgba(20, 17, 14, 0.94);
+      overflow: hidden;
+      transition: width .22s ease;
+    }
+    .course-nav.is-collapsed { width: 40px; }
+    .course-nav-edge {
+      flex-shrink: 0;
+      width: 40px;
+      border: none;
+      border-right: 1px solid var(--ng-line);
+      background: rgba(28, 24, 20, 0.95);
+      color: var(--ng-gold);
+      font-size: 18px;
+      cursor: pointer;
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      letter-spacing: .15em;
+      font-weight: 700;
+      padding: 8px 0;
+    }
+    .course-nav-edge:hover { background: rgba(201, 162, 77, 0.12); }
+    .course-nav-panel {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .course-nav.is-collapsed .course-nav-panel { display: none; }
+    .course-nav-heading {
+      margin: 0;
+      padding: 10px 12px 6px;
+      font-size: clamp(11px, 1vw, 13px);
+      color: var(--ng-muted);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      border-bottom: 1px solid rgba(201, 162, 77, 0.2);
+    }
+    .course-nav-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 8px 6px 12px;
+    }
+    .course-nav-scroll::-webkit-scrollbar { width: 5px; }
+    .course-nav-scroll::-webkit-scrollbar-thumb {
+      background: rgba(201, 162, 77, .35);
+      border-radius: 99px;
+    }
+    .course-nav-h {
+      font-size: clamp(11px, .95vw, 13px);
+      color: var(--ng-accent);
+      font-weight: 700;
+      margin: 0 6px 6px;
+      padding-bottom: 4px;
+      border-bottom: 1px dashed rgba(74, 124, 124, .45);
+    }
+    .course-nav-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .course-nav-list li { margin: 0; }
+    button.nav-vocab-link {
+      display: block;
+      width: 100%;
+      text-align: left;
+      margin: 0 0 3px;
+      padding: 7px 10px;
+      font: inherit;
+      font-size: clamp(12px, 1.05vw, 15px);
+      color: #e8dfd0;
+      background: rgba(0, 0, 0, .2);
+      border: 1px solid transparent;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button.nav-vocab-link:hover {
+      border-color: rgba(201, 162, 77, .35);
+      background: rgba(201, 162, 77, .08);
+    }
+    button.nav-vocab-link.is-active {
+      color: var(--ng-gold);
+      border-color: rgba(201, 162, 77, .55);
+      background: rgba(201, 162, 77, .12);
+      font-weight: 700;
+    }
+    .deck-stage {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .deck-shell {
+      width: min(100vw - 24px, calc((100vh - 24px) * 16 / 9));
+      height: min(100vh - 24px, calc((100vw - 24px) * 9 / 16));
+      aspect-ratio: 16 / 9;
+      border: 1px solid var(--ng-line);
+      border-radius: 4px;
+      overflow: hidden;
+      background: linear-gradient(168deg, #14110e 0%, #1f1a15 38%, #0b0a08 100%);
+      box-shadow: 0 0 0 3px rgba(201, 162, 77, .15), 0 28px 90px rgba(0, 0, 0, .65);
+    }
+    .deck {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      padding: clamp(14px, 1.6vw, 28px) clamp(18px, 2.2vw, 36px);
+    }
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-shrink: 0;
+      border-bottom: 1px solid var(--ng-line);
+      padding-bottom: 10px;
+      margin-bottom: 10px;
+    }
+    .brand {
+      font-size: clamp(14px, 1.35vw, 20px);
+      color: var(--ng-gold);
+      letter-spacing: .04em;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    .progress {
+      font-size: clamp(12px, 1.1vw, 15px);
+      color: var(--ng-muted);
+    }
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+    select, button {
+      font: inherit;
+      border-radius: 3px;
+    }
+    select {
+      background: var(--ng-card);
+      color: var(--ng-cream);
+      border: 1px solid var(--ng-line);
+      padding: 6px 10px;
+      font-size: clamp(11px, 1vw, 14px);
+    }
+    button.nav {
+      background: linear-gradient(180deg, #2a241c, #1a1612);
+      color: var(--ng-cream);
+      border: 1px solid var(--ng-gold-dim);
+      padding: 7px 14px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    button.nav:hover { border-color: var(--ng-gold); color: #fff; }
+    button.nav:disabled { opacity: .35; cursor: not-allowed; }
+    .slide-body {
+      flex: 1;
+      min-height: 0;
+      overflow: auto;
+      padding: 8px 6px 12px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .slide-body::-webkit-scrollbar { width: 6px; }
+    .slide-body::-webkit-scrollbar-thumb {
+      background: rgba(201, 162, 77, .35);
+      border-radius: 99px;
+    }
+    .slide-body-inner {
+      width: calc(100% / 1.75);
+      max-width: calc(100% / 1.75);
+      transform: scale(1.75);
+      transform-origin: center center;
+      box-sizing: border-box;
+      flex: 0 0 auto;
+    }
+    h1.slide-title {
+      font-size: clamp(22px, 2.6vw, 40px);
+      margin: 0 0 10px;
+      line-height: 1.15;
+      color: #f3ead8;
+    }
+    h2.slide-h2 {
+      font-size: clamp(18px, 2vw, 30px);
+      margin: 0 0 8px;
+      color: var(--ng-gold);
+    }
+    p, li {
+      font-size: clamp(14px, 1.25vw, 20px);
+      line-height: 1.45;
+      margin: 0 0 10px;
+      color: #e8dfd0;
+    }
+    .tag {
+      display: inline-block;
+      font-size: clamp(11px, .95vw, 14px);
+      padding: 3px 10px;
+      border: 1px solid var(--ng-line);
+      color: var(--ng-gold);
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .card {
+      background: var(--ng-card);
+      border: 1px solid var(--ng-line);
+      border-radius: 6px;
+      padding: clamp(10px, 1.1vw, 16px);
+      margin-bottom: 10px;
+    }
+    .card h3 {
+      margin: 0 0 6px;
+      font-size: clamp(15px, 1.35vw, 22px);
+      color: #fff;
+    }
+    .mono {
+      font-family: ui-monospace, Consolas, monospace;
+      font-size: .95em;
+      color: #cfe8e4;
+    }
+    .sense {
+      font-size: clamp(13px, 1.15vw, 18px);
+      color: #d7cfc2;
+      border-left: 3px solid var(--ng-accent);
+      padding-left: 12px;
+      margin: 8px 0 12px;
+    }
+    .row-audio {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      margin: 8px 0;
+    }
+    button.tts {
+      background: rgba(74, 124, 124, .25);
+      border: 1px solid rgba(74, 124, 124, .65);
+      color: #dff5f3;
+      padding: 6px 12px;
+      cursor: pointer;
+      font-size: clamp(12px, 1.05vw, 16px);
+    }
+    button.tts:hover { background: rgba(74, 124, 124, .4); }
+    button.tts:disabled { opacity: .5; cursor: wait; }
+    .hidden-reveal {
+      display: none;
+      margin-top: 6px;
+      padding: 10px;
+      background: rgba(0,0,0,.25);
+      border-radius: 4px;
+      border: 1px dashed rgba(201, 162, 77, .35);
+    }
+    .hidden-reveal.show { display: block; }
+    .spell-zone {
+      display: inline-block;
+      min-width: min(96%, 520px);
+      padding: 12px 14px;
+      margin: 10px 0;
+      border: 1px dashed var(--ng-line);
+      border-radius: 6px;
+      cursor: pointer;
+      background: rgba(0,0,0,.2);
+      user-select: none;
+    }
+    .spell-zone:focus { outline: 2px solid var(--ng-gold); outline-offset: 2px; }
+    .letter-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px 6px;
+      justify-content: center;
+      min-height: 2.2em;
+    }
+    .letter-chip {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 1.15em;
+      font-family: ui-monospace, Consolas, monospace;
+      font-size: clamp(17px, 1.9vw, 28px);
+      font-weight: 700;
+      padding: 2px 4px;
+      border-radius: 3px;
+    }
+    .letter-chip.blind { color: #5c574e; background: rgba(255,255,255,.04); }
+    .letter-chip.shown { color: var(--ng-gold); background: rgba(201,162,77,.12); }
+    .usage-strip {
+      margin-top: 10px;
+      padding: 10px 12px;
+      border: 1px dashed var(--ng-line);
+      border-radius: 6px;
+      cursor: pointer;
+      background: rgba(0,0,0,.15);
+    }
+    .usage-strip:focus { outline: 2px solid var(--ng-gold); outline-offset: 2px; }
+    .usage-strip.is-revealed {
+      border-style: solid;
+      border-color: rgba(201, 162, 77, .4);
+      background: rgba(0,0,0,.22);
+    }
+    .usage-strip-hint {
+      margin: 0;
+      font-size: clamp(12px, 1.05vw, 16px);
+      color: var(--ng-muted);
+      line-height: 1.4;
+    }
+    .usage-strip.is-revealed .usage-strip-hint { display: none; }
+    .usage-sentence-zh-persistent {
+      margin: 8px 0 0;
+      font-size: clamp(13px, 1.1vw, 17px);
+      color: #c8bba8;
+      line-height: 1.55;
+      padding: 8px 10px;
+      background: rgba(0, 0, 0, .2);
+      border-radius: 4px;
+      border-left: 3px solid rgba(201, 162, 77, .45);
+    }
+    .exam-sentence-zh {
+      margin: 10px 0 0;
+      font-size: clamp(13px, 1.1vw, 17px);
+      color: #c8bba8;
+      line-height: 1.55;
+    }
+    .exam-blank-card {
+      margin-top: 10px;
+      padding: 10px 12px;
+      border: 1px dashed var(--ng-line);
+      border-radius: 6px;
+      background: rgba(0,0,0,.15);
+      line-height: 1.65;
+      font-size: clamp(14px, 1.15vw, 18px);
+    }
+    .exam-blank {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 0;
+      cursor: pointer;
+      color: var(--ng-gold);
+      border-bottom: 2px solid rgba(201, 162, 77, .72);
+      padding: 0 2px;
+      user-select: none;
+    }
+    .exam-blank:focus {
+      outline: 2px solid var(--ng-gold);
+      outline-offset: 2px;
+      border-radius: 3px;
+    }
+    .exam-blank-mask { letter-spacing: .04em; }
+    .exam-blank-ans { display: none; font-weight: 700; }
+    .exam-blank.is-revealed .exam-blank-mask { display: none; }
+    .exam-blank.is-revealed .exam-blank-ans { display: inline; }
+    details.card.grammar-induct-details {
+      margin-top: 12px;
+      border-left: 3px solid var(--ng-accent);
+      background: rgba(74, 124, 124, .08);
+    }
+    .grammar-induct-summary {
+      list-style: none;
+      cursor: pointer;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 6px 14px;
+      user-select: none;
+    }
+    .grammar-induct-summary::-webkit-details-marker { display: none; }
+    .grammar-induct-summary::marker { content: ""; }
+    .grammar-induct-summary .grammar-induct-title {
+      margin: 0;
+      font-size: clamp(14px,1.2vw,18px);
+      color: var(--ng-gold);
+      font-weight: 700;
+    }
+    .grammar-induct-hint { font-size: clamp(11px,.95vw,14px); color: #8ebdb8; }
+    .grammar-induct-hint-open { display: none; }
+    details[open].grammar-induct-details > .grammar-induct-summary .grammar-induct-hint-closed { display: none; }
+    details[open].grammar-induct-details > .grammar-induct-summary .grammar-induct-hint-open { display: inline; }
+    .grammar-induct-inner {
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(201, 162, 77, .2);
+    }
+    .passage {
+      font-size: clamp(13px,1.15vw,18px);
+      line-height: 1.5;
+      color: #efe6d8;
+    }
+    .passage .blank {
+      display: inline-block;
+      min-width: 2.8em;
+      border-bottom: 2px solid var(--ng-gold);
+      margin: 0 2px;
+      text-align: center;
+      color: var(--ng-gold);
+      font-weight: 700;
+      font-family: ui-monospace, Consolas, monospace;
+    }
+    .bank {
+      font-size: clamp(12px,1.05vw,16px);
+      color: var(--ng-muted);
+      margin-top: 8px;
+    }
+    .practice-input {
+      width: 7.2em;
+      border: none;
+      border-bottom: 2px solid var(--ng-gold);
+      background: transparent;
+      color: #fff;
+      text-align: center;
+      font: inherit;
+      font-family: ui-monospace, Consolas, monospace;
+      outline: none;
+      margin: 0 2px;
+    }
+    .practice-input::placeholder { color: #7f7566; }
+    .score {
+      font-size: clamp(12px, 1vw, 15px);
+      color: var(--ng-muted);
+      margin-top: 4px;
+    }
+    .score .ok { color: var(--ok); font-weight: 700; }
+    .score .bad { color: var(--bad); font-weight: 700; }
+    .toast {
+      position: absolute;
+      left: 50%;
+      bottom: 14px;
+      transform: translateX(-50%);
+      background: rgba(180, 40, 40, .92);
+      color: #fff;
+      padding: 8px 14px;
+      border-radius: 4px;
+      font-size: 14px;
+      display: none;
+      max-width: 92%;
+      text-align: center;
+      z-index: 20;
+    }
+    .toast.show { display: block; }
+    .footnote {
+      font-size: clamp(11px,.95vw,14px);
+      color: var(--ng-muted);
+      margin-top: 8px;
+    }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    @media (max-width: 720px) {
+      .app { flex-direction: column; align-items: stretch; }
+      .course-nav {
+        width: 100% !important;
+        max-height: min(220px, 32vh);
+        align-self: stretch;
+      }
+      .course-nav.is-collapsed { width: 100% !important; max-height: 48px; }
+      .course-nav-edge {
+        writing-mode: horizontal-tb;
+        width: auto;
+        min-width: 72px;
+        padding: 10px 12px;
+      }
+      .grid-2 { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="course-nav" id="courseNav" aria-label="词汇目录">
+      <button type="button" class="course-nav-edge" id="navToggle" aria-expanded="true" aria-controls="courseNavPanel" title="折叠/展开目录">目录</button>
+      <div class="course-nav-panel" id="courseNavPanel">
+        <p class="course-nav-heading">词汇流 · 点击跳转 Step1</p>
+        <div class="course-nav-scroll" id="courseNavScroll"></div>
+      </div>
+    </aside>
+
+    <div class="deck-stage">
+      <div class="deck-shell">
+        <div class="deck">
+          <div class="topbar">
+            <div class="brand">Word Forms Lab · Cloze</div>
+            <div class="progress" id="progress">—</div>
+            <div class="controls">
+              <span id="ttsBadge" class="footnote" style="margin-right:6px;max-width:min(42vw,220px);line-height:1.25;"></span>
+              <label class="footnote" style="margin:0;display:flex;align-items:center;gap:6px;">
+                朗读声音
+                <select id="voiceSel" aria-label="朗读声音">
+                  <option value="en-US-AvaNeural" selected>Ava（美）</option>
+                  <option value="en-US-JennyNeural">Jenny（美）</option>
+                  <option value="en-US-GuyNeural">Guy（美）</option>
+                  <option value="en-GB-SoniaNeural">Sonia（英）</option>
+                </select>
+              </label>
+              <button type="button" class="nav" id="prevBtn">上一页</button>
+              <button type="button" class="nav" id="nextBtn">下一页</button>
+            </div>
+          </div>
+          <div class="slide-body" id="slideRoot"></div>
+          <div class="toast" id="toast" role="status"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const AZURE_SPEECH_KEY =
+      "DKRXk8ueSfo5NdIOMqFRTCAfpeGDezJ3Snf5K8gGgtyqxiWdugLzJQQJ99BLACHYHv6XJ3w3AAAYACOGUYP9";
+    const AZURE_SPEECH_REGION = "eastus2";
+    const AZURE_TTS_PROSODY_RATE = "-15%";
+    const audioCache = new Map();
+    let currentTtsAudio = null;
+    const HET_CLOZE_ASSETS_BASE = "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/HET/词形填空练习/courseware/Assets/";
+    let __hetManifestMap = null;
+    function __hetNorm(s) {
+      return String(s || "").replace(/\s+/g, " ").trim();
+    }
+    async function __hetEnsureManifest() {
+      if (__hetManifestMap) return __hetManifestMap;
+      const res = await fetch(HET_CLOZE_ASSETS_BASE + "manifest.json", { cache: "force-cache" });
+      if (!res.ok) throw new Error("manifest " + res.status);
+      const data = await res.json();
+      __hetManifestMap = new Map();
+      for (const ent of Object.values(data)) {
+        const t = __hetNorm(ent.text);
+        if (t && ent.file) __hetManifestMap.set(t, ent.file);
+      }
+      return __hetManifestMap;
+    }
+
+
+    function refreshTtsBadge() {
+      const el = document.getElementById("ttsBadge");
+      if (!el) return;
+      el.textContent = "引擎：Azure REST（与主课件同接口）";
+    }
+    function escapeSsmlText(s) {
+      return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;");
+    }
+    function voiceGenderAndLang(voiceName) {
+      if (voiceName.indexOf("Guy") !== -1) return { gender: "Male", lang: "en-US" };
+      if (voiceName.indexOf("Sonia") !== -1 || voiceName.indexOf("en-GB") !== -1) return { gender: "Female", lang: "en-GB" };
+      return { gender: "Female", lang: "en-US" };
+    }
+    function playUrl(url) {
+      if (currentTtsAudio) { currentTtsAudio.pause(); currentTtsAudio = null; }
+      const a = new Audio(url);
+      currentTtsAudio = a;
+      return a.play();
+    }
+    function playAzureTTS(text) {
+      if (!AZURE_SPEECH_KEY) return Promise.reject(new Error("未配置 Azure Speech Key。"));
+      const endpoint = `https://${AZURE_SPEECH_REGION}.tts.speech.microsoft.com/cognitiveservices/v1`;
+      const voice = document.getElementById("voiceSel")?.value || "en-US-AvaNeural";
+      const g = voiceGenderAndLang(voice);
+      const cacheKey = `${voice}|${text}|${AZURE_TTS_PROSODY_RATE}`;
+      if (audioCache.has(cacheKey)) return playUrl(audioCache.get(cacheKey));
+      const ssml = `<?xml version="1.0" encoding="utf-8"?>
+<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="${g.lang}">
+  <voice name="${voice}">
+    <prosody rate="${AZURE_TTS_PROSODY_RATE}">${escapeSsmlText(text)}</prosody>
+  </voice>
+</speak>`;
+      return fetch(endpoint, {
+        method: "POST",
+        headers: {
+          "Ocp-Apim-Subscription-Key": AZURE_SPEECH_KEY,
+          "Content-Type": "application/ssml+xml",
+          "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3",
+        },
+        body: ssml,
+      }).then((res) => {
+        if (!res.ok) return res.text().then((t) => { throw new Error(`Azure ${res.status}: ${(t || "").slice(0, 120)}`); });
+        return res.blob();
+      }).then((blob) => {
+        const u = URL.createObjectURL(blob);
+        audioCache.set(cacheKey, u);
+        return playUrl(u);
+      });
+    }
+    async function playTts(text) {
+      const key = __hetNorm(text);
+      try {
+        const map = await __hetEnsureManifest();
+        const rel = map.get(key);
+        if (rel) {
+          const url = HET_CLOZE_ASSETS_BASE + String(rel).replace(/^\/+/g, "");
+          await playUrl(url);
+          return;
+        }
+      } catch (e) {
+        console.warn("[het-cloze] COS mp3:", e && e.message ? e.message : e);
+      }
+      await playAzureTTS(text);
+    }
+    function showToast(msg, ms = 3200) {
+      const el = document.getElementById("toast");
+      el.textContent = msg;
+      el.classList.add("show");
+      clearTimeout(showToast._t);
+      showToast._t = setTimeout(() => el.classList.remove("show"), ms);
+    }
+    function escapeHtml(s) {
+      return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+    }
+
+    async function bindTtsButtons(root) {
+      root.querySelectorAll("button.tts").forEach((btn) => {
+        btn.addEventListener("click", async () => {
+          const t = btn.getAttribute("data-text") || "";
+          btn.disabled = true;
+          try { await playTts(t); } catch (e) { showToast(e.message || String(e)); }
+          finally { btn.disabled = false; }
+        });
+      });
+      root.querySelectorAll("button.reveal").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const id = btn.getAttribute("data-target");
+          const box = id && document.getElementById(id);
+          if (box) box.classList.add("show");
+        });
+      });
+    }
+
+    function bindVocabInteractions(root) {
+      root.querySelectorAll(".spell-zone").forEach((zone) => {
+        const word = zone.getAttribute("data-spell") || "";
+        const chars = [...word];
+        const chips = zone.querySelectorAll(".letter-chip");
+        let idx = 0;
+        const countEl = zone.querySelector(".spell-count");
+        const noteTarget = zone.getAttribute("data-reveal-note");
+        const revealNext = () => {
+          if (idx >= chars.length) return;
+          const ch = chars[idx];
+          chips[idx].textContent = ch === " " ? "·" : ch;
+          chips[idx].classList.remove("blind");
+          chips[idx].classList.add("shown");
+          idx++;
+          if (countEl) countEl.textContent = String(idx);
+          if (noteTarget && idx >= chars.length) {
+            const box = document.getElementById(noteTarget);
+            if (box) box.classList.add("show");
+          }
+        };
+        zone.addEventListener("click", (e) => {
+          if (e.target.closest("button") || e.target.closest("a")) return;
+          revealNext();
+        });
+      });
+      root.querySelectorAll(".usage-strip").forEach((strip) => {
+        const reveal = () => {
+          const body = strip.querySelector(".usage-strip-body");
+          if (body) body.classList.add("show");
+          strip.classList.add("is-revealed");
+        };
+        strip.addEventListener("click", (e) => { if (!e.target.closest("button")) reveal(); });
+        strip.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") { e.preventDefault(); reveal(); }
+        });
+      });
+      root.querySelectorAll(".practice-input").forEach((inp) => {
+        inp.addEventListener("input", () => { inp.style.borderBottomColor = "var(--ng-gold)"; });
+      });
+      root.querySelectorAll(".exam-blank").forEach((blank) => {
+        const toggle = () => blank.classList.toggle("is-revealed");
+        blank.addEventListener("click", toggle);
+        blank.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            toggle();
+          }
+        });
+      });
+      root.querySelectorAll("#checkPracticeBtn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const inputs = [...root.querySelectorAll(".practice-input")];
+          let ok = 0;
+          inputs.forEach((inp) => {
+            const n = Number(inp.dataset.num);
+            const user = (inp.value || "").trim().toLowerCase().replace(/\s+/g, " ");
+            const ans = (PRACTICE_ANS[n] || "").trim().toLowerCase().replace(/\s+/g, " ");
+            if (!user) return;
+            if (user === ans) { ok++; inp.style.borderBottomColor = "var(--ok)"; }
+            else inp.style.borderBottomColor = "var(--bad)";
+          });
+          const total = inputs.length;
+          const score = root.querySelector("#practiceScore");
+          if (score) score.innerHTML = `已答对 <span class="ok">${ok}</span> / ${total}。${ok === total ? "全部正确！" : "请继续检查词形。"}`
+        });
+      });
+    }
+
+    function spellBlock(word, revealNoteId) {
+      const chars = [...word];
+      const chips = chars.map(() => `<span class="letter-chip blind">□</span>`).join("");
+      const noteAttr = revealNoteId ? ` data-reveal-note="${escapeHtml(revealNoteId)}"` : "";
+      const hint = revealNoteId
+        ? `点击词区逐字母显示；全部显示后自动出现拼写提示 · <span class="spell-count">0</span> / ${chars.length}`
+        : `点击词区逐字母显示 · <span class="spell-count">0</span> / ${chars.length}`;
+      return `<div class="spell-zone" data-spell="${escapeHtml(word)}" tabindex="0"${noteAttr}>
+        <div class="letter-row">${chips}</div>
+        <p class="footnote" style="margin:6px 0 0;">${hint}</p>
+      </div>`;
+    }
+
+    function uid() { return "x_" + Math.random().toString(36).slice(2, 10); }
+
+    function derivativeInductHtml(d) {
+      if (!d.induct || !Array.isArray(d.induct.peers) || !d.induct.peers.length) return "";
+      const title = d.induct.title || "归纳 · 同类构词";
+      const peers = d.induct.peers.map((w) => `<span class="mono">${escapeHtml(w)}</span>`).join(" · ");
+      const tip = d.induct.tip ? `<p class="footnote" style="margin:10px 0 0;">${escapeHtml(d.induct.tip)}</p>` : "";
+      return `<details class="card grammar-induct-details">
+        <summary class="grammar-induct-summary">
+          <h3 class="grammar-induct-title">${escapeHtml(title)}</h3>
+          <span class="grammar-induct-hint grammar-induct-hint-closed">点击展开</span>
+          <span class="grammar-induct-hint grammar-induct-hint-open">点击收起</span>
+        </summary>
+        <div class="grammar-induct-inner">
+          <p style="margin:0;line-height:1.65;font-size:clamp(13px,1.15vw,18px);">${peers}</p>
+          ${tip}
+        </div>
+      </details>`;
+    }
+
+    function slidesFromUnit(unit, articleTag) {
+      const h = unit.headword;
+      const sid = uid();
+      const out = [];
+      out.push(`<div class="tag">${escapeHtml(articleTag)} · 词汇流 · ${escapeHtml(h)}</div>
+        <h2 class="slide-h2">Step 1 · 听音 → 拼写 → A2 释义</h2>
+        <p class="sense">本页例句与释义均为教学自编，服务短文填空词形判断。</p>
+        <div class="row-audio"><button type="button" class="tts" data-text="${escapeHtml(unit.ttsWord || unit.spell)}">① 听单词发音</button></div>
+        ${spellBlock(unit.spell)}
+        <div class="row-audio" style="margin-top:10px;">
+          <button type="button" class="tts" data-text="${escapeHtml(unit.defReadAloud)}">② 听英文释义（A2）</button>
+          <button type="button" class="nav reveal" data-target="def_${sid}">③ 点击显示释义文字</button>
+        </div>
+        <div class="hidden-reveal" id="def_${sid}">
+          <p style="margin:0;font-size:clamp(14px,1.2vw,19px);line-height:1.4;"><strong>A2 meaning:</strong> ${escapeHtml(unit.defA2)}</p>
+        </div>`);
+
+      const usageTotal = unit.usages.length;
+      unit.usages.forEach((u, ui) => {
+        const idx = ui + 1;
+        const rephraseId = `reph_${uid()}`;
+        const oneCard = `<div class="card">
+            <div class="row-audio"><button type="button" class="tts" data-text="${escapeHtml(u.sentence)}">听例句</button></div>
+            <p class="usage-sentence-zh-persistent"><strong>【译文】</strong>${escapeHtml(u.sentenceZh || "")}</p>
+            <p class="footnote" style="margin:6px 0 0;">本页仅含第 ${idx} 条用法。先听句，再点击三块信息。</p>
+            <div class="usage-strip" tabindex="0"><p class="usage-strip-hint">① 点击显示中文用法标签</p><div class="usage-strip-body hidden-reveal"><p style="margin:0;color:var(--ng-gold);font-weight:700;">${escapeHtml(u.label)}</p></div></div>
+            <div class="usage-strip" tabindex="0"><p class="usage-strip-hint">② 点击显示英文例句</p><div class="usage-strip-body hidden-reveal"><p style="margin:0;">${escapeHtml(u.sentence)}</p></div></div>
+            <div class="usage-strip" tabindex="0"><p class="usage-strip-hint">③ 点击显示解释</p><div class="usage-strip-body hidden-reveal"><p style="margin:0;"><strong>解释：</strong>${escapeHtml(u.explain)}</p><p class="footnote" style="margin:8px 0 0;"><button type="button" class="nav reveal" data-target="${escapeHtml(rephraseId)}">点击显示 Rephrase</button></p><div class="hidden-reveal" id="${escapeHtml(rephraseId)}"><p class="footnote" style="margin:0;"><strong>Rephrase：</strong>${escapeHtml(u.rephrase)}</p></div></div></div>
+          </div>`;
+        out.push(`<div class="tag">${escapeHtml(articleTag)} · 词汇流 · ${escapeHtml(h)}</div>
+          <h2 class="slide-h2">Step 2 · 常见用法（${idx} / ${usageTotal}）</h2>${oneCard}`);
+      });
+
+      (unit.derivatives || []).forEach((d) => {
+        const derivNoteId = d.note ? `dnote_${uid()}` : "";
+        out.push(`<div class="tag">${escapeHtml(articleTag)} · 词汇流 · ${escapeHtml(h)}</div>
+          <h2 class="slide-h2">Step 3 · ${escapeHtml(d.q)}</h2>
+          <div class="row-audio"><button type="button" class="tts" data-text="${escapeHtml(d.readAloud || d.answer)}">听目标词发音</button></div>
+          ${spellBlock(d.answer, derivNoteId)}
+          ${d.note ? `<div class="hidden-reveal" id="${escapeHtml(derivNoteId)}"><p class="footnote" style="margin:0;"><strong>拼写提示：</strong>${escapeHtml(d.note)}</p></div>` : ""}
+          ${derivativeInductHtml(d)}
+          ${d.exampleSentence ? `<div class="card" style="margin-top:12px;"><div class="row-audio"><button type="button" class="tts" data-text="${escapeHtml(d.exampleSentence)}">听 Step3 派生配套例句</button></div><p class="usage-sentence-zh-persistent" style="margin:10px 0 0;"><strong>【译文】</strong>${escapeHtml(d.exampleZh || "")}</p></div>` : ""}`);
+      });
+
+      if (unit.examTarget) {
+        const e = unit.examTarget;
+        const examples = Array.isArray(e.examExamples) && e.examExamples.length ? e.examExamples : [{
+          readSentence: e.readSentence, readSentenceZh: e.readSentenceZh, blankAnswer: e.form,
+        }];
+        const nEx = examples.length;
+        examples.forEach((ex, i) => {
+          const idx = i + 1;
+          const rs = String(ex.readSentence || "");
+          const ba = String(ex.blankAnswer || e.form || "");
+          const re = new RegExp(ba.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "i");
+          const m = rs.match(re);
+          const line = m
+            ? rs.replace(re, `<span class="exam-blank" role="button" tabindex="0" aria-label="点击显示答案"><span class="exam-blank-mask">__________</span><span class="exam-blank-ans">${escapeHtml(ba)}</span></span>`)
+            : `${escapeHtml(rs)} <span class="exam-blank" role="button" tabindex="0" aria-label="点击显示答案"><span class="exam-blank-mask">__________</span><span class="exam-blank-ans">${escapeHtml(ba)}</span></span>`;
+          out.push(`<div class="tag">${escapeHtml(articleTag)} · 词汇流 · ${escapeHtml(h)}</div>
+            <h2 class="slide-h2">${nEx > 1 ? `Step 4 · 考点词形测试（${idx}/${nEx}）` : "Step 4 · 考点词形测试"}</h2>
+            ${i === 0 ? `<p class="sense">先看语境填词形，再核对答案。该步骤对应短文填空真实考法。</p>` : ""}
+            <div class="row-audio"><button type="button" class="tts" data-text="${escapeHtml(rs)}">听完整句（含答案）</button></div>
+            <div class="card">
+              <p class="exam-blank-card">${line}</p>
+              <p class="footnote" style="margin:8px 0 0;">点击横线可显示 / 隐藏答案</p>
+            </div>
+            <p class="exam-sentence-zh"><strong>【译文】</strong>${escapeHtml(ex.readSentenceZh || "")}</p>
+            ${(e.note && i === nEx - 1) ? `<p class="footnote">${escapeHtml(e.note)}</p>` : ""}`);
+        });
+      }
+      return out;
+    }
+
+    function renderPassage(raw, answerList, mode) {
+      const parts = raw.split(/(__\d+__)/g);
+      return parts.map((p) => {
+        const m = /^__(\d+)__$/.exec(p);
+        if (!m) return escapeHtml(p).replace(/\n/g, "<br/>");
+        const num = Number(m[1]);
+        const ans = answerList[num] || "";
+        if (mode === "key") return `<span class="blank">${escapeHtml(ans)}</span>`;
+        if (mode === "study") return `<span class="blank">(${num})</span>`;
+        return `<input class="practice-input" data-num="${num}" placeholder="(${num})" />`;
+      }).join("");
+    }
+
+    const WORD_BANK = ["complete", "day", "follow", "half", "how", "it", "own", "pull", "they", "through", "walk", "when"];
+    const PRACTICE_ANS = {
+        "1": "walking",
+        "2": "owners",
+        "3": "completely",
+        "4": "half",
+        "5": "daily",
+        "6": "through",
+        "7": "following",
+        "8": "when",
+        "9": "pulled",
+        "10": "itself"
+    };
+
+    const PASSAGE = `A drone (无人机) is a plane that can fly without a pilot. Now a new kind of drone made for __1__ dogs is advertised (登广告) online in the UK.
+The company has improved a popular one to allow the __2__ to take their pets for walks with hands free __3__. It uses GPS to lead dogs along a programmed line. The company says that the drone which costs __4__ the price of the regular model can be trusted. They also say that it will allow people to send messages or sit on a park chair while keeping an eye on their pets on their __5__ walk. People simply set the walking line __6__ their mobile phones and set off, with the drone __7__ a set GPS line and returning home on its own. The product is good enough to avoid the things that may stop the drone moving forward.
+However, there would seem to be a number of possible problems. Many dogs might be scared of it and try to get away from it or break it apart. The drone might not correctly find __8__ your pet stops, which could mean the dog will be __9__ along. It will also break the law if you let a drone go out of view, which means you will need to follow closely. While the drone __10__ can avoid the things, the dog may run a risk of knocking down other people and objects.
+Now the drone is not available online, so anyone interested in it will have to travel to a showroom in Huddersfield in the UK.`;
+
+    const VOCAB_UNITS = [
+        {
+                "headword": "complete",
+                "spell": "complete",
+                "ttsWord": "complete",
+                "defA2": "Having all parts; to finish something.",
+                "defReadAloud": "Whole or finished with nothing missing.",
+                "usages": [
+                        {
+                                "label": "complete + 名词（完全的）",
+                                "sentence": "The new sports center is a complete success, popular with teenagers.",
+                                "sentenceZh": "新的体育中心取得了彻底的成功，深受青少年欢迎。",
+                                "explain": "complete 作形容词表“完全的”。",
+                                "rephrase": "The new gym is totally successful."
+                        },
+                        {
+                                "label": "complete + 工程 / 任务",
+                                "sentence": "It took the workers two years to complete the long bridge.",
+                                "sentenceZh": "工人们花了两年时间才建完这座长桥。",
+                                "explain": "complete 作动词表“完成”。",
+                                "rephrase": "Workers finished building the bridge in two years."
+                        },
+                        {
+                                "label": "completely（副词）",
+                                "sentence": "The building was completely destroyed by the terrible fire.",
+                                "sentenceZh": "那座建筑被可怕的大火完全烧毁了。",
+                                "explain": "completely 修饰动词。",
+                                "rephrase": "The bad fire ruined the building totally."
+                        }
+                ],
+                "derivatives": [
+                        {
+                                "q": "副词 completely",
+                                "answer": "completely",
+                                "readAloud": "completely",
+                                "note": "completely surprised。",
+                                "exampleSentence": "I was completely surprised by the ending of the movie.",
+                                "exampleZh": "我对这部电影的结局感到完全惊讶。",
+                                "induct": {
+                                        "title": "归纳 · completely",
+                                        "peers": [
+                                                "completely",
+                                                "fully",
+                                                "totally",
+                                                "partly",
+                                                "hardly",
+                                                "nearly"
+                                        ],
+                                        "tip": "completely + 形容词/过去分词。"
+                                }
+                        },
+                        {
+                                "q": "名词 completion",
+                                "answer": "completion",
+                                "readAloud": "completion",
+                                "note": "the completion of …。",
+                                "exampleSentence": "The completion of the railway makes travel much easier.",
+                                "exampleZh": "铁路的建成使出行变得更加容易。",
+                                "induct": {
+                                        "title": "归纳 · completion",
+                                        "peers": [
+                                                "invention",
+                                                "pollution",
+                                                "education",
+                                                "communication",
+                                                "invitation",
+                                                "celebration"
+                                        ],
+                                        "tip": "on completion。"
+                                }
+                        },
+                        {
+                                "q": "动词 compete",
+                                "answer": "compete",
+                                "readAloud": "compete",
+                                "note": "compete in / for。",
+                                "exampleSentence": "Many athletes compete in the Olympic Games for their countries.",
+                                "exampleZh": "许多运动员在奥运会上为他们的国家竞争。",
+                                "induct": {
+                                        "title": "归纳 · compete",
+                                        "peers": [
+                                                "compete in games",
+                                                "compete for medals",
+                                                "compete against rivals",
+                                                "compete on price",
+                                                "compete fairly",
+                                                "compete abroad"
+                                        ],
+                                        "tip": "compete against …"
+                                }
+                        }
+                ],
+                "examTarget": {
+                        "form": "completely",
+                        "examExamples": [
+                                {
+                                        "readSentence": "The drone was completely out of my control when it lost the GPS signal.",
+                                        "readSentenceZh": "当无人机失去GPS信号时，它完全失去了我的控制。",
+                                        "blankAnswer": "completely"
+                                },
+                                {
+                                        "readSentence": "The old man felt completely relaxed after moving to the countryside.",
+                                        "readSentenceZh": "搬到乡下后，老人感到完全放松了。",
+                                        "blankAnswer": "completely"
+                                },
+                                {
+                                        "readSentence": "She finally completed the difficult task with her team's help.",
+                                        "readSentenceZh": "在团队的帮助下，她终于完成了这项艰巨的任务。",
+                                        "blankAnswer": "completed"
+                                }
+                        ],
+                        "note": "套题13 · completely / completed。"
+                }
+        },
+        {
+                "headword": "day",
+                "spell": "day",
+                "ttsWord": "day",
+                "defA2": "A period of 24 hours; time between waking and sleeping.",
+                "defReadAloud": "One daily cycle or daytime.",
+                "usages": [
+                        {
+                                "label": "every day",
+                                "sentence": "You should brush your teeth twice every day to keep them clean.",
+                                "sentenceZh": "你应该每天刷牙两次以保持牙齿清洁。",
+                                "explain": "every day 作状语。",
+                                "rephrase": "Clean your teeth two times each day."
+                        },
+                        {
+                                "label": "in the daytime",
+                                "sentence": "Owls usually sleep in the daytime and hunt at night.",
+                                "sentenceZh": "猫头鹰通常在白天睡觉，在夜间打猎。",
+                                "explain": "daytime 与 night 对比。",
+                                "rephrase": "Owls rest during the day and look for food at night."
+                        },
+                        {
+                                "label": "daily（形容词）",
+                                "sentence": "Drinking milk has become a daily habit for many primary school students.",
+                                "sentenceZh": "喝牛奶已经成为许多小学生的日常习惯。",
+                                "explain": "daily habit。",
+                                "rephrase": "Many kids drink milk every day."
+                        }
+                ],
+                "derivatives": [
+                        {
+                                "q": "形容词 daily",
+                                "answer": "daily",
+                                "readAloud": "daily",
+                                "note": "daily news / life。",
+                                "exampleSentence": "Reading the daily news helps you learn more about the world.",
+                                "exampleZh": "阅读每日新闻有助于你了解更多关于世界的信息。",
+                                "induct": {
+                                        "title": "归纳 · daily",
+                                        "peers": [
+                                                "daily routine",
+                                                "daily news",
+                                                "daily life",
+                                                "daily work",
+                                                "daily check",
+                                                "daily plan"
+                                        ],
+                                        "tip": "daily routine。"
+                                }
+                        },
+                        {
+                                "q": "名词 daylight",
+                                "answer": "daylight",
+                                "readAloud": "daylight",
+                                "note": "in broad daylight。",
+                                "exampleSentence": "The thief was so brave that he stole the bike in broad daylight.",
+                                "exampleZh": "小偷太胆大了，竟然在光天化日之下偷了自行车。",
+                                "induct": {
+                                        "title": "归纳 · daylight",
+                                        "peers": [
+                                                "broad daylight",
+                                                "daylight hours",
+                                                "in daylight",
+                                                "lose daylight",
+                                                "fading daylight",
+                                                "save daylight"
+                                        ],
+                                        "tip": "broad daylight。"
+                                }
+                        },
+                        {
+                                "q": "名词 diary",
+                                "answer": "diary",
+                                "readAloud": "diary",
+                                "note": "keep a diary。",
+                                "exampleSentence": "The girl keeps a diary to record her happy school life.",
+                                "exampleZh": "这个女孩写日记来记录她快乐的学校生活。",
+                                "induct": {
+                                        "title": "归纳 · diary",
+                                        "peers": [
+                                                "keep a diary",
+                                                "write a diary",
+                                                "daily diary",
+                                                "private diary",
+                                                "travel diary",
+                                                "read a diary"
+                                        ],
+                                        "tip": "write in a diary。"
+                                }
+                        }
+                ],
+                "examTarget": {
+                        "form": "daily",
+                        "examExamples": [
+                                {
+                                        "readSentence": "Doing sports is a necessary part of a teenager's daily life.",
+                                        "readSentenceZh": "做运动是青少年日常生活中必不可少的一部分。",
+                                        "blankAnswer": "daily"
+                                },
+                                {
+                                        "readSentence": "We should pay attention to our daily diet to stay healthy.",
+                                        "readSentenceZh": "我们应该注意我们的日常饮食以保持健康。",
+                                        "blankAnswer": "daily"
+                                },
+                                {
+                                        "readSentence": "It has been raining hard for three days without stopping.",
+                                        "readSentenceZh": "已经连续下了三天大雨没有停。",
+                                        "blankAnswer": "days"
+                                }
+                        ],
+                        "note": "套题13 · daily / days。"
+                }
+        },
+        {
+                "headword": "follow",
+                "spell": "follow",
+                "ttsWord": "follow",
+                "defA2": "To go behind or do what rules say.",
+                "defReadAloud": "Come after or obey instructions.",
+                "usages": [
+                        {
+                                "label": "follow the rules",
+                                "sentence": "All drivers must follow the traffic rules strictly.",
+                                "sentenceZh": "所有司机都必须严格遵守交通规则。",
+                                "explain": "follow = obey。",
+                                "rephrase": "Drivers must obey the traffic laws."
+                        },
+                        {
+                                "label": "as follows",
+                                "sentence": "The main points of the school headmaster's speech are as follows.",
+                                "sentenceZh": "校长的演讲要点如下。",
+                                "explain": "固定搭配 as follows。",
+                                "rephrase": "Here are the main ideas of the boss's speech."
+                        },
+                        {
+                                "label": "the following week",
+                                "sentence": "The old man fell ill on Tuesday and died the following week.",
+                                "sentenceZh": "那位老人星期二病倒了，在接下来的一周去世了。",
+                                "explain": "the following + 时间。",
+                                "rephrase": "The man got sick and passed away the next week."
+                        }
+                ],
+                "derivatives": [
+                        {
+                                "q": "形容词 following",
+                                "answer": "following",
+                                "readAloud": "following",
+                                "note": "the following day。",
+                                "exampleSentence": "The following day, the weather finally cleared up.",
+                                "exampleZh": "第二天，天气终于放晴了。",
+                                "induct": {
+                                        "title": "归纳 · following",
+                                        "peers": [
+                                                "the following day",
+                                                "the following week",
+                                                "the following year",
+                                                "the following morning",
+                                                "answer the following questions",
+                                                "in the following paragraph"
+                                        ],
+                                        "tip": "answer the following questions。"
+                                }
+                        },
+                        {
+                                "q": "名词 follower",
+                                "answer": "follower",
+                                "readAloud": "follower",
+                                "note": "blog followers。",
+                                "exampleSentence": "The young writer has thousands of followers on his blog.",
+                                "exampleZh": "这位年轻作家在他的博客上有成千上万的粉丝。",
+                                "induct": {
+                                        "title": "归纳 · follower",
+                                        "peers": [
+                                                "a loyal follower",
+                                                "gain a follower",
+                                                "lose a follower",
+                                                "blog follower",
+                                                "key follower",
+                                                "new follower"
+                                        ],
+                                        "tip": "followers on social media。"
+                                }
+                        },
+                        {
+                                "q": "过去式 followed",
+                                "answer": "followed",
+                                "readAloud": "followed",
+                                "note": "follow → followed。",
+                                "exampleSentence": "The little dog followed its owner wherever he went.",
+                                "exampleZh": "小狗跟着它的主人，无论他去哪里。",
+                                "induct": {
+                                        "title": "归纳 · followed",
+                                        "peers": [
+                                                "followed by",
+                                                "followed him home",
+                                                "followed closely",
+                                                "followed orders",
+                                                "followed advice",
+                                                "followed the path"
+                                        ],
+                                        "tip": "followed by …"
+                                }
+                        }
+                ],
+                "examTarget": {
+                        "form": "following",
+                        "examExamples": [
+                                {
+                                        "readSentence": "With the drone following a GPS line, you can relax on a park chair.",
+                                        "readSentenceZh": "随着无人机跟随GPS路线，你可以在公园椅子上放松。",
+                                        "blankAnswer": "following"
+                                },
+                                {
+                                        "readSentence": "Please answer the following questions after you read the text.",
+                                        "readSentenceZh": "读完课文后，请回答下列问题。",
+                                        "blankAnswer": "following"
+                                },
+                                {
+                                        "readSentence": "The clever boy followed the teacher's advice and solved the math problem.",
+                                        "readSentenceZh": "聪明的男孩听从了老师的建议，解决了数学难题。",
+                                        "blankAnswer": "followed"
+                                }
+                        ],
+                        "note": "套题13 · following / followed。"
+                }
+        },
+        {
+                "headword": "how",
+                "spell": "how",
+                "ttsWord": "how",
+                "defA2": "In what way or to what degree.",
+                "defReadAloud": "The way something happens or looks.",
+                "usages": [
+                        {
+                                "label": "how to do",
+                                "sentence": "Can you teach me how to download music from the internet?",
+                                "sentenceZh": "你能教我如何从网上下载音乐吗？",
+                                "explain": "how to + 动词原形。",
+                                "rephrase": "Can you show me the way to get music online?"
+                        },
+                        {
+                                "label": "How long …?",
+                                "sentence": "How long does it take you to walk from home to school?",
+                                "sentenceZh": "从家走到学校需要你多长时间？",
+                                "explain": "How long 问时长。",
+                                "rephrase": "What is the time needed to walk to school?"
+                        },
+                        {
+                                "label": "How kind of you!",
+                                "sentence": "How kind of you to help me carry this heavy box!",
+                                "sentenceZh": "你帮我搬这个重箱子真是太好了！",
+                                "explain": "How + 形容词 + of sb。",
+                                "rephrase": "You are so nice to help me with the box."
+                        }
+                ],
+                "derivatives": [
+                        {
+                                "q": "宾语从句中的 how",
+                                "answer": "how",
+                                "readAloud": "how",
+                                "note": "don't know how …。",
+                                "exampleSentence": "I don't know how I can express my thanks to the volunteers.",
+                                "exampleZh": "我不知道该如何向志愿者们表达我的感谢。",
+                                "induct": {
+                                        "title": "归纳 · how",
+                                        "peers": [
+                                                "don't know how",
+                                                "see how",
+                                                "learn how",
+                                                "wonder how",
+                                                "ask how",
+                                                "decide how"
+                                        ],
+                                        "tip": "how + 从句。"
+                                }
+                        },
+                        {
+                                "q": "连接副词 however",
+                                "answer": "however",
+                                "readAloud": "however",
+                                "note": "然而，可是。",
+                                "exampleSentence": "He studied very hard; however, he still failed the difficult exam.",
+                                "exampleZh": "他学习很刻苦；然而，他还是没能通过那次艰难的考试。",
+                                "induct": {
+                                        "title": "归纳 · however",
+                                        "peers": [
+                                                "although",
+                                                "though",
+                                                "even though",
+                                                "while",
+                                                "yet",
+                                                "nevertheless"
+                                        ],
+                                        "tip": "分号 + however。"
+                                }
+                        },
+                        {
+                                "q": "副词 somehow",
+                                "answer": "somehow",
+                                "readAloud": "somehow",
+                                "note": "不知怎么；无论如何。",
+                                "exampleSentence": "I must finish this important report before Friday somehow.",
+                                "exampleZh": "无论如何，我必须在周五前完成这份重要的报告。",
+                                "induct": {
+                                        "title": "归纳 · somehow",
+                                        "peers": [
+                                                "somehow",
+                                                "somehow or other",
+                                                "manage somehow",
+                                                "win somehow",
+                                                "arrive somehow",
+                                                "finish somehow"
+                                        ],
+                                        "tip": "somehow or other。"
+                                }
+                        }
+                ],
+                "examTarget": {
+                        "form": "how",
+                        "examExamples": [
+                                {
+                                        "readSentence": "The passage tells us how a drone can help owners walk their dogs.",
+                                        "readSentenceZh": "这篇文章告诉我们无人机如何帮助主人遛狗。",
+                                        "blankAnswer": "how"
+                                },
+                                {
+                                        "readSentence": "They were discussing how they could make the school greener.",
+                                        "readSentenceZh": "他们正在讨论如何让学校变得更环保。",
+                                        "blankAnswer": "how"
+                                },
+                                {
+                                        "readSentence": "The idea sounds great; however, it might cost too much money.",
+                                        "readSentenceZh": "这个主意听起来不错；然而，它可能要花太多钱。",
+                                        "blankAnswer": "however"
+                                }
+                        ],
+                        "note": "套题13 · how / however。"
+                }
+        },
+        {
+                "headword": "it",
+                "spell": "it",
+                "ttsWord": "it",
+                "defA2": "A thing or animal already mentioned.",
+                "defReadAloud": "The thing we already talked about.",
+                "usages": [
+                        {
+                                "label": "It is + adj + to do",
+                                "sentence": "It is necessary for teenagers to get enough sleep every night.",
+                                "sentenceZh": "青少年每晚获得充足的睡眠是必要的。",
+                                "explain": "It 作形式主语。",
+                                "rephrase": "Teenagers need enough sleep every night."
+                        },
+                        {
+                                "label": "find it + adj + to do",
+                                "sentence": "We find it interesting to learn English through watching movies.",
+                                "sentenceZh": "我们发现通过看电影学英语很有趣。",
+                                "explain": "find it + 形容词。",
+                                "rephrase": "Learning English from movies is fun for us."
+                        },
+                        {
+                                "label": "by itself",
+                                "sentence": "The machine will turn off by itself when the water is boiling.",
+                                "sentenceZh": "水开时，机器会自动关机。",
+                                "explain": "by itself 自动。",
+                                "rephrase": "The machine stops automatically when water boils."
+                        }
+                ],
+                "derivatives": [
+                        {
+                                "q": "反身代词 itself",
+                                "answer": "itself",
+                                "readAloud": "itself",
+                                "note": "by itself。",
+                                "exampleSentence": "The cat looked at itself in the mirror with great curiosity.",
+                                "exampleZh": "猫充满好奇地看着镜子里的自己。",
+                                "induct": {
+                                        "title": "归纳 · itself",
+                                        "peers": [
+                                                "by itself",
+                                                "the door itself",
+                                                "the city itself",
+                                                "the name itself",
+                                                "reveal itself",
+                                                "repeat itself"
+                                        ],
+                                        "tip": "the city itself。"
+                                }
+                        },
+                        {
+                                "q": "物主代词 its",
+                                "answer": "its",
+                                "readAloud": "its",
+                                "note": "its wing / its name。",
+                                "exampleSentence": "The poor bird broke its wing and couldn't fly anymore.",
+                                "exampleZh": "可怜的鸟儿折断了翅膀，再也不能飞了。",
+                                "induct": {
+                                        "title": "归纳 · its",
+                                        "peers": [
+                                                "its color",
+                                                "its size",
+                                                "its name",
+                                                "its wing",
+                                                "its tail",
+                                                "its price"
+                                        ],
+                                        "tip": "its（无撇号）。"
+                                }
+                        },
+                        {
+                                "q": "人称代词 they（指代复数事物）",
+                                "answer": "they",
+                                "readAloud": "they",
+                                "note": "they 指 apples。",
+                                "exampleSentence": "I bought some fresh apples, and they taste very sweet.",
+                                "exampleZh": "我买了一些新鲜苹果，它们尝起来很甜。",
+                                "induct": {
+                                        "title": "归纳 · they",
+                                        "peers": [
+                                                "they taste sweet",
+                                                "they look fresh",
+                                                "they are cheap",
+                                                "they seem ripe",
+                                                "they smell good",
+                                                "they sell well"
+                                        ],
+                                        "tip": "they 作主语。"
+                                }
+                        }
+                ],
+                "examTarget": {
+                        "form": "itself",
+                        "examExamples": [
+                                {
+                                        "readSentence": "The smart drone can return home by itself without human control.",
+                                        "readSentenceZh": "智能无人机可以自己返回家中，无需人为控制。",
+                                        "blankAnswer": "itself"
+                                },
+                                {
+                                        "readSentence": "Every country has its own special culture and traditions.",
+                                        "readSentenceZh": "每个国家都有其自身特殊的文化和传统。",
+                                        "blankAnswer": "its"
+                                },
+                                {
+                                        "readSentence": "History often repeats itself in surprising ways.",
+                                        "readSentenceZh": "历史经常以令人惊讶的方式重演。",
+                                        "blankAnswer": "itself"
+                                }
+                        ],
+                        "note": "套题13 · itself / its。"
+                }
+        },
+        {
+                "headword": "own",
+                "spell": "own",
+                "ttsWord": "own",
+                "defA2": "Belonging to yourself; not borrowed.",
+                "defReadAloud": "Yours and not someone else's.",
+                "usages": [
+                        {
+                                "label": "my own + 名词",
+                                "sentence": "I hope to have my own study room when we move to the new house.",
+                                "sentenceZh": "我希望搬到新家时能有我自己的书房。",
+                                "explain": "one's own。",
+                                "rephrase": "I want a personal study room in the new house."
+                        },
+                        {
+                                "label": "on one's own",
+                                "sentence": "The little girl is too young to go to school on her own.",
+                                "sentenceZh": "小女孩太小了，不能自己去上学。",
+                                "explain": "on one's own = alone。",
+                                "rephrase": "The young girl cannot go to school alone."
+                        },
+                        {
+                                "label": "名词 owner",
+                                "sentence": "The dog owner should be responsible for cleaning up the pet's waste.",
+                                "sentenceZh": "狗主人应该负责清理宠物的排泄物。",
+                                "explain": "owner + 名词。",
+                                "rephrase": "The person with the dog must clean its waste."
+                        }
+                ],
+                "derivatives": [
+                        {
+                                "q": "名词复数 owners",
+                                "answer": "owners",
+                                "readAloud": "owners",
+                                "note": "car owners。",
+                                "exampleSentence": "The police asked all car owners to park their cars in the right place.",
+                                "exampleZh": "警察要求所有车主把车停在正确的地方。",
+                                "induct": {
+                                        "title": "归纳 · owners",
+                                        "peers": [
+                                                "car owners",
+                                                "pet owners",
+                                                "home owners",
+                                                "shop owners",
+                                                "boat owners",
+                                                "phone owners"
+                                        ],
+                                        "tip": "pet owners。"
+                                }
+                        },
+                        {
+                                "q": "动词 own",
+                                "answer": "own",
+                                "readAloud": "own",
+                                "note": "own a car。",
+                                "exampleSentence": "Does your family own a car or do you usually take the bus?",
+                                "exampleZh": "你家有车吗，还是你通常乘公共汽车？",
+                                "induct": {
+                                        "title": "归纳 · own",
+                                        "peers": [
+                                                "own a car",
+                                                "own a flat",
+                                                "own a bike",
+                                                "own a shop",
+                                                "own land",
+                                                "own shares"
+                                        ],
+                                        "tip": "own vs rent。"
+                                }
+                        },
+                        {
+                                "q": "名词 ownership",
+                                "answer": "ownership",
+                                "readAloud": "ownership",
+                                "note": "fight over ownership。",
+                                "exampleSentence": "The two companies are fighting over the ownership of the new technology.",
+                                "exampleZh": "两家公司正在争夺这项新科技的所有权。",
+                                "induct": {
+                                        "title": "归纳 · ownership",
+                                        "peers": [
+                                                "fight over ownership",
+                                                "take ownership",
+                                                "claim ownership",
+                                                "share ownership",
+                                                "transfer ownership",
+                                                "dispute ownership"
+                                        ],
+                                        "tip": "take ownership。"
+                                }
+                        }
+                ],
+                "examTarget": {
+                        "form": "owners",
+                        "examExamples": [
+                                {
+                                        "readSentence": "The company improved the drone to allow pet owners to walk dogs hands-free.",
+                                        "readSentenceZh": "公司改进了无人机，允许宠物主人解放双手遛狗。",
+                                        "blankAnswer": "owners"
+                                },
+                                {
+                                        "readSentence": "You should learn to make decisions on your own as you grow up.",
+                                        "readSentenceZh": "随着你的成长，你应该学会自己做决定。",
+                                        "blankAnswer": "own"
+                                },
+                                {
+                                        "readSentence": "The restaurant is very popular, and its owners are a kind old couple.",
+                                        "readSentenceZh": "这家餐馆很受欢迎，它的主人是一对善良的老夫妇。",
+                                        "blankAnswer": "owners"
+                                }
+                        ],
+                        "note": "套题13 · owners / own。"
+                }
+        },
+        {
+                "headword": "pull",
+                "spell": "pull",
+                "ttsWord": "pull",
+                "defA2": "To move something toward you.",
+                "defReadAloud": "Draw something closer with force.",
+                "usages": [
+                        {
+                                "label": "push / pull",
+                                "sentence": "Please push the door to go out, and pull it to come in.",
+                                "sentenceZh": "请推门出去，拉门进来。",
+                                "explain": "pull 与 push 对比。",
+                                "rephrase": "Push to exit, pull to enter."
+                        },
+                        {
+                                "label": "pull together",
+                                "sentence": "If we all pull together, we can finish the difficult project on time.",
+                                "sentenceZh": "如果我们齐心协力，就能按时完成这个困难的项目。",
+                                "explain": "pull together 齐心协力。",
+                                "rephrase": "We can finish the work if we work as a team."
+                        },
+                        {
+                                "label": "pull off",
+                                "sentence": "The smart student finally pulled off the hard science experiment.",
+                                "sentenceZh": "那个聪明的学生最终成功完成了艰难的科学实验。",
+                                "explain": "pull off 成功做到。",
+                                "rephrase": "The clever student managed to do the hard test."
+                        }
+                ],
+                "derivatives": [
+                        {
+                                "q": "过去式 pulled",
+                                "answer": "pulled",
+                                "readAloud": "pulled",
+                                "note": "pull → pulled。",
+                                "exampleSentence": "The strong horse pulled the heavy cart slowly up the hill.",
+                                "exampleZh": "强壮的马缓慢地把沉重的车拉上山。",
+                                "induct": {
+                                        "title": "归纳 · pulled",
+                                        "peers": [
+                                                "pull → pulled",
+                                                "push → pushed",
+                                                "drag → dragged",
+                                                "call → called",
+                                                "pick → picked",
+                                                "pack → packed"
+                                        ],
+                                        "tip": "be pulled along。"
+                                }
+                        },
+                        {
+                                "q": "名词 pull",
+                                "answer": "pull",
+                                "readAloud": "pull",
+                                "note": "give a pull。",
+                                "exampleSentence": "Give the rope a hard pull, and the bell will ring.",
+                                "exampleZh": "用力拉一下绳子，铃就会响。",
+                                "induct": {
+                                        "title": "归纳 · pull",
+                                        "peers": [
+                                                "give a pull",
+                                                "hard pull",
+                                                "quick pull",
+                                                "sharp pull",
+                                                "one pull",
+                                                "final pull"
+                                        ],
+                                        "tip": "a pull on …"
+                                }
+                        },
+                        {
+                                "q": "动词 push（对比）",
+                                "answer": "push",
+                                "readAloud": "push",
+                                "note": "Don't push。",
+                                "exampleSentence": "Don't push others when you are waiting in line for the bus.",
+                                "exampleZh": "排队等公交车时不要推别人。",
+                                "induct": {
+                                        "title": "归纳 · push",
+                                        "peers": [
+                                                "push the door",
+                                                "push the cart",
+                                                "push forward",
+                                                "push harder",
+                                                "push aside",
+                                                "push past"
+                                        ],
+                                        "tip": "push vs pull。"
+                                }
+                        }
+                ],
+                "examTarget": {
+                        "form": "pulled",
+                        "examExamples": [
+                                {
+                                        "readSentence": "If the drone doesn't stop correctly, the dog might be pulled along.",
+                                        "readSentenceZh": "如果无人机没有正确停下，狗可能会被拖着走。",
+                                        "blankAnswer": "pulled"
+                                },
+                                {
+                                        "readSentence": "He gently pulled the little boy away from the dangerous fire.",
+                                        "readSentenceZh": "他轻轻地把小男孩从危险的火边拉开。",
+                                        "blankAnswer": "pulled"
+                                },
+                                {
+                                        "readSentence": "The old man is pulling a cart full of fresh vegetables to the market.",
+                                        "readSentenceZh": "老人正拉着满满一车新鲜蔬菜去市场。",
+                                        "blankAnswer": "pulling"
+                                }
+                        ],
+                        "note": "套题13 · pulled / pulling。"
+                }
+        },
+        {
+                "headword": "they",
+                "spell": "they",
+                "ttsWord": "they",
+                "defA2": "People or things already mentioned (plural).",
+                "defReadAloud": "Those people or things from before.",
+                "usages": [
+                        {
+                                "label": "they + be",
+                                "sentence": "They are my good friends, and we often play basketball together.",
+                                "sentenceZh": "他们是我的好朋友，我们经常一起打篮球。",
+                                "explain": "they 作主语。",
+                                "rephrase": "Those boys are my friends, and we play sports."
+                        },
+                        {
+                                "label": "They say …",
+                                "sentence": "They say that reading English aloud every morning helps improve pronunciation.",
+                                "sentenceZh": "人们说每天早上大声朗读英语有助于改善发音。",
+                                "explain": "They 泛指人们。",
+                                "rephrase": "People believe reading aloud helps pronunciation."
+                        },
+                        {
+                                "label": "by themselves",
+                                "sentence": "The students decorated the classroom all by themselves for the New Year.",
+                                "sentenceZh": "学生们为了新年完全靠自己装饰了教室。",
+                                "explain": "by themselves。",
+                                "rephrase": "Students made the room beautiful without help."
+                        }
+                ],
+                "derivatives": [
+                        {
+                                "q": "主格 they",
+                                "answer": "they",
+                                "readAloud": "they",
+                                "note": "they are gone。",
+                                "exampleSentence": "Where are my keys? I put them on the table, but now they are gone.",
+                                "exampleZh": "我的钥匙在哪？我把它们放在桌子上了，但现在它们不见了。",
+                                "induct": {
+                                        "title": "归纳 · they",
+                                        "peers": [
+                                                "they",
+                                                "them",
+                                                "their",
+                                                "theirs",
+                                                "themselves",
+                                                "those"
+                                        ],
+                                        "tip": "they + 动词。"
+                                }
+                        },
+                        {
+                                "q": "宾格 them",
+                                "answer": "them",
+                                "readAloud": "them",
+                                "note": "wash them。",
+                                "exampleSentence": "The apples are fresh. Please wash them before you eat.",
+                                "exampleZh": "这些苹果很新鲜。吃之前请洗一下。",
+                                "induct": {
+                                        "title": "归纳 · them",
+                                        "peers": [
+                                                "they",
+                                                "them",
+                                                "their",
+                                                "theirs",
+                                                "themselves",
+                                                "those"
+                                        ],
+                                        "tip": "give them …"
+                                }
+                        },
+                        {
+                                "q": "形容词性物主代词 their",
+                                "answer": "their",
+                                "readAloud": "their",
+                                "note": "their mother。",
+                                "exampleSentence": "The little birds are waiting in the nest for their mother to bring food.",
+                                "exampleZh": "小鸟在巢里等着它们的妈妈带食物来。",
+                                "induct": {
+                                        "title": "归纳 · their",
+                                        "peers": [
+                                                "their plan",
+                                                "their joke",
+                                                "their turn",
+                                                "their voices",
+                                                "their story",
+                                                "their idea"
+                                        ],
+                                        "tip": "their + 名词。"
+                                }
+                        }
+                ],
+                "examTarget": {
+                        "form": "they",
+                        "examExamples": [
+                                {
+                                        "readSentence": "The company says that they will allow people to control the drone easily.",
+                                        "readSentenceZh": "公司表示，他们将允许人们轻松控制无人机。",
+                                        "blankAnswer": "they"
+                                },
+                                {
+                                        "readSentence": "I bought some beautiful postcards and sent them to my pen pals.",
+                                        "readSentenceZh": "我买了一些漂亮的明信片，并把它们寄给了我的笔友。",
+                                        "blankAnswer": "them"
+                                },
+                                {
+                                        "readSentence": "The boys hurt themselves while playing football in the heavy rain.",
+                                        "readSentenceZh": "男孩们在大雨中踢足球时伤了自己。",
+                                        "blankAnswer": "themselves"
+                                }
+                        ],
+                        "note": "套题13 · they / them / themselves。"
+                }
+        },
+        {
+                "headword": "through",
+                "spell": "through",
+                "ttsWord": "through",
+                "defA2": "From one side to the other; finished.",
+                "defReadAloud": "Go in one side and out the other.",
+                "usages": [
+                        {
+                                "label": "go through",
+                                "sentence": "The train went through a long, dark tunnel in the mountains.",
+                                "sentenceZh": "火车穿过了山里一条长长的、黑暗的隧道。",
+                                "explain": "穿过空间。",
+                                "rephrase": "The train passed a long dark hole in the mountain."
+                        },
+                        {
+                                "label": "look through",
+                                "sentence": "I looked through the newspaper but didn't find any interesting news.",
+                                "sentenceZh": "我浏览了报纸，但没有找到任何有趣的新闻。",
+                                "explain": "浏览。",
+                                "rephrase": "I read the paper quickly but found nothing fun."
+                        },
+                        {
+                                "label": "get through",
+                                "sentence": "It took him a long time to get through the difficult math book.",
+                                "sentenceZh": "他花了很长时间才看完那本难懂的数学书。",
+                                "explain": "读完、做完。",
+                                "rephrase": "He spent much time finishing the hard math book."
+                        }
+                ],
+                "derivatives": [
+                        {
+                                "q": "介词 through",
+                                "answer": "through",
+                                "readAloud": "through",
+                                "note": "come through。",
+                                "exampleSentence": "The sunlight came through the window and warmed the whole room.",
+                                "exampleZh": "阳光透过窗户照进来，温暖了整个房间。",
+                                "induct": {
+                                        "title": "归纳 · through",
+                                        "peers": [
+                                                "go through",
+                                                "walk through",
+                                                "pass through",
+                                                "look through",
+                                                "get through",
+                                                "break through"
+                                        ],
+                                        "tip": "walk through。"
+                                }
+                        },
+                        {
+                                "q": "介词 throughout",
+                                "answer": "throughout",
+                                "readAloud": "throughout",
+                                "note": "throughout the country。",
+                                "exampleSentence": "The famous singer is well-known throughout the whole country.",
+                                "exampleZh": "这位著名歌手在全国各地都很有名。",
+                                "induct": {
+                                        "title": "归纳 · throughout",
+                                        "peers": [
+                                                "throughout the year",
+                                                "throughout the city",
+                                                "throughout history",
+                                                "throughout life",
+                                                "throughout Asia",
+                                                "throughout winter"
+                                        ],
+                                        "tip": "throughout + 时期。"
+                                }
+                        },
+                        {
+                                "q": "连词 although（形近拓展）",
+                                "answer": "although",
+                                "readAloud": "although",
+                                "note": "Although …",
+                                "exampleSentence": "Although it was raining hard, the football match continued.",
+                                "exampleZh": "虽然雨下得很大，但足球比赛还在继续。",
+                                "induct": {
+                                        "title": "归纳 · although",
+                                        "peers": [
+                                                "although",
+                                                "though",
+                                                "even though",
+                                                "while",
+                                                "yet",
+                                                "still"
+                                        ],
+                                        "tip": "Although + 从句。"
+                                }
+                        }
+                ],
+                "examTarget": {
+                        "form": "through",
+                        "examExamples": [
+                                {
+                                        "readSentence": "People simply set the walking line through their mobile phones.",
+                                        "readSentenceZh": "人们只需通过手机设置步行路线。",
+                                        "blankAnswer": "through"
+                                },
+                                {
+                                        "readSentence": "The brave soldiers fought hard throughout the cold winter.",
+                                        "readSentenceZh": "勇敢的士兵们在整个寒冬中奋力拼搏。",
+                                        "blankAnswer": "throughout"
+                                },
+                                {
+                                        "readSentence": "We learned a lot about Chinese history through visiting the museum.",
+                                        "readSentenceZh": "通过参观博物馆，我们了解了很多关于中国历史的知识。",
+                                        "blankAnswer": "through"
+                                }
+                        ],
+                        "note": "套题13 · through / throughout。"
+                }
+        },
+        {
+                "headword": "half",
+                "spell": "half",
+                "ttsWord": "half",
+                "defA2": "One of two equal parts of something.",
+                "defReadAloud": "Fifty percent or one of two equal parts.",
+                "usages": [
+                        {
+                                "label": "half an hour",
+                                "sentence": "We waited at the bus stop for half an hour in the cold rain.",
+                                "sentenceZh": "我们在寒冷的雨中等了半个小时公交车。",
+                                "explain": "half + 名词，表示一半量。",
+                                "rephrase": "We waited thirty minutes in the rain for the bus."
+                        },
+                        {
+                                "label": "half the price",
+                                "sentence": "The store sold winter coats at half the price of last season.",
+                                "sentenceZh": "这家店以去年冬天一半的价格出售大衣。",
+                                "explain": "half the + 名词，表示“……的一半”。",
+                                "rephrase": "Coats were fifty percent cheaper than last year."
+                        },
+                        {
+                                "label": "in half",
+                                "sentence": "She cut the long sandwich in half so we could share it easily.",
+                                "sentenceZh": "她把长三明治切成两半，这样我们就能方便地分享。",
+                                "explain": "in half 分成两半。",
+                                "rephrase": "She split the sandwich into two equal parts."
+                        }
+                ],
+                "derivatives": [
+                        {
+                                "q": "half + the + 名词（比例义）",
+                                "answer": "half",
+                                "readAloud": "half",
+                                "note": "half the price / size。",
+                                "exampleSentence": "Second-hand textbooks often cost half the price of new ones.",
+                                "exampleZh": "二手教科书的价格通常只有新书的一半。",
+                                "induct": {
+                                        "title": "归纳 · half the + n.",
+                                        "peers": [
+                                                "half the price",
+                                                "half the size",
+                                                "half the time",
+                                                "half the distance",
+                                                "half the weight",
+                                                "half the group"
+                                        ],
+                                        "tip": "描述比例常用 half the …"
+                                }
+                        },
+                        {
+                                "q": "动词 halve（拓展）",
+                                "answer": "halve",
+                                "readAloud": "halve",
+                                "note": "halve the time / cost。",
+                                "exampleSentence": "The new shortcut can halve the time we spend on the boring chore.",
+                                "exampleZh": "这条新捷径能把我们做无聊家务的时间减半。",
+                                "induct": {
+                                        "title": "归纳 · halve",
+                                        "peers": [
+                                                "halve the cost",
+                                                "halve the time",
+                                                "halve the risk",
+                                                "halve the workload",
+                                                "halve prices",
+                                                "halve distances"
+                                        ],
+                                        "tip": "数字对比可并列 halve 与 double。"
+                                }
+                        },
+                        {
+                                "q": "first / second half",
+                                "answer": "half",
+                                "readAloud": "half",
+                                "note": "the first half of the game。",
+                                "exampleSentence": "In the second half of the game, our team scored three goals.",
+                                "exampleZh": "比赛的下半场，我们队进了三个球。",
+                                "induct": {
+                                        "title": "归纳 · half 作名词",
+                                        "peers": [
+                                                "first half",
+                                                "second half",
+                                                "better half",
+                                                "split in half",
+                                                "game half",
+                                                "season half"
+                                        ],
+                                        "tip": "赛程与叙事常用 half。"
+                                }
+                        }
+                ],
+                "examTarget": {
+                        "form": "half",
+                        "examExamples": [
+                                {
+                                        "readSentence": "The shop says the sports drone costs half the price of the older model.",
+                                        "readSentenceZh": "商家称这款运动无人机的价格只有旧款的一半。",
+                                        "blankAnswer": "half"
+                                },
+                                {
+                                        "readSentence": "Please pour half a glass of milk for your little brother.",
+                                        "readSentenceZh": "请给弟弟倒半杯牛奶。",
+                                        "blankAnswer": "half"
+                                },
+                                {
+                                        "readSentence": "The runner finished the first half of the race in two hours.",
+                                        "readSentenceZh": "那位选手用两小时跑完了赛程的前半段。",
+                                        "blankAnswer": "half"
+                                }
+                        ],
+                        "note": "套题13 · half the price / first half。"
+                }
+        },
+        {
+                "headword": "walk",
+                "spell": "walk",
+                "ttsWord": "walk",
+                "defA2": "To move on foot at a normal speed.",
+                "defReadAloud": "Go somewhere using your feet.",
+                "usages": [
+                        {
+                                "label": "walk the dog",
+                                "sentence": "It is my daily duty to walk the dog in the park after dinner.",
+                                "sentenceZh": "晚饭后在公园里遛狗是我每天的任务。",
+                                "explain": "walk the dog。",
+                                "rephrase": "I must take the dog for a walk every evening."
+                        },
+                        {
+                                "label": "go for a walk",
+                                "sentence": "My grandparents often go for a walk along the river in the morning.",
+                                "sentenceZh": "我的祖父母经常在早上沿着河边散步。",
+                                "explain": "go for a walk。",
+                                "rephrase": "My grandparents stroll by the river early in the day."
+                        },
+                        {
+                                "label": "walk across",
+                                "sentence": "The old man walked slowly across the street with a heavy bag.",
+                                "sentenceZh": "老人提着一个沉重的包慢慢地走过马路。",
+                                "explain": "walk + 介词。",
+                                "rephrase": "The old man crossed the road slowly."
+                        }
+                ],
+                "derivatives": [
+                        {
+                                "q": "动名词 walking",
+                                "answer": "walking",
+                                "readAloud": "walking",
+                                "note": "walking for 30 minutes。",
+                                "exampleSentence": "Walking for 30 minutes every day is a great way to keep fit.",
+                                "exampleZh": "每天步行30分钟是保持健康的好方法。",
+                                "induct": {
+                                        "title": "归纳 · walking",
+                                        "peers": [
+                                                "go walking",
+                                                "walking speed",
+                                                "walking time",
+                                                "walking route",
+                                                "brisk walking",
+                                                "keep walking"
+                                        ],
+                                        "tip": "go walking。"
+                                }
+                        },
+                        {
+                                "q": "名词 walker",
+                                "answer": "walker",
+                                "readAloud": "walker",
+                                "note": "a fast walker。",
+                                "exampleSentence": "He is a fast walker, so it's hard for me to keep up with him.",
+                                "exampleZh": "他是个走路很快的人，所以我很难跟上他。",
+                                "induct": {
+                                        "title": "归纳 · walker",
+                                        "peers": [
+                                                "fast walker",
+                                                "slow walker",
+                                                "morning walkers",
+                                                "keen walker",
+                                                "careful walker",
+                                                "dog walker"
+                                        ],
+                                        "tip": "morning walkers。"
+                                }
+                        },
+                        {
+                                "q": "a short walk",
+                                "answer": "walk",
+                                "readAloud": "walk",
+                                "note": "名词 walk。",
+                                "exampleSentence": "The school is just a short walk from my house, so I never take the bus.",
+                                "exampleZh": "学校离我家只有很短的步行路程，所以我从不乘公共汽车。",
+                                "induct": {
+                                        "title": "归纳 · walk",
+                                        "peers": [
+                                                "a short walk",
+                                                "a long walk",
+                                                "ten-minute walk",
+                                                "a quiet walk",
+                                                "a daily walk",
+                                                "an evening walk"
+                                        ],
+                                        "tip": "10-minute walk。"
+                                }
+                        }
+                ],
+                "examTarget": {
+                        "form": "walking",
+                        "examExamples": [
+                                {
+                                        "readSentence": "Now a new kind of drone made for walking dogs is advertised online.",
+                                        "readSentenceZh": "现在网上有一种新型的专门用于遛狗的无人机在做广告。",
+                                        "blankAnswer": "walking"
+                                },
+                                {
+                                        "readSentence": "They can sit on a park chair while keeping an eye on their pets on their walk.",
+                                        "readSentenceZh": "他们可以坐在公园的椅子上，同时留意他们正在散步的宠物。",
+                                        "blankAnswer": "walk"
+                                },
+                                {
+                                        "readSentence": "The park is full of morning walkers who enjoy the fresh air.",
+                                        "readSentenceZh": "公园里满是享受新鲜空气的晨练步行者。",
+                                        "blankAnswer": "walkers"
+                                }
+                        ],
+                        "note": "套题13 · walking / walk / walkers。"
+                }
+        },
+        {
+                "headword": "when",
+                "spell": "when",
+                "ttsWord": "when",
+                "defA2": "At what time; at the time that.",
+                "defReadAloud": "Used to ask time or link two events.",
+                "usages": [
+                        {
+                                "label": "when 引导时间状语从句",
+                                "sentence": "I will give the book to him when he comes back to the classroom.",
+                                "sentenceZh": "当他回到教室时，我会把书给他。",
+                                "explain": "主将从现。",
+                                "rephrase": "I will hand him the book at the time he returns."
+                        },
+                        {
+                                "label": "When did …?",
+                                "sentence": "When did you finish reading that interesting science fiction novel?",
+                                "sentenceZh": "你什么时候读完那本有趣的科幻小说的？",
+                                "explain": "When 问时间点。",
+                                "rephrase": "What time did you complete the reading?"
+                        },
+                        {
+                                "label": "Since when …?",
+                                "sentence": "Since when have you been interested in traditional Chinese medicine?",
+                                "sentenceZh": "你从什么时候开始对中医感兴趣的？",
+                                "explain": "Since when 强调起点。",
+                                "rephrase": "When did your interest in Chinese medicine begin?"
+                        }
+                ],
+                "derivatives": [
+                        {
+                                "q": "连词 when",
+                                "answer": "when",
+                                "readAloud": "when",
+                                "note": "When …",
+                                "exampleSentence": "When the teacher walked in, the students stopped talking immediately.",
+                                "exampleZh": "当老师走进来时，学生们立刻停止了讲话。",
+                                "induct": {
+                                        "title": "归纳 · when",
+                                        "peers": [
+                                                "when I arrived",
+                                                "when it rains",
+                                                "when spring comes",
+                                                "when the bell rings",
+                                                "when they left",
+                                                "when we meet"
+                                        ],
+                                        "tip": "when + 从句。"
+                                }
+                        },
+                        {
+                                "q": "连词 whenever",
+                                "answer": "whenever",
+                                "readAloud": "whenever",
+                                "note": "无论何时。",
+                                "exampleSentence": "You can come to ask me for help whenever you have a problem.",
+                                "exampleZh": "无论何时你有问题，都可以来找我帮忙。",
+                                "induct": {
+                                        "title": "归纳 · whenever",
+                                        "peers": [
+                                                "whenever possible",
+                                                "whenever you like",
+                                                "whenever it rains",
+                                                "whenever we meet",
+                                                "whenever needed",
+                                                "whenever asked"
+                                        ],
+                                        "tip": "whenever you …"
+                                }
+                        },
+                        {
+                                "q": "名词 weekend",
+                                "answer": "weekend",
+                                "readAloud": "weekend",
+                                "note": "at the weekend。",
+                                "exampleSentence": "I usually visit my grandparents in the countryside at the weekend.",
+                                "exampleZh": "我通常在周末去乡下看望我的祖父母。",
+                                "induct": {
+                                        "title": "归纳 · weekend",
+                                        "peers": [
+                                                "at the weekend",
+                                                "last weekend",
+                                                "next weekend",
+                                                "over the weekend",
+                                                "busy weekend",
+                                                "long weekend"
+                                        ],
+                                        "tip": "on the weekend。"
+                                }
+                        }
+                ],
+                "examTarget": {
+                        "form": "when",
+                        "examExamples": [
+                                {
+                                        "readSentence": "The drone might not correctly find when your pet stops.",
+                                        "readSentenceZh": "无人机可能无法准确发现你的宠物何时停下。",
+                                        "blankAnswer": "when"
+                                },
+                                {
+                                        "readSentence": "Whenever I feel sad, listening to classical music cheers me up.",
+                                        "readSentenceZh": "每当我感到难过时，听古典音乐总能让我振作起来。",
+                                        "blankAnswer": "Whenever"
+                                },
+                                {
+                                        "readSentence": "Please remember to turn off the lights when you leave the reading room.",
+                                        "readSentenceZh": "当你离开阅览室时，请记得关灯。",
+                                        "blankAnswer": "when"
+                                }
+                        ],
+                        "note": "套题13 · when / Whenever。"
+                }
+        }
+];
+    const slides = [];
+    function add(html, meta) { slides.push({ html, meta: meta || null }); }
+    function pushVocabProgram(units, articleTag) {
+      units.forEach((u) => {
+        const parts = slidesFromUnit(u, articleTag);
+        parts.forEach((html, i) => add(html, i === 0 ? { vocabStart: { article: articleTag, headword: u.headword } } : null));
+      });
+    }
+
+    add(`<div class="tag">课程地图</div>
+      <h1 class="slide-title">短文填空 · 套题13 · 英国遛狗无人机</h1>
+      <p>本套结构：背景输入 → 词汇四步流 → 证据链 → 半独立练习 → 独立作答 → 答案复盘。Step3 派生配套例句均<strong>不复述本题英文原文</strong>。</p>
+      <div class="card"><h3>本题节奏</h3>
+        <ol>
+          <li>科技说明 · 风险辩证 · 法规暗示</li>
+          <li>方框 12 词 · 语篇 10 空；干扰项：<strong>they / how</strong></li>
+          <li>复盘：<span class="mono">walking · owners · completely · half · daily · through · following · when · pulled · itself</span></li>
+        </ol>
+      </div>`);
+
+    add(`<div class="tag">背景导入</div>
+      <h2 class="slide-h2">科技说明 · 风险辩证 · 法规暗示</h2>
+      <p>关注词性槽与证据链；核对答案清单见复盘页。</p>
+      <div class="row-audio"><button type="button" class="tts" data-text="Brave teens rehearse plain sentences until tricky passages feel friendly.">听迁移句（自编）</button></div>`);
+
+    add(`<div class="tag">方框词</div>
+      <h2 class="slide-h2">词库（12 词 · 10 空）</h2>
+      <p class="mono">complete / day / follow / half / how / it / own / pull / they / through / walk / when</p>
+      <div class="card"><h3>策略提示</h3><p>先标出十大槽位，再回填变形；干扰项勿强行代入。</p></div>`);
+
+    pushVocabProgram(VOCAB_UNITS, "本题");
+
+    add(`<div class="tag">证据链</div>
+      <h2 class="slide-h2">槽位梳理（1–5）</h2>
+      <div class="sense">结合词性、搭配与比较结构判定前五空；口述证据后再书写。</div>`);
+
+    add(`<div class="tag">证据链</div>
+      <h2 class="slide-h2">槽位梳理（6–10）</h2>
+      <div class="sense">处理后五空：注意被动、不定式、比较级、名动形转换。</div>`);
+
+    add(`<div class="tag">半独立</div>
+      <h2 class="slide-h2">语篇填空（编号提示 · 1–10）</h2>
+      <p>只显示编号，先判定词性与词形。</p>
+      <div class="passage">${renderPassage(PASSAGE, PRACTICE_ANS, "study")}</div>
+      <p class="bank">词库：${WORD_BANK.join(" / ")}</p>`);
+
+    add(`<div class="tag">独立作答</div>
+      <h2 class="slide-h2">独立作答页（答案隐藏）</h2>
+      <div class="passage">${renderPassage(PASSAGE, PRACTICE_ANS, "practice")}</div>
+      <div class="row-audio" style="margin-top:10px;"><button type="button" class="nav" id="checkPracticeBtn">一键核对</button></div>
+      <p id="practiceScore" class="score">先独立填写，再点击核对。</p>`);
+
+    add(`<div class="tag">答案</div>
+      <h2 class="slide-h2">答案与词形</h2>
+      <div class="passage">${renderPassage(PASSAGE, PRACTICE_ANS, "key")}</div>
+      <div class="card"><h3>快速核对清单</h3><p class="mono">1 walking · 2 owners · 3 completely · 4 half · 5 daily · 6 through · 7 following · 8 when · 9 pulled · 10 itself</p></div>`);
+
+    const vocabNavEntries = [];
+    let idx = 0;
+
+    function fillCourseNav() {
+      const scroll = document.getElementById("courseNavScroll");
+      const list = vocabNavEntries.map((e) => `<li><button type="button" class="nav-vocab-link" data-slide-index="${e.index}">${escapeHtml(e.headword)}</button></li>`).join("");
+      scroll.innerHTML = `<div class="course-nav-h">本题词汇流（12 词族 · 方框 12 词）</div><ul class="course-nav-list">${list}</ul>`;
+      scroll.querySelectorAll(".nav-vocab-link").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const i = Number(btn.getAttribute("data-slide-index"));
+          if (!Number.isNaN(i)) { idx = i; render(); }
+        });
+      });
+    }
+
+    function syncNavActive() {
+      const sorted = [...vocabNavEntries].sort((a, b) => a.index - b.index);
+      document.querySelectorAll(".nav-vocab-link").forEach((btn) => {
+        const i = Number(btn.getAttribute("data-slide-index"));
+        const pos = sorted.findIndex((e) => e.index === i);
+        const nextStart = pos >= 0 && pos < sorted.length - 1 ? sorted[pos + 1].index : slides.length;
+        btn.classList.toggle("is-active", idx >= i && idx < nextStart);
+      });
+    }
+
+    function render() {
+      const root = document.getElementById("slideRoot");
+      root.innerHTML = `<div class="slide-body-inner">${slides[idx].html}</div>`;
+      document.getElementById("progress").textContent = `Slide ${idx + 1} / ${slides.length}`;
+      document.getElementById("prevBtn").disabled = idx === 0;
+      document.getElementById("nextBtn").disabled = idx === slides.length - 1;
+      bindTtsButtons(root);
+      bindVocabInteractions(root);
+      syncNavActive();
+    }
+
+    slides.forEach((s, i) => {
+      if (s.meta && s.meta.vocabStart) {
+        vocabNavEntries.push({ index: i, article: s.meta.vocabStart.article, headword: s.meta.vocabStart.headword });
+      }
+    });
+    fillCourseNav();
+
+    document.getElementById("navToggle").addEventListener("click", () => {
+      const nav = document.getElementById("courseNav");
+      const btn = document.getElementById("navToggle");
+      const collapsed = nav.classList.toggle("is-collapsed");
+      btn.setAttribute("aria-expanded", collapsed ? "false" : "true");
+      btn.textContent = collapsed ? "展开" : "目录";
+    });
+    document.getElementById("prevBtn").addEventListener("click", () => { idx = Math.max(0, idx - 1); render(); });
+    document.getElementById("nextBtn").addEventListener("click", () => { idx = Math.min(slides.length - 1, idx + 1); render(); });
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight" || e.key === "PageDown") document.getElementById("nextBtn").click();
+      if (e.key === "ArrowLeft" || e.key === "PageUp") document.getElementById("prevBtn").click();
+    });
+
+    refreshTtsBadge();
+    render();
+  </script>
+</body>
+</html>

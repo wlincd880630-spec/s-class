@@ -1,0 +1,2346 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>短文填空 · 套题02 · 轮滑叙事 · 词形课件</title>
+  <style>
+    :root {
+      --ng-bg0: #0c0b09;
+      --ng-gold: #c9a24d;
+      --ng-gold-dim: #8a7035;
+      --ng-cream: #ebe4d6;
+      --ng-muted: #a89f8f;
+      --ng-card: rgba(28, 24, 20, 0.92);
+      --ng-line: rgba(201, 162, 77, 0.35);
+      --ng-accent: #4a7c7c;
+      --ok: #66c38a;
+      --bad: #e28585;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      height: 100%;
+      margin: 0;
+      background: var(--ng-bg0);
+      color: var(--ng-cream);
+      font-family: "Source Sans 3", "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    .app {
+      min-height: 100%;
+      display: flex;
+      flex-direction: row;
+      align-items: stretch;
+      justify-content: center;
+      padding: 12px;
+      background:
+        radial-gradient(1200px 600px at 20% -10%, rgba(201, 162, 77, 0.12), transparent 55%),
+        radial-gradient(900px 500px at 110% 30%, rgba(74, 124, 124, 0.12), transparent 50%),
+        var(--ng-bg0);
+      gap: 0;
+    }
+    .course-nav {
+      display: flex;
+      flex-direction: row;
+      align-items: stretch;
+      flex-shrink: 0;
+      width: min(230px, 30vw);
+      max-height: min(96vh, calc(100vh - 24px));
+      align-self: center;
+      border: 1px solid var(--ng-line);
+      border-radius: 4px;
+      background: rgba(20, 17, 14, 0.94);
+      overflow: hidden;
+      transition: width .22s ease;
+    }
+    .course-nav.is-collapsed { width: 40px; }
+    .course-nav-edge {
+      flex-shrink: 0;
+      width: 40px;
+      border: none;
+      border-right: 1px solid var(--ng-line);
+      background: rgba(28, 24, 20, 0.95);
+      color: var(--ng-gold);
+      font-size: 18px;
+      cursor: pointer;
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      letter-spacing: .15em;
+      font-weight: 700;
+      padding: 8px 0;
+    }
+    .course-nav-edge:hover { background: rgba(201, 162, 77, 0.12); }
+    .course-nav-panel {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .course-nav.is-collapsed .course-nav-panel { display: none; }
+    .course-nav-heading {
+      margin: 0;
+      padding: 10px 12px 6px;
+      font-size: clamp(11px, 1vw, 13px);
+      color: var(--ng-muted);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      border-bottom: 1px solid rgba(201, 162, 77, 0.2);
+    }
+    .course-nav-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 8px 6px 12px;
+    }
+    .course-nav-scroll::-webkit-scrollbar { width: 5px; }
+    .course-nav-scroll::-webkit-scrollbar-thumb {
+      background: rgba(201, 162, 77, .35);
+      border-radius: 99px;
+    }
+    .course-nav-h {
+      font-size: clamp(11px, .95vw, 13px);
+      color: var(--ng-accent);
+      font-weight: 700;
+      margin: 0 6px 6px;
+      padding-bottom: 4px;
+      border-bottom: 1px dashed rgba(74, 124, 124, .45);
+    }
+    .course-nav-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .course-nav-list li { margin: 0; }
+    button.nav-vocab-link {
+      display: block;
+      width: 100%;
+      text-align: left;
+      margin: 0 0 3px;
+      padding: 7px 10px;
+      font: inherit;
+      font-size: clamp(12px, 1.05vw, 15px);
+      color: #e8dfd0;
+      background: rgba(0, 0, 0, .2);
+      border: 1px solid transparent;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button.nav-vocab-link:hover {
+      border-color: rgba(201, 162, 77, .35);
+      background: rgba(201, 162, 77, .08);
+    }
+    button.nav-vocab-link.is-active {
+      color: var(--ng-gold);
+      border-color: rgba(201, 162, 77, .55);
+      background: rgba(201, 162, 77, .12);
+      font-weight: 700;
+    }
+    .deck-stage {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .deck-shell {
+      width: min(100vw - 24px, calc((100vh - 24px) * 16 / 9));
+      height: min(100vh - 24px, calc((100vw - 24px) * 9 / 16));
+      aspect-ratio: 16 / 9;
+      border: 1px solid var(--ng-line);
+      border-radius: 4px;
+      overflow: hidden;
+      background: linear-gradient(168deg, #14110e 0%, #1f1a15 38%, #0b0a08 100%);
+      box-shadow: 0 0 0 3px rgba(201, 162, 77, .15), 0 28px 90px rgba(0, 0, 0, .65);
+    }
+    .deck {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      padding: clamp(14px, 1.6vw, 28px) clamp(18px, 2.2vw, 36px);
+    }
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-shrink: 0;
+      border-bottom: 1px solid var(--ng-line);
+      padding-bottom: 10px;
+      margin-bottom: 10px;
+    }
+    .brand {
+      font-size: clamp(14px, 1.35vw, 20px);
+      color: var(--ng-gold);
+      letter-spacing: .04em;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    .progress {
+      font-size: clamp(12px, 1.1vw, 15px);
+      color: var(--ng-muted);
+    }
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+    select, button {
+      font: inherit;
+      border-radius: 3px;
+    }
+    select {
+      background: var(--ng-card);
+      color: var(--ng-cream);
+      border: 1px solid var(--ng-line);
+      padding: 6px 10px;
+      font-size: clamp(11px, 1vw, 14px);
+    }
+    button.nav {
+      background: linear-gradient(180deg, #2a241c, #1a1612);
+      color: var(--ng-cream);
+      border: 1px solid var(--ng-gold-dim);
+      padding: 7px 14px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    button.nav:hover { border-color: var(--ng-gold); color: #fff; }
+    button.nav:disabled { opacity: .35; cursor: not-allowed; }
+    .slide-body {
+      flex: 1;
+      min-height: 0;
+      overflow: auto;
+      padding: 8px 6px 12px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .slide-body::-webkit-scrollbar { width: 6px; }
+    .slide-body::-webkit-scrollbar-thumb {
+      background: rgba(201, 162, 77, .35);
+      border-radius: 99px;
+    }
+    .slide-body-inner {
+      width: calc(100% / 1.75);
+      max-width: calc(100% / 1.75);
+      transform: scale(1.75);
+      transform-origin: center center;
+      box-sizing: border-box;
+      flex: 0 0 auto;
+    }
+    h1.slide-title {
+      font-size: clamp(22px, 2.6vw, 40px);
+      margin: 0 0 10px;
+      line-height: 1.15;
+      color: #f3ead8;
+    }
+    h2.slide-h2 {
+      font-size: clamp(18px, 2vw, 30px);
+      margin: 0 0 8px;
+      color: var(--ng-gold);
+    }
+    p, li {
+      font-size: clamp(14px, 1.25vw, 20px);
+      line-height: 1.45;
+      margin: 0 0 10px;
+      color: #e8dfd0;
+    }
+    .tag {
+      display: inline-block;
+      font-size: clamp(11px, .95vw, 14px);
+      padding: 3px 10px;
+      border: 1px solid var(--ng-line);
+      color: var(--ng-gold);
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .card {
+      background: var(--ng-card);
+      border: 1px solid var(--ng-line);
+      border-radius: 6px;
+      padding: clamp(10px, 1.1vw, 16px);
+      margin-bottom: 10px;
+    }
+    .card h3 {
+      margin: 0 0 6px;
+      font-size: clamp(15px, 1.35vw, 22px);
+      color: #fff;
+    }
+    .mono {
+      font-family: ui-monospace, Consolas, monospace;
+      font-size: .95em;
+      color: #cfe8e4;
+    }
+    .sense {
+      font-size: clamp(13px, 1.15vw, 18px);
+      color: #d7cfc2;
+      border-left: 3px solid var(--ng-accent);
+      padding-left: 12px;
+      margin: 8px 0 12px;
+    }
+    .row-audio {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      margin: 8px 0;
+    }
+    button.tts {
+      background: rgba(74, 124, 124, .25);
+      border: 1px solid rgba(74, 124, 124, .65);
+      color: #dff5f3;
+      padding: 6px 12px;
+      cursor: pointer;
+      font-size: clamp(12px, 1.05vw, 16px);
+    }
+    button.tts:hover { background: rgba(74, 124, 124, .4); }
+    button.tts:disabled { opacity: .5; cursor: wait; }
+    .hidden-reveal {
+      display: none;
+      margin-top: 6px;
+      padding: 10px;
+      background: rgba(0,0,0,.25);
+      border-radius: 4px;
+      border: 1px dashed rgba(201, 162, 77, .35);
+    }
+    .hidden-reveal.show { display: block; }
+    .spell-zone {
+      display: inline-block;
+      min-width: min(96%, 520px);
+      padding: 12px 14px;
+      margin: 10px 0;
+      border: 1px dashed var(--ng-line);
+      border-radius: 6px;
+      cursor: pointer;
+      background: rgba(0,0,0,.2);
+      user-select: none;
+    }
+    .spell-zone:focus { outline: 2px solid var(--ng-gold); outline-offset: 2px; }
+    .letter-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px 6px;
+      justify-content: center;
+      min-height: 2.2em;
+    }
+    .letter-chip {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 1.15em;
+      font-family: ui-monospace, Consolas, monospace;
+      font-size: clamp(17px, 1.9vw, 28px);
+      font-weight: 700;
+      padding: 2px 4px;
+      border-radius: 3px;
+    }
+    .letter-chip.blind { color: #5c574e; background: rgba(255,255,255,.04); }
+    .letter-chip.shown { color: var(--ng-gold); background: rgba(201,162,77,.12); }
+    .usage-strip {
+      margin-top: 10px;
+      padding: 10px 12px;
+      border: 1px dashed var(--ng-line);
+      border-radius: 6px;
+      cursor: pointer;
+      background: rgba(0,0,0,.15);
+    }
+    .usage-strip:focus { outline: 2px solid var(--ng-gold); outline-offset: 2px; }
+    .usage-strip.is-revealed {
+      border-style: solid;
+      border-color: rgba(201, 162, 77, .4);
+      background: rgba(0,0,0,.22);
+    }
+    .usage-strip-hint {
+      margin: 0;
+      font-size: clamp(12px, 1.05vw, 16px);
+      color: var(--ng-muted);
+      line-height: 1.4;
+    }
+    .usage-strip.is-revealed .usage-strip-hint { display: none; }
+    .usage-sentence-zh-persistent {
+      margin: 8px 0 0;
+      font-size: clamp(13px, 1.1vw, 17px);
+      color: #c8bba8;
+      line-height: 1.55;
+      padding: 8px 10px;
+      background: rgba(0, 0, 0, .2);
+      border-radius: 4px;
+      border-left: 3px solid rgba(201, 162, 77, .45);
+    }
+    .exam-sentence-zh {
+      margin: 10px 0 0;
+      font-size: clamp(13px, 1.1vw, 17px);
+      color: #c8bba8;
+      line-height: 1.55;
+    }
+    .exam-blank-card {
+      margin-top: 10px;
+      padding: 10px 12px;
+      border: 1px dashed var(--ng-line);
+      border-radius: 6px;
+      background: rgba(0,0,0,.15);
+      line-height: 1.65;
+      font-size: clamp(14px, 1.15vw, 18px);
+    }
+    .exam-blank {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 0;
+      cursor: pointer;
+      color: var(--ng-gold);
+      border-bottom: 2px solid rgba(201, 162, 77, .72);
+      padding: 0 2px;
+      user-select: none;
+    }
+    .exam-blank:focus {
+      outline: 2px solid var(--ng-gold);
+      outline-offset: 2px;
+      border-radius: 3px;
+    }
+    .exam-blank-mask { letter-spacing: .04em; }
+    .exam-blank-ans { display: none; font-weight: 700; }
+    .exam-blank.is-revealed .exam-blank-mask { display: none; }
+    .exam-blank.is-revealed .exam-blank-ans { display: inline; }
+    details.card.grammar-induct-details {
+      margin-top: 12px;
+      border-left: 3px solid var(--ng-accent);
+      background: rgba(74, 124, 124, .08);
+    }
+    .grammar-induct-summary {
+      list-style: none;
+      cursor: pointer;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 6px 14px;
+      user-select: none;
+    }
+    .grammar-induct-summary::-webkit-details-marker { display: none; }
+    .grammar-induct-summary::marker { content: ""; }
+    .grammar-induct-summary .grammar-induct-title {
+      margin: 0;
+      font-size: clamp(14px,1.2vw,18px);
+      color: var(--ng-gold);
+      font-weight: 700;
+    }
+    .grammar-induct-hint { font-size: clamp(11px,.95vw,14px); color: #8ebdb8; }
+    .grammar-induct-hint-open { display: none; }
+    details[open].grammar-induct-details > .grammar-induct-summary .grammar-induct-hint-closed { display: none; }
+    details[open].grammar-induct-details > .grammar-induct-summary .grammar-induct-hint-open { display: inline; }
+    .grammar-induct-inner {
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(201, 162, 77, .2);
+    }
+    .passage {
+      font-size: clamp(13px,1.15vw,18px);
+      line-height: 1.5;
+      color: #efe6d8;
+    }
+    .passage .blank {
+      display: inline-block;
+      min-width: 2.8em;
+      border-bottom: 2px solid var(--ng-gold);
+      margin: 0 2px;
+      text-align: center;
+      color: var(--ng-gold);
+      font-weight: 700;
+      font-family: ui-monospace, Consolas, monospace;
+    }
+    .bank {
+      font-size: clamp(12px,1.05vw,16px);
+      color: var(--ng-muted);
+      margin-top: 8px;
+    }
+    .practice-input {
+      width: 7.2em;
+      border: none;
+      border-bottom: 2px solid var(--ng-gold);
+      background: transparent;
+      color: #fff;
+      text-align: center;
+      font: inherit;
+      font-family: ui-monospace, Consolas, monospace;
+      outline: none;
+      margin: 0 2px;
+    }
+    .practice-input::placeholder { color: #7f7566; }
+    .score {
+      font-size: clamp(12px, 1vw, 15px);
+      color: var(--ng-muted);
+      margin-top: 4px;
+    }
+    .score .ok { color: var(--ok); font-weight: 700; }
+    .score .bad { color: var(--bad); font-weight: 700; }
+    .toast {
+      position: absolute;
+      left: 50%;
+      bottom: 14px;
+      transform: translateX(-50%);
+      background: rgba(180, 40, 40, .92);
+      color: #fff;
+      padding: 8px 14px;
+      border-radius: 4px;
+      font-size: 14px;
+      display: none;
+      max-width: 92%;
+      text-align: center;
+      z-index: 20;
+    }
+    .toast.show { display: block; }
+    .footnote {
+      font-size: clamp(11px,.95vw,14px);
+      color: var(--ng-muted);
+      margin-top: 8px;
+    }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    @media (max-width: 720px) {
+      .app { flex-direction: column; align-items: stretch; }
+      .course-nav {
+        width: 100% !important;
+        max-height: min(220px, 32vh);
+        align-self: stretch;
+      }
+      .course-nav.is-collapsed { width: 100% !important; max-height: 48px; }
+      .course-nav-edge {
+        writing-mode: horizontal-tb;
+        width: auto;
+        min-width: 72px;
+        padding: 10px 12px;
+      }
+      .grid-2 { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="course-nav" id="courseNav" aria-label="词汇目录">
+      <button type="button" class="course-nav-edge" id="navToggle" aria-expanded="true" aria-controls="courseNavPanel" title="折叠/展开目录">目录</button>
+      <div class="course-nav-panel" id="courseNavPanel">
+        <p class="course-nav-heading">词汇流 · 点击跳转 Step1</p>
+        <div class="course-nav-scroll" id="courseNavScroll"></div>
+      </div>
+    </aside>
+
+    <div class="deck-stage">
+      <div class="deck-shell">
+        <div class="deck">
+          <div class="topbar">
+            <div class="brand">Word Forms Lab · Cloze</div>
+            <div class="progress" id="progress">—</div>
+            <div class="controls">
+              <span id="ttsBadge" class="footnote" style="margin-right:6px;max-width:min(42vw,220px);line-height:1.25;"></span>
+              <label class="footnote" style="margin:0;display:flex;align-items:center;gap:6px;">
+                朗读声音
+                <select id="voiceSel" aria-label="朗读声音">
+                  <option value="en-US-AvaNeural" selected>Ava（美）</option>
+                  <option value="en-US-JennyNeural">Jenny（美）</option>
+                  <option value="en-US-GuyNeural">Guy（美）</option>
+                  <option value="en-GB-SoniaNeural">Sonia（英）</option>
+                </select>
+              </label>
+              <button type="button" class="nav" id="prevBtn">上一页</button>
+              <button type="button" class="nav" id="nextBtn">下一页</button>
+            </div>
+          </div>
+          <div class="slide-body" id="slideRoot"></div>
+          <div class="toast" id="toast" role="status"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const AZURE_SPEECH_KEY =
+      "DKRXk8ueSfo5NdIOMqFRTCAfpeGDezJ3Snf5K8gGgtyqxiWdugLzJQQJ99BLACHYHv6XJ3w3AAAYACOGUYP9";
+    const AZURE_SPEECH_REGION = "eastus2";
+    const AZURE_TTS_PROSODY_RATE = "-15%";
+    const audioCache = new Map();
+    let currentTtsAudio = null;
+    const HET_CLOZE_ASSETS_BASE = "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/HET/词形填空练习/courseware/Assets/";
+    let __hetManifestMap = null;
+    function __hetNorm(s) {
+      return String(s || "").replace(/\s+/g, " ").trim();
+    }
+    async function __hetEnsureManifest() {
+      if (__hetManifestMap) return __hetManifestMap;
+      const res = await fetch(HET_CLOZE_ASSETS_BASE + "manifest.json", { cache: "force-cache" });
+      if (!res.ok) throw new Error("manifest " + res.status);
+      const data = await res.json();
+      __hetManifestMap = new Map();
+      for (const ent of Object.values(data)) {
+        const t = __hetNorm(ent.text);
+        if (t && ent.file) __hetManifestMap.set(t, ent.file);
+      }
+      return __hetManifestMap;
+    }
+
+
+    function refreshTtsBadge() {
+      const el = document.getElementById("ttsBadge");
+      if (!el) return;
+      el.textContent = "引擎：Azure REST（与主课件同接口）";
+    }
+    function escapeSsmlText(s) {
+      return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;");
+    }
+    function voiceGenderAndLang(voiceName) {
+      if (voiceName.indexOf("Guy") !== -1) return { gender: "Male", lang: "en-US" };
+      if (voiceName.indexOf("Sonia") !== -1 || voiceName.indexOf("en-GB") !== -1) return { gender: "Female", lang: "en-GB" };
+      return { gender: "Female", lang: "en-US" };
+    }
+    function playUrl(url) {
+      if (currentTtsAudio) { currentTtsAudio.pause(); currentTtsAudio = null; }
+      const a = new Audio(url);
+      currentTtsAudio = a;
+      return a.play();
+    }
+    function playAzureTTS(text) {
+      if (!AZURE_SPEECH_KEY) return Promise.reject(new Error("未配置 Azure Speech Key。"));
+      const endpoint = `https://${AZURE_SPEECH_REGION}.tts.speech.microsoft.com/cognitiveservices/v1`;
+      const voice = document.getElementById("voiceSel")?.value || "en-US-AvaNeural";
+      const g = voiceGenderAndLang(voice);
+      const cacheKey = `${voice}|${text}|${AZURE_TTS_PROSODY_RATE}`;
+      if (audioCache.has(cacheKey)) return playUrl(audioCache.get(cacheKey));
+      const ssml = `<?xml version="1.0" encoding="utf-8"?>
+<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="${g.lang}">
+  <voice name="${voice}">
+    <prosody rate="${AZURE_TTS_PROSODY_RATE}">${escapeSsmlText(text)}</prosody>
+  </voice>
+</speak>`;
+      return fetch(endpoint, {
+        method: "POST",
+        headers: {
+          "Ocp-Apim-Subscription-Key": AZURE_SPEECH_KEY,
+          "Content-Type": "application/ssml+xml",
+          "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3",
+        },
+        body: ssml,
+      }).then((res) => {
+        if (!res.ok) return res.text().then((t) => { throw new Error(`Azure ${res.status}: ${(t || "").slice(0, 120)}`); });
+        return res.blob();
+      }).then((blob) => {
+        const u = URL.createObjectURL(blob);
+        audioCache.set(cacheKey, u);
+        return playUrl(u);
+      });
+    }
+    async function playTts(text) {
+      const key = __hetNorm(text);
+      try {
+        const map = await __hetEnsureManifest();
+        const rel = map.get(key);
+        if (rel) {
+          const url = HET_CLOZE_ASSETS_BASE + String(rel).replace(/^\/+/g, "");
+          await playUrl(url);
+          return;
+        }
+      } catch (e) {
+        console.warn("[het-cloze] COS mp3:", e && e.message ? e.message : e);
+      }
+      await playAzureTTS(text);
+    }
+    function showToast(msg, ms = 3200) {
+      const el = document.getElementById("toast");
+      el.textContent = msg;
+      el.classList.add("show");
+      clearTimeout(showToast._t);
+      showToast._t = setTimeout(() => el.classList.remove("show"), ms);
+    }
+    function escapeHtml(s) {
+      return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+    }
+
+    async function bindTtsButtons(root) {
+      root.querySelectorAll("button.tts").forEach((btn) => {
+        btn.addEventListener("click", async () => {
+          const t = btn.getAttribute("data-text") || "";
+          btn.disabled = true;
+          try { await playTts(t); } catch (e) { showToast(e.message || String(e)); }
+          finally { btn.disabled = false; }
+        });
+      });
+      root.querySelectorAll("button.reveal").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const id = btn.getAttribute("data-target");
+          const box = id && document.getElementById(id);
+          if (box) box.classList.add("show");
+        });
+      });
+    }
+
+    function bindVocabInteractions(root) {
+      root.querySelectorAll(".spell-zone").forEach((zone) => {
+        const word = zone.getAttribute("data-spell") || "";
+        const chars = [...word];
+        const chips = zone.querySelectorAll(".letter-chip");
+        let idx = 0;
+        const countEl = zone.querySelector(".spell-count");
+        const noteTarget = zone.getAttribute("data-reveal-note");
+        const revealNext = () => {
+          if (idx >= chars.length) return;
+          const ch = chars[idx];
+          chips[idx].textContent = ch === " " ? "·" : ch;
+          chips[idx].classList.remove("blind");
+          chips[idx].classList.add("shown");
+          idx++;
+          if (countEl) countEl.textContent = String(idx);
+          if (noteTarget && idx >= chars.length) {
+            const box = document.getElementById(noteTarget);
+            if (box) box.classList.add("show");
+          }
+        };
+        zone.addEventListener("click", (e) => {
+          if (e.target.closest("button") || e.target.closest("a")) return;
+          revealNext();
+        });
+      });
+      root.querySelectorAll(".usage-strip").forEach((strip) => {
+        const reveal = () => {
+          const body = strip.querySelector(".usage-strip-body");
+          if (body) body.classList.add("show");
+          strip.classList.add("is-revealed");
+        };
+        strip.addEventListener("click", (e) => { if (!e.target.closest("button")) reveal(); });
+        strip.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") { e.preventDefault(); reveal(); }
+        });
+      });
+      root.querySelectorAll(".practice-input").forEach((inp) => {
+        inp.addEventListener("input", () => { inp.style.borderBottomColor = "var(--ng-gold)"; });
+      });
+      root.querySelectorAll(".exam-blank").forEach((blank) => {
+        const toggle = () => blank.classList.toggle("is-revealed");
+        blank.addEventListener("click", toggle);
+        blank.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            toggle();
+          }
+        });
+      });
+      root.querySelectorAll("#checkPracticeBtn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const inputs = [...root.querySelectorAll(".practice-input")];
+          let ok = 0;
+          inputs.forEach((inp) => {
+            const n = Number(inp.dataset.num);
+            const user = (inp.value || "").trim().toLowerCase().replace(/\s+/g, " ");
+            const ans = (PRACTICE_ANS[n] || "").trim().toLowerCase().replace(/\s+/g, " ");
+            if (!user) return;
+            if (user === ans) { ok++; inp.style.borderBottomColor = "var(--ok)"; }
+            else inp.style.borderBottomColor = "var(--bad)";
+          });
+          const total = inputs.length;
+          const score = root.querySelector("#practiceScore");
+          if (score) score.innerHTML = `已答对 <span class="ok">${ok}</span> / ${total}。${ok === total ? "全部正确！" : "请继续检查词形。"}`
+        });
+      });
+    }
+
+    function spellBlock(word, revealNoteId) {
+      const chars = [...word];
+      const chips = chars.map(() => `<span class="letter-chip blind">□</span>`).join("");
+      const noteAttr = revealNoteId ? ` data-reveal-note="${escapeHtml(revealNoteId)}"` : "";
+      const hint = revealNoteId
+        ? `点击词区逐字母显示；全部显示后自动出现拼写提示 · <span class="spell-count">0</span> / ${chars.length}`
+        : `点击词区逐字母显示 · <span class="spell-count">0</span> / ${chars.length}`;
+      return `<div class="spell-zone" data-spell="${escapeHtml(word)}" tabindex="0"${noteAttr}>
+        <div class="letter-row">${chips}</div>
+        <p class="footnote" style="margin:6px 0 0;">${hint}</p>
+      </div>`;
+    }
+
+    function uid() { return "x_" + Math.random().toString(36).slice(2, 10); }
+
+    function derivativeInductHtml(d) {
+      if (!d.induct || !Array.isArray(d.induct.peers) || !d.induct.peers.length) return "";
+      const title = d.induct.title || "归纳 · 同类构词";
+      const peers = d.induct.peers.map((w) => `<span class="mono">${escapeHtml(w)}</span>`).join(" · ");
+      const tip = d.induct.tip ? `<p class="footnote" style="margin:10px 0 0;">${escapeHtml(d.induct.tip)}</p>` : "";
+      return `<details class="card grammar-induct-details">
+        <summary class="grammar-induct-summary">
+          <h3 class="grammar-induct-title">${escapeHtml(title)}</h3>
+          <span class="grammar-induct-hint grammar-induct-hint-closed">点击展开</span>
+          <span class="grammar-induct-hint grammar-induct-hint-open">点击收起</span>
+        </summary>
+        <div class="grammar-induct-inner">
+          <p style="margin:0;line-height:1.65;font-size:clamp(13px,1.15vw,18px);">${peers}</p>
+          ${tip}
+        </div>
+      </details>`;
+    }
+
+    function slidesFromUnit(unit, articleTag) {
+      const h = unit.headword;
+      const sid = uid();
+      const out = [];
+      out.push(`<div class="tag">${escapeHtml(articleTag)} · 词汇流 · ${escapeHtml(h)}</div>
+        <h2 class="slide-h2">Step 1 · 听音 → 拼写 → A2 释义</h2>
+        <p class="sense">本页例句与释义均为教学自编，服务短文填空词形判断。</p>
+        <div class="row-audio"><button type="button" class="tts" data-text="${escapeHtml(unit.ttsWord || unit.spell)}">① 听单词发音</button></div>
+        ${spellBlock(unit.spell)}
+        <div class="row-audio" style="margin-top:10px;">
+          <button type="button" class="tts" data-text="${escapeHtml(unit.defReadAloud)}">② 听英文释义（A2）</button>
+          <button type="button" class="nav reveal" data-target="def_${sid}">③ 点击显示释义文字</button>
+        </div>
+        <div class="hidden-reveal" id="def_${sid}">
+          <p style="margin:0;font-size:clamp(14px,1.2vw,19px);line-height:1.4;"><strong>A2 meaning:</strong> ${escapeHtml(unit.defA2)}</p>
+        </div>`);
+
+      const usageTotal = unit.usages.length;
+      unit.usages.forEach((u, ui) => {
+        const idx = ui + 1;
+        const rephraseId = `reph_${uid()}`;
+        const oneCard = `<div class="card">
+            <div class="row-audio"><button type="button" class="tts" data-text="${escapeHtml(u.sentence)}">听例句</button></div>
+            <p class="usage-sentence-zh-persistent"><strong>【译文】</strong>${escapeHtml(u.sentenceZh || "")}</p>
+            <p class="footnote" style="margin:6px 0 0;">本页仅含第 ${idx} 条用法。先听句，再点击三块信息。</p>
+            <div class="usage-strip" tabindex="0"><p class="usage-strip-hint">① 点击显示中文用法标签</p><div class="usage-strip-body hidden-reveal"><p style="margin:0;color:var(--ng-gold);font-weight:700;">${escapeHtml(u.label)}</p></div></div>
+            <div class="usage-strip" tabindex="0"><p class="usage-strip-hint">② 点击显示英文例句</p><div class="usage-strip-body hidden-reveal"><p style="margin:0;">${escapeHtml(u.sentence)}</p></div></div>
+            <div class="usage-strip" tabindex="0"><p class="usage-strip-hint">③ 点击显示解释</p><div class="usage-strip-body hidden-reveal"><p style="margin:0;"><strong>解释：</strong>${escapeHtml(u.explain)}</p><p class="footnote" style="margin:8px 0 0;"><button type="button" class="nav reveal" data-target="${escapeHtml(rephraseId)}">点击显示 Rephrase</button></p><div class="hidden-reveal" id="${escapeHtml(rephraseId)}"><p class="footnote" style="margin:0;"><strong>Rephrase：</strong>${escapeHtml(u.rephrase)}</p></div></div></div>
+          </div>`;
+        out.push(`<div class="tag">${escapeHtml(articleTag)} · 词汇流 · ${escapeHtml(h)}</div>
+          <h2 class="slide-h2">Step 2 · 常见用法（${idx} / ${usageTotal}）</h2>${oneCard}`);
+      });
+
+      (unit.derivatives || []).forEach((d) => {
+        const derivNoteId = d.note ? `dnote_${uid()}` : "";
+        out.push(`<div class="tag">${escapeHtml(articleTag)} · 词汇流 · ${escapeHtml(h)}</div>
+          <h2 class="slide-h2">Step 3 · ${escapeHtml(d.q)}</h2>
+          <div class="row-audio"><button type="button" class="tts" data-text="${escapeHtml(d.readAloud || d.answer)}">听目标词发音</button></div>
+          ${spellBlock(d.answer, derivNoteId)}
+          ${d.note ? `<div class="hidden-reveal" id="${escapeHtml(derivNoteId)}"><p class="footnote" style="margin:0;"><strong>拼写提示：</strong>${escapeHtml(d.note)}</p></div>` : ""}
+          ${derivativeInductHtml(d)}
+          ${d.exampleSentence ? `<div class="card" style="margin-top:12px;"><div class="row-audio"><button type="button" class="tts" data-text="${escapeHtml(d.exampleSentence)}">听 Step3 派生配套例句</button></div><p class="usage-sentence-zh-persistent" style="margin:10px 0 0;"><strong>【译文】</strong>${escapeHtml(d.exampleZh || "")}</p></div>` : ""}`);
+      });
+
+      if (unit.examTarget) {
+        const e = unit.examTarget;
+        const examples = Array.isArray(e.examExamples) && e.examExamples.length ? e.examExamples : [{
+          readSentence: e.readSentence, readSentenceZh: e.readSentenceZh, blankAnswer: e.form,
+        }];
+        const nEx = examples.length;
+        examples.forEach((ex, i) => {
+          const idx = i + 1;
+          const rs = String(ex.readSentence || "");
+          const ba = String(ex.blankAnswer || e.form || "");
+          const re = new RegExp(ba.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "i");
+          const m = rs.match(re);
+          const line = m
+            ? rs.replace(re, `<span class="exam-blank" role="button" tabindex="0" aria-label="点击显示答案"><span class="exam-blank-mask">__________</span><span class="exam-blank-ans">${escapeHtml(ba)}</span></span>`)
+            : `${escapeHtml(rs)} <span class="exam-blank" role="button" tabindex="0" aria-label="点击显示答案"><span class="exam-blank-mask">__________</span><span class="exam-blank-ans">${escapeHtml(ba)}</span></span>`;
+          out.push(`<div class="tag">${escapeHtml(articleTag)} · 词汇流 · ${escapeHtml(h)}</div>
+            <h2 class="slide-h2">${nEx > 1 ? `Step 4 · 考点词形测试（${idx}/${nEx}）` : "Step 4 · 考点词形测试"}</h2>
+            ${i === 0 ? `<p class="sense">先看语境填词形，再核对答案。该步骤对应短文填空真实考法。</p>` : ""}
+            <div class="row-audio"><button type="button" class="tts" data-text="${escapeHtml(rs)}">听完整句（含答案）</button></div>
+            <div class="card">
+              <p class="exam-blank-card">${line}</p>
+              <p class="footnote" style="margin:8px 0 0;">点击横线可显示 / 隐藏答案</p>
+            </div>
+            <p class="exam-sentence-zh"><strong>【译文】</strong>${escapeHtml(ex.readSentenceZh || "")}</p>
+            ${(e.note && i === nEx - 1) ? `<p class="footnote">${escapeHtml(e.note)}</p>` : ""}`);
+        });
+      }
+      return out;
+    }
+
+    function renderPassage(raw, answerList, mode) {
+      const parts = raw.split(/(__\d+__)/g);
+      return parts.map((p) => {
+        const m = /^__(\d+)__$/.exec(p);
+        if (!m) return escapeHtml(p).replace(/\n/g, "<br/>");
+        const num = Number(m[1]);
+        const ans = answerList[num] || "";
+        if (mode === "key") return `<span class="blank">${escapeHtml(ans)}</span>`;
+        if (mode === "study") return `<span class="blank">(${num})</span>`;
+        return `<input class="practice-input" data-num="${num}" placeholder="(${num})" />`;
+      }).join("");
+    }
+
+    const WORD_BANK = ["accept", "comfort", "direct", "excite", "foot", "miss", "one", "receive", "regret", "shock", "sit", "write"];
+    const PRACTICE_ANS = {
+        "1": "ones",
+        "2": "comfortable",
+        "3": "shocked",
+        "4": "received",
+        "5": "directly",
+        "6": "had sat",
+        "7": "missing",
+        "8": "feet",
+        "9": "was written",
+        "10": "regretted"
+    };
+
+    const PASSAGE = `Renée Forrestall had no idea what was in store for her. She decided to relearn roller skating in the days leading up to her 60th birthday. The high school art teacher soon bought a new pair of skates, but she thought they were nothing like the __1__ she had as a teenager. They were __2__ to wear.
+So Forrestall decided to buy a used pair, which were popular among younger skaters, but she was __3__ to learn how much they cost. To find a less-expensive pair, she considered searching in online secondhand shops. A few days later, she __4__ a notice telling her that a man named James Bond was hoping to sell an old pair of skates for $40. Bond had no idea what size they were, but he posted a picture of them next to a ruler, showing that they were about 25cm long.
+It seemed to be the right size for Forrestall. So she __5__ reached out to Bond without waiting. Two days later, she drove to Bond's house and learned that the skates __6__ in his basement for many years. They looked very dirty and yellowed with age; the laces (鞋带) were __7__ and the wheels were rock-hard.
+But none of that was important when Forrestall tried them on. She slid (滑动) her __8__ into them and they fitted like a glove. She was very surprised at how they felt just like the skates that her mother bought for her many years earlier. When pulling off the skates, Forrestall was surprised to see that her name __9__ in black marker inside them. She quickly recalled how she used to skate herself for hours on end as a teenager while trying to get better from the "personal loss" she suffered at the time. She always __10__ selling them at a yard sale.
+Finally, Forrestall bought the "old" pair of skates and repaired them.`;
+
+    const VOCAB_UNITS = [
+        {
+                "headword": "accept",
+                "spell": "accept",
+                "ttsWord": "accept",
+                "defA2": "To take something offered; to agree that something is true or fair.",
+                "defReadAloud": "To take something offered; to agree that something is true.",
+                "usages": [
+                        {
+                                "label": "accept + invitation / offer",
+                                "sentence": "Our class leader asked us to accept the offer to join the city clean-up day.",
+                                "sentenceZh": "班长请我们接受参加城市清洁日的提议。",
+                                "explain": "accept 后接 invitation, offer, apology, gift 等具体名词。",
+                                "rephrase": "The monitor wanted us to say yes to the clean-up day project."
+                        },
+                        {
+                                "label": "accept + that 从句",
+                                "sentence": "It took him a week to accept that the team needed a new plan.",
+                                "sentenceZh": "他花了一周才接受“队伍需要新方案”这一事实。",
+                                "explain": "accept that + 从句：心理上承认事实。",
+                                "rephrase": "He finally admitted the team had to change its plan."
+                        },
+                        {
+                                "label": "accept + as",
+                                "sentence": "The school accepted her as a student helper for the library project.",
+                                "sentenceZh": "学校认可她担任图书馆项目的学生助手。",
+                                "explain": "accept sb as … 表身份、角色被认可。",
+                                "rephrase": "The school agreed she could work as a library helper."
+                        }
+                ],
+                "derivatives": [
+                        {
+                                "q": "介词后应使用哪种形式？（如 without / instead of + ___）",
+                                "answer": "accepting",
+                                "readAloud": "accepting",
+                                "note": "without accepting；介词后动词用 -ing。",
+                                "exampleSentence": "He left the room without accepting the extra help from classmates.",
+                                "exampleZh": "他没有接受同学额外帮助就离开了教室。",
+                                "induct": {
+                                        "title": "归纳 · 介词 + doing",
+                                        "peers": [
+                                                "Thank you for coming.",
+                                                "think of joining",
+                                                "instead of leaving",
+                                                "without asking",
+                                                "by reading aloud",
+                                                "after finishing homework"
+                                        ],
+                                        "tip": "中考完形：介词后若接动词，几乎总写 -ing，不要写 to do 或原形。"
+                                }
+                        },
+                        {
+                                "q": "表示“接受、认可”这一抽象行为的名词是？",
+                                "answer": "acceptance",
+                                "readAloud": "acceptance",
+                                "note": "accept → acceptance（-ance 抽象名词）",
+                                "exampleSentence": "The plan won wide acceptance after the public meeting.",
+                                "exampleZh": "公开会后该计划获得了广泛认可。",
+                                "induct": {
+                                        "title": "归纳 · -ance 抽象名词",
+                                        "peers": [
+                                                "accept → acceptance",
+                                                "appear → appearance",
+                                                "perform → performance",
+                                                "enter → entrance",
+                                                "import → importance",
+                                                "prefer → preference"
+                                        ],
+                                        "tip": "写作中作主语/宾语：The acceptance of … shows …"
+                                }
+                        },
+                        {
+                                "q": "表示“可接受的、合规矩的”的形容词是？",
+                                "answer": "acceptable",
+                                "readAloud": "acceptable",
+                                "note": "accept → acceptable（-able 可…的）",
+                                "exampleSentence": "Being rude online is not acceptable in our digital citizenship class.",
+                                "exampleZh": "在数字公民课上，网上粗鲁言行是不可接受的。",
+                                "induct": {
+                                        "title": "归纳 · -able 评价形容词",
+                                        "peers": [
+                                                "acceptable",
+                                                "reasonable",
+                                                "comfortable",
+                                                "enjoyable",
+                                                "valuable",
+                                                "possible"
+                                        ],
+                                        "tip": "常与 not 连用构成评判句：not acceptable / not reasonable。"
+                                }
+                        }
+                ],
+                "examTarget": {
+                        "form": "accept",
+                        "examExamples": [
+                                {
+                                        "readSentence": "We should accept honest feedback during peer review.",
+                                        "readSentenceZh": "同伴互评时我们应接受真诚的反馈。",
+                                        "blankAnswer": "accept"
+                                },
+                                {
+                                        "readSentence": "Thank you for accepting my idea about the English corner.",
+                                        "readSentenceZh": "感谢你采纳关于英语角的我的想法。",
+                                        "blankAnswer": "accepting"
+                                },
+                                {
+                                        "readSentence": "His acceptance of the difficult task moved the class.",
+                                        "readSentenceZh": "他接受这项困难任务，感动了全班。",
+                                        "blankAnswer": "acceptance"
+                                },
+                                {
+                                        "readSentence": "Wasting food in the canteen is not acceptable.",
+                                        "readSentenceZh": "在食堂浪费食物是不可接受的。",
+                                        "blankAnswer": "acceptable"
+                                }
+                        ],
+                        "note": "抽象名词常作主语/宾语；与情绪类 shocked 等竞争时，先判词性槽再判情境。"
+                }
+        },
+        {
+                "headword": "comfort",
+                "spell": "comfort",
+                "ttsWord": "comfort",
+                "defA2": "A nice feeling of being safe and without pain; to make someone feel better.",
+                "defReadAloud": "A nice feeling of being safe and without pain.",
+                "usages": [
+                        {
+                                "label": "comfort（名）慰藉",
+                                "sentence": "A short note from the teacher became a quiet comfort before the exam.",
+                                "sentenceZh": "老师的一张短便条在考前成了无声安慰。",
+                                "explain": "comfort 作不可数表“安慰感”；a comfort 可数表“带来安慰的人/事”。",
+                                "rephrase": "The teacher’s note made the student feel calmer before the test."
+                        },
+                        {
+                                "label": "comfortable 表语",
+                                "sentence": "The new lab stools are comfortable enough for a two-hour project.",
+                                "sentenceZh": "新实验凳够舒服，能坐两小时做项目。",
+                                "explain": "be comfortable to sit on / to wear 为常见中考结构。",
+                                "rephrase": "Students can sit on the stools for long projects without pain."
+                        },
+                        {
+                                "label": "comfortably 副词",
+                                "sentence": "She could sleep comfortably on the train after volunteers shared blankets.",
+                                "sentenceZh": "志愿者分发热毯后，她能在火车上睡得较安稳。",
+                                "explain": "副词修饰动词，说明方式或程度。",
+                                "rephrase": "With extra blankets, she slept better on the night train."
+                        }
+                ],
+                "derivatives": [
+                        {
+                                "q": "be + ___ + to wear / to use 描写体验时，槽位应填哪种形容词？",
+                                "answer": "comfortable",
+                                "readAloud": "comfortable",
+                                "note": "be + 形容词 + to do；表使用或穿戴体验。",
+                                "exampleSentence": "These winter gloves are comfortable to use on icy mornings.",
+                                "exampleZh": "这副冬晨用手套在结冰的早晨戴着很舒适。",
+                                "induct": {
+                                        "title": "归纳 · 形容词 + to do",
+                                        "peers": [
+                                                "easy to do",
+                                                "hard to find",
+                                                "difficult to see",
+                                                "nice to meet",
+                                                "glad to help",
+                                                "sorry to hear"
+                                        ],
+                                        "tip": "主语常是 to do 的逻辑宾语：The book is easy to read."
+                                }
+                        },
+                        {
+                                "q": "修饰动词“说话/行走/生活”等，需要哪种词性？",
+                                "answer": "comfortably",
+                                "readAloud": "comfortably",
+                                "note": "comfortable → comfortably。",
+                                "exampleSentence": "He explained the rules comfortably in front of parents.",
+                                "exampleZh": "他在家长面前从容地解释了规则。",
+                                "induct": {
+                                        "title": "归纳 · -ly 方式副词",
+                                        "peers": [
+                                                "quickly",
+                                                "slowly",
+                                                "carefully",
+                                                "suddenly",
+                                                "usually",
+                                                "finally"
+                                        ],
+                                        "tip": "空格在句末或动词后表“怎样完成动作”，优先考虑副词。"
+                                }
+                        },
+                        {
+                                "q": "表示“安慰、慰藉”的名词原形是？",
+                                "answer": "comfort",
+                                "readAloud": "comfort",
+                                "note": "bring comfort / seek comfort / live in comfort。",
+                                "exampleSentence": "Music brought comfort to patients waiting in the hall.",
+                                "exampleZh": "音乐给大厅里等候的病人带来慰藉。",
+                                "induct": {
+                                        "title": "归纳 · comfort 三维",
+                                        "peers": [
+                                                "comfort",
+                                                "bring",
+                                                "seek",
+                                                "live",
+                                                "quickly",
+                                                "slowly"
+                                        ],
+                                        "tip": "先判断槽位需要名词还是形容词，再决定词尾。"
+                                }
+                        }
+                ],
+                "examTarget": {
+                        "form": "comfortable",
+                        "examExamples": [
+                                {
+                                        "readSentence": "Choose seats that are comfortable to sit on during the lecture.",
+                                        "readSentenceZh": "讲座中选坐起来舒服的座位。",
+                                        "blankAnswer": "comfortable"
+                                },
+                                {
+                                        "readSentence": "She translated the poster text comfortably within ten minutes.",
+                                        "readSentenceZh": "她在十分钟内从容译完了海报文字。",
+                                        "blankAnswer": "comfortably"
+                                },
+                                {
+                                        "readSentence": "Friendship gives comfort during stressful revision weeks.",
+                                        "readSentenceZh": "紧张的复习周里，友谊带来慰藉。",
+                                        "blankAnswer": "comfort"
+                                }
+                        ],
+                        "note": "comfortable / comfortably / comfort 三线并进；中考常在表语槽考查形容词 comfortable。"
+                }
+        },
+        {
+                "headword": "direct",
+                "spell": "direct",
+                "ttsWord": "direct",
+                "defA2": "Straight; honest; aimed without turning aside.",
+                "defReadAloud": "Straight and clear.",
+                "usages": [
+                        {
+                                "label": "direct（形）直接的",
+                                "sentence": "Please give a direct answer instead of beating around the bush.",
+                                "sentenceZh": "请给出直接回答，不要兜圈子。",
+                                "explain": "direct answer / direct flight / direct speech。",
+                                "rephrase": "Say clearly what you mean without long stories."
+                        },
+                        {
+                                "label": "directly（副）径直",
+                                "sentence": "Report safety risks directly to the office on the first floor.",
+                                "sentenceZh": "安全风险请直接向一楼办公室报告。",
+                                "explain": "修饰动词 report / contact / speak。",
+                                "rephrase": "Tell the office right away about safety risks."
+                        },
+                        {
+                                "label": "direction（名）方向",
+                                "sentence": "Follow the green arrows; they show the direction to the clinic.",
+                                "sentenceZh": "跟着绿色箭头，它们指示去医务室的方向。",
+                                "explain": "in the direction of … / change direction。",
+                                "rephrase": "Use the green arrows to find the clinic."
+                        }
+                ],
+                "derivatives": [
+                        {
+                                "q": "修饰动词 reached out，表示“径直、马上”，应使用？",
+                                "answer": "directly",
+                                "readAloud": "directly",
+                                "note": "direct → directly；类似 immediate → immediately。",
+                                "exampleSentence": "Call the hotline directly if smoke appears in the building.",
+                                "exampleZh": "若楼内出现烟雾，请直接拨打热线。",
+                                "induct": {
+                                        "title": "归纳 · 形容词 + ly 修饰动词",
+                                        "peers": [
+                                                "quickly",
+                                                "slowly",
+                                                "carefully",
+                                                "suddenly",
+                                                "usually",
+                                                "finally"
+                                        ],
+                                        "tip": "副词回答 how：How did she contact you? — Directly."
+                                }
+                        },
+                        {
+                                "q": "表示“方向、方位”的名词是？",
+                                "answer": "direction",
+                                "readAloud": "direction",
+                                "note": "lose direction / sense of direction。",
+                                "exampleSentence": "We lost direction in the fog until we heard the bell.",
+                                "exampleZh": "雾里我们迷失了方向，直到听见钟声。",
+                                "induct": {
+                                        "title": "归纳 · direct → direction",
+                                        "peers": [
+                                                "direct → direction",
+                                                "connect → connection",
+                                                "protect → protection",
+                                                "describe → description",
+                                                "invent → invention",
+                                                "correct → correction"
+                                        ],
+                                        "tip": "勿把 director（负责人）误塞进方位槽。"
+                                }
+                        }
+                ],
+                "examTarget": {
+                        "form": "directly",
+                        "examExamples": [
+                                {
+                                        "readSentence": "Email your draft directly to the mentor this evening.",
+                                        "readSentenceZh": "今晚把初稿直接发给导师。",
+                                        "blankAnswer": "directly"
+                                },
+                                {
+                                        "readSentence": "His question was direct but polite.",
+                                        "readSentenceZh": "他的问题直接却礼貌。",
+                                        "blankAnswer": "direct"
+                                },
+                                {
+                                        "readSentence": "Wind changed direction and cooled the sports ground.",
+                                        "readSentenceZh": "风向转变，运动场凉快下来。",
+                                        "blankAnswer": "direction"
+                                }
+                        ],
+                        "note": "direct / directly / direction：注意词性与搭配伙伴。"
+                }
+        },
+        {
+                "headword": "excite",
+                "spell": "excite",
+                "ttsWord": "excite",
+                "defA2": "To make someone feel very happy and interested.",
+                "defReadAloud": "To make someone feel interested and lively.",
+                "usages": [
+                        {
+                                "label": "excite + 人（使兴奋）",
+                                "sentence": "Good news about the scholarship can excite the whole grade.",
+                                "sentenceZh": "奖学金的好消息能让整个年级兴奋起来。",
+                                "explain": "事件作主语 + excite sb。",
+                                "rephrase": "Scholarship news makes everyone feel thrilled."
+                        },
+                        {
+                                "label": "excited（人作主语）",
+                                "sentence": "We were excited about the robot workshop on Saturday.",
+                                "sentenceZh": "我们对周六的机器人工作坊很兴奋。",
+                                "explain": "sb be excited about / to do。",
+                                "rephrase": "We looked forward to the robot workshop."
+                        },
+                        {
+                                "label": "exciting / excitement",
+                                "sentence": "The final debate was exciting; the hall buzzed with excitement.",
+                                "sentenceZh": "决赛辩论激动人心，礼堂里一片兴奋的嗡嗡声。",
+                                "explain": "-ing 描写事物；excitement 为名词。",
+                                "rephrase": "Students felt thrilled during the exciting debate."
+                        }
+                ],
+                "derivatives": [
+                        {
+                                "q": "描写人的感受，常用哪种 -ed / -ing 形式？",
+                                "answer": "excited",
+                                "readAloud": "excited",
+                                "note": "人作主语：be excited about / to do。",
+                                "exampleSentence": "The campers were excited to try the climbing wall.",
+                                "exampleZh": "营员们很兴奋想尝试攀岩墙。",
+                                "induct": {
+                                        "title": "归纳 · -ed 描写人",
+                                        "peers": [
+                                                "excite",
+                                                "excited",
+                                                "about",
+                                                "quickly",
+                                                "slowly",
+                                                "carefully"
+                                        ],
+                                        "tip": "逻辑主语是人且表“感到…”→ -ed。"
+                                }
+                        },
+                        {
+                                "q": "描写事物“令人激动”，用？",
+                                "answer": "exciting",
+                                "readAloud": "exciting",
+                                "note": "an exciting match / story / journey。",
+                                "exampleSentence": "The science show looks exciting on paper.",
+                                "exampleZh": "单从方案上看这场科普展演就很刺激。",
+                                "induct": {
+                                        "title": "归纳 · -ing 描写事物",
+                                        "peers": [
+                                                "excite",
+                                                "exciting",
+                                                "match",
+                                                "story",
+                                                "journey",
+                                                "quickly"
+                                        ],
+                                        "tip": "主语是事件/物品且表“令人…”→ -ing。"
+                                }
+                        },
+                        {
+                                "q": "表示“兴奋”这一抽象名词？",
+                                "answer": "excitement",
+                                "readAloud": "excitement",
+                                "note": "with excitement / full of excitement。",
+                                "exampleSentence": "They opened the box with excitement during the exchange.",
+                                "exampleZh": "交换礼物时他们兴奋地打开盒子。",
+                                "induct": {
+                                        "title": "归纳 · -ment 名词",
+                                        "peers": [
+                                                "movement",
+                                                "government",
+                                                "development",
+                                                "agreement",
+                                                "equipment",
+                                                "punishment"
+                                        ],
+                                        "tip": "记叙文结尾常用情绪名词升华。"
+                                }
+                        }
+                ],
+                "examTarget": {
+                        "form": "excited",
+                        "examExamples": [
+                                {
+                                        "readSentence": "Volunteers were excited to guide visitors around the wetland.",
+                                        "readSentenceZh": "志愿者们很兴奋能带参观者游览湿地。",
+                                        "blankAnswer": "excited"
+                                },
+                                {
+                                        "readSentence": "The eco-project sounds exciting to young inventors.",
+                                        "readSentenceZh": "这项生态计划对小发明家们听起来很刺激。",
+                                        "blankAnswer": "exciting"
+                                },
+                                {
+                                        "readSentence": "Cheers filled the gym with excitement.",
+                                        "readSentenceZh": "欢呼声让体育馆充满兴奋气氛。",
+                                        "blankAnswer": "excitement"
+                                },
+                                {
+                                        "readSentence": "Bright posters can excite students about reading.",
+                                        "readSentenceZh": "鲜艳海报能激发学生的阅读兴趣。",
+                                        "blankAnswer": "excite"
+                                }
+                        ],
+                        "note": "excite 族与 shock 族易混：空位若需“震惊、意外”且人作主语，多选 shocked 而非 excited。"
+                }
+        },
+        {
+                "headword": "foot",
+                "spell": "foot",
+                "ttsWord": "foot",
+                "defA2": "The body part you stand on; the bottom part of something.",
+                "defReadAloud": "The body part at the end of your leg.",
+                "usages": [
+                        {
+                                "label": "foot / feet（不规则复数）",
+                                "sentence": "After the hike, wash your feet carefully to avoid blisters.",
+                                "sentenceZh": "徒步后认真洗脚，避免起泡。",
+                                "explain": "foot → feet；穿戴描写常用 feet。",
+                                "rephrase": "Clean your feet well after long walking."
+                        },
+                        {
+                                "label": "on foot 步行",
+                                "sentence": "We explored the old town on foot to reduce carbon emissions.",
+                                "sentenceZh": "我们步行探访老城以减少碳排放。",
+                                "explain": "on foot = by walking。",
+                                "rephrase": "We walked around the old town to travel green."
+                        },
+                        {
+                                "label": "footprint 环保话题",
+                                "sentence": "The poster asks us to shrink our carbon footprint at school.",
+                                "sentenceZh": "海报呼吁我们在学校缩小碳足迹。",
+                                "explain": "foot + print 构成复合名词。",
+                                "rephrase": "The poster tells us to lower daily carbon use."
+                        }
+                ],
+                "derivatives": [
+                        {
+                                "q": "“两只脚伸进鞋里”应使用 foot 的哪种复数形式？",
+                                "answer": "feet",
+                                "readAloud": "feet",
+                                "note": "foot → feet（不规则变化）。",
+                                "exampleSentence": "Dry your feet before putting on clean socks for the clinic.",
+                                "exampleZh": "进医务室换干净袜子前先把脚擦干。",
+                                "induct": {
+                                        "title": "归纳 · 不规则复数",
+                                        "peers": [
+                                                "go - went - gone",
+                                                "see - saw - seen",
+                                                "take - took - taken",
+                                                "give - gave - given",
+                                                "know - knew - known",
+                                                "make - made - made"
+                                        ],
+                                        "tip": "穿戴语境若涉及双侧肢体，几乎总用复数 feet。"
+                                }
+                        },
+                        {
+                                "q": "单数 foot 还可表示“底部”，例如？",
+                                "answer": "foot",
+                                "readAloud": "foot",
+                                "note": "the foot of the hill / page。",
+                                "exampleSentence": "We rested at the foot of the ladder before climbing again.",
+                                "exampleZh": "再次攀爬前我们在梯子底部休息。",
+                                "induct": {
+                                        "title": "归纳 · foot 的空间隐喻",
+                                        "peers": [
+                                                "foot",
+                                                "hill",
+                                                "page",
+                                                "quickly",
+                                                "slowly",
+                                                "carefully"
+                                        ],
+                                        "tip": "阅读描写场景：空间底部的 foot 与人体 feet 勿混义。"
+                                }
+                        }
+                ],
+                "examTarget": {
+                        "form": "feet",
+                        "examExamples": [
+                                {
+                                        "readSentence": "She tapped her feet quietly while waiting for the interview.",
+                                        "readSentenceZh": "面试等候时她轻轻跺脚。",
+                                        "blankAnswer": "feet"
+                                },
+                                {
+                                        "readSentence": "He hurt his foot during basketball practice.",
+                                        "readSentenceZh": "篮球训练时他伤了脚。",
+                                        "blankAnswer": "foot"
+                                }
+                        ],
+                        "note": "feet vs foot：多数“穿鞋伸脚”语境取 feet。"
+                }
+        },
+        {
+                "headword": "miss",
+                "spell": "miss",
+                "ttsWord": "miss",
+                "defA2": "To not hit; to feel sad because sb/sth is not there; not present.",
+                "defReadAloud": "Not present or to feel sad when someone is away.",
+                "usages": [
+                        {
+                                "label": "miss + 人（想念）",
+                                "sentence": "Boarding students miss their families during long weeks.",
+                                "sentenceZh": "住校生在漫长的几周里会想家。",
+                                "explain": "miss sb / miss home。",
+                                "rephrase": "Students away from home feel homesick."
+                        },
+                        {
+                                "label": "miss + 活动（错过）",
+                                "sentence": "If you miss the registration window, you cannot join the club fair.",
+                                "sentenceZh": "若错过报名时段，就无法参加社团博览会。",
+                                "explain": "miss the chance / miss the bus。",
+                                "rephrase": "Late students lose the chance to join clubs."
+                        },
+                        {
+                                "label": "missing（形容词）不见了",
+                                "sentence": "Two pages were missing from the workbook we borrowed.",
+                                "sentenceZh": "我们借的练习册缺了两页。",
+                                "explain": "be missing = be absent / lost。",
+                                "rephrase": "The workbook lacked two pages."
+                        }
+                ],
+                "derivatives": [
+                        {
+                                "q": "描写小部件“不见了、缺失”的状态，常用哪种形容词？",
+                                "answer": "missing",
+                                "readAloud": "missing",
+                                "note": "be missing；不用 missed 表状态。",
+                                "exampleSentence": "A button was missing from the choir uniform.",
+                                "exampleZh": "合唱服上少了一颗扣子。",
+                                "induct": {
+                                        "title": "归纳 · missing 表状态",
+                                        "peers": [
+                                                "missing",
+                                                "miss",
+                                                "missed",
+                                                "quickly",
+                                                "slowly",
+                                                "carefully"
+                                        ],
+                                        "tip": "描写零件缺失：buttons missing / keys missing。"
+                                }
+                        },
+                        {
+                                "q": "动词过去式“错过”？",
+                                "answer": "missed",
+                                "readAloud": "missed",
+                                "note": "miss → missed（规则过去式）。",
+                                "exampleSentence": "She missed the early bus because of heavy rain.",
+                                "exampleZh": "大雨让她错过了早班车。",
+                                "induct": {
+                                        "title": "归纳 · miss 的动作义",
+                                        "peers": [
+                                                "miss",
+                                                "missed",
+                                                "quickly",
+                                                "slowly",
+                                                "carefully",
+                                                "suddenly"
+                                        ],
+                                        "tip": "missed 强调动作已发生；missing 强调状态仍在。"
+                                }
+                        }
+                ],
+                "examTarget": {
+                        "form": "missing",
+                        "examExamples": [
+                                {
+                                        "readSentence": "Several tools were missing after the lab session.",
+                                        "readSentenceZh": "实验课后有几件工具不见了。",
+                                        "blankAnswer": "missing"
+                                },
+                                {
+                                        "readSentence": "He missed the volunteer meeting because of a fever.",
+                                        "readSentenceZh": "他因发烧错过了志愿者会议。",
+                                        "blankAnswer": "missed"
+                                },
+                                {
+                                        "readSentence": "We will miss our science teacher next term.",
+                                        "readSentenceZh": "下学期我们会想念科学老师。",
+                                        "blankAnswer": "miss"
+                                }
+                        ],
+                        "note": "missing / missed / miss：状态、过去动作、原形想念义须分槽。"
+                }
+        },
+        {
+                "headword": "one",
+                "spell": "one",
+                "ttsWord": "one",
+                "defA2": "A single person or thing; used to replace a noun to avoid repetition.",
+                "defReadAloud": "A single thing or person.",
+                "usages": [
+                        {
+                                "label": "ones 替代复数名词",
+                                "sentence": "These boots look tougher than the cheap ones on sale.",
+                                "sentenceZh": "这双靴子看起来比打折的便宜货更结实。",
+                                "explain": "ones 替代上文提到的复数可数名词，避免重复。",
+                                "rephrase": "These boots look stronger than cheaper boots."
+                        },
+                        {
+                                "label": "the first one",
+                                "sentence": "Pick the first one on the list if time is short.",
+                                "sentenceZh": "若时间紧，就选清单上的第一项。",
+                                "explain": "one 指代单个条目。",
+                                "rephrase": "Choose the top item when you hurry."
+                        },
+                        {
+                                "label": "once / only（扩展辨析）",
+                                "sentence": "Only once did she forget her badge at the school gate.",
+                                "sentenceZh": "她只有一次在校门口忘了佩戴证件。",
+                                "explain": "写作可用 once 表频率；拓展辨析聚焦 ones 与限定词 only。",
+                                "rephrase": "Forgetting her badge happened only one time."
+                        }
+                ],
+                "derivatives": [
+                        {
+                                "q": "比较结构中替代上文提到的复数可数名词，应填？",
+                                "answer": "ones",
+                                "readAloud": "ones",
+                                "note": "比较结构后接复数替代词，承接上文的复数名词；勿与所有格混淆。",
+                                "exampleSentence": "Carry light notebooks instead of the heavy ones in your bag.",
+                                "exampleZh": "带轻便笔记本，别背包里那些重的。",
+                                "induct": {
+                                        "title": "归纳 · 替代词 ones",
+                                        "peers": [
+                                                "ones",
+                                                "quickly",
+                                                "slowly",
+                                                "carefully",
+                                                "suddenly",
+                                                "usually"
+                                        ],
+                                        "tip": "比较句后若缺名词，用 ones / those 承接可数复数。"
+                                }
+                        },
+                        {
+                                "q": "序数 first 与基数 one",
+                                "answer": "first",
+                                "readAloud": "first",
+                                "note": "one → first（序数）；与 ones 同属数词族，便于对照记忆。",
+                                "exampleSentence": "For your first speech, keep eye contact with classmates.",
+                                "exampleZh": "第一次演讲请与同学保持眼神交流。",
+                                "induct": {
+                                        "title": "归纳 · one → first",
+                                        "peers": [
+                                                "first",
+                                                "ones",
+                                                "quickly",
+                                                "slowly",
+                                                "carefully",
+                                                "suddenly"
+                                        ],
+                                        "tip": "日期、顺序、名次常用序数。"
+                                }
+                        },
+                        {
+                                "q": "only（限定词）",
+                                "answer": "only",
+                                "readAloud": "only",
+                                "note": "the only child / only chance。",
+                                "exampleSentence": "This was our only chance to fix the broken fence.",
+                                "exampleZh": "这是我们修好破栅栏的唯一机会。",
+                                "induct": {
+                                        "title": "归纳 · only 位置",
+                                        "peers": [
+                                                "quickly",
+                                                "slowly",
+                                                "carefully",
+                                                "suddenly",
+                                                "usually",
+                                                "finally"
+                                        ],
+                                        "tip": "only 靠近被限定词，避免歧义。"
+                                }
+                        }
+                ],
+                "examTarget": {
+                        "form": "ones",
+                        "examExamples": [
+                                {
+                                        "readSentence": "These reusable bottles are safer than plastic ones.",
+                                        "readSentenceZh": "这些可重复水瓶比塑料瓶更安全。",
+                                        "blankAnswer": "ones"
+                                },
+                                {
+                                        "readSentence": "She chose the red scarf instead of the gray one.",
+                                        "readSentenceZh": "她选了红围巾而不是灰色那条。",
+                                        "blankAnswer": "one"
+                                },
+                                {
+                                        "readSentence": "He won a medal on his first try at the relay.",
+                                        "readSentenceZh": "他在接力赛中第一次尝试就拿了奖牌。",
+                                        "blankAnswer": "first"
+                                },
+                                {
+                                        "readSentence": "Only careful planning made the charity run succeed.",
+                                        "readSentenceZh": "唯有周密策划才让公益跑成功。",
+                                        "blankAnswer": "Only"
+                                }
+                        ],
+                        "note": "ones / one / first / Only：替代、序数与限定词分槽；勿写成 one's（所有格）。"
+                }
+        },
+        {
+                "headword": "receive",
+                "spell": "receive",
+                "ttsWord": "receive",
+                "defA2": "To get something that has been given or sent.",
+                "defReadAloud": "To get something sent or given to you.",
+                "usages": [
+                        {
+                                "label": "receive + 名词",
+                                "sentence": "Every student will receive a handbook on the first day.",
+                                "sentenceZh": "开学首日每位学生都会收到手册。",
+                                "explain": "receive a letter / gift / award。",
+                                "rephrase": "Students get a handbook at the start."
+                        },
+                        {
+                                "label": "receive + 从句 / 被动",
+                                "sentence": "She was surprised when she received news about the exchange seat.",
+                                "sentenceZh": "得知交流名额消息时她很惊讶。",
+                                "explain": "receive 后可接 that / when 从句。",
+                                "rephrase": "Exchange news surprised her when it arrived."
+                        },
+                        {
+                                "label": "receive vs accept",
+                                "sentence": "You may receive criticism even when your essay is strong.",
+                                "sentenceZh": "即便作文优秀，你也可能收到批评。",
+                                "explain": "receive 强调“收到”；accept 强调“接纳”。",
+                                "rephrase": "Strong essays can still get critical comments."
+                        }
+                ],
+                "derivatives": [
+                        {
+                                "q": "过去式“收到通知”？",
+                                "answer": "received",
+                                "readAloud": "received",
+                                "note": "receive → received（规则）",
+                                "exampleSentence": "We received a reminder about the fire drill yesterday.",
+                                "exampleZh": "昨天我们收到了消防演练提醒。",
+                                "induct": {
+                                        "title": "归纳 · -ed 被动或完成",
+                                        "peers": [
+                                                "must be followed",
+                                                "should be obeyed",
+                                                "can be done",
+                                                "will be checked",
+                                                "may be used",
+                                                "must be respected"
+                                        ],
+                                        "tip": "叙事过去时常用 received / was told。"
+                                }
+                        },
+                        {
+                                "q": "名词“收据、接收”？",
+                                "answer": "receipt",
+                                "readAloud": "receipt",
+                                "note": "receive → receipt（ei 拼写）",
+                                "exampleSentence": "Keep the receipt if you donate goods for tax records.",
+                                "exampleZh": "若捐赠物资需报税凭证，请保留收据。",
+                                "induct": {
+                                        "title": "归纳 · ei 拼写陷阱",
+                                        "peers": [
+                                                "receive",
+                                                "receipt",
+                                                "quickly",
+                                                "slowly",
+                                                "carefully",
+                                                "suddenly"
+                                        ],
+                                        "tip": "中考拼写题爱考 receipt / receive 配对。"
+                                }
+                        },
+                        {
+                                "q": "名词 receiver（接收者 / 听筒）",
+                                "answer": "receiver",
+                                "readAloud": "receiver",
+                                "note": "阅读科技文可出现。",
+                                "exampleSentence": "The radio receiver picked up the weather alert.",
+                                "exampleZh": "收音机接收器收到了天气警报。",
+                                "induct": {
+                                        "title": "归纳 · -er 施受者",
+                                        "peers": [
+                                                "teacher",
+                                                "singer",
+                                                "worker",
+                                                "farmer",
+                                                "reporter",
+                                                "player"
+                                        ],
+                                        "tip": "receiver 也可指电话听筒。"
+                                }
+                        }
+                ],
+                "examTarget": {
+                        "form": "received",
+                        "examExamples": [
+                                {
+                                        "readSentence": "Parents received an email about the winter camp.",
+                                        "readSentenceZh": "家长收到了关于冬令营的邮件。",
+                                        "blankAnswer": "received"
+                                },
+                                {
+                                        "readSentence": "Volunteers receive warm thanks after each shift.",
+                                        "readSentenceZh": "志愿者每次值班后都会收到热烈感谢。",
+                                        "blankAnswer": "receive"
+                                },
+                                {
+                                        "readSentence": "Attach the receipt for classroom supplies.",
+                                        "readSentenceZh": "请附上教室用品的收据。",
+                                        "blankAnswer": "receipt"
+                                },
+                                {
+                                        "readSentence": "Pass the phone receiver to your partner after the role-play.",
+                                        "readSentenceZh": "分角色朗读后，请把电话听筒递给同伴。",
+                                        "blankAnswer": "receiver"
+                                }
+                        ],
+                        "note": "received / receive / receipt / receiver：过去式、原形、收据与接收装置须分槽。"
+                }
+        },
+        {
+                "headword": "regret",
+                "spell": "regret",
+                "ttsWord": "regret",
+                "defA2": "To feel sorry about something you did or did not do.",
+                "defReadAloud": "To feel sorry about something.",
+                "usages": [
+                        {
+                                "label": "regret + doing",
+                                "sentence": "She regrets skipping the safety training last term.",
+                                "sentenceZh": "她后悔上学期缺席了安全培训。",
+                                "explain": "对已发生的事后悔用 regret doing。",
+                                "rephrase": "She wishes she had attended the safety course."
+                        },
+                        {
+                                "label": "regret + to do（正式通知）",
+                                "sentence": "We regret to inform you that the concert is canceled.",
+                                "sentenceZh": "遗憾通知音乐会取消。",
+                                "explain": "regret to say / inform，多用于书面。",
+                                "rephrase": "Sorry, the concert will not happen."
+                        },
+                        {
+                                "label": "regretful / regrettable",
+                                "sentence": "His regretful tone showed he cared about the mistake.",
+                                "sentenceZh": "他懊悔的语气表明他在意那次失误。",
+                                "explain": "regretful 描写人；regrettable 描写事件。",
+                                "rephrase": "He sounded sorry about the error."
+                        }
+                ],
+                "derivatives": [
+                        {
+                                "q": "叙事过去“后悔卖掉旧物”？",
+                                "answer": "regretted",
+                                "readAloud": "regretted",
+                                "note": "regret → regretted（双写 t）",
+                                "exampleSentence": "He regretted lending the camera without a case.",
+                                "exampleZh": "他后悔没带保护壳就把相机借出去了。",
+                                "induct": {
+                                        "title": "归纳 · 双写辅音",
+                                        "peers": [
+                                                "regret",
+                                                "regretted",
+                                                "quickly",
+                                                "slowly",
+                                                "carefully",
+                                                "suddenly"
+                                        ],
+                                        "tip": "单音节重读闭音节动词过去式常双写尾字母。"
+                                }
+                        },
+                        {
+                                "q": "名词 regret",
+                                "answer": "regret",
+                                "readAloud": "regret",
+                                "note": "have no regrets / express regret。",
+                                "exampleSentence": "She spoke about her regret over the rude reply.",
+                                "exampleZh": "她谈到对粗鲁回复的懊悔。",
+                                "induct": {
+                                        "title": "归纳 · regret 名动同形",
+                                        "peers": [
+                                                "regret",
+                                                "regrets",
+                                                "express",
+                                                "quickly",
+                                                "slowly",
+                                                "carefully"
+                                        ],
+                                        "tip": "抽象名词作主语：Her regret was clear."
+                                }
+                        },
+                        {
+                                "q": "描写事件“令人遗憾”",
+                                "answer": "regrettable",
+                                "readAloud": "regrettable",
+                                "note": "a regrettable decision。",
+                                "exampleSentence": "The delay was regrettable but understandable.",
+                                "exampleZh": "延误令人遗憾但可理解。",
+                                "induct": {
+                                        "title": "归纳 · -able 评价事件",
+                                        "peers": [
+                                                "comfortable",
+                                                "valuable",
+                                                "reasonable",
+                                                "enjoyable",
+                                                "terrible",
+                                                "possible"
+                                        ],
+                                        "tip": "regrettable 常修饰 decision / mistake。"
+                                }
+                        }
+                ],
+                "examTarget": {
+                        "form": "regretted",
+                        "examExamples": [
+                                {
+                                        "readSentence": "They regretted choosing the noisy café for study.",
+                                        "readSentenceZh": "他们后悔选了嘈杂咖啡馆自习。",
+                                        "blankAnswer": "regretted"
+                                },
+                                {
+                                        "readSentence": "It is regrettable that litter appeared after the fair.",
+                                        "readSentenceZh": "集市后出现垃圾令人遗憾。",
+                                        "blankAnswer": "regrettable"
+                                },
+                                {
+                                        "readSentence": "She expressed regret for the broken promise.",
+                                        "readSentenceZh": "她对失信表示了懊悔。",
+                                        "blankAnswer": "regret"
+                                }
+                        ],
+                        "note": "regretted doing 表过去后悔动作；regret to inform 表礼貌坏消息。"
+                }
+        },
+        {
+                "headword": "shock",
+                "spell": "shock",
+                "ttsWord": "shock",
+                "defA2": "A sudden strong surprise; to surprise someone greatly.",
+                "defReadAloud": "A strong surprise that hits fast.",
+                "usages": [
+                        {
+                                "label": "shock（名）",
+                                "sentence": "The power cut came as a shock during the online debate.",
+                                "sentenceZh": "在线辩论中途停电让人措手不及。",
+                                "explain": "in shock / a shock to sb。",
+                                "rephrase": "The blackout surprised everyone in the debate."
+                        },
+                        {
+                                "label": "shocked（人）",
+                                "sentence": "He was shocked by the price of the museum audio guide.",
+                                "sentenceZh": "博物馆语音导览的价格让他吃惊。",
+                                "explain": "sb be shocked at / by …。",
+                                "rephrase": "The audio guide cost surprised him."
+                        },
+                        {
+                                "label": "shocking（事物）",
+                                "sentence": "The statistics about plastic waste were shocking.",
+                                "sentenceZh": "塑料垃圾的数据触目惊心。",
+                                "explain": "shocking news / result。",
+                                "rephrase": "Plastic waste numbers alarmed the class."
+                        }
+                ],
+                "derivatives": [
+                        {
+                                "q": "人作主语、对意外信息产生强烈情绪，常填哪种 -ed 形容词？",
+                                "answer": "shocked",
+                                "readAloud": "shocked",
+                                "note": "be shocked to do / by … / at …",
+                                "exampleSentence": "We were shocked to see smoke near the chemistry shelf.",
+                                "exampleZh": "看见化学架附近有烟我们很震惊。",
+                                "induct": {
+                                        "title": "归纳 · shocked vs shocking",
+                                        "peers": [
+                                                "shocked",
+                                                "shocking",
+                                                "shock",
+                                                "quickly",
+                                                "slowly",
+                                                "carefully"
+                                        ],
+                                        "tip": "情感描写：人 shocked，事物 shocking。"
+                                }
+                        },
+                        {
+                                "q": "形容词 shocking",
+                                "answer": "shocking",
+                                "readAloud": "shocking",
+                                "note": "a shocking waste of food。",
+                                "exampleSentence": "Leaving taps running all night is shocking in a drought.",
+                                "exampleZh": "干旱夜晚整夜开着水龙头令人震惊。",
+                                "induct": {
+                                        "title": "归纳 · -ing 描写性质",
+                                        "peers": [
+                                                "shock",
+                                                "shocking",
+                                                "waste",
+                                                "food",
+                                                "quickly",
+                                                "slowly"
+                                        ],
+                                        "tip": "说明事物性质优先 shocking。"
+                                }
+                        },
+                        {
+                                "q": "名词 shock",
+                                "answer": "shock",
+                                "readAloud": "shock",
+                                "note": "cultural shock / electric shock（阅读延伸）",
+                                "exampleSentence": "Culture shock hit exchange students on week two.",
+                                "exampleZh": "第二周交换生遭遇了文化冲击。",
+                                "induct": {
+                                        "title": "归纳 · shock 搭配",
+                                        "peers": [
+                                                "shock",
+                                                "cultural",
+                                                "electric",
+                                                "quickly",
+                                                "slowly",
+                                                "carefully"
+                                        ],
+                                        "tip": "阅读科普文注意 shock 的多义。"
+                                }
+                        }
+                ],
+                "examTarget": {
+                        "form": "shocked",
+                        "examExamples": [
+                                {
+                                        "readSentence": "She was shocked to see the worn wheels on the second-hand skates.",
+                                        "readSentenceZh": "看到二手轮滑鞋上磨旧的轮子她很吃惊。",
+                                        "blankAnswer": "shocked"
+                                },
+                                {
+                                        "readSentence": "The leaking pipe caused a shocking mess.",
+                                        "readSentenceZh": "漏水管道造成了骇人的狼藉。",
+                                        "blankAnswer": "shocking"
+                                },
+                                {
+                                        "readSentence": "Her honesty softened the shock of bad grades.",
+                                        "readSentenceZh": "她的坦诚缓解了成绩糟糕的打击。",
+                                        "blankAnswer": "shock"
+                                }
+                        ],
+                        "note": "情感槽与人匹配→ shocked；描写事实→ shocking。"
+                }
+        },
+        {
+                "headword": "sit",
+                "spell": "sit",
+                "ttsWord": "sit",
+                "defA2": "To rest your body on a chair or other seat.",
+                "defReadAloud": "To rest with weight on your bottom.",
+                "usages": [
+                        {
+                                "label": "sit → sat → sat",
+                                "sentence": "Please sit upright when the guest speaker begins.",
+                                "sentenceZh": "特邀嘉宾开始发言时请坐直。",
+                                "explain": "不规则变化 sit / sat / sat。",
+                                "rephrase": "Keep a straight posture during the talk."
+                        },
+                        {
+                                "label": "past perfect：had sat",
+                                "sentence": "By noon the posters had sat in the rain too long.",
+                                "sentenceZh": "到中午海报淋雨太久。",
+                                "explain": "had + past participle sat。",
+                                "rephrase": "Rain soaked the posters before noon."
+                        },
+                        {
+                                "label": "seat / seated（辨析）",
+                                "sentence": "Students should remain seated until the bell rings.",
+                                "sentenceZh": "铃响前应保持就座。",
+                                "explain": "be seated = sitting。",
+                                "rephrase": "Stay in your seats before the bell."
+                        }
+                ],
+                "derivatives": [
+                        {
+                                "q": "叙事中“在过去动作之前已闲置多年”，常用哪种过去完成结构？",
+                                "answer": "had sat",
+                                "readAloud": "had sat",
+                                "note": "过去某时之前持续的状态可用 had sat / had been sitting。",
+                                "exampleSentence": "The bikes had sat unused until we repaired them.",
+                                "exampleZh": "自行车闲置到我们修好它们为止。",
+                                "induct": {
+                                        "title": "归纳 · had + p.p.",
+                                        "peers": [
+                                                "sitting",
+                                                "quickly",
+                                                "slowly",
+                                                "carefully",
+                                                "suddenly",
+                                                "usually"
+                                        ],
+                                        "tip": "叙事中“在那之前已经…”常用过去完成。"
+                                }
+                        },
+                        {
+                                "q": "过去式 sat",
+                                "answer": "sat",
+                                "readAloud": "sat",
+                                "note": "Yesterday we sat near the stage.",
+                                "exampleSentence": "We sat through the long award ceremony politely.",
+                                "exampleZh": "我们礼貌地坐完了冗长颁奖典礼。",
+                                "induct": {
+                                        "title": "归纳 · sit 不规则",
+                                        "peers": [
+                                                "go - went - gone",
+                                                "see - saw - seen",
+                                                "take - took - taken",
+                                                "give - gave - given",
+                                                "know - knew - known",
+                                                "make - made - made"
+                                        ],
+                                        "tip": "勿写成 sitted。"
+                                }
+                        },
+                        {
+                                "q": "sitting（现在分词 / 动名词）",
+                                "answer": "sitting",
+                                "readAloud": "sitting",
+                                "note": "sitting room / while sitting。",
+                                "exampleSentence": "Avoid eating while sitting on lab stools without washing hands.",
+                                "exampleZh": "未洗手不要坐在实验凳上吃东西。",
+                                "induct": {
+                                        "title": "归纳 · sit → sitting",
+                                        "peers": [
+                                                "sitting",
+                                                "room",
+                                                "while",
+                                                "quickly",
+                                                "slowly",
+                                                "carefully"
+                                        ],
+                                        "tip": "介词后或进行时用 sitting。"
+                                }
+                        }
+                ],
+                "examTarget": {
+                        "form": "had sat",
+                        "examExamples": [
+                                {
+                                        "readSentence": "The donated books had sat in boxes for months.",
+                                        "readSentenceZh": "捐赠的书在箱里积了几个月。",
+                                        "blankAnswer": "had sat"
+                                },
+                                {
+                                        "readSentence": "We sat in a circle to share stories.",
+                                        "readSentenceZh": "我们围坐成圈分享故事。",
+                                        "blankAnswer": "sat"
+                                },
+                                {
+                                        "readSentence": "She prefers sitting by the window when reading.",
+                                        "readSentenceZh": "阅读时她喜欢靠窗坐。",
+                                        "blankAnswer": "sitting"
+                                }
+                        ],
+                        "note": "had sat 表“在那之前已放置/闲置”；注意 sat 拼写，勿误加 -ed。"
+                }
+        },
+        {
+                "headword": "write",
+                "spell": "write",
+                "ttsWord": "write",
+                "defA2": "To make letters or words on paper or a screen.",
+                "defReadAloud": "To put words on paper or screen.",
+                "usages": [
+                        {
+                                "label": "write + on / in",
+                                "sentence": "Never write passwords on your student card.",
+                                "sentenceZh": "别把密码写学生证上。",
+                                "explain": "write on the board / in the notebook。",
+                                "rephrase": "Keep passwords off visible cards."
+                        },
+                        {
+                                "label": "被动：was written",
+                                "sentence": "The club name was written neatly on the welcome banner.",
+                                "sentenceZh": "社团名字工整地写在欢迎横幅上。",
+                                "explain": "sb/sth be written in ink / with a marker（材料/工具介词因语境而异）。",
+                                "rephrase": "The banner showed the club name in neat letters."
+                        },
+                        {
+                                "label": "rewrite / handwriting",
+                                "sentence": "Neat handwriting helps graders read essays faster.",
+                                "sentenceZh": "工整书写能帮阅卷老师更快读作文。",
+                                "explain": "名词 handwriting；动词 rewrite。",
+                                "rephrase": "Clear writing speeds up grading."
+                        }
+                ],
+                "derivatives": [
+                        {
+                                "q": "表示“被书写、被标注”的被动结构常填？",
+                                "answer": "was written",
+                                "readAloud": "was written",
+                                "note": "…… was written in …；注意主谓一致与介词 in/on。",
+                                "exampleSentence": "The warning was written in red on the lab door.",
+                                "exampleZh": "警告用红字写在实验室门上。",
+                                "induct": {
+                                        "title": "归纳 · 被动 + 介词",
+                                        "peers": [
+                                                "must be followed",
+                                                "should be obeyed",
+                                                "can be done",
+                                                "will be checked",
+                                                "may be used",
+                                                "must be respected"
+                                        ],
+                                        "tip": "材料/语言：written in ink / in English。"
+                                }
+                        },
+                        {
+                                "q": "名词 writer",
+                                "answer": "writer",
+                                "readAloud": "writer",
+                                "note": "young writers / science writers。",
+                                "exampleSentence": "The young writer won praise for her climate essay.",
+                                "exampleZh": "这位年轻作者的气候作文获称赞。",
+                                "induct": {
+                                        "title": "归纳 · -er 职业",
+                                        "peers": [
+                                                "teacher",
+                                                "singer",
+                                                "worker",
+                                                "farmer",
+                                                "reporter",
+                                                "player"
+                                        ],
+                                        "tip": "写作话题常用 writer / reader。"
+                                }
+                        },
+                        {
+                                "q": "动名词 writing",
+                                "answer": "writing",
+                                "readAloud": "writing",
+                                "note": "improve writing / writing skills。",
+                                "exampleSentence": "Daily journaling improves writing without pressure.",
+                                "exampleZh": "每日随笔在无压力中提升写作。",
+                                "induct": {
+                                        "title": "归纳 · writing 作名词",
+                                        "peers": [
+                                                "writing",
+                                                "improve",
+                                                "skills",
+                                                "quickly",
+                                                "slowly",
+                                                "carefully"
+                                        ],
+                                        "tip": "动名词可作主宾语：Writing takes patience."
+                                }
+                        }
+                ],
+                "examTarget": {
+                        "form": "was written",
+                        "examExamples": [
+                                {
+                                        "readSentence": "The slogan was written by students from Grade Nine.",
+                                        "readSentenceZh": "标语由九年级学生书写。",
+                                        "blankAnswer": "was written"
+                                },
+                                {
+                                        "readSentence": "He writes polite emails to coaches.",
+                                        "readSentenceZh": "他给教练写礼貌邮件。",
+                                        "blankAnswer": "writes"
+                                },
+                                {
+                                        "readSentence": "Her careful writing saved time for editors.",
+                                        "readSentenceZh": "她认真的书写为编辑省了时间。",
+                                        "blankAnswer": "writing"
+                                }
+                        ],
+                        "note": "被动 was written；主动注意三单 writes。"
+                }
+        }
+];
+    const slides = [];
+    function add(html, meta) { slides.push({ html, meta: meta || null }); }
+    function pushVocabProgram(units, articleTag) {
+      units.forEach((u) => {
+        const parts = slidesFromUnit(u, articleTag);
+        parts.forEach((html, i) => add(html, i === 0 ? { vocabStart: { article: articleTag, headword: u.headword } } : null));
+      });
+    }
+
+    add(`<div class="tag">课程地图</div>
+      <h1 class="slide-title">短文填空 · 套题02 · 轮滑叙事与情感词汇</h1>
+      <p>本套结构：背景输入 → 词汇四步流 → 证据链 → 半独立练习 → 独立作答 → 答案复盘。讲解与自编例句均不复述本题英文原文，侧重中考可迁移规则。</p>
+      <div class="card"><h3>本题节奏</h3>
+        <ol>
+          <li>先建立叙事场：兴趣重启、价格冲击、信息获取、旧物状态、穿戴体验、身份痕迹与心理回溯。</li>
+          <li>词汇四步流：Step1 听音/拼写/A2释义；Step2 常见用法；Step3 派生归纳（含配套例句）；Step4 词形测试。</li>
+          <li>方框 12 词含 <strong>2 个干扰项</strong>（情绪动词族易混）；语篇实填 10 空（1–10），须据语法槽与搭配排除。</li>
+          <li>复盘时写清可迁移规则：比较替代词 ones、表语形容词、<code>be + adj + to do</code>、<code>be shocked to do</code>、叙事过去式、方式副词、过去完成、<code>missing</code>、不规则复数 <code>feet</code>、被动 <code>was written</code>、<code>regret + doing</code> 等。</li>
+        </ol>
+      </div>`);
+
+    add(`<div class="tag">背景导入</div>
+      <h2 class="slide-h2">兴趣、消费与“失而复得”叙事</h2>
+      <p>中考阅读与完形常考<strong>校园与社区生活、情感态度、说明与记叙交叉</strong>的语篇。此类题目要求在价格信息、旧物状态、身体感受与心理活动之间快速切换词性；同时识别高质量干扰项（如 accept / excite）与槽位是否真正匹配。</p>
+      <div class="card"><h3>读前问题</h3>
+        <p>当叙述者在二手平台看到出乎意料的标价，英语里更常用哪类<strong>情感形容词 + to do</strong>？当物品“多年未曾移动”，时态如何落在<strong>过去的过去</strong>？当名字出现在器物内侧，常触发哪种<strong>被动 + 介词 in</strong>？</p></div>
+      <div class="row-audio"><button type="button" class="tts" data-text="Second-hand listings often hide surprises under dusty photos and unclear sizes.">听一句方法论语境（自编）</button></div>`);
+
+    add(`<div class="tag">方框词</div>
+      <h2 class="slide-h2">词库（12 词 · 10 空）</h2>
+      <p class="mono">accept / comfort / direct / excite / foot / miss / one / receive / regret / shock / sit / write</p>
+      <div class="card"><h3>策略提示</h3>
+        <p>先标<strong>语法槽</strong>：比较结构缺复数名词 → 想 <code>ones</code>；<code>be ___ to wear</code> → 形容词；<code>be ___ to learn</code> → 表人感受的 -ed 形容词；叙事“收到信息” → 过去式；修饰动词“联系/反应” → 副词；在“过去到达/得知”之前已持续的状态 → 过去完成；“缺失、不见” → <code>missing</code>；双足 → <code>feet</code>；“被写” → 被动；后悔已做之事 → <code>regretted doing</code>。干扰项若仅语义沾边而<strong>词性骨架不对</strong>，应排除。</p></div>`);
+
+    add(`<div class="tag">证据链</div>
+      <h2 class="slide-h2">槽位一：比较替代与穿戴体验</h2>
+      <div class="sense">第一空：比较后缺名词，需复数替代词承接上文同类物品。第二空：<code>be + 形容词 + to wear</code> 描写体验，用形容词而非副词。</div>
+      <div class="row-audio"><button type="button" class="tts" data-text="The new boots were nothing like the old ones I wore in middle school.">听同构句（自编）</button></div>
+      <div class="grid-2">
+        <div class="card"><h3>可迁移结构</h3><p>nothing like the … ones · be comfortable to wear / to use</p></div>
+        <div class="card"><h3>易错点</h3><p>勿把单数 one 误当复数替代；勿在表语位置写 comfortably。</p></div>
+      </div>`);
+
+    add(`<div class="tag">证据链</div>
+      <h2 class="slide-h2">槽位二：情绪描写与信息获取</h2>
+      <div class="sense">第三空：人作主语 + 对价格或金额的反应，常用 <code>be shocked to learn</code>。第四空：叙事推进，“数日后收到通知”用一般过去时。</div>
+      <div class="row-audio"><button type="button" class="tts" data-text="I was shocked to see the total on the screen, but I still read the message twice.">听同构句（自编）</button></div>`);
+
+    add(`<div class="tag">证据链</div>
+      <h2 class="slide-h2">槽位三：方式副词、过去完成与状态形容词</h2>
+      <div class="sense">第五空：修饰“联系、沟通”类动词 → 方式副词。第六空：在“到访得知”之前，物品已在某处多年 → 过去的过去，用 <code>had sat</code>。第七空：描述部件缺失 → <code>missing</code>。</div>
+      <div class="row-audio"><button type="button" class="tts" data-text="The spare parts had sat in the box so long that the rubber went stiff.">听同构句（自编）</button></div>`);
+
+    add(`<div class="tag">证据链</div>
+      <h2 class="slide-h2">槽位四：身体部位、被动语态与后悔结构</h2>
+      <div class="sense">第八空：伸入鞋内的是双足 → 不规则复数 <code>feet</code>。第九空：名字被书写 → <code>was written</code>。第十空：后悔曾经做出的处置 → <code>regretted + -ing</code>。</div>
+      <div class="grid-2">
+        <div class="card"><h3>干扰项提醒</h3><p><code>accept</code> / <code>excite</code> 易因“情绪态度”话题误入，但上述四空证据链分别锚定复数、被动与后悔结构。</p></div>
+        <div class="card"><h3>写作迁移</h3><p>旧物改造、公益义卖、家庭记事题可复用 <code>was written in</code>、<code>regretted selling</code> 等块。</p></div>
+      </div>`);
+
+    pushVocabProgram(VOCAB_UNITS, "本题");
+
+    add(`<div class="tag">半独立</div>
+      <h2 class="slide-h2">语篇填空（编号提示）</h2>
+      <p>只显示编号，先口头说出词性和可能词形，再写答案。</p>
+      <div class="passage">${renderPassage(PASSAGE, PRACTICE_ANS, "study")}</div>
+      <p class="bank">词库：${WORD_BANK.join(" / ")}</p>`);
+
+    add(`<div class="tag">独立作答</div>
+      <h2 class="slide-h2">独立作答页（答案隐藏）</h2>
+      <div class="passage">${renderPassage(PASSAGE, PRACTICE_ANS, "practice")}</div>
+      <div class="row-audio" style="margin-top:10px;">
+        <button type="button" class="nav" id="checkPracticeBtn">一键核对</button>
+      </div>
+      <p id="practiceScore" class="score">先独立填写，再点击核对。</p>`);
+
+    add(`<div class="tag">答案</div>
+      <h2 class="slide-h2">答案与词形</h2>
+      <div class="passage">${renderPassage(PASSAGE, PRACTICE_ANS, "key")}</div>
+      <div class="card"><h3>快速核对清单</h3>
+        <p class="mono">1 ones · 2 comfortable · 3 shocked · 4 received · 5 directly · 6 had sat · 7 missing · 8 feet · 9 was written · 10 regretted</p>
+      </div>`);
+
+    const vocabNavEntries = [];
+    let idx = 0;
+
+    function fillCourseNav() {
+      const scroll = document.getElementById("courseNavScroll");
+      const list = vocabNavEntries.map((e) => `<li><button type="button" class="nav-vocab-link" data-slide-index="${e.index}">${escapeHtml(e.headword)}</button></li>`).join("");
+      scroll.innerHTML = `<div class="course-nav-h">本题词汇流（12 词族 · 方框 12 词）</div><ul class="course-nav-list">${list}</ul>`;
+      scroll.querySelectorAll(".nav-vocab-link").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const i = Number(btn.getAttribute("data-slide-index"));
+          if (!Number.isNaN(i)) { idx = i; render(); }
+        });
+      });
+    }
+
+    function syncNavActive() {
+      const sorted = [...vocabNavEntries].sort((a, b) => a.index - b.index);
+      document.querySelectorAll(".nav-vocab-link").forEach((btn) => {
+        const i = Number(btn.getAttribute("data-slide-index"));
+        const pos = sorted.findIndex((e) => e.index === i);
+        const nextStart = pos >= 0 && pos < sorted.length - 1 ? sorted[pos + 1].index : slides.length;
+        btn.classList.toggle("is-active", idx >= i && idx < nextStart);
+      });
+    }
+
+    function render() {
+      const root = document.getElementById("slideRoot");
+      root.innerHTML = `<div class="slide-body-inner">${slides[idx].html}</div>`;
+      document.getElementById("progress").textContent = `Slide ${idx + 1} / ${slides.length}`;
+      document.getElementById("prevBtn").disabled = idx === 0;
+      document.getElementById("nextBtn").disabled = idx === slides.length - 1;
+      bindTtsButtons(root);
+      bindVocabInteractions(root);
+      syncNavActive();
+    }
+
+    slides.forEach((s, i) => {
+      if (s.meta && s.meta.vocabStart) {
+        vocabNavEntries.push({ index: i, article: s.meta.vocabStart.article, headword: s.meta.vocabStart.headword });
+      }
+    });
+    fillCourseNav();
+
+    document.getElementById("navToggle").addEventListener("click", () => {
+      const nav = document.getElementById("courseNav");
+      const btn = document.getElementById("navToggle");
+      const collapsed = nav.classList.toggle("is-collapsed");
+      btn.setAttribute("aria-expanded", collapsed ? "false" : "true");
+      btn.textContent = collapsed ? "展开" : "目录";
+    });
+    document.getElementById("prevBtn").addEventListener("click", () => { idx = Math.max(0, idx - 1); render(); });
+    document.getElementById("nextBtn").addEventListener("click", () => { idx = Math.min(slides.length - 1, idx + 1); render(); });
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight" || e.key === "PageDown") document.getElementById("nextBtn").click();
+      if (e.key === "ArrowLeft" || e.key === "PageUp") document.getElementById("prevBtn").click();
+    });
+
+    refreshTtsBadge();
+    render();
+  </script>
+</body>
+</html>

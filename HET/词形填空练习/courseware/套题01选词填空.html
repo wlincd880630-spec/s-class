@@ -1,0 +1,2203 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>短文填空 · 数学思辨 · 词形课件（套题01）</title>
+  <style>
+    :root {
+      --ng-bg0: #0c0b09;
+      --ng-gold: #c9a24d;
+      --ng-gold-dim: #8a7035;
+      --ng-cream: #ebe4d6;
+      --ng-muted: #a89f8f;
+      --ng-card: rgba(28, 24, 20, 0.92);
+      --ng-line: rgba(201, 162, 77, 0.35);
+      --ng-accent: #4a7c7c;
+      --ok: #66c38a;
+      --bad: #e28585;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      height: 100%;
+      margin: 0;
+      background: var(--ng-bg0);
+      color: var(--ng-cream);
+      font-family: "Source Sans 3", "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    .app {
+      min-height: 100%;
+      display: flex;
+      flex-direction: row;
+      align-items: stretch;
+      justify-content: center;
+      padding: 12px;
+      background:
+        radial-gradient(1200px 600px at 20% -10%, rgba(201, 162, 77, 0.12), transparent 55%),
+        radial-gradient(900px 500px at 110% 30%, rgba(74, 124, 124, 0.12), transparent 50%),
+        var(--ng-bg0);
+      gap: 0;
+    }
+    .course-nav {
+      display: flex;
+      flex-direction: row;
+      align-items: stretch;
+      flex-shrink: 0;
+      width: min(230px, 30vw);
+      max-height: min(96vh, calc(100vh - 24px));
+      align-self: center;
+      border: 1px solid var(--ng-line);
+      border-radius: 4px;
+      background: rgba(20, 17, 14, 0.94);
+      overflow: hidden;
+      transition: width .22s ease;
+    }
+    .course-nav.is-collapsed { width: 40px; }
+    .course-nav-edge {
+      flex-shrink: 0;
+      width: 40px;
+      border: none;
+      border-right: 1px solid var(--ng-line);
+      background: rgba(28, 24, 20, 0.95);
+      color: var(--ng-gold);
+      font-size: 18px;
+      cursor: pointer;
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      letter-spacing: .15em;
+      font-weight: 700;
+      padding: 8px 0;
+    }
+    .course-nav-edge:hover { background: rgba(201, 162, 77, 0.12); }
+    .course-nav-panel {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .course-nav.is-collapsed .course-nav-panel { display: none; }
+    .course-nav-heading {
+      margin: 0;
+      padding: 10px 12px 6px;
+      font-size: clamp(11px, 1vw, 13px);
+      color: var(--ng-muted);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      border-bottom: 1px solid rgba(201, 162, 77, 0.2);
+    }
+    .course-nav-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 8px 6px 12px;
+    }
+    .course-nav-scroll::-webkit-scrollbar { width: 5px; }
+    .course-nav-scroll::-webkit-scrollbar-thumb {
+      background: rgba(201, 162, 77, .35);
+      border-radius: 99px;
+    }
+    .course-nav-h {
+      font-size: clamp(11px, .95vw, 13px);
+      color: var(--ng-accent);
+      font-weight: 700;
+      margin: 0 6px 6px;
+      padding-bottom: 4px;
+      border-bottom: 1px dashed rgba(74, 124, 124, .45);
+    }
+    .course-nav-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .course-nav-list li { margin: 0; }
+    button.nav-vocab-link {
+      display: block;
+      width: 100%;
+      text-align: left;
+      margin: 0 0 3px;
+      padding: 7px 10px;
+      font: inherit;
+      font-size: clamp(12px, 1.05vw, 15px);
+      color: #e8dfd0;
+      background: rgba(0, 0, 0, .2);
+      border: 1px solid transparent;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button.nav-vocab-link:hover {
+      border-color: rgba(201, 162, 77, .35);
+      background: rgba(201, 162, 77, .08);
+    }
+    button.nav-vocab-link.is-active {
+      color: var(--ng-gold);
+      border-color: rgba(201, 162, 77, .55);
+      background: rgba(201, 162, 77, .12);
+      font-weight: 700;
+    }
+    .deck-stage {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .deck-shell {
+      width: min(100vw - 24px, calc((100vh - 24px) * 16 / 9));
+      height: min(100vh - 24px, calc((100vw - 24px) * 9 / 16));
+      aspect-ratio: 16 / 9;
+      border: 1px solid var(--ng-line);
+      border-radius: 4px;
+      overflow: hidden;
+      background: linear-gradient(168deg, #14110e 0%, #1f1a15 38%, #0b0a08 100%);
+      box-shadow: 0 0 0 3px rgba(201, 162, 77, .15), 0 28px 90px rgba(0, 0, 0, .65);
+    }
+    .deck {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      padding: clamp(14px, 1.6vw, 28px) clamp(18px, 2.2vw, 36px);
+    }
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-shrink: 0;
+      border-bottom: 1px solid var(--ng-line);
+      padding-bottom: 10px;
+      margin-bottom: 10px;
+    }
+    .brand {
+      font-size: clamp(14px, 1.35vw, 20px);
+      color: var(--ng-gold);
+      letter-spacing: .04em;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    .progress {
+      font-size: clamp(12px, 1.1vw, 15px);
+      color: var(--ng-muted);
+    }
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+    select, button {
+      font: inherit;
+      border-radius: 3px;
+    }
+    select {
+      background: var(--ng-card);
+      color: var(--ng-cream);
+      border: 1px solid var(--ng-line);
+      padding: 6px 10px;
+      font-size: clamp(11px, 1vw, 14px);
+    }
+    button.nav {
+      background: linear-gradient(180deg, #2a241c, #1a1612);
+      color: var(--ng-cream);
+      border: 1px solid var(--ng-gold-dim);
+      padding: 7px 14px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    button.nav:hover { border-color: var(--ng-gold); color: #fff; }
+    button.nav:disabled { opacity: .35; cursor: not-allowed; }
+    .slide-body {
+      flex: 1;
+      min-height: 0;
+      overflow: auto;
+      padding: 8px 6px 12px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .slide-body::-webkit-scrollbar { width: 6px; }
+    .slide-body::-webkit-scrollbar-thumb {
+      background: rgba(201, 162, 77, .35);
+      border-radius: 99px;
+    }
+    .slide-body-inner {
+      width: calc(100% / 1.75);
+      max-width: calc(100% / 1.75);
+      transform: scale(1.75);
+      transform-origin: center center;
+      box-sizing: border-box;
+      flex: 0 0 auto;
+    }
+    h1.slide-title {
+      font-size: clamp(22px, 2.6vw, 40px);
+      margin: 0 0 10px;
+      line-height: 1.15;
+      color: #f3ead8;
+    }
+    h2.slide-h2 {
+      font-size: clamp(18px, 2vw, 30px);
+      margin: 0 0 8px;
+      color: var(--ng-gold);
+    }
+    p, li {
+      font-size: clamp(14px, 1.25vw, 20px);
+      line-height: 1.45;
+      margin: 0 0 10px;
+      color: #e8dfd0;
+    }
+    .tag {
+      display: inline-block;
+      font-size: clamp(11px, .95vw, 14px);
+      padding: 3px 10px;
+      border: 1px solid var(--ng-line);
+      color: var(--ng-gold);
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .card {
+      background: var(--ng-card);
+      border: 1px solid var(--ng-line);
+      border-radius: 6px;
+      padding: clamp(10px, 1.1vw, 16px);
+      margin-bottom: 10px;
+    }
+    .card h3 {
+      margin: 0 0 6px;
+      font-size: clamp(15px, 1.35vw, 22px);
+      color: #fff;
+    }
+    .mono {
+      font-family: ui-monospace, Consolas, monospace;
+      font-size: .95em;
+      color: #cfe8e4;
+    }
+    .sense {
+      font-size: clamp(13px, 1.15vw, 18px);
+      color: #d7cfc2;
+      border-left: 3px solid var(--ng-accent);
+      padding-left: 12px;
+      margin: 8px 0 12px;
+    }
+    .row-audio {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      margin: 8px 0;
+    }
+    button.tts {
+      background: rgba(74, 124, 124, .25);
+      border: 1px solid rgba(74, 124, 124, .65);
+      color: #dff5f3;
+      padding: 6px 12px;
+      cursor: pointer;
+      font-size: clamp(12px, 1.05vw, 16px);
+    }
+    button.tts:hover { background: rgba(74, 124, 124, .4); }
+    button.tts:disabled { opacity: .5; cursor: wait; }
+    .hidden-reveal {
+      display: none;
+      margin-top: 6px;
+      padding: 10px;
+      background: rgba(0,0,0,.25);
+      border-radius: 4px;
+      border: 1px dashed rgba(201, 162, 77, .35);
+    }
+    .hidden-reveal.show { display: block; }
+    .spell-zone {
+      display: inline-block;
+      min-width: min(96%, 520px);
+      padding: 12px 14px;
+      margin: 10px 0;
+      border: 1px dashed var(--ng-line);
+      border-radius: 6px;
+      cursor: pointer;
+      background: rgba(0,0,0,.2);
+      user-select: none;
+    }
+    .spell-zone:focus { outline: 2px solid var(--ng-gold); outline-offset: 2px; }
+    .letter-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px 6px;
+      justify-content: center;
+      min-height: 2.2em;
+    }
+    .letter-chip {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 1.15em;
+      font-family: ui-monospace, Consolas, monospace;
+      font-size: clamp(17px, 1.9vw, 28px);
+      font-weight: 700;
+      padding: 2px 4px;
+      border-radius: 3px;
+    }
+    .letter-chip.blind { color: #5c574e; background: rgba(255,255,255,.04); }
+    .letter-chip.shown { color: var(--ng-gold); background: rgba(201,162,77,.12); }
+    .usage-strip {
+      margin-top: 10px;
+      padding: 10px 12px;
+      border: 1px dashed var(--ng-line);
+      border-radius: 6px;
+      cursor: pointer;
+      background: rgba(0,0,0,.15);
+    }
+    .usage-strip:focus { outline: 2px solid var(--ng-gold); outline-offset: 2px; }
+    .usage-strip.is-revealed {
+      border-style: solid;
+      border-color: rgba(201, 162, 77, .4);
+      background: rgba(0,0,0,.22);
+    }
+    .usage-strip-hint {
+      margin: 0;
+      font-size: clamp(12px, 1.05vw, 16px);
+      color: var(--ng-muted);
+      line-height: 1.4;
+    }
+    .usage-strip.is-revealed .usage-strip-hint { display: none; }
+    .usage-sentence-zh-persistent {
+      margin: 8px 0 0;
+      font-size: clamp(13px, 1.1vw, 17px);
+      color: #c8bba8;
+      line-height: 1.55;
+      padding: 8px 10px;
+      background: rgba(0, 0, 0, .2);
+      border-radius: 4px;
+      border-left: 3px solid rgba(201, 162, 77, .45);
+    }
+    .exam-sentence-zh {
+      margin: 10px 0 0;
+      font-size: clamp(13px, 1.1vw, 17px);
+      color: #c8bba8;
+      line-height: 1.55;
+    }
+    .exam-blank-card {
+      margin-top: 10px;
+      padding: 10px 12px;
+      border: 1px dashed var(--ng-line);
+      border-radius: 6px;
+      background: rgba(0,0,0,.15);
+      line-height: 1.65;
+      font-size: clamp(14px, 1.15vw, 18px);
+    }
+    .exam-blank {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 0;
+      cursor: pointer;
+      color: var(--ng-gold);
+      border-bottom: 2px solid rgba(201, 162, 77, .72);
+      padding: 0 2px;
+      user-select: none;
+    }
+    .exam-blank:focus {
+      outline: 2px solid var(--ng-gold);
+      outline-offset: 2px;
+      border-radius: 3px;
+    }
+    .exam-blank-mask { letter-spacing: .04em; }
+    .exam-blank-ans { display: none; font-weight: 700; }
+    .exam-blank.is-revealed .exam-blank-mask { display: none; }
+    .exam-blank.is-revealed .exam-blank-ans { display: inline; }
+    details.card.grammar-induct-details {
+      margin-top: 12px;
+      border-left: 3px solid var(--ng-accent);
+      background: rgba(74, 124, 124, .08);
+    }
+    .grammar-induct-summary {
+      list-style: none;
+      cursor: pointer;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 6px 14px;
+      user-select: none;
+    }
+    .grammar-induct-summary::-webkit-details-marker { display: none; }
+    .grammar-induct-summary::marker { content: ""; }
+    .grammar-induct-summary .grammar-induct-title {
+      margin: 0;
+      font-size: clamp(14px,1.2vw,18px);
+      color: var(--ng-gold);
+      font-weight: 700;
+    }
+    .grammar-induct-hint { font-size: clamp(11px,.95vw,14px); color: #8ebdb8; }
+    .grammar-induct-hint-open { display: none; }
+    details[open].grammar-induct-details > .grammar-induct-summary .grammar-induct-hint-closed { display: none; }
+    details[open].grammar-induct-details > .grammar-induct-summary .grammar-induct-hint-open { display: inline; }
+    .grammar-induct-inner {
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(201, 162, 77, .2);
+    }
+    .passage {
+      font-size: clamp(13px,1.15vw,18px);
+      line-height: 1.5;
+      color: #efe6d8;
+    }
+    .passage .blank {
+      display: inline-block;
+      min-width: 2.8em;
+      border-bottom: 2px solid var(--ng-gold);
+      margin: 0 2px;
+      text-align: center;
+      color: var(--ng-gold);
+      font-weight: 700;
+      font-family: ui-monospace, Consolas, monospace;
+    }
+    .bank {
+      font-size: clamp(12px,1.05vw,16px);
+      color: var(--ng-muted);
+      margin-top: 8px;
+    }
+    .practice-input {
+      width: 7.2em;
+      border: none;
+      border-bottom: 2px solid var(--ng-gold);
+      background: transparent;
+      color: #fff;
+      text-align: center;
+      font: inherit;
+      font-family: ui-monospace, Consolas, monospace;
+      outline: none;
+      margin: 0 2px;
+    }
+    .practice-input::placeholder { color: #7f7566; }
+    .score {
+      font-size: clamp(12px, 1vw, 15px);
+      color: var(--ng-muted);
+      margin-top: 4px;
+    }
+    .score .ok { color: var(--ok); font-weight: 700; }
+    .score .bad { color: var(--bad); font-weight: 700; }
+    .toast {
+      position: absolute;
+      left: 50%;
+      bottom: 14px;
+      transform: translateX(-50%);
+      background: rgba(180, 40, 40, .92);
+      color: #fff;
+      padding: 8px 14px;
+      border-radius: 4px;
+      font-size: 14px;
+      display: none;
+      max-width: 92%;
+      text-align: center;
+      z-index: 20;
+    }
+    .toast.show { display: block; }
+    .footnote {
+      font-size: clamp(11px,.95vw,14px);
+      color: var(--ng-muted);
+      margin-top: 8px;
+    }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    @media (max-width: 720px) {
+      .app { flex-direction: column; align-items: stretch; }
+      .course-nav {
+        width: 100% !important;
+        max-height: min(220px, 32vh);
+        align-self: stretch;
+      }
+      .course-nav.is-collapsed { width: 100% !important; max-height: 48px; }
+      .course-nav-edge {
+        writing-mode: horizontal-tb;
+        width: auto;
+        min-width: 72px;
+        padding: 10px 12px;
+      }
+      .grid-2 { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="course-nav" id="courseNav" aria-label="词汇目录">
+      <button type="button" class="course-nav-edge" id="navToggle" aria-expanded="true" aria-controls="courseNavPanel" title="折叠/展开目录">目录</button>
+      <div class="course-nav-panel" id="courseNavPanel">
+        <p class="course-nav-heading">词汇流 · 点击跳转 Step1</p>
+        <div class="course-nav-scroll" id="courseNavScroll"></div>
+      </div>
+    </aside>
+
+    <div class="deck-stage">
+      <div class="deck-shell">
+        <div class="deck">
+          <div class="topbar">
+            <div class="brand">Word Forms Lab · Cloze</div>
+            <div class="progress" id="progress">—</div>
+            <div class="controls">
+              <span id="ttsBadge" class="footnote" style="margin-right:6px;max-width:min(42vw,220px);line-height:1.25;"></span>
+              <label class="footnote" style="margin:0;display:flex;align-items:center;gap:6px;">
+                朗读声音
+                <select id="voiceSel" aria-label="朗读声音">
+                  <option value="en-US-AvaNeural" selected>Ava（美）</option>
+                  <option value="en-US-JennyNeural">Jenny（美）</option>
+                  <option value="en-US-GuyNeural">Guy（美）</option>
+                  <option value="en-GB-SoniaNeural">Sonia（英）</option>
+                </select>
+              </label>
+              <button type="button" class="nav" id="prevBtn">上一页</button>
+              <button type="button" class="nav" id="nextBtn">下一页</button>
+            </div>
+          </div>
+          <div class="slide-body" id="slideRoot"></div>
+          <div class="toast" id="toast" role="status"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const AZURE_SPEECH_KEY =
+      "DKRXk8ueSfo5NdIOMqFRTCAfpeGDezJ3Snf5K8gGgtyqxiWdugLzJQQJ99BLACHYHv6XJ3w3AAAYACOGUYP9";
+    const AZURE_SPEECH_REGION = "eastus2";
+    const AZURE_TTS_PROSODY_RATE = "-15%";
+    const audioCache = new Map();
+    let currentTtsAudio = null;
+    const HET_CLOZE_ASSETS_BASE = "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/HET/词形填空练习/courseware/Assets/";
+    let __hetManifestMap = null;
+    function __hetNorm(s) {
+      return String(s || "").replace(/\s+/g, " ").trim();
+    }
+    async function __hetEnsureManifest() {
+      if (__hetManifestMap) return __hetManifestMap;
+      const res = await fetch(HET_CLOZE_ASSETS_BASE + "manifest.json", { cache: "force-cache" });
+      if (!res.ok) throw new Error("manifest " + res.status);
+      const data = await res.json();
+      __hetManifestMap = new Map();
+      for (const ent of Object.values(data)) {
+        const t = __hetNorm(ent.text);
+        if (t && ent.file) __hetManifestMap.set(t, ent.file);
+      }
+      return __hetManifestMap;
+    }
+
+
+    function refreshTtsBadge() {
+      const el = document.getElementById("ttsBadge");
+      if (!el) return;
+      el.textContent = "引擎：Azure REST（与主课件同接口）";
+    }
+    function escapeSsmlText(s) {
+      return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;");
+    }
+    function voiceGenderAndLang(voiceName) {
+      if (voiceName.indexOf("Guy") !== -1) return { gender: "Male", lang: "en-US" };
+      if (voiceName.indexOf("Sonia") !== -1 || voiceName.indexOf("en-GB") !== -1) return { gender: "Female", lang: "en-GB" };
+      return { gender: "Female", lang: "en-US" };
+    }
+    function playUrl(url) {
+      if (currentTtsAudio) { currentTtsAudio.pause(); currentTtsAudio = null; }
+      const a = new Audio(url);
+      currentTtsAudio = a;
+      return a.play();
+    }
+    function playAzureTTS(text) {
+      if (!AZURE_SPEECH_KEY) return Promise.reject(new Error("未配置 Azure Speech Key。"));
+      const endpoint = `https://${AZURE_SPEECH_REGION}.tts.speech.microsoft.com/cognitiveservices/v1`;
+      const voice = document.getElementById("voiceSel")?.value || "en-US-AvaNeural";
+      const g = voiceGenderAndLang(voice);
+      const cacheKey = `${voice}|${text}|${AZURE_TTS_PROSODY_RATE}`;
+      if (audioCache.has(cacheKey)) return playUrl(audioCache.get(cacheKey));
+      const ssml = `<?xml version="1.0" encoding="utf-8"?>
+<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="${g.lang}">
+  <voice name="${voice}">
+    <prosody rate="${AZURE_TTS_PROSODY_RATE}">${escapeSsmlText(text)}</prosody>
+  </voice>
+</speak>`;
+      return fetch(endpoint, {
+        method: "POST",
+        headers: {
+          "Ocp-Apim-Subscription-Key": AZURE_SPEECH_KEY,
+          "Content-Type": "application/ssml+xml",
+          "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3",
+        },
+        body: ssml,
+      }).then((res) => {
+        if (!res.ok) return res.text().then((t) => { throw new Error(`Azure ${res.status}: ${(t || "").slice(0, 120)}`); });
+        return res.blob();
+      }).then((blob) => {
+        const u = URL.createObjectURL(blob);
+        audioCache.set(cacheKey, u);
+        return playUrl(u);
+      });
+    }
+    async function playTts(text) {
+      const key = __hetNorm(text);
+      try {
+        const map = await __hetEnsureManifest();
+        const rel = map.get(key);
+        if (rel) {
+          const url = HET_CLOZE_ASSETS_BASE + String(rel).replace(/^\/+/g, "");
+          await playUrl(url);
+          return;
+        }
+      } catch (e) {
+        console.warn("[het-cloze] COS mp3:", e && e.message ? e.message : e);
+      }
+      await playAzureTTS(text);
+    }
+    function showToast(msg, ms = 3200) {
+      const el = document.getElementById("toast");
+      el.textContent = msg;
+      el.classList.add("show");
+      clearTimeout(showToast._t);
+      showToast._t = setTimeout(() => el.classList.remove("show"), ms);
+    }
+    function escapeHtml(s) {
+      return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+    }
+
+    async function bindTtsButtons(root) {
+      root.querySelectorAll("button.tts").forEach((btn) => {
+        btn.addEventListener("click", async () => {
+          const t = btn.getAttribute("data-text") || "";
+          btn.disabled = true;
+          try { await playTts(t); } catch (e) { showToast(e.message || String(e)); }
+          finally { btn.disabled = false; }
+        });
+      });
+      root.querySelectorAll("button.reveal").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const id = btn.getAttribute("data-target");
+          const box = id && document.getElementById(id);
+          if (box) box.classList.add("show");
+        });
+      });
+    }
+
+    function bindVocabInteractions(root) {
+      root.querySelectorAll(".spell-zone").forEach((zone) => {
+        const word = zone.getAttribute("data-spell") || "";
+        const chars = [...word];
+        const chips = zone.querySelectorAll(".letter-chip");
+        let idx = 0;
+        const countEl = zone.querySelector(".spell-count");
+        const noteTarget = zone.getAttribute("data-reveal-note");
+        const revealNext = () => {
+          if (idx >= chars.length) return;
+          const ch = chars[idx];
+          chips[idx].textContent = ch === " " ? "·" : ch;
+          chips[idx].classList.remove("blind");
+          chips[idx].classList.add("shown");
+          idx++;
+          if (countEl) countEl.textContent = String(idx);
+          if (noteTarget && idx >= chars.length) {
+            const box = document.getElementById(noteTarget);
+            if (box) box.classList.add("show");
+          }
+        };
+        zone.addEventListener("click", (e) => {
+          if (e.target.closest("button") || e.target.closest("a")) return;
+          revealNext();
+        });
+      });
+      root.querySelectorAll(".usage-strip").forEach((strip) => {
+        const reveal = () => {
+          const body = strip.querySelector(".usage-strip-body");
+          if (body) body.classList.add("show");
+          strip.classList.add("is-revealed");
+        };
+        strip.addEventListener("click", (e) => { if (!e.target.closest("button")) reveal(); });
+        strip.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") { e.preventDefault(); reveal(); }
+        });
+      });
+      root.querySelectorAll(".practice-input").forEach((inp) => {
+        inp.addEventListener("input", () => { inp.style.borderBottomColor = "var(--ng-gold)"; });
+      });
+      root.querySelectorAll(".exam-blank").forEach((blank) => {
+        const toggle = () => blank.classList.toggle("is-revealed");
+        blank.addEventListener("click", toggle);
+        blank.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            toggle();
+          }
+        });
+      });
+      root.querySelectorAll("#checkPracticeBtn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const inputs = [...root.querySelectorAll(".practice-input")];
+          let ok = 0;
+          inputs.forEach((inp) => {
+            const n = Number(inp.dataset.num);
+            const user = (inp.value || "").trim().toLowerCase();
+            const ans = (PRACTICE_ANS[n] || "").toLowerCase();
+            if (!user) return;
+            if (user === ans) { ok++; inp.style.borderBottomColor = "var(--ok)"; }
+            else inp.style.borderBottomColor = "var(--bad)";
+          });
+          const total = inputs.length;
+          const score = root.querySelector("#practiceScore");
+          if (score) score.innerHTML = `已答对 <span class="ok">${ok}</span> / ${total}。${ok === total ? "全部正确！" : "请继续检查词形。"}`
+        });
+      });
+    }
+
+    function spellBlock(word, revealNoteId) {
+      const chars = [...word];
+      const chips = chars.map(() => `<span class="letter-chip blind">□</span>`).join("");
+      const noteAttr = revealNoteId ? ` data-reveal-note="${escapeHtml(revealNoteId)}"` : "";
+      const hint = revealNoteId
+        ? `点击词区逐字母显示；全部显示后自动出现拼写提示 · <span class="spell-count">0</span> / ${chars.length}`
+        : `点击词区逐字母显示 · <span class="spell-count">0</span> / ${chars.length}`;
+      return `<div class="spell-zone" data-spell="${escapeHtml(word)}" tabindex="0"${noteAttr}>
+        <div class="letter-row">${chips}</div>
+        <p class="footnote" style="margin:6px 0 0;">${hint}</p>
+      </div>`;
+    }
+
+    function uid() { return "x_" + Math.random().toString(36).slice(2, 10); }
+
+    function derivativeInductHtml(d) {
+      if (!d.induct || !Array.isArray(d.induct.peers) || !d.induct.peers.length) return "";
+      const title = d.induct.title || "归纳 · 同类构词";
+      const peers = d.induct.peers.map((w) => `<span class="mono">${escapeHtml(w)}</span>`).join(" · ");
+      const tip = d.induct.tip ? `<p class="footnote" style="margin:10px 0 0;">${escapeHtml(d.induct.tip)}</p>` : "";
+      return `<details class="card grammar-induct-details">
+        <summary class="grammar-induct-summary">
+          <h3 class="grammar-induct-title">${escapeHtml(title)}</h3>
+          <span class="grammar-induct-hint grammar-induct-hint-closed">点击展开</span>
+          <span class="grammar-induct-hint grammar-induct-hint-open">点击收起</span>
+        </summary>
+        <div class="grammar-induct-inner">
+          <p style="margin:0;line-height:1.65;font-size:clamp(13px,1.15vw,18px);">${peers}</p>
+          ${tip}
+        </div>
+      </details>`;
+    }
+
+    function slidesFromUnit(unit, articleTag) {
+      const h = unit.headword;
+      const sid = uid();
+      const out = [];
+      out.push(`<div class="tag">${escapeHtml(articleTag)} · 词汇流 · ${escapeHtml(h)}</div>
+        <h2 class="slide-h2">Step 1 · 听音 → 拼写 → A2 释义</h2>
+        <p class="sense">本页例句与释义均为教学自编，服务短文填空词形判断。</p>
+        <div class="row-audio"><button type="button" class="tts" data-text="${escapeHtml(unit.ttsWord || unit.spell)}">① 听单词发音</button></div>
+        ${spellBlock(unit.spell)}
+        <div class="row-audio" style="margin-top:10px;">
+          <button type="button" class="tts" data-text="${escapeHtml(unit.defReadAloud)}">② 听英文释义（A2）</button>
+          <button type="button" class="nav reveal" data-target="def_${sid}">③ 点击显示释义文字</button>
+        </div>
+        <div class="hidden-reveal" id="def_${sid}">
+          <p style="margin:0;font-size:clamp(14px,1.2vw,19px);line-height:1.4;"><strong>A2 meaning:</strong> ${escapeHtml(unit.defA2)}</p>
+        </div>`);
+
+      const usageTotal = unit.usages.length;
+      unit.usages.forEach((u, ui) => {
+        const idx = ui + 1;
+        const rephraseId = `reph_${uid()}`;
+        const oneCard = `<div class="card">
+            <div class="row-audio"><button type="button" class="tts" data-text="${escapeHtml(u.sentence)}">听例句</button></div>
+            <p class="usage-sentence-zh-persistent"><strong>【译文】</strong>${escapeHtml(u.sentenceZh || "")}</p>
+            <p class="footnote" style="margin:6px 0 0;">本页仅含第 ${idx} 条用法。先听句，再点击三块信息。</p>
+            <div class="usage-strip" tabindex="0"><p class="usage-strip-hint">① 点击显示中文用法标签</p><div class="usage-strip-body hidden-reveal"><p style="margin:0;color:var(--ng-gold);font-weight:700;">${escapeHtml(u.label)}</p></div></div>
+            <div class="usage-strip" tabindex="0"><p class="usage-strip-hint">② 点击显示英文例句</p><div class="usage-strip-body hidden-reveal"><p style="margin:0;">${escapeHtml(u.sentence)}</p></div></div>
+            <div class="usage-strip" tabindex="0"><p class="usage-strip-hint">③ 点击显示解释</p><div class="usage-strip-body hidden-reveal"><p style="margin:0;"><strong>解释：</strong>${escapeHtml(u.explain)}</p><p class="footnote" style="margin:8px 0 0;"><button type="button" class="nav reveal" data-target="${escapeHtml(rephraseId)}">点击显示 Rephrase</button></p><div class="hidden-reveal" id="${escapeHtml(rephraseId)}"><p class="footnote" style="margin:0;"><strong>Rephrase：</strong>${escapeHtml(u.rephrase)}</p></div></div></div>
+          </div>`;
+        out.push(`<div class="tag">${escapeHtml(articleTag)} · 词汇流 · ${escapeHtml(h)}</div>
+          <h2 class="slide-h2">Step 2 · 常见用法（${idx} / ${usageTotal}）</h2>${oneCard}`);
+      });
+
+      (unit.derivatives || []).forEach((d) => {
+        const derivNoteId = d.note ? `dnote_${uid()}` : "";
+        out.push(`<div class="tag">${escapeHtml(articleTag)} · 词汇流 · ${escapeHtml(h)}</div>
+          <h2 class="slide-h2">Step 3 · ${escapeHtml(d.q)}</h2>
+          <div class="row-audio"><button type="button" class="tts" data-text="${escapeHtml(d.readAloud || d.answer)}">听目标词发音</button></div>
+          ${spellBlock(d.answer, derivNoteId)}
+          ${d.note ? `<div class="hidden-reveal" id="${escapeHtml(derivNoteId)}"><p class="footnote" style="margin:0;"><strong>拼写提示：</strong>${escapeHtml(d.note)}</p></div>` : ""}
+          ${derivativeInductHtml(d)}`);
+      });
+
+      if (unit.examTarget) {
+        const e = unit.examTarget;
+        const examples = Array.isArray(e.examExamples) && e.examExamples.length ? e.examExamples : [{
+          readSentence: e.readSentence, readSentenceZh: e.readSentenceZh, blankAnswer: e.form,
+        }];
+        const nEx = examples.length;
+        examples.forEach((ex, i) => {
+          const idx = i + 1;
+          const rs = String(ex.readSentence || "");
+          const ba = String(ex.blankAnswer || e.form || "");
+          const re = new RegExp(ba.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "i");
+          const m = rs.match(re);
+          const line = m
+            ? rs.replace(re, `<span class="exam-blank" role="button" tabindex="0" aria-label="点击显示答案"><span class="exam-blank-mask">__________</span><span class="exam-blank-ans">${escapeHtml(ba)}</span></span>`)
+            : `${escapeHtml(rs)} <span class="exam-blank" role="button" tabindex="0" aria-label="点击显示答案"><span class="exam-blank-mask">__________</span><span class="exam-blank-ans">${escapeHtml(ba)}</span></span>`;
+          out.push(`<div class="tag">${escapeHtml(articleTag)} · 词汇流 · ${escapeHtml(h)}</div>
+            <h2 class="slide-h2">${nEx > 1 ? `Step 4 · 考点词形测试（${idx}/${nEx}）` : "Step 4 · 考点词形测试"}</h2>
+            ${i === 0 ? `<p class="sense">先看语境填词形，再核对答案。该步骤对应短文填空真实考法。</p>` : ""}
+            <div class="row-audio"><button type="button" class="tts" data-text="${escapeHtml(rs)}">听完整句（含答案）</button></div>
+            <div class="card">
+              <p class="exam-blank-card">${line}</p>
+              <p class="footnote" style="margin:8px 0 0;">点击横线可显示 / 隐藏答案</p>
+            </div>
+            <p class="exam-sentence-zh"><strong>【译文】</strong>${escapeHtml(ex.readSentenceZh || "")}</p>
+            ${(e.note && i === nEx - 1) ? `<p class="footnote">${escapeHtml(e.note)}</p>` : ""}`);
+        });
+      }
+      return out;
+    }
+
+    function renderPassage(raw, answerList, mode) {
+      const parts = raw.split(/(__\d+__)/g);
+      return parts.map((p) => {
+        const m = /^__(\d+)__$/.exec(p);
+        if (!m) return escapeHtml(p).replace(/\n/g, "<br/>");
+        const num = Number(m[1]);
+        const ans = answerList[num] || "";
+        if (mode === "key") return `<span class="blank">${escapeHtml(ans)}</span>`;
+        if (mode === "study") return `<span class="blank">(${num})</span>`;
+        return `<input class="practice-input" data-num="${num}" placeholder="(${num})" />`;
+      }).join("");
+    }
+
+    const WORD_BANK = ["accept", "basic", "correct", "disappoint", "follow", "little", "much", "need", "other", "possible", "three", "zero"];
+    const PRACTICE_ANS = {
+      71: "disappointed",
+      72: "follow",
+      73: "accepting",
+      74: "more",
+      75: "needed",
+      76: "other",
+      77: "zero",
+      78: "correct",
+      79: "Basically",
+      80: "possible",
+    };
+
+    const PASSAGE = `Why does one plus one equal two? Many teachers would say, "It just does." However, this answer has made children __71__.
+They're right to be so. This type of answer makes math feel like a world full of rules that everyone must __72__. How boring! As a math researcher, I like to challenge rules. Instead of simply __73__ that one plus one equals two, let's go a step further and question whether it's always true.
+Sometimes, one plus one can equal __74__ than two. If you and a friend each have 1.5 times the amount of money __75__ for a cup of coffee, alone you can only buy one cup, but together you can join your money to afford three.
+Sometimes, one plus one is just one. If you put one pile of sand on top of the __76__, you just get one pile of sand. Or if you mix two colors, you only get one new color.
+And in some situations, one plus one is __77__. If I say, "I'm not not hungry," that means "I'm hungry." The point here is that one "not" plus another "not" means no "nots."
+You might think this isn't math because items in question aren't numbers at all. But the goal of learning math isn't just to get the numbers __78__. Instead, it's to understand the world on a deeper level. __79__, in mathematical research, we often try to explore when a rule holds and when it doesn't.
+I want us to see math as a space to ask questions and explore every __80__ answer, rather than a strict place where rules are all set in stone.`;
+
+    const VOCAB_UNITS = [
+        {
+                "headword": "accept",
+                "spell": "accept",
+                "ttsWord": "accept",
+                "defA2": "To take something offered; to agree that something is true or fair.",
+                "defReadAloud": "To take something offered; to agree that something is true or fair.",
+                "usages": [
+                        {
+                                "label": "accept + 名词（收下；答应）",
+                                "sentence": "Please accept this small gift — it is only a token of thanks.",
+                                "sentenceZh": "请收下这份小礼物——只是一点心意。",
+                                "explain": "accept 的宾语常为 invitation / gift / offer / apology。",
+                                "rephrase": "Please take this small gift; it only shows our thanks."
+                        },
+                        {
+                                "label": "accept + that 从句（承认事实）",
+                                "sentence": "It took him a while to accept that he had made a careless mistake.",
+                                "sentenceZh": "他过了一阵子才承认自己犯了一个粗心的错误。",
+                                "explain": "accept that… 表示心理上接受某一事实。",
+                                "rephrase": "He needed time to admit that he had made a careless mistake."
+                        },
+                        {
+                                "label": "accept + as（认可身份）",
+                                "sentence": "The coach accepted her as a full member of the school team.",
+                                "sentenceZh": "教练认可她成为校队的正式成员。",
+                                "explain": "accept sb as … 常见于叙事与说明文。",
+                                "rephrase": "The coach agreed she could be a full member of the school team."
+                        }
+                ],
+                "derivatives": [
+                        {
+                                "q": "Which -ing form appears after a preposition like for / of / without?（介词 + 动名词）",
+                                "answer": "accepting",
+                                "readAloud": "accepting",
+                                "note": "介词后动词用 -ing。",
+                                "induct": {
+                                        "title": "归纳 · 介词 + V-ing（动名词）",
+                                        "peers": [
+                                                "Thank you for coming.",
+                                                "think of joining",
+                                                "instead of leaving",
+                                                "without asking",
+                                                "by reading aloud",
+                                                "after finishing homework"
+                                        ],
+                                        "tip": "for / of / without / about 等介词后若接动词，中考几乎固定写 -ing；不要误用原形或 to do。"
+                                }
+                        },
+                        {
+                                "q": "Which noun means agreement to receive something or approval?（接受；认可）",
+                                "answer": "acceptance",
+                                "readAloud": "acceptance",
+                                "note": "accept → acceptance；-ance 名词。",
+                                "induct": {
+                                        "title": "归纳 · -ance 名词族（抽象名词）",
+                                        "peers": [
+                                                "accept → acceptance",
+                                                "appear → appearance",
+                                                "perform → performance",
+                                                "enter → entrance",
+                                                "import → importance",
+                                                "prefer → preference"
+                                        ],
+                                        "tip": "抽象名词常作主语或宾语：Her acceptance shows … / win acceptance from …"
+                                }
+                        },
+                        {
+                                "q": "Which adjective means 'allowed or reasonable; OK to approve'?（可接受的）",
+                                "answer": "acceptable",
+                                "readAloud": "acceptable",
+                                "note": "accept → acceptable；-able 表“可……的”。",
+                                "induct": {
+                                        "title": "归纳 · 动词 + -able → 形容词",
+                                        "peers": [
+                                                "acceptable",
+                                                "reasonable",
+                                                "comfortable",
+                                                "enjoyable",
+                                                "valuable",
+                                                "possible"
+                                        ],
+                                        "tip": "评价行为、态度、水平是否“得体、合格”时高频：acceptable behavior / within acceptable limits。"
+                                }
+                        }
+                ],
+                "examTarget": {
+                        "form": "accepting",
+                        "examExamples": [
+                                {
+                                        "readSentence": "Thank you for accepting my invitation to the party.",
+                                        "readSentenceZh": "感谢你接受我的聚会邀请。",
+                                        "blankAnswer": "accepting"
+                                },
+                                {
+                                        "readSentence": "Her acceptance of the plan showed great courage.",
+                                        "readSentenceZh": "她对这项计划的接受表明了巨大的勇气。",
+                                        "blankAnswer": "acceptance"
+                                },
+                                {
+                                        "readSentence": "We should learn to accept helpful advice from teachers.",
+                                        "readSentenceZh": "我们应当学会接受老师有益的建议。",
+                                        "blankAnswer": "accept"
+                                },
+                                {
+                                        "readSentence": "Being late without reason is not acceptable at school.",
+                                        "readSentenceZh": "在校无故迟到是不可接受的。",
+                                        "blankAnswer": "acceptable"
+                                }
+                        ],
+                        "note": "accept / accepting / acceptance / acceptable：原形、介词后 -ing、抽象名词、评价性形容词四槽对照。"
+                }
+        },
+        {
+                "headword": "basic",
+                "spell": "basic",
+                "ttsWord": "basic",
+                "defA2": "Most important and necessary; forming a starting point.",
+                "defReadAloud": "Most important and necessary.",
+                "usages": [
+                        {
+                                "label": "basic + 名词（基础的）",
+                                "sentence": "Good listening is a basic skill in language learning.",
+                                "sentenceZh": "良好的听力是语言学习中的一项基础技能。",
+                                "explain": "basic skills / rules / needs 为写作高频。",
+                                "rephrase": "Good listening is an essential skill in language learning."
+                        },
+                        {
+                                "label": "the basics of …（入门要点）",
+                                "sentence": "This unit covers the basics of letter writing.",
+                                "sentenceZh": "本单元讲解书信写作的入门要点。",
+                                "explain": "the basics 指必备知识结构。",
+                                "rephrase": "This unit introduces the fundamentals of letter writing."
+                        },
+                        {
+                                "label": "Basically 评注全句",
+                                "sentence": "Basically, we should respect traffic rules wherever we go.",
+                                "sentenceZh": "总之，无论走到哪里我们都应遵守交通规则。",
+                                "explain": "Basically 放句首 + 逗号。",
+                                "rephrase": "In simple terms, we should respect traffic rules wherever we go."
+                        }
+                ],
+                "derivatives": [
+                        {
+                                "q": "Which adverb is formed from basic and often opens a sentence?（评注副词）",
+                                "answer": "Basically",
+                                "readAloud": "Basically",
+                                "note": "basic → basically → Basically（句首大写 + 逗号）。",
+                                "induct": {
+                                        "title": "归纳 · 形容词 + -ally → 副词（句首评注）",
+                                        "peers": [
+                                                "basically",
+                                                "finally",
+                                                "usually",
+                                                "generally",
+                                                "especially",
+                                                "actually"
+                                        ],
+                                        "tip": "Basically 引出“概括性结论”，相当于 In short / In essence；勿与形近词 base（基底；卑鄙）混淆。"
+                                }
+                        },
+                        {
+                                "q": "Which plural noun means simple facts you must learn first?（基础要点）",
+                                "answer": "basics",
+                                "readAloud": "basics",
+                                "note": "master / review / learn the basics。",
+                                "induct": {
+                                        "title": "归纳 · basic 的名词化（复数）",
+                                        "peers": [
+                                                "learn the basics",
+                                                "master the basics",
+                                                "review the basics",
+                                                "the basics of English",
+                                                "back to basics",
+                                                "beyond the basics"
+                                        ],
+                                        "tip": "basics 表“入门必备的一组知识”，常与动词 learn/master/review 搭配；区别于 basis（单数，理论基础）。"
+                                }
+                        }
+                ],
+                "examTarget": {
+                        "form": "Basically",
+                        "examExamples": [
+                                {
+                                        "readSentence": "Basically, honesty builds trust among classmates.",
+                                        "readSentenceZh": "说到底，诚实能在同学之间建立信任。",
+                                        "blankAnswer": "Basically"
+                                },
+                                {
+                                        "readSentence": "Review the basics before you try harder exercises.",
+                                        "readSentenceZh": "做更难练习之前先复习基础要点。",
+                                        "blankAnswer": "basics"
+                                },
+                                {
+                                        "readSentence": "Students need basic tools such as a dictionary.",
+                                        "readSentenceZh": "学生需要词典之类的基础工具。",
+                                        "blankAnswer": "basic"
+                                }
+                        ],
+                        "note": "Basically / basics / basic：副词总述、名词复数要点、形容词定语。"
+                }
+        },
+        {
+                "headword": "correct",
+                "spell": "correct",
+                "ttsWord": "correct",
+                "defA2": "Right; without mistakes; to make something right.",
+                "defReadAloud": "Right; without mistakes.",
+                "usages": [
+                        {
+                                "label": "be correct（判断对错）",
+                                "sentence": "Only one answer on the sheet is correct.",
+                                "sentenceZh": "答题纸上只有一个答案是正确的。",
+                                "explain": "correct 作表语。",
+                                "rephrase": "Only one answer on the sheet is right."
+                        },
+                        {
+                                "label": "get + O + correct",
+                                "sentence": "Please check your steps to get every calculation correct.",
+                                "sentenceZh": "请检查步骤，把每一步计算都算对。",
+                                "explain": "get sth. correct = 使……准确。",
+                                "rephrase": "Please check your steps so every calculation is right."
+                        },
+                        {
+                                "label": "correct 作动词（改正）",
+                                "sentence": "She helped me correct mistakes in my composition.",
+                                "sentenceZh": "她帮我改正作文里的错误。",
+                                "explain": "correct errors / pronunciation。",
+                                "rephrase": "She helped me fix mistakes in my composition."
+                        }
+                ],
+                "derivatives": [
+                        {
+                                "q": "Which adverb fits 'answer the question ___'?（方式副词）",
+                                "answer": "correctly",
+                                "readAloud": "correctly",
+                                "note": "correct + -ly。",
+                                "induct": {
+                                        "title": "归纳 · 形容词 + -ly → 方式副词",
+                                        "peers": [
+                                                "correctly",
+                                                "quickly",
+                                                "slowly",
+                                                "carefully",
+                                                "politely",
+                                                "quietly"
+                                        ],
+                                        "tip": "空格在动词后、说明“怎样做”→ 多用副词；不要写成 correct（形容词原形）。"
+                                }
+                        },
+                        {
+                                "q": "Which noun means a change that fixes an error?（改正；批改）",
+                                "answer": "correction",
+                                "readAloud": "correction",
+                                "note": "make corrections / a correction。",
+                                "induct": {
+                                        "title": "归纳 · correct → correction（-tion）",
+                                        "peers": [
+                                                "correction",
+                                                "instruction",
+                                                "description",
+                                                "communication",
+                                                "invitation",
+                                                "suggestion"
+                                        ],
+                                        "tip": "可数：several corrections；教师评语、互批作文高频词块。"
+                                }
+                        }
+                ],
+                "examTarget": {
+                        "form": "correct",
+                        "examExamples": [
+                                {
+                                        "readSentence": "If your guess is correct, put up your hand.",
+                                        "readSentenceZh": "如果你猜对了，请举手。",
+                                        "blankAnswer": "correct"
+                                },
+                                {
+                                        "readSentence": "He labeled each picture correctly on the poster.",
+                                        "readSentenceZh": "他在海报上把每张图都标对了。",
+                                        "blankAnswer": "correctly"
+                                },
+                                {
+                                        "readSentence": "The teacher wrote one correction in the margin.",
+                                        "readSentenceZh": "老师在页边写了一条批改。",
+                                        "blankAnswer": "correction"
+                                }
+                        ],
+                        "note": "correct / correctly / correction 三类词性对照记忆。"
+                }
+        },
+        {
+                "headword": "disappoint",
+                "spell": "disappoint",
+                "ttsWord": "disappoint",
+                "defA2": "To make someone unhappy because something is not as good as expected.",
+                "defReadAloud": "To make someone unhappy because something is not as good as expected.",
+                "usages": [
+                        {
+                                "label": "disappoint + 人",
+                                "sentence": "A careless rumor can disappoint many fans.",
+                                "sentenceZh": "不负责任的传言会令许多粉丝失望。",
+                                "explain": "事件作主语 + disappoint sb。",
+                                "rephrase": "A careless rumor can let many fans down."
+                        },
+                        {
+                                "label": "be disappointed（人作主语）",
+                                "sentence": "I was disappointed about the sudden change of plans.",
+                                "sentenceZh": "我对计划的突然变更感到失望。",
+                                "explain": "disappointed about / with / at。",
+                                "rephrase": "I felt upset about the sudden change of plans."
+                        },
+                        {
+                                "label": "disappointing（事物特征）",
+                                "sentence": "The rainy weather was disappointing for our hike.",
+                                "sentenceZh": "雨天对我们的徒步来说很扫兴。",
+                                "explain": "-ing 描写事物。",
+                                "rephrase": "The rainy weather spoiled our hike."
+                        }
+                ],
+                "derivatives": [
+                        {
+                                "q": "Which -ed adjective describes feelings after bad news?（人的感受）",
+                                "answer": "disappointed",
+                                "readAloud": "disappointed",
+                                "note": "sb be disappointed；make sb disappointed。",
+                                "induct": {
+                                        "title": "归纳 · -ed / -ing 分词形容词（人/物分工）",
+                                        "peers": [
+                                                "disappointed / disappointing",
+                                                "excited / exciting",
+                                                "surprised / surprising",
+                                                "bored / boring",
+                                                "interested / interesting",
+                                                "worried / worrying"
+                                        ],
+                                        "tip": "逻辑主语是人且表“感到…”→ -ed；主语是事物且表“令人…”→ -ing。"
+                                }
+                        },
+                        {
+                                "q": "Which noun names the feeling when hopes fail?（失望）",
+                                "answer": "disappointment",
+                                "readAloud": "disappointment",
+                                "note": "to one's disappointment。",
+                                "induct": {
+                                        "title": "归纳 · -ment 抽象名词",
+                                        "peers": [
+                                                "disappointment",
+                                                "excitement",
+                                                "agreement",
+                                                "development",
+                                                "movement",
+                                                "achievement"
+                                        ],
+                                        "tip": "叙事升华常用：Much to my disappointment, …；与 disappointing（形容词）勿混。"
+                                }
+                        }
+                ],
+                "examTarget": {
+                        "form": "disappointed",
+                        "examExamples": [
+                                {
+                                        "readSentence": "My parents looked disappointed but still encouraged me.",
+                                        "readSentenceZh": "父母看起来很失望，但仍然鼓励我。",
+                                        "blankAnswer": "disappointed"
+                                },
+                                {
+                                        "readSentence": "The film was disappointing compared with the book.",
+                                        "readSentenceZh": "与原著相比，这部电影令人失望。",
+                                        "blankAnswer": "disappointing"
+                                },
+                                {
+                                        "readSentence": "Much to her disappointment, she missed the chance.",
+                                        "readSentenceZh": "令她十分失望的是，她错过了机会。",
+                                        "blankAnswer": "disappointment"
+                                }
+                        ],
+                        "note": "disappointed / disappointing / disappointment 分工明确。"
+                }
+        },
+        {
+                "headword": "follow",
+                "spell": "follow",
+                "ttsWord": "follow",
+                "defA2": "To obey rules or instructions; to come after.",
+                "defReadAloud": "To obey rules or instructions.",
+                "usages": [
+                        {
+                                "label": "follow rules / advice",
+                                "sentence": "All runners must follow the safety rules on the track.",
+                                "sentenceZh": "所有跑步者在跑道上都必须遵守安全规则。",
+                                "explain": "follow ≈ obey，阅读与写作高频。",
+                                "rephrase": "All runners must obey the safety rules on the track."
+                        },
+                        {
+                                "label": "follow sb（跟随）",
+                                "sentence": "Line up and follow the teacher into the hall.",
+                                "sentenceZh": "排好队，跟着老师进入礼堂。",
+                                "explain": "校园场景常用。",
+                                "rephrase": "Stand in line and walk behind the teacher into the hall."
+                        },
+                        {
+                                "label": "as follows",
+                                "sentence": "The classroom rules read as follows on the wall.",
+                                "sentenceZh": "教室守则写在墙上，内容如下。",
+                                "explain": "固定短语。",
+                                "rephrase": "The classroom rules are written on the wall like this."
+                        }
+                ],
+                "derivatives": [
+                        {
+                                "q": "Which adjective means 'coming next'?（接下来的）",
+                                "answer": "following",
+                                "readAloud": "following",
+                                "note": "the following day / the following questions。",
+                                "induct": {
+                                        "title": "归纳 · following 作定语",
+                                        "peers": [
+                                                "the following day",
+                                                "the following week",
+                                                "the following year",
+                                                "the following afternoon",
+                                                "answer the following questions",
+                                                "read the following passage"
+                                        ],
+                                        "tip": "试卷指令里高频；叙事表“紧接着的那一天/下午”用 the following day/afternoon。"
+                                }
+                        },
+                        {
+                                "q": "Which past participle completes 'must be strictly ___'?（被动：被遵守）",
+                                "answer": "followed",
+                                "readAloud": "followed",
+                                "note": "rules must be followed ≈ must be obeyed。",
+                                "induct": {
+                                        "title": "归纳 · 规则类被动语态",
+                                        "peers": [
+                                                "must be followed",
+                                                "should be obeyed",
+                                                "can be done",
+                                                "will be checked",
+                                                "may be used",
+                                                "must be respected"
+                                        ],
+                                        "tip": "主语为 rule/law/plan 时，常用被动突出“须被遵守”，施事可省略。"
+                                }
+                        },
+                        {
+                                "q": "Which noun means a person who supports someone online or goes along with an idea?（追随者；粉丝）",
+                                "answer": "follower",
+                                "readAloud": "follower",
+                                "note": "follow + -er；复数 followers 极常见。",
+                                "induct": {
+                                        "title": "归纳 · 动词 + -er 表执行者/成员",
+                                        "peers": [
+                                                "follow → follower(s)",
+                                                "teach → teacher",
+                                                "sing → singer",
+                                                "work → worker",
+                                                "read → reader",
+                                                "report → reporter"
+                                        ],
+                                        "tip": "社交媒体 followers；议论文里也可指“追随某种观点的人”。与 procedure“步骤”勿混：follower 是人，following 可表“下列内容”。"
+                                }
+                        }
+                ],
+                "examTarget": {
+                        "form": "follow",
+                        "examExamples": [
+                                {
+                                        "readSentence": "Visitors should follow the signs and keep quiet.",
+                                        "readSentenceZh": "参观者应按指示牌行事并保持安静。",
+                                        "blankAnswer": "follow"
+                                },
+                                {
+                                        "readSentence": "On the following afternoon, we visited the museum.",
+                                        "readSentenceZh": "在接下来的那个下午，我们参观了博物馆。",
+                                        "blankAnswer": "following"
+                                },
+                                {
+                                        "readSentence": "Every rule in the lab must be strictly followed.",
+                                        "readSentenceZh": "实验室的每一条规则都必须严格遵守。",
+                                        "blankAnswer": "followed"
+                                },
+                                {
+                                        "readSentence": "The writer thanked her followers for reading her posts.",
+                                        "readSentenceZh": "作者感谢阅读她帖子的粉丝们。",
+                                        "blankAnswer": "followers"
+                                }
+                        ],
+                        "note": "follow / following / followed / followers：动词原形、定语形容词、被动过去分词、复数名词“粉丝”须分槽记忆。"
+                }
+        },
+        {
+                "headword": "little",
+                "spell": "little",
+                "ttsWord": "little",
+                "defA2": "A small amount; almost none (with uncountable nouns).",
+                "defReadAloud": "A small amount or almost none.",
+                "usages": [
+                        {
+                                "label": "little + 不可数（表否定：几乎没有）",
+                                "sentence": "There is little water left in the bottle after the hike.",
+                                "sentenceZh": "徒步后瓶里几乎没剩下什么水。",
+                                "explain": "little 表否定，接近 no。",
+                                "rephrase": "Almost no water is left in the bottle after the hike."
+                        },
+                        {
+                                "label": "a little + 不可数（有一点）",
+                                "sentence": "Could I have a little sugar in my tea, please?",
+                                "sentenceZh": "请给我的茶加一点点糖好吗？",
+                                "explain": "a little 表肯定少量。",
+                                "rephrase": "Could you add some sugar to my tea, please?"
+                        },
+                        {
+                                "label": "a little 修饰形容词 / 副词比较级",
+                                "sentence": "She felt a little nervous before the speech contest.",
+                                "sentenceZh": "演讲比赛前她有一点紧张。",
+                                "explain": "a little + adj/adv。",
+                                "rephrase": "She felt slightly nervous before the speech contest."
+                        }
+                ],
+                "derivatives": [
+                        {
+                                "q": "Which comparative means 'a smaller amount' for uncountable nouns?（更少）",
+                                "answer": "less",
+                                "readAloud": "less",
+                                "note": "little → less → least。",
+                                "induct": {
+                                        "title": "归纳 · little / less / least（不可数）",
+                                        "peers": [
+                                                "less water",
+                                                "less time",
+                                                "less noise",
+                                                "even less money",
+                                                "a lot less work",
+                                                "much less trouble"
+                                        ],
+                                        "tip": "修饰不可数名词“更少”用 less；可数名词复数“更少”用 fewer（few → fewer）。"
+                                }
+                        },
+                        {
+                                "q": "Which superlative appears in 'at ___' or '___ importance'?（最少；最不）",
+                                "answer": "least",
+                                "readAloud": "least",
+                                "note": "at least（至少）；not in the least。",
+                                "induct": {
+                                        "title": "归纳 · least 与固定短语",
+                                        "peers": [
+                                                "at least",
+                                                "least of all",
+                                                "not in the least",
+                                                "last but not least",
+                                                "to say the least",
+                                                "a least favorite"
+                                        ],
+                                        "tip": "last but not least 写作枚举收尾利器；least 是 little 的最高级。"
+                                }
+                        }
+                ],
+                "examTarget": {
+                        "form": "less",
+                        "examExamples": [
+                                {
+                                        "readSentence": "We should waste less food in the school canteen.",
+                                        "readSentenceZh": "我们应该在食堂少浪费食物。",
+                                        "blankAnswer": "less"
+                                },
+                                {
+                                        "readSentence": "Try to spend at least twenty minutes reading daily.",
+                                        "readSentenceZh": "尽量每天至少阅读二十分钟。",
+                                        "blankAnswer": "least"
+                                },
+                                {
+                                        "readSentence": "There is little hope without teamwork.",
+                                        "sentenceZh": "没有团队合作则希望渺茫。",
+                                        "blankAnswer": "little"
+                                }
+                        ],
+                        "note": "第三句考查 little 表否定；注意与 a little 对立。"
+                }
+        },
+        {
+                "headword": "much",
+                "spell": "much",
+                "ttsWord": "much",
+                "defA2": "A large amount (with uncountable nouns); used in comparisons.",
+                "defReadAloud": "A large amount.",
+                "usages": [
+                        {
+                                "label": "much + 不可数",
+                                "sentence": "Thank you very much for your kind help.",
+                                "sentenceZh": "非常感谢你的好心帮助。",
+                                "explain": "thank you very much 固定礼貌用语。",
+                                "rephrase": "I'm truly grateful for your kind help."
+                        },
+                        {
+                                "label": "much + 比较级（……得多）",
+                                "sentence": "This story is much easier than it sounds.",
+                                "sentenceZh": "这个故事比听起来容易得多。",
+                                "explain": "much 加强比较级。",
+                                "rephrase": "This story is far easier than it sounds."
+                        },
+                        {
+                                "label": "more than（多于）",
+                                "sentence": "More than fifty students joined the clean-up.",
+                                "sentenceZh": "五十多名学生参加了大扫除。",
+                                "explain": "more than + 数词。",
+                                "rephrase": "Over fifty students joined the clean-up."
+                        }
+                ],
+                "derivatives": [
+                        {
+                                "q": "Which comparative form does much supply before than?（比较级）",
+                                "answer": "more",
+                                "readAloud": "more",
+                                "note": "much / many → more。",
+                                "induct": {
+                                        "title": "归纳 · much → more（比较级）",
+                                        "peers": [
+                                                "much more time",
+                                                "many more books",
+                                                "more than fifty",
+                                                "much more carefully",
+                                                "much more slowly",
+                                                "far more often"
+                                        ],
+                                        "tip": "than 是比较级信号词；不可数名词的程度比较常与 much more 连用。"
+                                }
+                        },
+                        {
+                                "q": "Which word strengthens a comparative like '___ easier / ___ better'?（程度副词）",
+                                "answer": "much",
+                                "readAloud": "much",
+                                "note": "much easier / much better / much worse。",
+                                "induct": {
+                                        "title": "归纳 · much / even / far + 比较级",
+                                        "peers": [
+                                                "much better",
+                                                "even worse",
+                                                "far more helpful",
+                                                "a lot easier",
+                                                "still harder",
+                                                "no worse"
+                                        ],
+                                        "tip": "修饰比较级表示“……得多”，much 极常见；不要用 very 修饰比较级。"
+                                }
+                        },
+                        {
+                                "q": "Which superlative appears in patterns like 'the ___ popular student'?（many/much → most）",
+                                "answer": "most",
+                                "readAloud": "most",
+                                "note": "the most + 形容词原级。",
+                                "induct": {
+                                        "title": "归纳 · more → most（最高级）",
+                                        "peers": [
+                                                "the most careful",
+                                                "the most helpful",
+                                                "the most useful",
+                                                "most of us",
+                                                "at most",
+                                                "mostly"
+                                        ],
+                                        "tip": "the most + adj；most 单独作主语限定词时亦可表“大多数”（most students）。"
+                                }
+                        }
+                ],
+                "examTarget": {
+                        "form": "more",
+                        "examExamples": [
+                                {
+                                        "readSentence": "Teamwork can achieve much more than working alone.",
+                                        "readSentenceZh": "合作能比单打独斗做成更多的事。",
+                                        "blankAnswer": "more"
+                                },
+                                {
+                                        "readSentence": "She has made much progress this term.",
+                                        "readSentenceZh": "她这学期进步很大。",
+                                        "blankAnswer": "much"
+                                },
+                                {
+                                        "readSentence": "How much milk do we need for the experiment?",
+                                        "readSentenceZh": "实验我们需要多少牛奶？",
+                                        "blankAnswer": "much"
+                                },
+                                {
+                                        "readSentence": "This is the most useful tip I have learned.",
+                                        "readSentenceZh": "这是我学过的最有用的窍门。",
+                                        "blankAnswer": "most"
+                                }
+                        ],
+                        "note": "more（比较）、much（程度/不可数疑问）、most（最高级）三线分清。"
+                }
+        },
+        {
+                "headword": "need",
+                "spell": "need",
+                "ttsWord": "need",
+                "defA2": "To require something; to be necessary.",
+                "defReadAloud": "To require something.",
+                "usages": [
+                        {
+                                "label": "need + 名词",
+                                "sentence": "Plants need sunlight and water to grow.",
+                                "sentenceZh": "植物生长需要阳光和水。",
+                                "explain": "说明文高频。",
+                                "rephrase": "Plants require sunlight and water to grow."
+                        },
+                        {
+                                "label": "need to do",
+                                "sentence": "You need to rest after running such a long race.",
+                                "sentenceZh": "跑了这么长的赛程你需要休息。",
+                                "explain": "need to do 表必要性。",
+                                "rephrase": "You should rest after running such a long race."
+                        },
+                        {
+                                "label": "need doing（英式；need to be done）",
+                                "sentence": "The bike needs cleaning before the trip.",
+                                "sentenceZh": "出发前这辆自行车需要擦洗。",
+                                "explain": "中考偶见 need doing = need to be done。",
+                                "rephrase": "The bike needs to be cleaned before the trip."
+                        }
+                ],
+                "derivatives": [
+                        {
+                                "q": "Which -ed form acts like an adjective before a noun: 'time ___ for sleep'?（所需要的）",
+                                "answer": "needed",
+                                "readAloud": "needed",
+                                "note": "名词 + needed ≈ that is needed。",
+                                "induct": {
+                                        "title": "归纳 · 过去分词作后置定语",
+                                        "peers": [
+                                                "time needed",
+                                                "money needed",
+                                                "help needed",
+                                                "questions raised",
+                                                "efforts made",
+                                                "tools required"
+                                        ],
+                                        "tip": "名词是“被需要/被提出”的对象→用过去分词后置，相当于定语从句的省略。"
+                                }
+                        },
+                        {
+                                "q": "Which plural noun lists things people must have?（需求）",
+                                "answer": "needs",
+                                "readAloud": "needs",
+                                "note": "meet one's needs / daily needs。",
+                                "induct": {
+                                        "title": "归纳 · need 名词化（复数）",
+                                        "peers": [
+                                                "basic needs",
+                                                "daily needs",
+                                                "special needs",
+                                                "meet people's needs",
+                                                "meet one's needs",
+                                                "housing needs"
+                                        ],
+                                        "tip": "说明文谈教育、公益、社区时常出现；与 needy（形容词，贫穷的）勿混。"
+                                }
+                        }
+                ],
+                "examTarget": {
+                        "form": "needed",
+                        "examExamples": [
+                                {
+                                        "readSentence": "Bring the tools needed for the science project.",
+                                        "readSentenceZh": "带上科学课项目所需的工具。",
+                                        "blankAnswer": "needed"
+                                },
+                                {
+                                        "readSentence": "Every child has different needs at school.",
+                                        "readSentenceZh": "每个孩子在学校有不同的需求。",
+                                        "blankAnswer": "needs"
+                                },
+                                {
+                                        "readSentence": "We need to hand in the report on Friday.",
+                                        "readSentenceZh": "我们需要在周五交报告。",
+                                        "blankAnswer": "need"
+                                }
+                        ],
+                        "note": "needed 定语；needs 名词复数；need to do 结构。"
+                }
+        },
+        {
+                "headword": "other",
+                "spell": "other",
+                "ttsWord": "other",
+                "defA2": "Different from what has been mentioned; additional.",
+                "defReadAloud": "Different from what has been mentioned.",
+                "usages": [
+                        {
+                                "label": "one … the other（两者中的另一个）",
+                                "sentence": "I have two pens; one is red and the other is blue.",
+                                "sentenceZh": "我有两支笔，一支红的一支蓝的。",
+                                "explain": "中考经典对称结构。",
+                                "rephrase": "I have two pens: one red and one blue."
+                        },
+                        {
+                                "label": "other + 复数名词",
+                                "sentence": "Some boys play football while other students read books.",
+                                "sentenceZh": "一些男孩在踢球，其他学生在看书。",
+                                "explain": "other + 名词复数。",
+                                "rephrase": "Some boys play football while the rest read books."
+                        },
+                        {
+                                "label": "each other（互相）",
+                                "sentence": "Good friends should trust each other in hard times.",
+                                "sentenceZh": "好朋友在困难时应互相信任。",
+                                "explain": "each other 表示相互。",
+                                "rephrase": "Good friends should trust one another in hard times."
+                        }
+                ],
+                "derivatives": [
+                        {
+                                "q": "Which word completes pairs like 'one … the ___'?（两者中的另一个）",
+                                "answer": "other",
+                                "readAloud": "other",
+                                "note": "the other + 名词（可省略重复名词）。",
+                                "induct": {
+                                        "title": "归纳 · other / the other / another",
+                                        "peers": [
+                                                "one … the other",
+                                                "the other day",
+                                                "on the other hand",
+                                                "another chance",
+                                                "other classmates",
+                                                "other choices"
+                                        ],
+                                        "tip": "两者对立：one … the other；泛指“又一个”用 another + 单数可数。"
+                                }
+                        },
+                        {
+                                "q": "Which pronoun refers to additional people or things in general?（另一些）",
+                                "answer": "others",
+                                "readAloud": "others",
+                                "note": "some … others … 议论文骨架。",
+                                "induct": {
+                                        "title": "归纳 · some … others / each other",
+                                        "peers": [
+                                                "some … others …",
+                                                "each other",
+                                                "help others",
+                                                "one another",
+                                                "among others",
+                                                "respect each other"
+                                        ],
+                                        "tip": "列举两类观点人物时常用；others = other people/things，后面不接名词。"
+                                }
+                        }
+                ],
+                "examTarget": {
+                        "form": "other",
+                        "examExamples": [
+                                {
+                                        "readSentence": "Put one shoe in the box and leave the other outside.",
+                                        "readSentenceZh": "把一只鞋放进盒子，另一只留在外面。",
+                                        "blankAnswer": "other"
+                                },
+                                {
+                                        "readSentence": "Some volunteers planted trees; others watered them.",
+                                        "readSentenceZh": "一些志愿者种树，另一些浇水。",
+                                        "blankAnswer": "others"
+                                },
+                                {
+                                        "readSentence": "Would you like another cup of tea?",
+                                        "readSentenceZh": "你想再来一杯茶吗？",
+                                        "blankAnswer": "another"
+                                }
+                        ],
+                        "note": "other / others / another：二元对立、泛指另一些、再一个。"
+                }
+        },
+        {
+                "headword": "possible",
+                "spell": "possible",
+                "ttsWord": "possible",
+                "defA2": "Able to happen or be done.",
+                "defReadAloud": "Able to happen or be done.",
+                "usages": [
+                        {
+                                "label": "possible + 名词",
+                                "sentence": "We discussed every possible solution in class.",
+                                "sentenceZh": "我们在课上讨论了每一种可行的解决办法。",
+                                "explain": "possible solutions / reasons / ways。",
+                                "rephrase": "We talked about every workable solution in class."
+                        },
+                        {
+                                "label": "It is possible (for sb) to do",
+                                "sentence": "It is possible for us to finish the wall newspaper tonight.",
+                                "sentenceZh": "我们今晚有可能完成墙报。",
+                                "explain": "形式主语 it。",
+                                "rephrase": "We can finish the wall newspaper tonight."
+                        },
+                        {
+                                "label": "as … as possible",
+                                "sentence": "Please arrive as early as possible tomorrow.",
+                                "sentenceZh": "明天请尽量早到。",
+                                "explain": "尽可能……，写作套语。",
+                                "rephrase": "Please arrive as early as you can tomorrow."
+                        }
+                ],
+                "derivatives": [
+                        {
+                                "q": "Which adverb softens a statement like 'may ___ help'?（也许；可能）",
+                                "answer": "possibly",
+                                "readAloud": "possibly",
+                                "note": "possible → possibly。",
+                                "induct": {
+                                        "title": "归纳 · possible → possibly（语气弱于 probably）",
+                                        "peers": [
+                                                "probably",
+                                                "perhaps",
+                                                "maybe",
+                                                "almost",
+                                                "nearly",
+                                                "certainly"
+                                        ],
+                                        "tip": "possibly 常与 can/could 连用表委婉；probably 把握更大。"
+                                }
+                        },
+                        {
+                                "q": "Which noun fits 'there is a ___ that …'?（可能性）",
+                                "answer": "possibility",
+                                "readAloud": "possibility",
+                                "note": "a strong / slight possibility。",
+                                "induct": {
+                                        "title": "归纳 · -ility / -ity 抽象名词",
+                                        "peers": [
+                                                "possibility",
+                                                "ability",
+                                                "activity",
+                                                "responsibility",
+                                                "personality",
+                                                "nationality"
+                                        ],
+                                        "tip": "there is a possibility that + 从句为阅读写作高频骨架。"
+                                }
+                        },
+                        {
+                                "q": "Which adjective means 'not able to happen or be done'?（不可能的）",
+                                "answer": "impossible",
+                                "readAloud": "impossible",
+                                "note": "im- + possible。",
+                                "induct": {
+                                        "title": "归纳 · possible ↔ impossible（否定前缀 im-）",
+                                        "peers": [
+                                                "possible / impossible",
+                                                "polite / impolite",
+                                                "patient / impatient",
+                                                "legal / illegal",
+                                                "moral / immoral",
+                                                "complete / incomplete"
+                                        ],
+                                        "tip": "中考完形：逻辑转折后出现 impossible task / impossible dream 等。"
+                                }
+                        }
+                ],
+                "examTarget": {
+                        "form": "possible",
+                        "examExamples": [
+                                {
+                                        "readSentence": "Think of any possible reason before you blame others.",
+                                        "readSentenceZh": "指责别人之前，先想想是否还有别的可能原因。",
+                                        "blankAnswer": "possible"
+                                },
+                                {
+                                        "readSentence": "She could possibly join us if she finishes early.",
+                                        "readSentenceZh": "若她早点完成，也许会加入我们。",
+                                        "blankAnswer": "possibly"
+                                },
+                                {
+                                        "readSentence": "There is a possibility of rain this afternoon.",
+                                        "readSentenceZh": "今天下午有下雨的可能。",
+                                        "blankAnswer": "possibility"
+                                },
+                                {
+                                        "readSentence": "It is impossible to finish this alone in ten minutes.",
+                                        "readSentenceZh": "十分钟内独自完成是不可能的。",
+                                        "blankAnswer": "impossible"
+                                }
+                        ],
+                        "note": "possible / possibly / possibility / impossible：形、副、名与反义形容词成套记忆。"
+                }
+        },
+        {
+                "headword": "three",
+                "spell": "three",
+                "ttsWord": "three",
+                "defA2": "The number 3.",
+                "defReadAloud": "Three.",
+                "usages": [
+                        {
+                                "label": "基数词 three",
+                                "sentence": "Three friends shared an umbrella in the rain.",
+                                "sentenceZh": "三个朋友在雨中合撑一把伞。",
+                                "explain": "叙事基数。",
+                                "rephrase": "A trio of friends shared one umbrella in the rain."
+                        },
+                        {
+                                "label": "three times / third",
+                                "sentence": "This is the third time he has won the prize.",
+                                "sentenceZh": "这是他第三次获奖。",
+                                "explain": "序数词与基数词区别。",
+                                "rephrase": "He has won the prize three times now."
+                        },
+                        {
+                                "label": "three of …（……中的三个）",
+                                "sentence": "Three of the girls volunteered at the home for the elderly.",
+                                "sentenceZh": "女孩中有三人去敬老院做志愿者。",
+                                "explain": "three of + 复数。",
+                                "rephrase": "A group of three girls volunteered at the elderly home."
+                        }
+                ],
+                "derivatives": [
+                        {
+                                "q": "Which ordinal ranks items as 'number 3'?（第三）",
+                                "answer": "third",
+                                "readAloud": "third",
+                                "note": "three → third。",
+                                "induct": {
+                                        "title": "归纳 · 基数词 ↔ 序数词（1–10）",
+                                        "peers": [
+                                                "one → first",
+                                                "two → second",
+                                                "three → third",
+                                                "four → fourth",
+                                                "five → fifth",
+                                                "nine → ninth"
+                                        ],
+                                        "tip": "楼层、日期、名次、次数（the third time）必考序数词；注意 fifth、eighth、ninth 拼写。"
+                                }
+                        },
+                        {
+                                "q": "Which cardinal number matches 'a group of ___'?（基数词）",
+                                "answer": "three",
+                                "readAloud": "three",
+                                "note": "three friends / three times。",
+                                "induct": {
+                                        "title": "归纳 · 基数词 vs 比较级槽位",
+                                        "peers": [
+                                                "three cups",
+                                                "the third cup",
+                                                "more than three",
+                                                "three times",
+                                                "a group of three",
+                                                "three of us"
+                                        ],
+                                        "tip": "见到 than 优先想比较级 more/less，不要把 three 硬塞进比较结构。"
+                                }
+                        }
+                ],
+                "examTarget": {
+                        "form": "three",
+                        "examExamples": [
+                                {
+                                        "readSentence": "She lives on the third floor of the building.",
+                                        "readSentenceZh": "她住在这栋楼的第三层。",
+                                        "blankAnswer": "third"
+                                },
+                                {
+                                        "readSentence": "We need three volunteers for the project.",
+                                        "readSentenceZh": "这个项目需要三名志愿者。",
+                                        "blankAnswer": "three"
+                                },
+                                {
+                                        "readSentence": "This is his third visit to the science museum.",
+                                        "readSentenceZh": "这是他第三次参观科技馆。",
+                                        "blankAnswer": "third"
+                                }
+                        ],
+                        "note": "third 序数词 vs three 基数词；阅读题常混用考查。"
+                }
+        },
+        {
+                "headword": "zero",
+                "spell": "zero",
+                "ttsWord": "zero",
+                "defA2": "The number 0; none.",
+                "defReadAloud": "Zero.",
+                "usages": [
+                        {
+                                "label": "数目零",
+                                "sentence": "The temperature dropped to zero last night.",
+                                "sentenceZh": "昨夜气温降到了零度。",
+                                "explain": "天气预报与科普入门。",
+                                "rephrase": "The temperature fell to zero last night."
+                        },
+                        {
+                                "label": "zero + 名词（零……）",
+                                "sentence": "The team showed zero fear before the final match.",
+                                "sentenceZh": "决赛前全队毫无畏惧。",
+                                "explain": "口语化强调“完全没有”。",
+                                "rephrase": "The team showed no fear before the final match."
+                        },
+                        {
+                                "label": "from zero（从零开始）",
+                                "sentence": "He learned the piano from zero with daily practice.",
+                                "sentenceZh": "他靠每日练习从零学起钢琴。",
+                                "explain": "励志叙事常用。",
+                                "rephrase": "He started learning the piano from scratch with daily practice."
+                        }
+                ],
+                "derivatives": [
+                        {
+                                "q": "Which word completes phrases like '___ waste' or '___ carbon' in green writing?（零……）",
+                                "answer": "zero",
+                                "readAloud": "zero",
+                                "note": "zero waste / zero pollution。",
+                                "induct": {
+                                        "title": "归纳 · zero + 名词（环保倡议）",
+                                        "peers": [
+                                                "zero waste",
+                                                "zero pollution",
+                                                "zero emissions",
+                                                "zero noise",
+                                                "zero risk",
+                                                "zero tolerance"
+                                        ],
+                                        "tip": "倡议信、说明文讨论环保与行为规范时常见词块。"
+                                }
+                        },
+                        {
+                                "q": "Which phrase describes starting with no advantage at all?（从零起步）",
+                                "answer": "zero",
+                                "readAloud": "zero",
+                                "note": "start from zero ≈ from scratch。",
+                                "induct": {
+                                        "title": "归纳 · from zero to hero（升华套语）",
+                                        "peers": [
+                                                "from zero to hero",
+                                                "start from scratch",
+                                                "never give up",
+                                                "step by step",
+                                                "little by little",
+                                                "keep trying"
+                                        ],
+                                        "tip": "记叙文结尾励志升华可用；与 follower/following 等不同词族勿混。"
+                                }
+                        }
+                ],
+                "examTarget": {
+                        "form": "zero",
+                        "examExamples": [
+                                {
+                                        "readSentence": "There was zero wind, so the kite could not rise.",
+                                        "readSentenceZh": "一丝风也没有，所以风筝飞不起来。",
+                                        "blankAnswer": "zero"
+                                },
+                                {
+                                        "readSentence": "Start from zero and record each small win.",
+                                        "readSentenceZh": "从零开始，记下每一个小进步。",
+                                        "blankAnswer": "zero"
+                                },
+                                {
+                                        "readSentence": "His score on that item was zero out of five.",
+                                        "readSentenceZh": "那一题他五分得了零分。",
+                                        "blankAnswer": "zero"
+                                }
+                        ],
+                        "note": "zero 表数目、表强调性的“完全没有”、以及评分语境；派生焦点仍在固定搭配与话题词汇。"
+                }
+        }
+];
+    const slides = [];
+    function add(html, meta) { slides.push({ html, meta: meta || null }); }
+    function pushVocabProgram(units, articleTag) {
+      units.forEach((u) => {
+        const parts = slidesFromUnit(u, articleTag);
+        parts.forEach((html, i) => add(html, i === 0 ? { vocabStart: { article: articleTag, headword: u.headword } } : null));
+      });
+    }
+
+    add(`<div class="tag">课程地图</div>
+      <h1 class="slide-title">短文填空 · 数学思辨与论证语言</h1>
+      <p>本套结构：背景输入 → 词汇四步流 → 证据链 → 半独立练习 → 独立作答 → 答案复盘。</p>
+      <div class="card"><h3>本题节奏</h3>
+        <ol>
+          <li>先建立语义场：讨论的不是算术对错，而是<strong>规则—质疑—反例—适用范围</strong>的论证链。</li>
+          <li>词汇四步流：Step1 听音/拼写/A2释义；Step2 常见用法；Step3 派生归纳；Step4 词形测试。</li>
+          <li>方框 12 词中，<strong>2 词为高质量干扰项</strong>；语篇实填 10 空（71–80），需据槽位与搭配排除。</li>
+          <li>复盘时把“可迁移规则”写下来：介词后形式、比较级、后置定语、评注副词等。</li>
+        </ol>
+      </div>`);
+
+    add(`<div class="tag">背景导入</div>
+      <h2 class="slide-h2">数学课堂里的论证意识</h2>
+      <p>文本触及<strong>公理化直觉</strong>与<strong>情境建模</strong>：何时坚持常规加法模型？何时必须改写对象（咖啡预算、沙堆、双重否定）？语言题考查的不是背诵公式，而是<strong>把推理说清楚</strong>所需的词汇—语法接口。</p>
+      <div class="card"><h3>读前问题</h3>
+        <p>当老师只说“就是这样”，你失去的究竟是答案本身，还是<strong>追问理由的权利</strong>？若要把追问说清楚，你需要哪些语言手段（让步、比较、评注、限定可能性）？</p></div>
+      <div class="row-audio"><button type="button" class="tts" data-text="The point of a proof is to show not only that a claim is true, but under which assumptions it remains true.">听一句方法论语境</button></div>`);
+
+    add(`<div class="tag">方框词</div>
+      <h2 class="slide-h2">词库（12 词 · 10 空）</h2>
+      <p class="mono">accept / basic / correct / disappoint / follow / little / much / need / other / possible / three / zero</p>
+      <div class="card"><h3>策略提示</h3>
+        <p>先标出每个空格的<strong>语法槽位</strong>（补语、情态后原形、比较级、过去分词定语、评注副词、形容词修饰 answers 等），再把词库按<strong>词性簇</strong>分组比对；遇 than、instead of、must、numbers 等<strong>触发词</strong>优先收敛候选。</p></div>`);
+
+    pushVocabProgram(VOCAB_UNITS, "本题");
+
+    add(`<div class="tag">证据链</div>
+      <h2 class="slide-h2">为什么是 follow（空 72）？</h2>
+      <div class="sense">从句逻辑主语为 <strong>everyone</strong>，情态动词 <strong>must</strong> 后接动词原形；表示人人都须<strong>遵守</strong>规则，故填 <strong>follow</strong>。</div>
+      <div class="grid-2">
+        <div class="card"><h3>同类结构</h3><p>We must follow the rules. / Visitors must follow the signs.</p></div>
+        <div class="card"><h3>易错点</h3><p>若以 rules 作主语写成 *rules that must follow*，主谓不通；语篇已改为 everyone must follow，槽位与语义一致。</p></div>
+      </div>`);
+
+    add(`<div class="tag">证据链</div>
+      <h2 class="slide-h2">为什么是 accepting（空 73）？</h2>
+      <div class="sense">前有介词短语 instead of，后有副词 simply；of 为介词，槽位要求<strong>动名词</strong>而非原形 accept。</div>
+      <div class="grid-2">
+        <div class="card"><h3>同类结构</h3><p>instead of repeating / instead of proving / instead of checking</p></div>
+        <div class="card"><h3>易错点</h3><p>勿因句意“接受”就填 accept；须与介词后形式一致。</p></div>
+      </div>`);
+
+    add(`<div class="tag">证据链</div>
+      <h2 class="slide-h2">为什么是 more（空 74）？</h2>
+      <div class="sense">比较触发词 <strong>than</strong> 要求比较级；词库基形 much → <strong>more</strong>，与“合并预算后购买力上升”的算术隐喻一致。</div>
+      <div class="row-audio"><button type="button" class="tts" data-text="Pooling resources can yield much more than separate budgets.">听同构句</button></div>`);
+
+    add(`<div class="tag">证据链</div>
+      <h2 class="slide-h2">为什么是 other（空 76）？</h2>
+      <div class="sense">叙事对举 <strong>one pile … the other (pile)</strong>：语篇在空前给出 <strong>the</strong>，槽位填 <strong>other</strong> 构成 <strong>the other</strong>，指两堆沙中的另一堆。</div>
+      <div class="grid-2">
+        <div class="card"><h3>同类结构</h3><p>one pen and the other pen / one answer … the other answer</p></div>
+        <div class="card"><h3>易错点</h3><p>勿写成 *on top of other*（缺 the）；another 强调“再一”时多不接 one … the other 对举。</p></div>
+      </div>`);
+
+    add(`<div class="tag">证据链</div>
+      <h2 class="slide-h2">为什么是 Basically（空 79）？</h2>
+      <div class="sense">逗号后切入<strong>研究方法论</strong>议论：需<strong>句首评注副词</strong>概括立场；basic → <strong>Basically</strong>，大写并统领全句。</div>
+      <div class="row-audio"><button type="button" class="tts" data-text="Basically, we distinguish what is proved from what is assumed.">听同构句</button></div>`);
+
+    add(`<div class="tag">半独立</div>
+      <h2 class="slide-h2">语篇填空（编号提示 · 71–80）</h2>
+      <p>先判定槽位与搭配，再考虑词形；词库含 2 个干扰项，勿强行用完每个词。</p>
+      <div class="passage">${renderPassage(PASSAGE, PRACTICE_ANS, "study")}</div>
+      <p class="bank">词库：${WORD_BANK.join(" / ")}</p>`);
+
+    add(`<div class="tag">独立作答</div>
+      <h2 class="slide-h2">独立作答页（答案隐藏）</h2>
+      <div class="passage">${renderPassage(PASSAGE, PRACTICE_ANS, "practice")}</div>
+      <div class="row-audio" style="margin-top:10px;">
+        <button type="button" class="nav" id="checkPracticeBtn">一键核对</button>
+      </div>
+      <p id="practiceScore" class="score">先独立填写，再点击核对。</p>`);
+
+    add(`<div class="tag">答案</div>
+      <h2 class="slide-h2">答案与词形</h2>
+      <div class="passage">${renderPassage(PASSAGE, PRACTICE_ANS, "key")}</div>
+      <div class="card"><h3>快速核对清单</h3>
+        <p class="mono">71 disappointed · 72 follow · 73 accepting · 74 more · 75 needed · 76 other · 77 zero · 78 correct · 79 Basically · 80 possible</p>
+      </div>`);
+
+    const vocabNavEntries = [];
+    let idx = 0;
+
+    function fillCourseNav() {
+      const scroll = document.getElementById("courseNavScroll");
+      const list = vocabNavEntries.map((e) => `<li><button type="button" class="nav-vocab-link" data-slide-index="${e.index}">${escapeHtml(e.headword)}</button></li>`).join("");
+      scroll.innerHTML = `<div class="course-nav-h">本题词汇流（12 词族 · 方框 12 词）</div><ul class="course-nav-list">${list}</ul>`;
+      scroll.querySelectorAll(".nav-vocab-link").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const i = Number(btn.getAttribute("data-slide-index"));
+          if (!Number.isNaN(i)) { idx = i; render(); }
+        });
+      });
+    }
+
+    function syncNavActive() {
+      const sorted = [...vocabNavEntries].sort((a, b) => a.index - b.index);
+      document.querySelectorAll(".nav-vocab-link").forEach((btn) => {
+        const i = Number(btn.getAttribute("data-slide-index"));
+        const pos = sorted.findIndex((e) => e.index === i);
+        const nextStart = pos >= 0 && pos < sorted.length - 1 ? sorted[pos + 1].index : slides.length;
+        btn.classList.toggle("is-active", idx >= i && idx < nextStart);
+      });
+    }
+
+    function render() {
+      const root = document.getElementById("slideRoot");
+      root.innerHTML = `<div class="slide-body-inner">${slides[idx].html}</div>`;
+      document.getElementById("progress").textContent = `Slide ${idx + 1} / ${slides.length}`;
+      document.getElementById("prevBtn").disabled = idx === 0;
+      document.getElementById("nextBtn").disabled = idx === slides.length - 1;
+      bindTtsButtons(root);
+      bindVocabInteractions(root);
+      syncNavActive();
+    }
+
+    slides.forEach((s, i) => {
+      if (s.meta && s.meta.vocabStart) {
+        vocabNavEntries.push({ index: i, article: s.meta.vocabStart.article, headword: s.meta.vocabStart.headword });
+      }
+    });
+    fillCourseNav();
+
+    document.getElementById("navToggle").addEventListener("click", () => {
+      const nav = document.getElementById("courseNav");
+      const btn = document.getElementById("navToggle");
+      const collapsed = nav.classList.toggle("is-collapsed");
+      btn.setAttribute("aria-expanded", collapsed ? "false" : "true");
+      btn.textContent = collapsed ? "展开" : "目录";
+    });
+    document.getElementById("prevBtn").addEventListener("click", () => { idx = Math.max(0, idx - 1); render(); });
+    document.getElementById("nextBtn").addEventListener("click", () => { idx = Math.min(slides.length - 1, idx + 1); render(); });
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight" || e.key === "PageDown") document.getElementById("nextBtn").click();
+      if (e.key === "ArrowLeft" || e.key === "PageUp") document.getElementById("prevBtn").click();
+    });
+
+    refreshTtsBadge();
+    render();
+  </script>
+</body>
+</html>
