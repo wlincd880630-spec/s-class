@@ -559,16 +559,19 @@
 
   <script>
     function hetAzureSpeechKey() {
+      var HET_AZURE_SPEECH_KEY_FALLBACK =
+        "DKRXk8ueSfo5NdIOMqFRTCAfpeGDezJ3Snf5K8gGgtyqxiWdugLzJQQJ99BLACHYHv6XJ3w3AAAYACOGUYP9";
       try {
-        if (typeof window !== "undefined" && window.__HET_AZURE_SPEECH_KEY__)
-          return String(window.__HET_AZURE_SPEECH_KEY__).trim();
+        if (typeof window !== "undefined" && window.__HET_AZURE_SPEECH_KEY__) {
+          var wk = String(window.__HET_AZURE_SPEECH_KEY__).trim();
+          if (wk) return wk;
+        }
       } catch (_) {}
       try {
-        var k = localStorage.getItem("het-azure-speech-key") || localStorage.getItem("AZURE_SPEECH_KEY");
-        return (k || "").trim();
-      } catch (_) {
-        return "";
-      }
+        var k = (localStorage.getItem("het-azure-speech-key") || localStorage.getItem("AZURE_SPEECH_KEY") || "").trim();
+        if (k) return k;
+      } catch (_) {}
+      return HET_AZURE_SPEECH_KEY_FALLBACK;
     }
     const AZURE_SPEECH_REGION = "eastus2";
     const AZURE_TTS_PROSODY_RATE = "-15%";
@@ -578,7 +581,19 @@
     let __hetResolvedAssetsBase = null;
     let __hetManifestMap = null;
     function __hetNorm(s) {
-      return String(s || "").replace(/\s+/g, " ").trim();
+      var t = String(s || "")
+        .replace(/\uFEFF/g, "")
+        .replace(/\u00A0|\u3000/g, " ")
+        .replace(/\s+/g, " ")
+        .trim();
+      return t
+        .replace(/\uFF1B/g, ";")
+        .replace(/\uFF1A/g, ":")
+        .replace(/\uFF0C/g, ",")
+        .replace(/\uFF08/g, "(")
+        .replace(/\uFF09/g, ")")
+        .replace(/\u201C|\u201D/g, '"')
+        .replace(/\u2018|\u2019/g, "'");
     }
     async function __hetEnsureManifest() {
       if (__hetManifestMap) return __hetManifestMap;
@@ -607,7 +622,7 @@
       for (var bi = 0; bi < bases.length; bi++) {
         var base = bases[bi];
         try {
-          var res = await fetch(base + "manifest.json", { cache: "force-cache" });
+          var res = await fetch(base + "manifest.json", { cache: "no-cache" });
           if (!res.ok) continue;
           var data = await res.json();
           __hetResolvedAssetsBase = base;
