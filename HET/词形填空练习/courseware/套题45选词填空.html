@@ -588,8 +588,20 @@
           bases.push(String(window.__HET_CLOZE_ASSETS_BASE__).replace(/\/?$/, "/"));
       } catch (_) {}
       bases.push(HET_CLOZE_ASSETS_BASE_COS);
+      bases.push(HET_CLOZE_ASSETS_BASE_COS.replace(/Assets\/$/, "assets/"));
+      try {
+        [HET_CLOZE_ASSETS_BASE_COS, HET_CLOZE_ASSETS_BASE_COS.replace(/Assets\/$/, "assets/")].forEach(function (root) {
+          var _u = new URL(root);
+          var _parts = _u.pathname.split("/").filter(function (x) { return x; });
+          var _enc = "/" + _parts.map(function (seg) { return encodeURIComponent(seg); }).join("/") + "/";
+          bases.push(_u.origin + _enc);
+        });
+      } catch (_) {}
       try {
         bases.push(new URL("Assets/", window.location.href).href);
+      } catch (_) {}
+      try {
+        bases.push(new URL("assets/", window.location.href).href);
       } catch (_) {}
       var lastErr = null;
       for (var bi = 0; bi < bases.length; bi++) {
@@ -668,8 +680,10 @@
     }
     async function playTts(text) {
       const key = __hetNorm(text);
+      var manifestLoaded = false;
       try {
         const map = await __hetEnsureManifest();
+        manifestLoaded = true;
         const rel = map.get(key);
         if (rel && __hetResolvedAssetsBase) {
           const url = __hetResolvedAssetsBase + String(rel).replace(/^\/+/g, "");
@@ -681,7 +695,19 @@
       }
       var ak = hetAzureSpeechKey();
       if (!ak) {
-        throw new Error("未找到该句预录音频，且未配置 Azure 密钥。请将 Assets/manifest.json 与 mp3 部署到与课件同源路径或 COS；或在控制台执行：localStorage.setItem('het-azure-speech-key','你的密钥') 后刷新。");
+        if (!manifestLoaded) {
+          throw new Error(
+            "无法加载预录音频索引 manifest.json（常见原因：COS 上该路径 404、被 CORS 拦截、或对象键与课件默认地址不一致）。默认尝试：" +
+              HET_CLOZE_ASSETS_BASE_COS +
+              "manifest.json 。请在 COS 控制台核对对象键是否包含 s-class/HET/词形填空练习/courseware/Assets/manifest.json；若实际上传目录不同，可在控制台执行：window.__HET_CLOZE_ASSETS_BASE__='https://你的桶域名/你的Assets前缀/' 再刷新。"
+          );
+        }
+        throw new Error(
+          "manifest 已加载，但未找到与朗读文案完全一致的预录条目（标点、空格、大小写须与 manifest 中 text 相同）：「" +
+            key.slice(0, 160) +
+            (key.length > 160 ? "…" : "") +
+            "」。也可 localStorage.setItem('het-azure-speech-key','你的密钥') 后刷新使用在线合成。"
+        );
       }
       await playAzureTTS(text);
     }
