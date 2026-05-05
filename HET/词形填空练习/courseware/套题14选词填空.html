@@ -558,35 +558,65 @@
   </div>
 
   <script>
-    const AZURE_SPEECH_KEY =
-      "DKRXk8ueSfo5NdIOMqFRTCAfpeGDezJ3Snf5K8gGgtyqxiWdugLzJQQJ99BLACHYHv6XJ3w3AAAYACOGUYP9";
+    function hetAzureSpeechKey() {
+      try {
+        if (typeof window !== "undefined" && window.__HET_AZURE_SPEECH_KEY__)
+          return String(window.__HET_AZURE_SPEECH_KEY__).trim();
+      } catch (_) {}
+      try {
+        var k = localStorage.getItem("het-azure-speech-key") || localStorage.getItem("AZURE_SPEECH_KEY");
+        return (k || "").trim();
+      } catch (_) {
+        return "";
+      }
+    }
     const AZURE_SPEECH_REGION = "eastus2";
     const AZURE_TTS_PROSODY_RATE = "-15%";
     const audioCache = new Map();
     let currentTtsAudio = null;
-    const HET_CLOZE_ASSETS_BASE = "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/HET/词形填空练习/courseware/Assets/";
+    const HET_CLOZE_ASSETS_BASE_COS = "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/HET/词形填空练习/courseware/Assets/";
+    let __hetResolvedAssetsBase = null;
     let __hetManifestMap = null;
     function __hetNorm(s) {
       return String(s || "").replace(/\s+/g, " ").trim();
     }
     async function __hetEnsureManifest() {
       if (__hetManifestMap) return __hetManifestMap;
-      const res = await fetch(HET_CLOZE_ASSETS_BASE + "manifest.json", { cache: "force-cache" });
-      if (!res.ok) throw new Error("manifest " + res.status);
-      const data = await res.json();
-      __hetManifestMap = new Map();
-      for (const ent of Object.values(data)) {
-        const t = __hetNorm(ent.text);
-        if (t && ent.file) __hetManifestMap.set(t, ent.file);
+      var bases = [];
+      try {
+        if (typeof window !== "undefined" && window.__HET_CLOZE_ASSETS_BASE__)
+          bases.push(String(window.__HET_CLOZE_ASSETS_BASE__).replace(/\/?$/, "/"));
+      } catch (_) {}
+      bases.push(HET_CLOZE_ASSETS_BASE_COS);
+      try {
+        bases.push(new URL("Assets/", window.location.href).href);
+      } catch (_) {}
+      var lastErr = null;
+      for (var bi = 0; bi < bases.length; bi++) {
+        var base = bases[bi];
+        try {
+          var res = await fetch(base + "manifest.json", { cache: "force-cache" });
+          if (!res.ok) continue;
+          var data = await res.json();
+          __hetResolvedAssetsBase = base;
+          __hetManifestMap = new Map();
+          for (const ent of Object.values(data)) {
+            const t = __hetNorm(ent.text);
+            if (t && ent.file) __hetManifestMap.set(t, ent.file);
+          }
+          return __hetManifestMap;
+        } catch (e) {
+          lastErr = e;
+        }
       }
-      return __hetManifestMap;
+      throw lastErr || new Error("无法加载 manifest.json（检查 COS / 同目录 Assets / CORS）");
     }
 
 
     function refreshTtsBadge() {
       const el = document.getElementById("ttsBadge");
       if (!el) return;
-      el.textContent = "引擎：Azure REST（与主课件同接口）";
+      el.textContent = "朗读：预录音频优先（COS / 课件旁 Assets）；否则需 Azure 密钥";
     }
     function escapeSsmlText(s) {
       return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;");
@@ -603,6 +633,7 @@
       return a.play();
     }
     function playAzureTTS(text) {
+      var AZURE_SPEECH_KEY = hetAzureSpeechKey();
       if (!AZURE_SPEECH_KEY) return Promise.reject(new Error("未配置 Azure Speech Key。"));
       const endpoint = `https://${AZURE_SPEECH_REGION}.tts.speech.microsoft.com/cognitiveservices/v1`;
       const voice = document.getElementById("voiceSel")?.value || "en-US-AvaNeural";
@@ -624,7 +655,10 @@
         },
         body: ssml,
       }).then((res) => {
-        if (!res.ok) return res.text().then((t) => { throw new Error(`Azure ${res.status}: ${(t || "").slice(0, 120)}`); });
+        if (!res.ok) return res.text().then((t) => {
+          var hint = res.status === 401 ? " （密钥无效/过期或未授权；请配置有效的 het-azure-speech-key 或使用预录音频）" : "";
+          throw new Error(`Azure ${res.status}${hint}: ${(t || "").slice(0, 120)}`);
+        });
         return res.blob();
       }).then((blob) => {
         const u = URL.createObjectURL(blob);
@@ -637,13 +671,17 @@
       try {
         const map = await __hetEnsureManifest();
         const rel = map.get(key);
-        if (rel) {
-          const url = HET_CLOZE_ASSETS_BASE + String(rel).replace(/^\/+/g, "");
+        if (rel && __hetResolvedAssetsBase) {
+          const url = __hetResolvedAssetsBase + String(rel).replace(/^\/+/g, "");
           await playUrl(url);
           return;
         }
       } catch (e) {
-        console.warn("[het-cloze] COS mp3:", e && e.message ? e.message : e);
+        console.warn("[het-cloze] 预录音频:", e && e.message ? e.message : e);
+      }
+      var ak = hetAzureSpeechKey();
+      if (!ak) {
+        throw new Error("未找到该句预录音频，且未配置 Azure 密钥。请将 Assets/manifest.json 与 mp3 部署到与课件同源路径或 COS；或在控制台执行：localStorage.setItem('het-azure-speech-key','你的密钥') 后刷新。");
       }
       await playAzureTTS(text);
     }
