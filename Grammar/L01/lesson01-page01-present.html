@@ -230,6 +230,10 @@
       color: #555;
       margin-bottom: 0.5rem;
     }
+    .sentence-jump-nav {
+      margin-top: 0;
+      margin-bottom: 0.35rem;
+    }
     .summary-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -1938,7 +1942,7 @@ window.__LESSON_TTS_MANIFEST = {
             <h2>本页教学任务</h2>
             <p>先把句子分成两大“家族”，再为后面的 <strong>三单 / do-does / 否定句 / 提问句</strong> 打地基。今天你最终不是只要分对句子，而是要能说出至少 2-4 句属于自己的日常句。</p>
           </div>
-          <p>接下来共有 12 句，每句一页：先听朗读 → 再显示句子 → 回答问题 → 最后分类总结。</p>
+          <p>接下来共有 12 句，每句一页：先听朗读 → 再显示句子 → 回答问题 → 最后分类总结。闯关过程中可用上方的<strong>上一个 / 下一个</strong>在句子间自由跳转（跳转后当前句的显示与答题进度会重置）。</p>
         </div>
         <div class="btn-row">
           <button type="button" class="crayon b-green" id="goStart">开始句子闯关</button>
@@ -2163,6 +2167,10 @@ window.__LESSON_TTS_MANIFEST = {
     app.innerHTML = `
       ${lockUi ? '<div class="tts-lock-overlay" aria-hidden="true"></div>' : ""}
       <p class="progress">句子 ${state.index + 1} / ${SENTENCES.length} · ${s.type === "svo" ? "动作家族" : "状态家族"}</p>
+      <div class="btn-row sentence-jump-nav" role="group" aria-label="在 12 句间跳转">
+        <button type="button" class="crayon b-orange" id="btnJumpPrev" ${state.index === 0 || lockUi ? "disabled" : ""} title="跳转到上一句（该句闯关进度重置）">上一个</button>
+        <button type="button" class="crayon b-orange" id="btnJumpNext" ${state.index >= SENTENCES.length - 1 || lockUi ? "disabled" : ""} title="跳转到下一句（该句闯关进度重置）">下一个</button>
+      </div>
       <div class="btn-row">
         <button type="button" class="crayon b-red${state.ttsLoading ? " tts-playing" : ""}" id="btnTts" aria-label="朗读" title="朗读" ${lockUi ? "disabled" : ""}>🔊</button>
         <button type="button" class="crayon b-blue" id="btnShow" ${state.showText || lockUi ? "disabled" : ""}>显示句子</button>
@@ -2212,6 +2220,25 @@ window.__LESSON_TTS_MANIFEST = {
           render();
         });
     };
+    const jumpPrev = document.getElementById("btnJumpPrev");
+    if (jumpPrev) {
+      jumpPrev.onclick = () => {
+        if (state.ttsLoading || state.index <= 0) return;
+        state.index--;
+        resetSentenceState();
+        render();
+      };
+    }
+    const jumpNext = document.getElementById("btnJumpNext");
+    if (jumpNext) {
+      jumpNext.onclick = () => {
+        if (state.ttsLoading || state.index >= SENTENCES.length - 1) return;
+        state.index++;
+        resetSentenceState();
+        render();
+      };
+    }
+
     document.getElementById("btnShow").onclick = () => {
       if (state.ttsLoading) return;
       state.showText = true;
