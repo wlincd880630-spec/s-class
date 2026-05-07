@@ -1,8 +1,8 @@
 (function () {
     'use strict';
     const { createApp, ref, computed, onMounted } = Vue;
-    const AZURE_KEY = "DKRXk8ueSfo5NdIOMqFRTCAfpeGDezJ3Snf5K8gGgtyqxiWdugLzJQQJ99BLACHYHv6XJ3w3AAAYACOGUYP9";
-    const AZURE_REGION = "eastus2";
+    const AZURE_KEY = "C42UQWeDcluYanbo17WrtUnPhk0vkZy2uQHPTCGDzY6CdEXx99NzJQQJ99BIACqBBLyXJ3w3AAAYACOGjkyu";
+    const AZURE_REGION = "southeastasia";
     const DEEPSEEK_KEY = "sk-daa16008e81843deba6fefe9dce51465";
     const EMAILJS_PUBLIC = "1QhXV5G_92GdK7_DF";
     const EMAILJS_SERVICE = "service_6dfbs2n";

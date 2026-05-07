@@ -5,7 +5,7 @@
  *
  * 可通过环境变量覆盖密钥与区域：
  *   set AZURE_SPEECH_KEY=你的密钥
- *   set AZURE_SPEECH_REGION=eastus2
+ *   set AZURE_SPEECH_REGION=southeastasia
  */
 import http from "node:http";
 import fs from "node:fs";
@@ -17,8 +17,8 @@ const PORT = Number(process.env.PORT) || 3456;
 
 const AZURE_KEY =
   process.env.AZURE_SPEECH_KEY ||
-  "DKRXk8ueSfo5NdIOMqFRTCAfpeGDezJ3Snf5K8gGgtyqxiWdugLzJQQJ99BLACHYHv6XJ3w3AAAYACOGUYP9";
-const REGION = process.env.AZURE_SPEECH_REGION || "eastus2";
+  "C42UQWeDcluYanbo17WrtUnPhk0vkZy2uQHPTCGDzY6CdEXx99NzJQQJ99BIACqBBLyXJ3w3AAAYACOGjkyu";
+const REGION = process.env.AZURE_SPEECH_REGION || "southeastasia";
 const TTS_URL = `https://${REGION}.tts.speech.microsoft.com/cognitiveservices/v1`;
 
 const MIME = {

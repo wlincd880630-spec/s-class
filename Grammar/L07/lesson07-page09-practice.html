@@ -474,6 +474,16 @@
     }, 2600);
   }
 
+  /** 看图题配图：题库中为相对路径时，统一走腾讯云 COS（Grammar/L07/） */
+  var L07_MEDIA_ROOT =
+    "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L07/";
+  function l07PictureUrl(u) {
+    var s = String(u || "").trim();
+    if (!s) return "";
+    if (/^https?:\/\//i.test(s)) return s;
+    return L07_MEDIA_ROOT + s.replace(/^\/+/, "");
+  }
+
   var BANK = window.PAGE09_BANK || [];
   var READINGS = window.PAGE09_READINGS || [];
   var THEMES = (window.PAGE09_META && window.PAGE09_META.themes) || [];
@@ -694,7 +704,7 @@
       var im = document.createElement("img");
       im.className = "pic-q";
       im.alt = "看图";
-      im.src = q.img;
+      im.src = l07PictureUrl(q.img);
       im.loading = "lazy";
       panel.appendChild(im);
     }

@@ -4,7 +4,7 @@
  *
  * 环境变量：
  *   AZURE_SPEECH_KEY 或 SPEECH_KEY —— Azure Speech 资源密钥（必填）
- *   AZURE_SPEECH_REGION —— 默认 eastus2
+ *   AZURE_SPEECH_REGION —— 默认 southeastasia
  *
  * 用法：
  *   cd Grammar/L01
@@ -209,7 +209,7 @@ function parseArgs() {
 async function main() {
   const { dryRun, cosBase } = parseArgs();
   const key = String(process.env.AZURE_SPEECH_KEY || process.env.SPEECH_KEY || "").trim();
-  const region = String(process.env.AZURE_SPEECH_REGION || "eastus2").trim();
+  const region = String(process.env.AZURE_SPEECH_REGION || "southeastasia").trim();
 
   let html = fs.readFileSync(HTML_PATH, "utf8");
   const manifest = extractManifest(html);

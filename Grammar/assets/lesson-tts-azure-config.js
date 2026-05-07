@@ -6,9 +6,9 @@
   if (typeof window === "undefined") return;
   if (!window.__AZURE_SPEECH_KEY__) {
     window.__AZURE_SPEECH_KEY__ =
-      "DKRXk8ueSfo5NdIOMqFRTCAfpeGDezJ3Snf5K8gGgtyqxiWdugLzJQQJ99BLACHYHv6XJ3w3AAAYACOGUYP9";
+      "C42UQWeDcluYanbo17WrtUnPhk0vkZy2uQHPTCGDzY6CdEXx99NzJQQJ99BIACqBBLyXJ3w3AAAYACOGjkyu";
   }
   if (!window.__AZURE_SPEECH_REGION__) {
-    window.__AZURE_SPEECH_REGION__ = "eastus2";
+    window.__AZURE_SPEECH_REGION__ = "southeastasia";
   }
 })();
