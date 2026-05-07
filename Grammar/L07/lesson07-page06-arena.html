@@ -1,0 +1,1672 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>第07讲 · Page 06 · 三者及以上比较 · 最高级 · Zhongkao Arena</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=ZCOOL+KuaiLe&family=Bebas+Neue&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0a1522;
+      --card: rgba(18, 28, 44, 0.96);
+      --gold: #ffc107;
+      --mint: #69f0ae;
+      --coral: #ff7043;
+      --ink: #e8ecf3;
+    }
+    * { box-sizing: border-box; }
+    html { zoom: 1; }
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      min-height: 100dvh;
+      font-family: system-ui, "Segoe UI", "Microsoft YaHei", sans-serif;
+      background: radial-gradient(900px 500px at 80% 0%, #1a237e35 0%, transparent 55%), radial-gradient(700px 400px at 10% 100%, #004d4030 0%, transparent 50%), var(--bg);
+      color: var(--ink);
+      touch-action: manipulation;
+    }
+    body { display: flex; flex-direction: column; }
+    header.top {
+      padding: 10px 14px;
+      text-align: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(0, 0, 0, 0.4);
+      flex-shrink: 0;
+    }
+    header.top h1 {
+      margin: 0;
+      font-family: "Bebas Neue", "ZCOOL KuaiLe", sans-serif;
+      letter-spacing: 0.06em;
+      font-size: clamp(1rem, 3.2vw, 1.5rem);
+      color: #fff;
+    }
+    header.top p { margin: 4px 0 0; font-size: clamp(0.65rem, 1.7vw, 0.8rem); opacity: 0.88; }
+    #progress { font-size: 0.72rem; color: var(--gold); margin-top: 6px; }
+
+    main.shell {
+      --shell-chrome-y: 168px;
+      --shell-pad-x: 16px;
+      flex: 1 1 auto;
+      width: min(calc(100vw - var(--shell-pad-x)), calc((100dvh - var(--shell-chrome-y)) * 16 / 9));
+      max-width: calc(100vw - var(--shell-pad-x));
+      max-height: calc(100dvh - var(--shell-chrome-y));
+      aspect-ratio: 16 / 9;
+      margin: 6px auto 72px;
+      padding: 10px 12px 12px;
+      min-height: 0;
+      overflow-x: hidden;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+    @media (max-width: 520px) {
+      main.shell {
+        width: calc(100vw - 12px);
+        max-height: none;
+        aspect-ratio: unset;
+        min-height: min(72dvh, 560px);
+        margin-bottom: 68px;
+      }
+    }
+
+    /* 词形 44 组页：主栏接近全宽，取消 16:9 限制以便横向展示更多列 */
+    main.shell.shell--wordbank {
+      --shell-pad-x: 8px;
+      width: min(calc(100vw - 8px), 1280px);
+      max-width: calc(100vw - 8px);
+      aspect-ratio: unset;
+    }
+    @media (max-width: 520px) {
+      main.shell.shell--wordbank {
+        width: calc(100vw - 8px);
+      }
+    }
+
+    .panel.panel--wordbank {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .panel.panel--wordbank h2 {
+      flex-shrink: 0;
+    }
+    .panel.panel--wordbank .word-wall {
+      flex: 1 1 auto;
+      min-height: 0;
+      max-height: none;
+      overflow-y: auto;
+      grid-template-columns: repeat(auto-fill, minmax(104px, 1fr));
+      gap: 8px;
+      font-size: 0.78rem;
+      padding: 6px 4px;
+    }
+    .panel.panel--wordbank .word-wall-footer {
+      flex-shrink: 0;
+      margin-top: auto;
+      padding-top: 18px;
+      padding-bottom: 2px;
+    }
+
+    /* 主卡片内图文：约为原先的 90%（1.5×0.9） */
+    #view-root.panel {
+      zoom: 1.35;
+    }
+    .panel {
+      background: var(--card);
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 14px;
+      flex: 1;
+      min-height: 0;
+      overflow: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.35);
+    }
+    .panel h2 {
+      margin: 0;
+      font-size: clamp(0.95rem, 2.4vw, 1.1rem);
+      color: var(--gold);
+      flex-shrink: 0;
+    }
+
+    .slide-stage {
+      flex: 1;
+      min-height: 140px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: clamp(3rem, 14vw, 6rem);
+      background-size: cover;
+      background-position: center;
+      border: 2px solid rgba(255, 193, 7, 0.25);
+      position: relative;
+      overflow: hidden;
+    }
+    .slide-stage .slide-photo {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center;
+      z-index: 0;
+    }
+    .slide-stage .slide-fallback {
+      position: relative;
+      z-index: 1;
+      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.75);
+    }
+    .slide-stage .cap {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 10px 12px;
+      font-size: clamp(0.72rem, 2vw, 0.85rem);
+      background: linear-gradient(transparent, rgba(0, 0, 0, 0.82));
+      color: #fff;
+      text-align: center;
+      z-index: 2;
+    }
+
+    /* 情景幻灯：左图右文 */
+    .panel.panel--slide {
+      gap: 10px;
+    }
+    .panel.panel--slide > h2 {
+      font-size: clamp(1rem, 2.55vw, 1.15rem);
+    }
+    .slide-split {
+      display: grid;
+      grid-template-columns: minmax(0, 1.06fr) minmax(268px, 0.94fr);
+      gap: clamp(12px, 2vw, 22px);
+      flex: 1;
+      min-height: 0;
+      align-items: stretch;
+    }
+    @media (max-width: 760px) {
+      .slide-split {
+        grid-template-columns: 1fr;
+        grid-template-rows: minmax(170px, 42vh) minmax(200px, 1fr);
+      }
+    }
+    .slide-split__media {
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      min-width: 0;
+    }
+    .slide-split__media .slide-stage {
+      flex: 1;
+      min-height: 160px;
+    }
+    .slide-split__body {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      min-height: 0;
+      min-width: 0;
+      overflow-y: auto;
+      padding: 2px 0;
+      font-size: clamp(0.94rem, 1.85vw, 1.06rem);
+      line-height: 1.52;
+      color: var(--ink);
+    }
+    .slide-split__body .cn-lead {
+      font-size: clamp(0.96rem, 1.9vw, 1.08rem);
+      color: #b0bec5;
+    }
+    .slide-split__body .point-list {
+      font-size: clamp(0.9rem, 2.05vw, 1.02rem);
+      color: #eceff1;
+      line-height: 1.58;
+    }
+    .slide-split__body .tag {
+      font-size: clamp(0.7rem, 1.55vw, 0.78rem);
+    }
+    .slide-split__body .btn-row {
+      justify-content: flex-start;
+      margin-top: 2px;
+    }
+
+    /* 情景 1：例句默认模糊隐藏，点击后显示；每句独立朗读按钮 */
+    .point-list.point-list--reveal {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .point-list.point-list--reveal > li.slide-point-item {
+      margin: 0 0 12px;
+      padding: 0;
+    }
+    .slide-point-row {
+      display: flex;
+      align-items: stretch;
+      gap: 10px;
+    }
+    .slide-point-reveal {
+      flex: 1;
+      min-width: 0;
+      position: relative;
+      border-radius: 12px;
+      padding: 10px 12px;
+      min-height: 3.4rem;
+      border: 2px dashed rgba(255, 193, 7, 0.38);
+      background: rgba(0, 0, 0, 0.26);
+      cursor: pointer;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .slide-point-reveal:hover:not(.is-revealed) {
+      border-color: rgba(105, 240, 174, 0.45);
+    }
+    .slide-point-reveal:focus-visible {
+      box-shadow: 0 0 0 2px rgba(255, 193, 7, 0.45);
+    }
+    .slide-point-reveal:not(.is-revealed) .slide-point-text {
+      filter: blur(14px);
+      opacity: 0.18;
+      user-select: none;
+      pointer-events: none;
+    }
+    .slide-point-reveal.is-revealed .slide-point-text {
+      filter: none;
+      opacity: 1;
+      user-select: text;
+    }
+    .slide-point-reveal:not(.is-revealed)::after {
+      content: "点击此处显示例句 · Click to show";
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: clamp(0.82rem, 1.55vw, 0.94rem);
+      color: var(--gold);
+      line-height: 1.45;
+      padding: 10px 12px;
+      background: rgba(10, 21, 34, 0.62);
+      border-radius: 10px;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .slide-point-reveal.is-revealed::after {
+      display: none;
+    }
+    .slide-point-text .tag {
+      vertical-align: middle;
+    }
+    button.speak-fab.speak-fab--point {
+      align-self: center;
+      width: 42px;
+      height: 42px;
+      flex-shrink: 0;
+      font-size: 18px;
+    }
+
+    .cn-lead { font-size: 0.88rem; color: #b0bec5; line-height: 1.5; margin: 0; }
+    .point-list { margin: 0; padding-left: 1.1rem; font-size: clamp(0.82rem, 2vw, 0.92rem); color: #eceff1; line-height: 1.55; }
+    .point-list li { margin-bottom: 6px; }
+    .tag {
+      display: inline-block;
+      font-size: 0.68rem;
+      padding: 2px 8px;
+      border-radius: 6px;
+      margin-right: 6px;
+      vertical-align: middle;
+    }
+    .tag-o { background: rgba(255, 152, 0, 0.25); color: #ffe082; border: 1px solid rgba(255, 193, 7, 0.45); }
+    .tag-t { background: rgba(129, 212, 250, 0.2); color: #81d4fa; border: 1px solid rgba(129, 212, 250, 0.4); }
+    .hl { color: var(--coral); font-weight: 700; }
+
+    button.primary, button.ghost {
+      font-family: "Patrick Hand", cursive;
+      font-size: 1rem;
+      padding: 10px 18px;
+      border-radius: 12px;
+      cursor: pointer;
+      border: 3px solid var(--gold);
+    }
+    button.primary {
+      background: linear-gradient(180deg, #455a64, #37474f);
+      color: #fff8e1;
+    }
+    button.ghost {
+      background: transparent;
+      color: var(--gold);
+    }
+    button.speak-fab {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: none;
+      background: radial-gradient(circle at 30% 25%, #fff9c4, #ffc107 55%, #ff6f00);
+      font-size: 22px;
+      cursor: pointer;
+      box-shadow: 0 0 14px rgba(255, 193, 7, 0.35);
+    }
+
+    .btn-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: center; margin-top: 4px; }
+
+    .grammar-box {
+      font-size: 0.86rem;
+      line-height: 1.55;
+      color: #cfd8dc;
+      background: rgba(0, 0, 0, 0.28);
+      border-radius: 12px;
+      padding: 12px;
+      border: 1px dashed rgba(255, 193, 7, 0.25);
+    }
+    .grammar-box strong { color: var(--mint); }
+    .grammar-box code {
+      background: rgba(255, 255, 255, 0.08);
+      padding: 2px 6px;
+      border-radius: 6px;
+      font-size: 0.82rem;
+    }
+
+    .word-wall {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 8px;
+      font-size: 0.76rem;
+      max-height: min(42vh, 280px);
+      overflow-y: auto;
+      padding: 4px;
+    }
+    .word-card {
+      background: rgba(0, 0, 0, 0.35);
+      border-radius: 10px;
+      padding: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      cursor: pointer;
+      transition: border-color 0.15s, box-shadow 0.15s;
+      text-align: center;
+    }
+    .word-card:hover {
+      border-color: rgba(255, 193, 7, 0.28);
+    }
+    .word-card:focus-visible {
+      outline: 2px solid rgba(255, 193, 7, 0.5);
+      outline-offset: 2px;
+    }
+    .word-card.is-open {
+      border-color: rgba(105, 240, 174, 0.35);
+    }
+    .word-card em {
+      color: var(--gold);
+      font-style: normal;
+      font-size: 1.05em;
+    }
+    .word-card__lemma {
+      display: block;
+    }
+    .word-card__rest {
+      display: none;
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px dashed rgba(255, 255, 255, 0.14);
+      line-height: 1.45;
+      color: #cfd8dc;
+      font-size: 0.92em;
+    }
+    .word-card.is-open .word-card__rest {
+      display: block;
+    }
+    .word-card__rest strong {
+      color: #fff8e1;
+      font-weight: 700;
+    }
+    .word-card__hint {
+      font-size: 0.65rem;
+      color: #78909c;
+      margin-top: 6px;
+      line-height: 1.3;
+    }
+    .word-card.is-open .word-card__hint {
+      display: none;
+    }
+
+    .classify-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      flex: 1;
+      min-height: 120px;
+    }
+    @media (max-width: 560px) { .classify-grid { grid-template-columns: 1fr; } }
+    .bin {
+      border-radius: 12px;
+      border: 3px dashed rgba(255, 193, 7, 0.35);
+      padding: 8px;
+      min-height: 100px;
+      background: rgba(0, 0, 0, 0.22);
+    }
+    .bin h4 { margin: 0 0 8px; font-size: 0.78rem; color: var(--gold); text-align: center; }
+    .bank {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      padding: 10px;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 12px;
+      min-height: 56px;
+    }
+    .chip {
+      padding: 8px 12px;
+      border-radius: 10px;
+      background: linear-gradient(165deg, #5c6bc0, #3949ab);
+      color: #e8eaf6;
+      cursor: grab;
+      touch-action: none;
+      user-select: none;
+      font-size: 0.85rem;
+      font-family: "Patrick Hand", cursive;
+    }
+    .chip.dragging { cursor: grabbing; z-index: 400; box-shadow: 0 8px 22px rgba(255, 193, 7, 0.35); position: fixed; }
+
+    .practice-tier { font-size: 0.72rem; color: var(--mint); margin-bottom: 6px; }
+    .mc-opt {
+      display: block;
+      width: 100%;
+      text-align: left;
+      margin: 6px 0;
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 2px solid rgba(255, 255, 255, 0.15);
+      background: rgba(0, 0, 0, 0.25);
+      color: var(--ink);
+      cursor: pointer;
+      font-size: 0.86rem;
+    }
+    .mc-opt:hover { border-color: rgba(105, 240, 174, 0.45); }
+    .mc-opt.ok { border-color: var(--mint); background: rgba(46, 125, 50, 0.25); }
+    .mc-opt.bad { border-color: #e53935; }
+
+    input.cloze-in {
+      width: 100%;
+      max-width: 320px;
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 2px solid rgba(255, 193, 7, 0.4);
+      background: rgba(0, 0, 0, 0.4);
+      color: #fff;
+      font-size: 1rem;
+    }
+
+    #toast {
+      position: fixed;
+      left: 50%;
+      bottom: 22%;
+      transform: translateX(-50%);
+      z-index: 90;
+      padding: 10px 16px;
+      border-radius: 12px;
+      font-size: 0.82rem;
+      max-width: min(92vw, 380px);
+      text-align: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s;
+      background: rgba(183, 28, 28, 0.95);
+      color: #fff;
+    }
+    #toast.show { opacity: 1; }
+
+    #nav-foot {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 10px 12px;
+      background: rgba(0, 0, 0, 0.55);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+      z-index: 40;
+    }
+    #nav-foot a { color: var(--gold); font-size: 0.78rem; text-decoration: none; }
+    #debug-strip { font-size: 10px; opacity: 0.35; color: #90a4ae; }
+
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+  <header class="top">
+    <h1>SUPERLATIVES LAB · 三者及以上 · 最高级</h1>
+    <p>声音先行 · 图片先行 · one of the + 最高级 · the + 最高级 + of · 中考分层练习</p>
+    <div id="progress"></div>
+  </header>
+
+  <main class="shell">
+    <section id="view-root" class="panel"></section>
+  </main>
+
+  <div id="toast" role="status"></div>
+
+  <footer id="nav-foot">
+    <a href="lesson07-page05-more-comparative.html">← Page 05</a>
+    <span id="debug-strip"></span>
+    <a href="lesson07-page07-degree-adverbs.html">Page 07 →</a>
+  </footer>
+
+  <script src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L07/assets/tts-mp3/l07-google-mp3/manifest.embed.js"></script>
+  <script src="../assets/lesson-tts-l07-local.js"></script>
+  <script>
+(function () {
+  "use strict";
+
+  function escapeXml(t) {
+    return String(t || "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&apos;");
+  }
+
+  function escapeXmlAttr(s) {
+    return String(s || "").replace(/&/g, "&amp;").replace(/"/g, "&quot;");
+  }
+
+  function escapeHtml(s) {
+    return String(s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/"/g, "&quot;");
+  }
+
+  function htmlToPlainText(html) {
+    var d = document.createElement("div");
+    d.innerHTML = String(html || "");
+    return String(d.textContent || d.innerText || "")
+      .replace(/\s+/g, " ")
+      .trim();
+  }
+
+  window.unlockAudio = async function () {
+    try {
+      var Ctx = window.AudioContext || window.webkitAudioContext;
+      if (Ctx) {
+        var ctx = new Ctx();
+        if (ctx.state === "suspended") await ctx.resume();
+      }
+    } catch (e) {}
+  };
+
+  window.speak = async function (text) {
+    if (!text) return;
+    var cleanText = String(text).replace(/\n/g, " ").trim();
+    if (typeof window.playLessonL07LocalTts !== "function") {
+      return;
+    }
+    if (window.currentAudio) {
+      try {
+        window.currentAudio.pause();
+      } catch (e) {}
+      window.currentAudio = null;
+    }
+    await window.playLessonL07LocalTts(cleanText);
+  };
+
+  function speakLesson(text, voice) {
+    var p = window.unlockAudio ? window.unlockAudio() : Promise.resolve();
+    return p.then(function () {
+      if (typeof window.playLessonL07LocalTts !== "function") {
+        document.getElementById("debug-strip").textContent = "未加载 lesson-tts-l07-local.js";
+        showToast("未加载本地语音脚本", false);
+        return;
+      }
+      return window.speak(text);
+    });
+  }
+
+  function showToast(msg, ok) {
+    var t = document.getElementById("toast");
+    t.style.background = ok ? "rgba(46, 125, 50, 0.95)" : "rgba(183, 28, 28, 0.95)";
+    t.textContent = msg;
+    t.classList.add("show");
+    window.setTimeout(function () {
+      t.classList.remove("show");
+    }, 2400);
+  }
+
+  var P06_ASSET = "assets/page06-super/";
+
+  var SLIDES = [
+    {
+      img: P06_ASSET + "l07-p06-slide01-china-civilization.png",
+      zh: "伟大的文明（三者以上）",
+      gradient: "linear-gradient(145deg,#1b5e20,#0d47a1)",
+      emoji: "\uD83C\uDDE8\uD83C\uDDF3",
+      cap: "情景 1 · 国家与文明 · 三者及以上比较",
+      cn: "当比较对象超过两个，或隐含“在世界上 / 在我们知道的范围内”，要用最高级。听英文，关注 one of the + 最高级 + 复数名词。",
+      listen:
+        "Among China, Japan and South Korea, China has one of the longest histories in the world. China is one of the greatest countries in the world.",
+      points: [
+        {
+          tag: "one of the + sup.",
+          en: "China is <span class='hl'>one of the greatest countries</span> in the world.",
+          tts: "China is one of the greatest countries in the world."
+        },
+        {
+          tag: "one of the + sup.",
+          en: "It has <span class='hl'>one of the longest histories</span> among Asian nations.",
+          tts: "It has one of the longest histories among Asian nations."
+        }
+      ]
+    },
+    {
+      img: P06_ASSET + "l07-p06-slide02-athletes-three.png",
+      zh: "运动员 · 多个维度",
+      gradient: "linear-gradient(145deg,#4e342e,#ff6f00)",
+      emoji: "\uD83C\uDFC0",
+      cap: "情景 2 · 田径与力量 · the most / the -est",
+      cn: "同一画面中三个人以上：可以说谁是 the fastest，也可以说谁是 the most powerful，注意形容词音节决定 -est 还是 most。",
+      listen:
+        "Look at three athletes on the track team. Among Tom, Mike and Jack, Mike is the fastest runner of the three. Tom is the most powerful lifter of the three.",
+      points: [
+        { tag: "the + sup. + of", en: "Mike is <span class='hl'>the fastest</span> runner <span class='hl'>of the three</span>." },
+        { tag: "the most + adj.", en: "Tom is <span class='hl'>the most powerful</span> lifter <span class='hl'>of the three</span>." }
+      ]
+    },
+    {
+      img: P06_ASSET + "l07-p06-slide03-rivers-three.png",
+      zh: "江河湖泊（范围最大）",
+      gradient: "linear-gradient(145deg,#01579b,#006064)",
+      emoji: "\uD83C\uDF0A",
+      cap: "情景 3 · 长江与世界大河",
+      cn: "地理事实常用最高级；世界上有许多大河时，用 one of the longest rivers。",
+      listen:
+        "The Nile, the Amazon and the Yangtze are all very long. The Yangtze River is one of the longest rivers in the world.",
+      points: [
+        { tag: "one of the + sup.", en: "The Yangtze is <span class='hl'>one of the longest rivers</span> in the world." }
+      ]
+    },
+    {
+      img: P06_ASSET + "l07-p06-slide04-skyscrapers.png",
+      zh: "城市摩天楼",
+      gradient: "linear-gradient(145deg,#263238,#455a64)",
+      emoji: "\uD83C\uDFD9\uFE0F",
+      cap: "情景 4 · 上海中心与高楼群",
+      cn: "三者以上建筑比较：the tallest in China / one of the tallest buildings。",
+      listen:
+        "Shanghai Tower, Canton Tower and Taipei 101 are all super tall. The Shanghai Tower is one of the tallest buildings in China.",
+      points: [
+        { tag: "one of the + sup.", en: "It is <span class='hl'>one of the tallest buildings</span> in China." },
+        { tag: "the + sup. + in", en: "It is also <span class='hl'>the tallest</span> building <span class='hl'>in Shanghai</span>." }
+      ]
+    },
+    {
+      img: P06_ASSET + "l07-p06-slide05-animals-speed.png",
+      zh: "陆地动物速度",
+      gradient: "linear-gradient(145deg,#33691e,#827717)",
+      emoji: "\uD83D\uDC06",
+      cap: "情景 5 · 猎豹与多种动物",
+      cn: "三者以上：cheetah, horse, dog —— 谁跑得最快？用 the fastest of …",
+      listen:
+        "Among the cheetah, the horse and the dog in our science book, the cheetah runs the fastest of all three.",
+      points: [
+        { tag: "the + sup. + of", en: "The cheetah runs <span class='hl'>the fastest</span> <span class='hl'>of all three</span>." }
+      ]
+    },
+    {
+      img: P06_ASSET + "l07-p06-slide06-busy-cities.png",
+      zh: "繁忙都市",
+      gradient: "linear-gradient(145deg,#880e4f,#4a148c)",
+      emoji: "\uD83D\uDE97",
+      cap: "情景 6 · 北上广交通",
+      cn: "多音节形容词：the most crowded / one of the busiest cities。",
+      listen:
+        "Beijing, Shanghai and Guangzhou are all big cities. Shanghai is one of the busiest cities in China.",
+      points: [
+        { tag: "one of the + sup.", en: "Shanghai is <span class='hl'>one of the busiest cities</span> in China." },
+        { tag: "the most + adj.", en: "It is also <span class='hl'>the most crowded</span> at rush hour." }
+      ]
+    },
+    {
+      img: P06_ASSET + "l07-p06-slide07-fantasy-books.png",
+      zh: "畅销书与电影",
+      gradient: "linear-gradient(145deg,#4a148c,#311b92)",
+      emoji: "\uD83D\uDCDA",
+      cap: "情景 7 · 哈利·波特式奇幻类",
+      cn: "受欢迎程度：one of the most popular + 复数名词。",
+      listen:
+        "Harry Potter, The Lord of the Rings and Narnia are famous fantasy series. Harry Potter is one of the most popular book series in the world.",
+      points: [
+        { tag: "one of the + sup.", en: "It is <span class='hl'>one of the most popular book series</span> in the world." }
+      ]
+    },
+    {
+      img: P06_ASSET + "l07-p06-slide08-school-subjects.png",
+      zh: "学科难度（主观三者）",
+      gradient: "linear-gradient(145deg,#006064,#004d40)",
+      emoji: "\uD83D\uDCD0",
+      cap: "情景 8 · 语数英",
+      cn: "比较三门学科：the most difficult / the hardest of the three。",
+      listen:
+        "Among English, math and P E in Grade Eight, many students think math is the most difficult subject of the three.",
+      points: [
+        { tag: "the most + adj.", en: "Math is <span class='hl'>the most difficult</span> subject <span class='hl'>of the three</span>." }
+      ]
+    },
+    {
+      img: P06_ASSET + "l07-p06-slide09-four-seasons.png",
+      zh: "四季气温",
+      gradient: "linear-gradient(145deg,#f57c00,#e65100)",
+      emoji: "\u2600\uFE0F",
+      cap: "情景 9 · 春夏秋冬",
+      cn: "三者以上范围：一年有四个季节——the hottest season of the year。",
+      listen:
+        "Spring, summer, autumn and winter make a year. Summer is the hottest season of the year in Chengdu.",
+      points: [
+        { tag: "the + sup. + of", en: "Summer is <span class='hl'>the hottest season</span> <span class='hl'>of the year</span>." }
+      ]
+    },
+    {
+      img: P06_ASSET + "l07-p06-slide10-great-wall.png",
+      zh: "名胜长城",
+      gradient: "linear-gradient(145deg,#5d4037,#3e2723)",
+      emoji: "\uD83C\uDFEF",
+      cap: "情景 10 · 中外名胜比较",
+      cn: "长城与多处名胜：one of the most famous places of interest。",
+      listen:
+        "The Great Wall, the Palace Museum and the Terra Cotta Army are all famous in China. The Great Wall is one of the most famous places of interest in China.",
+      points: [
+        { tag: "one of the + sup.", en: "It is <span class='hl'>one of the most famous places of interest</span> in China." }
+      ]
+    },
+    {
+      img: P06_ASSET + "l07-p06-slide11-three-classmates.png",
+      zh: "班里三位同学",
+      gradient: "linear-gradient(145deg,#1565c0,#0d47a1)",
+      emoji: "\uD83D\uDC65",
+      cap: "情景 11 · 全班三人小组",
+      cn: "同时练两条：最高级 + of the three；most hard-working 多音节。",
+      listen:
+        "Among Lily, Tom and Jack in our group, Lily is the most hard-working student of the three. Tom is the tallest boy of the three.",
+      points: [
+        { tag: "the most + adj.", en: "Lily is <span class='hl'>the most hard-working</span> student <span class='hl'>of the three</span>." },
+        { tag: "the + sup. + of", en: "Tom is <span class='hl'>the tallest</span> boy <span class='hl'>of the three</span>." }
+      ]
+    },
+    {
+      img: P06_ASSET + "l07-p06-slide12-grammar-board.png",
+      zh: "语法提醒 · favourite 等",
+      gradient: "linear-gradient(145deg,#37474f,#263238)",
+      emoji: "\u270F\uFE0F",
+      cap: "情景 12 · 易错归纳（仍单独一页）",
+      cn: "有些形容词通常不说比较级、最高级，如 favourite；另如 unique, dead 等，中考阅读里认识即可。不要说 more favourite。",
+      listen:
+        "This topic is one of the most exciting lessons of the term. Remember: we usually do not say more favourite or most favourite. We say my favourite book, not the most favourite book.",
+      points: [
+        { tag: "无等级", en: "Use <span class='hl'>my favourite teacher</span>, not <span class='hl'>the most favourite</span> teacher." },
+        { tag: "one of the + sup.", en: "But we can say: <span class='hl'>one of the most exciting lessons</span> of the term." }
+      ]
+    }
+  ];
+
+  var WORD_ROWS = [
+    ["tall", "taller", "tallest"],
+    ["short", "shorter", "shortest"],
+    ["long", "longer", "longest"],
+    ["fast", "faster", "fastest"],
+    ["slow", "slower", "slowest"],
+    ["high", "higher", "highest"],
+    ["big", "bigger", "biggest"],
+    ["small", "smaller", "smallest"],
+    ["hot", "hotter", "hottest"],
+    ["cold", "colder", "coldest"],
+    ["warm", "warmer", "warmest"],
+    ["cool", "cooler", "coolest"],
+    ["young", "younger", "youngest"],
+    ["old", "older", "oldest"],
+    ["cheap", "cheaper", "cheapest"],
+    ["easy", "easier", "easiest"],
+    ["busy", "busier", "busiest"],
+    ["heavy", "heavier", "heaviest"],
+    ["light", "lighter", "lightest"],
+    ["thin", "thinner", "thinnest"],
+    ["fat", "fatter", "fattest"],
+    ["wet", "wetter", "wettest"],
+    ["dry", "drier", "driest"],
+    ["sunny", "sunnier", "sunniest"],
+    ["windy", "windier", "windiest"],
+    ["happy", "happier", "happiest"],
+    ["funny", "funnier", "funniest"],
+    ["early", "earlier", "earliest"],
+    ["late", "later", "latest"],
+    ["clever", "cleverer / more clever", "cleverest / most clever"],
+    ["beautiful", "more beautiful", "most beautiful"],
+    ["important", "more important", "most important"],
+    ["expensive", "more expensive", "most expensive"],
+    ["interesting", "more interesting", "most interesting"],
+    ["popular", "more popular", "most popular"],
+    ["difficult", "more difficult", "most difficult"],
+    ["careful", "more careful", "most careful"],
+    ["wonderful", "more wonderful", "most wonderful"],
+    ["famous", "more famous", "most famous"],
+    ["good", "better", "best"],
+    ["bad", "worse", "worst"],
+    ["many / much", "more", "most"],
+    ["little", "less", "least"],
+    ["far", "farther / further", "farthest / furthest"]
+  ];
+
+  var CLASSIFY_CHIPS = [
+    { w: "tallest", bin: "est" },
+    { w: "biggest", bin: "est" },
+    { w: "fastest", bin: "est" },
+    { w: "hottest", bin: "est" },
+    { w: "happiest", bin: "est" },
+    { w: "thinnest", bin: "est" },
+    { w: "most beautiful", bin: "most" },
+    { w: "most important", bin: "most" },
+    { w: "most popular", bin: "most" },
+    { w: "most difficult", bin: "most" },
+    { w: "most careful", bin: "most" },
+    { w: "most expensive", bin: "most" },
+    { w: "best", bin: "irr" },
+    { w: "worst", bin: "irr" },
+    { w: "least", bin: "irr" },
+    { w: "better", bin: "irr" },
+    { w: "farthest", bin: "irr" },
+    { w: "favourite", bin: "none" },
+    { w: "unique", bin: "none" },
+    { w: "dead", bin: "none" },
+    { w: "main", bin: "none" }
+  ];
+
+  var BIN_LABEL = {
+    est: "-est / 单音节·常见双音节",
+    most: "most + 多音节",
+    irr: "不规则变化",
+    none: "通常无比较级、最高级"
+  };
+
+  var PR_E = [
+    {
+      zh: "基础 · 辨结构",
+      listen: "Tom is the tallest boy of the three.",
+      q: "下列哪一句符合“三者中选最…”？",
+      opts: ["Tom is taller than Jack.", "Tom is the tallest of the three.", "Tom is one of the tallest boy."],
+      ok: 1,
+      tip: "三者以上最…用 the + 最高级 + of the three / in the group。"
+    },
+    {
+      listen: "Shanghai is one of the busiest cities in China.",
+      q: "哪一句正确使用了 one of the + 最高级？",
+      opts: ["Shanghai is one of the busiest city in China.", "Shanghai is one of the busiest cities in China.", "Shanghai is the one of busiest cities in China."],
+      ok: 1,
+      tip: "one of the + 最高级 + 复数名词。"
+    },
+    {
+      listen: "English is one of the most useful subjects for me.",
+      q: "选出语法正确的句子：",
+      opts: ["English is one of the usefullest subjects.", "English is one of the most useful subjects.", "English is one of the more useful subjects."],
+      ok: 1,
+      tip: "多音节用 most useful，不要加 -est。"
+    },
+    {
+      listen: "This is my favourite movie.",
+      q: "关于 favourite，哪句更规范？",
+      opts: ["This is my most favourite movie.", "This is my favourite movie.", "This is favouritest movie for me."],
+      ok: 1,
+      tip: "一般不说 more favourite / most favourite。"
+    }
+  ];
+
+  var PR_M = [
+    {
+      zh: "提高 · 改错意识",
+      wrong: "He is one of the strongest athlete in our school.",
+      q: "点击选择改正后的完整句子：",
+      opts: ["He is one of the strongest athletes in our school.", "He is one of the strongestest athletes in our school.", "He is one of the most strongest athletes in our school."],
+      ok: 0,
+      tip: "one of the + 最高级 + 复数 athletes；不要 double superlative。"
+    },
+    {
+      wrong: "She runs fastest of the three girls in the race.",
+      q: "更规范的写法是：",
+      opts: ["She runs fastest of the three girls.", "She runs the fastest of the three girls.", "She runs the most fast of the three girls."],
+      ok: 1,
+      tip: "副词最高级前常加 the（尤其 of the three 结构）。"
+    },
+    {
+      wrong: "This book is one of the most interesting book I have read.",
+      q: "修正后应为：",
+      opts: ["This book is one of the most interesting books I have read.", "This book is one of the most interesting book I have read.", "This book is one of the most interestinger books I have read."],
+      ok: 0,
+      tip: "one of the + 最高级 + 复数 books。"
+    },
+    {
+      wrong: "Math is difficultest of the three subjects.",
+      q: "请选择正确句：",
+      opts: ["Math is the difficultest of the three subjects.", "Math is the most difficult of the three subjects.", "Math is most difficultest of the three subjects."],
+      ok: 1,
+      tip: "difficult 用 most difficult，不用 difficultest。"
+    }
+  ];
+
+  var PR_H = [
+    {
+      zh: "冲刺 · 拼写填空",
+      listen: "Yao Ming was one of the tallest basketball players in the N B A.",
+      stem: "Yao Ming was one of the ______ (tall) basketball players in the N B A.",
+      ans: ["tallest"],
+      tip: "tall → tallest；注意双写规则本题不涉及。"
+    },
+    {
+      listen: "The Yangtze is one of the longest rivers in the world.",
+      stem: "The Yangtze is one of the ______ (long) rivers in the world.",
+      ans: ["longest"],
+      tip: "long → longest。"
+    },
+    {
+      listen: "She is the most hard-working student of the three.",
+      stem: "She is the most ______ (hard-working) student of the three.",
+      ans: ["hard-working"],
+      tip: "多音节派生词整体前加 most。"
+    },
+    {
+      listen: "Summer is the hottest season of the year.",
+      stem: "Summer is the ______ (hot) season of the year.",
+      ans: ["hottest"],
+      tip: "重读闭音节：hot → hottest。"
+    }
+  ];
+
+  var phase = "welcome";
+  var slideIdx = 0;
+  var dragState = null;
+  var docMoveRef = null;
+  var docUpRef = null;
+  var prTier = "easy";
+  var prIdx = 0;
+  var classifyDone = false;
+
+  function clearDrag() {
+    if (docMoveRef) {
+      document.removeEventListener("pointermove", docMoveRef);
+      document.removeEventListener("pointerup", docUpRef);
+      document.removeEventListener("pointercancel", docUpRef);
+      docMoveRef = docUpRef = null;
+    }
+    dragState = null;
+  }
+
+  function shuffle(arr) {
+    var a = arr.slice();
+    for (var i = a.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = a[i];
+      a[i] = a[j];
+      a[j] = t;
+    }
+    return a;
+  }
+
+  function setProgress() {
+    var el = document.getElementById("progress");
+    if (!el) return;
+    if (phase === "welcome") el.textContent = "准备阶段 · 声音与画面先行";
+    else if (phase === "slide") el.textContent = "情景 " + (slideIdx + 1) + " / " + SLIDES.length + "（每页仅一幕）";
+    else if (phase === "grammar") el.textContent = "语法小结 · 两大结构 + 无等级形容词";
+    else if (phase === "wordbank") el.textContent = "词形总结 · " + WORD_ROWS.length + " 组常见形容词";
+    else if (phase === "classify") el.textContent = "分类挑战 · 变形归类";
+    else if (phase === "practice") el.textContent = "分层练习 · " + (prTier === "easy" ? "基础" : prTier === "medium" ? "提高" : "冲刺") + " " + (prIdx + 1) + "/4";
+    else el.textContent = "本页完成";
+  }
+
+  function render() {
+    setProgress();
+    var root = document.getElementById("view-root");
+    root.innerHTML = "";
+    root.className = "panel";
+
+    if (phase === "welcome") renderWelcome(root);
+    else if (phase === "slide") renderSlide(root);
+    else if (phase === "grammar") renderGrammar(root);
+    else if (phase === "wordbank") renderWordbank(root);
+    else if (phase === "classify") renderClassify(root);
+    else if (phase === "practice") renderPractice(root);
+    else renderDone(root);
+
+    var shell = document.querySelector("main.shell");
+    if (shell) shell.classList.toggle("shell--wordbank", phase === "wordbank");
+  }
+
+  function renderWelcome(root) {
+    var h = document.createElement("h2");
+    h.textContent = "欢迎来到最高级训练场";
+    root.appendChild(h);
+    var p = document.createElement("p");
+    p.className = "cn-lead";
+    p.innerHTML =
+      "本页共 <strong>12</strong> 个独立情景（每次只显示一幕）。随后讲解 <code>one of the + 最高级</code> 与 <code>the + 最高级 + of</code>，汇总 <strong>" +
+      WORD_ROWS.length +
+      "</strong> 组词形，并完成<strong>分类</strong>与<strong>中考分层</strong>练习。";
+    root.appendChild(p);
+    var row = document.createElement("div");
+    row.className = "btn-row";
+    var b = document.createElement("button");
+    b.type = "button";
+    b.className = "primary";
+    b.textContent = "开始 · 情景 1";
+    b.addEventListener("click", function () {
+      phase = "slide";
+      slideIdx = 0;
+      render();
+    });
+    row.appendChild(b);
+    root.appendChild(row);
+  }
+
+  function renderSlide(root) {
+    var s = SLIDES[slideIdx];
+    root.className = "panel panel--slide";
+    var h = document.createElement("h2");
+    h.textContent = "情景 " + (slideIdx + 1) + " / " + SLIDES.length + " · " + s.zh;
+    root.appendChild(h);
+
+    var stage = document.createElement("div");
+    stage.className = "slide-stage";
+    stage.style.background = s.gradient;
+    var photo = document.createElement("img");
+    photo.className = "slide-photo";
+    photo.src = s.img;
+    photo.alt = s.zh;
+    photo.loading = "lazy";
+    photo.decoding = "async";
+    photo.onerror = function () {
+      photo.style.display = "none";
+      var fb = document.createElement("div");
+      fb.className = "slide-fallback";
+      fb.textContent = s.emoji;
+      stage.insertBefore(fb, stage.firstChild);
+    };
+    stage.appendChild(photo);
+    var cap = document.createElement("div");
+    cap.className = "cap";
+    cap.textContent = s.cap;
+    stage.appendChild(cap);
+
+    var cn = document.createElement("p");
+    cn.className = "cn-lead";
+    cn.textContent = s.cn;
+
+    var ul = document.createElement("ul");
+    ul.className = "point-list point-list--reveal";
+    s.points.forEach(function (pt) {
+        var li = document.createElement("li");
+        li.className = "slide-point-item";
+
+        var reveal = document.createElement("div");
+        reveal.className = "slide-point-reveal";
+        reveal.setAttribute("role", "button");
+        reveal.setAttribute("tabindex", "0");
+        reveal.setAttribute("aria-expanded", "false");
+        reveal.setAttribute("aria-label", "点击显示该英文例句");
+
+        var textWrap = document.createElement("div");
+        textWrap.className = "slide-point-text";
+        var span = document.createElement("span");
+        span.className =
+          "tag " + (pt.tag.indexOf("one") >= 0 || pt.tag.indexOf("the most") >= 0 ? "tag-o" : "tag-t");
+        span.textContent = pt.tag;
+        textWrap.appendChild(span);
+        textWrap.appendChild(document.createTextNode(" "));
+        var inner = document.createElement("span");
+        inner.innerHTML = pt.en;
+        textWrap.appendChild(inner);
+        reveal.appendChild(textWrap);
+
+        function revealPointLine() {
+          if (reveal.classList.contains("is-revealed")) return;
+          reveal.classList.add("is-revealed");
+          reveal.setAttribute("aria-expanded", "true");
+        }
+        reveal.addEventListener("click", function (ev) {
+          if (!reveal.classList.contains("is-revealed")) {
+            ev.preventDefault();
+            revealPointLine();
+          }
+        });
+        reveal.addEventListener("keydown", function (ev) {
+          if (reveal.classList.contains("is-revealed")) return;
+          if (ev.key === "Enter" || ev.key === " ") {
+            ev.preventDefault();
+            revealPointLine();
+          }
+        });
+
+        var lineTts =
+          typeof pt.tts === "string" && pt.tts.trim()
+            ? pt.tts.trim()
+            : htmlToPlainText(pt.en);
+
+        var speakPt = document.createElement("button");
+        speakPt.type = "button";
+        speakPt.className = "speak-fab speak-fab--point";
+        speakPt.setAttribute("aria-label", "朗读该例句");
+        speakPt.textContent = "\uD83D\uDD0A";
+        speakPt.addEventListener("click", function (ev) {
+          ev.stopPropagation();
+          speakLesson(lineTts);
+        });
+
+        var ptRow = document.createElement("div");
+        ptRow.className = "slide-point-row";
+        ptRow.appendChild(reveal);
+        ptRow.appendChild(speakPt);
+        li.appendChild(ptRow);
+        ul.appendChild(li);
+      });
+
+    var nav = document.createElement("div");
+    nav.className = "btn-row";
+    if (slideIdx > 0) {
+      var prev = document.createElement("button");
+      prev.type = "button";
+      prev.className = "ghost";
+      prev.textContent = "\u2190 上一幕";
+      prev.addEventListener("click", function () {
+        slideIdx--;
+        render();
+      });
+      nav.appendChild(prev);
+    }
+    var next = document.createElement("button");
+    next.type = "button";
+    next.className = "primary";
+    next.textContent = slideIdx >= SLIDES.length - 1 ? "进入语法小结 \u2192" : "下一幕 \u2192";
+    next.addEventListener("click", function () {
+      if (slideIdx >= SLIDES.length - 1) {
+        phase = "grammar";
+        render();
+        speakLesson(
+          "Now let us summarize two important patterns: one of the plus superlative plus plural noun, and the plus superlative plus of plus group."
+        );
+      } else {
+        slideIdx++;
+        render();
+      }
+    });
+    nav.appendChild(next);
+
+    var split = document.createElement("div");
+    split.className = "slide-split";
+    var mediaCol = document.createElement("div");
+    mediaCol.className = "slide-split__media";
+    mediaCol.appendChild(stage);
+    var bodyCol = document.createElement("div");
+    bodyCol.className = "slide-split__body";
+    bodyCol.appendChild(cn);
+    bodyCol.appendChild(ul);
+    bodyCol.appendChild(nav);
+    split.appendChild(mediaCol);
+    split.appendChild(bodyCol);
+    root.appendChild(split);
+  }
+
+  function renderGrammar(root) {
+    var h = document.createElement("h2");
+    h.textContent = "语法小结 · 两大结构";
+    root.appendChild(h);
+    var g1 = document.createElement("div");
+    g1.className = "grammar-box";
+    g1.innerHTML =
+      "<p><strong>结构 A：</strong><code>one of the + 形容词最高级 + 可数名词复数 (+ 范围)</code></p>" +
+      "<p>例：China is <strong>one of the greatest countries</strong> in the world.</p>" +
+      "<p>例：This is <strong>one of the most exciting lessons</strong> of the term.</p>";
+    root.appendChild(g1);
+    var g2 = document.createElement("div");
+    g2.className = "grammar-box";
+    g2.innerHTML =
+      "<p><strong>结构 B：</strong><code>the + 形容词最高级 (+ 名词) + of / in + 群体或范围</code></p>" +
+      "<p>例：Tom is <strong>the tallest boy of the three</strong>.</p>" +
+      "<p>例：Summer is <strong>the hottest season of the year</strong>.</p>";
+    root.appendChild(g2);
+    var g3 = document.createElement("div");
+    g3.className = "grammar-box";
+    g3.innerHTML =
+      "<p><strong>无比较级、最高级（常见考点）：</strong><code>favourite</code>（多用 my favourite…）；<code>unique</code>；<code>dead</code>；<code>main</code> 等。</p>" +
+      "<p>不要说 <span class='hl'>more favourite</span> / <span class='hl'>most favourite</span>，应说 <strong>my favourite teacher</strong>。</p>" +
+      "<p><strong>音节提示：</strong>单音节、部分双音节多用 <strong>-est</strong>；更长多用 <strong>most + 原级</strong>。</p>";
+    root.appendChild(g3);
+    var row = document.createElement("div");
+    row.className = "btn-row";
+    var bf = document.createElement("button");
+    bf.type = "button";
+    bf.className = "speak-fab";
+    bf.textContent = "\uD83D\uDD0A";
+    bf.addEventListener("click", function () {
+      speakLesson(
+        "Pattern A: one of the plus superlative plus plural noun. Pattern B: the plus superlative plus of plus group. Remember favourite has no comparative form."
+      );
+    });
+    row.appendChild(bf);
+    var nx = document.createElement("button");
+    nx.type = "button";
+    nx.className = "primary";
+    nx.textContent = "查看 " + WORD_ROWS.length + " 组词形表 \u2192";
+    nx.addEventListener("click", function () {
+      phase = "wordbank";
+      render();
+    });
+    row.appendChild(nx);
+    root.appendChild(row);
+  }
+
+  function renderWordbank(root) {
+    root.className = "panel panel--wordbank";
+    var h = document.createElement("h2");
+    h.textContent = "比较级 · 最高级 · 常见词形（" + WORD_ROWS.length + " 组）";
+    root.appendChild(h);
+    var grid = document.createElement("div");
+    grid.className = "word-wall";
+    WORD_ROWS.forEach(function (row) {
+      var c = document.createElement("div");
+      c.className = "word-card";
+      c.setAttribute("role", "button");
+      c.setAttribute("tabindex", "0");
+      c.setAttribute("aria-expanded", "false");
+      c.setAttribute("aria-label", "原级 " + row[0] + "，点击查看比较级与最高级");
+
+      var lemma = document.createElement("div");
+      lemma.className = "word-card__lemma";
+      lemma.innerHTML = "<em>" + escapeHtml(row[0]) + "</em>";
+
+      var rest = document.createElement("div");
+      rest.className = "word-card__rest";
+      rest.innerHTML = escapeHtml(row[1]) + " → <strong>" + escapeHtml(row[2]) + "</strong>";
+
+      var hint = document.createElement("div");
+      hint.className = "word-card__hint";
+      hint.textContent = "\u70b9\u51fb\u663e\u793a\u6bd4\u8f83\u7ea7 / \u6700\u9ad8\u7ea7";
+
+      c.appendChild(lemma);
+      c.appendChild(rest);
+      c.appendChild(hint);
+
+      function toggleCard(ev) {
+        if (ev) ev.preventDefault();
+        var open = c.classList.toggle("is-open");
+        c.setAttribute("aria-expanded", open ? "true" : "false");
+      }
+      c.addEventListener("click", toggleCard);
+      c.addEventListener("keydown", function (ev) {
+        if (ev.key === "Enter" || ev.key === " ") {
+          ev.preventDefault();
+          toggleCard();
+        }
+      });
+
+      grid.appendChild(c);
+    });
+    root.appendChild(grid);
+    var row = document.createElement("div");
+    row.className = "btn-row word-wall-footer";
+    var b = document.createElement("button");
+    b.type = "button";
+    b.className = "primary";
+    b.textContent = "进入分类练习 \u2192";
+    b.addEventListener("click", function () {
+      phase = "classify";
+      classifyDone = false;
+      render();
+    });
+    row.appendChild(b);
+    root.appendChild(row);
+  }
+
+  function attachDragChip(chip, bankEl, findBin, bins) {
+    chip.addEventListener("pointerdown", function (ev) {
+      if (chip.parentElement !== bankEl && !chip.parentElement.classList.contains("bin")) return;
+      ev.preventDefault();
+      chip.classList.add("dragging");
+      var r = chip.getBoundingClientRect();
+      dragState = {
+        el: chip,
+        id: ev.pointerId,
+        ox: ev.clientX - r.left,
+        oy: ev.clientY - r.top,
+        bank: bankEl
+      };
+      var parent = chip.parentElement;
+      if (parent.classList.contains("bin")) parent.dataset.items = String(Math.max(0, (parseInt(parent.dataset.items, 10) || 0) - 1));
+      chip.style.position = "fixed";
+      chip.style.left = ev.clientX - dragState.ox + "px";
+      chip.style.top = ev.clientY - dragState.oy + "px";
+      chip.style.zIndex = "400";
+      document.body.appendChild(chip);
+      docMoveRef = function (e) {
+        if (!dragState || e.pointerId !== dragState.id) return;
+        dragState.el.style.left = e.clientX - dragState.ox + "px";
+        dragState.el.style.top = e.clientY - dragState.oy + "px";
+      };
+      docUpRef = function (e) {
+        if (!dragState || e.pointerId !== dragState.id) return;
+        var el = dragState.el;
+        var bin = findBin(e.clientX, e.clientY, bins);
+        el.classList.remove("dragging");
+        el.style.position = "";
+        el.style.left = "";
+        el.style.top = "";
+        el.style.zIndex = "";
+        if (bin) {
+          bin.appendChild(el);
+          bin.dataset.items = String((parseInt(bin.dataset.items, 10) || 0) + 1);
+        } else bankEl.appendChild(el);
+        clearDrag();
+      };
+      document.addEventListener("pointermove", docMoveRef);
+      document.addEventListener("pointerup", docUpRef);
+      document.addEventListener("pointercancel", docUpRef);
+      try {
+        chip.setPointerCapture(ev.pointerId);
+      } catch (e2) {}
+    });
+  }
+
+  function renderClassify(root) {
+    clearDrag();
+    var h = document.createElement("h2");
+    h.textContent = "分类挑战 · 把词语拖进正确篮子";
+    root.appendChild(h);
+    var p = document.createElement("p");
+    p.className = "cn-lead";
+    p.textContent = "提示：无等级词（favourite 等）放进最后一栏。";
+    root.appendChild(p);
+
+    var grid = document.createElement("div");
+    grid.className = "classify-grid";
+    var bins = {};
+    ["est", "most", "irr", "none"].forEach(function (key) {
+      var d = document.createElement("div");
+      d.className = "bin";
+      d.dataset.bin = key;
+      d.dataset.items = "0";
+      d.innerHTML = "<h4>" + BIN_LABEL[key] + "</h4>";
+      grid.appendChild(d);
+      bins[key] = d;
+    });
+    root.appendChild(grid);
+
+    var bank = document.createElement("div");
+    bank.className = "bank";
+    shuffle(CLASSIFY_CHIPS).forEach(function (item) {
+      var c = document.createElement("div");
+      c.className = "chip";
+      c.textContent = item.w;
+      c.dataset.bin = item.bin;
+      bank.appendChild(c);
+      attachDragChip(c, bank, function (cx, cy, bmap) {
+        var hit = null;
+        ["est", "most", "irr", "none"].forEach(function (k) {
+          var r = bmap[k].getBoundingClientRect();
+          if (cx >= r.left && cx <= r.right && cy >= r.top && cy <= r.bottom) hit = bmap[k];
+        });
+        return hit;
+      }, bins);
+    });
+    root.appendChild(bank);
+
+    var row = document.createElement("div");
+    row.className = "btn-row";
+    var chk = document.createElement("button");
+    chk.type = "button";
+    chk.className = "primary";
+    chk.textContent = "检查分类";
+    chk.addEventListener("click", function () {
+      if (bank.querySelectorAll(".chip").length > 0) {
+        showToast("请先把所有词块拖进篮子。", false);
+        return;
+      }
+      var ok = true;
+      ["est", "most", "irr", "none"].forEach(function (k) {
+        var bin = bins[k];
+        bin.querySelectorAll(".chip").forEach(function (ch) {
+          if (ch.dataset.bin !== k) ok = false;
+        });
+      });
+      if (!ok) {
+        showToast("有的词进错篮子了，想一想 -est / most / 不规则 / 无等级。", false);
+        return;
+      }
+      classifyDone = true;
+      showToast("\u2713 分类正确！", true);
+    });
+    row.appendChild(chk);
+    var nx = document.createElement("button");
+    nx.type = "button";
+    nx.className = "ghost";
+    nx.textContent = "进入分层练习 \u2192";
+    nx.addEventListener("click", function () {
+      phase = "practice";
+      prTier = "easy";
+      prIdx = 0;
+      render();
+      playPracticeListen();
+    });
+    row.appendChild(nx);
+    root.appendChild(row);
+  }
+
+  function playPracticeListen() {
+    if (phase !== "practice") return;
+    var arr = prTier === "easy" ? PR_E : prTier === "medium" ? PR_M : PR_H;
+    var item = arr[prIdx];
+    if (item.listen) speakLesson(item.listen);
+  }
+
+  function renderPractice(root) {
+    var arr = prTier === "easy" ? PR_E : prTier === "medium" ? PR_M : PR_H;
+    var item = arr[prIdx];
+    var h = document.createElement("h2");
+    h.textContent = "分层练习";
+    root.appendChild(h);
+    var tier = document.createElement("div");
+    tier.className = "practice-tier";
+    tier.textContent =
+      (item.zh ? item.zh + " · " : "") +
+      (prTier === "easy" ? "\u2605 基础（辨结构）" : prTier === "medium" ? "\u2605\u2605 提高（改错）" : "\u2605\u2605\u2605 冲刺（拼写）");
+    root.appendChild(tier);
+
+    var rowSound = document.createElement("div");
+    rowSound.className = "btn-row";
+    var bf = document.createElement("button");
+    bf.type = "button";
+    bf.className = "speak-fab";
+    bf.textContent = "\uD83D\uDD0A";
+    bf.addEventListener("click", function () {
+      if (item.listen) speakLesson(item.listen);
+    });
+    rowSound.appendChild(bf);
+    var lb = document.createElement("button");
+    lb.type = "button";
+    lb.className = "ghost";
+    lb.textContent = "播放题干朗读";
+    lb.addEventListener("click", function () {
+      if (item.listen) speakLesson(item.listen);
+    });
+    rowSound.appendChild(lb);
+    root.appendChild(rowSound);
+
+    if (prTier === "hard") {
+      var stem = document.createElement("p");
+      stem.className = "cn-lead";
+      stem.style.fontSize = "1rem";
+      stem.innerHTML = escapeHtml(item.stem);
+      root.appendChild(stem);
+      var inp = document.createElement("input");
+      inp.type = "text";
+      inp.className = "cloze-in";
+      inp.placeholder = "英文拼写";
+      inp.autocomplete = "off";
+      root.appendChild(inp);
+      var sub = document.createElement("div");
+      sub.className = "btn-row";
+      var go = document.createElement("button");
+      go.type = "button";
+      go.className = "primary";
+      go.textContent = "提交";
+      go.addEventListener("click", function () {
+        var v = inp.value.trim().toLowerCase();
+        var ok = item.ans.some(function (a) {
+          return v === a.toLowerCase();
+        });
+        if (!ok) {
+          showToast("再想想拼写或形式。", false);
+          return;
+        }
+        showToast("\u2713 Great!", true);
+        advancePractice();
+      });
+      sub.appendChild(go);
+      root.appendChild(sub);
+    } else if (prTier === "medium") {
+      var wr = document.createElement("p");
+      wr.className = "grammar-box";
+      wr.innerHTML = "<strong>\u274c \u539f\u53e5\uff08\u6709\u8bef\uff09\uff1a</strong><br />" + escapeHtml(item.wrong);
+      root.appendChild(wr);
+      var qq = document.createElement("p");
+      qq.className = "cn-lead";
+      qq.textContent = item.q;
+      root.appendChild(qq);
+      item.opts.forEach(function (opt, i) {
+        var o = document.createElement("button");
+        o.type = "button";
+        o.className = "mc-opt";
+        o.textContent = String.fromCharCode(65 + i) + ". " + opt;
+        o.addEventListener("click", function () {
+          root.querySelectorAll(".mc-opt").forEach(function (x) {
+            x.classList.remove("ok", "bad");
+          });
+          if (i === item.ok) {
+            o.classList.add("ok");
+            showToast("\u2713 正确！", true);
+            window.setTimeout(advancePractice, 500);
+          } else {
+            o.classList.add("bad");
+            showToast(item.tip || "\u518d\u8bd5\u4e00\u6b21", false);
+          }
+        });
+        root.appendChild(o);
+      });
+    } else {
+      var qq = document.createElement("p");
+      qq.className = "cn-lead";
+      qq.style.fontSize = "0.95rem";
+      qq.textContent = item.q;
+      root.appendChild(qq);
+      item.opts.forEach(function (opt, i) {
+        var o = document.createElement("button");
+        o.type = "button";
+        o.className = "mc-opt";
+        o.textContent = String.fromCharCode(65 + i) + ". " + opt;
+        o.addEventListener("click", function () {
+          root.querySelectorAll(".mc-opt").forEach(function (x) {
+            x.classList.remove("ok", "bad");
+          });
+          if (i === item.ok) {
+            o.classList.add("ok");
+            showToast("\u2713 正确！", true);
+            window.setTimeout(advancePractice, 500);
+          } else {
+            o.classList.add("bad");
+            showToast(item.tip || "\u518d\u8bd5\u4e00\u6b21", false);
+          }
+        });
+        root.appendChild(o);
+      });
+    }
+
+    var tip = document.createElement("p");
+    tip.className = "cn-lead";
+    tip.style.fontSize = "0.78rem";
+    tip.style.opacity = "0.85";
+    tip.textContent = "\u63d0\u793a\uff1a" + (item.tip || "");
+    root.appendChild(tip);
+
+    var nav = document.createElement("div");
+    nav.className = "btn-row";
+    if (prIdx > 0 || prTier !== "easy") {
+      var prev = document.createElement("button");
+      prev.type = "button";
+      prev.className = "ghost";
+      prev.textContent = "\u2190 \u4e0a\u4e00\u9898";
+      prev.addEventListener("click", function () {
+        if (prIdx > 0) prIdx--;
+        else if (prTier === "medium") {
+          prTier = "easy";
+          prIdx = PR_E.length - 1;
+        } else if (prTier === "hard") {
+          prTier = "medium";
+          prIdx = PR_M.length - 1;
+        }
+        render();
+        playPracticeListen();
+      });
+      nav.appendChild(prev);
+    }
+    root.appendChild(nav);
+
+    window.setTimeout(playPracticeListen, 400);
+  }
+
+  function advancePractice() {
+    var arr = prTier === "easy" ? PR_E : prTier === "medium" ? PR_M : PR_H;
+    if (prIdx < arr.length - 1) {
+      prIdx++;
+      render();
+      return;
+    }
+    if (prTier === "easy") {
+      prTier = "medium";
+      prIdx = 0;
+      render();
+      return;
+    }
+    if (prTier === "medium") {
+      prTier = "hard";
+      prIdx = 0;
+      render();
+      return;
+    }
+    phase = "done";
+    render();
+    speakLesson("Congratulations! You have finished superlative practice for zhongkao level.");
+  }
+
+  function renderDone(root) {
+    root.innerHTML =
+      "<h2>\u2728 \u672c\u9875\u5b8c\u6210</h2><p class=\"cn-lead\">\u4f60\u5df2\u638c\u63e1\uff1a<strong>\u4e09\u8005\u53ca\u4ee5\u4e0a\u6bd4\u8f83</strong>\u3001<strong>one of the + \u6700\u9ad8\u7ea7</strong>\u3001<strong>the + \u6700\u9ad8\u7ea7 + of</strong>\uff0c\u5e76\u5b8c\u6210\u8bcd\u5f62\u5f52\u7eb3\u4e0e\u5206\u5c42\u7ec3\u4e60\u3002</p>";
+    var row = document.createElement("div");
+    row.className = "btn-row";
+    var b = document.createElement("button");
+    b.type = "button";
+    b.className = "primary";
+    b.textContent = "\u518d\u542c\u603b\u7ed3\u6717\u8bfb";
+    b.addEventListener("click", function () {
+      speakLesson(
+        "Superlatives are used when we compare three or more things. Use one of the plus superlative plus plural noun, or the plus superlative plus of plus group."
+      );
+    });
+    row.appendChild(b);
+    root.appendChild(row);
+  }
+
+  render();
+})();
+  </script>
+</body>
+</html>

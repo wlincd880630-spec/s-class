@@ -1,0 +1,1643 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>第07讲 · Page 05 · More + 形容词 · 比较级实验室</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=ZCOOL+KuaiLe&family=Bebas+Neue&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0e1420;
+      --card: rgba(22, 30, 46, 0.94);
+      --gold: #ffd54f;
+      --mint: #69f0ae;
+      --ink: #e8ecf3;
+    }
+    * { box-sizing: border-box; }
+    html { zoom: 1; }
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      min-height: 100dvh;
+      font-family: system-ui, "Segoe UI", "Microsoft YaHei", sans-serif;
+      background: radial-gradient(1200px 600px at 10% -10%, #1a2744 0%, transparent 50%), var(--bg);
+      color: var(--ink);
+      touch-action: manipulation;
+    }
+    body {
+      display: flex;
+      flex-direction: column;
+    }
+    header.top {
+      padding: 10px 14px;
+      text-align: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(0, 0, 0, 0.35);
+      flex-shrink: 0;
+    }
+    #section-nav.section-nav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+      padding: 8px 12px 10px;
+      background: rgba(0, 0, 0, 0.28);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      flex-shrink: 0;
+      z-index: 35;
+    }
+    #section-nav .section-nav__btn {
+      font-family: inherit;
+      font-size: clamp(0.76rem, 1.9vw, 0.88rem);
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 2px solid rgba(255, 213, 79, 0.35);
+      background: rgba(30, 40, 58, 0.85);
+      color: #eceff1;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s, color 0.2s;
+    }
+    #section-nav .section-nav__btn:hover {
+      border-color: rgba(105, 240, 174, 0.4);
+      color: #fff;
+    }
+    #section-nav .section-nav__btn.is-active {
+      border-color: var(--gold);
+      background: rgba(255, 213, 79, 0.15);
+      color: #fff8e1;
+      font-weight: 600;
+    }
+    header.top h1 {
+      margin: 0;
+      font-family: "Bebas Neue", "ZCOOL KuaiLe", sans-serif;
+      letter-spacing: 0.06em;
+      font-size: clamp(1.05rem, 3.5vw, 1.55rem);
+      color: #fff;
+    }
+    header.top p {
+      margin: 4px 0 0;
+      font-size: clamp(0.68rem, 1.8vw, 0.82rem);
+      opacity: 0.88;
+    }
+    #progress {
+      font-size: 0.72rem;
+      color: var(--gold);
+      margin-top: 6px;
+    }
+    main.shell {
+      --shell-chrome-y: 228px;
+      --shell-pad-x: 16px;
+      flex: 1 1 auto;
+      width: min(calc(100vw - var(--shell-pad-x)), calc((100dvh - var(--shell-chrome-y)) * 16 / 9));
+      max-width: calc(100vw - var(--shell-pad-x));
+      max-height: calc(100dvh - var(--shell-chrome-y));
+      aspect-ratio: 16 / 9;
+      margin: 6px auto 72px;
+      padding: 10px 12px 12px;
+      min-height: 0;
+      overflow-x: hidden;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+    @media (max-width: 520px) {
+      main.shell {
+        width: calc(100vw - 12px);
+        max-height: none;
+        aspect-ratio: unset;
+        min-height: min(70dvh, 520px);
+        margin-bottom: 68px;
+      }
+    }
+    /* 主卡片内图文缩放（约为先前 1.5 的 70% → 1.05） */
+    #view-root.panel {
+      zoom: 1.05;
+    }
+    /* 看图造句：在上方缩放基础上再为当前的 90%（1.05×0.9） */
+    #view-root.panel.panel--lesson-sent {
+      zoom: 0.945;
+    }
+    .panel {
+      background: var(--card);
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 14px;
+      margin-bottom: 0;
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.35);
+      flex: 1;
+      min-height: 0;
+      overflow: auto;
+      display: flex;
+      flex-direction: column;
+    }
+    .panel h2 {
+      margin: 0 0 10px;
+      font-size: 1rem;
+      color: var(--gold);
+      flex-shrink: 0;
+    }
+    .scene-img-wrap {
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 3px solid rgba(255, 213, 79, 0.25);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      max-height: min(52vh, 460px);
+      background: rgba(0, 0, 0, 0.25);
+    }
+    .scene-img-wrap img {
+      width: auto;
+      height: auto;
+      max-width: 100%;
+      max-height: min(52vh, 460px);
+      display: block;
+      vertical-align: middle;
+      object-fit: contain;
+      object-position: center;
+    }
+    .pick-zone {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding-bottom: 10px;
+      transition: box-shadow 0.2s;
+    }
+    .pick-zone.left { left: 0; }
+    .pick-zone.right { right: 0; }
+    .pick-zone span {
+      pointer-events: none;
+      font-size: 0.72rem;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.55);
+      color: #fff;
+      border: 2px solid rgba(255, 213, 79, 0.45);
+    }
+    .pick-zone:hover { box-shadow: inset 0 0 0 3px rgba(105, 240, 174, 0.35); }
+    .pick-zone.disabled { pointer-events: none; opacity: 0.35; }
+
+    /* 情景 Warm-up：左图右文 */
+    .panel.panel--warm {
+      gap: 8px;
+    }
+    .warm-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(260px, 0.92fr);
+      gap: clamp(12px, 2vw, 22px);
+      flex: 1;
+      min-height: 0;
+      align-items: stretch;
+    }
+    @media (max-width: 760px) {
+      .warm-layout {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto minmax(180px, 1fr);
+      }
+    }
+    .warm-layout__stage {
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      min-width: 0;
+    }
+    .warm-layout__stage .scene-img-wrap {
+      flex: 1 1 auto;
+      margin-bottom: 0;
+      max-height: min(58vh, 520px);
+      align-self: stretch;
+    }
+    .warm-layout__stage .scene-img-wrap img {
+      max-height: min(58vh, 520px);
+    }
+    .warm-layout__copy {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 12px;
+      min-width: 0;
+      min-height: 0;
+      overflow: auto;
+      padding: 4px 2px;
+      font-size: clamp(0.95rem, 1.85vw, 1.08rem);
+      line-height: 1.55;
+      color: var(--ink);
+    }
+    .warm-layout__copy .warm-q {
+      margin: 0;
+      font-size: clamp(0.98rem, 1.95vw, 1.12rem);
+      line-height: 1.48;
+      text-align: left;
+    }
+    .warm-layout__copy .btn-row {
+      margin-top: 0;
+      justify-content: flex-start;
+    }
+    .warm-layout__copy .warm-hint {
+      font-size: clamp(0.84rem, 1.65vw, 0.95rem);
+      opacity: 0.9;
+    }
+
+    /* 情景题：默认模糊隐藏，点击问题区后显示 */
+    .warm-q-wrap {
+      position: relative;
+      border-radius: 12px;
+      padding: 14px 16px;
+      min-height: 4.25rem;
+      border: 2px dashed rgba(255, 213, 79, 0.4);
+      background: rgba(0, 0, 0, 0.32);
+      cursor: pointer;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .warm-q-wrap:hover:not(.is-revealed) {
+      border-color: rgba(105, 240, 174, 0.5);
+    }
+    .warm-q-wrap:focus-visible {
+      box-shadow: 0 0 0 2px rgba(255, 213, 79, 0.45);
+    }
+    .warm-q-wrap:not(.is-revealed) .warm-q {
+      filter: blur(14px);
+      opacity: 0.18;
+      user-select: none;
+      pointer-events: none;
+    }
+    .warm-q-wrap.is-revealed .warm-q {
+      filter: none;
+      opacity: 1;
+      user-select: text;
+    }
+    .warm-q-wrap:not(.is-revealed)::after {
+      content: "点击此处显示问题 · Click to show the question";
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: clamp(0.88rem, 1.65vw, 1rem);
+      color: var(--gold);
+      line-height: 1.45;
+      padding: 12px 14px;
+      background: rgba(14, 20, 32, 0.62);
+      border-radius: 10px;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .warm-q-wrap.is-revealed::after {
+      display: none;
+    }
+
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin-top: 10px;
+    }
+    button.primary {
+      font-family: "Patrick Hand", cursive;
+      font-size: 1.05rem;
+      padding: 10px 20px;
+      border-radius: 12px;
+      border: 3px solid var(--gold);
+      background: linear-gradient(180deg, #37474f, #263238);
+      color: #fff8e1;
+      cursor: pointer;
+    }
+    button.primary:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+    button.speak {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: none;
+      background: radial-gradient(circle at 30% 25%, #fff9c4, #ffd54f 55%, #f57f17);
+      cursor: pointer;
+      box-shadow: 0 0 12px rgba(255, 213, 79, 0.4);
+      font-size: 20px;
+    }
+
+    .teach-note {
+      font-size: 0.88rem;
+      line-height: 1.55;
+      color: #cfd8dc;
+    }
+    .teach-note strong { color: var(--mint); }
+
+    .more-slot-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      justify-content: center;
+      padding: 12px;
+      background: rgba(0, 0, 0, 0.35);
+      border-radius: 12px;
+      margin: 12px 0;
+      border: 2px dashed rgba(255, 213, 79, 0.35);
+    }
+    .more-fix {
+      font-family: "Patrick Hand", cursive;
+      font-size: 1.5rem;
+      color: var(--gold);
+      padding: 8px 14px;
+      border-radius: 10px;
+      background: rgba(255, 213, 79, 0.12);
+      border: 2px solid rgba(255, 213, 79, 0.35);
+    }
+    .adj-slot {
+      min-width: 140px;
+      min-height: 48px;
+      border-radius: 10px;
+      border: 2px dashed rgba(105, 240, 174, 0.45);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px;
+      background: rgba(20, 28, 40, 0.8);
+    }
+    .adj-slot.filled { border-style: solid; border-color: var(--mint); }
+
+    .bank {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      padding: 12px;
+      min-height: 56px;
+      background: rgba(0, 0, 0, 0.28);
+      border-radius: 12px;
+    }
+    .drag-chip {
+      font-family: "Patrick Hand", cursive;
+      padding: 10px 14px;
+      border-radius: 10px;
+      background: linear-gradient(165deg, #3949ab, #283593);
+      color: #e8eaf6;
+      cursor: grab;
+      touch-action: none;
+      user-select: none;
+      font-size: clamp(1rem, 2.8vw, 1.25rem);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+      position: relative;
+      max-width: 100%;
+    }
+    .drag-chip.dragging {
+      cursor: grabbing;
+      z-index: 400;
+      box-shadow: 0 8px 24px rgba(255, 213, 79, 0.35);
+    }
+
+    .sent-slots {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      justify-content: center;
+      padding: 10px;
+      border-radius: 12px;
+      border: 2px dashed rgba(144, 202, 249, 0.35);
+      background: rgba(0, 0, 0, 0.25);
+      margin: 12px 0;
+    }
+    .sent-slot {
+      min-height: 44px;
+      min-width: 56px;
+      border-radius: 8px;
+      border: 2px dashed rgba(144, 202, 249, 0.28);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2px 6px;
+      flex: 0 1 auto;
+    }
+    .sent-slot.filled { border-style: solid; border-color: rgba(129, 199, 132, 0.85); }
+
+    .lesson-img {
+      width: 100%;
+      max-height: 220px;
+      object-fit: contain;
+      border-radius: 10px;
+      margin: 10px 0;
+      background: rgba(0, 0, 0, 0.3);
+    }
+
+    /* 看图造句：左图右排序区，占满 16:9 主区域 */
+    .panel.panel--lesson-sent {
+      gap: 8px;
+    }
+    .lesson-sent-intro {
+      flex: 0 0 auto;
+      flex-shrink: 0;
+      margin: 0;
+      font-size: clamp(0.9rem, 1.75vw, 1.02rem);
+      text-align: center;
+      color: #cfd8dc;
+      line-height: 1.5;
+    }
+    .lesson-sent-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(260px, 0.95fr);
+      gap: clamp(10px, 1.8vw, 22px);
+      flex: 1;
+      min-height: 0;
+      align-items: stretch;
+    }
+    @media (max-width: 760px) {
+      .lesson-sent-layout {
+        grid-template-columns: 1fr;
+        grid-template-rows: minmax(160px, 38vh) minmax(200px, 1fr);
+      }
+    }
+    .lesson-sent-col--img {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 0;
+      min-width: 0;
+      padding: 8px;
+      border-radius: 14px;
+      background: rgba(0, 0, 0, 0.32);
+      border: 1px solid rgba(255, 213, 79, 0.15);
+    }
+    .lesson-img.lesson-img--stage {
+      width: 100%;
+      max-width: 100%;
+      height: auto;
+      max-height: min(48vh, calc((100dvh - var(--shell-chrome-y, 168px)) * 0.58));
+      margin: 0;
+      min-height: 0;
+      object-fit: contain;
+      object-position: center;
+    }
+    .lesson-sent-col--slots {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      min-height: 0;
+      min-width: 0;
+      overflow: hidden;
+      font-size: clamp(0.92rem, 1.7vw, 1.04rem);
+      line-height: 1.5;
+    }
+    .lesson-sent-col--slots .btn-row {
+      flex: 0 0 auto;
+      margin-top: 0;
+    }
+    .lesson-sent-slots {
+      flex: 1 1 auto;
+      min-height: 72px;
+      align-content: flex-start;
+      justify-content: flex-start;
+      align-items: flex-start;
+      overflow-y: auto;
+    }
+    .lesson-sent-bank {
+      flex: 0 1 auto;
+      max-height: min(42%, 200px);
+      overflow-y: auto;
+      justify-content: flex-start;
+    }
+    @media (max-width: 760px) {
+      .lesson-sent-bank {
+        max-height: 160px;
+      }
+    }
+    .lesson-sent-actions {
+      flex: 0 0 auto;
+      margin-top: auto;
+      padding-top: 4px;
+    }
+    .lesson-sent-actions .primary {
+      width: 100%;
+    }
+
+    .lesson-sent-scenario-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      flex: 0 0 auto;
+      padding: 8px 10px;
+      border-radius: 12px;
+      background: rgba(0, 0, 0, 0.38);
+      border: 1px solid rgba(255, 213, 79, 0.22);
+    }
+    .lesson-sent-scenario-bar .scenario-jump-select {
+      flex: 1 1 160px;
+      min-width: 0;
+      font-family: inherit;
+      font-size: clamp(0.82rem, 1.55vw, 0.94rem);
+      padding: 8px 10px;
+      border-radius: 10px;
+      border: 2px solid rgba(255, 213, 79, 0.35);
+      background: rgba(20, 28, 40, 0.95);
+      color: var(--ink);
+      cursor: pointer;
+    }
+    .lesson-sent-scenario-bar .scenario-nav-btn {
+      flex: 0 0 auto;
+      font-family: inherit;
+      font-size: clamp(0.78rem, 1.45vw, 0.88rem);
+      padding: 8px 12px;
+      border-radius: 10px;
+      border: 2px solid rgba(255, 213, 79, 0.4);
+      background: rgba(55, 71, 79, 0.95);
+      color: #fff8e1;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .lesson-sent-scenario-bar .scenario-nav-btn:hover {
+      border-color: rgba(105, 240, 174, 0.45);
+    }
+
+    .sort-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 12px;
+    }
+    @media (max-width: 560px) {
+      .sort-grid { grid-template-columns: 1fr; }
+    }
+    .sort-bin {
+      min-height: 160px;
+      border-radius: 12px;
+      border: 3px dashed rgba(255, 213, 79, 0.35);
+      padding: 8px;
+      background: rgba(0, 0, 0, 0.25);
+    }
+    .sort-bin h3 {
+      margin: 0 0 8px;
+      font-size: 0.82rem;
+      color: var(--gold);
+      text-align: center;
+    }
+    .sort-bin.zone-er { border-color: rgba(129, 199, 132, 0.45); }
+    .sort-bin.zone-more { border-color: rgba(129, 212, 250, 0.45); }
+
+    #toast {
+      position: fixed;
+      left: 50%;
+      bottom: 18%;
+      transform: translateX(-50%);
+      z-index: 90;
+      background: rgba(183, 28, 28, 0.95);
+      color: #fff;
+      padding: 10px 16px;
+      border-radius: 12px;
+      font-size: 0.82rem;
+      max-width: min(92vw, 380px);
+      text-align: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s;
+    }
+    #toast.show { opacity: 1; }
+
+    #nav-foot {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 10px 12px;
+      background: rgba(0, 0, 0, 0.55);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 8px;
+      z-index: 40;
+    }
+    #nav-foot a {
+      color: var(--gold);
+      font-size: 0.78rem;
+      text-decoration: none;
+    }
+    #debug-strip {
+      font-size: 10px;
+      opacity: 0.35;
+      color: #90a4ae;
+      text-align: center;
+      padding: 4px;
+    }
+    .cmp-highlight {
+      color: #e53935;
+      font-weight: 800;
+    }
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+  <header class="top">
+    <h1>MORE + ADJECTIVE LAB · 比较级实验室</h1>
+    <p>情景问答 Who / Which → 新知 more + 多音节形容词 → 十五练 → 分类大挑战</p>
+    <div id="progress"></div>
+  </header>
+
+  <nav id="section-nav" class="section-nav" aria-label="本页三大环节切换">
+    <button type="button" class="section-nav__btn" data-section="warm">情景问答</button>
+    <button type="button" class="section-nav__btn" data-section="teach">新知讲解</button>
+    <button type="button" class="section-nav__btn" data-section="practice">词汇·看图·分类</button>
+  </nav>
+
+  <main class="shell">
+    <section id="view-root" class="panel"></section>
+  </main>
+
+  <div id="toast" role="status"></div>
+
+  <footer id="nav-foot">
+    <a href="lesson07-page04-twincities.html">← Page 04 双城对决</a>
+    <span id="debug-strip"></span>
+    <a href="lesson07-page06-arena.html">Page 06 →</a>
+  </footer>
+
+  <script src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L07/assets/tts-mp3/l07-google-mp3/manifest.embed.js"></script>
+  <script src="../assets/lesson-tts-l07-local.js"></script>
+  <script>
+(function () {
+  "use strict";
+
+  var BASE = "assets/page05-more-comp/";
+
+  var WARM = [
+    {
+      title: "情景一 · 入狱登记照（卡通）",
+      img: BASE + "l07-p05-mugshots.png",
+      steps: [
+        {
+          q: "Who is taller, the man on the left or the man on the right?",
+          hl: "taller",
+          side: "left"
+        },
+        {
+          q: "Who is heavier, the man on the left or the man on the right?",
+          hl: "heavier",
+          side: "right"
+        }
+      ]
+    },
+    {
+      title: "情景二 · 两部手机",
+      img: BASE + "l07-p05-phones.png",
+      steps: [
+        {
+          q: "Which is more expensive, the mobile phone on the left or the mobile phone on the right?",
+          hl: "more expensive",
+          side: "right"
+        }
+      ]
+    },
+    {
+      title: "情景三 · 两个房间",
+      img: BASE + "l07-p05-rooms.png",
+      steps: [
+        {
+          q: "Which is more beautiful, the room on the left or the room on the right?",
+          hl: "more beautiful",
+          side: "left"
+        }
+      ]
+    }
+  ];
+
+  var LESSONS = [
+    {
+      adj: "beautiful",
+      listen: "more beautiful",
+      distractors: ["beautifull", "beautyful"],
+      img: BASE + "l07-p05-ex01-beautiful.png",
+      chunks: ["The garden on the left", "is", "more", "beautiful", "than", "the garden on the right", "."]
+    },
+    {
+      adj: "expensive",
+      listen: "more expensive",
+      distractors: ["expensiv", "expensiver"],
+      img: BASE + "l07-p05-ex02-expensive.png",
+      chunks: ["This phone", "is", "more", "expensive", "than", "that one", "."]
+    },
+    {
+      adj: "important",
+      listen: "more important",
+      distractors: ["importanter", "importent"],
+      img: BASE + "l07-p05-ex03-important.png",
+      chunks: ["Health", "is", "more", "important", "than", "money", "."]
+    },
+    {
+      adj: "interesting",
+      listen: "more interesting",
+      distractors: ["interestinger", "interestring"],
+      img: BASE + "l07-p05-ex04-interesting.png",
+      chunks: ["This book", "is", "more", "interesting", "than", "that magazine", "."]
+    },
+    {
+      adj: "popular",
+      listen: "more popular",
+      distractors: ["popularer", "populer"],
+      img: BASE + "l07-p05-ex05-popular.png",
+      chunks: ["Basketball", "is", "more", "popular", "than", "chess", "here", "."]
+    },
+    {
+      adj: "careful",
+      listen: "more careful",
+      distractors: ["carefuller", "carefull"],
+      img: BASE + "l07-p05-ex06-careful.png",
+      chunks: ["A good driver", "is", "more", "careful", "than", "a beginner", "."]
+    },
+    {
+      adj: "helpful",
+      listen: "more helpful",
+      distractors: ["helpfuller", "helpfull"],
+      img: BASE + "l07-p05-ex07-helpful.png",
+      chunks: ["The new app", "is", "more", "helpful", "than", "the old one", "."]
+    },
+    {
+      adj: "difficult",
+      listen: "more difficult",
+      distractors: ["difficulter", "difficuilt"],
+      img: BASE + "l07-p05-ex08-difficult.png",
+      chunks: ["Math", "is", "more", "difficult", "than", "art", "for me", "."]
+    },
+    {
+      adj: "delicious",
+      listen: "more delicious",
+      distractors: ["deliciousest", "deliciouss"],
+      img: BASE + "l07-p05-ex09-delicious.png",
+      chunks: ["Mom's soup", "is", "more", "delicious", "than", "take-out food", "."]
+    },
+    {
+      adj: "famous",
+      listen: "more famous",
+      distractors: ["famousest", "famouse"],
+      img: BASE + "l07-p05-ex10-famous.png",
+      chunks: ["Chengdu", "is", "more", "famous", "for pandas", "than many small towns", "."]
+    },
+    {
+      adj: "comfortable",
+      listen: "more comfortable",
+      distractors: ["comfortabler", "comfortabl"],
+      img: BASE + "l07-p05-ex11-comfortable.png",
+      chunks: ["This sofa", "is", "more", "comfortable", "than", "the wooden stool", "."]
+    },
+    {
+      adj: "dangerous",
+      listen: "more dangerous",
+      distractors: ["dangerousest", "dangerouse"],
+      img: BASE + "l07-p05-ex12-dangerous.png",
+      chunks: ["Night driving", "is", "more", "dangerous", "than", "daytime driving", "."]
+    },
+    {
+      adj: "colorful",
+      listen: "more colorful",
+      distractors: ["colorfuller", "colorfull"],
+      img: BASE + "l07-p05-ex13-colorful.png",
+      chunks: ["Autumn leaves", "are", "more", "colorful", "than", "winter trees", "."]
+    },
+    {
+      adj: "peaceful",
+      listen: "more peaceful",
+      distractors: ["peacefuller", "peacefull"],
+      img: BASE + "l07-p05-ex14-peaceful.png",
+      chunks: ["The countryside", "is", "more", "peaceful", "than", "downtown", "."]
+    },
+    {
+      adj: "powerful",
+      listen: "more powerful",
+      distractors: ["powerfuller", "powerfull"],
+      img: BASE + "l07-p05-ex15-powerful.png",
+      chunks: ["Rocket A", "is", "more", "powerful", "than", "Rocket B", "."]
+    }
+  ];
+
+  var SORT_ER = ["taller", "shorter", "faster", "slower", "bigger", "smaller", "hotter", "colder", "thinner", "heavier", "lighter", "cheaper"];
+  var SORT_MORE = LESSONS.map(function (L) {
+    return "more " + L.adj;
+  });
+
+  var practiceSnapshot = { mode: "lesson" };
+
+  var mode = "warm";
+  var warmSi = 0;
+  var warmQi = 0;
+  var lessonI = 0;
+  var lessonPhase = "adj";
+  /** 15 组词汇「听音拼槽」全部完成后，才允许进入看图造句 */
+  var lessonAdjAllDone = false;
+  var dragState = null;
+  var docMoveRef = null;
+  var docUpRef = null;
+  var adjSlotEl = null;
+  var sentSlots = [];
+  var sortBins = { er: [], more: [] };
+
+  function updateSectionNav() {
+    var nav = document.getElementById("section-nav");
+    if (!nav) return;
+    var active =
+      mode === "warm" ? "warm" : mode === "teach" ? "teach" : "practice";
+    nav.querySelectorAll(".section-nav__btn[data-section]").forEach(function (btn) {
+      btn.classList.toggle("is-active", btn.getAttribute("data-section") === active);
+    });
+    if (mode === "lesson" || mode === "sort" || mode === "done") {
+      practiceSnapshot.mode = mode;
+    }
+  }
+
+  function initSectionNav() {
+    var nav = document.getElementById("section-nav");
+    if (!nav || nav.dataset.bound === "1") return;
+    nav.dataset.bound = "1";
+    nav.addEventListener("click", function (ev) {
+      var btn = ev.target.closest(".section-nav__btn[data-section]");
+      if (!btn) return;
+      var sec = btn.getAttribute("data-section");
+      clearDragListeners();
+      if (sec === "warm") {
+        mode = "warm";
+      } else if (sec === "teach") {
+        mode = "teach";
+      } else if (sec === "practice") {
+        mode = practiceSnapshot.mode;
+      }
+      render();
+    });
+  }
+
+  function setDebug(t) {
+    var el = document.getElementById("debug-strip");
+    if (el) el.textContent = t || "";
+  }
+
+  function showToast(msg, ok) {
+    var t = document.getElementById("toast");
+    t.style.background = ok ? "rgba(46, 125, 50, 0.95)" : "rgba(183, 28, 28, 0.95)";
+    t.textContent = msg;
+    t.classList.add("show");
+    window.setTimeout(function () {
+      t.classList.remove("show");
+    }, 2200);
+  }
+
+  function escapeXml(t) {
+    return String(t || "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&apos;");
+  }
+
+  function escapeHtml(s) {
+    return String(s || "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/"/g, "&quot;");
+  }
+
+  /** 题干中比较级/关键词加粗标红（仅用于本页写死的英文句子） */
+  function questionWithHighlight(fullText, highlightPhrase) {
+    var f = String(fullText);
+    var p = String(highlightPhrase || "");
+    if (!p) return escapeHtml(f);
+    var idx = f.indexOf(p);
+    if (idx < 0) {
+      var low = f.toLowerCase();
+      var lp = p.toLowerCase();
+      idx = low.indexOf(lp);
+      if (idx >= 0) p = f.substring(idx, idx + p.length);
+      else return escapeHtml(f);
+    }
+    return (
+      escapeHtml(f.slice(0, idx)) +
+      '<strong class="cmp-highlight">' +
+      escapeHtml(p) +
+      "</strong>" +
+      escapeHtml(f.slice(idx + p.length))
+    );
+  }
+
+  function escapeXmlAttr(s) {
+    return String(s || "")
+      .replace(/&/g, "&amp;")
+      .replace(/"/g, "&quot;");
+  }
+
+  /** 朗读：仅 assets/tts-mp3/l07-google-mp3（manifest 映射） */
+  window.unlockAudio = async function () {
+    try {
+      var Ctx = window.AudioContext || window.webkitAudioContext;
+      if (Ctx) {
+        var ctx = new Ctx();
+        if (ctx.state === "suspended") await ctx.resume();
+      }
+    } catch (e) {}
+  };
+
+  window.speak = async function (text) {
+    if (!text) return;
+    var cleanText = String(text).replace(/\n/g, " ").trim();
+    if (typeof window.playLessonL07LocalTts !== "function") {
+      showToast("未加载 lesson-tts-l07-local.js", false);
+      return;
+    }
+    if (window.unlockAudio) await window.unlockAudio();
+    await window.playLessonL07LocalTts(cleanText);
+  };
+
+  function speakPlainAzure(text) {
+    var cleanText = String(text || "").replace(/\n/g, " ").trim();
+    var start = window.unlockAudio ? window.unlockAudio() : Promise.resolve();
+    return start
+      .then(function () {
+        if (typeof window.playLessonL07LocalTts !== "function") {
+          showToast("未加载 lesson-tts-l07-local.js", false);
+          return false;
+        }
+        return window.playLessonL07LocalTts(cleanText);
+      })
+      .then(function (ok) {
+        setDebug("");
+        if (!ok) {
+          var r = String(window.__L07_TTS_FAIL_REASON__ || "");
+          if (r === "map_miss") {
+            showToast(
+              "朗读句未在本地清单中匹配，请运行 tools/generate-l07-google-tts.mjs 或更新 manifest.embed.js",
+              false
+            );
+          } else if (r === "manifest") {
+            showToast(
+              "无法加载朗读清单：请通过本地服务器打开，或在页面中先于 lesson-tts-l07-local.js 引入 manifest.embed.js",
+              false
+            );
+          } else if (r === "audio" || r === "play_rejected") {
+            showToast(
+              "清单已匹配但无法播放 MP3：请确认腾讯云 COS 路径 Grammar/L07/assets/tts-mp3/l07-google-mp3/ 下存在对应文件",
+              false
+            );
+          } else if (r !== "empty") {
+            showToast("朗读失败", false);
+          }
+        }
+        return !!ok;
+      })
+      .catch(function (err) {
+        var msg = err && err.message ? err.message : String(err || "");
+        if (msg) setDebug(msg);
+        showToast(msg ? "朗读失败：" + msg.slice(0, 100) : "朗读失败", false);
+        return false;
+      });
+  }
+
+  function shuffle(a) {
+    var arr = a.slice();
+    for (var i = arr.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = arr[i];
+      arr[i] = arr[j];
+      arr[j] = t;
+    }
+    return arr;
+  }
+
+  function updateProgress() {
+    var el = document.getElementById("progress");
+    if (!el) return;
+    if (mode === "warm") {
+      el.textContent =
+        "情景 " + (warmSi + 1) + "/3 · 小题 " + (warmQi + 1) + "/" + WARM[warmSi].steps.length;
+    } else if (mode === "teach") {
+      el.textContent = "新知 · more + 形容词";
+    } else if (mode === "lesson") {
+      if (!lessonAdjAllDone) {
+        el.textContent =
+          "词汇演练 " + (lessonI + 1) + "/15 · 听音拼槽（须完成全部 15 题后再进入看图）";
+      } else {
+        el.textContent =
+          "看图造句 " + (lessonI + 1) + "/15 · " + LESSONS[lessonI].listen;
+      }
+    } else if (mode === "sort") {
+      el.textContent = "终极分类 · -er 规则 vs more +";
+    } else {
+      el.textContent = "完成";
+    }
+  }
+
+  function render() {
+    updateProgress();
+    var root = document.getElementById("view-root");
+    root.innerHTML = "";
+    root.className = "panel";
+
+    if (mode === "warm") renderWarm(root);
+    else if (mode === "teach") renderTeach(root);
+    else if (mode === "lesson") renderLesson(root);
+    else if (mode === "sort") renderSort(root);
+    else renderDone(root);
+    updateSectionNav();
+  }
+
+  function renderWarm(root) {
+    root.className = "panel panel--warm";
+    var sc = WARM[warmSi];
+    var st = sc.steps[warmQi];
+    var h = document.createElement("h2");
+    h.textContent = sc.title;
+    root.appendChild(h);
+
+    var wrap = document.createElement("div");
+    wrap.className = "scene-img-wrap";
+    var img = document.createElement("img");
+    img.src = sc.img;
+    img.alt = sc.title;
+    wrap.appendChild(img);
+
+    var zL = document.createElement("div");
+    zL.className = "pick-zone left";
+    zL.innerHTML = "<span>Left · 左</span>";
+    var zR = document.createElement("div");
+    zR.className = "pick-zone right";
+    zR.innerHTML = "<span>Right · 右</span>";
+    wrap.appendChild(zL);
+    wrap.appendChild(zR);
+
+    var qEl = document.createElement("p");
+    qEl.className = "warm-q";
+    qEl.innerHTML = questionWithHighlight(st.q, st.hl || "");
+
+    var qWrap = document.createElement("div");
+    qWrap.className = "warm-q-wrap";
+    qWrap.setAttribute("role", "button");
+    qWrap.setAttribute("tabindex", "0");
+    qWrap.setAttribute("aria-label", "点击显示英文问题");
+    qWrap.setAttribute("aria-expanded", "false");
+    qWrap.appendChild(qEl);
+
+    function revealWarmQuestion() {
+      if (qWrap.classList.contains("is-revealed")) return;
+      qWrap.classList.add("is-revealed");
+      qWrap.setAttribute("aria-expanded", "true");
+    }
+    qWrap.addEventListener("click", function (ev) {
+      if (!qWrap.classList.contains("is-revealed")) {
+        ev.preventDefault();
+        revealWarmQuestion();
+      }
+    });
+    qWrap.addEventListener("keydown", function (ev) {
+      if (qWrap.classList.contains("is-revealed")) return;
+      if (ev.key === "Enter" || ev.key === " ") {
+        ev.preventDefault();
+        revealWarmQuestion();
+      }
+    });
+
+    var btnRow = document.createElement("div");
+    btnRow.className = "btn-row";
+    var btnListen = document.createElement("button");
+    btnListen.type = "button";
+    btnListen.className = "speak";
+    btnListen.setAttribute("aria-label", "朗读问题（本地 MP3）");
+    btnListen.textContent = "\uD83D\uDD0A";
+    btnListen.addEventListener("click", function () {
+      speakPlainAzure(st.q, "en-US-JennyNeural", "friendly");
+    });
+    btnRow.appendChild(btnListen);
+    var hint = document.createElement("span");
+    hint.className = "warm-hint";
+    hint.textContent = "先点击上方「显示问题」区域查看题干 → 可听朗读 → 再在图中点左/右作答";
+    btnRow.appendChild(hint);
+
+    var layout = document.createElement("div");
+    layout.className = "warm-layout";
+    var stageCol = document.createElement("div");
+    stageCol.className = "warm-layout__stage";
+    stageCol.appendChild(wrap);
+    var copyCol = document.createElement("div");
+    copyCol.className = "warm-layout__copy";
+    copyCol.appendChild(qWrap);
+    copyCol.appendChild(btnRow);
+    layout.appendChild(stageCol);
+    layout.appendChild(copyCol);
+    root.appendChild(layout);
+
+    function answer(side) {
+      if (side === st.side) {
+        showToast("\u2713 Correct!", true);
+        window.setTimeout(advanceWarm, 650);
+      } else showToast("再想想：听清 Who / Which 与画面信息。", false);
+    }
+    zL.addEventListener("click", function () {
+      answer("left");
+    });
+    zR.addEventListener("click", function () {
+      answer("right");
+    });
+  }
+
+  function advanceWarm() {
+    warmQi++;
+    if (warmQi >= WARM[warmSi].steps.length) {
+      warmQi = 0;
+      warmSi++;
+      if (warmSi >= WARM.length) {
+        mode = "teach";
+      }
+    }
+    render();
+  }
+
+  function renderTeach(root) {
+    var h = document.createElement("h2");
+    h.textContent = "新知 · 多音节形容词的比较级";
+    root.appendChild(h);
+    var div = document.createElement("div");
+    div.className = "teach-note";
+    div.innerHTML =
+      "<p><strong>规则小结：</strong>大多数<strong>两个音节及以上</strong>的形容词，比较级用 <strong>more + 形容词原级</strong>，后面接 <strong>than</strong> 引出比较对象。</p>" +
+      "<p>例：<em>more beautiful than …</em>，<em>more expensive than …</em>，<em>more important than …</em></p>" +
+      "<p>不要写成 <em>beautifuller</em>、<em>expensiver</em> 这类「硬加 er」的形式。</p>" +
+      "<p>前面情景里：<strong>Who</strong> 问<strong>人</strong>；<strong>Which</strong> 问<strong>物品 / 事物</strong>。</p>";
+    root.appendChild(div);
+    var b = document.createElement("button");
+    b.type = "button";
+    b.className = "primary";
+    b.textContent = "进入 15 组 more + 演练";
+    b.style.marginTop = "14px";
+    b.style.width = "100%";
+    b.addEventListener("click", function () {
+      mode = "lesson";
+      lessonI = 0;
+      lessonPhase = "adj";
+      lessonAdjAllDone = false;
+      render();
+    });
+    root.appendChild(b);
+  }
+
+  function clearDragListeners() {
+    if (docMoveRef) {
+      document.removeEventListener("pointermove", docMoveRef);
+      document.removeEventListener("pointerup", docUpRef);
+      document.removeEventListener("pointercancel", docUpRef);
+      docMoveRef = docUpRef = null;
+    }
+    dragState = null;
+  }
+
+  function attachDrag(chip, bankEl, slotFinder, onChanged) {
+    chip.addEventListener("pointerdown", function (ev) {
+      var bank = bankEl;
+      var parent = chip.parentElement;
+      var okParent =
+        parent === bank ||
+        parent.classList.contains("adj-slot") ||
+        parent.classList.contains("sent-slot") ||
+        parent.classList.contains("sort-bin");
+      if (!okParent) return;
+      ev.preventDefault();
+      chip.classList.add("dragging");
+      var r = chip.getBoundingClientRect();
+      dragState = {
+        el: chip,
+        id: ev.pointerId,
+        ox: ev.clientX - r.left,
+        oy: ev.clientY - r.top,
+        bank: bank,
+        fromSlot: parent.classList.contains("adj-slot") || parent.classList.contains("sent-slot") ? parent : null
+      };
+      if (dragState.fromSlot) dragState.fromSlot.classList.remove("filled");
+      chip.style.position = "fixed";
+      chip.style.left = ev.clientX - dragState.ox + "px";
+      chip.style.top = ev.clientY - dragState.oy + "px";
+      chip.style.zIndex = "400";
+      document.body.appendChild(chip);
+      docMoveRef = function (e) {
+        if (!dragState || e.pointerId !== dragState.id) return;
+        dragState.el.style.left = e.clientX - dragState.ox + "px";
+        dragState.el.style.top = e.clientY - dragState.oy + "px";
+      };
+      docUpRef = function (e) {
+        if (!dragState || e.pointerId !== dragState.id) return;
+        var el = dragState.el;
+        try {
+          el.releasePointerCapture(e.pointerId);
+        } catch (err) {}
+        var slot = slotFinder(e.clientX, e.clientY, el);
+        if (slot) {
+          el.style.position = "relative";
+          el.style.left = "auto";
+          el.style.top = "auto";
+          el.style.zIndex = "";
+          el.classList.remove("dragging");
+          slot.appendChild(el);
+          slot.classList.add("filled");
+        } else {
+          el.classList.remove("dragging");
+          el.style.position = "relative";
+          el.style.left = "auto";
+          el.style.top = "auto";
+          el.style.zIndex = "";
+          bank.appendChild(el);
+          sentSlots.forEach(function (s) {
+            if (!s.querySelector(".drag-chip")) s.classList.remove("filled");
+          });
+          if (adjSlotEl && !adjSlotEl.querySelector(".drag-chip")) adjSlotEl.classList.remove("filled");
+        }
+        clearDragListeners();
+        if (onChanged) onChanged();
+      };
+      document.addEventListener("pointermove", docMoveRef);
+      document.addEventListener("pointerup", docUpRef);
+      document.addEventListener("pointercancel", docUpRef);
+      try {
+        chip.setPointerCapture(ev.pointerId);
+      } catch (e2) {}
+    });
+  }
+
+  function nearestSentSlot(cx, cy, usedSlot) {
+    var best = null;
+    var bestD = 1e9;
+    sentSlots.forEach(function (s) {
+      if (s === usedSlot) return;
+      if (s.querySelector(".drag-chip")) return;
+      var r = s.getBoundingClientRect();
+      if (cx < r.left - 16 || cx > r.right + 16 || cy < r.top - 20 || cy > r.bottom + 20) return;
+      var mx = (r.left + r.right) / 2;
+      var my = (r.top + r.bottom) / 2;
+      var d = (cx - mx) * (cx - mx) + (cy - my) * (cy - my);
+      if (d < bestD) {
+        bestD = d;
+        best = s;
+      }
+    });
+    return best;
+  }
+
+  function renderLesson(root) {
+    if (lessonPhase === "sent" && !lessonAdjAllDone) {
+      lessonPhase = "adj";
+    }
+    var L = LESSONS[lessonI];
+    root.classList.toggle("panel--lesson-sent", lessonPhase === "sent");
+
+    var h = document.createElement("h2");
+    h.textContent =
+      (!lessonAdjAllDone ? "词汇 " : "看图 ") +
+      (lessonI + 1) +
+      "/15 · " +
+      (!lessonAdjAllDone ? "听音拼槽 · " + L.listen : L.listen);
+    root.appendChild(h);
+
+    if (lessonPhase === "adj") {
+      var p = document.createElement("p");
+      p.style.fontSize = "0.86rem";
+      p.style.textAlign = "center";
+      p.textContent =
+        "步骤 1（共 15 题）：听发音 → 把正确形容词拖进「more +」后面的方框。须顺序完成全部 15 题词汇后，才会进入看图造句。";
+      root.appendChild(p);
+
+      var listenRow = document.createElement("div");
+      listenRow.className = "btn-row";
+      var bl = document.createElement("button");
+      bl.type = "button";
+      bl.className = "primary";
+      bl.textContent = "听一听 · 本地朗读";
+      bl.addEventListener("click", function () {
+        speakPlainAzure(L.listen, "en-US-JennyNeural", "cheerful");
+      });
+      listenRow.appendChild(bl);
+      root.appendChild(listenRow);
+
+      var row = document.createElement("div");
+      row.className = "more-slot-row";
+      row.innerHTML = '<span class="more-fix">more +</span>';
+      adjSlotEl = document.createElement("div");
+      adjSlotEl.className = "adj-slot";
+      row.appendChild(adjSlotEl);
+      root.appendChild(row);
+
+      var bank = document.createElement("div");
+      bank.className = "bank";
+      var words = shuffle([L.adj].concat(L.distractors));
+      words.forEach(function (w) {
+        var c = document.createElement("div");
+        c.className = "drag-chip";
+        c.textContent = w;
+        c.dataset.text = w;
+        bank.appendChild(c);
+        attachDrag(c, bank, function (cx, cy) {
+          var r = adjSlotEl.getBoundingClientRect();
+          if (cx >= r.left - 12 && cx <= r.right + 12 && cy >= r.top - 14 && cy <= r.bottom + 14) return adjSlotEl;
+          return null;
+        }, checkAdj);
+      });
+      root.appendChild(bank);
+
+      var btnNext = document.createElement("button");
+      btnNext.type = "button";
+      btnNext.className = "primary";
+      btnNext.textContent =
+        lessonI < LESSONS.length - 1
+          ? "提交 · 下一题听音拼槽"
+          : "提交 · 完成全部词汇并进入看图造句";
+      btnNext.style.marginTop = "12px";
+      btnNext.style.width = "100%";
+      btnNext.addEventListener("click", function () {
+        var ch = adjSlotEl.querySelector(".drag-chip");
+        if (!ch) {
+          showToast("先把形容词拖进 more + 后面的框。", false);
+          return;
+        }
+        if (ch.dataset.text !== L.adj) {
+          showToast("再听一遍：应为 more " + L.adj, false);
+          return;
+        }
+        if (lessonI < LESSONS.length - 1) {
+          lessonI++;
+          lessonPhase = "adj";
+          showToast("✓ 正确 · 下一题听音拼槽", true);
+        } else {
+          lessonAdjAllDone = true;
+          lessonI = 0;
+          lessonPhase = "sent";
+          showToast("15 组词汇已完成 · 进入看图造句环节", true);
+        }
+        render();
+      });
+      root.appendChild(btnNext);
+
+      function checkAdj() {}
+
+      speakPlainAzure(L.listen, "en-US-JennyNeural", "cheerful");
+    } else {
+      var p2 = document.createElement("p");
+      p2.className = "lesson-sent-intro";
+      p2.textContent =
+        "步骤 2：已完成全部 15 题听音拼槽。请看图 → 右侧排序槽拖成正确的比较级句子（可用上一场景/下一场景或下拉在 15 个情景中切换）。";
+
+      var layout = document.createElement("div");
+      layout.className = "lesson-sent-layout";
+
+      var colImg = document.createElement("div");
+      colImg.className = "lesson-sent-col lesson-sent-col--img";
+      var img = document.createElement("img");
+      img.className = "lesson-img lesson-img--stage";
+      img.src = L.img;
+      img.alt = "情景图";
+      colImg.appendChild(img);
+
+      var colSlots = document.createElement("div");
+      colSlots.className = "lesson-sent-col lesson-sent-col--slots";
+
+      function goSentScenario(idx) {
+        if (!lessonAdjAllDone) {
+          showToast("请先完成全部 15 题听音拼槽。", false);
+          return;
+        }
+        clearDragListeners();
+        var n = LESSONS.length;
+        lessonI = ((idx % n) + n) % n;
+        lessonPhase = "sent";
+        render();
+      }
+
+      var scenarioBar = document.createElement("div");
+      scenarioBar.className = "lesson-sent-scenario-bar";
+
+      var btnPrevSc = document.createElement("button");
+      btnPrevSc.type = "button";
+      btnPrevSc.className = "scenario-nav-btn";
+      btnPrevSc.textContent = "← 上一场景";
+      btnPrevSc.addEventListener("click", function () {
+        goSentScenario(lessonI - 1);
+      });
+
+      var selSc = document.createElement("select");
+      selSc.className = "scenario-jump-select";
+      selSc.setAttribute("aria-label", "在15个看图造句场景中切换");
+      for (var si = 0; si < LESSONS.length; si++) {
+        var opt = document.createElement("option");
+        opt.value = String(si);
+        opt.textContent = si + 1 + "/" + LESSONS.length + " · " + LESSONS[si].listen;
+        if (si === lessonI) opt.selected = true;
+        selSc.appendChild(opt);
+      }
+      selSc.addEventListener("change", function () {
+        var v = parseInt(selSc.value, 10);
+        if (Number.isNaN(v) || v === lessonI) return;
+        goSentScenario(v);
+      });
+
+      var btnNextSc = document.createElement("button");
+      btnNextSc.type = "button";
+      btnNextSc.className = "scenario-nav-btn";
+      btnNextSc.textContent = "下一场景 →";
+      btnNextSc.addEventListener("click", function () {
+        goSentScenario(lessonI + 1);
+      });
+
+      scenarioBar.appendChild(btnPrevSc);
+      scenarioBar.appendChild(selSc);
+      scenarioBar.appendChild(btnNextSc);
+      colSlots.appendChild(scenarioBar);
+
+      var listen2 = document.createElement("div");
+      listen2.className = "btn-row";
+      var b2 = document.createElement("button");
+      b2.type = "button";
+      b2.className = "primary";
+      b2.textContent = "再听一遍示范朗读";
+      b2.addEventListener("click", function () {
+        speakPlainAzure(L.chunks.join(" "), "en-US-GuyNeural", "friendly");
+      });
+      listen2.appendChild(b2);
+      colSlots.appendChild(listen2);
+
+      var slotsWrap = document.createElement("div");
+      slotsWrap.className = "sent-slots lesson-sent-slots";
+      sentSlots = [];
+      L.chunks.forEach(function () {
+        var s = document.createElement("div");
+        s.className = "sent-slot";
+        slotsWrap.appendChild(s);
+        sentSlots.push(s);
+      });
+      colSlots.appendChild(slotsWrap);
+
+      var bank2 = document.createElement("div");
+      bank2.className = "bank lesson-sent-bank";
+      shuffle(L.chunks).forEach(function (tok) {
+        var c = document.createElement("div");
+        c.className = "drag-chip";
+        c.textContent = tok;
+        c.dataset.text = tok;
+        bank2.appendChild(c);
+        attachDrag(c, bank2, function (cx, cy) {
+          return nearestSentSlot(cx, cy);
+        }, checkSent);
+      });
+      colSlots.appendChild(bank2);
+
+      function checkSent() {}
+
+      var actions = document.createElement("div");
+      actions.className = "lesson-sent-actions";
+      var btnCheck = document.createElement("button");
+      btnCheck.type = "button";
+      btnCheck.className = "primary";
+      btnCheck.textContent = "检查句子顺序";
+      btnCheck.addEventListener("click", function () {
+        var ok = true;
+        for (var i = 0; i < sentSlots.length; i++) {
+          var ch = sentSlots[i].querySelector(".drag-chip");
+          if (!ch || ch.dataset.text !== L.chunks[i]) ok = false;
+        }
+        if (!ok) {
+          showToast("顺序不对：注意比较级结构 + than。", false);
+          return;
+        }
+        showToast("Great!", true);
+        speakPlainAzure(L.chunks.join(" "), "en-US-GuyNeural", "cheerful").finally(function () {
+          window.setTimeout(function () {
+            lessonI++;
+            lessonPhase = "sent";
+            if (lessonI >= LESSONS.length) mode = "sort";
+            render();
+          }, 400);
+        });
+      });
+      actions.appendChild(btnCheck);
+      colSlots.appendChild(actions);
+
+      layout.appendChild(colImg);
+      layout.appendChild(colSlots);
+
+      root.appendChild(p2);
+      root.appendChild(layout);
+
+      speakPlainAzure(L.chunks.join(" "), "en-US-GuyNeural", "friendly");
+    }
+  }
+
+  function renderSort(root) {
+    var h = document.createElement("h2");
+    h.textContent = "终极分类 · 规则对比";
+    root.appendChild(h);
+    var p = document.createElement("p");
+    p.style.fontSize = "0.86rem";
+    p.textContent =
+      "把下面词语拖进两类：左侧「短形容词规则变化（-er / 双写 / y→ier 等）」；右侧「more + 多音节形容词」。";
+    root.appendChild(p);
+
+    var grid = document.createElement("div");
+    grid.className = "sort-grid";
+
+    var binEr = document.createElement("div");
+    binEr.className = "sort-bin zone-er";
+    binEr.dataset.bin = "er";
+    binEr.innerHTML = "<h3>-er 类（短形容词）</h3>";
+    var binMore = document.createElement("div");
+    binMore.className = "sort-bin zone-more";
+    binMore.dataset.bin = "more";
+    binMore.innerHTML = "<h3>more + 形容词</h3>";
+
+    grid.appendChild(binEr);
+    grid.appendChild(binMore);
+    root.appendChild(grid);
+
+    var bank = document.createElement("div");
+    bank.className = "bank";
+    bank.style.marginTop = "14px";
+
+    var mix = shuffle(SORT_ER.concat(SORT_MORE));
+    mix.forEach(function (w) {
+      var c = document.createElement("div");
+      c.className = "drag-chip";
+      c.textContent = w;
+      c.dataset.word = w;
+      bank.appendChild(c);
+
+      attachDrag(c, bank, function (cx, cy) {
+        var rE = binEr.getBoundingClientRect();
+        var rM = binMore.getBoundingClientRect();
+        if (cx >= rE.left && cx <= rE.right && cy >= rE.top && cy <= rE.bottom) return binEr;
+        if (cx >= rM.left && cx <= rM.right && cy >= rM.top && cy <= rM.bottom) return binMore;
+        return null;
+      }, null);
+    });
+
+    root.appendChild(bank);
+
+    var btnDone = document.createElement("button");
+    btnDone.type = "button";
+    btnDone.className = "primary";
+    btnDone.style.marginTop = "14px";
+    btnDone.style.width = "100%";
+    btnDone.textContent = "提交分类";
+    btnDone.addEventListener("click", function () {
+      var panel = document.getElementById("view-root");
+      function findChip(word) {
+        var list = panel.querySelectorAll(".drag-chip");
+        for (var i = 0; i < list.length; i++) {
+          if (list[i].dataset.word === word) return list[i];
+        }
+        return null;
+      }
+      var ok = true;
+      SORT_ER.forEach(function (w) {
+        var chip = findChip(w);
+        if (!chip || chip.parentElement !== binEr) ok = false;
+      });
+      SORT_MORE.forEach(function (w) {
+        var chip = findChip(w);
+        if (!chip || chip.parentElement !== binMore) ok = false;
+      });
+      if (!ok) {
+        showToast("有的词放错篮子了，再看看音节长短与课堂例子。", false);
+        return;
+      }
+      mode = "done";
+      render();
+    });
+    root.appendChild(btnDone);
+  }
+
+  function renderDone(root) {
+    root.innerHTML =
+      "<h2>\u2728 本页完成</h2><p class=\"teach-note\">你已练习：<strong>Who / Which 情景问答</strong>、<strong>more + 形容词</strong> 十五组，以及 <strong>-er</strong> 与 <strong>more</strong> 混合分类。</p>";
+    var b = document.createElement("button");
+    b.type = "button";
+    b.className = "primary";
+    b.style.marginTop = "12px";
+    b.style.width = "100%";
+    b.textContent = "复习朗读 · Congratulations!";
+    b.addEventListener("click", function () {
+      speakPlainAzure(
+        "Congratulations! You practiced more plus adjective comparatives today.",
+        "en-US-JennyNeural",
+        "cheerful"
+      );
+    });
+    root.appendChild(b);
+  }
+
+  initSectionNav();
+  render();
+})();
+  </script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+---
+description: 初中英语课件语料优先使用 Vertex AI Search 资料库 junior-english-db
+alwaysApply: true
+---
+
+# Vertex AI Search：初中英语资料库（优先语料源）
+
+处理**教材内容、教学纲要、中考真题、课件设计、练习题生成**类问题时，须**先**从下列资料库检索，再作答或生成内容。
+
+## 资源标识
+
+- **GCP 项目**：`project-ec12c6e5-5e03-4771-add`
+- **Data Store**：`projects/363777073222/locations/global/collections/default_collection/dataStores/junior-english-db`
+- **默认搜索配置（ServingConfig）**：  
+  `projects/project-ec12c6e5-5e03-4771-add/locations/global/collections/default_collection/dataStores/junior-english-db/servingConfigs/default_search`
+
+## 检索调用（供自动化/终端）
+
+在已配置 `gcloud` 且有权访问 Discovery Engine 的本机环境中，可用 REST：
+
+- **方法**：`POST`
+- **URL**：`https://discoveryengine.googleapis.com/v1/{servingConfig 资源全名}:search`
+- **鉴权**：`Authorization: Bearer $(gcloud auth print-access-token)`
+- **请求体示例**：`{"query":"<检索词>","pageSize":10}`
+
+若无可用凭证或 API 报错，须在回答中说明**未能检索资料库**，勿假装已检索。
+
+## 内容生成原则
+
+1. **依据检索**：教材原文、考纲表述、真题题干选项等须与检索结果一致或在其基础上**明确标注的合理改编**；不得臆造具体篇目、页码、真题出处或原文。
+2. **改编**：可在不冒充「官方原题」的前提下，对检索到的句式、考点做课堂化改写。
+3. **证据不足**：若命中过少或与问题无关，须明确写出「资料库中未发现充分依据」，并可补充**不冒充语料库来源**的通用教学建议。
+
+## 与仓库内其他 Vertex 配置的区分
+
+课件 HTML/脚本里若使用 `s-class-edtech-production` 等，多用于 **Imagen / 生成式 API**；**语料检索**一律以上述 **junior-english-db** 与 **project-ec12c6e5-5e03-4771-add** 为准，二者用途勿混用。

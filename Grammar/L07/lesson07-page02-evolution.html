@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>第07讲 · Page 02 · The Magical Alchemy Furnace — Rule Discovery</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=ZCOOL+KuaiLe&family=Bebas+Neue&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink: #f4f1ea;
+      --gold: #ffd54f;
+      --green-flame: #69f0ae;
+      --smoke: rgba(40, 40, 48, 0.92);
+      --lab-deep: #0b0614;
+    }
+    * { box-sizing: border-box; }
+    html { zoom: 1.3; }
+    html, body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: system-ui, "Segoe UI", "Microsoft YaHei", sans-serif;
+      background: var(--lab-deep);
+      color: var(--ink);
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    #lab-bg-wrap {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background:
+        radial-gradient(ellipse 80% 50% at 50% 100%, rgba(88, 28, 135, 0.45), transparent 55%),
+        radial-gradient(ellipse 60% 40% at 20% 30%, rgba(46, 139, 87, 0.25), transparent 45%),
+        radial-gradient(ellipse 50% 35% at 80% 25%, rgba(139, 69, 19, 0.22), transparent 40%),
+        linear-gradient(180deg, #12081c 0%, #1a0f28 40%, #0d0612 100%);
+    }
+    /** Cursor 生成的炼金实验室全景（默认）；Vertex 成功时可叠一层 */
+    #lab-bg-wrap #page02-lab-art {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.92;
+      z-index: 0;
+      transition: opacity 1.2s ease;
+    }
+    #lab-bg-wrap #vertex-lab-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      z-index: 1;
+      transition: opacity 1.4s ease;
+    }
+    #lab-bg-wrap #vertex-lab-bg.show { opacity: 0.42; }
+
+    #lab-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background:
+        linear-gradient(180deg, rgba(6, 4, 14, 0.38) 0%, rgba(8, 5, 18, 0.48) 45%, rgba(4, 2, 10, 0.55) 100%);
+    }
+
+    #title-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 10;
+      padding: clamp(6px, 1.5vh, 14px) clamp(10px, 3vw, 22px);
+      text-align: center;
+      pointer-events: none;
+    }
+    #title-bar h1 {
+      margin: 0;
+      font-family: "Bebas Neue", "ZCOOL KuaiLe", sans-serif;
+      font-size: clamp(1.1rem, 3.8vw, 2rem);
+      letter-spacing: 0.06em;
+      text-shadow: 0 2px 14px rgba(0,0,0,0.85);
+    }
+    #title-bar p {
+      margin: 4px 0 0;
+      font-size: clamp(0.68rem, 2vw, 0.88rem);
+      opacity: 0.88;
+    }
+
+    /** 顶部 HUD：单词 + 提示 + 进度（正方形操作区在其下方） */
+    #hud-row {
+      position: fixed;
+      left: 0;
+      right: 0;
+      top: clamp(52px, 10vh, 92px);
+      z-index: 16;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      pointer-events: none;
+    }
+
+    #spawn-zone {
+      position: relative;
+      width: min(94vw, 560px);
+      min-height: clamp(72px, 12vh, 110px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+    }
+
+    #raw-stone {
+      pointer-events: auto;
+      position: relative;
+      min-width: clamp(140px, 38vw, 220px);
+      padding: 14px 22px;
+      border-radius: 18px 22px 20px 16px / 14px 18px 16px 20px;
+      background: linear-gradient(165deg, rgba(55, 42, 72, 0.95), rgba(28, 22, 38, 0.98));
+      border: 3px solid rgba(255, 213, 79, 0.55);
+      box-shadow:
+        0 10px 36px rgba(0, 0, 0, 0.55),
+        inset 0 0 24px rgba(255, 180, 80, 0.12);
+      font-family: "Patrick Hand", cursive;
+      font-size: clamp(1.5rem, 5vw, 2.35rem);
+      font-weight: 700;
+      color: #fff8e7;
+      text-align: center;
+      cursor: grab;
+      touch-action: none;
+      user-select: none;
+      z-index: 20;
+      transform-origin: center center;
+    }
+    #raw-stone.dragging {
+      cursor: grabbing;
+      z-index: 100;
+      box-shadow: 0 16px 48px rgba(255, 213, 79, 0.35);
+    }
+
+    #hint-strip {
+      position: relative;
+      font-size: clamp(0.68rem, 2vw, 0.86rem);
+      opacity: 0.82;
+      pointer-events: none;
+      text-align: center;
+      max-width: min(94vw, 560px);
+      padding: 0 8px;
+    }
+
+    /**
+     * 底部整块：上方六口熔炉，最下方为导航 + 说明文字。
+     */
+    #bottom-stack {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 13;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      width: 100%;
+      pointer-events: none;
+    }
+    #bottom-stack > * {
+      pointer-events: auto;
+    }
+
+    #furnace-row {
+      position: relative;
+      left: auto;
+      right: auto;
+      bottom: auto;
+      flex-shrink: 0;
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: clamp(6px, 1.2vw, 12px);
+      width: 100%;
+      max-width: min(1280px, 100%);
+      margin: 0 auto;
+      padding: clamp(10px, 1.8vh, 16px) clamp(8px, 2vw, 14px);
+      padding-bottom: clamp(10px, 1.6vh, 14px);
+      box-sizing: border-box;
+      background: linear-gradient(
+        180deg,
+        rgba(10, 6, 20, 0) 0%,
+        rgba(12, 8, 22, 0.94) 22%,
+        rgba(6, 4, 12, 0.98) 100%
+      );
+      border-top: 2px solid rgba(255, 213, 79, 0.38);
+      box-shadow: 0 -12px 36px rgba(0, 0, 0, 0.5);
+    }
+    @media (max-width: 900px) {
+      #furnace-row {
+        grid-template-columns: repeat(3, 1fr);
+        row-gap: 12px;
+      }
+    }
+
+    #page-bottom-meta {
+      flex-shrink: 0;
+      width: 100%;
+      max-width: min(1280px, 100%);
+      margin: 0 auto;
+      padding: 8px clamp(10px, 2vw, 16px);
+      padding-bottom: max(10px, env(safe-area-inset-bottom, 0px));
+      box-sizing: border-box;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      justify-content: flex-start;
+      gap: 6px 18px;
+      background: rgba(4, 2, 10, 0.94);
+      border-top: 1px solid rgba(255, 213, 79, 0.22);
+      box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.35);
+    }
+
+    #page-bottom-meta #nav-back {
+      position: static;
+      flex-shrink: 0;
+      font-size: clamp(0.65rem, 1.8vw, 0.78rem);
+      opacity: 0.85;
+    }
+    #page-bottom-meta #nav-back a {
+      color: var(--gold);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    #page-bottom-meta #debug-strip {
+      position: static;
+      flex: 1;
+      min-width: min(100%, 240px);
+      z-index: auto;
+      font-size: clamp(9px, 2vw, 11px);
+      opacity: 0.55;
+      max-width: none;
+      pointer-events: none;
+      word-break: break-word;
+      line-height: 1.35;
+    }
+
+    .furnace {
+      position: relative;
+      min-height: clamp(132px, 17vw, 178px);
+      border-radius: 50% 50% 42% 42% / 58% 58% 38% 38%;
+      background:
+        radial-gradient(ellipse 90% 70% at 50% 55%, rgba(255, 120, 40, 0.22), transparent 62%),
+        radial-gradient(circle at 50% 100%, rgba(22, 14, 30, 0.97), rgba(8, 6, 14, 0.99));
+      border: 2px solid rgba(255, 200, 100, 0.45);
+      box-shadow:
+        inset 0 -8px 24px rgba(0, 0, 0, 0.5),
+        inset 0 0 20px rgba(255, 140, 60, 0.12),
+        0 10px 28px rgba(0, 0, 0, 0.5),
+        0 0 20px rgba(255, 160, 80, 0.15);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      padding-bottom: 8px;
+      overflow: visible;
+    }
+    /** Cursor 生成的魔法熔炉立绘 */
+    .furnace::before {
+      content: "";
+      position: absolute;
+      left: -6%;
+      right: -6%;
+      bottom: -4%;
+      top: 0;
+      border-radius: inherit;
+      background:
+        linear-gradient(180deg, rgba(8, 6, 16, 0.35) 0%, transparent 38%),
+        url("assets/images/lesson07-page02-furnace.png") center 92% / 95% auto no-repeat;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.97;
+    }
+    .furnace[data-group="0"]::before { filter: saturate(1.08) hue-rotate(0deg); }
+    .furnace[data-group="1"]::before { filter: saturate(1.05) hue-rotate(-18deg); }
+    .furnace[data-group="2"]::before { filter: saturate(1.12) hue-rotate(42deg); }
+    .furnace[data-group="3"]::before { filter: saturate(1.1) hue-rotate(188deg); }
+    .furnace[data-group="4"]::before { filter: saturate(0.95) hue-rotate(268deg); }
+    .furnace[data-group="5"]::before { filter: saturate(1.15) hue-rotate(310deg) brightness(1.05); }
+    .furnace::after {
+      content: "";
+      position: absolute;
+      bottom: -6px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 72%;
+      height: 14px;
+      border-radius: 50%;
+      background: radial-gradient(ellipse, rgba(255, 90, 40, 0.35), transparent 70%);
+      animation: furnaceGlow 2.4s ease-in-out infinite alternate;
+      pointer-events: none;
+      z-index: 3;
+    }
+    @keyframes furnaceGlow {
+      from { opacity: 0.35; filter: blur(4px); }
+      to { opacity: 0.85; filter: blur(6px); }
+    }
+    /** 规则说明（+er / 直接加 er 等）：字号整体约为原先的 200%（放大 100%） */
+    .furnace .rune {
+      position: relative;
+      z-index: 2;
+      font-family: "Patrick Hand", cursive;
+      font-size: clamp(1.12rem, 3vw, 1.52rem);
+      text-align: center;
+      line-height: 1.18;
+      color: rgba(255, 245, 210, 0.96);
+      text-shadow:
+        0 0 14px rgba(255, 120, 40, 0.55),
+        0 2px 8px rgba(0, 0, 0, 0.85);
+      padding: 0 4px 6px;
+      max-width: 100%;
+    }
+    .furnace .rune-en {
+      display: block;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+    }
+    .furnace .rune-cn {
+      display: block;
+      font-size: 0.88em;
+      opacity: 0.88;
+      font-family: "ZCOOL KuaiLe", sans-serif;
+    }
+
+    /** 每口炉上方：累积词条卡片收窄，避免横向过长与邻炉重叠 */
+    .forge-stack {
+      position: absolute;
+      bottom: calc(100% + 6px);
+      left: 50%;
+      transform: translateX(-50%);
+      width: 94%;
+      max-width: min(13rem, 100%);
+      max-height: min(30vh, 280px);
+      overflow-x: hidden;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      align-items: center;
+      padding: 4px 0 8px;
+      pointer-events: auto;
+      z-index: 26;
+      scrollbar-width: thin;
+    }
+    .forge-chip {
+      width: fit-content;
+      max-width: 100%;
+      margin: 0 auto;
+      padding: 8px 14px;
+      border-radius: 12px;
+      box-sizing: border-box;
+      background: linear-gradient(180deg, rgba(255, 232, 160, 0.98), rgba(212, 168, 60, 0.96));
+      border: 2px solid rgba(255, 255, 255, 0.5);
+      box-shadow: 0 2px 14px rgba(255, 213, 79, 0.45);
+      font-family: "Patrick Hand", cursive;
+      color: #3e2723;
+      text-align: center;
+      line-height: 1.2;
+      flex-shrink: 0;
+      word-break: break-word;
+    }
+    /** 比较级 / 原形：字号约为原先的 200%（放大 100%） */
+    .forge-chip .cmp-w {
+      display: block;
+      font-weight: 800;
+      font-size: clamp(1.36rem, 3.7vw, 1.76rem);
+    }
+    .forge-chip .lemma-hint {
+      display: block;
+      font-size: clamp(1.08rem, 2.9vw, 1.36rem);
+      opacity: 0.72;
+      margin-top: 4px;
+    }
+
+    #progress-wrap {
+      position: relative;
+      width: min(94vw, 720px);
+      pointer-events: none;
+    }
+    #progress-wrap .label {
+      font-size: clamp(0.62rem, 1.7vw, 0.78rem);
+      opacity: 0.85;
+      margin-bottom: 6px;
+      text-align: center;
+      font-family: "ZCOOL KuaiLe", sans-serif;
+    }
+    #progress-dots {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      justify-content: center;
+    }
+    #progress-dots i {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 213, 79, 0.25);
+      transition: box-shadow 0.35s ease, background 0.35s ease;
+    }
+    #progress-dots i.on {
+      background: rgba(105, 240, 174, 0.65);
+      box-shadow: 0 0 14px rgba(105, 240, 174, 0.75);
+    }
+
+    #particle-layer {
+      position: fixed;
+      inset: 0;
+      z-index: 18;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    #phase-lock {
+      position: fixed;
+      inset: 0;
+      z-index: 90;
+      display: none;
+      background: transparent;
+    }
+    #phase-lock.on { display: block; cursor: wait; }
+
+    #tutor-layer {
+      position: fixed;
+      inset: 0;
+      z-index: 95;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background: rgba(4, 2, 10, 0.55);
+    }
+    #tutor-layer.show { display: flex; }
+    #tutor-bubble {
+      max-width: min(92vw, 480px);
+      padding: 22px 24px 18px;
+      border-radius: 22px 26px 20px 24px / 18px 22px 24px 20px;
+      background: linear-gradient(145deg, rgba(42, 32, 58, 0.96), rgba(22, 16, 32, 0.98));
+      border: 3px solid rgba(255, 213, 79, 0.45);
+      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.55);
+    }
+    #tutor-bubble h3 {
+      margin: 0 0 10px;
+      font-family: "ZCOOL KuaiLe", sans-serif;
+      font-size: 1rem;
+      color: var(--gold);
+    }
+    #tutor-text {
+      font-size: clamp(0.82rem, 2.4vw, 0.98rem);
+      line-height: 1.55;
+      min-height: 4.5em;
+      color: var(--ink);
+    }
+    #tutor-ok {
+      margin-top: 16px;
+      width: 100%;
+      padding: 12px;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      font-family: "ZCOOL KuaiLe", sans-serif;
+      font-size: 1rem;
+      background: linear-gradient(180deg, #ffe082, #ff8f00);
+      color: #3e2723;
+      box-shadow: 0 0 18px rgba(255, 213, 79, 0.45);
+    }
+
+    #finale-dim {
+      position: fixed;
+      inset: 0;
+      z-index: 110;
+      background: rgba(2, 2, 8, 0);
+      pointer-events: none;
+      transition: background 1.4s ease;
+    }
+    #finale-dim.show {
+      background: rgba(2, 2, 8, 0.82);
+      pointer-events: auto;
+    }
+
+    #grand-seal {
+      position: fixed;
+      left: 50%;
+      top: 42%;
+      transform: translate(-50%, -50%) scale(0);
+      transform-origin: center center;
+      z-index: 115;
+      width: min(88vw, 420px);
+      padding: 28px 22px;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 35% 30%, rgba(255, 240, 180, 0.95), rgba(200, 160, 40, 0.92));
+      border: 6px solid rgba(160, 100, 20, 0.85);
+      box-shadow:
+        0 0 60px rgba(255, 213, 79, 0.55),
+        inset 0 0 40px rgba(255, 255, 255, 0.35);
+      text-align: center;
+      font-family: "Bebas Neue", sans-serif;
+      color: #4e342e;
+      pointer-events: none;
+    }
+    #grand-seal .seal-en {
+      font-size: clamp(1.1rem, 4vw, 1.65rem);
+      letter-spacing: 0.08em;
+      line-height: 1.2;
+    }
+    #grand-seal .seal-cn {
+      margin-top: 10px;
+      font-family: "ZCOOL KuaiLe", sans-serif;
+      font-size: clamp(0.85rem, 2.8vw, 1.05rem);
+    }
+
+    #btn-next-wrap {
+      position: fixed;
+      right: clamp(12px, 3vw, 28px);
+      bottom: clamp(200px, 42vh, 380px);
+      z-index: 120;
+      transform: translateY(140%);
+      opacity: 0;
+      transition: transform 0.85s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.55s ease;
+    }
+    #btn-next-wrap.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    #btn-next {
+      font-family: "ZCOOL KuaiLe", "Patrick Hand", cursive;
+      font-size: clamp(0.82rem, 2.5vw, 1rem);
+      padding: 12px 22px;
+      border-radius: 999px;
+      border: 3px solid rgba(255, 213, 79, 0.55);
+      background: linear-gradient(180deg, rgba(70, 50, 28, 0.96), rgba(28, 20, 14, 0.98));
+      color: var(--gold);
+      cursor: pointer;
+      box-shadow: 0 0 22px rgba(255, 213, 79, 0.4);
+    }
+
+    .shake-root { animation: labShake 0.55s cubic-bezier(0.36, 0.07, 0.19, 0.97) both; }
+    @keyframes labShake {
+      0% { transform: translate(0, 0); }
+      25% { transform: translate(-8px, 4px); }
+      50% { transform: translate(10px, -4px); }
+      75% { transform: translate(-6px, 3px); }
+      100% { transform: translate(0, 0); }
+    }
+  </style>
+</head>
+<body class="shake-target">
+  <div id="lab-bg-wrap">
+    <img id="page02-lab-art" src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L07/assets/images/lesson07-page02-lab-bg.png" alt="" />
+    <img id="vertex-lab-bg" alt="" />
+  </div>
+  <div id="lab-overlay"></div>
+
+  <header id="title-bar">
+    <h1>The Magical Alchemy Furnace · Rule Discovery</h1>
+    <p>第07讲 · Page 02 · 把形容词原石拖入对应熔炉，锻造比较级 · 成功 15 次解锁大师封印</p>
+  </header>
+
+  <div id="hud-row">
+    <div id="spawn-zone">
+      <div id="raw-stone" aria-grabbed="false">—</div>
+    </div>
+    <div id="hint-strip">将原石拖到<strong>页面底部</strong>六口规则熔炉口上松手；系统自动判定是否投进正确的「变比较级」熔炉。</div>
+    <div id="progress-wrap">
+      <div class="label">锻造进度 · Forge progress（0 / 15）</div>
+      <div id="progress-dots" aria-hidden="true"></div>
+    </div>
+  </div>
+
+  <div id="bottom-stack">
+    <div id="furnace-row"></div>
+    <footer id="page-bottom-meta" aria-label="页面导航与说明">
+      <div id="nav-back"><a href="lesson07-page01-arena.html">← Arena</a></div>
+      <div id="debug-strip"></div>
+    </footer>
+  </div>
+  <div id="particle-layer"></div>
+  <div id="phase-lock" aria-hidden="true"></div>
+
+  <div id="tutor-layer" role="dialog" aria-modal="true">
+    <div id="tutor-bubble">
+      <h3>炼金导师 · Alchemy Master</h3>
+      <div id="tutor-text"></div>
+      <button type="button" id="tutor-ok">知道了 · OK</button>
+    </div>
+  </div>
+
+  <div id="finale-dim"></div>
+  <div id="grand-seal">
+    <div class="seal-en">COMPARATIVE ALCHEMY<br />GRANDMASTER</div>
+    <div class="seal-cn">比较级炼金大宗师</div>
+  </div>
+
+  <div id="btn-next-wrap">
+    <button type="button" id="btn-next">Proceed to the Scales of Truth · 前往天平真理</button>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
+  <script src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L07/assets/tts-mp3/l07-google-mp3/manifest.embed.js"></script>
+  <script src="../assets/lesson-tts-l07-local.js"></script>
+  <script>
+(function () {
+  "use strict";
+
+  window.__GC_VERTEX_PROJECT__ = "project-ec12c6e5-5e03-4771-add";
+  window.__GC_VERTEX_REGION__ = "us-central1";
+  window.__VERTEX_BEARER_TOKEN__ = window.__VERTEX_BEARER_TOKEN__ || "";
+
+  window.__DEEPSEEK_API_KEY__ =
+    window.__DEEPSEEK_API_KEY__ ||
+    "sk-daa16008e81843deba6fefe9dce51465";
+
+  window.fetchDeepSeekEvaluation = async function (payload, options) {
+    var key = String(window.__DEEPSEEK_API_KEY__ || "").trim();
+    if (!key) return { ok: false, error: "no_api_key" };
+    var res = await fetch("https://api.deepseek.com/v1/chat/completions", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: "Bearer " + key },
+      body: JSON.stringify(payload || {})
+    });
+    var data = null;
+    try { data = await res.json(); } catch (e) { data = null; }
+    return { ok: res.ok, status: res.status, data: data };
+  };
+
+  var PROJECT = window.__GC_VERTEX_PROJECT__;
+  var REGION = window.__GC_VERTEX_REGION__;
+  var TOKEN = String(window.__VERTEX_BEARER_TOKEN__ || "").trim();
+
+  var LAB_PROMPT =
+    "A dark mysterious magical alchemy laboratory filled with glowing potions and ancient spell books. " +
+    "High-end crayon hand-drawn art style, widescreen 16:9, atmospheric lighting, no readable text.";
+
+  var FURNACES = [
+    { group: 0, en: "+er", cn: "直接加 er", hint: "Direct +er" },
+    { group: 1, en: "+r", cn: "哑音 e 加 r", hint: "Silent e + r" },
+    { group: 2, en: "y→ier", cn: "辅音+y 变 ier", hint: "Consonant + y → ier" },
+    { group: 3, en: "双写+er", cn: "双写辅音加 er", hint: "Double consonant + er" },
+    { group: 4, en: "more", cn: "多音节用 more", hint: "More + adj." },
+    { group: 5, en: "∞", cn: "不规则变形", hint: "Irregular" }
+  ];
+
+  var LEXICON = []
+    .concat(
+      "tall:Taller|short:Shorter|fast:Faster|slow:Slower|smart:Smarter|hard:Harder|cold:Colder|warm:Warmer|quiet:Quieter|cheap:Cheaper".split("|").map(function (s) {
+        var p = s.split(":");
+        return { lemma: p[0], comparative: p[1], group: 0 };
+      })
+    )
+    .concat(
+      "nice:Nicer|large:Larger|late:Later|fine:Finer|brave:Braver".split("|").map(function (s) {
+        var p = s.split(":");
+        return { lemma: p[0], comparative: p[1], group: 1 };
+      })
+    )
+    .concat(
+      "heavy:Heavier|early:Earlier|happy:Happier|easy:Easier|busy:Busier|lazy:Lazier|funny:Funnier|friendly:Friendlier|lucky:Luckier|dirty:Dirtier".split("|").map(function (s) {
+        var p = s.split(":");
+        return { lemma: p[0], comparative: p[1], group: 2 };
+      })
+    )
+    .concat(
+      "big:Bigger|hot:Hotter|thin:Thinner|fat:Fatter|wet:Wetter|red:Redder|sad:Sadder".split("|").map(function (s) {
+        var p = s.split(":");
+        return { lemma: p[0], comparative: p[1], group: 3 };
+      })
+    )
+    .concat(
+      "beautiful:More beautiful|interesting:More interesting|outgoing:More outgoing|popular:More popular|serious:More serious|expensive:More expensive|delicious:More delicious|hard-working:More hard-working|important:More important|careful:More careful".split("|").map(function (s) {
+        var p = s.split(":");
+        return { lemma: p[0], comparative: p[1], group: 4 };
+      })
+    )
+    .concat(
+      "good:Better|well:Better|bad:Worse|ill:Worse|many:More|much:More|little:Less|far:Farther".split("|").map(function (s) {
+        var p = s.split(":");
+        return { lemma: p[0], comparative: p[1], group: 5 };
+      })
+    );
+
+  var WIN_TARGET = 15;
+  var wins = 0;
+  var phaseLocked = false;
+  var gameComplete = false;
+  var currentWord = null;
+  var dragState = null;
+  var audioBusy = false;
+
+  var stoneEl = document.getElementById("raw-stone");
+  var furnaceEls = [];
+  var bag = [];
+
+  function setDebug(t) {
+    var el = document.getElementById("debug-strip");
+    if (el) el.textContent = t;
+  }
+
+  function vertexImagenLab() {
+    if (!TOKEN) return Promise.resolve({ ok: false });
+    var url =
+      "https://" + REGION + "-aiplatform.googleapis.com/v1/projects/" + PROJECT +
+      "/locations/" + REGION + "/publishers/google/models/imagegeneration@006:predict";
+    return fetch(url, {
+      method: "POST",
+      headers: { Authorization: "Bearer " + TOKEN, "Content-Type": "application/json" },
+      body: JSON.stringify({
+        instances: [{ prompt: LAB_PROMPT }],
+        parameters: { sampleCount: 1, aspectRatio: "16:9" }
+      })
+    })
+      .then(function (res) { return res.json().then(function (j) { return { res: res, j: j }; }); })
+      .then(function (o) {
+        if (!o.res.ok) return { ok: false };
+        var pred = (o.j && o.j.predictions && o.j.predictions[0]) || null;
+        var b64 = (pred && pred.bytesBase64Encoded) || null;
+        if (!b64) return { ok: false };
+        return { ok: true, dataUrl: "data:image/png;base64," + b64 };
+      })
+      .catch(function () { return { ok: false }; });
+  }
+
+  function bootBg() {
+    vertexImagenLab().then(function (r) {
+      var img = document.getElementById("vertex-lab-bg");
+      if (r && r.ok && r.dataUrl && img) {
+        img.onload = function () {
+          img.classList.add("show");
+        };
+        img.src = r.dataUrl;
+        setDebug("Vertex Imagen：实验室背景已更新");
+      } else {
+        setDebug("已使用本地炼金实验室插画；Vertex 无令牌或未返回时可仅此图层");
+      }
+    });
+  }
+
+  function shuffle(arr) {
+    var a = arr.slice();
+    for (var i = a.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = a[i];
+      a[i] = a[j];
+      a[j] = t;
+    }
+    return a;
+  }
+
+  function refillBag() {
+    bag = shuffle(LEXICON.map(function (_, i) { return i; }));
+  }
+
+  function nextWordEntry() {
+    if (!bag.length) refillBag();
+    var idx = bag.pop();
+    return LEXICON[idx];
+  }
+
+  function renderFurnaces() {
+    var row = document.getElementById("furnace-row");
+    row.innerHTML = "";
+    furnaceEls = [];
+    FURNACES.forEach(function (f, i) {
+      var div = document.createElement("div");
+      div.className = "furnace";
+      div.dataset.group = String(f.group);
+      div.setAttribute("aria-label", f.hint);
+      var rune = document.createElement("div");
+      rune.className = "rune";
+      rune.innerHTML = '<span class="rune-en">' + f.en + '</span><span class="rune-cn">' + f.cn + "</span>";
+      div.appendChild(rune);
+      var stack = document.createElement("div");
+      stack.className = "forge-stack";
+      stack.setAttribute("aria-hidden", "true");
+      div.appendChild(stack);
+      row.appendChild(div);
+      furnaceEls.push(div);
+    });
+  }
+
+  function renderProgressDots() {
+    var box = document.getElementById("progress-dots");
+    box.innerHTML = "";
+    for (var i = 0; i < WIN_TARGET; i++) {
+      var dot = document.createElement("i");
+      if (i < wins) dot.classList.add("on");
+      box.appendChild(dot);
+    }
+    document.querySelector("#progress-wrap .label").textContent =
+      "锻造进度 · Forge progress（" + wins + " / " + WIN_TARGET + "）";
+  }
+
+  function setPhaseLock(on) {
+    phaseLocked = !!on;
+    var L = document.getElementById("phase-lock");
+    if (L) L.classList.toggle("on", phaseLocked);
+  }
+
+  function speakAriaCheerful(text) {
+    if (audioBusy) return Promise.resolve(false);
+    var plain = String(text || "").trim();
+    if (!plain || typeof window.playLessonL07LocalTts !== "function") return Promise.resolve(false);
+    audioBusy = true;
+    return window.playLessonL07LocalTts(plain).then(function (ok) {
+      audioBusy = false;
+      return !!ok;
+    });
+  }
+
+  function furnaceLabelByGroup(g) {
+    var f = FURNACES[g];
+    return f ? f.hint + "（" + f.cn + "）" : String(g);
+  }
+
+  function fetchWrongTutor(word, correctRule, wrongName) {
+    var sys =
+      "You are a humorous but strict alchemy master. The student is trying to upgrade an adjective into its comparative form but threw it into the wrong magical furnace. The original word is " +
+      word +
+      ". The correct spelling rule should be " +
+      correctRule +
+      ". However, the student threw it into " +
+      wrongName +
+      ". Please use Chinese to give a Socratic and highly sarcastic reprimand under fifty words, asking them why they made such a silly mistake. Do not directly tell them the answer, but guide them to look at the letters or syllables.";
+    return window.fetchDeepSeekEvaluation({
+      model: "deepseek-chat",
+      temperature: 0.7,
+      max_tokens: 220,
+      messages: [
+        { role: "system", content: sys },
+        { role: "user", content: "Reply in Chinese only." }
+      ]
+    }).then(function (r) {
+      if (!r || !r.ok || !r.data || !r.data.choices || !r.data.choices[0]) return null;
+      var m = r.data.choices[0].message;
+      return m && m.content ? String(m.content).trim() : null;
+    });
+  }
+
+  function typewriterInto(el, full, cb) {
+    el.textContent = "";
+    var i = 0;
+    var s = String(full || "");
+    function tick() {
+      if (i <= s.length) {
+        el.textContent = s.slice(0, i);
+        i++;
+        window.setTimeout(tick, 18);
+      } else if (cb) cb();
+    }
+    tick();
+  }
+
+  function showTutor(text) {
+    var layer = document.getElementById("tutor-layer");
+    var tx = document.getElementById("tutor-text");
+    layer.classList.add("show");
+    typewriterInto(tx, text || "（导师走神了，再看看音节规律。）");
+  }
+
+  function hideTutor() {
+    document.getElementById("tutor-layer").classList.remove("show");
+    document.getElementById("tutor-text").textContent = "";
+  }
+
+  function spawnParticles(x, y, color, count, outward) {
+    var layer = document.getElementById("particle-layer");
+    var nodes = [];
+    for (var i = 0; i < count; i++) {
+      var p = document.createElement("div");
+      p.style.position = "fixed";
+      p.style.left = x + "px";
+      p.style.top = y + "px";
+      p.style.width = "8px";
+      p.style.height = "8px";
+      p.style.borderRadius = "50%";
+      p.style.background = color;
+      p.style.pointerEvents = "none";
+      p.style.zIndex = "80";
+      layer.appendChild(p);
+      nodes.push(p);
+    }
+    var angleStep = (Math.PI * 2) / count;
+    nodes.forEach(function (p, i) {
+      var ang = i * angleStep + Math.random() * 0.5;
+      var dist = outward ? 40 + Math.random() * 56 : 24 + Math.random() * 30;
+      var tx = Math.cos(ang) * dist;
+      var ty = Math.sin(ang) * dist;
+      if (window.anime) {
+        anime({
+          targets: p,
+          translateX: tx,
+          translateY: ty,
+          opacity: [1, 0],
+          scale: [1, outward ? 0.2 : 0.5],
+          duration: outward ? 620 : 480,
+          easing: "easeOutQuad",
+          complete: function () {
+            try { p.remove(); } catch (e) {}
+          }
+        });
+      } else {
+        try { p.remove(); } catch (e) {}
+      }
+    });
+  }
+
+  function shakeScreen() {
+    var root = document.body;
+    root.classList.remove("shake-root");
+    void root.offsetWidth;
+    root.classList.add("shake-root");
+  }
+
+  function appendForgeChip(furnaceEl, cmp, lemma) {
+    var stack = furnaceEl.querySelector(".forge-stack");
+    if (!stack) return;
+    var chip = document.createElement("div");
+    chip.className = "forge-chip";
+    var s1 = document.createElement("span");
+    s1.className = "cmp-w";
+    s1.textContent = cmp;
+    var s2 = document.createElement("span");
+    s2.className = "lemma-hint";
+    s2.textContent = "← " + lemma;
+    chip.appendChild(s1);
+    chip.appendChild(s2);
+    stack.appendChild(chip);
+    try {
+      chip.scrollIntoView({ block: "nearest", behavior: "smooth" });
+    } catch (e) {}
+    if (window.anime) {
+      chip.style.opacity = "0";
+      chip.style.transform = "scale(0.45)";
+      anime({
+        targets: chip,
+        opacity: 1,
+        scale: 1,
+        duration: 520,
+        easing: "easeOutElastic(1, .62)"
+      });
+    }
+  }
+
+  function spawnStoneWord() {
+    if (gameComplete) return;
+    currentWord = nextWordEntry();
+    stoneEl.textContent = currentWord.lemma;
+    stoneEl.dataset.group = String(currentWord.group);
+    resetStoneLayout();
+    stoneEl.style.transform = "translate(0px, 0px) scale(1) rotate(0deg)";
+    stoneEl.style.opacity = "1";
+    if (window.anime) {
+      anime({
+        targets: stoneEl,
+        scale: [0.85, 1],
+        opacity: [0.6, 1],
+        duration: 420,
+        easing: "easeOutElastic(1, .72)"
+      });
+    }
+  }
+
+  function hitFurnaceIndex(clientX, clientY) {
+    var cx = clientX;
+    var cy = clientY;
+    var pad = 18;
+    for (var i = 0; i < furnaceEls.length; i++) {
+      var r = furnaceEls[i].getBoundingClientRect();
+      if (cx >= r.left - pad && cx <= r.right + pad && cy >= r.top - pad && cy <= r.bottom + pad) return i;
+    }
+    return -1;
+  }
+
+  function resetStoneLayout() {
+    stoneEl.style.position = "";
+    stoneEl.style.left = "";
+    stoneEl.style.top = "";
+    stoneEl.style.margin = "";
+  }
+
+  function bounceStoneHome() {
+    setPhaseLock(true);
+    if (window.anime) {
+      anime({
+        targets: stoneEl,
+        translateX: 0,
+        translateY: 0,
+        scale: 1,
+        rotate: "0deg",
+        duration: 680,
+        easing: "easeOutElastic(1, .58)",
+        complete: function () { setPhaseLock(false); }
+      });
+    } else {
+      stoneEl.style.transform = "translate(0px,0px) scale(1) rotate(0deg)";
+      setPhaseLock(false);
+    }
+  }
+
+  function forgeSuccess(furnaceEl, fi) {
+    setPhaseLock(true);
+    var rect = furnaceEl.getBoundingClientRect();
+    var cx = rect.left + rect.width / 2;
+    var cy = rect.top + rect.height / 2;
+    spawnParticles(cx, cy, "rgba(105,240,174,0.95)", 18, true);
+
+    var sr = stoneEl.getBoundingClientRect();
+    var targetLeft = cx - sr.width / 2;
+    var targetTop = cy - sr.height / 2;
+
+    function afterVoice() {
+      wins++;
+      renderProgressDots();
+      resetStoneLayout();
+      stoneEl.style.transform = "translate(0px,0px) scale(1) rotate(0deg)";
+      if (wins >= WIN_TARGET) {
+        gameComplete = true;
+        stoneEl.style.pointerEvents = "none";
+        stoneEl.style.opacity = "0";
+        stoneEl.style.visibility = "hidden";
+        stoneEl.textContent = "";
+        setDebug("已完成全部 " + WIN_TARGET + " 次锻造 · 请查看各熔炉上的比较级汇总");
+      } else {
+        stoneEl.style.opacity = "1";
+        spawnStoneWord();
+      }
+      setPhaseLock(false);
+    }
+
+    if (window.anime) {
+      anime({
+        targets: stoneEl,
+        left: targetLeft,
+        top: targetTop,
+        scale: 0.08,
+        rotate: "720deg",
+        opacity: 0.12,
+        duration: 520,
+        easing: "easeInQuad",
+        complete: function () {
+          stoneEl.style.opacity = "0";
+          appendForgeChip(furnaceEl, currentWord.comparative, currentWord.lemma);
+          var line = "Forged: " + currentWord.comparative + "!";
+          speakAriaCheerful(line).then(function () {
+            afterVoice();
+          });
+        }
+      });
+    } else {
+      stoneEl.style.opacity = "0";
+      appendForgeChip(furnaceEl, currentWord.comparative, currentWord.lemma);
+      var line2 = "Forged: " + currentWord.comparative + "!";
+      speakAriaCheerful(line2).then(function () {
+        afterVoice();
+      });
+    }
+  }
+
+  function forgeFail(furnaceEl, fi) {
+    setPhaseLock(true);
+    var rect = furnaceEl.getBoundingClientRect();
+    spawnParticles(rect.left + rect.width / 2, rect.top + rect.height * 0.35, "rgba(60,60,68,0.9)", 14, false);
+    var wrongName = FURNACES[fi].hint + " / " + FURNACES[fi].cn;
+    var correctRule = furnaceLabelByGroup(currentWord.group);
+
+    if (window.anime) {
+      anime({
+        targets: stoneEl,
+        translateX: [0, 12, -10, 8, -6, 0],
+        duration: 520,
+        easing: "easeInOutQuad"
+      });
+    }
+
+    fetchWrongTutor(currentWord.lemma, correctRule, wrongName).then(function (txt) {
+      showTutor(txt || "想一想这个词有几个音节？字母结尾是什么？");
+      window.__tutorResume = function () {
+        hideTutor();
+        stoneEl.style.transform = "translate(0px,0px) scale(1) rotate(0deg)";
+        window.__tutorResume = null;
+        setPhaseLock(false);
+      };
+    });
+  }
+
+  document.getElementById("tutor-ok").addEventListener("click", function () {
+    if (typeof window.__tutorResume === "function") window.__tutorResume();
+  });
+
+  document.getElementById("btn-next").addEventListener("click", function () {
+    window.location.href = "lesson07-page03-balance.html";
+  });
+
+  function onDocPointerMove(e) {
+    onPointerMove(e);
+  }
+
+  function onDocPointerEnd(e) {
+    document.removeEventListener("pointermove", onDocPointerMove);
+    document.removeEventListener("pointerup", onDocPointerEnd);
+    document.removeEventListener("pointercancel", onDocPointerEnd);
+    onPointerUp(e);
+  }
+
+  function onPointerDown(e) {
+    if (phaseLocked || gameComplete || audioBusy) return;
+    if (dragState) return;
+    e.preventDefault();
+    try {
+      stoneEl.setPointerCapture(e.pointerId);
+    } catch (err) {}
+    document.addEventListener("pointermove", onDocPointerMove);
+    document.addEventListener("pointerup", onDocPointerEnd);
+    document.addEventListener("pointercancel", onDocPointerEnd);
+    var r = stoneEl.getBoundingClientRect();
+    dragState = {
+      pid: e.pointerId,
+      ox: e.clientX - r.left,
+      oy: e.clientY - r.top,
+      startX: r.left,
+      startY: r.top,
+      w: r.width,
+      h: r.height
+    };
+    stoneEl.classList.add("dragging");
+    if (window.anime) {
+      anime({ targets: stoneEl, scale: 1.08, rotate: "6deg", duration: 180, easing: "easeOutQuad" });
+    }
+  }
+
+  function onPointerMove(e) {
+    if (!dragState || e.pointerId !== dragState.pid) return;
+    var x = e.clientX - dragState.ox;
+    var y = e.clientY - dragState.oy;
+    stoneEl.style.position = "fixed";
+    stoneEl.style.left = x + "px";
+    stoneEl.style.top = y + "px";
+    stoneEl.style.margin = "0";
+  }
+
+  function onPointerUp(e) {
+    if (!dragState) return;
+    var pidOk = e.pointerId === dragState.pid;
+    document.removeEventListener("pointermove", onDocPointerMove);
+    document.removeEventListener("pointerup", onDocPointerEnd);
+    document.removeEventListener("pointercancel", onDocPointerEnd);
+    try { stoneEl.releasePointerCapture(e.pointerId); } catch (err) {}
+    stoneEl.classList.remove("dragging");
+    var cx = e.clientX;
+    var cy = e.clientY;
+    dragState = null;
+
+    if (!pidOk) {
+      resetStoneLayout();
+      bounceStoneHome();
+      return;
+    }
+
+    if (!currentWord || gameComplete) {
+      resetStoneLayout();
+      return;
+    }
+
+    var fi = hitFurnaceIndex(cx, cy);
+    if (fi < 0) {
+      resetStoneLayout();
+      if (window.anime) anime({ targets: stoneEl, scale: 1, rotate: "0deg", duration: 200, easing: "easeOutQuad" });
+      bounceStoneHome();
+      return;
+    }
+
+    var furnaceEl = furnaceEls[fi];
+    if (FURNACES[fi].group === currentWord.group) {
+      forgeSuccess(furnaceEl, fi);
+    } else {
+      resetStoneLayout();
+      if (window.anime) anime({ targets: stoneEl, scale: 1, rotate: "0deg", duration: 200 });
+      forgeFail(furnaceEl, fi);
+    }
+  }
+
+  stoneEl.addEventListener("pointerdown", onPointerDown);
+
+  renderFurnaces();
+  refillBag();
+  renderProgressDots();
+  spawnStoneWord();
+  bootBg();
+})();
+  </script>
+</body>
+</html>

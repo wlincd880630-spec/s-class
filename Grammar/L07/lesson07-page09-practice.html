@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>第07讲 · Page 09 · 比较级与最高级 · 综合测评（60题）</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=ZCOOL+KuaiLe&family=Bebas+Neue&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0b121b;
+      --card: rgba(18, 26, 40, 0.96);
+      --gold: #ffc107;
+      --mint: #69f0ae;
+      --coral: #ff7043;
+      --ink: #e8ecf3;
+      --warn: #ffca28;
+    }
+    * { box-sizing: border-box; }
+    html { zoom: 1; }
+    @media (max-width: 540px) { html { zoom: 1.08; } }
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      min-height: 100dvh;
+      font-family: system-ui, "Segoe UI", "Microsoft YaHei", sans-serif;
+      background: radial-gradient(900px 480px at 75% -10%, #00897b28 0%, transparent 50%), var(--bg);
+      color: var(--ink);
+      touch-action: manipulation;
+    }
+    body { display: flex; flex-direction: column; min-height: 100dvh; }
+
+    .page-body {
+      flex: 1 1 auto;
+      display: flex;
+      flex-direction: row;
+      align-items: stretch;
+      min-height: 0;
+      width: 100%;
+    }
+
+    .q-rail {
+      flex: 0 0 clamp(56px, 11vw, 104px);
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      align-self: stretch;
+      padding: 6px 4px 6px 2px;
+      background: rgba(0, 0, 0, 0.38);
+      border-right: 1px solid rgba(255, 255, 255, 0.1);
+      z-index: 2;
+    }
+
+    header.top {
+      padding: 10px 14px;
+      text-align: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(0, 0, 0, 0.42);
+      flex-shrink: 0;
+    }
+    header.top h1 {
+      margin: 0;
+      font-family: "Bebas Neue", "ZCOOL KuaiLe", sans-serif;
+      letter-spacing: 0.05em;
+      font-size: clamp(1rem, 3vw, 1.42rem);
+      color: #fff;
+    }
+    header.top p { margin: 4px 0 0; font-size: clamp(0.65rem, 1.7vw, 0.78rem); opacity: 0.88; }
+
+    main.shell {
+      --shell-chrome-y: 152px;
+      --shell-pad-x: 14px;
+      flex: 1 1 auto;
+      min-width: 0;
+      width: auto;
+      max-width: none;
+      max-height: calc(100dvh - var(--shell-chrome-y));
+      aspect-ratio: unset;
+      margin: 6px 12px 76px 4px;
+      padding: 8px 10px;
+      min-height: 0;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    @media (max-width: 560px) {
+      main.shell {
+        width: auto;
+        max-height: none;
+        min-height: min(72dvh, 600px);
+        margin-bottom: 72px;
+        margin-left: 2px;
+        margin-right: 8px;
+      }
+      .q-rail {
+        flex-basis: clamp(52px, 14vw, 88px);
+      }
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 10px;
+      background: var(--card);
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      flex-shrink: 0;
+    }
+    .toolbar label { font-size: 0.74rem; color: #b0bec5; }
+    .toolbar select {
+      background: rgba(0, 0, 0, 0.35);
+      color: var(--ink);
+      border: 1px solid rgba(255, 193, 7, 0.35);
+      border-radius: 8px;
+      padding: 6px 10px;
+      font-size: 0.78rem;
+    }
+
+    .q-grid-wrap {
+      flex: 1 1 auto;
+      min-height: 0;
+      max-height: none;
+      overflow-y: auto;
+      overflow-x: hidden;
+      background: var(--card);
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 6px 4px;
+      -webkit-overflow-scrolling: touch;
+    }
+    .q-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 5px;
+    }
+    .q-dot {
+      font-size: clamp(0.72rem, 2vw, 0.82rem);
+      padding: 7px 2px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(0, 0, 0, 0.35);
+      color: #cfd8dc;
+      cursor: pointer;
+      text-align: center;
+      font-family: ui-monospace, monospace;
+    }
+    .q-dot:hover { border-color: var(--gold); color: var(--gold); }
+    .q-dot.active {
+      border-color: var(--mint);
+      color: var(--mint);
+      box-shadow: 0 0 0 2px rgba(105, 240, 174, 0.25);
+    }
+    .q-dot.has { background: rgba(56, 142, 60, 0.22); }
+    .q-dot.ok { background: rgba(46, 125, 50, 0.45); color: #fff; border-color: var(--mint); }
+    .q-dot.bad { background: rgba(183, 28, 28, 0.45); color: #ffcdd2; border-color: var(--coral); }
+
+    .panel {
+      background: var(--card);
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 12px 14px;
+      flex: 1;
+      min-height: 0;
+      overflow: auto;
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.35);
+    }
+
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      font-size: 0.72rem;
+      color: #90a4ae;
+      margin-bottom: 10px;
+    }
+    .meta-row .tag {
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: rgba(255, 193, 7, 0.15);
+      color: var(--gold);
+      border: 1px solid rgba(255, 193, 7, 0.35);
+    }
+    .meta-row .dif {
+      color: var(--warn);
+      letter-spacing: 0.06em;
+    }
+
+    .stem {
+      font-size: clamp(1.02rem, 2.65vw, 1.2rem);
+      line-height: 1.58;
+      color: #eceff1;
+      margin: 0 0 12px;
+    }
+
+    .reading-box {
+      font-size: clamp(0.88rem, 2.1vw, 1.02rem);
+      line-height: 1.62;
+      color: #cfd8dc;
+      padding: 12px;
+      border-radius: 12px;
+      background: rgba(0, 0, 0, 0.38);
+      border: 1px dashed rgba(129, 212, 250, 0.35);
+      margin-bottom: 12px;
+      white-space: pre-wrap;
+    }
+    .reading-box h4 {
+      margin: 0 0 8px;
+      font-size: 0.88rem;
+      color: var(--mint);
+    }
+
+    .pic-q {
+      width: 100%;
+      max-height: min(34vh, 220px);
+      object-fit: contain;
+      border-radius: 12px;
+      border: 2px solid rgba(255, 193, 7, 0.28);
+      background: #0003;
+      margin-bottom: 12px;
+    }
+
+    .opts label {
+      display: block;
+      margin: 8px 0;
+      padding: 12px 14px;
+      border-radius: 10px;
+      border: 2px solid rgba(255, 255, 255, 0.12);
+      cursor: pointer;
+      font-size: clamp(0.95rem, 2.2vw, 1.1rem);
+      line-height: 1.5;
+    }
+    .opts label:hover { border-color: rgba(255, 193, 7, 0.45); }
+    .opts input { margin-right: 10px; accent-color: var(--mint); }
+
+    .txt-in {
+      width: 100%;
+      padding: 11px 13px;
+      border-radius: 10px;
+      border: 2px solid rgba(144, 202, 249, 0.35);
+      background: rgba(0, 0, 0, 0.35);
+      color: var(--ink);
+      font-size: clamp(0.95rem, 2.1vw, 1.08rem);
+      font-family: inherit;
+    }
+    textarea.txt-in { min-height: 72px; resize: vertical; }
+
+    .parts-hint {
+      font-size: 0.78rem;
+      color: #90a4ae;
+      margin: 8px 0;
+      padding: 8px;
+      border-radius: 8px;
+      background: rgba(0, 0, 0, 0.28);
+    }
+
+    button.primary, button.ghost {
+      font-family: "Patrick Hand", cursive;
+      font-size: 0.92rem;
+      padding: 10px 16px;
+      border-radius: 12px;
+      cursor: pointer;
+      border: 3px solid var(--gold);
+    }
+    button.primary { background: linear-gradient(180deg, #455a64, #37474f); color: #fff8e1; }
+    button.ghost { background: transparent; color: var(--gold); }
+    button.speak-inline {
+      font-size: 0.78rem;
+      padding: 8px 14px;
+      border-radius: 10px;
+      border: 2px solid rgba(105, 240, 174, 0.45);
+      background: rgba(56, 142, 60, 0.25);
+      color: var(--mint);
+      cursor: pointer;
+    }
+
+    .btn-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: center; margin-top: 12px; }
+    .btn-row.explain-toggle-row {
+      justify-content: flex-start;
+      margin-top: 10px;
+      margin-bottom: 0;
+    }
+
+    .explain {
+      margin-top: 14px;
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(129, 199, 132, 0.45);
+      background: rgba(27, 94, 32, 0.18);
+      font-size: 0.82rem;
+      line-height: 1.55;
+      color: #c8e6c9;
+      display: none;
+    }
+    .explain.show { display: block; }
+    .explain strong { color: var(--warn); }
+
+    .result-banner {
+      display: none;
+      padding: 12px;
+      border-radius: 14px;
+      background: rgba(0, 77, 64, 0.35);
+      border: 2px solid rgba(105, 240, 174, 0.45);
+      text-align: center;
+      font-size: 0.9rem;
+      margin-bottom: 8px;
+      flex-shrink: 0;
+    }
+    .result-banner.show { display: block; }
+
+    .report-panel {
+      display: none;
+      margin-top: 10px;
+      padding: 12px;
+      border-radius: 14px;
+      background: rgba(0, 0, 0, 0.38);
+      border: 1px solid rgba(255, 193, 7, 0.25);
+      font-size: 0.78rem;
+      line-height: 1.55;
+      max-height: 42vh;
+      overflow: auto;
+    }
+    .report-panel.show { display: block; }
+    .report-panel h4 { margin: 12px 0 6px; color: var(--gold); font-size: 0.85rem; }
+    .cluster-block {
+      margin-bottom: 10px;
+      padding: 10px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.04);
+      border-left: 3px solid var(--coral);
+    }
+
+    #toast {
+      position: fixed;
+      left: 50%;
+      bottom: 22%;
+      transform: translateX(-50%);
+      z-index: 90;
+      padding: 10px 16px;
+      border-radius: 12px;
+      font-size: 0.82rem;
+      max-width: min(92vw, 420px);
+      text-align: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s;
+      background: rgba(183, 28, 28, 0.95);
+      color: #fff;
+    }
+    #toast.show { opacity: 1; }
+
+    #nav-foot {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 10px 12px;
+      background: rgba(0, 0, 0, 0.55);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+      z-index: 40;
+    }
+    #nav-foot a { color: var(--gold); font-size: 0.78rem; text-decoration: none; }
+    #debug-strip { font-size: 10px; opacity: 0.35; color: #90a4ae; }
+
+    .hidden { display: none !important; }
+    .type-lbl { color: #81d4fa; font-weight: 700; }
+  </style>
+</head>
+<body>
+  <header class="top">
+    <h1>COMPARISON MASTER · 比较级 &amp; 最高级测评</h1>
+    <p>60 题 · 10 教材主题 · 分层难度 · 选择 / 填空 / 改错 / 排序 / 看图 / 听力 / 阅读</p>
+  </header>
+
+  <div class="page-body">
+    <aside class="q-rail" aria-label="题号导航">
+      <div class="q-grid-wrap">
+        <div id="q-grid" class="q-grid"></div>
+      </div>
+    </aside>
+    <main class="shell">
+      <div id="result-banner" class="result-banner"></div>
+      <div class="toolbar">
+        <label>主题筛选 <select id="filter-theme"><option value="">全部主题</option></select></label>
+        <label>难度 <select id="filter-dif"><option value="">全部</option><option value="1">★ 基础</option><option value="2">★★ 提高</option><option value="3">★★★ 冲刺</option></select></label>
+        <button type="button" class="ghost" id="btn-first-wrong">下一道错题</button>
+        <button type="button" class="primary" id="btn-submit">提交全部并评分</button>
+        <button type="button" class="ghost" id="btn-toggle-report">解析总览</button>
+        <button type="button" class="ghost" id="btn-reset">重置作答</button>
+      </div>
+      <section id="panel" class="panel"></section>
+      <div id="report-panel" class="report-panel"></div>
+    </main>
+  </div>
+
+  <div id="toast" role="status"></div>
+
+  <footer id="nav-foot">
+    <a href="lesson07-page08-irregular-comparison.html">← Page 08</a>
+    <span id="debug-strip"></span>
+    <a href="lesson07-page10-handout-zhongkao.html">Page 10 →</a>
+  </footer>
+
+  <script src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L07/assets/tts-mp3/l07-google-mp3/manifest.embed.js"></script>
+  <script src="../assets/lesson-tts-l07-local.js"></script>
+  <script src="lesson07-page09-data.js"></script>
+  <script>
+(function () {
+  "use strict";
+
+  function escapeXml(t) {
+    return String(t || "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&apos;");
+  }
+
+  function escapeXmlAttr(s) {
+    return String(s || "").replace(/&/g, "&amp;").replace(/"/g, "&quot;");
+  }
+
+  window.unlockAudio = async function () {
+    try {
+      var Ctx = window.AudioContext || window.webkitAudioContext;
+      if (Ctx) {
+        var ctx = new Ctx();
+        if (ctx.state === "suspended") await ctx.resume();
+      }
+    } catch (e) {}
+  };
+
+  window.speak = async function (text) {
+    if (!text) return;
+    var cleanText = String(text).replace(/\n/g, " ").trim();
+    if (typeof window.playLessonL07LocalTts !== "function") return;
+    if (window.currentAudio) {
+      try {
+        window.currentAudio.pause();
+      } catch (e) {}
+      window.currentAudio = null;
+    }
+    await window.playLessonL07LocalTts(cleanText);
+  };
+
+  function speakT(text) {
+    var p = window.unlockAudio ? window.unlockAudio() : Promise.resolve();
+    return p.then(function () {
+      if (typeof window.playLessonL07LocalTts !== "function") {
+        showToast("未加载本地语音脚本", false);
+        return;
+      }
+      return window.speak(text);
+    });
+  }
+
+  function showToast(msg, ok) {
+    var t = document.getElementById("toast");
+    t.style.background = ok ? "rgba(46, 125, 50, 0.95)" : "rgba(183, 28, 28, 0.95)";
+    t.textContent = msg;
+    t.classList.add("show");
+    window.setTimeout(function () {
+      t.classList.remove("show");
+    }, 2600);
+  }
+
+  var BANK = window.PAGE09_BANK || [];
+  var READINGS = window.PAGE09_READINGS || [];
+  var THEMES = (window.PAGE09_META && window.PAGE09_META.themes) || [];
+
+  if (!BANK.length) {
+    document.getElementById("panel").innerHTML =
+      "<p style='color:#ffcdd2'>题库未加载：请与本页同目录放置 lesson07-page09-data.js</p>";
+    throw new Error("PAGE09_BANK empty");
+  }
+
+  var filteredIndices = BANK.map(function (_, i) {
+    return i;
+  });
+  var cursor = 0;
+  var answers = {};
+  var submitted = false;
+  var results = {};
+  var reportOpen = false;
+  /** 每题解析区是否展开：true / false；未设置时，提交后默认展开 */
+  var explainOpen = {};
+
+  function explainIsOpen(qid) {
+    var o = explainOpen[qid];
+    if (o === true) return true;
+    if (o === false) return false;
+    return submitted;
+  }
+
+  function readingById(rid) {
+    return READINGS.filter(function (r) {
+      return r.id === rid;
+    })[0];
+  }
+
+  function typeLabel(t) {
+    var map = {
+      choice: "单项选择",
+      blank: "词汇填空",
+      error: "改错（选错误部分）",
+      order: "排序成句",
+      picture: "看图选择",
+      listen: "听力理解",
+      reading: "阅读选择"
+    };
+    return map[t] || t;
+  }
+
+  function normBlank(s) {
+    return String(s || "")
+      .trim()
+      .toLowerCase()
+      .replace(/\s+/g, " ")
+      .replace(/，/g, ",")
+      .replace(/；/g, ";");
+  }
+
+  function normOrderSentence(s) {
+    var t = String(s || "")
+      .trim()
+      .replace(/\s+/g, " ")
+      .toLowerCase();
+    if (!/[.!?]$/.test(t)) t += ".";
+    return t;
+  }
+
+  function checkBlank(user, key) {
+    var u = normBlank(user);
+    var k = normBlank(key);
+    if (k.indexOf(";") >= 0) {
+      var ka = k.split(";").map(function (x) {
+        return normBlank(x);
+      });
+      var ua = u.split(/[;,，]/).map(function (x) {
+        return normBlank(x);
+      });
+      if (ka.length !== ua.length) return false;
+      for (var i = 0; i < ka.length; i++) if (ka[i] !== ua[i]) return false;
+      return true;
+    }
+    return u === k;
+  }
+
+  function checkOrder(user, key) {
+    return normOrderSentence(user) === normOrderSentence(key);
+  }
+
+  function checkMc(user, key) {
+    var u = String(user || "").trim().toUpperCase();
+    var letter = String(key || "").trim().toUpperCase();
+    if (u === letter) return true;
+    if (u.indexOf(letter + ".") === 0) return true;
+    return false;
+  }
+
+  function applyFilters() {
+    var th = document.getElementById("filter-theme").value;
+    var df = document.getElementById("filter-dif").value;
+    filteredIndices = [];
+    BANK.forEach(function (q, i) {
+      if (th && q.theme !== th) return;
+      if (df && String(q.difficulty) !== df) return;
+      filteredIndices.push(i);
+    });
+    if (!filteredIndices.length) filteredIndices = BANK.map(function (_, i) {
+      return i;
+    });
+    cursor = 0;
+    renderNav();
+    renderQuestion();
+  }
+
+  function buildThemeSelect() {
+    var sel = document.getElementById("filter-theme");
+    THEMES.forEach(function (t) {
+      var o = document.createElement("option");
+      o.value = t;
+      o.textContent = t;
+      sel.appendChild(o);
+    });
+  }
+
+  function scoreAll() {
+    results = {};
+    var ok = 0;
+    BANK.forEach(function (q) {
+      var u = answers[q.id];
+      var good = false;
+      if (q.type === "blank") good = checkBlank(u, q.answer);
+      else if (q.type === "order") good = checkOrder(u, q.answer);
+      else good = checkMc(u, q.answer);
+      results[q.id] = good;
+      if (good) ok++;
+    });
+    return { ok: ok, total: BANK.length };
+  }
+
+  function renderNav() {
+    var grid = document.getElementById("q-grid");
+    grid.innerHTML = "";
+    filteredIndices.forEach(function (bankIdx, fi) {
+      var q = BANK[bankIdx];
+      var btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "q-dot";
+      btn.textContent = String(q.id);
+      if (fi === cursor) btn.classList.add("active");
+      if (answers[q.id] != null && answers[q.id] !== "") btn.classList.add("has");
+      if (submitted) {
+        btn.classList.remove("has");
+        if (results[q.id]) btn.classList.add("ok");
+        else btn.classList.add("bad");
+      }
+      btn.addEventListener("click", function () {
+        saveCurrentInput();
+        cursor = fi;
+        renderNav();
+        renderQuestion();
+      });
+      grid.appendChild(btn);
+    });
+  }
+
+  function saveCurrentInput() {
+    if (!filteredIndices.length) return;
+    var q = BANK[filteredIndices[cursor]];
+    var panel = document.getElementById("panel");
+    if (q.type === "blank" || q.type === "order") {
+      var inp = panel.querySelector("[data-answer-input]");
+      if (inp) answers[q.id] = inp.value;
+    } else {
+      var sel = panel.querySelector("input[name='mc']:checked");
+      answers[q.id] = sel ? sel.value : answers[q.id];
+    }
+  }
+
+  function renderQuestion() {
+    var panel = document.getElementById("panel");
+    panel.innerHTML = "";
+    if (!filteredIndices.length) return;
+    var q = BANK[filteredIndices[cursor]];
+
+    var meta = document.createElement("div");
+    meta.className = "meta-row";
+    meta.innerHTML =
+      "<span class='tag'>#" +
+      q.id +
+      " / " +
+      BANK.length +
+      "</span>" +
+      "<span class='tag'>" +
+      q.theme +
+      "</span>" +
+      "<span class='dif'>" +
+      "★".repeat(q.difficulty || 1) +
+      "</span>" +
+      "<span class='type-lbl'>" +
+      typeLabel(q.type) +
+      "</span>";
+    panel.appendChild(meta);
+
+    if (q.type === "reading") {
+      var rd = readingById(q.readingId);
+      if (rd) {
+        var box = document.createElement("div");
+        box.className = "reading-box";
+        var h4 = document.createElement("h4");
+        h4.textContent = rd.title + " · " + rd.theme;
+        box.appendChild(h4);
+        var pt = document.createElement("div");
+        pt.style.whiteSpace = "pre-wrap";
+        pt.textContent = rd.text;
+        box.appendChild(pt);
+        panel.appendChild(box);
+      }
+    }
+
+    if (q.type === "picture" && q.img) {
+      var im = document.createElement("img");
+      im.className = "pic-q";
+      im.alt = "看图";
+      im.src = q.img;
+      im.loading = "lazy";
+      panel.appendChild(im);
+    }
+
+    var stem = document.createElement("p");
+    stem.className = "stem";
+    stem.textContent = q.stem;
+    panel.appendChild(stem);
+
+    if (q.type === "listen") {
+      var br = document.createElement("div");
+      br.className = "btn-row";
+      br.style.marginTop = "0";
+      var play = document.createElement("button");
+      play.type = "button";
+      play.className = "speak-inline";
+      play.textContent = "🔊 播放听力（本地 MP3）";
+      play.addEventListener("click", function () {
+        speakT(q.listenText || "");
+      });
+      br.appendChild(play);
+      panel.appendChild(br);
+    }
+
+    if (q.type === "order" && q.parts) {
+      var shuffled = q.parts.slice();
+      var seed = q.id * 7919 + 104729;
+      for (var si = shuffled.length - 1; si > 0; si--) {
+        seed = (seed * 9301 + 49297) % 233280;
+        var sj = seed % (si + 1);
+        var tmp = shuffled[si];
+        shuffled[si] = shuffled[sj];
+        shuffled[sj] = tmp;
+      }
+      var hint = document.createElement("div");
+      hint.className = "parts-hint";
+      hint.textContent = "词块提示（乱序）： " + shuffled.join("  |  ");
+      panel.appendChild(hint);
+      var ta = document.createElement("textarea");
+      ta.className = "txt-in";
+      ta.dataset.answerInput = "1";
+      ta.placeholder = "请输入完整英文句子（注意标点与大小写参考答案格式）";
+      ta.value = answers[q.id] || "";
+      ta.addEventListener("input", function () {
+        answers[q.id] = ta.value;
+        renderNav();
+      });
+      panel.appendChild(ta);
+    } else if (q.type === "blank") {
+      var inp = document.createElement("input");
+      inp.type = "text";
+      inp.className = "txt-in";
+      inp.dataset.answerInput = "1";
+      inp.placeholder = "若有多空，请用英文分号 ; 隔开，如 fewer; more";
+      inp.value = answers[q.id] || "";
+      inp.addEventListener("input", function () {
+        answers[q.id] = inp.value;
+        renderNav();
+      });
+      panel.appendChild(inp);
+    } else {
+      var opts = document.createElement("div");
+      opts.className = "opts";
+      (q.options || []).forEach(function (line, idx) {
+        var lab = document.createElement("label");
+        var radio = document.createElement("input");
+        radio.type = "radio";
+        radio.name = "mc";
+        var letter = String.fromCharCode(65 + idx);
+        radio.value = letter;
+        if (answers[q.id] === letter) radio.checked = true;
+        radio.addEventListener("change", function () {
+          answers[q.id] = letter;
+          renderNav();
+        });
+        lab.appendChild(radio);
+        lab.appendChild(document.createTextNode(line));
+        opts.appendChild(lab);
+      });
+      panel.appendChild(opts);
+    }
+
+    var explainRow = document.createElement("div");
+    explainRow.className = "btn-row explain-toggle-row";
+    var btnExplain = document.createElement("button");
+    btnExplain.type = "button";
+    btnExplain.className = "ghost btn-explain";
+    btnExplain.setAttribute("aria-expanded", explainIsOpen(q.id) ? "true" : "false");
+    btnExplain.textContent = explainIsOpen(q.id) ? "收起解析" : "解析";
+    btnExplain.addEventListener("click", function () {
+      explainOpen[q.id] = !explainIsOpen(q.id);
+      renderQuestion();
+    });
+    explainRow.appendChild(btnExplain);
+    panel.appendChild(explainRow);
+
+    var navRow = document.createElement("div");
+    navRow.className = "btn-row";
+    var prev = document.createElement("button");
+    prev.type = "button";
+    prev.className = "ghost";
+    prev.textContent = "← 上一题";
+    prev.disabled = cursor <= 0;
+    prev.addEventListener("click", function () {
+      saveCurrentInput();
+      if (cursor > 0) {
+        cursor--;
+        renderNav();
+        renderQuestion();
+      }
+    });
+    var next = document.createElement("button");
+    next.type = "button";
+    next.className = "ghost";
+    next.textContent = "下一题 →";
+    next.disabled = cursor >= filteredIndices.length - 1;
+    next.addEventListener("click", function () {
+      saveCurrentInput();
+      if (cursor < filteredIndices.length - 1) {
+        cursor++;
+        renderNav();
+        renderQuestion();
+      }
+    });
+    navRow.appendChild(prev);
+    navRow.appendChild(next);
+    panel.appendChild(navRow);
+
+    var ex = document.createElement("div");
+    ex.className = "explain" + (explainIsOpen(q.id) ? " show" : "");
+    ex.innerHTML =
+      "<p><strong>正确答案：</strong>" +
+      escapeHtml(String(q.answer)) +
+      "</p>" +
+      "<p><strong>解析：</strong>" +
+      escapeHtml(q.analysis || "") +
+      "</p>" +
+      "<p><strong>考点：</strong>" +
+      escapeHtml(q.knowledge || "") +
+      "</p>" +
+      "<p><strong>同类归纳：</strong>" +
+      escapeHtml(q.cluster || "") +
+      "</p>";
+    panel.appendChild(ex);
+  }
+
+  function escapeHtml(s) {
+    return String(s || "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;");
+  }
+
+  function renderReport() {
+    var rep = document.getElementById("report-panel");
+    if (!submitted || !reportOpen) {
+      rep.classList.remove("show");
+      return;
+    }
+    rep.classList.add("show");
+    var wrong = BANK.filter(function (q) {
+      return !results[q.id];
+    });
+    var byCluster = {};
+    BANK.forEach(function (q) {
+      var c = q.cluster || "其他";
+      if (!byCluster[c]) byCluster[c] = { wrong: [], tip: q.knowledge };
+      if (!results[q.id]) byCluster[c].wrong.push(q.id);
+    });
+    var html =
+      "<h4>错题清单（" +
+      wrong.length +
+      "）</h4>" +
+      wrong
+        .map(function (q) {
+          return (
+            "<div class='cluster-block'><strong>#" +
+            q.id +
+            "</strong> " +
+            typeLabel(q.type) +
+            "<br />正答：<code>" +
+            escapeHtml(q.answer) +
+            "</code><br />" +
+            escapeHtml(q.analysis || "") +
+            "</div>"
+          );
+        })
+        .join("") +
+      "<h4>按「同类归纳」分组复盘</h4>";
+    Object.keys(byCluster).forEach(function (k) {
+      var block = byCluster[k];
+      if (!block.wrong.length) return;
+      html +=
+        "<div class='cluster-block'><strong>" +
+        escapeHtml(k) +
+        "</strong> · 错题号：" +
+        block.wrong.join(", ") +
+        "<br />建议：回顾教材与中考试题中同属「" +
+        escapeHtml(k) +
+        "」的句式，集中改写 3～5 句巩固。</div>";
+    });
+    html +=
+      "<h4>全卷考点速览（抽查自学）</h4><ul style='margin:0;padding-left:1.2rem'>" +
+      BANK.map(function (q) {
+        return (
+          "<li>#" +
+          q.id +
+          " · " +
+          escapeHtml(q.knowledge || "") +
+          "</li>"
+        );
+      }).join("") +
+      "</ul>";
+    rep.innerHTML = html;
+  }
+
+  document.getElementById("btn-submit").addEventListener("click", function () {
+    saveCurrentInput();
+    submitted = true;
+    var sc = scoreAll();
+    var pct = Math.round((sc.ok / sc.total) * 100);
+    var ban = document.getElementById("result-banner");
+    ban.classList.add("show");
+    var tier =
+      pct >= 90 ? "优秀 · 比较等级运用扎实" : pct >= 75 ? "良好 · 建议针对错题簇复盘" : pct >= 60 ? "及格 · 请优先重温错题归纳" : "需加强 · 建议回归教材例句再练";
+    ban.innerHTML =
+      "<strong>得分 " +
+      sc.ok +
+      " / " +
+      sc.total +
+      "（" +
+      pct +
+      "%）</strong><br />" +
+      tier;
+    renderNav();
+    renderQuestion();
+    renderReport();
+    showToast("已评分，可逐题查看解析或打开解析总览", true);
+  });
+
+  document.getElementById("btn-toggle-report").addEventListener("click", function () {
+    if (!submitted) {
+      showToast("请先提交全部并评分", false);
+      return;
+    }
+    reportOpen = !reportOpen;
+    renderReport();
+  });
+
+  document.getElementById("btn-reset").addEventListener("click", function () {
+    if (!confirm("确定清空全部作答与评分？")) return;
+    answers = {};
+    submitted = false;
+    results = {};
+    reportOpen = false;
+    explainOpen = {};
+    document.getElementById("result-banner").classList.remove("show");
+    document.getElementById("report-panel").classList.remove("show");
+    renderNav();
+    renderQuestion();
+  });
+
+  document.getElementById("btn-first-wrong").addEventListener("click", function () {
+    if (!submitted) {
+      showToast("提交后可跳转错题", false);
+      return;
+    }
+    saveCurrentInput();
+    var fi = filteredIndices.findIndex(function (idx) {
+      return !results[BANK[idx].id];
+    });
+    if (fi < 0) {
+      showToast("当前筛选下没有错题 🎉", true);
+      return;
+    }
+    cursor = fi;
+    renderNav();
+    renderQuestion();
+  });
+
+  document.getElementById("filter-theme").addEventListener("change", applyFilters);
+  document.getElementById("filter-dif").addEventListener("change", applyFilters);
+
+  buildThemeSelect();
+  renderNav();
+  renderQuestion();
+})();
+  </script>
+</body>
+</html>

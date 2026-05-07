@@ -1,0 +1,1362 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>第07讲 · Page 04 · Twin Cities Data Clash — 双城数据对决</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=ZCOOL+KuaiLe&family=Bebas+Neue&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --gold-bj: #c9a227;
+      --green-cd: #2e7d32;
+      --ink: #e8e0d5;
+      --panel: rgba(8, 10, 18, 0.82);
+    }
+    * { box-sizing: border-box; }
+    html { zoom: 1.25; }
+    html, body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: system-ui, "Segoe UI", "Microsoft YaHei", sans-serif;
+      background: #030508;
+      color: var(--ink);
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    #holo-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background: #050810;
+    }
+    #holo-bg img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center center;
+      display: block;
+    }
+
+    #vignette {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background: radial-gradient(ellipse 70% 60% at 50% 45%, transparent 0%, rgba(0, 0, 0, 0.55) 100%);
+    }
+
+    #title-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 12;
+      padding: clamp(6px, 1.2vh, 12px) clamp(10px, 3vw, 20px);
+      text-align: center;
+      pointer-events: none;
+    }
+    #title-bar h1 {
+      margin: 0;
+      font-family: "Bebas Neue", "ZCOOL KuaiLe", sans-serif;
+      font-size: clamp(0.95rem, 3.2vw, 1.65rem);
+      letter-spacing: 0.06em;
+      color: #fff8e7;
+      text-shadow: 0 2px 14px rgba(0,0,0,0.9);
+    }
+    #title-bar p {
+      margin: 2px 0 0;
+      font-size: clamp(0.6rem, 1.7vw, 0.78rem);
+      opacity: 0.9;
+    }
+
+    #tier-strip {
+      position: fixed;
+      top: clamp(48px, 9vh, 76px);
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 14;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      max-width: min(96vw, 520px);
+      padding: 4px 8px;
+      pointer-events: none;
+      min-height: clamp(36px, 8vh, 44px);
+    }
+    .tier-chip {
+      pointer-events: auto;
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: clamp(0.62rem, 1.6vw, 0.76rem);
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      background: rgba(0, 0, 0, 0.45);
+      color: #ccc;
+    }
+    .tier-chip.on {
+      border-color: #ffd54f;
+      color: #ffe082;
+      box-shadow: 0 0 12px rgba(255, 213, 79, 0.35);
+    }
+
+    :root {
+      /* 须低于 #tier-strip 底部，避免「先读两篇…」被青铜/白银/黄金挡住（条带 z-index:14 会叠在阅读区之上） */
+      --reading-top: clamp(124px, 22vh, 168px);
+      /* 略增高阅读带，配合更大正文字号，减少短文区内滚动 */
+      --reading-h: min(34vh, 304px);
+    }
+    @media (max-width: 720px) {
+      :root {
+        --reading-top: clamp(138px, 26vh, 188px);
+        --reading-h: min(42vh, 360px);
+      }
+    }
+
+    #reading-panel {
+      position: fixed;
+      left: 0.75%;
+      right: 0.75%;
+      top: var(--reading-top);
+      height: var(--reading-h);
+      z-index: 12;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto minmax(0, 1fr);
+      column-gap: 8px;
+      row-gap: 6px;
+      pointer-events: auto;
+    }
+    @media (max-width: 720px) {
+      #reading-panel {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto minmax(0, 1fr) minmax(0, 1fr);
+        row-gap: 6px;
+      }
+    }
+    .reading-hint {
+      grid-column: 1 / -1;
+      font-size: clamp(0.68rem, 1.65vw, 0.82rem);
+      color: #ffe082;
+      text-align: center;
+      text-shadow: 0 1px 6px #000;
+      margin: 0 0 2px;
+      line-height: 1.35;
+    }
+    .city-essay {
+      border-radius: 10px;
+      padding: 6px 8px 7px;
+      background: rgba(8, 10, 18, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+    }
+    .city-essay.bj { border-left: 4px solid var(--gold-bj); }
+    .city-essay.cd { border-right: 4px solid var(--green-cd); }
+    .essay-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      margin-bottom: 4px;
+      flex-shrink: 0;
+    }
+    .essay-head strong {
+      font-size: clamp(1.06rem, 2.47vw, 1.29rem);
+      color: #fff8e7;
+      letter-spacing: 0.02em;
+    }
+    .essay-body {
+      flex: 1 1 auto;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      font-size: clamp(0.94rem, 2.13vw, 1.17rem);
+      line-height: 1.48;
+      color: #e0dcd4;
+      text-align: left;
+    }
+    .essay-body strong {
+      color: #fff4dc;
+      font-weight: 650;
+    }
+
+    #stage {
+      position: fixed;
+      left: 50%;
+      top: calc(var(--reading-top) + var(--reading-h) + 12px);
+      transform: translateX(-50%);
+      width: min(96vw, 720px);
+      max-height: calc(100vh - var(--reading-top) - var(--reading-h) - 96px);
+      z-index: 16;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      padding: 10px;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .line-read {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .speak-hit {
+      flex-shrink: 0;
+      width: 28px;
+      height: 28px;
+      border: none;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 25%, #fff9c4, #ffd54f 55%, #f57f17);
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(255, 213, 79, 0.45);
+      padding: 0;
+      pointer-events: auto;
+    }
+    .speak-hit .ico-sp {
+      font-size: 15px;
+      line-height: 1;
+      display: block;
+      margin: auto;
+      filter: grayscale(0.2);
+    }
+
+    #prompt-line {
+      font-family: "Patrick Hand", cursive;
+      font-size: clamp(1.9rem, 5.6vw, 2.5rem);
+      text-align: center;
+      line-height: 1.4;
+      color: #fff8e7;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.9);
+      max-width: 100%;
+    }
+    #prompt-line .blank {
+      display: inline-block;
+      min-width: 2.2em;
+      border-bottom: 4px solid #ffd54f;
+      padding: 0 4px 2px;
+      font-weight: 800;
+      color: #fff59d;
+    }
+
+    #bronze-choices {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin-top: 10px;
+    }
+    .choice-chip {
+      font-family: "Patrick Hand", cursive;
+      padding: 12px 20px;
+      border-radius: 14px;
+      border: 3px solid rgba(255, 213, 79, 0.5);
+      background: rgba(30, 26, 40, 0.95);
+      color: #fff;
+      cursor: pointer;
+      font-size: clamp(1.7rem, 4.8vw, 2.15rem);
+    }
+    .choice-chip.selected {
+      border-color: #69f0ae;
+      box-shadow: 0 0 14px rgba(105, 240, 174, 0.35);
+    }
+
+    #silver-workspace {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: center;
+    }
+    #silver-slots {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      justify-content: center;
+      min-height: 52px;
+    }
+    .silver-slot {
+      min-width: clamp(64px, 14vw, 104px);
+      min-height: 52px;
+      border-radius: 10px;
+      border: 2px dashed rgba(255, 213, 79, 0.4);
+      background: rgba(0, 0, 0, 0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2px;
+    }
+    .silver-slot.filled { border-style: solid; border-color: rgba(129, 199, 132, 0.85); }
+
+    #silver-bank {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      max-height: 28vh;
+      overflow-y: auto;
+      padding: 8px;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 12px;
+    }
+    .drag-chip {
+      font-family: "Patrick Hand", cursive;
+      padding: 10px 14px;
+      border-radius: 10px;
+      background: linear-gradient(165deg, #3949ab, #1a237e);
+      color: #e8eaf6;
+      cursor: grab;
+      touch-action: none;
+      user-select: none;
+      font-size: clamp(1.2rem, 3.2vw, 1.55rem);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.45);
+      position: relative;
+    }
+    .drag-chip.dragging {
+      cursor: grabbing;
+      z-index: 200;
+      box-shadow: 0 8px 24px rgba(255, 213, 79, 0.35);
+    }
+
+    #gold-slots {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      justify-content: center;
+    }
+    .gold-slot {
+      min-width: 100px;
+      min-height: 44px;
+      border-radius: 10px;
+      border: 2px dashed rgba(255, 213, 79, 0.45);
+      background: rgba(20, 12, 8, 0.65);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .gold-slot.filled { border-style: solid; border-color: #ffd54f; }
+
+    #gold-bank {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      margin-top: 6px;
+    }
+    .gold-chip {
+      font-family: "Patrick Hand", cursive;
+      padding: 10px 14px;
+      border-radius: 10px;
+      background: rgba(80, 40, 120, 0.9);
+      color: #f3e5f5;
+      cursor: pointer;
+      font-size: clamp(1.15rem, 3vw, 1.45rem);
+      border: 2px solid rgba(255, 255, 255, 0.15);
+    }
+    .gold-chip.picked { opacity: 0.35; pointer-events: none; }
+
+    #btn-submit {
+      margin-top: 8px;
+      font-family: "Patrick Hand", cursive;
+      font-size: clamp(1rem, 2.8vw, 1.2rem);
+      padding: 10px 24px;
+      border-radius: 14px;
+      border: 3px solid #ffd54f;
+      background: linear-gradient(180deg, #4e342e, #2d1e12);
+      color: #fff8e1;
+      cursor: pointer;
+      pointer-events: auto;
+    }
+    #btn-submit:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    #particle-layer {
+      position: fixed;
+      inset: 0;
+      z-index: 6;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    #toast {
+      position: fixed;
+      left: 50%;
+      bottom: 18%;
+      transform: translateX(-50%);
+      z-index: 40;
+      background: rgba(183, 28, 28, 0.95);
+      color: #fff;
+      padding: 10px 16px;
+      border-radius: 12px;
+      font-size: clamp(0.72rem, 1.9vw, 0.88rem);
+      max-width: min(92vw, 380px);
+      text-align: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s;
+    }
+    #toast.show { opacity: 1; }
+
+    #tutor-bubble {
+      position: fixed;
+      left: 50%;
+      top: 30%;
+      transform: translate(-50%, 0);
+      z-index: 42;
+      max-width: min(90vw, 420px);
+      padding: 14px 16px;
+      background: rgba(254, 247, 230, 0.98);
+      color: #3e2723;
+      border-radius: 16px;
+      border: 3px solid #5d4037;
+      font-size: clamp(0.74rem, 2vw, 0.9rem);
+      line-height: 1.45;
+      box-shadow: 0 12px 32px rgba(0,0,0,0.4);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s ease;
+    }
+    #tutor-bubble.show { opacity: 1; pointer-events: auto; }
+    #tutor-bubble button {
+      margin-top: 10px;
+      padding: 8px 16px;
+      border-radius: 10px;
+      border: 2px solid #5d4037;
+      background: #ffd54f;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    #interaction-lock {
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      display: none;
+      background: transparent;
+      pointer-events: auto;
+    }
+    #interaction-lock.on { display: block; }
+
+    #finale-flash {
+      position: fixed;
+      inset: 0;
+      z-index: 60;
+      background: #fff;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.5s ease;
+    }
+    #finale-flash.on { opacity: 0.95; pointer-events: auto; }
+
+    #finale-orb {
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      width: min(48vw, 220px);
+      height: min(48vw, 220px);
+      margin-left: calc(min(48vw, 220px) / -2);
+      margin-top: calc(min(48vw, 220px) / -2);
+      border-radius: 50%;
+      z-index: 61;
+      background: radial-gradient(circle at 35% 30%, #fffde7, #ffd54f 40%, #ff6f00 75%, #3e2723);
+      box-shadow: 0 0 60px rgba(255, 213, 79, 0.8);
+      opacity: 0;
+      transform: scale(0.2);
+      pointer-events: none;
+      transition: opacity 0.4s ease, transform 0.8s cubic-bezier(0.34, 1.4, 0.64, 1);
+    }
+    #finale-orb.show {
+      opacity: 1;
+      transform: scale(1);
+      pointer-events: none;
+    }
+
+    #badge-img-wrap {
+      position: fixed;
+      left: 50%;
+      top: -30%;
+      transform: translateX(-50%);
+      z-index: 62;
+      width: min(64vw, 260px);
+      opacity: 0;
+      pointer-events: none;
+      transition: top 0.85s cubic-bezier(0.34, 1.5, 0.64, 1), opacity 0.4s ease;
+    }
+    #badge-img-wrap.show {
+      top: 50%;
+      transform: translate(-50%, -50%);
+      opacity: 1;
+    }
+    #badge-img-wrap img {
+      width: 100%;
+      height: auto;
+      display: block;
+      filter: drop-shadow(0 12px 28px rgba(0,0,0,0.55));
+    }
+    #badge-caption {
+      text-align: center;
+      font-family: "Bebas Neue", sans-serif;
+      color: #eceff1;
+      font-size: clamp(0.85rem, 2.2vw, 1.05rem);
+      margin-top: 8px;
+      text-shadow: 0 2px 8px #000;
+    }
+
+    #btn-next-wrap {
+      position: fixed;
+      right: clamp(10px, 3vw, 22px);
+      bottom: clamp(12px, 3vh, 22px);
+      z-index: 63;
+      opacity: 0;
+      transform: translateY(20px);
+      pointer-events: none;
+      transition: opacity 0.45s ease, transform 0.45s ease;
+    }
+    #btn-next-wrap.show {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+    #btn-next {
+      font-family: "Patrick Hand", cursive;
+      font-size: clamp(0.8rem, 2vw, 1rem);
+      padding: 12px 16px;
+      border-radius: 14px;
+      border: 3px solid #ffd54f;
+      background: linear-gradient(180deg, #37474f, #263238);
+      color: #fff8e1;
+      cursor: pointer;
+    }
+
+    #nav-back {
+      position: fixed;
+      left: 10px;
+      top: clamp(70px, 11vh, 96px);
+      z-index: 20;
+    }
+    #nav-back a {
+      color: #ffe082;
+      font-size: clamp(0.65rem, 1.6vw, 0.8rem);
+      text-decoration: none;
+      opacity: 0.88;
+    }
+
+    #debug-strip {
+      position: fixed;
+      left: 50%;
+      bottom: 2px;
+      transform: translateX(-50%);
+      font-size: 9px;
+      opacity: 0.4;
+      color: #90a4ae;
+      z-index: 19;
+      pointer-events: none;
+      max-width: 96vw;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div id="holo-bg">
+    <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L07/assets/page04-twincities/l07-page04-holo-dashboard.png" alt="" />
+  </div>
+  <div id="vignette"></div>
+  <div id="particle-layer" aria-hidden="true"></div>
+
+  <header id="title-bar">
+    <h1>TWIN CITIES DATA CLASH · 双城数据对决</h1>
+    <p>双城短文阅读 · 青铜据文填空（大字）· 白银听说 · 黄金 very 陷阱</p>
+  </header>
+
+  <div id="tier-strip">
+    <span class="tier-chip" data-tier="0">青铜 Bronze</span>
+    <span class="tier-chip" data-tier="1">白银 Silver</span>
+    <span class="tier-chip" data-tier="2">黄金 Gold</span>
+  </div>
+
+  <div id="reading-panel">
+    <p class="reading-hint">先读两篇英文短文 · 青铜填空题全部依据文中信息</p>
+    <article class="city-essay bj" aria-label="北京篇">
+      <div class="essay-head">
+        <strong>Beijing 北京</strong>
+        <button type="button" class="speak-hit" id="essay-btn-bj" aria-label="朗读北京篇"><span class="ico-sp">🔊</span></button>
+      </div>
+      <div class="essay-body">
+        Beijing is an ancient capital in northern China. Its long history goes back more than <strong>three thousand</strong> years. Today about <strong>twenty-one million</strong> people live in the city region. Guidebooks say that the <strong>pace of life in Beijing is very fast</strong>: people hurry between skyscrapers, ring roads fill with cars at rush hour, and meetings often start on time. Citizens are proud of their culture—the Temple of Heaven, the Forbidden City, and of course famous <strong>Beijing roast duck</strong> on a family dinner table. When we compare two cities, we use comparative adjectives such as <em>faster</em>, <em>busier</em>, or <em>older</em> to describe polite differences.
+      </div>
+    </article>
+    <article class="city-essay cd" aria-label="成都篇">
+      <div class="essay-head">
+        <strong>Chengdu 成都</strong>
+        <button type="button" class="speak-hit" id="essay-btn-cd" aria-label="朗读成都篇"><span class="ico-sp">🔊</span></button>
+      </div>
+      <div class="essay-body">
+        Chengdu is a lively city in southwest China. It also has a recorded history of more than <strong>three thousand</strong> years. <strong>Like Beijing, the population is about twenty-one million.</strong> However, many travel writers say that daily life in Chengdu feels <strong>slower and more relaxing</strong>: teahouses stay noisy until late at night, parks fill with chess players, and friends enjoy long <strong>spicy hotpot</strong> dinners. Chengdu is famous for giant <strong>pandas</strong> that attract families from around the world. Students sometimes joke that Chengdu hotpot tastes <strong>spicier than Beijing duck</strong>—let us check that idea with careful English.
+      </div>
+    </article>
+  </div>
+
+  <main id="stage">
+    <div id="prompt-line"></div>
+    <div id="bronze-root"></div>
+    <div id="silver-root" style="display:none"></div>
+    <div id="gold-root" style="display:none"></div>
+    <button type="button" id="btn-submit" disabled>Submit · 提交</button>
+  </main>
+
+  <div id="toast" role="status"></div>
+  <div id="tutor-bubble">
+    <div id="tutor-text"></div>
+    <button type="button" id="tutor-dismiss">知道了</button>
+  </div>
+
+  <div id="finale-flash" aria-hidden="true"></div>
+  <div id="finale-orb" aria-hidden="true"></div>
+  <div id="badge-img-wrap">
+    <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L07/assets/page04-twincities/l07-page04-platinum-badge.png" alt="Master of Urban Data badge" />
+    <div id="badge-caption">MASTER OF URBAN DATA · 城市数据大师</div>
+  </div>
+  <div id="btn-next-wrap">
+    <button type="button" id="btn-next">Proceed to the Bounty Hunter Tavern · 赏金猎人酒馆</button>
+  </div>
+
+  <nav id="nav-back"><a href="lesson07-page03-balance.html">← 返回天平真理</a></nav>
+  <div id="debug-strip"></div>
+  <div id="interaction-lock" aria-hidden="true"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
+  <script>
+(function () {
+  "use strict";
+
+  var ASSET_BG = "assets/page04-twincities/l07-page04-holo-dashboard.png";
+  var ASSET_BADGE = "assets/page04-twincities/l07-page04-platinum-badge.png";
+
+  /** 本地语音目录：预生成 MP3 置于 voice/ */
+  var VOICE_BASE =
+    "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L07/assets/page04-twincities/voice/";
+  var VOICE_FILES = {
+    essay_bj: "essay-bj.mp3",
+    essay_cd: "essay-cd.mp3",
+    b0: "b0.mp3",
+    b1: "b1.mp3",
+    b2: "b2.mp3",
+    b3: "b3.mp3",
+    b4: "b4.mp3",
+    sq0: "sq0.mp3",
+    sa0: "sa0.mp3",
+    sq1: "sq1.mp3",
+    sa1: "sa1.mp3",
+    gh: "gh.mp3",
+    gs: "gs.mp3"
+  };
+
+  window.__DEEPSEEK_API_KEY__ = window.__DEEPSEEK_API_KEY__ || "";
+
+  window.fetchDeepSeekEvaluation = async function (payload) {
+    var key = String(window.__DEEPSEEK_API_KEY__ || "").trim();
+    if (!key) return { ok: false, error: "no_api_key" };
+    try {
+      var res = await fetch("https://api.deepseek.com/v1/chat/completions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: "Bearer " + key },
+        body: JSON.stringify(payload || {})
+      });
+      var data = null;
+      try { data = await res.json(); } catch (e) { data = null; }
+      return { ok: res.ok, status: res.status, data: data };
+    } catch (err) {
+      return { ok: false, error: String(err && err.message ? err.message : err) };
+    }
+  };
+
+  var BRONZE = [
+    {
+      read: "Like Beijing, the population in Chengdu is about twenty-one million.",
+      display:
+        "According to the passages, Chengdu has about <span class='blank'>_____</span> million people, like Beijing.",
+      choices: ["twelve", "twenty-one", "thirty"],
+      correct: "twenty-one"
+    },
+    {
+      read: "Both Beijing and Chengdu have a recorded history of more than three thousand years.",
+      display:
+        "The texts say both cities have a history of more than <span class='blank'>_____</span> years.",
+      choices: ["three hundred", "three thousand", "two thousand"],
+      correct: "three thousand"
+    },
+    {
+      read: "The pace of life in Beijing is faster than that in Chengdu.",
+      display:
+        "From the Beijing passage, the pace of life in Beijing is <span class='blank'>_____</span> than that in Chengdu.",
+      choices: ["slow", "faster", "slower"],
+      correct: "faster"
+    },
+    {
+      read: "Daily life in Chengdu feels more relaxing than daily life in Beijing.",
+      display:
+        "The Chengdu passage says daily life there feels <span class='blank'>_____</span> than daily life in Beijing.",
+      choices: ["relaxing", "more relaxing", "most relaxing"],
+      correct: "more relaxing"
+    },
+    {
+      read: "Chengdu hotpot tastes spicier than Beijing duck.",
+      display:
+        "In the reading, Chengdu hotpot tastes <span class='blank'>_____</span> than Beijing duck.",
+      choices: ["spicy", "spicier", "spiciest"],
+      correct: "spicier"
+    }
+  ];
+
+  var SILVER = [
+    {
+      questionRead: "Which city is more relaxing, Beijing or Chengdu?",
+      answerRead: "Chengdu is more relaxing than Beijing.",
+      tokens: ["Chengdu", "is", "more relaxing", "than", "Beijing"]
+    },
+    {
+      questionRead: "Which city is busier, Beijing or Chengdu?",
+      answerRead: "Beijing is busier than Chengdu.",
+      tokens: ["Beijing", "is", "busier", "than", "Chengdu"]
+    }
+  ];
+
+  var GOLD = [
+    {
+      readStem: "The hotpot in Chengdu is much spicier than the food in Beijing.",
+      display: "The hotpot in Chengdu is <span class='blank'>_____</span> <span class='blank'>_____</span> spicy than the food in Beijing.",
+      degreePool: ["very", "much", "a lot", "a little"],
+      cmpPool: ["spicier", "more spicy", "spicy"],
+      correctDegree: ["much", "a lot"],
+      correctCmp: "spicier"
+    }
+  ];
+
+  var tier = 0;
+  var bIdx = 0;
+  var sIdx = 0;
+  var gIdx = 0;
+  var bronzeSelected = null;
+  var silverSlots = [];
+  var silverBank = [];
+  var dragState = null;
+  var docMoveRef = null;
+  var docUpRef = null;
+  var goldDegSlot = null;
+  var goldCmpSlot = null;
+  var goldDeg = null;
+  var goldCmp = null;
+  var audioBusy = false;
+  var tutorTimer = null;
+
+  function setDebug(t) {
+    var el = document.getElementById("debug-strip");
+    if (el) el.textContent = t;
+  }
+
+  function lock(on) {
+    var L = document.getElementById("interaction-lock");
+    if (L) L.classList.toggle("on", !!on);
+  }
+
+  function playVoiceById(voiceId) {
+    var file = VOICE_FILES[voiceId];
+    if (!file || audioBusy) return Promise.resolve(false);
+    audioBusy = true;
+    return new Promise(function (resolve) {
+      var done = false;
+      function finish(ok) {
+        if (done) return;
+        done = true;
+        audioBusy = false;
+        resolve(!!ok);
+      }
+      var a = new Audio(VOICE_BASE + file);
+      a.addEventListener("ended", function () {
+        finish(true);
+      });
+      a.addEventListener("error", function () {
+        finish(false);
+      });
+      var p = a.play();
+      if (p && typeof p.then === "function") {
+        p.then(function () {}).catch(function () {
+          finish(false);
+        });
+      }
+    });
+  }
+
+  function speakerBtn(voiceId) {
+    var b = document.createElement("button");
+    b.type = "button";
+    b.className = "speak-hit";
+    b.setAttribute("aria-label", "朗读");
+    var sp = document.createElement("span");
+    sp.className = "ico-sp";
+    sp.textContent = "\uD83D\uDD0A";
+    b.appendChild(sp);
+    b.addEventListener("click", function (ev) {
+      ev.stopPropagation();
+      playVoiceById(voiceId).catch(function () {});
+    });
+    return b;
+  }
+
+  function lineWithSpeaker(textHtml, voiceId) {
+    var wrap = document.createElement("div");
+    wrap.className = "line-read";
+    var span = document.createElement("span");
+    span.innerHTML = textHtml;
+    wrap.appendChild(span);
+    wrap.appendChild(speakerBtn(voiceId));
+    return wrap;
+  }
+
+  function showToast(msg) {
+    var t = document.getElementById("toast");
+    t.textContent = msg;
+    t.classList.add("show");
+    window.setTimeout(function () { t.classList.remove("show"); }, 2400);
+  }
+
+  function clearParticles() {
+    var L = document.getElementById("particle-layer");
+    while (L.firstChild) L.removeChild(L.firstChild);
+  }
+
+  function spawnParticles(cx, cy, n) {
+    var layer = document.getElementById("particle-layer");
+    if (!layer || !window.anime) return;
+    for (var i = 0; i < n; i++) {
+      (function () {
+        var p = document.createElement("div");
+        p.style.cssText =
+          "position:absolute;left:" + cx + "px;top:" + cy + "px;width:7px;height:7px;border-radius:50%;background:#ffd54f;pointer-events:none;";
+        layer.appendChild(p);
+        window.anime({
+          targets: p,
+          translateX: (Math.random() - 0.5) * 140,
+          translateY: (Math.random() - 0.5) * 140,
+          opacity: [1, 0],
+          duration: 550 + Math.random() * 300,
+          easing: "easeOutQuad",
+          complete: function () {
+            try { if (p.parentNode) p.parentNode.removeChild(p); } catch (e) {}
+          }
+        });
+      })();
+    }
+  }
+
+  function shakeStage() {
+    var st = document.getElementById("stage");
+    if (st && window.anime) {
+      window.anime({
+        targets: st,
+        translateX: [0, -12, 12, -8, 8, 0],
+        duration: 420,
+        easing: "easeInOutQuad"
+      });
+    }
+    try {
+      var ctx = new (window.AudioContext || window.webkitAudioContext)();
+      var o = ctx.createOscillator();
+      var g = ctx.createGain();
+      o.type = "square";
+      o.frequency.value = 130;
+      g.gain.value = 0.05;
+      o.connect(g);
+      g.connect(ctx.destination);
+      o.start();
+      o.stop(ctx.currentTime + 0.1);
+    } catch (e) {}
+  }
+
+  function updateTierChips() {
+    document.querySelectorAll(".tier-chip").forEach(function (el, i) {
+      el.classList.toggle("on", i === tier);
+    });
+  }
+
+  function mountBronze() {
+    tier = 0;
+    updateTierChips();
+    var root = document.getElementById("bronze-root");
+    var sil = document.getElementById("silver-root");
+    var gol = document.getElementById("gold-root");
+    root.style.display = "";
+    sil.style.display = "none";
+    gol.style.display = "none";
+    root.innerHTML = "";
+    var item = BRONZE[bIdx];
+    var prompt = document.getElementById("prompt-line");
+    prompt.innerHTML = "";
+    prompt.appendChild(lineWithSpeaker(item.display, "b" + bIdx));
+
+    var row = document.createElement("div");
+    row.id = "bronze-choices";
+    bronzeSelected = null;
+    item.choices.forEach(function (c) {
+      var chip = document.createElement("button");
+      chip.type = "button";
+      chip.className = "choice-chip";
+      chip.textContent = c;
+      chip.addEventListener("click", function () {
+        row.querySelectorAll(".choice-chip").forEach(function (x) { x.classList.remove("selected"); });
+        chip.classList.add("selected");
+        bronzeSelected = c;
+        document.getElementById("btn-submit").disabled = false;
+      });
+      row.appendChild(chip);
+    });
+    root.appendChild(row);
+    document.getElementById("btn-submit").disabled = true;
+    playVoiceById("b" + bIdx).catch(function () {});
+  }
+
+  function shuffle(a) {
+    var arr = a.slice();
+    for (var i = arr.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = arr[i];
+      arr[i] = arr[j];
+      arr[j] = t;
+    }
+    return arr;
+  }
+
+  function clearSilverDragListeners() {
+    if (docMoveRef) {
+      document.removeEventListener("pointermove", docMoveRef);
+      document.removeEventListener("pointerup", docUpRef);
+      document.removeEventListener("pointercancel", docUpRef);
+      docMoveRef = docUpRef = null;
+    }
+    dragState = null;
+  }
+
+  function mountSilver() {
+    tier = 1;
+    updateTierChips();
+    clearSilverDragListeners();
+    document.getElementById("bronze-root").style.display = "none";
+    document.getElementById("silver-root").style.display = "";
+    document.getElementById("gold-root").style.display = "none";
+    var root = document.getElementById("silver-root");
+    root.innerHTML = "";
+    var item = SILVER[sIdx];
+    var prompt = document.getElementById("prompt-line");
+    prompt.innerHTML = "";
+    prompt.appendChild(lineWithSpeaker("🎧 " + item.questionRead, "sq" + sIdx));
+
+    var ws = document.createElement("div");
+    ws.id = "silver-workspace";
+    var slots = document.createElement("div");
+    slots.id = "silver-slots";
+    silverSlots = [];
+    for (var i = 0; i < 5; i++) {
+      var s = document.createElement("div");
+      s.className = "silver-slot";
+      s.dataset.idx = String(i);
+      slots.appendChild(s);
+      silverSlots.push(s);
+    }
+    var bank = document.createElement("div");
+    bank.id = "silver-bank";
+    shuffle(item.tokens).forEach(function (tok) {
+      var chip = document.createElement("div");
+      chip.className = "drag-chip";
+      chip.textContent = tok;
+      chip.dataset.text = tok;
+      chip.addEventListener("pointerdown", onSilverPointerDown);
+      bank.appendChild(chip);
+    });
+    ws.appendChild(slots);
+    ws.appendChild(bank);
+    root.appendChild(ws);
+    silverBank = bank;
+    document.getElementById("btn-submit").disabled = true;
+
+    playVoiceById("sq" + sIdx).then(function () {}, function () {});
+  }
+
+  function onSilverPointerDown(ev) {
+    var el = ev.currentTarget;
+    if (!el.classList.contains("drag-chip")) return;
+    if (el.parentElement !== silverBank && !el.classList.contains("in-slot")) return;
+    ev.preventDefault();
+    el.classList.add("dragging");
+    var r = el.getBoundingClientRect();
+    dragState = {
+      el: el,
+      id: ev.pointerId,
+      ox: ev.clientX - r.left,
+      oy: ev.clientY - r.top,
+      fromSlot: el.parentElement && el.parentElement.classList.contains("silver-slot") ? el.parentElement : null
+    };
+    if (dragState.fromSlot) {
+      dragState.fromSlot.classList.remove("filled");
+    }
+    el.style.position = "fixed";
+    el.style.left = ev.clientX - dragState.ox + "px";
+    el.style.top = ev.clientY - dragState.oy + "px";
+    el.style.zIndex = "300";
+    document.body.appendChild(el);
+    docMoveRef = onSilverPointerMove;
+    docUpRef = onSilverPointerUp;
+    document.addEventListener("pointermove", docMoveRef);
+    document.addEventListener("pointerup", docUpRef);
+    document.addEventListener("pointercancel", docUpRef);
+    try { el.setPointerCapture(ev.pointerId); } catch (e) {}
+  }
+
+  function onSilverPointerMove(ev) {
+    if (!dragState || ev.pointerId !== dragState.id) return;
+    dragState.el.style.left = ev.clientX - dragState.ox + "px";
+    dragState.el.style.top = ev.clientY - dragState.oy + "px";
+  }
+
+  function nearestSilverSlot(cx, cy) {
+    var best = null;
+    var bestD = 1e9;
+    silverSlots.forEach(function (s) {
+      if (s.querySelector(".drag-chip")) return;
+      var r = s.getBoundingClientRect();
+      var mx = (r.left + r.right) / 2;
+      var my = (r.top + r.bottom) / 2;
+      var d = (cx - mx) * (cx - mx) + (cy - my) * (cy - my);
+      if (d < bestD && cx >= r.left - 16 && cx <= r.right + 16 && cy >= r.top - 16 && cy <= r.bottom + 16) {
+        bestD = d;
+        best = s;
+      }
+    });
+    return best;
+  }
+
+  function onSilverPointerUp(ev) {
+    if (!dragState || ev.pointerId !== dragState.id) return;
+    var el = dragState.el;
+    try { el.releasePointerCapture(ev.pointerId); } catch (e) {}
+    var slot = nearestSilverSlot(ev.clientX, ev.clientY);
+    if (slot) {
+      el.style.position = "relative";
+      el.style.left = "auto";
+      el.style.top = "auto";
+      el.style.zIndex = "";
+      el.classList.remove("dragging");
+      slot.appendChild(el);
+      slot.classList.add("filled");
+      el.classList.add("in-slot");
+    } else {
+      el.classList.remove("dragging", "in-slot");
+      el.style.position = "relative";
+      el.style.left = "auto";
+      el.style.top = "auto";
+      el.style.zIndex = "";
+      silverBank.appendChild(el);
+    }
+    clearSilverDragListeners();
+    var filled = silverSlots.every(function (s) { return s.querySelector(".drag-chip"); });
+    document.getElementById("btn-submit").disabled = !filled;
+  }
+
+  function mountGold() {
+    tier = 2;
+    updateTierChips();
+    clearSilverDragListeners();
+    document.getElementById("bronze-root").style.display = "none";
+    document.getElementById("silver-root").style.display = "none";
+    document.getElementById("gold-root").style.display = "";
+    var root = document.getElementById("gold-root");
+    root.innerHTML = "";
+    var item = GOLD[gIdx];
+    var prompt = document.getElementById("prompt-line");
+    prompt.innerHTML = "";
+    prompt.appendChild(lineWithSpeaker(item.display, "gs"));
+
+    var slots = document.createElement("div");
+    slots.id = "gold-slots";
+    goldDegSlot = document.createElement("div");
+    goldDegSlot.className = "gold-slot";
+    goldDegSlot.dataset.role = "deg";
+    goldCmpSlot = document.createElement("div");
+    goldCmpSlot.className = "gold-slot";
+    goldCmpSlot.dataset.role = "cmp";
+    var lab1 = document.createElement("span");
+    lab1.textContent = "程度 ";
+    lab1.style.fontSize = "0.75rem";
+    lab1.style.opacity = "0.8";
+    var lab2 = document.createElement("span");
+    lab2.textContent = "比较级 ";
+    lab2.style.fontSize = "0.75rem";
+    lab2.style.opacity = "0.8";
+    slots.appendChild(lab1);
+    slots.appendChild(goldDegSlot);
+    slots.appendChild(lab2);
+    slots.appendChild(goldCmpSlot);
+    root.appendChild(slots);
+
+    var bank = document.createElement("div");
+    bank.id = "gold-bank";
+    goldDeg = goldCmp = null;
+    function addChip(text, role) {
+      var c = document.createElement("button");
+      c.type = "button";
+      c.className = "gold-chip";
+      c.textContent = text;
+      c.dataset.role = role;
+      c.addEventListener("click", function () {
+        if (c.classList.contains("picked")) return;
+        if (role === "deg") {
+          if (goldDegSlot.firstChild) return;
+          goldDeg = text;
+          goldDegSlot.appendChild(document.createTextNode(text));
+          goldDegSlot.classList.add("filled");
+        } else {
+          if (goldCmpSlot.firstChild) return;
+          goldCmp = text;
+          goldCmpSlot.appendChild(document.createTextNode(text));
+          goldCmpSlot.classList.add("filled");
+        }
+        c.classList.add("picked");
+        document.getElementById("btn-submit").disabled = !(goldDeg && goldCmp);
+      });
+      bank.appendChild(c);
+    }
+    item.degreePool.forEach(function (d) { addChip(d, "deg"); });
+    item.cmpPool.forEach(function (c) { addChip(c, "cmp"); });
+    root.appendChild(bank);
+    document.getElementById("btn-submit").disabled = true;
+    playVoiceById("gh").catch(function () {});
+  }
+
+  function silverTokensCorrect() {
+    var item = SILVER[sIdx];
+    for (var i = 0; i < 5; i++) {
+      var ch = silverSlots[i].querySelector(".drag-chip");
+      if (!ch || ch.dataset.text !== item.tokens[i]) return false;
+    }
+    return true;
+  }
+
+  function submitHandler() {
+    if (tier === 0) {
+      if (!bronzeSelected) return;
+      var b = BRONZE[bIdx];
+      if (bronzeSelected === b.correct) {
+        var rect = document.getElementById("stage").getBoundingClientRect();
+        spawnParticles(rect.left + rect.width / 2, rect.top + 40, 20);
+        if (window.anime) {
+          window.anime({ targets: "#bronze-choices .selected", scale: [1, 1.12, 1], duration: 500, easing: "easeOutElastic(1, .8)" });
+        }
+        lock(true);
+        playVoiceById("b" + bIdx).then(function () {
+          lock(false);
+          bIdx++;
+          if (bIdx >= BRONZE.length) mountSilver();
+          else mountBronze();
+        }, function () {
+          lock(false);
+          bIdx++;
+          if (bIdx >= BRONZE.length) mountSilver();
+          else mountBronze();
+        });
+      } else {
+        shakeStage();
+        showToast("词形错误，请从比较级规则重新选择。");
+      }
+      return;
+    }
+    if (tier === 1) {
+      if (!silverSlots.every(function (s) { return s.querySelector(".drag-chip"); })) return;
+      var item = SILVER[sIdx];
+      if (silverTokensCorrect()) {
+        var rect = document.getElementById("stage").getBoundingClientRect();
+        spawnParticles(rect.left + rect.width / 2, rect.top + 40, 24);
+        lock(true);
+        playVoiceById("sa" + sIdx).then(function () {
+          lock(false);
+          sIdx++;
+          if (sIdx >= SILVER.length) mountGold();
+          else mountSilver();
+        }, function () {
+          lock(false);
+          sIdx++;
+          if (sIdx >= SILVER.length) mountGold();
+          else mountSilver();
+        });
+      } else {
+        shakeStage();
+        showToast("语序或搭配不对，请对照听到的 Which city 问题。");
+      }
+      return;
+    }
+    if (tier === 2) {
+      var g = GOLD[gIdx];
+      var phrase = (goldDeg || "") + " " + (goldCmp || "");
+      if (goldDeg === "very" && goldCmp === "spicier") {
+        lock(true);
+        fetchDeepSeekVeryTrap(phrase).then(function (txt) {
+          showTutor(txt);
+          lock(false);
+        }).catch(function () {
+          showTutor("very 不能修饰比较级！请换 much 或 a lot 这类「强化石」。");
+          lock(false);
+        });
+        shakeStage();
+        resetGoldPicks();
+        return;
+      }
+      var degOk = g.correctDegree.indexOf(goldDeg) >= 0;
+      var cmpOk = goldCmp === g.correctCmp;
+      if (degOk && cmpOk) {
+        var rect = document.getElementById("stage").getBoundingClientRect();
+        spawnParticles(rect.left + rect.width / 2, rect.top + 40, 28);
+        lock(true);
+        playVoiceById("gs").then(function () {
+          lock(false);
+          showFinale();
+        }, function () {
+          lock(false);
+          showFinale();
+        });
+      } else {
+        shakeStage();
+        if (goldDeg === "very") {
+          lock(true);
+          fetchDeepSeekVeryTrap(phrase).then(function (txt) {
+            showTutor(txt);
+            lock(false);
+          }).catch(function () {
+            showTutor("very 是低级武器，只能修饰原级形容词。");
+            lock(false);
+          });
+        } else {
+          showToast("搭配不对：需要 much 或 a lot，并与 spicier 搭配。");
+        }
+        resetGoldPicks();
+      }
+    }
+  }
+
+  function resetGoldPicks() {
+    goldDeg = goldCmp = null;
+    if (goldDegSlot) {
+      goldDegSlot.innerHTML = "";
+      goldDegSlot.classList.remove("filled");
+    }
+    if (goldCmpSlot) {
+      goldCmpSlot.innerHTML = "";
+      goldCmpSlot.classList.remove("filled");
+    }
+    document.querySelectorAll("#gold-bank .gold-chip").forEach(function (c) {
+      c.classList.remove("picked");
+    });
+    document.getElementById("btn-submit").disabled = true;
+  }
+
+  function fetchDeepSeekVeryTrap(phrase) {
+    var sys =
+      "You are a humorous but extremely strict middle school English teacher. The student just fell into the deadliest examination trap. They used the word very to modify a comparative adjective. The student wrote " +
+      JSON.stringify(phrase) +
+      ". Please use Chinese to give a Socratic and highly sarcastic reprimand under sixty words. Tell them that very is a low level weapon that can only equip base level positive adjectives. Tell them that once an adjective has evolved into a comparative warrior it requires high level magical enhancement stones like much or a lot.";
+    return window
+      .fetchDeepSeekEvaluation({
+        model: "deepseek-chat",
+        messages: [
+          { role: "system", content: sys },
+          { role: "user", content: "请开始点评。" }
+        ],
+        temperature: 0.65,
+        max_tokens: 200
+      })
+      .then(function (res) {
+        if (!res || !res.ok || !res.data) return "";
+        var ch = (res.data.choices && res.data.choices[0] && res.data.choices[0].message && res.data.choices[0].message.content) || "";
+        return String(ch).trim();
+      });
+  }
+
+  function showTutor(full) {
+    var bubble = document.getElementById("tutor-bubble");
+    var tx = document.getElementById("tutor-text");
+    bubble.classList.add("show");
+    tx.textContent = "";
+    var i = 0;
+    if (tutorTimer) window.clearInterval(tutorTimer);
+    tutorTimer = window.setInterval(function () {
+      i++;
+      tx.textContent = full.slice(0, i);
+      if (i >= full.length) {
+        window.clearInterval(tutorTimer);
+        tutorTimer = null;
+      }
+    }, 26);
+  }
+
+  document.getElementById("tutor-dismiss").addEventListener("click", function () {
+    document.getElementById("tutor-bubble").classList.remove("show");
+    if (tutorTimer) window.clearInterval(tutorTimer);
+  });
+
+  function showFinale() {
+    clearParticles();
+    var flash = document.getElementById("finale-flash");
+    var orb = document.getElementById("finale-orb");
+    var badge = document.getElementById("badge-img-wrap");
+    var stage = document.getElementById("stage");
+    stage.style.opacity = "0";
+    flash.classList.add("on");
+    window.setTimeout(function () {
+      flash.classList.remove("on");
+      orb.classList.add("show");
+    }, 450);
+    window.setTimeout(function () {
+      orb.classList.remove("show");
+      badge.classList.add("show");
+      if (window.anime) {
+        window.anime({
+          targets: "body",
+          translateX: [0, -5, 5, -3, 3, 0],
+          duration: 520,
+          easing: "easeInOutQuad"
+        });
+      }
+      document.getElementById("btn-next-wrap").classList.add("show");
+    }, 1400);
+  }
+
+  document.getElementById("btn-submit").addEventListener("click", submitHandler);
+  document.getElementById("btn-next").addEventListener("click", function () {
+    window.location.href = "lesson07-page05-more-comparative.html";
+  });
+
+  setDebug("背景与徽章：" + ASSET_BG.split("/").pop());
+
+  document.getElementById("essay-btn-bj").addEventListener("click", function () {
+    playVoiceById("essay_bj").catch(function () {});
+  });
+  document.getElementById("essay-btn-cd").addEventListener("click", function () {
+    playVoiceById("essay_cd").catch(function () {});
+  });
+
+  mountBronze();
+})();
+  </script>
+</body>
+</html>

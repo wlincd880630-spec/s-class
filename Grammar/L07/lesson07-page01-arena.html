@@ -1,0 +1,2168 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>第07讲 · Page 01 · Clash of the Titans — The Giant Arena</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=ZCOOL+KuaiLe&family=Bebas+Neue&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink: #f4f1ea;
+      --gold: #ffd54f;
+      --gold-bright: #ffea00;
+      --dragon: #ff6b4a;
+      --titan: #90a4ae;
+      --overlay: rgba(10, 8, 14, 0.62);
+      --overlay-deep: rgba(4, 2, 8, 0.82);
+      --hud-edge: rgba(255, 213, 79, 0.35);
+    }
+    * { box-sizing: border-box; }
+    /** 整体 130%：文字、图片、视频及 fixed 叠层一并放大（本地 Chromium / Edge 推荐） */
+    html {
+      zoom: 1.3;
+    }
+    html, body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: system-ui, "Segoe UI", "Microsoft YaHei", sans-serif;
+      background: #050308;
+      color: var(--ink);
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+    }
+    /* --- Layers (video bottom) --- */
+    #arena-video-wrap {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+      /* 环境色只在最底层，不再叠在视频/静帧上方，避免「一闪之后整屏发糊」 */
+      background:
+        radial-gradient(ellipse at 30% 40%, rgba(74, 18, 8, 0.45) 0%, transparent 52%),
+        radial-gradient(ellipse at 72% 45%, rgba(42, 42, 48, 0.4) 0%, transparent 48%),
+        linear-gradient(165deg, #120810 0%, #1a1422 45%, #08040a 100%);
+    }
+    #arena-video {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 1.2s ease;
+      will-change: filter;
+    }
+    #arena-video.show { opacity: 1; }
+    /* 仅承载 PNG 静帧，禁止渐变/动画盖在视频上 */
+    #arena-fallback-layer {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background: transparent;
+    }
+    #arena-fallback-layer img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 0.8s ease;
+      z-index: 0;
+      will-change: filter;
+    }
+    #arena-fallback-layer img.visible-underlay {
+      opacity: 1;
+    }
+    #arena-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      background: var(--overlay);
+      pointer-events: none;
+    }
+    #arena-overlay.dim-strong {
+      background: var(--overlay-deep);
+      transition: background 1.4s ease;
+    }
+
+    /* --- Title --- */
+    #title-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 10;
+      padding: clamp(8px, 2vh, 16px) clamp(12px, 4vw, 28px);
+      text-align: center;
+      pointer-events: none;
+    }
+    #title-bar h1 {
+      margin: 0;
+      font-family: "Bebas Neue", "ZCOOL KuaiLe", sans-serif;
+      font-size: clamp(1.25rem, 4.5vw, 2.4rem);
+      letter-spacing: 0.06em;
+      text-shadow: 0 3px 18px rgba(0,0,0,0.85), 0 0 28px rgba(255, 213, 79, 0.35);
+    }
+    #title-bar p {
+      margin: 6px 0 0;
+      font-size: clamp(0.72rem, 2vw, 0.95rem);
+      opacity: 0.88;
+    }
+
+    /* --- Radar HUD --- */
+    .hud-grid {
+      position: fixed;
+      inset: 0;
+      z-index: 8;
+      display: grid;
+      grid-template-columns: 1fr minmax(220px, 28vw) 1fr;
+      grid-template-rows: auto 1fr auto;
+      pointer-events: none;
+      padding: clamp(52px, 12vh, 88px) clamp(8px, 2vw, 20px) clamp(100px, 18vh, 160px);
+      gap: clamp(6px, 1.5vw, 14px);
+    }
+    @media (max-width: 720px) {
+      .hud-grid {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto 1fr auto;
+      }
+      .hud-col-center { display: none; }
+    }
+    .hud-panel {
+      pointer-events: none;
+      align-self: center;
+      padding: clamp(8px, 2vw, 14px);
+      border-radius: 255px 22px 235px 18px / 18px 235px 22px 255px;
+      border: 3px solid var(--hud-edge);
+      background: linear-gradient(145deg, rgba(14, 10, 22, 0.94), rgba(26, 18, 36, 0.88));
+      box-shadow: inset 0 0 40px rgba(0,0,0,0.35), 0 12px 40px rgba(0,0,0,0.45);
+      max-width: min(96vw, 420px);
+      margin: 0 auto;
+    }
+    .hud-portrait {
+      width: 100%;
+      max-width: 280px;
+      margin: 0 auto 10px;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.55);
+      aspect-ratio: 4 / 3;
+    }
+    .hud-portrait img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .hud-panel.dragon { grid-column: 1; justify-self: start; }
+    .hud-panel.titan { grid-column: 3; justify-self: end; }
+    @media (max-width: 720px) {
+      .hud-panel.dragon { grid-column: 1; }
+      .hud-panel.titan { grid-column: 2; }
+    }
+    .hud-panel h2 {
+      margin: 0 0 8px;
+      font-family: "Patrick Hand", cursive;
+      font-size: clamp(1rem, 3.2vw, 1.35rem);
+      text-align: center;
+    }
+    .hud-panel.dragon h2 { color: var(--dragon); }
+    .hud-panel.titan h2 { color: var(--titan); }
+
+    .radar-chart-title {
+      margin: 0 auto 6px;
+      max-width: 260px;
+      text-align: center;
+      font-size: clamp(0.62rem, 1.75vw, 0.8rem);
+      line-height: 1.3;
+      letter-spacing: 0.02em;
+    }
+    .radar-chart-title-en {
+      display: block;
+      font-family: "Patrick Hand", system-ui, sans-serif;
+      font-weight: 600;
+      opacity: 0.96;
+    }
+    .radar-chart-title-cn {
+      display: block;
+      font-family: "ZCOOL KuaiLe", "Microsoft YaHei", sans-serif;
+      font-size: 0.92em;
+      opacity: 0.88;
+      margin-top: 2px;
+    }
+    .hud-panel.dragon .radar-chart-title-en { color: rgba(255, 200, 175, 0.98); }
+    .hud-panel.dragon .radar-chart-title-cn { color: rgba(255, 170, 140, 0.92); }
+    .hud-panel.titan .radar-chart-title-en { color: rgba(210, 225, 235, 0.98); }
+    .hud-panel.titan .radar-chart-title-cn { color: rgba(170, 195, 210, 0.92); }
+
+    .radar-svg {
+      display: block;
+      width: min(100%, 260px);
+      height: auto;
+      margin: 0 auto 10px;
+      filter: drop-shadow(0 4px 12px rgba(0,0,0,0.5));
+    }
+    .stat-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      font-size: clamp(0.78rem, 2.4vw, 0.95rem);
+      margin: 5px 0;
+      gap: 8px;
+    }
+    .stat-row .lbl { opacity: 0.85; font-family: "Patrick Hand", cursive; }
+    .stat-row .num {
+      font-variant-numeric: tabular-nums;
+      font-weight: 700;
+      min-width: 3.2em;
+      text-align: right;
+    }
+    .stat-row .unit { font-size: 0.85em; opacity: 0.75; margin-left: 2px; }
+
+    .hud-panel.highlight-dragon {
+      border-color: rgba(255, 80, 60, 0.85);
+      box-shadow: 0 0 28px rgba(255, 60, 40, 0.45), inset 0 0 50px rgba(120, 20, 10, 0.25);
+      transform-origin: center center;
+    }
+    .hud-panel.highlight-titan {
+      border-color: rgba(180, 200, 210, 0.9);
+      box-shadow: 0 0 28px rgba(160, 190, 210, 0.4), inset 0 0 50px rgba(40, 50, 60, 0.35);
+      transform-origin: center center;
+    }
+    .hud-panel.done-gray {
+      filter: grayscale(0.35) brightness(0.88);
+    }
+
+    /* --- Question buttons --- */
+    #question-layer {
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 20;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: clamp(10px, 2.5vh, 18px);
+      width: min(92vw, 520px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+    }
+    #question-layer.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .q-btn {
+      position: relative;
+      font-family: "Patrick Hand", cursive;
+      font-size: clamp(1rem, 3.5vw, 1.35rem);
+      padding: 14px 52px 14px 18px;
+      border-radius: 18px;
+      border: 3px solid rgba(255, 213, 79, 0.65);
+      background: linear-gradient(180deg, rgba(55,40,28,0.95), rgba(25,18,14,0.92));
+      color: var(--ink);
+      cursor: pointer;
+      box-shadow: 0 0 22px rgba(255, 213, 79, 0.35), 0 10px 28px rgba(0,0,0,0.45);
+      text-align: left;
+      transition: transform 0.2s ease, filter 0.35s ease, opacity 0.35s ease;
+      user-select: none;
+    }
+    .q-btn:hover:not(.is-disabled) { transform: scale(1.02); }
+    .q-btn.is-disabled {
+      opacity: 0.48;
+      cursor: default;
+      filter: grayscale(0.9);
+      pointer-events: none;
+    }
+    .q-btn .speak-hit {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 40px;
+      height: 40px;
+      border: none;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #ffe082, #ff8f00);
+      box-shadow: 0 0 14px rgba(255, 213, 79, 0.75);
+      cursor: pointer;
+      pointer-events: auto;
+      display: grid;
+      place-items: center;
+      padding: 0;
+    }
+    .q-btn .speak-hit svg { width: 22px; height: 22px; fill: #3e2723; }
+
+    /* --- Answer splash：压在底部；开启时可点「关闭」--- */
+    #answer-splash {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      top: 0;
+      z-index: 40;
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+      padding: 0 clamp(12px, 4vw, 28px) clamp(72px, 12vh, 130px);
+      box-sizing: border-box;
+      pointer-events: none;
+    }
+    #answer-splash.show {
+      display: flex;
+      pointer-events: auto;
+    }
+    #answer-splash .answer-card {
+      position: relative;
+      max-width: min(96vw, 720px);
+      width: 100%;
+      pointer-events: auto;
+      border-radius: 22px;
+      background: rgba(8, 6, 12, 0.82);
+      border: 2px solid rgba(255, 213, 79, 0.45);
+      box-shadow: 0 -8px 40px rgba(0, 0, 0, 0.45);
+      padding: 40px 18px 16px;
+    }
+    #answer-splash .answer-close {
+      position: absolute;
+      top: 8px;
+      right: 10px;
+      z-index: 2;
+      width: 36px;
+      height: 36px;
+      padding: 0;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.25rem;
+      line-height: 1;
+      color: #3e2723;
+      background: radial-gradient(circle at 30% 30%, #ffe082, #ff8f00);
+      box-shadow: 0 0 12px rgba(255, 213, 79, 0.65);
+      font-family: system-ui, sans-serif;
+    }
+    #answer-splash .answer-close:hover {
+      filter: brightness(1.08);
+    }
+    #answer-splash .answer-close:focus-visible {
+      outline: 2px solid var(--gold-bright);
+      outline-offset: 2px;
+    }
+    #answer-splash .inner {
+      max-height: min(38vh, 280px);
+      overflow-y: auto;
+      text-align: center;
+      font-family: "Patrick Hand", cursive;
+      font-size: clamp(1rem, 3.6vw, 1.65rem);
+      line-height: 1.35;
+      text-shadow: 0 4px 24px rgba(0,0,0,0.9);
+      padding: 0 8px 4px;
+    }
+    .cmp {
+      color: var(--gold-bright);
+      font-weight: 800;
+      text-shadow: 0 0 18px rgba(255, 234, 0, 0.65);
+    }
+
+    /* --- Global interaction lock --- */
+    #interaction-lock {
+      position: fixed;
+      inset: 0;
+      z-index: 35;
+      display: none;
+      background: transparent;
+      cursor: wait;
+    }
+    #interaction-lock.on { display: block; }
+
+    /* --- Finale nav --- */
+    #finale-wrap {
+      position: fixed;
+      right: clamp(12px, 3vw, 24px);
+      bottom: clamp(12px, 3vh, 28px);
+      left: auto;
+      transform: translateY(120%);
+      z-index: 25;
+      opacity: 0;
+      transition: transform 0.85s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.6s ease;
+    }
+    #finale-wrap.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    #finale-btn {
+      font-family: "ZCOOL KuaiLe", "Patrick Hand", cursive;
+      font-size: clamp(0.95rem, 3vw, 1.2rem);
+      padding: 14px 28px;
+      border-radius: 999px;
+      border: 3px solid rgba(255, 213, 79, 0.55);
+      background: linear-gradient(180deg, rgba(80, 60, 30, 0.95), rgba(30, 22, 14, 0.98));
+      color: var(--gold);
+      cursor: pointer;
+      box-shadow: 0 0 22px rgba(255, 213, 79, 0.45);
+      animation: breathe 2.4s ease-in-out infinite;
+    }
+    @keyframes breathe {
+      0%, 100% { box-shadow: 0 0 18px rgba(255, 213, 79, 0.35); }
+      50% { box-shadow: 0 0 36px rgba(255, 213, 79, 0.75); }
+    }
+
+    /* --- Screen shake --- */
+    .shake-root {
+      animation: arenaShake 0.55s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+    }
+    @keyframes arenaShake {
+      0% { transform: translate(0, 0); }
+      20% { transform: translate(-10px, 4px) rotate(-0.4deg); }
+      40% { transform: translate(12px, -5px) rotate(0.5deg); }
+      60% { transform: translate(-8px, 3px) rotate(-0.3deg); }
+      80% { transform: translate(6px, -3px) rotate(0.25deg); }
+      100% { transform: translate(0, 0); }
+    }
+
+    /* ========= Phase 1：魔法认知石碑（属性 × 原级形容词） ========= */
+    #phase1-root {
+      position: fixed;
+      inset: 0;
+      z-index: 60;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: clamp(44px, 9vh, 72px) clamp(10px, 3vw, 22px) clamp(120px, 22vh, 220px);
+      pointer-events: none;
+      box-sizing: border-box;
+      overflow-x: hidden;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    #phase1-root.is-interactive {
+      pointer-events: auto;
+    }
+    #phase1-particles {
+      position: fixed;
+      inset: 0;
+      z-index: 61;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    #phase1-flash {
+      position: fixed;
+      inset: 0;
+      z-index: 80;
+      background: #fff;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* Phase 1：轮播 + 主交互（发音 → 揭示词 → 提问 → 选形容词） */
+    #phase1-audio-lock {
+      position: fixed;
+      inset: 0;
+      z-index: 78;
+      pointer-events: none;
+      background: transparent;
+    }
+    #phase1-audio-lock.on {
+      pointer-events: auto;
+      cursor: wait;
+    }
+    #phase1-carousel-layer {
+      width: min(94vw, 640px);
+      margin: 0 auto clamp(12px, 2vh, 20px);
+      pointer-events: auto;
+      text-align: center;
+    }
+    #phase1-carousel-layer.phase1-carousel-hidden {
+      display: none;
+    }
+    .phase1-carousel-hint {
+      margin: 0 0 10px;
+      font-family: "ZCOOL KuaiLe", "Microsoft YaHei", sans-serif;
+      font-size: clamp(0.78rem, 2.4vw, 0.95rem);
+      color: rgba(255, 230, 200, 0.92);
+      line-height: 1.45;
+    }
+    #p1-carousel-viewport {
+      overflow: hidden;
+      border-radius: clamp(14px, 3vw, 20px);
+      border: 2px solid rgba(255, 213, 79, 0.35);
+      box-shadow: none;
+      background: #2a2a2e;
+      flex: 1;
+      min-width: 0;
+    }
+    .p1-carousel-row {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: clamp(8px, 2vw, 14px);
+      width: 100%;
+    }
+    .p1-carousel-arrow {
+      flex-shrink: 0;
+      width: clamp(44px, 11vw, 52px);
+      height: clamp(44px, 11vw, 52px);
+      border-radius: 50%;
+      border: 3px solid rgba(255, 213, 79, 0.55);
+      background: linear-gradient(180deg, rgba(60, 42, 88, 0.95), rgba(28, 18, 42, 0.98));
+      color: #ffea00;
+      font-size: clamp(1.1rem, 4vw, 1.45rem);
+      line-height: 1;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+      touch-action: manipulation;
+    }
+    .p1-carousel-arrow:disabled {
+      opacity: 0.28;
+      cursor: not-allowed;
+    }
+    .p1-carousel-counter {
+      margin: 10px 0 6px;
+      font-family: "Bebas Neue", sans-serif;
+      font-size: clamp(0.95rem, 3vw, 1.15rem);
+      letter-spacing: 0.12em;
+      color: rgba(255, 224, 160, 0.92);
+    }
+    #p1-carousel-start {
+      margin-top: 8px;
+      width: 100%;
+      max-width: 320px;
+    }
+    #p1-carousel-track {
+      display: flex;
+      width: 400%;
+      transition: transform 0.65s cubic-bezier(0.25, 0.8, 0.25, 1);
+      will-change: transform;
+    }
+    .p1-c-slide {
+      width: 25%;
+      flex-shrink: 0;
+      position: relative;
+      aspect-ratio: 16 / 9;
+      background: #2a2a2e;
+      min-height: 1px;
+    }
+    .p1-c-slide img {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+      z-index: 1;
+      filter: none;
+    }
+
+    #phase1-main-flow {
+      width: min(96vw, 720px);
+      margin: 0 auto;
+      pointer-events: auto;
+    }
+    #phase1-main-flow.phase1-flow-hidden {
+      display: none;
+    }
+    .phase1-lead-en {
+      margin: 0 0 8px;
+      font-family: "Patrick Hand", "Bebas Neue", cursive;
+      font-size: clamp(1rem, 3.4vw, 1.35rem);
+      color: #fff8e7;
+      text-align: center;
+      line-height: 1.35;
+      text-shadow: 0 2px 14px rgba(0, 0, 0, 0.75);
+    }
+    .phase1-lead-zh {
+      margin: 0 0 10px;
+      font-size: clamp(0.72rem, 2.2vw, 0.88rem);
+      color: rgba(255, 213, 79, 0.88);
+      text-align: center;
+      font-family: "ZCOOL KuaiLe", "Microsoft YaHei", sans-serif;
+      line-height: 1.4;
+    }
+    .phase1-lead-actions {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 14px;
+    }
+    #phase1-stage-wrap {
+      border-radius: clamp(16px, 3.5vw, 24px);
+      padding: clamp(12px, 2.5vw, 18px);
+      background: linear-gradient(165deg, rgba(28, 18, 42, 0.94), rgba(10, 8, 18, 0.96));
+      border: 3px solid rgba(255, 213, 79, 0.42);
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
+      margin-bottom: 14px;
+    }
+    #phase1-main-visual {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 12px;
+      background: #2a2a2e;
+      min-height: 120px;
+    }
+    #phase1-main-img {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+      z-index: 1;
+      filter: none;
+    }
+    .phase1-img-fallback {
+      position: absolute;
+      left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "Bebas Neue", sans-serif;
+      font-size: clamp(1.4rem, 6vw, 2.2rem);
+      color: rgba(255, 234, 0, 0.92);
+      letter-spacing: 0.15em;
+      background: #2a2a2e;
+      z-index: 2;
+    }
+    .phase1-img-fallback[hidden] {
+      display: none !important;
+    }
+    .phase1-stage-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      align-items: center;
+    }
+    .phase1-round-btn {
+      font-family: "ZCOOL KuaiLe", "Patrick Hand", cursive;
+      font-size: clamp(0.82rem, 2.5vw, 1rem);
+      padding: 10px 16px;
+      border-radius: 999px;
+      border: 2px solid rgba(255, 213, 79, 0.55);
+      background: linear-gradient(180deg, rgba(70, 45, 95, 0.95), rgba(28, 18, 42, 0.98));
+      color: #ffe082;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+    }
+    .phase1-round-btn:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+    .phase1-mystery-btn {
+      font-family: "ZCOOL KuaiLe", "Patrick Hand", cursive;
+      font-size: clamp(0.82rem, 2.5vw, 1rem);
+      padding: 10px 18px;
+      border-radius: 14px;
+      border: 2px dashed rgba(105, 240, 174, 0.55);
+      background: rgba(8, 22, 14, 0.55);
+      color: rgba(180, 255, 210, 0.95);
+      cursor: pointer;
+    }
+    .phase1-mystery-btn:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+    .phase1-keyword-display {
+      margin-top: 12px;
+      text-align: center;
+      font-family: "Bebas Neue", sans-serif;
+      font-size: clamp(1.6rem, 7vw, 2.6rem);
+      letter-spacing: 0.18em;
+      color: #ffea00;
+      text-shadow: 0 0 24px rgba(255, 213, 79, 0.55);
+    }
+    .phase1-describe-block {
+      margin-bottom: 12px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: rgba(12, 10, 24, 0.72);
+      border: 1px solid rgba(255, 213, 79, 0.22);
+    }
+    .phase1-q-en {
+      margin: 0 0 10px;
+      font-family: "Patrick Hand", cursive;
+      font-size: clamp(0.92rem, 3vw, 1.15rem);
+      color: rgba(240, 235, 255, 0.96);
+      line-height: 1.45;
+      text-align: center;
+    }
+    .phase1-adj-pool {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      align-items: center;
+      padding: 8px 4px 20px;
+      max-height: 38vh;
+      overflow-y: auto;
+    }
+    .phase1-chip {
+      font-family: "Patrick Hand", cursive;
+      font-weight: 700;
+      font-size: clamp(0.95rem, 3.2vw, 1.2rem);
+      padding: 12px 20px;
+      border-radius: 255px 16px 235px 18px / 14px 235px 16px 255px;
+      border: 3px solid rgba(200, 160, 100, 0.55);
+      background: linear-gradient(145deg, rgba(255, 248, 220, 0.97), rgba(220, 185, 130, 0.94));
+      color: #3e2723;
+      cursor: pointer;
+      box-shadow: 3px 4px 0 rgba(40, 28, 18, 0.3);
+    }
+    .phase1-chip.selected {
+      border-color: rgba(105, 240, 174, 0.95);
+      box-shadow: 0 0 18px rgba(105, 240, 174, 0.45), 3px 4px 0 rgba(20, 80, 50, 0.35);
+      transform: scale(1.04);
+    }
+    .phase1-chip.wrong-flash {
+      animation: chipWrong 0.45s ease;
+    }
+    @keyframes chipWrong {
+      0%, 100% { filter: brightness(1); }
+      50% { filter: brightness(1.5) hue-rotate(-15deg); }
+    }
+    .phase1-step-cue {
+      margin: 4px 0 0;
+      text-align: center;
+      font-size: clamp(0.72rem, 2.2vw, 0.88rem);
+      color: rgba(255, 200, 160, 0.88);
+      font-family: "ZCOOL KuaiLe", "Microsoft YaHei", sans-serif;
+    }
+    #phase1-enter-wrap {
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%) scale(0.4);
+      z-index: 75;
+      opacity: 0;
+      pointer-events: none;
+      width: min(92vw, 520px);
+      text-align: center;
+    }
+    #phase1-enter-wrap.visible {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translate(-50%, -50%) scale(1);
+      transition: opacity 0.85s ease, transform 1s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    #phase1-enter-arena {
+      width: 100%;
+      padding: clamp(18px, 4vw, 26px) clamp(22px, 5vw, 36px);
+      border-radius: clamp(20px, 4vw, 28px);
+      border: 4px solid rgba(255, 234, 0, 0.75);
+      background: linear-gradient(180deg, rgba(90, 40, 120, 0.95), rgba(30, 14, 48, 0.98));
+      color: #fff8e7;
+      font-family: "ZCOOL KuaiLe", "Patrick Hand", cursive;
+      font-size: clamp(1.05rem, 3.8vw, 1.45rem);
+      cursor: pointer;
+      box-shadow: 0 0 40px rgba(255, 213, 79, 0.55);
+      animation: arenaHeartPulse 1.15s ease-in-out infinite;
+    }
+    @keyframes arenaHeartPulse {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 28px rgba(255, 213, 79, 0.45); }
+      50% { transform: scale(1.045); box-shadow: 0 0 56px rgba(255, 234, 0, 0.75); }
+    }
+
+    /* Phase 2 初始隐藏，Phase 1 结束后揭示 */
+    .phase2-hidden {
+      opacity: 0 !important;
+      visibility: hidden !important;
+      pointer-events: none !important;
+    }
+
+    #debug-strip {
+      position: fixed;
+      left: 8px;
+      bottom: 6px;
+      z-index: 100;
+      font-size: 10px;
+      opacity: 0.45;
+      max-width: 96vw;
+      pointer-events: none;
+      word-break: break-all;
+    }
+  </style>
+</head>
+<body>
+  <!-- ========= Phase 1：属性名词与原级形容词配对 ========= -->
+  <div id="phase1-root" class="is-interactive" aria-label="觉醒复习阶段">
+    <div id="phase1-particles"></div>
+    <div id="phase1-flash"></div>
+    <div id="phase1-audio-lock" aria-hidden="true"></div>
+
+    <div id="phase1-carousel-layer" class="phase1-carousel-visible" aria-label="四图轮播预告">
+      <p class="phase1-carousel-hint">用下方<strong>左右按钮</strong>切换预览四张图（图上不显示英文词）。看完后点击「开始互动练习」。</p>
+      <div class="p1-carousel-row">
+        <button type="button" id="p1-carousel-prev" class="p1-carousel-arrow" aria-label="上一张">◀</button>
+        <div id="p1-carousel-viewport">
+          <div id="p1-carousel-track">
+            <div class="p1-c-slide" data-dim="0">
+              <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L07/assets/phase1-concepts/phase1-speed.png" alt="" data-p1img />
+            </div>
+            <div class="p1-c-slide" data-dim="1">
+              <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L07/assets/phase1-concepts/phase1-weight.png" alt="" data-p1img />
+            </div>
+            <div class="p1-c-slide" data-dim="2">
+              <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L07/assets/phase1-concepts/phase1-height.png" alt="" data-p1img />
+            </div>
+            <div class="p1-c-slide" data-dim="3">
+              <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L07/assets/phase1-concepts/phase1-power.png" alt="" data-p1img />
+            </div>
+          </div>
+        </div>
+        <button type="button" id="p1-carousel-next" class="p1-carousel-arrow" aria-label="下一张">▶</button>
+      </div>
+      <p id="p1-carousel-counter" class="p1-carousel-counter" aria-live="polite">1 / 4</p>
+      <button type="button" id="p1-carousel-start" class="phase1-round-btn">开始互动练习</button>
+    </div>
+
+    <div id="phase1-main-flow" class="phase1-main-flow phase1-flow-hidden" aria-label="分步学习">
+      <p class="phase1-lead-en" id="phase1-lead-en">Think of a word for each picture. What does this picture talk about?</p>
+      <p class="phase1-lead-zh">先点「听发音」听主题词，再点「揭示」看英文，然后听问题，从所有形容词中选出这一维度的两个词。</p>
+      <div class="phase1-lead-actions">
+        <button type="button" id="phase1-btn-lead-audio" class="phase1-round-btn" aria-label="朗读英文引导 Think of a word…">听英文说明（引导）</button>
+      </div>
+
+      <div id="phase1-stage-wrap">
+        <div id="phase1-main-visual">
+          <img id="phase1-main-img" alt="" />
+          <div id="phase1-img-fallback" class="phase1-img-fallback" hidden></div>
+        </div>
+        <div class="phase1-stage-actions">
+          <button type="button" id="phase1-btn-kw-audio" class="phase1-round-btn">听发音（主题词 English）</button>
+          <button type="button" id="phase1-btn-reveal-word" class="phase1-mystery-btn" disabled>点击揭示英文词</button>
+        </div>
+        <div id="phase1-keyword-display" class="phase1-keyword-display" hidden></div>
+      </div>
+
+      <div id="phase1-describe-block" class="phase1-describe-block" hidden>
+        <p class="phase1-q-en" id="phase1-q-en"></p>
+        <button type="button" id="phase1-btn-q-audio" class="phase1-round-btn">听问题 Listen to the question</button>
+      </div>
+
+      <div id="phase1-adj-pool" class="phase1-adj-pool" hidden></div>
+      <p class="phase1-step-cue" id="phase1-step-cue"></p>
+    </div>
+
+    <div id="phase1-enter-wrap">
+      <button type="button" id="phase1-enter-arena">Enter the Giant Arena（进入巨兽竞技场）</button>
+    </div>
+  </div>
+
+  <div id="arena-video-wrap" class="shake-target">
+    <video id="arena-video" autoplay muted loop playsinline preload="auto"
+      poster="assets/arena-hero.png"
+      src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L07/assets/arena-bg-loop.mp4"></video>
+    <div id="arena-fallback-layer" aria-hidden="true">
+      <img id="local-still-bg" class="visible-underlay" src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L07/assets/arena-hero.png" alt="" />
+    </div>
+    <div id="arena-overlay"></div>
+  </div>
+
+  <header id="title-bar" class="phase2-hidden">
+    <h1>Clash of the Titans · The Giant Arena</h1>
+    <p>第07讲 · 形容词比较级 · Icebreaker — 视觉对决唤醒「原级」并预感「比较级」</p>
+  </header>
+
+  <div class="hud-grid phase2-hidden">
+    <section class="hud-panel dragon" id="panel-dragon">
+      <h2>🔥 Emberfang · Dragon</h2>
+      <div class="hud-portrait" aria-hidden="true">
+        <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L07/assets/monster-dragon-emberfang.png" alt="" loading="eager" decoding="async" />
+      </div>
+      <p class="radar-chart-title" id="radar-chart-title-dragon">
+        <span class="radar-chart-title-en">Five-Dimensional Radar Chart</span>
+        <span class="radar-chart-title-cn">五维雷达图</span>
+      </p>
+      <svg class="radar-svg" viewBox="0 -8 200 216" role="img" aria-labelledby="radar-chart-title-dragon">
+        <polygon points="100,28 162,78 140,158 60,158 38,78" fill="rgba(255,80,60,0.12)" stroke="rgba(255,160,120,0.55)" stroke-width="2"/>
+        <polygon id="radar-dragon" points="100,100 100,100 100,100 100,100 100,100" fill="rgba(255,90,70,0.35)" stroke="rgba(255,200,160,0.75)" stroke-width="2"/>
+        <g class="radar-axis-labels" pointer-events="none" fill="rgba(255,220,200,0.96)" font-family="Patrick Hand, &quot;Microsoft YaHei&quot;, sans-serif">
+          <text x="100" y="11" text-anchor="middle" font-size="8.5" paint-order="stroke" stroke="rgba(0,0,0,0.45)" stroke-width="0.35">Height<tspan x="100" dy="10" font-size="7.5" fill="rgba(255,190,170,0.9)">身高</tspan></text>
+          <text x="184" y="74" text-anchor="start" font-size="8.5" paint-order="stroke" stroke="rgba(0,0,0,0.45)" stroke-width="0.35">Weight<tspan x="184" dy="10" font-size="7.5" fill="rgba(255,190,170,0.9)">体重</tspan></text>
+          <text x="156" y="186" text-anchor="middle" font-size="8.5" paint-order="stroke" stroke="rgba(0,0,0,0.45)" stroke-width="0.35">Speed<tspan x="156" dy="10" font-size="7.5" fill="rgba(255,190,170,0.9)">速度</tspan></text>
+          <text x="44" y="186" text-anchor="middle" font-size="8.5" paint-order="stroke" stroke="rgba(0,0,0,0.45)" stroke-width="0.35">Power<tspan x="44" dy="10" font-size="7.5" fill="rgba(255,190,170,0.9)">战力</tspan></text>
+          <text x="16" y="74" text-anchor="end" font-size="8.5" paint-order="stroke" stroke="rgba(0,0,0,0.45)" stroke-width="0.35">Agility<tspan x="16" dy="10" font-size="7.5" fill="rgba(255,190,170,0.9)">敏捷</tspan></text>
+        </g>
+      </svg>
+      <div class="stat-row"><span class="lbl">Height</span><span class="num" id="d-h">0</span><span class="unit">m</span></div>
+      <div class="stat-row"><span class="lbl">Weight</span><span class="num" id="d-w">0</span><span class="unit">t</span></div>
+      <div class="stat-row"><span class="lbl">Speed</span><span class="num" id="d-s">0</span><span class="unit"></span></div>
+      <div class="stat-row"><span class="lbl">Power</span><span class="num" id="d-p">0</span><span class="unit"></span></div>
+    </section>
+    <div class="hud-col-center"></div>
+    <section class="hud-panel titan" id="panel-titan">
+      <h2>🗿 Graniteheart · Titan</h2>
+      <div class="hud-portrait" aria-hidden="true">
+        <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L07/assets/monster-titan-graniteheart.png" alt="" loading="eager" decoding="async" />
+      </div>
+      <p class="radar-chart-title" id="radar-chart-title-titan">
+        <span class="radar-chart-title-en">Five-Dimensional Radar Chart</span>
+        <span class="radar-chart-title-cn">五维雷达图</span>
+      </p>
+      <svg class="radar-svg" viewBox="0 -8 200 216" role="img" aria-labelledby="radar-chart-title-titan">
+        <polygon points="100,28 162,78 140,158 60,158 38,78" fill="rgba(160,180,190,0.12)" stroke="rgba(200,210,220,0.45)" stroke-width="2"/>
+        <polygon id="radar-titan" points="100,100 100,100 100,100 100,100 100,100" fill="rgba(160,190,210,0.35)" stroke="rgba(230,240,255,0.65)" stroke-width="2"/>
+        <g class="radar-axis-labels" pointer-events="none" fill="rgba(220,235,245,0.96)" font-family="Patrick Hand, &quot;Microsoft YaHei&quot;, sans-serif">
+          <text x="100" y="11" text-anchor="middle" font-size="8.5" paint-order="stroke" stroke="rgba(0,0,0,0.5)" stroke-width="0.35">Height<tspan x="100" dy="10" font-size="7.5" fill="rgba(190,215,230,0.92)">身高</tspan></text>
+          <text x="184" y="74" text-anchor="start" font-size="8.5" paint-order="stroke" stroke="rgba(0,0,0,0.5)" stroke-width="0.35">Weight<tspan x="184" dy="10" font-size="7.5" fill="rgba(190,215,230,0.92)">体重</tspan></text>
+          <text x="156" y="186" text-anchor="middle" font-size="8.5" paint-order="stroke" stroke="rgba(0,0,0,0.5)" stroke-width="0.35">Speed<tspan x="156" dy="10" font-size="7.5" fill="rgba(190,215,230,0.92)">速度</tspan></text>
+          <text x="44" y="186" text-anchor="middle" font-size="8.5" paint-order="stroke" stroke="rgba(0,0,0,0.5)" stroke-width="0.35">Power<tspan x="44" dy="10" font-size="7.5" fill="rgba(190,215,230,0.92)">战力</tspan></text>
+          <text x="16" y="74" text-anchor="end" font-size="8.5" paint-order="stroke" stroke="rgba(0,0,0,0.5)" stroke-width="0.35">Agility<tspan x="16" dy="10" font-size="7.5" fill="rgba(190,215,230,0.92)">敏捷</tspan></text>
+        </g>
+      </svg>
+      <div class="stat-row"><span class="lbl">Height</span><span class="num" id="t-h">0</span><span class="unit">m</span></div>
+      <div class="stat-row"><span class="lbl">Weight</span><span class="num" id="t-w">0</span><span class="unit">t</span></div>
+      <div class="stat-row"><span class="lbl">Speed</span><span class="num" id="t-s">0</span><span class="unit"></span></div>
+      <div class="stat-row"><span class="lbl">Power</span><span class="num" id="t-p">0</span><span class="unit"></span></div>
+    </section>
+  </div>
+
+  <div id="question-layer" class="phase2-hidden" aria-live="polite">
+    <div class="q-btn" id="btn-faster" data-key="faster" role="button" tabindex="0">
+      <span class="q-text">Who is faster?</span>
+      <button type="button" class="speak-hit" aria-label="朗读 Who is faster?" data-read="Who is faster?">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10v4h4l5 5V5L7 10H3zm13.5 0c0-1.77-1-3.29-2.5-4.03v8.05c1.49-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+      </button>
+    </div>
+    <div class="q-btn" id="btn-heavier" data-key="heavier" role="button" tabindex="0">
+      <span class="q-text">Who is heavier?</span>
+      <button type="button" class="speak-hit" aria-label="朗读 Who is heavier?" data-read="Who is heavier?">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10v4h4l5 5V5L7 10H3zm13.5 0c0-1.77-1-3.29-2.5-4.03v8.05c1.49-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+      </button>
+    </div>
+    <div class="q-btn" id="btn-stronger" data-key="stronger" role="button" tabindex="0">
+      <span class="q-text">Who is stronger?</span>
+      <button type="button" class="speak-hit" aria-label="朗读 Who is stronger?" data-read="Who is stronger?">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10v4h4l5 5V5L7 10H3zm13.5 0c0-1.77-1-3.29-2.5-4.03v8.05c1.49-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <div id="answer-splash" role="dialog" aria-modal="true" aria-labelledby="answer-inner">
+    <div class="answer-card">
+      <button type="button" class="answer-close" id="answer-close-btn" aria-label="关闭答案">✕</button>
+      <div class="inner" id="answer-inner"></div>
+    </div>
+  </div>
+
+  <div id="interaction-lock" class="phase2-hidden" aria-hidden="true"></div>
+
+  <div id="finale-wrap" class="phase2-hidden">
+    <button type="button" id="finale-btn">Enter the Magical Evolution Furnace</button>
+  </div>
+
+  <div id="debug-strip"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
+  <!-- 浏览器内朗读须用 Speech SDK；纯 fetch 调 REST TTS 易被 CORS 拦截（file:// 下常无声） -->
+  <script src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L07/assets/tts-mp3/l07-google-mp3/manifest.embed.js"></script>
+  <script src="../assets/lesson-tts-l07-local.js"></script>
+  <script>
+(function () {
+  "use strict";
+
+  /** ========= API：Vertex 项目（Bearer 注入） ========= */
+  /** gcloud config set project s-class-edtech-production */
+  window.__GC_VERTEX_PROJECT__ = "s-class-edtech-production";
+  window.__GC_VERTEX_REGION__ = "us-central1";
+  /** 将 Google Cloud access token（Bearer）粘贴于此；留空则跳过云端生成，仅用本地 assets 媒体 */
+  window.__VERTEX_BEARER_TOKEN__ =
+    window.__VERTEX_BEARER_TOKEN__ ||
+    "";
+
+  window.__DEEPSEEK_API_KEY__ =
+    window.__DEEPSEEK_API_KEY__ ||
+    "sk-daa16008e81843deba6fefe9dce51465";
+
+  /** ========= 全局：DeepSeek 评价入口（本页不调用，仅占位保持 SPA 一致） ========= */
+  window.fetchDeepSeekEvaluation = async function (payload, options) {
+    var key = String(window.__DEEPSEEK_API_KEY__ || "").trim();
+    if (!key) {
+      console.warn("[DeepSeek] API key empty");
+      return { ok: false, error: "no_api_key" };
+    }
+    var res = await fetch("https://api.deepseek.com/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + key
+      },
+      body: JSON.stringify(payload || {})
+    });
+    var data = null;
+    try { data = await res.json(); } catch (e) { data = null; }
+    return { ok: res.ok, status: res.status, data: data };
+  };
+
+  var PROJECT = window.__GC_VERTEX_PROJECT__;
+  var REGION = window.__GC_VERTEX_REGION__;
+  var TOKEN = String(window.__VERTEX_BEARER_TOKEN__ || "").trim();
+
+  var VIDEO_PROMPT =
+    "A cinematic, fast-paced tracking shot of a giant magical arena under stormy skies. " +
+    "On the left: a blazing crimson dragon with wings of fire. " +
+    "On the right: a colossal ancient stone titan covered in runes. " +
+    "Epic scale, dramatic rim lighting, high contrast, crayon storybook painting style, no readable text.";
+
+  var POSTER_PROMPT =
+    "Wide 16:9 crayon storybook arena illustration: left fiery dragon silhouette, " +
+    "right massive stone titan, dramatic spotlight, no readable text.";
+
+  function setDebug(msg) {
+    var el = document.getElementById("debug-strip");
+    if (el) el.textContent = msg;
+  }
+
+  /** Vertex：Imagen（可选）—— 成功则刷新海报层；失败不影响本地素材 */
+  function vertexImagenPredict(promptText) {
+    if (!TOKEN) {
+      return Promise.resolve({ ok: false, reason: "no_bearer" });
+    }
+    var url =
+      "https://" + REGION + "-aiplatform.googleapis.com/v1/projects/" + PROJECT +
+      "/locations/" + REGION + "/publishers/google/models/imagegeneration@006:predict";
+    var body = {
+      instances: [{ prompt: String(promptText || "") }],
+      parameters: { sampleCount: 1, aspectRatio: "16:9" }
+    };
+    return fetch(url, {
+      method: "POST",
+      headers: {
+        Authorization: "Bearer " + TOKEN,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(body)
+    })
+      .then(function (res) { return res.json().then(function (j) { return { res: res, j: j }; }); })
+      .then(function (o) {
+        if (!o.res.ok) return { ok: false, status: o.res.status, detail: o.j };
+        var pred = (o.j && o.j.predictions && o.j.predictions[0]) || null;
+        var b64 =
+          (pred && pred.bytesBase64Encoded) ||
+          (pred && pred.bytesBase64) ||
+          (o.j && o.j.bytesBase64Encoded) ||
+          null;
+        if (!b64) return { ok: false, reason: "no_image_in_response", raw: o.j };
+        return { ok: true, dataUrl: "data:image/png;base64," + b64 };
+      })
+      .catch(function (e) {
+        return { ok: false, error: String(e && e.message ? e.message : e) };
+      });
+  }
+
+  /** Veo：不同版本 endpoint 差异较大；此处尝试 predictLongRunning + 轮询，失败则仅用 CSS/Video 留空 */
+  function vertexVeoVideoStart(promptText) {
+    if (!TOKEN) return Promise.resolve({ ok: false, reason: "no_bearer" });
+    var model = "veo-2.0-generate-001";
+    var url =
+      "https://" + REGION + "-aiplatform.googleapis.com/v1/projects/" + PROJECT +
+      "/locations/" + REGION + "/publishers/google/models/" + model + ":predictLongRunning";
+    var body = { instances: [{ prompt: String(promptText || "") }], parameters: {} };
+    return fetch(url, {
+      method: "POST",
+      headers: {
+        Authorization: "Bearer " + TOKEN,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(body)
+    })
+      .then(function (res) { return res.json().then(function (j) { return { res: res, j: j }; }); })
+      .then(function (o) {
+        if (!o.res.ok) return { ok: false, status: o.res.status, detail: o.j };
+        return { ok: true, operationName: o.j.name || o.j.operationName || null, raw: o.j };
+      })
+      .catch(function (e) {
+        return { ok: false, error: String(e && e.message ? e.message : e) };
+      });
+  }
+
+  function applyLocalStillVisible(show) {
+    var img = document.getElementById("local-still-bg");
+    if (!img) return;
+    img.classList.toggle("visible-underlay", !!show);
+  }
+
+    function wireLocalBackgroundMedia() {
+      var v = document.getElementById("arena-video");
+      if (!v) return;
+      applyLocalStillVisible(true);
+      if (!v.getAttribute("src")) {
+        v.src = new URL("assets/arena-bg-loop.mp4", document.baseURI).href;
+      }
+      v.addEventListener("loadeddata", function () {
+        v.classList.add("show");
+        applyLocalStillVisible(false);
+        try {
+          v.style.pointerEvents = "";
+        } catch (e) {}
+      });
+      v.addEventListener("error", function () {
+        v.classList.remove("show");
+        applyLocalStillVisible(true);
+        try {
+          v.style.pointerEvents = "none";
+        } catch (e) {}
+        setDebug("本地视频解码失败，已切换为 PNG 全屏静帧（assets/arena-hero.png）");
+      });
+      try {
+        v.load();
+      } catch (e) {}
+    }
+
+  function bootVisualPipeline() {
+    wireLocalBackgroundMedia();
+    setDebug("背景：arena-bg-loop.mp4 · 朗读优先 assets/tts-mp3/l07-google-mp3（manifest）");
+
+    if (!TOKEN) {
+      setDebug(
+        document.getElementById("debug-strip").textContent +
+          " | Vertex Bearer 未配置：仅跳过背景云端生成；Phase1 配图/语音请用本地 assets（与 Vertex 无关）"
+      );
+      return;
+    }
+
+    vertexImagenPredict(POSTER_PROMPT).then(function (r) {
+      var img = document.getElementById("local-still-bg");
+      if (r && r.ok && r.dataUrl && img) {
+        img.onload = function () {};
+        img.src = r.dataUrl;
+        setDebug("Vertex Imagen 已更新仍帧层（可选）");
+      }
+    });
+
+    vertexVeoVideoStart(VIDEO_PROMPT).then(function (vr) {
+      var el = document.getElementById("debug-strip");
+      var prev = el ? el.textContent : "";
+      setDebug(prev + " | Veo（异步）: " + JSON.stringify(vr || {}).slice(0, 180));
+    });
+  }
+
+  /** ========= 本地 MP3（l07-google-mp3 manifest + page01 备选文件） ========= */
+  var _audioBusy = false;
+
+  function stopAzureAudio() {
+    try {
+      if (typeof window.stopLessonL07LocalTts === "function") window.stopLessonL07LocalTts();
+    } catch (e) {}
+    _audioBusy = false;
+  }
+
+  var L07_LOCAL_TTS_DIR =
+    "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L07/assets/tts-mp3/l07-page01/";
+  var L07_PHASE1_LEAD_MP3 = L07_LOCAL_TTS_DIR + "p1-lead-en.mp3";
+  var L07_QUESTION_MP3 = {
+    "Who is faster?": L07_LOCAL_TTS_DIR + "q-faster.mp3",
+    "Who is heavier?": L07_LOCAL_TTS_DIR + "q-heavier.mp3",
+    "Who is stronger?": L07_LOCAL_TTS_DIR + "q-stronger.mp3"
+  };
+
+  function lessonAssetUrl(relPath) {
+    var s = String(relPath || "").trim();
+    if (!s || /^https?:\/\//i.test(s) || /^data:/i.test(s) || /^blob:/i.test(s)) return s;
+    try {
+      return new URL(s.replace(/\\/g, "/"), document.baseURI).href;
+    } catch (e) {
+      return s;
+    }
+  }
+
+  function speakPhase1LinePreferLocal(mp3RelPath, fallbackPlain) {
+    var plain = String(fallbackPlain || "").trim();
+    if (typeof window.playLessonL07LocalTts === "function" && plain) {
+      return window.playLessonL07LocalTts(plain).then(function (ok) {
+        if (ok) return true;
+        return playLocalLessonMp3(mp3RelPath);
+      });
+    }
+    return playLocalLessonMp3(mp3RelPath);
+  }
+
+  function playLocalLessonMp3(relPath) {
+    if (_audioBusy) return Promise.resolve(false);
+    stopAzureAudio();
+    _audioBusy = true;
+    var url = lessonAssetUrl(relPath);
+    var audio = new Audio(url);
+    window.__lessonArenaAudio = audio;
+    return new Promise(function (resolve) {
+      function done(ok) {
+        try {
+          if (window.__lessonArenaAudio === audio) window.__lessonArenaAudio = null;
+          audio.pause();
+        } catch (e) {}
+        _audioBusy = false;
+        resolve(!!ok);
+      }
+      audio.addEventListener(
+        "ended",
+        function () {
+          done(true);
+        },
+        { once: true }
+      );
+      audio.addEventListener(
+        "error",
+        function () {
+          try {
+            setDebug("MP3 无法播放（请确认文件存在）：" + String(relPath).slice(-56));
+          } catch (e2) {}
+          done(false);
+        },
+        { once: true }
+      );
+      var pPlay = audio.play();
+      if (pPlay && pPlay.catch)
+        pPlay.catch(function () {
+          try {
+            setDebug("MP3 play() 被拒绝或失败");
+          } catch (e3) {}
+          done(false);
+        });
+    });
+  }
+
+  function speakPlainQuestion(text) {
+    var plain = String(text || "").trim();
+    var local = L07_QUESTION_MP3[plain];
+    if (typeof window.playLessonL07LocalTts === "function" && plain) {
+      return window.playLessonL07LocalTts(plain).then(function (ok) {
+        if (ok) return true;
+        if (local) return playLocalLessonMp3(local);
+        return false;
+      });
+    }
+    if (local) return playLocalLessonMp3(local);
+    return Promise.resolve(false);
+  }
+
+  function speakAnswerSentence(fullSentence, cmpWord, thanWord, answerKey) {
+    var plain = String(fullSentence || "").trim();
+    var k = String(answerKey || "").trim();
+    var ansPath =
+      k === "faster" || k === "heavier" || k === "stronger"
+        ? L07_LOCAL_TTS_DIR + "ans-" + k + ".mp3"
+        : null;
+    if (typeof window.playLessonL07LocalTts === "function" && plain) {
+      return window.playLessonL07LocalTts(plain).then(function (ok) {
+        if (ok) return true;
+        if (ansPath) return playLocalLessonMp3(ansPath);
+        return false;
+      });
+    }
+    if (ansPath) return playLocalLessonMp3(ansPath);
+    return Promise.resolve(false);
+  }
+
+  /** ========= 机械滴答（Web Audio）3s ========= */
+  function playTicking(durationMs) {
+    var AC = window.AudioContext || window.webkitAudioContext;
+    if (!AC) return function () {};
+    var ctx = new AC();
+    var t0 = ctx.currentTime;
+    var end = t0 + durationMs / 1000;
+    var timer = setInterval(function () {
+      if (ctx.currentTime >= end) {
+        clearInterval(timer);
+        try { ctx.close(); } catch (e) {}
+        return;
+      }
+      var t = ctx.currentTime;
+      var osc = ctx.createOscillator();
+      var g = ctx.createGain();
+      osc.type = "square";
+      osc.frequency.value = 920;
+      osc.connect(g);
+      g.connect(ctx.destination);
+      g.gain.setValueAtTime(0.0001, t);
+      g.gain.exponentialRampToValueAtTime(0.07, t + 0.006);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + 0.035);
+      osc.start(t);
+      osc.stop(t + 0.04);
+    }, 90);
+    return function () { clearInterval(timer); try { ctx.close(); } catch (e) {} };
+  }
+
+  /** ========= 雷达数值目标 ========= */
+  var STATS = {
+    dragon: { h: 42, w: 18, s: 9800, p: 720 },
+    titan: { h: 58, w: 880, s: 120, p: 9600 }
+  };
+
+  function padRadarPoly(el, vals) {
+    /** 五边形雷达映射（与顶点标签顺序一致）：Height → Weight → Speed → Power → Agility（身高+速度合成指数） */
+    var cx = 100, cy = 100, R = 78;
+    var angles = [-90, -18, 54, 126, 198].map(function (deg) { return (deg * Math.PI) / 180; });
+    var pts = [];
+    for (var i = 0; i < 5; i++) {
+      var v = Math.max(0, Math.min(1, vals[i] || 0));
+      var x = cx + R * v * Math.cos(angles[i]);
+      var y = cy + R * v * Math.sin(angles[i]);
+      pts.push(x.toFixed(1) + "," + y.toFixed(1));
+    }
+    el.setAttribute("points", pts.join(" "));
+  }
+
+  /** ========= 主时间轴 ========= */
+  var buttonsExplored = { faster: false, heavier: false, stronger: false };
+  var phaseLocked = false;
+
+  function allDone() {
+    return buttonsExplored.faster && buttonsExplored.heavier && buttonsExplored.stronger;
+  }
+
+  function setInteractionLock(on) {
+    var L = document.getElementById("interaction-lock");
+    if (!L) return;
+    L.classList.toggle("on", !!on);
+    phaseLocked = !!on;
+  }
+
+  function runRadarIntro(done) {
+    var dur = 3000;
+    var stopTick = playTicking(dur);
+
+    var dh = document.getElementById("d-h");
+    var dw = document.getElementById("d-w");
+    var ds = document.getElementById("d-s");
+    var dp = document.getElementById("d-p");
+    var th = document.getElementById("t-h");
+    var tw = document.getElementById("t-w");
+    var ts = document.getElementById("t-s");
+    var tp = document.getElementById("t-p");
+
+    var o = { dh: 0, dw: 0, ds: 0, dp: 0, th: 0, tw: 0, ts: 0, tp: 0 };
+
+    function syncRadarPoly() {
+      var nd = [
+        o.dh / 60,
+        o.dw / 900,
+        o.ds / 10000,
+        o.dp / 10000,
+        (o.dh + o.ds) / 12000
+      ];
+      var nt = [
+        o.th / 70,
+        o.tw / 900,
+        o.ts / 10000,
+        o.tp / 10000,
+        (o.tw + o.tp) / 12000
+      ];
+      padRadarPoly(document.getElementById("radar-dragon"), nd);
+      padRadarPoly(document.getElementById("radar-titan"), nt);
+    }
+
+    syncRadarPoly();
+
+    if (window.anime) {
+      anime({
+        targets: o,
+        dh: STATS.dragon.h,
+        dw: STATS.dragon.w,
+        ds: STATS.dragon.s,
+        dp: STATS.dragon.p,
+        th: STATS.titan.h,
+        tw: STATS.titan.w,
+        ts: STATS.titan.s,
+        tp: STATS.titan.p,
+        duration: dur,
+        easing: "easeOutExpo",
+        update: function () {
+          dh.textContent = Math.round(o.dh);
+          dw.textContent = Math.round(o.dw);
+          ds.textContent = Math.round(o.ds);
+          dp.textContent = Math.round(o.dp);
+          th.textContent = Math.round(o.th);
+          tw.textContent = Math.round(o.tw);
+          ts.textContent = Math.round(o.ts);
+          tp.textContent = Math.round(o.tp);
+          syncRadarPoly();
+        },
+        complete: function () {
+          try { if (stopTick) stopTick(); } catch (e) {}
+          if (done) done();
+        }
+      });
+    } else {
+      dh.textContent = STATS.dragon.h;
+      dw.textContent = STATS.dragon.w;
+      ds.textContent = STATS.dragon.s;
+      dp.textContent = STATS.dragon.p;
+      th.textContent = STATS.titan.h;
+      tw.textContent = STATS.titan.w;
+      ts.textContent = STATS.titan.s;
+      tp.textContent = STATS.titan.p;
+      syncRadarPoly();
+      try { if (stopTick) stopTick(); } catch (e) {}
+      if (done) done();
+    }
+  }
+
+  function shakeScreen() {
+    var root = document.querySelector(".shake-target");
+    if (!root) return;
+    root.classList.remove("shake-root");
+    void root.offsetWidth;
+    root.classList.add("shake-root");
+  }
+
+  function showQuestions() {
+    var layer = document.getElementById("question-layer");
+    if (!layer) return;
+    layer.classList.add("visible");
+    if (window.anime) {
+      anime({
+        targets: "#question-layer .q-btn",
+        translateY: [-420, 0],
+        opacity: [0, 1],
+        delay: anime.stagger(140),
+        duration: 820,
+        easing: "easeOutBack"
+      });
+    }
+  }
+
+  /** 关闭答案条：由「关闭」按钮或 Esc 触发；朗读可未完也会停止 */
+  var _pendingAnswerKey = null;
+
+  function dismissAnswerSplash() {
+    var splash = document.getElementById("answer-splash");
+    if (!splash || !splash.classList.contains("show")) return;
+    var key = _pendingAnswerKey;
+    _pendingAnswerKey = null;
+    stopAzureAudio();
+    splash.classList.remove("show");
+    var inner = document.getElementById("answer-inner");
+    if (inner) inner.innerHTML = "";
+    var panD = document.getElementById("panel-dragon");
+    var panT = document.getElementById("panel-titan");
+    if (panD) panD.classList.remove("highlight-dragon", "highlight-titan");
+    if (panT) panT.classList.remove("highlight-dragon", "highlight-titan");
+    if (window.anime && panD && panT) {
+      anime({ targets: [panD, panT], scale: 1, duration: 260, easing: "easeOutQuad" });
+    }
+    if (key) {
+      buttonsExplored[key] = true;
+      var bid = key === "faster" ? "btn-faster" : key === "heavier" ? "btn-heavier" : "btn-stronger";
+      var btnEl = document.getElementById(bid);
+      if (btnEl) btnEl.classList.add("is-disabled");
+    }
+    setInteractionLock(false);
+    if (allDone()) showFinale();
+  }
+
+  function wireButtons() {
+    var mapping = {
+      faster: {
+        line: 'The Dragon is <span class="cmp">faster</span> <span class="cmp">than</span> the Titan.',
+        plain: "The Dragon is faster than the Titan.",
+        highlightPanel: "dragon",
+        metric: "speed"
+      },
+      heavier: {
+        line: 'The Titan is <span class="cmp">heavier</span> <span class="cmp">than</span> the Dragon.',
+        plain: "The Titan is heavier than the Dragon.",
+        highlightPanel: "titan",
+        metric: "weight"
+      },
+      stronger: {
+        line: 'The Titan is <span class="cmp">stronger</span> <span class="cmp">than</span> the Dragon.',
+        plain: "The Titan is stronger than the Dragon.",
+        highlightPanel: "titan",
+        metric: "power"
+      }
+    };
+
+    document.querySelectorAll("#question-layer .q-btn").forEach(function (btn) {
+      btn.addEventListener("click", function (ev) {
+        if (phaseLocked) return;
+        if (ev.target.closest(".speak-hit")) return;
+        if (btn.classList.contains("is-disabled")) return;
+        handleChoice(btn.getAttribute("data-key"));
+      });
+      btn.addEventListener("keydown", function (ev) {
+        if (btn.classList.contains("is-disabled")) return;
+        if (ev.key !== "Enter" && ev.key !== " ") return;
+        ev.preventDefault();
+        if (phaseLocked) return;
+        handleChoice(btn.getAttribute("data-key"));
+      });
+    });
+
+    document.querySelectorAll(".speak-hit").forEach(function (hit) {
+      hit.addEventListener("click", function (ev) {
+        ev.stopPropagation();
+        if (phaseLocked) return;
+        var txt = hit.getAttribute("data-read") || "";
+        speakPlainQuestion(txt);
+      });
+    });
+
+    function handleChoice(key) {
+      var cfg = mapping[key];
+      if (!cfg || phaseLocked) return;
+      setInteractionLock(true);
+
+      var panD = document.getElementById("panel-dragon");
+      var panT = document.getElementById("panel-titan");
+      panD.classList.remove("highlight-dragon", "highlight-titan");
+      panT.classList.remove("highlight-dragon", "highlight-titan");
+      if (cfg.highlightPanel === "dragon") {
+        panD.classList.add("highlight-dragon");
+        if (window.anime) {
+          anime({ targets: panD, scale: [1, 1.2], duration: 520, easing: "easeOutElastic(1, .65)" });
+        }
+      } else {
+        panT.classList.add("highlight-titan");
+        if (window.anime) {
+          anime({ targets: panT, scale: [1, 1.2], duration: 520, easing: "easeOutElastic(1, .65)" });
+        }
+      }
+
+      var splash = document.getElementById("answer-splash");
+      var inner = document.getElementById("answer-inner");
+      _pendingAnswerKey = key;
+      inner.innerHTML = cfg.line;
+      splash.classList.add("show");
+
+      speakAnswerSentence(cfg.plain, "", "", key).catch(function () {});
+    }
+
+    var answerClose = document.getElementById("answer-close-btn");
+    if (answerClose) {
+      answerClose.addEventListener("click", function () {
+        dismissAnswerSplash();
+      });
+    }
+    document.addEventListener("keydown", function (ev) {
+      if (ev.key !== "Escape") return;
+      var sp = document.getElementById("answer-splash");
+      if (!sp || !sp.classList.contains("show")) return;
+      ev.preventDefault();
+      dismissAnswerSplash();
+    });
+  }
+
+  function showFinale() {
+    var ov = document.getElementById("arena-overlay");
+    if (ov) ov.classList.add("dim-strong");
+    var fw = document.getElementById("finale-wrap");
+    if (fw) fw.classList.add("show");
+  }
+
+  document.getElementById("finale-btn").addEventListener("click", function () {
+    window.location.href = "lesson07-page02-evolution.html";
+  });
+
+  /** ========= Phase 1：轮播 → 发音 → 揭示词 → 提问 → 选形容词 ========= */
+  var PHASE1_ALL_ADJECTIVES = ["fast", "slow", "heavy", "light", "tall", "short", "strong", "weak"];
+
+  var PHASE1_DIMENSIONS = [
+    {
+      label: "SPEED",
+      goalZh: "速度",
+      image: "assets/phase1-concepts/phase1-speed.png",
+      words: ["fast", "slow"],
+      kwSpeech: "speed",
+      kwMp3: "p1-kw-speed.mp3",
+      qMp3: "p1-q-speed.mp3",
+      questionEn: "How do you describe speed? Think of two adjectives to talk about speed."
+    },
+    {
+      label: "WEIGHT",
+      goalZh: "重量 · 体重",
+      image: "assets/phase1-concepts/phase1-weight.png",
+      words: ["heavy", "light"],
+      kwSpeech: "weight",
+      kwMp3: "p1-kw-weight.mp3",
+      qMp3: "p1-q-weight.mp3",
+      questionEn: "How do you describe weight? Think of two adjectives to talk about weight."
+    },
+    {
+      label: "HEIGHT",
+      goalZh: "身高 · 高度",
+      image: "assets/phase1-concepts/phase1-height.png",
+      words: ["tall", "short"],
+      kwSpeech: "height",
+      kwMp3: "p1-kw-height.mp3",
+      qMp3: "p1-q-height.mp3",
+      questionEn: "How do you describe height? Think of two adjectives to talk about height."
+    },
+    {
+      label: "POWER",
+      goalZh: "力量 · 战力",
+      image: "assets/phase1-concepts/phase1-power.png",
+      words: ["strong", "weak"],
+      kwSpeech: "power",
+      kwMp3: "p1-kw-power.mp3",
+      qMp3: "p1-q-power.mp3",
+      questionEn: "How do you describe power? Think of two adjectives to talk about power."
+    }
+  ];
+
+  function setPhase1AudioLock(on) {
+    var L = document.getElementById("phase1-audio-lock");
+    if (L) L.classList.toggle("on", !!on);
+  }
+
+  var phase1Bound = [];
+  var phase1DocBound = [];
+  var phase1DragState = null;
+  var phase1CarouselTimer = null;
+
+  function phase1Bind(el, type, fn, opts) {
+    el.addEventListener(type, fn, opts);
+    phase1Bound.push([el, type, fn, opts]);
+  }
+
+  function phase1BindDoc(type, fn, opts) {
+    document.addEventListener(type, fn, opts);
+    phase1DocBound.push([type, fn, opts]);
+  }
+
+  function teardownPhase1Events() {
+    if (phase1CarouselTimer) {
+      try {
+        clearInterval(phase1CarouselTimer);
+      } catch (e) {}
+      phase1CarouselTimer = null;
+    }
+    phase1Bound.forEach(function (x) {
+      x[0].removeEventListener(x[1], x[2], x[3]);
+    });
+    phase1Bound = [];
+    phase1DocBound.forEach(function (x) {
+      document.removeEventListener(x[0], x[1], x[2]);
+    });
+    phase1DocBound = [];
+    phase1DragState = null;
+  }
+
+  function removePhase1RootFromDom() {
+    teardownPhase1Events();
+    var root = document.getElementById("phase1-root");
+    if (root && root.parentNode) root.parentNode.removeChild(root);
+  }
+
+  function applyArenaBlurFilter(blurPx, bright) {
+    var f = "blur(" + blurPx + "px) brightness(" + bright + ")";
+    var v = document.getElementById("arena-video");
+    var im = document.querySelector("#arena-fallback-layer img");
+    if (v) v.style.filter = f;
+    if (im) im.style.filter = f;
+  }
+
+  function playPhase1ErrorBuzz() {
+    try {
+      var AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return;
+      var ctx = new AC();
+      var t = ctx.currentTime;
+      var osc = ctx.createOscillator();
+      var g = ctx.createGain();
+      osc.type = "sawtooth";
+      osc.frequency.setValueAtTime(110, t);
+      osc.frequency.exponentialRampToValueAtTime(55, t + 0.22);
+      g.gain.setValueAtTime(0.0001, t);
+      g.gain.exponentialRampToValueAtTime(0.14, t + 0.02);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + 0.28);
+      osc.connect(g);
+      g.connect(ctx.destination);
+      osc.start(t);
+      osc.stop(t + 0.3);
+      setTimeout(function () {
+        try { ctx.close(); } catch (e) {}
+      }, 400);
+    } catch (e) {}
+  }
+
+  function spawnPhase1Particles(cx, cy) {
+    var layer = document.getElementById("phase1-particles");
+    if (!layer || !window.anime) return;
+    for (var i = 0; i < 14; i++) {
+      var p = document.createElement("div");
+      p.style.cssText =
+        "position:fixed;left:" +
+        cx +
+        "px;top:" +
+        cy +
+        "px;width:9px;height:9px;border-radius:50%;background:rgba(105,240,174,0.95);pointer-events:none;z-index:72;";
+      layer.appendChild(p);
+      var ang = (Math.PI * 2 * i) / 14 + Math.random() * 0.4;
+      var dist = 36 + Math.random() * 48;
+      anime({
+        targets: p,
+        translateX: Math.cos(ang) * dist,
+        translateY: Math.sin(ang) * dist,
+        opacity: [1, 0],
+        scale: [1, 0.15],
+        duration: 560,
+        easing: "easeOutQuad",
+        complete: function () {
+          try { p.remove(); } catch (e) {}
+        }
+      });
+    }
+  }
+
+  function shufflePhase1Words(arr) {
+    var a = arr.slice();
+    for (var i = a.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = a[i];
+      a[i] = a[j];
+      a[j] = t;
+    }
+    return a;
+  }
+
+  function multisetEqTwo(a, b, pair) {
+    var x = [a, b].filter(Boolean).slice().sort().join("|");
+    var y = pair.slice().sort().join("|");
+    return x === y;
+  }
+
+  function revealPhase2UI() {
+    document.querySelectorAll(".phase2-hidden").forEach(function (el) {
+      el.classList.remove("phase2-hidden");
+    });
+    if (window.anime) {
+      anime({
+        targets: ["#title-bar", ".hud-grid"],
+        opacity: [0, 1],
+        duration: 900,
+        easing: "easeOutQuad"
+      });
+    }
+  }
+
+  function runPhase2RadarAndQuestions() {
+    runRadarIntro(function () {
+      setTimeout(function () {
+        shakeScreen();
+        setTimeout(function () {
+          showQuestions();
+        }, 380);
+      }, 4000);
+    });
+  }
+
+  function runPhase1CompletionCeremony(onDone) {
+    var mainFlow = document.getElementById("phase1-main-flow");
+    var carouselLayer = document.getElementById("phase1-carousel-layer");
+    var enterWrap = document.getElementById("phase1-enter-wrap");
+    var flash = document.getElementById("phase1-flash");
+    if (window.anime && flash) {
+      anime({
+        targets: flash,
+        opacity: [0, 0.92, 0],
+        duration: 520,
+        easing: "easeOutQuad"
+      });
+    }
+    var fadeTargets = [carouselLayer, mainFlow].filter(Boolean);
+    if (window.anime && fadeTargets.length) {
+      anime({
+        targets: fadeTargets,
+        translateY: -420,
+        opacity: 0,
+        duration: 1400,
+        easing: "easeInQuad",
+        delay: function (_el, i) {
+          return i * 80;
+        },
+        complete: function () {
+          if (enterWrap) enterWrap.classList.add("visible");
+          if (window.anime && enterWrap) {
+            anime({
+              targets: "#phase1-enter-arena",
+              scale: [0.92, 1],
+              duration: 640,
+              easing: "easeOutElastic(1, .62)"
+            });
+          }
+          if (onDone) onDone();
+        }
+      });
+    } else {
+      if (enterWrap) enterWrap.classList.add("visible");
+      if (onDone) onDone();
+    }
+  }
+
+  function transitionPhase1ToPhase2() {
+    var p1root = document.getElementById("phase1-root");
+    var fp = { blur: 22, bright: 0.42 };
+    function syncFilter() {
+      applyArenaBlurFilter(fp.blur, fp.bright);
+    }
+    syncFilter();
+    if (window.anime) {
+      anime({
+        targets: fp,
+        blur: 0,
+        bright: 1,
+        duration: 2400,
+        easing: "easeOutCubic",
+        update: syncFilter
+      });
+      anime({
+        targets: p1root,
+        opacity: 0,
+        duration: 800,
+        easing: "linear",
+        complete: function () {
+          removePhase1RootFromDom();
+          revealPhase2UI();
+          runPhase2RadarAndQuestions();
+        }
+      });
+    } else {
+      applyArenaBlurFilter(0, 1);
+      removePhase1RootFromDom();
+      revealPhase2UI();
+      runPhase2RadarAndQuestions();
+    }
+  }
+
+  function startPhase1Lesson() {
+    applyArenaBlurFilter(22, 0.42);
+
+    if (!window.__p1VoicesPrimed) {
+      window.__p1VoicesPrimed = true;
+      try {
+        if (window.speechSynthesis) {
+          window.speechSynthesis.getVoices();
+          window.speechSynthesis.addEventListener("voiceschanged", function () {
+            try {
+              window.speechSynthesis.getVoices();
+            } catch (e) {}
+          });
+        }
+      } catch (e) {}
+    }
+
+    var carouselLayer = document.getElementById("phase1-carousel-layer");
+    var mainFlow = document.getElementById("phase1-main-flow");
+    var track = document.getElementById("p1-carousel-track");
+    var btnPrev = document.getElementById("p1-carousel-prev");
+    var btnNext = document.getElementById("p1-carousel-next");
+    var carouselCounter = document.getElementById("p1-carousel-counter");
+    var btnCarouselStart = document.getElementById("p1-carousel-start");
+
+    var btnKw = document.getElementById("phase1-btn-kw-audio");
+    var btnReveal = document.getElementById("phase1-btn-reveal-word");
+    var btnQ = document.getElementById("phase1-btn-q-audio");
+    if (!carouselLayer || !mainFlow || !btnKw || !btnReveal || !btnQ) return;
+
+    document.querySelectorAll("#phase1-carousel-layer [data-p1img]").forEach(function (im) {
+      var rel = im.getAttribute("src");
+      if (rel) im.src = lessonAssetUrl(rel);
+      im.addEventListener("error", function () {
+        this.style.display = "none";
+      });
+    });
+
+    var dimIdx = 0;
+    var heardKw = false;
+    var selectedAdj = [];
+
+    function getDim() {
+      return PHASE1_DIMENSIONS[dimIdx];
+    }
+
+    var carouselIdx = 0;
+
+    function setCarouselSlide(i) {
+      var idx = Math.max(0, Math.min(3, i));
+      carouselIdx = idx;
+      if (track) track.style.transform = "translateX(-" + idx * 25 + "%)";
+      if (carouselCounter) carouselCounter.textContent = idx + 1 + " / 4";
+      if (btnPrev) btnPrev.disabled = idx <= 0;
+      if (btnNext) btnNext.disabled = idx >= 3;
+    }
+
+    function getPhase1LeadPlain() {
+      var el = document.getElementById("phase1-lead-en");
+      var t = el ? String(el.textContent || "").trim() : "";
+      return (
+        t ||
+        "Think of a word for each picture. What does this picture talk about?"
+      );
+    }
+
+    function playPhase1LeadLine() {
+      var lead = getPhase1LeadPlain();
+      if (!lead) return;
+      setPhase1AudioLock(true);
+      speakPhase1LinePreferLocal(L07_PHASE1_LEAD_MP3, lead).then(function () {
+        setPhase1AudioLock(false);
+      });
+    }
+
+    function enterMainFlowFromCarousel() {
+      if (carouselLayer) carouselLayer.classList.add("phase1-carousel-hidden");
+      if (mainFlow) mainFlow.classList.remove("phase1-flow-hidden");
+      setupDimension(0);
+      playPhase1LeadLine();
+    }
+
+    setCarouselSlide(0);
+
+    if (btnPrev) {
+      phase1Bind(btnPrev, "click", function () {
+        setCarouselSlide(carouselIdx - 1);
+      });
+    }
+    if (btnNext) {
+      phase1Bind(btnNext, "click", function () {
+        setCarouselSlide(carouselIdx + 1);
+      });
+    }
+    if (btnCarouselStart) {
+      phase1Bind(btnCarouselStart, "click", function () {
+        enterMainFlowFromCarousel();
+      });
+    }
+
+    function setupDimension(idx) {
+      dimIdx = idx;
+      heardKw = false;
+      selectedAdj = [];
+
+      var d = PHASE1_DIMENSIONS[idx];
+      if (!d) return;
+
+      var img = document.getElementById("phase1-main-img");
+      var fb = document.getElementById("phase1-img-fallback");
+      var kwDisp = document.getElementById("phase1-keyword-display");
+      var describe = document.getElementById("phase1-describe-block");
+      var pool = document.getElementById("phase1-adj-pool");
+      var qEl = document.getElementById("phase1-q-en");
+      var cue = document.getElementById("phase1-step-cue");
+
+      if (kwDisp) {
+        kwDisp.hidden = true;
+        kwDisp.textContent = "";
+      }
+      if (describe) describe.hidden = true;
+      if (pool) {
+        pool.hidden = true;
+        pool.innerHTML = "";
+      }
+      if (qEl) qEl.textContent = d.questionEn;
+      if (cue) cue.textContent = "第 " + (idx + 1) + " / 4 关 · " + d.goalZh;
+
+      btnKw.disabled = false;
+      btnReveal.disabled = true;
+      btnReveal.textContent = "点击揭示英文词";
+      btnReveal.removeAttribute("data-p1-revealed");
+
+      if (img && d.image) {
+        img.alt = d.label;
+        if (fb) {
+          fb.hidden = true;
+          fb.textContent = d.label;
+        }
+        var absUrl = lessonAssetUrl(d.image);
+        var loadTimer = null;
+        function showImgOk() {
+          if (loadTimer) {
+            try {
+              clearTimeout(loadTimer);
+            } catch (e) {}
+            loadTimer = null;
+          }
+          if (fb) fb.hidden = true;
+          img.style.display = "block";
+        }
+        function showImgFail() {
+          if (loadTimer) {
+            try {
+              clearTimeout(loadTimer);
+            } catch (e) {}
+            loadTimer = null;
+          }
+          img.style.display = "none";
+          if (fb) {
+            fb.hidden = false;
+            fb.textContent = d.label;
+          }
+          try {
+            setDebug("图片未加载: …" + absUrl.slice(-96));
+          } catch (e) {}
+        }
+        img.onload = showImgOk;
+        img.onerror = showImgFail;
+        img.src = "";
+        img.src = absUrl;
+        img.style.display = "block";
+        if (img.decode) {
+          img.decode().then(showImgOk).catch(showImgFail);
+        }
+        loadTimer = setTimeout(function () {
+          if (!img.naturalWidth) showImgFail();
+        }, 4000);
+      }
+    }
+
+    function playQuestionThenPool() {
+      var d = getDim();
+      if (!d) return;
+      setPhase1AudioLock(true);
+      speakPhase1LinePreferLocal(L07_LOCAL_TTS_DIR + d.qMp3, d.questionEn).then(function () {
+        setPhase1AudioLock(false);
+        buildAdjPool();
+      });
+    }
+
+    function buildAdjPool() {
+      var pool = document.getElementById("phase1-adj-pool");
+      if (!pool) return;
+      pool.innerHTML = "";
+      var words = shufflePhase1Words(PHASE1_ALL_ADJECTIVES.slice());
+      words.forEach(function (w) {
+        var b = document.createElement("button");
+        b.type = "button";
+        b.className = "phase1-chip";
+        b.textContent = w;
+        b.dataset.word = w;
+        phase1Bind(b, "click", onChipClick);
+        pool.appendChild(b);
+      });
+      pool.hidden = false;
+    }
+
+    function onChipClick(ev) {
+      var chip = ev.currentTarget;
+      var w = chip.dataset.word;
+      var d = getDim();
+      var poolEl = document.getElementById("phase1-adj-pool");
+      if (!d || !poolEl || poolEl.hidden) return;
+      var pos = selectedAdj.indexOf(w);
+      if (pos >= 0) {
+        selectedAdj.splice(pos, 1);
+        chip.classList.remove("selected");
+        return;
+      }
+      if (selectedAdj.length >= 2) return;
+      selectedAdj.push(w);
+      chip.classList.add("selected");
+      if (selectedAdj.length === 2) validateAdjPick();
+    }
+
+    function validateAdjPick() {
+      var d = getDim();
+      if (!d) return;
+      if (multisetEqTwo(selectedAdj[0], selectedAdj[1], d.words)) {
+        var cx = window.innerWidth / 2;
+        var cy = window.innerHeight * 0.42;
+        spawnPhase1Particles(cx, cy);
+        dimIdx++;
+        selectedAdj = [];
+        if (dimIdx >= PHASE1_DIMENSIONS.length) {
+          runPhase1CompletionCeremony(null);
+        } else {
+          setupDimension(dimIdx);
+        }
+      } else {
+        playPhase1ErrorBuzz();
+        var tmp = selectedAdj.slice();
+        selectedAdj = [];
+        tmp.forEach(function (w) {
+          var el = document.querySelector('#phase1-adj-pool .phase1-chip[data-word="' + w + '"]');
+          if (el) {
+            el.classList.add("wrong-flash");
+            el.classList.remove("selected");
+            setTimeout(function () {
+              try {
+                el.classList.remove("wrong-flash");
+              } catch (e) {}
+            }, 460);
+          }
+        });
+      }
+    }
+
+    phase1Bind(btnKw, "click", function () {
+      var d = getDim();
+      if (!d) return;
+      setPhase1AudioLock(true);
+      speakPhase1LinePreferLocal(L07_LOCAL_TTS_DIR + d.kwMp3, d.kwSpeech).then(function () {
+        setPhase1AudioLock(false);
+        heardKw = true;
+        btnReveal.disabled = false;
+      });
+    });
+
+    phase1Bind(btnReveal, "click", function () {
+      if (!heardKw) return;
+      if (btnReveal.getAttribute("data-p1-revealed") === "1") return;
+      btnReveal.setAttribute("data-p1-revealed", "1");
+      var d = getDim();
+      var kwDisp = document.getElementById("phase1-keyword-display");
+      if (kwDisp) {
+        kwDisp.textContent = d.label;
+        kwDisp.hidden = false;
+      }
+      var describe = document.getElementById("phase1-describe-block");
+      if (describe) describe.hidden = false;
+      btnReveal.disabled = true;
+      btnReveal.textContent = "已揭示";
+      playQuestionThenPool();
+    });
+
+    phase1Bind(btnQ, "click", function () {
+      var d = getDim();
+      if (!d) return;
+      setPhase1AudioLock(true);
+      speakPhase1LinePreferLocal(L07_LOCAL_TTS_DIR + d.qMp3, d.questionEn).then(function () {
+        setPhase1AudioLock(false);
+      });
+    });
+
+    var btnEnter = document.getElementById("phase1-enter-arena");
+    if (btnEnter) {
+      phase1Bind(btnEnter, "click", function () {
+        transitionPhase1ToPhase2();
+      });
+    }
+
+    var btnLeadAudio = document.getElementById("phase1-btn-lead-audio");
+    if (btnLeadAudio) {
+      phase1Bind(btnLeadAudio, "click", function () {
+        playPhase1LeadLine();
+      });
+    }
+  }
+
+
+  /** ========= 启动 ========= */
+  bootVisualPipeline();
+  wireButtons();
+  startPhase1Lesson();
+})();
+  </script>
+</body>
+</html>

@@ -1,0 +1,1271 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>第07讲 · Page 07 · much / a lot / a little · 比较级的程度</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=ZCOOL+KuaiLe&family=Bebas+Neue&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0d1520;
+      --card: rgba(20, 30, 48, 0.96);
+      --gold: #ffc107;
+      --mint: #69f0ae;
+      --coral: #ff7043;
+      --ink: #e8ecf3;
+    }
+    * { box-sizing: border-box; }
+    html {
+      zoom: 1;
+      width: 100%;
+      overflow-x: hidden;
+    }
+    @media (max-width: 540px) { html { zoom: 1.12; } }
+    html, body {
+      margin: 0;
+      width: 100%;
+      max-width: 100%;
+      min-height: 100%;
+      min-height: 100dvh;
+      font-family: system-ui, "Segoe UI", "Microsoft YaHei", sans-serif;
+      background: radial-gradient(800px 420px at 70% 0%, #1565c028 0%, transparent 55%), var(--bg);
+      color: var(--ink);
+      touch-action: manipulation;
+      overflow-x: hidden;
+    }
+    body { display: flex; flex-direction: column; min-width: 0; }
+    header.top {
+      padding: 10px 14px;
+      text-align: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(0, 0, 0, 0.38);
+      flex-shrink: 0;
+    }
+    header.top h1 {
+      margin: 0;
+      font-family: "Bebas Neue", "ZCOOL KuaiLe", sans-serif;
+      letter-spacing: 0.05em;
+      font-size: clamp(1rem, 3vw, 1.45rem);
+      color: #fff;
+    }
+    header.top p { margin: 4px 0 0; font-size: clamp(0.65rem, 1.7vw, 0.8rem); opacity: 0.88; }
+    #progress { font-size: 0.72rem; color: var(--gold); margin-top: 6px; }
+
+    main.shell {
+      --shell-chrome-y: 168px;
+      --shell-pad-x: 16px;
+      flex: 1 1 auto;
+      width: min(calc(100% - var(--shell-pad-x)), calc((100dvh - var(--shell-chrome-y)) * 16 / 9));
+      max-width: calc(100% - var(--shell-pad-x));
+      max-height: calc(100dvh - var(--shell-chrome-y));
+      aspect-ratio: 16 / 9;
+      margin: 6px auto 72px;
+      padding: 10px 12px;
+      min-height: 0;
+      min-width: 0;
+      align-self: center;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    @media (max-width: 520px) {
+      main.shell {
+        width: calc(100% - 12px);
+        max-height: none;
+        aspect-ratio: unset;
+        min-height: min(72dvh, 560px);
+        margin-bottom: 68px;
+      }
+      body.passage-phase main.shell {
+        width: calc(100% - 12px);
+      }
+    }
+
+    .panel {
+      background: var(--card);
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 14px;
+      flex: 1;
+      min-height: 0;
+      min-width: 0;
+      overflow: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.35);
+    }
+    .panel h2 {
+      margin: 0;
+      font-size: clamp(0.95rem, 2.4vw, 1.08rem);
+      color: var(--gold);
+      flex-shrink: 0;
+    }
+
+    .cn-lead { font-size: 0.86rem; color: #b0bec5; line-height: 1.55; margin: 0; }
+
+    .compare-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      flex: 1 1 auto;
+      min-height: 0;
+      align-items: stretch;
+    }
+    @media (max-width: 640px) { .compare-row { grid-template-columns: 1fr; } }
+
+    .compare-cell {
+      border-radius: 14px;
+      overflow: hidden;
+      border: 2px solid rgba(255, 193, 7, 0.28);
+      background: rgba(0, 0, 0, 0.35);
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      flex: 1;
+    }
+    .compare-cell h3 {
+      margin: 0;
+      padding: 8px 10px;
+      font-size: 0.78rem;
+      text-align: center;
+      background: rgba(0, 0, 0, 0.45);
+      color: var(--gold);
+    }
+    .compare-cell .pic {
+      position: relative;
+      flex: 1 1 auto;
+      min-height: min(42vh, 340px);
+      background: linear-gradient(160deg, #263238, #37474f);
+    }
+    .compare-cell .pic img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      min-height: min(38vh, 300px);
+    }
+    .pic-toolbar {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      z-index: 4;
+      max-width: calc(100% - 16px);
+    }
+    .pic-toolbar__btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      border: 2px solid rgba(255, 255, 255, 0.4);
+      background: rgba(0, 0, 0, 0.58);
+      color: #fff;
+      cursor: pointer;
+      font-size: 16px;
+      line-height: 1;
+      padding: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.45);
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .pic-toolbar__btn:hover {
+      background: rgba(0, 0, 0, 0.72);
+    }
+    .pic-toolbar__btn--speak {
+      border-color: rgba(105, 240, 174, 0.55);
+    }
+    .pic-toolbar__btn--show {
+      border-color: rgba(255, 193, 7, 0.65);
+      font-family: "Patrick Hand", "Microsoft YaHei", sans-serif;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #fff8e1;
+    }
+    .compare-cell .meta {
+      font-size: 0.72rem;
+      padding: 8px 10px;
+      color: #cfd8dc;
+      text-align: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .compare-cell .sent-box {
+      margin: 0 8px 10px;
+      flex-shrink: 0;
+      text-align: center;
+      font-size: clamp(0.78rem, 1.9vw, 0.95rem);
+    }
+
+    button.primary, button.ghost {
+      font-family: "Patrick Hand", cursive;
+      font-size: 0.98rem;
+      padding: 10px 16px;
+      border-radius: 12px;
+      cursor: pointer;
+      border: 3px solid var(--gold);
+    }
+    button.primary { background: linear-gradient(180deg, #455a64, #37474f); color: #fff8e1; }
+    button.ghost { background: transparent; color: var(--gold); }
+    button.speak-inline {
+      font-size: 0.82rem;
+      padding: 8px 14px;
+      border-radius: 10px;
+      border: 2px solid rgba(105, 240, 174, 0.45);
+      background: rgba(56, 142, 60, 0.25);
+      color: var(--mint);
+      cursor: pointer;
+    }
+
+    .btn-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: center; }
+
+    .sent-box {
+      display: none;
+      padding: 12px;
+      border-radius: 12px;
+      background: rgba(0, 0, 0, 0.38);
+      border: 1px dashed rgba(129, 212, 250, 0.35);
+      font-size: clamp(0.88rem, 2.2vw, 1rem);
+      line-height: 1.5;
+      color: #eceff1;
+    }
+    .sent-box.show { display: block; }
+    .deg-mark { color: var(--coral); font-weight: 800; }
+
+    .quiz-panel {
+      display: none;
+      padding: 12px;
+      border-radius: 12px;
+      background: rgba(183, 28, 28, 0.15);
+      border: 2px solid rgba(255, 112, 67, 0.45);
+      font-size: 0.86rem;
+      line-height: 1.55;
+      color: #ffccbc;
+    }
+    .quiz-panel.show { display: block; }
+
+    .grammar-box {
+      font-size: 0.84rem;
+      line-height: 1.55;
+      color: #cfd8dc;
+      background: rgba(0, 0, 0, 0.28);
+      border-radius: 12px;
+      padding: 12px;
+      border: 1px dashed rgba(255, 193, 7, 0.28);
+    }
+    .grammar-box strong { color: var(--mint); }
+    .grammar-box code {
+      background: rgba(255, 255, 255, 0.08);
+      padding: 2px 6px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+    }
+
+    /* 语法小结屏：正文字号放大，按钮区贴主面板底部 */
+    .panel.panel--summary > h2 {
+      font-size: clamp(1.08rem, 2.9vw, 1.32rem);
+    }
+    .panel.panel--summary > .grammar-box {
+      font-size: 1.22rem;
+      line-height: 1.68;
+      padding: 16px 14px;
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow-y: auto;
+    }
+    .panel.panel--summary > .grammar-box code {
+      font-size: 1.06rem;
+      padding: 3px 8px;
+    }
+    .panel.panel--summary > .grammar-box p {
+      margin: 0.55em 0;
+    }
+    .panel.panel--summary > .grammar-box p:first-child {
+      margin-top: 0;
+    }
+    .panel.panel--summary > .grammar-box p:last-child {
+      margin-bottom: 0;
+    }
+    .summary-actions {
+      margin-top: auto;
+      flex-shrink: 0;
+      padding-top: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: stretch;
+    }
+    .summary-actions .btn-row {
+      margin: 0;
+    }
+
+    /* 短文配图：固定「图片位」高度，图在框内 contain 等比完整显示 */
+    .passage-img-wrap {
+      width: 100%;
+      max-width: 100%;
+      flex-shrink: 0;
+      height: min(44dvh, min(50vw, 400px));
+      max-height: min(44dvh, min(50vw, 400px));
+      margin: 0 0 10px;
+      padding: 6px;
+      box-sizing: border-box;
+      border-radius: 12px;
+      border: 2px solid rgba(255, 193, 7, 0.25);
+      background: rgba(0, 0, 0, 0.28);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    @media (max-width: 520px) {
+      .passage-img-wrap {
+        height: min(38dvh, 260px);
+        max-height: min(38dvh, 260px);
+      }
+      .passage-split__pic .passage-img-wrap {
+        height: auto;
+        min-height: min(30dvh, 220px);
+        max-height: min(36dvh, 280px);
+      }
+    }
+    .passage-img-wrap .passage-img {
+      display: block;
+      width: auto;
+      height: auto;
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      object-position: center;
+      border-radius: 8px;
+    }
+
+    /* 短文阶段：左图右文 + 词卡，主栏横向拉满 */
+    .panel.panel--passage {
+      gap: 10px;
+      overflow: hidden;
+    }
+    .panel.panel--passage > h2 {
+      flex-shrink: 0;
+    }
+    .passage-split {
+      display: grid;
+      grid-template-columns: minmax(200px, 40%) 1fr;
+      gap: 14px;
+      flex: 1 1 auto;
+      min-height: 0;
+      align-items: stretch;
+    }
+    .passage-split__pic {
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      min-width: 0;
+    }
+    .passage-split__pic .passage-img-wrap {
+      flex: 1 1 auto;
+      margin: 0;
+      height: auto;
+      min-height: min(42dvh, 360px);
+      max-height: none;
+    }
+    .passage-split__main {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      min-height: 0;
+      min-width: 0;
+    }
+    .passage-split__main .passage-wrap {
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .passage-split__main .bank {
+      flex-shrink: 0;
+      justify-content: flex-start;
+    }
+    @media (max-width: 720px) {
+      .passage-split {
+        grid-template-columns: 1fr;
+      }
+      .passage-split__pic .passage-img-wrap {
+        min-height: min(32dvh, 260px);
+        max-height: min(38dvh, 300px);
+      }
+    }
+
+    .passage-wrap {
+      font-size: clamp(0.82rem, 2vw, 0.95rem);
+      line-height: 1.75;
+      color: #eceff1;
+      padding: 12px;
+      background: rgba(0, 0, 0, 0.32);
+      border-radius: 12px;
+      max-width: 100%;
+      overflow-wrap: break-word;
+      word-wrap: break-word;
+    }
+    body.passage-phase .passage-wrap {
+      padding: 12px 14px;
+      font-size: clamp(0.84rem, 2.1vw, 0.98rem);
+    }
+    /* 右侧短文与词卡区域：字号 ×1.2（相对上文默认值） */
+    body.passage-phase .passage-split__main .passage-wrap {
+      font-size: clamp(1.008rem, 2.52vw, 1.176rem);
+    }
+    body.passage-phase .passage-split__main .drop-slot {
+      font-size: calc(0.78rem * 1.2);
+      min-width: calc(72px * 1.2);
+      min-height: calc(38px * 1.2);
+      padding: calc(4px * 1.2) calc(8px * 1.2);
+    }
+    body.passage-phase .passage-split__main .bank .chip {
+      font-size: clamp(0.936rem, 2.16vw, 1.08rem);
+      padding: calc(8px * 1.2) calc(12px * 1.2);
+    }
+    body.passage-phase .chip.dragging {
+      font-size: clamp(0.936rem, 2.16vw, 1.08rem);
+      padding: calc(8px * 1.2) calc(12px * 1.2);
+    }
+
+    .drop-slot {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      vertical-align: middle;
+      min-width: 72px;
+      min-height: 38px;
+      margin: 2px 4px;
+      padding: 4px 8px;
+      border-radius: 8px;
+      border: 2px dashed rgba(144, 202, 249, 0.45);
+      background: rgba(0, 0, 0, 0.35);
+      font-size: 0.78rem;
+    }
+    .drop-slot.filled { border-style: solid; border-color: rgba(129, 199, 132, 0.75); }
+
+    .bank {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      padding: 12px;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 12px;
+      min-height: 56px;
+      max-width: 100%;
+      box-sizing: border-box;
+    }
+    body.passage-phase .panel {
+      padding-bottom: 6px;
+    }
+    body.passage-phase main.shell {
+      width: calc(100vw - 16px);
+      max-width: none;
+      aspect-ratio: unset;
+      align-self: stretch;
+      margin-left: auto;
+      margin-right: auto;
+      padding-bottom: 62px;
+    }
+
+    #passage-actions {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 50px;
+      z-index: 42;
+      padding: 5px 10px 6px;
+      background: rgba(8, 14, 24, 0.94);
+      border-top: 1px solid rgba(255, 193, 7, 0.22);
+      box-shadow: 0 -6px 20px rgba(0, 0, 0, 0.4);
+    }
+    #passage-actions.hidden {
+      display: none !important;
+    }
+    .passage-actions__row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      justify-content: center;
+      align-items: stretch;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    #passage-actions button.primary,
+    #passage-actions button.ghost {
+      flex: 1 1 108px;
+      min-width: min(100%, 92px);
+      margin: 0;
+      font-size: clamp(0.68rem, 1.65vw, 0.78rem);
+      padding: 5px 8px;
+      border-radius: 9px;
+      border-width: 2px;
+    }
+
+    .chip {
+      padding: 8px 12px;
+      border-radius: 10px;
+      background: linear-gradient(165deg, #5c6bc0, #3949ab);
+      color: #e8eaf6;
+      cursor: grab;
+      touch-action: none;
+      user-select: none;
+      font-size: clamp(0.78rem, 1.8vw, 0.9rem);
+      font-family: "Patrick Hand", cursive;
+      max-width: 100%;
+      text-align: center;
+    }
+    .chip.dragging {
+      cursor: grabbing;
+      position: fixed;
+      z-index: 400;
+      box-shadow: 0 8px 22px rgba(255, 193, 7, 0.35);
+    }
+
+    #toast {
+      position: fixed;
+      left: 50%;
+      bottom: 22%;
+      transform: translateX(-50%);
+      z-index: 90;
+      padding: 10px 16px;
+      border-radius: 12px;
+      font-size: 0.82rem;
+      max-width: min(92vw, 400px);
+      text-align: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s;
+      background: rgba(183, 28, 28, 0.95);
+      color: #fff;
+    }
+    #toast.show { opacity: 1; }
+
+    #nav-foot {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 10px 12px;
+      background: rgba(0, 0, 0, 0.55);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+      z-index: 40;
+    }
+    #nav-foot a { color: var(--gold); font-size: 0.78rem; text-decoration: none; }
+    #debug-strip { font-size: 10px; opacity: 0.35; color: #90a4ae; }
+
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+  <header class="top">
+    <h1>DEGREE + COMPARATIVE · 比较级的「大小」</h1>
+    <p>much · a lot · a little · many more · very 误区 · 本地朗读</p>
+    <div id="progress"></div>
+  </header>
+
+  <main class="shell">
+    <section id="view-root" class="panel"></section>
+  </main>
+
+  <div id="passage-actions" class="hidden" aria-label="短文任务操作" hidden></div>
+
+  <div id="toast" role="status"></div>
+
+  <footer id="nav-foot">
+    <a href="lesson07-page06-arena.html">← Page 06</a>
+    <span id="debug-strip"></span>
+    <a href="lesson07-page08-irregular-comparison.html">Page 08 →</a>
+  </footer>
+
+  <script src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L07/assets/tts-mp3/l07-google-mp3/manifest.embed.js"></script>
+  <script src="../assets/lesson-tts-l07-local.js"></script>
+  <script>
+(function () {
+  "use strict";
+
+  var ASSET = "assets/page07-degree/";
+
+  function escapeXml(t) {
+    return String(t || "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&apos;");
+  }
+
+  function escapeXmlAttr(s) {
+    return String(s || "").replace(/&/g, "&amp;").replace(/"/g, "&quot;");
+  }
+
+  window.unlockAudio = async function () {
+    try {
+      var Ctx = window.AudioContext || window.webkitAudioContext;
+      if (Ctx) {
+        var ctx = new Ctx();
+        if (ctx.state === "suspended") await ctx.resume();
+      }
+    } catch (e) {}
+  };
+
+  window.speak = async function (text) {
+    if (!text) return;
+    var cleanText = String(text).replace(/\n/g, " ").trim();
+    if (typeof window.playLessonL07LocalTts !== "function") return;
+    if (window.currentAudio) {
+      try {
+        window.currentAudio.pause();
+      } catch (e) {}
+      window.currentAudio = null;
+    }
+    await window.playLessonL07LocalTts(cleanText);
+  };
+
+  function speakT(text) {
+    var p = window.unlockAudio ? window.unlockAudio() : Promise.resolve();
+    return p.then(function () {
+      if (typeof window.playLessonL07LocalTts !== "function") {
+        showToast("未加载本地语音脚本", false);
+        return;
+      }
+      return window.speak(text);
+    });
+  }
+
+  function showToast(msg, ok) {
+    var t = document.getElementById("toast");
+    t.style.background = ok ? "rgba(46, 125, 50, 0.95)" : "rgba(183, 28, 28, 0.95)";
+    t.textContent = msg;
+    t.classList.add("show");
+    window.setTimeout(function () {
+      t.classList.remove("show");
+    }, 2600);
+  }
+
+  var phase = "welcome";
+  var scene1 = { showA: false, showB: false, quiz: false };
+  var scene2 = { show1: false, show2: false, quiz: false };
+  var dragState = null;
+  var docMoveRef = null;
+  var docUpRef = null;
+  var passageSlots = [];
+
+  function clearDrag() {
+    if (docMoveRef) {
+      document.removeEventListener("pointermove", docMoveRef);
+      document.removeEventListener("pointerup", docUpRef);
+      document.removeEventListener("pointercancel", docUpRef);
+      docMoveRef = docUpRef = null;
+    }
+    dragState = null;
+  }
+
+  function setProgress() {
+    var el = document.getElementById("progress");
+    if (!el) return;
+    var map = {
+      welcome: "准备阶段",
+      scene1: "场景 1 · 高矮差：a little vs much",
+      scene2: "场景 2 · 小学 vs 初中 · many more / much busier",
+      summary: "语法小结 · much / many / a little / a lot / far",
+      passage: "",
+      done: "本页完成"
+    };
+    el.textContent = map[phase] || "";
+  }
+
+  function clearPassageActionBar() {
+    var bar = document.getElementById("passage-actions");
+    if (bar) {
+      bar.innerHTML = "";
+      bar.classList.add("hidden");
+      bar.hidden = true;
+    }
+    document.body.classList.remove("passage-phase");
+  }
+
+  function render() {
+    setProgress();
+    clearDrag();
+    clearPassageActionBar();
+    var root = document.getElementById("view-root");
+    root.innerHTML = "";
+    root.className = phase === "passage" ? "panel panel--passage" : "panel";
+
+    if (phase === "welcome") renderWelcome(root);
+    else if (phase === "scene1") renderScene1(root);
+    else if (phase === "scene2") renderScene2(root);
+    else if (phase === "summary") renderSummary(root);
+    else if (phase === "passage") renderPassage(root);
+    else renderDone(root);
+  }
+
+  function renderWelcome(root) {
+    var h = document.createElement("h2");
+    h.textContent = "Page 07 · 修饰比较级的程度";
+    root.appendChild(h);
+    var p = document.createElement("p");
+    p.className = "cn-lead";
+    p.innerHTML =
+      "先用<strong>对照图片</strong>听本地 MP3 朗读，再显示句子并标红 <span class='deg-mark'>a little</span> / <span class='deg-mark'>much</span>；随后辨析 <strong>very + 比较级</strong> 为什么不行；再到小学与初中的忙碌对比，理解 <strong>many more</strong> 与 <strong>much busier</strong>；最后<strong>拖拽词块</strong>完成一篇短文。";
+    root.appendChild(p);
+    var row = document.createElement("div");
+    row.className = "btn-row";
+    var b = document.createElement("button");
+    b.type = "button";
+    b.className = "primary";
+    b.textContent = "进入场景 1";
+    b.addEventListener("click", function () {
+      phase = "scene1";
+      scene1 = { showA: false, showB: false, quiz: false };
+      render();
+    });
+    row.appendChild(b);
+    root.appendChild(row);
+  }
+
+  function imgCellWithToolbar(src, alt, toolbar) {
+    var wrap = document.createElement("div");
+    wrap.className = "pic";
+    if (toolbar && toolbar.speakText) {
+      var tb = document.createElement("div");
+      tb.className = "pic-toolbar";
+      var bs = document.createElement("button");
+      bs.type = "button";
+      bs.className = "pic-toolbar__btn pic-toolbar__btn--speak";
+      bs.setAttribute("aria-label", "朗读本图例句");
+      bs.textContent = "\uD83D\uDD0A";
+      bs.addEventListener("click", function (e) {
+        e.stopPropagation();
+        e.preventDefault();
+        speakT(toolbar.speakText);
+      });
+      var bx = document.createElement("button");
+      bx.type = "button";
+      bx.className = "pic-toolbar__btn pic-toolbar__btn--show";
+      bx.setAttribute("aria-label", "显示句子");
+      bx.textContent = "\u53e5";
+      bx.addEventListener("click", function (e) {
+        e.stopPropagation();
+        e.preventDefault();
+        if (typeof toolbar.onShow === "function") toolbar.onShow();
+      });
+      tb.appendChild(bs);
+      tb.appendChild(bx);
+      wrap.appendChild(tb);
+    }
+    var im = document.createElement("img");
+    im.src = src;
+    im.alt = alt;
+    im.loading = "lazy";
+    im.onerror = function () {
+      im.style.display = "none";
+      wrap.style.background = "linear-gradient(145deg,#37474f,#263238)";
+    };
+    wrap.appendChild(im);
+    return wrap;
+  }
+
+  function renderScene1(root) {
+    var h = document.createElement("h2");
+    h.textContent = "场景 1 · 身高差「小」与「大」";
+    root.appendChild(h);
+    var lead = document.createElement("p");
+    lead.className = "cn-lead";
+    lead.textContent =
+      "左：两人身高只差一点点 → 用 a little 修饰比较级。右：运动员与学生相差很大 → 用 much 修饰比较级。";
+    root.appendChild(lead);
+
+    var row = document.createElement("div");
+    row.className = "compare-row";
+
+    var cellA = document.createElement("div");
+    cellA.className = "compare-cell";
+    cellA.innerHTML = "<h3>A 组 · 高差较小</h3>";
+    cellA.appendChild(
+      imgCellWithToolbar(ASSET + "l07-p07-scene1a-slight-height-diff.png", "略高", {
+        speakText: "The man is a little taller than the boy.",
+        onShow: function () {
+          scene1.showA = true;
+          render();
+        }
+      })
+    );
+    var metaA = document.createElement("div");
+    metaA.className = "meta";
+    metaA.textContent = "视觉：两人身高接近";
+    cellA.appendChild(metaA);
+
+    var boxA = document.createElement("div");
+    boxA.className = "sent-box" + (scene1.showA ? " show" : "");
+    boxA.innerHTML =
+      "The man is <span class='deg-mark'>a little</span> taller than the boy.";
+    cellA.appendChild(boxA);
+
+    var cellB = document.createElement("div");
+    cellB.className = "compare-cell";
+    cellB.innerHTML = "<h3>B 组 · 高差很大</h3>";
+    cellB.appendChild(
+      imgCellWithToolbar(ASSET + "l07-p07-scene1b-large-height-diff.png", "高差大", {
+        speakText: "The athlete is much taller than the student.",
+        onShow: function () {
+          scene1.showB = true;
+          render();
+        }
+      })
+    );
+    var metaB = document.createElement("div");
+    metaB.className = "meta";
+    metaB.textContent = "视觉：运动员明显高于学生";
+    cellB.appendChild(metaB);
+
+    var boxB = document.createElement("div");
+    boxB.className = "sent-box" + (scene1.showB ? " show" : "");
+    boxB.innerHTML =
+      "The athlete is <span class='deg-mark'>much</span> taller than the student.";
+    cellB.appendChild(boxB);
+
+    row.appendChild(cellA);
+    row.appendChild(cellB);
+    root.appendChild(row);
+
+    var qbtn = document.createElement("div");
+    qbtn.className = "btn-row";
+    var qb = document.createElement("button");
+    qb.type = "button";
+    qb.className = "primary";
+    qb.textContent = "思考问题：可不可以说 very taller？";
+    qb.addEventListener("click", function () {
+      scene1.quiz = true;
+      render();
+    });
+    qbtn.appendChild(qb);
+    root.appendChild(qbtn);
+
+    var qp = document.createElement("div");
+    qp.className = "quiz-panel" + (scene1.quiz ? " show" : "");
+    qp.innerHTML =
+      "<p><strong>问：</strong>可不可以说 <em>The athlete is very taller than the student.</em>？</p>" +
+      "<p><strong>答：不可以。</strong><code>very</code> 通常只修饰<strong>形容词原级</strong>（如 very tall），<strong>不修饰比较级</strong>。</p>" +
+      "<p>修饰比较级的「程度大小」常用：<strong>a little</strong>、<strong>a bit</strong>、<strong>much</strong>、<strong>a lot</strong>、<strong>far</strong>、<strong>even</strong> 等。</p>";
+    root.appendChild(qp);
+
+    navNext(root, function () {
+      phase = "scene2";
+      scene2 = { show1: false, show2: false, quiz: false };
+      render();
+    }, "进入场景 2 →");
+  }
+
+  function renderScene2(root) {
+    var h = document.createElement("h2");
+    h.textContent = "场景 2 · 小学 vs 初中（忙碌程度）";
+    root.appendChild(h);
+    var lead = document.createElement("p");
+    lead.className = "cn-lead";
+    lead.innerHTML =
+      "A：小学生桌面书少、节奏相对轻松（示意到校约 <strong>8:30</strong>，放学约 <strong>17:00</strong>）。B：初中生书多、节奏更忙（示意到校更早、自习更晚）。";
+    root.appendChild(lead);
+
+    var row = document.createElement("div");
+    row.className = "compare-row";
+
+    var cellA = document.createElement("div");
+    cellA.className = "compare-cell";
+    cellA.innerHTML = "<h3>A 组 · 小学日常</h3>";
+    cellA.appendChild(
+      imgCellWithToolbar(ASSET + "l07-p07-scene2a-primary-easy.png", "小学", {
+        speakText: "I have many more subjects to learn in middle school.",
+        onShow: function () {
+          scene2.show1 = true;
+          render();
+        }
+      })
+    );
+    var m1 = document.createElement("div");
+    m1.className = "meta";
+    m1.textContent = "书较少 · 相对轻松 · 8:30–17:00（示意）";
+    cellA.appendChild(m1);
+    var line1 = document.createElement("div");
+    line1.className = "sent-box" + (scene2.show1 ? " show" : "");
+    line1.innerHTML =
+      "I have <span class='deg-mark'>many more</span> subjects to learn in middle school.";
+    cellA.appendChild(line1);
+
+    var cellB = document.createElement("div");
+    cellB.className = "compare-cell";
+    cellB.innerHTML = "<h3>B 组 · 初中日常</h3>";
+    cellB.appendChild(
+      imgCellWithToolbar(ASSET + "l07-p07-scene2b-middle-busy.png", "初中", {
+        speakText: "Middle school is much busier than primary school.",
+        onShow: function () {
+          scene2.show2 = true;
+          render();
+        }
+      })
+    );
+    var m2 = document.createElement("div");
+    m2.className = "meta";
+    m2.textContent = "书很多 · 更忙碌 · 7:30–20:00（示意，若指晚上放学约八点）";
+    cellB.appendChild(m2);
+    var line2 = document.createElement("div");
+    line2.className = "sent-box" + (scene2.show2 ? " show" : "");
+    line2.innerHTML =
+      "Middle school is <span class='deg-mark'>much</span> busier than primary school.";
+    cellB.appendChild(line2);
+
+    row.appendChild(cellA);
+    row.appendChild(cellB);
+    root.appendChild(row);
+
+    var b3 = document.createElement("div");
+    b3.className = "btn-row";
+    var s3 = document.createElement("button");
+    s3.type = "button";
+    s3.className = "primary";
+    s3.textContent = "③ 思考：可不可以说 much more subjects？";
+    s3.addEventListener("click", function () {
+      scene2.quiz = true;
+      render();
+    });
+    b3.appendChild(s3);
+    root.appendChild(b3);
+
+    var qp = document.createElement("div");
+    qp.className = "quiz-panel" + (scene2.quiz ? " show" : "");
+    qp.innerHTML =
+      "<p><strong>问：</strong>可不可以说 <em>I have much more subjects to learn in middle school</em>？</p>" +
+      "<p><strong>答：不可以（按本课示范）。</strong><code>subjects</code> 是<strong>可数名词复数</strong>，前面要用 <strong>many more</strong>，不用 <strong>much more</strong>。</p>" +
+      "<p><strong>much</strong> 常用来<strong>修饰比较级</strong>（如 <em>much busier</em>）或强调<strong>不可数</strong>的「更多」（如 <em>much more time</em>）。</p>" +
+      "<p>本课对照：<strong>I have many more subjects…</strong> · 忙碌程度：<strong>Middle school is much busier…</strong></p>";
+    root.appendChild(qp);
+
+    navNext(root, function () {
+      phase = "summary";
+      render();
+      speakT(
+        "Let us summarize: we use a little or much before comparatives for degree. We use many more with countable plural nouns."
+      );
+    }, "进入语法小结 →");
+  }
+
+  function renderSummary(root) {
+    root.className = "panel panel--summary";
+    var h = document.createElement("h2");
+    h.textContent = "语法小结 · 修饰比较级";
+    root.appendChild(h);
+
+    var g = document.createElement("div");
+    g.className = "grammar-box";
+    g.innerHTML =
+      "<p><strong>1.</strong> 程度副词 + 比较级：<code>a little</code> / <code>a bit</code> / <code>much</code> / <code>a lot</code> / <code>far</code> / <code>even</code> + 比较级</p>" +
+      "<p>例：<em>a little taller</em> · <em>much taller</em> · <em>a lot busier</em> · <em>far more important</em></p>" +
+      "<p><strong>2.</strong> <code>many more</code> + 可数复数：<em>many more subjects</em> · <em>many more books</em></p>" +
+      "<p><strong>3.</strong> <code>a lot more</code> 后可接可数或不可数（教材常见）：<em>a lot more books</em> · <em>a lot more homework</em></p>" +
+      "<p><strong>4.</strong> 勿用 <code>very</code> 修饰比较级：✗ <em>very taller</em> → ✓ <em>much taller</em> / <em>a little taller</em></p>" +
+      "<p><strong>5.</strong> 原级用 <code>very</code>：<em>very tall</em> · <em>very busy</em></p>";
+    root.appendChild(g);
+
+    var actions = document.createElement("div");
+    actions.className = "summary-actions";
+    var row = document.createElement("div");
+    row.className = "btn-row";
+    var sp = document.createElement("button");
+    sp.type = "button";
+    sp.className = "speak-inline";
+    sp.textContent = "\uD83D\uDD0A 朗读小结";
+    sp.addEventListener("click", function () {
+      speakT(
+        "Use a little, much, a lot, or far before comparatives. Use many more before plural count nouns like subjects. Do not use very before comparatives."
+      );
+    });
+    row.appendChild(sp);
+    actions.appendChild(row);
+
+    navNext(actions, function () {
+      phase = "passage";
+      render();
+    }, "下一页 · 拖拽完成短文 →");
+    root.appendChild(actions);
+  }
+
+  var PASSAGE_CHIPS = [
+    { id: "1", text: "much busier than" },
+    { id: "2", text: "many more subjects" },
+    { id: "3", text: "a lot more books" },
+    { id: "4", text: "taller and more outgoing" },
+    { id: "5", text: "harder" },
+    { id: "6", text: "more tired" },
+    { id: "7", text: "far more colorful than" }
+  ];
+
+  function shuffle(a) {
+    var arr = a.slice();
+    for (var i = arr.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = arr[i];
+      arr[i] = arr[j];
+      arr[j] = t;
+    }
+    return arr;
+  }
+
+  function attachChipDrag(chip, bankEl, getSlots) {
+    chip.addEventListener("pointerdown", function (ev) {
+      var parent = chip.parentElement;
+      if (parent !== bankEl && !parent.classList.contains("drop-slot")) return;
+      ev.preventDefault();
+      chip.classList.add("dragging");
+      var r = chip.getBoundingClientRect();
+      dragState = {
+        el: chip,
+        id: ev.pointerId,
+        ox: ev.clientX - r.left,
+        oy: ev.clientY - r.top,
+        bank: bankEl
+      };
+      if (parent.classList.contains("drop-slot")) {
+        parent.classList.remove("filled");
+      }
+      chip.style.position = "fixed";
+      chip.style.left = ev.clientX - dragState.ox + "px";
+      chip.style.top = ev.clientY - dragState.oy + "px";
+      chip.style.zIndex = "400";
+      document.body.appendChild(chip);
+
+      docMoveRef = function (e) {
+        if (!dragState || e.pointerId !== dragState.id) return;
+        dragState.el.style.left = e.clientX - dragState.ox + "px";
+        dragState.el.style.top = e.clientY - dragState.oy + "px";
+      };
+      docUpRef = function (e) {
+        if (!dragState || e.pointerId !== dragState.id) return;
+        var el = dragState.el;
+        var slots = getSlots();
+        var hit = null;
+        var bestD = 1e12;
+        slots.forEach(function (sl) {
+          var rect = sl.getBoundingClientRect();
+          var cx = (rect.left + rect.right) / 2;
+          var cy = (rect.top + rect.bottom) / 2;
+          var d = (e.clientX - cx) * (e.clientX - cx) + (e.clientY - cy) * (e.clientY - cy);
+          if (
+            e.clientX >= rect.left - 20 &&
+            e.clientX <= rect.right + 20 &&
+            e.clientY >= rect.top - 24 &&
+            e.clientY <= rect.bottom + 24 &&
+            d < bestD
+          ) {
+            bestD = d;
+            hit = sl;
+          }
+        });
+        el.classList.remove("dragging");
+        el.style.position = "";
+        el.style.left = "";
+        el.style.top = "";
+        el.style.zIndex = "";
+        if (hit) {
+          var old = hit.querySelector(".chip");
+          if (old && old !== el) bankEl.appendChild(old);
+          hit.appendChild(el);
+          hit.classList.add("filled");
+        } else bankEl.appendChild(el);
+        clearDrag();
+      };
+      document.addEventListener("pointermove", docMoveRef);
+      document.addEventListener("pointerup", docUpRef);
+      document.addEventListener("pointercancel", docUpRef);
+      try {
+        chip.setPointerCapture(ev.pointerId);
+      } catch (er) {}
+    });
+  }
+
+  function renderPassage(root) {
+    passageSlots = [];
+    var h = document.createElement("h2");
+    h.textContent = "拖拽词块 · 完成短文";
+    root.appendChild(h);
+
+    var imgWrap = document.createElement("div");
+    imgWrap.className = "passage-img-wrap";
+    var im = document.createElement("img");
+    im.className = "passage-img";
+    im.src = ASSET + "l07-p07-passage-context.png";
+    im.alt = "初中生活";
+    im.loading = "lazy";
+    im.onerror = function () {
+      imgWrap.style.display = "none";
+    };
+    imgWrap.appendChild(im);
+
+    var split = document.createElement("div");
+    split.className = "passage-split";
+    var colPic = document.createElement("div");
+    colPic.className = "passage-split__pic";
+    colPic.appendChild(imgWrap);
+    var colMain = document.createElement("div");
+    colMain.className = "passage-split__main";
+
+    var wrap = document.createElement("div");
+    wrap.className = "passage-wrap";
+
+    function slot(id) {
+      var s = document.createElement("span");
+      s.className = "drop-slot";
+      s.dataset.slotId = id;
+      passageSlots.push(s);
+      return s;
+    }
+
+    wrap.appendChild(document.createTextNode("Middle school is "));
+    wrap.appendChild(slot("1"));
+    wrap.appendChild(document.createTextNode(" primary school. I have "));
+    wrap.appendChild(slot("2"));
+    wrap.appendChild(document.createTextNode(" to learn and "));
+    wrap.appendChild(slot("3"));
+    wrap.appendChild(
+      document.createTextNode(
+        " to read. Two years ago, I was short and quiet. But now, I am "
+      )
+    );
+    wrap.appendChild(slot("4"));
+    wrap.appendChild(document.createTextNode(". I study "));
+    wrap.appendChild(slot("5"));
+    wrap.appendChild(document.createTextNode(", but sometimes I feel "));
+    wrap.appendChild(slot("6"));
+    wrap.appendChild(document.createTextNode(". However, my life is "));
+    wrap.appendChild(slot("7"));
+    wrap.appendChild(document.createTextNode(" before\u2026"));
+    colMain.appendChild(wrap);
+
+    var bank = document.createElement("div");
+    bank.className = "bank";
+    shuffle(PASSAGE_CHIPS).forEach(function (c) {
+      var ch = document.createElement("div");
+      ch.className = "chip";
+      ch.textContent = c.text;
+      ch.dataset.chipId = c.id;
+      bank.appendChild(ch);
+      attachChipDrag(ch, bank, function () {
+        return passageSlots;
+      });
+    });
+    colMain.appendChild(bank);
+    split.appendChild(colPic);
+    split.appendChild(colMain);
+    root.appendChild(split);
+
+    var bar = document.getElementById("passage-actions");
+    if (bar) {
+      bar.innerHTML = "";
+      bar.classList.remove("hidden");
+      bar.hidden = false;
+      document.body.classList.add("passage-phase");
+
+      var inner = document.createElement("div");
+      inner.className = "passage-actions__row";
+
+      var chk = document.createElement("button");
+      chk.type = "button";
+      chk.className = "primary";
+      chk.textContent = "检查答案";
+      chk.addEventListener("click", function () {
+        if (bank.querySelectorAll(".chip").length > 0) {
+          showToast("请把所有卡片拖进空格。", false);
+          return;
+        }
+        var ok = true;
+        passageSlots.forEach(function (sl) {
+          var ch = sl.querySelector(".chip");
+          if (!ch || ch.dataset.chipId !== sl.dataset.slotId) ok = false;
+        });
+        if (!ok) {
+          showToast("顺序或搭配有误，再对照语法小结。", false);
+          return;
+        }
+        showToast("✓ 太棒了！全部正确。", true);
+      });
+
+      var nx = document.createElement("button");
+      nx.type = "button";
+      nx.className = "ghost";
+      nx.textContent = "完成本页";
+      nx.addEventListener("click", function () {
+        var ok = true;
+        passageSlots.forEach(function (sl) {
+          var ch = sl.querySelector(".chip");
+          if (!ch || ch.dataset.chipId !== sl.dataset.slotId) ok = false;
+        });
+        if (!ok) {
+          showToast("先检查答案是否全对。", false);
+          return;
+        }
+        phase = "done";
+        render();
+        speakT("Well done! You used much busier, many more, a lot more, and far more colorful correctly.");
+      });
+
+      var back = document.createElement("button");
+      back.type = "button";
+      back.className = "ghost";
+      back.textContent = "← 返回语法小结";
+      back.addEventListener("click", function () {
+        phase = "summary";
+        render();
+      });
+
+      inner.appendChild(chk);
+      inner.appendChild(nx);
+      inner.appendChild(back);
+      bar.appendChild(inner);
+    }
+  }
+
+  function navNext(root, fn, label) {
+    var nav = document.createElement("div");
+    nav.className = "btn-row";
+    var nx = document.createElement("button");
+    nx.type = "button";
+    nx.className = "primary";
+    nx.textContent = label || "下一步";
+    nx.addEventListener("click", fn);
+    nav.appendChild(nx);
+    root.appendChild(nav);
+  }
+
+  function renderDone(root) {
+    root.innerHTML =
+      "<h2>✨ 本页完成</h2><p class=\"cn-lead\">你已练习：<strong>a little / much</strong> 修饰比较级、<strong>many more</strong> 与可数复数、<strong>much busier</strong> 等结构，并区分 <strong>very</strong> 的用法。</p>";
+    var row = document.createElement("div");
+    row.className = "btn-row";
+    var b = document.createElement("button");
+    b.type = "button";
+    b.className = "speak-inline";
+    b.textContent = "\uD83D\uDD0A 再听一遍总结朗读";
+    b.addEventListener("click", function () {
+      speakT(
+        "Remember: use much or a little before comparatives. Use many more before plural nouns like subjects. Never say very taller."
+      );
+    });
+    row.appendChild(b);
+    root.appendChild(row);
+  }
+
+  render();
+})();
+  </script>
+</body>
+</html>
