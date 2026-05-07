@@ -665,7 +665,8 @@
     <a href="lesson07-page06-arena.html">Page 06 →</a>
   </footer>
 
-  <script src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L07/assets/tts-mp3/l07-google-mp3/manifest.embed.js"></script>
+  <!-- 清单走同源，避免站点 CSP 拦截 *.myqcloud.com 的 script；MP3 仍由 lesson-tts-l07-local.js 从 COS 拉取 -->
+  <script src="assets/tts-mp3/l07-google-mp3/manifest.embed.js"></script>
   <script src="../assets/lesson-tts-l07-local.js"></script>
   <script>
 (function () {
@@ -981,7 +982,7 @@
             );
           } else if (r === "manifest") {
             showToast(
-              "无法加载朗读清单：请通过本地服务器打开，或在页面中先于 lesson-tts-l07-local.js 引入 manifest.embed.js",
+              "无法加载朗读清单：请确认已部署 assets/tts-mp3/l07-google-mp3/manifest.embed.js，且 manifest 脚本在本页先于 lesson-tts-l07-local.js；若清单在 COS，站点 CSP 可能禁止跨域 script。",
               false
             );
           } else if (r === "audio" || r === "play_rejected") {
