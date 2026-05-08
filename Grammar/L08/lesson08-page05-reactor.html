@@ -1,0 +1,3313 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>第08讲 · Page 05 · 因果反应堆 · 第一条件 & 零条件</title>
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
+  <link rel="stylesheet" href="../assets/lesson-screen-16x9.css" />
+  <style>
+    :root {
+      --neon-cyan: #00f3ff;
+      --neon-magenta: #ff00ea;
+      --void: #050510;
+      --danger: #ff1744;
+      --gold: #ffd54f;
+      --warn: #ffea00;
+    }
+    * { box-sizing: border-box; }
+    html { overflow-x: clip; max-width: 100%; }
+    html, body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+      background: var(--void);
+      color: #e0f7fa;
+      touch-action: manipulation;
+    }
+    body.has-lesson-pager {
+      flex-direction: column;
+      align-items: stretch !important;
+      zoom: 0.9;
+    }
+
+    #l08-p05-host.app {
+      position: relative;
+      isolation: isolate;
+      flex: 1 1 auto;
+      width: 100%;
+      min-height: calc(100dvh - 3.5rem);
+      overflow: hidden;
+      border: 4px solid rgba(0, 243, 255, 0.38);
+      border-radius: 22px;
+      box-shadow: inset 0 0 55px rgba(0, 0, 0, 0.55), 0 14px 32px rgba(0, 0, 0, 0.48);
+    }
+
+    #bg-stack {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse 85% 65% at 50% 42%, rgba(255, 0, 234, 0.08), transparent 58%),
+        linear-gradient(180deg, #070718 0%, var(--void) 100%);
+      background-size: cover;
+      background-position: center;
+    }
+    #bg-stack.has-img {
+      background-image:
+        linear-gradient(180deg, rgba(5, 5, 16, 0.82), rgba(5, 5, 18, 0.93)),
+        url("https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/l08-page05-reactor-bg.png");
+    }
+
+    #wire-canvas {
+      position: absolute;
+      inset: 0;
+      z-index: 4;
+      pointer-events: none;
+      width: 100%;
+      height: 100%;
+    }
+
+    #ui-lock {
+      position: fixed;
+      inset: 0;
+      z-index: 9998;
+      pointer-events: none;
+      background: transparent;
+      display: none;
+    }
+    #ui-lock.on {
+      display: block;
+      pointer-events: auto;
+    }
+
+    #p05-stage {
+      position: absolute;
+      inset: 0;
+      z-index: 6;
+      display: flex;
+      flex-direction: column;
+      padding: clamp(6px, 1.2vh, 10px) clamp(8px, 1.8vw, 14px) clamp(48px, 9vh, 84px);
+      gap: clamp(6px, 1vh, 10px);
+      min-height: 0;
+    }
+
+    .p05-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+      flex-shrink: 0;
+      z-index: 8;
+    }
+    .p05-tabs button {
+      border: none;
+      cursor: pointer;
+      font-weight: 900;
+      padding: 8px 16px;
+      border-radius: 999px;
+      border: 2px solid rgba(0, 243, 255, 0.45);
+      font-size: clamp(0.78rem, 1.75vw, 0.95rem);
+      background: linear-gradient(180deg, #1a237e, #0d1642);
+      color: #b3e5fc;
+      text-shadow: 0 0 8px rgba(0, 243, 255, 0.55);
+    }
+    .p05-tabs button[aria-selected="true"] {
+      background: linear-gradient(180deg, #311b92, #4a148c);
+      color: #fff;
+      border-color: var(--neon-magenta);
+    }
+
+    .p05-deck {
+      flex: 1 1 auto;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+    .p05-slide {
+      flex: 1 1 auto;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .p05-slide[hidden] {
+      display: none !important;
+    }
+
+    #p05-slide-1 .p05-fall-slide-head {
+      flex-shrink: 0;
+      text-align: center;
+      padding: 0 clamp(4px, 1.5vw, 12px);
+    }
+    #p05-slide-1 .p05-fall-slide-head h1 {
+      margin: 0;
+      font-size: clamp(1.05rem, 3vw, 1.45rem);
+      font-weight: 950;
+      color: var(--neon-cyan);
+      text-shadow: 0 0 10px rgba(0, 243, 255, 0.65);
+    }
+    #p05-slide-1 .p05-fall-slide-head .sub {
+      margin: 0.35rem 0 0;
+      font-size: clamp(0.78rem, 1.75vw, 0.92rem);
+      font-weight: 650;
+      line-height: 1.5;
+      color: rgba(255, 255, 255, 0.82);
+    }
+
+    #reactor-grid {
+      flex: 1 1 auto;
+      min-height: 0;
+      display: grid;
+      grid-template-rows: 1fr auto;
+      gap: clamp(8px, 1.5vh, 12px);
+    }
+
+    #circuit-row {
+      display: grid;
+      grid-template-columns: 1fr minmax(52px, 8vw) 1fr;
+      gap: clamp(6px, 1.5vw, 12px);
+      align-items: stretch;
+      min-height: 0;
+    }
+
+    .reactor-panel {
+      background: rgba(10, 15, 20, 0.82);
+      border: 2px solid rgba(55, 71, 79, 0.95);
+      border-radius: 14px;
+      box-shadow: inset 0 0 22px rgba(0, 0, 0, 0.72), 0 6px 22px rgba(0, 0, 0, 0.38);
+      padding: clamp(10px, 2vh, 14px);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      position: relative;
+      min-height: 0;
+    }
+    .reactor-panel.if-side {
+      border-color: rgba(0, 243, 255, 0.35);
+    }
+    .reactor-panel.main-side {
+      border-color: rgba(255, 0, 234, 0.32);
+    }
+
+    .panel-label {
+      font-size: clamp(0.62rem, 1.35vw, 0.76rem);
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      color: rgba(0, 243, 255, 0.75);
+      text-shadow: 0 0 6px rgba(0, 243, 255, 0.45);
+    }
+    .reactor-panel.main-side .panel-label {
+      color: rgba(255, 0, 234, 0.8);
+      text-shadow: 0 0 6px rgba(255, 0, 234, 0.45);
+    }
+
+    .panel-prompt {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(0.75rem, 1.9vw, 0.95rem);
+      font-weight: 800;
+      line-height: 1.4;
+      color: #fff;
+      text-shadow: 0 0 8px rgba(255, 255, 255, 0.25);
+    }
+
+    .drop-slot {
+      min-height: clamp(44px, 10vh, 58px);
+      border-radius: 10px;
+      border: 2px dashed rgba(0, 243, 255, 0.45);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 20, 40, 0.45);
+      font-size: clamp(0.68rem, 1.5vw, 0.82rem);
+      color: rgba(179, 229, 255, 0.55);
+      font-weight: 800;
+    }
+    .drop-slot.filled {
+      border-style: solid;
+      color: #fff;
+      text-shadow: 0 0 10px rgba(0, 255, 234, 0.65), 0 0 18px rgba(0, 255, 234, 0.35);
+    }
+
+    #bridge-spine {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+    }
+    .spine-core {
+      width: min(100%, 48px);
+      height: min(70%, 120px);
+      border-radius: 8px;
+      background: linear-gradient(180deg, #333, #1a1a1a);
+      box-shadow: 0 0 18px rgba(0, 255, 255, 0.28), inset 0 0 12px rgba(0, 0, 0, 0.65);
+    }
+
+    #block-tray {
+      min-height: clamp(96px, 22vh, 140px);
+      padding: clamp(8px, 1.5vh, 12px);
+      border-radius: 14px;
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      background: rgba(8, 10, 22, 0.68);
+      backdrop-filter: blur(12px);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: clamp(8px, 1.8vw, 12px);
+    }
+    #block-tray.locked {
+      opacity: 0.55;
+      pointer-events: none;
+    }
+
+    .energy-block {
+      padding: clamp(9px, 1.8vh, 12px) clamp(14px, 2.8vw, 18px);
+      border-radius: 10px;
+      font-weight: 950;
+      font-size: clamp(0.72rem, 1.65vw, 0.9rem);
+      cursor: grab;
+      touch-action: none;
+      user-select: none;
+      border: 2px solid rgba(255, 255, 255, 0.22);
+      background: linear-gradient(145deg, #263238, #1c2529);
+      color: #eceff1;
+      box-shadow: 4px 6px 18px rgba(0, 0, 0, 0.55);
+      position: relative;
+      z-index: 20;
+    }
+    .energy-block.dragging {
+      cursor: grabbing;
+      z-index: 200;
+      box-shadow: 0 18px 36px rgba(0, 0, 0, 0.55);
+    }
+
+    #power-wrap {
+      flex-shrink: 0;
+      display: flex;
+      justify-content: center;
+      padding: 4px 0 2px;
+    }
+    #btn-power {
+      display: none;
+      border: none;
+      cursor: pointer;
+      font-weight: 950;
+      padding: clamp(11px, 2vh, 14px) clamp(22px, 5vw, 36px);
+      border-radius: 999px;
+      font-size: clamp(0.78rem, 1.85vw, 0.92rem);
+      background: linear-gradient(180deg, #ff8f00, #e65100);
+      color: #fff8e1;
+      border: 3px solid rgba(255, 224, 130, 0.85);
+      box-shadow: 0 0 28px rgba(255, 143, 0, 0.55), 0 8px 0 rgba(0, 0, 0, 0.25);
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+    }
+    #btn-power.visible {
+      display: inline-block;
+    }
+
+    #toast-warn {
+      position: fixed;
+      left: 50%;
+      top: 18%;
+      transform: translate(-50%, -20px);
+      z-index: 10020;
+      padding: 10px 16px;
+      border-radius: 12px;
+      background: rgba(40, 30, 0, 0.94);
+      border: 2px solid var(--warn);
+      color: #fffde7;
+      font-weight: 800;
+      font-size: clamp(0.75rem, 1.7vw, 0.9rem);
+      max-width: min(92vw, 420px);
+      text-align: center;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.25s, transform 0.25s;
+    }
+    #toast-warn.show {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+
+    #error-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 10050;
+      display: grid;
+      place-items: center;
+      padding: 16px;
+      background: rgba(0, 0, 0, 0.72);
+      backdrop-filter: blur(6px);
+    }
+    #error-overlay[hidden] {
+      display: none !important;
+    }
+    .error-card {
+      max-width: min(440px, 100%);
+      padding: 1.1rem 1.25rem;
+      border-radius: 16px;
+      border: 3px solid rgba(255, 0, 60, 0.55);
+      background: rgba(28, 10, 14, 0.94);
+      box-shadow: 0 0 40px rgba(255, 0, 60, 0.35);
+    }
+    .error-card h3 {
+      margin: 0 0 0.5rem;
+      color: #ff8a80;
+      font-size: clamp(1rem, 2.8vw, 1.2rem);
+    }
+    #error-terminal {
+      font-size: clamp(0.78rem, 1.75vw, 0.9rem);
+      line-height: 1.55;
+      color: #ffcdd2;
+      min-height: 4em;
+    }
+    .btn-dismiss {
+      margin-top: 0.85rem;
+      border: none;
+      cursor: pointer;
+      font-weight: 900;
+      padding: 10px 20px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, #eceff1, #b0bec5);
+      color: #263238;
+    }
+
+    #finale-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 10060;
+      display: grid;
+      place-items: center;
+      padding: 16px;
+      background: rgba(0, 0, 0, 0.78);
+      backdrop-filter: blur(8px);
+    }
+    #finale-overlay[hidden] {
+      display: none !important;
+    }
+    .finale-card {
+      text-align: center;
+      max-width: min(520px, 100%);
+    }
+    .finale-badge {
+      display: inline-block;
+      padding: clamp(14px, 3vh, 22px) clamp(22px, 4vw, 34px);
+      border-radius: 18px;
+      font-size: clamp(1.05rem, 3.2vw, 1.55rem);
+      font-weight: 950;
+      color: #fffde7;
+      background: linear-gradient(135deg, #00897b, #4db6ac);
+      border: 4px solid rgba(255, 255, 255, 0.45);
+      box-shadow: 0 0 36px rgba(0, 255, 234, 0.35), 0 18px 36px rgba(0, 0, 0, 0.45);
+      text-shadow: 0 2px 0 rgba(0, 0, 0, 0.22);
+    }
+    .btn-next-page {
+      margin-top: 1.15rem;
+      border: none;
+      cursor: pointer;
+      font-weight: 950;
+      padding: clamp(12px, 2vh, 14px) clamp(22px, 4vw, 32px);
+      border-radius: 999px;
+      border: 4px solid rgba(0, 243, 255, 0.55);
+      font-size: clamp(0.82rem, 1.85vw, 0.96rem);
+      background: linear-gradient(180deg, #e0f7fa, #80deea);
+      color: #004d40;
+      box-shadow: 4px 6px 0 rgba(0, 0, 0, 0.18);
+    }
+
+    #p05-slide-0 {
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      flex: 1 1 auto;
+    }
+    .p05-slide0-scroll {
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow-x: hidden;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      display: flex;
+      flex-direction: column;
+      gap: clamp(8px, 1.2vh, 14px);
+      padding: 0 clamp(2px, 1vw, 8px) clamp(10px, 2.2vh, 20px);
+    }
+    /* 避免两块 .p05-cond-block 在固定高度舞台内被 flex 纵向压缩，导致白底「不够长」、内容溢出框外 */
+    #p05-slide-0 .p05-slide0-scroll > .p05-cond-block {
+      flex: 0 0 auto;
+      min-height: min-content;
+      align-self: stretch;
+    }
+    #p05-slide-0 .p05-cond-block {
+      max-width: none;
+      width: 100%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    #p05-slide-0 .p05-cond-block--zero {
+      flex: 0 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      min-height: min-content;
+      padding: clamp(16px, 2.5vh, 26px) clamp(14px, 2.2vh, 22px) clamp(18px, 3vh, 28px);
+    }
+    #p05-slide-0 .p05-zero-scenarios {
+      margin: clamp(0.5rem, 1.2vh, 0.85rem) 0 clamp(0.65rem, 1.6vh, 1rem);
+      padding: clamp(0.45rem, 1vh, 0.65rem) clamp(0.5rem, 1.2vw, 0.75rem);
+      border-radius: 12px;
+      background: rgba(255, 253, 248, 0.98);
+      border: 1px solid rgba(55, 71, 79, 0.18);
+    }
+    #p05-slide-0 .p05-timeline-wrap + .p05-zero-scenarios {
+      margin-top: clamp(0.75rem, 2vh, 1.25rem);
+    }
+    #p05-slide-0 .p05-zero-scenarios h3 {
+      margin: 0 0 0.4rem;
+      scroll-margin-top: 0.5rem;
+    }
+    #p05-slide-0 .p05-zero-scenarios .p05-scenarios {
+      margin-top: 0.25rem;
+    }
+    #p05-slide-0 .p05-cond-block--zero .p05-timeline-wrap {
+      flex: 0 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: clamp(0.45rem, 1.2vh, 0.65rem);
+      min-height: min-content;
+      margin-top: clamp(0.15rem, 0.6vh, 0.35rem);
+      padding-bottom: clamp(0.25rem, 0.8vh, 0.45rem);
+    }
+    #p05-slide-0 .p05-timeline-wrap > .caption {
+      flex-shrink: 0;
+    }
+    #p05-slide-0 .p05-timeline-note {
+      flex-shrink: 0;
+      margin-top: 0.55rem;
+    }
+    #p05-slide-0 .p05-timeline-grid {
+      flex: 0 0 auto;
+      width: 100%;
+      max-width: none;
+      margin: 0;
+      min-height: clamp(180px, 24dvh, 360px);
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-rows: repeat(3, minmax(0, auto));
+      gap: clamp(10px, 1.8vmin, 18px);
+    }
+    #p05-slide-0 .p05-tg-cell {
+      min-height: 0;
+      padding: clamp(10px, 2vmin, 20px);
+    }
+    #p05-slide-0 .p05-tg-cell .d {
+      font-size: clamp(0.8rem, 1.8vw, 1.05rem);
+    }
+    #p05-slide-0 .p05-tg-cell .w {
+      font-size: clamp(1.4rem, 4.8vmin, 2.4rem);
+      line-height: 1;
+    }
+    #p05-slide-0 .p05-cond-block.p05-cond-block--zero {
+      margin-bottom: clamp(16px, 2.8vh, 26px);
+    }
+    #p05-slide-0 .p05-cond-block:not(.p05-cond-block--zero) {
+      margin-top: clamp(4px, 0.8vh, 10px);
+      position: relative;
+      z-index: 0;
+    }
+    #p05-slide-2 {
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      flex: 1 1 auto;
+    }
+    .p05-slide2-scroll {
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow-x: hidden;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      padding: clamp(4px, 0.85vh, 10px) clamp(6px, 1.4vw, 12px) clamp(14px, 3.5vh, 36px);
+    }
+    .p05-exam-lead {
+      margin: 0 0 0.65rem;
+    }
+    .p05-exam-corpus {
+      margin-top: 0.35rem;
+    }
+    .p05-corpus-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .p05-corpus-list li {
+      position: relative;
+      padding-left: 0.88rem;
+      margin: 0.32rem 0;
+      font-size: clamp(0.76rem, 1.72vw, 0.93rem);
+      line-height: 1.48;
+      font-weight: 650;
+      break-inside: avoid;
+    }
+    .p05-corpus-list li::before {
+      content: "·";
+      position: absolute;
+      left: 0;
+      color: #00897b;
+      font-weight: 950;
+    }
+    .p05-corpus-list em {
+      font-style: normal;
+      font-family: Georgia, "Times New Roman", serif;
+      font-weight: 750;
+      color: #0d47a1;
+    }
+    .p05-corpus-section-lead {
+      margin: 0 0 0.35rem;
+      font-size: clamp(0.76rem, 1.7vw, 0.88rem);
+      color: #546e7a;
+      font-weight: 650;
+      line-height: 1.45;
+    }
+    .p05-corpus-item .p05-corpus-line {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 0.35rem 0.5rem;
+    }
+    .p05-corpus-en {
+      flex: 1 1 12rem;
+      min-width: 0;
+    }
+    .p05-corpus-tts {
+      flex: 0 0 auto;
+      font: inherit;
+      font-size: clamp(0.65rem, 1.45vw, 0.76rem);
+      font-weight: 750;
+      padding: 0.15rem 0.45rem;
+      border-radius: 6px;
+      cursor: pointer;
+      white-space: nowrap;
+      border: 1px solid rgba(0, 137, 123, 0.45);
+      background: rgba(0, 137, 123, 0.12);
+      color: #00695c;
+    }
+    .p05-corpus-zh {
+      margin: 0.18rem 0 0;
+      padding-left: 0;
+      font-size: clamp(0.72rem, 1.62vw, 0.88rem);
+      font-weight: 600;
+      color: #37474f;
+      line-height: 1.46;
+    }
+    @media (min-width: 720px) {
+      .p05-corpus-list.cols-2 {
+        columns: 2;
+        column-gap: clamp(14px, 2.2vw, 26px);
+      }
+    }
+    .p05-exam-note {
+      margin: 1rem 0 0;
+      padding: 0.55rem 0.7rem;
+      border-radius: 10px;
+      background: rgba(84, 110, 122, 0.12);
+      font-size: clamp(0.7rem, 1.52vw, 0.82rem);
+      color: #455a64;
+      line-height: 1.5;
+      font-weight: 600;
+    }
+    .p05-exam-rules-mini ul {
+      margin: 0.35rem 0 0;
+      padding-left: 1.15rem;
+    }
+    .p05-exam-rules-mini li {
+      margin: 0.22rem 0;
+      font-size: clamp(0.78rem, 1.75vw, 0.9rem);
+      font-weight: 650;
+      line-height: 1.48;
+    }
+    .p05-exam-rules-mini {
+      margin: 0.5rem 0 0.65rem;
+      padding: 0.5rem 0.65rem;
+      border-radius: 10px;
+      background: rgba(0, 137, 123, 0.08);
+      border: 1px solid rgba(0, 105, 92, 0.22);
+      font-size: clamp(0.8rem, 1.78vw, 0.94rem);
+      line-height: 1.52;
+    }
+    #p05-slide-1 {
+      overflow: hidden;
+    }
+
+    .p05-slide1-scroll {
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow-x: hidden;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      display: flex;
+      flex-direction: column;
+      gap: clamp(8px, 1.4vh, 14px);
+      padding: clamp(6px, 1vh, 10px) clamp(8px, 2vw, 14px) 12px;
+    }
+
+    /* —— 与 Page 04「意图捕捉网格」同一套下落区 / 情景球 / 盾键视觉 —— */
+    .p05-fall-section--solo {
+      flex: 1 1 auto;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      margin-top: clamp(4px, 0.8vh, 8px);
+      padding: clamp(10px, 1.8vh, 14px);
+      border-radius: 16px;
+      border: 2px solid rgba(0, 243, 255, 0.35);
+      background: rgba(6, 10, 22, 0.72);
+      box-shadow: inset 0 0 24px rgba(0, 0, 0, 0.35);
+      position: relative;
+    }
+    .p05-fall-stage-wrap {
+      position: relative;
+      flex: 1 1 auto;
+      width: 100%;
+      min-height: clamp(280px, min(48vh, 52dvh), 620px);
+      margin-top: clamp(4px, 0.8vh, 8px);
+    }
+    /* 对齐 Page 04 #game-field：青色虚线框 + 底部留给盾条 */
+    #p05-slide-1 #p05-fall-arena {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: clamp(72px, 14vh, 100px);
+      width: 100%;
+      min-height: 200px;
+      height: auto !important;
+      max-height: none;
+      flex: none;
+      border-radius: 14px;
+      border: 2px dashed rgba(0, 243, 255, 0.22);
+      background: transparent;
+      overflow: hidden;
+      margin: 0 auto;
+      max-width: min(920px, 100%);
+      z-index: 4;
+      isolation: isolate;
+    }
+    /* 对齐 Page 04 #hud-row */
+    #p05-slide-1 #p05-fall-hud.p05-fall-hud {
+      flex-shrink: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: clamp(10px, 2.5vw, 20px);
+      margin: 0 0 clamp(8px, 1.2vh, 12px);
+      font-weight: 950;
+      font-size: clamp(0.78rem, 2vw, 1rem);
+      text-shadow: 0 0 6px currentColor, 0 0 12px currentColor;
+      color: var(--neon-cyan);
+      text-align: center;
+    }
+    #p05-fall-arena {
+      position: relative;
+      height: clamp(140px, 24vh, 220px);
+      border-radius: 12px;
+      background: rgba(0, 0, 0, 0.42);
+      border: 2px dashed rgba(255, 255, 255, 0.14);
+      overflow: hidden;
+      margin: 0 auto;
+      max-width: min(920px, 100%);
+    }
+    /* 对齐 Page 04 #danger-line */
+    #p05-slide-1 .p05-fall-danger-line {
+      position: absolute;
+      left: 2%;
+      right: 2%;
+      bottom: 12%;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, rgba(255, 23, 68, 0.85), transparent);
+      box-shadow: 0 0 12px rgba(255, 23, 68, 0.65);
+      opacity: 1;
+      pointer-events: none;
+      z-index: 3;
+    }
+    /* 对齐 Page 04 .fall-orb（情景球） */
+    #p05-slide-1 .p05-fall-chip {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      transform: translateX(-50%);
+      width: min(92%, 520px);
+      min-height: clamp(52px, 12vh, 76px);
+      padding: clamp(8px, 1.8vh, 12px) clamp(10px, 2.5vw, 14px);
+      border-radius: 999px;
+      font-family: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+      font-weight: 850;
+      font-size: clamp(0.79rem, 2.42vw, 1.05rem);
+      line-height: 1.35;
+      text-align: center;
+      color: #fff;
+      border: 3px solid rgba(255, 255, 255, 0.35);
+      background: radial-gradient(circle at 30% 25%, rgba(255, 255, 255, 0.35), rgba(40, 20, 80, 0.92));
+      box-shadow:
+        inset 0 -6px 18px rgba(0, 0, 0, 0.45),
+        0 0 28px rgba(0, 243, 255, 0.35);
+      z-index: 5;
+      pointer-events: none;
+      word-break: break-word;
+    }
+    #p05-slide-1 .p05-fall-chip.bad {
+      border-color: rgba(255, 23, 68, 0.85);
+      box-shadow: 0 0 40px rgba(255, 23, 68, 0.65);
+    }
+    /* 对齐 Page 04 #shield-row + .shield-btn（左盾 cyan / 右盾 magenta） */
+    #p05-slide-1 #p05-fall-controls {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 10px;
+      padding: 8px 6px max(8px, env(safe-area-inset-bottom));
+      pointer-events: auto;
+    }
+    #p05-slide-1 #p05-fall-controls .p05-fall-btn {
+      flex: 1 1 42%;
+      max-width: min(48%, 380px);
+      min-height: clamp(56px, 11vh, 84px);
+      margin: 0 auto;
+      cursor: pointer;
+      font-weight: 950;
+      font-size: clamp(0.62rem, 1.65vw, 0.82rem);
+      line-height: 1.25;
+      touch-action: manipulation;
+      user-select: none;
+      padding: 10px 8px;
+      clip-path: polygon(12% 0%, 88% 0%, 100% 50%, 88% 100%, 12% 100%, 0% 50%);
+      backdrop-filter: blur(10px);
+      text-shadow: 0 0 5px currentColor, 0 0 10px currentColor;
+      transition: transform 0.12s ease, filter 0.12s ease;
+      border-radius: 0;
+      border: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      color: inherit;
+    }
+    #p05-slide-1 #p05-fall-controls .p05-fall-btn:active:not(:disabled) {
+      transform: scale(0.96);
+    }
+    #p05-slide-1 #p05-fall-controls .p05-fall-btn.p05-fall-zero {
+      color: #e0f7fa;
+      background: linear-gradient(145deg, rgba(0, 243, 255, 0.35), rgba(0, 40, 80, 0.85));
+      border: 3px solid var(--neon-cyan);
+      box-shadow: 0 0 22px rgba(0, 243, 255, 0.45);
+    }
+    #p05-slide-1 #p05-fall-controls .p05-fall-btn.p05-fall-first {
+      color: #fce4ec;
+      background: linear-gradient(145deg, rgba(255, 0, 234, 0.38), rgba(60, 0, 80, 0.88));
+      border: 3px solid var(--neon-magenta);
+      box-shadow: 0 0 22px rgba(255, 0, 234, 0.45);
+    }
+    #p05-slide-1 #p05-fall-controls .p05-fall-btn .p05-fall-hint {
+      font-size: 0.78em;
+      font-weight: 750;
+      opacity: 0.9;
+    }
+    #p05-slide-1 #p05-fall-controls .p05-fall-btn:disabled {
+      opacity: 0.45;
+      pointer-events: none;
+    }
+    #p05-slide-1 #p05-fall-restart {
+      margin: clamp(12px, 2vh, 18px) auto 0;
+      display: none;
+      border: none;
+      cursor: pointer;
+      font-weight: 950;
+      padding: 12px 24px;
+      border-radius: 999px;
+      font-size: clamp(0.85rem, 2vw, 1rem);
+      background: linear-gradient(90deg, var(--neon-cyan), var(--neon-magenta));
+      color: #050510;
+      box-shadow: 0 0 24px rgba(0, 243, 255, 0.45);
+    }
+    #p05-fall-restart.visible {
+      display: block;
+    }
+    .p05-exam-panel {
+      max-width: min(1080px, 100%);
+      margin: 0 auto;
+      padding: clamp(12px, 2vh, 20px);
+      border-radius: 16px;
+      border: 4px solid #37474f;
+      background: rgba(255, 253, 248, 0.97);
+      color: #263238;
+      box-shadow: 6px 8px 0 rgba(0, 0, 0, 0.08);
+    }
+    .p05-exam-panel h2 {
+      margin: 0 0 0.65rem;
+      font-size: clamp(1.05rem, 3vw, 1.42rem);
+      color: #00695c;
+      text-align: center;
+      font-weight: 950;
+    }
+    .p05-exam-panel h3 {
+      margin: 0.85rem 0 0.4rem;
+      font-size: clamp(0.92rem, 2.1vw, 1.08rem);
+      color: #1565c0;
+    }
+    .p05-exam-panel .p05-exam-corpus h3 {
+      margin: 0.85rem 0 0.45rem;
+      font-size: clamp(0.95rem, 2.05vw, 1.12rem);
+      color: #004d40;
+      border-bottom: 2px solid rgba(0, 105, 92, 0.28);
+      padding-bottom: 0.28rem;
+      font-weight: 900;
+    }
+    .p05-exam-panel .p05-exam-corpus section:first-of-type h3 {
+      margin-top: 0.4rem;
+    }
+    .p05-exam-panel .p05-exam-corpus h4 {
+      margin: 0.55rem 0 0.3rem;
+      font-size: clamp(0.82rem, 1.85vw, 0.95rem);
+      color: #1565c0;
+      font-weight: 850;
+    }
+    .p05-exam-panel p,
+    .p05-exam-panel li {
+      font-size: clamp(0.85rem, 1.9vw, 1rem);
+      line-height: 1.58;
+      font-weight: 650;
+    }
+    .p05-exam-panel ul {
+      margin: 0.35rem 0 0;
+      padding-left: 1.2rem;
+    }
+    .p05-tag {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-weight: 850;
+      font-size: 0.88em;
+      background: rgba(0, 137, 123, 0.2);
+      color: #00695c;
+    }
+
+    .p05-cond-block {
+      max-width: min(1080px, 100%);
+      margin: 0 auto clamp(12px, 2vh, 18px);
+      padding: clamp(12px, 2vh, 18px);
+      border-radius: 16px;
+      border: 4px solid #37474f;
+      background: rgba(255, 253, 248, 0.97);
+      color: #263238;
+      box-shadow: 6px 8px 0 rgba(0, 0, 0, 0.08);
+    }
+    .p05-cond-block h2 {
+      margin: 0 0 0.55rem;
+      font-size: clamp(1rem, 2.85vw, 1.35rem);
+      color: #00695c;
+      text-align: center;
+      font-weight: 950;
+    }
+    .p05-cond-block h3 {
+      margin: 0.65rem 0 0.35rem;
+      font-size: clamp(0.88rem, 2vw, 1.02rem);
+      color: #1565c0;
+    }
+    .p05-cond-block p,
+    .p05-cond-block li {
+      font-size: clamp(0.82rem, 1.85vw, 0.96rem);
+      line-height: 1.58;
+      font-weight: 650;
+    }
+    .p05-cond-block ul {
+      margin: 0.25rem 0 0;
+      padding-left: 1.15rem;
+    }
+    .p05-cond-block .formula {
+      display: block;
+      margin: 0.4rem 0 0.25rem;
+      padding: 0.45rem 0.65rem;
+      border-radius: 8px;
+      background: rgba(21, 101, 192, 0.08);
+      font-family: Georgia, "Times New Roman", serif;
+      font-weight: 800;
+      font-size: clamp(0.8rem, 1.75vw, 0.94rem);
+      color: #0d47a1;
+    }
+    .p05-timeline-wrap {
+      margin-top: 0.65rem;
+    }
+    .p05-timeline-wrap > .caption {
+      margin: 0 0 0.5rem;
+      font-size: clamp(0.78rem, 1.7vw, 0.9rem);
+      font-weight: 750;
+      color: #37474f;
+      line-height: 1.5;
+    }
+    .p05-timeline-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: clamp(6px, 1.2vw, 10px);
+      max-width: min(520px, 100%);
+      margin: 0 auto;
+    }
+    .p05-tg-cell {
+      min-height: clamp(72px, 14vh, 96px);
+      padding: 8px 6px;
+      border-radius: 10px;
+      border: 2px solid #90a4ae;
+      background: linear-gradient(165deg, #eceff1 0%, #ffffff 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      gap: 4px;
+    }
+    .p05-tg-cell .d {
+      font-size: clamp(0.72rem, 1.5vw, 0.82rem);
+      font-weight: 900;
+      color: #455a64;
+    }
+    .p05-tg-cell .w {
+      font-size: clamp(1.15rem, 2.6vw, 1.45rem);
+      line-height: 1;
+    }
+    .p05-tg-cell .wtxt {
+      font-size: clamp(0.65rem, 1.45vw, 0.76rem);
+      font-weight: 800;
+      color: #0277bd;
+    }
+    .p05-timeline-note {
+      margin: 0.55rem 0 0;
+      padding: 0.5rem 0.65rem;
+      border-radius: 8px;
+      border-left: 4px solid #00897b;
+      background: rgba(0, 137, 123, 0.08);
+      font-size: clamp(0.78rem, 1.7vw, 0.9rem);
+      font-weight: 700;
+      line-height: 1.52;
+      color: #004d40;
+    }
+    .p05-scenarios {
+      margin: 0.45rem 0 0;
+      padding: 0;
+      list-style: none;
+    }
+    .p05-scenarios li {
+      margin: 0.35rem 0 0;
+      padding: 0.4rem 0.55rem;
+      border-radius: 8px;
+      background: rgba(236, 239, 241, 0.95);
+      border: 1px solid #cfd8dc;
+    }
+    .p05-scenarios .scene-en {
+      font-family: Georgia, "Times New Roman", serif;
+      font-weight: 800;
+      color: #1a237e;
+      display: block;
+      margin-bottom: 0.2rem;
+    }
+    .p05-scenarios .scene-zh {
+      font-size: 0.92em;
+      color: #546e7a;
+    }
+
+    .p05-rain-illust {
+      margin: 0.65rem 0 0.85rem;
+      padding: 0.65rem 0.75rem 0.75rem;
+      border-radius: 14px;
+      border: 2px solid #90a4ae;
+      background: linear-gradient(180deg, #f5f9fc 0%, #eceff1 100%);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+      overflow: hidden;
+      position: relative;
+      z-index: 0;
+    }
+    .p05-rain-datebar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 0.55rem;
+      padding-bottom: 0.45rem;
+      border-bottom: 2px dashed #b0bec5;
+    }
+    .p05-rain-datetag {
+      font-size: clamp(0.72rem, 1.55vw, 0.82rem);
+      font-weight: 900;
+      color: #37474f;
+      letter-spacing: 0.06em;
+    }
+    #p05-live-date {
+      font-size: clamp(0.78rem, 1.75vw, 0.92rem);
+      font-weight: 850;
+      color: #0d47a1;
+      font-variant-numeric: tabular-nums;
+    }
+    .p05-rain-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(8px, 1.8vw, 14px);
+      align-items: stretch;
+      min-height: 0;
+    }
+    @media (max-width: 560px) {
+      .p05-rain-split {
+        grid-template-columns: 1fr;
+      }
+    }
+    .p05-rain-fig {
+      margin: 0;
+      padding: 0.45rem;
+      border-radius: 10px;
+      background: #fff;
+      border: 1px solid #cfd8dc;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      min-height: 0;
+    }
+    .p05-rain-fig figcaption {
+      font-size: clamp(0.68rem, 1.45vw, 0.78rem);
+      font-weight: 900;
+      color: #546e7a;
+      text-align: center;
+    }
+    .p05-rain-fig svg,
+    .p05-rain-fig img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 8px;
+      background: #fafafa;
+    }
+    .p05-rain-phone-layer {
+      position: relative;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    /* 文字限定在插图右上角 1/4（对话气泡区域），缩小字号以免压住人物 */
+    .p05-rain-caption {
+      position: absolute;
+      left: 50%;
+      right: 0;
+      top: 0;
+      width: 50%;
+      height: 50%;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      text-align: center;
+      gap: clamp(4px, 1.17vmin, 11px);
+      padding: 8% 5% 4% 6%;
+      z-index: 2;
+      pointer-events: none;
+    }
+    .p05-rain-caption-en {
+      display: block;
+      width: 100%;
+      max-width: 100%;
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(0.864rem, 2.79vmin, 1.404rem);
+      font-weight: 800;
+      line-height: 1.2;
+      color: #0d1b5c;
+      text-shadow: 0 0 1px rgba(255, 255, 255, 0.85);
+      word-wrap: break-word;
+      overflow-wrap: anywhere;
+    }
+    .p05-rain-caption-zh {
+      display: block;
+      width: 100%;
+      max-width: 100%;
+      margin: 0;
+      font-size: clamp(0.792rem, 2.43vmin, 1.224rem);
+      font-weight: 750;
+      color: #263238;
+      line-height: 1.35;
+      text-shadow: 0 0 1px rgba(255, 255, 255, 0.85);
+    }
+    .p05-rain-explainer {
+      margin: 0.55rem 0 0;
+      font-size: clamp(0.74rem, 1.65vw, 0.88rem);
+      line-height: 1.55;
+      font-weight: 650;
+      color: #37474f;
+    }
+  </style>
+</head>
+<body class="has-lesson-pager">
+  <div id="l08-p05-host" class="app">
+    <div id="bg-stack" aria-hidden="true"></div>
+    <canvas id="wire-canvas" aria-hidden="true"></canvas>
+    <div id="ui-lock" aria-hidden="true"></div>
+    <div id="toast-warn" role="status" aria-live="polite"></div>
+
+    <main id="p05-stage" aria-label="因果反应堆">
+      <div class="p05-tabs" role="tablist">
+        <button type="button" role="tab" id="p05-tab-0" aria-selected="true" aria-controls="p05-slide-0">幻灯片 1 · 零条件 &amp; 第一条件</button>
+        <button type="button" role="tab" id="p05-tab-1" aria-selected="false" aria-controls="p05-slide-1" tabindex="-1">幻灯片 2 · 下落拦截 · 0号 vs 1号</button>
+        <button type="button" role="tab" id="p05-tab-2" aria-selected="false" aria-controls="p05-slide-2" tabindex="-1">幻灯片 3 · 中考 · 主将从现</button>
+      </div>
+
+      <div class="p05-deck">
+        <section id="p05-slide-0" class="p05-slide" role="tabpanel" aria-labelledby="p05-tab-0">
+          <div class="p05-slide0-scroll">
+          <div class="p05-cond-block p05-cond-block--zero">
+            <h2>零条件句（0 号句）· If + 一般现在时，主句 + 一般现在时</h2>
+            <p>
+              <span class="p05-tag">普遍规律</span>
+              用来陈述<strong>在时间长河中反复成立</strong>的「条件 → 结果」关系：既可以是自然科学里的<strong>恒常因果</strong>，也可以是日常里的<strong>固定程序或习惯联动</strong>。
+              句中的现在时<strong>不锚定某一天</strong>，而是表示「每当条件出现，结果就随之出现」。
+            </p>
+            <span class="formula">If the wind blows, trees move.</span>
+            <h3>为什么用「九宫格时间线」理解它？</h3>
+            <p>
+              下面九个格子代表<strong>不同的日期与天气</strong>。零条件句描述的因果关系应当在<strong>所有这些情境下都成立</strong>——它讲的是<strong>稳定的规律</strong>，而不是「只针对某一个格子里的那次将来」。
+            </p>
+            <div class="p05-timeline-wrap">
+              <p class="caption">
+                示意：无论哪一天、何种天气，风吹树摇这条规律不变。（教学中可把例句写在九宫格<strong>下方</strong>，带领学生逐格追问：这一天成立吗？那一天呢？）
+              </p>
+              <div class="p05-timeline-grid" role="img" aria-label="九宫格：不同日期与天气">
+                <div class="p05-tg-cell"><span class="d">7/1 周一</span><span class="w" aria-hidden="true">☀</span><span class="wtxt">晴</span></div>
+                <div class="p05-tg-cell"><span class="d">7/2 周二</span><span class="w" aria-hidden="true">🌧</span><span class="wtxt">雨</span></div>
+                <div class="p05-tg-cell"><span class="d">7/3 周三</span><span class="w" aria-hidden="true">⛅</span><span class="wtxt">多云</span></div>
+                <div class="p05-tg-cell"><span class="d">7/4 周四</span><span class="w" aria-hidden="true">💨</span><span class="wtxt">大风</span></div>
+                <div class="p05-tg-cell"><span class="d">7/5 周五</span><span class="w" aria-hidden="true">🌫</span><span class="wtxt">雾</span></div>
+                <div class="p05-tg-cell"><span class="d">7/6 周六</span><span class="w" aria-hidden="true">☀</span><span class="wtxt">晴</span></div>
+                <div class="p05-tg-cell"><span class="d">7/7 周日</span><span class="w" aria-hidden="true">⛈</span><span class="wtxt">雷阵雨</span></div>
+                <div class="p05-tg-cell"><span class="d">7/8 周一</span><span class="w" aria-hidden="true">☁</span><span class="wtxt">阴</span></div>
+                <div class="p05-tg-cell"><span class="d">7/9 周二</span><span class="w" aria-hidden="true">🌤</span><span class="wtxt">晴间多云</span></div>
+              </div>
+              <p class="p05-timeline-note">
+                <strong>小结：</strong>零条件句适合描述<strong>长期以往、跨时间重复验证</strong>的因果链：表格里每一格只是「抽样日期」，真正的语义指向是<strong>规律本身</strong>，而非某一格里的一次性预测。
+              </p>
+            </div>
+            <div class="p05-zero-scenarios">
+            <h3>三个典型场景（各一句）</h3>
+            <ul class="p05-scenarios">
+              <li>
+                <span class="scene-en">If the wind blows, trees move.</span>
+                <span class="scene-zh">自然现象：风作为条件，树动作为结果——任意季节、任意一日，只要条件满足，结果随之发生。</span>
+              </li>
+              <li>
+                <span class="scene-en">If you heat ice to 0°C, it melts.</span>
+                <span class="scene-zh">科学真理：条件（加热到熔点）与结果（融化）在实验与生活中可重复验证。</span>
+              </li>
+              <li>
+                <span class="scene-en">If you press the red button, the door opens.</span>
+                <span class="scene-zh">固定程序：电梯、门禁等——每次按下，门就开；描述的是设备逻辑，不是「明天这一次会不会开」的猜测。</span>
+              </li>
+            </ul>
+            </div>
+          </div>
+
+          <div class="p05-cond-block">
+            <h2>第一条件句（1 号句）· 主将从现：If + 一般现在时，主句 + will + 动词原形</h2>
+            <p>
+              <span class="p05-tag">可能发生</span>
+              谈的是<strong>某个具体情境下</strong>「若条件成立，则将来（或随之）会出现的结果」。中考卷上的「主将从现」指的就是这一条：<strong>If 从句不用 will</strong>，把「将来」留给主句的 <strong>will</strong>。
+            </p>
+            <p style="margin-top:0.35rem;font-size:0.92em;color:#c62828;font-weight:750;">
+              注意：英语里条件句很少写成「If 从句用一般将来时」；即便语义谈将来，If 后也多用<strong>一般现在时</strong>表条件。
+            </p>
+            <span class="formula">If it rains tomorrow, I will stay at home.</span>
+
+            <h3>情境图 · 与教材句对照（含本页实时日期）</h3>
+            <p style="margin-top:0.25rem;font-size:0.92em;">
+              下图呼应同一结构：<strong>If</strong> 从句谈「会不会下雨」这一<strong>具体假设</strong>，<strong>主句 will</strong> 谈随之采取的行动。教材常用 <em>tomorrow</em>；口语打电话给朋友也可以说 <em>today</em>，指向「今天这次」的安排。
+            </p>
+            <div class="p05-rain-illust" aria-label="下雨假设情境插图">
+              <div class="p05-rain-datebar">
+                <span class="p05-rain-datetag">Page 5 · 打开本页时的日期（实时）</span>
+                <time id="p05-live-date" datetime=""></time>
+              </div>
+              <div class="p05-rain-split">
+                <figure class="p05-rain-fig">
+                  <figcaption>左 · 望向窗外</figcaption>
+                  <img
+                    src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/l08-page05-scene-window-storm.png"
+                    alt="男孩望向窗外，窗外乌云密布"
+                    width="640"
+                    height="480"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </figure>
+                <figure class="p05-rain-fig">
+                  <figcaption>右 · 打电话给好朋友</figcaption>
+                  <div class="p05-rain-phone-layer">
+                    <img
+                      src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/l08-page05-scene-phone-call.png"
+                      alt="男孩拿起电话与好朋友通话"
+                      width="640"
+                      height="480"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                    <div class="p05-rain-caption">
+                      <span class="p05-rain-caption-en">If it rains today, I will not hang out with you.</span>
+                      <span class="p05-rain-caption-zh">口语：要是今天下雨，我就不跟你出去玩了。</span>
+                    </div>
+                  </div>
+                </figure>
+              </div>
+              <p class="p05-rain-explainer">
+                <strong>上图日期</strong>随系统时间更新（切换到本幻灯片时会刷新）。它与句中的 <em>today / tomorrow</em> 并不总是一致——教学上要强调：第一条件句看点在<strong>时态槽位</strong>（If 从现 · 主句 will），时间词只是帮你锁定「这一次」还是「明天那一次」。
+              </p>
+            </div>
+
+            <h3>三个典型场景（各一句）</h3>
+            <ul class="p05-scenarios">
+              <li>
+                <span class="scene-en">If it rains tomorrow, I will stay at home.</span>
+                <span class="scene-zh">天气与计划：明天是否下雨还不确定；下雨 → 我会待在家（针对这一次明天的结果）。</span>
+              </li>
+              <li>
+                <span class="scene-en">If you study hard this term, you will feel more confident.</span>
+                <span class="scene-zh">学业结果：努力发生在接下来这段时间，自信是随之可能出现的<strong>变化</strong>，强调「这一阶段的如果……就会……」。</span>
+              </li>
+              <li>
+                <span class="scene-en">If he misses the last bus, he will call a taxi.</span>
+                <span class="scene-zh">出行应急：错过末班车是<strong>假设的一次事件</strong>，打车是对该假设的应对方案（非自然规律）。</span>
+              </li>
+            </ul>
+            <h3>与零条件句的对照（一句话）</h3>
+            <ul>
+              <li><strong>零条件</strong>：谈「总是 / 通常」成立的规律 → 从句、主句都用<strong>一般现在时</strong>。</li>
+              <li><strong>第一条件</strong>：谈「这一次 / 若果真如此」的后果 → <strong>If 从现，主句 will</strong>。</li>
+            </ul>
+          </div>
+          </div>
+
+        </section>
+
+        <section id="p05-slide-1" class="p05-slide" role="tabpanel" aria-labelledby="p05-tab-1" hidden>
+          <div class="p05-slide1-scroll">
+            <header class="p05-fall-slide-head">
+              <h1>下落拦截 · 0 号 vs 1 号条件句</h1>
+              <p class="sub">
+                判断<strong>长期规律</strong>（零条件 · 从现主现）还是<strong>当下一次性因果</strong>（第一条件 · 主将从现），在句子触底前选对类型以「消灭」该句。共 15 句。
+              </p>
+            </header>
+
+            <div id="p05-fall-section" class="p05-fall-section--solo" aria-label="下落拦截练习">
+            <div id="p05-fall-hud" class="p05-fall-hud" aria-live="polite">第 1 / 15 句 · 得分 0 · 待命</div>
+            <div class="p05-fall-stage-wrap">
+            <div id="p05-fall-arena" aria-live="polite">
+              <div id="p05-fall-danger-line" class="p05-fall-danger-line" aria-hidden="true"></div>
+            </div>
+            <div id="p05-fall-controls">
+              <button type="button" id="p05-btn-zero" class="p05-fall-btn p05-fall-zero">长期以往 · 不受时间约束<span class="p05-fall-hint">零条件 · 0 号</span></button>
+              <button type="button" id="p05-btn-first" class="p05-fall-btn p05-fall-first">当下一次性因果<span class="p05-fall-hint">第一条件 · 1 号</span></button>
+            </div>
+            </div>
+            <button type="button" id="p05-fall-restart">再来一轮 · 重洗 15 句</button>
+            </div>
+
+          </div>
+        </section>
+
+        <section id="p05-slide-2" class="p05-slide" role="tabpanel" aria-labelledby="p05-tab-2" hidden>
+          <div class="p05-slide2-scroll">
+            <div class="p05-exam-panel">
+              <h2>成都中考 · 教材衔接 · 第一条件句（主将从现）</h2>
+              <p class="p05-exam-lead">
+                人教版《Go for it》七至九年级在「天气、旅行、聚会计划、环保、规则与安全」等话题中多次出现
+                <span class="p05-tag">If + 一般现在时</span>、<span class="p05-tag">主句 will / won't + 原形</span>。
+                下方按册汇总<strong>教材与配套练习里常见的完整第一条件句</strong>；最后一栏收录全国各地中考与权威备考资料中反复出现的<strong>真题风格完整句</strong>（含四川卷常见考法）。
+              </p>
+              <div class="p05-exam-rules-mini">
+                <strong>核心规则（与 Page 04 连贯）</strong>
+                <ul>
+                  <li><strong>主将从现</strong>：谈<strong>可能发生</strong>的条件 —— If 从句用<strong>现在时</strong>，主句谈结果用 <strong>will / won't</strong>。</li>
+                  <li>错句示例：<strong>If it will rain tomorrow, I will stay home.</strong> → <strong>If it rains tomorrow, I will stay at home.</strong></li>
+                  <li>成都卷<strong>单选 / 完成句子</strong>高频陷阱：If 从句里误填 <strong>will</strong>；或主句忘了 <strong>will</strong>。</li>
+                </ul>
+              </div>
+
+              <div class="p05-exam-corpus" id="p05-exam-corpus-static">
+                <section aria-labelledby="p05-h-g7u">
+                  <h3 id="p05-h-g7u">七年级上册 · 课文 / Grammar / 口语范例中的完整句</h3>
+                  <ul class="p05-corpus-list cols-2">
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If you get up early, you will have time for breakfast.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If you get up early, you will have time for breakfast." data-idx="1">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果你早起，就会有时间吃早饭。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If I eat healthy food, I will feel stronger.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If I eat healthy food, I will feel stronger." data-idx="2">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果我吃健康食品，我会感觉更有力气。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If he watches TV too late, he will be sleepy in class.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If he watches TV too late, he will be sleepy in class." data-idx="3">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果他看电视太晚，上课会犯困。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If we play sports after school, we will stay healthy.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If we play sports after school, we will stay healthy." data-idx="4">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果我们放学后做运动，就能保持健康。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If she practices the piano, she will play better soon.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If she practices the piano, she will play better soon." data-idx="5">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果她练习钢琴，很快就会弹得更好。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If you listen carefully in class, you will understand more.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If you listen carefully in class, you will understand more." data-idx="6">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果你上课认真听讲，你会理解得更多。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If they don't finish homework, the teacher will talk to them.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If they don't finish homework, the teacher will talk to them." data-idx="7">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果他们不完成作业，老师会找他们谈话。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If it is cold outside, I will wear my jacket.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If it is cold outside, I will wear my jacket." data-idx="8">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果外面冷，我会穿上夹克。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If you help at home, your parents will be proud of you.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If you help at home, your parents will be proud of you." data-idx="9">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果你在家帮忙，父母会为你骄傲。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If he forgets his umbrella, he will get wet in the rain.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If he forgets his umbrella, he will get wet in the rain." data-idx="10">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果他忘了带伞，淋雨会湿透。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If we start now, we will finish the project today.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If we start now, we will finish the project today." data-idx="11">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果我们现在开始，今天就能完成课题。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If you join the English corner, you will speak more fluently.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If you join the English corner, you will speak more fluently." data-idx="12">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果你参加英语角，你会说得更流利。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If the math problem is too hard, I will ask the teacher.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If the math problem is too hard, I will ask the teacher." data-idx="13">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果数学题太难，我会去问老师。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If she saves her pocket money, she will buy a nice gift.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If she saves her pocket money, she will buy a nice gift." data-idx="14">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果她省下零花钱，就能买到不错的礼物。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If you don't brush your teeth, you will have tooth trouble.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If you don't brush your teeth, you will have tooth trouble." data-idx="15">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果你不刷牙，牙齿会出问题。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If he rides his bike too fast, he will fall down.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If he rides his bike too fast, he will fall down." data-idx="16">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果他骑车太快，会摔倒。</div>
+                    </li>
+                  </ul>
+                </section>
+                <section aria-labelledby="p05-h-g7d">
+                  <h3 id="p05-h-g7d">七年级下册 · 天气、旅行、校规等话题中的完整句</h3>
+                  <ul class="p05-corpus-list cols-2">
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If it rains tomorrow, we will stay at home.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If it rains tomorrow, we will stay at home." data-idx="17">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果明天下雨，我们就待在家里。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If the weather is fine, we will go on a school trip.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If the weather is fine, we will go on a school trip." data-idx="18">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果天气好，我们就去参加学校组织的郊游。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If you visit the zoo, you will see many animals.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If you visit the zoo, you will see many animals." data-idx="19">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果你去动物园，会看到许多动物。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If we take the school bus, we will arrive on time.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If we take the school bus, we will arrive on time." data-idx="20">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果我们坐校车，就会准时到达。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If he doesn't bring his ticket, he won't get in.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If he doesn't bring his ticket, he won't get in." data-idx="21">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果他不带票，就进不去。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If you follow the museum rules, you will enjoy the visit.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If you follow the museum rules, you will enjoy the visit." data-idx="22">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果你遵守博物馆规定，参观会更愉快。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If they miss the train, they will take the next one.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If they miss the train, they will take the next one." data-idx="23">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果他们错过这趟火车，就会坐下一趟。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If I pack my bag tonight, I won't rush tomorrow morning.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If I pack my bag tonight, I won't rush tomorrow morning." data-idx="24">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果我今晚收拾好书包，明早就不用匆忙。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If you eat street food every day, you will feel uncomfortable.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If you eat street food every day, you will feel uncomfortable." data-idx="25">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果你天天吃路边摊，胃会不舒服。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If she wears sports shoes, she will run more safely.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If she wears sports shoes, she will run more safely." data-idx="26">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果她穿运动鞋，跑步会更安全。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If we cross the road carefully, we will avoid accidents.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If we cross the road carefully, we will avoid accidents." data-idx="27">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果我们小心过马路，就能避免事故。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If you call me before 7, I will wait for you.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If you call me before 7, I will wait for you." data-idx="28">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果你在七点前给我打电话，我会等你。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If the library closes early, I will borrow books online.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If the library closes early, I will borrow books online." data-idx="29">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果图书馆提前关门，我就在线借书。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If he practices speaking every day, he will lose his shyness.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If he practices speaking every day, he will lose his shyness." data-idx="30">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果他每天练口语，就不会那么害羞。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If we work in groups, we will solve the task faster.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If we work in groups, we will solve the task faster." data-idx="31">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果我们分组合作，会更快完成任务。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If you don't wear your helmet, you will risk your safety.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If you don't wear your helmet, you will risk your safety." data-idx="32">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果你不戴头盔，会有安全风险。</div>
+                    </li>
+                  </ul>
+                </section>
+                <section aria-labelledby="p05-h-g8u">
+                  <h3 id="p05-h-g8u">八年级上册 · Unit 10（If you go to the party…）课文与练习原句</h3>
+                  <p class="p05-corpus-section-lead">本册<strong>第一条件句</strong>集中在 Unit 10；下列为 Section A / B 与课后操练高频完整句。</p>
+                  <ul class="p05-corpus-list cols-2">
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If you go to the party, you will have a great time.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If you go to the party, you will have a great time." data-idx="33">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果你去参加聚会，你会玩得很开心。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If you go to the party, you will have a good time.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If you go to the party, you will have a good time." data-idx="34">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果你去参加聚会，你会过得很愉快。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If you wear jeans to the party, the teachers won't let you in.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If you wear jeans to the party, the teachers won't let you in." data-idx="35">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果你穿牛仔裤去聚会，老师不会让你进去。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If you stay at home, you will be sorry.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If you stay at home, you will be sorry." data-idx="36">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果你待在家里，你会后悔的。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If you stay at home, you'll feel left out.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If you stay at home, you'll feel left out." data-idx="37">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果你待在家里，你会觉得被冷落。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If you do, you'll have a great time.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If you do, you'll have a great time." data-idx="38">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果你去的话，你会玩得很开心。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If they have the party today, half the class won't come.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If they have the party today, half the class won't come." data-idx="39">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果他们今天办聚会，班里一半人来不了。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If we ask him to organize it, he will help us.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If we ask him to organize it, he will help us." data-idx="40">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果我们请他组织，他会帮我们。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If you make too much noise at the party, you will have to leave.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If you make too much noise at the party, you will have to leave." data-idx="41">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果你在聚会上太吵，你就得离开。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If you argue with friends at the party, you will feel unhappy.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If you argue with friends at the party, you will feel unhappy." data-idx="42">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果你在聚会上和朋友吵架，你会不开心。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If we prepare some games, everyone will enjoy the party.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If we prepare some games, everyone will enjoy the party." data-idx="43">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果我们准备些游戏，大家都会玩得尽兴。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If you invite Sarah, she will bring her guitar.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If you invite Sarah, she will bring her guitar." data-idx="44">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果你邀请萨拉，她会带上吉他。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If he doesn't finish homework, his parents won't let him go.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If he doesn't finish homework, his parents won't let him go." data-idx="45">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果他不完成作业，父母不会让他去。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If it rains on Saturday, we will put off the party.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If it rains on Saturday, we will put off the party." data-idx="46">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果星期六下雨，我们就推迟聚会。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If you wear smart clothes, you will look polite at the party.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If you wear smart clothes, you will look polite at the party." data-idx="47">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果你穿得得体，在聚会上会显得有礼貌。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If we clean the classroom after the party, the teachers will praise us.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If we clean the classroom after the party, the teachers will praise us." data-idx="48">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果聚会后我们打扫教室，老师会表扬我们。</div>
+                    </li>
+                  </ul>
+                </section>
+                <section aria-labelledby="p05-h-g8d">
+                  <h3 id="p05-h-g8d">八年级下册 · 阅读与单元复习中出现的完整句</h3>
+                  <ul class="p05-corpus-list cols-2">
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If you visit Chengdu in spring, you will enjoy the flowers.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If you visit Chengdu in spring, you will enjoy the flowers." data-idx="49">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果你在春天来成都，你会赏花尽兴。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If we protect giant pandas, there will be more wild pandas.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If we protect giant pandas, there will be more wild pandas." data-idx="50">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果我们保护大熊猫，野外会有更多熊猫。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If he keeps practicing basketball, he will join the school team.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If he keeps practicing basketball, he will join the school team." data-idx="51">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果他坚持练篮球，就能进校队。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If you read this story carefully, you will find the morals.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If you read this story carefully, you will find the morals." data-idx="52">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果你仔细读这个故事，会发现寓意。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If she raises money for charity, more kids will get help.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If she raises money for charity, more kids will get help." data-idx="53">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果她为慈善筹款，会有更多孩子得到帮助。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If we don't stop pollution, the river will become dirtier.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If we don't stop pollution, the river will become dirtier." data-idx="54">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果我们不制止污染，河水会更脏。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If you follow the recipe, your dishes will taste better.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If you follow the recipe, your dishes will taste better." data-idx="55">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果你按食谱做，菜会更好吃。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If they miss the beginning of the show, they will wait outside.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If they miss the beginning of the show, they will wait outside." data-idx="56">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果他们错过开场，只能在外面等。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If I explain the rules again, nobody will make the same mistake.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If I explain the rules again, nobody will make the same mistake." data-idx="57">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果我再解释一遍规则，没人会犯同样的错。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If you save energy at home, your bill will be lower.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If you save energy at home, your bill will be lower." data-idx="58">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果你在家节约用电，账单会更低。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If he speaks too softly, the audience won't hear him.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If he speaks too softly, the audience won't hear him." data-idx="59">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果他声音太小，听众听不见。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If we share housework, Mom will have more time to rest.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If we share housework, Mom will have more time to rest." data-idx="60">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果我们分担家务，妈妈就有更多时间休息。</div>
+                    </li>
+                  </ul>
+                </section>
+                <section aria-labelledby="p05-h-g9">
+                  <h3 id="p05-h-g9">九年级全一册 · 环保、科技、志愿与安全话题中的完整句</h3>
+                  <ul class="p05-corpus-list cols-2">
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If we litter everywhere, there will be more rubbish around us.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If we litter everywhere, there will be more rubbish around us." data-idx="61">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果我们到处乱扔垃圾，周围会更脏。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If factories pour waste into rivers, people will get sick.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If factories pour waste into rivers, people will get sick." data-idx="62">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果工厂把废水排进河里，人会生病。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If everyone rides bikes more often, there will be less smog.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If everyone rides bikes more often, there will be less smog." data-idx="63">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果大家都多骑车，雾霾会减少。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If we plant more trees along the streets, the air will be fresher.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If we plant more trees along the streets, the air will be fresher." data-idx="64">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果我们在街边多种树，空气会更清新。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If students recycle paper, fewer trees will be cut down.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If students recycle paper, fewer trees will be cut down." data-idx="65">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果学生回收纸张，砍树就会少一些。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If you turn off the tap while brushing, you will save water.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If you turn off the tap while brushing, you will save water." data-idx="66">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果你刷牙时关水龙头，就能节水。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If we use fewer plastic bags, the oceans will be cleaner.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If we use fewer plastic bags, the oceans will be cleaner." data-idx="67">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果我们少用塑料袋，海洋会更干净。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If cities build more parks, people will live more healthily.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If cities build more parks, people will live more healthily." data-idx="68">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果城市多建公园，人们会更健康。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If teenagers volunteer on weekends, they will learn responsibility.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If teenagers volunteer on weekends, they will learn responsibility." data-idx="69">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果青少年周末做志愿者，会更懂得责任。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If you study the passage twice, you will answer more correctly.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If you study the passage twice, you will answer more correctly." data-idx="70">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果你把短文读两遍，答题会更准确。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If he misses the deadline, he will lose the competition chance.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If he misses the deadline, he will lose the competition chance." data-idx="71">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果他错过截止日期，就会失去参赛机会。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If we obey traffic lights, there will be fewer accidents.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If we obey traffic lights, there will be fewer accidents." data-idx="72">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果我们遵守红绿灯，事故会减少。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If you stay calm in the exam, you will think more clearly.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If you stay calm in the exam, you will think more clearly." data-idx="73">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果你考试时保持冷静，会想得更清楚。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If schools offer art clubs, more students will discover talents.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If schools offer art clubs, more students will discover talents." data-idx="74">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果学校开设艺术社团，更多学生能发现特长。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If parents communicate patiently, kids will open their hearts.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If parents communicate patiently, kids will open their hearts." data-idx="75">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果父母耐心沟通，孩子会更愿意敞开心扉。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If we start protecting nature now, future generations will thank us.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If we start protecting nature now, future generations will thank us." data-idx="76">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果我们现在开始保护自然，后代会感谢我们。</div>
+                    </li>
+                  </ul>
+                </section>
+                <section aria-labelledby="p05-h-exam">
+                  <h3 id="p05-h-exam">中考真题与经典备考题 · 完整「主将从现」句（汇编）</h3>
+                  <p class="p05-corpus-section-lead">下列为各省市中考卷、四川多地模拟与权威教辅解析中<strong>反复出现的完整条件句</strong>（含成都卷常见考点）；个别动词因卷面略有改写，此处统一为标准完整句便于背诵。</p>
+                  <ul class="p05-corpus-list cols-2">
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If he doesn't come in half an hour, we won't wait for him.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If he doesn't come in half an hour, we won't wait for him." data-idx="77">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果他半小时内不来，我们就不等他了。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If you work hard at English, you will make progress soon.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If you work hard at English, you will make progress soon." data-idx="78">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果你用功学英语，很快就会进步。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If it keeps raining, the sports meeting will be put off.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If it keeps raining, the sports meeting will be put off." data-idx="79">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果一直下雨，运动会就会延期。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If you don't give up your dream, you will achieve it someday.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If you don't give up your dream, you will achieve it someday." data-idx="80">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果你不放弃梦想，总有一天会实现。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If we protect wild animals, there will be more balance in nature.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If we protect wild animals, there will be more balance in nature." data-idx="81">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果我们保护野生动物，自然界会更平衡。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If you ask him politely, he will be glad to help you.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If you ask him politely, he will be glad to help you." data-idx="82">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果你礼貌地请他，他会乐意帮你。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If the traffic is heavier than usual, we will be late for school.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If the traffic is heavier than usual, we will be late for school." data-idx="83">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果路况比平时堵，我们上学就会迟到。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If you double-check your answers, you will make fewer mistakes.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If you double-check your answers, you will make fewer mistakes." data-idx="84">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果你检查两遍答案，错误会更少。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If she practices spoken English every day, she will feel more confident.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If she practices spoken English every day, she will feel more confident." data-idx="85">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果她每天练英语口语，会更自信。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If he wakes up late, he will miss the school bus.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If he wakes up late, he will miss the school bus." data-idx="86">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果他起床晚了，会错过校车。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If it snows heavily tonight, the flight will be delayed.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If it snows heavily tonight, the flight will be delayed." data-idx="87">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果今夜雪很大，航班会延误。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If you share your ideas bravely, you will become more active in class.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If you share your ideas bravely, you will become more active in class." data-idx="88">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果你大胆发言，在课堂上会更积极。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If there is less pollution, more people will enjoy blue skies.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If there is less pollution, more people will enjoy blue skies." data-idx="89">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果污染更少，更多人能享受蓝天。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If we start the project earlier, we will finish it on time.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If we start the project earlier, we will finish it on time." data-idx="90">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果我们早点开工，就能按时完成。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If you follow the doctor's advice, you will get well sooner.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If you follow the doctor's advice, you will get well sooner." data-idx="91">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果你遵医嘱，会好得更快。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If teenagers spend less time on phones, they will sleep better.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If teenagers spend less time on phones, they will sleep better." data-idx="92">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果青少年少玩手机，睡眠会更好。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If you read questions carefully, you will avoid silly mistakes.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If you read questions carefully, you will avoid silly mistakes." data-idx="93">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果你审题仔细，就能避免低级错误。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If he drives after drinking, he will put lives in danger.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If he drives after drinking, he will put lives in danger." data-idx="94">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果他酒后驾车，会危及生命。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If we save energy in daily life, the earth will be greener.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If we save energy in daily life, the earth will be greener." data-idx="95">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果我们在日常生活中节约能源，地球会更绿。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If you join the Greenway run, you will love Chengdu's parks more.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If you join the Greenway run, you will love Chengdu's parks more." data-idx="96">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果你参加绿道跑，会更爱成都的公园。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If she doesn't hurry, she will miss the beginning of the film.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If she doesn't hurry, she will miss the beginning of the film." data-idx="97">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果她不快点，会错过电影开头。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If schools teach kids to recycle, there will be less waste.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If schools teach kids to recycle, there will be less waste." data-idx="98">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果学校教孩子回收，垃圾会更少。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If you learn to plan your time, you will feel less stressed.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If you learn to plan your time, you will feel less stressed." data-idx="99">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果你学会规划时间，压力会小一些。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">If we respect each other online, the Internet will be friendlier.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="If we respect each other online, the Internet will be friendlier." data-idx="100">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">如果我们在网上互相尊重，网络会更友好。</div>
+                    </li>
+                  </ul>
+                  <h4 id="p05-h-unless">Unless（＝ if … not）同类中考完整句</h4>
+                  <ul class="p05-corpus-list cols-2">
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">Unless you hurry up, you will miss the last train.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="Unless you hurry up, you will miss the last train." data-idx="101">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">除非你快点，你会错过末班车。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">Unless it rains tomorrow, we will go hiking.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="Unless it rains tomorrow, we will go hiking." data-idx="102">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">除非明天下雨，否则我们会去徒步。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">Unless we protect rivers, there won't be enough clean water.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="Unless we protect rivers, there won't be enough clean water." data-idx="103">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">除非我们保护河流，否则不会有足够的净水。</div>
+                    </li>
+                    <li class="p05-corpus-item">
+                      <div class="p05-corpus-line">
+                        <em class="p05-corpus-en">Unless he studies harder, he won't pass the exam easily.</em>
+                        <button type="button" class="p05-corpus-tts" aria-label="朗读该句英文" data-en="Unless he studies harder, he won't pass the exam easily." data-idx="104">朗读</button>
+                      </div>
+                      <div class="p05-corpus-zh">除非他更用功，否则不会轻易通过考试。</div>
+                    </li>
+                  </ul>
+                </section>
+              </div>
+
+              <p class="p05-exam-note">
+                说明：① 教材部分以《义务教育教科书·英语（Go for it）》七至九年级<strong>单元话题、Grammar Focus、听力与口语脚本</strong>及配套练习中常见的「If…一般现在时，主句 will」为第一条件句依据进行汇编；八年级上册 Unit 10 为系统语法单元，句量最多。②
+                「中考真题」无法逐字收录某一年的<strong>整卷版权原文</strong>，此处为全国各地真题与四川卷备考资料中<strong>高频、完整、可独立成句</strong>的主将从现表述汇编，便于你在 Page 05 练习与写作中迁移。③ 若个别句子在课本修订版中措辞微调，以你手中教科书为准。
+              </p>
+            </div>
+          </div>
+        </section>
+      </div>
+</main>
+
+    <div id="error-overlay" hidden role="dialog" aria-modal="true">
+      <div class="error-card">
+        <h3>⚠ 练习提示</h3>
+        <div id="error-terminal"></div>
+        <button type="button" class="btn-dismiss" id="btn-dismiss-error">关闭</button>
+      </div>
+    </div>
+
+    <div id="finale-overlay" hidden>
+      <div class="finale-card">
+        <div class="finale-badge">Sentence Shield<br /><span style="font-size:0.58em;font-weight:800">下落拦截通关</span></div>
+        <p style="margin:1rem 0 0;font-weight:750;color:#e0f7fa;font-size:clamp(0.82rem,1.85vw,0.96rem);">
+          十五句已全部拦截 —— 零条件与第一条件你已分清。
+        </p>
+        <button type="button" class="btn-next-page" id="btnNextPage">进入链式反应序列 · Page 06</button>
+      </div>
+    </div>
+  </div>
+
+  <nav class="lesson-pager" aria-label="课程页导航">
+    <a class="pager-prev" href="lesson08-page04-catch.html">← Page 04</a>
+    <span class="pager-mid">L08 · Page 05</span>
+    <a class="pager-next" href="lesson08-page06-chain.html">Page 06 →</a>
+  </nav>
+
+  <script>
+    (function () {
+      "use strict";
+
+      var KEYS = window.__LESSON_KEYS__ || {};
+      var AZURE_REGION = KEYS.azureRegion || "eastus2";
+      var AZURE_KEY = KEYS.azureSpeechKey || "";
+      var DEEPSEEK_KEY = KEYS.deepSeekKey || "";
+      var VERTEX_PROJECT = KEYS.vertexProjectId || "";
+      var VERTEX_REGION = KEYS.vertexRegion || "us-central1";
+
+      /** Prompt 三电路 + 教材/成都情境注解 */
+      var CIRCUITS = [
+        {
+          id: "weather",
+          examHint: "天气 · 成都多雨：公园绿道 / 放学是否户外活动",
+          ifLine: "If it _____ tomorrow,",
+          mainLine: "I _____ at home.",
+          readAloud: "If it rains tomorrow, I will stay at home.",
+          expectIf: "rains",
+          expectMain: "will_stay",
+          blocks: [
+            { text: "rains", key: "rains", slot: "if" },
+            { text: "will rain", key: "will_rain", fatalInIf: true },
+            { text: "will stay", key: "will_stay", slot: "main" },
+            { text: "stay", key: "stay", weak: true },
+          ],
+        },
+        {
+          id: "study",
+          examHint: "学业 · 八年级压力 / 九年级复习：努力与结果",
+          ifLine: "If you _____ hard,",
+          mainLine: "you _____ the exam.",
+          readAloud: "If you study hard, you will pass the exam.",
+          expectIf: "study",
+          expectMain: "will_pass",
+          blocks: [
+            { text: "study", key: "study", slot: "if" },
+            { text: "will study", key: "will_study", fatalInIf: true },
+            { text: "will pass", key: "will_pass", slot: "main" },
+            { text: "pass", key: "pass", weak: true },
+          ],
+        },
+        {
+          id: "he",
+          examHint: "第三人称 · 起床 / 校车：主谓一致陷阱",
+          ifLine: "If he _____ up late,",
+          mainLine: "he _____ the bus.",
+          readAloud: "If he wakes up late, he will miss the bus.",
+          expectIf: "wakes",
+          expectMain: "will_miss",
+          blocks: [
+            { text: "wakes", key: "wakes", slot: "if" },
+            { text: "wake", key: "wake", thirdTrap: true },
+            { text: "will wake", key: "will_wake", fatalInIf: true },
+            { text: "will miss", key: "will_miss", slot: "main" },
+          ],
+        },
+      ];
+
+      var host = document.getElementById("l08-p05-host");
+      var bgStack = document.getElementById("bg-stack");
+      var wireCanvas = document.getElementById("wire-canvas");
+      var wctx = wireCanvas ? wireCanvas.getContext("2d") : null;
+      var uiLock = document.getElementById("ui-lock");
+      var slotIf = document.getElementById("slot-if");
+      var slotMain = document.getElementById("slot-main");
+      var textIfLine = document.getElementById("text-if-line");
+      var textMainLine = document.getElementById("text-main-line");
+      var blockTray = document.getElementById("block-tray");
+      var btnPower = document.getElementById("btn-power");
+      var circuitProgress = document.getElementById("circuit-progress");
+      var toastWarn = document.getElementById("toast-warn");
+      var errorOverlay = document.getElementById("error-overlay");
+      var errorTerminal = document.getElementById("error-terminal");
+      var btnDismissError = document.getElementById("btn-dismiss-error");
+      var finaleOverlay = document.getElementById("finale-overlay");
+      var btnNextPage = document.getElementById("btnNextPage");
+      var panelIf = document.getElementById("panel-if");
+
+      var p05Slide0 = document.getElementById("p05-slide-0");
+      var p05Slide1 = document.getElementById("p05-slide-1");
+      var p05Slide2 = document.getElementById("p05-slide-2");
+      var p05Tab0 = document.getElementById("p05-tab-0");
+      var p05Tab1 = document.getElementById("p05-tab-1");
+      var p05Tab2 = document.getElementById("p05-tab-2");
+
+      var circuitIndex = 0;
+      var dragState = null;
+      var placed = { if: null, main: null };
+      var wireAnimId = 0;
+
+      function setUiLock(on) {
+        if (on) uiLock.classList.add("on");
+        else uiLock.classList.remove("on");
+      }
+
+      function resizeWireCanvas() {
+        if (!wireCanvas || !wctx) return;
+        var dpr = window.devicePixelRatio || 1;
+        var w = host.clientWidth;
+        var h = host.clientHeight;
+        wireCanvas.width = Math.floor(w * dpr);
+        wireCanvas.height = Math.floor(h * dpr);
+        wireCanvas.style.width = w + "px";
+        wireCanvas.style.height = h + "px";
+        wctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+
+      function clearWire() {
+        if (!wctx) return;
+        if (wireAnimId) cancelAnimationFrame(wireAnimId);
+        wireAnimId = 0;
+        var W = host.clientWidth;
+        var H = host.clientHeight;
+        wctx.clearRect(0, 0, W + 20, H + 20);
+      }
+
+      function drawSuccessWire(progress) {
+        var pm = document.getElementById("panel-main");
+        if (!panelIf || !pm || !wctx) return;
+        var rIf = panelIf.getBoundingClientRect();
+        var rMain = pm.getBoundingClientRect();
+        var c = wireCanvas.getBoundingClientRect();
+        var x0 = rIf.right - c.left;
+        var y0 = rIf.top + rIf.height * 0.55 - c.top;
+        var x1 = rMain.left - c.left;
+        var y1 = rMain.top + rMain.height * 0.55 - c.top;
+        var cx = x0 + (x1 - x0) * 0.5;
+        wctx.clearRect(0, 0, host.clientWidth + 2, host.clientHeight + 2);
+        wctx.lineCap = "round";
+        wctx.lineJoin = "round";
+        wctx.strokeStyle = "rgba(0,255,234,0.25)";
+        wctx.lineWidth = 10;
+        wctx.beginPath();
+        wctx.moveTo(x0, y0);
+        wctx.quadraticCurveTo(cx, y0 - 40, x1, y1);
+        wctx.stroke();
+        wctx.strokeStyle = "#00ffea";
+        wctx.lineWidth = 4;
+        wctx.setLineDash([120, 200]);
+        wctx.lineDashOffset = -progress * 280;
+        wctx.shadowColor = "rgba(0,255,234,0.9)";
+        wctx.shadowBlur = 14;
+        wctx.beginPath();
+        wctx.moveTo(x0, y0);
+        wctx.quadraticCurveTo(cx, y0 - 40, x1, y1);
+        wctx.stroke();
+        wctx.setLineDash([]);
+        wctx.shadowBlur = 0;
+      }
+
+      function animateWireFlow() {
+        var t0 = performance.now();
+        function tick(now) {
+          var p = ((now - t0) % 1600) / 1600;
+          drawSuccessWire(p);
+          wireAnimId = requestAnimationFrame(tick);
+        }
+        wireAnimId = requestAnimationFrame(tick);
+      }
+
+      function Synth() {}
+      Synth.prototype.playBuzz = function () {
+        try {
+          var Ctx = window.AudioContext || window.webkitAudioContext;
+          if (!Ctx) return;
+          var ctx = new Ctx();
+          var o = ctx.createOscillator();
+          var g = ctx.createGain();
+          o.type = "sawtooth";
+          o.frequency.value = 220;
+          o.connect(g);
+          g.connect(ctx.destination);
+          g.gain.value = 0.11;
+          o.start();
+          var t = ctx.currentTime;
+          o.frequency.exponentialRampToValueAtTime(90, t + 0.28);
+          g.gain.exponentialRampToValueAtTime(0.001, t + 0.32);
+          setTimeout(function () {
+            try {
+              o.stop();
+              ctx.close();
+            } catch (e0) {}
+          }, 360);
+        } catch (e1) {}
+      };
+      Synth.prototype.playChime = function () {
+        try {
+          var Ctx = window.AudioContext || window.webkitAudioContext;
+          if (!Ctx) return;
+          var ctx = new Ctx();
+          var o = ctx.createOscillator();
+          var g = ctx.createGain();
+          o.type = "sine";
+          o.frequency.value = 523;
+          g.gain.value = 0.07;
+          o.connect(g);
+          g.connect(ctx.destination);
+          o.start();
+          var t = ctx.currentTime;
+          o.frequency.exponentialRampToValueAtTime(784, t + 0.12);
+          g.gain.exponentialRampToValueAtTime(0.001, t + 0.35);
+          setTimeout(function () {
+            try {
+              o.stop();
+              ctx.close();
+            } catch (e2) {}
+          }, 400);
+        } catch (e3) {}
+      };
+
+      var synth = new Synth();
+
+      function buildSsmlReactor(text) {
+        var esc = String(text || "")
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;");
+        return (
+          '<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="en-US">' +
+          '<voice name="en-US-ChristopherNeural">' +
+          '<prosody rate="-5%">' +
+          esc +
+          "</prosody></voice></speak>"
+        );
+      }
+
+      function speakAzureLine(enText) {
+        return new Promise(function (resolve) {
+          var t = String(enText || "").trim();
+          if (!t || !AZURE_KEY) {
+            resolve(false);
+            return;
+          }
+          fetch("https://" + AZURE_REGION + ".tts.speech.microsoft.com/cognitiveservices/v1", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/ssml+xml",
+              "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3",
+              "Ocp-Apim-Subscription-Key": AZURE_KEY,
+            },
+            body: buildSsmlReactor(t),
+          })
+            .then(function (res) {
+              return res.ok ? res.blob() : Promise.reject();
+            })
+            .then(function (blob) {
+              var u = URL.createObjectURL(blob);
+              var a = new Audio();
+              a.src = u;
+              a.onended = function () {
+                try {
+                  URL.revokeObjectURL(u);
+                } catch (e4) {}
+                resolve(true);
+              };
+              a.onerror = function () {
+                try {
+                  URL.revokeObjectURL(u);
+                } catch (e5) {}
+                resolve(false);
+              };
+              a.play().catch(function () {
+                resolve(false);
+              });
+            })
+            .catch(function () {
+              resolve(false);
+            });
+        });
+      }
+
+      function showToast(msg) {
+        toastWarn.textContent = msg;
+        toastWarn.classList.add("show");
+        setTimeout(function () {
+          toastWarn.classList.remove("show");
+        }, 3200);
+      }
+
+      function shuffleBlocks(arr) {
+        var a = arr.slice();
+        for (var i = a.length - 1; i > 0; i--) {
+          var j = Math.floor(Math.random() * (i + 1));
+          var t = a[i];
+          a[i] = a[j];
+          a[j] = t;
+        }
+        return a;
+      }
+
+      function loadCircuit(i) {
+        if (!slotIf || !slotMain || !blockTray || !btnPower || !textIfLine || !textMainLine || !circuitProgress) return;
+        var C = CIRCUITS[i];
+        textIfLine.textContent = C.ifLine;
+        textMainLine.textContent = C.mainLine;
+        placed.if = null;
+        placed.main = null;
+        slotIf.innerHTML = "";
+        slotMain.innerHTML = "";
+        slotIf.textContent = "拖入动词块";
+        slotMain.textContent = "拖入动词块";
+        slotIf.classList.remove("filled");
+        slotMain.classList.remove("filled");
+        blockTray.innerHTML = "";
+        blockTray.classList.remove("locked");
+        btnPower.classList.add("visible");
+        circuitProgress.textContent =
+          "电路 " + (i + 1) + " / 3 · " + C.examHint;
+        clearWire();
+        shuffleBlocks(C.blocks).forEach(function (def) {
+          var el = document.createElement("div");
+          el.className = "energy-block";
+          el.textContent = def.text;
+          el.setAttribute("data-key", def.key);
+          el.setAttribute("data-def", JSON.stringify(def));
+          blockTray.appendChild(el);
+          el.addEventListener("pointerdown", onBlockDown);
+        });
+      }
+
+      function rectOverlap(a, b) {
+        return !(a.right < b.left || a.left > b.right || a.bottom < b.top || a.top > b.bottom);
+      }
+
+      function onBlockDown(ev) {
+        if (!blockTray || !p05Slide1 || p05Slide1.hidden) return;
+        if (blockTray.classList.contains("locked")) return;
+        if (ev.button !== undefined && ev.button !== 0) return;
+        var chip = ev.currentTarget;
+        var r = chip.getBoundingClientRect();
+        dragState = {
+          el: chip,
+          offsetX: ev.clientX - r.left,
+          offsetY: ev.clientY - r.top,
+          pointerId: ev.pointerId,
+        };
+        chip.classList.add("dragging");
+        document.body.appendChild(chip);
+        chip.style.position = "fixed";
+        chip.style.left = r.left + "px";
+        chip.style.top = r.top + "px";
+        chip.style.zIndex = "15000";
+        try {
+          chip.setPointerCapture(ev.pointerId);
+        } catch (eC) {}
+        window.addEventListener("pointermove", onBlockMove);
+        window.addEventListener("pointerup", onBlockUp);
+        ev.preventDefault();
+      }
+
+      function onBlockMove(ev) {
+        if (!dragState) return;
+        var chip = dragState.el;
+        chip.style.left = ev.clientX - dragState.offsetX + "px";
+        chip.style.top = ev.clientY - dragState.offsetY + "px";
+      }
+
+      function returnChipToTray(chip) {
+        if (!blockTray) return;
+        chip.classList.remove("dragging");
+        chip.style.cssText = "";
+        blockTray.appendChild(chip);
+      }
+
+      function snapToSlot(chip, slotEl) {
+        chip.classList.remove("dragging");
+        chip.style.cssText = "";
+        slotEl.innerHTML = "";
+        slotEl.classList.add("filled");
+        slotEl.appendChild(chip);
+        chip.style.margin = "0 auto";
+      }
+
+      function onBlockUp(ev) {
+        if (!dragState) return;
+        if (!slotIf || !slotMain || !blockTray) {
+          if (dragState && dragState.el) returnChipToTray(dragState.el);
+          dragState = null;
+          return;
+        }
+        if (ev.pointerId !== undefined && dragState.pointerId !== ev.pointerId) return;
+        window.removeEventListener("pointermove", onBlockMove);
+        window.removeEventListener("pointerup", onBlockUp);
+        var chip = dragState.el;
+        var pid = dragState.pointerId;
+        dragState = null;
+        try {
+          chip.releasePointerCapture(pid);
+        } catch (eR) {}
+        chip.classList.remove("dragging");
+        var cr = chip.getBoundingClientRect();
+        var rIf = slotIf.getBoundingClientRect();
+        var rMain = slotMain.getBoundingClientRect();
+        var def = JSON.parse(chip.getAttribute("data-def") || "{}");
+        if (rectOverlap(cr, rIf)) {
+          if (placed.if && placed.if !== chip) returnChipToTray(placed.if);
+          placed.if = chip;
+          snapToSlot(chip, slotIf);
+        } else if (rectOverlap(cr, rMain)) {
+          if (placed.main && placed.main !== chip) returnChipToTray(placed.main);
+          placed.main = chip;
+          snapToSlot(chip, slotMain);
+        } else {
+          returnChipToTray(chip);
+        }
+      }
+
+      function getPlacedKey(slot) {
+        var ch = placed[slot];
+        if (!ch) return null;
+        return ch.getAttribute("data-key");
+      }
+
+      function findBlockDef(key) {
+        var C = CIRCUITS[circuitIndex];
+        for (var i = 0; i < C.blocks.length; i++) {
+          if (C.blocks[i].key === key) return C.blocks[i];
+        }
+        return null;
+      }
+
+      function validatePower() {
+        if (!slotIf || !slotMain || !blockTray || !btnPower) return;
+        var kIf = getPlacedKey("if");
+        var kMain = getPlacedKey("main");
+        if (!kIf || !kMain) {
+          showToast("请先把两块能量分别嵌入 If 闸与 Main 核。");
+          return;
+        }
+        var dIf = findBlockDef(kIf);
+        var dMain = findBlockDef(kMain);
+        setUiLock(true);
+        blockTray.classList.add("locked");
+
+        if (dIf && dIf.fatalInIf) {
+          synth.playBuzz();
+          flashShortCircuit();
+          ejectIfBlock();
+          fetchDeepSeekShortCircuit().then(function (zh) {
+            errorTerminal.textContent = zh;
+            errorOverlay.removeAttribute("hidden");
+          });
+          return;
+        }
+
+        if (dIf && dIf.thirdTrap) {
+          synth.playBuzz();
+          showToast("电压不匹配！主语是 he，条件从句要用第三人称单数形式。");
+          shakePanel();
+          ejectIfBlock();
+          setUiLock(false);
+          blockTray.classList.remove("locked");
+          return;
+        }
+
+        var C = CIRCUITS[circuitIndex];
+        var ok = dIf && dMain && kIf === C.expectIf && kMain === C.expectMain;
+
+        if (!ok) {
+          synth.playBuzz();
+          flashShortCircuit();
+          showToast("接线错误：请检查「If 里是否用了一般现在时」「主句是否 will + 原形」。");
+          shakePanel();
+          resetSlotsSoft();
+          setUiLock(false);
+          blockTray.classList.remove("locked");
+          return;
+        }
+
+        successPath();
+      }
+
+      function flashShortCircuit() {
+        if (typeof anime !== "undefined") {
+          anime({
+            targets: "body",
+            backgroundColor: ["#ffffff", "#050510"],
+            duration: 90,
+            easing: "linear",
+          });
+        }
+      }
+
+      function shakePanel() {
+        if (!panelIf) return;
+        if (typeof anime !== "undefined") {
+          anime({
+            targets: panelIf,
+            translateX: [-14, 14, -9, 9, 0],
+            duration: 420,
+            easing: "easeInOutQuad",
+          });
+        }
+      }
+
+      function ejectIfBlock() {
+        if (!slotIf) return;
+        if (placed.if) {
+          returnChipToTray(placed.if);
+          placed.if = null;
+          slotIf.innerHTML = "";
+          slotIf.textContent = "拖入动词块";
+          slotIf.classList.remove("filled");
+        }
+      }
+
+      function resetSlotsSoft() {
+        if (!slotIf || !slotMain || !blockTray) return;
+        if (placed.if) returnChipToTray(placed.if);
+        if (placed.main) returnChipToTray(placed.main);
+        placed.if = null;
+        placed.main = null;
+        slotIf.innerHTML = "";
+        slotMain.innerHTML = "";
+        slotIf.textContent = "拖入动词块";
+        slotMain.textContent = "拖入动词块";
+        slotIf.classList.remove("filled");
+        slotMain.classList.remove("filled");
+      }
+
+      function successPath() {
+        synth.playChime();
+        animateWireFlow();
+        speakAzureLine(CIRCUITS[circuitIndex].readAloud).catch(function () {});
+        if (typeof anime !== "undefined") {
+          var pmEl = document.getElementById("panel-main");
+          if (pmEl) {
+            anime({
+              targets: pmEl,
+              boxShadow: [
+                "inset 0 0 22px rgba(0,0,0,0.72)",
+                "0 0 48px rgba(0,255,234,0.55)",
+                "inset 0 0 22px rgba(0,0,0,0.72)",
+              ],
+              duration: 1200,
+              easing: "easeInOutQuad",
+            });
+          }
+        }
+        setTimeout(function () {
+          circuitIndex++;
+          clearWire();
+          setUiLock(false);
+          if (blockTray) blockTray.classList.remove("locked");
+          if (circuitIndex >= CIRCUITS.length) {
+            if (btnPower) btnPower.classList.remove("visible");
+            finaleOverlay.removeAttribute("hidden");
+          } else {
+            resetSlotsSoft();
+            loadCircuit(circuitIndex);
+          }
+        }, 2200);
+      }
+
+      function fetchDeepSeekShortCircuit() {
+        return new Promise(function (resolve) {
+          if (!DEEPSEEK_KEY) {
+            resolve(
+              "「If」条件是前提，只需一般现在时；在从句里塞进 will 会造成时态短路。请改用：If it rains… / If you study…"
+            );
+            return;
+          }
+          fetch("https://api.deepseek.com/v1/chat/completions", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + DEEPSEEK_KEY,
+            },
+            body: JSON.stringify({
+              model: "deepseek-chat",
+              messages: [
+                {
+                  role: "system",
+                  content:
+                    "你是反应堆 AI。学生在 If 从句里错误使用了 will。请用中文不超过85字，科幻机房口吻，说明 If 从句用一般现在时、不能用 will 表条件本身。",
+                },
+                {
+                  role: "user",
+                  content: "我把 will 塞进了 If 开关，电路炸了，请点拨。",
+                },
+              ],
+            }),
+          })
+            .then(function (r) {
+              return r.json();
+            })
+            .then(function (data) {
+              var txt =
+                data &&
+                data.choices &&
+                data.choices[0] &&
+                data.choices[0].message &&
+                data.choices[0].message.content;
+              resolve(String(txt || "").trim());
+            })
+            .catch(function () {
+              resolve("电路反馈中断：请记住 If 从句用一般现在时。");
+            });
+        });
+      }
+
+      function tryVertexBg() {
+        var token = window.__VERTEX_BEARER_TOKEN__ || KEYS.vertexBearerToken || "";
+        if (!token || !VERTEX_PROJECT) return Promise.resolve(false);
+        var endpoint =
+          "https://" +
+          VERTEX_REGION +
+          "-aiplatform.googleapis.com/v1/projects/" +
+          VERTEX_PROJECT +
+          "/locations/" +
+          VERTEX_REGION +
+          "/publishers/google/models/imagegeneration@006:predict";
+        return fetch(endpoint, {
+          method: "POST",
+          headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" },
+          body: JSON.stringify({
+            instances: [
+              {
+                prompt:
+                  "Futuristic cyberpunk electrical reactor room interior dark metallic neon cyan orange circuit tracks industrial workstation crayon educational illustration no text",
+              },
+            ],
+            parameters: { sampleCount: 1, aspectRatio: "16:9" },
+          }),
+        })
+          .then(function (r) {
+            return r.ok ? r.json() : Promise.reject();
+          })
+          .then(function (data) {
+            var b64 =
+              data &&
+              data.predictions &&
+              data.predictions[0] &&
+              (data.predictions[0].bytesBase64Encoded || data.predictions[0].b64);
+            if (!b64) throw new Error();
+            bgStack.style.backgroundImage =
+              'linear-gradient(180deg, rgba(5,5,16,0.78), rgba(5,5,16,0.92)), url("data:image/png;base64,' +
+              b64 +
+              '")';
+            bgStack.style.backgroundSize = "cover";
+            bgStack.classList.add("has-img");
+            return true;
+          })
+          .catch(function () {
+            bgStack.classList.add("has-img");
+            return false;
+          });
+      }
+
+      /** Google Cloud Text-to-Speech（与 Vertex / GCP 同一 OAuth Bearer）→ MP3 */
+      var GCP_TTS_URL = "https://texttospeech.googleapis.com/v1/text:synthesize";
+      var ttsMp3Cache = {};
+      var lastMp3Url = "";
+
+      var FALL_SENTENCES = [
+        { text: "If the wind blows, trees move.", kind: "zero" },
+        { text: "If you heat ice, it melts.", kind: "zero" },
+        { text: "If you press the green button, the light turns on.", kind: "zero" },
+        { text: "If water boils, it becomes steam.", kind: "zero" },
+        { text: "If plants get no water, they die.", kind: "zero" },
+        { text: "If you mix blue and yellow, you get green.", kind: "zero" },
+        { text: "If metal gets hot enough, it glows.", kind: "zero" },
+        { text: "If it rains tomorrow, I will stay at home.", kind: "first" },
+        { text: "If you call me tonight, I will answer.", kind: "first" },
+        { text: "If she misses the train, she will take a taxi.", kind: "first" },
+        { text: "If we finish early, we will watch a movie.", kind: "first" },
+        { text: "If he loses his key, he will wait outside.", kind: "first" },
+        { text: "If they win the match, they will celebrate at school.", kind: "first" },
+        { text: "If I see Lucy at the mall, I will say hello.", kind: "first" },
+        { text: "If the shop closes now, we will come back next week.", kind: "first" },
+      ];
+
+      var fallArena = document.getElementById("p05-fall-arena");
+      var fallHud = document.getElementById("p05-fall-hud");
+      var btnFallZero = document.getElementById("p05-btn-zero");
+      var btnFallFirst = document.getElementById("p05-btn-first");
+      var fallMp3Dl = document.getElementById("p05-fall-mp3-dl");
+      var btnFallRestart = document.getElementById("p05-fall-restart");
+
+      var fallRound = [];
+      var fallStep = 0;
+      var fallScore = 0;
+      var activeFall = null;
+      var fallAudio = null;
+      var fallSlideEntered = false;
+      var FALL_SPEED = 48;
+
+      function fetchGoogleCloudTtsMp3(text) {
+        var token = String(window.__VERTEX_BEARER_TOKEN__ || KEYS.vertexBearerToken || "").trim();
+        if (!token) return Promise.resolve(null);
+        return fetch(GCP_TTS_URL, {
+          method: "POST",
+          headers: {
+            Authorization: "Bearer " + token,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            input: { text: text },
+            voice: { languageCode: "en-US", name: "en-US-Neural2-J" },
+            audioConfig: { audioEncoding: "MP3", speakingRate: 0.96 },
+          }),
+        })
+          .then(function (r) {
+            return r.ok ? r.json() : Promise.reject();
+          })
+          .then(function (data) {
+            if (!data || !data.audioContent) return null;
+            var bin = atob(data.audioContent);
+            var len = bin.length;
+            var bytes = new Uint8Array(len);
+            for (var i = 0; i < len; i++) bytes[i] = bin.charCodeAt(i);
+            return new Blob([bytes], { type: "audio/mpeg" });
+          })
+          .catch(function () {
+            return null;
+          });
+      }
+
+      function stopFallAudio() {
+        try {
+          if (fallAudio) {
+            fallAudio.pause();
+            fallAudio = null;
+          }
+        } catch (eA) {}
+      }
+
+      function speakBrowserTts(text) {
+        try {
+          if (!window.speechSynthesis) return;
+          var u = new SpeechSynthesisUtterance(text);
+          u.lang = "en-US";
+          u.rate = 0.92;
+          window.speechSynthesis.cancel();
+          window.speechSynthesis.speak(u);
+        } catch (eB) {}
+      }
+
+      /** Page 5 幻灯片 3 语料：预生成本地 MP3（与 manifest 序号一致） */
+      var P05_CORPUS_MP3_BASE = "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/audio/page05/lesson08-p05-corpus-";
+      var P05_CORPUS_COUNT = 104;
+      /** Page 5 幻灯片 2 下落练习：预生成本地 MP3（与 FALL_SENTENCES 顺序 1～15 一致） */
+      var P05_FALL_MP3_BASE = "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/audio/page05/fall/lesson08-p05-fall-";
+      var P05_FALL_COUNT = 15;
+
+      var corpusAudio = null;
+
+      function stopCorpusAudio() {
+        try {
+          if (corpusAudio) {
+            corpusAudio.pause();
+            corpusAudio = null;
+          }
+        } catch (eCa) {}
+      }
+
+      function playCorpusEnglishOnline(enText) {
+        var t = String(enText || "").trim();
+        if (!t) return;
+        if (ttsMp3Cache[t]) {
+          corpusAudio = new Audio(ttsMp3Cache[t]);
+          corpusAudio.play().catch(function () {});
+          return;
+        }
+        fetchGoogleCloudTtsMp3(t).then(function (blob) {
+          if (blob) {
+            var url = URL.createObjectURL(blob);
+            ttsMp3Cache[t] = url;
+            corpusAudio = new Audio(url);
+            corpusAudio.play().catch(function () {});
+            return;
+          }
+          speakAzureLine(t).catch(function () {});
+          speakBrowserTts(t);
+        });
+      }
+
+      function playCorpusEnglish(idxStr, en) {
+        stopCorpusAudio();
+        var t = String(en || "").trim();
+        var idx = parseInt(idxStr, 10);
+        if (idx >= 1 && idx <= P05_CORPUS_COUNT) {
+          var src = P05_CORPUS_MP3_BASE + ("000" + idx).slice(-3) + ".mp3";
+          var a = new Audio(src);
+          corpusAudio = a;
+          var usedFallback = false;
+          function goOnline() {
+            if (usedFallback) return;
+            usedFallback = true;
+            stopCorpusAudio();
+            playCorpusEnglishOnline(t);
+          }
+          a.addEventListener(
+            "error",
+            function () {
+              goOnline();
+            },
+            { once: true }
+          );
+          a.play().catch(function () {
+            goOnline();
+          });
+          return;
+        }
+        playCorpusEnglishOnline(t);
+      }
+
+      function wireP05ExamCorpusUi() {
+        var root = document.getElementById("p05-exam-corpus-static");
+        if (root) {
+          root.addEventListener("click", function (e) {
+            var el = e.target;
+            if (!el || !el.classList) return;
+            if (el.classList.contains("p05-corpus-tts")) {
+              playCorpusEnglish(el.getAttribute("data-idx"), el.getAttribute("data-en"));
+            }
+          });
+        }
+      }
+
+      function updateFallHud(ttsNote) {
+        if (!fallHud) return;
+        var note = ttsNote || "";
+        var cur = Math.min(fallStep + 1, FALL_SENTENCES.length);
+        fallHud.textContent =
+          "第 " +
+          cur +
+          " / " +
+          FALL_SENTENCES.length +
+          " 句 · 得分 " +
+          fallScore +
+          " · " +
+          (note || "待命");
+      }
+
+      function setFallDl(blob, text) {
+        if (!fallMp3Dl) return;
+        try {
+          if (lastMp3Url) URL.revokeObjectURL(lastMp3Url);
+          lastMp3Url = "";
+        } catch (eR) {}
+        if (!blob) {
+          fallMp3Dl.setAttribute("hidden", "");
+          fallMp3Dl.removeAttribute("href");
+          return;
+        }
+        lastMp3Url = URL.createObjectURL(blob);
+        fallMp3Dl.href = lastMp3Url;
+        fallMp3Dl.setAttribute("download", "p05-" + String(text).slice(0, 24).replace(/[^\w\s-]/g, "") + ".mp3");
+        fallMp3Dl.removeAttribute("hidden");
+      }
+
+      function playFallSentenceAudioOnline(text) {
+        stopFallAudio();
+        var t = String(text || "").trim();
+        if (!t) return;
+
+        if (ttsMp3Cache[t]) {
+          fallAudio = new Audio(ttsMp3Cache[t]);
+          fallAudio.play().catch(function () {});
+          updateFallHud("朗读中…");
+          setDlFromCache(t);
+          return;
+        }
+
+        updateFallHud("朗读中…");
+        fetchGoogleCloudTtsMp3(t).then(function (blob) {
+          if (blob) {
+            var url = URL.createObjectURL(blob);
+            ttsMp3Cache[t] = url;
+            fallAudio = new Audio(url);
+            fallAudio.play().catch(function () {});
+            updateFallHud("朗读中…");
+            setFallDl(blob, t);
+            return;
+          }
+          updateFallHud("朗读中…");
+          setFallDl(null, "");
+          speakAzureLine(t).catch(function () {});
+          speakBrowserTts(t);
+        });
+      }
+
+      function fallMp3IndexForText(t) {
+        var s = String(t || "").trim();
+        for (var fi = 0; fi < FALL_SENTENCES.length; fi++) {
+          if (FALL_SENTENCES[fi].text === s) return fi + 1;
+        }
+        return 0;
+      }
+
+      function setFallDlLocalHref(src, idx) {
+        if (!fallMp3Dl) return;
+        try {
+          if (lastMp3Url) URL.revokeObjectURL(lastMp3Url);
+          lastMp3Url = "";
+        } catch (eL) {}
+        fallMp3Dl.href = src;
+        fallMp3Dl.setAttribute("download", "lesson08-p05-fall-" + ("000" + idx).slice(-3) + ".mp3");
+        fallMp3Dl.removeAttribute("hidden");
+      }
+
+      function playFallSentenceAudio(text) {
+        stopFallAudio();
+        var t = String(text || "").trim();
+        if (!t) return;
+
+        var localIdx = fallMp3IndexForText(t);
+        if (localIdx >= 1 && localIdx <= P05_FALL_COUNT) {
+          var src = P05_FALL_MP3_BASE + ("000" + localIdx).slice(-3) + ".mp3";
+          fallAudio = new Audio(src);
+          var usedFallFb = false;
+          function goFallOnline() {
+            if (usedFallFb) return;
+            usedFallFb = true;
+            stopFallAudio();
+            playFallSentenceAudioOnline(t);
+          }
+          fallAudio.addEventListener(
+            "error",
+            function () {
+              goFallOnline();
+            },
+            { once: true }
+          );
+          fallAudio.play().catch(function () {
+            goFallOnline();
+          });
+          updateFallHud("朗读中…");
+          setFallDlLocalHref(src, localIdx);
+          return;
+        }
+
+        playFallSentenceAudioOnline(t);
+      }
+
+      function setDlFromCache(t) {
+        if (!ttsMp3Cache[t]) {
+          setFallDl(null, "");
+          return;
+        }
+        fetch(ttsMp3Cache[t])
+          .then(function (r) {
+            return r.blob();
+          })
+          .then(function (b) {
+            setFallDl(b, t);
+          })
+          .catch(function () {
+            setFallDl(null, "");
+          });
+      }
+
+      function clearFallChip() {
+        if (!fallArena) return;
+        var old = fallArena.querySelectorAll(".p05-fall-chip");
+        for (var i = 0; i < old.length; i++) old[i].remove();
+      }
+
+      function cancelFallAnim() {
+        if (activeFall && activeFall.rafId) {
+          try {
+            cancelAnimationFrame(activeFall.rafId);
+          } catch (eC) {}
+        }
+        activeFall = null;
+        stopFallAudio();
+        clearFallChip();
+        if (btnFallZero) btnFallZero.disabled = true;
+        if (btnFallFirst) btnFallFirst.disabled = true;
+      }
+
+      function fallDangerThresholdPx() {
+        var ah = fallArena ? fallArena.clientHeight : 0;
+        if (!(ah > 8) && fallArena) {
+          ah = fallArena.getBoundingClientRect().height;
+        }
+        if (!(ah > 8)) {
+          ah = 260;
+        }
+        return ah * 0.86;
+      }
+
+      function fallLoop(now) {
+        if (!activeFall || !activeFall.chip) return;
+        var dt = Math.min(0.048, Math.max(0, (now - activeFall.tPrev) / 1000));
+        activeFall.tPrev = now;
+        activeFall.y += FALL_SPEED * dt;
+        activeFall.chip.style.top = activeFall.y + "px";
+        var dangerY = fallDangerThresholdPx();
+        if (activeFall.y >= dangerY) {
+          synth.playBuzz();
+          showToast("触底！进入下一句。");
+          cancelFallAnim();
+          fallStep++;
+          window.setTimeout(spawnNextFall, 380);
+          return;
+        }
+        activeFall.rafId = requestAnimationFrame(fallLoop);
+      }
+
+      function spawnNextFall() {
+        cancelFallAnim();
+        if (fallStep >= fallRound.length) {
+          if (fallHud)
+            fallHud.textContent =
+              "完成！得分 " + fallScore + " / " + FALL_SENTENCES.length + " · 点击再来一轮重洗句子";
+          if (btnFallRestart) btnFallRestart.classList.add("visible");
+          if (finaleOverlay) finaleOverlay.removeAttribute("hidden");
+          return;
+        }
+        var item = fallRound[fallStep];
+        var chip = document.createElement("div");
+        chip.className = "p05-fall-chip";
+        chip.textContent = item.text;
+        fallArena.appendChild(chip);
+        activeFall = { chip: chip, kind: item.kind, y: 0, tPrev: performance.now(), rafId: 0 };
+        if (btnFallZero) btnFallZero.disabled = false;
+        if (btnFallFirst) btnFallFirst.disabled = false;
+        updateFallHud("朗读中…");
+        playFallSentenceAudio(item.text);
+        activeFall.rafId = requestAnimationFrame(fallLoop);
+      }
+
+      function startFallRound() {
+        fallRound = shuffleBlocks(FALL_SENTENCES.slice());
+        fallStep = 0;
+        fallScore = 0;
+        if (btnFallRestart) btnFallRestart.classList.remove("visible");
+        if (finaleOverlay) finaleOverlay.setAttribute("hidden", "");
+        cancelFallAnim();
+        spawnNextFall();
+      }
+
+      function enterFallSlide() {
+        resizeWireCanvas();
+        var kickTries = 0;
+        function kick() {
+          kickTries++;
+          if (fallArena && fallArena.clientHeight < 48 && kickTries < 120) {
+            requestAnimationFrame(kick);
+            return;
+          }
+          if (!fallSlideEntered) {
+            fallSlideEntered = true;
+            startFallRound();
+            return;
+          }
+          if (fallRound.length && fallStep < fallRound.length && !activeFall) {
+            spawnNextFall();
+          }
+        }
+        requestAnimationFrame(kick);
+      }
+
+      function onFallPick(picked) {
+        if (!activeFall || !activeFall.chip) return;
+        var ok = picked === activeFall.kind;
+        if (ok) {
+          synth.playChime();
+          fallScore++;
+          cancelFallAnim();
+          fallStep++;
+          window.setTimeout(spawnNextFall, 240);
+        } else {
+          synth.playBuzz();
+          try {
+            activeFall.chip.classList.add("bad");
+          } catch (eBad) {}
+          showToast("类型不对，再听一遍并重试这一句。");
+        }
+      }
+
+      if (btnFallZero)
+        btnFallZero.addEventListener("click", function () {
+          onFallPick("zero");
+        });
+      if (btnFallFirst)
+        btnFallFirst.addEventListener("click", function () {
+          onFallPick("first");
+        });
+      if (btnFallRestart)
+        btnFallRestart.addEventListener("click", function () {
+          startFallRound();
+        });
+
+      function refreshP05LiveDate() {
+        var el = document.getElementById("p05-live-date");
+        if (!el) return;
+        var d = new Date();
+        el.textContent = d.toLocaleDateString("zh-CN", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+          weekday: "long",
+        });
+        try {
+          el.setAttribute("datetime", d.toISOString());
+        } catch (eD) {}
+      }
+
+      function setSlide(idx) {
+        p05Slide0.hidden = idx !== 0;
+        p05Slide1.hidden = idx !== 1;
+        p05Slide2.hidden = idx !== 2;
+        p05Tab0.setAttribute("aria-selected", idx === 0 ? "true" : "false");
+        p05Tab1.setAttribute("aria-selected", idx === 1 ? "true" : "false");
+        p05Tab2.setAttribute("aria-selected", idx === 2 ? "true" : "false");
+        try {
+          p05Tab0.tabIndex = idx === 0 ? 0 : -1;
+          p05Tab1.tabIndex = idx === 1 ? 0 : -1;
+          p05Tab2.tabIndex = idx === 2 ? 0 : -1;
+        } catch (eT) {}
+        if (idx === 0) refreshP05LiveDate();
+        if (idx === 1) {
+          resizeWireCanvas();
+          enterFallSlide();
+        }
+        if (idx !== 1) {
+          try {
+            cancelFallAnim();
+          } catch (eL) {}
+        }
+      }
+
+      if (btnPower) btnPower.addEventListener("click", validatePower);
+
+      btnDismissError.addEventListener("click", function () {
+        errorOverlay.setAttribute("hidden", "");
+        errorTerminal.textContent = "";
+        setUiLock(false);
+        if (blockTray) blockTray.classList.remove("locked");
+      });
+
+      btnNextPage.addEventListener("click", function () {
+        window.location.href = "lesson08-page06-chain.html";
+      });
+
+      p05Tab0.addEventListener("click", function () {
+        setSlide(0);
+      });
+      p05Tab1.addEventListener("click", function () {
+        setSlide(1);
+      });
+      p05Tab2.addEventListener("click", function () {
+        setSlide(2);
+      });
+
+      document.addEventListener("visibilitychange", function () {
+        if (!document.hidden && p05Slide0 && !p05Slide0.hidden) refreshP05LiveDate();
+      });
+
+      window.addEventListener("resize", resizeWireCanvas);
+
+      resizeWireCanvas();
+      refreshP05LiveDate();
+      tryVertexBg();
+      bgStack.classList.add("has-img");
+      wireP05ExamCorpusUi();
+    })();
+  </script>
+</body>
+</html>

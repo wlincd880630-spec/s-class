@@ -1,0 +1,1709 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>第08讲 · Page 04 · 意图捕捉网格 · be going to vs will</title>
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
+  <link rel="stylesheet" href="../assets/lesson-screen-16x9.css" />
+  <style>
+    :root {
+      --neon-cyan: #00f3ff;
+      --neon-magenta: #ff00ea;
+      --void: #050510;
+      --danger: #ff1744;
+      --gold: #ffd54f;
+    }
+    * { box-sizing: border-box; }
+    html { overflow-x: clip; max-width: 100%; }
+    html, body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+      background: var(--void);
+      color: #e0f7fa;
+      touch-action: manipulation;
+    }
+    body.has-lesson-pager {
+      flex-direction: column;
+      align-items: stretch !important;
+      zoom: 0.9;
+    }
+
+    #l08-p04-host.app {
+      position: relative;
+      isolation: isolate;
+      flex: 1 1 auto;
+      width: 100%;
+      min-height: calc(100dvh - 4.6rem);
+      overflow: hidden;
+      border: 4px solid rgba(0, 243, 255, 0.35);
+      border-radius: 24px;
+      box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.5), 0 16px 36px rgba(0, 0, 0, 0.45);
+    }
+
+    #bg-stack {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 40%, rgba(255, 0, 234, 0.12), transparent 55%),
+        linear-gradient(180deg, #080818 0%, var(--void) 100%);
+      background-size: cover;
+      background-position: center;
+    }
+    #bg-stack.has-img {
+      background-image:
+        linear-gradient(180deg, rgba(5, 5, 16, 0.82), rgba(5, 5, 16, 0.94)),
+        url("https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/l08-page04-grid-bg.png");
+    }
+
+    #fx-canvas {
+      position: absolute;
+      inset: 0;
+      z-index: 4;
+      pointer-events: none;
+      width: 100%;
+      height: 100%;
+    }
+
+    #ui-lock {
+      position: fixed;
+      inset: 0;
+      z-index: 9998;
+      pointer-events: none;
+      background: transparent;
+      display: none;
+    }
+    #ui-lock.on {
+      display: block;
+      pointer-events: auto;
+    }
+
+    #p04-stage {
+      position: absolute;
+      inset: 0;
+      z-index: 6;
+      display: flex;
+      flex-direction: column;
+      padding: clamp(8px, 1.5vh, 12px) clamp(10px, 2vw, 14px) clamp(88px, 15vh, 120px);
+      gap: clamp(6px, 1vh, 10px);
+      min-height: 0;
+    }
+
+    .p04-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+      flex-shrink: 0;
+      z-index: 8;
+    }
+    .p04-tabs button {
+      border: none;
+      cursor: pointer;
+      font-weight: 900;
+      padding: 8px 16px;
+      border-radius: 999px;
+      border: 2px solid rgba(0, 243, 255, 0.45);
+      font-size: clamp(0.78rem, 1.75vw, 0.95rem);
+      background: linear-gradient(180deg, #1a237e, #0d1642);
+      color: #b3e5fc;
+      text-shadow: 0 0 8px rgba(0, 243, 255, 0.55);
+    }
+    .p04-tabs button[aria-selected="true"] {
+      background: linear-gradient(180deg, #311b92, #4a148c);
+      color: #fff;
+      border-color: var(--neon-magenta);
+    }
+
+    .p04-deck {
+      flex: 1 1 auto;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+    .p04-slide {
+      flex: 1 1 auto;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .p04-slide[hidden] {
+      display: none !important;
+    }
+
+    #intro-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 50;
+      display: grid;
+      place-items: center;
+      padding: 16px;
+      background: rgba(5, 5, 16, 0.78);
+      backdrop-filter: blur(8px);
+    }
+    #intro-overlay[hidden] {
+      display: none !important;
+    }
+    .intro-card {
+      max-width: min(440px, 100%);
+      padding: 1.25rem 1.5rem;
+      border-radius: 18px;
+      border: 3px solid rgba(0, 243, 255, 0.45);
+      background: rgba(12, 14, 28, 0.92);
+      text-align: center;
+      box-shadow: 0 0 30px rgba(255, 0, 234, 0.25);
+    }
+    .intro-card h2 {
+      margin: 0 0 0.5rem;
+      font-size: clamp(1.05rem, 3vw, 1.45rem);
+      color: var(--neon-cyan);
+      text-shadow: 0 0 10px rgba(0, 243, 255, 0.65);
+    }
+    .intro-card p {
+      margin: 0.35rem 0;
+      font-size: clamp(0.78rem, 1.75vw, 0.92rem);
+      line-height: 1.5;
+      color: rgba(255, 255, 255, 0.82);
+    }
+    .btn-grid-start {
+      margin-top: 1rem;
+      border: none;
+      cursor: pointer;
+      font-weight: 950;
+      padding: 12px 24px;
+      border-radius: 999px;
+      font-size: clamp(0.85rem, 2vw, 1rem);
+      background: linear-gradient(90deg, var(--neon-cyan), var(--neon-magenta));
+      color: #050510;
+      box-shadow: 0 0 24px rgba(0, 243, 255, 0.45);
+    }
+
+    #hud-row {
+      flex-shrink: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: clamp(12px, 3vw, 24px);
+      font-weight: 950;
+      font-size: clamp(0.78rem, 2vw, 1rem);
+      text-shadow: 0 0 6px currentColor, 0 0 12px currentColor;
+    }
+    #hud-row span {
+      color: var(--neon-cyan);
+    }
+    #hud-row span.combo {
+      color: var(--neon-magenta);
+    }
+
+    #game-field {
+      flex: 1 1 auto;
+      position: relative;
+      min-height: 120px;
+      border-radius: 14px;
+      border: 2px dashed rgba(0, 243, 255, 0.22);
+      overflow: hidden;
+      margin-bottom: clamp(72px, 14vh, 100px);
+    }
+
+    #danger-line {
+      position: absolute;
+      left: 2%;
+      right: 2%;
+      bottom: 12%;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, rgba(255, 23, 68, 0.85), transparent);
+      box-shadow: 0 0 12px rgba(255, 23, 68, 0.65);
+      pointer-events: none;
+      z-index: 3;
+    }
+
+    .fall-orb {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      transform: translateX(-50%);
+      width: min(92%, 520px);
+      min-height: clamp(52px, 12vh, 76px);
+      padding: clamp(8px, 1.8vh, 12px) clamp(10px, 2.5vw, 14px);
+      border-radius: 999px;
+      font-weight: 850;
+      font-size: clamp(0.79rem, 2.42vw, 1.05rem); /* 较原先约 +10% */
+      line-height: 1.35;
+      text-align: center;
+      color: #fff;
+      border: 3px solid rgba(255, 255, 255, 0.35);
+      background: radial-gradient(circle at 30% 25%, rgba(255, 255, 255, 0.35), rgba(40, 20, 80, 0.92));
+      box-shadow:
+        inset 0 -6px 18px rgba(0, 0, 0, 0.45),
+        0 0 28px rgba(0, 243, 255, 0.35);
+      z-index: 5;
+      pointer-events: none;
+      word-break: break-word;
+    }
+    .fall-orb.bad {
+      border-color: rgba(255, 23, 68, 0.85);
+      box-shadow: 0 0 40px rgba(255, 23, 68, 0.65);
+    }
+
+    #shield-row {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 10px;
+      padding: 8px 6px max(8px, env(safe-area-inset-bottom));
+      pointer-events: auto;
+    }
+
+    .shield-btn {
+      flex: 1 1 42%;
+      max-width: min(48%, 380px);
+      min-height: clamp(56px, 11vh, 84px);
+      border: none;
+      cursor: pointer;
+      font-weight: 950;
+      font-size: clamp(0.62rem, 1.65vw, 0.82rem);
+      line-height: 1.25;
+      touch-action: manipulation;
+      user-select: none;
+      padding: 10px 8px;
+      clip-path: polygon(12% 0%, 88% 0%, 100% 50%, 88% 100%, 12% 100%, 0% 50%);
+      backdrop-filter: blur(10px);
+      text-shadow: 0 0 5px currentColor, 0 0 10px currentColor;
+      transition: transform 0.12s ease, filter 0.12s ease;
+    }
+    .shield-btn:active {
+      transform: scale(0.96);
+    }
+    .shield-btn.going {
+      color: #e0f7fa;
+      background: linear-gradient(145deg, rgba(0, 243, 255, 0.35), rgba(0, 40, 80, 0.85));
+      border: 3px solid var(--neon-cyan);
+      box-shadow: 0 0 22px rgba(0, 243, 255, 0.45);
+    }
+    .shield-btn.will {
+      color: #fce4ec;
+      background: linear-gradient(145deg, rgba(255, 0, 234, 0.38), rgba(60, 0, 80, 0.88));
+      border: 3px solid var(--neon-magenta);
+      box-shadow: 0 0 22px rgba(255, 0, 234, 0.45);
+    }
+
+    #result-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 60;
+      display: grid;
+      place-items: center;
+      padding: 16px;
+      background: rgba(3, 3, 12, 0.88);
+      backdrop-filter: blur(10px);
+    }
+    #result-overlay[hidden] {
+      display: none !important;
+    }
+    .result-card {
+      max-width: min(520px, 100%);
+      text-align: center;
+      padding: 1.25rem;
+      border-radius: 18px;
+      border: 4px solid rgba(255, 255, 255, 0.2);
+      background: rgba(18, 18, 36, 0.96);
+    }
+    .result-card.fail {
+      border-color: var(--danger);
+      box-shadow: 0 0 40px rgba(255, 23, 68, 0.35);
+    }
+    .result-card.win {
+      border-color: var(--gold);
+      box-shadow: 0 0 40px rgba(255, 213, 79, 0.35);
+    }
+    .result-title {
+      font-size: clamp(1.2rem, 4vw, 1.85rem);
+      font-weight: 950;
+      margin: 0 0 0.75rem;
+      text-shadow: 0 0 12px currentColor;
+    }
+    .terminal-box {
+      margin-top: 0.75rem;
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 2px dashed rgba(0, 243, 255, 0.45);
+      background: rgba(0, 20, 40, 0.65);
+      font-size: clamp(0.76rem, 1.75vw, 0.9rem);
+      line-height: 1.55;
+      color: #b2ebf2;
+      text-align: left;
+      max-height: min(38vh, 280px);
+      overflow-y: auto;
+    }
+
+    #p04-slide-1 {
+      overflow: auto;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 8px;
+    }
+    .p04-exam-panel {
+      max-width: min(1080px, 100%);
+      margin: 0 auto;
+      padding: clamp(12px, 2vh, 20px);
+      border-radius: 16px;
+      border: 4px solid #37474f;
+      background: rgba(255, 253, 248, 0.97);
+      color: #263238;
+      box-shadow: 6px 8px 0 rgba(0, 0, 0, 0.08);
+    }
+    .p04-exam-panel h2 {
+      margin: 0 0 0.65rem;
+      font-size: clamp(1.05rem, 3vw, 1.45rem);
+      color: #6a1b9a;
+      text-align: center;
+    }
+    .p04-exam-panel p,
+    .p04-exam-panel li {
+      font-size: clamp(0.85rem, 1.9vw, 1rem);
+      line-height: 1.55;
+    }
+    .p04-exam-panel ul {
+      margin: 0.5rem 0 0;
+      padding-left: 1.2rem;
+    }
+    .p04-lead {
+      margin: 0 0 1rem;
+      padding: 12px 14px;
+      border-radius: 12px;
+      background: rgba(106, 27, 154, 0.08);
+      border: 2px dashed rgba(106, 27, 154, 0.35);
+      font-size: clamp(0.82rem, 1.85vw, 0.95rem);
+      line-height: 1.6;
+    }
+    .p04-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 18px;
+      margin: 0 0 14px;
+      font-size: clamp(0.78rem, 1.75vw, 0.9rem);
+      font-weight: 800;
+    }
+    .p04-legend span {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .p04-legend i {
+      width: 14px;
+      height: 14px;
+      border-radius: 4px;
+      display: inline-block;
+    }
+    .p04-legend .lg-going i {
+      background: linear-gradient(135deg, #00897b, #4db6ac);
+    }
+    .p04-legend .lg-will i {
+      background: linear-gradient(135deg, #1565c0, #42a5f5);
+    }
+    .p04-list-30 {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      counter-reset: p04n;
+    }
+    .p04-list-30 > li {
+      counter-increment: p04n;
+      position: relative;
+      padding: 12px 14px 12px 42px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.96);
+      border: 1px solid rgba(38, 50, 56, 0.12);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    }
+    .p04-list-30 > li::before {
+      content: counter(p04n);
+      position: absolute;
+      left: 12px;
+      top: 14px;
+      width: 22px;
+      height: 22px;
+      line-height: 22px;
+      text-align: center;
+      font-size: 0.72rem;
+      font-weight: 950;
+      border-radius: 50%;
+      background: #eceff1;
+      color: #37474f;
+    }
+    .p04-list-30 > li.item-going {
+      border-left: 5px solid #00897b;
+    }
+    .p04-list-30 > li.item-will {
+      border-left: 5px solid #1565c0;
+    }
+    .p04-item-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 8px 12px;
+      margin-bottom: 6px;
+    }
+    .p04-item-en {
+      margin: 0;
+      font-size: clamp(0.88rem, 1.95vw, 1.02rem);
+      font-weight: 800;
+      font-style: italic;
+      color: #1a237e;
+      line-height: 1.45;
+    }
+    .p04-tag {
+      flex-shrink: 0;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: clamp(0.65rem, 1.45vw, 0.78rem);
+      font-weight: 900;
+      letter-spacing: 0.02em;
+    }
+    .p04-tag.going {
+      background: rgba(0, 137, 123, 0.18);
+      color: #00695c;
+      border: 1px solid rgba(0, 137, 123, 0.45);
+    }
+    .p04-tag.will {
+      background: rgba(21, 101, 192, 0.15);
+      color: #0d47a1;
+      border: 1px solid rgba(21, 101, 192, 0.4);
+    }
+    .p04-item-note {
+      margin: 0;
+      font-size: clamp(0.78rem, 1.75vw, 0.92rem);
+      line-height: 1.68;
+      color: #37474f;
+      font-weight: 550;
+    }
+    .p04-item-note strong {
+      color: #6a1b9a;
+      font-weight: 850;
+    }
+  </style>
+</head>
+<body class="has-lesson-pager">
+  <div id="l08-p04-host" class="app">
+    <div id="bg-stack" aria-hidden="true"></div>
+    <canvas id="fx-canvas" aria-hidden="true"></canvas>
+    <div id="ui-lock" aria-hidden="true"></div>
+
+    <main id="p04-stage" aria-label="意图捕捉网格">
+      <div class="p04-tabs" role="tablist">
+        <button type="button" role="tab" id="p04-tab-0" aria-selected="true" aria-controls="p04-slide-0">幻灯片 1 · 网格挑战</button>
+        <button type="button" role="tab" id="p04-tab-1" aria-selected="false" aria-controls="p04-slide-1" tabindex="-1">幻灯片 2 · 中考要点</button>
+      </div>
+
+      <div class="p04-deck">
+        <section id="p04-slide-0" class="p04-slide" role="tabpanel">
+          <div id="intro-overlay">
+            <div class="intro-card">
+              <h2>意图捕捉网格</h2>
+              <p>读坠落的情景句，在落到警戒线前点击：<strong>左盾</strong> = 有计划 / 有证据 → <strong>be going to</strong>；<strong>右盾</strong> = 当场决定 / 主观推测 → <strong>will</strong>。</p>
+              <p>共 <strong>30</strong> 颗情景球 · <strong>30</strong> 条句式随机出现 · 得分越高下落越快 —— 准确率须 ≥ <strong>80%</strong> 才算征服网格。</p>
+              <button type="button" class="btn-grid-start" id="btnStartGrid">同步神经 · 启动网格</button>
+            </div>
+          </div>
+
+          <div id="hud-row" aria-live="polite">
+            <span id="hud-score">00000</span>
+            <span>命中率 <span id="hud-acc">100%</span></span>
+            <span class="combo" id="hud-combo">×1</span>
+            <span id="hud-round">0 / 30</span>
+          </div>
+
+          <div id="game-field" aria-hidden="false">
+            <div id="danger-line"></div>
+          </div>
+
+          <div id="shield-row">
+            <button type="button" class="shield-btn going" id="btnGoing" data-pick="BE_GOING_TO">
+              [ PLAN &amp; EVIDENCE ]<br />be going to
+            </button>
+            <button type="button" class="shield-btn will" id="btnWill" data-pick="WILL">
+              [ INSTANT &amp; GUESS ]<br />will
+            </button>
+          </div>
+
+          <div id="result-overlay" hidden>
+            <div class="result-card" id="result-card">
+              <div class="result-title" id="result-title">—</div>
+              <p id="result-stats" style="margin: 0.35rem 0; font-weight: 750"></p>
+              <div class="terminal-box" id="terminal-box" hidden></div>
+              <button type="button" class="btn-grid-start" id="btnRestart" hidden style="margin-top: 0.75rem">重启网格</button>
+              <button type="button" class="btn-grid-start" id="btnNextPage" hidden style="margin-top: 0.75rem">进入因果反应堆 · 下一页</button>
+            </div>
+          </div>
+        </section>
+
+        <section id="p04-slide-1" class="p04-slide" role="tabpanel" hidden>
+          <div class="p04-exam-panel">
+            <h2>高频辨析 + will 表「意愿」拓展 · 成都中考与日常两用</h2>
+            <p class="p04-lead">
+              每条英文均为<strong>地道课堂 / 生活表达</strong>，括号内标注<strong>情感色彩</strong>与<strong>结构依据</strong>。
+              <strong>be going to</strong>侧重<strong>迹象、已定安排、有把握的推断</strong>；<strong>will</strong>侧重<strong>当场决定、许诺意志、主观推测、客观规律</strong>，以及下文单列的<strong>意愿与服务场合</strong>（说话人主动承担、接待方「这就来」）。
+              二者后皆接<strong>动词原形</strong>——可与 Page 03「原形陷阱」对照记忆。
+            </p>
+            <div class="p04-legend" aria-hidden="true">
+              <span class="lg-going"><i></i>绿边 · be going to（迹象 / 计划）</span>
+              <span class="lg-will"><i></i>蓝边 · will（当场 / 推测 / 许诺）</span>
+            </div>
+            <ol class="p04-list-30">
+              <li class="item-going">
+                <div class="p04-item-head">
+                  <p class="p04-item-en">Look at those dark clouds — it is going to rain soon.</p>
+                  <span class="p04-tag going">be going to</span>
+                </div>
+                <p class="p04-item-note"><strong>情感色彩：</strong>略带警觉或热心提醒，语气客观但有紧迫感。<strong>为何用它：</strong>乌云是眼前<strong>迹象</strong>，属「看得出要来什么」。<strong>用途：</strong>天气描写、环保记叙文开头、读图作文。</p>
+              </li>
+              <li class="item-going">
+                <div class="p04-item-head">
+                  <p class="p04-item-en">We bought the tickets yesterday — we are going to watch the Chengdu concert.</p>
+                  <span class="p04-tag going">be going to</span>
+                </div>
+                <p class="p04-item-note"><strong>情感色彩：</strong>期待、踏实，叙事里有「万事俱备」的满足感。<strong>为何用它：</strong>票已购 = <strong>安排已定</strong>。<strong>用途：</strong>书信邀请、周末计划段落。</p>
+              </li>
+              <li class="item-going">
+                <div class="p04-item-head">
+                  <p class="p04-item-en">She is in her ninth month — she is going to have a baby.</p>
+                  <span class="p04-tag going">be going to</span>
+                </div>
+                <p class="p04-item-note"><strong>情感色彩：</strong>温馨、庄重，含有对新生命的期盼。<strong>为何用它：</strong>医学与时间表带来的<strong>必然推断</strong>。<strong>用途：</strong>家庭话题阅读、情感类完形。</p>
+              </li>
+              <li class="item-going">
+                <div class="p04-item-head">
+                  <p class="p04-item-en">I practised English every day this term — I am going to get a better grade.</p>
+                  <span class="p04-tag going">be going to</span>
+                </div>
+                <p class="p04-item-note"><strong>情感色彩：</strong>自信、积极，说服力强。<strong>为何用它：</strong>成绩来自<strong>已有事实</strong>，推断合理。<strong>用途：</strong>学习经历议论文、自我反思段。</p>
+              </li>
+              <li class="item-going">
+                <div class="p04-item-head">
+                  <p class="p04-item-en">The meeting starts in five minutes — I am going to be late!</p>
+                  <span class="p04-tag going">be going to</span>
+                </div>
+                <p class="p04-item-note"><strong>情感色彩：</strong>焦虑、催促，口语张力强。<strong>为何用它：</strong>时钟与日程是<strong>客观约束</strong>。<strong>用途：</strong>情景对话、时间管理小故事。</p>
+              </li>
+              <li class="item-going">
+                <div class="p04-item-head">
+                  <p class="p04-item-en">There is ice on the bridge — the bus is going to drive slowly.</p>
+                  <span class="p04-tag going">be going to</span>
+                </div>
+                <p class="p04-item-note"><strong>情感色彩：</strong>谨慎、关心安全。<strong>为何用它：</strong>路况是<strong>可见证据</strong>，预测随之发生的行为。<strong>用途：</strong>安全倡议作文、成都冬季出行话题。</p>
+              </li>
+              <li class="item-going">
+                <div class="p04-item-head">
+                  <p class="p04-item-en">I put on my shoes — I am going to run along the riverside Greenway.</p>
+                  <span class="p04-tag going">be going to</span>
+                </div>
+                <p class="p04-item-note"><strong>情感色彩：</strong>元气、自律，画面感强。<strong>为何用它：</strong>穿鞋 = <strong>行动前的准备</strong>，计划已在执行。<strong>用途：</strong>健康生活、公园城市主题书面表达。</p>
+              </li>
+              <li class="item-going">
+                <div class="p04-item-head">
+                  <p class="p04-item-en">The sign says the museum closes at 5 — we are going to miss the last entry!</p>
+                  <span class="p04-tag going">be going to</span>
+                </div>
+                <p class="p04-item-note"><strong>情感色彩：</strong>着急、遗憾预警。<strong>为何用它：</strong>告示牌提供<strong>确凿信息</strong>，推出后果。<strong>用途：</strong>旅游叙事、读标志类阅读迁移写作。</p>
+              </li>
+              <li class="item-going">
+                <div class="p04-item-head">
+                  <p class="p04-item-en">He has rehearsed the speech ten times — he is going to sound confident on stage.</p>
+                  <span class="p04-tag going">be going to</span>
+                </div>
+                <p class="p04-item-note"><strong>情感色彩：</strong>鼓励、看好队友。<strong>为何用它：</strong>排练次数是<strong>强证据</strong>。<strong>用途：</strong>校园活动报道、演讲稿旁白。</p>
+              </li>
+              <li class="item-going">
+                <div class="p04-item-head">
+                  <p class="p04-item-en">The kitchen light is on — Mom is going to cook dinner.</p>
+                  <span class="p04-tag going">be going to</span>
+                </div>
+                <p class="p04-item-note"><strong>情感色彩：</strong>家常、温暖。<strong>为何用它：</strong>灯光是<strong>当下迹象</strong>。<strong>用途：</strong>家庭场景描写、七年级话题迁移。</p>
+              </li>
+              <li class="item-going">
+                <div class="p04-item-head">
+                  <p class="p04-item-en">We saved pocket money for months — we are going to buy a laptop for online study.</p>
+                  <span class="p04-tag going">be going to</span>
+                </div>
+                <p class="p04-item-note"><strong>情感色彩：</strong>期待与成就感。<strong>为何用它：</strong>存钱是<strong>长期计划兑现</strong>。<strong>用途：</strong>消费观、数字学习议论文。</p>
+              </li>
+              <li class="item-going">
+                <div class="p04-item-head">
+                  <p class="p04-item-en">The river looks polluted — volunteers are going to clean it next Saturday.</p>
+                  <span class="p04-tag going">be going to</span>
+                </div>
+                <p class="p04-item-note"><strong>情感色彩：</strong>责任感、公益心。<strong>为何用它：</strong>污染是<strong>眼前事实</strong>，下周行动已排期。<strong>用途：</strong>环保书信、文明城市话题。</p>
+              </li>
+              <li class="item-going">
+                <div class="p04-item-head">
+                  <p class="p04-item-en">Your eyes are red and you keep coughing — you are going to get sick if you don't rest.</p>
+                  <span class="p04-tag going">be going to</span>
+                </div>
+                <p class="p04-item-note"><strong>情感色彩：</strong>关切微带责备，真实口语。<strong>为何用它：</strong>症状是<strong>生病前兆</strong>。<strong>用途：</strong>建议信、同学互相关心对话。</p>
+              </li>
+              <li class="item-going">
+                <div class="p04-item-head">
+                  <p class="p04-item-en">Registration closes at midnight — I am going to finish the form right now.</p>
+                  <span class="p04-tag going">be going to</span>
+                </div>
+                <p class="p04-item-note"><strong>情感色彩：</strong>紧迫、果断。<strong>为何用它：</strong>截止时间逼迫下，心里<strong>已有确定步骤</strong>。<strong>用途：</strong>网上报名、竞赛报名记叙。</p>
+              </li>
+              <li class="item-going">
+                <div class="p04-item-head">
+                  <p class="p04-item-en">Our school sports day is next Friday — we are going to practise relay races after class.</p>
+                  <span class="p04-tag going">be going to</span>
+                </div>
+                <p class="p04-item-note"><strong>情感色彩：</strong>兴奋、集体荣誉感。<strong>为何用它：</strong>校历已定 + <strong>训练安排已排</strong>。<strong>用途：</strong>校园生活段落、成都校园体育话题。</p>
+              </li>
+              <li class="item-will">
+                <div class="p04-item-head">
+                  <p class="p04-item-en">The phone is ringing — I'll answer it.</p>
+                  <span class="p04-tag will">will</span>
+                </div>
+                <p class="p04-item-note"><strong>情感色彩：</strong>自然、利落。<strong>为何用它：</strong>铃声触发<strong>当场决定</strong>，并非昨日计划。<strong>用途：</strong>中考情景交际满分句，对话填空高频。</p>
+              </li>
+              <li class="item-will">
+                <div class="p04-item-head">
+                  <p class="p04-item-en">I think technology will change our classrooms in five years.</p>
+                  <span class="p04-tag will">will</span>
+                </div>
+                <p class="p04-item-note"><strong>情感色彩：</strong>开放、遐思，略带不确定的探索感。<strong>为何用它：</strong><strong>I think</strong> + 主观展望，无确凿「迹象」时间表。<strong>用途：</strong>科技议论文首段或结尾升华。</p>
+              </li>
+              <li class="item-will">
+                <div class="p04-item-head">
+                  <p class="p04-item-en">Don't worry — I promise I won't tell anyone your secret.</p>
+                  <span class="p04-tag will">will</span>
+                </div>
+                <p class="p04-item-note"><strong>情感色彩：</strong>真诚、让人安心。<strong>为何用它：</strong><strong>will / won't</strong>表<strong>许诺与意志</strong>，情感承诺首选。<strong>用途：</strong>友情书信、读后续写心理描写。</p>
+              </li>
+              <li class="item-will">
+                <div class="p04-item-head">
+                  <p class="p04-item-en">I'm thirsty — I'll get some water from the kitchen.</p>
+                  <span class="p04-tag will">will</span>
+                </div>
+                <p class="p04-item-note"><strong>情感色彩：</strong>随意、生活流。<strong>为何用它：</strong>口渴瞬间<strong>即兴起身</strong>。<strong>用途：</strong>日记体、日常叙述增加真实度。</p>
+              </li>
+              <li class="item-will">
+                <div class="p04-item-head">
+                  <p class="p04-item-en">Maybe robots will help farmers pick fruit in the future.</p>
+                  <span class="p04-tag will">will</span>
+                </div>
+                <p class="p04-item-note"><strong>情感色彩：</strong>好奇、展望。<strong>为何用它：</strong><strong>Maybe</strong>提示<strong>猜测</strong>，非板上钉钉的安排。<strong>用途：</strong>乡村振兴与科技跨学科作文。</p>
+              </li>
+              <li class="item-will">
+                <div class="p04-item-head">
+                  <p class="p04-item-en">If you visit Chengdu in spring, you'll love the flowers along the streets.</p>
+                  <span class="p04-tag will">will</span>
+                </div>
+                <p class="p04-item-note"><strong>情感色彩：</strong>热情、东道主口吻。<strong>为何用它：</strong>条件句主句常用<strong>will</strong>表<strong>必然结果或强烈主观判断</strong>。<strong>用途：</strong>介绍家乡、欢迎来信。</p>
+              </li>
+              <li class="item-will">
+                <div class="p04-item-head">
+                  <p class="p04-item-en">I don't know this word, but I'll look it up in the dictionary after class.</p>
+                  <span class="p04-tag will">will</span>
+                </div>
+                <p class="p04-item-note"><strong>情感色彩：</strong>诚实又自律。<strong>为何用它：</strong>说到那一刻才<strong>下决心</strong>的具体步骤。<strong>用途：</strong>学习方法分享、反思类作文。</p>
+              </li>
+              <li class="item-will">
+                <div class="p04-item-head">
+                  <p class="p04-item-en">You'll feel better after you talk to someone you trust.</p>
+                  <span class="p04-tag will">will</span>
+                </div>
+                <p class="p04-item-note"><strong>情感色彩：</strong>温柔安慰。<strong>为何用它：</strong>对他人的结果做<strong>善意预测</strong>，贴近心理咨询式表达。<strong>用途：</strong>建议信、心理健康话题。</p>
+              </li>
+              <li class="item-will">
+                <div class="p04-item-head">
+                  <p class="p04-item-en">Who spilled the juice? — Never mind, I'll wipe the floor.</p>
+                  <span class="p04-tag will">will</span>
+                </div>
+                <p class="p04-item-note"><strong>情感色彩：</strong>包容、主动担当。<strong>为何用它：</strong>突发小事故后的<strong>即时反应</strong>。<strong>用途：</strong>劳动教育、班级故事。</p>
+              </li>
+              <li class="item-will">
+                <div class="p04-item-head">
+                  <p class="p04-item-en">Press the green button and the screen will show your score.</p>
+                  <span class="p04-tag will">will</span>
+                </div>
+                <p class="p04-item-note"><strong>情感色彩：</strong>中性、说明文体。<strong>为何用它：</strong>描述<strong>机械 / 程序的自然结果</strong>，类似规律。<strong>用途：</strong>实验步骤说明、操作指南类阅读迁移。</p>
+              </li>
+              <li class="item-will">
+                <div class="p04-item-head">
+                  <p class="p04-item-en">I'm sorry I'm late — I'll treat everyone to milk tea after school.</p>
+                  <span class="p04-tag will">will</span>
+                </div>
+                <p class="p04-item-note"><strong>情感色彩：</strong>歉意里带诚意补偿。<strong>为何用它：</strong>口头<strong>承诺补救</strong>，当场开出「罚单」。<strong>用途：</strong>道歉信、班级日常记叙。</p>
+              </li>
+              <li class="item-will">
+                <div class="p04-item-head">
+                  <p class="p04-item-en">We don't know the final score yet, but we believe our team will win.</p>
+                  <span class="p04-tag will">will</span>
+                </div>
+                <p class="p04-item-note"><strong>情感色彩：</strong>热血、集体信念。<strong>为何用它：</strong>结果未定时的<strong>主观预测与加油</strong>。<strong>用途：</strong>运动会广播稿、演讲稿。</p>
+              </li>
+              <li class="item-will">
+                <div class="p04-item-head">
+                  <p class="p04-item-en">It's noisy here — I'll move to the library to finish my homework.</p>
+                  <span class="p04-tag will">will</span>
+                </div>
+                <p class="p04-item-note"><strong>情感色彩：</strong>冷静、自我管理。<strong>为何用它：</strong>环境刺激下的<strong>即时决定换场</strong>。<strong>用途：</strong>学习习惯、自律主题。</p>
+              </li>
+              <li class="item-will">
+                <div class="p04-item-head">
+                  <p class="p04-item-en">Winter in Chengdu will probably feel wetter than you expect.</p>
+                  <span class="p04-tag will">will</span>
+                </div>
+                <p class="p04-item-note"><strong>情感色彩：</strong>体贴提醒，略带幽默。<strong>为何用它：</strong><strong>probably</strong>修饰<strong>主观推测</strong>，不是观测乌云那种硬迹象。<strong>用途：</strong>欢迎交换生、城市介绍作文。</p>
+              </li>
+              <li class="item-will">
+                <div class="p04-item-head">
+                  <p class="p04-item-en">Hold on — I'll send you the link as soon as I find it.</p>
+                  <span class="p04-tag will">will</span>
+                </div>
+                <p class="p04-item-note"><strong>情感色彩：</strong>可靠、线上协作感。<strong>为何用它：</strong>聊天当下<strong>答应去做</strong>。<strong>用途：</strong>邮件 / 微信式书面表达、合作学习话题。</p>
+              </li>
+              <li class="item-will">
+                <div class="p04-item-head">
+                  <p class="p04-item-en">The doctor will see you now.</p>
+                  <span class="p04-tag will">will</span>
+                </div>
+                <p class="p04-item-note"><strong>拓展 · will 表意愿（服务语气）：</strong>前台/护士传达「医生<strong>这就愿意见你</strong>」，强调<strong>此刻即将发生的接待</strong>，不是昨天排好的口头预告。<strong>情感色彩：</strong>安定、被接纳。<strong>用途：</strong>医院、诊所情景对话、读后续写。</p>
+              </li>
+              <li class="item-will">
+                <div class="p04-item-head">
+                  <p class="p04-item-en">The nurse will take your temperature first.</p>
+                  <span class="p04-tag will">will</span>
+                </div>
+                <p class="p04-item-note"><strong>意愿 + 流程提示：</strong>工作人员主动说明<strong>下一步将要为你做什么</strong>，语气礼貌、可预期。<strong>用途：</strong>体检、疫苗接种说明文。</p>
+              </li>
+              <li class="item-will">
+                <div class="p04-item-head">
+                  <p class="p04-item-en">The manager will be with you in a minute.</p>
+                  <span class="p04-tag will">will</span>
+                </div>
+                <p class="p04-item-note"><strong>服务承诺：</strong>柜台常用安抚句，表示对方<strong>愿意接待</strong>且马上就到。<strong>情感色彩：</strong>礼貌、缓冲焦虑。<strong>用途：</strong>银行、政务大厅补全对话。</p>
+              </li>
+              <li class="item-will">
+                <div class="p04-item-head">
+                  <p class="p04-item-en">We'll bring your meal right away.</p>
+                  <span class="p04-tag will">will</span>
+                </div>
+                <p class="p04-item-note"><strong>意愿 + 即时行动：</strong>餐厅服务员<strong>答应尽快上菜</strong>。<strong>为何用 will：</strong>当场接单、表达「我们这就去做」。<strong>用途：</strong>餐饮服务写作、旅行日记。</p>
+              </li>
+              <li class="item-will">
+                <div class="p04-item-head">
+                  <p class="p04-item-en">I'll walk you to the classroom — this way, please.</p>
+                  <span class="p04-tag will">will</span>
+                </div>
+                <p class="p04-item-note"><strong>主动提供帮助：</strong>说话人<strong>自愿陪同</strong>，热情礼貌。<strong>情感色彩：</strong>友好、体贴。<strong>用途：</strong>校园接待交换生、志愿者叙事。</p>
+              </li>
+              <li class="item-will">
+                <div class="p04-item-head">
+                  <p class="p04-item-en">Don't worry — I'll stay with you until your parents arrive.</p>
+                  <span class="p04-tag will">will</span>
+                </div>
+                <p class="p04-item-note"><strong>意愿 + 情感支持：</strong>强调「我<strong>愿意留下来陪你</strong>」的承诺，比单纯将来时更暖。<strong>用途：</strong>友情、心理健康话题书信。</p>
+              </li>
+              <li class="item-will">
+                <div class="p04-item-head">
+                  <p class="p04-item-en">The librarian will help you find that book.</p>
+                  <span class="p04-tag will">will</span>
+                </div>
+                <p class="p04-item-note"><strong>公务人员的乐意协助：</strong>陈述「对方将会提供帮助」，含<strong>可靠、可求助</strong>的语气。<strong>用途：</strong>图书馆、社区中心说明。</p>
+              </li>
+              <li class="item-will">
+                <div class="p04-item-head">
+                  <p class="p04-item-en">We will respect your privacy and your choice.</p>
+                  <span class="p04-tag will">will</span>
+                </div>
+                <p class="p04-item-note"><strong>集体意愿 / 政策承诺：</strong>机构表态「我们<strong>将（愿意）遵守</strong>」，常见于告示、用户协议摘要。<strong>用途：</strong>议论文引述规则、青少年网络素养话题。</p>
+              </li>
+            </ol>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <nav class="lesson-pager" aria-label="课程页导航">
+    <a class="pager-prev" href="lesson08-page03-crystal.html">← Page 03</a>
+    <span class="pager-mid">L08 · Page 04</span>
+    <a class="pager-next" href="lesson08-page05-reactor.html">Page 05 →</a>
+  </nav>
+
+  <script>
+    (function () {
+      "use strict";
+
+      var KEYS = window.__LESSON_KEYS__ || {};
+      var AZURE_REGION = KEYS.azureRegion || "eastus2";
+      var AZURE_KEY = KEYS.azureSpeechKey || "";
+      var DEEPSEEK_KEY = KEYS.deepSeekKey || "";
+      var VERTEX_PROJECT = KEYS.vertexProjectId || "";
+      var VERTEX_REGION = KEYS.vertexRegion || "us-central1";
+
+      /** 情景句库（含 will 表意愿/服务接待）；随机出现（不连续重复上一索引） */
+      var CORPUS = [
+        { text: "Look at those dark clouds — it is going to rain soon.", type: "BE_GOING_TO", explanation: "乌云为迹象。", examNote: "天气话题。" },
+        { text: "We bought the tickets — we are going to watch the Chengdu concert.", type: "BE_GOING_TO", explanation: "票已购 → 安排已定。", examNote: "计划类。" },
+        { text: "She is in her ninth month — she is going to have a baby.", type: "BE_GOING_TO", explanation: "医学时间表推断。", examNote: "家庭话题。" },
+        { text: "I practised English daily — I am going to get a better grade.", type: "BE_GOING_TO", explanation: "努力为证据。", examNote: "学习叙事。" },
+        { text: "The meeting starts in five minutes — I am going to be late!", type: "BE_GOING_TO", explanation: "时钟与日程约束。", examNote: "情景交际。" },
+        { text: "There is ice on the bridge — the bus is going to drive slowly.", type: "BE_GOING_TO", explanation: "路况迹象。", examNote: "安全话题。" },
+        { text: "I put on my shoes — I am going to run along the riverside Greenway.", type: "BE_GOING_TO", explanation: "准备动作。", examNote: "成都绿道。" },
+        { text: "The sign says the museum closes at 5 — we are going to miss the entry!", type: "BE_GOING_TO", explanation: "告示为确凿依据。", examNote: "旅游叙事。" },
+        { text: "He has rehearsed ten times — he is going to sound confident on stage.", type: "BE_GOING_TO", explanation: "排练为强证据。", examNote: "校园活动。" },
+        { text: "The kitchen light is on — Mom is going to cook dinner.", type: "BE_GOING_TO", explanation: "当下迹象。", examNote: "家庭生活。" },
+        { text: "We saved money for months — we are going to buy a laptop.", type: "BE_GOING_TO", explanation: "长期计划兑现。", examNote: "消费与学习。" },
+        { text: "The river looks polluted — volunteers are going to clean it next Saturday.", type: "BE_GOING_TO", explanation: "污染事实 + 已定公益。", examNote: "环保。" },
+        { text: "Your eyes are red — you are going to get sick if you don't rest.", type: "BE_GOING_TO", explanation: "症状前兆。", examNote: "关心同学。" },
+        { text: "Registration closes at midnight — I am going to finish the form now.", type: "BE_GOING_TO", explanation: "截止逼迫下的确定步骤。", examNote: "报名场景。" },
+        { text: "Sports day is next Friday — we are going to practise relays after class.", type: "BE_GOING_TO", explanation: "校历 + 训练安排。", examNote: "校园体育。" },
+        { text: "The phone is ringing — I'll answer it.", type: "WILL", explanation: "当场决定去接电话。", examNote: "交际高频。" },
+        { text: "I think technology will change our classrooms in five years.", type: "WILL", explanation: "主观展望。", examNote: "议论文。" },
+        { text: "Don't worry — I promise I won't tell anyone your secret.", type: "WILL", explanation: "许诺意志。", examNote: "书信承诺。" },
+        { text: "I'm thirsty — I'll get some water from the kitchen.", type: "WILL", explanation: "即时决定。", examNote: "口语。" },
+        { text: "Maybe robots will help farmers pick fruit in the future.", type: "WILL", explanation: "maybe + 猜测。", examNote: "科技展望。" },
+        { text: "If you visit Chengdu in spring, you'll love the flowers along the streets.", type: "WILL", explanation: "条件句中的判断。", examNote: "介绍家乡。" },
+        { text: "I don't know this word, but I'll look it up after class.", type: "WILL", explanation: "当场下决心。", examNote: "学习方法。" },
+        { text: "You'll feel better after you talk to someone you trust.", type: "WILL", explanation: "善意预测。", examNote: "安慰建议。" },
+        { text: "Who spilled the juice? — Never mind, I'll wipe the floor.", type: "WILL", explanation: "突发后的即时反应。", examNote: "班级日常。" },
+        { text: "Press the green button and the screen will show your score.", type: "WILL", explanation: "程序结果规律。", examNote: "说明文体。" },
+        { text: "I'm sorry I'm late — I'll treat everyone to milk tea after school.", type: "WILL", explanation: "口头补偿承诺。", examNote: "道歉语境。" },
+        { text: "We don't know the score yet, but we believe our team will win.", type: "WILL", explanation: "主观信念。", examNote: "运动会广播稿。" },
+        { text: "It's noisy here — I'll move to the library to finish homework.", type: "WILL", explanation: "环境触发当场决定。", examNote: "自律话题。" },
+        { text: "Winter in Chengdu will probably feel wetter than you expect.", type: "WILL", explanation: "probably + 推测。", examNote: "城市介绍。" },
+        { text: "Hold on — I'll send you the link as soon as I find it.", type: "WILL", explanation: "即时答应。", examNote: "线上协作。" },
+        { text: "The doctor will see you now.", type: "WILL", explanation: "服务场合：这就接待（意愿）。", examNote: "诊所高频。" },
+        { text: "The nurse will take your temperature first.", type: "WILL", explanation: "医务流程中的意愿说明。", examNote: "体检情境。" },
+        { text: "The manager will be with you in a minute.", type: "WILL", explanation: "柜台安抚 + 即将接待。", examNote: "服务英语。" },
+        { text: "We'll bring your meal right away.", type: "WILL", explanation: "餐厅即时承诺。", examNote: "餐饮交际。" },
+        { text: "I'll walk you to the classroom — this way, please.", type: "WILL", explanation: "主动陪同（乐意帮忙）。", examNote: "校园接待。" },
+        { text: "Don't worry — I'll stay with you until your parents arrive.", type: "WILL", explanation: "情感支持 + 意愿留下。", examNote: "安慰同伴。" },
+        { text: "The librarian will help you find that book.", type: "WILL", explanation: "公务协助意愿。", examNote: "图书馆。" },
+        { text: "We will respect your privacy and your choice.", type: "WILL", explanation: "机构承诺（集体意愿）。", examNote: "规则与权益话题。" },
+      ];
+
+      var POOL_SIZE = 4;
+      var ROUNDS_TARGET = 30;
+      /** 下落基准速度（px/s）；得分加成不变 */
+      var SPEED_BASE = 115;
+      var SPEED_PER_SCORE = 6;
+      /** 在原有物理速度下，整体延长落到警戒线的理论时间（秒） */
+      var FALL_EXTRA_SECONDS = 1.5;
+
+      /** 预生成朗读 mp3 目录（GCP TTS 脚本输出）；优先于此再尝试在线合成 */
+      var PAGE04_AUDIO_BASE = "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/audio/page04/";
+      var orbVoiceAudio = null;
+      var orbVoiceObjectUrl = null;
+      var GOOGLE_TTS_VOICE = KEYS.googleTtsVoiceName || "en-US-Neural2-D";
+
+      var host = document.getElementById("l08-p04-host");
+      var bgStack = document.getElementById("bg-stack");
+      var canvas = document.getElementById("fx-canvas");
+      var ctx = canvas.getContext("2d");
+      var uiLock = document.getElementById("ui-lock");
+      var introOverlay = document.getElementById("intro-overlay");
+      var btnStartGrid = document.getElementById("btnStartGrid");
+      var gameField = document.getElementById("game-field");
+      var btnGoing = document.getElementById("btnGoing");
+      var btnWill = document.getElementById("btnWill");
+      var hudScore = document.getElementById("hud-score");
+      var hudAcc = document.getElementById("hud-acc");
+      var hudCombo = document.getElementById("hud-combo");
+      var hudRound = document.getElementById("hud-round");
+      var resultOverlay = document.getElementById("result-overlay");
+      var resultCard = document.getElementById("result-card");
+      var resultTitle = document.getElementById("result-title");
+      var resultStats = document.getElementById("result-stats");
+      var terminalBox = document.getElementById("terminal-box");
+      var btnRestart = document.getElementById("btnRestart");
+      var btnNextPage = document.getElementById("btnNextPage");
+      var p04Slide0 = document.getElementById("p04-slide-0");
+      var p04Slide1 = document.getElementById("p04-slide-1");
+      var p04Tab0 = document.getElementById("p04-tab-0");
+      var p04Tab1 = document.getElementById("p04-tab-1");
+
+      var particles = [];
+      var shockwaves = [];
+      var orbPool = [];
+      var activeSlot = null;
+      var gamePhase = "IDLE";
+      var score = 0;
+      var combo = 1;
+      var correctC = 0;
+      var wrongC = 0;
+      var roundNum = 0;
+      var mistakeLedger = [];
+      var lastCorpusIdx = -1;
+      var rafId = 0;
+      var lastFrameT = 0;
+      var synth = new AudioSynth();
+
+      function AudioSynth() {}
+      AudioSynth.prototype.playLaser = function () {
+        playOscSweep(880, 1320, 0.07, "square", 0.06);
+      };
+      AudioSynth.prototype.playBass = function () {
+        playOscSweep(160, 45, 0.35, "sawtooth", 0.11);
+      };
+
+      function playOscSweep(f0, f1, dur, type, gain) {
+        try {
+          var Ctx = window.AudioContext || window.webkitAudioContext;
+          if (!Ctx) return;
+          var ctxA = new Ctx();
+          var o = ctxA.createOscillator();
+          var g = ctxA.createGain();
+          o.type = type || "sine";
+          o.frequency.value = f0;
+          o.connect(g);
+          g.connect(ctxA.destination);
+          g.gain.value = gain || 0.08;
+          o.start();
+          var t0 = ctxA.currentTime;
+          o.frequency.exponentialRampToValueAtTime(Math.max(40, f1), t0 + dur);
+          g.gain.exponentialRampToValueAtTime(0.001, t0 + dur + 0.05);
+          setTimeout(function () {
+            try {
+              o.stop();
+              ctxA.close();
+            } catch (e0) {}
+          }, (dur + 0.08) * 1000);
+        } catch (e1) {}
+      }
+
+      function resizeCanvas() {
+        var dpr = window.devicePixelRatio || 1;
+        var w = host.clientWidth;
+        var h = host.clientHeight;
+        canvas.width = Math.floor(w * dpr);
+        canvas.height = Math.floor(h * dpr);
+        canvas.style.width = w + "px";
+        canvas.style.height = h + "px";
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+
+      function setUiLock(on) {
+        if (on) uiLock.classList.add("on");
+        else uiLock.classList.remove("on");
+      }
+
+      function buildSsmlArcade(text) {
+        var esc = String(text || "")
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;");
+        return (
+          '<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="en-US">' +
+          '<voice name="en-US-ChristopherNeural">' +
+          '<prosody rate="+5%">' +
+          esc +
+          "</prosody></voice></speak>"
+        );
+      }
+
+      function speakAzure(text) {
+        return new Promise(function (resolve) {
+          var t = String(text || "").trim();
+          if (!t || !AZURE_KEY) {
+            resolve(false);
+            return;
+          }
+          fetch(
+            "https://" + AZURE_REGION + ".tts.speech.microsoft.com/cognitiveservices/v1",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/ssml+xml",
+                "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3",
+                "Ocp-Apim-Subscription-Key": AZURE_KEY,
+              },
+              body: buildSsmlArcade(t),
+            }
+          )
+            .then(function (res) {
+              return res.ok ? res.blob() : Promise.reject();
+            })
+            .then(function (blob) {
+              var u = URL.createObjectURL(blob);
+              var a = new Audio();
+              a.src = u;
+              a.onended = function () {
+                try {
+                  URL.revokeObjectURL(u);
+                } catch (e2) {}
+                resolve(true);
+              };
+              a.onerror = function () {
+                try {
+                  URL.revokeObjectURL(u);
+                } catch (e3) {}
+                resolve(false);
+              };
+              a.play().catch(function () {
+                resolve(false);
+              });
+            })
+            .catch(function () {
+              resolve(false);
+            });
+        });
+      }
+
+      function speakFallback(text) {
+        return new Promise(function (resolve) {
+          if (!window.speechSynthesis) {
+            resolve(false);
+            return;
+          }
+          try {
+            window.speechSynthesis.cancel();
+          } catch (e4) {}
+          var u = new SpeechSynthesisUtterance(text);
+          u.lang = "en-US";
+          u.rate = 1.05;
+          u.onend = function () {
+            resolve(true);
+          };
+          u.onerror = function () {
+            resolve(false);
+          };
+          window.speechSynthesis.speak(u);
+        });
+      }
+
+      function stopOrbVoice() {
+        if (orbVoiceAudio) {
+          try {
+            orbVoiceAudio.pause();
+            orbVoiceAudio.removeAttribute("src");
+            orbVoiceAudio.load();
+          } catch (ov1) {}
+          orbVoiceAudio = null;
+        }
+        if (orbVoiceObjectUrl) {
+          try {
+            URL.revokeObjectURL(orbVoiceObjectUrl);
+          } catch (ov2) {}
+          orbVoiceObjectUrl = null;
+        }
+      }
+
+      /** 优先播放本地 grid-xx.mp3（Vertex/GCP 同项目事先批量合成） */
+      function tryPlayLocalGridMp3(corpusIdx) {
+        return new Promise(function (resolve) {
+          var pad = ("00" + corpusIdx).slice(-2);
+          var url = PAGE04_AUDIO_BASE + "grid-" + pad + ".mp3";
+          var a = new Audio(url);
+          var settled = false;
+          function fin(ok) {
+            if (settled) return;
+            settled = true;
+            if (ok) orbVoiceAudio = a;
+            resolve(ok);
+          }
+          a.addEventListener(
+            "ended",
+            function () {
+              stopOrbVoice();
+            },
+            { once: true }
+          );
+          a.addEventListener(
+            "error",
+            function () {
+              fin(false);
+            },
+            { once: true }
+          );
+          a.play()
+            .then(function () {
+              fin(true);
+            })
+            .catch(function () {
+              fin(false);
+            });
+        });
+      }
+
+      /** 使用与 Vertex 相同的 OAuth Bearer 调用 Google Cloud Text-to-Speech，返回 MP3 播放 */
+      function speakGoogleCloudOrb(text) {
+        return new Promise(function (resolve) {
+          var t = String(text || "").trim();
+          var token = window.__VERTEX_BEARER_TOKEN__ || KEYS.vertexBearerToken || "";
+          if (!t || !token) {
+            resolve(false);
+            return;
+          }
+          fetch("https://texttospeech.googleapis.com/v1/text:synthesize", {
+            method: "POST",
+            headers: {
+              Authorization: "Bearer " + token,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              input: { text: t },
+              voice: { languageCode: "en-US", name: GOOGLE_TTS_VOICE },
+              audioConfig: { audioEncoding: "MP3", speakingRate: 0.92 },
+            }),
+          })
+            .then(function (res) {
+              return res.ok ? res.json() : Promise.reject();
+            })
+            .then(function (data) {
+              if (!data || !data.audioContent) {
+                resolve(false);
+                return;
+              }
+              var bin = atob(data.audioContent);
+              var bytes = new Uint8Array(bin.length);
+              var i;
+              for (i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+              var blob = new Blob([bytes], { type: "audio/mpeg" });
+              var u = URL.createObjectURL(blob);
+              orbVoiceObjectUrl = u;
+              var audio = new Audio(u);
+              audio.addEventListener(
+                "ended",
+                function () {
+                  stopOrbVoice();
+                },
+                { once: true }
+              );
+              audio.addEventListener(
+                "error",
+                function () {
+                  resolve(false);
+                },
+                { once: true }
+              );
+              audio
+                .play()
+                .then(function () {
+                  orbVoiceAudio = audio;
+                  resolve(true);
+                })
+                .catch(function () {
+                  resolve(false);
+                });
+            })
+            .catch(function () {
+              resolve(false);
+            });
+        });
+      }
+
+      /** 下落句朗读：本地 GCP mp3 → Cloud TTS API → Azure → 浏览器 */
+      function playOrbLineSpeech(text, corpusIdx) {
+        stopOrbVoice();
+        var t = String(text || "").trim();
+        if (!t) return;
+        tryPlayLocalGridMp3(corpusIdx).then(function (okLocal) {
+          if (okLocal) return;
+          speakGoogleCloudOrb(t).then(function (okG) {
+            if (okG) return;
+            speakAzure(t).then(function (okA) {
+              if (!okA) speakFallback(t);
+            });
+          });
+        });
+      }
+
+      function initOrbPool() {
+        for (var i = 0; i < POOL_SIZE; i++) {
+          var el = document.createElement("div");
+          el.className = "fall-orb";
+          el.hidden = true;
+          el.setAttribute("aria-hidden", "true");
+          gameField.appendChild(el);
+          orbPool.push({ el: el, busy: false, y: 0, item: null });
+        }
+      }
+
+      function pickCorpusIndex() {
+        var idx;
+        var guard = 0;
+        do {
+          idx = Math.floor(Math.random() * CORPUS.length);
+          guard++;
+        } while (idx === lastCorpusIdx && guard < 12);
+        lastCorpusIdx = idx;
+        return idx;
+      }
+
+      function acquireOrbSlot() {
+        for (var i = 0; i < orbPool.length; i++) {
+          if (!orbPool[i].busy) return orbPool[i];
+        }
+        return orbPool[0];
+      }
+
+      function spawnOrb() {
+        if (roundNum >= ROUNDS_TARGET) {
+          endGame();
+          return;
+        }
+        var slot = acquireOrbSlot();
+        var idx = pickCorpusIndex();
+        var item = CORPUS[idx];
+        slot.busy = true;
+        slot.item = item;
+        slot.y = -100;
+        slot.el.textContent = item.text;
+        slot.el.classList.remove("bad");
+        slot.el.hidden = false;
+        slot.el.style.top = slot.y + "px";
+        activeSlot = slot;
+        gamePhase = "PLAY";
+        playOrbLineSpeech(item.text, idx);
+      }
+
+      function releaseOrbSlot(slot) {
+        if (!slot) return;
+        slot.busy = false;
+        slot.item = null;
+        slot.el.hidden = true;
+        if (activeSlot === slot) activeSlot = null;
+      }
+
+      function orbCenterScreen() {
+        if (!activeSlot || activeSlot.el.hidden) return { x: 0, y: 0 };
+        var cr = canvas.getBoundingClientRect();
+        var r = activeSlot.el.getBoundingClientRect();
+        return { x: r.left + r.width / 2 - cr.left, y: r.top + r.height / 2 - cr.top };
+      }
+
+      function burstParticles(cx, cy, color, n) {
+        var cap = 72;
+        for (var i = 0; i < n && particles.length < cap; i++) {
+          var ang = Math.random() * Math.PI * 2;
+          var sp = 90 + Math.random() * 160;
+          particles.push({
+            x: cx,
+            y: cy,
+            vx: Math.cos(ang) * sp,
+            vy: Math.sin(ang) * sp - 40,
+            a: 1,
+            r: 2 + Math.random() * 5,
+            col: color,
+          });
+        }
+      }
+
+      function addShockwave(cx, cy, col) {
+        shockwaves.push({ x: cx, y: cy, r: 20, a: 0.85, col: col });
+      }
+
+      function updateParticles(dt) {
+        for (var i = particles.length - 1; i >= 0; i--) {
+          var p = particles[i];
+          p.x += p.vx * dt;
+          p.y += p.vy * dt;
+          p.vy += 420 * dt;
+          p.a -= dt * 1.35;
+          if (p.a <= 0) particles.splice(i, 1);
+        }
+        for (var j = shockwaves.length - 1; j >= 0; j--) {
+          var s = shockwaves[j];
+          s.r += 380 * dt;
+          s.a -= dt * 1.1;
+          if (s.a <= 0) shockwaves.splice(j, 1);
+        }
+      }
+
+      function drawFx() {
+        var w = canvas.clientWidth;
+        var h = canvas.clientHeight;
+        ctx.clearRect(0, 0, w, h);
+        var i;
+        for (i = 0; i < shockwaves.length; i++) {
+          var s = shockwaves[i];
+          ctx.strokeStyle = s.col;
+          ctx.globalAlpha = Math.max(0, s.a);
+          ctx.lineWidth = 4;
+          ctx.beginPath();
+          ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+          ctx.stroke();
+        }
+        ctx.globalAlpha = 1;
+        for (i = 0; i < particles.length; i++) {
+          var p = particles[i];
+          ctx.fillStyle = p.col;
+          ctx.globalAlpha = Math.max(0, p.a);
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        ctx.globalAlpha = 1;
+      }
+
+      function dangerYThreshold() {
+        return gameField.clientHeight * 0.86;
+      }
+
+      function fallSpeed() {
+        var raw = SPEED_BASE + Math.min(95, Math.floor(score / 120) * SPEED_PER_SCORE);
+        var danger = dangerYThreshold();
+        var dist = danger + 100;
+        if (dist <= 1) return raw;
+        var t0 = dist / raw;
+        var t1 = t0 + FALL_EXTRA_SECONDS;
+        return dist / t1;
+      }
+
+      function updateOrbPhysics(dt) {
+        if (gamePhase !== "PLAY" || !activeSlot || !activeSlot.busy) return;
+        activeSlot.y += fallSpeed() * dt;
+        activeSlot.el.style.top = activeSlot.y + "px";
+        if (activeSlot.y >= dangerYThreshold()) {
+          onWrongOrTimeout("TIMEOUT");
+        }
+      }
+
+      function onWrongOrTimeout(reason, chosenPick) {
+        if (gamePhase !== "PLAY" || !activeSlot) return;
+        gamePhase = "RESOLVE";
+        var slot = activeSlot;
+        var item = slot.item;
+        wrongC++;
+        combo = 1;
+        if (item) {
+          var entry = {
+            text: item.text,
+            expected: item.type,
+            reason: reason,
+          };
+          if (chosenPick != null) entry.chosen = chosenPick;
+          mistakeLedger.push(entry);
+        }
+        slot.el.classList.add("bad");
+        var c = orbCenterScreen();
+        addShockwave(c.x, c.y, "rgba(255,23,68,0.75)");
+        burstParticles(c.x, c.y, "rgba(255,80,80,0.95)", 36);
+        synth.playBass();
+        if (typeof anime !== "undefined") {
+          anime({
+            targets: host,
+            translateX: [-18, 18, -10, 10, 0],
+            duration: 380,
+            easing: "easeInOutQuad",
+          });
+        }
+        setTimeout(function () {
+          roundNum++;
+          releaseOrbSlot(slot);
+          updateHud();
+          gamePhase = "IDLE";
+          setTimeout(spawnOrb, 380);
+        }, 420);
+      }
+
+      function onCorrectPick() {
+        if (gamePhase !== "PLAY" || !activeSlot) return;
+        gamePhase = "RESOLVE";
+        var slot = activeSlot;
+        var item = slot.item;
+        correctC++;
+        combo = Math.min(5, combo + 1);
+        score += 100 * combo;
+        var c = orbCenterScreen();
+        var col = item && item.type === "BE_GOING_TO" ? "rgba(0,243,255,0.85)" : "rgba(255,0,234,0.88)";
+        burstParticles(c.x, c.y, col, 42);
+        synth.playLaser();
+        releaseOrbSlot(slot);
+        roundNum++;
+        updateHud();
+        setTimeout(function () {
+          gamePhase = "IDLE";
+          spawnOrb();
+        }, 320);
+      }
+
+      function onShieldTap(pick) {
+        if (p04Slide1 && !p04Slide1.hidden) return;
+        if (gamePhase !== "PLAY" || !activeSlot || !activeSlot.item) return;
+        var expected = activeSlot.item.type;
+        if (pick === expected) onCorrectPick();
+        else {
+          onWrongOrTimeout("WRONG", pick);
+        }
+      }
+
+      function updateHud() {
+        hudScore.textContent = ("00000" + score).slice(-5);
+        var tot = correctC + wrongC;
+        var acc = tot === 0 ? 100 : Math.round((correctC / tot) * 100);
+        hudAcc.textContent = acc + "%";
+        hudCombo.textContent = "×" + combo;
+        hudRound.textContent = roundNum + " / " + ROUNDS_TARGET;
+      }
+
+      function loop(t) {
+        var dt = lastFrameT ? Math.min((t - lastFrameT) / 1000, 0.048) : 0.016;
+        lastFrameT = t;
+        updateParticles(dt);
+        updateOrbPhysics(dt);
+        drawFx();
+        rafId = window.requestAnimationFrame(loop);
+      }
+
+      function startLoop() {
+        lastFrameT = 0;
+        if (rafId) cancelAnimationFrame(rafId);
+        rafId = window.requestAnimationFrame(loop);
+      }
+
+      function endGame() {
+        stopOrbVoice();
+        gamePhase = "ENDED";
+        if (rafId) cancelAnimationFrame(rafId);
+        orbPool.forEach(function (s) {
+          releaseOrbSlot(s);
+        });
+        var tot = correctC + wrongC;
+        var acc = tot === 0 ? 0 : Math.round((correctC / tot) * 100);
+        resultOverlay.removeAttribute("hidden");
+        resultCard.classList.remove("fail", "win");
+        terminalBox.textContent = "";
+        terminalBox.hidden = true;
+        btnRestart.hidden = true;
+        btnNextPage.hidden = true;
+        resultStats.textContent =
+          "得分 " + score + " · 正确 " + correctC + " / 错误 " + wrongC + " · 命中率 " + acc + "%";
+
+        if (acc < 80) {
+          resultCard.classList.add("fail");
+          resultTitle.textContent = "SYSTEM FAILURE";
+          resultTitle.style.color = "#ff5252";
+          btnRestart.hidden = false;
+          speakAzureOrFallback("Accuracy below eighty percent. Restart the grid.");
+        } else {
+          resultCard.classList.add("win");
+          resultTitle.textContent = "GRID CONQUERED";
+          resultTitle.style.color = "#ffd54f";
+          speakAzureOrFallback("Grid conquered. Outstanding reflexes.");
+          runDeepSeekReview();
+        }
+      }
+
+      function speakAzureOrFallback(line) {
+        speakAzure(line).then(function (ok) {
+          if (!ok) speakFallback(line);
+        });
+      }
+
+      function runDeepSeekReview() {
+        if (!mistakeLedger.length) {
+          btnNextPage.hidden = false;
+          return;
+        }
+        setUiLock(true);
+        var samples = mistakeLedger.slice(0, 2);
+        var msg =
+          "以下句子被误分类：" +
+          samples
+            .map(function (m) {
+              return '"' + m.text + '"';
+            })
+            .join("；");
+        if (!DEEPSEEK_KEY) {
+          terminalBox.hidden = false;
+          terminalBox.textContent =
+            "（未配置 DeepSeek）提示：对照「迹象/安排 → be going to」与「当场/猜测 → will」再扫一眼错题即可。";
+          btnNextPage.hidden = false;
+          setUiLock(false);
+          return;
+        }
+        fetch("https://api.deepseek.com/v1/chat/completions", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + DEEPSEEK_KEY,
+          },
+          body: JSON.stringify({
+            model: "deepseek-chat",
+            messages: [
+              {
+                role: "system",
+                content:
+                  "你是赛博风格的英语 AI。学生在高速网格里把 be going to / will 点错了。根据错题句，用中文写不超过90字，酷一点但要讲清：证据/计划 vs 当场/推测。鼓励语气。",
+              },
+              { role: "user", content: msg },
+            ],
+          }),
+        })
+          .then(function (r) {
+            return r.json();
+          })
+          .then(function (data) {
+            var txt =
+              data &&
+              data.choices &&
+              data.choices[0] &&
+              data.choices[0].message &&
+              data.choices[0].message.content;
+            terminalBox.hidden = false;
+            typeWriter(terminalBox, String(txt || "").trim());
+          })
+          .catch(function () {
+            terminalBox.hidden = false;
+            terminalBox.textContent = "链路中断：请稍后在练习册上复盘错题句。";
+          })
+          .finally(function () {
+            btnNextPage.hidden = false;
+            setUiLock(false);
+          });
+      }
+
+      function typeWriter(el, full) {
+        el.textContent = "";
+        var i = 0;
+        function tick() {
+          if (i <= full.length) {
+            el.textContent = full.slice(0, i);
+            i++;
+            setTimeout(tick, 22);
+          }
+        }
+        tick();
+      }
+
+      function resetGameState() {
+        stopOrbVoice();
+        score = 0;
+        combo = 1;
+        correctC = 0;
+        wrongC = 0;
+        roundNum = 0;
+        mistakeLedger = [];
+        lastCorpusIdx = -1;
+        particles = [];
+        shockwaves = [];
+        updateHud();
+        orbPool.forEach(function (s) {
+          s.busy = false;
+          s.el.hidden = true;
+        });
+        activeSlot = null;
+        gamePhase = "IDLE";
+      }
+
+      function tryVertexBg() {
+        var token = window.__VERTEX_BEARER_TOKEN__ || KEYS.vertexBearerToken || "";
+        if (!token || !VERTEX_PROJECT) return Promise.resolve(false);
+        var endpoint =
+          "https://" +
+          VERTEX_REGION +
+          "-aiplatform.googleapis.com/v1/projects/" +
+          VERTEX_PROJECT +
+          "/locations/" +
+          VERTEX_REGION +
+          "/publishers/google/models/imagegeneration@006:predict";
+        return fetch(endpoint, {
+          method: "POST",
+          headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" },
+          body: JSON.stringify({
+            instances: [
+              {
+                prompt:
+                  "Futuristic neon cyberpunk data tunnel first-person speed, cyan magenta circuits, crayon educational illustration, dark void, no text.",
+              },
+            ],
+            parameters: { sampleCount: 1, aspectRatio: "16:9" },
+          }),
+        })
+          .then(function (r) {
+            return r.ok ? r.json() : Promise.reject();
+          })
+          .then(function (data) {
+            var b64 =
+              data &&
+              data.predictions &&
+              data.predictions[0] &&
+              (data.predictions[0].bytesBase64Encoded || data.predictions[0].b64);
+            if (!b64) throw new Error();
+            bgStack.style.backgroundImage =
+              'linear-gradient(180deg, rgba(8,8,24,0.82), rgba(8,8,24,0.94)), url("data:image/png;base64,' +
+              b64 +
+              '")';
+            bgStack.style.backgroundSize = "cover";
+            bgStack.classList.add("has-img");
+            return true;
+          })
+          .catch(function () {
+            bgStack.classList.add("has-img");
+            return false;
+          });
+      }
+
+      function setSlide(idx) {
+        var show0 = idx === 0;
+        p04Slide0.hidden = !show0;
+        p04Slide1.hidden = show0;
+        p04Tab0.setAttribute("aria-selected", show0 ? "true" : "false");
+        p04Tab1.setAttribute("aria-selected", show0 ? "false" : "true");
+      }
+
+      btnGoing.addEventListener("click", function () {
+        onShieldTap("BE_GOING_TO");
+      });
+      btnWill.addEventListener("click", function () {
+        onShieldTap("WILL");
+      });
+
+      btnStartGrid.addEventListener("click", function () {
+        introOverlay.setAttribute("hidden", "");
+        resetGameState();
+        resizeCanvas();
+        startLoop();
+        setTimeout(function () {
+          if (typeof anime !== "undefined") {
+            anime({ targets: introOverlay, opacity: 0, duration: 1 });
+          }
+          spawnOrb();
+        }, 320);
+      });
+
+      btnRestart.addEventListener("click", function () {
+        resultOverlay.setAttribute("hidden", "");
+        resetGameState();
+        spawnOrb();
+        startLoop();
+      });
+
+      btnNextPage.addEventListener("click", function () {
+        window.location.href = "lesson08-page05-reactor.html";
+      });
+
+      p04Tab0.addEventListener("click", function () {
+        setSlide(0);
+      });
+      p04Tab1.addEventListener("click", function () {
+        setSlide(1);
+      });
+
+      window.addEventListener("resize", function () {
+        resizeCanvas();
+      });
+
+      initOrbPool();
+      resizeCanvas();
+      tryVertexBg();
+      bgStack.classList.add("has-img");
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,1572 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>第08讲 · Page 06 · 神经链式反应 · 第一条件句逻辑链</title>
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
+  <link rel="stylesheet" href="../assets/lesson-screen-16x9.css" />
+  <style>
+    :root {
+      --p06-cyan: #00f3ff;
+      --p06-magenta: #ff00ea;
+      --p06-void: #050510;
+      --p06-gold: #ffd54f;
+      --p06-danger: #ff1744;
+      --p06-ok: #00e5ff;
+      --p06-warn: #ffea00;
+      --p06-pink: #ff2fd8;
+      --p06-hud: "IBM Plex Mono", "SF Mono", Consolas, "Roboto Mono", monospace;
+    }
+    * { box-sizing: border-box; }
+    html { overflow-x: clip; max-width: 100%; }
+    html, body {
+      margin: 0;
+      width: 100%;
+      min-height: 100%;
+      font-family: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+      background: var(--p06-void);
+      color: #e0f7fa;
+      touch-action: manipulation;
+    }
+    body.has-lesson-pager {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch !important;
+      zoom: 0.9;
+    }
+
+    #l08-p06-host.app {
+      position: relative;
+      isolation: isolate;
+      flex: 1 1 auto;
+      width: 100%;
+      min-height: calc(100dvh - 3.5rem);
+      overflow: hidden;
+      border: 4px solid rgba(0, 243, 255, 0.4);
+      border-radius: 22px;
+      box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.5), 0 12px 32px rgba(0, 0, 0, 0.45);
+    }
+
+    /*
+      lesson-screen-16x9.css 在 (max-width:768px) 或 (max-height:559px) 下对 body>.app 使用
+      min-height:0!important；本宿主子节点多为 absolute/fixed，不参与撑高，叠加后高度塌为 0，
+      #p06-stage(inset:0) 随之不可见。提高优先级强制最小高度（需覆盖 !important）。
+    */
+    body.has-lesson-pager > #l08-p06-host.app {
+      min-height: calc(100dvh - var(--lesson-pager-gap, 4.35rem) - max(8px, env(safe-area-inset-top, 0px)) - max(8px, env(safe-area-inset-bottom, 0px))) !important;
+    }
+
+    #p06-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse 90% 70% at 50% 20%, rgba(120, 0, 200, 0.12), transparent 50%),
+        linear-gradient(180deg, #0a0a1a 0%, #050510 45%, #0d0620 100%);
+    }
+    #p06-bg::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      opacity: 0.06;
+      background-image:
+        linear-gradient(rgba(0, 243, 255, 0.35) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 0, 234, 0.2) 1px, transparent 1px);
+      background-size: clamp(28px, 5vmin, 44px) clamp(28px, 5vmin, 44px);
+      pointer-events: none;
+    }
+
+    #p06-scroll {
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow-x: hidden;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      padding-right: 4px;
+    }
+    #p06-ui-lock {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: none;
+      pointer-events: auto;
+      background: rgba(0, 0, 0, 0.08);
+      cursor: wait;
+    }
+    #p06-ui-lock.on { display: block; }
+
+    #p06-stage {
+      position: absolute;
+      inset: 0;
+      z-index: 6;
+      display: flex;
+      flex-direction: column;
+      padding: clamp(6px, 1vh, 10px) clamp(8px, 1.6vw, 14px) clamp(52px, 10vh, 88px);
+      gap: clamp(6px, 1vh, 10px);
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    .p06-slide-tabs {
+      flex-shrink: 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+      z-index: 8;
+    }
+    .p06-slide-tabs button {
+      border: none;
+      cursor: pointer;
+      font-weight: 850;
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: clamp(0.72rem, 1.55vw, 0.86rem);
+      border: 2px solid rgba(0, 243, 255, 0.38);
+      background: rgba(12, 18, 36, 0.92);
+      color: #b3e5fc;
+      letter-spacing: 0.04em;
+    }
+    .p06-slide-tabs button[aria-selected="true"] {
+      border-color: rgba(255, 0, 234, 0.55);
+      background: linear-gradient(180deg, #311b92, #1a237e);
+      color: #fff;
+      box-shadow: 0 0 18px rgba(255, 0, 234, 0.35);
+    }
+    .p06-slide-tabs button:disabled {
+      opacity: 0.42;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    .p06-deck {
+      flex: 1 1 auto;
+      min-height: 0;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr;
+      grid-template-rows: minmax(0, 1fr);
+      align-items: stretch;
+      justify-items: stretch;
+    }
+
+    .p06-slide {
+      grid-area: 1 / 1;
+      align-self: stretch;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      gap: clamp(6px, 1vh, 10px);
+      overflow: hidden;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 1;
+      transition: opacity 0.22s ease;
+    }
+    .p06-slide.is-active {
+      opacity: 1;
+      pointer-events: auto;
+      z-index: 2;
+    }
+    .p06-slide .p06-scroll {
+      flex: 1 1 auto;
+      min-height: 0;
+    }
+
+    .p06-slide-drill-inner {
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    #p06-slide-drill .p06-drill {
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow-x: hidden;
+      overflow-y: auto;
+      margin-top: 0;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .p06-hud-title {
+      font-family: var(--p06-hud);
+      font-size: clamp(0.72rem, 1.65vw, 0.95rem);
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-align: center;
+      color: var(--p06-cyan);
+      text-shadow: 0 0 18px rgba(0, 243, 255, 0.65);
+      flex-shrink: 0;
+    }
+
+    .p06-ledger {
+      display: flex;
+      flex-direction: column;
+      gap: clamp(8px, 1.2vw, 12px);
+      margin-bottom: clamp(12px, 2vh, 20px);
+    }
+    .p06-ledger-card {
+      padding: clamp(10px, 1.6vw, 14px);
+      border-radius: 12px;
+      background: rgba(20, 28, 45, 0.85);
+      border: 1px solid rgba(255, 213, 79, 0.35);
+      box-shadow: 0 0 22px rgba(255, 213, 79, 0.15);
+      font-size: clamp(0.82rem, 1.75vw, 1rem);
+      font-weight: 750;
+      color: #fffde7;
+      line-height: 1.45;
+    }
+    .p06-ledger-card .zh {
+      display: block;
+      margin-top: 6px;
+      font-size: 0.88em;
+      font-weight: 600;
+      color: #90a4ae;
+    }
+
+    .p06-step {
+      margin-bottom: clamp(18px, 3vh, 28px);
+      padding-bottom: clamp(12px, 2vh, 20px);
+      border-bottom: 1px dashed rgba(100, 120, 140, 0.35);
+      opacity: 1 !important;
+    }
+    .p06-step:last-child { border-bottom: none; }
+
+    .p06-step-nav {
+      margin-top: clamp(14px, 2.5vw, 22px);
+      padding-top: clamp(12px, 2vw, 18px);
+      border-top: 1px dashed rgba(0, 243, 255, 0.28);
+      display: flex;
+      justify-content: center;
+    }
+    .p06-btn-next-step {
+      border: none;
+      cursor: pointer;
+      font-weight: 900;
+      padding: 12px 28px;
+      border-radius: 999px;
+      font-size: clamp(0.84rem, 1.75vw, 0.98rem);
+      color: #fff;
+      background: linear-gradient(180deg, #006064, #004d40);
+      border: 2px solid rgba(0, 243, 255, 0.5);
+      box-shadow: 0 0 22px rgba(0, 243, 255, 0.35);
+      letter-spacing: 0.06em;
+    }
+    .p06-btn-next-step:disabled {
+      opacity: 0.55;
+      cursor: default;
+    }
+
+    .p06-step--completed .p06-mcq-opt {
+      pointer-events: none;
+      opacity: 0.92;
+    }
+    .p06-step--completed .p06-line-audio {
+      pointer-events: none;
+      opacity: 0.45;
+    }
+
+    .p06-step-head {
+      font-size: clamp(0.68rem, 1.45vw, 0.78rem);
+      font-weight: 900;
+      color: var(--p06-magenta);
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+      font-family: var(--p06-hud);
+    }
+
+    .p06-mcq-block {
+      width: 100%;
+      max-width: min(44rem, 100%);
+      margin: 0 auto;
+    }
+    .p06-stem {
+      padding: clamp(12px, 2vw, 18px);
+      border-radius: 14px;
+      background: rgba(22, 26, 48, 0.78);
+      border: 1px solid rgba(0, 243, 255, 0.35);
+      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+      margin-bottom: clamp(12px, 2vw, 18px);
+    }
+    .p06-stem .p06-en {
+      font-size: clamp(0.95rem, 2.1vw, 1.18rem);
+      font-weight: 800;
+      color: #e3f2fd;
+      line-height: 1.35;
+      margin: 0;
+    }
+    .p06-stem .hl-if { color: var(--p06-cyan); text-shadow: 0 0 12px rgba(0, 243, 255, 0.5); }
+    .p06-stem .hl-will { color: var(--p06-gold); }
+    .p06-stem-bar {
+      display: flex;
+      align-items: flex-start;
+      gap: clamp(8px, 1.5vw, 12px);
+    }
+    .p06-stem-bar .p06-en {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .p06-line-audio {
+      flex-shrink: 0;
+      width: clamp(36px, 8vmin, 42px);
+      height: clamp(36px, 8vmin, 42px);
+      border-radius: 10px;
+      border: 2px solid rgba(0, 243, 255, 0.4);
+      background: rgba(0, 30, 45, 0.9);
+      color: var(--p06-cyan);
+      font-size: clamp(0.75rem, 1.5vw, 0.9rem);
+      cursor: pointer;
+      padding: 0;
+      line-height: 1;
+      transition: box-shadow 0.2s, border-color 0.2s;
+    }
+    .p06-line-audio:hover,
+    .p06-line-audio:focus-visible {
+      outline: none;
+      border-color: rgba(255, 0, 234, 0.45);
+      box-shadow: 0 0 14px rgba(0, 243, 255, 0.25);
+    }
+
+    .p06-mcq-row {
+      display: flex;
+      align-items: stretch;
+      gap: clamp(6px, 1.2vw, 10px);
+    }
+    .p06-mcq-row .p06-mcq-opt {
+      flex: 1;
+      min-width: 0;
+      width: auto;
+    }
+
+    .p06-mcq-list {
+      display: flex;
+      flex-direction: column;
+      gap: clamp(8px, 1.4vw, 12px);
+    }
+    .p06-mcq-opt {
+      display: flex;
+      align-items: flex-start;
+      gap: clamp(10px, 2vw, 14px);
+      width: 100%;
+      text-align: left;
+      padding: clamp(10px, 1.6vw, 14px) clamp(12px, 2vw, 16px);
+      border-radius: 12px;
+      border: 2px solid rgba(100, 120, 160, 0.35);
+      background: rgba(14, 18, 36, 0.92);
+      color: #eceff1;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+      font: inherit;
+    }
+    .p06-mcq-opt:hover:not(:disabled),
+    .p06-mcq-opt:focus-visible:not(:disabled) {
+      border-color: rgba(0, 243, 255, 0.45);
+      outline: none;
+      box-shadow: 0 0 18px rgba(0, 243, 255, 0.15);
+    }
+    .p06-mcq-opt:disabled {
+      opacity: 0.55;
+      cursor: default;
+    }
+    .p06-mcq-badge {
+      flex-shrink: 0;
+      width: clamp(28px, 6vmin, 34px);
+      height: clamp(28px, 6vmin, 34px);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 950;
+      font-size: clamp(0.82rem, 1.65vw, 0.95rem);
+      font-family: var(--p06-hud);
+      background: rgba(0, 243, 255, 0.12);
+      border: 2px solid rgba(0, 243, 255, 0.35);
+      color: var(--p06-cyan);
+    }
+    .p06-mcq-text {
+      flex: 1;
+      min-width: 0;
+      font-size: clamp(0.84rem, 1.85vw, 1.05rem);
+      font-weight: 750;
+      line-height: 1.4;
+    }
+
+    .p06-mcq-opt.trap-shake {
+      animation: p06-glitch 0.38s ease-in-out;
+    }
+    @keyframes p06-glitch {
+      0%, 100% { transform: translateX(0); filter: none; }
+      25% { transform: translateX(-6px); filter: invert(0.15); }
+      50% { transform: translateX(7px); filter: invert(0.05); }
+      75% { transform: translateX(-4px); }
+    }
+
+    .p06-toast {
+      position: fixed;
+      bottom: clamp(72px, 14vh, 120px);
+      left: 50%;
+      transform: translateX(-50%) translateY(120%);
+      z-index: 5000;
+      padding: 10px 18px;
+      border-radius: 999px;
+      background: rgba(30, 35, 55, 0.95);
+      border: 1px solid rgba(255, 234, 0, 0.45);
+      color: #fffde7;
+      font-weight: 750;
+      font-size: clamp(0.76rem, 1.6vw, 0.9rem);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s, transform 0.35s;
+      max-width: min(90vw, 28rem);
+      text-align: center;
+    }
+    .p06-toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* 须高于 #p06-ui-lock(9999)，否则「关闭」按钮被全屏锁层挡住无法点击 */
+    #p06-terminal {
+      position: fixed;
+      inset: 0;
+      z-index: 10050;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      background: rgba(5, 5, 12, 0.82);
+    }
+    #p06-terminal.on { display: flex; }
+    .p06-terminal-card {
+      max-width: min(32rem, 94vw);
+      max-height: min(70vh, 520px);
+      overflow: auto;
+      padding: 18px;
+      border-radius: 14px;
+      border: 2px solid rgba(255, 23, 68, 0.55);
+      background: rgba(40, 12, 20, 0.92);
+      box-shadow: 0 0 40px rgba(255, 23, 68, 0.35);
+    }
+    .p06-terminal-card h3 {
+      margin: 0 0 10px;
+      color: #ff8a80;
+      font-size: 1rem;
+    }
+    .p06-terminal-card pre {
+      margin: 0;
+      white-space: pre-wrap;
+      word-break: break-word;
+      font-family: var(--p06-hud);
+      font-size: clamp(0.78rem, 1.55vw, 0.9rem);
+      line-height: 1.55;
+      color: #ffcdd2;
+    }
+    .p06-terminal-card button {
+      margin-top: 14px;
+      padding: 10px 20px;
+      border-radius: 10px;
+      border: none;
+      font-weight: 800;
+      cursor: pointer;
+      background: linear-gradient(180deg, #37474f, #263238);
+      color: #eceff1;
+    }
+
+    #p06-finale {
+      position: fixed;
+      inset: 0;
+      z-index: 9000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 18px;
+      padding: 20px;
+      background: rgba(3, 5, 18, 0.88);
+    }
+    #p06-finale.on { display: flex; }
+    .p06-badge {
+      text-align: center;
+      padding: clamp(16px, 3vmin, 28px) clamp(22px, 4vmin, 40px);
+      border-radius: 20px;
+      background: linear-gradient(145deg, rgba(255, 215, 79, 0.25), rgba(80, 40, 120, 0.45));
+      border: 3px solid rgba(255, 215, 79, 0.65);
+      box-shadow: 0 0 40px rgba(255, 215, 79, 0.45), inset 0 0 30px rgba(255, 255, 255, 0.08);
+      animation: p06-badge-drop 0.9s ease-out;
+    }
+    @keyframes p06-badge-drop {
+      from { transform: translateY(-120vh) scale(0.6); opacity: 0; }
+      70% { transform: translateY(8px) scale(1.03); }
+      to { transform: translateY(0) scale(1); opacity: 1; }
+    }
+    .p06-badge h2 {
+      margin: 0;
+      font-size: clamp(1.05rem, 2.8vw, 1.45rem);
+      color: #fffde7;
+      text-shadow: 0 0 20px rgba(255, 213, 79, 0.7);
+    }
+    .p06-badge p {
+      margin: 10px 0 0;
+      font-size: clamp(0.78rem, 1.65vw, 0.92rem);
+      color: #cfd8dc;
+      font-weight: 600;
+    }
+    .p06-btn-next {
+      padding: 14px 28px;
+      border-radius: 14px;
+      border: 2px solid rgba(0, 243, 255, 0.55);
+      background: linear-gradient(180deg, #1a237e, #311b92);
+      color: #e1f5fe;
+      font-weight: 900;
+      font-size: clamp(0.88rem, 1.9vw, 1.05rem);
+      cursor: pointer;
+      box-shadow: 0 0 24px rgba(0, 243, 255, 0.35);
+    }
+    .p06-btn-drill {
+      padding: 14px 28px;
+      border-radius: 14px;
+      border: 2px solid rgba(255, 213, 79, 0.65);
+      background: linear-gradient(180deg, #4a3728, #2e1b0e);
+      color: #fff8e1;
+      font-weight: 900;
+      font-size: clamp(0.88rem, 1.9vw, 1.05rem);
+      cursor: pointer;
+      box-shadow: 0 0 22px rgba(255, 213, 79, 0.35);
+    }
+    .p06-finale-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .p06-drill {
+      padding: clamp(12px, 2vw, 18px);
+      border-radius: 16px;
+      background: rgba(12, 16, 32, 0.88);
+      border: 1px solid rgba(0, 243, 255, 0.28);
+      box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.35);
+    }
+    .p06-drill-title {
+      margin: 0 0 clamp(10px, 2vw, 16px);
+      font-size: clamp(0.95rem, 2vw, 1.15rem);
+      font-weight: 900;
+      color: var(--p06-gold);
+      text-align: center;
+      font-family: var(--p06-hud);
+      letter-spacing: 0.06em;
+    }
+    .p06-drill-sub {
+      text-align: center;
+      font-size: clamp(0.72rem, 1.45vw, 0.84rem);
+      color: #90a4ae;
+      margin-bottom: clamp(14px, 2.5vw, 22px);
+      line-height: 1.5;
+    }
+    /* Slide 2：左栏配图自上而下，右栏句子+朗读自上而下；每行一组左右对齐 */
+    .p06-drill-grid {
+      display: flex;
+      flex-direction: column;
+      gap: clamp(14px, 2.2vw, 22px);
+    }
+    .p06-drill-row {
+      display: grid;
+      grid-template-columns: minmax(0, min(42%, 22rem)) minmax(0, 1fr);
+      gap: clamp(12px, 2vw, 22px);
+      align-items: start;
+      border-radius: 14px;
+      padding: clamp(10px, 1.5vw, 14px);
+      background: rgba(18, 22, 40, 0.72);
+      border: 1px solid rgba(0, 243, 255, 0.18);
+    }
+    .p06-drill-img-wrap {
+      position: relative;
+      width: 100%;
+      max-width: 100%;
+      aspect-ratio: 5 / 3;
+      background: linear-gradient(165deg, #0d1528, #050510);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .p06-drill-img-wrap img.p06-drill-scene-img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+    .p06-drill-card-foot {
+      padding: 0;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .p06-drill-reveal {
+      position: relative;
+      min-height: 3.2rem;
+      border-radius: 10px;
+      border: 2px dashed rgba(100, 120, 140, 0.45);
+      background: rgba(6, 10, 22, 0.65);
+      cursor: pointer;
+      padding: 10px 12px;
+      transition: border-color 0.25s, background 0.25s;
+    }
+    .p06-drill-reveal:hover,
+    .p06-drill-reveal:focus-visible {
+      border-color: rgba(0, 243, 255, 0.45);
+      outline: none;
+    }
+    .p06-drill-reveal.is-open {
+      border-style: solid;
+      border-color: rgba(0, 243, 255, 0.35);
+    }
+    .p06-drill-text {
+      margin: 0;
+      font-size: clamp(0.84rem, 1.65vw, 1rem);
+      font-weight: 800;
+      line-height: 1.45;
+      color: #e3f2fd;
+    }
+    .p06-drill-text.is-masked {
+      filter: blur(10px);
+      user-select: none;
+      color: transparent;
+      text-shadow: none;
+    }
+    .p06-drill-text.is-masked .hl-if,
+    .p06-drill-text.is-masked .hl-will {
+      color: transparent;
+    }
+    .p06-drill-hint {
+      display: block;
+      font-size: clamp(0.68rem, 1.35vw, 0.78rem);
+      color: #78909c;
+      font-weight: 650;
+      margin-top: 6px;
+    }
+    .p06-drill-reveal.is-open .p06-drill-hint { display: none; }
+    .p06-drill-speak {
+      align-self: flex-start;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 2px solid rgba(0, 243, 255, 0.45);
+      background: rgba(13, 40, 60, 0.85);
+      color: #b3e5fc;
+      font-weight: 850;
+      font-size: clamp(0.76rem, 1.45vw, 0.88rem);
+      cursor: pointer;
+    }
+    .p06-drill-speak:hover {
+      box-shadow: 0 0 16px rgba(0, 243, 255, 0.25);
+    }
+
+    @media (max-width: 720px) {
+      .p06-drill-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .p06-hint {
+      text-align: center;
+      font-size: clamp(0.68rem, 1.45vw, 0.78rem);
+      color: #78909c;
+      font-weight: 600;
+      margin-top: 4px;
+    }
+
+  </style>
+</head>
+<body class="has-lesson-pager">
+    <div id="l08-p06-host" class="app book shell wrap desk sheet">
+      <div id="p06-bg" aria-hidden="true"></div>
+      <div id="p06-ui-lock" aria-hidden="true"></div>
+
+    <div id="p06-stage">
+      <div class="p06-hud-title">NEURAL CHAIN · PROJECT MILLIONAIRE · CD-ZK ALIGN</div>
+      <div class="p06-slide-tabs" role="tablist" aria-label="Page 06 幻灯切换">
+        <button type="button" role="tab" id="p06-tab-chain" aria-selected="true" aria-controls="p06-slide-chain">Slide 1 · 神经链 · 四选一</button>
+        <button type="button" role="tab" id="p06-tab-drill" aria-selected="false" aria-controls="p06-slide-drill">Slide 2 · VISUAL DRILL · 看图复述</button>
+      </div>
+
+      <div class="p06-deck">
+        <div id="p06-slide-chain" class="p06-slide is-active" role="tabpanel" aria-labelledby="p06-tab-chain" aria-hidden="false">
+
+          <div class="p06-scroll" id="p06-scroll">
+            <div class="p06-ledger" id="p06-ledger" aria-live="polite"></div>
+            <div id="p06-chain-root"></div>
+          </div>
+          <p class="p06-hint">提示：每题 <strong>A–D 四个选项顺序随机</strong>，点选一句接续；可随时用顶部 Tab 切换到 <strong>Slide 2</strong>。</p>
+        </div>
+
+        <div id="p06-slide-drill" class="p06-slide" role="tabpanel" aria-labelledby="p06-tab-drill" aria-hidden="true">
+          <div class="p06-slide-drill-inner">
+            <section id="p06-drill" class="p06-drill" hidden aria-labelledby="p06-drill-title"></section>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="p06-toast" id="p06-toast" role="status"></div>
+
+    <div id="p06-terminal">
+      <div class="p06-terminal-card">
+        <h3>◎ 神经链 · 错题说明</h3>
+        <pre id="p06-terminal-body"></pre>
+        <button type="button" id="p06-terminal-dismiss">关闭并解锁</button>
+      </div>
+    </div>
+
+    <div id="p06-finale">
+      <div class="p06-badge">
+        <h2>Architect of the Neural Chain</h2>
+        <p>神经链架构师 · 链式第一条件句通关</p>
+      </div>
+      <div class="p06-finale-actions">
+        <button type="button" class="p06-btn-drill" id="p06-btn-drill">看图复述 · 情景跟读</button>
+        <button type="button" class="p06-btn-next" id="p06-btn-next">进入语法陷阱轨道 · Page 07</button>
+      </div>
+    </div>
+  </div>
+
+  <nav class="lesson-pager" aria-label="课程页导航">
+    <a class="pager-prev" href="lesson08-page05-reactor.html">← Page 05</a>
+    <span class="pager-mid">L08 · Page 06</span>
+    <a class="pager-next" href="lesson08-page07-traps.html">Page 07 →</a>
+  </nav>
+
+  <script src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/audio/page06/manifest.embed.js"></script>
+  <script>
+    (function () {
+      "use strict";
+
+      var KEYS = window.__LESSON_KEYS__ || {};
+      var AZURE_REGION = KEYS.azureRegion || "eastus2";
+      var AZURE_KEY = KEYS.azureSpeechKey || "";
+
+      /**
+       * 链式语料：每步含四个选项（correct / trapG / trapL + 第四干扰项），界面 Fisher–Yates 打乱后标为 A–D。
+       */
+      var CHAIN_STEPS = [
+        {
+          label: "STEP 01 · 起点",
+          zh: "（教材常见假设）有钱 → 改变生活条件",
+          origin: "If I have one million yuan,",
+          choices: [
+            { key: "c", type: "correct", text: "I will buy a big house." },
+            { key: "g", type: "trapG", text: "I would bought a big house." },
+            { key: "l", type: "trapL", text: "I will be very poor." },
+            { key: "d", type: "trapG", text: "I will buying a big house." },
+          ],
+          nextOrigin: "If I buy a big house,",
+        },
+        {
+          label: "STEP 02 · 递进",
+          zh: "（Unit 10 聚会话题）买房 → 举办活动",
+          origin: "If I buy a big house,",
+          choices: [
+            { key: "c", type: "correct", text: "I will hold a huge party." },
+            { key: "g", type: "trapG", text: "I will holds a huge party." },
+            { key: "l", type: "trapL", text: "I will live in a small tent." },
+            { key: "d", type: "trapG", text: "I would hold a huge party." },
+          ],
+          nextOrigin: "If I hold a huge party,",
+        },
+        {
+          label: "STEP 03 · 扩展",
+          zh: "（口语交际）办派对 → 邀请同伴",
+          origin: "If I hold a huge party,",
+          choices: [
+            { key: "c", type: "correct", text: "I will invite all my friends." },
+            { key: "g", type: "trapG", text: "I invited all my friends." },
+            { key: "l", type: "trapL", text: "I will stay completely alone." },
+            { key: "d", type: "trapG", text: "I will inviting all my friends." },
+          ],
+          nextOrigin: "If I invite all my friends,",
+        },
+        {
+          label: "STEP 04 · 共情",
+          zh: "（中考高频情感收尾）众人相聚 → 心情",
+          origin: "If I invite all my friends,",
+          choices: [
+            { key: "c", type: "correct", text: "we will be very happy!" },
+            { key: "g", type: "trapG", text: "we will are very happy!" },
+            { key: "l", type: "trapL", text: "we will cry sadly!" },
+            { key: "d", type: "trapL", text: "We will happily sad tomorrow!" },
+          ],
+          nextOrigin: "If we are very happy,",
+        },
+        {
+          label: "STEP 05 · 升华（成都卷书面表达常用）",
+          zh: "心情好 → 回馈他人 / 承担责任",
+          origin: "If we are very happy,",
+          choices: [
+            { key: "c", type: "correct", text: "I will share my joy with my family and friends." },
+            { key: "g", type: "trapG", text: "I will shared my joy with others." },
+            { key: "l", type: "trapL", text: "I will stay upset all day." },
+            { key: "d", type: "trapG", text: "I will sharing my joy with others." },
+          ],
+          nextOrigin: null,
+        },
+      ];
+
+      /**
+       * 选错时的固定讲解（按步骤 + 选项 key），不调用在线 API。
+       * key 与 CHAIN_STEPS 中干扰项一致：g / l / d。
+       */
+      var TRAP_EXPLAIN = {
+        0: {
+          g: "语法说明：第一条件句主句用 will + 动词原形。「would bought」把 would 与过去式混写，结构错误。",
+          l: "逻辑说明：前半句是「有一百万元」，后半句却说「会很穷」，前提与结论矛盾。",
+          d: "语法说明：will 后须接动词原形 buy，不能写成 will buying。",
+        },
+        1: {
+          g: "语法说明：主语 I 后面若用一般现在时，动词用原形 hold，不能加 -s（holds）。",
+          l: "逻辑说明：前提已是「买了大房子」，却说「住小帐篷」，情境对不上。",
+          d: "语法说明：这里谈真实情境下的将来结果，主句用 will + 原形 hold；单独用 would… 易与虚拟语气混淆，且本题考查 will + 原形。",
+        },
+        2: {
+          g: "语法说明：第一条件句主句谈将来结果，用 will + invite；「I invited」是过去式，不接在这条 if 主句里。",
+          l: "逻辑说明：前半句要办派对请人，后半句却说「完全独处」，前后相反。",
+          d: "语法说明：will 后须接动词原形 invite，不能写成 will inviting。",
+        },
+        3: {
+          g: "语法说明：谓语只能用一个主动词。「will are」把两个动词叠在一起，应改为 will be。",
+          l: "逻辑说明：朋友都来了却「伤心大哭」，与聚会欢聚的前提不符（除非另有转折）。",
+          d: "逻辑说明：happily 与 sad 语义冲突；心情好与「伤心」不能这样混搭。",
+        },
+        4: {
+          g: "语法说明：will 后接动词原形 share，不能写成 will shared。",
+          l: "逻辑说明：前半句是「我们很开心」，后半句却说「整天闷闷不乐」，自相矛盾。",
+          d: "语法说明：will 后须接动词原形 share，不能写成 will sharing。",
+        },
+      };
+
+      function getTrapExplainText(stepIndex, picked) {
+        var row = TRAP_EXPLAIN[stepIndex];
+        if (row && row[picked.key]) return row[picked.key];
+        if (picked.type === "trapG") {
+          return "语法说明：第一条件句主句一般用 will + 动词原形，请检查时态与动词形式是否一致。";
+        }
+        return "逻辑说明：请检查「如果…」与「就会…」是否在讲同一条因果链，避免前提与结论冲突。";
+      }
+
+      /** Slide 2 情景配图 PNG（与 CHAIN_STEPS 顺序对应；相对本页 https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/） */
+      var P06_DRILL_SCENE_SRC = [
+        "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/l08-p06-scene-million-house.png",
+        "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/l08-p06-scene-party.png",
+        "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/l08-p06-scene-invite-friends.png",
+        "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/l08-p06-scene-happy-group.png",
+        "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/l08-p06-scene-share-joy.png",
+      ];
+
+      /** 预生成朗读 MP3（GCP TTS）清单，与 manifest.files[].en 精确对应时可本地播放 */
+      var P06_AUDIO_MANIFEST_URL = "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/audio/page06/manifest.json";
+      var P06_AUDIO_DIR = "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/audio/page06/";
+      var p06ManifestCache = null;
+      var p06ManifestPromise = null;
+      /** @type {HTMLAudioElement | null} */
+      var p06CurrentAudio = null;
+
+      var uiLock = document.getElementById("p06-ui-lock");
+      var ledger = document.getElementById("p06-ledger");
+      var chainRoot = document.getElementById("p06-chain-root");
+      var toastEl = document.getElementById("p06-toast");
+      var terminal = document.getElementById("p06-terminal");
+      var terminalBody = document.getElementById("p06-terminal-body");
+      var terminalDismiss = document.getElementById("p06-terminal-dismiss");
+      var finale = document.getElementById("p06-finale");
+      var btnNext = document.getElementById("p06-btn-next");
+      var btnDrill = document.getElementById("p06-btn-drill");
+      var scrollEl = document.getElementById("p06-scroll");
+      var slideChain = document.getElementById("p06-slide-chain");
+      var slideDrill = document.getElementById("p06-slide-drill");
+      var tabChain = document.getElementById("p06-tab-chain");
+      var tabDrill = document.getElementById("p06-tab-drill");
+      var drillSection = document.getElementById("p06-drill");
+      var completedLines = [];
+      /** 与 completedLines.length 对齐；用于 Slide 2 增删复述卡时决定是否重建 */
+      var drillBuiltForCount = -1;
+      var locked = false;
+      /** 当前链条步骤索引（与 CHAIN_STEPS 对齐） */
+      var currentStep = 0;
+
+      function setLock(on) {
+        locked = on;
+        if (uiLock) uiLock.classList.toggle("on", on);
+      }
+
+      function showToast(msg) {
+        if (!toastEl) return;
+        toastEl.textContent = msg;
+        toastEl.classList.add("show");
+        setTimeout(function () {
+          toastEl.classList.remove("show");
+        }, 2800);
+      }
+
+      /** Fisher–Yates：四选项顺序随机，界面字母 A–D 对应洗牌后的槽位（正确答案不一定在 A） */
+      function shuffleChoices(arr) {
+        var a = arr.slice();
+        var i, j, t;
+        for (i = a.length - 1; i > 0; i--) {
+          j = Math.floor(Math.random() * (i + 1));
+          t = a[i];
+          a[i] = a[j];
+          a[j] = t;
+        }
+        return a;
+      }
+
+      function highlightEnglish(html) {
+        var s = String(html || "");
+        s = s.replace(/\bIf\b/gi, '<span class="hl-if">If</span>');
+        s = s.replace(/\bwill\b/gi, '<span class="hl-will">will</span>');
+        return s;
+      }
+
+      function appendStep(stepIdx) {
+        var step = CHAIN_STEPS[stepIdx];
+        if (!step) return;
+
+        var wrap = document.createElement("section");
+        wrap.className = "p06-step";
+        wrap.dataset.step = String(stepIdx);
+
+        var head = document.createElement("div");
+        head.className = "p06-step-head";
+        head.textContent = step.label;
+
+        var zh = document.createElement("div");
+        zh.style.cssText = "font-size:0.78em;color:#78909c;margin-bottom:10px;font-weight:650;";
+        zh.textContent = step.zh;
+
+        var mcqBlock = document.createElement("div");
+        mcqBlock.className = "p06-mcq-block";
+
+        var stem = document.createElement("div");
+        stem.className = "p06-stem";
+        var stemBar = document.createElement("div");
+        stemBar.className = "p06-stem-bar";
+        var pe = document.createElement("p");
+        pe.className = "p06-en";
+        pe.innerHTML = highlightEnglish(step.origin);
+        var stemAud = document.createElement("button");
+        stemAud.type = "button";
+        stemAud.className = "p06-line-audio";
+        stemAud.setAttribute("aria-label", "朗读题干");
+        stemAud.textContent = "▶";
+        stemAud.addEventListener("click", function (ev) {
+          ev.preventDefault();
+          ev.stopPropagation();
+          speakDrillSentence(step.origin);
+        });
+        stemBar.appendChild(pe);
+        stemBar.appendChild(stemAud);
+        stem.appendChild(stemBar);
+
+        var list = document.createElement("div");
+        list.className = "p06-mcq-list";
+        list.setAttribute("role", "radiogroup");
+        list.setAttribute("aria-label", "请选择一句接续");
+
+        var letters = ["A", "B", "C", "D"];
+        var ordered = shuffleChoices(step.choices);
+
+        var ci;
+        for (ci = 0; ci < ordered.length; ci++) {
+          (function (ch, letter, si) {
+            var row = document.createElement("div");
+            row.className = "p06-mcq-row";
+
+            var btn = document.createElement("button");
+            btn.type = "button";
+            btn.className = "p06-mcq-opt";
+            btn.dataset.choiceKey = ch.key;
+            btn.dataset.step = String(si);
+            btn.setAttribute(
+              "aria-label",
+              letter + " · " + ch.text.slice(0, 72)
+            );
+
+            var badge = document.createElement("span");
+            badge.className = "p06-mcq-badge";
+            badge.textContent = letter;
+
+            var span = document.createElement("span");
+            span.className = "p06-mcq-text";
+            span.innerHTML = highlightEnglish(ch.text);
+
+            btn.appendChild(badge);
+            btn.appendChild(span);
+
+            btn.addEventListener("click", function (e) {
+              e.preventDefault();
+              if (locked) return;
+              var stepWrap = e.currentTarget.closest(".p06-step");
+              if (stepWrap && stepWrap.classList.contains("p06-step--completed")) {
+                showToast("本题已完成，请先点下方「下一题」");
+                return;
+              }
+              validateChoice(si, ch.key, e.currentTarget);
+            });
+
+            var optAud = document.createElement("button");
+            optAud.type = "button";
+            optAud.className = "p06-line-audio";
+            optAud.setAttribute("aria-label", "朗读选项 " + letter);
+            optAud.textContent = "▶";
+            optAud.addEventListener("click", function (ev) {
+              ev.preventDefault();
+              ev.stopPropagation();
+              speakDrillSentence(ch.text);
+            });
+
+            row.appendChild(btn);
+            row.appendChild(optAud);
+            list.appendChild(row);
+          })(ordered[ci], letters[ci], stepIdx);
+        }
+
+        mcqBlock.appendChild(stem);
+        mcqBlock.appendChild(list);
+
+        wrap.appendChild(head);
+        wrap.appendChild(zh);
+        wrap.appendChild(mcqBlock);
+        chainRoot.appendChild(wrap);
+        wrap.style.opacity = "1";
+
+        try {
+          if (typeof anime === "function") {
+            anime({
+              targets: wrap,
+              translateX: [-26, 0],
+              duration: 620,
+              easing: "easeOutExpo",
+            });
+          }
+        } catch (eAnim) {}
+      }
+
+      function bootstrapChain() {
+        completedLines.length = 0;
+        drillBuiltForCount = -1;
+        currentStep = 0;
+        chainRoot.innerHTML = "";
+        if (ledger) ledger.innerHTML = "";
+        if (drillSection) {
+          drillSection.innerHTML = "";
+          drillSection.hidden = true;
+        }
+        appendStep(0);
+      }
+
+      function showNextStepButton(completedStepIndex) {
+        var wrap = chainRoot.querySelector('.p06-step[data-step="' + completedStepIndex + '"]');
+        if (!wrap || wrap.querySelector(".p06-btn-next-step")) return;
+
+        var nav = document.createElement("div");
+        nav.className = "p06-step-nav";
+
+        var btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "p06-btn-next-step";
+        var isLast = completedStepIndex >= CHAIN_STEPS.length - 1;
+        btn.textContent = isLast ? "完成链条 · 查看结算" : "下一题 · 显示下一句";
+
+        btn.addEventListener("click", function () {
+          if (locked) return;
+          btn.disabled = true;
+          goToNextChainStep();
+        });
+
+        nav.appendChild(btn);
+        wrap.appendChild(nav);
+      }
+
+      function goToNextChainStep() {
+        currentStep++;
+        if (currentStep >= CHAIN_STEPS.length) {
+          runFinale();
+          return;
+        }
+        appendStep(currentStep);
+        if (scrollEl) {
+          scrollEl.scrollTo({ top: scrollEl.scrollHeight, behavior: "smooth" });
+        }
+        showToast("下一题：读题干，从 A–D 中选一句接续。");
+        setLock(false);
+      }
+
+      function validateChoice(stepIndex, choiceKey, rowEl) {
+        var step = CHAIN_STEPS[stepIndex];
+        var picked = null;
+        for (var i = 0; i < step.choices.length; i++) {
+          if (step.choices[i].key === choiceKey) picked = step.choices[i];
+        }
+        if (!picked) return;
+
+        setLock(true);
+
+        if (picked.type !== "correct") {
+          playBuzz();
+          if (rowEl) {
+            rowEl.classList.add("trap-shake");
+            setTimeout(function () {
+              rowEl.classList.remove("trap-shake");
+            }, 400);
+          }
+          auditTrap(stepIndex, picked, function () {
+            setLock(false);
+          });
+          return;
+        }
+
+        playChime();
+        completedLines.push({
+          en: step.origin + " " + picked.text,
+          zh: step.zh,
+        });
+        appendLedger(step.origin + " " + picked.text, step.zh);
+
+        var stepWrapDone = rowEl ? rowEl.closest(".p06-step") : null;
+        if (stepWrapDone) {
+          stepWrapDone.classList.add("p06-step--completed");
+          var opts = stepWrapDone.querySelectorAll(".p06-mcq-opt");
+          var oi;
+          for (oi = 0; oi < opts.length; oi++) {
+            opts[oi].disabled = true;
+          }
+        }
+
+        showNextStepButton(stepIndex);
+        setLock(false);
+        showToast("答对了 · 点「下一题」显示下一句");
+      }
+
+      function appendLedger(en, zh) {
+        var card = document.createElement("div");
+        card.className = "p06-ledger-card";
+        card.innerHTML = highlightEnglish(en) + '<span class="zh">' + zh + "</span>";
+        ledger.appendChild(card);
+      }
+
+      /** 错题弹窗关闭时执行的回调（用于 setLock(false)） */
+      var trapDismissDone = null;
+
+      function closeTrapModal() {
+        if (terminal) terminal.classList.remove("on");
+        if (trapDismissDone) {
+          var fn = trapDismissDone;
+          trapDismissDone = null;
+          fn();
+        }
+      }
+
+      function auditTrap(stepIndex, picked, done) {
+        trapDismissDone = done;
+        if (terminalBody) {
+          terminalBody.textContent = getTrapExplainText(stepIndex, picked);
+        }
+        if (terminal) terminal.classList.add("on");
+      }
+
+      function playBuzz() {
+        try {
+          var Ctx = window.AudioContext || window.webkitAudioContext;
+          if (!Ctx) return;
+          var ac = new Ctx();
+          var o = ac.createOscillator();
+          var g = ac.createGain();
+          o.type = "sawtooth";
+          o.frequency.value = 200;
+          g.gain.value = 0.09;
+          o.connect(g);
+          g.connect(ac.destination);
+          o.start();
+          var t = ac.currentTime;
+          o.frequency.exponentialRampToValueAtTime(90, t + 0.25);
+          g.gain.exponentialRampToValueAtTime(0.001, t + 0.28);
+          setTimeout(function () {
+            try {
+              o.stop();
+              ac.close();
+            } catch (e) {}
+          }, 320);
+        } catch (e2) {}
+      }
+
+      function playChime() {
+        try {
+          var Ctx = window.AudioContext || window.webkitAudioContext;
+          if (!Ctx) return;
+          var ac = new Ctx();
+          var o = ac.createOscillator();
+          var g = ac.createGain();
+          o.type = "sine";
+          o.frequency.setValueAtTime(523.25, ac.currentTime);
+          o.frequency.exponentialRampToValueAtTime(880, ac.currentTime + 0.14);
+          g.gain.value = 0.06;
+          o.connect(g);
+          g.connect(ac.destination);
+          o.start();
+          g.gain.exponentialRampToValueAtTime(0.001, ac.currentTime + 0.22);
+          setTimeout(function () {
+            try {
+              o.stop();
+              ac.close();
+            } catch (e) {}
+          }, 260);
+        } catch (e3) {}
+      }
+
+      function setActiveSlide(which) {
+        var isChain = which === "chain";
+        if (slideChain) {
+          slideChain.classList.toggle("is-active", isChain);
+          slideChain.setAttribute("aria-hidden", isChain ? "false" : "true");
+        }
+        if (slideDrill) {
+          slideDrill.classList.toggle("is-active", !isChain);
+          slideDrill.setAttribute("aria-hidden", isChain ? "true" : "false");
+        }
+        if (tabChain) tabChain.setAttribute("aria-selected", isChain ? "true" : "false");
+        if (tabDrill) tabDrill.setAttribute("aria-selected", isChain ? "false" : "true");
+      }
+
+      function runFinale() {
+        setLock(true);
+        document.body.style.animation = "none";
+        document.body.offsetHeight;
+        document.body.style.animation = "p06-body-shake 0.45s ease-out";
+
+        var nodes = document.querySelectorAll(".p06-ledger-card");
+        anime({
+          targets: nodes,
+          boxShadow: [
+            "0 0 10px rgba(255,215,79,0.2)",
+            "0 0 36px rgba(255,215,79,0.65)",
+            "0 0 10px rgba(255,215,79,0.2)",
+          ],
+          duration: 1400,
+          easing: "easeInOutQuad",
+          delay: anime.stagger(120),
+        });
+
+        setTimeout(function () {
+          finale.classList.add("on");
+          setLock(false);
+        }, 900);
+      }
+
+      var shakeStyle = document.createElement("style");
+      shakeStyle.textContent =
+        "@keyframes p06-body-shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 50%{transform:translateX(5px)} 75%{transform:translateX(-3px)} }";
+      document.head.appendChild(shakeStyle);
+
+      if (terminalDismiss) {
+        terminalDismiss.addEventListener("click", closeTrapModal);
+      }
+
+      if (tabChain) {
+        tabChain.addEventListener("click", function () {
+          setActiveSlide("chain");
+        });
+      }
+      if (tabDrill) {
+        tabDrill.addEventListener("click", function () {
+          buildDrill();
+          setActiveSlide("drill");
+        });
+      }
+
+      btnNext.addEventListener("click", function () {
+        window.location.href = "lesson08-page07-traps.html";
+      });
+
+      bootstrapChain();
+
+      loadP06Manifest();
+
+      showToast("每题四选一 A–D（顺序随机）；选对后点「下一题」。可随时切 Tab 打开 Slide 2。");
+
+      /** Slide 2：优先使用 Slide 1 已选对的句子；未完成的步骤用该步「正确项」生成默认句，保证始终有配图卡 */
+      function getCorrectChoiceEn(step) {
+        var j;
+        for (j = 0; j < step.choices.length; j++) {
+          if (step.choices[j].type === "correct") return step.choices[j].text;
+        }
+        return "";
+      }
+
+      function getDrillItems() {
+        var out = [];
+        var si;
+        for (si = 0; si < CHAIN_STEPS.length; si++) {
+          if (si < completedLines.length) {
+            out.push(completedLines[si]);
+          } else {
+            var st = CHAIN_STEPS[si];
+            out.push({
+              en: st.origin + " " + getCorrectChoiceEn(st),
+              zh: st.zh,
+            });
+          }
+        }
+        return out;
+      }
+
+      function buildDrill() {
+        if (!drillSection) return;
+
+        var drillItems = getDrillItems();
+
+        if (drillBuiltForCount === completedLines.length && drillSection.innerHTML) {
+          drillSection.hidden = false;
+          return;
+        }
+
+        drillBuiltForCount = completedLines.length;
+        drillSection.hidden = false;
+        drillSection.innerHTML = "";
+
+        var h2 = document.createElement("h2");
+        h2.id = "p06-drill-title";
+        h2.className = "p06-drill-title";
+        h2.textContent = "VISUAL DRILL · 看图复述";
+
+        var sub = document.createElement("p");
+        sub.className = "p06-drill-sub";
+        sub.textContent =
+          "左侧为预生成情景配图（PNG）；右侧为对应英文句（点灰条显示）。听示范优先播放 assets/audio/page06 下预生成 MP3，无匹配时再尝试浏览器/云端语音。";
+
+        var grid = document.createElement("div");
+        grid.className = "p06-drill-grid";
+
+        drillSection.appendChild(h2);
+        drillSection.appendChild(sub);
+        drillSection.appendChild(grid);
+
+        var idx;
+        for (idx = 0; idx < drillItems.length; idx++) {
+          (function (i) {
+            var item = drillItems[i];
+            var row = document.createElement("div");
+            row.className = "p06-drill-row";
+
+            var cwrap = document.createElement("div");
+            cwrap.className = "p06-drill-img-wrap";
+            var sceneImg = document.createElement("img");
+            sceneImg.className = "p06-drill-scene-img";
+            sceneImg.src = P06_DRILL_SCENE_SRC[i] || P06_DRILL_SCENE_SRC[0];
+            sceneImg.alt = "VISUAL DRILL 情景 " + (i + 1);
+            sceneImg.loading = "lazy";
+            sceneImg.decoding = "async";
+            cwrap.appendChild(sceneImg);
+
+            var foot = document.createElement("div");
+            foot.className = "p06-drill-card-foot";
+
+            var reveal = document.createElement("button");
+            reveal.type = "button";
+            reveal.className = "p06-drill-reveal";
+            reveal.setAttribute("aria-label", "显示或隐藏英文句子");
+
+            var p = document.createElement("p");
+            p.className = "p06-drill-text is-masked";
+            p.innerHTML = highlightEnglish(item.en);
+
+            var hint = document.createElement("span");
+            hint.className = "p06-drill-hint";
+            hint.textContent = "▸ 点按此处热区显示句子";
+
+            reveal.appendChild(p);
+            reveal.appendChild(hint);
+            reveal.addEventListener("click", function () {
+              var open = reveal.classList.toggle("is-open");
+              p.classList.toggle("is-masked", !open);
+            });
+
+            var speakBtn = document.createElement("button");
+            speakBtn.type = "button";
+            speakBtn.className = "p06-drill-speak";
+            speakBtn.textContent = "听示范 · 跟读";
+            speakBtn.addEventListener("click", function (ev) {
+              ev.stopPropagation();
+              speakDrillSentence(item.en);
+            });
+
+            foot.appendChild(reveal);
+            foot.appendChild(speakBtn);
+            row.appendChild(cwrap);
+            row.appendChild(foot);
+            grid.appendChild(row);
+          })(idx);
+        }
+      }
+
+      function normalizeEnForP06Audio(s) {
+        return String(s || "")
+          .replace(/\s+/g, " ")
+          .trim()
+          .replace(/\u2019/g, "'")
+          .toLowerCase();
+      }
+
+      function loadP06Manifest() {
+        if (p06ManifestCache) return Promise.resolve(p06ManifestCache);
+        if (p06ManifestPromise) return p06ManifestPromise;
+        if (window.__L08_P06_MANIFEST__ && window.__L08_P06_MANIFEST__.files) {
+          p06ManifestCache = window.__L08_P06_MANIFEST__;
+          return Promise.resolve(p06ManifestCache);
+        }
+        p06ManifestPromise = fetch(P06_AUDIO_MANIFEST_URL)
+          .then(function (r) {
+            return r.ok ? r.json() : Promise.reject(new Error("manifest http"));
+          })
+          .then(function (data) {
+            p06ManifestCache = data;
+            return data;
+          })
+          .catch(function () {
+            p06ManifestCache = null;
+            return null;
+          });
+        return p06ManifestPromise;
+      }
+
+      function findP06ManifestEntry(manifest, plain) {
+        if (!manifest || !manifest.files) return null;
+        var want = normalizeEnForP06Audio(plain);
+        var i;
+        for (i = 0; i < manifest.files.length; i++) {
+          var f = manifest.files[i];
+          if (!f || !f.en || !f.file) continue;
+          if (normalizeEnForP06Audio(f.en) === want) return f;
+        }
+        return null;
+      }
+
+      function stopP06DrillPlayback() {
+        try {
+          window.speechSynthesis.cancel();
+        } catch (e0) {}
+        if (p06CurrentAudio) {
+          try {
+            p06CurrentAudio.pause();
+            p06CurrentAudio.removeAttribute("src");
+            p06CurrentAudio.load();
+          } catch (e1) {}
+          p06CurrentAudio = null;
+        }
+      }
+
+      function speakDrillSentenceAzureThenBrowser(text) {
+        var esc = text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        var ssml =
+          '<speak version="1.0" xmlns="http://www.w3.org/2004/10/synthesis" xml:lang="en-US">' +
+          '<voice xml:lang="en-US" name="en-US-AriaNeural">' +
+          esc +
+          "</voice></speak>";
+
+        fetch("https://" + AZURE_REGION + ".tts.speech.microsoft.com/cognitiveservices/v1", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/ssml+xml",
+            "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3",
+            "Ocp-Apim-Subscription-Key": AZURE_KEY,
+          },
+          body: ssml,
+        })
+          .then(function (res) {
+            return res.ok ? res.blob() : Promise.reject();
+          })
+          .then(function (blob) {
+            var url = URL.createObjectURL(blob);
+            var a = new Audio(url);
+            p06CurrentAudio = a;
+            a.play().catch(function () {});
+            a.onended = function () {
+              try {
+                URL.revokeObjectURL(url);
+              } catch (e2) {}
+              p06CurrentAudio = null;
+            };
+          })
+          .catch(function () {
+            speakDrillSentenceBrowserOnly(text);
+          });
+      }
+
+      function speakDrillSentenceBrowserOnly(text) {
+        try {
+          var u = new SpeechSynthesisUtterance(text);
+          u.lang = "en-US";
+          u.rate = 0.9;
+          window.speechSynthesis.cancel();
+          window.speechSynthesis.speak(u);
+        } catch (e3) {}
+      }
+
+      /** Slide 2：优先本地 manifest 对应 MP3，其次 Azure（若配置），最后浏览器语音 */
+      function speakDrillSentence(plain) {
+        var text = String(plain || "").replace(/\s+/g, " ").trim();
+        if (!text) return;
+
+        stopP06DrillPlayback();
+
+        loadP06Manifest().then(function (manifest) {
+          var entry = findP06ManifestEntry(manifest, text);
+          if (entry && entry.file) {
+            var url = P06_AUDIO_DIR + entry.file;
+            var a = new Audio(url);
+            p06CurrentAudio = a;
+            a.addEventListener(
+              "ended",
+              function () {
+                p06CurrentAudio = null;
+              },
+              { once: true }
+            );
+            a.addEventListener(
+              "error",
+              function () {
+                p06CurrentAudio = null;
+                if (AZURE_KEY) speakDrillSentenceAzureThenBrowser(text);
+                else speakDrillSentenceBrowserOnly(text);
+              },
+              { once: true }
+            );
+            a.play().catch(function () {
+              p06CurrentAudio = null;
+              if (AZURE_KEY) speakDrillSentenceAzureThenBrowser(text);
+              else speakDrillSentenceBrowserOnly(text);
+            });
+            return;
+          }
+          if (AZURE_KEY) speakDrillSentenceAzureThenBrowser(text);
+          else speakDrillSentenceBrowserOnly(text);
+        });
+      }
+
+      if (btnDrill) {
+        btnDrill.addEventListener("click", function () {
+          buildDrill();
+          if (finale) finale.classList.remove("on");
+          setLock(false);
+          setActiveSlide("drill");
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

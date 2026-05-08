@@ -1,0 +1,1270 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>第08讲 · Page 07 · 语法陷阱轨道 · 磁轨逗号法则</title>
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
+  <link rel="stylesheet" href="../assets/lesson-screen-16x9.css" />
+  <style>
+    :root {
+      --p07-cyan: #00f3ff;
+      --p07-magenta: #ff00ea;
+      --p07-orange: #ff9100;
+      --p07-main: #b388ff;
+      --p07-void: #050510;
+      --p07-danger: #ff1744;
+      --p07-ok: #00e676;
+      --p07-hud: "IBM Plex Mono", "SF Mono", Consolas, "Roboto Mono", monospace;
+    }
+    * { box-sizing: border-box; }
+    html { overflow-x: clip; max-width: 100%; }
+    html, body {
+      margin: 0;
+      width: 100%;
+      min-height: 100%;
+      font-family: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+      background: var(--p07-void);
+      color: #e0f7fa;
+      touch-action: manipulation;
+    }
+    body.has-lesson-pager {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch !important;
+      zoom: 0.9;
+    }
+
+    #l08-p07-host.app {
+      position: relative;
+      isolation: isolate;
+      flex: 1 1 auto;
+      width: 100%;
+      min-height: calc(100dvh - 3.5rem);
+      overflow: hidden;
+      border: 4px solid rgba(255, 145, 0, 0.45);
+      border-radius: 22px;
+      box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.5), 0 12px 32px rgba(0, 0, 0, 0.45);
+    }
+
+    #p07-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse 80% 55% at 50% 18%, rgba(255, 145, 0, 0.09), transparent 55%),
+        linear-gradient(180deg, #0a0a1c 0%, var(--p07-void) 100%);
+    }
+    #p07-bg::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      opacity: 0.07;
+      background-image:
+        linear-gradient(rgba(0, 243, 255, 0.35) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 145, 0, 0.18) 1px, transparent 1px);
+      background-size: clamp(26px, 4.5vmin, 40px) clamp(26px, 4.5vmin, 40px);
+      pointer-events: none;
+    }
+
+    #p07-fx-canvas {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 60;
+      pointer-events: none;
+    }
+
+    #p07-ui-lock {
+      position: fixed;
+      inset: 0;
+      z-index: 9998;
+      display: none;
+      pointer-events: auto;
+      background: rgba(0, 0, 0, 0.06);
+      cursor: wait;
+    }
+    #p07-ui-lock.on { display: block; }
+
+    #p07-stage {
+      position: absolute;
+      inset: 0;
+      z-index: 6;
+      display: flex;
+      flex-direction: column;
+      padding: clamp(6px, 1vh, 10px) clamp(8px, 1.6vw, 14px) clamp(48px, 9vh, 84px);
+      gap: clamp(6px, 1vh, 10px);
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    .p07-hud-title {
+      font-family: var(--p07-hud);
+      font-size: clamp(0.72rem, 1.65vw, 0.95rem);
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-align: center;
+      color: var(--p07-orange);
+      text-shadow: 0 0 16px rgba(255, 145, 0, 0.55);
+      flex-shrink: 0;
+    }
+
+    .p07-lead {
+      flex-shrink: 0;
+      margin: 0 auto;
+      max-width: min(52rem, 96vw);
+      padding: clamp(8px, 1.2vw, 12px) clamp(10px, 2vw, 14px);
+      border-radius: 12px;
+      background: rgba(18, 22, 42, 0.72);
+      border: 1px solid rgba(0, 243, 255, 0.28);
+      font-size: clamp(0.76rem, 1.55vw, 0.88rem);
+      line-height: 1.55;
+      color: rgba(224, 247, 250, 0.92);
+    }
+    .p07-lead strong { color: var(--p07-cyan); }
+
+    .p07-mission {
+      flex-shrink: 0;
+      text-align: center;
+      font-size: clamp(0.82rem, 1.75vw, 0.95rem);
+      font-weight: 800;
+      color: #fff9c4;
+      text-shadow: 0 0 10px rgba(255, 235, 59, 0.35);
+    }
+
+    .p07-scroll {
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow: auto;
+      -webkit-overflow-scrolling: touch;
+      padding-right: 4px;
+    }
+
+    .p07-rail-card {
+      margin: 0 auto;
+      max-width: min(52rem, 100%);
+      padding: clamp(10px, 2vw, 16px);
+      border-radius: 16px;
+      background: rgba(14, 18, 36, 0.82);
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(0, 243, 255, 0.28);
+      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.4);
+    }
+
+    .p07-rail-label {
+      font-family: var(--p07-hud);
+      font-size: clamp(0.62rem, 1.2vw, 0.72rem);
+      letter-spacing: 0.16em;
+      color: #78909c;
+      margin-bottom: 8px;
+      text-align: center;
+    }
+
+    .p07-rail {
+      display: flex;
+      align-items: stretch;
+      justify-content: center;
+      gap: clamp(4px, 1.2vw, 10px);
+      flex-wrap: nowrap;
+    }
+
+    .p07-slot {
+      flex: 1 1 30%;
+      min-width: 0;
+      min-height: clamp(76px, 14vh, 110px);
+      border-radius: 12px;
+      border: 2px dashed rgba(0, 243, 255, 0.28);
+      background: rgba(6, 10, 24, 0.65);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px;
+      position: relative;
+      transition: border-color 0.25s, box-shadow 0.25s;
+    }
+    .p07-slot.is-hover {
+      border-color: rgba(255, 145, 0, 0.65);
+      box-shadow: inset 0 0 24px rgba(255, 145, 0, 0.12);
+    }
+    .p07-slot[data-pos="mid"] {
+      flex: 0 0 clamp(52px, 14vw, 84px);
+      max-width: clamp(52px, 14vw, 84px);
+    }
+
+    .p07-slot-tag {
+      position: absolute;
+      top: 4px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: clamp(0.58rem, 1.1vw, 0.68rem);
+      color: #546e7a;
+      font-weight: 700;
+      pointer-events: none;
+    }
+
+    .p07-block {
+      max-width: 100%;
+      padding: clamp(8px, 1.6vw, 12px) clamp(10px, 2vw, 14px);
+      border-radius: 10px;
+      font-weight: 800;
+      font-size: clamp(0.82rem, 1.65vw, 1.02rem);
+      line-height: 1.35;
+      cursor: grab;
+      touch-action: none;
+      user-select: none;
+      text-align: center;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+    .p07-block:active { cursor: grabbing; }
+    .p07-block.is-dragging {
+      position: fixed;
+      z-index: 1200;
+      margin: 0;
+      pointer-events: none;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.55);
+    }
+    .p07-block--if {
+      border: 2px solid var(--p07-cyan);
+      background: linear-gradient(165deg, rgba(0, 243, 255, 0.18), rgba(10, 20, 40, 0.92));
+      color: #e0f7fa;
+      text-shadow: 0 0 12px rgba(0, 243, 255, 0.35);
+    }
+    .p07-block--if .hl-if { color: var(--p07-cyan); }
+    .p07-block--main {
+      border: 2px solid rgba(179, 136, 255, 0.95);
+      background: linear-gradient(165deg, rgba(179, 136, 255, 0.16), rgba(18, 12, 36, 0.92));
+      color: #f3e5f5;
+      text-shadow: 0 0 10px rgba(179, 136, 255, 0.35);
+    }
+    .p07-block--main .hl-will { color: #ffd54f; }
+    .p07-block--comma {
+      width: clamp(44px, 11vmin, 56px);
+      height: clamp(44px, 11vmin, 56px);
+      padding: 0;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 3px solid var(--p07-orange);
+      background: radial-gradient(circle at 30% 25%, #fff6, rgba(255, 145, 0, 0.35));
+      color: #fff3e0;
+      font-size: clamp(1.1rem, 3.5vw, 1.45rem);
+      font-weight: 900;
+      box-shadow: 0 0 22px rgba(255, 145, 0, 0.55);
+    }
+    .p07-block--comma.is-fatal {
+      border-color: var(--p07-danger);
+      animation: p07-pulse-red 0.45s ease-in-out infinite;
+    }
+    @keyframes p07-pulse-red {
+      50% { filter: brightness(1.35); box-shadow: 0 0 40px rgba(255, 23, 68, 0.85); }
+    }
+
+    .p07-bin-wrap {
+      margin-top: clamp(12px, 2vh, 18px);
+      padding: clamp(10px, 2vw, 14px);
+      border-radius: 14px;
+      border: 2px dashed rgba(255, 145, 0, 0.35);
+      background: rgba(30, 22, 12, 0.55);
+    }
+    .p07-bin-label {
+      font-size: clamp(0.68rem, 1.35vw, 0.78rem);
+      color: #ffcc80;
+      font-weight: 750;
+      margin-bottom: 8px;
+      text-align: center;
+    }
+    .p07-bin {
+      min-height: clamp(64px, 12vh, 92px);
+      border-radius: 12px;
+      background: rgba(8, 10, 20, 0.75);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .p07-bin.is-hover {
+      box-shadow: inset 0 0 28px rgba(255, 145, 0, 0.15);
+    }
+
+    .p07-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      margin-top: clamp(12px, 2vh, 18px);
+    }
+    .p07-btn-validate {
+      border: none;
+      cursor: pointer;
+      font-weight: 900;
+      padding: 12px 22px;
+      border-radius: 999px;
+      font-size: clamp(0.82rem, 1.75vw, 0.95rem);
+      color: #fff;
+      background: linear-gradient(180deg, #1b5e20, #0d4714);
+      border: 2px solid rgba(0, 230, 118, 0.55);
+      box-shadow: 0 0 22px rgba(0, 230, 118, 0.35);
+      text-shadow: 0 0 8px rgba(0, 0, 0, 0.45);
+    }
+    .p07-btn-validate:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+    .p07-btn-swap-hint {
+      border: 2px solid rgba(0, 243, 255, 0.4);
+      background: rgba(20, 30, 60, 0.85);
+      color: #b3e5fc;
+      font-weight: 750;
+      padding: 10px 16px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: clamp(0.75rem, 1.5vw, 0.86rem);
+    }
+
+    .p07-toast {
+      position: fixed;
+      bottom: clamp(72px, 14vh, 120px);
+      left: 50%;
+      transform: translateX(-50%) translateY(120%);
+      z-index: 5000;
+      padding: 10px 18px;
+      border-radius: 999px;
+      background: rgba(30, 35, 55, 0.96);
+      border: 1px solid rgba(255, 234, 0, 0.45);
+      color: #fffde7;
+      font-weight: 750;
+      font-size: clamp(0.76rem, 1.55vw, 0.88rem);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s, transform 0.35s;
+      max-width: min(92vw, 30rem);
+      text-align: center;
+    }
+    .p07-toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    #p07-terminal {
+      position: fixed;
+      inset: 0;
+      z-index: 8000;
+      display: none;
+      place-items: center;
+      background: rgba(0, 0, 0, 0.72);
+      padding: 16px;
+    }
+    #p07-terminal.on { display: grid; }
+    .p07-terminal-card {
+      max-width: min(92vw, 26rem);
+      padding: 18px;
+      border-radius: 14px;
+      background: rgba(28, 12, 18, 0.96);
+      border: 2px solid rgba(255, 82, 82, 0.65);
+      box-shadow: 0 0 40px rgba(255, 23, 68, 0.35);
+    }
+    .p07-terminal-card h3 {
+      margin: 0 0 10px;
+      font-size: 1rem;
+      color: #ffcdd2;
+    }
+    #p07-terminal-body {
+      margin: 0;
+      white-space: pre-wrap;
+      font-size: 0.92rem;
+      line-height: 1.55;
+      color: #ffecb3;
+      max-height: min(44vh, 320px);
+      overflow: auto;
+    }
+    #p07-terminal-dismiss {
+      margin-top: 12px;
+      width: 100%;
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      background: rgba(80, 20, 30, 0.9);
+      color: #fff;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    #p07-laser {
+      position: fixed;
+      z-index: 55;
+      pointer-events: none;
+      height: 4px;
+      border-radius: 3px;
+      background: linear-gradient(90deg, transparent, #ff1744, #fff59d, #ff1744, transparent);
+      opacity: 0;
+      transform-origin: left center;
+      box-shadow: 0 0 16px #ff5252;
+    }
+    #p07-laser.flash {
+      animation: p07-laser-flash 0.55s ease-out forwards;
+    }
+    @keyframes p07-laser-flash {
+      0% { opacity: 0; filter: blur(4px); }
+      30% { opacity: 1; filter: blur(0); }
+      100% { opacity: 0; filter: blur(2px); }
+    }
+
+    #p07-finale {
+      position: fixed;
+      inset: 0;
+      z-index: 9000;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      background: rgba(5, 5, 16, 0.88);
+      padding: 20px;
+    }
+    #p07-finale.on { display: flex; }
+    .p07-badge {
+      text-align: center;
+      padding: 22px 28px;
+      border-radius: 18px;
+      border: 2px solid rgba(255, 215, 0, 0.55);
+      background: rgba(20, 16, 8, 0.9);
+      box-shadow: 0 0 36px rgba(255, 215, 0, 0.35);
+    }
+    .p07-badge h2 {
+      margin: 0;
+      font-size: clamp(1.1rem, 3vw, 1.45rem);
+      color: #ffe082;
+      text-shadow: 0 0 18px rgba(255, 215, 0, 0.45);
+    }
+    .p07-badge p {
+      margin: 8px 0 0;
+      color: #eceff1;
+      font-size: 0.95rem;
+    }
+    .p07-btn-next {
+      padding: 14px 28px;
+      border-radius: 14px;
+      border: 2px solid rgba(0, 243, 255, 0.55);
+      background: linear-gradient(180deg, #1a237e, #311b92);
+      color: #e1f5fe;
+      font-weight: 900;
+      font-size: clamp(0.88rem, 1.85vw, 1.05rem);
+      cursor: pointer;
+      box-shadow: 0 0 24px rgba(0, 243, 255, 0.35);
+    }
+
+    .p07-scenario-tag {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: clamp(0.62rem, 1.2vw, 0.72rem);
+      font-weight: 750;
+      color: #b2ebf2;
+      border: 1px solid rgba(0, 243, 255, 0.35);
+      background: rgba(0, 40, 60, 0.45);
+    }
+
+    @media (max-width: 560px) {
+      .p07-rail { flex-wrap: wrap; }
+      .p07-slot[data-pos="mid"] {
+        flex: 1 1 100%;
+        max-width: 100%;
+        min-height: 72px;
+      }
+    }
+  </style>
+</head>
+<body class="has-lesson-pager">
+  <div id="l08-p07-host" class="app book shell wrap desk sheet">
+    <div id="p07-bg" aria-hidden="true"></div>
+    <canvas id="p07-fx-canvas" aria-hidden="true"></canvas>
+    <div id="p07-laser" aria-hidden="true"></div>
+    <div id="p07-ui-lock" aria-hidden="true"></div>
+
+    <div id="p07-stage">
+      <div class="p07-hud-title">SYNTAX MAGLEV · COMMA LAW · CD-ZK ALIGN</div>
+      <div class="p07-lead">
+        <strong>课标锚点</strong>：第一条件句（真实条件 + will）与标点——<strong>If 从句在前须加逗号</strong>；主句在前、<strong>If 从句在后则不能再夹逗号</strong>（<strong>If</strong> 本身起连接作用）。
+        <strong>教材衔接</strong>：人教版七年级「假设与结果」、八年级 Unit 10「计划与天气」、九年级「环保 / 公益 / 志愿服务」书面表达常见句式。
+        <strong>成都中考</strong>：叙述逻辑清晰、标点规范常作为书面表达隐性得分点；本页用<strong>磁轨 cargo</strong>把逗号当成「物理接头」，强化肌肉记忆。
+      </div>
+
+      <div class="p07-scroll" id="p07-scroll">
+        <p class="p07-mission" id="p07-mission"></p>
+
+        <div class="p07-rail-card">
+          <div class="p07-rail-label">MAGNETIC SYNTAX RAIL · 三格：条件块｜逗号接头｜结果块</div>
+          <div class="p07-rail" id="p07-rail">
+            <div class="p07-slot" data-pos="left" data-accept="clause">
+              <span class="p07-slot-tag">SLOT 1</span>
+            </div>
+            <div class="p07-slot" data-pos="mid" data-accept="comma">
+              <span class="p07-slot-tag">,</span>
+            </div>
+            <div class="p07-slot" data-pos="right" data-accept="clause">
+              <span class="p07-slot-tag">SLOT 3</span>
+            </div>
+          </div>
+
+          <div class="p07-bin-wrap">
+            <div class="p07-bin-label">逗号储物仓 · 仅拖逗号进出（倒装阶段必须清空中层）</div>
+            <div class="p07-bin" id="p07-bin" data-accept="comma"></div>
+          </div>
+
+          <div class="p07-actions">
+            <button type="button" class="p07-btn-validate" id="p07-btn-validate">✓ VALIDATE SEQUENCE · 校验序列</button>
+            <button type="button" class="p07-btn-swap-hint" id="p07-btn-demo-swap">演示：主句与 If 对调（无障碍）</button>
+          </div>
+        </div>
+
+        <p class="p07-scenario-tag" id="p07-scenario-meta"></p>
+      </div>
+    </div>
+
+    <div class="p07-toast" id="p07-toast" role="status"></div>
+
+    <div id="p07-terminal">
+      <div class="p07-terminal-card">
+        <h3>◎ 语法审计终端 · DeepSeek（可选）</h3>
+        <pre id="p07-terminal-body"></pre>
+        <button type="button" id="p07-terminal-dismiss">关闭并继续</button>
+      </div>
+    </div>
+
+    <div id="p07-finale">
+      <div class="p07-badge">
+        <h2>Grandmaster of Syntax Alignment</h2>
+        <p>语法磁轨大师 · 逗号法则与语序双通关</p>
+      </div>
+      <button type="button" class="p07-btn-next" id="p07-btn-next">进入 2050 Masterplan · Page 08</button>
+    </div>
+  </div>
+
+  <nav class="lesson-pager" aria-label="课程页导航">
+    <a class="pager-prev" href="lesson08-page06-chain.html">← Page 06</a>
+    <span class="pager-mid">L08 · Page 07</span>
+    <a class="pager-next" href="lesson08-page08-masterplan.html">Page 08 →</a>
+  </nav>
+
+  <script>
+    (function () {
+      "use strict";
+
+      var KEYS = window.__LESSON_KEYS__ || {};
+      var AZURE_REGION = KEYS.azureRegion || "eastus2";
+      var AZURE_KEY = KEYS.azureSpeechKey || "";
+      var DEEPSEEK_KEY = KEYS.deepSeekKey || "";
+
+      /**
+       * 语料：教材高频 + 成都卷书面表达常见话题增量。
+       * phase 流程：forward（If 在前须逗号）→ inverted（主句在前，中层清空）
+       */
+      var SCENARIOS = [
+        {
+          id: "s1",
+          tagZh: "七年级 · 勤奋与结果（教材最常见链条之一）",
+          ifHtml: '<span class="hl-if">If</span> you study hard',
+          mainHtml: '<span class="hl-will">you will pass the exam</span>',
+          speakForward: "If you study hard, you will pass the exam.",
+          speakInverted: "You will pass the exam if you study hard.",
+        },
+        {
+          id: "s2",
+          tagZh: "八年级 · Unit 10 · 天气与周末计划",
+          ifHtml: '<span class="hl-if">If</span> it rains tomorrow',
+          mainHtml: '<span class="hl-will">we will stay at home</span>',
+          speakForward: "If it rains tomorrow, we will stay at home.",
+          speakInverted: "We will stay at home if it rains tomorrow.",
+        },
+        {
+          id: "s3",
+          tagZh: "九年级 · 环保 / 公益 · 书面表达升华句",
+          ifHtml: '<span class="hl-if">If</span> we protect wild animals',
+          mainHtml: '<span class="hl-will">we will live on a greener Earth</span>',
+          speakForward: "If we protect wild animals, we will live on a greener Earth.",
+          speakInverted: "We will live on a greener Earth if we protect wild animals.",
+        },
+      ];
+
+      var host = document.getElementById("l08-p07-host");
+      var canvasFx = document.getElementById("p07-fx-canvas");
+      var ctxFx = canvasFx ? canvasFx.getContext("2d") : null;
+      var uiLock = document.getElementById("p07-ui-lock");
+      var missionEl = document.getElementById("p07-mission");
+      var metaEl = document.getElementById("p07-scenario-meta");
+      var railEl = document.getElementById("p07-rail");
+      var binEl = document.getElementById("p07-bin");
+      var btnVal = document.getElementById("p07-btn-validate");
+      var btnDemo = document.getElementById("p07-btn-demo-swap");
+      var toastEl = document.getElementById("p07-toast");
+      var terminal = document.getElementById("p07-terminal");
+      var terminalBody = document.getElementById("p07-terminal-body");
+      var terminalDismiss = document.getElementById("p07-terminal-dismiss");
+      var finale = document.getElementById("p07-finale");
+      var btnNext = document.getElementById("p07-btn-next");
+      var scrollEl = document.getElementById("p07-scroll");
+      var laserEl = document.getElementById("p07-laser");
+
+      var scenarioIndex = 0;
+      /** @type {'forward'|'inverted'} */
+      var phase = "forward";
+      var locked = false;
+
+      var drag = null;
+
+      function setLock(on) {
+        locked = on;
+        if (uiLock) uiLock.classList.toggle("on", on);
+        if (btnVal) btnVal.disabled = on;
+      }
+
+      function showToast(msg) {
+        if (!toastEl) return;
+        toastEl.textContent = msg;
+        toastEl.classList.add("show");
+        setTimeout(function () {
+          toastEl.classList.remove("show");
+        }, 2600);
+      }
+
+      function resizeFxCanvas() {
+        if (!canvasFx || !ctxFx) return;
+        var dpr = window.devicePixelRatio || 1;
+        var r = canvasFx.getBoundingClientRect();
+        var w = Math.max(1, Math.round(r.width));
+        var h = Math.max(1, Math.round(r.height));
+        canvasFx.width = Math.floor(w * dpr);
+        canvasFx.height = Math.floor(h * dpr);
+        canvasFx.style.width = w + "px";
+        canvasFx.style.height = h + "px";
+        ctxFx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+
+      function explodeComma(clientX, clientY) {
+        if (!ctxFx) return;
+        resizeFxCanvas();
+        var cRect = canvasFx.getBoundingClientRect();
+        var x0 = clientX - cRect.left;
+        var y0 = clientY - cRect.top;
+        var parts = [];
+        var i;
+        for (i = 0; i < 26; i++) {
+          parts.push({
+            x: x0,
+            y: y0,
+            vx: (Math.random() - 0.5) * 10,
+            vy: (Math.random() - 0.7) * 12,
+            a: 1,
+            s: 2 + Math.random() * 3,
+          });
+        }
+        var g = 0.42;
+        var f = 0.96;
+        var frames = 0;
+        function tick() {
+          frames++;
+          ctxFx.clearRect(0, 0, canvasFx.clientWidth, canvasFx.clientHeight);
+          var j;
+          for (j = 0; j < parts.length; j++) {
+            var p = parts[j];
+            p.vy += g;
+            p.x += p.vx;
+            p.y += p.vy;
+            p.vx *= f;
+            p.vy *= f;
+            p.a *= 0.96;
+            ctxFx.globalAlpha = Math.max(0, p.a);
+            ctxFx.fillStyle = j % 2 ? "#ff5252" : "#ffecb3";
+            ctxFx.beginPath();
+            ctxFx.arc(p.x, p.y, p.s, 0, Math.PI * 2);
+            ctxFx.fill();
+          }
+          ctxFx.globalAlpha = 1;
+          if (frames < 72 && parts[0].a > 0.02) {
+            requestAnimationFrame(tick);
+          } else {
+            ctxFx.clearRect(0, 0, canvasFx.clientWidth, canvasFx.clientHeight);
+          }
+        }
+        requestAnimationFrame(tick);
+      }
+
+      function playClang() {
+        try {
+          var AC = window.AudioContext || window.webkitAudioContext;
+          if (!AC) return;
+          var ac = new AC();
+          var t0 = ac.currentTime;
+          var master = ac.createGain();
+          master.gain.setValueAtTime(0.001, t0);
+          master.gain.exponentialRampToValueAtTime(0.22, t0 + 0.02);
+          master.gain.exponentialRampToValueAtTime(0.001, t0 + 0.38);
+          master.connect(ac.destination);
+          var freqs = [200, 345, 510];
+          var k;
+          for (k = 0; k < freqs.length; k++) {
+            var o = ac.createOscillator();
+            o.type = k === 0 ? "sine" : "square";
+            o.frequency.setValueAtTime(freqs[k], t0);
+            o.connect(master);
+            o.start(t0);
+            o.stop(t0 + 0.4);
+          }
+          setTimeout(function () {
+            try {
+              ac.close();
+            } catch (e) {}
+          }, 500);
+        } catch (e2) {}
+      }
+
+      function playShatter() {
+        try {
+          var AC = window.AudioContext || window.webkitAudioContext;
+          if (!AC) return;
+          var ac = new AC();
+          var dur = 0.22;
+          var len = ac.sampleRate * dur;
+          var buf = ac.createBuffer(1, len, ac.sampleRate);
+          var data = buf.getChannelData(0);
+          var i;
+          for (i = 0; i < len; i++) {
+            data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 2);
+          }
+          var src = ac.createBufferSource();
+          src.buffer = buf;
+          var hp = ac.createBiquadFilter();
+          hp.type = "highpass";
+          hp.frequency.value = 1800;
+          var g = ac.createGain();
+          g.gain.setValueAtTime(0.12, ac.currentTime);
+          g.gain.exponentialRampToValueAtTime(0.001, ac.currentTime + dur);
+          src.connect(hp);
+          hp.connect(g);
+          g.connect(ac.destination);
+          src.start();
+          setTimeout(function () {
+            try {
+              ac.close();
+            } catch (e) {}
+          }, 400);
+        } catch (e3) {}
+      }
+
+      function speakEn(text) {
+        if (AZURE_KEY) {
+          fetch("https://" + AZURE_REGION + ".tts.speech.microsoft.com/cognitiveservices/v1", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/ssml+xml",
+              "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3",
+              "Ocp-Apim-Subscription-Key": AZURE_KEY,
+            },
+            body:
+              '<speak version="1.0" xml:lang="en-US"><voice xml:lang="en-US" name="en-US-ChristopherNeural">' +
+              text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") +
+              "</voice></speak>",
+          })
+            .then(function (r) {
+              return r.ok ? r.blob() : Promise.reject();
+            })
+            .then(function (blob) {
+              var url = URL.createObjectURL(blob);
+              var a = new Audio(url);
+              a.play().catch(function () {});
+              a.onended = function () {
+                try {
+                  URL.revokeObjectURL(url);
+                } catch (e) {}
+              };
+            })
+            .catch(function () {
+              fallbackSpeech(text);
+            });
+        } else {
+          fallbackSpeech(text);
+        }
+      }
+
+      function fallbackSpeech(text) {
+        try {
+          var u = new SpeechSynthesisUtterance(text);
+          u.lang = "en-US";
+          u.rate = 0.92;
+          window.speechSynthesis.cancel();
+          window.speechSynthesis.speak(u);
+        } catch (e) {}
+      }
+
+      function showTerminal(text) {
+        terminalBody.textContent = text;
+        terminal.classList.add("on");
+      }
+
+      function fetchAudit(kind) {
+        var canned =
+          kind === "noComma"
+            ? "【离线审计】If 从句打头时，条件与主句之间必须用逗号「刹车」，否则读者一口气读下去会「脱轨」。把橙色逗号接头拖进中层格再校验。"
+            : "【离线审计】主句在前、If 从句收尾时，连接词就是 If 本身，中层不能再插逗号——那是违规并联，会引发语法爆炸。把逗号扔回储物仓。";
+
+        if (!DEEPSEEK_KEY) {
+          showTerminal(canned);
+          return;
+        }
+
+        setLock(true);
+        var prompt =
+          kind === "noComma"
+            ? "用中文不超过70字、略带铁路调度口吻：学生把 If 从句放在句首却忘了逗号。说明必须从句后加逗号再接主句。"
+            : "用中文不超过70字、略带讽刺工业口吻：学生主句在前、If 在后却仍保留逗号。说明 If 已是连接词，不能再夹逗号。";
+
+        fetch("https://api.deepseek.com/v1/chat/completions", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + DEEPSEEK_KEY,
+          },
+          body: JSON.stringify({
+            model: "deepseek-chat",
+            messages: [
+              { role: "system", content: "你是严格的初中英语语法审计员。" },
+              { role: "user", content: prompt },
+            ],
+            max_tokens: 180,
+            temperature: 0.5,
+          }),
+        })
+          .then(function (r) {
+            return r.ok ? r.json() : Promise.reject();
+          })
+          .then(function (data) {
+            var txt =
+              data &&
+              data.choices &&
+              data.choices[0] &&
+              data.choices[0].message &&
+              data.choices[0].message.content;
+            showTerminal(txt || canned);
+          })
+          .catch(function () {
+            showTerminal(canned);
+          });
+      }
+
+      function slotEl(pos) {
+        return railEl.querySelector('.p07-slot[data-pos="' + pos + '"]');
+      }
+
+      function blockIn(pos) {
+        var s = slotEl(pos);
+        return s ? s.querySelector(".p07-block") : null;
+      }
+
+      function blockKind(el) {
+        if (!el) return null;
+        if (el.classList.contains("p07-block--if")) return "if";
+        if (el.classList.contains("p07-block--main")) return "main";
+        if (el.classList.contains("p07-block--comma")) return "comma";
+        return null;
+      }
+
+      function commaEl() {
+        return document.querySelector(".p07-block--comma");
+      }
+
+      function createBlocks(sc) {
+        var leftSlot = slotEl("left");
+        var rightSlot = slotEl("right");
+        var existing = document.querySelectorAll(".p07-block");
+        var i;
+        for (i = 0; i < existing.length; i++) {
+          existing[i].remove();
+        }
+        var bIf = document.createElement("div");
+        bIf.className = "p07-block p07-block--if";
+        bIf.dataset.kind = "if";
+        bIf.innerHTML = sc.ifHtml;
+        bindDrag(bIf);
+
+        var bMain = document.createElement("div");
+        bMain.className = "p07-block p07-block--main";
+        bMain.dataset.kind = "main";
+        bMain.innerHTML = sc.mainHtml;
+        bindDrag(bMain);
+
+        var bComm = document.createElement("div");
+        bComm.className = "p07-block p07-block--comma";
+        bComm.dataset.kind = "comma";
+        bComm.textContent = ",";
+        bindDrag(bComm);
+
+        leftSlot.appendChild(bIf);
+        rightSlot.appendChild(bMain);
+        binEl.appendChild(bComm);
+      }
+
+      function bindDrag(el) {
+        el.addEventListener("pointerdown", onBlockPointerDown);
+      }
+
+      function onBlockPointerDown(e) {
+        if (locked) return;
+        var el = e.currentTarget;
+        if (!el.classList.contains("p07-block")) return;
+        e.preventDefault();
+        var r = el.getBoundingClientRect();
+        drag = {
+          el: el,
+          kind: blockKind(el),
+          parent: el.parentNode,
+          next: el.nextSibling,
+          ox: e.clientX - r.left,
+          oy: e.clientY - r.top,
+          w: r.width,
+          h: r.height,
+        };
+        el.classList.add("is-dragging");
+        el.style.width = r.width + "px";
+        el.style.left = r.left + "px";
+        el.style.top = r.top + "px";
+        window.addEventListener("pointermove", onBlockPointerMove);
+        window.addEventListener("pointerup", onBlockPointerUp, { once: true });
+        try {
+          el.setPointerCapture(e.pointerId);
+        } catch (err) {}
+      }
+
+      function onBlockPointerMove(e) {
+        if (!drag) return;
+        drag.el.style.left = e.clientX - drag.ox + "px";
+        drag.el.style.top = e.clientY - drag.oy + "px";
+      }
+
+      function clearHover() {
+        var hs = document.querySelectorAll(".p07-slot.is-hover, #p07-bin.is-hover");
+        var i;
+        for (i = 0; i < hs.length; i++) {
+          hs[i].classList.remove("is-hover");
+        }
+      }
+
+      function onBlockPointerUp(e) {
+        window.removeEventListener("pointermove", onBlockPointerMove);
+        var d = drag;
+        drag = null;
+        if (!d) return;
+        var el = d.el;
+        el.releasePointerCapture && el.releasePointerCapture(e.pointerId);
+        el.classList.remove("is-dragging");
+        el.style.width = "";
+        var mx = e.clientX;
+        var my = e.clientY;
+
+        var targetSlot = null;
+        var slots = railEl.querySelectorAll(".p07-slot");
+        var i;
+        for (i = 0; i < slots.length; i++) {
+          var sr = slots[i].getBoundingClientRect();
+          if (mx >= sr.left && mx <= sr.right && my >= sr.top && my <= sr.bottom) {
+            targetSlot = slots[i];
+            break;
+          }
+        }
+        var br = binEl.getBoundingClientRect();
+        var overBin = mx >= br.left && mx <= br.right && my >= br.top && my <= br.bottom;
+
+        clearHover();
+
+        function appendSlot(slot, block) {
+          var other = slot.querySelector(".p07-block");
+          if (other && other !== block) {
+            if (blockKind(block) === "comma" || blockKind(other) === "comma") {
+              snapBack(block, d);
+              return;
+            }
+            d.parent.insertBefore(other, d.next);
+            slot.appendChild(block);
+            anime({
+              targets: other,
+              translateX: [12, 0],
+              duration: 380,
+              easing: "easeOutElastic(1, .55)",
+            });
+          } else {
+            slot.appendChild(block);
+          }
+          resetBlockEl(block);
+        }
+
+        function snapBack(block, dg) {
+          if (dg.parent) {
+            if (dg.next) dg.parent.insertBefore(block, dg.next);
+            else dg.parent.appendChild(block);
+          }
+          resetBlockEl(block);
+          anime({
+            targets: block,
+            translateX: [6, -6, 0],
+            duration: 280,
+            easing: "easeOutQuad",
+          });
+        }
+
+        function resetBlockEl(block) {
+          block.style.position = "";
+          block.style.left = "";
+          block.style.top = "";
+          block.style.zIndex = "";
+        }
+
+        if (overBin) {
+          if (d.kind === "comma") {
+            binEl.appendChild(el);
+            resetBlockEl(el);
+          } else {
+            snapBack(el, d);
+            showToast("储物仓只收纳逗号接头。");
+          }
+          return;
+        }
+
+        if (!targetSlot) {
+          snapBack(el, d);
+          return;
+        }
+
+        var accept = targetSlot.getAttribute("data-accept");
+        if (d.kind === "comma" && accept !== "comma") {
+          snapBack(el, d);
+          showToast("逗号只能进中层格或储物仓。");
+          return;
+        }
+        if (d.kind !== "comma" && accept === "comma") {
+          snapBack(el, d);
+          showToast("中层只能放逗号。");
+          return;
+        }
+
+        appendSlot(targetSlot, el);
+      }
+
+      function validateForward(sc) {
+        var L = blockKind(blockIn("left"));
+        var M = blockKind(blockIn("mid"));
+        var R = blockKind(blockIn("right"));
+
+        if (L === "if" && R === "main" && M === null) {
+          setLock(true);
+          playClang();
+          var midSlot = slotEl("mid");
+          var ifB = blockIn("left");
+          var mainB = blockIn("right");
+          anime({
+            targets: [ifB, mainB].filter(Boolean),
+            translateX: [
+              { value: -10, duration: 80 },
+              { value: 10, duration: 80 },
+              { value: -6, duration: 80 },
+              { value: 0, duration: 80 },
+            ],
+            easing: "easeInOutQuad",
+            complete: function () {
+              fetchAudit("noComma");
+            },
+          });
+          return;
+        }
+
+        if (L === "if" && M === "comma" && R === "main") {
+          setLock(true);
+          var okAll = [blockIn("left"), blockIn("mid"), blockIn("right")].filter(Boolean);
+          anime({
+            targets: okAll,
+            boxShadow: [
+              "0 6px 18px rgba(0,0,0,0.35)",
+              "0 0 28px rgba(0, 230, 118, 0.55)",
+              "0 6px 18px rgba(0,0,0,0.35)",
+            ],
+            duration: 520,
+            easing: "easeOutQuad",
+            complete: function () {
+              speakEn(sc.speakForward);
+              phase = "inverted";
+              missionEl.innerHTML =
+                '<span style="color:#ffecb3">◆ 倒装挑战</span>：把<strong>主句</strong>拖到左侧（SLOT 1），<strong>If 条件</strong>移到右侧（SLOT 3）。<strong>逗号必须送回储物仓</strong>，再点校验。';
+              setLock(false);
+            },
+          });
+          return;
+        }
+
+        if (L === "main" && R === "if") {
+          showToast("当前阶段要求 If 在左、主句在右；请先摆成「If … , … will …」。");
+          return;
+        }
+
+        showToast("语序或逗号位置不对： forward 须为 If | ， | 主句。");
+      }
+
+      function validateInverted(sc) {
+        var L = blockKind(blockIn("left"));
+        var M = blockKind(blockIn("mid"));
+        var R = blockKind(blockIn("right"));
+
+        if (L === "main" && R === "if" && M === "comma") {
+          var comm = blockIn("mid");
+          comm.classList.add("is-fatal");
+          setLock(true);
+          playShatter();
+
+          var ifRect = blockIn("right").getBoundingClientRect();
+          var commRect = comm.getBoundingClientRect();
+          var lx = ifRect.left + ifRect.width * 0.15;
+          var ly = ifRect.top + ifRect.height / 2;
+          var cx = commRect.left + commRect.width / 2;
+          var cy = commRect.top + commRect.height / 2;
+          var dx = cx - lx;
+          var dy = cy - ly;
+          var dist = Math.hypot(dx, dy);
+          var ang = Math.atan2(dy, dx);
+          laserEl.style.left = lx + "px";
+          laserEl.style.top = ly + "px";
+          laserEl.style.width = dist + "px";
+          laserEl.style.transform = "rotate(" + ang + "rad)";
+          laserEl.classList.remove("flash");
+          void laserEl.offsetWidth;
+          laserEl.classList.add("flash");
+
+          setTimeout(function () {
+            explodeComma(commRect.left + commRect.width / 2, commRect.top + commRect.height / 2);
+            comm.classList.remove("is-fatal");
+            binEl.appendChild(comm);
+            resetBlockEl(comm);
+            fetchAudit("badComma");
+          }, 520);
+          return;
+        }
+
+        if (L === "main" && R === "if" && M === null) {
+          setLock(true);
+          anime({
+            targets: [blockIn("left"), blockIn("right")].filter(Boolean),
+            boxShadow: [
+              "0 6px 18px rgba(0,0,0,0.35)",
+              "0 0 26px rgba(0, 230, 118, 0.5)",
+              "0 6px 18px rgba(0,0,0,0.35)",
+            ],
+            duration: 520,
+            easing: "easeOutQuad",
+            complete: function () {
+              speakEn(sc.speakInverted);
+              advanceScenario();
+            },
+          });
+          return;
+        }
+
+        if (L === "if" && R === "main") {
+          showToast("倒装阶段：主句应在左，If 从句在右。");
+          return;
+        }
+
+        showToast("中层必须清空逗号；只能保留 主句 | 空 | If。");
+      }
+
+      function advanceScenario() {
+        scenarioIndex++;
+        phase = "forward";
+        if (scenarioIndex >= SCENARIOS.length) {
+          runFinale();
+          setLock(false);
+          return;
+        }
+        loadScenario();
+        setLock(false);
+        if (scrollEl) scrollEl.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      function loadScenario() {
+        var sc = SCENARIOS[scenarioIndex];
+        metaEl.textContent = "Scenario " + (scenarioIndex + 1) + " / " + SCENARIOS.length + " · " + sc.tagZh;
+        missionEl.innerHTML =
+          '<span style="color:#80deea">◆ 顺装</span>：左侧 If 条件 · 中层插入<strong>逗号</strong> · 右侧主句；完成后点校验。';
+        createBlocks(sc);
+        anime({
+          targets: railEl,
+          translateY: [14, 0],
+          opacity: [0.65, 1],
+          duration: 560,
+          easing: "easeOutExpo",
+        });
+      }
+
+      function validate() {
+        if (locked) return;
+        var sc = SCENARIOS[scenarioIndex];
+        if (!sc) return;
+        if (phase === "forward") validateForward(sc);
+        else validateInverted(sc);
+      }
+
+      function demoSwap() {
+        if (locked) return;
+        var L = slotEl("left");
+        var R = slotEl("right");
+        var a = blockIn("left");
+        var b = blockIn("right");
+        if (!a || !b) return;
+        if (blockKind(a) === "comma" || blockKind(b) === "comma") return;
+        L.appendChild(b);
+        R.appendChild(a);
+        anime({
+          targets: [a, b],
+          translateX: [
+            { value: -16, duration: 120 },
+            { value: 0, duration: 320 },
+          ],
+          easing: "easeOutElastic(1, .6)",
+        });
+        showToast("已演示左右对调；逗号请自行拖回储物仓。");
+      }
+
+      function runFinale() {
+        finale.classList.add("on");
+        document.body.style.animation = "none";
+        document.body.offsetHeight;
+        document.body.style.animation = "p07-fin-end 0.5s ease-out";
+      }
+
+      var endShakeStyle = document.createElement("style");
+      endShakeStyle.textContent =
+        "@keyframes p07-fin-end { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-3px)} 75%{transform:translateX(4px)} }";
+      document.head.appendChild(endShakeStyle);
+
+      btnVal.addEventListener("click", validate);
+      btnDemo.addEventListener("click", demoSwap);
+      terminalDismiss.addEventListener("click", function () {
+        terminal.classList.remove("on");
+        setLock(false);
+      });
+      btnNext.addEventListener("click", function () {
+        window.location.href = "lesson08-page08-masterplan.html";
+      });
+
+      window.addEventListener("resize", resizeFxCanvas);
+      resizeFxCanvas();
+      loadScenario();
+
+      showToast("拖拽cargo排列；逗号从储物仓拖到中层。");
+    })();
+  </script>
+</body>
+</html>

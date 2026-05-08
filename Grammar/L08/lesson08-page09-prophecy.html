@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>第08讲 · Page 09 · 终极预言 · 书面表达 · My Chengdu 2050</title>
+  <!--
+    设计延续 L08 Page01–08：16:9 壳 + anime.js + lesson-screen-16x9.css + 赛博教育 HUD。
+    书面任务在 Prompt（L09 资源库）「看图写话 + 语篇输出」思路上，改为本讲统一的
+    2050 综括：be going to / will / If 第一条件句，贴近成都中考书面表达（计划、变化、条件与结果）。
+    连环画为 PNG 位图（非 SVG 插图），由课件配套生成后置于 https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/。
+  -->
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
+  <link rel="stylesheet" href="../assets/lesson-screen-16x9.css" />
+  <style>
+    :root {
+      --p09-cyan: #00f3ff;
+      --p09-magenta: #ff00ea;
+      --p09-gold: #ffe082;
+      --p09-void: #050510;
+      --p09-danger: #ff1744;
+      --p09-ok: #00e676;
+      --p09-hud: "IBM Plex Mono", "SF Mono", Consolas, "Roboto Mono", monospace;
+    }
+    * { box-sizing: border-box; }
+    html { overflow-x: clip; max-width: 100%; }
+    html, body {
+      margin: 0;
+      width: 100%;
+      min-height: 100%;
+      font-family: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+      background: var(--p09-void);
+      color: #e0f7fa;
+      touch-action: manipulation;
+    }
+    body.has-lesson-pager {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch !important;
+      zoom: 0.9;
+      min-height: 100dvh;
+    }
+
+    #l08-p09-host.app {
+      position: relative;
+      isolation: isolate;
+      flex: 1 1 auto;
+      width: 100%;
+      min-height: calc(100dvh - 3.5rem + clamp(20px, 3dvh, 40px));
+      overflow: hidden;
+      border: 4px solid rgba(255, 224, 130, 0.42);
+      border-radius: 22px;
+      box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.5), 0 12px 32px rgba(0, 0, 0, 0.45);
+    }
+    body.has-lesson-pager > #l08-p09-host.app {
+      min-height: calc(
+        100dvh - var(--lesson-pager-gap, 4.35rem) - max(8px, env(safe-area-inset-top, 0px)) -
+          max(8px, env(safe-area-inset-bottom, 0px)) + clamp(20px, 3dvh, 40px)
+      ) !important;
+    }
+
+    #p09-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse 80% 50% at 50% 0%, rgba(255, 193, 7, 0.1), transparent 55%),
+        linear-gradient(180deg, #0a0a1c 0%, var(--p09-void) 100%);
+    }
+    #p09-bg::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      opacity: 0.06;
+      background-image:
+        linear-gradient(rgba(0, 243, 255, 0.3) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 224, 130, 0.12) 1px, transparent 1px);
+      background-size: clamp(24px, 4vmin, 36px) clamp(24px, 4vmin, 36px);
+      pointer-events: none;
+    }
+
+    #p09-ui-lock {
+      position: fixed;
+      inset: 0;
+      z-index: 9998;
+      display: none;
+      pointer-events: auto;
+      background: rgba(0, 0, 0, 0.1);
+      cursor: wait;
+    }
+    #p09-ui-lock.on { display: block; }
+
+    #p09-stage {
+      position: absolute;
+      inset: 0;
+      z-index: 6;
+      display: flex;
+      flex-direction: column;
+      padding: clamp(6px, 1vh, 10px) clamp(8px, 1.4vw, 12px) clamp(40px, 7vh, 64px);
+      gap: clamp(6px, 1vh, 10px);
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    .p09-hud-title {
+      font-family: var(--p09-hud);
+      font-size: clamp(0.7rem, 1.55vw, 0.92rem);
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-align: center;
+      color: var(--p09-gold);
+      text-shadow: 0 0 16px rgba(255, 224, 130, 0.45);
+      flex-shrink: 0;
+    }
+
+    .p09-lead {
+      flex-shrink: 0;
+      margin: 0 auto;
+      max-width: min(56rem, 96vw);
+      padding: clamp(8px, 1.2vw, 12px) clamp(10px, 2vw, 14px);
+      border-radius: 12px;
+      background: rgba(18, 22, 42, 0.82);
+      border: 1px solid rgba(255, 224, 130, 0.28);
+      font-size: clamp(0.66rem, 1.32vw, 0.8rem);
+      line-height: 1.5;
+      color: rgba(224, 247, 250, 0.95);
+    }
+    .p09-lead strong { color: var(--p09-cyan); }
+
+    .p09-comic-row {
+      flex: 0 1 auto;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: clamp(6px, 1.2vw, 10px);
+      max-width: min(72rem, 100%);
+      margin: 0 auto;
+      width: 100%;
+      min-height: 0;
+    }
+    @media (max-width: 720px) {
+      .p09-comic-row { grid-template-columns: 1fr; }
+    }
+    .p09-panel {
+      display: flex;
+      flex-direction: column;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid rgba(0, 243, 255, 0.28);
+      background: rgba(8, 12, 28, 0.85);
+      box-shadow: 0 0 20px rgba(0, 243, 255, 0.12);
+    }
+    .p09-panel img {
+      display: block;
+      width: 100%;
+      height: auto;
+      max-height: min(22vh, 180px);
+      object-fit: cover;
+      aspect-ratio: 16 / 10;
+    }
+    .p09-panel figcaption {
+      margin: 0;
+      padding: 6px 8px;
+      font-size: clamp(0.58rem, 1.15vw, 0.7rem);
+      color: #b0bec5;
+      text-align: center;
+      font-family: var(--p09-hud);
+      letter-spacing: 0.04em;
+    }
+
+    .p09-locks {
+      flex-shrink: 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: clamp(6px, 1.2vw, 10px);
+      width: 100%;
+      max-width: min(56rem, 100%);
+      margin: 0 auto;
+    }
+    .p09-lock {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 12px;
+      border-radius: 999px;
+      font-size: clamp(0.62rem, 1.25vw, 0.74rem);
+      font-weight: 750;
+      font-family: var(--p09-hud);
+      background: rgba(30, 35, 55, 0.9);
+      border: 2px solid rgba(120, 130, 160, 0.4);
+      color: #90a4ae;
+      transition: border-color 0.25s, color 0.25s, box-shadow 0.25s;
+    }
+    .p09-lock.ok {
+      border-color: rgba(0, 230, 118, 0.55);
+      color: #e8f5e9;
+      box-shadow: 0 0 12px rgba(0, 230, 118, 0.25);
+    }
+    .p09-lock .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #546e7a;
+      flex-shrink: 0;
+    }
+    .p09-lock.ok .dot {
+      background: var(--p09-ok);
+      box-shadow: 0 0 8px rgba(0, 230, 118, 0.8);
+    }
+
+    .p09-editor-shell {
+      flex: 1 1 auto;
+      min-height: 0;
+      position: relative;
+      width: 100%;
+      max-width: min(56rem, 100%);
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .p09-ta-wrap {
+      position: relative;
+      flex: 1 1 auto;
+      min-height: clamp(140px, 22vh, 220px);
+    }
+    #p09-editor {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      height: 100%;
+      min-height: clamp(140px, 22vh, 220px);
+      resize: vertical;
+      margin: 0;
+      padding: clamp(10px, 1.4vw, 14px);
+      border-radius: 12px;
+      border: 1px solid rgba(0, 243, 255, 0.35);
+      background: rgba(6, 10, 24, 0.92);
+      color: var(--p09-cyan);
+      font-family: var(--p09-hud);
+      font-size: clamp(0.72rem, 1.45vw, 0.88rem);
+      line-height: 1.65;
+      caret-color: var(--p09-magenta);
+    }
+    #p09-editor:focus {
+      outline: none;
+      border-color: rgba(255, 224, 130, 0.45);
+      box-shadow: 0 0 18px rgba(0, 243, 255, 0.15);
+    }
+    #p09-mirror {
+      position: absolute;
+      left: 0;
+      top: 0;
+      right: 0;
+      z-index: 1;
+      padding: clamp(10px, 1.4vw, 14px);
+      font-family: var(--p09-hud);
+      font-size: clamp(0.72rem, 1.45vw, 0.88rem);
+      line-height: 1.65;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      overflow: hidden;
+      pointer-events: none;
+      visibility: hidden;
+      width: 100%;
+      min-height: 100%;
+      box-sizing: border-box;
+    }
+    #p09-mirror .p09-err-mark {
+      position: relative;
+    }
+
+    #p09-ink-layer {
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      pointer-events: none;
+    }
+    .p09-red-ring {
+      position: fixed;
+      border: 2px solid var(--p09-danger);
+      border-radius: 10px;
+      box-shadow: 0 0 12px rgba(255, 23, 68, 0.45);
+      transform: rotate(-1.5deg);
+      pointer-events: none;
+    }
+
+    .p09-meta-row {
+      flex-shrink: 0;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-top: 6px;
+      font-family: var(--p09-hud);
+      font-size: clamp(0.62rem, 1.2vw, 0.74rem);
+      color: #90a4ae;
+    }
+    .p09-meta-row strong { color: var(--p09-gold); }
+
+    .p09-toolbar {
+      flex-shrink: 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 6px;
+    }
+    .p09-btn-submit {
+      border: none;
+      cursor: pointer;
+      font-weight: 900;
+      padding: 12px 22px;
+      border-radius: 14px;
+      font-size: clamp(0.74rem, 1.5vw, 0.88rem);
+      color: #fff;
+      background: linear-gradient(180deg, #5e35b1, #4527a0);
+      border: 2px solid rgba(255, 224, 130, 0.45);
+      box-shadow: 0 0 18px rgba(255, 224, 130, 0.2);
+      transition: opacity 0.2s, transform 0.15s;
+    }
+    .p09-btn-submit:disabled {
+      opacity: 0.42;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+    .p09-btn-submit:not(:disabled):active { transform: scale(0.98); }
+    .p09-btn-ghost {
+      border: 2px solid rgba(0, 243, 255, 0.35);
+      cursor: pointer;
+      font-weight: 800;
+      padding: 10px 16px;
+      border-radius: 12px;
+      font-size: clamp(0.68rem, 1.35vw, 0.8rem);
+      color: #b2ebf2;
+      background: rgba(25, 35, 55, 0.55);
+    }
+
+    .p09-feedback-wrap {
+      flex-shrink: 0;
+      margin-top: clamp(4px, 0.8vh, 8px);
+      padding: clamp(8px, 1.3vw, 12px) clamp(10px, 1.6vw, 14px);
+      border-radius: 12px;
+      background: rgba(14, 18, 38, 0.94);
+      border: 1px solid rgba(179, 136, 255, 0.38);
+      max-height: min(26vh, 200px);
+      overflow-y: auto;
+    }
+    .p09-feedback-head {
+      margin: 0 0 6px;
+      font-family: var(--p09-hud);
+      font-size: clamp(0.64rem, 1.2vw, 0.74rem);
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      color: var(--p09-gold);
+    }
+    .p09-feedback-body {
+      margin: 0;
+      font-size: clamp(0.7rem, 1.35vw, 0.84rem);
+      line-height: 1.5;
+      color: #eceff1;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    .p09-feedback-body.is-muted {
+      color: rgba(180, 190, 210, 0.88);
+      font-style: italic;
+    }
+
+    #p09-toast {
+      position: fixed;
+      bottom: clamp(72px, 14vh, 120px);
+      left: 50%;
+      transform: translateX(-50%) translateY(120%);
+      z-index: 8000;
+      padding: 10px 18px;
+      border-radius: 999px;
+      background: rgba(30, 35, 55, 0.96);
+      border: 1px solid rgba(255, 224, 130, 0.4);
+      color: #fffde7;
+      font-weight: 750;
+      font-size: clamp(0.72rem, 1.45vw, 0.86rem);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s, transform 0.35s;
+      max-width: min(92vw, 28rem);
+      text-align: center;
+    }
+    #p09-toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+  </style>
+</head>
+<body class="has-lesson-pager">
+  <div id="l08-p09-host" class="app book shell wrap desk sheet">
+    <div id="p09-bg" aria-hidden="true"></div>
+    <div id="p09-ui-lock" aria-hidden="true"></div>
+    <div id="p09-ink-layer" aria-hidden="true"></div>
+
+    <div id="p09-stage">
+      <div class="p09-hud-title">PHASE 5 · ULTIMATE PROPHECY · WRITTEN OUTPUT · CHENGDU 2050</div>
+
+      <div class="p09-lead">
+        依据<strong>人教版 / 外研版等初中教材</strong>常见话题（环保出行、校园学习、社区生活）与<strong>成都中考书面表达</strong>常用要求：
+        写一小篇英文短作文（建议 <strong>65–90 词</strong>），题目自拟可用 <strong>My Life in 2050</strong> / <strong>A Green Day in Chengdu 2050</strong>。
+        结合上方<strong>三幅连环画</strong>（清晨智慧出行 → 白日智慧校园 → 傍晚友好社区），综合运用本讲口语页已练过的
+        <strong>be going to（计划）</strong>、<strong>will（预测）</strong>、<strong>If 引导的第一条件句</strong>。
+        下方三枚<strong>语料锁</strong>全部变绿后方可提交；提交后由 AI 老师<strong>温暖鼓励式</strong>面批（如需修改，会在错词旁显示红框提示）。
+      </div>
+
+      <div class="p09-comic-row" aria-label="连环画：2050 成都一日">
+        <figure class="p09-panel" id="p09-panel-1">
+          <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/l08-p09-panel-1.png" alt="清晨：绿色智慧出行与未来街道" width="640" height="400" loading="lazy" decoding="async" />
+          <figcaption>Fig.1 · 清晨 · 绿道 / 轨道交通 / 洁净空气</figcaption>
+        </figure>
+        <figure class="p09-panel" id="p09-panel-2">
+          <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/l08-p09-panel-2.png" alt="白日：智慧校园课堂" width="640" height="400" loading="lazy" decoding="async" />
+          <figcaption>Fig.2 · 白日 · 智慧教室 · 合作学习</figcaption>
+        </figure>
+        <figure class="p09-panel" id="p09-panel-3">
+          <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/l08-p09-panel-3.png" alt="傍晚：社区广场与无障碍友好" width="640" height="400" loading="lazy" decoding="async" />
+          <figcaption>Fig.3 · 傍晚 · 社区广场 · 全龄友好</figcaption>
+        </figure>
+      </div>
+
+      <div class="p09-locks" aria-live="polite">
+        <div class="p09-lock" id="p09-lock-going" data-key="going">
+          <span class="dot"></span>
+          <span>① be going to（计划）</span>
+        </div>
+        <div class="p09-lock" id="p09-lock-will" data-key="will">
+          <span class="dot"></span>
+          <span>② will（预测）</span>
+        </div>
+        <div class="p09-lock" id="p09-lock-if" data-key="if">
+          <span class="dot"></span>
+          <span>③ If…, …will…（条件）</span>
+        </div>
+      </div>
+
+      <div class="p09-editor-shell">
+        <div class="p09-ta-wrap">
+          <div id="p09-mirror"></div>
+          <textarea id="p09-editor" spellcheck="false" placeholder="在此用英文书写你的 2050 一日……（建议先列计划再写预测与条件句）" aria-label="书面表达输入"></textarea>
+        </div>
+        <div class="p09-meta-row">
+          <span>词数：<strong id="p09-wc">0</strong>（建议 ≥ <span id="p09-minw">65</span>）</span>
+          <span>语料锁：<strong id="p09-lock-count">0</strong> / 3</span>
+        </div>
+        <div class="p09-toolbar">
+          <button type="button" class="p09-btn-submit" id="p09-btn-submit" disabled>提交给老师面批</button>
+          <button type="button" class="p09-btn-ghost" id="p09-btn-clear">清空</button>
+        </div>
+        <div class="p09-feedback-wrap" id="p09-feedback-wrap" hidden>
+          <p class="p09-feedback-head">老师对你说 · 书面鼓励与建议</p>
+          <p class="p09-feedback-body" id="p09-feedback"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="p09-toast" role="status"></div>
+
+  <nav class="lesson-pager" aria-label="课程页导航">
+    <a class="pager-prev" href="lesson08-page08-masterplan.html">← Page 08</a>
+    <span class="pager-mid">L08 · Page 09</span>
+    <a class="pager-next" href="lesson08-page10-handout.html">Page 10 · 讲义 →</a>
+  </nav>
+
+  <script>
+    (function () {
+      "use strict";
+
+      var KEYS = window.__LESSON_KEYS__ || {};
+      var DEEPSEEK_KEY = KEYS.deepSeekKey || "sk-daa16008e81843deba6fefe9dce51465";
+
+      var MIN_WORDS = 65;
+
+      var RE_GOING =
+        /\b(I\s+am|I'm|you\s+are|you're|we\s+are|we're|they\s+are|they're|he\s+is|he's|she\s+is|she's|it\s+is|it's|is|are|am)\s+going\s+to\b/i;
+      var RE_WILL = /\bwill\b/;
+      var RE_BAD_IF_WILL = /\bif\s+[^,.!?]{0,40}\bwill\b/i;
+
+      function wordCount(s) {
+        var m = String(s || "").trim().match(/[a-zA-Z']+/g);
+        return m ? m.length : 0;
+      }
+
+      function hasGoingTo(s) {
+        if (RE_GOING.test(s)) return true;
+        return /\b(we're|you're|they're)\s+going\s+to\b/i.test(s);
+      }
+      function hasWill(s) {
+        return RE_WILL.test(s);
+      }
+      function hasIfFirstConditional(s) {
+        if (!/\bif\b/i.test(s)) return false;
+        if (RE_BAD_IF_WILL.test(s)) return false;
+        if (/\bif\s+it\s+will\b/i.test(s)) return false;
+        return /\bif\s+[^,]{3,120},\s*[^.!?]{3,}\bwill\b/i.test(s);
+      }
+
+      var ta = document.getElementById("p09-editor");
+      var mirror = document.getElementById("p09-mirror");
+      var ink = document.getElementById("p09-ink-layer");
+      var wcEl = document.getElementById("p09-wc");
+      var lockCountEl = document.getElementById("p09-lock-count");
+      var btnSubmit = document.getElementById("p09-btn-submit");
+      var btnClear = document.getElementById("p09-btn-clear");
+      var feedback = document.getElementById("p09-feedback");
+      var feedbackWrap = document.getElementById("p09-feedback-wrap");
+      var toastEl = document.getElementById("p09-toast");
+      var uiLock = document.getElementById("p09-ui-lock");
+      var lockGoing = document.getElementById("p09-lock-going");
+      var lockWill = document.getElementById("p09-lock-will");
+      var lockIf = document.getElementById("p09-lock-if");
+
+      function setLock(on) {
+        if (uiLock) uiLock.classList.toggle("on", on);
+      }
+
+      function showToast(msg) {
+        if (!toastEl) return;
+        toastEl.textContent = msg;
+        toastEl.classList.add("show");
+        setTimeout(function () {
+          toastEl.classList.remove("show");
+        }, 2600);
+      }
+
+      function escapeHtml(s) {
+        return String(s || "")
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;");
+      }
+
+      function clearInk() {
+        if (!ink) return;
+        ink.innerHTML = "";
+      }
+
+      function drawRedRingsAroundPhrase(phrase) {
+        clearInk();
+        if (!phrase || !ta || !mirror || !ink) return;
+        var text = ta.value;
+        var idx = text.indexOf(phrase);
+        if (idx < 0) return;
+
+        var before = escapeHtml(text.slice(0, idx));
+        var mid = '<span class="p09-err-mark" id="p09-err-mark">' + escapeHtml(phrase) + "</span>";
+        var after = escapeHtml(text.slice(idx + phrase.length));
+        mirror.innerHTML = before + mid + after;
+
+        mirror.style.width = ta.offsetWidth + "px";
+        mirror.style.height = ta.clientHeight + "px";
+        mirror.style.padding = window.getComputedStyle(ta).padding;
+        mirror.scrollTop = ta.scrollTop;
+
+        function place() {
+          var mark = document.getElementById("p09-err-mark");
+          if (!mark) return;
+          var r = mark.getBoundingClientRect();
+          var ring = document.createElement("div");
+          ring.className = "p09-red-ring";
+          ring.style.left = r.left - 4 + "px";
+          ring.style.top = r.top - 3 + "px";
+          ring.style.width = r.width + 8 + "px";
+          ring.style.height = r.height + 6 + "px";
+          ink.appendChild(ring);
+          if (window.anime) {
+            anime({
+              targets: ring,
+              opacity: [0, 1],
+              scale: [0.92, 1],
+              duration: 420,
+              easing: "easeOutElastic(1, .75)",
+            });
+          }
+        }
+
+        requestAnimationFrame(function () {
+          requestAnimationFrame(place);
+        });
+      }
+
+      function syncMirrorPlain() {
+        if (!mirror || !ta) return;
+        mirror.innerHTML = escapeHtml(ta.value).replace(/\n/g, "<br/>");
+        mirror.style.width = ta.offsetWidth + "px";
+        mirror.style.height = ta.clientHeight + "px";
+        mirror.scrollTop = ta.scrollTop;
+      }
+
+      function refreshLocks() {
+        var t = ta ? ta.value : "";
+        var g = hasGoingTo(t);
+        var w = hasWill(t);
+        var iff = hasIfFirstConditional(t);
+        if (lockGoing) lockGoing.classList.toggle("ok", g);
+        if (lockWill) lockWill.classList.toggle("ok", w);
+        if (lockIf) lockIf.classList.toggle("ok", iff);
+        var n = (g ? 1 : 0) + (w ? 1 : 0) + (iff ? 1 : 0);
+        if (lockCountEl) lockCountEl.textContent = String(n);
+
+        var wc = wordCount(t);
+        if (wcEl) wcEl.textContent = String(wc);
+
+        var okSubmit = g && w && iff && wc >= MIN_WORDS;
+        if (btnSubmit) btnSubmit.disabled = !okSubmit;
+
+        syncMirrorPlain();
+      }
+
+      var debounceTimer = null;
+      function onInput() {
+        clearInk();
+        if (feedback) {
+          feedback.textContent = "";
+          feedback.classList.remove("is-muted");
+        }
+        if (feedbackWrap) feedbackWrap.hidden = true;
+        if (debounceTimer) clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(refreshLocks, 120);
+      }
+
+      function setFeedback(text, opts) {
+        opts = opts || {};
+        if (!feedback || !feedbackWrap) return;
+        if (opts.loading) {
+          feedbackWrap.hidden = false;
+          feedback.classList.add("is-muted");
+          feedback.textContent = "老师正在读你的作文并写回批……";
+          return;
+        }
+        feedback.classList.remove("is-muted");
+        var s = String(text || "").trim();
+        feedback.textContent = s;
+        feedbackWrap.hidden = !s;
+      }
+
+      function stripJsonFence(raw) {
+        return String(raw || "")
+          .replace(/```json\s*/gi, "")
+          .replace(/```\s*/g, "")
+          .trim();
+      }
+
+      function submitWriting() {
+        var text = ta ? String(ta.value || "").trim() : "";
+        if (!text || btnSubmit.disabled) return;
+
+        setLock(true);
+        setFeedback("", { loading: true });
+
+        if (!DEEPSEEK_KEY) {
+          setLock(false);
+          setFeedback(
+            "未配置 DeepSeek 密钥时无法在线面批。你可对照教材范文自行检查：是否包含计划、预测与 If 条件句，并注意书写规范。"
+          );
+          showToast("本地模式：已保存你的草稿在文本框中");
+          return;
+        }
+
+        var payloadUser =
+          "【题型说明】成都中考风格书面表达：内容要点齐全、语言正确、结构连贯；本题结合 2050 成都智慧城市与连环画三场景。\n\n" +
+          "【连环画】Fig.1 清晨绿色出行；Fig.2 白日智慧校园；Fig.3 傍晚社区友好场景。\n\n" +
+          "【学生作文】\n" +
+          text;
+
+        fetch("https://api.deepseek.com/v1/chat/completions", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + DEEPSEEK_KEY,
+          },
+          body: JSON.stringify({
+            model: "deepseek-chat",
+            messages: [
+              {
+                role: "system",
+                content:
+                  "你是亲切、专业的初中英语阅卷老师（书面表达）。学生作文必须贴合「2050 成都/未来一日」与连环画三场景（出行—校园—社区），并综合运用 be going to、will、If…will。\n\n" +
+                  "请只做中文反馈，语气温暖鼓励，先肯定亮点再指出可改进处；避免吓唬学生。\n\n" +
+                  "输出必须是单行 JSON 字符串（不要 Markdown）：\n" +
+                  '{"status":"pass","feedback":"中文总评与鼓励"}\n' +
+                  "或\n" +
+                  '{"status":"revise","feedback":"中文修改建议","highlight":"作文中出现的需重点关注的一小段英文原文（必须在学生作文里逐字可找到；若没有明显错句可省略 highlight）"}\n' +
+                  "status 为 pass 表示达标；revise 表示仍可打磨。highlight 长度建议 2～40 字符，用于前端画红框；不要随意编造作文里不存在的片段。",
+              },
+              { role: "user", content: payloadUser },
+            ],
+            max_tokens: 420,
+            temperature: 0.35,
+          }),
+        })
+          .then(function (r) {
+            return r.ok ? r.json() : Promise.reject();
+          })
+          .then(function (data) {
+            var raw =
+              data &&
+              data.choices &&
+              data.choices[0] &&
+              data.choices[0].message &&
+              data.choices[0].message.content;
+            raw = stripJsonFence(raw || "");
+            var obj = null;
+            try {
+              obj = JSON.parse(raw);
+            } catch (e1) {
+              setFeedback(String(raw || "解析失败，请再试一次。"));
+              showToast("点评已显示");
+              return;
+            }
+            var fb = (obj && obj.feedback) || "";
+            var hi = (obj && obj.highlight) || "";
+            var st = (obj && obj.status) || "";
+
+            if (st === "revise" && hi) {
+              setFeedback("【老师对你说】\n\n" + fb + "\n\n—— 老师在你文中的这一处画了红框，改完再提交也可以哦。");
+              drawRedRingsAroundPhrase(hi);
+            } else if (st === "pass") {
+              setFeedback(
+                "【老师的心里话】\n\n" +
+                  fb +
+                  "\n\n保持这样的篇章意识，你在考场上会更有底气。成都的天更蓝、路更畅、校园更智慧——我们一起把它写进现实！"
+              );
+            } else {
+              setFeedback("【老师对你说】\n\n" + fb);
+            }
+            showToast("老师的回批来啦，慢慢看～");
+          })
+          .catch(function () {
+            setFeedback("这次网络不顺，老师没能写完回批。作文仍在文本框里，稍后再点提交即可。");
+            showToast("网络异常，请稍后重试");
+          })
+          .finally(function () {
+            setLock(false);
+          });
+      }
+
+      if (ta) {
+        ta.addEventListener("input", onInput);
+        ta.addEventListener("scroll", function () {
+          if (mirror) mirror.scrollTop = ta.scrollTop;
+          syncMirrorPlain();
+        });
+      }
+      window.addEventListener("resize", function () {
+        syncMirrorPlain();
+      });
+      if (btnSubmit) btnSubmit.addEventListener("click", submitWriting);
+      if (btnClear) {
+        btnClear.addEventListener("click", function () {
+          if (ta) ta.value = "";
+          clearInk();
+          setFeedback("");
+          refreshLocks();
+          showToast("已清空");
+        });
+      }
+
+      refreshLocks();
+
+      /* 连环画轻微浮动 */
+      if (window.anime) {
+        anime({
+          targets: ".p09-panel",
+          translateY: [0, -4, 0],
+          duration: 5200,
+          easing: "easeInOutSine",
+          loop: true,
+          delay: anime.stagger(400),
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,1942 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>第08讲 · Page 02 · 未来实验室 · be going to 与 will</title>
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
+  <link rel="stylesheet" href="../assets/lesson-screen-16x9.css" />
+  <style>
+    :root {
+      --nav-blue: #00bcd4;
+      --nav-blue-deep: #0a192f;
+      --quantum-purple: #ce93d8;
+      --quantum-deep: #1d0a2f;
+      --neon-glow-blue: 0 0 22px rgba(0, 188, 212, 0.65);
+      --neon-glow-purple: 0 0 28px rgba(186, 104, 200, 0.75);
+      --edge-lab: #37474f;
+      --gram-hl: #1565c0;
+      --will-hl: #7b1fa2;
+    }
+    * { box-sizing: border-box; }
+    html {
+      overflow-x: clip;
+      max-width: 100%;
+    }
+    html, body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+      background: #0d0a12;
+      color: #eceff1;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+    }
+    body.has-lesson-pager {
+      flex-direction: column;
+      align-items: stretch !important;
+      zoom: 0.9;
+    }
+
+    #l08-p02-host.app {
+      position: relative;
+      isolation: isolate;
+      flex: 1 1 auto;
+      width: 100%;
+      min-height: calc(100dvh - 4.6rem);
+      overflow: hidden;
+      border: 4px solid rgba(120, 200, 255, 0.45);
+      border-radius: 255px 18px 235px 22px / 22px 235px 22px 255px;
+      box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.35), 0 16px 32px rgba(0, 0, 0, 0.45);
+    }
+
+    #bg-stack {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(120deg, rgba(10, 25, 47, 0.92) 0%, rgba(10, 25, 47, 0.55) 48%, rgba(29, 10, 47, 0.55) 52%, rgba(29, 10, 47, 0.92) 100%),
+        radial-gradient(ellipse 80% 60% at 25% 40%, rgba(0, 188, 212, 0.18), transparent 55%),
+        radial-gradient(ellipse 70% 55% at 75% 45%, rgba(186, 104, 200, 0.22), transparent 50%),
+        linear-gradient(180deg, #050508 0%, #12101a 100%);
+    }
+    #bg-stack::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      opacity: 0.12;
+      background: repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.04) 0 1px, transparent 1px 4px);
+      mix-blend-mode: overlay;
+      pointer-events: none;
+    }
+    #bg-stack.vertex-on {
+      background-size: cover;
+      background-position: center;
+    }
+
+    #lab-stage {
+      position: absolute;
+      inset: 0;
+      z-index: 4;
+      display: flex;
+      flex-direction: column;
+      padding: clamp(10px, 2vh, 18px) clamp(10px, 2vw, 16px) clamp(72px, 14vh, 110px);
+      gap: clamp(6px, 1vh, 10px);
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    /* Page02 双幻灯片（与 Page01 slide 标签同型） */
+    .p02-slide-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: clamp(8px, 1.5vw, 12px);
+      flex-shrink: 0;
+      z-index: 7;
+    }
+    .p02-slide-tabs button {
+      border: none;
+      cursor: pointer;
+      font-weight: 900;
+      padding: clamp(8px, 1.5vh, 12px) clamp(14px, 2.8vw, 22px);
+      border-radius: 999px;
+      border: 3px solid rgba(255, 255, 255, 0.35);
+      font-size: clamp(0.82rem, 1.85vw, 1.05rem);
+      box-shadow: 2px 3px 0 rgba(0, 0, 0, 0.25);
+      background: linear-gradient(180deg, #eceff1, #cfd8dc);
+      color: #37474f;
+      touch-action: manipulation;
+    }
+    .p02-slide-tabs button[aria-selected="true"] {
+      background: linear-gradient(180deg, #fff8dc, #ffcc80);
+      color: #4e342e;
+      box-shadow: 3px 4px 0 rgba(0, 0, 0, 0.12);
+    }
+    .p02-slide-deck {
+      flex: 1 1 auto;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+    .p02-slide {
+      flex: 1 1 auto;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .p02-slide[hidden] {
+      display: none !important;
+    }
+    /* 幻灯片 1：四组对比 · 双栏情景 — 标题与双栏内文字、配图统一放大 60%（×1.6）；语法块保持原尺寸便于拖拽 */
+    #p02-slide-0 {
+      position: relative;
+    }
+    #p02-slide-0 #lab-header {
+      zoom: 1.6;
+    }
+    #p02-slide-0 .lab-split {
+      flex: 1 1 auto;
+      min-height: 0;
+      zoom: 1.6;
+      overflow-x: hidden;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    #p02-slide-0 .grammar-dock {
+      zoom: 1.6;
+    }
+    #p02-slide-1 {
+      overflow: auto;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: contain;
+      scroll-padding-bottom: max(4.25rem, calc(env(safe-area-inset-bottom, 0px) + 3.5rem));
+      --paper: #fff9f0;
+      --ink: #2c2c2c;
+      --crayon-red: #e85d4c;
+      --crayon-blue: #4a90d9;
+      --edge: #5d4037;
+      --grammar-blue: #1565c0;
+      --timeline-hl: #1565c0;
+    }
+    #p02-slide-1 .p01-summary {
+      flex: 1 1 auto;
+      min-height: min(72vh, 640px);
+      overflow: auto;
+      -webkit-overflow-scrolling: touch;
+      padding: clamp(14px, 2.4vh, 28px) clamp(12px, 3.2vw, 36px);
+      border-radius: 18px;
+      border: 4px solid var(--edge);
+      background: rgba(255, 253, 248, 0.96);
+      box-shadow: 6px 8px 0 rgba(0, 0, 0, 0.08);
+      max-width: min(1240px, 98vw);
+      margin: 0 auto;
+      width: 100%;
+    }
+    #p02-slide-1 .p01-summary-title {
+      margin: 0 0 clamp(0.65rem, 1.8vh, 1rem);
+      font-size: clamp(1.35rem, 4vw, 2.05rem);
+      font-weight: 950;
+      color: var(--crayon-red);
+      text-align: center;
+      letter-spacing: 0.02em;
+    }
+    #p02-slide-1 .p01-summary-list {
+      margin: 0 0 clamp(1rem, 2vh, 1.35rem);
+      padding-left: clamp(1.25rem, 3vw, 1.75rem);
+      font-size: clamp(1.02rem, 2.35vw, 1.35rem);
+      font-weight: 750;
+      line-height: 1.62;
+      color: #3e2723;
+    }
+    #p02-slide-1 .p01-summary-list li + li {
+      margin-top: clamp(0.55rem, 1.5vh, 0.85rem);
+    }
+    #p02-slide-1 .p01-summary-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: clamp(10px, 2vw, 14px);
+      margin-bottom: clamp(0.75rem, 1.8vh, 1.1rem);
+    }
+    #p02-slide-1 .p01-summary-toolbar .btn-crayon {
+      font-size: clamp(0.92rem, 2.1vw, 1.12rem);
+      padding: clamp(10px, 2vh, 14px) clamp(18px, 3.5vw, 26px);
+    }
+    #p02-slide-1 .btn-crayon {
+      border: none;
+      cursor: pointer;
+      font-weight: 950;
+      padding: clamp(8px, 1.8vh, 10px) clamp(14px, 2.5vw, 18px);
+      border-radius: 999px;
+      border: 3px solid var(--edge);
+      font-size: clamp(0.74rem, 1.75vw, 0.88rem);
+      box-shadow: 3px 4px 0 rgba(0, 0, 0, 0.12);
+      background: linear-gradient(180deg, #fff8dc, #ffcc80);
+      color: #4e342e;
+      touch-action: manipulation;
+    }
+    #p02-slide-1 .btn-crayon:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+    #p02-slide-1 .p01-structure-panel {
+      margin-top: 0.5rem;
+      padding: clamp(1rem, 2.2vh, 1.45rem) clamp(1rem, 2.5vw, 1.35rem);
+      border-radius: 14px;
+      border: 3px dashed var(--grammar-blue);
+      background: rgba(227, 242, 253, 0.55);
+      font-size: clamp(0.95rem, 2.15vw, 1.15rem);
+      font-weight: 700;
+      color: #1a237e;
+      line-height: 1.58;
+    }
+    #p02-slide-1 .p01-structure-lead {
+      margin: 0 0 0.65rem;
+    }
+    #p02-slide-1 .p01-struct-major {
+      margin: clamp(1rem, 2.2vh, 1.35rem) 0 clamp(0.45rem, 1vh, 0.65rem);
+      font-size: clamp(1.05rem, 2.45vw, 1.28rem);
+      font-weight: 950;
+      color: #4a148c;
+      text-align: center;
+      letter-spacing: 0.04em;
+      padding-bottom: 0.35rem;
+      border-bottom: 3px solid rgba(74, 20, 140, 0.22);
+    }
+    #p02-slide-1 .p01-struct-major:first-of-type {
+      margin-top: 0.25rem;
+    }
+    #p02-slide-1 .p01-struct-mini-formula {
+      margin: 0 0 0.65rem;
+      padding: 0.45rem 0.55rem;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.65);
+      border: 2px dashed rgba(106, 27, 154, 0.35);
+      font-weight: 800;
+      font-size: clamp(0.82rem, 1.85vw, 1rem);
+      line-height: 1.45;
+      color: #311b92;
+      text-align: center;
+    }
+    #p02-slide-1 .p01-struct-section {
+      margin-top: clamp(1rem, 2.2vh, 1.35rem);
+      padding-top: clamp(0.75rem, 1.8vh, 1rem);
+      border-top: 2px dashed rgba(21, 101, 192, 0.28);
+    }
+    #p02-slide-1 .p01-struct-section:first-of-type {
+      margin-top: 0.35rem;
+      padding-top: 0;
+      border-top: none;
+    }
+    #p02-slide-1 .p01-struct-h3 {
+      margin: 0 0 0.4rem;
+      font-size: clamp(1.05rem, 2.5vw, 1.35rem);
+      font-weight: 950;
+      color: #0d47a1;
+    }
+    #p02-slide-1 .p01-struct-formula-text {
+      margin: 0 0 clamp(0.5rem, 1.2vh, 0.65rem);
+      font-weight: 800;
+      font-size: clamp(0.88rem, 1.95vw, 1.08rem);
+      line-height: 1.5;
+      color: #283593;
+    }
+    #p02-slide-1 .p01-ex-line {
+      margin-bottom: 0.45rem;
+    }
+    #p02-slide-1 .p01-ex-line:last-child {
+      margin-bottom: 0;
+    }
+    #p02-slide-1 .p01-ex-hotzone {
+      width: 100%;
+      text-align: left;
+      cursor: pointer;
+      border: 3px dashed rgba(144, 202, 249, 0.95);
+      border-radius: 14px;
+      padding: clamp(12px, 2vh, 16px) clamp(12px, 2.4vw, 18px);
+      background: rgba(255, 255, 255, 0.82);
+      font: inherit;
+      color: #37474f;
+      touch-action: manipulation;
+      transition: background 0.15s ease, border-color 0.15s ease;
+    }
+    #p02-slide-1 .p01-ex-hotzone:hover {
+      background: rgba(255, 249, 230, 0.96);
+      border-color: #ffb74d;
+    }
+    #p02-slide-1 .p01-ex-hint {
+      display: block;
+      font-size: clamp(0.82rem, 1.85vw, 1.05rem);
+      font-weight: 850;
+      color: #6d4c41;
+      line-height: 1.42;
+    }
+    #p02-slide-1 .p01-ex-en {
+      display: block;
+      margin-top: 0.48rem;
+      font-weight: 900;
+      font-size: clamp(0.92rem, 2.05vw, 1.15rem);
+      color: var(--crayon-blue);
+      line-height: 1.45;
+    }
+    #p02-slide-1 .p01-ex-en[hidden] {
+      display: none !important;
+    }
+
+    #lab-header {
+      flex-shrink: 0;
+      text-align: center;
+    }
+    #lab-header h1 {
+      margin: 0;
+      font-size: clamp(1.05rem, 3.2vw, 1.55rem);
+      font-weight: 950;
+      color: #ffecb3;
+      text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.25);
+    }
+    #lab-header .lab-sub {
+      margin: 0.25rem 0 0;
+      font-size: clamp(0.72rem, 1.65vw, 0.88rem);
+      font-weight: 750;
+      color: rgba(255, 255, 255, 0.82);
+      opacity: 0.95;
+    }
+
+    .lab-split {
+      flex: 1 1 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(8px, 1.5vw, 14px);
+      min-height: 0;
+    }
+
+    .lab-zone {
+      position: relative;
+      border-radius: 18px;
+      border: 3px solid rgba(255, 255, 255, 0.14);
+      backdrop-filter: blur(14px);
+      background: rgba(12, 14, 22, 0.42);
+      overflow: hidden;
+      transition: opacity 0.8s ease, filter 0.8s ease;
+    }
+    .lab-zone.dimmed {
+      opacity: 0.38;
+      filter: grayscale(0.35);
+    }
+    .lab-zone.bright {
+      box-shadow: var(--neon-glow-purple);
+    }
+    .lab-zone--nav.bright-zone {
+      box-shadow: var(--neon-glow-blue);
+    }
+
+    .lab-zone-label {
+      position: absolute;
+      top: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: clamp(0.62rem, 1.35vw, 0.74rem);
+      font-weight: 900;
+      letter-spacing: 0.06em;
+      padding: 4px 12px;
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.35);
+      border: 2px solid rgba(255, 255, 255, 0.16);
+      z-index: 3;
+      pointer-events: none;
+    }
+    .lab-zone--nav .lab-zone-label { color: #80deea; }
+    .lab-zone--quantum .lab-zone-label { color: #e1bee7; }
+
+    .lab-zone-inner {
+      position: absolute;
+      inset: 0;
+      padding: clamp(36px, 7vh, 52px) clamp(10px, 2vw, 14px) clamp(12px, 2vh, 18px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      overflow: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .glass-panel {
+      width: 100%;
+      max-width: min(100%, 380px);
+      padding: clamp(10px, 2vh, 14px);
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(10, 15, 30, 0.52);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    }
+
+    .calendar-card {
+      text-align: center;
+      font-weight: 800;
+      font-size: clamp(0.78rem, 1.75vw, 0.92rem);
+      line-height: 1.45;
+      color: #e0f7fa;
+    }
+    .calendar-card .cal-row {
+      margin-top: 0.45rem;
+      padding: 0.5rem;
+      border-radius: 12px;
+      background: rgba(0, 188, 212, 0.12);
+      border: 2px dashed rgba(0, 188, 212, 0.45);
+    }
+
+    .scenario-thumb {
+      display: block;
+      width: 100%;
+      max-height: clamp(100px, 22vh, 160px);
+      object-fit: cover;
+      border-radius: 12px;
+      margin-bottom: 10px;
+      border: 2px solid rgba(255, 255, 255, 0.14);
+      background: rgba(0, 0, 0, 0.2);
+    }
+    .scenario-thumb[hidden] {
+      display: none !important;
+    }
+    #lab-progress {
+      margin: 0.35rem 0 0;
+      font-size: clamp(0.72rem, 1.65vw, 0.88rem);
+      font-weight: 850;
+      color: #ffe082;
+    }
+
+    .sentence-line {
+      margin-top: 0.65rem;
+      font-size: clamp(0.82rem, 1.85vw, 0.98rem);
+      font-weight: 850;
+      line-height: 1.55;
+      color: #fff;
+      text-align: center;
+    }
+    .drop-slot {
+      display: inline-block;
+      vertical-align: middle;
+      min-width: clamp(100px, 28vw, 140px);
+      min-height: clamp(36px, 7vh, 44px);
+      margin: 0 4px;
+      border-radius: 12px;
+      border: 3px dashed rgba(255, 213, 79, 0.65);
+      background: rgba(255, 255, 255, 0.06);
+      box-shadow: inset 0 0 20px rgba(255, 193, 7, 0.12);
+    }
+    .drop-slot.filled {
+      border-style: solid;
+      border-color: rgba(129, 199, 132, 0.85);
+      background: rgba(76, 175, 80, 0.15);
+    }
+    .drop-slot .filled-text {
+      display: block;
+      padding: 6px 8px;
+      font-weight: 900;
+    }
+    .drop-slot .filled-text.going {
+      color: #4fc3f7;
+      text-shadow: 0 0 12px rgba(79, 195, 247, 0.55);
+    }
+    .drop-slot .filled-text.will {
+      color: #e1bee7;
+      text-shadow: 0 0 12px rgba(225, 190, 231, 0.55);
+    }
+
+    .menu-card {
+      text-align: center;
+      font-weight: 800;
+      color: #fce4ec;
+      font-size: clamp(0.78rem, 1.72vw, 0.9rem);
+    }
+    .menu-card .menu-title {
+      font-size: clamp(0.88rem, 2vw, 1.05rem);
+      margin-bottom: 0.5rem;
+      color: #f8bbd0;
+    }
+
+    .countdown-bar-wrap {
+      width: 100%;
+      max-width: 280px;
+      margin-bottom: 0.65rem;
+    }
+    .countdown-bar {
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.35);
+      overflow: hidden;
+      border: 2px solid rgba(244, 67, 54, 0.45);
+    }
+    .countdown-bar > i {
+      display: block;
+      height: 100%;
+      width: 100%;
+      transform-origin: left center;
+      background: linear-gradient(90deg, #ff5252, #ff9800);
+      transform: scaleX(1);
+    }
+
+    /* 纯 CSS「闪电」氛围（不使用 SVG） */
+    .lightning-fx {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 5;
+      overflow: hidden;
+      border-radius: 18px;
+    }
+    .lightning-fx span {
+      position: absolute;
+      width: 140%;
+      height: 8px;
+      left: -20%;
+      background: linear-gradient(90deg, transparent, rgba(224, 64, 251, 0.9), transparent);
+      opacity: 0;
+      filter: blur(2px);
+      transform: rotate(-18deg);
+    }
+
+    .grammar-dock {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 30;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: clamp(8px, 2vw, 14px);
+      padding: clamp(10px, 2vh, 14px) clamp(12px, 3vw, 20px);
+      padding-bottom: max(clamp(10px, 2vh, 14px), env(safe-area-inset-bottom));
+      background: linear-gradient(180deg, transparent, rgba(5, 5, 8, 0.92));
+      border-top: 2px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .gram-chip {
+      flex: 0 0 auto;
+      padding: clamp(10px, 2vh, 12px) clamp(14px, 3vw, 18px);
+      border-radius: 14px;
+      font-weight: 950;
+      font-size: clamp(0.72rem, 1.65vw, 0.88rem);
+      cursor: grab;
+      touch-action: none;
+      user-select: none;
+      border: 3px solid var(--edge-lab);
+      background: linear-gradient(180deg, rgba(255, 253, 248, 0.98), #cfd8dc);
+      color: #263238;
+      box-shadow: 3px 4px 0 rgba(0, 0, 0, 0.18);
+      position: relative;
+      z-index: 25;
+    }
+    .gram-chip.dragging {
+      cursor: grabbing;
+      z-index: 200;
+      box-shadow: 0 18px 36px rgba(0, 0, 0, 0.45);
+    }
+
+    #ds-bubble-host {
+      position: absolute;
+      left: 0;
+      top: 0;
+      z-index: 40;
+      max-width: min(92vw, 360px);
+      pointer-events: none;
+    }
+    .ds-bubble {
+      padding: 12px 14px;
+      border-radius: 16px;
+      border: 3px solid rgba(129, 199, 132, 0.55);
+      background: rgba(30, 40, 35, 0.92);
+      color: #e8f5e9;
+      font-size: clamp(0.74rem, 1.65vw, 0.88rem);
+      line-height: 1.5;
+      font-family: "Segoe UI", "Microsoft YaHei", sans-serif;
+      box-shadow: 6px 8px 0 rgba(0, 0, 0, 0.2);
+    }
+
+    #toast-mini {
+      position: fixed;
+      left: 50%;
+      bottom: 22%;
+      transform: translateX(-50%);
+      z-index: 60;
+      padding: 10px 16px;
+      border-radius: 999px;
+      font-weight: 900;
+      font-size: clamp(0.72rem, 1.6vw, 0.85rem);
+      background: rgba(211, 47, 47, 0.92);
+      color: #fff;
+      border: 3px solid #ffcdd2;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+    #toast-mini.show {
+      opacity: 1;
+    }
+
+    #panel-summary {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: grid;
+      place-items: center;
+      padding: 16px;
+      background: rgba(5, 5, 10, 0.72);
+      backdrop-filter: blur(8px);
+    }
+    #panel-summary[hidden] {
+      display: none !important;
+    }
+    .summary-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(10px, 2vw, 16px);
+      max-width: min(920px, 100%);
+      width: 100%;
+    }
+    .summary-card {
+      padding: clamp(14px, 2.5vh, 22px);
+      border-radius: 18px;
+      border: 4px solid rgba(255, 255, 255, 0.14);
+      font-weight: 850;
+      font-size: clamp(0.82rem, 1.85vw, 1.02rem);
+      line-height: 1.45;
+      text-align: center;
+    }
+    .summary-card.blue {
+      background: rgba(0, 96, 128, 0.45);
+      box-shadow: var(--neon-glow-blue);
+      color: #e0f7fa;
+    }
+    .summary-card.purple {
+      background: rgba(74, 20, 140, 0.42);
+      box-shadow: var(--neon-glow-purple);
+      color: #f3e5f5;
+    }
+    .btn-next-lesson {
+      margin-top: 1.25rem;
+      border: none;
+      cursor: pointer;
+      font-weight: 950;
+      padding: clamp(12px, 2vh, 14px) clamp(22px, 4vw, 32px);
+      border-radius: 999px;
+      border: 4px solid rgba(255, 224, 130, 0.85);
+      font-size: clamp(0.82rem, 1.85vw, 0.98rem);
+      background: linear-gradient(180deg, #fff8e1, #ffcc80);
+      color: #4e342e;
+      box-shadow: 4px 6px 0 rgba(0, 0, 0, 0.18);
+    }
+
+    #ui-lock {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      pointer-events: none;
+      background: transparent;
+      display: none;
+    }
+    #ui-lock.on {
+      display: block;
+      pointer-events: auto;
+    }
+
+    .particle {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #4fc3f7;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    #scenario-b-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.78);
+      z-index: 28;
+      display: grid;
+      place-items: center;
+      padding: 16px;
+    }
+    #scenario-b-overlay[hidden] {
+      display: none !important;
+    }
+    .overlay-card {
+      max-width: 420px;
+      padding: 1rem 1.25rem;
+      border-radius: 16px;
+      background: rgba(40, 20, 55, 0.95);
+      border: 3px solid rgba(186, 104, 200, 0.55);
+      color: #fce4ec;
+      font-size: clamp(0.78rem, 1.75vw, 0.92rem);
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body class="has-lesson-pager">
+  <div id="l08-p02-host" class="app">
+    <div id="bg-stack" aria-hidden="true"></div>
+    <div id="ui-lock" aria-hidden="true"></div>
+
+    <section id="lab-stage" aria-label="未来实验室">
+      <div class="p02-slide-tabs" role="tablist" aria-label="本页幻灯片">
+        <button type="button" role="tab" id="p02-tab-0" aria-selected="true" aria-controls="p02-slide-0">幻灯片 1 · 活动</button>
+        <button type="button" role="tab" id="p02-tab-1" aria-selected="false" aria-controls="p02-slide-1" tabindex="-1">幻灯片 2 · 总结</button>
+      </div>
+
+      <div class="p02-slide-deck">
+        <div id="p02-slide-0" class="p02-slide" role="tabpanel" aria-labelledby="p02-tab-0">
+          <header id="lab-header">
+            <h1>第08讲 · 未来实验室</h1>
+            <p class="lab-sub">导航电脑（be going to）· 量子水晶球（will）— 多组情景对比</p>
+            <p id="lab-progress" aria-live="polite">第 1 / 4 组</p>
+          </header>
+
+          <div class="lab-split">
+            <div id="zone-nav" class="lab-zone lab-zone--nav bright-zone" aria-label="导航电脑">
+              <span class="lab-zone-label">NAV · 预定计划</span>
+              <div class="lab-zone-inner">
+                <div id="panel-a" class="glass-panel">
+                  <img id="img-planned" class="scenario-thumb" alt="" width="400" height="225" hidden decoding="async" />
+                  <div id="a-card-wrap"></div>
+                  <p class="sentence-line" id="line-a"></p>
+                </div>
+              </div>
+            </div>
+
+            <div id="zone-quantum" class="lab-zone lab-zone--quantum dimmed" aria-label="量子水晶球">
+              <span class="lab-zone-label">QUANTUM · 当下决定</span>
+              <div class="lab-zone-inner">
+                <div id="panel-b" class="glass-panel" hidden>
+                  <img id="img-spont" class="scenario-thumb" alt="" width="400" height="225" hidden decoding="async" />
+                  <div id="b-card-wrap"></div>
+                  <div class="countdown-bar-wrap" id="count-wrap" hidden>
+                    <div class="countdown-bar" aria-hidden="true"><i id="count-bar-inner"></i></div>
+                  </div>
+                  <p class="sentence-line" id="line-b"></p>
+                </div>
+                <div id="lightning-root" class="lightning-fx" hidden></div>
+              </div>
+            </div>
+          </div>
+
+          <div id="grammar-dock" class="grammar-dock" aria-label="语法块">
+            <div class="gram-chip" data-kind="going-am" id="chip-am">am going to</div>
+            <div class="gram-chip" data-kind="going-is" id="chip-is">is going to</div>
+            <div class="gram-chip" data-kind="will" id="chip-will">will</div>
+          </div>
+        </div>
+
+        <div id="p02-slide-1" class="p02-slide" role="tabpanel" aria-labelledby="p02-tab-1" hidden>
+          <div class="p01-summary">
+            <h2 class="p01-summary-title">will 小结</h2>
+            <ul class="p01-summary-list">
+              <li><strong>will</strong> 常表示主观意愿或说话当下对未来的判断与决定。</li>
+              <li>表将来时，后面可接<strong>动词原形</strong>（动作），也可接 <strong>be</strong>（状态、身份、感受等）。骨架与 <strong>be going to</strong> 类似，只是情态动词换成 <strong>will</strong>。</li>
+            </ul>
+            <div class="p01-summary-toolbar">
+              <button type="button" class="btn-crayon" id="btnWillStructure" aria-expanded="false" aria-controls="willStructurePanel">will 的结构</button>
+            </div>
+            <div id="willStructurePanel" class="p01-structure-panel" hidden>
+              <p class="p01-structure-lead">
+                <strong>will</strong> 表将来时，常见两类：后面接<strong>动词原形</strong>表<strong>动作</strong>；接 <strong>be</strong> 表<strong>状态</strong>。否定常用 <strong>will not</strong> 或 <strong>won't</strong>。
+              </p>
+
+              <h3 class="p01-struct-major" id="p02-will-major-act">一、描述动作</h3>
+              <p class="p01-struct-mini-formula" aria-label="动作类骨架">主语 + <strong>will</strong> + <strong>动词原形</strong> + 其他</p>
+
+              <section class="p01-struct-section" aria-labelledby="p02-will-act-aff">
+                <h4 class="p01-struct-h3" id="p02-will-act-aff">肯定句</h4>
+                <p class="p01-struct-formula-text">主语 + will + 动词原形 + …</p>
+                <div class="p01-ex-line">
+                  <button type="button" class="p01-ex-hotzone" data-audio-key="will-act-aff-1" data-en="I will call you this evening." data-played="0" data-revealed="0" aria-expanded="false">
+                    <span class="p01-ex-hint">① 点击热区：先听朗读（英文隐藏）</span>
+                    <span class="p01-ex-en" hidden>I will call you this evening.</span>
+                  </button>
+                </div>
+                <div class="p01-ex-line">
+                  <button type="button" class="p01-ex-hotzone" data-audio-key="will-act-aff-2" data-en="She will help us tomorrow." data-played="0" data-revealed="0" aria-expanded="false">
+                    <span class="p01-ex-hint">① 点击热区：先听朗读（英文隐藏）</span>
+                    <span class="p01-ex-en" hidden>She will help us tomorrow.</span>
+                  </button>
+                </div>
+              </section>
+
+              <section class="p01-struct-section" aria-labelledby="p02-will-act-neg">
+                <h4 class="p01-struct-h3" id="p02-will-act-neg">否定句</h4>
+                <p class="p01-struct-formula-text">主语 + will not / won't + 动词原形 + …</p>
+                <div class="p01-ex-line">
+                  <button type="button" class="p01-ex-hotzone" data-audio-key="will-act-neg-1" data-en="I won't stay up late tonight." data-played="0" data-revealed="0" aria-expanded="false">
+                    <span class="p01-ex-hint">① 点击热区：先听朗读（英文隐藏）</span>
+                    <span class="p01-ex-en" hidden>I won't stay up late tonight.</span>
+                  </button>
+                </div>
+                <div class="p01-ex-line">
+                  <button type="button" class="p01-ex-hotzone" data-audio-key="will-act-neg-2" data-en="They will not forget the meeting." data-played="0" data-revealed="0" aria-expanded="false">
+                    <span class="p01-ex-hint">① 点击热区：先听朗读（英文隐藏）</span>
+                    <span class="p01-ex-en" hidden>They will not forget the meeting.</span>
+                  </button>
+                </div>
+              </section>
+
+              <section class="p01-struct-section" aria-labelledby="p02-will-act-yn">
+                <h4 class="p01-struct-h3" id="p02-will-act-yn">一般疑问句</h4>
+                <p class="p01-struct-formula-text">Will + 主语 + 动词原形 + … ?</p>
+                <div class="p01-ex-line">
+                  <button type="button" class="p01-ex-hotzone" data-audio-key="will-act-yn-1" data-en="Will you join us for lunch?" data-played="0" data-revealed="0" aria-expanded="false">
+                    <span class="p01-ex-hint">① 点击热区：先听朗读（英文隐藏）</span>
+                    <span class="p01-ex-en" hidden>Will you join us for lunch?</span>
+                  </button>
+                </div>
+                <div class="p01-ex-line">
+                  <button type="button" class="p01-ex-hotzone" data-audio-key="will-act-yn-2" data-en="Will she finish the report on time?" data-played="0" data-revealed="0" aria-expanded="false">
+                    <span class="p01-ex-hint">① 点击热区：先听朗读（英文隐藏）</span>
+                    <span class="p01-ex-en" hidden>Will she finish the report on time?</span>
+                  </button>
+                </div>
+              </section>
+
+              <section class="p01-struct-section" aria-labelledby="p02-will-act-wh">
+                <h4 class="p01-struct-h3" id="p02-will-act-wh">特殊疑问句</h4>
+                <p class="p01-struct-formula-text">疑问词 + will + 主语 + 动词原形 + … ?</p>
+                <div class="p01-ex-line">
+                  <button type="button" class="p01-ex-hotzone" data-audio-key="will-act-wh-1" data-en="What will you do after class?" data-played="0" data-revealed="0" aria-expanded="false">
+                    <span class="p01-ex-hint">① 点击热区：先听朗读（英文隐藏）</span>
+                    <span class="p01-ex-en" hidden>What will you do after class?</span>
+                  </button>
+                </div>
+                <div class="p01-ex-line">
+                  <button type="button" class="p01-ex-hotzone" data-audio-key="will-act-wh-2" data-en="Where will they meet?" data-played="0" data-revealed="0" aria-expanded="false">
+                    <span class="p01-ex-hint">① 点击热区：先听朗读（英文隐藏）</span>
+                    <span class="p01-ex-en" hidden>Where will they meet?</span>
+                  </button>
+                </div>
+              </section>
+
+              <h3 class="p01-struct-major" id="p02-will-major-state">二、描述状态</h3>
+              <p class="p01-struct-mini-formula" aria-label="状态类骨架">主语 + <strong>will</strong> + <strong>be</strong> + 其他（形容词 / 名词 / 介词短语等）</p>
+
+              <section class="p01-struct-section" aria-labelledby="p02-will-st-aff">
+                <h4 class="p01-struct-h3" id="p02-will-st-aff">肯定句</h4>
+                <p class="p01-struct-formula-text">主语 + will + be + …</p>
+                <div class="p01-ex-line">
+                  <button type="button" class="p01-ex-hotzone" data-audio-key="will-st-aff-1" data-en="I will be ready at six." data-played="0" data-revealed="0" aria-expanded="false">
+                    <span class="p01-ex-hint">① 点击热区：先听朗读（英文隐藏）</span>
+                    <span class="p01-ex-en" hidden>I will be ready at six.</span>
+                  </button>
+                </div>
+                <div class="p01-ex-line">
+                  <button type="button" class="p01-ex-hotzone" data-audio-key="will-st-aff-2" data-en="It will be sunny tomorrow." data-played="0" data-revealed="0" aria-expanded="false">
+                    <span class="p01-ex-hint">① 点击热区：先听朗读（英文隐藏）</span>
+                    <span class="p01-ex-en" hidden>It will be sunny tomorrow.</span>
+                  </button>
+                </div>
+              </section>
+
+              <section class="p01-struct-section" aria-labelledby="p02-will-st-neg">
+                <h4 class="p01-struct-h3" id="p02-will-st-neg">否定句</h4>
+                <p class="p01-struct-formula-text">主语 + will not / won't + be + …</p>
+                <div class="p01-ex-line">
+                  <button type="button" class="p01-ex-hotzone" data-audio-key="will-st-neg-1" data-en="I won't be late again." data-played="0" data-revealed="0" aria-expanded="false">
+                    <span class="p01-ex-hint">① 点击热区：先听朗读（英文隐藏）</span>
+                    <span class="p01-ex-en" hidden>I won't be late again.</span>
+                  </button>
+                </div>
+                <div class="p01-ex-line">
+                  <button type="button" class="p01-ex-hotzone" data-audio-key="will-st-neg-2" data-en="We won't be free tonight." data-played="0" data-revealed="0" aria-expanded="false">
+                    <span class="p01-ex-hint">① 点击热区：先听朗读（英文隐藏）</span>
+                    <span class="p01-ex-en" hidden>We won't be free tonight.</span>
+                  </button>
+                </div>
+              </section>
+
+              <section class="p01-struct-section" aria-labelledby="p02-will-st-yn">
+                <h4 class="p01-struct-h3" id="p02-will-st-yn">一般疑问句</h4>
+                <p class="p01-struct-formula-text">Will + 主语 + be + … ?</p>
+                <div class="p01-ex-line">
+                  <button type="button" class="p01-ex-hotzone" data-audio-key="will-st-yn-1" data-en="Will you be home later?" data-played="0" data-revealed="0" aria-expanded="false">
+                    <span class="p01-ex-hint">① 点击热区：先听朗读（英文隐藏）</span>
+                    <span class="p01-ex-en" hidden>Will you be home later?</span>
+                  </button>
+                </div>
+                <div class="p01-ex-line">
+                  <button type="button" class="p01-ex-hotzone" data-audio-key="will-st-yn-2" data-en="Will it be cold tomorrow?" data-played="0" data-revealed="0" aria-expanded="false">
+                    <span class="p01-ex-hint">① 点击热区：先听朗读（英文隐藏）</span>
+                    <span class="p01-ex-en" hidden>Will it be cold tomorrow?</span>
+                  </button>
+                </div>
+              </section>
+
+              <section class="p01-struct-section" aria-labelledby="p02-will-st-wh">
+                <h4 class="p01-struct-h3" id="p02-will-st-wh">特殊疑问句</h4>
+                <p class="p01-struct-formula-text">疑问词 + will + 主语 + be + … ?</p>
+                <div class="p01-ex-line">
+                  <button type="button" class="p01-ex-hotzone" data-audio-key="will-st-wh-1" data-en="How will you be sure?" data-played="0" data-revealed="0" aria-expanded="false">
+                    <span class="p01-ex-hint">① 点击热区：先听朗读（英文隐藏）</span>
+                    <span class="p01-ex-en" hidden>How will you be sure?</span>
+                  </button>
+                </div>
+                <div class="p01-ex-line">
+                  <button type="button" class="p01-ex-hotzone" data-audio-key="will-st-wh-2" data-en="Where will she be next month?" data-played="0" data-revealed="0" aria-expanded="false">
+                    <span class="p01-ex-hint">① 点击热区：先听朗读（英文隐藏）</span>
+                    <span class="p01-ex-en" hidden>Where will she be next month?</span>
+                  </button>
+                </div>
+              </section>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div id="ds-bubble-host" hidden></div>
+    <div id="toast-mini" role="status">Grammar mismatch! 主语是 I，注意 be 动词！</div>
+  </div>
+
+  <div id="scenario-b-overlay" hidden>
+    <div class="overlay-card" id="scenario-b-overlay-text"></div>
+  </div>
+
+  <div id="panel-summary" hidden>
+    <div>
+      <div class="summary-cards">
+        <div class="summary-card blue">提前安排好、有依据的计划 → <strong>be going to</strong></div>
+        <div class="summary-card purple">说话当下拍板、即兴决定 → <strong>will</strong></div>
+      </div>
+      <div style="text-align: center">
+        <button type="button" class="btn-next-lesson" id="btnNextLesson">进入预言球 · 下一页</button>
+      </div>
+    </div>
+  </div>
+
+  <nav class="lesson-pager" aria-label="课程页导航">
+    <a class="pager-prev" href="lesson08-page01-archive.html">← Page 01</a>
+    <span class="pager-mid">L08 · Page 02</span>
+    <a class="pager-next" href="lesson08-page03-crystal.html">Page 03 →</a>
+  </nav>
+
+  <script>
+    (function () {
+      "use strict";
+
+      var KEYS = window.__LESSON_KEYS__ || {};
+      var AZURE_REGION = KEYS.azureRegion || "eastus2";
+      var AZURE_KEY = KEYS.azureSpeechKey || "";
+      var DEEPSEEK_KEY = KEYS.deepSeekKey || "";
+      var VERTEX_PROJECT = KEYS.vertexProjectId || "";
+      var VERTEX_REGION = KEYS.vertexRegion || "us-central1";
+
+      var PAGE02_AUDIO_BASE = "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/audio/page02/";
+      var PAGE02_AUDIO_MAP = {
+        "r1-a-cue": "r1-a-cue.mp3",
+        "r1-a-success": "r1-a-success.mp3",
+        "r1-b-cue": "r1-b-cue.mp3",
+        "r1-b-success": "r1-b-success.mp3",
+        "r2-a-cue": "r2-a-cue.mp3",
+        "r2-a-success": "r2-a-success.mp3",
+        "r2-b-cue": "r2-b-cue.mp3",
+        "r2-b-success": "r2-b-success.mp3",
+        "r3-a-cue": "r3-a-cue.mp3",
+        "r3-a-success": "r3-a-success.mp3",
+        "r3-b-cue": "r3-b-cue.mp3",
+        "r3-b-success": "r3-b-success.mp3",
+        "r4-a-cue": "r4-a-cue.mp3",
+        "r4-a-success": "r4-a-success.mp3",
+        "r4-b-cue": "r4-b-cue.mp3",
+        "r4-b-success": "r4-b-success.mp3",
+        "will-act-aff-1": "will-act-aff-1.mp3",
+        "will-act-aff-2": "will-act-aff-2.mp3",
+        "will-act-neg-1": "will-act-neg-1.mp3",
+        "will-act-neg-2": "will-act-neg-2.mp3",
+        "will-act-yn-1": "will-act-yn-1.mp3",
+        "will-act-yn-2": "will-act-yn-2.mp3",
+        "will-act-wh-1": "will-act-wh-1.mp3",
+        "will-act-wh-2": "will-act-wh-2.mp3",
+        "will-st-aff-1": "will-st-aff-1.mp3",
+        "will-st-aff-2": "will-st-aff-2.mp3",
+        "will-st-neg-1": "will-st-neg-1.mp3",
+        "will-st-neg-2": "will-st-neg-2.mp3",
+        "will-st-yn-1": "will-st-yn-1.mp3",
+        "will-st-yn-2": "will-st-yn-2.mp3",
+        "will-st-wh-1": "will-st-wh-1.mp3",
+        "will-st-wh-2": "will-st-wh-2.mp3",
+      };
+
+      var SCENARIOS = [
+        {
+          aCardTitle: "周末日程扫描",
+          aCardBody: "Saturday 10:00 AM — Play football with Tom",
+          aRest: "play football with Tom.",
+          aCue: "Scanning schedule... You have a match with Tom. What is your plan for Saturday?",
+          aSuccess: "I am going to play football with Tom.",
+          keys: { aCue: "r1-a-cue", aSuccess: "r1-a-success", bCue: "r1-b-cue", bSuccess: "r1-b-success" },
+          bMenuTitle: "Tonight's Menu",
+          bMenuBody: "Burger · Pasta · Salad · Soup",
+          bBefore: "Oh, I ",
+          bAfter: "have the hamburger.",
+          bCue: "Good evening. Are you ready to order? What would you like?",
+          bSuccess: "Oh, I will have the hamburger.",
+          imgPlanned: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/l08-p02-r1-planned.png",
+          imgSpont: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/l08-p02-r1-spont.png",
+          dsWillUser: "学生填空：计划情景中用了 will。",
+          dsGoingUser: "学生填空：点菜即兴情景中用了 be going to。",
+        },
+        {
+          aCardTitle: "演出海报 · 已定档",
+          aCardBody: "Friday 7:00 PM — School concert · You play guitar",
+          aRest: "play the guitar at the school concert.",
+          aCue: "Your poster says you perform at the school concert this Friday. What is your plan?",
+          aSuccess: "I am going to play the guitar at the school concert.",
+          keys: { aCue: "r2-a-cue", aSuccess: "r2-a-success", bCue: "r2-b-cue", bSuccess: "r2-b-success" },
+          bMenuTitle: "课堂提问",
+          bMenuBody: "Teacher: Who would like to clean the blackboard?",
+          bBefore: "I ",
+          bAfter: "clean the blackboard.",
+          bCue: "The teacher asks for a volunteer to clean the blackboard. What do you say?",
+          bSuccess: "I will clean the blackboard.",
+          imgPlanned: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/l08-p02-r2-planned.png",
+          imgSpont: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/l08-p02-r2-spont.png",
+          dsWillUser: "学生填空：已定档演出计划情景中用了 will。",
+          dsGoingUser: "学生填空：举手志愿者即兴情景中用了 be going to。",
+        },
+        {
+          aCardTitle: "牙科预约卡",
+          aCardBody: "Tuesday 4:00 PM — Dental check-up",
+          aRest: "see the dentist on Tuesday.",
+          aCue: "Your appointment card shows Tuesday at four. What are you going to do?",
+          aSuccess: "I am going to see the dentist on Tuesday.",
+          keys: { aCue: "r3-a-cue", aSuccess: "r3-a-success", bCue: "r3-b-cue", bSuccess: "r3-b-success" },
+          bMenuTitle: "突然下雨",
+          bMenuBody: "Friend: Here, you can use my umbrella.",
+          bBefore: "I ",
+          bAfter: "use your umbrella.",
+          bCue: "It starts raining hard. Your friend offers an umbrella. What do you say?",
+          bSuccess: "I will use your umbrella.",
+          imgPlanned: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/l08-p02-r3-planned.png",
+          imgSpont: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/l08-p02-r3-spont.png",
+          dsWillUser: "学生填空：预约看牙医情景中用了 will。",
+          dsGoingUser: "学生填空：朋友递伞即兴情景中用了 be going to。",
+        },
+        {
+          aCardTitle: "晨读计划表",
+          aCardBody: "Tomorrow morning reading — Review Unit 3",
+          aRest: "review Unit three in the morning reading.",
+          aCue: "Your study wall says tomorrow morning you review Unit Three. What is your plan?",
+          aSuccess: "I am going to review Unit three in the morning reading.",
+          keys: { aCue: "r4-a-cue", aSuccess: "r4-a-success", bCue: "r4-b-cue", bSuccess: "r4-b-success" },
+          bMenuTitle: "小意外",
+          bMenuBody: "Friend: I dropped my ice cream!",
+          bBefore: "I ",
+          bAfter: "share my ice cream with you.",
+          bCue: "Your friend drops an ice cream cone. You decide to share yours. What do you say?",
+          bSuccess: "I will share my ice cream with you.",
+          imgPlanned: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/l08-p02-r4-planned.png",
+          imgSpont: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/l08-p02-r4-spont.png",
+          dsWillUser: "学生填空：晨读复习计划情景中用了 will。",
+          dsGoingUser: "学生填空：分冰淇淋即兴情景中用了 be going to。",
+        },
+      ];
+
+      var roundIndex = 0;
+      var dropA = null;
+      var dropB = null;
+
+      function currentScenario() {
+        return SCENARIOS[roundIndex] || SCENARIOS[0];
+      }
+
+      function escapeHtml(str) {
+        return String(str)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;");
+      }
+
+      function refreshDropRefs() {
+        dropA = document.getElementById("drop-slot-a");
+        dropB = document.getElementById("drop-slot-b");
+      }
+
+      function renderRound() {
+        var s = currentScenario();
+        var lp = document.getElementById("lab-progress");
+        if (lp) lp.textContent = "第 " + (roundIndex + 1) + " / " + SCENARIOS.length + " 组";
+        document.getElementById("a-card-wrap").innerHTML =
+          '<div class="calendar-card"><div>' +
+          escapeHtml(s.aCardTitle) +
+          '</div><div class="cal-row">' +
+          escapeHtml(s.aCardBody) +
+          "</div></div>";
+        document.getElementById("line-a").innerHTML =
+          'I <span id="drop-slot-a" class="drop-slot"></span> ' + escapeHtml(s.aRest);
+        var ip = document.getElementById("img-planned");
+        if (s.imgPlanned) {
+          ip.hidden = false;
+          ip.src = s.imgPlanned;
+          ip.onerror = function () {
+            ip.hidden = true;
+          };
+        } else {
+          ip.hidden = true;
+          ip.removeAttribute("src");
+        }
+        document.getElementById("b-card-wrap").innerHTML =
+          '<div class="menu-card"><div class="menu-title">' +
+          escapeHtml(s.bMenuTitle) +
+          '</div><div>' +
+          escapeHtml(s.bMenuBody) +
+          "</div></div>";
+        document.getElementById("line-b").innerHTML =
+          escapeHtml(s.bBefore) +
+          '<span id="drop-slot-b" class="drop-slot"></span> ' +
+          escapeHtml(s.bAfter);
+        var isp = document.getElementById("img-spont");
+        if (s.imgSpont) {
+          isp.hidden = false;
+          isp.src = s.imgSpont;
+          isp.onerror = function () {
+            isp.hidden = true;
+          };
+        } else {
+          isp.hidden = true;
+          isp.removeAttribute("src");
+        }
+        refreshDropRefs();
+      }
+
+      var bgStack = document.getElementById("bg-stack");
+      var uiLock = document.getElementById("ui-lock");
+      var zoneNav = document.getElementById("zone-nav");
+      var zoneQuantum = document.getElementById("zone-quantum");
+      var panelA = document.getElementById("panel-a");
+      var panelB = document.getElementById("panel-b");
+      var grammarDock = document.getElementById("grammar-dock");
+      var DOCK_HTML = grammarDock.innerHTML;
+      var dsHost = document.getElementById("ds-bubble-host");
+      var toastMini = document.getElementById("toast-mini");
+      var scenarioBOverlay = document.getElementById("scenario-b-overlay");
+      var scenarioBOverlayText = document.getElementById("scenario-b-overlay-text");
+      var panelSummary = document.getElementById("panel-summary");
+      var btnNextLesson = document.getElementById("btnNextLesson");
+      var countWrap = document.getElementById("count-wrap");
+      var countBarInner = document.getElementById("count-bar-inner");
+      var lightningRoot = document.getElementById("lightning-root");
+
+      var phase = "A";
+      var dragState = null;
+      var countTimer = null;
+      var countRemain = 10;
+      var countPaused = false;
+
+      function setUiLock(on) {
+        uiLock.classList.toggle("on", !!on);
+      }
+
+      function buildSsmlLab(text) {
+        return (
+          '<speak version="1.0" xml:lang="en-US"><voice name="en-US-ChristopherNeural">' +
+          '<prosody rate="0.96">' +
+          String(text)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;") +
+          "</prosody></voice></speak>"
+        );
+      }
+
+      function speakAzureLab(text) {
+        return new Promise(function (resolve) {
+          if (!AZURE_KEY) {
+            resolve(false);
+            return;
+          }
+          fetch("https://" + AZURE_REGION + ".tts.speech.microsoft.com/cognitiveservices/v1", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/ssml+xml",
+              "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3",
+              "Ocp-Apim-Subscription-Key": AZURE_KEY,
+            },
+            body: buildSsmlLab(text),
+          })
+            .then(function (res) {
+              if (!res.ok) throw new Error("tts");
+              return res.blob();
+            })
+            .then(function (blob) {
+              var u = URL.createObjectURL(blob);
+              var audio = new Audio();
+              audio.src = u;
+              var done = function () {
+                try {
+                  URL.revokeObjectURL(u);
+                } catch (e) {}
+                audio.removeAttribute("src");
+                resolve(true);
+              };
+              audio.onended = done;
+              audio.onerror = done;
+              audio.play().catch(done);
+            })
+            .catch(function () {
+              resolve(false);
+            });
+        });
+      }
+
+      function speakLabCloudOnly(text) {
+        return new Promise(function (resolve) {
+          var t = String(text || "").trim();
+          if (!t) {
+            resolve(false);
+            return;
+          }
+          speakAzureLab(t).then(function (ok) {
+            if (ok) {
+              resolve(true);
+              return;
+            }
+            if (typeof window.speechSynthesis !== "undefined") {
+              try {
+                window.speechSynthesis.cancel();
+              } catch (e1) {}
+              var u = new SpeechSynthesisUtterance(t);
+              u.lang = "en-US";
+              u.rate = 0.93;
+              u.onend = function () {
+                resolve(true);
+              };
+              u.onerror = function () {
+                resolve(false);
+              };
+              window.speechSynthesis.speak(u);
+            } else {
+              resolve(false);
+            }
+          });
+        });
+      }
+
+      function speakLab(text, audioKey) {
+        var t = String(text || "").trim();
+        if (!t) return Promise.resolve(false);
+        if (audioKey && PAGE02_AUDIO_MAP[audioKey]) {
+          var url = PAGE02_AUDIO_BASE + PAGE02_AUDIO_MAP[audioKey];
+          return new Promise(function (resolve) {
+            var a = new Audio(url);
+            var done = false;
+            function finish(v) {
+              if (done) return;
+              done = true;
+              resolve(v);
+            }
+            a.onended = function () {
+              finish(true);
+            };
+            a.onerror = function () {
+              speakLabCloudOnly(t).then(finish);
+            };
+            a.play().catch(function () {
+              speakLabCloudOnly(t).then(finish);
+            });
+          });
+        }
+        return speakLabCloudOnly(t);
+      }
+
+      function overlapRatio(a, b) {
+        var x1 = Math.max(a.left, b.left);
+        var y1 = Math.max(a.top, b.top);
+        var x2 = Math.min(a.right, b.right);
+        var y2 = Math.min(a.bottom, b.bottom);
+        if (x2 <= x1 || y2 <= y1) return 0;
+        var inter = (x2 - x1) * (y2 - y1);
+        var areaA = a.width * a.height;
+        return areaA > 0 ? inter / areaA : 0;
+      }
+
+      function playBuzz() {
+        try {
+          var Ctx = window.AudioContext || window.webkitAudioContext;
+          if (!Ctx) return;
+          var ctx = new Ctx();
+          var o = ctx.createOscillator();
+          var g = ctx.createGain();
+          o.type = "square";
+          o.frequency.value = 140;
+          g.gain.value = 0.08;
+          o.connect(g);
+          g.connect(ctx.destination);
+          o.start();
+          setTimeout(function () {
+            o.stop();
+            ctx.close();
+          }, 140);
+        } catch (e) {}
+      }
+
+      function showToast(msg, ms) {
+        toastMini.textContent = msg;
+        toastMini.classList.add("show");
+        setTimeout(function () {
+          toastMini.classList.remove("show");
+        }, ms || 2200);
+      }
+
+      function typewriterInto(el, text, msPerChar, done) {
+        el.textContent = "";
+        var i = 0;
+        var id = setInterval(function () {
+          if (i >= text.length) {
+            clearInterval(id);
+            if (done) done();
+            return;
+          }
+          el.textContent += text.charAt(i);
+          i++;
+        }, msPerChar || 30);
+      }
+
+      function evaluateDeepSeek(messages, anchorEl) {
+        if (!DEEPSEEK_KEY) {
+          showToast("（未配置 DeepSeek，跳过 AI 点评）", 2500);
+          return Promise.resolve();
+        }
+        setUiLock(true);
+        dsHost.hidden = false;
+        dsHost.innerHTML = '<div class="ds-bubble"></div>';
+        var bubble = dsHost.querySelector(".ds-bubble");
+        if (anchorEl) {
+          var r = anchorEl.getBoundingClientRect();
+          var host = document.getElementById("l08-p02-host");
+          var hr = host.getBoundingClientRect();
+          dsHost.style.left = Math.min(window.innerWidth - 380, Math.max(8, r.left - hr.left)) + "px";
+          dsHost.style.top = r.top - hr.top + r.height + 8 + "px";
+        }
+        return fetch("https://api.deepseek.com/v1/chat/completions", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Authorization: "Bearer " + DEEPSEEK_KEY },
+          body: JSON.stringify({ model: "deepseek-chat", messages: messages }),
+        })
+          .then(function (r) {
+            return r.json();
+          })
+          .then(function (data) {
+            var txt =
+              (data &&
+                data.choices &&
+                data.choices[0] &&
+                data.choices[0].message &&
+                data.choices[0].message.content) ||
+              "（无回复）";
+            typewriterInto(bubble, txt, 28, function () {
+              setUiLock(false);
+            });
+          })
+          .catch(function () {
+            bubble.textContent = "（网络错误）";
+            setUiLock(false);
+          });
+      }
+
+      function burstParticles(atEl) {
+        var rect = atEl.getBoundingClientRect();
+        var host = document.getElementById("l08-p02-host");
+        var hr = host.getBoundingClientRect();
+        var cx = rect.left + rect.width / 2 - hr.left;
+        var cy = rect.top + rect.height / 2 - hr.top;
+        var frag = document.createDocumentFragment();
+        var nodes = [];
+        for (var i = 0; i < 14; i++) {
+          var p = document.createElement("div");
+          p.className = "particle";
+          p.style.left = cx + "px";
+          p.style.top = cy + "px";
+          frag.appendChild(p);
+          nodes.push(p);
+        }
+        host.appendChild(frag);
+        if (typeof anime !== "undefined") {
+          anime({
+            targets: nodes,
+            translateX: function () {
+              return anime.random(-80, 80);
+            },
+            translateY: function () {
+              return anime.random(-70, 70);
+            },
+            opacity: [1, 0],
+            duration: 720,
+            easing: "easeOutExpo",
+            complete: function () {
+              nodes.forEach(function (n) {
+                if (n.parentNode) n.parentNode.removeChild(n);
+              });
+            },
+          });
+        } else {
+          nodes.forEach(function (n) {
+            if (n.parentNode) n.parentNode.removeChild(n);
+          });
+        }
+      }
+
+      function runLightningFx() {
+        lightningRoot.hidden = false;
+        lightningRoot.innerHTML = "";
+        for (var i = 0; i < 7; i++) {
+          var s = document.createElement("span");
+          s.style.top = 18 + i * 12 + "%";
+          lightningRoot.appendChild(s);
+        }
+        var spans = lightningRoot.querySelectorAll("span");
+        if (typeof anime !== "undefined") {
+          anime({
+            targets: spans,
+            opacity: [0, 1, 0],
+            translateX: function () {
+              return anime.random(-16, 16);
+            },
+            delay: anime.stagger(90),
+            duration: 420,
+            easing: "easeOutQuad",
+            complete: function () {
+              lightningRoot.hidden = true;
+              lightningRoot.innerHTML = "";
+            },
+          });
+        }
+      }
+
+      function resetChipToDock(chip) {
+        if (!chip || !chip.parentNode) return;
+        try {
+          if (typeof anime !== "undefined") anime.remove(chip);
+        } catch (e1) {}
+        chip.classList.remove("dragging");
+        chip.style.cssText = "";
+        grammarDock.appendChild(chip);
+      }
+
+      function resetDock() {
+        grammarDock.innerHTML = DOCK_HTML;
+        bindDrag();
+      }
+
+      function clearDeepSeekBubble() {
+        dsHost.hidden = true;
+        dsHost.innerHTML = "";
+      }
+
+      function startScenarioA() {
+        phase = "A";
+        panelB.hidden = true;
+        countWrap.hidden = true;
+        zoneNav.classList.remove("dimmed");
+        zoneQuantum.classList.add("dimmed");
+        zoneQuantum.classList.remove("bright");
+        zoneNav.classList.add("bright-zone");
+        clearDeepSeekBubble();
+        scenarioBOverlay.hidden = true;
+        var s = currentScenario();
+        speakLab(s.aCue, s.keys.aCue);
+      }
+
+      function startScenarioB() {
+        phase = "B";
+        panelB.hidden = false;
+        if (dropB) {
+          dropB.innerHTML = "";
+          dropB.classList.remove("filled");
+        }
+        zoneNav.classList.add("dimmed");
+        zoneQuantum.classList.remove("dimmed");
+        zoneQuantum.classList.add("bright");
+        countWrap.hidden = false;
+        countRemain = 10;
+        countPaused = false;
+        if (countTimer) clearInterval(countTimer);
+        countBarInner.style.transform = "scaleX(1)";
+        countTimer = setInterval(function () {
+          if (countPaused) return;
+          countRemain -= 0.1;
+          if (countRemain <= 0) {
+            countRemain = 0;
+            clearInterval(countTimer);
+            countTimer = null;
+          }
+          countBarInner.style.transform = "scaleX(" + Math.max(0, countRemain / 10) + ")";
+        }, 100);
+
+        var s = currentScenario();
+        speakLab(s.bCue, s.keys.bCue);
+      }
+
+      /** @returns {"consumed"|"released"} */
+      function handleDropScenarioA(chip, chipRect, ds) {
+        var sc = currentScenario();
+        if (!dropA) refreshDropRefs();
+        if (!dropA) {
+          resetChipToDock(chip);
+          return "released";
+        }
+        var slotRect = dropA.getBoundingClientRect();
+        var ratio = overlapRatio(chipRect, slotRect);
+        var kind = chip.getAttribute("data-kind");
+        if (ratio < 0.38) {
+          resetChipToDock(chip);
+          return "released";
+        }
+        if (kind === "will") {
+          playBuzz();
+          resetChipToDock(chip);
+          evaluateDeepSeek(
+            [
+              {
+                role: "system",
+                content:
+                  "你是严厉的 AI 实验助教。学生面对提前写好的计划或证据，却在空白处用了 will。请用中文、略带讽刺、60 字以内说明：事先安排好的事要用 be going to，而不是说话当下才决定的 will。",
+              },
+              { role: "user", content: sc.dsWillUser },
+            ],
+            zoneNav
+          );
+          return "released";
+        }
+        if (kind === "going-is") {
+          playBuzz();
+          resetChipToDock(chip);
+          showToast("Grammar mismatch! 主语是 I，要用 am going to！", 2600);
+          return "released";
+        }
+        if (kind !== "going-am") {
+          resetChipToDock(chip);
+          return "released";
+        }
+
+        setUiLock(true);
+        var snapX = slotRect.left + slotRect.width / 2 - chipRect.width / 2;
+        var snapY = slotRect.top + slotRect.height / 2 - chipRect.height / 2;
+        if (typeof anime !== "undefined") {
+          anime({
+            targets: chip,
+            left: snapX + "px",
+            top: snapY + "px",
+            scale: 1,
+            rotate: 0,
+            duration: 420,
+            easing: "easeOutElastic(1, .6)",
+            complete: function () {
+              if (chip.parentNode) chip.parentNode.removeChild(chip);
+              dropA.classList.add("filled");
+              dropA.innerHTML =
+                '<span class="filled-text going">am going to</span>';
+              burstParticles(dropA);
+              speakLab(sc.aSuccess, sc.keys.aSuccess).then(function () {
+                setUiLock(false);
+                if (typeof anime !== "undefined") {
+                  anime({
+                    targets: panelA,
+                    opacity: [1, 0.35],
+                    duration: 600,
+                    complete: function () {
+                      transitionToB();
+                      panelA.style.opacity = "1";
+                    },
+                  });
+                } else {
+                  transitionToB();
+                }
+              });
+            },
+          });
+        } else {
+          dropA.classList.add("filled");
+          dropA.innerHTML = '<span class="filled-text going">am going to</span>';
+          if (chip.parentNode) chip.parentNode.removeChild(chip);
+          speakLab(sc.aSuccess, sc.keys.aSuccess).then(function () {
+            setUiLock(false);
+            transitionToB();
+          });
+        }
+        return "consumed";
+      }
+
+      function transitionToB() {
+        resetDock();
+        startScenarioB();
+      }
+
+      /** @returns {"consumed"|"released"} */
+      function handleDropScenarioB(chip, chipRect, ds) {
+        var sc = currentScenario();
+        if (!dropB) refreshDropRefs();
+        if (!dropB) {
+          resetChipToDock(chip);
+          return "released";
+        }
+        var slotRect = dropB.getBoundingClientRect();
+        var ratio = overlapRatio(chipRect, slotRect);
+        var kind = chip.getAttribute("data-kind");
+        if (ratio < 0.38) {
+          resetChipToDock(chip);
+          return "released";
+        }
+        if (kind === "going-am" || kind === "going-is") {
+          playBuzz();
+          resetChipToDock(chip);
+          countPaused = true;
+          evaluateDeepSeek(
+            [
+              {
+                role: "system",
+                content:
+                  "你是严厉的 AI 实验助教。学生在明显即兴、当下决定的情景里用了 be going to。请用中文、苏格拉底式、60 字以内说明：说话瞬间才拍板的事通常用 will。",
+              },
+              { role: "user", content: sc.dsGoingUser },
+            ],
+            zoneQuantum
+          ).then(function () {
+            countPaused = false;
+          });
+          return "released";
+        }
+        if (kind !== "will") {
+          resetChipToDock(chip);
+          return "released";
+        }
+
+        setUiLock(true);
+        countPaused = true;
+        if (countTimer) {
+          clearInterval(countTimer);
+          countTimer = null;
+        }
+        var snapX = slotRect.left + slotRect.width / 2 - chipRect.width / 2;
+        var snapY = slotRect.top + slotRect.height / 2 - chipRect.height / 2;
+        if (typeof anime !== "undefined") {
+          anime({
+            targets: chip,
+            left: snapX + "px",
+            top: snapY + "px",
+            duration: 450,
+            easing: "easeOutElastic(1, .55)",
+            complete: function () {
+              if (chip.parentNode) chip.parentNode.removeChild(chip);
+              dropB.classList.add("filled");
+              dropB.innerHTML = '<span class="filled-text will">will</span>';
+              runLightningFx();
+              speakLab(sc.bSuccess, sc.keys.bSuccess).then(function () {
+                setUiLock(false);
+                if (roundIndex < SCENARIOS.length - 1) {
+                  roundIndex += 1;
+                  phase = "A";
+                  panelB.hidden = true;
+                  countWrap.hidden = true;
+                  panelSummary.hidden = true;
+                  zoneNav.classList.remove("dimmed");
+                  zoneQuantum.classList.add("dimmed");
+                  zoneQuantum.classList.remove("bright");
+                  clearDeepSeekBubble();
+                  renderRound();
+                  resetDock();
+                  startScenarioA();
+                } else {
+                  phase = "C";
+                  panelSummary.hidden = false;
+                }
+              });
+            },
+          });
+        } else {
+          dropB.classList.add("filled");
+          dropB.innerHTML = '<span class="filled-text will">will</span>';
+          if (chip.parentNode) chip.parentNode.removeChild(chip);
+          speakLab(sc.bSuccess, sc.keys.bSuccess).then(function () {
+            setUiLock(false);
+            if (roundIndex < SCENARIOS.length - 1) {
+              roundIndex += 1;
+              phase = "A";
+              panelB.hidden = true;
+              countWrap.hidden = true;
+              panelSummary.hidden = true;
+              zoneNav.classList.remove("dimmed");
+              zoneQuantum.classList.add("dimmed");
+              zoneQuantum.classList.remove("bright");
+              clearDeepSeekBubble();
+              renderRound();
+              resetDock();
+              startScenarioA();
+            } else {
+              phase = "C";
+              panelSummary.hidden = false;
+            }
+          });
+        }
+        return "consumed";
+      }
+
+      function bindDrag() {
+        var chips = grammarDock.querySelectorAll(".gram-chip");
+        chips.forEach(function (chip) {
+          chip.addEventListener("pointerdown", onPointerDown);
+        });
+      }
+
+      function onPointerDown(ev) {
+        if (phase === "C") return;
+        var slideSum = document.getElementById("p02-slide-1");
+        if (slideSum && !slideSum.hidden) return;
+        var chip = ev.currentTarget;
+        var r = chip.getBoundingClientRect();
+        var cx = ev.clientX;
+        var cy = ev.clientY;
+        dragState = {
+          chip: chip,
+          offsetX: cx - r.left,
+          offsetY: cy - r.top,
+          homeLeft: r.left,
+          homeTop: r.top,
+        };
+        chip.classList.add("dragging");
+        chip.style.position = "fixed";
+        chip.style.left = r.left + "px";
+        chip.style.top = r.top + "px";
+        chip.style.zIndex = "300";
+        if (typeof anime !== "undefined") {
+          anime({ targets: chip, scale: 1.12, rotate: "2deg", duration: 160, easing: "easeOutQuad" });
+        }
+        window.addEventListener("pointermove", onPointerMove);
+        window.addEventListener("pointerup", onPointerUp, { once: true });
+        window.addEventListener("pointercancel", onPointerUp, { once: true });
+        ev.preventDefault();
+      }
+
+      function onPointerMove(ev) {
+        if (!dragState) return;
+        var chip = dragState.chip;
+        chip.style.left = ev.clientX - dragState.offsetX + "px";
+        chip.style.top = ev.clientY - dragState.offsetY + "px";
+      }
+
+      function onPointerUp(ev) {
+        window.removeEventListener("pointermove", onPointerMove);
+        if (!dragState) return;
+        var ds = dragState;
+        dragState = null;
+        var chip = ds.chip;
+        chip.classList.remove("dragging");
+        var cr = chip.getBoundingClientRect();
+        var result =
+          phase === "A"
+            ? handleDropScenarioA(chip, cr, ds)
+            : phase === "B"
+              ? handleDropScenarioB(chip, cr, ds)
+              : "released";
+        if (result === "consumed") return;
+        resetChipToDock(chip);
+      }
+
+      function tryVertexBgP02() {
+        var token = window.__VERTEX_BEARER_TOKEN__ || KEYS.vertexBearerToken || "";
+        if (!token || !VERTEX_PROJECT) return Promise.resolve(false);
+        var endpoint =
+          "https://" +
+          VERTEX_REGION +
+          "-aiplatform.googleapis.com/v1/projects/" +
+          VERTEX_PROJECT +
+          "/locations/" +
+          VERTEX_REGION +
+          "/publishers/google/models/imagegeneration@006:predict";
+        return fetch(endpoint, {
+          method: "POST",
+          headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" },
+          body: JSON.stringify({
+            instances: [
+              {
+                prompt:
+                  "High-tech laboratory split vertically: left neon blue navigation computer, right magical purple crystal ball, crayon children's educational illustration, soft friendly.",
+              },
+            ],
+            parameters: { sampleCount: 1, aspectRatio: "16:9" },
+          }),
+        })
+          .then(function (r) {
+            return r.ok ? r.json() : Promise.reject();
+          })
+          .then(function (data) {
+            var b64 =
+              data &&
+              data.predictions &&
+              data.predictions[0] &&
+              (data.predictions[0].bytesBase64Encoded || data.predictions[0].b64);
+            if (!b64) throw new Error();
+            bgStack.style.backgroundImage =
+              'linear-gradient(180deg, rgba(5,5,8,0.5), rgba(5,5,8,0.65)), url("data:image/png;base64,' +
+              b64 +
+              '")';
+            bgStack.style.backgroundSize = "cover";
+            bgStack.classList.add("vertex-on");
+            return true;
+          })
+          .catch(function () {
+            return false;
+          });
+      }
+
+      btnNextLesson.addEventListener("click", function () {
+        window.location.href = "lesson08-page03-crystal.html";
+      });
+
+      var p02Slide0 = document.getElementById("p02-slide-0");
+      var p02Slide1 = document.getElementById("p02-slide-1");
+      var p02Tab0 = document.getElementById("p02-tab-0");
+      var p02Tab1 = document.getElementById("p02-tab-1");
+      var btnWillStructure = document.getElementById("btnWillStructure");
+      var willStructurePanel = document.getElementById("willStructurePanel");
+
+      function setP02Slide(index) {
+        if (!p02Slide0 || !p02Slide1 || !p02Tab0 || !p02Tab1) return;
+        var show0 = index === 0;
+        p02Slide0.hidden = !show0;
+        p02Slide1.hidden = show0;
+        p02Tab0.setAttribute("aria-selected", show0 ? "true" : "false");
+        p02Tab1.setAttribute("aria-selected", show0 ? "false" : "true");
+        try {
+          p02Tab0.tabIndex = show0 ? 0 : -1;
+          p02Tab1.tabIndex = show0 ? -1 : 0;
+        } catch (e3) {}
+      }
+
+      function updateP02ExHotzoneHint(btn) {
+        var hint = btn.querySelector(".p01-ex-hint");
+        if (!hint) return;
+        var revealed = btn.getAttribute("data-revealed") === "1";
+        var played = btn.getAttribute("data-played") === "1";
+        if (!revealed) {
+          hint.textContent = played
+            ? "② 再次点击热区显示英文"
+            : "① 点击热区：先听朗读（英文隐藏）";
+        } else {
+          hint.textContent = "点击热区可重听朗读";
+        }
+      }
+
+      function resetP02StructureExamples() {
+        if (!willStructurePanel) return;
+        willStructurePanel.querySelectorAll(".p01-ex-hotzone").forEach(function (btn) {
+          btn.setAttribute("data-played", "0");
+          btn.setAttribute("data-revealed", "0");
+          btn.setAttribute("aria-expanded", "false");
+          var enEl = btn.querySelector(".p01-ex-en");
+          if (enEl) enEl.setAttribute("hidden", "");
+          var hint = btn.querySelector(".p01-ex-hint");
+          if (hint) hint.textContent = "① 点击热区：先听朗读（英文隐藏）";
+        });
+      }
+
+      if (p02Tab0 && p02Tab1) {
+        p02Tab0.addEventListener("click", function () {
+          setP02Slide(0);
+        });
+        p02Tab1.addEventListener("click", function () {
+          setP02Slide(1);
+        });
+      }
+      if (btnWillStructure && willStructurePanel) {
+        btnWillStructure.addEventListener("click", function () {
+          var opening = willStructurePanel.hasAttribute("hidden");
+          if (opening) {
+            willStructurePanel.removeAttribute("hidden");
+            btnWillStructure.setAttribute("aria-expanded", "true");
+            resetP02StructureExamples();
+          } else {
+            willStructurePanel.setAttribute("hidden", "");
+            btnWillStructure.setAttribute("aria-expanded", "false");
+          }
+        });
+        willStructurePanel.addEventListener("click", function (ev) {
+          var btn = ev.target.closest(".p01-ex-hotzone");
+          if (!btn || !willStructurePanel.contains(btn)) return;
+          ev.preventDefault();
+          var en = btn.getAttribute("data-en") || "";
+          var played = btn.getAttribute("data-played") === "1";
+          var revealed = btn.getAttribute("data-revealed") === "1";
+          var enEl = btn.querySelector(".p01-ex-en");
+
+          if (!revealed) {
+            if (!played) {
+              btn.setAttribute("data-played", "1");
+              updateP02ExHotzoneHint(btn);
+              speakLab(en, btn.getAttribute("data-audio-key"));
+              return;
+            }
+            btn.setAttribute("data-revealed", "1");
+            if (enEl) enEl.removeAttribute("hidden");
+            btn.setAttribute("aria-expanded", "true");
+            updateP02ExHotzoneHint(btn);
+            return;
+          }
+          speakLab(en, btn.getAttribute("data-audio-key"));
+        });
+      }
+
+      renderRound();
+      bindDrag();
+      tryVertexBgP02();
+      startScenarioA();
+    })();
+  </script>
+</body>
+</html>

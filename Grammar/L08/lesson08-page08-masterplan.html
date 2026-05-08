@@ -1,0 +1,2764 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>第08讲 · Page 08 · 2050 Masterplan · 口语综括 · be going to · will · If</title>
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/microsoft-cognitiveservices-speech-sdk@latest/distrib/browser/microsoft.cognitiveservices.speech.sdk.bundle-min.js"></script>
+  <link rel="stylesheet" href="../assets/lesson-screen-16x9.css" />
+  <style>
+    :root {
+      --p08-cyan: #00f3ff;
+      --p08-magenta: #ff00ea;
+      --p08-gold: #ffd54f;
+      --p08-void: #050510;
+      --p08-danger: #ff1744;
+      --p08-ok: #00e676;
+      --p08-hud: "IBM Plex Mono", "SF Mono", Consolas, "Roboto Mono", monospace;
+    }
+    * { box-sizing: border-box; }
+    html { overflow-x: clip; max-width: 100%; }
+    html, body {
+      margin: 0;
+      width: 100%;
+      min-height: 100%;
+      font-family: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+      background: var(--p08-void);
+      color: #e0f7fa;
+      touch-action: manipulation;
+    }
+    body.has-lesson-pager {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch !important;
+      zoom: 0.9;
+      min-height: 100dvh;
+    }
+
+    #l08-p08-host.app {
+      position: relative;
+      isolation: isolate;
+      flex: 1 1 auto;
+      width: 100%;
+      min-height: calc(100dvh - 3.5rem + clamp(28px, 4dvh, 56px));
+      overflow: hidden;
+      border: 4px solid rgba(179, 136, 255, 0.48);
+      border-radius: 22px;
+      box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.5), 0 12px 32px rgba(0, 0, 0, 0.45);
+    }
+
+    body.has-lesson-pager > #l08-p08-host.app {
+      min-height: calc(
+        100dvh - var(--lesson-pager-gap, 4.35rem) - max(8px, env(safe-area-inset-top, 0px)) -
+          max(8px, env(safe-area-inset-bottom, 0px)) + clamp(28px, 4dvh, 56px)
+      ) !important;
+    }
+
+    #p08-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(180deg, rgba(5, 6, 22, 0.82), rgba(8, 6, 28, 0.92)),
+        url("https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/l08-p08-masterplan-bg.png") center / cover no-repeat,
+        radial-gradient(ellipse 90% 70% at 50% 25%, rgba(120, 80, 200, 0.15), transparent 55%),
+        linear-gradient(180deg, #0a0a1c 0%, var(--p08-void) 100%);
+    }
+    #p08-bg::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      opacity: 0.06;
+      background-image:
+        linear-gradient(rgba(0, 243, 255, 0.35) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(179, 136, 255, 0.15) 1px, transparent 1px);
+      background-size: clamp(26px, 4.5vmin, 40px) clamp(26px, 4.5vmin, 40px);
+      pointer-events: none;
+    }
+
+    #p08-ui-lock {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: none;
+      pointer-events: auto;
+      background: rgba(0, 0, 0, 0.12);
+      cursor: wait;
+    }
+    #p08-ui-lock.on { display: block; }
+
+    #p08-stage {
+      position: absolute;
+      inset: 0;
+      z-index: 6;
+      display: flex;
+      flex-direction: column;
+      padding: clamp(4px, 0.8vh, 8px) clamp(8px, 1.4vw, 12px) clamp(40px, 7vh, 64px);
+      gap: clamp(6px, 1vh, 10px);
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    .p08-hud-title {
+      font-family: var(--p08-hud);
+      font-size: clamp(0.72rem, 1.65vw, 0.95rem);
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-align: center;
+      color: var(--p08-gold);
+      text-shadow: 0 0 18px rgba(255, 213, 79, 0.55);
+      flex-shrink: 0;
+    }
+
+    .p08-lead {
+      flex-shrink: 0;
+      margin: 0 auto;
+      max-width: min(56rem, 96vw);
+      padding: clamp(6px, 1vw, 10px) clamp(10px, 2vw, 14px);
+      border-radius: 12px;
+      background: rgba(18, 22, 42, 0.78);
+      border: 1px solid rgba(179, 136, 255, 0.35);
+      font-size: clamp(0.68rem, 1.35vw, 0.82rem);
+      line-height: 1.45;
+      color: rgba(224, 247, 250, 0.94);
+    }
+    .p08-lead strong { color: var(--p08-cyan); }
+
+    .p08-scene-toolbar {
+      flex-shrink: 0;
+      margin: 0 auto;
+      max-width: min(52rem, 100%);
+      width: 100%;
+    }
+    .p08-scene-label {
+      display: block;
+      text-align: center;
+      font-size: clamp(0.68rem, 1.45vw, 0.76rem);
+      font-weight: 800;
+      color: #b39ddb;
+      letter-spacing: 0.06em;
+      margin-bottom: 8px;
+      font-family: var(--p08-hud);
+    }
+    .p08-scene-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      justify-content: center;
+    }
+    .p08-scene-tab {
+      border: 2px solid rgba(100, 120, 160, 0.4);
+      background: rgba(20, 26, 48, 0.9);
+      color: #b0bec5;
+      font-weight: 750;
+      font-size: clamp(0.65rem, 1.35vw, 0.74rem);
+      padding: 6px 10px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: border-color 0.2s, box-shadow 0.2s, color 0.2s;
+    }
+    .p08-scene-tab:hover,
+    .p08-scene-tab:focus-visible {
+      outline: none;
+      border-color: rgba(0, 243, 255, 0.45);
+    }
+    .p08-scene-tab.is-active {
+      border-color: rgba(255, 0, 234, 0.55);
+      color: #fce4ec;
+      box-shadow: 0 0 14px rgba(255, 0, 234, 0.25);
+    }
+    .p08-scene-desc {
+      flex-shrink: 0;
+      margin: 0 auto;
+      max-width: min(56rem, 96vw);
+      padding: 6px 10px;
+      border-radius: 10px;
+      background: rgba(25, 35, 55, 0.65);
+      border: 1px dashed rgba(0, 243, 255, 0.22);
+      font-size: clamp(0.65rem, 1.28vw, 0.76rem);
+      line-height: 1.4;
+      color: #b0bec5;
+    }
+    .p08-scene-desc strong { color: var(--p08-gold); }
+
+    .p08-workspace {
+      flex: 1 1 auto;
+      min-height: 0;
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+      gap: clamp(8px, 1.2vw, 14px);
+      width: 100%;
+      max-width: min(72rem, 100%);
+      margin: 0 auto;
+    }
+    @media (max-width: 960px) {
+      .p08-workspace { grid-template-columns: 1fr; }
+    }
+    .p08-left {
+      display: flex;
+      flex-direction: column;
+      gap: clamp(4px, 0.8vh, 8px);
+      min-height: 0;
+      overflow: hidden;
+    }
+    .p08-right {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      min-height: 0;
+    }
+    .p08-img-frame {
+      flex: 0 1 auto;
+      min-height: 0;
+    }
+    .p08-img-view {
+      position: relative;
+      width: 100%;
+      max-height: min(38vh, 52vmin);
+      border-radius: 12px;
+      overflow: hidden;
+      line-height: 0;
+      border: 1px solid rgba(0, 243, 255, 0.28);
+      background: rgba(0, 0, 0, 0.2);
+      box-sizing: border-box;
+    }
+    .p08-img-view img {
+      display: block;
+      width: 100%;
+      height: auto;
+      max-height: min(38vh, 52vmin);
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      vertical-align: middle;
+    }
+    .p08-img-fab {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 12;
+      pointer-events: auto;
+      padding: clamp(8px, 1.5vmin, 12px) clamp(10px, 2vw, 14px);
+      min-height: 44px;
+      min-width: 46px;
+      border-radius: 12px;
+      border: 1px solid rgba(0, 243, 255, 0.55);
+      background: rgba(8, 14, 28, 0.78);
+      backdrop-filter: blur(6px);
+      color: var(--p08-cyan);
+      cursor: pointer;
+      font-weight: 900;
+      font-size: clamp(0.85rem, 1.6vw, 1rem);
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: rgba(0, 243, 255, 0.28);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
+    }
+    .p08-img-fab--prev {
+      left: clamp(6px, 1.4vw, 12px);
+    }
+    .p08-img-fab--next {
+      right: clamp(6px, 1.4vw, 12px);
+    }
+    .p08-img-fab:hover,
+    .p08-img-fab:focus-visible {
+      outline: none;
+      background: rgba(20, 32, 58, 0.9);
+      border-color: rgba(255, 213, 79, 0.5);
+    }
+    .p08-img-fab:active {
+      transform: translateY(-50%) scale(0.96);
+    }
+    .p08-img-badge {
+      position: absolute;
+      bottom: clamp(6px, 1.1vw, 10px);
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 11;
+      pointer-events: none;
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-family: var(--p08-hud);
+      font-size: clamp(0.68rem, 1.25vw, 0.78rem);
+      font-weight: 800;
+      color: var(--p08-gold);
+      background: rgba(5, 8, 20, 0.72);
+      border: 1px solid rgba(0, 243, 255, 0.35);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+    }
+    .p08-visual-stack {
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      gap: clamp(4px, 0.7vh, 8px);
+      position: relative;
+      z-index: 4;
+    }
+    .p08-panel-caption {
+      font-size: clamp(0.58rem, 1.08vw, 0.68rem);
+      line-height: 1.4;
+      color: #90a4ae;
+      text-align: center;
+      padding: 0 clamp(4px, 1vw, 10px);
+    }
+    .p08-panel-caption strong {
+      display: block;
+      color: var(--p08-gold);
+      font-weight: 750;
+      margin-bottom: 2px;
+    }
+    .p08-panel-caption .p08-caption-sub {
+      display: block;
+      font-size: 0.92em;
+      color: #78909c;
+    }
+    .p08-socratic-panel {
+      flex: 1 1 auto;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      gap: clamp(4px, 0.7vh, 8px);
+      overflow: hidden;
+    }
+    .p08-socratic {
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow: hidden;
+      padding: clamp(8px, 1.2vmin, 12px) clamp(8px, 1.5vw, 12px);
+      border-radius: 10px;
+      background: rgba(12, 18, 32, 0.75);
+      border: 1px dashed rgba(179, 136, 255, 0.28);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .p08-socratic-card {
+      display: flex;
+      flex-direction: column;
+      gap: clamp(6px, 1vh, 10px);
+      min-height: 0;
+    }
+    .p08-socratic-meta {
+      font-size: clamp(0.58rem, 1.12vw, 0.68rem);
+      font-family: var(--p08-hud);
+      font-weight: 750;
+      color: var(--p08-gold);
+      line-height: 1.35;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .p08-socratic-single-q {
+      margin: 0;
+      font-size: clamp(0.72rem, 1.55vw, 0.88rem);
+      line-height: 1.48;
+      color: #eceff1;
+      font-weight: 650;
+    }
+    .p08-socratic-actions {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 8px;
+    }
+    .p08-sq-q {
+      margin: 0 0 4px;
+      font-size: clamp(0.65rem, 1.28vw, 0.76rem);
+      line-height: 1.45;
+      color: #eceff1;
+    }
+    .p08-sq-tag {
+      display: inline-block;
+      font-size: 0.6rem;
+      padding: 1px 6px;
+      border-radius: 4px;
+      background: rgba(0, 243, 255, 0.12);
+      color: var(--p08-cyan);
+      margin-bottom: 4px;
+      font-family: var(--p08-hud);
+    }
+    .p08-btn-reveal {
+      font-size: clamp(0.62rem, 1.18vw, 0.72rem);
+      padding: clamp(5px, 0.9vmin, 8px) clamp(12px, 2vw, 16px);
+      border-radius: 8px;
+      border: 1px solid rgba(255, 213, 79, 0.45);
+      background: rgba(40, 32, 8, 0.5);
+      color: #fff8e1;
+      cursor: pointer;
+      font-weight: 700;
+    }
+    .p08-sq-ans {
+      margin: 0;
+      padding: clamp(6px, 1vmin, 10px) clamp(8px, 1.2vw, 12px);
+      border-radius: 8px;
+      background: rgba(0, 0, 0, 0.28);
+      font-size: clamp(0.64rem, 1.22vw, 0.76rem);
+      line-height: 1.42;
+      color: #b2dfdb;
+      font-family: var(--p08-hud);
+      max-height: min(18vh, 6.5rem);
+      overflow: auto;
+    }
+    .p08-socratic-qnav {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(10px, 2vw, 18px);
+      padding: 2px 0;
+    }
+    .p08-socratic-qbtn {
+      border: 1px solid rgba(179, 136, 255, 0.45);
+      background: rgba(28, 22, 48, 0.92);
+      color: #e1bee7;
+      border-radius: 8px;
+      padding: clamp(5px, 0.85vmin, 8px) clamp(12px, 2vw, 18px);
+      cursor: pointer;
+      font-weight: 800;
+      font-size: clamp(0.62rem, 1.15vw, 0.72rem);
+      font-family: var(--p08-hud);
+    }
+    .p08-socratic-qbtn:hover:not(:disabled),
+    .p08-socratic-qbtn:focus-visible {
+      outline: none;
+      border-color: rgba(0, 243, 255, 0.55);
+      color: #fff;
+    }
+    .p08-socratic-qbtn:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+    .p08-socratic-qind {
+      font-family: var(--p08-hud);
+      font-size: clamp(0.68rem, 1.25vw, 0.78rem);
+      color: var(--p08-gold);
+      min-width: 4.5em;
+      text-align: center;
+    }
+
+    .p08-scroll-right {
+      flex: 1 1 auto;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      gap: clamp(8px, 1.5vw, 12px);
+      overflow: hidden;
+    }
+
+    .p08-check-row {
+      flex-shrink: 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: clamp(8px, 1.5vw, 12px);
+      width: 100%;
+    }
+    .p08-check {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: clamp(0.68rem, 1.45vw, 0.78rem);
+      font-weight: 750;
+      background: rgba(30, 35, 55, 0.85);
+      border: 2px solid rgba(120, 130, 160, 0.35);
+      color: #90a4ae;
+      transition: border-color 0.25s, color 0.25s, box-shadow 0.25s;
+    }
+    .p08-check.ok {
+      border-color: rgba(0, 230, 118, 0.65);
+      color: #e8f5e9;
+      box-shadow: 0 0 14px rgba(0, 230, 118, 0.25);
+    }
+    .p08-check .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #546e7a;
+      flex-shrink: 0;
+    }
+    .p08-check.ok .dot {
+      background: var(--p08-ok);
+      box-shadow: 0 0 10px rgba(0, 230, 118, 0.8);
+    }
+
+    .p08-transcript {
+      margin: 0;
+      width: 100%;
+      flex: 1 1 auto;
+      min-height: clamp(72px, 14vh, 130px);
+      padding: clamp(10px, 1.6vw, 14px);
+      border-radius: 12px;
+      background: rgba(10, 14, 32, 0.88);
+      border: 1px solid rgba(0, 243, 255, 0.28);
+      font-family: var(--p08-hud);
+      font-size: clamp(0.78rem, 1.65vw, 0.92rem);
+      line-height: 1.45;
+      color: #eceff1;
+      overflow-y: auto;
+    }
+    .p08-transcript .interim {
+      color: rgba(180, 190, 200, 0.75);
+      font-style: italic;
+    }
+
+    .p08-wave-wrap {
+      margin: 0;
+      width: 100%;
+      height: clamp(44px, 8vh, 64px);
+      border-radius: 10px;
+      background: rgba(12, 18, 36, 0.75);
+      border: 1px solid rgba(0, 243, 255, 0.2);
+      overflow: hidden;
+      transition: border-color 0.25s, box-shadow 0.25s;
+    }
+    .p08-wave-wrap.p08-wave-active {
+      border-color: rgba(0, 243, 255, 0.55);
+      box-shadow: 0 0 22px rgba(0, 243, 255, 0.28);
+      animation: p08-azure-wave 1.15s ease-in-out infinite;
+    }
+    @keyframes p08-azure-wave {
+      50% { border-color: rgba(255, 0, 234, 0.42); box-shadow: 0 0 26px rgba(255, 0, 234, 0.22); }
+    }
+
+    .p08-ai-feedback-wrap {
+      flex-shrink: 0;
+      margin-top: clamp(4px, 0.8vh, 8px);
+      padding: clamp(8px, 1.4vw, 12px) clamp(10px, 1.6vw, 14px);
+      border-radius: 12px;
+      background: rgba(14, 18, 38, 0.94);
+      border: 1px solid rgba(179, 136, 255, 0.42);
+      box-shadow: inset 0 0 24px rgba(99, 102, 241, 0.08);
+      max-height: min(28vh, 200px);
+      overflow-y: auto;
+    }
+    .p08-ai-feedback-head {
+      margin: 0 0 6px;
+      font-family: var(--p08-hud);
+      font-size: clamp(0.66rem, 1.3vw, 0.76rem);
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--p08-gold);
+    }
+    .p08-ai-feedback-body {
+      margin: 0;
+      font-size: clamp(0.72rem, 1.45vw, 0.86rem);
+      line-height: 1.5;
+      color: #eceff1;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    .p08-ai-feedback-body.is-muted {
+      color: rgba(180, 190, 210, 0.85);
+      font-style: italic;
+    }
+    #p08-wave {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    .p08-toolbar {
+      flex-shrink: 0;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(10px, 2vw, 14px);
+      width: 100%;
+    }
+
+    .p08-btn-mic {
+      border: none;
+      cursor: pointer;
+      font-weight: 900;
+      padding: clamp(12px, 2vw, 16px) clamp(18px, 4vw, 28px);
+      border-radius: 999px;
+      font-size: clamp(0.78rem, 1.65vw, 0.92rem);
+      letter-spacing: 0.04em;
+      color: #fff;
+      background: linear-gradient(180deg, #6a1b9a, #4527a0);
+      border: 3px solid rgba(255, 0, 234, 0.55);
+      box-shadow: 0 0 28px rgba(255, 0, 234, 0.35);
+      transition: transform 0.15s ease, box-shadow 0.2s;
+    }
+    .p08-btn-mic:active { transform: scale(0.97); }
+    .p08-btn-mic.on {
+      border-color: rgba(0, 243, 255, 0.75);
+      box-shadow: 0 0 36px rgba(0, 243, 255, 0.45);
+      animation: p08-pulse-mic 1.2s ease-in-out infinite;
+    }
+    @keyframes p08-pulse-mic {
+      50% { box-shadow: 0 0 48px rgba(0, 243, 255, 0.55); }
+    }
+
+    .p08-btn-submit {
+      border: none;
+      cursor: pointer;
+      font-weight: 900;
+      padding: 12px 22px;
+      border-radius: 14px;
+      font-size: clamp(0.76rem, 1.55vw, 0.88rem);
+      color: #fff;
+      background: linear-gradient(180deg, #006064, #004d40);
+      border: 2px solid rgba(0, 243, 255, 0.45);
+      box-shadow: 0 0 18px rgba(0, 243, 255, 0.25);
+    }
+    .p08-btn-submit:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    .p08-btn-ghost {
+      border: 2px solid rgba(179, 136, 255, 0.45);
+      cursor: pointer;
+      font-weight: 800;
+      padding: 10px 16px;
+      border-radius: 12px;
+      font-size: clamp(0.72rem, 1.45vw, 0.82rem);
+      color: #e1bee7;
+      background: rgba(40, 24, 60, 0.55);
+    }
+
+    #p08-toast {
+      position: fixed;
+      bottom: clamp(72px, 14vh, 120px);
+      left: 50%;
+      transform: translateX(-50%) translateY(120%);
+      z-index: 8000;
+      padding: 10px 18px;
+      border-radius: 999px;
+      background: rgba(30, 35, 55, 0.96);
+      border: 1px solid rgba(255, 234, 0, 0.45);
+      color: #fffde7;
+      font-weight: 750;
+      font-size: clamp(0.74rem, 1.55vw, 0.88rem);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s, transform 0.35s;
+      max-width: min(92vw, 30rem);
+      text-align: center;
+    }
+    #p08-toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    #p08-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 9000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      background: rgba(4, 6, 18, 0.82);
+    }
+    #p08-modal.on { display: flex; }
+    .p08-modal-card {
+      max-width: min(32rem, 94vw);
+      padding: 18px;
+      border-radius: 14px;
+      border: 2px solid rgba(255, 23, 68, 0.45);
+      background: rgba(36, 18, 28, 0.94);
+      box-shadow: 0 0 40px rgba(255, 23, 68, 0.2);
+    }
+    .p08-modal-card.ok {
+      border-color: rgba(0, 230, 118, 0.5);
+      background: rgba(18, 40, 32, 0.94);
+    }
+    .p08-modal-card h3 {
+      margin: 0 0 10px;
+      font-size: 1rem;
+      color: #ffcdd2;
+    }
+    .p08-modal-card.ok h3 { color: #b9f6ca; }
+    .p08-modal-card p {
+      margin: 0;
+      font-size: clamp(0.78rem, 1.55vw, 0.9rem);
+      line-height: 1.55;
+      color: #eceff1;
+    }
+    .p08-modal-card button {
+      margin-top: 14px;
+      padding: 10px 18px;
+      border-radius: 10px;
+      border: none;
+      font-weight: 800;
+      cursor: pointer;
+      background: linear-gradient(180deg, #37474f, #263238);
+      color: #eceff1;
+    }
+
+    @media (max-width: 560px) {
+      .p08-check-row { flex-direction: column; align-items: stretch; }
+    }
+  </style>
+</head>
+<body class="has-lesson-pager">
+  <div id="l08-p08-host" class="app book shell wrap desk sheet">
+    <div id="p08-bg" aria-hidden="true"></div>
+    <div id="p08-ui-lock" aria-hidden="true"></div>
+
+    <div id="p08-stage">
+      <div class="p08-hud-title">PHASE 4 · EARTH 2050 MASTERPLAN · ORAL SYNTHESIS</div>
+
+      <div class="p08-lead">
+        你是「地球 2050 首席架构师」。请用<strong>口语描述</strong>你对未来城市的设想。课标三类表达——
+        <strong>计划（be going to）</strong>、<strong>预测（will）</strong>、
+        <strong>条件（If 第一条件句）</strong>——可<strong>任选、不必说齐</strong>，也<strong>不必每个句子都包含多项</strong>。
+        说完<strong>至少一句</strong>连贯英文后即可<strong>提交 Masterplan</strong>，由 AI 综合点评。
+      </div>
+
+      <div class="p08-scene-toolbar">
+        <span class="p08-scene-label">2050 场景实验室 · 五选一（切换后朗读任务提示）</span>
+        <div class="p08-scene-tabs" id="p08-scene-tabs" role="tablist" aria-label="口语场景"></div>
+      </div>
+      <div class="p08-scene-desc" id="p08-scene-desc"></div>
+
+      <div class="p08-workspace" id="p08-workspace">
+        <div class="p08-left">
+          <div class="p08-visual-stack">
+            <div class="p08-img-frame">
+              <div class="p08-img-view">
+                <img id="p08-panel-img" alt="" loading="lazy" decoding="async" />
+                <button type="button" class="p08-img-fab p08-img-fab--prev" id="p08-img-prev" aria-label="上一张配图">◀</button>
+                <button type="button" class="p08-img-fab p08-img-fab--next" id="p08-img-next" aria-label="下一张配图">▶</button>
+                <span class="p08-img-badge" id="p08-img-indicator">1 / 3</span>
+              </div>
+            </div>
+            <div class="p08-panel-caption" id="p08-panel-caption" aria-live="polite"></div>
+          </div>
+          <div class="p08-socratic-panel">
+            <div class="p08-socratic" id="p08-socratic" role="region" aria-label="本图词汇提问"></div>
+            <div class="p08-socratic-qnav">
+              <button type="button" class="p08-socratic-qbtn" id="p08-socratic-prev" aria-label="上一问">◀ 上一问</button>
+              <span class="p08-socratic-qind" id="p08-socratic-indicator">1 / 9</span>
+              <button type="button" class="p08-socratic-qbtn" id="p08-socratic-next" aria-label="下一问">下一问 ▶</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="p08-right">
+          <div class="p08-check-row" aria-live="polite">
+            <div class="p08-check" id="p08-ch-going" data-key="going">
+              <span class="dot"></span>
+              <span>① be going to（计划）</span>
+            </div>
+            <div class="p08-check" id="p08-ch-will" data-key="will">
+              <span class="dot"></span>
+              <span>② will（预测）</span>
+            </div>
+            <div class="p08-check" id="p08-ch-if" data-key="if">
+              <span class="dot"></span>
+              <span>③ If 条件句（因果）</span>
+            </div>
+          </div>
+
+          <div class="p08-scroll-right">
+            <div class="p08-transcript" id="p08-transcript" aria-live="polite">
+              <span id="p08-final-text"></span><span id="p08-interim" class="interim"></span>
+            </div>
+
+            <div class="p08-wave-wrap" id="p08-wave-wrap">
+              <canvas id="p08-wave" width="800" height="80" aria-hidden="true"></canvas>
+            </div>
+
+            <div class="p08-toolbar">
+              <button type="button" class="p08-btn-mic" id="p08-btn-mic" aria-pressed="false" aria-label="点击开始录音">点击开始录音</button>
+              <button type="button" class="p08-btn-submit" id="p08-btn-submit" disabled>提交 Masterplan</button>
+              <button type="button" class="p08-btn-ghost" id="p08-btn-clear">清空稿</button>
+            </div>
+
+            <div class="p08-ai-feedback-wrap" id="p08-ai-feedback-wrap" hidden>
+              <p class="p08-ai-feedback-head">老师对你说 · 鼓励与建议</p>
+              <p class="p08-ai-feedback-body" id="p08-ai-feedback"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="p08-toast" role="status"></div>
+
+    <div id="p08-modal">
+      <div class="p08-modal-card" id="p08-modal-card">
+        <h3 id="p08-modal-title">提示</h3>
+        <p id="p08-modal-body"></p>
+        <button type="button" id="p08-modal-dismiss">知道了</button>
+      </div>
+    </div>
+
+  </div>
+
+  <nav class="lesson-pager" aria-label="课程页导航">
+    <a class="pager-prev" href="lesson08-page07-traps.html">← Page 07</a>
+    <span class="pager-mid">L08 · Page 08</span>
+    <a class="pager-next" href="lesson08-page09-prophecy.html" id="p08-pager-next">Page 09 →</a>
+  </nav>
+
+  <script>
+    (function () {
+      "use strict";
+
+      var KEYS = window.__LESSON_KEYS__ || {};
+      /** 内嵌密钥（本页专用）；可被 window.__LESSON_KEYS__ 覆盖 */
+      var AZURE_REGION = KEYS.azureRegion || "southeastasia";
+      var AZURE_KEY =
+        KEYS.azureSpeechKey ||
+        "C42UQWeDcluYanbo17WrtUnPhk0vkZy2uQHPTCGDzY6CdEXx99NzJQQJ99BIACqBBLyXJ3w3AAAYACOGjkyu";
+      var DEEPSEEK_KEY = KEYS.deepSeekKey || "sk-daa16008e81843deba6fefe9dce51465";
+
+      /** 五场景：配图各 3 张（https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/l08-p08-s##_*.png）；词汇苏格拉底问答见 HOTSPOTS_BY_SRC */
+      var SCENES = [
+        {
+          id: "park-city",
+          short: "① 公园城市",
+          titleZh: "公园城市 · 绿色家园（绿道 / 锦江 / 垃圾分类）",
+          hintZh: "想象成都绿道延伸、锦江治理、新能源公交与垃圾分类。",
+          panels: [
+            {
+              src: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/l08-p08-s01-a.png",
+              titleZh: "图A · 绿道与垂直森林",
+            },
+            {
+              src: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/l08-p08-s01-b.png",
+              titleZh: "图B · 河岸治理与分类投放",
+            },
+            {
+              src: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/l08-p08-s01-c.png",
+              titleZh: "图C · 电动公交与接驳站",
+            },
+          ],
+        },
+        {
+          id: "smart-traffic",
+          short: "② 智慧交通",
+          titleZh: "智慧交通 · 未来出行（轨道 / 共享出行 / 路网）",
+          hintZh: "谈论地铁延伸、智慧信号灯、电动车与共享出行。",
+          panels: [
+            {
+              src: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/l08-p08-s02-a.png",
+              titleZh: "图A · 轨道交通与智慧站台",
+            },
+            {
+              src: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/l08-p08-s02-b.png",
+              titleZh: "图B · 智慧路口与路权",
+            },
+            {
+              src: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/l08-p08-s02-c.png",
+              titleZh: "图C · 共享出行枢纽",
+            },
+          ],
+        },
+        {
+          id: "future-school",
+          short: "③ 智慧校园",
+          titleZh: "智慧校园 · 未来学习（实验室 / 线上探究 / 合作学习）",
+          hintZh: "联想将来实验室、跨班合作项目、英语实践活动。",
+          panels: [
+            {
+              src: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/l08-p08-s03-a.png",
+              titleZh: "图A · 虚拟实验室与沉浸式课堂",
+            },
+            {
+              src: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/l08-p08-s03-b.png",
+              titleZh: "图B · 跨班合作与创客桌",
+            },
+            {
+              src: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/l08-p08-s03-c.png",
+              titleZh: "图C · 户外探究与绿色能源教具",
+            },
+          ],
+        },
+        {
+          id: "health-community",
+          short: "④ 健康社区",
+          titleZh: "健康社区 · 运动与医疗（锻炼 / 社区卫生站 / 老龄化照护）",
+          hintZh: "可从全民健身、校运会、社区义诊切入。",
+          panels: [
+            {
+              src: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/l08-p08-s04-a.png",
+              titleZh: "图A · 全龄健身广场",
+            },
+            {
+              src: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/l08-p08-s04-b.png",
+              titleZh: "图B · 远程问诊与数字健康亭",
+            },
+            {
+              src: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/l08-p08-s04-c.png",
+              titleZh: "图C · 疗愈花园与无障碍",
+            },
+          ],
+        },
+        {
+          id: "tech-volunteer",
+          short: "⑤ 科创志愿",
+          titleZh: "科创产业 · 青年志愿者（科技馆 / 编程科普 / 公益）",
+          hintZh: "结合科技馆研学、编程社团、周末志愿服务。",
+          panels: [
+            {
+              src: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/l08-p08-s05-a.png",
+              titleZh: "图A · 科技馆讲解与互动展项",
+            },
+            {
+              src: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/l08-p08-s05-b.png",
+              titleZh: "图B · 编程工作坊与同伴互助",
+            },
+            {
+              src: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/l08-p08-s05-c.png",
+              titleZh: "图C · 科技向善市集",
+            },
+          ],
+        },
+      ];
+      /**
+       * 配图词汇表：键为 panel.src。可选 box（百分比）保留供可视化编辑器使用。
+       * 每项含 term、tipsEn[3]（going to / will / If）；可另设 questionsZh[3] 覆盖默认中文提问。
+       */
+      var HOTSPOTS_BY_SRC = {
+        "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/l08-p08-s01-a.png": [
+          {
+            box: { left: 6, top: 58, width: 36, height: 30 },
+            term: "greenway",
+            tipsEn: [
+              "Plan: We are going to walk along the greenway after school.",
+              "Predict: The greenway will connect more parks by 2050.",
+              "If the city builds more greenways, the air will feel fresher.",
+            ],
+            questionsZh: [
+              "绿道越来越多，我们上下学就可以怎么走？",
+              "绿道四通八达，它可以连接我们日常生活的什么场所？",
+              "如果我们现在建设更多的公园和绿道，我们以后的空气将会有什么变化？",
+            ],
+          },
+          {
+            box: { left: 40, top: 8, width: 38, height: 42 },
+            term: "solar panels",
+            tipsEn: [
+              "Plan: Our school is going to learn how solar panels work.",
+              "Predict: More roofs will use solar panels in the future.",
+              "If we add solar panels, the city will use less coal power.",
+            ],
+            questionsZh: [
+              "教学楼顶上装了太阳能板之后，你们科学课或社团活动打算怎么用它做实验或观察？",
+              "越来越多屋顶铺上太阳能板以后，这座城的用电结构可能会发生什么变化？",
+              "如果现在更多办公楼和住宅改用太阳能发电，煤电占比和空气质量可能会怎样变化？",
+            ],
+          },
+          {
+            box: { left: 36, top: 70, width: 48, height: 24 },
+            term: "clean river",
+            tipsEn: [
+              "Plan: We are going to help keep the river clean on weekends.",
+              "Predict: The water will look clearer with better rules.",
+              "If people stop littering, the river will be safer for birds.",
+            ],
+            questionsZh: [
+              "家门前的河段变得清澈可亲近时，你周末打算具体参加哪类护河或捡拾活动？",
+              "水质肉眼可见变清之后，河岸散步、钓鱼或鸟类栖息可能会变成什么样？",
+              "如果大家不再往河里扔塑料袋和外卖盒，水鸟和水里的小生物会得到什么好处？",
+            ],
+          },
+        ],
+        "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/l08-p08-s01-b.png": [
+          {
+            box: { left: 20, top: 45, width: 52, height: 36 },
+            term: "river restoration",
+            tipsEn: [
+              "Plan: The community is going to plant trees along the river.",
+              "Predict: The water will look bluer after restoration.",
+              "If we protect the banks, fish will return to the river.",
+            ],
+            questionsZh: [
+              "河岸修复工程进行时，你或家人近期打算参加植树、巡河还是宣传里的哪一项？",
+              "修复完成后，这段河道的颜色、气味和亲水步道可能会怎样改观？",
+              "如果我们持续保护两岸植被而不乱挖乱占，鱼类回归会带来怎样的连锁变化？",
+            ],
+          },
+          {
+            box: { left: 62, top: 58, width: 30, height: 32 },
+            term: "recycling bins",
+            tipsEn: [
+              "Plan: I am going to sort plastic into the right bin every day.",
+              "Predict: Recycling bins will appear on more street corners.",
+              "If we use the bins correctly, landfills will stay smaller.",
+            ],
+            questionsZh: [
+              "路边多了分类回收桶之后，你每天扔水瓶、纸盒打算投进哪一个桶、怎么分辨标签？",
+              "回收桶覆盖面越来越大以后，小区的垃圾处理和清运方式可能会怎样改变？",
+              "如果大家都把可回收物投进对应桶而不是混在一个袋子里，填埋压力可能会怎样减轻？",
+            ],
+          },
+          {
+            box: { left: 8, top: 22, width: 40, height: 45 },
+            term: "plant trees",
+            tipsEn: [
+              "Plan: Our class is going to join a tree-planting event.",
+              "Predict: New trees will cool the path in summer.",
+              "If volunteers plant more trees, the park will be shadier.",
+            ],
+            questionsZh: [
+              "社区或学校组织植树，你们班打算订在哪一天、分工挖坑、浇水还是挂牌？",
+              "小树长成林荫道以后，夏天在这条路上散步体感温度可能会怎样变化？",
+              "如果志愿者每年春季都来补种补浇，这片绿地几年后可能会变成什么样？",
+            ],
+          },
+        ],
+        "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/l08-p08-s01-c.png": [
+          {
+            box: { left: 8, top: 40, width: 46, height: 40 },
+            term: "electric bus",
+            tipsEn: [
+              "Plan: I am going to take the electric bus to the library.",
+              "Predict: Electric buses will reduce noise in the city center.",
+              "If the city buys more e-buses, the smog will get lighter.",
+            ],
+            questionsZh: [
+              "电动巴士线路延伸到你家附近后，你上学、去图书馆或补课打算怎么换乘、几点出门？",
+              "市中心越来越多电动巴士取代柴油车后，噪音和尾气你可能会在什么时段感受最明显？",
+              "如果政府继续批量采购电动巴士并配套维保，雾霾天的能见度可能会怎样变化？",
+            ],
+          },
+          {
+            box: { left: 55, top: 45, width: 32, height: 38 },
+            term: "charging station",
+            tipsEn: [
+              "Plan: Drivers are going to use this charging station at night.",
+              "Predict: Charging will become faster in a few years.",
+              "If we build more stations, more people will buy electric cars.",
+            ],
+            questionsZh: [
+              "家附近有了快充桩之后，你家买车或租车打算怎么安排充电时段和电费？",
+              "充电桩密度提高、功率升级以后，人们换电动车的意愿可能会怎样变化？",
+              "如果夜间低谷电价充电更便宜，电网高峰压力和车主开支可能会怎样变化？",
+            ],
+          },
+          {
+            box: { left: 70, top: 65, width: 24, height: 24 },
+            term: "bike-sharing",
+            tipsEn: [
+              "Plan: We are going to try bike-sharing for the last mile.",
+              "Predict: Shared bikes will link every bus stop soon.",
+              "If bike lanes are safe, more students will ride to school.",
+            ],
+            questionsZh: [
+              "公交站旁整齐停了共享单车，你放学回家的「最后一公里」打算骑车还是步行接力？",
+              "共享单车与地铁公交接驳越来越好以后，早高峰路面拥堵可能会怎样变化？",
+              "如果非机动车道有护栏、路口信号照顾骑行者，学生骑车上学的人数可能会怎样变化？",
+            ],
+          },
+        ],
+        "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/l08-p08-s02-a.png": [
+          {
+            box: { left: 15, top: 32, width: 58, height: 48 },
+            term: "metro train",
+            tipsEn: [
+              "Plan: I am going to take the metro to the new campus.",
+              "Predict: The metro will reach the airport by 2040.",
+              "If a new line opens, travel time will be much shorter.",
+            ],
+            questionsZh: [
+              "新校区或实习单位通了地铁后，你打算从哪一站换乘、比平时早起多少分钟？",
+              "地铁延伸到机场或新区以后，跨城通勤和商务出行可能会怎样变频繁？",
+              "如果再开通一条贯穿线，你家到市中心或高铁站的单程时间可能会缩短多少？",
+            ],
+          },
+          {
+            box: { left: 32, top: 12, width: 44, height: 30 },
+            term: "digital screen",
+            tipsEn: [
+              "Plan: Commuters are going to read the screen for live train times.",
+              "Predict: Screens will show crowding on each car.",
+              "If the data is clear, people will wait in safer lines.",
+            ],
+            questionsZh: [
+              "站台大屏实时显示到站时刻后，你等车打算先看哪几行信息来决定排队位置？",
+              "将来大屏若能显示每节车厢拥挤度，候车客流分散和安全可能会怎样改善？",
+              "如果到站间隔和换乘提示一目了然，乘客焦虑和插队纠纷可能会怎样减少？",
+            ],
+          },
+          {
+            box: { left: 5, top: 0, width: 90, height: 28 },
+            term: "smart station",
+            tipsEn: [
+              "Plan: The city is going to upgrade the station with free Wi-Fi.",
+              "Predict: The station will use face ID gates for safety.",
+              "If lines are longer, the staff will add more help desks.",
+            ],
+            questionsZh: [
+              "智慧车站升级后，你换乘时打算先用免费 Wi-Fi 查路线，还是刷脸、扫码过闸？",
+              "闸机、导航屏和求助机器人普及后，高峰期进出站通行可能会怎样加快？",
+              "如果早高峰进站客流激增，临时增开人工窗口或导流绕行可能会怎样缓解排队？",
+            ],
+          },
+        ],
+        "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/l08-p08-s02-b.png": [
+          {
+            box: { left: 40, top: 10, width: 22, height: 28 },
+            term: "smart traffic lights",
+            tipsEn: [
+              "Plan: Engineers are going to test smarter lights at this crossroad.",
+              "Predict: The lights will change for buses and ambulances first.",
+              "If signals sense bikes, riders will get a longer green time.",
+            ],
+            questionsZh: [
+              "路口换成智慧红绿灯后，你骑自行车或步行过马路打算先看行人屏还是车道箭头？",
+              "灯控能优先放行公交和急救车后，急救响应和城市公交准点可能会怎样改善？",
+              "如果感应器能识别等待中的骑行者并延长绿灯，骑行安全可能会怎样提升？",
+            ],
+          },
+          {
+            box: { left: 20, top: 45, width: 55, height: 38 },
+            term: "electric cars",
+            tipsEn: [
+              "Plan: My family is going to buy an electric car next year.",
+              "Predict: EVs will be cheaper and quieter on this road.",
+              "If more drivers go electric, the smog will drop quickly.",
+            ],
+            questionsZh: [
+              "家里打算换电动车后，你周末出游或返校接送打算在哪里充电、避开什么时段？",
+              "这条干道上电动车越来越多以后，胎噪与尾气在你窗前可能会怎样变化？",
+              "如果购车补贴延续、充电桩跟上，燃油车在城区的占比可能会怎样下降？",
+            ],
+          },
+          {
+            box: { left: 35, top: 70, width: 40, height: 24 },
+            term: "crosswalk sensors",
+            tipsEn: [
+              "Plan: The city is going to add sensors to protect pedestrians.",
+              "Predict: Crosswalks will light up when people wait at night.",
+              "If sensors work well, fewer accidents will happen here.",
+            ],
+            questionsZh: [
+              "斑马线装了感应灯带或投影提醒后，你夜间过街打算站在等候区的哪个位置？",
+              "行人存在感一旦被灯火放大，司机礼让与事故率在这条路口可能会怎样变化？",
+              "如果感应灵敏且与信号灯联动，抢黄灯导致的碰撞可能会怎样减少？",
+            ],
+          },
+        ],
+        "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/l08-p08-s02-c.png": [
+          {
+            box: { left: 15, top: 48, width: 50, height: 42 },
+            term: "shared bikes & e-scooters",
+            tipsEn: [
+              "Plan: I am going to rent a shared bike for the last mile.",
+              "Predict: Small e-scooters will share the same parking zone.",
+              "If parking is tidy, the plaza will look more modern.",
+            ],
+            questionsZh: [
+              "枢纽旁同时停了共享单车和电动滑板车，你出站后「最后一公里」打算选哪一种、为什么？",
+              "划定整齐停车区并实时显示剩余车辆后，广场整洁度和找车体验可能会怎样改善？",
+              "如果对乱停乱放加收调度费或扣分，停车秩序和城市观感可能会怎样好转？",
+            ],
+          },
+          {
+            box: { left: 25, top: 5, width: 58, height: 40 },
+            term: "solar canopy",
+            tipsEn: [
+              "Plan: The hub is going to get power from the solar canopy.",
+              "Predict: Shaded roofs will keep riders cool in July.",
+              "If panels charge scooters, users will pay lower fees.",
+            ],
+            questionsZh: [
+              "站台雨棚顶上铺满太阳能板后，枢纽打算怎么用发的电给照明和充电桩供电？",
+              "盛夏有遮阳顶棚候车时，暴晒和中暑风险与等车心情可能会怎样改善？",
+              "如果太阳能直接给共享单车或滑板车补电，用户使用成本可能会怎样下降？",
+            ],
+          },
+          {
+            box: { left: 65, top: 35, width: 28, height: 38 },
+            term: "trip kiosk",
+            tipsEn: [
+              "Plan: Travelers are going to tap the kiosk for route maps.",
+              "Predict: The screen will show bikes left nearby.",
+              "If Wi-Fi drops, the kiosk will still work offline.",
+            ],
+            questionsZh: [
+              "路边触摸屏能查公交与单车余量时，你迷路或换乘打算先查哪一条线路？",
+              "离线也能查询的普及让老人和游客的临场焦虑可能会怎样减轻？",
+              "如果大屏标注周边剩余车位或单车数，抢座抢车纠纷可能会怎样减少？",
+            ],
+          },
+        ],
+        "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/l08-p08-s03-a.png": [
+          {
+            box: { left: 28, top: 38, width: 52, height: 48 },
+            term: "VR headsets",
+            tipsEn: [
+              "Plan: We are going to wear VR headsets in chemistry lab today.",
+              "Predict: VR labs will help us see molecules clearly.",
+              "If each desk has a headset, teamwork will be easier.",
+            ],
+            questionsZh: [
+              "化学课发下 VR 头显后，你这节课打算和同桌怎样分工观察分子模型并记录？",
+              "危险或昂贵的实验搬进 VR 以后，实验中学成本和试错次数可能会怎样变化？",
+              "如果每组都有头显并能同步视角，小组讨论实验现象可能会怎样更高效？",
+            ],
+          },
+          {
+            box: { left: 22, top: 18, width: 48, height: 36 },
+            term: "hologram model",
+            tipsEn: [
+              "Plan: The teacher is going to spin the hologram for the whole class.",
+              "Predict: Models will feel real enough to touch soon.",
+              "If software improves, rural schools will share the same labs.",
+            ],
+            questionsZh: [
+              "老师转动全息模型演示结构时，你打算举手提问哪一个局部或反应步骤？",
+              "立体全息逐渐逼真后，抽象概念在空间想象中可能会怎样更容易掌握？",
+              "如果乡村学校能远程同步同一套全息课件，城乡实验条件差距可能会怎样缩小？",
+            ],
+          },
+          {
+            box: { left: 62, top: 30, width: 30, height: 38 },
+            term: "smart board",
+            tipsEn: [
+              "Plan: Groups are going to save notes from the smart board.",
+              "Predict: Boards will translate keywords into English faster.",
+              "If connections fail, we will still finish with paper backup.",
+            ],
+            questionsZh: [
+              "智慧黑板能一键保存板书到班级云盘时，你们小组打算谁负责截图、谁整理关键词？",
+              "板书旁实时弹出英文关键词翻译后，课堂听说互动节奏可能会怎样加快？",
+              "如果网络中断仍能离线缓存板书，复习缺页和考试遗漏可能会怎样减少？",
+            ],
+          },
+        ],
+        "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/l08-p08-s03-b.png": [
+          {
+            box: { left: 38, top: 42, width: 38, height: 40 },
+            term: "robot kit",
+            tipsEn: [
+              "Plan: Our team is going to finish the robot kit this Friday.",
+              "Predict: Robots will score higher in the city contest.",
+              "If we test earlier, the code will be safer on stage.",
+            ],
+            questionsZh: [
+              "机器人套件周五前要上场，你们今晚打算先调试底盘、传感器还是抓取臂里的哪一段？",
+              "市级机器人赛规模扩大、强队增多后，得分线和观摩热度可能会怎样水涨船高？",
+              "如果提前一周在标准场地完整彩排，正式比赛翻车或违规罚分可能会怎样降低？",
+            ],
+          },
+          {
+            box: { left: 10, top: 48, width: 38, height: 34 },
+            term: "laptops",
+            tipsEn: [
+              "Plan: I am going to share my laptop for debugging.",
+              "Predict: Classroom laptops will sync projects to the cloud.",
+              "If batteries die, we will swap spare laptops quickly.",
+            ],
+            questionsZh: [
+              "小组调试缺一台电脑时，你打算把自己的笔记本借给哪位同学、用来跑哪一步？",
+              "教室笔记本统一登录云端同步代码后，冲突合并和版本找回可能会怎样省事？",
+              "如果讲台备好备用电源和备用机，演示中途断电或蓝屏可能会怎样避免拖垮全场？",
+            ],
+          },
+          {
+            box: { left: 52, top: 28, width: 42, height: 36 },
+            term: "team project",
+            tipsEn: [
+              "Plan: We are going to divide coding and poster tasks fairly.",
+              "Predict: Judges will care about teamwork stories.",
+              "If we communicate clearly, our project will look stronger.",
+            ],
+            questionsZh: [
+              "小组项目截止前，你这周具体打算负责编程里的哪一块、海报里的哪一栏？",
+              "评委越来越看重协作故事和过程记录时，你们的例会纪要和分工表可能会怎样调整？",
+              "如果每日站会把进度透明写在看板上，甩锅和重复劳动可能会怎样减少？",
+            ],
+          },
+        ],
+        "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/l08-p08-s03-c.png": [
+          {
+            box: { left: 30, top: 52, width: 46, height: 34 },
+            term: "solar panel model",
+            tipsEn: [
+              "Plan: We are going to measure this solar panel model outside.",
+              "Predict: Data will show noon peaks on sunny days.",
+              "If clouds arrive, output will drop but we will still log it.",
+            ],
+            questionsZh: [
+              "你们打算把太阳能教具搬到操场哪一天、正午前后测发电峰值？",
+              "阴天云层加厚时，电流电压曲线可能会怎样陡然下挫但仍保留对比价值？",
+              "如果把倾角和朝向调到当地纬度最佳，同样光照下输出功率可能会怎样提高？",
+            ],
+          },
+          {
+            box: { left: 8, top: 30, width: 30, height: 45 },
+            term: "wind turbine",
+            tipsEn: [
+              "Plan: The club is going to test the mini wind turbine on the field.",
+              "Predict: Winter winds will spin the blades faster.",
+              "If blades are safe, the school will allow more outdoor demos.",
+            ],
+            questionsZh: [
+              "迷你风力机打算插在操场哪一侧、用什么支架固定来测真实风速？",
+              "冬季大风频发时，叶片转速和发电量曲线可能会怎样冲高？",
+              "如果护栏半径和安全规程到位，学校批准户外演示的次数可能会怎样增加？",
+            ],
+          },
+          {
+            box: { left: 52, top: 58, width: 44, height: 32 },
+            term: "outdoor class",
+            tipsEn: [
+              "Plan: Science class is going to move onto the grass today.",
+              "Predict: Outdoor classes will happen twice a week next term.",
+              "If the weather is bad, we will return to the lab online.",
+            ],
+            questionsZh: [
+              "科学课今天要搬到草地上观察记录，你书包里打算带放大镜、记录表还是温度计？",
+              "下学期若每周固定两次户外探究，同学们的观察习惯和体能适应可能会怎样变化？",
+              "如果突然降雨或空气质量预警，全班撤回实验室或改线上可能会怎样无缝衔接？",
+            ],
+          },
+        ],
+        "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/l08-p08-s04-a.png": [
+          {
+            box: { left: 45, top: 38, width: 42, height: 44 },
+            term: "community sports",
+            tipsEn: [
+              "Plan: I am going to join the evening basketball group here.",
+              "Predict: The court will get lights for winter nights.",
+              "If more neighbors play, the community will feel friendlier.",
+            ],
+            questionsZh: [
+              "社区球场夜间开放后，你放学打算几点来组队、打半场还是全场？",
+              "加装照明以后，冬季晚间锻炼人数和社区安全感可能会怎样上升？",
+              "如果邻里常在这里打球聊天混脸熟，投诉纠纷和冷漠感可能会怎样下降？",
+            ],
+          },
+          {
+            box: { left: 5, top: 45, width: 40, height: 38 },
+            term: "running track",
+            tipsEn: [
+              "Plan: We are going to jog three laps after homework.",
+              "Predict: The rubber track will stay soft for knees.",
+              "If runners wear reflective clothes, night jogging will be safer.",
+            ],
+            questionsZh: [
+              "塑胶跑道翻新后，你作业写完打算跑几圈、热身和拉伸怎样安排？",
+              "缓冲更好的面层普及后，长跑膝盖不适和中途放弃可能会怎样减少？",
+              "如果夜跑穿反光衣成常态，机动车视线死角事故可能会怎样下降？",
+            ],
+          },
+          {
+            box: { left: 68, top: 30, width: 28, height: 48 },
+            term: "green plaza",
+            tipsEn: [
+              "Plan: Families are going to meet near the trees after dinner.",
+              "Predict: The plaza will host health fairs every spring.",
+              "If litter bins appear, the plaza will stay cleaner.",
+            ],
+            questionsZh: [
+              "晚饭后全家打算到树荫小广场散步、聊天还是带宠物活动？",
+              "广场每年春季办健康市集或义诊后，居民保健意识可能会怎样提高？",
+              "如果增设分类垃圾桶并提高清运频次，地面烟头纸屑可能会怎样明显减少？",
+            ],
+          },
+        ],
+        "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/l08-p08-s04-b.png": [
+          {
+            box: { left: 34, top: 22, width: 44, height: 42 },
+            term: "telehealth screen",
+            tipsEn: [
+              "Plan: Grandma is going to talk to the doctor through this screen.",
+              "Predict: Wait times will shrink with remote check-ins.",
+              "If networks stay stable, elders will trust telehealth more.",
+            ],
+            questionsZh: [
+              "奶奶要通过这块屏远程复诊，你打算提前帮她测好血压、血糖还是体温里的哪几项？",
+              "远程问诊分流常见病后，三甲医院排队和大厅拥挤可能会怎样缓解？",
+              "如果家里宽带稳定、画面不卡，老人对线上看病的心理抵触可能会怎样下降？",
+            ],
+          },
+          {
+            box: { left: 15, top: 48, width: 38, height: 42 },
+            term: "video call",
+            tipsEn: [
+              "Plan: Dad is going to join the video call to translate.",
+              "Predict: Calls will record reminders for medicine safely.",
+              "If privacy settings fail, we will switch to phone voice only.",
+            ],
+            questionsZh: [
+              "视频问诊时家人要帮你翻译，你打算提前把症状关键词写纸条还是打在备忘录里？",
+              "通话结束自动生成用药提醒并存档后，老人漏服误服可能会怎样减少？",
+              "如果隐私设置异常或画面泄露风险升高，你们打算怎样立刻切回纯语音或挂断重来？",
+            ],
+          },
+          {
+            box: { left: 54, top: 42, width: 38, height: 46 },
+            term: "health kiosk",
+            tipsEn: [
+              "Plan: I am going to check blood pressure at the health kiosk.",
+              "Predict: Kiosks will link data to the community clinic.",
+              "If results look high, the nurse will call us the same day.",
+            ],
+            questionsZh: [
+              "路过健康小屋自助测血压时，你打算固定每周哪一天、同一时段来打卡才可比？",
+              "测量数据直连社区医院档案后，慢病随访和预警可能会怎样更及时？",
+              "如果一次读数明显偏高，护士当天电话回访指导用药可能会怎样避免延误？",
+            ],
+          },
+        ],
+        "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/l08-p08-s04-c.png": [
+          {
+            box: { left: 12, top: 48, width: 46, height: 38 },
+            term: "wheelchair path",
+            tipsEn: [
+              "Plan: Mum is going to use the smooth path with her wheelchair.",
+              "Predict: Ramps will connect every corner of the garden.",
+              "If snow comes, staff will clear the path every morning.",
+            ],
+            questionsZh: [
+              "家人坐轮椅走这段无障碍坡道时，你打算在前面帮你看减速带、门槛还是积水？",
+              "坡道与盲道真正连成网后，轮椅和推婴儿车的独立出行可能会怎样改善？",
+              "如果冬天下雪后清晨有人铲冰除雪，摔倒纠纷和封闭绕行可能会怎样减少？",
+            ],
+          },
+          {
+            box: { left: 45, top: 38, width: 40, height: 42 },
+            term: "raised garden beds",
+            tipsEn: [
+              "Plan: Volunteers are going to water the raised beds on Sundays.",
+              "Predict: Herbs will grow faster in warm boxes.",
+              "If soil is healthy, patients will feel calmer here.",
+            ],
+            questionsZh: [
+              "志愿者周日要给抬升花箱浇水除草，你打算认领哪一排香草或蔬菜？",
+              "保温花箱里香草长得更快后，疗愈花园的气味和停留意愿可能会怎样增强？",
+              "如果土壤有机质持续改良，来做园艺活动的病人情绪稳定可能会怎样改善？",
+            ],
+          },
+          {
+            box: { left: 64, top: 32, width: 32, height: 50 },
+            term: "care volunteer",
+            tipsEn: [
+              "Plan: I am going to train as a care volunteer this term.",
+              "Predict: More teens will help on weekends in 2050.",
+              "If volunteers stay kind, trust will grow between generations.",
+            ],
+            questionsZh: [
+              "你这学期打算参加照护志愿培训的具体周末班次和模块是哪几天？",
+              "2050 年周末青少年义工常态化后，养老机构人手短缺可能会怎样缓解？",
+              "如果志愿者始终保持耐心和保密，两代之间的信任与求助意愿可能会怎样加深？",
+            ],
+          },
+        ],
+        "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/l08-p08-s05-a.png": [
+          {
+            box: { left: 32, top: 20, width: 44, height: 50 },
+            term: "science exhibit",
+            tipsEn: [
+              "Plan: I am going to explain the rocket wall to little kids.",
+              "Predict: The exhibit will get new AR games next year.",
+              "If kids ask questions, I will use simple English answers.",
+            ],
+            questionsZh: [
+              "你要在给小朋友讲解火箭墙时，开场打算用哪种比喻或演示抓住注意力？",
+              "展项明年上新 AR 互动后，停留时间和二次回访可能会怎样拉长？",
+              "如果孩子连环追问原理，你打算怎样用简单英语回答又不失准确？",
+            ],
+          },
+          {
+            box: { left: 52, top: 48, width: 38, height: 40 },
+            term: "young visitors",
+            tipsEn: [
+              "Plan: Class 3 is going to guide visitors around the hall.",
+              "Predict: Young visitors will remember one science fact each.",
+              "If tours stay lively, families will come back on weekends.",
+            ],
+            questionsZh: [
+              "你们班带队参观展厅，你被分配到第几个展区，打算用什么开场白带入情境？",
+              "趣味讲解和动手体验做得好时，家庭周末回访率可能会怎样上升？",
+              "如果瞬时客流逼近上限，临时启用二楼分流路线可能会怎样减轻拥挤？",
+            ],
+          },
+          {
+            box: { left: 15, top: 42, width: 30, height: 42 },
+            term: "museum guide",
+            tipsEn: [
+              "Plan: Volunteers are going to wear badges as museum guides.",
+              "Predict: Guides will use headsets for noisy halls.",
+              "If crowds peak, we will open a second route upstairs.",
+            ],
+            questionsZh: [
+              "志愿者讲解员上岗前要熟悉动线和徽章分区，你本周打算背熟哪一段解说词？",
+              "嘈杂展厅里人人戴耳机听讲解后，信息传达和参观节奏可能会怎样更清晰？",
+              "如果客流监测报警，临时增开第二条参观路线可能会怎样分散人流？",
+            ],
+          },
+        ],
+        "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/l08-p08-s05-b.png": [
+          {
+            box: { left: 30, top: 42, width: 52, height: 42 },
+            term: "coding class",
+            tipsEn: [
+              "Plan: Our club is going to finish the Python lesson tonight.",
+              "Predict: Online mentors will join through this shared screen.",
+              "If someone falls behind, partners will help debug together.",
+            ],
+            questionsZh: [
+              "编程社团今晚要收尾 Python 课，你打算先攻克哪个报错、和谁结对调试？",
+              "共享屏幕让线上导师远程投屏改代码后，掉队的同学可能会怎样更快跟上？",
+              "如果固定同桌互审每一行提交，低级语法错误和复制粘贴 bug 可能会怎样减少？",
+            ],
+          },
+          {
+            box: { left: 38, top: 8, width: 46, height: 28 },
+            term: "projector screen",
+            tipsEn: [
+              "Plan: The tutor is going to project hints on the big screen.",
+              "Predict: Screens will show errors in friendly colors.",
+              "If the projector breaks, we will share laptops instead.",
+            ],
+            questionsZh: [
+              "导师要把报错提示投影到大幕上，你打算坐第几排才能看清配色和行号？",
+              "投影把异常栈标成友好颜色后，新手定位 bug 的速度可能会怎样加快？",
+              "如果投影仪突发故障，全班立刻改用笔记本屏幕共享可能会怎样无缝接力？",
+            ],
+          },
+          {
+            box: { left: 8, top: 35, width: 32, height: 50 },
+            term: "peer mentor",
+            tipsEn: [
+              "Plan: I am going to be a peer mentor for new members.",
+              "Predict: Mentors will track progress on a simple form.",
+              "If questions repeat, we will make a short FAQ video.",
+            ],
+            questionsZh: [
+              "你作为同伴导师，这周打算重点跟进哪位新成员、检查哪一张进度表？",
+              "导师用表单记录打卡后，重复提问和遗漏知识点可能会怎样减少？",
+              "如果把高频问题剪成 FAQ 短视频，答疑负担和课堂打断可能会怎样减轻？",
+            ],
+          },
+        ],
+        "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/l08-p08-s05-c.png": [
+          {
+            box: { left: 20, top: 38, width: 55, height: 48 },
+            term: "tech fair booths",
+            tipsEn: [
+              "Plan: We are going to run a booth about recycling robots.",
+              "Predict: More schools will host green tech fairs soon.",
+              "If weather is fine, the fair will move onto the main square.",
+            ],
+            questionsZh: [
+              "你们摊位要演示回收机器人，开幕前打算彩排分拣准确率还是路演话术里的哪一段？",
+              "绿色科创市集越办越多后，学校环保社团的影响力和社会曝光可能会怎样扩大？",
+              "如果天气转晴把市集搬到主广场，人流量与招募志愿者可能会怎样明显提升？",
+            ],
+          },
+          {
+            box: { left: 52, top: 40, width: 42, height: 44 },
+            term: "young volunteers",
+            tipsEn: [
+              "Plan: Teens are going to greet guests at every booth gate.",
+              "Predict: Volunteer hours will link to service credits online.",
+              "If shifts are fair, everyone will enjoy the weekend duty.",
+            ],
+            questionsZh: [
+              "青少年志愿者要在每个 booth 口迎宾分流，你被排到哪一个时段、负责引导哪条队？",
+              "志愿时长线上备案并与综合素质档案挂钩后，升学材料可能会怎样更有说服力？",
+              "如果排班公平透明、劳逸均衡，大家对周末值班的抵触可能会怎样下降？",
+            ],
+          },
+          {
+            box: { left: 22, top: 3, width: 62, height: 28 },
+            term: "green tech banner",
+            tipsEn: [
+              "Plan: Designers are going to hang the green-tech banner early.",
+              "Predict: LED banners will use solar batteries overnight.",
+              "If logos shine brighter, visitors will find stages faster.",
+            ],
+            questionsZh: [
+              "设计师要提前悬挂绿色科技横幅，你们打算几点到场扶梯子、检查哪些防风固定？",
+              "LED 横幅夜间靠太阳能储能发亮后，电费支出和光污染控制可能会怎样兼顾？",
+              "如果 logo 更亮更显眼，迷路访客定位主舞台和签到区可能会怎样更快？",
+            ],
+          },
+        ],
+      };
+
+      /** 词汇英文 → 中文标签（默认苏格拉底提问用） */
+      var TERM_ZH = {
+        greenway: "绿道",
+        "solar panels": "太阳能板",
+        "clean river": "清澈河流",
+        "river restoration": "河岸修复",
+        "recycling bins": "分类回收桶",
+        "plant trees": "植树",
+        "electric bus": "电动巴士",
+        "charging station": "充电站",
+        "bike-sharing": "共享单车",
+        "metro train": "地铁列车",
+        "digital screen": "电子屏",
+        "smart station": "智慧车站",
+        "smart traffic lights": "智慧红绿灯",
+        "electric cars": "电动汽车",
+        "crosswalk sensors": "斑马线传感器",
+        "shared bikes & e-scooters": "共享单车与电动滑板",
+        "solar canopy": "太阳能雨棚",
+        "trip kiosk": "出行查询屏",
+        "VR headsets": "VR 头显",
+        "hologram model": "全息模型",
+        "smart board": "智慧黑板",
+        "robot kit": "机器人套件",
+        laptops: "笔记本电脑",
+        "team project": "小组项目",
+        "solar panel model": "太阳能教具",
+        "wind turbine": "风力发电机",
+        "outdoor class": "户外课堂",
+        "community sports": "社区运动",
+        "running track": "跑道",
+        "green plaza": "绿色小广场",
+        "telehealth screen": "远程问诊屏",
+        "video call": "视频问诊",
+        "health kiosk": "健康小屋",
+        "wheelchair path": "无障碍坡道",
+        "raised garden beds": "抬升花箱",
+        "care volunteer": "照护志愿者",
+        "science exhibit": "科普展项",
+        "young visitors": "小参观者",
+        "museum guide": "讲解员",
+        "coding class": "编程课",
+        "projector screen": "投影幕",
+        "peer mentor": "同伴导师",
+        "tech fair booths": "科创市集摊位",
+        "young volunteers": "青年志愿者",
+        "green tech banner": "绿色科技横幅",
+      };
+
+      var currentSceneIndex = 0;
+      var currentPanelIndex = 0;
+      /** 当前配图下_flat 提问步骤（每个词汇 3 问依次排列） */
+      var currentSocraticStep = 0;
+
+      /** 课标三类句式：用于右侧亮灯提示；不要求口述中三项齐全 */
+      var RE_GOING =
+        /\b(I\s+am|I'm|you\s+are|you're|we\s+are|we're|they\s+are|they're|he\s+is|he's|she\s+is|she's|it\s+is|it's|is|are|am)\s+going\s+to\b/i;
+      var RE_WILL = /\bwill\b/;
+      var RE_BAD_IF_WILL = /\bif\s+[^,.!?]{0,40}\bwill\b/i;
+
+      function wordCount(s) {
+        var m = String(s || "").trim().match(/[a-zA-Z']+/g);
+        return m ? m.length : 0;
+      }
+
+      function hasGoingTo(s) {
+        return RE_GOING.test(s);
+      }
+
+      function hasWill(s) {
+        return RE_WILL.test(s);
+      }
+
+      /** 第一条件句粗判：含 If，且逗号后主句出现 will；并拦截 If 从句里夹 will 的常见错 */
+      function hasIfFirstConditional(s) {
+        if (!/\bif\b/i.test(s)) return false;
+        if (RE_BAD_IF_WILL.test(s)) return false;
+        if (/\bif\s+it\s+will\b/i.test(s)) return false;
+        return /\bif\s+[^,]{3,90},\s*.{5,}\bwill\b/i.test(s);
+      }
+
+      /** 本地仅校验「至少一句」最短词数；结构是否合格交给 DeepSeek */
+      var MIN_ORAL_SENTENCE_WORDS = 5;
+
+      function auditLocally(text) {
+        var t = String(text || "").trim();
+        var wc = wordCount(t);
+        var g = hasGoingTo(t);
+        var w = hasWill(t);
+        var iff = hasIfFirstConditional(t);
+        var reasons = [];
+        if (wc < MIN_ORAL_SENTENCE_WORDS) {
+          reasons.push(
+            "口述至少一句英文（不少于约 " +
+              MIN_ORAL_SENTENCE_WORDS +
+              " 个英文词）。说完即可提交并由 AI 点评；be going to / will / If 可任选，不必三项齐全。"
+          );
+        }
+        return {
+          ok: reasons.length === 0,
+          going: g,
+          will: w,
+          ifok: iff,
+          reasons: reasons,
+          text: t,
+        };
+      }
+
+      function setCheckmarks(res) {
+        var elG = document.getElementById("p08-ch-going");
+        var elW = document.getElementById("p08-ch-will");
+        var elI = document.getElementById("p08-ch-if");
+        if (elG) elG.classList.toggle("ok", !!res.going);
+        if (elW) elW.classList.toggle("ok", !!res.will);
+        if (elI) elI.classList.toggle("ok", !!res.ifok);
+      }
+
+      var uiLock = document.getElementById("p08-ui-lock");
+      var toastEl = document.getElementById("p08-toast");
+      var btnMic = document.getElementById("p08-btn-mic");
+      var btnSubmit = document.getElementById("p08-btn-submit");
+      var btnClear = document.getElementById("p08-btn-clear");
+      var finalSpan = document.getElementById("p08-final-text");
+      var interimSpan = document.getElementById("p08-interim");
+      var waveCanvas = document.getElementById("p08-wave");
+      var waveWrap = document.getElementById("p08-wave-wrap");
+      var aiFeedbackEl = document.getElementById("p08-ai-feedback");
+      var aiFeedbackWrap = document.getElementById("p08-ai-feedback-wrap");
+      var waveCtx = waveCanvas && waveCanvas.getContext ? waveCanvas.getContext("2d") : null;
+      var modal = document.getElementById("p08-modal");
+      var modalCard = document.getElementById("p08-modal-card");
+      var modalTitle = document.getElementById("p08-modal-title");
+      var modalBody = document.getElementById("p08-modal-body");
+      var modalDismiss = document.getElementById("p08-modal-dismiss");
+
+      var recognition = null;
+      /** none | azure | browser — Azure STT 与浏览器 Web Speech 不得同时占用麦克风 */
+      var sttSessionKind = "none";
+      var azureSttRecognizer = null;
+      var finalTranscript = "";
+      var recording = false;
+      /** 停止录音时递增，用于丢弃尚未完成的 getUserMedia 会话 */
+      var micTicket = 0;
+      var micPending = false;
+      var audioCtx = null;
+      var analyser = null;
+      var mediaStream = null;
+      var rafWave = 0;
+
+      function setLock(on) {
+        if (uiLock) uiLock.classList.toggle("on", on);
+      }
+
+      function showToast(msg) {
+        if (!toastEl) return;
+        toastEl.textContent = msg;
+        toastEl.classList.add("show");
+        setTimeout(function () {
+          toastEl.classList.remove("show");
+        }, 2600);
+      }
+
+      function canUseAzureContinuousStt() {
+        return !!(window.SpeechSDK && AZURE_KEY && AZURE_REGION);
+      }
+
+      function setAiFeedback(text, opts) {
+        opts = opts || {};
+        if (!aiFeedbackEl || !aiFeedbackWrap) return;
+        if (opts.loading) {
+          aiFeedbackWrap.hidden = false;
+          aiFeedbackEl.classList.add("is-muted");
+          aiFeedbackEl.textContent = "正在为你写一段温暖的口语点评…";
+          return;
+        }
+        aiFeedbackEl.classList.remove("is-muted");
+        var t = String(text || "").trim();
+        if (!t) {
+          aiFeedbackEl.textContent = "";
+          aiFeedbackWrap.hidden = true;
+          return;
+        }
+        aiFeedbackEl.textContent = t;
+        aiFeedbackWrap.hidden = false;
+      }
+
+      function stopAzureSttThen(cb) {
+        cb = cb || function () {};
+        if (!azureSttRecognizer) {
+          cb();
+          return;
+        }
+        var r = azureSttRecognizer;
+        azureSttRecognizer = null;
+        r.stopContinuousRecognitionAsync(
+          function () {
+            try {
+              r.close();
+            } catch (eC) {}
+            cb();
+          },
+          function () {
+            try {
+              r.close();
+            } catch (eC2) {}
+            cb();
+          }
+        );
+      }
+
+      function resizeWave() {
+        if (!waveCanvas || !waveCanvas.parentElement) return;
+        var r = waveCanvas.parentElement.getBoundingClientRect();
+        var dpr = window.devicePixelRatio || 1;
+        waveCanvas.width = Math.max(120, Math.floor(r.width * dpr));
+        waveCanvas.height = Math.floor((r.height || 56) * dpr);
+        waveCanvas.style.width = "100%";
+        waveCanvas.style.height = "100%";
+        if (waveCtx) waveCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+
+      function drawWaveFlat() {
+        if (!waveCtx || !waveCanvas) return;
+        var w = waveCanvas.width / (window.devicePixelRatio || 1);
+        var h = waveCanvas.height / (window.devicePixelRatio || 1);
+        waveCtx.clearRect(0, 0, w, h);
+        waveCtx.strokeStyle = "rgba(0, 229, 255, 0.35)";
+        waveCtx.lineWidth = 2;
+        waveCtx.beginPath();
+        waveCtx.moveTo(0, h / 2);
+        waveCtx.lineTo(w, h / 2);
+        waveCtx.stroke();
+      }
+
+      function stopWaveLoopOnly() {
+        if (rafWave) cancelAnimationFrame(rafWave);
+        rafWave = 0;
+        analyser = null;
+        drawWaveFlat();
+      }
+
+      function releaseMicStream() {
+        try {
+          if (mediaStream) {
+            mediaStream.getTracks().forEach(function (t) {
+              t.stop();
+            });
+          }
+        } catch (eRel) {}
+        mediaStream = null;
+      }
+
+      function stopVisualizer() {
+        stopWaveLoopOnly();
+        try {
+          if (audioCtx && audioCtx.state !== "closed") audioCtx.close();
+        } catch (eAc) {}
+        audioCtx = null;
+        releaseMicStream();
+      }
+
+      function attachVisualizerToStream(stream) {
+        stopWaveLoopOnly();
+        mediaStream = stream;
+        var AC = window.AudioContext || window.webkitAudioContext;
+        if (!AC) {
+          drawWaveFlat();
+          return;
+        }
+        try {
+          audioCtx = new AC();
+          analyser = audioCtx.createAnalyser();
+          analyser.fftSize = 512;
+          var src = audioCtx.createMediaStreamSource(stream);
+          src.connect(analyser);
+          loopWave();
+        } catch (eVis) {
+          drawWaveFlat();
+        }
+      }
+
+      var mediaRecorder = null;
+      var audioChunks = [];
+
+      function refreshAuditUi() {
+        var interim = interimSpan ? interimSpan.textContent : "";
+        var combined = (finalTranscript + " " + interim).trim();
+        var audit = auditLocally(combined);
+        setCheckmarks(audit);
+        if (btnSubmit)
+          btnSubmit.disabled = wordCount(combined) < MIN_ORAL_SENTENCE_WORDS;
+      }
+
+      function azureAppendFromRecording(blob) {
+        if (!AZURE_KEY || !blob || blob.size < 24) return;
+        var sttUrl =
+          "https://" +
+          AZURE_REGION +
+          ".stt.speech.microsoft.com/speech/recognition/conversation/cognitiveservices/v1?language=en-US";
+        fetch(sttUrl, {
+          method: "POST",
+          headers: {
+            "Ocp-Apim-Subscription-Key": AZURE_KEY,
+            "Content-Type": blob.type || "audio/webm",
+            Accept: "application/json",
+          },
+          body: blob,
+        })
+          .then(function (r) {
+            return r.json().then(function (data) {
+              return { ok: r.ok, status: r.status, data: data };
+            });
+          })
+          .then(function (wrap) {
+            var data = wrap.data || {};
+            var status = data.RecognitionStatus || "";
+            if (!wrap.ok || (status && status !== "Success")) {
+              if (status === "NoMatch" || status === "InitialSilenceTimeout") return;
+              showToast(
+                "Azure STT：" +
+                  (status || "HTTP " + String(wrap.status)) +
+                  "（浏览器稿仍会保留）"
+              );
+              return;
+            }
+            var line =
+              data.DisplayText ||
+              (data.NBest && data.NBest[0] && data.NBest[0].DisplayText) ||
+              "";
+            line = String(line || "").trim();
+            if (!line) return;
+            var flatLine = line.replace(/\s+/g, " ");
+            var compact = finalTranscript.replace(/\s+/g, " ");
+            if (flatLine.length > 8 && compact.indexOf(flatLine) !== -1) return;
+            finalTranscript += (finalTranscript ? " " : "") + line + " ";
+            if (finalSpan) finalSpan.textContent = finalTranscript;
+            if (interimSpan) interimSpan.textContent = "";
+            refreshAuditUi();
+            showToast("Azure 语音转写已合并；口述请贴近左侧当前配图下的苏格拉底提问与参考句。");
+          })
+          .catch(function () {
+            showToast("Azure STT 不可用（可仅用浏览器稿）");
+          });
+      }
+
+      function loopWave() {
+        if (!analyser || !waveCtx || !waveCanvas) return;
+        var buf = new Uint8Array(analyser.frequencyBinCount);
+        analyser.getByteFrequencyData(buf);
+        var w = waveCanvas.width / (window.devicePixelRatio || 1);
+        var h = waveCanvas.height / (window.devicePixelRatio || 1);
+        waveCtx.clearRect(0, 0, w, h);
+        waveCtx.strokeStyle = "#00e5ff";
+        waveCtx.shadowBlur = 12;
+        waveCtx.shadowColor = "rgba(0, 243, 255, 0.8)";
+        waveCtx.lineWidth = 2;
+        waveCtx.beginPath();
+        var step = Math.max(1, Math.floor(buf.length / w));
+        var x = 0;
+        var i = 0;
+        waveCtx.moveTo(0, h / 2);
+        for (; x < w; x++) {
+          var v = buf[i] / 255;
+          var y = h / 2 - v * (h * 0.42);
+          waveCtx.lineTo(x, y);
+          i += step;
+        }
+        waveCtx.stroke();
+        waveCtx.shadowBlur = 0;
+        rafWave = requestAnimationFrame(loopWave);
+      }
+
+      var speechInited = false;
+
+      function flushSpeechInterimToFinal() {
+        var tail = interimSpan ? String(interimSpan.textContent || "").trim() : "";
+        if (!tail) return;
+        finalTranscript += (finalTranscript ? " " : "") + tail + " ";
+        if (finalSpan) finalSpan.textContent = finalTranscript;
+        if (interimSpan) interimSpan.textContent = "";
+        refreshAuditUi();
+      }
+
+      function initSpeech() {
+        if (speechInited) return recognition !== null;
+        speechInited = true;
+        var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (!SR) {
+          if (!canUseAzureContinuousStt()) {
+            showToast("当前浏览器不支持 Web Speech 识别，请换 Chrome / Edge。");
+          }
+          return false;
+        }
+        recognition = new SR();
+        recognition.lang = "en-US";
+        recognition.continuous = true;
+        recognition.interimResults = true;
+        recognition.maxAlternatives = 1;
+        recognition.onresult = function (ev) {
+          var interim = "";
+          for (var i = ev.resultIndex; i < ev.results.length; i++) {
+            var r = ev.results[i];
+            if (r.isFinal) finalTranscript += r[0].transcript + " ";
+            else interim += r[0].transcript;
+          }
+          if (finalSpan) finalSpan.textContent = finalTranscript;
+          if (interimSpan) interimSpan.textContent = interim;
+          refreshAuditUi();
+        };
+        recognition.onerror = function (ev) {
+          var code = ev.error || "";
+          /* 静音、短暂断网等不应结束整段录音（否则会表现为「录完识别框空白」） */
+          if (
+            code === "no-speech" ||
+            code === "network" ||
+            code === "aborted" ||
+            code === "audio-capture"
+          ) {
+            return;
+          }
+          showToast("语音识别：" + code);
+          if (code === "not-allowed" || code === "service-not-allowed") {
+            stopRecording();
+          }
+        };
+        recognition.onend = function () {
+          if (!recording) {
+            flushSpeechInterimToFinal();
+            return;
+          }
+          setTimeout(function () {
+            if (!recording) {
+              flushSpeechInterimToFinal();
+              return;
+            }
+            try {
+              recognition.start();
+            } catch (eR0) {
+              try {
+                recognition.abort();
+                recognition.start();
+              } catch (eR1) {}
+            }
+          }, 100);
+        };
+        return true;
+      }
+
+      function startRecordingAzureSdk() {
+        if (recording) return;
+        if (micPending) return;
+        var SpeechSDK = window.SpeechSDK;
+        if (!SpeechSDK || !AZURE_KEY || !AZURE_REGION) {
+          if (!initSpeech()) return;
+          startRecordingBrowser();
+          return;
+        }
+        var sessionAtStart = micTicket;
+        micPending = true;
+        try {
+          var config = SpeechSDK.SpeechConfig.fromSubscription(AZURE_KEY, AZURE_REGION);
+          config.speechRecognitionLanguage = "en-US";
+          var audioConfig = SpeechSDK.AudioConfig.fromDefaultMicrophoneInput();
+          var rec = new SpeechSDK.SpeechRecognizer(config, audioConfig);
+
+          rec.recognizing = function (s, e) {
+            var t = e.result ? String(e.result.text || "") : "";
+            if (interimSpan) interimSpan.textContent = t;
+            refreshAuditUi();
+          };
+          rec.recognized = function (s, e) {
+            if (e.result.reason === SpeechSDK.ResultReason.RecognizedSpeech) {
+              var line = String(e.result.text || "").trim();
+              if (line) {
+                finalTranscript += (finalTranscript ? " " : "") + line + " ";
+                if (finalSpan) finalSpan.textContent = finalTranscript;
+                if (interimSpan) interimSpan.textContent = "";
+              }
+            }
+            refreshAuditUi();
+          };
+          rec.canceled = function (s, e) {
+            if (e.reason === SpeechSDK.CancellationReason.Error) {
+              showToast("Azure 识别：" + (e.errorDetails || "错误"));
+            }
+          };
+
+          rec.startContinuousRecognitionAsync(
+            function () {
+              micPending = false;
+              if (sessionAtStart !== micTicket) {
+                try {
+                  rec.stopContinuousRecognitionAsync(
+                    function () {
+                      try {
+                        rec.close();
+                      } catch (eA) {}
+                    },
+                    function () {
+                      try {
+                        rec.close();
+                      } catch (eB) {}
+                    }
+                  );
+                } catch (eAb) {
+                  try {
+                    rec.close();
+                  } catch (eAc) {}
+                }
+                return;
+              }
+              azureSttRecognizer = rec;
+              sttSessionKind = "azure";
+              recording = true;
+              if (btnMic) {
+                btnMic.classList.add("on");
+                btnMic.textContent = "点击结束录音";
+                btnMic.setAttribute("aria-pressed", "true");
+                btnMic.setAttribute("aria-label", "点击结束录音");
+              }
+              if (waveWrap) waveWrap.classList.add("p08-wave-active");
+            },
+            function () {
+              micPending = false;
+              try {
+                rec.close();
+              } catch (eSt) {}
+              if (sessionAtStart !== micTicket) return;
+              showToast("Azure 连续识别未启动，已切换浏览器识别");
+              if (!initSpeech()) return;
+              startRecordingBrowser();
+            }
+          );
+        } catch (eAll) {
+          micPending = false;
+          if (sessionAtStart !== micTicket) return;
+          showToast("Azure 识别初始化失败，已切换浏览器识别");
+          if (!initSpeech()) return;
+          startRecordingBrowser();
+        }
+      }
+
+      function startRecordingBrowser() {
+        if (!initSpeech()) return;
+        if (recording) return;
+        if (micPending) {
+          showToast("正在连接麦克风，请稍候再试");
+          return;
+        }
+        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+          showToast("浏览器不支持麦克风 API");
+          return;
+        }
+        var sessionAtStart = micTicket;
+        micPending = true;
+        navigator.mediaDevices
+          .getUserMedia({ audio: true })
+          .then(function (stream) {
+            micPending = false;
+            if (sessionAtStart !== micTicket) {
+              try {
+                stream.getTracks().forEach(function (t) {
+                  t.stop();
+                });
+              } catch (eT0) {}
+              return;
+            }
+            audioChunks = [];
+            var mime = "";
+            if (MediaRecorder.isTypeSupported("audio/webm;codecs=opus")) mime = "audio/webm;codecs=opus";
+            else if (MediaRecorder.isTypeSupported("audio/webm")) mime = "audio/webm";
+            mediaRecorder = mime
+              ? new MediaRecorder(stream, { mimeType: mime })
+              : new MediaRecorder(stream);
+            mediaRecorder.ondataavailable = function (e) {
+              if (e.data.size > 0) audioChunks.push(e.data);
+            };
+            mediaRecorder.start(400);
+
+            attachVisualizerToStream(stream);
+
+            recording = true;
+            sttSessionKind = "browser";
+            if (btnMic) {
+              btnMic.classList.add("on");
+              btnMic.textContent = "点击结束录音";
+              btnMic.setAttribute("aria-pressed", "true");
+              btnMic.setAttribute("aria-label", "点击结束录音");
+            }
+            try {
+              recognition.start();
+            } catch (e3) {
+              try {
+                recognition.abort();
+                recognition.start();
+              } catch (e4) {}
+            }
+          })
+          .catch(function () {
+            micPending = false;
+            if (sessionAtStart !== micTicket) return;
+            showToast("无法访问麦克风");
+          });
+      }
+
+      function stopRecording() {
+        micTicket++;
+        recording = false;
+        micPending = false;
+        if (waveWrap) waveWrap.classList.remove("p08-wave-active");
+        if (btnMic) {
+          btnMic.classList.remove("on");
+          btnMic.textContent = "点击开始录音";
+          btnMic.setAttribute("aria-pressed", "false");
+          btnMic.setAttribute("aria-label", "点击开始录音");
+        }
+
+        var wasAzure = sttSessionKind === "azure";
+        sttSessionKind = "none";
+
+        if (wasAzure) {
+          stopAzureSttThen(function () {
+            setTimeout(function () {
+              flushSpeechInterimToFinal();
+            }, 180);
+          });
+          stopVisualizer();
+          return;
+        }
+
+        try {
+          if (recognition) recognition.stop();
+        } catch (e2) {}
+        setTimeout(function () {
+          flushSpeechInterimToFinal();
+        }, 320);
+
+        if (mediaRecorder && mediaRecorder.state !== "inactive") {
+          mediaRecorder.onstop = function () {
+            try {
+              var blob = new Blob(audioChunks, { type: mediaRecorder.mimeType || "audio/webm" });
+              azureAppendFromRecording(blob);
+            } catch (eBlob) {}
+            mediaRecorder = null;
+            audioChunks = [];
+            stopVisualizer();
+          };
+          try {
+            mediaRecorder.stop();
+          } catch (eMr) {
+            stopVisualizer();
+          }
+        } else {
+          stopVisualizer();
+        }
+      }
+
+      function startRecording() {
+        if (recording) return;
+        if (micPending) {
+          showToast("正在连接麦克风，请稍候再试");
+          return;
+        }
+        if (canUseAzureContinuousStt()) {
+          startRecordingAzureSdk();
+          return;
+        }
+        startRecordingBrowser();
+      }
+
+      function getHotspotsForPanel(panel) {
+        if (panel.hotspots && panel.hotspots.length) return panel.hotspots;
+        return HOTSPOTS_BY_SRC[panel.src] || [];
+      }
+
+      function termZhLabel(term) {
+        return (TERM_ZH && TERM_ZH[term]) || term;
+      }
+
+      function formatSocraticTipDisplay(raw, rowIdx) {
+        var t = String(raw || "").trim();
+        if (rowIdx === 0) return t.replace(/^Plan\s*:\s*/i, "").trim();
+        if (rowIdx === 1) return t.replace(/^Predict\s*:\s*/i, "").trim();
+        return t;
+      }
+
+      function buildSocraticSteps(panel) {
+        var hs = getHotspotsForPanel(panel);
+        var labels = ["① be going to（计划）", "② will（预测）", "③ If 条件句"];
+        var steps = [];
+        var vi;
+        for (vi = 0; vi < hs.length; vi++) {
+          var h = hs[vi];
+          var qs = getQuestionsZh(h);
+          var tips = h.tipsEn || [];
+          var r;
+          for (r = 0; r < 3; r++) {
+            steps.push({
+              term: h.term,
+              termZh: termZhLabel(h.term),
+              rowIdx: r,
+              label: labels[r],
+              qZh: qs[r] || "",
+              tipRaw: tips[r] || "",
+            });
+          }
+        }
+        return steps;
+      }
+
+      function fillPanelCaption(panel) {
+        var cap = document.getElementById("p08-panel-caption");
+        if (!cap) return;
+        cap.textContent = "";
+        if (!panel) return;
+        var strong = document.createElement("strong");
+        strong.textContent = "当前配图 · " + (panel.titleZh || "");
+        cap.appendChild(strong);
+        var sub = document.createElement("span");
+        sub.className = "p08-caption-sub";
+        sub.textContent =
+          "下方仅显示本图词汇与引导问，用「上一问／下一问」逐题查看；切换配图后只显示新图对应问题，并从第 1 问开始。";
+        cap.appendChild(sub);
+      }
+
+      function renderSocraticStepView() {
+        var soc = document.getElementById("p08-socratic");
+        var indEl = document.getElementById("p08-socratic-indicator");
+        var prevBtn = document.getElementById("p08-socratic-prev");
+        var nextBtn = document.getElementById("p08-socratic-next");
+        var steps = window.__p08SocraticSteps || [];
+        var n = steps.length;
+        if (!soc) return;
+        soc.textContent = "";
+        if (!n) {
+          if (indEl) indEl.textContent = "本图第 0 / 0 问";
+          if (prevBtn) prevBtn.disabled = true;
+          if (nextBtn) nextBtn.disabled = true;
+          var empty = document.createElement("p");
+          empty.style.cssText = "text-align:center;color:#78909c;font-size:clamp(0.65rem,1.2vw,0.76rem);margin:0;";
+          empty.textContent = "（本题暂无引导问）";
+          soc.appendChild(empty);
+          return;
+        }
+        var idx = currentSocraticStep;
+        if (idx >= n) idx = n - 1;
+        if (idx < 0) idx = 0;
+        currentSocraticStep = idx;
+        var st = steps[idx];
+        var card = document.createElement("div");
+        card.className = "p08-socratic-card";
+        var meta = document.createElement("div");
+        meta.className = "p08-socratic-meta";
+        meta.textContent = st.termZh + " · " + st.term + " · " + st.label;
+        meta.title = meta.textContent;
+        var pq = document.createElement("p");
+        pq.className = "p08-sq-q p08-socratic-single-q";
+        pq.textContent = st.qZh;
+        var actions = document.createElement("div");
+        actions.className = "p08-socratic-actions";
+        var btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "p08-btn-reveal";
+        btn.textContent = "显示英文示范";
+        var ans = document.createElement("div");
+        ans.className = "p08-sq-ans";
+        ans.hidden = true;
+        ans.textContent = formatSocraticTipDisplay(st.tipRaw, st.rowIdx);
+        btn.addEventListener("click", function () {
+          var open = ans.hidden;
+          ans.hidden = !open;
+          btn.textContent = open ? "隐藏示范" : "显示英文示范";
+        });
+        actions.appendChild(btn);
+        actions.appendChild(ans);
+        card.appendChild(meta);
+        card.appendChild(pq);
+        card.appendChild(actions);
+        soc.appendChild(card);
+        if (indEl) indEl.textContent = "本图第 " + (idx + 1) + " / " + n + " 问";
+        if (prevBtn) prevBtn.disabled = idx <= 0;
+        if (nextBtn) nextBtn.disabled = idx >= n - 1;
+      }
+
+      function getQuestionsZh(h) {
+        if (h.questionsZh && h.questionsZh.length >= 3) {
+          return [h.questionsZh[0], h.questionsZh[1], h.questionsZh[2]];
+        }
+        var z = termZhLabel(h.term);
+        return [
+          "画面里的「" + z + "」就在社区或校园周边时，你这周或这个月打算为它做哪一件具体小事（路线、时间、和谁一起）？",
+          "再过几年这类设施更普及以后，你的上学路线、锻炼安排或家庭出行可能会怎样被改变？",
+          "如果我们从今年开始就多为「" + z + "」节约一度电、少一次乱扔或多一次步行，长远看身边环境可能会有什么可见变化？",
+        ];
+      }
+
+      function getSceneAuditPrefix() {
+        var s = SCENES[currentSceneIndex];
+        var out =
+          "【所选场景】" +
+          s.titleZh +
+          "\n【场景说明】" +
+          (s.hintZh || "") +
+          "\n【关联度】口述尽量与本场景及当前配图下的苏格拉底中文提问、英文参考句在主题上相关（不必背诵原文）。课标三类表达（be going to / will / If 第一条件句）可任选、不必在同一段话或每一句都说齐；说完至少一句英文后即可提交，由 AI 综合评价。";
+        var panels = s.panels || [];
+        var k;
+        for (k = 0; k < panels.length; k++) {
+          out += "\n【配图 " + (k + 1) + "】" + panels[k].titleZh;
+        }
+        var pi = currentPanelIndex;
+        if (pi < 0 || pi >= panels.length) pi = 0;
+        var curPanel = panels[pi];
+        if (curPanel) {
+          out += "\n【当前浏览配图】" + (pi + 1) + " · " + curPanel.titleZh;
+          var hs = getHotspotsForPanel(curPanel);
+          var hi;
+          for (hi = 0; hi < hs.length; hi++) {
+            var h = hs[hi];
+            var qs = getQuestionsZh(h);
+            var tips = h.tipsEn || [];
+            out +=
+              "\n  · 词汇「" +
+              h.term +
+              "」\n    问1：" +
+              qs[0] +
+              "\n    参考答1：" +
+              (tips[0] || "") +
+              "\n    问2：" +
+              qs[1] +
+              "\n    参考答2：" +
+              (tips[1] || "") +
+              "\n    问3：" +
+              qs[2] +
+              "\n    参考答3：" +
+              (tips[2] || "");
+          }
+          var socSteps = buildSocraticSteps(curPanel);
+          var si = currentSocraticStep;
+          if (socSteps.length && si >= 0 && si < socSteps.length) {
+            var fo = socSteps[si];
+            out +=
+              "\n【当前屏幕显示的一题】" +
+              fo.qZh +
+              "\n【该题英文参考】" +
+              formatSocraticTipDisplay(fo.tipRaw, fo.rowIdx);
+          }
+        }
+        return out;
+      }
+
+      function renderWorkspace() {
+        var imgEl = document.getElementById("p08-panel-img");
+        var indEl = document.getElementById("p08-img-indicator");
+        var s = SCENES[currentSceneIndex];
+        var panels = s.panels || [];
+        if (!panels.length) {
+          window.__p08SocraticSteps = [];
+          window.__p08LastSocraticKey = "";
+          fillPanelCaption(null);
+          if (imgEl) {
+            imgEl.removeAttribute("src");
+            imgEl.alt = "";
+          }
+          if (indEl) indEl.textContent = "0 / 0";
+          renderSocraticStepView();
+          return;
+        }
+        if (currentPanelIndex >= panels.length) currentPanelIndex = 0;
+        if (currentPanelIndex < 0) currentPanelIndex = panels.length - 1;
+        var panel = panels[currentPanelIndex];
+        var panelKey = currentSceneIndex + "|" + currentPanelIndex + "|" + panel.src;
+        if (window.__p08LastSocraticKey !== panelKey) {
+          window.__p08LastSocraticKey = panelKey;
+          currentSocraticStep = 0;
+        }
+        if (imgEl) {
+          imgEl.src = panel.src;
+          imgEl.alt = panel.titleZh || "";
+        }
+        fillPanelCaption(panel);
+        if (indEl) indEl.textContent = currentPanelIndex + 1 + " / " + panels.length;
+        window.__p08SocraticSteps = buildSocraticSteps(panel);
+        if (currentSocraticStep >= window.__p08SocraticSteps.length) {
+          currentSocraticStep = 0;
+        }
+        renderSocraticStepView();
+      }
+
+      function bindWorkspaceNav() {
+        if (window.__p08WsNav) return;
+        window.__p08WsNav = true;
+        var host =
+          document.getElementById("p08-workspace") ||
+          document.getElementById("l08-p08-host");
+        if (!host) return;
+
+        function goPanel(delta) {
+          var sc = SCENES[currentSceneIndex];
+          var panels = sc.panels || [];
+          var n = panels.length;
+          if (!n) return;
+          currentPanelIndex = (currentPanelIndex + delta + n) % n;
+          currentSocraticStep = 0;
+          window.__p08LastSocraticKey = "";
+          renderWorkspace();
+        }
+
+        host.addEventListener(
+          "click",
+          function (ev) {
+            var raw = ev.target;
+            var el = raw && raw.nodeType === 3 ? raw.parentElement : raw;
+            if (!el || !el.closest) return;
+            var prevBtn = el.closest("#p08-img-prev");
+            var nextBtn = el.closest("#p08-img-next");
+            if (!prevBtn && !nextBtn) return;
+            ev.preventDefault();
+            ev.stopPropagation();
+            if (prevBtn) goPanel(-1);
+            else goPanel(1);
+          },
+          false
+        );
+      }
+
+      function bindSocraticNav() {
+        if (window.__p08SocNav) return;
+        window.__p08SocNav = true;
+        var prev = document.getElementById("p08-socratic-prev");
+        var next = document.getElementById("p08-socratic-next");
+        if (prev)
+          prev.addEventListener("click", function () {
+            if (currentSocraticStep > 0) {
+              currentSocraticStep--;
+              renderSocraticStepView();
+            }
+          });
+        if (next)
+          next.addEventListener("click", function () {
+            var steps = window.__p08SocraticSteps || [];
+            if (currentSocraticStep < steps.length - 1) {
+              currentSocraticStep++;
+              renderSocraticStepView();
+            }
+          });
+      }
+
+      function buildSceneTabs() {
+        var tabs = document.getElementById("p08-scene-tabs");
+        var desc = document.getElementById("p08-scene-desc");
+        if (!tabs) return;
+        tabs.innerHTML = "";
+        var i;
+        for (i = 0; i < SCENES.length; i++) {
+          (function (idx) {
+            var b = document.createElement("button");
+            b.type = "button";
+            b.className = "p08-scene-tab" + (idx === currentSceneIndex ? " is-active" : "");
+            b.textContent = SCENES[idx].short;
+            b.setAttribute("role", "tab");
+            b.setAttribute("aria-selected", idx === currentSceneIndex ? "true" : "false");
+            b.addEventListener("click", function () {
+              currentSceneIndex = idx;
+              currentPanelIndex = 0;
+              var btns = tabs.querySelectorAll(".p08-scene-tab");
+              var j;
+              for (j = 0; j < btns.length; j++) {
+                btns[j].classList.toggle("is-active", j === idx);
+                btns[j].setAttribute("aria-selected", j === idx ? "true" : "false");
+              }
+              if (desc) {
+                var s = SCENES[idx];
+                desc.innerHTML = "<strong>" + s.titleZh + "</strong><br/>" + (s.hintZh || "");
+              }
+              renderWorkspace();
+            });
+            tabs.appendChild(b);
+          })(i);
+        }
+        if (desc) {
+          var s0 = SCENES[currentSceneIndex];
+          desc.innerHTML = "<strong>" + s0.titleZh + "</strong><br/>" + (s0.hintZh || "");
+        }
+        bindWorkspaceNav();
+        bindSocraticNav();
+        renderWorkspace();
+      }
+
+      function speakWelcome() {
+        var msg =
+          "Welcome, Chief Architect. You may use be going to, will, or an If-clause where they fit — pick what you like. One clear English sentence is enough to submit for AI feedback.";
+        if (!AZURE_KEY) {
+          try {
+            var u = new SpeechSynthesisUtterance(msg);
+            u.lang = "en-US";
+            u.rate = 0.92;
+            window.speechSynthesis.cancel();
+            window.speechSynthesis.speak(u);
+          } catch (e5) {}
+          return;
+        }
+        var esc = msg.replace(/&/g, "&amp;").replace(/</g, "&lt;");
+        var ssml =
+          '<speak version="1.0" xmlns="http://www.w3.org/2004/10/synthesis" xml:lang="en-US">' +
+          '<voice xml:lang="en-US" name="en-US-AriaNeural">' +
+          esc +
+          "</voice></speak>";
+        fetch("https://" + AZURE_REGION + ".tts.speech.microsoft.com/cognitiveservices/v1", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/ssml+xml",
+            "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3",
+            "Ocp-Apim-Subscription-Key": AZURE_KEY,
+          },
+          body: ssml,
+        })
+          .then(function (r) {
+            return r.ok ? r.blob() : Promise.reject();
+          })
+          .then(function (blob) {
+            var url = URL.createObjectURL(blob);
+            var a = new Audio(url);
+            a.play().catch(function () {});
+            a.onended = function () {
+              try {
+                URL.revokeObjectURL(url);
+              } catch (e6) {}
+            };
+          })
+          .catch(function () {
+            try {
+              var u2 = new SpeechSynthesisUtterance(msg);
+              u2.lang = "en-US";
+              window.speechSynthesis.speak(u2);
+            } catch (e7) {}
+          });
+      }
+
+      function showModal(ok, title, body) {
+        if (!modal || !modalCard || !modalTitle || !modalBody) return;
+        modalCard.classList.toggle("ok", !!ok);
+        modalTitle.textContent = title;
+        modalBody.textContent = body;
+        modal.classList.add("on");
+      }
+
+      function hideModal() {
+        if (modal) modal.classList.remove("on");
+      }
+
+      function submitMasterplan() {
+        var combined = (finalTranscript || "").trim();
+        var interim = interimSpan ? String(interimSpan.textContent || "").trim() : "";
+        if (interim) combined = (combined + " " + interim).trim();
+        var audit = auditLocally(combined);
+        setCheckmarks(audit);
+        if (!audit.ok) {
+          showModal(false, "蓝图未通过本地校验", audit.reasons.join("\n"));
+          return;
+        }
+
+        setLock(true);
+        if (DEEPSEEK_KEY) setAiFeedback("", { loading: true });
+        tryDeepSeekAudit(combined, function (aiNote) {
+          setLock(false);
+          var aiTrim = (aiNote || "").trim();
+          if (DEEPSEEK_KEY) {
+            if (!aiTrim) {
+              setAiFeedback(
+                "这次没能连上点评服务，不是你讲得不好哦。口述稿还在上面，网络好些时再点一次提交，老师一样愿意听你练习。"
+              );
+            } else if (aiTrim.indexOf("BLUEPRINT_ACCEPTED") !== -1) {
+              setAiFeedback(
+                "【老师的心里话】\n\n听完了，真不错！你能把画面里的未来城市场景和自己的句子连在一起，表达也清楚。继续保持「敢说、愿想」的习惯，英语会越来越顺。\n\n只要我们一代代人肯行动、肯描述、肯互相倾听，更干净、更智慧、更包容的社会——我们一定会一步一步把它变成现实。欢迎再录一段，老师在这儿听着呢！"
+              );
+            } else {
+              setAiFeedback(
+                "【老师对你说】\n\n" +
+                  aiTrim +
+                  "\n\n—— 别灰心，口语是练出来的；你愿意开口描绘 2050，本身就很了不起。照着左侧提示再试一小句也无妨。我们一起相信：心里装着蓝图的人，也在帮那样的未来一点点落地。"
+              );
+            }
+          } else {
+            setAiFeedback(
+              "暂时连不上 AI 点评，但你的口述稿都还在上面，可以随时继续录音、再次提交。只要坚持练，表达一定会越来越温暖、越来越有力。"
+            );
+          }
+          showToast("点评已写好啦，慢慢看；想练就接着录，不着急～");
+        });
+      }
+
+      function tryDeepSeekAudit(text, done) {
+        if (!DEEPSEEK_KEY) {
+          done(null);
+          return;
+        }
+        fetch("https://api.deepseek.com/v1/chat/completions", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + DEEPSEEK_KEY,
+          },
+          body: JSON.stringify({
+            model: "deepseek-chat",
+            messages: [
+              {
+                role: "system",
+                content:
+                  "你是亲切、善于鼓励的初中英语口语教练。用户消息里「【本次提交的口述】」之后是学生刚提交的英文；你只针对这一段作口语反馈，不要假设整页通关，也不要提示跳转下一课。课标三类表达（be going to / will / If）学生可任选，不必三项在同一段都说齐。请先在心里肯定学生「愿意开口」的勇气，再对照场景与苏格拉底提问看是否贴题。\n\n口吻要求：像老师在耳边轻声说话——多用「你」「咱们」，少用冷冰冰的裁判腔；先肯定一处具体亮点（贴场景、词汇好、结构清楚等），若有不足用「不妨」「可以试试」「下次可以」温和指出，忌训斥。\n\n输出规则：若这段英文整体得体、与场景基本相关、无重大语法或逻辑错误，只回复一行 BLUEPRINT_ACCEPTED（不要加别的字）。若需要改进，只用中文写一段点评（不要英文），字数可在40～130字之间；语气要人性化、带鼓励；可在结尾自然地带一句对未来的期待（例如相信坚持练习、一起努力，我们会越来越接近心中那座绿色智慧的城市），但不要空洞口号、不要固定套话模板。\n\n若内容完全离题或抄袭无关句子，仍保持尊重，温和提示回到画面主题即可。",
+              },
+              {
+                role: "user",
+                content: getSceneAuditPrefix() + "\n\n【本次提交的口述】\n" + text,
+              },
+            ],
+            max_tokens: 320,
+            temperature: 0.45,
+          }),
+        })
+          .then(function (r) {
+            return r.ok ? r.json() : Promise.reject();
+          })
+          .then(function (data) {
+            var txt =
+              data &&
+              data.choices &&
+              data.choices[0] &&
+              data.choices[0].message &&
+              data.choices[0].message.content;
+            done(txt || "");
+          })
+          .catch(function () {
+            done(null);
+          });
+      }
+
+      if (btnMic) {
+        btnMic.addEventListener("click", function () {
+          if (recording) stopRecording();
+          else startRecording();
+        });
+      }
+
+      if (btnSubmit) {
+        btnSubmit.addEventListener("click", function () {
+          submitMasterplan();
+        });
+      }
+
+      if (btnClear) {
+        btnClear.addEventListener("click", function () {
+          finalTranscript = "";
+          if (finalSpan) finalSpan.textContent = "";
+          if (interimSpan) interimSpan.textContent = "";
+          setCheckmarks({ going: false, will: false, ifok: false });
+          if (btnSubmit) btnSubmit.disabled = true;
+          setAiFeedback("");
+          showToast("已清空");
+        });
+      }
+
+      if (modalDismiss) {
+        modalDismiss.addEventListener("click", hideModal);
+      }
+
+      window.addEventListener("resize", resizeWave);
+      resizeWave();
+      drawWaveFlat();
+
+      buildSceneTabs();
+      initSpeech();
+      speakWelcome();
+
+      if (!canUseAzureContinuousStt() && !window.SpeechRecognition && !window.webkitSpeechRecognition) {
+        showToast("请使用支持语音识别（Azure SDK 或 Web Speech）的浏览器，桌面 Chrome / Edge 更佳。");
+      }
+    })();
+  </script>
+</body>
+</html>

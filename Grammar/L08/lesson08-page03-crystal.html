@@ -1,0 +1,1438 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>第08讲 · Page 03 · 预言水晶球 · will + 动词原形</title>
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
+  <link rel="stylesheet" href="../assets/lesson-screen-16x9.css" />
+  <style>
+    :root {
+      --orb-violet: #d500f9;
+      --orb-deep: #4a148c;
+      --stone-base: #2a2a35;
+      --gold-win: #ffd54f;
+      --trap-red: #ff1744;
+      --edge: #5d4037;
+      --glass-bg: rgba(10, 15, 30, 0.55);
+    }
+    * { box-sizing: border-box; }
+    html {
+      overflow-x: clip;
+      max-width: 100%;
+    }
+    html, body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+      background: #07050c;
+      color: #fce4ec;
+      touch-action: manipulation;
+    }
+    body.has-lesson-pager {
+      flex-direction: column;
+      align-items: stretch !important;
+      zoom: 0.9;
+    }
+
+    #l08-p03-host.app {
+      position: relative;
+      isolation: isolate;
+      flex: 1 1 auto;
+      width: 100%;
+      min-height: calc(100dvh - 4.6rem);
+      overflow: hidden;
+      border: 4px solid rgba(186, 104, 200, 0.45);
+      border-radius: 255px 18px 235px 22px / 22px 235px 22px 255px;
+      box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.4), 0 16px 32px rgba(0, 0, 0, 0.45);
+    }
+
+    #bg-stack {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse 90% 70% at 50% 40%, rgba(74, 20, 140, 0.35), transparent 55%),
+        linear-gradient(180deg, #12081c 0%, #050308 100%);
+    }
+    #bg-stack.vertex-on {
+      background-size: cover;
+      background-position: center;
+    }
+
+    #ui-lock {
+      position: fixed;
+      inset: 0;
+      z-index: 9998;
+      pointer-events: none;
+      background: transparent;
+      display: none;
+    }
+    #ui-lock.on {
+      display: block;
+      pointer-events: auto;
+    }
+
+    #crystal-stage {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      padding: clamp(8px, 1.5vh, 14px) clamp(10px, 2vw, 16px) clamp(88px, 16vh, 120px);
+      gap: clamp(6px, 1vh, 10px);
+      min-height: 0;
+    }
+
+    .p03-slide-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: clamp(8px, 1.5vw, 12px);
+      flex-shrink: 0;
+      z-index: 5;
+    }
+    .p03-slide-tabs button {
+      border: none;
+      cursor: pointer;
+      font-weight: 900;
+      padding: clamp(8px, 1.5vh, 12px) clamp(14px, 2.8vw, 22px);
+      border-radius: 999px;
+      border: 3px solid rgba(255, 255, 255, 0.28);
+      font-size: clamp(0.8rem, 1.8vw, 1rem);
+      background: linear-gradient(180deg, #eceff1, #cfd8dc);
+      color: #37474f;
+      touch-action: manipulation;
+    }
+    .p03-slide-tabs button[aria-selected="true"] {
+      background: linear-gradient(180deg, #f3e5f5, #ce93d8);
+      color: #4a148c;
+    }
+
+    .p03-slide-deck {
+      flex: 1 1 auto;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+    .p03-slide {
+      flex: 1 1 auto;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .p03-slide[hidden] {
+      display: none !important;
+    }
+
+    #p03-slide-0 .page03-head {
+      flex-shrink: 0;
+      text-align: center;
+    }
+    #p03-slide-0 .page03-head h1 {
+      margin: 0;
+      font-size: clamp(1rem, 3vw, 1.45rem);
+      font-weight: 950;
+      color: #e1bee7;
+      text-shadow: 0 0 18px rgba(213, 0, 249, 0.45);
+    }
+    #p03-slide-0 .page03-head .sub {
+      margin: 0.25rem 0 0;
+      font-size: clamp(0.7rem, 1.55vw, 0.85rem);
+      font-weight: 750;
+      color: rgba(255, 255, 255, 0.78);
+    }
+    #p03-slide-0 .exam-chip {
+      margin-top: 0.35rem;
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: clamp(0.65rem, 1.4vw, 0.78rem);
+      font-weight: 850;
+      background: rgba(156, 39, 176, 0.35);
+      border: 2px solid rgba(206, 147, 216, 0.55);
+      color: #f3e5f5;
+    }
+
+    #scenario-progress {
+      margin: 0.35rem 0 0;
+      font-size: clamp(0.72rem, 1.6vw, 0.88rem);
+      font-weight: 800;
+      color: #ffe082;
+    }
+
+    #game-columns {
+      flex: 1 1 auto;
+      min-height: 0;
+      display: grid;
+      grid-template-rows: 1fr auto;
+      gap: clamp(8px, 1.5vh, 12px);
+    }
+
+    #orb-column {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 0;
+      gap: clamp(10px, 2vh, 18px);
+    }
+
+    #crystal-pedestal {
+      position: relative;
+      width: min(72vmin, 340px);
+      height: min(72vmin, 340px);
+      display: grid;
+      place-items: center;
+    }
+
+    #orb-shell {
+      position: relative;
+      width: min(52vmin, 240px);
+      height: min(52vmin, 240px);
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 35% 28%, rgba(255, 255, 255, 0.55), transparent 38%),
+        radial-gradient(circle at 50% 55%, #e040fb 0%, #6a1b9a 52%, #38006b 100%);
+      box-shadow:
+        inset -14px -18px 42px rgba(0, 0, 0, 0.65),
+        0 0 46px rgba(213, 0, 249, 0.55),
+        0 0 90px rgba(106, 27, 154, 0.35);
+      border: 4px solid rgba(255, 255, 255, 0.22);
+      overflow: hidden;
+      z-index: 2;
+    }
+    #orb-shell.shake-recover {
+      animation: orbFlash 0.45s ease;
+    }
+    @keyframes orbFlash {
+      0%, 100% { filter: brightness(1); box-shadow: 0 0 46px rgba(213, 0, 249, 0.55); }
+      50% { filter: brightness(1.35); box-shadow: 0 0 70px rgba(255, 213, 79, 0.65); }
+    }
+
+    #orb-art {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.42;
+      mix-blend-mode: screen;
+      pointer-events: none;
+    }
+
+    /* 球内仅保留轻量提示，完整句子在球下方显示 */
+    #orb-text {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: clamp(10px, 2.5vw, 18px);
+      text-align: center;
+      font-family: Georgia, "Times New Roman", serif;
+      font-weight: 800;
+      font-size: clamp(0.62rem, 1.65vw, 0.82rem);
+      line-height: 1.35;
+      color: rgba(255, 255, 255, 0.88);
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.65), 0 0 18px rgba(186, 104, 200, 0.75);
+      z-index: 3;
+      pointer-events: none;
+      word-break: break-word;
+    }
+    #orb-text .tok {
+      display: inline-block;
+      margin: 0 0.08em;
+    }
+
+    #orb-sentence {
+      width: min(100%, 560px);
+      margin: 0 auto;
+      padding: clamp(10px, 1.8vh, 14px) clamp(12px, 2.5vw, 18px);
+      border-radius: 14px;
+      border: 2px solid rgba(186, 104, 200, 0.45);
+      background: rgba(12, 8, 24, 0.72);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+      text-align: center;
+      font-family: Georgia, "Times New Roman", serif;
+      font-weight: 800;
+      font-size: clamp(0.82rem, 2.25vw, 1.08rem);
+      line-height: 1.55;
+      color: #fff;
+      text-shadow: 0 0 12px rgba(255, 255, 255, 0.55), 0 0 20px rgba(186, 104, 200, 0.65);
+      min-height: clamp(2.8rem, 8vh, 4rem);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0.25rem 0.35rem;
+      z-index: 4;
+    }
+    #orb-sentence .tok {
+      display: inline-block;
+    }
+    #orb-sentence .tok.gold {
+      color: var(--gold-win);
+      text-shadow: 0 0 14px rgba(255, 213, 79, 0.95);
+    }
+    #orb-sentence .tok.hint {
+      font-weight: 700;
+      font-size: 0.92em;
+      color: rgba(255, 224, 130, 0.95);
+      text-shadow: 0 0 8px rgba(255, 213, 79, 0.5);
+    }
+    #orb-sentence.is-idle .tok.hint {
+      font-style: italic;
+      font-weight: 650;
+    }
+    #orb-sentence.is-building .tok.hint {
+      color: rgba(255, 255, 255, 0.82);
+    }
+
+    /* 纯 CSS 裂纹层（无 SVG），置于球壳内以随漂浮动画同步 */
+    #crack-root {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 6;
+      overflow: hidden;
+      opacity: 0;
+    }
+    #crack-root.show {
+      opacity: 1;
+    }
+    .crack-line {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 3px;
+      height: 55%;
+      margin-left: -1.5px;
+      margin-top: -10%;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(255, 23, 68, 0.85), transparent);
+      transform-origin: 50% 0%;
+      opacity: 0.92;
+      filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.8));
+    }
+
+    #pedestal-base {
+      position: absolute;
+      bottom: -18px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(64vmin, 300px);
+      height: 28px;
+      border-radius: 12px;
+      background: linear-gradient(180deg, #3e2723, #1b1010);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.55);
+      z-index: 1;
+    }
+
+    #rune-tray.frozen {
+      pointer-events: none;
+      opacity: 0.5;
+      filter: grayscale(0.25);
+    }
+    #rune-tray {
+      min-height: clamp(100px, 22vh, 160px);
+      padding: clamp(8px, 1.5vh, 12px);
+      border-radius: 16px;
+      border: 2px solid rgba(255, 255, 255, 0.12);
+      background: var(--glass-bg);
+      backdrop-filter: blur(14px);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-content: flex-start;
+      align-items: center;
+      gap: clamp(8px, 1.8vw, 12px);
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .rune-block {
+      flex: 0 0 auto;
+      padding: clamp(9px, 1.8vh, 12px) clamp(12px, 2.4vw, 16px);
+      border-radius: 10px;
+      font-weight: 900;
+      font-size: clamp(0.72rem, 1.65vw, 0.88rem);
+      cursor: grab;
+      touch-action: none;
+      user-select: none;
+      -webkit-user-select: none;
+      border: 2px solid #555;
+      background: linear-gradient(145deg, #2a2a35, #1d1d25);
+      color: #eceff1;
+      box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.75), inset 2px 2px 5px rgba(255, 255, 255, 0.08);
+      position: relative;
+      z-index: 20;
+    }
+    .rune-block.dragging {
+      cursor: grabbing;
+      z-index: 200;
+      box-shadow: 0 18px 36px rgba(0, 0, 0, 0.55);
+    }
+
+    #parchment {
+      position: fixed;
+      left: 50%;
+      top: 0;
+      transform: translate(-50%, -120%);
+      max-width: min(92vw, 420px);
+      z-index: 10001;
+      padding: 1rem 1.15rem;
+      border-radius: 14px;
+      background: rgba(40, 25, 20, 0.96);
+      border: 3px solid rgba(255, 213, 79, 0.55);
+      color: #fff8e1;
+      font-size: clamp(0.78rem, 1.75vw, 0.92rem);
+      line-height: 1.55;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+      pointer-events: auto;
+    }
+    #parchment[hidden] {
+      display: none !important;
+    }
+    #parchment .scroll-actions {
+      margin-top: 0.75rem;
+      text-align: center;
+    }
+    .btn-stone {
+      border: none;
+      cursor: pointer;
+      font-weight: 950;
+      padding: 10px 18px;
+      border-radius: 999px;
+      border: 3px solid var(--edge);
+      background: linear-gradient(180deg, #fff8dc, #ffcc80);
+      color: #4e342e;
+      font-size: clamp(0.78rem, 1.7vw, 0.92rem);
+    }
+
+    #finale-layer {
+      position: fixed;
+      inset: 0;
+      z-index: 10050;
+      display: grid;
+      place-items: center;
+      padding: 16px;
+      background: rgba(0, 0, 0, 0.78);
+      backdrop-filter: blur(6px);
+    }
+    #finale-layer[hidden] {
+      display: none !important;
+    }
+    #finale-card {
+      text-align: center;
+      max-width: min(520px, 100%);
+    }
+    #finale-card .badge {
+      display: inline-block;
+      padding: clamp(14px, 3vh, 22px) clamp(22px, 4vw, 36px);
+      border-radius: 20px;
+      font-size: clamp(1.1rem, 3.5vw, 1.65rem);
+      font-weight: 950;
+      color: #fffde7;
+      background: linear-gradient(135deg, #78909c, #eceff1);
+      border: 5px solid rgba(255, 255, 255, 0.55);
+      box-shadow: 0 0 40px rgba(255, 255, 255, 0.35), 0 24px 48px rgba(0, 0, 0, 0.45);
+      text-shadow: 0 2px 0 rgba(0, 0, 0, 0.25);
+    }
+    .btn-next-lesson {
+      margin-top: 1.25rem;
+      border: none;
+      cursor: pointer;
+      font-weight: 950;
+      padding: clamp(12px, 2vh, 14px) clamp(22px, 4vw, 32px);
+      border-radius: 999px;
+      border: 4px solid rgba(255, 224, 130, 0.85);
+      font-size: clamp(0.82rem, 1.85vw, 0.98rem);
+      background: linear-gradient(180deg, #fff8e1, #ffcc80);
+      color: #4e342e;
+      box-shadow: 4px 6px 0 rgba(0, 0, 0, 0.18);
+    }
+
+    .particle {
+      position: absolute;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    /* 幻灯片 2：中考与教材链接（静态拓展） */
+    #p03-slide-1 {
+      overflow: auto;
+      -webkit-overflow-scrolling: touch;
+      padding: 4px 2px 12px;
+    }
+    .p03-exam-panel {
+      max-width: min(1100px, 100%);
+      margin: 0 auto;
+      padding: clamp(12px, 2vh, 20px) clamp(12px, 2.5vw, 20px);
+      border-radius: 16px;
+      border: 4px solid var(--edge);
+      background: rgba(255, 253, 248, 0.96);
+      color: #3e2723;
+      box-shadow: 6px 8px 0 rgba(0, 0, 0, 0.08);
+    }
+    .p03-exam-panel h2 {
+      margin: 0 0 0.75rem;
+      font-size: clamp(1.15rem, 3.2vw, 1.55rem);
+      font-weight: 950;
+      color: #6a1b9a;
+      text-align: center;
+    }
+    .p03-exam-panel h3 {
+      margin: 1rem 0 0.5rem;
+      font-size: clamp(0.95rem, 2.2vw, 1.12rem);
+      color: #1565c0;
+    }
+    .p03-exam-panel ul {
+      margin: 0;
+      padding-left: 1.25rem;
+      font-size: clamp(0.88rem, 2vw, 1.02rem);
+      line-height: 1.58;
+      font-weight: 650;
+    }
+    .p03-exam-panel li + li {
+      margin-top: 0.45rem;
+    }
+    .p03-tag {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-weight: 850;
+      font-size: 0.88em;
+      background: rgba(206, 147, 216, 0.35);
+      color: #4a148c;
+    }
+  </style>
+</head>
+<body class="has-lesson-pager">
+  <div id="l08-p03-host" class="app">
+    <div id="bg-stack" aria-hidden="true"></div>
+    <div id="ui-lock" aria-hidden="true"></div>
+
+    <main id="crystal-stage" aria-label="预言水晶球">
+      <div class="p03-slide-tabs" role="tablist" aria-label="本页幻灯片">
+        <button type="button" role="tab" id="p03-tab-0" aria-selected="true" aria-controls="p03-slide-0">幻灯片 1 · 预言球</button>
+        <button type="button" role="tab" id="p03-tab-1" aria-selected="false" aria-controls="p03-slide-1" tabindex="-1">幻灯片 2 · 中考拓展</button>
+      </div>
+
+      <div class="p03-slide-deck">
+        <section id="p03-slide-0" class="p03-slide" role="tabpanel" aria-labelledby="p03-tab-0">
+          <header class="page03-head">
+            <h1>第08讲 · 预言水晶球</h1>
+            <p class="sub">will 表遥远推测 · 陷阱：<strong>will</strong> 后必须用<strong>动词原形</strong>（中考高频失分点）</p>
+            <span class="exam-chip">成都中考 · 综合填空 / 短文填空常考情态动词 + 原形</span>
+            <p id="scenario-progress" aria-live="polite">情景 1 / 3 · 组装顺序：主语 → will → 动词原形 → 宾语</p>
+          </header>
+
+          <div id="game-columns">
+            <div id="orb-column">
+              <div id="crystal-pedestal" aria-hidden="false">
+                <div id="orb-shell">
+                  <div id="crack-root"></div>
+                  <img id="orb-art" src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/l08-page03-crystal-hero.png" alt="" width="512" height="512" decoding="async" />
+                  <div id="orb-text"><span class="tok hint">…</span></div>
+                </div>
+                <div id="pedestal-base"></div>
+              </div>
+              <div id="orb-sentence" class="is-idle" aria-live="polite">
+                <span class="tok hint">将下方符文按顺序拖入球内，句子会显示在这里</span>
+              </div>
+            </div>
+            <div id="rune-tray" aria-label="符文块"></div>
+          </div>
+        </section>
+
+        <section id="p03-slide-1" class="p03-slide" role="tabpanel" aria-labelledby="p03-tab-1" hidden>
+          <div class="p03-exam-panel">
+            <h2>中考拓展 · 教材衔接（7–9 年级）</h2>
+            <p style="margin: 0 0 0.75rem; font-weight: 750; font-size: clamp(0.88rem, 2vw, 1.02rem); line-height: 1.55;">
+              成都英语中考书面表达与填空题中，<span class="p03-tag">一般将来时</span>常与<span class="p03-tag">科技</span><span class="p03-tag">环保</span><span class="p03-tag">校园生活</span>话题结合。
+              与本页三句预言对应的教材脉络可参考：七年级「日常活动 / chores」、八年级「未来生活 / robots / environment」、九年级总复习「社会与生活变化」。
+            </p>
+            <h3>一、核心考点（与 Page 01–02 连贯）</h3>
+            <ul>
+              <li><strong>will</strong> 表<strong>主观推测</strong>（无确凿证据）：In 2050, robots <em>will help</em> us at home.</li>
+              <li>情态动词后<strong>只能接动词原形</strong>：拒绝 <strong>will doing</strong> / <strong>will does</strong> / <strong>will to do</strong>（中考阅卷最常见的三类笔误）。</li>
+              <li>与 <strong>be going to</strong> 的差异已在 Page 02 情景对比中演练；本页专攻「原形陷阱」。</li>
+            </ul>
+            <h3>二、成都中考命题情境（典型方向）</h3>
+            <ul>
+              <li><strong>文明城市 / 公园城市</strong>：谈论未来交通、绿道、低碳生活 → 常用 will / be going to 描述愿景。</li>
+              <li><strong>天府文化与科技</strong>：博物馆云游览、AI 助教、线上学习 → 动词常为 <em>study / live / use / help</em> 等原形。</li>
+              <li><strong>校园规则与志愿活动</strong>：书面表达常用「I will…」「We will…」表承诺与计划（注意与人称一致的<strong>原形</strong>，而非第三人称 -s）。</li>
+            </ul>
+            <h3>三、应试口诀</h3>
+            <ul>
+              <li>「看到 will，后面跟着<strong>裸动词</strong>；加了 -ing / -es，水晶球必裂！」</li>
+            </ul>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <div id="parchment" hidden role="dialog" aria-modal="true" aria-labelledby="parchment-title">
+      <strong id="parchment-title">神谕反馈</strong>
+      <p id="parchment-body"></p>
+      <div class="scroll-actions">
+        <button type="button" class="btn-stone" id="btnRestoreGlass">复原水晶球</button>
+      </div>
+    </div>
+
+    <div id="finale-layer" hidden>
+      <div id="finale-card">
+        <div class="badge">Master of the Oracle<br /><span style="font-size: 0.62em; font-weight: 800">预言大师 · 原形守护者</span></div>
+        <p style="margin: 1rem 0 0; font-weight: 750; color: #fff9c4; font-size: clamp(0.82rem, 1.85vw, 0.98rem);">
+          三句 2050 预言已全部点亮 —— will 后的动词原形，你已通关。
+        </p>
+        <button type="button" class="btn-next-lesson" id="btnNextLesson">进入意图捕捉网格 · 下一页</button>
+      </div>
+    </div>
+  </div>
+
+  <nav class="lesson-pager" aria-label="课程页导航">
+    <a class="pager-prev" href="lesson08-page02-lab.html">← Page 02</a>
+    <span class="pager-mid">L08 · Page 03</span>
+    <a class="pager-next" href="lesson08-page04-catch.html">Page 04 →</a>
+  </nav>
+
+  <script>
+    (function () {
+      "use strict";
+
+      var KEYS = window.__LESSON_KEYS__ || {};
+      var AZURE_REGION = KEYS.azureRegion || "eastus2";
+      var AZURE_KEY = KEYS.azureSpeechKey || "";
+      var DEEPSEEK_KEY = KEYS.deepSeekKey || "";
+      var VERTEX_PROJECT = KEYS.vertexProjectId || "";
+      var VERTEX_REGION = KEYS.vertexRegion || "us-central1";
+
+      var SLOT_ORDER = ["subject", "modal", "verb", "object"];
+      var SLOT_LABELS = { subject: "主语", modal: "will", verb: "动词原形", object: "宾语" };
+
+      /** 三幕预言：Prompt 原始三维 + 教材 / 成都中考情境注解 */
+      var SCENARIOS = [
+        {
+          id: "s1",
+          examHint: "科技与生活：贴近人教版 Science / chores / robots 话题，常见于「will + 原形」综合填空。",
+          introEn: "Look into the future. What will life be like in twenty fifty?",
+          completeLine: "Robots will do our housework.",
+          blocks: [
+            { text: "Robots", role: "subject" },
+            { text: "will", role: "modal" },
+            { text: "do", role: "verb", trap: false },
+            { text: "does", role: "verb", trap: true },
+            { text: "doing", role: "verb", trap: true },
+            { text: "our housework", role: "object" },
+          ],
+        },
+        {
+          id: "s2",
+          examHint: "城市与未来居所：成都中考阅读常见「环保 / 城市愿景」，will 表主观展望时注意动词原形。",
+          introEn: "Imagine our city in twenty fifty. Where will people live?",
+          completeLine: "People will live on Mars.",
+          blocks: [
+            { text: "People", role: "subject" },
+            { text: "will", role: "modal" },
+            { text: "live", role: "verb", trap: false },
+            { text: "lives", role: "verb", trap: true },
+            { text: "living", role: "verb", trap: true },
+            { text: "on Mars", role: "object" },
+          ],
+        },
+        {
+          id: "s3",
+          examHint: "学习方式：教材「online learning / study habits」与短文填空高频词 study，警惕 will studies。",
+          introEn: "School is changing fast. How will students study in twenty fifty?",
+          completeLine: "Students will study at home.",
+          blocks: [
+            { text: "Students", role: "subject" },
+            { text: "will", role: "modal" },
+            { text: "study", role: "verb", trap: false },
+            { text: "studies", role: "verb", trap: true },
+            { text: "studying", role: "verb", trap: true },
+            { text: "at home", role: "object" },
+          ],
+        },
+      ];
+
+      var bgStack = document.getElementById("bg-stack");
+      var uiLock = document.getElementById("ui-lock");
+      var orbShell = document.getElementById("orb-shell");
+      var orbText = document.getElementById("orb-text");
+      var orbSentence = document.getElementById("orb-sentence");
+      var crackRoot = document.getElementById("crack-root");
+      var runeTray = document.getElementById("rune-tray");
+      var scenarioProgress = document.getElementById("scenario-progress");
+      var parchment = document.getElementById("parchment");
+      var parchmentBody = document.getElementById("parchment-body");
+      var btnRestoreGlass = document.getElementById("btnRestoreGlass");
+      var finaleLayer = document.getElementById("finale-layer");
+      var btnNextLesson = document.getElementById("btnNextLesson");
+
+      var p03Slide0 = document.getElementById("p03-slide-0");
+      var p03Slide1 = document.getElementById("p03-slide-1");
+      var p03Tab0 = document.getElementById("p03-tab-0");
+      var p03Tab1 = document.getElementById("p03-tab-1");
+
+      var levAnim = null;
+      var scenarioIndex = 0;
+      var slotIndex = 0;
+      var swallowedTokens = [];
+      var dragState = null;
+
+      function setUiLock(on) {
+        if (on) uiLock.classList.add("on");
+        else uiLock.classList.remove("on");
+      }
+
+      function setP03Slide(idx) {
+        if (!p03Slide0 || !p03Slide1 || !p03Tab0 || !p03Tab1) return;
+        var show0 = idx === 0;
+        p03Slide0.hidden = !show0;
+        p03Slide1.hidden = show0;
+        p03Tab0.setAttribute("aria-selected", show0 ? "true" : "false");
+        p03Tab1.setAttribute("aria-selected", show0 ? "false" : "true");
+        try {
+          p03Tab0.tabIndex = show0 ? 0 : -1;
+          p03Tab1.tabIndex = show0 ? -1 : 0;
+        } catch (e0) {}
+      }
+
+      function overlapRatio(a, b) {
+        var x1 = Math.max(a.left, b.left);
+        var y1 = Math.max(a.top, b.top);
+        var x2 = Math.min(a.right, b.right);
+        var y2 = Math.min(a.bottom, b.bottom);
+        if (x2 <= x1 || y2 <= y1) return 0;
+        var inter = (x2 - x1) * (y2 - y1);
+        var areaA = a.width * a.height;
+        return areaA > 0 ? inter / areaA : 0;
+      }
+
+      /** 中心点落入预言球，或小块与球有足够交集 —— 降低误拒判 */
+      function chipDroppedOnOrb(chipRect, orbRect) {
+        var ratio = overlapRatio(chipRect, orbRect);
+        if (ratio >= 0.18) return true;
+        var cx = chipRect.left + chipRect.width * 0.5;
+        var cy = chipRect.top + chipRect.height * 0.5;
+        return cx >= orbRect.left && cx <= orbRect.right && cy >= orbRect.top && cy <= orbRect.bottom;
+      }
+
+      function buildSsmlCrystal(text) {
+        var esc = String(text || "")
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;");
+        return (
+          '<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="en-US">' +
+          '<voice name="en-US-AriaNeural">' +
+          '<prosody rate="-8%">' +
+          esc +
+          "</prosody></voice></speak>"
+        );
+      }
+
+      function speakAzure(enText) {
+        return new Promise(function (resolve) {
+          var t = String(enText || "").trim();
+          if (!t || !AZURE_KEY) {
+            resolve(false);
+            return;
+          }
+          var settled = false;
+          function finish(v) {
+            if (settled) return;
+            settled = true;
+            resolve(v);
+          }
+          var ctrl = typeof AbortController !== "undefined" ? new AbortController() : null;
+          var timer = setTimeout(function () {
+            try {
+              if (ctrl) ctrl.abort();
+            } catch (eAbort) {}
+            finish(false);
+          }, 12000);
+          fetch(
+            "https://" + AZURE_REGION + ".tts.speech.microsoft.com/cognitiveservices/v1",
+            {
+              method: "POST",
+              signal: ctrl ? ctrl.signal : undefined,
+              headers: {
+                "Content-Type": "application/ssml+xml",
+                "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3",
+                "Ocp-Apim-Subscription-Key": AZURE_KEY,
+              },
+              body: buildSsmlCrystal(t),
+            }
+          )
+            .then(function (res) {
+              clearTimeout(timer);
+              if (!res.ok) throw new Error("tts");
+              return res.blob();
+            })
+            .then(function (blob) {
+              var u = URL.createObjectURL(blob);
+              var a = new Audio();
+              a.src = u;
+              a.onended = function () {
+                try {
+                  URL.revokeObjectURL(u);
+                } catch (e1) {}
+                finish(true);
+              };
+              a.onerror = function () {
+                try {
+                  URL.revokeObjectURL(u);
+                } catch (e2) {}
+                finish(false);
+              };
+              a.play().catch(function () {
+                finish(false);
+              });
+            })
+            .catch(function () {
+              clearTimeout(timer);
+              finish(false);
+            });
+        });
+      }
+
+      /** 朗读一行英文；网络或语音引擎卡住时最长等待约 15s，避免情景无法切换 */
+      function speakLine(enText) {
+        var timedOut = false;
+        var inner = speakAzure(enText).then(function (ok) {
+          if (ok) return;
+          return new Promise(function (resolve) {
+            if (typeof window.speechSynthesis === "undefined") {
+              resolve();
+              return;
+            }
+            try {
+              window.speechSynthesis.cancel();
+            } catch (e3) {}
+            var u = new SpeechSynthesisUtterance(enText);
+            u.lang = "en-US";
+            u.rate = 0.9;
+            u.onend = function () {
+              resolve();
+            };
+            u.onerror = function () {
+              resolve();
+            };
+            window.speechSynthesis.speak(u);
+          });
+        });
+        return Promise.race([
+          inner,
+          new Promise(function (resolve) {
+            setTimeout(function () {
+              timedOut = true;
+              resolve();
+            }, 15000);
+          }),
+        ]).then(function () {
+          if (timedOut) {
+            try {
+              if (window.speechSynthesis) window.speechSynthesis.cancel();
+            } catch (eTo) {}
+          }
+        });
+      }
+
+      function playThud() {
+        try {
+          var Ctx = window.AudioContext || window.webkitAudioContext;
+          if (!Ctx) return;
+          var ctx = new Ctx();
+          var o = ctx.createOscillator();
+          var g = ctx.createGain();
+          o.type = "sine";
+          o.frequency.value = 110;
+          g.gain.value = 0.14;
+          o.connect(g);
+          g.connect(ctx.destination);
+          o.start();
+          setTimeout(function () {
+            o.stop();
+            ctx.close();
+          }, 120);
+        } catch (e4) {}
+      }
+
+      function playWhine() {
+        try {
+          var Ctx = window.AudioContext || window.webkitAudioContext;
+          if (!Ctx) return;
+          var ctx = new Ctx();
+          var o = ctx.createOscillator();
+          var g = ctx.createGain();
+          o.type = "sine";
+          o.frequency.value = 920;
+          g.gain.value = 0.09;
+          o.connect(g);
+          g.connect(ctx.destination);
+          o.start();
+          setTimeout(function () {
+            o.frequency.value = 620;
+          }, 40);
+          setTimeout(function () {
+            o.stop();
+            ctx.close();
+          }, 220);
+        } catch (e5) {}
+      }
+
+      function playChime() {
+        try {
+          var Ctx = window.AudioContext || window.webkitAudioContext;
+          if (!Ctx) return;
+          var ctx = new Ctx();
+          var o = ctx.createOscillator();
+          var g = ctx.createGain();
+          o.type = "triangle";
+          o.frequency.value = 880;
+          g.gain.value = 0.08;
+          o.connect(g);
+          g.connect(ctx.destination);
+          o.start();
+          setTimeout(function () {
+            o.frequency.value = 1320;
+          }, 60);
+          setTimeout(function () {
+            o.stop();
+            ctx.close();
+          }, 280);
+        } catch (e6) {}
+      }
+
+      function burstGoldParticles() {
+        var host = document.getElementById("orb-column");
+        if (!host) return;
+        for (var i = 0; i < 28; i++) {
+          var p = document.createElement("span");
+          p.className = "particle";
+          p.style.background =
+            i % 3 === 0 ? "#fff59d" : i % 3 === 1 ? "#ffd54f" : "#ffecb3";
+          var rect = host.getBoundingClientRect();
+          p.style.left = rect.width / 2 + "px";
+          p.style.top = rect.height / 2 + "px";
+          host.appendChild(p);
+          if (typeof anime !== "undefined") {
+            anime({
+              targets: p,
+              translateX: anime.random(-90, 90),
+              translateY: anime.random(-90, 90),
+              opacity: [1, 0],
+              scale: [1, 0.2],
+              duration: anime.random(520, 900),
+              easing: "easeOutQuad",
+              complete: function () {
+                if (p.parentNode) p.parentNode.removeChild(p);
+              },
+            });
+          } else if (p.parentNode) {
+            p.parentNode.removeChild(p);
+          }
+        }
+      }
+
+      function startLevitation() {
+        if (typeof anime === "undefined") return;
+        if (levAnim) {
+          try {
+            levAnim.pause();
+          } catch (e7) {}
+        }
+        levAnim = anime({
+          targets: orbShell,
+          translateY: [-6, 6],
+          duration: 2800,
+          direction: "alternate",
+          loop: true,
+          easing: "easeInOutSine",
+        });
+      }
+
+      function stopLevitation() {
+        if (!levAnim) return;
+        try {
+          levAnim.pause();
+        } catch (e8) {}
+        levAnim = null;
+        if (typeof anime !== "undefined") {
+          anime.set(orbShell, { translateY: 0 });
+        }
+      }
+
+      function renderSentenceStrip() {
+        if (!orbSentence) return;
+        orbSentence.innerHTML = "";
+        orbSentence.classList.remove("is-building", "is-idle");
+        if (swallowedTokens.length === 0) {
+          orbSentence.classList.add("is-idle");
+          var sc0 = SCENARIOS[scenarioIndex];
+          var sp0 = document.createElement("span");
+          sp0.className = "tok hint";
+          sp0.textContent = sc0 ? sc0.introEn : "";
+          orbSentence.appendChild(sp0);
+          return;
+        }
+        orbSentence.classList.add("is-building");
+        swallowedTokens.forEach(function (tok, i) {
+          var sp = document.createElement("span");
+          sp.className = "tok" + (i === swallowedTokens.length - 1 ? " gold" : "");
+          sp.textContent = tok;
+          orbSentence.appendChild(sp);
+        });
+      }
+
+      function renderOrbInterior() {
+        var slots = SLOT_ORDER.length;
+        var filled = swallowedTokens.length;
+        orbText.innerHTML = "";
+        if (filled === 0) {
+          var nk0 = SLOT_ORDER[slotIndex];
+          orbText.innerHTML =
+            '<span class="tok hint">下一格：' + (SLOT_LABELS[nk0] || "") + "</span>";
+        } else if (filled < slots) {
+          var nk = SLOT_ORDER[slotIndex];
+          orbText.innerHTML =
+            '<span class="tok hint">下一格：' + (SLOT_LABELS[nk] || "") + "</span>";
+        } else {
+          orbText.innerHTML = '<span class="tok hint">✓</span>';
+        }
+        renderSentenceStrip();
+      }
+
+      function clearCracks() {
+        crackRoot.innerHTML = "";
+        crackRoot.classList.remove("show");
+      }
+
+      function showCssCracks() {
+        clearCracks();
+        crackRoot.classList.add("show");
+        for (var i = 0; i < 8; i++) {
+          var ln = document.createElement("span");
+          ln.className = "crack-line";
+          ln.style.transform = "rotate(" + (i * 22 + anime.random(-6, 6)) + "deg)";
+          crackRoot.appendChild(ln);
+        }
+        if (typeof anime !== "undefined") {
+          anime({
+            targets: crackRoot.querySelectorAll(".crack-line"),
+            opacity: [0, 1],
+            scaleY: [0.2, 1],
+            duration: 160,
+            easing: "easeOutQuad",
+          });
+        }
+      }
+
+      function runShatterSequence() {
+        setUiLock(true);
+        stopLevitation();
+        playWhine();
+        var flashes = 0;
+        function flashOnce() {
+          orbShell.style.boxShadow =
+            flashes % 2 === 0
+              ? "0 0 80px rgba(255, 23, 68, 0.95), inset 0 0 40px rgba(255, 23, 68, 0.45)"
+              : "0 0 46px rgba(213, 0, 249, 0.55), inset -14px -18px 42px rgba(0, 0, 0, 0.65)";
+          flashes++;
+          if (flashes < 6) setTimeout(flashOnce, 90);
+          else {
+            showCssCracks();
+            if (typeof anime !== "undefined") {
+              anime({
+                targets: "#l08-p03-host",
+                translateX: [-12, 12, -8, 8, 0],
+                duration: 420,
+                easing: "easeInOutQuad",
+              });
+            }
+            swallowedTokens = [];
+            slotIndex = 0;
+            renderOrbInterior();
+            orbShell.style.boxShadow =
+              "inset -14px -18px 42px rgba(0, 0, 0, 0.65), 0 0 46px rgba(213, 0, 249, 0.55)";
+            fetchDeepSeekShatter().then(function (zh) {
+              typewriterParchment(zh || "情态动词 will 后面必须接动词原形，不能用第三人称单数或 -ing。");
+              runeTray.classList.add("frozen");
+            });
+          }
+        }
+        flashOnce();
+      }
+
+      function fetchDeepSeekShatter() {
+        return new Promise(function (resolve) {
+          if (!DEEPSEEK_KEY) {
+            resolve(
+              "你是初学者很正常：will 像一根能量导线，只能接动词原形（bare infinitive）。写成 will doing / will does，咒语就会失控。"
+            );
+            return;
+          }
+          fetch("https://api.deepseek.com/v1/chat/completions", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + DEEPSEEK_KEY,
+            },
+            body: JSON.stringify({
+              model: "deepseek-chat",
+              messages: [
+                {
+                  role: "system",
+                  content:
+                    "你是刻薄又温柔的古代神谕。学生把 will 后面写成了 doing / does / studies 等非原形。请用中文回答，不超过80字，语气略带讽刺但要清晰说明：情态动词后只能接动词原形。",
+                },
+                {
+                  role: "user",
+                  content: "我在预言球里放了错误的动词形式，水晶裂了，请点拨我。",
+                },
+              ],
+            }),
+          })
+            .then(function (r) {
+              return r.json();
+            })
+            .then(function (data) {
+              var txt =
+                data &&
+                data.choices &&
+                data.choices[0] &&
+                data.choices[0].message &&
+                data.choices[0].message.content;
+              resolve(String(txt || "").trim());
+            })
+            .catch(function () {
+              resolve("");
+            });
+        });
+      }
+
+      function typewriterParchment(full) {
+        parchmentBody.textContent = "";
+        parchment.removeAttribute("hidden");
+        var i = 0;
+        var tick = function () {
+          if (i <= full.length) {
+            parchmentBody.textContent = full.slice(0, i);
+            i++;
+            setTimeout(tick, 28);
+          }
+        };
+        tick();
+      }
+
+      function hideParchment() {
+        parchment.setAttribute("hidden", "");
+        parchmentBody.textContent = "";
+      }
+
+      function resetScenarioSoft() {
+        clearCracks();
+        swallowedTokens = [];
+        slotIndex = 0;
+        renderOrbInterior();
+        orbShell.classList.add("shake-recover");
+        setTimeout(function () {
+          orbShell.classList.remove("shake-recover");
+        }, 500);
+        startLevitation();
+      }
+
+      function spawnRunes() {
+        runeTray.innerHTML = "";
+        var sc = SCENARIOS[scenarioIndex];
+        var blocks = sc.blocks.slice();
+        for (var i = blocks.length - 1; i > 0; i--) {
+          var j = Math.floor(Math.random() * (i + 1));
+          var t = blocks[i];
+          blocks[i] = blocks[j];
+          blocks[j] = t;
+        }
+        blocks.forEach(function (def, idx) {
+          var el = document.createElement("div");
+          el.className = "rune-block";
+          el.textContent = def.text;
+          el.setAttribute("data-role", def.role);
+          el.setAttribute("data-trap", def.role === "verb" && def.trap ? "1" : "0");
+          el.setAttribute("data-text", def.text);
+          el.setAttribute("data-home-x", "");
+          el.setAttribute("data-home-y", "");
+          runeTray.appendChild(el);
+          bindRune(el);
+        });
+        setTimeout(function () {
+          runeTray.querySelectorAll(".rune-block").forEach(function (el) {
+            var r = el.getBoundingClientRect();
+            el.setAttribute("data-home-x", r.left);
+            el.setAttribute("data-home-y", r.top);
+          });
+        }, 80);
+      }
+
+      function bindRune(el) {
+        el.addEventListener("pointerdown", onRuneDown);
+      }
+
+      function resetChipHome(chip) {
+        if (!chip) return;
+        try {
+          if (typeof anime !== "undefined") {
+            anime.remove(chip);
+            anime.set(chip, { scale: 1, rotate: 0, translateX: 0, translateY: 0 });
+          }
+        } catch (e9) {}
+        chip.classList.remove("dragging");
+        chip.style.cssText = "";
+        runeTray.appendChild(chip);
+      }
+
+      function onRuneDown(ev) {
+        if (dragState) return;
+        if (p03Slide1 && !p03Slide1.hidden) return;
+        if (runeTray.classList.contains("frozen")) return;
+        if (ev.button !== undefined && ev.button !== 0) return;
+        var chip = ev.currentTarget;
+        var r = chip.getBoundingClientRect();
+        dragState = {
+          chip: chip,
+          offsetX: ev.clientX - r.left,
+          offsetY: ev.clientY - r.top,
+          pointerId: ev.pointerId,
+        };
+        chip.classList.add("dragging");
+        document.body.appendChild(chip);
+        chip.style.position = "fixed";
+        chip.style.left = r.left + "px";
+        chip.style.top = r.top + "px";
+        chip.style.zIndex = "15000";
+        chip.style.margin = "0";
+        if (typeof anime !== "undefined") {
+          anime({ targets: chip, scale: 1.12, rotate: "3deg", duration: 140, easing: "easeOutQuad" });
+        }
+        try {
+          chip.setPointerCapture(ev.pointerId);
+        } catch (eCap) {}
+        window.addEventListener("pointermove", onRuneMove);
+        window.addEventListener("pointerup", onRuneUp);
+        window.addEventListener("pointercancel", onRuneUp);
+        ev.preventDefault();
+      }
+
+      function onRuneMove(ev) {
+        if (!dragState) return;
+        if (
+          dragState.pointerId !== undefined &&
+          ev.pointerId !== undefined &&
+          dragState.pointerId !== ev.pointerId
+        ) {
+          return;
+        }
+        ev.preventDefault();
+        var chip = dragState.chip;
+        chip.style.left = ev.clientX - dragState.offsetX + "px";
+        chip.style.top = ev.clientY - dragState.offsetY + "px";
+      }
+
+      function endDragListeners() {
+        window.removeEventListener("pointermove", onRuneMove);
+        window.removeEventListener("pointerup", onRuneUp);
+        window.removeEventListener("pointercancel", onRuneUp);
+      }
+
+      function onRuneUp(ev) {
+        if (!dragState) return;
+        var capId = dragState.pointerId;
+        if (ev.pointerId !== undefined && capId !== undefined && ev.pointerId !== capId) return;
+        endDragListeners();
+        var chip = dragState.chip;
+        var pid = dragState.pointerId;
+        dragState = null;
+        try {
+          if (chip.releasePointerCapture) chip.releasePointerCapture(pid);
+        } catch (eRel) {}
+        chip.classList.remove("dragging");
+        if (typeof anime !== "undefined") {
+          try {
+            anime.remove(chip);
+            anime.set(chip, { scale: 1, rotate: 0 });
+          } catch (eAn) {}
+        }
+        var cr = chip.getBoundingClientRect();
+        var ballRect = orbShell.getBoundingClientRect();
+
+        if (!chipDroppedOnOrb(cr, ballRect)) {
+          resetChipHome(chip);
+          playThud();
+          return;
+        }
+
+        var role = chip.getAttribute("data-role");
+        var text = chip.getAttribute("data-text") || "";
+        var trap = chip.getAttribute("data-trap") === "1";
+        var expected = SLOT_ORDER[slotIndex];
+
+        if (role !== expected) {
+          resetChipHome(chip);
+          playThud();
+          return;
+        }
+
+        if (role === "verb" && trap) {
+          if (chip.parentNode) chip.parentNode.removeChild(chip);
+          runShatterSequence();
+          return;
+        }
+
+        swallowedTokens.push(text);
+        slotIndex++;
+        if (chip.parentNode) chip.parentNode.removeChild(chip);
+        renderOrbInterior();
+        playChime();
+
+        if (slotIndex >= SLOT_ORDER.length) {
+          stopLevitation();
+          var sc = SCENARIOS[scenarioIndex];
+          burstGoldParticles();
+          try {
+            speakLine(sc.completeLine).catch(function () {});
+          } catch (eSpeak) {}
+          window.setTimeout(function advanceScenarioAfterComplete() {
+            scenarioIndex++;
+            setUiLock(false);
+            runeTray.classList.remove("frozen");
+            if (scenarioIndex >= SCENARIOS.length) {
+              runFinale();
+              return;
+            }
+            slotIndex = 0;
+            swallowedTokens = [];
+            scenarioProgress.textContent =
+              "情景 " + (scenarioIndex + 1) + " / 3 · " + SCENARIOS[scenarioIndex].examHint;
+            renderOrbInterior();
+            spawnRunes();
+            try {
+              speakLine(SCENARIOS[scenarioIndex].introEn).catch(function () {});
+            } catch (eIntro) {}
+            startLevitation();
+          }, 520);
+        }
+      }
+
+      function runFinale() {
+        stopLevitation();
+        if (typeof anime !== "undefined") {
+          anime({
+            targets: "#orb-shell",
+            scale: [1, 1.45],
+            opacity: [1, 0.15],
+            duration: 900,
+            easing: "easeInQuad",
+            complete: function () {
+              anime.set("#orb-shell", { scale: 1, opacity: 1 });
+              finaleLayer.removeAttribute("hidden");
+            },
+          });
+        } else {
+          finaleLayer.removeAttribute("hidden");
+        }
+      }
+
+      function tryVertexBg() {
+        var token = window.__VERTEX_BEARER_TOKEN__ || KEYS.vertexBearerToken || "";
+        if (!token || !VERTEX_PROJECT) return Promise.resolve(false);
+        var endpoint =
+          "https://" +
+          VERTEX_REGION +
+          "-aiplatform.googleapis.com/v1/projects/" +
+          VERTEX_PROJECT +
+          "/locations/" +
+          VERTEX_REGION +
+          "/publishers/google/models/imagegeneration@006:predict";
+        return fetch(endpoint, {
+          method: "POST",
+          headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" },
+          body: JSON.stringify({
+            instances: [
+              {
+                prompt:
+                  "Close-up glowing purple crystal ball on ancient stone pedestal, magical mist inside sphere, dark mystical background, crayon children's educational illustration, soft bold outlines, no text.",
+              },
+            ],
+            parameters: { sampleCount: 1, aspectRatio: "16:9" },
+          }),
+        })
+          .then(function (r) {
+            return r.ok ? r.json() : Promise.reject();
+          })
+          .then(function (data) {
+            var b64 =
+              data &&
+              data.predictions &&
+              data.predictions[0] &&
+              (data.predictions[0].bytesBase64Encoded || data.predictions[0].b64);
+            if (!b64) throw new Error();
+            bgStack.style.backgroundImage =
+              'linear-gradient(180deg, rgba(7,5,12,0.75), rgba(7,5,12,0.92)), url("data:image/png;base64,' +
+              b64 +
+              '")';
+            bgStack.style.backgroundSize = "cover";
+            bgStack.classList.add("vertex-on");
+            return true;
+          })
+          .catch(function () {
+            return false;
+          });
+      }
+
+      btnRestoreGlass.addEventListener("click", function () {
+        setUiLock(false);
+        runeTray.classList.remove("frozen");
+        hideParchment();
+        resetScenarioSoft();
+        spawnRunes();
+        speakLine(SCENARIOS[scenarioIndex].introEn).catch(function () {});
+      });
+
+      btnNextLesson.addEventListener("click", function () {
+        window.location.href = "lesson08-page04-catch.html";
+      });
+
+      if (p03Tab0 && p03Tab1) {
+        p03Tab0.addEventListener("click", function () {
+          setP03Slide(0);
+        });
+        p03Tab1.addEventListener("click", function () {
+          setP03Slide(1);
+        });
+      }
+
+      scenarioProgress.textContent =
+        "情景 1 / 3 · " + SCENARIOS[0].examHint;
+      spawnRunes();
+      renderOrbInterior();
+      startLevitation();
+      tryVertexBg();
+      speakLine(SCENARIOS[0].introEn).catch(function () {});
+    })();
+  </script>
+</body>
+</html>

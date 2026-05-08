@@ -1,0 +1,2425 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <!-- L08 配图风格：与 L07 同系 — 2D 粗描边赛璐璐卡通教学插画 -->
+  <!-- Page01 全部插图路径统一在脚本对象 PAGE01_IMG（与本页同级目录 https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/）。改文件名时请只改该对象并同步 CSS 变量 --l08-p01-archive-bg。 -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>第08讲 · Page 01 · 时光档案室 · 过去回顾与未来计划</title>
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
+  <link rel="stylesheet" href="../assets/lesson-screen-16x9.css" />
+  <style>
+    :root {
+      /* 与脚本 PAGE01_IMG.archiveBg 同步 */
+      --l08-p01-archive-bg: url("https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/l08-page01-archive-bg.png");
+      --paper: #fff9f0;
+      --ink: #2c2c2c;
+      --crayon-red: #e85d4c;
+      --crayon-blue: #4a90d9;
+      --crayon-orange: #f0ad4e;
+      --crayon-green: #5cb85c;
+      --edge: #5d4037;
+      --gold-glow: #ffca28;
+      --grammar-blue: #1565c0;
+      --shadow-book: rgba(60, 40, 20, 0.14);
+      --past-line: #546e7a;
+      --future-line: #ff8f00;
+      --timeline-hl: #1565c0;
+      /* 与 .past-card 底边到轨道中线一致；未来落槽顶边距中线也用此值 */
+      --timeline-rail-gap: clamp(20px, 5vh, 48px);
+    }
+    * { box-sizing: border-box; }
+
+    /* 勿对 html 使用 zoom>1：与 lesson-screen-16x9 的 16:9 画布叠加后易超出视口，右侧被裁切 */
+    html {
+      overflow-x: clip;
+      max-width: 100%;
+    }
+    html, body {
+      margin: 0;
+      width: 100%;
+      max-width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+      background: #1a1420;
+      color: var(--ink);
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body.has-lesson-pager {
+      flex-direction: column;
+      align-items: stretch !important;
+      justify-content: flex-start;
+      /* 页面主体整体 90%，便于一屏容纳更多内容 */
+      zoom: 0.9;
+    }
+
+    /* —— 主容器：对齐 L06 沉浸式 app —— */
+    #l08-host.app {
+      position: relative;
+      isolation: isolate;
+      flex: 1 1 auto;
+      width: 100%;
+      max-width: 100%;
+      min-width: 0;
+      min-height: calc(100dvh - 4.6rem);
+      overflow: hidden;
+      border: 4px solid rgba(240, 173, 78, 0.55);
+      border-radius: 255px 18px 235px 22px / 22px 235px 22px 255px;
+      box-shadow:
+        inset 0 0 60px rgba(0, 0, 0, 0.2),
+        0 18px 36px rgba(0, 0, 0, 0.35);
+    }
+
+    #bg-stack {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      opacity: 0;
+      transition: opacity 2s ease;
+      pointer-events: none;
+      background:
+        linear-gradient(165deg, rgba(255, 249, 240, 0.42) 0%, rgba(255, 224, 180, 0.18) 45%, rgba(30, 18, 40, 0.55) 100%),
+        var(--l08-p01-archive-bg) center / cover no-repeat;
+      filter: saturate(1.08) contrast(1.05);
+    }
+    #bg-stack::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: repeating-linear-gradient(
+        0deg,
+        rgba(255, 255, 255, 0.03) 0 2px,
+        transparent 2px 5px
+      );
+      mix-blend-mode: soft-light;
+      opacity: 0.35;
+    }
+    #bg-stack.vertex-on {
+      background-size: cover;
+      background-position: center;
+    }
+
+    #boot-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(165deg, #2c2138 0%, #120a14 100%);
+      opacity: 1;
+      transition: opacity 0.85s ease;
+    }
+    #boot-screen.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+    .boot-inner {
+      text-align: center;
+      color: #fff8e1;
+    }
+    .boot-spinner {
+      width: clamp(48px, 11vmin, 76px);
+      height: clamp(48px, 11vmin, 76px);
+      margin: 0 auto 12px;
+      border-radius: 50%;
+      border: 4px solid rgba(240, 173, 78, 0.35);
+      border-top-color: var(--crayon-orange);
+      box-shadow: 0 0 20px rgba(255, 193, 7, 0.35);
+      animation: spin 0.85s linear infinite;
+    }
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+    .boot-kicker {
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      font-size: clamp(0.72rem, 2vw, 0.88rem);
+      color: #ffe082;
+    }
+
+    #laser {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 4px;
+      top: -8px;
+      z-index: 4;
+      opacity: 0;
+      pointer-events: none;
+      background: linear-gradient(90deg, transparent, #7cb342, transparent);
+      box-shadow: 0 0 26px rgba(124, 179, 66, 0.95), 0 0 48px rgba(76, 175, 80, 0.55);
+    }
+
+    #stage {
+      position: absolute;
+      inset: 0;
+      z-index: 6;
+      opacity: 0;
+      display: grid;
+      grid-template-rows: auto auto 1fr;
+      padding: clamp(24px, 5vh, 52px) clamp(8px, 1.6vw, 16px) clamp(10px, 2.5vh, 24px);
+      gap: clamp(6px, 1.2vh, 12px);
+      min-height: 0;
+      overflow-x: hidden;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: contain;
+      /* 滚到底时预留底栏高度，避免调色板标题被固定导航条挡住 */
+      scroll-padding-bottom: max(4.25rem, calc(env(safe-area-inset-bottom, 0px) + 3.5rem));
+    }
+    #stage.visible {
+      opacity: 1;
+    }
+
+    #title-row {
+      text-align: center;
+      pointer-events: none;
+      flex-shrink: 0;
+    }
+    #title-row .page-title {
+      margin: 0;
+      font-size: clamp(1.15rem, 3.8vw, 1.72rem);
+      color: var(--crayon-red);
+      text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.06);
+      font-weight: 900;
+    }
+    #title-row .page-sub {
+      margin: 0.2rem 0 0;
+      font-size: clamp(0.72rem, 1.85vw, 0.88rem);
+      font-weight: 800;
+      color: #fff8e1;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
+      opacity: 0.95;
+    }
+
+    /* —— 时间轴主区：铺满 #stage 剩余高度（与全页 app 同尺寸） —— */
+    #timeline-main {
+      display: flex;
+      flex-direction: column;
+      gap: clamp(4px, 1vh, 10px);
+      min-height: 0;
+      flex: 1 1 auto;
+      opacity: 0;
+      overflow: visible;
+    }
+
+    #timeline-main .coach-panel {
+      flex-shrink: 0;
+      padding: clamp(0.35rem, 1.2vh, 0.55rem) clamp(0.45rem, 1.2vw, 0.65rem);
+      border-radius: 12px;
+      border: 3px solid var(--edge);
+      background: rgba(255, 253, 248, 0.96);
+      font-size: clamp(0.74rem, 1.65vw, 0.9rem);
+      line-height: 1.45;
+      font-weight: 700;
+      color: #3e2723;
+    }
+    #timeline-main .coach-panel .hint-en {
+      display: block;
+      margin-top: 0.28rem;
+      font-weight: 800;
+      color: var(--crayon-blue);
+      font-size: 0.9em;
+    }
+
+    /* ①③ 步提示在弹窗中展示；条形教练区默认隐藏 */
+    #coachPanel:not(.is-visible) {
+      display: none;
+    }
+
+    .coach-intro-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 10040;
+      display: grid;
+      place-items: center;
+      padding: max(12px, env(safe-area-inset-top)) max(14px, env(safe-area-inset-right))
+        max(12px, env(safe-area-inset-bottom)) max(14px, env(safe-area-inset-left));
+      box-sizing: border-box;
+    }
+    .coach-intro-modal[hidden] {
+      display: none !important;
+    }
+    .coach-intro-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(38, 50, 56, 0.48);
+      backdrop-filter: blur(3px);
+    }
+    .coach-intro-dialog {
+      position: relative;
+      z-index: 1;
+      width: min(440px, 94vw);
+      max-height: min(72vh, 520px);
+      overflow: auto;
+      padding: clamp(1rem, 3vh, 1.35rem) clamp(1rem, 3vw, 1.25rem);
+      border-radius: 16px;
+      border: 4px solid var(--edge);
+      background: rgba(255, 253, 248, 0.98);
+      box-shadow: 8px 12px 0 rgba(0, 0, 0, 0.12);
+      font-size: clamp(0.78rem, 1.75vw, 0.92rem);
+      line-height: 1.5;
+      font-weight: 700;
+      color: #3e2723;
+    }
+    .coach-intro-close {
+      position: absolute;
+      top: 8px;
+      right: 10px;
+      width: 2.25rem;
+      height: 2.25rem;
+      padding: 0;
+      border: none;
+      border-radius: 10px;
+      background: rgba(189, 189, 189, 0.35);
+      color: #37474f;
+      font-size: 1.45rem;
+      line-height: 1;
+      cursor: pointer;
+      font-weight: 700;
+      touch-action: manipulation;
+    }
+    .coach-intro-close:hover {
+      background: rgba(158, 158, 158, 0.45);
+    }
+    .coach-intro-zh {
+      margin: 0 2rem 0 0;
+      padding-right: 0.25rem;
+      font-size: clamp(0.84rem, 1.9vw, 1rem);
+    }
+    .coach-intro-modal .coach-intro-en {
+      display: block;
+      margin-top: 0.65rem;
+      font-weight: 800;
+      color: var(--crayon-blue);
+      font-size: clamp(0.8rem, 1.75vw, 0.95rem);
+      line-height: 1.45;
+    }
+    .coach-intro-ok {
+      margin-top: 1rem;
+      width: 100%;
+      justify-content: center;
+    }
+
+    #timeline-main .timeline-stage {
+      flex: 1 1 auto;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      gap: clamp(4px, 0.9vh, 8px);
+      overflow: visible;
+    }
+
+    #timeline-main:has(#palette.show),
+    #timeline-main:has(#reflectPanel.show) {
+      /* 避免大块 padding 造成「整页突然下移」；安全区略留即可 */
+      padding-bottom: max(0.5rem, env(safe-area-inset-bottom, 0px));
+    }
+
+    /* 计划阶段：底部多留一点可滚区域，避免调色板贴死底栏、标题被挡 */
+    #stage:has(#palette.show) {
+      padding-bottom: max(1.1rem, calc(2.2vh + 0.45rem));
+    }
+
+    #timeline-main .timeline-stage:has(#palette.show) {
+      gap: 0;
+    }
+
+    .btn-after-past {
+      flex-shrink: 0;
+      align-self: center;
+      margin-top: clamp(0.25rem, 1vh, 0.5rem);
+      margin-bottom: clamp(0.15rem, 0.6vh, 0.35rem);
+      display: none;
+      max-width: min(96vw, 28rem);
+      text-align: center;
+      white-space: normal;
+    }
+    .btn-after-past.show {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .btn-after-past.show[hidden] {
+      display: none !important;
+    }
+
+    /* Page01 双幻灯片：活动区 + 总结 */
+    .p01-slide-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: clamp(8px, 1.5vw, 12px);
+      flex-shrink: 0;
+      z-index: 7;
+    }
+    .p01-slide-tabs button {
+      border: none;
+      cursor: pointer;
+      font-weight: 900;
+      padding: clamp(8px, 1.5vh, 12px) clamp(14px, 2.8vw, 22px);
+      border-radius: 999px;
+      border: 3px solid var(--edge);
+      font-size: clamp(0.82rem, 1.85vw, 1.05rem);
+      box-shadow: 2px 3px 0 rgba(0, 0, 0, 0.1);
+      background: linear-gradient(180deg, #eceff1, #cfd8dc);
+      color: #37474f;
+      touch-action: manipulation;
+    }
+    .p01-slide-tabs button[aria-selected="true"] {
+      background: linear-gradient(180deg, #fff8dc, #ffcc80);
+      color: #4e342e;
+      box-shadow: 3px 4px 0 rgba(0, 0, 0, 0.12);
+    }
+    .p01-slide-deck {
+      position: relative;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+    }
+    .p01-slide {
+      flex: 1 1 auto;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      overflow: visible;
+    }
+    .p01-slide[hidden] {
+      display: none !important;
+    }
+    /* 幻灯片 2：时态小结 — 大号排版，尽量铺满画布宽度 */
+    #p01-slide-1.p01-slide {
+      width: 100%;
+      min-height: 0;
+    }
+    .p01-summary {
+      flex: 1 1 auto;
+      min-height: min(72vh, 640px);
+      overflow: auto;
+      -webkit-overflow-scrolling: touch;
+      padding: clamp(14px, 2.4vh, 28px) clamp(12px, 3.2vw, 36px);
+      border-radius: 18px;
+      border: 4px solid var(--edge);
+      background: rgba(255, 253, 248, 0.96);
+      box-shadow: 6px 8px 0 rgba(0, 0, 0, 0.08);
+      max-width: min(1240px, 98vw);
+      margin: 0 auto;
+      width: 100%;
+    }
+    .p01-summary-title {
+      margin: 0 0 clamp(0.65rem, 1.8vh, 1rem);
+      font-size: clamp(1.35rem, 4vw, 2.05rem);
+      font-weight: 950;
+      color: var(--crayon-red);
+      text-align: center;
+      letter-spacing: 0.02em;
+    }
+    .p01-summary-list {
+      margin: 0 0 clamp(1rem, 2vh, 1.35rem);
+      padding-left: clamp(1.25rem, 3vw, 1.75rem);
+      font-size: clamp(1.02rem, 2.35vw, 1.35rem);
+      font-weight: 750;
+      line-height: 1.62;
+      color: #3e2723;
+    }
+    .p01-summary-list li + li {
+      margin-top: clamp(0.55rem, 1.5vh, 0.85rem);
+    }
+    .p01-summary-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: clamp(10px, 2vw, 14px);
+      margin-bottom: clamp(0.75rem, 1.8vh, 1.1rem);
+    }
+    .p01-summary-toolbar .btn-crayon {
+      font-size: clamp(0.92rem, 2.1vw, 1.12rem);
+      padding: clamp(10px, 2vh, 14px) clamp(18px, 3.5vw, 26px);
+    }
+    .p01-structure-panel {
+      margin-top: 0.5rem;
+      padding: clamp(1rem, 2.2vh, 1.45rem) clamp(1rem, 2.5vw, 1.35rem);
+      border-radius: 14px;
+      border: 3px dashed var(--grammar-blue);
+      background: rgba(227, 242, 253, 0.55);
+      font-size: clamp(0.95rem, 2.15vw, 1.15rem);
+      font-weight: 700;
+      color: #1a237e;
+      line-height: 1.58;
+    }
+    .p01-structure-lead {
+      margin: 0 0 0.65rem;
+    }
+    .p01-struct-major {
+      margin: clamp(1rem, 2.2vh, 1.35rem) 0 clamp(0.45rem, 1vh, 0.65rem);
+      font-size: clamp(1.05rem, 2.45vw, 1.28rem);
+      font-weight: 950;
+      color: #4a148c;
+      text-align: center;
+      letter-spacing: 0.04em;
+      padding-bottom: 0.35rem;
+      border-bottom: 3px solid rgba(74, 20, 140, 0.22);
+    }
+    .p01-struct-major:first-of-type {
+      margin-top: 0.25rem;
+    }
+    .p01-struct-mini-formula {
+      margin: 0 0 0.65rem;
+      padding: 0.45rem 0.55rem;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.65);
+      border: 2px dashed rgba(106, 27, 154, 0.35);
+      font-weight: 800;
+      font-size: clamp(0.82rem, 1.85vw, 1rem);
+      line-height: 1.45;
+      color: #311b92;
+      text-align: center;
+    }
+    .p01-structure-formula {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(6px, 1.2vw, 10px) clamp(8px, 1.5vw, 12px);
+      margin: 0 0 clamp(0.65rem, 1.5vh, 1rem);
+      font-weight: 800;
+      font-size: clamp(0.82rem, 1.85vw, 1.02rem);
+    }
+    .p01-slot {
+      padding: clamp(5px, 1vh, 8px) clamp(10px, 1.8vw, 14px);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.92);
+      border: 2px solid rgba(21, 101, 192, 0.45);
+      color: #0d47a1;
+    }
+    .p01-slot-hl {
+      background: rgba(255, 213, 79, 0.35);
+      border-color: #f9a825;
+    }
+    .p01-plus {
+      font-weight: 950;
+      color: #546e7a;
+    }
+    .p01-structure-example {
+      margin: 0;
+      font-weight: 750;
+    }
+    .p01-structure-example .p01-ex-en {
+      display: block;
+      margin-top: 0.35rem;
+      font-weight: 800;
+      color: var(--crayon-blue);
+    }
+    .p01-structure-example em {
+      font-style: normal;
+      color: var(--timeline-hl);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    .p01-struct-section {
+      margin-top: clamp(1rem, 2.2vh, 1.35rem);
+      padding-top: clamp(0.75rem, 1.8vh, 1rem);
+      border-top: 2px dashed rgba(21, 101, 192, 0.28);
+    }
+    .p01-struct-section:first-of-type {
+      margin-top: 0.35rem;
+      padding-top: 0;
+      border-top: none;
+    }
+    .p01-struct-h3 {
+      margin: 0 0 0.4rem;
+      font-size: clamp(1.05rem, 2.5vw, 1.35rem);
+      font-weight: 950;
+      color: #0d47a1;
+    }
+    .p01-struct-formula-text {
+      margin: 0 0 clamp(0.5rem, 1.2vh, 0.65rem);
+      font-weight: 800;
+      font-size: clamp(0.88rem, 1.95vw, 1.08rem);
+      line-height: 1.5;
+      color: #283593;
+    }
+    .p01-ex-line {
+      margin-bottom: 0.45rem;
+    }
+    .p01-ex-line:last-child {
+      margin-bottom: 0;
+    }
+    .p01-ex-hotzone {
+      width: 100%;
+      text-align: left;
+      cursor: pointer;
+      border: 3px dashed rgba(144, 202, 249, 0.95);
+      border-radius: 14px;
+      padding: clamp(12px, 2vh, 16px) clamp(12px, 2.4vw, 18px);
+      background: rgba(255, 255, 255, 0.82);
+      font: inherit;
+      color: #37474f;
+      touch-action: manipulation;
+      transition: background 0.15s ease, border-color 0.15s ease;
+    }
+    .p01-ex-hotzone:hover {
+      background: rgba(255, 249, 230, 0.96);
+      border-color: #ffb74d;
+    }
+    .p01-ex-hint {
+      display: block;
+      font-size: clamp(0.82rem, 1.85vw, 1.05rem);
+      font-weight: 850;
+      color: #6d4c41;
+      line-height: 1.42;
+    }
+    .p01-ex-en {
+      display: block;
+      margin-top: 0.48rem;
+      font-weight: 900;
+      font-size: clamp(0.92rem, 2.05vw, 1.15rem);
+      color: var(--crayon-blue);
+      line-height: 1.45;
+    }
+    .p01-ex-en[hidden] {
+      display: none !important;
+    }
+
+    .rail-wrap {
+      position: relative;
+      flex: 1 1 auto;
+      isolation: isolate;
+      box-sizing: border-box;
+      /* 略增高轨道区，使 50% 锚点下移，回忆卡片顶端不易超出容器 */
+      min-height: clamp(260px, 44vh, 420px);
+      /* 为绝对定位的未来落槽预留底部空间，避免与时间轴下方控件重叠 */
+      padding-bottom: clamp(240px, 46vh, 420px);
+      width: 100%;
+      max-width: 100%;
+      min-width: 0;
+      /* 先允许纵向完全露出回忆卡片；横向由 #stage 限制 */
+      overflow: visible;
+    }
+    /* 刻度层 / 标记层必须铺满轨道区，否则仅有 absolute 子元素时高度为 0，top:50% 全部错位 */
+    .rail-wrap #tickLayer,
+    .rail-wrap #markerLayer {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: 100%;
+      pointer-events: none;
+    }
+    .rail-wrap #tickLayer {
+      z-index: 2;
+    }
+    .rail-wrap #markerLayer {
+      z-index: 3;
+    }
+    .rail-wrap #markerLayer .past-marker {
+      pointer-events: auto;
+    }
+    .rail-wrap > .rail {
+      z-index: 1;
+    }
+    .rail-wrap .now-pillar {
+      z-index: 4;
+    }
+    @supports (overflow: clip) {
+      .rail-wrap {
+        overflow-x: clip;
+        overflow-y: visible;
+      }
+    }
+    .rail {
+      position: absolute;
+      left: 2%;
+      right: 2%;
+      top: 50%;
+      height: 8px;
+      transform: translateY(-50%);
+      border-radius: 999px;
+      background: linear-gradient(90deg, #90a4ae 0%, #b0bec5 48%, #ffb74d 52%, #ffa726 100%);
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.12);
+    }
+    .now-pillar {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: auto;
+      max-width: min(42vw, 11rem);
+      z-index: 3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+    .now-badge {
+      font-size: clamp(0.58rem, 1.35vw, 0.68rem);
+      font-weight: 950;
+      letter-spacing: 0.08em;
+      color: #fff;
+      background: linear-gradient(180deg, #42a5f5, #1565c0);
+      padding: 3px 10px;
+      border-radius: 999px;
+      border: 3px solid var(--edge);
+      box-shadow: 2px 3px 0 rgba(0, 0, 0, 0.12);
+    }
+    #liveClock {
+      font-family: ui-monospace, "Consolas", monospace;
+      font-weight: 900;
+      font-size: clamp(0.88rem, 2.4vw, 1.15rem);
+      color: #0d47a1;
+      background: rgba(255, 255, 255, 0.95);
+      padding: 5px 8px;
+      border-radius: 10px;
+      border: 3px dashed var(--crayon-blue);
+      text-align: center;
+      width: fit-content;
+      max-width: 100%;
+      min-width: 0;
+      box-sizing: border-box;
+      letter-spacing: 0.02em;
+    }
+
+    .tick {
+      position: absolute;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 2;
+      text-align: center;
+      width: 2px;
+    }
+    .tick::before {
+      content: "";
+      display: block;
+      margin: 0 auto 3px;
+      width: 2px;
+      height: clamp(32px, 6.5vh, 48px);
+      background: currentColor;
+      border-radius: 2px;
+      opacity: 0.65;
+    }
+    .tick span {
+      display: block;
+      font-size: clamp(0.62rem, 1.45vw, 0.78rem);
+      font-weight: 950;
+      letter-spacing: 0.03em;
+      white-space: nowrap;
+      color: inherit;
+      /* 白色描边感：兼容性好于 SVG stroke */
+      text-shadow:
+        -1px -1px 0 #fff,
+        1px -1px 0 #fff,
+        -1px 1px 0 #fff,
+        1px 1px 0 #fff,
+        0 -1px 0 #fff,
+        0 1px 0 #fff,
+        -1px 0 0 #fff,
+        1px 0 0 #fff,
+        0 0 8px rgba(255, 255, 255, 0.9);
+    }
+    .tick.past {
+      color: #37474f;
+    }
+    .tick.future {
+      color: #e65100;
+    }
+
+    .past-marker {
+      position: absolute;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 4;
+      width: clamp(20px, 4vw, 28px);
+      height: clamp(20px, 4vw, 28px);
+      border-radius: 50%;
+      background: linear-gradient(145deg, #eceff1, #90a4ae);
+      border: 3px solid var(--edge);
+      cursor: pointer;
+      box-shadow: 2px 3px 0 rgba(0, 0, 0, 0.15);
+      transition: transform 0.12s ease;
+      padding: 0;
+    }
+    .past-marker:hover {
+      transform: translate(-50%, -50%) scale(1.08);
+    }
+    .past-marker.done {
+      outline: 3px solid var(--crayon-green);
+      outline-offset: 2px;
+    }
+
+    /* 未来拖入区：与 .past-card 同尺寸；顶边距轨道中线 = --timeline-rail-gap（与回忆卡底边到中线对称） */
+    .rail-wrap .future-slots-strip {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: calc(50% + var(--timeline-rail-gap));
+      width: 100%;
+      max-width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      align-items: flex-start;
+      gap: clamp(8px, 2vw, 14px);
+      padding: 0 2% clamp(4px, 0.8vh, 10px);
+      box-sizing: border-box;
+      z-index: 5;
+      pointer-events: auto;
+    }
+    .future-slot {
+      position: relative;
+      flex: 0 0 auto;
+      z-index: 4;
+      box-sizing: border-box;
+      width: clamp(152px, 30vw, 224px);
+      max-width: 224px;
+      min-height: 0;
+      border-radius: 14px;
+      border: 4px dashed rgba(230, 81, 0, 0.55);
+      background: rgba(255, 253, 248, 0.96);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 10px;
+      box-shadow: 4px 6px 0 rgba(0, 0, 0, 0.08);
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .future-slot.hover {
+      border-color: var(--crayon-green);
+      background: rgba(200, 230, 201, 0.45);
+    }
+    .future-slot.filled {
+      border-style: solid;
+      border-color: #66bb6a;
+      background: rgba(255, 255, 255, 0.92);
+      box-shadow: 6px 8px 0 rgba(0, 0, 0, 0.1);
+    }
+    .future-slot .slot-placeholder-thumb {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      border-radius: 10px;
+      margin-bottom: 8px;
+      border: 2px dashed rgba(230, 81, 0, 0.42);
+      background: rgba(255, 243, 224, 0.65);
+      box-sizing: border-box;
+      flex-shrink: 0;
+    }
+    .future-slot .slot-inner.slot-placeholder {
+      font-size: clamp(0.72rem, 1.75vw, 0.92rem);
+      font-weight: 900;
+      color: #6d4c41;
+      line-height: 1.35;
+    }
+    .slot-inner {
+      font-size: clamp(0.72rem, 1.65vw, 0.88rem);
+      font-weight: 800;
+      text-align: center;
+      color: #4e342e;
+      line-height: 1.3;
+      width: 100%;
+      word-break: break-word;
+    }
+    .slot-photo {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      border-radius: 10px;
+      background: #fff8e1;
+      overflow: hidden;
+      margin-bottom: 8px;
+      border: 2px solid rgba(93, 64, 55, 0.35);
+    }
+    .slot-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      border-radius: 10px;
+    }
+    .slot-phrase {
+      font-weight: 900;
+      color: #6d4c41;
+      font-size: clamp(0.88rem, 2.1vw, 1.12rem);
+      line-height: 1.35;
+    }
+    .slot-sentence {
+      font-weight: 800;
+      color: #1b5e20;
+      font-size: clamp(0.72rem, 1.55vw, 0.95rem);
+      line-height: 1.35;
+    }
+    .slot-sentence .gram {
+      color: var(--timeline-hl);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    /* 过去回忆卡片：底边明显高于橙色/灰色时间轴线；尺寸约为原先 2 倍 */
+    .past-card {
+      position: absolute;
+      bottom: calc(50% + var(--timeline-rail-gap));
+      top: auto;
+      transform: translate(-50%, 0);
+      z-index: 5;
+      width: clamp(152px, 30vw, 224px);
+      min-height: 0;
+      border-radius: 14px;
+      border: 4px dashed #607d8b;
+      background: rgba(255, 253, 248, 0.96);
+      padding: 10px;
+      box-shadow: 6px 8px 0 rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      pointer-events: none;
+    }
+    .past-card-photo {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 8px;
+      border: 2px solid rgba(93, 64, 55, 0.32);
+      background: #eceff1;
+    }
+    .past-card-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .past-card-en {
+      font-weight: 900;
+      font-size: clamp(0.88rem, 2.1vw, 1.12rem);
+      color: #1b5e20;
+      line-height: 1.35;
+      text-align: center;
+      margin: 0;
+    }
+    /* 揭晓后与 future .gram 呼应：过去式动词标红 */
+    .past-card-en .past-verb {
+      color: #c62828;
+      font-weight: 900;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    .plan-toolbar {
+      flex-shrink: 0;
+      margin-top: 0.2rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      justify-content: center;
+    }
+    .btn-crayon {
+      border: none;
+      cursor: pointer;
+      font-weight: 950;
+      padding: clamp(8px, 1.8vh, 10px) clamp(14px, 2.5vw, 18px);
+      border-radius: 999px;
+      border: 3px solid var(--edge);
+      font-size: clamp(0.74rem, 1.75vw, 0.88rem);
+      box-shadow: 3px 4px 0 rgba(0, 0, 0, 0.12);
+      background: linear-gradient(180deg, #fff8dc, #ffcc80);
+      color: #4e342e;
+      touch-action: manipulation;
+    }
+    .btn-crayon:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+    .btn-reveal {
+      background: linear-gradient(180deg, #e3f2fd, #90caf9);
+      color: #0d47a1;
+    }
+
+    .palette {
+      flex-shrink: 0;
+      /* 整体上移，减轻与上方轨道区的挤压，避免标题像被「条带」压住 */
+      margin-top: clamp(-1.35rem, -3vh, -0.45rem);
+      padding: clamp(0.55rem, 1.6vh, 0.75rem) clamp(0.45rem, 1.2vw, 0.65rem);
+      border-radius: 14px;
+      border: 3px solid rgba(74, 144, 217, 0.55);
+      background: rgba(227, 242, 253, 0.55);
+      display: none;
+      position: relative;
+      z-index: 12;
+    }
+    .palette.show {
+      display: block;
+    }
+    .palette-title {
+      font-weight: 950;
+      text-align: center;
+      margin-bottom: clamp(0.45rem, 1.2vh, 0.65rem);
+      color: var(--crayon-red);
+      font-size: clamp(0.82rem, 1.9vw, 1.02rem);
+      line-height: 1.35;
+    }
+    .palette-cards {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(10px, 2vw, 14px);
+      justify-items: center;
+    }
+    @media (min-width: 720px) {
+      .palette-cards {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+    }
+
+    /* 与 .past-card 同宽、同比例插图区，视觉尺寸一致 */
+    .plan-card {
+      box-sizing: border-box;
+      width: min(100%, clamp(152px, 30vw, 224px));
+      max-width: 224px;
+      margin-left: auto;
+      margin-right: auto;
+      border-radius: 14px;
+      border: 3px solid var(--edge);
+      background: #fff;
+      padding: 10px;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      cursor: grab;
+      touch-action: none;
+      box-shadow: 4px 5px 0 rgba(0, 0, 0, 0.1);
+      user-select: none;
+      position: relative;
+      z-index: 20;
+    }
+    .plan-card.dragging {
+      cursor: grabbing;
+      z-index: 100;
+      box-shadow: 8px 12px 24px rgba(0, 0, 0, 0.22);
+    }
+    .plan-card.used {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .plan-card .pc-thumb {
+      flex: 0 0 auto;
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      height: auto;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 8px;
+      border: 2px solid rgba(93, 64, 55, 0.32);
+      background: #fff8e1;
+    }
+    .plan-card .pc-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .plan-card .pc-text {
+      font-weight: 900;
+      font-size: clamp(0.88rem, 2.1vw, 1.12rem);
+      text-align: center;
+      color: #4e342e;
+      line-height: 1.35;
+      flex-shrink: 0;
+    }
+
+    .reflect-panel {
+      flex-shrink: 0;
+      margin-top: 0.25rem;
+      padding: clamp(0.4rem, 1.2vh, 0.55rem) clamp(0.45rem, 1.2vw, 0.6rem);
+      border-radius: 12px;
+      border: 3px solid #8e24aa;
+      background: rgba(243, 229, 245, 0.9);
+      font-size: clamp(0.74rem, 1.65vw, 0.88rem);
+      font-weight: 800;
+      line-height: 1.45;
+      color: #4a148c;
+      display: none;
+    }
+    .reflect-panel.show {
+      display: block;
+    }
+    .reflect-progress-title {
+      margin: 0 0 0.45rem;
+      font-weight: 900;
+      font-size: clamp(0.76rem, 1.72vw, 0.9rem);
+    }
+    .reflect-progress-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: clamp(8px, 2vw, 12px);
+      justify-content: flex-start;
+      align-items: center;
+      min-height: clamp(28px, 5vh, 40px);
+    }
+    .reflect-chip {
+      flex: 0 0 auto;
+      width: clamp(44px, 12vw, 64px);
+      height: clamp(10px, 2vh, 14px);
+      border-radius: 999px;
+      background: linear-gradient(90deg, #ce93d8, #ab47bc);
+      border: 2px solid #6a1b9a;
+      box-shadow: 2px 3px 0 rgba(0, 0, 0, 0.1);
+    }
+    .reflect-discuss-q {
+      margin: 0;
+      font-weight: 900;
+    }
+
+    #drag-ghost-host {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 200;
+    }
+
+    #ui-lock {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      pointer-events: none;
+      background: transparent;
+      display: none;
+    }
+    #ui-lock.on {
+      display: block;
+      pointer-events: auto;
+    }
+    #flash {
+      position: absolute;
+      inset: 0;
+      z-index: 16;
+      background: #fffef9;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    body.has-lesson-pager nav.lesson-pager a.pager-next.is-locked {
+      opacity: 0.42;
+      pointer-events: none;
+      cursor: not-allowed;
+      filter: grayscale(0.2);
+    }
+    body.has-lesson-pager nav.lesson-pager a.pager-next.is-ready {
+      animation: pulse-next 1.6s ease-in-out infinite;
+    }
+    @keyframes pulse-next {
+      0%,
+      100% {
+        box-shadow: 0 0 12px rgba(255, 193, 7, 0.35), 3px 4px 0 rgba(0, 0, 0, 0.1);
+      }
+      50% {
+        box-shadow: 0 0 22px rgba(255, 193, 7, 0.65), 3px 4px 0 rgba(0, 0, 0, 0.1);
+      }
+    }
+  </style>
+</head>
+<body class="has-lesson-pager">
+  <div id="boot-screen" aria-live="polite">
+    <div class="boot-inner">
+      <div class="boot-spinner" aria-hidden="true"></div>
+      <div class="boot-kicker">LESSON 08 · TIME LAB</div>
+      <div style="margin-top: 8px; font-size: clamp(0.78rem, 2vw, 0.9rem); opacity: 0.9">加载时光档案室插图…</div>
+    </div>
+  </div>
+
+  <div id="l08-host" class="app">
+    <div id="bg-stack" aria-hidden="true"></div>
+    <div id="laser" aria-hidden="true"></div>
+
+    <section id="stage" aria-label="时光档案室 · 时间轴">
+      <div id="title-row">
+        <h1 class="page-title">第08讲 · 时光档案室</h1>
+        <p class="page-sub">过去回顾 · 实时此刻 · 未来计划（be going to）</p>
+      </div>
+
+      <div class="p01-slide-tabs" role="tablist" aria-label="本页幻灯片">
+        <button type="button" role="tab" id="p01-tab-0" aria-selected="true" aria-controls="p01-slide-0">
+          幻灯片 1 · 活动
+        </button>
+        <button type="button" role="tab" id="p01-tab-1" aria-selected="false" aria-controls="p01-slide-1" tabindex="-1">
+          幻灯片 2 · 总结
+        </button>
+      </div>
+
+      <div class="p01-slide-deck">
+        <div id="p01-slide-0" class="p01-slide" role="tabpanel" aria-labelledby="p01-tab-0">
+      <div id="timeline-main">
+        <div class="coach-panel" id="coachPanel">
+          <span id="coachZh"></span>
+          <span class="hint-en" id="coachEn" hidden></span>
+        </div>
+
+        <div id="coachIntroModal" class="coach-intro-modal" role="dialog" aria-modal="true" aria-labelledby="coachIntroZh" hidden>
+          <div class="coach-intro-backdrop" tabindex="-1" aria-hidden="true"></div>
+          <div class="coach-intro-dialog">
+            <button type="button" class="coach-intro-close" id="coachIntroClose" aria-label="关闭">×</button>
+            <p id="coachIntroZh" class="coach-intro-zh">
+              ① 请依次点击左侧三个「过去」圆点
+            </p>
+            <p class="coach-intro-en hint-en" id="coachIntroEn">
+              For past actions we often use the simple past.
+            </p>
+            <button type="button" class="btn-crayon coach-intro-ok" id="coachIntroOk">知道了</button>
+          </div>
+        </div>
+
+        <div id="coachPlanModal" class="coach-intro-modal" role="dialog" aria-modal="true" aria-labelledby="coachPlanZh" hidden>
+          <div class="coach-intro-backdrop" tabindex="-1" aria-hidden="true"></div>
+          <div class="coach-intro-dialog">
+            <button type="button" class="coach-intro-close" id="coachPlanClose" aria-label="关闭">×</button>
+            <p id="coachPlanZh" class="coach-intro-zh">
+              ③ 将四个「计划卡片」拖到<strong>时间轴下方</strong>四个<strong>未来落点</strong>。
+            </p>
+            <button type="button" class="btn-crayon coach-intro-ok" id="coachPlanOk">知道了</button>
+          </div>
+        </div>
+
+        <section class="timeline-stage" aria-label="时间轴">
+          <div class="rail-wrap" id="railWrap">
+            <div class="rail" aria-hidden="true"></div>
+            <div id="tickLayer" aria-hidden="true"></div>
+
+            <div class="now-pillar">
+              <div class="now-badge">NOW</div>
+              <div id="liveClock">----------</div>
+            </div>
+
+            <div id="markerLayer"></div>
+
+            <div class="future-slots-strip" id="futureSlotsStrip" aria-label="未来计划拖入区"></div>
+          </div>
+
+          <button type="button" class="btn-crayon btn-after-past" id="btnAfterPast" hidden>
+            下一步 · 查看「计划卡片」提示
+          </button>
+
+          <div class="palette" id="palette">
+            <div class="palette-title">四个「计划卡片」——拖到<strong>时间轴下方</strong>四个未来点（松手吸附）</div>
+            <div class="palette-cards" id="paletteCards"></div>
+          </div>
+
+          <div class="reflect-panel" id="reflectPanel">
+            <div id="reflectProgress" class="reflect-progress" hidden>
+              <p class="reflect-progress-title">
+                请将计划卡片拖到<strong>时间轴下方</strong>的未来点（还剩 <span id="reflectRemainCount">4</span> 张）
+              </p>
+              <div class="reflect-progress-chips" id="reflectChips" aria-hidden="true"></div>
+            </div>
+            <div id="reflectDiscuss" class="reflect-discuss" hidden>
+              <p class="reflect-discuss-q">
+                我们对于过去发生的动作用什么时态？对于未来计划中的动作，常用什么结构？它在句子里常长什么样子？
+              </p>
+              <div class="plan-toolbar" style="margin-top: 0.35rem">
+                <button type="button" class="btn-crayon btn-reveal" id="btnReveal" disabled>揭晓句式 · 显示完整句子</button>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+        </div>
+
+        <div id="p01-slide-1" class="p01-slide" role="tabpanel" aria-labelledby="p01-tab-1" hidden>
+          <div class="p01-summary">
+            <h2 class="p01-summary-title">时态小结</h2>
+            <ul class="p01-summary-list">
+              <li>我们描述<strong>过去</strong>在某个时间发生的<strong>一次动作</strong>，用<strong>一般过去时</strong>。</li>
+              <li>我们描述<strong>计划好的</strong>在<strong>未来</strong>发生的事情，用<strong>一般将来时</strong>。</li>
+            </ul>
+            <div class="p01-summary-toolbar">
+              <button
+                type="button"
+                class="btn-crayon"
+                id="btnFutureStructure"
+                aria-expanded="false"
+                aria-controls="futureStructurePanel"
+              >
+                一般将来时的结构
+              </button>
+            </div>
+            <div id="futureStructurePanel" class="p01-structure-panel" hidden>
+              <p class="p01-structure-lead">
+                <strong>be going to</strong> 表打算时，常见两类：后面接<strong>动词原形</strong>表<strong>动作</strong>；接<strong>be</strong> 表<strong>状态</strong>（身份、性质、感受等）。两类句式骨架相同，中间一节分别是「动词原形」或「be」。
+              </p>
+
+              <h3 class="p01-struct-major" id="p01-major-act">一、描述动作</h3>
+              <p class="p01-struct-mini-formula" aria-label="动作类骨架">
+                主语 + am / is / are + going to + <strong>动词原形</strong> + 其他
+              </p>
+
+              <section class="p01-struct-section" aria-labelledby="p01-act-aff">
+                <h4 class="p01-struct-h3" id="p01-act-aff">肯定句</h4>
+                <p class="p01-struct-formula-text">
+                  主语 + am / is / are + going to + 动词原形 + …
+                </p>
+                <div class="p01-ex-line">
+                  <button type="button" class="p01-ex-hotzone" data-audio-key="act-aff-1" data-en="I am going to visit my grandparents this weekend." data-played="0" data-revealed="0" aria-expanded="false">
+                    <span class="p01-ex-hint">① 点击热区：先听朗读（英文隐藏）</span>
+                    <span class="p01-ex-en" hidden>I am going to visit my grandparents this weekend.</span>
+                  </button>
+                </div>
+                <div class="p01-ex-line">
+                  <button type="button" class="p01-ex-hotzone" data-audio-key="act-aff-2" data-en="We are going to play basketball tomorrow." data-played="0" data-revealed="0" aria-expanded="false">
+                    <span class="p01-ex-hint">① 点击热区：先听朗读（英文隐藏）</span>
+                    <span class="p01-ex-en" hidden>We are going to play basketball tomorrow.</span>
+                  </button>
+                </div>
+              </section>
+
+              <section class="p01-struct-section" aria-labelledby="p01-act-neg">
+                <h4 class="p01-struct-h3" id="p01-act-neg">否定句</h4>
+                <p class="p01-struct-formula-text">
+                  主语 + am not / isn't / aren't + going to + 动词原形 + …
+                </p>
+                <div class="p01-ex-line">
+                  <button type="button" class="p01-ex-hotzone" data-audio-key="act-neg-1" data-en="I am not going to watch TV tonight." data-played="0" data-revealed="0" aria-expanded="false">
+                    <span class="p01-ex-hint">① 点击热区：先听朗读（英文隐藏）</span>
+                    <span class="p01-ex-en" hidden>I am not going to watch TV tonight.</span>
+                  </button>
+                </div>
+                <div class="p01-ex-line">
+                  <button type="button" class="p01-ex-hotzone" data-audio-key="act-neg-2" data-en="She isn't going to call him back." data-played="0" data-revealed="0" aria-expanded="false">
+                    <span class="p01-ex-hint">① 点击热区：先听朗读（英文隐藏）</span>
+                    <span class="p01-ex-en" hidden>She isn't going to call him back.</span>
+                  </button>
+                </div>
+              </section>
+
+              <section class="p01-struct-section" aria-labelledby="p01-act-yn">
+                <h4 class="p01-struct-h3" id="p01-act-yn">一般疑问句</h4>
+                <p class="p01-struct-formula-text">
+                  Am / Is / Are + 主语 + going to + 动词原形 + … ?
+                </p>
+                <div class="p01-ex-line">
+                  <button type="button" class="p01-ex-hotzone" data-audio-key="act-yn-1" data-en="Are you going to finish your homework?" data-played="0" data-revealed="0" aria-expanded="false">
+                    <span class="p01-ex-hint">① 点击热区：先听朗读（英文隐藏）</span>
+                    <span class="p01-ex-en" hidden>Are you going to finish your homework?</span>
+                  </button>
+                </div>
+                <div class="p01-ex-line">
+                  <button type="button" class="p01-ex-hotzone" data-audio-key="act-yn-2" data-en="Is he going to join the club?" data-played="0" data-revealed="0" aria-expanded="false">
+                    <span class="p01-ex-hint">① 点击热区：先听朗读（英文隐藏）</span>
+                    <span class="p01-ex-en" hidden>Is he going to join the club?</span>
+                  </button>
+                </div>
+              </section>
+
+              <section class="p01-struct-section" aria-labelledby="p01-act-wh">
+                <h4 class="p01-struct-h3" id="p01-act-wh">特殊疑问句</h4>
+                <p class="p01-struct-formula-text">
+                  疑问词 + am / is / are + 主语 + going to + 动词原形 + … ?
+                </p>
+                <div class="p01-ex-line">
+                  <button type="button" class="p01-ex-hotzone" data-audio-key="act-wh-1" data-en="What are you going to do after school?" data-played="0" data-revealed="0" aria-expanded="false">
+                    <span class="p01-ex-hint">① 点击热区：先听朗读（英文隐藏）</span>
+                    <span class="p01-ex-en" hidden>What are you going to do after school?</span>
+                  </button>
+                </div>
+                <div class="p01-ex-line">
+                  <button type="button" class="p01-ex-hotzone" data-audio-key="act-wh-2" data-en="Where are they going to meet?" data-played="0" data-revealed="0" aria-expanded="false">
+                    <span class="p01-ex-hint">① 点击热区：先听朗读（英文隐藏）</span>
+                    <span class="p01-ex-en" hidden>Where are they going to meet?</span>
+                  </button>
+                </div>
+              </section>
+
+              <h3 class="p01-struct-major" id="p01-major-state">二、描述状态</h3>
+              <p class="p01-struct-mini-formula" aria-label="状态类骨架">
+                主语 + am / is / are + going to + <strong>be</strong> + 其他（形容词 / 名词 / 介词短语等）
+              </p>
+
+              <section class="p01-struct-section" aria-labelledby="p01-st-aff">
+                <h4 class="p01-struct-h3" id="p01-st-aff">肯定句</h4>
+                <p class="p01-struct-formula-text">
+                  主语 + am / is / are + going to + be + …
+                </p>
+                <div class="p01-ex-line">
+                  <button type="button" class="p01-ex-hotzone" data-audio-key="st-aff-1" data-en="I am going to be busy next week." data-played="0" data-revealed="0" aria-expanded="false">
+                    <span class="p01-ex-hint">① 点击热区：先听朗读（英文隐藏）</span>
+                    <span class="p01-ex-en" hidden>I am going to be busy next week.</span>
+                  </button>
+                </div>
+                <div class="p01-ex-line">
+                  <button type="button" class="p01-ex-hotzone" data-audio-key="st-aff-2" data-en="She is going to be ready at eight." data-played="0" data-revealed="0" aria-expanded="false">
+                    <span class="p01-ex-hint">① 点击热区：先听朗读（英文隐藏）</span>
+                    <span class="p01-ex-en" hidden>She is going to be ready at eight.</span>
+                  </button>
+                </div>
+              </section>
+
+              <section class="p01-struct-section" aria-labelledby="p01-st-neg">
+                <h4 class="p01-struct-h3" id="p01-st-neg">否定句</h4>
+                <p class="p01-struct-formula-text">
+                  主语 + am not / isn't / aren't + going to + be + …
+                </p>
+                <div class="p01-ex-line">
+                  <button type="button" class="p01-ex-hotzone" data-audio-key="st-neg-1" data-en="I am not going to be late again." data-played="0" data-revealed="0" aria-expanded="false">
+                    <span class="p01-ex-hint">① 点击热区：先听朗读（英文隐藏）</span>
+                    <span class="p01-ex-en" hidden>I am not going to be late again.</span>
+                  </button>
+                </div>
+                <div class="p01-ex-line">
+                  <button type="button" class="p01-ex-hotzone" data-audio-key="st-neg-2" data-en="They aren't going to be here until Friday." data-played="0" data-revealed="0" aria-expanded="false">
+                    <span class="p01-ex-hint">① 点击热区：先听朗读（英文隐藏）</span>
+                    <span class="p01-ex-en" hidden>They aren't going to be here until Friday.</span>
+                  </button>
+                </div>
+              </section>
+
+              <section class="p01-struct-section" aria-labelledby="p01-st-yn">
+                <h4 class="p01-struct-h3" id="p01-st-yn">一般疑问句</h4>
+                <p class="p01-struct-formula-text">
+                  Am / Is / Are + 主语 + going to + be + … ?
+                </p>
+                <div class="p01-ex-line">
+                  <button type="button" class="p01-ex-hotzone" data-audio-key="st-yn-1" data-en="Are you going to be free this evening?" data-played="0" data-revealed="0" aria-expanded="false">
+                    <span class="p01-ex-hint">① 点击热区：先听朗读（英文隐藏）</span>
+                    <span class="p01-ex-en" hidden>Are you going to be free this evening?</span>
+                  </button>
+                </div>
+                <div class="p01-ex-line">
+                  <button type="button" class="p01-ex-hotzone" data-audio-key="st-yn-2" data-en="Is it going to be cold tomorrow?" data-played="0" data-revealed="0" aria-expanded="false">
+                    <span class="p01-ex-hint">① 点击热区：先听朗读（英文隐藏）</span>
+                    <span class="p01-ex-en" hidden>Is it going to be cold tomorrow?</span>
+                  </button>
+                </div>
+              </section>
+
+              <section class="p01-struct-section" aria-labelledby="p01-st-wh">
+                <h4 class="p01-struct-h3" id="p01-st-wh">特殊疑问句</h4>
+                <p class="p01-struct-formula-text">
+                  疑问词 + am / is / are + 主语 + going to + be + … ?
+                </p>
+                <div class="p01-ex-line">
+                  <button type="button" class="p01-ex-hotzone" data-audio-key="st-wh-1" data-en="How are you going to be sure?" data-played="0" data-revealed="0" aria-expanded="false">
+                    <span class="p01-ex-hint">① 点击热区：先听朗读（英文隐藏）</span>
+                    <span class="p01-ex-en" hidden>How are you going to be sure?</span>
+                  </button>
+                </div>
+                <div class="p01-ex-line">
+                  <button type="button" class="p01-ex-hotzone" data-audio-key="st-wh-2" data-en="Where is she going to be next year?" data-played="0" data-revealed="0" aria-expanded="false">
+                    <span class="p01-ex-hint">① 点击热区：先听朗读（英文隐藏）</span>
+                    <span class="p01-ex-en" hidden>Where is she going to be next year?</span>
+                  </button>
+                </div>
+              </section>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div id="drag-ghost-host" aria-hidden="true"></div>
+    <div id="flash" aria-hidden="true"></div>
+  </div>
+
+  <div id="ui-lock" aria-hidden="true"></div>
+
+  <nav class="lesson-pager" aria-label="课程页导航">
+    <a class="pager-prev" href="../L07/index.html">← 返回第07讲目录</a>
+    <span class="pager-mid">L08 · Page 01</span>
+    <a id="pager-next-link" class="pager-next is-locked" href="lesson08-page02-lab.html">下一页 →</a>
+  </nav>
+
+    <script>
+    (function () {
+      "use strict";
+
+      var KEYS = window.__LESSON_KEYS__ || {};
+      /* 本页插图唯一路径表（相对当前 HTML），修改资源文件名时只改此处 */
+      var PAGE01_IMG = {
+        archiveBg: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/l08-page01-archive-bg.png",
+        past_p1: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/l08-p01-past-grandparents.png",
+        past_p2: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/l08-p01-past-swimming.png",
+        past_p3: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/l08-p01-past-english-club.png",
+        plan_1: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/l08-p01-plan-study.png",
+        plan_2: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/l08-p01-plan-travel.png",
+        plan_3: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/l08-p01-plan-piano.png",
+        plan_4: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/l08-p01-plan-basketball.png",
+      };
+
+      document.documentElement.style.setProperty(
+        "--l08-p01-archive-bg",
+        'url("' + PAGE01_IMG.archiveBg + '")'
+      );
+
+      /** 预置英文朗读 mp3（与同 GCP 项目脚本生成），路径相对于本 HTML */
+      var PAGE01_AUDIO_BASE = "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/audio/page01/";
+      var PAGE01_AUDIO_MAP = {
+        welcome: "welcome.mp3",
+        "coach-intro": "coach-intro.mp3",
+        "past-1": "past-1.mp3",
+        "past-2": "past-2.mp3",
+        "past-3": "past-3.mp3",
+        "plan-1": "plan-1.mp3",
+        "plan-2": "plan-2.mp3",
+        "plan-3": "plan-3.mp3",
+        "plan-4": "plan-4.mp3",
+        "act-aff-1": "act-aff-1.mp3",
+        "act-aff-2": "act-aff-2.mp3",
+        "act-neg-1": "act-neg-1.mp3",
+        "act-neg-2": "act-neg-2.mp3",
+        "act-yn-1": "act-yn-1.mp3",
+        "act-yn-2": "act-yn-2.mp3",
+        "act-wh-1": "act-wh-1.mp3",
+        "act-wh-2": "act-wh-2.mp3",
+        "st-aff-1": "st-aff-1.mp3",
+        "st-aff-2": "st-aff-2.mp3",
+        "st-neg-1": "st-neg-1.mp3",
+        "st-neg-2": "st-neg-2.mp3",
+        "st-yn-1": "st-yn-1.mp3",
+        "st-yn-2": "st-yn-2.mp3",
+        "st-wh-1": "st-wh-1.mp3",
+        "st-wh-2": "st-wh-2.mp3",
+      };
+
+      var AZURE_REGION = KEYS.azureRegion || "eastus2";
+      var AZURE_KEY = KEYS.azureSpeechKey || "";
+      var VERTEX_PROJECT = KEYS.vertexProjectId || "";
+      var VERTEX_REGION = KEYS.vertexRegion || "us-central1";
+      var DEEPSEEK_KEY = KEYS.deepSeekKey || "";
+
+      var bgStack = document.getElementById("bg-stack");
+      var bootScreen = document.getElementById("boot-screen");
+      var stage = document.getElementById("stage");
+      var laser = document.getElementById("laser");
+      var timelineMain = document.getElementById("timeline-main");
+      var pagerNext = document.getElementById("pager-next-link");
+
+      var railWrap = document.getElementById("railWrap");
+      var tickLayer = document.getElementById("tickLayer");
+      var markerLayer = document.getElementById("markerLayer");
+      var futureSlotsStrip = document.getElementById("futureSlotsStrip");
+      var liveClock = document.getElementById("liveClock");
+      var palette = document.getElementById("palette");
+      var paletteCards = document.getElementById("paletteCards");
+      var coachPanel = document.getElementById("coachPanel");
+      var coachZh = document.getElementById("coachZh");
+      var coachEn = document.getElementById("coachEn");
+      var coachIntroModal = document.getElementById("coachIntroModal");
+      var coachIntroClose = document.getElementById("coachIntroClose");
+      var coachIntroOk = document.getElementById("coachIntroOk");
+      var coachPlanModal = document.getElementById("coachPlanModal");
+      var coachPlanClose = document.getElementById("coachPlanClose");
+      var coachPlanOk = document.getElementById("coachPlanOk");
+      var btnAfterPast = document.getElementById("btnAfterPast");
+      var reflectPanel = document.getElementById("reflectPanel");
+      var reflectProgress = document.getElementById("reflectProgress");
+      var reflectDiscuss = document.getElementById("reflectDiscuss");
+      var reflectRemainCount = document.getElementById("reflectRemainCount");
+      var reflectChips = document.getElementById("reflectChips");
+      var btnReveal = document.getElementById("btnReveal");
+      var ghostHost = document.getElementById("drag-ghost-host");
+      var p01Tab0 = document.getElementById("p01-tab-0");
+      var p01Tab1 = document.getElementById("p01-tab-1");
+      var p01Slide0 = document.getElementById("p01-slide-0");
+      var p01Slide1 = document.getElementById("p01-slide-1");
+      var btnFutureStructure = document.getElementById("btnFutureStructure");
+      var futureStructurePanelEl = document.getElementById("futureStructurePanel");
+
+      var PAST = [
+        {
+          id: "p1",
+          pct: 0.14,
+          thumb: PAGE01_IMG.past_p1,
+          en: "I visited my grandparents during the winter holiday.",
+          pastVerb: "visited",
+        },
+        {
+          id: "p2",
+          pct: 0.26,
+          thumb: PAGE01_IMG.past_p2,
+          en: "I learned to swim last summer.",
+          pastVerb: "learned",
+        },
+        {
+          id: "p3",
+          pct: 0.38,
+          thumb: PAGE01_IMG.past_p3,
+          en: "I joined the school English club last term.",
+          pastVerb: "joined",
+        },
+      ];
+
+      var PLANS = [
+        {
+          id: "plan1",
+          thumb: PAGE01_IMG.plan_1,
+          phrase: "study English harder",
+          sentence: 'I <span class="gram">am going to</span> study English harder.',
+        },
+        {
+          id: "plan2",
+          thumb: PAGE01_IMG.plan_2,
+          phrase: "travel with my family",
+          sentence: 'I <span class="gram">am going to</span> travel with my family.',
+        },
+        {
+          id: "plan3",
+          thumb: PAGE01_IMG.plan_3,
+          phrase: "learn to play the piano",
+          sentence: 'I <span class="gram">am going to</span> learn to play the piano.',
+        },
+        {
+          id: "plan4",
+          thumb: PAGE01_IMG.plan_4,
+          phrase: "play basketball every week",
+          sentence: 'I <span class="gram">am going to</span> play basketball every week.',
+        },
+      ];
+
+      var phase = "past";
+      var visitedPast = {};
+      var filledSlots = {};
+      var dragState = null;
+      var futureSlotEls = [];
+      var planPaletteOpened = false;
+
+      function buildSsml(text) {
+        return (
+          '<speak version="1.0" xml:lang="en-US"><voice name="en-US-AriaNeural">' +
+          '<prosody rate="0.95">' +
+          String(text)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;") +
+          "</prosody></voice></speak>"
+        );
+      }
+
+      function speakAzure(text) {
+        return new Promise(function (resolve) {
+          if (!AZURE_KEY) {
+            resolve(false);
+            return;
+          }
+          fetch("https://" + AZURE_REGION + ".tts.speech.microsoft.com/cognitiveservices/v1", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/ssml+xml",
+              "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3",
+              "Ocp-Apim-Subscription-Key": AZURE_KEY,
+            },
+            body: buildSsml(text),
+          })
+            .then(function (res) {
+              if (!res.ok) throw new Error("tts");
+              return res.blob();
+            })
+            .then(function (blob) {
+              var u = URL.createObjectURL(blob);
+              var audio = new Audio();
+              audio.src = u;
+              var done = function () {
+                try {
+                  URL.revokeObjectURL(u);
+                } catch (e) {}
+                audio.removeAttribute("src");
+                resolve(true);
+              };
+              audio.onended = done;
+              audio.onerror = done;
+              audio.play().catch(done);
+            })
+            .catch(function () {
+              resolve(false);
+            });
+        });
+      }
+
+      /** 界面朗读：可选先用本地 mp3；否则 Azure；再无密钥则用浏览器 Speech */
+      function speakUiEnglishCloudOnly(text) {
+        return new Promise(function (resolve) {
+          var t = String(text || "").trim();
+          if (!t) {
+            resolve(false);
+            return;
+          }
+          if (AZURE_KEY) {
+            speakAzure(t).then(resolve);
+            return;
+          }
+          if (typeof window.speechSynthesis !== "undefined") {
+            try {
+              window.speechSynthesis.cancel();
+            } catch (e0) {}
+            var u = new SpeechSynthesisUtterance(t);
+            u.lang = "en-US";
+            u.rate = 0.92;
+            u.onend = function () {
+              resolve(true);
+            };
+            u.onerror = function () {
+              resolve(false);
+            };
+            window.speechSynthesis.speak(u);
+          } else {
+            resolve(false);
+          }
+        });
+      }
+
+      function speakUiEnglish(text, audioKey) {
+        var t = String(text || "").trim();
+        if (!t) return Promise.resolve(false);
+        var key = audioKey && PAGE01_AUDIO_MAP[audioKey] ? audioKey : null;
+        if (key) {
+          var url = PAGE01_AUDIO_BASE + PAGE01_AUDIO_MAP[key];
+          return new Promise(function (resolve) {
+            var a = new Audio(url);
+            var finished = false;
+            function finish(ok) {
+              if (finished) return;
+              finished = true;
+              resolve(ok);
+            }
+            function fallback() {
+              speakUiEnglishCloudOnly(t).then(function (v) {
+                finish(v);
+              });
+            }
+            a.onended = function () {
+              finish(true);
+            };
+            a.onerror = fallback;
+            a.play().catch(fallback);
+          });
+        }
+        return speakUiEnglishCloudOnly(t);
+      }
+
+      function updateP01ExHotzoneHint(btn) {
+        var hint = btn.querySelector(".p01-ex-hint");
+        if (!hint) return;
+        var revealed = btn.getAttribute("data-revealed") === "1";
+        var played = btn.getAttribute("data-played") === "1";
+        if (!revealed) {
+          hint.textContent = played
+            ? "② 再次点击热区显示英文"
+            : "① 点击热区：先听朗读（英文隐藏）";
+        } else {
+          hint.textContent = "点击热区可重听朗读";
+        }
+      }
+
+      function resetP01StructureExamples() {
+        if (!futureStructurePanelEl) return;
+        futureStructurePanelEl.querySelectorAll(".p01-ex-hotzone").forEach(function (btn) {
+          btn.setAttribute("data-played", "0");
+          btn.setAttribute("data-revealed", "0");
+          btn.setAttribute("aria-expanded", "false");
+          var enEl = btn.querySelector(".p01-ex-en");
+          if (enEl) enEl.setAttribute("hidden", "");
+          var hint = btn.querySelector(".p01-ex-hint");
+          if (hint) hint.textContent = "① 点击热区：先听朗读（英文隐藏）";
+        });
+      }
+
+      function tryVertexBackground() {
+        var token = window.__VERTEX_BEARER_TOKEN__ || KEYS.vertexBearerToken || "";
+        if (!token || !VERTEX_PROJECT) return Promise.resolve(false);
+        var endpoint =
+          "https://" +
+          VERTEX_REGION +
+          "-aiplatform.googleapis.com/v1/projects/" +
+          VERTEX_PROJECT +
+          "/locations/" +
+          VERTEX_REGION +
+          "/publishers/google/models/imagegeneration@006:predict";
+        return fetch(endpoint, {
+          method: "POST",
+          headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" },
+          body: JSON.stringify({
+            instances: [
+              {
+                prompt:
+                  "Crayon pastel children's workbook illustration, glowing archive room with floating folders, warm friendly educational, soft texture.",
+              },
+            ],
+            parameters: { sampleCount: 1, aspectRatio: "16:9" },
+          }),
+        })
+          .then(function (r) {
+            return r.ok ? r.json() : Promise.reject();
+          })
+          .then(function (data) {
+            var b64 =
+              data &&
+              data.predictions &&
+              data.predictions[0] &&
+              (data.predictions[0].bytesBase64Encoded || data.predictions[0].b64);
+            if (!b64) throw new Error();
+            bgStack.style.backgroundImage = 'url("data:image/png;base64,' + b64 + '")';
+            bgStack.classList.add("vertex-on");
+            return true;
+          })
+          .catch(function () {
+            return false;
+          });
+      }
+
+      window.fetchDeepSeekEvaluation = function (messages) {
+        return new Promise(function (resolve) {
+          if (!DEEPSEEK_KEY) {
+            resolve({ skipped: true });
+            return;
+          }
+          fetch("https://api.deepseek.com/v1/chat/completions", {
+            method: "POST",
+            headers: { "Content-Type": "application/json", Authorization: "Bearer " + DEEPSEEK_KEY },
+            body: JSON.stringify({ model: "deepseek-chat", messages: messages || [] }),
+          })
+            .then(function (r) {
+              return r.json();
+            })
+            .then(resolve)
+            .catch(function () {
+              resolve({ error: true });
+            });
+        });
+      };
+
+      function playScanBeep() {
+        try {
+          var Ctx = window.AudioContext || window.webkitAudioContext;
+          if (!Ctx) return;
+          var ctx = new Ctx();
+          var o = ctx.createOscillator();
+          var g = ctx.createGain();
+          o.type = "sine";
+          o.frequency.value = 660;
+          g.gain.value = 0.055;
+          o.connect(g);
+          g.connect(ctx.destination);
+          o.start();
+          setTimeout(function () {
+            o.stop();
+            ctx.close();
+          }, 100);
+        } catch (e) {}
+      }
+
+      function wait(ms) {
+        return new Promise(function (r) {
+          setTimeout(r, ms);
+        });
+      }
+
+      function runLaserScan() {
+        laser.style.opacity = "1";
+        playScanBeep();
+        return anime({
+          targets: laser,
+          translateY: [0, window.innerHeight + 48],
+          duration: 1600,
+          easing: "easeInOutQuad",
+        }).finished;
+      }
+
+      function closeCoachPlan() {
+        if (!coachPlanModal || coachPlanModal.hasAttribute("hidden")) return;
+        coachPlanModal.setAttribute("hidden", "");
+      }
+
+      function openCoachPlan() {
+        if (!coachPlanModal) return;
+        coachPlanModal.removeAttribute("hidden");
+        try {
+          coachPlanOk.focus();
+        } catch (e) {}
+      }
+
+      function closeCoachIntro() {
+        if (!coachIntroModal || coachIntroModal.hasAttribute("hidden")) return;
+        coachIntroModal.setAttribute("hidden", "");
+      }
+
+      function openCoachIntro() {
+        if (!coachIntroModal) return;
+        coachIntroModal.removeAttribute("hidden");
+        try {
+          coachIntroOk.focus();
+        } catch (e) {}
+      }
+
+      function setP01Slide(index) {
+        if (!p01Slide0 || !p01Slide1 || !p01Tab0 || !p01Tab1) return;
+        var show0 = index === 0;
+        p01Slide0.hidden = !show0;
+        p01Slide1.hidden = show0;
+        p01Tab0.setAttribute("aria-selected", show0 ? "true" : "false");
+        p01Tab1.setAttribute("aria-selected", show0 ? "false" : "true");
+        try {
+          p01Tab0.tabIndex = show0 ? 0 : -1;
+          p01Tab1.tabIndex = show0 ? -1 : 0;
+        } catch (e2) {}
+      }
+
+      coachIntroClose.addEventListener("click", closeCoachIntro);
+      coachIntroOk.addEventListener("click", closeCoachIntro);
+      if (coachIntroModal) {
+        var bdIntro = coachIntroModal.querySelector(".coach-intro-backdrop");
+        if (bdIntro) bdIntro.addEventListener("click", closeCoachIntro);
+      }
+      coachPlanClose.addEventListener("click", closeCoachPlan);
+      coachPlanOk.addEventListener("click", closeCoachPlan);
+      if (coachPlanModal) {
+        var bdPlan = coachPlanModal.querySelector(".coach-intro-backdrop");
+        if (bdPlan) bdPlan.addEventListener("click", closeCoachPlan);
+      }
+      if (p01Tab0 && p01Tab1) {
+        p01Tab0.addEventListener("click", function () {
+          setP01Slide(0);
+        });
+        p01Tab1.addEventListener("click", function () {
+          setP01Slide(1);
+        });
+      }
+      if (btnFutureStructure && futureStructurePanelEl) {
+        btnFutureStructure.addEventListener("click", function () {
+          var opening = futureStructurePanelEl.hasAttribute("hidden");
+          if (opening) {
+            futureStructurePanelEl.removeAttribute("hidden");
+            btnFutureStructure.setAttribute("aria-expanded", "true");
+            resetP01StructureExamples();
+          } else {
+            futureStructurePanelEl.setAttribute("hidden", "");
+            btnFutureStructure.setAttribute("aria-expanded", "false");
+          }
+        });
+        futureStructurePanelEl.addEventListener("click", function (ev) {
+          var btn = ev.target.closest(".p01-ex-hotzone");
+          if (!btn || !futureStructurePanelEl.contains(btn)) return;
+          ev.preventDefault();
+          var en = btn.getAttribute("data-en") || "";
+          var played = btn.getAttribute("data-played") === "1";
+          var revealed = btn.getAttribute("data-revealed") === "1";
+          var enEl = btn.querySelector(".p01-ex-en");
+
+          if (!revealed) {
+            if (!played) {
+              btn.setAttribute("data-played", "1");
+              updateP01ExHotzoneHint(btn);
+              speakUiEnglish(en, btn.getAttribute("data-audio-key"));
+              return;
+            }
+            btn.setAttribute("data-revealed", "1");
+            if (enEl) enEl.removeAttribute("hidden");
+            btn.setAttribute("aria-expanded", "true");
+            updateP01ExHotzoneHint(btn);
+            return;
+          }
+          speakUiEnglish(en, btn.getAttribute("data-audio-key"));
+        });
+      }
+      document.addEventListener("keydown", function (ev) {
+        if (ev.key !== "Escape") return;
+        if (coachPlanModal && !coachPlanModal.hasAttribute("hidden")) {
+          ev.preventDefault();
+          closeCoachPlan();
+          return;
+        }
+        if (coachIntroModal && !coachIntroModal.hasAttribute("hidden")) {
+          ev.preventDefault();
+          closeCoachIntro();
+        }
+      });
+
+      if (btnAfterPast) {
+        btnAfterPast.addEventListener("click", function () {
+          if (planPaletteOpened) return;
+          openPlanPhase();
+          btnAfterPast.hidden = true;
+          btnAfterPast.classList.remove("show");
+        });
+      }
+
+      function unlockPagerNext() {
+        pagerNext.classList.remove("is-locked");
+        pagerNext.classList.add("is-ready");
+      }
+
+      function startTimeline() {
+        stage.classList.add("visible");
+        runLaserScan().then(function () {
+          laser.style.opacity = "0";
+          tryVertexBackground();
+          speakUiEnglish(
+            "Welcome to the Time Lab archive. Click the three dots on the left to review the past.",
+            "welcome"
+          ).catch(function () {});
+          anime({
+            targets: bgStack,
+            opacity: [0, 1],
+            duration: 2000,
+            easing: "linear",
+            delay: 180,
+          }).finished
+            .then(function () {
+              return wait(240);
+            })
+            .then(function () {
+              return anime({
+                targets: timelineMain,
+                opacity: [0, 1],
+                translateY: [18, 0],
+                duration: 720,
+                easing: "easeOutQuad",
+              }).finished;
+            })
+            .then(function () {
+              openCoachIntro();
+            });
+        });
+      }
+
+      function pad(n) {
+        return n < 10 ? "0" + n : "" + n;
+      }
+
+      function tickClock() {
+        var d = new Date();
+        liveClock.textContent =
+          d.getFullYear() +
+          "-" +
+          pad(d.getMonth() + 1) +
+          "-" +
+          pad(d.getDate());
+      }
+
+      function addMonths(d, n) {
+        var x = new Date(d.getTime());
+        x.setMonth(x.getMonth() + n);
+        return x;
+      }
+
+      function fmtHalfYearLabel(d) {
+        var y = d.getFullYear();
+        var m = d.getMonth() + 1;
+        return y + "年 " + (m <= 6 ? "上半年" : "下半年");
+      }
+
+      function slotPhotoHtml(pl) {
+        return (
+          '<div class="slot-photo" aria-hidden="true"><img src="' +
+          pl.thumb +
+          '" alt="" loading="lazy" decoding="async" /></div>'
+        );
+      }
+
+      function openPlanPhase() {
+        if (planPaletteOpened) return;
+        planPaletteOpened = true;
+        phase = "plan";
+        palette.classList.add("show");
+        openCoachPlan();
+        if (typeof anime !== "undefined") {
+          anime({
+            targets: palette,
+            translateY: [16, 0],
+            opacity: [0, 1],
+            duration: 420,
+            easing: "easeOutQuad",
+          });
+        }
+        syncReflectPanel();
+        /* 不使用 scrollIntoView，避免 #stage 内滚动突变导致「整页突然下移」 */
+      }
+
+      function buildTicks() {
+        tickLayer.innerHTML = "";
+        var now = new Date();
+        var i;
+        for (i = 1; i <= 4; i++) {
+          var dt = addMonths(now, -6 * i);
+          var el = document.createElement("div");
+          el.className = "tick past";
+          el.style.left = 50 - i * 9 + "%";
+          el.innerHTML = "<span>" + fmtHalfYearLabel(dt) + "</span>";
+          tickLayer.appendChild(el);
+        }
+        for (i = 1; i <= 4; i++) {
+          var ft = addMonths(now, 6 * i);
+          var el2 = document.createElement("div");
+          el2.className = "tick future";
+          el2.style.left = 50 + i * 9 + "%";
+          el2.innerHTML = "<span>" + fmtHalfYearLabel(ft) + "</span>";
+          tickLayer.appendChild(el2);
+        }
+      }
+
+      function placePastMarkers() {
+        markerLayer.innerHTML = "";
+        PAST.forEach(function (p, idx) {
+          var m = document.createElement("button");
+          m.type = "button";
+          m.className = "past-marker";
+          m.style.left = p.pct * 100 + "%";
+          m.setAttribute("aria-label", "过去场景 " + (idx + 1));
+          m.dataset.pid = p.id;
+          m.addEventListener("click", function () {
+            revealPastMemory(p);
+          });
+          markerLayer.appendChild(m);
+        });
+      }
+
+      function placeFutureSlots() {
+        futureSlotEls = [];
+        if (!futureSlotsStrip) return;
+        futureSlotsStrip.innerHTML = "";
+        var idx;
+        for (idx = 0; idx < 4; idx++) {
+          var s = document.createElement("div");
+          s.className = "future-slot";
+          s.dataset.slotIndex = String(idx);
+          s.innerHTML =
+            '<div class="slot-placeholder-thumb" aria-hidden="true"></div>' +
+            '<div class="slot-inner slot-placeholder">未来点 ' +
+            (idx + 1) +
+            "<br />拖入计划</div>";
+          futureSlotsStrip.appendChild(s);
+          futureSlotEls.push(s);
+        }
+      }
+
+      function escapeHtml(str) {
+        return String(str)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;");
+      }
+
+      /** 揭晓句式后：把句中过去式动词包成 .past-verb，便于标红 */
+      function highlightPastVerbInSentence(en, verb) {
+        if (!verb) return escapeHtml(en);
+        var idx = en.indexOf(verb);
+        if (idx === -1) return escapeHtml(en);
+        return (
+          escapeHtml(en.slice(0, idx)) +
+          '<span class="past-verb">' +
+          escapeHtml(verb) +
+          "</span>" +
+          escapeHtml(en.slice(idx + verb.length))
+        );
+      }
+
+      function applyPastCardsVerbHighlight() {
+        PAST.forEach(function (p) {
+          var card = markerLayer.querySelector(
+            '.past-card[data-pcid="' + p.id + '"]'
+          );
+          if (!card || !p.pastVerb) return;
+          var enEl = card.querySelector(".past-card-en");
+          if (!enEl) return;
+          enEl.innerHTML = highlightPastVerbInSentence(p.en, p.pastVerb);
+        });
+      }
+
+      function revealPastMemory(p) {
+        var existing = markerLayer.querySelector('.past-card[data-pcid="' + p.id + '"]');
+        if (existing) {
+          if (typeof anime !== "undefined") {
+            anime({
+              targets: existing,
+              scale: [1, 1.05, 1],
+              duration: 420,
+              easing: "easeInOutQuad",
+            });
+          }
+          return;
+        }
+        visitedPast[p.id] = true;
+        document.querySelectorAll(".past-marker").forEach(function (el) {
+          if (el.dataset.pid === p.id) el.classList.add("done");
+        });
+        var card = document.createElement("div");
+        card.className = "past-card";
+        card.dataset.pcid = p.id;
+        card.style.left = p.pct * 100 + "%";
+        card.setAttribute("role", "img");
+        card.setAttribute("aria-label", p.en);
+        card.innerHTML =
+          '<div class="past-card-photo"><img src="' +
+          p.thumb +
+          '" alt="" loading="lazy" decoding="async" /></div><p class="past-card-en">' +
+          p.en +
+          "</p>";
+        markerLayer.appendChild(card);
+        if (typeof anime !== "undefined") {
+          card.style.opacity = "0";
+          anime({
+            targets: card,
+            opacity: [0, 1],
+            translateY: [10, 0],
+            duration: 420,
+            easing: "easeOutQuad",
+          });
+        }
+        checkPastComplete();
+      }
+
+      function checkPastComplete() {
+        var ok = PAST.every(function (p) {
+          return visitedPast[p.id];
+        });
+        if (ok && !planPaletteOpened && btnAfterPast) {
+          btnAfterPast.hidden = false;
+          btnAfterPast.classList.add("show");
+        }
+      }
+
+      function buildPaletteCards() {
+        paletteCards.innerHTML = "";
+        PLANS.forEach(function (pl) {
+          var card = document.createElement("div");
+          card.className = "plan-card";
+          card.dataset.planId = pl.id;
+          card.innerHTML =
+            '<div class="pc-thumb" aria-hidden="true"><img src="' +
+            pl.thumb +
+            '" alt="" loading="lazy" decoding="async" /></div>' +
+            '<div class="pc-text">' +
+            pl.phrase +
+            "</div>";
+          bindDrag(card, pl);
+          paletteCards.appendChild(card);
+        });
+      }
+
+      function bindDrag(card, pl) {
+        function onDown(ev) {
+          if (card.classList.contains("used")) return;
+          if (phase === "past") return;
+          ev.preventDefault();
+          var cx = ev.clientX;
+          var cy = ev.clientY;
+          var rect = card.getBoundingClientRect();
+          dragState = {
+            card: card,
+            plan: pl,
+            pointerId: ev.pointerId,
+            offsetX: cx - rect.left,
+            offsetY: cy - rect.top,
+            ghost: null,
+          };
+          try {
+            card.setPointerCapture(ev.pointerId);
+          } catch (e) {}
+          var g = card.cloneNode(true);
+          g.classList.add("dragging");
+          g.style.position = "fixed";
+          g.style.width = card.offsetWidth + "px";
+          g.style.left = cx - dragState.offsetX + "px";
+          g.style.top = cy - dragState.offsetY + "px";
+          g.style.pointerEvents = "none";
+          ghostHost.appendChild(g);
+          dragState.ghost = g;
+          card.style.opacity = "0.35";
+          window.addEventListener("pointermove", onMove);
+          window.addEventListener("pointerup", onUp);
+          window.addEventListener("pointercancel", onUp);
+        }
+        function onMove(ev) {
+          if (!dragState) return;
+          var cx = ev.clientX;
+          var cy = ev.clientY;
+          dragState.ghost.style.left = cx - dragState.offsetX + "px";
+          dragState.ghost.style.top = cy - dragState.offsetY + "px";
+          futureSlotEls.forEach(function (slot) {
+            var r = slot.getBoundingClientRect();
+            var hit = cx >= r.left && cx <= r.right && cy >= r.top && cy <= r.bottom;
+            slot.classList.toggle("hover", hit);
+          });
+        }
+        function onUp(ev) {
+          window.removeEventListener("pointermove", onMove);
+          window.removeEventListener("pointerup", onUp);
+          window.removeEventListener("pointercancel", onUp);
+          if (!dragState) return;
+          var cx = ev.clientX;
+          var cy = ev.clientY;
+          var placed = false;
+          var ds = dragState;
+          try {
+            ds.card.releasePointerCapture(ds.pointerId);
+          } catch (e) {}
+          for (var i = 0; i < futureSlotEls.length && !placed; i++) {
+            var slot = futureSlotEls[i];
+            var r = slot.getBoundingClientRect();
+            var hit = cx >= r.left && cx <= r.right && cy >= r.top && cy <= r.bottom;
+            slot.classList.remove("hover");
+            if (!hit) continue;
+            var si = parseInt(slot.dataset.slotIndex, 10);
+            if (filledSlots[si]) continue;
+            filledSlots[si] = ds.plan.id;
+            slot.classList.add("filled");
+            slot.innerHTML =
+              slotPhotoHtml(ds.plan) +
+              '<div class="slot-inner slot-phrase">' +
+              ds.plan.phrase +
+              "</div>";
+            ds.card.classList.add("used");
+            placed = true;
+          }
+          futureSlotEls.forEach(function (slot) {
+            slot.classList.remove("hover");
+          });
+          if (ds.ghost) ds.ghost.remove();
+          ds.card.style.opacity = "";
+          dragState = null;
+          if (placed) syncReflectPanel();
+        }
+        card.addEventListener("pointerdown", onDown);
+      }
+
+      function countFilledSlots() {
+        var n = 0;
+        for (var i = 0; i < 4; i++) {
+          if (filledSlots[i]) n++;
+        }
+        return n;
+      }
+
+      function fillReflectChips(remain) {
+        if (!reflectChips) return;
+        reflectChips.innerHTML = "";
+        for (var c = 0; c < remain; c++) {
+          var sp = document.createElement("span");
+          sp.className = "reflect-chip";
+          reflectChips.appendChild(sp);
+        }
+      }
+
+      function syncReflectPanel() {
+        if (phase === "revealed") return;
+
+        var n = countFilledSlots();
+
+        if (!planPaletteOpened) {
+          reflectPanel.classList.remove("show");
+          if (reflectProgress) reflectProgress.hidden = true;
+          if (reflectDiscuss) reflectDiscuss.hidden = true;
+          if (btnReveal) btnReveal.disabled = true;
+          return;
+        }
+
+        /* 尚未拖满 4 张：显示紫色进度区，紫色占位条数量 = 剩余待拖张数（每成功拖入 1 张少 1 根） */
+        if (n < 4) {
+          phase = "plan";
+          reflectPanel.classList.add("show");
+          if (reflectProgress) reflectProgress.hidden = false;
+          if (reflectDiscuss) reflectDiscuss.hidden = true;
+          if (btnReveal) btnReveal.disabled = true;
+          var remain = 4 - n;
+          if (reflectRemainCount) reflectRemainCount.textContent = String(remain);
+          fillReflectChips(remain);
+          if (typeof anime !== "undefined") {
+            anime({
+              targets: reflectPanel,
+              translateY: [6, 0],
+              opacity: [0.92, 1],
+              duration: 280,
+              easing: "easeOutQuad",
+            });
+          }
+          return;
+        }
+
+        /* 第 4 张落槽：待选区（调色板）结束；下方换为讨论区 + 揭晓按钮 */
+        phase = "reflect";
+        coachPanel.classList.remove("is-visible");
+        coachZh.innerHTML = "";
+        if (palette) palette.classList.remove("show");
+        reflectPanel.classList.add("show");
+        if (reflectProgress) reflectProgress.hidden = true;
+        if (reflectDiscuss) reflectDiscuss.hidden = false;
+        if (btnReveal) btnReveal.disabled = false;
+        if (typeof anime !== "undefined") {
+          anime({
+            targets: reflectDiscuss,
+            translateY: [12, 0],
+            opacity: [0, 1],
+            duration: 450,
+            easing: "easeOutQuad",
+          });
+        }
+      }
+
+      btnReveal.addEventListener("click", function () {
+        if (btnReveal.disabled) return;
+        phase = "revealed";
+        futureSlotEls.forEach(function (slot, idx) {
+          var pid = filledSlots[idx];
+          if (!pid) return;
+          var pl = PLANS.filter(function (x) {
+            return x.id === pid;
+          })[0];
+          if (!pl) return;
+          slot.innerHTML =
+            slotPhotoHtml(pl) +
+            '<div class="slot-inner slot-sentence">' +
+            pl.sentence +
+            "</div>";
+        });
+        applyPastCardsVerbHighlight();
+        btnReveal.disabled = true;
+        unlockPagerNext();
+        coachPanel.classList.remove("is-visible");
+        coachZh.innerHTML = "";
+        if (typeof anime !== "undefined") {
+          anime({
+            targets: ".future-slot .slot-sentence",
+            scale: [0.92, 1],
+            duration: 500,
+            easing: "easeOutElastic(1, .6)",
+          });
+        }
+      });
+
+      pagerNext.addEventListener(
+        "click",
+        function (ev) {
+          if (pagerNext.classList.contains("is-locked")) ev.preventDefault();
+        },
+        true
+      );
+
+      buildTicks();
+      placePastMarkers();
+      placeFutureSlots();
+      buildPaletteCards();
+      tickClock();
+      /* 仅日期：每分钟刷新即可；如需跨日立刻刷新可改回 1000 */
+      setInterval(tickClock, 60000);
+
+      function boot() {
+        if (typeof anime === "undefined") {
+          setTimeout(boot, 30);
+          return;
+        }
+        bootScreen.classList.add("hidden");
+        setTimeout(function () {
+          bootScreen.style.display = "none";
+        }, 900);
+        wait(280).then(startTimeline);
+      }
+
+      if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
+      else boot();
+    })();
+  </script>
+
+</body>
+</html>
