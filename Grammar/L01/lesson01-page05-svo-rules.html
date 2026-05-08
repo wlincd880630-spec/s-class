@@ -3553,6 +3553,20 @@ window.__LESSON_TTS_MANIFEST = {
       }
       html += "</div>";
 
+      if (
+        !state.forceRoundComplete &&
+        !state.forceWrongModal &&
+        !state.forceItem &&
+        !state.forceAwaitTts
+      ) {
+        state.forceItem = pickRandomForceItem();
+        state.forceAwaitTts = false;
+        state.lastCorrectSentence = "";
+        state.lastRuleKey = "";
+        state.lastVerb = "";
+        startForceTimer();
+      }
+
       if (!state.forceRoundComplete && state.forceItem) {
         const fi = state.forceItem;
         const pct = Math.min(100, (state.forceTick / state.timerMs) * 100);
@@ -3601,15 +3615,6 @@ window.__LESSON_TTS_MANIFEST = {
         html += '<div class="success-banner">🏆 本轮通关（一名学生）！请下一位同学点击继续。</div>';
         html +=
           '<div class="reveal-btn-wrap"><button type="button" class="crayon b-green" id="btnForceAgain">下一位同学 / 再来一轮</button></div>';
-      }
-
-      if (!state.forceItem && state.phase === 4 && !state.forceRoundComplete && !state.forceWrongModal) {
-        state.forceItem = pickRandomForceItem();
-        state.forceAwaitTts = false;
-        state.lastCorrectSentence = "";
-        state.lastRuleKey = "";
-        state.lastVerb = "";
-        startForceTimer();
       }
 
       html += "</div>";

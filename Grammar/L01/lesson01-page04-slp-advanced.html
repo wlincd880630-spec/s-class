@@ -738,6 +738,41 @@
       cursor: wait;
       background: transparent;
     }
+    .stage1-demo-conclusion-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      background: rgba(20, 24, 35, 0.5);
+      box-sizing: border-box;
+    }
+    .stage1-demo-conclusion-card {
+      max-width: 540px;
+      width: 100%;
+      background: linear-gradient(165deg, #fffef8 0%, #f4f7ff 100%);
+      border-radius: 18px;
+      padding: 1.35rem 1.6rem 1.5rem;
+      border: 3px solid var(--crayon-purple, #8e44ad);
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.22);
+      text-align: center;
+    }
+    .stage1-demo-conclusion-card h2 {
+      margin: 0 0 0.85rem;
+      font-size: 1.2rem;
+      color: #2c3e50;
+    }
+    .stage1-demo-conclusion-card .hint {
+      margin: 0;
+      text-align: center;
+      font-size: 1.05rem;
+      line-height: 1.65;
+    }
+    .stage1-demo-conclusion-actions {
+      margin-top: 1.25rem;
+    }
     .hidden {
       display: none !important;
     }
@@ -2503,6 +2538,7 @@ window.__LESSON_TTS_MANIFEST = {
     stage2DrillComplete: false,
     stage1DrillOpen: false,
     stage2DrillOpen: false,
+    stage1DemoConclusionDismissed: false,
     ttsLoading: false,
     ttsGlobalLock: false,
     ttsSessionId: 0
@@ -2982,6 +3018,44 @@ window.__LESSON_TTS_MANIFEST = {
     ]);
   }
 
+  function stage1AllDemosComplete() {
+    return state.stage1ItStep === 4 && state.stage1YouStep === 4 && state.stage1AmStep >= 3;
+  }
+
+  function maybeAttachStage1DemoConclusionOverlay() {
+    if (!stage1AllDemosComplete() || state.stage1DemoConclusionDismissed) {
+      const ex = document.getElementById("stage1-demo-conclusion-overlay");
+      if (ex) {
+        ex.remove();
+      }
+      return;
+    }
+    if (document.getElementById("stage1-demo-conclusion-overlay")) {
+      return;
+    }
+    const overlay = document.createElement("div");
+    overlay.id = "stage1-demo-conclusion-overlay";
+    overlay.className = "stage1-demo-conclusion-overlay";
+    overlay.setAttribute("role", "dialog");
+    overlay.setAttribute("aria-modal", "true");
+    overlay.setAttribute("aria-labelledby", "stage1-demo-conclusion-title");
+    overlay.innerHTML =
+      '<div class="stage1-demo-conclusion-card">' +
+      '<h2 id="stage1-demo-conclusion-title">演示小结</h2>' +
+      '<p class="hint">掌握 <span class="hint-kw">isn\'t</span>、<span class="hint-kw">aren\'t</span>；牢记 <span class="hint-kw">am not</span> 不能像磁铁一样缩成 <span class="hint-kw">amn\'t</span>！</p>' +
+      '<div class="stage1-demo-conclusion-actions">' +
+      '<button type="button" class="crayon b-green" id="btnStage1DemoConclusionOk">知道了</button>' +
+      "</div></div>";
+    document.body.appendChild(overlay);
+    const ok = document.getElementById("btnStage1DemoConclusionOk");
+    if (ok) {
+      ok.onclick = function () {
+        state.stage1DemoConclusionDismissed = true;
+        overlay.remove();
+      };
+    }
+  }
+
   function prepareStage1DrillOptions() {
     if (state.stage1DrillComplete) {
       return;
@@ -3054,8 +3128,6 @@ window.__LESSON_TTS_MANIFEST = {
         state.stage1YouStep === 4 ||
         state.stage1AmStep >= 3;
       html += '<h1 class="page-title">阶段一 · 磁铁融合魔法（否定 & 缩写）</h1>';
-      html +=
-        '<p class="hint">掌握 <span class="hint-kw">isn\'t</span>、<span class="hint-kw">aren\'t</span>；牢记 <span class="hint-kw">am not</span> 不能像磁铁一样缩成 <span class="hint-kw">amn\'t</span>！</p>';
 
       html += '<div class="blackboard">';
       html += '<div class="stage1-tabs">';
@@ -3454,6 +3526,15 @@ window.__LESSON_TTS_MANIFEST = {
     }
 
     app.innerHTML = html;
+
+    if (state.stage === 1) {
+      maybeAttachStage1DemoConclusionOverlay();
+    } else {
+      const ex = document.getElementById("stage1-demo-conclusion-overlay");
+      if (ex) {
+        ex.remove();
+      }
+    }
   }
 
   function bindEvents() {

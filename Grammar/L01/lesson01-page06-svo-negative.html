@@ -44,6 +44,10 @@
     body.tts-locked .tts-huge * {
       pointer-events: auto;
     }
+    body.tts-locked .stage1-drill-collapse-toggle,
+    body.tts-locked .stage1-drill-collapse-toggle * {
+      pointer-events: auto;
+    }
     .book {
       max-width: 980px;
       margin: 0 auto;
@@ -282,6 +286,105 @@
       color: #ffe082;
       text-align: center;
       text-shadow: 1px 2px 0 rgba(0, 0, 0, 0.35);
+    }
+    .stage1-mirror-drill.drill-collapsible {
+      margin-top: 1rem;
+      border-radius: 14px;
+      border: 3px dashed rgba(155, 89, 182, 0.4);
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.72);
+      box-shadow: 2px 3px 0 rgba(0, 0, 0, 0.06);
+    }
+    .stage1-mirror-drill .drill-collapse-toggle {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0.35rem 0.6rem;
+      padding: 0.65rem 0.75rem;
+      border: none;
+      cursor: pointer;
+      font-family: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #4a148c;
+      text-align: center;
+      line-height: 1.35;
+      background: linear-gradient(90deg, rgba(243, 229, 245, 0.95), rgba(232, 234, 246, 0.95));
+    }
+    .stage1-mirror-drill .drill-collapse-toggle:hover {
+      background: linear-gradient(90deg, rgba(237, 231, 246, 1), rgba(227, 242, 253, 1));
+    }
+    .stage1-mirror-drill .drill-collapse-icon {
+      display: inline-block;
+      font-size: 0.7rem;
+      opacity: 0.95;
+      transition: transform 0.18s ease;
+    }
+    .stage1-mirror-drill .drill-collapse-toggle[aria-expanded="true"] .drill-collapse-icon {
+      transform: rotate(90deg);
+    }
+    .stage1-mirror-drill .drill-collapse-sub {
+      font-size: 0.72rem;
+      font-weight: 400;
+      opacity: 0.85;
+      color: #6a1b9a;
+    }
+    .stage1-mirror-drill .drill-collapse-panel {
+      padding: 0.65rem 0.85rem 1rem;
+      border-top: 2px dashed rgba(155, 89, 182, 0.25);
+    }
+    .stage1-mirror-drill .stage1-drill-progress {
+      text-align: center;
+      font-size: 0.82rem;
+      color: #555;
+      margin: 0 0 0.45rem;
+    }
+    .stage1-mirror-drill .stage1-drill-stem {
+      font-size: 0.86rem;
+      color: #444;
+      margin: 0 0 0.5rem;
+      line-height: 1.55;
+    }
+    .stage1-tier-badge {
+      display: inline-block;
+      font-size: 0.72rem;
+      padding: 0.12rem 0.42rem;
+      border-radius: 6px;
+      font-weight: 700;
+      margin-right: 0.35rem;
+      vertical-align: middle;
+    }
+    .stage1-tier-badge.tier-1 {
+      background: #e8f5e9;
+      color: #1b5e20;
+      border: 2px solid #81c784;
+    }
+    .stage1-tier-badge.tier-2 {
+      background: #fff3e0;
+      color: #e65100;
+      border: 2px solid #ffb74d;
+    }
+    .stage1-tier-badge.tier-3 {
+      background: #fce4ec;
+      color: #880e4f;
+      border: 2px solid #f48fb1;
+    }
+    .stage1-aff-card {
+      font-family: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+      font-size: 1.08rem;
+      line-height: 1.55;
+      color: #1a237e;
+      padding: 0.55rem 0.65rem;
+      border-radius: 10px;
+      background: rgba(227, 242, 253, 0.65);
+      border: 2px solid var(--crayon-blue);
+      margin-bottom: 0.55rem;
+    }
+    .stage1-mirror-drill .stage1-drill-tts {
+      text-align: center;
+      margin: 0.35rem 0 0.5rem;
     }
     .demo-b-post-actions {
       display: flex;
@@ -2076,6 +2179,142 @@ window.__LESSON_TTS_MANIFEST = {
     }
   ];
 
+  /** 阶段一 · 照妖镜法则巩固：12 题分层（基础 / 巩固 / 提高），doesn't + 动词原形 */
+  const STAGE1_MIRROR_DRILL = [
+    {
+      tierLabel: "基础",
+      tierClass: "tier-1",
+      stem: "选出正确的否定句（第三人称单数主语 · doesn't + 动词原形）。",
+      affirmative: "He watches cartoons after school.",
+      ttsText: "He watches cartoons after school.",
+      correct: "He doesn't watch cartoons after school.",
+      alt1: "He doesn't watches cartoons after school.",
+      alt2: "He don't watch cartoons after school.",
+      alt3: "He not watch cartoons after school."
+    },
+    {
+      tierLabel: "基础",
+      tierClass: "tier-1",
+      stem: "选出正确的否定句（第三人称单数主语 · doesn't + 动词原形）。",
+      affirmative: "She likes strawberry cake.",
+      ttsText: "She likes strawberry cake.",
+      correct: "She doesn't like strawberry cake.",
+      alt1: "She doesn't likes strawberry cake.",
+      alt2: "She don't like strawberry cake.",
+      alt3: "She isn't like strawberry cake."
+    },
+    {
+      tierLabel: "基础",
+      tierClass: "tier-1",
+      stem: "选出正确的否定句（第三人称单数主语 · doesn't + 动词原形）。",
+      affirmative: "Tom plays basketball on Sundays.",
+      ttsText: "Tom plays basketball on Sundays.",
+      correct: "Tom doesn't play basketball on Sundays.",
+      alt1: "Tom doesn't plays basketball on Sundays.",
+      alt2: "Tom don't play basketball on Sundays.",
+      alt3: "Tom doesn't playing basketball on Sundays."
+    },
+    {
+      tierLabel: "基础",
+      tierClass: "tier-1",
+      stem: "选出正确的否定句（第三人称单数主语 · doesn't + 动词原形）。",
+      affirmative: "My sister walks to school.",
+      ttsText: "My sister walks to school.",
+      correct: "My sister doesn't walk to school.",
+      alt1: "My sister doesn't walks to school.",
+      alt2: "My sister don't walk to school.",
+      alt3: "My sister doesn't walking to school."
+    },
+    {
+      tierLabel: "巩固",
+      tierClass: "tier-2",
+      stem: "选出正确的否定句（不规则 / +es / +ies → 否定时要「打回原形」）。",
+      affirmative: "She has a cute rabbit.",
+      ttsText: "She has a cute rabbit.",
+      correct: "She doesn't have a cute rabbit.",
+      alt1: "She doesn't has a cute rabbit.",
+      alt2: "She don't have a cute rabbit.",
+      alt3: "She doesn't having a cute rabbit."
+    },
+    {
+      tierLabel: "巩固",
+      tierClass: "tier-2",
+      stem: "选出正确的否定句（不规则 / +es / +ies → 否定时要「打回原形」）。",
+      affirmative: "He fixes old radios in his garage.",
+      ttsText: "He fixes old radios in his garage.",
+      correct: "He doesn't fix old radios in his garage.",
+      alt1: "He doesn't fixes old radios in his garage.",
+      alt2: "He don't fix old radios in his garage.",
+      alt3: "He doesn't fixed old radios in his garage."
+    },
+    {
+      tierLabel: "巩固",
+      tierClass: "tier-2",
+      stem: "选出正确的否定句（不规则 / +es / +ies → 否定时要「打回原形」）。",
+      affirmative: "Lily studies English every morning.",
+      ttsText: "Lily studies English every morning.",
+      correct: "Lily doesn't study English every morning.",
+      alt1: "Lily doesn't studies English every morning.",
+      alt2: "Lily don't study English every morning.",
+      alt3: "Lily isn't study English every morning."
+    },
+    {
+      tierLabel: "巩固",
+      tierClass: "tier-2",
+      stem: "选出正确的否定句（不规则 / +es / +ies → 否定时要「打回原形」）。",
+      affirmative: "The baby cries at night.",
+      ttsText: "The baby cries at night.",
+      correct: "The baby doesn't cry at night.",
+      alt1: "The baby doesn't cries at night.",
+      alt2: "The baby don't cry at night.",
+      alt3: "The baby doesn't crying at night."
+    },
+    {
+      tierLabel: "提高",
+      tierClass: "tier-3",
+      stem: "选出正确的否定句（稍长主语 · 仍遵循 doesn't + 原形）。",
+      affirmative: "Our teacher checks homework every day.",
+      ttsText: "Our teacher checks homework every day.",
+      correct: "Our teacher doesn't check homework every day.",
+      alt1: "Our teacher doesn't checks homework every day.",
+      alt2: "Our teacher don't check homework every day.",
+      alt3: "Our teacher doesn't checking homework every day."
+    },
+    {
+      tierLabel: "提高",
+      tierClass: "tier-3",
+      stem: "选出正确的否定句（稍长主语 · 仍遵循 doesn't + 原形）。",
+      affirmative: "This robot uses solar power.",
+      ttsText: "This robot uses solar power.",
+      correct: "This robot doesn't use solar power.",
+      alt1: "This robot doesn't uses solar power.",
+      alt2: "This robot don't use solar power.",
+      alt3: "This robot doesn't using solar power."
+    },
+    {
+      tierLabel: "提高",
+      tierClass: "tier-3",
+      stem: "选出正确的否定句（稍长主语 · 仍遵循 doesn't + 原形）。",
+      affirmative: "Each student brings a notebook to class.",
+      ttsText: "Each student brings a notebook to class.",
+      correct: "Each student doesn't bring a notebook to class.",
+      alt1: "Each student doesn't brings a notebook to class.",
+      alt2: "Each student don't bring a notebook to class.",
+      alt3: "Each student doesn't bringing a notebook to class."
+    },
+    {
+      tierLabel: "提高",
+      tierClass: "tier-3",
+      stem: "选出正确的否定句（稍长主语 · 仍遵循 doesn't + 原形）。",
+      affirmative: "David finishes his work before five.",
+      ttsText: "David finishes his work before five.",
+      correct: "David doesn't finish his work before five.",
+      alt1: "David doesn't finishes his work before five.",
+      alt2: "David don't finish his work before five.",
+      alt3: "David doesn't finished his work before five."
+    }
+  ];
+
   const app = document.getElementById("app");
   const confettiCanvas = document.getElementById("confetti-canvas");
 
@@ -2097,7 +2336,12 @@ window.__LESSON_TTS_MANIFEST = {
     filledHelper: "",
     filledVerb: "",
     nextTimer: null,
-    ttsGlobalLock: false
+    ttsGlobalLock: false,
+    stage1MirrorDrillOpen: false,
+    stage1MirrorDrillIndex: 0,
+    stage1MirrorDrillOpts: [],
+    stage1MirrorDrillWrongTip: "",
+    stage1MirrorDrillComplete: false
   };
 
   function escapeHtml(str) {
@@ -2121,6 +2365,26 @@ window.__LESSON_TTS_MANIFEST = {
       a[j] = t;
     }
     return a;
+  }
+
+  function prepareStage1MirrorDrillOptions() {
+    if (state.stage1MirrorDrillComplete) {
+      return;
+    }
+    const q = STAGE1_MIRROR_DRILL[state.stage1MirrorDrillIndex];
+    if (!q) {
+      return;
+    }
+    const pack = shuffleArray([
+      { correct: true, label: q.correct },
+      { correct: false, label: q.alt1 },
+      { correct: false, label: q.alt2 },
+      { correct: false, label: q.alt3 }
+    ]);
+    const letters = ["A", "B", "C", "D"];
+    state.stage1MirrorDrillOpts = pack.map(function (p, i) {
+      return { letter: letters[i], label: p.label, correct: p.correct };
+    });
   }
 
   function generateDynamicOptions(item) {
@@ -2682,6 +2946,77 @@ window.__LESSON_TTS_MANIFEST = {
       html += "</div>";
       html +=
         '<div class="chalk-rule-strip">doesn\'t 就像<strong>照妖镜</strong>，只要它在，动词必须<strong>回原形</strong>！</div>';
+
+      if (!state.stage1MirrorDrillComplete && state.stage1MirrorDrillOpts.length === 0) {
+        prepareStage1MirrorDrillOptions();
+      }
+      html += '<div class="stage1-mirror-drill drill-collapsible">';
+      html +=
+        '<button type="button" class="drill-collapse-toggle stage1-drill-collapse-toggle" data-stage1-drill-toggle aria-expanded="' +
+        (state.stage1MirrorDrillOpen ? "true" : "false") +
+        '">';
+      html += '<span class="drill-collapse-icon">▶</span>';
+      html += "<span>照妖镜 · 即时小测（12 题 · 基础→巩固→提高）</span>";
+      html +=
+        '<span class="drill-collapse-sub">' +
+        (state.stage1MirrorDrillOpen ? "收起" : "点击展开") +
+        "</span>";
+      html += "</button>";
+      html +=
+        '<div class="drill-collapse-panel' +
+        (state.stage1MirrorDrillOpen ? "" : " hidden") +
+        '" id="stage1MirrorDrillPanel">';
+      if (state.stage1MirrorDrillComplete) {
+        html += '<div class="success-banner" style="margin:0.35rem 0 0">🎉 12 题全部完成！规律已巩固，可进入特训继续挑战。</div>';
+      } else {
+        const dq = STAGE1_MIRROR_DRILL[state.stage1MirrorDrillIndex];
+        if (dq) {
+          html +=
+            '<p class="stage1-drill-progress">第 ' +
+            (state.stage1MirrorDrillIndex + 1) +
+            " / " +
+            STAGE1_MIRROR_DRILL.length +
+            " 题 · 难度分层：第 1–4 题基础 · 第 5–8 题巩固 · 第 9–12 题提高</p>";
+          html +=
+            '<p class="stage1-drill-stem"><span class="stage1-tier-badge ' +
+            dq.tierClass +
+            '">' +
+            escapeHtml(dq.tierLabel) +
+            "</span>" +
+            escapeHtml(dq.stem) +
+            "</p>";
+          html += '<p class="hint" style="margin:0 0 0.35rem;font-size:0.82rem">肯定句：</p>';
+          html += '<div class="stage1-aff-card">' + escapeHtml(dq.affirmative) + "</div>";
+          html += '<div class="stage1-drill-tts">';
+          html +=
+            '<button type="button" class="crayon b-red" id="btnStage1MirrorDrillTts"' +
+            (state.ttsGlobalLock ? " disabled" : "") +
+            ' title="朗读肯定句" aria-label="朗读肯定句">🔊 朗读题干</button>';
+          html += "</div>";
+          if (state.stage1MirrorDrillWrongTip) {
+            html +=
+              '<p class="tip-warn" style="margin:0 0 0.5rem">' +
+              escapeHtml(state.stage1MirrorDrillWrongTip) +
+              "</p>";
+          }
+          html += '<div class="choice-row">';
+          for (let oi = 0; oi < state.stage1MirrorDrillOpts.length; oi++) {
+            const o = state.stage1MirrorDrillOpts[oi];
+            html +=
+              '<button type="button" class="choice-opt choice-opt-s1" data-s1-i="' +
+              oi +
+              '"' +
+              (state.ttsGlobalLock ? " disabled" : "") +
+              ">" +
+              escapeHtml(o.letter) +
+              ". " +
+              escapeHtml(o.label) +
+              "</button>";
+          }
+          html += "</div>";
+        }
+      }
+      html += "</div></div>";
     }
 
     if (state.stage === 2) {
@@ -2870,6 +3205,48 @@ window.__LESSON_TTS_MANIFEST = {
         speakWithGlobalLock(getDemoBPlainTts()).catch(function (err) {
           alert("朗读失败：" + (err && err.message ? err.message : String(err)));
         });
+        return;
+      }
+
+      if (t.closest("[data-stage1-drill-toggle]") && state.stage === 1) {
+        state.stage1MirrorDrillOpen = !state.stage1MirrorDrillOpen;
+        render();
+        return;
+      }
+
+      if (t.closest("#btnStage1MirrorDrillTts") && state.stage === 1) {
+        if (state.ttsGlobalLock) return;
+        const dq = STAGE1_MIRROR_DRILL[state.stage1MirrorDrillIndex];
+        if (!dq || state.stage1MirrorDrillComplete) return;
+        speakWithGlobalLock(dq.ttsText).catch(function (err) {
+          alert("朗读失败：" + (err && err.message ? err.message : String(err)));
+        });
+        return;
+      }
+
+      if (t.closest(".choice-opt-s1") && state.stage === 1 && !state.stage1MirrorDrillComplete) {
+        if (state.ttsGlobalLock) return;
+        const btn = t.closest(".choice-opt-s1");
+        const idx = parseInt(btn.getAttribute("data-s1-i"), 10);
+        const opt = state.stage1MirrorDrillOpts[idx];
+        if (!opt) return;
+        if (!opt.correct) {
+          state.stage1MirrorDrillWrongTip =
+            "照妖镜法则：doesn't 后面要跟动词原形，不能把第三人称单数的「尾巴」留在动词上哦。";
+          btn.classList.add("wrong-shake");
+          setTimeout(function () {
+            btn.classList.remove("wrong-shake");
+          }, 500);
+          render();
+          return;
+        }
+        state.stage1MirrorDrillWrongTip = "";
+        state.stage1MirrorDrillIndex++;
+        state.stage1MirrorDrillOpts = [];
+        if (state.stage1MirrorDrillIndex >= STAGE1_MIRROR_DRILL.length) {
+          state.stage1MirrorDrillComplete = true;
+        }
+        render();
         return;
       }
 

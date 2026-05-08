@@ -591,18 +591,6 @@
     .phase4-root .p2-cell.pending {
       box-shadow: 0 0 0 4px rgba(155, 89, 182, 0.55);
     }
-    .phase4-root .p2-cell.steal-hint {
-      animation: steal-pulse 1.1s ease-in-out infinite;
-    }
-    @keyframes steal-pulse {
-      0%,
-      100% {
-        box-shadow: 0 0 0 3px rgba(74, 144, 217, 0.5);
-      }
-      50% {
-        box-shadow: 0 0 0 6px rgba(232, 93, 76, 0.45);
-      }
-    }
     .phase4-root .piece-wrap {
       display: flex;
       align-items: center;
@@ -2679,7 +2667,7 @@ window.__LESSON_TTS_MANIFEST = {
     html +=
       '<p class="hint">双人模式：<strong style="color:var(--team-a)">红蜡笔 Team A</strong> 使用棋子 <strong>O</strong>，<strong style="color:var(--team-b)">蓝蜡笔 Team B</strong> 使用棋子 <strong>X</strong>，轮流出手。点击<strong>空格</strong>随机抽一题（本局已出现过的句子不会再次抽到；' +
       SENTENCE_BANK.length +
-      " 句用完后自动整库重洗）。选对后棋子落入该格并<strong>自动朗读整句</strong>；答错显示解析，对方可<strong>抢答</strong>同一格；双方都错则清空该格。先连成<strong>四子一线</strong>（横、竖、斜）者获胜。</p>";
+      " 句用完后自动整库重洗）。选对后棋子落入该格并<strong>自动朗读整句</strong>；答错后题目会<strong>立刻显示正确答案与解析</strong>，并<strong>轮到对方</strong>在同一题上选择 Be（无需再点棋盘格）；对方仍错则清空该格。先连成<strong>四子一线</strong>（横、竖、斜）者获胜。</p>";
 
     html += '<div class="team-row">';
     html +=
@@ -2711,9 +2699,6 @@ window.__LESSON_TTS_MANIFEST = {
         if (isPending) {
           cls += " pending";
         }
-        if (p2.stealMode && p2.pendingCell === ci) {
-          cls += " steal-hint";
-        }
       }
       html +=
         '<div class="' +
@@ -2743,7 +2728,7 @@ window.__LESSON_TTS_MANIFEST = {
       const item = p2.currentItem;
       html += '<p class="meta-line">当前作答：<strong>' + (p2.turn === "A" ? "Team A（红 O）" : "Team B（蓝 X）") + "</strong>";
       if (p2.stealMode) {
-        html += ' · <span style="color:#c0392b">对方抢答中</span>';
+        html += ' · <span style="color:#2980b9">轮到对方作答</span>';
       }
       html += "</p>";
       html +=
@@ -3021,7 +3006,7 @@ window.__LESSON_TTS_MANIFEST = {
           if (!p2.stealMode) {
             p2.stealMode = true;
             p2.turn = p2.turn === "A" ? "B" : "A";
-            p2.stealHint = "对方队伍可点击同一格抢答；若再错，该格将清空。";
+            p2.stealHint = "已公布正确答案。请对方队伍在上方按钮中选择 Be；选对则棋子落入该格，若再错则该格清空。";
             render();
             setTimeout(function () {
               p2.wrongShake = false;

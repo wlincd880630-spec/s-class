@@ -44,6 +44,9 @@
     body.tts-locked .tts-huge * {
       pointer-events: auto;
     }
+    body.tts-locked #btnEnterForce {
+      pointer-events: auto;
+    }
     .book {
       max-width: 980px;
       margin: 0 auto;
@@ -2285,7 +2288,7 @@ window.__LESSON_TTS_MANIFEST = {
     demoAStep: 0,
     demoBIndex: 0,
     demoBStep: 0,
-    trainRuleExpanded: false,
+    trainRuleExpanded: true,
     forceStreak: 0,
     forceComplete: false,
     currentItem: null,
@@ -2655,13 +2658,6 @@ window.__LESSON_TTS_MANIFEST = {
     return DEMO_B[state.demoBIndex];
   }
 
-  function stage1BothDemosComplete() {
-    const aDone = state.demoAIndex === DEMO_A.length - 1 && state.demoAStep === 1;
-    const bDone = state.demoBIndex === DEMO_B.length - 1 && state.demoBStep === 3;
-    return aDone && bDone;
-  }
-
-  function renderDemoAChalkHTML() {
     const d = getDemoA();
     if (state.demoAStep === 0) {
       return (
@@ -2771,7 +2767,7 @@ window.__LESSON_TTS_MANIFEST = {
     if (state.stage === 1) {
       html += '<h1 class="page-title">阶段一 · 火车头魔法演示</h1>';
       html +=
-        '<p class="hint">一般疑问句：把助动词 <code>Do</code> / <code>Does</code> 提到句首当「火车头」，主语若为人称代词要<strong>小写</strong>，句末用问号。单三句里 <code>Does</code> 一出场，动词照样<strong>打回原形</strong>（照妖镜法则）。演示 A、B 各有三句由易到难；看完一句可点<strong>下一句</strong>继续。</p>';
+        '<p class="hint">一般疑问句：把助动词 <code>Do</code> / <code>Does</code> 提到句首当「火车头」，主语若为人称代词要<strong>小写</strong>，句末用问号。单三句里 <code>Does</code> 一出场，动词照样<strong>打回原形</strong>（照妖镜法则）。演示 A、B 各有三句由易到难；看完一句可点<strong>下一句</strong>继续。<strong>可随时点击「进入终极特训」</strong>进入阶段二，不必等演示全部看完。</p>';
       html += '<div class="blackboard-wrap">';
       html += '<div class="blackboard">';
       html += "<h2>演示 A（非单三）</h2>";
@@ -2841,7 +2837,6 @@ window.__LESSON_TTS_MANIFEST = {
         '">火车头与照妖镜</button>';
       html +=
         '<button type="button" class="crayon b-green" id="btnEnterForce"' +
-        (stage1BothDemosComplete() ? "" : " disabled") +
         ">进入终极特训</button>";
       html += "</div>";
       html +=
@@ -3067,15 +3062,7 @@ window.__LESSON_TTS_MANIFEST = {
         return;
       }
 
-      if (state.ttsGlobalLock && state.stage === 1) {
-        return;
-      }
-
-      if (state.ttsGlobalLock && state.stage === 2) {
-        return;
-      }
-
-      if (t.closest("#btnEnterForce") && state.stage === 1 && stage1BothDemosComplete()) {
+      if (t.closest("#btnEnterForce") && state.stage === 1) {
         stopAllSpeechMedia();
         state.ttsSessionId++;
         state.stage = 2;
@@ -3093,6 +3080,14 @@ window.__LESSON_TTS_MANIFEST = {
         document.body.classList.remove("tts-locked");
         clearNextTimer();
         render();
+        return;
+      }
+
+      if (state.ttsGlobalLock && state.stage === 1) {
+        return;
+      }
+
+      if (state.ttsGlobalLock && state.stage === 2) {
         return;
       }
 
