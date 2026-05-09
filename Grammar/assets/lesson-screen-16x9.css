@@ -1,0 +1,123 @@
+/**
+ * 16:9 课件壳 · 固定底栏分页导航
+ * Grammar/L08 等页面通过 ../assets/lesson-screen-16x9.css 引用。
+ */
+:root {
+  /* 底栏高度 + 底部安全区；主舞台 min-height 请用此变量预留空间 */
+  --lesson-pager-gap: calc(3.65rem + env(safe-area-inset-bottom, 0px));
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body.has-lesson-pager {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  box-sizing: border-box;
+  min-height: 100dvh;
+  min-height: 100vh;
+}
+
+body.has-lesson-pager > .app {
+  flex: 1 1 auto;
+  min-width: 0;
+  width: 100%;
+}
+
+nav.lesson-pager {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10050;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: clamp(6px, 1.8vw, 14px);
+  box-sizing: border-box;
+  min-height: 3rem;
+  padding: 6px max(8px, env(safe-area-inset-left, 0px))
+    calc(6px + env(safe-area-inset-bottom, 0px))
+    max(8px, env(safe-area-inset-right, 0px));
+  font-family: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", "PingFang SC", sans-serif;
+  font-size: clamp(0.76rem, 2vw, 0.9rem);
+  font-weight: 700;
+  line-height: 1.2;
+  color: #e8eef8;
+  background: linear-gradient(180deg, rgba(22, 28, 42, 0.94) 0%, rgba(10, 12, 22, 0.98) 100%);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 -10px 32px rgba(0, 0, 0, 0.38);
+}
+
+.lesson-pager .pager-prev,
+.lesson-pager .pager-next {
+  flex: 0 1 auto;
+  max-width: 38%;
+  margin: 0;
+  padding: 0.42rem 0.62rem;
+  border-radius: 999px;
+  text-decoration: none;
+  color: inherit;
+  text-align: center;
+  border: 2px solid rgba(100, 180, 255, 0.42);
+  background: rgba(255, 255, 255, 0.07);
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    transform 0.12s ease;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.lesson-pager a.pager-prev:hover,
+.lesson-pager a.pager-next:hover {
+  background: rgba(100, 180, 255, 0.2);
+  border-color: rgba(130, 200, 255, 0.65);
+}
+
+.lesson-pager a.pager-prev:active,
+.lesson-pager a.pager-next:active {
+  transform: scale(0.98);
+}
+
+.lesson-pager span.pager-prev,
+.lesson-pager span.pager-next {
+  cursor: default;
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.lesson-pager .pager-mid {
+  flex: 1 1 auto;
+  min-width: 0;
+  text-align: center;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  font-size: clamp(0.72rem, 1.85vw, 0.86rem);
+  color: #ffd54f;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.55);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.lesson-pager a:focus-visible {
+  outline: 2px solid #ffc107;
+  outline-offset: 3px;
+}
+
+@media (max-width: 380px) {
+  .lesson-pager .pager-prev,
+  .lesson-pager .pager-next {
+    max-width: 34%;
+    padding: 0.38rem 0.45rem;
+    font-size: 0.72rem;
+  }
+}

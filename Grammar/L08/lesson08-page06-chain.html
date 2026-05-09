@@ -29,32 +29,24 @@
       color: #e0f7fa;
       touch-action: manipulation;
     }
-    body.has-lesson-pager {
-      display: flex;
-      flex-direction: column;
-      align-items: stretch !important;
-      zoom: 0.9;
-    }
-
     #l08-p06-host.app {
       position: relative;
       isolation: isolate;
       flex: 1 1 auto;
       width: 100%;
-      min-height: calc(100dvh - 3.5rem);
+      min-height: calc(100dvh - var(--lesson-pager-gap) - env(safe-area-inset-top, 0px));
       overflow: hidden;
-      border: 4px solid rgba(0, 243, 255, 0.4);
+      border: 2px solid rgba(0, 243, 255, 0.4);
       border-radius: 22px;
       box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.5), 0 12px 32px rgba(0, 0, 0, 0.45);
     }
 
     /*
-      lesson-screen-16x9.css 在 (max-width:768px) 或 (max-height:559px) 下对 body>.app 使用
-      min-height:0!important；本宿主子节点多为 absolute/fixed，不参与撑高，叠加后高度塌为 0，
-      #p06-stage(inset:0) 随之不可见。提高优先级强制最小高度（需覆盖 !important）。
+      lesson-screen-16x9.css 在窄视口下可能对 body>.app 使用 min-height:0!important；
+      本页宿主需强制最小高度（覆盖 !important）。变量 --lesson-pager-gap 见共享样式表。
     */
     body.has-lesson-pager > #l08-p06-host.app {
-      min-height: calc(100dvh - var(--lesson-pager-gap, 4.35rem) - max(8px, env(safe-area-inset-top, 0px)) - max(8px, env(safe-area-inset-bottom, 0px))) !important;
+      min-height: calc(100dvh - var(--lesson-pager-gap) - env(safe-area-inset-top, 0px)) !important;
     }
 
     #p06-bg {
