@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>第09讲 · Page 03 · 视频线索板 · While / When 多元时态</title>
+  <script src="./assets/l09-tts-manifest.js"></script>
+  <script src="../assets/lesson-tts-bootstrap.js"></script>
+  <!-- 视频：assets/vertex/l09-page03/scene-NN-* · 生成 node scripts/generate-page03-scenario-videos.mjs -->
+  <!-- 静图：./assets/l09-page03-corkboard-bg.png -->
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
+  <style>
+    :root {
+      --l09-p03-bg: url("./assets/l09-page03-corkboard-bg.png");
+      --paper: #fff9f0;
+      --ink: #2c2c2c;
+      --crayon-red: #e85d4c;
+      --crayon-blue: #4a90d9;
+      --crayon-orange: #f0ad4e;
+      --crayon-green: #5cb85c;
+      --edge: #5d4037;
+      --grammar-blue: #1565c0;
+      --mint-glow: #26c6da;
+      --p03-nav-h: calc(clamp(92px, 18vmin, 128px) + max(12px, env(safe-area-inset-bottom)));
+    }
+    * { box-sizing: border-box; }
+    html { overflow: hidden; max-width: 100%; font-size: clamp(14px, 0.82vw + 12px, 19px); }
+    html, body {
+      margin: 0; width: 100%; height: 100%; overflow: hidden;
+      font-family: system-ui, "Microsoft YaHei", "PingFang SC", sans-serif;
+      background: linear-gradient(155deg, #3e2723 0%, #4e342e 45%, #1b1209 100%);
+      color: var(--ink);
+      touch-action: manipulation;
+    }
+    body {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: max(8px, env(safe-area-inset-top)) max(8px, env(safe-area-inset-right))
+        max(8px, env(safe-area-inset-bottom)) max(8px, env(safe-area-inset-left));
+      min-height: 100dvh;
+    }
+    #viewport {
+      position: relative; width: min(100vw, 100%); height: min(100dvh, 100%);
+      max-width: 100%; max-height: 100dvh; flex-shrink: 0; overflow: hidden;
+    }
+    #p03-host {
+      position: absolute; inset: 0; isolation: isolate; overflow: hidden;
+      display: flex; flex-direction: column;
+      border: clamp(3px, 0.5vmin, 5px) solid rgba(240, 173, 78, 0.55);
+      border-radius: clamp(18px, 4vmin, 32px) clamp(10px, 2vmin, 18px) clamp(22px, 4.5vmin, 36px) clamp(12px, 2.2vmin, 20px)
+        / clamp(12px, 2.2vmin, 20px) clamp(22px, 4.5vmin, 36px) clamp(10px, 2vmin, 18px) clamp(18px, 4vmin, 32px);
+      box-shadow: inset 0 0 clamp(24px, 5vmin, 48px) rgba(0, 0, 0, 0.14), 0 clamp(10px, 2vmin, 20px) clamp(24px, 4vmin, 40px) rgba(0, 0, 0, 0.3);
+    }
+    #bg-stack {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 0;
+      background: linear-gradient(168deg, rgba(255, 249, 240, 0.4) 0%, rgba(255, 213, 160, 0.16) 42%, rgba(62, 39, 35, 0.52) 100%),
+        var(--l09-p03-bg) center / cover no-repeat;
+      pointer-events: none;
+    }
+    #vignette {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 1;
+      pointer-events: none;
+      box-shadow: inset 0 0 clamp(36px, 10vmin, 88px) rgba(20, 12, 28, 0.32);
+    }
+    #stage {
+      position: relative; z-index: 4; flex: 1 1 auto; min-height: 0;
+      display: flex; flex-direction: column; width: 100%;
+      padding: clamp(5px, 1vmin, 10px) clamp(8px, 1.6vmin, 14px) var(--p03-nav-h);
+      gap: clamp(4px, 0.9vmin, 8px); overflow: hidden;
+    }
+    .p03-top-bar { flex-shrink: 0; display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; width: 100%; }
+    .p03-top-left h1 {
+      margin: 0 0 4px; font-size: clamp(0.88rem, 1.9vw + 0.38rem, 1.28rem); font-weight: 900; color: #fff8e7;
+      text-shadow: 0 0 10px rgba(255, 183, 77, 0.26), 2px 2px 0 rgba(0, 0, 0, 0.2);
+      line-height: 1.15;
+    }
+    .slide-tabs { display: flex; flex-wrap: wrap; gap: 6px; max-width: min(100%, 40rem); }
+    .slide-tab {
+      appearance: none; cursor: pointer; font-weight: 900;
+      font-size: clamp(0.58rem, 0.95vw + 0.22rem, 0.72rem);
+      padding: 5px 10px; border-radius: 999px; border: 2px solid rgba(255, 255, 255, 0.22);
+      background: rgba(55, 71, 79, 0.55); color: #eceff1;
+    }
+    .slide-tab.is-active {
+      color: #4e342e; background: rgba(255, 249, 240, 0.98); border-color: var(--edge);
+      box-shadow: 0 3px 0 rgba(93, 64, 55, 0.1);
+    }
+    .p03-badge {
+      padding: 4px 10px; border-radius: 999px; background: rgba(255, 249, 240, 0.95);
+      border: 3px solid var(--edge); font-weight: 900; font-size: clamp(0.58rem, 0.95vw + 0.22rem, 0.72rem);
+      color: #4e342e; line-height: 1.3; text-align: right;
+    }
+
+    #slide-deck { flex: 1 1 auto; min-height: 0; position: relative; width: 100%; overflow: hidden; }
+    .p03-slide {
+      display: none; flex-direction: column; align-items: stretch; gap: clamp(4px, 0.85vmin, 8px);
+      position: absolute; inset: 0; overflow: hidden;
+    }
+    .p03-slide.is-active { display: flex; }
+
+    .p03-card {
+      flex-shrink: 0; margin: 0 auto; width: 100%; max-width: min(100%, 52rem);
+      padding: clamp(6px, 1.1vmin, 10px) clamp(8px, 1.4vmin, 12px);
+      border-radius: clamp(9px, 1.5vmin, 13px);
+      background: rgba(255, 253, 248, 0.95); border: 2px solid var(--edge);
+      box-shadow: 0 3px 0 rgba(93, 64, 55, 0.08);
+    }
+    .p03-tense-line {
+      margin: 0 0 4px; font-size: clamp(0.62rem, 1vw + 0.22rem, 0.76rem); font-weight: 900; color: #6a1b9a; text-align: center;
+    }
+    .p03-en {
+      margin: 0; text-align: center; font-weight: 900; font-size: clamp(0.72rem, 1.2vw + 0.26rem, 0.88rem);
+      color: var(--grammar-blue); line-height: 1.45;
+    }
+    .p03-zh {
+      margin: 4px 0 0; text-align: center; font-weight: 700; font-size: clamp(0.62rem, 1.02vw + 0.22rem, 0.76rem);
+      color: #5d4037; line-height: 1.4;
+    }
+
+    .p03-mode-tabs {
+      display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; margin-top: 4px;
+    }
+    .p03-mode-tab {
+      appearance: none; cursor: pointer; font-weight: 900; font-size: clamp(0.58rem, 0.95vw + 0.2rem, 0.7rem);
+      padding: 4px 10px; border-radius: 8px; border: 2px solid rgba(21, 101, 192, 0.35);
+      background: rgba(227, 242, 253, 0.85); color: #0d47a1;
+    }
+    .p03-mode-tab.is-active { background: #1565c0; color: #fff; border-color: #0d47a1; }
+    .p03-mode-panel { margin-top: 6px; }
+    .p03-mode-panel[hidden] { display: none !important; }
+
+    /* 词序复位：可视区域高度对齐 Page 02 视频窗；字体放大 */
+    .p03-mode-panel[data-panel="o"]:not([hidden]) {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      justify-content: flex-start;
+      gap: clamp(12px, 2.2vmin, 22px);
+      width: 100%;
+      max-width: min(100%, 52rem);
+      margin-left: auto;
+      margin-right: auto;
+      min-height: min(48dvh, 68vmin, 520px);
+      padding: clamp(10px, 1.6vmin, 18px);
+      box-sizing: border-box;
+      border-radius: clamp(10px, 1.6vmin, 14px);
+      border: 2px solid rgba(93, 64, 55, 0.18);
+      background: linear-gradient(180deg, rgba(227, 242, 253, 0.4) 0%, rgba(255, 253, 248, 0.96) 100%);
+    }
+    .p03-phrase-hint {
+      margin: 0;
+      text-align: center;
+      font-weight: 800;
+      color: #5d4037;
+      font-size: clamp(0.88rem, 1.85vw + 0.42rem, 1.12rem);
+      line-height: 1.45;
+    }
+    .p03-mode-panel[data-panel="o"]:not([hidden]) .p03-phrase-bank {
+      gap: clamp(10px, 1.8vmin, 16px);
+      margin-top: clamp(4px, 0.8vmin, 10px);
+    }
+    .p03-mode-panel[data-panel="o"]:not([hidden]) .p03-phrase-piece {
+      font-size: clamp(0.88rem, 1.65vw + 0.38rem, 1.08rem);
+      padding: clamp(10px, 1.5vmin, 14px) clamp(14px, 2.2vmin, 20px);
+    }
+    .p03-mode-panel[data-panel="o"]:not([hidden]) .p03-built-strip {
+      flex: 1 1 auto;
+      min-height: clamp(3.5rem, 12vmin, 6rem);
+      font-size: clamp(0.92rem, 1.75vw + 0.42rem, 1.18rem);
+      padding: clamp(12px, 2vmin, 20px);
+    }
+    .p03-mode-panel[data-panel="o"]:not([hidden]) .p03-phrase-tools button {
+      font-size: clamp(0.82rem, 1.45vw + 0.34rem, 1rem);
+      padding: clamp(9px, 1.6vmin, 13px) clamp(16px, 2.8vmin, 24px);
+    }
+    /* 词序模式下隐藏标题下说明，避免「先剧透原句/语境」；不隐藏紫色结构行 */
+    .p03-card.p03-phrase-open > .p03-zh {
+      display: none !important;
+    }
+    .p03-card.p03-phrase-open .p03-en {
+      display: none !important;
+    }
+    .p03-card.p03-phrase-open > .p03-tense-line {
+      font-size: clamp(0.78rem, 1.45vw + 0.34rem, 0.98rem);
+    }
+    .p03-card.p03-phrase-open .p03-mode-tab {
+      font-size: clamp(0.72rem, 1.25vw + 0.32rem, 0.92rem);
+      padding: clamp(6px, 1.2vmin, 10px) clamp(12px, 2vmin, 16px);
+    }
+
+    .p03-video-shell {
+      position: relative;
+      width: 100%;
+      max-width: min(100%, 52rem);
+      margin-left: auto;
+      margin-right: auto;
+      margin-top: clamp(4px, 0.8vmin, 8px);
+      margin-bottom: clamp(6px, 1vmin, 10px);
+      flex: 0 1 auto;
+      min-height: 0;
+      aspect-ratio: 16 / 9;
+      max-height: min(48dvh, 68vmin, 520px);
+      border-radius: clamp(10px, 1.6vmin, 14px);
+      overflow: hidden;
+      border: 2px solid rgba(93, 64, 55, 0.18);
+      background: linear-gradient(180deg, #1a237e 0%, #311b92 100%);
+    }
+    .p03-seq-stack { position: absolute; inset: 0; z-index: 1; }
+    .p03-seq-stack:not(.is-active) { visibility: hidden; pointer-events: none; }
+    .p03-seq-stack.is-active { visibility: visible; pointer-events: auto; }
+    .p03-seq-stack video.p03-seq-v {
+      position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain;
+      opacity: 0; pointer-events: none;
+    }
+    .p03-seq-stack video.p03-seq-v.is-on { opacity: 1; pointer-events: auto; z-index: 2; }
+    .p03-merged-loop {
+      position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; z-index: 3; background: transparent;
+    }
+    .p03-merged-loop.is-hidden { display: none !important; }
+
+    .p03-phrase-bank { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin-top: 6px; }
+    .p03-phrase-piece {
+      cursor: pointer; font-weight: 900; font-size: clamp(0.62rem, 1vw + 0.22rem, 0.75rem);
+      padding: 6px 10px; border-radius: 8px; border: 2px solid rgba(93, 64, 55, 0.25);
+      background: rgba(255, 248, 225, 0.95); color: #4e342e;
+    }
+    .p03-phrase-piece:disabled { opacity: 0.35; cursor: default; }
+    .p03-built-strip {
+      min-height: 2.4em; margin-top: 8px; padding: 8px; border-radius: 8px;
+      background: rgba(227, 242, 253, 0.55); border: 2px dashed rgba(21, 101, 192, 0.35);
+      font-weight: 800; font-size: clamp(0.62rem, 1vw + 0.22rem, 0.76rem); color: #0d47a1; line-height: 1.5; text-align: center;
+    }
+    .p03-phrase-tools { margin-top: 6px; display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+    .p03-phrase-tools button {
+      font-weight: 900; font-size: clamp(0.58rem, 0.95vw + 0.2rem, 0.7rem);
+      padding: 5px 12px; border-radius: 999px; border: 2px solid var(--edge); cursor: pointer; background: #fff9f0;
+    }
+
+    .p03-oral-list { margin: 0.6rem 0 0; padding-left: 1.1em; font-weight: 700; font-size: clamp(0.68rem, 1.08vw + 0.26rem, 0.82rem); color: #37474f; line-height: 1.55; }
+
+    .p03-oral-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: clamp(8px, 1.4vmin, 12px);
+      margin-bottom: clamp(8px, 1.2vmin, 12px);
+    }
+    .p03-oral-play-btn {
+      appearance: none;
+      cursor: pointer;
+      font-weight: 900;
+      font-family: inherit;
+      font-size: clamp(0.78rem, 1.35vw + 0.32rem, 0.95rem);
+      padding: clamp(8px, 1.4vmin, 12px) clamp(14px, 2.4vmin, 20px);
+      border-radius: 999px;
+      border: 2px solid #0d47a1;
+      color: #fff;
+      background: linear-gradient(180deg, #1976d2, #0d47a1);
+      box-shadow: 0 3px 0 rgba(13, 71, 161, 0.35);
+    }
+    .p03-oral-play-btn:active { transform: translateY(1px); }
+    .p03-oral-stephint {
+      flex: 1 1 12rem;
+      font-weight: 700;
+      font-size: clamp(0.65rem, 1.05vw + 0.24rem, 0.8rem);
+      color: #546e7a;
+      line-height: 1.45;
+    }
+    .p03-oral-blind {
+      display: block;
+      width: 100%;
+      margin: 0 0 clamp(8px, 1.2vmin, 12px);
+      padding: clamp(14px, 2.2vmin, 20px) clamp(12px, 2vmin, 18px);
+      border-radius: clamp(10px, 1.6vmin, 14px);
+      border: 3px dashed rgba(21, 101, 192, 0.45);
+      background: rgba(227, 242, 253, 0.65);
+      cursor: pointer;
+      text-align: center;
+      font-family: inherit;
+      line-height: 1.5;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .p03-oral-blind:hover {
+      border-color: rgba(21, 101, 192, 0.75);
+      background: rgba(227, 242, 253, 0.9);
+    }
+    .p03-oral-blind.is-revealed {
+      border-style: solid;
+      border-color: rgba(46, 125, 50, 0.75);
+      background: rgba(200, 230, 201, 0.45);
+      cursor: default;
+    }
+    .p03-oral-placeholder {
+      font-weight: 800;
+      font-size: clamp(0.8rem, 1.45vw + 0.32rem, 1rem);
+      color: #607d8b;
+    }
+    .p03-oral-blind.is-revealed .p03-oral-placeholder {
+      display: none;
+    }
+    .p03-oral-line {
+      display: none;
+      font-weight: 900;
+      font-size: clamp(0.85rem, 1.55vw + 0.36rem, 1.08rem);
+      color: #0d47a1;
+    }
+    .p03-oral-blind.is-revealed .p03-oral-line {
+      display: block;
+    }
+
+    #p03-bottom-dock {
+      position: fixed; z-index: 40; left: max(8px, env(safe-area-inset-left)); right: max(8px, env(safe-area-inset-right));
+      bottom: max(8px, env(safe-area-inset-bottom));
+      padding: clamp(7px, 1.2vmin, 11px) clamp(9px, 1.8vmin, 13px);
+      border-radius: clamp(14px, 2.2vmin, 20px);
+      background: rgba(38, 50, 56, 0.94); border: 2px solid rgba(255, 255, 255, 0.14);
+    }
+    .dock-nav-panel { display: none; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px; width: 100%; }
+    .dock-nav-panel.is-active { display: flex; }
+    .btn-ghost, .btn-primary {
+      appearance: none; cursor: pointer; font-weight: 900; font-size: clamp(0.68rem, 1.1vw + 0.24rem, 0.82rem);
+      border-radius: 999px; padding: 8px 14px; text-decoration: none; display: inline-flex; align-items: center; justify-content: center;
+      border: 2px solid transparent;
+    }
+    .btn-ghost { color: #eceff1; background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.2); }
+    .btn-primary { color: #fff; background: linear-gradient(180deg, var(--crayon-orange), #e65100); border-color: rgba(0, 0, 0, 0.1); }
+
+    @media print {
+      html, body { background: #fff; overflow: auto; height: auto; }
+      #bg-stack, #vignette, #p03-bottom-dock { display: none !important; }
+      .p03-slide { position: relative; display: flex !important; page-break-after: always; }
+    }
+  </style>
+</head>
+<body>
+  <script>
+    window.L09_CFG = window.L09_CFG || {
+      azureKey: "", azureRegion: "southeastasia",
+      deepseekKey: "", deepseekEndpoint: "https://api.deepseek.com/v1/chat/completions", deepseekModel: "deepseek-chat"
+    };
+  </script>
+  <div id="viewport">
+    <div id="p03-host">
+      <div id="bg-stack" aria-hidden="true"></div>
+      <div id="vignette" aria-hidden="true"></div>
+      <div id="stage">
+        <header class="p03-top-bar">
+          <div class="p03-top-left">
+            <h1>视频线索板 · While / When 多元时态</h1>
+            <div class="slide-tabs" role="tablist" aria-label="场景幻灯片">
+              <button type="button" class="slide-tab is-active" role="tab" data-go="1" aria-selected="true">S1</button>
+              <button type="button" class="slide-tab" role="tab" data-go="2" aria-selected="false">S2</button>
+              <button type="button" class="slide-tab" role="tab" data-go="3" aria-selected="false">S3</button>
+              <button type="button" class="slide-tab" role="tab" data-go="4" aria-selected="false">S4</button>
+              <button type="button" class="slide-tab" role="tab" data-go="5" aria-selected="false">S5</button>
+              <button type="button" class="slide-tab" role="tab" data-go="6" aria-selected="false">S6</button>
+            </div>
+          </div>
+          <div class="p03-top-right"><span class="p03-badge" id="p03-badge">Lesson 09 · Page 03 / 8 · Slide 1/6 · 视频句模</span></div>
+        </header>
+
+        <div id="slide-deck">
+          <!-- S1 -->
+          <div class="p03-slide is-active" id="slide-1" role="tabpanel" data-slide="1">
+            <div class="p03-card">
+              <p class="p03-tense-line">结构① · While 从句 = 过去进行｜主句 = 一般过去（突变）</p>
+              <div class="p03-mode-tabs" data-slide="1">
+                <button type="button" class="p03-mode-tab is-active" data-mode="v">句意视频</button>
+                <button type="button" class="p03-mode-tab" data-mode="o">词序复位</button>
+                <button type="button" class="p03-mode-tab" data-mode="s">口语跟读</button>
+              </div>
+              <div class="p03-mode-panel" data-panel="v" data-slide="1">
+                <div class="p03-video-shell" data-scene-wrap>
+                  <div class="p03-seq-stack" id="p03-s1-stack">
+                    <video class="p03-seq-v" playsinline preload="metadata"><source src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L09/assets/vertex/l09-page03/scene-01-sh01.mp4" type="video/mp4" /></video>
+                    <video class="p03-seq-v" playsinline preload="metadata"><source src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L09/assets/vertex/l09-page03/scene-01-sh02.mp4" type="video/mp4" /></video>
+                    <video class="p03-seq-v" playsinline preload="metadata"><source src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L09/assets/vertex/l09-page03/scene-01-sh03.mp4" type="video/mp4" /></video>
+                    <video class="p03-seq-v" playsinline preload="metadata"><source src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L09/assets/vertex/l09-page03/scene-01-sh04.mp4" type="video/mp4" /></video>
+                  </div>
+                  <video class="p03-merged-loop" controls loop playsinline preload="metadata" id="p03-s1-merged">
+                    <source src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L09/assets/vertex/l09-page03/scene-01-loop.mp4" type="video/mp4" />
+                  </video>
+                </div>
+              </div>
+              <div class="p03-mode-panel" data-panel="o" data-slide="1" hidden>
+                <p class="p03-phrase-hint">点击短语块，按正确英语语序接入下方长条（可「清空」重来）。</p>
+                <div class="p03-phrase-bank" data-phrase-bank="1"></div>
+                <div class="p03-built-strip" data-built="1"></div>
+                <div class="p03-phrase-tools"><button type="button" data-reset="1">清空</button><button type="button" data-check="1">检查</button></div>
+              </div>
+              <div class="p03-mode-panel" data-panel="s" data-slide="1" hidden>
+                <div class="p03-oral-toolbar">
+                  <button type="button" class="p03-oral-play-btn" data-oral-play="1">听示范朗读</button>
+                  <span class="p03-oral-stephint">先点按钮听示范并跟读，再点下方区域显示英文对照。</span>
+                </div>
+                <button type="button" class="p03-oral-blind" data-oral-reveal="1" aria-label="显示本关示范句英文">
+                  <span class="p03-oral-placeholder">（点击显示英文句子）</span>
+                  <span class="p03-oral-line" lang="en"></span>
+                </button>
+                <ul class="p03-oral-list">
+                  <li>划拍：从句用过去进行拖长；主句一过短促落拍。</li>
+                  <li>重读：突变动词略加重；while 轻读带过。</li>
+                  <li>可全班齐读两遍，再小组接龙只读主句或只读从句。</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <!-- S2 -->
+          <div class="p03-slide" id="slide-2" role="tabpanel" data-slide="2">
+            <div class="p03-card">
+              <p class="p03-tense-line">结构② · 主句 = 过去进行｜when 从句 = 一般过去（点事件）</p>
+              <p class="p03-zh">when 后接「突变点」；主句铺背景进行，与教材常见「背景 + 突变」句型同构。</p>
+              <div class="p03-mode-tabs" data-slide="2">
+                <button type="button" class="p03-mode-tab is-active" data-mode="v">句意视频</button>
+                <button type="button" class="p03-mode-tab" data-mode="o">词序复位</button>
+                <button type="button" class="p03-mode-tab" data-mode="s">口语跟读</button>
+              </div>
+              <div class="p03-mode-panel" data-panel="v" data-slide="2">
+                <div class="p03-video-shell" data-scene-wrap>
+                  <div class="p03-seq-stack" id="p03-s2-stack">
+                    <video class="p03-seq-v" playsinline preload="metadata"><source src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L09/assets/vertex/l09-page03/scene-02-sh01.mp4" type="video/mp4" /></video>
+                    <video class="p03-seq-v" playsinline preload="metadata"><source src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L09/assets/vertex/l09-page03/scene-02-sh02.mp4" type="video/mp4" /></video>
+                    <video class="p03-seq-v" playsinline preload="metadata"><source src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L09/assets/vertex/l09-page03/scene-02-sh03.mp4" type="video/mp4" /></video>
+                    <video class="p03-seq-v" playsinline preload="metadata"><source src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L09/assets/vertex/l09-page03/scene-02-sh04.mp4" type="video/mp4" /></video>
+                  </div>
+                  <video class="p03-merged-loop" controls loop playsinline preload="metadata" id="p03-s2-merged">
+                    <source src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L09/assets/vertex/l09-page03/scene-02-loop.mp4" type="video/mp4" />
+                  </video>
+                </div>
+              </div>
+              <div class="p03-mode-panel" data-panel="o" data-slide="2" hidden>
+                <p class="p03-phrase-hint">点击短语块，按正确英语语序接入下方长条（可「清空」重来）。</p>
+                <div class="p03-phrase-bank" data-phrase-bank="2"></div>
+                <div class="p03-built-strip" data-built="2"></div>
+                <div class="p03-phrase-tools"><button type="button" data-reset="2">清空</button><button type="button" data-check="2">检查</button></div>
+              </div>
+              <div class="p03-mode-panel" data-panel="s" data-slide="2" hidden>
+                <div class="p03-oral-toolbar">
+                  <button type="button" class="p03-oral-play-btn" data-oral-play="2">听示范朗读</button>
+                  <span class="p03-oral-stephint">先点按钮听示范并跟读，再点下方区域显示英文对照。</span>
+                </div>
+                <button type="button" class="p03-oral-blind" data-oral-reveal="2" aria-label="显示本关示范句英文">
+                  <span class="p03-oral-placeholder">（点击显示英文句子）</span>
+                  <span class="p03-oral-line" lang="en"></span>
+                </button>
+                <ul class="p03-oral-list">
+                  <li>主句背景进行一口气；到 when 微停顿再接短突变。</li>
+                  <li>注意节拍：短动作词组利落收尾。</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <!-- S3 -->
+          <div class="p03-slide" id="slide-3" role="tabpanel" data-slide="3">
+            <div class="p03-card">
+              <p class="p03-tense-line">结构③ · While + 过进｜主句·一过（叙事完形高频）</p>
+              <p class="p03-zh">中考记叙文常见：散步背景 + came across 发现突变。</p>
+              <div class="p03-mode-tabs" data-slide="3">
+                <button type="button" class="p03-mode-tab is-active" data-mode="v">句意视频</button>
+                <button type="button" class="p03-mode-tab" data-mode="o">词序复位</button>
+                <button type="button" class="p03-mode-tab" data-mode="s">口语跟读</button>
+              </div>
+              <div class="p03-mode-panel" data-panel="v" data-slide="3">
+                <div class="p03-video-shell" data-scene-wrap>
+                  <div class="p03-seq-stack" id="p03-s3-stack">
+                    <video class="p03-seq-v" playsinline preload="metadata"><source src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L09/assets/vertex/l09-page03/scene-03-sh01.mp4" type="video/mp4" /></video>
+                    <video class="p03-seq-v" playsinline preload="metadata"><source src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L09/assets/vertex/l09-page03/scene-03-sh02.mp4" type="video/mp4" /></video>
+                    <video class="p03-seq-v" playsinline preload="metadata"><source src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L09/assets/vertex/l09-page03/scene-03-sh03.mp4" type="video/mp4" /></video>
+                    <video class="p03-seq-v" playsinline preload="metadata"><source src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L09/assets/vertex/l09-page03/scene-03-sh04.mp4" type="video/mp4" /></video>
+                  </div>
+                  <video class="p03-merged-loop" controls loop playsinline preload="metadata" id="p03-s3-merged">
+                    <source src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L09/assets/vertex/l09-page03/scene-03-loop.mp4" type="video/mp4" />
+                  </video>
+                </div>
+              </div>
+              <div class="p03-mode-panel" data-panel="o" data-slide="3" hidden>
+                <p class="p03-phrase-hint">点击短语块，按正确英语语序接入下方长条（可「清空」重来）。</p>
+                <div class="p03-phrase-bank" data-phrase-bank="3"></div>
+                <div class="p03-built-strip" data-built="3"></div>
+                <div class="p03-phrase-tools"><button type="button" data-reset="3">清空</button><button type="button" data-check="3">检查</button></div>
+              </div>
+              <div class="p03-mode-panel" data-panel="s" data-slide="3" hidden>
+                <div class="p03-oral-toolbar">
+                  <button type="button" class="p03-oral-play-btn" data-oral-play="3">听示范朗读</button>
+                  <span class="p03-oral-stephint">先点按钮听示范并跟读，再点下方区域显示英文对照。</span>
+                </div>
+                <button type="button" class="p03-oral-blind" data-oral-reveal="3" aria-label="显示本关示范句英文">
+                  <span class="p03-oral-placeholder">（点击显示英文句子）</span>
+                  <span class="p03-oral-line" lang="en"></span>
+                </button>
+                <ul class="p03-oral-list">
+                  <li>关键动词短语读清楚；形容词可略重读。</li>
+                  <li>从句末尾逗号后换气，再读主句。</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <!-- S4 -->
+          <div class="p03-slide" id="slide-4" role="tabpanel" data-slide="4">
+            <div class="p03-card">
+              <p class="p03-tense-line">结构④ · 主句·过进 + while + 从句·过进（双线并行）</p>
+              <p class="p03-zh">两条过去进行时并行描写；适合与「环境 + 动作」同框类阅读对照。</p>
+              <div class="p03-mode-tabs" data-slide="4">
+                <button type="button" class="p03-mode-tab is-active" data-mode="v">句意视频</button>
+                <button type="button" class="p03-mode-tab" data-mode="o">词序复位</button>
+                <button type="button" class="p03-mode-tab" data-mode="s">口语跟读</button>
+              </div>
+              <div class="p03-mode-panel" data-panel="v" data-slide="4">
+                <div class="p03-video-shell" data-scene-wrap>
+                  <div class="p03-seq-stack" id="p03-s4-stack">
+                    <video class="p03-seq-v" playsinline preload="metadata"><source src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L09/assets/vertex/l09-page03/scene-04-sh01.mp4" type="video/mp4" /></video>
+                    <video class="p03-seq-v" playsinline preload="metadata"><source src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L09/assets/vertex/l09-page03/scene-04-sh02.mp4" type="video/mp4" /></video>
+                    <video class="p03-seq-v" playsinline preload="metadata"><source src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L09/assets/vertex/l09-page03/scene-04-sh03.mp4" type="video/mp4" /></video>
+                    <video class="p03-seq-v" playsinline preload="metadata"><source src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L09/assets/vertex/l09-page03/scene-04-sh04.mp4" type="video/mp4" /></video>
+                  </div>
+                  <video class="p03-merged-loop" controls loop playsinline preload="metadata" id="p03-s4-merged">
+                    <source src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L09/assets/vertex/l09-page03/scene-04-loop.mp4" type="video/mp4" />
+                  </video>
+                </div>
+              </div>
+              <div class="p03-mode-panel" data-panel="o" data-slide="4" hidden>
+                <p class="p03-phrase-hint">点击短语块，按正确英语语序接入下方长条（可「清空」重来）。</p>
+                <div class="p03-phrase-bank" data-phrase-bank="4"></div>
+                <div class="p03-built-strip" data-built="4"></div>
+                <div class="p03-phrase-tools"><button type="button" data-reset="4">清空</button><button type="button" data-check="4">检查</button></div>
+              </div>
+              <div class="p03-mode-panel" data-panel="s" data-slide="4" hidden>
+                <div class="p03-oral-toolbar">
+                  <button type="button" class="p03-oral-play-btn" data-oral-play="4">听示范朗读</button>
+                  <span class="p03-oral-stephint">先点按钮听示范并跟读，再点下方区域显示英文对照。</span>
+                </div>
+                <button type="button" class="p03-oral-blind" data-oral-reveal="4" aria-label="显示本关示范句英文">
+                  <span class="p03-oral-placeholder">（点击显示英文句子）</span>
+                  <span class="p03-oral-line" lang="en"></span>
+                </button>
+                <ul class="p03-oral-list">
+                  <li>while 轻读；表「持续」的片段可稍放慢。</li>
+                  <li>两条进行线同拍长音，体会并行。</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <!-- S5 -->
+          <div class="p03-slide" id="slide-5" role="tabpanel" data-slide="5">
+            <div class="p03-card">
+              <p class="p03-tense-line">结构⑤ · While + 双过去进行（厨房线 + 书桌线）</p>
+              <div class="p03-mode-tabs" data-slide="5">
+                <button type="button" class="p03-mode-tab is-active" data-mode="v">句意视频</button>
+                <button type="button" class="p03-mode-tab" data-mode="o">词序复位</button>
+                <button type="button" class="p03-mode-tab" data-mode="s">口语跟读</button>
+              </div>
+              <div class="p03-mode-panel" data-panel="v" data-slide="5">
+                <div class="p03-video-shell" data-scene-wrap>
+                  <div class="p03-seq-stack" id="p03-s5-stack">
+                    <video class="p03-seq-v" playsinline preload="metadata"><source src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L09/assets/vertex/l09-page03/scene-05-sh01.mp4" type="video/mp4" /></video>
+                    <video class="p03-seq-v" playsinline preload="metadata"><source src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L09/assets/vertex/l09-page03/scene-05-sh02.mp4" type="video/mp4" /></video>
+                    <video class="p03-seq-v" playsinline preload="metadata"><source src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L09/assets/vertex/l09-page03/scene-05-sh03.mp4" type="video/mp4" /></video>
+                    <video class="p03-seq-v" playsinline preload="metadata"><source src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L09/assets/vertex/l09-page03/scene-05-sh04.mp4" type="video/mp4" /></video>
+                  </div>
+                  <video class="p03-merged-loop" controls loop playsinline preload="metadata" id="p03-s5-merged">
+                    <source src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L09/assets/vertex/l09-page03/scene-05-loop.mp4" type="video/mp4" />
+                  </video>
+                </div>
+              </div>
+              <div class="p03-mode-panel" data-panel="o" data-slide="5" hidden>
+                <p class="p03-phrase-hint">点击短语块，按正确英语语序接入下方长条（可「清空」重来）。</p>
+                <div class="p03-phrase-bank" data-phrase-bank="5"></div>
+                <div class="p03-built-strip" data-built="5"></div>
+                <div class="p03-phrase-tools"><button type="button" data-reset="5">清空</button><button type="button" data-check="5">检查</button></div>
+              </div>
+              <div class="p03-mode-panel" data-panel="s" data-slide="5" hidden>
+                <div class="p03-oral-toolbar">
+                  <button type="button" class="p03-oral-play-btn" data-oral-play="5">听示范朗读</button>
+                  <span class="p03-oral-stephint">先点按钮听示范并跟读，再点下方区域显示英文对照。</span>
+                </div>
+                <button type="button" class="p03-oral-blind" data-oral-reveal="5" aria-label="显示本关示范句英文">
+                  <span class="p03-oral-placeholder">（点击显示英文句子）</span>
+                  <span class="p03-oral-line" lang="en"></span>
+                </button>
+                <ul class="p03-oral-list">
+                  <li>逗号前读完第一条进行线，换气后读第二条进行线。</li>
+                  <li>两条主语不同，注意代词与停顿，避免「粘成一句」。</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <!-- S6 -->
+          <div class="p03-slide" id="slide-6" role="tabpanel" data-slide="6">
+            <div class="p03-card">
+              <p class="p03-tense-line">结构⑥ · When + 点过｜主句 = 过去进行（铃响·仍在讨论）</p>
+              <p class="p03-zh">when 从句短促；主句延续「还在讨论」— 适合与「打断未停」类阅读题对照。</p>
+              <div class="p03-mode-tabs" data-slide="6">
+                <button type="button" class="p03-mode-tab is-active" data-mode="v">句意视频</button>
+                <button type="button" class="p03-mode-tab" data-mode="o">词序复位</button>
+                <button type="button" class="p03-mode-tab" data-mode="s">口语跟读</button>
+              </div>
+              <div class="p03-mode-panel" data-panel="v" data-slide="6">
+                <div class="p03-video-shell" data-scene-wrap>
+                  <div class="p03-seq-stack" id="p03-s6-stack">
+                    <video class="p03-seq-v" playsinline preload="metadata"><source src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L09/assets/vertex/l09-page03/scene-06-sh01.mp4" type="video/mp4" /></video>
+                    <video class="p03-seq-v" playsinline preload="metadata"><source src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L09/assets/vertex/l09-page03/scene-06-sh02.mp4" type="video/mp4" /></video>
+                    <video class="p03-seq-v" playsinline preload="metadata"><source src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L09/assets/vertex/l09-page03/scene-06-sh03.mp4" type="video/mp4" /></video>
+                    <video class="p03-seq-v" playsinline preload="metadata"><source src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L09/assets/vertex/l09-page03/scene-06-sh04.mp4" type="video/mp4" /></video>
+                  </div>
+                  <video class="p03-merged-loop" controls loop playsinline preload="metadata" id="p03-s6-merged">
+                    <source src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L09/assets/vertex/l09-page03/scene-06-loop.mp4" type="video/mp4" />
+                  </video>
+                </div>
+              </div>
+              <div class="p03-mode-panel" data-panel="o" data-slide="6" hidden>
+                <p class="p03-phrase-hint">点击短语块，按正确英语语序接入下方长条（可「清空」重来）。</p>
+                <div class="p03-phrase-bank" data-phrase-bank="6"></div>
+                <div class="p03-built-strip" data-built="6"></div>
+                <div class="p03-phrase-tools"><button type="button" data-reset="6">清空</button><button type="button" data-check="6">检查</button></div>
+              </div>
+              <div class="p03-mode-panel" data-panel="s" data-slide="6" hidden>
+                <div class="p03-oral-toolbar">
+                  <button type="button" class="p03-oral-play-btn" data-oral-play="6">听示范朗读</button>
+                  <span class="p03-oral-stephint">先点按钮听示范并跟读，再点下方区域显示英文对照。</span>
+                </div>
+                <button type="button" class="p03-oral-blind" data-oral-reveal="6" aria-label="显示本关示范句英文">
+                  <span class="p03-oral-placeholder">（点击显示英文句子）</span>
+                  <span class="p03-oral-line" lang="en"></span>
+                </button>
+                <ul class="p03-oral-list">
+                  <li>when 后短句利落；主句 were still … 拖长体现「未停」。</li>
+                  <li>名词词尾读清，便于听力辨词。</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="p03-bottom-dock">
+        <div class="dock-nav-panel is-active" data-dock="1">
+          <a class="btn-ghost" href="lesson09-page02-timeline.html">← Page 02</a>
+          <button type="button" class="btn-primary" data-next-slide="1">下一场景 S2 →</button>
+        </div>
+        <div class="dock-nav-panel" data-dock="2">
+          <button type="button" class="btn-ghost" data-prev-slide="2">← S1</button>
+          <button type="button" class="btn-primary" data-next-slide="2">下一场景 S3 →</button>
+        </div>
+        <div class="dock-nav-panel" data-dock="3">
+          <button type="button" class="btn-ghost" data-prev-slide="3">← S2</button>
+          <button type="button" class="btn-primary" data-next-slide="3">下一场景 S4 →</button>
+        </div>
+        <div class="dock-nav-panel" data-dock="4">
+          <button type="button" class="btn-ghost" data-prev-slide="4">← S3</button>
+          <button type="button" class="btn-primary" data-next-slide="4">下一场景 S5 →</button>
+        </div>
+        <div class="dock-nav-panel" data-dock="5">
+          <button type="button" class="btn-ghost" data-prev-slide="5">← S4</button>
+          <button type="button" class="btn-primary" data-next-slide="5">下一场景 S6 →</button>
+        </div>
+        <div class="dock-nav-panel" data-dock="6">
+          <button type="button" class="btn-ghost" data-prev-slide="6">← S5</button>
+          <a class="btn-primary" href="lesson09-page04-reactor.html">前往 Page 04 →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const PHRASE_PARTS = {
+        1: ["While we were driving home,", "the strong winds", "started."],
+        2: ["We were driving home", "when the strong winds", "started."],
+        3: ["While I was walking in the park,", "I came across", "an injured bird."],
+        4: ["It was raining hard", "while we were", "driving back."],
+        5: ["While my mother was cooking dinner,", "I was doing", "my homework."],
+        6: ["When the bell rang,", "they were still discussing", "the exam."],
+      };
+
+      const ORAL_PRACTICE = {
+        1: "While we were walking to the bus stop, it started to hail.",
+        2: "We were listening to music when the teacher walked in.",
+        3: "While I was looking for my phone, I found a fifty dollar bill on the bench.",
+        4: "It was getting windy while we were tying up the tent.",
+        5: "While my uncle was repairing the bike, I was cleaning the tools.",
+        6: "When the lights went out, everyone was still chatting and laughing.",
+      };
+
+      function resetOralBlinds(root) {
+        (root || document).querySelectorAll(".p03-oral-blind.is-revealed").forEach(function (b) {
+          b.classList.remove("is-revealed");
+        });
+      }
+
+      function cancelSpeech() {
+        try {
+          if (window.speechSynthesis) window.speechSynthesis.cancel();
+        } catch (e) {}
+      }
+
+      async function speakOralLine(text) {
+        if (!text) return;
+        if (window.LessonTTSBootstrap && typeof window.LessonTTSBootstrap.playLocalIfAvailable === "function") {
+          var played = await window.LessonTTSBootstrap.playLocalIfAvailable(text);
+          if (played) return;
+        }
+        if (!window.speechSynthesis) {
+          window.alert("当前浏览器不支持网页朗读，请使用 Chrome / Edge，或安装系统英语语音包后再试。");
+          return;
+        }
+        cancelSpeech();
+        var u = new SpeechSynthesisUtterance(text);
+        u.lang = "en-US";
+        u.rate = 0.9;
+        window.speechSynthesis.speak(u);
+      }
+
+      const $ = (s) => document.querySelector(s);
+      const badge = $("#p03-badge");
+      const slides = [].slice.call(document.querySelectorAll(".p03-slide"));
+      const tabs = [].slice.call(document.querySelectorAll(".slide-tab"));
+      const docks = [].slice.call(document.querySelectorAll(".dock-nav-panel"));
+
+      function pauseAllVideos() {
+        document.querySelectorAll("video").forEach(function (v) {
+          try { v.pause(); } catch (e) {}
+        });
+      }
+
+      function wireSceneShell(shell) {
+        if (!shell) return;
+        const merged = shell.querySelector(".p03-merged-loop");
+        const stack = shell.querySelector(".p03-seq-stack");
+        if (!merged || !stack) return;
+        function useTriple() {
+          merged.classList.add("is-hidden");
+          try { merged.pause(); } catch (e) {}
+          wireTripleStack(stack);
+        }
+        merged.addEventListener("error", useTriple);
+        merged.addEventListener("loadeddata", function () {
+          stack.classList.remove("is-active");
+        });
+      }
+
+      function wireTripleStack(stack) {
+        const videos = [].slice.call(stack.querySelectorAll("video.p03-seq-v"));
+        if (videos.length < 2) return;
+        let idx = 0;
+        function setActive(j) {
+          idx = j;
+          videos.forEach(function (v, k) {
+            v.classList.toggle("is-on", k === j);
+            v.controls = k === j;
+            if (k !== j) try { v.pause(); } catch (e) {}
+          });
+        }
+        function playNext() {
+          var next = (idx + 1) % videos.length;
+          var vn = videos[next];
+          try { vn.currentTime = 0; } catch (e) {}
+          setActive(next);
+          vn.play().catch(function () {
+            try { vn.muted = true; vn.play().catch(function () {}); } catch (e) {}
+          });
+        }
+        videos.forEach(function (v) {
+          v.addEventListener("ended", playNext);
+        });
+        stack.classList.add("is-active");
+        setActive(0);
+      }
+
+      document.querySelectorAll("[data-scene-wrap]").forEach(wireSceneShell);
+
+      function goToSlide(n) {
+        pauseAllVideos();
+        cancelSpeech();
+        resetOralBlinds(document);
+        document.querySelectorAll(".p03-card").forEach(function (c) {
+          c.classList.remove("p03-phrase-open");
+        });
+        slides.forEach(function (s) {
+          s.classList.toggle("is-active", Number(s.dataset.slide) === n);
+        });
+        tabs.forEach(function (t) {
+          var on = Number(t.dataset.go) === n;
+          t.classList.toggle("is-active", on);
+          t.setAttribute("aria-selected", on ? "true" : "false");
+        });
+        docks.forEach(function (d) {
+          d.classList.toggle("is-active", Number(d.dataset.dock) === n);
+        });
+        if (badge) badge.textContent = "Lesson 09 · Page 03 / 8 · Slide " + n + "/6 · 视频句模";
+        try {
+          if (n >= 1 && n <= 6) history.replaceState(null, "", "#slide-" + n);
+        } catch (e) {}
+      }
+
+      tabs.forEach(function (t) {
+        t.addEventListener("click", function () {
+          goToSlide(Number(t.dataset.go));
+        });
+      });
+      document.querySelectorAll("[data-next-slide]").forEach(function (b) {
+        b.addEventListener("click", function () {
+          goToSlide(Number(b.getAttribute("data-next-slide")) + 1);
+        });
+      });
+      document.querySelectorAll("[data-prev-slide]").forEach(function (b) {
+        b.addEventListener("click", function () {
+          goToSlide(Number(b.getAttribute("data-prev-slide")) - 1);
+        });
+      });
+
+      function shuffle(a) {
+        var x = a.slice();
+        for (var i = x.length - 1; i > 0; i--) {
+          var j = Math.floor(Math.random() * (i + 1));
+          var t = x[i]; x[i] = x[j]; x[j] = t;
+        }
+        return x;
+      }
+
+      function buildPhraseFixed(slideNum) {
+        var correct = PHRASE_PARTS[slideNum];
+        var bank = document.querySelector('[data-phrase-bank="' + slideNum + '"]');
+        var built = document.querySelector('[data-built="' + slideNum + '"]');
+        if (!bank || !built || !correct) return;
+        var state = { order: [], correct: correct };
+        bank.innerHTML = "";
+        built.textContent = "";
+        shuffle(correct).forEach(function (text) {
+          var btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "p03-phrase-piece";
+          btn.textContent = text;
+          btn.addEventListener("click", function () {
+            if (btn.disabled) return;
+            state.order.push(text);
+            built.textContent = state.order.join(" ");
+            btn.disabled = true;
+          });
+          bank.appendChild(btn);
+        });
+        var resetB = document.querySelector('[data-reset="' + slideNum + '"]');
+        var checkB = document.querySelector('[data-check="' + slideNum + '"]');
+        if (resetB) {
+          resetB.onclick = function () {
+            state.order = [];
+            built.textContent = "";
+            bank.querySelectorAll(".p03-phrase-piece").forEach(function (b) { b.disabled = false; });
+          };
+        }
+        if (checkB) {
+          checkB.onclick = function () {
+            var ok = state.order.length === correct.length;
+            if (ok) {
+              for (var i = 0; i < correct.length; i++) {
+                if (state.order[i] !== correct[i]) { ok = false; break; }
+              }
+            }
+            built.style.borderColor = ok ? "rgba(46, 125, 50, 0.85)" : "rgba(211, 47, 47, 0.75)";
+            setTimeout(function () { built.style.borderColor = ""; }, 900);
+          };
+        }
+      }
+
+      for (var sn = 1; sn <= 6; sn++) buildPhraseFixed(sn);
+
+      document.querySelectorAll(".p03-mode-tabs").forEach(function (tabRow) {
+        var sid = tabRow.getAttribute("data-slide");
+        tabRow.addEventListener("click", function (e) {
+          var mt = e.target.closest(".p03-mode-tab");
+          if (!mt) return;
+          var mode = mt.getAttribute("data-mode");
+          tabRow.querySelectorAll(".p03-mode-tab").forEach(function (x) { x.classList.toggle("is-active", x === mt); });
+          document.querySelectorAll('.p03-mode-panel[data-slide="' + sid + '"]').forEach(function (p) {
+            p.hidden = p.getAttribute("data-panel") !== mode;
+          });
+          var card = tabRow.closest(".p03-card");
+          if (card) {
+            card.classList.toggle("p03-phrase-open", mode === "o");
+            if (mode !== "s") {
+              cancelSpeech();
+              resetOralBlinds(card);
+            }
+          }
+        });
+      });
+
+      document.querySelectorAll(".p03-oral-blind").forEach(function (blind) {
+        var k = blind.getAttribute("data-oral-reveal");
+        var line = blind.querySelector(".p03-oral-line");
+        if (line && k && ORAL_PRACTICE[k]) line.textContent = ORAL_PRACTICE[k];
+      });
+
+      document.getElementById("slide-deck").addEventListener("click", function (e) {
+        var playBt = e.target.closest(".p03-oral-play-btn");
+        if (playBt) {
+          e.preventDefault();
+          var kk = playBt.getAttribute("data-oral-play");
+          var txt = kk && ORAL_PRACTICE[kk] ? ORAL_PRACTICE[kk] : "";
+          speakOralLine(txt);
+          return;
+        }
+        var blind = e.target.closest(".p03-oral-blind");
+        if (!blind) return;
+        if (blind.classList.contains("is-revealed")) return;
+        e.preventDefault();
+        blind.classList.add("is-revealed");
+      });
+
+      var hash = (location.hash || "").replace(/^#/, "");
+      var m = hash.match(/^slide-(\d+)$/);
+      if (m) goToSlide(Number(m[1]));
+      else goToSlide(1);
+      window.addEventListener("hashchange", function () {
+        var h = (location.hash || "").replace(/^#/, "");
+        var mm = h.match(/^slide-(\d+)$/);
+        if (mm) goToSlide(Number(mm[1]));
+      });
+    })();
+  </script>
+</body>
+</html>

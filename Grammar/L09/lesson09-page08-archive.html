@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>第09讲 · Page 08 · 档案室总结 · 知识卡</title>
+  <script src="./assets/l09-tts-manifest.js"></script>
+  <script src="../assets/lesson-tts-bootstrap.js"></script>
+  <!-- 背景 ./assets/l09-page08-archive-bg.png · Prompt §7.8 -->
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.2/html2pdf.bundle.min.js" crossorigin="anonymous"></script>
+  <style>
+    :root {
+      --l09-p08-bg: url("./assets/l09-page08-archive-bg.png");
+      --paper: #fff9f0;
+      --ink: #2c2c2c;
+      --crayon-red: #e85d4c;
+      --crayon-blue: #4a90d9;
+      --crayon-orange: #f0ad4e;
+      --crayon-green: #5cb85c;
+      --edge: #5d4037;
+      --grammar-blue: #1565c0;
+      --mint: #26c6da;
+      --p08-nav-h: calc(clamp(88px, 17vmin, 120px) + max(12px, env(safe-area-inset-bottom)));
+    }
+    * { box-sizing: border-box; }
+    html { overflow: hidden; max-width: 100%; font-size: clamp(13px, 0.78vw + 11px, 18px); }
+    html, body {
+      margin: 0; width: 100%; height: 100%; overflow: hidden;
+      font-family: system-ui, "Microsoft YaHei", "PingFang SC", sans-serif;
+      background: linear-gradient(160deg, #263238 0%, #37474f 45%, #0d1117 100%);
+      color: var(--ink);
+      touch-action: manipulation;
+    }
+    body {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: max(4px, env(safe-area-inset-top)) max(2px, env(safe-area-inset-right))
+        max(4px, env(safe-area-inset-bottom)) max(2px, env(safe-area-inset-left));
+      min-height: 100dvh;
+    }
+    #viewport {
+      position: relative; width: min(100vw, 100%); height: min(100dvh, 100%);
+      max-width: 100%; max-height: 100dvh; flex-shrink: 0; overflow: hidden;
+    }
+    #p08-host {
+      position: absolute; inset: 0; isolation: isolate; overflow: hidden;
+      display: flex; flex-direction: column;
+      border: clamp(3px, 0.5vmin, 5px) solid rgba(240, 173, 78, 0.52);
+      border-radius: clamp(18px, 4vmin, 32px) clamp(10px, 2vmin, 18px) clamp(22px, 4.5vmin, 36px) clamp(12px, 2.2vmin, 20px)
+        / clamp(12px, 2.2vmin, 20px) clamp(22px, 4.5vmin, 36px) clamp(10px, 2vmin, 18px) clamp(18px, 4vmin, 32px);
+      box-shadow: inset 0 0 clamp(22px, 4vmin, 44px) rgba(0, 0, 0, 0.18), 0 clamp(8px, 1.6vmin, 16px) clamp(20px, 3vmin, 36px) rgba(0, 0, 0, 0.32);
+    }
+    #bg-stack {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 0;
+      background:
+        linear-gradient(168deg, rgba(255, 249, 240, 0.42) 0%, rgba(179, 229, 252, 0.12) 40%, rgba(38, 50, 56, 0.5) 100%),
+        var(--l09-p08-bg) center / cover no-repeat;
+      pointer-events: none;
+    }
+    #bg-stack::after {
+      content: ""; position: absolute; inset: 0;
+      background: repeating-linear-gradient(0deg, rgba(255,255,255,0.02) 0 2px, transparent 2px 4px);
+      mix-blend-mode: overlay; opacity: 0.28; pointer-events: none;
+    }
+    #vignette {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 1;
+      pointer-events: none;
+      box-shadow: inset 0 0 clamp(34px, 9vmin, 86px) rgba(10, 12, 16, 0.38);
+    }
+    #stage {
+      position: relative; z-index: 4; flex: 1 1 auto; min-height: 0;
+      display: flex; flex-direction: column; width: 100%;
+      padding: clamp(5px, 1vmin, 10px) max(4px, env(safe-area-inset-right)) var(--p08-nav-h) max(4px, env(safe-area-inset-left));
+      gap: clamp(6px, 1vmin, 10px); overflow: hidden auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .p08-top {
+      flex-shrink: 0; display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; width: 100%;
+    }
+    .p08-top h1 {
+      margin: 0; font-size: clamp(0.9rem, 1.85vw + 0.38rem, 1.25rem); font-weight: 900; color: #fff8e1;
+      text-shadow: 0 0 12px rgba(255, 213, 79, 0.22), 2px 2px 0 rgba(0, 0, 0, 0.22);
+      line-height: 1.12;
+    }
+    .p08-badge {
+      flex-shrink: 0; max-width: min(100%, 14rem);
+      padding: 4px 10px; border-radius: 999px; background: rgba(255, 249, 240, 0.95);
+      border: 3px solid var(--edge); font-weight: 800; font-size: clamp(0.52rem, 0.85vw + 0.14rem, 0.68rem);
+      color: #4e342e; line-height: 1.35; text-align: right;
+    }
+    .p08-strip {
+      flex-shrink: 0; width: 100%; max-width: 100%; padding: 7px 11px; border-radius: 10px; text-align: center;
+      background: rgba(255, 253, 248, 0.93); border: 2px solid rgba(93, 64, 55, 0.35);
+      font-weight: 700; font-size: clamp(0.68rem, 1.05vw + 0.22rem, 0.84rem); color: #37474f; line-height: 1.45;
+    }
+    .p08-strip strong { color: var(--grammar-blue); }
+
+    #p08-cards {
+      flex-shrink: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; width: 100%; max-width: 100%;
+    }
+    @media (max-width: 640px) {
+      #p08-cards { grid-template-columns: 1fr; }
+    }
+    .p08-card {
+      padding: 10px 12px; border-radius: 12px;
+      background: rgba(255, 253, 248, 0.96); border: 2px solid var(--edge);
+      box-shadow: 0 3px 0 rgba(93, 64, 55, 0.1);
+      page-break-inside: avoid;
+    }
+    .p08-card h2 {
+      margin: 0 0 6px; font-size: clamp(0.72rem, 1.1vw + 0.26rem, 0.88rem); font-weight: 900; color: #4e342e;
+      border-bottom: 2px solid rgba(240, 173, 78, 0.55); padding-bottom: 4px;
+    }
+    .p08-card .tag {
+      display: inline-block; margin-bottom: 6px; padding: 2px 8px; border-radius: 999px;
+      font-size: clamp(0.55rem, 0.85vw + 0.12rem, 0.65rem); font-weight: 900;
+      background: #e3f2fd; color: #0d47a1; border: 1px solid rgba(21, 101, 192, 0.35);
+    }
+    .p08-card p { margin: 0 0 6px; font-size: clamp(0.62rem, 0.95vw + 0.16rem, 0.74rem); line-height: 1.5; color: #37474f; }
+    .p08-card .ex-row {
+      display: flex; align-items: flex-start; gap: 8px; margin-top: 4px; padding: 6px 8px; border-radius: 8px;
+      font-weight: 700; font-size: clamp(0.58rem, 0.88vw + 0.14rem, 0.7rem); color: var(--grammar-blue); line-height: 1.45;
+      background: rgba(227, 242, 253, 0.65); border: 1px dashed rgba(21, 101, 192, 0.35);
+    }
+    .p08-card .ex-row .ex-en { flex: 1 1 auto; min-width: 0; }
+    .p08-card .p08-speak {
+      flex-shrink: 0; appearance: none; cursor: pointer; font-weight: 900;
+      font-size: clamp(0.52rem, 0.78vw + 0.1rem, 0.62rem);
+      padding: 4px 8px; border-radius: 8px; border: 2px solid rgba(21, 101, 192, 0.45);
+      background: linear-gradient(180deg, #e3f2fd, #bbdefb); color: #0d47a1;
+    }
+    .p08-card .p08-speak:disabled { opacity: 0.5; cursor: wait; }
+    .p08-tools {
+      flex-shrink: 0; display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; width: 100%;
+    }
+    .p08-tools button {
+      appearance: none; cursor: pointer; font-weight: 900;
+      font-size: clamp(0.65rem, 1vw + 0.2rem, 0.8rem);
+      padding: 8px 14px; border-radius: 999px; border: 2px solid var(--edge);
+      background: rgba(255, 249, 240, 0.96); color: #4e342e;
+    }
+    .p08-tools button.p08-print {
+      background: linear-gradient(180deg, #78909c, #455a64); color: #fff; border-color: rgba(0, 0, 0, 0.15);
+    }
+    .p08-tools button.p08-primary {
+      background: linear-gradient(180deg, var(--crayon-orange), #e65100); color: #fff; border-color: rgba(0, 0, 0, 0.1);
+    }
+
+    #ui-lock {
+      position: fixed; inset: 0; z-index: 200; display: none; align-items: center; justify-content: center;
+      background: rgba(0, 0, 0, 0.36); pointer-events: auto;
+    }
+    #ui-lock.active { display: flex; }
+    #ui-lock .msg {
+      padding: 14px 20px; border-radius: 14px; background: rgba(255, 249, 240, 0.98);
+      border: 3px solid var(--edge); font-weight: 900; color: #4e342e;
+    }
+
+    #p08-bottom-dock {
+      position: fixed; z-index: 40; left: max(8px, env(safe-area-inset-left)); right: max(8px, env(safe-area-inset-right));
+      bottom: max(8px, env(safe-area-inset-bottom));
+      padding: clamp(7px, 1.2vmin, 11px) clamp(9px, 1.8vmin, 13px);
+      border-radius: clamp(14px, 2.2vmin, 20px);
+      background: rgba(38, 50, 56, 0.45);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 2px solid rgba(255, 255, 255, 0.22);
+      box-shadow: 0 -2px 20px rgba(0, 0, 0, 0.15);
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px;
+    }
+    .btn-ghost, .btn-primary {
+      appearance: none; cursor: pointer; font-weight: 900;
+      font-size: clamp(0.65rem, 1.05vw + 0.22rem, 0.8rem);
+      border-radius: 999px; padding: 8px 14px; text-decoration: none; display: inline-flex;
+      align-items: center; justify-content: center; border: 2px solid transparent;
+    }
+    .btn-ghost { color: #eceff1; background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.2); }
+
+    /*
+     * 离屏 PDF 根节点：html2canvas 在 left:-9999px 时易截到空/错位。
+     * 默认叠在视口内但不可见；导出前脚本会短暂加 .p08-pdf-capturing 保证布局与测量正确。
+     */
+    #p08-pdf-export-host {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 794px;
+      max-width: 100vw;
+      max-height: 100vh;
+      overflow: auto;
+      pointer-events: none;
+      z-index: -1;
+      opacity: 0;
+      visibility: hidden;
+      background: #fff;
+      color: #111;
+      box-sizing: border-box;
+    }
+    #p08-pdf-export-host.p08-pdf-capturing {
+      visibility: visible;
+      opacity: 0.02;
+      z-index: 2147483000;
+    }
+    #p08-pdf-export {
+      box-sizing: border-box;
+      width: 100%;
+      min-height: 0;
+      padding: 10mm 12mm;
+      font-family: "Microsoft YaHei", "PingFang SC", "Source Han Sans SC", system-ui, sans-serif;
+      font-size: 10.5pt;
+      line-height: 1.55;
+      text-align: left;
+      word-wrap: break-word;
+      overflow-wrap: anywhere;
+      -webkit-font-smoothing: antialiased;
+    }
+    #p08-pdf-export .p08-pdf-title {
+      font-size: 14pt;
+      font-weight: 900;
+      margin: 0 0 6px;
+      border-bottom: 2px solid #1565c0;
+      padding-bottom: 6px;
+    }
+    #p08-pdf-export .p08-pdf-sub {
+      font-size: 9pt;
+      color: #444;
+      margin: 0 0 10mm;
+      line-height: 1.5;
+    }
+    /* 整张「卡」允许跨页，避免单卡过长时被整段裁切或挤爆一页 */
+    #p08-pdf-export .p08-pdf-card {
+      margin: 0 0 8mm;
+      page-break-inside: auto;
+      break-inside: auto;
+    }
+    #p08-pdf-export .p08-pdf-card:not(:first-of-type) {
+      page-break-before: always;
+      break-before: page;
+    }
+    #p08-pdf-export .p08-pdf-card-h {
+      font-size: 11pt;
+      font-weight: 900;
+      margin: 0 0 4px;
+      color: #0d47a1;
+      page-break-after: avoid;
+    }
+    #p08-pdf-export .p08-pdf-card-intro {
+      font-size: 9pt;
+      margin: 0 0 6px;
+      color: #333;
+      page-break-after: avoid;
+    }
+    /* 每条例句块尽量不分页切断 */
+    #p08-pdf-export .p08-pdf-block {
+      margin: 0 0 8px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid #e0e0e0;
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+    #p08-pdf-export .p08-pdf-en {
+      font-family: "Times New Roman", "Georgia", "Microsoft YaHei", serif;
+      font-weight: 600;
+      font-size: 10.5pt;
+      margin: 0 0 4px;
+      color: #000;
+      line-height: 1.45;
+    }
+    #p08-pdf-export .p08-pdf-lines {
+      font-size: 9pt;
+      color: #222;
+      margin: 0 0 4px;
+      padding-left: 0;
+      list-style: none;
+    }
+    #p08-pdf-export .p08-pdf-lines li { margin: 0 0 2px; }
+    #p08-pdf-export .p08-pdf-lines .k { font-weight: 800; color: #1565c0; }
+    #p08-pdf-export .p08-pdf-zh {
+      font-size: 9pt;
+      margin: 0;
+      color: #000;
+      line-height: 1.5;
+    }
+
+    @media print {
+      html, body { background: #fff !important; height: auto; overflow: visible; }
+      .p08-no-print { display: none !important; }
+      .p08-tools { display: none !important; }
+      #p08-host { border: none; box-shadow: none; position: relative; }
+      #stage { padding: 12px !important; overflow: visible !important; }
+      .p08-top h1 { color: #000 !important; text-shadow: none; }
+      .p08-strip { background: #fff; border: 1px solid #000; color: #000; }
+      .p08-card { break-inside: avoid; background: #fff; border: 1px solid #000; color: #000; box-shadow: none; }
+      .p08-card h2, .p08-card p { color: #000 !important; }
+      .p08-card .ex-row { color: #000 !important; background: #f5f5f5; border: 1px solid #333; }
+    }
+  </style>
+</head>
+<body>
+  <script>
+    window.L09_CFG = window.L09_CFG || {
+      azureKey: "",
+      azureRegion: "southeastasia",
+      azureTtsEndpoint: "https://{region}.tts.speech.microsoft.com/cognitiveservices/v1"
+    };
+  </script>
+  <div id="ui-lock" aria-hidden="true"><div class="msg" id="ui-lock-msg">处理中…</div></div>
+
+  <div id="viewport">
+    <div id="p08-host">
+      <div id="bg-stack"></div>
+      <div id="vignette"></div>
+      <div id="stage">
+        <div class="p08-top">
+          <h1>档案室总结 · 第09讲收束</h1>
+          <div class="p08-badge">Page 08 · 总结 + PDF<br />人教 / 中考时态轴</div>
+        </div>
+        <div class="p08-strip">
+          本页四张知识卡对应 <strong>过去进行时</strong> 与 <strong>一般过去时</strong> 分工。
+        </div>
+
+        <div id="p08-cards">
+          <article class="p08-card">
+            <span class="tag">卡 ①</span>
+            <h2>进行背景（长镜头）</h2>
+            <p>用 <strong>was / were + doing</strong> 描写「当时正在延续的背景」，像监控录像在走带。</p>
+            <div class="ex-row"><span class="ex-en">We were driving home when the strong winds started.</span><button type="button" class="p08-speak p08-no-print" data-tts="We were driving home when the strong winds started." aria-label="朗读此例句">朗读</button></div>
+            <div class="ex-row"><span class="ex-en">It was raining hard while we were driving back.</span><button type="button" class="p08-speak p08-no-print" data-tts="It was raining hard while we were driving back." aria-label="朗读此例句">朗读</button></div>
+            <div class="ex-row"><span class="ex-en">While I was waiting at the bus stop, the sky grew darker and darker.</span><button type="button" class="p08-speak p08-no-print" data-tts="While I was waiting at the bus stop, the sky grew darker and darker." aria-label="朗读此例句">朗读</button></div>
+            <div class="ex-row"><span class="ex-en">She was reading a novel when the lights in the library suddenly flickered.</span><button type="button" class="p08-speak p08-no-print" data-tts="She was reading a novel when the lights in the library suddenly flickered." aria-label="朗读此例句">朗读</button></div>
+            <div class="ex-row"><span class="ex-en">The wind was getting stronger while we were walking along the river.</span><button type="button" class="p08-speak p08-no-print" data-tts="The wind was getting stronger while we were walking along the river." aria-label="朗读此例句">朗读</button></div>
+            <div class="ex-row"><span class="ex-en">I was watching the road carefully because the rain was beating against the windshield.</span><button type="button" class="p08-speak p08-no-print" data-tts="I was watching the road carefully because the rain was beating against the windshield." aria-label="朗读此例句">朗读</button></div>
+          </article>
+          <article class="p08-card">
+            <span class="tag">卡 ②</span>
+            <h2>一般过去突变（快门）</h2>
+            <p>用 <strong>did / 点动词过去式</strong> 写「打断、开始、发生」的短事件，像快门咔嚓一下。</p>
+            <div class="ex-row"><span class="ex-en">While we were playing football, it started to rain heavily.</span><button type="button" class="p08-speak p08-no-print" data-tts="While we were playing football, it started to rain heavily." aria-label="朗读此例句">朗读</button></div>
+            <div class="ex-row"><span class="ex-en">I was listening to music when my phone suddenly rang.</span><button type="button" class="p08-speak p08-no-print" data-tts="I was listening to music when my phone suddenly rang." aria-label="朗读此例句">朗读</button></div>
+            <div class="ex-row"><span class="ex-en">He was typing an email when the boss knocked on the door.</span><button type="button" class="p08-speak p08-no-print" data-tts="He was typing an email when the boss knocked on the door." aria-label="朗读此例句">朗读</button></div>
+            <div class="ex-row"><span class="ex-en">We were cooking dinner when someone knocked loudly at the gate.</span><button type="button" class="p08-speak p08-no-print" data-tts="We were cooking dinner when someone knocked loudly at the gate." aria-label="朗读此例句">朗读</button></div>
+            <div class="ex-row"><span class="ex-en">She was jogging in the park when she heard a long, sharp horn.</span><button type="button" class="p08-speak p08-no-print" data-tts="She was jogging in the park when she heard a long, sharp horn." aria-label="朗读此例句">朗读</button></div>
+            <div class="ex-row"><span class="ex-en">They were still discussing the plan when the fire alarm went off.</span><button type="button" class="p08-speak p08-no-print" data-tts="They were still discussing the plan when the fire alarm went off." aria-label="朗读此例句">朗读</button></div>
+          </article>
+          <article class="p08-card">
+            <span class="tag">卡 ③</span>
+            <h2>瞬间动词陷阱</h2>
+            <p><strong>find out / come across / realize / hear</strong> 等表「察觉、偶遇、听说」时常用<strong>一般过去</strong>，避免误写成进行时表「结果态」。</p>
+            <div class="ex-row"><span class="ex-en">When he found out the truth, he stayed calm.</span><button type="button" class="p08-speak p08-no-print" data-tts="When he found out the truth, he stayed calm." aria-label="朗读此例句">朗读</button></div>
+            <div class="ex-row"><span class="ex-en">While I was walking in the park, I came across an injured bird.</span><button type="button" class="p08-speak p08-no-print" data-tts="While I was walking in the park, I came across an injured bird." aria-label="朗读此例句">朗读</button></div>
+            <div class="ex-row"><span class="ex-en">I didn't notice the warning sign until I came across it near the gate.</span><button type="button" class="p08-speak p08-no-print" data-tts="I didn't notice the warning sign until I came across it near the gate." aria-label="朗读此例句">朗读</button></div>
+            <div class="ex-row"><span class="ex-en">She realized she was on the wrong bus when the conductor called the next stop.</span><button type="button" class="p08-speak p08-no-print" data-tts="She realized she was on the wrong bus when the conductor called the next stop." aria-label="朗读此例句">朗读</button></div>
+            <div class="ex-row"><span class="ex-en">We heard a strange noise while we were exploring the old house.</span><button type="button" class="p08-speak p08-no-print" data-tts="We heard a strange noise while we were exploring the old house." aria-label="朗读此例句">朗读</button></div>
+            <div class="ex-row"><span class="ex-en">He found out the meeting was canceled when he checked his email that morning.</span><button type="button" class="p08-speak p08-no-print" data-tts="He found out the meeting was canceled when he checked his email that morning." aria-label="朗读此例句">朗读</button></div>
+          </article>
+          <article class="p08-card">
+            <span class="tag">卡 ④</span>
+            <h2>双线并行（While A…, B was…）</h2>
+            <p>两条<strong>同时进行</strong>的长动作，用 while 连接，表示在同一时间轴上并行。</p>
+            <div class="ex-row"><span class="ex-en">While I was doing my homework, my mother was cooking dinner.</span><button type="button" class="p08-speak p08-no-print" data-tts="While I was doing my homework, my mother was cooking dinner." aria-label="朗读此例句">朗读</button></div>
+            <div class="ex-row"><span class="ex-en">While they were sleeping, a thief broke into the house.（教材警示句，仅作悖论教学）</span><button type="button" class="p08-speak p08-no-print" data-tts="While they were sleeping, a thief broke into the house." aria-label="朗读此例句">朗读</button></div>
+            <div class="ex-row"><span class="ex-en">While Dad was repairing the bike, I was holding the flashlight for him.</span><button type="button" class="p08-speak p08-no-print" data-tts="While Dad was repairing the bike, I was holding the flashlight for him." aria-label="朗读此例句">朗读</button></div>
+            <div class="ex-row"><span class="ex-en">While the students were writing the test, the teacher was walking around quietly.</span><button type="button" class="p08-speak p08-no-print" data-tts="While the students were writing the test, the teacher was walking around quietly." aria-label="朗读此例句">朗读</button></div>
+            <div class="ex-row"><span class="ex-en">While one team was celebrating on the field, the other team was leaving in silence.</span><button type="button" class="p08-speak p08-no-print" data-tts="While one team was celebrating on the field, the other team was leaving in silence." aria-label="朗读此例句">朗读</button></div>
+            <div class="ex-row"><span class="ex-en">While the baby was sleeping, Grandma was knitting beside the window.</span><button type="button" class="p08-speak p08-no-print" data-tts="While the baby was sleeping, Grandma was knitting beside the window." aria-label="朗读此例句">朗读</button></div>
+          </article>
+        </div>
+
+        <div class="p08-tools">
+          <button type="button" class="p08-print" id="btn-print">导出 PDF 讲义</button>
+        </div>
+      </div>
+    </div>
+
+    <nav id="p08-bottom-dock">
+      <a class="btn-ghost" href="lesson09-page07-masterpiece.html">← Page 07</a>
+      <a class="btn-ghost" href="index.html">第09讲目录</a>
+    </nav>
+  </div>
+
+  <div id="p08-pdf-export-host" aria-hidden="true"><div id="p08-pdf-export"></div></div>
+
+  <script>
+    (function () {
+      const $ = (s) => document.querySelector(s);
+      const uiLock = $("#ui-lock");
+      const uiLockMsg = $("#ui-lock-msg");
+      const ttsMsg = null;
+      const cards = $("#p08-cards");
+      const CFG = () => (typeof window !== "undefined" && window.L09_CFG) ? window.L09_CFG : {};
+
+      const HANDOUT_SECTIONS = [
+        {
+          tag: "卡 ①",
+          title: "进行背景（长镜头）",
+          intro: "用 was / were + doing 描写「当时正在延续的背景」。",
+          examples: [
+            {
+              en: "We were driving home when the strong winds started.",
+              zh: "我们正开车回家，这时狂风大作起来。",
+              main: "We were driving home",
+              sub: "when the strong winds started",
+              bg: "We were driving home",
+              emph: "the strong winds started"
+            },
+            {
+              en: "It was raining hard while we were driving back.",
+              zh: "我们开车返回时，雨下得很大。",
+              main: "It was raining hard",
+              sub: "while we were driving back",
+              bg: "we were driving back",
+              emph: "—（两句均为过去进行，表并行延续，无常见「突变」一般过去核）"
+            },
+            {
+              en: "While I was waiting at the bus stop, the sky grew darker and darker.",
+              zh: "我在公交站等车的时候，天空越来越暗。",
+              main: "the sky grew darker and darker",
+              sub: "While I was waiting at the bus stop",
+              bg: "I was waiting at the bus stop",
+              emph: "the sky grew darker and darker"
+            },
+            {
+              en: "She was reading a novel when the lights in the library suddenly flickered.",
+              zh: "她正在图书馆读小说，这时灯突然闪了一下。",
+              main: "She was reading a novel",
+              sub: "when the lights in the library suddenly flickered",
+              bg: "She was reading a novel",
+              emph: "the lights … flickered"
+            },
+            {
+              en: "The wind was getting stronger while we were walking along the river.",
+              zh: "我们沿着河边散步时，风越来越大。",
+              main: "The wind was getting stronger",
+              sub: "while we were walking along the river",
+              bg: "we were walking along the river",
+              emph: "—（风势增强与散步并行，均为延续性描写）"
+            },
+            {
+              en: "I was watching the road carefully because the rain was beating against the windshield.",
+              zh: "雨点不断打在挡风玻璃上，我小心地盯着路面。",
+              main: "I was watching the road carefully",
+              sub: "because the rain was beating against the windshield",
+              bg: "I was watching the road carefully / the rain was beating against the windshield",
+              emph: "—（因果从句内亦为过去进行，强调同步背景）"
+            }
+          ]
+        },
+        {
+          tag: "卡 ②",
+          title: "一般过去突变（快门）",
+          intro: "用 did / 点动词过去式写「打断、开始、发生」的短事件。",
+          examples: [
+            {
+              en: "While we were playing football, it started to rain heavily.",
+              zh: "我们踢足球的时候，天突然下起大雨。",
+              main: "it started to rain heavily",
+              sub: "While we were playing football",
+              bg: "we were playing football",
+              emph: "it started to rain heavily"
+            },
+            {
+              en: "I was listening to music when my phone suddenly rang.",
+              zh: "我正在听音乐，手机突然响了。",
+              main: "I was listening to music",
+              sub: "when my phone suddenly rang",
+              bg: "I was listening to music",
+              emph: "my phone … rang"
+            },
+            {
+              en: "He was typing an email when the boss knocked on the door.",
+              zh: "他正在写邮件，老板敲了敲门。",
+              main: "He was typing an email",
+              sub: "when the boss knocked on the door",
+              bg: "He was typing an email",
+              emph: "the boss knocked on the door"
+            },
+            {
+              en: "We were cooking dinner when someone knocked loudly at the gate.",
+              zh: "我们正在做晚饭，有人在大门外大声敲门。",
+              main: "We were cooking dinner",
+              sub: "when someone knocked loudly at the gate",
+              bg: "We were cooking dinner",
+              emph: "someone knocked loudly at the gate"
+            },
+            {
+              en: "She was jogging in the park when she heard a long, sharp horn.",
+              zh: "她正在公园慢跑，突然听到一声又长又尖的喇叭。",
+              main: "She was jogging in the park",
+              sub: "when she heard a long, sharp horn",
+              bg: "She was jogging in the park",
+              emph: "she heard a long, sharp horn"
+            },
+            {
+              en: "They were still discussing the plan when the fire alarm went off.",
+              zh: "他们还在讨论计划，火警铃突然响了。",
+              main: "They were still discussing the plan",
+              sub: "when the fire alarm went off",
+              bg: "They were still discussing the plan",
+              emph: "the fire alarm went off"
+            }
+          ]
+        },
+        {
+          tag: "卡 ③",
+          title: "瞬间动词陷阱",
+          intro: "find out / come across / realize / hear 等表「察觉、偶遇」时常用一般过去。",
+          examples: [
+            {
+              en: "When he found out the truth, he stayed calm.",
+              zh: "当他得知真相时，他保持冷静。",
+              main: "he stayed calm",
+              sub: "When he found out the truth",
+              bg: "—（when 从句内为短促「得知」）",
+              emph: "he found out the truth / he stayed calm"
+            },
+            {
+              en: "While I was walking in the park, I came across an injured bird.",
+              zh: "我在公园散步时，偶然遇到一只受伤的小鸟。",
+              main: "I came across an injured bird",
+              sub: "While I was walking in the park",
+              bg: "I was walking in the park",
+              emph: "I came across an injured bird"
+            },
+            {
+              en: "I didn't notice the warning sign until I came across it near the gate.",
+              zh: "直到我在大门附近偶然看到那块警示牌，我才注意到它。",
+              main: "I didn't notice the warning sign",
+              sub: "until I came across it near the gate",
+              bg: "—（主句否定 + until 表「直到……才」）",
+              emph: "came across it"
+            },
+            {
+              en: "She realized she was on the wrong bus when the conductor called the next stop.",
+              zh: "当售票员报下一站时，她才意识到坐错了车。",
+              main: "She realized she was on the wrong bus",
+              sub: "when the conductor called the next stop",
+              bg: "she was on the wrong bus（宾语从句内为状态）",
+              emph: "She realized … / the conductor called the next stop"
+            },
+            {
+              en: "We heard a strange noise while we were exploring the old house.",
+              zh: "我们正在探索那栋老房子，听到一声奇怪的响动。",
+              main: "We heard a strange noise",
+              sub: "while we were exploring the old house",
+              bg: "we were exploring the old house",
+              emph: "We heard a strange noise"
+            },
+            {
+              en: "He found out the meeting was canceled when he checked his email that morning.",
+              zh: "那天早上他查邮件时，才发现会议取消了。",
+              main: "He found out the meeting was canceled",
+              sub: "when he checked his email that morning",
+              bg: "—（found out 后接宾语从句表获知内容）",
+              emph: "found out … / checked his email"
+            }
+          ]
+        },
+        {
+          tag: "卡 ④",
+          title: "双线并行（While A…, B was…）",
+          intro: "两条同时进行的延续动作用 while 连接。",
+          examples: [
+            {
+              en: "While I was doing my homework, my mother was cooking dinner.",
+              zh: "我做作业的时候，妈妈正在做晚饭。",
+              main: "my mother was cooking dinner",
+              sub: "While I was doing my homework",
+              bg: "I was doing my homework / my mother was cooking dinner",
+              emph: "—（两句均为过去进行，表并行）"
+            },
+            {
+              en: "While they were sleeping, a thief broke into the house.",
+              zh: "他们睡着的时候，小偷闯进了屋子。（教材警示句，仅作语法讨论）",
+              main: "a thief broke into the house",
+              sub: "While they were sleeping",
+              bg: "they were sleeping",
+              emph: "a thief broke into the house"
+            },
+            {
+              en: "While Dad was repairing the bike, I was holding the flashlight for him.",
+              zh: "爸爸修车时，我帮他举着手电筒。",
+              main: "I was holding the flashlight for him",
+              sub: "While Dad was repairing the bike",
+              bg: "Dad was repairing the bike / I was holding the flashlight",
+              emph: "—（并行双线，无常见突变核）"
+            },
+            {
+              en: "While the students were writing the test, the teacher was walking around quietly.",
+              zh: "学生们正在考试时，老师在教室里轻轻走动。",
+              main: "the teacher was walking around quietly",
+              sub: "While the students were writing the test",
+              bg: "the students were writing the test / the teacher was walking around quietly",
+              emph: "—（并行观察）"
+            },
+            {
+              en: "While one team was celebrating on the field, the other team was leaving in silence.",
+              zh: "一支队伍在场上庆祝时，另一支队伍默默离场。",
+              main: "the other team was leaving in silence",
+              sub: "While one team was celebrating on the field",
+              bg: "one team was celebrating / the other team was leaving",
+              emph: "—（对照并行）"
+            },
+            {
+              en: "While the baby was sleeping, Grandma was knitting beside the window.",
+              zh: "宝宝在睡觉时，奶奶在窗边打毛线。",
+              main: "Grandma was knitting beside the window",
+              sub: "While the baby was sleeping",
+              bg: "the baby was sleeping / Grandma was knitting",
+              emph: "—（温馨并行）"
+            }
+          ]
+        }
+      ];
+
+      function escHtml(s) {
+        return String(s)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;");
+      }
+
+      function buildPdfInnerHtml() {
+        const parts = [];
+        parts.push('<h1 class="p08-pdf-title">第09讲 · Page 08 · 档案室总结（PDF 讲义）</h1>');
+        parts.push(
+          '<p class="p08-pdf-sub">每条英文下方附：主句、从句、背景句、动作强调句（课堂标注用；「—」表示本句无典型项或需结合语境理解）。</p>'
+        );
+        HANDOUT_SECTIONS.forEach(function (sec) {
+          parts.push('<section class="p08-pdf-card">');
+          parts.push(
+            '<h2 class="p08-pdf-card-h">' +
+              escHtml(sec.tag) +
+              " · " +
+              escHtml(sec.title) +
+              "</h2>"
+          );
+          parts.push('<p class="p08-pdf-card-intro">' + escHtml(sec.intro) + "</p>");
+          sec.examples.forEach(function (ex) {
+            parts.push('<div class="p08-pdf-block">');
+            parts.push('<p class="p08-pdf-en">' + escHtml(ex.en) + "</p>");
+            parts.push('<ul class="p08-pdf-lines">');
+            parts.push(
+              '<li><span class="k">主句：</span>' +
+                escHtml(ex.main) +
+                "</li>" +
+                '<li><span class="k">从句：</span>' +
+                escHtml(ex.sub) +
+                "</li>" +
+                '<li><span class="k">背景句：</span>' +
+                escHtml(ex.bg) +
+                "</li>" +
+                '<li><span class="k">动作强调句：</span>' +
+                escHtml(ex.emph) +
+                "</li>"
+            );
+            parts.push("</ul>");
+            parts.push('<p class="p08-pdf-zh"><span class="k">【中文译文】</span>' + escHtml(ex.zh) + "</p>");
+            parts.push("</div>");
+          });
+          parts.push("</section>");
+        });
+        return parts.join("");
+      }
+
+      function sleepPdf(ms) {
+        return new Promise(function (resolve) {
+          setTimeout(resolve, ms);
+        });
+      }
+
+      async function exportPdfHandout() {
+        const host = $("#p08-pdf-export-host");
+        const box = $("#p08-pdf-export");
+        if (!host || !box) return;
+        if (typeof html2pdf === "undefined") {
+          setUiLock(true, "未加载 html2pdf 库，请检查网络后重试。");
+          setTimeout(function () {
+            setUiLock(false);
+          }, 1600);
+          return;
+        }
+        setUiLock(true, "正在生成 PDF…");
+        host.classList.remove("p08-pdf-capturing");
+        try {
+          box.innerHTML = buildPdfInnerHtml();
+          await sleepPdf(50);
+          host.classList.add("p08-pdf-capturing");
+          await sleepPdf(80);
+          const w = Math.max(794, Math.ceil(box.scrollWidth) || 794);
+          const stamp = new Date();
+          const y = stamp.getFullYear();
+          const m = String(stamp.getMonth() + 1).padStart(2, "0");
+          const d = String(stamp.getDate()).padStart(2, "0");
+          const fname = "Lesson09-Page08-讲义总结-" + y + m + d + ".pdf";
+          const opt = {
+            margin: [12, 10, 12, 10],
+            filename: fname,
+            image: { type: "png", quality: 1 },
+            html2canvas: {
+              scale: 2,
+              useCORS: true,
+              allowTaint: false,
+              letterRendering: false,
+              scrollX: 0,
+              scrollY: 0,
+              windowWidth: w,
+              logging: false
+            },
+            jsPDF: { unit: "mm", format: "a4", orientation: "portrait", compress: true },
+            pagebreak: { mode: ["css", "legacy"], avoid: ".p08-pdf-block" }
+          };
+          await html2pdf().set(opt).from(box).save();
+          setUiLock(false);
+        } catch (e) {
+          const why = e && e.message ? e.message : "unknown";
+          setUiLock(true, "生成失败：" + why + "（若用 file:// 打开，请改用本地 http 服务。）");
+          setTimeout(function () {
+            setUiLock(false);
+          }, 2200);
+        } finally {
+          host.classList.remove("p08-pdf-capturing");
+        }
+      }
+
+      let ac = null;
+      let playNode = null;
+
+      function setUiLock(on, msg) {
+        uiLock.classList.toggle("active", !!on);
+        uiLock.setAttribute("aria-hidden", on ? "false" : "true");
+        if (msg) uiLockMsg.textContent = msg;
+      }
+
+      function showTtsHint(text, isErr) {
+        if (!ttsMsg) return;
+        if (!text) {
+          ttsMsg.textContent = "";
+          ttsMsg.hidden = true;
+          ttsMsg.className = "";
+          return;
+        }
+        ttsMsg.textContent = text;
+        ttsMsg.hidden = false;
+        ttsMsg.className = isErr ? "is-err" : "";
+      }
+
+      function stopSpeak() {
+        if (!playNode) return;
+        try {
+          playNode.stop();
+        } catch (_) {}
+        try {
+          playNode.disconnect();
+        } catch (_) {}
+        playNode = null;
+      }
+
+      async function speakAzure(enText) {
+        if (window.LessonTTSBootstrap && typeof window.LessonTTSBootstrap.playLocalIfAvailable === "function") {
+          const okLocal = await window.LessonTTSBootstrap.playLocalIfAvailable(enText);
+          if (okLocal) {
+            showTtsHint("");
+            return;
+          }
+        }
+        const c = CFG();
+        const key = (c.azureKey || "").trim();
+        const region = (c.azureRegion || "southeastasia").trim();
+        if (!key) {
+          showTtsHint("未找到本句本地 MP3，且未配置 azureKey。请运行 scripts/generate-l09-tts-vertex.mjs 生成资源。", true);
+          return;
+        }
+        const Ctx = window.AudioContext || window.webkitAudioContext;
+        if (!Ctx) {
+          showTtsHint("当前浏览器不支持 Web Audio，无法播放合成语音。", true);
+          return;
+        }
+        if (!ac) ac = new Ctx();
+        await ac.resume().catch(function () {});
+        const isFile = location.protocol === "file:";
+        setUiLock(true, "Azure 语音合成中…");
+        showTtsHint("");
+        try {
+          const ep = (c.azureTtsEndpoint || "https://" + region + ".tts.speech.microsoft.com/cognitiveservices/v1")
+            .replace("{region}", region);
+          const safe = String(enText)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;");
+          const ssml =
+            '<speak version="1.0" xml:lang="en-US"><voice name="en-US-ChristopherNeural">' +
+            '<prosody rate="-2%">' +
+            safe +
+            "</prosody></voice></speak>";
+          const res = await fetch(ep, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/ssml+xml",
+              "X-Microsoft-OutputFormat": "riff-16khz-16bit-mono-pcm",
+              "Ocp-Apim-Subscription-Key": key
+            },
+            body: ssml
+          });
+          if (!res.ok) {
+            const errTxt = await res.text().catch(function () {
+              return "";
+            });
+            throw new Error("TTS HTTP " + res.status + (errTxt ? " · " + errTxt.slice(0, 100) : ""));
+          }
+          const arr = await res.arrayBuffer();
+          const copy = arr.slice(0);
+          const audioBuf = await ac.decodeAudioData(copy);
+          stopSpeak();
+          const src = ac.createBufferSource();
+          playNode = src;
+          src.buffer = audioBuf;
+          src.connect(ac.destination);
+          src.onended = function () {
+            playNode = null;
+          };
+          src.start();
+        } catch (e) {
+          const why = e && e.message ? e.message : "unknown";
+          const hint =
+            isFile || /fetch|Failed|Network|CORS|load/i.test(why)
+              ? "常见原因：用 file:// 打开时浏览器会拦截 Azure；请改用本地 http 服务打开本页。"
+              : "";
+          showTtsHint("朗读失败：" + why + (hint ? " " + hint : ""), true);
+        } finally {
+          setUiLock(false);
+        }
+      }
+
+      function playPrinter() {
+        try {
+          const Ctx = window.AudioContext || window.webkitAudioContext;
+          if (!Ctx) return;
+          if (!playPrinter._a) playPrinter._a = new Ctx();
+          const ac = playPrinter._a;
+          ac.resume();
+          let t = ac.currentTime;
+          for (let k = 0; k < 10; k++) {
+            const o = ac.createOscillator();
+            const g = ac.createGain();
+            o.type = "square";
+            o.frequency.value = 180 + (k % 3) * 40;
+            g.gain.setValueAtTime(0.06, t);
+            g.gain.exponentialRampToValueAtTime(0.001, t + 0.04);
+            o.connect(g);
+            g.connect(ac.destination);
+            o.start(t);
+            o.stop(t + 0.045);
+            t += 0.055;
+          }
+        } catch (_) {}
+      }
+
+      if (cards) {
+        cards.addEventListener("click", function (e) {
+          const btn = e.target.closest(".p08-speak");
+          if (!btn || !cards.contains(btn)) return;
+          const t = btn.getAttribute("data-tts");
+          if (t) speakAzure(t);
+        });
+      }
+
+      $("#btn-print").addEventListener("click", function () {
+        playPrinter();
+        exportPdfHandout();
+      });
+
+      try {
+        if (typeof anime !== "undefined") {
+          anime({
+            targets: ".p08-card",
+            translateY: [12, 0],
+            opacity: [0, 1],
+            delay: anime.stagger(90),
+            duration: 520,
+            easing: "easeOutQuad"
+          });
+        }
+      } catch (_) {}
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,300 @@
+================================================================================
+  Lesson 09 · 《重返现场：过去进行时与一般过去时》
+  课件工程与教研 Prompt 总册 v2.1（出版级修订）
+  路径：2026暑期/初一升初二/L09/Prompt.txt
+================================================================================
+
+【修订摘要 v2.1】
+1) 全课视觉统一对齐 L08：`lesson08-page01-archive.html` 注释体系——「2D 粗描边
+   赛璐璐卡通教学插画」+ 暖色纸感（#fff9f0）+ 蜡笔色系描边与不规则圆角画框。
+2) 弃用 Google Vertex 动态生图；一律使用本课 `./assets/` 下已备好的 PNG 作为
+   背景/连环画（与 L08 使用 `l08-page01-archive-bg.png` 同源策略）。
+3) 增补「教学法与课堂流程」层：复习—引入—示范—模仿—练习—竞赛—总结；声音先行、
+   图像先行、隐喻先行、范例先行。
+4) API：Azure TTS + DeepSeek；密钥禁止写死入仓库 HTML——由 `window.L09_CFG`
+   或课前脚本注入（见 §4）。区域默认 `southeastasia`（可按部署调整）。
+5) 配图已由 Composer 生成并放入 `L09/assets/`，实现与 L08 一致的「教材级插画」
+   气质（非写实恐怖、非低幼简笔画）。
+
+================================================================================
+§0  使用说明（给教研 / 给 Cursor Agent）
+================================================================================
+• 本文件按页（Page 01—08）拆分实现单文件 HTML：`lesson09-pageNN-*.html`。
+• 每一页实现前：先通读 §1—§6，再定位到对应 §7 子节。
+• 生成代码时：保持单文件、内联 CSS/JS；背景图用相对路径 `./assets/...`。
+• 动画：仅允许 Anime.js@3.2.2（CDN）；复杂时序不用 CSS @keyframes。
+• 音效：优先 Web Audio API 合成（无外链 MP3）；TTS 用 Azure REST。
+
+================================================================================
+§1  课程叙事、认知主线与课堂环节映射
+================================================================================
+
+【大概念】过去的时间轴上：「长背景 was/were doing」像监控录像带；「短事件 did」
+像快门一瞬间或闪电打断。精确时刻（at 8:00 p.m.）优先用过去进行时表「当时在干什么」。
+
+【与教材衔接】人教八下 Unit 5（自然灾害对话）中 *We were driving home when…* /
+*It was raining hard while we were driving…* 须在 §例句库 与 P02/P04 语料中复现精神。
+
+【八页与 45/120 分钟课型映射】
+  P01 认知冲突（引入）：昨天 vs 昨晚八点——「图像先行 + 声音先行」打破舒适区。
+  P02 教师示范（隐喻）：时间轴「河与闪电」+ when/while 逻辑门。
+  P03 学生模仿：线索板连线，专治瞬间动词 + 进行时的母语负迁移。
+  P04 学生练习 + 小组竞赛：机房跳线 + 常识悖论检测（反排除法）。
+  P05 技能训练：听力双轨剥离（背景音轨 vs 事件点）。
+  P06 技能训练：阅读语篇填空 + 瞬间动词「烈焰」反馈（出版级戏剧化但课堂可控）。
+  P07 产出：看图写话 + AI 面批（红圈错词坐标技术）。
+  P08 总结与物理讲义：知识卡 + DeepSeek 答疑终端 + @media print 黑白卷。
+
+【教学法清单（每页至少落 2 项）】
+  □ 声音先行（先听环境/对话再出字）
+  □ 图像先行（先出背景插画再出规则）
+  □ 隐喻先行（录像带 / 闪电 / 红线）
+  □ 范例先行（教材句 + 成都叙事型真题句式精神 + 生活句）
+  □ 支架递减（控制性 → 半开放 → 开放）
+  □ 即时反馈（音效 + 色温 + AI 苏格拉底短评中文≤80字）
+
+================================================================================
+§2  全局视觉识别系统（对齐 L08 · 出版级一致性）
+================================================================================
+
+【插画风格关键词（给任何补图 AI 的英文 prompt 母版）】
+  "2D educational illustration for Chinese junior high ESL, bold clean black outlines,
+   cel-shaded flat colors, warm cream paper #fff9f0, soft orange #f0ad4e and blue #4a90d9
+   accents, friendly textbook cartoon, slight paper grain, 16:9, no text in image."
+
+【与 L08 共享的 CSS 语义色（建议在 :root 复用变量名）】
+  --paper: #fff9f0;
+  --ink: #2c2c2c;
+  --crayon-red: #e85d4c;
+  --crayon-blue: #4a90d9;
+  --crayon-orange: #f0ad4e;
+  --crayon-green: #5cb85c;
+  --edge: #5d4037;
+  --gold-glow: #ffca28;
+  --grammar-blue: #1565c0;
+
+【主容器画框（对齐 L08 #l08-host.app）】
+  不规则圆角 + 内阴影 + 暖色描边，避免纯黑赛博恐怖化；「侦探局」是友好学习皮肤，
+  情绪峰值控制在「紧张好奇」而非惊悚。
+
+【背景图挂载方式（对齐 L08）】
+  #bg-stack { background: linear-gradient(...), var(--l09-bg) center/cover no-repeat; }
+  每张 HTML 顶部用 :root 或 JS 常量声明 `--l09-bg: url("./assets/xxx.png");`
+
+================================================================================
+§3  全局工程铁律（S-Class · 拒收条件）
+================================================================================
+1. 单文件：每页一个 `lesson09-pageNN-*.html`，内联 style/script；禁止外链业务 JS/CSS。
+2. 允许的唯一外部库：Anime.js 3.2.2（jsdelivr CDN）。
+3. 允许本地相对资源：`./assets/l09-*.png` 背景与连环画（禁止 base64 大图）。
+4. 布局：禁止固定 px 画布；用 vmin/vmax/clamp/calc + 16:9 教学画布策略（可复用
+   `../assets/lesson-screen-16x9.css` 若项目已有，但单页演示课仍可自包含）。
+5. OOM：临时节点、粒子、全息气泡在 anime complete 后必须 remove；raf 须可取消。
+6. UI Lock：TTS 播放、DeepSeek 请求、入场长动画期间 `pointer-events:none` 全屏遮罩。
+7. 拖拽：禁止 HTML5 原生 drag；用 pointerdown/move/up + 自写碰撞百分比（≥40% 相交）。
+8. DeepSeek 返回 JSON 必须 `replace(/```json|```/gi,'').trim()` 再 parse；超时兜底中文提示。
+
+================================================================================
+§4  API 与密钥注入（不写死密钥 · 课堂注入）
+================================================================================
+
+【约定配置对象（每页脚本顶部）】
+  window.L09_CFG = {
+    azureKey: "",           // 课前由教师或本地代理注入
+    azureRegion: "southeastasia",
+    azureTtsEndpoint: "https://{region}.tts.speech.microsoft.com/cognitiveservices/v1",
+    deepseekKey: "",
+    deepseekEndpoint: "https://api.deepseek.com/v1/chat/completions",
+    deepseekModel: "deepseek-chat"
+  };
+
+【Azure TTS】
+  • SSML：重读精确时间用 <prosody rate="-8%" pitch="+6Hz" volume="loud">…</prosody>
+  • 音色建议：男声讲解 en-US-GuyNeural；女声系统 en-US-AriaNeural；旁白 en-US-ChristopherNeural
+  • Blob → URL.createObjectURL → Audio；播放结束 revokeObjectURL。
+
+【DeepSeek】
+  • 温度低（0.3–0.5）；系统角色固定为「时空侦探教研员」；输出控制为中文短句或 JSON。
+  • 所有用户可见斥责需「对事不对人」，禁止人身侮辱词汇（出版合规）。
+
+================================================================================
+§5  Web Audio 与交互音效（全课共享类名建议）
+================================================================================
+  DetectiveAudioEngine / DetectiveSynthesizer / ReactorAudioEngine / AudioForensicsEngine /
+  DossierAudioEngine / MasterpieceAudioEngine / ArchiveAudioEngine
+  —— 按页择一实现即可，接口建议统一：playAmbience(), playAlert(), playSuccess(), playError()
+
+================================================================================
+§6  本课 `./assets/` 配图清单（Composer 已生成 · 与 L08 同系）
+================================================================================
+  ./assets/l09-page01-interrogation-bg.png   P01 侦探教室/讯问桌暖色插画
+  ./assets/l09-page01-example-a.png         P01 例句 A 情境：昨天打篮球（一般过去时·整段经历）
+  ./assets/l09-page01-example-b.png         P01 例句 B 情境：昨晚八点正在看电视（过去进行时·精确时刻）
+  ./assets/l09-page02-timeline-bg.png       P02 黑板时间轴「河+闪电」
+  ./assets/l09-page03-corkboard-bg.png      P03 软木板线索墙
+  ./assets/l09-page04-server-bg.png         P04 卡通机房跳线背景
+  ./assets/l09-page05-audio-bg.png          P05 听力鉴定室控制台
+  ./assets/l09-page06-dossier-bg.png        P06 焦痕机密卷宗纸感
+  ./assets/l09-page07-comic-1-walking.png   P07 连环画① 公园散步
+  ./assets/l09-page07-comic-2-bird.png      P07 连环画② 发现受伤小鸟
+  ./assets/l09-page07-comic-3-hospital.png  P07 连环画③ 送往诊所
+  ./assets/l09-page08-archive-bg.png        P08 档案室总结页
+
+  说明：若目录中存在历史文件 l09-p01-*.png 等，与本套主视觉无关时可忽略或迁移至
+  `_legacy/` 以免混淆。
+
+================================================================================
+§7  分页实现指令（发送给 Cursor 时：单页单块复制）
+================================================================================
+
+--------------------------------------------------------------------------------
+§7.1  PAGE 01 — lesson09-page01-interrogation.html
+--------------------------------------------------------------------------------
+【课型环节】引入 + 复习触发（5–8 分钟可演示完核心状态机）
+【认知目标】体验「昨天整体活动」与「昨晚八点切片」所需时态差异。
+【背景图】./assets/l09-page01-interrogation-bg.png（#bg-stack 叠暖色渐变，勿遮插画主体）
+【叙事】状态0 冷启动底噪 → 状态1 放松区「What did you do yesterday?」+ played 高亮
+       → 状态2 红色警报「EXACTLY 8:00 PM」电子钟砸入 + 诱导 watched / 正解 was watching
+       → 状态3 拖拽判分 + DeepSeek 中文斥责（规则见 §4 合规）
+       → 状态4 成功青霓虹 + TTS 宣读整句 → 导航 P02
+【教学法】图像先行（背景插画先亮）、声音先行（底噪先于台词）、隐喻（监控录像模式）
+【工程】拖拽引擎、UI Lock、AudioContext 四音效（§5）、禁止 Vertex
+
+--------------------------------------------------------------------------------
+§7.2  PAGE 02 — lesson09-page02-timeline.html
+--------------------------------------------------------------------------------
+【课型环节】教师示范讲解（10–12 分钟）
+【认知目标】背景=长=过去进行时；打断=短=一般过去时；when/while 与从句时态共现。
+【背景图】./assets/l09-page02-timeline-bg.png
+【视觉隐喻】SVG：青色圆角 rect 横向生长 = 河；magenta lightning path stroke-dashoffset 动画
+【交互】词块拖拽组装 *While he was walking… he found…*；错误触发 DeepSeek 逻辑审计
+【TTS】分析口吻放慢；闪电瞬间可提高 pitch
+【导航】→ lesson09-page03-clueboard.html
+
+--------------------------------------------------------------------------------
+§7.3  PAGE 03 — lesson09-page03-clueboard.html
+--------------------------------------------------------------------------------
+【课型环节】学生模仿（6–8 分钟）
+【认知目标】While + was/were doing + 点动词一般过去；禁止 was running into 等。
+【背景图】./assets/l09-page03-corkboard-bg.png
+【交互】SVG 二次贝塞尔「红线」模拟重力下垂；pointer 引擎；双端口吸附
+【判定】正解 was patrolling + ran into；陷阱路径触发电击粒子 + DeepSeek 老探长语料
+【导航】→ lesson09-page04-reactor.html
+
+--------------------------------------------------------------------------------
+§7.4  PAGE 04 — lesson09-page04-reactor.html
+--------------------------------------------------------------------------------
+【课型环节】学生练习 + 分组竞赛（12–15 分钟）
+【认知目标】语法正确且常识正确；摧毁「排除法瞎连」。
+【背景图】./assets/l09-page04-server-bg.png
+【语料矩阵】沿用 v1.0 五对背景/事件（洗澡-灯灭、踢球-暴雨、上学路-流浪狗、睡觉-入室、晚餐-好友来电）
+【交互】三次贝塞尔光缆；五线全连后「验证」；错误 Canvas 短路粒子 + DeepSeek 悖论解释
+【竞赛】小组计时正确率 + 教师大屏投屏积分板（可外链简单表格或口头）
+【导航】→ lesson09-page05-audio.html
+
+--------------------------------------------------------------------------------
+§7.5  PAGE 05 — lesson09-page05-audio.html
+--------------------------------------------------------------------------------
+【课型环节】技能训练·听力（10–12 分钟）
+【认知目标】听辨先后顺序；将动作分类到「背景带」与「事件点」。
+【背景图】./assets/l09-page05-audio-bg.png
+【音频】Azure SSML 生成 911/车祸独白 + Web Audio 无线电滤波（highpass 400 + lowpass 3000 + 轻失真 + 低音量白噪）
+【UI】Canvas 示波器 phosphor trail；证据芯片拖入双轨；错轨触发 DeepSeek + 红静态雪花惩罚
+【导航】→ lesson09-page06-dossier.html
+
+--------------------------------------------------------------------------------
+§7.6  PAGE 06 — lesson09-page06-dossier.html
+--------------------------------------------------------------------------------
+【课型环节】技能训练·阅读填空（10–12 分钟）
+【认知目标】语篇级 was drinking / found out / came across；瞬间动词禁止 -ing 义。
+【背景图】./assets/l09-page06-dossier-bg.png
+【语篇】CLASSIFIED FILE #404: The Missing Diamond（保持 v1.0 三空设计）
+【交互】验证时 UI Lock；was finding out → Canvas 火焰粒子 + DeepSeek；成功后印章 + TTS 全文朗读
+【导航】→ lesson09-page07-masterpiece.html
+
+--------------------------------------------------------------------------------
+§7.7  PAGE 07 — lesson09-page07-masterpiece.html
+--------------------------------------------------------------------------------
+【课型环节】语篇产出·看图写话（12–15 分钟）
+【认知目标】60–90 词；强制 While was/were… + came across/found out + when 之一；中考书面表达密度。
+【连环画】依次展示
+  ./assets/l09-page07-comic-1-walking.png
+  ./assets/l09-page07-comic-2-bird.png
+  ./assets/l09-page07-comic-3-hospital.png
+  （可用 3D card perspective 浮动，Anime.js 轻微 translateY 循环）
+【工程黑科技】textarea + mirror div 同步 scrollTop → SVG 红圈错词；DeepSeek JSON
+  {status, error_snippet, feedback}；正则三锁（Lock1/2/3）与 v1.0 一致
+【导航】→ lesson09-page08-archive.html
+
+--------------------------------------------------------------------------------
+§7.8  PAGE 08 — lesson09-page08-archive.html
+--------------------------------------------------------------------------------
+【课型环节】总结 + 打印讲义（5–8 分钟）
+【认知目标】四卡：进行背景 / 一般过去突变 / 瞬间动词陷阱 / 双线并行 While A…, B was…
+【背景图】./assets/l09-page08-archive-bg.png
+【交互】DeepSeek 局长终端答疑；打印按钮触发针式打印机音效 + window.print()
+【打印 CSS】@media print 强制白底黑字、page-break-inside:avoid、隐藏霓虹 UI
+
+================================================================================
+§8  高价值例句库（校对后写入课件 · 中英可分行排版）
+================================================================================
+1. We were driving home when the strong winds started.
+2. It was raining hard while we were driving back.
+3. While I was walking in the park, I came across an injured bird.
+4. When he found out the truth, he stayed calm.
+5. While we were playing football, it started to rain heavily.
+6. I was listening to music when my phone suddenly rang.
+7. While they were sleeping, a thief broke into the house.   （仅用于悖论配对教学）
+8. While I was doing my homework, my mother was cooking dinner.   （双线并行）
+
+================================================================================
+§9  质量检查清单（出版前自检）
+================================================================================
+[ ] 八页均可离线打开（除 CDN Anime 与网络 API 外无依赖）
+[ ] 所有 PNG 相对路径正确；移动端背景不裁切主角
+[ ] 无硬编码 API Key；Git 扫描通过
+[ ] 中文字幕/提示无错别字；英文例句语法经母语教师复核
+[ ] 动画峰值帧率与内存经一次真机平板抽检
+[ ] AI 输出已加内容安全过滤（禁用侮辱、禁用政治敏感扩展话题）
+
+================================================================================
+§10  版本记录
+================================================================================
+v2.0  重构总册、对齐 L08 视觉、移除 Vertex、资产表建立
+v2.1  增补 Composer 生成资产文件名、竞赛环节、合规说明
+
+> "Grammar is time made visible. Teach it like a story, ship it like a product."
+
+================================================================================
+附录 A  PAGE 01 状态机细目（实现级 · 与 v1.0 等价）
+================================================================================
+State0: opacity0 → ambience 1s → spotlight clack → beam+table fade in 100ms
+State1: TTS "what did you do yesterday" → polaroid basketball slide translateY -500→0
+         typewriter I played… highlight played green
+State2: dual-osc alert 600/800Hz 300ms alt 1.5s → hue red → clock 20:00:00 scale 3→1
+         TTS "EXACTLY 8:00 PM" → glitch photo → TV silhouette → blank was/were + chips
+State3: wrong watched → saw buzz shake → DeepSeek 中文≤80字 → typewriter hologram
+         right was watching → State4
+State4: snap cyan glow → success arpeggio → cool blue restore → TTS full sentence
+         glass plate PAST CONTINUOUS → button → page02
+
+附录 B  PAGE 02–04 关键算法备忘
+================================================================================
+• P02 SVG viewBox 0 0 1000 400；闪电落点取河中点百分比换算。
+• P03 贝塞尔 Q：cpY = max(startY,mouseY)+80；吸附失败 path morph 回弹 remove。
+• P04 三次贝塞尔 C：M X1 Y1 C X1+150 Y1  X2-150 Y2  X2 Y2；验证遍历五边 id 匹配。
+
+附录 C  PAGE 05 监听链路基模
+================================================================================
+AudioBufferSource → HP400 → LP3000 → WaveShaper(sigmoid) + parallel whiteNoise 0.05gain
+→ Analyser fftSize 2048 → destination；示波器 trail rgba(0,15,0,0.2) fillRect 全屏轻拖尾。
+
+附录 D  PAGE 07 DeepSeek JSON 协议（主考官）
+================================================================================
+请求 system 说明阅卷维度：瞬间动词进行时、主从结构残缺、拼写。
+成功 {"status":"perfect"}
+失败 {"status":"error","error_snippet":"原文字符串可 indexOf 的子串","feedback":"中文≤80"}
+
+================================================================================
+（文件结束）
+================================================================================

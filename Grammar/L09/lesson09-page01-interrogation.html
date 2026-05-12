@@ -1,0 +1,1648 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>第09讲 · Page 01 · 重返现场 · 精确时刻与过去进行时</title>
+  <script src="./assets/l09-tts-manifest.js"></script>
+  <script src="../assets/lesson-tts-bootstrap.js"></script>
+  <!-- 赛璐璐卡通教学风：对齐 L08 lesson08-page01 色板与不规则画框 -->
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
+  <style>
+    :root {
+      --l09-p01-bg: url("./assets/l09-page01-interrogation-bg.png");
+      --paper: #fff9f0;
+      --ink: #2c2c2c;
+      --crayon-red: #e85d4c;
+      --crayon-blue: #4a90d9;
+      --crayon-orange: #f0ad4e;
+      --crayon-green: #5cb85c;
+      --edge: #5d4037;
+      --gold-glow: #ffca28;
+      --grammar-blue: #1565c0;
+      --mint-glow: #26c6da;
+      --alert-coral: #ff6b6b;
+      --shadow-soft: rgba(60, 40, 20, 0.18);
+      /** 整块教学卡 ≈ 浏览器 67% 缩放时的视觉与排版密度，便于 100% 缩放下完整浏览 */
+      --l09-p01-ui-scale: 0.67;
+    }
+    * { box-sizing: border-box; }
+    html {
+      overflow-x: clip;
+      max-width: 100%;
+      font-size: clamp(17px, 0.95vw + 14px, 24px);
+    }
+    html, body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      font-family: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", "PingFang SC", sans-serif;
+      background: linear-gradient(160deg, #2a2435 0%, #1a1420 50%, #120c18 100%);
+      color: var(--ink);
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+    }
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: max(8px, env(safe-area-inset-top)) max(8px, env(safe-area-inset-right))
+        max(8px, env(safe-area-inset-bottom)) max(8px, env(safe-area-inset-left));
+      min-height: 100dvh;
+    }
+
+    /* 教学页：zoom 缩小整块，同时放大宽高，使占用视口仍约满屏（等效原先需 67% 浏览器缩放才看得全） */
+    #viewport {
+      position: relative;
+      zoom: var(--l09-p01-ui-scale);
+      width: calc(100vw / var(--l09-p01-ui-scale));
+      height: calc(100dvh / var(--l09-p01-ui-scale));
+      max-width: none;
+      max-height: none;
+      flex-shrink: 0;
+    }
+
+    #l09-host {
+      position: absolute;
+      inset: 0;
+      isolation: isolate;
+      overflow: hidden;
+      border: clamp(3px, 0.5vmin, 5px) solid rgba(240, 173, 78, 0.55);
+      border-radius: clamp(18px, 4vmin, 32px) clamp(10px, 2vmin, 18px) clamp(22px, 4.5vmin, 36px) clamp(12px, 2.2vmin, 20px)
+        / clamp(12px, 2.2vmin, 20px) clamp(22px, 4.5vmin, 36px) clamp(10px, 2vmin, 18px) clamp(18px, 4vmin, 32px);
+      box-shadow:
+        inset 0 0 clamp(24px, 5vmin, 48px) rgba(0, 0, 0, 0.18),
+        0 clamp(10px, 2vmin, 20px) clamp(24px, 4vmin, 40px) rgba(0, 0, 0, 0.35);
+    }
+
+    #bg-stack {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background:
+        linear-gradient(165deg, rgba(255, 249, 240, 0.5) 0%, rgba(255, 224, 180, 0.22) 42%, rgba(42, 36, 53, 0.45) 100%),
+        var(--l09-p01-bg) center / cover no-repeat;
+      filter: saturate(1.06) contrast(1.03);
+    }
+    #bg-stack::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: repeating-linear-gradient(0deg, rgba(255,255,255,0.028) 0 2px, transparent 2px 5px);
+      mix-blend-mode: soft-light;
+      opacity: 0.32;
+    }
+
+    /* 聚光灯锥（纯 CSS，降级友好） */
+    #spotlight-cone {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      transform: translateX(-50%);
+      width: min(70%, 55vmin);
+      height: min(55%, 48vmin);
+      z-index: 1;
+      pointer-events: none;
+      opacity: 0;
+      background: linear-gradient(to bottom, rgba(255, 253, 220, 0.55) 0%, rgba(255, 250, 230, 0.12) 55%, transparent 100%);
+      clip-path: polygon(38% 0, 62% 0, 88% 100%, 12% 100%);
+      transition: opacity 0.35s ease, filter 0.45s ease;
+    }
+    #l09-host.state-alert #spotlight-cone {
+      filter: sepia(0.35) hue-rotate(-18deg) saturate(1.4);
+      background: linear-gradient(to bottom, rgba(255, 200, 200, 0.5) 0%, rgba(255, 120, 120, 0.12) 55%, transparent 100%);
+    }
+
+    #vignette {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+      box-shadow: inset 0 0 clamp(40px, 12vmin, 100px) rgba(20, 12, 28, 0.35);
+    }
+
+    #stage {
+      position: absolute;
+      inset: 0;
+      z-index: 4;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: clamp(8px, 1.8vmin, 16px) clamp(10px, 2vmin, 20px) clamp(10px, 2vmin, 20px);
+      gap: clamp(6px, 1.2vmin, 12px);
+      overflow: hidden auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .top-ribbon {
+      flex-shrink: 0;
+      text-align: center;
+      width: 100%;
+    }
+    .top-ribbon .badge {
+      display: inline-block;
+      padding: clamp(5px, 1vmin, 10px) clamp(14px, 2.8vmin, 22px);
+      border-radius: 999px;
+      background: rgba(255, 249, 240, 0.94);
+      border: 3px solid var(--edge);
+      font-weight: 900;
+      font-size: clamp(0.78rem, 1.6vw + 0.4rem, 0.95rem);
+      color: #4e342e;
+      box-shadow: 0 4px 0 rgba(93, 64, 55, 0.12);
+    }
+    .top-ribbon h1 {
+      margin: clamp(4px, 1vmin, 8px) 0 0;
+      font-size: clamp(1.15rem, 3.2vw + 0.55rem, 1.75rem);
+      font-weight: 900;
+      color: #fff8e7;
+      text-shadow:
+        0 0 12px rgba(255, 213, 79, 0.35),
+        2px 2px 0 rgba(44, 44, 44, 0.25);
+      letter-spacing: 0.04em;
+    }
+
+    #desk-zone {
+      flex: 1 1 auto;
+      width: 100%;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      justify-content: flex-start;
+      gap: clamp(6px, 1.2vmin, 12px);
+    }
+
+    /* —— 顶部：昨日 8:00—24:00 时间轴（纯 HTML/CSS，无 SVG） —— */
+    #timeline-teach {
+      flex-shrink: 0;
+      width: 100%;
+      padding: clamp(8px, 1.5vmin, 14px) clamp(10px, 2vmin, 16px);
+      border-radius: clamp(12px, 2vmin, 18px);
+      background: rgba(255, 253, 248, 0.94);
+      border: 3px solid var(--edge);
+      box-shadow: 0 4px 0 rgba(93, 64, 55, 0.1);
+    }
+    .timeline-h2 {
+      margin: 0 0 0.55rem;
+      font-size: clamp(0.95rem, 2vw + 0.45rem, 1.2rem);
+      font-weight: 900;
+      color: #4e342e;
+      text-align: center;
+    }
+    .timeline-ticks {
+      display: flex;
+      justify-content: space-between;
+      font-size: clamp(0.75rem, 1.35vw + 0.34rem, 0.92rem);
+      font-weight: 800;
+      color: #6d4c41;
+      margin-bottom: 0.25rem;
+      padding: 0 0.15rem;
+    }
+    .tbar-grid {
+      display: grid;
+      grid-template-columns: repeat(160, minmax(0, 1fr));
+      width: 100%;
+      min-height: clamp(44px, 9vmin, 64px);
+      border-radius: clamp(8px, 1.5vmin, 12px);
+      overflow: hidden;
+      border: 2px solid rgba(93, 64, 55, 0.35);
+      box-sizing: border-box;
+    }
+    .tbar-grid .seg {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2px;
+      min-width: 0;
+    }
+    .tbar-grid .seg-lbl {
+      font-size: clamp(0.62rem, 1.05vw + 0.32rem, 0.88rem);
+      font-weight: 900;
+      line-height: 1.15;
+      color: #1a237e;
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.35);
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+    .seg-muted {
+      background: linear-gradient(180deg, #eceff1 0%, #cfd8dc 100%);
+    }
+    .seg-sport {
+      background: linear-gradient(180deg, #a5d6a7 0%, #66bb6a 100%);
+    }
+    .seg-study {
+      background: linear-gradient(180deg, #90caf9 0%, #42a5f5 100%);
+    }
+    .seg-class {
+      background: linear-gradient(180deg, #ffcc80 0%, #ffa726 100%);
+    }
+    .seg-tv {
+      background: linear-gradient(180deg, #e1bee7 0%, #ab47bc 100%);
+    }
+    .timeline-foot {
+      margin: 0.35rem 0 0;
+      font-size: clamp(0.78rem, 1.45vw + 0.34rem, 0.95rem);
+      font-weight: 800;
+      color: #37474f;
+      text-align: center;
+      line-height: 1.4;
+    }
+
+    #dual-grid {
+      flex: 1 1 auto;
+      width: 100%;
+      min-height: 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(10px, 2vmin, 20px);
+      align-items: stretch;
+    }
+    @media (max-width: 720px) {
+      #dual-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    #col-a,
+    #col-b {
+      min-width: 0;
+      min-height: 0;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: clamp(8px, 1.5vmin, 12px);
+    }
+    #col-a .sentence-panel,
+    #col-b .sentence-panel {
+      flex: 1 1 auto;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+    }
+    #col-a .col-head,
+    #col-b .col-head {
+      font-size: clamp(0.82rem, 1.6vw + 0.35rem, 1rem);
+      font-weight: 900;
+      text-align: center;
+      color: #fff8e7;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
+    }
+
+    #dual-grid .panel-figure {
+      margin: 0 0 clamp(8px, 1.5vmin, 12px);
+      padding: 0;
+      border-radius: clamp(10px, 1.8vmin, 14px);
+      overflow: hidden;
+      border: 3px solid rgba(21, 101, 192, 0.28);
+      background: #e3f2fd;
+      flex: 1 1 auto;
+      min-height: 0;
+      width: 100%;
+      max-height: min(46vh, min(62vw, 420px));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #dual-grid .panel-figure img {
+      display: block;
+      width: 100%;
+      max-width: 100%;
+      height: auto;
+      max-height: min(46vh, min(62vw, 420px));
+      object-fit: contain;
+      object-position: center;
+    }
+
+    .b-wrap {
+      position: relative;
+      min-width: 0;
+      flex: 1 1 auto;
+      min-height: min(28vmin, 220px);
+      display: flex;
+      flex-direction: column;
+    }
+    #panel-b-veil {
+      position: absolute;
+      inset: 0;
+      z-index: 4;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: clamp(12px, 2vmin, 20px);
+      border-radius: clamp(12px, 2vmin, 18px);
+      background: rgba(40, 28, 52, 0.82);
+      color: #fff8e1;
+      font-size: clamp(0.85rem, 1.7vw + 0.38rem, 1.05rem);
+      font-weight: 900;
+      line-height: 1.45;
+      border: 3px dashed rgba(255, 224, 130, 0.55);
+      backdrop-filter: blur(4px);
+    }
+    #panel-b-veil.is-off {
+      display: none;
+    }
+
+    .sentence-panel {
+      width: 100%;
+      max-width: none;
+      padding: clamp(12px, 2.2vmin, 18px) clamp(14px, 2.5vmin, 20px);
+      border-radius: clamp(12px, 2vmin, 18px);
+      background: rgba(255, 253, 248, 0.96);
+      border: 3px solid var(--edge);
+      box-shadow: 0 6px 0 rgba(93, 64, 55, 0.08);
+    }
+    .sentence-panel .label {
+      font-size: clamp(0.82rem, 1.55vw + 0.38rem, 1rem);
+      font-weight: 800;
+      color: #6d4c41;
+      margin-bottom: 0.4rem;
+    }
+    .sentence-panel .en-line {
+      font-size: clamp(1.02rem, 2.2vw + 0.5rem, 1.38rem);
+      font-weight: 800;
+      color: var(--grammar-blue);
+      line-height: 1.45;
+      min-height: 2.4em;
+    }
+    #panel-b.sentence-panel > .en-line {
+      margin-top: auto;
+    }
+    .sentence-panel .en-line .hl {
+      background: linear-gradient(transparent 60%, rgba(92, 184, 92, 0.45) 60%);
+      border-radius: 2px;
+    }
+    .sentence-panel .blank {
+      display: inline-block;
+      min-width: 6.5em;
+      border-bottom: 3px dashed var(--crayon-orange);
+      margin: 0 0.15em;
+      vertical-align: baseline;
+    }
+    #blank-slot.blank {
+      min-width: 8.5em;
+      min-height: 1.65em;
+      line-height: 1.45;
+      padding: 0.12em 0.28em 0.08em;
+      vertical-align: middle;
+      border-radius: clamp(6px, 1.2vmin, 10px);
+      border: 2px dashed rgba(240, 173, 78, 0.95);
+      background: rgba(255, 248, 225, 0.72);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.35);
+      touch-action: none;
+    }
+    #blank-slot.blank.filled-blank {
+      border-style: solid;
+      border-color: var(--crayon-green);
+      background: rgba(200, 230, 201, 0.45);
+      border-bottom: 3px solid var(--crayon-green);
+    }
+    .sentence-panel.is-awaiting-tap {
+      cursor: pointer;
+      outline: 3px dashed rgba(21, 101, 192, 0.55);
+      outline-offset: 4px;
+      transition: box-shadow 0.2s ease, transform 0.2s ease;
+    }
+    .sentence-panel.is-awaiting-tap:active {
+      transform: scale(0.99);
+    }
+    .sentence-panel.is-revealed-a {
+      outline: none;
+      cursor: default;
+    }
+    .sentence-panel.is-revealed-b {
+      outline: none;
+      cursor: default;
+    }
+    .panel-a-guide {
+      margin: 0 0 0.4rem;
+      font-size: clamp(0.78rem, 1.45vw + 0.32rem, 0.95rem);
+      font-weight: 800;
+      color: #6d4c41;
+      line-height: 1.45;
+    }
+    .panel-b-guide {
+      margin: 0 0 0.4rem;
+      font-size: clamp(0.78rem, 1.45vw + 0.32rem, 0.95rem);
+      font-weight: 800;
+      color: #6d4c41;
+      line-height: 1.45;
+    }
+    #challenge-row.panel-b-chips-row {
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(8px, 1.5vmin, 14px);
+      margin-top: clamp(8px, 1.5vmin, 14px);
+      padding-top: clamp(8px, 1.5vmin, 12px);
+      border-top: 2px dashed rgba(93, 64, 55, 0.22);
+      position: relative;
+      z-index: 8;
+      flex-shrink: 0;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: clamp(8px, 1.5vmin, 14px);
+      justify-content: center;
+      position: relative;
+      z-index: 10;
+    }
+    .chip {
+      touch-action: none;
+      cursor: grab;
+      padding: clamp(8px, 1.6vmin, 12px) clamp(14px, 2.5vmin, 20px);
+      border-radius: clamp(10px, 1.8vmin, 14px);
+      font-weight: 900;
+      font-size: clamp(0.92rem, 1.75vw + 0.42rem, 1.12rem);
+      color: #fff;
+      border: 3px solid rgba(0,0,0,0.12);
+      box-shadow: 0 4px 0 rgba(0,0,0,0.12);
+      user-select: none;
+      -webkit-user-select: none;
+      will-change: transform;
+      position: relative;
+      z-index: 12;
+    }
+    .chip[data-kind="trap"] {
+      background: linear-gradient(180deg, #90a4ae 0%, #607d8b 100%);
+    }
+    .chip[data-kind="ok"] {
+      background: linear-gradient(180deg, var(--crayon-blue) 0%, #1976d2 100%);
+    }
+    .chip.dragging {
+      cursor: grabbing;
+      z-index: 10000 !important;
+      box-shadow: 0 12px 28px rgba(0,0,0,0.25);
+    }
+
+    #hologram {
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: min(92vw, 32rem);
+      max-height: min(70dvh, 26rem);
+      z-index: 200;
+      padding: clamp(14px, 2.8vmin, 22px);
+      border-radius: clamp(14px, 2.5vmin, 20px);
+      background: rgba(255, 249, 240, 0.98);
+      border: 4px solid var(--crayon-red);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.35);
+      display: none;
+      flex-direction: column;
+      gap: 10px;
+    }
+    #hologram.visible { display: flex; }
+    #hologram .title {
+      font-weight: 900;
+      color: var(--crayon-red);
+      font-size: clamp(1rem, 1.85vw + 0.45rem, 1.2rem);
+    }
+    #hologram .body {
+      flex: 1;
+      overflow: auto;
+      font-size: clamp(0.92rem, 1.55vw + 0.4rem, 1.08rem);
+      line-height: 1.55;
+      color: #3e2723;
+      font-weight: 700;
+    }
+    #hologram button {
+      align-self: flex-end;
+      padding: 0.5rem 1rem;
+      border-radius: 999px;
+      border: none;
+      font-weight: 900;
+      background: var(--crayon-blue);
+      color: #fff;
+      cursor: pointer;
+    }
+
+    #nav-row {
+      flex-shrink: 0;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      flex-wrap: nowrap;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(8px, 1.5vmin, 12px);
+      padding-bottom: clamp(4px, 1vmin, 8px);
+    }
+    .btn-primary {
+      appearance: none;
+      border: none;
+      cursor: pointer;
+      font-weight: 900;
+      font-size: clamp(0.88rem, 1.55vw + 0.4rem, 1.05rem);
+      padding: clamp(12px, 2.2vmin, 16px) clamp(20px, 3.8vmin, 32px);
+      border-radius: 999px;
+      color: #fff;
+      background: linear-gradient(180deg, var(--crayon-orange) 0%, #f57c00 100%);
+      box-shadow: 0 4px 0 #e65100, 0 8px 20px rgba(0,0,0,0.2);
+    }
+    .btn-primary:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+    .btn-ghost {
+      appearance: none;
+      border: 3px solid rgba(255,248,231,0.5);
+      cursor: pointer;
+      font-weight: 800;
+      font-size: clamp(0.72rem, 1.2vw + 0.32rem, 0.85rem);
+      padding: clamp(8px, 1.5vmin, 10px) clamp(14px, 2.5vmin, 20px);
+      border-radius: 999px;
+      color: #fff8e7;
+      background: rgba(0,0,0,0.15);
+    }
+
+    #ui-lock {
+      position: fixed;
+      inset: 0;
+      z-index: 150;
+      pointer-events: none;
+    }
+    #ui-lock.active {
+      pointer-events: auto;
+    }
+
+    .grammar-summary-wrap {
+      display: none;
+      width: 100%;
+      flex-shrink: 0;
+      flex-direction: column;
+      align-items: center;
+      gap: clamp(10px, 1.8vmin, 14px);
+      padding: clamp(10px, 2vmin, 16px);
+      margin-top: clamp(4px, 1vmin, 8px);
+      border-radius: clamp(12px, 2vmin, 18px);
+      background: rgba(255, 253, 248, 0.96);
+      border: 3px solid var(--edge);
+      box-shadow: 0 6px 0 rgba(93, 64, 55, 0.08);
+    }
+    .grammar-summary-wrap.is-ready {
+      display: flex;
+    }
+    .grammar-summary-btn {
+      appearance: none;
+      cursor: pointer;
+      font-weight: 900;
+      font-size: clamp(0.85rem, 1.65vw + 0.38rem, 1.05rem);
+      padding: clamp(10px, 2vmin, 14px) clamp(20px, 4vmin, 28px);
+      border-radius: 999px;
+      border: 3px solid var(--grammar-blue);
+      color: #0d47a1;
+      background: linear-gradient(180deg, #e3f2fd 0%, #bbdefb 100%);
+      box-shadow: 0 4px 0 rgba(21, 101, 192, 0.25);
+    }
+    .grammar-summary-btn:disabled {
+      opacity: 0.88;
+      cursor: default;
+      box-shadow: 0 2px 0 rgba(21, 101, 192, 0.15);
+    }
+    .grammar-summary-body {
+      width: 100%;
+      max-width: min(100%, 48rem);
+      margin: 0;
+      padding: 0 clamp(6px, 1.2vmin, 12px);
+      font-size: clamp(0.88rem, 1.65vw + 0.38rem, 1.08rem);
+      font-weight: 800;
+      color: #5d4037;
+      line-height: 1.55;
+      text-align: center;
+    }
+    .grammar-summary-body.is-hidden {
+      display: none;
+    }
+    .grammar-summary-body p {
+      margin: 0;
+    }
+
+    #coach-tip.coach-tip {
+      width: 100%;
+      max-width: min(100%, 48rem);
+      margin: clamp(8px, 1.5vmin, 14px) auto 0;
+      padding: clamp(12px, 2vmin, 18px) clamp(16px, 3vmin, 24px);
+      border-radius: clamp(12px, 2vmin, 18px);
+      background: linear-gradient(180deg, rgba(255, 249, 196, 0.98) 0%, rgba(255, 224, 130, 0.92) 100%);
+      border: 3px solid rgba(230, 81, 0, 0.75);
+      box-shadow:
+        0 0 0 2px rgba(255, 255, 255, 0.4),
+        0 6px 20px rgba(0, 0, 0, 0.2);
+      font-size: clamp(0.92rem, 1.8vw + 0.42rem, 1.15rem);
+      font-weight: 900;
+      color: #3e2723;
+      text-align: center;
+      line-height: 1.55;
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.45);
+    }
+    #coach-tip.coach-tip strong {
+      color: #bf360c;
+      padding: 0 0.08em;
+      border-radius: 4px;
+      background: rgba(255, 235, 59, 0.55);
+    }
+  </style>
+</head>
+<body>
+  <!-- 本页内置密钥：便于双击 HTML 本地演示。正式分发请改为空字符串并从安全渠道注入。 -->
+  <script>
+    window.L09_CFG = {
+      azureKey: "C42UQWeDcluYanbo17WrtUnPhk0vkZy2uQHPTCGDzY6CdEXx99NzJQQJ99BIACqBBLyXJ3w3AAAYACOGjkyu",
+      azureRegion: "southeastasia",
+      deepseekKey: "sk-daa16008e81843deba6fefe9dce51465",
+      deepseekEndpoint: "https://api.deepseek.com/v1/chat/completions",
+      deepseekModel: "deepseek-chat"
+    };
+  </script>
+  <div id="viewport">
+    <div id="l09-host">
+      <div id="bg-stack" aria-hidden="true"></div>
+      <div id="spotlight-cone" aria-hidden="true"></div>
+      <div id="vignette" aria-hidden="true"></div>
+      <div id="stage">
+        <div class="top-ribbon">
+          <span class="badge" id="l09-badge">Lesson 09 · Page 01 / 8</span>
+          <h1>重返现场 · 精确时刻</h1>
+        </div>
+        <div id="desk-zone">
+          <section id="timeline-teach" aria-label="昨日活动时间轴">
+            <h2 class="timeline-h2" id="timeline-h2">昨日日程 · 8:00（早晨）— 24:00（午夜）</h2>
+            <div class="timeline-ticks" id="timeline-ticks" aria-hidden="true">
+              <span>8:00</span><span>10</span><span>12</span><span>14</span><span>16</span><span>18</span><span>20</span><span>22</span><span>24:00</span>
+            </div>
+            <div class="tbar-grid" id="timeline-tbar" role="img" aria-label="从八点到午夜：灰为其他时段，色块为不同时段活动">
+              <div class="seg seg-muted" style="grid-column: span 20" title="8:00–10:00"></div>
+              <div class="seg seg-sport" style="grid-column: span 20"><span class="seg-lbl">打篮球<br>10–12 点</span></div>
+              <div class="seg seg-muted" style="grid-column: span 10" title="12:00–13:00"></div>
+              <div class="seg seg-study" style="grid-column: span 10"><span class="seg-lbl">学习<br>13–14 点</span></div>
+              <div class="seg seg-muted" style="grid-column: span 10" title="14:00–15:00"></div>
+              <div class="seg seg-class" style="grid-column: span 10"><span class="seg-lbl">上课<br>15–16 点</span></div>
+              <div class="seg seg-muted" style="grid-column: span 40" title="16:00–20:00"></div>
+              <div class="seg seg-tv" style="grid-column: span 15"><span class="seg-lbl">看电视<br>20:00–21:30</span></div>
+              <div class="seg seg-muted" style="grid-column: span 25" title="21:30–24:00"></div>
+            </div>
+            <p class="timeline-foot" id="timeline-foot">色块表示多段时间范围；<strong>左栏</strong>练「多活动里概括一件」；<strong>右栏</strong>练「八点那一帧正在做什么」。</p>
+          </section>
+
+          <div id="dual-grid">
+            <div id="col-a">
+              <div class="col-head" id="col-head-a">例句 A · 左侧 · 一般过去时</div>
+              <div class="sentence-panel" id="panel-a" style="opacity:0">
+                <div class="label">例句 A · 一般过去时（整段过去）</div>
+                <p class="panel-a-guide" id="panel-a-guide">教师提问播放结束后，先请学生口头回答；准备好后<strong>点击本卡任意处</strong>显示英语参考句。</p>
+                <figure class="panel-figure" aria-label="情境图：昨天打篮球的完整经历">
+                  <img
+                    id="img-example-a"
+                    src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L09/assets/l09-page01-example-a.png"
+                    decoding="async"
+                    fetchpriority="high"
+                    alt="情境：昨天下午在户外球场打篮球，表示昨天做过的一件事"
+                  />
+                </figure>
+                <div class="en-line" id="line-a" aria-live="polite"></div>
+              </div>
+            </div>
+            <div id="col-b">
+              <div class="col-head" id="col-head-b">例句 B · 右侧 · 过去进行时</div>
+              <div class="b-wrap">
+                <div class="sentence-panel" id="panel-b" style="opacity:0;display:none">
+                  <div class="label">例句 B · 精确时刻</div>
+                  <p class="panel-b-guide" id="panel-b-guide">与例句 A 相同：先根据下方英语提问讨论；准备好后<strong>点击本卡任意处</strong>显示句子与词块。</p>
+                  <figure class="panel-figure" aria-label="情境图：昨晚八点正在看电视">
+                    <img
+                      id="img-example-b"
+                      src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L09/assets/l09-page01-example-b.png"
+                      decoding="async"
+                      alt="情境：晚上八点整，男孩正在沙发上看电视"
+                    />
+                  </figure>
+                  <div class="en-line" id="line-b" aria-live="polite"></div>
+                  <div id="challenge-row" class="panel-b-chips-row" style="opacity:0;display:none">
+                    <div class="chips" id="chips">
+                      <div class="chip" data-kind="trap" data-text="watched" id="chip-trap">watched</div>
+                      <div class="chip" data-kind="ok" data-text="was watching" id="chip-ok">was watching</div>
+                    </div>
+                  </div>
+                </div>
+                <div id="panel-b-veil">
+                  请先在<strong>左侧</strong>完成例句 A。解锁后，例句 B 将<strong>先只显示英语提问</strong>；请学生口头回答，再<strong>点击右侧卡纸</strong>揭晓句子与拖拽词块。
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <p class="coach-tip" id="coach-tip" style="opacity:0">过去进行时 = 「监控录像」里<strong>某一时刻那一帧</strong>正在发生的事（不是整天只干一件事的概括）。</p>
+          <section id="grammar-summary-wrap" class="grammar-summary-wrap" aria-label="语法要点总结">
+            <button type="button" class="grammar-summary-btn" id="btn-grammar-summary" disabled>语法要点 · 点击总结</button>
+            <div class="grammar-summary-body is-hidden" id="grammar-summary-body">
+              <p>
+                一天里可以有多段活动：<strong>只概括其中一件事</strong>时用<strong>一般过去时</strong>（如 played）；问<strong>某一时刻正在做什么</strong>时用<strong>过去进行时</strong>（如 was watching）。
+              </p>
+            </div>
+          </section>
+        </div>
+        <div id="nav-row">
+          <div id="l09-success-slot"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="hologram" role="dialog" aria-modal="true" aria-labelledby="hg-title">
+    <div class="title" id="hg-title">时空侦探局 · 提示</div>
+    <div class="body" id="hg-body"></div>
+    <button type="button" id="hg-dismiss">我知道了，重选</button>
+  </div>
+  <div id="ui-lock" aria-hidden="true"></div>
+
+  <script>
+(function () {
+  "use strict";
+
+  /** @type {{azureKey?:string,azureRegion?:string,deepseekKey?:string,deepseekEndpoint?:string,deepseekModel?:string}} */
+  const CFG = () => (typeof window !== "undefined" && window.L09_CFG) ? window.L09_CFG : {};
+
+  const $ = (sel) => document.querySelector(sel);
+  const host = $("#l09-host");
+  const spotlight = $("#spotlight-cone");
+  const imgExampleA = $("#img-example-a");
+  const imgExampleB = $("#img-example-b");
+  const panelA = $("#panel-a");
+  const lineA = $("#line-a");
+  const panelAGuide = $("#panel-a-guide");
+  const panelB = $("#panel-b");
+  const panelBVeil = $("#panel-b-veil");
+  const lineB = $("#line-b");
+  const panelBGuide = $("#panel-b-guide");
+  const challengeRow = $("#challenge-row");
+  const chipsWrap = $("#chips");
+  const uiLock = $("#ui-lock");
+  const hologram = $("#hologram");
+  const hgBody = $("#hg-body");
+  const hgDismiss = $("#hg-dismiss");
+  const coachTip = $("#coach-tip");
+  const grammarSummaryWrap = $("#grammar-summary-wrap");
+  const btnGrammarSummary = $("#btn-grammar-summary");
+  const grammarSummaryBody = $("#grammar-summary-body");
+  const l09Badge = $("#l09-badge");
+  const colHeadA = $("#col-head-a");
+  const colHeadB = $("#col-head-b");
+  const timelineFoot = $("#timeline-foot");
+  const timelineH2El = $("#timeline-h2");
+  const timelineTicksEl = $("#timeline-ticks");
+  const timelineTbar = $("#timeline-tbar");
+
+  /** 当前场景索引 0..2（篮球电视 / 图书馆音乐 / 做饭作业） */
+  let scenarioIdx = 0;
+
+  /**
+   * 三组平行情境：一般过去时概括一件事 + 过去进行时精确时刻。
+   * 配图 s2/s3 若不存在将自动回退为场景一图片（setImgSafe）。
+   */
+  const SCENARIOS = [
+    {
+      badgeTag: "场景一",
+      colHeadA: "例句 A · 左侧 · 一般过去时",
+      colHeadB: "例句 B · 右侧 · 过去进行时",
+      timelineH2: "昨日日程 · 8:00（早晨）— 24:00（午夜）",
+      timelineTicksHtml:
+        "<span>8:00</span><span>10</span><span>12</span><span>14</span><span>16</span><span>18</span><span>20</span><span>22</span><span>24:00</span>",
+      timelineAria: "从八点到午夜的活动条：灰为其他时段，绿为打篮球，蓝为学习，橙为上课，紫为看电视",
+      timelineBarHtml:
+        '<div class="seg seg-muted" style="grid-column: span 20" title="8:00–10:00"></div>' +
+        '<div class="seg seg-sport" style="grid-column: span 20"><span class="seg-lbl">打篮球<br>10–12 点</span></div>' +
+        '<div class="seg seg-muted" style="grid-column: span 10" title="12:00–13:00"></div>' +
+        '<div class="seg seg-study" style="grid-column: span 10"><span class="seg-lbl">学习<br>13–14 点</span></div>' +
+        '<div class="seg seg-muted" style="grid-column: span 10" title="14:00–15:00"></div>' +
+        '<div class="seg seg-class" style="grid-column: span 10"><span class="seg-lbl">上课<br>15–16 点</span></div>' +
+        '<div class="seg seg-muted" style="grid-column: span 40" title="16:00–20:00"></div>' +
+        '<div class="seg seg-tv" style="grid-column: span 15"><span class="seg-lbl">看电视<br>20:00–21:30</span></div>' +
+        '<div class="seg seg-muted" style="grid-column: span 25" title="21:30–24:00"></div>',
+      timelineFootHtml:
+        "色块表示多段时间范围；本组：<strong>打篮球</strong> + <strong>晚间看电视</strong>；左栏概括一件事，右栏练「八点那一帧」。",
+      imgA: "./assets/l09-page01-example-a.png",
+      imgB: "./assets/l09-page01-example-b.png",
+      ttsA: "Suspect, what did you do yesterday?",
+      lineAQuestionHtml:
+        '<span lang="en"><strong>Suspect, what did you do yesterday?</strong></span><br>' +
+        '<span style="font-size:0.82em;font-weight:700;color:#5d4037">（先听提问 → 班级讨论 / 口头回答 → 再点本卡揭晓参考句）</span>',
+      lineARevealHtml: 'I <span class="hl">played</span> basketball yesterday.',
+      lineBQuestionHtml:
+        '<span lang="en"><strong>But what were you doing at exactly 8:00 PM yesterday?</strong></span><br>' +
+        '<span style="font-size:0.82em;font-weight:700;color:#5d4037">（先口头讨论 / 回答 → 准备好后<strong>点击本卡任意处</strong>揭晓句子并出现词块）</span>',
+      lineBBlankHtml:
+        'I <span class="blank" id="blank-slot" title="将词块拖放到此处"></span> TV at 8:00 PM yesterday.',
+      blankAnswer: "was watching",
+      chipTrapText: "watched",
+      chipTrapLabel: "watched",
+      chipOkText: "was watching",
+      chipOkLabel: "was watching",
+    },
+    {
+      badgeTag: "场景二",
+      colHeadA: "例句 A · Maria · 一般过去时",
+      colHeadB: "例句 B · Leo · 过去进行时",
+      timelineH2: "昨日日程（Maria & Leo）· 8:00—24:00",
+      timelineTicksHtml:
+        "<span>8:00</span><span>10</span><span>12</span><span>14</span><span>16</span><span>18</span><span>20</span><span>22</span><span>24:00</span>",
+      timelineAria: "从八点到午夜：灰为背景时段，橙为下午上课，蓝为图书馆看书，紫为晚间听音乐练吉他（含 7:30 PM）",
+      timelineBarHtml:
+        '<div class="seg seg-muted" style="grid-column: span 40" title="8:00–12:00"></div>' +
+        '<div class="seg seg-muted" style="grid-column: span 10" title="12:00–13:00"></div>' +
+        '<div class="seg seg-class" style="grid-column: span 30"><span class="seg-lbl">下午上课<br>13–16 点</span></div>' +
+        '<div class="seg seg-study" style="grid-column: span 20"><span class="seg-lbl">图书馆看书<br>16–18 点</span></div>' +
+        '<div class="seg seg-muted" style="grid-column: span 10" title="18:00–19:00"></div>' +
+        '<div class="seg seg-tv" style="grid-column: span 20"><span class="seg-lbl">听音乐练吉他<br>19–21 点</span></div>' +
+        '<div class="seg seg-muted" style="grid-column: span 30" title="21:00–24:00"></div>',
+      timelineFootHtml:
+        "本组：<strong>Maria</strong> 放学后在图书馆看书；<strong>Leo</strong> 晚间练吉他。右栏问 <strong>7:30 PM</strong> 那一刻在做什么。",
+      imgA: "./assets/l09-page01-s2-example-a.png",
+      imgB: "./assets/l09-page01-s2-example-b.png",
+      ttsA: "Maria, what did you do yesterday after school?",
+      lineAQuestionHtml:
+        '<span lang="en"><strong>Maria, what did you do yesterday after school?</strong></span><br>' +
+        '<span style="font-size:0.82em;font-weight:700;color:#5d4037">（先听提问 → 讨论 / 口头回答 → 再点本卡揭晓参考句）</span>',
+      lineARevealHtml: 'I <span class="hl">read books</span> in the library yesterday.',
+      lineBQuestionHtml:
+        '<span lang="en"><strong>Leo, but what were you doing at exactly 7:30 PM yesterday?</strong></span><br>' +
+        '<span style="font-size:0.82em;font-weight:700;color:#5d4037">（先口头回答 → 再<strong>点击本卡</strong>揭晓句子并出现词块）</span>',
+      lineBBlankHtml:
+        'I <span class="blank" id="blank-slot" title="将词块拖放到此处"></span> to music at 7:30 PM yesterday.',
+      blankAnswer: "was listening to",
+      chipTrapText: "listened to",
+      chipTrapLabel: "listened to",
+      chipOkText: "was listening to",
+      chipOkLabel: "was listening to",
+    },
+    {
+      badgeTag: "场景三",
+      colHeadA: "例句 A · Tom · 一般过去时",
+      colHeadB: "例句 B · Tom · 过去进行时",
+      timelineH2: "昨日日程（Tom）· 8:00—24:00",
+      timelineTicksHtml:
+        "<span>8:00</span><span>10</span><span>12</span><span>14</span><span>16</span><span>18</span><span>20</span><span>22</span><span>24:00</span>",
+      timelineAria: "从八点到午夜：灰为背景，橙为傍晚帮父母做饭，蓝为晚间写作业（含 9:00 PM）",
+      timelineBarHtml:
+        '<div class="seg seg-muted" style="grid-column: span 40" title="8:00–12:00"></div>' +
+        '<div class="seg seg-muted" style="grid-column: span 10" title="12:00–13:00"></div>' +
+        '<div class="seg seg-muted" style="grid-column: span 30" title="13:00–16:00"></div>' +
+        '<div class="seg seg-class" style="grid-column: span 20"><span class="seg-lbl">帮父母做饭<br>16–18 点</span></div>' +
+        '<div class="seg seg-muted" style="grid-column: span 20" title="18:00–20:00"></div>' +
+        '<div class="seg seg-study" style="grid-column: span 20"><span class="seg-lbl">写作业<br>20–22 点</span></div>' +
+        '<div class="seg seg-muted" style="grid-column: span 20" title="22:00–24:00"></div>',
+      timelineFootHtml:
+        "本组：<strong>Tom</strong> 傍晚帮父母做饭；深夜写作业。右栏问 <strong>9:00 PM</strong> 那一刻在做什么。",
+      imgA: "./assets/l09-page01-s3-example-a.png",
+      imgB: "./assets/l09-page01-s3-example-b.png",
+      ttsA: "Tom, what did you do yesterday evening?",
+      lineAQuestionHtml:
+        '<span lang="en"><strong>Tom, what did you do yesterday evening?</strong></span><br>' +
+        '<span style="font-size:0.82em;font-weight:700;color:#5d4037">（先听提问 → 讨论 / 口头回答 → 再点本卡揭晓参考句）</span>',
+      lineARevealHtml: 'I <span class="hl">helped my parents cook</span> dinner yesterday.',
+      lineBQuestionHtml:
+        '<span lang="en"><strong>But what were you doing at exactly 9:00 PM yesterday?</strong></span><br>' +
+        '<span style="font-size:0.82em;font-weight:700;color:#5d4037">（先口头回答 → 再<strong>点击本卡</strong>揭晓句子并出现词块）</span>',
+      lineBBlankHtml:
+        'I <span class="blank" id="blank-slot" title="将词块拖放到此处"></span> my homework at 9:00 PM yesterday.',
+      blankAnswer: "was doing",
+      chipTrapText: "did",
+      chipTrapLabel: "did",
+      chipOkText: "was doing",
+      chipOkLabel: "was doing",
+    },
+  ];
+
+  function getScenario() {
+    return SCENARIOS[Math.min(Math.max(0, scenarioIdx), SCENARIOS.length - 1)];
+  }
+
+  function setImgSafe(img, primaryUrl, fallbackUrl) {
+    if (!img) return;
+    const fb = fallbackUrl || primaryUrl;
+    const pri = primaryUrl || fb;
+    if (pri !== fb) {
+      img.onerror = function () {
+        this.onerror = null;
+        this.src = fb;
+      };
+    } else {
+      img.onerror = null;
+    }
+    img.src = pri;
+  }
+
+  function applyScenarioAssets() {
+    const s = getScenario();
+    const fbA = SCENARIOS[0].imgA;
+    const fbB = SCENARIOS[0].imgB;
+    if (l09Badge) l09Badge.textContent = "Lesson 09 · Page 01 / 8 · " + s.badgeTag;
+    if (colHeadA) colHeadA.textContent = s.colHeadA;
+    if (colHeadB) colHeadB.textContent = s.colHeadB;
+    if (timelineFoot) timelineFoot.innerHTML = s.timelineFootHtml;
+    if (timelineH2El) timelineH2El.textContent = s.timelineH2;
+    if (timelineTicksEl) timelineTicksEl.innerHTML = s.timelineTicksHtml;
+    if (timelineTbar) {
+      timelineTbar.innerHTML = s.timelineBarHtml;
+      timelineTbar.setAttribute("aria-label", s.timelineAria);
+    }
+    setImgSafe(imgExampleA, s.imgA, fbA);
+    setImgSafe(imgExampleB, s.imgB, fbB);
+    const trap = document.getElementById("chip-trap");
+    const ok = document.getElementById("chip-ok");
+    if (trap) {
+      trap.textContent = s.chipTrapLabel;
+      trap.setAttribute("data-text", s.chipTrapText);
+    }
+    if (ok) {
+      ok.textContent = s.chipOkLabel;
+      ok.setAttribute("data-text", s.chipOkText);
+    }
+  }
+
+  let lessonState = 0;
+  let audioCtx = null;
+  let ambienceNodes = null;
+  let currentAudioUrl = null;
+
+  function setUILock(on) {
+    uiLock.classList.toggle("active", !!on);
+    uiLock.setAttribute("aria-hidden", on ? "false" : "true");
+  }
+
+  class DetectiveAudioEngine {
+    constructor() {
+      this.ctx = null;
+    }
+    ensure() {
+      if (!this.ctx) {
+        const Ctx = window.AudioContext || window.webkitAudioContext;
+        this.ctx = new Ctx();
+      }
+      return this.ctx;
+    }
+    stopAmbience() {
+      try {
+        if (ambienceNodes) {
+          ambienceNodes.stop();
+          ambienceNodes = null;
+        }
+      } catch (_) {}
+    }
+    /** 低压空调感底噪 */
+    playAmbience() {
+      const ctx = this.ensure();
+      this.stopAmbience();
+      const dur = 400;
+      const bufferSize = ctx.sampleRate * dur;
+      const noiseBuffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+      const data = noiseBuffer.getChannelData(0);
+      for (let i = 0; i < bufferSize; i++) data[i] = Math.random() * 2 - 1;
+      const src = ctx.createBufferSource();
+      src.buffer = noiseBuffer;
+      src.loop = true;
+      const lp = ctx.createBiquadFilter();
+      lp.type = "lowpass";
+      lp.frequency.value = 220;
+      const g = ctx.createGain();
+      g.gain.value = 0.045;
+      src.connect(lp).connect(g).connect(ctx.destination);
+      src.start();
+      ambienceNodes = { stop: () => { try { src.stop(); src.disconnect(); lp.disconnect(); g.disconnect(); } catch (_) {} } };
+    }
+    playSpotlightClack() {
+      const ctx = this.ensure();
+      const osc = ctx.createOscillator();
+      osc.type = "square";
+      osc.frequency.value = 80;
+      const g = ctx.createGain();
+      g.gain.setValueAtTime(0.22, ctx.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.09);
+      osc.connect(g).connect(ctx.destination);
+      osc.start();
+      osc.stop(ctx.currentTime + 0.1);
+    }
+    playRedAlert() {
+      const ctx = this.ensure();
+      const g = ctx.createGain();
+      g.gain.value = 0.12;
+      g.connect(ctx.destination);
+      const o1 = ctx.createOscillator();
+      const o2 = ctx.createOscillator();
+      o1.type = "square";
+      o2.type = "square";
+      o1.frequency.value = 620;
+      o2.frequency.value = 820;
+      let flip = 0;
+      const id = setInterval(() => {
+        flip++;
+        o1.frequency.setValueAtTime(flip % 2 === 0 ? 600 : 720, ctx.currentTime);
+        o2.frequency.setValueAtTime(flip % 2 === 0 ? 880 : 760, ctx.currentTime);
+      }, 280);
+      o1.connect(g);
+      o2.connect(g);
+      o1.start();
+      o2.start();
+      setTimeout(() => {
+        clearInterval(id);
+        try { o1.stop(); o2.stop(); o1.disconnect(); o2.disconnect(); g.disconnect(); } catch (_) {}
+      }, 1500);
+    }
+    playErrorBuzz() {
+      const ctx = this.ensure();
+      const osc = ctx.createOscillator();
+      osc.type = "sawtooth";
+      osc.frequency.value = 150;
+      const g = ctx.createGain();
+      g.gain.setValueAtTime(0.18, ctx.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.35);
+      osc.connect(g).connect(ctx.destination);
+      osc.start();
+      osc.stop(ctx.currentTime + 0.36);
+    }
+    playSuccessChime() {
+      const ctx = this.ensure();
+      [880, 1320].forEach((freq, i) => {
+        const o = ctx.createOscillator();
+        o.type = "sine";
+        o.frequency.value = freq;
+        const g = ctx.createGain();
+        g.gain.setValueAtTime(0.0001, ctx.currentTime + i * 0.08);
+        g.gain.linearRampToValueAtTime(0.14, ctx.currentTime + i * 0.08 + 0.02);
+        g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + i * 0.08 + 0.35);
+        o.connect(g).connect(ctx.destination);
+        o.start(ctx.currentTime + i * 0.08);
+        o.stop(ctx.currentTime + i * 0.08 + 0.36);
+      });
+    }
+  }
+  const sfx = new DetectiveAudioEngine();
+
+  function sleep(ms) {
+    return new Promise((r) => setTimeout(r, ms));
+  }
+
+  async function azureTtsSpeak(ssmlInner) {
+    const plainLocal = ssmlInner.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+    if (window.LessonTTSBootstrap && typeof window.LessonTTSBootstrap.playLocalIfAvailable === "function") {
+      const okLocal = await window.LessonTTSBootstrap.playLocalIfAvailable(plainLocal);
+      if (okLocal) return;
+    }
+    const c = CFG();
+    const key = c.azureKey;
+    const region = c.azureRegion || "southeastasia";
+    if (!key) {
+      const plain = ssmlInner.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+      if (window.speechSynthesis) {
+        return new Promise((resolve) => {
+          const u = new SpeechSynthesisUtterance(plain);
+          u.lang = "en-US";
+          u.rate = 0.92;
+          u.onend = resolve;
+          u.onerror = resolve;
+          window.speechSynthesis.speak(u);
+        });
+      }
+      return sleep(1200);
+    }
+    const endpoint = `https://${region}.tts.speech.microsoft.com/cognitiveservices/v1`;
+    const body =
+      "<speak version='1.0' xml:lang='en-US' xmlns:mstts='http://www.w3.org/2001/mstts'>" +
+      "<voice name='en-US-GuyNeural'>" +
+      ssmlInner +
+      "</voice></speak>";
+    const ctrl = new AbortController();
+    const to = setTimeout(() => ctrl.abort(), 25000);
+    try {
+      const res = await fetch(endpoint, {
+        method: "POST",
+        signal: ctrl.signal,
+        headers: {
+          "Ocp-Apim-Subscription-Key": key,
+          "Content-Type": "application/ssml+xml",
+          "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3",
+        },
+        body,
+      });
+      clearTimeout(to);
+      if (!res.ok) throw new Error("tts " + res.status);
+      const buf = await res.arrayBuffer();
+      const blob = new Blob([buf], { type: "audio/mpeg" });
+      const url = URL.createObjectURL(blob);
+      if (currentAudioUrl) {
+        try { URL.revokeObjectURL(currentAudioUrl); } catch (_) {}
+      }
+      currentAudioUrl = url;
+      await new Promise((resolve, reject) => {
+        const a = new Audio(url);
+        a.onended = resolve;
+        a.onerror = reject;
+        a.play().catch(reject);
+      });
+    } catch (e) {
+      clearTimeout(to);
+      const plain = ssmlInner.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+      if (window.speechSynthesis) {
+        await new Promise((resolve) => {
+          const u = new SpeechSynthesisUtterance(plain);
+          u.lang = "en-US";
+          u.onend = resolve;
+          u.onerror = resolve;
+          window.speechSynthesis.speak(u);
+        });
+      } else {
+        await sleep(1400);
+      }
+    }
+  }
+
+  async function deepseekHintWrongChoice() {
+    const c = CFG();
+    const key = c.deepseekKey;
+    const ep = c.deepseekEndpoint || "https://api.deepseek.com/v1/chat/completions";
+    const model = c.deepseekModel || "deepseek-chat";
+    const local =
+      "精确时刻（at 8:00 p.m.）像在问「那一刻监控里你在做什么」，要用 was/were + doing。" +
+      "watched 更像说「看完了」这一整件事，不适合回答「八点整那一帧」。";
+    if (!key) return local;
+    const ctrl = new AbortController();
+    const to = setTimeout(() => ctrl.abort(), 22000);
+    try {
+      const res = await fetch(ep, {
+        method: "POST",
+        signal: ctrl.signal,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + key,
+        },
+        body: JSON.stringify({
+          model,
+          temperature: 0.35,
+          messages: [
+            {
+              role: "system",
+              content:
+                "你是初中英语教研员「时空侦探局」角色。学生对精确时刻误用一般过去时 watched。" +
+                "请用中文严格≤80字，对事不对人，不用侮辱词；用「监控那一帧 / 正在进行」比喻；不要直接重复正确答案短语。",
+            },
+            { role: "user", content: "学生把 watched 填进了 At 8:00 PM yesterday I ___ TV." },
+          ],
+        }),
+      });
+      clearTimeout(to);
+      if (!res.ok) throw new Error("ds " + res.status);
+      const data = await res.json();
+      let t = data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content;
+      t = (t || "").trim();
+      return t.slice(0, 120) || local;
+    } catch (_) {
+      clearTimeout(to);
+      return local;
+    }
+  }
+
+  /** 纯文本打字机（避免切开 HTML 标签） */
+  function typewriterPlain(el, fullText, msPerChar) {
+    return new Promise((resolve) => {
+      el.textContent = "";
+      let i = 0;
+      const tick = () => {
+        i++;
+        el.textContent = fullText.slice(0, i);
+        if (i >= fullText.length) {
+          resolve();
+          return;
+        }
+        setTimeout(tick, msPerChar);
+      };
+      tick();
+    });
+  }
+
+  function intersectRatio(a, b) {
+    const r1 = a.getBoundingClientRect();
+    const r2 = b.getBoundingClientRect();
+    const x1 = Math.max(r1.left, r2.left);
+    const y1 = Math.max(r1.top, r2.top);
+    const x2 = Math.min(r1.right, r2.right);
+    const y2 = Math.min(r1.bottom, r2.bottom);
+    const w = Math.max(0, x2 - x1);
+    const h = Math.max(0, y2 - y1);
+    const inter = w * h;
+    const A = Math.max(1, r1.width * r1.height);
+    return inter / A;
+  }
+
+  /** 词块中心落在「扩大后的槽位」内即视为命中（触控更友好） */
+  function chipCenterOverDrop(chipEl, slotEl, inflatePx) {
+    const cr = chipEl.getBoundingClientRect();
+    const cx = (cr.left + cr.right) / 2;
+    const cy = (cr.top + cr.bottom) / 2;
+    const r = slotEl.getBoundingClientRect();
+    const p = inflatePx || 0;
+    return cx >= r.left - p && cx <= r.right + p && cy >= r.top - p && cy <= r.bottom + p;
+  }
+
+  function snapScore(chipEl, slotEl) {
+    let s = intersectRatio(chipEl, slotEl);
+    if (chipCenterOverDrop(chipEl, slotEl, 72)) s = Math.max(s, 0.52);
+    const cr = chipEl.getBoundingClientRect();
+    const sr = slotEl.getBoundingClientRect();
+    const cx = (cr.left + cr.right) / 2;
+    const cy = (cr.top + cr.bottom) / 2;
+    const sx = (sr.left + sr.right) / 2;
+    const sy = (sr.top + sr.bottom) / 2;
+    const d = Math.hypot(cx - sx, cy - sy);
+    const near = Math.max(sr.width, sr.height) * 0.9 + 72;
+    if (d < near) s = Math.max(s, 0.32);
+    return s;
+  }
+
+  class ChipDrag {
+    constructor() {
+      this.active = null;
+      this.pointerId = null;
+      this.offsetX = 0;
+      this.offsetY = 0;
+      this._move = this._onMove.bind(this);
+      this._up = this._onUp.bind(this);
+      this.onCommit = null;
+    }
+    bind(root) {
+      root.addEventListener("pointerdown", this._onDown.bind(this), true);
+    }
+    _removeWindowListeners() {
+      window.removeEventListener("pointermove", this._move, { capture: true });
+      window.removeEventListener("pointerup", this._up, { capture: true });
+      window.removeEventListener("pointercancel", this._up, { capture: true });
+    }
+    _onDown(e) {
+      const t = e.target.closest(".chip");
+      if (!t || lessonState !== 3) return;
+      if (e.pointerType === "mouse" && e.button !== 0) return;
+      e.preventDefault();
+      e.stopPropagation();
+      this.active = t;
+      this.pointerId = e.pointerId;
+      const r = t.getBoundingClientRect();
+      this.offsetX = e.clientX - r.left;
+      this.offsetY = e.clientY - r.top;
+      t.classList.add("dragging");
+      t.style.position = "fixed";
+      t.style.left = e.clientX - this.offsetX + "px";
+      t.style.top = e.clientY - this.offsetY + "px";
+      t.style.margin = "0";
+      t.style.zIndex = "10000";
+      if (typeof anime !== "undefined") {
+        if (typeof anime.remove === "function") anime.remove(t);
+        anime({ targets: t, scale: 1.12, duration: 140, easing: "easeOutQuad" });
+      }
+      window.addEventListener("pointermove", this._move, { passive: false, capture: true });
+      window.addEventListener("pointerup", this._up, { capture: true });
+      window.addEventListener("pointercancel", this._up, { capture: true });
+    }
+    _onMove(e) {
+      if (!this.active || e.pointerId !== this.pointerId) return;
+      e.preventDefault();
+      const t = this.active;
+      t.style.left = e.clientX - this.offsetX + "px";
+      t.style.top = e.clientY - this.offsetY + "px";
+    }
+    _onUp(e) {
+      if (!this.active) return;
+      if (e.pointerId !== this.pointerId) return;
+      this._removeWindowListeners();
+      const chip = this.active;
+      this.active = null;
+      this.pointerId = null;
+      const slotEl = document.getElementById("blank-slot");
+      if (!slotEl) {
+        chip.style.position = "";
+        chip.style.left = "";
+        chip.style.top = "";
+        chip.style.margin = "";
+        chip.style.zIndex = "";
+        return;
+      }
+      const score = snapScore(chip, slotEl);
+      const text = chip.getAttribute("data-text") || "";
+      const kind = chip.getAttribute("data-kind");
+      chip.classList.remove("dragging");
+      if (typeof anime !== "undefined") {
+        if (typeof anime.remove === "function") anime.remove(chip);
+        anime({ targets: chip, scale: 1, duration: 120, easing: "easeOutQuad" });
+      }
+      const threshold = 0.22;
+      if (score >= threshold) {
+        if (this.onCommit) this.onCommit({ text, kind, chip });
+      } else {
+        chip.style.position = "";
+        chip.style.left = "";
+        chip.style.top = "";
+        chip.style.margin = "";
+        chip.style.zIndex = "";
+      }
+    }
+  }
+
+  const drag = new ChipDrag();
+  drag.bind(document.body);
+  drag.onCommit = async ({ text, kind, chip }) => {
+    if (lessonState !== 3) return;
+    if (kind === "trap") {
+      setUILock(true);
+      if (typeof anime !== "undefined") {
+        anime({
+          targets: chip,
+          translateX: [-10, 10, -8, 8, 0],
+          duration: 420,
+          easing: "easeInOutSine",
+          complete: () => {
+            chip.style.transform = "";
+          },
+        });
+      }
+      const msg = await deepseekHintWrongChoice();
+      hgBody.textContent = msg;
+      hologram.classList.add("visible");
+      chip.style.cssText = "";
+      chip.classList.remove("dragging");
+      setUILock(false);
+      return;
+    }
+    const bd = document.getElementById("blank-slot");
+    if (bd) {
+      bd.textContent = text;
+      bd.classList.add("filled-blank");
+    }
+    chip.style.visibility = "hidden";
+    await runState4Success();
+  };
+
+  async function runState4Success() {
+    lessonState = 4;
+    setUILock(false);
+    const sc = getScenario();
+    const blankEl = document.getElementById("blank-slot");
+    if (blankEl) {
+      blankEl.textContent = sc.blankAnswer;
+      blankEl.classList.add("filled-blank");
+    }
+    host.classList.remove("state-alert");
+    await sleep(520);
+    const slot = $("#l09-success-slot");
+    if (!slot) return;
+    if (slot.dataset.done === "1") return;
+    slot.dataset.done = "1";
+    slot.innerHTML = "";
+    const wrap = document.createElement("div");
+    wrap.style.cssText =
+      "width:100%;display:flex;flex-direction:column;align-items:center;gap:10px;padding-top:4px;";
+    let nextBtn = null;
+    if (scenarioIdx < SCENARIOS.length - 1) {
+      nextBtn = document.createElement("button");
+      nextBtn.type = "button";
+      nextBtn.className = "btn-ghost";
+      nextBtn.style.cssText =
+        "width:100%;max-width:min(100%,24rem);font-weight:800;font-size:clamp(0.78rem,1.45vw+0.32rem,0.92rem);";
+      nextBtn.textContent = "下一组场景：" + SCENARIOS[scenarioIdx + 1].badgeTag + " →";
+      nextBtn.addEventListener("click", () => {
+        scenarioIdx += 1;
+        runLessonFlow().catch(() => {});
+      });
+    }
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "btn-primary";
+    b.textContent = "前往 Page 02 · 时间轴分析仪 →";
+    b.onclick = () => {
+      window.location.href = "lesson09-page02-timeline.html";
+    };
+    if (nextBtn) wrap.appendChild(nextBtn);
+    wrap.appendChild(b);
+    slot.appendChild(wrap);
+    if (typeof anime !== "undefined") {
+      if (nextBtn) {
+        anime({ targets: nextBtn, opacity: [0, 1], translateY: [8, 0], duration: 400, easing: "easeOutQuad" });
+        anime({
+          targets: b,
+          opacity: [0, 1],
+          translateY: [8, 0],
+          duration: 420,
+          easing: "easeOutQuad",
+          delay: 80,
+        });
+      } else {
+        anime({
+          targets: b,
+          opacity: [0, 1],
+          translateY: [8, 0],
+          duration: 420,
+          easing: "easeOutQuad",
+        });
+      }
+    }
+    if (grammarSummaryWrap && btnGrammarSummary && grammarSummaryBody) {
+      grammarSummaryBody.classList.add("is-hidden");
+      btnGrammarSummary.disabled = false;
+      btnGrammarSummary.textContent = "语法要点 · 点击总结";
+      grammarSummaryWrap.classList.add("is-ready");
+      grammarSummaryWrap.style.opacity = "0";
+      if (typeof anime !== "undefined") {
+        anime({
+          targets: grammarSummaryWrap,
+          opacity: [0, 1],
+          duration: 420,
+          easing: "easeOutQuad",
+          delay: 100,
+        });
+      } else {
+        grammarSummaryWrap.style.opacity = "1";
+      }
+    }
+  }
+
+  hgDismiss.addEventListener("click", () => {
+    hologram.classList.remove("visible");
+    hgBody.textContent = "";
+  });
+
+  if (btnGrammarSummary && grammarSummaryBody) {
+    btnGrammarSummary.addEventListener("click", () => {
+      if (!grammarSummaryBody.classList.contains("is-hidden")) return;
+      grammarSummaryBody.classList.remove("is-hidden");
+      btnGrammarSummary.textContent = "语法要点（已展开）";
+      btnGrammarSummary.disabled = true;
+    });
+  }
+
+  async function runLessonFlow() {
+    const successSlot = $("#l09-success-slot");
+    if (successSlot) {
+      successSlot.innerHTML = "";
+      successSlot.dataset.done = "";
+    }
+    lessonState = 0;
+    if (panelBVeil) panelBVeil.classList.remove("is-off");
+    panelB.style.display = "none";
+    panelB.style.opacity = "0";
+    challengeRow.style.display = "none";
+    challengeRow.style.opacity = "0";
+    coachTip.style.opacity = "0";
+    panelB.classList.remove("is-awaiting-tap", "is-revealed-b");
+    if (panelBGuide) panelBGuide.style.display = "none";
+    if (lineB) lineB.innerHTML = "";
+    if (lineA) lineA.innerHTML = "";
+    panelA.classList.remove("is-revealed-a", "is-awaiting-tap");
+    if (grammarSummaryWrap) {
+      grammarSummaryWrap.classList.remove("is-ready");
+      grammarSummaryWrap.style.opacity = "0";
+    }
+    if (grammarSummaryBody) grammarSummaryBody.classList.add("is-hidden");
+    if (btnGrammarSummary) {
+      btnGrammarSummary.disabled = true;
+      btnGrammarSummary.textContent = "语法要点 · 点击总结";
+    }
+    chipsWrap.querySelectorAll(".chip").forEach((ch) => {
+      ch.style.visibility = "";
+      ch.style.position = "";
+      ch.style.left = "";
+      ch.style.top = "";
+      ch.style.margin = "";
+      ch.style.zIndex = "";
+      ch.classList.remove("dragging");
+    });
+    const blankReset = document.getElementById("blank-slot");
+    if (blankReset) {
+      blankReset.textContent = "";
+      blankReset.classList.remove("filled-blank");
+      blankReset.style.borderBottomStyle = "";
+      blankReset.style.borderBottomColor = "";
+    }
+    applyScenarioAssets();
+    if (scenarioIdx === 0) {
+      sfx.playAmbience();
+      await sleep(900);
+      sfx.playSpotlightClack();
+      if (typeof anime !== "undefined") {
+        anime({ targets: spotlight, opacity: [0, 1], duration: 420, easing: "easeOutQuad" });
+      } else {
+        spotlight.style.opacity = "1";
+      }
+      await sleep(200);
+    } else {
+      spotlight.style.opacity = "1";
+      await sleep(280);
+    }
+    lessonState = 1;
+    const s = getScenario();
+    panelA.classList.remove("is-revealed-a", "is-awaiting-tap");
+    if (panelAGuide) panelAGuide.style.display = "";
+    lineA.innerHTML = s.lineAQuestionHtml;
+    panelA.classList.add("is-awaiting-tap");
+    setUILock(true);
+    await azureTtsSpeak(s.ttsA);
+    setUILock(false);
+    panelA.style.opacity = "1";
+    if (imgExampleA) {
+      if (typeof anime !== "undefined") {
+        imgExampleA.style.opacity = "0";
+        anime({ targets: imgExampleA, opacity: [0, 1], duration: 500, easing: "easeOutQuad" });
+      } else {
+        imgExampleA.style.opacity = "1";
+      }
+    }
+    await sleep(900);
+
+    await new Promise((resolve) => {
+      const onTap = (ev) => {
+        if (lessonState !== 1) return;
+        ev.preventDefault();
+        panelA.removeEventListener("click", onTap, true);
+        resolve();
+      };
+      panelA.addEventListener("click", onTap, true);
+    });
+    panelA.classList.remove("is-awaiting-tap");
+    panelA.classList.add("is-revealed-a");
+    if (panelAGuide) panelAGuide.style.display = "none";
+    lineA.innerHTML = s.lineARevealHtml;
+    if (typeof anime !== "undefined") {
+      anime({ targets: lineA, opacity: [0.35, 1], scale: [0.98, 1], duration: 420, easing: "easeOutQuad" });
+    }
+    await sleep(900);
+
+    lessonState = 2;
+    if (panelBVeil) panelBVeil.classList.add("is-off");
+    panelB.style.display = "block";
+    if (typeof anime !== "undefined") {
+      anime({ targets: panelB, opacity: [0, 1], duration: 450 });
+    } else {
+      panelB.style.opacity = "1";
+    }
+    if (imgExampleB) {
+      if (typeof anime !== "undefined") {
+        imgExampleB.style.opacity = "0";
+        anime({ targets: imgExampleB, opacity: [0, 1], duration: 520, easing: "easeOutQuad", delay: 60 });
+      } else {
+        imgExampleB.style.opacity = "1";
+      }
+    }
+    challengeRow.style.display = "none";
+    challengeRow.style.opacity = "0";
+    coachTip.style.opacity = "0";
+    panelB.classList.remove("is-revealed-b");
+    panelB.classList.add("is-awaiting-tap");
+    if (panelBGuide) panelBGuide.style.display = "";
+    if (lineB) {
+      lineB.innerHTML = s.lineBQuestionHtml;
+    }
+    await sleep(600);
+
+    await new Promise((resolve) => {
+      const onTapB = (ev) => {
+        if (lessonState !== 2) return;
+        ev.preventDefault();
+        panelB.removeEventListener("click", onTapB, true);
+        resolve();
+      };
+      panelB.addEventListener("click", onTapB, true);
+    });
+    panelB.classList.remove("is-awaiting-tap");
+    panelB.classList.add("is-revealed-b");
+    if (panelBGuide) panelBGuide.style.display = "none";
+    if (lineB) {
+      lineB.innerHTML = s.lineBBlankHtml;
+    }
+    if (typeof anime !== "undefined" && lineB) {
+      anime({ targets: lineB, opacity: [0.35, 1], scale: [0.98, 1], duration: 420, easing: "easeOutQuad" });
+    }
+    challengeRow.style.display = "flex";
+    coachTip.style.opacity = "1";
+    if (typeof anime !== "undefined") {
+      anime({ targets: challengeRow, opacity: [0, 1], duration: 400 });
+      anime({ targets: coachTip, opacity: [0, 1], duration: 400, delay: 80 });
+    } else {
+      challengeRow.style.opacity = "1";
+    }
+    lessonState = 3;
+  }
+
+  window.addEventListener("load", () => {
+    runLessonFlow().catch(() => {});
+  });
+})();
+  </script>
+</body>
+</html>

@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>第09讲 · Page 05 · 听力鉴定室 · 双轨示波与证据芯片</title>
+  <script src="./assets/l09-tts-manifest.js"></script>
+  <script src="../assets/lesson-tts-bootstrap.js"></script>
+  <!-- 背景 ./assets/l09-page05-audio-bg.png · Prompt §7.5 · 指针拖拽芯片（禁止 HTML5 drag） -->
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
+  <style>
+    :root {
+      --l09-p05-bg: url("./assets/l09-page05-audio-bg.png");
+      --paper: #fff9f0;
+      --ink: #2c2c2c;
+      --crayon-red: #e85d4c;
+      --crayon-blue: #4a90d9;
+      --crayon-orange: #f0ad4e;
+      --crayon-green: #5cb85c;
+      --edge: #5d4037;
+      --scope-green: #69f0ae;
+      --phosphor: rgba(0, 255, 120, 0.22);
+      --p05-nav-h: calc(clamp(88px, 17vmin, 120px) + max(12px, env(safe-area-inset-bottom)));
+    }
+    * { box-sizing: border-box; }
+    html { overflow: hidden; max-width: 100%; font-size: clamp(13px, 0.78vw + 11px, 18px); }
+    html, body {
+      margin: 0; width: 100%; height: 100%; overflow: hidden;
+      font-family: system-ui, "Microsoft YaHei", "PingFang SC", sans-serif;
+      background: linear-gradient(155deg, #1a237e 0%, #263238 50%, #0d1117 100%);
+      color: var(--ink);
+      touch-action: manipulation;
+    }
+    body {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: max(4px, env(safe-area-inset-top)) max(2px, env(safe-area-inset-right))
+        max(4px, env(safe-area-inset-bottom)) max(2px, env(safe-area-inset-left));
+      min-height: 100dvh;
+    }
+    #viewport {
+      position: relative; width: min(100vw, 100%); height: min(100dvh, 100%);
+      max-width: 100%; max-height: 100dvh; flex-shrink: 0; overflow: hidden;
+    }
+    #p05-host {
+      position: absolute; inset: 0; isolation: isolate; overflow: hidden;
+      display: flex; flex-direction: column;
+      border: clamp(3px, 0.5vmin, 5px) solid rgba(240, 173, 78, 0.52);
+      border-radius: clamp(18px, 4vmin, 32px) clamp(10px, 2vmin, 18px) clamp(22px, 4.5vmin, 36px) clamp(12px, 2.2vmin, 20px)
+        / clamp(12px, 2.2vmin, 20px) clamp(22px, 4.5vmin, 36px) clamp(10px, 2vmin, 18px) clamp(18px, 4vmin, 32px);
+      box-shadow: inset 0 0 clamp(22px, 4vmin, 44px) rgba(0, 0, 0, 0.2), 0 clamp(8px, 1.6vmin, 16px) clamp(20px, 3vmin, 36px) rgba(0, 0, 0, 0.32);
+    }
+    #bg-stack {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 0;
+      background:
+        linear-gradient(168deg, rgba(255, 249, 240, 0.36) 0%, rgba(179, 229, 252, 0.14) 42%, rgba(26, 35, 126, 0.42) 100%),
+        var(--l09-p05-bg) center / cover no-repeat;
+      pointer-events: none;
+    }
+    #bg-stack::after {
+      content: ""; position: absolute; inset: 0;
+      background: repeating-linear-gradient(0deg, rgba(255,255,255,0.022) 0 2px, transparent 2px 5px);
+      mix-blend-mode: soft-light; opacity: 0.26; pointer-events: none;
+    }
+    #vignette {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 1;
+      pointer-events: none;
+      box-shadow: inset 0 0 clamp(34px, 9vmin, 86px) rgba(10, 12, 20, 0.36);
+    }
+    #stage {
+      position: relative; z-index: 4; flex: 1 1 auto; min-height: 0;
+      display: flex; flex-direction: column; width: 100%;
+      padding: clamp(5px, 1vmin, 10px) max(4px, env(safe-area-inset-right)) var(--p05-nav-h) max(4px, env(safe-area-inset-left));
+      gap: clamp(5px, 1vmin, 10px); overflow: hidden auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .p05-top {
+      flex-shrink: 0; display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; width: 100%;
+    }
+    .p05-top h1 {
+      margin: 0; font-size: clamp(0.88rem, 1.85vw + 0.35rem, 1.22rem); font-weight: 900; color: #e8f5e9;
+      text-shadow: 0 0 12px rgba(105, 240, 174, 0.25), 2px 2px 0 rgba(0, 0, 0, 0.22);
+      line-height: 1.12;
+    }
+    .p05-badge {
+      flex-shrink: 0; max-width: min(100%, 14rem);
+      padding: 4px 10px; border-radius: 999px; background: rgba(255, 249, 240, 0.95);
+      border: 3px solid var(--edge); font-weight: 800; font-size: clamp(0.52rem, 0.85vw + 0.14rem, 0.68rem);
+      color: #4e342e; line-height: 1.35; text-align: right;
+    }
+    .p05-strip {
+      flex-shrink: 0; width: 100%; max-width: 100%; padding: 7px 11px; border-radius: 10px; text-align: center;
+      background: rgba(255, 253, 248, 0.93); border: 2px solid rgba(93, 64, 55, 0.35);
+      font-weight: 700; font-size: clamp(0.68rem, 1.05vw + 0.22rem, 0.84rem); color: #37474f; line-height: 1.45;
+    }
+    .p05-strip strong { color: var(--grammar-blue); }
+
+    #scope-wrap {
+      position: relative; flex-shrink: 0; width: 100%; max-width: 100%; height: clamp(64px, 12vmin, 100px);
+      border-radius: 12px; overflow: hidden;
+      background: radial-gradient(ellipse at center, #0a1628 0%, #020617 100%);
+      border: 2px solid rgba(105, 240, 174, 0.35);
+      box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.65);
+    }
+    #scope-canvas { display: block; width: 100%; height: 100%; }
+    #snow-canvas {
+      position: absolute; inset: 0; z-index: 5; pointer-events: none; opacity: 0; transition: opacity 0.15s ease;
+    }
+    #snow-canvas.is-on { opacity: 1; }
+
+    .p05-audio-row {
+      flex-shrink: 0; display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; align-items: center; width: 100%;
+    }
+    .p05-audio-row button {
+      appearance: none; cursor: pointer; font-weight: 900;
+      font-size: clamp(0.62rem, 0.95vw + 0.18rem, 0.76rem);
+      padding: 7px 13px; border-radius: 999px; border: 2px solid var(--edge);
+      background: rgba(255, 249, 240, 0.96); color: #4e342e;
+    }
+    .p05-audio-row button.p05-hot {
+      background: linear-gradient(180deg, var(--crayon-orange), #e65100); color: #fff; border-color: rgba(0, 0, 0, 0.1);
+    }
+    .p05-audio-row button:disabled { opacity: 0.45; cursor: not-allowed; }
+
+    details.p05-reveal {
+      flex-shrink: 0; width: 100%; max-width: 100%;
+      background: rgba(38, 50, 56, 0.55); border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 10px; padding: 4px 10px; color: #ffffff;
+      font-size: clamp(1.612rem, 2.392vw + 0.416rem, 1.924rem);
+    }
+    details.p05-reveal summary { cursor: pointer; font-weight: 900; color: #ffffff; }
+    details.p05-reveal .en {
+      font-style: normal; font-weight: 900; line-height: 1.55; margin-top: 6px; color: #ffffff;
+    }
+
+    #p05-board {
+      flex: 1 1 auto; min-height: 0; width: 100%; max-width: 100%;
+      display: grid; grid-template-rows: auto auto 1fr; gap: 8px;
+    }
+    .p05-track {
+      min-height: clamp(72px, 14vmin, 120px); padding: 8px 10px; border-radius: 12px;
+      background: rgba(255, 253, 248, 0.94); border: 2px dashed rgba(93, 64, 55, 0.35);
+      display: flex; flex-wrap: wrap; align-content: flex-start; gap: 8px; align-items: flex-start;
+    }
+    .p05-track[data-track="bg"] { border-color: rgba(21, 101, 192, 0.45); }
+    .p05-track[data-track="ev"] { border-color: rgba(229, 57, 53, 0.45); }
+    .p05-track-title {
+      width: 100%; font-weight: 900; font-size: clamp(0.845rem, 1.3vw + 0.234rem, 1.014rem); margin: 0 0 2px;
+    }
+    .p05-track[data-track="bg"] .p05-track-title { color: #0d47a1; }
+    .p05-track[data-track="ev"] .p05-track-title { color: #b71c1c; }
+
+    details.p05-bank-wrap {
+      flex-shrink: 0; width: 100%; max-width: 100%;
+      border-radius: 12px; background: rgba(13, 17, 23, 0.45); border: 2px solid rgba(255, 255, 255, 0.14);
+      min-height: 0;
+    }
+    details.p05-bank-wrap summary.p05-bank-summary {
+      list-style: none;
+      cursor: pointer;
+      font-weight: 900;
+      font-size: clamp(0.78rem, 1.17vw + 0.195rem, 0.936rem);
+      color: #eceff1;
+      padding: 8px 10px;
+      user-select: none;
+    }
+    details.p05-bank-wrap summary.p05-bank-summary::-webkit-details-marker { display: none; }
+    details.p05-bank-wrap summary.p05-bank-summary::marker { content: ""; }
+
+    .p05-bank {
+      padding: 8px 10px 10px; border-radius: 0 0 10px 10px; min-height: clamp(64px, 12vmin, 100px);
+      background: rgba(13, 17, 23, 0.25); border: none; border-top: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex; flex-wrap: wrap; gap: 8px; align-content: flex-start; align-items: flex-start;
+    }
+
+    .p05-chip {
+      position: relative; max-width: 100%; padding: 10px 14px; border-radius: 10px; cursor: grab;
+      font-weight: 800; font-size: clamp(0.806rem, 1.235vw + 0.208rem, 0.962rem); line-height: 1.35;
+      background: linear-gradient(180deg, #fffef7, #ffe0b2); border: 2px solid var(--edge);
+      color: #4e342e; touch-action: none; user-select: none;
+      box-shadow: 0 2px 0 rgba(93, 64, 55, 0.12);
+    }
+    .p05-chip.is-dragging { opacity: 0.88; z-index: 50; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35); }
+    .p05-chip.is-wrong { animation: p05-shake 0.35s ease; border-color: var(--crayon-red); }
+    @keyframes p05-shake {
+      0%,100%{ transform: translateX(0); } 25%{ transform: translateX(-4px); } 75%{ transform: translateX(4px); }
+    }
+
+    .p05-tools {
+      flex-shrink: 0; display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; width: 100%;
+    }
+    .p05-tools button {
+      appearance: none; cursor: pointer; font-weight: 900;
+      font-size: clamp(0.65rem, 1vw + 0.2rem, 0.8rem);
+      padding: 8px 14px; border-radius: 999px; border: 2px solid var(--edge);
+      background: rgba(255, 249, 240, 0.96); color: #4e342e;
+    }
+    .p05-tools button.p05-primary {
+      background: linear-gradient(180deg, var(--crayon-orange), #e65100); color: #fff; border-color: rgba(0, 0, 0, 0.1);
+    }
+
+    #ui-lock {
+      position: fixed; inset: 0; z-index: 200; display: none; align-items: center; justify-content: center;
+      background: rgba(0, 0, 0, 0.36); pointer-events: auto;
+    }
+    #ui-lock.active { display: flex; }
+    #ui-lock .msg {
+      padding: 14px 20px; border-radius: 14px; background: rgba(255, 249, 240, 0.98);
+      border: 3px solid var(--edge); font-weight: 900; color: #4e342e;
+    }
+
+    #p05-bottom-dock {
+      position: fixed; z-index: 40; left: max(8px, env(safe-area-inset-left)); right: max(8px, env(safe-area-inset-right));
+      bottom: max(8px, env(safe-area-inset-bottom));
+      padding: clamp(7px, 1.2vmin, 11px) clamp(9px, 1.8vmin, 13px);
+      border-radius: clamp(14px, 2.2vmin, 20px);
+      background: rgba(38, 50, 56, 0.45);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 2px solid rgba(255, 255, 255, 0.22);
+      box-shadow: 0 -2px 20px rgba(0, 0, 0, 0.15);
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px;
+    }
+    .btn-ghost, .btn-primary {
+      appearance: none; cursor: pointer; font-weight: 900;
+      font-size: clamp(0.65rem, 1.05vw + 0.22rem, 0.8rem);
+      border-radius: 999px; padding: 8px 14px; text-decoration: none; display: inline-flex;
+      align-items: center; justify-content: center; border: 2px solid transparent;
+    }
+    .btn-ghost { color: #eceff1; background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.2); }
+    .btn-primary { color: #fff; background: linear-gradient(180deg, var(--crayon-orange), #e65100); border-color: rgba(0, 0, 0, 0.1); }
+
+    @media print {
+      html, body { background: #fff; overflow: auto; height: auto; }
+      #bg-stack, #vignette, #p05-bottom-dock, #scope-wrap, #snow-canvas, #ui-lock, .p05-audio-row { display: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <script>
+    window.L09_CFG = window.L09_CFG || {
+      azureKey: "C42UQWeDcluYanbo17WrtUnPhk0vkZy2uQHPTCGDzY6CdEXx99NzJQQJ99BIACqBBLyXJ3w3AAAYACOGjkyu",
+      azureRegion: "southeastasia",
+      azureTtsEndpoint: "https://{region}.tts.speech.microsoft.com/cognitiveservices/v1",
+      deepseekKey: "",
+      deepseekEndpoint: "https://api.deepseek.com/v1/chat/completions",
+      deepseekModel: "deepseek-chat"
+    };
+  </script>
+  <div id="ui-lock" aria-hidden="true"><div class="msg" id="ui-lock-msg">处理中…</div></div>
+
+  <div id="viewport">
+    <div id="p05-host">
+      <div id="bg-stack"></div>
+      <div id="vignette"></div>
+      <div id="stage">
+        <div class="p05-top">
+          <h1>听力鉴定室 · 双轨示波</h1>
+          <div class="p05-badge">Page 05 · 听力技能<br />Web Audio 滤波 + 示波</div>
+        </div>
+        <div class="p05-strip">
+          先<strong>收听</strong>独白（无线电质感），再将六枚<strong>证据芯片</strong>拖入
+          <strong>背景音轨（过去进行时 / 长背景）</strong>或<strong>事件点（一般过去时 / 突变）</strong>。
+        </div>
+
+        <div id="scope-wrap">
+          <canvas id="scope-canvas" aria-label="示波器"></canvas>
+          <canvas id="snow-canvas" aria-hidden="true"></canvas>
+        </div>
+
+        <div class="p05-audio-row">
+          <button type="button" class="p05-hot" id="btn-azure">收听广播</button>
+          <button type="button" id="btn-stop">停止</button>
+        </div>
+
+        <details class="p05-reveal">
+          <summary>听力原文（课堂可课前折叠）</summary>
+          <p class="en" id="script-en"></p>
+        </details>
+
+        <div id="p05-board">
+          <div class="p05-track" data-track="bg" id="zone-bg">
+            <div class="p05-track-title">背景音轨 · 过去进行时（长背景 / was · doing）</div>
+          </div>
+          <div class="p05-track" data-track="ev" id="zone-ev">
+            <div class="p05-track-title">事件点 · 一般过去时（突变 / did）</div>
+          </div>
+          <details class="p05-bank-wrap" id="chip-bank-wrap">
+            <summary class="p05-bank-summary" aria-label="展开或折叠待分拣区">待分拣区</summary>
+            <div class="p05-bank" id="chip-bank"></div>
+          </details>
+        </div>
+
+        <div class="p05-tools">
+          <button type="button" class="p05-primary" id="btn-verify">验证分类</button>
+          <button type="button" id="btn-reset">重置芯片</button>
+        </div>
+      </div>
+    </div>
+
+    <nav id="p05-bottom-dock">
+      <a class="btn-ghost" href="lesson09-page04-reactor.html">← Page 04</a>
+      <a class="btn-primary" href="lesson09-page06-dossier.html">前往 Page 06 →</a>
+    </nav>
+  </div>
+
+  <script>
+    (function () {
+      const $ = (s, r) => (r || document).querySelector(s);
+      const $$ = (s, r) => Array.from((r || document).querySelectorAll(s));
+
+      const SCRIPT =
+        "Last Wednesday night, I was driving home slowly in heavy rain. I was listening to the weather report when suddenly a dog rushed into the street. " +
+        "While I was braking as hard as I could, my phone rang once. Then I heard a long horn and a crash behind us.";
+
+      const CHIPS = [
+        { id: "a", correct: "bg", text: "I was driving home slowly in heavy rain." },
+        { id: "b", correct: "bg", text: "I was listening to the weather report." },
+        { id: "c", correct: "bg", text: "I was braking as hard as I could." },
+        { id: "d", correct: "ev", text: "Suddenly, a dog rushed into the street." },
+        { id: "e", correct: "ev", text: "My phone rang once." },
+        { id: "f", correct: "ev", text: "Then I heard a long horn and a crash behind us." }
+      ];
+
+      $("#script-en").textContent = SCRIPT;
+
+      const CFG = () => (typeof window !== "undefined" && window.L09_CFG) ? window.L09_CFG : {};
+      const uiLock = $("#ui-lock");
+      const uiLockMsg = $("#ui-lock-msg");
+      const scopeCanvas = $("#scope-canvas");
+      const snowCanvas = $("#snow-canvas");
+      const bank = $("#chip-bank");
+
+      function setUiLock(on, msg) {
+        uiLock.classList.toggle("active", !!on);
+        uiLock.setAttribute("aria-hidden", on ? "false" : "true");
+        if (msg) uiLockMsg.textContent = msg;
+      }
+
+      function shuffle(arr) {
+        const a = arr.slice();
+        for (let i = a.length - 1; i > 0; i--) {
+          const j = (Math.random() * (i + 1)) | 0;
+          const t = a[i];
+          a[i] = a[j];
+          a[j] = t;
+        }
+        return a;
+      }
+
+      function buildChips() {
+        bank.querySelectorAll(".p05-chip").forEach(function (n) { n.remove(); });
+        shuffle(CHIPS).forEach(function (c) {
+          const el = document.createElement("div");
+          el.className = "p05-chip";
+          el.dataset.id = c.id;
+          el.dataset.correct = c.correct;
+          el.textContent = c.text;
+          bank.appendChild(el);
+        });
+      }
+
+      let ac = null;
+      let noiseNode = null;
+      let voiceNode = null;
+      let analyser = null;
+      let scopeRaf = 0;
+      let playing = false;
+
+      function getAC() {
+        const Ctx = window.AudioContext || window.webkitAudioContext;
+        if (!Ctx) return null;
+        if (!ac) ac = new Ctx();
+        return ac;
+      }
+
+      function makeDistortionCurve(amount) {
+        const n = 44100;
+        const curve = new Float32Array(n);
+        const k = amount;
+        for (let i = 0; i < n; i++) {
+          const x = (i * 2) / n - 1;
+          curve[i] = ((3 + k) * x * 20 * Math.PI) / (Math.PI + k * Math.abs(x));
+        }
+        return curve;
+      }
+
+      function makeWhiteBuffer(ctx, seconds) {
+        const len = Math.floor(ctx.sampleRate * seconds);
+        const buf = ctx.createBuffer(1, len, ctx.sampleRate);
+        const d = buf.getChannelData(0);
+        for (let i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
+        return buf;
+      }
+
+      function buildRadioChain(ctx, mergeIn) {
+        const hp = ctx.createBiquadFilter();
+        hp.type = "highpass";
+        hp.frequency.value = 400;
+        const lp = ctx.createBiquadFilter();
+        lp.type = "lowpass";
+        lp.frequency.value = 3000;
+        const sh = ctx.createWaveShaper();
+        sh.curve = makeDistortionCurve(6);
+        mergeIn.connect(hp);
+        hp.connect(lp);
+        lp.connect(sh);
+        return sh;
+      }
+
+      /** 语音走轻度带限即可；不要 WaveShaper，否则 TTS 易被「糊」成一片噪音感。 */
+      function buildVoiceAirChain(ctx, mergeIn) {
+        const hp = ctx.createBiquadFilter();
+        hp.type = "highpass";
+        hp.frequency.value = 90;
+        const lp = ctx.createBiquadFilter();
+        lp.type = "lowpass";
+        lp.frequency.value = 12000;
+        mergeIn.connect(hp);
+        hp.connect(lp);
+        return lp;
+      }
+
+      function stopAudio() {
+        playing = false;
+        cancelAnimationFrame(scopeRaf);
+        try {
+          if (noiseNode) { noiseNode.stop(); noiseNode.disconnect(); }
+        } catch (_) {}
+        try {
+          if (voiceNode) { voiceNode.stop(); voiceNode.disconnect(); }
+        } catch (_) {}
+        noiseNode = null;
+        voiceNode = null;
+        window.speechSynthesis.cancel();
+        const ctx = scopeCanvas.getContext("2d");
+        if (ctx) ctx.clearRect(0, 0, scopeCanvas.width, scopeCanvas.height);
+      }
+
+      /**
+       * Azure 失败或未配密钥时的回退：Web Audio 底噪 + 无线电链 + speechSynthesis。
+       */
+      function playWebAudioRadioUtterance(opts) {
+        opts = opts || {};
+        stopAudio();
+        const ctx = getAC();
+        if (!ctx) {
+          window.speechSynthesis.speak(new SpeechSynthesisUtterance(SCRIPT));
+          return Promise.resolve();
+        }
+        return ctx
+          .resume()
+          .catch(function () {})
+          .then(function () {
+            const noiseBuf = makeWhiteBuffer(ctx, 4);
+            const noiseSrc = ctx.createBufferSource();
+            noiseSrc.buffer = noiseBuf;
+            noiseSrc.loop = true;
+            noiseNode = noiseSrc;
+            const noiseGain = ctx.createGain();
+            noiseGain.gain.value = 0.00175;
+            const end = buildRadioChain(ctx, noiseGain);
+            noiseSrc.connect(noiseGain);
+            analyser = ctx.createAnalyser();
+            analyser.fftSize = 2048;
+            end.connect(analyser);
+            analyser.connect(ctx.destination);
+            noiseSrc.start();
+            playing = true;
+            resizeScope();
+            drawScope();
+
+            const u = new SpeechSynthesisUtterance(SCRIPT);
+            u.lang = "en-US";
+            u.rate = 0.92;
+            u.volume = 1;
+            u.onend = function () {
+              try {
+                noiseSrc.stop();
+              } catch (_) {}
+              playing = false;
+              cancelAnimationFrame(scopeRaf);
+            };
+            window.speechSynthesis.speak(u);
+          });
+      }
+
+      function resizeScope() {
+        const w = scopeCanvas.parentElement.clientWidth;
+        const h = scopeCanvas.parentElement.clientHeight;
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        scopeCanvas.width = Math.floor(w * dpr);
+        scopeCanvas.height = Math.floor(h * dpr);
+        scopeCanvas.style.width = w + "px";
+        scopeCanvas.style.height = h + "px";
+        snowCanvas.width = scopeCanvas.width;
+        snowCanvas.height = scopeCanvas.height;
+        snowCanvas.style.width = scopeCanvas.style.width;
+        snowCanvas.style.height = scopeCanvas.style.height;
+        const c = scopeCanvas.getContext("2d");
+        c.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+
+      function drawScope() {
+        if (!playing || !analyser) return;
+        const ctx = scopeCanvas.getContext("2d");
+        const w = scopeCanvas.clientWidth;
+        const h = scopeCanvas.clientHeight;
+        ctx.fillStyle = "rgba(0, 18, 12, 0.22)";
+        ctx.fillRect(0, 0, w, h);
+        const buf = new Uint8Array(analyser.frequencyBinCount);
+        analyser.getByteTimeDomainData(buf);
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = "rgba(105, 240, 174, 0.85)";
+        ctx.beginPath();
+        const step = w / buf.length;
+        for (let i = 0; i < buf.length; i++) {
+          const v = buf[i] / 128.0;
+          const y = v * (h * 0.45) + h * 0.28;
+          const x = i * step;
+          if (i === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+        scopeRaf = requestAnimationFrame(drawScope);
+      }
+
+      async function playAzure() {
+        if (window.LessonTTSBootstrap && typeof window.LessonTTSBootstrap.playLocalIfAvailable === "function") {
+          const localOk = await window.LessonTTSBootstrap.playLocalIfAvailable(SCRIPT);
+          if (localOk) return;
+        }
+        const c = CFG();
+        const key = (c.azureKey || "").trim();
+        const region = (c.azureRegion || "southeastasia").trim();
+        if (!key) {
+          await playWebAudioRadioUtterance({});
+          return;
+        }
+        stopAudio();
+        const ctx = getAC();
+        if (!ctx) {
+          await playWebAudioRadioUtterance({});
+          return;
+        }
+        await ctx.resume().catch(function () {});
+        const isFile = location.protocol === "file:";
+        setUiLock(true, isFile ? "正在搜索频道" : "Azure 语音合成中…");
+        try {
+          const ep = (c.azureTtsEndpoint || "https://" + region + ".tts.speech.microsoft.com/cognitiveservices/v1")
+            .replace("{region}", region);
+          const safe = SCRIPT.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+          const ssml =
+            '<speak version="1.0" xml:lang="en-US"><voice name="en-US-ChristopherNeural">' +
+            "<prosody rate=\"-4%\">" + safe + "</prosody></voice></speak>";
+          const res = await fetch(ep, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/ssml+xml",
+              "X-Microsoft-OutputFormat": "riff-16khz-16bit-mono-pcm",
+              "Ocp-Apim-Subscription-Key": key
+            },
+            body: ssml
+          });
+          if (!res.ok) {
+            const errTxt = await res.text().catch(function () {
+              return "";
+            });
+            throw new Error("TTS HTTP " + res.status + (errTxt ? " · " + errTxt.slice(0, 120) : ""));
+          }
+          const arr = await res.arrayBuffer();
+          const copy = arr.slice(0);
+          const audioBuf = await ctx.decodeAudioData(copy);
+          const noiseBuf = makeWhiteBuffer(ctx, 3);
+          const noiseSrc = ctx.createBufferSource();
+          noiseNode = noiseSrc;
+          noiseSrc.buffer = noiseBuf;
+          noiseSrc.loop = true;
+          const noiseGain = ctx.createGain();
+          noiseGain.gain.value = 0.0015;
+          const radioEnd = buildRadioChain(ctx, noiseGain);
+          noiseSrc.connect(noiseGain);
+
+          const voiceSrc = ctx.createBufferSource();
+          voiceNode = voiceSrc;
+          voiceSrc.buffer = audioBuf;
+          const voiceGain = ctx.createGain();
+          voiceGain.gain.value = 3.84;
+          const voiceAir = buildVoiceAirChain(ctx, voiceGain);
+          voiceSrc.connect(voiceGain);
+
+          analyser = ctx.createAnalyser();
+          analyser.fftSize = 2048;
+          radioEnd.connect(analyser);
+          voiceAir.connect(analyser);
+          analyser.connect(ctx.destination);
+
+          playing = true;
+          noiseSrc.start();
+          voiceSrc.start();
+          voiceSrc.onended = function () {
+            try { noiseSrc.stop(); } catch (_) {}
+            playing = false;
+            cancelAnimationFrame(scopeRaf);
+          };
+          resizeScope();
+          drawScope();
+        } catch (e) {
+          await playWebAudioRadioUtterance({});
+        } finally {
+          setUiLock(false);
+        }
+      }
+
+      function flashSnow(ms) {
+        snowCanvas.classList.add("is-on");
+        const ctx = snowCanvas.getContext("2d");
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        const w = snowCanvas.clientWidth;
+        const h = snowCanvas.clientHeight;
+        let t0 = performance.now();
+        function f(t) {
+          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+          ctx.clearRect(0, 0, w, h);
+          const img = ctx.createImageData(w, h);
+          for (let i = 0; i < img.data.length; i += 4) {
+            const v = (Math.random() * 255) | 0;
+            img.data[i] = v;
+            img.data[i + 1] = v;
+            img.data[i + 2] = v;
+            img.data[i + 3] = 200;
+          }
+          ctx.putImageData(img, 0, 0);
+          if (t - t0 < ms) requestAnimationFrame(f);
+          else {
+            snowCanvas.classList.remove("is-on");
+            ctx.clearRect(0, 0, w, h);
+          }
+        }
+        requestAnimationFrame(f);
+      }
+
+      async function deepseekWrong(lines) {
+        const c = CFG();
+        const key = (c.deepseekKey || "").trim();
+        if (!key) {
+          return "背景轨多用 was / were + doing 表持续；事件点用一般过去表打断。请对照听力中的先后顺序。";
+        }
+        const ep = c.deepseekEndpoint || "https://api.deepseek.com/v1/chat/completions";
+        setUiLock(true, "DeepSeek 分析中…");
+        try {
+          const res = await fetch(ep, {
+            method: "POST",
+            headers: { "Content-Type": "application/json", Authorization: "Bearer " + key },
+            body: JSON.stringify({
+              model: c.deepseekModel || "deepseek-chat",
+              temperature: 0.35,
+              messages: [
+                { role: "system", content: "你是初中英语听力教研员。最多80字中文说明芯片为何放错轨；对事不对人。" },
+                { role: "user", content: lines.join("\n") }
+              ]
+            })
+          });
+          const raw = await res.text();
+          let text = raw;
+          try {
+            const j = JSON.parse(raw);
+            text = (j.choices && j.choices[0] && j.choices[0].message && j.choices[0].message.content) || raw;
+          } catch (_) {}
+          return String(text).replace(/```json|```/gi, "").trim().slice(0, 200);
+        } catch (e) {
+          return "请求失败：" + (e && e.message ? e.message : "unknown");
+        } finally {
+          setUiLock(false);
+        }
+      }
+
+      let drag = null;
+      function onChipDown(e) {
+        const chip = e.target.closest(".p05-chip");
+        if (!chip || !e.isPrimary) return;
+        e.preventDefault();
+        const r = chip.getBoundingClientRect();
+        drag = {
+          chip: chip,
+          pid: e.pointerId,
+          dx: e.clientX - r.left,
+          dy: e.clientY - r.top,
+          w: r.width,
+          h: r.height
+        };
+        chip.classList.add("is-dragging");
+        chip.style.position = "fixed";
+        chip.style.left = r.left + "px";
+        chip.style.top = r.top + "px";
+        chip.style.width = r.width + "px";
+        chip.style.zIndex = "100";
+        chip.setPointerCapture(e.pointerId);
+      }
+      function onChipMove(e) {
+        if (!drag || e.pointerId !== drag.pid) return;
+        drag.chip.style.left = e.clientX - drag.dx + "px";
+        drag.chip.style.top = e.clientY - drag.dy + "px";
+      }
+      function onChipUp(e) {
+        if (!drag || e.pointerId !== drag.pid) return;
+        const chip = drag.chip;
+        try { chip.releasePointerCapture(e.pointerId); } catch (_) {}
+        chip.classList.remove("is-dragging");
+        const under = document.elementsFromPoint(e.clientX, e.clientY);
+        let zone = null;
+        for (let i = 0; i < under.length; i++) {
+          const el = under[i];
+          if (el && el.classList && el.classList.contains("p05-track")) {
+            zone = el;
+            break;
+          }
+          if (el && el.id === "chip-bank") {
+            zone = bank;
+            break;
+          }
+        }
+        chip.style.position = "";
+        chip.style.left = "";
+        chip.style.top = "";
+        chip.style.width = "";
+        chip.style.zIndex = "";
+        if (zone && zone.classList.contains("p05-track")) zone.appendChild(chip);
+        else bank.appendChild(chip);
+        drag = null;
+      }
+
+      function wireChips() {
+        $$(".p05-chip").forEach(function (chip) {
+          chip.addEventListener("pointerdown", onChipDown);
+          chip.addEventListener("pointermove", onChipMove);
+          chip.addEventListener("pointerup", onChipUp);
+          chip.addEventListener("pointercancel", onChipUp);
+        });
+      }
+
+      $("#btn-azure").addEventListener("click", playAzure);
+      $("#btn-stop").addEventListener("click", stopAudio);
+
+      $("#btn-reset").addEventListener("click", function () {
+        stopAudio();
+        buildChips();
+        wireChips();
+      });
+
+      $("#btn-verify").addEventListener("click", async function () {
+        const wrong = [];
+        $$(".p05-chip").forEach(function (chip) {
+          chip.classList.remove("is-wrong");
+          const parent = chip.parentElement;
+          const track = parent && parent.dataset ? parent.dataset.track : "";
+          if (!track || track !== chip.dataset.correct) wrong.push(chip);
+        });
+        if (wrong.length) {
+          wrong.forEach(function (c) { c.classList.add("is-wrong"); });
+          flashSnow(650);
+          const lines = wrong.map(function (c) {
+            const p = c.parentElement;
+            const z = p && p.dataset ? p.dataset.track : "";
+            const where = z === "bg" ? "背景轨" : z === "ev" ? "事件轨" : "待分拣区";
+            return "「" + c.textContent.trim() + "」当前在：" + where;
+          });
+          await deepseekWrong(lines);
+          return;
+        }
+        try {
+          if (typeof anime !== "undefined") {
+            anime({ targets: "#zone-bg", borderColor: ["#66bb6a", "rgba(21, 101, 192, 0.45)"], duration: 700 });
+            anime({ targets: "#zone-ev", borderColor: ["#66bb6a", "rgba(229, 57, 53, 0.45)"], duration: 700 });
+          }
+        } catch (_) {}
+      });
+
+      window.addEventListener("resize", function () { resizeScope(); });
+      new ResizeObserver(resizeScope).observe($("#scope-wrap"));
+
+      buildChips();
+      wireChips();
+      resizeScope();
+    })();
+  </script>
+</body>
+</html>

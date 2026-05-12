@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>第09讲 · Page 07 · 看图写话 · While / When + came across</title>
+  <script src="./assets/l09-tts-manifest.js"></script>
+  <script src="../assets/lesson-tts-bootstrap.js"></script>
+  <!-- 连环画 ./assets/l09-page07-comic-*.png · Prompt §7.7 -->
+  <style>
+    :root {
+      --paper: #fff9f0;
+      --ink: #2c2c2c;
+      --crayon-red: #e85d4c;
+      --crayon-blue: #4a90d9;
+      --crayon-orange: #f0ad4e;
+      --crayon-green: #5cb85c;
+      --edge: #5d4037;
+      --grammar-blue: #1565c0;
+      --p07-nav-h: calc(clamp(88px, 17vmin, 120px) + max(12px, env(safe-area-inset-bottom)));
+    }
+    * { box-sizing: border-box; }
+    html { overflow: hidden; max-width: 100%; font-size: clamp(13px, 0.78vw + 11px, 18px); }
+    html, body {
+      margin: 0; width: 100%; height: 100%; overflow: hidden;
+      font-family: system-ui, "Microsoft YaHei", "PingFang SC", sans-serif;
+      background: linear-gradient(155deg, #4e342e 0%, #6d4c41 40%, #1b1209 100%);
+      color: var(--ink);
+      touch-action: manipulation;
+    }
+    body {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: max(4px, env(safe-area-inset-top)) max(2px, env(safe-area-inset-right))
+        max(4px, env(safe-area-inset-bottom)) max(2px, env(safe-area-inset-left));
+      min-height: 100dvh;
+    }
+    #viewport {
+      position: relative; width: min(100vw, 100%); height: min(100dvh, 100%);
+      max-width: 100%; max-height: 100dvh; flex-shrink: 0; overflow: hidden;
+    }
+    #p07-host {
+      position: absolute; inset: 0; isolation: isolate; overflow: hidden;
+      display: flex; flex-direction: column;
+      border: clamp(3px, 0.5vmin, 5px) solid rgba(240, 173, 78, 0.52);
+      border-radius: clamp(18px, 4vmin, 32px) clamp(10px, 2vmin, 18px) clamp(22px, 4.5vmin, 36px) clamp(12px, 2.2vmin, 20px)
+        / clamp(12px, 2.2vmin, 20px) clamp(22px, 4.5vmin, 36px) clamp(10px, 2vmin, 18px) clamp(18px, 4vmin, 32px);
+      box-shadow: inset 0 0 clamp(22px, 4vmin, 44px) rgba(0, 0, 0, 0.18), 0 clamp(8px, 1.6vmin, 16px) clamp(20px, 3vmin, 36px) rgba(0, 0, 0, 0.32);
+      background: linear-gradient(180deg, rgba(255, 249, 240, 0.12) 0%, transparent 28%);
+    }
+    #vignette {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 1;
+      pointer-events: none;
+      box-shadow: inset 0 0 clamp(36px, 10vmin, 88px) rgba(20, 12, 8, 0.35);
+    }
+    #stage {
+      position: relative; z-index: 4; flex: 1 1 auto; min-height: 0;
+      display: flex; flex-direction: column; width: 100%;
+      padding: clamp(5px, 1vmin, 10px) max(4px, env(safe-area-inset-right)) var(--p07-nav-h) max(4px, env(safe-area-inset-left));
+      gap: clamp(5px, 1vmin, 10px); overflow: hidden auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .p07-top {
+      flex-shrink: 0; display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; width: 100%;
+    }
+    .p07-top h1 {
+      margin: 0; font-size: clamp(0.88rem, 1.85vw + 0.35rem, 1.22rem); font-weight: 900; color: #fff8e1;
+      text-shadow: 0 0 12px rgba(255, 183, 77, 0.28), 2px 2px 0 rgba(0, 0, 0, 0.22);
+      line-height: 1.12;
+    }
+    .p07-badge {
+      flex-shrink: 0; max-width: min(100%, 15rem);
+      padding: 4px 10px; border-radius: 999px; background: rgba(255, 249, 240, 0.95);
+      border: 3px solid var(--edge); font-weight: 800; font-size: clamp(0.52rem, 0.85vw + 0.14rem, 0.68rem);
+      color: #4e342e; line-height: 1.35; text-align: right;
+    }
+    .p07-strip {
+      flex-shrink: 0; width: 100%; max-width: 100%; padding: 8px 12px; border-radius: 10px; text-align: center;
+      background: rgba(255, 253, 248, 0.94); border: 2px solid rgba(93, 64, 55, 0.35);
+      font-weight: 700; font-size: clamp(0.68rem, 1.05vw + 0.22rem, 0.84rem); color: #37474f; line-height: 1.45;
+    }
+    .p07-strip strong { color: var(--grammar-blue); }
+
+    .p07-guide {
+      flex-shrink: 0; display: flex; flex-direction: column;
+      gap: clamp(8px, 1.5vw, 14px); width: 100%; align-items: stretch;
+    }
+    .p07-guide-row {
+      display: grid; grid-template-columns: 1fr; gap: clamp(8px, 1.5vw, 14px);
+      align-items: start; width: 100%; min-width: 0;
+    }
+    .p07-guide-row.has-socratic {
+      grid-template-columns: minmax(0, 40%) minmax(0, 1fr);
+    }
+    @media (max-width: 720px) {
+      .p07-guide-row.has-socratic { grid-template-columns: 1fr; }
+    }
+    .p07-comic {
+      margin: 0; width: 100%; max-width: 100%;
+      border-radius: 12px; overflow: hidden; border: 2px solid var(--edge);
+      background: rgba(255, 253, 248, 0.96); box-shadow: 0 4px 0 rgba(93, 64, 55, 0.1);
+      transition: box-shadow 0.25s ease, border-color 0.25s ease;
+    }
+    .p07-comic.is-active {
+      border-color: var(--crayon-orange);
+      box-shadow: 0 0 0 3px rgba(240, 173, 78, 0.45), 0 4px 0 rgba(93, 64, 55, 0.12);
+    }
+    .p07-comic img {
+      display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover;
+    }
+    /** 占位第二列，避免提问区移到别行时本行变单列、连环画被拉满变「放大」 */
+    .p07-socratic-spacer {
+      min-width: 0;
+      min-height: 0;
+      align-self: stretch;
+    }
+    .p07-socratic {
+      min-width: 0; padding: 10px 12px; border-radius: 12px;
+      background: rgba(255, 253, 248, 0.96); border: 2px solid rgba(93, 64, 55, 0.38);
+      box-shadow: 0 2px 0 rgba(93, 64, 55, 0.08);
+      display: flex; flex-direction: column; gap: 0; min-height: 0;
+    }
+    .p07-socratic-head {
+      font-weight: 900; font-size: clamp(0.72rem, 1.05vw + 0.2rem, 0.88rem); color: #4e342e; margin: 0 0 8px;
+      padding-bottom: 6px; border-bottom: 2px dashed rgba(93, 64, 55, 0.28);
+      flex-shrink: 0;
+    }
+    .p07-socratic-meta {
+      margin: 0 0 8px; font-weight: 800; font-size: clamp(0.58rem, 0.85vw + 0.14rem, 0.72rem); color: var(--grammar-blue);
+      flex-shrink: 0;
+    }
+    .p07-socratic-q {
+      margin: 0 0 10px; font-weight: 700; font-size: clamp(0.68rem, 1vw + 0.18rem, 0.84rem); color: #263238; line-height: 1.55;
+      flex-shrink: 0;
+    }
+    .p07-socratic-a {
+      margin: 0 0 10px; padding: 8px 10px; border-radius: 8px;
+      font-weight: 700; font-size: clamp(0.62rem, 0.92vw + 0.16rem, 0.76rem); line-height: 1.5; color: #1b5e20;
+      background: rgba(200, 230, 201, 0.35); border: 2px solid var(--crayon-green);
+      white-space: pre-wrap;
+      flex-shrink: 0;
+    }
+    .p07-socratic-a[hidden] { display: none !important; }
+    .p07-socratic-recap-wrap {
+      margin-top: 10px; padding-top: 10px; border-top: 2px dashed rgba(93, 64, 55, 0.22);
+      flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; gap: 6px;
+    }
+    .p07-socratic-recap-title {
+      margin: 0; font-size: clamp(0.62rem, 0.88vw + 0.12rem, 0.74rem); font-weight: 900; color: #5d4037;
+      flex-shrink: 0;
+    }
+    .p07-socratic-recap {
+      flex: 1 1 auto; min-height: 0; max-height: min(42dvh, 280px); overflow: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .p07-socratic-recap-empty {
+      margin: 0; font-size: clamp(0.58rem, 0.82vw + 0.1rem, 0.7rem); color: #78909c; line-height: 1.5;
+    }
+    .p07-socratic-recap-item {
+      margin-bottom: 8px; padding: 8px 10px; border-radius: 8px;
+      background: rgba(227, 242, 253, 0.45); border: 1px solid rgba(21, 101, 192, 0.22);
+    }
+    .p07-socratic-recap-item:last-child { margin-bottom: 0; }
+    .p07-socratic-recap-q {
+      margin: 0 0 4px; font-size: clamp(0.58rem, 0.82vw + 0.1rem, 0.7rem); font-weight: 800; color: #37474f; line-height: 1.45;
+    }
+    .p07-socratic-recap-a {
+      margin: 0; font-size: clamp(0.58rem, 0.82vw + 0.1rem, 0.7rem); font-weight: 700; line-height: 1.5; color: #1b5e20;
+      white-space: pre-wrap;
+    }
+    .p07-socratic-tools {
+      display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+      flex-shrink: 0; margin-top: 8px; padding-top: 8px; border-top: 1px solid rgba(93, 64, 55, 0.12);
+    }
+    .p07-socratic-tools button {
+      appearance: none; cursor: pointer; font-weight: 900;
+      font-size: clamp(0.6rem, 0.92vw + 0.14rem, 0.76rem);
+      padding: 7px 12px; border-radius: 999px; border: 2px solid var(--edge);
+      background: rgba(255, 249, 240, 0.98); color: #4e342e;
+    }
+    .p07-socratic-tools button.p07-socratic-primary {
+      background: linear-gradient(180deg, var(--crayon-blue), #1565c0); color: #fff; border-color: rgba(0, 0, 0, 0.12);
+    }
+
+    #p07-bottom-dock {
+      position: fixed; z-index: 40; left: max(8px, env(safe-area-inset-left)); right: max(8px, env(safe-area-inset-right));
+      bottom: max(8px, env(safe-area-inset-bottom));
+      padding: clamp(7px, 1.2vmin, 11px) clamp(9px, 1.8vmin, 13px);
+      border-radius: clamp(14px, 2.2vmin, 20px);
+      background: rgba(38, 50, 56, 0.45);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 2px solid rgba(255, 255, 255, 0.22);
+      box-shadow: 0 -2px 20px rgba(0, 0, 0, 0.15);
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px;
+    }
+    .btn-ghost, .btn-primary {
+      appearance: none; cursor: pointer; font-weight: 900;
+      font-size: clamp(0.65rem, 1.05vw + 0.22rem, 0.8rem);
+      border-radius: 999px; padding: 8px 14px; text-decoration: none; display: inline-flex;
+      align-items: center; justify-content: center; border: 2px solid transparent;
+    }
+    .btn-ghost { color: #eceff1; background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.2); }
+    .btn-primary { color: #fff; background: linear-gradient(180deg, var(--crayon-orange), #e65100); border-color: rgba(0, 0, 0, 0.1); }
+
+    @media print {
+      html, body { background: #fff; overflow: auto; height: auto; }
+      #vignette, #p07-bottom-dock, .p07-socratic-tools { display: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <div id="viewport">
+    <div id="p07-host">
+      <div id="vignette"></div>
+      <div id="stage">
+        <div class="p07-top">
+          <h1>看图写话 · 公园与小鸟</h1>
+          <div class="p07-badge">Page 07 · 看图写话<br />写作前引导</div>
+        </div>
+        <div class="p07-strip">
+          请根据连环画写 <strong>60–90 词</strong> 英文短文，须同时满足：1. 含 <strong>While + was/were + doing</strong> 表背景；
+          2. 使用 <strong>came across</strong> 或 <strong>found out</strong> 之一；
+          3. 使用 <strong>when</strong> 引导从句至少一处。
+        </div>
+
+        <div class="p07-guide" id="p07-guide" aria-label="连环画与写作前提问">
+          <div class="p07-guide-row has-socratic" id="p07-row-0" data-panel-row="0">
+            <figure class="p07-comic" data-panel="0">
+              <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L09/assets/l09-page07-comic-1-walking.png" alt="① 公园散步" width="800" height="600" draggable="false" />
+            </figure>
+            <aside class="p07-socratic" id="p07-socratic" aria-label="苏格拉底式提问">
+              <h2 class="p07-socratic-head">写作前 · 想一想</h2>
+              <p class="p07-socratic-meta" id="socratic-meta"></p>
+              <p class="p07-socratic-q" id="socratic-q" aria-live="polite"></p>
+              <div id="socratic-a" class="p07-socratic-a" hidden></div>
+              <div class="p07-socratic-recap-wrap">
+                <h3 class="p07-socratic-recap-title">本图已答 · 参考提示汇总</h3>
+                <div id="socratic-recap" class="p07-socratic-recap" aria-live="polite"></div>
+              </div>
+              <div class="p07-socratic-tools">
+                <button type="button" class="p07-socratic-primary" id="btn-socratic-show">显示参考提示</button>
+                <button type="button" id="btn-socratic-next">下一问</button>
+              </div>
+            </aside>
+          </div>
+          <div class="p07-guide-row has-socratic" id="p07-row-1" data-panel-row="1">
+            <figure class="p07-comic" data-panel="1">
+              <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L09/assets/l09-page07-comic-2-bird.png" alt="② 发现受伤小鸟" width="800" height="600" draggable="false" />
+            </figure>
+          </div>
+          <div class="p07-guide-row has-socratic" id="p07-row-2" data-panel-row="2">
+            <figure class="p07-comic" data-panel="2">
+              <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L09/assets/l09-page07-comic-3-hospital.png" alt="③ 送往诊所" width="800" height="600" draggable="false" />
+            </figure>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <nav id="p07-bottom-dock">
+      <a class="btn-ghost" href="lesson09-page06-dossier.html">← Page 06</a>
+      <a class="btn-primary" href="lesson09-page08-archive.html">前往 Page 08 →</a>
+    </nav>
+  </div>
+
+  <script>
+    (function () {
+      const $ = (s, r) => (r || document).querySelector(s);
+      const $$ = (s, r) => Array.from((r || document).querySelectorAll(s));
+      const socraticMeta = $("#socratic-meta");
+      const socraticQ = $("#socratic-q");
+      const socraticA = $("#socratic-a");
+      const btnSocraticShow = $("#btn-socratic-show");
+      const btnSocraticNext = $("#btn-socratic-next");
+      const comicFigs = $$("#p07-guide .p07-comic");
+      const socraticPanel = $("#p07-socratic");
+      const socraticRecap = $("#socratic-recap");
+      const socraticRows = [$("#p07-row-0"), $("#p07-row-1"), $("#p07-row-2")].filter(Boolean);
+
+      const recapByPanel = { 0: [], 1: [], 2: [] };
+
+      const PANEL_LABELS = ["图① 公园散步", "图② 发现受伤小鸟", "图③ 送往诊所"];
+      const SOCRATIC = [
+        {
+          panel: 0,
+          q: "看到第一格，你会用哪些英文词交代「地点」和「时间」，让读者知道这是在公园、在散步？",
+          a: "可写 in the park、on a path、last Sunday afternoon 等。地点名词要具体，时间可用 last… / yesterday 与全文过去时一致。"
+        },
+        {
+          panel: 0,
+          q: "题目要求用 While + was/were + doing 铺背景。主语用 I 时，你打算用什么「进行中的动作」来对应「散步」？",
+          a: "常见自然写法：While I was walking… / While I was taking a walk… 注意 was + walk 的 -ing：walking。"
+        },
+        {
+          panel: 0,
+          q: "这一格只负责「背景」，要不要现在就写 came across？为什么？",
+          a: "先不写更清楚：本格聚焦「正在做什么」；把 came across 留给第二格，叙事有「背景 → 突变」的节奏。"
+        },
+        {
+          panel: 0,
+          q: "若写 While we were walking，后面主句主语通常怎么衔接，指代才不乱？",
+          a: "可统一用 we… 或第二格改回 I…；人称在全文要前后一致，不要 we / I 随意跳。"
+        },
+        {
+          panel: 1,
+          q: "「偶然遇见」题目里推荐哪个短语？请用中文说清它的意思，再想一句英文骨架。",
+          a: "came across 表示偶然碰见。骨架示例：…, I came across a small bird on the grass."
+        },
+        {
+          panel: 1,
+          q: "从「过去进行」转到「发生了一件事」，时态上你准备怎么接？写出一个 while 从句 + 主句的框架。",
+          a: "While I was walking in the park, I came across … 从 was/were doing 过渡到一般过去式 came across，表短促结果。"
+        },
+        {
+          panel: 1,
+          q: "描写受伤小鸟，你想积累哪两三个形容词或分词？它们要修饰谁（the bird）？",
+          a: "如 hurt、injured、weak、shaking；写成 a hurt bird / a little bird with a broken wing，注意名词短语结构。"
+        },
+        {
+          panel: 1,
+          q: "came across 后面接宾语从句可以吗？本图更推荐先写「物」还是直接写「发现它受伤了」？",
+          a: "可先接物：came across a bird，再用并列或定语从句补充状态；避免一句堆太多从句，先写清「遇见什么」。"
+        },
+        {
+          panel: 2,
+          q: "题目要求至少一处 when 从句。你准备让 when 表示「一看到就……」还是「到了某地之后……」？",
+          a: "两种皆可：When I saw …, I … / When we got to the pet clinic, … 关键是 when 从句与主句动作有清晰时间关系。"
+        },
+        {
+          panel: 2,
+          q: "found out 可以接什么内容，才能和「送诊所」自然连上？",
+          a: "接获知的信息：I found out (that) it had a broken wing. / We found out the vet could help. 用 that 从句或宾语说明「知道了什么」。"
+        },
+        {
+          panel: 2,
+          q: "「把小鸟送去求助」常用哪个动词？宾语用 it 还是 the bird 更自然？",
+          a: "常用 took / carried / rushed：We took it to a nearby clinic. 上文已提 bird，用 it 避免重复，但要前后指代清楚。"
+        },
+        {
+          panel: 2,
+          q: "短文结尾你想表达什么情感或结果？用一句英文收束时，时态用过去式可以吗？",
+          a: "可以：I felt relieved. / The bird was in safe hands. 与全文一般过去时、过去进行时体系一致即可。"
+        }
+      ];
+
+      function countQuestionsInPanel(panel) {
+        let c = 0;
+        for (let k = 0; k < SOCRATIC.length; k++) {
+          if (SOCRATIC[k].panel === panel) c++;
+        }
+        return c;
+      }
+      function indexWithinPanel(globalIdx) {
+        const p = SOCRATIC[globalIdx].panel;
+        let n = 0;
+        for (let k = 0; k <= globalIdx; k++) {
+          if (SOCRATIC[k].panel === p) n++;
+        }
+        return n;
+      }
+      let socraticIdx = 0;
+
+      function renderRecap(panel) {
+        if (!socraticRecap) return;
+        const list = recapByPanel[panel] || [];
+        socraticRecap.innerHTML = "";
+        if (!list.length) {
+          const p = document.createElement("p");
+          p.className = "p07-socratic-recap-empty";
+          p.textContent =
+            "每完成一题并点「下一问」后，该题的题干与参考提示会显示在这里，便于对照本图收尾。";
+          socraticRecap.appendChild(p);
+          return;
+        }
+        list.forEach(function (entry) {
+          const block = document.createElement("div");
+          block.className = "p07-socratic-recap-item";
+          const qEl = document.createElement("div");
+          qEl.className = "p07-socratic-recap-q";
+          qEl.textContent = entry.q;
+          const aEl = document.createElement("div");
+          aEl.className = "p07-socratic-recap-a";
+          aEl.textContent = entry.a;
+          block.appendChild(qEl);
+          block.appendChild(aEl);
+          socraticRecap.appendChild(block);
+        });
+      }
+
+      function dockSocraticBesidePanel(panel) {
+        if (!socraticPanel || !socraticRows.length) return;
+        socraticRows.forEach(function (r, i) {
+          r.querySelectorAll(".p07-socratic-spacer").forEach(function (n) {
+            n.remove();
+          });
+          if (i === panel) {
+            r.appendChild(socraticPanel);
+          } else {
+            const ph = document.createElement("div");
+            ph.className = "p07-socratic-spacer";
+            ph.setAttribute("aria-hidden", "true");
+            r.appendChild(ph);
+          }
+        });
+      }
+
+      function renderSocratic() {
+        const item = SOCRATIC[socraticIdx];
+        const totalInPanel = countQuestionsInPanel(item.panel);
+        const nth = indexWithinPanel(socraticIdx);
+        socraticMeta.textContent =
+          PANEL_LABELS[item.panel] +
+          " · 第 " +
+          nth +
+          "/" +
+          totalInPanel +
+          " 问 · 共 " +
+          (socraticIdx + 1) +
+          "/" +
+          SOCRATIC.length;
+        socraticQ.textContent = item.q;
+        if (socraticA) {
+          socraticA.textContent = item.a;
+          socraticA.hidden = true;
+        }
+        if (btnSocraticShow) btnSocraticShow.textContent = "显示参考提示";
+        comicFigs.forEach(function (fig) {
+          fig.classList.toggle("is-active", +fig.getAttribute("data-panel") === item.panel);
+        });
+        dockSocraticBesidePanel(item.panel);
+        renderRecap(item.panel);
+      }
+
+      if (btnSocraticShow && socraticA) {
+        btnSocraticShow.addEventListener("click", function () {
+          socraticA.hidden = !socraticA.hidden;
+          btnSocraticShow.textContent = socraticA.hidden ? "显示参考提示" : "隐藏参考提示";
+        });
+      }
+      if (btnSocraticNext && socraticA) {
+        btnSocraticNext.addEventListener("click", function () {
+          const cur = SOCRATIC[socraticIdx];
+          if (!recapByPanel[cur.panel]) recapByPanel[cur.panel] = [];
+          recapByPanel[cur.panel].push({ q: cur.q, a: cur.a });
+          socraticA.hidden = true;
+          socraticIdx = (socraticIdx + 1) % SOCRATIC.length;
+          renderSocratic();
+        });
+      }
+      renderSocratic();
+    })();
+  </script>
+</body>
+</html>

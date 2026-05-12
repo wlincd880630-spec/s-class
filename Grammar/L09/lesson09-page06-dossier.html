@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>第09讲 · Page 06 · 机密卷宗 · 阅读填空（过去进行 / 一般过去）</title>
+  <script src="./assets/l09-tts-manifest.js"></script>
+  <script src="../assets/lesson-tts-bootstrap.js"></script>
+  <!-- 背景：./assets/l09-page06-dossier-bg.png · 对齐 L09 画框与 Prompt §7.6 -->
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
+  <style>
+    :root {
+      --l09-p06-bg: url("./assets/l09-page06-dossier-bg.png");
+      --paper: #fff9f0;
+      --ink: #2c2c2c;
+      --crayon-red: #e85d4c;
+      --crayon-blue: #4a90d9;
+      --crayon-orange: #f0ad4e;
+      --crayon-green: #5cb85c;
+      --edge: #5d4037;
+      --gold-glow: #ffca28;
+      --grammar-blue: #1565c0;
+      --ember: #ff6f00;
+      --p06-nav-h: calc(clamp(88px, 17vmin, 120px) + max(12px, env(safe-area-inset-bottom)));
+    }
+    * { box-sizing: border-box; }
+    html { overflow: hidden; max-width: 100%; font-size: clamp(14px, 0.82vw + 12px, 19px); }
+    html, body {
+      margin: 0; width: 100%; height: 100%; overflow: hidden;
+      font-family: system-ui, "Microsoft YaHei", "PingFang SC", sans-serif;
+      background: linear-gradient(160deg, #3e2723 0%, #1b1209 48%, #0d0806 100%);
+      color: var(--ink);
+      touch-action: manipulation;
+    }
+    body {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: max(4px, env(safe-area-inset-top)) max(2px, env(safe-area-inset-right))
+        max(4px, env(safe-area-inset-bottom)) max(2px, env(safe-area-inset-left));
+      min-height: 100dvh;
+    }
+    #viewport {
+      position: relative; width: min(100vw, 100%); height: min(100dvh, 100%);
+      max-width: 100%; max-height: 100dvh; flex-shrink: 0; overflow: hidden;
+    }
+    #p06-host {
+      position: absolute; inset: 0; isolation: isolate; overflow: hidden;
+      display: flex; flex-direction: column;
+      border: clamp(3px, 0.5vmin, 5px) solid rgba(240, 173, 78, 0.5);
+      border-radius: clamp(18px, 4vmin, 32px) clamp(10px, 2vmin, 18px) clamp(22px, 4.5vmin, 36px) clamp(12px, 2.2vmin, 20px)
+        / clamp(12px, 2.2vmin, 20px) clamp(22px, 4.5vmin, 36px) clamp(10px, 2vmin, 18px) clamp(18px, 4vmin, 32px);
+      box-shadow: inset 0 0 clamp(22px, 4vmin, 44px) rgba(0, 0, 0, 0.22), 0 clamp(8px, 1.6vmin, 16px) clamp(20px, 3vmin, 36px) rgba(0, 0, 0, 0.35);
+    }
+    #bg-stack {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 0;
+      background:
+        linear-gradient(168deg, rgba(255, 249, 240, 0.42) 0%, rgba(255, 183, 77, 0.12) 38%, rgba(62, 39, 35, 0.55) 100%),
+        var(--l09-p06-bg) center / cover no-repeat;
+      pointer-events: none;
+    }
+    #bg-stack::after {
+      content: ""; position: absolute; inset: 0;
+      background: repeating-linear-gradient(0deg, rgba(255,255,255,0.02) 0 2px, transparent 2px 4px);
+      mix-blend-mode: overlay; opacity: 0.35; pointer-events: none;
+    }
+    #vignette {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 1;
+      pointer-events: none;
+      box-shadow: inset 0 0 clamp(36px, 10vmin, 88px) rgba(20, 10, 8, 0.42);
+    }
+    #stage {
+      position: relative; z-index: 4; flex: 1 1 auto; min-height: 0;
+      display: flex; flex-direction: column; width: 100%;
+      padding: clamp(6px, 1vmin, 10px) max(4px, env(safe-area-inset-right)) var(--p06-nav-h) max(4px, env(safe-area-inset-left));
+      gap: clamp(6px, 1vmin, 10px); overflow: hidden auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .p06-top {
+      flex-shrink: 0; display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; width: 100%;
+    }
+    .p06-top h1 {
+      margin: 0; font-size: clamp(0.9rem, 1.9vw + 0.38rem, 1.28rem); font-weight: 900; color: #fff8e1;
+      text-shadow: 0 0 14px rgba(255, 152, 0, 0.28), 2px 2px 0 rgba(0, 0, 0, 0.25);
+      line-height: 1.15;
+    }
+    .p06-badge {
+      flex-shrink: 0; max-width: min(100%, 15rem);
+      padding: 5px 11px; border-radius: 999px; background: rgba(255, 249, 240, 0.95);
+      border: 3px solid var(--edge); font-weight: 800; font-size: clamp(0.55rem, 0.88vw + 0.16rem, 0.7rem);
+      color: #4e342e; line-height: 1.35; text-align: right;
+    }
+    .p06-strip {
+      flex-shrink: 0; width: 100%; max-width: 100%; margin: 0 auto;
+      padding: 8px 12px; border-radius: 10px; text-align: center;
+      background: rgba(255, 253, 248, 0.94); border: 2px solid rgba(93, 64, 55, 0.38);
+      font-weight: 700; font-size: clamp(0.72rem, 1.1vw + 0.28rem, 0.9rem); color: #37474f; line-height: 1.5;
+    }
+    .p06-strip strong { color: var(--grammar-blue); }
+
+    .p06-slide-tabs {
+      flex-shrink: 0; display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; width: 100%;
+    }
+    .p06-slide-tabs button {
+      appearance: none; cursor: pointer; font-weight: 900; font-family: inherit;
+      font-size: clamp(0.65rem, 1vw + 0.2rem, 0.82rem);
+      padding: 7px 14px; border-radius: 999px; border: 2px solid rgba(93, 64, 55, 0.45);
+      background: rgba(255, 249, 240, 0.88); color: #4e342e;
+    }
+    .p06-slide-tabs button.is-active {
+      background: linear-gradient(180deg, var(--crayon-orange), #e65100);
+      color: #fff; border-color: rgba(0, 0, 0, 0.12);
+    }
+
+    #p06-deck {
+      flex: 1 1 auto; min-height: 0; width: 100%; max-width: 100%;
+      display: flex; flex-direction: column;
+    }
+    .p06-slide {
+      flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column;
+      gap: clamp(6px, 1vmin, 10px); overflow: hidden;
+    }
+    .p06-slide[hidden] { display: none !important; }
+
+    #passage-shell {
+      position: relative; flex: 1 1 auto; min-height: 0; width: 100%; max-width: 100%;
+      margin: 0 auto; border-radius: 14px;
+      background: rgba(26, 20, 16, 0.35); border: 2px solid rgba(229, 115, 52, 0.35);
+      box-shadow: inset 0 0 28px rgba(0, 0, 0, 0.35);
+      padding: clamp(10px, 1.8vmin, 16px);
+      overflow: auto;
+    }
+    #flame-canvas {
+      position: absolute; left: 0; right: 0; bottom: 0; height: min(40%, 180px); z-index: 2;
+      pointer-events: none; width: 100%;
+    }
+    .p06-file-head {
+      text-align: center; margin: 0 0 10px; font-weight: 900; letter-spacing: 0.12em;
+      font-size: clamp(1.05rem, 1.575vw + 0.45rem, 1.32rem); color: #bf360c;
+      -webkit-text-stroke: 0.55px #ffffff;
+      paint-order: stroke fill;
+      text-shadow:
+        -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff,
+        -1px 0 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, 0 1px 0 #fff,
+        0 1px 2px rgba(0, 0, 0, 0.2);
+    }
+    .p06-passage {
+      position: relative; z-index: 3;
+      background: rgba(255, 252, 247, 0.97); border: 2px dashed rgba(93, 64, 55, 0.45);
+      border-radius: 10px; padding: clamp(12px, 2vmin, 20px);
+      font-size: clamp(1.23rem, 1.875vw + 0.525rem, 1.575rem); line-height: 1.75; color: #3e2723;
+      box-shadow: 0 3px 0 rgba(93, 64, 55, 0.1);
+    }
+    .p06-passage p { margin: 0 0 12px; }
+    .p06-passage p:last-child { margin-bottom: 0; }
+    .p06-passage select {
+      font-weight: 800; font-size: max(0.85em, 21px); color: var(--grammar-blue);
+      padding: 6px 12px; border-radius: 8px; border: 2px solid var(--edge);
+      background: #fffef9; vertical-align: baseline; max-width: 100%;
+    }
+    .p06-passage select.is-wrong { border-color: var(--crayon-red); background: #ffebee; animation: p06-shake 0.35s ease; }
+    .p06-passage select.is-ok { border-color: var(--crayon-green); background: #e8f5e9; }
+    @keyframes p06-shake {
+      0%,100%{ transform: translateX(0); } 20%{ transform: translateX(-4px); } 60%{ transform: translateX(4px); }
+    }
+
+    .p06-story-strip {
+      position: relative; z-index: 3;
+      margin-top: clamp(10px, 2vmin, 16px);
+    }
+    .p06-story-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+      gap: clamp(10px, 2vmin, 14px);
+    }
+    .p06-story-fig {
+      margin: 0;
+      background: rgba(255, 252, 247, 0.92);
+      border: 2px dashed rgba(93, 64, 55, 0.35);
+      border-radius: 10px;
+      padding: 8px;
+      box-shadow: 0 2px 0 rgba(93, 64, 55, 0.08);
+    }
+    .p06-story-fig img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 6px;
+    }
+    .p06-story-fig figcaption {
+      margin-top: 6px;
+      text-align: center;
+      font-weight: 800;
+      font-size: clamp(0.62rem, 0.95vw + 0.2rem, 0.78rem);
+      color: #5d4037;
+    }
+
+    .p06-grammar-panel {
+      flex: 1 1 auto; min-height: 0; overflow: auto;
+      border-radius: 14px;
+      background: rgba(26, 20, 16, 0.38); border: 2px solid rgba(229, 115, 52, 0.38);
+      box-shadow: inset 0 0 24px rgba(0, 0, 0, 0.32);
+      padding: clamp(10px, 1.8vmin, 16px);
+    }
+    .p06-grammar-head {
+      text-align: center; margin: 0 0 12px; font-weight: 900;
+      font-size: clamp(0.82rem, 1.35vw + 0.32rem, 1.05rem); color: #fff8e1;
+      text-shadow: 0 0 10px rgba(255, 183, 77, 0.35), 1px 1px 0 rgba(0, 0, 0, 0.35);
+    }
+    .p06-verb-grid {
+      display: flex; flex-direction: column; gap: 10px; width: 100%;
+    }
+    details.p06-verb-card {
+      margin: 0; padding: 0; border-radius: 10px;
+      background: rgba(255, 252, 247, 0.96); border: 2px dashed rgba(93, 64, 55, 0.38);
+      border-left: 4px solid var(--crayon-blue);
+      box-shadow: 0 2px 0 rgba(93, 64, 55, 0.08);
+    }
+    details.p06-verb-card > summary.p06-verb-summary {
+      list-style: none; cursor: pointer; user-select: none;
+      margin: 0; padding: 10px 12px;
+      display: flex; flex-wrap: wrap; align-items: center; gap: 8px;
+      position: relative; padding-right: 2.25rem;
+      font-weight: 900; color: #0d47a1;
+    }
+    details.p06-verb-card > summary.p06-verb-summary::-webkit-details-marker { display: none; }
+    details.p06-verb-card > summary.p06-verb-summary::marker { content: ""; }
+    details.p06-verb-card > summary.p06-verb-summary::after {
+      position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
+      content: "▶"; font-size: 0.72rem; color: #1565c0; font-weight: 900;
+    }
+    details.p06-verb-card[open] > summary.p06-verb-summary::after { content: "▼"; }
+    .p06-verb-summary .tag {
+      display: inline-block; margin: 0; padding: 2px 8px; border-radius: 999px;
+      font-size: clamp(0.55rem, 0.82vw + 0.12rem, 0.65rem); font-weight: 800;
+      background: rgba(21, 101, 192, 0.12); color: #0d47a1; border: 1px solid rgba(21, 101, 192, 0.25);
+    }
+    .p06-verb-summary .p06-verb-h {
+      flex: 1 1 100%; margin: 0; font-size: clamp(0.72rem, 1.1vw + 0.24rem, 0.88rem);
+      font-weight: 900; color: #0d47a1; line-height: 1.25;
+    }
+    .p06-verb-body {
+      padding: 0 12px 12px; border-top: 1px dashed rgba(93, 64, 55, 0.22);
+    }
+    .p06-verb-body .ex {
+      margin: 8px 0 0; font-size: clamp(0.65rem, 0.98vw + 0.18rem, 0.8rem);
+      font-weight: 600; color: #3e2723; line-height: 1.55;
+    }
+    .p06-verb-body .ex:first-child { margin-top: 10px; }
+    .p06-verb-body .ex em { color: #c62828; font-style: normal; font-weight: 900; }
+    .p06-verb-body .ex .ok { color: #2e7d32; font-weight: 800; }
+    .p06-compare {
+      margin-top: 12px; padding: 10px 12px; border-radius: 10px;
+      background: rgba(255, 243, 224, 0.95); border: 2px solid rgba(229, 57, 53, 0.35);
+    }
+    .p06-compare h3 {
+      margin: 0 0 8px; font-size: clamp(0.72rem, 1.08vw + 0.22rem, 0.86rem);
+      font-weight: 900; color: #b71c1c;
+    }
+    .p06-compare table {
+      width: 100%; border-collapse: collapse; font-size: clamp(0.62rem, 0.95vw + 0.16rem, 0.76rem);
+    }
+    .p06-compare th, .p06-compare td {
+      border: 1px solid rgba(93, 64, 55, 0.28); padding: 6px 8px; text-align: left; vertical-align: top;
+    }
+    .p06-compare th { background: rgba(255, 249, 240, 0.95); font-weight: 900; color: #4e342e; }
+    .p06-compare td.bad { color: #c62828; font-weight: 700; text-decoration: line-through; text-decoration-thickness: 1px; }
+    .p06-compare td.good { color: #1b5e20; font-weight: 800; }
+
+    /* Slide ②：相对原先字号再放大 100%（即 2 倍），便于课堂投影阅读 */
+    #slide-2 .p06-grammar-panel {
+      zoom: 2;
+    }
+
+    .p06-tools {
+      flex-shrink: 0; display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; align-items: center;
+      width: 100%;
+    }
+    .p06-tools button {
+      appearance: none; cursor: pointer; font-weight: 900;
+      font-size: clamp(0.68rem, 1vw + 0.24rem, 0.84rem);
+      padding: 8px 16px; border-radius: 999px; border: 2px solid var(--edge);
+      background: rgba(255, 249, 240, 0.96); color: #4e342e;
+    }
+    .p06-tools button.p06-primary {
+      background: linear-gradient(180deg, var(--crayon-orange), #e65100); color: #fff; border-color: rgba(0, 0, 0, 0.12);
+    }
+    .p06-tools button:disabled { opacity: 0.45; cursor: not-allowed; }
+
+    /* 页内操作反馈条已移除；逻辑仍可通过 setFb 写入（无 DOM 时自动忽略） */
+
+    #p06-stamp {
+      position: fixed; left: 50%; top: 46%; z-index: 60;
+      transform: translate(-50%, -50%) rotate(-12deg) scale(0.35);
+      pointer-events: none; opacity: 0;
+      transition: opacity 0.55s ease, transform 0.65s cubic-bezier(0.34, 1.56, 0.64, 1);
+      width: min(52vmin, 220px); height: min(52vmin, 220px);
+      border: 6px double rgba(198, 40, 40, 0.85); border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      color: rgba(198, 40, 40, 0.88); font-weight: 900; font-size: clamp(0.9rem, 2.2vmin + 0.5rem, 1.25rem);
+      letter-spacing: 0.08em; text-align: center; text-transform: uppercase;
+      background: rgba(255, 249, 240, 0.12); box-shadow: 0 0 0 2px rgba(198, 40, 40, 0.35);
+    }
+    #p06-stamp.is-on {
+      opacity: 1;
+      transform: translate(-50%, -50%) rotate(-12deg) scale(1);
+    }
+
+    #ui-lock {
+      position: fixed; inset: 0; z-index: 200; display: none; align-items: center; justify-content: center;
+      background: rgba(0, 0, 0, 0.38); pointer-events: auto;
+    }
+    #ui-lock.active { display: flex; }
+    #ui-lock .msg {
+      padding: 14px 20px; border-radius: 14px; background: rgba(255, 249, 240, 0.98);
+      border: 3px solid var(--edge); font-weight: 900; color: #4e342e;
+    }
+
+    #p06-bottom-dock {
+      position: fixed; z-index: 40; left: max(8px, env(safe-area-inset-left)); right: max(8px, env(safe-area-inset-right));
+      bottom: max(8px, env(safe-area-inset-bottom));
+      padding: clamp(7px, 1.2vmin, 11px) clamp(9px, 1.8vmin, 13px);
+      border-radius: clamp(14px, 2.2vmin, 20px);
+      background: rgba(38, 50, 56, 0.45);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 2px solid rgba(255, 255, 255, 0.22);
+      box-shadow: 0 -2px 20px rgba(0, 0, 0, 0.15);
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px;
+    }
+    .btn-ghost, .btn-primary {
+      appearance: none; cursor: pointer; font-weight: 900;
+      font-size: clamp(0.65rem, 1.05vw + 0.22rem, 0.8rem);
+      border-radius: 999px; padding: 8px 14px; text-decoration: none; display: inline-flex;
+      align-items: center; justify-content: center; border: 2px solid transparent;
+    }
+    .btn-ghost { color: #eceff1; background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.2); }
+    .btn-primary { color: #fff; background: linear-gradient(180deg, var(--crayon-orange), #e65100); border-color: rgba(0, 0, 0, 0.1); }
+
+    @media print {
+      html, body { background: #fff; overflow: auto; height: auto; }
+      #bg-stack, #vignette, #p06-bottom-dock, #flame-canvas, #p06-stamp, #ui-lock, .p06-tools { display: none !important; }
+      .p06-passage select { border: 1px solid #000; background: #fff; }
+      details.p06-verb-card > summary.p06-verb-summary::after { display: none !important; }
+      #slide-2 .p06-grammar-panel {
+        zoom: 1 !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <script>
+    window.L09_CFG = window.L09_CFG || {
+      azureKey: "",
+      azureRegion: "southeastasia",
+      azureTtsEndpoint: "https://{region}.tts.speech.microsoft.com/cognitiveservices/v1",
+      deepseekKey: "",
+      deepseekEndpoint: "https://api.deepseek.com/v1/chat/completions",
+      deepseekModel: "deepseek-chat"
+    };
+  </script>
+  <div id="ui-lock" aria-hidden="true"><div class="msg" id="ui-lock-msg">处理中…</div></div>
+  <div id="p06-stamp" aria-hidden="true">CASE<br />CLEARED</div>
+
+  <div id="viewport">
+    <div id="p06-host">
+      <div id="bg-stack"></div>
+      <div id="vignette"></div>
+      <div id="stage">
+        <div class="p06-top">
+          <h1>机密卷宗 #404 · 失踪的钻石</h1>
+          <div class="p06-badge">Page 06 · 阅读填空<br />Slide <span id="p06-slide-num">1</span>/2</div>
+        </div>
+
+        <div class="p06-slide-tabs" role="tablist" aria-label="页面分屏">
+          <button type="button" class="is-active" data-slide-tab="1" role="tab" aria-selected="true" id="p06-tab-1">① 卷宗填空</button>
+          <button type="button" data-slide-tab="2" role="tab" aria-selected="false" id="p06-tab-2">② 瞬间动词小结</button>
+        </div>
+
+        <div id="p06-deck">
+          <div class="p06-slide is-active" data-slide="1" role="tabpanel" aria-labelledby="p06-tab-1">
+        <div class="p06-strip">
+          语篇中三处空缺须选 <strong>was drinking</strong> / <strong>found out</strong> / <strong>came across</strong> 等<strong>地道搭配</strong>。
+          警惕：<strong>find out、come across</strong> 表「察觉 / 偶遇」时为<strong>短暂动词</strong>，一般<strong>不用进行时</strong>（如 <em>was finding out</em> 为典型错配）。
+        </div>
+
+        <div id="passage-shell">
+          <canvas id="flame-canvas" aria-hidden="true"></canvas>
+          <div class="p06-file-head">CLASSIFIED FILE #404 — THE MISSING DIAMOND</div>
+          <div class="p06-passage" id="passage-box">
+            <p>
+              Last Friday night, while Museum Agent Lin was updating the night log, she
+              <select id="blank1" aria-label="第1空">
+                <option value="">—请选择—</option>
+                <option value="was drinking tea">was drinking tea</option>
+                <option value="drank tea">drank tea</option>
+                <option value="was drink tea">was drink tea</option>
+              </select>
+              quietly at her desk. Then the alarm on Level 3 rang twice. She immediately
+              <select id="blank2" aria-label="第2空">
+                <option value="">—请选择—</option>
+                <option value="found out">found out</option>
+                <option value="was finding out">was finding out</option>
+                <option value="has found out">has found out</option>
+              </select>
+              that the &ldquo;Star Blue&rdquo; diamond in Hall B was missing. On the way to the back stairs, she
+              <select id="blank3" aria-label="第3空">
+                <option value="">—请选择—</option>
+                <option value="came across">came across</option>
+                <option value="was coming across">was coming across</option>
+                <option value="comes across">comes across</option>
+              </select>
+              a half-open toolbox — and a single black hair on its handle.
+            </p>
+          </div>
+          <div class="p06-story-strip" aria-label="故事配图">
+            <div class="p06-story-grid">
+              <figure class="p06-story-fig">
+                <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L09/assets/l09-page06-story-01-night-desk.png" alt="周五夜间：博物馆探员在 desk 前写夜更记录，桌灯与热茶" width="800" height="500" loading="lazy" decoding="async" />
+                <figcaption>① 夜间值班 · 夜更与茶</figcaption>
+              </figure>
+              <figure class="p06-story-fig">
+                <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L09/assets/l09-page06-story-02-alarm-missing.png" alt="三楼警报响起，Hall B 展柜中「星蓝」钻石失踪" width="800" height="500" loading="lazy" decoding="async" />
+                <figcaption>② 警报 · 发现失窃</figcaption>
+              </figure>
+              <figure class="p06-story-fig">
+                <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L09/assets/l09-page06-story-03-toolbox-clue.png" alt="后楼梯途中：半开的工具箱与手柄上的单根黑发" width="800" height="500" loading="lazy" decoding="async" />
+                <figcaption>③ 偶遇线索 · 工具箱</figcaption>
+              </figure>
+            </div>
+          </div>
+        </div>
+
+        <div class="p06-tools">
+          <button type="button" class="p06-primary" id="btn-check">验证答案</button>
+          <button type="button" id="btn-reset">清空选项</button>
+          <button type="button" id="btn-tts" title="使用本课预生成 MP3 朗读（离线可用）">朗读全文（本地 MP3）</button>
+        </div>
+          </div>
+
+          <div class="p06-slide" id="slide-2" data-slide="2" role="tabpanel" aria-labelledby="p06-tab-2" hidden>
+            <div class="p06-grammar-panel">
+              <h2 class="p06-grammar-head">Slide 2 · 瞬间动词与「背景进行」</h2>
+              <div class="p06-verb-grid">
+                <details class="p06-verb-card">
+                  <summary class="p06-verb-summary">
+                    <span class="tag">本卷宗 · 中考完形/阅读高频</span>
+                    <span class="p06-verb-h">find out（查明；发觉）</span>
+                  </summary>
+                  <div class="p06-verb-body">
+                    <p class="ex"><span class="ok">正：</span> She immediately <strong>found out</strong> that the diamond was missing.</p>
+                    <p class="ex"><em>误：</em> She <em>was finding out</em> that the diamond was missing.（把「获知结果」写成了拖长动作）</p>
+                  </div>
+                </details>
+                <details class="p06-verb-card">
+                  <summary class="p06-verb-summary">
+                    <span class="tag">本卷宗 · 偶遇义</span>
+                    <span class="p06-verb-h">come across（偶然看见 / 碰到）</span>
+                  </summary>
+                  <div class="p06-verb-body">
+                    <p class="ex"><span class="ok">正：</span> On the way, she <strong>came across</strong> a half-open toolbox.</p>
+                    <p class="ex"><em>误：</em> She <em>was coming across</em> a toolbox.（偶遇为短促结果，不用进行体）</p>
+                  </div>
+                </details>
+                <details class="p06-verb-card">
+                  <summary class="p06-verb-summary">
+                    <span class="tag">人教八年级 · 阅读常见</span>
+                    <span class="p06-verb-h">realize / notice / discover</span>
+                  </summary>
+                  <div class="p06-verb-body">
+                    <p class="ex">I suddenly <strong>realized</strong> I was on the wrong bus.（顿悟，一点即明）</p>
+                    <p class="ex">Did you <strong>notice</strong> the sign on the wall?（注意到，瞬间完成）</p>
+                    <p class="ex">They <strong>discovered</strong> a secret door behind the bookshelf.（发现结果）</p>
+                  </div>
+                </details>
+                <details class="p06-verb-card">
+                  <summary class="p06-verb-summary">
+                    <span class="tag">人教话题 · 突发声响</span>
+                    <span class="p06-verb-h">hear / see（表「听见一声 / 看见一幕」）</span>
+                  </summary>
+                  <div class="p06-verb-body">
+                    <p class="ex">We <strong>heard</strong> someone shout &ldquo;Help!&rdquo; from the river.（听见呼喊，常作点事件）</p>
+                    <p class="ex">She <strong>saw</strong> a dog rush into the street.（看见突发动作）</p>
+                    <p class="ex">可与 <strong>was listening / was looking</strong> 对照：听/看的过程用进行，<strong>听到/看到</strong>结果多用过去式。</p>
+                  </div>
+                </details>
+                <details class="p06-verb-card">
+                  <summary class="p06-verb-summary">
+                    <span class="tag">中考记叙文 · 叙事节奏</span>
+                    <span class="p06-verb-h">go out / ring / start / stop 等「突变」动词</span>
+                  </summary>
+                  <div class="p06-verb-body">
+                    <p class="ex">The lights suddenly <strong>went out</strong> while we were discussing the plan.</p>
+                    <p class="ex">The alarm <strong>rang</strong> twice while she was updating the log.</p>
+                    <p class="ex">The rain <strong>stopped</strong> just as we were packing up the tent.（雨停，状态突变）</p>
+                    <p class="ex">The film <strong>started</strong> while many people were still finding their seats.</p>
+                  </div>
+                </details>
+                <details class="p06-verb-card">
+                  <summary class="p06-verb-summary">
+                    <span class="tag">叙事常用 · 获知与认出</span>
+                    <span class="p06-verb-h">learn / recognize / spot</span>
+                  </summary>
+                  <div class="p06-verb-body">
+                    <p class="ex">We <strong>learned</strong> the news the next day.（得知结果，不宜 *was learning the news* 表「获知」）</p>
+                    <p class="ex">She <strong>recognized</strong> his voice at once.（认出，瞬间完成）</p>
+                    <p class="ex">A visitor <strong>spotted</strong> a crack in the glass case.（瞥见、发现，点事件）</p>
+                  </div>
+                </details>
+                <details class="p06-verb-card">
+                  <summary class="p06-verb-summary">
+                    <span class="tag">点事件 · 到达与离开</span>
+                    <span class="p06-verb-h">arrive / enter / leave / reach</span>
+                  </summary>
+                  <div class="p06-verb-body">
+                    <p class="ex">The team <strong>arrived</strong> while volunteers were setting up chairs.（到场落点常用过去式）</p>
+                    <p class="ex">He <strong>entered</strong> the hall and waved to the crowd.（进入，短动作）</p>
+                    <p class="ex">She <strong>reached</strong> the top step and paused.（到达某处，常作一点）</p>
+                    <p class="ex"><em>对照：</em><em>was arriving</em> 多强调「在途中」，写到「已经到了」叙述落点仍常用 <strong>arrived</strong>。</p>
+                  </div>
+                </details>
+                <details class="p06-verb-card">
+                  <summary class="p06-verb-summary">
+                    <span class="tag">突发 · 状态翻转</span>
+                    <span class="p06-verb-h">happen / break out / turn off（表突变）</span>
+                  </summary>
+                  <div class="p06-verb-body">
+                    <p class="ex">Something strange <strong>happened</strong> while everyone was sleeping.</p>
+                    <p class="ex">An argument suddenly <strong>broke out</strong> near the exit.</p>
+                    <p class="ex">Someone <strong>turned off</strong> the main switch; the hall went dark.（关掉，一下完成）</p>
+                  </div>
+                </details>
+                <details class="p06-verb-card">
+                  <summary class="p06-verb-summary">
+                    <span class="tag">身体反应 · 短促动作</span>
+                    <span class="p06-verb-h">jump / fall / hit / nod / shake one's head</span>
+                  </summary>
+                  <div class="p06-verb-body">
+                    <p class="ex">He <strong>jumped</strong> up when he heard his name called.（惊跳、站起，点动作）</p>
+                    <p class="ex">A book <strong>fell</strong> off the shelf while she was dusting it.</p>
+                    <p class="ex">She <strong>nodded</strong> and <strong>turned</strong> away.（点头、转身，叙述里常作相继短动词）</p>
+                  </div>
+                </details>
+              </div>
+              <div class="p06-compare">
+                <h3>错配对照（改错 / 完形干扰项常见）</h3>
+                <table>
+                  <thead>
+                    <tr><th>表「结果 / 获知 / 偶遇」时（不推荐）</th><th>推荐写法</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td class="bad">was finding out …</td><td class="good">found out …</td></tr>
+                    <tr><td class="bad">was coming across …</td><td class="good">came across …</td></tr>
+                    <tr><td class="bad">was realizing …</td><td class="good">realized …</td></tr>
+                    <tr><td class="bad">was noticing …</td><td class="good">noticed …</td></tr>
+                    <tr><td class="bad">was discovering …（表「发现结果」）</td><td class="good">discovered …</td></tr>
+                    <tr><td class="bad">was learning …（表「得知」）</td><td class="good">learned / learnt …</td></tr>
+                    <tr><td class="bad">was recognizing …</td><td class="good">recognized …</td></tr>
+                    <tr><td class="bad">was spotting …</td><td class="good">spotted …</td></tr>
+                    <tr><td class="bad">was arriving …（表「已经到场」）</td><td class="good">arrived …</td></tr>
+                  </tbody>
+                </table>
+                <p class="ex" style="margin-top:10px;margin-bottom:0;">
+                  <strong>小结：</strong>背景用 <strong>was / were + doing</strong>；突变、获知、偶遇用<strong>一般过去时</strong>或<strong>短暂动词</strong>落点，与教材和中考真题叙述习惯一致。
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <nav id="p06-bottom-dock">
+      <a class="btn-ghost" href="lesson09-page05-audio.html">← Page 05</a>
+      <a class="btn-primary" href="lesson09-page07-masterpiece.html">前往 Page 07 →</a>
+    </nav>
+  </div>
+
+  <script>
+    (function () {
+      const $ = (s, r) => (r || document).querySelector(s);
+      const $$ = (s, r) => Array.from((r || document).querySelectorAll(s));
+
+      const fb = null;
+      function setFb(text, kind) {
+        if (!fb) return;
+        if (!text) {
+          fb.textContent = "";
+          fb.hidden = true;
+          fb.className = "p06-msg";
+          return;
+        }
+        fb.textContent = text;
+        fb.hidden = false;
+        fb.className = "p06-msg" + (kind === "ok" ? " is-ok" : kind === "err" ? " is-err" : "");
+      }
+
+      const ANSWER = { blank1: "was drinking tea", blank2: "found out", blank3: "came across" };
+      const CFG = () => (typeof window !== "undefined" && window.L09_CFG) ? window.L09_CFG : {};
+      const uiLock = $("#ui-lock");
+      const uiLockMsg = $("#ui-lock-msg");
+      const stamp = $("#p06-stamp");
+      const shell = $("#passage-shell");
+      const fcan = $("#flame-canvas");
+      const slideNum = $("#p06-slide-num");
+
+      $$("[data-slide-tab]").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          const n = btn.getAttribute("data-slide-tab");
+          $$("[data-slide-tab]").forEach(function (b) {
+            const on = b.getAttribute("data-slide-tab") === n;
+            b.classList.toggle("is-active", on);
+            b.setAttribute("aria-selected", on ? "true" : "false");
+          });
+          $$(".p06-slide").forEach(function (panel) {
+            const on = panel.getAttribute("data-slide") === n;
+            panel.classList.toggle("is-active", on);
+            panel.hidden = !on;
+          });
+          if (slideNum) slideNum.textContent = n;
+          try {
+            if (n === "1") history.replaceState(null, "", "#slide-1");
+            else history.replaceState(null, "", "#slide-2");
+          } catch (e) {}
+          resizeFlame();
+        });
+      });
+      (function initSlideFromHash() {
+        var h = (location.hash || "").replace(/^#/, "");
+        if (h === "slide-2") {
+          var t2 = document.querySelector('[data-slide-tab="2"]');
+          if (t2) t2.click();
+        }
+      })();
+
+      window.addEventListener("beforeprint", function () {
+        $$("details.p06-verb-card").forEach(function (d) {
+          d.setAttribute("open", "");
+        });
+      });
+      window.addEventListener("afterprint", function () {
+        $$("details.p06-verb-card").forEach(function (d) {
+          d.removeAttribute("open");
+        });
+      });
+
+      function setUiLock(on, msg) {
+        uiLock.classList.toggle("active", !!on);
+        uiLock.setAttribute("aria-hidden", on ? "false" : "true");
+        if (msg) uiLockMsg.textContent = msg;
+      }
+
+      let flameRaf = 0;
+      const sparks = [];
+      function resizeFlame() {
+        const slide = shell && shell.closest ? shell.closest(".p06-slide") : null;
+        if (!shell || (slide && slide.hidden)) return;
+        const r = shell.getBoundingClientRect();
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        fcan.width = Math.floor(r.width * dpr);
+        fcan.height = Math.floor(fcan.offsetHeight * dpr);
+        fcan.style.height = fcan.offsetHeight + "px";
+        const ctx = fcan.getContext("2d");
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+      function burstFlames() {
+        resizeFlame();
+        const w = fcan.clientWidth;
+        const h = fcan.clientHeight;
+        for (let i = 0; i < 50; i++) {
+          sparks.push({
+            x: Math.random() * w,
+            y: h + Math.random() * 40,
+            vx: (Math.random() - 0.5) * 1.2,
+            vy: -2.5 - Math.random() * 3.5,
+            life: 0.85 + Math.random() * 0.5,
+            c: Math.random() > 0.5 ? "#ff5722" : "#ffc107"
+          });
+        }
+        function tick() {
+          const ctx = fcan.getContext("2d");
+          ctx.clearRect(0, 0, fcan.clientWidth, fcan.clientHeight);
+          let alive = false;
+          for (let i = sparks.length - 1; i >= 0; i--) {
+            const p = sparks[i];
+            p.life -= 0.04;
+            if (p.life <= 0) { sparks.splice(i, 1); continue; }
+            alive = true;
+            p.x += p.vx;
+            p.y += p.vy;
+            ctx.globalAlpha = Math.min(1, p.life);
+            ctx.fillStyle = p.c;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, 2 + Math.random() * 2.5, 0, Math.PI * 2);
+            ctx.fill();
+          }
+          ctx.globalAlpha = 1;
+          if (alive) flameRaf = requestAnimationFrame(tick);
+        }
+        cancelAnimationFrame(flameRaf);
+        tick();
+      }
+
+      function sfx(ok) {
+        try {
+          const Ctx = window.AudioContext || window.webkitAudioContext;
+          if (!Ctx) return;
+          if (!sfx._a) sfx._a = new Ctx();
+          const ac = sfx._a;
+          const o = ac.createOscillator();
+          const g = ac.createGain();
+          o.type = ok ? "sine" : "sawtooth";
+          o.frequency.value = ok ? 660 : 120;
+          g.gain.value = 0.1;
+          o.connect(g);
+          g.connect(ac.destination);
+          o.start();
+          g.gain.exponentialRampToValueAtTime(0.001, ac.currentTime + (ok ? 0.2 : 0.35));
+          o.stop(ac.currentTime + 0.4);
+        } catch (_) {}
+      }
+
+      async function deepseekHint(extra) {
+        const c = CFG();
+        const key = (c.deepseekKey || "").trim();
+        if (!key) {
+          return (extra ? extra + " " : "") +
+            "find out / come across 表短暂结果，通常不用进行时；was drinking 表当时正在进行的背景。";
+        }
+        const ep = c.deepseekEndpoint || "https://api.deepseek.com/v1/chat/completions";
+        const model = c.deepseekModel || "deepseek-chat";
+        setUiLock(true, "DeepSeek 短评中…");
+        try {
+          const res = await fetch(ep, {
+            method: "POST",
+            headers: { "Content-Type": "application/json", Authorization: "Bearer " + key },
+            body: JSON.stringify({
+              model: model,
+              temperature: 0.35,
+              messages: [
+                { role: "system", content: "你是初中英语教研员。最多80字中文，指出时态错误原因；对事不对人。" },
+                { role: "user", content: "学生阅读填空：" + (extra || "") }
+              ]
+            })
+          });
+          const raw = await res.text();
+          let text = raw;
+          try {
+            const j = JSON.parse(raw);
+            text = (j.choices && j.choices[0] && j.choices[0].message && j.choices[0].message.content) || raw;
+          } catch (_) {}
+          return String(text).replace(/```json|```/gi, "").trim().slice(0, 200);
+        } catch (e) {
+          return "请求失败：" + (e && e.message ? e.message : "unknown");
+        } finally {
+          setUiLock(false);
+        }
+      }
+
+      function clearMarks() {
+        ["#blank1", "#blank2", "#blank3"].forEach(function (sel) {
+          const el = $(sel);
+          if (el) { el.classList.remove("is-wrong", "is-ok"); }
+        });
+      }
+
+      $("#btn-reset").addEventListener("click", function () {
+        $("#blank1").value = "";
+        $("#blank2").value = "";
+        $("#blank3").value = "";
+        clearMarks();
+        stamp.classList.remove("is-on");
+        setFb("已清空。请重新选择三处答案。", "");
+        sparks.length = 0;
+        const ctx = fcan.getContext("2d");
+        if (ctx && fcan.clientWidth) ctx.clearRect(0, 0, fcan.clientWidth, fcan.clientHeight);
+      });
+
+      $("#btn-check").addEventListener("click", async function () {
+        const b1 = $("#blank1").value;
+        const b2 = $("#blank2").value;
+        const b3 = $("#blank3").value;
+        clearMarks();
+        if (!b1 || !b2 || !b3) {
+          setFb("请把三处空缺都选上再验证。", "err");
+          sfx(false);
+          return;
+        }
+        const ok1 = b1 === ANSWER.blank1;
+        const ok2 = b2 === ANSWER.blank2;
+        const ok3 = b3 === ANSWER.blank3;
+        const trapFinding = b2 === "was finding out";
+
+        if (ok1 && ok2 && ok3) {
+          $("#blank1").classList.add("is-ok");
+          $("#blank2").classList.add("is-ok");
+          $("#blank3").classList.add("is-ok");
+          setFb("全对！语篇级时态与动词搭配通过。可点「朗读全文」巩固，或前往 Page 07 产出写作。", "ok");
+          sfx(true);
+          stamp.classList.add("is-on");
+          stamp.setAttribute("aria-hidden", "false");
+          return;
+        }
+
+        if (!ok1) $("#blank1").classList.add("is-wrong");
+        if (!ok2) $("#blank2").classList.add("is-wrong");
+        if (!ok3) $("#blank3").classList.add("is-wrong");
+        sfx(false);
+        if (trapFinding) burstFlames();
+
+        let extra = "第1空" + (ok1 ? "对" : "错") + "；第2空" + (ok2 ? "对" : "错") + "；第3空" + (ok3 ? "对" : "错") + "。";
+        if (trapFinding) extra += " 学生选了 was finding out。";
+        const hint = await deepseekHint(extra);
+        setFb("有错误。" + hint, "err");
+      });
+
+      async function azureTts(text) {
+        if (window.LessonTTSBootstrap && typeof window.LessonTTSBootstrap.playLocalIfAvailable === "function") {
+          const okLocal = await window.LessonTTSBootstrap.playLocalIfAvailable(text);
+          if (okLocal) return;
+        }
+        const c = CFG();
+        const key = (c.azureKey || "").trim();
+        const region = (c.azureRegion || "southeastasia").trim();
+        if (!key) {
+          setFb("未找到本句本地朗读文件，且未配置 azureKey。请运行 scripts/generate-l09-tts-vertex.mjs 生成 MP3。", "err");
+          return;
+        }
+        const ep = (c.azureTtsEndpoint || "https://" + region + ".tts.speech.microsoft.com/cognitiveservices/v1")
+          .replace("{region}", region);
+        const ssml =
+          '<speak version="1.0" xml:lang="en-US"><voice name="en-US-GuyNeural">' +
+          "<prosody rate=\"-5%\">" +
+          text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") +
+          "</prosody></voice></speak>";
+        setUiLock(true, "Azure 语音合成中…");
+        try {
+          const res = await fetch(ep, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/ssml+xml",
+              "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3",
+              "Ocp-Apim-Subscription-Key": key
+            },
+            body: ssml
+          });
+          if (!res.ok) throw new Error("TTS " + res.status);
+          const buf = await res.arrayBuffer();
+          const blob = new Blob([buf], { type: "audio/mpeg" });
+          const url = URL.createObjectURL(blob);
+          const au = new Audio(url);
+          au.addEventListener("ended", function () {
+            URL.revokeObjectURL(url);
+          });
+          await au.play();
+        } catch (e) {
+          setFb("TTS 失败：" + (e && e.message ? e.message : "unknown"), "err");
+        } finally {
+          setUiLock(false);
+        }
+      }
+
+      $("#btn-tts").addEventListener("click", function () {
+        const t =
+          "Last Friday night, while Museum Agent Lin was updating the night log, she was drinking tea quietly at her desk. " +
+          "Then the alarm on Level 3 rang twice. She immediately found out that the Star Blue diamond in Hall B was missing. " +
+          "On the way to the back stairs, she came across a half-open toolbox — and a single black hair on its handle.";
+        azureTts(t);
+      });
+
+      window.addEventListener("resize", function () { resizeFlame(); });
+      new ResizeObserver(function () { resizeFlame(); }).observe(shell);
+      resizeFlame();
+    })();
+  </script>
+</body>
+</html>

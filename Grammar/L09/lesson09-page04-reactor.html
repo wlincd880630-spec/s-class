@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>第09讲 · Page 04 · 语法反应堆 · 机房跳线与常识悖论</title>
+  <script src="./assets/l09-tts-manifest.js"></script>
+  <script src="../assets/lesson-tts-bootstrap.js"></script>
+  <!-- 静图：./assets/l09-page04-server-bg.png + t1…t5 情境缩略（PNG，无 SVG 插画） -->
+  <!-- 光缆：Canvas 三次贝塞尔；交互 pointer 引擎（禁止 HTML5 drag） -->
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
+  <style>
+    :root {
+      --l09-p04-bg: url("./assets/l09-page04-server-bg.png");
+      --paper: #fff9f0;
+      --ink: #2c2c2c;
+      --crayon-red: #e85d4c;
+      --crayon-blue: #4a90d9;
+      --crayon-orange: #f0ad4e;
+      --crayon-green: #5cb85c;
+      --edge: #5d4037;
+      --gold-glow: #ffca28;
+      --grammar-blue: #1565c0;
+      --mint-glow: #26c6da;
+      --fiber-cyan: #00e5ff;
+      --p04-nav-h: calc(clamp(88px, 17vmin, 120px) + max(12px, env(safe-area-inset-bottom)));
+    }
+    * { box-sizing: border-box; }
+    html { overflow: hidden; max-width: 100%; font-size: clamp(13px, 0.78vw + 11px, 18px); }
+    html, body {
+      margin: 0; width: 100%; height: 100%; overflow: hidden;
+      font-family: system-ui, "Microsoft YaHei", "PingFang SC", sans-serif;
+      background: linear-gradient(155deg, #1a237e 0%, #004d40 42%, #0d1117 100%);
+      color: var(--ink);
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+    }
+    body {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: max(4px, env(safe-area-inset-top)) max(2px, env(safe-area-inset-right))
+        max(4px, env(safe-area-inset-bottom)) max(2px, env(safe-area-inset-left));
+      min-height: 100dvh;
+    }
+    #viewport {
+      position: relative; width: min(100vw, 100%); height: min(100dvh, 100%);
+      max-width: 100%; max-height: 100dvh; flex-shrink: 0; overflow: hidden;
+    }
+    #p04-host {
+      position: absolute; inset: 0; isolation: isolate; overflow: hidden;
+      display: flex; flex-direction: column;
+      border: clamp(3px, 0.5vmin, 5px) solid rgba(240, 173, 78, 0.55);
+      border-radius: clamp(18px, 4vmin, 32px) clamp(10px, 2vmin, 18px) clamp(22px, 4.5vmin, 36px) clamp(12px, 2.2vmin, 20px)
+        / clamp(12px, 2.2vmin, 20px) clamp(22px, 4.5vmin, 36px) clamp(10px, 2vmin, 18px) clamp(18px, 4vmin, 32px);
+      box-shadow: inset 0 0 clamp(22px, 4vmin, 44px) rgba(0, 0, 0, 0.2), 0 clamp(8px, 1.6vmin, 16px) clamp(20px, 3vmin, 36px) rgba(0, 0, 0, 0.35);
+    }
+    #bg-stack {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 0;
+      background:
+        linear-gradient(168deg, rgba(255, 249, 240, 0.38) 0%, rgba(77, 182, 172, 0.12) 40%, rgba(13, 17, 23, 0.55) 100%),
+        var(--l09-p04-bg) center / cover no-repeat;
+      pointer-events: none;
+    }
+    #bg-stack::after {
+      content: ""; position: absolute; inset: 0;
+      background: repeating-linear-gradient(0deg, rgba(255,255,255,0.022) 0 2px, transparent 2px 5px);
+      mix-blend-mode: soft-light; opacity: 0.28; pointer-events: none;
+    }
+    #vignette {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 1;
+      pointer-events: none;
+      box-shadow: inset 0 0 clamp(32px, 9vmin, 80px) rgba(10, 8, 20, 0.38);
+    }
+    #stage {
+      position: relative; z-index: 4; flex: 1 1 auto; min-height: 0;
+      display: flex; flex-direction: column; width: 100%;
+      padding-top: clamp(4px, 0.9vmin, 8px);
+      padding-right: max(4px, env(safe-area-inset-right));
+      padding-bottom: var(--p04-nav-h);
+      padding-left: max(4px, env(safe-area-inset-left));
+      gap: clamp(4px, 0.75vmin, 8px); overflow: hidden;
+    }
+    .p04-top-row {
+      flex-shrink: 0; display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; width: 100%;
+    }
+    .p04-top-row h1 {
+      margin: 0; font-size: clamp(0.85rem, 1.85vw + 0.35rem, 1.22rem); font-weight: 900; color: #e0f7fa;
+      text-shadow: 0 0 12px rgba(0, 229, 255, 0.25), 2px 2px 0 rgba(0, 0, 0, 0.25);
+      line-height: 1.15;
+    }
+    .p04-badge {
+      flex-shrink: 0; max-width: min(100%, 14rem);
+      padding: 4px 10px; border-radius: 999px; background: rgba(255, 249, 240, 0.95);
+      border: 3px solid var(--edge); font-weight: 800; font-size: clamp(0.55rem, 0.9vw + 0.18rem, 0.68rem);
+      color: #4e342e; line-height: 1.35; text-align: right;
+    }
+    .p04-teach-strip {
+      flex-shrink: 0; margin: 0 auto; width: 100%; max-width: 100%;
+      padding: 8px 12px; border-radius: 10px;
+      background: rgba(255, 253, 248, 0.92); border: 2px solid rgba(93, 64, 55, 0.35);
+      font-weight: 700;
+      font-size: clamp(1.16rem, 1.9vw + 0.4rem, 1.44rem);
+      color: #37474f; line-height: 1.5; text-align: center;
+    }
+
+    .p04-toolbar {
+      flex-shrink: 0; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 6px;
+      width: 100%; max-width: 100%; margin: 0 auto;
+    }
+    .p04-toolbar button, .p04-toolbar label.btn-toggle {
+      appearance: none; cursor: pointer; font-weight: 900;
+      font-size: clamp(0.58rem, 0.9vw + 0.18rem, 0.7rem);
+      padding: 5px 11px; border-radius: 999px; border: 2px solid var(--edge);
+      background: rgba(255, 249, 240, 0.95); color: #4e342e;
+    }
+    .p04-toolbar button.p04-primary {
+      background: linear-gradient(180deg, var(--crayon-orange), #e65100); color: #fff; border-color: rgba(0,0,0,0.12);
+    }
+    .p04-toolbar label.btn-toggle {
+      display: inline-flex; align-items: center; gap: 6px; user-select: none;
+      background: rgba(224, 247, 250, 0.9); border-color: #006064;
+    }
+    .p04-toolbar label.btn-toggle input { accent-color: var(--grammar-blue); }
+    .p04-timer {
+      font-weight: 900; font-variant-numeric: tabular-nums; color: #fff9f0;
+      min-width: 4.2em; text-align: center; font-size: clamp(0.65rem, 1vw + 0.22rem, 0.8rem);
+      text-shadow: 0 1px 2px #000;
+    }
+    .p04-stats {
+      font-weight: 800; color: #eceff1; font-size: clamp(0.55rem, 0.85vw + 0.16rem, 0.68rem);
+    }
+
+    #p04-patch-grid {
+      position: relative; flex: 1 1 auto; min-height: 0; width: 100%; max-width: 100%;
+      margin: 2px auto 0; border-radius: 12px;
+      background: rgba(13, 17, 23, 0.42); border: 2px solid rgba(0, 229, 255, 0.22);
+      box-shadow: inset 0 0 24px rgba(0, 0, 0, 0.35);
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      column-gap: clamp(48px, 16vmin, 240px);
+      row-gap: clamp(4px, 0.9vmin, 10px);
+      padding: clamp(4px, 0.8vmin, 8px);
+      overflow: hidden;
+    }
+    #fiber-canvas {
+      position: absolute; inset: 0; z-index: 2; width: 100%; height: 100%;
+      pointer-events: none;
+      touch-action: none;
+    }
+    .p04-col {
+      position: relative; z-index: 3; display: flex; flex-direction: column; gap: clamp(4px, 0.9vmin, 8px);
+      min-width: 0; width: 100%; align-items: stretch; align-self: stretch;
+      pointer-events: none;
+    }
+    .p04-col-header {
+      text-align: center; font-weight: 900;
+      font-size: clamp(1.1rem, 1.76vw + 0.32rem, 1.36rem);
+      color: #b2ebf2; text-shadow: 0 1px 2px #000; flex-shrink: 0;
+    }
+    .p04-card {
+      position: relative; display: flex; align-items: stretch; gap: 8px;
+      width: 100%; align-self: stretch;
+      background: rgba(255, 253, 248, 0.96); border: 2px solid var(--edge);
+      border-radius: 10px; padding: 6px 12px 6px 14px; min-height: 0; flex: 1 1 0;
+      pointer-events: auto; box-shadow: 0 2px 0 rgba(93, 64, 55, 0.08);
+    }
+    .p04-card img.p04-thumb {
+      width: clamp(48px, 12vmin, 72px); height: clamp(48px, 12vmin, 72px);
+      object-fit: cover; border-radius: 8px; border: 2px solid rgba(93, 64, 55, 0.2);
+      flex-shrink: 0; align-self: center; user-select: none;
+      pointer-events: auto; cursor: zoom-in;
+    }
+    .p04-card-body {
+      flex: 1 1 auto; min-width: 0; width: 100%;
+      display: flex; flex-direction: column; justify-content: center; gap: 4px;
+      text-align: left;
+    }
+    .p04-card-body .en {
+      font-weight: 800;
+      font-size: clamp(1.1rem, 1.7vw + 0.3rem, 1.36rem);
+      color: var(--grammar-blue); line-height: 1.38;
+    }
+    .p04-card-body .zh {
+      font-weight: 700;
+      font-size: clamp(1rem, 1.56vw + 0.28rem, 1.24rem);
+      color: #5d4037; line-height: 1.32;
+    }
+    .p04-jack {
+      flex-shrink: 0; width: clamp(26px, 6vmin, 36px); align-self: center;
+      height: clamp(26px, 6vmin, 36px); border-radius: 50%;
+      border: 3px solid #37474f; background: radial-gradient(circle at 35% 35%, #eceff1, #78909c);
+      box-shadow: inset 0 -2px 4px rgba(0,0,0,0.25), 0 2px 0 rgba(0,0,0,0.15);
+      cursor: crosshair; touch-action: none; pointer-events: auto;
+    }
+    .p04-jack.is-hot { outline: 3px solid var(--gold-glow); }
+    .p04-jack.is-wired { box-shadow: 0 0 0 3px var(--crayon-green), inset 0 -2px 4px rgba(0,0,0,0.2); }
+    .p04-jack.is-bad { animation: jack-buzz 0.28s ease 2; }
+    @keyframes jack-buzz { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-3px)} 75%{transform:translateX(3px)} }
+
+    .p04-col-left .p04-card { flex-direction: row; }
+    .p04-col-right .p04-card { flex-direction: row; }
+
+    #p04-lightbox {
+      position: fixed; inset: 0; z-index: 190;
+      display: flex; align-items: center; justify-content: center;
+      padding: max(12px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right))
+        max(12px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
+    }
+    #p04-lightbox[hidden] { display: none !important; }
+    .p04-lightbox-backdrop {
+      position: absolute; inset: 0; background: rgba(6, 10, 16, 0.78);
+      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); cursor: zoom-out;
+    }
+    .p04-lightbox-content {
+      position: relative; z-index: 1; margin: 0; max-width: min(96vw, 1280px); max-height: min(90dvh, 960px);
+      display: flex; flex-direction: column; align-items: flex-end; gap: 8px;
+    }
+    .p04-lightbox-x {
+      appearance: none; cursor: pointer; font-weight: 900; font-size: 1.35rem; line-height: 1;
+      width: 40px; height: 40px; border-radius: 50%; border: 2px solid rgba(255, 255, 255, 0.35);
+      background: rgba(38, 50, 56, 0.75); color: #fff; flex-shrink: 0;
+    }
+    .p04-lightbox-x:active { transform: scale(0.96); }
+    #p04-lightbox-img {
+      display: block; max-width: min(94vw, 1200px); max-height: min(82dvh, 880px);
+      width: auto; height: auto; object-fit: contain;
+      border-radius: 12px; border: 3px solid rgba(255, 249, 240, 0.92);
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.45);
+    }
+
+    #ui-lock {
+      position: fixed; inset: 0; z-index: 200; display: none; align-items: center; justify-content: center;
+      background: rgba(0, 0, 0, 0.35); pointer-events: auto;
+    }
+    #ui-lock.active { display: flex; }
+    #ui-lock .msg {
+      padding: 14px 20px; border-radius: 14px; background: rgba(255, 249, 240, 0.98);
+      border: 3px solid var(--edge); font-weight: 900; color: #4e342e;
+    }
+
+    #p04-bottom-dock {
+      position: fixed; z-index: 40; left: max(8px, env(safe-area-inset-left)); right: max(8px, env(safe-area-inset-right));
+      bottom: max(8px, env(safe-area-inset-bottom));
+      padding: clamp(7px, 1.2vmin, 11px) clamp(9px, 1.8vmin, 13px);
+      border-radius: clamp(14px, 2.2vmin, 20px);
+      background: rgba(38, 50, 56, 0.94); border: 2px solid rgba(255, 255, 255, 0.14);
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px;
+    }
+    .btn-ghost, .btn-primary {
+      appearance: none; cursor: pointer; font-weight: 900;
+      font-size: clamp(0.65rem, 1.05vw + 0.22rem, 0.8rem);
+      border-radius: 999px; padding: 8px 14px; text-decoration: none; display: inline-flex;
+      align-items: center; justify-content: center; border: 2px solid transparent;
+    }
+    .btn-ghost { color: #eceff1; background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.2); }
+    .btn-primary { color: #fff; background: linear-gradient(180deg, var(--crayon-orange), #e65100); border-color: rgba(0, 0, 0, 0.1); }
+
+    @media (max-width: 520px) {
+      .p04-card-body .en { font-size: 1.04rem; }
+      .p04-card-body .zh { font-size: 0.95rem; }
+      .p04-col-header { font-size: 0.95rem; }
+    }
+    @media print {
+      html, body { background: #fff; overflow: auto; height: auto; }
+      #bg-stack, #vignette, #p04-bottom-dock, #fiber-canvas, #ui-lock, #p04-lightbox { display: none !important; }
+      #p04-patch-grid { grid-template-columns: 1fr 1fr; break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <script>
+    window.L09_CFG = window.L09_CFG || {
+      azureKey: "",
+      azureRegion: "southeastasia",
+      deepseekKey: "",
+      deepseekEndpoint: "https://api.deepseek.com/v1/chat/completions",
+      deepseekModel: "deepseek-chat"
+    };
+  </script>
+  <div id="ui-lock" aria-hidden="true"><div class="msg" id="ui-lock-msg">处理中…</div></div>
+
+  <div id="p04-lightbox" role="dialog" aria-modal="true" aria-label="情境插图放大预览" hidden>
+    <div class="p04-lightbox-backdrop" id="p04-lightbox-backdrop" aria-hidden="true"></div>
+    <figure class="p04-lightbox-content">
+      <button type="button" class="p04-lightbox-x" id="p04-lightbox-x" aria-label="关闭预览">×</button>
+      <img id="p04-lightbox-img" alt="" decoding="async" />
+    </figure>
+  </div>
+
+  <div id="viewport">
+    <div id="p04-host">
+      <div id="bg-stack"></div>
+      <div id="vignette"></div>
+      <div id="stage">
+        <div class="p04-top-row">
+          <h1>语法反应堆 · 机房跳线</h1>
+          <div class="p04-badge">Page 04 · 练习 + 竞赛<br />Canvas 光缆 · DeepSeek 悖论短评</div>
+        </div>
+        <div class="p04-teach-strip">
+          将左侧背景描述（过去进行时）与右侧突发事件（一般过去时）一一对应。要求语法可接受且生活常识合理。
+        </div>
+
+        <div class="p04-toolbar">
+          <button type="button" id="btn-shuffle">打乱右列</button>
+          <button type="button" id="btn-clear">清空跳线</button>
+          <button type="button" id="btn-verify" class="p04-primary">验证接线</button>
+          <label class="btn-toggle"><input type="checkbox" id="chk-race" /> 竞速计时</label>
+          <button type="button" id="btn-race">开始 / 停止</button>
+          <span class="p04-timer" id="race-display">—:—</span>
+          <span class="p04-stats" id="stat-display">正确 0 / 尝试 0</span>
+        </div>
+
+        <div id="p04-patch-grid">
+          <canvas id="fiber-canvas" aria-label="跳线画布"></canvas>
+          <div class="p04-col p04-col-left" id="col-left"></div>
+          <div class="p04-col p04-col-right" id="col-right"></div>
+        </div>
+
+      </div>
+    </div>
+
+    <nav id="p04-bottom-dock">
+      <a class="btn-ghost" href="lesson09-page03-clueboard.html">← Page 03</a>
+      <a class="btn-primary" href="lesson09-page05-audio.html">前往 Page 05 →</a>
+    </nav>
+  </div>
+
+  <script>
+    (function () {
+      const $ = (s, r) => (r || document).querySelector(s);
+      const $$ = (s, r) => Array.from((r || document).querySelectorAll(s));
+
+      /** 左：背景描述（过进）— 与 Prompt §7.4 / §8 例句库精神一致 */
+      const BG_ROWS = [
+        { id: 0, thumb: "./assets/l09-page04-t1-bath.png", en: "While I was taking a shower,", zh: "（洗澡进行中）" },
+        { id: 1, thumb: "./assets/l09-page04-t2-football.png", en: "While we were playing football,", zh: "（踢球进行中）" },
+        { id: 2, thumb: "./assets/l09-page04-t3-school.png", en: "While I was walking to school,", zh: "（上学路上）" },
+        { id: 3, thumb: "./assets/l09-page04-t4-sleep.png", en: "While they were sleeping,", zh: "（深夜入睡）" },
+        { id: 4, thumb: "./assets/l09-page04-t5-dinner.png", en: "While we were having dinner,", zh: "（全家晚餐）" }
+      ];
+      /** 右：突变点（一过）— 正确 id 与左侧同号配对 */
+      const EVENTS = [
+        { id: 0, en: "the lights suddenly went out.", zh: "灯突然灭了。" },
+        { id: 1, en: "it started to rain heavily.", zh: "天突然下起大雨。" },
+        { id: 2, en: "I came across a stray dog.", zh: "我遇到一只流浪狗。" },
+        { id: 3, en: "a thief broke into the house.", zh: "有人入室盗窃。（教材警示句）" },
+        { id: 4, en: "My friend called me.", zh: "朋友打来电话。" }
+      ];
+
+      let rightOrder = [0, 1, 2, 3, 4];
+      /** @type {Map<number, number>} leftId -> rightSlotIndex */
+      const connections = new Map();
+      let dragging = null;
+      let dragLine = null;
+      let sparkParticles = [];
+      let rafId = 0;
+
+      const canvas = $("#fiber-canvas");
+      const grid = $("#p04-patch-grid");
+      const colL = $("#col-left");
+      const colR = $("#col-right");
+      const uiLock = $("#ui-lock");
+      const uiLockMsg = $("#ui-lock-msg");
+      const lightbox = $("#p04-lightbox");
+      const lightboxImg = $("#p04-lightbox-img");
+      const lightboxBackdrop = $("#p04-lightbox-backdrop");
+      const lightboxX = $("#p04-lightbox-x");
+
+      function openP04Lightbox(src, alt) {
+        if (!lightbox || !lightboxImg) return;
+        lightboxImg.src = src;
+        lightboxImg.alt = alt || "情境插图";
+        lightbox.hidden = false;
+        lightbox.setAttribute("aria-hidden", "false");
+        try {
+          if (lightboxX) lightboxX.focus();
+        } catch (_) {}
+      }
+      function closeP04Lightbox() {
+        if (!lightbox || !lightboxImg) return;
+        lightbox.hidden = true;
+        lightbox.setAttribute("aria-hidden", "true");
+        lightboxImg.removeAttribute("src");
+        lightboxImg.alt = "";
+      }
+
+      grid.addEventListener("click", function (e) {
+        const thumb = e.target.closest && e.target.closest(".p04-thumb");
+        if (!thumb) return;
+        e.preventDefault();
+        e.stopPropagation();
+        openP04Lightbox(thumb.currentSrc || thumb.src, thumb.getAttribute("alt") || "");
+      });
+      if (lightboxBackdrop) {
+        lightboxBackdrop.addEventListener("click", function () {
+          closeP04Lightbox();
+        });
+      }
+      if (lightboxX) {
+        lightboxX.addEventListener("click", function (e) {
+          e.stopPropagation();
+          closeP04Lightbox();
+        });
+      }
+      document.addEventListener("keydown", function (e) {
+        if (e.key !== "Escape") return;
+        if (lightbox && !lightbox.hidden) closeP04Lightbox();
+      });
+
+      let stats = { correct: 0, attempts: 0 };
+      let raceOn = false;
+      let raceStart = 0;
+      let raceTimer = 0;
+
+      const CFG = () => (typeof window !== "undefined" && window.L09_CFG) ? window.L09_CFG : {};
+
+      function setUiLock(on, msg) {
+        uiLock.classList.toggle("active", !!on);
+        uiLock.setAttribute("aria-hidden", on ? "false" : "true");
+        if (msg) uiLockMsg.textContent = msg;
+      }
+
+      function shuffleInPlace(arr) {
+        for (let i = arr.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+      }
+
+      function cableColor(leftId) {
+        const hues = [188, 42, 268, 142, 28];
+        return "hsl(" + hues[leftId % hues.length] + ",82%,52%)";
+      }
+
+      function layoutCanvas() {
+        const r = grid.getBoundingClientRect();
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        canvas.width = Math.max(1, Math.floor(r.width * dpr));
+        canvas.height = Math.max(1, Math.floor(r.height * dpr));
+        canvas.style.width = r.width + "px";
+        canvas.style.height = r.height + "px";
+        const ctx = canvas.getContext("2d");
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        redraw();
+      }
+
+      function jackCenter(el) {
+        const r = el.getBoundingClientRect();
+        const g = grid.getBoundingClientRect();
+        return {
+          x: r.left + r.width / 2 - g.left,
+          y: r.top + r.height / 2 - g.top
+        };
+      }
+
+      function drawBezier(ctx, x1, y1, x2, y2, stroke, alpha) {
+        const dx = (x2 - x1) * 0.45;
+        ctx.save();
+        ctx.globalAlpha = alpha;
+        ctx.beginPath();
+        ctx.moveTo(x1, y1);
+        ctx.bezierCurveTo(x1 + dx, y1, x2 - dx, y2, x2, y2);
+        ctx.strokeStyle = stroke;
+        ctx.lineWidth = 3;
+        ctx.lineCap = "round";
+        ctx.shadowColor = stroke;
+        ctx.shadowBlur = 8;
+        ctx.stroke();
+        ctx.restore();
+      }
+
+      function redraw() {
+        const ctx = canvas.getContext("2d");
+        const w = grid.clientWidth;
+        const h = grid.clientHeight;
+        ctx.clearRect(0, 0, w, h);
+
+        connections.forEach((slot, leftId) => {
+          const L = $('.p04-jack[data-side="L"][data-left-id="' + leftId + '"]', grid);
+          const R = $('.p04-jack[data-side="R"][data-slot="' + slot + '"]', grid);
+          if (!L || !R) return;
+          const a = jackCenter(L);
+          const b = jackCenter(R);
+          drawBezier(ctx, a.x, a.y, b.x, b.y, cableColor(leftId), 0.92);
+        });
+
+        if (dragging && dragLine) {
+          const L = $('.p04-jack[data-side="L"][data-left-id="' + dragging.leftId + '"]', grid);
+          if (L) {
+            const a = jackCenter(L);
+            drawBezier(ctx, a.x, a.y, dragLine.x, dragLine.y, cableColor(dragging.leftId), 0.55);
+          }
+        }
+
+        for (let i = sparkParticles.length - 1; i >= 0; i--) {
+          const p = sparkParticles[i];
+          p.life -= 0.08;
+          if (p.life <= 0) {
+            sparkParticles.splice(i, 1);
+            continue;
+          }
+          ctx.save();
+          ctx.globalAlpha = p.life;
+          ctx.fillStyle = p.c;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, 2.2, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.restore();
+          p.x += p.vx;
+          p.y += p.vy;
+        }
+        if (sparkParticles.length) {
+          cancelAnimationFrame(rafId);
+          rafId = requestAnimationFrame(redraw);
+        }
+      }
+
+      function burstSparks(x, y, c) {
+        for (let i = 0; i < 18; i++) {
+          const ang = Math.random() * Math.PI * 2;
+          const sp = 1.5 + Math.random() * 3;
+          sparkParticles.push({
+            x, y, vx: Math.cos(ang) * sp, vy: Math.sin(ang) * sp,
+            life: 0.85 + Math.random() * 0.35, c: c || "#ffeb3b"
+          });
+        }
+        cancelAnimationFrame(rafId);
+        rafId = requestAnimationFrame(redraw);
+      }
+
+      let _toneAc = null;
+      function playTone(freq, dur, type) {
+        try {
+          const Ctx = window.AudioContext || window.webkitAudioContext;
+          if (!Ctx) return;
+          if (!_toneAc) _toneAc = new Ctx();
+          const ac = _toneAc;
+          const o = ac.createOscillator();
+          const g = ac.createGain();
+          o.type = type || "sine";
+          o.frequency.value = freq;
+          g.gain.value = 0.12;
+          o.connect(g);
+          g.connect(ac.destination);
+          o.start();
+          g.gain.exponentialRampToValueAtTime(0.001, ac.currentTime + dur);
+          o.stop(ac.currentTime + dur + 0.02);
+        } catch (_) {}
+      }
+
+      function sfxConnect() { playTone(660, 0.08, "square"); }
+      function sfxErr() { playTone(140, 0.22, "sawtooth"); playTone(95, 0.18, "sawtooth"); }
+      function sfxOk() {
+        playTone(523, 0.1, "sine");
+        setTimeout(function () { playTone(659, 0.1, "sine"); }, 90);
+        setTimeout(function () { playTone(784, 0.14, "sine"); }, 180);
+      }
+
+      function renderColumns() {
+        colL.innerHTML = '<div class="p04-col-header">背景描述 · 过去进行时</div>' +
+          BG_ROWS.map(function (row) {
+            return '<div class="p04-card" data-left-row="' + row.id + '">' +
+              '<div class="p04-card-body"><div class="en">' + row.en + '</div><div class="zh">' + row.zh + '</div></div>' +
+              '<img class="p04-thumb" alt="情境：' + String(row.zh).replace(/"/g, "＂") + '" src="' + row.thumb + '" draggable="false" />' +
+              '<button type="button" class="p04-jack" data-side="L" data-left-id="' + row.id + '" aria-label="左接口' + row.id + '"></button></div>';
+          }).join("");
+
+        colR.innerHTML = '<div class="p04-col-header">突变点 · 一般过去时（顺序已打乱）</div>' +
+          rightOrder.map(function (evId, slot) {
+            const ev = EVENTS[evId];
+            return '<div class="p04-card" data-slot-card="' + slot + '">' +
+              '<button type="button" class="p04-jack" data-side="R" data-slot="' + slot + '" data-event-id="' + ev.id + '" aria-label="右接口' + slot + '"></button>' +
+              '<div class="p04-card-body"><div class="en">' + ev.en + '</div><div class="zh">' + ev.zh + '</div></div></div>';
+          }).join("");
+
+        $$(".p04-thumb", grid).forEach(function (img) {
+          img.addEventListener("dragstart", function (e) { e.preventDefault(); });
+        });
+        wireJacks();
+        layoutCanvas();
+        updateJackHints();
+      }
+
+      function updateJackHints() {
+        $$('.p04-jack[data-side="L"]', grid).forEach(function (j) {
+          const id = +j.dataset.leftId;
+          j.classList.toggle("is-wired", connections.has(id));
+        });
+      }
+
+      function wireJacks() {
+        $$('.p04-jack[data-side="L"]', grid).forEach(function (jack) {
+          jack.addEventListener("pointerdown", onLeftDown);
+        });
+      }
+
+      function onDragMove(e) {
+        if (!dragging || e.pointerId !== dragging.pid) return;
+        const g = grid.getBoundingClientRect();
+        dragLine.x = e.clientX - g.left;
+        dragLine.y = e.clientY - g.top;
+        redraw();
+      }
+
+      function onDragUp(e) {
+        if (!dragging || e.pointerId !== dragging.pid) return;
+        window.removeEventListener("pointermove", onDragMove);
+        window.removeEventListener("pointerup", onDragUp);
+        window.removeEventListener("pointercancel", onDragUp);
+        const t = document.elementFromPoint(e.clientX, e.clientY);
+        const rj = t && t.closest && t.closest('.p04-jack[data-side="R"]');
+        if (rj) {
+          const slot = +rj.dataset.slot;
+          connections.set(dragging.leftId, slot);
+          sfxConnect();
+          try {
+            if (typeof anime !== "undefined") {
+              anime({ targets: rj, scale: [1, 1.15, 1], duration: 320, easing: "easeOutQuad" });
+            }
+          } catch (_) {}
+        }
+        $$(".p04-jack.is-hot", grid).forEach(function (j) { j.classList.remove("is-hot"); });
+        dragging = null;
+        dragLine = null;
+        updateJackHints();
+        redraw();
+      }
+
+      function onLeftDown(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        const t = e.currentTarget;
+        const leftId = +t.dataset.leftId;
+        dragging = { leftId: leftId, pid: e.pointerId };
+        const g = grid.getBoundingClientRect();
+        dragLine = { x: e.clientX - g.left, y: e.clientY - g.top };
+        window.addEventListener("pointermove", onDragMove);
+        window.addEventListener("pointerup", onDragUp);
+        window.addEventListener("pointercancel", onDragUp);
+        t.classList.add("is-hot");
+        redraw();
+      }
+
+      function clearAll() {
+        connections.clear();
+        dragging = null;
+        dragLine = null;
+        updateJackHints();
+        redraw();
+      }
+
+      function shuffleRight() {
+        rightOrder = shuffleInPlace([0, 1, 2, 3, 4].slice());
+        clearAll();
+        renderColumns();
+      }
+
+      function eventAtSlot(slot) {
+        const id = rightOrder[slot];
+        return EVENTS[id];
+      }
+
+      async function deepseekParadox(lines) {
+        const c = CFG();
+        const key = (c.deepseekKey || "").trim();
+        if (!key) {
+          return "（未配置 deepseekKey）请检查：为何「长背景」与「短事件」在常识上说不通，或主从时态搭配不当。";
+        }
+        const ep = c.deepseekEndpoint || "https://api.deepseek.com/v1/chat/completions";
+        const model = c.deepseekModel || "deepseek-chat";
+        const body = {
+          model: model,
+          temperature: 0.35,
+          messages: [
+            {
+              role: "system",
+              content: "你是初中英语教研员「时空侦探」。用最多80字中文说明：下列配对在语法或生活常识上的问题。对事不对人，禁止人身攻击，勿展开敏感话题。"
+            },
+            { role: "user", content: "以下为学生错误接线说明，请短评：\n" + lines.join("\n") }
+          ]
+        };
+        setUiLock(true, "DeepSeek 悖论短评中…");
+        try {
+          const res = await fetch(ep, {
+            method: "POST",
+            headers: { "Content-Type": "application/json", Authorization: "Bearer " + key },
+            body: JSON.stringify(body)
+          });
+          const raw = await res.text();
+          let text = raw;
+          try {
+            const j = JSON.parse(raw);
+            text = (j.choices && j.choices[0] && j.choices[0].message && j.choices[0].message.content) || raw;
+          } catch (_) {}
+          text = String(text).replace(/```json|```/gi, "").trim();
+          return text.slice(0, 200);
+        } catch (err) {
+          return "网络请求失败：" + (err && err.message ? err.message : "unknown");
+        } finally {
+          setUiLock(false);
+        }
+      }
+
+      async function verify() {
+        if (connections.size !== 5) {
+          sfxErr();
+          return;
+        }
+        stats.attempts++;
+        const wrong = [];
+        for (let L = 0; L < 5; L++) {
+          const slot = connections.get(L);
+          const ev = eventAtSlot(slot);
+          if (!ev || ev.id !== L) wrong.push({ L: L, slot: slot, ev: ev });
+        }
+
+        if (wrong.length === 0) {
+          stats.correct++;
+          sfxOk();
+          try {
+            if (typeof anime !== "undefined") {
+              anime({ targets: "#p04-patch-grid", borderColor: ["#66bb6a", "rgba(0, 229, 255, 0.22)"], duration: 900 });
+            }
+          } catch (_) {}
+        } else {
+          sfxErr();
+          wrong.forEach(function (w) {
+            const Lj = $('.p04-jack[data-side="L"][data-left-id="' + w.L + '"]', grid);
+            const Rj = $('.p04-jack[data-side="R"][data-slot="' + w.slot + '"]', grid);
+            if (Lj) {
+              Lj.classList.add("is-bad");
+              const c = jackCenter(Lj);
+              burstSparks(c.x, c.y, "#ff7043");
+            }
+            if (Rj) {
+              Rj.classList.add("is-bad");
+              const c = jackCenter(Rj);
+              burstSparks(c.x, c.y, "#ffeb3b");
+            }
+          });
+          setTimeout(function () {
+            $$(".p04-jack.is-bad", grid).forEach(function (j) { j.classList.remove("is-bad"); });
+          }, 600);
+
+          const lines = wrong.map(function (w) {
+            const bg = BG_ROWS[w.L];
+            const ev = w.ev || { en: "?", zh: "?" };
+            return "「" + bg.en + "」接了「" + ev.en + "」(" + ev.zh + ")";
+          });
+          await deepseekParadox(lines);
+        }
+        $("#stat-display").textContent = "正确 " + stats.correct + " / 尝试 " + stats.attempts;
+        redraw();
+      }
+
+      function tickRace() {
+        if (!raceOn || !raceStart) {
+          $("#race-display").textContent = "—:—";
+          return;
+        }
+        const s = Math.floor((Date.now() - raceStart) / 1000);
+        const m = Math.floor(s / 60);
+        const r = s % 60;
+        $("#race-display").textContent = m + ":" + (r < 10 ? "0" : "") + r;
+        raceTimer = requestAnimationFrame(tickRace);
+      }
+
+      $("#btn-shuffle").addEventListener("click", shuffleRight);
+      $("#btn-clear").addEventListener("click", clearAll);
+      $("#btn-verify").addEventListener("click", function () { verify(); });
+      $("#chk-race").addEventListener("change", function () {
+        raceOn = $("#chk-race").checked;
+        if (!raceOn) {
+          raceStart = 0;
+          cancelAnimationFrame(raceTimer);
+          $("#race-display").textContent = "—:—";
+        }
+      });
+      $("#btn-race").addEventListener("click", function () {
+        if (!$("#chk-race").checked) {
+          $("#chk-race").checked = true;
+          raceOn = true;
+        }
+        if (raceStart) {
+          raceStart = 0;
+          cancelAnimationFrame(raceTimer);
+          $("#race-display").textContent = "—:—";
+        } else {
+          raceStart = Date.now();
+          cancelAnimationFrame(raceTimer);
+          tickRace();
+        }
+      });
+
+      window.addEventListener("resize", function () { layoutCanvas(); });
+      new ResizeObserver(function () { layoutCanvas(); }).observe(grid);
+
+      shuffleRight();
+    })();
+  </script>
+</body>
+</html>

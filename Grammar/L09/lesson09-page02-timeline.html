@@ -1,0 +1,1199 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>第09讲 · Page 02 · 时间轴上的河与闪电 · When / While</title>
+  <script src="./assets/l09-tts-manifest.js"></script>
+  <script src="../assets/lesson-tts-bootstrap.js"></script>
+  <!-- Slide2：句意五分镜 + 拼接循环片 assets/vertex/l09-page02-park-loop.mp4 · node scripts/generate-page02-veo-scene.mjs -->
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
+  <style>
+    :root {
+      --l09-p02-bg: url("./assets/l09-page02-timeline-bg.png");
+      --paper: #fff9f0;
+      --ink: #2c2c2c;
+      --crayon-red: #e85d4c;
+      --crayon-blue: #4a90d9;
+      --crayon-orange: #f0ad4e;
+      --crayon-green: #5cb85c;
+      --edge: #5d4037;
+      --gold-glow: #ffca28;
+      --grammar-blue: #1565c0;
+      --mint-glow: #26c6da;
+      --river-cyan: #00bcd4;
+      --bolt-magenta: #d500f9;
+      --shadow-soft: rgba(60, 40, 20, 0.18);
+      /* 底部固定导航占位：背景图不画进导航条区域 */
+      --p02-nav-h: calc(clamp(92px, 18vmin, 128px) + max(12px, env(safe-area-inset-bottom)));
+    }
+    * { box-sizing: border-box; }
+    html {
+      overflow: hidden;
+      max-width: 100%;
+      font-size: clamp(15px, 0.85vw + 13px, 20px);
+    }
+    html, body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", "PingFang SC", sans-serif;
+      background: linear-gradient(155deg, #263238 0%, #1a237e 38%, #120c18 100%);
+      color: var(--ink);
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+    }
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: max(8px, env(safe-area-inset-top)) max(8px, env(safe-area-inset-right))
+        max(8px, env(safe-area-inset-bottom)) max(8px, env(safe-area-inset-left));
+      min-height: 100dvh;
+    }
+
+    #viewport {
+      position: relative;
+      width: min(100vw, 100%);
+      height: min(100dvh, 100%);
+      max-width: 100%;
+      max-height: 100dvh;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+
+    #p02-host {
+      position: absolute;
+      inset: 0;
+      isolation: isolate;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      border: clamp(3px, 0.5vmin, 5px) solid rgba(240, 173, 78, 0.55);
+      border-radius: clamp(18px, 4vmin, 32px) clamp(10px, 2vmin, 18px) clamp(22px, 4.5vmin, 36px) clamp(12px, 2.2vmin, 20px)
+        / clamp(12px, 2.2vmin, 20px) clamp(22px, 4.5vmin, 36px) clamp(10px, 2vmin, 18px) clamp(18px, 4vmin, 32px);
+      box-shadow:
+        inset 0 0 clamp(24px, 5vmin, 48px) rgba(0, 0, 0, 0.16),
+        0 clamp(10px, 2vmin, 20px) clamp(24px, 4vmin, 40px) rgba(0, 0, 0, 0.32);
+    }
+
+    #bg-stack {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 0;
+      background:
+        linear-gradient(168deg, rgba(255, 249, 240, 0.52) 0%, rgba(179, 229, 252, 0.2) 45%, rgba(26, 35, 126, 0.35) 100%),
+        var(--l09-p02-bg) center / cover no-repeat;
+      filter: saturate(1.05) contrast(1.02);
+      pointer-events: none;
+    }
+    #bg-stack::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(0deg, rgba(255,255,255,0.026) 0 2px, transparent 2px 5px);
+      mix-blend-mode: soft-light;
+      opacity: 0.28;
+    }
+
+    #vignette {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 1;
+      pointer-events: none;
+      box-shadow: inset 0 0 clamp(36px, 10vmin, 88px) rgba(20, 12, 28, 0.32);
+    }
+
+    #stage {
+      position: relative;
+      z-index: 4;
+      flex: 1 1 auto;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      width: 100%;
+      padding: clamp(6px, 1.2vmin, 12px) clamp(10px, 2vmin, 16px) var(--p02-nav-h);
+      gap: clamp(6px, 1.1vmin, 10px);
+      overflow: hidden;
+    }
+
+    .p02-top-bar {
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: clamp(10px, 2vmin, 20px);
+      width: 100%;
+    }
+    .p02-top-left {
+      flex: 1 1 auto;
+      min-width: 0;
+      text-align: left;
+    }
+    .p02-top-left h1 {
+      margin: 0 0 clamp(6px, 1vmin, 10px);
+      font-size: clamp(0.98rem, 2.2vw + 0.45rem, 1.45rem);
+      font-weight: 900;
+      color: #fff8e7;
+      text-shadow: 0 0 12px rgba(128, 222, 234, 0.28), 2px 2px 0 rgba(44, 44, 44, 0.22);
+      letter-spacing: 0.03em;
+      line-height: 1.2;
+    }
+    .p02-top-right {
+      flex-shrink: 0;
+      max-width: min(100%, 22rem);
+    }
+    .p02-badge {
+      display: inline-block;
+      padding: clamp(5px, 1vmin, 9px) clamp(12px, 2.2vmin, 18px);
+      border-radius: 999px;
+      background: rgba(255, 249, 240, 0.96);
+      border: 3px solid var(--edge);
+      font-weight: 900;
+      font-size: clamp(0.65rem, 1.1vw + 0.32rem, 0.78rem);
+      color: #4e342e;
+      box-shadow: 0 3px 0 rgba(93, 64, 55, 0.1);
+      text-align: right;
+      line-height: 1.35;
+    }
+
+    .slide-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      gap: clamp(6px, 1.2vmin, 10px);
+      width: 100%;
+      max-width: min(100%, 36rem);
+    }
+    .slide-tab {
+      appearance: none;
+      cursor: pointer;
+      font-weight: 900;
+      font-size: clamp(0.68rem, 1.15vw + 0.28rem, 0.84rem);
+      padding: clamp(6px, 1.2vmin, 9px) clamp(12px, 2.2vmin, 18px);
+      border-radius: 999px;
+      border: 2px solid #cfd8dc;
+      color: #fff;
+      background: #546e7a;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+    }
+    .slide-tab.is-active {
+      color: #4e342e;
+      background: rgba(255, 249, 240, 0.98);
+      border: 3px solid var(--edge);
+      box-shadow: 0 3px 0 rgba(93, 64, 55, 0.12);
+    }
+
+    #slide-deck {
+      width: 100%;
+      flex: 1 1 auto;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow-x: hidden;
+      overflow-y: visible;
+    }
+    .p02-slide {
+      display: none;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0;
+      width: 100%;
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow: hidden;
+    }
+    .p02-slide.is-active {
+      display: flex;
+    }
+
+    /* Slide 1 内容总高度常超过一屏；允许纵向滚动，避免底部白卡/例句被裁切 */
+    #slide-1.p02-slide {
+      overflow-x: hidden;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      scroll-padding-bottom: clamp(24px, 6vmin, 56px);
+      padding-bottom: clamp(8px, 2vmin, 20px);
+    }
+
+    /* Slide 2 实验区同样可能超高；勿在子层 overflow:hidden 裁掉词块与底部控件 */
+    #slide-2.p02-slide {
+      overflow-x: hidden;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      scroll-padding-bottom: clamp(24px, 6vmin, 56px);
+      padding-bottom: clamp(8px, 2vmin, 20px);
+    }
+
+    .p02-slide-main {
+      flex: 1 1 auto;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow-x: hidden;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .p02-slide-main--lab {
+      justify-content: flex-start;
+      padding-top: clamp(2px, 0.5vmin, 6px);
+    }
+
+    #p02-bottom-dock {
+      position: fixed;
+      z-index: 40;
+      left: max(8px, env(safe-area-inset-left));
+      right: max(8px, env(safe-area-inset-right));
+      bottom: max(8px, env(safe-area-inset-bottom));
+      padding: clamp(8px, 1.4vmin, 12px) clamp(10px, 2vmin, 14px);
+      border-radius: clamp(14px, 2.2vmin, 20px);
+      background: rgba(38, 50, 56, 0.94);
+      border: 2px solid rgba(255, 255, 255, 0.14);
+      box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.25);
+    }
+    .dock-nav-panel {
+      display: none;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(8px, 1.5vmin, 14px);
+      width: 100%;
+    }
+    .dock-nav-panel.is-active {
+      display: flex;
+    }
+
+    /* Slide 1：上区隐喻 + 中区留白（背景图呈现河/闪电）+ 下区例句 */
+    #slide-1 .p02-slide1-teach--top {
+      flex-shrink: 0;
+      width: 100%;
+      max-width: min(100%, 52rem);
+      /* 与背景时间轴拉开距离，避免图例压住中线 */
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: clamp(10px, 1.35vmin, 14px);
+      align-items: stretch;
+    }
+    /* Slide 1：中间留白，隐喻由背景图呈现 */
+    #slide-1 .p02-slide1-spacer {
+      flex: 1 1 auto;
+      min-height: 0;
+      pointer-events: none;
+    }
+
+    #slide-1 .p02-slide1-teach--bottom {
+      flex-shrink: 0;
+      width: 100%;
+      max-width: min(100%, 52rem);
+      margin: 0 auto;
+      margin-top: auto;
+      display: flex;
+      flex-direction: column;
+      gap: clamp(5px, 1vmin, 10px);
+      align-items: stretch;
+      padding-bottom: clamp(2px, 0.6vmin, 6px);
+    }
+
+    #slide-1 .p02-slide1-teach--bottom .gate-grid {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(8px, 1.35vmin, 12px);
+    }
+    @media (max-width: 720px) {
+      #slide-1 .p02-slide1-teach--bottom .gate-grid { grid-template-columns: 1fr; }
+    }
+    #slide-1 .p02-slide1-teach--bottom .gate-card {
+      border-radius: clamp(10px, 1.5vmin, 14px);
+      padding: clamp(10px, 1.55vmin, 15px);
+      background: rgba(255, 253, 248, 0.97);
+      border: 2px solid var(--edge);
+      box-shadow: 0 3px 0 rgba(93, 64, 55, 0.06);
+    }
+    #slide-1 .p02-slide1-teach--bottom .gate-card h3 {
+      margin: 0 0 0.32rem;
+      font-size: clamp(0.936rem, calc(1.495vw + 0.364rem), 1.144rem);
+      font-weight: 900;
+      color: #4e342e;
+    }
+    #slide-1 .p02-slide1-teach--bottom .gate-card .en {
+      font-size: clamp(0.884rem, calc(1.365vw + 0.338rem), 1.066rem);
+      font-weight: 800;
+      color: var(--grammar-blue);
+      line-height: 1.35;
+      margin-bottom: 0.28rem;
+    }
+    /* 与页内「河 / 闪电」隐喻色一致：青蓝 = 背景进行段，粉洋红 = 短打断段 */
+    #slide-1 .p02-slide1-teach--bottom .gate-card .en .en-river {
+      color: #00838f;
+      font-weight: 800;
+    }
+    #slide-1 .p02-slide1-teach--bottom .gate-card .en .en-bolt {
+      color: #d81b60;
+      font-weight: 800;
+    }
+    #slide-1 .p02-slide1-teach--bottom .gate-card .zh {
+      font-size: clamp(0.832rem, calc(1.3vw + 0.312rem), 1.014rem);
+      font-weight: 700;
+      color: #5d4037;
+      line-height: 1.4;
+    }
+    #slide-1 .p02-slide1-teach--bottom .gate-card.when h3 { color: #6a1b9a; }
+    #slide-1 .p02-slide1-teach--bottom .gate-card.while h3 { color: #006064; }
+
+    #slide-1 .metaphor-strip {
+      margin: 0;
+      padding: clamp(6px, 1.1vmin, 10px) clamp(8px, 1.5vmin, 12px);
+      border-radius: clamp(8px, 1.4vmin, 12px);
+      background: rgba(255, 253, 248, 0.96);
+      border: 2px solid var(--edge);
+      box-shadow: 0 3px 0 rgba(93, 64, 55, 0.06);
+      font-weight: 800;
+      font-size: clamp(0.68rem, 1.05vw + 0.26rem, 0.84rem);
+      color: #37474f;
+      line-height: 1.42;
+      text-align: center;
+    }
+    #slide-1 .metaphor-strip strong { color: #00838f; }
+    #slide-1 .metaphor-strip em { color: #aa00ff; font-style: normal; font-weight: 900; }
+
+    #slide-1 .legend-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: clamp(6px, 1.2vmin, 10px);
+      width: 100%;
+      margin-bottom: clamp(12px, 2.8vmin, 28px);
+    }
+    #slide-1 .legend-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.28rem 0.55rem;
+      border-radius: 999px;
+      font-weight: 900;
+      font-size: clamp(0.62rem, 0.95vw + 0.24rem, 0.78rem);
+      border: 2px solid rgba(0, 0, 0, 0.1);
+      background: rgba(255, 253, 248, 0.95);
+      color: #263238;
+    }
+    #slide-1 .legend-pill .sw { width: 1rem; height: 0.5rem; border-radius: 4px; flex-shrink: 0; }
+    #slide-1 .sw-river { background: linear-gradient(90deg, #4dd0e1, #00acc1); }
+    #slide-1 .sw-bolt { background: linear-gradient(90deg, #ea80fc, #d500f9); }
+
+    #lab-panel {
+      width: 100%;
+      max-width: min(100%, 54rem);
+      margin: 0 auto;
+      padding: clamp(8px, 1.4vmin, 14px);
+      border-radius: clamp(12px, 2vmin, 18px);
+      background: rgba(255, 253, 248, 0.97);
+      border: 3px solid var(--edge);
+      box-shadow: 0 6px 0 rgba(93, 64, 55, 0.07);
+      flex: 1 1 auto;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      overflow-y: visible;
+    }
+    #lab-panel h2 {
+      margin: 0 0 0.35rem;
+      text-align: center;
+      font-size: clamp(0.82rem, 1.5vw + 0.32rem, 1rem);
+      font-weight: 900;
+      color: #4e342e;
+      flex-shrink: 0;
+    }
+    .p02-video-shell {
+      position: relative;
+      width: 100%;
+      flex: 0 1 auto;
+      min-height: 0;
+      max-height: min(48dvh, 68vmin, 520px);
+      aspect-ratio: 16 / 9;
+      margin-top: clamp(4px, 0.8vmin, 8px);
+      margin-bottom: clamp(6px, 1vmin, 10px);
+      border-radius: clamp(10px, 1.6vmin, 14px);
+      overflow: hidden;
+      border: 2px solid rgba(93, 64, 55, 0.18);
+      background: linear-gradient(180deg, #1a237e 0%, #311b92 100%);
+    }
+    .p02-seq-stack {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1;
+    }
+    .p02-seq-stack:not(.is-active) {
+      visibility: hidden;
+      pointer-events: none;
+    }
+    .p02-seq-stack.is-active {
+      visibility: visible;
+      pointer-events: auto;
+    }
+    .p02-seq-stack video.p02-seq-v {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      opacity: 0;
+      pointer-events: none;
+      transition: none;
+    }
+    .p02-seq-stack video.p02-seq-v.is-on {
+      opacity: 1;
+      pointer-events: auto;
+      z-index: 2;
+    }
+    #p02-merged-loop {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      z-index: 3;
+      background: transparent;
+    }
+    #p02-merged-loop.is-hidden {
+      display: none !important;
+    }
+    .sentence-rail {
+      font-size: clamp(0.78rem, 1.35vw + 0.28rem, 0.95rem);
+      font-weight: 800;
+      color: var(--grammar-blue);
+      line-height: 1.5;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      justify-content: center;
+      gap: 0.28rem 0.4rem;
+      margin-bottom: clamp(6px, 1vmin, 10px);
+      flex-shrink: 0;
+    }
+    .p02-slot {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 2.5em;
+      min-height: 2.2em;
+      padding: 0.2em 0.45em;
+      border-radius: clamp(8px, 1.2vmin, 12px);
+      border: 3px dashed rgba(240, 173, 78, 0.95);
+      background: rgba(255, 248, 225, 0.65);
+      color: var(--grammar-blue);
+      vertical-align: middle;
+      touch-action: manipulation;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .p02-slot.is-filled {
+      border-style: solid;
+      border-color: var(--crayon-green);
+      background: rgba(200, 230, 201, 0.5);
+      color: #1b5e20;
+      cursor: pointer;
+    }
+    .p02-slot.is-wiggle {
+      animation: wiggle 0.38s ease;
+    }
+    @keyframes wiggle {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-6px); }
+      75% { transform: translateX(6px); }
+    }
+
+    .chips-p02 {
+      display: flex;
+      flex-wrap: wrap;
+      gap: clamp(6px, 1.2vmin, 10px);
+      justify-content: center;
+      align-content: flex-start;
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow-x: hidden;
+      overflow-y: visible;
+    }
+    .chip-p02 {
+      touch-action: manipulation;
+      cursor: pointer;
+      padding: clamp(5px, 1vmin, 8px) clamp(10px, 1.8vmin, 14px);
+      border-radius: clamp(8px, 1.5vmin, 12px);
+      font-weight: 900;
+      font-size: clamp(0.72rem, 1.2vw + 0.28rem, 0.88rem);
+      color: #fff;
+      border: 3px solid rgba(0,0,0,0.1);
+      box-shadow: 0 4px 0 rgba(0,0,0,0.12);
+      user-select: none;
+      max-width: 100%;
+      text-align: center;
+      line-height: 1.25;
+    }
+    .chip-p02[data-trap="1"] {
+      background: linear-gradient(180deg, #90a4ae 0%, #607d8b 100%);
+    }
+    .chip-p02[data-trap="0"] {
+      background: linear-gradient(180deg, var(--crayon-blue) 0%, #1565c0 100%);
+    }
+    .chip-p02.is-hidden {
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .btn-primary {
+      appearance: none;
+      border: none;
+      cursor: pointer;
+      font-weight: 900;
+      font-size: clamp(0.85rem, 1.45vw + 0.36rem, 1rem);
+      padding: clamp(11px, 2vmin, 15px) clamp(18px, 3.5vmin, 28px);
+      border-radius: 999px;
+      color: #fff;
+      background: linear-gradient(180deg, var(--crayon-orange) 0%, #f57c00 100%);
+      box-shadow: 0 4px 0 #e65100, 0 8px 20px rgba(0,0,0,0.18);
+    }
+    .btn-primary:disabled {
+      opacity: 0.42;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+    .btn-ghost {
+      appearance: none;
+      border: 3px solid rgba(255,248,231,0.5);
+      cursor: pointer;
+      font-weight: 800;
+      font-family: inherit;
+      font-size: clamp(0.72rem, 1.2vw + 0.3rem, 0.85rem);
+      padding: clamp(8px, 1.5vmin, 10px) clamp(14px, 2.5vmin, 20px);
+      border-radius: 999px;
+      color: #fff8e7;
+      background: rgba(0,0,0,0.18);
+      text-decoration: none;
+      display: inline-block;
+    }
+    #ui-lock {
+      position: fixed;
+      inset: 0;
+      z-index: 150;
+      pointer-events: none;
+    }
+    #ui-lock.active { pointer-events: auto; }
+
+    #hologram {
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: min(92vw, 32rem);
+      max-height: min(72dvh, 28rem);
+      z-index: 200;
+      padding: clamp(14px, 2.8vmin, 22px);
+      border-radius: clamp(14px, 2.5vmin, 20px);
+      background: rgba(255, 249, 240, 0.98);
+      border: 4px solid var(--crayon-red);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.35);
+      display: none;
+      flex-direction: column;
+      gap: 10px;
+    }
+    #hologram.visible { display: flex; }
+    #hologram .title {
+      font-weight: 900;
+      color: var(--crayon-red);
+      font-size: clamp(0.95rem, 1.75vw + 0.42rem, 1.15rem);
+    }
+    #hologram .body {
+      flex: 1;
+      overflow: auto;
+      font-size: clamp(0.88rem, 1.45vw + 0.38rem, 1.02rem);
+      line-height: 1.55;
+      color: #3e2723;
+      font-weight: 700;
+    }
+    #hologram button {
+      align-self: flex-end;
+      padding: 0.5rem 1rem;
+      border-radius: 999px;
+      border: none;
+      font-weight: 900;
+      background: var(--crayon-blue);
+      color: #fff;
+      cursor: pointer;
+    }
+
+    .success-plate {
+      width: 100%;
+      text-align: center;
+      padding: clamp(10px, 1.8vmin, 14px);
+      border-radius: clamp(10px, 1.8vmin, 14px);
+      background: linear-gradient(180deg, rgba(38, 198, 218, 0.2), rgba(21, 101, 192, 0.1));
+      border: 2px solid var(--mint-glow);
+      font-weight: 800;
+      color: #006064;
+      font-size: clamp(0.78rem, 1.4vw + 0.3rem, 0.92rem);
+      line-height: 1.45;
+    }
+
+    @media print {
+      html, body { background: #fff; height: auto; }
+      #viewport { height: auto; max-height: none; }
+      #bg-stack, #vignette, #ui-lock, #hologram, #p02-bottom-dock, .slide-tabs { display: none !important; }
+      .p02-slide { display: flex !important; page-break-inside: avoid; }
+      .p02-slide + .p02-slide { page-break-before: always; margin-top: 1rem; }
+      #p02-host {
+        border: 1px solid #333;
+        box-shadow: none;
+        overflow: visible;
+      }
+      #stage { color: #000; }
+      .p02-top-left h1 { color: #000; text-shadow: none; }
+    }
+  </style>
+</head>
+<body>
+  <script>
+    window.L09_CFG = window.L09_CFG || {
+      azureKey: "",
+      azureRegion: "southeastasia",
+      deepseekKey: "",
+      deepseekEndpoint: "https://api.deepseek.com/v1/chat/completions",
+      deepseekModel: "deepseek-chat"
+    };
+  </script>
+  <div id="viewport">
+    <div id="p02-host">
+      <div id="bg-stack" aria-hidden="true"></div>
+      <div id="vignette" aria-hidden="true"></div>
+      <div id="stage">
+        <header class="p02-top-bar" aria-label="本页标题与幻灯片">
+          <div class="p02-top-left">
+            <h1>时间轴上的「河」与「闪电」</h1>
+            <div class="slide-tabs" role="tablist" aria-label="本页幻灯片">
+              <button type="button" class="slide-tab is-active" role="tab" id="tab-s1" aria-selected="true" aria-controls="slide-1">Slide 1 · 隐喻与规则</button>
+              <button type="button" class="slide-tab" role="tab" id="tab-s2" aria-selected="false" aria-controls="slide-2">Slide 2 · 交互拼句</button>
+            </div>
+          </div>
+          <div class="p02-top-right">
+            <span class="p02-badge" id="p02-badge">Lesson 09 · Page 02 / 8 · Slide 1/2 · 教师示范</span>
+          </div>
+        </header>
+
+        <div id="slide-deck">
+          <div class="p02-slide is-active" id="slide-1" role="tabpanel" aria-labelledby="tab-s1">
+            <div class="p02-slide1-teach p02-slide1-teach--top" id="slide1-teach-top">
+              <p class="metaphor-strip" id="metaphor-strip">
+                <strong>青色长河</strong>：背景动作，像录像带在走 → 常用 <strong>While</strong> + 主语 + <strong>was / were + doing</strong>。<br />
+                <em>洋红闪电</em>：短促打断，像快门咔嚓一下 → 主句常用 <strong>一般过去时 did</strong>。
+              </p>
+              <div class="legend-row">
+                <span class="legend-pill"><span class="sw sw-river" aria-hidden="true"></span>河 = 长背景 · was / were + V-ing</span>
+                <span class="legend-pill"><span class="sw sw-bolt" aria-hidden="true"></span>闪电 = 短打断 · did + 原形</span>
+              </div>
+            </div>
+            <div class="p02-slide1-spacer" aria-hidden="true"></div>
+            <div class="p02-slide1-teach p02-slide1-teach--bottom" id="slide1-teach-bottom">
+              <div class="gate-grid" id="gate-grid">
+                <article class="gate-card while">
+                  <h3>While · 从句常放「背景带」</h3>
+                  <p class="en" lang="en"><span class="en-river">While we were playing football, </span><span class="en-bolt">it started to rain heavily.</span></p>
+                  <p class="zh">While 引导的那半句，多描述<strong>较长、可延续</strong>的动作或状态。</p>
+                </article>
+                <article class="gate-card when">
+                  <h3>When · 可接「点事件」</h3>
+                  <p class="en" lang="en"><span class="en-river">We were driving home </span><span class="en-bolt">when the strong winds started.</span></p>
+                  <p class="zh">when 后常跟<strong>突然发生、瞬间开始</strong>的短动作（started / rang / found…）。</p>
+                </article>
+              </div>
+            </div>
+          </div>
+
+          <div class="p02-slide" id="slide-2" role="tabpanel" aria-labelledby="tab-s2">
+            <div class="p02-slide-main p02-slide-main--lab">
+              <section id="lab-panel" aria-label="词块组装实验">
+                <h2>交互 · 拼出教材型长句</h2>
+                <div class="p02-video-shell" id="p02-video-shell">
+                  <div class="p02-seq-stack" id="p02-seq-stack" aria-label="句意五分镜顺序循环">
+                    <video class="p02-seq-v" playsinline preload="metadata" data-seq="0">
+                      <source src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L09/assets/vertex/l09-page02-seq-1-walk.mp4" type="video/mp4" />
+                    </video>
+                    <video class="p02-seq-v" playsinline preload="metadata" data-seq="1">
+                      <source src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L09/assets/vertex/l09-page02-seq-2-perspective-walk.mp4" type="video/mp4" />
+                    </video>
+                    <video class="p02-seq-v" playsinline preload="metadata" data-seq="2">
+                      <source src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L09/assets/vertex/l09-page02-seq-3-bird-struggle.mp4" type="video/mp4" />
+                    </video>
+                    <video class="p02-seq-v" playsinline preload="metadata" data-seq="3">
+                      <source src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L09/assets/vertex/l09-page02-seq-4-boy-approach.mp4" type="video/mp4" />
+                    </video>
+                    <video class="p02-seq-v" playsinline preload="metadata" data-seq="4">
+                      <source src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L09/assets/vertex/l09-page02-seq-5-pickup.mp4" type="video/mp4" />
+                    </video>
+                  </div>
+                  <video
+                    id="p02-merged-loop"
+                    class="p02-merged-loop"
+                    controls
+                    loop
+                    playsinline
+                    preload="metadata"
+                    aria-label="句意完整循环：走路—换视角—鸟挣扎—走近—捡起（单文件拼接）"
+                  >
+                    <source src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L09/assets/vertex/l09-page02-park-loop.mp4" type="video/mp4" />
+                  </video>
+                </div>
+                <div class="sentence-rail" id="sentence-rail" aria-live="polite">
+                  <span class="p02-slot" id="slot-1" data-accept="t1" data-idx="1" title="第一格"></span>
+                  <span class="p02-slot" id="slot-2" data-accept="t2" data-idx="2" title="第二格"></span>
+                  <span class="p02-slot" id="slot-3" data-accept="t3" data-idx="3" title="第三格"></span>
+                  <span class="p02-slot" id="slot-4" data-accept="t4" data-idx="4" title="第四格"></span>
+                </div>
+                <div class="chips-p02" id="chips-p02"></div>
+                <div class="success-plate" id="success-plate" style="display:none;margin-top:8px;">
+                  组装完成：<span lang="en">While he was walking in the park, he found an injured bird.</span>
+                </div>
+              </section>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="p02-bottom-dock" aria-label="页面导航">
+        <div id="dock-nav-s1" class="dock-nav-panel is-active">
+          <a class="btn-ghost" href="lesson09-page01-interrogation.html">← Page 01</a>
+          <button type="button" class="btn-primary" id="btn-to-slide2">Slide 2 · 交互拼句 →</button>
+        </div>
+        <div id="dock-nav-s2" class="dock-nav-panel">
+          <button type="button" class="btn-ghost" id="btn-back-slide1">← Slide 1</button>
+          <a class="btn-ghost" href="lesson09-page01-interrogation.html">← Page 01</a>
+          <button type="button" class="btn-primary" id="btn-next" disabled>前往 Page 03 · 线索板 →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="ui-lock" aria-hidden="true"></div>
+  <div id="hologram" role="dialog" aria-modal="true" aria-labelledby="hg-title">
+    <div class="title" id="hg-title">逻辑审计台</div>
+    <div class="body" id="hg-body"></div>
+    <button type="button" id="hg-dismiss">收到</button>
+  </div>
+
+  <script>
+    const CFG = () => (typeof window !== "undefined" && window.L09_CFG) ? window.L09_CFG : {};
+    const $ = (s) => document.querySelector(s);
+
+    const uiLock = $("#ui-lock");
+    const hologram = $("#hologram");
+    const hgBody = $("#hg-body");
+    const hgDismiss = $("#hg-dismiss");
+    const btnNext = $("#btn-next");
+    const chipsRoot = $("#chips-p02");
+    const sentenceRail = $("#sentence-rail");
+    const successPlate = $("#success-plate");
+    const slide1 = $("#slide-1");
+    const slide2 = $("#slide-2");
+    const tabS1 = $("#tab-s1");
+    const tabS2 = $("#tab-s2");
+    const btnToSlide2 = $("#btn-to-slide2");
+    const btnBackSlide1 = $("#btn-back-slide1");
+    const p02Badge = $("#p02-badge");
+    const dockNavS1 = $("#dock-nav-s1");
+    const dockNavS2 = $("#dock-nav-s2");
+
+    function wireP02TripleSequence(stack) {
+      const videos = [].slice.call(stack.querySelectorAll("video.p02-seq-v"));
+      if (videos.length < 2) return;
+      let idx = 0;
+
+      function setActive(j) {
+        idx = j;
+        videos.forEach(function (v, k) {
+          v.classList.toggle("is-on", k === j);
+          v.controls = k === j;
+          if (k !== j) {
+            try {
+              v.pause();
+            } catch (_) {}
+          }
+        });
+      }
+
+      function playNext() {
+        var next = (idx + 1) % videos.length;
+        var vn = videos[next];
+        try {
+          vn.currentTime = 0;
+        } catch (_) {}
+        setActive(next);
+        vn.play().catch(function () {
+          try {
+            vn.muted = true;
+            vn.play().catch(function () {});
+          } catch (_) {}
+        });
+      }
+
+      videos.forEach(function (v) {
+        v.addEventListener("ended", playNext);
+        v.addEventListener("error", function () {
+          try {
+            console.warn("[L09 p02 video]", v.currentSrc || v.src, v.error);
+          } catch (_) {}
+        });
+      });
+      stack.classList.add("is-active");
+      setActive(0);
+    }
+
+    (function wireP02SceneVideo() {
+      const merged = document.getElementById("p02-merged-loop");
+      const stack = document.getElementById("p02-seq-stack");
+      if (!merged && !stack) return;
+
+      function useTriple() {
+        if (merged) {
+          merged.classList.add("is-hidden");
+          try {
+            merged.pause();
+          } catch (_) {}
+        }
+        if (stack) wireP02TripleSequence(stack);
+      }
+
+      if (!merged) {
+        useTriple();
+        return;
+      }
+
+      merged.addEventListener("error", function () {
+        useTriple();
+      });
+      merged.addEventListener("loadeddata", function () {
+        if (stack) stack.classList.remove("is-active");
+      });
+    })();
+
+    function goToSlide(n) {
+      const one = n === 1;
+      if (slide1) slide1.classList.toggle("is-active", one);
+      if (slide2) slide2.classList.toggle("is-active", !one);
+      if (tabS1) {
+        tabS1.classList.toggle("is-active", one);
+        tabS1.setAttribute("aria-selected", one ? "true" : "false");
+      }
+      if (tabS2) {
+        tabS2.classList.toggle("is-active", !one);
+        tabS2.setAttribute("aria-selected", !one ? "true" : "false");
+      }
+      if (dockNavS1) dockNavS1.classList.toggle("is-active", one);
+      if (dockNavS2) dockNavS2.classList.toggle("is-active", !one);
+      if (p02Badge) {
+        p02Badge.textContent = "Lesson 09 · Page 02 / 8 · Slide " + n + "/2 · 教师示范";
+      }
+      try {
+        if (n === 2) history.replaceState(null, "", "#slide-2");
+        else history.replaceState(null, "", window.location.pathname + window.location.search);
+      } catch (_) {}
+      if (n !== 2) {
+        try {
+          const m = document.getElementById("p02-merged-loop");
+          if (m) m.pause();
+          document.querySelectorAll("#p02-seq-stack video.p02-seq-v").forEach(function (el) {
+            try {
+              el.pause();
+            } catch (_) {}
+          });
+        } catch (_) {}
+      }
+    }
+
+    function setUILock(on) {
+      if (!uiLock) return;
+      uiLock.classList.toggle("active", !!on);
+      uiLock.setAttribute("aria-hidden", on ? "false" : "true");
+    }
+
+    async function deepseekAuditWrong(userAction) {
+      const c = CFG();
+      const key = c.deepseekKey;
+      const ep = c.deepseekEndpoint || "https://api.deepseek.com/v1/chat/completions";
+      const model = c.deepseekModel || "deepseek-chat";
+      const local =
+        "背景像「长河」要用 was / were + doing 来铺陈；突变点更像闪电一击，用 did + 原形。" +
+        "把 When 与 walked 误装进 While 长句里，会把时间逻辑拧成麻花。";
+      if (!key) return local;
+      const ctrl = new AbortController();
+      const to = setTimeout(() => ctrl.abort(), 20000);
+      try {
+        const res = await fetch(ep, {
+          method: "POST",
+          signal: ctrl.signal,
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + key,
+          },
+          body: JSON.stringify({
+            model,
+            temperature: 0.35,
+            messages: [
+              {
+                role: "system",
+                content:
+                  "你是初中英语教研员「时空侦探局」逻辑审计员。学生点击词块组装 While…, … 类句子时选错词块。" +
+                  "请用中文≤85字：对事不对人；讲清「背景进行时」与「短促一般过去」分工；不要辱骂；不要逐字复述学生错误。" +
+                  "若用户动作描述含陷阱词，指出时间轴隐喻即可。",
+              },
+              { role: "user", content: userAction || "学生把不合适的词块填进了句子槽位。" },
+            ],
+          }),
+        });
+        clearTimeout(to);
+        if (!res.ok) throw new Error("ds " + res.status);
+        const data = await res.json();
+        let t = data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content;
+        t = (t || "").replace(/```[\s\S]*?```/g, "").trim();
+        return t.slice(0, 120) || local;
+      } catch (_) {
+        clearTimeout(to);
+        return local;
+      }
+    }
+
+    class P02Audio {
+      ensure() {
+        if (!this.ctx) {
+          const Ctx = window.AudioContext || window.webkitAudioContext;
+          this.ctx = new Ctx();
+        }
+        return this.ctx;
+      }
+      playThunderHit() {
+        const ctx = this.ensure();
+        const g = ctx.createGain();
+        g.gain.setValueAtTime(0.22, ctx.currentTime);
+        g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.28);
+        const o = ctx.createOscillator();
+        o.type = "sawtooth";
+        o.frequency.setValueAtTime(95, ctx.currentTime);
+        o.frequency.exponentialRampToValueAtTime(38, ctx.currentTime + 0.12);
+        o.connect(g).connect(ctx.destination);
+        o.start();
+        o.stop(ctx.currentTime + 0.3);
+      }
+      playSuccessChime() {
+        const ctx = this.ensure();
+        [660, 990, 1320].forEach((freq, i) => {
+          const o = ctx.createOscillator();
+          o.type = "sine";
+          o.frequency.value = freq;
+          const gg = ctx.createGain();
+          gg.gain.setValueAtTime(0.0001, ctx.currentTime + i * 0.07);
+          gg.gain.linearRampToValueAtTime(0.12, ctx.currentTime + i * 0.07 + 0.02);
+          gg.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + i * 0.07 + 0.32);
+          o.connect(gg).connect(ctx.destination);
+          o.start(ctx.currentTime + i * 0.07);
+          o.stop(ctx.currentTime + i * 0.07 + 0.34);
+        });
+      }
+      playErrorBuzz() {
+        const ctx = this.ensure();
+        const o = ctx.createOscillator();
+        o.type = "square";
+        o.frequency.value = 140;
+        const g = ctx.createGain();
+        g.gain.setValueAtTime(0.14, ctx.currentTime);
+        g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.28);
+        o.connect(g).connect(ctx.destination);
+        o.start();
+        o.stop(ctx.currentTime + 0.29);
+      }
+    }
+    const sfx = new P02Audio();
+
+    const CHIP_DEFS = [
+      { token: "t1", label: "While", trap: 0 },
+      { token: "t2", label: "he was walking in the park,", trap: 0 },
+      { token: "t3", label: "he found", trap: 0 },
+      { token: "t4", label: "an injured bird.", trap: 0 },
+      { token: "x1", label: "When", trap: 1 },
+      { token: "x2", label: "he walked in the park,", trap: 1 },
+      { token: "x3", label: "he was finding", trap: 1 },
+    ];
+
+    function shuffle(arr) {
+      const a = arr.slice();
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    }
+
+    function buildChips() {
+      if (!chipsRoot) return;
+      chipsRoot.innerHTML = "";
+      shuffle(CHIP_DEFS).forEach((def) => {
+        const el = document.createElement("button");
+        el.type = "button";
+        el.className = "chip-p02";
+        el.textContent = def.label;
+        el.dataset.token = def.token;
+        el.dataset.trap = String(def.trap);
+        el.setAttribute("aria-label", "词块：" + def.label + "，点击填入当前第一个空位");
+        chipsRoot.appendChild(el);
+      });
+    }
+
+    let dragEnabled = true;
+    let p02State = 0;
+
+    function firstEmptySlot() {
+      const slots = [].slice.call(document.querySelectorAll(".p02-slot"));
+      return slots.find((s) => !s.classList.contains("is-filled")) || null;
+    }
+
+    async function tryPlaceChipByClick(chip) {
+      if (!dragEnabled || !chip || chip.classList.contains("is-hidden")) return;
+
+      const next = firstEmptySlot();
+      if (!next) return;
+
+      const token = chip.dataset.token;
+      const isTrap = chip.dataset.trap === "1";
+      const accept = next.dataset.accept;
+
+      if (isTrap) {
+        sfx.playErrorBuzz();
+        setUILock(true);
+        if (typeof anime !== "undefined") {
+          if (typeof anime.remove === "function") anime.remove(chip);
+          anime({
+            targets: chip,
+            translateX: [-8, 8, -6, 6, 0],
+            duration: 380,
+            easing: "easeInOutSine",
+            complete: () => {
+              chip.style.transform = "";
+            },
+          });
+        }
+        const msg = await deepseekAuditWrong("学生点击陷阱词块试图填入空位：" + chip.textContent);
+        hgBody.textContent = msg;
+        hologram.classList.add("visible");
+        setUILock(false);
+        return;
+      }
+
+      if (token !== accept) {
+        sfx.playErrorBuzz();
+        next.classList.add("is-wiggle");
+        setTimeout(() => next.classList.remove("is-wiggle"), 400);
+        return;
+      }
+
+      next.textContent = chip.textContent;
+      next.dataset.placedToken = token;
+      next.classList.add("is-filled");
+      chip.classList.add("is-hidden");
+      sfx.playThunderHit();
+      checkComplete();
+    }
+
+    if (chipsRoot) {
+      chipsRoot.addEventListener("click", (e) => {
+        const chip = e.target.closest(".chip-p02");
+        if (!chip) return;
+        tryPlaceChipByClick(chip);
+      });
+    }
+
+    if (sentenceRail) {
+      sentenceRail.addEventListener("click", (e) => {
+        if (!dragEnabled) return;
+        const sl = e.target.closest(".p02-slot");
+        if (!sl || !sl.classList.contains("is-filled")) return;
+        const tok = sl.dataset.placedToken || "";
+        sl.textContent = "";
+        sl.classList.remove("is-filled");
+        if (tok) delete sl.dataset.placedToken;
+        const chip = document.querySelector('.chip-p02[data-token="' + tok + '"]');
+        if (chip) chip.classList.remove("is-hidden");
+      });
+    }
+
+    function checkComplete() {
+      const slots = document.querySelectorAll(".p02-slot");
+      const ok = [].every.call(slots, (s) => s.classList.contains("is-filled"));
+      if (ok) onAssemblyComplete();
+    }
+
+    async function onAssemblyComplete() {
+      dragEnabled = false;
+      p02State = 4;
+      sfx.playSuccessChime();
+      if (successPlate) successPlate.style.display = "block";
+      if (btnNext) btnNext.disabled = false;
+    }
+
+    hgDismiss.addEventListener("click", () => {
+      hologram.classList.remove("visible");
+    });
+
+    if (btnToSlide2) {
+      btnToSlide2.addEventListener("click", () => {
+        goToSlide(2);
+      });
+    }
+    if (btnBackSlide1) {
+      btnBackSlide1.addEventListener("click", () => goToSlide(1));
+    }
+
+    if (tabS1) {
+      tabS1.addEventListener("click", () => goToSlide(1));
+    }
+    if (tabS2) {
+      tabS2.addEventListener("click", () => goToSlide(2));
+    }
+
+    if (btnNext) {
+      btnNext.addEventListener("click", () => {
+        window.location.href = "lesson09-page03-clueboard.html";
+      });
+    }
+
+    buildChips();
+
+    window.addEventListener("load", () => {
+      if (location.hash === "#slide-2") {
+        goToSlide(2);
+      }
+      if (typeof anime !== "undefined" && document.getElementById("gate-grid")) {
+        anime({
+          targets: "#gate-grid",
+          translateY: [12, 0],
+          opacity: [0, 1],
+          duration: 520,
+          easing: "easeOutQuad",
+        });
+      }
+    });
+  </script>
+</body>
+</html>
