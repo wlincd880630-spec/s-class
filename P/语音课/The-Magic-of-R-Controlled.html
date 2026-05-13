@@ -1,0 +1,2777 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>The Magic of Syllables — R-Controlled · Bossy R</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Finger+Paint&family=Comic+Neue:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --cream: #fffdd0;
+      --pink: #ffb7b2;
+      --mint: #b2e2f2;
+      --lilac: #d1d1f7;
+      --ink: #3d3a45;
+      --ink-soft: #6b6578;
+      --white: #fffef8;
+      --shadow: rgba(61, 58, 69, 0.18);
+      --rc-accent: #7e57c2;
+      --rc-accent-dark: #4527a0;
+      --vowel-red: #c62828;
+      --font-display: "Comic Sans MS", "Finger Paint", "Comic Neue", cursive, sans-serif;
+      --font-body: "Comic Sans MS", "Comic Neue", system-ui, sans-serif;
+      /* 所有页白底卡片统一最大宽度，避免翻页时宽窄不一 */
+      --slide-card-max: min(100%, 58rem);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body {
+      font-family: var(--font-body);
+      font-weight: 400;
+      color: var(--ink);
+      background: var(--cream);
+      background-image:
+        repeating-linear-gradient(125deg, rgba(255, 183, 178, 0.22) 0 2px, transparent 2px 14px),
+        repeating-linear-gradient(-125deg, rgba(178, 226, 242, 0.25) 0 2px, transparent 2px 18px),
+        radial-gradient(ellipse 90% 70% at 15% 20%, rgba(209, 209, 247, 0.45), transparent 55%),
+        radial-gradient(ellipse 80% 50% at 85% 75%, rgba(255, 253, 208, 0.9), transparent 50%);
+      overflow: hidden;
+    }
+    .deck {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0.6rem 0.85rem 0.4rem;
+    }
+    /* 占满导航条上方剩余高度，避免每页内容多少不同导致白框高度忽大忽小 */
+    #slides-mount {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      width: 100%;
+    }
+    .slide {
+      flex: 1;
+      min-height: 0;
+      width: 100%;
+      display: none;
+      flex-direction: column;
+      align-items: stretch;
+      justify-content: flex-start;
+      padding: 0.5rem 0.15rem;
+      animation: slideIn 0.45s ease;
+    }
+    .slide.active {
+      display: flex;
+      flex: 1;
+      min-height: 0;
+    }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .slide-inner {
+      flex: 1 1 auto;
+      min-height: 0;
+      width: 100%;
+      max-width: var(--slide-card-max);
+      margin-left: auto;
+      margin-right: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      overflow: auto;
+      -webkit-overflow-scrolling: touch;
+      background: var(--white);
+      border: 4px solid var(--ink);
+      border-radius: 28px 18px 32px 22px / 22px 28px 20px 30px;
+      box-shadow: 6px 6px 0 var(--shadow), 0 0 0 1px rgba(255, 255, 255, 0.6) inset;
+      padding: clamp(0.85rem, 2.5vw, 1.6rem);
+      position: relative;
+      background-image:
+        repeating-linear-gradient(135deg, transparent, transparent 10px, rgba(61, 58, 69, 0.04) 10px, rgba(61, 58, 69, 0.04) 11px),
+        repeating-linear-gradient(-55deg, transparent, transparent 16px, rgba(255, 183, 178, 0.08) 16px, rgba(255, 183, 178, 0.08) 17px);
+    }
+    .slide-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.35rem, 4.5vw, 2rem);
+      text-align: center;
+      color: var(--ink);
+      margin-bottom: 0.4rem;
+      text-shadow: 2px 2px 0 var(--pink), 4px 4px 0 rgba(178, 226, 242, 0.6);
+      line-height: 1.15;
+    }
+    /* Magic E「Let’s Practice Together」英文主标题 */
+    .slide-inner.cact-lesson .slide-title-lp {
+      font-size: clamp(1.15rem, 3.6vw, 1.65rem);
+      margin-bottom: 0.3rem;
+    }
+    .rc-demo-kicker {
+      text-align: center;
+      font-size: clamp(0.78rem, 2vw, 0.9rem);
+      font-weight: 700;
+      color: var(--ink-soft);
+      margin: -0.15rem 0 0.2rem;
+      line-height: 1.4;
+    }
+    .slide-sub {
+      text-align: center;
+      font-size: clamp(0.85rem, 2.1vw, 1.02rem);
+      color: var(--ink-soft);
+      margin-bottom: 0.65rem;
+      font-weight: 700;
+      line-height: 1.5;
+    }
+    .btn {
+      font-family: var(--font-body);
+      font-weight: 700;
+      padding: 0.45rem 1.1rem;
+      border: 3px solid var(--ink);
+      border-radius: 14px;
+      background: linear-gradient(180deg, #ffe566, #ffd54f);
+      cursor: pointer;
+      box-shadow: 4px 4px 0 var(--shadow);
+      font-size: 0.92rem;
+    }
+    .btn:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0 var(--shadow); }
+    .speak {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 2.25rem;
+      height: 2.25rem;
+      margin-left: 0.35rem;
+      border: 3px solid var(--ink);
+      border-radius: 50%;
+      background: var(--mint);
+      cursor: pointer;
+      font-size: 1rem;
+      flex-shrink: 0;
+      transition: transform 0.12s;
+    }
+    .speak:hover { transform: scale(1.08); }
+    .nav-bar {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      padding: 0.5rem 0.15rem 0.15rem;
+    }
+    .dots { display: flex; gap: 0.35rem; flex-wrap: wrap; justify-content: center; flex: 1; }
+    .dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: var(--ink); opacity: 0.22; border: 2px solid var(--ink); cursor: pointer;
+    }
+    .dot.on { opacity: 1; background: var(--pink); }
+
+    /* 配图占位：3D 粘土风 / 疯狂动物城式或高端彩铅绘本 */
+    .wm-visual-wrap {
+      width: 100%;
+      max-width: 11rem;
+      aspect-ratio: 1;
+      margin: 0.35rem auto;
+      border-radius: 16px;
+      border: 3px dashed var(--rc-accent);
+      background: linear-gradient(145deg, rgba(178, 226, 242, 0.35), rgba(209, 209, 247, 0.4));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 0.45rem;
+      font-size: 0.68rem;
+      font-weight: 800;
+      color: var(--rc-accent-dark);
+      line-height: 1.35;
+    }
+
+    .rc-review-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+      gap: 0.75rem;
+      margin-top: 0.5rem;
+    }
+    .rc-review-card {
+      border: 3px solid var(--ink);
+      border-radius: 18px;
+      padding: 0.65rem;
+      background: linear-gradient(180deg, #fff9c4, #e1f5fe);
+      box-shadow: 4px 4px 0 var(--shadow);
+      text-align: center;
+    }
+    .rc-syl-line {
+      font-family: var(--font-display);
+      font-size: clamp(1.25rem, 4vw, 1.65rem);
+      font-weight: 900;
+      margin: 0.35rem 0;
+    }
+    .rc-syl-line .s1 { color: #1565c0; }
+    .rc-syl-line .s2 { color: #c62828; }
+    .rc-syl-line .sep { color: var(--ink-soft); margin: 0 0.15em; }
+
+    /* 一页一词 · 居中布局 */
+    .rc-one-slide {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      max-width: 28rem;
+      margin: 0 auto;
+    }
+    /* 辨析页：仿 Magic E「or not」——宽板 + 5×2 大卡 */
+    .hw-syl-slide-inner.hw-syl-slide--challenge {
+      width: 100%;
+      max-width: none;
+      align-items: stretch;
+      box-sizing: border-box;
+    }
+    .hw-syl-slide-inner.hw-syl-slide--challenge > .slide-title {
+      margin-bottom: 0.5rem;
+    }
+    .me-on-page.rc-bossy-or-not {
+      max-width: min(100%, 58rem);
+      width: 100%;
+      margin: 0.35rem auto 0;
+      padding: 0.65rem 0.75rem 0.75rem;
+      border: 3px solid var(--ink);
+      border-radius: 20px;
+      background: linear-gradient(180deg, #e8f5e9, #fffde7);
+      box-shadow: 5px 5px 0 var(--shadow);
+      box-sizing: border-box;
+    }
+    .me-on-page.rc-bossy-or-not .me-on-lead {
+      text-align: center;
+      font-weight: 800;
+      line-height: 1.5;
+      font-size: clamp(0.88rem, 2.1vw, 1rem);
+      margin-bottom: 0.55rem;
+      color: var(--ink-soft);
+    }
+    /* 须高于后面通用 .me-on-grid，否则会被 auto-fill 覆盖 */
+    .me-on-grid.rc-me-grid-10 {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 0.65rem;
+      width: 100%;
+      min-width: 0;
+      box-sizing: border-box;
+    }
+    @media (max-width: 720px) {
+      .me-on-grid.rc-me-grid-10 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+    @media (min-width: 721px) and (max-width: 960px) {
+      .me-on-grid.rc-me-grid-10 {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+    .rc-bossy-or-not .me-card,
+    .rc-bossy-or-not .me-card-inner {
+      min-height: 13rem;
+    }
+    .rc-bossy-or-not .me-face:not(.me-face-back) {
+      border-color: #2e7d32;
+      background: linear-gradient(165deg, #fff9c4 0%, #c8e6c9 100%);
+      overflow: hidden;
+      padding: 0.45rem 0.35rem 0.5rem;
+      justify-content: flex-start;
+    }
+    .rc-bossy-or-not .me-doodle {
+      width: 100%;
+      max-width: 6.75rem;
+      aspect-ratio: 1;
+      margin: 0.15rem auto 0.35rem;
+      border-radius: 14px;
+      border: 2px dashed rgba(61, 58, 69, 0.35);
+      background: rgba(255, 255, 255, 0.55);
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .rc-bossy-or-not .me-doodle .rc-slide-imagen {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      border-radius: 12px;
+    }
+    .rc-bossy-or-not .me-card-word {
+      font-size: clamp(1.15rem, 2.6vw, 1.45rem);
+      margin-top: 0.1rem;
+      padding: 0 0.15rem;
+      line-height: 1.2;
+      word-break: break-word;
+    }
+    .rc-bossy-or-not .me-face .speak {
+      width: 2.1rem;
+      height: 2.1rem;
+      margin: 0.2rem 0 0;
+      font-size: 0.88rem;
+      flex-shrink: 0;
+    }
+    .rc-bossy-or-not .me-card-hint {
+      margin-top: auto;
+      font-size: 0.62rem;
+      padding-top: 0.2rem;
+    }
+    .rc-bossy-or-not .me-reason {
+      font-size: 0.72rem;
+    }
+    .rc-bossy-or-not .me-verdict {
+      font-size: clamp(0.95rem, 2.2vw, 1.1rem);
+    }
+    .me-reset-row {
+      display: flex;
+      justify-content: center;
+      margin-top: 0.65rem;
+      gap: 0.35rem;
+      flex-wrap: wrap;
+    }
+    .rc-one-slide .wm-visual-wrap {
+      max-width: 13rem;
+      font-size: 0.72rem;
+    }
+    .rc-one-slide .wm-visual-wrap.rc-visual-has-img {
+      border-style: solid;
+      border-color: var(--ink);
+      padding: 0.25rem;
+      background: rgba(255, 255, 255, 0.65);
+      box-shadow: 4px 4px 0 var(--shadow);
+    }
+    .rc-slide-imagen {
+      display: block;
+      width: 100%;
+      max-width: 12.5rem;
+      height: auto;
+      aspect-ratio: 1;
+      object-fit: cover;
+      border-radius: 12px;
+    }
+    .rc-one-head {
+      font-family: var(--font-display);
+      font-size: clamp(1.65rem, 6vw, 2.35rem);
+      font-weight: 900;
+      margin: 0.35rem 0 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+    }
+
+    /* 与 Magic E / 开音节课件一致：师生活动 — 元音点击 + 剪刀划分 */
+    .hw-syl-slide-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      width: 100%;
+      max-width: none;
+      margin: 0;
+      padding-bottom: 0.35rem;
+      flex: 1 1 auto;
+      min-height: 0;
+    }
+    /* 老师演示：仿 Magic E「Let’s Practice」双栏 */
+    .slide-inner.cact-lesson {
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+    }
+    .cact-lesson .slide-sub { text-align: center; }
+    .rc-demo-lesson-root {
+      width: 100%;
+      margin-top: 0.35rem;
+      flex: 1 1 auto;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+    }
+    /* Magic E「Let’s Practice Together」同款：左右等宽双栏 */
+    .cact-lesson-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.65rem 0.85rem;
+      align-items: stretch;
+      min-height: 0;
+      flex: 1 1 auto;
+    }
+    @media (max-width: 720px) {
+      .cact-lesson-grid { grid-template-columns: 1fr; }
+    }
+    .cact-lesson-left {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      min-height: 0;
+    }
+    .cact-lesson-left .cact-hero {
+      flex: 1;
+      margin: 0;
+      min-height: min(52vh, 22rem);
+      flex-direction: column;
+      flex-wrap: nowrap;
+      align-items: center;
+      justify-content: center;
+    }
+    .cact-lesson-right {
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      border: 3px dashed var(--ink-soft);
+      border-radius: 16px;
+      background: rgba(255, 253, 208, 0.5);
+      padding: 0.5rem 0.55rem 0.55rem;
+    }
+    .cact-flow-hint {
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: var(--ink-soft);
+      text-align: center;
+      margin: 0 0 0.4rem;
+      line-height: 1.45;
+    }
+    .cact-flow-hint[hidden] { display: none !important; }
+    .cact-flow-scroll {
+      flex: 1;
+      min-height: 12rem;
+      max-height: min(52vh, 26rem);
+      overflow-y: auto;
+      padding-right: 0.2rem;
+      margin-bottom: 0.45rem;
+    }
+    .cact-flow-panels { display: flex; flex-direction: column; gap: 0.5rem; }
+    .cact-flow-panel {
+      border: 2px solid var(--ink);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.92);
+      padding: 0.5rem 0.55rem;
+      animation: rcCactPanelIn 0.4s ease;
+      box-shadow: 3px 3px 0 var(--shadow);
+    }
+    .cact-flow-panel[hidden] { display: none !important; }
+    @keyframes rcCactPanelIn {
+      from { opacity: 0; transform: translateX(8px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    .cact-flow-panel-inner { text-align: left; }
+    .cact-flow-badge {
+      display: inline-block;
+      font-family: var(--font-display);
+      font-size: 0.82rem;
+      font-weight: 800;
+      padding: 0.12rem 0.45rem;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--pink), var(--mint));
+      border: 2px solid var(--ink);
+      margin-bottom: 0.35rem;
+    }
+    .cact-flow-sub {
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: var(--ink-soft);
+      margin: 0 0 0.3rem;
+    }
+    .cact-flow-body {
+      font-size: 0.88rem;
+      font-weight: 700;
+      line-height: 1.55;
+      color: var(--ink);
+      margin: 0;
+    }
+    .cact-flow-body strong { font-weight: 800; }
+    /* 右侧：朗读 / 重看（与 Magic E 右侧「下一步」区分，置于步骤区与底栏之间） */
+    .cact-demo-toolbar {
+      flex-shrink: 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.4rem 0 0.25rem;
+      border-top: 2px dashed rgba(61, 58, 69, 0.2);
+    }
+    .cact-demo-toolbar .hw-syl-btn-row {
+      margin-top: 0;
+      justify-content: center;
+    }
+    .cact-next-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem 0.65rem;
+      padding-top: 0.15rem;
+      border-top: 2px dashed rgba(61, 58, 69, 0.2);
+    }
+    .cact-flow-progress {
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: var(--ink-soft);
+    }
+    .cact-img-wrap {
+      width: min(160px, 42vw);
+      aspect-ratio: 1;
+      border-radius: 14px;
+      border: 3px solid var(--ink);
+      overflow: hidden;
+      background: linear-gradient(180deg, #e8eaf6, #fffde7);
+      flex-shrink: 0;
+      margin: 0 auto;
+    }
+    .cact-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .cact-lesson .cact-step-line.muted {
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: var(--ink-soft);
+      margin-bottom: 0.25rem;
+    }
+    .cact-btn-next { min-width: 7rem; }
+    .hw-syl-word-panel {
+      margin: 0.45rem auto 0.35rem;
+      min-width: min(100%, 28rem);
+      text-align: center;
+    }
+    .hw-syl-slide-inner .cact-chars-row {
+      font-size: clamp(1.55rem, 7vw, 2.65rem);
+      gap: 0.08rem;
+    }
+    .hw-syl-slide-inner .cact-chars-row .cact-ch {
+      padding: 0.18rem 0.14rem;
+      min-width: 0.52em;
+      border-radius: 6px;
+      transition: background 0.25s, box-shadow 0.25s;
+    }
+    .hw-syl-slide-inner .cact-chars-row .cact-ch.is-vowel-hl {
+      background: linear-gradient(180deg, #fff59d, #ffee58);
+      box-shadow: 0 0 0 3px var(--ink);
+    }
+    /* R-controlled：与元音同组高亮的 R（同用 is-vowel-hl） */
+    .hw-syl-slide-inner .cact-chars-row .cact-ch.cact-r-boss {
+      cursor: pointer;
+    }
+    /* 初始不占宽：rep|tile 等词中间不先拉开；点划或显示虚线后再给插槽宽度 */
+    .hw-syl-slide-inner .cact-slot {
+      position: relative;
+      min-height: 2.85rem;
+      width: 0;
+      min-width: 0;
+      overflow: visible;
+      margin: 0;
+    }
+    .hw-syl-slide-inner .cact-slot.is-cut-guide-visible {
+      width: 0.48rem;
+      min-width: 0.4rem;
+      margin: 0 0.04rem;
+    }
+    .hw-syl-slide-inner .cact-slot::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      transform: translateX(-50%);
+      background: repeating-linear-gradient(
+        180deg,
+        var(--ink-soft),
+        var(--ink-soft) 4px,
+        transparent 4px,
+        transparent 7px
+      );
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.2s ease;
+    }
+    .hw-syl-slide-inner .cact-slot.is-cut-guide-visible::after {
+      opacity: 0.4;
+      visibility: visible;
+    }
+    .hw-syl-slide-inner .cact-scissor {
+      font-size: clamp(1.35rem, 5vw, 2rem);
+      top: -2.35rem;
+    }
+    .hw-syl-slide-inner .cact-scissor.run {
+      animation: cact-scissor-cut-hw 1.12s cubic-bezier(0.45, 0, 0.2, 1) forwards;
+    }
+    @keyframes cact-scissor-cut-hw {
+      0% { top: -2.35rem; opacity: 1; }
+      92% { top: calc(100% + 0.12rem); opacity: 1; }
+      100% { top: calc(100% + 0.12rem); opacity: 0.72; }
+    }
+    .hw-syl-slide-inner .cact-split-row {
+      margin-top: 0.4rem;
+      font-size: clamp(1.2rem, 4.5vw, 1.95rem);
+      gap: 0.55rem;
+    }
+    .hw-syl-slide-inner .cact-split-row span.rc-split-boss {
+      background: linear-gradient(180deg, #ffe082, #ffab40);
+      box-shadow: 0 0 0 2px var(--ink);
+    }
+    .hw-syl-slot-clickable {
+      cursor: pointer;
+    }
+    /* 零宽插槽仍保留可点区域（不撑开 rep 与 tile 间距） */
+    .hw-syl-slide-inner .cact-slot.hw-syl-slot-clickable::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 2.25rem;
+      transform: translateX(-50%);
+      z-index: 2;
+    }
+    .hw-syl-slot-clickable:focus-visible {
+      outline: 3px solid var(--ink);
+      outline-offset: 2px;
+      border-radius: 4px;
+    }
+    .hw-syl-btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.45rem;
+      margin-top: 0.75rem;
+    }
+    .hw-syl-reset-btn {
+      font-size: 0.86rem;
+      padding: 0.4rem 0.85rem;
+      background: rgba(255, 255, 255, 0.9);
+      border: 2px dashed var(--ink-soft);
+      box-shadow: 3px 3px 0 var(--shadow);
+    }
+    .rc-interactive-root {
+      width: 100%;
+      max-width: 36rem;
+    }
+
+    /* Bossy R单页 morph（Cat→Cart、Bun→Burn 等）：红 R 跳入 + 配图切换 */
+    .rc-bossr-morph-stage {
+      width: 100%;
+      max-width: 28rem;
+      margin: 0.35rem auto 0;
+      padding: 0.5rem 0.35rem 0.65rem;
+      border-radius: 20px;
+      border: 3px solid var(--ink);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(227, 242, 253, 0.5));
+      box-shadow: 4px 4px 0 var(--shadow);
+      position: relative;
+    }
+    .rc-bossr-wordline {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      gap: 0.02em;
+      font-family: var(--font-display);
+      font-size: clamp(2.1rem, 11vw, 3.6rem);
+      font-weight: 900;
+      line-height: 1;
+      min-height: 3.2rem;
+      margin: 0.35rem 0 0.15rem;
+    }
+    .rc-bossr-wordline .rc-cc-ch {
+      display: inline-block;
+      padding: 0.06em 0.04em;
+      border-radius: 8px;
+      transition: transform 0.35s ease, color 0.35s ease;
+    }
+    .rc-bossr-wordline .rc-cc-vowel {
+      color: #1565c0;
+      background: rgba(178, 226, 242, 0.45);
+      box-shadow: 0 0 0 2px rgba(21, 101, 192, 0.35);
+    }
+    .rc-bossr-morph-stage.is-morphed .rc-cc-vowel {
+      color: #c62828;
+      background: rgba(255, 235, 238, 0.75);
+      box-shadow: 0 0 0 2px rgba(198, 40, 40, 0.35);
+    }
+    /* 初始不占宽：cat / bun 的元音与尾字母紧贴；演示后展开以容纳 cart / burn 里的 R */
+    .rc-cc-slot {
+      position: relative;
+      width: 0;
+      min-width: 0;
+      overflow: visible;
+      height: 1em;
+      display: inline-flex;
+      align-items: flex-end;
+      justify-content: center;
+    }
+    .rc-bossr-morph-stage.is-morphed .rc-cc-slot {
+      width: 0.58em;
+      min-width: 0.5em;
+    }
+    .rc-cc-r {
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      margin-left: -0.38em;
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: 1em;
+      line-height: 1;
+      color: #d32f2f;
+      text-shadow: 2px 2px 0 #ffcdd2, 3px 3px 0 var(--ink);
+      transform: translate(-240%, -320%) scale(0.32) rotate(-28deg);
+      transform-origin: 50% 80%;
+      will-change: transform;
+    }
+    .rc-bossr-morph-stage.is-morphed .rc-cc-r {
+      animation: rcBossRMorphRJump 1.12s cubic-bezier(0.34, 1.45, 0.52, 1) forwards;
+    }
+    @keyframes rcBossRMorphRJump {
+      0% {
+        transform: translate(-240%, -320%) scale(0.32) rotate(-28deg);
+      }
+      58% {
+        transform: translate(0, -28%) scale(1.28) rotate(12deg);
+      }
+      78% {
+        transform: translate(0, 10%) scale(0.9) rotate(-6deg);
+      }
+      100% {
+        transform: translate(0, 0) scale(1) rotate(0deg);
+      }
+    }
+    .rc-bossr-imgstack {
+      position: relative;
+      width: 100%;
+      max-width: 12.5rem;
+      aspect-ratio: 1;
+      margin: 0.55rem auto 0.45rem;
+    }
+    .rc-bossr-imgstack .wm-visual-wrap {
+      position: absolute;
+      inset: 0;
+      margin: 0;
+      max-width: none;
+      width: 100%;
+      height: 100%;
+      transition: opacity 0.55s ease;
+    }
+    .rc-bossr-imgstack .wm-visual-wrap.rc-visual-has-img {
+      border-style: solid;
+      border-color: var(--ink);
+      padding: 0;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.5);
+    }
+    .rc-bossr-imgstack .rc-bossr-morph-img {
+      width: 100%;
+      height: 100%;
+      max-width: none;
+      object-fit: cover;
+      border-radius: 0;
+    }
+    .me-doodle.wm-visual-wrap.rc-visual-has-img {
+      max-width: 11rem;
+      min-height: 8rem;
+    }
+    .me-doodle .rc-slide-imagen {
+      max-width: 11rem;
+    }
+    .rc-bossr-imgstack .rc-cc-img-after {
+      opacity: 0;
+      pointer-events: none;
+    }
+    .rc-bossr-morph-stage.is-morphed .rc-cc-img-before {
+      opacity: 0;
+      transition-delay: 0.38s;
+    }
+    .rc-bossr-morph-stage.is-morphed .rc-cc-img-after {
+      opacity: 1;
+      pointer-events: auto;
+      transition-delay: 0.42s;
+    }
+    .rc-bossr-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      margin-top: 0.45rem;
+    }
+    .rc-bossr-toolbar .btn.rc-bossr-play {
+      background: linear-gradient(180deg, #ffab91, #ff8a65);
+      color: var(--ink);
+    }
+
+    .rc-intro-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: stretch;
+      justify-content: center;
+      gap: 0.65rem;
+      margin: 0.5rem 0;
+    }
+    .rc-intro-col {
+      flex: 1 1 12rem;
+      max-width: 16rem;
+      border: 3px solid var(--ink);
+      border-radius: 18px;
+      padding: 0.55rem;
+      background: #fff;
+      text-align: center;
+      box-shadow: 4px 4px 0 var(--shadow);
+    }
+    .rc-intro-col .w {
+      font-family: var(--font-display);
+      font-size: clamp(1.5rem, 5vw, 2rem);
+      font-weight: 900;
+      margin-bottom: 0.25rem;
+    }
+    .rc-boss-mid {
+      flex: 0 0 auto;
+      min-width: 8rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 0.5rem;
+    }
+    .rc-boss-r {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 14vw, 4.5rem);
+      font-weight: 900;
+      color: var(--rc-accent);
+      text-shadow: 3px 3px 0 var(--pink);
+      animation: bossPulse 2s ease-in-out infinite;
+      line-height: 1;
+    }
+    @keyframes bossPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.06); }
+    }
+    .rc-boss-label {
+      font-size: 0.78rem;
+      font-weight: 900;
+      color: var(--ink-soft);
+      margin-top: 0.25rem;
+      text-align: center;
+    }
+    .rc-mimic-hint {
+      margin-top: 0.65rem;
+      padding: 0.55rem 0.75rem;
+      border-radius: 14px;
+      background: linear-gradient(90deg, var(--mint), var(--lilac));
+      border: 2px solid var(--ink);
+      font-weight: 800;
+      font-size: 0.88rem;
+      text-align: center;
+    }
+
+    .rc-rule-box {
+      margin-top: 0.85rem;
+      padding: 0.75rem 1rem;
+      border-radius: 16px;
+      border: 3px solid var(--vowel-red);
+      background: linear-gradient(180deg, #ffebee, #fff8e1);
+      font-weight: 800;
+      font-size: clamp(0.88rem, 2.2vw, 1.02rem);
+      line-height: 1.55;
+      text-align: center;
+    }
+
+    .rc-vowel-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+      gap: 0.65rem;
+      margin-top: 0.5rem;
+    }
+    .rc-vowel-block {
+      border: 3px solid var(--ink);
+      border-radius: 16px;
+      padding: 0.55rem;
+      background: #fff;
+      box-shadow: 3px 3px 0 var(--shadow);
+    }
+    .rc-vowel-block h3 {
+      font-family: var(--font-display);
+      text-align: center;
+      font-size: 1.35rem;
+      margin-bottom: 0.35rem;
+      color: var(--rc-accent-dark);
+    }
+    .rc-mini-word {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0.25rem;
+      margin: 0.35rem 0;
+      font-weight: 900;
+      font-size: 1.05rem;
+    }
+
+    /* 翻转卡 — Magic E 同款结构 */
+    .me-on-page {
+      max-width: 48rem;
+      margin: 0.35rem auto 0;
+      padding: 0.55rem 0.45rem 0.65rem;
+      border: 3px solid var(--ink);
+      border-radius: 20px;
+      background: linear-gradient(180deg, #e8eaf6, #fffde7);
+      box-shadow: 5px 5px 0 var(--shadow);
+    }
+    .me-on-lead {
+      text-align: center;
+      font-weight: 800;
+      font-size: 0.85rem;
+      line-height: 1.5;
+      margin-bottom: 0.45rem;
+    }
+    .me-on-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(8.5rem, 1fr));
+      gap: 0.5rem;
+    }
+    .me-card {
+      position: relative;
+      min-height: 10.5rem;
+      border-radius: 18px;
+      cursor: pointer;
+      perspective: 720px;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .me-card:focus-visible { outline: 3px solid #1565c0; outline-offset: 3px; }
+    .me-card-inner {
+      position: relative;
+      width: 100%;
+      min-height: 10.5rem;
+      transform-style: preserve-3d;
+      transition: transform 0.55s cubic-bezier(0.34, 1.2, 0.64, 1);
+      border-radius: 18px;
+    }
+    .me-card.is-flipped .me-card-inner { transform: rotateY(180deg); }
+    .me-face {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      box-sizing: border-box;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      border-radius: 18px;
+      border: 3px solid var(--rc-accent);
+      box-shadow: 4px 4px 0 rgba(61, 58, 69, 0.15);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 0.4rem;
+      overflow: hidden;
+      background: linear-gradient(165deg, #fff9c4 0%, #e1bee7 100%);
+    }
+    .me-face-back {
+      transform: rotateY(180deg);
+      background: linear-gradient(165deg, #c8e6c9 0%, #b3e5fc 100%);
+      justify-content: center;
+      text-align: center;
+    }
+    .me-doodle {
+      position: relative;
+      width: 100%;
+      max-width: 5.5rem;
+      aspect-ratio: 1;
+      margin: 0.1rem auto 0.25rem;
+      border-radius: 14px;
+      border: 2px dashed rgba(61, 58, 69, 0.35);
+      background: rgba(255, 255, 255, 0.55);
+      overflow: hidden;
+    }
+    .me-card-word {
+      font-family: var(--font-display);
+      font-size: clamp(1.2rem, 4vw, 1.55rem);
+      font-weight: 900;
+      color: var(--ink);
+    }
+    .me-card-hint {
+      margin-top: auto;
+      font-size: 0.58rem;
+      font-weight: 800;
+      color: var(--ink-soft);
+    }
+    .me-verdict { font-family: var(--font-display); font-size: 1.05rem; font-weight: 900; margin-bottom: 0.25rem; }
+    .me-verdict.yes { color: #2e7d32; }
+    .me-verdict.no { color: #c62828; }
+    .me-reason { font-size: 0.72rem; font-weight: 800; line-height: 1.4; padding: 0 0.12rem; }
+
+    .me-card.is-correct .me-face:first-child { box-shadow: 0 0 0 4px #2e7d32; }
+    .me-card.is-wrong .me-face:first-child { box-shadow: 0 0 0 4px #c62828; }
+
+    /*教师演示 */
+    .rc-demo-list { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 0.5rem; }
+    .rc-demo-item {
+      border: 3px solid var(--ink);
+      border-radius: 16px;
+      padding: 0.65rem 0.75rem;
+      background: #fff;
+      box-shadow: 3px 3px 0 var(--shadow);
+    }
+    .rc-demo-wordline {
+      font-family: var(--font-display);
+      font-size: clamp(1.15rem, 3.5vw, 1.45rem);
+      font-weight: 900;
+      margin: 0.35rem 0;
+      line-height: 1.6;
+    }
+    .rc-boss-hl {
+      display: inline-block;
+      padding: 0.08em 0.18em;
+      border-radius: 8px;
+      background: linear-gradient(180deg, #ffd54f, #ffab40);
+      box-shadow: 0 0 0 2px var(--ink);
+    }
+    .rc-demo-syl {
+      font-size: 0.88rem;
+      font-weight: 800;
+      color: var(--ink-soft);
+      margin-top: 0.25rem;
+    }
+
+    /* 学生切割练习 */
+    .rc-practice-host { max-width: 42rem; margin: 0.5rem auto 0; }
+    .rc-pr-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      justify-content: center;
+      margin-bottom: 0.65rem;
+    }
+    .rc-pr-tabs button {
+      font-family: var(--font-body);
+      font-weight: 800;
+      padding: 0.35rem 0.75rem;
+      border: 2px solid var(--ink);
+      border-radius: 999px;
+      background: #fff;
+      cursor: pointer;
+      font-size: 0.82rem;
+    }
+    .rc-pr-tabs button.is-on { background: var(--pink); }
+    .rc-pr-hint {
+      text-align: center;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--ink-soft);
+      margin-bottom: 0.5rem;
+      line-height: 1.5;
+    }
+    .cact-hero {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 0.65rem;
+      margin: 0.5rem 0;
+      padding: 0.55rem;
+      border: 3px dashed var(--ink-soft);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.55);
+    }
+    .cact-chars-row {
+      display: flex;
+      flex-wrap: nowrap;
+      align-items: stretch;
+      justify-content: center;
+      gap: 0.06rem;
+      font-family: var(--font-display);
+      font-size: clamp(1.45rem, 5.5vw, 2.1rem);
+      font-weight: 800;
+    }
+    .cact-chars-row .cact-ch {
+      padding: 0.15rem 0.12rem;
+      min-width: 0.55em;
+      text-align: center;
+      border-radius: 6px;
+    }
+    .cact-chars-row .cact-ch.is-r-boss {
+      background: linear-gradient(180deg, #ffe082, #ffcc80);
+      box-shadow: 0 0 0 2px var(--ink);
+    }
+    .cact-slot {
+      width: 0.42rem;
+      margin: 0 0.02rem;
+      position: relative;
+      align-self: stretch;
+      min-height: 2.4rem;
+      display: flex;
+      justify-content: center;
+      cursor: pointer;
+    }
+    .cact-slot::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      transform: translateX(-50%);
+      background: repeating-linear-gradient(180deg, var(--ink-soft), var(--ink-soft) 4px, transparent 4px, transparent 7px);
+      opacity: 0.35;
+      border-radius: 1px;
+    }
+    .cact-slot.is-selected::after {
+      opacity: 1;
+      background: var(--vowel-red);
+    }
+    .cact-slot.is-selected .cact-scissor {
+      opacity: 1;
+    }
+    .muted {
+      color: var(--ink-soft);
+      font-weight: 600;
+    }
+    .cact-scissor {
+      position: absolute;
+      left: 50%;
+      top: -2rem;
+      transform: translateX(-50%) rotate(-90deg);
+      font-size: 1.45rem;
+      line-height: 1;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 3;
+    }
+    .cact-scissor.run {
+      animation: cact-scissor-cut 1.1s cubic-bezier(0.45, 0, 0.2, 1) forwards;
+    }
+    @keyframes cact-scissor-cut {
+      0% { top: -2rem; opacity: 1; }
+      92% { top: calc(100% + 0.1rem); opacity: 1; }
+      100% { top: calc(100% + 0.1rem); opacity: 0.7; }
+    }
+    .cact-split-row {
+      display: none;
+      justify-content: center;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--font-display);
+      font-size: clamp(1.25rem, 4.5vw, 1.75rem);
+      font-weight: 800;
+      flex-wrap: wrap;
+      margin-top: 0.45rem;
+    }
+    .cact-split-row.is-on {
+      display: flex;
+      animation: pop 0.4s ease;
+    }
+    @keyframes pop {
+      from { transform: scale(0.92); opacity: 0.65; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    .cact-split-row span {
+      padding: 0.2rem 0.45rem;
+      border: 3px solid var(--ink);
+      border-radius: 12px;
+      background: linear-gradient(180deg, #ffe082, #ffcc80);
+    }
+    .rc-pr-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      justify-content: center;
+      margin-top: 0.55rem;
+    }
+    .rc-pr-msg {
+      text-align: center;
+      font-weight: 800;
+      font-size: 0.88rem;
+      min-height: 1.4em;
+      margin-top: 0.35rem;
+    }
+    .rc-pr-msg.ok { color: #2e7d32; }
+    .rc-pr-msg.bad { color: #c62828; }
+    .rc-practice-host .cact-chars-row .cact-ch.cact-vowel {
+      cursor: pointer;
+    }
+    .rc-practice-host .cact-chars-row .cact-ch.is-vowel-hl {
+      background: linear-gradient(180deg, #fff59d, #ffee58);
+      box-shadow: 0 0 0 3px var(--ink);
+    }
+    .rc-practice-host .cact-chars-row .cact-ch.is-r-boss {
+      cursor: pointer;
+    }
+    /* 你来切：先自点元音 / r，再解锁虚线切口（避免一上来就露出划分位置） */
+    .rc-practice-host.rc-pr-cut-locked .cact-slot {
+      pointer-events: none;
+      opacity: 0.35;
+    }
+    .rc-practice-host.rc-pr-cut-locked .cact-slot::after {
+      opacity: 0;
+      visibility: hidden;
+    }
+    .rc-practice-host.rc-pr-cut-locked .cact-scissor {
+      opacity: 0 !important;
+    }
+  </style>
+</head>
+<body>
+  <div class="deck" id="main-deck">
+    <div id="slides-mount" aria-live="polite"></div>
+
+    <nav class="nav-bar" aria-label="幻灯片导航">
+      <button type="button" class="btn" id="btn-prev" aria-label="上一页">← 上一页</button>
+      <div class="dots" id="dots" role="tablist" aria-label="页码"></div>
+      <button type="button" class="btn" id="btn-next" aria-label="下一页">下一页 →</button>
+    </nav>
+  </div>
+
+  <script src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/P/语音课/asset/mp3/tts-urls.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/microsoft-cognitiveservices-speech-sdk@1.40.0/distrib/browser/microsoft.cognitiveservices-speech.sdk.bundle-min.js"></script>
+  <script>
+    (function () {
+      var CONFIG = {
+        AZURE_SPEECH_KEY: "",
+        AZURE_SPEECH_REGION: "eastus2"
+      };
+      var AEN = "en-US-JennyNeural";
+      var azureSpeaking = false;
+      var currentSynth = null;
+
+      function getAzureCreds() {
+        var k = (CONFIG.AZURE_SPEECH_KEY || "").trim() || localStorage.getItem("azure_speech_key") || "";
+        var r = (CONFIG.AZURE_SPEECH_REGION || "").trim() || localStorage.getItem("azure_speech_region") || "eastus2";
+        return { key: k, region: r };
+      }
+
+      function azureSpeakLive(text, voiceName) {
+        return new Promise(function (resolve, reject) {
+          var creds = getAzureCreds();
+          if (!creds.key) {
+            alert("未配置 Azure Speech：请在 HTML 内 CONFIG 填写密钥，或设置 localStorage.azure_speech_key。");
+            reject(new Error("no key"));
+            return;
+          }
+          if (typeof SpeechSDK === "undefined") {
+            alert("Azure Speech SDK 未加载。");
+            reject(new Error("no sdk"));
+            return;
+          }
+          if (azureSpeaking && currentSynth) {
+            try { currentSynth.close(); } catch (e) {}
+            currentSynth = null;
+            azureSpeaking = false;
+          }
+          var sc = SpeechSDK.SpeechConfig.fromSubscription(creds.key, creds.region);
+          sc.speechSynthesisVoiceName = voiceName || AEN;
+          currentSynth = new SpeechSDK.SpeechSynthesizer(sc, undefined);
+          azureSpeaking = true;
+          currentSynth.speakTextAsync(
+            text,
+            function (r) {
+              azureSpeaking = false;
+              try { currentSynth.close(); } catch (e2) {}
+              currentSynth = null;
+              if (r.reason === SpeechSDK.ResultReason.SynthesizingAudioCompleted) resolve();
+              else reject(new Error(r.errorDetails || "fail"));
+            },
+            function (err) {
+              azureSpeaking = false;
+              try { currentSynth.close(); } catch (e3) {}
+              currentSynth = null;
+              alert("朗读失败：" + (err || ""));
+              reject(err);
+            }
+          );
+        });
+      }
+
+      function azureSpeak(text, voiceName) {
+        var vn = voiceName || AEN;
+        var tLive = String(text || "").trim();
+        var tKey = vn === AEN ? tLive.toLowerCase() : tLive;
+        if (typeof window !== "undefined" && window.hasLocalTtsMp3 && window.hasLocalTtsMp3(tKey, vn)) {
+          if (azureSpeaking && currentSynth) {
+            try { currentSynth.close(); } catch (e0) {}
+            currentSynth = null;
+            azureSpeaking = false;
+          }
+          return window.playLocalTtsMp3(tKey, vn).catch(function () {
+            return azureSpeakLive(tLive, vn);
+          });
+        }
+        return azureSpeakLive(tLive, vn);
+      }
+
+      function speak(text) {
+        return azureSpeak(text, AEN);
+      }
+
+      /* —— 工具：转义 / 音节动画 HTML —— */
+      function esc(s) {
+        return String(s)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/"/g, "&quot;");
+      }
+
+      function wmHTML(lines, aria) {
+        return (
+          '<div class="wm-visual-wrap" role="img" aria-label="' +
+          esc(aria) +
+          '">' +
+          lines +
+          "</div>"
+        );
+      }
+
+      /** 配图：占位文案或位图（与 Magic E 课件 media/*.png 用法一致；上线资源走腾讯云 COS） */
+      function wmVisualForDef(def) {
+        if (def.visualImgSrc) {
+          return (
+            '<div class="wm-visual-wrap rc-visual-has-img" role="img" aria-label="' +
+            esc(def.visualAria || "") +
+            '">' +
+            '<img class="rc-slide-imagen" src="' +
+            esc(def.visualImgSrc) +
+            '" alt="" loading="lazy" decoding="async" />' +
+            "</div>"
+          );
+        }
+        if (def.visualLines) {
+          return wmHTML(def.visualLines, def.visualAria || "");
+        }
+        return "";
+      }
+
+      function bossMorphImgCell(aria, lines, src, stackClass) {
+        var sc = stackClass ? " " + stackClass : "";
+        if (src) {
+          return (
+            '<div class="wm-visual-wrap rc-cc-img rc-visual-has-img' +
+            sc +
+            '" role="img" aria-label="' +
+            esc(aria) +
+            '">' +
+            '<img class="rc-slide-imagen rc-bossr-morph-img" src="' +
+            esc(src) +
+            '" alt="" loading="lazy" decoding="async" />' +
+            "</div>"
+          );
+        }
+        return (
+          '<div class="wm-visual-wrap rc-cc-img' +
+          sc +
+          '" role="img" aria-label="' +
+          esc(aria) +
+          '">' +
+          lines +
+          "</div>"
+        );
+      }
+
+      function isVowelLetter(ch) {
+        return ch && "aeiou".indexOf(ch.toLowerCase()) >= 0;
+      }
+
+      /** 在 boss 音节（或未配置 boss 时在全部音节）内找相邻 V+R，返回 [[元音下标, r下标], ...] */
+      function collectBossVRPairs(word, parts, bossParts) {
+        var pairs = [];
+        var bp = bossParts || {};
+        var hasBossKey = false;
+        for (var key in bp) {
+          if (bp[key]) {
+            hasBossKey = true;
+            break;
+          }
+        }
+        var cum = 0;
+        for (var pi = 0; pi < parts.length; pi++) {
+          var part = parts[pi];
+          var scan = !hasBossKey || bp[pi];
+          if (scan) {
+            for (var j = 0; j < part.length - 1; j++) {
+              if (isVowelLetter(part[j]) && part[j + 1].toLowerCase() === "r") {
+                pairs.push([cum + j, cum + j + 1]);
+              }
+            }
+          }
+          cum += part.length;
+        }
+        return pairs;
+      }
+
+      function cutAfterFromParts(word, parts) {
+        if (!parts || parts.length <= 1) return null;
+        var joined = parts.join("");
+        if (joined !== word) {
+          if (joined.toLowerCase() !== String(word).toLowerCase()) {
+            console.warn("音节 parts 与单词不完全一致", word, parts);
+          }
+        }
+        var cuts = [];
+        var cum = 0;
+        for (var i = 0; i < parts.length - 1; i++) {
+          cum += parts[i].length;
+          cuts.push(cum - 1);
+        }
+        return cuts.length === 1 ? cuts[0] : cuts;
+      }
+
+      function appendSyllableCharRow(panel, word, cutAfter) {
+        var row = document.createElement("div");
+        row.className = "cact-chars-row";
+        row.setAttribute("aria-label", word + " 字母");
+        var sciChar = "\u2702\uFE0F";
+        for (var i = 0; i < word.length; i++) {
+          var ch = word[i];
+          var span = document.createElement("span");
+          span.className = "cact-ch";
+          span.setAttribute("data-word-idx", String(i));
+          span.textContent = ch;
+          var low = ch.toLowerCase();
+          if ("aeiou".indexOf(low) >= 0) {
+            span.classList.add("cact-vowel");
+            span.setAttribute("data-letter", low);
+          }
+          row.appendChild(span);
+          if (i === cutAfter) {
+            var slot = document.createElement("div");
+            slot.className = "cact-slot";
+            slot.setAttribute("aria-hidden", "true");
+            var sci = document.createElement("span");
+            sci.className = "cact-scissor";
+            sci.title = "剪刀";
+            sci.textContent = sciChar;
+            slot.appendChild(sci);
+            row.appendChild(slot);
+          }
+        }
+        panel.appendChild(row);
+      }
+
+      function appendSyllableCharRowMulti(panel, word, cutAfterList) {
+        var cuts = cutAfterList.slice().sort(function (a, b) {
+          return a - b;
+        });
+        var cutSet = {};
+        cuts.forEach(function (idx) {
+          cutSet[idx] = true;
+        });
+        var row = document.createElement("div");
+        row.className = "cact-chars-row";
+        row.setAttribute("aria-label", word + " 字母");
+        var sciChar = "\u2702\uFE0F";
+        for (var i = 0; i < word.length; i++) {
+          var ch = word[i];
+          var span = document.createElement("span");
+          span.className = "cact-ch";
+          span.setAttribute("data-word-idx", String(i));
+          span.textContent = ch;
+          var low = ch.toLowerCase();
+          if ("aeiou".indexOf(low) >= 0) {
+            span.classList.add("cact-vowel");
+            span.setAttribute("data-letter", low);
+          }
+          row.appendChild(span);
+          if (cutSet[i]) {
+            var slot = document.createElement("div");
+            slot.className = "cact-slot";
+            slot.setAttribute("aria-hidden", "true");
+            var sci = document.createElement("span");
+            sci.className = "cact-scissor";
+            sci.title = "剪刀";
+            sci.textContent = sciChar;
+            slot.appendChild(sci);
+            row.appendChild(slot);
+          }
+        }
+        panel.appendChild(row);
+      }
+
+      function appendSyllableCharRowNoCut(panel, word) {
+        var row = document.createElement("div");
+        row.className = "cact-chars-row";
+        row.setAttribute("aria-label", word + " 字母");
+        for (var i = 0; i < word.length; i++) {
+          var ch = word[i];
+          var span = document.createElement("span");
+          span.className = "cact-ch";
+          span.setAttribute("data-word-idx", String(i));
+          span.textContent = ch;
+          var low = ch.toLowerCase();
+          if ("aeiou".indexOf(low) >= 0) {
+            span.classList.add("cact-vowel");
+            span.setAttribute("data-letter", low);
+          }
+          row.appendChild(span);
+        }
+        panel.appendChild(row);
+      }
+
+      function appendSyllableCharRowFlexible(panel, word, cutAfter) {
+        if (cutAfter == null) {
+          appendSyllableCharRowNoCut(panel, word);
+          return;
+        }
+        if (Array.isArray(cutAfter)) {
+          if (cutAfter.length <= 1) {
+            appendSyllableCharRow(panel, word, cutAfter[0]);
+          } else {
+            appendSyllableCharRowMulti(panel, word, cutAfter);
+          }
+        } else {
+          appendSyllableCharRow(panel, word, cutAfter);
+        }
+      }
+
+      function revealSplitInstant(wpanel) {
+        var charsRow = wpanel.querySelector(".cact-chars-row");
+        var splitRow = wpanel.querySelector(".cact-split-row");
+        if (charsRow) charsRow.style.display = "none";
+        if (splitRow) splitRow.classList.add("is-on");
+        wpanel.querySelectorAll(".cact-slot").forEach(function (sl) {
+          sl.classList.add("is-cut-guide-visible");
+        });
+      }
+
+      function runScissorAnimation(root, done) {
+        var charsRow = root.querySelector(".cact-chars-row");
+        var splitRow = root.querySelector(".cact-split-row");
+        var scissor = root.querySelector(".cact-scissor");
+        var cutSlot = root.querySelector(".cact-slot");
+        if (!charsRow || !splitRow || !scissor) {
+          if (typeof done === "function") done();
+          return;
+        }
+        if (cutSlot) cutSlot.classList.add("is-cut-guide-visible");
+        var cutDone = false;
+        function finish() {
+          if (cutDone) return;
+          cutDone = true;
+          charsRow.style.display = "none";
+          splitRow.classList.add("is-on");
+          if (typeof done === "function") done();
+        }
+        scissor.classList.remove("run");
+        void scissor.offsetWidth;
+        scissor.classList.add("run");
+        var t = window.setTimeout(finish, 1380);
+        scissor.addEventListener(
+          "animationend",
+          function onEnd() {
+            window.clearTimeout(t);
+            finish();
+          },
+          { once: true }
+        );
+      }
+
+      function resetHomeworkCutState(wpanel) {
+        var charsRow = wpanel.querySelector(".cact-chars-row");
+        var splitRow = wpanel.querySelector(".cact-split-row");
+        wpanel.querySelectorAll(".cact-scissor").forEach(function (sci) {
+          sci.classList.remove("run");
+        });
+        wpanel.querySelectorAll(".cact-slot").forEach(function (cutSlot) {
+          cutSlot.classList.remove("is-cut-guide-visible");
+        });
+        if (charsRow) charsRow.style.display = "";
+        if (splitRow) splitRow.classList.remove("is-on");
+      }
+
+      /** 音节划分：字母行 + 剪刀 + Bossy R 高亮（可复用于普通页与老师演示双栏） */
+      function createRcWordPanelCore(meta) {
+        var wpanel = document.createElement("div");
+        wpanel.className = "cact-word-panel hw-syl-word-panel";
+
+        var cutAfter = cutAfterFromParts(meta.word, meta.parts);
+        appendSyllableCharRowFlexible(wpanel, meta.word, cutAfter);
+
+        var splitRow = document.createElement("div");
+        splitRow.className = "cact-split-row";
+        splitRow.setAttribute("aria-label", "划分后的音节");
+        var bossParts = meta.bossParts || {};
+        meta.parts.forEach(function (p, i) {
+          var sp = document.createElement("span");
+          sp.textContent = p;
+          if (bossParts[i]) sp.classList.add("rc-split-boss");
+          splitRow.appendChild(sp);
+        });
+        wpanel.appendChild(splitRow);
+
+        var vrPairs = collectBossVRPairs(meta.word, meta.parts, bossParts);
+        var charByIdx = {};
+        wpanel.querySelectorAll(".cact-ch[data-word-idx]").forEach(function (el) {
+          charByIdx[el.getAttribute("data-word-idx")] = el;
+        });
+        var pairedVowelIdx = {};
+        vrPairs.forEach(function (pair) {
+          var vEl = charByIdx[String(pair[0])];
+          var rEl = charByIdx[String(pair[1])];
+          if (!vEl || !rEl) return;
+          rEl.classList.add("cact-r-boss");
+          function syncVRToggle(ev) {
+            ev.stopPropagation();
+            var show = !vEl.classList.contains("is-vowel-hl");
+            vEl.classList.toggle("is-vowel-hl", show);
+            rEl.classList.toggle("is-vowel-hl", show);
+          }
+          vEl.addEventListener("click", syncVRToggle);
+          rEl.addEventListener("click", syncVRToggle);
+          pairedVowelIdx[String(pair[0])] = true;
+          vEl.title = "点击：元音与 R 一起高亮/取消（R-controlled）";
+          rEl.title = "点击：与元音一起高亮/取消（R-controlled）";
+        });
+        wpanel.querySelectorAll(".cact-vowel").forEach(function (el) {
+          var idx = el.getAttribute("data-word-idx");
+          if (idx != null && pairedVowelIdx[idx]) return;
+          el.style.cursor = "pointer";
+          el.title = "点击高亮/取消该元音";
+          el.addEventListener("click", function (ev) {
+            ev.stopPropagation();
+            el.classList.toggle("is-vowel-hl");
+          });
+        });
+
+        var cutSlots = wpanel.querySelectorAll(".cact-slot");
+        var multiCut = cutSlots.length > 1;
+        var cutBusy = false;
+        var cutDone = false;
+
+        function tryPlayCut() {
+          if (cutBusy || cutDone) return;
+          cutBusy = true;
+          if (cutSlots.length === 0) {
+            revealSplitInstant(wpanel);
+            cutBusy = false;
+            cutDone = true;
+            return;
+          }
+          if (multiCut) {
+            revealSplitInstant(wpanel);
+            cutBusy = false;
+            cutDone = true;
+          } else {
+            runScissorAnimation(wpanel, function () {
+              cutBusy = false;
+              cutDone = true;
+            });
+          }
+        }
+
+        function resetCutState() {
+          resetHomeworkCutState(wpanel);
+          cutDone = false;
+          cutBusy = false;
+        }
+
+        cutSlots.forEach(function (cutSlot) {
+          cutSlot.classList.add("hw-syl-slot-clickable");
+          cutSlot.setAttribute("role", "button");
+          cutSlot.setAttribute("tabindex", "0");
+          cutSlot.setAttribute("aria-label", "音节划分点，点击播放划分");
+          cutSlot.title = multiCut ? "点任意剪刀位置揭示全词划分" : "点此播放音节划分动画";
+          cutSlot.addEventListener("click", function (ev) {
+            ev.stopPropagation();
+            tryPlayCut();
+          });
+          cutSlot.addEventListener("keydown", function (ev) {
+            if (ev.key === "Enter" || ev.key === " ") {
+              ev.preventDefault();
+              tryPlayCut();
+            }
+          });
+        });
+
+        function highlightAllVowels() {
+          wpanel.querySelectorAll(".cact-vowel").forEach(function (el) {
+            el.classList.add("is-vowel-hl");
+          });
+        }
+
+        function highlightBossVRPairs() {
+          vrPairs.forEach(function (pair) {
+            var vEl = charByIdx[String(pair[0])];
+            var rEl = charByIdx[String(pair[1])];
+            if (vEl) vEl.classList.add("is-vowel-hl");
+            if (rEl) rEl.classList.add("is-vowel-hl");
+          });
+        }
+
+        return {
+          wpanel: wpanel,
+          tryPlayCut: tryPlayCut,
+          resetCutState: resetCutState,
+          highlightAllVowels: highlightAllVowels,
+          highlightBossVRPairs: highlightBossVRPairs,
+          cutSlots: cutSlots,
+          multiCut: multiCut,
+          hasNoCutSlots: cutSlots.length === 0,
+          meta: meta
+        };
+      }
+
+      function buildRcInteractivePanel(host, meta) {
+        host.innerHTML = "";
+        var core = createRcWordPanelCore(meta);
+        host.appendChild(core.wpanel);
+
+        var btnRow = document.createElement("div");
+        btnRow.className = "hw-syl-btn-row";
+
+        if (core.hasNoCutSlots) {
+          var cutDone = false;
+          var showBtn = document.createElement("button");
+          showBtn.type = "button";
+          showBtn.className = "btn";
+          showBtn.textContent = "显示音节划分";
+          showBtn.setAttribute("aria-label", "显示音节划分");
+          showBtn.addEventListener("click", function (ev) {
+            ev.stopPropagation();
+            if (cutDone) return;
+            cutDone = true;
+            revealSplitInstant(core.wpanel);
+          });
+          btnRow.appendChild(showBtn);
+        }
+
+        var tts = document.createElement("button");
+        tts.type = "button";
+        tts.className = "btn";
+        tts.innerHTML = "&#128266; 朗读单词";
+        tts.setAttribute("aria-label", "朗读 " + meta.speak);
+        tts.addEventListener("click", function (ev) {
+          ev.stopPropagation();
+          speak(meta.speak).catch(function () {});
+        });
+        btnRow.appendChild(tts);
+
+        var resetBtn = document.createElement("button");
+        resetBtn.type = "button";
+        resetBtn.className = "btn hw-syl-reset-btn";
+        resetBtn.textContent = "重看划分动画";
+        resetBtn.setAttribute("aria-label", "重置为字母行并可再次播放划分");
+        resetBtn.addEventListener("click", function (ev) {
+          ev.stopPropagation();
+          core.resetCutState();
+        });
+        btnRow.appendChild(resetBtn);
+
+        host.appendChild(btnRow);
+      }
+
+      function rcDemoFlowPanelHtml(badge, subtitle, bodyHtml) {
+        var sub = subtitle ? '<p class="cact-flow-sub">' + subtitle + "</p>" : "";
+        return (
+          '<div class="cact-flow-panel-inner">' +
+          '<span class="cact-flow-badge">' +
+          badge +
+          "</span>" +
+          sub +
+          '<div class="cact-flow-body">' +
+          bodyHtml +
+          "</div></div>"
+        );
+      }
+
+      function rcDemoVowelsBoldHtml(w) {
+        var out = [];
+        for (var i = 0; i < w.length; i++) {
+          var c = w[i].toLowerCase();
+          if ("aeiou".indexOf(c) >= 0) out.push("<strong>" + w[i] + "</strong>");
+        }
+        return out.join("、");
+      }
+
+      function buildRcDemoStepDefs(def, core) {
+        var word = def.word;
+        var vowelsHtml = rcDemoVowelsBoldHtml(word);
+        var footHtml = def.foot || "";
+        var nSyl = (def.parts || []).length;
+        var speakKey = def.speak || word;
+        return [
+          { html: rcDemoFlowPanelHtml("要点", "", def.sub) },
+          {
+            html: rcDemoFlowPanelHtml("元音", "", "<strong>揭晓：</strong>元音字母为 " + vowelsHtml + "。左侧已同步高亮。"),
+            onEnter: function (done) {
+              core.highlightAllVowels();
+              done();
+            }
+          },
+          {
+            html: rcDemoFlowPanelHtml("Bossy R", "", "<strong>揭晓：</strong>请留意左侧与 <strong>R</strong> 相邻的元音组合（Bossy R）。"),
+            onEnter: function (done) {
+              core.highlightBossVRPairs();
+              done();
+            }
+          },
+          {
+            html: rcDemoFlowPanelHtml("参考", "", "<strong>揭晓：</strong>本词共 <strong>" + nSyl + "</strong> 个音节。" + footHtml)
+          },
+          {
+            html: rcDemoFlowPanelHtml("划分", "", "<strong>揭晓：</strong>已自动播放左侧音节划分动画。也可点左侧「重看划分动画」再播一次。"),
+            onEnter: function (done) {
+              core.resetCutState();
+              window.setTimeout(function () {
+                core.tryPlayCut();
+                done();
+              }, 60);
+            }
+          },
+          {
+            html: rcDemoFlowPanelHtml("朗读", "", "听一遍整词。"),
+            onEnter: function (done) {
+              speak(speakKey)
+                .then(function () {
+                  done();
+                })
+                .catch(function () {
+                  done();
+                });
+            }
+          }
+        ];
+      }
+
+      function bindRcDemoNextFlow(root, panelsRoot, nextBtn, progressEl, hintEl, stepDefs) {
+        var cur = -1;
+        var busy = false;
+        var total = stepDefs.length;
+        var panels = [];
+
+        function setProgress() {
+          if (progressEl) {
+            progressEl.textContent = "第 " + (cur + 1) + " / " + total + " 步";
+          }
+        }
+
+        function atEnd() {
+          nextBtn.disabled = true;
+          nextBtn.textContent = "已完成 ✓";
+        }
+
+        stepDefs.forEach(function (def) {
+          var el = document.createElement("div");
+          el.className = "cact-flow-panel";
+          el.setAttribute("hidden", "");
+          el.innerHTML = def.html;
+          panelsRoot.appendChild(el);
+          panels.push(el);
+        });
+
+        function release() {
+          busy = false;
+          nextBtn.disabled = false;
+          if (cur >= total - 1) atEnd();
+        }
+
+        function goNext() {
+          if (busy) return;
+          if (cur >= total - 1) return;
+          cur++;
+          if (hintEl && cur === 0) hintEl.hidden = true;
+          var p = panels[cur];
+          if (p) {
+            p.hidden = false;
+            try {
+              p.scrollIntoView({ behavior: "smooth", block: "nearest" });
+            } catch (eScroll) {}
+          }
+          setProgress();
+          var stepDef = stepDefs[cur];
+          if (stepDef && typeof stepDef.onEnter === "function") {
+            busy = true;
+            nextBtn.disabled = true;
+            stepDef.onEnter(function () {
+              release();
+            }, root);
+          } else {
+            if (cur >= total - 1) atEnd();
+          }
+        }
+
+        if (progressEl) {
+          progressEl.textContent = "0 / " + total + " 步（点击下一步）";
+        }
+        nextBtn.addEventListener("click", goNext);
+      }
+
+      function buildRcDemoLessonMount(host, def) {
+        host.innerHTML = "";
+        var meta = {
+          word: def.word,
+          parts: def.parts,
+          speak: def.speak || def.word,
+          bossParts: def.boss || {}
+        };
+        var core = createRcWordPanelCore(meta);
+
+        var grid = document.createElement("div");
+        grid.className = "cact-lesson-grid";
+        var left = document.createElement("div");
+        left.className = "cact-lesson-left";
+        left.setAttribute("aria-label", "单词、配图与划分动画");
+        var hero = document.createElement("div");
+        hero.className = "cact-hero";
+        var imgWrap = document.createElement("div");
+        imgWrap.className = "cact-img-wrap";
+        var img = document.createElement("img");
+        img.alt = def.word + " 配图";
+        img.width = 200;
+        img.height = 200;
+        img.src = def.visualImgSrc || "";
+        img.addEventListener("error", function () {
+          img.style.display = "none";
+        });
+        imgWrap.appendChild(img);
+        var pl = document.createElement("p");
+        pl.className = "cact-step-line muted";
+        pl.style.marginTop = "0";
+        pl.textContent = "单词";
+        hero.appendChild(imgWrap);
+        hero.appendChild(pl);
+        hero.appendChild(core.wpanel);
+
+        var btnRow = document.createElement("div");
+        btnRow.className = "hw-syl-btn-row";
+
+        if (core.hasNoCutSlots) {
+          var revealed = false;
+          var showBtn = document.createElement("button");
+          showBtn.type = "button";
+          showBtn.className = "btn";
+          showBtn.textContent = "显示音节划分";
+          showBtn.setAttribute("aria-label", "显示音节划分");
+          showBtn.addEventListener("click", function (ev) {
+            ev.stopPropagation();
+            if (revealed) return;
+            revealed = true;
+            revealSplitInstant(core.wpanel);
+          });
+          btnRow.appendChild(showBtn);
+        }
+
+        var tts = document.createElement("button");
+        tts.type = "button";
+        tts.className = "btn";
+        tts.innerHTML = "&#128266; 朗读单词";
+        tts.setAttribute("aria-label", "朗读 " + meta.speak);
+        tts.addEventListener("click", function (ev) {
+          ev.stopPropagation();
+          speak(meta.speak).catch(function () {});
+        });
+        btnRow.appendChild(tts);
+
+        var resetBtn = document.createElement("button");
+        resetBtn.type = "button";
+        resetBtn.className = "btn hw-syl-reset-btn";
+        resetBtn.textContent = "重看划分动画";
+        resetBtn.setAttribute("aria-label", "重置为字母行并可再次播放划分");
+        resetBtn.addEventListener("click", function (ev) {
+          ev.stopPropagation();
+          core.resetCutState();
+        });
+        btnRow.appendChild(resetBtn);
+
+        left.appendChild(hero);
+
+        var right = document.createElement("aside");
+        right.className = "cact-lesson-right";
+        right.setAttribute("aria-label", "分步讲解与操作");
+        var hint = document.createElement("p");
+        hint.className = "cact-flow-hint";
+        hint.textContent = "点击「下一步」依次揭晓每一步。";
+        var scroll = document.createElement("div");
+        scroll.className = "cact-flow-scroll";
+        var panelsRoot = document.createElement("div");
+        panelsRoot.className = "cact-flow-panels";
+        scroll.appendChild(panelsRoot);
+        var toolRow = document.createElement("div");
+        toolRow.className = "cact-demo-toolbar";
+        toolRow.setAttribute("aria-label", "朗读与划分动画");
+        toolRow.appendChild(btnRow);
+        var nextRow = document.createElement("div");
+        nextRow.className = "cact-next-row";
+        var nextBtn = document.createElement("button");
+        nextBtn.type = "button";
+        nextBtn.className = "btn cact-btn-next";
+        nextBtn.textContent = "下一步";
+        var prog = document.createElement("span");
+        prog.className = "cact-flow-progress";
+        nextRow.appendChild(nextBtn);
+        nextRow.appendChild(prog);
+        right.appendChild(hint);
+        right.appendChild(scroll);
+        right.appendChild(toolRow);
+        right.appendChild(nextRow);
+        grid.appendChild(left);
+        grid.appendChild(right);
+        host.appendChild(grid);
+
+        bindRcDemoNextFlow(host, panelsRoot, nextBtn, prog, hint, buildRcDemoStepDefs(def, core));
+      }
+
+      /* —— 辨析词库 —— */
+      var CHALLENGE = [
+        { word: "park", yes: true, reason: "含 <strong>ar</strong>，R-controlled。", imgSrc: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/P/语音课/media/rc-ch-park.png", imgAria: "公园场景配图，无文字" },
+        { word: "fork", yes: true, reason: "含 <strong>or</strong>，R-controlled。", imgSrc: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/P/语音课/media/rc-fork.png", imgAria: "餐叉配图，无文字" },
+        { word: "bird", yes: true, reason: "含 <strong>ir</strong>，R-controlled。", imgSrc: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/P/语音课/media/rc-bird.png", imgAria: "小鸟配图，无文字" },
+        { word: "nurse", yes: true, reason: "含 <strong>ur</strong>，R-controlled。", imgSrc: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/P/语音课/media/rc-ch-nurse.png", imgAria: "护士配图，无文字" },
+        { word: "term", yes: true, reason: "含 <strong>er</strong>，R-controlled。", imgSrc: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/P/语音课/media/rc-term.png", imgAria: "学期课堂配图，无文字" },
+        { word: "bat", yes: false, reason: "短元音 CVC，<strong>无</strong> Bossy R 组合。", imgSrc: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/P/语音课/media/rc-ch-bat.png", imgAria: "蝙蝠配图，无文字" },
+        { word: "sit", yes: false, reason: "短元音闭音节。", imgSrc: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/P/语音课/media/rc-ch-sit.png", imgAria: "坐下配图，无文字" },
+        { word: "cup", yes: false, reason: "短元音闭音节。", imgSrc: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/P/语音课/media/rc-ch-cup.png", imgAria: "杯子配图，无文字" },
+        { word: "bed", yes: false, reason: "短元音闭音节。", imgSrc: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/P/语音课/media/rc-ch-bed.png", imgAria: "床配图，无文字" },
+        { word: "pot", yes: false, reason: "短元音闭音节。", imgSrc: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/P/语音课/media/rc-ch-pot.png", imgAria: "锅配图，无文字" }
+      ];
+
+      /* —— 剪刀练习数据 ——（rIdx 仅作教师参考，页面不预先高亮） */
+      var PRACTICE = [
+        { word: "corporate", cuts: [2, 4], parts: ["cor", "po", "rate"], rIdx: [1, 2, 4, 5] },
+        { word: "Arctic", cuts: [2], parts: ["Arc", "tic"], rIdx: [0, 1] },
+        { word: "servant", cuts: [2], parts: ["ser", "vant"], rIdx: [1, 2] },
+        { word: "describe", cuts: [1], parts: ["de", "scribe"], rIdx: [] }
+      ];
+
+      var prMounted = {};
+
+      function mountPracticeHost(prRoot, prIdx) {
+        if (!prRoot || prMounted[prIdx]) return;
+        prMounted[prIdx] = true;
+        var prPicked = [];
+        var spec = PRACTICE[prIdx];
+        var w = spec.word;
+
+        prRoot.classList.add("rc-pr-cut-locked");
+        function unlockCutsIfNeeded() {
+          if (!prRoot.classList.contains("rc-pr-cut-locked")) return;
+          prRoot.classList.remove("rc-pr-cut-locked");
+        }
+
+        var hint = document.createElement("p");
+        hint.className = "rc-pr-hint";
+        hint.innerHTML =
+          "单词：<strong>" +
+          esc(w) +
+          "</strong> · ① 先<strong>自己点元音</strong>、点 <strong>r</strong> 标记 Bossy R（<strong>不会预先标好</strong>）；② 再点<strong>虚线</strong>选切口；③ 提交。（虚线在①之后出现）";
+        prRoot.appendChild(hint);
+
+        var splitRow = document.createElement("div");
+        splitRow.className = "cact-split-row";
+        var msg = document.createElement("div");
+        msg.className = "rc-pr-msg";
+
+        var hero = document.createElement("div");
+        hero.className = "cact-hero";
+        var row = document.createElement("div");
+        row.className = "cact-chars-row";
+        var sciChar = "\u2702\uFE0F";
+        for (var i = 0; i < w.length; i++) {
+          (function (ix) {
+            var ch = document.createElement("span");
+            ch.className = "cact-ch";
+            ch.textContent = w[ix];
+            var low = w[ix].toLowerCase();
+            if ("aeiou".indexOf(low) >= 0) {
+              ch.classList.add("cact-vowel");
+              ch.setAttribute("data-letter", low);
+              ch.title = "点击高亮/取消该元音";
+              ch.addEventListener("click", function (ev) {
+                ev.stopPropagation();
+                ch.classList.toggle("is-vowel-hl");
+                unlockCutsIfNeeded();
+              });
+            }
+            if (low === "r") {
+              ch.title = (ch.title ? ch.title + " · " : "") + "点击标记/取消 Bossy R 中的 r";
+              ch.addEventListener("click", function (ev) {
+                ev.stopPropagation();
+                ch.classList.toggle("is-r-boss");
+                unlockCutsIfNeeded();
+              });
+            }
+            row.appendChild(ch);
+          })(i);
+          if (i < w.length - 1) {
+            (function (afterIdx) {
+              var slot = document.createElement("div");
+              slot.className = "cact-slot";
+              slot.dataset.after = String(afterIdx);
+              var sci = document.createElement("span");
+              sci.className = "cact-scissor";
+              sci.textContent = sciChar;
+              sci.setAttribute("aria-hidden", "true");
+              slot.appendChild(sci);
+              slot.addEventListener("click", function (ev) {
+                ev.stopPropagation();
+                var j = prPicked.indexOf(afterIdx);
+                if (j >= 0) prPicked.splice(j, 1);
+                else prPicked.push(afterIdx);
+                prPicked.sort(function (a, b) {
+                  return a - b;
+                });
+                row.querySelectorAll(".cact-slot").forEach(function (sl) {
+                  var a = Number(sl.dataset.after);
+                  sl.classList.toggle("is-selected", prPicked.indexOf(a) >= 0);
+                });
+                splitRow.classList.remove("is-on");
+                msg.textContent = "";
+                msg.className = "rc-pr-msg";
+              });
+              row.appendChild(slot);
+            })(i);
+          }
+        }
+        hero.appendChild(row);
+        prRoot.appendChild(hero);
+        prRoot.appendChild(splitRow);
+        prRoot.appendChild(msg);
+
+        var actions = document.createElement("div");
+        actions.className = "rc-pr-actions";
+        var btnSub = document.createElement("button");
+        btnSub.type = "button";
+        btnSub.className = "btn";
+        btnSub.textContent = "提交划分";
+        var btnSpeak = document.createElement("button");
+        btnSpeak.type = "button";
+        btnSpeak.className = "btn";
+        btnSpeak.textContent = "朗读全词";
+        btnSpeak.addEventListener("click", function () {
+          speak(w).catch(function () {});
+        });
+        btnSub.addEventListener("click", function () {
+          var pickedSorted = prPicked.slice().sort(function (a, b) {
+            return a - b;
+          });
+          var ok =
+            pickedSorted.length === spec.cuts.length &&
+            pickedSorted.every(function (v, i) {
+              return v === spec.cuts[i];
+            });
+          if (!ok) {
+            msg.textContent = "再试试：切口数量或位置与课堂参考不一致。";
+            msg.className = "rc-pr-msg bad";
+            splitRow.classList.remove("is-on");
+            return;
+          }
+          msg.textContent = "太棒了！";
+          msg.className = "rc-pr-msg ok";
+          splitRow.innerHTML = spec.parts
+            .map(function (p) {
+              return "<span>" + esc(p) + "</span>";
+            })
+            .join('<span style="opacity:0.65">·</span>');
+          splitRow.classList.add("is-on");
+          row.querySelectorAll(".cact-slot.is-selected .cact-scissor").forEach(function (sc) {
+            sc.classList.remove("run");
+            void sc.offsetWidth;
+            sc.classList.add("run");
+          });
+        });
+        actions.appendChild(btnSub);
+        actions.appendChild(btnSpeak);
+        prRoot.appendChild(actions);
+      }
+
+      function oneChallengeCard(item) {
+        var verdict = item.yes ? "Yes · Bossy R" : "No · 非 R 音节";
+        var doodle =
+          item.imgSrc ?
+            '<div class="me-doodle" role="img" aria-label="' +
+            esc(item.imgAria || "") +
+            '"><img class="rc-slide-imagen" src="' +
+            esc(item.imgSrc) +
+            '" alt="" loading="lazy" decoding="async" /></div>'
+          : '<div class="me-doodle">' + esc(item.img || "") + "<br />配图占位</div>";
+        return (
+          '<div class="me-card" role="listitem" tabindex="0" data-yes="' +
+          (item.yes ? "1" : "0") +
+          '">' +
+          '<div class="me-card-inner">' +
+          '<div class="me-face me-face-front">' +
+          doodle +
+          '<div class="me-card-word">' +
+          esc(item.word) +
+          '</div><button type="button" class="speak" data-speak="' +
+          esc(item.word) +
+          '" aria-label="朗读 ' +
+          esc(item.word) +
+          '">&#128266;</button>' +
+          '<span class="me-card-hint">点击翻面</span></div>' +
+          '<div class="me-face me-face-back">' +
+          '<div class="me-verdict ' +
+          (item.yes ? "yes" : "no") +
+          '">' +
+          esc(verdict) +
+          "</div>" +
+          '<p class="me-reason">' +
+          item.reason +
+          "</p></div></div></div>"
+        );
+      }
+
+      /* —— 幻灯片定义：每页一词（或规则页） —— */
+      var SLIDE_DEFS = [
+        {
+          t: "word",
+          title: "复习 · VCe（1/3）",
+          sub: "Magic E 双音节：<strong>reptile</strong> — 上方配图，下方字母与剪刀划分演示。",
+          word: "reptile",
+          speak: "reptile",
+          parts: ["rep", "tile"],
+          hideWordHead: true,
+          visualImgSrc: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/P/语音课/media/rc-reptile.png",
+          visualAria: "配图：绘本风蜥蜴，无文字"
+        },
+        {
+          t: "word",
+          title: "复习 · VCe（2/3）",
+          sub: "动手点元音、点剪刀看划分；面板内可 &#128266; 朗读。",
+          word: "refuse",
+          speak: "refuse",
+          parts: ["re", "fuse"],
+          hideWordHead: true,
+          visualImgSrc: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/P/语音课/media/rc-refuse.png",
+          visualAria: "配图：拒绝手势，无文字"
+        },
+        {
+          t: "word",
+          title: "复习 · VCe（3/3）",
+          sub: "最后一个复习词，注意 Magic E 在第二音节。面板内可朗读。",
+          word: "complete",
+          speak: "complete",
+          parts: ["com", "plete"],
+          hideWordHead: true,
+          visualImgSrc: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/P/语音课/media/rc-complete.png",
+          visualAria: "配图：完成与对号，无文字"
+        },
+        {
+          t: "bossRMorph",
+          title: "Bossy R · Cat → Cart",
+          sub:
+            "同一页里看变化：红色 <strong>R</strong> 「蹦」进 <strong>a</strong> 与 <strong>t</strong> 之间，配图从小猫换成手推车。点<strong>演示变化</strong>，可<strong>重来</strong>再看一遍。",
+          l1: "C",
+          vowel: "a",
+          l2: "t",
+          speakBefore: "cat",
+          speakAfter: "cart",
+          wordlineAria: "Cat 变成 Cart 演示",
+          imgBeforeSrc: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/P/语音课/media/rc-morph-cat.png",
+          imgBeforeLines: "小猫<br />粘土·绘本风",
+          imgBeforeAria: "配图：小猫，无文字",
+          imgAfterSrc: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/P/语音课/media/rc-morph-cart.png",
+          imgAfterLines: "手推车<br />Cart 配图",
+          imgAfterAria: "配图：手推车，无文字",
+          hintLine: "先听 <strong>Cat</strong> → 点「演示变化」→ 再听 <strong>Cart</strong>。"
+        },
+        {
+          t: "bossRMorph",
+          title: "Bossy R · Bun → Burn",
+          sub:
+            "与 Cat→Cart 相同玩法：红色 <strong>R</strong> 「蹦」进 <strong>u</strong> 与 <strong>n</strong> 之间，配图从小圆面包换成燃烧。点<strong>演示变化</strong>，可<strong>重来</strong>。",
+          l1: "B",
+          vowel: "u",
+          l2: "n",
+          speakBefore: "bun",
+          speakAfter: "burn",
+          wordlineAria: "Bun 变成 Burn 演示",
+          imgBeforeSrc: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/P/语音课/media/rc-morph-bun.png",
+          imgBeforeLines: "小圆面包<br />粘土风",
+          imgBeforeAria: "配图：小圆面包，无文字",
+          imgAfterSrc: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/P/语音课/media/rc-morph-burn.png",
+          imgAfterLines: "燃烧<br />绘本风",
+          imgAfterAria: "配图：火焰，无文字",
+          hintLine: "先听 <strong>Bun</strong> → 点「演示变化」→ 再听 <strong>Burn</strong>。"
+        },
+        {
+          t: "rule",
+          title: "规则小结 · A 和 U",
+          sub: "记住这句话，后面验证 E、O、I。",
+          html:
+            '<div class="rc-rule-box">' +
+            "<strong>规则小结：</strong>当元音 <strong>A</strong> 和 <strong>U</strong> 遇到字母 <strong>R</strong> 组合在一起时，它们原本的声音会发生<strong>巨大的改变</strong>！" +
+            '<span class="muted" style="display:block;margin-top:0.45rem;font-weight:600">（常见拼写如 <strong>ar / ur</strong> 等；具体发音以老师示范为准。）</span>' +
+            "</div>"
+        },
+        {
+          t: "word",
+          title: "验证 · er（1/2）",
+          sub: "拼写 <strong>er</strong>。单音节：点元音后点<strong>显示音节</strong>。",
+          word: "fern",
+          speak: "fern",
+          parts: ["fern"],
+          visualImgSrc: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/P/语音课/media/rc-fern.png",
+          visualAria: "配图：蕨类植物，无文字"
+        },
+        {
+          t: "word",
+          title: "验证 · er（2/2）",
+          sub: "再听一个 <strong>er</strong> 例词。",
+          word: "term",
+          speak: "term",
+          parts: ["term"],
+          visualImgSrc: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/P/语音课/media/rc-term.png",
+          visualAria: "配图：学期课堂，无文字"
+        },
+        {
+          t: "word",
+          title: "验证 · or（1/2）",
+          sub: "拼写 <strong>or</strong>。",
+          word: "corn",
+          speak: "corn",
+          parts: ["corn"],
+          visualImgSrc: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/P/语音课/media/rc-corn.png",
+          visualAria: "配图：玉米，无文字"
+        },
+        {
+          t: "word",
+          title: "验证 · or（2/2）",
+          sub: "再听 <strong>or</strong>。",
+          word: "fork",
+          speak: "fork",
+          parts: ["fork"],
+          visualImgSrc: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/P/语音课/media/rc-fork.png",
+          visualAria: "配图：餐叉，无文字"
+        },
+        {
+          t: "word",
+          title: "验证 · ir（1/2）",
+          sub: "拼写 <strong>ir</strong>。",
+          word: "bird",
+          speak: "bird",
+          parts: ["bird"],
+          visualImgSrc: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/P/语音课/media/rc-bird.png",
+          visualAria: "配图：小鸟，无文字"
+        },
+        {
+          t: "word",
+          title: "验证 · ir（2/2）",
+          sub: "再听 <strong>ir</strong>。",
+          word: "girl",
+          speak: "girl",
+          parts: ["girl"],
+          visualImgSrc: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/P/语音课/media/rc-girl.png",
+          visualAria: "配图：女孩，无文字"
+        }
+      ];
+
+      SLIDE_DEFS.push({
+        t: "challengeGrid",
+        title: "辨析 · R-controlled 音节",
+        sub:
+          "共 <strong>10</strong> 个单词：判断是否含有 <strong>R-controlled（Bossy R）</strong> 音节。点击卡片翻面查看答案，可听 &#128266; 发音。",
+        items: CHALLENGE
+      });
+
+      SLIDE_DEFS.push(
+        {
+          t: "word",
+          demoCactLesson: true,
+          title: "老师演示（1/4）",
+          sub: "<strong>ar</strong> 与前后字母绑在一起，不拆开。",
+          word: "Antarctic",
+          speak: "Antarctic",
+          parts: ["An", "tarc", "tic"],
+          boss: { 1: true },
+          visualImgSrc: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/P/语音课/media/rc-antarctic.png",
+          visualAria: "配图：南极冰雪，无文字",
+          foot: '<p class="rc-demo-syl">参考划分：<strong>An – tarc – tic</strong>（<strong>tarc</strong> 中含 <strong>ar</strong>）</p>'
+        },
+        {
+          t: "word",
+          demoCactLesson: true,
+          title: "老师演示（2/4）",
+          sub: "同一词里可以出现多个 R-controlled 组合。",
+          word: "surrender",
+          speak: "surrender",
+          parts: ["sur", "ren", "der"],
+          boss: { 0: true, 2: true },
+          visualImgSrc: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/P/语音课/media/rc-surrender.png",
+          visualAria: "配图：握手与和平，无文字",
+          foot: '<p class="rc-demo-syl">参考：<strong>sur – ren – der</strong></p>'
+        },
+        {
+          t: "word",
+          demoCactLesson: true,
+          title: "老师演示（3/4）",
+          sub: "广告 <strong>advertise</strong>：注意 <strong>ver</strong>。",
+          word: "advertise",
+          speak: "advertise",
+          parts: ["ad", "ver", "tise"],
+          boss: { 1: true },
+          visualImgSrc: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/P/语音课/media/rc-advertise.png",
+          visualAria: "配图：广告牌，无文字",
+          foot: '<p class="rc-demo-syl">参考：<strong>ad – ver – tise</strong></p>'
+        },
+        {
+          t: "word",
+          demoCactLesson: true,
+          title: "老师演示（4/4）",
+          sub: "绝望 <strong>desperate</strong>：末尾还有 Magic E 复习。",
+          word: "desperate",
+          speak: "desperate",
+          parts: ["des", "per", "ate"],
+          boss: { 1: true },
+          visualImgSrc: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/P/语音课/media/rc-desperate.png",
+          visualAria: "配图：情绪场景，无文字",
+          foot: '<p class="rc-demo-syl">参考：<strong>des – per – ate</strong></p>'
+        }
+      );
+
+      PRACTICE.forEach(function (p, pi) {
+        SLIDE_DEFS.push({
+          t: "practice",
+          title: "你来切（" + (pi + 1) + "/" + PRACTICE.length + "）",
+          sub:
+            "① 先<strong>自己点元音 / r</strong> 做标记（不预先标出）；② 再出现<strong>虚线</strong>选切口；③ 提交。正确会出现 &#9986;&#65039; 与划分结果。（本页一词：<strong>" +
+            esc(p.word) +
+            "</strong>）",
+          practiceIndex: pi
+        });
+      });
+
+      var interactiveWired = {};
+
+      function wireBossRMorphIfNeeded(slideEl) {
+        var stage = slideEl.querySelector("[data-bossr-morph]");
+        if (!stage || stage.dataset.wired === "1") return;
+        stage.dataset.wired = "1";
+        var playBtn = stage.querySelector(".rc-bossr-play");
+        var resetBtn = stage.querySelector(".rc-bossr-reset");
+        var rEl = stage.querySelector(".rc-cc-r");
+        function markAfterSpeak() {
+          stage.querySelectorAll(".rc-bossr-speak-after").forEach(function (b) {
+            b.removeAttribute("disabled");
+            b.setAttribute("aria-disabled", "false");
+          });
+        }
+        function play() {
+          if (stage.classList.contains("is-morphed")) return;
+          stage.classList.add("is-morphed");
+          if (rEl) {
+            var done = function () {
+              rEl.removeEventListener("animationend", done);
+              markAfterSpeak();
+            };
+            rEl.addEventListener("animationend", done);
+            window.setTimeout(function () {
+              if (!stage.classList.contains("is-morphed")) return;
+              markAfterSpeak();
+            }, 1300);
+          } else {
+            markAfterSpeak();
+          }
+        }
+        function resetMorph() {
+          stage.classList.remove("is-morphed");
+          if (rEl) void rEl.offsetWidth;
+          stage.querySelectorAll(".rc-bossr-speak-after").forEach(function (b) {
+            b.setAttribute("disabled", "disabled");
+            b.setAttribute("aria-disabled", "true");
+          });
+        }
+        if (playBtn) {
+          playBtn.addEventListener("click", function (e) {
+            e.stopPropagation();
+            play();
+          });
+        }
+        if (resetBtn) {
+          resetBtn.addEventListener("click", function (e) {
+            e.stopPropagation();
+            resetMorph();
+          });
+        }
+      }
+
+      function ensureInteractiveMount(slideIdx) {
+        var sec = slides[slideIdx];
+        if (!sec) return;
+        var root =
+          sec.querySelector(".rc-interactive-root") || sec.querySelector(".rc-demo-lesson-root");
+        if (!root || interactiveWired[slideIdx]) return;
+        var def = SLIDE_DEFS[slideIdx];
+        if (def.t === "word") {
+          interactiveWired[slideIdx] = true;
+          if (def.demoCactLesson) {
+            buildRcDemoLessonMount(root, def);
+          } else {
+            buildRcInteractivePanel(root, {
+              word: def.word,
+              parts: def.parts,
+              speak: def.speak || def.word,
+              bossParts: def.boss || {}
+            });
+          }
+        }
+      }
+
+      function buildBossRMorphHTML(def) {
+        var sb = esc(def.speakBefore);
+        var sa = esc(def.speakAfter);
+        return (
+          '<div class="slide-inner hw-syl-slide-inner">' +
+          '<h1 class="slide-title">' +
+          esc(def.title) +
+          "</h1>" +
+          '<p class="slide-sub">' +
+          def.sub +
+          "</p>" +
+          '<div class="rc-bossr-morph-stage" data-bossr-morph="1">' +
+          '<div class="rc-boss-label" style="margin-bottom:0.25rem">Bossy R · 霸道的 R</div>' +
+          '<div class="rc-bossr-wordline" aria-label="' +
+          esc(def.wordlineAria) +
+          '">' +
+          '<span class="rc-cc-ch">' +
+          esc(def.l1) +
+          "</span>" +
+          '<span class="rc-cc-ch rc-cc-vowel">' +
+          esc(def.vowel) +
+          "</span>" +
+          '<span class="rc-cc-slot"><span class="rc-cc-r" aria-hidden="true">R</span></span>' +
+          '<span class="rc-cc-ch">' +
+          esc(def.l2) +
+          "</span>" +
+          "</div>" +
+          '<div class="rc-bossr-imgstack">' +
+          bossMorphImgCell(def.imgBeforeAria, def.imgBeforeLines || "", def.imgBeforeSrc, "rc-cc-img-before") +
+          bossMorphImgCell(def.imgAfterAria, def.imgAfterLines || "", def.imgAfterSrc, "rc-cc-img-after") +
+          "</div>" +
+          '<div class="rc-bossr-toolbar">' +
+          '<button type="button" class="btn rc-bossr-play">演示变化</button>' +
+          '<button type="button" class="btn hw-syl-reset-btn rc-bossr-reset">重来</button>' +
+          '<button type="button" class="speak" data-speak="' +
+          sb +
+          '" aria-label="朗读 ' +
+          sb +
+          '">&#128266;</button>' +
+          '<button type="button" class="speak rc-bossr-speak-after" data-speak="' +
+          sa +
+          '" aria-label="朗读 ' +
+          sa +
+          '" disabled aria-disabled="true">&#128266;</button>' +
+          "</div>" +
+          '<p class="muted" style="margin-top:0.55rem;font-size:0.78rem;font-weight:700">' +
+          def.hintLine +
+          "</p>" +
+          "</div></div>"
+        );
+      }
+
+      function buildSlideHTML(def) {
+        if (def.t === "rule") {
+          return (
+            '<div class="slide-inner">' +
+            '<h1 class="slide-title">' +
+            def.title +
+            "</h1>" +
+            '<p class="slide-sub">' +
+            def.sub +
+            "</p>" +
+            '<div class="rc-one-slide">' +
+            def.html +
+            "</div></div>"
+          );
+        }
+        if (def.t === "bossRMorph") {
+          return buildBossRMorphHTML(def);
+        }
+        if (def.t === "challengeGrid") {
+          var gridCards = "";
+          def.items.forEach(function (it) {
+            gridCards += oneChallengeCard(it);
+          });
+          return (
+            '<div class="slide-inner hw-syl-slide-inner hw-syl-slide--challenge">' +
+            '<h1 class="slide-title">' +
+            esc(def.title) +
+            "</h1>" +
+            '<div class="me-on-page rc-bossy-or-not">' +
+            '<p class="me-on-lead">' +
+            def.sub +
+            "</p>" +
+            '<div class="me-on-grid rc-me-grid-10" role="list" aria-label="辨析单词卡片">' +
+            gridCards +
+            "</div>" +
+            '<div class="me-reset-row">' +
+            '<button type="button" class="btn rc-challenge-reset-all">全部翻回正面</button>' +
+            "</div></div></div>"
+          );
+        }
+        if (def.t === "practice") {
+          return (
+            '<div class="slide-inner">' +
+            '<h1 class="slide-title">' +
+            esc(def.title) +
+            "</h1>" +
+            '<p class="slide-sub">' +
+            def.sub +
+            "</p>" +
+            '<div class="rc-practice-host" data-practice-index="' +
+            def.practiceIndex +
+            '"></div></div>'
+          );
+        }
+        if (def.t === "word" && def.demoCactLesson) {
+          return (
+            '<div class="slide-inner hw-syl-slide-inner cact-lesson">' +
+            '<h1 class="slide-title slide-title-lp" lang="en">Let\u2019s Practice Together</h1>' +
+            '<p class="slide-sub">读单词 · <strong>' +
+            esc(def.word) +
+            "</strong></p>" +
+            '<p class="rc-demo-kicker">' +
+            esc(def.title) +
+            "</p>" +
+            '<div class="rc-demo-lesson-root"></div></div>'
+          );
+        }
+        var speakKey = def.speak || def.word;
+        var hideV = def.hideVisual === true;
+        var hideHead = def.hideWordHead === true;
+        var visBlock = !hideV ? wmVisualForDef(def) : "";
+        var headBlock =
+          !hideHead
+            ? '<div class="rc-one-head">' +
+              esc(def.word) +
+              ' <button type="button" class="speak" data-speak="' +
+              esc(speakKey) +
+              '" aria-label="朗读 ' +
+              esc(speakKey) +
+              '">&#128266;</button></div>'
+            : "";
+        return (
+          '<div class="slide-inner hw-syl-slide-inner">' +
+          '<h1 class="slide-title">' +
+          esc(def.title) +
+          "</h1>" +
+          '<p class="slide-sub">' +
+          def.sub +
+          "</p>" +
+          '<div class="rc-one-slide">' +
+          visBlock +
+          headBlock +
+          '<div class="rc-interactive-root"></div>' +
+          (def.extra || "") +
+          (def.foot || "") +
+          "</div></div>"
+        );
+      }
+
+      var slidesMount = document.getElementById("slides-mount");
+      SLIDE_DEFS.forEach(function (def, idx) {
+        var sec = document.createElement("section");
+        sec.className = "slide" + (idx === 0 ? " active" : "");
+        sec.setAttribute("data-slide", String(idx));
+        sec.innerHTML = buildSlideHTML(def);
+        slidesMount.appendChild(sec);
+      });
+
+      var slides = Array.prototype.slice.call(document.querySelectorAll(".slide"));
+      var total = slides.length;
+      var cur = 0;
+      var dotsEl = document.getElementById("dots");
+
+      function rebuildDots() {
+        dotsEl.innerHTML = "";
+        for (var d = 0; d < total; d++) {
+          (function (i) {
+            var dot = document.createElement("button");
+            dot.type = "button";
+            dot.className = "dot" + (i === cur ? " on" : "");
+            dot.setAttribute("aria-label", "第 " + (i + 1) + " 页，共 " + total + " 页");
+            dot.addEventListener("click", function () {
+              go(i);
+            });
+            dotsEl.appendChild(dot);
+          })(d);
+        }
+      }
+
+      function go(n) {
+        cur = Math.max(0, Math.min(total - 1, n));
+        slides.forEach(function (s, i) {
+          s.classList.toggle("active", i === cur);
+        });
+        Array.prototype.forEach.call(dotsEl.querySelectorAll(".dot"), function (dot, i) {
+          dot.classList.toggle("on", i === cur);
+        });
+        var active = slides[cur];
+        ensureInteractiveMount(cur);
+        wireBossRMorphIfNeeded(active);
+        var ph = active.querySelector("[data-practice-index]");
+        if (ph) {
+          mountPracticeHost(ph, Number(ph.getAttribute("data-practice-index")));
+        }
+      }
+
+      rebuildDots();
+
+      slidesMount.addEventListener("click", function (e) {
+        if (e.target.closest(".speak[data-speak]")) {
+          var sb = e.target.closest(".speak[data-speak]");
+          if (sb.disabled) return;
+          speak(sb.getAttribute("data-speak") || "").catch(function () {});
+          return;
+        }
+        if (e.target.closest(".rc-challenge-reset-all")) {
+          var slideReset = e.target.closest(".slide");
+          if (slideReset) {
+            slideReset.querySelectorAll(".me-card.is-flipped").forEach(function (c) {
+              c.classList.remove("is-flipped");
+            });
+          }
+          return;
+        }
+        if (
+          e.target.closest(".cact-slot") ||
+          e.target.closest(".cact-vowel") ||
+          e.target.closest(".cact-ch.cact-r-boss")
+        ) {
+          return;
+        }
+        var mc = e.target.closest(".me-card");
+        if (mc && !e.target.closest(".btn")) {
+          mc.classList.toggle("is-flipped");
+        }
+      });
+
+      slidesMount.addEventListener("keydown", function (e) {
+        var mc = e.target.closest(".me-card");
+        if (!mc) return;
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          mc.classList.toggle("is-flipped");
+        }
+      });
+
+      document.getElementById("btn-prev").addEventListener("click", function () {
+        go(cur - 1);
+      });
+      document.getElementById("btn-next").addEventListener("click", function () {
+        go(cur + 1);
+      });
+      document.addEventListener("keydown", function (e) {
+        if (e.target.matches("input, textarea, select")) return;
+        if (e.key === "ArrowRight" || e.key === "PageDown") {
+          e.preventDefault();
+          go(cur + 1);
+        }
+        if (e.key === "ArrowLeft" || e.key === "PageUp") {
+          e.preventDefault();
+          go(cur - 1);
+        }
+      });
+
+      go(0);
+    })();
+  </script>
+</body>
+</html>

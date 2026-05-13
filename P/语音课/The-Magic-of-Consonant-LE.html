@@ -1,0 +1,2386 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>The Magic of Syllables — Consonant + LE</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Finger+Paint&family=Comic+Neue:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --cream: #fffdd0;
+      --pink: #ffb7b2;
+      --mint: #b2e2f2;
+      --lilac: #d1d1f7;
+      --ink: #3d3a45;
+      --ink-soft: #6b6578;
+      --white: #fffef8;
+      --shadow: rgba(61, 58, 69, 0.18);
+      --le-red: #c62828;
+      --pre-blue: #1565c0;
+      --font-display: "Comic Sans MS", "Finger Paint", "Comic Neue", cursive, sans-serif;
+      --font-body: "Comic Sans MS", "Comic Neue", system-ui, sans-serif;
+      --slide-card-max: min(100%, 58rem);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body {
+      font-family: var(--font-body);
+      font-weight: 400;
+      color: var(--ink);
+      background: var(--cream);
+      background-image:
+        repeating-linear-gradient(125deg, rgba(255, 183, 178, 0.22) 0 2px, transparent 2px 14px),
+        repeating-linear-gradient(-125deg, rgba(178, 226, 242, 0.25) 0 2px, transparent 2px 18px),
+        radial-gradient(ellipse 90% 70% at 15% 20%, rgba(209, 209, 247, 0.45), transparent 55%),
+        radial-gradient(ellipse 80% 50% at 85% 75%, rgba(255, 253, 208, 0.9), transparent 50%);
+      overflow: hidden;
+    }
+    .deck {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0.6rem 0.85rem 0.4rem;
+    }
+    #slides-mount {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      width: 100%;
+    }
+    .slide {
+      flex: 1;
+      min-height: 0;
+      width: 100%;
+      display: none;
+      flex-direction: column;
+      align-items: stretch;
+      justify-content: flex-start;
+      padding: 0.5rem 0.15rem;
+      animation: slideIn 0.45s ease;
+    }
+    .slide.active {
+      display: flex;
+      flex: 1;
+      min-height: 0;
+    }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .slide-inner {
+      flex: 1 1 auto;
+      min-height: 0;
+      width: 100%;
+      max-width: var(--slide-card-max);
+      margin-left: auto;
+      margin-right: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      overflow: auto;
+      -webkit-overflow-scrolling: touch;
+      background: var(--white);
+      border: 4px solid var(--ink);
+      border-radius: 28px 18px 32px 22px / 22px 28px 20px 30px;
+      box-shadow: 6px 6px 0 var(--shadow), 0 0 0 1px rgba(255, 255, 255, 0.6) inset;
+      padding: clamp(0.85rem, 2.5vw, 1.6rem);
+      position: relative;
+      background-image:
+        repeating-linear-gradient(135deg, transparent, transparent 10px, rgba(61, 58, 69, 0.04) 10px, rgba(61, 58, 69, 0.04) 11px),
+        repeating-linear-gradient(-55deg, transparent, transparent 16px, rgba(255, 183, 178, 0.08) 16px, rgba(255, 183, 178, 0.08) 17px);
+    }
+    .slide-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.35rem, 4.5vw, 2rem);
+      text-align: center;
+      color: var(--ink);
+      margin-bottom: 0.4rem;
+      text-shadow: 2px 2px 0 var(--pink), 4px 4px 0 rgba(178, 226, 242, 0.6);
+      line-height: 1.15;
+    }
+    .slide-sub {
+      text-align: center;
+      font-size: clamp(0.85rem, 2.1vw, 1.02rem);
+      color: var(--ink-soft);
+      margin-bottom: 0.65rem;
+      font-weight: 700;
+      line-height: 1.5;
+    }
+    .btn {
+      font-family: var(--font-body);
+      font-weight: 700;
+      padding: 0.45rem 1.1rem;
+      border: 3px solid var(--ink);
+      border-radius: 14px;
+      background: linear-gradient(180deg, #ffe566, #ffd54f);
+      cursor: pointer;
+      box-shadow: 4px 4px 0 var(--shadow);
+      font-size: 0.92rem;
+    }
+    .btn:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0 var(--shadow); }
+    .speak {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 2.25rem;
+      height: 2.25rem;
+      margin-left: 0.35rem;
+      border: 3px solid var(--ink);
+      border-radius: 50%;
+      background: var(--mint);
+      cursor: pointer;
+      font-size: 1rem;
+      flex-shrink: 0;
+      transition: transform 0.12s;
+    }
+    .speak:hover { transform: scale(1.08); }
+    .speak:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
+    .nav-bar {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      padding: 0.5rem 0.15rem 0.15rem;
+    }
+    .dots { display: flex; gap: 0.35rem; flex-wrap: wrap; justify-content: center; flex: 1; }
+    .dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: var(--ink); opacity: 0.22; border: 2px solid var(--ink); cursor: pointer;
+    }
+    .dot.on { opacity: 1; background: var(--pink); }
+
+    /* Consonant + LE 课件专用 */
+    .cle-lead {
+      font-size: clamp(0.88rem, 2.1vw, 1rem);
+      color: var(--ink-soft);
+      text-align: center;
+      margin-bottom: 0.75rem;
+      line-height: 1.5;
+    }
+    .cle-two-col {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.85rem 1rem;
+      align-items: start;
+      margin-bottom: 1rem;
+    }
+    @media (max-width: 640px) {
+      .cle-two-col { grid-template-columns: 1fr; }
+    }
+    .cle-card {
+      border: 3px dashed var(--ink-soft);
+      border-radius: 18px;
+      padding: 0.65rem 0.75rem;
+      background: rgba(255, 255, 255, 0.65);
+      box-shadow: 3px 3px 0 var(--shadow);
+    }
+    .cle-img-btn {
+      display: block;
+      width: 100%;
+      padding: 0;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      border-radius: 14px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .cle-img-btn:hover { transform: scale(1.02); box-shadow: 0 0 0 3px rgba(21, 101, 192, 0.25); }
+    .cle-img-btn:focus-visible {
+      outline: 3px solid #1565c0;
+      outline-offset: 3px;
+    }
+    .cle-placeholder {
+      aspect-ratio: 1;
+      max-height: 14rem;
+      margin: 0 auto;
+      border-radius: 14px;
+      border: 3px solid var(--ink);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(160deg, #e1f5fe, #fff9c4);
+    }
+    .cle-placeholder img.cle-photo {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .cle-q-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin-top: 0.5rem;
+      font-family: var(--font-display);
+      font-size: clamp(0.95rem, 2.4vw, 1.15rem);
+      font-weight: 800;
+    }
+    .cle-sentence {
+      margin-top: 0.55rem;
+      font-size: clamp(0.92rem, 2.3vw, 1.08rem);
+      font-weight: 700;
+      line-height: 1.45;
+      text-align: center;
+      opacity: 0;
+      max-height: 0;
+      overflow: hidden;
+      transition: opacity 0.45s ease, max-height 0.5s ease;
+    }
+    .cle-sentence.is-visible {
+      opacity: 1;
+      max-height: 12rem;
+    }
+    .cle-word-title {
+      font-family: var(--font-display);
+      font-size: clamp(0.95rem, 2.4vw, 1.1rem);
+      font-weight: 900;
+      text-align: center;
+      margin-bottom: 0.25rem;
+      color: var(--ink);
+    }
+    .hl-word { color: var(--le-red); font-weight: 900; }
+
+    .cle-teacher {
+      margin-top: auto;
+      padding-top: 0.75rem;
+      border-top: 2px dashed rgba(61, 58, 69, 0.2);
+      font-size: clamp(0.82rem, 2vw, 0.95rem);
+      font-weight: 700;
+      color: var(--ink-soft);
+      text-align: center;
+      line-height: 1.55;
+    }
+
+    /* Slide 3 */
+    .cle-rule-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.65rem;
+      margin: 0.5rem 0 1rem;
+    }
+    @media (max-width: 720px) {
+      .cle-rule-grid { grid-template-columns: 1fr; }
+    }
+    .cle-word-block {
+      border: 3px solid var(--ink);
+      border-radius: 16px;
+      padding: 0.55rem 0.65rem;
+      background: linear-gradient(165deg, #fff9c4 0%, #e3f2fd 100%);
+      box-shadow: 4px 4px 0 var(--shadow);
+      text-align: center;
+    }
+    .cle-word-line {
+      font-family: var(--font-display);
+      font-size: clamp(1.15rem, 3.5vw, 1.55rem);
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      line-height: 1.35;
+    }
+    .cle-char { display: inline-block; padding: 0.06em 0.04em; }
+    .cle-hl-pre { color: var(--pre-blue); font-weight: 900; text-shadow: 0 0 0 1px rgba(21, 101, 192, 0.35); }
+    .cle-hl-le { color: var(--le-red); font-weight: 900; }
+
+    .cle-faq-list { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1rem; }
+    .cle-faq {
+      border: 2px solid var(--ink);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.9);
+      overflow: hidden;
+      box-shadow: 3px 3px 0 var(--shadow);
+    }
+    .cle-faq-q {
+      width: 100%;
+      text-align: left;
+      padding: 0.55rem 0.75rem;
+      font-family: var(--font-body);
+      font-size: clamp(0.82rem, 2vw, 0.95rem);
+      font-weight: 800;
+      cursor: pointer;
+      border: none;
+      background: linear-gradient(180deg, var(--lilac), var(--mint));
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+    }
+    .cle-faq-q::after {
+      content: "＋";
+      font-weight: 900;
+      opacity: 0.7;
+      transition: transform 0.25s ease;
+    }
+    .cle-faq.is-open .cle-faq-q::after {
+      content: "－";
+      transform: rotate(180deg);
+    }
+    .cle-faq-a {
+      display: none;
+      padding: 0.55rem 0.75rem 0.7rem;
+      font-size: clamp(0.8rem, 1.95vw, 0.92rem);
+      font-weight: 700;
+      line-height: 1.55;
+      color: var(--ink);
+      border-top: 2px dashed rgba(61, 58, 69, 0.15);
+    }
+    .cle-faq.is-open .cle-faq-a {
+      display: block;
+      animation: cleFade 0.35s ease;
+    }
+    @keyframes cleFade {
+      from { opacity: 0; transform: translateY(-4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .cle-tts-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem 0.75rem;
+      padding-top: 0.5rem;
+      border-top: 2px dashed rgba(61, 58, 69, 0.2);
+    }
+    .cle-tts-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: clamp(0.88rem, 2vw, 1rem);
+    }
+
+    /* Slide 4 · 概念总结 */
+    .cle-def-box {
+      border: 3px dashed var(--ink-soft);
+      border-radius: 18px;
+      padding: 0.75rem 0.9rem;
+      margin-bottom: 0.85rem;
+      background: rgba(255, 255, 255, 0.75);
+      box-shadow: 3px 3px 0 var(--shadow);
+    }
+    .cle-def-en {
+      font-size: clamp(0.88rem, 2.1vw, 1.02rem);
+      font-weight: 700;
+      line-height: 1.55;
+      color: var(--ink);
+    }
+    .cle-def-en strong { color: var(--pre-blue); }
+    .cle-def-en .le-mark { color: var(--le-red); font-weight: 900; }
+    .cle-def-zh {
+      margin-top: 0.55rem;
+      padding-top: 0.55rem;
+      border-top: 2px dashed rgba(61, 58, 69, 0.18);
+      font-size: clamp(0.85rem, 2vw, 0.98rem);
+      font-weight: 700;
+      line-height: 1.6;
+      color: var(--ink-soft);
+    }
+    .cle-h2 {
+      font-family: var(--font-display);
+      font-size: clamp(1.05rem, 2.8vw, 1.25rem);
+      text-align: center;
+      margin: 0.35rem 0 0.65rem;
+      color: var(--ink);
+    }
+    .cle-suf-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+    .cle-expand-words {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+    .cle-w-line {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      padding: 0.25rem 0.15rem;
+      border-radius: 10px;
+      background: rgba(178, 226, 242, 0.25);
+    }
+    .cle-w-line span {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: clamp(0.95rem, 2.4vw, 1.1rem);
+    }
+    .cle-w-line .speak { margin-left: 0; flex-shrink: 0; }
+
+    /* Slide 4：词尾列表宽屏双栏，减少纵向滚动 */
+    @media (min-width: 880px) {
+      .cle-suf-list {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.45rem 0.75rem;
+        align-items: start;
+      }
+      .cle-suf-list .cle-faq { min-width: 0; }
+    }
+
+    /* Slide 5 · Consonant + LE or not（仿 Magic E / R-Controlled 翻转卡） */
+    .slide-inner.cle-slide--or-not {
+      max-width: none;
+      width: 100%;
+      align-items: stretch;
+    }
+    .slide-inner.cle-slide--or-not > .slide-title {
+      margin-bottom: 0.45rem;
+    }
+    .me-on-page.cle-or-not-panel {
+      max-width: min(100%, 58rem);
+      width: 100%;
+      margin: 0.35rem auto 0;
+      padding: 0.6rem 0.65rem 0.7rem;
+      border: 3px solid var(--ink);
+      border-radius: 20px;
+      background: linear-gradient(180deg, #e3f2fd, #fffde7);
+      box-shadow: 5px 5px 0 var(--shadow);
+      box-sizing: border-box;
+    }
+    .me-on-page.cle-or-not-panel .me-on-lead {
+      text-align: center;
+      font-weight: 800;
+      line-height: 1.55;
+      font-size: clamp(0.85rem, 2.1vw, 0.98rem);
+      margin-bottom: 0.5rem;
+      color: var(--ink-soft);
+    }
+    .me-on-grid.cle-me-grid-10 {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 0.55rem;
+      width: 100%;
+      min-width: 0;
+      box-sizing: border-box;
+    }
+    @media (max-width: 720px) {
+      .me-on-grid.cle-me-grid-10 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+    @media (min-width: 721px) and (max-width: 960px) {
+      .me-on-grid.cle-me-grid-10 {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+    .cle-or-not-panel .me-card,
+    .cle-or-not-panel .me-card-inner {
+      min-height: 11.5rem;
+    }
+    .me-card {
+      position: relative;
+      border-radius: 18px;
+      cursor: pointer;
+      perspective: 720px;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .me-card:focus-visible { outline: 3px solid #1565c0; outline-offset: 3px; }
+    .me-card-inner {
+      position: relative;
+      width: 100%;
+      min-height: 11.5rem;
+      transform-style: preserve-3d;
+      transition: transform 0.55s cubic-bezier(0.34, 1.2, 0.64, 1);
+      border-radius: 18px;
+    }
+    .me-card.is-flipped .me-card-inner { transform: rotateY(180deg); }
+    .me-face {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      box-sizing: border-box;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      border-radius: 18px;
+      border: 3px solid var(--pre-blue);
+      box-shadow: 4px 4px 0 rgba(61, 58, 69, 0.12);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 0.45rem 0.35rem;
+      overflow: hidden;
+      background: linear-gradient(165deg, #fff9c4 0%, #e3f2fd 100%);
+    }
+    .me-face-back {
+      transform: rotateY(180deg);
+      background: linear-gradient(165deg, #e1f5fe 0%, #f8bbd0 55%, #c5cae9 100%);
+      justify-content: center;
+      text-align: center;
+      border-color: var(--le-red);
+    }
+    .cle-or-doodle {
+      width: 100%;
+      max-width: 5.25rem;
+      aspect-ratio: 1;
+      margin: 0.1rem auto 0.35rem;
+      border-radius: 14px;
+      border: 2px dashed rgba(61, 58, 69, 0.35);
+      background: rgba(255, 255, 255, 0.55);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .cle-or-doodle svg { width: 72%; height: 72%; display: block; }
+    .cle-or-doodle img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      border-radius: 12px;
+    }
+    .me-card-word {
+      font-family: var(--font-display);
+      font-size: clamp(1.15rem, 3.8vw, 1.45rem);
+      font-weight: 900;
+      color: var(--ink);
+    }
+    .cle-or-word-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.25rem;
+      flex-wrap: wrap;
+    }
+    .cle-or-word-row .speak { margin-left: 0; }
+    .me-card-hint {
+      margin-top: auto;
+      font-size: 0.58rem;
+      font-weight: 800;
+      color: var(--ink-soft);
+    }
+    .me-verdict {
+      font-family: var(--font-display);
+      font-size: clamp(1rem, 2.8vw, 1.15rem);
+      font-weight: 900;
+      margin-bottom: 0.3rem;
+    }
+    .me-verdict.yes { color: #2e7d32; }
+    .me-verdict.no { color: #c62828; }
+    .me-reason {
+      font-size: clamp(0.68rem, 1.85vw, 0.78rem);
+      font-weight: 800;
+      line-height: 1.45;
+      padding: 0 0.15rem;
+    }
+    .cle-or-reset-row {
+      display: flex;
+      justify-content: center;
+      margin-top: 0.55rem;
+    }
+
+    /* —— Let’s Practice Together / 学生自我练习（与 Magic E 同款 cact-*） —— */
+    @keyframes cleCactPop {
+      from { transform: scale(0.92); opacity: 0.65; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    .slide-inner.cact-lesson {
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+    }
+    .slide-inner.cact-lesson h2.slide-title {
+      font-size: clamp(1.2rem, 4vw, 1.75rem);
+    }
+    .cact-lesson .slide-sub { text-align: center; }
+    .cact-lesson-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+      gap: 0.65rem 0.85rem;
+      align-items: stretch;
+      margin-top: 0.35rem;
+      min-height: 0;
+    }
+    @media (max-width: 720px) {
+      .cact-lesson-grid { grid-template-columns: 1fr; }
+    }
+    .cact-lesson-left {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      min-height: 0;
+    }
+    .cact-lesson-left .cact-hero {
+      flex: 1;
+      margin: 0;
+      min-height: min(52vh, 22rem);
+      flex-direction: column;
+      justify-content: center;
+    }
+    .cact-lesson-right {
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      border: 3px dashed var(--ink-soft);
+      border-radius: 16px;
+      background: rgba(227, 242, 253, 0.45);
+      padding: 0.5rem 0.55rem 0.55rem;
+    }
+    .cact-flow-hint {
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: var(--ink-soft);
+      text-align: center;
+      margin: 0 0 0.4rem;
+      line-height: 1.45;
+    }
+    .cact-flow-hint[hidden] { display: none !important; }
+    .cact-flow-scroll {
+      flex: 1;
+      min-height: 12rem;
+      max-height: min(52vh, 26rem);
+      overflow-y: auto;
+      padding-right: 0.2rem;
+      margin-bottom: 0.45rem;
+    }
+    .cact-flow-panels { display: flex; flex-direction: column; gap: 0.5rem; }
+    .cact-flow-panel {
+      border: 2px solid var(--ink);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.92);
+      padding: 0.5rem 0.55rem;
+      animation: cleCactPanelIn 0.4s ease;
+      box-shadow: 3px 3px 0 var(--shadow);
+    }
+    .cact-flow-panel[hidden] { display: none !important; }
+    @keyframes cleCactPanelIn {
+      from { opacity: 0; transform: translateX(8px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    .cact-flow-panel-inner { text-align: left; }
+    .cact-flow-badge {
+      display: inline-block;
+      font-family: var(--font-display);
+      font-size: 0.82rem;
+      font-weight: 800;
+      padding: 0.12rem 0.45rem;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--pink), var(--mint));
+      border: 2px solid var(--ink);
+      margin-bottom: 0.35rem;
+    }
+    .cact-flow-sub {
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: var(--ink-soft);
+      margin: 0 0 0.3rem;
+    }
+    .cact-flow-body {
+      font-size: 0.88rem;
+      font-weight: 700;
+      line-height: 1.55;
+      color: var(--ink);
+      margin: 0;
+    }
+    .cact-flow-body strong { font-weight: 800; }
+    .cact-flow-body .muted { color: var(--ink-soft); font-weight: 700; }
+    .cact-next-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem 0.65rem;
+      padding-top: 0.15rem;
+      border-top: 2px dashed rgba(61, 58, 69, 0.2);
+    }
+    .cact-flow-progress {
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: var(--ink-soft);
+    }
+    .cact-hero {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem 1rem;
+      margin: 0.5rem 0 0.65rem;
+      padding: 0.55rem;
+      border: 3px dashed var(--ink-soft);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.55);
+    }
+    .cact-img-wrap {
+      width: min(160px, 42vw);
+      aspect-ratio: 1;
+      border-radius: 14px;
+      border: 3px solid var(--ink);
+      overflow: hidden;
+      background: linear-gradient(180deg, #e3f2fd, #fff9c4);
+      flex-shrink: 0;
+    }
+    .cact-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .cact-img-wrap .cact-emoji-fb {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: clamp(3.5rem, 18vw, 5rem);
+      line-height: 1;
+    }
+    .cact-word-panel { text-align: center; min-width: min(100%, 18rem); }
+    .cact-chars-row {
+      display: flex;
+      flex-wrap: nowrap;
+      align-items: stretch;
+      justify-content: center;
+      gap: 0.06rem;
+      font-family: var(--font-display);
+      font-size: clamp(1.65rem, 6vw, 2.35rem);
+      font-weight: 800;
+    }
+    .cact-chars-row .cact-ch {
+      padding: 0.15rem 0.12rem;
+      min-width: 0.55em;
+      text-align: center;
+      border-radius: 6px;
+      transition: background 0.25s, color 0.25s, box-shadow 0.25s;
+    }
+    .cact-chars-row .cact-ch.is-vowel-hl {
+      background: linear-gradient(180deg, #fff59d, #ffee58);
+      box-shadow: 0 0 0 3px var(--ink);
+      color: var(--ink);
+    }
+    .cact-chars-row .cact-ch.is-consonant-hl {
+      background: linear-gradient(180deg, #bbdefb, #90caf9);
+      box-shadow: 0 0 0 3px var(--ink);
+      color: var(--ink);
+    }
+    .syl-step3-answer strong {
+      display: inline-block;
+      margin: 0 0.06em;
+      padding: 0.08em 0.2em;
+      border-radius: 6px;
+      background: linear-gradient(180deg, #ffcdd2, #ef9a9a);
+      box-shadow: 0 0 0 2px var(--ink);
+      font-weight: 800;
+    }
+    .cact-slot {
+      width: 0.42rem;
+      margin: 0 0.02rem;
+      position: relative;
+      align-self: stretch;
+      min-height: 2.6rem;
+      display: flex;
+      justify-content: center;
+    }
+    .cact-slot::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      transform: translateX(-50%);
+      background: repeating-linear-gradient(
+        180deg,
+        var(--ink-soft),
+        var(--ink-soft) 4px,
+        transparent 4px,
+        transparent 7px
+      );
+      opacity: 0;
+      visibility: hidden;
+      border-radius: 1px;
+      transition: opacity 0.2s ease;
+    }
+    .cact-slot.is-cut-guide-visible::after {
+      opacity: 0.35;
+      visibility: visible;
+    }
+    .cact-scissor {
+      position: absolute;
+      left: 50%;
+      top: -2.4rem;
+      transform: translateX(-50%) rotate(-90deg);
+      font-size: 1.65rem;
+      line-height: 1;
+      filter: drop-shadow(1px 2px 0 rgba(61, 58, 69, 0.25));
+      opacity: 0;
+      pointer-events: none;
+      z-index: 3;
+    }
+    .cact-scissor.run {
+      animation: cact-scissor-cut 1.15s cubic-bezier(0.45, 0, 0.2, 1) forwards;
+    }
+    @keyframes cact-scissor-cut {
+      0% { top: -2.4rem; opacity: 1; }
+      92% { top: calc(100% + 0.15rem); opacity: 1; }
+      100% { top: calc(100% + 0.15rem); opacity: 0.75; }
+    }
+    .cact-split-row {
+      display: none;
+      justify-content: center;
+      align-items: center;
+      gap: 0.65rem;
+      font-family: var(--font-display);
+      font-size: clamp(1.55rem, 5.5vw, 2.1rem);
+      font-weight: 800;
+    }
+    .cact-split-row.is-on {
+      display: flex;
+      animation: cleCactPop 0.45s ease;
+    }
+    .cact-split-row span {
+      padding: 0.25rem 0.5rem;
+      border: 3px solid var(--ink);
+      border-radius: 12px;
+      background: linear-gradient(180deg, #ffe082, #ffcc80);
+    }
+    .cact-step-line {
+      font-size: 0.88rem;
+      font-weight: 700;
+      line-height: 1.5;
+      margin: 0.25rem 0;
+      color: var(--ink);
+    }
+    .cact-step-line .muted { color: var(--ink-soft); font-weight: 700; }
+    .cact-btn-next { min-width: 7rem; }
+
+    .slide-inner.hw-syl-slide-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      text-align: center;
+      max-width: 48rem;
+      margin: 0 auto;
+      padding: 0.35rem 0.5rem 1rem;
+    }
+    .slide-inner.hw-syl-slide-inner h2.slide-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.15rem, 3.5vw, 1.75rem);
+      text-align: center;
+      color: var(--ink);
+      margin-bottom: 0.35rem;
+      text-shadow: 2px 2px 0 var(--pink), 3px 3px 0 rgba(178, 226, 242, 0.5);
+    }
+    .hw-syl-slide-inner .hw-syl-root { width: 100%; }
+    .hw-syl-hint {
+      font-size: clamp(0.82rem, 2.4vw, 0.95rem);
+      font-weight: 700;
+      color: var(--ink-soft);
+      line-height: 1.55;
+      max-width: 34rem;
+      margin: 0.35rem auto 0.65rem;
+    }
+    .hw-syl-prog {
+      margin-top: 0.25rem !important;
+      font-size: clamp(1rem, 3vw, 1.2rem) !important;
+    }
+    .hw-syl-word-panel {
+      margin: 0.85rem auto 0.5rem;
+      min-width: min(100%, 28rem);
+    }
+    .hw-syl-slide-inner .cact-chars-row {
+      font-size: clamp(2.35rem, 11vw, 4.5rem);
+      gap: 0.1rem;
+    }
+    .hw-syl-slide-inner .cact-chars-row .cact-ch {
+      padding: 0.28rem 0.22rem;
+      min-width: 0.52em;
+    }
+    .hw-syl-slide-inner .cact-slot { min-height: 3.4rem; }
+    .hw-syl-slide-inner .cact-scissor {
+      font-size: clamp(2rem, 7vw, 3rem);
+      top: -3rem;
+    }
+    .hw-syl-slide-inner .cact-scissor.run {
+      animation: cact-scissor-cut-hw 1.15s cubic-bezier(0.45, 0, 0.2, 1) forwards;
+    }
+    @keyframes cact-scissor-cut-hw {
+      0% { top: -3rem; opacity: 1; }
+      92% { top: calc(100% + 0.2rem); opacity: 1; }
+      100% { top: calc(100% + 0.2rem); opacity: 0.75; }
+    }
+    .hw-syl-slide-inner .cact-split-row {
+      font-size: clamp(1.75rem, 6vw, 2.85rem);
+      gap: 0.85rem;
+      margin-top: 0.35rem;
+    }
+    .hw-syl-slide-inner .cact-split-row span {
+      padding: 0.35rem 0.65rem;
+    }
+    .hw-syl-slot-clickable {
+      cursor: pointer;
+      min-width: 1.1rem !important;
+      margin: 0 0.12rem !important;
+    }
+    .hw-syl-slot-clickable:focus-visible {
+      outline: 3px solid var(--ink);
+      outline-offset: 2px;
+      border-radius: 4px;
+    }
+    .btn-row {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .hw-syl-btn-row {
+      margin-top: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+    .hw-syl-reset-btn {
+      font-size: 0.88rem;
+      padding: 0.45rem 0.85rem;
+      background: rgba(255, 255, 255, 0.85);
+      border: 2px dashed var(--ink-soft);
+      box-shadow: 2px 2px 0 var(--shadow);
+    }
+  </style>
+</head>
+<body>
+  <div class="deck" id="main-deck">
+    <div id="slides-mount" aria-live="polite">
+      <!-- Slide 1 -->
+      <section class="slide active" data-slide="0" aria-label="第 1 页">
+        <div class="slide-inner">
+          <h1 class="slide-title" lang="en">情景导入 · 初识词尾特征</h1>
+          <p class="slide-sub" lang="en">Introduction &amp; Observation — Look at the pictures.</p>
+          <div class="cle-two-col">
+            <div class="cle-card">
+              <button type="button" class="cle-img-btn cle-reveal-trig" data-reveal="s1a" aria-label="Bubbles scene — tap to reveal sentence">
+                <div class="cle-placeholder">
+                  <img class="cle-photo" src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/P/语音课/media/cle-bubbles.png" alt="Two children blowing soap bubbles outdoors, 3D clay style illustration" width="512" height="512" loading="lazy" decoding="async" />
+                </div>
+              </button>
+              <div class="cle-q-row" lang="en">
+                <span>What are they doing?</span>
+                <button type="button" class="speak" data-speak="What are they doing?" aria-label="Play question">&#128266;</button>
+              </div>
+              <div class="cle-q-row" lang="en">
+                <span>What is this action called?</span>
+                <button type="button" class="speak" data-speak="What is this action called?" aria-label="Play question">&#128266;</button>
+              </div>
+              <div class="cle-sentence" id="s1a" lang="en">
+                They are blowing <span class="hl-word">bubbles</span>.
+              </div>
+              <div class="cle-q-row" style="margin-top: 0.35rem;">
+                <button type="button" class="speak cle-speak-reveal" data-speak="They are blowing bubbles." data-reveal="s1a" aria-label="Play sentence">&#128266;</button>
+              </div>
+            </div>
+            <div class="cle-card">
+              <button type="button" class="cle-img-btn cle-reveal-trig" data-reveal="s1b" aria-label="Triangle — tap to reveal sentence">
+                <div class="cle-placeholder" style="background: linear-gradient(145deg, #fce4ec, #e8eaf6);">
+                  <img class="cle-photo" src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/P/语音课/media/cle-triangle.png" alt="A yellow triangle drawn in colored pencil style on cream paper" width="512" height="512" loading="lazy" decoding="async" />
+                </div>
+              </button>
+              <div class="cle-q-row" lang="en">
+                <span>What is this shape?</span>
+                <button type="button" class="speak" data-speak="What is this shape?" aria-label="Play question">&#128266;</button>
+              </div>
+              <div class="cle-sentence" id="s1b" lang="en">
+                This is a <span class="hl-word">triangle</span>.
+              </div>
+              <div class="cle-q-row" style="margin-top: 0.35rem;">
+                <button type="button" class="speak cle-speak-reveal" data-speak="This is a triangle." data-reveal="s1b" aria-label="Play sentence">&#128266;</button>
+              </div>
+            </div>
+          </div>
+          <p class="cle-teacher" lang="en">
+            Take a look at the ending of the words in red. What do they end with? <span style="display: block; margin-top: 0.35rem; font-weight: 800; color: var(--ink)">（引导学生发现词尾 <span class="hl-word" style="font-size: inherit">LE</span>）</span>
+          </p>
+        </div>
+      </section>
+
+      <!-- Slide 2 -->
+      <section class="slide" data-slide="1" aria-label="第 2 页">
+        <div class="slide-inner">
+          <h1 class="slide-title" lang="en">案例拓展 · 强化词尾认知</h1>
+          <p class="slide-sub" lang="en">Consolidation &amp; Discovery</p>
+          <div class="cle-two-col">
+            <div class="cle-card">
+              <button type="button" class="cle-img-btn cle-reveal-trig" data-reveal="s2a" aria-label="Turtle — tap to reveal">
+                <div class="cle-placeholder" style="background: linear-gradient(180deg, #fff8e1, #c8e6c9);">
+                  <img class="cle-photo" src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/P/语音课/media/cle-turtle.png" alt="A turtle sunbathing on a log in warm sunlight" width="512" height="512" loading="lazy" decoding="async" />
+                </div>
+              </button>
+              <div class="cle-q-row" lang="en">
+                <span>What is the turtle doing?</span>
+                <button type="button" class="speak" data-speak="What is the turtle doing?" aria-label="Play question">&#128266;</button>
+              </div>
+              <div class="cle-sentence" id="s2a" lang="en">
+                A <span class="hl-word">turtle</span> is sunbathing on a log.
+              </div>
+              <div class="cle-q-row" style="margin-top: 0.45rem;">
+                <button type="button" class="speak cle-speak-reveal" data-speak="A turtle is sunbathing on a log." data-reveal="s2a" aria-label="Play sentence">&#128266;</button>
+              </div>
+            </div>
+            <div class="cle-card">
+              <button type="button" class="cle-img-btn cle-reveal-trig" data-reveal="s2b" aria-label="Bottle — tap to reveal">
+                <div class="cle-placeholder" style="background: linear-gradient(180deg, #e3f2fd, #fce4ec);">
+                  <img class="cle-photo" src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/P/语音课/media/cle-bottle.png" alt="A girl drinking water from a water bottle" width="512" height="512" loading="lazy" decoding="async" />
+                </div>
+              </button>
+              <div class="cle-q-row" lang="en">
+                <span>What is she doing?</span>
+                <button type="button" class="speak" data-speak="What is she doing?" aria-label="Play question">&#128266;</button>
+              </div>
+              <div class="cle-sentence" id="s2b" lang="en">
+                She is drinking a <span class="hl-word">bottle</span> of water.
+              </div>
+              <div class="cle-q-row" style="margin-top: 0.45rem;">
+                <button type="button" class="speak cle-speak-reveal" data-speak="She is drinking a bottle of water." data-reveal="s2b" aria-label="Play sentence">&#128266;</button>
+              </div>
+            </div>
+          </div>
+          <p class="cle-teacher" lang="en">
+            Look at the ending of these red words again. What&apos;s the same ending?
+          </p>
+        </div>
+      </section>
+
+      <!-- Slide 3 -->
+      <section class="slide" data-slide="2" aria-label="第 3 页">
+        <div class="slide-inner">
+          <h1 class="slide-title" lang="en">规律探究 · 梳理共性特征</h1>
+          <p class="slide-sub" lang="en">Rule discovery — Consonant + <span style="color: var(--le-red)">LE</span>（末尾 <span class="cle-hl-le">LE</span> 标红，其前辅音标蓝）</p>
+          <p class="cle-word-title" lang="en">bubble · triangle · turtle · bottle</p>
+          <div class="cle-rule-grid">
+            <div class="cle-word-block" lang="en">
+              <div class="cle-word-line">
+                <span class="cle-char">b</span><span class="cle-char">u</span><span class="cle-char">b</span><span class="cle-char cle-hl-pre">b</span><span class="cle-char cle-hl-le">le</span>
+              </div>
+            </div>
+            <div class="cle-word-block" lang="en">
+              <div class="cle-word-line">
+                <span class="cle-char">t</span><span class="cle-char">r</span><span class="cle-char">i</span><span class="cle-char">a</span><span class="cle-char">n</span><span class="cle-char cle-hl-pre">g</span><span class="cle-char cle-hl-le">le</span>
+              </div>
+            </div>
+            <div class="cle-word-block" lang="en">
+              <div class="cle-word-line">
+                <span class="cle-char">t</span><span class="cle-char">u</span><span class="cle-char">r</span><span class="cle-char">t</span><span class="cle-char cle-hl-pre">t</span><span class="cle-char cle-hl-le">le</span>
+              </div>
+            </div>
+            <div class="cle-word-block" lang="en">
+              <div class="cle-word-line">
+                <span class="cle-char">b</span><span class="cle-char">o</span><span class="cle-char">t</span><span class="cle-char">t</span><span class="cle-char cle-hl-pre">t</span><span class="cle-char cle-hl-le">le</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="cle-faq-list">
+            <div class="cle-faq" data-faq>
+              <button type="button" class="cle-faq-q" aria-expanded="false">
+                <span lang="en">1. What do they have in common?</span>
+              </button>
+              <div class="cle-faq-a" lang="en">
+                They all end with a <strong>consonant</strong> + <strong style="color: var(--le-red)">le</strong>. The spelling pattern is often called <strong>Consonant + LE</strong>.
+              </div>
+            </div>
+            <div class="cle-faq" data-faq>
+              <button type="button" class="cle-faq-q" aria-expanded="false">
+                <span lang="en">2. What is the letter just before L, E — a consonant or a vowel?</span>
+              </button>
+              <div class="cle-faq-a" lang="en">
+                The letter right before <strong>le</strong> is a <strong>consonant</strong> (for example <strong style="color: var(--pre-blue)">b</strong>, <strong style="color: var(--pre-blue)">g</strong>, <strong style="color: var(--pre-blue)">t</strong>). It is <strong>not</strong> a vowel.
+              </div>
+            </div>
+            <div class="cle-faq" data-faq>
+              <button type="button" class="cle-faq-q" aria-expanded="false">
+                <span lang="en">3. What sound do letters L, E make?</span>
+              </button>
+              <div class="cle-faq-a" lang="en">
+                In many accents, <strong>le</strong> at the end of a word sounds like a syllabic /l/ or a light /əl/ — listen to the four words and compare!
+              </div>
+            </div>
+          </div>
+
+          <div class="cle-tts-row" lang="en">
+            <span class="cle-tts-item">bubble <button type="button" class="speak" data-speak="bubble" aria-label="bubble">&#128266;</button></span>
+            <span class="cle-tts-item">triangle <button type="button" class="speak" data-speak="triangle" aria-label="triangle">&#128266;</button></span>
+            <span class="cle-tts-item">turtle <button type="button" class="speak" data-speak="turtle" aria-label="turtle">&#128266;</button></span>
+            <span class="cle-tts-item">bottle <button type="button" class="speak" data-speak="bottle" aria-label="bottle">&#128266;</button></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 4 · 概念总结 -->
+      <section class="slide" data-slide="3" aria-label="第 4 页">
+        <div class="slide-inner">
+          <h1 class="slide-title" lang="en">What is a consonant LE syllable?</h1>
+          <p class="slide-sub" lang="en">概念总结 · 巩固发音规律</p>
+
+          <div class="cle-def-box">
+            <p class="cle-def-en" lang="en">
+              <strong>EN:</strong> At the end of a word, a <strong>consonant + LE</strong> syllable is usually found. It has a <strong>consonant</strong> followed by the letters <span class="le-mark">LE</span>.
+            </p>
+            <p class="cle-def-zh" lang="zh-CN">
+              <strong>中文：</strong>辅音 + LE 音节通常出现在单词末尾，由一个辅音字母加上字母 LE 组合构成。
+            </p>
+          </div>
+
+          <h2 class="cle-h2" lang="en">Common consonant + LE endings &amp; words</h2>
+          <p class="cle-lead" style="margin-bottom: 0.5rem;" lang="zh-CN">点击词尾展开示例词；每词旁可播放 Azure TTS 发音。</p>
+
+          <div class="cle-suf-list">
+            <div class="cle-faq" data-faq>
+              <button type="button" class="cle-faq-q" aria-expanded="false"><span lang="en">-cle</span></button>
+              <div class="cle-faq-a">
+                <div class="cle-expand-words">
+                  <div class="cle-w-line"><span lang="en">uncle</span><button type="button" class="speak" data-speak="uncle" aria-label="uncle">&#128266;</button></div>
+                  <div class="cle-w-line"><span lang="en">circle</span><button type="button" class="speak" data-speak="circle" aria-label="circle">&#128266;</button></div>
+                  <div class="cle-w-line"><span lang="en">candle</span><button type="button" class="speak" data-speak="candle" aria-label="candle">&#128266;</button></div>
+                </div>
+              </div>
+            </div>
+            <div class="cle-faq" data-faq>
+              <button type="button" class="cle-faq-q" aria-expanded="false"><span lang="en">-dle</span></button>
+              <div class="cle-faq-a">
+                <div class="cle-expand-words">
+                  <div class="cle-w-line"><span lang="en">middle</span><button type="button" class="speak" data-speak="middle" aria-label="middle">&#128266;</button></div>
+                  <div class="cle-w-line"><span lang="en">noodle</span><button type="button" class="speak" data-speak="noodle" aria-label="noodle">&#128266;</button></div>
+                  <div class="cle-w-line"><span lang="en">riddle</span><button type="button" class="speak" data-speak="riddle" aria-label="riddle">&#128266;</button></div>
+                </div>
+              </div>
+            </div>
+            <div class="cle-faq" data-faq>
+              <button type="button" class="cle-faq-q" aria-expanded="false"><span lang="en">-fle</span></button>
+              <div class="cle-faq-a">
+                <div class="cle-expand-words">
+                  <div class="cle-w-line"><span lang="en">rifle</span><button type="button" class="speak" data-speak="rifle" aria-label="rifle">&#128266;</button></div>
+                  <div class="cle-w-line"><span lang="en">waffle</span><button type="button" class="speak" data-speak="waffle" aria-label="waffle">&#128266;</button></div>
+                  <div class="cle-w-line"><span lang="en">sniffle</span><button type="button" class="speak" data-speak="sniffle" aria-label="sniffle">&#128266;</button></div>
+                </div>
+              </div>
+            </div>
+            <div class="cle-faq" data-faq>
+              <button type="button" class="cle-faq-q" aria-expanded="false"><span lang="en">-gle</span></button>
+              <div class="cle-faq-a">
+                <div class="cle-expand-words">
+                  <div class="cle-w-line"><span lang="en">single</span><button type="button" class="speak" data-speak="single" aria-label="single">&#128266;</button></div>
+                  <div class="cle-w-line"><span lang="en">angle</span><button type="button" class="speak" data-speak="angle" aria-label="angle">&#128266;</button></div>
+                  <div class="cle-w-line"><span lang="en">jungle</span><button type="button" class="speak" data-speak="jungle" aria-label="jungle">&#128266;</button></div>
+                </div>
+              </div>
+            </div>
+            <div class="cle-faq" data-faq>
+              <button type="button" class="cle-faq-q" aria-expanded="false"><span lang="en">-ple</span></button>
+              <div class="cle-faq-a">
+                <div class="cle-expand-words">
+                  <div class="cle-w-line"><span lang="en">simple</span><button type="button" class="speak" data-speak="simple" aria-label="simple">&#128266;</button></div>
+                  <div class="cle-w-line"><span lang="en">apple</span><button type="button" class="speak" data-speak="apple" aria-label="apple">&#128266;</button></div>
+                  <div class="cle-w-line"><span lang="en">people</span><button type="button" class="speak" data-speak="people" aria-label="people">&#128266;</button></div>
+                </div>
+              </div>
+            </div>
+            <div class="cle-faq" data-faq>
+              <button type="button" class="cle-faq-q" aria-expanded="false"><span lang="en">-tle</span></button>
+              <div class="cle-faq-a">
+                <div class="cle-expand-words">
+                  <div class="cle-w-line"><span lang="en">little</span><button type="button" class="speak" data-speak="little" aria-label="little">&#128266;</button></div>
+                  <div class="cle-w-line"><span lang="en">cattle</span><button type="button" class="speak" data-speak="cattle" aria-label="cattle">&#128266;</button></div>
+                  <div class="cle-w-line"><span lang="en">kettle</span><button type="button" class="speak" data-speak="kettle" aria-label="kettle">&#128266;</button></div>
+                </div>
+              </div>
+            </div>
+            <div class="cle-faq" data-faq>
+              <button type="button" class="cle-faq-q" aria-expanded="false"><span lang="en">-zle</span></button>
+              <div class="cle-faq-a">
+                <div class="cle-expand-words">
+                  <div class="cle-w-line"><span lang="en">puzzle</span><button type="button" class="speak" data-speak="puzzle" aria-label="puzzle">&#128266;</button></div>
+                  <div class="cle-w-line"><span lang="en">drizzle</span><button type="button" class="speak" data-speak="drizzle" aria-label="drizzle">&#128266;</button></div>
+                  <div class="cle-w-line"><span lang="en">sizzle</span><button type="button" class="speak" data-speak="sizzle" aria-label="sizzle">&#128266;</button></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 5 · Consonant + LE or not -->
+      <section class="slide" data-slide="4" aria-label="第 5 页">
+        <div class="slide-inner cle-slide--or-not">
+          <h1 class="slide-title" lang="en">Consonant + LE Syllable or Not?</h1>
+          <p class="slide-sub" lang="en">辨析 · 词尾是否为「辅音 + LE」音节</p>
+          <div class="me-on-page cle-or-not-panel">
+            <p class="me-on-lead" lang="en">
+              Look at each word. Does it end with a <strong>consonant + LE</strong> syllable? Tap a card to check.
+              <button type="button" class="speak" data-speak="Look at each word. Does it end with a consonant plus L E syllable? Tap a card to check." aria-label="朗读说明">&#128266;</button>
+            </p>
+            <div class="me-on-grid cle-me-grid-10" role="list" aria-label="辨析单词卡片">
+              <div class="me-card" tabindex="0" role="button" aria-label="turtle 翻面">
+                <div class="me-card-inner">
+                  <div class="me-face me-face-front">
+                    <div class="cle-or-doodle" aria-hidden="true">
+                      <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/P/语音课/media/cle-on-turtle.png" alt="" width="128" height="128" loading="lazy" decoding="async" />
+                    </div>
+                    <div class="cle-or-word-row">
+                      <span class="me-card-word" lang="en">turtle</span>
+                      <button type="button" class="speak" data-speak="turtle" aria-label="朗读 turtle">&#128266;</button>
+                    </div>
+                    <span class="me-card-hint">点击翻面</span>
+                  </div>
+                  <div class="me-face me-face-back">
+                    <div class="me-verdict yes" lang="en">Yes</div>
+                    <p class="me-reason">词尾 <strong>-tle</strong>：辅音 <strong>t</strong> + <strong>le</strong>。</p>
+                  </div>
+                </div>
+              </div>
+              <div class="me-card" tabindex="0" role="button" aria-label="mile 翻面">
+                <div class="me-card-inner">
+                  <div class="me-face me-face-front">
+                    <div class="cle-or-doodle" aria-hidden="true">
+                      <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/P/语音课/media/cle-on-mile.png" alt="" width="128" height="128" loading="lazy" decoding="async" />
+                    </div>
+                    <div class="cle-or-word-row">
+                      <span class="me-card-word" lang="en">mile</span>
+                      <button type="button" class="speak" data-speak="mile" aria-label="朗读 mile">&#128266;</button>
+                    </div>
+                    <span class="me-card-hint">点击翻面</span>
+                  </div>
+                  <div class="me-face me-face-back">
+                    <div class="me-verdict no" lang="en">Not</div>
+                    <p class="me-reason"><strong>L</strong> 前为元音 <strong>i</strong>，不是「辅音 + le」模式（多为 VCe）。</p>
+                  </div>
+                </div>
+              </div>
+              <div class="me-card" tabindex="0" role="button" aria-label="bottle 翻面">
+                <div class="me-card-inner">
+                  <div class="me-face me-face-front">
+                    <div class="cle-or-doodle" aria-hidden="true">
+                      <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/P/语音课/media/cle-on-bottle.png" alt="" width="128" height="128" loading="lazy" decoding="async" />
+                    </div>
+                    <div class="cle-or-word-row">
+                      <span class="me-card-word" lang="en">bottle</span>
+                      <button type="button" class="speak" data-speak="bottle" aria-label="朗读 bottle">&#128266;</button>
+                    </div>
+                    <span class="me-card-hint">点击翻面</span>
+                  </div>
+                  <div class="me-face me-face-back">
+                    <div class="me-verdict yes" lang="en">Yes</div>
+                    <p class="me-reason">词尾 <strong>-tle</strong>：双写 t + <strong>le</strong>。</p>
+                  </div>
+                </div>
+              </div>
+              <div class="me-card" tabindex="0" role="button" aria-label="male 翻面">
+                <div class="me-card-inner">
+                  <div class="me-face me-face-front">
+                    <div class="cle-or-doodle" aria-hidden="true">
+                      <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/P/语音课/media/cle-on-male.png" alt="" width="128" height="128" loading="lazy" decoding="async" />
+                    </div>
+                    <div class="cle-or-word-row">
+                      <span class="me-card-word" lang="en">male</span>
+                      <button type="button" class="speak" data-speak="male" aria-label="朗读 male">&#128266;</button>
+                    </div>
+                    <span class="me-card-hint">点击翻面</span>
+                  </div>
+                  <div class="me-face me-face-back">
+                    <div class="me-verdict no" lang="en">Not</div>
+                    <p class="me-reason"><strong>L</strong> 前为元音 <strong>a</strong>，属长元音 + 不发音 e，非本课「辅音 + le」。</p>
+                  </div>
+                </div>
+              </div>
+              <div class="me-card" tabindex="0" role="button" aria-label="uncle 翻面">
+                <div class="me-card-inner">
+                  <div class="me-face me-face-front">
+                    <div class="cle-or-doodle" aria-hidden="true">
+                      <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/P/语音课/media/cle-on-uncle.png" alt="" width="128" height="128" loading="lazy" decoding="async" />
+                    </div>
+                    <div class="cle-or-word-row">
+                      <span class="me-card-word" lang="en">uncle</span>
+                      <button type="button" class="speak" data-speak="uncle" aria-label="朗读 uncle">&#128266;</button>
+                    </div>
+                    <span class="me-card-hint">点击翻面</span>
+                  </div>
+                  <div class="me-face me-face-back">
+                    <div class="me-verdict yes" lang="en">Yes</div>
+                    <p class="me-reason">词尾 <strong>-cle</strong>：辅音 <strong>c</strong> + <strong>le</strong>。</p>
+                  </div>
+                </div>
+              </div>
+              <div class="me-card" tabindex="0" role="button" aria-label="pile 翻面">
+                <div class="me-card-inner">
+                  <div class="me-face me-face-front">
+                    <div class="cle-or-doodle" aria-hidden="true">
+                      <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/P/语音课/media/cle-on-pile.png" alt="" width="128" height="128" loading="lazy" decoding="async" />
+                    </div>
+                    <div class="cle-or-word-row">
+                      <span class="me-card-word" lang="en">pile</span>
+                      <button type="button" class="speak" data-speak="pile" aria-label="朗读 pile">&#128266;</button>
+                    </div>
+                    <span class="me-card-hint">点击翻面</span>
+                  </div>
+                  <div class="me-face me-face-back">
+                    <div class="me-verdict no" lang="en">Not</div>
+                    <p class="me-reason"><strong>L</strong> 前为元音 <strong>i</strong>，不是辅音 + <strong>le</strong>。</p>
+                  </div>
+                </div>
+              </div>
+              <div class="me-card" tabindex="0" role="button" aria-label="puzzle 翻面">
+                <div class="me-card-inner">
+                  <div class="me-face me-face-front">
+                    <div class="cle-or-doodle" aria-hidden="true">
+                      <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/P/语音课/media/cle-on-puzzle.png" alt="" width="128" height="128" loading="lazy" decoding="async" />
+                    </div>
+                    <div class="cle-or-word-row">
+                      <span class="me-card-word" lang="en">puzzle</span>
+                      <button type="button" class="speak" data-speak="puzzle" aria-label="朗读 puzzle">&#128266;</button>
+                    </div>
+                    <span class="me-card-hint">点击翻面</span>
+                  </div>
+                  <div class="me-face me-face-back">
+                    <div class="me-verdict yes" lang="en">Yes</div>
+                    <p class="me-reason">词尾 <strong>-zle</strong>：辅音 <strong>z</strong> + <strong>le</strong>。</p>
+                  </div>
+                </div>
+              </div>
+              <div class="me-card" tabindex="0" role="button" aria-label="role 翻面">
+                <div class="me-card-inner">
+                  <div class="me-face me-face-front">
+                    <div class="cle-or-doodle" aria-hidden="true">
+                      <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/P/语音课/media/cle-on-role.png" alt="" width="128" height="128" loading="lazy" decoding="async" />
+                    </div>
+                    <div class="cle-or-word-row">
+                      <span class="me-card-word" lang="en">role</span>
+                      <button type="button" class="speak" data-speak="role" aria-label="朗读 role">&#128266;</button>
+                    </div>
+                    <span class="me-card-hint">点击翻面</span>
+                  </div>
+                  <div class="me-face me-face-back">
+                    <div class="me-verdict no" lang="en">Not</div>
+                    <p class="me-reason"><strong>L</strong> 前为元音 <strong>o</strong>，不是「辅音 + le」音节。</p>
+                  </div>
+                </div>
+              </div>
+              <div class="me-card" tabindex="0" role="button" aria-label="riddle 翻面">
+                <div class="me-card-inner">
+                  <div class="me-face me-face-front">
+                    <div class="cle-or-doodle" aria-hidden="true">
+                      <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/P/语音课/media/cle-on-riddle.png" alt="" width="128" height="128" loading="lazy" decoding="async" />
+                    </div>
+                    <div class="cle-or-word-row">
+                      <span class="me-card-word" lang="en">riddle</span>
+                      <button type="button" class="speak" data-speak="riddle" aria-label="朗读 riddle">&#128266;</button>
+                    </div>
+                    <span class="me-card-hint">点击翻面</span>
+                  </div>
+                  <div class="me-face me-face-back">
+                    <div class="me-verdict yes" lang="en">Yes</div>
+                    <p class="me-reason">词尾 <strong>-dle</strong>：辅音 <strong>d</strong> + <strong>le</strong>。</p>
+                  </div>
+                </div>
+              </div>
+              <div class="me-card" tabindex="0" role="button" aria-label="hole 翻面">
+                <div class="me-card-inner">
+                  <div class="me-face me-face-front">
+                    <div class="cle-or-doodle" aria-hidden="true">
+                      <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/P/语音课/media/cle-on-hole.png" alt="" width="128" height="128" loading="lazy" decoding="async" />
+                    </div>
+                    <div class="cle-or-word-row">
+                      <span class="me-card-word" lang="en">hole</span>
+                      <button type="button" class="speak" data-speak="hole" aria-label="朗读 hole">&#128266;</button>
+                    </div>
+                    <span class="me-card-hint">点击翻面</span>
+                  </div>
+                  <div class="me-face me-face-back">
+                    <div class="me-verdict no" lang="en">Not</div>
+                    <p class="me-reason"><strong>L</strong> 前为元音 <strong>o</strong>，为 VCe 结构，非辅音 + <strong>le</strong>。</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="cle-or-reset-row">
+              <button type="button" class="btn cle-or-reset-all" aria-label="全部翻回正面">全部翻回正面</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Let’s Practice Together（老师示范 · buckle） -->
+      <section class="slide" aria-label="Let’s Practice Together">
+        <div class="slide-inner cact-lesson">
+          <div class="syl-lesson-root" data-syl-id="cle-buckle"></div>
+        </div>
+      </section>
+      <!-- Try this（hustle） -->
+      <section class="slide" aria-label="Try this hustle">
+        <div class="slide-inner cact-lesson">
+          <div class="syl-lesson-root" data-syl-id="cle-hustle"></div>
+        </div>
+      </section>
+
+      <!-- 学生自我练习 · 音节划分 -->
+      <section class="slide hw-syl-slide" aria-label="练习 tremble"><div class="slide-inner hw-syl-slide-inner"><div class="hw-syl-root" data-hw-syl="tremble"></div></div></section>
+      <section class="slide hw-syl-slide" aria-label="练习 flammable"><div class="slide-inner hw-syl-slide-inner"><div class="hw-syl-root" data-hw-syl="flammable"></div></div></section>
+      <section class="slide hw-syl-slide" aria-label="练习 pickle"><div class="slide-inner hw-syl-slide-inner"><div class="hw-syl-root" data-hw-syl="pickle"></div></div></section>
+      <section class="slide hw-syl-slide" aria-label="练习 castle"><div class="slide-inner hw-syl-slide-inner"><div class="hw-syl-root" data-hw-syl="castle"></div></div></section>
+      <section class="slide hw-syl-slide" aria-label="练习 whistle"><div class="slide-inner hw-syl-slide-inner"><div class="hw-syl-root" data-hw-syl="whistle"></div></div></section>
+    </div>
+
+    <nav class="nav-bar" aria-label="幻灯片导航">
+      <button type="button" class="btn" id="btn-prev" aria-label="上一页">← 上一页</button>
+      <div class="dots" id="dots" role="tablist" aria-label="页码"></div>
+      <button type="button" class="btn" id="btn-next" aria-label="下一页">下一页 →</button>
+    </nav>
+  </div>
+
+  <script src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/P/语音课/asset/mp3/tts-urls.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/microsoft-cognitiveservices-speech-sdk@1.40.0/distrib/browser/microsoft.cognitiveservices.speech.sdk.bundle-min.js"></script>
+  <script>
+    (function () {
+      var CONFIG = {
+        AZURE_SPEECH_KEY:
+          (typeof localStorage !== "undefined" && localStorage.getItem("azure_speech_key")) || "",
+        AZURE_SPEECH_REGION:
+          (typeof localStorage !== "undefined" && localStorage.getItem("azure_speech_region")) || "eastus2"
+      };
+      /* 若需开箱即用，可在下方填入密钥（与兄弟课件一致时可复制粘贴） */
+      var AEN = "en-US-JennyNeural";
+      var azureSpeaking = false;
+      var currentSynth = null;
+
+      function getAzureCreds() {
+        var k = (CONFIG.AZURE_SPEECH_KEY || "").trim() || localStorage.getItem("azure_speech_key") || "";
+        var r = (CONFIG.AZURE_SPEECH_REGION || "").trim() || localStorage.getItem("azure_speech_region") || "eastus2";
+        return { key: k, region: r };
+      }
+
+      function azureSpeakLive(text, voiceName) {
+        return new Promise(function (resolve, reject) {
+          var creds = getAzureCreds();
+          if (!creds.key) {
+            alert("未配置 Azure Speech：请在 HTML 内 CONFIG 填写密钥，或设置 localStorage.azure_speech_key。");
+            reject(new Error("no key"));
+            return;
+          }
+          if (typeof SpeechSDK === "undefined") {
+            alert("Azure Speech SDK 未加载。");
+            reject(new Error("no sdk"));
+            return;
+          }
+          if (azureSpeaking && currentSynth) {
+            try { currentSynth.close(); } catch (e) {}
+            currentSynth = null;
+            azureSpeaking = false;
+          }
+          var sc = SpeechSDK.SpeechConfig.fromSubscription(creds.key, creds.region);
+          sc.speechSynthesisVoiceName = voiceName || AEN;
+          currentSynth = new SpeechSDK.SpeechSynthesizer(sc, undefined);
+          azureSpeaking = true;
+          currentSynth.speakTextAsync(
+            text,
+            function (r) {
+              azureSpeaking = false;
+              try { currentSynth.close(); } catch (e2) {}
+              currentSynth = null;
+              if (r.reason === SpeechSDK.ResultReason.SynthesizingAudioCompleted) resolve();
+              else reject(new Error(r.errorDetails || "fail"));
+            },
+            function (err) {
+              azureSpeaking = false;
+              try { currentSynth.close(); } catch (e3) {}
+              currentSynth = null;
+              alert("朗读失败：" + (err || ""));
+              reject(err);
+            }
+          );
+        });
+      }
+
+      function azureSpeak(text, voiceName) {
+        var vn = voiceName || AEN;
+        var tLive = String(text || "").trim();
+        var tKey = vn === AEN ? tLive.toLowerCase() : tLive;
+        if (typeof window !== "undefined" && window.hasLocalTtsMp3 && window.hasLocalTtsMp3(tKey, vn)) {
+          if (azureSpeaking && currentSynth) {
+            try { currentSynth.close(); } catch (e0) {}
+            currentSynth = null;
+            azureSpeaking = false;
+          }
+          return window.playLocalTtsMp3(tKey, vn).catch(function () {
+            return azureSpeakLive(tLive, vn);
+          });
+        }
+        return azureSpeakLive(tLive, vn);
+      }
+
+      function speak(text) {
+        return azureSpeak(text, AEN);
+      }
+
+      function revealById(id) {
+        var el = document.getElementById(id);
+        if (el) el.classList.add("is-visible");
+      }
+
+      var SYLLABLE_LESSON_TITLE =
+        "\u8001\u5e08\u793a\u8303 \u00b7 \u8f85\u97f3 + LE \u97f3\u8282\u5212\u5206";
+      var SYLLABLE_LESSON_DB = {
+        "cle-buckle": {
+          displayTitle: "Let\u2019s Practice Together",
+          word: "buckle",
+          img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/P/语音课/media/cle-prac-buckle.png",
+          emoji: "\uD83D\uDD27",
+          cutAfter: 3,
+          parts: ["buck", "le"],
+          step3Html:
+            "\u5728\u5143\u97f3 <strong>u</strong> \u4e0e\u672b\u5c3e <strong>e</strong> \u4e4b\u95f4\u6709 <strong>c k l</strong>\u3002\u6309\u672c\u8bfe\u300c<strong>\u8f85\u97f3 + le</strong>\u300d\uff0c\u5e38\u5728 <strong>k</strong> \u4e0e <strong>l</strong> \u4e4b\u95f4\u5212\u5f00\uff1a<strong>buck</strong> \u00b7 <strong>le</strong>\u3002\u7b2c\u4e00\u8282 <strong>buck</strong> \u4e3a\u95ed\u97f3\u8282\uff1b<strong>-le</strong> \u4e3a<strong>\u8f85\u97f3 + le</strong>\u97f3\u8282\u3002",
+          step4Line:
+            "\u5212\u5206\u97f3\u8282\uff1a\u526a\u5200\u4ece <strong>k</strong> \u4e0e <strong>l</strong> \u4e4b\u95f4\u81ea\u4e0a\u800c\u4e0b\u5212\u8fc7\u3002",
+          syls: [
+            {
+              h: "buck",
+              ans5:
+                "\u672b\u5c3e\u4e3a\u8f85\u97f3 <strong>k</strong>\uff08<strong>ck</strong> \u8bfb /k/\uff09\uff0c\u5143\u97f3 <strong>u</strong> \u88ab\u5173\u4f4f \u2192 <strong>\u95ed\u97f3\u8282</strong>\u3002",
+              ans6: "<strong>u</strong> \u5e38\u8bfb\u77ed\u97f3 /\u028c/\uff08\u7c7b\u4f3c <em>cup</em>\uff09\u3002"
+            },
+            {
+              h: "le",
+              ans5:
+                "\u8be5\u8282\u4e3a <strong>le</strong>\uff1b<strong>l</strong> \u524d\u6709\u8f85\u97f3\u97f3\u4f4d \u2192 <strong>\u8f85\u97f3 + le</strong> \u97f3\u8282\u3002",
+              ans6:
+                "<strong>le</strong> \u5e38\u8bfb /\u0259l/ \u6216\u97f3\u8282\u6027 /l/\uff08\u542c\u6559\u5e26\u8bfb\uff09\u3002"
+            }
+          ]
+        },
+        "cle-hustle": {
+          displayTitle: "Try this",
+          word: "hustle",
+          img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/P/语音课/media/cle-prac-hustle.png",
+          emoji: "\uD83C\uDFC3",
+          cutAfter: 2,
+          parts: ["hus", "tle"],
+          step3Html:
+            "\u5143\u97f3 <strong>u</strong> \u4e0e <strong>e</strong> \u4e4b\u95f4\u4e3a <strong>s t l</strong>\u3002\u5728 <strong>s</strong> \u4e0e <strong>t</strong> \u4e4b\u95f4\u5212\u5f00\uff1a<strong>hus</strong> \u00b7 <strong>tle</strong>\u3002<strong>-tle</strong> \u4e3a <strong>\u8f85\u97f3 + le</strong>\u3002",
+          step4Line:
+            "\u5212\u5206\u97f3\u8282\uff1a\u526a\u5200\u4ece <strong>s</strong> \u4e0e <strong>t</strong> \u4e4b\u95f4\u81ea\u4e0a\u800c\u4e0b\u5212\u8fc7\u3002",
+          syls: [
+            {
+              h: "hus",
+              ans5:
+                "\u672b\u5c3e\u4e3a\u8f85\u97f3 <strong>s</strong> \u2192 \u5143\u97f3 <strong>u</strong> \u88ab\u5173\u4f4f \u2192 <strong>\u95ed\u97f3\u8282</strong>\u3002",
+              ans6: "<strong>u</strong> \u5e38\u8bfb\u77ed\u97f3 /\u028c/\uff08\u7c7b\u4f3c <em>bus</em>\uff09\u3002"
+            },
+            {
+              h: "tle",
+              ans5:
+                "\u672b\u5c3e\u4e3a <strong>le</strong>\uff1b<strong>t</strong> \u4e3a<strong>\u8f85\u97f3</strong> + <strong>le</strong> \u2192 <strong>\u8f85\u97f3 + le</strong> \u97f3\u8282\u3002",
+              ans6:
+                "<strong>-tle</strong> \u4e2d <strong>le</strong> \u5e38\u8bfb /\u0259l/ \u7b49\uff08\u542c\u6559\u5e26\u8bfb\uff09\u3002"
+            }
+          ]
+        }
+      };
+
+      var HOMEWORK_SYLLABLE_ORDER = [
+        "tremble",
+        "flammable",
+        "pickle",
+        "castle",
+        "whistle"
+      ];
+      var HOMEWORK_SYLLABLE_DB = {
+        tremble: { word: "tremble", parts: ["trem", "ble"], cutAfter: 3 },
+        flammable: {
+          word: "flammable",
+          parts: ["flam", "ma", "ble"],
+          cutAfter: [3, 5]
+        },
+        pickle: { word: "pickle", parts: ["pick", "le"], cutAfter: 3 },
+        castle: { word: "castle", parts: ["cas", "tle"], cutAfter: 2 },
+        whistle: { word: "whistle", parts: ["whis", "tle"], cutAfter: 3 }
+      };
+
+      function appendSyllableCharRow(panel, word, cutAfter) {
+        var row = document.createElement("div");
+        row.className = "cact-chars-row";
+        row.setAttribute("aria-label", word + " \u5b57\u6bcd");
+        for (var i = 0; i < word.length; i++) {
+          var ch = word[i];
+          var span = document.createElement("span");
+          span.className = "cact-ch";
+          span.textContent = ch;
+          var low = ch.toLowerCase();
+          if ("aeiou".indexOf(low) >= 0) {
+            span.classList.add("cact-vowel");
+            span.setAttribute("data-letter", low);
+          }
+          row.appendChild(span);
+          if (i === cutAfter) {
+            var slot = document.createElement("div");
+            slot.className = "cact-slot";
+            slot.setAttribute("aria-hidden", "true");
+            var sci = document.createElement("span");
+            sci.className = "cact-scissor";
+            sci.title = "\u526a\u5200";
+            sci.textContent = "\u2702";
+            slot.appendChild(sci);
+            row.appendChild(slot);
+          }
+        }
+        panel.appendChild(row);
+      }
+
+      function appendSyllableCharRowMulti(panel, word, cutAfterList) {
+        var cuts = cutAfterList.slice().sort(function (a, b) {
+          return a - b;
+        });
+        var cutSet = {};
+        cuts.forEach(function (idx) {
+          cutSet[idx] = true;
+        });
+        var row = document.createElement("div");
+        row.className = "cact-chars-row";
+        row.setAttribute("aria-label", word + " \u5b57\u6bcd");
+        for (var i = 0; i < word.length; i++) {
+          var ch = word[i];
+          var span = document.createElement("span");
+          span.className = "cact-ch";
+          span.textContent = ch;
+          var low = ch.toLowerCase();
+          if ("aeiou".indexOf(low) >= 0) {
+            span.classList.add("cact-vowel");
+            span.setAttribute("data-letter", low);
+          }
+          row.appendChild(span);
+          if (cutSet[i]) {
+            var slot = document.createElement("div");
+            slot.className = "cact-slot";
+            slot.setAttribute("aria-hidden", "true");
+            var sci = document.createElement("span");
+            sci.className = "cact-scissor";
+            sci.title = "\u526a\u5200";
+            sci.textContent = "\u2702";
+            slot.appendChild(sci);
+            row.appendChild(slot);
+          }
+        }
+        panel.appendChild(row);
+      }
+
+      function appendSyllableCharRowFlexible(panel, word, cutAfter) {
+        if (Array.isArray(cutAfter)) {
+          if (cutAfter.length <= 1) {
+            appendSyllableCharRow(panel, word, cutAfter[0]);
+          } else {
+            appendSyllableCharRowMulti(panel, word, cutAfter);
+          }
+        } else {
+          appendSyllableCharRow(panel, word, cutAfter);
+        }
+      }
+
+      function revealSplitInstant(wpanel) {
+        var charsRow = wpanel.querySelector(".cact-chars-row");
+        var splitRow = wpanel.querySelector(".cact-split-row");
+        if (charsRow) charsRow.style.display = "none";
+        if (splitRow) splitRow.classList.add("is-on");
+        wpanel.querySelectorAll(".cact-slot").forEach(function (sl) {
+          sl.classList.add("is-cut-guide-visible");
+        });
+      }
+
+      function runScissorAnimation(root, done) {
+        var charsRow = root.querySelector(".cact-chars-row");
+        var splitRow = root.querySelector(".cact-split-row");
+        var scissor = root.querySelector(".cact-scissor");
+        var cutSlot = root.querySelector(".cact-slot");
+        if (!charsRow || !splitRow || !scissor) {
+          if (typeof done === "function") done();
+          return;
+        }
+        if (cutSlot) cutSlot.classList.add("is-cut-guide-visible");
+        var cutDone = false;
+        function finish() {
+          if (cutDone) return;
+          cutDone = true;
+          charsRow.style.display = "none";
+          splitRow.classList.add("is-on");
+          if (typeof done === "function") done();
+        }
+        scissor.classList.remove("run");
+        void scissor.offsetWidth;
+        scissor.classList.add("run");
+        var t = window.setTimeout(finish, 1400);
+        scissor.addEventListener(
+          "animationend",
+          function onEnd() {
+            window.clearTimeout(t);
+            finish();
+          },
+          { once: true }
+        );
+      }
+
+      function flowPanelHtml(badge, subtitle, bodyHtml) {
+        var sub = subtitle ? '<p class="cact-flow-sub">' + subtitle + "</p>" : "";
+        return (
+          '<div class="cact-flow-panel-inner">' +
+          '<span class="cact-flow-badge">' +
+          badge +
+          "</span>" +
+          sub +
+          '<div class="cact-flow-body">' +
+          bodyHtml +
+          "</div></div>"
+        );
+      }
+
+      function vowelsInWordBoldHtml(w) {
+        var out = [];
+        for (var i = 0; i < w.length; i++) {
+          var c = w[i].toLowerCase();
+          if ("aeiou".indexOf(c) >= 0) out.push("<strong>" + w[i] + "</strong>");
+        }
+        return out.join("\u3001");
+      }
+
+      function bindSyllableNextFlow(root, panelsRoot, nextBtn, progressEl, hintEl, stepDefs) {
+        var cur = -1;
+        var busy = false;
+        var total = stepDefs.length;
+        var panels = [];
+
+        function setProgress() {
+          if (progressEl) {
+            progressEl.textContent = "\u7b2c " + (cur + 1) + " / " + total + " \u6b65";
+          }
+        }
+
+        function atEnd() {
+          nextBtn.disabled = true;
+          nextBtn.textContent = "\u5df2\u5b8c\u6210 \u2713";
+        }
+
+        stepDefs.forEach(function (def) {
+          var el = document.createElement("div");
+          el.className = "cact-flow-panel";
+          el.setAttribute("hidden", "");
+          el.innerHTML = def.html;
+          panelsRoot.appendChild(el);
+          panels.push(el);
+        });
+
+        function release() {
+          busy = false;
+          nextBtn.disabled = false;
+          if (cur >= total - 1) atEnd();
+        }
+
+        function goNext() {
+          if (busy) return;
+          if (cur >= total - 1) return;
+          cur++;
+          if (hintEl && cur === 0) hintEl.hidden = true;
+          var p = panels[cur];
+          if (p) {
+            p.hidden = false;
+            try {
+              p.scrollIntoView({ behavior: "smooth", block: "nearest" });
+            } catch (eScroll) {}
+          }
+          setProgress();
+          var def = stepDefs[cur];
+          if (def && typeof def.onEnter === "function") {
+            busy = true;
+            nextBtn.disabled = true;
+            def.onEnter(function () {
+              release();
+            }, root);
+          } else {
+            if (cur >= total - 1) atEnd();
+          }
+        }
+
+        if (progressEl) {
+          progressEl.textContent = "0 / " + total + " \u6b65\uff08\u70b9\u51fb\u4e0b\u4e00\u6b65\uff09";
+        }
+        nextBtn.addEventListener("click", goNext);
+      }
+
+      function buildMetaStepDefs(meta) {
+        var word = meta.word;
+        var p0 = meta.parts[0];
+        var p1 = meta.parts[1];
+        var s0 = meta.syls[0];
+        var s1 = meta.syls[1];
+
+        function vowelIndicesInWord(wword) {
+          var w = (wword || "").toLowerCase();
+          var vi = [];
+          for (var i = 0; i < w.length; i++) {
+            if ("aeiou".indexOf(w[i]) >= 0) vi.push(i);
+          }
+          return vi;
+        }
+
+        function consonantCountBetweenFirstTwoVowels(wword) {
+          var vi = vowelIndicesInWord(wword);
+          if (vi.length < 2) return 0;
+          return vi[1] - vi[0] - 1;
+        }
+
+        function pairThinkReveal(badge, subThink, bodyThink, bodyReveal, onReveal) {
+          var second = {
+            html: flowPanelHtml(badge, subThink + " \u00b7 \u63ed\u6653", bodyReveal)
+          };
+          if (typeof onReveal === "function") second.onEnter = onReveal;
+          return [
+            { html: flowPanelHtml(badge, subThink, bodyThink) },
+            second
+          ];
+        }
+
+        function applyStep3ConsonantHighlight(done, r, wword) {
+          var vi = vowelIndicesInWord(wword);
+          if (vi.length >= 2) {
+            var chars = r.querySelectorAll(".cact-chars-row .cact-ch");
+            for (var j = vi[0] + 1; j < vi[1]; j++) {
+              if (chars[j]) chars[j].classList.add("is-consonant-hl");
+            }
+          }
+          if (typeof done === "function") done();
+        }
+
+        var vHtml = vowelsInWordBoldHtml(word);
+        var ccBetweenVowels = consonantCountBetweenFirstTwoVowels(word);
+        var step4ThisWordNote =
+          ccBetweenVowels === 2
+            ? "<br><strong>\u672c\u8bcd\uff1a</strong>\u6b63\u597d\u662f<strong>\u4e24\u4e2a</strong>\u8f85\u97f3\uff0c\u53ef\u7528\u4e0a\u9762\u201c\u4ece\u4e2d\u95f4\u5212\u5f00\u201d\u7684\u53e3\u8bc0\u3002"
+            : ccBetweenVowels === 1
+            ? "<br><strong>\u672c\u8bcd\uff1a</strong>\u4e2d\u95f4\u53ea\u6709 1 \u4e2a\u8f85\u97f3\uff0c\u4e0d\u9002\u7528\u201c\u4e24\u4e2a\u4ece\u4e2d\u95f4\u5212\u201d\uff1b\u8bf7\u4ee5\u4e0b\u65b9\u52a8\u753b\u4e0e\u6559\u6750\u89c4\u5219\u4e3a\u51c6\u3002"
+            : ccBetweenVowels >= 3
+            ? "<br><strong>\u672c\u8bcd\uff1a</strong>\u4e2d\u95f4\u6709 " +
+              ccBetweenVowels +
+              " \u4e2a\u8f85\u97f3\uff0c\u9700\u6309\u5177\u4f53\u89c4\u5219\u5212\u5206\uff08\u89c1\u4e0b\u65b9\u52a8\u753b\uff09\u3002"
+            : "";
+        var step4ThinkRule =
+          "\u8bf7\u5148<strong>\u6570\u4e00\u6570</strong>\uff1a\u7b2c\u4e00\u4e2a\u5143\u97f3\u4e0e\u7b2c\u4e8c\u4e2a\u5143\u97f3\u4e4b\u95f4\uff0c\u4e00\u5171\u6709 <strong>" +
+          ccBetweenVowels +
+          "</strong> \u4e2a<strong>\u8f85\u97f3\u5b57\u6bcd</strong>\uff08\u5de6\u4fa7\u6de1\u7d2a\u8272\u9ad8\u4eae\u5df2\u6807\u51fa\u5b83\u4eec\uff09\u3002<br>" +
+          "<strong>\u5212\u5206\u53e3\u8bc0\uff1a</strong>\u5982\u679c\u4e2d\u95f4\u6070\u597d\u662f<strong>\u4e24\u4e2a</strong>\u8f85\u97f3\u5b57\u6bcd\uff0c\u6211\u4eec\u5e38\u4ece\u8fd9<strong>\u4e24\u4e2a\u8f85\u97f3\u7684\u4e2d\u95f4</strong>\u5212\u5f00\u6765\u5212\u5206\u97f3\u8282\uff1a\u524d\u4e00\u4e2a\u8f85\u97f3\u5f52\u4e0a\u4e00\u8282\uff0c\u540e\u4e00\u4e2a\u8f85\u97f3\u5f52\u4e0b\u4e00\u8282\u3002" +
+          step4ThisWordNote;
+        var step4RevealExtra =
+          ccBetweenVowels === 2
+            ? "<strong>\u5bf9\u5e94\u53e3\u8bc0\uff1a</strong>\u4e24\u4e2a\u8f85\u97f3\u4ece<strong>\u4e2d\u95f4\u5207\u5f00</strong>\u2192 <strong>" +
+              p0 +
+              "</strong> \u00b7 <strong>" +
+              p1 +
+              "</strong>\u3002<br>"
+            : "";
+
+        return [].concat(
+          [
+            {
+              html: flowPanelHtml(
+                "Step 1",
+                "\u6574\u8bcd\u89c2\u5bdf",
+                "\u627e\u5230\u5355\u8bcd\u91cc\u7684<strong>\u5143\u97f3\u5b57\u6bcd</strong>\u3002\u8bf7\u5148\u81ea\u5df1\u627e\u4e00\u627e\u3001\u60f3\u4e00\u60f3\uff1a\u54ea\u4e9b\u5b57\u6bcd\u662f\u5143\u97f3\uff1f<br>\u60f3\u597d\u540e\u518d\u70b9\u300c<strong>\u4e0b\u4e00\u6b65</strong>\u300d\u63ed\u6653\u7b54\u6848\uff08\u5de6\u4fa7\u9ad8\u4eae\u968f\u4e4b\u663e\u793a\uff09\u3002"
+              )
+            },
+            {
+              html: flowPanelHtml(
+                "Step 1",
+                "\u6574\u8bcd\u89c2\u5bdf \u00b7 \u63ed\u6653",
+                "<strong>\u63ed\u6653\uff1a</strong>\u5143\u97f3\u4e3a " +
+                  vHtml +
+                  "\u3002\u5de6\u4fa7\u5df2\u4e3a\u4f60\u9ad8\u4eae\u663e\u793a\u3002"
+              ),
+              onEnter: function (done, r) {
+                r.querySelectorAll(".cact-vowel").forEach(function (el) {
+                  el.classList.add("is-vowel-hl");
+                });
+                done();
+              }
+            }
+          ],
+          pairThinkReveal(
+            "Step 2",
+            "\u6574\u8bcd\u89c2\u5bdf",
+            "\u8fd9\u4e2a\u5355\u8bcd\u6709\u51e0\u4e2a<strong>\u97f3\u8282</strong>\uff1f\uff08\u53ef\u5148\u62cd\u624b\u542c\u62cd\u6570\uff0c\u518d\u70b9\u300c\u4e0b\u4e00\u6b65\u300d\u63ed\u6653\u7b54\u6848\u3002\uff09",
+            "<strong>\u63ed\u6653\uff1a</strong>\u6709 <strong>" + meta.parts.length + "</strong> \u4e2a\u97f3\u8282\u3002",
+            null
+          ),
+          pairThinkReveal(
+            "Step 3",
+            "\u6574\u8bcd\u89c2\u5bdf",
+            "\u5728\u4e24\u4e2a\u5143\u97f3\u5b57\u6bcd\u4e4b\u95f4\uff0c\u6709\u54ea\u4e9b<strong>\u8f85\u97f3\u5b57\u6bcd</strong>\uff1f\u8bf7\u5148\u601d\u8003\uff0c\u518d\u70b9\u300c\u4e0b\u4e00\u6b65\u300d\u63ed\u6653\u7b54\u6848\u3002",
+            "<strong>\u63ed\u6653\uff1a</strong><span class=\"syl-step3-answer\">" + meta.step3Html + "</span>",
+            function (done, r) {
+              applyStep3ConsonantHighlight(done, r, meta.word);
+            }
+          ),
+          pairThinkReveal(
+            "Step 4",
+            "\u5212\u5206\u97f3\u8282",
+            '<span class="muted">Step 4</span> ' +
+              step4ThinkRule +
+              "<br>" +
+              meta.step4Line +
+              "<br>\u60f3\u597d\u5207\u5206\u4f4d\u7f6e\u540e\uff0c\u70b9\u300c\u4e0b\u4e00\u6b65\u300d\u64ad\u653e\u5212\u5206\u52a8\u753b\u5e76\u63ed\u6653\u3002",
+            "<strong>\u63ed\u6653\uff1a</strong>" +
+              step4RevealExtra +
+              "\u5df2\u64ad\u653e\u5212\u5206\u52a8\u753b\uff0c\u5de6\u4fa7\u5c55\u793a <strong>" +
+              p0 +
+              "</strong> \u00b7 <strong>" +
+              p1 +
+              "</strong>\u3002",
+            function (done, r) {
+              runScissorAnimation(r, done);
+            }
+          ),
+          pairThinkReveal(
+            "Step 5",
+            "\u7b2c\u4e00\u4e2a\u97f3\u8282 <strong>" + s0.h + "</strong>",
+            "\u8fd9\u4e00\u8282\uff08<strong>" +
+              s0.h +
+              "</strong>\uff09\u7684\u7ed3\u5c3e\u662f\u4ec0\u4e48\u5b57\u6bcd\uff1f\u5b83\u662f\u4ec0\u4e48\u97f3\u8282\uff1f\u8bf7\u5148\u601d\u8003\uff0c\u518d\u70b9\u300c\u4e0b\u4e00\u6b65\u300d\u63ed\u6653\u3002",
+            "<strong>\u63ed\u6653\uff1a</strong>" + s0.ans5,
+            null
+          ),
+          pairThinkReveal(
+            "Step 6",
+            "\u7b2c\u4e00\u4e2a\u97f3\u8282 <strong>" + s0.h + "</strong>",
+            "\u8fd9\u4e00\u97f3\u8282\u662f<strong>\u5f00\u97f3\u8282</strong>\u8fd8\u662f<strong>\u95ed\u97f3\u8282</strong>\uff1f\u5143\u97f3\u901a\u5e38\u504f<strong>\u957f</strong>\u8fd8\u662f\u504f<strong>\u77ed</strong>\uff1f\u8bf7\u5148\u601d\u8003\uff0c\u518d\u70b9\u300c\u4e0b\u4e00\u6b65\u300d\u63ed\u6653\u3002",
+            "<strong>\u63ed\u6653\uff1a</strong>" + s0.ans6,
+            null
+          ),
+          pairThinkReveal(
+            "Step 7",
+            "\u7b2c\u4e00\u4e2a\u97f3\u8282 <strong>" + s0.h + "</strong>",
+            "\u8bf7\u81ea\u5df1\u62fc\u8bfb\u97f3\u8282 <strong>" +
+              s0.h +
+              "</strong>\u3002\u60f3\u542c\u5bf9\u7167\u65f6\uff0c\u518d\u70b9\u300c\u4e0b\u4e00\u6b65\u300d\u64ad\u653e Azure \u6717\u8bfb\u3002",
+            "<strong>\u63ed\u6653\uff1a</strong>\u5df2\u64ad\u653e\u6717\u8bfb <strong>" +
+              s0.h +
+              "</strong>\u3002\u53ef\u4e0e\u4f60\u7684\u53d1\u97f3\u5bf9\u7167\u3002",
+            function (done) {
+              speak(s0.h)
+                .then(function () {
+                  done();
+                })
+                .catch(function () {
+                  done();
+                });
+            }
+          ),
+          pairThinkReveal(
+            "Step 5",
+            "\u7b2c\u4e8c\u4e2a\u97f3\u8282 <strong>" + s1.h + "</strong>",
+            "\u8fd9\u4e00\u8282\uff08<strong>" +
+              s1.h +
+              "</strong>\uff09\u7684\u7ed3\u5c3e\u662f\u4ec0\u4e48\u5b57\u6bcd\uff1f\u5b83\u662f\u4ec0\u4e48\u97f3\u8282\uff1f\u8bf7\u5148\u601d\u8003\uff0c\u518d\u70b9\u300c\u4e0b\u4e00\u6b65\u300d\u63ed\u6653\u3002",
+            "<strong>\u63ed\u6653\uff1a</strong>" + s1.ans5,
+            null
+          ),
+          pairThinkReveal(
+            "Step 6",
+            "\u7b2c\u4e8c\u4e2a\u97f3\u8282 <strong>" + s1.h + "</strong>",
+            "\u8fd9\u4e00\u97f3\u8282\u662f<strong>\u5f00\u97f3\u8282</strong>\u8fd8\u662f<strong>\u95ed\u97f3\u8282</strong>\uff1f\u5143\u97f3\u901a\u5e38\u504f<strong>\u957f</strong>\u8fd8\u662f\u504f<strong>\u77ed</strong>\uff1f\u8bf7\u5148\u601d\u8003\uff0c\u518d\u70b9\u300c\u4e0b\u4e00\u6b65\u300d\u63ed\u6653\u3002",
+            "<strong>\u63ed\u6653\uff1a</strong>" + s1.ans6,
+            null
+          ),
+          pairThinkReveal(
+            "Step 7",
+            "\u7b2c\u4e8c\u4e2a\u97f3\u8282 <strong>" + s1.h + "</strong>",
+            "\u8bf7\u81ea\u5df1\u62fc\u8bfb\u97f3\u8282 <strong>" +
+              s1.h +
+              "</strong>\u3002\u60f3\u542c\u5bf9\u7167\u65f6\uff0c\u518d\u70b9\u300c\u4e0b\u4e00\u6b65\u300d\u64ad\u653e Azure \u6717\u8bfb\u3002",
+            "<strong>\u63ed\u6653\uff1a</strong>\u5df2\u64ad\u653e\u6717\u8bfb <strong>" +
+              s1.h +
+              "</strong>\u3002\u53ef\u4e0e\u4f60\u7684\u53d1\u97f3\u5bf9\u7167\u3002",
+            function (done) {
+              speak(s1.h)
+                .then(function () {
+                  done();
+                })
+                .catch(function () {
+                  done();
+                });
+            }
+          ),
+          pairThinkReveal(
+            "\u8fde\u8bfb\u6574\u8bcd",
+            "\u8fde\u8bfb\u6574\u8bcd",
+            "\u8bf7\u628a\u4e24\u4e2a\u97f3\u8282\u8fde\u8d77\u6765\uff0c\u8bd5\u8bfb\u6574\u8bcd <strong>" +
+              word +
+              "</strong>\u3002\u51c6\u5907\u597d\u540e\u70b9\u300c\u4e0b\u4e00\u6b65\u300d\u63ed\u6653\u5e76\u542c\u6574\u8bcd\u6717\u8bfb\u3002",
+            "<strong>\u63ed\u6653\uff1a</strong><strong>" +
+              p0 +
+              "</strong> + <strong>" +
+              p1 +
+              "</strong> \u2192 <strong>" +
+              word +
+              "</strong>\u3002\u5df2\u64ad\u653e\u6574\u8bcd\u6717\u8bfb\u3002",
+            function (done) {
+              speak(word)
+                .then(function () {
+                  done();
+                })
+                .catch(function () {
+                  done();
+                });
+            }
+          )
+        );
+      }
+
+      function buildSyllableLessonMount(host, meta) {
+        if (meta.parts && meta.parts.length > 2) return;
+        host.innerHTML = "";
+        var word = meta.word;
+        var h2 = document.createElement("h2");
+        h2.className = "slide-title";
+        h2.textContent = meta.displayTitle || SYLLABLE_LESSON_TITLE;
+        host.appendChild(h2);
+        var sub = document.createElement("p");
+        sub.className = "slide-sub";
+        sub.innerHTML = "\u8bfb\u5355\u8bcd \u00b7 <strong>" + word + "</strong>";
+        host.appendChild(sub);
+
+        var grid = document.createElement("div");
+        grid.className = "cact-lesson-grid";
+        var left = document.createElement("div");
+        left.className = "cact-lesson-left";
+        left.setAttribute("aria-label", "\u5355\u8bcd\u3001\u914d\u56fe\u4e0e\u5212\u5206\u52a8\u753b");
+        var hero = document.createElement("div");
+        hero.className = "cact-hero";
+        var imgWrap = document.createElement("div");
+        imgWrap.className = "cact-img-wrap";
+        var img = document.createElement("img");
+        img.className = "syl-lesson-photo";
+        img.alt = word + " \u914d\u56fe";
+        img.width = 200;
+        img.height = 200;
+        img.src = meta.img;
+        var emo = document.createElement("div");
+        emo.className = "cact-emoji-fb";
+        emo.setAttribute("hidden", "");
+        emo.setAttribute("aria-hidden", "true");
+        emo.textContent = meta.emoji;
+        img.addEventListener("error", function () {
+          img.style.display = "none";
+          emo.hidden = false;
+          emo.setAttribute("aria-hidden", "false");
+        });
+        imgWrap.appendChild(img);
+        imgWrap.appendChild(emo);
+        var wpanel = document.createElement("div");
+        wpanel.className = "cact-word-panel";
+        var pl = document.createElement("p");
+        pl.className = "cact-step-line muted";
+        pl.style.marginTop = "0";
+        pl.textContent = "\u5355\u8bcd";
+        wpanel.appendChild(pl);
+        appendSyllableCharRowFlexible(wpanel, word, meta.cutAfter);
+        var splitRow = document.createElement("div");
+        splitRow.className = "cact-split-row";
+        splitRow.setAttribute("aria-label", "\u5212\u5206\u540e\u7684\u97f3\u8282");
+        meta.parts.forEach(function (p) {
+          var sp = document.createElement("span");
+          sp.textContent = p;
+          splitRow.appendChild(sp);
+        });
+        wpanel.appendChild(splitRow);
+        hero.appendChild(imgWrap);
+        hero.appendChild(wpanel);
+        left.appendChild(hero);
+
+        var right = document.createElement("aside");
+        right.className = "cact-lesson-right";
+        right.setAttribute("aria-label", "\u6b65\u9aa4\u4e0e\u7b54\u6848");
+        var hint = document.createElement("p");
+        hint.className = "cact-flow-hint";
+        hint.textContent = "\u70b9\u51fb\u300c\u4e0b\u4e00\u6b65\u300d\u4f9d\u6b21\u63ed\u6653\u6bcf\u4e00\u6b65\u3002";
+        var scroll = document.createElement("div");
+        scroll.className = "cact-flow-scroll";
+        var panelsRoot = document.createElement("div");
+        panelsRoot.className = "cact-flow-panels";
+        scroll.appendChild(panelsRoot);
+        var nextRow = document.createElement("div");
+        nextRow.className = "cact-next-row";
+        var nextBtn = document.createElement("button");
+        nextBtn.type = "button";
+        nextBtn.className = "btn cact-btn-next";
+        nextBtn.textContent = "\u4e0b\u4e00\u6b65";
+        var prog = document.createElement("span");
+        prog.className = "cact-flow-progress";
+        nextRow.appendChild(nextBtn);
+        nextRow.appendChild(prog);
+        right.appendChild(hint);
+        right.appendChild(scroll);
+        right.appendChild(nextRow);
+        grid.appendChild(left);
+        grid.appendChild(right);
+        host.appendChild(grid);
+
+        bindSyllableNextFlow(host, panelsRoot, nextBtn, prog, hint, buildMetaStepDefs(meta));
+      }
+
+      function resetHomeworkCutState(wpanel) {
+        var charsRow = wpanel.querySelector(".cact-chars-row");
+        var splitRow = wpanel.querySelector(".cact-split-row");
+        wpanel.querySelectorAll(".cact-scissor").forEach(function (sci) {
+          sci.classList.remove("run");
+        });
+        wpanel.querySelectorAll(".cact-slot").forEach(function (cutSlot) {
+          cutSlot.classList.remove("is-cut-guide-visible");
+        });
+        if (charsRow) charsRow.style.display = "";
+        if (splitRow) splitRow.classList.remove("is-on");
+      }
+
+      function buildHomeworkSylMount(host, meta, idxOneBased, total) {
+        host.innerHTML = "";
+        var h2 = document.createElement("h2");
+        h2.className = "slide-title";
+        h2.textContent = "\u5b66\u751f\u81ea\u6211\u7ec3\u4e60 \u00b7 \u97f3\u8282\u5212\u5206";
+        host.appendChild(h2);
+        var prog = document.createElement("p");
+        prog.className = "slide-sub hw-syl-prog";
+        prog.textContent = "\u7b2c " + idxOneBased + " / " + total + " \u8bcd \u00b7 " + meta.word;
+        host.appendChild(prog);
+        var ins = document.createElement("p");
+        ins.className = "hw-syl-hint";
+        ins.innerHTML =
+          "\u70b9\u51fb<strong>\u5143\u97f3\u5b57\u6bcd</strong>\u9ad8\u4eae\uff1b\u70b9\u51fb<strong>\u526a\u5200\u4f4d\u7f6e</strong>\u89c2\u5bdf\u5212\u5206\uff08\u591a\u628a\u526a\u5200\u65f6\u70b9\u4efb\u610f\u4e00\u5904\u5373\u4e00\u6b21\u6027\u663e\u793a\u5168\u8bcd\u5212\u5206\uff09\uff1b\u70b9\u4e0b\u65b9\u6309\u94ae\u7528 <strong>Azure</strong> \u6717\u8bfb\u3002\uff08\u4ee5\u5e38\u89c1\u6559\u5b66\u89c4\u5219\u4e3a\u4f8b\uff0c\u4e2a\u522b\u8bcd\u53ef\u6709\u4e0d\u540c\u5212\u6cd5\u6216\u8bfb\u97f3\u3002\uff09";
+        host.appendChild(ins);
+
+        var wpanel = document.createElement("div");
+        wpanel.className = "cact-word-panel hw-syl-word-panel";
+        var word = meta.word;
+        appendSyllableCharRowFlexible(wpanel, word, meta.cutAfter);
+        if (meta.yAsVowel) {
+          var ch0 = wpanel.querySelectorAll(".cact-ch");
+          for (var iy = 0; iy < word.length; iy++) {
+            if (word[iy].toLowerCase() === "y" && ch0[iy]) ch0[iy].classList.add("cact-vowel");
+          }
+        }
+        var splitRow = document.createElement("div");
+        splitRow.className = "cact-split-row";
+        splitRow.setAttribute("aria-label", "\u5212\u5206\u540e\u7684\u97f3\u8282");
+        meta.parts.forEach(function (p) {
+          var sp = document.createElement("span");
+          sp.textContent = p;
+          splitRow.appendChild(sp);
+        });
+        wpanel.appendChild(splitRow);
+        host.appendChild(wpanel);
+
+        wpanel.querySelectorAll(".cact-vowel").forEach(function (el) {
+          el.style.cursor = "pointer";
+          el.title = "\u70b9\u51fb\u9ad8\u4eae/\u53d6\u6d88\u8be5\u5143\u97f3";
+          el.addEventListener("click", function (ev) {
+            ev.stopPropagation();
+            el.classList.toggle("is-vowel-hl");
+          });
+        });
+
+        var cutSlots = wpanel.querySelectorAll(".cact-slot");
+        var multiCut = cutSlots.length > 1;
+        var cutBusy = false;
+        var cutDone = false;
+        function tryPlayCut() {
+          if (cutBusy || cutDone) return;
+          cutBusy = true;
+          if (multiCut) {
+            revealSplitInstant(wpanel);
+            cutBusy = false;
+            cutDone = true;
+          } else {
+            runScissorAnimation(wpanel, function () {
+              cutBusy = false;
+              cutDone = true;
+            });
+          }
+        }
+        cutSlots.forEach(function (cutSlot) {
+          cutSlot.classList.add("hw-syl-slot-clickable");
+          cutSlot.setAttribute("role", "button");
+          cutSlot.setAttribute("tabindex", "0");
+          cutSlot.setAttribute(
+            "aria-label",
+            "\u97f3\u8282\u5212\u5206\u70b9\uff0c\u70b9\u51fb\u64ad\u653e\u5212\u5206"
+          );
+          cutSlot.title = multiCut
+            ? "\u70b9\u4efb\u610f\u526a\u5200\u4f4d\u7f6e\u63ed\u793a\u5168\u8bcd\u5212\u5206"
+            : "\u70b9\u6b64\u64ad\u653e\u97f3\u8282\u5212\u5206\u52a8\u753b";
+          cutSlot.addEventListener("click", function (ev) {
+            ev.stopPropagation();
+            tryPlayCut();
+          });
+          cutSlot.addEventListener("keydown", function (ev) {
+            if (ev.key === "Enter" || ev.key === " ") {
+              ev.preventDefault();
+              tryPlayCut();
+            }
+          });
+        });
+
+        var btnRow = document.createElement("div");
+        btnRow.className = "btn-row hw-syl-btn-row";
+        var tts = document.createElement("button");
+        tts.type = "button";
+        tts.className = "btn";
+        tts.textContent = "\ud83d\udd0a Azure \u6717\u8bfb\u5355\u8bcd";
+        tts.setAttribute("aria-label", "Azure \u6717\u8bfb " + meta.word);
+        tts.addEventListener("click", function () {
+          speak(meta.word).catch(function () {});
+        });
+        btnRow.appendChild(tts);
+        var resetBtn = document.createElement("button");
+        resetBtn.type = "button";
+        resetBtn.className = "btn hw-syl-reset-btn";
+        resetBtn.textContent = "\u91cd\u770b\u5212\u5206\u52a8\u753b";
+        resetBtn.setAttribute("aria-label", "\u91cd\u7f6e\u4e3a\u5b57\u6bcd\u884c\u5e76\u53ef\u518d\u6b21\u64ad\u653e\u52a8\u753b");
+        resetBtn.addEventListener("click", function () {
+          resetHomeworkCutState(wpanel);
+          cutDone = false;
+          cutBusy = false;
+        });
+        btnRow.appendChild(resetBtn);
+        host.appendChild(btnRow);
+      }
+
+      function initSyllablePracticeMounts() {
+        document.querySelectorAll(".syl-lesson-root").forEach(function (el) {
+          var id = (el.getAttribute("data-syl-id") || "").trim().toLowerCase();
+          var meta = SYLLABLE_LESSON_DB[id];
+          if (meta) buildSyllableLessonMount(el, meta);
+        });
+        var ord = HOMEWORK_SYLLABLE_ORDER;
+        document.querySelectorAll(".hw-syl-root").forEach(function (host) {
+          if (host.dataset.wired) return;
+          host.dataset.wired = "1";
+          var hid = (host.getAttribute("data-hw-syl") || "").trim().toLowerCase();
+          var hmeta = HOMEWORK_SYLLABLE_DB[hid];
+          if (!hmeta) return;
+          var idx = ord.indexOf(hid);
+          buildHomeworkSylMount(host, hmeta, (idx >= 0 ? idx : 0) + 1, ord.length);
+        });
+      }
+
+
+      var slidesMount = document.getElementById("slides-mount");
+      var slides = Array.prototype.slice.call(document.querySelectorAll(".slide"));
+      var total = slides.length;
+      var cur = 0;
+      var dotsEl = document.getElementById("dots");
+
+      function rebuildDots() {
+        dotsEl.innerHTML = "";
+        for (var d = 0; d < total; d++) {
+          (function (i) {
+            var dot = document.createElement("button");
+            dot.type = "button";
+            dot.className = "dot" + (i === cur ? " on" : "");
+            dot.setAttribute("aria-label", "第 " + (i + 1) + " 页，共 " + total + " 页");
+            dot.addEventListener("click", function () {
+              go(i);
+            });
+            dotsEl.appendChild(dot);
+          })(d);
+        }
+      }
+
+      function go(n) {
+        cur = Math.max(0, Math.min(total - 1, n));
+        slides.forEach(function (s, i) {
+          s.classList.toggle("active", i === cur);
+        });
+        Array.prototype.forEach.call(dotsEl.querySelectorAll(".dot"), function (dot, i) {
+          dot.classList.toggle("on", i === cur);
+        });
+      }
+
+      slidesMount.addEventListener("click", function (e) {
+        var trig = e.target.closest(".cle-reveal-trig");
+        if (trig) {
+          var rid = trig.getAttribute("data-reveal");
+          if (rid) revealById(rid);
+          return;
+        }
+
+        var sb = e.target.closest(".speak[data-speak]");
+        if (sb) {
+          if (sb.disabled) return;
+          var rev = sb.getAttribute("data-reveal");
+          if (rev) revealById(rev);
+          speak(sb.getAttribute("data-speak") || "").catch(function () {});
+          return;
+        }
+
+        if (e.target.closest(".cle-or-reset-all")) {
+          var slideReset = e.target.closest(".slide");
+          if (slideReset) {
+            Array.prototype.forEach.call(slideReset.querySelectorAll(".me-card.is-flipped"), function (c) {
+              c.classList.remove("is-flipped");
+            });
+          }
+          return;
+        }
+
+        var faqBtn = e.target.closest(".cle-faq-q");
+        if (faqBtn) {
+          var wrap = faqBtn.closest(".cle-faq");
+          if (!wrap) return;
+          var open = wrap.classList.toggle("is-open");
+          faqBtn.setAttribute("aria-expanded", open ? "true" : "false");
+          return;
+        }
+
+        var mc = e.target.closest(".me-card");
+        if (mc && !e.target.closest(".btn")) {
+          mc.classList.toggle("is-flipped");
+        }
+      });
+
+      slidesMount.addEventListener("keydown", function (e) {
+        var mc = e.target.closest(".me-card");
+        if (!mc) return;
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          mc.classList.toggle("is-flipped");
+        }
+      });
+
+      document.getElementById("btn-prev").addEventListener("click", function () {
+        go(cur - 1);
+      });
+      document.getElementById("btn-next").addEventListener("click", function () {
+        go(cur + 1);
+      });
+      document.addEventListener("keydown", function (e) {
+        if (e.target.matches("input, textarea, select")) return;
+        if (e.key === "ArrowRight" || e.key === "PageDown") {
+          e.preventDefault();
+          go(cur + 1);
+        }
+        if (e.key === "ArrowLeft" || e.key === "PageUp") {
+          e.preventDefault();
+          go(cur - 1);
+        }
+      });
+
+      initSyllablePracticeMounts();
+      rebuildDots();
+      go(0);
+    })();
+  </script>
+</body>
+</html>
