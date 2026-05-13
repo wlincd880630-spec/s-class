@@ -22,4 +22,12 @@
   g.hasLocalTtsMp3 = function (text, voiceName) {
     return !!g.TTS_MP3_MAP[mapKey(voiceName, text)];
   };
+  g.mergeTtsMap = function (partial, optOverwrite) {
+    if (!partial || typeof partial !== 'object') return;
+    for (var k in partial) {
+      if (!Object.prototype.hasOwnProperty.call(partial, k)) continue;
+      if (!optOverwrite && g.TTS_MP3_MAP[k]) continue;
+      g.TTS_MP3_MAP[k] = partial[k];
+    }
+  };
 })(typeof window !== 'undefined' ? window : globalThis);

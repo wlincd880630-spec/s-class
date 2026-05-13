@@ -1440,23 +1440,40 @@
   </div>
 
   <script src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/P/语音课/asset/mp3/tts-urls.js"></script>
+  <script>
+    (function () {
+      try {
+        var base = typeof window !== "undefined" && window.TTS_MP3_BASE ? window.TTS_MP3_BASE : "";
+        var merge = typeof window !== "undefined" && window.mergeTtsMap;
+        if (!base || typeof merge !== "function") return;
+        fetch(base + "tts-map-consonant-le.json", { cache: "no-store" })
+          .then(function (r) {
+            return r.ok ? r.json() : null;
+          })
+          .then(function (j) {
+            if (j) merge(j);
+          })
+          .catch(function () {});
+      } catch (e0) {}
+    })();
+  </script>
   <script src="https://cdn.jsdelivr.net/npm/microsoft-cognitiveservices-speech-sdk@1.40.0/distrib/browser/microsoft.cognitiveservices.speech.sdk.bundle-min.js"></script>
   <script>
     (function () {
+      /** @type {{ AZURE_SPEECH_KEY: string, AZURE_SPEECH_REGION: string }} */
+      /* 课堂使用：密钥写在文件中。若失效请在 Azure 门户轮换密钥后替换下方字符串。 */
       var CONFIG = {
         AZURE_SPEECH_KEY:
-          (typeof localStorage !== "undefined" && localStorage.getItem("azure_speech_key")) || "",
-        AZURE_SPEECH_REGION:
-          (typeof localStorage !== "undefined" && localStorage.getItem("azure_speech_region")) || "eastus2"
+          "C42UQWeDcluYanbo17WrtUnPhk0vkZy2uQHPTCGDzY6CdEXx99NzJQQJ99BIACqBBLyXJ3w3AAAYACOGjkyu",
+        AZURE_SPEECH_REGION: "southeastasia"
       };
-      /* 若需开箱即用，可在下方填入密钥（与兄弟课件一致时可复制粘贴） */
       var AEN = "en-US-JennyNeural";
       var azureSpeaking = false;
       var currentSynth = null;
 
       function getAzureCreds() {
         var k = (CONFIG.AZURE_SPEECH_KEY || "").trim() || localStorage.getItem("azure_speech_key") || "";
-        var r = (CONFIG.AZURE_SPEECH_REGION || "").trim() || localStorage.getItem("azure_speech_region") || "eastus2";
+        var r = (CONFIG.AZURE_SPEECH_REGION || "").trim() || localStorage.getItem("azure_speech_region") || "southeastasia";
         return { key: k, region: r };
       }
 
