@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Lesson 10 · 翻译与仿写</title>
+  <script src="https://cdn.jsdelivr.net/npm/microsoft-cognitiveservices-speech-sdk@1.38.0/dist/microsoft.cognitiveservices.speech.sdk.bundle-min.js" crossorigin="anonymous"></script>
+  <style>
+    :root {
+      --bg: #eef2f7;
+      --card: #ffffff;
+      --text: #1a2332;
+      --muted: #5a6a7e;
+      --accent: #1e6b8c;
+      --accent2: #2a9d8f;
+      --shadow: 0 8px 24px rgba(26, 35, 50, 0.1);
+      --radius: 14px;
+      --topbar-h: 52px;
+      --dock-h: 56px;
+      --input-bg: #f8fafc;
+      --input-border: #c5d0dc;
+      --input-border-hover: #94a3b8;
+      --input-focus: rgba(30, 107, 140, 0.28);
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; overflow: hidden; }
+    body {
+      display: flex; flex-direction: column;
+      font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      font-size: clamp(16px, 1.45vw, 18px);
+      line-height: 1.55;
+      color: var(--text);
+      background: var(--bg);
+    }
+    a { color: var(--accent); }
+    a:focus-visible, button:focus-visible, textarea:focus-visible, select:focus-visible { outline: 3px solid #ffb703; outline-offset: 2px; }
+    .topbar {
+      flex: 0 0 auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+      gap: 8px; padding: 8px 14px; min-height: var(--topbar-h); background: var(--card); border-bottom: 1px solid #e2e8f0; z-index: 50;
+    }
+    .brand { font-weight: 700; color: var(--accent); font-size: 13px; }
+    .slide-meta { font-size: 13px; color: var(--muted); font-weight: 600; min-width: 4.5em; text-align: center; }
+    .top-actions { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+    button, .btn-link {
+      font: inherit; cursor: pointer; border: none; border-radius: 10px; padding: 8px 12px;
+      background: linear-gradient(135deg, var(--accent), #155a78); color: #fff;
+      box-shadow: 0 2px 8px rgba(30, 107, 140, 0.28); text-decoration: none; display: inline-block; font-size: 13px; min-height: 44px;
+    }
+    button.secondary, .btn-link.secondary { background: linear-gradient(135deg, #6c757d, #495057); box-shadow: none; }
+    button:disabled { opacity: 0.55; cursor: not-allowed; }
+    .tts-bar { font-size: 12px; padding: 4px 14px 6px; background: #fff8e6; color: #664d03; border-bottom: 1px solid #f0d78c; }
+    .deck { flex: 1; min-height: 0; position: relative; width: 100%; }
+    .slide { position: absolute; inset: 0; overflow: hidden; display: none; flex-direction: column; padding: 8px 12px 4px; }
+    .slide.is-active { display: flex; }
+    .slide-scroll { flex: 1; min-height: 0; overflow: auto; -webkit-overflow-scrolling: touch; }
+    .slide-inner { max-width: min(1040px, 100%); margin: 0 auto; width: 100%; min-height: min-content; padding-bottom: 18px; }
+    .dock {
+      flex: 0 0 auto; display: flex; align-items: center; justify-content: center; gap: 12px;
+      padding: 8px 12px; min-height: var(--dock-h); background: var(--card); border-top: 1px solid #e2e8f0; z-index: 60;
+    }
+    .dock button { min-width: 100px; min-height: 44px; touch-action: manipulation; }
+    .dock .dots { font-size: 15px; font-weight: 700; color: var(--accent); min-width: 4.5em; text-align: center; }
+    .sr { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+    .hero-compact { display: grid; gap: 14px; align-items: stretch; }
+    @media (min-width: 860px) { .hero-compact { grid-template-columns: 1.05fr 1fr; } }
+    .hero-img-wrap {
+      border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); min-height: 160px;
+      background: linear-gradient(120deg, #e8ecf8, #fde8e4);
+    }
+    .hero-img-wrap img { width: 100%; min-height: 180px; height: 100%; object-fit: cover; display: block; }
+    .hero-img-wrap.fallback-img img { display: none; }
+    .hero-text { background: var(--card); border-radius: var(--radius); padding: 16px 18px; box-shadow: var(--shadow); }
+    .hero-text h1 { margin: 0 0 6px; font-size: clamp(1.15rem, 2.6vw, 1.55rem); }
+    .note-small { font-size: 0.86rem; color: var(--muted); margin: 8px 0 0; }
+    .note {
+      font-size: 0.88rem; color: var(--muted); background: #fffdf5; border-left: 4px solid #ffb703;
+      padding: 10px 12px; border-radius: 8px; margin: 10px 0 0;
+    }
+    .card {
+      background: var(--card); border-radius: var(--radius); padding: 18px 20px; margin-bottom: 14px; box-shadow: var(--shadow);
+      border: 1px solid rgba(226, 232, 240, 0.9);
+    }
+    .card h2 { margin: 0 0 12px; font-size: 1.12rem; color: var(--accent); letter-spacing: 0.02em; }
+    .trans-item {
+      border: 1px solid #e2e8f0; border-radius: 14px; padding: 0; margin-bottom: 16px;
+      background: linear-gradient(180deg, #ffffff 0%, #fafcff 100%);
+      box-shadow: 0 2px 12px rgba(30, 41, 59, 0.06);
+      overflow: hidden;
+    }
+    .trans-item .trans-q { padding: 14px 16px 12px; border-bottom: 1px solid #eef2f7; background: rgba(248, 250, 252, 0.65); }
+    .trans-item .zh { font-size: 1.05rem; font-weight: 700; margin: 0; color: #1e293b; line-height: 1.55; }
+    .trans-item .trans-write { padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 8px; }
+    .trans-write-hint {
+      font-size: 0.78rem; font-weight: 800; color: var(--accent); text-transform: none; letter-spacing: 0.04em;
+    }
+    .field-textarea {
+      width: 100%; min-height: 6.25rem; padding: 14px 16px; border-radius: 12px;
+      border: 1.5px solid var(--input-border); background: var(--input-bg); font: inherit;
+      font-size: 1.02rem; line-height: 1.6; resize: vertical; color: #0f172a;
+      box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.04);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+    .field-textarea:hover { border-color: var(--input-border-hover); background: #fff; }
+    .field-textarea:focus {
+      outline: none; border-color: var(--accent); background: #fff;
+      box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.04), 0 0 0 4px var(--input-focus);
+    }
+    .field-textarea::placeholder { color: #94a3b8; }
+    .trans-item details { margin-top: 4px; border: 1px solid #e8edf3; border-radius: 12px; padding: 10px 12px; background: #fff; }
+    .trans-item summary { cursor: pointer; font-weight: 700; color: var(--accent); font-size: 0.9rem; }
+    .trans-item .ref { margin-top: 8px; font-size: 0.95rem; }
+    .trans-item .ref-en { font-weight: 600; color: #0f172a; line-height: 1.55; }
+    .trans-tools { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+    .mimic-wrap {
+      position: relative; border-radius: var(--radius); overflow: hidden; border: 1px solid #e2e8f0;
+    }
+    .mimic-wrap .mim-bg { position: absolute; inset: 0; opacity: 0.26; pointer-events: none; }
+    .mimic-wrap .mim-bg img { width: 100%; height: 100%; object-fit: cover; }
+    .mimic-inner { position: relative; padding: 18px 18px 20px; background: rgba(255,255,255,0.97); }
+    .model-cards {
+      display: grid; gap: 10px; margin: 12px 0 14px;
+      grid-template-columns: 1fr;
+    }
+    @media (min-width: 720px) { .model-cards { grid-template-columns: 1fr 1fr; } }
+    .model-card {
+      margin: 0; padding: 12px 14px; border-radius: 12px; border: 1px solid #e2e8f0;
+      background: linear-gradient(145deg, #f8fafc, #fff); font-size: 0.88rem; line-height: 1.55; color: #334155;
+    }
+    .chip-banks {
+      border: 1px solid #e8edf3; border-radius: 14px; padding: 12px 14px 14px; margin-bottom: 16px;
+      background: rgba(248, 250, 252, 0.9);
+    }
+    .bank-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; align-items: center; }
+    .bank-row:last-child { margin-bottom: 0; }
+    .bank-row .lbl { font-size: 0.76rem; font-weight: 800; color: var(--accent); width: 100%; letter-spacing: 0.02em; margin-bottom: 2px; }
+    .chip {
+      cursor: pointer; padding: 8px 12px; border-radius: 10px; border: 1px solid #cbd5e1; background: #fff;
+      font-size: 0.88rem; font-weight: 600; color: #334155; min-height: 44px;
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05);
+      transition: border-color 0.15s ease, background 0.15s ease, transform 0.12s ease;
+    }
+    .chip:hover { background: #eef6ff; border-color: var(--accent); transform: translateY(-1px); }
+    .chip:active { transform: translateY(0); }
+    .fld-label { display: block; font-weight: 700; font-size: 0.9rem; color: #334155; margin: 4px 0 8px; }
+    .mimic-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-bottom: 14px; }
+    .mimic-toolbar select.field-select { flex: 1 1 12rem; min-width: 0; }
+    .field-select {
+      font: inherit; font-size: 0.92rem; padding: 10px 12px; border-radius: 10px; border: 1.5px solid var(--input-border);
+      background: var(--input-bg); color: var(--text); cursor: pointer;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .field-select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 4px var(--input-focus); }
+    .mimic-draft { min-height: 11rem; }
+    .mimic-footer { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; margin-top: 10px; }
+    .ai-panel {
+      position: fixed; right: 0; top: 0; bottom: 0; width: min(440px, 100vw); background: var(--card);
+      box-shadow: -6px 0 28px rgba(0,0,0,0.14); transform: translateX(100%); transition: transform 0.28s ease; z-index: 120;
+      display: flex; flex-direction: column;
+    }
+    .ai-panel.open { transform: translateX(0); }
+    .ai-panel header { padding: 12px 14px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; }
+    .ai-panel .body { flex: 1; overflow: auto; padding: 14px 16px; display: flex; flex-direction: column; gap: 14px; }
+    .ai-mode-row { display: flex; flex-direction: column; gap: 6px; padding: 10px 12px; border-radius: 12px; background: #f8fafc; border: 1px solid #e8edf3; }
+    .ai-mode-row label { cursor: pointer; font-size: 0.9rem; }
+    .ai-form-block { display: flex; flex-direction: column; gap: 12px; }
+    .ai-field .fld-label { margin: 0 0 6px; font-size: 0.82rem; font-weight: 700; color: var(--muted); }
+    .ai-panel .field-textarea,
+    .ai-panel .field-select { width: 100%; }
+    .ai-panel .field-textarea { min-height: 110px; }
+    .ai-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 2px; }
+    .ai-panel .out { white-space: pre-wrap; background: linear-gradient(180deg, #f1f5f9, #f8fafc); border-radius: 12px; padding: 14px; min-height: 80px; border: 1px solid #e2e8f0; font-size: 0.92rem; line-height: 1.55; }
+    .backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.35); opacity: 0; pointer-events: none; transition: opacity 0.25s ease; z-index: 110; }
+    .backdrop.show { opacity: 1; pointer-events: auto; }
+    @media print {
+      .deck { zoom: 1 !important; }
+      .top-actions, .dock, .tts-bar, .ai-panel, .backdrop { display: none !important; }
+    }
+      /* L10：主内容区整体 160%（顶栏与底部分页条不缩放） */
+    .tts-bar,
+    .deck {
+      zoom: 1.6;
+    }
+
+</style>
+</head>
+<body>
+  <div id="ariaLive" class="sr" aria-live="polite"></div>
+  <header class="topbar">
+    <div class="brand">Lesson 10 · Translation &amp; Mimic Writing</div>
+    <div class="slide-meta" id="slideIndicator">1 / 5</div>
+    <div class="top-actions">
+      <a class="btn-link secondary" href="L10-00-index.html">返回目录</a>
+      <a class="btn-link secondary" href="L10-09-durative-verbs.html">上一节</a>
+      <a class="btn-link secondary" href="L10-11-reading-mini.html">下一节</a>
+      <button type="button" id="btnReadZhAll">朗读题干（中文）</button>
+      <button type="button" id="btnReadEnAll" class="secondary">朗读参考答案（英文）</button>
+      <button type="button" id="btnAiOpen" class="secondary">AI 批改 / 仿写辅助</button>
+    </div>
+  </header>
+  <div class="tts-bar" id="ttsBar" role="status" style="display:none"></div>
+
+  <div class="deck" id="deck">
+    <section class="slide is-active" id="slide-0" aria-label="封面">
+      <div class="slide-scroll">
+        <div class="slide-inner">
+          <div class="hero-compact">
+            <div class="hero-img-wrap" id="heroBlock">
+              <img id="heroImg" src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L10/assets/img/l10-p11-translate-hero.png" alt="笔记本与词典学习氛围插画，无英文文字" width="1600" height="900" loading="eager" decoding="async" />
+            </div>
+            <div class="hero-text">
+              <h1>翻译与仿写</h1>
+              <p class="note-small">中译英 · <span lang="en">for / since</span> · 延续动词</p>
+              <p class="note">上一节（<a href="L10-09-durative-verbs.html">L10-09</a>）学了 <span lang="en">borrow→keep</span> 等转换；本页把<strong>中文意思</strong>写成带 <span lang="en">for/since</span> 的现完句，并仿写自己的句子。结构衔接 <a href="L10-07-for-since-how-long.html">L10-07</a>，动词衔接 L10-09。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-2" hidden aria-label="中译英基础组">
+      <div class="slide-scroll">
+        <div class="slide-inner">
+          <div class="card">
+            <h2>中译英 A 组（基础 · 5 题）</h2>
+            <p class="note-small">在作答区写下你的译文；点「展开参考答案」校对。</p>
+            <div id="mountA"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-3" hidden aria-label="中译英提高组">
+      <div class="slide-scroll">
+        <div class="slide-inner">
+          <div class="card">
+            <h2>中译英 B 组（提高 · 5 题）</h2>
+            <p class="note-small">含 <strong>How long 问句</strong> 与 <strong>since 从句</strong> 类结构；注意延续动词。</p>
+            <div id="mountB"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-4" hidden aria-label="仿写">
+      <div class="slide-scroll">
+        <div class="slide-inner">
+          <div class="mimic-wrap">
+            <div class="mim-bg"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L10/assets/img/l10-p11-mimic-bg.png" alt="" width="1200" height="800" decoding="async" /></div>
+            <div class="mimic-inner">
+              <h2 style="margin-top:0">仿写 · 新学期 / 暑期 / 习惯</h2>
+              <div class="model-cards" aria-label="两句范例">
+                <p class="model-card" lang="en"><strong>Model 1:</strong> I have studied English for six years. I practise speaking at the weekend.</p>
+                <p class="model-card" lang="en"><strong>Model 2:</strong> I have had this dictionary since Grade 7. It still looks almost new.</p>
+              </div>
+              <p class="note">中文提示框架：「<strong>我 / 我的朋友 / 我的表弟</strong>」从某个起点或一段时间以来，在学英语或拥有某物——写<strong>至少两句</strong>英语。</p>
+              <div class="mimic-toolbar">
+                <select id="subjPick" class="field-select" aria-label="主语人称">
+                  <option value="">（选择主语开头，可不插）</option>
+                  <option value="I have ">I have …</option>
+                  <option value="My friend has ">My friend has …</option>
+                  <option value="My cousin has ">My cousin has …</option>
+                </select>
+                <button type="button" class="secondary" id="btnInsertSubj">插入到光标处</button>
+              </div>
+              <div class="chip-banks">
+                <div class="bank-row"><span class="lbl">for / since 短语</span></div>
+                <div class="bank-row" id="bankFs"></div>
+                <div class="bank-row"><span class="lbl">延续结构</span></div>
+                <div class="bank-row" id="bankDur"></div>
+                <div class="bank-row"><span class="lbl">学习类</span></div>
+                <div class="bank-row" id="bankStudy"></div>
+              </div>
+              <label class="fld-label" for="mimicDraft">仿写草稿（至少两句）</label>
+              <textarea class="field-textarea mimic-draft" id="mimicDraft" rows="8" aria-label="仿写草稿至少两句" placeholder="先写两句，再点词块插入补充 for / since 等。"></textarea>
+              <div class="mimic-footer">
+                <p class="note-small" id="mimicStats" style="margin:0">约 0 词 · 约 0 句</p>
+                <button type="button" class="secondary" id="btnReadModels">朗读两句范例（英文）</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-5" hidden aria-label="延伸链接">
+      <div class="slide-scroll">
+        <div class="slide-inner">
+          <div class="card">
+            <h2>延伸链接</h2>
+            <p><a href="L10-07-for-since-how-long.html">复习 for / since（L10-07）</a> · <a href="L10-09-durative-verbs.html">延续动词表（L10-09）</a></p>
+            <p><a href="L10-11-reading-mini.html">下一节：微读（L10-11）</a></p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="dock" id="dockBar">
+    <button type="button" id="btnPrev" class="secondary">上一页</button>
+    <div class="dots" id="dockDots">1 / 5</div>
+    <button type="button" id="btnNext">下一页</button>
+  </div>
+
+  <div class="backdrop" id="aiBackdrop" hidden></div>
+  <aside class="ai-panel" id="aiPanel" aria-label="DeepSeek AI">
+    <header>
+      <strong>AI 批改 / 仿写辅助</strong>
+      <button type="button" id="btnAiClose" class="secondary">关闭</button>
+    </header>
+    <div class="body">
+      <p class="note-small" id="aiQuota">DeepSeek 已用 0 / 8 次</p>
+      <div class="ai-mode-row">
+        <label><input type="radio" name="aiMode" value="grade" checked /> 单题批改（三行）</label>
+        <label><input type="radio" name="aiMode" value="mimic" /> 仿写辅助（两行英文 + 一行中文）</label>
+      </div>
+      <div id="gradeFields" class="ai-form-block">
+        <div class="ai-field">
+          <label class="fld-label" for="gradeId">题号</label>
+          <select id="gradeId" class="field-select"></select>
+        </div>
+        <div class="ai-field">
+          <label class="fld-label" for="gradeText">我的译文</label>
+          <textarea id="gradeText" class="field-textarea" maxlength="400" placeholder="粘贴该题你的英语译文"></textarea>
+        </div>
+      </div>
+      <div id="mimicFields" class="ai-form-block" style="display:none">
+        <div class="ai-field">
+          <label class="fld-label" for="mimicHint">中文要点</label>
+          <textarea id="mimicHint" class="field-textarea" maxlength="200" placeholder="例：我用这部词典三年了。"></textarea>
+        </div>
+      </div>
+      <div class="ai-actions">
+        <button type="button" id="btnAiRun">发送</button>
+        <button type="button" class="secondary" id="btnAiClear">清空</button>
+      </div>
+      <label class="fld-label" for="aiOut">输出</label>
+      <div id="aiOut" class="out"></div>
+    </div>
+  </aside>
+
+  <script>
+(function () {
+  const AZURE_SPEECH_KEY = "C42UQWeDcluYanbo17WrtUnPhk0vkZy2uQHPTCGDzY6CdEXx99NzJQQJ99BIACqBBLyXJ3w3AAAYACOGjkyu";
+  const AZURE_SPEECH_REGION = "southeastasia";
+  const DEEPSEEK_API_KEY = "sk-daa16008e81843deba6fefe9dce51465";
+  const DEEPSEEK_API_URL = "https://api.deepseek.com/v1/chat/completions";
+  const DS_SESS_KEY = "l10p11_ds_count";
+
+  var vEn = "en-US-AvaMultilingualNeural";
+  var vZh = "zh-CN-XiaoxiaoNeural";
+  var ttsHtmlAudio = null;
+  var ttsBusy = false;
+
+  var DS_SYS_GRADE =
+    "你是初中英语翻译阅卷助手。用户会给出题号和一句他自己的英语译文，对应一道中文题。你只输出三行：第一行用中文一个词评价档次（较好/一般/需改进）；第二行给出一条具体修改建议，可中英混合；第三行给出你认为更自然的一句参考译文。不要输出第四行。不要输出密钥或链接。参考译文不要与用户答案完全相同，可替换同义词。";
+  var DS_SYS_MIMIC =
+    "你是初中英语助教。用户用中文给要点，你要输出两行英语仿写句，每句必须使用现在完成时，并正确使用 for 或 since 与延续动词 have had / have studied / have been in 等；第三行中文说明 for 或 since 的选择。不要第四行。不要输出密钥。";
+
+  var TRANSLATE_A = [
+    { id: "tA1", zh: "我学英语已经六年了。", en: "I have studied English for six years. / I've learned English for six years.", note: "两译均可；have studied 最常见。" },
+    { id: "tA2", zh: "我从去年八月起当社区志愿者。", en: "I have been a community volunteer since last August.", note: "since + 起点；volunteer 可持续状态。" },
+    { id: "tA3", zh: "这本词典我买了三年了。", en: "I have had this dictionary for three years.", note: "buy 不宜与 for 三年连用；用 have had 表拥有。" },
+    { id: "tA4", zh: "这本书我借了两个星期了。", en: "I have kept this book for two weeks.", note: "borrow 换 keep 表借阅状态。" },
+    { id: "tA5", zh: "他在成都生活三年了。", en: "He has lived in Chengdu for three years.", note: "live 可延续，直接配 for。" }
+  ];
+
+  var TRANSLATE_B = [
+    { id: "tB1", zh: "这部电影已经放映一小时了。", en: "The film has been on for an hour.", note: "begin 换 be on 表放映在进行。" },
+    { id: "tB2", zh: "你学英语多久了？", en: "How long have you studied English?", note: "How long 问持续时长，现完疑问语序。" },
+    { id: "tB3", zh: "我从上小学三年级开始就学英语。", en: "I have studied English since Grade 3. / I have studied English since I was in Grade 3.", note: "since + 年级 / since 从句均可。" },
+    { id: "tB4", zh: "自从我去年九月加入这支乐队以来，我就一直待在里面。", en: "I have been in the band since I joined it last September.", note: "since 从句表起点；join 换 be in。" },
+    { id: "tB5", zh: "这家店从上午九点开始营业到现在。", en: "The shop has been open since 9 a.m.", note: "open 换 be open 表营业状态。" }
+  ];
+
+  var ALL_ITEMS = TRANSLATE_A.concat(TRANSLATE_B);
+
+  function aria(m) {
+    var el = document.getElementById("ariaLive");
+    if (el) el.textContent = m;
+  }
+  function setTtsBar(t) {
+    var b = document.getElementById("ttsBar");
+    if (!b) return;
+    b.textContent = t || "";
+    b.style.display = t ? "block" : "none";
+  }
+  function stopHtmlAudio() {
+    try {
+      if (ttsHtmlAudio) {
+        ttsHtmlAudio.pause();
+        if (ttsHtmlAudio._revoke) URL.revokeObjectURL(ttsHtmlAudio._revoke);
+        ttsHtmlAudio.removeAttribute("src");
+        ttsHtmlAudio.load();
+        ttsHtmlAudio = null;
+      }
+    } catch (e) {}
+  }
+  function escapeXml(s) {
+    return String(s)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&apos;");
+  }
+  function buildSsml(text, voiceName) {
+    var lang = voiceName.indexOf("zh-") === 0 ? "zh-CN" : "en-US";
+    return (
+      "<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='" +
+      lang +
+      "' xmlns:mstts='http://www.w3.org/2001/mstts'><voice name='" +
+      voiceName +
+      "'>" +
+      escapeXml(text) +
+      "</voice></speak>"
+    );
+  }
+  function azureRest(ssml, ok, fail) {
+    stopHtmlAudio();
+    fetch("https://" + AZURE_SPEECH_REGION + ".tts.speech.microsoft.com/cognitiveservices/v1", {
+      method: "POST",
+      mode: "cors",
+      credentials: "omit",
+      headers: {
+        "Ocp-Apim-Subscription-Key": AZURE_SPEECH_KEY,
+        "Content-Type": "application/ssml+xml",
+        "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3",
+        "User-Agent": "L10P11Translate/1.0"
+      },
+      body: ssml
+    })
+      .then(function (r) {
+        if (!r.ok) return r.text().then(function () { throw new Error("REST " + r.status); });
+        return r.blob();
+      })
+      .then(function (blob) {
+        if (!blob || blob.size < 80) throw new Error("音频异常");
+        var u = URL.createObjectURL(blob);
+        var a = new Audio();
+        ttsHtmlAudio = a;
+        a._revoke = u;
+        a.src = u;
+        a.setAttribute("playsinline", "true");
+        a.onended = function () { stopHtmlAudio(); ok(); };
+        a.onerror = function () { stopHtmlAudio(); fail(new Error("play")); };
+        var p = a.play();
+        if (p && p.catch) p.catch(function (e) { stopHtmlAudio(); fail(e); });
+      })
+      .catch(function (e) { stopHtmlAudio(); fail(e); });
+  }
+  function azureSdk(ssml, voiceName, ok, fail) {
+    if (typeof SpeechSDK === "undefined") { fail(new Error("no sdk")); return; }
+    stopHtmlAudio();
+    var cfg = SpeechSDK.SpeechConfig.fromSubscription(AZURE_SPEECH_KEY, AZURE_SPEECH_REGION);
+    cfg.speechSynthesisVoiceName = voiceName;
+    var syn = new SpeechSDK.SpeechSynthesizer(cfg, SpeechSDK.AudioConfig.fromDefaultSpeakerOutput());
+    syn.speakSsmlAsync(
+      ssml,
+      function (res) {
+        var good = res.reason === SpeechSDK.ResultReason.SynthesizingAudioCompleted;
+        syn.close();
+        if (good) ok();
+        else fail(new Error("sdk"));
+      },
+      function (err) { syn.close(); fail(err); }
+    );
+  }
+  function azureSpeakSsml(ssml, voice, onDone) {
+    onDone = onDone || function () {};
+    setTtsBar("正在连接 Azure 语音…");
+    azureRest(
+      ssml,
+      function () { setTtsBar(""); onDone(); },
+      function () {
+        setTtsBar("REST 失败，尝试 SDK…");
+        azureSdk(ssml, voice, function () { setTtsBar(""); onDone(); }, function () {
+          setTtsBar("语音失败");
+          aria("语音合成失败");
+          onDone();
+        });
+      }
+    );
+  }
+  function speakChain(list, i, onAllDone) {
+    if (i >= list.length) {
+      onAllDone();
+      return;
+    }
+    var item = list[i];
+    azureSpeakSsml(item.ssml, item.voice, function () { speakChain(list, i + 1, onAllDone); });
+  }
+
+  function itemById(id) {
+    for (var j = 0; j < ALL_ITEMS.length; j++) {
+      if (ALL_ITEMS[j].id === id) return ALL_ITEMS[j];
+    }
+    return null;
+  }
+
+  function mountList(arr, mountId) {
+    var root = document.getElementById(mountId);
+    root.innerHTML = arr
+      .map(function (it) {
+        return (
+          '<div class="trans-item" data-id="' +
+          it.id +
+          '"><div class="trans-q"><p class="zh">' +
+          it.zh +
+          '</p></div><div class="trans-write">' +
+          '<span class="trans-write-hint" aria-hidden="true">你的译文（英语）</span>' +
+          '<label class="sr" for="ta_' +
+          it.id +
+          '">第 ' +
+          it.id +
+          " 题作答区</label>" +
+          '<textarea class="field-textarea" id="ta_' +
+          it.id +
+          '" aria-label="题 ' +
+          it.id +
+          ' 英语作答区" placeholder="在此输入你的英语句子…"></textarea>' +
+          '<div class="trans-tools">' +
+          '<button type="button" class="secondary btn-read-zh" data-id="' +
+          it.id +
+          '">朗读本题中文</button>' +
+          '<button type="button" class="secondary btn-read-en" data-id="' +
+          it.id +
+          '">朗读本题参考英文</button></div>' +
+          "<details>" +
+          '<summary>展开参考答案</summary><div class="ref"><p class="ref-en" lang="en">' +
+          it.en +
+          "</p><p class=\"note-small\">" +
+          it.note +
+          "</p></div></details></div></div>"
+        );
+      })
+      .join("");
+  }
+
+  function insertAtCursor(ta, text) {
+    if (!ta) return;
+    var start = ta.selectionStart;
+    var end = ta.selectionEnd;
+    var v = ta.value;
+    ta.value = v.slice(0, start) + text + v.slice(end);
+    var pos = start + text.length;
+    ta.selectionStart = ta.selectionEnd = pos;
+    ta.focus();
+  }
+
+  function mountBanks() {
+    var fs = ["for six years ", "since last August ", "since Grade 3 ", "for two weeks ", "since 9 a.m. "];
+    var dur = ["have had ", "have been in ", "have been a volunteer ", "have kept ", "have been open "];
+    var st = ["have studied ", "have learned ", "How long have you studied English? "];
+    function row(id, chunks) {
+      document.getElementById(id).innerHTML = chunks
+        .map(function (c) {
+          var esc = c.replace(/&/g, "&amp;").replace(/"/g, "&quot;");
+          return '<button type="button" class="chip" data-t="' + esc + '">' + c.trim() + "</button>";
+        })
+        .join("");
+    }
+    row("bankFs", fs);
+    row("bankDur", dur);
+    row("bankStudy", st);
+    ["bankFs", "bankDur", "bankStudy"].forEach(function (rid) {
+      document.getElementById(rid).addEventListener("click", function (e) {
+        var b = e.target.closest(".chip");
+        if (!b) return;
+        insertAtCursor(document.getElementById("mimicDraft"), b.getAttribute("data-t"));
+      });
+    });
+  }
+
+  function updateMimicStats() {
+    var ta = document.getElementById("mimicDraft");
+    var t = ta.value.trim();
+    var words = t ? t.split(/\s+/).filter(Boolean).length : 0;
+    var sents = t ? t.split(/[.!?]+/).filter(function (x) { return x.trim().length > 3; }).length : 0;
+    document.getElementById("mimicStats").textContent = "约 " + words + " 词 · 约 " + sents + " 句（含标点切分，仅供参考）";
+  }
+
+  document.getElementById("deck").addEventListener("click", function (e) {
+    var bz = e.target.closest(".btn-read-zh");
+    var be = e.target.closest(".btn-read-en");
+    if (ttsBusy) return;
+    if (bz) {
+      var idz = bz.getAttribute("data-id");
+      var itz = itemById(idz);
+      if (!itz) return;
+      ttsBusy = true;
+      bz.disabled = true;
+      azureSpeakSsml(buildSsml(itz.zh, vZh), vZh, function () {
+        ttsBusy = false;
+        bz.disabled = false;
+      });
+    }
+    if (be) {
+      var ide = be.getAttribute("data-id");
+      var ite = itemById(ide);
+      if (!ite) return;
+      ttsBusy = true;
+      be.disabled = true;
+      azureSpeakSsml(buildSsml(ite.en.replace(/\s*\/\s*/g, " — or — "), vEn), vEn, function () {
+        ttsBusy = false;
+        be.disabled = false;
+      });
+    }
+  });
+
+  document.getElementById("btnReadZhAll").addEventListener("click", function () {
+    if (ttsBusy) return;
+    ttsBusy = true;
+    document.getElementById("btnReadZhAll").disabled = true;
+    var list = [];
+    ALL_ITEMS.forEach(function (it) {
+      list.push({ voice: vZh, ssml: buildSsml("第 " + it.id + " 题：" + it.zh, vZh) });
+    });
+    speakChain(list, 0, function () {
+      ttsBusy = false;
+      document.getElementById("btnReadZhAll").disabled = false;
+    });
+  });
+
+  document.getElementById("btnReadEnAll").addEventListener("click", function () {
+    if (ttsBusy) return;
+    ttsBusy = true;
+    document.getElementById("btnReadEnAll").disabled = true;
+    var list = [];
+    ALL_ITEMS.forEach(function (it) {
+      list.push({ voice: vEn, ssml: buildSsml(it.id + ". " + it.en.replace(/\s*\/\s*/g, " or "), vEn) });
+    });
+    speakChain(list, 0, function () {
+      ttsBusy = false;
+      document.getElementById("btnReadEnAll").disabled = false;
+    });
+  });
+
+  document.getElementById("btnReadModels").addEventListener("click", function () {
+    if (ttsBusy) return;
+    ttsBusy = true;
+    var t =
+      "Model 1: I have studied English for six years. I practise speaking at the weekend. Model 2: I have had this dictionary since Grade 7. It still looks almost new.";
+    azureSpeakSsml(buildSsml(t, vEn), vEn, function () {
+      ttsBusy = false;
+    });
+  });
+
+  document.getElementById("btnInsertSubj").addEventListener("click", function () {
+    var sel = document.getElementById("subjPick");
+    if (!sel.value) return;
+    insertAtCursor(document.getElementById("mimicDraft"), sel.value);
+  });
+
+  document.getElementById("mimicDraft").addEventListener("input", updateMimicStats);
+
+  function getDs() {
+    return Number(sessionStorage.getItem(DS_SESS_KEY) || "0") || 0;
+  }
+  function bumpDs() {
+    sessionStorage.setItem(DS_SESS_KEY, String(getDs() + 1));
+  }
+  function updQuota() {
+    document.getElementById("aiQuota").textContent = "DeepSeek 已用 " + getDs() + " / 8 次";
+  }
+
+  function openAi() {
+    document.getElementById("aiPanel").classList.add("open");
+    document.getElementById("aiBackdrop").classList.add("show");
+    document.getElementById("aiBackdrop").hidden = false;
+    updQuota();
+  }
+  function closeAi() {
+    document.getElementById("aiPanel").classList.remove("open");
+    document.getElementById("aiBackdrop").classList.remove("show");
+    document.getElementById("aiBackdrop").hidden = true;
+  }
+  document.getElementById("btnAiOpen").addEventListener("click", openAi);
+  document.getElementById("btnAiClose").addEventListener("click", closeAi);
+  document.getElementById("aiBackdrop").addEventListener("click", closeAi);
+
+  document.querySelectorAll('input[name="aiMode"]').forEach(function (r) {
+    r.addEventListener("change", function () {
+      var m = (document.querySelector('input[name="aiMode"]:checked') || {}).value;
+      document.getElementById("gradeFields").style.display = m === "grade" ? "block" : "none";
+      document.getElementById("mimicFields").style.display = m === "mimic" ? "block" : "none";
+    });
+  });
+
+  function takeLines(text, max) {
+    return String(text || "")
+      .trim()
+      .split(/\r?\n/)
+      .filter(Boolean)
+      .slice(0, max)
+      .join("\n");
+  }
+
+  document.getElementById("btnAiRun").addEventListener("click", function () {
+    var out = document.getElementById("aiOut");
+    if (getDs() >= 8) {
+      out.textContent = "已达本页 8 次上限，请对照参考答案自改。";
+      return;
+    }
+    var mode = (document.querySelector('input[name="aiMode"]:checked') || {}).value || "grade";
+    var sys, user, temp, maxTok, lines;
+    if (mode === "grade") {
+      var gid = document.getElementById("gradeId").value;
+      var gt = document.getElementById("gradeText").value.trim();
+      if (!gt) {
+        out.textContent = "请粘贴你的译文。";
+        return;
+      }
+      var git = itemById(gid);
+      if (!git) {
+        out.textContent = "题号无效。";
+        return;
+      }
+      sys = DS_SYS_GRADE;
+      user = "题号：" + gid + "\n中文题干：" + git.zh + "\n学生译文：" + gt.slice(0, 400);
+      temp = 0.3;
+      maxTok = 320;
+      lines = 3;
+    } else {
+      var mh = document.getElementById("mimicHint").value.trim();
+      if (!mh) {
+        out.textContent = "请输入中文要点。";
+        return;
+      }
+      sys = DS_SYS_MIMIC;
+      user = mh.slice(0, 200);
+      temp = 0.4;
+      maxTok = 260;
+      lines = 3;
+    }
+    out.textContent = "思考中…";
+    fetch(DEEPSEEK_API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: "Bearer " + DEEPSEEK_API_KEY },
+      body: JSON.stringify({
+        model: "deepseek-chat",
+        temperature: temp,
+        max_tokens: maxTok,
+        messages: [
+          { role: "system", content: sys },
+          { role: "user", content: user }
+        ]
+      })
+    })
+      .then(function (r) {
+        if (!r.ok) throw new Error("HTTP " + r.status);
+        return r.json();
+      })
+      .then(function (data) {
+        var t = (((data.choices || [])[0] || {}).message || {}).content || "";
+        bumpDs();
+        updQuota();
+        out.textContent = takeLines(t, lines);
+      })
+      .catch(function () {
+        out.textContent = "请求失败，请检查网络。";
+      });
+  });
+  document.getElementById("btnAiClear").addEventListener("click", function () {
+    document.getElementById("gradeText").value = "";
+    document.getElementById("mimicHint").value = "";
+    document.getElementById("aiOut").textContent = "";
+  });
+
+  var slideIndex = 0;
+  var slides = [];
+  function goSlide(n) {
+    slideIndex = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach(function (s, i) {
+      var on = i === slideIndex;
+      s.classList.toggle("is-active", on);
+      s.hidden = !on;
+    });
+    var cur = slides[slideIndex];
+    if (cur) {
+      var sc = cur.querySelector(".slide-scroll");
+      if (sc) sc.scrollTop = 0;
+    }
+    var lab = slideIndex + 1 + " / " + slides.length;
+    document.getElementById("slideIndicator").textContent = lab;
+    document.getElementById("dockDots").textContent = lab;
+    document.getElementById("btnPrev").disabled = slideIndex === 0;
+    document.getElementById("btnNext").disabled = slideIndex === slides.length - 1;
+  }
+  document.getElementById("btnPrev").addEventListener("click", function () { goSlide(slideIndex - 1); });
+  document.getElementById("btnNext").addEventListener("click", function () { goSlide(slideIndex + 1); });
+  document.addEventListener("keydown", function (e) {
+    if (e.target.closest(".ai-panel.open") || document.getElementById("aiBackdrop").classList.contains("show")) return;
+    if (e.key === "ArrowLeft") { e.preventDefault(); goSlide(slideIndex - 1); }
+    if (e.key === "ArrowRight") { e.preventDefault(); goSlide(slideIndex + 1); }
+  });
+
+  var heroImg = document.getElementById("heroImg");
+  if (heroImg) {
+    heroImg.addEventListener("error", function () {
+      document.getElementById("heroBlock").classList.add("fallback-img");
+    });
+  }
+
+  mountList(TRANSLATE_A, "mountA");
+  mountList(TRANSLATE_B, "mountB");
+  mountBanks();
+  var sel = document.getElementById("gradeId");
+  ALL_ITEMS.forEach(function (it) {
+    var o = document.createElement("option");
+    o.value = it.id;
+    o.textContent = it.id + " · " + it.zh.slice(0, 18) + "…";
+    sel.appendChild(o);
+  });
+  slides = Array.prototype.slice.call(document.querySelectorAll(".slide"));
+  goSlide(0);
+  updQuota();
+  updateMimicStats();
+})();
+  </script>
+</body>
+</html>

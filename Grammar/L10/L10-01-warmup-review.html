@@ -1,0 +1,1333 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Lesson 10 · Warm-up · 一般过去时复习</title>
+  <script src="https://cdn.jsdelivr.net/npm/microsoft-cognitiveservices-speech-sdk@1.38.0/dist/microsoft.cognitiveservices.speech.sdk.bundle-min.js" crossorigin="anonymous"></script>
+  <style>
+    :root {
+      --bg: #eef2f7;
+      --card: #ffffff;
+      --text: #1a2332;
+      --muted: #5a6a7e;
+      --accent: #1e6b8c;
+      --accent2: #2a9d8f;
+      --shadow: 0 8px 24px rgba(26, 35, 50, 0.1);
+      --radius: 14px;
+      --topbar-h: 52px;
+      --dock-h: 56px;
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; }
+    body {
+      display: flex;
+      flex-direction: column;
+      font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      font-size: clamp(16px, 1.5vw, 18px);
+      line-height: 1.55;
+      color: var(--text);
+      background: var(--bg);
+      overflow: hidden;
+    }
+    a { color: var(--accent); }
+    a:focus-visible, button:focus-visible, .reveal-zone:focus-visible {
+      outline: 3px solid #ffb703;
+      outline-offset: 2px;
+    }
+    .topbar {
+      flex: 0 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 8px 16px;
+      min-height: var(--topbar-h);
+      background: var(--card);
+      border-bottom: 1px solid #e2e8f0;
+      z-index: 40;
+    }
+    .brand { font-weight: 700; color: var(--accent); font-size: 14px; }
+    .slide-meta { font-size: 13px; color: var(--muted); font-weight: 600; }
+    .top-actions { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+    button, .btn-link {
+      font: inherit;
+      cursor: pointer;
+      border: none;
+      border-radius: 10px;
+      padding: 8px 12px;
+      background: linear-gradient(135deg, var(--accent), #155a78);
+      color: #fff;
+      box-shadow: 0 2px 8px rgba(30, 107, 140, 0.3);
+      text-decoration: none;
+      display: inline-block;
+      font-size: 14px;
+    }
+    button.secondary, .btn-link.secondary {
+      background: linear-gradient(135deg, #6c757d, #495057);
+      box-shadow: none;
+    }
+    button:disabled { opacity: 0.55; cursor: not-allowed; }
+    button.speaking { background: linear-gradient(135deg, #e76f51, #c94c32); }
+    .deck {
+      flex: 1;
+      min-height: 0;
+      position: relative;
+      width: 100%;
+    }
+    .slide {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      display: none;
+      flex-direction: column;
+      padding: 12px 16px 8px;
+    }
+    .slide.is-active { display: flex; }
+    .slide-scroll {
+      flex: 1;
+      min-height: 0;
+      overflow: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .slide-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+      min-height: min-content;
+    }
+    .hero-compact {
+      display: grid;
+      gap: 16px;
+      align-items: stretch;
+    }
+    @media (min-width: 880px) {
+      .hero-compact { grid-template-columns: 1.1fr 1fr; }
+    }
+    .hero-img-wrap {
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      min-height: 160px;
+      background: linear-gradient(120deg, #e0f2f7, #d8f3e4);
+    }
+    .hero-img-wrap img { width: 100%; height: 100%; min-height: 180px; object-fit: cover; display: block; }
+    .hero-img-wrap.fallback-img img { display: none; }
+    .hero-text {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 18px 20px;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .hero-text h1 { margin: 0 0 8px; font-size: clamp(1.35rem, 3vw, 1.85rem); }
+    .hero-text .subzh { margin: 0; color: var(--muted); font-size: 0.95rem; }
+    .hero-text .tagline { margin: 10px 0 0; font-family: Georgia, serif; color: var(--accent); }
+    .card-block {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 16px 18px;
+      box-shadow: var(--shadow);
+    }
+    .card-block h2 { margin: 0 0 10px; font-size: 1.15rem; color: var(--accent); }
+    .slide-title-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .slide-title-row h2 { margin: 0; font-size: clamp(1.1rem, 2.2vw, 1.35rem); color: var(--accent); }
+    .note-small { font-size: 0.86rem; color: var(--muted); margin: 0 0 10px; }
+    /* 规则快闪：整页一张 slide，大屏 3×2 卡片 */
+    .rule-slide-grid {
+      display: grid;
+      gap: 10px;
+      grid-template-columns: 1fr;
+      flex: 1;
+      min-height: 0;
+      align-content: stretch;
+    }
+    @media (min-width: 640px) {
+      .rule-slide-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (min-width: 1024px) {
+      .rule-slide-grid { grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    }
+    .rule-scene {
+      perspective: 1000px;
+      min-height: clamp(200px, 26vh, 300px);
+    }
+    .rule-flip {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      min-height: clamp(200px, 26vh, 300px);
+      transform-style: preserve-3d;
+      transition: transform 0.55s ease;
+    }
+    .rule-flip.is-flipped { transform: rotateY(180deg); }
+    .rule-face {
+      position: absolute;
+      inset: 0;
+      backface-visibility: hidden;
+      border-radius: 14px;
+      border: 2px solid #cfe8f2;
+      background: #fafcff;
+      padding: 12px 12px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      overflow: hidden;
+    }
+    .rule-face.back {
+      transform: rotateY(180deg);
+      background: linear-gradient(160deg, #fff9f0, #eefcf9);
+      border-color: #f4c27a;
+    }
+    .rule-zh {
+      font-weight: 700;
+      font-size: clamp(0.95rem, 1.8vw, 1.05rem);
+      color: #0f2942;
+      line-height: 1.45;
+      flex: 0 0 auto;
+    }
+    .rule-task { font-size: 0.82rem; color: var(--muted); }
+    .rule-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+    .btn-listen {
+      padding: 8px 14px;
+      font-size: 14px;
+    }
+    .btn-flip-mini {
+      padding: 6px 10px;
+      font-size: 12px;
+      background: #fff;
+      color: var(--accent);
+      border: 2px solid var(--accent);
+      box-shadow: none;
+    }
+    .reveal-zone {
+      flex: 1;
+      min-height: 72px;
+      border-radius: 10px;
+      border: 2px dashed #94a3b8;
+      padding: 10px 12px;
+      cursor: pointer;
+      background: #f1f5f9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .reveal-zone:hover { background: #e8f4fc; border-color: var(--accent); }
+    .reveal-zone.is-open {
+      border-style: solid;
+      border-color: var(--accent2);
+      background: #fff;
+      cursor: default;
+      justify-content: flex-start;
+    }
+    .reveal-zone .placeholder { color: var(--muted); font-size: 0.88rem; }
+    .reveal-zone .en-line {
+      display: none;
+      margin: 0;
+      font-size: clamp(0.92rem, 1.6vw, 1.02rem);
+      color: #1e293b;
+      text-align: left;
+    }
+    .reveal-zone.is-open .placeholder { display: none; }
+    .reveal-zone.is-open .en-line { display: block; }
+    .rule-back-marker { font-weight: 700; color: var(--accent); font-size: 0.95rem; }
+    .rule-back-en { margin: 0; font-size: clamp(0.92rem, 1.6vw, 1.05rem); }
+    .rule-back-tip { font-size: 0.82rem; color: var(--muted); margin-top: auto; }
+    .pair-row {
+      display: grid;
+      gap: 8px;
+      margin-bottom: 12px;
+      padding: 12px;
+      background: #f8fafc;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+    }
+    .pair-row label { font-weight: 600; color: var(--muted); font-size: 0.88rem; }
+    .pair-row p { margin: 0 0 6px; }
+    .pair-row select { width: 100%; max-width: 100%; font: inherit; padding: 8px 10px; border-radius: 8px; border: 1px solid #ced4da; }
+    .feedback { margin-top: 12px; padding: 12px; border-radius: 10px; font-size: 0.92rem; display: none; }
+    .feedback.ok { display: block; background: #e8fcf4; border: 1px solid #9ee5c8; color: #0f5132; }
+    .feedback.bad { display: block; background: #fff5f5; border: 1px solid #f5b5b5; color: #842029; }
+    .vocab-zone {
+      position: relative;
+      border-radius: var(--radius);
+      overflow: hidden;
+      padding: 14px;
+      background: var(--card);
+      box-shadow: var(--shadow);
+    }
+    .vocab-bg { position: absolute; inset: 0; opacity: 0.16; pointer-events: none; }
+    .vocab-bg img { width: 100%; height: 100%; object-fit: cover; filter: blur(2px); }
+    .vocab-inner { position: relative; }
+    .vocab-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(148px, 1fr));
+      gap: 10px;
+    }
+    .flip-scene { perspective: 900px; min-height: 148px; }
+    .flip-card {
+      position: relative;
+      width: 100%;
+      min-height: 136px;
+      transform-style: preserve-3d;
+      transition: transform 0.5s ease;
+      cursor: pointer;
+      border-radius: 12px;
+    }
+    .flip-card.flipped { transform: rotateY(180deg); }
+    .flip-face {
+      position: absolute;
+      inset: 0;
+      backface-visibility: hidden;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 10px;
+      border: 2px solid #cfe8f2;
+      background: #fff;
+      font-weight: 600;
+      font-size: 0.92rem;
+      min-height: 136px;
+    }
+    .flip-face.back {
+      transform: rotateY(180deg);
+      background: #eefcf9;
+      border-color: var(--accent2);
+      font-weight: 500;
+      font-size: 0.88rem;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: stretch;
+      text-align: left;
+    }
+    .vocab-zh { font-weight: 700; font-size: 0.92rem; color: #0f2942; line-height: 1.35; }
+    .vocab-ex-label { font-size: 0.72rem; color: var(--muted); margin: 8px 0 2px; }
+    .vocab-ex {
+      margin: 0;
+      font-size: 0.82rem;
+      line-height: 1.45;
+      font-weight: 500;
+      color: #1e293b;
+    }
+    .flip-hint { font-size: 0.72rem; color: var(--muted); margin-top: 4px; text-align: center; }
+    .oral { border-left: 4px solid var(--accent2); padding-left: 12px; margin: 10px 0; }
+    .oral-scenarios {
+      display: grid;
+      gap: 14px;
+      margin-top: 14px;
+    }
+    @media (min-width: 880px) {
+      .oral-scenarios { grid-template-columns: repeat(3, 1fr); }
+    }
+    .oral-card {
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      overflow: hidden;
+      background: #fafcff;
+      box-shadow: 0 4px 14px rgba(26, 35, 50, 0.06);
+      display: flex;
+      flex-direction: column;
+    }
+    .oral-card img {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      display: block;
+      background: linear-gradient(120deg, #e0f2f7, #e8ecf8);
+    }
+    .oral-card-body { padding: 12px 14px 14px; flex: 1; display: flex; flex-direction: column; gap: 8px; }
+    .oral-card h3 {
+      margin: 0;
+      font-size: 1rem;
+      color: var(--accent);
+    }
+    .oral-card .scene-tag {
+      font-size: 0.75rem;
+      color: var(--muted);
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+    .scaffold {
+      font-size: 0.86rem;
+      color: #334155;
+      line-height: 1.55;
+      margin: 0;
+    }
+    .scaffold ul { margin: 6px 0 0; padding-left: 1.15em; }
+    .scaffold li { margin-bottom: 4px; }
+    .starter {
+      font-size: 0.82rem;
+      color: var(--accent);
+      background: #eef6fb;
+      border-radius: 8px;
+      padding: 8px 10px;
+      border: 1px solid #cfe8f2;
+      font-family: ui-monospace, Consolas, monospace;
+      line-height: 1.45;
+    }
+    .idea-space {
+      margin-top: auto;
+      padding-top: 8px;
+      border-top: 1px dashed #cbd5e1;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+    .idea-space strong { color: var(--accent2); }
+    .bridge { background: linear-gradient(135deg, #fffdf5, #f0f9ff); border-radius: var(--radius); padding: 16px; border: 1px solid #e2e8f0; }
+    .next-btn {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 12px 18px;
+      font-size: 1rem;
+      font-weight: 700;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--accent2), #1f8a7a);
+      color: #fff;
+      text-decoration: none;
+      box-shadow: var(--shadow);
+    }
+    .dock {
+      flex: 0 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 8px 12px;
+      min-height: var(--dock-h);
+      background: var(--card);
+      border-top: 1px solid #e2e8f0;
+      z-index: 40;
+    }
+    .dock button { min-width: 100px; }
+    .dock .dots { font-size: 15px; font-weight: 700; color: var(--accent); min-width: 4.5em; text-align: center; }
+    .sr-live { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+    .ai-panel {
+      position: fixed;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: min(400px, 100vw);
+      background: var(--card);
+      box-shadow: -6px 0 28px rgba(0,0,0,0.14);
+      transform: translateX(100%);
+      transition: transform 0.28s ease;
+      z-index: 120;
+      display: flex;
+      flex-direction: column;
+    }
+    .ai-panel.open { transform: translateX(0); }
+    .ai-panel header {
+      padding: 12px 14px;
+      border-bottom: 1px solid #e2e8f0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .ai-panel .body { flex: 1; overflow: auto; padding: 12px 14px; display: flex; flex-direction: column; gap: 10px; }
+    .ai-panel textarea { width: 100%; min-height: 72px; resize: vertical; font: inherit; padding: 10px; border-radius: 10px; border: 1px solid #ced4da; }
+    .ai-panel .out {
+      white-space: pre-wrap;
+      background: #f1f5f9;
+      border-radius: 10px;
+      padding: 12px;
+      font-size: 0.92rem;
+      min-height: 64px;
+      border: 1px solid #e2e8f0;
+    }
+    .backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.35);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+      z-index: 110;
+    }
+    .backdrop.show { opacity: 1; pointer-events: auto; }
+    .tts-bar {
+      font-size: 12px;
+      padding: 4px 16px 6px;
+      background: #fff8e6;
+      color: #664d03;
+      border-bottom: 1px solid #f0d78c;
+      min-height: 1.35em;
+      line-height: 1.4;
+    }
+      /* L10：主内容区整体 160%（顶栏与底部分页条不缩放） */
+    .tts-bar,
+    .deck {
+      zoom: 1.6;
+    }
+
+</style>
+</head>
+<body>
+  <div id="ariaStatus" class="sr-live" aria-live="polite"></div>
+
+  <header class="topbar">
+    <div class="brand">Lesson 10 · Warm-up</div>
+    <div class="slide-meta" id="slideIndicator" aria-live="polite">1 / 6</div>
+    <div class="top-actions">
+      <a class="btn-link secondary" href="L10-00-index.html">返回目录</a>
+      <button type="button" id="btnTtsIntro">朗读本页说明</button>
+      <button type="button" id="btnTtsWords" class="secondary">朗读词汇表</button>
+      <button type="button" id="btnOpenAi" class="secondary">AI 造句</button>
+    </div>
+  </header>
+  <div class="tts-bar" id="ttsBar" role="status" aria-live="polite"></div>
+
+  <div class="deck" id="deck">
+    <!-- Slide 0 封面 -->
+    <section class="slide is-active" id="slide-0" data-slide="0" aria-label="封面">
+      <div class="slide-scroll">
+        <div class="slide-inner">
+          <div class="hero-compact">
+            <div class="hero-img-wrap" id="heroBlock">
+              <img id="heroImg" src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L10/assets/img/l10-p02-summer.png" alt="暑假生活主题插画" width="1600" height="900" loading="eager" decoding="async" />
+            </div>
+            <div class="hero-text">
+              <h1>复习：一般过去时（Simple Past）</h1>
+              <p class="subzh">具体时间 → 过去式 · 为现在完成时做准备</p>
+              <p class="tagline" lang="en">Warm-up: Simple Past · time markers</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 1 时间标志 · 规则快闪（独占一页） -->
+    <section class="slide" id="slide-1" data-slide="1" hidden aria-label="时间标志规则快闪">
+      <div class="slide-scroll">
+        <div class="slide-inner" style="height:100%;display:flex;flex-direction:column;">
+          <div class="slide-title-row">
+            <h2>时间标志 · 规则快闪</h2>
+          </div>
+          <div class="rule-slide-grid" id="ruleGrid"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 2 配对 -->
+    <section class="slide" id="slide-2" data-slide="2" hidden aria-label="时间状语配对">
+      <div class="slide-scroll">
+        <div class="slide-inner">
+          <div class="card-block">
+            <h2>互动一：时间状语配对</h2>
+            <p class="note-small">每句只有一个最合理的时间状语；请选择后点击「检查答案」。</p>
+            <div id="pairArea"></div>
+            <button type="button" id="btnCheckPair">检查答案</button>
+            <div id="pairFeedback" class="feedback" role="status"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 3 词汇 -->
+    <section class="slide" id="slide-3" data-slide="3" hidden aria-label="词汇快闪">
+      <div class="slide-scroll">
+        <div class="slide-inner">
+          <div class="vocab-zone">
+            <div class="vocab-bg" aria-hidden="true">
+              <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L10/assets/img/l10-p02-schoollife.png" alt="" width="1200" height="675" loading="lazy" decoding="async" onerror="this.parentElement.style.display='none'" />
+            </div>
+            <div class="vocab-inner">
+              <h2 style="margin:0 0 8px;color:var(--accent);">互动二：七年级话题词汇快闪</h2>
+              <div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap;">
+                <button type="button" id="btnFlipAll">全部显示中文+例句 / 全部翻回</button>
+              </div>
+              <div class="vocab-grid" id="vocabGrid"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 4 口头任务：三组场景图 + 脚手架 -->
+    <section class="slide" id="slide-4" data-slide="4" hidden aria-label="口头任务">
+      <div class="slide-scroll">
+        <div class="slide-inner">
+          <div class="card-block">
+            <h2>口头任务（课堂）</h2>
+            <div class="oral">
+              <p lang="en" style="margin:0 0 6px;font-weight:600;">Work in pairs. Say one true sentence about your summer using simple past.</p>
+              <p style="margin:0;color:var(--muted);font-size:0.92rem;">两人一组，各用一般过去时说一句<strong>真实</strong>经历，并指出句中的<strong>时间状语</strong>。下面三组<strong>只是可能的情境</strong>，你可照图说，也可自由改编。</p>
+            </div>
+
+            <div class="oral-scenarios">
+              <article class="oral-card">
+                <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L10/assets/img/l10-p02-oral-scene-a.png" alt="情境参考：社区公园与志愿劳动氛围" width="800" height="450" loading="lazy" decoding="async" />
+                <div class="oral-card-body">
+                  <div class="scene-tag">场景 A · 社区 / 公益</div>
+                  <h3>公园、捡拾、回收</h3>
+                  <div class="scaffold">
+                    <p style="margin:0;"><strong>脚手架（中文）</strong>：谁？和谁一起？上周日还是昨天？具体做了什么（捡瓶子、扫地、发传单……）？</p>
+                    <ul>
+                      <li>先想<strong>动词过去式</strong>，再想时间：yesterday / last Sunday / two days ago …</li>
+                      <li>图中细节与你经历不同也没关系，保留「志愿/劳动 + 过去时」即可。</li>
+                    </ul>
+                  </div>
+                  <div class="starter" lang="en">I helped … &nbsp;|&nbsp; We picked up … &nbsp;|&nbsp; I recycled … + 时间状语</div>
+                  <div class="idea-space"><strong>发挥空间：</strong>地点可换小区、校门口；人物可写 I / We / My friends and I。</div>
+                </div>
+              </article>
+
+              <article class="oral-card">
+                <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L10/assets/img/l10-p02-oral-scene-b.png" alt="情境参考：家庭短途出行与行李" width="800" height="450" loading="lazy" decoding="async" />
+                <div class="oral-card-body">
+                  <div class="scene-tag">场景 B · 家庭出行</div>
+                  <h3>车站、行李、短途旅行</h3>
+                  <div class="scaffold">
+                    <p style="margin:0;"><strong>脚手架（中文）</strong>：去了哪里？和父母还是亲戚？<strong>上个月</strong>还是<strong>七月</strong>？感觉累还是开心？</p>
+                    <ul>
+                      <li>时间轴：last month / in July / last weekend / on Saturday morning …</li>
+                      <li>不必与图片完全一致，抓住「出行 + 过去时间」。</li>
+                    </ul>
+                  </div>
+                  <div class="starter" lang="en">My family and I visited … &nbsp;|&nbsp; We took a trip … &nbsp;|&nbsp; I packed … + 时间状语</div>
+                  <div class="idea-space"><strong>发挥空间：</strong>可写高铁、自驾、回老家。</div>
+                </div>
+              </article>
+
+              <article class="oral-card">
+                <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L10/assets/img/l10-p02-oral-scene-c.png" alt="情境参考：校园操场与运动" width="800" height="450" loading="lazy" decoding="async" />
+                <div class="oral-card-body">
+                  <div class="scene-tag">场景 C · 校园 / 兴趣</div>
+                  <h3>操场、球类、课后</h3>
+                  <div class="scaffold">
+                    <p style="margin:0;"><strong>脚手架（中文）</strong>：哪项运动？和谁？昨天下午还是上周三放学后？心情可选说。</p>
+                    <ul>
+                      <li>常用时间：yesterday afternoon / last Wednesday / after school last week …</li>
+                      <li>也可换成图书馆、英语角——仍是「过去一点」。</li>
+                    </ul>
+                  </div>
+                  <div class="starter" lang="en">I played … with … &nbsp;|&nbsp; We practiced … &nbsp;|&nbsp; I joined … + 时间状语</div>
+                  <div class="idea-space"><strong>发挥空间：</strong>运动可换羽毛球、跑步、游泳；地点可换体育馆。</div>
+                </div>
+              </article>
+            </div>
+
+            <p style="margin:16px 0 6px;"><strong>教师示范（可板书）</strong></p>
+            <ul>
+              <li lang="en">I played basketball three times last month.</li>
+              <li lang="en">My family took a short trip in July.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 5 承上启下 -->
+    <section class="slide" id="slide-5" data-slide="5" hidden aria-label="承上启下">
+      <div class="slide-scroll">
+        <div class="slide-inner">
+          <div class="bridge">
+            <h2 style="margin:0 0 10px;color:var(--accent);">承上启下</h2>
+            <p>
+              一般过去时把「动作发生在何时」交代清楚，读者知道那是<strong>过去的点</strong>。中考阅读与单选中，常与「影响现在、持续到现在」的语境对比考查。
+              下一页我们将学习：<strong>过去的事如何说到「现在」</strong>——也就是现在完成时的观察角度迁移。
+            </p>
+            <a class="next-btn" href="L10-02-present-perfect-form.html">下一节：现在完成时结构（L10-02）</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <nav class="dock" aria-label="幻灯分页">
+    <button type="button" id="btnPrev" class="secondary">上一页</button>
+    <span class="dots" id="dockDots">1 / 6</span>
+    <button type="button" id="btnNext">下一页</button>
+  </nav>
+
+  <div class="backdrop" id="aiBackdrop" hidden></div>
+  <aside class="ai-panel" id="aiPanel" aria-label="AI 造句助手">
+    <header>
+      <strong>AI 造句助手（DeepSeek）</strong>
+      <button type="button" class="secondary" id="btnCloseAi">关闭</button>
+    </header>
+    <div class="body">
+      <p style="margin:0;font-size:0.88rem;color:var(--muted);">中文描述过去做过的一件事。AI 输出一般过去时英语句 + 一句中文说明。</p>
+      <label for="aiInput">中文提示</label>
+      <textarea id="aiInput" maxlength="240" placeholder="例如：我上周五晚上完成了科学作业项目"></textarea>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;">
+        <button type="button" id="btnGenAi">生成英语句</button>
+        <button type="button" class="secondary" id="btnCopyEn">复制英语句</button>
+        <button type="button" class="secondary" id="btnClearAi">清空</button>
+      </div>
+      <div class="out" id="aiOut" aria-live="polite">（生成结果将显示在这里）</div>
+      <p class="note-small"><span id="weakHint" style="display:none;color:#b45309;">未检测到典型过去式形态，可再试一次。</span></p>
+    </div>
+  </aside>
+
+  <script>
+(function () {
+  const AZURE_SPEECH_KEY = "C42UQWeDcluYanbo17WrtUnPhk0vkZy2uQHPTCGDzY6CdEXx99NzJQQJ99BIACqBBLyXJ3w3AAAYACOGjkyu";
+  const AZURE_SPEECH_REGION = "southeastasia";
+  const DEEPSEEK_API_KEY = "sk-daa16008e81843deba6fefe9dce51465";
+  const DEEPSEEK_API_URL = "https://api.deepseek.com/v1/chat/completions";
+  const MSG_TTS = "语音暂时无法连接，请默读屏幕上的例句。";
+  const MSG_KEY = "语音服务需要更新，请联系教师。";
+  const MSG_AI = "内容生成不符合时态时，请点击再试一次，或请老师示范。";
+  const DEEPSEEK_SYSTEM = "你是初中英语助教。用户用中文描述过去做过的一件事。你只输出两部分：第一部分一行英语句子，必须使用一般过去时，并且必须包含一个明确的过去时间状语（如 last…, yesterday, … ago, in 2023）。第二部分一行中文，简短说明句中谓语为何用过去式。不要输出现在完成时。不要输出任何密钥或链接。不要写超过 18 个词的英语句子。";
+
+  const TTS_ZH =
+    "下面复习一般过去时。主标题是：复习，一般过去时。副标题：具体时间对应过去式，为现在完成时做准备。接下来请注意六条时间标志与例句里的过去式动词。";
+  const TTS_EN =
+    "Rule examples. I called my cousin yesterday evening. We cleaned the classroom last week. He finished his diary two days ago. The museum opened a new hall in twenty twenty three. She practiced the piano on Monday morning. I joined a reading club last summer. Teacher models: I played basketball three times last month. My family took a short trip in July. Pair task: Work in pairs. Say one true sentence about your summer using simple past.";
+  const TTS_WORDS =
+    "subject, uniform, homework, breakfast, rule, neighbour, community, recycle, trip, museum, diary, practice, library, festival, picnic, grade";
+
+  const ruleCards = [
+    {
+      zh: "时间标志：昨天或昨晚",
+      task: "请先用英语口头造句，再听示范。",
+      en: "I called my cousin yesterday evening.",
+      marker: "yesterday / last night",
+      tip: "谓语用过去式 called；时间状语 yesterday evening。"
+    },
+    {
+      zh: "时间标志：上周 / 上个月",
+      task: "试着描述上周在班里做过的事。",
+      en: "We cleaned the classroom last week.",
+      marker: "last week / last month",
+      tip: "谓语用过去式 cleaned；last week 表示过去一周。"
+    },
+    {
+      zh: "时间标志：……之前（… ago）",
+      task: "用「几天前」完成想法。",
+      en: "He finished his diary two days ago.",
+      marker: "… ago",
+      tip: "谓语用过去式 finished；two days ago 为典型过去点。"
+    },
+    {
+      zh: "时间标志：in + 年份",
+      task: "说一件在某年发生的事。",
+      en: "The museum opened a new hall in 2023.",
+      marker: "in + 年份",
+      tip: "谓语用过去式 opened；in 2023 表过去年份。"
+    },
+    {
+      zh: "时间标志：on + 星期 / 具体某天早晨等",
+      task: "说清「在周几的上午」做了什么。",
+      en: "She practiced the piano on Monday morning.",
+      marker: "on + 星期/具体某天",
+      tip: "谓语用过去式 practiced；on Monday morning。"
+    },
+    {
+      zh: "时间标志：last summer / in July",
+      task: "谈去年暑假或七月的一段经历。",
+      en: "I joined a reading club last summer.",
+      marker: "last summer / in July",
+      tip: "谓语用过去式 joined；last summer 表过去暑假。"
+    }
+  ];
+
+  const pairs = [
+    { id: 0, sentence: "I finished my science project __________.", answer: "on Friday evening", wrong: ["last Saturday", "three weeks ago", "in 2024", "yesterday afternoon"] },
+    { id: 1, sentence: "We visited the city museum __________.", answer: "last Saturday", wrong: ["on Friday evening", "three weeks ago", "in 2024", "yesterday afternoon"] },
+    { id: 2, sentence: "My brother learned to ride a bike __________.", answer: "three weeks ago", wrong: ["on Friday evening", "last Saturday", "in 2024", "yesterday afternoon"] },
+    { id: 3, sentence: "They started Grade 7 __________.", answer: "in 2024", wrong: ["on Friday evening", "last Saturday", "three weeks ago", "yesterday afternoon"] },
+    { id: 4, sentence: "I watched the school talent show __________.", answer: "yesterday afternoon", wrong: ["on Friday evening", "last Saturday", "three weeks ago", "in 2024"] }
+  ];
+
+  const vocab = [
+    ["subject", "学科；科目", "I liked every subject in Grade 7 last term."],
+    ["uniform", "校服", "We wore our school uniforms on Monday morning."],
+    ["homework", "家庭作业", "I finished my homework before dinner yesterday."],
+    ["breakfast", "早餐", "I ate breakfast at home at seven last Saturday."],
+    ["rule", "规则", "Our teacher explained the new class rule last week."],
+    ["neighbour", "邻居（英式拼写 neighbour）", "I met our neighbour in the hallway yesterday."],
+    ["community", "社区", "We cleaned up our community park last Sunday."],
+    ["recycle", "回收利用", "We recycled paper and plastic bottles in class on Friday."],
+    ["trip", "旅行", "Our class took a short school trip last month."],
+    ["museum", "博物馆", "We visited the science museum in July."],
+    ["diary", "日记", "I wrote one page in my diary last night."],
+    ["practice", "练习；训练", "I practiced the guitar for an hour yesterday."],
+    ["library", "图书馆", "I borrowed two storybooks from the library last Tuesday."],
+    ["festival", "节日", "We enjoyed the school art festival last Friday."],
+    ["picnic", "野餐", "We had a picnic by the lake last weekend."],
+    ["grade", "年级；成绩等级", "I got a good grade on the English test last week."]
+  ];
+
+  var slideCount = 6;
+  var slideIndex = 0;
+  var slides = [];
+
+  function aria(msg) {
+    var el = document.getElementById("ariaStatus");
+    if (el) el.textContent = msg;
+  }
+
+  function initSlides() {
+    slides = Array.prototype.slice.call(document.querySelectorAll(".slide"));
+    slideCount = slides.length;
+    goSlide(0);
+  }
+
+  function goSlide(n) {
+    slideIndex = Math.max(0, Math.min(slideCount - 1, n));
+    slides.forEach(function (s, i) {
+      var on = i === slideIndex;
+      s.classList.toggle("is-active", on);
+      s.hidden = !on;
+    });
+    var label = slideIndex + 1 + " / " + slideCount;
+    var ind = document.getElementById("slideIndicator");
+    var dots = document.getElementById("dockDots");
+    if (ind) ind.textContent = label;
+    if (dots) dots.textContent = label;
+    document.getElementById("btnPrev").disabled = slideIndex === 0;
+    document.getElementById("btnNext").disabled = slideIndex === slideCount - 1;
+  }
+
+  document.getElementById("btnPrev").addEventListener("click", function () {
+    goSlide(slideIndex - 1);
+  });
+  document.getElementById("btnNext").addEventListener("click", function () {
+    goSlide(slideIndex + 1);
+  });
+
+  document.addEventListener("keydown", function (e) {
+    if (e.target.closest(".ai-panel.open") || document.getElementById("aiBackdrop").classList.contains("show")) return;
+    if (e.key === "ArrowLeft") {
+      e.preventDefault();
+      goSlide(slideIndex - 1);
+    }
+    if (e.key === "ArrowRight") {
+      e.preventDefault();
+      goSlide(slideIndex + 1);
+    }
+  });
+
+  function heroFallback() {
+    var hi = document.getElementById("heroImg");
+    if (hi) {
+      hi.addEventListener("error", function () {
+        document.getElementById("heroBlock").classList.add("fallback-img");
+      });
+    }
+  }
+
+  function buildRuleCards() {
+    var grid = document.getElementById("ruleGrid");
+    ruleCards.forEach(function (row, idx) {
+      var scene = document.createElement("div");
+      scene.className = "rule-scene";
+
+      var inner = document.createElement("div");
+      inner.className = "rule-flip";
+      inner.setAttribute("data-idx", String(idx));
+
+      var front = document.createElement("div");
+      front.className = "rule-face";
+      front.innerHTML =
+        "<div class=\"rule-zh\">" + row.zh + "</div>" +
+        "<div class=\"rule-task\">" + row.task + "</div>" +
+        "<div class=\"rule-actions\">" +
+        "<button type=\"button\" class=\"btn-listen\" data-listen=\"" + idx + "\">听例句（英）</button>" +
+        "<button type=\"button\" class=\"btn-flip-mini\" data-flip=\"" + idx + "\">翻面 · 核对</button>" +
+        "</div>" +
+        "<div class=\"reveal-zone\" tabindex=\"0\" role=\"button\" data-reveal=\"" + idx + "\" aria-label=\"显示或隐藏英文例句\">" +
+        "<span class=\"placeholder\">跟读后点击此处显示英文例句</span>" +
+        "<p class=\"en-line\" lang=\"en\"></p>" +
+        "</div>";
+
+      var back = document.createElement("div");
+      back.className = "rule-face back";
+      back.innerHTML =
+        "<div class=\"rule-back-marker\" lang=\"en\">" + row.marker + "</div>" +
+        "<p class=\"rule-back-en\" lang=\"en\">" + row.en + "</p>" +
+        "<div class=\"rule-back-tip\">" + row.tip + "</div>" +
+        "<div class=\"rule-actions\" style=\"margin-top:8px;\">" +
+        "<button type=\"button\" class=\"btn-flip-mini\" data-flip-back=\"" + idx + "\">翻回学习面</button>" +
+        "</div>";
+
+      inner.appendChild(front);
+      inner.appendChild(back);
+      scene.appendChild(inner);
+      grid.appendChild(scene);
+
+      var enLine = front.querySelector(".en-line");
+      enLine.textContent = row.en;
+
+      var reveal = front.querySelector(".reveal-zone");
+      reveal.addEventListener("click", function (ev) {
+        ev.stopPropagation();
+        reveal.classList.add("is-open");
+        aria("已显示英文例句");
+      });
+      reveal.addEventListener("keydown", function (ev) {
+        if (ev.key === "Enter" || ev.key === " ") {
+          ev.preventDefault();
+          reveal.classList.add("is-open");
+        }
+      });
+
+      front.querySelector("[data-listen]").addEventListener("click", function (ev) {
+        ev.stopPropagation();
+        speakEnglish(row.en, ev.currentTarget);
+      });
+
+      function setFlipped(on) {
+        inner.classList.toggle("is-flipped", on);
+      }
+      front.querySelector("[data-flip]").addEventListener("click", function (ev) {
+        ev.stopPropagation();
+        setFlipped(true);
+      });
+      back.querySelector("[data-flip-back]").addEventListener("click", function (ev) {
+        ev.stopPropagation();
+        setFlipped(false);
+      });
+    });
+  }
+
+  var ttsBusy = false;
+  var cardBtnBusy = null;
+  var ttsHtmlAudio = null;
+
+  function setTtsStatus(msg) {
+    var bar = document.getElementById("ttsBar");
+    if (!bar) return;
+    bar.textContent = msg || "";
+    bar.style.display = msg ? "block" : "none";
+  }
+
+  function stopHtmlAudio() {
+    try {
+      if (ttsHtmlAudio) {
+        ttsHtmlAudio.pause();
+        if (ttsHtmlAudio._revoke) {
+          URL.revokeObjectURL(ttsHtmlAudio._revoke);
+          ttsHtmlAudio._revoke = null;
+        }
+        ttsHtmlAudio.removeAttribute("src");
+        ttsHtmlAudio.load();
+        ttsHtmlAudio.onended = null;
+        ttsHtmlAudio.onerror = null;
+        ttsHtmlAudio = null;
+      }
+    } catch (e) {}
+  }
+
+  function escapeXml(s) {
+    return String(s)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&apos;");
+  }
+
+  function buildSsml(text, voiceName) {
+    var lang = voiceName.indexOf("zh-") === 0 ? "zh-CN" : "en-US";
+    return (
+      "<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='" +
+      lang +
+      "'><voice name='" +
+      voiceName +
+      "'>" +
+      escapeXml(text) +
+      "</voice></speak>"
+    );
+  }
+
+  function azureTtsRestPlay(ssml, onOk, onFail) {
+    var endpoint =
+      "https://" + AZURE_SPEECH_REGION + ".tts.speech.microsoft.com/cognitiveservices/v1";
+    stopHtmlAudio();
+    fetch(endpoint, {
+      method: "POST",
+      mode: "cors",
+      credentials: "omit",
+      headers: {
+        "Ocp-Apim-Subscription-Key": AZURE_SPEECH_KEY,
+        "Content-Type": "application/ssml+xml",
+        "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3",
+        "User-Agent": "L10WarmupHTML/1.2"
+      },
+      body: ssml
+    })
+      .then(function (res) {
+        if (!res.ok) {
+          return res.text().then(function (body) {
+            throw new Error("REST " + res.status + " " + (body || "").slice(0, 200));
+          });
+        }
+        return res.blob();
+      })
+      .then(function (blob) {
+        if (!blob || blob.size < 80) throw new Error("REST 返回数据异常");
+        var url = URL.createObjectURL(blob);
+        var audio = new Audio();
+        ttsHtmlAudio = audio;
+        audio._revoke = url;
+        audio.src = url;
+        audio.setAttribute("playsinline", "true");
+        audio.preload = "auto";
+        audio.onended = function () {
+          stopHtmlAudio();
+          onOk();
+        };
+        audio.onerror = function () {
+          stopHtmlAudio();
+          onFail(new Error("浏览器无法解码播放音频"));
+        };
+        var pp = audio.play();
+        if (pp && typeof pp.catch === "function") {
+          pp.catch(function (pe) {
+            stopHtmlAudio();
+            onFail(pe || new Error("播放被浏览器拦截，请再点一次或换 Edge"));
+          });
+        }
+      })
+      .catch(function (err) {
+        stopHtmlAudio();
+        onFail(err);
+      });
+  }
+
+  function azureTtsSdkSpeak(ssml, voiceName, onOk, onFail) {
+    if (typeof SpeechSDK === "undefined") {
+      onFail(new Error("Speech SDK 未从 CDN 加载"));
+      return;
+    }
+    stopHtmlAudio();
+    var cfg = SpeechSDK.SpeechConfig.fromSubscription(AZURE_SPEECH_KEY, AZURE_SPEECH_REGION);
+    cfg.speechSynthesisVoiceName = voiceName;
+    var syn = new SpeechSDK.SpeechSynthesizer(cfg, SpeechSDK.AudioConfig.fromDefaultSpeakerOutput());
+    syn.speakSsmlAsync(
+      ssml,
+      function (res) {
+        var ok = res.reason === SpeechSDK.ResultReason.SynthesizingAudioCompleted;
+        var detail = res.errorDetails || "";
+        syn.close();
+        if (ok) onOk();
+        else onFail(new Error(detail || "SDK 合成未成功"));
+      },
+      function (err) {
+        syn.close();
+        onFail(new Error(String(err)));
+      }
+    );
+  }
+
+  /** 仅 Azure：REST 优先（本机 file/http 均易出声），失败再 Speech SDK */
+  function azureSpeak(text, voiceName, btnEl, userDone) {
+    userDone = userDone || function () {};
+    var ssml = buildSsml(text, voiceName);
+    setTtsStatus("正在连接 Azure 语音…");
+    function releaseBtn() {
+      if (btnEl) {
+        btnEl.disabled = false;
+        btnEl.classList.remove("speaking");
+        cardBtnBusy = null;
+      }
+      userDone();
+    }
+    function okPath() {
+      setTtsStatus("");
+      releaseBtn();
+    }
+    function failBoth(e) {
+      var m = e && e.message ? e.message : String(e);
+      setTtsStatus("Azure 不可用：" + m + " — 建议用 Microsoft Edge 打开，或 python -m http.server 后用 http://127.0.0.1 访问本页。");
+      aria(MSG_TTS);
+      alert(MSG_TTS + "\n\n" + m.slice(0, 220));
+      releaseBtn();
+    }
+    azureTtsRestPlay(
+      ssml,
+      okPath,
+      function (errRest) {
+        setTtsStatus("REST 失败，尝试 Azure Speech SDK …（" + (errRest && errRest.message ? errRest.message : "") + "）");
+        azureTtsSdkSpeak(ssml, voiceName, okPath, failBoth);
+      }
+    );
+  }
+
+  function setGlobalTts(busy) {
+    ttsBusy = busy;
+    ["btnTtsIntro", "btnTtsWords"].forEach(function (id) {
+      var b = document.getElementById(id);
+      if (b) b.disabled = busy;
+    });
+    var intro = document.getElementById("btnTtsIntro");
+    if (intro) intro.classList.toggle("speaking", busy && !cardBtnBusy);
+  }
+
+  function speakEnglish(text, btnEl, done) {
+    if (ttsBusy) {
+      aria("请等待整段朗读结束后再播放单卡例句");
+      return;
+    }
+    if (btnEl) {
+      cardBtnBusy = btnEl;
+      btnEl.disabled = true;
+      btnEl.classList.add("speaking");
+    }
+    azureSpeak(text, "en-US-JennyNeural", btnEl, function () {
+      if (done) done(true);
+    });
+  }
+
+  document.getElementById("btnTtsIntro").addEventListener("click", function () {
+    if (ttsBusy || cardBtnBusy) return;
+    stopHtmlAudio();
+    setGlobalTts(true);
+    azureSpeak(TTS_ZH, "zh-CN-XiaoxiaoNeural", null, function () {
+      azureSpeak(TTS_EN, "en-US-JennyNeural", null, function () {
+        setGlobalTts(false);
+      });
+    });
+  });
+
+  document.getElementById("btnTtsWords").addEventListener("click", function () {
+    if (ttsBusy || cardBtnBusy) return;
+    stopHtmlAudio();
+    setGlobalTts(true);
+    var w = TTS_WORDS.replace(/,/g, ", ");
+    azureSpeak(w, "en-US-JennyNeural", null, function () {
+      setGlobalTts(false);
+    });
+  });
+
+  function buildPairs() {
+    var area = document.getElementById("pairArea");
+    pairs.forEach(function (row) {
+      var opts = [row.answer].concat(row.wrong);
+      for (var i = opts.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var t = opts[i];
+        opts[i] = opts[j];
+        opts[j] = t;
+      }
+      var wrap = document.createElement("div");
+      wrap.className = "pair-row";
+      wrap.innerHTML =
+        "<label for=\"sel-" + row.id + "\">题 " + (row.id + 1) + "</label>" +
+        "<p lang=\"en\">" + row.sentence + "</p>" +
+        "<select id=\"sel-" + row.id + "\" aria-label=\"题 " + (row.id + 1) + " 时间状语\">" +
+        "<option value=\"\">— 请选择 —</option>" +
+        opts.map(function (o) {
+          return "<option value=\"" + o.replace(/"/g, "&quot;") + "\">" + o + "</option>";
+        }).join("") +
+        "</select>";
+      area.appendChild(wrap);
+    });
+  }
+
+  function checkPairs() {
+    var ok = true;
+    var detail = [];
+    pairs.forEach(function (row) {
+      var sel = document.getElementById("sel-" + row.id);
+      var v = sel ? sel.value : "";
+      if (v !== row.answer) ok = false;
+      detail.push("题" + (row.id + 1) + "：" + (v === row.answer ? "正确" : "再想想") + "（正确项：" + row.answer + "）");
+    });
+    var fb = document.getElementById("pairFeedback");
+    fb.className = "feedback " + (ok ? "ok" : "bad");
+    fb.style.display = "block";
+    fb.innerHTML = ok
+      ? "<strong>全对！</strong> 你已能把「过去的点」和正确时间状语绑在一起。"
+      : "<strong>还有偏差。</strong><br/>" + detail.join("<br/>");
+  }
+
+  function buildVocab() {
+    var grid = document.getElementById("vocabGrid");
+    vocab.forEach(function (item) {
+      var word = item[0];
+      var zh = item[1];
+      var ex = item[2];
+      var scene = document.createElement("div");
+      scene.className = "flip-scene";
+      var card = document.createElement("div");
+      card.className = "flip-card";
+      card.setAttribute("role", "button");
+      card.setAttribute("tabindex", "0");
+      card.setAttribute("aria-pressed", "false");
+      card.setAttribute("aria-label", word + "，点击查看中文与例句");
+
+      var front = document.createElement("div");
+      front.className = "flip-face front";
+      front.setAttribute("lang", "en");
+      front.textContent = word;
+
+      var back = document.createElement("div");
+      back.className = "flip-face back";
+      var zhEl = document.createElement("div");
+      zhEl.className = "vocab-zh";
+      zhEl.textContent = zh;
+      var lab = document.createElement("div");
+      lab.className = "vocab-ex-label";
+      lab.textContent = "例句（一般过去时）：";
+      var p = document.createElement("p");
+      p.className = "vocab-ex";
+      p.setAttribute("lang", "en");
+      p.textContent = ex;
+      back.appendChild(zhEl);
+      back.appendChild(lab);
+      back.appendChild(p);
+
+      card.appendChild(front);
+      card.appendChild(back);
+
+      function toggle() {
+        card.classList.toggle("flipped");
+        card.setAttribute("aria-pressed", card.classList.contains("flipped") ? "true" : "false");
+      }
+      card.addEventListener("click", toggle);
+      card.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          toggle();
+        }
+      });
+      scene.appendChild(card);
+      var hint = document.createElement("div");
+      hint.className = "flip-hint";
+      hint.textContent = "点击查看中文与例句";
+      scene.appendChild(hint);
+      grid.appendChild(scene);
+    });
+  }
+
+  document.getElementById("btnFlipAll").addEventListener("click", function () {
+    var cards = document.querySelectorAll("#vocabGrid .flip-card");
+    var anyFront = Array.prototype.some.call(cards, function (c) {
+      return !c.classList.contains("flipped");
+    });
+    cards.forEach(function (c) {
+      if (anyFront) c.classList.add("flipped");
+      else c.classList.remove("flipped");
+      c.setAttribute("aria-pressed", c.classList.contains("flipped") ? "true" : "false");
+    });
+  });
+
+  var aiPanel = document.getElementById("aiPanel");
+  var aiBackdrop = document.getElementById("aiBackdrop");
+  function openAi() {
+    aiPanel.classList.add("open");
+    aiBackdrop.hidden = false;
+    aiBackdrop.classList.add("show");
+  }
+  function closeAi() {
+    aiPanel.classList.remove("open");
+    aiBackdrop.classList.remove("show");
+    aiBackdrop.hidden = true;
+  }
+  document.getElementById("btnOpenAi").addEventListener("click", openAi);
+  document.getElementById("btnCloseAi").addEventListener("click", closeAi);
+  document.getElementById("aiBackdrop").addEventListener("click", closeAi);
+
+  document.getElementById("btnClearAi").addEventListener("click", function () {
+    document.getElementById("aiInput").value = "";
+    document.getElementById("aiOut").textContent = "（生成结果将显示在这里）";
+    document.getElementById("weakHint").style.display = "none";
+  });
+
+  function weakPastCheck(text) {
+    var line = (text || "").split("\n")[0].trim();
+    var lower = line.toLowerCase();
+    var irregular = /\b(went|saw|did|had|got|took|made|came|thought|bought|brought|read|wrote|ate|gave|knew|left|met|ran|said|sat|spoke|told|wore|won)\b/;
+    var ed = /\w+ed\b/;
+    return irregular.test(lower) || ed.test(lower);
+  }
+
+  document.getElementById("btnGenAi").addEventListener("click", async function () {
+    var raw = document.getElementById("aiInput").value.trim();
+    var out = document.getElementById("aiOut");
+    var hint = document.getElementById("weakHint");
+    hint.style.display = "none";
+    if (!raw) {
+      out.textContent = "请先输入中文描述。";
+      return;
+    }
+    var input = raw.length > 80 ? raw.slice(0, 80) : raw;
+    out.textContent = "生成中…";
+    try {
+      var res = await fetch(DEEPSEEK_API_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + DEEPSEEK_API_KEY
+        },
+        body: JSON.stringify({
+          model: "deepseek-chat",
+          temperature: 0.5,
+          max_tokens: 220,
+          messages: [
+            { role: "system", content: DEEPSEEK_SYSTEM },
+            { role: "user", content: input }
+          ]
+        })
+      });
+      if (!res.ok) {
+        out.textContent = MSG_AI + "（HTTP " + res.status + "）";
+        return;
+      }
+      var data = await res.json();
+      var txt = (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) || "";
+      out.textContent = txt || MSG_AI;
+      if (txt && !weakPastCheck(txt)) hint.style.display = "inline";
+    } catch (e) {
+      out.textContent = (e && e.message ? e.message : "网络错误") + "。若浏览器拦截跨域，请用本地静态服务打开本页。";
+    }
+  });
+
+  document.getElementById("btnCopyEn").addEventListener("click", function () {
+    var full = document.getElementById("aiOut").textContent || "";
+    var firstLine = full.split("\n").map(function (s) { return s.trim(); }).filter(Boolean)[0] || "";
+    if (!firstLine) {
+      aria("没有可复制的英语句");
+      return;
+    }
+    function fallbackCopy(s) {
+      var ta = document.createElement("textarea");
+      ta.value = s;
+      ta.style.position = "fixed";
+      ta.style.left = "-9999px";
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand("copy"); } catch (err) {}
+      document.body.removeChild(ta);
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(firstLine).then(function () { aria("已复制"); }).catch(function () { fallbackCopy(firstLine); });
+    } else {
+      fallbackCopy(firstLine);
+    }
+  });
+
+  document.getElementById("btnCheckPair").addEventListener("click", checkPairs);
+
+  buildRuleCards();
+  buildPairs();
+  buildVocab();
+  heroFallback();
+  setTtsStatus("");
+  initSlides();
+})();
+  </script>
+</body>
+</html>

@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Lesson 10 · 口语 Have you ever…?</title>
+  <script src="https://cdn.jsdelivr.net/npm/microsoft-cognitiveservices-speech-sdk@1.38.0/dist/microsoft.cognitiveservices.speech.sdk.bundle-min.js" crossorigin="anonymous"></script>
+  <style>
+    :root {
+      --bg: #eef2f7;
+      --card: #ffffff;
+      --text: #1a2332;
+      --muted: #5a6a7e;
+      --accent: #1e6b8c;
+      --accent2: #2a9d8f;
+      --shadow: 0 8px 24px rgba(26, 35, 50, 0.1);
+      --radius: 14px;
+      --topbar-h: 52px;
+      --dock-h: 56px;
+      --bubble-a: #e0f2fe;
+      --bubble-b: #d1fae5;
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; }
+    body {
+      display: flex;
+      flex-direction: column;
+      font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      font-size: clamp(16px, 1.5vw, 18px);
+      line-height: 1.55;
+      color: var(--text);
+      background: var(--bg);
+      overflow: hidden;
+    }
+    a { color: var(--accent); }
+    a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px solid #ffb703; outline-offset: 2px; }
+    .topbar {
+      flex: 0 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 8px 16px;
+      min-height: var(--topbar-h);
+      background: var(--card);
+      border-bottom: 1px solid #e2e8f0;
+      z-index: 40;
+    }
+    .brand { font-weight: 700; color: var(--accent); font-size: 14px; }
+    .slide-meta { font-size: 13px; color: var(--muted); font-weight: 600; }
+    .top-actions { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+    button, .btn-link {
+      font: inherit; cursor: pointer; border: none; border-radius: 10px; padding: 8px 12px;
+      background: linear-gradient(135deg, var(--accent), #155a78); color: #fff;
+      box-shadow: 0 2px 8px rgba(30, 107, 140, 0.3); text-decoration: none; display: inline-block; font-size: 14px;
+      min-height: 44px;
+    }
+    button.secondary, .btn-link.secondary { background: linear-gradient(135deg, #6c757d, #495057); box-shadow: none; }
+    button:disabled { opacity: 0.55; cursor: not-allowed; }
+    button.speaking { background: linear-gradient(135deg, #e76f51, #c94c32); }
+    .tts-bar { font-size: 12px; padding: 4px 16px 6px; background: #fff8e6; color: #664d03; border-bottom: 1px solid #f0d78c; }
+    .deck { flex: 1; min-height: 0; position: relative; width: 100%; }
+    .slide {
+      position: absolute; inset: 0; overflow: hidden; display: none; flex-direction: column;
+      padding: 10px 14px 6px;
+    }
+    .slide.is-active { display: flex; }
+    .slide-scroll { flex: 1; min-height: 0; overflow: auto; -webkit-overflow-scrolling: touch; }
+    .slide-inner { max-width: 1100px; margin: 0 auto; width: 100%; min-height: min-content; }
+    .hero-compact { display: grid; gap: 14px; align-items: stretch; }
+    @media (min-width: 860px) { .hero-compact { grid-template-columns: 1.05fr 1fr; } }
+    .hero-img-wrap {
+      border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow);
+      min-height: 160px; background: linear-gradient(120deg, #e0f2f7, #e8ecf8);
+    }
+    .hero-img-wrap img { width: 100%; min-height: 180px; height: 100%; object-fit: cover; display: block; }
+    .hero-img-wrap.fallback-img img { display: none; }
+    .hero-text {
+      background: var(--card); border-radius: var(--radius); padding: 16px 18px; box-shadow: var(--shadow);
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .hero-text h1 { margin: 0 0 6px; font-size: clamp(1.25rem, 2.8vw, 1.75rem); }
+    .hero-text .sub { margin: 0; color: var(--muted); font-size: 0.95rem; }
+    .note-small { font-size: 0.86rem; color: var(--muted); margin: 8px 0 0; }
+    .note {
+      font-size: 0.88rem; color: var(--muted); background: #fffdf5; border-left: 4px solid #ffb703;
+      padding: 10px 12px; border-radius: 8px; margin: 10px 0 0;
+    }
+    .card {
+      background: var(--card); border-radius: var(--radius); padding: 16px 18px; margin-bottom: 12px;
+      box-shadow: var(--shadow);
+    }
+    .card h2 { margin: 0 0 10px; font-size: 1.12rem; color: var(--accent); }
+    .talk-bg-wrap {
+      position: relative; border-radius: var(--radius); overflow: hidden; border: 1px solid #e2e8f0; margin-bottom: 12px;
+    }
+    .talk-bg-wrap .bg-img { position: absolute; inset: 0; opacity: 0.28; pointer-events: none; }
+    .talk-bg-wrap .bg-img img { width: 100%; height: 100%; object-fit: cover; }
+    .talk-bg-inner { position: relative; padding: 12px 14px; background: rgba(255,255,255,0.94); }
+    .dlg-block { margin-bottom: 18px; }
+    .dlg-block:last-child { margin-bottom: 0; }
+    .dlg-block h3 { margin: 0 0 10px; font-size: 0.95rem; color: var(--accent2); }
+    .bubble-row { display: flex; margin: 8px 0; align-items: flex-end; gap: 8px; }
+    .bubble-row.from-a { justify-content: flex-start; }
+    .bubble-row.from-b { justify-content: flex-end; flex-direction: row-reverse; }
+    .bubble {
+      position: relative;
+      max-width: min(92%, 28em);
+      padding: 10px 14px 10px 12px;
+      border-radius: 16px;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+    .bubble.from-a {
+      background: var(--bubble-a);
+      border: 1px solid #bae6fd;
+    }
+    .bubble.from-b {
+      background: var(--bubble-b);
+      border: 1px solid #6ee7b7;
+    }
+    .bubble.from-a::before {
+      content: "";
+      position: absolute; left: -6px; bottom: 10px;
+      border-width: 6px 8px 6px 0; border-style: solid;
+      border-color: transparent #bae6fd transparent transparent;
+    }
+    .bubble.from-b::before {
+      content: "";
+      position: absolute; right: -6px; bottom: 10px;
+      border-width: 6px 0 6px 8px; border-style: solid;
+      border-color: transparent transparent transparent #6ee7b7;
+    }
+    .role-tag { font-size: 0.72rem; font-weight: 800; color: var(--muted); margin-bottom: 4px; }
+    .line-play {
+      flex-shrink: 0;
+      width: 44px; height: 44px; border-radius: 10px; border: 1px solid #cbd5e1;
+      background: #fff; cursor: pointer; font-size: 1.1rem;
+    }
+    .line-play:hover { background: #f8fafc; }
+    .phrase-grid { display: grid; gap: 12px; }
+    @media (min-width: 640px) { .phrase-grid { grid-template-columns: repeat(2, 1fr); } }
+    .phrase-col h4 { margin: 0 0 8px; font-size: 0.88rem; color: var(--accent); }
+    .phrase-col ul { margin: 0; padding-left: 1.1em; font-size: 0.92rem; }
+    .phrase-col li { margin: 0.35em 0; }
+    .timer-panel {
+      display: flex; flex-wrap: wrap; align-items: center; gap: 16px; margin-top: 10px;
+    }
+    .timer-ring-wrap {
+      position: relative; width: 120px; height: 120px; flex-shrink: 0;
+    }
+    .timer-ring {
+      width: 120px; height: 120px; border-radius: 50%;
+      background: conic-gradient(var(--accent2) calc(var(--p, 0) * 360deg), #e2e8f0 0deg);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .timer-ring-hole {
+      width: 86px; height: 86px; border-radius: 50%; background: var(--card);
+      display: flex; align-items: center; justify-content: center;
+      font-size: clamp(1.15rem, 3vw, 1.45rem); font-weight: 800; color: var(--accent);
+      border: 1px solid #e2e8f0;
+    }
+    .timer-controls { flex: 1; min-width: 200px; }
+    .timer-controls button { margin: 0 8px 8px 0; }
+    .timer-custom { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 8px; }
+    .timer-custom input { width: 5em; padding: 8px; border-radius: 8px; border: 1px solid #ced4da; font: inherit; }
+    .stt-wrap {
+      border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px 14px; margin-top: 12px; background: #fafcff;
+    }
+    .stt-wrap.hidden { display: none; }
+    .next-btn {
+      display: inline-block; margin-top: 12px; padding: 12px 20px; font-weight: 700; font-size: 1rem;
+      border-radius: 12px; background: linear-gradient(135deg, var(--accent2), #1f8a7a); color: #fff;
+      text-decoration: none; box-shadow: var(--shadow); min-height: 48px; line-height: 1.3;
+    }
+    details.part { margin-top: 10px; border: 1px solid #e2e8f0; border-radius: 10px; padding: 8px 10px; background: #fff; }
+    summary { cursor: pointer; font-weight: 700; color: var(--accent); }
+    .dock {
+      flex: 0 0 auto; display: flex; align-items: center; justify-content: center; gap: 12px;
+      padding: 8px 12px; min-height: var(--dock-h); background: var(--card); border-top: 1px solid #e2e8f0; z-index: 60; position: relative;
+    }
+    .dock button { min-width: 100px; min-height: 44px; touch-action: manipulation; }
+    .dock .dots { font-size: 15px; font-weight: 700; color: var(--accent); min-width: 4.5em; text-align: center; }
+    .sr { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+    .ai-panel {
+      position: fixed; right: 0; top: 0; bottom: 0; width: min(420px, 100vw); background: var(--card);
+      box-shadow: -6px 0 28px rgba(0,0,0,0.14); transform: translateX(100%); transition: transform 0.28s ease; z-index: 120;
+      display: flex; flex-direction: column;
+    }
+    .ai-panel.open { transform: translateX(0); }
+    .ai-panel header { padding: 12px 14px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; }
+    .ai-panel .body { flex: 1; overflow: auto; padding: 12px 14px; display: flex; flex-direction: column; gap: 10px; }
+    .ai-panel textarea { width: 100%; min-height: 72px; resize: vertical; font: inherit; padding: 10px; border-radius: 10px; border: 1px solid #ced4da; }
+    .ai-panel .out { white-space: pre-wrap; background: #f1f5f9; border-radius: 10px; padding: 12px; min-height: 72px; border: 1px solid #e2e8f0; font-size: 0.95rem; }
+    .backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.35); opacity: 0; pointer-events: none; transition: opacity 0.25s ease; z-index: 110; }
+    .backdrop.show { opacity: 1; pointer-events: auto; }
+    .dlg-img-pair {
+      display: grid; gap: 12px; grid-template-columns: 1fr; margin: 0 0 14px;
+    }
+    @media (min-width: 720px) { .dlg-img-pair { grid-template-columns: 1fr 1fr; } }
+    .dlg-img-pair figure { margin: 0; border-radius: 12px; overflow: hidden; border: 1px solid #e2e8f0; box-shadow: var(--shadow); background: #fafcff; }
+    .dlg-img-pair img { width: 100%; height: min(200px, 28vw); min-height: 140px; object-fit: cover; display: block; }
+    .dlg-img-pair figcaption { font-size: 0.78rem; color: var(--muted); padding: 6px 10px; background: #f8fafc; border-top: 1px solid #e2e8f0; }
+    .reveal-line { margin-bottom: 12px; }
+    .reveal-toolbar {
+      display: flex;
+      gap: 8px;
+      align-items: stretch;
+    }
+    .reveal-toolbar .reveal-btn {
+      flex: 1;
+      min-width: 0;
+      width: auto;
+      text-align: left;
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 2px dashed #94a3b8;
+      background: #f8fafc;
+      color: #334155;
+      font-weight: 700;
+      font-size: 0.92rem;
+      cursor: pointer;
+      min-height: 48px;
+    }
+    .reveal-toolbar .reveal-btn:hover {
+      background: #eef6ff;
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .reveal-toolbar .btn-tts-blind {
+      flex-shrink: 0;
+      width: 48px;
+      min-width: 48px;
+      padding: 0;
+      align-self: stretch;
+      border-color: #7dd3fc;
+      background: linear-gradient(135deg, #e0f2fe, #dbeafe);
+    }
+    .reveal-toolbar .btn-tts-blind:hover {
+      filter: brightness(1.04);
+    }
+    .reveal-line.is-open .reveal-toolbar {
+      display: none !important;
+    }
+    .reveal-content[hidden] { display: none !important; }
+    .reveal-line.is-open .reveal-content { display: block !important; }
+      /* L10：主内容区整体 160%（顶栏与底部分页条不缩放） */
+    .tts-bar,
+    .deck {
+      zoom: 1.6;
+    }
+
+</style>
+</head>
+<body>
+  <div id="ariaLive" class="sr" aria-live="polite"></div>
+
+  <header class="topbar">
+    <div class="brand">Lesson 10 · Speaking — Have you ever…?</div>
+    <div class="slide-meta" id="slideIndicator">1 / 7</div>
+    <div class="top-actions">
+      <a class="btn-link secondary" href="L10-00-index.html">返回目录</a>
+      <a class="btn-link secondary" href="L10-04-adverbs-already-yet-just-ever-never.html">上一节</a>
+      <a class="btn-link secondary" href="L10-06-writing-new-term-prep.html">下一节</a>
+      <button type="button" id="btnReadDemo">朗读示范对话</button>
+      <button type="button" id="btnReadBank" class="secondary">朗读追问句银行（英文）</button>
+      <button type="button" id="btnMic" class="secondary">开始/停止录音（可选）</button>
+      <button type="button" id="btnAi">AI 同桌</button>
+    </div>
+  </header>
+  <div class="tts-bar" id="ttsBar" role="status" style="display:none;"></div>
+
+  <div class="deck" id="deck">
+    <section class="slide is-active" id="slide-0" data-slide="0" aria-label="封面">
+      <div class="slide-scroll">
+        <div class="slide-inner">
+          <div class="hero-compact">
+            <div class="hero-img-wrap" id="heroBlock">
+              <img id="heroImg" src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L10/assets/img/l10-p06-speaking-hero.png" alt="两名学生对话剪影氛围插画" width="1600" height="900" loading="eager" decoding="async" />
+            </div>
+            <div class="hero-text">
+              <h1>口语：<span lang="en">Have you ever…?</span></h1>
+              <p class="sub">真实经历 · 追问细节</p>
+              <p class="note-small">学习目标（口语）：我能用 <span lang="en">Have you ever…?</span> 向同伴打听经历，并用一般过去时追问<strong>时间、地点、感受</strong>等细节。</p>
+              <p class="note">上一节我们练了 <span lang="en">ever</span> 在问句里的位置；这一节把它放进真实话轮，向同伴打听「有没有做过」。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-1" data-slide="1" hidden aria-label="示范对话一·旅行">
+      <div class="slide-scroll">
+        <div class="slide-inner">
+          <div class="card">
+            <h2>示范对话 1 / 3：<span lang="en">旅行 · Xi'an</span></h2>
+            <p class="note-small">先看情境图。每条灰色条右侧有 <strong>🔊</strong>，可在<strong>未展开英文前盲听、模仿跟读</strong>；再点击灰条看原句，展开后气泡旁仍可点 🔊 跟读。</p>
+            <div class="dlg-img-pair">
+              <figure>
+                <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L10/assets/img/l10-p06-dlg1a.png" alt="西安古城墙与夕阳情境插画" width="800" height="450" loading="lazy" decoding="async" />
+                <figcaption>情境图 1：古城与城墙氛围</figcaption>
+              </figure>
+              <figure>
+                <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L10/assets/img/l10-p06-dlg1b.png" alt="与家人出行旅途情境插画" width="800" height="450" loading="lazy" decoding="async" />
+                <figcaption>情境图 2：和家人一起出发</figcaption>
+              </figure>
+            </div>
+            <div id="dialogMount0" class="dlg-reveal-root"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-2" data-slide="2" hidden aria-label="示范对话二·读书">
+      <div class="slide-scroll">
+        <div class="slide-inner">
+          <div class="card">
+            <h2>示范对话 2 / 3：<span lang="en">读书 · English books</span></h2>
+            <p class="note-small">先理解画面。灰条右侧 <strong>🔊</strong> 可盲听本句；再点击灰条展开英文。</p>
+            <div class="dlg-img-pair">
+              <figure>
+                <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L10/assets/img/l10-p06-dlg2a.png" alt="英文读物与台灯书桌情境插画" width="800" height="450" loading="lazy" decoding="async" />
+                <figcaption>情境图 1：英文读物与阅读角</figcaption>
+              </figure>
+              <figure>
+                <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L10/assets/img/l10-p06-dlg2b.png" alt="学生阅读英文书情境插画" width="800" height="450" loading="lazy" decoding="async" />
+                <figcaption>情境图 2：专注阅读</figcaption>
+              </figure>
+            </div>
+            <div id="dialogMount1" class="dlg-reveal-root"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-3" data-slide="3" hidden aria-label="示范对话三·志愿活动">
+      <div class="slide-scroll">
+        <div class="slide-inner">
+          <div class="card">
+            <h2>示范对话 3 / 3：<span lang="en">志愿 · Sports Day</span></h2>
+            <p class="note-small">结合校运会志愿场景：灰条右侧 <strong>🔊</strong> 先盲听，再点击展开对话。</p>
+            <div class="dlg-img-pair">
+              <figure>
+                <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L10/assets/img/l10-p06-dlg3a.png" alt="校运会跑道与补水桌情境插画" width="800" height="450" loading="lazy" decoding="async" />
+                <figcaption>情境图 1：运动日与补水服务</figcaption>
+              </figure>
+              <figure>
+                <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L10/assets/img/l10-p06-dlg3b.png" alt="校门口志愿递水情境插画" width="800" height="450" loading="lazy" decoding="async" />
+                <figcaption>情境图 2：校门口互助</figcaption>
+              </figure>
+            </div>
+            <div id="dialogMount2" class="dlg-reveal-root"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-4" data-slide="4" hidden aria-label="追问句银行">
+      <div class="slide-scroll">
+        <div class="slide-inner">
+          <div class="card">
+            <h2>追问句银行 <span lang="en">Phrase bank</span></h2>
+            <p class="note-small">追问细节时多用<strong>一般过去时</strong>，与问经历的现完形成搭配。</p>
+            <div class="phrase-grid">
+              <div class="phrase-col">
+                <h4 lang="en">Time</h4>
+                <ul lang="en">
+                  <li>When was it?</li>
+                  <li>How long ago was that?</li>
+                  <li>What time did you start?</li>
+                </ul>
+              </div>
+              <div class="phrase-col">
+                <h4 lang="en">Place</h4>
+                <ul lang="en">
+                  <li>Where did you go?</li>
+                  <li>Where was the event?</li>
+                </ul>
+              </div>
+              <div class="phrase-col">
+                <h4 lang="en">Feeling</h4>
+                <ul lang="en">
+                  <li>How did you feel?</li>
+                  <li>Were you nervous at first?</li>
+                </ul>
+              </div>
+              <div class="phrase-col">
+                <h4 lang="en">People</h4>
+                <ul lang="en">
+                  <li>Who went with you?</li>
+                  <li>Did anyone teach you first?</li>
+                  <li>How long did you stay there?</li>
+                </ul>
+              </div>
+            </div>
+            <button type="button" id="btnReadPhrase" class="secondary" style="margin-top:12px;">朗读本区（英文）</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-5" data-slide="5" hidden aria-label="活动与计时">
+      <div class="slide-scroll">
+        <div class="slide-inner">
+          <div class="card">
+            <h2>两人一组活动 ⏱</h2>
+            <ol style="margin:0 0 12px;padding-left:1.2em;">
+              <li><strong>轮流当 A / B</strong>：每人至少用 <span lang="en">Have you ever…?</span> 问对方 <strong>两个</strong>不同问题。</li>
+              <li>回答尽量<strong>真实</strong>；不会说可用 <span lang="en">I'm not sure, but I think…</span>。</li>
+              <li>听到回答后，<strong>至少追问一次</strong>（从追问句银行选）。</li>
+              <li>对方答完后，用 <span lang="en">Really? Me too.</span> 或 <span lang="en">That sounds fun.</span> 等自然接一句。</li>
+            </ol>
+            <div class="timer-panel">
+              <div class="timer-ring-wrap">
+                <div class="timer-ring" id="timerRing" style="--p: 0">
+                  <div class="timer-ring-hole" id="timerDigits">03:00</div>
+                </div>
+              </div>
+              <div class="timer-controls">
+                <button type="button" id="btnT3">3 分钟</button>
+                <button type="button" id="btnT5">5 分钟</button>
+                <button type="button" id="btnTStart">开始</button>
+                <button type="button" id="btnTStop" class="secondary">暂停/归零</button>
+                <div class="timer-custom">
+                  <label>自定义秒数 <input type="number" id="timerCustomSec" min="30" max="3600" step="30" placeholder="180" /></label>
+                  <button type="button" id="btnTCustom" class="secondary">用自定义</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="stt-wrap" id="sttBlock">
+            <strong>可选：语音转文字（Azure）</strong>
+            <p class="note-small" style="margin-top:6px;">仅在教师同意下使用麦克风；识别流会发送至微软云端。请点击允许麦克风。若拒绝或本页以 file:// 打开，可改用纸笔记录。</p>
+            <textarea id="sttOut" readonly rows="3" placeholder="识别结果会出现在这里…" lang="en"></textarea>
+            <p id="sttMsg" class="note-small" style="margin:8px 0 0;"></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-6" data-slide="6" hidden aria-label="小贴士与下一节">
+      <div class="slide-scroll">
+        <div class="slide-inner">
+          <div class="card">
+            <h2>课堂小贴士</h2>
+            <ul>
+              <li>不会答时：<span lang="en">I'm not sure, but I think… / Not really, but I want to try.</span></li>
+              <li>自然回应：<span lang="en">Really? Me too. / That sounds cool. / I haven't, but I'd love to.</span></li>
+              <li>问句注意缩写：<span lang="en">I've / haven't / Has she ever…?</span> 与教材听力一致即可。</li>
+            </ul>
+            <a class="next-btn" href="L10-06-writing-new-term-prep.html">下一节：写作 <span lang="en">I have already… / I haven't … yet.</span></a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <nav class="dock" aria-label="幻灯分页">
+    <button type="button" id="btnPrev" class="secondary">上一页</button>
+    <span class="dots" id="dockDots">1 / 7</span>
+    <button type="button" id="btnNext">下一页</button>
+  </nav>
+
+  <div class="backdrop" id="aiBackdrop" hidden aria-hidden="true"></div>
+  <aside class="ai-panel" id="aiPanel" aria-label="DeepSeek AI 同桌">
+    <header>
+      <strong>AI 外教同桌</strong>
+      <button type="button" id="btnAiClose" class="secondary">关闭</button>
+    </header>
+    <div class="body">
+      <p style="margin:0;font-size:0.88rem;color:var(--muted);">真人同伴优先；此处用于示范追问或把你的中文想法变成英文问句。</p>
+      <div>
+        <label><input type="radio" name="aiMode" value="A" checked /> 模式 A：我有一句英文答句，请 AI 追问</label><br />
+        <label><input type="radio" name="aiMode" value="B" /> 模式 B：我用中文说经历，请 AI 生成英文问句</label>
+      </div>
+      <textarea id="aiInput" maxlength="400" placeholder="模式 A 示例：Yes, I have. I tried hot pot last year."></textarea>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;">
+        <button type="button" id="btnAiRun">请 AI 追问 / 生成</button>
+        <button type="button" id="btnAiClear" class="secondary">清空</button>
+        <button type="button" id="btnAiCopy" class="secondary">复制全文</button>
+      </div>
+      <div class="out" id="aiOut"></div>
+    </div>
+  </aside>
+
+  <script>
+(function () {
+  const AZURE_SPEECH_KEY = "C42UQWeDcluYanbo17WrtUnPhk0vkZy2uQHPTCGDzY6CdEXx99NzJQQJ99BIACqBBLyXJ3w3AAAYACOGjkyu";
+  const AZURE_SPEECH_REGION = "southeastasia";
+  const DEEPSEEK_API_KEY = "sk-daa16008e81843deba6fefe9dce51465";
+  const DEEPSEEK_API_URL = "https://api.deepseek.com/v1/chat/completions";
+  const DEEPSEEK_SYSTEM =
+    "你是初中英语口语陪练。用户选模式 A 或 B。模式 A：用户给出简短英语回答，你用最多两行英语：第一行追问（优先 Have you ever 或 What about），第二行给一个自然接话示范，初二词汇。然后第三行用中文提示如何接话。模式 B：用户用中文说经历或想法，你第一行输出一句地道的 Have you ever 开头的英语问句，第二行中文解释关键词。不要输出第四行。不要讲解语法术语超过三个词。不要输出密钥或链接。";
+  const MSG_NET = "语音暂时不可用，请默读或换 Edge / 本地 http 打开。";
+
+  var SCRIPT_LINES = [
+    { topic: "旅行 · Xi'an", role: "A", text: "Have you ever been to Xi'an?" },
+    { topic: "旅行 · Xi'an", role: "B", text: "Yes, I have. I went there with my parents last July." },
+    { topic: "旅行 · Xi'an", role: "A", text: "When did you arrive on the first day?" },
+    { topic: "旅行 · Xi'an", role: "B", text: "We arrived in the evening and visited the city walls the next morning." },
+    { topic: "读书 · English books", role: "A", text: "Have you ever read a whole book in English?" },
+    { topic: "读书 · English books", role: "B", text: "No, I haven't, but I've finished two graded readers this summer." },
+    { topic: "读书 · English books", role: "A", text: "How did you feel after the first one?" },
+    { topic: "读书 · English books", role: "B", text: "A little tired, but I felt proud when I understood the ending." },
+    { topic: "志愿 · Sports Day", role: "A", text: "Have you ever helped at a school volunteer event?" },
+    { topic: "志愿 · Sports Day", role: "B", text: "Yes, I have. I handed out water on Sports Day last term." },
+    { topic: "志愿 · Sports Day", role: "A", text: "Where did you stand — near the track?" },
+    { topic: "志愿 · Sports Day", role: "B", text: "Near the school gate. It was hot, but it was fun." }
+  ];
+
+  var PHRASE_BANK_EN =
+    "When was it? How long ago was that? What time did you start? Where did you go? Where was the event? How did you feel? Were you nervous at first? Who went with you? Did anyone teach you first? How long did you stay there?";
+
+  var slideCount = 0;
+  var slideIndex = 0;
+  var slides = [];
+  var ttsBusy = false;
+  var ttsHtmlAudio = null;
+  var recog = null;
+  var micBusy = false;
+  var timerId = null;
+  var timerLeft = 0;
+  var timerTotal = 180;
+
+  function initSlides() {
+    slides = Array.prototype.slice.call(document.querySelectorAll(".slide"));
+    slideCount = slides.length;
+    goSlide(0);
+  }
+  function goSlide(n) {
+    slideIndex = Math.max(0, Math.min(slideCount - 1, n));
+    slides.forEach(function (s, i) {
+      var on = i === slideIndex;
+      s.classList.toggle("is-active", on);
+      s.hidden = !on;
+    });
+    var cur = slides[slideIndex];
+    if (cur) {
+      var sc = cur.querySelector(".slide-scroll");
+      if (sc) sc.scrollTop = 0;
+    }
+    var label = slideIndex + 1 + " / " + slideCount;
+    var ind = document.getElementById("slideIndicator");
+    var dots = document.getElementById("dockDots");
+    if (ind) ind.textContent = label;
+    if (dots) dots.textContent = label;
+    document.getElementById("btnPrev").disabled = slideIndex === 0;
+    document.getElementById("btnNext").disabled = slideIndex === slideCount - 1;
+  }
+  document.getElementById("btnPrev").addEventListener("click", function () { goSlide(slideIndex - 1); });
+  document.getElementById("btnNext").addEventListener("click", function () { goSlide(slideIndex + 1); });
+  document.addEventListener("keydown", function (e) {
+    var bdEl = document.getElementById("aiBackdrop");
+    if (e.target.closest(".ai-panel.open") || (bdEl && bdEl.classList.contains("show"))) return;
+    if (e.key === "ArrowLeft") { e.preventDefault(); goSlide(slideIndex - 1); }
+    if (e.key === "ArrowRight") { e.preventDefault(); goSlide(slideIndex + 1); }
+  });
+
+  var heroImg = document.getElementById("heroImg");
+  if (heroImg) {
+    heroImg.addEventListener("error", function () {
+      document.getElementById("heroBlock").classList.add("fallback-img");
+    });
+  }
+
+  var DIALOG_SLIDES = [
+    { mountId: "dialogMount0", lineStart: 0, lineCount: 4 },
+    { mountId: "dialogMount1", lineStart: 4, lineCount: 4 },
+    { mountId: "dialogMount2", lineStart: 8, lineCount: 4 }
+  ];
+
+  function buildDialogReveals() {
+    DIALOG_SLIDES.forEach(function (meta) {
+      var mount = document.getElementById(meta.mountId);
+      if (!mount) return;
+      var html = "";
+      for (var k = 0; k < meta.lineCount; k++) {
+        var idx = meta.lineStart + k;
+        var line = SCRIPT_LINES[idx];
+        if (!line) continue;
+        var from = line.role === "A" ? "a" : "b";
+        var turn = k + 1;
+        html += '<div class="reveal-line" data-line-idx="' + idx + '">';
+        html += '<div class="reveal-toolbar">';
+        html +=
+          '<button type="button" class="reveal-btn">点击显示 · 角色 ' +
+          line.role +
+          " · 第 " +
+          turn +
+          " 句</button>";
+        html +=
+          '<button type="button" class="line-play btn-line-tts btn-tts-blind" data-idx="' +
+          idx +
+          '" title="盲听本句（不看英文，可先模仿跟读）" aria-label="盲听本句">🔊</button>';
+        html += "</div>";
+        html += '<div class="reveal-content" hidden>';
+        html +=
+          '<div class="bubble-row from-' +
+          from +
+          '"><div class="bubble from-' +
+          from +
+          '" lang="en"><div class="role-tag">' +
+          line.role +
+          "</div>" +
+          line.text.replace(/</g, "&lt;") +
+          '</div><button type="button" class="line-play btn-line-tts" data-idx="' +
+          idx +
+          '" title="朗读该句">🔊</button></div>';
+        html += "</div></div>";
+      }
+      mount.innerHTML = html;
+      mount.querySelectorAll(".reveal-btn").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          var row = btn.closest(".reveal-line");
+          if (!row) return;
+          var box = row.querySelector(".reveal-content");
+          row.classList.add("is-open");
+          if (box) box.removeAttribute("hidden");
+        });
+      });
+    });
+    document.querySelectorAll(".btn-line-tts").forEach(function (btn) {
+      if (btn.getAttribute("data-bound") === "1") return;
+      btn.setAttribute("data-bound", "1");
+      btn.addEventListener("click", function () {
+        var i = Number(btn.getAttribute("data-idx"));
+        if (ttsBusy) return;
+        stopHtmlAudio();
+        var line = SCRIPT_LINES[i];
+        if (!line) return;
+        setTtsBusy(true, null);
+        azureSpeakSsml(buildSsml(line.text, "en-US-JennyNeural"), "en-US-JennyNeural", function () { setTtsBusy(false); });
+      });
+    });
+  }
+
+  function aria(m) {
+    var el = document.getElementById("ariaLive");
+    if (el) el.textContent = m;
+  }
+  function setTtsBar(t) {
+    var b = document.getElementById("ttsBar");
+    if (!b) return;
+    b.textContent = t || "";
+    b.style.display = t ? "block" : "none";
+  }
+  function stopHtmlAudio() {
+    try {
+      if (ttsHtmlAudio) {
+        ttsHtmlAudio.pause();
+        if (ttsHtmlAudio._revoke) URL.revokeObjectURL(ttsHtmlAudio._revoke);
+        ttsHtmlAudio.removeAttribute("src");
+        ttsHtmlAudio.load();
+        ttsHtmlAudio = null;
+      }
+    } catch (e) {}
+  }
+  function escapeXml(s) {
+    return String(s)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&apos;");
+  }
+  function buildSsml(text, voiceName) {
+    var lang = voiceName.indexOf("zh-") === 0 ? "zh-CN" : "en-US";
+    return (
+      "<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='" +
+      lang +
+      "'><voice name='" +
+      voiceName +
+      "'>" +
+      escapeXml(text) +
+      "</voice></speak>"
+    );
+  }
+  function azureRest(ssml, ok, fail) {
+    stopHtmlAudio();
+    fetch("https://" + AZURE_SPEECH_REGION + ".tts.speech.microsoft.com/cognitiveservices/v1", {
+      method: "POST",
+      mode: "cors",
+      credentials: "omit",
+      headers: {
+        "Ocp-Apim-Subscription-Key": AZURE_SPEECH_KEY,
+        "Content-Type": "application/ssml+xml",
+        "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3",
+        "User-Agent": "L10SpeakingPage/1.0"
+      },
+      body: ssml
+    })
+      .then(function (r) {
+        if (!r.ok) return r.text().then(function () { throw new Error("REST"); });
+        return r.blob();
+      })
+      .then(function (blob) {
+        if (!blob || blob.size < 80) throw new Error("empty");
+        var u = URL.createObjectURL(blob);
+        var a = new Audio();
+        ttsHtmlAudio = a;
+        a._revoke = u;
+        a.src = u;
+        a.setAttribute("playsinline", "true");
+        a.onended = function () { stopHtmlAudio(); ok(); };
+        a.onerror = function () { stopHtmlAudio(); fail(new Error("play")); };
+        var p = a.play();
+        if (p && p.catch) p.catch(function (e) { stopHtmlAudio(); fail(e); });
+      })
+      .catch(function (e) { stopHtmlAudio(); fail(e); });
+  }
+  function azureSdk(ssml, voiceName, ok, fail) {
+    if (typeof SpeechSDK === "undefined") { fail(new Error("sdk")); return; }
+    stopHtmlAudio();
+    var cfg = SpeechSDK.SpeechConfig.fromSubscription(AZURE_SPEECH_KEY, AZURE_SPEECH_REGION);
+    cfg.speechSynthesisVoiceName = voiceName;
+    var syn = new SpeechSDK.SpeechSynthesizer(cfg, SpeechSDK.AudioConfig.fromDefaultSpeakerOutput());
+    syn.speakSsmlAsync(
+      ssml,
+      function (res) {
+        var good = res.reason === SpeechSDK.ResultReason.SynthesizingAudioCompleted;
+        syn.close();
+        if (good) ok();
+        else fail(new Error("syn"));
+      },
+      function (err) { syn.close(); fail(err); }
+    );
+  }
+  function azureSpeakSsml(ssml, voice, onDone) {
+    onDone = onDone || function () {};
+    setTtsBar("正在连接 Azure 语音…");
+    azureRest(
+      ssml,
+      function () { setTtsBar(""); onDone(); },
+      function () {
+        setTtsBar("REST 失败，尝试 SDK…");
+        azureSdk(ssml, voice, function () { setTtsBar(""); onDone(); }, function () {
+          setTtsBar("语音失败");
+          aria(MSG_NET);
+          onDone();
+        });
+      }
+    );
+  }
+  function speakChain(list, i, onAllDone) {
+    if (i >= list.length) {
+      onAllDone();
+      return;
+    }
+    var item = list[i];
+    azureSpeakSsml(item.ssml, item.voice, function () { speakChain(list, i + 1, onAllDone); });
+  }
+
+  function setTtsBusy(on, btnId) {
+    ttsBusy = on;
+    ["btnReadDemo", "btnReadBank", "btnReadPhrase"].forEach(function (id) {
+      var b = document.getElementById(id);
+      if (b) {
+        b.disabled = on;
+        b.classList.remove("speaking");
+      }
+    });
+    document.querySelectorAll(".btn-line-tts").forEach(function (b) {
+      b.disabled = on;
+    });
+    if (on && btnId) {
+      var x = document.getElementById(btnId);
+      if (x) x.classList.add("speaking");
+    }
+  }
+
+  function buildDemoSsmlList() {
+    var v = "en-US-JennyNeural";
+    return SCRIPT_LINES.map(function (line) {
+      return { voice: v, ssml: buildSsml(line.text, v) };
+    });
+  }
+
+  document.getElementById("btnReadDemo").addEventListener("click", function () {
+    if (ttsBusy) return;
+    setTtsBusy(true, "btnReadDemo");
+    var intro = { voice: "zh-CN-XiaoxiaoNeural", ssml: buildSsml("下面朗读三组示范对话，每句为英语。", "zh-CN-XiaoxiaoNeural") };
+    var chain = [intro].concat(buildDemoSsmlList());
+    speakChain(chain, 0, function () { setTtsBusy(false); });
+  });
+
+  document.getElementById("btnReadPhrase").addEventListener("click", function () {
+    if (ttsBusy) return;
+    setTtsBusy(true, "btnReadPhrase");
+    var list = [{ voice: "en-US-JennyNeural", ssml: buildSsml(PHRASE_BANK_EN, "en-US-JennyNeural") }];
+    speakChain(list, 0, function () { setTtsBusy(false); });
+  });
+
+  document.getElementById("btnReadBank").addEventListener("click", function () {
+    if (ttsBusy) return;
+    setTtsBusy(true, "btnReadBank");
+    var list = [{ voice: "en-US-JennyNeural", ssml: buildSsml(PHRASE_BANK_EN, "en-US-JennyNeural") }];
+    speakChain(list, 0, function () { setTtsBusy(false); });
+  });
+
+  function playBeep() {
+    try {
+      var Ctx = window.AudioContext || window.webkitAudioContext;
+      if (!Ctx) return;
+      var ctx = new Ctx();
+      var o = ctx.createOscillator();
+      var g = ctx.createGain();
+      o.type = "sine";
+      o.frequency.value = 880;
+      g.gain.value = 0.09;
+      o.connect(g);
+      g.connect(ctx.destination);
+      o.start();
+      setTimeout(function () {
+        try {
+          o.stop();
+          ctx.close();
+        } catch (e2) {}
+      }, 220);
+    } catch (e) {}
+  }
+
+  function formatTime(sec) {
+    var m = Math.floor(sec / 60);
+    var s = sec % 60;
+    return (m < 10 ? "0" : "") + m + ":" + (s < 10 ? "0" : "") + s;
+  }
+  function updateTimerUi() {
+    var el = document.getElementById("timerDigits");
+    var ring = document.getElementById("timerRing");
+    if (el) el.textContent = formatTime(Math.max(0, timerLeft));
+    if (ring && timerTotal > 0) {
+      var p = (timerTotal - timerLeft) / timerTotal;
+      ring.style.setProperty("--p", String(Math.min(1, Math.max(0, p))));
+    }
+  }
+  function stopTimer() {
+    if (timerId) {
+      clearInterval(timerId);
+      timerId = null;
+    }
+  }
+  function onTimerEnd() {
+    stopTimer();
+    timerLeft = 0;
+    updateTimerUi();
+    playBeep();
+    aria("时间到");
+    try {
+      if (!ttsBusy) {
+        setTtsBusy(true, null);
+        azureSpeakSsml(buildSsml("时间到。", "zh-CN-XiaoxiaoNeural"), "zh-CN-XiaoxiaoNeural", function () { setTtsBusy(false); });
+      }
+    } catch (e) {}
+  }
+  function startTimer() {
+    stopTimer();
+    if (timerLeft <= 0) timerLeft = timerTotal;
+    updateTimerUi();
+    timerId = setInterval(function () {
+      timerLeft--;
+      updateTimerUi();
+      if (timerLeft <= 0) onTimerEnd();
+    }, 1000);
+  }
+
+  document.getElementById("btnT3").addEventListener("click", function () {
+    stopTimer();
+    timerTotal = 180;
+    timerLeft = 180;
+    updateTimerUi();
+  });
+  document.getElementById("btnT5").addEventListener("click", function () {
+    stopTimer();
+    timerTotal = 300;
+    timerLeft = 300;
+    updateTimerUi();
+  });
+  document.getElementById("btnTCustom").addEventListener("click", function () {
+    var v = parseInt(document.getElementById("timerCustomSec").value, 10);
+    if (!v || v < 30 || v > 3600) {
+      alert("请输入 30～3600 之间的秒数（建议 30 的倍数）。");
+      return;
+    }
+    stopTimer();
+    timerTotal = v;
+    timerLeft = v;
+    updateTimerUi();
+  });
+  document.getElementById("btnTStart").addEventListener("click", function () {
+    if (timerLeft <= 0) timerLeft = timerTotal;
+    startTimer();
+  });
+  document.getElementById("btnTStop").addEventListener("click", function () {
+    stopTimer();
+    timerLeft = timerTotal;
+    updateTimerUi();
+  });
+
+  var aiPanel = document.getElementById("aiPanel");
+  var bd = document.getElementById("aiBackdrop");
+  function openAi() {
+    if (ttsBusy) {
+      alert("请等待当前朗读结束后再打开 AI 面板。");
+      return;
+    }
+    aiPanel.classList.add("open");
+    bd.classList.add("show");
+    bd.hidden = false;
+  }
+  function closeAi() {
+    aiPanel.classList.remove("open");
+    bd.classList.remove("show");
+    bd.hidden = true;
+  }
+  document.getElementById("btnAi").addEventListener("click", openAi);
+  document.getElementById("btnAiClose").addEventListener("click", closeAi);
+  bd.addEventListener("click", closeAi);
+
+  var lastAiTs = 0;
+  document.getElementById("btnAiRun").addEventListener("click", async function () {
+    var now = Date.now();
+    if (now - lastAiTs < 3000) {
+      document.getElementById("aiOut").textContent = "请稍候约 3 秒再试。";
+      return;
+    }
+    lastAiTs = now;
+    var mode = (document.querySelector('input[name="aiMode"]:checked') || {}).value || "A";
+    var raw = document.getElementById("aiInput").value.trim();
+    var out = document.getElementById("aiOut");
+    if (!raw) {
+      out.textContent = "请先输入内容。";
+      return;
+    }
+    if (mode === "A" && raw.length > 400) raw = raw.slice(0, 400);
+    if (mode === "B" && raw.length > 120) raw = raw.slice(0, 120);
+    var user =
+      mode === "A"
+        ? "模式 A。用户英语答句：" + raw
+        : "模式 B。用户中文想法：" + raw;
+    out.textContent = "生成中…";
+    try {
+      var res = await fetch(DEEPSEEK_API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: "Bearer " + DEEPSEEK_API_KEY },
+        body: JSON.stringify({
+          model: "deepseek-chat",
+          temperature: 0.55,
+          max_tokens: 280,
+          messages: [
+            { role: "system", content: DEEPSEEK_SYSTEM },
+            { role: "user", content: user }
+          ]
+        })
+      });
+      if (!res.ok) {
+        out.textContent = "请求失败 HTTP " + res.status;
+        return;
+      }
+      var data = await res.json();
+      var txt = (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) || "";
+      var lines = txt.split("\n").map(function (s) { return s.trim(); }).filter(Boolean);
+      if (lines.length === 2 && /^[A-Za-z]/.test(lines[0])) {
+        lines.push("请尝试用屏幕上的追问句继续对话。");
+      }
+      if (lines.length > 3) lines = lines.slice(0, 3);
+      out.textContent = lines.join("\n");
+    } catch (e) {
+      out.textContent = "网络不可用，请稍后再试。";
+    }
+  });
+  document.getElementById("btnAiClear").addEventListener("click", function () {
+    document.getElementById("aiInput").value = "";
+    document.getElementById("aiOut").textContent = "";
+  });
+  document.getElementById("btnAiCopy").addEventListener("click", function () {
+    var t = document.getElementById("aiOut").textContent || "";
+    if (!t) return;
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(t);
+  });
+
+  function setupStt() {
+    var block = document.getElementById("sttBlock");
+    var msg = document.getElementById("sttMsg");
+    if (location.protocol === "file:") {
+      block.classList.add("hidden");
+      return;
+    }
+    if (typeof SpeechSDK === "undefined") {
+      msg.textContent = "语音 SDK 未加载，录音功能不可用。";
+      return;
+    }
+    msg.textContent = "请点击允许麦克风，然后点「开始/停止录音」说一句英语。";
+  }
+
+  document.getElementById("btnMic").addEventListener("click", function () {
+    if (micBusy) {
+      document.getElementById("sttMsg").textContent = "请等待本轮识别结束。";
+      return;
+    }
+    if (location.protocol === "file:") {
+      alert("当前为 file:// 打开，浏览器通常不允许麦克风。请用本地 http 服务打开本页。");
+      return;
+    }
+    if (typeof SpeechSDK === "undefined") {
+      alert("Speech SDK 未加载。");
+      return;
+    }
+    micBusy = true;
+    document.getElementById("btnMic").textContent = "识别中…";
+    var cfg = SpeechSDK.SpeechConfig.fromSubscription(AZURE_SPEECH_KEY, AZURE_SPEECH_REGION);
+    cfg.speechRecognitionLanguage = "en-US";
+    var audio = SpeechSDK.AudioConfig.fromDefaultMicrophoneInput();
+    recog = new SpeechSDK.SpeechRecognizer(cfg, audio);
+    recog.recognizeOnceAsync(
+      function (result) {
+        micBusy = false;
+        document.getElementById("btnMic").textContent = "开始/停止录音（可选）";
+        var ta = document.getElementById("sttOut");
+        if (result.reason === SpeechSDK.ResultReason.RecognizedSpeech) {
+          ta.value = (ta.value ? ta.value + "\n" : "") + result.text;
+          document.getElementById("sttMsg").textContent = "已识别。可继续点击录音说下一句。";
+        } else {
+          document.getElementById("sttMsg").textContent =
+            "未识别到语音（可检查麦克风权限或换一句再说）。";
+        }
+        try {
+          recog.close();
+        } catch (e) {}
+        recog = null;
+      },
+      function () {
+        micBusy = false;
+        document.getElementById("btnMic").textContent = "开始/停止录音（可选）";
+        document.getElementById("sttMsg").textContent = "识别失败；仍可纸笔记录。";
+        try {
+          recog.close();
+        } catch (e) {}
+        recog = null;
+      }
+    );
+  });
+
+  window.addEventListener("beforeunload", function () {
+    try {
+      if (recog) recog.close();
+    } catch (e) {}
+  });
+
+  buildDialogReveals();
+  setupStt();
+  timerLeft = 180;
+  timerTotal = 180;
+  updateTimerUi();
+  initSlides();
+})();
+  </script>
+</body>
+</html>

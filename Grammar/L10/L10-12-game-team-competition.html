@@ -1,0 +1,1798 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Lesson 10 · Page 13 · 分组竞赛（陷阱 · 闪电 · 擂台）</title>
+  <script src="https://cdn.jsdelivr.net/npm/microsoft-cognitiveservices-speech-sdk@1.38.0/dist/microsoft.cognitiveservices.speech.sdk.bundle-min.js" crossorigin="anonymous"></script>
+  <style>
+    :root {
+      --bg: #eef2f7;
+      --card: #ffffff;
+      --text: #1a2332;
+      --muted: #5a6a7e;
+      --accent: #1e6b8c;
+      --accent2: #e76f51;
+      --shadow: 0 8px 24px rgba(26, 35, 50, 0.1);
+      --radius: 14px;
+      --topbar-h: 52px;
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; }
+    body {
+      display: flex; flex-direction: column;
+      font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      font-size: 16px;
+      line-height: 1.5;
+      color: var(--text);
+      background: var(--bg);
+    }
+    a { color: var(--accent); }
+    a:focus-visible, button:focus-visible, input:focus-visible { outline: 3px solid #ffb703; outline-offset: 2px; }
+    .topbar {
+      flex: 0 0 auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+      gap: 8px; padding: 8px 12px; min-height: var(--topbar-h); background: var(--card); border-bottom: 1px solid #e2e8f0; z-index: 50;
+    }
+    .brand { font-weight: 700; color: var(--accent); font-size: 13px; }
+    .top-actions { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+    button, .btn-link {
+      font: inherit; cursor: pointer; border: none; border-radius: 10px; padding: 8px 12px;
+      background: linear-gradient(135deg, var(--accent), #155a78); color: #fff;
+      box-shadow: 0 2px 8px rgba(30, 107, 140, 0.25); text-decoration: none; display: inline-block; font-size: 13px; min-height: 44px;
+    }
+    button.secondary, .btn-link.secondary { background: linear-gradient(135deg, #6c757d, #495057); box-shadow: none; }
+    button:disabled { opacity: 0.55; cursor: not-allowed; }
+    .tts-bar { font-size: 12px; padding: 4px 12px 6px; background: #fff8e6; color: #664d03; border-bottom: 1px solid #f0d78c; flex-shrink: 0; }
+    .page-main { flex: 1; min-height: 0; overflow: auto; padding: 8px 12px 12px; }
+    .inner { max-width: 1280px; margin: 0 auto; }
+    .sr { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+    .note { font-size: 0.86rem; color: var(--muted); background: #fffdf5; border-left: 4px solid #ffb703; padding: 8px 10px; border-radius: 8px; margin-top: 10px; }
+    .comp-layout {
+      display: grid;
+      grid-template-columns: minmax(260px, 340px) minmax(0, 1fr);
+      gap: 14px;
+      align-items: start;
+    }
+    @media (max-width: 900px) {
+      .comp-layout { grid-template-columns: 1fr; }
+    }
+    .comp-sidebar { min-width: 0; }
+    .comp-sidebar .board-wrap { position: sticky; top: 8px; }
+    .comp-answers { min-width: 0; }
+    .board-wrap {
+      position: relative; border-radius: var(--radius); overflow: hidden; margin-bottom: 12px;
+      border: 1px solid #1e293b; box-shadow: var(--shadow);
+    }
+    .board-bg { position: absolute; inset: 0; opacity: 0.35; pointer-events: none; }
+    .board-bg img { width: 100%; height: 100%; object-fit: cover; }
+    .board-inner { position: relative; padding: 14px 12px 16px; background: rgba(15, 23, 42, 0.88); color: #f1f5f9; }
+    .teams-grid { display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(132px, 1fr)); }
+    .setup-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-bottom: 12px; }
+    .setup-bar input[type="number"] { width: 4.2rem; padding: 6px 8px; border-radius: 8px; border: 1px solid #94a3b8; background: #fff; color: #0f172a; font: inherit; }
+    .turn-banner { background: #e0f2fe; border: 1px solid #7dd3fc; border-radius: 10px; padding: 10px 12px; margin-bottom: 10px; font-weight: 600; color: #0c4a6e; font-size: 0.95rem; line-height: 1.45; }
+    .team-col { text-align: center; padding: 8px 6px; border-radius: 12px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); }
+    .team-col input.team-name {
+      width: 100%; font-size: clamp(15px, 2.2vw, 20px); font-weight: 700; text-align: center;
+      padding: 6px 4px; border-radius: 8px; border: 1px solid #94a3b8; margin-bottom: 8px; background: #fff; color: #0f172a;
+    }
+    .score-num { font-size: clamp(40px, 6vw, 56px); font-weight: 800; line-height: 1.1; letter-spacing: 0.02em; color: #fef08a; text-shadow: 0 2px 12px rgba(0,0,0,0.45); }
+    .team-btns { display: flex; flex-wrap: wrap; gap: 4px; justify-content: center; margin-top: 8px; }
+    .team-btns button { padding: 6px 8px; font-size: 12px; min-height: 36px; border-radius: 8px; }
+    .board-tools { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 12px; }
+    .tabs { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+    .tabs button.tab { background: #e2e8f0; color: #334155; box-shadow: none; }
+    .tabs button.tab[aria-selected="true"] { background: linear-gradient(135deg, var(--accent), #155a78); color: #fff; }
+    .panel { display: none; background: var(--card); border-radius: var(--radius); padding: 14px 16px; box-shadow: var(--shadow); margin-bottom: 12px; }
+    .panel.is-on { display: block; }
+    .q-nav { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 12px; }
+    .stem { font-size: 1.02rem; font-weight: 700; margin-bottom: 10px; color: #0f172a; }
+    .solo-answer { max-width: 100%; margin-top: 10px; }
+    .mini-team { border: 1px solid #e2e8f0; border-radius: 10px; padding: 8px; background: #f8fafc; }
+    .mini-team h4 { margin: 0 0 6px; font-size: 0.82rem; color: var(--muted); }
+    .mini-team label { display: block; margin: 4px 0; font-size: 0.88rem; cursor: pointer; }
+    .timer-row { display: flex; align-items: center; gap: 12px; margin: 10px 0; flex-wrap: wrap; }
+    .ring {
+      --p: 1;
+      width: 52px; height: 52px; border-radius: 50%;
+      background: conic-gradient(var(--accent2) calc(var(--p) * 360deg), #475569 0);
+      -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 7px), #000 calc(100% - 6px));
+      mask: radial-gradient(farthest-side, transparent calc(100% - 7px), #000 calc(100% - 6px));
+      display: grid; place-items: center; flex-shrink: 0;
+    }
+    .ring span { font-size: 11px; font-weight: 800; color: #fff; text-shadow: 0 1px 2px #000; }
+    .round-gate {
+      text-align: center;
+      padding: 18px 14px;
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      border-radius: var(--radius);
+      margin-bottom: 12px;
+    }
+    .round-gate p { margin: 0 0 12px; font-size: 1rem; color: #334155; line-height: 1.5; }
+    .round-gate button { font-size: 1rem; padding: 12px 22px; min-height: 48px; }
+    .apply-hint { background: #fff7ed; border: 1px solid #fdba74; color: #9a3412; }
+    .parse { margin-top: 10px; padding: 10px; border-radius: 10px; background: #f0fdf4; border: 1px solid #bbf7d0; font-size: 0.9rem; display: none; }
+    .parse.show { display: block; }
+    .arena-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 8px 0; font-size: 0.92rem; }
+    .arena-pair div { padding: 8px; border-radius: 8px; background: #f1f5f9; border: 1px solid #e2e8f0; }
+    .export-box { width: 100%; min-height: 72px; font: inherit; padding: 8px; border-radius: 8px; border: 1px solid #cbd5e1; margin-top: 8px; }
+    .backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.35); opacity: 0; pointer-events: none; transition: opacity 0.25s ease; z-index: 110; }
+    .backdrop.show { opacity: 1; pointer-events: auto; }
+    .ai-panel {
+      position: fixed; right: 0; top: 0; bottom: 0; width: min(420px, 100vw); background: var(--card);
+      box-shadow: -6px 0 28px rgba(0,0,0,0.14); transform: translateX(100%); transition: transform 0.28s ease; z-index: 120;
+      display: flex; flex-direction: column;
+    }
+    .ai-panel.open { transform: translateX(0); }
+    .ai-panel header { padding: 10px 12px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; }
+    .ai-panel .body { flex: 1; overflow: auto; padding: 10px 12px; display: flex; flex-direction: column; gap: 8px; }
+    .ai-panel textarea { width: 100%; font: inherit; padding: 8px; border-radius: 8px; border: 1px solid #ced4da; }
+    .ai-panel .out { white-space: pre-wrap; background: #f1f5f9; border-radius: 8px; padding: 10px; min-height: 64px; border: 1px solid #e2e8f0; font-size: 0.88rem; }
+    /* L10：右侧答题区放大；左侧积分板不 zoom，避免窄屏下列表被挤没 */
+    .tts-bar,
+    .comp-answers {
+      zoom: 1.6;
+    }
+    .teacher-details { margin-top: 12px; }
+    .teacher-details summary { cursor: pointer; font-weight: 700; color: var(--accent); }
+    .page-footer {
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--muted);
+      padding: 12px 8px 8px;
+      border-top: 1px solid #e2e8f0;
+      margin-top: 10px;
+    }
+    .print-sheet { display: none; }
+    @media print {
+      .tts-bar, .comp-answers { zoom: 1 !important; }
+      .no-print { display: none !important; }
+      .panel { display: block !important; page-break-inside: avoid; }
+      .comp-layout { grid-template-columns: 1fr; }
+      .comp-sidebar .board-wrap { position: static; }
+      .print-sheet { display: block !important; page-break-before: always; padding: 16px; font-size: 11pt; }
+      .print-sheet h2 { font-size: 13pt; margin: 0 0 12px; }
+      .print-sheet table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+      .print-sheet th, .print-sheet td { border: 1px solid #333; padding: 8px; text-align: left; }
+    }
+
+</style>
+</head>
+<body>
+  <div id="ariaLive" class="sr" aria-live="polite"></div>
+  <header class="topbar no-print">
+    <div class="brand">Lesson 10 · Page 13 · Team Competition</div>
+    <div class="top-actions">
+      <a class="btn-link secondary" href="L10-00-index.html">返回目录</a>
+      <a class="btn-link secondary" href="L10-11-reading-mini.html">上一节</a>
+      <a class="btn-link secondary" href="L10-13-assessment-exit-ticket.html">下一节</a>
+      <button type="button" id="btnReadRules">朗读规则与题目</button>
+      <button type="button" id="btnStopTts" class="secondary">停止朗读</button>
+      <button type="button" id="btnAiOpen" class="secondary">AI 解析 / 加赛题</button>
+    </div>
+  </header>
+  <div class="tts-bar no-print" id="ttsBar" role="status" style="display:none"></div>
+
+  <main class="page-main inner">
+    <div class="comp-layout">
+      <aside class="comp-sidebar" aria-label="队伍与积分">
+        <div class="board-wrap">
+          <div class="board-bg">
+            <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L10/assets/img/l10-p13-scoreboard-bg.png" alt="" decoding="async" onerror="this.style.opacity='0'" />
+          </div>
+          <div class="board-inner">
+            <div style="text-align:center;font-size:0.9rem;margin-bottom:8px;opacity:0.9">🏆 积分板</div>
+            <div class="setup-bar no-print" id="setupBar">
+              <label for="teamCountInput">队伍数量（2–8）</label>
+              <input type="number" id="teamCountInput" min="2" max="8" value="4" />
+              <button type="button" id="btnApplyTeams" class="secondary">应用队伍数并重新洗牌</button>
+            </div>
+            <div class="teams-grid" id="teamsGrid"></div>
+            <div class="board-tools no-print">
+              <button type="button" id="btnResetScores" class="secondary">积分清零</button>
+            </div>
+            <textarea class="export-box no-print" id="exportBox" readonly rows="3" aria-label="导出积分"></textarea>
+          </div>
+        </div>
+      </aside>
+
+      <div class="comp-answers">
+    <div id="turnBanner" class="turn-banner no-print" aria-live="polite"></div>
+    <div id="needApplyBar" class="turn-banner no-print apply-hint" hidden>
+      请先在左侧设置队伍人数，并点击「应用队伍数并重新洗牌」后，右侧才会进入竞赛流程。
+    </div>
+
+    <div class="tabs no-print" role="tablist" aria-label="竞赛模块">
+      <button type="button" class="tab" role="tab" id="tabTrap" aria-selected="true">陷阱题</button>
+      <button type="button" class="tab" role="tab" id="tabLight" aria-selected="false">闪电抢答</button>
+      <button type="button" class="tab" role="tab" id="tabArena" aria-selected="false">时态擂台</button>
+    </div>
+
+    <section class="panel is-on" id="panelTrap" role="tabpanel" aria-labelledby="tabTrap">
+      <div class="q-nav no-print">
+        <button type="button" id="trapPrev" class="secondary">上一步</button>
+        <span id="trapProg" style="font-weight:700">陷阱题</span>
+        <button type="button" id="trapNext">下一步</button>
+        <label class="no-print" style="margin-left:8px"><input type="checkbox" id="trapUseTimer" checked /> 本题 30 秒</label>
+        <button type="button" id="trapStartTimer" class="secondary" style="display:none" tabindex="-1" aria-hidden="true">开始计时</button>
+        <div class="ring" id="trapRing" style="--p:1;display:none" aria-hidden="true"><span id="trapRingTxt">30</span></div>
+      </div>
+      <div id="trapGateBar" class="round-gate no-print" hidden></div>
+      <div id="trapMount"></div>
+      <p class="no-print" id="trapSubmitRow" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px">
+        <button type="button" id="trapSubmit">提交本题判分</button>
+        <button type="button" id="trapRead" class="secondary">朗读本题（英）</button>
+      </p>
+      <div class="parse" id="trapParse"></div>
+    </section>
+
+    <section class="panel" id="panelLight" role="tabpanel" aria-labelledby="tabLight" hidden>
+      <div class="q-nav no-print">
+        <button type="button" id="lightPrev" class="secondary">上一步</button>
+        <span id="lightProg" style="font-weight:700">闪电抢答</span>
+        <button type="button" id="lightNext">下一步</button>
+        <div class="ring" id="lightRing" style="--p:1;display:none;margin-left:8px" aria-hidden="true"><span id="lightRingTxt">15</span></div>
+      </div>
+      <div id="lightGateBar" class="round-gate no-print" hidden></div>
+      <span id="lightSecLbl" class="sr">15</span>
+      <div id="lightMount"></div>
+      <p class="no-print" id="lightSubmitRow" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px">
+        <button type="button" id="lightSubmit">提交本题判分</button>
+        <button type="button" id="lightRead" class="secondary">朗读本题（英）</button>
+      </p>
+      <div class="parse" id="lightParse"></div>
+    </section>
+
+    <section class="panel" id="panelArena" role="tabpanel" aria-labelledby="tabArena" hidden>
+      <div class="q-nav no-print">
+        <button type="button" id="arenaPrev" class="secondary">上一步</button>
+        <span id="arenaProg" style="font-weight:700">时态擂台</span>
+        <button type="button" id="arenaNext">下一步</button>
+        <div class="ring" id="arenaRing" style="--p:1;display:none;margin-left:8px" aria-hidden="true"><span id="arenaRingTxt">15</span></div>
+      </div>
+      <div id="arenaGateBar" class="round-gate no-print" hidden></div>
+      <div id="arenaMount"></div>
+      <p class="no-print" id="arenaSubmitRow" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px">
+        <button type="button" id="arenaSubmit">提交本题判分</button>
+        <button type="button" id="arenaRead" class="secondary">朗读本题（英）</button>
+      </p>
+      <div class="parse" id="arenaParse"></div>
+    </section>
+
+      </div>
+    </div>
+
+    <details class="teacher-details no-print">
+      <summary>教师参考 · 与 Page 12 / 中考衔接 · 数据约定</summary>
+      <div class="note" style="margin-top:8px">
+        <p>
+          <strong>与 Page 12 衔接</strong>：上一节「微读」侧重语篇信息；本页用竞赛集中复现 <em>have/has + p.p.</em> 与标志词、<em>for/since</em>、一般过去时对比、延续表达等<strong>易错结构</strong>。
+        </p>
+        <p>
+          <strong>与 7–9 年级教材</strong>：话题可关联人教版 <em>Go for it!</em> 七下日常活动、八下现在完成时单元及九年级总复习中的「经历 / 变化 / 持续」任务链；题干为课堂原创英文语境，非教材原句。
+        </p>
+        <p>
+          <strong>中考对标（精神）</strong>：全国卷及各地单项填空、完形、语篇填空常见「时间状语 + 谓语时态」与「对话补全」思路；教学时强调<strong>先圈时间词、再选结构</strong>，与 L10-08、L10-09 课件一致。
+        </p>
+        <p>
+          <strong>localStorage（与 L10-13-assessment-exit-ticket.html 一致）</strong>：<code>l10-comp-scores</code>（JSON 数组分）、<code>l10-comp-names</code>（队名）、<code>l10-comp-wrong</code>（错题 id 字符串数组）、<code>l10-comp-team-count</code>。测评页可读取 <code>l10-comp-wrong</code> 展示「竞赛错题」。
+        </p>
+      </div>
+    </details>
+
+    <section class="print-sheet" aria-label="打印空白计分表">
+      <h2>Lesson 10 · 分组竞赛 — 纸质计分备份（Page 13）</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>队名</th>
+            <th>基础分</th>
+            <th>理由分</th>
+            <th>合计</th>
+            <th>备注（陷阱 / 闪电 / 擂台）</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>&nbsp;</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+      <p style="font-size:10pt;margin-top:12px;color:#555">打印本页时：浏览器选择「仅打印第 2 页」或勾选背景图形，可单独得到计分表（视浏览器分页而定）。</p>
+    </section>
+
+    <footer class="page-footer no-print">Lesson 10 · Page 13 · v1.1-page13 · 含 Azure / DeepSeek 密钥仅供本地课堂；勿上传公开仓库</footer>
+  </main>
+
+  <div class="backdrop no-print" id="aiBackdrop" hidden></div>
+  <aside class="ai-panel no-print" id="aiPanel" aria-label="DeepSeek">
+    <header>
+      <strong>AI 解析 / 加赛题</strong>
+      <button type="button" id="btnAiClose" class="secondary">关闭</button>
+    </header>
+    <div class="body">
+      <p class="note-small" id="aiQuota">DeepSeek 已用 0 / 8 次</p>
+      <label><input type="radio" name="aiMode" value="trap" checked /> 陷阱解析加长</label>
+      <label><input type="radio" name="aiMode" value="bonus" /> 生成加赛题</label>
+      <label>题号（陷阱 1–64，解析模式）</label>
+      <input type="number" id="aiQ" min="1" max="64" value="1" class="export-box" style="min-height:40px" />
+      <label>错因关键词（可空）</label>
+      <input type="text" id="aiKw" class="export-box" style="min-height:40px" placeholder="例：since two years" />
+      <button type="button" id="btnAiRun">运行</button>
+      <div id="aiOut" class="out"></div>
+      <label>加赛题输出（可复制到白板）</label>
+      <textarea id="aiBonusOut" rows="8" placeholder="运行「生成加赛题」后在此显示…"></textarea>
+    </div>
+  </aside>
+
+  <script>
+(function () {
+  /**
+   * localStorage 与 L10-13-assessment-exit-ticket.html（Page 14）约定：
+   * l10-comp-scores — JSON 数组，各队总分；l10-comp-names — 队名数组；
+   * l10-comp-wrong — 错题 id 字符串数组；l10-comp-team-count — 队伍数。
+   * 测评页可读取 l10-comp-wrong 展示「竞赛错题」。
+   */
+  const LS_SCORES = "l10-comp-scores";
+  const LS_NAMES = "l10-comp-names";
+  const LS_WRONG = "l10-comp-wrong";
+  const LS_TEAMCOUNT = "l10-comp-team-count";
+
+  const AZURE_SPEECH_KEY = "C42UQWeDcluYanbo17WrtUnPhk0vkZy2uQHPTCGDzY6CdEXx99NzJQQJ99BIACqBBLyXJ3w3AAAYACOGjkyu";
+  const AZURE_SPEECH_REGION = "southeastasia";
+  const DEEPSEEK_API_KEY = "sk-daa16008e81843deba6fefe9dce51465";
+  const DEEPSEEK_API_URL = "https://api.deepseek.com/v1/chat/completions";
+  const DS_SESS_KEY = "l10p13_ds_count";
+
+  const LIGHTNING_SECONDS = 15;
+  const TRAP_SECONDS = 30;
+  const MAX_TEAMS = 8;
+  const TRAP_PER_TEAM = 8;
+  const LIGHT_PER_TEAM = 5;
+  const ARENA_PER_TEAM = 3;
+
+  const vZh = "zh-CN-XiaoxiaoNeural";
+  const vEn = "en-US-AvaMultilingualNeural";
+  var ttsHtmlAudio = null;
+  var ttsBusy = false;
+  var lastAiRun = 0;
+
+  var trapOrder = [];
+  var trapPos = 0;
+  var lightOrder = [];
+  var lightPos = 0;
+  var arenaOrder = [];
+  var arenaPos = 0;
+  var timerId = null;
+  var trapTimerEnd = 0;
+  var teamCount = 4;
+  var scores = [0, 0, 0, 0];
+  var defaultNames = ["Team A", "Team B", "Team C", "Team D"];
+  var reasonUsed = {};
+  var compReady = false;
+  var trapGateOpen = false;
+  var lightGateOpen = false;
+  var arenaGateOpen = false;
+  var countdownTotal = 0;
+
+  var TRAP = [
+    { id: "trap-1", tag: "FOR_SINCE", stem: "You are peer-editing a classmate's study-abroad blog in English. Which sentence is incorrect?", opts: ["I have studied here for three years.", "I have studied here since 2021.", "I have studied here since three years."], key: 2, zh: "since 后接时间点或从句，不接表「时长段」的 three years；表段长用 for three years。" },
+    { id: "trap-2", tag: "PP_SP", stem: "(Email to your host family.) Since July, when your cousin stayed with you, you ___ him twice to the city museum.", opts: ["have taken", "took", "take"], key: 0, zh: "since July 表从过去延续到现在，经历次数用现在完成时。" },
+    { id: "trap-3", tag: "PP_SP", stem: "True or False — in standard written English this sentence is acceptable: \"I have finished the report yesterday.\"", opts: ["True", "False"], key: 1, zh: "yesterday 为明确过去时间，通常与一般过去时连用，不与 have finished 搭配。" },
+    { id: "trap-4", tag: "NON_DUR", stem: "(Library notice.) The book is two weeks overdue. Write a natural line: He has ___ this book for two weeks. (Do not use borrow with a length of time.)", opts: ["borrowed", "kept", "bought"], key: 1, zh: "borrow 表瞬间，不宜与 for two weeks 连用；表「借阅状态延续」用 keep。" },
+    { id: "trap-5", tag: "YET_POS", stem: "(School culture fair — posters due at midnight.) ___ you handed in your poster yet?", opts: ["Do", "Have", "Did"], key: 1, zh: "yet 在疑问句末常与 Have you… 搭配，询问到目前为止是否完成。" },
+    { id: "trap-6", tag: "HAS_HAVE", stem: "(Speech draft.) My sister ___ never tried skiing before, but she plans to take lessons next winter.", opts: ["have", "has", "is"], key: 1, zh: "第三人称单数用 has never tried。" },
+    { id: "trap-7", tag: "PP_SP", stem: "(Sports chat.) They ___ last night's basketball final live on TV at nine o'clock.", opts: ["watched", "have watched", "watch"], key: 0, zh: "at nine last night 为具体过去时刻 → 一般过去时。" },
+    { id: "trap-8", tag: "FOR_SINCE", stem: "(Application form.) We have studied at this school ___ 2021.", opts: ["for", "since", "in"], key: 1, zh: "since + 年份表起点；for 后接时长段。" },
+    { id: "trap-9", tag: "PP_SP", stem: "You are writing a travel blog in English. You mean \"up to now in my life, twice in total\", without naming one past year. Which sentence sounds natural?", opts: ["I have been to the museum twice.", "I go to the museum twice.", "I went to the museum twice yesterday."], key: 0, zh: "无具体过去年份、强调经历次数时，常用现在完成时。" },
+    { id: "trap-10", tag: "NON_DUR", stem: "(After-school sale.) The school shop ___ for two hours — it is still open now.", opts: ["has been open", "opened", "opens"], key: 0, zh: "表「营业/开着」的状态延续，用 has been open。" }
+  ];
+  (function fillTrapBank() {
+    var TPL = [
+      { tag: "PP_SP", stem: "(Self-intro for an online exchange.) I ___ English with a partner for three years, and I still meet her every week.", opts: ["have studied", "studied", "study"], key: 0, zh: "for three years 表段 → have studied。" },
+      { tag: "FOR_SINCE", stem: "(Host-family letter.) We have lived in this flat ___ we moved to the city last autumn.", opts: ["since", "for", "when"], key: 0, zh: "since + 从句表起点。" },
+      { tag: "HAS_HAVE", stem: "(Safety briefing.) Nobody ___ signed the risk form yet.", opts: ["has", "have", "is"], key: 0, zh: "nobody 作主语，谓语常用 has。" },
+      { tag: "YET_POS", stem: "(Before the chemistry practical.) ___ they switched off all the gas taps yet?", opts: ["Have", "Do", "Did"], key: 0, zh: "yet 疑问 → Have they…?" },
+      { tag: "NON_DUR", stem: "(Winter morning.) The classroom door ___ for an hour; the heating is on now. (Use a state, not repeat open.)", opts: ["has been open", "has opened", "opens"], key: 0, zh: "表「开着」的状态延续 → has been open。" },
+      { tag: "PP_SP", stem: "(At the stadium gate.) I can't find my ticket — I think I ___ it at home.", opts: ["have left", "left", "leave"], key: 0, zh: "对现在的影响 → have left。" },
+      { tag: "FOR_SINCE", stem: "(Short autobiography.) He has played the violin ___ he was seven.", opts: ["since", "for", "when"], key: 0, zh: "since + 从句表起点。" },
+      { tag: "PP_SP", stem: "(Summer camp sign-up desk.) ___ you ever ___ part in a Model United Nations conference?", opts: ["Have, taken", "Did, take", "Do, taken"], key: 0, zh: "Have you ever taken part in… 问经历。" },
+      { tag: "PP_SP", stem: "(Friends compare notes on a series.) They ___ the season finale last Sunday evening.", opts: ["watched", "have watched", "watch"], key: 0, zh: "last Sunday evening → 一般过去时。" },
+      { tag: "FOR_SINCE", stem: "(Weather report for the farm.) The fields have stayed wet ___ five days — take care on the paths.", opts: ["for", "since", "in"], key: 0, zh: "for + 时长段。" },
+      { tag: "HAS_HAVE", stem: "(Guest list.) Each of the visitors ___ received a name badge.", opts: ["has", "have", "is"], key: 0, zh: "each of + 复数名词，谓语常用单数 has。" },
+      { tag: "PP_SP", stem: "(Volunteer log — May.) We ___ more than twenty hours of community service already this month.", opts: ["have recorded", "recorded", "record"], key: 0, zh: "already + this month（未结束）→ 现在完成时。" },
+      { tag: "NON_DUR", stem: "(Meeting room display.) The workshop ___ for two hours; the same topic is still on the screen. (start → be on)", opts: ["has been on", "has started", "starts"], key: 0, zh: "表「在进行」用 be on。" },
+      { tag: "YET_POS", stem: "(Group project chat.) I haven't found a partner for the presentation ___ .", opts: ["yet", "already", "ever"], key: 0, zh: "否定句末 yet。" },
+      { tag: "PP_SP", stem: "(City climate blog.) It ___ more than ten times this month — unusual for April.", opts: ["has snowed", "snowed", "snows"], key: 0, zh: "this month 未结束 → 现完表累计。" },
+      { tag: "FOR_SINCE", stem: "(Yearbook quote.) We have shared a desk ___ the first day of Grade 8.", opts: ["since", "for", "in"], key: 0, zh: "since + 起点。" },
+      { tag: "PP_SP", stem: "(Homework portal.) ___ you ___ the online reading quiz yet?", opts: ["Have, finished", "Did, finish", "Do, finished"], key: 0, zh: "yet → Have you finished…?" },
+      { tag: "HAS_HAVE", stem: "(Family group chat.) Neither of my parents ___ read my latest blog post yet.", opts: ["has", "have", "is"], key: 0, zh: "neither of + 复数，谓语常用单数 has。" },
+      { tag: "PP_SP", stem: "(Internship interview.) My sister ___ at this company since April — she enjoys the team.", opts: ["has worked", "worked", "works"], key: 0, zh: "since April → has worked。" },
+      { tag: "NON_DUR", stem: "(Two club sessions today.) The debate room ___ all afternoon; please don't unplug the mic. (Use be on, not keep starting.)", opts: ["has been on", "has started", "starts"], key: 0, zh: "表「场地在使用中」→ has been on。" },
+      { tag: "PP_SP", stem: "(Story circle.) I ___ that legend before, so I can tell you how it ends.", opts: ["have heard", "heard", "hear"], key: 0, zh: "经历 → have heard。" },
+      { tag: "FOR_SINCE", stem: "(Choir schedule.) The group has rehearsed ___ Monday — no days off this week.", opts: ["since", "for", "at"], key: 0, zh: "since Monday 表从周一起。" },
+      { tag: "YET_POS", stem: "(Sports club site.) Has the coach posted the match photos on the website ___ ?", opts: ["yet", "already", "ever"], key: 0, zh: "疑问句末 yet。" },
+      { tag: "PP_SP", stem: "(Journal — last weekend only.) We ___ camping in the hills every day last weekend.", opts: ["went", "have gone", "go"], key: 0, zh: "last weekend → 一般过去时。" }
+    ];
+    for (var i = 10; i < 64; i++) {
+      var t = TPL[(i - 10) % TPL.length];
+      TRAP.push({
+        id: "trap-" + (i + 1),
+        tag: t.tag,
+        stem: t.stem,
+        opts: t.opts.slice(),
+        key: t.key,
+        zh: t.zh
+      });
+    }
+  })();
+
+  var LIGHT = [
+    { id: "light-1", stem: "(Self-introduction for an international summer school.) I ___ English with online tutors for six years, and I'm still working on my speaking.", opts: ["have studied", "studied", "study"], key: 0, zh: "for six years 表段 → have studied。" },
+    { id: "light-2", stem: "(Choir interview.) She joined in September and still comes to rehearsal every week. She ___ in this club since September.", opts: ["has been", "was", "is"], key: 0, zh: "since September → has been。" },
+    { id: "light-3", stem: "(Choosing a workshop on the notice board.) ___ you ever ___ a hands-on calligraphy class taught in English?", opts: ["Have, attended", "Did, attend", "Do, attended"], key: 0, zh: "Have you ever attended… 问经历。" },
+    { id: "light-4", stem: "(Group project chat.) We haven't locked the topic ___ ; the teacher is waiting for our title.", opts: ["yet", "already", "ever"], key: 0, zh: "否定句末 yet。" },
+    { id: "light-5", stem: "(Between lessons.) — Where's Ms Liu? — She has just ___ for the train station to meet a guest.", opts: ["left", "leave", "leaving"], key: 0, zh: "has just left 表刚离开。" },
+    { id: "light-6", stem: "(Library desk.) How long ___ you ___ this reference book? It's still on your card.", opts: ["have, had", "did, have", "do, have"], key: 0, zh: "How long 问延续 → have had。" },
+    { id: "light-7", stem: "(Cinema queue.) Thanks for the invite, but I ___ that blockbuster already; I'd rather not sit through it again.", opts: ["have seen", "saw", "see"], key: 0, zh: "经历影响现在决定 → have seen。" },
+    { id: "light-8", stem: "(Open-day script for visiting parents.) There ___ a new digital lab in our school lately — you can try the VR corner.", opts: ["has been", "was", "is"], key: 0, zh: "lately 与最近变化 → has been。" },
+    { id: "light-9", stem: "(Green-club newsletter.) Our volunteers ___ over two hundred trees along the river since March.", opts: ["have planted", "planted", "plant"], key: 0, zh: "since March → have planted。" },
+    { id: "light-10", stem: "(Class album group.) ___ she uploaded the spring-trip photos to the shared folder yet?", opts: ["Has", "Did", "Does"], key: 0, zh: "yet 疑问 → Has she…?" }
+  ];
+  (function fillLightBank() {
+    var L = [
+      { stem: "(Duty roster.) Since 9 a.m. the reading room has been open to classes; we ___ the floor and shelves since then.", opts: ["have cleaned", "cleaned", "clean"], key: 0, zh: "since then → have cleaned。" },
+      { stem: "(Science Fair — display boards due tomorrow morning.) ___ you finished wiring your LED demo?", opts: ["Have", "Do", "Did"], key: 0, zh: "问是否已完成 → Have you…?" },
+      { stem: "(Writing task: 'About me' for a visa form.) In his travel history he states that he ___ never ___ abroad before this trip.", opts: ["has, been", "have, been", "is, been"], key: 0, zh: "第三人称 → has never been。" },
+      { stem: "(School concert — numbered seats.) I ___ already ___ a seat on the left aisle so my grandmother can hear clearly.", opts: ["have, booked", "booked, book", "did, book"], key: 0, zh: "already → have booked。" },
+      { stem: "(Parents' evening — the main talk started late.) They ___ in the hall for forty minutes before the doors opened.", opts: ["have waited", "waited", "wait"], key: 0, zh: "for forty minutes 表延续 → have waited。" },
+      { stem: "(Sports day on the field.) ___ it stopped raining yet? The track events can't start until it's dry.", opts: ["Has", "Did", "Does"], key: 0, zh: "yet → Has it…?" },
+      { stem: "(Team profile on the sports board.) He ___ for the school basketball team since 2021.", opts: ["has played", "played", "plays"], key: 0, zh: "since 2021 → has played。" },
+      { stem: "(School-trip email — buses not confirmed.) We ___ not booked the coaches ___ ; please don't pay the deposit yet.", opts: ["have, yet", "did, already", "do, ever"], key: 0, zh: "have not … yet。" },
+      { stem: "(Course report.) This term our class ___ the science museum twice for lab workshops.", opts: ["have visited", "visited", "visit"], key: 0, zh: "this term 未结束 → have visited。" },
+      { stem: "(Bike repair pop-up.) ___ you ___ any punctures on this bike recently? The tyres look worn.", opts: ["Have, had", "Did, have", "Do, had"], key: 0, zh: "recently → Have you had…?" },
+      { stem: "(Borrowing rules — max fourteen days.) I ___ this graphic novel for twelve days; I'll return it on Friday.", opts: ["have kept", "kept", "keep"], key: 0, zh: "for twelve days + keep。" },
+      { stem: "(Text from Dad.) He ___ just ___ home from the airport — dinner is in the oven.", opts: ["has, got", "got, get", "gets, to"], key: 0, zh: "has just got home。" },
+      { stem: "(Community news board.) Volunteers ___ the old footbridge since last autumn.", opts: ["have repainted", "repainted", "repaint"], key: 0, zh: "since last autumn → have repainted。" },
+      { stem: "(STEM fair sign-up.) ___ you ever ___ a live drone demo indoors?", opts: ["Have, watched", "Did, watch", "Do, watched"], key: 0, zh: "Have you ever watched…?" },
+      { stem: "(Before mock exams.) We ___ under a lot of pressure recently, so the counsellor opened extra drop-in hours.", opts: ["have been", "were", "are"], key: 0, zh: "recently → have been。" },
+      { stem: "(Fees notice.) She ___ the payment guide three times; please read the deadline line carefully.", opts: ["has read", "read", "reads"], key: 0, zh: "次数 → has read。" },
+      { stem: "(After a row with a friend.) I ___ not spoken to him ___ last Wednesday.", opts: ["have, since", "did, on", "do, for"], key: 0, zh: "have not spoken … since。" },
+      { stem: "(Film-club poster.) The club ___ 28 new members since September.", opts: ["has attracted", "attracted", "attracts"], key: 0, zh: "since September → has attracted。" },
+      { stem: "(Coach is about to leave.) ___ everyone boarded yet? We're missing two permission slips.", opts: ["Has", "Have", "Did"], key: 0, zh: "Has everyone boarded yet? 常用表达。" },
+      { stem: "(Yearbook line — bilingual school.) We ___ the same homeroom teacher ___ Grade 7.", opts: ["have had, since", "had, for", "have, in"], key: 0, zh: "have had … since Grade 7。" }
+    ];
+    for (var j = 0; j < L.length && LIGHT.length < 40; j++) {
+      var u = L[j];
+      LIGHT.push({
+        id: "light-" + (LIGHT.length + 1),
+        stem: u.stem,
+        opts: u.opts.slice(),
+        key: u.key,
+        zh: u.zh
+      });
+    }
+    while (LIGHT.length < 40) {
+      var u2 = L[(LIGHT.length - 10) % L.length];
+      LIGHT.push({
+        id: "light-" + (LIGHT.length + 1),
+        stem: u2.stem,
+        opts: u2.opts.slice(),
+        key: u2.key,
+        zh: u2.zh
+      });
+    }
+  })();
+
+  var ARENA = [
+    { id: "arena-1", ctx: "You are posting on an English travel forum. You mean you have visited that city twice in your life so far, without tying the idea to one specific past year. Which sentence reads more naturally for international readers?", a: "I have visited the city twice.", b: "I visited the city twice in 2019.", key: 0, kw: ["twice", "have visited", "so far"], zh: "无具体过去年份、强调经历次数 → 现在完成时。" },
+    { id: "arena-2", ctx: "You are filling in a club form in English. The box asks when you joined. You joined in one past term and you are not stressing 'up to now'. Which line fits a simple past-time box better?", a: "I joined the club last term.", b: "I have joined the club last term.", key: 0, kw: ["last term", "joined"], zh: "last term 为过去时间点 → 一般过去时。" },
+    { id: "arena-3", ctx: "You are writing a short English post to sell your bike. You still own it and you got it in Grade 7. Which sentence shows possession over time in a way readers expect?", a: "I have had this bike since Grade 7.", b: "I bought this bike for three years.", key: 0, kw: ["since", "have had"], zh: "since + have had 表延续拥有；buy 不宜与 for three years 表时长。" },
+    { id: "arena-4", ctx: "You are drafting the opening of a school newsletter article about new facilities. You want a tone of 'recent news near the present'. Which opening fits that tone?", a: "Our school has opened a new library.", b: "Our school opened a new library in 1999 only.", key: 0, kw: ["has opened", "lately"], zh: "最近变化 → 现在完成时更自然。" },
+    { id: "arena-5", ctx: "You are texting a friend in English about homework. The work was finished yesterday evening. Which message matches that time clue?", a: "I have finished homework yesterday.", b: "I finished homework yesterday.", key: 1, kw: ["yesterday", "finished"], zh: "yesterday → 一般过去时。" },
+    { id: "arena-6", ctx: "At the library desk you ask politely how long someone may keep a reference book they still have. Which question is standard in British or American English?", a: "How long have you kept the book?", b: "How long did you keep the book?", key: 0, kw: ["how long", "have kept"], zh: "问「借了多久且仍持有」→ How long have you kept…?" }
+  ];
+  (function fillArenaBank() {
+    var A = [
+      { ctx: "You are writing a lab journal entry in English. You mean you wrote your science report at nine o'clock last night — a single finished moment. Which sentence matches that?", a: "I did my science report at nine last night.", b: "I have done my science report at nine last night.", key: 0, kw: ["last night", "did"], zh: "具体过去时刻 → 一般过去时。" },
+      { ctx: "You are updating a recycling blog in English. The headline uses 'so far'. Which line keeps the tense consistent with 'so far'?", a: "We have collected 200 bottles so far.", b: "We collected 200 bottles in one hour yesterday.", key: 0, kw: ["so far", "have collected"], zh: "so far 常与现在完成时。" },
+      { ctx: "You are writing one sentence for a report that means: tree-planting happened inside the calendar year 2020 only, as a completed chapter. Which sentence states that clearly?", a: "We planted trees in 2020.", b: "We have planted trees in 2020 only.", key: 0, kw: ["in 2020", "planted"], zh: "具体过去年份内的活动 → 一般过去时。" },
+      { ctx: "You message the school nurse in English. You mean you have felt tired from Monday until now. Which sentence carries that meaning?", a: "I have felt tired since Monday.", b: "I felt tired since Monday.", key: 0, kw: ["since", "have felt"], zh: "since + 起点且状态延续 → 现完。" },
+      { ctx: "You are designing an English questionnaire for an international winter camp. You want to ask about life experience, not a single finished past action. Which question sounds more natural?", a: "Have you ever tried skiing?", b: "Did you ever try skiing?", key: 0, kw: ["ever", "have"], zh: "ever 问经历 → Have you ever…" },
+      { ctx: "You tell a classmate in English that the teacher left the room one minute ago — a clear past point. Which sentence fits best?", a: "The teacher has just left the room.", b: "The teacher left the room a minute ago.", key: 1, kw: ["a minute ago", "left"], zh: "a minute ago → 一般过去时更贴切。" },
+      { ctx: "You are chatting in English about a magazine. You mean five times in your life so far, with no fixed past year named. Which line matches?", a: "I have read this magazine five times.", b: "I read this magazine five times in 2018.", key: 0, kw: ["five times", "have read"], zh: "无具体封闭过去段 → 现完表经历次数。" },
+      { ctx: "You post in English on a gardening club site this morning. Which sentence stays realistic for 'this morning'?", a: "I have already watered the plants this morning.", b: "I watered the plants already at 7 am sharp in 1990.", key: 0, kw: ["this morning", "have watered"], zh: "this morning 未结束 → 现完。" },
+      { ctx: "You write in English for an app review: you mean continuous use for two years up to now, not only in 2015–2016. Which line says that?", a: "We have used the app for two years.", b: "We used the app for two years in 2015 and 2016 only.", key: 0, kw: ["for two years", "have used"], zh: "for two years 表延续至今 → 现完。" },
+      { ctx: "You add one sentence to an English economics poster about prices 'lately'. Which version keeps tense and time honest?", a: "Prices have risen lately.", b: "Prices rose lately in 1990.", key: 0, kw: ["lately", "have risen"], zh: "lately 常与现完。" },
+      { ctx: "You text your host family in English: waiting started when you arrived and continues now. Which sentence is accurate?", a: "We have waited since we arrived.", b: "We waited since we arrived.", key: 0, kw: ["since we", "have waited"], zh: "since 从句表起点 → 现完。" },
+      { ctx: "You file a short English work log: the email went out last Friday — one finished past time. Which line belongs in the log?", a: "I sent the email last Friday.", b: "I have sent the email last Friday.", key: 0, kw: ["last Friday", "sent"], zh: "last Friday → 一般过去时。" },
+      { ctx: "You describe a classmate's volunteering in English for a certificate. She is still active after one year. Which sentence fits?", a: "She has been a volunteer for one year.", b: "She was a volunteer for one year.", key: 0, kw: ["for one year", "has been"], zh: "持续至今 → has been。" },
+      { ctx: "You write in English in the class chat: the bell rang at a clear past point — two minutes ago. Which line is correct?", a: "The bell rang two minutes ago.", b: "The bell has rung two minutes ago.", key: 0, kw: ["two minutes ago", "rang"], zh: "… ago → 一般过去时。" },
+      { ctx: "You update an English study diary with 'so far'. Which sentence matches that marker?", a: "I have learned 500 words so far.", b: "I learned 500 words.", key: 0, kw: ["so far", "have learned"], zh: "so far 提示现完。" },
+      { ctx: "You open a memoir paragraph set in 2019. Which sentence fits a finished past background?", a: "At that time I lived in a small flat.", b: "At that time I have lived in a small flat.", key: 0, kw: ["at that time", "lived"], zh: "具体过去背景 → 一般过去时。" },
+      { ctx: "You message the design team in English: the poster is still not ready. Which negative + yet line is natural?", a: "I haven't finished the poster yet.", b: "I didn't finish the poster yet.", key: 0, kw: ["haven't", "yet"], zh: "yet 否定 → haven't … yet。" },
+      { ctx: "You write an English class report on Thursday: three meetings have happened in the same unfinished week. Which line is coherent?", a: "We have had three meetings this week.", b: "We had three meetings this week in 1999.", key: 0, kw: ["this week", "have had"], zh: "this week 未结束 → 现完。" }
+    ];
+    for (var k = 0; k < A.length; k++) {
+      ARENA.push({
+        id: "arena-" + (7 + k),
+        ctx: A[k].ctx,
+        a: A[k].a,
+        b: A[k].b,
+        key: A[k].key,
+        kw: A[k].kw.slice(),
+        zh: A[k].zh
+      });
+    }
+  })();
+
+  function shuffleInt(n) {
+    var a = [];
+    for (var i = 0; i < n; i++) a.push(i);
+    for (var j = a.length - 1; j > 0; j--) {
+      var r = Math.floor(Math.random() * (j + 1));
+      var t = a[j];
+      a[j] = a[r];
+      a[r] = t;
+    }
+    return a;
+  }
+  function reshuffleDecks() {
+    trapOrder = shuffleInt(TRAP.length);
+    trapPos = 0;
+    lightOrder = shuffleInt(LIGHT.length);
+    lightPos = 0;
+    arenaOrder = shuffleInt(ARENA.length);
+    arenaPos = 0;
+    reasonUsed = {};
+  }
+
+  function updateApplyBar() {
+    var b = document.getElementById("needApplyBar");
+    if (b) b.hidden = compReady;
+  }
+  function syncTrapGateFromPos() {
+    if (trapBankIdx() < 0) {
+      trapGateOpen = false;
+      return;
+    }
+    trapGateOpen = trapPos % TRAP_PER_TEAM !== 0;
+  }
+  function syncLightGateFromPos() {
+    if (lightBankIdx() < 0) {
+      lightGateOpen = false;
+      return;
+    }
+    lightGateOpen = lightPos % LIGHT_PER_TEAM !== 0;
+  }
+  function syncArenaGateFromPos() {
+    if (arenaBankIdx() < 0) {
+      arenaGateOpen = false;
+      return;
+    }
+    arenaGateOpen = arenaPos % ARENA_PER_TEAM !== 0;
+  }
+  function setTrapNavDisabled(dis) {
+    var p = document.getElementById("trapPrev");
+    var n = document.getElementById("trapNext");
+    var u = document.getElementById("trapUseTimer");
+    if (p) p.disabled = dis;
+    if (n) n.disabled = dis;
+    if (u) u.disabled = dis;
+  }
+  function setLightNavDisabled(dis) {
+    var p = document.getElementById("lightPrev");
+    var n = document.getElementById("lightNext");
+    if (p) p.disabled = dis;
+    if (n) n.disabled = dis;
+  }
+  function setArenaNavDisabled(dis) {
+    var p = document.getElementById("arenaPrev");
+    var n = document.getElementById("arenaNext");
+    if (p) p.disabled = dis;
+    if (n) n.disabled = dis;
+  }
+
+  var DS_TRAP = "你是初中英语教研助手。用户会给出题号和一个错因关键词或空。你要用最多四行中文解释该题陷阱背后的语法观察点，并另起一行给一句英语巩固练习（初二难度）。不要输出第五行。不要输出密钥或链接。";
+  var DS_BONUS = "你是初中英语命题助手。用户给一个错因关键词或空。你要输出一道四选一选择题：第一行写题干英语一行；接下来四行分别以 A. B. C. D. 开头写选项；最后一行只写正确选项字母。不要超过七行。题干必须涉及时态陷阱。不要输出密钥。";
+
+  function aria(m) {
+    var el = document.getElementById("ariaLive");
+    if (el) el.textContent = m;
+  }
+  function setTtsBar(t) {
+    var b = document.getElementById("ttsBar");
+    if (!b) return;
+    b.textContent = t || "";
+    b.style.display = t ? "block" : "none";
+  }
+  function stopHtmlAudio() {
+    try {
+      if (ttsHtmlAudio) {
+        ttsHtmlAudio.pause();
+        if (ttsHtmlAudio._revoke) URL.revokeObjectURL(ttsHtmlAudio._revoke);
+        ttsHtmlAudio.removeAttribute("src");
+        ttsHtmlAudio.load();
+        ttsHtmlAudio = null;
+      }
+    } catch (e) {}
+  }
+  function escapeXml(s) {
+    return String(s)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&apos;");
+  }
+  function buildSsml(text, voiceName) {
+    var lang = voiceName.indexOf("zh-") === 0 ? "zh-CN" : "en-US";
+    var inner = "<prosody rate=\"-3%\">" + escapeXml(text) + "</prosody>";
+    return (
+      "<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='" +
+      lang +
+      "'><voice name='" +
+      voiceName +
+      "'>" +
+      inner +
+      "</voice></speak>"
+    );
+  }
+  function azureRest(ssml, ok, fail) {
+    stopHtmlAudio();
+    fetch("https://" + AZURE_SPEECH_REGION + ".tts.speech.microsoft.com/cognitiveservices/v1", {
+      method: "POST",
+      mode: "cors",
+      credentials: "omit",
+      headers: {
+        "Ocp-Apim-Subscription-Key": AZURE_SPEECH_KEY,
+        "Content-Type": "application/ssml+xml",
+        "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3",
+        "User-Agent": "L10P13Comp/1.0"
+      },
+      body: ssml
+    })
+      .then(function (r) {
+        if (!r.ok) throw new Error("rest");
+        return r.blob();
+      })
+      .then(function (blob) {
+        if (!blob || blob.size < 80) throw new Error("blob");
+        var u = URL.createObjectURL(blob);
+        var a = new Audio();
+        ttsHtmlAudio = a;
+        a._revoke = u;
+        a.src = u;
+        a.setAttribute("playsinline", "true");
+        a.onended = function () { stopHtmlAudio(); ok(); };
+        a.onerror = function () { stopHtmlAudio(); fail(); };
+        var p = a.play();
+        if (p && p.catch) p.catch(function () { stopHtmlAudio(); fail(); });
+      })
+      .catch(function () { stopHtmlAudio(); fail(); });
+  }
+  function azureSdk(ssml, voiceName, ok, fail) {
+    if (typeof SpeechSDK === "undefined") { fail(); return; }
+    stopHtmlAudio();
+    var cfg = SpeechSDK.SpeechConfig.fromSubscription(AZURE_SPEECH_KEY, AZURE_SPEECH_REGION);
+    cfg.speechSynthesisVoiceName = voiceName;
+    var syn = new SpeechSDK.SpeechSynthesizer(cfg, SpeechSDK.AudioConfig.fromDefaultSpeakerOutput());
+    syn.speakSsmlAsync(
+      ssml,
+      function (res) {
+        var good = res.reason === SpeechSDK.ResultReason.SynthesizingAudioCompleted;
+        syn.close();
+        if (good) ok();
+        else fail();
+      },
+      function () { syn.close(); fail(); }
+    );
+  }
+  function azureSpeak(ssml, voice, done) {
+    done = done || function () {};
+    setTtsBar("语音连接中…");
+    azureRest(
+      ssml,
+      function () { setTtsBar(""); done(); },
+      function () {
+        azureSdk(ssml, voice, function () { setTtsBar(""); done(); }, function () {
+          setTtsBar("语音失败");
+          aria("语音失败");
+          done();
+        });
+      }
+    );
+  }
+  function speakGap(list, i, done) {
+    if (i >= list.length) {
+      done();
+      return;
+    }
+    azureSpeak(buildSsml(list[i].text, list[i].voice), list[i].voice, function () {
+      setTimeout(function () { speakGap(list, i + 1, done); }, 520);
+    });
+  }
+
+  function playBeep() {
+    try {
+      var AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return;
+      var ctx = new AC();
+      var o = ctx.createOscillator();
+      var g = ctx.createGain();
+      o.type = "sine";
+      o.frequency.value = 880;
+      g.gain.value = 0.07;
+      o.connect(g);
+      g.connect(ctx.destination);
+      o.start();
+      setTimeout(function () {
+        o.stop();
+        ctx.close();
+      }, 140);
+    } catch (e) {}
+  }
+
+  function ensureDefaultNamesLen(n) {
+    var nn = Number(n);
+    if (!Number.isFinite(nn) || nn < 2) nn = 4;
+    if (nn > 8) nn = 8;
+    while (defaultNames.length < nn) {
+      defaultNames.push("Team " + (defaultNames.length + 1));
+    }
+    defaultNames = defaultNames.slice(0, nn);
+  }
+
+  function sanitizeTeamCount() {
+    var t = Number(teamCount);
+    if (!Number.isFinite(t) || t < 2 || t > 8) teamCount = 4;
+    else teamCount = Math.floor(t);
+  }
+
+  function saveTeamCount() {
+    try {
+      localStorage.setItem(LS_TEAMCOUNT, String(teamCount));
+    } catch (e) {}
+  }
+
+  function loadLs() {
+    try {
+      var tc = parseInt(String(localStorage.getItem(LS_TEAMCOUNT) || "4").trim(), 10);
+      teamCount = Number.isFinite(tc) && tc >= 2 && tc <= 8 ? tc : 4;
+      var s = localStorage.getItem(LS_SCORES);
+      if (s) {
+        var arr = JSON.parse(s);
+        if (Array.isArray(arr)) {
+          scores = arr.map(Number);
+          while (scores.length < teamCount) scores.push(0);
+          scores = scores.slice(0, teamCount);
+        }
+      } else {
+        scores = new Array(teamCount).fill(0);
+      }
+      if (scores.length !== teamCount) {
+        while (scores.length < teamCount) scores.push(0);
+        scores = scores.slice(0, teamCount);
+      }
+      var n = localStorage.getItem(LS_NAMES);
+      if (n) {
+        var nm = JSON.parse(n);
+        if (Array.isArray(nm) && nm.length) {
+          defaultNames = nm.slice();
+        }
+      }
+      ensureDefaultNamesLen(teamCount);
+    } catch (e) {
+      teamCount = 4;
+      scores = [0, 0, 0, 0];
+      ensureDefaultNamesLen(teamCount);
+    }
+  }
+  function saveScores() {
+    try {
+      localStorage.setItem(LS_SCORES, JSON.stringify(scores));
+    } catch (e) {}
+  }
+  function saveNames() {
+    try {
+      localStorage.setItem(LS_NAMES, JSON.stringify(collectNames()));
+    } catch (e) {}
+  }
+  function pushWrong(id) {
+    try {
+      var w = JSON.parse(localStorage.getItem(LS_WRONG) || "[]");
+      if (!Array.isArray(w)) w = [];
+      if (w.indexOf(id) < 0) w.push(id);
+      localStorage.setItem(LS_WRONG, JSON.stringify(w));
+    } catch (e) {}
+  }
+  function clearWrongIfReset() {
+    try {
+      localStorage.removeItem(LS_WRONG);
+    } catch (e) {}
+  }
+
+  function collectNames() {
+    var ins = document.querySelectorAll(".team-name");
+    var out = [];
+    for (var i = 0; i < teamCount; i++) out.push((ins[i] && ins[i].value.trim()) || defaultNames[i]);
+    return out;
+  }
+
+  function mountTeams() {
+    sanitizeTeamCount();
+    var g = document.getElementById("teamsGrid");
+    if (!g) return;
+    var h = "";
+    for (var i = 0; i < teamCount; i++) {
+      h +=
+        '<div class="team-col">' +
+        '<label class="sr" for="tn' +
+        i +
+        '">队 ' +
+        (i + 1) +
+        " 名称</label>" +
+        '<input id="tn' +
+        i +
+        '" class="team-name" type="text" maxlength="12" value="' +
+        defaultNames[i].replace(/"/g, "&quot;") +
+        '" />' +
+        '<div class="score-num" id="sc' +
+        i +
+        '">' +
+        scores[i] +
+        "</div>" +
+        '<div class="team-btns">' +
+        '<button type="button" class="secondary btn-reason" data-t="' +
+        i +
+        '">+理由</button>' +
+        '<button type="button" class="secondary btn-plus" data-t="' +
+        i +
+        '">+1</button>' +
+        '<button type="button" class="secondary btn-minus" data-t="' +
+        i +
+        '">-1</button>' +
+        "</div></div>";
+    }
+    g.innerHTML = h;
+    syncScores();
+  }
+
+  function syncScores() {
+    sanitizeTeamCount();
+    for (var i = 0; i < teamCount; i++) {
+      var el = document.getElementById("sc" + i);
+      if (el) el.textContent = String(scores[i]);
+    }
+    saveScores();
+    updateExport();
+  }
+
+  function updateExport() {
+    var nm = collectNames();
+    var lines = nm.map(function (n, i) { return n + "\t" + scores[i]; });
+    document.getElementById("exportBox").value = lines.join("\n");
+  }
+
+  function reasonKey(tab, qid, team) {
+    return tab + "-" + qid + "-team-" + team;
+  }
+
+  function trapBankIdx() {
+    if (!trapOrder.length || trapPos >= trapOrder.length) return -1;
+    return trapOrder[trapPos];
+  }
+  function trapTurnTeam() {
+    return Math.floor(trapPos / TRAP_PER_TEAM) % teamCount;
+  }
+  function trapBurstNum() {
+    return (trapPos % TRAP_PER_TEAM) + 1;
+  }
+  function lightBankIdx() {
+    if (!lightOrder.length || lightPos >= lightOrder.length) return -1;
+    return lightOrder[lightPos];
+  }
+  function lightTurnTeam() {
+    return Math.floor(lightPos / LIGHT_PER_TEAM) % teamCount;
+  }
+  function lightBurstNum() {
+    return (lightPos % LIGHT_PER_TEAM) + 1;
+  }
+  function arenaBankIdx() {
+    if (!arenaOrder.length || arenaPos >= arenaOrder.length) return -1;
+    return arenaOrder[arenaPos];
+  }
+  function arenaTurnTeam() {
+    return Math.floor(arenaPos / ARENA_PER_TEAM) % teamCount;
+  }
+  function arenaBurstNum() {
+    return (arenaPos % ARENA_PER_TEAM) + 1;
+  }
+
+  function activeMod() {
+    if (document.getElementById("tabTrap").getAttribute("aria-selected") === "true") return "trap";
+    if (document.getElementById("tabLight").getAttribute("aria-selected") === "true") return "light";
+    return "arena";
+  }
+
+  function updateTurnBanner() {
+    var el = document.getElementById("turnBanner");
+    if (!el) return;
+    if (!compReady) {
+      el.textContent = "请先在左侧设置队伍人数，并点击「应用队伍数并重新洗牌」。";
+      return;
+    }
+    var m = activeMod();
+    var names = collectNames();
+    if (m === "trap") {
+      var bi = trapBankIdx();
+      if (bi < 0) {
+        el.textContent = "陷阱题：本模块随机题库已用完。可「积分清零」或「应用队伍数」重新洗牌。";
+        return;
+      }
+      var turn = trapTurnTeam();
+      var nm = names[turn] || "队 " + (turn + 1);
+      el.textContent =
+        "陷阱题 · 当前队：" +
+        nm +
+        "（第 " +
+        (turn + 1) +
+        " 队）· 本队连续第 " +
+        trapBurstNum() +
+        " / " +
+        TRAP_PER_TEAM +
+        " 题";
+      return;
+    }
+    if (m === "light") {
+      var bl = lightBankIdx();
+      if (bl < 0) {
+        el.textContent = "闪电抢答：本模块随机题库已用完。可「积分清零」或「应用队伍数」重新洗牌。";
+        return;
+      }
+      var turn2 = lightTurnTeam();
+      var nm2 = names[turn2] || "队 " + (turn2 + 1);
+      el.textContent =
+        "闪电抢答 · 当前队：" +
+        nm2 +
+        " · 本队连续第 " +
+        lightBurstNum() +
+        " / " +
+        LIGHT_PER_TEAM +
+        " 题";
+      return;
+    }
+    var ba = arenaBankIdx();
+    if (ba < 0) {
+      el.textContent = "时态擂台：本模块随机题库已用完。可「积分清零」或「应用队伍数」重新洗牌。";
+      return;
+    }
+    var turn3 = arenaTurnTeam();
+    var nm3 = names[turn3] || "队 " + (turn3 + 1);
+    el.textContent =
+      "时态擂台 · 当前队：" +
+      nm3 +
+      " · 本队连续第 " +
+      arenaBurstNum() +
+      " / " +
+      ARENA_PER_TEAM +
+      " 题";
+  }
+
+  function stopAllRoundTimers(playSound) {
+    if (timerId) {
+      clearInterval(timerId);
+      timerId = null;
+    }
+    ["trapRing", "lightRing", "arenaRing"].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) el.style.display = "none";
+    });
+    if (playSound) playBeep();
+  }
+
+  function startRoundTimer(mod) {
+    stopAllRoundTimers(false);
+    var total = 0;
+    var ringId = "trapRing";
+    var txtId = "trapRingTxt";
+    if (mod === "trap") {
+      var cb = document.getElementById("trapUseTimer");
+      if (!cb || !cb.checked) return;
+      total = TRAP_SECONDS;
+    } else if (mod === "light") {
+      total = LIGHTNING_SECONDS;
+      ringId = "lightRing";
+      txtId = "lightRingTxt";
+    } else {
+      total = LIGHTNING_SECONDS;
+      ringId = "arenaRing";
+      txtId = "arenaRingTxt";
+    }
+    if (total <= 0) return;
+    var ring = document.getElementById(ringId);
+    var txt = document.getElementById(txtId);
+    if (!ring || !txt) return;
+    ring.style.display = "grid";
+    countdownTotal = total;
+    trapTimerEnd = Date.now() + total * 1000;
+    timerId = setInterval(function () {
+      var left = Math.max(0, Math.ceil((trapTimerEnd - Date.now()) / 1000));
+      txt.textContent = String(left);
+      ring.style.setProperty("--p", String(countdownTotal ? left / countdownTotal : 1));
+      if (left <= 0) stopAllRoundTimers(true);
+    }, 200);
+  }
+
+  function startTrapTimer() {
+    startRoundTimer("trap");
+  }
+
+  function renderTrap() {
+    updateApplyBar();
+    stopAllRoundTimers(false);
+    var gateEl = document.getElementById("trapGateBar");
+    var row = document.getElementById("trapSubmitRow");
+    if (!compReady) {
+      setTrapNavDisabled(true);
+      document.getElementById("trapProg").textContent = "陷阱题";
+      document.getElementById("trapMount").innerHTML =
+        '<p class="stem" style="color:var(--muted)">请先在左侧确认队伍人数，并点击「应用队伍数并重新洗牌」。</p>';
+      document.getElementById("trapParse").classList.remove("show");
+      document.getElementById("trapParse").textContent = "";
+      if (gateEl) {
+        gateEl.removeAttribute("hidden");
+        gateEl.hidden = false;
+        gateEl.innerHTML =
+          '<p><strong>尚未解锁答题</strong></p><p class="note-small" style="margin-bottom:12px">在左侧点击「<strong>应用队伍数并重新洗牌</strong>」后，此处会出现「<strong>开始本队答题并计时</strong>」按钮，再开始陷阱轮。</p><button type="button" class="secondary" disabled>开始本队答题并计时（先完成左侧设置）</button>';
+      }
+      if (row) row.hidden = true;
+      updateTurnBanner();
+      return;
+    }
+    setTrapNavDisabled(false);
+    var bi = trapBankIdx();
+    if (bi < 0) {
+      document.getElementById("trapProg").textContent = "陷阱题 · 题库已用尽";
+      document.getElementById("trapMount").innerHTML =
+        '<p class="stem">本模块全部题目已按随机顺序出现完毕。请点击「积分清零」或重新「应用队伍数」以重新洗牌并开始新一局。</p>';
+      document.getElementById("trapParse").classList.remove("show");
+      if (gateEl) {
+        gateEl.hidden = true;
+        gateEl.innerHTML = "";
+      }
+      if (row) row.hidden = true;
+      updateTurnBanner();
+      return;
+    }
+    var atBlock = trapPos % TRAP_PER_TEAM === 0;
+    var showQ = !atBlock || trapGateOpen;
+    var names = collectNames();
+    var turn = trapTurnTeam();
+    var nm = names[turn] || "队 " + (turn + 1);
+    document.getElementById("trapProg").textContent =
+      "陷阱 · 队 " +
+      (turn + 1) +
+      " 连续第 " +
+      trapBurstNum() +
+      " / " +
+      TRAP_PER_TEAM +
+      " 题";
+    if (!showQ) {
+      document.getElementById("trapMount").innerHTML =
+        '<p class="stem" style="color:var(--muted)">本题已就绪，暂不显示题干。请确认「' +
+        nm +
+        "」准备好后，点击下方按钮：显示题目并立即开始计时。</p>";
+      document.getElementById("trapParse").classList.remove("show");
+      document.getElementById("trapParse").textContent = "";
+      if (gateEl) {
+        gateEl.removeAttribute("hidden");
+        gateEl.hidden = false;
+        gateEl.innerHTML =
+          '<p><strong>' +
+          nm +
+          "</strong> · 陷阱题本段第 1 / " +
+          TRAP_PER_TEAM +
+          " 题</p><button type=\"button\" id=\"btnTrapRoundStart\">开始本队答题并计时</button>";
+      }
+      if (row) row.hidden = true;
+      updateTurnBanner();
+      return;
+    }
+    if (gateEl) {
+      gateEl.hidden = true;
+      gateEl.innerHTML = "";
+    }
+    if (row) row.hidden = false;
+    var q = TRAP[bi];
+    var letters = ["A", "B", "C", "D"];
+    var optsHtml = "";
+    for (var oi = 0; oi < q.opts.length; oi++) {
+      optsHtml += letters[oi] + ") " + q.opts[oi] + " ";
+    }
+    var solo = '<div class="mini-team solo-answer"><h4>本轮作答 · ' + nm + "</h4>";
+    for (var oi2 = 0; oi2 < q.opts.length; oi2++) {
+      solo +=
+        "<label><input type=\"radio\" name=\"solo_trap\" value=\"" +
+        oi2 +
+        '" /> ' +
+        letters[oi2] +
+        ") " +
+        q.opts[oi2] +
+        "</label>";
+    }
+    solo += "</div>";
+    document.getElementById("trapMount").innerHTML =
+      '<p class="stem" lang="en">' +
+      q.stem +
+      '</p><p class="note-small" style="margin:0 0 6px">' +
+      optsHtml +
+      "</p>" +
+      solo;
+    document.getElementById("trapParse").classList.remove("show");
+    document.getElementById("trapParse").textContent = "";
+    updateTurnBanner();
+  }
+
+  function renderLight() {
+    updateApplyBar();
+    stopAllRoundTimers(false);
+    var gateEl = document.getElementById("lightGateBar");
+    var row = document.getElementById("lightSubmitRow");
+    if (!compReady) {
+      setLightNavDisabled(true);
+      document.getElementById("lightProg").textContent = "闪电抢答";
+      document.getElementById("lightMount").innerHTML =
+        '<p class="stem" style="color:var(--muted)">请先在左侧确认队伍人数，并点击「应用队伍数并重新洗牌」。</p>';
+      document.getElementById("lightParse").classList.remove("show");
+      if (gateEl) {
+        gateEl.removeAttribute("hidden");
+        gateEl.hidden = false;
+        gateEl.innerHTML =
+          '<p><strong>尚未解锁答题</strong></p><p class="note-small" style="margin-bottom:12px">在左侧点击「<strong>应用队伍数并重新洗牌</strong>」后，此处会出现「<strong>开始本队答题并计时</strong>」按钮。</p><button type="button" class="secondary" disabled>开始本队答题并计时（先完成左侧设置）</button>';
+      }
+      if (row) row.hidden = true;
+      updateTurnBanner();
+      return;
+    }
+    setLightNavDisabled(false);
+    var bi = lightBankIdx();
+    if (bi < 0) {
+      document.getElementById("lightProg").textContent = "闪电 · 题库已用尽";
+      document.getElementById("lightMount").innerHTML =
+        '<p class="stem">本模块全部题目已按随机顺序出现完毕。请点击「积分清零」或重新「应用队伍数」以重新洗牌。</p>';
+      document.getElementById("lightParse").classList.remove("show");
+      if (gateEl) {
+        gateEl.hidden = true;
+        gateEl.innerHTML = "";
+      }
+      if (row) row.hidden = true;
+      updateTurnBanner();
+      return;
+    }
+    var atBlock = lightPos % LIGHT_PER_TEAM === 0;
+    var showQ = !atBlock || lightGateOpen;
+    var names = collectNames();
+    var turn = lightTurnTeam();
+    var nm = names[turn] || "队 " + (turn + 1);
+    document.getElementById("lightProg").textContent =
+      "闪电 · 队 " +
+      (turn + 1) +
+      " 连续第 " +
+      lightBurstNum() +
+      " / " +
+      LIGHT_PER_TEAM +
+      " 题";
+    if (!showQ) {
+      document.getElementById("lightMount").innerHTML =
+        '<p class="stem" style="color:var(--muted)">本题已就绪，暂不显示题干。请确认「' +
+        nm +
+        "」准备好后，点击下方按钮：显示题目并立即开始计时（" +
+        LIGHTNING_SECONDS +
+        " 秒）。</p>";
+      document.getElementById("lightParse").classList.remove("show");
+      if (gateEl) {
+        gateEl.removeAttribute("hidden");
+        gateEl.hidden = false;
+        gateEl.innerHTML =
+          '<p><strong>' +
+          nm +
+          "</strong> · 闪电抢答本段第 1 / " +
+          LIGHT_PER_TEAM +
+          " 题</p><button type=\"button\" id=\"btnLightRoundStart\">开始本队答题并计时</button>";
+      }
+      if (row) row.hidden = true;
+      updateTurnBanner();
+      return;
+    }
+    if (gateEl) {
+      gateEl.hidden = true;
+      gateEl.innerHTML = "";
+    }
+    if (row) row.hidden = false;
+    var q = LIGHT[bi];
+    var solo = '<div class="mini-team solo-answer"><h4>本轮作答 · ' + nm + "</h4>";
+    for (var oi = 0; oi < q.opts.length; oi++) {
+      solo +=
+        "<label><input type=\"radio\" name=\"solo_light\" value=\"" +
+        oi +
+        '" /> ' +
+        q.opts[oi] +
+        "</label>";
+    }
+    solo += "</div>";
+    document.getElementById("lightMount").innerHTML =
+      '<p class="stem" lang="en">' +
+      q.stem +
+      '</p>' +
+      solo;
+    document.getElementById("lightParse").classList.remove("show");
+    updateTurnBanner();
+  }
+
+  function renderArena() {
+    updateApplyBar();
+    stopAllRoundTimers(false);
+    var gateEl = document.getElementById("arenaGateBar");
+    var row = document.getElementById("arenaSubmitRow");
+    if (!compReady) {
+      setArenaNavDisabled(true);
+      document.getElementById("arenaProg").textContent = "时态擂台";
+      document.getElementById("arenaMount").innerHTML =
+        '<p class="stem" style="color:var(--muted)">请先在左侧确认队伍人数，并点击「应用队伍数并重新洗牌」。</p>';
+      document.getElementById("arenaParse").classList.remove("show");
+      if (gateEl) {
+        gateEl.removeAttribute("hidden");
+        gateEl.hidden = false;
+        gateEl.innerHTML =
+          '<p><strong>尚未解锁答题</strong></p><p class="note-small" style="margin-bottom:12px">在左侧点击「<strong>应用队伍数并重新洗牌</strong>」后，此处会出现「<strong>开始本队答题并计时</strong>」按钮。</p><button type="button" class="secondary" disabled>开始本队答题并计时（先完成左侧设置）</button>';
+      }
+      if (row) row.hidden = true;
+      updateTurnBanner();
+      return;
+    }
+    setArenaNavDisabled(false);
+    var bi = arenaBankIdx();
+    if (bi < 0) {
+      document.getElementById("arenaProg").textContent = "擂台 · 题库已用尽";
+      document.getElementById("arenaMount").innerHTML =
+        '<p class="stem">本模块全部题目已按随机顺序出现完毕。请点击「积分清零」或重新「应用队伍数」以重新洗牌。</p>';
+      document.getElementById("arenaParse").classList.remove("show");
+      if (gateEl) {
+        gateEl.hidden = true;
+        gateEl.innerHTML = "";
+      }
+      if (row) row.hidden = true;
+      updateTurnBanner();
+      return;
+    }
+    var atBlock = arenaPos % ARENA_PER_TEAM === 0;
+    var showQ = !atBlock || arenaGateOpen;
+    var names = collectNames();
+    var turn = arenaTurnTeam();
+    var nm = names[turn] || "队 " + (turn + 1);
+    document.getElementById("arenaProg").textContent =
+      "擂台 · 队 " +
+      (turn + 1) +
+      " 连续第 " +
+      arenaBurstNum() +
+      " / " +
+      ARENA_PER_TEAM +
+      " 题";
+    if (!showQ) {
+      document.getElementById("arenaMount").innerHTML =
+        '<p class="stem" style="color:var(--muted)">本题已就绪，暂不显示题干。请确认「' +
+        nm +
+        "」准备好后，点击下方按钮：显示题目并立即开始计时（" +
+        LIGHTNING_SECONDS +
+        " 秒）。</p>";
+      document.getElementById("arenaParse").classList.remove("show");
+      if (gateEl) {
+        gateEl.removeAttribute("hidden");
+        gateEl.hidden = false;
+        gateEl.innerHTML =
+          '<p><strong>' +
+          nm +
+          "</strong> · 擂台本段第 1 / " +
+          ARENA_PER_TEAM +
+          " 题</p><button type=\"button\" id=\"btnArenaRoundStart\">开始本队答题并计时</button>";
+      }
+      if (row) row.hidden = true;
+      updateTurnBanner();
+      return;
+    }
+    if (gateEl) {
+      gateEl.hidden = true;
+      gateEl.innerHTML = "";
+    }
+    if (row) row.hidden = false;
+    var q = ARENA[bi];
+    var solo =
+      '<div class="mini-team solo-answer"><h4>本轮作答 · ' +
+      nm +
+      "</h4>" +
+      "<label><input type=\"radio\" name=\"solo_arena\" value=\"0\" /> A 句更合理</label>" +
+      "<label><input type=\"radio\" name=\"solo_arena\" value=\"1\" /> B 句更合理</label>" +
+      '<label class="note-small" style="display:block;margin-top:6px">关键词（可选）</label>' +
+      '<input type="text" class="export-box" style="min-height:36px;margin-top:4px" id="arkw_solo" placeholder="如 twice / yesterday" />' +
+      "</div>";
+    document.getElementById("arenaMount").innerHTML =
+      '<p class="stem" lang="en" style="font-weight:600;margin-bottom:10px;line-height:1.55">' +
+      escapeXml(q.ctx) +
+      "</p>" +
+      '<p class="note-small" lang="en" style="margin:0 0 8px;line-height:1.5;color:var(--muted)">Choose A or B — the sentence that fits the situation and time clues better for real speaking or writing.</p>' +
+      '<div class="arena-pair"><div lang="en"><strong>A</strong><br/>' +
+      q.a +
+      '</div><div lang="en"><strong>B</strong><br/>' +
+      q.b +
+      "</div></div>" +
+      solo;
+    document.getElementById("arenaParse").classList.remove("show");
+    updateTurnBanner();
+  }
+
+  function readTrapQ() {
+    var bi = trapBankIdx();
+    if (bi < 0 || !compReady) return "";
+    if (trapPos % TRAP_PER_TEAM === 0 && !trapGateOpen) return "";
+    var q = TRAP[bi];
+    var letters = ["A", "B", "C", "D"];
+    var parts = [];
+    parts.push(q.stem);
+    for (var i = 0; i < q.opts.length; i++) parts.push(letters[i] + " " + q.opts[i]);
+    return parts.join("\n");
+  }
+  function readLightQ() {
+    var bi = lightBankIdx();
+    if (bi < 0 || !compReady) return "";
+    if (lightPos % LIGHT_PER_TEAM === 0 && !lightGateOpen) return "";
+    var q = LIGHT[bi];
+    var parts = [];
+    parts.push(q.stem);
+    for (var j = 0; j < q.opts.length; j++) parts.push(q.opts[j]);
+    return parts.join("\n");
+  }
+  function readArenaQ() {
+    var bi = arenaBankIdx();
+    if (bi < 0 || !compReady) return "";
+    if (arenaPos % ARENA_PER_TEAM === 0 && !arenaGateOpen) return "";
+    var q = ARENA[bi];
+    var ap = [];
+    ap.push(q.ctx);
+    ap.push("A. " + q.a);
+    ap.push("B. " + q.b);
+    return ap.join("\n");
+  }
+
+  function getRadioVal(name) {
+    var r = document.querySelector('input[name="' + name + '"]:checked');
+    return r ? Number(r.value) : null;
+  }
+
+  function submitTrap() {
+    if (!compReady) return;
+    var bi = trapBankIdx();
+    if (bi < 0) return;
+    if (trapPos % TRAP_PER_TEAM === 0 && !trapGateOpen) return;
+    var turn = trapTurnTeam();
+    var q = TRAP[bi];
+    var v = getRadioVal("solo_trap");
+    var anyWrong = false;
+    if (v === null) anyWrong = true;
+    else if (v === q.key) scores[turn]++;
+    else anyWrong = true;
+    if (anyWrong) pushWrong(q.id);
+    syncScores();
+    document.getElementById("trapParse").textContent = q.zh;
+    document.getElementById("trapParse").classList.add("show");
+    stopAllRoundTimers(false);
+    trapPos++;
+    syncTrapGateFromPos();
+    renderTrap();
+    if (trapGateOpen && trapBankIdx() >= 0) startRoundTimer("trap");
+  }
+
+  function submitLight() {
+    if (!compReady) return;
+    var bi = lightBankIdx();
+    if (bi < 0) return;
+    if (lightPos % LIGHT_PER_TEAM === 0 && !lightGateOpen) return;
+    var turn = lightTurnTeam();
+    var q = LIGHT[bi];
+    var v = getRadioVal("solo_light");
+    var anyWrong = false;
+    if (v === null) anyWrong = true;
+    else if (v === q.key) scores[turn]++;
+    else anyWrong = true;
+    if (anyWrong) pushWrong(q.id);
+    syncScores();
+    document.getElementById("lightParse").textContent = q.zh;
+    document.getElementById("lightParse").classList.add("show");
+    stopAllRoundTimers(false);
+    lightPos++;
+    syncLightGateFromPos();
+    renderLight();
+    if (lightGateOpen && lightBankIdx() >= 0) startRoundTimer("light");
+  }
+
+  function normKw(s) {
+    return String(s || "")
+      .trim()
+      .toLowerCase();
+  }
+
+  function submitArena() {
+    if (!compReady) return;
+    var bi = arenaBankIdx();
+    if (bi < 0) return;
+    if (arenaPos % ARENA_PER_TEAM === 0 && !arenaGateOpen) return;
+    var turn = arenaTurnTeam();
+    var q = ARENA[bi];
+    var v = getRadioVal("solo_arena");
+    var anyWrong = false;
+    if (v === null || v !== q.key) {
+      anyWrong = true;
+    } else {
+      scores[turn]++;
+      var kwEl = document.getElementById("arkw_solo");
+      var kw = normKw(kwEl ? kwEl.value : "");
+      var hit = q.kw.some(function (k) {
+        return kw.indexOf(k.toLowerCase()) >= 0;
+      });
+      if (hit) scores[turn]++;
+    }
+    if (anyWrong) pushWrong(q.id);
+    syncScores();
+    document.getElementById("arenaParse").textContent = q.zh + "（选对 +1；关键词命中白名单再 +1）";
+    document.getElementById("arenaParse").classList.add("show");
+    stopAllRoundTimers(false);
+    arenaPos++;
+    syncArenaGateFromPos();
+    renderArena();
+    if (arenaGateOpen && arenaBankIdx() >= 0) startRoundTimer("arena");
+  }
+
+  document.getElementById("teamsGrid").addEventListener("click", function (e) {
+    var pr = e.target.closest(".btn-plus");
+    var mn = e.target.closest(".btn-minus");
+    var rs = e.target.closest(".btn-reason");
+    if (pr) {
+      var ti = Number(pr.getAttribute("data-t"));
+      scores[ti]++;
+      syncScores();
+      return;
+    }
+    if (mn) {
+      var ti2 = Number(mn.getAttribute("data-t"));
+      scores[ti2] = Math.max(0, scores[ti2] - 1);
+      syncScores();
+      return;
+    }
+    if (rs) {
+      if (!compReady) {
+        aria("请先应用队伍数");
+        return;
+      }
+      var ti3 = Number(rs.getAttribute("data-t"));
+      var tab = document.getElementById("tabTrap").getAttribute("aria-selected") === "true" ? "trap" : document.getElementById("tabLight").getAttribute("aria-selected") === "true" ? "light" : "arena";
+      var qid = "";
+      if (tab === "trap") {
+        var b1 = trapBankIdx();
+        if (b1 < 0) return;
+        if (trapPos % TRAP_PER_TEAM === 0 && !trapGateOpen) return;
+        qid = TRAP[b1].id;
+      } else if (tab === "light") {
+        var b2 = lightBankIdx();
+        if (b2 < 0) return;
+        if (lightPos % LIGHT_PER_TEAM === 0 && !lightGateOpen) return;
+        qid = LIGHT[b2].id;
+      } else {
+        var b3 = arenaBankIdx();
+        if (b3 < 0) return;
+        if (arenaPos % ARENA_PER_TEAM === 0 && !arenaGateOpen) return;
+        qid = ARENA[b3].id;
+      }
+      var rk = reasonKey(tab, qid, ti3);
+      if (reasonUsed[rk]) {
+        aria("该题该队理由分已加过");
+        return;
+      }
+      reasonUsed[rk] = true;
+      scores[ti3]++;
+      syncScores();
+      aria("理由分已加");
+    }
+  });
+
+  document.getElementById("btnResetScores").addEventListener("click", function () {
+    if (!window.confirm("确定清零积分与理由记录？（错题银行记录也会清空，并重新随机洗牌各模块题库）")) return;
+    scores = new Array(teamCount).fill(0);
+    reasonUsed = {};
+    clearWrongIfReset();
+    reshuffleDecks();
+    syncTrapGateFromPos();
+    syncLightGateFromPos();
+    syncArenaGateFromPos();
+    syncScores();
+    renderTrap();
+    renderLight();
+    renderArena();
+    updateTurnBanner();
+  });
+
+  document.getElementById("trapPrev").addEventListener("click", function () {
+    trapPos = Math.max(0, trapPos - 1);
+    syncTrapGateFromPos();
+    renderTrap();
+  });
+  document.getElementById("trapNext").addEventListener("click", function () {
+    trapPos = Math.min(trapOrder.length, trapPos + 1);
+    syncTrapGateFromPos();
+    renderTrap();
+  });
+  document.getElementById("trapStartTimer").addEventListener("click", startTrapTimer);
+  document.getElementById("trapSubmit").addEventListener("click", submitTrap);
+  document.getElementById("trapRead").addEventListener("click", function () {
+    if (ttsBusy) return;
+    var text = readTrapQ();
+    if (!text) return;
+    ttsBusy = true;
+    azureSpeak(buildSsml(text, vEn), vEn, function () { ttsBusy = false; });
+  });
+
+  document.getElementById("lightPrev").addEventListener("click", function () {
+    lightPos = Math.max(0, lightPos - 1);
+    syncLightGateFromPos();
+    renderLight();
+  });
+  document.getElementById("lightNext").addEventListener("click", function () {
+    lightPos = Math.min(lightOrder.length, lightPos + 1);
+    syncLightGateFromPos();
+    renderLight();
+  });
+  document.getElementById("lightSubmit").addEventListener("click", submitLight);
+  document.getElementById("lightRead").addEventListener("click", function () {
+    if (ttsBusy) return;
+    var text = readLightQ();
+    if (!text) return;
+    ttsBusy = true;
+    azureSpeak(buildSsml(text, vEn), vEn, function () { ttsBusy = false; });
+  });
+
+  document.getElementById("arenaPrev").addEventListener("click", function () {
+    arenaPos = Math.max(0, arenaPos - 1);
+    syncArenaGateFromPos();
+    renderArena();
+  });
+  document.getElementById("arenaNext").addEventListener("click", function () {
+    arenaPos = Math.min(arenaOrder.length, arenaPos + 1);
+    syncArenaGateFromPos();
+    renderArena();
+  });
+  document.getElementById("arenaSubmit").addEventListener("click", submitArena);
+  document.getElementById("arenaRead").addEventListener("click", function () {
+    if (ttsBusy) return;
+    var text = readArenaQ();
+    if (!text) return;
+    ttsBusy = true;
+    azureSpeak(buildSsml(text, vEn), vEn, function () { ttsBusy = false; });
+  });
+
+  function setTab(id) {
+    ["trap", "light", "arena"].forEach(function (k) {
+      var on = k === id;
+      document.getElementById("tab" + k.charAt(0).toUpperCase() + k.slice(1)).setAttribute("aria-selected", on ? "true" : "false");
+      var p = document.getElementById("panel" + k.charAt(0).toUpperCase() + k.slice(1));
+      p.classList.toggle("is-on", on);
+      p.hidden = !on;
+    });
+    updateTurnBanner();
+  }
+  document.getElementById("tabTrap").addEventListener("click", function () { setTab("trap"); });
+  document.getElementById("tabLight").addEventListener("click", function () { setTab("light"); });
+  document.getElementById("tabArena").addEventListener("click", function () { setTab("arena"); });
+
+  document.getElementById("btnReadRules").addEventListener("click", function () {
+    if (ttsBusy) return;
+    ttsBusy = true;
+    var zh =
+      "分组竞赛规则。请先设定队伍数量。陷阱题每队连续答八题，闪电抢答每队连续五题，擂台每队连续三题；各模块题目每次打开或重置后会随机洗牌，已出现的题在本局内不再出现。基础分答对加一分。理由分：说出语法观察点后教师点击该队加理由，每题每队仅一次。陷阱题可选三十秒计时。";
+    var rulesEn =
+      "Trap questions test common mistakes with present perfect, for and since, and non-durative verbs. Lightning round is fast practice. Arena compares past simple and present perfect in the same situation.";
+    speakGap(
+      [
+        { text: zh, voice: vZh },
+        { text: rulesEn, voice: vEn }
+      ],
+      0,
+      function () { ttsBusy = false; }
+    );
+  });
+
+  document.getElementById("btnStopTts").addEventListener("click", function () {
+    stopHtmlAudio();
+    ttsBusy = false;
+    setTtsBar("");
+  });
+
+  function getDs() {
+    return Number(sessionStorage.getItem(DS_SESS_KEY) || "0") || 0;
+  }
+  function bumpDs() {
+    sessionStorage.setItem(DS_SESS_KEY, String(getDs() + 1));
+  }
+  function updQuota() {
+    document.getElementById("aiQuota").textContent = "DeepSeek 已用 " + getDs() + " / 8 次";
+  }
+
+  function openAi() {
+    document.getElementById("aiPanel").classList.add("open");
+    document.getElementById("aiBackdrop").classList.add("show");
+    document.getElementById("aiBackdrop").hidden = false;
+    updQuota();
+  }
+  function closeAi() {
+    document.getElementById("aiPanel").classList.remove("open");
+    document.getElementById("aiBackdrop").classList.remove("show");
+    document.getElementById("aiBackdrop").hidden = true;
+  }
+  document.getElementById("btnAiOpen").addEventListener("click", openAi);
+  document.getElementById("btnAiClose").addEventListener("click", closeAi);
+  document.getElementById("aiBackdrop").addEventListener("click", closeAi);
+
+  document.getElementById("btnAiRun").addEventListener("click", function () {
+    if (Date.now() - lastAiRun < 700) return;
+    lastAiRun = Date.now();
+    var out = document.getElementById("aiOut");
+    var taBonus = document.getElementById("aiBonusOut");
+    if (getDs() >= 8) {
+      out.textContent = "已达本页 8 次上限。";
+      return;
+    }
+    var mode = (document.querySelector('input[name="aiMode"]:checked') || {}).value || "trap";
+    var kw = document.getElementById("aiKw").value.trim();
+    var body;
+    if (mode === "trap") {
+      var qn = Math.min(64, Math.max(1, parseInt(document.getElementById("aiQ").value, 10) || 1));
+      body = {
+        model: "deepseek-chat",
+        temperature: 0.35,
+        max_tokens: 400,
+        messages: [
+          { role: "system", content: DS_TRAP },
+          { role: "user", content: "题号：" + qn + "。关键词：" + (kw || "无") + "。" }
+        ]
+      };
+    } else {
+      body = {
+        model: "deepseek-chat",
+        temperature: 0.45,
+        max_tokens: 380,
+        messages: [
+          { role: "system", content: DS_BONUS },
+          { role: "user", content: "关键词：" + (kw || "无") }
+        ]
+      };
+    }
+    out.textContent = "思考中…";
+    taBonus.value = "";
+    fetch(DEEPSEEK_API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: "Bearer " + DEEPSEEK_API_KEY },
+      body: JSON.stringify(body)
+    })
+      .then(function (r) {
+        if (!r.ok) throw new Error("http");
+        return r.json();
+      })
+      .then(function (data) {
+        var t = (((data.choices || [])[0] || {}).message || {}).content || "";
+        bumpDs();
+        updQuota();
+        if (mode === "bonus") {
+          taBonus.value = t.trim();
+          out.textContent = "已生成，见下方文本框；教师审阅后再投影。";
+        } else {
+          out.textContent = t.trim();
+        }
+      })
+      .catch(function () {
+        out.textContent = "请求失败";
+      });
+  });
+
+  document.addEventListener("click", function (e) {
+    var t = e.target;
+    if (!t || !t.id) return;
+    if (t.id === "btnTrapRoundStart") {
+      trapGateOpen = true;
+      renderTrap();
+      startRoundTimer("trap");
+      return;
+    }
+    if (t.id === "btnLightRoundStart") {
+      lightGateOpen = true;
+      renderLight();
+      startRoundTimer("light");
+      return;
+    }
+    if (t.id === "btnArenaRoundStart") {
+      arenaGateOpen = true;
+      renderArena();
+      startRoundTimer("arena");
+    }
+  });
+
+  document.getElementById("btnApplyTeams").addEventListener("click", function () {
+    var inp = document.getElementById("teamCountInput");
+    var raw = inp && inp.value != null && String(inp.value).trim() !== "" ? String(inp.value).trim() : String(teamCount);
+    var n = parseInt(raw, 10);
+    if (!Number.isFinite(n) || n < 2 || n > 8) {
+      aria("队伍数量须在 2–8（请输入有效数字）");
+      return;
+    }
+    teamCount = n;
+    compReady = true;
+    reshuffleDecks();
+    syncTrapGateFromPos();
+    syncLightGateFromPos();
+    syncArenaGateFromPos();
+    ensureDefaultNamesLen(teamCount);
+    while (scores.length < teamCount) scores.push(0);
+    scores = scores.slice(0, teamCount);
+    saveTeamCount();
+    saveScores();
+    saveNames();
+    mountTeams();
+    renderTrap();
+    renderLight();
+    renderArena();
+    updateTurnBanner();
+    aria("已应用队伍数；各模块题库已重新随机洗牌");
+  });
+
+  loadLs();
+  var tci = document.getElementById("teamCountInput");
+  if (tci) tci.value = String(teamCount);
+  mountTeams();
+  reshuffleDecks();
+  syncTrapGateFromPos();
+  syncLightGateFromPos();
+  syncArenaGateFromPos();
+  updateApplyBar();
+  renderTrap();
+  renderLight();
+  renderArena();
+  setTab("trap");
+  updQuota();
+  var lbl = document.getElementById("lightSecLbl");
+  if (lbl) lbl.textContent = String(LIGHTNING_SECONDS);
+})();
+  </script>
+</body>
+</html>

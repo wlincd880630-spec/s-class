@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Lesson 10 · for / since / How long</title>
+  <script src="https://cdn.jsdelivr.net/npm/microsoft-cognitiveservices-speech-sdk@1.38.0/dist/microsoft.cognitiveservices.speech.sdk.bundle-min.js" crossorigin="anonymous"></script>
+  <style>
+    :root {
+      --bg: #eef2f7;
+      --card: #ffffff;
+      --text: #1a2332;
+      --muted: #5a6a7e;
+      --accent: #1e6b8c;
+      --accent2: #2a9d8f;
+      --for-bg: #fff7ed;
+      --since-bg: #ecfeff;
+      --shadow: 0 8px 24px rgba(26, 35, 50, 0.1);
+      --radius: 14px;
+      --topbar-h: 52px;
+      --dock-h: 56px;
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; overflow: hidden; }
+    body {
+      display: flex; flex-direction: column;
+      font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      font-size: clamp(16px, 1.45vw, 17px);
+      line-height: 1.55;
+      color: var(--text);
+      background: var(--bg);
+    }
+    a { color: var(--accent); }
+    a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px solid #ffb703; outline-offset: 2px; }
+    .topbar {
+      flex: 0 0 auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+      gap: 8px; padding: 8px 14px; min-height: var(--topbar-h); background: var(--card); border-bottom: 1px solid #e2e8f0; z-index: 50;
+    }
+    .brand { font-weight: 700; color: var(--accent); font-size: 13px; }
+    .slide-meta { font-size: 13px; color: var(--muted); font-weight: 600; min-width: 4.5em; text-align: center; }
+    .top-actions { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+    button, .btn-link {
+      font: inherit; cursor: pointer; border: none; border-radius: 10px; padding: 8px 12px;
+      background: linear-gradient(135deg, var(--accent), #155a78); color: #fff;
+      box-shadow: 0 2px 8px rgba(30, 107, 140, 0.28); text-decoration: none; display: inline-block; font-size: 13px; min-height: 44px;
+    }
+    button.secondary, .btn-link.secondary { background: linear-gradient(135deg, #6c757d, #495057); box-shadow: none; }
+    button:disabled { opacity: 0.55; cursor: not-allowed; }
+    button.speaking { background: linear-gradient(135deg, #e76f51, #c94c32); }
+    .tts-bar { font-size: 12px; padding: 4px 14px 6px; background: #fff8e6; color: #664d03; border-bottom: 1px solid #f0d78c; }
+    .deck { flex: 1; min-height: 0; position: relative; width: 100%; }
+    .slide { position: absolute; inset: 0; overflow: hidden; display: none; flex-direction: column; padding: 8px 12px 4px; }
+    .slide.is-active { display: flex; }
+    .slide-scroll { flex: 1; min-height: 0; overflow: auto; -webkit-overflow-scrolling: touch; }
+    .slide-inner { max-width: 1100px; margin: 0 auto; width: 100%; min-height: min-content; padding-bottom: 14px; }
+    .dock {
+      flex: 0 0 auto; display: flex; align-items: center; justify-content: center; gap: 12px;
+      padding: 8px 12px; min-height: var(--dock-h); background: var(--card); border-top: 1px solid #e2e8f0; z-index: 60;
+    }
+    .dock button { min-width: 100px; min-height: 44px; touch-action: manipulation; }
+    .dock .dots { font-size: 15px; font-weight: 700; color: var(--accent); min-width: 4.5em; text-align: center; }
+    .sr { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+    .hero-compact { display: grid; gap: 14px; align-items: stretch; }
+    @media (min-width: 860px) { .hero-compact { grid-template-columns: 1.05fr 1fr; } }
+    .hero-img-wrap {
+      border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); min-height: 160px;
+      background: linear-gradient(120deg, #e0f2f7, #fde8e4);
+    }
+    .hero-img-wrap img { width: 100%; min-height: 180px; height: 100%; object-fit: cover; display: block; }
+    .hero-img-wrap.fallback-img img { display: none; }
+    .hero-text { background: var(--card); border-radius: var(--radius); padding: 16px 18px; box-shadow: var(--shadow); }
+    .hero-text h1 { margin: 0 0 6px; font-size: clamp(1.2rem, 2.6vw, 1.55rem); }
+    .note-small { font-size: 0.86rem; color: var(--muted); margin: 8px 0 0; }
+    .note {
+      font-size: 0.88rem; color: var(--muted); background: #fffdf5; border-left: 4px solid #ffb703;
+      padding: 10px 12px; border-radius: 8px; margin: 10px 0 0;
+    }
+    .card {
+      background: var(--card); border-radius: var(--radius); padding: 16px 18px; margin-bottom: 12px; box-shadow: var(--shadow);
+    }
+    .card h2 { margin: 0 0 10px; font-size: 1.12rem; color: var(--accent); }
+    table.rule { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+    table.rule th, table.rule td { border: 1px solid #e2e8f0; padding: 10px 12px; vertical-align: top; text-align: left; }
+    table.rule th { width: 22%; background: #f0f7fb; color: var(--accent); }
+    .tag-for { display: inline-block; padding: 2px 8px; border-radius: 6px; background: #ffedd5; font-weight: 800; color: #9a3412; }
+    .tag-since { display: inline-block; padding: 2px 8px; border-radius: 6px; background: #ccfbf1; font-weight: 800; color: #0f766e; }
+    .clinic-pair { display: grid; gap: 10px; margin-top: 12px; }
+    @media (min-width: 640px) { .clinic-pair { grid-template-columns: 1fr 1fr; } }
+    .clinic-box { border-radius: 12px; padding: 12px 14px; font-size: 0.9rem; }
+    .clinic-box.bad { border: 2px solid #e11d48; background: #fff1f2; }
+    .clinic-box.good { border: 2px solid #059669; background: #ecfdf5; }
+    .qa-row {
+      border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px 14px; margin-bottom: 10px; background: #fafcff;
+    }
+    .qa-row p { margin: 0 0 6px; }
+    .qa-row .a { color: #0f172a; font-weight: 600; }
+    .qa-row .qa-answer-block { display: none; margin-top: 8px; padding-top: 8px; border-top: 1px dashed #e2e8f0; }
+    .qa-row.qa-revealed .qa-answer-block { display: block; }
+    .qa-row .btn-qa-toggle { margin-top: 8px; }
+    .qa-tools { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+    fieldset.fs { border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px 14px; margin: 0 0 12px; background: #fff; }
+    fieldset.fs legend { font-weight: 700; padding: 0 6px; }
+    fieldset.fs label { display: block; margin: 6px 0; cursor: pointer; font-size: 0.92rem; }
+    .drag-zone-wrap {
+      position: relative; border-radius: var(--radius); overflow: hidden; border: 1px solid #e2e8f0; margin-bottom: 14px;
+    }
+    .drag-zone-wrap .vol-bg { position: absolute; inset: 0; opacity: 0.28; pointer-events: none; }
+    .drag-zone-wrap .vol-bg img { width: 100%; height: 100%; object-fit: cover; }
+    .drag-inner { position: relative; padding: 14px; background: rgba(255,255,255,0.96); }
+    .chip-bank { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 12px; align-items: center; }
+    .chip-tok {
+      min-height: 44px; padding: 8px 18px; border-radius: 10px; font-weight: 800; cursor: grab; user-select: none;
+      border: 2px solid #94a3b8; touch-action: manipulation;
+    }
+    .chip-tok.for { background: var(--for-bg); color: #9a3412; border-color: #fb923c; }
+    .chip-tok.since { background: var(--since-bg); color: #0f766e; border-color: #2dd4bf; }
+    .chip-tok:active { cursor: grabbing; }
+    .slot {
+      display: inline-block; min-width: 4.2em; padding: 2px 8px; margin: 0 2px; border-radius: 6px;
+      border: 2px dashed #94a3b8; background: #f8fafc; font-weight: 800; color: #64748b; cursor: pointer; vertical-align: baseline;
+    }
+    .slot.filled-for { border-style: solid; border-color: #ea580c; background: var(--for-bg); color: #9a3412; }
+    .slot.filled-since { border-style: solid; border-color: #0d9488; background: var(--since-bg); color: #0f766e; }
+    .slot.slot-focus { outline: 3px solid #ffb703; outline-offset: 2px; }
+    .drag-sent { font-size: 1.02rem; line-height: 1.75; margin-bottom: 12px; }
+    .feedback { margin-top: 10px; padding: 10px 12px; border-radius: 10px; display: none; font-size: 0.9rem; }
+    .feedback.show { display: block; }
+    .feedback.ok { background: #e8fcf4; border: 1px solid #9ee5c8; color: #0f5132; }
+    .feedback.bad { background: #fff5f5; border: 1px solid #f5b5b5; color: #842029; }
+    .ai-panel {
+      position: fixed; right: 0; top: 0; bottom: 0; width: min(440px, 100vw); background: var(--card);
+      box-shadow: -6px 0 28px rgba(0,0,0,0.14); transform: translateX(100%); transition: transform 0.28s ease; z-index: 120;
+      display: flex; flex-direction: column;
+    }
+    .ai-panel.open { transform: translateX(0); }
+    .ai-panel header { padding: 12px 14px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; }
+    .ai-panel .body { flex: 1; overflow: auto; padding: 12px 14px; display: flex; flex-direction: column; gap: 10px; }
+    .ai-panel textarea { width: 100%; min-height: 120px; resize: vertical; font: inherit; padding: 10px; border-radius: 10px; border: 1px solid #ced4da; }
+    .ai-panel .out { white-space: pre-wrap; background: #f1f5f9; border-radius: 10px; padding: 12px; min-height: 80px; border: 1px solid #e2e8f0; font-size: 0.92rem; }
+    .backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.35); opacity: 0; pointer-events: none; transition: opacity 0.25s ease; z-index: 110; }
+    .backdrop.show { opacity: 1; pointer-events: auto; }
+    .muted-link { font-size: 0.82rem; color: var(--muted); }
+    @media print {
+      .deck { zoom: 1 !important; }
+      .top-actions, .dock, .tts-bar, .ai-panel, .backdrop, .qa-tools button, #btnSubmitFill, #btnSubmitDrag, #btnSubmitCd { display: none !important; }
+      .qa-row .qa-answer-block { display: block !important; border-top: none; padding-top: 0; }
+      .qa-row .btn-qa-toggle { display: none !important; }
+    }
+      /* L10：主内容区整体 160%（顶栏与底部分页条不缩放） */
+    .tts-bar,
+    .deck {
+      zoom: 1.6;
+    }
+
+</style>
+</head>
+<body>
+  <div id="ariaLive" class="sr" aria-live="polite"></div>
+  <header class="topbar">
+    <div class="brand">Lesson 10 · for / since / How long</div>
+    <div class="slide-meta" id="slideIndicator">1 / 7</div>
+    <div class="top-actions">
+      <a class="btn-link secondary" href="L10-00-index.html">返回目录</a>
+      <a class="btn-link secondary" href="L10-06-writing-new-term-prep.html">上一节</a>
+      <a class="btn-link" href="L10-08-contrast-past-simple.html">下一节 · 辨析</a>
+      <span class="muted-link" style="padding:0 4px"><a href="L10-09-durative-verbs.html">延续动词见 L10-09</a></span>
+      <button type="button" id="btnReadRules">朗读规则与例句</button>
+      <button type="button" id="btnAiOpen" class="secondary">AI for/since 教练</button>
+    </div>
+  </header>
+  <div class="tts-bar" id="ttsBar" role="status" style="display:none"></div>
+
+  <div class="deck" id="deck">
+    <section class="slide is-active" id="slide-0" aria-label="封面">
+      <div class="slide-scroll">
+        <div class="slide-inner">
+          <div class="hero-compact">
+            <div class="hero-img-wrap" id="heroBlock">
+              <img id="heroImg" src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L10/assets/img/l10-p08-time-hero.png" alt="抽象时间轴与日历氛围插画，无文字" width="1600" height="900" loading="eager" decoding="async" />
+            </div>
+            <div class="hero-text">
+              <h1>多长时间了？<span lang="en">— for &amp; since</span></h1>
+              <p class="note-small" lang="en">How long have you…?</p>
+              <p class="note">上一节你用 <span lang="en">already / yet</span> 写了新学期准备；这一节抓「<strong>多久</strong>」——<span class="tag-for">for + 时间段</span> 与 <span class="tag-since">since + 起点</span>。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-1" hidden aria-label="规则与错句">
+      <div class="slide-scroll">
+        <div class="slide-inner">
+          <div class="card">
+            <h2><span class="tag-for">for</span> 与 <span class="tag-since">since</span> 对照</h2>
+            <table class="rule" role="table">
+              <thead>
+                <tr>
+                  <th scope="col">类型</th>
+                  <th scope="col">搭配与例句</th>
+                  <th scope="col">中文提示</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><span class="tag-for">for</span></td>
+                  <td lang="en"><strong>for + 一段时间</strong>：for two years, for three months, for a week, for several days …</td>
+                  <td>回答「有多久」，后面跟<strong>可量的长度</strong>。</td>
+                </tr>
+                <tr>
+                  <td><span class="tag-since">since</span></td>
+                  <td lang="en"><strong>since + 起点</strong>：since 2019, since last summer, since Monday, since I was in Grade 7, since I joined the club …</td>
+                  <td>回答「从什么时候起」，后面跟<strong>时间点 / 年份 / 从句</strong>（since 后可接从句）。</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="clinic-pair" id="clinicMount"></div>
+            <p class="note-small"><span lang="en">for six years</span> 与 <span lang="en">since six years ago</span> 常可换思路表达，但 <strong>since + 纯时间段</strong>（如 since three years）不地道，应改为 <span lang="en">for three years</span> 或 <span lang="en">since 2022 / since three years ago</span>。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-2" hidden aria-label="How long 范例">
+      <div class="slide-scroll">
+        <div class="slide-inner">
+          <div class="card">
+            <h2><span lang="en">How long…?</span> 问答范例（志愿与学习）</h2>
+            <p class="note-small">答句默认隐藏，点「显示答案」后可见。底部「朗读全部问句」只读问句；答句请点各组「朗读答句」。含 <span lang="en">since I joined the club</span>（since + 从句）。</p>
+            <div id="qaMount"></div>
+            <div class="qa-tools">
+              <button type="button" id="btnReadAllQa">朗读全部问句（链式）</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-3" hidden aria-label="选择填空">
+      <div class="slide-scroll">
+        <div class="slide-inner">
+          <div class="card">
+            <h2>选择：<span lang="en">for</span> 还是 <span lang="en">since</span>？（9 题）</h2>
+            <p class="note-small">每题选一；提交后看得分与解析。</p>
+            <form id="fillForm"></form>
+            <button type="button" id="btnSubmitFill">提交判分</button>
+            <div id="fillFeedback" class="feedback" tabindex="-1"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-4" hidden aria-label="拖拽填空">
+      <div class="slide-scroll">
+        <div class="slide-inner">
+          <div class="drag-zone-wrap">
+            <div class="vol-bg"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L10/assets/img/l10-p08-volunteer-bg.png" alt="" width="1200" height="800" decoding="async" /></div>
+            <div class="drag-inner">
+              <h2 style="margin-top:0">拖拽 / 点选：<span lang="en">for</span> 与 <span lang="en">since</span> 入空</h2>
+              <p class="note-small">操作：先<strong>点击空白槽</strong>（出现黄框），再点下方 <span lang="en">for</span> / <span lang="en">since</span> 标签；也可把标签拖入槽位。点同一槽可清空。</p>
+              <div class="chip-bank" id="chipBank">
+                <span class="chip-tok for" draggable="true" data-kind="for">for</span>
+                <span class="chip-tok since" draggable="true" data-kind="since">since</span>
+                <span class="chip-tok for" draggable="true" data-kind="for">for</span>
+                <span class="chip-tok since" draggable="true" data-kind="since">since</span>
+                <span class="chip-tok for" draggable="true" data-kind="for">for</span>
+                <span class="chip-tok since" draggable="true" data-kind="since">since</span>
+              </div>
+              <div id="dragSentences"></div>
+              <button type="button" class="secondary" id="btnClearSlots">清空所有槽</button>
+              <button type="button" id="btnSubmitDrag">检查拖拽句</button>
+              <div id="dragFeedback" class="feedback" tabindex="-1"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-5" hidden aria-label="微语境单选">
+      <div class="slide-scroll">
+        <div class="slide-inner">
+          <div class="card">
+            <h2>成都卷风格微语境（原创改编 · 3 题）</h2>
+            <p class="note-small">考点：<span lang="en">since + 年份 / 起点</span> 与 <span lang="en">have lived / have been</span> 等持续义；题干为改编，非真题原文。</p>
+            <form id="cdForm"></form>
+            <button type="button" id="btnSubmitCd">提交</button>
+            <div id="cdFeedback" class="feedback" tabindex="-1"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-6" hidden aria-label="衔接">
+      <div class="slide-scroll">
+        <div class="slide-inner">
+          <div class="card">
+            <h2>与下一节衔接</h2>
+            <p><strong>borrow / buy</strong> 等不能直接与 <span lang="en">for two weeks</span> 连用时，要换延续动词说法——详见 <a href="L10-09-durative-verbs.html">L10-09 延续动词转换</a>。</p>
+            <p class="note-small">灰色备忘：含 <span lang="en">for / since</span> 的中译英综合训练见 <a href="L10-10-translation-mimic.html">L10-10 翻译仿写</a>。</p>
+            <p class="note-small"><span lang="en">How long</span> 问「多久了」；<span lang="en">How soon</span> 问「还要多久才来」——本页不练 <span lang="en">How soon</span>，仅防口误。</p>
+            <a class="btn-link" href="L10-08-contrast-past-simple.html">进入下一节：现在完成时 vs 一般过去时</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="dock" id="dockBar">
+    <button type="button" id="btnPrev" class="secondary">上一页</button>
+    <div class="dots" id="dockDots">1 / 7</div>
+    <button type="button" id="btnNext">下一页</button>
+  </div>
+
+  <div class="backdrop" id="aiBackdrop" hidden></div>
+  <aside class="ai-panel" id="aiPanel" aria-label="DeepSeek for since 教练">
+    <header>
+      <strong>AI for / since 教练</strong>
+      <button type="button" id="btnAiClose" class="secondary">关闭</button>
+    </header>
+    <div class="body">
+      <p class="note-small" id="aiQuota">已用 0 / 10 次</p>
+      <div>
+        <label><input type="radio" name="dsMode" value="A" checked /> 模式 A：中文情境 → 两行（英 + 为何 for/since）</label><br />
+        <label><input type="radio" name="dsMode" value="B" /> 模式 B：英语改错 → 最多三行</label>
+      </div>
+      <label for="aiIn">输入</label>
+      <textarea id="aiIn" maxlength="500" placeholder="模式 A：用中文写情境。模式 B：写一句可能混用 for/since 的英语。"></textarea>
+      <button type="button" id="btnAiRun">发送</button>
+      <button type="button" class="secondary" id="btnAiClear">清空</button>
+      <label for="aiOut">输出</label>
+      <div id="aiOut" class="out"></div>
+    </div>
+  </aside>
+
+  <script>
+(function () {
+  const AZURE_SPEECH_KEY = "C42UQWeDcluYanbo17WrtUnPhk0vkZy2uQHPTCGDzY6CdEXx99NzJQQJ99BIACqBBLyXJ3w3AAAYACOGjkyu";
+  const AZURE_SPEECH_REGION = "southeastasia";
+  const DEEPSEEK_API_KEY = "sk-daa16008e81843deba6fefe9dce51465";
+  const DEEPSEEK_API_URL = "https://api.deepseek.com/v1/chat/completions";
+  const DS_SESS_KEY = "l10p08_ds_count";
+
+  var vEn = "en-US-AvaMultilingualNeural";
+  var vZh = "zh-CN-XiaoxiaoNeural";
+  var ttsHtmlAudio = null;
+  var ttsBusy = false;
+
+  var DS_SYS_A =
+    "你是初中英语助教。用户用中文描述从过去持续到现在的情境。你只输出两行：第一行英语，必须使用现在完成时，并且正确使用 for+时间段 或 since+起点（时间点、年份、从句、一般过去时起点之一），二者只选其一；第二行中文简短说明为何用 for 或 since。不要输出第三行。不要讲解 already yet。谓语动词须为可延续用法：若用户说「买书两年」，应输出 I have had this book for two years. 而非 I have bought…。不要输出密钥。";
+  var DS_SYS_B =
+    "你是初中英语助教。用户给出一句可能错用 for 或 since 的英语。你最多输出三行：第一行改正后的句子；第二行中文理由；第三行只写 for 或 since 一词表示最终使用的介词类型。不要全文讲解语法书。不要输出密钥。";
+
+  function aria(m) {
+    var el = document.getElementById("ariaLive");
+    if (el) el.textContent = m;
+  }
+  function setTtsBar(t) {
+    var b = document.getElementById("ttsBar");
+    if (!b) return;
+    b.textContent = t || "";
+    b.style.display = t ? "block" : "none";
+  }
+  function stopHtmlAudio() {
+    try {
+      if (ttsHtmlAudio) {
+        ttsHtmlAudio.pause();
+        if (ttsHtmlAudio._revoke) URL.revokeObjectURL(ttsHtmlAudio._revoke);
+        ttsHtmlAudio.removeAttribute("src");
+        ttsHtmlAudio.load();
+        ttsHtmlAudio = null;
+      }
+    } catch (e) {}
+  }
+  function escapeXml(s) {
+    return String(s)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&apos;");
+  }
+  function buildSsml(text, voiceName) {
+    var lang = voiceName.indexOf("zh-") === 0 ? "zh-CN" : "en-US";
+    return (
+      "<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='" +
+      lang +
+      "' xmlns:mstts='http://www.w3.org/2001/mstts'><voice name='" +
+      voiceName +
+      "'>" +
+      escapeXml(text) +
+      "</voice></speak>"
+    );
+  }
+  function azureRest(ssml, ok, fail) {
+    stopHtmlAudio();
+    fetch("https://" + AZURE_SPEECH_REGION + ".tts.speech.microsoft.com/cognitiveservices/v1", {
+      method: "POST",
+      mode: "cors",
+      credentials: "omit",
+      headers: {
+        "Ocp-Apim-Subscription-Key": AZURE_SPEECH_KEY,
+        "Content-Type": "application/ssml+xml",
+        "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3",
+        "User-Agent": "L10P08ForSince/1.0"
+      },
+      body: ssml
+    })
+      .then(function (r) {
+        if (!r.ok) return r.text().then(function () { throw new Error("REST " + r.status); });
+        return r.blob();
+      })
+      .then(function (blob) {
+        if (!blob || blob.size < 80) throw new Error("音频异常");
+        var u = URL.createObjectURL(blob);
+        var a = new Audio();
+        ttsHtmlAudio = a;
+        a._revoke = u;
+        a.src = u;
+        a.setAttribute("playsinline", "true");
+        a.onended = function () { stopHtmlAudio(); ok(); };
+        a.onerror = function () { stopHtmlAudio(); fail(new Error("play")); };
+        var p = a.play();
+        if (p && p.catch) p.catch(function (e) { stopHtmlAudio(); fail(e); });
+      })
+      .catch(function (e) { stopHtmlAudio(); fail(e); });
+  }
+  function azureSdk(ssml, voiceName, ok, fail) {
+    if (typeof SpeechSDK === "undefined") { fail(new Error("no sdk")); return; }
+    stopHtmlAudio();
+    var cfg = SpeechSDK.SpeechConfig.fromSubscription(AZURE_SPEECH_KEY, AZURE_SPEECH_REGION);
+    cfg.speechSynthesisVoiceName = voiceName;
+    var syn = new SpeechSDK.SpeechSynthesizer(cfg, SpeechSDK.AudioConfig.fromDefaultSpeakerOutput());
+    syn.speakSsmlAsync(
+      ssml,
+      function (res) {
+        var good = res.reason === SpeechSDK.ResultReason.SynthesizingAudioCompleted;
+        syn.close();
+        if (good) ok();
+        else fail(new Error("sdk"));
+      },
+      function (err) { syn.close(); fail(err); }
+    );
+  }
+  function azureSpeakSsml(ssml, voice, onDone) {
+    onDone = onDone || function () {};
+    setTtsBar("正在连接 Azure 语音…");
+    azureRest(
+      ssml,
+      function () { setTtsBar(""); onDone(); },
+      function () {
+        setTtsBar("REST 失败，尝试 SDK…");
+        azureSdk(ssml, voice, function () { setTtsBar(""); onDone(); }, function () {
+          setTtsBar("语音失败");
+          aria("语音合成失败");
+          onDone();
+        });
+      }
+    );
+  }
+  function speakChain(list, i, onAllDone) {
+    if (i >= list.length) {
+      onAllDone();
+      return;
+    }
+    var item = list[i];
+    azureSpeakSsml(item.ssml, item.voice, function () { speakChain(list, i + 1, onAllDone); });
+  }
+
+  var RULE_READ =
+    "for 加一段时间，例如 for two years, for a week。since 加起点，例如 since 2019, since last Monday, since I joined the club。错句 since three years 应改为 for three years 或 since three years ago。错句 for 2019 应改为 since 2019 或 in 2019 with past simple if finished.";
+
+  var QA_PAIRS = [
+    { q: "How long have you been a volunteer?", a: "I've been a volunteer since last year.", zh: "since 加起点去年。" },
+    { q: "How long have you studied English?", a: "I have studied English for six years.", zh: "for 加时间段六年。" },
+    { q: "How long has your brother had his bike?", a: "He has had it for three months.", zh: "for 加三个月这段长度。" },
+    { q: "How long have they lived in Chengdu?", a: "They have lived here since 2018.", zh: "since 加年份作起点。" },
+    { q: "How long have you been in the school band?", a: "I have been in the band since I joined the club.", zh: "since 后可接从句作起点。" },
+    { q: "How long has the community clean-up lasted?", a: "It has lasted for several days this spring.", zh: "for 加 several days 表段时。" },
+    { q: "How long haven't you seen your cousin?", a: "I haven't seen him for two weeks.", zh: "否定句里也可用 for 表多久没。" }
+  ];
+
+  var FILL_ITEMS = [
+    { id: "f1", stem: "We have waited here ______ three hours.", ok: "for", ex: "three hours 为段时，用 for。" },
+    { id: "f2", stem: "She has taught here ______ 2019.", ok: "since", ex: "2019 为起点年份，用 since。" },
+    { id: "f3", stem: "Tom has played football ______ last Friday.", ok: "since", ex: "last Friday 为起点，用 since。" },
+    { id: "f4", stem: "I have read this series ______ two weeks.", ok: "for", ex: "two weeks 为长度，用 for。" },
+    { id: "f5", stem: "They have known each other ______ they were young.", ok: "since", ex: "since 接从句表起点。" },
+    { id: "f6", stem: "He has kept the diary ______ several months.", ok: "for", ex: "several months 为段时。" },
+    { id: "f7", stem: "We have helped at the center ______ the start of winter.", ok: "since", ex: "the start of winter 为事件起点。" },
+    { id: "f8", stem: "My cousin has worked there ______ a year.", ok: "for", ex: "a year 表时长长度。" },
+    { id: "f9", stem: "I have missed the old club ______ I moved schools.", ok: "since", ex: "since 接从句表自从转学。" }
+  ];
+
+  var DRAG_ITEMS = [
+    { id: "d0", want: ["for", "since"], parts: ["I have studied English ", "slot", " six years, and I have lived here ", "slot", " 2021."] },
+    { id: "d1", want: ["since", "for"], parts: ["She has been a volunteer ", "slot", " last August and has worked there ", "slot", " three weeks."] },
+    { id: "d2", want: ["since", "for"], parts: ["We have joined the clean-up team ", "slot", " early April and we have met every Saturday ", "slot", " eight weeks."] },
+    { id: "d3", want: ["since", "for"], parts: ["He has kept a reading diary ", "slot", " he started Grade 7 and he has written in it ", "slot", " more than a year."] }
+  ];
+
+  var CD_MCQ = [
+    {
+      id: "c1",
+      stem: "— ______ have you lived in this community? — Since 2018. It is quiet and friendly.",
+      opts: [
+        ["A", "How often"],
+        ["B", "How long"],
+        ["C", "How soon"],
+        ["D", "How far"]
+      ],
+      ok: "B",
+      ex: "答语 Since 2018 表从起点到现在多久，用 How long 提问。"
+    },
+    {
+      id: "c2",
+      stem: "My family ______ in this street since they moved here in 2021.",
+      opts: [
+        ["A", "lived"],
+        ["B", "have lived"],
+        ["C", "live"],
+        ["D", "were living"]
+      ],
+      ok: "B",
+      ex: "since 2019 类起点 + 持续到现在，用现在完成时 have lived。"
+    },
+    {
+      id: "c3",
+      stem: "The students ______ the river bank for three weekends. They started in early April.",
+      opts: [
+        ["A", "have cleaned"],
+        ["B", "cleaned"],
+        ["C", "clean"],
+        ["D", "have clean"]
+      ],
+      ok: "A",
+      ex: "for three weekends 表段时且与现在相关，用现在完成时 have cleaned。"
+    }
+  ];
+
+  function mountClinic() {
+    var el = document.getElementById("clinicMount");
+    el.innerHTML =
+      '<div class="clinic-box bad"><div class="tag">× 错</div><p lang="en">I have studied English since three years.</p><p class="note-small">since + 纯「三年」不自然</p></div>' +
+      '<div class="clinic-box good"><div class="tag">√ 改</div><p lang="en">I have studied English for three years. / I have studied English since three years ago.</p><p class="note-small">段时用 for；或 since + ago 把段时改起点</p></div>' +
+      '<div class="clinic-box bad"><div class="tag">× 错</div><p lang="en">We have lived here for 2019.</p></div>' +
+      '<div class="clinic-box good"><div class="tag">√ 改</div><p lang="en">We have lived here since 2019.</p><p class="note-small">年份是起点，用 since；若动作已结束则另用一般过去时 + in 2019</p></div>';
+  }
+
+  function mountQa() {
+    var el = document.getElementById("qaMount");
+    el.innerHTML = QA_PAIRS.map(function (row, i) {
+      return (
+        '<div class="qa-row" data-i="' +
+        i +
+        '"><p lang="en" class="qa-q"><strong>Q:</strong> ' +
+        row.q +
+        '</p><button type="button" class="secondary btn-qa-toggle" aria-expanded="false">显示答案</button><div class="qa-answer-block">' +
+        '<p class="a" lang="en"><strong>A:</strong> ' +
+        row.a +
+        '</p><p class="note-small">' +
+        row.zh +
+        '</p></div><div class="qa-tools"><button type="button" class="secondary btn-qa-read-q" data-i="' +
+        i +
+        '">朗读问句</button><button type="button" class="secondary btn-qa-read-a" data-i="' +
+        i +
+        '">朗读答句</button></div></div>'
+      );
+    }).join("");
+  }
+
+  function mountFill() {
+    var form = document.getElementById("fillForm");
+    var html = "";
+    FILL_ITEMS.forEach(function (it, fi) {
+      html += '<fieldset class="fs" id="' + it.id + '"><legend>题 ' + (fi + 1) + "</legend>";
+      html += '<p class="stem" lang="en">' + it.stem.replace(/______/g, "______") + "</p>";
+      ["for", "since"].forEach(function (op) {
+        var id = it.id + "_" + op;
+        html +=
+          '<label for="' +
+          id +
+          '"><input type="radio" name="' +
+          it.id +
+          '" id="' +
+          id +
+          '" value="' +
+          op +
+          '" /> ' +
+          op +
+          "</label>";
+      });
+      html += '<p class="note-small ex-line" id="' + it.id + '_ex" style="display:none;margin-top:8px">' + it.ex + "</p></fieldset>";
+    });
+    form.innerHTML = html;
+  }
+
+  function mountCd() {
+    var form = document.getElementById("cdForm");
+    var html = "";
+    CD_MCQ.forEach(function (q, qi) {
+      html += '<fieldset class="fs" id="' + q.id + '"><legend>微语境 ' + (qi + 1) + "</legend>";
+      html += '<p class="stem" lang="en">' + q.stem + "</p>";
+      q.opts.forEach(function (op) {
+        var id = q.id + "_" + op[0];
+        html +=
+          '<label for="' +
+          id +
+          '"><input type="radio" name="' +
+          q.id +
+          '" id="' +
+          id +
+          '" value="' +
+          op[0] +
+          '" /> ' +
+          op[0] +
+          ". " +
+          op[1] +
+          "</label>";
+      });
+      html += '<p class="note-small ex-line" id="' + q.id + '_ex" style="display:none;margin-top:8px">' + q.ex + "</p></fieldset>";
+    });
+    form.innerHTML = html;
+  }
+
+  var focusedSlot = null;
+
+  function mountDrag() {
+    var el = document.getElementById("dragSentences");
+    el.innerHTML = "";
+    DRAG_ITEMS.forEach(function (row) {
+      var line = document.createElement("div");
+      line.className = "drag-sent";
+      line.setAttribute("lang", "en");
+      line.dataset.row = row.id;
+      var si = 0;
+      row.parts.forEach(function (p) {
+        if (p === "slot") {
+          var sp = document.createElement("span");
+          sp.className = "slot";
+          sp.id = row.id + "_s" + si;
+          sp.dataset.want = row.want[si];
+          si++;
+          sp.setAttribute("tabindex", "0");
+          sp.setAttribute("role", "button");
+          sp.textContent = "____";
+          sp.addEventListener("click", function () {
+            document.querySelectorAll(".slot").forEach(function (s) { s.classList.remove("slot-focus"); });
+            if (focusedSlot === sp && sp.textContent !== "____") {
+              sp.textContent = "____";
+              sp.className = "slot";
+              focusedSlot = null;
+              return;
+            }
+            focusedSlot = sp;
+            sp.classList.add("slot-focus");
+          });
+          line.appendChild(sp);
+        } else {
+          line.appendChild(document.createTextNode(p));
+        }
+      });
+      el.appendChild(line);
+    });
+  }
+
+  function applyChip(kind) {
+    if (!focusedSlot) {
+      aria("请先点击句子里的空槽");
+      return;
+    }
+    focusedSlot.textContent = kind;
+    focusedSlot.classList.remove("filled-for", "filled-since", "slot-focus");
+    if (kind === "for") focusedSlot.classList.add("filled-for");
+    else focusedSlot.classList.add("filled-since");
+    focusedSlot = null;
+  }
+
+  document.getElementById("chipBank").addEventListener("click", function (e) {
+    var c = e.target.closest(".chip-tok");
+    if (!c) return;
+    applyChip(c.getAttribute("data-kind"));
+  });
+
+  document.getElementById("chipBank").addEventListener("dragstart", function (e) {
+    var c = e.target.closest(".chip-tok");
+    if (!c) return;
+    e.dataTransfer.setData("text/plain", c.getAttribute("data-kind"));
+  });
+  document.getElementById("dragSentences").addEventListener("dragover", function (e) {
+    if (e.target.classList.contains("slot")) e.preventDefault();
+  });
+  document.getElementById("dragSentences").addEventListener("drop", function (e) {
+    var slot = e.target.closest(".slot");
+    if (!slot) return;
+    e.preventDefault();
+    var kind = e.dataTransfer.getData("text/plain");
+    if (kind !== "for" && kind !== "since") return;
+    focusedSlot = slot;
+    applyChip(kind);
+  });
+
+  document.getElementById("btnClearSlots").addEventListener("click", function () {
+    document.querySelectorAll(".slot").forEach(function (s) {
+      s.textContent = "____";
+      s.className = "slot";
+    });
+    focusedSlot = null;
+  });
+
+  document.getElementById("btnSubmitDrag").addEventListener("click", function () {
+    var ok = true;
+    DRAG_ITEMS.forEach(function (row) {
+      row.want.forEach(function (w, idx) {
+        var sp = document.getElementById(row.id + "_s" + idx);
+        if (!sp || sp.textContent.trim() !== w) ok = false;
+      });
+    });
+    var fb = document.getElementById("dragFeedback");
+    fb.className = "feedback show " + (ok ? "ok" : "bad");
+    fb.textContent = ok ? "四句介词与结构均正确！" : "有槽位不对：请对照 for=段时、since=起点，或点黄框槽再改。";
+    fb.focus();
+    aria(ok ? "拖拽练习全部正确" : "拖拽练习有错误");
+  });
+
+  document.getElementById("deck").addEventListener("click", function (e) {
+    var tBtn = e.target.closest(".btn-qa-toggle");
+    if (tBtn) {
+      var qaRow = tBtn.closest(".qa-row");
+      if (!qaRow) return;
+      var on = qaRow.classList.toggle("qa-revealed");
+      tBtn.setAttribute("aria-expanded", on ? "true" : "false");
+      tBtn.textContent = on ? "隐藏答案" : "显示答案";
+      return;
+    }
+    var bq = e.target.closest(".btn-qa-read-q");
+    if (bq) {
+      if (ttsBusy) return;
+      var iq = Number(bq.getAttribute("data-i"));
+      var rowQ = QA_PAIRS[iq];
+      if (!rowQ) return;
+      ttsBusy = true;
+      bq.disabled = true;
+      speakChain([{ voice: vEn, ssml: buildSsml(rowQ.q, vEn) }], 0, function () {
+        ttsBusy = false;
+        bq.disabled = false;
+      });
+      return;
+    }
+    var ba = e.target.closest(".btn-qa-read-a");
+    if (ba) {
+      if (ttsBusy) return;
+      var ia = Number(ba.getAttribute("data-i"));
+      var rowA = QA_PAIRS[ia];
+      if (!rowA) return;
+      ttsBusy = true;
+      ba.disabled = true;
+      speakChain([{ voice: vEn, ssml: buildSsml(rowA.a, vEn) }], 0, function () {
+        ttsBusy = false;
+        ba.disabled = false;
+      });
+    }
+  });
+
+  document.getElementById("btnReadRules").addEventListener("click", function () {
+    if (ttsBusy) return;
+    ttsBusy = true;
+    document.getElementById("btnReadRules").disabled = true;
+    var list = [{ voice: vEn, ssml: buildSsml(RULE_READ, vEn) }];
+    QA_PAIRS.forEach(function (row) {
+      list.push({ voice: vEn, ssml: buildSsml(row.q, vEn) });
+    });
+    speakChain(list, 0, function () {
+      ttsBusy = false;
+      document.getElementById("btnReadRules").disabled = false;
+    });
+  });
+
+  document.getElementById("btnReadAllQa").addEventListener("click", function () {
+    if (ttsBusy) return;
+    ttsBusy = true;
+    document.getElementById("btnReadAllQa").disabled = true;
+    var list = [];
+    QA_PAIRS.forEach(function (row) {
+      list.push({ voice: vEn, ssml: buildSsml(row.q, vEn) });
+    });
+    speakChain(list, 0, function () {
+      ttsBusy = false;
+      document.getElementById("btnReadAllQa").disabled = false;
+    });
+  });
+
+  document.getElementById("btnSubmitFill").addEventListener("click", function () {
+    var score = 0;
+    FILL_ITEMS.forEach(function (it) {
+      var picked = document.querySelector('input[name="' + it.id + '"]:checked');
+      var ok = picked && picked.value === it.ok;
+      if (ok) score++;
+      var ex = document.getElementById(it.id + "_ex");
+      if (ex) {
+        ex.style.display = "block";
+        ex.style.color = ok ? "#0f5132" : "#842029";
+      }
+    });
+    var fb = document.getElementById("fillFeedback");
+    fb.className = "feedback show " + (score === FILL_ITEMS.length ? "ok" : "bad");
+    fb.textContent = "得分 " + score + " / " + FILL_ITEMS.length + "。";
+    fb.focus();
+    aria("填空得分 " + score + " 共 " + FILL_ITEMS.length);
+  });
+
+  document.getElementById("btnSubmitCd").addEventListener("click", function () {
+    var score = 0;
+    CD_MCQ.forEach(function (q) {
+      var picked = document.querySelector('input[name="' + q.id + '"]:checked');
+      var ok = picked && picked.value === q.ok;
+      if (ok) score++;
+      var ex = document.getElementById(q.id + "_ex");
+      if (ex) {
+        ex.style.display = "block";
+        ex.style.color = ok ? "#0f5132" : "#842029";
+      }
+    });
+    var fb = document.getElementById("cdFeedback");
+    fb.className = "feedback show " + (score === CD_MCQ.length ? "ok" : "bad");
+    fb.textContent = "微语境 " + score + " / " + CD_MCQ.length + "。";
+    fb.focus();
+  });
+
+  var slideIndex = 0;
+  var slides = [];
+  function goSlide(n) {
+    slideIndex = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach(function (s, i) {
+      var on = i === slideIndex;
+      s.classList.toggle("is-active", on);
+      s.hidden = !on;
+    });
+    var cur = slides[slideIndex];
+    if (cur) {
+      var sc = cur.querySelector(".slide-scroll");
+      if (sc) sc.scrollTop = 0;
+    }
+    var lab = slideIndex + 1 + " / " + slides.length;
+    document.getElementById("slideIndicator").textContent = lab;
+    document.getElementById("dockDots").textContent = lab;
+    document.getElementById("btnPrev").disabled = slideIndex === 0;
+    document.getElementById("btnNext").disabled = slideIndex === slides.length - 1;
+  }
+
+  document.getElementById("btnPrev").addEventListener("click", function () { goSlide(slideIndex - 1); });
+  document.getElementById("btnNext").addEventListener("click", function () { goSlide(slideIndex + 1); });
+  document.addEventListener("keydown", function (e) {
+    if (e.target.closest(".ai-panel.open") || document.getElementById("aiBackdrop").classList.contains("show")) return;
+    if (e.key === "ArrowLeft") { e.preventDefault(); goSlide(slideIndex - 1); }
+    if (e.key === "ArrowRight") { e.preventDefault(); goSlide(slideIndex + 1); }
+  });
+
+  function getDsCount() {
+    var n = Number(sessionStorage.getItem(DS_SESS_KEY) || "0");
+    return isNaN(n) ? 0 : n;
+  }
+  function bumpDs() {
+    sessionStorage.setItem(DS_SESS_KEY, String(getDsCount() + 1));
+  }
+  function updateQuota() {
+    var el = document.getElementById("aiQuota");
+    if (el) el.textContent = "已用 " + getDsCount() + " / 10 次（刷新清零）";
+  }
+  function openAi() {
+    document.getElementById("aiPanel").classList.add("open");
+    document.getElementById("aiBackdrop").classList.add("show");
+    document.getElementById("aiBackdrop").hidden = false;
+    updateQuota();
+  }
+  function closeAi() {
+    document.getElementById("aiPanel").classList.remove("open");
+    document.getElementById("aiBackdrop").classList.remove("show");
+    document.getElementById("aiBackdrop").hidden = true;
+  }
+  document.getElementById("btnAiOpen").addEventListener("click", openAi);
+  document.getElementById("btnAiClose").addEventListener("click", closeAi);
+  document.getElementById("aiBackdrop").addEventListener("click", closeAi);
+
+  function takeLines(text, max) {
+    return String(text || "")
+      .trim()
+      .split(/\r?\n/)
+      .filter(Boolean)
+      .slice(0, max)
+      .join("\n");
+  }
+
+  document.getElementById("btnAiRun").addEventListener("click", function () {
+    var out = document.getElementById("aiOut");
+    if (getDsCount() >= 10) {
+      out.textContent = "已达本页 10 次上限。";
+      return;
+    }
+    var mode = (document.querySelector('input[name="dsMode"]:checked') || {}).value || "A";
+    var user = document.getElementById("aiIn").value.trim();
+    if (!user) {
+      out.textContent = "请先输入。";
+      return;
+    }
+    if (/[\u4e00-\u9fff]/.test(user) && user.length > 120) user = user.slice(0, 120);
+    if (!/[\u4e00-\u9fff]/.test(user) && user.length > 300) user = user.slice(0, 300);
+    out.textContent = "思考中…";
+    bumpDs();
+    updateQuota();
+    var sys = mode === "B" ? DS_SYS_B : DS_SYS_A;
+    var temp = mode === "B" ? 0.25 : 0.35;
+    var maxTok = mode === "B" ? 280 : 320;
+    fetch(DEEPSEEK_API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: "Bearer " + DEEPSEEK_API_KEY },
+      body: JSON.stringify({
+        model: "deepseek-chat",
+        temperature: temp,
+        max_tokens: maxTok,
+        messages: [
+          { role: "system", content: sys },
+          { role: "user", content: user }
+        ]
+      })
+    })
+      .then(function (r) {
+        if (!r.ok) throw new Error("HTTP " + r.status);
+        return r.json();
+      })
+      .then(function (data) {
+        var t = (((data.choices || [])[0] || {}).message || {}).content || "";
+        out.textContent = takeLines(t, mode === "B" ? 3 : 2);
+      })
+      .catch(function () {
+        out.textContent = "请求失败，请检查网络。";
+      });
+  });
+  document.getElementById("btnAiClear").addEventListener("click", function () {
+    document.getElementById("aiIn").value = "";
+    document.getElementById("aiOut").textContent = "";
+  });
+
+  var heroImg = document.getElementById("heroImg");
+  if (heroImg) {
+    heroImg.addEventListener("error", function () {
+      document.getElementById("heroBlock").classList.add("fallback-img");
+    });
+  }
+
+  mountClinic();
+  mountQa();
+  mountFill();
+  mountCd();
+  mountDrag();
+  slides = Array.prototype.slice.call(document.querySelectorAll(".slide"));
+  goSlide(0);
+  updateQuota();
+})();
+  </script>
+</body>
+</html>

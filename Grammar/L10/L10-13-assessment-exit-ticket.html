@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Lesson 10 · 当堂测</title>
+  <script src="https://cdn.jsdelivr.net/npm/microsoft-cognitiveservices-speech-sdk@1.38.0/dist/microsoft.cognitiveservices.speech.sdk.bundle-min.js" crossorigin="anonymous"></script>
+  <style>
+    :root {
+      --bg: #eef2f7;
+      --card: #ffffff;
+      --text: #1a2332;
+      --muted: #5a6a7e;
+      --accent: #1e6b8c;
+      --accent2: #2a9d8f;
+      --shadow: 0 8px 24px rgba(26, 35, 50, 0.1);
+      --radius: 14px;
+      --topbar-h: 52px;
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; }
+    body {
+      display: flex; flex-direction: column;
+      font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      font-size: clamp(16px, 1.45vw, 18px);
+      line-height: 1.55;
+      color: var(--text);
+      background: var(--bg);
+    }
+    a { color: var(--accent); }
+    a:focus-visible, button:focus-visible, textarea:focus-visible, input:focus-visible { outline: 3px solid #ffb703; outline-offset: 2px; }
+    .topbar {
+      flex: 0 0 auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+      gap: 8px; padding: 8px 14px; min-height: var(--topbar-h); background: var(--card); border-bottom: 1px solid #e2e8f0; z-index: 50;
+    }
+    .brand { font-weight: 700; color: var(--accent); font-size: 13px; }
+    .top-actions { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+    button, .btn-link {
+      font: inherit; cursor: pointer; border: none; border-radius: 10px; padding: 8px 12px;
+      background: linear-gradient(135deg, var(--accent), #155a78); color: #fff;
+      box-shadow: 0 2px 8px rgba(30, 107, 140, 0.28); text-decoration: none; display: inline-block; font-size: 13px; min-height: 44px;
+    }
+    button.secondary, .btn-link.secondary { background: linear-gradient(135deg, #6c757d, #495057); box-shadow: none; }
+    button:disabled { opacity: 0.55; cursor: not-allowed; }
+    .tts-bar { font-size: 12px; padding: 4px 14px 6px; background: #fff8e6; color: #664d03; border-bottom: 1px solid #f0d78c; }
+    .main-scroll { flex: 1; min-height: 0; overflow: auto; -webkit-overflow-scrolling: touch; zoom: 1.6; }
+    .inner { max-width: 900px; margin: 0 auto; padding: 12px 14px 28px; }
+    .sr { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+    .hero-compact { display: grid; gap: 14px; align-items: stretch; }
+    @media (min-width: 860px) { .hero-compact { grid-template-columns: 1.05fr 1fr; } }
+    .hero-img-wrap {
+      border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); min-height: 140px;
+      background: linear-gradient(120deg, #e8ecf8, #fde8e4);
+    }
+    .hero-img-wrap img { width: 100%; min-height: 160px; height: 100%; object-fit: cover; display: block; }
+    .hero-text { background: var(--card); border-radius: var(--radius); padding: 16px 18px; box-shadow: var(--shadow); }
+    .hero-text h1 { margin: 0 0 6px; font-size: clamp(1.15rem, 2.6vw, 1.45rem); color: var(--accent); }
+    .note-small { font-size: 0.86rem; color: var(--muted); margin: 6px 0 0; }
+    .note {
+      font-size: 0.88rem; color: var(--muted); background: #fffdf5; border-left: 4px solid #ffb703;
+      padding: 10px 12px; border-radius: 8px; margin: 10px 0 0;
+    }
+    .card {
+      background: var(--card); border-radius: var(--radius); padding: 16px 18px; margin-bottom: 12px; box-shadow: var(--shadow);
+    }
+    .card h2 { margin: 0 0 10px; font-size: 1.12rem; color: var(--accent); }
+    .exam-toolbar {
+      display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: 10px;
+    }
+    .timer-big {
+      font-variant-numeric: tabular-nums; font-weight: 800; font-size: 1.35rem; color: var(--accent);
+      min-width: 5.2em; padding: 6px 12px; background: #f0f9ff; border-radius: 10px; border: 1px solid #bae6fd;
+    }
+    .timer-bar { height: 8px; border-radius: 6px; background: #e2e8f0; overflow: hidden; margin-top: 8px; }
+    .timer-bar > i { display: block; height: 100%; background: linear-gradient(90deg, var(--accent2), var(--accent)); width: 100%; transform: scaleX(1); transform-origin: left center; transition: transform 0.35s linear; }
+    fieldset.q-block {
+      border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px 14px 10px; margin: 0 0 14px; background: #fafcff;
+    }
+    fieldset.q-block legend { padding: 0 8px; font-weight: 700; color: #0f172a; }
+    fieldset.q-block .stem { font-size: 18px; font-weight: 600; margin-bottom: 10px; }
+    fieldset.q-block .opts label {
+      display: flex; align-items: flex-start; gap: 8px; margin: 8px 0; cursor: pointer; font-size: 1rem;
+    }
+    fieldset.q-block .opts input { margin-top: 5px; width: 18px; height: 18px; flex-shrink: 0; }
+    .fill-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 8px; font-size: 18px; }
+    .fill-row input[type="text"] {
+      flex: 1; min-width: 120px; max-width: 280px; padding: 8px 10px; border-radius: 10px; border: 1px solid #ced4da; font: inherit; font-size: 18px;
+    }
+    .tag { font-size: 0.72rem; font-weight: 800; color: #fff; background: var(--accent); padding: 2px 8px; border-radius: 6px; vertical-align: middle; margin-right: 6px; }
+    .result-summary { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-bottom: 12px; }
+    .score-pill { font-size: 1.25rem; font-weight: 800; color: var(--accent); background: #e0f2fe; padding: 10px 16px; border-radius: 12px; }
+    .review-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: flex-start; padding: 8px 0; border-bottom: 1px solid #f1f5f9; font-size: 0.95rem; }
+    .review-row .mark { font-weight: 800; min-width: 1.2em; }
+    .review-row.ok .mark { color: #15803d; }
+    .review-row.bad .mark { color: #b91c1c; }
+    .ai-panel {
+      position: fixed; right: 0; top: 0; bottom: 0; width: min(440px, 100vw); background: var(--card);
+      box-shadow: -6px 0 28px rgba(0,0,0,0.14); transform: translateX(100%); transition: transform 0.28s ease; z-index: 120;
+      display: flex; flex-direction: column;
+    }
+    .ai-panel.open { transform: translateX(0); }
+    .ai-panel header { padding: 12px 14px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+    .ai-panel .body { flex: 1; overflow: auto; padding: 12px 14px; display: flex; flex-direction: column; gap: 10px; }
+    .ai-panel textarea { width: 100%; min-height: 88px; resize: vertical; font: inherit; padding: 10px; border-radius: 10px; border: 1px solid #ced4da; }
+    .ai-panel .out { white-space: pre-wrap; background: #f1f5f9; border-radius: 10px; padding: 12px; min-height: 72px; border: 1px solid #e2e8f0; font-size: 0.92rem; }
+    .backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.35); opacity: 0; pointer-events: none; transition: opacity 0.25s ease; z-index: 110; }
+    .backdrop.show { opacity: 1; pointer-events: auto; }
+    @media print {
+      .main-scroll { zoom: 1 !important; }
+      .no-print, .top-actions, .tts-bar, .ai-panel, .backdrop, .exam-toolbar button { display: none !important; }
+      .timer-bar { display: none !important; }
+      .card { box-shadow: none; break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <div id="ariaLive" class="sr" aria-live="polite"></div>
+  <header class="topbar">
+    <div class="brand">Lesson 10 · 当堂测</div>
+    <div class="top-actions no-print">
+      <a class="btn-link secondary" href="L10-00-index.html">返回目录</a>
+      <a class="btn-link secondary" href="L10-12-game-team-competition.html">上一节</a>
+      <a class="btn-link secondary" href="L10-14-teacher-notes.html">下一节</a>
+      <button type="button" id="btnReadAll">朗读说明与题干</button>
+      <button type="button" id="btnStopTts" class="secondary">停止朗读</button>
+      <button type="button" id="btnAiOpen" class="secondary">AI 错题讲解 / 补救题</button>
+    </div>
+  </header>
+  <div class="tts-bar" id="ttsBar" role="status" style="display:none"></div>
+
+  <div class="main-scroll" id="mainScroll">
+    <div class="inner">
+      <div class="hero-compact">
+        <div class="hero-img-wrap">
+          <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L10/assets/img/l10-p14-assessment-hero.png" alt="安静书桌与柔和光线，无英文文字" width="1600" height="900" loading="eager" decoding="async" />
+        </div>
+        <div class="hero-text">
+          <h1>当堂测</h1>
+          <p class="note-small">限时 · 覆盖现完结构、标志词、for/since、延续动词、与一般过去对比</p>
+          <p class="note">交卷后可在下方查看逐题解析。答题时请圈出时间状语再判断时态。勿在试卷上写家庭敏感信息。</p>
+        </div>
+      </div>
+
+      <div class="card no-print">
+        <h2>考试说明与计时</h2>
+        <p class="note-small">独立闭卷完成；交卷后题目锁定，仅可查看解析。无网时仍可答题；朗读与 AI 不可用。</p>
+        <ul class="note-small" style="margin:8px 0;padding-left:1.2rem">
+          <li>共 15 题：10 题单项选择 + 5 题填空（每空一词或固定短语）。</li>
+          <li>整卷默认 <strong id="minLabel">13</strong> 分钟；到时将自动交卷。</li>
+          <li>点击「开始答题」后计时启动；完成后点「交卷」。</li>
+        </ul>
+        <div class="exam-toolbar">
+          <span class="timer-big" role="timer" aria-live="polite" id="timerDisp">13:00</span>
+          <button type="button" id="btnStart">开始答题</button>
+          <button type="button" id="btnSubmit" disabled>交卷</button>
+          <button type="button" id="btnExport" class="secondary" disabled>导出结果 txt</button>
+        </div>
+        <div class="timer-bar no-print" aria-hidden="true"><i id="timerFill"></i></div>
+      </div>
+
+      <div class="card" id="quizCard">
+        <h2 id="quizTop">试题区（1–15）</h2>
+        <p class="note-small no-print">滚动作答。题号锚点便于错题回顾跳转。</p>
+
+        <fieldset class="q-block" id="q-1">
+          <legend><span class="tag">选择</span>1</legend>
+          <div class="stem" lang="en">___ you ever been to the city science museum?</div>
+          <div class="opts">
+            <label><input type="radio" name="q1" value="0" /> Have</label>
+            <label><input type="radio" name="q1" value="1" /> Did</label>
+            <label><input type="radio" name="q1" value="2" /> Are</label>
+          </div>
+        </fieldset>
+        <fieldset class="q-block" id="q-2">
+          <legend><span class="tag">选择</span>2</legend>
+          <div class="stem" lang="en">My sister ___ never tried skiing before, but she wants lessons next winter.</div>
+          <div class="opts">
+            <label><input type="radio" name="q2" value="0" /> have</label>
+            <label><input type="radio" name="q2" value="1" /> has</label>
+            <label><input type="radio" name="q2" value="2" /> is</label>
+          </div>
+        </fieldset>
+        <fieldset class="q-block" id="q-3">
+          <legend><span class="tag">选择</span>3</legend>
+          <div class="stem" lang="en">We haven't decided the weekend route ___ .</div>
+          <div class="opts">
+            <label><input type="radio" name="q3" value="0" /> yet</label>
+            <label><input type="radio" name="q3" value="1" /> already</label>
+            <label><input type="radio" name="q3" value="2" /> ever</label>
+          </div>
+        </fieldset>
+        <fieldset class="q-block" id="q-4">
+          <legend><span class="tag">选择</span>4</legend>
+          <div class="stem" lang="en">___ you posted your reading log on the class website yet?</div>
+          <div class="opts">
+            <label><input type="radio" name="q4" value="0" /> Have</label>
+            <label><input type="radio" name="q4" value="1" /> Did</label>
+            <label><input type="radio" name="q4" value="2" /> Do</label>
+          </div>
+        </fieldset>
+        <fieldset class="q-block" id="q-5">
+          <legend><span class="tag">选择</span>5</legend>
+          <div class="stem" lang="en">The school bus has waited ___ twenty minutes at the gate.</div>
+          <div class="opts">
+            <label><input type="radio" name="q5" value="0" /> for</label>
+            <label><input type="radio" name="q5" value="1" /> since</label>
+            <label><input type="radio" name="q5" value="2" /> in</label>
+          </div>
+        </fieldset>
+        <fieldset class="q-block" id="q-6">
+          <legend><span class="tag">选择</span>6</legend>
+          <div class="stem" lang="en">Mr Chen has taught in this school ___ 2019.</div>
+          <div class="opts">
+            <label><input type="radio" name="q6" value="0" /> since</label>
+            <label><input type="radio" name="q6" value="1" /> for</label>
+            <label><input type="radio" name="q6" value="2" /> at</label>
+          </div>
+        </fieldset>
+        <fieldset class="q-block" id="q-7">
+          <legend><span class="tag">选择</span>7</legend>
+          <div class="stem" lang="en">Tom ___ this library book for ten days — he still has it.</div>
+          <div class="opts">
+            <label><input type="radio" name="q7" value="0" /> has kept</label>
+            <label><input type="radio" name="q7" value="1" /> borrowed</label>
+            <label><input type="radio" name="q7" value="2" /> bought</label>
+          </div>
+        </fieldset>
+        <fieldset class="q-block" id="q-8">
+          <legend><span class="tag">选择</span>8</legend>
+          <div class="stem" lang="en">The school shop ___ for two hours — it is still selling snacks now.</div>
+          <div class="opts">
+            <label><input type="radio" name="q8" value="0" /> has been open</label>
+            <label><input type="radio" name="q8" value="1" /> opened</label>
+            <label><input type="radio" name="q8" value="2" /> opens</label>
+          </div>
+        </fieldset>
+        <fieldset class="q-block" id="q-9">
+          <legend><span class="tag">选择</span>9</legend>
+          <div class="stem" lang="en">They ___ the opening show live on TV at nine o'clock last night.</div>
+          <div class="opts">
+            <label><input type="radio" name="q9" value="0" /> watched</label>
+            <label><input type="radio" name="q9" value="1" /> have watched</label>
+            <label><input type="radio" name="q9" value="2" /> watch</label>
+          </div>
+        </fieldset>
+        <fieldset class="q-block" id="q-10">
+          <legend><span class="tag">选择</span>10</legend>
+          <div class="stem" lang="en">Which sentence is <strong>not</strong> acceptable in standard written English?</div>
+          <div class="opts">
+            <label><input type="radio" name="q10" value="0" /> I lost my umbrella yesterday.</label>
+            <label><input type="radio" name="q10" value="1" /> I have lost my umbrella yesterday.</label>
+            <label><input type="radio" name="q10" value="2" /> I have lost my umbrella.</label>
+          </div>
+        </fieldset>
+
+        <fieldset class="q-block" id="q-11">
+          <legend><span class="tag">填空</span>11</legend>
+          <div class="stem" lang="en">I have studied English ___ six years.</div>
+          <div class="fill-row"><span>填写一词：</span><input type="text" name="q11" id="in11" maxlength="24" autocomplete="off" /></div>
+        </fieldset>
+        <fieldset class="q-block" id="q-12">
+          <legend><span class="tag">填空</span>12</legend>
+          <div class="stem" lang="en">We have shared a desk ___ we entered this class.</div>
+          <div class="fill-row"><span>填写一词：</span><input type="text" name="q12" id="in12" maxlength="24" autocomplete="off" /></div>
+        </fieldset>
+        <fieldset class="q-block" id="q-13">
+          <legend><span class="tag">填空</span>13</legend>
+          <div class="stem" lang="en">Has your group handed in the poster ___?</div>
+          <div class="fill-row"><span>填写一词：</span><input type="text" name="q13" id="in13" maxlength="24" autocomplete="off" /></div>
+        </fieldset>
+        <fieldset class="q-block" id="q-14">
+          <legend><span class="tag">填空</span>14</legend>
+          <div class="stem" lang="en">They ___ the robot show at seven yesterday evening.</div>
+          <div class="fill-row"><span>填写一词：</span><input type="text" name="q14" id="in14" maxlength="24" autocomplete="off" /></div>
+        </fieldset>
+        <fieldset class="q-block" id="q-15">
+          <legend><span class="tag">填空</span>15</legend>
+          <div class="stem" lang="en">Neither of the volunteers ___ called back yet.</div>
+          <div class="fill-row"><span>填写一词：</span><input type="text" name="q15" id="in15" maxlength="24" autocomplete="off" /></div>
+        </fieldset>
+      </div>
+
+      <div class="card" id="resultArea" hidden>
+        <h2>交卷结果</h2>
+        <div class="result-summary">
+          <div class="score-pill" id="scorePill"></div>
+          <span class="note-small">回顾下方逐题解析。</span>
+        </div>
+        <div id="reviewMount"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="backdrop" id="aiBackdrop" hidden></div>
+  <aside class="ai-panel no-print" id="aiPanel" aria-label="DeepSeek 辅助">
+    <header>
+      <strong>DeepSeek</strong>
+      <span id="aiQuota" class="note-small">已用 0 / 8 次</span>
+      <button type="button" class="secondary" id="btnAiClose">关闭</button>
+    </header>
+    <div class="body">
+      <div>
+        <label><input type="radio" name="aiMode" value="explain" checked /> 错题讲解</label>
+        &nbsp;
+        <label><input type="radio" name="aiMode" value="remedy" /> 生成补救题（两道选择）</label>
+      </div>
+      <div id="panelExplain">
+        <label>题号 1–15</label>
+        <input type="number" id="aiQn" min="1" max="15" value="1" style="width:100%;padding:8px;border-radius:10px;border:1px solid #ced4da" />
+        <label>可选：我的错选或错填（中文或英文关键词）</label>
+        <textarea id="aiWrongNote" maxlength="400"></textarea>
+      </div>
+      <div id="panelRemedy" hidden>
+        <label>自拟易错点（中文）</label>
+        <textarea id="aiWeakZh" maxlength="600"></textarea>
+      </div>
+      <button type="button" id="btnAiRun">发送</button>
+      <div class="out" id="aiOut">（输出将显示在这里）</div>
+    </div>
+  </aside>
+
+  <script>
+(function () {
+  "use strict";
+
+  /**
+   * localStorage（与 L10-12 一致，供他页或复习使用）：
+   * l10-comp-wrong — 竞赛错题 id；本页加载与交卷时会并入 l10-wrong-bank 去重。
+   * l10-wrong-bank — 小测错题题号 "1".."15" 与竞赛 id 的合集。
+   */
+  const AZURE_SPEECH_KEY = "C42UQWeDcluYanbo17WrtUnPhk0vkZy2uQHPTCGDzY6CdEXx99NzJQQJ99BIACqBBLyXJ3w3AAAYACOGjkyu";
+  const AZURE_SPEECH_REGION = "southeastasia";
+  const DEEPSEEK_API_KEY = "sk-daa16008e81843deba6fefe9dce51465";
+  const DEEPSEEK_API_URL = "https://api.deepseek.com/v1/chat/completions";
+  const LS_BANK = "l10-wrong-bank";
+  const LS_COMP = "l10-comp-wrong";
+  const DS_SESS_KEY = "l10p14_ds_count";
+
+  const ASSESSMENT_MIN = 13;
+  const ASSESSMENT_MS = ASSESSMENT_MIN * 60 * 1000;
+
+  const MC_KEYS = { q1: 0, q2: 1, q3: 0, q4: 0, q5: 0, q6: 0, q7: 0, q8: 0, q9: 0, q10: 1 };
+  const FILL_ANS = { q11: ["for"], q12: ["since"], q13: ["yet"], q14: ["watched"], q15: ["has"] };
+
+  const ZH = {
+    1: "Have you ever… 问经历，助动词用 Have 与 you 搭配。",
+    2: "第三人称单数 My sister → has never tried。",
+    3: "否定句末常用 yet 表示「尚未」。",
+    4: "yet 在疑问句末常与 Have you… 搭配。",
+    5: "for + 时长段 twenty minutes。",
+    6: "since + 时间点 2019。",
+    7: "borrow/buy 表瞬间，不宜与 for ten days 表延续；用 has kept。",
+    8: "表「营业中」的状态延续 → has been open。",
+    9: "at nine last night 为具体过去时刻 → 一般过去时 watched。",
+    10: "yesterday 不能与 have lost 连用；应说 I lost… yesterday。",
+    11: "for + 段长 six years。",
+    12: "since + 从句起点 we entered…。",
+    13: "Has… yet? 疑问句末 yet。",
+    14: "yesterday evening → 一般过去时 watched。",
+    15: "neither of + 复数名词，谓语动词常用单数 has。"
+  };
+
+  var ttsHtmlAudio = null;
+  var activeSdkSyn = null;
+  var ttsBusy = false;
+  var examStarted = false;
+  var examSubmitted = false;
+  var deadline = 0;
+  var tickTimer = null;
+
+  function aria(m) {
+    var el = document.getElementById("ariaLive");
+    if (el) el.textContent = m;
+  }
+  function setTtsBar(t) {
+    var b = document.getElementById("ttsBar");
+    if (!b) return;
+    b.textContent = t || "";
+    b.style.display = t ? "block" : "none";
+  }
+  function stopHtmlAudio() {
+    try {
+      if (ttsHtmlAudio) {
+        ttsHtmlAudio.pause();
+        if (ttsHtmlAudio._revoke) URL.revokeObjectURL(ttsHtmlAudio._revoke);
+        ttsHtmlAudio.removeAttribute("src");
+        ttsHtmlAudio.load();
+        ttsHtmlAudio = null;
+      }
+    } catch (e) {}
+  }
+  function stopAllTts() {
+    stopHtmlAudio();
+    ttsBusy = false;
+    setTtsBar("");
+    try {
+      if (activeSdkSyn) {
+        activeSdkSyn.close();
+        activeSdkSyn = null;
+      }
+    } catch (e) {}
+  }
+  function escapeXml(s) {
+    return String(s)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&apos;");
+  }
+  function buildSsml(text, voiceName) {
+    var lang = voiceName.indexOf("zh-") === 0 ? "zh-CN" : "en-US";
+    var inner = "<prosody rate=\"-3%\">" + escapeXml(text) + "</prosody>";
+    return (
+      "<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='" +
+      lang +
+      "'><voice name='" +
+      voiceName +
+      "'>" +
+      inner +
+      "</voice></speak>"
+    );
+  }
+  function azureRest(ssml, ok, fail) {
+    stopHtmlAudio();
+    fetch("https://" + AZURE_SPEECH_REGION + ".tts.speech.microsoft.com/cognitiveservices/v1", {
+      method: "POST",
+      mode: "cors",
+      credentials: "omit",
+      headers: {
+        "Ocp-Apim-Subscription-Key": AZURE_SPEECH_KEY,
+        "Content-Type": "application/ssml+xml",
+        "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3",
+        "User-Agent": "L10P14Assessment/1.0"
+      },
+      body: ssml
+    })
+      .then(function (r) {
+        if (!r.ok) throw new Error("rest");
+        return r.blob();
+      })
+      .then(function (blob) {
+        if (!blob || blob.size < 80) throw new Error("blob");
+        var u = URL.createObjectURL(blob);
+        var a = new Audio();
+        ttsHtmlAudio = a;
+        a._revoke = u;
+        a.src = u;
+        a.setAttribute("playsinline", "true");
+        a.onended = function () {
+          stopHtmlAudio();
+          ok();
+        };
+        a.onerror = function () {
+          stopHtmlAudio();
+          fail();
+        };
+        var p = a.play();
+        if (p && p.catch) p.catch(function () {
+          stopHtmlAudio();
+          fail();
+        });
+      })
+      .catch(function () {
+        stopHtmlAudio();
+        fail();
+      });
+  }
+  function azureSdk(ssml, voiceName, ok, fail) {
+    if (typeof SpeechSDK === "undefined") {
+      fail();
+      return;
+    }
+    stopHtmlAudio();
+    try {
+      if (activeSdkSyn) {
+        activeSdkSyn.close();
+        activeSdkSyn = null;
+      }
+    } catch (e) {}
+    var cfg = SpeechSDK.SpeechConfig.fromSubscription(AZURE_SPEECH_KEY, AZURE_SPEECH_REGION);
+    cfg.speechSynthesisVoiceName = voiceName;
+    var syn = new SpeechSDK.SpeechSynthesizer(cfg, SpeechSDK.AudioConfig.fromDefaultSpeakerOutput());
+    activeSdkSyn = syn;
+    syn.speakSsmlAsync(
+      ssml,
+      function (res) {
+        var good = res.reason === SpeechSDK.ResultReason.SynthesizingAudioCompleted;
+        try {
+          syn.close();
+        } catch (e2) {}
+        if (activeSdkSyn === syn) activeSdkSyn = null;
+        if (good) ok();
+        else fail();
+      },
+      function () {
+        try {
+          syn.close();
+        } catch (e3) {}
+        if (activeSdkSyn === syn) activeSdkSyn = null;
+        fail();
+      }
+    );
+  }
+  function azureSpeak(ssml, voice, done) {
+    done = done || function () {};
+    setTtsBar("语音连接中…");
+    azureRest(
+      ssml,
+      function () {
+        setTtsBar("");
+        done();
+      },
+      function () {
+        azureSdk(
+          ssml,
+          voice,
+          function () {
+            setTtsBar("");
+            done();
+          },
+          function () {
+            setTtsBar("语音失败");
+            aria("语音失败");
+            done();
+          }
+        );
+      }
+    );
+  }
+  function speakGap(list, i, done) {
+    if (i >= list.length) {
+      ttsBusy = false;
+      setTtsBar("");
+      done();
+      return;
+    }
+    if (!ttsBusy) {
+      done();
+      return;
+    }
+    azureSpeak(buildSsml(list[i].text, list[i].voice), list[i].voice, function () {
+      setTimeout(function () {
+        speakGap(list, i + 1, done);
+      }, 420);
+    });
+  }
+
+  function readBankArr() {
+    try {
+      var a = JSON.parse(localStorage.getItem(LS_BANK) || "[]");
+      return Array.isArray(a) ? a.map(String) : [];
+    } catch (e) {
+      return [];
+    }
+  }
+  function writeBankArr(arr) {
+    try {
+      localStorage.setItem(LS_BANK, JSON.stringify(arr));
+    } catch (e) {}
+  }
+  function sortBankIds(a, b) {
+    var na = parseInt(a, 10);
+    var nb = parseInt(b, 10);
+    var da = String(na) === a && !isNaN(na);
+    var db = String(nb) === b && !isNaN(nb);
+    if (da && db && na !== nb) return na - nb;
+    if (da && !db) return -1;
+    if (!da && db) return 1;
+    return String(a).localeCompare(String(b));
+  }
+  function mergeCompIntoBank() {
+    var set = {};
+    readBankArr().forEach(function (x) {
+      set[x] = true;
+    });
+    var comp = [];
+    try {
+      comp = JSON.parse(localStorage.getItem(LS_COMP) || "[]");
+    } catch (e) {}
+    if (!Array.isArray(comp)) comp = [];
+    var before = Object.keys(set).length;
+    comp.forEach(function (id) {
+      if (id != null && id !== "") set[String(id)] = true;
+    });
+    var merged = Object.keys(set).length - before;
+    writeBankArr(Object.keys(set).sort(sortBankIds));
+    return { merged: merged, total: Object.keys(set).length, compLen: comp.length };
+  }
+  function addToBank(ids) {
+    var set = {};
+    readBankArr().forEach(function (x) {
+      set[x] = true;
+    });
+    ids.forEach(function (id) {
+      set[String(id)] = true;
+    });
+    try {
+      var comp = JSON.parse(localStorage.getItem(LS_COMP) || "[]");
+      if (Array.isArray(comp)) comp.forEach(function (id) {
+        if (id != null && id !== "") set[String(id)] = true;
+      });
+    } catch (e) {}
+    writeBankArr(Object.keys(set).sort(sortBankIds));
+  }
+  function normFill(s) {
+    return String(s || "")
+      .trim()
+      .toLowerCase()
+      .replace(/\s+/g, " ");
+  }
+  function fillCorrect(name, val) {
+    var okList = FILL_ANS[name];
+    if (!okList) return false;
+    var v = normFill(val);
+    return okList.some(function (x) {
+      return normFill(x) === v;
+    });
+  }
+  function getMcValue(name) {
+    var els = document.querySelectorAll('input[name="' + name + '"]:checked');
+    if (!els.length) return null;
+    return Number(els[0].value);
+  }
+
+  function setQuizDisabled(dis) {
+    document.querySelectorAll('#quizCard input[type="radio"], #quizCard input[type="text"]').forEach(function (el) {
+      el.disabled = !!dis;
+    });
+  }
+
+  function formatMs(ms) {
+    ms = Math.max(0, ms);
+    var s = Math.ceil(ms / 1000);
+    var m = Math.floor(s / 60);
+    var r = s % 60;
+    return m + ":" + (r < 10 ? "0" : "") + r;
+  }
+  function updTimer() {
+    var left = deadline - Date.now();
+    var el = document.getElementById("timerDisp");
+    var bar = document.getElementById("timerFill");
+    if (el) el.textContent = formatMs(left);
+    if (bar) {
+      var p = Math.max(0, Math.min(1, left / ASSESSMENT_MS));
+      bar.style.transform = "scaleX(" + p + ")";
+    }
+    if (examStarted && !examSubmitted && left <= 0) {
+      submitExam(true);
+    }
+  }
+
+  function submitExam(fromTimer) {
+    if (examSubmitted) return;
+    examSubmitted = true;
+    if (tickTimer) clearInterval(tickTimer);
+    setQuizDisabled(true);
+    var wrong = [];
+    var correct = 0;
+    var total = 15;
+    for (var i = 1; i <= 10; i++) {
+      var nm = "q" + i;
+      var v = getMcValue(nm);
+      var ok = v !== null && v === MC_KEYS[nm];
+      if (ok) correct++;
+      else wrong.push(String(i));
+    }
+    for (var j = 11; j <= 15; j++) {
+      var nm2 = "q" + j;
+      var inp = document.getElementById("in" + j);
+      var ok2 = inp && fillCorrect(nm2, inp.value);
+      if (ok2) correct++;
+      else wrong.push(String(j));
+    }
+    addToBank(wrong);
+    var ra = document.getElementById("resultArea");
+    if (ra) ra.hidden = false;
+    var pill = document.getElementById("scorePill");
+    if (pill) pill.textContent = correct + " / " + total + " 正确";
+    var mount = document.getElementById("reviewMount");
+    if (mount) {
+      mount.innerHTML = "";
+      for (var k = 1; k <= 15; k++) {
+        var row = document.createElement("div");
+        var isW = wrong.indexOf(String(k)) >= 0;
+        row.className = "review-row " + (isW ? "bad" : "ok");
+        var mark = document.createElement("span");
+        mark.className = "mark";
+        mark.textContent = isW ? "✗" : "✓";
+        var txt = document.createElement("div");
+        txt.innerHTML = "<strong>第 " + k + " 题</strong> — " + ZH[k];
+        row.appendChild(mark);
+        row.appendChild(txt);
+        mount.appendChild(row);
+      }
+    }
+    document.getElementById("btnSubmit").disabled = true;
+    document.getElementById("btnExport").disabled = false;
+    aria(fromTimer ? "时间到，已自动交卷" : "已交卷");
+    mergeCompIntoBank();
+    document.getElementById("resultArea").scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  function exportTxt() {
+    var lines = [];
+    lines.push("Lesson 10 Page 14 当堂测结果");
+    lines.push("得分行：" + (document.getElementById("scorePill") || {}).textContent);
+    lines.push("");
+    for (var i = 1; i <= 15; i++) {
+      lines.push("第" + i + "题：" + ZH[i]);
+    }
+    var blob = new Blob([lines.join("\n")], { type: "text/plain;charset=utf-8" });
+    var u = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = u;
+    a.download = "L10-page14-assessment.txt";
+    a.click();
+    setTimeout(function () {
+      URL.revokeObjectURL(u);
+    }, 800);
+  }
+
+  function getDs() {
+    return Number(sessionStorage.getItem(DS_SESS_KEY) || "0") || 0;
+  }
+  function bumpDs() {
+    sessionStorage.setItem(DS_SESS_KEY, String(getDs() + 1));
+  }
+  function updQuota() {
+    var el = document.getElementById("aiQuota");
+    if (el) el.textContent = "DeepSeek 已用 " + getDs() + " / 8 次";
+  }
+
+  function openAi() {
+    document.getElementById("aiPanel").classList.add("open");
+    document.getElementById("aiBackdrop").classList.add("show");
+    document.getElementById("aiBackdrop").hidden = false;
+    updQuota();
+  }
+  function closeAi() {
+    document.getElementById("aiPanel").classList.remove("open");
+    document.getElementById("aiBackdrop").classList.remove("show");
+    document.getElementById("aiBackdrop").hidden = true;
+  }
+
+  mergeCompIntoBank();
+
+  document.getElementById("minLabel").textContent = String(ASSESSMENT_MIN);
+  document.getElementById("btnStart").addEventListener("click", function () {
+    if (examStarted) return;
+    examStarted = true;
+    examSubmitted = false;
+    deadline = Date.now() + ASSESSMENT_MS;
+    document.getElementById("btnSubmit").disabled = false;
+    if (tickTimer) clearInterval(tickTimer);
+    tickTimer = setInterval(updTimer, 500);
+    updTimer();
+    aria("计时已开始");
+  });
+  document.getElementById("btnSubmit").addEventListener("click", function () {
+    if (!examStarted || examSubmitted) return;
+    submitExam(false);
+  });
+  document.getElementById("btnExport").addEventListener("click", exportTxt);
+
+  var RULES_ZH =
+    "当堂测说明。共十五题，十题选择，五题填空。请先点击开始答题再作答。交卷后题目锁定。请圈出时间状语再判断用现在完成时还是一般过去时，注意 yet、already、for 和 since，以及延续动词。";
+
+  var STEMS_EN = [];
+  for (var si = 1; si <= 15; si++) {
+    var fs = document.getElementById("q-" + si);
+    if (fs) {
+      var st = fs.querySelector(".stem");
+      if (st) STEMS_EN.push(st.textContent.trim());
+    }
+  }
+
+  document.getElementById("btnReadAll").addEventListener("click", function () {
+    if (ttsBusy) return;
+    ttsBusy = true;
+    var vZh = "zh-CN-XiaoxiaoNeural";
+    var vEn = "en-US-JennyNeural";
+    var list = [{ text: RULES_ZH, voice: vZh }];
+    STEMS_EN.forEach(function (t) {
+      list.push({ text: t, voice: vEn });
+    });
+    speakGap(list, 0, function () {});
+  });
+  document.getElementById("btnStopTts").addEventListener("click", function () {
+    stopAllTts();
+  });
+
+  document.querySelectorAll('input[name="aiMode"]').forEach(function (r) {
+    r.addEventListener("change", function () {
+      var ex = document.getElementById("panelExplain");
+      var rm = document.getElementById("panelRemedy");
+      if (r.value === "explain") {
+        ex.hidden = false;
+        rm.hidden = true;
+      } else {
+        ex.hidden = true;
+        rm.hidden = false;
+      }
+    });
+  });
+  document.getElementById("btnAiOpen").addEventListener("click", openAi);
+  document.getElementById("btnAiClose").addEventListener("click", closeAi);
+  document.getElementById("aiBackdrop").addEventListener("click", closeAi);
+
+  document.getElementById("btnAiRun").addEventListener("click", function () {
+    if (getDs() >= 8) {
+      document.getElementById("aiOut").textContent = "本会话已达 8 次上限。";
+      return;
+    }
+    var mode = (document.querySelector('input[name="aiMode"]:checked') || {}).value;
+    var sys =
+      mode === "explain"
+        ? "你是初中英语助教。用户会提供题号与题目简短文字或错误选项。用最多四行中文解释错因，观察点要说清楚；另起一行给一句英语巩固练习题（初二难度）。不要输出第六行。不要输出密钥。"
+        : "你是初中英语命题助手。用户用中文写自己最容易错的一个点。输出两道四选一选择题：每道题格式为：一行题干英语；四行选项 A. B. C. D.；一行答案字母。两道题之间空一行。不要超过十行。题干必须针对用户易错点。不要输出密钥。";
+    var user = "";
+    if (mode === "explain") {
+      var n = Number(document.getElementById("aiQn").value);
+      if (!n || n < 1 || n > 15) {
+        document.getElementById("aiOut").textContent = "题号请输入 1 到 15。";
+        return;
+      }
+      user =
+        "题号：" +
+        n +
+        "\n题干摘要：" +
+        (STEMS_EN[n - 1] || "") +
+        "\n我的错选或错填备注：" +
+        document.getElementById("aiWrongNote").value.trim();
+    } else {
+      user = document.getElementById("aiWeakZh").value.trim();
+      if (!user) {
+        document.getElementById("aiOut").textContent = "请填写易错点（中文）。";
+        return;
+      }
+    }
+    document.getElementById("aiOut").textContent = "请求中…";
+    fetch(DEEPSEEK_API_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + DEEPSEEK_API_KEY
+      },
+      body: JSON.stringify({
+        model: "deepseek-chat",
+        temperature: mode === "explain" ? 0.3 : 0.4,
+        max_tokens: mode === "explain" ? 380 : 450,
+        messages: [
+          { role: "system", content: sys },
+          { role: "user", content: user }
+        ]
+      })
+    })
+      .then(function (r) {
+        return r.json();
+      })
+      .then(function (j) {
+        var c = (((j.choices || [])[0] || {}).message || {}).content || JSON.stringify(j);
+        document.getElementById("aiOut").textContent = c;
+        bumpDs();
+        updQuota();
+      })
+      .catch(function () {
+        document.getElementById("aiOut").textContent = "请求失败（网络或密钥）。";
+      });
+  });
+
+  window.addEventListener("beforeunload", function (e) {
+    if (examStarted && !examSubmitted) {
+      e.preventDefault();
+      e.returnValue = "";
+    }
+  });
+})();
+  </script>
+</body>
+</html>

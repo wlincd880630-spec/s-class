@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Lesson 10 · 延续性动词与 for / since</title>
+  <script src="https://cdn.jsdelivr.net/npm/microsoft-cognitiveservices-speech-sdk@1.38.0/dist/microsoft.cognitiveservices.speech.sdk.bundle-min.js" crossorigin="anonymous"></script>
+  <style>
+    :root {
+      --bg: #eef2f7;
+      --card: #ffffff;
+      --text: #1a2332;
+      --muted: #5a6a7e;
+      --accent: #1e6b8c;
+      --accent2: #2a9d8f;
+      --shadow: 0 8px 24px rgba(26, 35, 50, 0.1);
+      --radius: 14px;
+      --topbar-h: 52px;
+      --dock-h: 56px;
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; overflow: hidden; }
+    body {
+      display: flex; flex-direction: column;
+      font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      font-size: clamp(16px, 1.45vw, 17px);
+      line-height: 1.55;
+      color: var(--text);
+      background: var(--bg);
+    }
+    a { color: var(--accent); }
+    a:focus-visible, button:focus-visible, select:focus-visible, textarea:focus-visible { outline: 3px solid #ffb703; outline-offset: 2px; }
+    .topbar {
+      flex: 0 0 auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+      gap: 8px; padding: 8px 14px; min-height: var(--topbar-h); background: var(--card); border-bottom: 1px solid #e2e8f0; z-index: 50;
+    }
+    .brand { font-weight: 700; color: var(--accent); font-size: 13px; }
+    .slide-meta { font-size: 13px; color: var(--muted); font-weight: 600; min-width: 4.5em; text-align: center; }
+    .top-actions { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+    button, .btn-link {
+      font: inherit; cursor: pointer; border: none; border-radius: 10px; padding: 8px 12px;
+      background: linear-gradient(135deg, var(--accent), #155a78); color: #fff;
+      box-shadow: 0 2px 8px rgba(30, 107, 140, 0.28); text-decoration: none; display: inline-block; font-size: 13px; min-height: 44px;
+    }
+    button.secondary, .btn-link.secondary { background: linear-gradient(135deg, #6c757d, #495057); box-shadow: none; }
+    button:disabled { opacity: 0.55; cursor: not-allowed; }
+    button.speaking { background: linear-gradient(135deg, #e76f51, #c94c32); }
+    .tts-bar { font-size: 12px; padding: 4px 14px 6px; background: #fff8e6; color: #664d03; border-bottom: 1px solid #f0d78c; }
+    .deck { flex: 1; min-height: 0; position: relative; width: 100%; }
+    .slide { position: absolute; inset: 0; overflow: hidden; display: none; flex-direction: column; padding: 8px 12px 4px; }
+    .slide.is-active { display: flex; }
+    .slide-scroll { flex: 1; min-height: 0; overflow: auto; -webkit-overflow-scrolling: touch; }
+    .slide-inner { max-width: 1100px; margin: 0 auto; width: 100%; min-height: min-content; padding-bottom: 14px; }
+    .dock {
+      flex: 0 0 auto; display: flex; align-items: center; justify-content: center; gap: 12px;
+      padding: 8px 12px; min-height: var(--dock-h); background: var(--card); border-top: 1px solid #e2e8f0; z-index: 60;
+    }
+    .dock button { min-width: 100px; min-height: 44px; touch-action: manipulation; }
+    .dock .dots { font-size: 15px; font-weight: 700; color: var(--accent); min-width: 4.5em; text-align: center; }
+    .sr { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+    .hero-compact { display: grid; gap: 14px; align-items: stretch; }
+    @media (min-width: 860px) { .hero-compact { grid-template-columns: 1.05fr 1fr; } }
+    .hero-img-wrap {
+      border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); min-height: 160px;
+      background: linear-gradient(120deg, #e8ecf8, #fde8e4);
+    }
+    .hero-img-wrap img { width: 100%; min-height: 180px; height: 100%; object-fit: cover; display: block; }
+    .hero-img-wrap.fallback-img img { display: none; }
+    .hero-text { background: var(--card); border-radius: var(--radius); padding: 16px 18px; box-shadow: var(--shadow); }
+    .hero-text h1 { margin: 0 0 6px; font-size: clamp(1.15rem, 2.6vw, 1.55rem); }
+    .note-small { font-size: 0.86rem; color: var(--muted); margin: 8px 0 0; }
+    .note {
+      font-size: 0.88rem; color: var(--muted); background: #fffdf5; border-left: 4px solid #ffb703;
+      padding: 10px 12px; border-radius: 8px; margin: 10px 0 0;
+    }
+    .card {
+      background: var(--card); border-radius: var(--radius); padding: 16px 18px; margin-bottom: 12px; box-shadow: var(--shadow);
+    }
+    .card h2 { margin: 0 0 10px; font-size: 1.12rem; color: var(--accent); }
+    .table-wrap {
+      position: relative; border-radius: var(--radius); overflow: hidden; border: 1px solid #e2e8f0;
+    }
+    .table-wrap .tbl-bg { position: absolute; inset: 0; opacity: 0.22; pointer-events: none; }
+    .table-wrap .tbl-bg img { width: 100%; height: 100%; object-fit: cover; }
+    .table-inner { position: relative; padding: 12px; background: rgba(255,255,255,0.94); }
+    table.conv {
+      width: 100%; border-collapse: collapse; font-size: 0.9rem;
+    }
+    table.conv caption { font-weight: 800; color: var(--accent); padding: 8px 4px 12px; text-align: left; }
+    table.conv th, table.conv td {
+      border: 1px solid #cbd5e1; padding: 10px 12px; vertical-align: top; text-align: left;
+    }
+    table.conv thead th { background: #e0f2fe; color: #0c4a6e; }
+    table.conv tbody tr:nth-child(even) td { background: #fafafa; }
+    table.conv tbody tr:nth-child(odd) td { background: #fff; }
+    .mono { font-family: Consolas, "Segoe UI Mono", monospace; font-size: 0.88rem; }
+    fieldset.fs {
+      border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px 14px; margin: 0 0 12px; background: #fafcff;
+    }
+    fieldset.fs legend { font-weight: 700; padding: 0 6px; }
+    fieldset.fs .bad { font-weight: 600; color: #9f1239; margin: 0 0 8px; }
+    fieldset.fs label { display: block; margin: 6px 0; cursor: pointer; font-size: 0.9rem; }
+    .ex-line { display: none; margin-top: 8px; font-size: 0.86rem; color: #0f5132; }
+    .ex-line.show { display: block; }
+    .pair-row { display: grid; gap: 8px; align-items: center; margin-bottom: 10px; grid-template-columns: 1fr; }
+    @media (min-width: 640px) { .pair-row { grid-template-columns: 140px 1fr; } }
+    .pair-row label { font-weight: 700; color: #334155; }
+    .pair-row select { width: 100%; max-width: 420px; padding: 10px; border-radius: 10px; border: 1px solid #ced4da; font: inherit; }
+    .quick-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 12px; padding: 10px; border-radius: 12px; border: 1px solid #e2e8f0; background: #fff; }
+    .quick-row p { margin: 0; flex: 1 1 200px; font-size: 0.92rem; }
+    .quick-row .btns { display: flex; gap: 8px; }
+    .quick-row .reveal { display: none; font-size: 0.82rem; color: var(--muted); width: 100%; }
+    .quick-row.done .reveal { display: block; }
+    .feedback { margin-top: 10px; padding: 10px 12px; border-radius: 10px; display: none; font-size: 0.9rem; }
+    .feedback.show { display: block; }
+    .feedback.ok { background: #e8fcf4; border: 1px solid #9ee5c8; color: #0f5132; }
+    .feedback.bad { background: #fff5f5; border: 1px solid #f5b5b5; color: #842029; }
+    .ai-panel {
+      position: fixed; right: 0; top: 0; bottom: 0; width: min(440px, 100vw); background: var(--card);
+      box-shadow: -6px 0 28px rgba(0,0,0,0.14); transform: translateX(100%); transition: transform 0.28s ease; z-index: 120;
+      display: flex; flex-direction: column;
+    }
+    .ai-panel.open { transform: translateX(0); }
+    .ai-panel header { padding: 12px 14px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; }
+    .ai-panel .body { flex: 1; overflow: auto; padding: 12px 14px; display: flex; flex-direction: column; gap: 10px; }
+    .ai-panel textarea { width: 100%; min-height: 120px; resize: vertical; font: inherit; padding: 10px; border-radius: 10px; border: 1px solid #ced4da; }
+    .ai-panel .out { white-space: pre-wrap; background: #f1f5f9; border-radius: 10px; padding: 12px; min-height: 80px; border: 1px solid #e2e8f0; font-size: 0.92rem; }
+    .backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.35); opacity: 0; pointer-events: none; transition: opacity 0.25s ease; z-index: 110; }
+    .backdrop.show { opacity: 1; pointer-events: auto; }
+    @media print {
+      .deck { zoom: 1 !important; }
+      .top-actions, .dock, .tts-bar, .ai-panel, .backdrop { display: none !important; }
+    }
+      /* L10：主内容区整体 160%（顶栏与底部分页条不缩放） */
+    .tts-bar,
+    .deck {
+      zoom: 1.6;
+    }
+
+</style>
+</head>
+<body>
+  <div id="ariaLive" class="sr" aria-live="polite"></div>
+  <header class="topbar">
+    <div class="brand">Lesson 10 · Durative verbs</div>
+    <div class="slide-meta" id="slideIndicator">1 / 7</div>
+    <div class="top-actions">
+      <a class="btn-link secondary" href="L10-00-index.html">返回目录</a>
+      <a class="btn-link secondary" href="L10-08-contrast-past-simple.html">上一节</a>
+      <a class="btn-link secondary" href="L10-10-translation-mimic.html">下一节</a>
+      <button type="button" id="btnReadTable">朗读转换表与例句</button>
+      <button type="button" id="btnReadWrong" class="secondary">朗读错句与改正</button>
+      <button type="button" id="btnReadConcept" class="secondary">朗读概念（中文一句）</button>
+      <button type="button" id="btnAiOpen" class="secondary">AI 改写教练</button>
+    </div>
+  </header>
+  <div class="tts-bar" id="ttsBar" role="status" style="display:none"></div>
+
+  <div class="deck" id="deck">
+    <section class="slide is-active" id="slide-0" aria-label="封面">
+      <div class="slide-scroll">
+        <div class="slide-inner">
+          <div class="hero-compact">
+            <div class="hero-img-wrap" id="heroBlock">
+              <img id="heroImg" src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L10/assets/img/l10-p10-convert-hero.png" alt="书本与购物袋抽象学习插画，无文字" width="1600" height="900" loading="eager" decoding="async" />
+            </div>
+            <div class="hero-text">
+              <h1>延续性动词与 <span lang="en">for / since</span></h1>
+              <p class="note-small" lang="en">Instant verb → “can last” wording</p>
+              <p class="note">回顾 <a href="L10-07-for-since-how-long.html">L10-07</a>：<strong>for + 段时</strong>、<strong>since + 起点</strong>。本页解决「有了 for 两年，动词能不能用 <span lang="en">buy</span>？」——选<strong>能持续</strong>的说法。</p>
+              <p class="note">上一节（<a href="L10-08-contrast-past-simple.html">L10-08</a>）我们辨析了过去点与「到现在」；这一节把<strong>动词搭配</strong>落地。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-1" hidden aria-label="概念">
+      <div class="slide-scroll">
+        <div class="slide-inner">
+          <div class="card">
+            <h2>概念卡 · 「能不能说很久」</h2>
+            <ul>
+              <li><strong>非延续（瞬间）动词</strong>：语法里的「便利店扫码」——嘀一声钱过去、小票吐出来，交易就<strong>收摊</strong>了；你不会站在收银台前「<span lang="en">buy</span> 三年不眨眼」。也可以想电梯关门键：咔哒一下结束，没法对它喊「请把门关上整个初一」。它们多是「事件发生 / 结果出现」那一拍：<span lang="en">buy, borrow, lend, find, lose, join, begin, start, leave, arrive, reach, finish, open, close, wake up, fall asleep, catch (a cold), get married, graduate, land（飞机落地）</span>；还有表「一眼认出 / 突然想起 / 当场拍板」的 <span lang="en">notice, realize, recognize, decide</span>，以及常指「初见那一眼」的 <span lang="en">meet</span> 等。</li>
+              <li>再摊一桌「完形里爱抱团、作文里爱翻车」的：<span lang="en">hit, break, send, receive, complete, pass（指那一次考试过关）</span>。它们多写「撞一下 / 碎一下 / 发出去 / 签收 / 勾选完成 / 盖章过关」，不能像挂机游戏那样「卡在 <span lang="en">break</span> 关卡两年不存档」。<span lang="en">pass the exam</span> 若指「那次过关」同样是<strong>一次性</strong>——别写 <span lang="en">I've passed for two years</span> 假装自己处于「正在通过」的量子态。</li>
+              <li>所以它们<strong>不宜</strong>直接硬怼 <span lang="en">for + 整段时长</span>，假装这个动作在「慢动作播放」；硬连时，老师会在心里把你的句子挪到笑话栏：<span lang="en">I have bought this bike for five years</span>？链条都锈了，你还在 <span lang="en">buy</span> 同一天——下一页换成 <span lang="en">have had</span> 才像正常人说话。</li>
+              <li><strong>延续动词或状态</strong>：<span lang="en">keep, have, be on, be in, be away, be open, be married, be here, be awake, study, live…</span> 像「后台挂机」：时间轴还能往前走，语义还站得住。</li>
+              <li>初二用生活化直觉即可，不必啃「体貌」术语。</li>
+            </ul>
+            <p class="note"><strong>脑洞自测：</strong>这件事能不能做成「慢直播」？能——多用 <span lang="en">have / be … + for / since</span>；不能——多半要换成「拥有 / 在场 / 开着没关」这类状态句。<span lang="en">buy</span> 像外卖「已送达」弹窗，一秒完事；<span lang="en">have had the bike</span> 才是骑了小半年、车筐里还长出半包纸巾的漫长校园剧。</p>
+            <p class="note-small">作文里若出现 <span lang="en">I have bought… for…</span>，可引导学生改为 <span lang="en">I have had…</span>，与 <a href="L10-06-writing-new-term-prep.html">L10-06 写作</a> 修改策略一致。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-2" hidden aria-label="转换表">
+      <div class="slide-scroll">
+        <div class="slide-inner">
+          <div class="table-wrap">
+            <div class="tbl-bg"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L10/assets/img/l10-p10-table-bg.png" alt="" width="1200" height="800" decoding="async" /></div>
+            <div class="table-inner">
+              <table class="conv" id="convTable">
+                <caption>转换总表（非延续 ⇒ 延续 / 状态 + 例句）</caption>
+                <thead>
+                  <tr>
+                    <th scope="col">非延续（瞬间）</th>
+                    <th scope="col">延续 / 状态</th>
+                    <th scope="col">例句（现完 + for / since）</th>
+                  </tr>
+                </thead>
+                <tbody id="convTbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-3" hidden aria-label="错句改写">
+      <div class="slide-scroll">
+        <div class="slide-inner">
+          <div class="card">
+            <h2>错句改写（10 题 · 单选最佳改正）</h2>
+            <p class="note-small">每题选一项；提交后显示得分、解析与正句。</p>
+            <form id="fixForm"></form>
+            <button type="button" id="btnSubmitFix">提交判分</button>
+            <div id="fixFeedback" class="feedback" tabindex="-1"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-4" hidden aria-label="配对">
+      <div class="slide-scroll">
+        <div class="slide-inner">
+          <div class="card">
+            <h2>配对：为左侧瞬间动词选延续表达</h2>
+            <p class="note-small">每行下拉选一项，再点「提交配对」。</p>
+            <div id="pairMount"></div>
+            <button type="button" id="btnSubmitPair">提交配对</button>
+            <div id="pairFeedback" class="feedback" tabindex="-1"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-5" hidden aria-label="快测">
+      <div class="slide-scroll">
+        <div class="slide-inner">
+          <div class="card">
+            <h2>一分钟快测（5 题 · 判断正误）</h2>
+            <p class="note-small">点「正 / 误」后显示简析。</p>
+            <div id="quickMount"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-6" hidden aria-label="回顾与延伸">
+      <div class="slide-scroll">
+        <div class="slide-inner">
+          <div class="card">
+            <h2>回顾与延伸</h2>
+            <p><a href="L10-07-for-since-how-long.html">复习 for / since · How long（L10-07）</a></p>
+            <p><a href="L10-10-translation-mimic.html">下一节：翻译仿写（L10-10）</a></p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="dock" id="dockBar">
+    <button type="button" id="btnPrev" class="secondary">上一页</button>
+    <div class="dots" id="dockDots">1 / 7</div>
+    <button type="button" id="btnNext">下一页</button>
+  </div>
+
+  <div class="backdrop" id="aiBackdrop" hidden></div>
+  <aside class="ai-panel" id="aiPanel" aria-label="DeepSeek 改写教练">
+    <header>
+      <strong>AI 改写教练</strong>
+      <button type="button" id="btnAiClose" class="secondary">关闭</button>
+    </header>
+    <div class="body">
+      <p class="note-small" id="aiQuota">已用 0 / 10 次</p>
+      <div>
+        <label><input type="radio" name="dsMode" value="A" checked /> 模式 A：中文情境 → 两行（英 + 换词说明）</label><br />
+        <label><input type="radio" name="dsMode" value="B" /> 模式 B：英语错句 → 最多三行</label>
+      </div>
+      <label for="aiIn">输入</label>
+      <textarea id="aiIn" maxlength="500" placeholder="例：我加入英语俱乐部两个学期了 / I have bought the bike for three years."></textarea>
+      <button type="button" id="btnAiRun">发送</button>
+      <button type="button" class="secondary" id="btnAiClear">清空</button>
+      <label for="aiOut">输出</label>
+      <div id="aiOut" class="out"></div>
+    </div>
+  </aside>
+
+  <script>
+(function () {
+  const AZURE_SPEECH_KEY = "C42UQWeDcluYanbo17WrtUnPhk0vkZy2uQHPTCGDzY6CdEXx99NzJQQJ99BIACqBBLyXJ3w3AAAYACOGjkyu";
+  const AZURE_SPEECH_REGION = "southeastasia";
+  const DEEPSEEK_API_KEY = "sk-daa16008e81843deba6fefe9dce51465";
+  const DEEPSEEK_API_URL = "https://api.deepseek.com/v1/chat/completions";
+  const DS_SESS_KEY = "l10p10_ds_count";
+  const WRONG_LS_KEY = "l10p10-wrong";
+
+  var vEn = "en-US-AvaMultilingualNeural";
+  var vZh = "zh-CN-XiaoxiaoNeural";
+  var ttsHtmlAudio = null;
+  var ttsBusy = false;
+
+  var DS_SYS_A =
+    "你是初中英语助教。用户用中文说一个想表达借了多久、买了多久、加入多久等持续含义的情境。你只输出两行：第一行英语，必须使用现在完成时，并把 borrow/buy/join/begin 等瞬间动词换成 keep/have/be in/be on 等可延续表达，同时正确使用 for 或 since；第二行中文说明换了哪个动词。不要第三行。不要输出密钥。优先使用 keep, have, be on, be in, be away, be open, be married, be here 等词组。";
+  var DS_SYS_B =
+    "你是初中英语助教。用户给一句可能错用瞬间动词加 for/since 的英语。最多三行：第一行改正；第二行中文理由；第三行只写延续动词英文词组如 have had / have kept。不要第四行。不要输出密钥。";
+
+  var CONV_ROWS = [
+    { inst: "borrow", dur: "keep", ex: "I have kept this book for two weeks." },
+    { inst: "buy", dur: "have", ex: "I have had this bike since last year." },
+    { inst: "begin (a film / show)", dur: "be on", ex: "The film has been on for an hour." },
+    { inst: "join", dur: "be in / be a member of", ex: "I have been in the club for two terms." },
+    { inst: "leave", dur: "be away (from)", ex: "He has been away from home for three days." },
+    { inst: "open (the shop)", dur: "be open", ex: "The shop has been open since 9 a.m." },
+    { inst: "get married", dur: "be married", ex: "They have been married for ten years." },
+    { inst: "arrive", dur: "be here / be in", ex: "She has been here since Monday." }
+  ];
+
+  var WRONG_ITEMS = [
+    {
+      id: "w1",
+      bad: "I have bought the bike for three years.",
+      ok: "B",
+      opts: [
+        ["A", "I have bought the bike since three years ago."],
+        ["B", "I have had the bike for three years."],
+        ["C", "I bought the bike for three years."]
+      ],
+      zh: "buy 表「买下」瞬间；表拥有多久用 have had + for。"
+    },
+    {
+      id: "w2",
+      bad: "I have borrowed this book since two weeks.",
+      ok: "B",
+      opts: [
+        ["A", "I have borrowed this book for two weeks."],
+        ["B", "I have kept this book for two weeks."],
+        ["C", "I borrowed this book since two weeks."]
+      ],
+      zh: "borrow 非延续；段时用 keep。"
+    },
+    {
+      id: "w3",
+      bad: "He has joined the club for a year.",
+      ok: "A",
+      opts: [
+        ["A", "He has been in the club for a year."],
+        ["B", "He has joined the club since a year."],
+        ["C", "He joined the club for a year."]
+      ],
+      zh: "join 表加入动作；表成员状态用 be in。"
+    },
+    {
+      id: "w4",
+      bad: "The film has begun for an hour.",
+      ok: "B",
+      opts: [
+        ["A", "The film has begun since an hour."],
+        ["B", "The film has been on for an hour."],
+        ["C", "The film began for an hour."]
+      ],
+      zh: "begin 表开场瞬间；放映在进行用 be on。"
+    },
+    {
+      id: "w5",
+      bad: "She has left home for three days.",
+      ok: "A",
+      opts: [
+        ["A", "She has been away from home for three days."],
+        ["B", "She has left home since three days."],
+        ["C", "She left home for three days."]
+      ],
+      zh: "leave 表离开动作；表离家状态用 be away from。"
+    },
+    {
+      id: "w6",
+      bad: "The shop has opened since 9 a.m.",
+      ok: "B",
+      opts: [
+        ["A", "The shop has opened for 9 a.m."],
+        ["B", "The shop has been open since 9 a.m."],
+        ["C", "The shop opened since 9 a.m."]
+      ],
+      zh: "open 作「开门营业」动作；表营业中状态用 be open。"
+    },
+    {
+      id: "w7",
+      bad: "They have got married for ten years.",
+      ok: "A",
+      opts: [
+        ["A", "They have been married for ten years."],
+        ["B", "They have got married since ten years."],
+        ["C", "They got married for ten years."]
+      ],
+      zh: "get married 表婚礼瞬间；表婚姻状态用 be married。"
+    },
+    {
+      id: "w8",
+      bad: "My cousin has arrived here for two hours.",
+      ok: "B",
+      opts: [
+        ["A", "My cousin has arrived here since two hours."],
+        ["B", "My cousin has been here for two hours."],
+        ["C", "My cousin arrived here for two hours."]
+      ],
+      zh: "arrive 表到达瞬间；表「在这儿」用 be here。"
+    },
+    {
+      id: "w9",
+      bad: "I have begun English for six years.",
+      ok: "B",
+      opts: [
+        ["A", "I have begun English since six years."],
+        ["B", "I have studied English for six years."],
+        ["C", "I began English for six years."]
+      ],
+      zh: "begin English 不自然；表学习持续用 study + for。"
+    },
+    {
+      id: "w10",
+      bad: "Tom has opened the window for an hour.",
+      ok: "C",
+      opts: [
+        ["A", "Tom has opened the window since an hour."],
+        ["B", "Tom opened the window for an hour."],
+        ["C", "The window has been open for an hour."]
+      ],
+      zh: "人作主语 open 窗多表瞬间推窗；表开着状态常用 The window has been open。"
+    }
+  ];
+
+  var PAIR_ANS = ["keep", "have", "be on", "be in / be a member of", "be away (from)", "be open", "be married", "be here / be in"];
+
+  var QUICK = [
+    { t: "I have had this dictionary for two years.", ok: true, ex: "have + had 表拥有，可与 for 连用。" },
+    { t: "She has bought the phone since last year.", ok: false, ex: "buy 不宜与 since 表持续；改为 has had this phone since last year." },
+    { t: "We have been in the volunteer team since March.", ok: true, ex: "be in 表状态，可与 since 连用。" },
+    { t: "He has joined the team for three months.", ok: false, ex: "join 与 for 段时不配；改为 has been in the team for three months." },
+    { t: "The library has been open since 8 a.m.", ok: true, ex: "be open 表营业状态，正确。" }
+  ];
+
+  function aria(m) {
+    var el = document.getElementById("ariaLive");
+    if (el) el.textContent = m;
+  }
+  function setTtsBar(t) {
+    var b = document.getElementById("ttsBar");
+    if (!b) return;
+    b.textContent = t || "";
+    b.style.display = t ? "block" : "none";
+  }
+  function stopHtmlAudio() {
+    try {
+      if (ttsHtmlAudio) {
+        ttsHtmlAudio.pause();
+        if (ttsHtmlAudio._revoke) URL.revokeObjectURL(ttsHtmlAudio._revoke);
+        ttsHtmlAudio.removeAttribute("src");
+        ttsHtmlAudio.load();
+        ttsHtmlAudio = null;
+      }
+    } catch (e) {}
+  }
+  function escapeXml(s) {
+    return String(s)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&apos;");
+  }
+  function buildSsml(text, voiceName) {
+    var lang = voiceName.indexOf("zh-") === 0 ? "zh-CN" : "en-US";
+    return (
+      "<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='" +
+      lang +
+      "' xmlns:mstts='http://www.w3.org/2001/mstts'><voice name='" +
+      voiceName +
+      "'>" +
+      escapeXml(text) +
+      "</voice></speak>"
+    );
+  }
+  function azureRest(ssml, ok, fail) {
+    stopHtmlAudio();
+    fetch("https://" + AZURE_SPEECH_REGION + ".tts.speech.microsoft.com/cognitiveservices/v1", {
+      method: "POST",
+      mode: "cors",
+      credentials: "omit",
+      headers: {
+        "Ocp-Apim-Subscription-Key": AZURE_SPEECH_KEY,
+        "Content-Type": "application/ssml+xml",
+        "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3",
+        "User-Agent": "L10P10Durative/1.0"
+      },
+      body: ssml
+    })
+      .then(function (r) {
+        if (!r.ok) return r.text().then(function () { throw new Error("REST " + r.status); });
+        return r.blob();
+      })
+      .then(function (blob) {
+        if (!blob || blob.size < 80) throw new Error("音频异常");
+        var u = URL.createObjectURL(blob);
+        var a = new Audio();
+        ttsHtmlAudio = a;
+        a._revoke = u;
+        a.src = u;
+        a.setAttribute("playsinline", "true");
+        a.onended = function () { stopHtmlAudio(); ok(); };
+        a.onerror = function () { stopHtmlAudio(); fail(new Error("play")); };
+        var p = a.play();
+        if (p && p.catch) p.catch(function (e) { stopHtmlAudio(); fail(e); });
+      })
+      .catch(function (e) { stopHtmlAudio(); fail(e); });
+  }
+  function azureSdk(ssml, voiceName, ok, fail) {
+    if (typeof SpeechSDK === "undefined") { fail(new Error("no sdk")); return; }
+    stopHtmlAudio();
+    var cfg = SpeechSDK.SpeechConfig.fromSubscription(AZURE_SPEECH_KEY, AZURE_SPEECH_REGION);
+    cfg.speechSynthesisVoiceName = voiceName;
+    var syn = new SpeechSDK.SpeechSynthesizer(cfg, SpeechSDK.AudioConfig.fromDefaultSpeakerOutput());
+    syn.speakSsmlAsync(
+      ssml,
+      function (res) {
+        var good = res.reason === SpeechSDK.ResultReason.SynthesizingAudioCompleted;
+        syn.close();
+        if (good) ok();
+        else fail(new Error("sdk"));
+      },
+      function (err) { syn.close(); fail(err); }
+    );
+  }
+  function azureSpeakSsml(ssml, voice, onDone) {
+    onDone = onDone || function () {};
+    setTtsBar("正在连接 Azure 语音…");
+    azureRest(
+      ssml,
+      function () { setTtsBar(""); onDone(); },
+      function () {
+        setTtsBar("REST 失败，尝试 SDK…");
+        azureSdk(ssml, voice, function () { setTtsBar(""); onDone(); }, function () {
+          setTtsBar("语音失败");
+          aria("语音合成失败");
+          onDone();
+        });
+      }
+    );
+  }
+  function speakChain(list, i, onAllDone) {
+    if (i >= list.length) {
+      onAllDone();
+      return;
+    }
+    var item = list[i];
+    azureSpeakSsml(item.ssml, item.voice, function () { speakChain(list, i + 1, onAllDone); });
+  }
+
+  function setReadBusy(on) {
+    ttsBusy = on;
+    ["btnReadTable", "btnReadWrong", "btnReadConcept", "btnPrev", "btnNext"].forEach(function (id) {
+      var b = document.getElementById(id);
+      if (b) b.disabled = on;
+    });
+  }
+
+  function mountConv() {
+    var tb = document.getElementById("convTbody");
+    tb.innerHTML = CONV_ROWS.map(function (r) {
+      return (
+        "<tr><td class=\"mono\" lang=\"en\">" +
+        r.inst +
+        "</td><td class=\"mono\" lang=\"en\">" +
+        r.dur +
+        '</td><td lang="en">' +
+        r.ex +
+        "</td></tr>"
+      );
+    }).join("");
+  }
+
+  function correctSentence(wid) {
+    var w = WRONG_ITEMS.filter(function (x) { return x.id === wid; })[0];
+    if (!w) return "";
+    var opt = w.opts.filter(function (o) { return o[0] === w.ok; })[0];
+    return opt ? opt[1] : "";
+  }
+
+  function mountFix() {
+    var form = document.getElementById("fixForm");
+    var html = "";
+    WRONG_ITEMS.forEach(function (it, fi) {
+      html += '<fieldset class="fs" id="' + it.id + '"><legend>题 ' + (fi + 1) + "</legend>";
+      html += '<p class="bad" lang="en">' + it.bad + "</p>";
+      it.opts.forEach(function (op) {
+        var id = it.id + "_" + op[0];
+        html +=
+          '<label for="' +
+          id +
+          '"><input type="radio" name="' +
+          it.id +
+          '" id="' +
+          id +
+          '" value="' +
+          op[0] +
+          '" /> ' +
+          op[0] +
+          ". " +
+          op[1] +
+          "</label>";
+      });
+      html += '<p class="ex-line" id="' + it.id + '_ex">' + it.zh + " 正句：" + correctSentence(it.id) + "</p></fieldset>";
+    });
+    form.innerHTML = html;
+  }
+
+  function mountPair() {
+    var el = document.getElementById("pairMount");
+    var opts =
+      '<option value="">选择…</option>' +
+      '<option value="keep">keep</option>' +
+      '<option value="have">have</option>' +
+      '<option value="be on">be on</option>' +
+      '<option value="be in / be a member of">be in / be a member of</option>' +
+      '<option value="be away (from)">be away (from)</option>' +
+      '<option value="be open">be open</option>' +
+      '<option value="be married">be married</option>' +
+      '<option value="be here / be in">be here / be in</option>' +
+      '<option value="study">study（干扰）</option>';
+    el.innerHTML = CONV_ROWS.map(function (r, i) {
+      return (
+        '<div class="pair-row"><label for="pm' +
+        i +
+        '">' +
+        r.inst +
+        '</label><select id="pm' +
+        i +
+        '" name="pm' +
+        i +
+        '">' +
+        opts +
+        "</select></div>"
+      );
+    }).join("");
+  }
+
+  function mountQuick() {
+    var el = document.getElementById("quickMount");
+    el.innerHTML = QUICK.map(function (q, i) {
+      return (
+        '<div class="quick-row" id="qk' +
+        i +
+        '" data-ok="' +
+        q.ok +
+        '"><p lang="en">' +
+        q.t +
+        '</p><div class="btns"><button type="button" class="secondary qk-y" data-i="' +
+        i +
+        '">正</button><button type="button" class="secondary qk-n" data-i="' +
+        i +
+        '">误</button></div><div class="reveal">' +
+        q.ex +
+        "</div></div>"
+      );
+    }).join("");
+    el.addEventListener("click", function (e) {
+      var y = e.target.closest(".qk-y");
+      var n = e.target.closest(".qk-n");
+      var btn = y || n;
+      if (!btn) return;
+      var i = Number(btn.getAttribute("data-i"));
+      var row = document.getElementById("qk" + i);
+      var want = row.getAttribute("data-ok") === "true";
+      var pick = !!y;
+      row.classList.add("done");
+      row.querySelector(".reveal").style.color = pick === want ? "#0f5132" : "#842029";
+    });
+  }
+
+  document.getElementById("btnReadTable").addEventListener("click", function () {
+    if (ttsBusy) return;
+    setReadBusy(true);
+    document.getElementById("btnReadTable").classList.add("speaking");
+    var list = [];
+    CONV_ROWS.forEach(function (r) {
+      list.push({ voice: vEn, ssml: buildSsml("Instant verb: " + r.inst + ". Use instead: " + r.dur + ".", vEn) });
+      list.push({ voice: vEn, ssml: buildSsml("Example: " + r.ex, vEn) });
+    });
+    speakChain(list, 0, function () {
+      setReadBusy(false);
+      document.getElementById("btnReadTable").classList.remove("speaking");
+    });
+  });
+
+  document.getElementById("btnReadWrong").addEventListener("click", function () {
+    if (ttsBusy) return;
+    setReadBusy(true);
+    document.getElementById("btnReadWrong").classList.add("speaking");
+    var list = [];
+    WRONG_ITEMS.forEach(function (w) {
+      list.push({ voice: vEn, ssml: buildSsml("Wrong: " + w.bad, vEn) });
+      list.push({ voice: vEn, ssml: buildSsml("Better: " + correctSentence(w.id), vEn) });
+    });
+    speakChain(list, 0, function () {
+      setReadBusy(false);
+      document.getElementById("btnReadWrong").classList.remove("speaking");
+    });
+  });
+
+  document.getElementById("btnReadConcept").addEventListener("click", function () {
+    if (ttsBusy) return;
+    setReadBusy(true);
+    var t =
+      "瞬间动词表示一下完成的动作，不宜直接与 for 两年这种说法连用。要换成能持续的说法，比如 have had，have kept，be in，be on。";
+    azureSpeakSsml(buildSsml(t, vZh), vZh, function () {
+      setReadBusy(false);
+    });
+  });
+
+  function saveWrongIds(ids) {
+    try {
+      sessionStorage.setItem(WRONG_LS_KEY, JSON.stringify(ids));
+    } catch (e) {}
+  }
+
+  document.getElementById("btnSubmitFix").addEventListener("click", function () {
+    var score = 0;
+    var wrongIds = [];
+    WRONG_ITEMS.forEach(function (it) {
+      var picked = document.querySelector('input[name="' + it.id + '"]:checked');
+      var ok = picked && picked.value === it.ok;
+      if (ok) score++;
+      else wrongIds.push(it.id);
+      var ex = document.getElementById(it.id + "_ex");
+      if (ex) {
+        ex.classList.add("show");
+        ex.style.color = ok ? "#0f5132" : "#842029";
+      }
+    });
+    saveWrongIds(wrongIds);
+    var fb = document.getElementById("fixFeedback");
+    fb.className = "feedback show " + (score === WRONG_ITEMS.length ? "ok" : "bad");
+    fb.textContent = "得分 " + score + " / " + WRONG_ITEMS.length + "。";
+    fb.focus();
+    aria("改写判分完成");
+  });
+
+  document.getElementById("btnSubmitPair").addEventListener("click", function () {
+    var ok = true;
+    for (var i = 0; i < CONV_ROWS.length; i++) {
+      var sel = document.getElementById("pm" + i);
+      var v = (sel.value || "").trim();
+      if (v !== PAIR_ANS[i]) ok = false;
+    }
+    var fb = document.getElementById("pairFeedback");
+    fb.className = "feedback show " + (ok ? "ok" : "bad");
+    fb.textContent = ok ? "8 组全部配对正确！" : "有错误：请对照转换表再选（注意 be in / be a member of 与 be away (from) 完整形式）。";
+    fb.focus();
+  });
+
+  var slideIndex = 0;
+  var slides = [];
+  function goSlide(n) {
+    slideIndex = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach(function (s, i) {
+      var on = i === slideIndex;
+      s.classList.toggle("is-active", on);
+      s.hidden = !on;
+    });
+    var cur = slides[slideIndex];
+    if (cur) {
+      var sc = cur.querySelector(".slide-scroll");
+      if (sc) sc.scrollTop = 0;
+    }
+    var lab = slideIndex + 1 + " / " + slides.length;
+    document.getElementById("slideIndicator").textContent = lab;
+    document.getElementById("dockDots").textContent = lab;
+    document.getElementById("btnPrev").disabled = slideIndex === 0;
+    document.getElementById("btnNext").disabled = slideIndex === slides.length - 1;
+  }
+
+  document.getElementById("btnPrev").addEventListener("click", function () { goSlide(slideIndex - 1); });
+  document.getElementById("btnNext").addEventListener("click", function () { goSlide(slideIndex + 1); });
+  document.addEventListener("keydown", function (e) {
+    if (e.target.closest(".ai-panel.open") || document.getElementById("aiBackdrop").classList.contains("show")) return;
+    if (e.key === "ArrowLeft") { e.preventDefault(); goSlide(slideIndex - 1); }
+    if (e.key === "ArrowRight") { e.preventDefault(); goSlide(slideIndex + 1); }
+  });
+
+  function getDsCount() {
+    var n = Number(sessionStorage.getItem(DS_SESS_KEY) || "0");
+    return isNaN(n) ? 0 : n;
+  }
+  function bumpDs() {
+    sessionStorage.setItem(DS_SESS_KEY, String(getDsCount() + 1));
+  }
+  function updateQuota() {
+    var el = document.getElementById("aiQuota");
+    if (el) el.textContent = "已用 " + getDsCount() + " / 10 次（刷新清零）";
+  }
+  function openAi() {
+    document.getElementById("aiPanel").classList.add("open");
+    document.getElementById("aiBackdrop").classList.add("show");
+    document.getElementById("aiBackdrop").hidden = false;
+    updateQuota();
+  }
+  function closeAi() {
+    document.getElementById("aiPanel").classList.remove("open");
+    document.getElementById("aiBackdrop").classList.remove("show");
+    document.getElementById("aiBackdrop").hidden = true;
+  }
+  document.getElementById("btnAiOpen").addEventListener("click", openAi);
+  document.getElementById("btnAiClose").addEventListener("click", closeAi);
+  document.getElementById("aiBackdrop").addEventListener("click", closeAi);
+
+  function takeLines(text, max) {
+    return String(text || "")
+      .trim()
+      .split(/\r?\n/)
+      .filter(Boolean)
+      .slice(0, max)
+      .join("\n");
+  }
+
+  document.getElementById("btnAiRun").addEventListener("click", function () {
+    var out = document.getElementById("aiOut");
+    if (getDsCount() >= 10) {
+      out.textContent = "已达本页 10 次上限。";
+      return;
+    }
+    var mode = (document.querySelector('input[name="dsMode"]:checked') || {}).value || "A";
+    var user = document.getElementById("aiIn").value.trim();
+    if (!user) {
+      out.textContent = "请先输入。";
+      return;
+    }
+    out.textContent = "思考中…";
+    bumpDs();
+    updateQuota();
+    var sys = mode === "B" ? DS_SYS_B : DS_SYS_A;
+    var temp = 0.35;
+    var maxTok = mode === "B" ? 280 : 300;
+    fetch(DEEPSEEK_API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: "Bearer " + DEEPSEEK_API_KEY },
+      body: JSON.stringify({
+        model: "deepseek-chat",
+        temperature: temp,
+        max_tokens: maxTok,
+        messages: [
+          { role: "system", content: sys },
+          { role: "user", content: user.slice(0, 500) }
+        ]
+      })
+    })
+      .then(function (r) {
+        if (!r.ok) throw new Error("HTTP " + r.status);
+        return r.json();
+      })
+      .then(function (data) {
+        var t = (((data.choices || [])[0] || {}).message || {}).content || "";
+        out.textContent = takeLines(t, mode === "B" ? 3 : 2);
+      })
+      .catch(function () {
+        out.textContent = "请求失败，请检查网络。";
+      });
+  });
+  document.getElementById("btnAiClear").addEventListener("click", function () {
+    document.getElementById("aiIn").value = "";
+    document.getElementById("aiOut").textContent = "";
+  });
+
+  var heroImg = document.getElementById("heroImg");
+  if (heroImg) {
+    heroImg.addEventListener("error", function () {
+      document.getElementById("heroBlock").classList.add("fallback-img");
+    });
+  }
+
+  mountConv();
+  mountFix();
+  mountPair();
+  mountQuick();
+  slides = Array.prototype.slice.call(document.querySelectorAll(".slide"));
+  goSlide(0);
+  updateQuota();
+})();
+  </script>
+</body>
+</html>

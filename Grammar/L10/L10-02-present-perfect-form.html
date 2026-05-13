@@ -1,0 +1,1285 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Lesson 10 · 现在完成时 · 基本结构（Form）</title>
+  <script src="https://cdn.jsdelivr.net/npm/microsoft-cognitiveservices-speech-sdk@1.38.0/dist/microsoft.cognitiveservices.speech.sdk.bundle-min.js" crossorigin="anonymous"></script>
+  <style>
+    :root {
+      --bg: #eef2f7;
+      --card: #ffffff;
+      --text: #1a2332;
+      --muted: #5a6a7e;
+      --accent: #1e6b8c;
+      --accent2: #2a9d8f;
+      --shadow: 0 8px 24px rgba(26, 35, 50, 0.1);
+      --radius: 14px;
+      --topbar-h: 52px;
+      --dock-h: 56px;
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; }
+    body {
+      display: flex;
+      flex-direction: column;
+      font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      font-size: clamp(16px, 1.5vw, 18px);
+      line-height: 1.55;
+      color: var(--text);
+      background: var(--bg);
+      overflow: hidden;
+    }
+    a { color: var(--accent); }
+    a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px solid #ffb703; outline-offset: 2px; }
+    .topbar {
+      flex: 0 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 8px 16px;
+      min-height: var(--topbar-h);
+      background: var(--card);
+      border-bottom: 1px solid #e2e8f0;
+      z-index: 40;
+    }
+    .brand { font-weight: 700; color: var(--accent); font-size: 14px; }
+    .slide-meta { font-size: 13px; color: var(--muted); font-weight: 600; }
+    .top-actions { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+    button, .btn-link {
+      font: inherit; cursor: pointer; border: none; border-radius: 10px; padding: 8px 12px;
+      background: linear-gradient(135deg, var(--accent), #155a78); color: #fff;
+      box-shadow: 0 2px 8px rgba(30, 107, 140, 0.3); text-decoration: none; display: inline-block; font-size: 14px;
+    }
+    button.secondary, .btn-link.secondary { background: linear-gradient(135deg, #6c757d, #495057); box-shadow: none; }
+    button:disabled { opacity: 0.55; cursor: not-allowed; }
+    button.speaking { background: linear-gradient(135deg, #e76f51, #c94c32); }
+    .tts-bar { font-size: 12px; padding: 4px 16px 6px; background: #fff8e6; color: #664d03; border-bottom: 1px solid #f0d78c; }
+    .deck { flex: 1; min-height: 0; position: relative; width: 100%; }
+    .slide {
+      position: absolute; inset: 0; overflow: hidden; display: none; flex-direction: column;
+      padding: 10px 14px 6px;
+    }
+    .slide.is-active { display: flex; }
+    .slide-scroll { flex: 1; min-height: 0; overflow: auto; -webkit-overflow-scrolling: touch; }
+    .slide-inner { max-width: 1100px; margin: 0 auto; width: 100%; min-height: min-content; }
+    .hero-compact { display: grid; gap: 14px; align-items: stretch; }
+    @media (min-width: 860px) { .hero-compact { grid-template-columns: 1.05fr 1fr; } }
+    .hero-img-wrap {
+      border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow);
+      min-height: 160px; background: linear-gradient(120deg, #e0f2f7, #e8ecf8);
+    }
+    .hero-img-wrap img { width: 100%; min-height: 180px; height: 100%; object-fit: cover; display: block; }
+    .hero-img-wrap.fallback-img img { display: none; }
+    .hero-text {
+      background: var(--card); border-radius: var(--radius); padding: 16px 18px; box-shadow: var(--shadow);
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .hero-text h1 { margin: 0 0 6px; font-size: clamp(1.35rem, 3vw, 1.85rem); }
+    .hero-text .sub { margin: 0; color: var(--muted); font-size: 0.95rem; }
+    .note-small { font-size: 0.86rem; color: var(--muted); margin: 10px 0 0; }
+    .card {
+      background: var(--card); border-radius: var(--radius); padding: 16px 18px; margin-bottom: 0;
+      box-shadow: var(--shadow);
+    }
+    .card h2 { margin: 0 0 10px; font-size: 1.12rem; color: var(--accent); }
+    table.formula { width: 100%; border-collapse: collapse; font-size: 0.93rem; }
+    table.formula th, table.formula td { border: 1px solid #e2e8f0; padding: 8px 10px; text-align: left; vertical-align: top; }
+    table.formula th { background: #f0f7fb; color: var(--accent); font-weight: 700; }
+    table.formula code { background: #eef6ff; padding: 2px 6px; border-radius: 6px; }
+    table.formula td.cell-wh ul { margin: 0; padding-left: 1.15em; font-size: 0.88rem; line-height: 1.45; }
+    table.formula td.cell-wh li { margin: 0.2em 0; }
+    table.formula .pp-note {
+      display: inline-block;
+      margin-left: 0.28em;
+      font-size: 0.82em;
+      font-weight: 700;
+      color: #7c2d12;
+      background: linear-gradient(180deg, #fffbeb, #fde68a);
+      padding: 0.12em 0.45em 0.14em;
+      border-radius: 6px;
+      vertical-align: baseline;
+      border: 1px solid #f59e0b;
+      line-height: 1.35;
+    }
+    table.formula td.cell-wh .pp-note { font-size: 0.76em; }
+    .quiz-row { display: grid; gap: 6px; padding: 8px 10px; border: 1px solid #e2e8f0; border-radius: 10px; margin-bottom: 8px; background: #fafcff; }
+    .quiz-row label.main { font-weight: 600; color: #334155; font-size: 0.92rem; }
+    .quiz-row .opts { display: flex; gap: 14px; flex-wrap: wrap; }
+    .tf-row { border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px; margin-bottom: 10px; background: #fafcff; }
+    .tf-row p { margin: 0 0 8px; font-weight: 600; font-size: 0.92rem; }
+    .tf-row .mc { display: flex; flex-direction: column; gap: 4px; }
+    .tf-row label { cursor: pointer; font-size: 0.88rem; }
+    .block-zone { position: relative; border-radius: var(--radius); overflow: hidden; padding: 12px; }
+    .block-bg { position: absolute; inset: 0; opacity: 0.2; pointer-events: none; }
+    .block-bg img { width: 100%; height: 100%; object-fit: cover; filter: blur(1px); }
+    .block-inner { position: relative; }
+    .block-inner .card { border: 1px solid #e2e8f0; box-shadow: none; }
+    details.part { margin-top: 10px; border: 1px solid #e2e8f0; border-radius: 10px; padding: 8px 10px; background: #fff; }
+    details.part table.formula.dense th,
+    details.part table.formula.dense td { padding: 5px 8px; font-size: 0.84rem; }
+    summary { cursor: pointer; font-weight: 700; color: var(--accent); }
+    .bridge {
+      background: linear-gradient(135deg, #fffdf5, #f0f9ff); border: 1px solid #e2e8f0; border-radius: var(--radius);
+      padding: 16px 18px;
+    }
+    .next-btn {
+      display: inline-block; margin-top: 12px; padding: 12px 20px; font-weight: 700; font-size: 1rem;
+      border-radius: 12px; background: linear-gradient(135deg, var(--accent2), #1f8a7a); color: #fff;
+      text-decoration: none; box-shadow: var(--shadow);
+    }
+    .dock {
+      flex: 0 0 auto; display: flex; align-items: center; justify-content: center; gap: 12px;
+      padding: 8px 12px; min-height: var(--dock-h); background: var(--card); border-top: 1px solid #e2e8f0; z-index: 40;
+    }
+    .dock button { min-width: 100px; }
+    .dock .dots { font-size: 15px; font-weight: 700; color: var(--accent); min-width: 4.5em; text-align: center; }
+    .sr { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+    .ai-panel {
+      position: fixed; right: 0; top: 0; bottom: 0; width: min(420px, 100vw); background: var(--card);
+      box-shadow: -6px 0 28px rgba(0,0,0,0.14); transform: translateX(100%); transition: transform 0.28s ease; z-index: 120;
+      display: flex; flex-direction: column;
+    }
+    .ai-panel.open { transform: translateX(0); }
+    .ai-panel header { padding: 12px 14px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; }
+    .ai-panel .body { flex: 1; overflow: auto; padding: 12px 14px; display: flex; flex-direction: column; gap: 10px; }
+    .ai-panel textarea { width: 100%; min-height: 80px; resize: vertical; font: inherit; padding: 10px; border-radius: 10px; border: 1px solid #ced4da; }
+    .ai-panel .out { white-space: pre-wrap; background: #f1f5f9; border-radius: 10px; padding: 12px; min-height: 72px; border: 1px solid #e2e8f0; font-size: 0.95rem; }
+    .backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.35); opacity: 0; pointer-events: none; transition: opacity 0.25s ease; z-index: 110; }
+    .backdrop.show { opacity: 1; pointer-events: auto; }
+    .feedback { margin-top: 8px; padding: 10px 12px; border-radius: 10px; display: none; font-size: 0.9rem; }
+    .feedback.show { display: block; }
+    .feedback.ok { background: #e8fcf4; border: 1px solid #9ee5c8; color: #0f5132; }
+    .feedback.bad { background: #fff5f5; border: 1px solid #f5b5b5; color: #842029; }
+    .scramble-card h2 { margin-bottom: 6px; }
+    .scramble-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-bottom: 12px; }
+    .scramble-tag { font-weight: 700; color: var(--accent); font-size: 0.95rem; }
+    .scramble-dual { display: grid; gap: 12px; margin-bottom: 12px; }
+    @media (min-width: 720px) { .scramble-dual { grid-template-columns: 1fr 1fr; } }
+    .scramble-fig { margin: 0; border-radius: 12px; overflow: hidden; border: 1px solid #e2e8f0; background: #fafcff; box-shadow: var(--shadow); }
+    .scramble-fig figcaption { font-size: 0.82rem; color: var(--muted); padding: 6px 10px; background: #f8fafc; border-bottom: 1px solid #e2e8f0; }
+    .scramble-fig .img-slot { position: relative; min-height: 160px; background: linear-gradient(145deg, #eef6ff, #fff7ed); }
+    .scramble-fig .img-slot img { width: 100%; height: auto; min-height: 160px; object-fit: cover; display: block; }
+    .scramble-fig-now .img-slot { background: linear-gradient(145deg, #e8f4fc, #f3e8ff); }
+    .scene-clock {
+      position: absolute; top: 8px; right: 8px; z-index: 2; padding: 6px 10px; border-radius: 10px;
+      font-size: 0.78rem; font-weight: 700; color: #0f172a; background: rgba(255,255,255,0.92);
+      border: 1px solid #cbd5e1; box-shadow: 0 2px 8px rgba(0,0,0,0.08); max-width: 11em; text-align: right;
+    }
+    .scramble-tts-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-bottom: 8px; }
+    .scramble-zones { display: flex; flex-direction: column; gap: 12px; margin-top: 6px; }
+    .zone-label { font-size: 0.8rem; color: var(--muted); margin-bottom: 6px; font-weight: 600; }
+    .scramble-built {
+      min-height: 52px; padding: 8px; border: 2px dashed var(--accent); border-radius: 12px; background: #fff;
+      display: flex; flex-wrap: wrap; gap: 6px; align-items: center;
+    }
+    .scramble-bank {
+      min-height: 56px; padding: 8px; border: 1px solid #e2e8f0; border-radius: 12px; background: #f8fafc;
+      display: flex; flex-wrap: wrap; gap: 6px; align-items: center;
+    }
+    .chip {
+      cursor: pointer; border: none; border-radius: 10px; padding: 8px 11px; font: inherit; font-size: 0.9rem;
+      background: linear-gradient(135deg, #e0ecf5, #dce8f2); color: #1e293b; box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    }
+    .chip:hover { filter: brightness(1.03); }
+    .chip:active { transform: scale(0.98); }
+    .chip.in-built { background: linear-gradient(135deg, #d8f5e9, #c5ebe0); border: 1px solid #9ee5c8; }
+    .chip.chip-distractor {
+      background: linear-gradient(135deg, #fff7ed, #ffedd5);
+      border: 1px dashed #ea580c;
+      color: #7c2d12;
+      font-size: 0.82rem;
+    }
+    .chip.chip-distractor.in-built { border-style: dashed; }
+    .scramble-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+      /* L10：主内容区整体 160%（顶栏与底部分页条不缩放） */
+    .tts-bar,
+    .deck {
+      zoom: 1.6;
+    }
+
+</style>
+</head>
+<body>
+  <div id="ariaLive" class="sr" aria-live="polite"></div>
+
+  <header class="topbar">
+    <div class="brand">Lesson 10 · Present Perfect — Form</div>
+    <div class="slide-meta" id="slideIndicator">1 / 7</div>
+    <div class="top-actions">
+      <a class="btn-link secondary" href="L10-00-index.html">返回目录</a>
+      <a class="btn-link secondary" href="L10-01-warmup-review.html">上一节</a>
+      <a class="btn-link secondary" href="L10-03-meaning-result-experience.html">下一节</a>
+      <button type="button" id="btnReadPage">朗读本页（公式+例句）</button>
+      <button type="button" id="btnReadPp" class="secondary">只听过去分词</button>
+      <button type="button" id="btnAi" class="secondary">AI 句式教练</button>
+    </div>
+  </header>
+  <div class="tts-bar" id="ttsBar" role="status" style="display:none;"></div>
+
+  <div class="deck" id="deck">
+    <section class="slide is-active" id="slide-0" data-slide="0" aria-label="封面">
+      <div class="slide-scroll">
+        <div class="slide-inner">
+          <div class="hero-compact">
+            <div class="hero-img-wrap" id="heroBlock">
+              <img id="heroImg" src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L10/assets/img/l10-p03-formula-banner.png" alt="抽象几何块表示语法结构" width="1600" height="900" loading="eager" decoding="async" />
+            </div>
+            <div class="hero-text">
+              <h1>现在完成时的基本结构（Form）</h1>
+              <p class="sub"><span lang="en">have / has + past participle</span> · 先写对形式，下一节再深入「意义」与标志词。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-1" data-slide="1" hidden aria-label="公式表">
+      <div class="slide-scroll">
+        <div class="slide-inner">
+          <div class="card">
+            <h2>肯定 · 否定 · 疑问</h2>
+            <table class="formula">
+              <thead>
+                <tr><th>句式</th><th>第一、二人称 / 复数（have）</th><th>第三人称单数（has）</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th>肯定</th>
+                  <td lang="en">I <strong>have</strong> <strong>finished</strong><span class="pp-note">（动词的过去分词形式）</span> my homework.</td>
+                  <td lang="en">He <strong>has</strong> <strong>finished</strong><span class="pp-note">（动词的过去分词形式）</span> his homework.</td>
+                </tr>
+                <tr>
+                  <th>否定</th>
+                  <td lang="en">I <strong>haven’t</strong> <strong>finished</strong><span class="pp-note">（动词的过去分词形式）</span> my homework.</td>
+                  <td lang="en">He <strong>hasn’t</strong> <strong>finished</strong><span class="pp-note">（动词的过去分词形式）</span> his homework.</td>
+                </tr>
+                <tr>
+                  <th>一般疑问</th>
+                  <td lang="en"><strong>Have</strong> you <strong>finished</strong><span class="pp-note">（动词的过去分词形式）</span> your homework?</td>
+                  <td lang="en"><strong>Has</strong> he <strong>finished</strong><span class="pp-note">（动词的过去分词形式）</span> his homework?</td>
+                </tr>
+                <tr>
+                  <th>特殊疑问<br /><span style="font-weight:600;font-size:0.82rem;color:var(--muted);">Wh- + 一般疑问语序</span></th>
+                  <td class="cell-wh" lang="en">
+                    <ul>
+                      <li><strong>What</strong> have you <strong>finished</strong><span class="pp-note">（动词的过去分词形式）</span>?</li>
+                      <li><strong>When</strong> have you <strong>finished</strong><span class="pp-note">（动词的过去分词形式）</span>?</li>
+                      <li><strong>Where</strong> have you <strong>finished</strong><span class="pp-note">（动词的过去分词形式）</span> it?</li>
+                      <li><strong>Why</strong> haven’t you <strong>finished</strong><span class="pp-note">（动词的过去分词形式）</span> your homework?</li>
+                      <li><strong>How</strong> have you <strong>finished</strong><span class="pp-note">（动词的过去分词形式）</span> so quickly?</li>
+                      <li><strong>Which</strong> part have you <strong>finished</strong><span class="pp-note">（动词的过去分词形式）</span>?</li>
+                    </ul>
+                  </td>
+                  <td class="cell-wh" lang="en">
+                    <ul>
+                      <li><strong>What</strong> has he <strong>finished</strong><span class="pp-note">（动词的过去分词形式）</span>?</li>
+                      <li><strong>When</strong> has he <strong>finished</strong><span class="pp-note">（动词的过去分词形式）</span>?</li>
+                      <li><strong>Where</strong> has he <strong>finished</strong><span class="pp-note">（动词的过去分词形式）</span> it?</li>
+                      <li><strong>Why</strong> hasn’t he <strong>finished</strong><span class="pp-note">（动词的过去分词形式）</span> his homework?</li>
+                      <li><strong>How</strong> has he <strong>finished</strong><span class="pp-note">（动词的过去分词形式）</span> so fast?</li>
+                      <li><strong>Who</strong> <strong>has</strong> <strong>finished</strong><span class="pp-note">（动词的过去分词形式）</span> the homework?</li>
+                    </ul>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <p style="margin:10px 0 0;font-size:0.9rem;color:var(--muted);">一般疑问简短回答：<span lang="en">Yes, I have. / No, I haven’t.</span> · <span lang="en">Yes, he has. / No, he hasn’t.</span>　<strong>特殊疑问</strong>用具体信息作答，不用 <span lang="en">Yes / No</span> 开头。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-2" data-slide="2" hidden aria-label="have has">
+      <div class="slide-scroll">
+        <div class="slide-inner">
+          <div class="card">
+            <h2>互动：have 还是 has？</h2>
+            <p style="margin-top:0;color:var(--muted);font-size:0.92rem;">为每个主语选择 <code>have</code> 或 <code>has</code>，提交后看得分。</p>
+            <div id="haveHasArea"></div>
+            <button type="button" id="btnCheckHave">提交</button>
+            <div id="fbHave" class="feedback" role="status"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-3" data-slide="3" hidden aria-label="句式变换">
+      <div class="slide-scroll">
+        <div class="slide-inner">
+          <div class="block-zone">
+            <div class="block-bg" aria-hidden="true">
+              <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L10/assets/img/l10-p03-blocks.png" alt="" width="1200" height="675" loading="lazy" decoding="async" onerror="this.parentElement.style.display='none'" />
+            </div>
+            <div class="block-inner">
+              <div class="card">
+                <h2>互动：句式变换（否定 / 一般疑问）</h2>
+                <p style="margin-top:0;color:var(--muted);font-size:0.92rem;">每题三选一。</p>
+                <div id="tfArea"></div>
+                <button type="button" id="btnCheckTf">提交</button>
+                <div id="fbTf" class="feedback" role="status"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-scramble" data-slide="4" hidden aria-label="听句排序竞赛">
+      <div class="slide-scroll">
+        <div class="slide-inner">
+          <div class="card scramble-card">
+            <h2>竞赛：听句排序并复述</h2>
+            <div class="scramble-toolbar">
+              <span class="scramble-tag" id="scrambleExamNo">场景 1 / 15</span>
+              <button type="button" id="scramblePrevQ" class="secondary">上一场景</button>
+              <button type="button" id="scrambleNextQ" class="secondary">下一场景</button>
+            </div>
+            <div id="scrambleDual"></div>
+            <div class="scramble-tts-row">
+              <button type="button" id="btnScrambleListen">听示范朗读（稍慢）</button>
+            </div>
+            <div class="scramble-zones">
+              <div>
+                <div class="zone-label">你的排序（点击词块依次填入）</div>
+                <div id="scrambleBuilt" class="scramble-built" lang="en"></div>
+              </div>
+              <div>
+                <div class="zone-label">词块库</div>
+                <div id="scrambleBank" class="scramble-bank" lang="en"></div>
+              </div>
+            </div>
+            <div class="scramble-actions">
+              <button type="button" id="btnScrambleCheck">检查顺序</button>
+              <button type="button" id="btnScrambleUndo" class="secondary">撤回一词</button>
+              <button type="button" id="btnScrambleClear" class="secondary">清空排序</button>
+              <button type="button" id="btnScrambleShuffle" class="secondary">打乱词块</button>
+            </div>
+            <div id="fbScramble" class="feedback" role="status"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-5" data-slide="5" hidden aria-label="过去分词">
+      <div class="slide-scroll">
+        <div class="slide-inner">
+          <div class="card">
+            <h2>过去分词表（与 Page 2 衔接）</h2>
+            <p style="margin-top:0;font-size:0.9rem;">原形 → 过去式 → <strong>过去分词</strong>。下表收 <strong>59</strong> 个初中阶段高频<strong>不规则</strong>变化；规则动词如 <span lang="en">finish → finished → finished</span> 仍按 <code>-ed</code>。<strong>read</strong> 三形同形，书写最易错。</p>
+            <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:10px 0 12px;">
+              <button type="button" id="btnVerbPdf">导出 PDF（彩色版式 + 每词双例句）</button>
+            </div>
+            <details class="part">
+              <summary>展开 / 收起不规则动词三列（59 词）</summary>
+              <table class="formula dense" style="margin-top:8px;">
+                <thead><tr><th>原形</th><th>过去式</th><th>过去分词</th></tr></thead>
+                <tbody>
+                  <tr><td lang="en">be</td><td lang="en">was / were</td><td lang="en"><strong>been</strong></td></tr>
+                  <tr><td lang="en">do</td><td lang="en">did</td><td lang="en"><strong>done</strong></td></tr>
+                  <tr><td lang="en">go</td><td lang="en">went</td><td lang="en"><strong>gone</strong></td></tr>
+                  <tr><td lang="en">see</td><td lang="en">saw</td><td lang="en"><strong>seen</strong></td></tr>
+                  <tr><td lang="en">give</td><td lang="en">gave</td><td lang="en"><strong>given</strong></td></tr>
+                  <tr><td lang="en">take</td><td lang="en">took</td><td lang="en"><strong>taken</strong></td></tr>
+                  <tr><td lang="en">make</td><td lang="en">made</td><td lang="en"><strong>made</strong></td></tr>
+                  <tr><td lang="en">come</td><td lang="en">came</td><td lang="en"><strong>come</strong></td></tr>
+                  <tr><td lang="en">run</td><td lang="en">ran</td><td lang="en"><strong>run</strong></td></tr>
+                  <tr><td lang="en">eat</td><td lang="en">ate</td><td lang="en"><strong>eaten</strong></td></tr>
+                  <tr><td lang="en">read</td><td lang="en">read</td><td lang="en"><strong>read</strong>（拼写同，发音不同）</td></tr>
+                  <tr><td lang="en">write</td><td lang="en">wrote</td><td lang="en"><strong>written</strong></td></tr>
+                  <tr><td lang="en">speak</td><td lang="en">spoke</td><td lang="en"><strong>spoken</strong></td></tr>
+                  <tr><td lang="en">break</td><td lang="en">broke</td><td lang="en"><strong>broken</strong></td></tr>
+                  <tr><td lang="en">choose</td><td lang="en">chose</td><td lang="en"><strong>chosen</strong></td></tr>
+                  <tr><td lang="en">forget</td><td lang="en">forgot</td><td lang="en"><strong>forgotten</strong></td></tr>
+                  <tr><td lang="en">get</td><td lang="en">got</td><td lang="en"><strong>got</strong> / <strong>gotten</strong>（美式）</td></tr>
+                  <tr><td lang="en">know</td><td lang="en">knew</td><td lang="en"><strong>known</strong></td></tr>
+                  <tr><td lang="en">think</td><td lang="en">thought</td><td lang="en"><strong>thought</strong></td></tr>
+                  <tr><td lang="en">buy</td><td lang="en">bought</td><td lang="en"><strong>bought</strong></td></tr>
+                  <tr><td lang="en">bring</td><td lang="en">brought</td><td lang="en"><strong>brought</strong></td></tr>
+                  <tr><td lang="en">teach</td><td lang="en">taught</td><td lang="en"><strong>taught</strong></td></tr>
+                  <tr><td lang="en">catch</td><td lang="en">caught</td><td lang="en"><strong>caught</strong></td></tr>
+                  <tr><td lang="en">build</td><td lang="en">built</td><td lang="en"><strong>built</strong></td></tr>
+                  <tr><td lang="en">send</td><td lang="en">sent</td><td lang="en"><strong>sent</strong></td></tr>
+                  <tr><td lang="en">spend</td><td lang="en">spent</td><td lang="en"><strong>spent</strong></td></tr>
+                  <tr><td lang="en">sit</td><td lang="en">sat</td><td lang="en"><strong>sat</strong></td></tr>
+                  <tr><td lang="en">stand</td><td lang="en">stood</td><td lang="en"><strong>stood</strong></td></tr>
+                  <tr><td lang="en">understand</td><td lang="en">understood</td><td lang="en"><strong>understood</strong></td></tr>
+                  <tr><td lang="en">find</td><td lang="en">found</td><td lang="en"><strong>found</strong></td></tr>
+                  <tr><td lang="en">have</td><td lang="en">had</td><td lang="en"><strong>had</strong></td></tr>
+                  <tr><td lang="en">hear</td><td lang="en">heard</td><td lang="en"><strong>heard</strong></td></tr>
+                  <tr><td lang="en">tell</td><td lang="en">told</td><td lang="en"><strong>told</strong></td></tr>
+                  <tr><td lang="en">sell</td><td lang="en">sold</td><td lang="en"><strong>sold</strong></td></tr>
+                  <tr><td lang="en">say</td><td lang="en">said</td><td lang="en"><strong>said</strong></td></tr>
+                  <tr><td lang="en">pay</td><td lang="en">paid</td><td lang="en"><strong>paid</strong></td></tr>
+                  <tr><td lang="en">meet</td><td lang="en">met</td><td lang="en"><strong>met</strong></td></tr>
+                  <tr><td lang="en">leave</td><td lang="en">left</td><td lang="en"><strong>left</strong></td></tr>
+                  <tr><td lang="en">sleep</td><td lang="en">slept</td><td lang="en"><strong>slept</strong></td></tr>
+                  <tr><td lang="en">keep</td><td lang="en">kept</td><td lang="en"><strong>kept</strong></td></tr>
+                  <tr><td lang="en">mean</td><td lang="en">meant</td><td lang="en"><strong>meant</strong></td></tr>
+                  <tr><td lang="en">lend</td><td lang="en">lent</td><td lang="en"><strong>lent</strong></td></tr>
+                  <tr><td lang="en">win</td><td lang="en">won</td><td lang="en"><strong>won</strong></td></tr>
+                  <tr><td lang="en">lose</td><td lang="en">lost</td><td lang="en"><strong>lost</strong></td></tr>
+                  <tr><td lang="en">feel</td><td lang="en">felt</td><td lang="en"><strong>felt</strong></td></tr>
+                  <tr><td lang="en">swim</td><td lang="en">swam</td><td lang="en"><strong>swum</strong></td></tr>
+                  <tr><td lang="en">drink</td><td lang="en">drank</td><td lang="en"><strong>drunk</strong></td></tr>
+                  <tr><td lang="en">sing</td><td lang="en">sang</td><td lang="en"><strong>sung</strong></td></tr>
+                  <tr><td lang="en">ring</td><td lang="en">rang</td><td lang="en"><strong>rung</strong></td></tr>
+                  <tr><td lang="en">begin</td><td lang="en">began</td><td lang="en"><strong>begun</strong></td></tr>
+                  <tr><td lang="en">drive</td><td lang="en">drove</td><td lang="en"><strong>driven</strong></td></tr>
+                  <tr><td lang="en">ride</td><td lang="en">rode</td><td lang="en"><strong>ridden</strong></td></tr>
+                  <tr><td lang="en">wear</td><td lang="en">wore</td><td lang="en"><strong>worn</strong></td></tr>
+                  <tr><td lang="en">throw</td><td lang="en">threw</td><td lang="en"><strong>thrown</strong></td></tr>
+                  <tr><td lang="en">fly</td><td lang="en">flew</td><td lang="en"><strong>flown</strong></td></tr>
+                  <tr><td lang="en">draw</td><td lang="en">drew</td><td lang="en"><strong>drawn</strong></td></tr>
+                  <tr><td lang="en">grow</td><td lang="en">grew</td><td lang="en"><strong>grown</strong></td></tr>
+                  <tr><td lang="en">fall</td><td lang="en">fell</td><td lang="en"><strong>fallen</strong></td></tr>
+                  <tr><td lang="en">show</td><td lang="en">showed</td><td lang="en"><strong>shown</strong> / showed</td></tr>
+                </tbody>
+              </table>
+            </details>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-6" data-slide="6" hidden aria-label="小结">
+      <div class="slide-scroll">
+        <div class="slide-inner">
+          <div class="bridge">
+            <h2 style="margin:0 0 10px;color:var(--accent);">课堂小结</h2>
+            <ul style="margin:0;padding-left:1.2em;">
+              <li>先看<strong>主语</strong>：非三单 <code>have</code>，三单 <code>has</code>。</li>
+              <li>再放<strong>过去分词</strong>：规则 <code>-ed</code>，不规则背第三列。</li>
+              <li>否定：<code>haven’t / hasn’t</code> + 过去分词。</li>
+              <li><strong>一般疑问</strong>：<code>Have/Has</code> 提前 + 问号。</li>
+              <li><strong>特殊疑问</strong>：<code>What / When / Where / Why / How / Which / Who</code> 等放句首，后面仍是一般疑问语序（<code>have/has + 主语 + 过去分词</code>）。</li>
+            </ul>
+            <a class="next-btn" href="L10-03-meaning-result-experience.html">进入意义与用法（L10-03）</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <nav class="dock" aria-label="幻灯分页">
+    <button type="button" id="btnPrev" class="secondary">上一页</button>
+    <span class="dots" id="dockDots">1 / 7</span>
+    <button type="button" id="btnNext">下一页</button>
+  </nav>
+
+  <div class="backdrop" id="aiBackdrop" hidden></div>
+  <aside class="ai-panel" id="aiPanel" aria-label="AI 句式教练">
+    <header>
+      <strong>AI 句式教练（DeepSeek）</strong>
+      <button type="button" class="secondary" id="btnAiClose">关闭</button>
+    </header>
+    <div class="body">
+      <p style="margin:0;font-size:0.88rem;color:var(--muted);">选择句式与疑问主语假设，中文描述情境（不要 yesterday 等）。输出两行：英语 + 中文点评。</p>
+      <fieldset style="margin:0;padding:0;border:none;">
+        <legend class="sr">句式类型</legend>
+        <div style="display:flex;flex-wrap:wrap;gap:10px;">
+          <label><input type="radio" name="aiMode" value="aff" checked /> 肯定</label>
+          <label><input type="radio" name="aiMode" value="neg" /> 否定</label>
+          <label><input type="radio" name="aiMode" value="q" /> 一般疑问</label>
+        </div>
+      </fieldset>
+      <fieldset style="margin:0;padding:0;border:none;">
+        <legend style="font-size:0.85rem;color:var(--muted);">一般疑问主语假设</legend>
+        <div style="display:flex;gap:12px;">
+          <label><input type="radio" name="aiSubj" value="you" checked /> you</label>
+          <label><input type="radio" name="aiSubj" value="he" /> he</label>
+        </div>
+      </fieldset>
+      <label for="aiZh">中文情境（约 100 字内）</label>
+      <textarea id="aiZh" maxlength="200" placeholder="例：我已经读完这本英文故事书。"></textarea>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;">
+        <button type="button" id="aiGen">生成英语</button>
+        <button type="button" class="secondary" id="aiCopy">复制英语行</button>
+        <button type="button" class="secondary" id="aiClear">清空</button>
+      </div>
+      <div class="out" id="aiOut"></div>
+      <p id="aiWeak" style="display:none;font-size:0.85rem;color:#b45309;">未检测到典型的 have/has + 过去分词结构，可再试一次。</p>
+    </div>
+  </aside>
+
+  <script src="./assets/js/l10-verb-pdf.js"></script>
+  <script>
+(function () {
+  const AZURE_SPEECH_KEY = "C42UQWeDcluYanbo17WrtUnPhk0vkZy2uQHPTCGDzY6CdEXx99NzJQQJ99BIACqBBLyXJ3w3AAAYACOGjkyu";
+  const AZURE_SPEECH_REGION = "southeastasia";
+  const DEEPSEEK_API_KEY = "sk-daa16008e81843deba6fefe9dce51465";
+  const DEEPSEEK_API_URL = "https://api.deepseek.com/v1/chat/completions";
+  const MSG_NET = "语音暂时不可用，请默读表格或换 Edge / 本地 http 打开。";
+  const MSG_SELECT_HAVE = "请选择 have 或 has 后再提交。";
+  const MSG_SELECT_TF = "请完成全部句式变换题再提交。";
+  const MSG_SELECT_AI = "请先选择句式类型（肯定 / 否定 / 疑问）。";
+  const DEEPSEEK_SYSTEM = "你是初中英语语法教练。用户会选一个句式类型：肯定、否定、或一般疑问的现在完成时。用户用中文描述情境。你只输出两行：第一行英语句子，必须严格使用现在完成时，结构为 have/has + 过去分词，主谓一致正确，不要出现 yesterday 等与现完冲突的时间状语；第二行中文，说明 have 与 has 的选择和过去分词。不要输出第三行。不要输出任何密钥或链接。不要讲解 for/since/already/yet。";
+
+  const haveHasItems = [
+    { id: "hh1", text: "I", a: "have" },
+    { id: "hh2", text: "Tom", a: "has" },
+    { id: "hh3", text: "my sister", a: "has" },
+    { id: "hh4", text: "the students", a: "have" },
+    { id: "hh5", text: "our class", a: "has" },
+    { id: "hh6", text: "you", a: "have" },
+    { id: "hh7", text: "he", a: "has" },
+    { id: "hh8", text: "they", a: "have" },
+    { id: "hh9", text: "My parents", a: "have" },
+    { id: "hh10", text: "Lily and Kate", a: "have" }
+  ];
+
+  const tfItems = [
+    { id: "t1", prompt: "变为否定：I have finished my homework.", correct: "I haven't finished my homework.", wrong: ["I don't have finished my homework.", "I finished my homework."] },
+    { id: "t2", prompt: "变为一般疑问：She has read the story.", correct: "Has she read the story?", wrong: ["She has read the story?", "Does she have read the story?"] },
+    { id: "t3", prompt: "变为否定：We have seen the film.", correct: "We haven't seen the film.", wrong: ["We didn't see the film.", "We not have seen the film."] },
+    { id: "t4", prompt: "变为一般疑问：He has done his best.", correct: "Has he done his best?", wrong: ["He has done his best?", "Does he done his best?"] },
+    { id: "t5", prompt: "变为否定：They have arrived.", correct: "They haven't arrived.", wrong: ["They didn't arrive.", "They don't have arrived."] }
+  ];
+
+  var slideCount = 0;
+  var slideIndex = 0;
+  var slides = [];
+  var scrambleClockTimer = null;
+
+  function initSlides() {
+    slides = Array.prototype.slice.call(document.querySelectorAll(".slide"));
+    slideCount = slides.length;
+    goSlide(0);
+  }
+
+  function goSlide(n) {
+    if (scrambleClockTimer) {
+      clearInterval(scrambleClockTimer);
+      scrambleClockTimer = null;
+    }
+    slideIndex = Math.max(0, Math.min(slideCount - 1, n));
+    slides.forEach(function (s, i) {
+      var on = i === slideIndex;
+      s.classList.toggle("is-active", on);
+      s.hidden = !on;
+    });
+    var label = slideIndex + 1 + " / " + slideCount;
+    var ind = document.getElementById("slideIndicator");
+    var dots = document.getElementById("dockDots");
+    if (ind) ind.textContent = label;
+    if (dots) dots.textContent = label;
+    document.getElementById("btnPrev").disabled = slideIndex === 0;
+    document.getElementById("btnNext").disabled = slideIndex === slideCount - 1;
+    var cur = slides[slideIndex];
+    if (cur && cur.id === "slide-scramble") scrambleEnterSlide();
+  }
+
+  document.getElementById("btnPrev").addEventListener("click", function () { goSlide(slideIndex - 1); });
+  document.getElementById("btnNext").addEventListener("click", function () { goSlide(slideIndex + 1); });
+
+  document.addEventListener("keydown", function (e) {
+    if (e.target.closest(".ai-panel.open") || document.getElementById("aiBackdrop").classList.contains("show")) return;
+    if (e.key === "ArrowLeft") { e.preventDefault(); goSlide(slideIndex - 1); }
+    if (e.key === "ArrowRight") { e.preventDefault(); goSlide(slideIndex + 1); }
+  });
+
+  var ttsBusy = false;
+  var ttsHtmlAudio = null;
+
+  function aria(m) {
+    var el = document.getElementById("ariaLive");
+    if (el) el.textContent = m;
+  }
+  function setTtsBar(t) {
+    var b = document.getElementById("ttsBar");
+    if (!b) return;
+    b.textContent = t || "";
+    b.style.display = t ? "block" : "none";
+  }
+  function stopHtmlAudio() {
+    try {
+      if (ttsHtmlAudio) {
+        ttsHtmlAudio.pause();
+        if (ttsHtmlAudio._revoke) URL.revokeObjectURL(ttsHtmlAudio._revoke);
+        ttsHtmlAudio.removeAttribute("src");
+        ttsHtmlAudio.load();
+        ttsHtmlAudio.onended = null;
+        ttsHtmlAudio.onerror = null;
+        ttsHtmlAudio = null;
+      }
+    } catch (e) {}
+  }
+  function escapeXml(s) {
+    return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&apos;");
+  }
+  function buildSsml(text, voiceName) {
+    var lang = voiceName.indexOf("zh-") === 0 ? "zh-CN" : "en-US";
+    return "<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='" + lang + "'><voice name='" + voiceName + "'>" + escapeXml(text) + "</voice></speak>";
+  }
+  function azureRest(ssml, ok, fail) {
+    stopHtmlAudio();
+    fetch("https://" + AZURE_SPEECH_REGION + ".tts.speech.microsoft.com/cognitiveservices/v1", {
+      method: "POST",
+      mode: "cors",
+      credentials: "omit",
+      headers: {
+        "Ocp-Apim-Subscription-Key": AZURE_SPEECH_KEY,
+        "Content-Type": "application/ssml+xml",
+        "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3",
+        "User-Agent": "L10FormSlide/1.2"
+      },
+      body: ssml
+    })
+      .then(function (r) {
+        if (!r.ok) return r.text().then(function (body) { throw new Error("REST " + r.status + " " + (body || "").slice(0, 160)); });
+        return r.blob();
+      })
+      .then(function (blob) {
+        if (!blob || blob.size < 80) throw new Error("音频数据异常");
+        var u = URL.createObjectURL(blob);
+        var a = new Audio();
+        ttsHtmlAudio = a;
+        a._revoke = u;
+        a.src = u;
+        a.setAttribute("playsinline", "true");
+        a.onended = function () { stopHtmlAudio(); ok(); };
+        a.onerror = function () { stopHtmlAudio(); fail(new Error("播放失败")); };
+        var p = a.play();
+        if (p && p.catch) p.catch(function (e) { stopHtmlAudio(); fail(e); });
+      })
+      .catch(function (e) { stopHtmlAudio(); fail(e); });
+  }
+  function azureSdk(ssml, voiceName, ok, fail) {
+    if (typeof SpeechSDK === "undefined") { fail(new Error("SDK 未加载")); return; }
+    stopHtmlAudio();
+    var cfg = SpeechSDK.SpeechConfig.fromSubscription(AZURE_SPEECH_KEY, AZURE_SPEECH_REGION);
+    cfg.speechSynthesisVoiceName = voiceName;
+    var syn = new SpeechSDK.SpeechSynthesizer(cfg, SpeechSDK.AudioConfig.fromDefaultSpeakerOutput());
+    syn.speakSsmlAsync(
+      ssml,
+      function (res) {
+        var good = res.reason === SpeechSDK.ResultReason.SynthesizingAudioCompleted;
+        var det = res.errorDetails || "";
+        syn.close();
+        if (good) ok();
+        else fail(new Error(det || "SDK 合成失败"));
+      },
+      function (err) { syn.close(); fail(new Error(String(err))); }
+    );
+  }
+  function buildSsmlEnSlow(text, voiceName) {
+    var lang = "en-US";
+    return "<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='" + lang + "'><voice name='" + voiceName + "'><prosody rate='0.88'>" + escapeXml(text) + "</prosody></voice></speak>";
+  }
+  function azureSpeakSsml(ssml, voice, onDone) {
+    onDone = onDone || function () {};
+    setTtsBar("正在连接 Azure 语音…");
+    azureRest(
+      ssml,
+      function () { setTtsBar(""); onDone(); },
+      function () {
+        setTtsBar("REST 失败，尝试 SDK…");
+        azureSdk(ssml, voice, function () { setTtsBar(""); onDone(); }, function (e) {
+          setTtsBar("语音失败：" + (e.message || e));
+          aria(MSG_NET);
+          alert(MSG_NET + "\n" + (e.message || "").slice(0, 180));
+          onDone();
+        });
+      }
+    );
+  }
+  function azureSpeak(text, voice, onDone) {
+    azureSpeakSsml(buildSsml(text, voice), voice, onDone);
+  }
+  function azureSpeakEnglishSlow(text, onDone) {
+    var v = "en-US-JennyNeural";
+    azureSpeakSsml(buildSsmlEnSlow(text, v), v, onDone);
+  }
+
+  function setBtnsSpeaking(on, speakingBtnId) {
+    ttsBusy = on;
+    ["btnReadPage", "btnReadPp", "btnScrambleListen"].forEach(function (id) {
+      var b = document.getElementById(id);
+      if (b) b.disabled = on;
+    });
+    ["btnReadPage", "btnReadPp", "btnScrambleListen"].forEach(function (id) {
+      var b = document.getElementById(id);
+      if (b) b.classList.remove("speaking");
+    });
+    if (on && speakingBtnId) {
+      var sp = document.getElementById(speakingBtnId);
+      if (sp) sp.classList.add("speaking");
+    }
+  }
+
+  document.getElementById("btnReadPage").addEventListener("click", function () {
+    if (ttsBusy) return;
+    setBtnsSpeaking(true, "btnReadPage");
+    var zh = "下面学习现在完成时的基本结构。请看肯定、否定、一般疑问和特殊疑问。特殊疑问要把 What、When、Where、Why、How、Which、Who 等放在句首，后面仍用 have 或 has 加过去分词的一般疑问语序。";
+    var en = "With finish: I have finished my homework. I haven't finished my homework. Have you finished your homework? What have you finished? When have you finished? Where have you finished it? Why haven't you finished your homework? How have you finished so quickly? Which part have you finished? He has finished his homework. He hasn't finished his homework. Has he finished his homework? What has he finished? When has he finished? Where has he finished it? Why hasn't he finished his homework? How has he finished so fast? Who has finished the homework? Yes I have. No I haven't. Yes he has. No he hasn't.";
+    var sum = "Summary: Wh-questions keep the same order as yes-no questions after the question word: What have you finished? For short answers, only yes-no questions use Yes or No.";
+    azureSpeak(zh, "zh-CN-XiaoxiaoNeural", function () {
+      azureSpeak(en, "en-US-JennyNeural", function () {
+        azureSpeak(sum, "en-US-JennyNeural", function () { setBtnsSpeaking(false); });
+      });
+    });
+  });
+
+  document.getElementById("btnReadPp").addEventListener("click", function () {
+    if (ttsBusy) return;
+    setBtnsSpeaking(true, "btnReadPp");
+    var pp =
+      "been, done, gone, seen, given, taken, made, come, run, eaten, read, written, spoken, broken, chosen, forgotten, got or gotten, known, thought, bought, brought, taught, caught, built, sent, spent, sat, stood, understood, found, had, heard, told, sold, said, paid, met, left, slept, kept, meant, lent, won, lost, felt, swum, drunk, sung, rung, begun, driven, ridden, worn, thrown, flown, drawn, grown, fallen, shown";
+    azureSpeak(pp, "en-US-JennyNeural", function () { setBtnsSpeaking(false); });
+  });
+
+  document.getElementById("heroImg").addEventListener("error", function () {
+    document.getElementById("heroBlock").classList.add("fallback-img");
+  });
+
+  (function buildHaveHas() {
+    var area = document.getElementById("haveHasArea");
+    haveHasItems.forEach(function (row) {
+      var d = document.createElement("div");
+      d.className = "quiz-row";
+      d.innerHTML =
+        "<label class=\"main\" for=\"" + row.id + "-h\">主语：<span lang=\"en\">" + row.text + "</span></label>" +
+        "<div class=\"opts\">" +
+        "<label><input type=\"radio\" name=\"" + row.id + "\" id=\"" + row.id + "-h\" value=\"have\" /> have</label>" +
+        "<label><input type=\"radio\" name=\"" + row.id + "\" value=\"has\" /> has</label>" +
+        "</div>";
+      area.appendChild(d);
+    });
+  })();
+
+  document.getElementById("btnCheckHave").addEventListener("click", function () {
+    var miss = false, score = 0;
+    haveHasItems.forEach(function (row) {
+      var r = document.querySelector("input[name=\"" + row.id + "\"]:checked");
+      if (!r) miss = true;
+      else if (r.value === row.a) score++;
+    });
+    var fb = document.getElementById("fbHave");
+    if (miss) {
+      fb.className = "feedback bad show";
+      fb.textContent = MSG_SELECT_HAVE;
+      return;
+    }
+    fb.className = "feedback " + (score === haveHasItems.length ? "ok" : "bad") + " show";
+    fb.innerHTML = score === haveHasItems.length
+      ? "<strong>全对！</strong> 三单用 has，其余用 have。"
+      : "得分 " + score + " / " + haveHasItems.length + "。重点检查 Tom、he、our class 等是否用 has。";
+  });
+
+  var tfOptionsMap = {};
+  (function buildTf() {
+    var area = document.getElementById("tfArea");
+    tfItems.forEach(function (q, idx) {
+      var opts = [q.correct, q.wrong[0], q.wrong[1]];
+      for (var i = opts.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var t = opts[i];
+        opts[i] = opts[j];
+        opts[j] = t;
+      }
+      tfOptionsMap[q.id] = opts;
+      var box = document.createElement("div");
+      box.className = "tf-row";
+      var p = document.createElement("p");
+      p.textContent = "题 " + (idx + 1) + " · " + q.prompt;
+      box.appendChild(p);
+      var mc = document.createElement("div");
+      mc.className = "mc";
+      opts.forEach(function (opt, k) {
+        var lab = document.createElement("label");
+        var inp = document.createElement("input");
+        inp.type = "radio";
+        inp.name = q.id;
+        inp.value = String(k);
+        var sp = document.createElement("span");
+        sp.lang = "en";
+        sp.textContent = " " + opt;
+        lab.appendChild(inp);
+        lab.appendChild(sp);
+        mc.appendChild(lab);
+      });
+      box.appendChild(mc);
+      area.appendChild(box);
+    });
+  })();
+
+  document.getElementById("btnCheckTf").addEventListener("click", function () {
+    var okc = 0, miss = false;
+    tfItems.forEach(function (q) {
+      var r = document.querySelector("input[name=\"" + q.id + "\"]:checked");
+      if (!r) miss = true;
+      else {
+        var opts = tfOptionsMap[q.id];
+        if (opts[parseInt(r.value, 10)] === q.correct) okc++;
+      }
+    });
+    var fb = document.getElementById("fbTf");
+    if (miss) {
+      fb.className = "feedback bad show";
+      fb.textContent = MSG_SELECT_TF;
+      return;
+    }
+    fb.className = "feedback " + (okc === tfItems.length ? "ok" : "bad") + " show";
+    fb.innerHTML = okc === tfItems.length
+      ? "<strong>全对！</strong>"
+      : "正确 " + okc + " / " + tfItems.length + "。否定用 haven't/hasn't；疑问用 Have/Has 开头。";
+  });
+
+  var aiPanel = document.getElementById("aiPanel");
+  var bd = document.getElementById("aiBackdrop");
+  function openAi() {
+    aiPanel.classList.add("open");
+    bd.hidden = false;
+    bd.classList.add("show");
+  }
+  function closeAi() {
+    aiPanel.classList.remove("open");
+    bd.classList.remove("show");
+    bd.hidden = true;
+  }
+  document.getElementById("btnAi").addEventListener("click", openAi);
+  document.getElementById("btnAiClose").addEventListener("click", closeAi);
+  bd.addEventListener("click", closeAi);
+
+  document.getElementById("aiClear").addEventListener("click", function () {
+    document.getElementById("aiZh").value = "";
+    document.getElementById("aiOut").textContent = "";
+    document.getElementById("aiWeak").style.display = "none";
+  });
+
+  function weakPresentPerfect(line) {
+    var s = (line || "").trim();
+    if (!/\b(have|has)\b/i.test(s)) return false;
+    if (/\byesterday\b|\blast\s+\w+\b|\sago\b|\bin\s+20\d{2}\b/i.test(s)) return false;
+    if (/\b(has|have)\s+not\b/i.test(s) || /haven't|hasn't/i.test(s)) return true;
+    if (/\b(has|have)\s+\w+ed\b/i.test(s)) return true;
+    if (/\b(has|have)\s+(gone|seen|done|read|written|taken|made|been|come|run|eaten|given|known|spoken|broken|chosen|forgotten|got|gotten|thought|bought|brought|taught|caught|built|sent|spent|sat|stood|understood|found|had|heard|told|sold|said|paid|met|left|slept|kept|meant|lent|won|lost|felt|swum|drunk|sung|rung|begun|driven|ridden|worn|thrown|flown|drawn|grown|fallen|shown)\b/i.test(s)) return true;
+    if (/\bHas\s+\w+\s+\w+/i.test(s) || /\bHave\s+\w+\s+\w+/i.test(s)) return true;
+    return false;
+  }
+
+  document.getElementById("aiGen").addEventListener("click", async function () {
+    var mode = (document.querySelector("input[name=\"aiMode\"]:checked") || {}).value;
+    var sub = (document.querySelector("input[name=\"aiSubj\"]:checked") || {}).value;
+    var zh = document.getElementById("aiZh").value.trim();
+    var out = document.getElementById("aiOut");
+    var weak = document.getElementById("aiWeak");
+    weak.style.display = "none";
+    if (!mode) { alert(MSG_SELECT_AI); return; }
+    if (!zh) { out.textContent = "请输入中文情境。"; return; }
+    if (zh.length > 100) zh = zh.slice(0, 100);
+    var user = "句式类型：" + (mode === "aff" ? "肯定" : mode === "neg" ? "否定" : "一般疑问") + "。一般疑问主语假设为 " + sub + "。中文情境：" + zh;
+    out.textContent = "生成中…";
+    try {
+      var res = await fetch(DEEPSEEK_API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: "Bearer " + DEEPSEEK_API_KEY },
+        body: JSON.stringify({
+          model: "deepseek-chat",
+          temperature: 0.4,
+          max_tokens: 280,
+          messages: [
+            { role: "system", content: DEEPSEEK_SYSTEM },
+            { role: "user", content: user }
+          ]
+        })
+      });
+      if (!res.ok) { out.textContent = "请求失败 HTTP " + res.status; return; }
+      var data = await res.json();
+      var txt = (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) || "";
+      out.textContent = txt;
+      var first = (txt.split("\n").filter(Boolean)[0] || "").trim();
+      if (first && !weakPresentPerfect(first)) weak.style.display = "block";
+    } catch (e) {
+      out.textContent = (e && e.message) || "网络错误";
+    }
+  });
+
+  document.getElementById("aiCopy").addEventListener("click", function () {
+    var t = document.getElementById("aiOut").textContent || "";
+    var line = t.split("\n").map(function (s) { return s.trim(); }).filter(Boolean)[0] || "";
+    if (!line) return;
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(line);
+    else {
+      var ta = document.createElement("textarea");
+      ta.value = line;
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand("copy"); } catch (x) {}
+      document.body.removeChild(ta);
+    }
+  });
+
+  function scrambleFormatClock() {
+    return new Date().toLocaleString("zh-CN", {
+      hour12: false,
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      weekday: "short",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit"
+    });
+  }
+  function scrambleTickClock() {
+    var el = document.getElementById("scrambleClock");
+    if (el) el.textContent = scrambleFormatClock();
+  }
+  function scrambleRawRows() {
+    return [
+      {
+        leftCap: "早晨：饭还在桌上，赶着出门上学，妈妈招呼先吃点。",
+        rightCap: "此刻：教室里，又饿又没精神。",
+        sentence: "I am hungry, because I haven't eaten anything for breakfast.",
+        tokens: ["I", "am", "hungry,", "because", "I", "haven't", "eaten", "anything", "for", "breakfast."],
+        verb: { base: "eat", past: "ate", pp: "eaten" },
+        leftImg: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L10/assets/img/l10-p03-sc1-left.png",
+        rightImg: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L10/assets/img/l10-p03-sc1-right.png"
+      },
+      {
+        leftCap: "深夜还在看手机，没有早睡。",
+        rightCap: "此刻：上课犯困。",
+        sentence: "I am sleepy, because I haven't slept well these days.",
+        tokens: ["I", "am", "sleepy,", "because", "I", "haven't", "slept", "well", "these", "days."],
+        verb: { base: "sleep", past: "slept", pp: "slept" },
+        leftImg: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L10/assets/img/l10-p03-sc2-left.png",
+        rightImg: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L10/assets/img/l10-p03-sc2-right.png"
+      },
+      {
+        leftCap: "演讲前才发现材料没准备好。",
+        rightCap: "此刻：候场紧张。",
+        sentence: "She is nervous, because she hasn't prepared her English speech.",
+        tokens: ["She", "is", "nervous,", "because", "she", "hasn't", "prepared", "her", "English", "speech."],
+        verb: { base: "prepare", past: "prepared", pp: "prepared" },
+        leftImg: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L10/assets/img/l10-p03-sc3-left.png",
+        rightImg: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L10/assets/img/l10-p03-sc3-right.png"
+      },
+      {
+        leftCap: "早上下雨，忘记带伞就出门。",
+        rightCap: "此刻：衣服头发淋湿。",
+        sentence: "We are wet, because we haven't brought an umbrella today.",
+        tokens: ["We", "are", "wet,", "because", "we", "haven't", "brought", "an", "umbrella", "today."],
+        verb: { base: "bring", past: "brought", pp: "brought" },
+        leftImg: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L10/assets/img/l10-p03-sc4-left.png",
+        rightImg: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L10/assets/img/l10-p03-sc4-right.png"
+      },
+      {
+        leftCap: "起床晚了，没赶上校车。",
+        rightCap: "此刻：校门口迟到。",
+        sentence: "They are late, because they haven't caught the school bus.",
+        tokens: ["They", "are", "late,", "because", "they", "haven't", "caught", "the", "school", "bus."],
+        verb: { base: "catch", past: "caught", pp: "caught" },
+        leftImg: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L10/assets/img/l10-p03-sc5-left.png",
+        rightImg: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L10/assets/img/l10-p03-sc5-right.png"
+      },
+      {
+        leftCap: "昨晚赶作业，家长信还没动笔。",
+        rightCap: "此刻：班主任催交英文家长信。",
+        sentence: "I am worried, because I haven't written my parent letter in English.",
+        tokens: ["I", "am", "worried,", "because", "I", "haven't", "written", "my", "parent", "letter", "in", "English."],
+        verb: { base: "write", past: "wrote", pp: "written" },
+        leftImg: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L10/assets/img/l10-p03-sc6-left.png",
+        rightImg: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L10/assets/img/l10-p03-sc6-right.png"
+      },
+      {
+        leftCap: "布告栏上新课表贴得太高，没凑近看。",
+        rightCap: "此刻：找不到教室，走廊里发懵。",
+        sentence: "We are confused, because we haven't seen the new timetable on the board.",
+        tokens: ["We", "are", "confused,", "because", "we", "haven't", "seen", "the", "new", "timetable", "on", "the", "board."],
+        verb: { base: "see", past: "saw", pp: "seen" },
+        leftImg: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L10/assets/img/l10-p03-sc7-left.png",
+        rightImg: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L10/assets/img/l10-p03-sc7-right.png"
+      },
+      {
+        leftCap: "昨晚打游戏，科学课的预习没做。",
+        rightCap: "此刻：实验课老师要提问，心里发慌。",
+        sentence: "He is stressed, because he hasn't done the science pre-reading.",
+        tokens: ["He", "is", "stressed,", "because", "he", "hasn't", "done", "the", "science", "pre-reading."],
+        verb: { base: "do", past: "did", pp: "done" },
+        leftImg: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L10/assets/img/l10-p03-sc8-left.png",
+        rightImg: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L10/assets/img/l10-p03-sc8-right.png"
+      },
+      {
+        leftCap: "早操后把水壶落在柜子里没拿。",
+        rightCap: "此刻：体育课刚跑完，口渴难耐。",
+        sentence: "She is thirsty, because she hasn't taken her water bottle from the locker.",
+        tokens: ["She", "is", "thirsty,", "because", "she", "hasn't", "taken", "her", "water", "bottle", "from", "the", "locker."],
+        verb: { base: "take", past: "took", pp: "taken" },
+        leftImg: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L10/assets/img/l10-p03-sc9-left.png",
+        rightImg: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L10/assets/img/l10-p03-sc9-right.png"
+      },
+      {
+        leftCap: "周五英语角海报贴出来了，一直路过没进去。",
+        rightCap: "此刻：轮到自己发言，紧张到说不出话。",
+        sentence: "I am shy, because I haven't spoken at the English corner before.",
+        tokens: ["I", "am", "shy,", "because", "I", "haven't", "spoken", "at", "the", "English", "corner", "before."],
+        verb: { base: "speak", past: "spoke", pp: "spoken" },
+        leftImg: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L10/assets/img/l10-p03-sc10-left.png",
+        rightImg: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L10/assets/img/l10-p03-sc10-right.png"
+      },
+      {
+        leftCap: "上课铃响了，值日生还没去借投影遥控。",
+        rightCap: "此刻：全班干等，课没法开始。",
+        sentence: "Class is delayed, because the duty student hasn't gone to borrow the projector remote.",
+        tokens: ["Class", "is", "delayed,", "because", "the", "duty", "student", "hasn't", "gone", "to", "borrow", "the", "projector", "remote."],
+        verb: { base: "go", past: "went", pp: "gone" },
+        leftImg: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L10/assets/img/l10-p03-sc11-left.png",
+        rightImg: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L10/assets/img/l10-p03-sc11-right.png"
+      },
+      {
+        leftCap: "老师发的回执条塞在书包夹层里忘了交。",
+        rightCap: "此刻：校门口家长问签字，手里空空。",
+        sentence: "Parents are asking, because we haven't given them the permission slip.",
+        tokens: ["Parents", "are", "asking,", "because", "we", "haven't", "given", "them", "the", "permission", "slip."],
+        verb: { base: "give", past: "gave", pp: "given" },
+        leftImg: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L10/assets/img/l10-p03-sc12-left.png",
+        rightImg: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L10/assets/img/l10-p03-sc12-right.png"
+      },
+      {
+        leftCap: "选课系统开放好几天了，一直拖着没点。",
+        rightCap: "此刻：截止前一小时，仍没提交志愿。",
+        sentence: "I am unsure, because I haven't chosen my elective for next term.",
+        tokens: ["I", "am", "unsure,", "because", "I", "haven't", "chosen", "my", "elective", "for", "next", "term."],
+        verb: { base: "choose", past: "chose", pp: "chosen" },
+        leftImg: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L10/assets/img/l10-p03-sc13-left.png",
+        rightImg: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L10/assets/img/l10-p03-sc13-right.png"
+      },
+      {
+        leftCap: "昨晚听歌后耳机随手塞抽屉，今早忘了拿。",
+        rightCap: "此刻：自习想练听力，包里翻不到耳机。",
+        sentence: "I am searching, because I haven't found my earphones yet.",
+        tokens: ["I", "am", "searching,", "because", "I", "haven't", "found", "my", "earphones", "yet."],
+        verb: { base: "find", past: "found", pp: "found" },
+        leftImg: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L10/assets/img/l10-p03-sc14-left.png",
+        rightImg: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L10/assets/img/l10-p03-sc14-right.png"
+      },
+      {
+        leftCap: "在线小测窗口开着，却刷视频刷忘了提交。",
+        rightCap: "此刻：系统倒计时快结束，心跳加速。",
+        sentence: "She is anxious, because she hasn't finished the online quiz.",
+        tokens: ["She", "is", "anxious,", "because", "she", "hasn't", "finished", "the", "online", "quiz."],
+        verb: { base: "finish", past: "finished", pp: "finished" },
+        leftImg: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L10/assets/img/l10-p03-sc15-left.png",
+        rightImg: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L10/assets/img/l10-p03-sc15-right.png"
+      }
+    ];
+  }
+  function scramblePastDistractorLabel(past, pp) {
+    var a = String(past == null ? "" : past).trim().toLowerCase();
+    var b = String(pp == null ? "" : pp).trim().toLowerCase();
+    if (a && a === b) return String(past).trim() + "（动词过去式 / 动词过去分词）";
+    return String(past == null ? "" : past).trim();
+  }
+  var scramblePayload = scrambleRawRows().map(function (row, si) {
+    var tokenIds = row.tokens.map(function (_, ti) {
+      return "sc" + si + "k" + ti;
+    });
+    var v = row.verb || {};
+    var lemma = String(v.base == null ? "" : v.base).trim();
+    var pastLabel = scramblePastDistractorLabel(v.past, v.pp);
+    var distTokens = [lemma, pastLabel];
+    var distIds = ["sc" + si + "d0", "sc" + si + "d1"];
+    return {
+      leftCap: row.leftCap,
+      rightCap: row.rightCap,
+      sentence: row.sentence,
+      tokens: row.tokens.concat(distTokens),
+      tokenIds: tokenIds.concat(distIds),
+      leftUri: row.leftImg,
+      rightUri: row.rightImg
+    };
+  });
+  var scrambleIdx = 0;
+  var scrambleById = {};
+  var scrambleBuiltOrder = [];
+  var scrambleBankOrder = [];
+  function scrambleShuffle(arr) {
+    var a = arr.slice();
+    for (var i = a.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = a[i];
+      a[i] = a[j];
+      a[j] = t;
+    }
+    return a;
+  }
+  function scrambleHideFb() {
+    var fb = document.getElementById("fbScramble");
+    if (fb) {
+      fb.className = "feedback";
+      fb.textContent = "";
+    }
+  }
+  function scramblePaintChips() {
+    var bank = document.getElementById("scrambleBank");
+    var built = document.getElementById("scrambleBuilt");
+    if (!bank || !built) return;
+    bank.innerHTML = "";
+    built.innerHTML = "";
+    function mkChip(id, inBuilt) {
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "chip" + (inBuilt ? " in-built" : "");
+      if (/^sc\d+d\d+$/.test(id)) b.className += " chip-distractor";
+      b.setAttribute("data-id", id);
+      b.setAttribute("lang", "en");
+      b.textContent = scrambleById[id];
+      return b;
+    }
+    scrambleBuiltOrder.forEach(function (id) {
+      built.appendChild(mkChip(id, true));
+    });
+    scrambleBankOrder.forEach(function (id) {
+      bank.appendChild(mkChip(id, false));
+    });
+  }
+  function scrambleRenderDual() {
+    var root = document.getElementById("scrambleDual");
+    if (!root) return;
+    var P = scramblePayload[scrambleIdx];
+    var capL = P.leftCap.replace(/</g, "&lt;").replace(/"/g, "&quot;");
+    var capR = P.rightCap.replace(/</g, "&lt;").replace(/"/g, "&quot;");
+    root.innerHTML =
+      '<div class="scramble-dual">' +
+      '<figure class="scramble-fig"><figcaption>' +
+      capL +
+      '</figcaption><div class="img-slot"><img src="' +
+      P.leftUri +
+      '" alt="" width="360" height="200" decoding="async"/></div></figure>' +
+      '<figure class="scramble-fig scramble-fig-now"><figcaption>' +
+      capR +
+      '</figcaption><div class="img-slot"><div class="scene-clock" id="scrambleClock"></div><img src="' +
+      P.rightUri +
+      '" alt="" width="360" height="200" decoding="async"/></div></figure>' +
+      "</div>";
+    scrambleTickClock();
+  }
+  function scrambleInitState() {
+    var P = scramblePayload[scrambleIdx];
+    scrambleById = {};
+    P.tokenIds.forEach(function (id, i) {
+      scrambleById[id] = P.tokens[i];
+    });
+    scrambleBuiltOrder = [];
+    scrambleBankOrder = scrambleShuffle(P.tokenIds);
+  }
+  function scrambleLoadScenario() {
+    var P = scramblePayload[scrambleIdx];
+    document.getElementById("scrambleExamNo").textContent = "场景 " + (scrambleIdx + 1) + " / " + scramblePayload.length;
+    scrambleInitState();
+    scrambleRenderDual();
+    scramblePaintChips();
+    scrambleHideFb();
+  }
+  function scrambleEnterSlide() {
+    scrambleTickClock();
+    if (scrambleClockTimer) clearInterval(scrambleClockTimer);
+    scrambleClockTimer = setInterval(scrambleTickClock, 30000);
+    scrambleLoadScenario();
+  }
+  function scrambleMoveChipFromBank(id) {
+    if (scrambleBankOrder.indexOf(id) === -1) return;
+    scrambleBankOrder = scrambleBankOrder.filter(function (x) {
+      return x !== id;
+    });
+    scrambleBuiltOrder.push(id);
+    scramblePaintChips();
+    scrambleHideFb();
+  }
+  function scrambleMoveChipFromBuilt(id) {
+    if (scrambleBuiltOrder.indexOf(id) === -1) return;
+    scrambleBuiltOrder = scrambleBuiltOrder.filter(function (x) {
+      return x !== id;
+    });
+    scrambleBankOrder.push(id);
+    scramblePaintChips();
+    scrambleHideFb();
+  }
+  (function scrambleBind() {
+    var slide = document.getElementById("slide-scramble");
+    if (!slide) return;
+    slide.addEventListener("click", function (e) {
+      var chip = e.target.closest(".chip");
+      if (!chip) return;
+      var id = chip.getAttribute("data-id");
+      if (!id) return;
+      var bank = document.getElementById("scrambleBank");
+      var built = document.getElementById("scrambleBuilt");
+      if (bank && bank.contains(chip)) scrambleMoveChipFromBank(id);
+      else if (built && built.contains(chip)) scrambleMoveChipFromBuilt(id);
+    });
+    document.getElementById("btnScrambleListen").addEventListener("click", function () {
+      if (ttsBusy) return;
+      var P = scramblePayload[scrambleIdx];
+      setBtnsSpeaking(true, "btnScrambleListen");
+      azureSpeakEnglishSlow(P.sentence, function () {
+        setBtnsSpeaking(false);
+      });
+    });
+    document.getElementById("scramblePrevQ").addEventListener("click", function () {
+      scrambleIdx = (scrambleIdx + scramblePayload.length - 1) % scramblePayload.length;
+      scrambleLoadScenario();
+    });
+    document.getElementById("scrambleNextQ").addEventListener("click", function () {
+      scrambleIdx = (scrambleIdx + 1) % scramblePayload.length;
+      scrambleLoadScenario();
+    });
+    document.getElementById("btnScrambleCheck").addEventListener("click", function () {
+      var P = scramblePayload[scrambleIdx];
+      var got = scrambleBuiltOrder
+        .map(function (id) {
+          return scrambleById[id];
+        })
+        .join(" ");
+      var fb = document.getElementById("fbScramble");
+      if (got === P.sentence) {
+        fb.className = "feedback ok show";
+        fb.innerHTML = "<strong>顺序正确！</strong> 再全班齐读一遍。";
+      } else {
+        fb.className = "feedback bad show";
+        fb.innerHTML =
+          "还不对。已排了 <strong lang=\"en\">" +
+          (got || "（空）") +
+          "</strong>。可点词放回词库或「清空排序」重来。";
+      }
+    });
+    document.getElementById("btnScrambleUndo").addEventListener("click", function () {
+      if (!scrambleBuiltOrder.length) return;
+      var id = scrambleBuiltOrder.pop();
+      scrambleBankOrder.push(id);
+      scramblePaintChips();
+      scrambleHideFb();
+    });
+    document.getElementById("btnScrambleClear").addEventListener("click", function () {
+      var P = scramblePayload[scrambleIdx];
+      scrambleBuiltOrder = [];
+      scrambleBankOrder = scrambleShuffle(P.tokenIds);
+      scramblePaintChips();
+      scrambleHideFb();
+    });
+    document.getElementById("btnScrambleShuffle").addEventListener("click", function () {
+      var pool = scrambleBankOrder.concat(scrambleBuiltOrder);
+      scrambleBuiltOrder = [];
+      scrambleBankOrder = scrambleShuffle(pool);
+      scramblePaintChips();
+      scrambleHideFb();
+    });
+  })();
+
+  var btnVerbPdf = document.getElementById("btnVerbPdf");
+  if (btnVerbPdf) {
+    btnVerbPdf.addEventListener("click", function () {
+      if (typeof window.exportVerbPdfPrint === "function") window.exportVerbPdfPrint();
+      else alert("导出脚本未加载，请确认 ./assets/js/l10-verb-pdf.js 可访问。");
+    });
+  }
+
+  setTtsBar("");
+  initSlides();
+})();
+  </script>
+</body>
+</html>

@@ -1,0 +1,1368 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Lesson 10 · 现在完成时 · 两大核心意义</title>
+  <script src="https://cdn.jsdelivr.net/npm/microsoft-cognitiveservices-speech-sdk@1.38.0/dist/microsoft.cognitiveservices.speech.sdk.bundle-min.js" crossorigin="anonymous"></script>
+  <style>
+    :root {
+      --bg: #eef2f7;
+      --card: #ffffff;
+      --text: #1a2332;
+      --muted: #5a6a7e;
+      --accent: #1e6b8c;
+      --accent2: #2a9d8f;
+      --shadow: 0 8px 24px rgba(26, 35, 50, 0.1);
+      --radius: 14px;
+      --topbar-h: 52px;
+      --dock-h: 56px;
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; }
+    body {
+      display: flex;
+      flex-direction: column;
+      font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      font-size: clamp(16px, 1.5vw, 18px);
+      line-height: 1.55;
+      color: var(--text);
+      background: var(--bg);
+      overflow: hidden;
+    }
+    a { color: var(--accent); }
+    a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px solid #ffb703; outline-offset: 2px; }
+    .topbar {
+      flex: 0 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 8px 16px;
+      min-height: var(--topbar-h);
+      background: var(--card);
+      border-bottom: 1px solid #e2e8f0;
+      z-index: 40;
+    }
+    .brand { font-weight: 700; color: var(--accent); font-size: 14px; }
+    .slide-meta { font-size: 13px; color: var(--muted); font-weight: 600; }
+    .top-actions { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+    button, .btn-link {
+      font: inherit; cursor: pointer; border: none; border-radius: 10px; padding: 8px 12px;
+      background: linear-gradient(135deg, var(--accent), #155a78); color: #fff;
+      box-shadow: 0 2px 8px rgba(30, 107, 140, 0.3); text-decoration: none; display: inline-block; font-size: 14px;
+    }
+    button.secondary, .btn-link.secondary { background: linear-gradient(135deg, #6c757d, #495057); box-shadow: none; }
+    button:disabled { opacity: 0.55; cursor: not-allowed; }
+    button.speaking { background: linear-gradient(135deg, #e76f51, #c94c32); }
+    .tts-bar { font-size: 12px; padding: 4px 16px 6px; background: #fff8e6; color: #664d03; border-bottom: 1px solid #f0d78c; }
+    .deck { flex: 1; min-height: 0; position: relative; width: 100%; }
+    .slide {
+      position: absolute; inset: 0; overflow: hidden; display: none; flex-direction: column;
+      padding: 10px 14px 6px;
+    }
+    .slide.is-active { display: flex; }
+    .slide-scroll { flex: 1; min-height: 0; overflow: auto; -webkit-overflow-scrolling: touch; }
+    .slide-inner { max-width: 1100px; margin: 0 auto; width: 100%; min-height: min-content; }
+    .hero-compact { display: grid; gap: 14px; align-items: stretch; }
+    @media (min-width: 860px) { .hero-compact { grid-template-columns: 1.05fr 1fr; } }
+    .hero-img-wrap {
+      border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow);
+      min-height: 160px; background: linear-gradient(120deg, #e0f2f7, #e8ecf8);
+    }
+    .hero-img-wrap img { width: 100%; min-height: 180px; height: 100%; object-fit: cover; display: block; }
+    .hero-img-wrap.fallback-img img { display: none; }
+    .hero-text {
+      background: var(--card); border-radius: var(--radius); padding: 16px 18px; box-shadow: var(--shadow);
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .hero-text h1 { margin: 0 0 6px; font-size: clamp(1.35rem, 3vw, 1.85rem); }
+    .hero-text .sub { margin: 0; color: var(--muted); font-size: 0.95rem; }
+    .note-small { font-size: 0.86rem; color: var(--muted); margin: 10px 0 0; }
+    .note {
+      font-size: 0.88rem; color: var(--muted); background: #fffdf5; border-left: 4px solid #ffb703;
+      padding: 10px 12px; border-radius: 8px; margin: 10px 0 0;
+    }
+    .card {
+      background: var(--card); border-radius: var(--radius); padding: 16px 18px; margin-bottom: 12px;
+      box-shadow: var(--shadow);
+    }
+    .card h2 { margin: 0 0 10px; font-size: 1.12rem; color: var(--accent); }
+    .ex-block { margin-bottom: 14px; }
+    .ex-block:last-child { margin-bottom: 0; }
+    .ex-en { font-weight: 600; margin: 0 0 4px; }
+    .ex-cn { margin: 0; font-size: 0.9rem; color: var(--muted); }
+    .section-img {
+      border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); margin-top: 12px;
+      max-height: 220px;
+    }
+    .section-img img { width: 100%; height: 100%; max-height: 220px; object-fit: cover; display: block; }
+    .pair-grid { display: grid; gap: 12px; }
+    @media (min-width: 720px) { .pair-grid { grid-template-columns: 1fr 1fr; } }
+    .pair-cell {
+      border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px; background: #fafcff;
+    }
+    .pair-cell h3 { margin: 0 0 8px; font-size: 0.95rem; color: var(--accent2); }
+    .pair-cell p { margin: 0 0 6px; }
+    .pair-cell .hint { font-size: 0.86rem; color: var(--muted); margin: 8px 0 0; }
+    .timeline-box {
+      position: relative; margin: 16px 0 8px; padding: 12px 8px 26px;
+      border-radius: 12px; background: linear-gradient(180deg, #f8fafc, #eef4f8); border: 1px solid #e2e8f0;
+      overflow: hidden;
+    }
+    .timeline-labels {
+      display: flex; justify-content: space-between; font-weight: 700; font-size: 0.85rem; color: var(--muted);
+      margin-bottom: 6px;
+    }
+    .timeline-visual {
+      position: relative; margin: 0 4px 12px; min-height: 148px; padding-bottom: 8px;
+    }
+    .timeline-hline {
+      position: absolute; left: 0; right: 52px; bottom: 10px; height: 0; border-bottom: 3px solid #94a3b8;
+    }
+    .tl-now-badge {
+      position: absolute; right: 0; bottom: 2px; font-size: 0.78rem; font-weight: 700; color: var(--accent);
+    }
+    .tl-layer {
+      position: absolute; left: 0; right: 0; top: 0; bottom: 0; pointer-events: none;
+    }
+    .timeline-box.mode-b .tl-layer-a { visibility: hidden; opacity: 0; }
+    .timeline-box.mode-a .tl-layer-b { visibility: hidden; opacity: 0; }
+    .timeline-box:not(.mode-a):not(.mode-b) .tl-layer-a,
+    .timeline-box:not(.mode-a):not(.mode-b) .tl-layer-b { visibility: hidden; opacity: 0; }
+    /* —— 意义 A：红点 + 弧线箭头 + 双标注 —— */
+    .tl-past-cluster {
+      position: absolute; left: 2px; bottom: 6px; width: 7.5em; display: flex; flex-direction: column; align-items: center;
+      opacity: 0; transform: translateY(4px);
+    }
+    .tl-red-dot {
+      width: 16px; height: 16px; border-radius: 50%; background: #dc2626;
+      box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.25); flex-shrink: 0;
+    }
+    .tl-cap-past {
+      margin: 6px 0 0; font-size: 0.72rem; line-height: 1.35; text-align: center; color: var(--text); font-weight: 600;
+    }
+    .tl-arc-stack {
+      position: absolute; left: 72px; right: 44px; bottom: 22px; height: 78px;
+    }
+    .tl-cap-impact {
+      position: absolute; left: 50%; top: 0; transform: translateX(-50%); margin: 0; font-size: 0.82rem;
+      font-weight: 700; white-space: nowrap; opacity: 0;
+    }
+    .tl-cap-impact .now-red { color: #dc2626; font-weight: 800; }
+    .tl-arc-clip {
+      position: absolute; left: 0; right: 0; bottom: 0; height: 58px; overflow: hidden;
+    }
+    /* 向上凸的拱桥弧线：中间高、两侧低（原 border-bottom 为向下凹，已改正） */
+    .tl-arc-curve {
+      position: absolute; left: 0; right: 0; bottom: 0; height: 48px;
+      border: none;
+      border-top: 3px solid #dc2626;
+      border-radius: 50% 50% 0 0;
+      box-sizing: border-box;
+      transform: scaleX(0); transform-origin: 0 100%;
+    }
+    .tl-arc-arrowhead {
+      position: absolute; right: 2px; top: 14px; width: 0; height: 0;
+      border-top: 5px solid transparent; border-bottom: 5px solid transparent; border-left: 11px solid #dc2626;
+      opacity: 0; transform: translate(2px, 2px) rotate(-8deg);
+    }
+    .timeline-box.tl-anim-a .tl-past-cluster {
+      animation: tlAFadeUp 0.75s ease forwards;
+    }
+    .timeline-box.tl-anim-a .tl-arc-curve {
+      animation: tlAGrowArc 2s cubic-bezier(0.22, 1, 0.36, 1) 0.85s forwards;
+    }
+    .timeline-box.tl-anim-a .tl-arc-arrowhead {
+      animation: tlAFadeArrow 0.5s ease 2.65s forwards;
+    }
+    .timeline-box.tl-anim-a .tl-cap-impact {
+      animation: tlAFade 0.75s ease 3.25s forwards;
+    }
+    /* 播放结束后保持画面，便于讲解；再次点击按钮会先复位再重播 */
+    .timeline-box.mode-a.tl-a-complete .tl-past-cluster,
+    .timeline-box.mode-a.tl-a-complete .tl-arc-curve,
+    .timeline-box.mode-a.tl-a-complete .tl-arc-arrowhead,
+    .timeline-box.mode-a.tl-a-complete .tl-cap-impact {
+      opacity: 1;
+      animation: none;
+    }
+    .timeline-box.mode-a.tl-a-complete .tl-past-cluster { transform: translateY(0); }
+    .timeline-box.mode-a.tl-a-complete .tl-arc-curve { transform: scaleX(1); }
+    .timeline-box.mode-a.tl-a-complete .tl-arc-arrowhead { transform: translate(0, 0) rotate(-8deg); }
+    .timeline-box.mode-a.tl-a-complete .tl-cap-impact { transform: translateX(-50%); }
+    @keyframes tlAFadeUp {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes tlAGrowArc {
+      from { transform: scaleX(0); }
+      to { transform: scaleX(1); }
+    }
+    @keyframes tlAFadeArrow {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes tlAFade {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    /* —— 意义 B：向上红箭头序列 + 底部标注 —— */
+    .tl-repeat-wrap {
+      position: absolute; left: 4%; right: 10%; bottom: 38px; height: 28px;
+      display: flex; align-items: flex-end; justify-content: flex-start;
+    }
+    .tl-repeat-track {
+      display: flex; flex-direction: row; align-items: flex-end; flex-wrap: nowrap; gap: 0.5cm;
+      flex: 1 1 auto;
+      width: 100%;
+      min-width: 0;
+      min-height: 22px;
+      box-sizing: border-box;
+    }
+    .tl-up-arrow {
+      width: 0; height: 0; flex-shrink: 0;
+      border-left: 5px solid transparent; border-right: 5px solid transparent; border-bottom: 14px solid #dc2626;
+      opacity: 0; transform: translateY(6px); transition: opacity 0.22s ease, transform 0.22s ease;
+    }
+    .tl-up-arrow.is-on { opacity: 1; transform: translateY(0); }
+    .tl-cap-repeat {
+      position: absolute; left: 0; right: 0; bottom: 2px; margin: 0; text-align: center; font-size: 0.72rem;
+      font-weight: 600; color: var(--text); opacity: 0; transition: opacity 0.45s ease;
+    }
+    .tl-cap-repeat.is-on { opacity: 1; }
+    @media (prefers-reduced-motion: reduce) {
+      .timeline-box.tl-anim-a .tl-past-cluster,
+      .timeline-box.tl-anim-a .tl-arc-curve,
+      .timeline-box.tl-anim-a .tl-arc-arrowhead,
+      .timeline-box.tl-anim-a .tl-cap-impact { animation: none; }
+      .timeline-box.reduced-a .tl-past-cluster,
+      .timeline-box.reduced-a .tl-arc-curve,
+      .timeline-box.reduced-a .tl-arc-arrowhead,
+      .timeline-box.reduced-a .tl-cap-impact { opacity: 1; transform: translateX(-50%); }
+      .timeline-box.reduced-a .tl-arc-curve { transform: scaleX(1); }
+      .timeline-box.reduced-a .tl-arc-arrowhead { transform: translate(0, 0) rotate(-8deg); }
+      .tl-up-arrow { transition: none; }
+      .timeline-box.reduced-b .tl-up-arrow.is-on,
+      .timeline-box.reduced-b .tl-cap-repeat.is-on { opacity: 1; transform: none; }
+    }
+    .timeline-toolbar { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+    .timeline-toolbar button { font-size: 12px; line-height: 1.35; text-align: left; max-width: 100%; }
+    .bridge {
+      background: linear-gradient(135deg, #fffdf5, #f0f9ff); border: 1px solid #e2e8f0; border-radius: var(--radius);
+      padding: 16px 18px;
+    }
+    .next-btn {
+      display: inline-block; margin-top: 12px; padding: 12px 20px; font-weight: 700; font-size: 1rem;
+      border-radius: 12px; background: linear-gradient(135deg, var(--accent2), #1f8a7a); color: #fff;
+      text-decoration: none; box-shadow: var(--shadow);
+    }
+    .dock {
+      flex: 0 0 auto; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center; gap: 12px;
+      padding: 8px 12px; min-height: var(--dock-h); background: var(--card);
+      border-top: 1px solid #e2e8f0;
+      position: relative;
+      z-index: 60;
+      box-shadow: 0 -4px 14px rgba(26, 35, 50, 0.06);
+    }
+    .dock button { min-width: 100px; min-height: 44px; touch-action: manipulation; }
+    .dock .dots { font-size: 15px; font-weight: 700; color: var(--accent); min-width: 4.5em; text-align: center; }
+    .sr { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+    .ai-panel {
+      position: fixed; right: 0; top: 0; bottom: 0; width: min(420px, 100vw); background: var(--card);
+      box-shadow: -6px 0 28px rgba(0,0,0,0.14); transform: translateX(100%); transition: transform 0.28s ease; z-index: 120;
+      display: flex; flex-direction: column;
+      pointer-events: none;
+    }
+    .ai-panel.open { transform: translateX(0); pointer-events: auto; }
+    .ai-panel header { padding: 12px 14px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; }
+    .ai-panel .body { flex: 1; overflow: auto; padding: 12px 14px; display: flex; flex-direction: column; gap: 10px; }
+    .ai-panel textarea { width: 100%; min-height: 80px; resize: vertical; font: inherit; padding: 10px; border-radius: 10px; border: 1px solid #ced4da; }
+    .ai-panel .out { white-space: pre-wrap; background: #f1f5f9; border-radius: 10px; padding: 12px; min-height: 72px; border: 1px solid #e2e8f0; font-size: 0.95rem; }
+    .backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.35); opacity: 0; pointer-events: none; transition: opacity 0.25s ease; z-index: 110; }
+    .backdrop.show { opacity: 1; pointer-events: auto; }
+    details.part { margin-top: 10px; border: 1px solid #e2e8f0; border-radius: 10px; padding: 8px 10px; background: #fff; }
+    summary { cursor: pointer; font-weight: 700; color: var(--accent); }
+    .ai-sample { font-size: 0.88rem; background: #f8fafc; border-radius: 10px; padding: 10px; border: 1px solid #e2e8f0; }
+    .ai-sample pre { margin: 6px 0 0; white-space: pre-wrap; font-family: inherit; font-size: 0.86rem; }
+    .muted-line { font-size: 0.82rem; color: var(--muted); margin-top: 8px; }
+    .ctx-quiz-intro {
+      font-size: 0.88rem; line-height: 1.65; color: var(--text); margin: 0 0 12px;
+      background: #fffdf5; border-left: 4px solid #ffb703; padding: 10px 12px; border-radius: 8px;
+    }
+    .ctx-meta {
+      font-size: 0.9rem; font-weight: 700; color: var(--accent); margin: 0 0 10px;
+    }
+    .ctx-row {
+      border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px 14px 12px; margin-bottom: 10px;
+      background: #fafcff;
+    }
+    .ctx-row .ctx-q { margin: 0 0 14px; font-weight: 700; font-size: 1.05rem; line-height: 1.5; }
+    .ctx-row .ctx-no { color: var(--accent); margin-right: 6px; }
+    .ctx-opts { display: flex; flex-direction: column; gap: 6px; }
+    .ctx-opts label {
+      display: flex; align-items: flex-start; gap: 8px; cursor: pointer; font-size: 0.9rem; line-height: 1.55;
+      color: #334155; padding: 8px 10px; border-radius: 8px; border: 1px solid transparent;
+    }
+    .ctx-opts label:hover { background: #f1f5f9; border-color: #e2e8f0; }
+    .ctx-opts input { margin-top: 4px; flex-shrink: 0; }
+    .ctx-opts .ctx-letter { font-weight: 800; color: var(--accent); min-width: 1.4em; flex-shrink: 0; }
+    .ctx-toolbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 12px; }
+    .feedback { margin-top: 8px; padding: 10px 12px; border-radius: 10px; display: none; font-size: 0.9rem; }
+    .feedback.show { display: block; }
+    .feedback.ok { background: #e8fcf4; border: 1px solid #9ee5c8; color: #0f5132; }
+    .feedback.bad { background: #fff5f5; border: 1px solid #f5b5b5; color: #842029; }
+    .feedback .ctx-parse-h { margin: 10px 0 4px; font-size: 0.82rem; font-weight: 700; opacity: 0.92; }
+    .feedback .ctx-parse { margin: 0 0 8px; line-height: 1.6; }
+    .feedback .ex-en { font-size: 0.95rem; margin: 0; }
+      /* L10：主内容区整体 160%（顶栏与底部分页条不缩放） */
+    .tts-bar,
+    .deck {
+      zoom: 1.6;
+    }
+
+</style>
+</head>
+<body>
+  <div id="ariaLive" class="sr" aria-live="polite"></div>
+
+  <header class="topbar">
+    <div class="brand">Lesson 10 · Present Perfect — Meaning (1)</div>
+    <div class="slide-meta" id="slideIndicator">1 / 7</div>
+    <div class="top-actions">
+      <a class="btn-link secondary" href="L10-00-index.html">返回目录</a>
+      <a class="btn-link secondary" href="L10-02-present-perfect-form.html">上一节</a>
+      <a class="btn-link secondary" href="L10-04-adverbs-already-yet-just-ever-never.html">下一节</a>
+      <button type="button" id="btnReadPage">朗读本页（意义+例句）</button>
+      <button type="button" id="btnReadA" class="secondary">只读意义 A</button>
+      <button type="button" id="btnReadB" class="secondary">只读意义 B</button>
+      <button type="button" id="btnAi" class="secondary">AI 意义判断教练</button>
+    </div>
+  </header>
+  <div class="tts-bar" id="ttsBar" role="status" style="display:none;"></div>
+
+  <div class="deck" id="deck">
+    <section class="slide is-active" id="slide-0" data-slide="0" aria-label="封面">
+      <div class="slide-scroll">
+        <div class="slide-inner">
+          <div class="hero-compact">
+            <div class="hero-img-wrap" id="heroBlock">
+              <img id="heroImg" src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L10/assets/img/l10-p04-meaning-a.png" alt="书桌整理前后对比的扁平插画，表示过去动作对现在的影响" width="1600" height="900" loading="eager" decoding="async" />
+            </div>
+            <div class="hero-text">
+              <h1>现在完成时的两大核心意义</h1>
+              <p class="sub" lang="en">Result now · Experience (light) · Still continuing (intro)</p>
+              <p class="note-small">上一节我们记住了 <span lang="en">have/has + 过去分词</span> 的形式；这一节学习<strong>什么时候用</strong>现在完成时：关心<strong>现在的结果</strong>，或<strong>从过去到现在</strong>。</p>
+              <p class="note">观察点：说话人关心的是<strong>现在</strong>，不是单纯「昨天发生了什么」。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-1" data-slide="1" hidden aria-label="意义 A">
+      <div class="slide-scroll">
+        <div class="slide-inner">
+          <div class="card">
+            <h2>意义 A：过去的事，影响现在</h2>
+            <p style="margin-top:0;color:var(--muted);font-size:0.92rem;">动作发生在过去，但句子要表达的是<strong>此刻的状态或结果</strong>，常用 <span lang="en">so / that's why</span> 点出因果。</p>
+            <div class="ex-block">
+              <p class="ex-en" lang="en">I've finished my homework, so I can watch a short video tonight.</p>
+              <p class="ex-cn">现在的结果：作业已完成，今晚有时间放松。</p>
+            </div>
+            <div class="ex-block">
+              <p class="ex-en" lang="en">I've read the story, so I know the ending.</p>
+              <p class="ex-cn">现在的结果：知道情节与结局，能参与讨论。</p>
+            </div>
+            <div class="ex-block">
+              <p class="ex-en" lang="en">I've cleaned my desk, so I feel ready for tomorrow's test.</p>
+              <p class="ex-cn">现在的结果：环境整洁，心理上更从容。</p>
+            </div>
+            <div class="ex-block">
+              <p class="ex-en" lang="en">That's why I look relaxed — I've prepared my English speech.</p>
+              <p class="ex-cn">现在的结果：外表轻松，因为准备已完成。</p>
+            </div>
+            <div class="section-img">
+              <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L10/assets/img/l10-p04-meaning-a.png" alt="意义 A 配图：整理与准备完成的积极氛围" width="1200" height="675" loading="lazy" decoding="async" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-2" data-slide="2" hidden aria-label="意义 B">
+      <div class="slide-scroll">
+        <div class="slide-inner">
+          <div class="card">
+            <h2>意义 B：从过去持续到现在</h2>
+            <p style="margin-top:0;color:var(--muted);font-size:0.92rem;">动词多为<strong>延续性</strong>（<span lang="en">live, study, work, be, know, teach…</span>）。本页只展示 <span lang="en">for / since</span> 作时间状语；<strong>下一课专门练 for 和 since</strong>（见 L10-07）。</p>
+            <div class="ex-block">
+              <p class="ex-en" lang="en">I have lived in Chengdu since I was little.</p>
+              <p class="ex-cn">从小到现在一直住在这里（状态延续）。</p>
+            </div>
+            <div class="ex-block">
+              <p class="ex-en" lang="en">We have studied English for three years.</p>
+              <p class="ex-cn">学习从过去某时持续到现在（时长）。</p>
+            </div>
+            <div class="ex-block">
+              <p class="ex-en" lang="en">She has worked as a volunteer for two months.</p>
+              <p class="ex-cn">志愿工作从过去开始，目前仍在进行或刚结束不久。</p>
+            </div>
+            <div class="section-img">
+              <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L10/assets/img/l10-p04-meaning-b.png" alt="意义 B 配图：道路延伸与书本日历意象，表示从过去到现在" width="1200" height="675" loading="lazy" decoding="async" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-3" data-slide="3" hidden aria-label="时间轴与对比">
+      <div class="slide-scroll">
+        <div class="slide-inner">
+          <div class="card">
+            <h2>Past → Now（时间轴动态演示）</h2>
+            <p style="margin-top:0;color:var(--text);font-size:0.9rem;line-height:1.65;"><strong>一、现在完成时到底在说什么？（记住：常常和「现在」挂钩）</strong><br />
+            写法都是 <span lang="en">have / has + 过去分词</span>。做题时可以先问自己一句话：<strong>我是想讲「昨天那一刻在干什么」，还是想讲「到现在为止已经怎么样了」？</strong>如果只是交代过去的某个具体时间，多用<strong>一般过去时</strong>（句里常有 <span lang="en">yesterday, last week, … ago, in 2019</span> 这类「已经结束的过去时间」）。如果更关心<strong>现在的结果、现在的状态</strong>，就多用<strong>现在完成时</strong>。<br /><br />
+            <strong>语义 A：过去做了事 → 现在有结果</strong>：事情早就做了，但句子重点在<strong>现在怎么样了</strong>。比如「作业写完了，所以现在能休息」「书读过了，所以知道结局」。英语里经常用 <span lang="en">so …, that’s why …</span> 把「过去做过」和「现在的样子」连起来。<br /><br />
+            <strong>语义 B：从过去一直到现在还在／还算数</strong>：不是只讲某一瞬间，而是讲<strong>从以前一直延续到说话这一刻</strong>。常用 <span lang="en">live, work, study, teach, wait, know, be</span> 这类「能持续一段时间」的动词；时间上也常见 <span lang="en">for … / since …</span>。<span lang="en">for / since</span> 怎么选、<span lang="en">How long</span> 怎么问，我们放到后面的课专门练，这一页先把「从过去到现在」这条线想清楚就行。</p>
+            <div class="timeline-box" id="timelineBox" aria-live="polite">
+              <div class="timeline-labels"><span lang="en">Past</span><span aria-hidden="true">→</span><span lang="en">Now</span></div>
+              <div class="timeline-visual">
+                <div class="timeline-hline" aria-hidden="true"></div>
+                <div class="tl-now-badge" lang="en">Now</div>
+                <div class="tl-layer tl-layer-a">
+                  <div class="tl-past-cluster">
+                    <span class="tl-red-dot"></span>
+                    <p class="tl-cap-past">这是过去的一个动作</p>
+                  </div>
+                  <div class="tl-arc-stack">
+                    <p class="tl-cap-impact">影响到了<span class="now-red">现在</span></p>
+                    <div class="tl-arc-clip">
+                      <div class="tl-arc-curve"></div>
+                      <span class="tl-arc-arrowhead"></span>
+                    </div>
+                  </div>
+                </div>
+                <div class="tl-layer tl-layer-b">
+                  <div class="tl-repeat-wrap">
+                    <div class="tl-repeat-track" id="tlRepeatTrack"></div>
+                  </div>
+                  <p class="tl-cap-repeat" id="tlCapRepeat">一个动作反复持续发生</p>
+                </div>
+              </div>
+              <div class="timeline-toolbar">
+                <button type="button" id="btnPlayA">意义 A：过去的一个动作对于现在产生了影响（过去的一个动作是现在结果的原因）</button>
+                <button type="button" id="btnPlayB" class="secondary">意义 B：从过去某个时间点开始一直持续到现在的动作</button>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <h2>与一般过去时：微型对比（2 组）</h2>
+            <p style="margin-top:0;font-size:0.9rem;color:var(--muted);">一般过去时常带<strong>具体过去时间</strong>；现在完成时强调<strong>与现在的联系</strong>。</p>
+            <div class="pair-grid">
+              <div class="pair-cell">
+                <h3>一般过去时（闭合时间）</h3>
+                <p lang="en">I read the book <strong>last month</strong>.</p>
+                <p class="hint">关心「上个月做了什么」，时间点明确。</p>
+              </div>
+              <div class="pair-cell">
+                <h3>现在完成时（联系现在）</h3>
+                <p lang="en">I <strong>have read</strong> the book, <strong>so I can tell you</strong> what happens in Chapter 5.</p>
+                <p class="hint">关心「我现在能做什么／知道什么」。</p>
+              </div>
+            </div>
+            <div class="pair-grid" style="margin-top:12px;">
+              <div class="pair-cell">
+                <h3>一般过去时</h3>
+                <p lang="en">They watched the film <strong>last Friday</strong>.</p>
+                <p class="hint">动作发生在上周五，叙述过去事件。</p>
+              </div>
+              <div class="pair-cell">
+                <h3>现在完成时</h3>
+                <p lang="en">They <strong>have watched</strong> the film, <strong>so they won't be spoiled</strong> in class.</p>
+                <p class="hint">强调现在上课讨论时「已看过」这一结果。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-4" data-slide="4" hidden aria-label="中文语境判断">
+      <div class="slide-scroll">
+        <div class="slide-inner">
+          <div class="card">
+            <h2>中文语境判断：一般过去时 vs 现在完成时</h2>
+            <p class="ctx-quiz-intro">下面每句都是中文，请你判断：句子更贴近哪一种时间关系。</p>
+            <div id="ctxQuizMeta" class="ctx-meta" aria-live="polite"></div>
+            <div id="ctxQuizMount"></div>
+            <div class="ctx-toolbar">
+              <button type="button" id="btnCtxPrev" class="secondary">上一题</button>
+              <button type="button" id="btnCtxNext">下一题</button>
+              <button type="button" id="btnCtxCheck">判断本题（看解析）</button>
+              <button type="button" id="btnCtxReset" class="secondary">全部重做</button>
+            </div>
+            <div id="fbCtx" class="feedback" role="status"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-5" data-slide="5" hidden aria-label="经历预告">
+      <div class="slide-scroll">
+        <div class="slide-inner">
+          <div class="card">
+            <h2>经历（下节口语会练更多）</h2>
+            <p style="margin-top:0;color:var(--muted);font-size:0.92rem;">下一节将讲 <span lang="en">already, yet, just, ever, never</span> 等标志词位置；本页只各给<strong>一句</strong>教材风例句，埋伏笔。</p>
+            <div class="ex-block">
+              <p class="ex-en" lang="en">Have you ever been to Beijing?</p>
+              <p class="ex-cn">询问对方是否有过某种经历（ever）。</p>
+            </div>
+            <div class="ex-block">
+              <p class="ex-en" lang="en">I've never tried hot pot before.</p>
+              <p class="ex-cn">从未有过该经历（never）。</p>
+            </div>
+            <div class="ex-block">
+              <p class="ex-en" lang="en">I've been to Beijing twice.</p>
+              <p class="ex-cn">去过某地（次数）——与「此刻是否在那里」不同，提高课再细辨。</p>
+            </div>
+          </div>
+          <p class="muted-line">接下来：<span lang="en">already, yet, just, ever, never</span> 放在句子的哪里？——见 L10-04。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-6" data-slide="6" hidden aria-label="小结">
+      <div class="slide-scroll">
+        <div class="slide-inner">
+          <div class="bridge">
+            <h2 style="margin:0 0 10px;color:var(--accent);">课堂小结</h2>
+            <ul style="margin:0;padding-left:1.2em;">
+              <li><strong>意义 A</strong>：过去动作带来的<strong>现在结果</strong>，常可用 <span lang="en">so</span> 连接。</li>
+              <li><strong>意义 B</strong>：动作或状态<strong>从过去延续到现在</strong>；<span lang="en">for/since</span> 规则与操练在 L10-07。</li>
+              <li><strong>经历角度</strong>：<span lang="en">ever / never / been to</span> 下节与口语课展开。</li>
+            </ul>
+            <p style="margin:12px 0 0;font-size:0.9rem;color:var(--muted);">若系统开启「减少动态效果」，意义 A 会一次显示弧线与两句中文；意义 B 会一次排满箭头并显示底部说明。</p>
+            <a class="next-btn" href="L10-04-adverbs-already-yet-just-ever-never.html">进入标志词：already / yet / just / ever / never（L10-04）</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <nav class="dock" aria-label="幻灯分页">
+    <button type="button" id="btnPrev" class="secondary">上一页</button>
+    <span class="dots" id="dockDots">1 / 7</span>
+    <button type="button" id="btnNext">下一页</button>
+  </nav>
+
+  <div class="backdrop" id="aiBackdrop" hidden></div>
+  <aside class="ai-panel" id="aiPanel" aria-label="AI 意义判断教练">
+    <header>
+      <strong>AI 意义判断教练（DeepSeek）</strong>
+      <button type="button" class="secondary" id="btnAiClose">关闭</button>
+    </header>
+    <div class="body">
+      <p style="margin:0;font-size:0.88rem;color:var(--muted);">用中文描述情境（约 120 字内），并选择希望生成<strong>意义 A</strong>还是<strong>意义 B</strong>的例句。输出应为<strong>三行</strong>：英语一句；中文「意义A」或「意义B」；中文理由一句。</p>
+      <div class="ai-sample">
+        <strong>预制示例 1（意义 A）</strong>
+        <p style="margin:6px 0 0;font-size:0.85rem;color:var(--muted);">情境：昨晚背完单词，所以现在听写不慌张。</p>
+        <pre lang="en">I've learned the new words, so I'm not nervous about the dictation.
+意义A
+强调背完单词对现在的影响：现在不紧张。</pre>
+      </div>
+      <div class="ai-sample">
+        <strong>预制示例 2（意义 B）</strong>
+        <p style="margin:6px 0 0;font-size:0.85rem;color:var(--muted);">情境：从小学三年级开始学英语，一直到现在。</p>
+        <pre lang="en">We have studied English since Grade Three.
+意义B
+从过去某时点持续到现在，用 since。</pre>
+      </div>
+      <button type="button" id="btnAiExpand" class="secondary">我要自己试</button>
+      <div id="aiFormWrap" style="display:none;">
+        <fieldset style="margin:0;padding:0;border:none;">
+          <legend class="sr">意义类型</legend>
+          <div style="display:flex;flex-wrap:wrap;gap:12px;">
+            <label><input type="radio" name="aiMeaning" value="A" /> 我想要意义 A 句子</label>
+            <label><input type="radio" name="aiMeaning" value="B" /> 我想要意义 B 句子</label>
+          </div>
+        </fieldset>
+        <label for="aiZh">中文情境</label>
+        <textarea id="aiZh" maxlength="240" placeholder="例：我已经把房间收拾干净，所以现在可以安心写作业。"></textarea>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;">
+          <button type="button" id="aiGen">生成三行</button>
+          <button type="button" class="secondary" id="aiCopy">复制第一行（英语）</button>
+          <button type="button" class="secondary" id="aiClear">清空</button>
+        </div>
+      </div>
+      <div class="out" id="aiOut"></div>
+      <p id="aiHint" style="display:none;font-size:0.85rem;color:#b45309;"></p>
+    </div>
+  </aside>
+
+  <script>
+(function () {
+  const AZURE_SPEECH_KEY = "C42UQWeDcluYanbo17WrtUnPhk0vkZy2uQHPTCGDzY6CdEXx99NzJQQJ99BIACqBBLyXJ3w3AAAYACOGjkyu";
+  const AZURE_SPEECH_REGION = "southeastasia";
+  const DEEPSEEK_API_KEY = "sk-daa16008e81843deba6fefe9dce51465";
+  const DEEPSEEK_API_URL = "https://api.deepseek.com/v1/chat/completions";
+  const MSG_NET = "语音暂时不可用，请默读例句或换 Edge / 本地 http 打开。";
+  const MSG_SELECT_MEANING = "请选择意义 A 或 B 再生成。";
+  const MSG_ANIM = "动画无法播放时，请直接阅读 Past 与 Now 标签下的文字说明。";
+  const DEEPSEEK_SYSTEM = "你是初中英语助教。用户选 A 或 B：A 表示现在完成时强调过去动作对现在的影响或结果，常可用 so 引出结果；B 表示从过去持续到现在的状态或动作，句中必须包含 for 或 since，动词要用延续性动词如 live, study, work, be, know, teach 等，不要用 die 或 borrow 与 for 搭配。用户用中文描述情境。你严格输出三行：第一行英语现在完成时一句；第二行中文只写「意义A」或「意义B」；第三行中文简短理由。不要输出第四行。不要讲解 already yet。不要输出密钥或链接。";
+
+  var slideCount = 0;
+  var slideIndex = 0;
+  var slides = [];
+
+  function initSlides() {
+    slides = Array.prototype.slice.call(document.querySelectorAll(".slide"));
+    slideCount = slides.length;
+    goSlide(0);
+  }
+
+  function goSlide(n) {
+    slideIndex = Math.max(0, Math.min(slideCount - 1, n));
+    slides.forEach(function (s, i) {
+      var on = i === slideIndex;
+      s.classList.toggle("is-active", on);
+      s.hidden = !on;
+    });
+    var cur = slides[slideIndex];
+    if (cur) {
+      var sc = cur.querySelector(".slide-scroll");
+      if (sc) sc.scrollTop = 0;
+    }
+    var label = slideIndex + 1 + " / " + slideCount;
+    var ind = document.getElementById("slideIndicator");
+    var dots = document.getElementById("dockDots");
+    if (ind) ind.textContent = label;
+    if (dots) dots.textContent = label;
+    document.getElementById("btnPrev").disabled = slideIndex === 0;
+    document.getElementById("btnNext").disabled = slideIndex === slideCount - 1;
+  }
+
+  document.getElementById("btnPrev").addEventListener("click", function () { goSlide(slideIndex - 1); });
+  document.getElementById("btnNext").addEventListener("click", function () { goSlide(slideIndex + 1); });
+
+  document.addEventListener("keydown", function (e) {
+    var bdEl = document.getElementById("aiBackdrop");
+    if (e.target.closest(".ai-panel.open") || (bdEl && bdEl.classList.contains("show"))) return;
+    if (e.key === "ArrowLeft") { e.preventDefault(); goSlide(slideIndex - 1); }
+    if (e.key === "ArrowRight") { e.preventDefault(); goSlide(slideIndex + 1); }
+  });
+
+  var MSG_CTX_PICK = "请先在 A、B、C 里选一个，再点「判断本题（看解析）」。";
+  var CTX_DEF = {
+    past: "只说「那时候」做过的事，讲完就跟现在没关系。→ 英语里常用一般过去时。",
+    result: "跟「现在」有关：已经怎样了、所以怎样了，或问你有没有去过、试过。→ 英语里常用现在完成时。",
+    cont: "从以前一直做到「说这话时」还在做，中间没断。→ 英语里常用现在完成时（表示延续）。"
+  };
+  var CTX_ITEMS = [
+    {
+      k: "past",
+      q: "我昨天下午在学校食堂吃了牛肉面。",
+      explain:
+        "句中有明确过去的具体时间「昨天下午」，只是在交代一件已经吃完、已经结束的事；没有强调「这对你现在是否还饿」之类的当下结果。这类「点在过去、说完就落在那时」的叙述，英语里通常用一般过去时。",
+      en: "I had beef noodles in the school cafeteria yesterday afternoon."
+    },
+    {
+      k: "result",
+      q: "我已经吃过晚饭了，所以现在一点也不饿。",
+      explain:
+        "「已经吃过」把动作的结果留到现在：此刻的状态是「不饿」；「所以」把过去的行为和现在的感受连在一起。这是典型的「过去与现在相关」，英语里常用现在完成时（常与 already 等连用）。",
+      en: "I've already had dinner, so I'm not hungry at all now."
+    },
+    {
+      k: "cont",
+      q: "从上学期开始，我每周三放学后都去操场练球，一直坚持到现在。",
+      explain:
+        "有清晰的起点「从上学期开始」，又说「一直坚持到现在」，说明这个习惯从过去一直延续到说话这一刻仍在进行，中间没有说「到哪一天就停了」。英语里常用现在完成时或现在完成进行时配合 since / for 等表达延续。",
+      en: "Since last term, I've gone to the playground to practise every Wednesday after school, and I've kept doing it until now."
+    },
+    {
+      k: "past",
+      q: "你昨天晚上是几点写完作业的？",
+      explain:
+        "问的是「昨夜」那一刻前后动作的结束时间，时间框完全落在过去的具体晚上，并不是在问「到现在为止你写完没有」。英语里会用一般过去时，如 What time did you finish...?",
+      en: "What time did you finish your homework last night?"
+    },
+    {
+      k: "result",
+      q: "你去过北京吗？",
+      explain:
+        "这是在问对方「到现在为止的人生经历里」有没有去过北京，与「现在」是否仍在北京无关，重点在「有没有这段经历」。英语里典型说法是 Have you ever been to Beijing?，用现在完成时配合 ever。",
+      en: "Have you ever been to Beijing?"
+    },
+    {
+      k: "past",
+      q: "他去年只在一次志愿活动里当过半天讲解员，后来就再没去过。",
+      explain:
+        "整句在叙述「去年」那一段已经结束的志愿经历；「后来就再没去过」也是过去时间线上的补充，不是在强调一种一直延续到今天的状态。英语叙述那段过去的事，用一般过去时最自然。",
+      en: "He only worked as a guide for half a day at one volunteer event last year, and he never went again after that."
+    },
+    {
+      k: "result",
+      q: "这部电影我早就看过了，别再给我讲结局。",
+      explain:
+        "「早就看过」表示观影经历在说话之前已经完成；说话人此刻的诉求是「别剧透」，过去的行为与现在的对话直接相关。英语里常说 I've already seen this film / I've seen it before。",
+      en: "I've already seen this film, so don't tell me the ending."
+    },
+    {
+      k: "cont",
+      q: "我在这里等你等了快四十分钟了，你怎么才来？",
+      explain:
+        "「等」从过去某一刻开始，一直延续到对方出现、自己开口抱怨的这一刻，强调这段时间里动作在持续进行。英语里常用现在完成进行时：I've been waiting for nearly forty minutes.",
+      en: "I've been waiting for you here for nearly forty minutes — why are you so late?"
+    },
+    {
+      k: "past",
+      q: "上个月班级辩论赛，我们队赢了。",
+      explain:
+        "「上个月」把事件钉在过去已结束的比赛；句子只是在报告过去的结果，没有接着说明「所以现在……」。若未另加与当下挂钩的语境，英语里用一般过去时：We won ... last month.",
+      en: "Our team won the class debate last month."
+    },
+    {
+      k: "result",
+      q: "我不喝奶茶，我从来没尝过那玩意儿。",
+      explain:
+        "「从来没尝过」表示从过去到现在整段经历里都没有试过，常与现在的习惯（不喝）一起出现，是「到现在为止的经历」的否定说法。英语里用 I've never tried ... 这类现在完成时很自然。",
+      en: "I don't drink milk tea — I've never tried that stuff."
+    },
+    {
+      k: "result",
+      q: "钥匙落在家里了，所以我进不了门。",
+      explain:
+        "钥匙落在家里是过去发生的疏忽，但造成的直接结果是「现在进不了门」，因果连到说话这一刻。英语里常用 I've left my keys at home, so ... 表示过去动作与现在困境的联系。",
+      en: "I've left my keys at home, so I can't get in."
+    },
+    {
+      k: "past",
+      q: "我五年级以前住在奶奶家，六年级才搬回自己家。",
+      explain:
+        "这是在对比两个不同阶段的居住情况，都在说「过去的人生段落」，并没有表达「从五年级前一直住到现在」。英语里会用一般过去时或 used to 描述过去的居住状态。",
+      en: "Before Year 5 I lived at my grandma's, and I didn't move back to my own home until Year 6."
+    },
+    {
+      k: "cont",
+      q: "他不喝碳酸饮料了，从初二下决心戒断后，一直到现在真的再也没碰过。",
+      explain:
+        "从初二下决心起，到说话时为止，「没碰」这一状态一直在延续，强调中间没有反弹。英语可用现在完成时 + since：Since Year 8 he hasn't touched fizzy drinks at all.",
+      en: "Since Year 8, when he decided to quit, he hasn't touched fizzy drinks at all — not once until now."
+    },
+    {
+      k: "cont",
+      q: "自从转学来到我们班，他每节课都认真记笔记，到现在已经记满三大本了。",
+      explain:
+        "「自从……以来」是延续起点，「每节课都记」是持续行为，「到现在已经记满三大本」是延续带来的结果。整体是「从过去延续到现在」，英语里上半身常用现在完成时或现在完成进行时。",
+      en: "Since he transferred to our class, he has taken notes carefully in every lesson, and he has already filled three notebooks."
+    },
+    {
+      k: "cont",
+      q: "只要不下雨，他每天早上沿河边跑步，从放寒假到现在一天也没落下过。",
+      explain:
+        "从「放寒假」这一起点到说话时刻，习惯性行为一直在坚持，「一天也没落下」强调延续中的完整性。英语里用现在完成时配合 since 或 for 表达从过去持续到现在的习惯。",
+      en: "Since the winter holiday began, he has run along the river every morning when it doesn't rain — he hasn't missed a single day."
+    }
+  ];
+
+  function ctxShuffle(arr) {
+    var a = arr.slice();
+    for (var i = a.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = a[i];
+      a[i] = a[j];
+      a[j] = t;
+    }
+    return a;
+  }
+
+  var ctxQIdx = 0;
+  var ctxAnswers = [];
+  var ctxShuffledOrders = [];
+  var ctxQuizBound = false;
+
+  function ctxEsc(s) {
+    return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/"/g, "&quot;");
+  }
+
+  function ctxClearFb() {
+    var fb = document.getElementById("fbCtx");
+    if (!fb) return;
+    fb.className = "feedback";
+    fb.textContent = "";
+  }
+
+  function ctxKeyTitle(k) {
+    if (k === "past") return "只说过去（英语里多用一般过去时）";
+    if (k === "result") return "跟现在有联系（英语里多用现在完成时）";
+    if (k === "cont") return "从过去延续到现在（英语里多用现在完成时表延续）";
+    return k;
+  }
+
+  function ctxSyncCurrentFromDOM() {
+    var cur = document.querySelector('input[name="ctxqCur"]:checked');
+    if (cur) ctxAnswers[ctxQIdx] = cur.value;
+  }
+
+  function ctxCountAnswered() {
+    var n = 0;
+    for (var i = 0; i < ctxAnswers.length; i++) if (ctxAnswers[i]) n++;
+    return n;
+  }
+
+  function paintCtxQuestion() {
+    ctxClearFb();
+    var mount = document.getElementById("ctxQuizMount");
+    var meta = document.getElementById("ctxQuizMeta");
+    if (!mount) return;
+    var letters = ["A", "B", "C"];
+    var item = CTX_ITEMS[ctxQIdx];
+    var order = ctxShuffledOrders[ctxQIdx] || ["past", "result", "cont"];
+    var saved = ctxAnswers[ctxQIdx];
+    var html = "";
+    html += '<div class="ctx-row" data-ctx-idx="' + ctxQIdx + '">';
+    html += '<p class="ctx-q"><span class="ctx-no">' + (ctxQIdx + 1) + ".</span>" + ctxEsc(item.q) + "</p>";
+    html += '<div class="ctx-opts">';
+    order.forEach(function (key, li) {
+      var chk = saved === key ? " checked" : "";
+      html +=
+        '<label><input type="radio" name="ctxqCur" value="' +
+        key +
+        '"' +
+        chk +
+        " />" +
+        '<span class="ctx-letter">' +
+        letters[li] +
+        ".</span>" +
+        "<span>" +
+        ctxEsc(CTX_DEF[key]) +
+        "</span></label>";
+    });
+    html += "</div></div>";
+    mount.innerHTML = html;
+    if (meta) {
+      meta.textContent =
+        "第 " + (ctxQIdx + 1) + " / " + CTX_ITEMS.length + " 题 · 已选 " + ctxCountAnswered() + " / " + CTX_ITEMS.length;
+    }
+    var prevBtn = document.getElementById("btnCtxPrev");
+    var nextBtn = document.getElementById("btnCtxNext");
+    if (prevBtn) prevBtn.disabled = ctxQIdx <= 0;
+    if (nextBtn) nextBtn.disabled = ctxQIdx >= CTX_ITEMS.length - 1;
+  }
+
+  function renderContextQuiz() {
+    var mount = document.getElementById("ctxQuizMount");
+    if (!mount || mount.getAttribute("data-built") === "1") return;
+    mount.setAttribute("data-built", "1");
+    ctxShuffledOrders = CTX_ITEMS.map(function () {
+      return ctxShuffle(["past", "result", "cont"]);
+    });
+    ctxAnswers = CTX_ITEMS.map(function () {
+      return null;
+    });
+    ctxQIdx = 0;
+    paintCtxQuestion();
+
+    if (!ctxQuizBound) {
+      ctxQuizBound = true;
+      mount.addEventListener("change", function (e) {
+        var t = e.target;
+        if (!t || t.name !== "ctxqCur" || t.type !== "radio") return;
+        ctxAnswers[ctxQIdx] = t.value;
+        ctxClearFb();
+        var meta = document.getElementById("ctxQuizMeta");
+        if (meta) {
+          meta.textContent =
+            "第 " + (ctxQIdx + 1) + " / " + CTX_ITEMS.length + " 题 · 已选 " + ctxCountAnswered() + " / " + CTX_ITEMS.length;
+        }
+      });
+      var btnPrev = document.getElementById("btnCtxPrev");
+      var btnNext = document.getElementById("btnCtxNext");
+      if (btnPrev)
+        btnPrev.addEventListener("click", function () {
+          ctxSyncCurrentFromDOM();
+          if (ctxQIdx > 0) {
+            ctxQIdx--;
+            paintCtxQuestion();
+          }
+        });
+      if (btnNext)
+        btnNext.addEventListener("click", function () {
+          ctxSyncCurrentFromDOM();
+          if (ctxQIdx < CTX_ITEMS.length - 1) {
+            ctxQIdx++;
+            paintCtxQuestion();
+          }
+        });
+    }
+  }
+
+  function ctxCheckCurrentQuestion() {
+    ctxSyncCurrentFromDOM();
+    var fb = document.getElementById("fbCtx");
+    if (!fb) return;
+    var item = CTX_ITEMS[ctxQIdx];
+    if (!item || !ctxAnswers[ctxQIdx]) {
+      fb.className = "feedback bad show";
+      fb.textContent = MSG_CTX_PICK;
+      return;
+    }
+    var chosen = ctxAnswers[ctxQIdx];
+    var correct = chosen === item.k;
+    fb.className = "feedback show " + (correct ? "ok" : "bad");
+    var head = correct
+      ? "<p style=\"margin:0 0 8px;\"><strong>回答正确。</strong></p>"
+      : "<p style=\"margin:0 0 8px;\"><strong>与你选的不一致。</strong>本题更接近「" +
+        ctxEsc(ctxKeyTitle(item.k)) +
+        "」。下面按参考答案讲解。</p>";
+    fb.innerHTML =
+      head +
+      '<p class="ctx-parse-h">为什么（中文详解）</p>' +
+      '<p class="ctx-parse">' +
+      ctxEsc(item.explain) +
+      "</p>" +
+      '<p class="ctx-parse-h">英文例句</p>' +
+      '<p class="ex-en" lang="en">' +
+      ctxEsc(item.en) +
+      "</p>";
+  }
+
+  function ctxQuizReset() {
+    ctxClearFb();
+    ctxShuffledOrders = CTX_ITEMS.map(function () {
+      return ctxShuffle(["past", "result", "cont"]);
+    });
+    ctxAnswers = CTX_ITEMS.map(function () {
+      return null;
+    });
+    ctxQIdx = 0;
+    paintCtxQuestion();
+  }
+
+  var btnCtxCheck = document.getElementById("btnCtxCheck");
+  var btnCtxReset = document.getElementById("btnCtxReset");
+  if (btnCtxCheck) btnCtxCheck.addEventListener("click", ctxCheckCurrentQuestion);
+  if (btnCtxReset) btnCtxReset.addEventListener("click", ctxQuizReset);
+
+  var ttsBusy = false;
+  var ttsHtmlAudio = null;
+
+  function aria(m) {
+    var el = document.getElementById("ariaLive");
+    if (el) el.textContent = m;
+  }
+  function setTtsBar(t) {
+    var b = document.getElementById("ttsBar");
+    if (!b) return;
+    b.textContent = t || "";
+    b.style.display = t ? "block" : "none";
+  }
+  function stopHtmlAudio() {
+    try {
+      if (ttsHtmlAudio) {
+        ttsHtmlAudio.pause();
+        if (ttsHtmlAudio._revoke) URL.revokeObjectURL(ttsHtmlAudio._revoke);
+        ttsHtmlAudio.removeAttribute("src");
+        ttsHtmlAudio.load();
+        ttsHtmlAudio.onended = null;
+        ttsHtmlAudio.onerror = null;
+        ttsHtmlAudio = null;
+      }
+    } catch (e) {}
+  }
+  function escapeXml(s) {
+    return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&apos;");
+  }
+  function buildSsml(text, voiceName) {
+    var lang = voiceName.indexOf("zh-") === 0 ? "zh-CN" : "en-US";
+    return "<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='" + lang + "'><voice name='" + voiceName + "'>" + escapeXml(text) + "</voice></speak>";
+  }
+  function azureRest(ssml, ok, fail) {
+    stopHtmlAudio();
+    fetch("https://" + AZURE_SPEECH_REGION + ".tts.speech.microsoft.com/cognitiveservices/v1", {
+      method: "POST",
+      mode: "cors",
+      credentials: "omit",
+      headers: {
+        "Ocp-Apim-Subscription-Key": AZURE_SPEECH_KEY,
+        "Content-Type": "application/ssml+xml",
+        "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3",
+        "User-Agent": "L10MeaningSlide/1.0"
+      },
+      body: ssml
+    })
+      .then(function (r) {
+        if (!r.ok) return r.text().then(function (body) { throw new Error("REST " + r.status + " " + (body || "").slice(0, 160)); });
+        return r.blob();
+      })
+      .then(function (blob) {
+        if (!blob || blob.size < 80) throw new Error("音频数据异常");
+        var u = URL.createObjectURL(blob);
+        var a = new Audio();
+        ttsHtmlAudio = a;
+        a._revoke = u;
+        a.src = u;
+        a.setAttribute("playsinline", "true");
+        a.onended = function () { stopHtmlAudio(); ok(); };
+        a.onerror = function () { stopHtmlAudio(); fail(new Error("播放失败")); };
+        var p = a.play();
+        if (p && p.catch) p.catch(function (e) { stopHtmlAudio(); fail(e); });
+      })
+      .catch(function (e) { stopHtmlAudio(); fail(e); });
+  }
+  function azureSdk(ssml, voiceName, ok, fail) {
+    if (typeof SpeechSDK === "undefined") { fail(new Error("SDK 未加载")); return; }
+    stopHtmlAudio();
+    var cfg = SpeechSDK.SpeechConfig.fromSubscription(AZURE_SPEECH_KEY, AZURE_SPEECH_REGION);
+    cfg.speechSynthesisVoiceName = voiceName;
+    var syn = new SpeechSDK.SpeechSynthesizer(cfg, SpeechSDK.AudioConfig.fromDefaultSpeakerOutput());
+    syn.speakSsmlAsync(
+      ssml,
+      function (res) {
+        var good = res.reason === SpeechSDK.ResultReason.SynthesizingAudioCompleted;
+        var det = res.errorDetails || "";
+        syn.close();
+        if (good) ok();
+        else fail(new Error(det || "SDK 合成失败"));
+      },
+      function (err) { syn.close(); fail(new Error(String(err))); }
+    );
+  }
+  function buildSsmlEnSlow(text, voiceName) {
+    var lang = "en-US";
+    return "<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='" + lang + "'><voice name='" + voiceName + "'><prosody rate='0.88'>" + escapeXml(text) + "</prosody></voice></speak>";
+  }
+  function azureSpeakSsml(ssml, voice, onDone) {
+    onDone = onDone || function () {};
+    setTtsBar("正在连接 Azure 语音…");
+    azureRest(
+      ssml,
+      function () { setTtsBar(""); onDone(); },
+      function () {
+        setTtsBar("REST 失败，尝试 SDK…");
+        azureSdk(ssml, voice, function () { setTtsBar(""); onDone(); }, function (e) {
+          setTtsBar("语音失败：" + (e.message || e));
+          aria(MSG_NET);
+          alert(MSG_NET + "\n" + (e.message || "").slice(0, 180));
+          onDone();
+        });
+      }
+    );
+  }
+  function azureSpeak(text, voice, onDone) {
+    azureSpeakSsml(buildSsml(text, voice), voice, onDone);
+  }
+  function azureSpeakEnglishSlow(text, onDone) {
+    var v = "en-US-JennyNeural";
+    azureSpeakSsml(buildSsmlEnSlow(text, v), v, onDone);
+  }
+
+  function setBtnsSpeaking(on, speakingBtnId) {
+    ttsBusy = on;
+    ["btnReadPage", "btnReadA", "btnReadB"].forEach(function (id) {
+      var b = document.getElementById(id);
+      if (b) {
+        b.disabled = on;
+        b.classList.remove("speaking");
+      }
+    });
+    if (on && speakingBtnId) {
+      var sp = document.getElementById(speakingBtnId);
+      if (sp) sp.classList.add("speaking");
+    }
+  }
+
+  var enA =
+    "I've finished my homework, so I can watch a short video tonight. I've read the story, so I know the ending. I've cleaned my desk, so I feel ready for tomorrow's test. That's why I look relaxed — I've prepared my English speech.";
+  var enB =
+    "I have lived in Chengdu since I was little. We have studied English for three years. She has worked as a volunteer for two months.";
+  var enPair =
+    "I read the book last month. I have read the book, so I can tell you what happens in Chapter 5. They watched the film last Friday. They have watched the film, so they won't be spoiled in class.";
+  var enExp = "Have you ever been to Beijing? I've never tried hot pot before. I've been to Beijing twice.";
+
+  document.getElementById("btnReadPage").addEventListener("click", function () {
+    if (ttsBusy) return;
+    setBtnsSpeaking(true, "btnReadPage");
+    var zhIntro = "下面朗读现在完成时的两大意义。意义 A：过去的事影响现在。意义 B：从过去持续到现在。";
+    var zhMid = "下面朗读与一般过去时的两句对比。";
+    var zhEnd = "下面是经历角度的三句预告。";
+    azureSpeak(zhIntro, "zh-CN-XiaoxiaoNeural", function () {
+      azureSpeak("意义 A 的例句。", "zh-CN-XiaoxiaoNeural", function () {
+        azureSpeakEnglishSlow(enA, function () {
+          azureSpeak("意义 B 的例句。", "zh-CN-XiaoxiaoNeural", function () {
+            azureSpeakEnglishSlow(enB, function () {
+              azureSpeak(zhMid, "zh-CN-XiaoxiaoNeural", function () {
+                azureSpeakEnglishSlow(enPair, function () {
+                  azureSpeak(zhEnd, "zh-CN-XiaoxiaoNeural", function () {
+                    azureSpeakEnglishSlow(enExp, function () { setBtnsSpeaking(false); });
+                  });
+                });
+              });
+            });
+          });
+        });
+      });
+    });
+  });
+
+  document.getElementById("btnReadA").addEventListener("click", function () {
+    if (ttsBusy) return;
+    setBtnsSpeaking(true, "btnReadA");
+    azureSpeak("意义 A：过去的事影响现在。", "zh-CN-XiaoxiaoNeural", function () {
+      azureSpeakEnglishSlow(enA, function () { setBtnsSpeaking(false); });
+    });
+  });
+
+  document.getElementById("btnReadB").addEventListener("click", function () {
+    if (ttsBusy) return;
+    setBtnsSpeaking(true, "btnReadB");
+    azureSpeak("意义 B：从过去持续到现在。", "zh-CN-XiaoxiaoNeural", function () {
+      azureSpeakEnglishSlow(enB, function () { setBtnsSpeaking(false); });
+    });
+  });
+
+  document.getElementById("heroImg").addEventListener("error", function () {
+    document.getElementById("heroBlock").classList.add("fallback-img");
+  });
+
+  var timelineBox = document.getElementById("timelineBox");
+  var tlRepeatTrack = document.getElementById("tlRepeatTrack");
+  var tlCapRepeat = document.getElementById("tlCapRepeat");
+  var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var tlBTimerIds = [];
+  var tlATimerId = null;
+
+  function clearBTimers() {
+    tlBTimerIds.forEach(function (id) { clearTimeout(id); });
+    tlBTimerIds = [];
+  }
+
+  function resetTimeline() {
+    if (tlATimerId) {
+      clearTimeout(tlATimerId);
+      tlATimerId = null;
+    }
+    clearBTimers();
+    if (!timelineBox) return;
+    timelineBox.classList.remove("mode-a", "mode-b", "tl-anim-a", "tl-a-complete", "reduced-a", "reduced-b");
+    if (tlRepeatTrack) tlRepeatTrack.innerHTML = "";
+    if (tlCapRepeat) tlCapRepeat.classList.remove("is-on");
+  }
+
+  function playTimelineA() {
+    resetTimeline();
+    if (!timelineBox) return;
+    timelineBox.classList.add("mode-a");
+    if (reduceMotion) {
+      timelineBox.classList.add("reduced-a");
+      return;
+    }
+    void timelineBox.offsetWidth;
+    timelineBox.classList.add("tl-anim-a");
+    /* 最长一段：cap-impact delay 3.25s + 0.75s ≈ 4s，略留余量后锁定终态 */
+    tlATimerId = setTimeout(function () {
+      timelineBox.classList.remove("tl-anim-a");
+      timelineBox.classList.add("tl-a-complete");
+      tlATimerId = null;
+    }, 4100);
+  }
+
+  function measureRepeatArrowCount() {
+    var track = tlRepeatTrack;
+    if (!track) return 18;
+    var wrap = track.parentElement;
+    /* 空轨道在 flex 里宽度曾为 0，导致箭头过少；用外层可用宽度并向上取整，保证铺到靠近 Now */
+    var w = wrap ? wrap.clientWidth : track.clientWidth;
+    if (w < 80) w = track.clientWidth || 320;
+    var probe = document.createElement("span");
+    probe.className = "tl-up-arrow";
+    probe.style.visibility = "hidden";
+    probe.style.opacity = "1";
+    probe.classList.add("is-on");
+    track.appendChild(probe);
+    var aw = probe.offsetWidth || 11;
+    track.removeChild(probe);
+    var tmp = document.createElement("div");
+    tmp.style.width = "0.5cm";
+    tmp.style.position = "absolute";
+    tmp.style.visibility = "hidden";
+    document.body.appendChild(tmp);
+    var gap = tmp.offsetWidth || 19;
+    document.body.removeChild(tmp);
+    if (!(gap > 0)) gap = 19;
+    var n = Math.ceil((w + gap) / (aw + gap));
+    n = Math.max(6, Math.min(48, n));
+    while (n > 6 && n * aw + (n - 1) * gap > w + 8) n--;
+    return n;
+  }
+
+  function playTimelineB() {
+    resetTimeline();
+    if (!timelineBox || !tlRepeatTrack) return;
+    timelineBox.classList.add("mode-b");
+    if (tlCapRepeat) tlCapRepeat.classList.remove("is-on");
+    if (reduceMotion) {
+      timelineBox.classList.add("reduced-b");
+      requestAnimationFrame(function () {
+        var count = measureRepeatArrowCount();
+        tlRepeatTrack.innerHTML = "";
+        for (var i = 0; i < count; i++) {
+          var sp = document.createElement("span");
+          sp.className = "tl-up-arrow is-on";
+          sp.setAttribute("aria-hidden", "true");
+          tlRepeatTrack.appendChild(sp);
+        }
+        if (tlCapRepeat) tlCapRepeat.classList.add("is-on");
+      });
+      return;
+    }
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () {
+        var count = measureRepeatArrowCount();
+        tlRepeatTrack.innerHTML = "";
+        for (var j = 0; j < count; j++) {
+          var el = document.createElement("span");
+          el.className = "tl-up-arrow";
+          el.setAttribute("aria-hidden", "true");
+          tlRepeatTrack.appendChild(el);
+        }
+        var children = tlRepeatTrack.querySelectorAll(".tl-up-arrow");
+        var stepMs = 125;
+        for (var k = 0; k < children.length; k++) {
+          (function (node, delay) {
+            var tid = setTimeout(function () { node.classList.add("is-on"); }, delay);
+            tlBTimerIds.push(tid);
+          })(children[k], k * stepMs);
+        }
+        var tidCap = setTimeout(function () {
+          if (tlCapRepeat) tlCapRepeat.classList.add("is-on");
+        }, children.length * stepMs + 220);
+        tlBTimerIds.push(tidCap);
+      });
+    });
+  }
+
+  document.getElementById("btnPlayA").addEventListener("click", function () { playTimelineA(); });
+  document.getElementById("btnPlayB").addEventListener("click", function () { playTimelineB(); });
+
+  if (reduceMotion && timelineBox) {
+    timelineBox.setAttribute("title", MSG_ANIM);
+  }
+
+  var aiPanel = document.getElementById("aiPanel");
+  var bd = document.getElementById("aiBackdrop");
+  function openAi() {
+    if (!aiPanel || !bd) return;
+    aiPanel.classList.add("open");
+    bd.hidden = false;
+    bd.classList.add("show");
+  }
+  function closeAi() {
+    if (!aiPanel || !bd) return;
+    aiPanel.classList.remove("open");
+    bd.classList.remove("show");
+    bd.hidden = true;
+  }
+  document.getElementById("btnAi").addEventListener("click", openAi);
+  document.getElementById("btnAiClose").addEventListener("click", closeAi);
+  if (bd) bd.addEventListener("click", closeAi);
+
+  document.getElementById("btnAiExpand").addEventListener("click", function () {
+    var w = document.getElementById("aiFormWrap");
+    w.style.display = w.style.display === "none" ? "block" : "none";
+  });
+
+  document.getElementById("aiClear").addEventListener("click", function () {
+    document.getElementById("aiZh").value = "";
+    document.getElementById("aiOut").textContent = "";
+    document.getElementById("aiHint").style.display = "none";
+  });
+
+  function weakPresentPerfect(line) {
+    var s = (line || "").trim();
+    if (!/\b(have|has)\b/i.test(s)) return false;
+    if (/\byesterday\b|\blast\s+\w+\b|\sago\b|\bin\s+20\d{2}\b/i.test(s)) return false;
+    if (/\b(has|have)\s+not\b/i.test(s) || /haven't|hasn't/i.test(s)) return true;
+    if (/\b(has|have)\s+\w+ed\b/i.test(s)) return true;
+    if (/\b(has|have)\s+(gone|seen|done|read|written|taken|made|been|come|run|eaten|given|known|spoken|broken|chosen|forgotten|got|gotten|thought|bought|brought|taught|caught|built|sent|spent|sat|stood|understood|found|had|heard|told|sold|said|paid|met|left|slept|kept|meant|lent|won|lost|felt|swum|drunk|sung|rung|begun|driven|ridden|worn|thrown|flown|drawn|grown|fallen|shown|finished|lived|studied|worked|tried|prepared|cleaned|learned|learnt)\b/i.test(s)) return true;
+    if (/\bHas\s+\w+\s+\w+/i.test(s) || /\bHave\s+\w+\s+\w+/i.test(s)) return true;
+    return false;
+  }
+
+  document.getElementById("aiGen").addEventListener("click", async function () {
+    var modeEl = document.querySelector("input[name=\"aiMeaning\"]:checked");
+    var mode = modeEl ? modeEl.value : "";
+    var zh = document.getElementById("aiZh").value.trim();
+    var out = document.getElementById("aiOut");
+    var hint = document.getElementById("aiHint");
+    hint.style.display = "none";
+    if (!mode) {
+      hint.textContent = MSG_SELECT_MEANING;
+      hint.style.display = "block";
+      return;
+    }
+    if (!zh) {
+      out.textContent = "请输入中文情境。";
+      return;
+    }
+    if (zh.length > 120) zh = zh.slice(0, 120);
+    var user = "用户选择：" + (mode === "A" ? "A（意义A：过去对现在的影响）" : "B（意义B：从过去持续到现在）") + "。中文情境：" + zh;
+    out.textContent = "生成中…";
+    try {
+      var res = await fetch(DEEPSEEK_API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: "Bearer " + DEEPSEEK_API_KEY },
+        body: JSON.stringify({
+          model: "deepseek-chat",
+          temperature: 0.45,
+          max_tokens: 320,
+          messages: [
+            { role: "system", content: DEEPSEEK_SYSTEM },
+            { role: "user", content: user }
+          ]
+        })
+      });
+      if (!res.ok) { out.textContent = "请求失败 HTTP " + res.status; return; }
+      var data = await res.json();
+      var txt = (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) || "";
+      out.textContent = txt;
+      var lines = txt.split("\n").map(function (s) { return s.trim(); }).filter(Boolean);
+      if (lines.length < 3) {
+        hint.textContent = "未得到完整三行，请重试或缩短情境描述。";
+        hint.style.display = "block";
+      }
+      var first = lines[0] || "";
+      if (first && !weakPresentPerfect(first)) {
+        hint.textContent = "未检测到典型的 have/has + 过去分词结构，可再试一次。";
+        hint.style.display = "block";
+      }
+    } catch (e) {
+      out.textContent = (e && e.message) || "网络错误";
+    }
+  });
+
+  document.getElementById("aiCopy").addEventListener("click", function () {
+    var t = document.getElementById("aiOut").textContent || "";
+    var line = t.split("\n").map(function (s) { return s.trim(); }).filter(Boolean)[0] || "";
+    if (!line) return;
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(line);
+    else {
+      var ta = document.createElement("textarea");
+      ta.value = line;
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand("copy"); } catch (x) {}
+      document.body.removeChild(ta);
+    }
+  });
+
+  setTtsBar("");
+  renderContextQuiz();
+  initSlides();
+})();
+  </script>
+</body>
+</html>

@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Lesson 10 · 写作 — 新学期准备</title>
+  <script src="https://cdn.jsdelivr.net/npm/microsoft-cognitiveservices-speech-sdk@1.38.0/dist/microsoft.cognitiveservices.speech.sdk.bundle-min.js" crossorigin="anonymous"></script>
+  <style>
+    :root {
+      --bg: #eef2f7;
+      --card: #ffffff;
+      --text: #1a2332;
+      --muted: #5a6a7e;
+      --accent: #1e6b8c;
+      --accent2: #2a9d8f;
+      --shadow: 0 8px 24px rgba(26, 35, 50, 0.1);
+      --radius: 14px;
+      --topbar-h: 52px;
+      --dock-h: 56px;
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; }
+    body {
+      display: flex; flex-direction: column;
+      font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      font-size: clamp(16px, 1.5vw, 18px);
+      line-height: 1.55;
+      color: var(--text);
+      background: var(--bg);
+      overflow: hidden;
+    }
+    a { color: var(--accent); }
+    a:focus-visible, button:focus-visible, textarea:focus-visible, input:focus-visible { outline: 3px solid #ffb703; outline-offset: 2px; }
+    .topbar {
+      flex: 0 0 auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+      gap: 8px; padding: 8px 16px; min-height: var(--topbar-h); background: var(--card); border-bottom: 1px solid #e2e8f0; z-index: 40;
+    }
+    .brand { font-weight: 700; color: var(--accent); font-size: 14px; }
+    .slide-meta { font-size: 13px; color: var(--muted); font-weight: 600; }
+    .top-actions { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+    button, .btn-link {
+      font: inherit; cursor: pointer; border: none; border-radius: 10px; padding: 8px 12px;
+      background: linear-gradient(135deg, var(--accent), #155a78); color: #fff;
+      box-shadow: 0 2px 8px rgba(30, 107, 140, 0.3); text-decoration: none; display: inline-block; font-size: 14px; min-height: 44px;
+    }
+    button.secondary, .btn-link.secondary { background: linear-gradient(135deg, #6c757d, #495057); box-shadow: none; }
+    button:disabled { opacity: 0.55; cursor: not-allowed; }
+    button.speaking { background: linear-gradient(135deg, #e76f51, #c94c32); }
+    .tts-bar { font-size: 12px; padding: 4px 16px 6px; background: #fff8e6; color: #664d03; border-bottom: 1px solid #f0d78c; }
+    .deck { flex: 1; min-height: 0; position: relative; width: 100%; }
+    .slide { position: absolute; inset: 0; overflow: hidden; display: none; flex-direction: column; padding: 10px 14px 6px; }
+    .slide.is-active { display: flex; }
+    .slide-scroll { flex: 1; min-height: 0; overflow: auto; -webkit-overflow-scrolling: touch; }
+    .slide-inner { max-width: 1100px; margin: 0 auto; width: 100%; min-height: min-content; }
+    .hero-compact { display: grid; gap: 14px; align-items: stretch; }
+    @media (min-width: 860px) { .hero-compact { grid-template-columns: 1.05fr 1fr; } }
+    .hero-img-wrap { border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); min-height: 160px; background: linear-gradient(120deg, #e0f2f7, #e8ecf8); }
+    .hero-img-wrap img { width: 100%; min-height: 180px; height: 100%; object-fit: cover; display: block; }
+    .hero-img-wrap.fallback-img img { display: none; }
+    .hero-text { background: var(--card); border-radius: var(--radius); padding: 16px 18px; box-shadow: var(--shadow); }
+    .hero-text h1 { margin: 0 0 6px; font-size: clamp(1.2rem, 2.6vw, 1.65rem); }
+    .note-small { font-size: 0.86rem; color: var(--muted); margin: 8px 0 0; }
+    .note { font-size: 0.88rem; color: var(--muted); background: #fffdf5; border-left: 4px solid #ffb703; padding: 10px 12px; border-radius: 8px; margin: 10px 0 0; }
+    .card { background: var(--card); border-radius: var(--radius); padding: 16px 18px; margin-bottom: 12px; box-shadow: var(--shadow); }
+    .card h2 { margin: 0 0 10px; font-size: 1.12rem; color: var(--accent); }
+    .word-grid { display: grid; gap: 10px; grid-template-columns: 1fr; }
+    @media (min-width: 640px) { .word-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 960px) { .word-grid { grid-template-columns: repeat(3, 1fr); } }
+    .word-card { border: 1px solid #e2e8f0; border-radius: 12px; padding: 10px 12px; background: #fafcff; }
+    .word-card h4 { margin: 0 0 8px; font-size: 0.88rem; color: var(--accent); }
+    .chip-row { display: flex; flex-wrap: wrap; gap: 6px; }
+    .chip {
+      font: inherit; cursor: pointer; padding: 6px 10px; border-radius: 8px; border: 1px solid #cbd5e1;
+      background: #fff; font-size: 0.85rem; color: #334155;
+    }
+    .chip:hover { background: #eef6ff; border-color: var(--accent); }
+    .starter-list { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
+    .starter-list button {
+      text-align: left; padding: 10px 12px; border-radius: 10px; border: 1px solid #e2e8f0; background: #f8fafc;
+      font-size: 0.9rem; color: #1e293b; cursor: pointer; min-height: 44px;
+    }
+    .starter-list button:hover { border-color: var(--accent2); background: #ecfdf5; }
+    .model-box { border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px 16px; background: #fff; line-height: 1.65; font-size: calc(0.95rem * 1.5); }
+    .model-box mark.already { background: #dbeafe; padding: 0 2px; border-radius: 4px; }
+    .model-box mark.yet { background: #fef3c7; padding: 0 2px; border-radius: 4px; }
+    .model-box mark.just { background: #d1fae5; padding: 0 2px; border-radius: 4px; }
+    .next-btn {
+      display: inline-block; margin-top: 12px; padding: 12px 20px; font-weight: 700; font-size: 1rem; border-radius: 12px;
+      background: linear-gradient(135deg, var(--accent2), #1f8a7a); color: #fff; text-decoration: none; box-shadow: var(--shadow);
+    }
+    .dock {
+      flex: 0 0 auto; display: flex; align-items: center; justify-content: center; gap: 12px;
+      padding: 8px 12px; min-height: var(--dock-h); background: var(--card); border-top: 1px solid #e2e8f0; z-index: 60; position: relative;
+    }
+    .dock button { min-width: 100px; min-height: 44px; touch-action: manipulation; }
+    .dock .dots { font-size: 15px; font-weight: 700; color: var(--accent); min-width: 4.5em; text-align: center; }
+    .sr { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+    .ai-panel {
+      position: fixed; right: 0; top: 0; bottom: 0; width: min(440px, 100vw); background: var(--card);
+      box-shadow: -6px 0 28px rgba(0,0,0,0.14); transform: translateX(100%); transition: transform 0.28s ease; z-index: 120;
+      display: flex; flex-direction: column;
+    }
+    .ai-panel.open { transform: translateX(0); }
+    .ai-panel header { padding: 12px 14px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; }
+    .ai-panel .body { flex: 1; overflow: auto; padding: 12px 14px; display: flex; flex-direction: column; gap: 10px; }
+    .ai-panel textarea { width: 100%; min-height: 140px; resize: vertical; font: inherit; padding: 10px; border-radius: 10px; border: 1px solid #ced4da; }
+    .ai-panel .out { white-space: pre-wrap; background: #f1f5f9; border-radius: 10px; padding: 12px; min-height: 80px; border: 1px solid #e2e8f0; font-size: 0.92rem; }
+    .backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.35); opacity: 0; pointer-events: none; transition: opacity 0.25s ease; z-index: 110; }
+    .backdrop.show { opacity: 1; pointer-events: auto; }
+      /* L10：主内容区整体 160%（顶栏与底部分页条不缩放） */
+    .tts-bar,
+    .deck {
+      zoom: 1.6;
+    }
+
+</style>
+</head>
+<body>
+  <div id="ariaLive" class="sr" aria-live="polite"></div>
+  <header class="topbar">
+    <div class="brand">Lesson 10 · Writing — New Term Prep</div>
+    <div class="slide-meta" id="slideIndicator">1 / 5</div>
+    <div class="top-actions">
+      <a class="btn-link secondary" href="L10-00-index.html">返回目录</a>
+      <a class="btn-link secondary" href="L10-05-speaking-have-you-ever.html">上一节</a>
+      <a class="btn-link secondary" href="L10-07-for-since-how-long.html">下一节</a>
+      <button type="button" id="btnReadAll">朗读写作要求与范文</button>
+      <button type="button" id="btnReadStarters" class="secondary">朗读例句</button>
+      <button type="button" id="btnReadModel" class="secondary">仅朗读范文</button>
+      <button type="button" id="btnAi">AI 点评草稿</button>
+    </div>
+  </header>
+  <div class="tts-bar" id="ttsBar" role="status" style="display:none;"></div>
+
+  <div class="deck" id="deck">
+    <section class="slide is-active" id="slide-0" data-slide="0" aria-label="封面">
+      <div class="slide-scroll">
+        <div class="slide-inner">
+          <div class="hero-compact">
+            <div class="hero-img-wrap" id="heroBlock">
+              <img id="heroImg" src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L10/assets/img/l10-p07-writing-hero.png" alt="书桌计划本台灯学习氛围插画" width="1600" height="900" loading="eager" decoding="async" />
+            </div>
+            <div class="hero-text">
+              <h1>写作：为新学期做准备</h1>
+              <p class="note-small"><span lang="en">I have already… · I haven't … yet.</span> · 至少五句</p>
+              <p class="note">上一节我们练了口头 <span lang="en">Have you ever…?</span>；这一节把准备写进段落，用 <strong>already</strong> 与 <strong>yet</strong> 对照「已完成 / 尚未完成」。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-1" data-slide="1" hidden aria-label="任务说明">
+      <div class="slide-scroll">
+        <div class="slide-inner">
+          <div class="card">
+            <h2>写作任务</h2>
+            <ul>
+              <li>写一段英语，<strong>至少五句</strong>，主题：<strong>为准备新学期你已经做了什么 / 还没做什么</strong>。</li>
+              <li>文中须含<strong>至少两句</strong>带 <span lang="en">already</span> 的肯定（如 <span lang="en">I have already… / We've already…</span>）。</li>
+              <li>文中须含<strong>至少两句</strong>带 <span lang="en">yet</span> 的否定（<span lang="en">I haven't … yet.</span> 或 <span lang="en">have not … yet</span>，<strong>yet 在句末</strong>）。</li>
+              <li>鼓励再写<strong>一句</strong>用 <span lang="en">just</span> 或 <span lang="en">because / so</span> 表因果，与「意义 A：影响现在」呼应。</li>
+              <li>建议<strong>两段式</strong>：先写「已做」，用 <span lang="en">However,</span> 或 <span lang="en">But</span> 转折，再写「未做」。</li>
+            </ul>
+            <p lang="en" style="margin-top:12px;padding:12px;background:#f8fafc;border-radius:10px;border:1px solid #e2e8f0;">
+              You will write a short paragraph in English about how you are getting ready for the new term. Your paragraph must have <strong>at least five sentences</strong>. It must include <strong>at least two</strong> sentences with <em>already</em> and <strong>at least two</strong> sentences with <em>… yet</em> at the end of the clause. Try to add <strong>one</strong> sentence with <em>just</em> or <em>because / so</em>.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-2" data-slide="2" hidden aria-label="脚手架">
+      <div class="slide-scroll">
+        <div class="slide-inner">
+          <div class="card">
+            <h2>词库</h2>
+            <p class="note-small">以下为「词块」与「例句」；点击后<strong>追加到顶栏「AI 点评草稿」</strong>打开面板中的英语草稿框，可自行连成完整句并调整大小写。</p>
+            <div class="word-grid" id="wordBank"></div>
+          </div>
+          <div class="card">
+            <h2>例句</h2>
+            <div class="starter-list" id="starterMount"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-3" data-slide="3" hidden aria-label="范文">
+      <div class="slide-scroll">
+        <div class="slide-inner">
+          <div class="card">
+            <h2>教师范文（约 90 词）</h2>
+            <p class="note-small">高亮：<mark class="already">already 句</mark>、<mark class="yet">yet 句</mark>、<mark class="just">just</mark>。旁注：<strong>yet</strong> 放在<strong>否定句末尾</strong>，表示「到目前为止还没」。</p>
+            <div class="model-box" lang="en" id="modelEssay">
+              The new term is coming soon. <mark class="already">I have already planned my timetable for the first week</mark>, and <mark class="already">I have already talked to my parents about pocket money</mark>. <mark class="just">I've just finished cleaning my desk</mark> so that I can study there every evening. <strong>However,</strong> <mark class="yet">I haven't bought new notebooks yet</mark>, and <mark class="yet">I haven't decided which club to join yet</mark>. I feel a little nervous, but I feel more confident because <mark class="already">I have already reviewed Unit 1</mark> in the workbook.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-4" data-slide="4" hidden aria-label="小结">
+      <div class="slide-scroll">
+        <div class="slide-inner">
+          <div class="card">
+            <h2>小结</h2>
+            <ul>
+              <li>用 <span lang="en">already</span> 突出「已经完成的准备」，用 <span lang="en">… yet</span> 诚实写出「还没做到的缺口」。</li>
+              <li>写完后自查：<span lang="en">have/has</span> 一致、<span lang="en">yet</span> 在否定句末、连接词是否让两段衔接自然。</li>
+            </ul>
+            <a class="next-btn" href="L10-07-for-since-how-long.html">下一节：<span lang="en">for / since / How long…?</span></a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <nav class="dock" aria-label="幻灯分页">
+    <button type="button" id="btnPrev" class="secondary">上一页</button>
+    <span class="dots" id="dockDots">1 / 5</span>
+    <button type="button" id="btnNext">下一页</button>
+  </nav>
+
+  <div class="backdrop" id="aiBackdrop" hidden aria-hidden="true"></div>
+  <aside class="ai-panel" id="aiPanel" aria-label="AI 写作点评">
+    <header>
+      <strong>DeepSeek · 草稿辅助</strong>
+      <button type="button" id="btnAiClose" class="secondary">关闭</button>
+    </header>
+    <div class="body">
+      <p style="margin:0;font-size:0.88rem;color:var(--muted);">粘贴草稿；AI 只给建议与鼓励，<strong>不整段代写</strong>。</p>
+      <textarea id="aiDraft" maxlength="4000" placeholder="粘贴你的英语草稿…"></textarea>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;">
+        <button type="button" id="btnAiReview">AI 点评（三行）</button>
+        <button type="button" id="btnAiStruct" class="secondary">结构检查</button>
+      </div>
+      <div class="out" id="aiOut"></div>
+      <p id="aiTrunc" style="display:none;margin:0;font-size:0.78rem;color:#b45309;">输出过长已截断，请只使用三行建议格式。</p>
+    </div>
+  </aside>
+
+  <script>
+(function () {
+  const AZURE_SPEECH_KEY = "C42UQWeDcluYanbo17WrtUnPhk0vkZy2uQHPTCGDzY6CdEXx99NzJQQJ99BIACqBBLyXJ3w3AAAYACOGjkyu";
+  const AZURE_SPEECH_REGION = "southeastasia";
+  const DEEPSEEK_API_KEY = "sk-daa16008e81843deba6fefe9dce51465";
+  const DEEPSEEK_API_URL = "https://api.deepseek.com/v1/chat/completions";
+  const DS_SYS_REVIEW =
+    "你是初中英语写作教师。用户粘贴自己的英语段落草稿。你只输出三行：前两行各一条具体改进建议，指出语法或内容或连接上的问题，可中英混合但保持初二可读；第三行一句简短鼓励。不要输出整段改写。不要替用户重写作文。不要输出第四行。不要输出密钥或链接。如果草稿少于五句，第二行提示需要增加句子数量。";
+  const DS_SYS_STRUCT =
+    "你是初中英语教师。只检查用户草稿是否包含至少两个 I have already 或 We've already 等肯定现完句，以及至少两个 I haven't ... yet 或 have not ... yet 否定句。用最多三行中文回答：有/没有；缺哪一类；给一条最小修改建议。不要全文改写。不要输出密钥。";
+  const MSG_NET = "语音暂时不可用，请默读或换 Edge / 本地 http 打开。";
+
+  var MODEL_PLAIN = document.getElementById("modelEssay").innerText.replace(/\s+/g, " ").trim();
+
+  var STARTERS = [
+    "I have already planned my first week of the new term.",
+    "I haven't bought new school things yet.",
+    "I've just finished cleaning my study corner.",
+    "I have already reviewed the first unit in my workbook.",
+    "I haven't decided on my after-school club yet.",
+    "I have already talked to my parents about screen time.",
+    "I haven't packed my schoolbag yet.",
+    "I have already downloaded the listening materials for Week 1."
+  ];
+
+  var WORD_BANK = [
+    { title: "学习用品", items: ["new notebooks", "a dictionary", "highlighters", "a pencil case", "glue stick"] },
+    { title: "作息与习惯", items: ["get up earlier", "go to bed before 10", "a morning routine", "less screen time at night"] },
+    { title: "预习与复习", items: ["preview Unit 1", "listen to the tape", "copy new words three times", "finish the workbook pages"] },
+    { title: "运动与健康", items: ["run twice a week", "drink more water", "warm up before PE"] },
+    { title: "家务与空间", items: ["tidy my desk", "wash my PE clothes", "help with dishes"] },
+    { title: "电子产品管理", items: ["turn off the phone during homework", "use an app timer", "ask my parents to keep the charger"] }
+  ];
+
+  var slideCount = 0;
+  var slideIndex = 0;
+  var slides = [];
+  var ttsBusy = false;
+  var ttsHtmlAudio = null;
+  var lastAi = 0;
+
+  function initSlides() {
+    slides = Array.prototype.slice.call(document.querySelectorAll(".slide"));
+    slideCount = slides.length;
+    goSlide(0);
+  }
+  function goSlide(n) {
+    slideIndex = Math.max(0, Math.min(slideCount - 1, n));
+    slides.forEach(function (s, i) {
+      var on = i === slideIndex;
+      s.classList.toggle("is-active", on);
+      s.hidden = !on;
+    });
+    var cur = slides[slideIndex];
+    if (cur) {
+      var sc = cur.querySelector(".slide-scroll");
+      if (sc) sc.scrollTop = 0;
+    }
+    var label = slideIndex + 1 + " / " + slideCount;
+    document.getElementById("slideIndicator").textContent = label;
+    document.getElementById("dockDots").textContent = label;
+    document.getElementById("btnPrev").disabled = slideIndex === 0;
+    document.getElementById("btnNext").disabled = slideIndex === slideCount - 1;
+  }
+  document.getElementById("btnPrev").addEventListener("click", function () { goSlide(slideIndex - 1); });
+  document.getElementById("btnNext").addEventListener("click", function () { goSlide(slideIndex + 1); });
+  document.addEventListener("keydown", function (e) {
+    var bd = document.getElementById("aiBackdrop");
+    if (e.target.closest(".ai-panel.open") || (bd && bd.classList.contains("show"))) return;
+    if (e.key === "ArrowLeft") { e.preventDefault(); goSlide(slideIndex - 1); }
+    if (e.key === "ArrowRight") { e.preventDefault(); goSlide(slideIndex + 1); }
+  });
+
+  document.getElementById("heroImg").addEventListener("error", function () {
+    document.getElementById("heroBlock").classList.add("fallback-img");
+  });
+
+  function appendDraft(text) {
+    var ta = document.getElementById("aiDraft");
+    if (!ta) return;
+    var add = (ta.value && !/\s$/.test(ta.value) ? " " : "") + text;
+    ta.value = ta.value + add;
+    aria("已追加到 AI 草稿框");
+  }
+
+  function mountScaffold() {
+    var wb = document.getElementById("wordBank");
+    var html = "";
+    WORD_BANK.forEach(function (cat) {
+      html += '<div class="word-card"><h4>' + cat.title + '</h4><div class="chip-row">';
+      cat.items.forEach(function (w) {
+        html += '<button type="button" class="chip">' + w.replace(/</g, "&lt;") + "</button>";
+      });
+      html += "</div></div>";
+    });
+    wb.innerHTML = html;
+    wb.querySelectorAll(".chip").forEach(function (btn) {
+      btn.addEventListener("click", function () { appendDraft(btn.textContent); });
+    });
+    var sm = document.getElementById("starterMount");
+    sm.innerHTML = "";
+    STARTERS.forEach(function (s) {
+      var b = document.createElement("button");
+      b.type = "button";
+      b.textContent = s;
+      b.addEventListener("click", function () { appendDraft(s); });
+      sm.appendChild(b);
+    });
+  }
+
+  function aria(m) {
+    var el = document.getElementById("ariaLive");
+    if (el) el.textContent = m;
+  }
+  function setTtsBar(t) {
+    var b = document.getElementById("ttsBar");
+    b.textContent = t || "";
+    b.style.display = t ? "block" : "none";
+  }
+  function stopHtmlAudio() {
+    try {
+      if (ttsHtmlAudio) {
+        ttsHtmlAudio.pause();
+        if (ttsHtmlAudio._revoke) URL.revokeObjectURL(ttsHtmlAudio._revoke);
+        ttsHtmlAudio.removeAttribute("src");
+        ttsHtmlAudio.load();
+        ttsHtmlAudio = null;
+      }
+    } catch (e) {}
+  }
+  function escapeXml(s) {
+    return String(s)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&apos;");
+  }
+  function buildSsml(text, voice) {
+    var lang = voice.indexOf("zh-") === 0 ? "zh-CN" : "en-US";
+    return (
+      "<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='" +
+      lang +
+      "'><voice name='" +
+      voice +
+      "'>" +
+      escapeXml(text) +
+      "</voice></speak>"
+    );
+  }
+  function azureRest(ssml, ok, fail) {
+    stopHtmlAudio();
+    fetch("https://" + AZURE_SPEECH_REGION + ".tts.speech.microsoft.com/cognitiveservices/v1", {
+      method: "POST",
+      mode: "cors",
+      credentials: "omit",
+      headers: {
+        "Ocp-Apim-Subscription-Key": AZURE_SPEECH_KEY,
+        "Content-Type": "application/ssml+xml",
+        "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3",
+        "User-Agent": "L10WritingPage/1.0"
+      },
+      body: ssml
+    })
+      .then(function (r) {
+        if (!r.ok) throw new Error("rest");
+        return r.blob();
+      })
+      .then(function (blob) {
+        if (!blob || blob.size < 80) throw new Error("empty");
+        var u = URL.createObjectURL(blob);
+        var a = new Audio();
+        ttsHtmlAudio = a;
+        a._revoke = u;
+        a.src = u;
+        a.setAttribute("playsinline", "true");
+        a.onended = function () { stopHtmlAudio(); ok(); };
+        a.onerror = function () { stopHtmlAudio(); fail(); };
+        var p = a.play();
+        if (p && p.catch) p.catch(function () { stopHtmlAudio(); fail(); });
+      })
+      .catch(function () { stopHtmlAudio(); fail(); });
+  }
+  function azureSdk(ssml, voice, ok, fail) {
+    if (typeof SpeechSDK === "undefined") { fail(); return; }
+    stopHtmlAudio();
+    var cfg = SpeechSDK.SpeechConfig.fromSubscription(AZURE_SPEECH_KEY, AZURE_SPEECH_REGION);
+    cfg.speechSynthesisVoiceName = voice;
+    var syn = new SpeechSDK.SpeechSynthesizer(cfg, SpeechSDK.AudioConfig.fromDefaultSpeakerOutput());
+    syn.speakSsmlAsync(
+      ssml,
+      function (res) {
+        var good = res.reason === SpeechSDK.ResultReason.SynthesizingAudioCompleted;
+        syn.close();
+        if (good) ok();
+        else fail();
+      },
+      function () { syn.close(); fail(); }
+    );
+  }
+  function azureSpeakSsml(ssml, voice, onDone) {
+    onDone = onDone || function () {};
+    setTtsBar("正在连接 Azure 语音…");
+    azureRest(
+      ssml,
+      function () { setTtsBar(""); onDone(); },
+      function () {
+        setTtsBar("REST 失败，尝试 SDK…");
+        azureSdk(ssml, voice, function () { setTtsBar(""); onDone(); }, function () {
+          setTtsBar("语音失败");
+          aria(MSG_NET);
+          onDone();
+        });
+      }
+    );
+  }
+  function speakChain(list, i, done) {
+    if (i >= list.length) {
+      done();
+      return;
+    }
+    azureSpeakSsml(list[i].ssml, list[i].voice, function () { speakChain(list, i + 1, done); });
+  }
+
+  function setReadBusy(on, id) {
+    ttsBusy = on;
+    ["btnReadAll", "btnReadStarters", "btnReadModel"].forEach(function (bid) {
+      var b = document.getElementById(bid);
+      if (b) {
+        b.disabled = on;
+        b.classList.remove("speaking");
+      }
+    });
+    if (on && id) {
+      var x = document.getElementById(id);
+      if (x) x.classList.add("speaking");
+    }
+  }
+
+  var zhTask =
+    "写作任务中文摘要：至少五句，主题为新学期准备。至少两句带 already 的肯定句，至少两句带 yet 且在句末的否定句。鼓励一句用 just 或 because 或 so。建议两段式，先写已做，用 However 或 But 转折再写未做。";
+  var startersRead = STARTERS.join(". ");
+
+  document.getElementById("btnReadAll").addEventListener("click", function () {
+    if (ttsBusy) return;
+    setReadBusy(true, "btnReadAll");
+    var chain = [
+      { voice: "zh-CN-XiaoxiaoNeural", ssml: buildSsml(zhTask, "zh-CN-XiaoxiaoNeural") },
+      { voice: "en-US-JennyNeural", ssml: buildSsml("Here are some example sentences you can use.", "en-US-JennyNeural") },
+      { voice: "en-US-JennyNeural", ssml: buildSsml(startersRead, "en-US-JennyNeural") },
+      { voice: "en-US-JennyNeural", ssml: buildSsml(MODEL_PLAIN, "en-US-JennyNeural") }
+    ];
+    speakChain(chain, 0, function () { setReadBusy(false); });
+  });
+  document.getElementById("btnReadStarters").addEventListener("click", function () {
+    if (ttsBusy) return;
+    setReadBusy(true, "btnReadStarters");
+    speakChain([{ voice: "en-US-JennyNeural", ssml: buildSsml(startersRead, "en-US-JennyNeural") }], 0, function () { setReadBusy(false); });
+  });
+  document.getElementById("btnReadModel").addEventListener("click", function () {
+    if (ttsBusy) return;
+    setReadBusy(true, "btnReadModel");
+    speakChain([{ voice: "en-US-JennyNeural", ssml: buildSsml(MODEL_PLAIN, "en-US-JennyNeural") }], 0, function () { setReadBusy(false); });
+  });
+
+  var aiPanel = document.getElementById("aiPanel");
+  var bd = document.getElementById("aiBackdrop");
+  function openAi() {
+    if (ttsBusy) {
+      alert("请等待朗读结束后再使用 AI。");
+      return;
+    }
+    aiPanel.classList.add("open");
+    bd.classList.add("show");
+    bd.hidden = false;
+  }
+  function closeAi() {
+    aiPanel.classList.remove("open");
+    bd.classList.remove("show");
+    bd.hidden = true;
+  }
+  document.getElementById("btnAi").addEventListener("click", openAi);
+  document.getElementById("btnAiClose").addEventListener("click", closeAi);
+  bd.addEventListener("click", closeAi);
+
+  function clampAiOut(txt) {
+    var lines = txt.split("\n").map(function (s) { return s.trim(); }).filter(Boolean);
+    var showTrunc = false;
+    if (txt.length > 500 || lines.length > 8) {
+      lines = lines.slice(0, 3);
+      showTrunc = true;
+    }
+    document.getElementById("aiTrunc").style.display = showTrunc ? "block" : "none";
+    return lines.slice(0, 8).join("\n");
+  }
+
+  function runDeepSeek(system, user, maxTok) {
+    return fetch(DEEPSEEK_API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: "Bearer " + DEEPSEEK_API_KEY },
+      body: JSON.stringify({
+        model: "deepseek-chat",
+        temperature: 0.4,
+        max_tokens: maxTok,
+        messages: [
+          { role: "system", content: system },
+          { role: "user", content: user }
+        ]
+      })
+    }).then(function (r) { return r.json(); });
+  }
+
+  document.getElementById("btnAiReview").addEventListener("click", function () {
+    var now = Date.now();
+    if (now - lastAi < 2500) return;
+    lastAi = now;
+    var raw = document.getElementById("aiDraft").value.trim().slice(0, 6000);
+    var out = document.getElementById("aiOut");
+    if (!raw) {
+      out.textContent = "请先粘贴草稿。";
+      return;
+    }
+    out.textContent = "生成中…";
+    runDeepSeek(DS_SYS_REVIEW, raw, 350)
+      .then(function (data) {
+        var txt = (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) || "";
+        out.textContent = clampAiOut(txt);
+      })
+      .catch(function () {
+        out.textContent = "网络错误，请稍后重试。";
+        aria("AI 请求失败");
+      });
+  });
+
+  document.getElementById("btnAiStruct").addEventListener("click", function () {
+    var now = Date.now();
+    if (now - lastAi < 2500) return;
+    lastAi = now;
+    var raw = document.getElementById("aiDraft").value.trim().slice(0, 6000);
+    var out = document.getElementById("aiOut");
+    if (!raw) {
+      out.textContent = "请先粘贴草稿。";
+      return;
+    }
+    out.textContent = "检查中…";
+    runDeepSeek(DS_SYS_STRUCT, raw, 220)
+      .then(function (data) {
+        var txt = (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) || "";
+        out.textContent = clampAiOut(txt);
+      })
+      .catch(function () {
+        out.textContent = "网络错误。";
+      });
+  });
+
+  mountScaffold();
+  initSlides();
+})();
+  </script>
+</body>
+</html>

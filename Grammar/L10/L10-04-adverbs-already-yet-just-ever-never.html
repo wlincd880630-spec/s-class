@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Lesson 10 · 标志词 already / yet / just / ever / never</title>
+  <script src="https://cdn.jsdelivr.net/npm/microsoft-cognitiveservices-speech-sdk@1.38.0/dist/microsoft.cognitiveservices.speech.sdk.bundle-min.js" crossorigin="anonymous"></script>
+  <style>
+    :root {
+      --bg: #eef2f7;
+      --card: #ffffff;
+      --text: #1a2332;
+      --muted: #5a6a7e;
+      --accent: #1e6b8c;
+      --accent2: #2a9d8f;
+      --shadow: 0 8px 24px rgba(26, 35, 50, 0.1);
+      --radius: 14px;
+      --topbar-h: 52px;
+      --dock-h: 56px;
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; }
+    body {
+      display: flex;
+      flex-direction: column;
+      font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      font-size: clamp(16px, 1.5vw, 18px);
+      line-height: 1.55;
+      color: var(--text);
+      background: var(--bg);
+      overflow: hidden;
+    }
+    a { color: var(--accent); }
+    a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px solid #ffb703; outline-offset: 2px; }
+    .topbar {
+      flex: 0 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 8px 16px;
+      min-height: var(--topbar-h);
+      background: var(--card);
+      border-bottom: 1px solid #e2e8f0;
+      z-index: 40;
+    }
+    .brand { font-weight: 700; color: var(--accent); font-size: 14px; }
+    .slide-meta { font-size: 13px; color: var(--muted); font-weight: 600; }
+    .top-actions { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+    button, .btn-link {
+      font: inherit; cursor: pointer; border: none; border-radius: 10px; padding: 8px 12px;
+      background: linear-gradient(135deg, var(--accent), #155a78); color: #fff;
+      box-shadow: 0 2px 8px rgba(30, 107, 140, 0.3); text-decoration: none; display: inline-block; font-size: 14px;
+    }
+    button.secondary, .btn-link.secondary { background: linear-gradient(135deg, #6c757d, #495057); box-shadow: none; }
+    button:disabled { opacity: 0.55; cursor: not-allowed; }
+    button.speaking { background: linear-gradient(135deg, #e76f51, #c94c32); }
+    .tts-bar { font-size: 12px; padding: 4px 16px 6px; background: #fff8e6; color: #664d03; border-bottom: 1px solid #f0d78c; }
+    .deck { flex: 1; min-height: 0; position: relative; width: 100%; }
+    .slide {
+      position: absolute; inset: 0; overflow: hidden; display: none; flex-direction: column;
+      padding: 10px 14px 6px;
+    }
+    .slide.is-active { display: flex; }
+    .slide-scroll { flex: 1; min-height: 0; overflow: auto; -webkit-overflow-scrolling: touch; }
+    .slide-inner { max-width: 1100px; margin: 0 auto; width: 100%; min-height: min-content; }
+    .hero-compact { display: grid; gap: 14px; align-items: stretch; }
+    @media (min-width: 860px) { .hero-compact { grid-template-columns: 1.05fr 1fr; } }
+    .hero-img-wrap {
+      border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow);
+      min-height: 160px; background: linear-gradient(120deg, #e0f2f7, #e8ecf8);
+    }
+    .hero-img-wrap img { width: 100%; min-height: 180px; height: 100%; object-fit: cover; display: block; }
+    .hero-img-wrap.fallback-img img { display: none; }
+    .hero-text {
+      background: var(--card); border-radius: var(--radius); padding: 16px 18px; box-shadow: var(--shadow);
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .hero-text h1 { margin: 0 0 6px; font-size: clamp(1.25rem, 2.8vw, 1.75rem); }
+    .hero-text .sub { margin: 0; color: var(--muted); font-size: 0.95rem; }
+    .note-small { font-size: 0.86rem; color: var(--muted); margin: 8px 0 0; }
+    .card {
+      background: var(--card); border-radius: var(--radius); padding: 16px 18px; margin-bottom: 12px;
+      box-shadow: var(--shadow);
+    }
+    .card h2 { margin: 0 0 10px; font-size: 1.12rem; color: var(--accent); }
+    .adv-grid {
+      display: grid; gap: 12px;
+      grid-template-columns: 1fr;
+    }
+    @media (min-width: 720px) { .adv-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 1020px) { .adv-grid { grid-template-columns: repeat(3, 1fr); } }
+    .adv-card {
+      border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px 14px; background: #fafcff;
+    }
+    .adv-card h3 { margin: 0 0 8px; font-size: 1.05rem; color: var(--accent); font-family: Georgia, "Times New Roman", serif; }
+    .adv-card .def { margin: 0 0 8px; font-size: 0.9rem; color: #334155; }
+    .adv-card ul { margin: 0; padding-left: 1.1em; font-size: 0.92rem; }
+    .adv-card li { margin: 0.35em 0; }
+    .adv-card .tip {
+      margin: 10px 0 0; padding: 8px 10px; background: #fffdf5; border-radius: 8px; font-size: 0.86rem; color: #5c4d03;
+      border: 1px solid #f5e6a8;
+    }
+    .clinic-pair { display: grid; gap: 10px; margin-bottom: 14px; }
+    @media (min-width: 640px) { .clinic-pair { grid-template-columns: 1fr 1fr; } }
+    .clinic-box {
+      border-radius: 12px; padding: 12px 14px; font-size: 0.92rem;
+    }
+    .clinic-box.bad {
+      border: 2px solid #e11d48; background: #fff1f2;
+    }
+    .clinic-box.good {
+      border: 2px solid #059669; background: #ecfdf5;
+    }
+    .clinic-box .tag { font-weight: 800; font-size: 0.78rem; margin-bottom: 6px; letter-spacing: 0.02em; }
+    .clinic-box p { margin: 0 0 6px; }
+    .clinic-box .why { font-size: 0.85rem; color: var(--muted); margin: 8px 0 0; }
+    .sort-wrap {
+      position: relative; border-radius: var(--radius); overflow: hidden;
+      border: 1px solid #e2e8f0; margin-bottom: 16px; background: #fff;
+    }
+    .sort-wrap .sort-bg {
+      position: absolute; inset: 0; opacity: 0.35; pointer-events: none;
+    }
+    .sort-wrap .sort-bg img { width: 100%; height: 100%; object-fit: cover; }
+    .sort-inner { position: relative; padding: 14px; }
+    .sort-task-title { font-weight: 700; color: var(--accent); margin: 0 0 10px; font-size: 0.95rem; }
+    .sort-built, .sort-bank {
+      min-height: 52px; padding: 10px; border-radius: 12px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+    }
+    .sort-built {
+      border: 2px dashed var(--accent); background: rgba(255,255,255,0.92); margin-bottom: 10px;
+    }
+    .sort-bank {
+      border: 1px solid #cbd5e1; background: rgba(248,250,252,0.95);
+    }
+    .sort-label { font-size: 0.8rem; color: var(--muted); font-weight: 600; margin-bottom: 4px; }
+    .sort-tok {
+      min-height: 44px; padding: 8px 12px; border-radius: 10px; cursor: grab;
+      background: linear-gradient(135deg, #e0ecf5, #dce8f2); color: #1e293b; font-weight: 600; font-size: 0.95rem;
+      border: 1px solid #94a3b8; box-shadow: 0 1px 4px rgba(0,0,0,0.08); user-select: none;
+      touch-action: manipulation;
+    }
+    .sort-tok:active { cursor: grabbing; }
+    .sort-tok:focus-visible { outline: 3px solid #ffb703; outline-offset: 2px; }
+    .sort-tok.dragging { opacity: 0.55; }
+    .sort-toolbar { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+    .mcq-row {
+      border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px 14px; margin-bottom: 12px; background: #fafcff;
+    }
+    .mcq-row p.stem { margin: 0 0 10px; font-weight: 600; }
+    .mcq-row label { display: block; margin: 6px 0; cursor: pointer; font-size: 0.92rem; }
+    table.mini { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+    table.mini th, table.mini td { border: 1px solid #e2e8f0; padding: 8px 10px; text-align: left; vertical-align: top; }
+    table.mini th { background: #f0f7fb; color: var(--accent); }
+    .next-btn {
+      display: inline-block; margin-top: 12px; padding: 12px 20px; font-weight: 700; font-size: 1rem;
+      border-radius: 12px; background: linear-gradient(135deg, var(--accent2), #1f8a7a); color: #fff;
+      text-decoration: none; box-shadow: var(--shadow);
+    }
+    .self-check { list-style: none; padding: 0; margin: 10px 0 0; }
+    .self-check li { margin: 8px 0; }
+    details.part { margin-top: 10px; border: 1px solid #e2e8f0; border-radius: 10px; padding: 8px 10px; background: #fff; }
+    summary { cursor: pointer; font-weight: 700; color: var(--accent); }
+    .dock {
+      flex: 0 0 auto; display: flex; align-items: center; justify-content: center; gap: 12px;
+      padding: 8px 12px; min-height: var(--dock-h); background: var(--card); border-top: 1px solid #e2e8f0; z-index: 40;
+    }
+    .dock button { min-width: 100px; min-height: 44px; touch-action: manipulation; }
+    .dock .dots { font-size: 15px; font-weight: 700; color: var(--accent); min-width: 4.5em; text-align: center; }
+    .sr { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+    .feedback { margin-top: 8px; padding: 10px 12px; border-radius: 10px; display: none; font-size: 0.9rem; }
+    .feedback.show { display: block; }
+    .feedback.ok { background: #e8fcf4; border: 1px solid #9ee5c8; color: #0f5132; }
+    .feedback.bad { background: #fff5f5; border: 1px solid #f5b5b5; color: #842029; }
+    .ai-panel {
+      position: fixed; right: 0; top: 0; bottom: 0; width: min(420px, 100vw); background: var(--card);
+      box-shadow: -6px 0 28px rgba(0,0,0,0.14); transform: translateX(100%); transition: transform 0.28s ease; z-index: 120;
+      display: flex; flex-direction: column;
+    }
+    .ai-panel.open { transform: translateX(0); }
+    .ai-panel header { padding: 12px 14px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; }
+    .ai-panel .body { flex: 1; overflow: auto; padding: 12px 14px; display: flex; flex-direction: column; gap: 10px; }
+    .ai-panel textarea { width: 100%; min-height: 88px; resize: vertical; font: inherit; padding: 10px; border-radius: 10px; border: 1px solid #ced4da; }
+    .ai-panel .out { white-space: pre-wrap; background: #f1f5f9; border-radius: 10px; padding: 12px; min-height: 72px; border: 1px solid #e2e8f0; font-size: 0.95rem; }
+    .backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.35); opacity: 0; pointer-events: none; transition: opacity 0.25s ease; z-index: 110; }
+    .backdrop.show { opacity: 1; pointer-events: auto; }
+      /* L10：主内容区整体 160%（顶栏与底部分页条不缩放） */
+    .tts-bar,
+    .deck {
+      zoom: 1.6;
+    }
+
+</style>
+</head>
+<body>
+  <div id="ariaLive" class="sr" aria-live="polite"></div>
+
+  <header class="topbar">
+    <div class="brand">Lesson 10 · Adverbs with Present Perfect</div>
+    <div class="slide-meta" id="slideIndicator">1 / 6</div>
+    <div class="top-actions">
+      <a class="btn-link secondary" href="L10-00-index.html">返回目录</a>
+      <a class="btn-link secondary" href="L10-03-meaning-result-experience.html">上一节</a>
+      <a class="btn-link secondary" href="L10-05-speaking-have-you-ever.html">下一节</a>
+      <button type="button" id="btnReadAdverbs">朗读标志词与例句</button>
+      <button type="button" id="btnReadClinic" class="secondary">只读错句诊所（正句）</button>
+      <button type="button" id="btnReadTeacher" class="secondary">课堂用语三句</button>
+      <button type="button" id="btnAi">AI 批改副词位置</button>
+    </div>
+  </header>
+  <div class="tts-bar" id="ttsBar" role="status" style="display:none;"></div>
+
+  <div class="deck" id="deck">
+    <section class="slide is-active" id="slide-0" data-slide="0" aria-label="封面">
+      <div class="slide-scroll">
+        <div class="slide-inner">
+          <div class="hero-compact">
+            <div class="hero-img-wrap" id="heroBlock">
+              <img id="heroImg" src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L10/assets/img/l10-p05-adverbs-hero.png" alt="学习提示卡与文具主题插画" width="1600" height="900" loading="eager" decoding="async" />
+            </div>
+            <div class="hero-text">
+              <h1>标志词：<span lang="en">already · yet · just · ever · never</span></h1>
+              <p class="sub">位置 + 语气 + 常见错误（本页专讲五个「小信号灯」，不展开 <span lang="en">for/since</span> 与口语长对话。）</p>
+              <p class="note-small">上一节我们区分了两大「意义」；这一节学习五个副词，让听者知道你是<strong>刚完成、已经完成、还没完成、曾经做过</strong>还是<strong>从未做过</strong>。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-1" data-slide="1" hidden aria-label="五词讲解">
+      <div class="slide-scroll">
+        <div class="slide-inner">
+          <div class="card">
+            <h2>五个副词：位置口诀 + 例句</h2>
+            <p class="note-small">本课 <strong>already</strong> 只教常见位置：<span lang="en">have/has</span> 之后、过去分词之前，以降低混乱。</p>
+            <div class="adv-grid">
+              <div class="adv-card">
+                <h3 lang="en">already</h3>
+                <p class="def" lang="en">Often shows something happened sooner than expected — “already done”.</p>
+                <ul lang="en">
+                  <li>I've <strong>already</strong> read two books this summer.</li>
+                  <li>She has <strong>already</strong> finished her summer homework.</li>
+                </ul>
+                <p class="tip">口诀：已经 → 常放在 <strong>have/has 后面</strong>，再跟过去分词。</p>
+              </div>
+              <div class="adv-card">
+                <h3 lang="en">yet</h3>
+                <p class="def" lang="en">In questions/negatives: “so far / still not” — usually at the <strong>end</strong>.</p>
+                <ul lang="en">
+                  <li>Have you chosen your club <strong>yet</strong>?</li>
+                  <li>I haven't decided on my reading list <strong>yet</strong>.</li>
+                </ul>
+                <p class="tip">口诀：疑问、否定里的「还/尚」→ <strong>句末</strong>；肯定陈述表「已经」请用 already。</p>
+              </div>
+              <div class="adv-card">
+                <h3 lang="en">just</h3>
+                <p class="def" lang="en">“A very short time ago” — between <strong>have/has</strong> and the past participle.</p>
+                <ul lang="en">
+                  <li>I've <strong>just</strong> finished my plan for the new term.</li>
+                  <li>We've <strong>just</strong> come back from morning running.</li>
+                </ul>
+                <p class="tip">口诀：刚刚 → 夹在 <strong>have 与 done</strong> 中间。</p>
+              </div>
+              <div class="adv-card">
+                <h3 lang="en">ever</h3>
+                <p class="def" lang="en">In questions: “at any time before now?” — before the past participle phrase.</p>
+                <ul lang="en">
+                  <li>Have you <strong>ever</strong> tried an English corner?</li>
+                  <li>Has he <strong>ever</strong> missed a team practice?</li>
+                </ul>
+                <p class="tip">口诀：Have you ever …? → <strong>ever</strong> 紧跟在 you 后、过去分词前，朗读时可在 ever 后轻停顿。</p>
+              </div>
+              <div class="adv-card">
+                <h3 lang="en">never</h3>
+                <p class="def" lang="en">“Not at any time” — between <strong>have/has</strong> and the past participle (like “not ever”).</p>
+                <ul lang="en">
+                  <li>I've <strong>never</strong> joined a school club before.</li>
+                  <li>She has <strong>never</strong> skipped a volunteer day.</li>
+                </ul>
+                <p class="tip">口诀：<strong>不要</strong>写成 don't never；用 have/has + never + done。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-2" data-slide="2" hidden aria-label="错句诊所">
+      <div class="slide-scroll">
+        <div class="slide-inner">
+          <div class="card">
+            <h2>错句诊所（错 → 正）</h2>
+            <p class="note-small">色盲友好：红框旁标「误」，绿框旁标「正」，并附文字图标。</p>
+            <div class="clinic-pair">
+              <div class="clinic-box bad">
+                <div class="tag">✗ 误</div>
+                <p lang="en">Have you finished <strong>yet</strong> your homework?</p>
+                <p class="why">错因：yet 作「还/尚」讲时，应放在<strong>句末</strong>，不要插在宾语前。</p>
+              </div>
+              <div class="clinic-box good">
+                <div class="tag">✓ 正</div>
+                <p lang="en">Have you finished your homework <strong>yet</strong>?</p>
+              </div>
+            </div>
+            <div class="clinic-pair">
+              <div class="clinic-box bad">
+                <div class="tag">✗ 误</div>
+                <p lang="en">I have finished <strong>already</strong> my homework.</p>
+                <p class="why">错因：already 通常放在 <strong>have 后</strong>，不放在宾语后面。</p>
+              </div>
+              <div class="clinic-box good">
+                <div class="tag">✓ 正</div>
+                <p lang="en">I have <strong>already</strong> finished my homework.</p>
+              </div>
+            </div>
+            <div class="clinic-pair">
+              <div class="clinic-box bad">
+                <div class="tag">✗ 误</div>
+                <p lang="en">I haven't finished my homework <strong>already</strong>.</p>
+                <p class="why">错因：否定「还没」用 <strong>yet</strong>（句末），不用 already。</p>
+              </div>
+              <div class="clinic-box good">
+                <div class="tag">✓ 正</div>
+                <p lang="en">I haven't finished my homework <strong>yet</strong>.</p>
+              </div>
+            </div>
+            <div class="clinic-pair">
+              <div class="clinic-box bad">
+                <div class="tag">✗ 误</div>
+                <p lang="en"><strong>Never</strong> I have seen such a thick grammar book.</p>
+                <p class="why">错因：never 不能单独顶在句首接现完；应放在 <strong>have 与过去分词之间</strong>。</p>
+              </div>
+              <div class="clinic-box good">
+                <div class="tag">✓ 正</div>
+                <p lang="en">I have <strong>never</strong> seen such a thick grammar book.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-3" data-slide="3" hidden aria-label="排序互动">
+      <div class="slide-scroll">
+        <div class="slide-inner">
+          <div class="card">
+            <h2>排序互动：点击或拖拽单词条</h2>
+            <div id="sortMount"></div>
+            <div class="sort-toolbar">
+              <button type="button" id="btnSortSubmit">提交本页排序与选择题</button>
+              <button type="button" id="btnSortReset" class="secondary">重置全部互动</button>
+            </div>
+            <div id="fbSort" class="feedback" role="status"></div>
+            <div class="mcq-row" id="mcq5"></div>
+            <div class="mcq-row" id="mcq6"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-4" data-slide="4" hidden aria-label="对照表">
+      <div class="slide-scroll">
+        <div class="slide-inner">
+          <div class="card">
+            <h2>迷你对照：<span lang="en">already</span> 与 <span lang="en">yet</span></h2>
+            <table class="mini">
+              <thead>
+                <tr><th>语气</th><th>常见结构</th><th>例句（教材风）</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>肯定：已经做了</td>
+                  <td lang="en">have/has + already + p.p.</td>
+                  <td lang="en">We've <strong>already</strong> practised dialogue twice today.</td>
+                </tr>
+                <tr>
+                  <td>否定：还没做</td>
+                  <td lang="en">haven't/hasn't + … + <strong>yet</strong>（句末）</td>
+                  <td lang="en">I haven't handed in the report <strong>yet</strong>.</td>
+                </tr>
+                <tr>
+                  <td>疑问：做了吗 / 有了吗</td>
+                  <td lang="en">Have/Has + 主语 + … + <strong>yet</strong>?</td>
+                  <td lang="en">Has your group chosen a topic for the poster <strong>yet</strong>?</td>
+                </tr>
+              </tbody>
+            </table>
+            <p class="note-small">提醒：肯定陈述一般不用 yet 表示「已经」，避免说 ×I have finished yet.（除非极特殊语气，本课不作要求。）</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-5" data-slide="5" hidden aria-label="小结">
+      <div class="slide-scroll">
+        <div class="slide-inner">
+          <div class="card">
+            <h2>小结</h2>
+            <ul>
+              <li>五个副词像「信号灯」：告诉对方<strong>时间关系 + 预期</strong>（刚 / 已 / 尚 / 曾 / 从未）。</li>
+              <li>位置题中考常考：<strong>yet 句末</strong>、<strong>already / just / never 常在 have 后、过去分词前</strong>、<strong>ever 在疑问里 have 后</strong>。</li>
+              <li>初二阶段 <strong>already</strong> 与 <strong>just</strong> 分开练，避免同句堆砌造成超纲。</li>
+            </ul>
+            <a class="next-btn" href="L10-05-speaking-have-you-ever.html">进入口语：Have you ever…?</a>
+          </div>
+          <div class="card">
+            <h2>元认知自评（不计分）</h2>
+            <ul class="self-check">
+              <li><label><input type="checkbox" /> 我能口头说出 <span lang="en">yet</span> 在疑问/否定里常放哪里。</label></li>
+              <li><label><input type="checkbox" /> 我能指出 <span lang="en">already</span> 在本课教的常见位置（<span lang="en">have</span> 后）。</label></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <nav class="dock" aria-label="幻灯分页">
+    <button type="button" id="btnPrev" class="secondary">上一页</button>
+    <span class="dots" id="dockDots">1 / 6</span>
+    <button type="button" id="btnNext">下一页</button>
+  </nav>
+
+  <div class="backdrop" id="aiBackdrop" hidden aria-hidden="true"></div>
+  <aside class="ai-panel" id="aiPanel" aria-label="DeepSeek 批改">
+    <header>
+      <strong>AI 批改副词位置</strong>
+      <button type="button" id="btnAiClose" class="secondary">关闭</button>
+    </header>
+    <div class="body">
+      <p style="margin:0;font-size:0.88rem;color:var(--muted);">输入一句你自己写的英语（可故意把 <span lang="en">already / yet / just / ever / never</span> 放错）。最多返回三行。</p>
+      <textarea id="aiEn" maxlength="200" placeholder="e.g. I have finished already my plan."></textarea>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;">
+        <button type="button" id="btnAiRun">请老师 AI 批改</button>
+        <button type="button" id="btnAiCopy" class="secondary">复制第一行</button>
+      </div>
+      <div class="out" id="aiOut"></div>
+      <p id="aiFoot" style="display:none;margin:0;font-size:0.78rem;color:var(--muted);">已截断长回复，仅保留前三行。</p>
+    </div>
+  </aside>
+
+  <script>
+(function () {
+  const AZURE_SPEECH_KEY = "C42UQWeDcluYanbo17WrtUnPhk0vkZy2uQHPTCGDzY6CdEXx99NzJQQJ99BIACqBBLyXJ3w3AAAYACOGjkyu";
+  const AZURE_SPEECH_REGION = "southeastasia";
+  const DEEPSEEK_API_KEY = "sk-daa16008e81843deba6fefe9dce51465";
+  const DEEPSEEK_API_URL = "https://api.deepseek.com/v1/chat/completions";
+  const DEEPSEEK_SYSTEM =
+    "你是初中英语语法教练。用户会提交一句英语，可能含 already, yet, just, ever, never 位置错误。你只输出最多三行：第一行给出改正后的完整句子，使用正确的现在完成时；第二行用中文说明副词位置（如 yet 在疑问/否定句末、already 常在 have 后）；第三行用中文列出句中涉及的标志词名称。不要输出第四行。不要讲解 for/since。不要输出密钥或链接。如果句子不是现在完成时，第三行提示用户先改结构。";
+  const MSG_NET = "语音暂时不可用，请默读例句或换 Edge / 本地 http 打开。";
+  const MSG_OFFLINE_SORT = "当前网络不可用，请使用纸笔完成排序题，答案见教师用书或本页 JS 标准串。";
+
+  var slideCount = 0;
+  var slideIndex = 0;
+  var slides = [];
+  var ttsBusy = false;
+  var ttsHtmlAudio = null;
+
+  function initSlides() {
+    slides = Array.prototype.slice.call(document.querySelectorAll(".slide"));
+    slideCount = slides.length;
+    goSlide(0);
+  }
+  function goSlide(n) {
+    slideIndex = Math.max(0, Math.min(slideCount - 1, n));
+    slides.forEach(function (s, i) {
+      var on = i === slideIndex;
+      s.classList.toggle("is-active", on);
+      s.hidden = !on;
+    });
+    var cur = slides[slideIndex];
+    if (cur) {
+      var sc = cur.querySelector(".slide-scroll");
+      if (sc) sc.scrollTop = 0;
+    }
+    var label = slideIndex + 1 + " / " + slideCount;
+    var ind = document.getElementById("slideIndicator");
+    var dots = document.getElementById("dockDots");
+    if (ind) ind.textContent = label;
+    if (dots) dots.textContent = label;
+    document.getElementById("btnPrev").disabled = slideIndex === 0;
+    document.getElementById("btnNext").disabled = slideIndex === slideCount - 1;
+  }
+  document.getElementById("btnPrev").addEventListener("click", function () { goSlide(slideIndex - 1); });
+  document.getElementById("btnNext").addEventListener("click", function () { goSlide(slideIndex + 1); });
+  document.addEventListener("keydown", function (e) {
+    var bdEl = document.getElementById("aiBackdrop");
+    if (e.target.closest(".ai-panel.open") || (bdEl && bdEl.classList.contains("show"))) return;
+    if (e.key === "ArrowLeft") { e.preventDefault(); goSlide(slideIndex - 1); }
+    if (e.key === "ArrowRight") { e.preventDefault(); goSlide(slideIndex + 1); }
+  });
+
+  var heroImg = document.getElementById("heroImg");
+  if (heroImg) {
+    heroImg.addEventListener("error", function () {
+      document.getElementById("heroBlock").classList.add("fallback-img");
+    });
+  }
+
+  function aria(m) {
+    var el = document.getElementById("ariaLive");
+    if (el) el.textContent = m;
+  }
+  function setTtsBar(t) {
+    var b = document.getElementById("ttsBar");
+    if (!b) return;
+    b.textContent = t || "";
+    b.style.display = t ? "block" : "none";
+  }
+  function stopHtmlAudio() {
+    try {
+      if (ttsHtmlAudio) {
+        ttsHtmlAudio.pause();
+        if (ttsHtmlAudio._revoke) URL.revokeObjectURL(ttsHtmlAudio._revoke);
+        ttsHtmlAudio.removeAttribute("src");
+        ttsHtmlAudio.load();
+        ttsHtmlAudio = null;
+      }
+    } catch (e) {}
+  }
+  function escapeXml(s) {
+    return String(s)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&apos;");
+  }
+  function buildSsml(text, voiceName) {
+    var lang = voiceName.indexOf("zh-") === 0 ? "zh-CN" : "en-US";
+    return (
+      "<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='" +
+      lang +
+      "'><voice name='" +
+      voiceName +
+      "'>" +
+      escapeXml(text) +
+      "</voice></speak>"
+    );
+  }
+  function buildSsmlEnSlow(text, voiceName) {
+    return (
+      "<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='en-US'><voice name='" +
+      voiceName +
+      "'><prosody rate='0.88'>" +
+      escapeXml(text) +
+      "</prosody></voice></speak>"
+    );
+  }
+  function azureRest(ssml, ok, fail) {
+    stopHtmlAudio();
+    fetch("https://" + AZURE_SPEECH_REGION + ".tts.speech.microsoft.com/cognitiveservices/v1", {
+      method: "POST",
+      mode: "cors",
+      credentials: "omit",
+      headers: {
+        "Ocp-Apim-Subscription-Key": AZURE_SPEECH_KEY,
+        "Content-Type": "application/ssml+xml",
+        "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3",
+        "User-Agent": "L10AdverbsPage/1.0"
+      },
+      body: ssml
+    })
+      .then(function (r) {
+        if (!r.ok) return r.text().then(function (body) { throw new Error("REST " + r.status); });
+        return r.blob();
+      })
+      .then(function (blob) {
+        if (!blob || blob.size < 80) throw new Error("音频异常");
+        var u = URL.createObjectURL(blob);
+        var a = new Audio();
+        ttsHtmlAudio = a;
+        a._revoke = u;
+        a.src = u;
+        a.setAttribute("playsinline", "true");
+        a.onended = function () { stopHtmlAudio(); ok(); };
+        a.onerror = function () { stopHtmlAudio(); fail(new Error("play")); };
+        var p = a.play();
+        if (p && p.catch) p.catch(function (e) { stopHtmlAudio(); fail(e); });
+      })
+      .catch(function (e) { stopHtmlAudio(); fail(e); });
+  }
+  function azureSdk(ssml, voiceName, ok, fail) {
+    if (typeof SpeechSDK === "undefined") { fail(new Error("no sdk")); return; }
+    stopHtmlAudio();
+    var cfg = SpeechSDK.SpeechConfig.fromSubscription(AZURE_SPEECH_KEY, AZURE_SPEECH_REGION);
+    cfg.speechSynthesisVoiceName = voiceName;
+    var syn = new SpeechSDK.SpeechSynthesizer(cfg, SpeechSDK.AudioConfig.fromDefaultSpeakerOutput());
+    syn.speakSsmlAsync(
+      ssml,
+      function (res) {
+        var good = res.reason === SpeechSDK.ResultReason.SynthesizingAudioCompleted;
+        syn.close();
+        if (good) ok();
+        else fail(new Error("sdk"));
+      },
+      function (err) { syn.close(); fail(err); }
+    );
+  }
+  function azureSpeakSsml(ssml, voice, onDone) {
+    onDone = onDone || function () {};
+    setTtsBar("正在连接 Azure 语音…");
+    azureRest(
+      ssml,
+      function () { setTtsBar(""); onDone(); },
+      function () {
+        setTtsBar("REST 失败，尝试 SDK…");
+        azureSdk(ssml, voice, function () { setTtsBar(""); onDone(); }, function () {
+          setTtsBar("语音失败");
+          aria(MSG_NET);
+          onDone();
+        });
+      }
+    );
+  }
+  function speakChain(list, i, onAllDone) {
+    if (i >= list.length) {
+      onAllDone();
+      return;
+    }
+    var item = list[i];
+    azureSpeakSsml(item.ssml, item.voice, function () { speakChain(list, i + 1, onAllDone); });
+  }
+
+  function setReadBtns(on, id) {
+    ttsBusy = on;
+    ["btnReadAdverbs", "btnReadClinic", "btnReadTeacher"].forEach(function (bid) {
+      var b = document.getElementById(bid);
+      if (b) {
+        b.disabled = on;
+        b.classList.remove("speaking");
+      }
+    });
+    if (on && id) {
+      var x = document.getElementById(id);
+      if (x) x.classList.add("speaking");
+    }
+  }
+
+  var vEn = "en-US-JennyNeural";
+  var vZh = "zh-CN-XiaoxiaoNeural";
+  var adverbReadList = [
+    { voice: vZh, ssml: buildSsml("下面按顺序朗读五个副词的英文例句：already，yet，just，ever，never。", vZh) },
+    { voice: vEn, ssml: buildSsml("I've already read two books this summer. She has already finished her summer homework.", vEn) },
+    { voice: vEn, ssml: buildSsml("Have you chosen your club yet? I haven't decided on my reading list yet.", vEn) },
+    { voice: vEn, ssml: buildSsml("I've just finished my plan for the new term. We've just come back from morning running.", vEn) },
+    { voice: vEn, ssml: buildSsml("Have you ever tried an English corner? Has he ever missed a team practice?", vEn) },
+    { voice: vEn, ssml: buildSsml("I've never joined a school club before. She has never skipped a volunteer day.", vEn) }
+  ];
+
+  document.getElementById("btnReadAdverbs").addEventListener("click", function () {
+    if (ttsBusy) return;
+    setReadBtns(true, "btnReadAdverbs");
+    speakChain(adverbReadList, 0, function () { setReadBtns(false); });
+  });
+
+  var clinicReadList = [
+    { voice: vEn, ssml: buildSsml("Have you finished your homework yet?", vEn) },
+    { voice: vEn, ssml: buildSsml("I have already finished my homework.", vEn) },
+    { voice: vEn, ssml: buildSsml("I haven't finished my homework yet.", vEn) },
+    { voice: vEn, ssml: buildSsml("I have never seen such a thick grammar book.", vEn) }
+  ];
+  document.getElementById("btnReadClinic").addEventListener("click", function () {
+    if (ttsBusy) return;
+    setReadBtns(true, "btnReadClinic");
+    speakChain(clinicReadList, 0, function () { setReadBtns(false); });
+  });
+
+  var teacherPhrases =
+    "Look at the position of yet. Already goes after have. Never goes before the past participle.";
+  document.getElementById("btnReadTeacher").addEventListener("click", function () {
+    if (ttsBusy) return;
+    setReadBtns(true, "btnReadTeacher");
+    azureSpeakSsml(buildSsml(teacherPhrases, vEn), vEn, function () { setReadBtns(false); });
+  });
+
+  function shuffle(arr) {
+    var a = arr.slice();
+    for (var i = a.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = a[i];
+      a[i] = a[j];
+      a[j] = t;
+    }
+    return a;
+  }
+  function normSentence(s) {
+    return String(s)
+      .replace(/\s+/g, " ")
+      .replace(/\s+([?.!,])/g, "$1")
+      .trim()
+      .toLowerCase();
+  }
+
+  var SORT_TASKS = [
+    {
+      canonical: "I have already read two books this summer.",
+      tokens: ["I", "have", "already", "read", "two", "books", "this", "summer."],
+      explainZh: "already 放在 have 之后、过去分词 read 之前。"
+    },
+    {
+      canonical: "Have you chosen your club yet?",
+      tokens: ["Have", "you", "chosen", "your", "club", "yet?"],
+      explainZh: "yet 放在疑问句末尾。"
+    },
+    {
+      canonical: "I have just finished my plan for the new term.",
+      tokens: ["I", "have", "just", "finished", "my", "plan", "for", "the", "new", "term."],
+      explainZh: "just 夹在 have 与 finished 之间。"
+    },
+    {
+      canonical: "Have you ever joined an English corner?",
+      tokens: ["Have", "you", "ever", "joined", "an", "English", "corner?"],
+      explainZh: "ever 放在主语 you 之后、过去分词短语之前。"
+    }
+  ];
+
+  var dragSrc = null;
+
+  function wireTok(tok, built, bank, onChange) {
+    tok.setAttribute("draggable", "true");
+    tok.setAttribute("tabindex", "0");
+    tok.addEventListener("dragstart", function (e) {
+      dragSrc = tok;
+      tok.classList.add("dragging");
+      e.dataTransfer.effectAllowed = "move";
+      try {
+        e.dataTransfer.setData("text/plain", tok.textContent);
+      } catch (err) {}
+    });
+    tok.addEventListener("dragend", function () {
+      tok.classList.remove("dragging");
+      dragSrc = null;
+    });
+    tok.addEventListener("click", function () {
+      if (tok.parentNode === bank) built.appendChild(tok);
+      else bank.appendChild(tok);
+      onChange();
+    });
+    tok.addEventListener("keydown", function (e) {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        if (tok.parentNode === bank) built.appendChild(tok);
+        else bank.appendChild(tok);
+        onChange();
+      }
+    });
+  }
+
+  function allowDrop(e) {
+    e.preventDefault();
+  }
+
+  function mountSortTasks() {
+    var mount = document.getElementById("sortMount");
+    if (!mount || mount.getAttribute("data-built") === "1") return;
+    mount.setAttribute("data-built", "1");
+    var wrapBg =
+      '<div class="sort-wrap"><div class="sort-bg" aria-hidden="true"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L10/assets/img/l10-p05-sort-bg.png" alt="" width="1200" height="600" decoding="async" /></div><div class="sort-inner">';
+    SORT_TASKS.forEach(function (task, ti) {
+      var id = "sort-ex-" + ti;
+      var html =
+        wrapBg +
+        '<div class="sort-task-title">题 ' +
+        (ti + 1) +
+        " · 排成一句</div>" +
+        '<div class="sort-label">我的句子（从左到右）</div>' +
+        '<div class="sort-built" id="' +
+        id +
+        '-built"></div>' +
+        '<div class="sort-label">词库</div>' +
+        '<div class="sort-bank" id="' +
+        id +
+        '-bank"></div>' +
+        '<div class="sort-toolbar">' +
+        '<button type="button" class="secondary btn-show-ans" data-ex="' +
+        ti +
+        '">显示正确答案</button>' +
+        '<button type="button" class="secondary btn-reset-ex" data-ex="' +
+        ti +
+        '">重置本句</button>' +
+        "</div></div></div>";
+      mount.insertAdjacentHTML("beforeend", html);
+      var built = document.getElementById(id + "-built");
+      var bank = document.getElementById(id + "-bank");
+      function renderTokens(orderInBank) {
+        built.innerHTML = "";
+        bank.innerHTML = "";
+        orderInBank.forEach(function (w) {
+          var d = document.createElement("div");
+          d.className = "sort-tok";
+          d.textContent = w;
+          bank.appendChild(d);
+          wireTok(d, built, bank, function () {});
+        });
+      }
+      renderTokens(shuffle(task.tokens));
+      built.addEventListener("dragover", allowDrop);
+      bank.addEventListener("dragover", allowDrop);
+      built.addEventListener("drop", function (e) {
+        e.preventDefault();
+        if (!dragSrc) return;
+        var hit = e.target.closest && e.target.closest(".sort-tok");
+        if (hit && hit.parentNode === built && dragSrc !== hit) {
+          var rect = hit.getBoundingClientRect();
+          var before = e.clientX < rect.left + rect.width / 2;
+          built.insertBefore(dragSrc, before ? hit : hit.nextSibling);
+        } else {
+          built.appendChild(dragSrc);
+        }
+      });
+      bank.addEventListener("drop", function (e) {
+        e.preventDefault();
+        if (!dragSrc) return;
+        bank.appendChild(dragSrc);
+      });
+      mount.querySelector('.btn-reset-ex[data-ex="' + ti + '"]').addEventListener("click", function () {
+        renderTokens(shuffle(task.tokens));
+      });
+      mount.querySelector('.btn-show-ans[data-ex="' + ti + '"]').addEventListener("click", function () {
+        built.innerHTML = "";
+        bank.innerHTML = "";
+        task.tokens.forEach(function (w) {
+          var d = document.createElement("div");
+          d.className = "sort-tok";
+          d.textContent = w;
+          built.appendChild(d);
+          wireTok(d, built, bank, function () {});
+        });
+        aria("已填入第 " + (ti + 1) + " 题参考顺序。");
+      });
+    });
+  }
+
+  var MCQ_DATA = [
+    {
+      id: "mcq5",
+      stem: "选择正确语序（多选一）：",
+      options: [
+        "I already have finished my homework.",
+        "I have already finished my homework.",
+        "I have finished my homework already.",
+        "Already I have finished my homework."
+      ],
+      correct: 1,
+      explainZh: "already 常放在 have 之后。"
+    },
+    {
+      id: "mcq6",
+      stem: "选择正确语序：",
+      options: [
+        "You have yet finished your essay?",
+        "Have you your essay finished yet?",
+        "Have you finished your essay yet?",
+        "Have you yet finished your essay?"
+      ],
+      correct: 2,
+      explainZh: "yet 在疑问句末。"
+    }
+  ];
+
+  function mountMcq() {
+    MCQ_DATA.forEach(function (q) {
+      var el = document.getElementById(q.id);
+      if (!el) return;
+      var h = "<p class=\"stem\">" + q.stem + "</p>";
+      q.options.forEach(function (opt, oi) {
+        var rid = q.id + "-o" + oi;
+        h +=
+          "<label><input type=\"radio\" name=\"" +
+          q.id +
+          "\" value=\"" +
+          oi +
+          "\" /> <span lang=\"en\">" +
+          opt.replace(/</g, "&lt;") +
+          "</span></label>";
+      });
+      el.innerHTML = h;
+    });
+  }
+
+  function collectSortBuilt() {
+    var out = [];
+    SORT_TASKS.forEach(function (task, ti) {
+      var built = document.getElementById("sort-ex-" + ti + "-built");
+      if (!built) {
+        out.push("");
+        return;
+      }
+      var words = Array.prototype.slice.call(built.querySelectorAll(".sort-tok")).map(function (n) { return n.textContent; });
+      out.push(words.join(" "));
+    });
+    return out;
+  }
+
+  document.getElementById("btnSortSubmit").addEventListener("click", function () {
+    var fb = document.getElementById("fbSort");
+    var okn = 0;
+    var total = SORT_TASKS.length + MCQ_DATA.length;
+    var lines = [];
+    var builtAll = collectSortBuilt();
+    SORT_TASKS.forEach(function (task, ti) {
+      var got = normSentence(builtAll[ti]);
+      var want = normSentence(task.canonical);
+      if (got === want) {
+        okn++;
+        lines.push("排序题" + (ti + 1) + "：正确。");
+      } else {
+        lines.push("排序题" + (ti + 1) + "：不完全对。参考：" + task.canonical + "（" + task.explainZh + "）");
+      }
+    });
+    MCQ_DATA.forEach(function (q, qi) {
+      var r = document.querySelector('input[name="' + q.id + '"]:checked');
+      if (r && Number(r.value) === q.correct) {
+        okn++;
+        lines.push("选择题" + (qi + 5) + "：正确。");
+      } else {
+        lines.push("选择题" + (qi + 5) + "：错。解析：" + q.explainZh);
+      }
+    });
+    fb.className = "feedback show " + (okn === total ? "ok" : "bad");
+    fb.textContent = "得分 " + okn + " / " + total + "。\n" + lines.join("\n");
+  });
+
+  document.getElementById("btnSortReset").addEventListener("click", function () {
+    var mount = document.getElementById("sortMount");
+    if (mount) {
+      mount.removeAttribute("data-built");
+      mount.innerHTML = "";
+      mountSortTasks();
+    }
+    MCQ_DATA.forEach(function (q) {
+      var nodes = document.querySelectorAll('input[name="' + q.id + '"]');
+      for (var i = 0; i < nodes.length; i++) nodes[i].checked = false;
+    });
+    var fb = document.getElementById("fbSort");
+    fb.className = "feedback";
+    fb.textContent = "";
+  });
+
+  var aiPanel = document.getElementById("aiPanel");
+  var bd = document.getElementById("aiBackdrop");
+  function openAi() {
+    if (ttsBusy) {
+      alert("请先等待朗读结束，再使用 AI 批改。");
+      return;
+    }
+    aiPanel.classList.add("open");
+    bd.classList.add("show");
+    bd.hidden = false;
+  }
+  function closeAi() {
+    aiPanel.classList.remove("open");
+    bd.classList.remove("show");
+    bd.hidden = true;
+  }
+  document.getElementById("btnAi").addEventListener("click", openAi);
+  document.getElementById("btnAiClose").addEventListener("click", closeAi);
+  bd.addEventListener("click", closeAi);
+
+  document.getElementById("btnAiRun").addEventListener("click", async function () {
+    var line = document.getElementById("aiEn").value.trim();
+    var out = document.getElementById("aiOut");
+    var foot = document.getElementById("aiFoot");
+    foot.style.display = "none";
+    if (ttsBusy) {
+      out.textContent = "请先停止或等待朗读结束。";
+      return;
+    }
+    if (!line) {
+      out.textContent = "请输入一句英语。";
+      return;
+    }
+    if (line.length > 200) line = line.slice(0, 200);
+    out.textContent = "批改中…";
+    try {
+      var res = await fetch(DEEPSEEK_API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: "Bearer " + DEEPSEEK_API_KEY },
+        body: JSON.stringify({
+          model: "deepseek-chat",
+          temperature: 0.35,
+          max_tokens: 300,
+          messages: [
+            { role: "system", content: DEEPSEEK_SYSTEM },
+            { role: "user", content: line }
+          ]
+        })
+      });
+      if (!res.ok) {
+        out.textContent = MSG_OFFLINE_SORT + "（HTTP " + res.status + "）";
+        return;
+      }
+      var data = await res.json();
+      var txt = (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) || "";
+      var lines = txt.split("\n").map(function (s) { return s.trim(); }).filter(Boolean);
+      if (lines.length > 3) {
+        lines = lines.slice(0, 3);
+        foot.style.display = "block";
+      }
+      out.textContent = lines.join("\n");
+    } catch (e) {
+      out.textContent = MSG_OFFLINE_SORT;
+    }
+  });
+
+  document.getElementById("btnAiCopy").addEventListener("click", function () {
+    var t = document.getElementById("aiOut").textContent || "";
+    var first = t.split("\n").map(function (s) { return s.trim(); }).filter(Boolean)[0] || "";
+    if (!first) return;
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(first);
+  });
+
+  mountSortTasks();
+  mountMcq();
+  initSlides();
+})();
+  </script>
+</body>
+</html>

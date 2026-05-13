@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Lesson 10 · 教师备注与差异化</title>
+  <script src="https://cdn.jsdelivr.net/npm/microsoft-cognitiveservices-speech-sdk@1.38.0/dist/microsoft.cognitiveservices.speech.sdk.bundle-min.js" crossorigin="anonymous"></script>
+  <style>
+    :root {
+      --bg: #eef2f7;
+      --card: #ffffff;
+      --text: #1a2332;
+      --muted: #5a6a7e;
+      --accent: #1e6b8c;
+      --accent2: #2a9d8f;
+      --shadow: 0 8px 24px rgba(26, 35, 50, 0.1);
+      --radius: 14px;
+      --topbar-h: 52px;
+    }
+    body.theme-dark {
+      --bg: #0f172a;
+      --card: #1e293b;
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+      --accent: #38bdf8;
+      --accent2: #2dd4bf;
+      --shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; }
+    body {
+      display: flex; flex-direction: column;
+      font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      font-size: clamp(16px, 1.45vw, 18px);
+      line-height: 1.7;
+      color: var(--text);
+      background: var(--bg);
+    }
+    a { color: var(--accent); }
+    a:focus-visible, button:focus-visible, textarea:focus-visible, input:focus-visible, select:focus-visible { outline: 3px solid #ffb703; outline-offset: 2px; }
+    .topbar {
+      flex: 0 0 auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+      gap: 8px; padding: 8px 14px; min-height: var(--topbar-h); background: var(--card); border-bottom: 1px solid #e2e8f0; z-index: 50;
+    }
+    body.theme-dark .topbar { border-bottom-color: #334155; }
+    .brand { font-weight: 700; color: var(--accent); font-size: 13px; }
+    .top-actions { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+    button, .btn-link {
+      font: inherit; cursor: pointer; border: none; border-radius: 10px; padding: 8px 12px;
+      background: linear-gradient(135deg, var(--accent), #155a78); color: #fff;
+      box-shadow: 0 2px 8px rgba(30, 107, 140, 0.28); text-decoration: none; display: inline-block; font-size: 13px; min-height: 44px;
+    }
+    body.theme-dark button, body.theme-dark .btn-link { background: linear-gradient(135deg, #0284c7, #0369a1); }
+    button.secondary, .btn-link.secondary { background: linear-gradient(135deg, #6c757d, #495057); box-shadow: none; }
+    button:disabled { opacity: 0.55; cursor: not-allowed; }
+    .tts-bar { font-size: 12px; padding: 4px 14px 6px; background: #fff8e6; color: #664d03; border-bottom: 1px solid #f0d78c; }
+    body.theme-dark .tts-bar { background: #422006; color: #fde68a; border-color: #713f12; }
+    .main-scroll { flex: 1; min-height: 0; overflow: auto; -webkit-overflow-scrolling: touch; zoom: 1.55; }
+    .inner { max-width: 960px; margin: 0 auto; padding: 12px 14px 32px; }
+    .sr { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+    .print-strip {
+      position: relative; border-radius: var(--radius); overflow: hidden; margin-bottom: 12px; min-height: 48px;
+      border: 1px solid #e2e8f0;
+    }
+    .print-strip .bg { position: absolute; inset: 0; opacity: 0.35; pointer-events: none; }
+    .print-strip .bg img { width: 100%; height: 100%; object-fit: cover; }
+    .print-strip .fg { position: relative; padding: 10px 14px; font-size: 0.88rem; color: var(--muted); }
+    .hero-compact { display: grid; gap: 14px; align-items: stretch; }
+    @media (min-width: 860px) { .hero-compact { grid-template-columns: 1.05fr 1fr; } }
+    .hero-img-wrap {
+      border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); min-height: 140px;
+      background: linear-gradient(120deg, #e8ecf8, #e0f2fe);
+    }
+    .hero-img-wrap img { width: 100%; min-height: 170px; height: 100%; object-fit: cover; display: block; }
+    .hero-text { background: var(--card); border-radius: var(--radius); padding: 16px 18px; box-shadow: var(--shadow); }
+    .hero-text h1 { margin: 0 0 8px; font-size: clamp(1.15rem, 2.5vw, 1.45rem); color: var(--accent); }
+    .note-small { font-size: 0.86rem; color: var(--muted); margin: 6px 0 0; }
+    .note {
+      font-size: 0.88rem; color: var(--muted); background: #fffdf5; border-left: 4px solid #ffb703;
+      padding: 10px 12px; border-radius: 8px; margin: 10px 0 0;
+    }
+    body.theme-dark .note { background: #422006; border-color: #f59e0b; color: #fed7aa; }
+    .card {
+      background: var(--card); border-radius: var(--radius); padding: 16px 18px; margin-bottom: 12px; box-shadow: var(--shadow);
+    }
+    .card h2 { margin: 0 0 10px; font-size: 1.12rem; color: var(--accent); }
+    table.map { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+    table.map caption { text-align: left; font-weight: 700; margin-bottom: 8px; color: var(--accent); }
+    table.map th, table.map td { border: 1px solid #e2e8f0; padding: 8px 10px; vertical-align: top; }
+    body.theme-dark table.map th, body.theme-dark table.map td { border-color: #334155; }
+    table.map th { background: #f1f5f9; text-align: left; }
+    body.theme-dark table.map th { background: #334155; }
+    ol.tight li { margin: 8px 0; }
+    .tier-grid { display: grid; gap: 12px; }
+    @media (min-width: 820px) { .tier-grid { grid-template-columns: repeat(3, 1fr); } }
+    .tier { border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px; background: #fafcff; }
+    body.theme-dark .tier { border-color: #334155; background: #0f172a; }
+    .tier h3 { margin: 0 0 8px; font-size: 1rem; color: var(--accent2); }
+    .tier ul { margin: 0; padding-left: 1.1rem; }
+    .tier li { margin: 6px 0; }
+    details.ex { margin: 10px 0; border: 1px solid #e2e8f0; border-radius: 10px; padding: 8px 10px; background: #fafbfc; }
+    body.theme-dark details.ex { border-color: #334155; background: #1e293b; }
+    details.ex summary { cursor: pointer; font-weight: 700; color: var(--accent); }
+    .ex-ul { list-style: none; padding: 0; margin: 8px 0 0; }
+    .ex-ul li { margin: 10px 0; padding-bottom: 8px; border-bottom: 1px dashed #e2e8f0; }
+    body.theme-dark .ex-ul li { border-color: #334155; }
+    .ex-ul label { display: flex; gap: 10px; align-items: flex-start; cursor: pointer; }
+    .ex-ul input { margin-top: 6px; width: 18px; height: 18px; flex-shrink: 0; }
+    .ex-en { font-weight: 600; color: #0f172a; }
+    body.theme-dark .ex-en { color: #f1f5f9; }
+    .ex-tag { font-size: 0.82rem; color: var(--muted); }
+    .wrong-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; margin-top: 10px; }
+    .wrong-table th, .wrong-table td { border: 1px solid #e2e8f0; padding: 8px; text-align: left; }
+    body.theme-dark .wrong-table th, body.theme-dark .wrong-table td { border-color: #334155; }
+    .wrong-table th { background: #fef3c7; }
+    textarea.board, textarea.reflect { width: 100%; min-height: 5rem; padding: 10px; border-radius: 10px; border: 1px solid #ced4da; font: inherit; line-height: 1.65; }
+    body.theme-dark textarea.board, body.theme-dark textarea.reflect { background: #0f172a; color: #e2e8f0; border-color: #475569; }
+    .time-grid { display: grid; gap: 8px; }
+    @media (min-width: 720px) { .time-grid { grid-template-columns: 1fr 1fr; } }
+    .time-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; font-size: 0.92rem; }
+    .time-row input[type="number"] { width: 4.5rem; padding: 6px; border-radius: 8px; border: 1px solid #ced4da; }
+    .plan-sheet table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+    .plan-sheet th, .plan-sheet td { border: 1px solid #cbd5e1; padding: 10px; vertical-align: top; }
+    .plan-sheet th { width: 8em; background: #f8fafc; text-align: left; }
+    .ai-panel {
+      position: fixed; right: 0; top: 0; bottom: 0; width: min(460px, 100vw); background: var(--card);
+      box-shadow: -6px 0 28px rgba(0,0,0,0.14); transform: translateX(100%); transition: transform 0.28s ease; z-index: 120;
+      display: flex; flex-direction: column;
+    }
+    .ai-panel.open { transform: translateX(0); }
+    .ai-panel header { padding: 12px 14px; border-bottom: 1px solid #e2e8f0; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px; }
+    .ai-panel .body { flex: 1; overflow: auto; padding: 12px 14px; display: flex; flex-direction: column; gap: 10px; }
+    .ai-panel textarea { width: 100%; min-height: 80px; resize: vertical; font: inherit; padding: 10px; border-radius: 10px; border: 1px solid #ced4da; }
+    .ai-panel .out { white-space: pre-wrap; background: #f1f5f9; border-radius: 10px; padding: 12px; min-height: 80px; border: 1px solid #e2e8f0; font-size: 0.92rem; }
+    body.theme-dark .ai-panel .out { background: #0f172a; border-color: #334155; }
+    .backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.35); opacity: 0; pointer-events: none; transition: opacity 0.25s ease; z-index: 110; }
+    .backdrop.show { opacity: 1; pointer-events: auto; }
+    @media print {
+      body, body.theme-dark { background: #fff !important; color: #000 !important; }
+      body.theme-dark .card, body.theme-dark .hero-text, body.theme-dark .tier { background: #fff !important; color: #000 !important; box-shadow: none !important; }
+      .no-print, .top-actions, .tts-bar, .ai-panel, .backdrop, .print-strip { display: none !important; }
+      .main-scroll { zoom: 1 !important; }
+      .card { box-shadow: none !important; break-inside: avoid; }
+      a { color: #000; text-decoration: underline; }
+    }
+  </style>
+</head>
+<body>
+  <div id="ariaLive" class="sr" aria-live="polite"></div>
+  <header class="topbar">
+    <div class="brand">Lesson 10 · Teacher Notes</div>
+    <div class="top-actions no-print">
+      <a class="btn-link secondary" href="L10-00-index.html">返回目录</a>
+      <a class="btn-link secondary" href="L10-handout.html">背诵讲义</a>
+      <button type="button" id="btnTheme">夜间备课</button>
+      <button type="button" id="btnRead">朗读提要/例句</button>
+      <button type="button" id="btnStopTts" class="secondary">停止朗读</button>
+      <button type="button" id="btnAiOpen" class="secondary">AI：差异化 / 板书 / 周周清</button>
+      <button type="button" id="btnPrint" class="secondary">打印本页（教师版）</button>
+    </div>
+  </header>
+  <div class="tts-bar no-print" id="ttsBar" role="status" style="display:none"></div>
+
+  <div class="main-scroll">
+    <div class="inner">
+      <div class="print-strip no-print">
+        <div class="bg"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L10/assets/img/l10-p15-print-bg.png" alt="" width="1600" height="400" decoding="async" /></div>
+        <div class="fg">打印预览区装饰底纹（极淡）；正式打印时顶栏与底纹隐藏，白底便于复印。</div>
+      </div>
+
+      <div class="hero-compact">
+        <div class="hero-img-wrap">
+          <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L10/assets/img/l10-p15-teacher-hero.png" alt="教师办公桌与笔记本氛围，无英文文字" width="1600" height="900" loading="eager" decoding="async" />
+        </div>
+        <div class="hero-text">
+          <h1>教师备注 · 差异化 · 例句库</h1>
+          <p class="note-small">Lesson 10 现在完成时全链路收口页；对标人教版 Go for it! 七下至九年级总复习中的「经历/变化/持续」任务链及中考「时间状语+谓语」诊断思路。</p>
+          <p class="note">对照 <a href="L10-handout.html">背诵讲义（L10-handout）</a> 与小测题号备忘，回到对应子课件重讲约 5 分钟。竞赛积分可在 Page 13 导出后粘贴到班级表（如 scores.csv）归档——本页仅提示流程。</p>
+        </div>
+      </div>
+
+      <details class="card no-print">
+        <summary>Azure 朗读免责声明（教师必读）</summary>
+        <p class="note-small" style="margin-top:8px">朗读内容为教师辅助；若 TTS 重音或连读与教研习惯不同，以<strong>教材音标与课堂示范</strong>为准。</p>
+      </details>
+
+      <section class="card">
+        <h2>全课教学目标（教师版汇总）</h2>
+        <ol class="tight">
+          <li>结构与读音：<em>have/has + past participle</em>，第三人称用 <em>has</em>；不规则过去分词巩固。</li>
+          <li>意义双线：「影响现在的结果」与「从过去持续到现在」；能与一般过去时在时间状语下辨析。</li>
+          <li>标志词与搭配：<em>already, yet, just, ever, never</em>；<em>for / since / How long</em>；延续性表达（如 <em>keep, have, be open</em>）。</li>
+          <li>产出：口头 <em>Have you ever…?</em>；笔头段落与翻译；阅读微技能与限时测评。</li>
+        </ol>
+      </section>
+
+      <section class="card">
+        <h2>课程地图（子文件 · 主题 · 建议课时）</h2>
+        <p class="note-small">维护约定：任一子 HTML 更名或增删后，请先更新本表与 <a href="L10-00-index.html">L10-00-index</a>。「修订日期」由教研手写维护。</p>
+        <table class="map">
+          <caption>Lesson 10 多文件序列</caption>
+          <thead>
+            <tr><th>文件名</th><th>学生页主题</th><th>建议课时</th><th>修订日期</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>L10-00-index.html</td><td>入口 · 目标 · 导航</td><td>—</td><td>随入口</td></tr>
+            <tr><td>L10-01-warmup-review.html</td><td>复习激活 · 一般过去时</td><td>0.5</td><td>手写</td></tr>
+            <tr><td>L10-02-present-perfect-form.html</td><td>现完结构</td><td>0.5–1</td><td>手写</td></tr>
+            <tr><td>L10-03-meaning-result-experience.html</td><td>两大核心意义</td><td>1</td><td>手写</td></tr>
+            <tr><td>L10-04-adverbs-already-yet-just-ever-never.html</td><td>标志词</td><td>1</td><td>手写</td></tr>
+            <tr><td>L10-05-speaking-have-you-ever.html</td><td>口语话轮</td><td>1</td><td>手写</td></tr>
+            <tr><td>L10-06-writing-new-term-prep.html</td><td>写作 · already/yet</td><td>1</td><td>手写</td></tr>
+            <tr><td>L10-07-for-since-how-long.html</td><td>for/since/How long</td><td>1</td><td>手写</td></tr>
+            <tr><td>L10-08-contrast-past-simple.html</td><td>现完 vs 一般过去</td><td>1</td><td>手写</td></tr>
+            <tr><td>L10-09-durative-verbs.html</td><td>延续动词</td><td>1</td><td>手写</td></tr>
+            <tr><td>L10-10-translation-mimic.html</td><td>翻译与仿写</td><td>1</td><td>手写</td></tr>
+            <tr><td>L10-11-reading-mini.html</td><td>微读</td><td>1</td><td>手写</td></tr>
+            <tr><td>L10-12-game-team-competition.html</td><td>分组竞赛</td><td>1</td><td>手写</td></tr>
+            <tr><td>L10-13-assessment-exit-ticket.html</td><td>当堂测（Page 14）</td><td>1</td><td>手写</td></tr>
+            <tr><td>L10-handout.html</td><td>背诵讲义 · 英汉分层（打印）</td><td>1</td><td>手写</td></tr>
+            <tr><td>L10-14-teacher-notes.html</td><td>本页 · 教师收口</td><td>0.5（教研）</td><td>2026-05</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="card">
+        <h2>全课易错点档案（与大纲一致 · 讲评可逐条对照）</h2>
+        <ol class="tight">
+          <li>把 <em>yesterday / last… / …ago</em> 与 <em>have/has + p.p.</em> 绑在一起 → 应改用一般过去时。</li>
+          <li><em>since</em> 后误接「时长段」→ 表段长用 <em>for</em>，<em>since</em> 接时间点或从句。</li>
+          <li>瞬间动词（<em>buy, borrow, open</em> 作「动作」义）与 <em>for two weeks</em> 直接连用 → 改为状态类（<em>have, keep, be open</em>）。</li>
+          <li>疑问句末 <em>yet</em> 与助动词：常用 <em>Have you… yet?</em> 而非 <em>Do you… yet?</em></li>
+          <li><em>already</em> 位置与语气：多在肯定句中位或末；否定误放 <em>already</em>。</li>
+          <li>主谓一致：<em>neither of + 复数名词</em> 谓语常用单数 <em>has/has not</em>。</li>
+          <li>经历次数「无具体过去年份」与「钉在过去一年」语域混淆 → 影响现完与一般过去选择。</li>
+        </ol>
+      </section>
+
+      <section class="card">
+        <h2>补充例句库（原创课堂用语 · 可节选投影）</h2>
+        <p class="note-small">每句末中文标签便于检索；共 22 句。勾选后点「生成投影清单」复制纯文本到 PPT。</p>
+        <p class="no-print" style="margin:8px 0;display:flex;flex-wrap:wrap;gap:8px">
+          <button type="button" id="btnProjCopy">生成投影清单（复制）</button>
+          <button type="button" class="secondary" id="btnProjClear">清空勾选</button>
+        </p>
+
+        <details class="ex" open>
+          <summary>主题 A · 新学期准备</summary>
+          <ul class="ex-ul">
+            <li><label><input type="checkbox" class="ex-cb" data-copy="I have already packed my schoolbag for Monday. — already" /><span><span class="ex-en" lang="en">I have already packed my schoolbag for Monday.</span><span class="ex-tag">（already）</span></span></label></li>
+            <li><label><input type="checkbox" class="ex-cb" data-copy="We haven't bought the new dictionaries yet. — yet" /><span><span class="ex-en" lang="en">We haven't bought the new dictionaries yet.</span><span class="ex-tag">（yet）</span></span></label></li>
+            <li><label><input type="checkbox" class="ex-cb" data-copy="She has just read the first page of the handbook. — just" /><span><span class="ex-en" lang="en">She has just read the first page of the handbook.</span><span class="ex-tag">（just）</span></span></label></li>
+            <li><label><input type="checkbox" class="ex-cb" data-copy="Have you ever tried the school's English corner? — ever / 口语" /><span><span class="ex-en" lang="en">Have you ever tried the school's English corner?</span><span class="ex-tag">（ever · 口语）</span></span></label></li>
+          </ul>
+        </details>
+        <details class="ex">
+          <summary>主题 B · 志愿与环保</summary>
+          <ul class="ex-ul">
+            <li><label><input type="checkbox" class="ex-cb" data-copy="Our club has planted over 300 trees since March. — since / for·since" /><span><span class="ex-en" lang="en">Our club has planted over 300 trees since March.</span><span class="ex-tag">（since · for/since）</span></span></label></li>
+            <li><label><input type="checkbox" class="ex-cb" data-copy="I have been a river-clean volunteer since Grade 7. — since" /><span><span class="ex-en" lang="en">I have been a river-clean volunteer since Grade 7.</span><span class="ex-tag">（since）</span></span></label></li>
+            <li><label><input type="checkbox" class="ex-cb" data-copy="We have written three posters for Recycling Week. — 持续产出" /><span><span class="ex-en" lang="en">We have written three posters for Recycling Week.</span><span class="ex-tag">（经历与结果）</span></span></label></li>
+            <li><label><input type="checkbox" class="ex-cb" data-copy="They haven't handed in the report yet. — yet" /><span><span class="ex-en" lang="en">They haven't handed in the report yet.</span><span class="ex-tag">（yet）</span></span></label></li>
+          </ul>
+        </details>
+        <details class="ex">
+          <summary>主题 C · 旅行经历</summary>
+          <ul class="ex-ul">
+            <li><label><input type="checkbox" class="ex-cb" data-copy="I have visited Xi'an twice so far. — 辨析·经历" /><span><span class="ex-en" lang="en">I have visited Xi'an twice so far.</span><span class="ex-tag">（辨析 · 经历）</span></span></label></li>
+            <li><label><input type="checkbox" class="ex-cb" data-copy="We went to Datong last summer. — 辨析·一般过去" /><span><span class="ex-en" lang="en">We went to Datong last summer.</span><span class="ex-tag">（辨析 · 一般过去）</span></span></label></li>
+            <li><label><input type="checkbox" class="ex-cb" data-copy="He has never taken a night train before. — never" /><span><span class="ex-en" lang="en">He has never taken a night train before.</span><span class="ex-tag">（never）</span></span></label></li>
+            <li><label><input type="checkbox" class="ex-cb" data-copy="How long have you had this travel pass? — 延续·How long" /><span><span class="ex-en" lang="en">How long have you had this travel pass?</span><span class="ex-tag">（延续 · How long）</span></span></label></li>
+          </ul>
+        </details>
+        <details class="ex">
+          <summary>主题 D · 学习时长</summary>
+          <ul class="ex-ul">
+            <li><label><input type="checkbox" class="ex-cb" data-copy="I have studied English for six years. — for" /><span><span class="ex-en" lang="en">I have studied English for six years.</span><span class="ex-tag">（for）</span></span></label></li>
+            <li><label><input type="checkbox" class="ex-cb" data-copy="She has known her study partner since 2023. — since" /><span><span class="ex-en" lang="en">She has known her study partner since 2023.</span><span class="ex-tag">（since）</span></span></label></li>
+            <li><label><input type="checkbox" class="ex-cb" data-copy="We have practiced this dialogue three times this week. — 频率" /><span><span class="ex-en" lang="en">We have practiced this dialogue three times this week.</span><span class="ex-tag">（频率 · 现完）</span></span></label></li>
+            <li><label><input type="checkbox" class="ex-cb" data-copy="I haven't finished the summary yet. — yet" /><span><span class="ex-en" lang="en">I haven't finished the summary yet.</span><span class="ex-tag">（yet）</span></span></label></li>
+          </ul>
+        </details>
+        <details class="ex">
+          <summary>主题 E · 校园生活</summary>
+          <ul class="ex-ul">
+            <li><label><input type="checkbox" class="ex-cb" data-copy="The library has been open for two hours; it closes at six. — 延续状态" /><span><span class="ex-en" lang="en">The library has been open for two hours; it closes at six.</span><span class="ex-tag">（延续状态）</span></span></label></li>
+            <li><label><input type="checkbox" class="ex-cb" data-copy="Tom has kept this novel for ten days — he must return it. — 延续动词" /><span><span class="ex-en" lang="en">Tom has kept this novel for ten days — he must return it.</span><span class="ex-tag">（延续动词）</span></span></label></li>
+            <li><label><input type="checkbox" class="ex-cb" data-copy="They watched the match live on TV last night. — 辨析" /><span><span class="ex-en" lang="en">They watched the match live on TV last night.</span><span class="ex-tag">（辨析）</span></span></label></li>
+            <li><label><input type="checkbox" class="ex-cb" data-copy="Neither of them has replied to the email yet. — 主谓一致" /><span><span class="ex-en" lang="en">Neither of them has replied to the email yet.</span><span class="ex-tag">（主谓一致 · yet）</span></span></label></li>
+            <li><label><input type="checkbox" class="ex-cb" data-copy="The science lab has closed recently for repairs. — recently" /><span><span class="ex-en" lang="en">The science lab has closed recently for repairs.</span><span class="ex-tag">（recently）</span></span></label></li>
+            <li><label><input type="checkbox" class="ex-cb" data-copy="— Where's Lin Tao? — He has just left for the lecture hall. — just" /><span><span class="ex-en" lang="en">— Where's Lin Tao? — He has just left for the lecture hall.</span><span class="ex-tag">（just）</span></span></label></li>
+          </ul>
+        </details>
+        <details class="ex">
+          <summary>版权与原创</summary>
+          <p class="note-small" style="margin-top:8px">本库例句为课程团队<strong>原创或课堂改编</strong>，非教材原句摘抄；若日后引用外刊请在此另开注释行注明出处。</p>
+        </details>
+      </section>
+
+      <section class="card">
+        <h2>差异化任务 A / B / C（可复印学案）</h2>
+        <div class="tier-grid">
+          <div class="tier">
+            <h3>A 层 · 学困支架</h3>
+            <ul>
+              <li>跟读「主题 A」前两句，圈出 <em>already / yet</em>。</li>
+              <li>用所给词块造句：<em>I have not … yet.</em> + 词块：finish / homework。</li>
+              <li>半句翻译：我们自从三月以来________（植树）→ 给中文提示：现在完成时 + since March。</li>
+              <li>听音勾题：教师朗读 4 句，勾出含 <em>for</em> 的一句。</li>
+            </ul>
+          </div>
+          <div class="tier">
+            <h3>B 层 · 中等巩固</h3>
+            <ul>
+              <li>用 <em>for</em> 写自己的一句真实话（学习或运动时长）。</li>
+              <li>中译英：「他自从七年级以来一直是志愿者。」</li>
+              <li>配对：左列时间状语，右列选现完或一般过去。</li>
+              <li>口头回答 <em>Have you ever…?</em> 并追问一句 <em>When did you…?</em></li>
+            </ul>
+          </div>
+          <div class="tier">
+            <h3>C 层 · 学优拓展</h3>
+            <ul>
+              <li>合并句：两句用 <em>since</em> 从句连接，保持时态一致。</li>
+              <li>写两句：一句含 <em>for</em> 段时，一句含 <em>since</em> 从句。</li>
+              <li>语篇一句复杂现完：描述学校一项「从过去到现在」的变化并给出证据词。</li>
+              <li>自命题：模仿中考单选，自编 1 题并写解析。</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>错题回顾映射（读取本机 localStorage）</h2>
+        <p class="note-small">键 <code>l10-wrong-bank</code>：小测题号与竞赛 id 合集；与当堂测页写入一致。不写学生姓名。</p>
+        <p id="wrongEmpty" class="note-small">加载中…</p>
+        <table class="wrong-table" id="wrongTable" hidden>
+          <thead>
+            <tr><th>题号 / id</th><th>类型</th><th>建议回看子页面</th></tr>
+          </thead>
+          <tbody id="wrongTbody"></tbody>
+        </table>
+        <details class="ex no-print" style="margin-top:10px">
+          <summary>题号 → 子课件映射（教研维护注释）</summary>
+          <p class="note-small" style="margin-top:8px">脚本内对象 <code>ASSESS_REF</code> 维护小测 1–15 题与课件映射；竞赛 id 默认指向 Page 13。</p>
+        </details>
+      </section>
+
+      <section class="card">
+        <h2>板书建议（可编辑 · 打印）</h2>
+        <label for="boardTa">关键词与句式（本机草稿，可随班调整）</label>
+        <textarea id="boardTa" class="board" placeholder="示例：观察点｜时间状语｜have/has + done｜for / since｜易错：borrow→keep"></textarea>
+      </section>
+
+      <section class="card">
+        <h2>全课时间总表（分钟 · 可微调）</h2>
+        <p class="note-small">与大纲分课时一致，可改数字后随教案打印。</p>
+        <div class="time-grid" id="timeGrid"></div>
+        <p class="note-small" style="margin-top:10px">合计：<strong id="timeSum">0</strong> 分钟</p>
+      </section>
+
+      <section class="card plan-sheet">
+        <h2>教研组集体备课「一页纸」</h2>
+        <table>
+          <tbody>
+            <tr><th>目标</th><td contenteditable="true">本课形成性评价 + 现完易错再巩固</td></tr>
+            <tr><th>重难点</th><td contenteditable="true">for/since；现完 vs 一般过去；延续动词</td></tr>
+            <tr><th>板书</th><td contenteditable="true">时间轴 + 标志词 + 典型错句划线</td></tr>
+            <tr><th>易错</th><td contenteditable="true">yesterday + have done；since 接段长</td></tr>
+            <tr><th>作业</th><td contenteditable="true">B 层中译英 2 句 + 口头 1 分钟录音</td></tr>
+            <tr><th>反思留白</th><td contenteditable="true">&nbsp;</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="card">
+        <h2>课后反思（仅本机 · auto-save）</h2>
+        <label for="reflectTa">纯本地 <code>l10-teacher-reflection</code>，勿写学生全名。</label>
+        <textarea id="reflectTa" class="reflect" maxlength="4000" placeholder="本班讲评亮点、未过关点、下节课调整…"></textarea>
+      </section>
+
+      <details class="card">
+        <summary>家长会一句话沟通模板（约五百字）</summary>
+        <p class="note-small" style="margin-top:10px">
+          尊敬的家长，本周 <strong>Lesson 10</strong> 聚焦 <strong>现在完成时</strong>，孩子若在作业中仍写 <code>I have bought…for three years</code>，请不必着急批评，可提醒孩子回忆<strong>「买是一下子，拥有才是一段」</strong>，并翻开 <a href="L10-09-durative-verbs.html"><strong>L10-09</strong></a> 转换表把 <em>buy</em> 换成 <em>have</em>。若孩子总说「听不懂什么时候用过去时」，请引导他找句子里有没有 <strong>yesterday / last… / ago</strong> 这类「钉在过去」的词。我们不在家里增加刷题量，但鼓励孩子每天用英语说一句真实的话描述今天完成的小事，例如 <strong>I have already finished my homework</strong>，家长只需点头不必纠正每个词。若孩子焦虑考试，请告诉 ta：<strong>形成性测验</strong>是为了让老师调整讲解节奏，不是排名。若您愿意配合，可在周末问孩子一句 <strong>Have you ever tried…?</strong> 的中文意思，让孩子用中文解释，再对照 <a href="L10-05-speaking-have-you-ever.html"><strong>L10-05</strong></a> 口语页的示范。感谢您的信任与支持。
+        </p>
+      </details>
+
+      <p class="note-small" style="text-align:center;margin-top:16px">v1.0-page15 · 脚本内 API 密钥勿上传公有仓库</p>
+    </div>
+  </div>
+
+  <div class="backdrop no-print" id="aiBackdrop" hidden></div>
+  <aside class="ai-panel no-print" id="aiPanel" aria-label="DeepSeek 教师辅助">
+    <header>
+      <strong>DeepSeek</strong>
+      <span id="aiQuota" class="note-small">已用 0 / 10 次</span>
+      <button type="button" class="secondary" id="btnAiClose">关闭</button>
+    </header>
+    <div class="body">
+      <div>
+        <label><input type="radio" name="aiMode" value="tier" checked /> 差异化变式</label>
+        &nbsp;
+        <label><input type="radio" name="aiMode" value="board" /> 板书关键词</label>
+        &nbsp;
+        <label><input type="radio" name="aiMode" value="week" /> 周周清清单</label>
+      </div>
+      <div id="panelTier">
+        <label>目标语法点（如：yet 在疑问句末）</label>
+        <textarea id="aiGrammar" maxlength="200"></textarea>
+        <label>大致水平</label>
+        <select id="aiLevel">
+          <option>薄弱</option>
+          <option selected>中等</option>
+          <option>较强</option>
+        </select>
+      </div>
+      <div id="panelBoard" hidden>
+        <label>本课课题几个词（如：现在完成时 辨析）</label>
+        <textarea id="aiTopic" maxlength="120"></textarea>
+      </div>
+      <div id="panelWeek" hidden>
+        <label>本周已讲子页列表（可写文件名或简称，多行）</label>
+        <textarea id="aiWeekList" maxlength="500" placeholder="例：L10-07、L10-08、标志词一页…"></textarea>
+      </div>
+      <button type="button" id="btnAiRun">发送</button>
+      <button type="button" class="secondary" id="btnAiCopy">复制输出</button>
+      <div class="out" id="aiOut">（输出将显示在这里）</div>
+    </div>
+  </aside>
+
+  <script>
+(function () {
+  "use strict";
+
+  const AZURE_SPEECH_KEY = "C42UQWeDcluYanbo17WrtUnPhk0vkZy2uQHPTCGDzY6CdEXx99NzJQQJ99BIACqBBLyXJ3w3AAAYACOGjkyu";
+  const AZURE_SPEECH_REGION = "southeastasia";
+  const DEEPSEEK_API_KEY = "sk-daa16008e81843deba6fefe9dce51465";
+  const DEEPSEEK_API_URL = "https://api.deepseek.com/v1/chat/completions";
+  const DS_SESS_KEY = "l10p15_ds_count";
+  const LS_BANK = "l10-wrong-bank";
+  const LS_COMP = "l10-comp-wrong";
+  const LS_REFLECT = "l10-teacher-reflection";
+  const LS_BOARD = "l10-teacher-board-draft";
+  const LS_TIME = "l10-teacher-time-grid";
+
+  /**
+   * 小测题号 → 建议回看（示例映射，教研可按题库修订）
+   * { "L10-08": [3,7,11] } 类注释见 prompt 第十八节
+   */
+  var ASSESS_REF = {
+    "1": [{ href: "L10-05-speaking-have-you-ever.html", label: "L10-05 口语" }, { href: "L10-02-present-perfect-form.html", label: "L10-02 结构" }],
+    "2": [{ href: "L10-02-present-perfect-form.html", label: "L10-02 结构" }, { href: "L10-04-adverbs-already-yet-just-ever-never.html", label: "L10-04 标志词" }],
+    "3": [{ href: "L10-04-adverbs-already-yet-just-ever-never.html", label: "L10-04 yet" }],
+    "4": [{ href: "L10-04-adverbs-already-yet-just-ever-never.html", label: "L10-04 疑问+yet" }],
+    "5": [{ href: "L10-07-for-since-how-long.html", label: "L10-07 for" }],
+    "6": [{ href: "L10-07-for-since-how-long.html", label: "L10-07 since" }],
+    "7": [{ href: "L10-09-durative-verbs.html", label: "L10-09 延续" }],
+    "8": [{ href: "L10-09-durative-verbs.html", label: "L10-09 状态" }],
+    "9": [{ href: "L10-08-contrast-past-simple.html", label: "L10-08 辨析" }],
+    "10": [{ href: "L10-08-contrast-past-simple.html", label: "L10-08 错配 yesterday" }],
+    "11": [{ href: "L10-07-for-since-how-long.html", label: "L10-07 for" }],
+    "12": [{ href: "L10-07-for-since-how-long.html", label: "L10-07 since" }],
+    "13": [{ href: "L10-04-adverbs-already-yet-just-ever-never.html", label: "L10-04 yet" }],
+    "14": [{ href: "L10-08-contrast-past-simple.html", label: "L10-08 一般过去" }],
+    "15": [{ href: "L10-02-present-perfect-form.html", label: "L10-02 主谓一致" }, { href: "L10-04-adverbs-already-yet-just-ever-never.html", label: "L10-04 yet" }]
+  };
+
+  var SYS_TIER =
+    "你是初中英语教研员。用户给一个语法点和一个水平（薄弱/中等/较强）。输出三行中文：第一行基础任务；第二行提高任务；第三行拓展任务。每行不超过 40 字。不要第四行。不要输出密钥。";
+  var SYS_BOARD =
+    "你是初中英语教研员。用户给本课课题几个词。输出最多五行中文关键词，适合抄黑板，每行不超过 12 字。不要输出第六行。不要输出密钥。";
+  var SYS_WEEKLY_REVIEW =
+    "你是初中英语教研员。用户列出本周已讲的 Lesson 10 子页文件名或简称。输出五行中文周末复习清单，每行不超过 28 字。不要第六行。不要输出密钥。";
+
+  var ttsHtmlAudio = null;
+  var activeSdkSyn = null;
+  var ttsBusy = false;
+
+  var READ_ZH_1 =
+    "全课提要。Lesson 10 围绕现在完成时：结构 have has 加过去分词，标志词 already yet just ever never，持续时间 for since 与 How long，延续动词与一般过去时的辨析。讲评时先圈时间状语再定结构。";
+  var READ_ZH_2 =
+    "易错提要。不要把 yesterday 和 have done 绑在一起；since 不接表时长的段；borrow buy 等瞬间动词与 for 两周连用要改成 keep have 等延续表达。";
+  var READ_EN_LINES = [
+    "I have already packed my schoolbag for Monday.",
+    "We haven't bought the new dictionaries yet.",
+    "Our club has planted over three hundred trees since March.",
+    "I have visited Xi'an twice so far.",
+    "We went to Datong last summer.",
+    "I have studied English for six years.",
+    "The library has been open for two hours.",
+    "Tom has kept this novel for ten days.",
+    "They watched the match live on TV last night.",
+    "Neither of them has replied to the email yet."
+  ];
+
+  var TIME_ROWS = [
+    { k: "warm", label: "复习激活（L10-01）", def: 8 },
+    { k: "form", label: "形式（L10-02）", def: 10 },
+    { k: "mean", label: "意义（L10-03）", def: 12 },
+    { k: "adv", label: "标志词（L10-04）", def: 12 },
+    { k: "spk", label: "口语（L10-05）", def: 12 },
+    { k: "wri", label: "写作（L10-06）", def: 12 },
+    { k: "fs", label: "for/since（L10-07）", def: 12 },
+    { k: "con", label: "辨析（L10-08）", def: 10 },
+    { k: "dur", label: "延续动词（L10-09）", def: 10 },
+    { k: "tr", label: "翻译（L10-10）", def: 10 },
+    { k: "rd", label: "阅读（L10-11）", def: 10 },
+    { k: "game", label: "竞赛（L10-12）", def: 12 },
+    { k: "test", label: "背诵讲义（L10-handout）", def: 12 }
+  ];
+
+  function aria(m) {
+    var el = document.getElementById("ariaLive");
+    if (el) el.textContent = m;
+  }
+  function setTtsBar(t) {
+    var b = document.getElementById("ttsBar");
+    if (!b) return;
+    b.textContent = t || "";
+    b.style.display = t ? "block" : "none";
+  }
+  function stopHtmlAudio() {
+    try {
+      if (ttsHtmlAudio) {
+        ttsHtmlAudio.pause();
+        if (ttsHtmlAudio._revoke) URL.revokeObjectURL(ttsHtmlAudio._revoke);
+        ttsHtmlAudio.removeAttribute("src");
+        ttsHtmlAudio.load();
+        ttsHtmlAudio = null;
+      }
+    } catch (e) {}
+  }
+  function stopAllTts() {
+    stopHtmlAudio();
+    ttsBusy = false;
+    setTtsBar("");
+    try {
+      if (activeSdkSyn) {
+        activeSdkSyn.close();
+        activeSdkSyn = null;
+      }
+    } catch (e2) {}
+  }
+  function escapeXml(s) {
+    return String(s)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&apos;");
+  }
+  function buildSsml(text, voiceName) {
+    var lang = voiceName.indexOf("zh-") === 0 ? "zh-CN" : "en-US";
+    var inner = "<prosody rate=\"-3%\">" + escapeXml(text) + "</prosody>";
+    return (
+      "<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='" +
+      lang +
+      "'><voice name='" +
+      voiceName +
+      "'>" +
+      inner +
+      "</voice></speak>"
+    );
+  }
+  function azureRest(ssml, ok, fail) {
+    stopHtmlAudio();
+    fetch("https://" + AZURE_SPEECH_REGION + ".tts.speech.microsoft.com/cognitiveservices/v1", {
+      method: "POST",
+      mode: "cors",
+      credentials: "omit",
+      headers: {
+        "Ocp-Apim-Subscription-Key": AZURE_SPEECH_KEY,
+        "Content-Type": "application/ssml+xml",
+        "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3",
+        "User-Agent": "L10P15Teacher/1.0"
+      },
+      body: ssml
+    })
+      .then(function (r) {
+        if (!r.ok) throw new Error("rest");
+        return r.blob();
+      })
+      .then(function (blob) {
+        if (!blob || blob.size < 80) throw new Error("blob");
+        var u = URL.createObjectURL(blob);
+        var a = new Audio();
+        ttsHtmlAudio = a;
+        a._revoke = u;
+        a.src = u;
+        a.setAttribute("playsinline", "true");
+        a.onended = function () {
+          stopHtmlAudio();
+          ok();
+        };
+        a.onerror = function () {
+          stopHtmlAudio();
+          fail();
+        };
+        var p = a.play();
+        if (p && p.catch) p.catch(function () {
+          stopHtmlAudio();
+          fail();
+        });
+      })
+      .catch(function () {
+        stopHtmlAudio();
+        fail();
+      });
+  }
+  function azureSdk(ssml, voiceName, ok, fail) {
+    if (typeof SpeechSDK === "undefined") {
+      fail();
+      return;
+    }
+    stopHtmlAudio();
+    try {
+      if (activeSdkSyn) {
+        activeSdkSyn.close();
+        activeSdkSyn = null;
+      }
+    } catch (e) {}
+    var cfg = SpeechSDK.SpeechConfig.fromSubscription(AZURE_SPEECH_KEY, AZURE_SPEECH_REGION);
+    cfg.speechSynthesisVoiceName = voiceName;
+    var syn = new SpeechSDK.SpeechSynthesizer(cfg, SpeechSDK.AudioConfig.fromDefaultSpeakerOutput());
+    activeSdkSyn = syn;
+    syn.speakSsmlAsync(
+      ssml,
+      function (res) {
+        var good = res.reason === SpeechSDK.ResultReason.SynthesizingAudioCompleted;
+        try {
+          syn.close();
+        } catch (e3) {}
+        if (activeSdkSyn === syn) activeSdkSyn = null;
+        if (good) ok();
+        else fail();
+      },
+      function () {
+        try {
+          syn.close();
+        } catch (e4) {}
+        if (activeSdkSyn === syn) activeSdkSyn = null;
+        fail();
+      }
+    );
+  }
+  function azureSpeak(ssml, voice, done) {
+    done = done || function () {};
+    setTtsBar("语音连接中…");
+    azureRest(
+      ssml,
+      function () {
+        setTtsBar("");
+        done();
+      },
+      function () {
+        azureSdk(
+          ssml,
+          voice,
+          function () {
+            setTtsBar("");
+            done();
+          },
+          function () {
+            setTtsBar("语音失败");
+            aria("语音失败");
+            done();
+          }
+        );
+      }
+    );
+  }
+  function speakGap(list, i, done) {
+    if (i >= list.length) {
+      ttsBusy = false;
+      setTtsBar("");
+      done();
+      return;
+    }
+    if (!ttsBusy) {
+      done();
+      return;
+    }
+    azureSpeak(buildSsml(list[i].text, list[i].voice), list[i].voice, function () {
+      setTimeout(function () {
+        speakGap(list, i + 1, done);
+      }, 400);
+    });
+  }
+
+  function readBank() {
+    try {
+      var a = JSON.parse(localStorage.getItem(LS_BANK) || "[]");
+      return Array.isArray(a) ? a.map(String) : [];
+    } catch (e) {
+      return [];
+    }
+  }
+  /** 展示用：银行 + 竞赛错题并集（不写回，与当堂测页写入策略一致） */
+  function readAllWrongIds() {
+    var set = {};
+    readBank().forEach(function (x) {
+      set[x] = true;
+    });
+    try {
+      var c = JSON.parse(localStorage.getItem(LS_COMP) || "[]");
+      if (Array.isArray(c)) {
+        c.forEach(function (x) {
+          if (x != null && x !== "") set[String(x)] = true;
+        });
+      }
+    } catch (e) {}
+    return Object.keys(set).sort(sortIds);
+  }
+  function sortIds(a, b) {
+    var na = parseInt(a, 10);
+    var nb = parseInt(b, 10);
+    var da = String(na) === a && !isNaN(na);
+    var db = String(nb) === b && !isNaN(nb);
+    if (da && db && na !== nb) return na - nb;
+    if (da && !db) return -1;
+    if (!da && db) return 1;
+    return String(a).localeCompare(String(b));
+  }
+  function renderWrong() {
+    var ids = readAllWrongIds();
+    var empty = document.getElementById("wrongEmpty");
+    var table = document.getElementById("wrongTable");
+    var tbody = document.getElementById("wrongTbody");
+    if (!tbody) return;
+    tbody.innerHTML = "";
+    if (!ids.length) {
+      if (empty) {
+        empty.hidden = false;
+        empty.textContent = "暂无错题记录（学生尚未完成当堂测或未产生错题银行，或银行已清空）。";
+      }
+      if (table) table.hidden = true;
+      return;
+    }
+    if (empty) empty.hidden = true;
+    if (table) table.hidden = false;
+    ids.sort(sortIds).forEach(function (id) {
+      var tr = document.createElement("tr");
+      var td1 = document.createElement("td");
+      var td2 = document.createElement("td");
+      var td3 = document.createElement("td");
+      if (/^\d+$/.test(id)) {
+        td1.innerHTML = '<a href="L10-handout.html">小测第 ' + id + " 题（打开背诵讲义）</a>";
+        td2.textContent = "背诵讲义 / 题号备忘";
+        var links = ASSESS_REF[id] || [{ href: "L10-00-index.html", label: "目录" }];
+        td3.appendChild(document.createTextNode("建议："));
+        links.forEach(function (L, idx) {
+          if (idx) td3.appendChild(document.createTextNode(" · "));
+          var a = document.createElement("a");
+          a.href = L.href;
+          a.textContent = L.label;
+          td3.appendChild(a);
+        });
+      } else {
+        td1.textContent = id;
+        td2.textContent = "Page 13 竞赛";
+        var a = document.createElement("a");
+        a.href = "L10-12-game-team-competition.html";
+        a.textContent = "回到竞赛页复习";
+        td3.appendChild(a);
+      }
+      tr.appendChild(td1);
+      tr.appendChild(td2);
+      tr.appendChild(td3);
+      tbody.appendChild(tr);
+    });
+  }
+
+  function buildTimeGrid() {
+    var host = document.getElementById("timeGrid");
+    if (!host) return;
+    var saved = {};
+    try {
+      saved = JSON.parse(localStorage.getItem(LS_TIME) || "{}");
+    } catch (e) {}
+    TIME_ROWS.forEach(function (row) {
+      var wrap = document.createElement("div");
+      wrap.className = "time-row";
+      var inp = document.createElement("input");
+      inp.type = "number";
+      inp.min = "0";
+      inp.max = "120";
+      inp.value = saved[row.k] != null ? saved[row.k] : row.def;
+      inp.setAttribute("data-k", row.k);
+      var lab = document.createElement("span");
+      lab.textContent = row.label;
+      wrap.appendChild(inp);
+      wrap.appendChild(lab);
+      host.appendChild(wrap);
+      inp.addEventListener("change", saveTimeAndSum);
+    });
+    saveTimeAndSum();
+  }
+  function saveTimeAndSum() {
+    var o = {};
+    var sum = 0;
+    document.querySelectorAll("#timeGrid input[type=number]").forEach(function (el) {
+      var v = Number(el.value);
+      if (!Number.isFinite(v) || v < 0) v = 0;
+      o[el.getAttribute("data-k")] = v;
+      sum += v;
+    });
+    try {
+      localStorage.setItem(LS_TIME, JSON.stringify(o));
+    } catch (e) {}
+    var s = document.getElementById("timeSum");
+    if (s) s.textContent = String(sum);
+  }
+
+  function loadBoard() {
+    try {
+      var t = localStorage.getItem(LS_BOARD);
+      if (t) document.getElementById("boardTa").value = t;
+    } catch (e) {}
+  }
+  var boardTimer = null;
+  function scheduleBoardSave() {
+    if (boardTimer) clearTimeout(boardTimer);
+    boardTimer = setTimeout(function () {
+      try {
+        localStorage.setItem(LS_BOARD, document.getElementById("boardTa").value);
+      } catch (e) {}
+    }, 400);
+  }
+
+  function loadReflect() {
+    try {
+      var t = localStorage.getItem(LS_REFLECT);
+      if (t) document.getElementById("reflectTa").value = t;
+    } catch (e) {}
+  }
+  var refTimer = null;
+  function scheduleReflectSave() {
+    if (refTimer) clearTimeout(refTimer);
+    refTimer = setTimeout(function () {
+      try {
+        localStorage.setItem(LS_REFLECT, document.getElementById("reflectTa").value);
+      } catch (e) {}
+    }, 400);
+  }
+
+  function getDs() {
+    return Number(sessionStorage.getItem(DS_SESS_KEY) || "0") || 0;
+  }
+  function bumpDs() {
+    sessionStorage.setItem(DS_SESS_KEY, String(getDs() + 1));
+  }
+  function updQuota() {
+    var el = document.getElementById("aiQuota");
+    if (el) el.textContent = "已用 " + getDs() + " / 10 次";
+  }
+  function openAi() {
+    document.getElementById("aiPanel").classList.add("open");
+    document.getElementById("aiBackdrop").classList.add("show");
+    document.getElementById("aiBackdrop").hidden = false;
+    updQuota();
+  }
+  function closeAi() {
+    document.getElementById("aiPanel").classList.remove("open");
+    document.getElementById("aiBackdrop").classList.remove("show");
+    document.getElementById("aiBackdrop").hidden = true;
+  }
+
+  document.getElementById("btnTheme").addEventListener("click", function () {
+    document.body.classList.toggle("theme-dark");
+    this.textContent = document.body.classList.contains("theme-dark") ? "浅色" : "夜间备课";
+  });
+  document.getElementById("btnPrint").addEventListener("click", function () {
+    window.print();
+  });
+  document.getElementById("btnRead").addEventListener("click", function () {
+    if (ttsBusy) return;
+    ttsBusy = true;
+    var vZh = "zh-CN-XiaoxiaoNeural";
+    var vEn = "en-US-JennyNeural";
+    var list = [
+      { text: READ_ZH_1, voice: vZh },
+      { text: READ_ZH_2, voice: vZh },
+      { text: "下面朗读补充例句英文。", voice: vZh }
+    ];
+    READ_EN_LINES.forEach(function (line) {
+      list.push({ text: line, voice: vEn });
+    });
+    speakGap(list, 0, function () {});
+  });
+  document.getElementById("btnStopTts").addEventListener("click", stopAllTts);
+
+  document.getElementById("btnProjCopy").addEventListener("click", function () {
+    var lines = [];
+    document.querySelectorAll(".ex-cb:checked").forEach(function (cb) {
+      lines.push(cb.getAttribute("data-copy") || "");
+    });
+    if (!lines.length) {
+      aria("请先勾选例句");
+      return;
+    }
+    navigator.clipboard.writeText(lines.join("\n")).then(
+      function () {
+        aria("已复制投影清单");
+      },
+      function () {
+        alert("复制失败，请手动复制。");
+      }
+    );
+  });
+  document.getElementById("btnProjClear").addEventListener("click", function () {
+    document.querySelectorAll(".ex-cb").forEach(function (cb) {
+      cb.checked = false;
+    });
+  });
+
+  document.querySelectorAll('input[name="aiMode"]').forEach(function (r) {
+    r.addEventListener("change", function () {
+      var v = r.value;
+      document.getElementById("panelTier").hidden = v !== "tier";
+      document.getElementById("panelBoard").hidden = v !== "board";
+      document.getElementById("panelWeek").hidden = v !== "week";
+      var copyBtn = document.getElementById("btnAiCopy");
+      if (copyBtn) copyBtn.hidden = v !== "tier";
+    });
+  });
+  document.getElementById("btnAiCopy").hidden = false;
+  document.getElementById("btnAiOpen").addEventListener("click", openAi);
+  document.getElementById("btnAiClose").addEventListener("click", closeAi);
+  document.getElementById("aiBackdrop").addEventListener("click", closeAi);
+
+  document.getElementById("btnAiCopy").addEventListener("click", function () {
+    var t = document.getElementById("aiOut").textContent;
+    if (!t || t.indexOf("（输出") === 0) return;
+    navigator.clipboard.writeText(t).then(
+      function () {
+        aria("已复制 AI 输出");
+      },
+      function () {
+        alert("复制失败");
+      }
+    );
+  });
+
+  document.getElementById("btnAiRun").addEventListener("click", function () {
+    if (getDs() >= 10) {
+      document.getElementById("aiOut").textContent = "本会话已达 10 次上限。";
+      return;
+    }
+    var mode = (document.querySelector('input[name="aiMode"]:checked') || {}).value;
+    var sys = SYS_TIER;
+    var user = "";
+    if (mode === "board") {
+      sys = SYS_BOARD;
+      user = document.getElementById("aiTopic").value.trim();
+      if (!user) {
+        document.getElementById("aiOut").textContent = "请填写课题关键词。";
+        return;
+      }
+    } else if (mode === "week") {
+      sys = SYS_WEEKLY_REVIEW;
+      user = document.getElementById("aiWeekList").value.trim();
+      if (!user) {
+        document.getElementById("aiOut").textContent = "请填写本周已讲子页列表。";
+        return;
+      }
+    } else {
+      var g = document.getElementById("aiGrammar").value.trim();
+      if (!g) {
+        document.getElementById("aiOut").textContent = "请填写语法点。";
+        return;
+      }
+      user = "语法点：" + g + "\n水平：" + document.getElementById("aiLevel").value;
+    }
+    document.getElementById("aiOut").textContent = "请求中…";
+    fetch(DEEPSEEK_API_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + DEEPSEEK_API_KEY
+      },
+      body: JSON.stringify({
+        model: "deepseek-chat",
+        temperature: 0.45,
+        max_tokens: 400,
+        messages: [
+          { role: "system", content: sys },
+          { role: "user", content: user }
+        ]
+      })
+    })
+      .then(function (r) {
+        return r.json();
+      })
+      .then(function (j) {
+        var c = (((j.choices || [])[0] || {}).message || {}).content || JSON.stringify(j);
+        document.getElementById("aiOut").textContent = c;
+        bumpDs();
+        updQuota();
+      })
+      .catch(function () {
+        document.getElementById("aiOut").textContent = "请求失败（网络或密钥）。";
+      });
+  });
+
+  document.getElementById("boardTa").addEventListener("input", scheduleBoardSave);
+  document.getElementById("boardTa").addEventListener("blur", function () {
+    try {
+      localStorage.setItem(LS_BOARD, document.getElementById("boardTa").value);
+    } catch (e) {}
+  });
+  document.getElementById("reflectTa").addEventListener("input", scheduleReflectSave);
+  document.getElementById("reflectTa").addEventListener("blur", function () {
+    try {
+      localStorage.setItem(LS_REFLECT, document.getElementById("reflectTa").value);
+    } catch (e) {}
+  });
+
+  buildTimeGrid();
+  loadBoard();
+  loadReflect();
+  renderWrong();
+})();
+  </script>
+</body>
+</html>
