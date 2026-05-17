@@ -2365,17 +2365,10 @@ window.L03AudioManifest = {
     function resolveP05ImageBase() {
       try {
         var qs = new URLSearchParams(window.location.search || "");
-        if (qs.get("cosimg") === "1") {
-          return "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/img/";
-        }
-        if (qs.get("localimg") === "1") {
+        if (qs.get("localimg") === "1" || qs.get("siteimg") === "1") {
           return new URL("assets/img/", window.location.href).href;
         }
         if (window.location.protocol === "file:") {
-          return new URL("assets/img/", window.location.href).href;
-        }
-        var host = (window.location.hostname || "").toLowerCase();
-        if (host === "s-class.top" || host.endsWith(".s-class.top")) {
           return new URL("assets/img/", window.location.href).href;
         }
       } catch (eR) {}
