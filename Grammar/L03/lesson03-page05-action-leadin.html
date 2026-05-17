@@ -209,16 +209,6 @@
       opacity: 0.72;
       font-family: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
     }
-    .verb-pill.is-memo::after {
-      content: "★";
-      position: absolute;
-      top: -6px;
-      right: -4px;
-      font-size: 0.95rem;
-      color: var(--gold-star);
-      text-shadow: 0 0 4px rgba(255, 193, 7, 0.9);
-      line-height: 1;
-    }
     .print-main { min-width: 0; }
     .conveyor-wrap {
       perspective: 520px;
@@ -289,12 +279,14 @@
       position: relative;
       z-index: 5;
       width: 100%;
-      height: min(42vw, 280px);
-      min-height: 160px;
+      aspect-ratio: 16 / 9;
+      max-height: min(48vw, 320px);
+      min-height: 168px;
+      height: auto;
       margin: 0 auto 0.45rem;
       border-radius: 14px 12px 16px 14px;
       border: 3px solid #5d4037;
-      background: rgba(255, 255, 255, 0.55);
+      background: linear-gradient(180deg, #fafafa 0%, #eceff1 55%, #e0e0e0 100%);
       overflow: hidden;
       cursor: pointer;
     }
@@ -303,7 +295,10 @@
       inset: 0;
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: contain;
+      object-position: center;
+      box-sizing: border-box;
+      padding: 0.28rem;
     }
     .photo-stack .img-now {
       z-index: 2;
@@ -327,31 +322,6 @@
       background: linear-gradient(145deg, #e8f5e9, #fff9c4);
     }
     .img-fallback.is-on { display: flex; }
-    .question-bubble {
-      position: relative;
-      z-index: 5;
-      width: 100%;
-      margin: 0 0 0.45rem;
-      padding: 0.5rem 0.6rem;
-      border-radius: 18px 18px 18px 4px;
-      border: 3px solid var(--state-blue);
-      background: rgba(255, 255, 255, 0.95);
-      font-size: 0.8rem;
-      line-height: 1.55;
-      color: #333;
-      cursor: pointer;
-      box-shadow: 3px 4px 0 rgba(0,0,0,0.08);
-    }
-    .question-bubble small {
-      display: block;
-      margin-top: 0.25rem;
-      color: #666;
-      font-size: 0.72rem;
-    }
-    .question-bubble.is-done {
-      opacity: 0.72;
-      border-style: dashed;
-    }
     .screen-line {
       position: relative;
       z-index: 5;
@@ -367,6 +337,14 @@
       height: 0;
       margin: 0;
       overflow: hidden;
+    }
+    .screen-line.is-tts-replay {
+      cursor: pointer;
+    }
+    .screen-line.is-tts-replay:hover {
+      outline: 2px dashed rgba(74, 144, 217, 0.55);
+      outline-offset: 2px;
+      border-radius: 6px;
     }
     .yesterday-btn.is-locked {
       position: relative;
@@ -520,10 +498,6 @@
       background: #e8f5e9;
       border-color: var(--habit-green);
     }
-    .memo-btn {
-      background: linear-gradient(180deg, #fff8e1, #ffecb3) !important;
-      border-color: #f9a825 !important;
-    }
     .gold-key-panel {
       max-width: min(300px, 88vw);
       margin-bottom: 0.35rem;
@@ -588,11 +562,6 @@
       width: 0%;
       background: linear-gradient(90deg, #81c784, #43a047);
       transition: width 0.4s ease;
-    }
-    .progress-label {
-      font-size: 0.78rem;
-      font-weight: 800;
-      color: #37474f;
     }
   </style>
   <style>
@@ -1341,8 +1310,8 @@ html body > nav.lesson-pager {
 <body class="has-lesson-pager">
   <div class="book">
     <div class="top-bar"><strong>第03讲</strong> · Page 05 · 时光打印机 · 图片对比 + 发现式学习</div>
-    <h1>图片先行 · 苏格拉底提问 · 盖章派 vs 魔法派</h1>
-    <p class="subtitle"></p>
+    <h1>先看两幅图猜「平时」怎么说，再点 Yesterday 看「过去」</h1>
+    <p class="subtitle">左栏规则动词：多数加 ·ed（盖章派）｜右栏不规则：过去式各不相同（魔法派）</p>
 
     <div class="page-layout">
       <aside class="side-lobby">
@@ -1363,12 +1332,11 @@ html body > nav.lesson-pager {
           <div class="conveyor-belt" aria-hidden="true"></div>
           <div class="screen-wrap">
             <div class="screen-inner" id="screenInner">
-              <div class="photo-stack" id="photoStack" title="点击图画或下方气泡，解锁句子与时光按钮">
+              <div class="photo-stack" id="photoStack" title="点击上图，解锁「平时」金句与 Yesterday 按钮">
                 <img class="img-now" id="imgNowEl" alt="Usually — 平时" decoding="async" />
                 <img class="img-past" id="imgPastEl" alt="Yesterday — 过去" decoding="async" />
                 <div class="img-fallback" id="imgFallback" aria-hidden="true">📖</div>
               </div>
-              <button type="button" class="question-bubble" id="questionBubble" aria-label="老师的提问，点击查看现在时句子"></button>
               <p class="screen-line" id="screenSentence"></p>
               <div class="verb-hero-wrap" id="verbHeroWrap">
                 <div class="particle-layer" id="particleLayer"></div>
@@ -1385,7 +1353,6 @@ html body > nav.lesson-pager {
         <div class="recite-bar" id="reciteBar">
           <button type="button" id="btnLoop" aria-pressed="false">🔂 循环朗读</button>
           <button type="button" id="btnSlow" aria-pressed="false">🐢 慢速跟读</button>
-          <button type="button" class="memo-btn" id="btnMemo">🎙️ 我已背诵</button>
         </div>
       </main>
     </div>
@@ -1398,7 +1365,6 @@ html body > nav.lesson-pager {
       <span class="src" id="goldSrc"></span>
       <div id="goldNote"></div>
     </div>
-    <div class="progress-label" id="progressLabel">已探索 0 / 60（规则 0 · 不规则 0） · 已背诵 0 / 60</div>
     <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progressFill"></div></div>
   </div>
 
@@ -1821,7 +1787,7 @@ window.L03AudioManifest = {
         { base: "choose", past: "chose", linePresent: "Teenagers usually choose clubs that match their hobbies.", linePast: "She chose to follow her heart and became a successful artist.", source: "教研·高阶", note: "人生选择。", imgPromptNow: "A girl standing at a crossroad with two signs pointing different ways.", imgPromptPast: "The girl walking firmly on a path leading to an art gallery, vintage feel.", teacherQuestion: "Look! What does the girl usually face? What will she <strong>choose</strong>?" },
         { base: "grow", past: "grew", linePresent: "We usually grow sunflowers on the school farm each spring.", linePast: "The seeds I planted last spring grew into beautiful flowers.", source: "教研·高阶", note: "劳动教育。", imgPromptNow: "A boy looking at seeds in the soil, bright morning sun.", imgPromptPast: "Giant sunflowers blooming, the boy watering them in nostalgic light.", teacherQuestion: "Look! What do seeds usually do in spring? How do plants <strong>grow</strong>?" },
         { base: "mean", past: "meant", linePresent: "Small gifts usually mean friendship between classmates.", linePast: "The gift meant a lot to me because it was from my best friend.", source: "教研·高阶", note: "情感价值。", imgPromptNow: "Two kids exchanging a small gift box, bright colors.", imgPromptPast: "A kid holding the gift tightly with a very happy face, sepia tone.", teacherQuestion: "Look! What does a small gift usually <strong>mean</strong>?" },
-        { base: "become", past: "became", linePresent: "Chengdu usually becomes more lively during the Spring Festival.", linePast: "Chengdu became a modern city with a long and rich history.", source: "教研·高阶", note: "城市发展。", imgPromptNow: "A boy practicing the trumpet in his room, looking focused.", imgPromptPast: "The boy performing on a grand stage as a famous musician, vintage light.", teacherQuestion: "Look! What can a city or a person <strong>become</strong> after years of change?" },
+        { base: "become", past: "became", linePresent: "Chengdu usually becomes more lively during the Spring Festival.", linePast: "Chengdu became a modern city with a long and rich history.", source: "教研·高阶", note: "城市发展。", imgPromptNow: "Wide street in Chengdu decorated with red lanterns and Spring Festival banners, crowds enjoying snacks and lion dance props in daylight, festive lively city mood.", imgPromptPast: "Panoramic blend of traditional tiled roofs and bamboo park with modern glass towers and metro in soft evening light, sense of a historic city that grew into a modern hub.", teacherQuestion: "Look! What can a city or a person <strong>become</strong> after years of change?" },
         { base: "draw", past: "drew", linePresent: "We usually draw mind maps to review before exams.", linePast: "I drew a conclusion that patience is the key to success.", source: "教研·高阶", note: "学习心得。", imgPromptNow: "A student thinking hard over a difficult problem, bright light.", imgPromptPast: "The student writing 'Patience is Key' in a notebook, looking relieved.", teacherQuestion: "Look! What does the student usually do after thinking?" },
         { base: "sweep", past: "swept", linePresent: "We usually sweep the classroom floor every Friday afternoon.", linePast: "We swept the floor and cleaned the windows for the old man.", source: "教研·高阶", note: "劳动服务。", imgPromptNow: "A person holding a broom in a messy room.", imgPromptPast: "The room is clean and bright, the person smiling in nostalgic light.", teacherQuestion: "Look! What do volunteers usually sweep?" },
         { base: "throw", past: "threw", linePresent: "We usually throw balls in games, not litter on the street.", linePast: "He threw the waste bottle into the correct bin for recycling.", source: "教研·高阶", note: "环保分类。", imgPromptNow: "A person holding an empty plastic bottle, bright colors.", imgPromptPast: "The bottle flying into a blue recycling bin, sepia tone.", teacherQuestion: "Look! Where should we throw plastic bottles?" },
@@ -1849,10 +1815,11 @@ window.L03AudioManifest = {
       ]
     };
     var BASE_STYLE =
-      "A high-quality crayon drawing, children's storybook illustration style, paper texture background, clean educational layout.";
-    var NOW_VIBE = "bright colors, energetic daytime lighting, vivid.";
+      "Polished educational illustration for teens: soft digital painting, clean shapes, warm harmonious palette, expressive but natural faces, subtle texture; no text or watermarks in the image; storybook clarity without rough crayon strokes.";
+    var NOW_VIBE =
+      "Bright clear daylight, airy optimistic mood, gentle contrast, colors feel fresh and lively.";
     var PAST_VIBE =
-      "nostalgic memory style, slightly muted vintage colors, sepia tone, evening sunset light, retro feel.";
+      "Same cast and setting as the matching 'now' scene when possible; gentle evening or indoor warm lamp light, slightly softer contrast and muted tones for a calm memory feel.";
 
     var IMG_SCENES = {
       work: {
@@ -2057,7 +2024,7 @@ window.L03AudioManifest = {
       v.imgNow = v.base + "-now.png";
       v.imgPast = v.base + "-past.png";
       if (v.imgPromptNow && v.imgPromptPast) {
-        if (v.imgPromptNow.indexOf("crayon drawing") === -1) {
+        if (v.imgPromptNow.indexOf("Polished educational illustration for teens") === -1) {
           v.imgPromptNow = BASE_STYLE + " " + v.imgPromptNow + " " + NOW_VIBE;
           v.imgPromptPast = BASE_STYLE + " " + v.imgPromptPast + " " + PAST_VIBE;
         }
@@ -2088,6 +2055,10 @@ window.L03AudioManifest = {
             v.base +
             "</strong>.";
       }
+      var FRAMING =
+        " Wide 16:9 composition: main action centered with breathing room; show full figures or full key objects (not cropped at frame edges); clear focal action matching the English sentence.";
+      if (v.imgPromptNow) v.imgPromptNow += FRAMING;
+      if (v.imgPromptPast) v.imgPromptPast += FRAMING;
     }
     VERB_MASTER_POOL.regular.forEach(enrichVerbEntry);
     VERB_MASTER_POOL.irregular.forEach(enrichVerbEntry);
@@ -2103,33 +2074,8 @@ window.L03AudioManifest = {
       copy: ["copi", "ed"], shop: ["shop", "ped"], drop: ["drop", "ped"]
     };
 
-    var LS_KEY = "l03p05_memo_v3";
     var LS_EXPLORE = "l03p05_explore_v3";
-    var UNLOCK_EXPLORE = 20;
-    var UNLOCK_EACH_TRACK = 8;
-    var memorized = {};
     var explored = {};
-
-    function loadMemo() {
-      try {
-        var raw = localStorage.getItem(LS_KEY);
-        if (!raw) return;
-        var arr = JSON.parse(raw);
-        if (Array.isArray(arr)) {
-          memorized = {};
-          arr.forEach(function (id) {
-            memorized[id] = true;
-          });
-        }
-      } catch (e) {
-        memorized = {};
-      }
-    }
-    function saveMemo() {
-      try {
-        localStorage.setItem(LS_KEY, JSON.stringify(Object.keys(memorized)));
-      } catch (e) {}
-    }
 
     function loadExplore() {
       try {
@@ -2197,6 +2143,19 @@ window.L03AudioManifest = {
       byId[x.id] = x;
     });
 
+    /** 在控制台执行 copy(JSON.stringify(L03P05_exportImagePromptManifest(), null, 2)) 可导出全部绘图 prompt 与 COS 文件名，便于用 Composer 2 等工具批量出图后上传替换。 */
+    window.L03P05_exportImagePromptManifest = function () {
+      return flatList.map(function (x) {
+        return {
+          base: x.base,
+          cosFileNow: x.imgNow,
+          cosFilePast: x.imgPast,
+          promptNow: x.imgPromptNow,
+          promptPast: x.imgPromptPast
+        };
+      });
+    };
+
     var screenInner = document.getElementById("screenInner");
     var screenSentence = document.getElementById("screenSentence");
     var verbHero = document.getElementById("verbHero");
@@ -2212,18 +2171,15 @@ window.L03AudioManifest = {
     var btnYesterday = document.getElementById("btnYesterday");
     var btnLoop = document.getElementById("btnLoop");
     var btnSlow = document.getElementById("btnSlow");
-    var btnMemo = document.getElementById("btnMemo");
     var goldKey = document.getElementById("goldKey");
     var goldSrc = document.getElementById("goldSrc");
     var goldNote = document.getElementById("goldNote");
     var toast = document.getElementById("toast");
-    var progressLabel = document.getElementById("progressLabel");
     var progressFill = document.getElementById("progressFill");
     var photoStack = document.getElementById("photoStack");
     var imgNowEl = document.getElementById("imgNowEl");
     var imgPastEl = document.getElementById("imgPastEl");
     var imgFallback = document.getElementById("imgFallback");
-    var questionBubble = document.getElementById("questionBubble");
 
     var current = flatList[0];
     var isPast = false;
@@ -2383,30 +2339,12 @@ window.L03AudioManifest = {
       return "";
     }
 
-    function exploredBreakdown() {
-      var reg = 0;
-      var irr = 0;
-      Object.keys(explored).forEach(function (id) {
-        if (id.charAt(0) === "r") reg++;
-        else if (id.charAt(0) === "i") irr++;
-      });
-      return { reg: reg, irr: irr, total: reg + irr };
+    function exploredCount() {
+      return Object.keys(explored).length;
     }
 
     function updateProgressUI() {
-      var m = Object.keys(memorized).length;
-      var br = exploredBreakdown();
-      progressLabel.textContent =
-        "已探索 " +
-        br.total +
-        " / 60（规则 " +
-        br.reg +
-        " · 不规则 " +
-        br.irr +
-        "） · 已背诵 " +
-        m +
-        " / 60";
-      progressFill.style.width = (Math.max(br.total, m) / 60) * 100 + "%";
+      progressFill.style.width = (exploredCount() / 60) * 100 + "%";
     }
 
     function logImagePromptsFor(item) {
@@ -2420,12 +2358,21 @@ window.L03AudioManifest = {
     }
 
     function applyDiscoveryUI() {
-      questionBubble.innerHTML =
-        current.teacherQuestion +
-        '<small>看图画 → 想一想 → 点这里或点上图，解锁「平时」金句与 Yesterday 按钮。</small>';
-      questionBubble.classList.toggle("is-done", discoveryRevealed);
       setYesterdayLocked(!discoveryRevealed || isPast);
       screenSentence.classList.toggle("is-phased-out", !discoveryRevealed && !isPast);
+    }
+
+    function resolveP05ImageBase() {
+      try {
+        var qs = new URLSearchParams(window.location.search || "");
+        if (qs.get("localimg") === "1") {
+          return new URL("assets/img/", window.location.href).href;
+        }
+        if (window.location.protocol === "file:") {
+          return new URL("assets/img/", window.location.href).href;
+        }
+      } catch (eR) {}
+      return "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/img/";
     }
 
     function setupImagesForCurrent() {
@@ -2433,7 +2380,7 @@ window.L03AudioManifest = {
       imgFallback.classList.remove("is-on");
       imgNowEl.style.display = "";
       imgPastEl.style.display = "";
-      var basePath = "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/img/";
+      var basePath = resolveP05ImageBase();
       var errOnce = false;
       function onErr() {
         if (errOnce) return;
@@ -2460,6 +2407,11 @@ window.L03AudioManifest = {
       discoveryRevealed = true;
       applyDiscoveryUI();
       refreshScreen();
+      if (window.L03AzureTTS && window.L03AzureTTS.isReady()) {
+        stopSpeak();
+        speakToken++;
+        speakLine(current.baseSentence, speakToken);
+      }
     }
 
     function runPhotoCrossfade(cb) {
@@ -2520,18 +2472,12 @@ window.L03AudioManifest = {
       }
     }
 
-    function syncPillStars() {
-      document.querySelectorAll(".verb-pill").forEach(function (p) {
-        var id = p.getAttribute("data-id");
-        p.classList.toggle("is-memo", !!memorized[id]);
-      });
-      updateProgressUI();
-    }
-
     function refreshScreen() {
       screenInner.classList.toggle("is-past", isPast);
       if (!discoveryRevealed && !isPast) {
         screenSentence.innerHTML = "";
+        screenSentence.classList.remove("is-tts-replay");
+        screenSentence.removeAttribute("title");
         verbHero.textContent = current.base;
         verbHero.classList.remove("is-irregular-past");
         updateGoldKey();
@@ -2546,6 +2492,13 @@ window.L03AudioManifest = {
         verbHero.textContent = current.base;
         verbHero.classList.remove("is-irregular-past");
       }
+      var replayReady =
+        discoveryRevealed &&
+        window.L03AzureTTS &&
+        window.L03AzureTTS.isReady() &&
+        !screenSentence.classList.contains("is-phased-out");
+      screenSentence.classList.toggle("is-tts-replay", replayReady);
+      screenSentence.setAttribute("title", replayReady ? "点击例句可重听朗读" : "");
       updateGoldKey();
     }
 
@@ -2834,8 +2787,15 @@ window.L03AudioManifest = {
     photoStack.addEventListener("click", function () {
       revealDiscovery();
     });
-    questionBubble.addEventListener("click", function () {
-      revealDiscovery();
+
+    screenSentence.addEventListener("click", function (ev) {
+      if (!screenSentence.classList.contains("is-tts-replay")) return;
+      ev.stopPropagation();
+      if (!window.L03AzureTTS || !window.L03AzureTTS.isReady()) return;
+      stopSpeak();
+      speakToken++;
+      var line = isPast ? current.pastSentence : current.baseSentence;
+      speakLine(line, speakToken);
     });
 
     btnLoop.addEventListener("click", function () {
@@ -2866,21 +2826,8 @@ window.L03AudioManifest = {
       }
     });
 
-    btnMemo.addEventListener("click", function () {
-      if (!isPast) {
-        showToast("请先完成 Yesterday 变身，再确认背诵哦。");
-        return;
-      }
-      memorized[current.id] = true;
-      saveMemo();
-      syncPillStars();
-      showToast("已收录：「" + current.base + "」金句进入你的星星本！（" + current.source + "）");
-    });
-
-    loadMemo();
     loadExplore();
     buildDeck();
-    syncPillStars();
     updateProgressUI();
     selectAction(flatList[0]);
     openPanel("reg");
