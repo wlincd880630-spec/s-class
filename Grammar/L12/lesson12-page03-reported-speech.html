@@ -1,0 +1,1902 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>第12讲 · Page 03 · 转述中的时态与人称 · Reported speech</title>
+  <link rel="stylesheet" href="../assets/lesson-screen-16x9.css" />
+  <style>
+    :root {
+      --paper: #fff9f0;
+      --ink: #2c2c2c;
+      --edge: #5d4037;
+      --crayon-red: #e85d4c;
+      --crayon-blue: #4a90d9;
+      --crayon-green: #5cb85c;
+      --crayon-orange: #f0ad4e;
+      --crayon-purple: #9b59b6;
+      --gold: #d4af37;
+      --mint: #10b981;
+      --danger: #ef4444;
+      --shadow-book: rgba(60, 40, 20, 0.14);
+    }
+    * { box-sizing: border-box; }
+    html { height: 100%; }
+    html, body {
+      margin: 0;
+      min-height: 100dvh;
+      font-family: system-ui, -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: linear-gradient(165deg, #2a2435 0%, #1a1420 45%, #120c18 100%);
+      color: var(--ink);
+      line-height: 1.55;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+    }
+    body.has-lesson-pager {
+      align-items: stretch !important;
+      justify-content: flex-start;
+      padding-left: max(2px, env(safe-area-inset-left, 0px)) !important;
+      padding-right: max(2px, env(safe-area-inset-right, 0px)) !important;
+    }
+    #ui-lock {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 9998;
+      background: rgba(15, 23, 42, 0.08);
+      cursor: wait;
+    }
+    #ui-lock.active { display: block; }
+    #app {
+      flex: 1 1 auto;
+      width: 100%;
+      max-width: min(1920px, 100vw - 8px);
+      margin: 0 auto;
+      padding: 4px 6px;
+      display: flex;
+      flex-direction: column;
+      min-height: calc(100dvh - var(--lesson-pager-gap, 4.35rem) - 8px);
+      min-width: 0;
+    }
+    .hidden { display: none !important; }
+    #l12-book.book {
+      position: relative;
+      flex: 1 1 auto;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      background: var(--paper);
+      border: 4px solid #f39c12;
+      border-radius: 14px 30px 16px 24px;
+      box-shadow: 0 10px 0 rgba(232, 93, 76, 0.18), 0 22px 40px var(--shadow-book);
+      overflow: hidden;
+    }
+    #l12-book.book::before {
+      content: "";
+      position: absolute;
+      inset: 10px;
+      border: 2px dashed rgba(93, 64, 55, 0.28);
+      border-radius: 10px 20px 12px 18px;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .top-bar {
+      position: relative;
+      z-index: 2;
+      margin: 8px 8px 0;
+      border: 3px solid var(--crayon-blue);
+      border-radius: 999px;
+      background: linear-gradient(180deg, #fff, #fff4db);
+      text-align: center;
+      padding: 10px 14px;
+      font-size: clamp(0.82rem, 0.35vw + 0.76rem, 0.98rem);
+      color: #333;
+      box-shadow: 2px 3px 0 rgba(0, 0, 0, 0.06);
+    }
+    .top-bar strong { color: var(--crayon-red); letter-spacing: 0.03em; }
+    .subtitle-line { display: block; margin-top: 4px; font-size: 0.86em; color: #6d4c41; font-weight: 600; }
+    .l12-scroll {
+      position: relative;
+      z-index: 1;
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow: hidden auto;
+      -webkit-overflow-scrolling: touch;
+      padding: 6px 10px 12px;
+    }
+    .lesson-page {
+      display: none;
+      flex-direction: column;
+      gap: 0.65rem;
+      min-height: min(100%, calc(100dvh - var(--lesson-pager-gap, 4.35rem) - 140px));
+      animation: l12fade 0.35s ease;
+    }
+    .lesson-page.active { display: flex; }
+    @keyframes l12fade {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .page-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 0.35rem 0.75rem;
+      padding-bottom: 0.35rem;
+      border-bottom: 3px solid rgba(93, 64, 55, 0.15);
+    }
+    .page-kicker { font-size: 0.78rem; font-weight: 800; color: #6d4c41; letter-spacing: 0.06em; }
+    .page-title {
+      margin: 0;
+      font-size: clamp(1.05rem, 1.8vw + 0.55rem, 1.32rem);
+      font-weight: 900;
+      color: var(--crayon-red);
+    }
+    .panel {
+      background: rgba(255, 255, 255, 0.92);
+      border: 3px solid var(--edge);
+      border-radius: 14px 22px 12px 18px;
+      padding: clamp(0.75rem, 1.5vw, 1.1rem);
+      box-shadow: 0 5px 0 rgba(93, 64, 55, 0.08);
+    }
+    .panel h4 { margin: 0 0 0.5rem; font-size: 1rem; color: var(--crayon-purple); }
+    .l12-split {
+      display: grid;
+      grid-template-columns: minmax(220px, 0.95fr) minmax(280px, 1.15fr);
+      gap: clamp(0.65rem, 1.8vw, 1.2rem);
+      align-items: start;
+    }
+    @media (max-width: 860px) {
+      .l12-split { grid-template-columns: 1fr; }
+    }
+    /* Page 03 分栏配图：完整显示整张图（不裁切），必要时上下留白 */
+    .l12-split-visual img {
+      width: 100%;
+      height: auto;
+      max-height: min(52dvh, 480px);
+      object-fit: contain;
+      object-position: center;
+      border-radius: 12px;
+      border: 2px solid #e2e8f0;
+      display: block;
+      background: #f1f5f9;
+    }
+    .tag-pill {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 0.18rem 0.5rem;
+      border-radius: 8px;
+      background: #fef3c7;
+      color: #92400e;
+      border: 1px solid #fcd34d;
+      margin-bottom: 0.35rem;
+    }
+    .guide-box {
+      padding: 0.65rem 0.75rem;
+      border-radius: 10px;
+      background: #fefce8;
+      border: 2px dashed #ca8a04;
+      font-size: 0.9rem;
+      color: #422006;
+    }
+    ul.tight { margin: 0.35rem 0 0 1.1rem; padding: 0; }
+    ul.tight li { margin: 0.22rem 0; }
+    table.rs-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.86rem;
+      margin: 0.5rem 0;
+    }
+    table.rs-table th, table.rs-table td {
+      border: 1px solid #cbd5e1;
+      padding: 0.4rem 0.5rem;
+      text-align: left;
+    }
+    table.rs-table th { background: #f1f5f9; font-weight: 800; }
+    .direct-line {
+      font-weight: 800;
+      color: #b45309;
+      margin: 0.35rem 0;
+      font-size: 0.95rem;
+    }
+    .practice-switch {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.45rem;
+      margin: 0.45rem 0 0.65rem;
+    }
+    .step-btn {
+      padding: 0.45rem 0.75rem;
+      border-radius: 10px;
+      border: 2px solid #94a3b8;
+      background: #fff;
+      font-weight: 800;
+      font-size: 0.82rem;
+      cursor: pointer;
+    }
+    .idx-pill {
+      font-weight: 900;
+      color: #312e81;
+      background: #e0e7ff;
+      padding: 0.25rem 0.65rem;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      margin-left: auto;
+    }
+    .primary-nav { display: flex; flex-wrap: wrap; gap: 0.45rem; margin-top: 0.45rem; }
+    .primary-nav button {
+      padding: 0.5rem 0.85rem;
+      border-radius: 10px;
+      border: 2px solid #2563eb;
+      background: #2563eb;
+      color: #fff;
+      font-weight: 800;
+      cursor: pointer;
+      font-size: 0.88rem;
+    }
+    .mc-row { display: flex; flex-direction: column; gap: 0.45rem; margin-top: 0.65rem; }
+    .mc-btn {
+      text-align: left;
+      padding: 0.5rem 0.65rem;
+      border-radius: 8px;
+      border: 1px solid #cbd5e1;
+      background: #fff;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+    .mc-btn.correct { border-color: var(--mint); background: #ecfdf5; }
+    .mc-btn.wrong { border-color: var(--danger); background: #fef2f2; }
+    .err-item {
+      margin: 0.5rem 0;
+      padding: 0.5rem 0.65rem;
+      border-radius: 10px;
+      border: 1px solid #e2e8f0;
+      background: #fff;
+    }
+    .err-item summary { cursor: pointer; font-weight: 800; color: #1e3a8a; }
+    .hub-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.55rem;
+    }
+    @media (min-width: 720px) {
+      .hub-grid { grid-template-columns: 1fr 1fr; }
+    }
+    /* 总结页：人称卡收窄，时态卡占余下空间 */
+    #p3-outro .hub-grid {
+      grid-template-columns: 1fr;
+    }
+    @media (min-width: 720px) {
+      #p3-outro .hub-grid {
+        grid-template-columns: minmax(0, 220px) minmax(0, 1fr);
+        gap: 0.65rem;
+      }
+    }
+    .hub-card {
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 0.65rem 0.75rem;
+      background: linear-gradient(180deg, #fff, #f8fafc);
+    }
+    .hub-card strong { color: var(--crayon-red); }
+    #p3-outro .outro-check-visual {
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+      align-items: stretch;
+      margin-top: 0.35rem;
+    }
+    #p3-outro .outro-check-fig {
+      display: flex;
+      justify-content: center;
+    }
+    #p3-outro .outro-check-fig img {
+      width: 100%;
+      max-width: min(400px, 100%);
+      height: auto;
+      max-height: min(38dvh, 340px);
+      object-fit: contain;
+      object-position: center;
+      border-radius: 12px;
+      border: 2px solid #e2e8f0;
+      display: block;
+      background: #f1f5f9;
+    }
+    body.has-lesson-pager nav.lesson-pager button.pager-prev,
+    body.has-lesson-pager nav.lesson-pager button.pager-next,
+    body.has-lesson-pager nav.lesson-pager .pager-mid {
+      flex: 1 1 0;
+      min-width: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-family: inherit;
+      font-weight: 800;
+      padding: 0.42rem 0.4rem;
+      border-radius: 999px;
+      border: 3px solid #5d4037;
+      box-shadow: 3px 4px 0 rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      font-size: clamp(0.72rem, 2.4vw, 0.88rem);
+    }
+    body.has-lesson-pager nav.lesson-pager button.pager-prev {
+      color: #1565c0;
+      background: rgba(255, 249, 240, 0.98);
+    }
+    body.has-lesson-pager nav.lesson-pager button.pager-next {
+      color: #4e342e;
+      background: linear-gradient(180deg, #ffe082, #ffca28);
+    }
+    body.has-lesson-pager nav.lesson-pager button:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+    .story-panel { max-width: 100%; }
+    /* 第 9 页：左图右文；与其它页一致，分镜图完整显示 */
+    .story-split {
+      align-items: stretch;
+    }
+    .story-split-visual {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+    .story-split-visual .story-frame-wrap {
+      flex: 1 1 auto;
+      min-height: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .story-split-text {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+    @media (min-width: 861px) {
+      .story-split {
+        grid-template-columns: minmax(280px, 1.05fr) minmax(280px, 1fr);
+      }
+    }
+    .story-frame-wrap {
+      border-radius: 14px;
+      overflow: hidden;
+      border: 3px solid #e2e8f0;
+      background: #f8fafc;
+      margin: 0;
+    }
+    .story-frame-img {
+      display: block;
+      width: 100%;
+      height: auto;
+      max-height: min(58dvh, 560px);
+      object-fit: contain;
+      object-position: center;
+    }
+    .story-zh { font-weight: 800; color: #0f172a; margin: 0; font-size: 0.95rem; line-height: 1.55; }
+    .story-en { font-weight: 700; color: #1e40af; margin: 0; font-size: 0.92rem; line-height: 1.55; }
+    .story-captions {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-top: 0.25rem;
+    }
+    .story-reveal {
+      border-radius: 12px;
+      border: 2px dashed #cbd5e1;
+      background: #f8fafc;
+      overflow: hidden;
+    }
+    .story-reveal-hit {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.2rem;
+      width: 100%;
+      margin: 0;
+      padding: 0.65rem 0.75rem;
+      border: 0;
+      border-radius: 10px;
+      background: transparent;
+      cursor: pointer;
+      font: inherit;
+      text-align: left;
+      color: #475569;
+      transition: background 0.15s ease;
+    }
+    .story-reveal-hit:hover {
+      background: rgba(148, 163, 184, 0.2);
+    }
+    .story-reveal-hit:focus-visible {
+      outline: 3px solid var(--crayon-blue);
+      outline-offset: 2px;
+    }
+    .story-reveal-label {
+      font-weight: 900;
+      font-size: 0.88rem;
+      color: #0f172a;
+    }
+    .story-reveal-sub {
+      font-size: 0.82rem;
+      color: #64748b;
+    }
+    .story-reveal-hit--en .story-reveal-label { color: #1e3a8a; }
+    .story-reveal-body {
+      display: none;
+      margin: 0;
+      padding: 0.55rem 0.75rem 0.65rem;
+      border-top: 1px solid #e2e8f0;
+      background: #fff;
+    }
+    .story-reveal.is-open .story-reveal-hit { display: none; }
+    .story-reveal.is-open .story-reveal-body { display: block; }
+    .story-teach {
+      margin: 0.45rem 0 0;
+      padding: 0.55rem 0.65rem;
+      border-radius: 10px;
+      background: #ecfdf5;
+      border: 1px solid #6ee7b7;
+      font-size: 0.86rem;
+      color: #14532d;
+      line-height: 1.55;
+    }
+    .direct-indirect-def {
+      margin: 0.55rem 0 0;
+      font-size: 0.95rem;
+      line-height: 1.55;
+    }
+    .rs-example-fold summary {
+      cursor: pointer;
+      font-weight: 800;
+      color: #1e3a8a;
+    }
+    .rs-example-hint {
+      margin: 0.5rem 0 0;
+      font-size: 0.88rem;
+      color: #475569;
+      line-height: 1.55;
+    }
+    .rs-example-hint li {
+      margin: 0.2rem 0;
+    }
+    .oral-drill-item {
+      margin-bottom: 0.5rem;
+    }
+    .oral-drill-item .oral-meta {
+      font-size: 0.88rem;
+      color: #475569;
+      margin: 0.35rem 0;
+    }
+    .oral-answer-wrap {
+      margin-top: 0.45rem;
+      padding: 0.5rem 0.65rem;
+      border-radius: 10px;
+      background: #ecfdf5;
+      border: 1px solid #6ee7b7;
+      font-weight: 700;
+      color: #14532d;
+      line-height: 1.55;
+    }
+    .pix-practice-split {
+      display: grid;
+      grid-template-columns: minmax(0, 40%) minmax(0, 1fr);
+      gap: 1rem;
+      align-items: start;
+    }
+    @media (max-width: 900px) {
+      .pix-practice-split {
+        grid-template-columns: 1fr;
+      }
+    }
+    .pix-shot-subnav {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin: 0 0 0.65rem;
+    }
+    #p3-pix-practice-a .pix-practice-split,
+    #p3-pix-practice-b .pix-practice-split {
+      grid-template-columns: minmax(0, 50%) minmax(0, 1fr);
+    }
+    @media (max-width: 900px) {
+      #p3-pix-practice-a .pix-practice-split,
+      #p3-pix-practice-b .pix-practice-split {
+        grid-template-columns: 1fr;
+      }
+    }
+    #p3-pix-practice-a .pix-practice-frames--single,
+    #p3-pix-practice-b .pix-practice-frames--single {
+      grid-template-columns: 1fr;
+    }
+    #p3-pix-practice-a .pix-practice-frames--single img,
+    #p3-pix-practice-b .pix-practice-frames--single img {
+      max-height: min(62dvh, 520px);
+    }
+    .pix-practice-visual {
+      min-width: 0;
+    }
+    .pix-practice-copy {
+      min-width: 0;
+    }
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.45rem;
+      margin: 0;
+    }
+    @media (max-width: 900px) {
+      .pix-practice-frames {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+    @media (max-width: 720px) {
+      .pix-practice-frames { grid-template-columns: 1fr; }
+    }
+    .pix-practice-frames img {
+      width: 100%;
+      height: auto;
+      max-height: min(28dvh, 240px);
+      object-fit: contain;
+      border-radius: 10px;
+      border: 2px solid #e2e8f0;
+      background: #f8fafc;
+      display: block;
+    }
+    .pix-practice-split .pix-practice-frames img {
+      max-height: min(22dvh, 200px);
+    }
+    .pix-story-zh {
+      font-size: 0.9rem;
+      color: #334155;
+      margin: 0 0 0.65rem;
+      line-height: 1.55;
+    }
+    #p3-pix-practice-a .pix-practice-copy .pix-story-zh,
+    #p3-pix-practice-b .pix-practice-copy .pix-story-zh {
+      font-weight: 600;
+      color: #1e293b;
+    }
+    .pix-sent-socratic {
+      margin: 0 0 0.45rem;
+      padding: 0.4rem 0.55rem 0.4rem 0.65rem;
+      border-radius: 0 8px 8px 0;
+      border-left: 3px solid #64748b;
+      background: #f8fafc;
+      font-size: 0.86rem;
+      color: #334155;
+      line-height: 1.55;
+    }
+    .pix-sent-socratic p {
+      margin: 0.25rem 0 0;
+    }
+    .pix-sent-socratic p:first-child {
+      margin-top: 0;
+    }
+    .pix-sent {
+      margin: 0.55rem 0;
+      padding: 0.5rem 0.65rem;
+      border-radius: 10px;
+      border: 1px solid #e2e8f0;
+      background: #fff;
+    }
+    .pix-sent-line {
+      margin: 0;
+      font-size: 0.95rem;
+      line-height: 1.65;
+      color: #0f172a;
+    }
+    .pix-gap-btn {
+      display: inline-block;
+      min-width: 3rem;
+      padding: 0.1rem 0.4rem;
+      margin: 0 0.1rem;
+      border-radius: 6px;
+      border: 2px dashed #64748b;
+      background: #f1f5f9;
+      font-weight: 800;
+      color: #0f172a;
+      cursor: pointer;
+      vertical-align: baseline;
+      font-size: 0.95rem;
+      font-family: inherit;
+    }
+    .pix-gap-btn:disabled { cursor: default; }
+    .pix-gap-btn.done-ok {
+      border-style: solid;
+      border-color: #059669;
+      background: #ecfdf5;
+      color: #065f46;
+    }
+    .pix-gap-btn.done-bad {
+      border-style: solid;
+      border-color: #ef4444;
+      background: #fef2f2;
+      color: #991b1b;
+    }
+    .pix-gap-row {
+      display: none;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin: 0.4rem 0 0;
+    }
+    .pix-gap-row.open { display: flex; }
+    .pix-gap-choice {
+      padding: 0.28rem 0.5rem;
+      border-radius: 8px;
+      border: 2px solid #94a3b8;
+      background: #fff;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.86rem;
+      font-family: inherit;
+    }
+    .pix-gap-choice:disabled { opacity: 0.55; cursor: not-allowed; }
+  </style>
+</head>
+<body class="has-lesson-pager">
+  <div id="ui-lock" aria-hidden="true"></div>
+  <div id="app">
+    <div id="l12-book" class="book">
+      <header class="top-bar">
+        <strong>第12讲 Page 03</strong> · 转述（reported speech）· 时态变化 · 人称与代词
+      </header>
+      <div class="l12-scroll">
+        <!-- 1 中文热身 · 原话与转述（为英语 direct/reported 铺垫） -->
+        <section class="lesson-page active" data-page="1" id="p3-cn-warmup">
+          <div class="page-head">
+            <span class="page-kicker">1 / 12</span>
+            <h2 class="page-title">热身 · 用中文理解「原话」与「转述」</h2>
+          </div>
+          <div class="panel">
+            <div class="l12-split">
+              <div class="l12-split-visual">
+                <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L12/assets/l12p3-scene-01-hub.png" alt="引出新课：先中文后英语" />
+              </div>
+              <div>
+                <p style="margin:0 0 0.5rem">表达别人说过的话，常见有两种方式：一是<strong>照着原话引用</strong>（书面常加引号）；二是把意思<strong>嵌进自己的叙述里转述</strong>。下面<strong>全部用中文</strong>做判断与选择，建立「谁在说话、谁在转述、信息要不要跟着改」的直觉。</p>
+                <p class="guide-box" style="margin:0 0 0.65rem"><strong>小例子</strong>：小明说：「我今天很累。」妈妈对爸爸讲：<strong>小明说他今天很累。</strong>——听者要分清：累的是小明；转述时「我」常要改成「他」。</p>
+                <span class="tag-pill" id="pre-cn-cat">—</span>
+                <p id="pre-cn-scenario" style="margin:0.45rem 0 0.25rem;font-weight:700;color:#0f172a;font-size:0.92rem"></p>
+                <p id="pre-cn-direct" style="margin:0 0 0.55rem;font-size:0.98rem;border-left:4px solid var(--crayon-orange);padding:0.35rem 0 0.35rem 0.65rem;color:#334155;background:#fffbeb;border-radius:0 8px 8px 0"></p>
+                <p style="font-size:0.88rem;color:#64748b;margin:0 0 0.45rem">请选择<strong>最恰当的一句转述</strong>（向旁人转达原话意思）：</p>
+                <div class="practice-switch" style="margin:0">
+                  <button type="button" class="step-btn" id="pre-cn-prev">上一题</button>
+                  <button type="button" class="step-btn" id="pre-cn-next">下一题</button>
+                  <span class="idx-pill" id="pre-cn-idx">题 1 / 1</span>
+                </div>
+                <div class="mc-row" id="pre-cn-row"></div>
+                <p id="pre-cn-fb" style="font-weight:700;margin-top:0.5rem"></p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 2 直接引语 → 间接引语 -->
+        <section class="lesson-page" data-page="2" id="p3-intro">
+          <div class="page-head">
+            <span class="page-kicker">2 / 12</span>
+            <h2 class="page-title">概念 · 直接引语与间接引语</h2>
+          </div>
+          <div class="panel">
+            <div class="l12-split">
+              <div class="l12-split-visual">
+                <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L12/assets/l12p3-scene-02-direct-reported.png" alt="直接引语与间接引语示意" />
+              </div>
+              <div>
+                <p>第 1 页用中文练过「原话 vs 转述」；这里用英语里的术语来命名：<b>直接引语</b>与<b>间接引语（转述）</b>。</p>
+                <p class="direct-indirect-def"><b>直接引语</b>：原话照录，常用引号或引述气泡。</p>
+                <p class="direct-indirect-def"><b>间接引语（转述）</b>：把别人的话嵌进「He said that … / She told me that …」里，用从句表达原话内容。</p>
+                <p style="margin:0.85rem 0 0.35rem;font-weight:900;font-size:0.9rem;color:var(--crayon-purple)">对比示例</p>
+                <p style="margin:0 0 0.5rem;font-size:0.86rem;color:#64748b">以下含<strong>例 ①</strong>与各拓展例，<strong>默认折叠</strong>；点击标题展开，可课堂朗读「直接 → 间接」并对照说明。</p>
+                <details class="err-item rs-example-fold">
+                  <summary>例 ① · 基本对比（am→was；I→he）</summary>
+                  <p class="direct-line" lang="en">He said, &quot;I am happy.&quot;</p>
+                  <p lang="en"><b>→</b> He said <b>that</b> he <b>was</b> happy.</p>
+                  <ul class="tight rs-example-hint">
+                    <li>引导词：<b>that</b>（口语可省，书面本课建议保留以看清结构）</li>
+                    <li>从句语序：仍是<strong>陈述语序</strong></li>
+                    <li>本页新增重点：<strong>am → was</strong>（时态）与 <strong>I → he</strong>（人称）</li>
+                  </ul>
+                  <div class="primary-nav" style="margin-top:0.45rem">
+                    <button type="button" id="p3-play-intro">朗读例①对比</button>
+                  </div>
+                </details>
+                <details class="err-item rs-example-fold">
+                  <summary>例 ② · want + 人称</summary>
+                  <p class="direct-line" lang="en">She said, &quot;I want some water.&quot;</p>
+                  <p lang="en"><b>→</b> She said <b>that</b> she <b>wanted</b> some water.</p>
+                  <ul class="tight rs-example-hint">
+                    <li>引导词：<b>that</b>（口语可省，书面本课建议保留以看清结构）</li>
+                    <li>从句语序：仍是<strong>陈述语序</strong></li>
+                    <li>本例要点：<strong>want → wanted</strong>（时态后移）；<strong>I → she</strong>（人称）</li>
+                  </ul>
+                </details>
+                <details class="err-item rs-example-fold">
+                  <summary>例 ③ · we / they 与 will</summary>
+                  <p class="direct-line" lang="en">They said, &quot;We will help you.&quot;</p>
+                  <p lang="en"><b>→</b> They said <b>that</b> they <b>would</b> help me.</p>
+                  <ul class="tight rs-example-hint">
+                    <li>引导词：<b>that</b>（口语可省，书面本课建议保留以看清结构）</li>
+                    <li>从句语序：仍是<strong>陈述语序</strong></li>
+                    <li>本例要点：<strong>will → would</strong>；<strong>we → they</strong>；<strong>you → me</strong>（听者身份）</li>
+                  </ul>
+                </details>
+                <details class="err-item rs-example-fold">
+                  <summary>例 ④ · can → could</summary>
+                  <p class="direct-line" lang="en">Amy said, &quot;I can swim.&quot;</p>
+                  <p lang="en"><b>→</b> Amy said <b>that</b> she <b>could</b> swim.</p>
+                  <ul class="tight rs-example-hint">
+                    <li>引导词：<b>that</b>（口语可省，书面本课建议保留以看清结构）</li>
+                    <li>从句语序：仍是<strong>陈述语序</strong></li>
+                    <li>本例要点：<strong>can → could</strong>；<strong>I → she</strong></li>
+                  </ul>
+                </details>
+                <details class="err-item rs-example-fold">
+                  <summary>例 ⑤ · tell + you（听者）</summary>
+                  <p class="direct-line" lang="en">Mom told me, &quot;You must finish homework first.&quot;</p>
+                  <p lang="en"><b>→</b> Mom told me <b>that</b> I <b>had to</b> finish homework first.</p>
+                  <ul class="tight rs-example-hint">
+                    <li>引导词：<b>that</b>（口语可省，书面本课建议保留以看清结构）</li>
+                    <li>从句语序：仍是<strong>陈述语序</strong></li>
+                    <li>本例要点：<strong>told me + that</strong>；<strong>must → had to</strong>；<strong>you → I</strong>（指听者）</li>
+                  </ul>
+                </details>
+                <details class="err-item rs-example-fold">
+                  <summary>例 ⑥ · 客观真理（不必硬改成过去）</summary>
+                  <p class="direct-line" lang="en">The teacher said, &quot;The earth goes around the sun.&quot;</p>
+                  <p lang="en"><b>→</b> The teacher said <b>that</b> the earth <b>goes</b> around the sun.</p>
+                  <ul class="tight rs-example-hint">
+                    <li>引导词：<b>that</b>（口语可省，书面本课建议保留以看清结构）</li>
+                    <li>从句语序：仍是<strong>陈述语序</strong></li>
+                    <li>本例要点：客观规律常用<strong>一般现在</strong>（<strong>goes</strong> 不必改成 went）</li>
+                  </ul>
+                </details>
+                <details class="err-item rs-example-fold">
+                  <summary>例 ⑦ · may → might</summary>
+                  <p class="direct-line" lang="en">Dad said, &quot;I may be late tonight.&quot;</p>
+                  <p lang="en"><b>→</b> Dad said <b>that</b> he <b>might</b> be late that night.</p>
+                  <ul class="tight rs-example-hint">
+                    <li>引导词：<b>that</b>（口语可省，书面本课建议保留以看清结构）</li>
+                    <li>从句语序：仍是<strong>陈述语序</strong></li>
+                    <li>本例要点：<strong>may → might</strong>；<strong>tonight → that night</strong>（时间指称）</li>
+                  </ul>
+                </details>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 3 时态呼应 -->
+        <section class="lesson-page" data-page="3" id="p3-tense">
+          <div class="page-head">
+            <span class="page-kicker">3 / 12</span>
+            <h2 class="page-title">时态 · 主句为 said / told 时（常见后移）</h2>
+          </div>
+          <div class="panel">
+            <div class="l12-split">
+              <div class="l12-split-visual">
+                <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L12/assets/l12p3-scene-03-tense.png" alt="时态呼应学习插图" />
+              </div>
+              <div>
+                <table class="rs-table">
+                  <thead>
+                    <tr><th>直接引语里（从句视角）</th><th>间接引语里（常见变化）</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>一般现在 am/is/are</td><td>一般过去 was/were</td></tr>
+                    <tr><td>一般过去 did / was</td><td>过去完成 had done / had been（初中点到即可）</td></tr>
+                    <tr><td>will</td><td>would</td></tr>
+                    <tr><td>can</td><td>could</td></tr>
+                    <tr><td>may</td><td>might</td></tr>
+                  </tbody>
+                </table>
+                <p class="guide-box"><strong>例外（常考）</strong>：客观事实或规律，如 <span lang="en">The teacher said that the earth <b>goes</b> around the sun.</span> 从句仍可用一般现在。</p>
+                <div class="primary-nav">
+                  <button type="button" id="p3-play-tense-ex">朗读例句：客观真理不变时态</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 4 人称与代词 -->
+        <section class="lesson-page" data-page="4" id="p3-person">
+          <div class="page-head">
+            <span class="page-kicker">4 / 12</span>
+            <h2 class="page-title">人称 · 代词跟着「谁在转述」变</h2>
+          </div>
+          <div class="panel">
+            <div class="l12-split">
+              <div class="l12-split-visual">
+                <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L12/assets/l12p3-scene-04-person.png" alt="人称代词转换示意" />
+              </div>
+              <div>
+                <p>先确定<strong>话是谁说的</strong>，再决定从句主语用 he / she / they…；若原话里有 <b>you</b>，要分清指的是「听者」还是「泛指」，初中题常给清晰语境。</p>
+                <table class="rs-table">
+                  <thead>
+                    <tr><th>直接（Tom 说自己）</th><th>间接</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td lang="en">&quot;I am tired.&quot;</td><td lang="en">Tom said that <b>he</b> was tired.</td></tr>
+                    <tr><td lang="en">&quot;We will help you.&quot;</td><td lang="en">They said that <b>they</b> would help me.</td></tr>
+                  </tbody>
+                </table>
+                <p style="font-size:0.88rem;color:#64748b">提示：my/your/his/her 等物主代词也要与新的主语一致。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 5 套练 A -->
+        <section class="lesson-page" data-page="5" id="p3-quiz-a">
+          <div class="page-head">
+            <span class="page-kicker">5 / 12</span>
+            <h2 class="page-title">套练 A · 听原话，选正确转述</h2>
+          </div>
+          <div class="panel">
+            <div class="l12-split">
+              <div class="l12-split-visual">
+                <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L12/assets/l12p3-scene-05-practice.png" alt="转述练习插图" />
+              </div>
+              <div>
+                <span class="tag-pill" id="rsa-cat">—</span>
+                <p id="rsa-zh" style="margin:0 0 0.45rem;font-weight:700;color:#0f172a"></p>
+                <p id="rsa-direct" class="direct-line" lang="en"></p>
+                <div class="practice-switch">
+                  <button type="button" class="step-btn" id="rsa-prev">上一题</button>
+                  <button type="button" class="step-btn" id="rsa-next">下一题</button>
+                  <span class="idx-pill" id="rsa-idx">题 1 / 1</span>
+                </div>
+                <div class="primary-nav" style="margin-top:0">
+                  <button type="button" id="rsa-play">听原话</button>
+                  <button type="button" class="step-btn" id="rsa-play-ok" style="border-radius:999px">听正确转述</button>
+                </div>
+                <div class="mc-row" id="rsa-row"></div>
+                <p id="rsa-fb" style="font-weight:700;margin-top:0.5rem"></p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 6 改错 -->
+        <section class="lesson-page" data-page="6" id="p3-errors">
+          <div class="page-head">
+            <span class="page-kicker">6 / 12</span>
+            <h2 class="page-title">改错 · 时态或人称与转述不匹配</h2>
+          </div>
+          <div class="panel">
+            <p style="margin:0 0 0.65rem;font-size:0.9rem;color:#475569">点击展开查看<strong>推荐改法</strong>（课堂可先让学生自改再对照）。</p>
+            <details class="err-item"><summary>① <span lang="en">She said that she is ready.</span></summary><p lang="en" style="margin:0.4rem 0 0">She said that she <b>was</b> ready.</p></details>
+            <details class="err-item"><summary>② <span lang="en">He told me that he will come.</span></summary><p lang="en" style="margin:0.4rem 0 0">He told me that he <b>would</b> come.</p></details>
+            <details class="err-item"><summary>③ <span lang="en">Tom said that I am busy.</span>（话是 Tom 说自己）</summary><p lang="en" style="margin:0.4rem 0 0">Tom said that <b>he</b> <b>was</b> busy.</p></details>
+            <details class="err-item"><summary>④ <span lang="en">They said that we are late.</span>（话是他们自己迟到）</summary><p lang="en" style="margin:0.4rem 0 0">They said that <b>they</b> <b>were</b> late.</p></details>
+            <details class="err-item"><summary>⑤ <span lang="en">Mom said that she can cook fish.</span></summary><p lang="en" style="margin:0.4rem 0 0">Mom said that she <b>could</b> cook fish.</p></details>
+            <details class="err-item"><summary>⑥ <span lang="en">Ben said that the sun was round.</span>（客观真理）</summary><p lang="en" style="margin:0.4rem 0 0">Ben said that the sun <b>is</b> round.</p></details>
+          </div>
+        </section>
+
+        <!-- 7 套练 B -->
+        <section class="lesson-page" data-page="7" id="p3-quiz-b">
+          <div class="page-head">
+            <span class="page-kicker">7 / 12</span>
+            <h2 class="page-title">套练 B · 进阶混合（含一条客观真理）</h2>
+          </div>
+          <div class="panel">
+            <div class="l12-split">
+              <div class="l12-split-visual">
+                <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L12/assets/l12p3-scene-05-practice.png" alt="转述练习插图" />
+              </div>
+              <div>
+                <span class="tag-pill" id="rsb-cat">—</span>
+                <p id="rsb-zh" style="margin:0 0 0.45rem;font-weight:700;color:#0f172a"></p>
+                <p id="rsb-direct" class="direct-line" lang="en"></p>
+                <div class="practice-switch">
+                  <button type="button" class="step-btn" id="rsb-prev">上一题</button>
+                  <button type="button" class="step-btn" id="rsb-next">下一题</button>
+                  <span class="idx-pill" id="rsb-idx">题 1 / 1</span>
+                </div>
+                <div class="primary-nav" style="margin-top:0">
+                  <button type="button" id="rsb-play">听原话</button>
+                  <button type="button" class="step-btn" id="rsb-play-ok" style="border-radius:999px">听正确转述</button>
+                </div>
+                <div class="mc-row" id="rsb-row"></div>
+                <p id="rsb-fb" style="font-weight:700;margin-top:0.5rem"></p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 8 口头练 · 直接引语 → 间接引语 -->
+        <section class="lesson-page" data-page="8" id="p3-oral-drill">
+          <div class="page-head">
+            <span class="page-kicker">8 / 12</span>
+            <h2 class="page-title">口头练 · 直接引语 → 间接引语</h2>
+          </div>
+          <div class="panel">
+            <div id="oral-drill-list"></div>
+          </div>
+        </section>
+
+        <!-- 9 情境故事 · 快要下雨了（分镜）：左图右文 -->
+        <section class="lesson-page" data-page="9" id="p3-rain-story">
+          <div class="page-head">
+            <span class="page-kicker">9 / 12</span>
+            <h2 class="page-title">情境故事 · 快要下雨了（多图分镜）</h2>
+          </div>
+          <div class="panel story-panel">
+            <div class="l12-split story-split">
+              <div class="l12-split-visual story-split-visual">
+                <div class="story-frame-wrap">
+                  <img id="story-frame-img" class="story-frame-img" src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L12/assets/l12p3-rain-story-01.png" alt="分镜配图" />
+                </div>
+              </div>
+              <div class="story-split-text">
+                <div class="practice-switch" style="margin:0">
+                  <button type="button" class="step-btn" id="story-prev">上一镜</button>
+                  <button type="button" class="step-btn" id="story-next">下一镜</button>
+                  <span class="idx-pill" id="story-idx">镜 1 / 8</span>
+                </div>
+                <div class="primary-nav" style="margin-top:0">
+                  <button type="button" id="story-play-en">朗读本镜英文</button>
+                  <button type="button" class="step-btn" id="story-play-all" style="border-radius:999px">连播本故事英文</button>
+                </div>
+                <p class="guide-box" style="margin:0">
+                  体会 <strong>人称（she）</strong> 与 <strong>时态（is going to → was going to）</strong> 如何随叙述视角与时间变化。
+                </p>
+                <div class="story-captions" id="story-captions">
+                  <div class="story-reveal" id="story-wrap-zh">
+                    <button type="button" class="story-reveal-hit" id="story-hit-zh" aria-expanded="false" aria-controls="story-zh">
+                      <span class="story-reveal-label">中文旁白</span>
+                      <span class="story-reveal-sub">点击此区域显示</span>
+                    </button>
+                    <p id="story-zh" class="story-zh story-reveal-body" role="region" aria-live="polite"></p>
+                  </div>
+                  <div class="story-reveal" id="story-wrap-en">
+                    <button type="button" class="story-reveal-hit story-reveal-hit--en" id="story-hit-en" aria-expanded="false" aria-controls="story-en">
+                      <span class="story-reveal-label" lang="en">English</span>
+                      <span class="story-reveal-sub" lang="en">Tap this area to show</span>
+                    </button>
+                    <p id="story-en" class="story-en story-reveal-body" lang="en" role="region" aria-live="polite"></p>
+                  </div>
+                </div>
+                <p id="story-teach" class="story-teach"></p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 10 读图练 · 图书馆（分镜分页） -->
+        <section class="lesson-page" data-page="10" id="p3-pix-practice-a">
+          <div class="page-head">
+            <span class="page-kicker">10 / 12</span>
+            <h2 class="page-title">读图练 · 图书馆迟还书（人称与时态）</h2>
+          </div>
+          <div class="panel" id="pix-practice-a-root">
+            <p class="guide-box" style="margin:0 0 0.65rem">
+              用<strong>上一镜 / 下一镜</strong>逐幅浏览：左侧为当前镜的<strong>放大分镜</strong>；右侧先读<strong>本镜场景说明</strong>，再完成<strong>仅与本镜相关</strong>的填空（点击虚线空白选词）。
+            </p>
+            <div class="pix-practice-split">
+              <div class="pix-practice-visual">
+                <div class="pix-practice-frames pix-practice-frames--single" id="pix-practice-a-frames"></div>
+              </div>
+              <div class="pix-practice-copy">
+                <div class="pix-shot-subnav">
+                  <button type="button" class="step-btn" id="pix-a-prev">上一镜</button>
+                  <span class="idx-pill" id="pix-a-idx">镜 1 / 3</span>
+                  <button type="button" class="step-btn" id="pix-a-next">下一镜</button>
+                </div>
+                <p class="pix-story-zh" id="pix-practice-a-zh"></p>
+                <div id="pix-practice-a-sents"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 11 读图练 · 校运会（分镜分页） -->
+        <section class="lesson-page" data-page="11" id="p3-pix-practice-b">
+          <div class="page-head">
+            <span class="page-kicker">11 / 12</span>
+            <h2 class="page-title">读图练 · 校运会报名（人称与时态）</h2>
+          </div>
+          <div class="panel" id="pix-practice-b-root">
+            <p class="guide-box" style="margin:0 0 0.65rem">
+              用<strong>上一镜 / 下一镜</strong>逐幅浏览：左侧为当前镜的<strong>放大分镜</strong>；右侧先读<strong>本镜场景说明</strong>，再完成<strong>仅与本镜相关</strong>的填空（点击虚线空白选词）。
+            </p>
+            <div class="pix-practice-split">
+              <div class="pix-practice-visual">
+                <div class="pix-practice-frames pix-practice-frames--single" id="pix-practice-b-frames"></div>
+              </div>
+              <div class="pix-practice-copy">
+                <div class="pix-shot-subnav">
+                  <button type="button" class="step-btn" id="pix-b-prev">上一镜</button>
+                  <span class="idx-pill" id="pix-b-idx">镜 1 / 3</span>
+                  <button type="button" class="step-btn" id="pix-b-next">下一镜</button>
+                </div>
+                <p class="pix-story-zh" id="pix-practice-b-zh"></p>
+                <div id="pix-practice-b-sents"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 12 总结 · 定义后置与自检 -->
+        <section class="lesson-page" data-page="12" id="p3-outro">
+          <div class="page-head">
+            <span class="page-kicker">12 / 12</span>
+            <h2 class="page-title">总结 · 定义后置与自检</h2>
+          </div>
+          <div class="panel">
+            <div class="hub-grid" style="margin-bottom:0.75rem">
+              <div class="hub-card">
+                <strong>① 人称与代词</strong>
+                <p style="margin:0.35rem 0 0;font-size:0.9rem;color:#475569">转述者变了，从句里的 <b>I / you / we…</b> 与 <b>my / your…</b> 要跟着<strong>叙述视角</strong>调整。</p>
+              </div>
+              <div class="hub-card">
+                <strong>② 时态呼应（常称「后移」）</strong>
+                <p style="margin:0.35rem 0 0;font-size:0.9rem;color:#475569">主句若为 <b>过去</b>转述动词（如 said / told），从句里的时间常常要<strong>往回挪一格</strong>；若内容是<strong>客观真理或现在仍成立</strong>，也可保持原时态（本页已各给例子）。</p>
+                <div style="margin-top:0.55rem;overflow-x:auto;-webkit-overflow-scrolling:touch">
+                  <table class="rs-table" style="font-size:0.84rem;width:100%">
+                    <thead>
+                      <tr>
+                        <th>直接引语里（常见时态 / 结构）</th>
+                        <th>间接引语里（主句为过去 said / told 时常见后移）</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr><td>一般现在 <span lang="en">am / is / are</span>；<span lang="en">do / does</span></td><td>一般过去 <span lang="en">was / were</span>；<span lang="en">did</span></td></tr>
+                      <tr><td>现在进行时 <span lang="en">am / is / are + v-ing</span></td><td>过去进行时 <span lang="en">was / were + v-ing</span></td></tr>
+                      <tr><td>现在完成时 <span lang="en">have / has + p.p.</span></td><td>过去完成时 <span lang="en">had + p.p.</span></td></tr>
+                      <tr><td>一般过去时 <span lang="en">did</span>；<span lang="en">was / were</span></td><td>过去完成时 <span lang="en">had + p.p.</span>；<span lang="en">had been</span>（动作先于「说」已发生时常用）</td></tr>
+                      <tr><td><span lang="en">will</span>；<span lang="en">be going to</span></td><td><span lang="en">would</span>；<span lang="en">was / were going to</span></td></tr>
+                      <tr><td><span lang="en">can</span></td><td><span lang="en">could</span></td></tr>
+                      <tr><td><span lang="en">may</span></td><td><span lang="en">might</span></td></tr>
+                      <tr><td><span lang="en">must</span>（表必须、义务）</td><td><span lang="en">had to</span></td></tr>
+                    </tbody>
+                  </table>
+                </div>
+                <p style="margin:0.45rem 0 0;font-size:0.82rem;color:#64748b">例外（常考）：<strong>客观事实、规律、仍在发生的常态</strong>可<strong>不后移</strong>，如 <span lang="en">He said that the sun <b>rises</b> in the east.</span></p>
+              </div>
+            </div>
+            <div class="outro-check-visual">
+              <div class="outro-check-text">
+                <p style="margin:0 0 0.45rem;font-weight:800;color:var(--crayon-purple);font-size:0.95rem">自检清单</p>
+                <ul class="tight">
+                  <li>从句主语/宾语/物主代词是否已按<strong>说话人身份</strong>改对？</li>
+                  <li>主句若是 <b>过去</b>转述（said / told），从句时态是否<strong>合理后移</strong>？</li>
+                  <li>是否为<strong>客观真理</strong>？转述内容是否在转述当下依旧<strong>成立、有效</strong>？若是，不必强行把科学事实与在转述当下依旧成立、有效的内容改成过去时。</li>
+                  <li>从句是否始终保持<strong>陈述语序</strong>？</li>
+                </ul>
+              </div>
+              <div class="outro-check-fig">
+                <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L12/assets/l12p3-scene-06-summary.png" alt="学习小结插图" />
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+    <nav class="lesson-pager" id="lesson-pager" aria-label="分页导航">
+      <button type="button" class="pager-prev" id="pager-prev">上一页</button>
+      <span class="pager-mid" id="pager-mid" aria-live="polite">1 / 12</span>
+      <button type="button" class="pager-next" id="pager-next">下一页</button>
+    </nav>
+  </div>
+
+  <script>
+    const AZURE_KEY = "C42UQWeDcluYanbo17WrtUnPhk0vkZy2uQHPTCGDzY6CdEXx99NzJQQJ99BIACqBBLyXJ3w3AAAYACOGjkyu";
+    const AZURE_REGION = "southeastasia";
+    const AZURE_VOICE = "en-US-AriaNeural";
+
+    /** 第 1 页：中文逻辑热身（原话 → 转述） */
+    const PRE_CN_QUIZ = [
+      {
+        cat: "人称跟着走",
+        scenario: "语境：小华对小红说原话，小红要把话转述给旁人。",
+        direct: "小华说：「我喜欢画画。」",
+        opts: ["小红说：小华说他喜欢画画。", "小红说：小华说我喜欢画画。", "小红说：我喜欢画画。"],
+        correct: 0,
+        ok: "转述给第三方时，「我」要回到小华身上，常用「他」指小华。"
+      },
+      {
+        cat: "时间信息别打架",
+        scenario: "语境：昨天小李的原话；今天由小王转述给同学听。",
+        direct: "小李昨天说：「我今天去图书馆了。」（「今天」指说话当时的当天）",
+        opts: [
+          "小王说：小李昨天说他那天去图书馆了。",
+          "小王说：小李昨天说他今天去图书馆了。",
+          "小王说：小李昨天说我今天去图书馆了。"
+        ],
+        correct: 0,
+        ok: "转述里常把「那天」与「今天」分清，避免听众以为仍是说话当下的「今天」。"
+      },
+      {
+        cat: "常识不必硬改",
+        scenario: "语境：地理老师原话，班长向全班转述。",
+        direct: "老师说：「海水是咸的。」",
+        opts: ["班长说：老师说海水是咸的。", "班长说：老师说海水以前是咸的。", "班长说：老师说我们觉得咸。"],
+        correct: 0,
+        ok: "客观常识在转述里往往保持原样，不必为了「像过去」而硬改事实。"
+      },
+      {
+        cat: "谁在做承诺",
+        scenario: "语境：小刚对同桌说；同桌告诉老师。",
+        direct: "小刚说：「我会交作业的。」",
+        opts: ["同桌说：小刚说他自己会交作业。", "同桌说：小刚说我来替他交作业。", "同桌说：我会交作业的。"],
+        correct: 0,
+        ok: "承诺的主体仍是小刚，转述里用「他」承接，而不是把「我」接到转述者身上。"
+      }
+    ];
+
+    /** 第 8 页：口头练 · 直接→间接 */
+    const ORAL_DRILL = [
+      {
+        tag: "七年级·爱好",
+        zh: "改编自教材常见「爱好与运动」自我介绍语境。",
+        who: "Tom 在班会上说",
+        direct: 'Tom said, "I like playing basketball after school."',
+        answer: 'Tom said that he liked playing basketball after school.',
+        hint: "主句 said 为过去时，从句 like 常后移为 liked；I→he。"
+      },
+      {
+        tag: "八年级·校规",
+        zh: "贴近中考阅读里「校规/校服」类说明，家长会上转述孩子原话。",
+        who: "爸爸转述孩子刚说的话",
+        direct: 'My son said, "I must wear the school uniform every day."',
+        answer: "My son said that he had to wear the school uniform every day.",
+        hint: "must 在主句过去转述里常用 had to；My son 在从句里用 he 指代。"
+      },
+      {
+        tag: "九年级·志愿服务",
+        zh: "改编自综合题里常见的「校园服务/值日」语境。",
+        who: "Lily 对班长说",
+        direct: 'Lily said, "I will help at the school gate tomorrow."',
+        answer: "Lily said that she would help at the school gate the next day.",
+        hint: "will→would；tomorrow 常改为 the next day（与主句过去时间对齐）。"
+      },
+      {
+        tag: "中考·课堂指令",
+        zh: "改编自阅读理解中老师对全班的要求类句子。",
+        who: "The teacher said to the class",
+        direct: 'The teacher said, "You can take notes in your notebook."',
+        answer: "The teacher told the students that they could take notes in their notebooks.",
+        hint: "said to the class 可改写为 told the students；you→they；can→could；notebook 与 they 一致用复数。"
+      },
+      {
+        tag: "八年级·旅行计划",
+        zh: "改编自「计划与假期」单元常见句型。",
+        who: "Lin Tao 对朋友们说",
+        direct: 'Lin Tao said, "We are going to visit Xi\'an this summer."',
+        answer: "Lin Tao said that they were going to visit Xi'an that summer.",
+        hint: "we→they；are going→were going；this summer→that summer。"
+      },
+      {
+        tag: "九年级·学习任务",
+        zh: "贴近中考阅读里「作业/阅读任务」汇报语境。",
+        who: "Han Mei 对小组长说",
+        direct: 'Han Mei said, "I have finished the reading task."',
+        answer: "Han Mei said that she had finished the reading task.",
+        hint: "主句过去 said 时，现在完成 have finished 常后移为 had finished（题型高频）。"
+      },
+      {
+        tag: "中考·客观真理",
+        zh: "改编自科学类说明句，易与「一律改过去」混淆。",
+        who: "The scientist said",
+        direct: 'The scientist said, "Sound travels through air."',
+        answer: "The scientist said that sound travels through air.",
+        hint: "客观规律在转述里仍常用一般现在 travels，不必改成 traveled。"
+      },
+      {
+        tag: "七年级·家庭对话",
+        zh: "改编自日常对话中 tell sb. sth. 结构（人称 you 指听者）。",
+        who: "Dad told Tom",
+        direct: 'Dad told Tom, "You should turn off your phone at dinner."',
+        answer: "Dad told Tom that he should turn off his phone at dinner.",
+        hint: "tell 后接人再接 that 从句；you 指 Tom→he；your→his。"
+      }
+    ];
+
+    function renderOralDrillList() {
+      const root = document.getElementById("oral-drill-list");
+      if (!root || root.dataset.done === "1") return;
+      root.dataset.done = "1";
+      ORAL_DRILL.forEach((item, i) => {
+        const det = document.createElement("details");
+        det.className = "err-item oral-drill-item";
+        const sum = document.createElement("summary");
+        sum.textContent = "题 " + (i + 1) + " · " + item.tag;
+        det.appendChild(sum);
+        const pZh = document.createElement("p");
+        pZh.className = "oral-meta";
+        pZh.textContent = item.zh;
+        det.appendChild(pZh);
+        const pWho = document.createElement("p");
+        pWho.className = "oral-meta";
+        const b = document.createElement("b");
+        b.textContent = "说话人 / 语境提示：";
+        pWho.appendChild(b);
+        pWho.appendChild(document.createTextNode(item.who));
+        det.appendChild(pWho);
+        const pDir = document.createElement("p");
+        pDir.className = "direct-line";
+        pDir.lang = "en";
+        pDir.textContent = item.direct;
+        det.appendChild(pDir);
+        const tip = document.createElement("p");
+        tip.style.margin = "0.45rem 0 0.35rem";
+        tip.style.fontSize = "0.86rem";
+        tip.style.color = "#64748b";
+        tip.textContent = "课堂：先让学生口述，再点按钮显示答案。";
+        det.appendChild(tip);
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "step-btn oral-reveal-btn";
+        btn.textContent = "显示参考答案";
+        det.appendChild(btn);
+        const ansDiv = document.createElement("div");
+        ansDiv.className = "oral-answer-wrap hidden";
+        ansDiv.lang = "en";
+        ansDiv.textContent = item.answer;
+        det.appendChild(ansDiv);
+        const hintBox = document.createElement("p");
+        hintBox.className = "story-teach";
+        hintBox.style.marginTop = "0.45rem";
+        hintBox.textContent = "点拨：" + item.hint;
+        det.appendChild(hintBox);
+        root.appendChild(det);
+      });
+      root.addEventListener("click", (e) => {
+        const btn = e.target.closest(".oral-reveal-btn");
+        if (!btn || btn.disabled) return;
+        const det = btn.closest(".oral-drill-item");
+        const wrap = det && det.querySelector(".oral-answer-wrap");
+        if (wrap) {
+          wrap.classList.remove("hidden");
+          btn.disabled = true;
+        }
+      });
+    }
+
+    let preCnIx = 0;
+    let preCnWired = false;
+
+    function loadPreCnQuiz(idx) {
+      const bank = PRE_CN_QUIZ;
+      let i = (idx + bank.length) % bank.length;
+      preCnIx = i;
+      const it = bank[i];
+      document.getElementById("pre-cn-cat").textContent = it.cat;
+      document.getElementById("pre-cn-scenario").textContent = it.scenario;
+      document.getElementById("pre-cn-direct").textContent = it.direct;
+      document.getElementById("pre-cn-idx").textContent = "题 " + (i + 1) + " / " + bank.length;
+      document.getElementById("pre-cn-fb").textContent = "";
+      document.getElementById("pre-cn-fb").style.color = "";
+      const row = document.getElementById("pre-cn-row");
+      row.innerHTML = "";
+      it.opts.forEach((opt, oi) => {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.className = "mc-btn";
+        b.textContent = String.fromCharCode(65 + oi) + ". " + opt;
+        b.addEventListener("click", () => {
+          row.querySelectorAll(".mc-btn").forEach((x) => {
+            x.classList.remove("correct", "wrong");
+            x.disabled = true;
+          });
+          const ok = oi === it.correct;
+          b.classList.add(ok ? "correct" : "wrong");
+          if (!ok) row.querySelectorAll(".mc-btn")[it.correct].classList.add("correct");
+          const fb = document.getElementById("pre-cn-fb");
+          fb.textContent = ok ? "对！" + it.ok : "再想一想：谁在说话？谁在转述？时间/人称有没有打架？";
+          fb.style.color = ok ? "#059669" : "#b45309";
+        });
+        row.appendChild(b);
+      });
+    }
+
+    function wirePreCnQuiz() {
+      if (preCnWired) return;
+      preCnWired = true;
+      document.getElementById("pre-cn-prev").addEventListener("click", () => loadPreCnQuiz(preCnIx - 1));
+      document.getElementById("pre-cn-next").addEventListener("click", () => loadPreCnQuiz(preCnIx + 1));
+    }
+
+    const RS_BANK_A = [
+      { cat: "一般现在 → 一般过去", zh: "Tom 说自己当下很忙。", direct: 'Tom said, "I am busy."', opts: ['Tom said that he is busy.', 'Tom said that he was busy.', 'Tom said that I was busy.'], correct: 1, ok: 'He said that he was busy.' },
+      { cat: "want 过去", zh: "Lily 说自己想喝水。", direct: 'Lily said, "I want some water."', opts: ['Lily said that she wants some water.', 'Lily said that she wanted some water.', 'Lily said that we wanted some water.'], correct: 1, ok: 'Lily said that she wanted some water.' },
+      { cat: "复数主语", zh: "他们说自己很开心。", direct: 'They said, "We are happy."', opts: ['They said that they are happy.', 'They said that we were happy.', 'They said that they were happy.'], correct: 2, ok: 'They said that they were happy.' },
+      { cat: "will → would", zh: "爸爸说自己会修好它。", direct: 'Dad said, "I will fix it."', opts: ['Dad said that he will fix it.', 'Dad said that he would fix it.', 'Dad said that she would fix it.'], correct: 1, ok: 'Dad said that he would fix it.' },
+      { cat: "can → could", zh: "Amy 说自己会游泳。", direct: 'Amy said, "I can swim."', opts: ['Amy said that she can swim.', 'Amy said that she could swim.', 'Amy said that he could swim.'], correct: 1, ok: 'Amy said that she could swim.' },
+      { cat: "客观真理", zh: "老师说地球绕太阳转。", direct: 'The teacher said, "The earth goes around the sun."', opts: ['The teacher said that the earth went around the sun.', 'The teacher said that the earth goes around the sun.', 'The teacher said the earth goes the sun.'], correct: 1, ok: 'The teacher said that the earth goes around the sun.' },
+      { cat: "现在完成 → 过去完成", zh: "Ben 说自己已经写完作业。（进阶）", direct: 'Ben said, "I have finished my homework."', opts: ['Ben said that he has finished his homework.', 'Ben said that he had finished his homework.', 'Ben said that she had finished her homework.'], correct: 1, ok: 'Ben said that he had finished his homework.' },
+      { cat: "may → might", zh: "妈妈说自己可能会迟到。", direct: 'Mom said, "I may be late."', opts: ['Mom said that she may be late.', 'Mom said that she might be late.', 'Mom said that he might be late.'], correct: 1, ok: 'Mom said that she might be late.' }
+    ];
+
+    const RS_BANK_B = [
+      { cat: "过去进行时", zh: "她当时说自己正在看书。", direct: 'She said, "I am reading a book."', opts: ['She said that she was reading a book.', 'She said that she is reading a book.', 'She said that he was reading a book.'], correct: 0, ok: 'She said that she was reading a book.' },
+      { cat: "一般过去", zh: "他说自己昨天去了公园。", direct: 'He said, "I went to the park yesterday."', opts: ['He said that he went to the park yesterday.', 'He said that he had gone to the park the day before.', 'He said that she went to the park yesterday.'], correct: 1, ok: 'He said that he had gone to the park the day before.' },
+      { cat: "人称 you", zh: "老师对 Li Lei 说：你很努力。（转述给第三方）", direct: 'The teacher said to Li Lei, "You work very hard."', opts: ['The teacher said that I worked very hard.', 'The teacher said that Li Lei worked very hard.', 'The teacher said that you work very hard.'], correct: 1, ok: 'The teacher said that Li Lei worked very hard.' },
+      { cat: "否定", zh: "他说自己不喜欢咖啡。", direct: 'He said, "I do not like coffee."', opts: ['He said that he does not like coffee.', 'He said that he did not like coffee.', 'He said that she did not like coffee.'], correct: 1, ok: 'He said that he did not like coffee.' },
+      { cat: "真理", zh: "科学家说水在零度结冰。", direct: 'The scientist said, "Water freezes at zero degrees."', opts: ['The scientist said that water froze at zero degrees.', 'The scientist said that water freezes at zero degrees.', 'The scientist said water freezes zero degrees.'], correct: 1, ok: 'The scientist said that water freezes at zero degrees.' },
+      { cat: "tell 结构", zh: "她告诉我她会来。", direct: 'She told me, "I will come."', opts: ['She told me that she would come.', 'She told me that I would come.', 'She told that she would come me.'], correct: 0, ok: 'She told me that she would come.' }
+    ];
+
+    /** 分镜故事：快要下雨了（体会人称与时态随转述变化） */
+    const STORY_FRAMES = [
+      {
+        img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L12/assets/l12p3-rain-story-01.png",
+        zh: "镜 1：早晨，李老师站在教室内望向窗外——操场上许多班级同学正在早场玩耍；与此同时天空乌云密布，她非常担心。",
+        en: "Many students were playing on the playground in the morning. Dark clouds were gathering in the sky, and Miss Li felt worried.",
+        teach: "铺垫「事实场」：先看见迹象，再进入转述。"
+      },
+      {
+        img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L12/assets/l12p3-rain-story-02.png",
+        zh: "镜 2：李老师看见教室里的 Steven，用英文对他说：请让操场上的同学们尽快回教室，因为快要下雨了。",
+        en: 'Miss Li said to Steven, "Please ask the students on the playground to come back to the classroom soon. It is going to rain."',
+        teach: "直接引语里的 **It is going to rain** 表示依据迹象的「快要」；主语 **It** 指天气。"
+      },
+      {
+        img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L12/assets/l12p3-rain-story-03.png",
+        zh: "镜 3：Steven 在教室向老师点头答应，随即迅速冲下楼。（左：对话；右：下楼背影）",
+        en: 'Steven said, "OK, Miss Li! I will tell them right now."',
+        teach: "答应去做：仍可用 **will** 表「马上要去说」；注意 **I** 是 Steven 本人。"
+      },
+      {
+        img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L12/assets/l12p3-rain-story-04.png",
+        zh: "镜 4：Steven 来到操场上，对正在玩耍的同学们喊道：李老师希望我们马上回教室，她觉得马上就要下雨了。（此时还未下雨）",
+        en: 'Steven shouted, "Miss Li wants us to go back to the classroom right away. She thinks it is going to rain soon!"',
+        teach: "转告时用 **she** 指 Miss Li，用 **us** 指「我们同学」；**is going to** 仍表示「尚未发生」的预测。"
+      },
+      {
+        img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L12/assets/l12p3-rain-story-05.png",
+        zh: "镜 5：同学们陆续经楼梯回到教室。（左：上楼；右：陆续进门）",
+        en: "",
+        teach: "可提问：若用英语转述 Steven 刚才的喊话，主句用 **Steven said that …** 时，从句里的时态要不要后移？与下一镜「雨已下」对比。"
+      },
+      {
+        img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L12/assets/l12p3-rain-story-06.png",
+        zh: "镜 6：同学们回到教室后不久，窗外下起了雨。",
+        en: "Soon it started to rain outside the classroom windows.",
+        teach: "时间线推进：「将要」变成「已经发生」——为最后一镜的 **was going to** 提供语境。"
+      },
+      {
+        img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L12/assets/l12p3-rain-story-07.png",
+        zh: "镜 7：一直留在教室的 Jesse 很纳闷：大家怎么突然都回来了？于是问：你们怎么回来了？",
+        en: 'Jesse asked, "Why did you all come back so soon?"',
+        teach: "直接问句；若写成宾从需 **陈述语序**（本课重点仍在时态/人称，可一句带过）。"
+      },
+      {
+        img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L12/assets/l12p3-rain-story-08.png",
+        zh: "镜 8：刚进教室的同学回答：李老师刚才说快要下雨了。（此时此刻外面正在下雨）",
+        en: 'One student answered, "Miss Li said it was going to rain."',
+        teach: "对照第 2、4 镜：同一「快要下雨」的判断，站在**雨已下**的现在回头转述，常用 **said … was going to …** 表示**当时依据迹象的判断**；可与书面句 **They said Miss Li had said it was going to rain.** 分层教学（进阶）。"
+      }
+    ];
+
+    /** 读图练：图书馆与校运会均为三镜分页（每镜场景说明 + 对应句） */
+    const PIC_PRACTICE_BANK = [
+      {
+        key: "a",
+        shots: [
+          {
+            img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L12/assets/l12p3-practice-lib-01.png",
+            sceneZh: "镜 1：学生抱着迟还的书向图书管理员致歉。",
+            sentences: [
+              {
+                parts: [{ text: "The student said that he " }, { correct: "was", choices: ["is", "was", "were"] }, { text: " very sorry about the late books." }],
+                socratic: [
+                  "这一镜里学生在向谁道歉？主句 The student said 已把叙述放在过去，从句描述他当时的心情，还会用 is 吗？",
+                  "想一想：sorry 描写的是「道歉那一刻」还是「你现在做题这一刻」？"
+                ]
+              }
+            ]
+          },
+          {
+            img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L12/assets/l12p3-practice-lib-02.png",
+            sceneZh: "镜 2：管理员指着借阅记录，说明必须归还的日期、每晚闭馆时间，以及书上写明的到期情况。",
+            sentences: [
+              {
+                parts: [
+                  { text: "The librarian told him that he " },
+                  { correct: "had to", choices: ["must", "had to", "can"] },
+                  { text: " return the books on Monday." }
+                ],
+                socratic: [
+                  "管理员指着记录是在强调「规则/义务」；主句已是 told（过去），从句里表达「当时不得不遵守」常用哪种说法？",
+                  "若把 must 原封不动放进 told…that… 里，听起来更像「现在仍在下命令」还是「当时那次谈话里的要求」？"
+                ]
+              },
+              {
+                parts: [
+                  { text: "She said that the library " },
+                  { correct: "closes", choices: ["closed", "closes", "was closing"] },
+                  { text: " at six every evening." }
+                ],
+                socratic: [
+                  "every evening 提示这是「天天如此」的规律还是只发生一次？这类客观时间表，转述时是否常保持一般现在？",
+                  "若用 closed，更像「昨晚关了一次」还是「每晚都关」？哪一句更符合画面里说明的馆规？"
+                ]
+              },
+              {
+                parts: [{ text: "He said that the books " }, { correct: "were", choices: ["are", "were", "have been"] }, { text: " due last Friday." }],
+                socratic: [
+                  "last Friday 在还书这条时间线上已经过去了；转述「当时已经到期」的状态，用 are 会不会像在说「现在仍到期」？",
+                  "画面上管理员指着记录谈期限——这条「到期信息」与主句 said 的过去叙述，应对齐到哪一时态？"
+                ]
+              }
+            ]
+          },
+          {
+            img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L12/assets/l12p3-practice-lib-03.png",
+            sceneZh: "镜 3：学生点头，承诺当晚读完、不会再忘续借。",
+            sentences: [
+              {
+                parts: [{ text: "He said that he " }, { correct: "wouldn't", choices: ["won't", "wouldn't", "doesn't"] }, { text: " forget to renew again." }],
+                socratic: [
+                  "他承诺的是「以后再也不会忘」——从「他说」那一刻往后看的将来，在转述句里要不要随主句 said 一起往后挪？",
+                  "镜子里点头表示答应；won't 表「将不」，当主句变成过去 said 时，这个「将」还站在同一时间轴上吗？"
+                ]
+              },
+              {
+                parts: [{ text: "He promised that he " }, { correct: "would", choices: ["will", "would", "can"] }, { text: " finish reading that night." }],
+                socratic: [
+                  "that night 是相对「承诺当天」的晚上；主句 promised 已是过去，从句里表示「从当时看将会做完」常用 will 还是 would？",
+                  "画面里他指的是「今晚要读完」——这个「将会」与 promised 的先后关系是怎样的？"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        key: "b",
+        shots: [
+          {
+            img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L12/assets/l12p3-practice-sports-01.png",
+            sceneZh: "镜 1：体育老师拿名单在操场动员接力报名；班长表态参加，Lily 答应帮忙计时。",
+            sentences: [
+              {
+                parts: [{ text: "The monitor said that they " }, { correct: "would", choices: ["will", "would", "can"] }, { text: " join the relay race." }],
+                socratic: [
+                  "这一镜是操场动员：班长说的是「我们将会参加」；主句已是 said（过去），从句里表「从当时看将会报名」常用哪种形态？",
+                  "想一想：join 相对于「说」的那一刻，是已经跑完了还是尚未发生？尚未发生时 will 要不要后移？"
+                ]
+              },
+              {
+                parts: [{ text: "Lily said that she " }, { correct: "would", choices: ["will", "would", "is"] }, { text: " help time the runners." }],
+                socratic: [
+                  "Lily 当场答应「稍后会帮忙计时」；主句 said 把叙述放在过去，从句里「将会帮忙」与 will 的关系是什么？",
+                  "画面里计时帮忙是已经做完，还是她承诺将要做的事？这对选词有什么提示？"
+                ]
+              }
+            ]
+          },
+          {
+            img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L12/assets/l12p3-practice-sports-02.png",
+            sceneZh: "镜 2：队员们围在一起商量棒次与分工；教练强调集合时间，大家谈到赛前心情与训练效果。",
+            sentences: [
+              {
+                parts: [
+                  { text: "The coach told them that they " },
+                  { correct: "had to", choices: ["must", "had to", "should"] },
+                  { text: " be on the field at four." }
+                ],
+                socratic: [
+                  "这一镜里教练在布置「必须四点到场」；主句 told 已是过去，转述里表达「当时不得不服从」更自然的是 must 还是 had to？",
+                  "如果把「四点集合」看成那次训练当场的要求，这条义务与「现在此刻」还有直接关系吗？"
+                ]
+              },
+              {
+                parts: [{ text: "Tom said that he " }, { correct: "was", choices: ["is", "was", "were"] }, { text: " nervous before the race." }],
+                socratic: [
+                  "before the race 指赛前那一刻；转述「当时紧张」用 is 会不会把情绪拉到现在？",
+                  "想一想：nervous 描写的是 Tom 在哪个时间点的心情——与主句 said 是同一条过去时间线吗？"
+                ]
+              },
+              {
+                parts: [{ text: "Mike said that practice " }, { correct: "was", choices: ["is", "was", "has been"] }, { text: " useful for the team." }],
+                socratic: [
+                  "这一镜大家在商量训练；Mike 评价的是「当时练下来有没有用」；主句 said 在过去，从句里用 is 还是 was 更贴「那次」？",
+                  "若用 is，更像「永远成立」；若用 was，更像「就那次训练而言」。画面里更像哪一种？"
+                ]
+              }
+            ]
+          },
+          {
+            img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L12/assets/l12p3-practice-sports-03.png",
+            sceneZh: "镜 3：队长向全班表态，强调团队合作对取胜的重要性。",
+            sentences: [
+              {
+                parts: [{ text: "They said that teamwork " }, { correct: "was", choices: ["is", "was", "had been"] }, { text: " the key to winning." }],
+                socratic: [
+                  "这一镜是队长面向全班的总结表态：teamwork 是关键——更像「永恒真理」还是「就这次校运会、我们队而言」？",
+                  "若用 is，像在陈述宇宙真理；若用 was，更像在总结当时取胜看法。队长表态属于哪一种语气？"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ];
+
+    let picPracticeMounted = { a: false, b: false };
+    let picGapWired = false;
+    const picShotIx = { a: 0, b: 0 };
+    const picShotNavWired = { a: false, b: false };
+
+    function appendPixSentenceBlock(sentsEl, sent, si, idPrefix) {
+      const wrap = document.createElement("div");
+      wrap.className = "pix-sent";
+      const guides = Array.isArray(sent.socratic) ? sent.socratic.filter(Boolean) : [];
+      if (guides.length) {
+        const soc = document.createElement("div");
+        soc.className = "pix-sent-socratic";
+        guides.forEach((line) => {
+          const pSoc = document.createElement("p");
+          pSoc.textContent = line;
+          soc.appendChild(pSoc);
+        });
+        wrap.appendChild(soc);
+      }
+      const p = document.createElement("p");
+      p.className = "pix-sent-line";
+      p.lang = "en";
+      let gix = 0;
+      sent.parts.forEach((part) => {
+        if (typeof part === "string") {
+          p.appendChild(document.createTextNode(part));
+        } else if (part && part.correct) {
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "pix-gap-btn";
+          btn.textContent = "____";
+          btn.dataset.correct = part.correct;
+          btn.dataset.choices = part.choices.join("|");
+          btn.dataset.gapid = idPrefix + "-" + si + "-" + gix;
+          gix++;
+          p.appendChild(btn);
+        } else if (part && part.text != null) {
+          p.appendChild(document.createTextNode(part.text));
+        }
+      });
+      wrap.appendChild(p);
+      const row = document.createElement("div");
+      row.className = "pix-gap-row";
+      row.id = "pix-gap-row-" + idPrefix + "-" + si;
+      wrap.appendChild(row);
+      sentsEl.appendChild(wrap);
+    }
+
+    function mountShotsPicPractice(key, cfg) {
+      const framesEl = document.getElementById("pix-practice-" + key + "-frames");
+      const zhEl = document.getElementById("pix-practice-" + key + "-zh");
+      const sentsEl = document.getElementById("pix-practice-" + key + "-sents");
+      const idxEl = document.getElementById("pix-" + key + "-idx");
+      const prevBtn = document.getElementById("pix-" + key + "-prev");
+      const nextBtn = document.getElementById("pix-" + key + "-next");
+      if (!framesEl || !zhEl || !sentsEl || !idxEl || !prevBtn || !nextBtn || !cfg.shots || !cfg.shots.length) return;
+      function renderShot(i) {
+        const n = cfg.shots.length;
+        picShotIx[key] = ((i % n) + n) % n;
+        const ix = picShotIx[key];
+        const shot = cfg.shots[ix];
+        framesEl.innerHTML = "";
+        const fig = document.createElement("figure");
+        fig.style.margin = "0";
+        const im = document.createElement("img");
+        im.src = shot.img;
+        im.alt = "镜 " + (ix + 1);
+        im.loading = "lazy";
+        fig.appendChild(im);
+        const cap = document.createElement("figcaption");
+        cap.style.cssText = "font-size:0.78rem;color:#64748b;margin-top:0.35rem;font-weight:700";
+        cap.textContent = "镜 " + (ix + 1);
+        fig.appendChild(cap);
+        framesEl.appendChild(fig);
+        zhEl.textContent = shot.sceneZh || "";
+        idxEl.textContent = "镜 " + (ix + 1) + " / " + n;
+        sentsEl.innerHTML = "";
+        const idPrefix = key + "-s" + ix;
+        shot.sentences.forEach((sent, si) => appendPixSentenceBlock(sentsEl, sent, si, idPrefix));
+      }
+      renderShot(picShotIx[key]);
+      if (!picShotNavWired[key]) {
+        picShotNavWired[key] = true;
+        prevBtn.addEventListener("click", () => renderShot(picShotIx[key] - 1));
+        nextBtn.addEventListener("click", () => renderShot(picShotIx[key] + 1));
+      }
+    }
+
+    function mountPicPractice(key) {
+      if (picPracticeMounted[key]) return;
+      const cfg = PIC_PRACTICE_BANK.find((x) => x.key === key);
+      const root = document.getElementById("pix-practice-" + key + "-root");
+      if (!cfg || !root || !cfg.shots || !cfg.shots.length) return;
+      picPracticeMounted[key] = true;
+      mountShotsPicPractice(key, cfg);
+    }
+
+    function wirePicPracticeGapsOnce() {
+      if (picGapWired) return;
+      picGapWired = true;
+      document.body.addEventListener("click", (e) => {
+        const gapBtn = e.target.closest(".pix-gap-btn");
+        if (gapBtn && !gapBtn.disabled) {
+          const wrapSent = gapBtn.closest(".pix-sent");
+          if (!wrapSent) return;
+          wrapSent.querySelectorAll(".pix-gap-row").forEach((r) => {
+            r.classList.remove("open");
+            r.querySelectorAll(".pix-gap-choice").forEach((c) => {
+              c.disabled = false;
+            });
+          });
+          const row = wrapSent.querySelector(".pix-gap-row");
+          if (!row) return;
+          const choices = String(gapBtn.dataset.choices || "")
+            .split("|")
+            .filter(Boolean);
+          if (row.dataset.built !== "1") {
+            row.dataset.built = "1";
+            row.innerHTML = "";
+            choices.forEach((c) => {
+              const b = document.createElement("button");
+              b.type = "button";
+              b.className = "pix-gap-choice";
+              b.textContent = c;
+              b.dataset.pick = c;
+              row.appendChild(b);
+            });
+          }
+          row.classList.add("open");
+          return;
+        }
+        const pick = e.target.closest(".pix-gap-choice");
+        if (pick && !pick.disabled) {
+          const row = pick.closest(".pix-gap-row");
+          const wrapSent = pick.closest(".pix-sent");
+          const gapBtn2 = wrapSent && wrapSent.querySelector(".pix-gap-btn:not(:disabled)");
+          if (!gapBtn2) return;
+          const ok = pick.dataset.pick === gapBtn2.dataset.correct;
+          gapBtn2.textContent = pick.dataset.pick;
+          gapBtn2.classList.remove("done-ok", "done-bad");
+          gapBtn2.classList.add(ok ? "done-ok" : "done-bad");
+          gapBtn2.disabled = true;
+          row.querySelectorAll(".pix-gap-choice").forEach((c) => {
+            c.disabled = true;
+          });
+          row.classList.remove("open");
+        }
+      });
+    }
+
+    let storyFrameIx = 0;
+    let storyWired = false;
+    function resetStoryCaptionReveal() {
+      ["story-wrap-zh", "story-wrap-en"].forEach((id) => {
+        const wrap = document.getElementById(id);
+        if (!wrap) return;
+        wrap.classList.remove("is-open");
+        const hit = wrap.querySelector(".story-reveal-hit");
+        if (hit) hit.setAttribute("aria-expanded", "false");
+      });
+    }
+    function renderStoryFrame(i) {
+      storyFrameIx = (i + STORY_FRAMES.length) % STORY_FRAMES.length;
+      const f = STORY_FRAMES[storyFrameIx];
+      const img = document.getElementById("story-frame-img");
+      img.src = f.img;
+      img.alt = "分镜 " + (storyFrameIx + 1) + "：" + f.zh.slice(0, 40);
+      resetStoryCaptionReveal();
+      document.getElementById("story-zh").textContent = f.zh;
+      const enEl = document.getElementById("story-en");
+      if (f.en) {
+        enEl.lang = "en";
+        enEl.textContent = f.en;
+      } else {
+        enEl.removeAttribute("lang");
+        enEl.textContent = "（本镜无英文旁白，请结合画面讨论。）";
+      }
+      document.getElementById("story-teach").textContent = f.teach || "";
+      document.getElementById("story-idx").textContent = "镜 " + (storyFrameIx + 1) + " / " + STORY_FRAMES.length;
+    }
+    function wireStory() {
+      if (storyWired) return;
+      storyWired = true;
+      document.getElementById("story-hit-zh").addEventListener("click", () => {
+        const wrap = document.getElementById("story-wrap-zh");
+        wrap.classList.add("is-open");
+        document.getElementById("story-hit-zh").setAttribute("aria-expanded", "true");
+      });
+      document.getElementById("story-hit-en").addEventListener("click", () => {
+        const wrap = document.getElementById("story-wrap-en");
+        wrap.classList.add("is-open");
+        document.getElementById("story-hit-en").setAttribute("aria-expanded", "true");
+      });
+      document.getElementById("story-prev").addEventListener("click", () => renderStoryFrame(storyFrameIx - 1));
+      document.getElementById("story-next").addEventListener("click", () => renderStoryFrame(storyFrameIx + 1));
+      document.getElementById("story-play-en").addEventListener("click", () => {
+        const t = STORY_FRAMES[storyFrameIx].en;
+        if (t) playAudio(t, { lock: false });
+      });
+      document.getElementById("story-play-all").addEventListener("click", async () => {
+        for (let j = 0; j < STORY_FRAMES.length; j++) {
+          const t = STORY_FRAMES[j].en;
+          if (t) await playAudio(t, { lock: false });
+        }
+      });
+    }
+
+    const PAGE_COUNT = 12;
+    let currentPage = 1;
+    const uiLock = document.getElementById("ui-lock");
+    function lockUI() { uiLock.classList.add("active"); }
+    function unlockUI() { uiLock.classList.remove("active"); }
+
+    function escapeXml(s) {
+      return String(s)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
+    async function playAudio(text, opts) {
+      const useLock = !opts || opts.lock !== false;
+      if (useLock) lockUI();
+      const url = "https://" + AZURE_REGION + ".tts.speech.microsoft.com/cognitiveservices/v1";
+      const ssml =
+        "<speak version='1.0' xml:lang='en-US'><voice xml:lang='en-US' name='" +
+        AZURE_VOICE +
+        "'>" +
+        escapeXml(text) +
+        "</voice></speak>";
+      try {
+        const res = await fetch(url, {
+          method: "POST",
+          headers: {
+            "Ocp-Apim-Subscription-Key": AZURE_KEY,
+            "Content-Type": "application/ssml+xml",
+            "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3"
+          },
+          body: ssml
+        });
+        if (!res.ok) throw new Error(String(res.status));
+        const blob = await res.blob();
+        const u = URL.createObjectURL(blob);
+        const a = new Audio(u);
+        await new Promise((resolve, reject) => {
+          a.onended = () => {
+            URL.revokeObjectURL(u);
+            resolve();
+          };
+          a.onerror = reject;
+          a.play().catch(reject);
+        });
+      } catch (e) {
+        await new Promise((resolve) => {
+          const u = new SpeechSynthesisUtterance(text);
+          u.lang = "en-US";
+          u.onend = resolve;
+          u.onerror = resolve;
+          speechSynthesis.speak(u);
+        });
+      } finally {
+        if (useLock) unlockUI();
+      }
+    }
+
+    function goPage(n) {
+      if (n < 1 || n > PAGE_COUNT) return;
+      currentPage = n;
+      document.querySelectorAll(".lesson-page").forEach((el) => {
+        el.classList.toggle("active", parseInt(el.dataset.page, 10) === n);
+      });
+      document.getElementById("pager-mid").textContent = currentPage + " / " + PAGE_COUNT;
+      document.getElementById("pager-prev").disabled = currentPage <= 1;
+      document.getElementById("pager-next").disabled = currentPage >= PAGE_COUNT;
+      if (n === 1) loadPreCnQuiz(preCnIx);
+      if (n === 5) loadRsBank("a", rsaIx);
+      if (n === 7) loadRsBank("b", rsbIx);
+      if (n === 9) renderStoryFrame(storyFrameIx);
+      if (n === 10) mountPicPractice("a");
+      if (n === 11) mountPicPractice("b");
+    }
+
+    document.getElementById("pager-prev").addEventListener("click", () => {
+      if (currentPage > 1) goPage(currentPage - 1);
+    });
+    document.getElementById("pager-next").addEventListener("click", () => {
+      if (currentPage < PAGE_COUNT) goPage(currentPage + 1);
+    });
+
+    document.getElementById("p3-play-intro").addEventListener("click", () => {
+      playAudio('He said, "I am happy." He said that he was happy.', { lock: false });
+    });
+    document.getElementById("p3-play-tense-ex").addEventListener("click", () => {
+      playAudio("The teacher said that the earth goes around the sun.", { lock: false });
+    });
+
+    let rsaIx = 0;
+    let rsbIx = 0;
+    let rsaWired = false;
+    let rsbWired = false;
+
+    function loadRsBank(which, idx) {
+      const bank = which === "a" ? RS_BANK_A : RS_BANK_B;
+      const prefix = which === "a" ? "rsa" : "rsb";
+      let i = (idx + bank.length) % bank.length;
+      if (which === "a") rsaIx = i;
+      else rsbIx = i;
+      const it = bank[i];
+      document.getElementById(prefix + "-cat").textContent = it.cat;
+      document.getElementById(prefix + "-zh").textContent = it.zh;
+      document.getElementById(prefix + "-direct").textContent = it.direct;
+      document.getElementById(prefix + "-idx").textContent = "题 " + (i + 1) + " / " + bank.length;
+      document.getElementById(prefix + "-fb").textContent = "";
+      document.getElementById(prefix + "-fb").style.color = "";
+      const row = document.getElementById(prefix + "-row");
+      row.innerHTML = "";
+      it.opts.forEach((opt, oi) => {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.className = "mc-btn";
+        b.lang = "en";
+        b.textContent = String.fromCharCode(65 + oi) + ". " + opt;
+        b.addEventListener("click", () => {
+          row.querySelectorAll(".mc-btn").forEach((x) => {
+            x.classList.remove("correct", "wrong");
+            x.disabled = true;
+          });
+          const ok = oi === it.correct;
+          b.classList.add(ok ? "correct" : "wrong");
+          if (!ok) row.querySelectorAll(".mc-btn")[it.correct].classList.add("correct");
+          const fb = document.getElementById(prefix + "-fb");
+          fb.textContent = ok ? "对！" + it.ok : "再对照时态与人称想一想。";
+          fb.style.color = ok ? "#059669" : "#b45309";
+        });
+        row.appendChild(b);
+      });
+    }
+
+    function wireRsBank(which) {
+      const bank = which === "a" ? RS_BANK_A : RS_BANK_B;
+      const prefix = which === "a" ? "rsa" : "rsb";
+      document.getElementById(prefix + "-prev").addEventListener("click", () => {
+        const ix = which === "a" ? rsaIx - 1 : rsbIx - 1;
+        loadRsBank(which, ix);
+      });
+      document.getElementById(prefix + "-next").addEventListener("click", () => {
+        const ix = which === "a" ? rsaIx + 1 : rsbIx + 1;
+        loadRsBank(which, ix);
+      });
+      document.getElementById(prefix + "-play").addEventListener("click", () => {
+        const it = bank[which === "a" ? rsaIx : rsbIx];
+        playAudio(it.direct.replace(/"/g, " "), { lock: false });
+      });
+      document.getElementById(prefix + "-play-ok").addEventListener("click", () => {
+        const it = bank[which === "a" ? rsaIx : rsbIx];
+        playAudio(it.ok, { lock: false });
+      });
+    }
+
+    if (!rsaWired) {
+      rsaWired = true;
+      wireRsBank("a");
+    }
+    if (!rsbWired) {
+      rsbWired = true;
+      wireRsBank("b");
+    }
+
+    wirePicPracticeGapsOnce();
+    renderOralDrillList();
+    wirePreCnQuiz();
+    loadPreCnQuiz(0);
+    wireStory();
+    goPage(1);
+  </script>
+</body>
+</html>
