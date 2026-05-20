@@ -1046,9 +1046,11 @@
   <script>
     const PAGE_COUNT = 20;
     let currentPage = 1;
+    /** Azure Speech（与资源同属 Region：southeastasia）— 英/中文朗读均走 REST TTS */
     const AZURE_KEY = "C42UQWeDcluYanbo17WrtUnPhk0vkZy2uQHPTCGDzY6CdEXx99NzJQQJ99BIACqBBLyXJ3w3AAAYACOGjkyu";
     const AZURE_REGION = "southeastasia";
     const AZURE_VOICE = "en-US-AriaNeural";
+    const AZURE_VOICE_ZH = "zh-CN-XiaoxiaoNeural";
     function escapeXmlForTts(s) {
       return String(s)
         .replace(/&/g, "&amp;")
@@ -1107,14 +1109,50 @@
     function speakEnSlow(t) {
       playAzureEnglish(t, true).catch(function () {});
     }
-    function speakZh(t) {
+    async function playAzureChinese(text) {
+      const raw = String(text || "").trim();
+      if (!raw) return;
+      const url = "https://" + AZURE_REGION + ".tts.speech.microsoft.com/cognitiveservices/v1";
+      const ssml =
+        "<speak version='1.0' xml:lang='zh-CN'><voice xml:lang='zh-CN' name='" +
+        AZURE_VOICE_ZH +
+        "'>" +
+        escapeXmlForTts(raw) +
+        "</voice></speak>";
       try {
-        speechSynthesis.cancel();
-        const u = new SpeechSynthesisUtterance(t);
-        u.lang = "zh-CN";
-        u.rate = 0.95;
-        speechSynthesis.speak(u);
-      } catch (e) {}
+        const res = await fetch(url, {
+          method: "POST",
+          headers: {
+            "Ocp-Apim-Subscription-Key": AZURE_KEY,
+            "Content-Type": "application/ssml+xml",
+            "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3"
+          },
+          body: ssml
+        });
+        if (!res.ok) throw new Error(String(res.status));
+        const blob = await res.blob();
+        const u = URL.createObjectURL(blob);
+        const a = new Audio(u);
+        await new Promise(function (resolve, reject) {
+          a.onended = function () {
+            URL.revokeObjectURL(u);
+            resolve();
+          };
+          a.onerror = reject;
+          a.play().catch(reject);
+        });
+      } catch (e) {
+        try {
+          speechSynthesis.cancel();
+          const u = new SpeechSynthesisUtterance(raw);
+          u.lang = "zh-CN";
+          u.rate = 0.95;
+          speechSynthesis.speak(u);
+        } catch (e2) {}
+      }
+    }
+    function speakZh(t) {
+      playAzureChinese(t).catch(function () {});
     }
     function wireMcBank(prefix, bank) {
       var ix = 0;
