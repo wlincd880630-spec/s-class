@@ -394,7 +394,17 @@
       border-style: solid;
       border-color: var(--gold);
     }
-    .drag-floating img { width: 72px; height: auto; display: block; margin: 0 auto; }
+    /* 触屏：子元素 img 默认 touch-action:auto 会参与父级滚动协商，导致拖不动；命中交给外层 div（Pointer Events） */
+    .drag-floating img {
+      width: 72px;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+      pointer-events: none;
+      -webkit-user-drag: none;
+      user-select: none;
+      touch-action: none;
+    }
 
     /* 门禁读卡器内屏：复古绿色像素 / 点阵终端风 */
     .reader-screen-pop {
@@ -837,13 +847,13 @@
                   <div class="tools-row">
                     <div class="tool-item">
                       <div class="drag-floating" id="drag-library-card" data-card-type="library">
-                        <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L12/assets/reading-card.png" alt="[Composer 2 Prompt]: A realistic plastic library access card with lanyard hole, subtle barcode, no readable personal text, academic institution style." />
+                        <img draggable="false" src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L12/assets/reading-card.png" alt="[Composer 2 Prompt]: A realistic plastic library access card with lanyard hole, subtle barcode, no readable personal text, academic institution style." />
                         <span>阅览卡</span>
                       </div>
                     </div>
                     <div class="tool-item">
                       <div class="drag-floating" id="drag-key" data-card-type="key" style="opacity:0.85">
-                        <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L12/assets/door-key.png" alt="[Composer 2 Prompt]: A simple metal door key on white background, flat product photo style, educational prop." />
+                        <img draggable="false" src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L12/assets/door-key.png" alt="[Composer 2 Prompt]: A simple metal door key on white background, flat product photo style, educational prop." />
                         <span>钥匙</span>
                       </div>
                     </div>
@@ -1393,6 +1403,7 @@
     function bindDrag(el, onDrop) {
       let startX = 0, startY = 0, origLeft = 0, origTop = 0, pid = null;
       const lastPtr = { x: 0, y: 0 };
+      const peOpts = { passive: false };
       el.addEventListener("pointerdown", (e) => {
         if (uiLock.classList.contains("active")) return;
         e.preventDefault();
@@ -1409,16 +1420,17 @@
         el.style.left = r.left + "px";
         el.style.top = r.top + "px";
         el.style.width = r.width + "px";
-      });
+      }, peOpts);
       el.addEventListener("pointermove", (e) => {
         if (!el.classList.contains("dragging") || e.pointerId !== pid) return;
+        e.preventDefault();
         lastPtr.x = e.clientX;
         lastPtr.y = e.clientY;
         const dx = e.clientX - startX;
         const dy = e.clientY - startY;
         el.style.left = origLeft + dx + "px";
         el.style.top = origTop + dy + "px";
-      });
+      }, peOpts);
       el.addEventListener("pointerup", (e) => {
         if (e.pointerId !== pid) return;
         if (!el.classList.contains("dragging")) return;
@@ -1434,14 +1446,21 @@
         el.style.top = "";
         el.style.width = "";
         onDrop(zone, el, e);
-      });
-      el.addEventListener("pointercancel", () => {
+      }, peOpts);
+      el.addEventListener("pointercancel", (e) => {
+        if (pid != null) {
+          try {
+            el.releasePointerCapture(pid);
+          } catch (x) {
+            /* noop */
+          }
+        }
         pid = null;
         el.classList.remove("dragging");
         el.style.left = "";
         el.style.top = "";
         el.style.width = "";
-      });
+      }, peOpts);
     }
 
     function renderModuleAGate(parts, hlIdx, maxLabeledIdx) {
@@ -1781,6 +1800,7 @@
     function bindSentenceDrag(el) {
       let pid = null, sx, sy, ol, ot;
       const lastPtr = { x: 0, y: 0 };
+      const peOpts = { passive: false };
       el.addEventListener("pointerdown", (e) => {
         if (uiLock.classList.contains("active")) return;
         e.preventDefault();
@@ -1797,14 +1817,15 @@
         el.style.left = r.left + "px";
         el.style.top = r.top + "px";
         el.style.width = r.width + "px";
-      });
+      }, peOpts);
       el.addEventListener("pointermove", (e) => {
         if (!el.classList.contains("dragging") || e.pointerId !== pid) return;
+        e.preventDefault();
         lastPtr.x = e.clientX;
         lastPtr.y = e.clientY;
         el.style.left = ol + (e.clientX - sx) + "px";
         el.style.top = ot + (e.clientY - sy) + "px";
-      });
+      }, peOpts);
       el.addEventListener("pointerup", (e) => {
         if (e.pointerId !== pid) return;
         if (!el.classList.contains("dragging")) return;
@@ -1833,7 +1854,21 @@
             setTimeout(() => flashEl.classList.remove("flash-bad"), 300);
           }
         }
-      });
+      }, peOpts);
+      el.addEventListener("pointercancel", () => {
+        if (pid != null) {
+          try {
+            el.releasePointerCapture(pid);
+          } catch (x) {
+            /* noop */
+          }
+        }
+        pid = null;
+        el.classList.remove("dragging");
+        el.style.left = "";
+        el.style.top = "";
+        el.style.width = "";
+      }, peOpts);
     }
 
     for (let ri = 0; ri < ACADEMIC_CORPUS.Imitation_Match.length; ri++) {
@@ -1906,6 +1941,7 @@
     function bindSortDrag(el) {
       let pid = null, sx, sy, ol, ot;
       const lastPtr = { x: 0, y: 0 };
+      const peOpts = { passive: false };
       el.addEventListener("pointerdown", (e) => {
         if (uiLock.classList.contains("active")) return;
         e.preventDefault();
@@ -1922,14 +1958,15 @@
         el.style.left = r.left + "px";
         el.style.top = r.top + "px";
         el.style.width = r.width + "px";
-      });
+      }, peOpts);
       el.addEventListener("pointermove", (e) => {
         if (!el.classList.contains("dragging") || e.pointerId !== pid) return;
+        e.preventDefault();
         lastPtr.x = e.clientX;
         lastPtr.y = e.clientY;
         el.style.left = ol + (e.clientX - sx) + "px";
         el.style.top = ot + (e.clientY - sy) + "px";
-      });
+      }, peOpts);
       el.addEventListener("pointerup", (e) => {
         if (e.pointerId !== pid) return;
         if (!el.classList.contains("dragging")) return;
@@ -1952,7 +1989,21 @@
           zone.dataset.placed = el.dataset.blockText;
           el.remove();
         }
-      });
+      }, peOpts);
+      el.addEventListener("pointercancel", () => {
+        if (pid != null) {
+          try {
+            el.releasePointerCapture(pid);
+          } catch (x) {
+            /* noop */
+          }
+        }
+        pid = null;
+        el.classList.remove("dragging");
+        el.style.left = "";
+        el.style.top = "";
+        el.style.width = "";
+      }, peOpts);
     }
 
     document.getElementById("btn-sort-submit").addEventListener("click", () => {
