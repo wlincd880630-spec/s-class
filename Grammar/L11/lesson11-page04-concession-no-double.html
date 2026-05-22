@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>状语从句 —— 让步与不连用</title>
+  <link rel="stylesheet" href="assets/lesson-screen-16x9.css" />
+  <link rel="stylesheet" href="l11-index-nav.css" />
+  <style>
+    :root {
+      --paper: #fff9f0; --ink: #2c2c2c; --edge: #5d4037;
+      --crayon-rose: #f43f5e; --crayon-teal: #14b8a6; --gold: #d4af37;
+      --shadow-book: rgba(60, 40, 20, 0.14);
+      --conc: #ffe4e6; --conc-ink: #be123c;
+      --rule: #ccfbf1; --rule-ink: #0f766e;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0; min-height: 100dvh;
+      font-family: system-ui, -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: linear-gradient(165deg, #4c0519 0%, #1a1420 45%, #120c18 100%);
+      color: var(--ink); line-height: 1.55;
+    }
+    body.has-lesson-pager { align-items: stretch !important; justify-content: flex-start; }
+    body.has-lesson-pager > #app {
+      width: 100% !important; max-width: 100% !important;
+      margin: 0 !important;
+      padding-left: max(8px, var(--lesson-s-l, 0px));
+      padding-right: max(8px, var(--lesson-s-r, 0px));
+    }
+    @media (min-width: 769px) and (min-height: 560px) {
+      body.has-lesson-pager > #app {
+        --l11-stage-vw: calc(100vw - var(--lesson-s-l) - var(--lesson-s-r) - 16px);
+        --l11-stage-vh: calc(100dvh - var(--lesson-pager-gap, 4.35rem) - max(4px, var(--lesson-s-t)) - max(4px, var(--lesson-s-b)) - 12px);
+        width: var(--l11-stage-vw) !important; max-width: var(--l11-stage-vw) !important;
+        height: var(--l11-stage-vh) !important; max-height: var(--l11-stage-vh) !important;
+        aspect-ratio: unset !important; flex: 1 1 auto !important;
+      }
+    }
+    #ui-lock { display: none; position: fixed; inset: 0; z-index: 9998; cursor: wait; }
+    #ui-lock.active { display: block; }
+    #app {
+      flex: 1 1 auto; width: 100%; max-width: 100%; margin: 0;
+      padding: min(10px, 1.2vw) min(12px, 1.5vw);
+      display: flex; flex-direction: column;
+      min-height: calc(100dvh - var(--lesson-pager-gap, 4.35rem) - 8px);
+      min-width: 0;
+    }
+    .hidden { display: none !important; }
+    #l11-book.book {
+      position: relative; flex: 1 1 auto; min-height: 0;
+      display: flex; flex-direction: column;
+      background: var(--paper); border: 4px solid var(--crayon-rose);
+      border-radius: 14px 30px 16px 24px;
+      box-shadow: 0 10px 0 rgba(244, 63, 94, 0.22), 0 22px 40px var(--shadow-book);
+      overflow: hidden;
+    }
+    #l11-book.book::before {
+      content: ""; position: absolute; inset: 10px;
+      border: 2px dashed rgba(93, 64, 55, 0.28); border-radius: 10px 20px 12px 18px;
+      pointer-events: none; z-index: 0;
+    }
+    .top-bar {
+      z-index: 2; margin: 10px 12px 0; border: 3px solid var(--crayon-rose);
+      border-radius: 999px; background: linear-gradient(180deg, #fff, #fff1f2);
+      text-align: center; padding: 10px 14px;
+      font-size: clamp(0.82rem, 0.35vw + 0.76rem, 0.98rem);
+    }
+    .top-bar strong { color: var(--conc-ink); }
+    .subtitle-line { display: block; margin-top: 4px; font-size: 0.86em; color: #6d4c41; font-weight: 600; }
+    .l11-scroll {
+      position: relative; z-index: 1; flex: 1 1 auto; min-height: 0;
+      overflow: hidden auto; padding: 8px 12px 14px;
+    }
+    .lesson-page {
+      display: none; flex-direction: column; gap: 0.65rem;
+      min-height: min(100%, calc(100dvh - var(--lesson-pager-gap, 4.35rem) - 140px));
+      animation: l11fade 0.35s ease;
+    }
+    .lesson-page.active { display: flex; }
+    @keyframes l11fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+    .page-head {
+      display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between;
+      gap: 0.35rem 0.75rem; padding-bottom: 0.35rem;
+      border-bottom: 3px solid rgba(93, 64, 55, 0.15);
+    }
+    .page-kicker { font-size: 0.78rem; font-weight: 800; color: #6d4c41; }
+    .page-title { margin: 0; font-size: clamp(1.05rem, 1.8vw + 0.55rem, 1.35rem); font-weight: 900; color: var(--conc-ink); }
+    .page-title.rule { color: var(--rule-ink); }
+    .panel {
+      background: rgba(255,255,255,0.92); border: 3px solid var(--edge);
+      border-radius: 14px 22px 12px 18px; padding: clamp(0.75rem, 1.5vw, 1.1rem);
+      box-shadow: 0 5px 0 rgba(93,64,55,0.08);
+    }
+    .scene-frame {
+      width: 100%; aspect-ratio: 4 / 3; min-height: 0;
+      border-radius: 12px 18px 10px 16px; border: 3px solid var(--edge);
+      background: linear-gradient(145deg, #134e4a, #4c0519);
+      overflow: hidden; display: flex; align-items: center; justify-content: center;
+    }
+    .scene-frame img { width: 100%; height: 100%; object-fit: contain; display: block; }
+    .en-line {
+      font-size: var(--lesson-fs-en-line, 1.12rem); font-weight: 800; color: #1e293b;
+      margin: 0.4rem 0; line-height: 1.45;
+    }
+    .rule-box {
+      padding: 0.65rem 0.75rem; border-radius: 12px; font-weight: 700; font-size: 0.92rem; margin: 0.5rem 0;
+    }
+    .rule-box.conc { background: #fff1f2; border-left: 5px solid var(--crayon-rose); color: #9f1239; }
+    .rule-box.rule { background: var(--rule); border-left: 5px solid var(--crayon-teal); color: var(--rule-ink); }
+    .rule-box.both { background: linear-gradient(90deg, #fff1f2, #f0fdfa); border-left: 5px solid var(--gold); color: #422006; }
+    .zh-tag {
+      display: inline-block; font-size: 0.78rem; font-weight: 800; padding: 0.15rem 0.5rem;
+      border-radius: 6px; margin-right: 0.35rem;
+    }
+    .zh-tag.conc { background: var(--conc); color: var(--conc-ink); }
+    .zh-tag.rule { background: var(--rule); color: var(--rule-ink); }
+    .compare-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; margin: 0.5rem 0; }
+    .compare-table th, .compare-table td { border: 2px solid #e2e8f0; padding: 0.45rem 0.55rem; text-align: left; }
+    .compare-table th { background: #f1f5f9; font-weight: 800; }
+    .compare-table .bad { color: #b91c1c; text-decoration: line-through; font-weight: 800; }
+    .compare-table .ok { color: #047857; font-weight: 800; }
+    .channel-row { display: flex; flex-wrap: wrap; gap: 0.65rem; margin-top: 0.65rem; }
+    .channel-btn {
+      flex: 1 1 200px; min-height: 56px; padding: 0.75rem 1rem; border-radius: 14px;
+      border: 3px solid var(--edge); font-weight: 900; font-size: 1rem; cursor: pointer;
+    }
+    .channel-btn.conc { background: linear-gradient(135deg, #ffe4e6, #fecdd3); color: var(--conc-ink); }
+    .channel-btn.rule { background: linear-gradient(135deg, #ccfbf1, #99f6e4); color: var(--rule-ink); }
+    .btn-row { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.5rem 0; }
+    .btn {
+      min-height: 44px; padding: 0.45rem 1rem; border-radius: 999px; border: 3px solid var(--edge);
+      background: #fff; font-weight: 800; cursor: pointer; font-size: 0.88rem;
+    }
+    .btn.rose { background: linear-gradient(135deg, var(--crayon-rose), #be123c); color: #fff; border-color: #9f1239; }
+    .btn.teal { background: linear-gradient(135deg, var(--crayon-teal), #0f766e); color: #fff; border-color: #115e59; }
+    .btn.ghost { background: #f8fafc; color: #334155; }
+    .btn:disabled { opacity: 0.45; cursor: not-allowed; }
+    .flip-card {
+      padding: 0.85rem; border-radius: 14px; border: 3px solid #fda4af;
+      background: #fff1f2; margin: 0.5rem 0;
+    }
+    .flip-card .label { font-size: 0.82rem; font-weight: 800; color: #64748b; margin-bottom: 0.35rem; }
+    .carousel-card {
+      padding: 0.85rem; border-radius: 14px; border: 3px solid #fda4af;
+      background: #fffbeb; margin: 0.5rem 0;
+    }
+    .carousel-card .zh-hint { font-size: 0.86rem; color: #6d4c41; font-weight: 700; margin-top: 0.35rem; }
+    .trap-item {
+      margin: 0.5rem 0; padding: 0.65rem; border-radius: 12px;
+      border: 2px solid #fecaca; background: #fff5f5;
+    }
+    .trap-item .wrong { color: #b91c1c; font-weight: 800; text-decoration: line-through; }
+    .trap-item .right { color: #047857; font-weight: 800; margin-top: 0.35rem; }
+    .dialogue-block {
+      margin: 0.55rem 0; padding: 0.65rem; border-radius: 12px;
+      border: 2px solid #fbcfe8; background: #fdf2f8;
+    }
+    .dialogue-block p { margin: 0.3rem 0; font-weight: 800; }
+    .quiz-item { padding: 0.65rem; margin: 0.45rem 0; border-radius: 12px; border: 2px solid #e2e8f0; }
+    .quiz-item.done { border-color: #5cb85c; background: #f0fdf4; }
+    .opt-row { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.4rem; }
+    .opt-row button {
+      min-height: 40px; padding: 0.35rem 0.75rem; border-radius: 10px;
+      border: 2px solid #cbd5e1; background: #fff; font-weight: 700; cursor: pointer;
+    }
+    .opt-row button.ok { background: #d1fae5; border-color: #047857; }
+    .opt-row button.bad { background: #fee2e2; border-color: #b91c1c; }
+    .fb { margin-top: 0.35rem; font-weight: 700; font-size: 0.88rem; color: #4c1d95; min-height: 1.2em; }
+    .summary-list { margin: 0; padding-left: 1.2rem; font-weight: 700; }
+    .summary-list li { margin: 0.35rem 0; }
+    .summary-list li a { color: var(--conc-ink); font-weight: 800; }
+    .goal-list { margin: 0.5rem 0 0; padding: 0; list-style: none; }
+    .goal-list li {
+      margin: 0.35rem 0; padding: 0.45rem 0.55rem; border-radius: 10px;
+      background: #fff1f2; font-weight: 700; font-size: 0.9rem;
+    }
+    .tier-label {
+      display: inline-block; font-size: 0.72rem; font-weight: 900;
+      padding: 0.12rem 0.45rem; border-radius: 6px; margin-right: 0.35rem;
+      background: #ede9fe; color: #5b21b6;
+    }
+    .oral-card {
+      margin: 0.5rem 0; padding: 0.65rem; border-radius: 12px;
+      border: 2px solid #fda4af; background: #fff1f2;
+    }
+    .oral-card.rule { border-color: #5eead4; background: #f0fdfa; }
+    .oral-card p { margin: 0.35rem 0; font-weight: 800; }
+    .carousel-jump-row { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 0.5rem; }
+    .carousel-jump-btn {
+      min-height: 38px; padding: 0.3rem 0.65rem; border-radius: 999px;
+      border: 2px solid #fda4af; background: #fff; font-weight: 800; font-size: 0.8rem; cursor: pointer;
+    }
+    .carousel-jump-btn.teal { border-color: #5eead4; }
+    .carousel-jump-btn.active { background: #ffe4e6; border-color: #be123c; color: #9f1239; }
+    .carousel-jump-btn.done::after { content: " ✓"; color: #047857; }
+    .write-chip {
+      display: inline-block; margin: 0.25rem; padding: 0.35rem 0.65rem;
+      border-radius: 10px; border: 2px dashed #fda4af; background: #fff1f2;
+      font-weight: 700; font-size: 0.86rem; cursor: pointer;
+    }
+    .write-chip.rule { border-color: #5eead4; background: #f0fdfa; }
+    .hl-al { background: #fecdd3; padding: 0 3px; border-radius: 3px; }
+    body.has-lesson-pager nav.lesson-pager button.pager-prev,
+    body.has-lesson-pager nav.lesson-pager button.pager-next,
+    body.has-lesson-pager nav.lesson-pager .pager-mid {
+      flex: 1 1 0; font-weight: 800; padding: 0.42rem; border-radius: 999px;
+      border: 3px solid #5d4037; cursor: pointer;
+      font-size: clamp(0.72rem, 2.4vw, 0.88rem);
+    }
+    body.has-lesson-pager nav.lesson-pager button.pager-next {
+      color: #4e342e; background: linear-gradient(180deg, #ffe082, #ffca28);
+    }
+    body.has-lesson-pager nav.lesson-pager button:disabled { opacity: 0.5; }
+  </style>
+</head>
+<body>
+  <div id="ui-lock" aria-hidden="true"></div>
+
+  <div id="app">
+    <div id="l11-book" class="book">
+      <header class="top-bar">
+        <strong>状语从句</strong> —— 让步与不连用
+        <span class="subtitle-line">although / though · 不与 but 连用 · because 与 so 二选一</span>
+      </header>
+      <div class="l11-scroll">
+
+        <section class="lesson-page active" data-page="1">
+          <div class="page-head"><span class="page-kicker">1 / 11</span><h2 class="page-title">状语从句 —— 课程目标</h2></div>
+          <div class="panel panel-split">
+            <div class="stage-visual">
+              <div class="scene-frame">
+                <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p04-concession-rules-split.png" alt="让步与不连用" />
+              </div>
+            </div>
+            <div class="stage-body">
+              <p style="font-weight:800;margin:0 0 0.45rem;color:#be123c">课程目标</p>
+              <ul class="goal-list">
+                <li>① <strong>让步</strong>：although / though · 虽然……仍然…… · 可与 but 版互转</li>
+                <li>② <strong>红线</strong>：× Although…, but… · × Because…, so…（呼应 Page 02）</li>
+                <li>③ <strong>口语/写作</strong>：Although the plan may not be perfect, I will…</li>
+              </ul>
+              <div class="rule-box both">全课红线：× Although…, but… · × Because…, so…</div>
+              <div class="channel-row">
+                <button type="button" class="channel-btn conc" data-goto="2">🌧 让步频道<br><span style="font-size:0.82rem;font-weight:600">although · though</span></button>
+                <button type="button" class="channel-btn rule" data-goto="7">🛡 不连用红线<br><span style="font-size:0.82rem;font-weight:600">一层连词</span></button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="2">
+          <div class="page-head"><span class="page-kicker">2 / 11</span><h2 class="page-title">状语从句 —— 让步 although</h2></div>
+          <div class="panel panel-split">
+            <div class="stage-visual">
+              <div class="scene-frame"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p04-bridge-rain.png" alt="尽管仍前行" /></div>
+            </div>
+            <div class="stage-body">
+              <div class="rule-box conc"><span class="hl-al">Although / Though</span> + 从句，+ 主句。<strong>主句侧不再用 but</strong> 连接同一转折。</div>
+              <p class="en-line" lang="en"><span class="hl-al">Although</span> the sun was strong, everyone arrived on time.</p>
+              <p class="en-line" lang="en"><span class="hl-al">Though</span> I was afraid at first, I felt braver later.</p>
+              <p style="font-size:0.88rem;font-weight:700;color:#9f1239">语义：虽然 A，仍然 B（B 是重点）。</p>
+              <button type="button" class="btn ghost" data-speak="Although the sun was strong, everyone arrived on time.">朗读示范</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="3">
+          <div class="page-head"><span class="page-kicker">3 / 11</span><h2 class="page-title">状语从句 —— although 与 but 互转</h2></div>
+          <div class="panel panel-split">
+            <div class="stage-visual">
+              <div class="scene-frame"><img id="swap-scene-img" src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p05-merge-06-cold-hike.png" alt="天冷仍徒步" /></div>
+            </div>
+            <div class="stage-body">
+              <p style="font-weight:700"><span class="tier-label">分层 A</span>同一意思<strong>二选一</strong>：让步从句版 或 并列 but 版，不可合并 · 场景标签可跳转。</p>
+              <div class="carousel-jump-row" id="swap-jump"></div>
+              <div class="flip-card" id="swap-card">
+                <div class="label" id="swap-label">组 1 / 10</div>
+                <p class="en-line" lang="en" id="swap-en"></p>
+                <p style="font-size:0.86rem;font-weight:700;color:#6d4c41" id="swap-mode"></p>
+              </div>
+              <div class="btn-row">
+                <button type="button" class="btn ghost" id="swap-flip">显示 but 版</button>
+                <button type="button" class="btn ghost" id="swap-speak">朗读当前句</button>
+              </div>
+            </div>
+          </div>
+          <div class="panel" style="margin-top:0.65rem">
+            <p style="font-weight:800;margin:0 0 0.5rem"><span class="tier-label">分层 B</span>哪句犯了「双连词」错误？（4 题）</p>
+            <div id="swap-pick-quiz"></div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="4">
+          <div class="page-head"><span class="page-kicker">4 / 11</span><h2 class="page-title">状语从句 —— although 与 though</h2></div>
+          <div class="panel panel-split">
+            <div class="stage-visual">
+              <div class="scene-frame"><img id="th-scene-img" src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p04-th-01-late-reading.png" alt="晚睡仍读" /></div>
+            </div>
+            <div class="stage-body">
+              <p style="font-weight:700"><span class="tier-label">分层 A</span>句首让步：although 与 though 常可互换 · 场景标签可跳转。</p>
+              <div class="carousel-jump-row" id="th-jump"></div>
+              <div class="flip-card">
+                <div class="label" id="th-label">1 / 6</div>
+                <p class="en-line" lang="en" id="th-en"></p>
+              </div>
+              <div class="btn-row">
+                <button type="button" class="btn ghost" id="th-flip">显示 though 版</button>
+                <button type="button" class="btn ghost" id="th-speak">朗读本句</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="5">
+          <div class="page-head"><span class="page-kicker">5 / 11</span><h2 class="page-title">状语从句 —— 让步例句</h2></div>
+          <div class="panel panel-split">
+            <div class="stage-visual">
+              <div class="scene-frame"><img id="ex-scene-img" src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p04-ex-01-difficult-problem.png" alt="难题" /></div>
+            </div>
+            <div class="stage-body">
+              <p style="font-weight:700"><span class="tier-label">分层 A</span>12 条让步情境句 · 场景标签可跳转（进度保留）。</p>
+              <div class="carousel-jump-row" id="ex-jump"></div>
+              <div class="carousel-card">
+                <div class="label" id="ex-label">1 / 12</div>
+                <p class="en-line" lang="en" id="ex-en"></p>
+                <p class="zh-hint" id="ex-zh"></p>
+              </div>
+              <div class="btn-row">
+                <button type="button" class="btn rose" id="ex-speak">朗读本句</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="6">
+          <div class="page-head"><span class="page-kicker">6 / 11</span><h2 class="page-title">状语从句 —— 陷阱</h2></div>
+          <div class="panel">
+            <p style="font-weight:800;margin:0 0 0.5rem"><span class="tier-label">分层 A</span>错句→正句（含 although+but 与 because+so）：</p>
+            <div id="trap-list"></div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="7">
+          <div class="page-head"><span class="page-kicker">7 / 11</span><h2 class="page-title rule">状语从句 —— 不连用红线</h2></div>
+          <div class="panel panel-split">
+            <div class="stage-visual">
+              <div class="scene-frame"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p04-one-link-only.png" alt="一层连词" /></div>
+            </div>
+            <div class="stage-body">
+              <table class="compare-table">
+                <tr><th>禁止叠用</th><th>错误</th><th>正确（二选一）</th></tr>
+                <tr>
+                  <td>although + but</td>
+                  <td class="bad">Although it was cold, but we went out.</td>
+                  <td class="ok">Although it was cold, we went out.<br>It was cold, but we went out.</td>
+                </tr>
+                <tr>
+                  <td>because + so</td>
+                  <td class="bad">Because he was tired, so he went to bed.</td>
+                  <td class="ok">Because he was tired, he went to bed.<br>He was tired, so he went to bed.</td>
+                </tr>
+              </table>
+              <div class="rule-box rule">写作自检：句子里<strong>转折/因果只保留一层连词</strong>——从句引导词 或 并列连词，不要两套同时上场。</div>
+              <hr style="border:none;border-top:2px dashed #e2e8f0;margin:0.65rem 0" />
+              <p style="font-weight:800"><span class="tier-label">分层 B</span>选出符合「一层连词」的句子：</p>
+              <div id="one-link-pick"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="8">
+          <div class="page-head"><span class="page-kicker">8 / 11</span><h2 class="page-title">状语从句 —— 对话与提高</h2></div>
+          <div class="panel">
+            <p style="font-weight:800"><span class="tier-label">分层 A</span>分角色朗读 · 点击可听完整对话：</p>
+            <div id="dialogue-box"></div>
+            <p style="font-weight:800;margin-top:0.65rem"><span class="tier-label">分层 B</span>口语任务：用 Although/Though 回应同伴的担心。</p>
+            <details style="margin-top:0.75rem">
+              <summary style="font-weight:800;cursor:pointer;color:#7c2d12">提高 · even though（语气更强）</summary>
+              <div id="even-box" style="margin-top:0.5rem"></div>
+            </details>
+            <details style="margin-top:0.5rem">
+              <summary style="font-weight:800;cursor:pointer;color:#6d4c41">拓展 · 句末 though（副词）</summary>
+              <p class="en-line" lang="en">The plan wasn't perfect. It worked, though.</p>
+              <p style="font-size:0.86rem;font-weight:600">此处 though 不作从句引导，阅读见即可。</p>
+            </details>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="9">
+          <div class="page-head"><span class="page-kicker">9 / 11</span><h2 class="page-title">状语从句 —— 快选</h2></div>
+          <div class="panel">
+            <p style="font-weight:800;margin:0 0 0.5rem"><span class="tier-label">分层 B</span>辨认让步 / 找不连用错 / 中考语境（成都改编）</p>
+            <div id="mix-quiz"></div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="10">
+          <div class="page-head"><span class="page-kicker">10 / 11</span><h2 class="page-title">状语从句 —— 小结</h2></div>
+          <div class="panel">
+            <ul class="summary-list">
+              <li><strong>让步</strong>：Although/Though + 从句 + 主句；可与 but 版互转，<strong>不可同句叠用</strong>。</li>
+              <li><strong>不连用</strong>：× Although…, but… · × Because…, so…</li>
+              <li>暑假计划可写：Although the plan may not be perfect, I will follow it.</li>
+              <li>学习顺序：让步 → 例句 → 陷阱 → 红线 → 对话 → 快选 → 口语与写作。</li>
+              <li>下一页：<a href="lesson11-page05-time-merge.html" style="color:#1d4ed8">时间 until · as soon as + 合并句（Page 05）</a>。</li>
+            </ul>
+            <p style="margin-top:0.75rem;text-align:center;font-weight:800">
+              <a href="#" data-goto="11" style="color:#be123c">→ 第 11 屏：暑假口语与写作</a>
+            </p>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="11">
+          <div class="page-head"><span class="page-kicker">11 / 11</span><h2 class="page-title">状语从句 —— 暑假口语与写作</h2></div>
+          <div class="panel">
+            <p style="font-weight:700;margin:0 0 0.5rem"><span class="tier-label">分层 C</span>口语 &amp; 写作衔接 · 先读中文，再跟读英文；点击芯片插入你的计划草稿。</p>
+            <div class="rule-box conc" style="margin-bottom:0.65rem">
+              <strong>写作建议：</strong>至少各写 1 句——<strong>Although/Though</strong> 写「尽管……仍然……」· 因果/转折只用一层连词（because 或 so · but 或 although，不叠用）。
+            </div>
+            <div id="oral-conc-box"></div>
+            <div id="oral-rule-box"></div>
+            <hr style="border:none;border-top:2px dashed #e2e8f0;margin:0.85rem 0" />
+            <p style="font-weight:800;margin:0 0 0.35rem">点击插入你的计划/反思草稿：</p>
+            <p class="oral-section-hint" style="font-size:0.86rem;font-weight:700;color:#64748b;margin:0 0 0.4rem">玫瑰色芯片＝让步 although/though · 青色芯片＝一层连词自检</p>
+            <div id="writing-bridge"></div>
+            <textarea id="p04-draft" rows="4" style="width:100%;margin-top:0.5rem;padding:0.55rem;border-radius:10px;border:2px solid #e2e8f0;font:inherit" placeholder="Although the plan may not be perfect, I will... He was tired, so he..."></textarea>
+            <p style="margin-top:0.75rem;text-align:center;font-weight:800;color:var(--conc-ink)">
+              Page 04 完成 · <a href="lesson11-page05-time-merge.html" style="color:#1d4ed8">进入 Page 05</a>
+            </p>
+          </div>
+        </section>
+
+      </div>
+    </div>
+    <nav class="lesson-pager" aria-label="分页">
+      <button type="button" class="pager-prev" id="pager-prev">上一页</button>
+      <span class="pager-mid" id="pager-mid">1 / 10</span>
+      <button type="button" class="pager-next" id="pager-next">下一页</button>
+    </nav>
+  </div>
+
+  <script src="l11-image-lightbox.js"></script>
+  <script src="l11-index-nav.js"></script>
+  <script>
+    const AZURE_KEY = "C42UQWeDcluYanbo17WrtUnPhk0vkZy2uQHPTCGDzY6CdExx99NzJQQJ99BIACqBBLyXJ3w3AAAYACOGjkyu";
+    const AZURE_REGION = "southeastasia";
+    const VOICE_EN = "en-US-AriaNeural";
+    const PAGE_COUNT = 11;
+
+    const P04 = {
+      swapAlthoughBut: [
+        { although: "Although it was cold, we went hiking.", but: "It was cold, but we went hiking.", tag: "天冷仍徒步", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p05-merge-06-cold-hike.png", oralQ: "Say the same idea with although, then with but." },
+        { although: "Though the exam was hard, she stayed calm.", but: "The exam was hard, but she stayed calm.", tag: "考试难仍冷静", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p03-such-03-important-exam.png", oralQ: "How did she feel during the hard exam?" },
+        { although: "Although he felt nervous, he raised his hand.", but: "He felt nervous, but he raised his hand.", tag: "紧张仍举手", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p04-ex-09-braver.png", oralQ: "What did he do although he was nervous?" },
+        { although: "Although we were tired, we finished the task.", but: "We were tired, but we finished the task.", tag: "累仍完成", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p04-ex-12-volunteer.png", oralQ: "Did they stop when they were tired?" },
+        { although: "Though it rained, the match went on.", but: "It rained, but the match went on.", tag: "下雨仍比赛", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p04-bridge-rain.png", oralQ: "What happened to the match in the rain?" },
+        { although: "Although the line was long, we waited patiently.", but: "The line was long, but we waited patiently.", tag: "排队仍耐心", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p03-such-07-long-queue.png", oralQ: "How did you feel about the long line?" },
+        { although: "Although she didn't win, she smiled and said thanks.", but: "She didn't win, but she smiled and said thanks.", tag: "未赢仍致谢", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p04-ex-03-not-first.png", oralQ: "How did she react although she didn't win?" },
+        { although: "Though he failed once, he didn't give up.", but: "He failed once, but he didn't give up.", tag: "失败仍坚持", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-comic-scene3-still-following.png", oralQ: "What did he do after failing once?" },
+        { although: "Although the movie was long, it was meaningful.", but: "The movie was long, but it was meaningful.", tag: "电影长", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p03-so-11-film.png", oralQ: "Was the long movie worth watching?" },
+        { although: "Although my bike was old, it was still reliable.", but: "My bike was old, but it was still reliable.", tag: "车旧仍可靠", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p06-a-03-bike.png", oralQ: "Can you still use your old bike?" }
+      ],
+      swapPickQuiz: [
+        { stem: "Which sentence has a double conjunction error?", ans: "Although it was cold, but we went out.", opts: ["Although it was cold, we went out.", "Although it was cold, but we went out.", "It was cold, but we went out."], fb: "不能 Although…, but… 连用。" },
+        { stem: "Which sentence has a double conjunction error?", ans: "Though he was tired, but he kept reading.", opts: ["Though he was tired, he kept reading.", "Though he was tired, but he kept reading.", "He was tired, but he kept reading."], fb: "让步从句后不要再叠 but。" },
+        { stem: "Which sentence has a double conjunction error?", ans: "Because he was tired, so he went to bed.", opts: ["Because he was tired, he went to bed.", "He was tired, so he went to bed.", "Because he was tired, so he went to bed."], fb: "呼应 Page 02：because 与 so 二选一。" },
+        { stem: "Which pair is BOTH acceptable (二选一书写)?", ans: "Although we were tired, we finished. / We were tired, but we finished.", opts: ["Although we were tired, but we finished.", "Although we were tired, we finished. / We were tired, but we finished.", "Because we were tired, so we finished."], fb: "同一转折可用 although 版或 but 版，不可合并。" }
+      ],
+      althoughThough: [
+        { although: "Although it was late, he kept reading.", though: "Though it was late, he kept reading.", tag: "晚睡仍读", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p04-th-01-late-reading.png" },
+        { although: "Although she was shy, she joined the English corner.", though: "Though she was shy, she joined the English corner.", tag: "害羞仍参加", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p04-th-02-shy-english.png" },
+        { although: "Although the task looked easy, it took two hours.", though: "Though the task looked easy, it took two hours.", tag: "看似易", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p04-th-03-easy-task.png" },
+        { although: "Although we had little time, we cleaned the classroom.", though: "Though we had little time, we cleaned the classroom.", tag: "时间少", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p04-th-04-clean-room.png" },
+        { although: "Although he was ill, he finished his homework.", though: "Though he was ill, he finished his homework.", tag: "生病仍作业", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p04-th-05-ill-homework.png" },
+        { although: "Although the wind was strong, the kite flew high.", though: "Though the wind was strong, the kite flew high.", tag: "风大仍飞", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p04-th-06-kite-wind.png" }
+      ],
+      goodExamples: [
+        { en: "Although the problem was difficult, we solved it together.", zh: "尽管难，仍一起解决", tag: "难题", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p04-ex-01-difficult-problem.png", oralQ: "What did you do although the problem was difficult?" },
+        { en: "Though the street was noisy, I could still focus on my reading.", zh: "尽管吵，仍能专注阅读", tag: "吵闹", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p04-ex-02-noisy-street.png", oralQ: "Could you read on a noisy street?" },
+        { en: "Although she didn't get first place, she learned a lot.", zh: "未得第一，仍收获大", tag: "比赛", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p04-ex-03-not-first.png", oralQ: "What did she gain although she didn't win?" },
+        { en: "Although we missed the bus, we arrived on time by subway.", zh: "错过公交，地铁仍准时", tag: "地铁", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p04-ex-04-subway.png", oralQ: "How did you arrive on time?" },
+        { en: "Though he speaks softly, his ideas are clear.", zh: "声音轻，想法清楚", tag: "发言", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p04-ex-05-soft-speaker.png", oralQ: "Are his ideas clear although he speaks softly?" },
+        { en: "Although the summer sun was hot, we enjoyed the trip.", zh: "烈日下仍享受旅行", tag: "暑假", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p04-ex-06-summer-trip.png", oralQ: "Did you enjoy the trip in the hot sun?" },
+        { en: "Although my parents were busy, they listened to my plan.", zh: "父母忙，仍听计划", tag: "父母", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p04-ex-07-busy-parents.png", oralQ: "Did your parents listen although they were busy?" },
+        { en: "Though the museum was crowded, it was worth visiting.", zh: "人多，仍值得参观", tag: "博物馆", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p04-ex-08-crowded-museum.png", oralQ: "Was the crowded museum worth it?" },
+        { en: "Although I was afraid at first, I felt braver later.", zh: "起初怕，后来更勇敢", tag: "勇敢", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p04-ex-09-braver.png", oralQ: "How did your feeling change?" },
+        { en: "Although the book was thick, I finished it during the holiday.", zh: "书厚，假期仍读完", tag: "厚书", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p04-ex-10-thick-book.png", oralQ: "Did you finish the thick book?" },
+        { en: "Though we disagreed at first, we reached an agreement.", zh: "起初分歧，仍达成一致", tag: "讨论", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p04-ex-11-agreement.png", oralQ: "What happened although you disagreed?" },
+        { en: "Although the volunteer work was tiring, it made me happy.", zh: "志愿累，仍开心", tag: "志愿", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p04-ex-12-volunteer.png", oralQ: "How did you feel about the tiring volunteer work?" }
+      ],
+      oneLinkPick: [
+        { stem: "Pick the sentence that follows the「one connector」rule.", ans: "Although it was cold, we went out.", opts: ["Although it was cold, but we went out.", "Although it was cold, we went out.", "Because it was cold, so we went out."], fb: "让步从句 alone，或并列 but，不叠两层。" },
+        { stem: "Pick the sentence that follows the「one connector」rule.", ans: "He was tired, so he went to bed early.", opts: ["Because he was tired, so he went to bed.", "He was tired, so he went to bed early.", "Although he was tired, but he went to bed."], fb: "因果：because 从句 或 so 并列，二选一。" },
+        { stem: "Pick the sentence that follows the「one connector」rule.", ans: "Because the road was icy, we walked slowly.", opts: ["Because the road was icy, so we walked slowly.", "Because the road was icy, we walked slowly.", "Although the road was icy, but we walked slowly."], fb: "原因从句 because，主句不再叠 so。" },
+        { stem: "Pick the sentence that follows the「one connector」rule.", ans: "It was cold, but we still had fun.", opts: ["Although it was cold, but we still had fun.", "It was cold, but we still had fun.", "Because it was cold, so we still had fun."], fb: "并列转折用 but 即可，不必再加 although。" }
+      ],
+      traps: [
+        { wrong: "Although it was cold, but we went out.", right: "Although it was cold, we went out. / It was cold, but we went out." },
+        { wrong: "Though he was tired, but he kept running.", right: "Though he was tired, he kept running. / He was tired, but he kept running." },
+        { wrong: "Because he practiced a lot, so he improved.", right: "Because he practiced a lot, he improved. / He practiced a lot, so he improved." },
+        { wrong: "Although didn't study, he passed.", right: "Although he was busy, he passed the quiz." },
+        { wrong: "Though, it was cold we went out.", right: "Though it was cold, we went out." },
+        { wrong: "But it was cold, although we went out.", right: "Although it was cold, we went out." },
+        { wrong: "She was happy although but she was tired.", right: "She was tired, but she was still happy." },
+        { wrong: "Because the road was icy, so we walked slowly.", right: "Because the road was icy, we walked slowly. / The road was icy, so we walked slowly." }
+      ],
+      dialogues: [
+        { a: "Will you join the long run tomorrow?", b: "Although I'm not fast, I still want to try." },
+        { a: "Are you nervous about the speech?", b: "Though I'm nervous, I have practiced many times." },
+        { a: "Why did you help him?", b: "Although he made a mistake, he is still my classmate." }
+      ],
+      evenThough: [
+        "Even though it was dangerous, the firefighters went in.",
+        "Even though she had a fever, she still sent the message to remind us.",
+        "Even though they were behind, they never stopped trying."
+      ],
+      oralConc: [
+        { zh: "尽管暑假作业很多，我仍每天阅读半小时。", en: "Although the summer homework was heavy, I still read for half an hour every day." },
+        { zh: "尽管起初很紧张，我后来在台上更自信了。", en: "Although I was nervous at first, I felt more confident on stage later." },
+        { zh: "尽管计划不完美，我会一步一步坚持执行。", en: "Although the plan may not be perfect, I will follow it step by step." }
+      ],
+      oralRule: [
+        { zh: "他累了，所以早点睡了。（只用 so，不用 because+so）", en: "He was tired, so he went to bed early." },
+        { zh: "因为路滑，我们走得很慢。（只用 because，不叠 so）", en: "Because the road was icy, we walked slowly." },
+        { zh: "天气冷，但我们仍去徒步了。（只用 but，不叠 although+but）", en: "It was cold, but we still went hiking." }
+      ],
+      writingBridge: [
+        "Although the summer plan may not be perfect, I will ",
+        "Though I was afraid at first, I ",
+        "Although the homework was heavy, I still ",
+        "It was tiring, but I ",
+        "Because I want to improve, I will ",
+        "He was nervous, so he "
+      ],
+      mixQuiz: [
+        { stem: "Which sentence is correct?", ans: "Although it was late, he kept reading.", opts: [
+          "Although it was late, but he kept reading.",
+          "Although it was late, he kept reading.",
+          "Because it was late, so he kept reading."
+        ], fb: "让步从句后接主句，不叠 but。" },
+        { stem: "Although the sun was strong, everyone ______ on time.", ans: "arrived", opts: ["arrived", "but arrived", "so arrived"], fb: "主句侧不要再加 but/so。" },
+        { stem: "He was tired, ______ he finished the homework.", ans: "but", opts: ["although", "but", "because"], fb: "并列转折用 but；若用 although 则不要 but。" },
+        { stem: "Pick the sentence with a double conjunction error.", ans: "Because he was tired, so he went to bed.", opts: [
+          "Because he was tired, he went to bed.",
+          "He was tired, so he went to bed.",
+          "Because he was tired, so he went to bed."
+        ], fb: "because 与 so 只选一层。" },
+        { stem: "______ the plan may not be perfect, I will follow it.", ans: "Although", opts: ["Although", "Because", "If"], fb: "「尽管不完美仍坚持」→ Although。" },
+        { stem: "Fix: Though he was tired, but he kept reading. → Best fix:", ans: "Though he was tired, he kept reading.", opts: [
+          "Though he was tired, but he kept reading.",
+          "Though he was tired, he kept reading.",
+          "Because he was tired, so he kept reading."
+        ], fb: "去掉 but，保留 though 从句。" },
+        { stem: "Last Saturday, ______ the sun was strong, everyone arrived on time. (community clean-up)", ans: "Although", opts: ["Although", "Because", "So that"], fb: "烈日下仍准时到 → 让步 Although。" },
+        { stem: "The work was tiring, ______ it made us feel proud.", ans: "but", opts: ["although", "but", "because"], fb: "累，但仍自豪 → 并列 but。" },
+        { stem: "We walked slowly ______ the road was icy.", ans: "because", opts: ["because", "although", "unless"], fb: "路滑是原因 → because。" },
+        { stem: "Which pair follows the「one connector」rule?", ans: "He was nervous, so he forgot the words.", opts: [
+          "Because he was nervous, so he forgot the words.",
+          "Although he was nervous, but he forgot the words.",
+          "He was nervous, so he forgot the words."
+        ], fb: "只用 so 表结果，不叠 because。" }
+      ]
+    };
+
+    let currentPage = 1;
+    let swapIdx = 0, swapShowBut = false;
+    let thIdx = 0, thShowThough = false;
+    let exIdx = 0;
+    const swapVisited = new Set();
+    const thVisited = new Set();
+    const exVisited = new Set();
+    const uiLock = document.getElementById("ui-lock");
+
+    function escapeXml(s) {
+      return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+    }
+    function lockUI() { uiLock.classList.add("active"); }
+    function unlockUI() { uiLock.classList.remove("active"); }
+
+    async function playAudio(text) {
+      if (!text) return;
+      lockUI();
+      const url = "https://" + AZURE_REGION + ".tts.speech.microsoft.com/cognitiveservices/v1";
+      const ssml = "<speak version='1.0' xml:lang='en-US'><voice name='" + VOICE_EN + "'>" + escapeXml(text) + "</voice></speak>";
+      try {
+        const res = await fetch(url, {
+          method: "POST",
+          headers: {
+            "Ocp-Apim-Subscription-Key": AZURE_KEY,
+            "Content-Type": "application/ssml+xml",
+            "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3"
+          },
+          body: ssml
+        });
+        if (!res.ok) throw new Error(String(res.status));
+        const blob = await res.blob();
+        const u = URL.createObjectURL(blob);
+        const a = new Audio(u);
+        await new Promise((res, rej) => {
+          a.onended = () => { URL.revokeObjectURL(u); res(); };
+          a.onerror = rej;
+          a.play().catch(rej);
+        });
+      } catch (e) {
+        const u = new SpeechSynthesisUtterance(text);
+        u.lang = "en-US";
+        speechSynthesis.speak(u);
+      } finally {
+        unlockUI();
+      }
+    }
+
+    function goPage(n) {
+      if (n < 1 || n > PAGE_COUNT) return;
+      currentPage = n;
+      document.querySelectorAll(".lesson-page").forEach((el) => {
+        el.classList.toggle("active", parseInt(el.dataset.page, 10) === n);
+      });
+      document.getElementById("pager-mid").textContent = n + " / " + PAGE_COUNT;
+      document.getElementById("pager-prev").disabled = n <= 1;
+      document.getElementById("pager-next").disabled = n >= PAGE_COUNT;
+    }
+
+    function renderCarouselJump(list, rowId, idx, visited) {
+      const row = document.getElementById(rowId);
+      if (!row) return;
+      row.innerHTML = "";
+      list.forEach((item, i) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "carousel-jump-btn" + (i === idx ? " active" : "") + (visited.has(i) ? " done" : "");
+        btn.textContent = item.tag || ("组" + (i + 1));
+        btn.addEventListener("click", () => {
+          if (rowId === "swap-jump") { swapIdx = i; swapShowBut = false; renderSwap(); }
+          else if (rowId === "th-jump") { thIdx = i; thShowThough = false; renderTh(); }
+          else if (rowId === "ex-jump") { exIdx = i; renderEx(); }
+        });
+        row.appendChild(btn);
+      });
+    }
+
+    function renderSwap() {
+      const p = P04.swapAlthoughBut[swapIdx];
+      swapVisited.add(swapIdx);
+      if (swapShowBut) swapVisited.add(swapIdx);
+      document.getElementById("swap-label").textContent = "组 " + (swapIdx + 1) + " / " + P04.swapAlthoughBut.length + " · " + p.tag;
+      document.getElementById("swap-en").textContent = swapShowBut ? p.but : p.although;
+      document.getElementById("swap-mode").textContent = swapShowBut ? "并列 but 版（二选一）" : "让步 although/though 版";
+      document.getElementById("swap-flip").textContent = swapShowBut ? "显示 although 版" : "显示 but 版";
+      const swapImg = document.getElementById("swap-scene-img");
+      if (swapImg && p.img) {
+        swapImg.src = p.img;
+        swapImg.alt = p.tag || "although / but";
+      }
+      renderCarouselJump(P04.swapAlthoughBut, "swap-jump", swapIdx, swapVisited);
+    }
+    function renderTh() {
+      const p = P04.althoughThough[thIdx];
+      thVisited.add(thIdx);
+      document.getElementById("th-label").textContent = (thIdx + 1) + " / " + P04.althoughThough.length + " · " + (p.tag || "");
+      document.getElementById("th-en").textContent = thShowThough ? p.though : p.although;
+      document.getElementById("th-flip").textContent = thShowThough ? "显示 although 版" : "显示 though 版";
+      const imgEl = document.getElementById("th-scene-img");
+      if (imgEl && p.img) {
+        imgEl.src = p.img;
+        imgEl.alt = p.tag || "although / though";
+      }
+      renderCarouselJump(P04.althoughThough, "th-jump", thIdx, thVisited);
+    }
+    function renderEx() {
+      const s = P04.goodExamples[exIdx];
+      exVisited.add(exIdx);
+      document.getElementById("ex-label").textContent = (exIdx + 1) + " / " + P04.goodExamples.length + " · " + (s.tag || "");
+      document.getElementById("ex-en").textContent = s.en;
+      document.getElementById("ex-zh").textContent = "→ " + s.zh;
+      const imgEl = document.getElementById("ex-scene-img");
+      if (imgEl && s.img) {
+        imgEl.src = s.img;
+        imgEl.alt = s.tag || "让步例句";
+      }
+      renderCarouselJump(P04.goodExamples, "ex-jump", exIdx, exVisited);
+    }
+
+    function initPickQuiz(list, boxId) {
+      const box = document.getElementById(boxId);
+      if (!box) return;
+      list.forEach((q, qi) => {
+        const d = document.createElement("div");
+        d.className = "quiz-item";
+        d.innerHTML = "<p style='font-weight:800'>" + (qi + 1) + ". " + q.stem + "</p>";
+        const row = document.createElement("div");
+        row.className = "opt-row";
+        const fb = document.createElement("div");
+        fb.className = "fb";
+        q.opts.forEach((opt) => {
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.textContent = opt.length > 48 ? opt.slice(0, 46) + "…" : opt;
+          btn.title = opt;
+          btn.addEventListener("click", () => {
+            row.querySelectorAll("button").forEach((b) => b.disabled = true);
+            if (opt === q.ans) {
+              btn.classList.add("ok");
+              d.classList.add("done");
+              fb.textContent = "✓ " + (q.fb || "正确");
+            } else {
+              btn.classList.add("bad");
+              fb.textContent = "再想想：应选「" + (q.ans.length > 40 ? q.ans.slice(0, 38) + "…" : q.ans) + "」。" + (q.fb ? " " + q.fb : "");
+            }
+          });
+          row.appendChild(btn);
+        });
+        d.appendChild(row);
+        d.appendChild(fb);
+        box.appendChild(d);
+      });
+    }
+
+    function initOralSummary() {
+      const cBox = document.getElementById("oral-conc-box");
+      const rBox = document.getElementById("oral-rule-box");
+      if (cBox) {
+        cBox.innerHTML = "<p style='font-weight:800;color:#be123c'>让步句 · 尽管……仍然……：</p>";
+        P04.oralConc.forEach((o) => {
+          const card = document.createElement("div");
+          card.className = "oral-card";
+          card.innerHTML = "<p style='color:#5d4037'>" + o.zh + "</p><p lang='en'>" + o.en + "</p>";
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "btn ghost";
+          btn.textContent = "朗读";
+          btn.addEventListener("click", () => playAudio(o.en));
+          card.appendChild(btn);
+          cBox.appendChild(card);
+        });
+      }
+      if (rBox) {
+        rBox.innerHTML = "<p style='font-weight:800;color:#0f766e'>一层连词 · 写作自检：</p>";
+        P04.oralRule.forEach((o) => {
+          const card = document.createElement("div");
+          card.className = "oral-card rule";
+          card.innerHTML = "<p style='color:#5d4037'>" + o.zh + "</p><p lang='en'>" + o.en + "</p>";
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "btn ghost";
+          btn.textContent = "朗读";
+          btn.addEventListener("click", () => playAudio(o.en));
+          card.appendChild(btn);
+          rBox.appendChild(card);
+        });
+      }
+    }
+
+    function initWritingBridge() {
+      const box = document.getElementById("writing-bridge");
+      const ta = document.getElementById("p04-draft");
+      if (!box || !ta) return;
+      P04.writingBridge.forEach((chip, i) => {
+        const span = document.createElement("span");
+        span.className = "write-chip" + (i >= 3 ? " rule" : "");
+        span.textContent = chip;
+        span.title = "点击插入草稿";
+        span.addEventListener("click", () => {
+          const cur = ta.value.trim();
+          ta.value = cur ? cur + "\n" + chip : chip;
+          ta.focus();
+        });
+        box.appendChild(span);
+      });
+    }
+
+    function initTraps() {
+      const box = document.getElementById("trap-list");
+      P04.traps.forEach((t, i) => {
+        const d = document.createElement("div");
+        d.className = "trap-item";
+        d.innerHTML = "<p class='wrong'>✗ " + t.wrong + "</p><p class='right hidden' id='trap-r-" + i + "'>✓ " + t.right + "</p>";
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "btn ghost";
+        btn.textContent = "显示正句";
+        btn.addEventListener("click", () => {
+          document.getElementById("trap-r-" + i).classList.remove("hidden");
+          btn.disabled = true;
+        });
+        d.appendChild(btn);
+        box.appendChild(d);
+      });
+    }
+
+    function initDialogues() {
+      const box = document.getElementById("dialogue-box");
+      P04.dialogues.forEach((d, i) => {
+        const blk = document.createElement("div");
+        blk.className = "dialogue-block";
+        blk.innerHTML = "<p><span class='zh-tag conc'>A</span> " + d.a + "</p><p><span class='zh-tag conc'>B</span> " + d.b + "</p>";
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "btn ghost";
+        btn.textContent = "朗读对话 " + (i + 1);
+        btn.addEventListener("click", () => playAudio(d.a + " " + d.b));
+        blk.appendChild(btn);
+        box.appendChild(blk);
+      });
+      const ev = document.getElementById("even-box");
+      P04.evenThough.forEach((line) => {
+        const p = document.createElement("p");
+        p.className = "en-line";
+        p.lang = "en";
+        p.textContent = line;
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "btn ghost";
+        btn.textContent = "朗读";
+        btn.style.marginLeft = "0.5rem";
+        btn.addEventListener("click", () => playAudio(line));
+        const wrap = document.createElement("div");
+        wrap.style.marginBottom = "0.5rem";
+        wrap.appendChild(p);
+        wrap.appendChild(btn);
+        ev.appendChild(wrap);
+      });
+    }
+
+    function initQuiz() {
+      const box = document.getElementById("mix-quiz");
+      P04.mixQuiz.forEach((q, qi) => {
+        const d = document.createElement("div");
+        d.className = "quiz-item";
+        d.innerHTML = "<p style='font-weight:800'>" + (qi + 1) + ". " + q.stem + "</p>";
+        const row = document.createElement("div");
+        row.className = "opt-row";
+        const fb = document.createElement("div");
+        fb.className = "fb";
+        q.opts.forEach((opt) => {
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.textContent = opt;
+          btn.addEventListener("click", () => {
+            row.querySelectorAll("button").forEach((b) => b.disabled = true);
+            if (opt === q.ans) {
+              btn.classList.add("ok");
+              d.classList.add("done");
+              fb.textContent = "✓ " + (q.fb || "正确。");
+            } else {
+              btn.classList.add("bad");
+              fb.textContent = "再想想，参考屏 7 双红线。" + (q.fb ? " " + q.fb : "");
+            }
+          });
+          row.appendChild(btn);
+        });
+        d.appendChild(row);
+        d.appendChild(fb);
+        box.appendChild(d);
+      });
+    }
+
+    function initLessonApp() {
+      document.body.classList.add("has-lesson-pager");
+      renderSwap();
+      renderTh();
+      renderEx();
+      initTraps();
+      initDialogues();
+      initPickQuiz(P04.swapPickQuiz, "swap-pick-quiz");
+      initPickQuiz(P04.oneLinkPick, "one-link-pick");
+      initQuiz();
+      initOralSummary();
+      initWritingBridge();
+      goPage(1);
+    }
+    initLessonApp();
+
+    document.querySelectorAll("[data-goto]").forEach((btn) => {
+      btn.addEventListener("click", () => goPage(parseInt(btn.dataset.goto, 10)));
+    });
+    document.querySelectorAll("[data-speak]").forEach((btn) => {
+      btn.addEventListener("click", () => playAudio(btn.dataset.speak));
+    });
+
+    document.getElementById("swap-flip").addEventListener("click", () => {
+      swapShowBut = !swapShowBut;
+      renderSwap();
+    });
+    document.getElementById("swap-speak").addEventListener("click", () => {
+      const p = P04.swapAlthoughBut[swapIdx];
+      playAudio(swapShowBut ? p.but : p.although);
+    });
+
+    document.getElementById("th-flip").addEventListener("click", () => {
+      thShowThough = !thShowThough;
+      renderTh();
+    });
+    document.getElementById("th-speak").addEventListener("click", () => {
+      const p = P04.althoughThough[thIdx];
+      playAudio(thShowThough ? p.though : p.although);
+    });
+    document.getElementById("ex-speak").addEventListener("click", () => playAudio(P04.goodExamples[exIdx].en));
+
+    document.getElementById("pager-prev").addEventListener("click", () => {
+      if (currentPage > 1) goPage(currentPage - 1);
+    });
+    document.getElementById("pager-next").addEventListener("click", () => {
+      if (currentPage < PAGE_COUNT) goPage(currentPage + 1);
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.target.tagName === "TEXTAREA") return;
+      if (typeof isLessonImageLightboxOpen === "function" && isLessonImageLightboxOpen()) return;
+      if (e.key === "ArrowLeft" && currentPage > 1) goPage(currentPage - 1);
+      if (e.key === "ArrowRight" && currentPage < PAGE_COUNT) goPage(currentPage + 1);
+    });
+  </script>
+</body>
+</html>

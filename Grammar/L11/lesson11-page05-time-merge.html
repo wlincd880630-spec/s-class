@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>状语从句 —— 时间与合并</title>
+  <link rel="stylesheet" href="assets/lesson-screen-16x9.css" />
+  <link rel="stylesheet" href="l11-index-nav.css" />
+  <style>
+    :root {
+      --paper: #fff9f0; --ink: #2c2c2c; --edge: #5d4037;
+      --crayon-blue: #3b82f6; --crayon-amber: #f59e0b; --gold: #d4af37;
+      --shadow-book: rgba(60, 40, 20, 0.14);
+      --time: #dbeafe; --time-ink: #1d4ed8;
+      --merge: #fef9c3; --merge-ink: #a16207;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0; min-height: 100dvh;
+      font-family: system-ui, -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: linear-gradient(165deg, #1e3a8a 0%, #1a1420 45%, #120c18 100%);
+      color: var(--ink); line-height: 1.55;
+    }
+    body.has-lesson-pager { align-items: stretch !important; justify-content: flex-start; }
+    body.has-lesson-pager > #app {
+      width: 100% !important; max-width: 100% !important;
+      margin: 0 !important;
+      padding-left: max(8px, var(--lesson-s-l, 0px));
+      padding-right: max(8px, var(--lesson-s-r, 0px));
+    }
+    @media (min-width: 769px) and (min-height: 560px) {
+      body.has-lesson-pager > #app {
+        --l11-stage-vw: calc(100vw - var(--lesson-s-l) - var(--lesson-s-r) - 16px);
+        --l11-stage-vh: calc(100dvh - var(--lesson-pager-gap, 4.35rem) - max(4px, var(--lesson-s-t)) - max(4px, var(--lesson-s-b)) - 12px);
+        width: var(--l11-stage-vw) !important; max-width: var(--l11-stage-vw) !important;
+        height: var(--l11-stage-vh) !important; max-height: var(--l11-stage-vh) !important;
+        aspect-ratio: unset !important; flex: 1 1 auto !important;
+      }
+    }
+    #ui-lock { display: none; position: fixed; inset: 0; z-index: 9998; cursor: wait; }
+    #ui-lock.active { display: block; }
+    #app {
+      flex: 1 1 auto; width: 100%; max-width: 100%; margin: 0;
+      padding: min(10px, 1.2vw) min(12px, 1.5vw);
+      display: flex; flex-direction: column;
+      min-height: calc(100dvh - var(--lesson-pager-gap, 4.35rem) - 8px);
+      min-width: 0;
+    }
+    .hidden { display: none !important; }
+    #l11-book.book {
+      position: relative; flex: 1 1 auto; min-height: 0;
+      display: flex; flex-direction: column;
+      background: var(--paper); border: 4px solid var(--crayon-blue);
+      border-radius: 14px 30px 16px 24px;
+      box-shadow: 0 10px 0 rgba(59, 130, 246, 0.25), 0 22px 40px var(--shadow-book);
+      overflow: hidden;
+    }
+    #l11-book.book::before {
+      content: ""; position: absolute; inset: 10px;
+      border: 2px dashed rgba(93, 64, 55, 0.28); border-radius: 10px 20px 12px 18px;
+      pointer-events: none; z-index: 0;
+    }
+    .top-bar {
+      z-index: 2; margin: 10px 12px 0; border: 3px solid var(--crayon-blue);
+      border-radius: 999px; background: linear-gradient(180deg, #fff, #eff6ff);
+      text-align: center; padding: 10px 14px;
+      font-size: clamp(0.82rem, 0.35vw + 0.76rem, 0.98rem);
+    }
+    .top-bar strong { color: var(--time-ink); }
+    .subtitle-line { display: block; margin-top: 4px; font-size: 0.86em; color: #6d4c41; font-weight: 600; }
+    .l11-scroll {
+      position: relative; z-index: 1; flex: 1 1 auto; min-height: 0;
+      overflow: hidden auto; padding: 8px 12px 14px;
+    }
+    .lesson-page {
+      display: none; flex-direction: column; gap: 0.65rem;
+      min-height: min(100%, calc(100dvh - var(--lesson-pager-gap, 4.35rem) - 140px));
+      animation: l11fade 0.35s ease;
+    }
+    .lesson-page.active { display: flex; }
+    @keyframes l11fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+    .page-head {
+      display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between;
+      gap: 0.35rem 0.75rem; padding-bottom: 0.35rem;
+      border-bottom: 3px solid rgba(93, 64, 55, 0.15);
+    }
+    .page-kicker { font-size: 0.78rem; font-weight: 800; color: #6d4c41; }
+    .page-title { margin: 0; font-size: clamp(1.05rem, 1.8vw + 0.55rem, 1.35rem); font-weight: 900; color: var(--time-ink); }
+    .page-title.merge { color: var(--merge-ink); }
+    .panel {
+      background: rgba(255,255,255,0.92); border: 3px solid var(--edge);
+      border-radius: 14px 22px 12px 18px; padding: clamp(0.75rem, 1.5vw, 1.1rem);
+      box-shadow: 0 5px 0 rgba(93,64,55,0.08);
+    }
+    .scene-frame {
+      width: 100%; aspect-ratio: 4 / 3; min-height: 0;
+      border-radius: 12px 18px 10px 16px; border: 3px solid var(--edge);
+      background: linear-gradient(145deg, #1e3a8a, #422006);
+      overflow: hidden; display: flex; align-items: center; justify-content: center;
+    }
+    .scene-frame img { width: 100%; height: 100%; object-fit: contain; display: block; }
+    .en-line {
+      font-size: var(--lesson-fs-en-line, 1.12rem); font-weight: 800; color: #1e293b;
+      margin: 0.4rem 0; line-height: 1.45;
+    }
+    .rule-box {
+      padding: 0.65rem 0.75rem; border-radius: 12px; font-weight: 700; font-size: 0.92rem; margin: 0.5rem 0;
+    }
+    .rule-box.time { background: #eff6ff; border-left: 5px solid var(--crayon-blue); color: #1e40af; }
+    .rule-box.merge { background: #fffbeb; border-left: 5px solid var(--crayon-amber); color: #92400e; }
+    .rule-box.warn { background: #fef3c7; border-left: 5px solid var(--gold); color: #78350f; }
+    .zh-tag {
+      display: inline-block; font-size: 0.78rem; font-weight: 800; padding: 0.15rem 0.5rem;
+      border-radius: 6px; margin-right: 0.35rem;
+    }
+    .zh-tag.time { background: var(--time); color: var(--time-ink); }
+    .zh-tag.merge { background: var(--merge); color: var(--merge-ink); }
+    .timeline {
+      display: flex; align-items: center; gap: 0.35rem; margin: 0.65rem 0; flex-wrap: wrap;
+    }
+    .timeline .node {
+      flex: 1 1 80px; min-width: 70px; padding: 0.45rem 0.5rem; border-radius: 10px;
+      border: 2px solid #93c5fd; background: #f0f9ff; text-align: center;
+      font-size: 0.78rem; font-weight: 800; color: #1e40af;
+    }
+    .timeline .arrow { font-weight: 900; color: #64748b; }
+    .compare-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; margin: 0.5rem 0; }
+    .compare-table th, .compare-table td { border: 2px solid #e2e8f0; padding: 0.45rem 0.55rem; text-align: left; }
+    .compare-table th { background: #f1f5f9; font-weight: 800; }
+    .channel-row { display: flex; flex-wrap: wrap; gap: 0.65rem; margin-top: 0.65rem; }
+    .channel-btn {
+      flex: 1 1 200px; min-height: 56px; padding: 0.75rem 1rem; border-radius: 14px;
+      border: 3px solid var(--edge); font-weight: 900; font-size: 1rem; cursor: pointer;
+    }
+    .channel-btn.time { background: linear-gradient(135deg, #dbeafe, #bfdbfe); color: var(--time-ink); }
+    .channel-btn.merge { background: linear-gradient(135deg, #fef9c3, #fde68a); color: var(--merge-ink); }
+    .btn-row { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.5rem 0; }
+    .btn {
+      min-height: 44px; padding: 0.45rem 1rem; border-radius: 999px; border: 3px solid var(--edge);
+      background: #fff; font-weight: 800; cursor: pointer; font-size: 0.88rem;
+    }
+    .btn.blue { background: linear-gradient(135deg, var(--crayon-blue), #1d4ed8); color: #fff; border-color: #1e40af; }
+    .btn.amber { background: linear-gradient(135deg, var(--crayon-amber), #d97706); color: #fff; border-color: #b45309; }
+    .btn.ghost { background: #f8fafc; color: #334155; }
+    .btn:disabled { opacity: 0.45; cursor: not-allowed; }
+    .carousel-card {
+      padding: 0.85rem; border-radius: 14px; border: 3px solid #93c5fd;
+      background: #f0f9ff; margin: 0.5rem 0;
+    }
+    .carousel-card .label { font-size: 0.82rem; font-weight: 800; color: #64748b; margin-bottom: 0.35rem; }
+    .carousel-card .zh-hint { font-size: 0.86rem; color: #6d4c41; font-weight: 700; margin-top: 0.35rem; }
+    .merge-card {
+      padding: 0.85rem; border-radius: 14px; border: 3px solid #fcd34d;
+      background: #fffbeb; margin: 0.5rem 0;
+    }
+    .merge-card .pair { margin: 0.35rem 0; padding: 0.45rem; background: #fff; border-radius: 8px; border: 2px dashed #e2e8f0; }
+    .merge-card .merged {
+      margin-top: 0.5rem; padding: 0.55rem; border-radius: 10px;
+      background: #ecfdf5; border-left: 4px solid #047857; font-weight: 800; color: #065f46;
+    }
+    .trap-item {
+      margin: 0.5rem 0; padding: 0.65rem; border-radius: 12px;
+      border: 2px solid #fecaca; background: #fff5f5;
+    }
+    .trap-item .wrong { color: #b91c1c; font-weight: 800; text-decoration: line-through; }
+    .trap-item .right { color: #047857; font-weight: 800; margin-top: 0.35rem; }
+    .dialogue-block {
+      margin: 0.55rem 0; padding: 0.65rem; border-radius: 12px;
+      border: 2px solid #bfdbfe; background: #f0f9ff;
+    }
+    .dialogue-block p { margin: 0.3rem 0; font-weight: 800; }
+    .quiz-item { padding: 0.65rem; margin: 0.45rem 0; border-radius: 12px; border: 2px solid #e2e8f0; }
+    .quiz-item.done { border-color: #5cb85c; background: #f0fdf4; }
+    .opt-row { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.4rem; }
+    .opt-row button {
+      min-height: 40px; padding: 0.35rem 0.75rem; border-radius: 10px;
+      border: 2px solid #cbd5e1; background: #fff; font-weight: 700; cursor: pointer;
+      font-size: 0.82rem; text-align: left;
+    }
+    .opt-row button.ok { background: #d1fae5; border-color: #047857; }
+    .opt-row button.bad { background: #fee2e2; border-color: #b91c1c; }
+    .fb { margin-top: 0.35rem; font-weight: 700; font-size: 0.88rem; color: #4c1d95; min-height: 1.2em; }
+    .summary-list { margin: 0; padding-left: 1.2rem; font-weight: 700; }
+    .summary-list li { margin: 0.35rem 0; }
+    .summary-list li a { color: var(--time-ink); font-weight: 800; }
+    .goal-list { margin: 0.5rem 0 0; padding: 0; list-style: none; }
+    .goal-list li {
+      margin: 0.35rem 0; padding: 0.45rem 0.55rem; border-radius: 10px;
+      background: #eff6ff; font-weight: 700; font-size: 0.9rem;
+    }
+    .tier-label {
+      display: inline-block; font-size: 0.72rem; font-weight: 900;
+      padding: 0.12rem 0.45rem; border-radius: 6px; margin-right: 0.35rem;
+      background: #ede9fe; color: #5b21b6;
+    }
+    .oral-card {
+      margin: 0.5rem 0; padding: 0.65rem; border-radius: 12px;
+      border: 2px solid #93c5fd; background: #f0f9ff;
+    }
+    .oral-card.merge { border-color: #fcd34d; background: #fffbeb; }
+    .oral-card p { margin: 0.35rem 0; font-weight: 800; }
+    .carousel-jump-row { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 0.5rem; }
+    .carousel-jump-btn {
+      min-height: 38px; padding: 0.3rem 0.65rem; border-radius: 999px;
+      border: 2px solid #93c5fd; background: #fff; font-weight: 800; font-size: 0.8rem; cursor: pointer;
+    }
+    .carousel-jump-btn.merge { border-color: #fcd34d; }
+    .carousel-jump-btn.active { background: #dbeafe; border-color: #1d4ed8; color: #1e40af; }
+    .carousel-jump-btn.merge.active { background: #fef9c3; border-color: #a16207; color: #92400e; }
+    .carousel-jump-btn.done::after { content: " ✓"; color: #047857; }
+    .write-chip {
+      display: inline-block; margin: 0.25rem; padding: 0.35rem 0.65rem;
+      border-radius: 10px; border: 2px dashed #93c5fd; background: #eff6ff;
+      font-weight: 700; font-size: 0.86rem; cursor: pointer;
+    }
+    .write-chip.merge { border-color: #fcd34d; background: #fffbeb; }
+    .hl-un { background: #bfdbfe; padding: 0 3px; border-radius: 3px; }
+    .hl-as { background: #fde68a; padding: 0 3px; border-radius: 3px; }
+    .sub-cl { background: #fef3c7; padding: 0 3px; border-radius: 3px; }
+    .main-cl { background: #dbeafe; padding: 0 3px; border-radius: 3px; }
+    body.has-lesson-pager nav.lesson-pager button.pager-prev,
+    body.has-lesson-pager nav.lesson-pager button.pager-next,
+    body.has-lesson-pager nav.lesson-pager .pager-mid {
+      flex: 1 1 0; font-weight: 800; padding: 0.42rem; border-radius: 999px;
+      border: 3px solid #5d4037; cursor: pointer;
+      font-size: clamp(0.72rem, 2.4vw, 0.88rem);
+    }
+    body.has-lesson-pager nav.lesson-pager button.pager-next {
+      color: #4e342e; background: linear-gradient(180deg, #ffe082, #ffca28);
+    }
+    body.has-lesson-pager nav.lesson-pager button:disabled { opacity: 0.5; }
+  </style>
+</head>
+<body>
+  <div id="ui-lock" aria-hidden="true"></div>
+
+  <div id="app">
+    <div id="l11-book" class="book">
+      <header class="top-bar">
+        <strong>状语从句</strong> —— 时间与合并
+        <span class="subtitle-line">until / not…until / as soon as · 主将从现 · 两句合并</span>
+      </header>
+      <div class="l11-scroll">
+
+        <section class="lesson-page active" data-page="1">
+          <div class="page-head"><span class="page-kicker">1 / 11</span><h2 class="page-title">状语从句 —— 课程目标</h2></div>
+          <div class="panel panel-split">
+            <div class="stage-visual">
+              <div class="scene-frame">
+                <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p05-time-merge-split.png" alt="时间与合并" />
+              </div>
+            </div>
+            <div class="stage-body">
+              <p style="font-weight:800;margin:0 0 0.45rem;color:#1d4ed8">课程目标</p>
+              <ul class="goal-list">
+                <li>① <strong>until</strong>：持续到…… · <strong>not…until</strong>：直到……才……</li>
+                <li>② <strong>as soon as</strong>：一……就…… · 主将从现（呼应 Page 02）</li>
+                <li>③ <strong>合并句</strong>：先判关系再选连词 · 为 Page 06 暑假计划铺路</li>
+              </ul>
+              <div class="channel-row">
+                <button type="button" class="channel-btn time" data-goto="2">⏰ 时间频道<br><span style="font-size:0.82rem;font-weight:600">until · as soon as</span></button>
+                <button type="button" class="channel-btn merge" data-goto="8">🧩 合并工坊<br><span style="font-size:0.82rem;font-weight:600">两句→一句</span></button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="2">
+          <div class="page-head"><span class="page-kicker">2 / 11</span><h2 class="page-title">状语从句 —— until 持续到</h2></div>
+          <div class="panel panel-split">
+            <div class="stage-visual">
+              <div class="scene-frame"><img id="until-scene-img" src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p05-until-01-wait.png" alt="等候" /></div>
+            </div>
+            <div class="stage-body">
+              <div class="rule-box time"><span class="hl-un">until</span>＝动作/状态<strong>持续到</strong>某时点（到……为止）。</div>
+              <div class="timeline">
+                <span class="node">① 持续做</span><span class="arrow">→</span>
+                <span class="node">② until 时点</span>
+              </div>
+              <p class="en-line" lang="en">Wait here <span class="hl-un">until</span> I come back.</p>
+              <p class="en-line" lang="en">They worked on the poster <span class="hl-un">until</span> it looked clean and clear.</p>
+              <p style="font-weight:700"><span class="tier-label">分层 A</span>8 句 until 情境句 · 场景标签可跳转（进度保留）。</p>
+              <div class="carousel-jump-row" id="until-jump"></div>
+              <div class="carousel-card">
+                <div class="label" id="until-label">1 / 8</div>
+                <p class="en-line" lang="en" id="until-en"></p>
+                <p class="zh-hint" id="until-zh"></p>
+              </div>
+              <div class="btn-row">
+                <button type="button" class="btn blue" id="until-speak">朗读本句</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="3">
+          <div class="page-head"><span class="page-kicker">3 / 11</span><h2 class="page-title">状语从句 —— not…until 直到才</h2></div>
+          <div class="panel panel-split">
+            <div class="stage-visual">
+              <div class="scene-frame"><img id="not-scene-img" src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p05-not-01-windows.png" alt="关窗" /></div>
+            </div>
+            <div class="stage-body">
+              <div class="rule-box time">主句<strong>否定</strong> + <span class="hl-un">until</span> → 中文常译「直到……<strong>才</strong>……」。</div>
+              <table class="compare-table">
+                <tr><th>类型</th><th>例句</th><th>侧重点</th></tr>
+                <tr>
+                  <td>until</td>
+                  <td>I studied until midnight.</td>
+                  <td>一直学到午夜（持续）</td>
+                </tr>
+                <tr>
+                  <td>not…until</td>
+                  <td>I didn't finish until midnight.</td>
+                  <td>到午夜<strong>才</strong>完成（才）</td>
+                </tr>
+              </table>
+              <p style="font-weight:700"><span class="tier-label">分层 A</span>8 句 not…until 情境句 · 场景标签可跳转（进度保留）。</p>
+              <div class="carousel-jump-row" id="not-jump"></div>
+              <div class="carousel-card">
+                <div class="label" id="not-label">1 / 8</div>
+                <p class="en-line" lang="en" id="not-en"></p>
+                <p class="zh-hint" id="not-zh"></p>
+              </div>
+              <div class="btn-row">
+                <button type="button" class="btn blue" id="not-speak">朗读本句</button>
+              </div>
+              <hr style="border:none;border-top:2px dashed #e2e8f0;margin:0.75rem 0" />
+              <p style="font-weight:800"><span class="tier-label">分层 B</span>until 还是 not…until？（4 题）</p>
+              <div id="until-not-pick"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="4">
+          <div class="page-head"><span class="page-kicker">4 / 11</span><h2 class="page-title">状语从句 —— as soon as 主将从现</h2></div>
+          <div class="panel panel-split">
+            <div class="stage-visual">
+              <div class="scene-frame"><img id="as-scene-img" src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p05-as-01-bell.png" alt="上课铃" /></div>
+            </div>
+            <div class="stage-body">
+              <div class="rule-box time"><span class="hl-as">As soon as</span>＝一……就……；从句用<strong>一般现在</strong>表将来，主句用 will/情态/祈使。</div>
+              <table class="compare-table">
+                <tr><th>部分</th><th>时态</th><th>示例</th></tr>
+                <tr><td>as soon as 从句</td><td>一般现在</td><td class="sub-cl">I get home</td></tr>
+                <tr><td>主句</td><td>将来/情态</td><td class="main-cl">I will call you</td></tr>
+              </table>
+              <p style="font-weight:700"><span class="tier-label">分层 A</span>10 句 as soon as 情境句 · 场景标签可跳转（进度保留）。</p>
+              <div class="carousel-jump-row" id="as-jump"></div>
+              <div class="carousel-card">
+                <div class="label" id="as-label">1 / 10</div>
+                <p class="en-line" lang="en" id="as-en"></p>
+                <p class="zh-hint" id="as-zh"></p>
+              </div>
+              <div class="btn-row">
+                <button type="button" class="btn blue" id="as-speak">朗读本句</button>
+              </div>
+              <hr style="border:none;border-top:2px dashed #e2e8f0;margin:0.65rem 0" />
+              <p style="font-weight:800"><span class="tier-label">分层 B</span>主将从现 · 从句动词填空（4 题）</p>
+              <div id="as-fill-pick"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="5">
+          <div class="page-head"><span class="page-kicker">5 / 11</span><h2 class="page-title">状语从句 —— until 与 unless</h2></div>
+          <div class="panel">
+            <div class="rule-box warn">
+              <strong>unless</strong>＝条件「除非」；<strong>until</strong>＝时间「直到」。不要混用。
+            </div>
+            <table class="compare-table">
+              <tr><th>连词</th><th>功能</th><th>例</th></tr>
+              <tr><td>unless</td><td>条件</td><td>Unless you hurry, you will be late.</td></tr>
+              <tr><td>until</td><td>时间</td><td>I waited until he came.</td></tr>
+            </table>
+            <p style="font-weight:800;margin-top:0.65rem"><span class="tier-label">分层 B</span>until 还是 unless？（4 题）</p>
+            <div id="until-unless-pick"></div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="6">
+          <div class="page-head"><span class="page-kicker">6 / 11</span><h2 class="page-title">状语从句 —— 时间陷阱</h2></div>
+          <div class="panel">
+            <p style="font-weight:800;margin:0 0 0.5rem"><span class="tier-label">分层 A</span>错句→正句（含 as soon as 主将从现）：</p>
+            <div id="trap-list"></div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="7">
+          <div class="page-head"><span class="page-kicker">7 / 11</span><h2 class="page-title">状语从句 —— 对话与拓展</h2></div>
+          <div class="panel">
+            <p style="font-weight:800"><span class="tier-label">分层 A</span>分角色朗读 · 时间状语从句：</p>
+            <div id="dialogue-box"></div>
+            <p style="font-weight:800;margin-top:0.65rem"><span class="tier-label">分层 B</span>口语：用 as soon as / not…until 回答同伴的问题。</p>
+            <details style="margin-top:0.75rem">
+              <summary style="font-weight:800;cursor:pointer">拓展 · when / before / after</summary>
+              <p class="en-line" lang="en">When the summer holiday begins, many students will make a travel plan.</p>
+              <p class="en-line" lang="en">Please wash your hands before you eat.</p>
+              <p class="en-line" lang="en">After I finish lunch, I will take a short walk.</p>
+              <p style="font-size:0.86rem;font-weight:600;color:#6d4c41">when 第二用法（过去进行+过去）阅读见即可，本页主练 until / as soon as。</p>
+            </details>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="8">
+          <div class="page-head"><span class="page-kicker">8 / 11</span><h2 class="page-title merge">状语从句 —— 合并工坊</h2></div>
+          <div class="panel panel-split">
+            <div class="stage-visual">
+              <div class="scene-frame"><img id="merge-scene-img" src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p05-merge-01-call-home.png" alt="时间" /></div>
+            </div>
+            <div class="stage-body">
+              <div class="rule-box merge">四步法：① 读两句 ② 判关系 ③ 选连词 ④ 合成一句（注意逗号与 not…until 位置）</div>
+              <p style="font-weight:700;margin:0.35rem 0 0.45rem"><span class="tier-label">分层 A</span>10 组合并 · 场景标签可跳转（进度保留）。</p>
+              <div class="carousel-jump-row" id="merge-jump"></div>
+              <div class="merge-card" id="merge-card">
+                <div class="label" id="merge-label">1 / 10 · <span id="merge-tag"></span></div>
+                <div class="pair" id="merge-a"></div>
+                <div class="pair" id="merge-b"></div>
+                <p class="merged hidden" id="merge-ans"></p>
+              </div>
+              <div class="btn-row">
+                <button type="button" class="btn amber" id="merge-reveal">显示合并句</button>
+                <button type="button" class="btn ghost" id="merge-speak">朗读合并句</button>
+              </div>
+              <hr style="border:none;border-top:2px dashed #e2e8f0;margin:0.65rem 0" />
+              <p style="font-weight:800"><span class="tier-label">分层 B</span>先选连词再对答案（4 题）</p>
+              <div id="merge-connector-pick"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="9">
+          <div class="page-head"><span class="page-kicker">9 / 11</span><h2 class="page-title">状语从句 —— 快选</h2></div>
+          <div class="panel">
+            <p style="font-weight:800;margin:0 0 0.5rem"><span class="tier-label">分层 B</span>时间 / 合并 / 主将从现（含解析）</p>
+            <div id="mix-quiz"></div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="10">
+          <div class="page-head"><span class="page-kicker">10 / 11</span><h2 class="page-title">状语从句 —— 小结</h2></div>
+          <div class="panel">
+            <ul class="summary-list">
+              <li><strong>until</strong>：持续到……；<strong>not…until</strong>：直到……才……</li>
+              <li><strong>as soon as</strong>：一……就……；从句现、主句将（主将从现）</li>
+              <li><strong>合并</strong>：先判关系再选连词；暑假计划常用 as soon as / until</li>
+              <li>学习顺序：until → not…until → as soon as → 合并工坊 → 快选 → 口语与写作。</li>
+              <li>下一页：<a href="lesson11-page06-reading-writing.html" style="color:#6b21a8">语篇阅读 +「我的暑假计划」写作（Page 06）</a>。</li>
+            </ul>
+            <p style="margin-top:0.75rem;text-align:center;font-weight:800">
+              <a href="#" data-goto="11" style="color:#1d4ed8">→ 第 11 屏：暑假口语与写作</a>
+            </p>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="11">
+          <div class="page-head"><span class="page-kicker">11 / 11</span><h2 class="page-title">状语从句 —— 暑假口语与写作</h2></div>
+          <div class="panel">
+            <p style="font-weight:700;margin:0 0 0.5rem"><span class="tier-label">分层 C</span>口语 &amp; 写作衔接（暑假计划）· 先读中文，再跟读英文；点击芯片插入你的计划草稿。</p>
+            <div class="rule-box time" style="margin-bottom:0.65rem">
+              <strong>写作建议：</strong>至少各写 1 句——<strong>as soon as</strong> 写「一……就……」· <strong>until / not…until</strong> 写持续或「直到才」· 黄芯片可回顾 although / so that。
+            </div>
+            <div id="oral-time-box"></div>
+            <div id="oral-merge-box"></div>
+            <hr style="border:none;border-top:2px dashed #e2e8f0;margin:0.85rem 0" />
+            <p style="font-weight:800;margin:0 0 0.35rem">点击插入你的计划草稿：</p>
+            <p style="font-size:0.86rem;font-weight:700;color:#64748b;margin:0 0 0.4rem">蓝芯片＝时间 as soon as / until · 黄芯片＝合并回顾（全课连词）</p>
+            <div id="writing-bridge"></div>
+            <textarea id="p05-draft" rows="4" style="width:100%;margin-top:0.5rem;padding:0.55rem;border-radius:10px;border:2px solid #e2e8f0;font:inherit" placeholder="As soon as the holiday begins, I will... I won't play games until I finish..."></textarea>
+            <p style="margin-top:0.75rem;text-align:center;font-weight:800;color:var(--time-ink)">
+              Page 05 完成 · <a href="lesson11-page06-reading-writing.html" style="color:#6b21a8">进入 Page 06</a>
+            </p>
+          </div>
+        </section>
+
+      </div>
+    </div>
+    <nav class="lesson-pager" aria-label="分页">
+      <button type="button" class="pager-prev" id="pager-prev">上一页</button>
+      <span class="pager-mid" id="pager-mid">1 / 10</span>
+      <button type="button" class="pager-next" id="pager-next">下一页</button>
+    </nav>
+  </div>
+
+  <script src="l11-image-lightbox.js"></script>
+  <script src="l11-index-nav.js"></script>
+  <script>
+    const AZURE_KEY = "C42UQWeDcluYanbo17WrtUnPhk0vkZy2uQHPTCGDzY6CdExx99NzJQQJ99BIACqBBLyXJ3w3AAAYACOGjkyu";
+    const AZURE_REGION = "southeastasia";
+    const VOICE_EN = "en-US-AriaNeural";
+    const PAGE_COUNT = 11;
+
+    const P05 = {
+      untilA: [
+        { en: "Wait here until I come back.", tag: "等候", zh: "在这儿等到我回来", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p05-until-01-wait.png", oralQ: "How long should you wait here?" },
+        { en: "He stayed with the little kid until his mum arrived.", tag: "陪小孩", zh: "一直陪到妈妈来", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p05-until-02-kid.png", oralQ: "How long did he stay with the kid?" },
+        { en: "We kept quiet until the teacher started the listening part.", tag: "听力", zh: "保持安静到听力开始", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p05-until-03-listening.png", oralQ: "When could you talk again?" },
+        { en: "She practiced the song until she could sing it smoothly.", tag: "练歌", zh: "一直练到唱顺", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p05-until-04-practice-song.png", oralQ: "How long did she practice?" },
+        { en: "The library is open until nine in the evening.", tag: "图书馆", zh: "开到晚上九点", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p05-until-05-library.png", oralQ: "When does the library close?" },
+        { en: "I will wait until you finish your call.", tag: "等你", zh: "等到你打完电话", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p05-until-06-phone-call.png", oralQ: "When will I stop waiting?" },
+        { en: "They worked on the poster until it looked clean and clear.", tag: "海报", zh: "做到干净清晰为止", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p05-until-07-poster.png", oralQ: "When did they stop working?" },
+        { en: "Don't run on the wet floor until it is dry.", tag: "安全", zh: "地面干了才能跑", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p05-until-08-dry-floor.png", oralQ: "When can you run on the floor?" }
+      ],
+      notUntil: [
+        { en: "He didn't leave the classroom until he checked the windows.", zh: "检查完窗户才离开", tag: "关窗", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p05-not-01-windows.png", oralQ: "When did he leave?" },
+        { en: "I didn't go to bed until I finished my diary entry.", zh: "写完日记才睡", tag: "日记", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p05-not-02-diary.png", oralQ: "When did you go to bed?" },
+        { en: "We didn't start the film until everyone sat down.", zh: "大家都坐好才开始放映", tag: "电影", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p05-not-03-film.png", oralQ: "When did the film start?" },
+        { en: "She didn't feel relaxed until she heard the good news.", zh: "听到好消息才放松", tag: "好消息", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p05-not-04-good-news.png", oralQ: "When did she relax?" },
+        { en: "They didn't know the result until the teacher posted it.", zh: "老师公布才知道结果", tag: "成绩", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p05-not-05-results.png", oralQ: "When did they know the result?" },
+        { en: "I won't call you until I get home safely.", zh: "安全到家才打电话", tag: "报平安", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p05-not-06-call-home.png", oralQ: "When will you call?" },
+        { en: "He couldn't play outside until his homework was done.", zh: "作业做完才能出去玩", tag: "作业", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p05-not-07-homework.png", oralQ: "When could he play outside?" },
+        { en: "The bus didn't move until the light turned green.", zh: "绿灯亮车才走", tag: "绿灯", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p05-not-08-green-light.png", oralQ: "When did the bus move?" }
+      ],
+      untilNotPick: [
+        { stem: "I studied until midnight. This emphasizes:", ans: "持续学到午夜", opts: ["持续学到午夜", "直到才完成", "一…就…"], fb: "until 强调动作持续到某时点。" },
+        { stem: "I didn't finish until midnight. This emphasizes:", ans: "直到才完成", opts: ["直到才完成", "持续学到午夜", "条件"], fb: "not…until 强调「到某时才发生」。" },
+        { stem: "He didn't leave ______ he checked the windows.", ans: "until", opts: ["until", "unless", "as soon as"], fb: "检查完才离开 → not…until。" },
+        { stem: "Which sentence means「雨停我们就出去」?", ans: "As soon as the rain stops, we will go out.", opts: ["As soon as the rain stops, we will go out.", "Until the rain stops, we will go out.", "Unless the rain stops, we will go out."], fb: "一…就…用 as soon as，不是 until。" }
+      ],
+      asSoonAs: [
+        { en: "As soon as the bell rings, we will stand up and greet the teacher.", zh: "铃一响就起立问好", tag: "上课铃", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p05-as-01-bell.png", oralQ: "What will you do when the bell rings?" },
+        { en: "As soon as I get home, I will wash my hands.", zh: "一到家就洗手", tag: "洗手", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p05-as-02-wash-hands.png", oralQ: "What will you do as soon as you get home?" },
+        { en: "As soon as the rain stops, we will go out for a walk.", zh: "雨停就去散步", tag: "雨停", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p05-as-03-rain-stop.png", oralQ: "When will you go for a walk?" },
+        { en: "As soon as you finish this page, you may take a five-minute break.", zh: "做完这页可休息五分钟", tag: "休息", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p05-as-04-break.png", oralQ: "When can you take a break?" },
+        { en: "As soon as he sees the sign, he will slow down.", zh: "看到标志就减速", tag: "减速", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p05-as-05-slow-down.png", oralQ: "What will he do when he sees the sign?" },
+        { en: "As soon as we arrive at the station, we will buy tickets.", zh: "到站就买票", tag: "买票", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p05-as-06-tickets.png", oralQ: "When will you buy tickets?" },
+        { en: "As soon as she saves enough money, she will buy a science magazine.", zh: "存够钱就买科学杂志", tag: "存钱", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p05-as-07-magazine.png", oralQ: "When will she buy the magazine?" },
+        { en: "As soon as the summer plan is ready, we will share it in class.", zh: "计划好就在班上分享", tag: "暑假计划", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p05-as-08-summer-plan.png", oralQ: "When will you share the summer plan?" },
+        { en: "As soon as the air quality improves, we will have PE outdoors.", zh: "空气好转就户外体育课", tag: "空气", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p05-as-09-outdoor-pe.png", oralQ: "When will PE be outdoors?" },
+        { en: "As soon as you tell me the time, I will set an alarm.", zh: "告诉我时间就设闹钟", tag: "闹钟", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p05-as-10-alarm.png", oralQ: "When will you set the alarm?" }
+      ],
+      asFillPick: [
+        { stem: "As soon as I ______ home, I will call you.", ans: "get", opts: ["get", "will get", "got"], fb: "主将从现：从句用一般现在 get。" },
+        { stem: "As soon as the rain ______, we will go out.", ans: "stops", opts: ["stops", "will stop", "stopped"], fb: "从句 stops，主句 will go out。" },
+        { stem: "I will call you as soon as I ______ safely.", ans: "arrive", opts: ["arrive", "will arrive", "arrived"], fb: "as soon as 从句不用 will。" },
+        { stem: "As soon as the summer plan ______ ready, we will share it.", ans: "is", opts: ["is", "will be", "was"], fb: "从句 is ready（一般现在表将来）。" }
+      ],
+      untilUnlessPick: [
+        { stem: "I waited ______ he came.", ans: "until", opts: ["until", "unless", "because"], fb: "等到他来 → 时间 until。" },
+        { stem: "______ you hurry, you will be late.", ans: "unless", opts: ["until", "unless", "as soon as"], fb: "除非赶快否则会迟到 → unless（Page 02）。" },
+        { stem: "I won't call you ______ I get home safely.", ans: "until", opts: ["until", "unless", "although"], fb: "安全到家才打 → not…until。" },
+        { stem: "______ the rain stops, we will go out.", ans: "As soon as", opts: ["As soon as", "Until", "Unless"], fb: "雨一停就出去 → as soon as。" }
+      ],
+      traps: [
+        { wrong: "As soon as I will get home, I will call you.", right: "As soon as I get home, I will call you." },
+        { wrong: "I waited unless he came.", right: "I waited until he came." },
+        { wrong: "I will call you as soon as I will arrive.", right: "I will call you as soon as I arrive." },
+        { wrong: "He didn't leave until he didn't finish.", right: "He didn't leave until he finished." },
+        { wrong: "As soon as I will arrive, I will call you.", right: "As soon as I arrive, I will call you." },
+        { wrong: "Because it was late, so I ran.", right: "Because it was late, I ran. / It was late, so I ran." },
+        { wrong: "Although it was late, but I finished my work.", right: "Although it was late, I finished my work." }
+      ],
+      dialogues: [
+        { a: "When will we start cleaning?", b: "As soon as the teacher says \"Go\"." },
+        { a: "Why did you stay online so late?", b: "I didn't log off until I submitted the form." },
+        { a: "Can we play basketball after school?", b: "Yes, as soon as we finish the duty rota." }
+      ],
+      mergeItems: [
+        { a: "I will get home.", b: "I will call you.", tag: "时间", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p05-merge-01-call-home.png", connector: "as soon as", merged: "As soon as I get home, I will call you.", oralQ: "Merge with as soon as: when will you call?" },
+        { a: "He checked the windows.", b: "He left the classroom.", tag: "not…until", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p05-merge-02-windows.png", connector: "not…until", merged: "He didn't leave the classroom until he checked the windows.", oralQ: "Use not…until: when did he leave?" },
+        { a: "The rain stops.", b: "We will go out.", tag: "时间", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p05-merge-03-rain-walk.png", connector: "as soon as", merged: "As soon as the rain stops, we will go out for a walk.", oralQ: "When will you go out?" },
+        { a: "You finish this page.", b: "You may take a break.", tag: "时间", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p05-merge-04-break.png", connector: "as soon as", merged: "As soon as you finish this page, you may take a five-minute break.", oralQ: "When can you rest?" },
+        { a: "The light turned green.", b: "The bus moved.", tag: "not…until", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p05-merge-05-green-bus.png", connector: "not…until", merged: "The bus didn't move until the light turned green.", oralQ: "When did the bus move?" },
+        { a: "It was cold.", b: "We went hiking.", tag: "让步", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p05-merge-06-cold-hike.png", connector: "although", merged: "Although it was cold, we went hiking.", oralQ: "Review Page 04: although + main clause." },
+        { a: "She spoke slowly.", b: "Everyone could understand her.", tag: "目的", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p05-merge-07-slow-speak.png", connector: "so that", merged: "She spoke slowly so that everyone could understand her.", oralQ: "Review Page 03: purpose so that." },
+        { a: "You don't practice speaking.", b: "You won't feel confident.", tag: "条件", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p05-merge-08-unless-speak.png", connector: "unless", merged: "Unless you practice speaking, you won't feel confident.", oralQ: "Review Page 02: unless." },
+        { a: "The story was very interesting.", b: "I finished it in one day.", tag: "结果", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p05-merge-09-so-story.png", connector: "so…that", merged: "The story was so interesting that I finished it in one day.", oralQ: "Review Page 03: so…that." },
+        { a: "We made a plan.", b: "We wouldn't waste the summer.", tag: "目的", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p05-merge-10-summer-plan.png", connector: "so that", merged: "We made a plan so that we wouldn't waste the summer holiday.", oralQ: "Why did you make a plan?" }
+      ],
+      mergeConnectorPick: [
+        { stem: "句 A: I get home. 句 B: I will call you. Best connector:", ans: "as soon as", opts: ["as soon as", "until", "although"], fb: "一到家就打电话 → as soon as。" },
+        { stem: "句 A: He checked the windows. 句 B: He left. Best connector:", ans: "not…until", opts: ["as soon as", "not…until", "unless"], fb: "检查完才离开 → not…until。" },
+        { stem: "句 A: It was cold. 句 B: We went hiking. Best connector:", ans: "although", opts: ["although", "because", "until"], fb: "尽管冷仍去徒步 → although。" },
+        { stem: "句 A: We made a plan. 句 B: We wouldn't waste the summer. Best connector:", ans: "so that", opts: ["so that", "so…that", "until"], fb: "为了不虚度暑假 → so that。" }
+      ],
+      oralTime: [
+        { zh: "假期一开始，我就制定每周计划。", en: "As soon as the summer holiday begins, I will make a weekly plan." },
+        { zh: "作业做完之前，我不会打游戏。", en: "I won't play games until I finish my homework." },
+        { zh: "安全到家后，我会给妈妈报平安。", en: "As soon as I get home safely, I will call my mum." }
+      ],
+      oralMerge: [
+        { zh: "暑假计划写好之后，就在班上分享。", en: "As soon as our summer plan is ready, we will share it in class." },
+        { zh: "检查完门窗，我们才离开教室。", en: "We didn't leave the classroom until we checked the doors and windows." }
+      ],
+      writingBridge: [
+        "As soon as the summer holiday begins, I will ",
+        "I won't play games until I ",
+        "As soon as I finish my morning reading, I will ",
+        "I will keep practicing English until I ",
+        "Although my plan may not be perfect, I will ",
+        "We made a weekly plan so that we won't "
+      ],
+      mixQuiz: [
+        { stem: "As soon as I ______ home, I will call you.", ans: "get", opts: ["get", "will get", "got"], fb: "主将从现：从句 get。" },
+        { stem: "He didn't leave the classroom ______ he checked the windows.", ans: "until", opts: ["until", "unless", "as soon as"], fb: "检查完才离开 → until。" },
+        { stem: "Which sentence is correct?", ans: "As soon as the rain stops, we will go out.", opts: [
+          "As soon as the rain will stop, we will go out.",
+          "As soon as the rain stops, we will go out.",
+          "Unless the rain stops, we will go out."
+        ], fb: "从句不用 will stop。" },
+        { stem: "I studied until midnight. This sentence emphasizes:", ans: "持续学到午夜", opts: ["直到才完成", "持续学到午夜", "一…就…"], fb: "until 表持续。" },
+        { stem: "I didn't finish until midnight. This sentence emphasizes:", ans: "直到才完成", opts: ["直到才完成", "持续学到午夜", "条件"], fb: "not…until 表「才」。" },
+        { stem: "Merge: I get home. + I will call you. →", ans: "As soon as I get home, I will call you.", opts: [
+          "As soon as I get home, I will call you.",
+          "Until I get home, I will call you.",
+          "Although I get home, I will call you."
+        ], fb: "一回家就打电话。" },
+        { stem: "Merge: He checked the windows. + He left. →", ans: "He didn't leave until he checked the windows.", opts: [
+          "He left until he checked the windows.",
+          "He didn't leave until he checked the windows.",
+          "As soon as he checked the windows, he didn't leave."
+        ], fb: "not…until 结构。" },
+        { stem: "I waited ______ he came.", ans: "until", opts: ["until", "unless", "because"], fb: "等到他来。" },
+        { stem: "______ the summer plan is ready, we will share it in class.", ans: "As soon as", opts: ["As soon as", "Until", "Although"], fb: "计划一好就分享。" },
+        { stem: "Fix: As soon as I will arrive, I will call you.", ans: "As soon as I arrive, I will call you.", opts: [
+          "As soon as I will arrive, I will call you.",
+          "As soon as I arrive, I will call you.",
+          "As soon as I arrived, I will call you."
+        ], fb: "去掉 will，用 arrive。" }
+      ]
+    };
+
+    let currentPage = 1;
+    let untilIdx = 0, notIdx = 0, asIdx = 0, mergeIdx = 0;
+    let mergeRevealed = false;
+    const untilVisited = new Set();
+    const notVisited = new Set();
+    const asVisited = new Set();
+    const mergeVisited = new Set();
+    const uiLock = document.getElementById("ui-lock");
+
+    function escapeXml(s) {
+      return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+    }
+    function lockUI() { uiLock.classList.add("active"); }
+    function unlockUI() { uiLock.classList.remove("active"); }
+
+    async function playAudio(text) {
+      if (!text) return;
+      lockUI();
+      const url = "https://" + AZURE_REGION + ".tts.speech.microsoft.com/cognitiveservices/v1";
+      const ssml = "<speak version='1.0' xml:lang='en-US'><voice name='" + VOICE_EN + "'>" + escapeXml(text) + "</voice></speak>";
+      try {
+        const res = await fetch(url, {
+          method: "POST",
+          headers: {
+            "Ocp-Apim-Subscription-Key": AZURE_KEY,
+            "Content-Type": "application/ssml+xml",
+            "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3"
+          },
+          body: ssml
+        });
+        if (!res.ok) throw new Error(String(res.status));
+        const blob = await res.blob();
+        const u = URL.createObjectURL(blob);
+        const a = new Audio(u);
+        await new Promise((res, rej) => {
+          a.onended = () => { URL.revokeObjectURL(u); res(); };
+          a.onerror = rej;
+          a.play().catch(rej);
+        });
+      } catch (e) {
+        const u = new SpeechSynthesisUtterance(text);
+        u.lang = "en-US";
+        speechSynthesis.speak(u);
+      } finally {
+        unlockUI();
+      }
+    }
+
+    function goPage(n) {
+      if (n < 1 || n > PAGE_COUNT) return;
+      currentPage = n;
+      document.querySelectorAll(".lesson-page").forEach((el) => {
+        el.classList.toggle("active", parseInt(el.dataset.page, 10) === n);
+      });
+      document.getElementById("pager-mid").textContent = n + " / " + PAGE_COUNT;
+      document.getElementById("pager-prev").disabled = n <= 1;
+      document.getElementById("pager-next").disabled = n >= PAGE_COUNT;
+    }
+
+    function renderCarouselJump(list, rowId, idx, visited, isMerge) {
+      const row = document.getElementById(rowId);
+      if (!row) return;
+      row.innerHTML = "";
+      list.forEach((item, i) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "carousel-jump-btn" + (isMerge ? " merge" : "") + (i === idx ? " active" : "") + (visited.has(i) ? " done" : "");
+        btn.textContent = item.tag || ("句" + (i + 1));
+        btn.addEventListener("click", () => {
+          if (rowId === "until-jump") { untilIdx = i; renderUntil(); }
+          else if (rowId === "not-jump") { notIdx = i; renderNot(); }
+          else if (rowId === "as-jump") { asIdx = i; renderAs(); }
+          else if (rowId === "merge-jump") { mergeIdx = i; mergeRevealed = false; renderMerge(); }
+        });
+        row.appendChild(btn);
+      });
+    }
+
+    function renderUntil() {
+      const s = P05.untilA[untilIdx];
+      untilVisited.add(untilIdx);
+      document.getElementById("until-label").textContent = (untilIdx + 1) + " / " + P05.untilA.length + " · " + s.tag;
+      document.getElementById("until-en").textContent = s.en;
+      const zh = document.getElementById("until-zh");
+      if (zh) zh.textContent = "→ " + s.zh;
+      const imgEl = document.getElementById("until-scene-img");
+      if (imgEl && s.img) {
+        imgEl.src = s.img;
+        imgEl.alt = s.tag || "until 情境";
+      }
+      renderCarouselJump(P05.untilA, "until-jump", untilIdx, untilVisited, false);
+    }
+    function renderNot() {
+      const s = P05.notUntil[notIdx];
+      notVisited.add(notIdx);
+      document.getElementById("not-label").textContent = (notIdx + 1) + " / " + P05.notUntil.length + " · " + s.tag;
+      document.getElementById("not-en").textContent = s.en;
+      document.getElementById("not-zh").textContent = "→ " + s.zh;
+      const imgEl = document.getElementById("not-scene-img");
+      if (imgEl && s.img) {
+        imgEl.src = s.img;
+        imgEl.alt = s.tag || "not…until 情境";
+      }
+      renderCarouselJump(P05.notUntil, "not-jump", notIdx, notVisited, false);
+    }
+    function renderAs() {
+      const s = P05.asSoonAs[asIdx];
+      asVisited.add(asIdx);
+      document.getElementById("as-label").textContent = (asIdx + 1) + " / " + P05.asSoonAs.length + " · " + s.tag;
+      document.getElementById("as-en").textContent = s.en;
+      document.getElementById("as-zh").textContent = "→ " + s.zh;
+      const imgEl = document.getElementById("as-scene-img");
+      if (imgEl && s.img) {
+        imgEl.src = s.img;
+        imgEl.alt = s.tag || "as soon as 情境";
+      }
+      renderCarouselJump(P05.asSoonAs, "as-jump", asIdx, asVisited, false);
+    }
+    function renderMerge() {
+      const m = P05.mergeItems[mergeIdx];
+      mergeVisited.add(mergeIdx);
+      if (mergeRevealed) mergeVisited.add(mergeIdx);
+      document.getElementById("merge-label").innerHTML = (mergeIdx + 1) + " / " + P05.mergeItems.length + " · <span id='merge-tag'>" + m.tag + "</span>";
+      document.getElementById("merge-a").textContent = "句 A：" + m.a;
+      document.getElementById("merge-b").textContent = "句 B：" + m.b;
+      const ans = document.getElementById("merge-ans");
+      ans.textContent = "合并（" + m.connector + "）：" + m.merged;
+      ans.classList.toggle("hidden", !mergeRevealed);
+      document.getElementById("merge-reveal").textContent = mergeRevealed ? "已显示答案" : "显示合并句";
+      document.getElementById("merge-reveal").disabled = mergeRevealed;
+      const imgEl = document.getElementById("merge-scene-img");
+      if (imgEl && m.img) {
+        imgEl.src = m.img;
+        imgEl.alt = m.tag || "合并情境";
+      }
+      renderCarouselJump(P05.mergeItems, "merge-jump", mergeIdx, mergeVisited, true);
+    }
+
+    function initPickQuiz(list, boxId) {
+      const box = document.getElementById(boxId);
+      if (!box) return;
+      list.forEach((q, qi) => {
+        const d = document.createElement("div");
+        d.className = "quiz-item";
+        d.innerHTML = "<p style='font-weight:800'>" + (qi + 1) + ". " + q.stem + "</p>";
+        const row = document.createElement("div");
+        row.className = "opt-row";
+        const fb = document.createElement("div");
+        fb.className = "fb";
+        q.opts.forEach((opt) => {
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.textContent = opt;
+          btn.addEventListener("click", () => {
+            row.querySelectorAll("button").forEach((b) => b.disabled = true);
+            if (opt === q.ans) {
+              btn.classList.add("ok");
+              d.classList.add("done");
+              fb.textContent = "✓ " + (q.fb || "正确");
+            } else {
+              btn.classList.add("bad");
+              fb.textContent = "再想想：应选「" + q.ans + "」。" + (q.fb ? " " + q.fb : "");
+            }
+          });
+          row.appendChild(btn);
+        });
+        d.appendChild(row);
+        d.appendChild(fb);
+        box.appendChild(d);
+      });
+    }
+
+    function initOralSummary() {
+      const tBox = document.getElementById("oral-time-box");
+      const mBox = document.getElementById("oral-merge-box");
+      if (tBox) {
+        tBox.innerHTML = "<p style='font-weight:800;color:#1d4ed8'>时间句 · until / as soon as：</p>";
+        P05.oralTime.forEach((o) => {
+          const card = document.createElement("div");
+          card.className = "oral-card";
+          card.innerHTML = "<p style='color:#5d4037'>" + o.zh + "</p><p lang='en'>" + o.en + "</p>";
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "btn ghost";
+          btn.textContent = "朗读";
+          btn.addEventListener("click", () => playAudio(o.en));
+          card.appendChild(btn);
+          tBox.appendChild(card);
+        });
+      }
+      if (mBox) {
+        mBox.innerHTML = "<p style='font-weight:800;color:#92400e'>合并句 · 全课连词回顾：</p>";
+        P05.oralMerge.forEach((o) => {
+          const card = document.createElement("div");
+          card.className = "oral-card merge";
+          card.innerHTML = "<p style='color:#5d4037'>" + o.zh + "</p><p lang='en'>" + o.en + "</p>";
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "btn ghost";
+          btn.textContent = "朗读";
+          btn.addEventListener("click", () => playAudio(o.en));
+          card.appendChild(btn);
+          mBox.appendChild(card);
+        });
+      }
+    }
+
+    function initWritingBridge() {
+      const box = document.getElementById("writing-bridge");
+      const ta = document.getElementById("p05-draft");
+      if (!box || !ta) return;
+      P05.writingBridge.forEach((chip, i) => {
+        const span = document.createElement("span");
+        span.className = "write-chip" + (i >= 4 ? " merge" : "");
+        span.textContent = chip;
+        span.title = "点击插入草稿";
+        span.addEventListener("click", () => {
+          const cur = ta.value.trim();
+          ta.value = cur ? cur + "\n" + chip : chip;
+          ta.focus();
+        });
+        box.appendChild(span);
+      });
+    }
+
+    function initTraps() {
+      const box = document.getElementById("trap-list");
+      P05.traps.forEach((t, i) => {
+        const d = document.createElement("div");
+        d.className = "trap-item";
+        d.innerHTML = "<p class='wrong'>✗ " + t.wrong + "</p><p class='right hidden' id='trap-r-" + i + "'>✓ " + t.right + "</p>";
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "btn ghost";
+        btn.textContent = "显示正句";
+        btn.addEventListener("click", () => {
+          document.getElementById("trap-r-" + i).classList.remove("hidden");
+          btn.disabled = true;
+        });
+        d.appendChild(btn);
+        box.appendChild(d);
+      });
+    }
+
+    function initDialogues() {
+      const box = document.getElementById("dialogue-box");
+      P05.dialogues.forEach((d, i) => {
+        const blk = document.createElement("div");
+        blk.className = "dialogue-block";
+        blk.innerHTML = "<p><span class='zh-tag time'>A</span> " + d.a + "</p><p><span class='zh-tag time'>B</span> " + d.b + "</p>";
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "btn ghost";
+        btn.textContent = "朗读 " + (i + 1);
+        btn.addEventListener("click", () => playAudio(d.a + " " + d.b));
+        blk.appendChild(btn);
+        box.appendChild(blk);
+      });
+    }
+
+    function initQuiz() {
+      const box = document.getElementById("mix-quiz");
+      P05.mixQuiz.forEach((q, qi) => {
+        const d = document.createElement("div");
+        d.className = "quiz-item";
+        d.innerHTML = "<p style='font-weight:800'>" + (qi + 1) + ". " + q.stem + "</p>";
+        const row = document.createElement("div");
+        row.className = "opt-row";
+        const fb = document.createElement("div");
+        fb.className = "fb";
+        q.opts.forEach((opt) => {
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.textContent = opt;
+          btn.addEventListener("click", () => {
+            row.querySelectorAll("button").forEach((b) => b.disabled = true);
+            if (opt === q.ans) {
+              btn.classList.add("ok");
+              d.classList.add("done");
+              fb.textContent = "✓ " + (q.fb || "正确。");
+            } else {
+              btn.classList.add("bad");
+              fb.textContent = "参考：「" + q.ans + "」。" + (q.fb ? " " + q.fb : "");
+            }
+          });
+          row.appendChild(btn);
+        });
+        d.appendChild(row);
+        d.appendChild(fb);
+        box.appendChild(d);
+      });
+    }
+
+    function initLessonApp() {
+      document.body.classList.add("has-lesson-pager");
+      renderUntil();
+      renderNot();
+      renderAs();
+      renderMerge();
+      initTraps();
+      initDialogues();
+      initPickQuiz(P05.untilNotPick, "until-not-pick");
+      initPickQuiz(P05.asFillPick, "as-fill-pick");
+      initPickQuiz(P05.untilUnlessPick, "until-unless-pick");
+      initPickQuiz(P05.mergeConnectorPick, "merge-connector-pick");
+      initQuiz();
+      initOralSummary();
+      initWritingBridge();
+      goPage(1);
+    }
+    initLessonApp();
+
+    document.querySelectorAll("[data-goto]").forEach((btn) => {
+      btn.addEventListener("click", () => goPage(parseInt(btn.dataset.goto, 10)));
+    });
+
+    document.getElementById("until-speak").addEventListener("click", () => playAudio(P05.untilA[untilIdx].en));
+
+    document.getElementById("not-speak").addEventListener("click", () => playAudio(P05.notUntil[notIdx].en));
+
+    document.getElementById("as-speak").addEventListener("click", () => playAudio(P05.asSoonAs[asIdx].en));
+
+    document.getElementById("merge-reveal").addEventListener("click", () => {
+      mergeRevealed = true;
+      renderMerge();
+    });
+    document.getElementById("merge-speak").addEventListener("click", () => {
+      if (mergeRevealed) playAudio(P05.mergeItems[mergeIdx].merged);
+    });
+    document.getElementById("pager-prev").addEventListener("click", () => {
+      if (currentPage > 1) goPage(currentPage - 1);
+    });
+    document.getElementById("pager-next").addEventListener("click", () => {
+      if (currentPage < PAGE_COUNT) goPage(currentPage + 1);
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.target.tagName === "TEXTAREA") return;
+      if (typeof isLessonImageLightboxOpen === "function" && isLessonImageLightboxOpen()) return;
+      if (e.key === "ArrowLeft" && currentPage > 1) goPage(currentPage - 1);
+      if (e.key === "ArrowRight" && currentPage < PAGE_COUNT) goPage(currentPage + 1);
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,1234 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>状语从句 —— 阅读与写作</title>
+  <link rel="stylesheet" href="assets/lesson-screen-16x9.css" />
+  <link rel="stylesheet" href="l11-index-nav.css" />
+  <style>
+    :root {
+      --paper: #fff9f0; --ink: #2c2c2c; --edge: #5d4037;
+      --crayon-purple: #7b1fa2; --crayon-gold: #f59e0b; --gold: #d4af37;
+      --shadow-book: rgba(60, 40, 20, 0.14);
+      --read: #f3e8ff; --read-ink: #6b21a8;
+      --write: #fef9c3; --write-ink: #92400e;
+      --fn-time: #dbeafe; --fn-reason: #d1fae5; --fn-cond: #e0e7ff;
+      --fn-conc: #fee2e2; --fn-purp: #f3e8ff; --fn-result: #ffedd5;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0; min-height: 100dvh;
+      font-family: system-ui, -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: linear-gradient(165deg, #4a148c 0%, #1a1420 45%, #120c18 100%);
+      color: var(--ink); line-height: 1.55;
+    }
+    body.has-lesson-pager { align-items: stretch !important; justify-content: flex-start; }
+    body.has-lesson-pager > #app {
+      width: 100% !important; max-width: 100% !important;
+      margin: 0 !important;
+      padding-left: max(8px, var(--lesson-s-l, 0px));
+      padding-right: max(8px, var(--lesson-s-r, 0px));
+    }
+    @media (min-width: 769px) and (min-height: 560px) {
+      body.has-lesson-pager > #app {
+        --l11-stage-vw: calc(100vw - var(--lesson-s-l) - var(--lesson-s-r) - 16px);
+        --l11-stage-vh: calc(100dvh - var(--lesson-pager-gap, 4.35rem) - max(4px, var(--lesson-s-t)) - max(4px, var(--lesson-s-b)) - 12px);
+        width: var(--l11-stage-vw) !important; max-width: var(--l11-stage-vw) !important;
+        height: var(--l11-stage-vh) !important; max-height: var(--l11-stage-vh) !important;
+        aspect-ratio: unset !important; flex: 1 1 auto !important;
+      }
+    }
+    #ui-lock { display: none; position: fixed; inset: 0; z-index: 9998; cursor: wait; }
+    #ui-lock.active { display: block; }
+    #app {
+      flex: 1 1 auto; width: 100%; max-width: 100%; margin: 0;
+      padding: min(10px, 1.2vw) min(12px, 1.5vw);
+      display: flex; flex-direction: column;
+      min-height: calc(100dvh - var(--lesson-pager-gap, 4.35rem) - 8px);
+      min-width: 0;
+    }
+    .hidden { display: none !important; }
+    #l11-book.book {
+      position: relative; flex: 1 1 auto; min-height: 0;
+      display: flex; flex-direction: column;
+      background: var(--paper); border: 4px solid var(--crayon-purple);
+      border-radius: 14px 30px 16px 24px;
+      box-shadow: 0 10px 0 rgba(123, 31, 162, 0.22), 0 22px 40px var(--shadow-book);
+      overflow: hidden;
+    }
+    #l11-book.book::before {
+      content: ""; position: absolute; inset: 10px;
+      border: 2px dashed rgba(93, 64, 55, 0.28); border-radius: 10px 20px 12px 18px;
+      pointer-events: none; z-index: 0;
+    }
+    .top-bar {
+      z-index: 2; margin: 10px 12px 0; border: 3px solid var(--crayon-purple);
+      border-radius: 999px; background: linear-gradient(180deg, #fff, #faf5ff);
+      text-align: center; padding: 10px 14px;
+      font-size: clamp(0.82rem, 0.35vw + 0.76rem, 0.98rem);
+    }
+    .top-bar strong { color: var(--read-ink); }
+    .subtitle-line { display: block; margin-top: 4px; font-size: 0.86em; color: #6d4c41; font-weight: 600; }
+    .l11-scroll {
+      position: relative; z-index: 1; flex: 1 1 auto; min-height: 0;
+      overflow: hidden auto; padding: 8px 12px 14px;
+    }
+    .lesson-page {
+      display: none; flex-direction: column; gap: 0.65rem;
+      min-height: min(100%, calc(100dvh - var(--lesson-pager-gap, 4.35rem) - 140px));
+      animation: l11fade 0.35s ease;
+    }
+    .lesson-page.active { display: flex; }
+    @keyframes l11fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+    .page-head {
+      display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between;
+      gap: 0.35rem 0.75rem; padding-bottom: 0.35rem;
+      border-bottom: 3px solid rgba(93, 64, 55, 0.15);
+    }
+    .page-kicker { font-size: 0.78rem; font-weight: 800; color: #6d4c41; }
+    .page-title { margin: 0; font-size: clamp(1.05rem, 1.8vw + 0.55rem, 1.35rem); font-weight: 900; color: var(--read-ink); }
+    .page-title.write { color: var(--write-ink); }
+    .panel {
+      background: rgba(255,255,255,0.92); border: 3px solid var(--edge);
+      border-radius: 14px 22px 12px 18px; padding: clamp(0.75rem, 1.5vw, 1.1rem);
+      box-shadow: 0 5px 0 rgba(93,64,55,0.08);
+    }
+    .scene-frame {
+      width: 100%; aspect-ratio: 4 / 3; min-height: 0;
+      border-radius: 12px 18px 10px 16px; border: 3px solid var(--edge);
+      background: linear-gradient(145deg, #4a148c, #422006);
+      overflow: hidden; display: flex; align-items: center; justify-content: center;
+    }
+    .scene-frame img { width: 100%; height: 100%; object-fit: contain; display: block; }
+    .rule-box {
+      padding: 0.65rem 0.75rem; border-radius: 12px; font-weight: 700; font-size: 0.92rem; margin: 0.5rem 0;
+    }
+    .rule-box.read { background: #faf5ff; border-left: 5px solid var(--crayon-purple); color: #581c87; }
+    .rule-box.write { background: #fffbeb; border-left: 5px solid var(--crayon-gold); color: #92400e; }
+    .legend-row { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.5rem 0; }
+    .legend-chip {
+      font-size: 0.78rem; font-weight: 800; padding: 0.25rem 0.55rem; border-radius: 8px;
+      border: 2px solid rgba(93,64,55,0.2);
+    }
+    .channel-row { display: flex; flex-wrap: wrap; gap: 0.65rem; margin-top: 0.65rem; }
+    .channel-btn {
+      flex: 1 1 200px; min-height: 56px; padding: 0.75rem 1rem; border-radius: 14px;
+      border: 3px solid var(--edge); font-weight: 900; font-size: 1rem; cursor: pointer;
+    }
+    .channel-btn.read { background: linear-gradient(135deg, #f3e8ff, #e9d5ff); color: var(--read-ink); }
+    .channel-btn.write { background: linear-gradient(135deg, #fef9c3, #fde68a); color: var(--write-ink); }
+    .passage-title { font-weight: 900; color: var(--read-ink); margin: 0 0 0.5rem; }
+    /* 短文 / 范文：在 lesson-screen 英文例句字号上再放大 100%（×2）；行距 +15% */
+    #l11-book.book .passage-box .passage-text[lang="en"],
+    #l11-book.book .passage-text[lang="en"] {
+      font-size: calc(var(--lesson-fs-example, 1.12rem) * 2) !important;
+      line-height: calc(1.65 * 1.15) !important;
+      font-weight: 700;
+      color: #1e293b;
+      margin: 0.5rem 0;
+    }
+    .passage-text mark.clause {
+      background: transparent; border-radius: 4px; padding: 0 2px;
+      font-weight: 800; color: inherit;
+      font-size: inherit;
+    }
+    .passage-box.show-clauses mark.fn-时间 { background: var(--fn-time); }
+    .passage-box.show-clauses mark.fn-原因 { background: var(--fn-reason); }
+    .passage-box.show-clauses mark.fn-条件 { background: var(--fn-cond); }
+    .passage-box.show-clauses mark.fn-让步 { background: var(--fn-conc); }
+    .passage-box.show-clauses mark.fn-目的 { background: var(--fn-purp); }
+    .passage-box.show-clauses mark.fn-结果 { background: var(--fn-result); }
+    .clause-list { margin: 0.5rem 0; padding: 0; list-style: none; }
+    .clause-list li {
+      margin: 0.35rem 0; padding: 0.45rem 0.55rem; border-radius: 8px;
+      background: #f8fafc; font-size: 0.88rem; font-weight: 700;
+    }
+    .clause-list.hidden { display: none; }
+    .passage-img-row {
+      display: flex; flex-wrap: wrap; gap: 0.45rem; margin: 0.5rem 0 0.75rem;
+    }
+    .passage-img-row .scene-frame {
+      flex: 1 1 140px; max-width: calc(50% - 0.25rem); min-height: 0;
+    }
+    .clause-drag-panel {
+      margin-top: 0.65rem; padding: 0.65rem 0.75rem; border-radius: 12px;
+      border: 2px dashed #c4b5fd; background: #faf5ff;
+    }
+    .clause-drag-panel .drag-hint {
+      font-size: 0.88rem; font-weight: 800; color: #5b21b6; margin: 0 0 0.5rem;
+    }
+    .fn-bank {
+      display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 0.65rem;
+      padding: 0.45rem; border-radius: 10px; background: #fff; border: 2px solid #e9d5ff;
+    }
+    .fn-drag-chip {
+      padding: 0.35rem 0.75rem; border-radius: 8px; font-weight: 900; font-size: 0.88rem;
+      cursor: grab; border: 2px solid rgba(93,64,55,0.25); user-select: none;
+    }
+    .fn-drag-chip:active { cursor: grabbing; }
+    .fn-drag-chip.used { opacity: 0.35; pointer-events: none; }
+    .fn-drag-chip[data-fn="时间"] { background: var(--fn-time); }
+    .fn-drag-chip[data-fn="原因"] { background: var(--fn-reason); }
+    .fn-drag-chip[data-fn="条件"] { background: var(--fn-cond); }
+    .fn-drag-chip[data-fn="让步"] { background: var(--fn-conc); }
+    .fn-drag-chip[data-fn="目的"] { background: var(--fn-purp); }
+    .fn-drag-chip[data-fn="结果"] { background: var(--fn-result); }
+    .drag-slot {
+      margin: 0.45rem 0; padding: 0.55rem 0.65rem; background: #fff;
+      border-radius: 10px; border: 2px solid #e2e8f0;
+    }
+    #l11-book.book .passage-box .drag-slot .clause-quote {
+      margin: 0.35rem 0 0;
+      font-size: calc(var(--lesson-fs-example, 1.12rem) * 1.75) !important;
+      font-weight: 800;
+      color: #334155;
+      font-style: italic;
+      line-height: calc(1.65 * 1.15) !important;
+    }
+    .drop-zone {
+      min-height: 44px; border: 2px dashed #94a3b8; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 0.86rem; color: #64748b; background: #f8fafc;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .drop-zone.drag-over { border-color: #7c3aed; background: #ede9fe; }
+    .drop-zone.filled { border-style: solid; font-weight: 900; color: #1e293b; }
+    .drop-zone.ok { background: #d1fae5; border-color: #047857; color: #047857; }
+    .drop-zone.bad { background: #fee2e2; border-color: #b91c1c; color: #b91c1c; }
+    .drag-fb { margin-top: 0.45rem; font-weight: 800; font-size: 0.86rem; color: #047857; min-height: 1.2em; }
+    .btn-row { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.5rem 0; }
+    .btn {
+      min-height: 44px; padding: 0.45rem 1rem; border-radius: 999px; border: 3px solid var(--edge);
+      background: #fff; font-weight: 800; cursor: pointer; font-size: 0.88rem;
+    }
+    .btn.purple { background: linear-gradient(135deg, #7b1fa2, #6b21a8); color: #fff; border-color: #581c87; }
+    .btn.gold { background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; border-color: #b45309; }
+    .btn.ghost { background: #f8fafc; color: #334155; }
+    .btn:disabled { opacity: 0.45; cursor: not-allowed; }
+    .quiz-item { padding: 0.65rem; margin: 0.45rem 0; border-radius: 12px; border: 2px solid #e2e8f0; }
+    .quiz-item.done { border-color: #5cb85c; background: #f0fdf4; }
+    .opt-row { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.4rem; }
+    .opt-row button {
+      min-height: 40px; padding: 0.35rem 0.75rem; border-radius: 10px;
+      border: 2px solid #cbd5e1; background: #fff; font-weight: 700; cursor: pointer;
+      font-size: 0.84rem; text-align: left;
+    }
+    .opt-row button.ok { background: #d1fae5; border-color: #047857; }
+    .opt-row button.bad { background: #fee2e2; border-color: #b91c1c; }
+    .fb { margin-top: 0.35rem; font-weight: 700; font-size: 0.88rem; color: #4c1d95; min-height: 1.2em; }
+    .diag-item {
+      padding: 0.65rem; margin: 0.45rem 0; border-radius: 12px;
+      border: 2px solid #e9d5ff; background: #faf5ff;
+    }
+    .frame-card {
+      padding: 0.75rem; border-radius: 12px; border: 3px solid #fcd34d;
+      background: #fffbeb; margin: 0.5rem 0; font-weight: 800; font-size: 1.02rem;
+    }
+    .word-bank { display: flex; flex-wrap: wrap; gap: 0.35rem; margin: 0.5rem 0; }
+    .word-chip {
+      padding: 0.3rem 0.6rem; border-radius: 999px; border: 2px solid #e2e8f0;
+      background: #fff; font-weight: 700; font-size: 0.82rem; cursor: pointer;
+    }
+    .word-chip:hover { background: #fef3c7; border-color: #f59e0b; }
+    #draft-area {
+      width: 100%; min-height: 140px; padding: 0.65rem; border-radius: 12px;
+      border: 3px solid var(--edge); font-size: 1rem; font-weight: 600;
+      line-height: 1.55; resize: vertical; font-family: inherit;
+    }
+    .check-result {
+      margin-top: 0.5rem; padding: 0.65rem; border-radius: 12px;
+      background: #f0fdf4; border: 2px solid #86efac; font-weight: 800;
+    }
+    .check-result.warn { background: #fffbeb; border-color: #fcd34d; }
+    #l11-book.book #model-essays .model-text[lang="en"] {
+      font-size: calc(var(--lesson-fs-example, 1.12rem) * 2) !important;
+      font-weight: 700;
+      line-height: calc(1.6 * 1.15) !important;
+      color: #334155;
+    }
+    .summary-list { margin: 0; padding-left: 1.2rem; font-weight: 700; }
+    .summary-list li { margin: 0.35rem 0; }
+    .summary-list li a { color: var(--read-ink); font-weight: 800; }
+    .goal-list { margin: 0.5rem 0 0; padding: 0; list-style: none; }
+    .goal-list li {
+      margin: 0.35rem 0; padding: 0.45rem 0.55rem; border-radius: 10px;
+      background: #faf5ff; font-weight: 700; font-size: 0.9rem;
+    }
+    .tier-label {
+      display: inline-block; font-size: 0.72rem; font-weight: 900;
+      padding: 0.12rem 0.45rem; border-radius: 6px; margin-right: 0.35rem;
+      background: #ede9fe; color: #5b21b6;
+    }
+    .oral-card {
+      margin: 0.5rem 0; padding: 0.65rem; border-radius: 12px;
+      border: 2px solid #d8b4fe; background: #faf5ff;
+    }
+    .oral-card.write { border-color: #fcd34d; background: #fffbeb; }
+    .oral-card p { margin: 0.35rem 0; font-weight: 800; }
+    .frame-jump-row { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 0.5rem; }
+    .frame-jump-btn {
+      min-height: 38px; padding: 0.3rem 0.65rem; border-radius: 999px;
+      border: 2px solid #fcd34d; background: #fff; font-weight: 800; font-size: 0.8rem; cursor: pointer;
+    }
+    .frame-jump-btn.active { background: #fef9c3; border-color: #a16207; color: #92400e; }
+    .peer-check { list-style: none; padding: 0; margin: 0; }
+    .peer-check li {
+      margin: 0.4rem 0; padding: 0.45rem; border-radius: 10px;
+      border: 2px solid #e2e8f0; background: #fff; font-weight: 700;
+      cursor: pointer; display: flex; align-items: flex-start; gap: 0.5rem;
+    }
+    .peer-check li.done { background: #f0fdf4; border-color: #86efac; }
+    .peer-check input { margin-top: 0.2rem; flex-shrink: 0; }
+    .word-bank-group { margin: 0.5rem 0; }
+    .word-bank-group .group-title { font-size: 0.82rem; font-weight: 900; color: #6d4c41; margin-bottom: 0.35rem; }
+    body.has-lesson-pager nav.lesson-pager button.pager-prev,
+    body.has-lesson-pager nav.lesson-pager button.pager-next,
+    body.has-lesson-pager nav.lesson-pager .pager-mid {
+      flex: 1 1 0; font-weight: 800; padding: 0.42rem; border-radius: 999px;
+      border: 3px solid #5d4037; cursor: pointer;
+      font-size: clamp(0.72rem, 2.4vw, 0.88rem);
+    }
+    body.has-lesson-pager nav.lesson-pager button.pager-next {
+      color: #4e342e; background: linear-gradient(180deg, #ffe082, #ffca28);
+    }
+    body.has-lesson-pager nav.lesson-pager button:disabled { opacity: 0.5; }
+  </style>
+</head>
+<body>
+  <div id="ui-lock" aria-hidden="true"></div>
+
+  <div id="app">
+    <div id="l11-book" class="book">
+      <header class="top-bar">
+        <strong>状语从句</strong> —— 阅读与写作
+        <span class="subtitle-line">三篇语篇标注 · My Summer Plan · ≥3 种状语从句</span>
+      </header>
+      <div class="l11-scroll">
+
+        <section class="lesson-page active" data-page="1">
+          <div class="page-head"><span class="page-kicker">1 / 10</span><h2 class="page-title">状语从句 —— 课程目标</h2></div>
+          <div class="panel panel-split">
+            <div class="stage-visual">
+              <div class="scene-frame">
+                <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p06-read-write-split.png" alt="阅读与写作" />
+              </div>
+            </div>
+            <div class="stage-body">
+              <p style="font-weight:800;margin:0 0 0.45rem;color:#6b21a8">课程目标</p>
+              <ul class="goal-list">
+                <li>① <strong>阅读</strong>：圈完整从句 · 说清功能（时间/原因/条件/让步/目的/结果）</li>
+                <li>② <strong>写作</strong>：80～120 词 · 至少 <strong>3 种</strong>状语从句 · 禁双连词</li>
+                <li>③ <strong>口语</strong>：用本课句架口头介绍你的暑假计划</li>
+              </ul>
+              <div class="channel-row">
+                <button type="button" class="channel-btn read" data-goto="2">📖 阅读批注室<br><span style="font-size:0.82rem;font-weight:600">三篇短文 · 功能标注</span></button>
+                <button type="button" class="channel-btn write" data-goto="8">✍ 写作工坊<br><span style="font-size:0.82rem;font-weight:600">句架 · 词块 · 草稿</span></button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="2">
+          <div class="page-head"><span class="page-kicker">2 / 10</span><h2 class="page-title">状语从句 —— 六类功能图例</h2></div>
+          <div class="panel panel-split">
+            <div class="stage-visual">
+              <div class="scene-frame"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p06-reading-desk.png" alt="阅读批注" /></div>
+            </div>
+            <div class="stage-body">
+              <div class="rule-box read"><strong>连词只是入口，功能才是答案。</strong>先读懂大意，再圈完整从句，最后说它在段中的作用。</div>
+              <div class="legend-row">
+                <span class="legend-chip" style="background:var(--fn-time)">[时间]</span>
+                <span class="legend-chip" style="background:var(--fn-reason)">[原因]</span>
+                <span class="legend-chip" style="background:var(--fn-cond)">[条件]</span>
+                <span class="legend-chip" style="background:var(--fn-conc)">[让步]</span>
+                <span class="legend-chip" style="background:var(--fn-purp)">[目的]</span>
+                <span class="legend-chip" style="background:var(--fn-result)">[结果]</span>
+              </div>
+              <p style="font-size:0.9rem;font-weight:700;color:#6d4c41">自问：这个从句回答的是 <strong>什么时候 / 为什么 / 在什么条件下 / 尽管什么 / 为了什么 / 结果怎样</strong>？</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="3">
+          <div class="page-head"><span class="page-kicker">3 / 10</span><h2 class="page-title">状语从句 —— 短文 A 暑假计划</h2></div>
+          <div class="panel" id="passage-a-box"></div>
+        </section>
+
+        <section class="lesson-page" data-page="4">
+          <div class="page-head"><span class="page-kicker">4 / 10</span><h2 class="page-title">状语从句 —— 短文 A 阅读题</h2></div>
+          <div class="panel">
+            <p style="font-weight:800;margin:0 0 0.5rem"><span class="tier-label">分层 B</span>理解 + 功能辨认（3 题）</p>
+            <div id="quiz-a"></div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="5">
+          <div class="page-head"><span class="page-kicker">5 / 10</span><h2 class="page-title">状语从句 —— 短文 B 社区环保</h2></div>
+          <div class="panel" id="passage-b-box"></div>
+          <div class="panel">
+            <p style="font-weight:800;margin:0 0 0.5rem"><span class="tier-label">分层 B</span>理解 + 功能辨认（3 题）</p>
+            <div id="quiz-b"></div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="6">
+          <div class="page-head"><span class="page-kicker">6 / 10</span><h2 class="page-title">状语从句 —— 短文 C 与功能匹配</h2></div>
+          <div class="panel" id="passage-c-box"></div>
+          <div class="panel">
+            <p style="font-weight:800;margin:0 0 0.5rem"><span class="tier-label">分层 B</span>短文 C 阅读题（3 题）</p>
+            <div id="quiz-c"></div>
+          </div>
+          <div class="panel">
+            <p style="font-weight:800;margin:0 0 0.5rem"><span class="tier-label">分层 B</span>单句功能匹配（12 题 · 全课复习）</p>
+            <div id="match-quiz"></div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="7">
+          <div class="page-head"><span class="page-kicker">7 / 10</span><h2 class="page-title">状语从句 —— 错因诊断</h2></div>
+          <div class="panel">
+            <p style="font-weight:800;margin:0 0 0.5rem"><span class="tier-label">分层 A</span>常见错标：只圈连词 / 功能标错</p>
+            <div id="diag-box"></div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="8">
+          <div class="page-head"><span class="page-kicker">8 / 10</span><h2 class="page-title write">状语从句 —— 写作句架与词块</h2></div>
+          <div class="panel panel-split">
+            <div class="stage-visual">
+              <div class="scene-frame"><img id="frame-scene-img" src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p06-frame-01-holiday.png" alt="假期一开始" /></div>
+            </div>
+            <div class="stage-body">
+              <div class="rule-box write">任务：写 <strong>My Summer Plan</strong>，80～120 词，至少 <strong>3 种</strong>不同状语从句；禁止 because…so、although…but。</div>
+              <p style="font-weight:700"><span class="tier-label">分层 A</span>写作句架（按功能分类 · 场景标签跳转 · 点击插入草稿）：</p>
+              <div class="frame-jump-row" id="frame-jump"></div>
+              <div class="frame-card" id="frame-card"></div>
+              <div class="btn-row">
+                <button type="button" class="btn gold" id="frame-insert">插入草稿</button>
+              </div>
+              <p style="font-weight:800;margin-top:0.5rem"><span class="tier-label">分层 B</span>词块（点击插入草稿）：</p>
+              <div id="word-bank"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="9">
+          <div class="page-head"><span class="page-kicker">9 / 10</span><h2 class="page-title write">状语从句 —— 草稿范文与自查</h2></div>
+          <div class="panel">
+            <p style="font-weight:800;margin:0 0 0.5rem;color:#92400e"><span class="tier-label">分层 A</span>范文参考（3 篇 · 可展开朗读）</p>
+            <div id="model-essays"></div>
+            <label for="draft-area" style="font-weight:800;display:block;margin-top:0.75rem"><span class="tier-label">分层 C</span>我的草稿：</label>
+            <textarea id="draft-area" placeholder="As soon as the summer holiday begins, I will..."></textarea>
+            <div class="btn-row">
+              <button type="button" class="btn ghost" id="draft-save">保存草稿</button>
+              <button type="button" class="btn gold" id="draft-check">检查从句类型</button>
+              <button type="button" class="btn ghost" id="draft-clear">清空</button>
+            </div>
+            <div id="check-out" class="check-result hidden" aria-live="polite"></div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="10">
+          <div class="page-head"><span class="page-kicker">10 / 10</span><h2 class="page-title">状语从句 —— 小结与量表</h2></div>
+          <div class="panel">
+            <ul class="summary-list">
+              <li>阅读：圈<strong>完整从句</strong>，说清<strong>功能</strong>，不只圈连词。</li>
+              <li>写作：至少 <strong>3 类</strong>状语从句；注意主将从现、不连用。</li>
+              <li>互评：内容具体 · 从句多样 · 结构清楚 · 无双连词。</li>
+              <li>下一页：当堂测（Page 07）。</li>
+            </ul>
+            <p style="font-weight:800;margin-top:0.65rem"><span class="tier-label">分层 C</span>同伴互评清单（点击勾选）：</p>
+            <ul class="peer-check" id="peer-list"></ul>
+            <p style="margin-top:0.75rem;text-align:center;font-weight:800;color:var(--read-ink)">
+              Page 06 完成 · <a href="lesson11-page07-quiz.html" style="color:#6b21a8">进入 Page 07 当堂测</a>
+            </p>
+          </div>
+        </section>
+
+      </div>
+    </div>
+    <nav class="lesson-pager" aria-label="分页">
+      <button type="button" class="pager-prev" id="pager-prev">上一页</button>
+      <span class="pager-mid" id="pager-mid">1 / 10</span>
+      <button type="button" class="pager-next" id="pager-next">下一页</button>
+    </nav>
+  </div>
+
+  <script src="l11-image-lightbox.js"></script>
+  <script src="l11-index-nav.js"></script>
+  <script>
+    const AZURE_KEY = "C42UQWeDcluYanbo17WrtUnPhk0vkZy2uQHPTCGDzY6CdExx99NzJQQJ99BIACqBBLyXJ3w3AAAYACOGjkyu";
+    const AZURE_REGION = "southeastasia";
+    const VOICE_EN = "en-US-AriaNeural";
+    const PAGE_COUNT = 10;
+    const DRAFT_KEY = "l11-p06-summer-draft";
+
+    const P06 = {
+      passages: [
+        {
+          id: "a",
+          title: "My First Summer Plan（基础）",
+          dragMatch: true,
+          images: [
+            { src: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p06-a-01-plan.png", alt: "制定周计划" },
+            { src: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p06-a-02-focus.png", alt: "阅读与运动" },
+            { src: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p06-a-03-bike.png", alt: "公园骑行" },
+            { src: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p06-a-04-diary.png", alt: "坚持与日记" }
+          ],
+          html: "This summer, I want to use my time wisely instead of wasting it on short videos every night. <mark class=\"clause fn-时间\">As soon as the holiday begins</mark>, I will sit down with my mum and make a weekly plan that lists reading, exercise and rest. I will put my phone on the kitchen shelf <mark class=\"clause fn-目的\">so that I can focus on reading and exercise</mark>. Every morning I plan to run for twenty minutes and read for half an hour before lunch. <mark class=\"clause fn-条件\">If the weather is fine</mark>, I will ride my bike in the park with my cousin and take photos of the green trees. I will not stay up late <mark class=\"clause fn-原因\">because I want to keep healthy</mark>, even when my friends invite me to play games online. <mark class=\"clause fn-让步\">Although the plan may not be perfect</mark>, I will try to follow it step by step and write a short diary every Sunday. I know the holiday will pass quickly, but I hope these small habits can help me grow.",
+          plain: "This summer, I want to use my time wisely instead of wasting it on short videos every night. As soon as the holiday begins, I will sit down with my mum and make a weekly plan that lists reading, exercise and rest. I will put my phone on the kitchen shelf so that I can focus on reading and exercise. Every morning I plan to run for twenty minutes and read for half an hour before lunch. If the weather is fine, I will ride my bike in the park with my cousin and take photos of the green trees. I will not stay up late because I want to keep healthy, even when my friends invite me to play games online. Although the plan may not be perfect, I will try to follow it step by step and write a short diary every Sunday. I know the holiday will pass quickly, but I hope these small habits can help me grow.",
+          clauses: [
+            { text: "As soon as the holiday begins", fn: "时间" },
+            { text: "so that I can focus on reading and exercise", fn: "目的" },
+            { text: "If the weather is fine", fn: "条件" },
+            { text: "because I want to keep healthy", fn: "原因" },
+            { text: "Although the plan may not be perfect", fn: "让步" }
+          ],
+          oralQ: "Tell your partner three things in your summer plan using although / if / as soon as.",
+          clausePick: [
+            { stem: "「As soon as the holiday begins」的功能是？", ans: "时间", opts: ["时间", "目的", "让步"], fb: "一……就……→ 时间。" },
+            { stem: "「so that I can focus on reading」的功能是？", ans: "目的", opts: ["结果", "目的", "原因"], fb: "为了能专心 → 目的 so that。" }
+          ],
+          questions: [
+            { stem: "假期一开始，作者会先做什么？", ans: "make a weekly plan", opts: ["make a weekly plan", "ride a bike", "stay up late"], fb: "As soon as... begins → make a weekly plan." },
+            { stem: "Why will the writer put the phone away?", ans: "to focus on reading and exercise", opts: ["to focus on reading and exercise", "because the phone was broken", "so that friends could call"], fb: "so that 表目的。" },
+            { stem: "Which clause shows concession（让步）?", ans: "Although the plan may not be perfect", opts: ["Although the plan may not be perfect", "because I want to keep healthy", "If the weather is fine"], fb: "Although = 尽管。" }
+          ]
+        },
+        {
+          id: "b",
+          title: "A Community Clean-up Day（标准）",
+          dragMatch: true,
+          images: [
+            { src: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p06-b-01-arrive.png", alt: "烈日下准时集合" },
+            { src: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p06-b-02-gloves.png", alt: "戴手套捡垃圾" },
+            { src: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p06-b-03-sort.png", alt: "教小朋友分类" },
+            { src: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p06-b-04-thanks.png", alt: "街道干净获感谢" }
+          ],
+          html: "Last Saturday, our class joined a community clean-up day near the river. Our teacher gave us gloves, rubbish bags and clear jobs before we started. <mark class=\"clause fn-让步\">Although the sun was strong</mark>, everyone arrived on time and nobody complained about the heat. We wore gloves <mark class=\"clause fn-目的\">so that we could pick up rubbish safely</mark>. Some bottles were hidden in the grass, so we worked in pairs and reminded each other to be careful. <mark class=\"clause fn-原因\">Because some younger kids did not know how to sort waste</mark>, we taught them with picture cards and simple English signs on the bins. We kept working <mark class=\"clause fn-时间\">until the bags were full</mark>, then we carried them to the recycling point together. <mark class=\"clause fn-时间\">As soon as the street looked clean</mark>, a few neighbours came over and thanked us with cold drinks. The work was tiring, but it made us feel proud of our neighbourhood. On the way back to school, we agreed to join another clean-up next month.",
+          plain: "Last Saturday, our class joined a community clean-up day near the river. Our teacher gave us gloves, rubbish bags and clear jobs before we started. Although the sun was strong, everyone arrived on time and nobody complained about the heat. We wore gloves so that we could pick up rubbish safely. Some bottles were hidden in the grass, so we worked in pairs and reminded each other to be careful. Because some younger kids did not know how to sort waste, we taught them with picture cards and simple English signs on the bins. We kept working until the bags were full, then we carried them to the recycling point together. As soon as the street looked clean, a few neighbours came over and thanked us with cold drinks. The work was tiring, but it made us feel proud of our neighbourhood. On the way back to school, we agreed to join another clean-up next month.",
+          clauses: [
+            { text: "Although the sun was strong", fn: "让步" },
+            { text: "so that we could pick up rubbish safely", fn: "目的" },
+            { text: "Because some younger kids did not know how to sort waste", fn: "原因" },
+            { text: "until the bags were full", fn: "时间" },
+            { text: "As soon as the street looked clean", fn: "时间" }
+          ],
+          oralQ: "Describe the clean-up day: what did you do although / until / as soon as?",
+          clausePick: [
+            { stem: "「Although the sun was strong」的功能是？", ans: "让步", opts: ["让步", "原因", "时间"], fb: "尽管太阳晒仍准时到。" },
+            { stem: "「until the bags were full」的功能是？", ans: "时间", opts: ["时间", "条件", "目的"], fb: "工作持续到袋子满。" }
+          ],
+          questions: [
+            { stem: "Why did students wear gloves?", ans: "to pick up rubbish safely", opts: ["to pick up rubbish safely", "because the sun was strong", "until the bags were full"], fb: "so that = 为了安全捡垃圾。" },
+            { stem: "What happened as soon as the street looked clean?", ans: "neighbours thanked them", opts: ["neighbours thanked them", "they taught younger kids", "they stopped working"], fb: "街道一干净邻居就来感谢。" },
+            { stem: "Which clause explains WHY they taught younger kids?", ans: "Because some younger kids did not know how to sort waste", opts: [
+              "Because some younger kids did not know how to sort waste",
+              "Although the sun was strong",
+              "until the bags were full"
+            ], fb: "Because 说明原因。" }
+          ]
+        },
+        {
+          id: "c",
+          title: "Learning to Travel Alone（提高）",
+          dragMatch: true,
+          images: [
+            { src: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p06-c-01-plan.png", alt: "父母同意暑假独自去博物馆，孩子查地铁线路图" },
+            { src: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p06-c-02-offline.png", alt: "保存地图截图以便无网络时仍能找路" },
+            { src: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p06-c-03-pack.png", alt: "装好学生证和水壶才出门，错过一班就等下一班" },
+            { src: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p06-c-04-museum.png", alt: "博物馆里从紧张到镇定，回家写日记" }
+          ],
+          html: "This summer, my parents let me plan a short trip to the city museum by myself for the first time. They gave me a notebook and said I should write down each step. <mark class=\"clause fn-原因\">Since I had never planned a route before</mark>, I checked the subway map twice and marked where to change lines. I saved screenshots of the map <mark class=\"clause fn-目的\">so that I could find the way even without the Internet</mark>. On the morning of the trip, I set an alarm early. <mark class=\"clause fn-条件\">If I missed a train</mark>, I would wait for the next one calmly instead of running on the platform. I did not leave home <mark class=\"clause fn-时间\">until I had packed my student card, water bottle, and a small first-aid kit</mark>. At the station, I followed the signs and asked a staff member when I was unsure. <mark class=\"clause fn-让步\">Although I felt nervous at first</mark>, I became calmer when I saw the museum signs clearly. Inside, I read the guide and took notes. It was <mark class=\"clause fn-结果\">such a useful experience that I wrote about it in my diary that evening</mark> and thanked my parents for trusting me.",
+          plain: "This summer, my parents let me plan a short trip to the city museum by myself for the first time. They gave me a notebook and said I should write down each step. Since I had never planned a route before, I checked the subway map twice and marked where to change lines. I saved screenshots of the map so that I could find the way even without the Internet. On the morning of the trip, I set an alarm early. If I missed a train, I would wait for the next one calmly instead of running on the platform. I did not leave home until I had packed my student card, water bottle, and a small first-aid kit. At the station, I followed the signs and asked a staff member when I was unsure. Although I felt nervous at first, I became calmer when I saw the museum signs clearly. Inside, I read the guide and took notes. It was such a useful experience that I wrote about it in my diary that evening and thanked my parents for trusting me.",
+          clauses: [
+            { text: "Since I had never planned a route before", fn: "原因" },
+            { text: "so that I could find the way even without the Internet", fn: "目的" },
+            { text: "If I missed a train", fn: "条件" },
+            { text: "until I had packed my student card, water bottle, and a small first-aid kit", fn: "时间" },
+            { text: "Although I felt nervous at first", fn: "让步" },
+            { text: "such a useful experience that I wrote about it in my diary that evening", fn: "结果" }
+          ],
+          oralQ: "How did you prepare for the museum trip? Use since / until / although.",
+          clausePick: [
+            { stem: "「Since I had never planned a route before」的功能是？", ans: "原因", opts: ["原因", "时间", "让步"], fb: "Since 表「既然/因为」查地图的原因。" },
+            { stem: "「such a useful experience that...」的功能是？", ans: "结果", opts: ["结果", "目的", "条件"], fb: "如此……以至于 → 结果。" }
+          ],
+          questions: [
+            { stem: "Why did the writer check the subway map twice?", ans: "had never planned a route before", opts: ["had never planned a route before", "the museum was crowded", "parents asked him to"], fb: "Since 从句说明原因。" },
+            { stem: "Why save screenshots?", ans: "to find the way without the Internet", opts: ["to find the way without the Internet", "because the train was late", "until the museum closed"], fb: "so that 表目的。" },
+            { stem: "Which clause shows concession?", ans: "Although I felt nervous at first", opts: ["Although I felt nervous at first", "If I missed a train", "until I had packed my student card"], fb: "尽管紧张仍镇定。" }
+          ]
+        }
+      ],
+      matchPool: [
+        { en: "If you ask politely, people are usually willing to help.", fn: "条件", fb: "If = 如果（条件）。" },
+        { en: "Because the road was icy, we walked slowly.", fn: "原因", fb: "Because 直接说明原因。" },
+        { en: "Although the museum was crowded, it was worth visiting.", fn: "让步", fb: "尽管人多仍值得去。" },
+        { en: "She opened the window so that fresh air could come in.", fn: "目的", fb: "so that = 为了让空气进来。" },
+        { en: "The story was so moving that many readers cried.", fn: "结果", fb: "so...that 结果。" },
+        { en: "As soon as I get home, I will wash my hands.", fn: "时间", fb: "一到家就洗手。" },
+        { en: "He didn't go to bed until he finished the report.", fn: "时间", fb: "not...until 直到做完才睡。" },
+        { en: "Unless you review the notes, you will forget the key points.", fn: "条件", fb: "unless = 除非（条件）。" },
+        { en: "Since everyone is here, let's begin.", fn: "原因", fb: "既然大家都到了。" },
+        { en: "Though he was tired, he kept running.", fn: "让步", fb: "尽管累仍坚持跑。" },
+        { en: "I set three alarms so that I wouldn't oversleep.", fn: "目的", fb: "为了不睡过头。" },
+        { en: "Although she didn't win, she learned a lot.", fn: "让步", fb: "尽管没赢仍收获大。" }
+      ],
+      wrongDiag: [
+        { wrong: "把 so that I can focus... 标成「结果」", right: "目的——说明为了能专心" },
+        { wrong: "只圈 because 一个词", right: "应圈 because I want to keep healthy" },
+        { wrong: "把 Since I had never planned... 标成「时间」", right: "原因——解释为何查地图" },
+        { wrong: "把 until the bags were full 标成「条件」", right: "时间——工作持续到袋子满" },
+        { wrong: "把 Although the sun was strong 标成「原因」", right: "让步——尽管太阳晒，仍准时到" }
+      ],
+      frames: [
+        { text: "As soon as the summer holiday begins, I will _____.", tag: "时间", fn: "时间", oralZh: "假期一开始我就……", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p06-frame-01-holiday.png", alt: "暑假开始，制定计划" },
+        { text: "I won't go to bed until I finish _____.", tag: "直到才", fn: "时间", oralZh: "直到做完……我才睡觉。", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p06-frame-02-until-bed.png", alt: "做完作业才睡觉" },
+        { text: "If the weather is fine, I will _____.", tag: "条件", fn: "条件", oralZh: "如果天气好，我就……", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p06-frame-03-weather.png", alt: "天气好就去户外活动" },
+        { text: "Unless I finish my homework, I won't _____.", tag: "条件", fn: "条件", oralZh: "除非完成作业，否则不……", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p06-frame-04-homework.png", alt: "先完成作业再出门" },
+        { text: "I want to _____ because _____.", tag: "原因", fn: "原因", oralZh: "我想……因为……", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p06-frame-05-because.png", alt: "说明想做某事的原因" },
+        { text: "I will make a weekly plan so that I can _____.", tag: "目的", fn: "目的", oralZh: "制定计划以便能……", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p06-frame-06-plan.png", alt: "制定周计划以便专注" },
+        { text: "I will put my phone away so that I won't _____.", tag: "目的", fn: "目的", oralZh: "收好手机以免……", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p06-frame-07-phone.png", alt: "收好手机以免分心" },
+        { text: "Although the plan may be hard, I will _____.", tag: "让步", fn: "让步", oralZh: "尽管计划难，我仍……", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p06-frame-08-although.png", alt: "尽管计划难仍坚持" },
+        { text: "The book may be so interesting that _____.", tag: "结果", fn: "结果", oralZh: "书太有趣以至于……", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p06-frame-09-book.png", alt: "书太有趣以至于停不下来" },
+        { text: "Since I have limited time, I will _____.", tag: "原因", fn: "原因", oralZh: "既然时间有限，我就……", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p06-frame-10-time.png", alt: "时间有限所以抓紧安排" }
+      ],
+      wordBankGroups: [
+        { title: "学习", words: ["review notes", "read English stories", "visit a museum", "practice speaking"] },
+        { title: "健康", words: ["ride a bike", "sleep early", "reduce screen time", "follow the plan"] },
+        { title: "生活", words: ["keep a diary", "help with housework", "sort rubbish", "become confident"] }
+      ],
+      models: [
+        {
+          tier: "基础",
+          title: "My Summer Plan",
+          text: "As soon as the summer holiday begins, I will make a weekly plan with my mum. I will finish my homework in the morning because I can focus better then. If the weather is fine, I will ride my bike in the park with my cousin. I will put my phone on the kitchen shelf so that I won't waste too much time on short videos. Although the plan may not be perfect, I will try to follow it step by step and write a short diary every Sunday. I hope these small habits can help me grow."
+        },
+        {
+          tier: "标准",
+          title: "A Green Summer",
+          text: "Last summer, our class joined a community clean-up day near the river. Although the sun was strong, everyone arrived on time because we wanted to help our neighbourhood. We wore gloves so that we could pick up rubbish safely. We kept working until the bags were full. As soon as the street looked clean, a few neighbours thanked us with cold drinks. The work was tiring, but it made us feel proud. On the way back to school, we agreed to join another clean-up next month."
+        },
+        {
+          tier: "提高",
+          title: "Learning to Travel Alone",
+          text: "This summer, my parents let me visit the city museum by myself for the first time. Since I had never planned a route before, I checked the subway map twice. I saved screenshots so that I could find the way even without the Internet. If I missed a train, I would wait calmly for the next one. I did not leave home until I had packed my student card and water bottle. Although I felt nervous at first, I became calmer when I saw the museum signs clearly. It was such a useful experience that I wrote about it in my diary that evening."
+        }
+      ],
+      peerChecklist: [
+        "内容是否包括至少三项具体计划？",
+        "是否至少有三种不同状语从句？",
+        "是否出现 because…so 或 although…but？",
+        "as soon as 从句里是否误用 will？",
+        "是否有清楚的开头和结尾？",
+        "是否有一个最想表扬的句子？"
+      ]
+    };
+
+    let currentPage = 1;
+    let frameIdx = 0;
+    const frameVisited = new Set();
+    const uiLock = document.getElementById("ui-lock");
+
+    function escapeXml(s) {
+      return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+    }
+    function lockUI() { uiLock.classList.add("active"); }
+    function unlockUI() { uiLock.classList.remove("active"); }
+
+    async function playAudio(text) {
+      if (!text) return;
+      lockUI();
+      const url = "https://" + AZURE_REGION + ".tts.speech.microsoft.com/cognitiveservices/v1";
+      const ssml = "<speak version='1.0' xml:lang='en-US'><voice name='" + VOICE_EN + "'>" + escapeXml(text) + "</voice></speak>";
+      try {
+        const res = await fetch(url, {
+          method: "POST",
+          headers: {
+            "Ocp-Apim-Subscription-Key": AZURE_KEY,
+            "Content-Type": "application/ssml+xml",
+            "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3"
+          },
+          body: ssml
+        });
+        if (!res.ok) throw new Error(String(res.status));
+        const blob = await res.blob();
+        const u = URL.createObjectURL(blob);
+        const a = new Audio(u);
+        await new Promise((res, rej) => {
+          a.onended = () => { URL.revokeObjectURL(u); res(); };
+          a.onerror = rej;
+          a.play().catch(rej);
+        });
+      } catch (e) {
+        const u = new SpeechSynthesisUtterance(text);
+        u.lang = "en-US";
+        speechSynthesis.speak(u);
+      } finally {
+        unlockUI();
+      }
+    }
+
+    function goPage(n) {
+      if (n < 1 || n > PAGE_COUNT) return;
+      currentPage = n;
+      document.querySelectorAll(".lesson-page").forEach((el) => {
+        el.classList.toggle("active", parseInt(el.dataset.page, 10) === n);
+      });
+      document.getElementById("pager-mid").textContent = n + " / " + PAGE_COUNT;
+      document.getElementById("pager-prev").disabled = n <= 1;
+      document.getElementById("pager-next").disabled = n >= PAGE_COUNT;
+    }
+
+    function initClauseDrag(panel, clauses) {
+      const bank = panel.querySelector(".fn-bank");
+      const slotsWrap = panel.querySelector(".drag-slots");
+      const fb = panel.querySelector(".drag-fb");
+      const fns = clauses.map((c) => c.fn);
+      const shuffled = fns.slice().sort(() => Math.random() - 0.5);
+      bank.innerHTML = "";
+      shuffled.forEach((fn) => {
+        const chip = document.createElement("span");
+        chip.className = "fn-drag-chip";
+        chip.draggable = true;
+        chip.dataset.fn = fn;
+        chip.textContent = fn;
+        chip.addEventListener("dragstart", (e) => {
+          if (chip.classList.contains("used")) {
+            e.preventDefault();
+            return;
+          }
+          e.dataTransfer.setData("text/fn", fn);
+          e.dataTransfer.effectAllowed = "move";
+        });
+        bank.appendChild(chip);
+      });
+      slotsWrap.innerHTML = "";
+      clauses.forEach((c, i) => {
+        const slot = document.createElement("div");
+        slot.className = "drag-slot";
+        slot.dataset.ans = c.fn;
+        const zone = document.createElement("div");
+        zone.className = "drop-zone";
+        zone.textContent = "把功能卡片拖到这里";
+        const quote = document.createElement("p");
+        quote.className = "clause-quote";
+        quote.lang = "en";
+        quote.textContent = "「" + c.text + "」";
+        slot.appendChild(zone);
+        slot.appendChild(quote);
+        zone.addEventListener("dragover", (e) => {
+          e.preventDefault();
+          if (!zone.classList.contains("filled")) zone.classList.add("drag-over");
+        });
+        zone.addEventListener("dragleave", () => zone.classList.remove("drag-over"));
+        zone.addEventListener("drop", (e) => {
+          e.preventDefault();
+          zone.classList.remove("drag-over");
+          if (zone.classList.contains("filled")) return;
+          const fn = e.dataTransfer.getData("text/fn");
+          const chipEl = bank.querySelector('.fn-drag-chip[data-fn="' + fn + '"]:not(.used)');
+          zone.textContent = fn;
+          zone.classList.add("filled");
+          if (fn === c.fn) {
+            zone.classList.add("ok");
+            if (chipEl) chipEl.classList.add("used");
+          } else {
+            zone.classList.add("bad");
+            setTimeout(() => {
+              zone.classList.remove("filled", "bad");
+              zone.textContent = "把功能卡片拖到这里";
+              if (chipEl) chipEl.classList.remove("used");
+            }, 900);
+          }
+          const done = slotsWrap.querySelectorAll(".drop-zone.ok").length;
+          if (done === clauses.length) {
+            fb.textContent = "✓ 全部匹配正确！颜色标注与卡片功能一致。";
+          } else if (done > 0) {
+            fb.textContent = "已完成 " + done + " / " + clauses.length + "，继续拖拽其余从句。";
+          }
+        });
+        slotsWrap.appendChild(slot);
+      });
+      panel._resetDrag = () => {
+        fb.textContent = "";
+        bank.querySelectorAll(".fn-drag-chip").forEach((ch) => ch.classList.remove("used"));
+        slotsWrap.querySelectorAll(".drop-zone").forEach((z) => {
+          z.className = "drop-zone";
+          z.textContent = "把功能卡片拖到这里";
+        });
+      };
+    }
+
+    function buildPassageDragBox(containerId, passage) {
+      const box = document.getElementById(containerId);
+      const wrap = document.createElement("div");
+      wrap.className = "passage-box";
+      const intro = document.createElement("p");
+      intro.style.fontWeight = "700";
+      intro.innerHTML = "<span class=\"tier-label\">分层 A</span>先读懂大意，再显示标注；把<strong>功能卡片</strong>拖到每条从句下方的方框（不直接显示答案）。";
+      wrap.appendChild(intro);
+      const title = document.createElement("p");
+      title.className = "passage-title";
+      title.textContent = passage.title;
+      wrap.appendChild(title);
+      if (passage.images && passage.images.length) {
+        const imgRow = document.createElement("div");
+        imgRow.className = "passage-img-row";
+        passage.images.forEach((img) => {
+          const frame = document.createElement("div");
+          frame.className = "scene-frame";
+          const el = document.createElement("img");
+          el.src = img.src;
+          el.alt = img.alt || "";
+          frame.appendChild(el);
+          imgRow.appendChild(frame);
+        });
+        wrap.appendChild(imgRow);
+      }
+      const text = document.createElement("p");
+      text.className = "passage-text";
+      text.lang = "en";
+      text.innerHTML = passage.html;
+      wrap.appendChild(text);
+      const dragPanel = document.createElement("div");
+      dragPanel.className = "clause-drag-panel hidden";
+      dragPanel.innerHTML =
+        "<p class=\"drag-hint\">从句功能卡片（拖到对应从句下方，不显示「状语功能」文字提示）：</p>" +
+        "<div class=\"fn-bank\"></div>" +
+        "<div class=\"drag-slots\"></div>" +
+        "<p class=\"drag-fb\"></p>";
+      initClauseDrag(dragPanel, passage.clauses);
+      wrap.appendChild(dragPanel);
+      const row = document.createElement("div");
+      row.className = "btn-row";
+      const toggle = document.createElement("button");
+      toggle.type = "button";
+      toggle.className = "btn purple";
+      toggle.textContent = "显示从句标注";
+      toggle.addEventListener("click", () => {
+        const on = wrap.classList.toggle("show-clauses");
+        dragPanel.classList.toggle("hidden", !on);
+        toggle.textContent = on ? "隐藏标注" : "显示从句标注";
+        if (!on && dragPanel._resetDrag) dragPanel._resetDrag();
+      });
+      const speak = document.createElement("button");
+      speak.type = "button";
+      speak.className = "btn ghost";
+      speak.textContent = "朗读短文";
+      speak.addEventListener("click", () => playAudio(passage.plain));
+      row.appendChild(toggle);
+      row.appendChild(speak);
+      wrap.appendChild(row);
+      if (passage.clausePick && passage.clausePick.length) {
+        const pickBox = document.createElement("div");
+        pickBox.style.marginTop = "0.75rem";
+        pickBox.innerHTML = "<p style=\"font-weight:800\"><span class=\"tier-label\">分层 B</span>从句功能快判：</p>";
+        passage.clausePick.forEach((q, qi) => {
+          const d = document.createElement("div");
+          d.className = "quiz-item";
+          d.innerHTML = "<p style=\"font-weight:800\">" + (qi + 1) + ". " + q.stem + "</p>";
+          const optRow = document.createElement("div");
+          optRow.className = "opt-row";
+          const fb = document.createElement("div");
+          fb.className = "fb";
+          q.opts.forEach((opt) => {
+            const btn = document.createElement("button");
+            btn.type = "button";
+            btn.textContent = opt;
+            btn.addEventListener("click", () => {
+              optRow.querySelectorAll("button").forEach((b) => b.disabled = true);
+              if (opt === q.ans) {
+                btn.classList.add("ok");
+                d.classList.add("done");
+                fb.textContent = "✓ " + (q.fb || opt);
+              } else {
+                btn.classList.add("bad");
+                fb.textContent = "应为「" + q.ans + "」。" + (q.fb ? " " + q.fb : "");
+              }
+            });
+            optRow.appendChild(btn);
+          });
+          d.appendChild(optRow);
+          d.appendChild(fb);
+          pickBox.appendChild(d);
+        });
+        wrap.appendChild(pickBox);
+      }
+      box.appendChild(wrap);
+    }
+
+    function buildPassageBox(containerId, passage) {
+      if (passage.dragMatch) {
+        buildPassageDragBox(containerId, passage);
+        return;
+      }
+      const box = document.getElementById(containerId);
+      const wrap = document.createElement("div");
+      wrap.className = "passage-box";
+      wrap.innerHTML =
+        "<p style=\"font-weight:700\"><span class=\"tier-label\">分层 A</span>先读懂大意，再显示标注。</p>" +
+        "<p class=\"passage-title\">" + passage.title + "</p>" +
+        "<p class=\"passage-text\" lang=\"en\">" + passage.html + "</p>" +
+        "<ul class=\"clause-list hidden\" id=\"clauses-" + passage.id + "\"></ul>";
+      const ul = wrap.querySelector(".clause-list");
+      passage.clauses.forEach((c) => {
+        const li = document.createElement("li");
+        li.textContent = "[" + c.fn + "] " + c.text;
+        ul.appendChild(li);
+      });
+      const row = document.createElement("div");
+      row.className = "btn-row";
+      const toggle = document.createElement("button");
+      toggle.type = "button";
+      toggle.className = "btn purple";
+      toggle.textContent = "显示从句标注";
+      toggle.addEventListener("click", () => {
+        const on = wrap.classList.toggle("show-clauses");
+        ul.classList.toggle("hidden", !on);
+        toggle.textContent = on ? "隐藏标注" : "显示从句标注";
+      });
+      const speak = document.createElement("button");
+      speak.type = "button";
+      speak.className = "btn ghost";
+      speak.textContent = "朗读短文";
+      speak.addEventListener("click", () => playAudio(passage.plain));
+      const oral = document.createElement("button");
+      oral.type = "button";
+      oral.className = "btn ghost";
+      oral.textContent = "口语任务";
+      oral.addEventListener("click", () => {
+        alert("口语任务 · " + passage.title + "\n\n" + (passage.oralQ || "Retell one clause of each function."));
+        playAudio(passage.plain);
+      });
+      row.appendChild(toggle);
+      row.appendChild(speak);
+      row.appendChild(oral);
+      wrap.appendChild(row);
+      if (passage.clausePick && passage.clausePick.length) {
+        const pickBox = document.createElement("div");
+        pickBox.style.marginTop = "0.75rem";
+        pickBox.innerHTML = "<p style=\"font-weight:800\"><span class=\"tier-label\">分层 B</span>从句功能快判：</p>";
+        passage.clausePick.forEach((q, qi) => {
+          const d = document.createElement("div");
+          d.className = "quiz-item";
+          d.innerHTML = "<p style=\"font-weight:800\">" + (qi + 1) + ". " + q.stem + "</p>";
+          const optRow = document.createElement("div");
+          optRow.className = "opt-row";
+          const fb = document.createElement("div");
+          fb.className = "fb";
+          q.opts.forEach((opt) => {
+            const btn = document.createElement("button");
+            btn.type = "button";
+            btn.textContent = opt;
+            btn.addEventListener("click", () => {
+              optRow.querySelectorAll("button").forEach((b) => b.disabled = true);
+              if (opt === q.ans) {
+                btn.classList.add("ok");
+                d.classList.add("done");
+                fb.textContent = "✓ " + (q.fb || opt);
+              } else {
+                btn.classList.add("bad");
+                fb.textContent = "应为「" + q.ans + "」。" + (q.fb ? " " + q.fb : "");
+              }
+            });
+            optRow.appendChild(btn);
+          });
+          d.appendChild(optRow);
+          d.appendChild(fb);
+          pickBox.appendChild(d);
+        });
+        wrap.appendChild(pickBox);
+      }
+      box.appendChild(wrap);
+    }
+
+    function buildQuiz(containerId, questions, offset) {
+      const box = document.getElementById(containerId);
+      questions.forEach((q, qi) => {
+        const d = document.createElement("div");
+        d.className = "quiz-item";
+        d.innerHTML = "<p style=\"font-weight:800\">" + (offset + qi + 1) + ". " + q.stem + "</p>";
+        const row = document.createElement("div");
+        row.className = "opt-row";
+        const fb = document.createElement("div");
+        fb.className = "fb";
+        q.opts.forEach((opt) => {
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.textContent = opt;
+          btn.addEventListener("click", () => {
+            row.querySelectorAll("button").forEach((b) => b.disabled = true);
+            if (opt === q.ans) {
+              btn.classList.add("ok");
+              d.classList.add("done");
+              fb.textContent = "✓ " + (q.fb || "正确。");
+            } else {
+              btn.classList.add("bad");
+              fb.textContent = "参考：「" + q.ans + "」。" + (q.fb ? " " + q.fb : "");
+            }
+          });
+          row.appendChild(btn);
+        });
+        d.appendChild(row);
+        d.appendChild(fb);
+        box.appendChild(d);
+      });
+    }
+
+    function initMatchQuiz() {
+      const box = document.getElementById("match-quiz");
+      const fns = ["时间", "原因", "条件", "让步", "目的", "结果"];
+      P06.matchPool.forEach((item, qi) => {
+        const d = document.createElement("div");
+        d.className = "quiz-item";
+        d.innerHTML = "<p style=\"font-weight:800\">" + (qi + 1) + ". " + item.en + "</p>";
+        const row = document.createElement("div");
+        row.className = "opt-row";
+        const fb = document.createElement("div");
+        fb.className = "fb";
+        fns.forEach((fn) => {
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.textContent = fn;
+          btn.addEventListener("click", () => {
+            row.querySelectorAll("button").forEach((b) => b.disabled = true);
+            if (fn === item.fn) {
+              btn.classList.add("ok");
+              d.classList.add("done");
+              fb.textContent = "✓ [" + fn + "] " + (item.fb || "");
+            } else {
+              btn.classList.add("bad");
+              fb.textContent = "应为 [" + item.fn + "]。" + (item.fb ? " " + item.fb : "");
+            }
+          });
+          row.appendChild(btn);
+        });
+        d.appendChild(row);
+        d.appendChild(fb);
+        box.appendChild(d);
+      });
+    }
+
+    function initDiag() {
+      const box = document.getElementById("diag-box");
+      P06.wrongDiag.forEach((item, i) => {
+        const d = document.createElement("div");
+        d.className = "diag-item";
+        d.innerHTML = "<p style=\"color:#b91c1c;font-weight:800\">✗ " + item.wrong + "</p>" +
+          "<p class=\"right hidden\" id=\"diag-r-" + i + "\" style=\"color:#047857;margin-top:0.35rem\">✓ " + item.right + "</p>";
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "btn ghost";
+        btn.textContent = "显示正解";
+        btn.addEventListener("click", () => {
+          document.getElementById("diag-r-" + i).classList.remove("hidden");
+          btn.disabled = true;
+        });
+        d.appendChild(btn);
+        box.appendChild(d);
+      });
+    }
+
+    function renderFrameJump() {
+      const row = document.getElementById("frame-jump");
+      if (!row) return;
+      row.innerHTML = "";
+      P06.frames.forEach((f, i) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "frame-jump-btn" + (i === frameIdx ? " active" : "") + (frameVisited.has(i) ? " done" : "");
+        btn.textContent = f.tag || ("句" + (i + 1));
+        btn.title = f.fn;
+        btn.addEventListener("click", () => { frameIdx = i; renderFrame(); });
+        row.appendChild(btn);
+      });
+    }
+
+    function renderFrame() {
+      const f = P06.frames[frameIdx];
+      frameVisited.add(frameIdx);
+      document.getElementById("frame-card").innerHTML =
+        "<span style=\"font-size:0.82rem;color:#64748b\">" + (frameIdx + 1) + " / " + P06.frames.length + " · [" + f.fn + "] " + f.tag + "</span><br>" + f.text;
+      const sceneImg = document.getElementById("frame-scene-img");
+      if (sceneImg && f.img) {
+        sceneImg.src = f.img;
+        sceneImg.alt = f.alt || f.tag || "";
+      }
+      renderFrameJump();
+    }
+
+    function initWordBank() {
+      const box = document.getElementById("word-bank");
+      const ta = document.getElementById("draft-area");
+      P06.wordBankGroups.forEach((grp) => {
+        const g = document.createElement("div");
+        g.className = "word-bank-group";
+        g.innerHTML = "<p class=\"group-title\">" + grp.title + "</p>";
+        const row = document.createElement("div");
+        row.className = "word-bank";
+        grp.words.forEach((w) => {
+          const chip = document.createElement("button");
+          chip.type = "button";
+          chip.className = "word-chip";
+          chip.textContent = w;
+          chip.addEventListener("click", () => {
+            const sep = ta.value && !ta.value.endsWith(" ") ? " " : "";
+            ta.value += sep + w;
+            ta.focus();
+          });
+          row.appendChild(chip);
+        });
+        g.appendChild(row);
+        box.appendChild(g);
+      });
+    }
+
+    function initModels() {
+      const box = document.getElementById("model-essays");
+      if (!box) return;
+      P06.models.forEach((m, i) => {
+        const det = document.createElement("details");
+        det.style.marginBottom = "0.65rem";
+        if (i === 0) det.open = true;
+        const sum = document.createElement("summary");
+        sum.style.cssText = "font-weight:800;cursor:pointer;color:#92400e";
+        sum.textContent = "范文 " + String.fromCharCode(65 + i) + "（" + m.tier + " · " + m.title + "）";
+        const p = document.createElement("p");
+        p.className = "model-text";
+        p.lang = "en";
+        p.textContent = m.text;
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "btn ghost";
+        btn.textContent = "朗读范文";
+        btn.addEventListener("click", (e) => {
+          e.preventDefault();
+          playAudio(m.text);
+        });
+        det.appendChild(sum);
+        det.appendChild(p);
+        det.appendChild(btn);
+        box.appendChild(det);
+      });
+    }
+
+    function detectClauseTypes(text) {
+      const t = text.toLowerCase();
+      const found = [];
+      if (/\b(as soon as|until|before|after|when|not\s+.+\s+until)\b/.test(t)) found.push("时间");
+      if (/\b(because|since)\b/.test(t) || /\bas\b[^.]{0,40}\b(I|we|he|she|they)\b/.test(t)) found.push("原因");
+      if (/\b(if|unless)\b/.test(t)) found.push("条件");
+      if (/\b(although|though|even though)\b/.test(t)) found.push("让步");
+      if (/\bso that\b/.test(t) || /\bin order that\b/.test(t)) found.push("目的");
+      if (/\bso\s+\w+/.test(t) && /\bthat\b/.test(t)) found.push("结果");
+      if (/\bsuch\s+/.test(t) && /\bthat\b/.test(t)) found.push("结果");
+      return [...new Set(found)];
+    }
+
+    function checkDraft() {
+      const ta = document.getElementById("draft-area");
+      const out = document.getElementById("check-out");
+      const text = ta.value.trim();
+      out.classList.remove("hidden", "warn");
+      if (!text) {
+        out.textContent = "请先写几句草稿再检查。";
+        out.classList.add("warn");
+        return;
+      }
+      const types = detectClauseTypes(text);
+      let msg = "检测到状语从句类型（弱检测）：" + (types.length ? types.join("、") : "暂未识别") + "。";
+      if (types.length >= 3) {
+        msg += " ✓ 已满足「至少三种」要求（请教师复核准确性）。";
+        out.classList.remove("warn");
+      } else {
+        msg += " 建议再补充 " + (3 - types.length) + " 类从句。";
+        out.classList.add("warn");
+      }
+      if (/because[^.]{0,80}\bso\b/i.test(text) || /although[^.]{0,80}\bbut\b/i.test(text)) {
+        msg += " ⚠ 可能出现双连词，请修改。";
+        out.classList.add("warn");
+      }
+      if (/as soon as\s+I\s+will\b/i.test(text)) {
+        msg += " ⚠ as soon as 从句里慎用 will。";
+        out.classList.add("warn");
+      }
+      const words = text.split(/\s+/).filter(Boolean).length;
+      msg += " 词数约 " + words + "。";
+      out.textContent = msg;
+    }
+
+    function initLessonApp() {
+      document.body.classList.add("has-lesson-pager");
+      buildPassageBox("passage-a-box", P06.passages[0]);
+      buildQuiz("quiz-a", P06.passages[0].questions, 0);
+      buildPassageBox("passage-b-box", P06.passages[1]);
+      buildQuiz("quiz-b", P06.passages[1].questions, 3);
+      buildPassageBox("passage-c-box", P06.passages[2]);
+      buildQuiz("quiz-c", P06.passages[2].questions, 6);
+      initMatchQuiz();
+      initDiag();
+      renderFrame();
+      initWordBank();
+      initModels();
+      const peer = document.getElementById("peer-list");
+      P06.peerChecklist.forEach((item, i) => {
+        const li = document.createElement("li");
+        li.innerHTML = "<input type=\"checkbox\" id=\"peer-" + i + "\" /><label for=\"peer-" + i + "\">" + item + "</label>";
+        li.addEventListener("click", (e) => {
+          if (e.target.tagName === "INPUT") return;
+          const cb = li.querySelector("input");
+          cb.checked = !cb.checked;
+          li.classList.toggle("done", cb.checked);
+        });
+        li.querySelector("input").addEventListener("change", () => {
+          li.classList.toggle("done", li.querySelector("input").checked);
+        });
+        peer.appendChild(li);
+      });
+      const saved = localStorage.getItem(DRAFT_KEY);
+      if (saved) document.getElementById("draft-area").value = saved;
+      goPage(1);
+    }
+    initLessonApp();
+
+    document.querySelectorAll("[data-goto]").forEach((btn) => {
+      btn.addEventListener("click", () => goPage(parseInt(btn.dataset.goto, 10)));
+    });
+
+    document.getElementById("frame-insert").addEventListener("click", () => {
+      const ta = document.getElementById("draft-area");
+      const line = P06.frames[frameIdx].text;
+      ta.value += (ta.value && !ta.value.endsWith("\n") ? "\n" : "") + line + "\n";
+      goPage(9);
+    });
+    document.getElementById("draft-save").addEventListener("click", () => {
+      localStorage.setItem(DRAFT_KEY, document.getElementById("draft-area").value);
+      alert("草稿已保存到本机浏览器。");
+    });
+    document.getElementById("draft-check").addEventListener("click", checkDraft);
+    document.getElementById("draft-clear").addEventListener("click", () => {
+      if (confirm("确定清空草稿？")) {
+        document.getElementById("draft-area").value = "";
+        localStorage.removeItem(DRAFT_KEY);
+        document.getElementById("check-out").classList.add("hidden");
+      }
+    });
+
+    document.getElementById("pager-prev").addEventListener("click", () => {
+      if (currentPage > 1) goPage(currentPage - 1);
+    });
+    document.getElementById("pager-next").addEventListener("click", () => {
+      if (currentPage < PAGE_COUNT) goPage(currentPage + 1);
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.target.tagName === "TEXTAREA") return;
+      if (typeof isLessonImageLightboxOpen === "function" && isLessonImageLightboxOpen()) return;
+      if (e.key === "ArrowLeft" && currentPage > 1) goPage(currentPage - 1);
+      if (e.key === "ArrowRight" && currentPage < PAGE_COUNT) goPage(currentPage + 1);
+    });
+  </script>
+</body>
+</html>

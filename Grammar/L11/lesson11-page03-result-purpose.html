@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>状语从句 —— 结果与目的</title>
+  <link rel="stylesheet" href="assets/lesson-screen-16x9.css" />
+  <link rel="stylesheet" href="l11-index-nav.css" />
+  <style>
+    :root {
+      --paper: #fff9f0; --ink: #2c2c2c; --edge: #5d4037;
+      --crayon-blue: #4a90d9; --crayon-orange: #f0ad4e; --crayon-red: #e85d4c;
+      --crayon-purple: #9b59b6; --gold: #d4af37; --shadow-book: rgba(60, 40, 20, 0.14);
+      --result: #ffedd5; --purpose: #f3e8ff;
+      --result-ink: #c2410c; --purpose-ink: #6b21a8;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0; min-height: 100dvh;
+      font-family: system-ui, -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: linear-gradient(165deg, #4a1942 0%, #1a1420 45%, #120c18 100%);
+      color: var(--ink); line-height: 1.55;
+    }
+    body.has-lesson-pager { align-items: stretch !important; justify-content: flex-start; }
+    body.has-lesson-pager > #app {
+      width: 100% !important; max-width: 100% !important;
+      margin: 0 !important;
+      padding-left: max(8px, var(--lesson-s-l, 0px));
+      padding-right: max(8px, var(--lesson-s-r, 0px));
+    }
+    @media (min-width: 769px) and (min-height: 560px) {
+      body.has-lesson-pager > #app {
+        --l11-stage-vw: calc(100vw - var(--lesson-s-l) - var(--lesson-s-r) - 16px);
+        --l11-stage-vh: calc(100dvh - var(--lesson-pager-gap, 4.35rem) - max(4px, var(--lesson-s-t)) - max(4px, var(--lesson-s-b)) - 12px);
+        width: var(--l11-stage-vw) !important; max-width: var(--l11-stage-vw) !important;
+        height: var(--l11-stage-vh) !important; max-height: var(--l11-stage-vh) !important;
+        aspect-ratio: unset !important; flex: 1 1 auto !important;
+      }
+    }
+    #ui-lock { display: none; position: fixed; inset: 0; z-index: 9998; cursor: wait; }
+    #ui-lock.active { display: block; }
+    #app {
+      flex: 1 1 auto; width: 100%; max-width: 100%; margin: 0;
+      padding: min(10px, 1.2vw) min(12px, 1.5vw);
+      display: flex; flex-direction: column;
+      min-height: calc(100dvh - var(--lesson-pager-gap, 4.35rem) - 8px);
+      min-width: 0;
+    }
+    .hidden { display: none !important; }
+    #l11-book.book {
+      position: relative; flex: 1 1 auto; min-height: 0;
+      display: flex; flex-direction: column;
+      background: var(--paper); border: 4px solid var(--crayon-orange);
+      border-radius: 14px 30px 16px 24px;
+      box-shadow: 0 10px 0 rgba(240, 173, 78, 0.28), 0 22px 40px var(--shadow-book);
+      overflow: hidden;
+    }
+    #l11-book.book::before {
+      content: ""; position: absolute; inset: 10px;
+      border: 2px dashed rgba(93, 64, 55, 0.28); border-radius: 10px 20px 12px 18px;
+      pointer-events: none; z-index: 0;
+    }
+    .top-bar {
+      z-index: 2; margin: 10px 12px 0; border: 3px solid var(--crayon-orange);
+      border-radius: 999px; background: linear-gradient(180deg, #fff, #fff7ed);
+      text-align: center; padding: 10px 14px;
+      font-size: clamp(0.82rem, 0.35vw + 0.76rem, 0.98rem);
+    }
+    .top-bar strong { color: var(--result-ink); }
+    .subtitle-line { display: block; margin-top: 4px; font-size: 0.86em; color: #6d4c41; font-weight: 600; }
+    .l11-scroll {
+      position: relative; z-index: 1; flex: 1 1 auto; min-height: 0;
+      overflow: hidden auto; padding: 8px 12px 14px;
+    }
+    .lesson-page {
+      display: none; flex-direction: column; gap: 0.65rem;
+      min-height: min(100%, calc(100dvh - var(--lesson-pager-gap, 4.35rem) - 140px));
+      animation: l11fade 0.35s ease;
+    }
+    .lesson-page.active { display: flex; }
+    @keyframes l11fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+    .page-head {
+      display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between;
+      gap: 0.35rem 0.75rem; padding-bottom: 0.35rem;
+      border-bottom: 3px solid rgba(93, 64, 55, 0.15);
+    }
+    .page-kicker { font-size: 0.78rem; font-weight: 800; color: #6d4c41; }
+    .page-title { margin: 0; font-size: clamp(1.05rem, 1.8vw + 0.55rem, 1.35rem); font-weight: 900; color: var(--result-ink); }
+    .page-title.purpose { color: var(--purpose-ink); }
+    .panel {
+      background: rgba(255,255,255,0.92); border: 3px solid var(--edge);
+      border-radius: 14px 22px 12px 18px; padding: clamp(0.75rem, 1.5vw, 1.1rem);
+      box-shadow: 0 5px 0 rgba(93,64,55,0.08);
+    }
+    .scene-frame {
+      width: 100%; aspect-ratio: 4 / 3; min-height: 0;
+      border-radius: 12px 18px 10px 16px; border: 3px solid var(--edge);
+      background: linear-gradient(145deg, #1e1b4b, #4a1942);
+      overflow: hidden; display: flex; align-items: center; justify-content: center;
+    }
+    .scene-frame img { width: 100%; height: 100%; object-fit: contain; display: block; }
+    .en-line {
+      font-size: var(--lesson-fs-en-line, 1.12rem); font-weight: 800; color: #1e293b;
+      margin: 0.4rem 0; line-height: 1.45;
+    }
+    .formula-strip {
+      font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+      font-size: clamp(0.95rem, 1.2vw + 0.5rem, 1.15rem); font-weight: 800;
+      padding: 0.65rem 0.75rem; border-radius: 12px; margin: 0.5rem 0;
+      border: 3px dashed var(--edge);
+    }
+    .formula-strip.result { background: var(--result); color: var(--result-ink); }
+    .formula-strip.purpose { background: var(--purpose); color: var(--purpose-ink); }
+    .zh-tag {
+      display: inline-block; font-size: 0.78rem; font-weight: 800; padding: 0.15rem 0.5rem;
+      border-radius: 6px; margin-right: 0.35rem; vertical-align: middle;
+    }
+    .zh-tag.result { background: var(--result); color: var(--result-ink); }
+    .zh-tag.purpose { background: var(--purpose); color: var(--purpose-ink); }
+    .rule-box {
+      padding: 0.65rem 0.75rem; border-radius: 12px; font-weight: 700; font-size: 0.92rem; margin: 0.5rem 0;
+    }
+    .rule-box.result { background: #fff7ed; border-left: 5px solid var(--crayon-orange); color: #9a3412; }
+    .rule-box.purpose { background: #faf5ff; border-left: 5px solid var(--crayon-purple); color: #581c87; }
+    .rule-box.contrast { background: linear-gradient(90deg, #fff7ed, #faf5ff); border-left: 5px solid var(--gold); color: #422006; }
+    .compare-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; margin: 0.5rem 0; }
+    .compare-table th, .compare-table td { border: 2px solid #e2e8f0; padding: 0.45rem 0.55rem; text-align: left; }
+    .compare-table th { background: #f1f5f9; font-weight: 800; }
+    .channel-row { display: flex; flex-wrap: wrap; gap: 0.65rem; margin-top: 0.65rem; }
+    .channel-btn {
+      flex: 1 1 200px; min-height: 56px; padding: 0.75rem 1rem; border-radius: 14px;
+      border: 3px solid var(--edge); font-weight: 900; font-size: 1rem; cursor: pointer;
+    }
+    .channel-btn.result { background: linear-gradient(135deg, #ffedd5, #fed7aa); color: var(--result-ink); }
+    .channel-btn.purpose { background: linear-gradient(135deg, #f3e8ff, #e9d5ff); color: var(--purpose-ink); }
+    .btn-row { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.5rem 0; }
+    .btn {
+      min-height: 44px; padding: 0.45rem 1rem; border-radius: 999px; border: 3px solid var(--edge);
+      background: #fff; font-weight: 800; cursor: pointer; font-size: 0.88rem;
+    }
+    .btn.orange { background: linear-gradient(135deg, var(--crayon-orange), #ea580c); color: #fff; border-color: #c2410c; }
+    .btn.purple { background: linear-gradient(135deg, var(--crayon-purple), #7c3aed); color: #fff; border-color: #6b21a8; }
+    .btn.ghost { background: #f8fafc; color: #334155; }
+    .btn:disabled { opacity: 0.45; cursor: not-allowed; }
+    .carousel-card {
+      padding: 0.85rem; border-radius: 14px; border: 3px solid #fdba74;
+      background: #fffbeb; margin: 0.5rem 0;
+    }
+    .carousel-card.purpose { border-color: #d8b4fe; background: #faf5ff; }
+    .carousel-card .label { font-size: 0.82rem; font-weight: 800; color: #64748b; margin-bottom: 0.35rem; }
+    .carousel-card .zh-hint { font-size: 0.86rem; color: #6d4c41; font-weight: 700; margin-top: 0.35rem; }
+    .contrast-pair {
+      margin: 0.65rem 0; padding: 0.75rem; border-radius: 14px;
+      border: 3px solid #e2e8f0; background: #fafafa;
+    }
+    .contrast-pair .side { margin: 0.45rem 0; padding: 0.55rem; border-radius: 10px; }
+    .contrast-pair .side.result { background: var(--result); border-left: 4px solid var(--crayon-orange); }
+    .contrast-pair .side.purpose { background: var(--purpose); border-left: 4px solid var(--crayon-purple); }
+    .contrast-pair .side .contrast-speak-btn { margin-top: 0.35rem; }
+    .trap-item {
+      margin: 0.5rem 0; padding: 0.65rem; border-radius: 12px;
+      border: 2px solid #fecaca; background: #fff5f5;
+    }
+    .trap-item .wrong { color: #b91c1c; font-weight: 800; text-decoration: line-through; }
+    .trap-item .right { color: #047857; font-weight: 800; margin-top: 0.35rem; }
+    .quiz-item { padding: 0.65rem; margin: 0.45rem 0; border-radius: 12px; border: 2px solid #e2e8f0; }
+    .quiz-item.done { border-color: var(--crayon-green, #5cb85c); background: #f0fdf4; }
+    .opt-row { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.4rem; }
+    .contrast-pick-opts {
+      flex-direction: column; flex-wrap: nowrap; align-items: stretch; gap: 0.5rem;
+    }
+    .contrast-pick-opts button {
+      width: 100%; text-align: left; min-height: 48px; padding: 0.5rem 0.65rem;
+      line-height: 1.35;
+    }
+    .contrast-pick-opts .pick-sub {
+      display: block; margin-top: 0.2rem; font-size: 0.82rem; font-weight: 600; opacity: 0.9;
+    }
+    .opt-row button {
+      min-height: 40px; padding: 0.35rem 0.75rem; border-radius: 10px;
+      border: 2px solid #cbd5e1; background: #fff; font-weight: 700; cursor: pointer;
+    }
+    .opt-row button.ok { background: #d1fae5; border-color: #047857; }
+    .opt-row button.bad { background: #fee2e2; border-color: #b91c1c; }
+    .fb { margin-top: 0.35rem; font-weight: 700; font-size: 0.88rem; color: #4c1d95; min-height: 1.2em; }
+    .summary-list { margin: 0; padding-left: 1.2rem; font-weight: 700; }
+    .summary-list li { margin: 0.35rem 0; }
+    .summary-list li a { color: var(--result-ink); font-weight: 800; }
+    .goal-list { margin: 0.5rem 0 0; padding: 0; list-style: none; }
+    .goal-list li {
+      margin: 0.35rem 0; padding: 0.45rem 0.55rem; border-radius: 10px;
+      background: #fff7ed; font-weight: 700; font-size: 0.9rem;
+    }
+    .tier-label {
+      display: inline-block; font-size: 0.72rem; font-weight: 900;
+      padding: 0.12rem 0.45rem; border-radius: 6px; margin-right: 0.35rem;
+      background: #ede9fe; color: #5b21b6;
+    }
+    .oral-card {
+      margin: 0.5rem 0; padding: 0.65rem; border-radius: 12px;
+      border: 2px solid #fdba74; background: #fffbeb;
+    }
+    .oral-card.purpose { border-color: #d8b4fe; background: #faf5ff; }
+    .oral-card.too { border-color: #fcd34d; background: #fffbeb; }
+    .oral-card p { margin: 0.35rem 0; font-weight: 800; }
+    .oral-section-hint { font-size: 0.86rem; font-weight: 700; color: #64748b; margin: 0.25rem 0 0.5rem; line-height: 1.45; }
+    .carousel-jump-row { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 0.5rem; }
+    .carousel-jump-btn {
+      min-height: 38px; padding: 0.3rem 0.65rem; border-radius: 999px;
+      border: 2px solid #fdba74; background: #fff; font-weight: 800; font-size: 0.8rem; cursor: pointer;
+    }
+    .carousel-jump-btn.purpose { border-color: #d8b4fe; }
+    .carousel-jump-btn.active { background: #ffedd5; border-color: #c2410c; color: #9a3412; }
+    .carousel-jump-btn.purpose.active { background: #f3e8ff; border-color: #6b21a8; color: #581c87; }
+    .carousel-jump-btn.done::after { content: " ✓"; color: #047857; }
+    .write-chip {
+      display: inline-block; margin: 0.25rem; padding: 0.35rem 0.65rem;
+      border-radius: 10px; border: 2px dashed #fdba74; background: #fff7ed;
+      font-weight: 700; font-size: 0.86rem; cursor: pointer;
+    }
+    .write-chip.purpose { border-color: #d8b4fe; background: #faf5ff; }
+    .write-chip.too { border-color: #fcd34d; background: #fffbeb; color: #92400e; }
+    .hl-so { background: #fed7aa; padding: 0 3px; border-radius: 3px; }
+    .hl-that { background: #fde68a; padding: 0 3px; border-radius: 3px; }
+    .hl-st { background: #e9d5ff; padding: 0 3px; border-radius: 3px; }
+    .tabs { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 0.5rem; }
+    .tabs button {
+      padding: 0.4rem 0.85rem; border-radius: 999px; border: 2px solid var(--edge);
+      background: #fff; font-weight: 800; cursor: pointer; font-size: 0.84rem;
+    }
+    .tabs button.active { background: var(--crayon-orange); color: #fff; border-color: #c2410c; }
+    body.has-lesson-pager nav.lesson-pager button.pager-prev,
+    body.has-lesson-pager nav.lesson-pager button.pager-next,
+    body.has-lesson-pager nav.lesson-pager .pager-mid {
+      flex: 1 1 0; font-weight: 800; padding: 0.42rem; border-radius: 999px;
+      border: 3px solid #5d4037; cursor: pointer;
+      font-size: clamp(0.72rem, 2.4vw, 0.88rem);
+    }
+    body.has-lesson-pager nav.lesson-pager button.pager-next {
+      color: #4e342e; background: linear-gradient(180deg, #ffe082, #ffca28);
+    }
+    body.has-lesson-pager nav.lesson-pager button:disabled { opacity: 0.5; }
+  </style>
+</head>
+<body>
+  <div id="ui-lock" aria-hidden="true"></div>
+
+  <div id="app">
+    <div id="l11-book" class="book">
+      <header class="top-bar">
+        <strong>状语从句</strong> —— 结果与目的
+        <span class="subtitle-line">so…that / such…that · so that · 程度→结果 vs 为了→目的</span>
+      </header>
+      <div class="l11-scroll">
+
+        <section class="lesson-page active" data-page="1">
+          <div class="page-head"><span class="page-kicker">1 / 11</span><h2 class="page-title">状语从句 —— 课程目标</h2></div>
+          <div class="panel panel-split">
+            <div class="stage-visual">
+              <div class="scene-frame">
+                <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p03-result-purpose-split.png" alt="结果与目的分镜" />
+              </div>
+            </div>
+            <div class="stage-body">
+              <p style="font-weight:800;margin:0 0 0.45rem;color:#c2410c">课程目标</p>
+              <ul class="goal-list">
+                <li>① <strong>结果</strong>：so / such + … + that · 写感受「太……以至于……」</li>
+                <li>② <strong>目的</strong>：so that + 从句（常含 can/could/will）· 写打算「为了……」</li>
+                <li>③ <strong>红线</strong>：so 与 so that 之间<strong>不插形容词</strong>（与 Page 02 的 because/so 不连用不同类）</li>
+              </ul>
+              <div class="rule-box contrast">口诀：<strong>结果</strong>看「已经」；<strong>目的</strong>看「为了」——目的从句里常出现 can / could / will。</div>
+              <div class="channel-row">
+                <button type="button" class="channel-btn result" data-goto="2">🔥 结果频道<br><span style="font-size:0.82rem;font-weight:600">so…that · such…that</span></button>
+                <button type="button" class="channel-btn purpose" data-goto="4">🎯 目的频道<br><span style="font-size:0.82rem;font-weight:600">so that</span></button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="2">
+          <div class="page-head"><span class="page-kicker">2 / 11</span><h2 class="page-title">状语从句 —— 结果 so…that</h2></div>
+          <div class="panel panel-split">
+            <div class="stage-visual">
+              <div class="scene-frame"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p03-degree-meter.png" alt="程度温度计隐喻" /></div>
+            </div>
+            <div class="stage-body">
+              <div class="formula-strip result">so + 形容词/副词 + that + 从句（结果）</div>
+              <div class="rule-box result">语义：<strong>如此……以至于……</strong>。that 后写<strong>已经发生的结果</strong>，常见 couldn't / fell asleep / canceled 等。</div>
+              <p class="en-line" lang="en">He was <span class="hl-so">so tired</span> <span class="hl-that">that</span> he fell asleep on the sofa.</p>
+              <p class="en-line" lang="en">She spoke <span class="hl-so">so fast</span> <span class="hl-that">that</span> I couldn't follow every word.</p>
+              <button type="button" class="btn ghost" data-speak="He was so tired that he fell asleep on the sofa.">朗读示范</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="3">
+          <div class="page-head"><span class="page-kicker">3 / 11</span><h2 class="page-title">状语从句 —— 结果例句</h2></div>
+          <div class="panel panel-split">
+            <div class="stage-visual">
+              <div class="scene-frame"><img id="so-scene-img" src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p03-so-01-tired.png" alt="太累" /></div>
+            </div>
+            <div class="stage-body">
+              <p style="font-weight:700"><span class="tier-label">分层 A</span>14 条 so…that 情境句 · 场景标签可跳转（进度保留）。</p>
+              <div class="carousel-jump-row" id="so-jump"></div>
+              <div class="carousel-card" id="so-carousel">
+                <div class="label" id="so-label">1 / 14</div>
+                <p class="en-line" lang="en" id="so-en"></p>
+                <p class="zh-hint" id="so-zh"></p>
+              </div>
+              <div class="btn-row">
+                <button type="button" class="btn ghost" id="so-prev">← 上一句</button>
+                <button type="button" class="btn ghost" id="so-next">下一句 →</button>
+                <button type="button" class="btn orange" id="so-speak">朗读本句</button>
+                <button type="button" class="btn ghost" id="so-oral">口语替换</button>
+              </div>
+              <hr style="border:none;border-top:2px dashed #e2e8f0;margin:0.75rem 0" />
+              <p style="font-weight:800"><span class="tier-label">分层 B</span>结果还是目的？（4 题）</p>
+              <div id="result-purpose-pick"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="4">
+          <div class="page-head"><span class="page-kicker">4 / 11</span><h2 class="page-title purpose">状语从句 —— 目的 so that</h2></div>
+          <div class="panel panel-split">
+            <div class="stage-visual">
+              <div class="scene-frame"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p03-purpose-target.png" alt="目的箭靶" /></div>
+            </div>
+            <div class="stage-body">
+              <div class="formula-strip purpose">主句 + <span class="hl-st">so that</span> + 从句（目的，常含 can/could/will）</div>
+              <div class="rule-box purpose">写计划、学习方法、安全出行时很好用：<strong>为了以便……</strong>。不要写成 so + 形容词 + that。</div>
+              <p class="en-line" lang="en">I got up early <span class="hl-st">so that</span> I could catch the first bus.</p>
+              <p class="en-line" lang="en">They made a plan <span class="hl-st">so that</span> they wouldn't waste the summer holiday.</p>
+              <button type="button" class="btn ghost" data-speak="I got up early so that I could catch the first bus.">朗读示范</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="5">
+          <div class="page-head"><span class="page-kicker">5 / 11</span><h2 class="page-title purpose">状语从句 —— 目的例句与陷阱</h2></div>
+          <div class="panel panel-split">
+            <div class="stage-visual">
+              <div class="scene-frame"><img id="pur-scene-img" src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p03-pur-01-early-bus.png" alt="早起赶车" /></div>
+            </div>
+            <div class="stage-body">
+              <p style="font-weight:700"><span class="tier-label">分层 A</span>16 条 so that 情境句 · 场景标签可跳转（进度保留）。</p>
+              <div class="carousel-jump-row" id="pur-jump"></div>
+              <div class="carousel-card purpose" id="pur-carousel">
+                <div class="label" id="pur-label">1 / 16</div>
+                <p class="en-line" lang="en" id="pur-en"></p>
+                <p class="zh-hint" id="pur-zh"></p>
+              </div>
+              <div class="btn-row">
+                <button type="button" class="btn ghost" id="pur-prev">← 上一句</button>
+                <button type="button" class="btn ghost" id="pur-next">下一句 →</button>
+                <button type="button" class="btn purple" id="pur-speak">朗读本句</button>
+                <button type="button" class="btn ghost" id="pur-oral">口语替换</button>
+              </div>
+              <hr style="border:none;border-top:2px dashed #e2e8f0;margin:0.75rem 0" />
+              <p style="font-weight:800"><span class="tier-label">分层 B</span>目的句常见错（点击显示正句）：</p>
+              <div id="purpose-traps"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="6">
+          <div class="page-head"><span class="page-kicker">6 / 11</span><h2 class="page-title">状语从句 —— such…that</h2></div>
+          <div class="panel panel-split">
+            <div class="stage-visual">
+              <div class="scene-frame"><img id="such-scene-img" src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p03-such-01-lovely-day.png" alt="好天气" /></div>
+            </div>
+            <div class="stage-body">
+              <div class="formula-strip result">such + (a/an) + 形容词 + 名词 + that + 从句</div>
+              <div class="rule-box result">中心词是<strong>名词短语</strong>时用 such；形容词/副词程度用 so。不可数如 such bad weather（无 a）。</div>
+              <p style="font-weight:700"><span class="tier-label">分层 A</span>8 条 such…that · 中心词是名词短语（接在结果、目的之后）。</p>
+              <div class="carousel-jump-row" id="such-jump"></div>
+              <div class="carousel-card">
+                <div class="label" id="such-label">1 / 8</div>
+                <p class="en-line" lang="en" id="such-en"></p>
+                <p class="zh-hint" id="such-zh"></p>
+              </div>
+              <div class="btn-row">
+                <button type="button" class="btn ghost" id="such-prev">←</button>
+                <button type="button" class="btn ghost" id="such-next">→</button>
+                <button type="button" class="btn orange" id="such-speak">朗读</button>
+              </div>
+              <hr style="border:none;border-top:2px dashed #e2e8f0;margin:0.65rem 0" />
+              <p style="font-weight:800"><span class="tier-label">分层 B</span>so…that 还是 such…that？（4 题）</p>
+              <div id="so-such-pick"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="7">
+          <div class="page-head"><span class="page-kicker">7 / 11</span><h2 class="page-title">状语从句 —— 结果与目的对照</h2></div>
+          <div class="panel">
+            <p style="font-weight:800"><span class="tier-label">分层 A</span>同一话题，上句看「已经」，下句看「为了」——so 与 so that 之间<strong>没有形容词</strong>。</p>
+            <div class="carousel-jump-row" id="contrast-jump"></div>
+            <div id="contrast-box"></div>
+            <div id="contrast-pick" style="margin-top:0.65rem"></div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="8">
+          <div class="page-head"><span class="page-kicker">8 / 11</span><h2 class="page-title">状语从句 —— 结果陷阱</h2></div>
+          <div class="panel">
+            <p style="font-weight:800;margin:0 0 0.5rem"><span class="tier-label">分层 A</span>常见错法 · 点击显示正句：</p>
+            <div id="result-traps"></div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="9">
+          <div class="page-head"><span class="page-kicker">9 / 11</span><h2 class="page-title">状语从句 —— 辨析快选</h2></div>
+          <div class="panel">
+            <div class="rule-box contrast" style="margin-bottom:0.65rem">
+              <strong>too…to</strong>：太……而不能……（to 后接动词，<strong>无 that 从句</strong>）·
+              <strong>so…that</strong>：太……以至于……（that 后是从句）· 别混！
+            </div>
+            <p style="font-weight:800;margin:0 0 0.5rem"><span class="tier-label">分层 B</span>辨认 so…that / such…that / so that / too…to（20 题，含 too…to 专练）</p>
+            <div id="mix-quiz"></div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="10">
+          <div class="page-head"><span class="page-kicker">10 / 11</span><h2 class="page-title">状语从句 —— 小结</h2></div>
+          <div class="panel">
+            <ul class="summary-list">
+              <li><strong>结果</strong>：so + 形/副 + that；名词中心用 such…that；谈「已经怎样」。</li>
+              <li><strong>目的</strong>：so that + 从句（常 can/could/will）；谈「为了能怎样」。</li>
+              <li><strong>too…to</strong>：太……而不能……（无 that 从句）· 与 so…that 勿混。</li>
+              <li>学习顺序：结果 → 目的 → such…that → 对照与辨析。</li>
+              <li>暑假写作：见下一屏「口语与写作」· 各写 so/such、so that、too…to 各一句。</li>
+              <li>下一页：<a href="lesson11-page04-concession-no-double.html" style="color:#be123c">让步 although 与不连用专项（Page 04）</a></li>
+            </ul>
+            <p style="margin-top:0.75rem;text-align:center;font-weight:800">
+              <a href="#" data-goto="11" style="color:#c2410c">→ 第 11 屏：暑假计划 · 口语与写作</a>
+            </p>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="11">
+          <div class="page-head"><span class="page-kicker">11 / 11</span><h2 class="page-title">状语从句 —— 暑假口语与写作</h2></div>
+          <div class="panel">
+            <p style="font-weight:700;margin:0 0 0.5rem"><span class="tier-label">分层 C</span>成都暑假情境 · 先读中文，再跟读英文；点击芯片插入你的计划草稿。</p>
+            <div class="rule-box contrast" style="margin-bottom:0.65rem">
+              <strong>写作建议：</strong>至少各写 1 句——<strong>so/such…that</strong> 写感受 · <strong>so that</strong> 写打算 · <strong>too…to</strong> 写「太……而不能……」。
+            </div>
+            <div id="oral-result-box"></div>
+            <div id="oral-purpose-box"></div>
+            <div id="oral-too-box"></div>
+            <hr style="border:none;border-top:2px dashed #e2e8f0;margin:0.85rem 0" />
+            <p style="font-weight:800;margin:0 0 0.35rem">点击插入你的计划草稿：</p>
+            <p class="oral-section-hint">橙芯片＝结果/ such · 紫芯片＝目的 · 黄芯片＝too…to</p>
+            <div id="writing-bridge"></div>
+            <textarea id="p03-draft" rows="4" style="width:100%;margin-top:0.5rem;padding:0.55rem;border-radius:10px;border:2px solid #e2e8f0;font:inherit" placeholder="The homework was so long that... I will get up early so that I can... The sun was too hot to..."></textarea>
+            <p style="margin-top:0.75rem;text-align:center;font-weight:800;color:var(--result-ink)">
+              Page 03 完成 · <a href="lesson11-page04-concession-no-double.html" style="color:#be123c">进入 Page 04</a>
+            </p>
+          </div>
+        </section>
+
+      </div>
+    </div>
+    <nav class="lesson-pager" aria-label="分页">
+      <button type="button" class="pager-prev" id="pager-prev">上一页</button>
+      <span class="pager-mid" id="pager-mid">1 / 11</span>
+      <button type="button" class="pager-next" id="pager-next">下一页</button>
+    </nav>
+  </div>
+
+  <script src="l11-image-lightbox.js"></script>
+  <script src="l11-index-nav.js"></script>
+  <script>
+    const AZURE_KEY = "C42UQWeDcluYanbo17WrtUnPhk0vkZy2uQHPTCGDzY6CdExx99NzJQQJ99BIACqBBLyXJ3w3AAAYACOGjkyu";
+    const AZURE_REGION = "southeastasia";
+    const VOICE_EN = "en-US-AriaNeural";
+    const PAGE_COUNT = 11;
+
+    const P03 = {
+      soThat: [
+        { en: "He was so tired that he fell asleep on the sofa.", zh: "太累，在沙发上睡着了", tag: "太累", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p03-so-01-tired.png", oralQ: "How tired was he? What happened?" },
+        { en: "The story was so interesting that I finished it in one day.", zh: "太有趣，一天读完", tag: "故事", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p03-so-02-story.png", oralQ: "Why did you finish the story in one day?" },
+        { en: "She spoke so fast that I couldn't follow every word.", zh: "太快，跟不上每个词", tag: "语速", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p03-so-03-fast-talk.png", oralQ: "What was the problem with her speaking?" },
+        { en: "It was so cold that we wore two jackets.", zh: "太冷，穿了两件外套", tag: "天冷", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p03-so-04-cold.png", oralQ: "What did you do because it was so cold?" },
+        { en: "The math problem was so difficult that only two students solved it.", zh: "太难，只有两个同学解出", tag: "数学", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p03-so-05-math.png", oralQ: "How difficult was the problem?" },
+        { en: "I was so excited that I couldn't sleep last night.", zh: "太兴奋，昨晚睡不着", tag: "兴奋", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p03-so-06-excited.png", oralQ: "Why couldn't you sleep?" },
+        { en: "The music was so loud that my ears hurt a little.", zh: "太响，耳朵有点疼", tag: "音乐", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p03-so-07-loud-music.png", oralQ: "How did the loud music affect you?" },
+        { en: "He ran so quickly that he won the race.", zh: "跑得太快，赢了比赛", tag: "跑步", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p03-so-08-race.png", oralQ: "Why did he win the race?" },
+        { en: "The room was so dark that I couldn't find my keys.", zh: "太暗，找不到钥匙", tag: "太暗", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p03-so-09-dark-room.png", oralQ: "What couldn't you do in the dark room?" },
+        { en: "We were so hungry that we ate all the bread.", zh: "太饿，面包全吃光", tag: "太饿", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p03-so-10-hungry.png", oralQ: "What did you do when you were so hungry?" },
+        { en: "The film was so moving that many people cried.", zh: "太感人，很多人哭了", tag: "电影", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p03-so-11-film.png", oralQ: "How did people react to the film?" },
+        { en: "She was so shy that she didn't raise her hand at first.", zh: "太害羞，起初没举手", tag: "害羞", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p03-so-12-shy.png", oralQ: "Why didn't she raise her hand?" },
+        { en: "The box was so heavy that I needed help to carry it.", zh: "太重，需要人帮忙搬", tag: "太重", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p03-so-13-heavy-box.png", oralQ: "What did you need because the box was heavy?" },
+        { en: "It rained so hard that the sports meeting was canceled.", zh: "雨太大，运动会取消", tag: "暴雨", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p03-so-14-rain.png", oralQ: "What happened to the sports meeting?" }
+      ],
+      suchThat: [
+        { en: "It was such a lovely day that we decided to fly kites.", zh: "天气太好，决定去放风筝", tag: "好天气", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p03-such-01-lovely-day.png" },
+        { en: "They are such kind teachers that students always ask them for help.", zh: "老师太好，学生总找他们帮忙", tag: "好老师", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p03-such-02-kind-teachers.png" },
+        { en: "This was such an important exam that nobody wanted to be late.", zh: "考试太重要，没人想迟到", tag: "大考", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p03-such-03-important-exam.png" },
+        { en: "It was such bad weather that we stayed at the museum longer.", zh: "天气太糟，在博物馆多待了一会", tag: "坏天气", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p03-such-04-bad-weather.png" },
+        { en: "She made such a big mistake that she said sorry many times.", zh: "错太大，道歉很多次", tag: "大错", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p03-such-05-big-mistake.png" },
+        { en: "He told such a funny joke that everyone laughed.", zh: "笑话太好笑，大家都笑了", tag: "笑话", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p03-such-06-funny-joke.png" },
+        { en: "It was such a long queue that we waited for thirty minutes.", zh: "队太长，等了半小时", tag: "长队", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p03-such-07-long-queue.png" },
+        { en: "They showed such great teamwork that they won second place.", zh: "配合太好，得第二名", tag: "团队", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p03-such-08-teamwork.png" }
+      ],
+      resultPurposePick: [
+        { stem: "He was so tired that he fell asleep on the sofa.", ans: "结果", opts: ["结果", "目的"], fb: "已经太累以至于睡着——谈「已经怎样」。" },
+        { stem: "I got up early so that I could catch the first bus.", ans: "目的", opts: ["结果", "目的"], fb: "为了赶上首班车而早起——谈「为了能」。" },
+        { stem: "It rained so hard that the sports meeting was canceled.", ans: "结果", opts: ["结果", "目的"], fb: "雨太大导致取消——结果从句。" },
+        { stem: "They made a plan so that they wouldn't waste the summer holiday.", ans: "目的", opts: ["结果", "目的"], fb: "为了不浪费暑假而做计划——目的从句。" }
+      ],
+      soSuchPick: [
+        { stem: "She was ______ a kind girl ______ everyone liked her.", ans: "such…that", opts: ["so…that", "such…that"], fb: "中心词是 girl（名词）→ such a kind girl that。" },
+        { stem: "He was ______ tired ______ he fell asleep.", ans: "so…that", opts: ["so…that", "such…that"], fb: "中心词是 tired（形容词）→ so tired that。" },
+        { stem: "It was ______ bad weather ______ we stayed indoors.", ans: "such…that", opts: ["so…that", "such…that"], fb: "weather 为名词，用 such bad weather that。" },
+        { stem: "She spoke ______ fast ______ I couldn't follow.", ans: "so…that", opts: ["so…that", "such…that"], fb: "fast 为副词 → so fast that。" }
+      ],
+      contrast: [
+        {
+          title: "赶首班车",
+          result: "She was so sleepy that she almost missed the first train.",
+          purpose: "She got up early so that she could catch the first train.",
+          rzh: "已经困到差点误车", pzh: "为了赶上首班车而早起"
+        },
+        {
+          title: "开窗通风",
+          result: "The room was so stuffy that he opened the window wide.",
+          purpose: "He opened the window so that fresh air could come in.",
+          rzh: "闷到不得不开窗", pzh: "为了让新鲜空气进来"
+        },
+        {
+          title: "读完长故事",
+          result: "The story was so long that I needed two days to finish it.",
+          purpose: "I planned two reading nights so that I could finish the long story.",
+          rzh: "故事太长，花了两天", pzh: "为了读完而计划两晚阅读"
+        }
+      ],
+      resultTraps: [
+        { wrong: "He was so tired very that he slept early.", right: "He was so tired that he slept early." },
+        { wrong: "It was such hot that we stayed inside.", right: "It was so hot that we stayed inside. / It was such hot weather that we stayed inside." },
+        { wrong: "Such tired he was that he sat down.", right: "He was so tired that he sat down." },
+        { wrong: "She was so kind girl that everyone liked her.", right: "She was such a kind girl that everyone liked her." },
+        { wrong: "Because he was nervous so he forgot the words.", right: "Because he was nervous, he forgot the words. / He was so nervous that he forgot the words." },
+        { wrong: "The book was so interesting because I read it twice.", right: "The book was so interesting that I read it twice." }
+      ],
+      purposeSoThat: [
+        { en: "I got up early so that I could catch the first bus.", zh: "为了赶上首班车", tag: "早起", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p03-pur-01-early-bus.png", oralQ: "Why did you get up early?" },
+        { en: "She spoke slowly so that everyone could understand her.", zh: "为了让大家听懂", tag: "慢说", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p03-pur-02-slow-talk.png", oralQ: "Why did she speak slowly?" },
+        { en: "He wrote key words on the board so that we could copy them easily.", zh: "为了便于抄写", tag: "板书", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p03-pur-03-board.png", oralQ: "Why did he write on the board?" },
+        { en: "Please turn down the music so that the baby can sleep.", zh: "为了让宝宝睡觉", tag: "音乐", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p03-pur-04-baby-sleep.png", oralQ: "Why should we turn down the music?" },
+        { en: "We left a note on the door so that our neighbour would know we were out.", zh: "为了让邻居知道我们外出", tag: "便条", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p03-pur-05-door-note.png", oralQ: "Why did you leave a note?" },
+        { en: "I saved money so that I could buy a new dictionary.", zh: "为了买新词典", tag: "存钱", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p03-pur-06-save-money.png", oralQ: "Why are you saving money?" },
+        { en: "They practiced every weekend so that they would feel confident on stage.", zh: "为了在台上更有信心", tag: "排练", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p03-pur-07-rehearsal.png", oralQ: "Why did they practice every weekend?" },
+        { en: "I set three alarms so that I wouldn't oversleep on exam day.", zh: "为了考试日不睡过头", tag: "闹钟", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p03-pur-08-alarms.png", oralQ: "Why did you set three alarms?" },
+        { en: "She wore glasses so that she could see the blackboard clearly.", zh: "为了看清黑板", tag: "眼镜", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p03-pur-09-glasses.png", oralQ: "Why does she wear glasses in class?" },
+        { en: "We arrived ten minutes early so that we could find good seats.", zh: "为了占到好座位", tag: "早到", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p03-pur-10-early-seats.png", oralQ: "Why did you arrive early?" },
+        { en: "He repeated the steps so that nobody would make the same mistake.", zh: "为了不再犯同样错", tag: "重复", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p03-pur-11-repeat-steps.png", oralQ: "Why did he repeat the steps?" },
+        { en: "I opened the window so that fresh air could come in.", zh: "为了让新鲜空气进来", tag: "开窗", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p03-pur-12-open-window.png", oralQ: "Why did you open the window?" },
+        { en: "Please speak clearly so that I can write down the homework.", zh: "为了记下作业", tag: "作业", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p03-pur-13-homework.png", oralQ: "Why should the teacher speak clearly?" },
+        { en: "They made a plan so that they wouldn't waste the summer holiday.", zh: "为了不浪费暑假", tag: "计划", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p03-pur-14-summer-plan.png", oralQ: "Why did they make a plan for the holiday?" },
+        { en: "I took photos of the signs so that we could find the way back.", zh: "为了找回去的路", tag: "拍照", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p03-pur-15-sign-photos.png", oralQ: "Why did you take photos of the signs?" },
+        { en: "She read the story twice so that she could retell it in class.", zh: "为了能在课上复述", tag: "复述", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p03-pur-16-retell-story.png", oralQ: "Why did she read the story twice?" }
+      ],
+      oralResult: [
+        { zh: "暑假作业太多，我昨晚兴奋得睡不着。", en: "The homework list was so long that I couldn't sleep last night." },
+        { zh: "成都今天太热，我们决定在图书馆多待一会。", en: "It was so hot today that we decided to stay in the library longer." },
+        { zh: "这部电影太感人，很多同学都哭了。", en: "The film was so moving that many students cried." },
+        { zh: "这次研学太精彩，大家聊了很久才散。", en: "It was such a wonderful trip that we talked for a long time after it ended." }
+      ],
+      oralPurpose: [
+        { zh: "我早起是为了能赶上地铁首班车。", en: "I got up early so that I could catch the first subway train." },
+        { zh: "我把手机收起来以便专心阅读。", en: "I put my phone away so that I could focus on reading." },
+        { zh: "我们制定暑假计划是为了不浪费时间。", en: "We made a summer plan so that we wouldn't waste the holiday." }
+      ],
+      oralTooTo: [
+        { zh: "太阳太大，我们没法在户外久站。", en: "The sun was too strong for us to stand outside for long." },
+        { zh: "登山包太重，我一个人背不动。", en: "The hiking bag was too heavy for me to carry alone." },
+        { zh: "昨晚太累，今天不想早起跑步。", en: "I was too tired last night to go jogging early this morning." }
+      ],
+      writingBridge: [
+        { text: "The summer holiday was so exciting that ", type: "result" },
+        { text: "It was such a wonderful trip that ", type: "result" },
+        { text: "I was so tired after the hike that ", type: "result" },
+        { text: "I will get up early so that I can ", type: "purpose" },
+        { text: "I will save pocket money so that I can ", type: "purpose" },
+        { text: "We will make a weekly plan so that we won't ", type: "purpose" },
+        { text: "The homework was too much to ", type: "too" },
+        { text: "It was too hot today to ", type: "too" },
+        { text: "The film was too moving to ", type: "too" }
+      ],
+      purposeTraps: [
+        { wrong: "He opened the window so wide that fresh air could come in.", right: "He opened the window so that fresh air could come in." },
+        { wrong: "She studied hard so that she was the best.", right: "She studied so hard that she became the best. / She studied hard so that she could become better." },
+        { wrong: "I will call you so that you came earlier.", right: "I will call you so that you can come earlier." },
+        { wrong: "He runs every day so that strong.", right: "He runs every day so that he can become stronger." }
+      ],
+      mixQuizOpts: ["so…that", "so that", "such…that", "too…to"],
+      mixQuiz: [
+        { stem: "The wind was ______ strong ______ we closed the windows.", ans: "so…that", fb: "strong 为形容词 → so strong that（已发生结果）。" },
+        { stem: "I saved screenshots ______ I could find the way without the Internet.", ans: "so that", fb: "为了能找到路 → 目的 so that。" },
+        { stem: "It was ______ a useful lesson ______ I shared my notes.", ans: "such…that", fb: "lesson 为名词 → such a useful lesson that。" },
+        { stem: "The music was ______ loud ______ my ears hurt.", ans: "so…that", fb: "loud 为形容词 → so loud that。" },
+        { stem: "Many students make mind maps ______ they can review faster.", ans: "so that", fb: "为了能更快复习 → so that。" },
+        { stem: "He was ______ tired ______ he fell asleep on the sofa.", ans: "so…that", fb: "太累以至于睡着 → so tired that（不是 too tired to sleep）。" },
+        { stem: "We put our phones away ______ we can focus on reading.", ans: "so that", fb: "为了能专心 → so that。" },
+        { stem: "It was ______ bad weather ______ we stayed indoors.", ans: "such…that", fb: "weather 为名词 → such bad weather that。" },
+        { stem: "The mountain road was ______ dangerous ______ the guide asked us to wear helmets.", ans: "so…that", fb: "dangerous 为形容词 → so dangerous that。" },
+        { stem: "She spoke slowly ______ everyone could understand.", ans: "so that", fb: "为了让大家听懂 → so that。" },
+        { stem: "He was ______ tired ______ walk any further.", ans: "too…to", fb: "太累而不能继续走 → too tired to walk（无 that 从句）。" },
+        { stem: "The box was ______ heavy ______ carry alone.", ans: "too…to", fb: "太重而搬不动 → too heavy to carry。" },
+        { stem: "She was ______ shy ______ raise her hand in class.", ans: "too…to", fb: "太害羞而不敢举手 → too shy to raise。" },
+        { stem: "He was ______ young ______ drive a car.", ans: "too…to", fb: "太年轻而不能开车 → too young to drive。" },
+        { stem: "The soup was ______ hot ______ drink.", ans: "too…to", fb: "太烫而不能喝 → too hot to drink。" },
+        { stem: "I am ______ busy ______ join the trip today.", ans: "too…to", fb: "太忙而不能参加 → too busy to join。" },
+        { stem: "The river was ______ wide ______ cross without a bridge.", ans: "too…to", fb: "太宽而不能过河 → too wide to cross。" },
+        { stem: "He spoke ______ fast ______ me to follow every word.", ans: "too…to", fb: "太快而跟不上 → too fast for me to follow / too fast to follow。" },
+        { stem: "It was ______ a long queue ______ we waited thirty minutes.", ans: "such…that", fb: "queue 为名词 → such a long queue that。" },
+        { stem: "He was ______ tired ______ he couldn't walk.", ans: "so…that", fb: "太累以至于走不动 → so tired that he couldn't walk（对比 too tired to walk）。" },
+        { stem: "They set an alarm ______ they wouldn't oversleep.", ans: "so that", fb: "为了不会睡过头 → so that。" },
+        { stem: "The film was ______ moving ______ many people cried.", ans: "so…that", fb: "moving 为形容词 → so moving that。" },
+        { stem: "This bag is ______ expensive ______ buy right now.", ans: "too…to", fb: "太贵而买不起 → too expensive to buy。" },
+        { stem: "He ran ______ quickly ______ he won the race.", ans: "so…that", fb: "太快以至于赢了 → so quickly that。" },
+        { stem: "Wear a helmet ______ you can ride the shared bike safely.", ans: "so that", fb: "为了能安全骑行 → so that。" },
+        { stem: "The room was ______ dark ______ find the keys.", ans: "too…to", fb: "太暗而找不到钥匙 → too dark to find。" },
+        { stem: "She made ______ a funny joke ______ everyone laughed.", ans: "such…that", fb: "joke 为名词 → such a funny joke that。" }
+      ]
+    };
+
+    let currentPage = 1;
+    let soIdx = 0, suchIdx = 0, purIdx = 0, contrastIdx = 0;
+    const soVisited = new Set();
+    const suchVisited = new Set();
+    const purVisited = new Set();
+    const contrastDone = {};
+    const uiLock = document.getElementById("ui-lock");
+
+    function escapeXml(s) {
+      return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+    }
+    function lockUI() { uiLock.classList.add("active"); }
+    function unlockUI() { uiLock.classList.remove("active"); }
+
+    async function playAudio(text) {
+      if (!text) return;
+      lockUI();
+      const url = "https://" + AZURE_REGION + ".tts.speech.microsoft.com/cognitiveservices/v1";
+      const ssml = "<speak version='1.0' xml:lang='en-US'><voice name='" + VOICE_EN + "'>" + escapeXml(text) + "</voice></speak>";
+      try {
+        const res = await fetch(url, {
+          method: "POST",
+          headers: {
+            "Ocp-Apim-Subscription-Key": AZURE_KEY,
+            "Content-Type": "application/ssml+xml",
+            "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3"
+          },
+          body: ssml
+        });
+        if (!res.ok) throw new Error(String(res.status));
+        const blob = await res.blob();
+        const u = URL.createObjectURL(blob);
+        const a = new Audio(u);
+        await new Promise((res, rej) => {
+          a.onended = () => { URL.revokeObjectURL(u); res(); };
+          a.onerror = rej;
+          a.play().catch(rej);
+        });
+      } catch (e) {
+        const u = new SpeechSynthesisUtterance(text);
+        u.lang = "en-US";
+        speechSynthesis.speak(u);
+      } finally {
+        unlockUI();
+      }
+    }
+
+    function goPage(n) {
+      if (n < 1 || n > PAGE_COUNT) return;
+      currentPage = n;
+      document.querySelectorAll(".lesson-page").forEach((el) => {
+        el.classList.toggle("active", parseInt(el.dataset.page, 10) === n);
+      });
+      document.getElementById("pager-mid").textContent = n + " / " + PAGE_COUNT;
+      document.getElementById("pager-prev").disabled = n <= 1;
+      document.getElementById("pager-next").disabled = n >= PAGE_COUNT;
+    }
+
+    function renderCarouselJump(list, rowId, idx, visited, purpose) {
+      const row = document.getElementById(rowId);
+      if (!row) return;
+      row.innerHTML = "";
+      list.forEach((item, i) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "carousel-jump-btn" + (purpose ? " purpose" : "") + (i === idx ? " active" : "") + (visited.has(i) ? " done" : "");
+        btn.textContent = item.tag || ("句" + (i + 1));
+        btn.addEventListener("click", () => {
+          if (rowId === "so-jump") { soIdx = i; renderSo(); }
+          else if (rowId === "such-jump") { suchIdx = i; renderSuch(); }
+          else if (rowId === "pur-jump") { purIdx = i; renderPur(); }
+          else if (rowId === "contrast-jump") { contrastIdx = i; renderContrast(); }
+        });
+        row.appendChild(btn);
+      });
+    }
+
+    function renderSo() {
+      const s = P03.soThat[soIdx];
+      soVisited.add(soIdx);
+      document.getElementById("so-label").textContent = (soIdx + 1) + " / " + P03.soThat.length + " · " + (s.tag || "so…that");
+      document.getElementById("so-en").textContent = s.en;
+      document.getElementById("so-zh").textContent = "→ " + s.zh;
+      const imgEl = document.getElementById("so-scene-img");
+      if (imgEl && s.img) {
+        imgEl.src = s.img;
+        imgEl.alt = s.tag || "so…that 情境";
+      }
+      renderCarouselJump(P03.soThat, "so-jump", soIdx, soVisited, false);
+    }
+    function renderSuch() {
+      const s = P03.suchThat[suchIdx];
+      suchVisited.add(suchIdx);
+      document.getElementById("such-label").textContent = (suchIdx + 1) + " / " + P03.suchThat.length + " · " + (s.tag || "such…that");
+      document.getElementById("such-en").textContent = s.en;
+      document.getElementById("such-zh").textContent = "→ " + s.zh;
+      const imgEl = document.getElementById("such-scene-img");
+      if (imgEl && s.img) {
+        imgEl.src = s.img;
+        imgEl.alt = s.tag || "such…that 情境";
+      }
+      renderCarouselJump(P03.suchThat, "such-jump", suchIdx, suchVisited, false);
+    }
+    function renderPur() {
+      const s = P03.purposeSoThat[purIdx];
+      purVisited.add(purIdx);
+      document.getElementById("pur-label").textContent = (purIdx + 1) + " / " + P03.purposeSoThat.length + " · " + (s.tag || "so that");
+      document.getElementById("pur-en").textContent = s.en;
+      document.getElementById("pur-zh").textContent = "→ " + s.zh;
+      const imgEl = document.getElementById("pur-scene-img");
+      if (imgEl && s.img) {
+        imgEl.src = s.img;
+        imgEl.alt = s.tag || "so that 情境";
+      }
+      renderCarouselJump(P03.purposeSoThat, "pur-jump", purIdx, purVisited, true);
+    }
+    function renderContrastPick() {
+      const box = document.getElementById("contrast-pick");
+      if (!box) return;
+      const c = P03.contrast[contrastIdx];
+      if (contrastDone[contrastIdx]) {
+        box.innerHTML = "<p style='font-weight:800;color:#047857'>✓ 本组已完成 · 目的句：" + c.purpose + "</p>";
+        return;
+      }
+      box.innerHTML = "<p style='font-weight:800'><span class='tier-label'>分层 B</span>哪一句是<strong>目的</strong>（为了……）？对照区<strong>上</strong>为结果、<strong>下</strong>为目的。</p>";
+      const row = document.createElement("div");
+      row.className = "opt-row contrast-pick-opts";
+      const fb = document.createElement("div");
+      fb.className = "fb";
+      [
+        { label: "上句（结果）", key: "result", text: c.result },
+        { label: "下句（目的）", key: "purpose", text: c.purpose }
+      ].forEach((side) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        const lab = document.createElement("span");
+        lab.textContent = side.label;
+        const sub = document.createElement("span");
+        sub.className = "pick-sub";
+        sub.lang = "en";
+        sub.textContent = side.text;
+        btn.appendChild(lab);
+        btn.appendChild(sub);
+        btn.addEventListener("click", () => {
+          row.querySelectorAll("button").forEach((b) => b.disabled = true);
+          if (side.key === "purpose") {
+            btn.classList.add("ok");
+            contrastDone[contrastIdx] = true;
+            fb.textContent = "✓ " + c.pzh;
+            playAudio(c.purpose);
+            renderContrastPick();
+            renderCarouselJump(P03.contrast.map((x) => ({ tag: x.title })), "contrast-jump", contrastIdx, new Set(Object.keys(contrastDone).map((k) => parseInt(k, 10))), false);
+          } else {
+            btn.classList.add("bad");
+            fb.textContent = "上句是结果（已经怎样）；下句才是目的（为了……）。";
+          }
+        });
+        row.appendChild(btn);
+      });
+      box.appendChild(row);
+      box.appendChild(fb);
+    }
+    function buildContrastSide(sideClass, tagClass, tagText, en, zh, zhColor) {
+      const side = document.createElement("div");
+      side.className = "side " + sideClass;
+      const tag = document.createElement("span");
+      tag.className = "zh-tag " + tagClass;
+      tag.textContent = tagText;
+      const enP = document.createElement("p");
+      enP.className = "en-line";
+      enP.lang = "en";
+      enP.textContent = en;
+      const zhP = document.createElement("p");
+      zhP.style.cssText = "font-size:0.86rem;font-weight:700;color:" + zhColor;
+      zhP.textContent = zh;
+      const speak = document.createElement("button");
+      speak.type = "button";
+      speak.className = "btn ghost contrast-speak-btn";
+      speak.textContent = "朗读";
+      speak.addEventListener("click", () => playAudio(en));
+      side.appendChild(tag);
+      side.appendChild(enP);
+      side.appendChild(zhP);
+      side.appendChild(speak);
+      return side;
+    }
+
+    function renderContrast() {
+      const c = P03.contrast[contrastIdx];
+      const box = document.getElementById("contrast-box");
+      box.innerHTML = "";
+      const title = document.createElement("p");
+      title.style.cssText = "font-weight:900;margin:0 0 0.5rem";
+      title.textContent = c.title + " （" + (contrastIdx + 1) + " / " + P03.contrast.length + "）";
+      const pair = document.createElement("div");
+      pair.className = "contrast-pair";
+      pair.appendChild(buildContrastSide("result", "result", "结果", c.result, c.rzh, "#9a3412"));
+      pair.appendChild(buildContrastSide("purpose", "purpose", "目的", c.purpose, c.pzh, "#6b21a8"));
+      box.appendChild(title);
+      box.appendChild(pair);
+      const doneSet = new Set(Object.keys(contrastDone).map((k) => parseInt(k, 10)));
+      renderCarouselJump(P03.contrast.map((x) => ({ tag: x.title })), "contrast-jump", contrastIdx, doneSet, false);
+      renderContrastPick();
+    }
+
+    function initPickQuiz(list, boxId) {
+      const box = document.getElementById(boxId);
+      if (!box) return;
+      list.forEach((q, qi) => {
+        const d = document.createElement("div");
+        d.className = "quiz-item";
+        d.innerHTML = "<p style='font-weight:800'>" + (qi + 1) + ". " + q.stem + "</p>";
+        const row = document.createElement("div");
+        row.className = "opt-row";
+        const fb = document.createElement("div");
+        fb.className = "fb";
+        q.opts.forEach((opt) => {
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.textContent = opt;
+          btn.addEventListener("click", () => {
+            row.querySelectorAll("button").forEach((b) => b.disabled = true);
+            if (opt === q.ans) {
+              btn.classList.add("ok");
+              d.classList.add("done");
+              fb.textContent = "✓ " + (q.fb || opt);
+            } else {
+              btn.classList.add("bad");
+              fb.textContent = "再想想：本题是 " + q.ans + "。" + (q.fb ? " " + q.fb : "");
+            }
+          });
+          row.appendChild(btn);
+        });
+        d.appendChild(row);
+        d.appendChild(fb);
+        box.appendChild(d);
+      });
+    }
+
+    function mountOralCards(box, titleHtml, items, cardClass) {
+      if (!box) return;
+      box.innerHTML = titleHtml;
+      (items || []).forEach((o) => {
+        const card = document.createElement("div");
+        card.className = "oral-card" + (cardClass ? " " + cardClass : "");
+        card.innerHTML = "<p style='color:#5d4037'>" + o.zh + "</p><p lang='en'>" + o.en + "</p>";
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "btn ghost";
+        btn.textContent = "朗读";
+        btn.addEventListener("click", () => playAudio(o.en));
+        card.appendChild(btn);
+        box.appendChild(card);
+      });
+    }
+
+    function initOralSummary() {
+      mountOralCards(
+        document.getElementById("oral-result-box"),
+        "<p style='font-weight:800;color:#c2410c;margin:0 0 0.35rem'>结果句 · 写感受（so / such + that）：</p>" +
+          "<p class='oral-section-hint'>已经怎样 → 以至于……（有 that 从句）</p>",
+        P03.oralResult,
+        ""
+      );
+      mountOralCards(
+        document.getElementById("oral-purpose-box"),
+        "<p style='font-weight:800;color:#6b21a8;margin:0.65rem 0 0.35rem'>目的句 · 写打算（so that + can/will）：</p>" +
+          "<p class='oral-section-hint'>为了…… · 主句常 will / can / could</p>",
+        P03.oralPurpose,
+        "purpose"
+      );
+      mountOralCards(
+        document.getElementById("oral-too-box"),
+        "<p style='font-weight:800;color:#92400e;margin:0.65rem 0 0.35rem'>too…to · 太……而不能……</p>" +
+          "<p class='oral-section-hint'>无 that 从句 · to 后接动词 · 写「做不了」</p>",
+        P03.oralTooTo,
+        "too"
+      );
+    }
+
+    function initWritingBridge() {
+      const box = document.getElementById("writing-bridge");
+      const ta = document.getElementById("p03-draft");
+      if (!box || !ta) return;
+      P03.writingBridge.forEach((chip) => {
+        const span = document.createElement("span");
+        const t = chip.type || "result";
+        span.className = "write-chip" + (t === "purpose" ? " purpose" : t === "too" ? " too" : "");
+        span.textContent = chip.text || chip;
+        span.title = "点击插入草稿";
+        span.addEventListener("click", () => {
+          const cur = ta.value.trim();
+          const line = chip.text || chip;
+          ta.value = cur ? cur + "\n" + line : line;
+          ta.focus();
+        });
+        box.appendChild(span);
+      });
+    }
+
+    function initTraps(list, boxId, prefix) {
+      const box = document.getElementById(boxId);
+      list.forEach((t, i) => {
+        const d = document.createElement("div");
+        d.className = "trap-item";
+        d.innerHTML = "<p class='wrong'>✗ " + t.wrong + "</p><p class='right hidden' id='" + prefix + "-r-" + i + "'>✓ " + t.right + "</p>";
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "btn ghost";
+        btn.textContent = "显示正句";
+        btn.addEventListener("click", () => {
+          document.getElementById(prefix + "-r-" + i).classList.remove("hidden");
+          btn.disabled = true;
+        });
+        d.appendChild(btn);
+        box.appendChild(d);
+      });
+    }
+
+    function initQuiz() {
+      const box = document.getElementById("mix-quiz");
+      const opts = P03.mixQuizOpts || ["so…that", "so that", "such…that", "too…to"];
+      P03.mixQuiz.forEach((q, qi) => {
+        const d = document.createElement("div");
+        d.className = "quiz-item";
+        d.innerHTML = "<p style='font-weight:800'>" + (qi + 1) + ". " + q.stem + "</p>";
+        const row = document.createElement("div");
+        row.className = "opt-row";
+        const fb = document.createElement("div");
+        fb.className = "fb";
+        opts.forEach((opt) => {
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.textContent = opt;
+          btn.addEventListener("click", () => {
+            row.querySelectorAll("button").forEach((b) => b.disabled = true);
+            if (opt === q.ans) {
+              btn.classList.add("ok");
+              d.classList.add("done");
+              fb.textContent = "✓ " + (q.fb || opt + "：结构匹配。");
+            } else {
+              btn.classList.add("bad");
+              fb.textContent = "再想想：本题是 " + q.ans + "。" + (q.fb ? " " + q.fb : "");
+            }
+          });
+          row.appendChild(btn);
+        });
+        d.appendChild(row);
+        d.appendChild(fb);
+        box.appendChild(d);
+      });
+    }
+
+    function initLessonApp() {
+      document.body.classList.add("has-lesson-pager");
+      renderSo();
+      renderSuch();
+      renderPur();
+      renderContrast();
+      initTraps(P03.resultTraps, "result-traps", "rt");
+      initTraps(P03.purposeTraps, "purpose-traps", "pt");
+      initPickQuiz(P03.resultPurposePick, "result-purpose-pick");
+      initPickQuiz(P03.soSuchPick, "so-such-pick");
+      initQuiz();
+      initOralSummary();
+      initWritingBridge();
+      goPage(1);
+    }
+    initLessonApp();
+
+    document.querySelectorAll("[data-goto]").forEach((btn) => {
+      btn.addEventListener("click", () => goPage(parseInt(btn.dataset.goto, 10)));
+    });
+    document.querySelectorAll("[data-speak]").forEach((btn) => {
+      btn.addEventListener("click", () => playAudio(btn.dataset.speak));
+    });
+
+    document.getElementById("so-prev").addEventListener("click", () => {
+      soIdx = (soIdx - 1 + P03.soThat.length) % P03.soThat.length;
+      renderSo();
+    });
+    document.getElementById("so-next").addEventListener("click", () => {
+      soIdx = (soIdx + 1) % P03.soThat.length;
+      renderSo();
+    });
+    document.getElementById("so-speak").addEventListener("click", () => playAudio(P03.soThat[soIdx].en));
+    document.getElementById("so-oral").addEventListener("click", () => {
+      const s = P03.soThat[soIdx];
+      alert("口语替换 · " + (s.tag || "") + "\n\n问：" + (s.oralQ || "Describe the result using so...that.") + "\n\n参考：" + s.en + "\n\n试试把 tired / interesting 换成你自己的形容词。");
+      playAudio(s.en);
+    });
+
+    document.getElementById("such-prev").addEventListener("click", () => {
+      suchIdx = (suchIdx - 1 + P03.suchThat.length) % P03.suchThat.length;
+      renderSuch();
+    });
+    document.getElementById("such-next").addEventListener("click", () => {
+      suchIdx = (suchIdx + 1) % P03.suchThat.length;
+      renderSuch();
+    });
+    document.getElementById("such-speak").addEventListener("click", () => playAudio(P03.suchThat[suchIdx].en));
+
+    document.getElementById("pur-prev").addEventListener("click", () => {
+      purIdx = (purIdx - 1 + P03.purposeSoThat.length) % P03.purposeSoThat.length;
+      renderPur();
+    });
+    document.getElementById("pur-next").addEventListener("click", () => {
+      purIdx = (purIdx + 1) % P03.purposeSoThat.length;
+      renderPur();
+    });
+    document.getElementById("pur-speak").addEventListener("click", () => playAudio(P03.purposeSoThat[purIdx].en));
+    document.getElementById("pur-oral").addEventListener("click", () => {
+      const s = P03.purposeSoThat[purIdx];
+      alert("口语替换 · " + (s.tag || "") + "\n\n问：" + (s.oralQ || "Why did you do that? Use so that...") + "\n\n参考：" + s.en + "\n\n试试把 catch the bus 换成你的暑假计划。");
+      playAudio(s.en);
+    });
+
+    document.getElementById("pager-prev").addEventListener("click", () => {
+      if (currentPage > 1) goPage(currentPage - 1);
+    });
+    document.getElementById("pager-next").addEventListener("click", () => {
+      if (currentPage < PAGE_COUNT) goPage(currentPage + 1);
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.target.tagName === "TEXTAREA") return;
+      if (typeof isLessonImageLightboxOpen === "function" && isLessonImageLightboxOpen()) return;
+      if (e.key === "ArrowLeft" && currentPage > 1) goPage(currentPage - 1);
+      if (e.key === "ArrowRight" && currentPage < PAGE_COUNT) goPage(currentPage + 1);
+    });
+  </script>
+</body>
+</html>

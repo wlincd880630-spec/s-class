@@ -1,0 +1,1685 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>状语从句 —— 条件与原因</title>
+  <link rel="stylesheet" href="assets/lesson-screen-16x9.css" />
+  <link rel="stylesheet" href="l11-index-nav.css" />
+  <style>
+    :root {
+      --paper: #fff9f0; --ink: #2c2c2c; --edge: #5d4037;
+      --crayon-blue: #4a90d9; --crayon-green: #5cb85c; --crayon-orange: #f0ad4e;
+      --crayon-red: #e85d4c; --crayon-purple: #9b59b6; --teal: #0d9488;
+      --gold: #d4af37; --shadow-book: rgba(60, 40, 20, 0.14);
+      --cond: #dbeafe; --reason: #d1fae5;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0; min-height: 100dvh;
+      font-family: system-ui, -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: linear-gradient(165deg, #1e3a5f 0%, #1a1420 45%, #120c18 100%);
+      color: var(--ink); line-height: 1.55;
+    }
+    body.has-lesson-pager { align-items: stretch !important; justify-content: flex-start; }
+    body.has-lesson-pager > #app {
+      width: 100% !important; max-width: 100% !important;
+      margin: 0 !important;
+      padding-left: max(8px, var(--lesson-s-l, 0px));
+      padding-right: max(8px, var(--lesson-s-r, 0px));
+    }
+    @media (min-width: 769px) and (min-height: 560px) {
+      body.has-lesson-pager > #app {
+        --l11-stage-vw: calc(100vw - var(--lesson-s-l) - var(--lesson-s-r) - 16px);
+        --l11-stage-vh: calc(100dvh - var(--lesson-pager-gap, 4.35rem) - max(4px, var(--lesson-s-t)) - max(4px, var(--lesson-s-b)) - 12px);
+        width: var(--l11-stage-vw) !important; max-width: var(--l11-stage-vw) !important;
+        height: var(--l11-stage-vh) !important; max-height: var(--l11-stage-vh) !important;
+        aspect-ratio: unset !important; flex: 1 1 auto !important;
+      }
+    }
+    #ui-lock { display: none; position: fixed; inset: 0; z-index: 9998; cursor: wait; }
+    #ui-lock.active { display: block; }
+    #app {
+      flex: 1 1 auto; width: 100%; max-width: 100%; margin: 0;
+      padding: min(10px, 1.2vw) min(12px, 1.5vw);
+      display: flex; flex-direction: column;
+      min-height: calc(100dvh - var(--lesson-pager-gap, 4.35rem) - 8px);
+      min-width: 0;
+    }
+    .hidden { display: none !important; }
+    #l11-book.book {
+      position: relative; flex: 1 1 auto; min-height: 0;
+      display: flex; flex-direction: column;
+      background: var(--paper); border: 4px solid var(--crayon-blue);
+      border-radius: 14px 30px 16px 24px;
+      box-shadow: 0 10px 0 rgba(74, 144, 217, 0.22), 0 22px 40px var(--shadow-book);
+      overflow: hidden;
+    }
+    #l11-book.book::before {
+      content: ""; position: absolute; inset: 10px;
+      border: 2px dashed rgba(93, 64, 55, 0.28); border-radius: 10px 20px 12px 18px;
+      pointer-events: none; z-index: 0;
+    }
+    .top-bar {
+      z-index: 2; margin: 10px 12px 0; border: 3px solid var(--crayon-blue);
+      border-radius: 999px; background: linear-gradient(180deg, #fff, #eff6ff);
+      text-align: center; padding: 10px 14px;
+      font-size: clamp(0.82rem, 0.35vw + 0.76rem, 0.98rem);
+    }
+    .top-bar strong { color: #1565c0; }
+    .subtitle-line { display: block; margin-top: 4px; font-size: 0.86em; color: #6d4c41; font-weight: 600; }
+    .l11-scroll {
+      position: relative; z-index: 1; flex: 1 1 auto; min-height: 0;
+      overflow: hidden auto; padding: 8px 12px 14px;
+    }
+    .lesson-page {
+      display: none; flex-direction: column; gap: 0.65rem;
+      min-height: min(100%, calc(100dvh - var(--lesson-pager-gap, 4.35rem) - 140px));
+      animation: l11fade 0.35s ease;
+    }
+    .lesson-page.active { display: flex; }
+    @keyframes l11fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+    .page-head {
+      display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between;
+      gap: 0.35rem 0.75rem; padding-bottom: 0.35rem;
+      border-bottom: 3px solid rgba(93, 64, 55, 0.15);
+    }
+    .page-kicker { font-size: 0.78rem; font-weight: 800; color: #6d4c41; }
+    .page-title { margin: 0; font-size: clamp(1.05rem, 1.8vw + 0.55rem, 1.35rem); font-weight: 900; color: #1565c0; }
+    .page-title.reason { color: #047857; }
+    .panel {
+      background: rgba(255,255,255,0.92); border: 3px solid var(--edge);
+      border-radius: 14px 22px 12px 18px; padding: clamp(0.75rem, 1.5vw, 1.1rem);
+      box-shadow: 0 5px 0 rgba(93,64,55,0.08);
+    }
+    .scene-frame {
+      width: 100%; aspect-ratio: 4 / 3; min-height: 0;
+      border-radius: 12px 18px 10px 16px; border: 3px solid var(--edge);
+      background: linear-gradient(145deg, #0f172a, #1e3a5f);
+      overflow: hidden; display: flex; align-items: center; justify-content: center;
+    }
+    .scene-frame img { width: 100%; height: 100%; object-fit: contain; display: block; }
+    .en-line {
+      font-size: var(--lesson-fs-en-line, 1.12rem); font-weight: 800; color: #1e293b;
+      margin: 0.4rem 0; line-height: 1.45;
+    }
+    .zh-tag {
+      display: inline-block; font-size: 0.78rem; font-weight: 800; padding: 0.15rem 0.5rem;
+      border-radius: 6px; margin-right: 0.35rem; vertical-align: middle;
+    }
+    .zh-tag.cond { background: var(--cond); color: #1d4ed8; }
+    .zh-tag.reason { background: var(--reason); color: #047857; }
+    .rule-box {
+      padding: 0.65rem 0.75rem; border-radius: 12px; font-weight: 700; font-size: 0.92rem;
+      margin: 0.5rem 0;
+    }
+    .rule-box.cond { background: #eff6ff; border-left: 5px solid var(--crayon-blue); color: #1e40af; }
+    .rule-box.reason { background: #ecfdf5; border-left: 5px solid var(--crayon-green); color: #065f46; }
+    .compare-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; margin: 0.5rem 0; }
+    .compare-table th, .compare-table td {
+      border: 2px solid #e2e8f0; padding: 0.45rem 0.55rem; text-align: left;
+    }
+    .compare-table th { background: #f1f5f9; font-weight: 800; }
+    .channel-row { display: flex; flex-wrap: wrap; gap: 0.65rem; margin-top: 0.65rem; }
+    .channel-btn {
+      flex: 1 1 200px; min-height: 56px; padding: 0.75rem 1rem; border-radius: 14px;
+      border: 3px solid var(--edge); font-weight: 900; font-size: 1rem; cursor: pointer;
+    }
+    .channel-btn.cond { background: linear-gradient(135deg, #dbeafe, #bfdbfe); color: #1d4ed8; }
+    .channel-btn.reason { background: linear-gradient(135deg, #d1fae5, #a7f3d0); color: #047857; }
+    .btn-row { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.5rem 0; }
+    .btn {
+      min-height: 44px; padding: 0.45rem 1rem; border-radius: 999px; border: 3px solid var(--edge);
+      background: #fff; font-weight: 800; cursor: pointer; font-size: 0.88rem;
+    }
+    .btn.primary { background: linear-gradient(135deg, var(--crayon-blue), #1565c0); color: #fff; border-color: #1565c0; }
+    .btn.green { background: linear-gradient(135deg, var(--crayon-green), #047857); color: #fff; border-color: #047857; }
+    .btn.ghost { background: #f8fafc; color: #334155; }
+    .btn:disabled { opacity: 0.45; cursor: not-allowed; }
+    .flip-card {
+      padding: 0.85rem; border-radius: 14px; border: 3px solid #93c5fd;
+      background: #f8fafc; margin: 0.5rem 0;
+    }
+    .flip-card .label { font-size: 0.82rem; font-weight: 800; color: #64748b; margin-bottom: 0.35rem; }
+    .trap-item {
+      margin: 0.5rem 0; padding: 0.65rem; border-radius: 12px;
+      border: 2px solid #fecaca; background: #fff5f5;
+    }
+    .trap-item .wrong {
+      color: #991b1b; font-weight: 800; text-decoration: none; line-height: 1.45;
+      margin: 0 0 0.35rem; padding: 0.5rem 0.6rem; border-radius: 8px;
+      background: #fff; border: 2px solid #fecaca;
+    }
+    .trap-wrong-tag {
+      display: inline-block; font-size: 0.76rem; font-weight: 900; padding: 0.12rem 0.4rem;
+      border-radius: 6px; background: #fee2e2; color: #b91c1c; margin-right: 0.35rem; vertical-align: middle;
+    }
+    .trap-right-tag {
+      display: inline-block; font-size: 0.76rem; font-weight: 900; padding: 0.12rem 0.4rem;
+      border-radius: 6px; background: #d1fae5; color: #047857; margin-right: 0.35rem; vertical-align: middle;
+    }
+    .trap-item .right { color: #047857; font-weight: 800; margin-top: 0.35rem; line-height: 1.45; }
+    .trap-item .reveal-btn { margin-top: 0.4rem; }
+    .future-card {
+      padding: 0.55rem 0.65rem; margin: 0.35rem 0; border-radius: 10px;
+      border-left: 5px solid var(--crayon-blue); background: #f8fafc;
+    }
+    .future-card .main-cl { background: #fef3c7; padding: 0 3px; border-radius: 3px; }
+    .future-card .sub-cl { background: var(--cond); padding: 0 3px; border-radius: 3px; }
+    .cond-type-badge {
+      display: inline-block; font-size: 0.82rem; font-weight: 900; padding: 0.2rem 0.55rem;
+      border-radius: 8px; background: var(--cond); color: #1d4ed8; margin-right: 0.4rem;
+    }
+    .cond-type-badge.extend { background: #fef3c7; color: #92400e; }
+    .cond3-tl-fold { margin: 0.5rem 0 0; }
+    .cond3-tl-fold-btn {
+      width: 100%; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+      gap: 0.35rem 0.5rem; padding: 0.48rem 0.65rem; border-radius: 10px;
+      border: 2px dashed #94a3b8; background: #f1f5f9; cursor: pointer;
+      font-weight: 800; font-size: 0.86rem; color: #334155; text-align: left;
+    }
+    .cond3-tl-fold-btn:hover { background: #e8f0f8; }
+    .cond3-tl-fold-btn[aria-expanded="true"] {
+      border-color: #64748b; border-bottom-left-radius: 0; border-bottom-right-radius: 0;
+      margin-bottom: 0;
+    }
+    .cond3-tl-fold-title { color: #1e40af; }
+    .cond3-tl-fold-hint {
+      font-size: 0.78rem; font-weight: 700; color: #64748b;
+    }
+    .cond3-tl-fold-body {
+      border: 2px dashed #94a3b8; border-top: none;
+      border-radius: 0 0 10px 10px; background: #f8fafc;
+      padding: 1rem 0.55rem 1.15rem;
+      overflow: hidden;
+      box-sizing: border-box;
+    }
+    .cond3-tl-fold-body[hidden] { display: none !important; }
+    .cond3-axis {
+      margin: 0; padding: 0.35rem 0.25rem 0.3rem;
+      border-radius: 8px; background: transparent; border: none;
+      overflow: visible;
+    }
+    .cond3-axis-rail {
+      display: grid; grid-template-columns: auto 1fr; gap: 0.45rem 0.65rem; align-items: center;
+    }
+    .cond3-axis-past {
+      font-size: 0.78rem; font-weight: 900; color: #64748b; white-space: nowrap;
+      align-self: center;
+    }
+    .cond3-axis-track {
+      position: relative;
+      width: 100%;
+      min-width: 0;
+      padding: 0.35rem 0;
+    }
+    .cond3-axis-stage {
+      position: relative;
+      width: 100%;
+      min-height: 228px;
+      padding: 1.05rem 0 1.2rem;
+      box-sizing: border-box;
+    }
+    .cond3-axis-line {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 50%;
+      height: 4px;
+      transform: translateY(-50%);
+      background: linear-gradient(90deg, #64748b 0%, #94a3b8 45%, #cbd5e1 78%, #e2e8f0 100%);
+      border-radius: 3px;
+      z-index: 0;
+    }
+    .cond3-axis-line::after {
+      content: "";
+      position: absolute;
+      right: -6px;
+      top: 50%;
+      width: 0;
+      height: 0;
+      border: 6px solid transparent;
+      border-left-color: #94a3b8;
+      transform: translateY(-50%);
+    }
+    .cond3-axis-anchor {
+      position: absolute;
+      top: 0.65rem;
+      bottom: 0.75rem;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 1;
+      max-width: 28%;
+      pointer-events: none;
+    }
+    .cond3-axis-anchor--p1 { left: 20%; max-width: 26%; }
+    .cond3-axis-anchor--p2 { left: 40%; max-width: 24%; }
+    .cond3-axis-slot {
+      flex: 0 0 auto;
+      max-width: 100%;
+      pointer-events: auto;
+    }
+    .cond3-axis-slot.above { padding-bottom: 0.45rem; }
+    .cond3-axis-slot.below { padding-top: 0.45rem; }
+    .cond3-axis-dot-wrap {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 2;
+      line-height: 0;
+    }
+    .cond3-axis-dot {
+      width: 13px;
+      height: 13px;
+      border-radius: 50%;
+      background: #1d4ed8;
+      border: 2px solid #fff;
+      box-shadow: 0 0 0 2px #93c5fd;
+      display: block;
+    }
+    .cond3-axis-now {
+      position: absolute;
+      left: 67%;
+      top: 0;
+      bottom: 0;
+      width: 0;
+      z-index: 2;
+      pointer-events: none;
+    }
+    .cond3-axis-now-dot-wrap {
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      line-height: 0;
+      z-index: 2;
+    }
+    .cond3-axis-now-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #047857;
+      border: 2px solid #fff;
+      box-shadow: 0 0 0 2px #86efac;
+      display: block;
+    }
+    .cond3-axis-now-label {
+      position: absolute;
+      left: 0;
+      top: calc(50% + 11px);
+      transform: translateX(-50%);
+      margin: 0;
+      font-size: 0.78rem;
+      font-weight: 900;
+      color: #047857;
+      white-space: nowrap;
+      line-height: 1.2;
+    }
+    .cond3-axis-card {
+      width: max-content; max-width: 100%; box-sizing: border-box;
+      padding: 0.45rem 0.6rem; border-radius: 8px; text-align: center;
+      border: 2px solid #cbd5e1; background: #fff; line-height: 1.3;
+    }
+    .cond3-axis-card.real { border-color: #94a3b8; background: #f1f5f9; }
+    .cond3-axis-card.real .cond3-tl-kicker { color: #475569; }
+    .cond3-axis-card.hypo { border-color: #f59e0b; background: #fffbeb; }
+    .cond3-axis-card.hypo .cond3-tl-kicker { color: #b45309; }
+    .cond3-tl-kicker { display: block; font-size: 0.66rem; font-weight: 900; margin-bottom: 0.08rem; white-space: nowrap; }
+    .cond3-tl-text { display: block; font-size: 0.76rem; font-weight: 800; color: #334155; white-space: nowrap; }
+    .cond3-tl-en {
+      display: block; font-size: 0.72rem; font-weight: 700; color: #64748b; margin-top: 0.12rem;
+      white-space: normal;
+      word-break: keep-all;
+      overflow-wrap: anywhere;
+      line-height: 1.25;
+    }
+    .cond3-tl-text,
+    .cond3-tl-kicker {
+      overflow-wrap: anywhere;
+    }
+    .future-card.cond3-card { border-left-color: #f59e0b; background: #fffbeb; overflow: visible; }
+    .cond-example-scene {
+      margin: 0 0 0.5rem;
+      padding: 0.5rem 0.65rem;
+      border-radius: 8px;
+      background: #eff6ff;
+      border-left: 4px solid #3b82f6;
+      font-size: 0.86rem;
+      font-weight: 700;
+      color: #1e3a5f;
+      line-height: 1.55;
+    }
+    .cond-example-scene strong { color: #1d4ed8; font-weight: 900; }
+    .future-card.cond3-card .cond-example-scene {
+      background: #fff7ed;
+      border-left-color: #f59e0b;
+    }
+    .future-card.cond3-card .cond-example-scene strong { color: #c2410c; }
+    .triple-row { margin: 0.65rem 0; padding: 0.65rem; border-radius: 12px; background: #fafafa; border: 2px solid #e2e8f0; }
+    .triple-row p { margin: 0.35rem 0; }
+    .quiz-item { padding: 0.65rem; margin: 0.45rem 0; border-radius: 12px; border: 2px solid #e2e8f0; }
+    .quiz-item.done { border-color: var(--crayon-green); background: #f0fdf4; }
+    .opt-row { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.4rem; }
+    .opt-row button {
+      min-height: 40px; padding: 0.35rem 0.75rem; border-radius: 10px;
+      border: 2px solid #cbd5e1; background: #fff; font-weight: 700; cursor: pointer;
+    }
+    .opt-row button.ok { background: #d1fae5; border-color: #047857; }
+    .opt-row button.bad { background: #fee2e2; border-color: #b91c1c; }
+    .fb {
+      margin-top: 0.4rem; font-weight: 700; font-size: 0.86rem; color: #4c1d95;
+      min-height: 1.2em; line-height: 1.5; padding: 0.45rem 0.55rem; border-radius: 8px;
+      background: #f5f3ff;
+    }
+    .quiz-item.done .fb { background: #ecfdf5; color: #047857; }
+    .quiz-item .fb.fb-wrong { background: #fef2f2; color: #991b1b; }
+    .route-list { margin: 0; padding: 0; list-style: none; }
+    .route-list li {
+      margin: 0.45rem 0; padding: 0.55rem 0.65rem; border-radius: 10px;
+      background: rgba(255,255,255,0.85); border: 2px solid #e2e8f0; font-weight: 700;
+    }
+    .route-list li a { color: #1565c0; font-weight: 800; text-decoration: none; }
+    .route-list li a:hover { text-decoration: underline; }
+    .route-list li.route-here { border-color: #93c5fd; background: #eff6ff; color: #1e40af; }
+    .goal-list { margin: 0.5rem 0 0; padding: 0; list-style: none; }
+    .goal-list li {
+      margin: 0.35rem 0; padding: 0.45rem 0.55rem; border-radius: 10px;
+      background: #eff6ff; font-weight: 700; font-size: 0.9rem;
+    }
+    .tier-label {
+      display: inline-block; font-size: 0.72rem; font-weight: 900;
+      padding: 0.12rem 0.45rem; border-radius: 6px; margin-right: 0.35rem;
+      background: #ede9fe; color: #5b21b6;
+    }
+    .oral-card {
+      margin: 0.5rem 0; padding: 0.65rem; border-radius: 12px;
+      border: 2px solid #bfdbfe; background: #f0f9ff;
+    }
+    .oral-card p { margin: 0.35rem 0; font-weight: 800; }
+    .pair-jump-row { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 0.5rem; }
+    .pair-jump-btn {
+      min-height: 40px; padding: 0.35rem 0.7rem; border-radius: 999px;
+      border: 2px solid #93c5fd; background: #fff; font-weight: 800; font-size: 0.82rem; cursor: pointer;
+    }
+    .pair-jump-btn.active { background: #dbeafe; border-color: #1d4ed8; color: #1e40af; }
+    .pair-jump-btn.done::after { content: " ✓"; color: #047857; }
+    .cond01-quiz-jump { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 0.55rem; }
+    .cond01-jump-btn {
+      min-width: 2.1rem; min-height: 38px; padding: 0.3rem 0.5rem; border-radius: 999px;
+      border: 2px solid #93c5fd; background: #fff; font-weight: 800; font-size: 0.8rem; cursor: pointer;
+    }
+    .cond01-jump-btn.active { background: #dbeafe; border-color: #1d4ed8; color: #1e40af; }
+    .cond01-jump-btn.done { border-color: #86efac; background: #ecfdf5; color: #047857; }
+    .cond01-quiz-card {
+      padding: 0.75rem 0.85rem; border-radius: 12px; border: 2px solid #e2e8f0; background: #fff;
+    }
+    .cond01-quiz-card.done { border-color: #86efac; background: #f0fdf4; }
+    .cond01-quiz-ctx {
+      margin: 0 0 0.5rem; padding: 0.5rem 0.65rem; border-radius: 8px;
+      background: #f8fafc; border-left: 4px solid #64748b;
+      font-size: 0.86rem; font-weight: 700; color: #334155; line-height: 1.5;
+    }
+    .cond01-quiz-fb {
+      margin-top: 0.55rem; padding: 0.55rem 0.65rem; border-radius: 8px;
+      background: #eff6ff; border: 2px solid #bfdbfe;
+      font-size: 0.86rem; font-weight: 700; color: #1e3a5f; line-height: 1.55;
+    }
+    .cond01-quiz-fb.wrong-fb { background: #fef2f2; border-color: #fecaca; color: #991b1b; }
+    .cond01-type-badge {
+      display: inline-block; font-size: 0.72rem; font-weight: 900; padding: 0.15rem 0.5rem;
+      border-radius: 6px; margin-right: 0.35rem; vertical-align: middle;
+    }
+    .cond01-type-badge.t0 { background: #e0e7ff; color: #3730a3; }
+    .cond01-type-badge.t1 { background: #dbeafe; color: #1e40af; }
+    .cond-ex-jump { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 0.5rem; align-items: center; }
+    .cond-ex-jump-btn {
+      min-width: 2.1rem; min-height: 38px; padding: 0.3rem 0.5rem; border-radius: 999px;
+      border: 2px solid #fdba74; background: #fff; font-weight: 800; font-size: 0.8rem; cursor: pointer;
+    }
+    .cond-ex-jump-btn.active { background: #ffedd5; border-color: #c2410c; color: #9a3412; }
+    #writing-bridge {
+      display: flex; flex-wrap: wrap; gap: 0.45rem;
+      margin: 0.35rem 0 0.5rem;
+    }
+    .write-chip {
+      display: inline-block; margin: 0; padding: 0.35rem 0.65rem;
+      border-radius: 10px; border: 2px dashed #86efac; background: #ecfdf5;
+      font-weight: 700; font-size: 0.86rem; cursor: pointer;
+      line-height: 1.35; max-width: 100%;
+    }
+    body.has-lesson-pager nav.lesson-pager button.pager-prev,
+    body.has-lesson-pager nav.lesson-pager button.pager-next,
+    body.has-lesson-pager nav.lesson-pager .pager-mid {
+      flex: 1 1 0; font-weight: 800; padding: 0.42rem; border-radius: 999px;
+      border: 3px solid #5d4037; cursor: pointer;
+      font-size: clamp(0.72rem, 2.4vw, 0.88rem);
+    }
+    body.has-lesson-pager nav.lesson-pager button.pager-next {
+      color: #4e342e; background: linear-gradient(180deg, #ffe082, #ffca28);
+    }
+    body.has-lesson-pager nav.lesson-pager button:disabled { opacity: 0.5; }
+  </style>
+</head>
+<body>
+  <div id="ui-lock" aria-hidden="true"></div>
+
+  <div id="app">
+    <div id="l11-book" class="book">
+      <header class="top-bar">
+        <strong>状语从句</strong> —— 条件与原因
+        <span class="subtitle-line">if / unless · because / since / as · 成都中考语料</span>
+      </header>
+      <div class="l11-scroll">
+
+        <section class="lesson-page active" data-page="1">
+          <div class="page-head"><span class="page-kicker">1 / 15</span><h2 class="page-title">状语从句 —— 课程目标</h2></div>
+          <div class="panel panel-split">
+            <div class="stage-visual">
+              <div class="scene-frame">
+                <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p02-fork-road.png" alt="条件分叉路" />
+              </div>
+            </div>
+            <div class="stage-body">
+              <p style="font-weight:800;margin:0 0 0.45rem;color:#1d4ed8">课程目标</p>
+              <ul class="goal-list">
+                <li>① <strong>条件</strong>：if / unless · <strong>0～3 号条件句</strong>（0 号习惯 / 1 号主将从现为主）</li>
+                <li>② <strong>原因</strong>：because / since / as · 语气分层 · 可用于「因为想保持健康」</li>
+                <li>③ <strong>红线</strong>：because 与 so 不连用</li>
+              </ul>
+              <div class="channel-row">
+                <button type="button" class="channel-btn cond" data-goto="2">⛈ 条件频道<br><span style="font-size:0.82rem;font-weight:600">if · unless</span></button>
+                <button type="button" class="channel-btn reason" data-goto="10">💬 原因频道<br><span style="font-size:0.82rem;font-weight:600">because · since · as</span></button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="2">
+          <div class="page-head"><span class="page-kicker">2 / 15</span><h2 class="page-title">状语从句 —— if 与 unless</h2></div>
+          <div class="panel panel-split">
+            <div class="stage-visual">
+              <div class="scene-frame"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p02-rule-gate.png" alt="规则门" /></div>
+            </div>
+            <div class="stage-body">
+              <div class="rule-box cond">unless ≈ if…not（「除非……否则不……」）。<strong>unless 从句里常用肯定形式</strong>，不要再叠 not。</div>
+              <table class="compare-table">
+                <tr><th>连词</th><th>意思</th><th>例意</th></tr>
+                <tr><td>if</td><td>如果</td><td>If you <strong>don't</strong> hurry, …</td></tr>
+                <tr><td>unless</td><td>除非</td><td>Unless you hurry, …（= 如果你不赶快）</td></tr>
+              </table>
+              <p class="en-line" lang="en">If you don't bring your student card, you can't enter the lab.</p>
+              <p class="en-line" lang="en">Unless you bring your student card, you can't enter the lab.</p>
+              <button type="button" class="btn ghost" data-speak="If you don't bring your student card, you can't enter the lab.">朗读对照句</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="3">
+          <div class="page-head"><span class="page-kicker">3 / 15</span><h2 class="page-title">状语从句 —— if 与 unless 等价改写</h2></div>
+          <div class="panel panel-split">
+            <div class="stage-visual">
+              <div class="scene-frame"><img id="pair-scene-img" src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p02-pair-01-helmet.png" alt="安全·头盔" /></div>
+            </div>
+            <div class="stage-body">
+              <p style="font-weight:700"><span class="tier-label">分层 A</span>点击「显示 unless 句」对照；<strong>场景标签</strong>可随意跳转（进度保留）。</p>
+              <div class="pair-jump-row" id="pair-jump"></div>
+              <div class="flip-card" id="pair-card">
+                <div class="label" id="pair-label">组 1 / 8</div>
+                <p class="en-line" lang="en" id="pair-if"></p>
+                <p class="en-line hidden" lang="en" id="pair-unless" style="color:#1d4ed8"></p>
+              </div>
+              <div class="btn-row">
+                <button type="button" class="btn ghost" id="pair-flip">显示 unless 句</button>
+                <button type="button" class="btn ghost" id="pair-speak">朗读当前句</button>
+                <button type="button" class="btn primary" id="pair-oral">口语问答</button>
+                <button type="button" class="btn ghost" id="pair-prev">← 上一组</button>
+                <button type="button" class="btn ghost" id="pair-next">下一组 →</button>
+              </div>
+              <hr style="border:none;border-top:2px dashed #e2e8f0;margin:0.75rem 0" />
+              <p style="font-weight:800"><span class="tier-label">分层 B</span>选用 if 还是 unless？（4 题）</p>
+              <div id="cond-pick-quiz"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="4">
+          <div class="page-head"><span class="page-kicker">4 / 15</span><h2 class="page-title">状语从句 —— unless 陷阱</h2></div>
+          <div class="panel" id="trap-list"></div>
+        </section>
+
+        <section class="lesson-page" data-page="5">
+          <div class="page-head"><span class="page-kicker">5 / 15</span><h2 class="page-title">状语从句 —— 0 号条件句</h2></div>
+          <div class="panel" id="cond-type-panel-0"></div>
+        </section>
+
+        <section class="lesson-page" data-page="6">
+          <div class="page-head"><span class="page-kicker">6 / 15</span><h2 class="page-title">状语从句 —— 1 号条件句</h2></div>
+          <div class="panel" id="cond-type-panel-1"></div>
+        </section>
+
+        <section class="lesson-page" data-page="7">
+          <div class="page-head"><span class="page-kicker">7 / 15</span><h2 class="page-title">状语从句 —— 0/1 号时态专练</h2></div>
+          <div class="panel">
+            <p style="font-weight:800;margin:0 0 0.35rem"><span class="tier-label">分层 B</span>0 号 &amp; 1 号条件句 · 时态填空（15 题）</p>
+            <p style="font-size:0.86rem;font-weight:700;color:#6d4c41;margin:0 0 0.55rem">
+              语境与句子均为<strong>新题</strong>，与前面例句不重复。每次一题，可点题号随意跳转；作答后显示<strong>题目解析</strong>。
+            </p>
+            <div class="cond01-quiz-jump" id="cond01-quiz-jump" aria-label="题号跳转"></div>
+            <div id="cond01-quiz-panel"></div>
+            <div class="btn-row" style="display:flex;flex-wrap:wrap;gap:0.4rem;margin-top:0.55rem">
+              <button type="button" class="btn ghost" id="cond01-quiz-prev">← 上一题</button>
+              <button type="button" class="btn ghost" id="cond01-quiz-next">下一题 →</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="8">
+          <div class="page-head"><span class="page-kicker">8 / 15</span><h2 class="page-title">状语从句 —— 2 号条件句</h2></div>
+          <div class="panel" id="cond-type-panel-2"></div>
+        </section>
+
+        <section class="lesson-page" data-page="9">
+          <div class="page-head"><span class="page-kicker">9 / 15</span><h2 class="page-title">状语从句 —— 3 号条件句</h2></div>
+          <div class="panel" id="cond-type-panel-3"></div>
+        </section>
+
+        <section class="lesson-page" data-page="10">
+          <div class="page-head"><span class="page-kicker">10 / 15</span><h2 class="page-title reason">状语从句 —— 原因三维对比</h2></div>
+          <div class="panel panel-split">
+            <div class="stage-visual">
+              <div class="scene-frame"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p02-why-bubbles.png" alt="原因气泡" /></div>
+            </div>
+            <div class="stage-body">
+              <div class="rule-box reason">because 直接原因 · since 既然（双方已知）· as 显而易见</div>
+              <table class="compare-table">
+                <tr><th>连词</th><th>语气</th><th>常见位置</th></tr>
+                <tr><td>because</td><td>重，回答 why</td><td>主句前/后</td></tr>
+                <tr><td>since</td><td>较弱，「既然」</td><td>多句首</td></tr>
+                <tr><td>as</td><td>最轻，「由于」</td><td>多句首</td></tr>
+              </table>
+              <p style="font-size:0.86rem;font-weight:700;color:#b45309">全课红线：不要 Because…, so… 连用。</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="11">
+          <div class="page-head"><span class="page-kicker">11 / 15</span><h2 class="page-title reason">状语从句 —— 原因同境三句</h2></div>
+          <div class="panel">
+            <p style="font-weight:700" id="triple-ctx"></p>
+            <div id="triple-lines"></div>
+            <div class="btn-row">
+              <button type="button" class="btn ghost" id="triple-prev">← 上一境</button>
+              <button type="button" class="btn ghost" id="triple-next">下一境 →</button>
+              <button type="button" class="btn ghost" id="triple-speak">朗读三句</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="12">
+          <div class="page-head"><span class="page-kicker">12 / 15</span><h2 class="page-title reason">状语从句 —— because 不连用与位置</h2></div>
+          <div class="panel">
+            <p style="font-weight:800;margin:0 0 0.5rem"><span class="tier-label">分层 A</span>双连词诊所 · 点击显示正句：</p>
+            <div id="so-traps"></div>
+            <hr style="border:none;border-top:2px dashed #e2e8f0;margin:0.75rem 0" />
+            <p style="font-weight:800">位置示范（原因从句可在主句前/后）：</p>
+            <p class="en-line" lang="en">Because the road was icy, we walked slowly.</p>
+            <p class="en-line" lang="en">We walked slowly because the road was icy.</p>
+            <details style="margin-top:0.5rem">
+              <summary style="font-weight:800;cursor:pointer">since「自从」≠ 原因（拓展）</summary>
+              <p class="en-line" lang="en">I have learned a lot since I joined the English club.</p>
+              <p style="font-size:0.86rem;color:#6d4c41">见 How long / 过去起点 → 多为时间义，本页选择题不考。</p>
+            </details>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="13">
+          <div class="page-head"><span class="page-kicker">13 / 15</span><h2 class="page-title reason">状语从句 —— 原因快选</h2></div>
+          <div class="panel">
+            <p style="font-weight:800;margin:0 0 0.65rem"><span class="tier-label">分层 B</span>根据语气选 because / since / as（成都中考语料）· 作答后显示<strong>详细解析</strong></p>
+            <p style="font-size:0.86rem;font-weight:700;color:#6d4c41;margin:0 0 0.5rem">
+              because 直接原因 · since 既然（双方已知）· as 显而易见 / 随着 / as you know
+            </p>
+            <div id="reason-quiz"></div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="14">
+          <div class="page-head"><span class="page-kicker">14 / 15</span><h2 class="page-title">状语从句 —— 暑假口语与写作</h2></div>
+          <div class="panel">
+            <p style="font-weight:700;margin:0 0 0.5rem"><span class="tier-label">分层 C</span>口语 &amp; 写作衔接（暑假计划）· 先读中文，再跟读英文；点击芯片插入你的计划草稿。</p>
+            <div class="rule-box cond" style="margin-bottom:0.65rem">
+              <strong>写作建议：</strong>草稿里至少各写 1 句——<strong>if / unless</strong> 写打算或限制 · <strong>because / since / as</strong> 写原因（because 后不加 so）。
+            </div>
+            <div id="oral-cond-box"></div>
+            <div id="oral-reason-box"></div>
+            <hr style="border:none;border-top:2px dashed #e2e8f0;margin:0.85rem 0" />
+            <p style="font-weight:800;margin:0 0 0.35rem">点击插入你的计划草稿：</p>
+            <div id="writing-bridge"></div>
+            <textarea id="p02-draft" rows="4" style="width:100%;margin-top:0.5rem;padding:0.55rem;border-radius:10px;border:2px solid #e2e8f0;font:inherit" placeholder="If the weather is fine, I will... Unless I finish... Because I want..."></textarea>
+            <p style="margin-top:0.75rem;text-align:center;font-weight:800">
+              <a href="#" data-goto="15" style="color:#1565c0">→ 第 15 屏：学习路线图</a>
+            </p>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="15">
+          <div class="page-head"><span class="page-kicker">15 / 15</span><h2 class="page-title">状语从句 —— 学习路线图</h2></div>
+          <div class="panel">
+            <ul class="route-list">
+              <li><a href="lesson11-page01-storyboard-intro.html">Page 01 · 发现与从句导入</a></li>
+              <li class="route-here">Page 02 · 条件 &amp; 原因（unless / because）· 本课</li>
+              <li><a href="lesson11-page03-result-purpose.html">Page 03 · 结果 &amp; 目的（so…that / so that）</a></li>
+              <li><a href="lesson11-page04-concession-no-double.html">Page 04 · 让步 &amp; 不连用（although）</a></li>
+              <li><a href="lesson11-page05-time-merge.html">Page 05 · 时间 &amp; 合并句（until / as soon as）</a></li>
+              <li><a href="lesson11-page06-reading-writing.html">Page 06 · 阅读 +「我的暑假计划」（≥3 种从句）</a></li>
+            </ul>
+            <p style="text-align:center;margin-top:0.75rem;color:#047857;font-weight:800">
+              Page 02 完成 · <a href="lesson11-page03-result-purpose.html" style="color:#c2410c">进入 Page 03</a>
+            </p>
+          </div>
+        </section>
+
+      </div>
+    </div>
+    <nav class="lesson-pager" aria-label="分页">
+      <button type="button" class="pager-prev" id="pager-prev">上一页</button>
+      <span class="pager-mid" id="pager-mid">1 / 15</span>
+      <button type="button" class="pager-next" id="pager-next">下一页</button>
+    </nav>
+  </div>
+
+  <script src="l11-image-lightbox.js"></script>
+  <script src="l11-index-nav.js"></script>
+  <script>
+    const AZURE_KEY = "C42UQWeDcluYanbo17WrtUnPhk0vkZy2uQHPTCGDzY6CdExx99NzJQQJ99BIACqBBLyXJ3w3AAAYACOGjkyu";
+    const AZURE_REGION = "southeastasia";
+    const VOICE_EN = "en-US-AriaNeural";
+    const PAGE_COUNT = 15;
+
+    const P02 = {
+      ifUnlessPairs: [
+        { if: "If you don't wear a helmet, you can't ride the shared bike.", unless: "Unless you wear a helmet, you can't ride the shared bike.", tag: "安全·头盔", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p02-pair-01-helmet.png", oralQ: "What must you do before riding a shared bike in Chengdu?" },
+        { if: "If she doesn't hurry, she will miss the school bus.", unless: "Unless she hurries, she will miss the school bus.", tag: "赶校车", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p02-pair-02-bus.png", oralQ: "What happens if she doesn't hurry?" },
+        { if: "If we don't leave now, we will be late for the movie.", unless: "Unless we leave now, we will be late for the movie.", tag: "看电影", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p02-pair-03-movie.png", oralQ: "Why should we leave now?" },
+        { if: "If he doesn't finish his homework, he can't play basketball.", unless: "Unless he finishes his homework, he can't play basketball.", tag: "作业", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p02-pair-04-homework.png", oralQ: "When can he play basketball?" },
+        { if: "If you don't listen carefully, you won't understand the main idea.", unless: "Unless you listen carefully, you won't understand the main idea.", tag: "听课", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p02-pair-05-class.png", oralQ: "How can you understand the main idea in class?" },
+        { if: "If it doesn't stop raining, we will cancel the picnic.", unless: "Unless it stops raining, we will cancel the picnic.", tag: "野餐", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p02-pair-06-picnic.png", oralQ: "Will we still have the picnic if it keeps raining?" },
+        { if: "If you don't bring your student card, you can't enter the lab.", unless: "Unless you bring your student card, you can't enter the lab.", tag: "实验室", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p02-pair-07-lab.png", oralQ: "What do you need to enter the school lab?" },
+        { if: "If you don't set a time limit, you may stay online too long.", unless: "Unless you set a time limit, you may stay online too long.", tag: "自律", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L11/assets/l11-p02-pair-08-screen.png", oralQ: "How can you control screen time during the holiday?" }
+      ],
+      condPickQuiz: [
+        { stem: "You can't ride the shared bike ______ you wear a helmet.", ans: "unless", opts: ["if", "unless"], fb: "unless = if…not：除非戴头盔，否则不能骑。" },
+        { stem: "______ it rains tomorrow, we will stay at home and read.", ans: "if", opts: ["if", "unless"], fb: "正向条件「如果下雨」用 if。" },
+        { stem: "______ you hurry, you will miss the school bus.", ans: "unless", opts: ["if", "unless"], fb: "「除非赶快，否则会迟到」→ unless you hurry。" },
+        { stem: "______ our team works hard, we will win a prize next month.", ans: "if", opts: ["if", "unless"], fb: "积极条件「如果努力」→ if。" }
+      ],
+      futureFillQuiz: [
+        { stem: "If it ______ (rain) tomorrow, we will stay at home.", ans: "rains", opts: ["rains", "will rain", "rained"], fb: "主将从现：从句用一般现在 rains。" },
+        { stem: "Unless you ______ (review) the notes, you will forget the key points.", ans: "review", opts: ["review", "will review", "reviewed"], fb: "unless 从句也用一般现在 review。" },
+        { stem: "If I ______ (save) enough pocket money, I will buy a science magazine.", ans: "save", opts: ["save", "will save", "saved"], fb: "条件从句 save，主句 will buy。" },
+        { stem: "If the bell ______ (ring), the students will stand up.", ans: "rings", opts: ["rings", "will ring", "rang"], fb: "自然现象/常规用一般现在 rings。" }
+      ],
+      cond01TenseQuiz: [
+        { type: "0", ctx: "【地铁闸机】每次进站都要刷卡，这是固定规则。", stem: "If you ______ (not tap) your card, the gate stays closed.", ans: "don't tap", opts: ["don't tap", "won't tap", "didn't tap"], fb: "0 号：谈习惯/规律，if 从句与主句都用一般现在。主句 stays 已是现在时，从句用 don't tap。" },
+        { type: "0", ctx: "【冷饮店】冰块放进柠檬汁里，饮料会变凉。", stem: "If you put ice in the drink, it ______ (cool down) quickly.", ans: "cools down", opts: ["cools down", "will cool down", "cooled down"], fb: "0 号科学常识：put / cools down 均为一般现在，表示一……就……。" },
+        { type: "0", ctx: "【护眼】长时间盯着屏幕，眼睛容易酸。", stem: "If you stare at the screen too long, your eyes ______ (feel) tired.", ans: "feel", opts: ["feel", "will feel", "felt"], fb: "0 号：反复发生的身体反应，主从都用一般现在 feel。" },
+        { type: "0", ctx: "【垃圾分类】塑料瓶投进回收箱，会被再利用。", stem: "If people throw bottles into the recycling bin, they ______ (get) reused.", ans: "get", opts: ["get", "will get", "got"], fb: "0 号：规律/流程描述，get reused 用一般现在。" },
+        { type: "0", ctx: "【喂猫】你一摇猫粮袋，猫就跑过来。", stem: "If you shake the food bag, the cat ______ (come) running.", ans: "comes", opts: ["comes", "will come", "came"], fb: "0 号：习惯性反应，第三人称单数 comes。" },
+        { type: "0", ctx: "【书法课】毛笔蘸水，墨就会在纸上化开。", stem: "If the brush touches water, the ink ______ (spread) on the paper.", ans: "spreads", opts: ["spreads", "will spread", "spread"], fb: "0 号：客观规律，spread 第三人称 spreads。" },
+        { type: "0", ctx: "【路灯】天变黑，路灯自动亮。", stem: "If it ______ (get) dark, the street lights turn on.", ans: "gets", opts: ["gets", "will get", "got"], fb: "0 号：自然现象联动，get / turn on 均为一般现在。" },
+        { type: "1", ctx: "【无人机表演】明晚广场有表演，风太大可能取消。", stem: "If the wind ______ (blow) too hard tomorrow, they will cancel the show.", ans: "blows", opts: ["blows", "will blow", "blew"], fb: "1 号主将从现：谈将来可能，从句用一般现在 blows，主句 will cancel。" },
+        { type: "1", ctx: "【博物馆】没提前预约，可能拿不到票。", stem: "Unless we ______ (book) online in advance, we can't get tickets.", ans: "book", opts: ["book", "will book", "booked"], fb: "1 号 + unless：从句 book（一般现在表将来），主句 can't get。" },
+        { type: "1", ctx: "【研学】实验室确认名额后，班级才能出发。", stem: "If the lab ______ (confirm) our places, we will start the trip next week.", ans: "confirms", opts: ["confirms", "will confirm", "confirmed"], fb: "1 号：从句 confirms 一般现在，主句 will start 表将来。" },
+        { type: "1", ctx: "【邻居装修】周末若电钻响，我会戴耳塞。", stem: "If they ______ (make) noise on Saturday, I will wear earplugs.", ans: "make", opts: ["make", "will make", "made"], fb: "1 号：从句 make，主句 will wear。" },
+        { type: "1", ctx: "【快递柜】输错取件码，柜门打不开。", stem: "Unless you ______ (enter) the right code, the locker won't open.", ans: "enter", opts: ["enter", "will enter", "entered"], fb: "1 号 unless：从句 enter，主句 won't open。" },
+        { type: "1", ctx: "【志愿者】通过面试后，她会加入服务队。", stem: "If she ______ (pass) the interview, she will join the volunteer team.", ans: "passes", opts: ["passes", "will pass", "passed"], fb: "1 号：从句 passes（三单），主句 will join。" },
+        { type: "1", ctx: "【河边步道】水位上涨，步道会封闭。", stem: "If the water level ______ (rise), the riverside path will close.", ans: "rises", opts: ["rises", "will rise", "rose"], fb: "1 号：从句 rises，主句 will close。" },
+        { type: "1", ctx: "【返校】核酸报告不是阴性，不能进校。", stem: "Unless his report ______ (be) negative, he won't enter the campus.", ans: "is", opts: ["is", "will be", "was"], fb: "1 号 unless：从句 is，主句 won't enter。" },
+        { type: "1", ctx: "【篮球赛】教练同意，我们明天一早六点就出发。", stem: "If our coach agrees, we ______ (leave) at six tomorrow morning.", ans: "will leave", opts: ["will leave", "leave", "left"], fb: "1 号：if 从句 agrees 已是一般现在；主句谈将来动作用 will leave。" }
+      ],
+      unlessTraps: [
+        { wrong: "Unless you don't hurry, you will be late.", right: "Unless you hurry, you will be late." },
+        { wrong: "I won't go unless I don't finish my work.", right: "I won't go if I don't finish my work. / I won't go unless I finish my work." },
+        { wrong: "Unless it doesn't rain, we will stay home.", right: "If it doesn't rain, we will go out. / Unless it rains, we will stay home." },
+        { wrong: "She won't pass unless she doesn't study hard.", right: "She won't pass unless she studies hard." },
+        { wrong: "Unless you don't tell me, I won't know.", right: "Unless you tell me, I won't know the truth." },
+        { wrong: "He can't join unless he doesn't get permission.", right: "He can't join unless he gets his parents' permission." }
+      ],
+      condTypes: [
+        {
+          id: 0,
+          extend: false,
+          tagline: "真实 / 习惯 · 主从都用一般现在",
+          rule: "谈论<strong>规律、真理、反复发生</strong>的情况：if 从句与主句常用<strong>一般现在</strong>，表示「一……就……」。",
+          table: [
+            { part: "If 从句", tense: "一般现在", ex: "If you <strong>heat</strong> ice" },
+            { part: "主句", tense: "一般现在", ex: "it <strong>melts</strong>" }
+          ],
+          examples: [
+            { en: "If you heat water to 100°C, it boils.", zh: "水加热到一百度会沸腾。", tag: "科学" },
+            { en: "If it rains, the ground gets wet.", zh: "下雨，地面就会湿。", tag: "自然" },
+            { en: "If you don't eat breakfast, you feel hungry soon.", zh: "不吃早餐，很快就会饿。", tag: "习惯" },
+            { en: "If plants get enough sunlight, they grow well.", zh: "植物阳光充足就长得好。", tag: "生物" }
+          ]
+        },
+        {
+          id: 1,
+          extend: false,
+          tagline: "主将从现 · 将来可能成立（中考重点）",
+          rule: "主句谈<strong>将来 / 祈使 / 情态</strong>，条件从句用<strong>一般现在</strong>表将来（主将从现）。",
+          table: [
+            { part: "If 从句", tense: "一般现在", ex: "If it <strong>rains</strong> tomorrow" },
+            { part: "主句", tense: "will / 情态", ex: "we <strong>will stay</strong> at home" }
+          ],
+          examples: [
+            { en: "If it rains tomorrow, we will stay at home and read.", zh: "明天下雨就待在家读书。", tag: "明天天气" },
+            { en: "Unless you review the notes, you will forget the key points.", zh: "不复习就会忘掉要点。", tag: "考前复习" },
+            { en: "If I save enough pocket money, I will buy a science magazine.", zh: "攒够零花钱就买科普杂志。", tag: "存钱" },
+            { en: "If the bell rings, the students will stand up.", zh: "铃一响学生们就起立。", tag: "上课铃" },
+            { en: "If our team works hard, we will win a prize next month.", zh: "努力就能在下月获奖。", tag: "班级活动" }
+          ],
+          fillQuiz: true
+        },
+        {
+          id: 2,
+          extend: true,
+          tagline: "拓展 · 与现在事实相反的假设",
+          rule: "与<strong>现在</strong>不太相符的假设：if 从句用<strong>过去式</strong>，主句常用 <strong>would / could</strong>。",
+          table: [
+            { part: "If 从句", tense: "过去式", ex: "If I <strong>had</strong> more time" },
+            { part: "主句", tense: "would + 动词", ex: "I <strong>would read</strong> more" }
+          ],
+          examples: [
+            {
+              en: "If I had more free time, I would read more books.",
+              zh: "要是有更多空闲时间，我会多读点书。",
+              tag: "空闲",
+              scene: "<strong>情景：</strong>周末你刚写完社团小结，望着书架上想读很久的科幻小说，却还要赶下周的测验，心里嘀咕：「要是空闲时间再多一点就好了。」"
+            },
+            {
+              en: "If we didn't have so much homework, we would play football after school.",
+              zh: "要是作业没这么多，放学就去踢球。",
+              tag: "作业",
+              scene: "<strong>情景：</strong>周五放学铃一响，同学喊你去操场踢球，你却抱着英语、数学两份作业叹口气——眼下作业太多，只能先回教室写完。"
+            },
+            {
+              en: "If it didn't rain today, we would have a picnic in the park.",
+              zh: "今天要是不下雨，我们就去公园野餐。",
+              tag: "野餐",
+              scene: "<strong>情景：</strong>你们约好周六去浣花溪公园野餐、放风筝；一早却下起雨，群里只好改成「室内桌游」——与「晴天野餐」相反的假设。"
+            }
+          ]
+        },
+        {
+          id: 3,
+          extend: true,
+          tagline: "拓展 · 与过去事实相反的假设",
+          rule: "与<strong>过去</strong>不符的假设：if 从句用<strong>过去完成</strong>（had done），主句用 <strong>would have done</strong>。",
+          table: [
+            { part: "If 从句", tense: "过去完成", ex: "If I <strong>had reviewed</strong> earlier" },
+            { part: "主句", tense: "would have done", ex: "I <strong>would have passed</strong> easily" }
+          ],
+          examples: [
+            {
+              en: "If I had listened carefully, I would have understood the lesson.",
+              zh: "当时认真听就会听懂那节课。",
+              tag: "听课",
+              scene: "<strong>情景：</strong>数学课上老师讲新单元，你走神回了两条消息；下课同学问你公式，你才发现后半段没跟上——这是对<strong>已经发生的上课过程</strong>的后悔假设。",
+              timeline: {
+                point1: {
+                  real: { kicker: "真实情况", text: "上课时没认真听", en: "didn't listen carefully" },
+                  hypo: { kicker: "假设", text: "认真听了", en: "had listened carefully" }
+                },
+                point2: {
+                  real: { kicker: "结果·真实", text: "没听懂那节课", en: "didn't understand the lesson" },
+                  hypo: { kicker: "假设·结果", text: "听懂那节课", en: "would have understood" }
+                }
+              }
+            },
+            {
+              en: "If we had left ten minutes earlier, we would have caught the bus.",
+              zh: "早出门十分钟就能赶上公交。",
+              tag: "赶车",
+              scene: "<strong>情景：</strong>早高峰你掐点出门，到站台时公交刚好开走；你跑着去换地铁，到校还是迟到。时间轴对比「真实出门时间」和「假如早十分钟」的另一种结果。",
+              timeline: {
+                point1: {
+                  real: { kicker: "真实情况", text: "出门不够早", en: "left (too) late" },
+                  hypo: { kicker: "假设", text: "早十分钟出门", en: "had left 10 min earlier" }
+                },
+                point2: {
+                  real: { kicker: "结果·真实", text: "没赶上公交", en: "missed the bus" },
+                  hypo: { kicker: "假设·结果", text: "赶上公交", en: "would have caught the bus" }
+                }
+              }
+            },
+            {
+              en: "If she had worn a helmet, she wouldn't have hurt her knee.",
+              zh: "要是戴了头盔膝盖就不会受伤。",
+              tag: "安全",
+              scene: "<strong>情景：</strong>体育课骑共享单车绕校道，转弯太快没戴头盔摔了一跤，膝盖擦破去医务室包扎。用过去完成时回顾「当时若戴头盔」本可避免受伤。",
+              timeline: {
+                point1: {
+                  real: { kicker: "真实情况", text: "没戴头盔", en: "didn't wear a helmet" },
+                  hypo: { kicker: "假设", text: "戴了头盔", en: "had worn a helmet" }
+                },
+                point2: {
+                  real: { kicker: "结果·真实", text: "膝盖受伤", en: "hurt her knee" },
+                  hypo: { kicker: "假设·结果", text: "膝盖不会受伤", en: "wouldn't have hurt her knee" }
+                }
+              }
+            }
+          ]
+        }
+      ],
+      reasonTriple: [
+        { ctx: "【迟到·公交车坏了】", lines: ["I was late because the bus broke down.", "Since the bus broke down, I was late.", "As the bus broke down, I was late."] },
+        { ctx: "【下雨·待在室内】", lines: ["We stayed indoors because it rained heavily.", "Since it was raining hard, we stayed indoors.", "As it was raining hard, we stayed indoors."] },
+        { ctx: "【共享单车·便宜方便】", lines: ["Many people ride shared bikes because they are cheap and convenient.", "Since shared bikes are cheap and convenient, many people ride them.", "As shared bikes are cheap and convenient, many people ride them."] }
+      ],
+      oralCond: [
+        { zh: "如果暑假天气好，我打算每天晨跑。", en: "If the weather is fine during the holiday, I will jog every morning." },
+        { zh: "除非先完成作业，否则不能打游戏。", en: "Unless I finish my homework first, I can't play games." },
+        { zh: "如果存够零花钱，我就买一本英文读物。", en: "If I save enough pocket money, I will buy an English reader." }
+      ],
+      oralReason: [
+        { zh: "我想保持健康，所以每天喝水、早睡。", en: "Because I want to stay healthy, I drink enough water and go to bed early." },
+        { zh: "既然大家都到了，我们开始小组讨论吧。", en: "Since everyone is here, let's start our group discussion." },
+        { zh: "如你所知，我们学校新建了图书馆。", en: "As you know, our school has built a new library." }
+      ],
+      writingBridge: [
+        "If the weather is fine during the summer holiday, I will ",
+        "Unless I finish my daily tasks, I won't ",
+        "Because I want to improve my English, I will ",
+        "Since I have more free time, I plan to ",
+        "As you know, Chengdu is famous for its food, so I will "
+      ],
+      becauseSoTraps: [
+        { wrong: "Because he was tired, so he went to bed early.", right: "Because he was tired, he went to bed early." },
+        { wrong: "Since it was late, so we took a taxi.", right: "Since it was late, we took a taxi." },
+        { wrong: "As he felt sick, so he stayed home.", right: "As he felt sick, he stayed home." }
+      ],
+      reasonQuiz: [
+        {
+          stem: "I drank warm water ______ I had a sore throat.",
+          ans: "because",
+          opts: ["because", "since", "as"],
+          fb: "because 直接回答「为什么喝温水」——嗓子疼是明确原因，语气最重、最直接。",
+          fbWrong: "本题要说明「嗓子疼」这一具体原因，用 because 最自然；since 偏「既然」，as 偏「随着/显而易见」，都不够直接。"
+        },
+        {
+          stem: "______ you are here, let's start the group work.",
+          ans: "since",
+          opts: ["because", "since", "as"],
+          fb: "since 表「既然你来了」——原因双方都知道，引出建议「那就开始吧」，语气比 because 轻。",
+          fbWrong: "不是解释未知原因，而是利用「你已到场」这一已知事实推进活动，用 since；because 太重，as 不像「既然」。"
+        },
+        {
+          stem: "______ it was getting dark, we decided to go home.",
+          ans: "as",
+          opts: ["because", "since", "as"],
+          fb: "as 表「随着天色变暗」——客观背景顺势引出决定，语气最轻，适合叙述。",
+          fbWrong: "天黑是顺势出现的背景，用 as（随着）最贴切；because 像在强调唯一原因，since 更像「既然天黑了（你已知）」。"
+        },
+        {
+          stem: "She apologized ______ she was truly sorry.",
+          ans: "because",
+          opts: ["because", "since", "as"],
+          fb: "because 说明道歉的直接原因「她真的很抱歉」——回答 why，因果清楚。",
+          fbWrong: "道歉的理由是「真心感到抱歉」，需用 because 直说原因；since/as 语气偏轻或偏背景，不适合强调「歉意」这一核心原因。"
+        },
+        {
+          stem: "______ you have finished homework, you may read for twenty minutes.",
+          ans: "since",
+          opts: ["because", "since", "as"],
+          fb: "since「既然作业已完成」——前提双方清楚，顺理成章给出许可，不是追问未知原因。",
+          fbWrong: "完成作业是已知前提，引出「可以看书」，用 since；because 像在解释「为什么可以看书」的深层原因，as 不够像「既然」。"
+        },
+        {
+          stem: "______ you know, our school has a new library.",
+          ans: "as",
+          opts: ["because", "since", "as"],
+          fb: "as you know「正如你所知」——固定搭配，引出双方已共享的信息，不是新原因。",
+          fbWrong: "这是固定表达 as you know，不能用 because/since；because 要回答新原因，since 是「既然」，都不合此句式。"
+        },
+        {
+          stem: "He chose the subway ______ the road was too crowded.",
+          ans: "because",
+          opts: ["because", "since", "as"],
+          fb: "because 直接说明选地铁的原因「马路太堵」——具体、可回答 why。",
+          fbWrong: "选地铁是因为堵车这一具体原因，because 最直接；since 像「既然堵了就……」，as 像客观背景，不如 because 清楚。"
+        },
+        {
+          stem: "______ the weather is fine, shall we ride bikes after class?",
+          ans: "since",
+          opts: ["because", "since", "as"],
+          fb: "since「既然天气不错」——用已知好天气提出邀请，语气委婉，常见于提议。",
+          fbWrong: "好天气是双方能看到的条件，用来提议骑车，用 since；because 像在解释「为什么要骑车」的因果，as 偏叙述背景。"
+        },
+        {
+          stem: "Many people ride shared bikes ______ they are cheap and convenient.",
+          ans: "because",
+          opts: ["because", "since", "as"],
+          fb: "because 说明选择共享单车的直接原因「便宜又方便」——解释 why people ride them。",
+          fbWrong: "便宜、方便是具体原因，because 最合适；since 偏「既然便宜就骑」，as 偏伴随背景，不如 because 解释充分。"
+        },
+        {
+          stem: "______ the exam is near, we should review our mistakes first.",
+          ans: "as",
+          opts: ["because", "since", "as"],
+          fb: "as「随着考试临近」——时间背景推进建议，客观叙述；也可用 since「既然快考试了」，但 as 更偏顺势说明。",
+          fbWrong: "考试临近是时间背景，顺势建议复习，as 最自然；because 太重（像在解释唯一原因），since 也可但语气是「既然快考了」而非单纯背景。"
+        }
+      ]
+    };
+
+    let currentPage = 1;
+    let pairIdx = 0;
+    let pairShowUnless = false;
+    const pairVisited = new Set();
+    let tripleIdx = 0;
+    let cond01QuizIdx = 0;
+    const cond01QuizDone = {};
+    const condExIdx = { 2: 0, 3: 0 };
+    const uiLock = document.getElementById("ui-lock");
+
+    function escapeXml(s) {
+      return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+    }
+    function lockUI() { uiLock.classList.add("active"); }
+    function unlockUI() { uiLock.classList.remove("active"); }
+
+    async function playAudio(text) {
+      if (!text) return;
+      lockUI();
+      const url = "https://" + AZURE_REGION + ".tts.speech.microsoft.com/cognitiveservices/v1";
+      const ssml = "<speak version='1.0' xml:lang='en-US'><voice name='" + VOICE_EN + "'>" + escapeXml(text) + "</voice></speak>";
+      try {
+        const res = await fetch(url, {
+          method: "POST",
+          headers: {
+            "Ocp-Apim-Subscription-Key": AZURE_KEY,
+            "Content-Type": "application/ssml+xml",
+            "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3"
+          },
+          body: ssml
+        });
+        if (!res.ok) throw new Error(String(res.status));
+        const blob = await res.blob();
+        const u = URL.createObjectURL(blob);
+        const a = new Audio(u);
+        await new Promise((res, rej) => {
+          a.onended = () => { URL.revokeObjectURL(u); res(); };
+          a.onerror = rej;
+          a.play().catch(rej);
+        });
+      } catch (e) {
+        const u = new SpeechSynthesisUtterance(text);
+        u.lang = "en-US";
+        speechSynthesis.speak(u);
+      } finally {
+        unlockUI();
+      }
+    }
+
+    function goPage(n) {
+      if (n < 1 || n > PAGE_COUNT) return;
+      currentPage = n;
+      document.querySelectorAll(".lesson-page").forEach((el) => {
+        el.classList.toggle("active", parseInt(el.dataset.page, 10) === n);
+      });
+      document.getElementById("pager-mid").textContent = n + " / " + PAGE_COUNT;
+      document.getElementById("pager-prev").disabled = n <= 1;
+      document.getElementById("pager-next").disabled = n >= PAGE_COUNT;
+    }
+
+    function renderPairJump() {
+      const row = document.getElementById("pair-jump");
+      if (!row) return;
+      row.innerHTML = "";
+      P02.ifUnlessPairs.forEach((p, i) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "pair-jump-btn" + (i === pairIdx ? " active" : "") + (pairVisited.has(i) ? " done" : "");
+        btn.textContent = p.tag;
+        btn.addEventListener("click", () => {
+          pairIdx = i;
+          pairShowUnless = false;
+          renderPair();
+        });
+        row.appendChild(btn);
+      });
+    }
+
+    function renderPair() {
+      const list = P02.ifUnlessPairs;
+      const p = list[pairIdx];
+      pairVisited.add(pairIdx);
+      document.getElementById("pair-label").textContent = "组 " + (pairIdx + 1) + " / " + list.length + " · " + p.tag;
+      document.getElementById("pair-if").textContent = p.if;
+      document.getElementById("pair-unless").textContent = p.unless;
+      document.getElementById("pair-unless").classList.toggle("hidden", !pairShowUnless);
+      document.getElementById("pair-flip").textContent = pairShowUnless ? "隐藏 unless 句" : "显示 unless 句";
+      const imgEl = document.getElementById("pair-scene-img");
+      if (imgEl && p.img) {
+        imgEl.src = p.img;
+        imgEl.alt = p.tag || "if ↔ unless 情境";
+      }
+      if (pairShowUnless) pairVisited.add(pairIdx);
+      renderPairJump();
+    }
+
+    function initCondPickQuiz() {
+      const box = document.getElementById("cond-pick-quiz");
+      if (!box) return;
+      P02.condPickQuiz.forEach((q, qi) => {
+        const d = document.createElement("div");
+        d.className = "quiz-item";
+        d.innerHTML = "<p style='font-weight:800'>" + (qi + 1) + ". " + q.stem + "</p>";
+        const row = document.createElement("div");
+        row.className = "opt-row";
+        const fb = document.createElement("div");
+        fb.className = "fb";
+        q.opts.forEach((opt) => {
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.textContent = opt;
+          btn.addEventListener("click", () => {
+            row.querySelectorAll("button").forEach((b) => b.disabled = true);
+            if (opt === q.ans) {
+              btn.classList.add("ok");
+              d.classList.add("done");
+              fb.textContent = "✓ " + (q.fb || opt);
+            } else {
+              btn.classList.add("bad");
+              fb.textContent = "再想想：本题用 " + q.ans + "。" + (q.fb ? " " + q.fb : "");
+            }
+          });
+          row.appendChild(btn);
+        });
+        d.appendChild(row);
+        d.appendChild(fb);
+        box.appendChild(d);
+      });
+    }
+
+    function initCond01TenseQuiz() {
+      const jump = document.getElementById("cond01-quiz-jump");
+      if (!jump) return;
+      jump.innerHTML = "";
+      P02.cond01TenseQuiz.forEach((_, qi) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "cond01-jump-btn";
+        btn.textContent = String(qi + 1);
+        btn.title = "第 " + (qi + 1) + " 题";
+        btn.addEventListener("click", () => {
+          cond01QuizIdx = qi;
+          renderCond01Quiz();
+        });
+        jump.appendChild(btn);
+      });
+      renderCond01Quiz();
+    }
+
+    function renderCond01Quiz() {
+      const panel = document.getElementById("cond01-quiz-panel");
+      const jump = document.getElementById("cond01-quiz-jump");
+      if (!panel || !P02.cond01TenseQuiz.length) return;
+      const q = P02.cond01TenseQuiz[cond01QuizIdx];
+      const done = cond01QuizDone[cond01QuizIdx];
+
+      if (jump) {
+        jump.querySelectorAll(".cond01-jump-btn").forEach((btn, i) => {
+          btn.classList.toggle("active", i === cond01QuizIdx);
+          btn.classList.toggle("done", !!cond01QuizDone[i]);
+        });
+      }
+
+      panel.innerHTML = "";
+      const card = document.createElement("div");
+      card.className = "cond01-quiz-card" + (done ? " done" : "");
+
+      const badge = q.type === "0" ? "0 号条件句" : "1 号条件句";
+      const badgeCls = q.type === "0" ? "t0" : "t1";
+      card.innerHTML =
+        "<p style='margin:0 0 0.45rem;font-weight:800;color:#475569'>第 " + (cond01QuizIdx + 1) + " / " + P02.cond01TenseQuiz.length + " 题" +
+        "<span class='cond01-type-badge " + badgeCls + "'>" + badge + "</span></p>" +
+        "<p class='cond01-quiz-ctx'>" + q.ctx + "</p>" +
+        "<p class='en-line' lang='en' style='margin:0.35rem 0'>" + q.stem + "</p>";
+
+      const row = document.createElement("div");
+      row.className = "opt-row";
+      const fb = document.createElement("div");
+      fb.className = "cond01-quiz-fb";
+      if (done) {
+        fb.textContent = (done.ok ? "✓ " : "✗ ") + "【题目解析】" + q.fb;
+        if (!done.ok) fb.classList.add("wrong-fb");
+      } else {
+        fb.hidden = true;
+      }
+
+      q.opts.forEach((opt) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.textContent = opt;
+        if (done) {
+          btn.disabled = true;
+          if (opt === q.ans) btn.classList.add("ok");
+          else if (opt === done.pick) btn.classList.add("bad");
+        } else {
+          btn.addEventListener("click", () => {
+            row.querySelectorAll("button").forEach((b) => b.disabled = true);
+            const ok = opt === q.ans;
+            cond01QuizDone[cond01QuizIdx] = { ok: ok, pick: opt };
+            if (ok) {
+              btn.classList.add("ok");
+              card.classList.add("done");
+            } else {
+              btn.classList.add("bad");
+            }
+            fb.hidden = false;
+            fb.textContent = (ok ? "✓ " : "✗ 你选了 " + opt + "。") + "【题目解析】" + q.fb;
+            if (!ok) fb.classList.add("wrong-fb");
+            renderCond01Quiz();
+          });
+        }
+        row.appendChild(btn);
+      });
+
+      card.appendChild(row);
+      card.appendChild(fb);
+      panel.appendChild(card);
+    }
+
+    function initFutureFillQuiz() {
+      const box = document.getElementById("future-fill-quiz");
+      if (!box) return;
+      P02.futureFillQuiz.forEach((q, qi) => {
+        const d = document.createElement("div");
+        d.className = "quiz-item";
+        d.innerHTML = "<p style='font-weight:800'>" + (qi + 1) + ". " + q.stem + "</p>";
+        const row = document.createElement("div");
+        row.className = "opt-row";
+        const fb = document.createElement("div");
+        fb.className = "fb";
+        q.opts.forEach((opt) => {
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.textContent = opt;
+          btn.addEventListener("click", () => {
+            row.querySelectorAll("button").forEach((b) => b.disabled = true);
+            if (opt === q.ans) {
+              btn.classList.add("ok");
+              d.classList.add("done");
+              fb.textContent = "✓ " + q.fb;
+              playAudio(q.stem.replace("______", opt).replace(/\([^)]+\)/g, opt));
+            } else {
+              btn.classList.add("bad");
+              fb.textContent = "1号条件句：从句选 " + q.ans + "。";
+            }
+          });
+          row.appendChild(btn);
+        });
+        d.appendChild(row);
+        d.appendChild(fb);
+        box.appendChild(d);
+      });
+    }
+
+    function initOralSummary() {
+      const cBox = document.getElementById("oral-cond-box");
+      const rBox = document.getElementById("oral-reason-box");
+      if (cBox) {
+        cBox.innerHTML = "<p style='font-weight:800;color:#1d4ed8'>条件句 · 跟读 + 替换主语/动词：</p>";
+        P02.oralCond.forEach((o) => {
+          const card = document.createElement("div");
+          card.className = "oral-card";
+          card.innerHTML = "<p style='color:#5d4037'>" + o.zh + "</p><p lang='en'>" + o.en + "</p>";
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "btn ghost";
+          btn.textContent = "朗读";
+          btn.addEventListener("click", () => playAudio(o.en));
+          card.appendChild(btn);
+          cBox.appendChild(card);
+        });
+      }
+      if (rBox) {
+        rBox.innerHTML = "<p style='font-weight:800;color:#047857'>原因句 · 注意 because 后不加 so：</p>";
+        P02.oralReason.forEach((o) => {
+          const card = document.createElement("div");
+          card.className = "oral-card";
+          card.style.borderColor = "#86efac";
+          card.style.background = "#ecfdf5";
+          card.innerHTML = "<p style='color:#5d4037'>" + o.zh + "</p><p lang='en'>" + o.en + "</p>";
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "btn ghost";
+          btn.textContent = "朗读";
+          btn.addEventListener("click", () => playAudio(o.en));
+          card.appendChild(btn);
+          rBox.appendChild(card);
+        });
+      }
+    }
+
+    function initWritingBridge() {
+      const box = document.getElementById("writing-bridge");
+      const ta = document.getElementById("p02-draft");
+      if (!box || !ta) return;
+      P02.writingBridge.forEach((chip) => {
+        const span = document.createElement("span");
+        span.className = "write-chip";
+        span.textContent = chip;
+        span.title = "点击插入草稿";
+        span.addEventListener("click", () => {
+          const cur = ta.value.trim();
+          ta.value = cur ? cur + " " + chip : chip;
+          ta.focus();
+        });
+        box.appendChild(span);
+      });
+    }
+
+    function initTraps() {
+      const box = document.getElementById("trap-list");
+      P02.unlessTraps.forEach((t, i) => {
+        const d = document.createElement("div");
+        d.className = "trap-item";
+        d.innerHTML = "<p class='wrong'><span class='trap-wrong-tag'>错句</span>" + t.wrong + "</p><p class='right hidden' id='trap-r-" + i + "'><span class='trap-right-tag'>正句</span> " + t.right + "</p>";
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "btn ghost reveal-btn";
+        btn.textContent = "显示正句";
+        btn.addEventListener("click", () => {
+          document.getElementById("trap-r-" + i).classList.remove("hidden");
+          btn.disabled = true;
+        });
+        d.appendChild(btn);
+        box.appendChild(d);
+      });
+    }
+
+    function cond3AxisCard(item, kind) {
+      const card = document.createElement("div");
+      card.className = "cond3-axis-card " + kind;
+      if (!item) return card;
+      card.innerHTML =
+        "<span class='cond3-tl-kicker'>" + (item.kicker || "") + "</span>" +
+        "<span class='cond3-tl-text'>" + item.text + "</span>" +
+        (item.en ? "<span class='cond3-tl-en' lang='en'>" + item.en + "</span>" : "");
+      return card;
+    }
+
+    function buildCond3Timeline(tl) {
+      const fold = document.createElement("div");
+      fold.className = "cond3-tl-fold";
+      if (!tl || !tl.point1 || !tl.point2) return fold;
+
+      const toggle = document.createElement("button");
+      toggle.type = "button";
+      toggle.className = "cond3-tl-fold-btn";
+      toggle.setAttribute("aria-expanded", "false");
+      toggle.innerHTML =
+        "<span class='cond3-tl-fold-title'>动作时间轴 · 过去 → 现在</span>" +
+        "<span class='cond3-tl-fold-hint'>点击展开</span>";
+
+      const body = document.createElement("div");
+      body.className = "cond3-tl-fold-body";
+      body.hidden = true;
+
+      const wrap = document.createElement("div");
+      wrap.className = "cond3-axis";
+      wrap.setAttribute("role", "group");
+      wrap.setAttribute("aria-label", "过去到现在时间轴");
+
+      const rail = document.createElement("div");
+      rail.className = "cond3-axis-rail";
+
+      const pastLbl = document.createElement("span");
+      pastLbl.className = "cond3-axis-past";
+      pastLbl.textContent = "过去";
+
+      const track = document.createElement("div");
+      track.className = "cond3-axis-track";
+
+      const stage = document.createElement("div");
+      stage.className = "cond3-axis-stage";
+
+      const line = document.createElement("div");
+      line.className = "cond3-axis-line";
+      line.setAttribute("aria-hidden", "true");
+      stage.appendChild(line);
+
+      function mountPastAnchor(pt, posClass) {
+        const anchor = document.createElement("div");
+        anchor.className = "cond3-axis-anchor " + posClass;
+        const above = document.createElement("div");
+        above.className = "cond3-axis-slot above";
+        above.appendChild(cond3AxisCard(pt.real, "real"));
+        const dotWrap = document.createElement("div");
+        dotWrap.className = "cond3-axis-dot-wrap";
+        const dot = document.createElement("span");
+        dot.className = "cond3-axis-dot";
+        dot.setAttribute("aria-hidden", "true");
+        dotWrap.appendChild(dot);
+        const below = document.createElement("div");
+        below.className = "cond3-axis-slot below";
+        below.appendChild(cond3AxisCard(pt.hypo, "hypo"));
+        anchor.appendChild(above);
+        anchor.appendChild(dotWrap);
+        anchor.appendChild(below);
+        stage.appendChild(anchor);
+      }
+
+      mountPastAnchor(tl.point1, "cond3-axis-anchor--p1");
+      mountPastAnchor(tl.point2, "cond3-axis-anchor--p2");
+
+      const now = document.createElement("div");
+      now.className = "cond3-axis-now";
+      now.innerHTML =
+        "<div class='cond3-axis-now-dot-wrap'>" +
+        "<span class='cond3-axis-now-dot' aria-hidden='true'></span></div>" +
+        "<span class='cond3-axis-now-label'>现在</span>";
+      stage.appendChild(now);
+
+      track.appendChild(stage);
+      rail.appendChild(pastLbl);
+      rail.appendChild(track);
+      wrap.appendChild(rail);
+      body.appendChild(wrap);
+
+      const hint = toggle.querySelector(".cond3-tl-fold-hint");
+      toggle.addEventListener("click", () => {
+        const open = toggle.getAttribute("aria-expanded") !== "true";
+        toggle.setAttribute("aria-expanded", open ? "true" : "false");
+        body.hidden = !open;
+        if (hint) hint.textContent = open ? "点击收起" : "点击展开";
+      });
+
+      fold.appendChild(toggle);
+      fold.appendChild(body);
+      return fold;
+    }
+
+    function buildCondExampleCard(ct, f) {
+      const d = document.createElement("div");
+      d.className = "future-card" + (ct.id === 3 ? " cond3-card" : "");
+      d.innerHTML =
+        (f.scene ? "<p class='cond-example-scene'>" + f.scene + "</p>" : "") +
+        "<span class='zh-tag cond'>" + f.tag + "</span>" +
+        "<span class='en-line' lang='en' style='display:inline;font-size:1rem'>" + f.en + "</span>" +
+        (f.zh ? "<p style='font-size:0.86rem;font-weight:700;color:#6d4c41;margin:0.35rem 0 0'>" + f.zh + "</p>" : "");
+      if (f.timeline) {
+        d.appendChild(buildCond3Timeline(f.timeline));
+      }
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "btn ghost";
+      btn.textContent = "朗读";
+      btn.style.marginTop = "0.35rem";
+      btn.addEventListener("click", () => playAudio(f.en));
+      d.appendChild(btn);
+      return d;
+    }
+
+    function renderCondTypeExample(ct) {
+      const panel = document.getElementById("cond-ex-panel-" + ct.id);
+      const jump = document.getElementById("cond-ex-jump-" + ct.id);
+      if (!panel || !ct.examples.length) return;
+      const idx = condExIdx[ct.id] || 0;
+      const f = ct.examples[idx];
+      panel.innerHTML = "";
+      panel.appendChild(buildCondExampleCard(ct, f));
+      if (jump) {
+        jump.querySelectorAll(".cond-ex-jump-btn").forEach((btn, i) => {
+          btn.classList.toggle("active", i === idx);
+        });
+      }
+    }
+
+    function mountCondExamplesCarousel(box, ct) {
+      condExIdx[ct.id] = 0;
+      const jump = document.createElement("div");
+      jump.className = "cond-ex-jump";
+      jump.id = "cond-ex-jump-" + ct.id;
+      ct.examples.forEach((ex, i) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "cond-ex-jump-btn";
+        btn.textContent = String(i + 1);
+        btn.title = ex.tag || "例句 " + (i + 1);
+        btn.addEventListener("click", () => {
+          condExIdx[ct.id] = i;
+          renderCondTypeExample(ct);
+        });
+        jump.appendChild(btn);
+      });
+      box.appendChild(jump);
+
+      const panel = document.createElement("div");
+      panel.id = "cond-ex-panel-" + ct.id;
+      box.appendChild(panel);
+      renderCondTypeExample(ct);
+    }
+
+    function initCondTypePanels() {
+      P02.condTypes.forEach((ct) => {
+        const box = document.getElementById("cond-type-panel-" + ct.id);
+        if (!box) return;
+        box.innerHTML = "";
+        const badge = document.createElement("p");
+        badge.style.margin = "0 0 0.45rem";
+        badge.innerHTML =
+          "<span class='cond-type-badge" + (ct.extend ? " extend" : "") + "'>" + ct.id + "号条件句</span>" +
+          "<span style='font-weight:700;color:#475569'>" + ct.tagline + "</span>" +
+          (ct.extend ? " <span style='font-size:0.82rem;color:#92400e'>（了解即可）</span>" : "");
+        box.appendChild(badge);
+        const rule = document.createElement("div");
+        rule.className = "rule-box cond";
+        rule.innerHTML = ct.rule;
+        box.appendChild(rule);
+        const table = document.createElement("table");
+        table.className = "compare-table";
+        table.innerHTML = "<tr><th>部分</th><th>时态</th><th>例</th></tr>";
+        ct.table.forEach((row) => {
+          table.innerHTML +=
+            "<tr><td>" + row.part + "</td><td>" + row.tense + "</td><td>" + row.ex + "</td></tr>";
+        });
+        box.appendChild(table);
+        const exTitle = document.createElement("p");
+        exTitle.style.fontWeight = "800";
+        exTitle.style.margin = "0.65rem 0 0.35rem";
+        exTitle.textContent = ct.id === 2 || ct.id === 3 ? "情境例句（每次一例，可切换）：" : "情境例句：";
+        box.appendChild(exTitle);
+        if (ct.id === 2 || ct.id === 3) {
+          mountCondExamplesCarousel(box, ct);
+        } else {
+          ct.examples.forEach((f) => {
+            box.appendChild(buildCondExampleCard(ct, f));
+          });
+        }
+        if (ct.fillQuiz) {
+          const hr = document.createElement("hr");
+          hr.style.cssText = "border:none;border-top:2px dashed #e2e8f0;margin:0.65rem 0";
+          box.appendChild(hr);
+          const qTitle = document.createElement("p");
+          qTitle.style.fontWeight = "800";
+          qTitle.innerHTML = "<span class='tier-label'>分层 B</span>1号条件句 · 从句动词填空：";
+          box.appendChild(qTitle);
+          const quizBox = document.createElement("div");
+          quizBox.id = "future-fill-quiz";
+          box.appendChild(quizBox);
+        }
+      });
+    }
+
+    function renderTriple() {
+      const t = P02.reasonTriple[tripleIdx];
+      document.getElementById("triple-ctx").textContent = t.ctx + " （" + (tripleIdx + 1) + " / " + P02.reasonTriple.length + "）";
+      const box = document.getElementById("triple-lines");
+      box.innerHTML = "";
+      const labels = ["because", "since", "as"];
+      t.lines.forEach((line, i) => {
+        const row = document.createElement("div");
+        row.className = "triple-row";
+        row.innerHTML = "<span class='zh-tag reason'>" + labels[i] + "</span><p class='en-line' lang='en'>" + line + "</p>";
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "btn ghost";
+        btn.style.marginTop = "0.25rem";
+        btn.textContent = "朗读";
+        btn.addEventListener("click", () => playAudio(line));
+        row.appendChild(btn);
+        box.appendChild(row);
+      });
+    }
+
+    function initSoTraps() {
+      const box = document.getElementById("so-traps");
+      P02.becauseSoTraps.forEach((t, i) => {
+        const d = document.createElement("div");
+        d.className = "trap-item";
+        d.style.borderColor = "#fde68a";
+        d.style.background = "#fffbeb";
+        d.innerHTML = "<p class='wrong'><span class='trap-wrong-tag'>错句</span>" + t.wrong + "</p><p class='right hidden' id='so-r-" + i + "'><span class='trap-right-tag'>正句</span> " + t.right + "</p>";
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "btn ghost reveal-btn";
+        btn.textContent = "显示正句";
+        btn.addEventListener("click", () => {
+          document.getElementById("so-r-" + i).classList.remove("hidden");
+          btn.disabled = true;
+        });
+        d.appendChild(btn);
+        box.appendChild(d);
+      });
+    }
+
+    function initReasonQuiz() {
+      const box = document.getElementById("reason-quiz");
+      P02.reasonQuiz.forEach((q, qi) => {
+        const d = document.createElement("div");
+        d.className = "quiz-item";
+        d.innerHTML = "<p style='font-weight:800'>" + (qi + 1) + ". " + q.stem + "</p>";
+        const row = document.createElement("div");
+        row.className = "opt-row";
+        const fb = document.createElement("div");
+        fb.className = "fb";
+        q.opts.forEach((opt) => {
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.textContent = opt;
+          btn.addEventListener("click", () => {
+            row.querySelectorAll("button").forEach((b) => b.disabled = true);
+            fb.classList.remove("fb-wrong");
+            if (opt === q.ans) {
+              btn.classList.add("ok");
+              d.classList.add("done");
+              fb.textContent = "✓ " + (q.fb || opt + "：语气与语境匹配。");
+            } else {
+              btn.classList.add("bad");
+              fb.classList.add("fb-wrong");
+              fb.textContent =
+                "✗ 你选了 " + opt + "。正解：" + q.ans + "。" +
+                (q.fbWrong || " 再想想：本题更适合 " + q.ans + "。") +
+                (q.fb ? " 【解析】" + q.fb : "");
+            }
+          });
+          row.appendChild(btn);
+        });
+        d.appendChild(row);
+        d.appendChild(fb);
+        box.appendChild(d);
+      });
+    }
+
+    function initLessonApp() {
+      document.body.classList.add("has-lesson-pager");
+      initTraps();
+      initCondTypePanels();
+      initCondPickQuiz();
+      initFutureFillQuiz();
+      initCond01TenseQuiz();
+      renderTriple();
+      initSoTraps();
+      initReasonQuiz();
+      initOralSummary();
+      initWritingBridge();
+      renderPair();
+      goPage(1);
+    }
+    initLessonApp();
+
+    document.querySelectorAll("[data-goto]").forEach((btn) => {
+      btn.addEventListener("click", () => goPage(parseInt(btn.dataset.goto, 10)));
+    });
+    document.querySelectorAll("[data-speak]").forEach((btn) => {
+      btn.addEventListener("click", () => playAudio(btn.dataset.speak));
+    });
+
+    document.getElementById("pair-flip").addEventListener("click", () => {
+      pairShowUnless = !pairShowUnless;
+      renderPair();
+    });
+    document.getElementById("pair-speak").addEventListener("click", () => {
+      const list = P02.ifUnlessPairs;
+      playAudio(pairShowUnless ? list[pairIdx].unless : list[pairIdx].if);
+    });
+    document.getElementById("pair-oral").addEventListener("click", () => {
+      const p = P02.ifUnlessPairs[pairIdx];
+      const q = p.oralQ || "Can you say the sentence in your own words?";
+      alert("口语操练 · " + p.tag + "\n\n问：" + q + "\n\n参考（if）：" + p.if + "\n\n参考（unless）：" + p.unless);
+      playAudio(pairShowUnless ? p.unless : p.if);
+    });
+    document.getElementById("pair-prev").addEventListener("click", () => {
+      const n = P02.ifUnlessPairs.length;
+      pairIdx = (pairIdx - 1 + n) % n;
+      pairShowUnless = false;
+      renderPair();
+    });
+    document.getElementById("pair-next").addEventListener("click", () => {
+      const n = P02.ifUnlessPairs.length;
+      pairIdx = (pairIdx + 1) % n;
+      pairShowUnless = false;
+      renderPair();
+    });
+    document.getElementById("triple-prev").addEventListener("click", () => {
+      tripleIdx = (tripleIdx - 1 + P02.reasonTriple.length) % P02.reasonTriple.length;
+      renderTriple();
+    });
+    document.getElementById("triple-next").addEventListener("click", () => {
+      tripleIdx = (tripleIdx + 1) % P02.reasonTriple.length;
+      renderTriple();
+    });
+    document.getElementById("triple-speak").addEventListener("click", () => {
+      playAudio(P02.reasonTriple[tripleIdx].lines.join(" "));
+    });
+    document.getElementById("cond01-quiz-prev").addEventListener("click", () => {
+      cond01QuizIdx = (cond01QuizIdx - 1 + P02.cond01TenseQuiz.length) % P02.cond01TenseQuiz.length;
+      renderCond01Quiz();
+    });
+    document.getElementById("cond01-quiz-next").addEventListener("click", () => {
+      cond01QuizIdx = (cond01QuizIdx + 1) % P02.cond01TenseQuiz.length;
+      renderCond01Quiz();
+    });
+
+    document.getElementById("pager-prev").addEventListener("click", () => {
+      if (currentPage > 1) goPage(currentPage - 1);
+    });
+    document.getElementById("pager-next").addEventListener("click", () => {
+      if (currentPage < PAGE_COUNT) goPage(currentPage + 1);
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.target.tagName === "TEXTAREA") return;
+      if (typeof isLessonImageLightboxOpen === "function" && isLessonImageLightboxOpen()) return;
+      if (e.key === "ArrowLeft" && currentPage > 1) goPage(currentPage - 1);
+      if (e.key === "ArrowRight" && currentPage < PAGE_COUNT) goPage(currentPage + 1);
+    });
+  </script>
+</body>
+</html>
