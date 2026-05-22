@@ -2,283 +2,32 @@
 <html lang="zh-CN">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>第10讲 · 课程导航 · 现在完成时（一）（二）</title>
-  <style>
-    :root {
-      --paper: #fff9f0;
-      --crayon-red: #e85d4c;
-      --crayon-blue: #4a90d9;
-      --crayon-green: #5cb85c;
-      --crayon-purple: #9b59b6;
-      --crayon-orange: #f0ad4e;
-      --ink: #2c2c2c;
-      --shadow: rgba(60, 40, 20, 0.12);
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      min-height: 100vh;
-      font-family: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
-      background:
-        radial-gradient(circle at 15% 25%, rgba(255, 220, 180, 0.4) 0%, transparent 45%),
-        radial-gradient(circle at 85% 75%, rgba(200, 230, 255, 0.35) 0%, transparent 40%),
-        linear-gradient(168deg, #ffeaa7 0%, #fab1a0 38%, #dfe6e9 100%);
-      color: var(--ink);
-      padding: 1rem;
-      padding-bottom: 3rem;
-    }
-    .book {
-      max-width: 720px;
-      margin: 0 auto;
-      background: var(--paper);
-      border-radius: 8px 28px 12px 20px;
-      border: 4px solid var(--crayon-orange);
-      box-shadow: 6px 8px 0 var(--crayon-red), 12px 16px 24px var(--shadow);
-      padding: 1.35rem 1.5rem 2rem;
-      position: relative;
-    }
-    .book::before {
-      content: "";
-      position: absolute;
-      inset: 8px;
-      border: 2px dashed rgba(200, 160, 100, 0.45);
-      border-radius: 4px 20px 8px 6px;
-      pointer-events: none;
-    }
-    .top-bar {
-      position: relative;
-      z-index: 1;
-      padding: 0.4rem 0.85rem;
-      margin-bottom: 1.1rem;
-      background: linear-gradient(90deg, rgba(255, 255, 255, 0.85), rgba(255, 248, 230, 0.95));
-      border-radius: 999px;
-      border: 3px solid var(--crayon-blue);
-      font-size: 0.95rem;
-      color: #333;
-      text-align: center;
-      box-shadow: 2px 3px 0 rgba(0, 0, 0, 0.06);
-    }
-    .top-bar strong { color: var(--crayon-red); }
-    h1 {
-      position: relative;
-      z-index: 1;
-      font-size: 1.35rem;
-      margin: 0 0 0.75rem;
-      color: var(--crayon-red);
-      text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.06);
-      line-height: 1.3;
-    }
-    .goal-board {
-      position: relative;
-      z-index: 1;
-      margin-bottom: 1rem;
-      padding: 0.85rem 1rem;
-      border-radius: 16px;
-      background: rgba(255, 255, 255, 0.84);
-      border: 3px solid rgba(74, 144, 217, 0.28);
-      box-shadow: 2px 3px 0 rgba(0, 0, 0, 0.05);
-    }
-    .goal-title {
-      margin: 0 0 0.55rem;
-      color: #1a237e;
-      font-size: 0.98rem;
-    }
-    .goal-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 0.55rem;
-    }
-    @media (min-width: 620px) {
-      .goal-grid { grid-template-columns: 1fr 1fr; }
-    }
-    .goal-card {
-      padding: 0.65rem 0.75rem;
-      border-radius: 12px;
-      background: linear-gradient(180deg, rgba(255, 249, 240, 0.98), rgba(255, 255, 255, 0.92));
-      border: 2px dashed rgba(240, 173, 78, 0.55);
-      line-height: 1.6;
-      font-size: 0.9rem;
-    }
-    .goal-card strong { color: var(--crayon-red); }
-    ol.nav-list {
-      position: relative;
-      z-index: 1;
-      margin: 0;
-      padding: 0 0 0 1.15rem;
-      list-style: none;
-      counter-reset: nav;
-    }
-    ol.nav-list li {
-      counter-increment: nav;
-      margin-bottom: 0.65rem;
-      padding-left: 0.25rem;
-    }
-    ol.nav-list li::before {
-      content: "P" counter(nav, decimal-leading-zero) " ";
-      font-weight: 800;
-      color: var(--crayon-orange);
-      margin-right: 0.35rem;
-    }
-    ol.nav-list a {
-      color: var(--crayon-blue);
-      font-weight: 700;
-      text-decoration: none;
-      border-bottom: 2px dashed rgba(74, 144, 217, 0.45);
-    }
-    ol.nav-list a:hover {
-      color: var(--crayon-purple);
-      border-bottom-color: var(--crayon-purple);
-    }
-    .nav-role {
-      display: inline-block;
-      margin-left: 0.5rem;
-      font-size: 0.76rem;
-      padding: 0.08rem 0.45rem;
-      border-radius: 999px;
-      background: rgba(232, 93, 76, 0.14);
-      color: #b71c1c;
-      font-weight: 700;
-      vertical-align: middle;
-    }
-    .nav-note {
-      margin: 0.18rem 0 0 0;
-      color: #666;
-      font-size: 0.84rem;
-      line-height: 1.55;
-    }
-    .extra {
-      position: relative;
-      z-index: 1;
-      margin-top: 1.25rem;
-      padding: 0.85rem 1rem;
-      border-radius: 14px;
-      background: rgba(227, 242, 253, 0.45);
-      border: 3px dashed rgba(21, 101, 192, 0.35);
-    }
-    .extra h2 {
-      margin: 0 0 0.5rem;
-      font-size: 0.95rem;
-      color: #0d47a1;
-    }
-    .extra ul {
-      margin: 0;
-      padding-left: 1.1rem;
-      font-size: 0.9rem;
-      line-height: 1.65;
-    }
-    .extra a {
-      color: var(--crayon-blue);
-      font-weight: 700;
-      text-decoration: none;
-      border-bottom: 2px dashed rgba(74, 144, 217, 0.45);
-    }
-    .extra a:hover { color: var(--crayon-purple); }
-    .parent-link {
-      position: relative;
-      z-index: 1;
-      margin: 0 0 1rem;
-      font-size: 0.88rem;
-    }
-    .parent-link a {
-      color: #1a237e;
-      font-weight: 800;
-      text-decoration: none;
-      border-bottom: 2px dashed rgba(26, 35, 126, 0.35);
-    }
-    .parent-link a:hover { color: var(--crayon-purple); }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>现在完成时 · 目录</title>
+  <link rel="stylesheet" href="../grammar-index.css" />
 </head>
 <body>
-  <div class="book">
-    <div class="top-bar">
-      <strong>第10讲</strong> · 课程导航 · Lesson 10
-    </div>
-    <h1>现在完成时（一）（二）</h1>
-
-    <p class="parent-link">
-      <a href="../">← 返回上一级（初一升初二）</a>
-    </p>
-
-    <section class="goal-board" aria-label="本讲目标">
-      <h2 class="goal-title">本讲过关目标</h2>
-      <div class="goal-grid">
-        <div class="goal-card"><strong>结构</strong>：掌握 <code>have/has + 过去分词</code>，区分「影响现在」与「持续到现在」。</div>
-        <div class="goal-card"><strong>标志词</strong>：<code>already, yet, just, ever, never</code> 与 <code>Have you ever…?</code> 问答。</div>
-        <div class="goal-card"><strong>时长</strong>：<code>for / since</code>、<code>How long…?</code> 与延续性动词入门。</div>
-        <div class="goal-card"><strong>辨析</strong>：现在完成时与一般过去时的选用；微读与仿写巩固。</div>
-      </div>
-    </section>
-
-    <ol class="nav-list">
-      <li>
-        <a href="L10-00-index.html">课程入口（封面 · 目标 · 课件导航）</a><span class="nav-role">总览</span>
-        <p class="nav-note">与分课时同一文件夹；本页为精简目录，详细卡片导航见入口页。</p>
-      </li>
-      <li>
-        <a href="L10-01-warmup-review.html">复习激活 · 一般过去时</a><span class="nav-role">引入</span>
-        <p class="nav-note">七年级话题词与口头热身。</p>
-      </li>
-      <li>
-        <a href="L10-02-present-perfect-form.html">结构 · have/has + done</a><span class="nav-role">建模</span>
-        <p class="nav-note">公式、拼读与词序操练。</p>
-      </li>
-      <li>
-        <a href="L10-03-meaning-result-experience.html">意义（一）· 影响现在与经历</a><span class="nav-role">意义</span>
-        <p class="nav-note">结果状态与经验意义入门。</p>
-      </li>
-      <li>
-        <a href="L10-04-adverbs-already-yet-just-ever-never.html">标志词 · already / yet / just / ever / never</a><span class="nav-role">语用</span>
-        <p class="nav-note">位置与语义辨析活动。</p>
-      </li>
-      <li>
-        <a href="L10-05-speaking-have-you-ever.html">口语 · Have you ever…?</a><span class="nav-role">输出</span>
-        <p class="nav-note">情景对话与朗读。</p>
-      </li>
-      <li>
-        <a href="L10-06-writing-new-term-prep.html">写作 · I have already… / I haven’t … yet.</a><span class="nav-role">写作</span>
-        <p class="nav-note">新学期准备主题句型。</p>
-      </li>
-      <li>
-        <a href="L10-07-for-since-how-long.html">持续时间 · for / since / How long</a><span class="nav-role">时长</span>
-        <p class="nav-note">时间表达与志愿者语境。</p>
-      </li>
-      <li>
-        <a href="L10-08-contrast-past-simple.html">辨析 · 现在完成时 vs 一般过去时</a><span class="nav-role">对比</span>
-        <p class="nav-note">时间轴与选择题巩固。</p>
-      </li>
-      <li>
-        <a href="L10-09-durative-verbs.html">延续动词 · borrow→keep 等</a><span class="nav-role">陷阱</span>
-        <p class="nav-note">与时间段共现的动词选择。</p>
-      </li>
-      <li>
-        <a href="L10-10-translation-mimic.html">翻译仿写 · 中译英</a><span class="nav-role">操练</span>
-        <p class="nav-note">句式迁移与仿写。</p>
-      </li>
-      <li>
-        <a href="L10-11-reading-mini.html">微读 · 推断</a><span class="nav-role">阅读</span>
-        <p class="nav-note">短篇理解与问题。</p>
-      </li>
-      <li>
-        <a href="L10-12-game-team-competition.html">竞赛 · 易错点</a><span class="nav-role">游戏</span>
-        <p class="nav-note">小组计分与抢答。</p>
-      </li>
-      <li>
-        <a href="L10-13-assessment-exit-ticket.html">测评 · Exit ticket · 错题银行</a><span class="nav-role">评价</span>
-        <p class="nav-note">课堂小测与反馈。</p>
-      </li>
-      <li>
-        <a href="L10-14-teacher-notes.html">教师备注 · 例句库 · 打印</a><span class="nav-role">教研</span>
-        <p class="nav-note">差异化与板书提示。</p>
-      </li>
+  <main class="g-index">
+    <h1>现在完成时</h1>
+    <ol>
+      <li><a href="L10-00-index.html"><span class="num">01</span><span class="label">课程总览</span></a></li>
+      <li><a href="L10-01-warmup-review.html"><span class="num">02</span><span class="label">复习 · 一般过去时</span></a></li>
+      <li><a href="L10-02-present-perfect-form.html"><span class="num">03</span><span class="label">have/has + done</span></a></li>
+      <li><a href="L10-03-meaning-result-experience.html"><span class="num">04</span><span class="label">意义 · 结果与经历</span></a></li>
+      <li><a href="L10-04-adverbs-already-yet-just-ever-never.html"><span class="num">05</span><span class="label">标志词</span></a></li>
+      <li><a href="L10-05-speaking-have-you-ever.html"><span class="num">06</span><span class="label">口语 Have you ever</span></a></li>
+      <li><a href="L10-06-writing-new-term-prep.html"><span class="num">07</span><span class="label">写作</span></a></li>
+      <li><a href="L10-07-for-since-how-long.html"><span class="num">08</span><span class="label">for / since</span></a></li>
+      <li><a href="L10-08-contrast-past-simple.html"><span class="num">09</span><span class="label">vs 一般过去时</span></a></li>
+      <li><a href="L10-09-durative-verbs.html"><span class="num">10</span><span class="label">延续动词</span></a></li>
+      <li><a href="L10-10-translation-mimic.html"><span class="num">11</span><span class="label">翻译仿写</span></a></li>
+      <li><a href="L10-11-reading-mini.html"><span class="num">12</span><span class="label">微读</span></a></li>
+      <li><a href="L10-12-game-team-competition.html"><span class="num">13</span><span class="label">竞赛</span></a></li>
+      <li><a href="L10-13-assessment-exit-ticket.html"><span class="num">14</span><span class="label">测评</span></a></li>
+      <li><a href="L10-14-teacher-notes.html"><span class="num">15</span><span class="label">教师备注</span></a></li>
+      <li><a href="L10-handout.html"><span class="num">16</span><span class="label">背诵讲义</span></a></li>
     </ol>
-
-    <section class="extra" aria-label="补充资源">
-      <h2>讲义</h2>
-      <ul>
-        <li><a href="L10-handout.html">第10讲 · 背诵讲义（打印）</a></li>
-      </ul>
-    </section>
-  </div>
+    <p class="back"><a href="../../index.html">← 语法首页</a></p>
+  </main>
 </body>
 </html>
