@@ -127,23 +127,28 @@
     .p02-slide[hidden] {
       display: none !important;
     }
-    /* 幻灯片 1：四组对比 · 双栏情景 — 标题与双栏内文字、配图统一放大 60%（×1.6）；语法块保持原尺寸便于拖拽 */
+    /* 幻灯片 1：活动区文字 ×1.08（×1.44 的 75%）；情景背景图放大 20% */
     #p02-slide-0 {
       position: relative;
+      --p02-act-zoom: 1.08;
+      --p02-scene-bg-scale: 1.2;
     }
     #p02-slide-0 #lab-header {
-      zoom: 1.6;
+      zoom: var(--p02-act-zoom);
     }
     #p02-slide-0 .lab-split {
       flex: 1 1 auto;
       min-height: 0;
-      zoom: 1.6;
+      zoom: var(--p02-act-zoom);
       overflow-x: hidden;
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
     }
     #p02-slide-0 .grammar-dock {
-      zoom: 1.6;
+      zoom: var(--p02-act-zoom);
+    }
+    #lab-stage:has(#p02-slide-0:not([hidden])) > .p02-slide-tabs {
+      zoom: 0.675;
     }
     #p02-slide-1 {
       overflow: auto;
@@ -358,6 +363,43 @@
       background: rgba(12, 14, 22, 0.42);
       overflow: hidden;
       transition: opacity 0.8s ease, filter 0.8s ease;
+      min-height: clamp(220px, 42vh, 480px);
+    }
+    #p02-slide-0 .lab-zone.has-scene-bg::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background-image: var(--zone-bg);
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      transform: scale(var(--p02-scene-bg-scale));
+      transform-origin: center center;
+    }
+    #p02-slide-0 .lab-zone--nav.has-scene-bg::after,
+    #p02-slide-0 .lab-zone--quantum.has-scene-bg::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+    }
+    #p02-slide-0 .lab-zone--nav.has-scene-bg::after {
+      background: linear-gradient(
+        180deg,
+        rgba(10, 25, 47, 0.55) 0%,
+        rgba(10, 25, 47, 0.72) 45%,
+        rgba(10, 25, 47, 0.88) 100%
+      );
+    }
+    #p02-slide-0 .lab-zone--quantum.has-scene-bg::after {
+      background: linear-gradient(
+        180deg,
+        rgba(29, 10, 47, 0.5) 0%,
+        rgba(29, 10, 47, 0.7) 45%,
+        rgba(29, 10, 47, 0.88) 100%
+      );
     }
     .lab-zone.dimmed {
       opacity: 0.38;
@@ -391,11 +433,12 @@
     .lab-zone-inner {
       position: absolute;
       inset: 0;
+      z-index: 2;
       padding: clamp(36px, 7vh, 52px) clamp(10px, 2vw, 14px) clamp(12px, 2vh, 18px);
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: flex-start;
+      justify-content: flex-end;
       overflow: auto;
       -webkit-overflow-scrolling: touch;
     }
@@ -409,6 +452,10 @@
       background: rgba(10, 15, 30, 0.52);
       backdrop-filter: blur(16px);
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    }
+    #p02-slide-0 .glass-panel {
+      background: rgba(10, 15, 30, 0.68);
+      backdrop-filter: blur(12px);
     }
 
     .calendar-card {
@@ -427,17 +474,15 @@
     }
 
     .scenario-thumb {
-      display: block;
-      width: 100%;
-      max-height: clamp(100px, 22vh, 160px);
-      object-fit: cover;
-      border-radius: 12px;
-      margin-bottom: 10px;
-      border: 2px solid rgba(255, 255, 255, 0.14);
-      background: rgba(0, 0, 0, 0.2);
-    }
-    .scenario-thumb[hidden] {
-      display: none !important;
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
     }
     #lab-progress {
       margin: 0.35rem 0 0;
@@ -464,11 +509,26 @@
       border: 3px dashed rgba(255, 213, 79, 0.65);
       background: rgba(255, 255, 255, 0.06);
       box-shadow: inset 0 0 20px rgba(255, 193, 7, 0.12);
+      cursor: pointer;
+      touch-action: manipulation;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+    .drop-slot.slot-ready {
+      border-color: rgba(255, 235, 59, 0.95);
+      background: rgba(255, 235, 59, 0.14);
+      box-shadow: inset 0 0 24px rgba(255, 235, 59, 0.28), 0 0 16px rgba(255, 235, 59, 0.35);
+      animation: slot-pulse 1.1s ease-in-out infinite;
+    }
+    @keyframes slot-pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.03); }
     }
     .drop-slot.filled {
       border-style: solid;
       border-color: rgba(129, 199, 132, 0.85);
       background: rgba(76, 175, 80, 0.15);
+      cursor: default;
+      animation: none;
     }
     .drop-slot .filled-text {
       display: block;
@@ -551,29 +611,38 @@
       padding: clamp(10px, 2vh, 14px) clamp(12px, 3vw, 20px);
       padding-bottom: max(clamp(10px, 2vh, 14px), env(safe-area-inset-bottom));
       background: linear-gradient(180deg, transparent, rgba(5, 5, 8, 0.92));
-      border-top: 2px solid rgba(255, 255, 255, 0.08);
+      border-top: none;
     }
 
+    .gram-match-hint {
+      flex: 1 1 100%;
+      margin: 0;
+      text-align: center;
+      font-size: clamp(0.68rem, 1.5vw, 0.8rem);
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.72);
+      letter-spacing: 0.02em;
+    }
     .gram-chip {
       flex: 0 0 auto;
       padding: clamp(10px, 2vh, 12px) clamp(14px, 3vw, 18px);
       border-radius: 14px;
       font-weight: 950;
       font-size: clamp(0.72rem, 1.65vw, 0.88rem);
-      cursor: grab;
-      touch-action: none;
+      cursor: pointer;
+      touch-action: manipulation;
       user-select: none;
-      border: 3px solid var(--edge-lab);
+      border: none;
       background: linear-gradient(180deg, rgba(255, 253, 248, 0.98), #cfd8dc);
       color: #263238;
-      box-shadow: 3px 4px 0 rgba(0, 0, 0, 0.18);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
       position: relative;
       z-index: 25;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
     }
-    .gram-chip.dragging {
-      cursor: grabbing;
-      z-index: 200;
-      box-shadow: 0 18px 36px rgba(0, 0, 0, 0.45);
+    .gram-chip.is-selected {
+      box-shadow: 0 0 0 3px rgba(255, 213, 79, 0.55), 0 4px 14px rgba(255, 193, 7, 0.28);
+      transform: scale(1.05);
     }
 
     #ds-bubble-host {
@@ -741,7 +810,7 @@
               <span class="lab-zone-label">NAV · 预定计划</span>
               <div class="lab-zone-inner">
                 <div id="panel-a" class="glass-panel">
-                  <img id="img-planned" class="scenario-thumb" alt="" width="400" height="225" hidden decoding="async" />
+                  <img id="img-planned" class="scenario-thumb" alt="" width="400" height="225" decoding="async" />
                   <div id="a-card-wrap"></div>
                   <p class="sentence-line" id="line-a"></p>
                 </div>
@@ -752,7 +821,7 @@
               <span class="lab-zone-label">QUANTUM · 当下决定</span>
               <div class="lab-zone-inner">
                 <div id="panel-b" class="glass-panel" hidden>
-                  <img id="img-spont" class="scenario-thumb" alt="" width="400" height="225" hidden decoding="async" />
+                  <img id="img-spont" class="scenario-thumb" alt="" width="400" height="225" decoding="async" />
                   <div id="b-card-wrap"></div>
                   <div class="countdown-bar-wrap" id="count-wrap" hidden>
                     <div class="countdown-bar" aria-hidden="true"><i id="count-bar-inner"></i></div>
@@ -765,9 +834,10 @@
           </div>
 
           <div id="grammar-dock" class="grammar-dock" aria-label="语法块">
-            <div class="gram-chip" data-kind="going-am" id="chip-am">am going to</div>
-            <div class="gram-chip" data-kind="going-is" id="chip-is">is going to</div>
-            <div class="gram-chip" data-kind="will" id="chip-will">will</div>
+            <p class="gram-match-hint" id="gram-match-hint">先点词汇卡，再点句中空白填空</p>
+            <div class="gram-chip" data-kind="going-am" id="chip-am" role="button" tabindex="0">am going to</div>
+            <div class="gram-chip" data-kind="going-is" id="chip-is" role="button" tabindex="0">is going to</div>
+            <div class="gram-chip" data-kind="will" id="chip-will" role="button" tabindex="0">will</div>
           </div>
         </div>
 
@@ -1102,6 +1172,25 @@
         dropB = document.getElementById("drop-slot-b");
       }
 
+      function applyZoneSceneBg(zoneEl, url) {
+        if (!zoneEl) return;
+        if (!url) {
+          zoneEl.classList.remove("has-scene-bg");
+          zoneEl.style.removeProperty("--zone-bg");
+          return;
+        }
+        var probe = new Image();
+        probe.onload = function () {
+          zoneEl.classList.add("has-scene-bg");
+          zoneEl.style.setProperty("--zone-bg", "url(\"" + String(url).replace(/"/g, "%22") + "\")");
+        };
+        probe.onerror = function () {
+          zoneEl.classList.remove("has-scene-bg");
+          zoneEl.style.removeProperty("--zone-bg");
+        };
+        probe.src = url;
+      }
+
       function renderRound() {
         var s = currentScenario();
         var lp = document.getElementById("lab-progress");
@@ -1115,15 +1204,15 @@
         document.getElementById("line-a").innerHTML =
           'I <span id="drop-slot-a" class="drop-slot"></span> ' + escapeHtml(s.aRest);
         var ip = document.getElementById("img-planned");
-        if (s.imgPlanned) {
-          ip.hidden = false;
-          ip.src = s.imgPlanned;
-          ip.onerror = function () {
-            ip.hidden = true;
-          };
-        } else {
-          ip.hidden = true;
-          ip.removeAttribute("src");
+        applyZoneSceneBg(document.getElementById("zone-nav"), s.imgPlanned);
+        if (ip) {
+          if (s.imgPlanned) {
+            ip.src = s.imgPlanned;
+            ip.alt = s.aCardTitle || "Planned scenario";
+          } else {
+            ip.removeAttribute("src");
+            ip.alt = "";
+          }
         }
         document.getElementById("b-card-wrap").innerHTML =
           '<div class="menu-card"><div class="menu-title">' +
@@ -1136,17 +1225,18 @@
           '<span id="drop-slot-b" class="drop-slot"></span> ' +
           escapeHtml(s.bAfter);
         var isp = document.getElementById("img-spont");
-        if (s.imgSpont) {
-          isp.hidden = false;
-          isp.src = s.imgSpont;
-          isp.onerror = function () {
-            isp.hidden = true;
-          };
-        } else {
-          isp.hidden = true;
-          isp.removeAttribute("src");
+        applyZoneSceneBg(document.getElementById("zone-quantum"), s.imgSpont);
+        if (isp) {
+          if (s.imgSpont) {
+            isp.src = s.imgSpont;
+            isp.alt = s.bMenuTitle || "Spontaneous scenario";
+          } else {
+            isp.removeAttribute("src");
+            isp.alt = "";
+          }
         }
         refreshDropRefs();
+        updateDropSlotHighlights();
       }
 
       var bgStack = document.getElementById("bg-stack");
@@ -1168,7 +1258,7 @@
       var lightningRoot = document.getElementById("lightning-root");
 
       var phase = "A";
-      var dragState = null;
+      var selectedChip = null;
       var countTimer = null;
       var countRemain = 10;
       var countPaused = false;
@@ -1287,17 +1377,6 @@
           });
         }
         return speakLabCloudOnly(t);
-      }
-
-      function overlapRatio(a, b) {
-        var x1 = Math.max(a.left, b.left);
-        var y1 = Math.max(a.top, b.top);
-        var x2 = Math.min(a.right, b.right);
-        var y2 = Math.min(a.bottom, b.bottom);
-        if (x2 <= x1 || y2 <= y1) return 0;
-        var inter = (x2 - x1) * (y2 - y1);
-        var areaA = a.width * a.height;
-        return areaA > 0 ? inter / areaA : 0;
       }
 
       function playBuzz() {
@@ -1453,19 +1532,56 @@
         }
       }
 
-      function resetChipToDock(chip) {
-        if (!chip || !chip.parentNode) return;
-        try {
-          if (typeof anime !== "undefined") anime.remove(chip);
-        } catch (e1) {}
-        chip.classList.remove("dragging");
-        chip.style.cssText = "";
-        grammarDock.appendChild(chip);
+      function isActivitySlideActive() {
+        var slideSum = document.getElementById("p02-slide-1");
+        return !(slideSum && !slideSum.hidden);
+      }
+
+      function clearChipSelection() {
+        if (selectedChip) {
+          try {
+            if (typeof anime !== "undefined") anime.remove(selectedChip);
+          } catch (e0) {}
+          selectedChip.classList.remove("is-selected");
+          selectedChip.style.transform = "";
+          selectedChip = null;
+        }
+        updateDropSlotHighlights();
+      }
+
+      function updateDropSlotHighlights() {
+        refreshDropRefs();
+        [dropA, dropB].forEach(function (slot) {
+          if (slot) slot.classList.remove("slot-ready");
+        });
+        if (!selectedChip || phase === "C" || !isActivitySlideActive()) return;
+        if (phase === "A" && dropA && !dropA.classList.contains("filled")) {
+          dropA.classList.add("slot-ready");
+        }
+        if (phase === "B" && dropB && !dropB.classList.contains("filled")) {
+          dropB.classList.add("slot-ready");
+        }
+      }
+
+      function selectChip(chip) {
+        if (uiLock.classList.contains("on") || phase === "C" || !isActivitySlideActive()) return;
+        if (selectedChip === chip) {
+          clearChipSelection();
+          return;
+        }
+        clearChipSelection();
+        selectedChip = chip;
+        chip.classList.add("is-selected");
+        if (typeof anime !== "undefined") {
+          anime({ targets: chip, scale: 1.06, duration: 160, easing: "easeOutQuad" });
+        }
+        updateDropSlotHighlights();
       }
 
       function resetDock() {
+        clearChipSelection();
         grammarDock.innerHTML = DOCK_HTML;
-        bindDrag();
+        bindClickMatch();
       }
 
       function clearDeepSeekBubble() {
@@ -1475,6 +1591,7 @@
 
       function startScenarioA() {
         phase = "A";
+        clearChipSelection();
         panelB.hidden = true;
         countWrap.hidden = true;
         zoneNav.classList.remove("dimmed");
@@ -1489,6 +1606,7 @@
 
       function startScenarioB() {
         phase = "B";
+        clearChipSelection();
         panelB.hidden = false;
         if (dropB) {
           dropB.innerHTML = "";
@@ -1517,24 +1635,13 @@
         speakLab(s.bCue, s.keys.bCue);
       }
 
-      /** @returns {"consumed"|"released"} */
-      function handleDropScenarioA(chip, chipRect, ds) {
+      function applyChipScenarioA(chip) {
         var sc = currentScenario();
         if (!dropA) refreshDropRefs();
-        if (!dropA) {
-          resetChipToDock(chip);
-          return "released";
-        }
-        var slotRect = dropA.getBoundingClientRect();
-        var ratio = overlapRatio(chipRect, slotRect);
+        if (!dropA || dropA.classList.contains("filled")) return;
         var kind = chip.getAttribute("data-kind");
-        if (ratio < 0.38) {
-          resetChipToDock(chip);
-          return "released";
-        }
         if (kind === "will") {
           playBuzz();
-          resetChipToDock(chip);
           evaluateDeepSeek(
             [
               {
@@ -1546,65 +1653,37 @@
             ],
             zoneNav
           );
-          return "released";
+          return;
         }
         if (kind === "going-is") {
           playBuzz();
-          resetChipToDock(chip);
           showToast("Grammar mismatch! 主语是 I，要用 am going to！", 2600);
-          return "released";
+          return;
         }
-        if (kind !== "going-am") {
-          resetChipToDock(chip);
-          return "released";
-        }
+        if (kind !== "going-am") return;
 
         setUiLock(true);
-        var snapX = slotRect.left + slotRect.width / 2 - chipRect.width / 2;
-        var snapY = slotRect.top + slotRect.height / 2 - chipRect.height / 2;
-        if (typeof anime !== "undefined") {
-          anime({
-            targets: chip,
-            left: snapX + "px",
-            top: snapY + "px",
-            scale: 1,
-            rotate: 0,
-            duration: 420,
-            easing: "easeOutElastic(1, .6)",
-            complete: function () {
-              if (chip.parentNode) chip.parentNode.removeChild(chip);
-              dropA.classList.add("filled");
-              dropA.innerHTML =
-                '<span class="filled-text going">am going to</span>';
-              burstParticles(dropA);
-              speakLab(sc.aSuccess, sc.keys.aSuccess).then(function () {
-                setUiLock(false);
-                if (typeof anime !== "undefined") {
-                  anime({
-                    targets: panelA,
-                    opacity: [1, 0.35],
-                    duration: 600,
-                    complete: function () {
-                      transitionToB();
-                      panelA.style.opacity = "1";
-                    },
-                  });
-                } else {
-                  transitionToB();
-                }
-              });
-            },
-          });
-        } else {
-          dropA.classList.add("filled");
-          dropA.innerHTML = '<span class="filled-text going">am going to</span>';
-          if (chip.parentNode) chip.parentNode.removeChild(chip);
-          speakLab(sc.aSuccess, sc.keys.aSuccess).then(function () {
-            setUiLock(false);
+        clearChipSelection();
+        if (chip.parentNode) chip.parentNode.removeChild(chip);
+        dropA.classList.add("filled");
+        dropA.innerHTML = '<span class="filled-text going">am going to</span>';
+        burstParticles(dropA);
+        speakLab(sc.aSuccess, sc.keys.aSuccess).then(function () {
+          setUiLock(false);
+          if (typeof anime !== "undefined") {
+            anime({
+              targets: panelA,
+              opacity: [1, 0.35],
+              duration: 600,
+              complete: function () {
+                transitionToB();
+                panelA.style.opacity = "1";
+              },
+            });
+          } else {
             transitionToB();
-          });
-        }
-        return "consumed";
+          }
+        });
       }
 
       function transitionToB() {
@@ -1612,24 +1691,13 @@
         startScenarioB();
       }
 
-      /** @returns {"consumed"|"released"} */
-      function handleDropScenarioB(chip, chipRect, ds) {
+      function applyChipScenarioB(chip) {
         var sc = currentScenario();
         if (!dropB) refreshDropRefs();
-        if (!dropB) {
-          resetChipToDock(chip);
-          return "released";
-        }
-        var slotRect = dropB.getBoundingClientRect();
-        var ratio = overlapRatio(chipRect, slotRect);
+        if (!dropB || dropB.classList.contains("filled")) return;
         var kind = chip.getAttribute("data-kind");
-        if (ratio < 0.38) {
-          resetChipToDock(chip);
-          return "released";
-        }
         if (kind === "going-am" || kind === "going-is") {
           playBuzz();
-          resetChipToDock(chip);
           countPaused = true;
           evaluateDeepSeek(
             [
@@ -1644,12 +1712,9 @@
           ).then(function () {
             countPaused = false;
           });
-          return "released";
+          return;
         }
-        if (kind !== "will") {
-          resetChipToDock(chip);
-          return "released";
-        }
+        if (kind !== "will") return;
 
         setUiLock(true);
         countPaused = true;
@@ -1657,129 +1722,65 @@
           clearInterval(countTimer);
           countTimer = null;
         }
-        var snapX = slotRect.left + slotRect.width / 2 - chipRect.width / 2;
-        var snapY = slotRect.top + slotRect.height / 2 - chipRect.height / 2;
-        if (typeof anime !== "undefined") {
-          anime({
-            targets: chip,
-            left: snapX + "px",
-            top: snapY + "px",
-            duration: 450,
-            easing: "easeOutElastic(1, .55)",
-            complete: function () {
-              if (chip.parentNode) chip.parentNode.removeChild(chip);
-              dropB.classList.add("filled");
-              dropB.innerHTML = '<span class="filled-text will">will</span>';
-              runLightningFx();
-              speakLab(sc.bSuccess, sc.keys.bSuccess).then(function () {
-                setUiLock(false);
-                if (roundIndex < SCENARIOS.length - 1) {
-                  roundIndex += 1;
-                  phase = "A";
-                  panelB.hidden = true;
-                  countWrap.hidden = true;
-                  panelSummary.hidden = true;
-                  zoneNav.classList.remove("dimmed");
-                  zoneQuantum.classList.add("dimmed");
-                  zoneQuantum.classList.remove("bright");
-                  clearDeepSeekBubble();
-                  renderRound();
-                  resetDock();
-                  startScenarioA();
-                } else {
-                  phase = "C";
-                  panelSummary.hidden = false;
-                }
-              });
-            },
-          });
-        } else {
-          dropB.classList.add("filled");
-          dropB.innerHTML = '<span class="filled-text will">will</span>';
-          if (chip.parentNode) chip.parentNode.removeChild(chip);
-          speakLab(sc.bSuccess, sc.keys.bSuccess).then(function () {
-            setUiLock(false);
-            if (roundIndex < SCENARIOS.length - 1) {
-              roundIndex += 1;
-              phase = "A";
-              panelB.hidden = true;
-              countWrap.hidden = true;
-              panelSummary.hidden = true;
-              zoneNav.classList.remove("dimmed");
-              zoneQuantum.classList.add("dimmed");
-              zoneQuantum.classList.remove("bright");
-              clearDeepSeekBubble();
-              renderRound();
-              resetDock();
-              startScenarioA();
-            } else {
-              phase = "C";
-              panelSummary.hidden = false;
-            }
-          });
-        }
-        return "consumed";
-      }
-
-      function bindDrag() {
-        var chips = grammarDock.querySelectorAll(".gram-chip");
-        chips.forEach(function (chip) {
-          chip.addEventListener("pointerdown", onPointerDown);
+        clearChipSelection();
+        if (chip.parentNode) chip.parentNode.removeChild(chip);
+        dropB.classList.add("filled");
+        dropB.innerHTML = '<span class="filled-text will">will</span>';
+        runLightningFx();
+        speakLab(sc.bSuccess, sc.keys.bSuccess).then(function () {
+          setUiLock(false);
+          if (roundIndex < SCENARIOS.length - 1) {
+            roundIndex += 1;
+            phase = "A";
+            panelB.hidden = true;
+            countWrap.hidden = true;
+            panelSummary.hidden = true;
+            zoneNav.classList.remove("dimmed");
+            zoneQuantum.classList.add("dimmed");
+            zoneQuantum.classList.remove("bright");
+            clearDeepSeekBubble();
+            renderRound();
+            resetDock();
+            startScenarioA();
+          } else {
+            phase = "C";
+            panelSummary.hidden = false;
+          }
         });
       }
 
-      function onPointerDown(ev) {
-        if (phase === "C") return;
-        var slideSum = document.getElementById("p02-slide-1");
-        if (slideSum && !slideSum.hidden) return;
-        var chip = ev.currentTarget;
-        var r = chip.getBoundingClientRect();
-        var cx = ev.clientX;
-        var cy = ev.clientY;
-        dragState = {
-          chip: chip,
-          offsetX: cx - r.left,
-          offsetY: cy - r.top,
-          homeLeft: r.left,
-          homeTop: r.top,
-        };
-        chip.classList.add("dragging");
-        chip.style.position = "fixed";
-        chip.style.left = r.left + "px";
-        chip.style.top = r.top + "px";
-        chip.style.zIndex = "300";
-        if (typeof anime !== "undefined") {
-          anime({ targets: chip, scale: 1.12, rotate: "2deg", duration: 160, easing: "easeOutQuad" });
+      function onDropSlotClick(ev) {
+        if (uiLock.classList.contains("on") || phase === "C" || !isActivitySlideActive()) return;
+        var slot = ev.target.closest(".drop-slot");
+        if (!slot || slot.classList.contains("filled")) return;
+        if (!selectedChip) {
+          showToast("请先点击下方的词汇卡片", 2000);
+          return;
         }
-        window.addEventListener("pointermove", onPointerMove);
-        window.addEventListener("pointerup", onPointerUp, { once: true });
-        window.addEventListener("pointercancel", onPointerUp, { once: true });
-        ev.preventDefault();
+        if (phase === "A" && slot.id === "drop-slot-a") {
+          applyChipScenarioA(selectedChip);
+        } else if (phase === "B" && slot.id === "drop-slot-b") {
+          applyChipScenarioB(selectedChip);
+        } else if (phase === "A") {
+          showToast("请在左侧导航区句子的空白处填空", 2200);
+        } else if (phase === "B") {
+          showToast("请在右侧量子区句子的空白处填空", 2200);
+        }
       }
 
-      function onPointerMove(ev) {
-        if (!dragState) return;
-        var chip = dragState.chip;
-        chip.style.left = ev.clientX - dragState.offsetX + "px";
-        chip.style.top = ev.clientY - dragState.offsetY + "px";
-      }
-
-      function onPointerUp(ev) {
-        window.removeEventListener("pointermove", onPointerMove);
-        if (!dragState) return;
-        var ds = dragState;
-        dragState = null;
-        var chip = ds.chip;
-        chip.classList.remove("dragging");
-        var cr = chip.getBoundingClientRect();
-        var result =
-          phase === "A"
-            ? handleDropScenarioA(chip, cr, ds)
-            : phase === "B"
-              ? handleDropScenarioB(chip, cr, ds)
-              : "released";
-        if (result === "consumed") return;
-        resetChipToDock(chip);
+      function bindClickMatch() {
+        grammarDock.querySelectorAll(".gram-chip").forEach(function (chip) {
+          chip.addEventListener("click", function (ev) {
+            ev.preventDefault();
+            selectChip(chip);
+          });
+          chip.addEventListener("keydown", function (ev) {
+            if (ev.key === "Enter" || ev.key === " ") {
+              ev.preventDefault();
+              selectChip(chip);
+            }
+          });
+        });
       }
 
       function tryVertexBgP02() {
@@ -1851,6 +1852,7 @@
           p02Tab0.tabIndex = show0 ? 0 : -1;
           p02Tab1.tabIndex = show0 ? -1 : 0;
         } catch (e3) {}
+        if (!show0) clearChipSelection();
       }
 
       function updateP02ExHotzoneHint(btn) {
@@ -1926,8 +1928,13 @@
         });
       }
 
+      var p02Slide0El = document.getElementById("p02-slide-0");
+      if (p02Slide0El) {
+        p02Slide0El.addEventListener("click", onDropSlotClick);
+      }
+
       renderRound();
-      bindDrag();
+      bindClickMatch();
       tryVertexBgP02();
       startScenarioA();
     })();

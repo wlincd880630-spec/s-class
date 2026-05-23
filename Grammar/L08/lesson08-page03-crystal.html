@@ -201,6 +201,32 @@
       border: 4px solid rgba(255, 255, 255, 0.22);
       overflow: hidden;
       z-index: 2;
+      cursor: default;
+      touch-action: manipulation;
+      transition: box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+    #orb-shell.orb-ready {
+      cursor: pointer;
+      border-color: rgba(255, 235, 59, 0.75);
+      box-shadow:
+        inset -14px -18px 42px rgba(0, 0, 0, 0.65),
+        0 0 52px rgba(255, 213, 79, 0.55),
+        0 0 90px rgba(213, 0, 249, 0.65);
+      animation: orb-ready-pulse 1.1s ease-in-out infinite;
+    }
+    @keyframes orb-ready-pulse {
+      0%, 100% {
+        box-shadow:
+          inset -14px -18px 42px rgba(0, 0, 0, 0.65),
+          0 0 52px rgba(255, 213, 79, 0.55),
+          0 0 90px rgba(213, 0, 249, 0.65);
+      }
+      50% {
+        box-shadow:
+          inset -14px -18px 42px rgba(0, 0, 0, 0.65),
+          0 0 64px rgba(255, 235, 59, 0.75),
+          0 0 110px rgba(213, 0, 249, 0.8);
+      }
     }
     #orb-shell.shake-recover {
       animation: orbFlash 0.45s ease;
@@ -352,14 +378,22 @@
       -webkit-overflow-scrolling: touch;
     }
 
+    .rune-match-hint {
+      flex: 1 1 100%;
+      margin: 0 0 0.35rem;
+      text-align: center;
+      font-size: clamp(0.68rem, 1.5vw, 0.8rem);
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.72);
+    }
     .rune-block {
       flex: 0 0 auto;
       padding: clamp(9px, 1.8vh, 12px) clamp(12px, 2.4vw, 16px);
       border-radius: 10px;
       font-weight: 900;
       font-size: clamp(0.72rem, 1.65vw, 0.88rem);
-      cursor: grab;
-      touch-action: none;
+      cursor: pointer;
+      touch-action: manipulation;
       user-select: none;
       -webkit-user-select: none;
       border: 2px solid #555;
@@ -368,11 +402,12 @@
       box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.75), inset 2px 2px 5px rgba(255, 255, 255, 0.08);
       position: relative;
       z-index: 20;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
     }
-    .rune-block.dragging {
-      cursor: grabbing;
-      z-index: 200;
-      box-shadow: 0 18px 36px rgba(0, 0, 0, 0.55);
+    .rune-block.is-selected {
+      border-color: #ffd54f;
+      box-shadow: 0 0 0 3px rgba(255, 213, 79, 0.45), 5px 5px 15px rgba(0, 0, 0, 0.75);
+      transform: scale(1.05);
     }
 
     #parchment {
@@ -528,7 +563,6 @@
           <header class="page03-head">
             <h1>第08讲 · 预言水晶球</h1>
             <p class="sub">will 表遥远推测 · 陷阱：<strong>will</strong> 后必须用<strong>动词原形</strong>（中考高频失分点）</p>
-            <span class="exam-chip">成都中考 · 综合填空 / 短文填空常考情态动词 + 原形</span>
             <p id="scenario-progress" aria-live="polite">情景 1 / 3 · 组装顺序：主语 → will → 动词原形 → 宾语</p>
           </header>
 
@@ -543,10 +577,12 @@
                 <div id="pedestal-base"></div>
               </div>
               <div id="orb-sentence" class="is-idle" aria-live="polite">
-                <span class="tok hint">将下方符文按顺序拖入球内，句子会显示在这里</span>
+                <span class="tok hint">先点符文块，再点预言水晶球；句子会显示在这里</span>
               </div>
             </div>
-            <div id="rune-tray" aria-label="符文块"></div>
+            <div id="rune-tray" aria-label="符文块">
+              <p class="rune-match-hint">先点符文块，再点预言水晶球</p>
+            </div>
           </div>
         </section>
 
@@ -621,7 +657,7 @@
       var SCENARIOS = [
         {
           id: "s1",
-          examHint: "科技与生活：贴近人教版 Science / chores / robots 话题，常见于「will + 原形」综合填空。",
+          examHint: "科技与生活",
           introEn: "Look into the future. What will life be like in twenty fifty?",
           completeLine: "Robots will do our housework.",
           blocks: [
@@ -686,7 +722,7 @@
       var scenarioIndex = 0;
       var slotIndex = 0;
       var swallowedTokens = [];
-      var dragState = null;
+      var selectedRune = null;
 
       function setUiLock(on) {
         if (on) uiLock.classList.add("on");
@@ -704,26 +740,51 @@
           p03Tab0.tabIndex = show0 ? 0 : -1;
           p03Tab1.tabIndex = show0 ? -1 : 0;
         } catch (e0) {}
+        if (!show0) clearRuneSelection();
       }
 
-      function overlapRatio(a, b) {
-        var x1 = Math.max(a.left, b.left);
-        var y1 = Math.max(a.top, b.top);
-        var x2 = Math.min(a.right, b.right);
-        var y2 = Math.min(a.bottom, b.bottom);
-        if (x2 <= x1 || y2 <= y1) return 0;
-        var inter = (x2 - x1) * (y2 - y1);
-        var areaA = a.width * a.height;
-        return areaA > 0 ? inter / areaA : 0;
+      function isCrystalSlideActive() {
+        return !(p03Slide1 && !p03Slide1.hidden);
       }
 
-      /** 中心点落入预言球，或小块与球有足够交集 —— 降低误拒判 */
-      function chipDroppedOnOrb(chipRect, orbRect) {
-        var ratio = overlapRatio(chipRect, orbRect);
-        if (ratio >= 0.18) return true;
-        var cx = chipRect.left + chipRect.width * 0.5;
-        var cy = chipRect.top + chipRect.height * 0.5;
-        return cx >= orbRect.left && cx <= orbRect.right && cy >= orbRect.top && cy <= orbRect.bottom;
+      function clearRuneSelection() {
+        if (selectedRune) {
+          try {
+            if (typeof anime !== "undefined") anime.remove(selectedRune);
+          } catch (e0) {}
+          selectedRune.classList.remove("is-selected");
+          selectedRune.style.transform = "";
+          selectedRune = null;
+        }
+        updateOrbReadyState();
+      }
+
+      function updateOrbReadyState() {
+        if (!orbShell) return;
+        var ready =
+          !!selectedRune &&
+          isCrystalSlideActive() &&
+          !runeTray.classList.contains("frozen") &&
+          !uiLock.classList.contains("on");
+        orbShell.classList.toggle("orb-ready", ready);
+        orbShell.setAttribute("aria-label", ready ? "预言水晶球 · 点击放入已选符文" : "预言水晶球");
+      }
+
+      function selectRune(chip) {
+        if (!isCrystalSlideActive() || runeTray.classList.contains("frozen") || uiLock.classList.contains("on")) {
+          return;
+        }
+        if (selectedRune === chip) {
+          clearRuneSelection();
+          return;
+        }
+        clearRuneSelection();
+        selectedRune = chip;
+        chip.classList.add("is-selected");
+        if (typeof anime !== "undefined") {
+          anime({ targets: chip, scale: 1.06, duration: 140, easing: "easeOutQuad" });
+        }
+        updateOrbReadyState();
       }
 
       function buildSsmlCrystal(text) {
@@ -1038,6 +1099,7 @@
       }
 
       function runShatterSequence() {
+        clearRuneSelection();
         setUiLock(true);
         stopLevitation();
         playWhine();
@@ -1151,8 +1213,12 @@
         startLevitation();
       }
 
+      var RUNE_TRAY_HINT_HTML =
+        '<p class="rune-match-hint">先点符文块，再点预言水晶球</p>';
+
       function spawnRunes() {
-        runeTray.innerHTML = "";
+        clearRuneSelection();
+        runeTray.innerHTML = RUNE_TRAY_HINT_HTML;
         var sc = SCENARIOS[scenarioIndex];
         var blocks = sc.blocks.slice();
         for (var i = blocks.length - 1; i > 0; i--) {
@@ -1161,123 +1227,36 @@
           blocks[i] = blocks[j];
           blocks[j] = t;
         }
-        blocks.forEach(function (def, idx) {
+        blocks.forEach(function (def) {
           var el = document.createElement("div");
           el.className = "rune-block";
           el.textContent = def.text;
           el.setAttribute("data-role", def.role);
           el.setAttribute("data-trap", def.role === "verb" && def.trap ? "1" : "0");
           el.setAttribute("data-text", def.text);
-          el.setAttribute("data-home-x", "");
-          el.setAttribute("data-home-y", "");
+          el.setAttribute("role", "button");
+          el.setAttribute("tabindex", "0");
           runeTray.appendChild(el);
           bindRune(el);
         });
-        setTimeout(function () {
-          runeTray.querySelectorAll(".rune-block").forEach(function (el) {
-            var r = el.getBoundingClientRect();
-            el.setAttribute("data-home-x", r.left);
-            el.setAttribute("data-home-y", r.top);
-          });
-        }, 80);
       }
 
       function bindRune(el) {
-        el.addEventListener("pointerdown", onRuneDown);
-      }
-
-      function resetChipHome(chip) {
-        if (!chip) return;
-        try {
-          if (typeof anime !== "undefined") {
-            anime.remove(chip);
-            anime.set(chip, { scale: 1, rotate: 0, translateX: 0, translateY: 0 });
+        el.addEventListener("click", function (ev) {
+          ev.preventDefault();
+          selectRune(el);
+        });
+        el.addEventListener("keydown", function (ev) {
+          if (ev.key === "Enter" || ev.key === " ") {
+            ev.preventDefault();
+            selectRune(el);
           }
-        } catch (e9) {}
-        chip.classList.remove("dragging");
-        chip.style.cssText = "";
-        runeTray.appendChild(chip);
+        });
       }
 
-      function onRuneDown(ev) {
-        if (dragState) return;
-        if (p03Slide1 && !p03Slide1.hidden) return;
-        if (runeTray.classList.contains("frozen")) return;
-        if (ev.button !== undefined && ev.button !== 0) return;
-        var chip = ev.currentTarget;
-        var r = chip.getBoundingClientRect();
-        dragState = {
-          chip: chip,
-          offsetX: ev.clientX - r.left,
-          offsetY: ev.clientY - r.top,
-          pointerId: ev.pointerId,
-        };
-        chip.classList.add("dragging");
-        document.body.appendChild(chip);
-        chip.style.position = "fixed";
-        chip.style.left = r.left + "px";
-        chip.style.top = r.top + "px";
-        chip.style.zIndex = "15000";
-        chip.style.margin = "0";
-        if (typeof anime !== "undefined") {
-          anime({ targets: chip, scale: 1.12, rotate: "3deg", duration: 140, easing: "easeOutQuad" });
-        }
-        try {
-          chip.setPointerCapture(ev.pointerId);
-        } catch (eCap) {}
-        window.addEventListener("pointermove", onRuneMove);
-        window.addEventListener("pointerup", onRuneUp);
-        window.addEventListener("pointercancel", onRuneUp);
-        ev.preventDefault();
-      }
-
-      function onRuneMove(ev) {
-        if (!dragState) return;
-        if (
-          dragState.pointerId !== undefined &&
-          ev.pointerId !== undefined &&
-          dragState.pointerId !== ev.pointerId
-        ) {
-          return;
-        }
-        ev.preventDefault();
-        var chip = dragState.chip;
-        chip.style.left = ev.clientX - dragState.offsetX + "px";
-        chip.style.top = ev.clientY - dragState.offsetY + "px";
-      }
-
-      function endDragListeners() {
-        window.removeEventListener("pointermove", onRuneMove);
-        window.removeEventListener("pointerup", onRuneUp);
-        window.removeEventListener("pointercancel", onRuneUp);
-      }
-
-      function onRuneUp(ev) {
-        if (!dragState) return;
-        var capId = dragState.pointerId;
-        if (ev.pointerId !== undefined && capId !== undefined && ev.pointerId !== capId) return;
-        endDragListeners();
-        var chip = dragState.chip;
-        var pid = dragState.pointerId;
-        dragState = null;
-        try {
-          if (chip.releasePointerCapture) chip.releasePointerCapture(pid);
-        } catch (eRel) {}
-        chip.classList.remove("dragging");
-        if (typeof anime !== "undefined") {
-          try {
-            anime.remove(chip);
-            anime.set(chip, { scale: 1, rotate: 0 });
-          } catch (eAn) {}
-        }
-        var cr = chip.getBoundingClientRect();
-        var ballRect = orbShell.getBoundingClientRect();
-
-        if (!chipDroppedOnOrb(cr, ballRect)) {
-          resetChipHome(chip);
-          playThud();
-          return;
-        }
+      function applyRuneToOrb(chip) {
+        if (!chip || !isCrystalSlideActive() || runeTray.classList.contains("frozen")) return;
+        if (uiLock.classList.contains("on")) return;
 
         var role = chip.getAttribute("data-role");
         var text = chip.getAttribute("data-text") || "";
@@ -1285,10 +1264,11 @@
         var expected = SLOT_ORDER[slotIndex];
 
         if (role !== expected) {
-          resetChipHome(chip);
           playThud();
           return;
         }
+
+        clearRuneSelection();
 
         if (role === "verb" && trap) {
           if (chip.parentNode) chip.parentNode.removeChild(chip);
@@ -1329,6 +1309,17 @@
             startLevitation();
           }, 520);
         }
+      }
+
+      function onOrbShellClick(ev) {
+        if (!isCrystalSlideActive() || runeTray.classList.contains("frozen") || uiLock.classList.contains("on")) {
+          return;
+        }
+        if (!selectedRune) {
+          playThud();
+          return;
+        }
+        applyRuneToOrb(selectedRune);
       }
 
       function runFinale() {
@@ -1417,6 +1408,12 @@
         p03Tab1.addEventListener("click", function () {
           setP03Slide(1);
         });
+      }
+
+      if (orbShell) {
+        orbShell.addEventListener("click", onOrbShellClick);
+        orbShell.setAttribute("role", "button");
+        orbShell.setAttribute("tabindex", "0");
       }
 
       scenarioProgress.textContent =
