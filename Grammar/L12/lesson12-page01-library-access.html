@@ -759,6 +759,10 @@
       color: #065f46;
     }
 
+    #sort-work.sort-work-hidden {
+      display: none;
+    }
+
     .primary-nav {
       margin-top: 1rem;
       text-align: center;
@@ -1093,22 +1097,20 @@
           </div>
           <div class="panel c-panel" id="c-sort">
             <h4 style="margin:0 0 0.5rem;font-size:1rem;color:var(--crayon-purple)">题型 3 · Sound-First Syntax Ordering</h4>
-            <p style="margin:0 0 0.35rem;font-size:0.88rem;color:#64748b">每句话各有独立发音按钮，可随时再次聆听该句原声。</p>
-            <div class="sort-audio-row" id="sort-audio-row" aria-label="逐句重播">
+            <div class="sort-audio-row" id="sort-audio-row" aria-label="逐句发音与排序">
               <button type="button" class="btn-sort-audio" data-sort-audio-idx="0">第1句 · 发音</button>
               <button type="button" class="btn-sort-audio" data-sort-audio-idx="1">第2句 · 发音</button>
               <button type="button" class="btn-sort-audio" data-sort-audio-idx="2">第3句 · 发音</button>
             </div>
-            <p id="sort-status" style="font-size:0.92rem;color:#6d4c41">正在准备听音…</p>
-            <div class="sort-slots" id="sort-slots"></div>
-            <div class="sort-pool" id="sort-pool"></div>
-            <div class="primary-nav">
-              <button type="button" id="btn-sort-submit">提交本句顺序</button>
-              <button type="button" id="btn-sort-next" class="hidden">下一句</button>
+            <div id="sort-work" class="sort-work-hidden">
+              <div class="sort-slots" id="sort-slots"></div>
+              <div class="sort-pool" id="sort-pool"></div>
+              <div class="primary-nav">
+                <button type="button" id="btn-sort-submit">提交本句顺序</button>
+              </div>
             </div>
             <p id="sort-feedback" style="font-weight:600;margin-top:0.5rem"></p>
           </div>
-          <p style="text-align:center;margin-top:0.75rem;color:var(--crayon-green);font-weight:800;font-size:1.05rem">本页交互全部完成 · 可向学生收束总结</p>
         </section>
       </div>
     </div>
@@ -1249,8 +1251,7 @@
         }
       }
       if (n === 10 && !moduleSortInitialized) {
-        sortIdx = 0;
-        setupSortRound();
+        resetSortPage();
         moduleSortInitialized = true;
       }
     }
@@ -1889,37 +1890,36 @@
       });
     }
 
-    let sortIdx = 0;
-    let sortFilled = [];
+    let sortActiveIdx = null;
 
-    document.querySelectorAll(".btn-sort-audio").forEach((btn) => {
-      btn.addEventListener("click", async () => {
-        const i = parseInt(btn.dataset.sortAudioIdx, 10);
-        const row = ACADEMIC_CORPUS.Imitation_Sort[i];
-        if (!row) return;
-        await playAudio(row.audio);
+    function resetSortPage() {
+      sortActiveIdx = null;
+      document.getElementById("sort-work").classList.add("sort-work-hidden");
+      document.getElementById("sort-slots").innerHTML = "";
+      document.getElementById("sort-pool").innerHTML = "";
+      document.getElementById("sort-feedback").textContent = "";
+      document.querySelectorAll(".btn-sort-audio").forEach((b) => {
+        b.classList.remove("sort-audio-current");
       });
-    });
+    }
 
-    async function setupSortRound() {
-      const item = ACADEMIC_CORPUS.Imitation_Sort[sortIdx];
-      const status = document.getElementById("sort-status");
+    function loadSortUI(idx) {
+      const item = ACADEMIC_CORPUS.Imitation_Sort[idx];
+      if (!item) return;
+      sortActiveIdx = idx;
       const slots = document.getElementById("sort-slots");
       const pool = document.getElementById("sort-pool");
+      const work = document.getElementById("sort-work");
       slots.innerHTML = "";
       pool.innerHTML = "";
       document.getElementById("sort-feedback").textContent = "";
-      document.getElementById("btn-sort-next").classList.add("hidden");
       document.getElementById("btn-sort-submit").classList.remove("hidden");
-      status.textContent = "请先完整听一遍原声（或点上方对应句子的「发音」重听），再根据语感排序。";
-      await playAudio(item.audio);
-      status.textContent = "听音结束。请将词块拖入从左到右的顺序槽内；可随时点「第×句 · 发音」再听本句。";
-      const order = item.blocks.length;
-      sortFilled = new Array(order).fill(null);
+      work.classList.remove("sort-work-hidden");
       document.querySelectorAll(".btn-sort-audio").forEach((b) => {
         const i = parseInt(b.dataset.sortAudioIdx, 10);
-        b.classList.toggle("sort-audio-current", i === sortIdx);
+        b.classList.toggle("sort-audio-current", i === idx);
       });
+      const order = item.blocks.length;
       for (let i = 0; i < order; i++) {
         const s = document.createElement("div");
         s.className = "sort-slot drop-target";
@@ -1937,6 +1937,16 @@
         pool.appendChild(d);
       });
     }
+
+    document.querySelectorAll(".btn-sort-audio").forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        const i = parseInt(btn.dataset.sortAudioIdx, 10);
+        const row = ACADEMIC_CORPUS.Imitation_Sort[i];
+        if (!row) return;
+        await playAudio(row.audio);
+        loadSortUI(i);
+      });
+    });
 
     function bindSortDrag(el) {
       let pid = null, sx, sy, ol, ot;
@@ -2007,7 +2017,8 @@
     }
 
     document.getElementById("btn-sort-submit").addEventListener("click", () => {
-      const item = ACADEMIC_CORPUS.Imitation_Sort[sortIdx];
+      if (sortActiveIdx == null) return;
+      const item = ACADEMIC_CORPUS.Imitation_Sort[sortActiveIdx];
       const slots = [...document.querySelectorAll("#sort-slots .sort-slot")];
       if (slots.some((s) => !s.classList.contains("filled"))) {
         document.getElementById("sort-feedback").textContent = "请填满所有顺序槽。";
@@ -2016,19 +2027,10 @@
       }
       const got = slots.map((s) => s.dataset.placed);
       const ok = got.every((g, i) => g === item.blocks[i]);
-      document.getElementById("sort-feedback").textContent = ok ? "顺序正确。" : "顺序有误，请刷新页面重试本句（演示版）。";
+      document.getElementById("sort-feedback").textContent = ok
+        ? "第 " + (sortActiveIdx + 1) + " 句顺序正确。可点其他「发音」继续练习。"
+        : "顺序有误，请再听一遍并重新排序。";
       document.getElementById("sort-feedback").style.color = ok ? "#059669" : "#b91c1c";
-      if (ok) {
-        document.getElementById("btn-sort-submit").classList.add("hidden");
-        document.getElementById("btn-sort-next").classList.remove("hidden");
-      }
-    });
-
-    document.getElementById("btn-sort-next").addEventListener("click", () => {
-      sortIdx++;
-      if (sortIdx >= ACADEMIC_CORPUS.Imitation_Sort.length) {
-        document.getElementById("btn-sort-next").classList.add("hidden");
-      } else setupSortRound();
     });
 
     document.getElementById("btn-enter-library").addEventListener("click", async () => {

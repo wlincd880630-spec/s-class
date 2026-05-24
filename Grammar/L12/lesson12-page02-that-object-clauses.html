@@ -624,12 +624,40 @@
       overflow: hidden;
       background: #fff;
     }
-    .l12-neg-fig figcaption {
+    .l12-neg-fig-trigger {
       font-size: 0.78rem;
       font-weight: 800;
       color: #5d4037;
-      padding: 0.35rem 0.5rem;
+      padding: 0.5rem 0.55rem;
       background: rgba(254, 243, 199, 0.85);
+      cursor: pointer;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+      list-style: none;
+    }
+    .l12-neg-fig-trigger:hover {
+      background: rgba(254, 230, 138, 0.95);
+    }
+    .l12-neg-fig-trigger:focus-visible {
+      outline: 3px solid var(--crayon-blue);
+      outline-offset: 2px;
+    }
+    .l12-neg-fig:not(.is-revealed) .l12-neg-fig-hint {
+      font-weight: 700;
+      color: #1565c0;
+    }
+    .l12-neg-fig.is-revealed .l12-neg-fig-trigger {
+      cursor: default;
+    }
+    .l12-neg-fig.is-revealed .l12-neg-fig-hint {
+      display: none;
+    }
+    .l12-neg-fig-body {
+      display: none;
+    }
+    .l12-neg-fig.is-revealed .l12-neg-fig-body {
+      display: block;
     }
     .l12-neg-fig img {
       width: 100%;
@@ -665,6 +693,59 @@
     }
     .l12-negtag-panel .mc-row {
       margin-top: 0.25rem;
+    }
+    .l12-collapse-panel {
+      padding-top: 0.65rem;
+    }
+    .l12-collapse-trigger {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.35rem 0.55rem;
+      width: 100%;
+      margin: 0;
+      padding: 0.35rem 0.45rem;
+      border: 2px dashed rgba(93, 64, 55, 0.28);
+      border-radius: 12px;
+      background: rgba(254, 243, 199, 0.55);
+      cursor: pointer;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+      text-align: left;
+      font: inherit;
+      color: inherit;
+    }
+    .l12-collapse-trigger:hover {
+      background: rgba(254, 230, 138, 0.75);
+    }
+    .l12-collapse-trigger:focus-visible {
+      outline: 3px solid var(--crayon-blue);
+      outline-offset: 2px;
+    }
+    .l12-collapse-trigger h4 {
+      margin: 0;
+      flex: 1 1 auto;
+      font-size: 1rem;
+      color: var(--crayon-purple);
+    }
+    .l12-collapse-trigger .tag-pill {
+      flex-shrink: 0;
+    }
+    .l12-collapse-hint {
+      font-size: 0.8rem;
+      font-weight: 800;
+      color: #1565c0;
+      white-space: nowrap;
+    }
+    .l12-collapse-panel.is-open .l12-collapse-hint {
+      display: none;
+    }
+    .l12-collapse-body {
+      display: none;
+      margin-top: 0.65rem;
+    }
+    .l12-collapse-panel.is-open .l12-collapse-body {
+      display: block;
     }
     @media (max-width: 900px) {
       .l12-neg-figures,
@@ -947,65 +1028,85 @@
             </p>
             <div class="l12-neg-figures">
               <figure class="l12-neg-fig">
-                <figcaption>图 A · 否定转移（否定在主句，从句用肯定式表「我认为…不…」）</figcaption>
-                <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L12/assets/l12p2-neg-transfer-diagram.png" width="960" height="540" alt="示意图：否定转移（主句否定 + that + 肯定式从句）" loading="lazy" />
+                <figcaption class="l12-neg-fig-trigger" tabindex="0" role="button" aria-expanded="false">
+                  图 A · 否定转移（否定在主句，从句用肯定式表「我认为…不…」）
+                  <span class="l12-neg-fig-hint"> · 点击显示</span>
+                </figcaption>
+                <div class="l12-neg-fig-body" hidden>
+                  <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L12/assets/l12p2-neg-transfer-diagram.png" width="960" height="540" alt="示意图：否定转移（主句否定 + that + 肯定式从句）" loading="lazy" />
+                </div>
               </figure>
               <figure class="l12-neg-fig">
-                <figcaption>图 B · 反意疑问（尾巴常看从句命题）</figcaption>
-                <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L12/assets/l12p2-tag-question-diagram.png" width="960" height="540" alt="示意图：反意疑问随从句" loading="lazy" />
+                <figcaption class="l12-neg-fig-trigger" tabindex="0" role="button" aria-expanded="false">
+                  图 B · 反意疑问（尾巴常看从句命题）
+                  <span class="l12-neg-fig-hint"> · 点击显示</span>
+                </figcaption>
+                <div class="l12-neg-fig-body" hidden>
+                  <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L12/assets/l12p2-tag-question-diagram.png" width="960" height="540" alt="示意图：反意疑问随从句" loading="lazy" />
+                </div>
               </figure>
             </div>
           </div>
-          <div class="panel">
-            <h4>高频语料库</h4>
-            <div class="l12-corpus-grid">
-              <div class="l12-corpus-card" lang="en">
-                <strong class="l12-corpus-label">口语 · 委婉否定</strong>
-                <ul class="l12-corpus-list">
-                  <li>I don't think <strong>that</strong> this plan is fair without more discussion.</li>
-                  <li>I don't believe <strong>that</strong> anyone can finish it in one hour.</li>
-                  <li>I don't suppose <strong>that</strong> the train will be on time in this weather.</li>
-                </ul>
-              </div>
-              <div class="l12-corpus-card" lang="en">
-                <strong class="l12-corpus-label">口语 · 评价人与事</strong>
-                <ul class="l12-corpus-list">
-                  <li>I don't think <strong>that</strong> the new timetable is fair to everyone.</li>
-                  <li>We don't think <strong>that</strong> the result is good enough yet.</li>
-                  <li>He doesn't think <strong>that</strong> the story is true.</li>
-                </ul>
-              </div>
-              <div class="l12-corpus-card" lang="en">
-                <strong class="l12-corpus-label">写作 · 观点段</strong>
-                <ul class="l12-corpus-list">
-                  <li>Personally, I don't think <strong>that</strong> online learning can fully replace face-to-face classes.</li>
-                  <li>Many parents don't believe <strong>that</strong> students should stay up too late.</li>
-                </ul>
-              </div>
-              <div class="l12-corpus-card" lang="en">
-                <strong class="l12-corpus-label">写作 · 建议/倡议</strong>
-                <ul class="l12-corpus-list">
-                  <li>We don't think <strong>that</strong> it is a good idea to skip breakfast before PE class.</li>
-                  <li>I don't think <strong>that</strong> we should give up; we can try a different method.</li>
-                </ul>
+          <div class="panel l12-collapse-panel" id="corpus-collapse">
+            <button type="button" class="l12-collapse-trigger" aria-expanded="false" aria-controls="corpus-collapse-body">
+              <h4>高频语料库</h4>
+              <span class="l12-collapse-hint">点击展开</span>
+            </button>
+            <div class="l12-collapse-body" id="corpus-collapse-body" hidden>
+              <div class="l12-corpus-grid">
+                <div class="l12-corpus-card" lang="en">
+                  <strong class="l12-corpus-label">口语 · 委婉否定</strong>
+                  <ul class="l12-corpus-list">
+                    <li>I don't think <strong>that</strong> this plan is fair without more discussion.</li>
+                    <li>I don't believe <strong>that</strong> anyone can finish it in one hour.</li>
+                    <li>I don't suppose <strong>that</strong> the train will be on time in this weather.</li>
+                  </ul>
+                </div>
+                <div class="l12-corpus-card" lang="en">
+                  <strong class="l12-corpus-label">口语 · 评价人与事</strong>
+                  <ul class="l12-corpus-list">
+                    <li>I don't think <strong>that</strong> the new timetable is fair to everyone.</li>
+                    <li>We don't think <strong>that</strong> the result is good enough yet.</li>
+                    <li>He doesn't think <strong>that</strong> the story is true.</li>
+                  </ul>
+                </div>
+                <div class="l12-corpus-card" lang="en">
+                  <strong class="l12-corpus-label">写作 · 观点段</strong>
+                  <ul class="l12-corpus-list">
+                    <li>Personally, I don't think <strong>that</strong> online learning can fully replace face-to-face classes.</li>
+                    <li>Many parents don't believe <strong>that</strong> students should stay up too late.</li>
+                  </ul>
+                </div>
+                <div class="l12-corpus-card" lang="en">
+                  <strong class="l12-corpus-label">写作 · 建议/倡议</strong>
+                  <ul class="l12-corpus-list">
+                    <li>We don't think <strong>that</strong> it is a good idea to skip breakfast before PE class.</li>
+                    <li>I don't think <strong>that</strong> we should give up; we can try a different method.</li>
+                  </ul>
+                </div>
               </div>
             </div>
           </div>
-          <div class="panel l12-fill-panel l12-negtag-panel">
-            <span class="tag-pill" id="nt-cat">—</span>
-            <h4>分层练习 · 单选（否定转移 / 反意疑问）</h4>
-            <p style="margin:0 0 0.45rem;font-size:0.88rem;color:#64748b">共 <strong id="nt-total">12</strong> 题，可反复切换；先自判再对解析。</p>
-            <div class="practice-switch">
-              <button type="button" class="step-btn" id="nt-prev">上一题</button>
-              <button type="button" class="step-btn" id="nt-next">下一题</button>
-              <span class="idx-pill" id="nt-idx">题 1 / 1</span>
+          <div class="panel l12-fill-panel l12-negtag-panel l12-collapse-panel" id="nt-collapse">
+            <button type="button" class="l12-collapse-trigger" aria-expanded="false" aria-controls="nt-collapse-body">
+              <span class="tag-pill" id="nt-cat">—</span>
+              <h4>分层练习 · 单选（否定转移 / 反意疑问）</h4>
+              <span class="l12-collapse-hint">点击展开</span>
+            </button>
+            <div class="l12-collapse-body" id="nt-collapse-body" hidden>
+              <p style="margin:0 0 0.45rem;font-size:0.88rem;color:#64748b">共 <strong id="nt-total">12</strong> 题，可反复切换；先自判再对解析。</p>
+              <div class="practice-switch">
+                <button type="button" class="step-btn" id="nt-prev">上一题</button>
+                <button type="button" class="step-btn" id="nt-next">下一题</button>
+                <span class="idx-pill" id="nt-idx">题 1 / 1</span>
+              </div>
+              <div class="primary-nav" style="margin-top:0">
+                <button type="button" class="step-btn" id="nt-speak" style="border-radius:999px">朗读题干（英）</button>
+              </div>
+              <p id="nt-stem" style="margin:0.65rem 0 0.35rem;font-weight:800;line-height:1.5" lang="en"></p>
+              <div class="mc-row" id="nt-row"></div>
+              <p id="nt-fb" style="font-weight:700;margin-top:0.5rem;min-height:1.25rem"></p>
             </div>
-            <div class="primary-nav" style="margin-top:0">
-              <button type="button" class="step-btn" id="nt-speak" style="border-radius:999px">朗读题干（英）</button>
-            </div>
-            <p id="nt-stem" style="margin:0.65rem 0 0.35rem;font-weight:800;line-height:1.5" lang="en"></p>
-            <div class="mc-row" id="nt-row"></div>
-            <p id="nt-fb" style="font-weight:700;margin-top:0.5rem;min-height:1.25rem"></p>
           </div>
         </section>
 
@@ -1486,6 +1587,16 @@
         .replace(/"/g, "&quot;");
     }
 
+    /** 朗读用：去掉反意疑问空位等下划线，只保留完整英文文字 */
+    function stemTextForSpeak(stem) {
+      return String(stem)
+        .replace(/,?\s*_+\s*\?/g, "")
+        .replace(/_+/g, "")
+        .replace(/\s{2,}/g, " ")
+        .replace(/\s+([,.!?;:])/g, "$1")
+        .trim();
+    }
+
     async function playAudio(text, opts) {
       const useLock = !opts || opts.lock !== false;
       if (useLock) lockUI();
@@ -1856,14 +1967,62 @@
         row.appendChild(b);
       });
     }
+    function initCollapsePanels() {
+      document.querySelectorAll(".l12-collapse-panel").forEach((panel) => {
+        if (panel.dataset.collapseWired === "1") return;
+        panel.dataset.collapseWired = "1";
+        const trigger = panel.querySelector(".l12-collapse-trigger");
+        const body = panel.querySelector(".l12-collapse-body");
+        if (!trigger || !body) return;
+        const toggle = () => {
+          const open = !panel.classList.contains("is-open");
+          panel.classList.toggle("is-open", open);
+          body.hidden = !open;
+          trigger.setAttribute("aria-expanded", open ? "true" : "false");
+        };
+        trigger.addEventListener("click", toggle);
+        trigger.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            toggle();
+          }
+        });
+      });
+    }
+
+    function initNegFigures() {
+      document.querySelectorAll(".l12-neg-fig").forEach((fig) => {
+        if (fig.dataset.negFigWired === "1") return;
+        fig.dataset.negFigWired = "1";
+        const trigger = fig.querySelector(".l12-neg-fig-trigger");
+        const body = fig.querySelector(".l12-neg-fig-body");
+        if (!trigger || !body) return;
+        const reveal = () => {
+          if (fig.classList.contains("is-revealed")) return;
+          fig.classList.add("is-revealed");
+          body.hidden = false;
+          trigger.setAttribute("aria-expanded", "true");
+        };
+        trigger.addEventListener("click", reveal);
+        trigger.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            reveal();
+          }
+        });
+      });
+    }
+
     function initNegTagPage() {
+      initNegFigures();
+      initCollapsePanels();
       if (!ntWired) {
         ntWired = true;
         document.getElementById("nt-prev").addEventListener("click", () => loadNegTagItem(ntCurrent - 1));
         document.getElementById("nt-next").addEventListener("click", () => loadNegTagItem(ntCurrent + 1));
         document.getElementById("nt-speak").addEventListener("click", () => {
-          const raw = NEG_TAG_ITEMS[ntCurrent].stem;
-          playAudio(raw, { lock: false });
+          const spoken = stemTextForSpeak(NEG_TAG_ITEMS[ntCurrent].stem);
+          if (spoken) playAudio(spoken, { lock: false });
         });
       }
       loadNegTagItem(ntCurrent);

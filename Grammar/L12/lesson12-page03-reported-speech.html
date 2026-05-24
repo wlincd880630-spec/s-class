@@ -1498,10 +1498,10 @@
                 ]
               },
               {
-                parts: [{ text: "Mike said that practice " }, { correct: "was", choices: ["is", "was", "has been"] }, { text: " useful for the team." }],
+                parts: [{ text: "Mike said that practice " }, { correct: "was|is", choices: ["is", "was", "has been"] }, { text: " useful for the team." }],
                 socratic: [
-                  "这一镜大家在商量训练；Mike 评价的是「当时练下来有没有用」；主句 said 在过去，从句里用 is 还是 was 更贴「那次」？",
-                  "若用 is，更像「永远成立」；若用 was，更像「就那次训练而言」。画面里更像哪一种？"
+                  "这一镜大家在商量训练；Mike 在说「练习对队伍有用」——更像**当时那次**的感受，还是**一直成立**的看法？",
+                  "主句 said 在过去时，从句常用 was（与说话同时）；若把 useful 看成**客观事实 / 一般真理**，保留 is 也成立：Mike said that practice is useful for the team."
                 ]
               }
             ]
@@ -1511,10 +1511,10 @@
             sceneZh: "镜 3：队长向全班表态，强调团队合作对取胜的重要性。",
             sentences: [
               {
-                parts: [{ text: "They said that teamwork " }, { correct: "was", choices: ["is", "was", "had been"] }, { text: " the key to winning." }],
+                parts: [{ text: "They said that teamwork " }, { correct: "was|is", choices: ["is", "was", "had been"] }, { text: " the key to winning." }],
                 socratic: [
-                  "这一镜是队长面向全班的总结表态：teamwork 是关键——更像「永恒真理」还是「就这次校运会、我们队而言」？",
-                  "若用 is，像在陈述宇宙真理；若用 was，更像在总结当时取胜看法。队长表态属于哪一种语气？"
+                  "这一镜是队长面向全班的总结表态：teamwork 是关键——更像**一直成立**的信念，还是**就这次校运会**的总结？",
+                  "主句 said 在过去时，从句常用 was；若把「团队合作是取胜关键」看成**客观事实 / 一般真理**，保留 is 也成立：They said that teamwork is the key to winning."
                 ]
               }
             ]
@@ -1660,7 +1660,11 @@
           const wrapSent = pick.closest(".pix-sent");
           const gapBtn2 = wrapSent && wrapSent.querySelector(".pix-gap-btn:not(:disabled)");
           if (!gapBtn2) return;
-          const ok = pick.dataset.pick === gapBtn2.dataset.correct;
+          const correctSet = String(gapBtn2.dataset.correct || "")
+            .split("|")
+            .map((s) => s.trim())
+            .filter(Boolean);
+          const ok = correctSet.includes(pick.dataset.pick);
           gapBtn2.textContent = pick.dataset.pick;
           gapBtn2.classList.remove("done-ok", "done-bad");
           gapBtn2.classList.add(ok ? "done-ok" : "done-bad");

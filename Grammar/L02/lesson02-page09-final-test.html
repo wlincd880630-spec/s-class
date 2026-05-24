@@ -171,6 +171,32 @@
       color: #555;
     }
     .prog-bar strong { color: var(--crayon-red); }
+
+    .quiz-pdf-bar {
+      max-width: 980px;
+      margin: 0 auto 0.65rem;
+      padding: 0 0.15rem;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      position: relative;
+      z-index: 2;
+    }
+    .btn-quiz-pdf {
+      font-family: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+      font-size: 0.88rem;
+      padding: 0.45rem 1.1rem;
+      border-radius: 999px;
+      border: 3px solid var(--crayon-orange);
+      background: linear-gradient(180deg, #fff 0%, #fff9f0 100%);
+      color: #1565c0;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 2px 3px 0 rgba(0, 0, 0, 0.08);
+      touch-action: manipulation;
+    }
+    .btn-quiz-pdf:hover { background: #e3f2fd; }
     .floor-mission {
       position: relative;
       z-index: 1;
@@ -1196,6 +1222,11 @@ html body > nav.lesson-pager {
 </style>
 </head>
 <body class="has-lesson-pager single-sequence-mode">
+  <div class="quiz-pdf-bar">
+    <button type="button" class="btn-quiz-pdf" id="btnExportQuizPdf" title="打开排版好的题目册，在打印对话框中选择「另存为 PDF」。">
+      📄 导出全部题目 PDF（含参考答案）
+    </button>
+  </div>
   <div class="layout">
     <aside class="tower-panel">
       <h1>时态高塔</h1>
@@ -2147,6 +2178,353 @@ html body > nav.lesson-pager {
   document.getElementById("resultClose").addEventListener("click", function () {
     document.getElementById("resultOverlay").classList.remove("show");
   });
+
+  var MATCH_IMG_BASE =
+    "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/images/l02/match-";
+  var MATCH_SENTENCE_SHUFFLE = [4, 9, 2, 7, 10, 1, 6, 3, 8, 5];
+
+  function typeLabelPdf(type) {
+    if (type === "choice") return "选择题";
+    if (type === "fill") return "填空题";
+    if (type === "order") return "连词成句";
+    if (type === "correct") return "改错";
+    if (type === "transform") return "句型转换";
+    if (type === "match") return "图片连线";
+    return type;
+  }
+
+  function buildQuizCatalog() {
+    var simple = [];
+    var medium = [];
+    var challenge = [];
+    TOWER_DATA.choiceData.forEach(function (q, i) {
+      var tier = i < 4 ? "simple" : i < 7 ? "medium" : "challenge";
+      (tier === "simple" ? simple : tier === "medium" ? medium : challenge).push(makeQuizItem("choice", q, tier, "侦探之眼"));
+    });
+    TOWER_DATA.fillData.forEach(function (q, i) {
+      var tier = i < 4 ? "simple" : i < 7 ? "medium" : "challenge";
+      (tier === "simple" ? simple : tier === "medium" ? medium : challenge).push(makeQuizItem("fill", q, tier, "齿轮修补"));
+    });
+    TOWER_DATA.orderData.forEach(function (q, i) {
+      var tier = i < 4 ? "medium" : "challenge";
+      (tier === "medium" ? medium : challenge).push(makeQuizItem("order", q, tier, "碎片重组"));
+    });
+    TOWER_DATA.correctData.forEach(function (q, i) {
+      var tier = i < 5 ? "medium" : "challenge";
+      (tier === "medium" ? medium : challenge).push(makeQuizItem("correct", q, tier, "啄木鸟诊所"));
+    });
+    TOWER_DATA.transformData.forEach(function (q, i) {
+      var tier = i < 5 ? "medium" : "challenge";
+      (tier === "medium" ? medium : challenge).push(makeQuizItem("transform", q, tier, "魔法变身"));
+    });
+    challenge.push(makeQuizItem("match", null, "challenge", "终极连线"));
+    return {
+      simple: simple,
+      medium: medium,
+      challenge: challenge,
+      all: simple.concat(medium, challenge)
+    };
+  }
+
+  function choiceLetter(n) {
+    return String.fromCharCode(65 + n);
+  }
+
+  function getAnswerDisplay(item) {
+    if (item.type === "match") {
+      return TOWER_DATA.matchData.map(function (t, i) {
+        return "图 " + (i + 1) + " → " + t.text;
+      }).join("； ");
+    }
+    var q = item.q;
+    if (item.type === "choice") {
+      return choiceLetter(q.answer) + ". " + q.options[q.answer];
+    }
+    if (item.type === "order" && q.words) {
+      return q.answer;
+    }
+    return q.answer;
+  }
+
+  function renderPdfQuestionBody(item) {
+    if (item.type === "match") {
+      var imgs =
+        "<div class=\"match-pdf-imgs\">" +
+        TOWER_DATA.matchData
+          .map(function (t, i) {
+            var id = i + 1;
+            return (
+              "<figure class=\"match-pdf-fig\"><span class=\"match-pdf-num\">" +
+              id +
+              "</span><img src=\"" +
+              MATCH_IMG_BASE +
+              id +
+              ".png\" alt=\"match " +
+              id +
+              "\"/><figcaption>图 " +
+              id +
+              "</figcaption></figure>"
+            );
+          })
+          .join("") +
+        "</div>";
+      var letters = "ABCDEFGHIJ".split("");
+      var sents =
+        "<ul class=\"match-pdf-sents\">" +
+        MATCH_SENTENCE_SHUFFLE.map(function (id, idx) {
+          return (
+            "<li><span class=\"sent-key\">" +
+            letters[idx] +
+            ".</span> " +
+            escapeHtml(TOWER_DATA.matchData[id - 1].text) +
+            "</li>"
+          );
+        }).join("") +
+        "</ul>";
+      return (
+        "<p class=\"q-instr\">将左侧编号图片与右侧字母句子配对（在括号内写对应图号，如 A→3）。</p>" +
+        "<div class=\"match-pdf-grid\">" +
+        imgs +
+        sents +
+        "</div>" +
+        "<p class=\"answer-line\">配对记录：______________________________</p>"
+      );
+    }
+    var q = item.q;
+    if (item.type === "choice") {
+      return (
+        "<p class=\"q-stem\">" +
+        escapeHtml(q.question) +
+        "</p><ul class=\"opt-list\">" +
+        q.options
+          .map(function (opt, i) {
+            return "<li><span class=\"opt-key\">" + choiceLetter(i) + ".</span> " + escapeHtml(opt) + "</li>";
+          })
+          .join("") +
+        "</ul>"
+      );
+    }
+    if (item.type === "fill") {
+      var stem = escapeHtml(q.question).replace(/_{2,}/g, "<span class=\"blank\">________</span>");
+      return "<p class=\"q-stem\">" + stem + "</p><p class=\"answer-line\">答：______________________________</p>";
+    }
+    if (item.type === "order") {
+      return (
+        "<p class=\"q-instr\">将下列词块连成完整句子（注意大小写与标点）。</p>" +
+        "<div class=\"word-row\">" +
+        q.words
+          .map(function (w) {
+            return "<span class=\"word-chip\">" + escapeHtml(w) + "</span>";
+          })
+          .join("") +
+        "</div><p class=\"answer-line\">答：______________________________________________</p>"
+      );
+    }
+    if (item.type === "correct") {
+      return (
+        "<p class=\"q-instr\">找出错误并写出正确整句。</p>" +
+        "<p class=\"q-stem wrong\">" +
+        escapeHtml(q.question) +
+        "</p><p class=\"answer-line\">改正：______________________________________________</p>"
+      );
+    }
+    if (item.type === "transform") {
+      return (
+        "<p class=\"q-stem\">" +
+        escapeHtml(q.question) +
+        "</p><p class=\"answer-line\">答：______________________________________________</p>"
+      );
+    }
+    return "";
+  }
+
+  function renderPdfSection(tierKey, title, items, startNum) {
+    if (!items.length) return { html: "", next: startNum };
+    var tierCls = tierClass(tierKey);
+    var blocks = items
+      .map(function (item) {
+        var n = startNum;
+        startNum++;
+        return (
+          "<article class=\"q-card page-break-avoid\">" +
+          "<header class=\"q-head\">" +
+          "<span class=\"q-num\">" +
+          n +
+          "</span>" +
+          "<span class=\"q-meta\">" +
+          "<span class=\"tier-badge " +
+          tierCls +
+          "\">" +
+          tierLabel(item.tier) +
+          "</span>" +
+          "<span class=\"q-type\">" +
+          escapeHtml(item.label) +
+          " · " +
+          typeLabelPdf(item.type) +
+          "</span>" +
+          "</span></header>" +
+          renderPdfQuestionBody(item) +
+          "</article>"
+        );
+      })
+      .join("");
+    return {
+      html:
+        "<section class=\"pdf-tier\">" +
+        "<h2 class=\"tier-title " +
+        tierCls +
+        "\">" +
+        escapeHtml(title) +
+        " <span class=\"tier-count\">" +
+        items.length +
+        " 题</span></h2>" +
+        blocks +
+        "</section>",
+      next: startNum
+    };
+  }
+
+  function buildTowerQuizPdfHtml() {
+    var cat = buildQuizCatalog();
+    var now = new Date();
+    var dateStr =
+      now.getFullYear() +
+      "-" +
+      String(now.getMonth() + 1).padStart(2, "0") +
+      "-" +
+      String(now.getDate()).padStart(2, "0");
+    var n = 1;
+    var s1 = renderPdfSection("simple", "第一层 · 简单", cat.simple, n);
+    n = s1.next;
+    var s2 = renderPdfSection("medium", "第二层 · 中等", cat.medium, n);
+    n = s2.next;
+    var s3 = renderPdfSection("challenge", "第三层 · 挑战", cat.challenge, n);
+
+    var answers = cat.all
+      .map(function (item, i) {
+        return (
+          "<tr>" +
+          "<td class=\"ak-n\">" +
+          (i + 1) +
+          "</td>" +
+          "<td class=\"ak-tier\">" +
+          tierLabel(item.tier) +
+          "</td>" +
+          "<td class=\"ak-type\">" +
+          typeLabelPdf(item.type) +
+          "</td>" +
+          "<td class=\"ak-ans\">" +
+          escapeHtml(getAnswerDisplay(item)) +
+          "</td>" +
+          "</tr>"
+        );
+      })
+      .join("");
+
+    var css =
+      "@page { size: A4; margin: 14mm 12mm 16mm 12mm; }" +
+      "* { box-sizing: border-box; }" +
+      "body { margin: 0; padding: 0; font-family: 'Microsoft YaHei','PingFang SC','Segoe UI',sans-serif; color: #1a2332; background: #f4f6f9; font-size: 10.5pt; line-height: 1.55; }" +
+      ".doc { max-width: 210mm; margin: 0 auto; padding: 10px 12px 24px; }" +
+      ".banner { border-radius: 14px; padding: 18px 20px 16px; margin-bottom: 14px; background: linear-gradient(125deg,#c62828 0%,#e85d4c 38%,#4a90d9 100%); color: #fff; box-shadow: 0 8px 24px rgba(26,35,50,0.15); }" +
+      ".banner h1 { margin: 0 0 8px; font-size: 1.35rem; letter-spacing: 0.03em; }" +
+      ".banner p { margin: 0; font-size: 0.82rem; opacity: 0.96; line-height: 1.5; }" +
+      ".hint { font-size: 0.78rem; color: #475569; margin: 0 0 14px; padding: 10px 12px; background: #fffdf5; border-left: 4px solid #ff8f00; border-radius: 8px; line-height: 1.55; }" +
+      ".pdf-tier { margin-bottom: 18px; }" +
+      ".tier-title { font-size: 1.05rem; margin: 0 0 10px; padding-bottom: 6px; border-bottom: 2px solid #e2e8f0; display: flex; align-items: baseline; gap: 8px; }" +
+      ".tier-title.tier-simple { color: #2e7d32; border-color: #a5d6a7; }" +
+      ".tier-title.tier-medium { color: #1565c0; border-color: #90caf9; }" +
+      ".tier-title.tier-challenge { color: #c62828; border-color: #ef9a9a; }" +
+      ".tier-count { font-size: 0.78rem; font-weight: 600; color: #64748b; }" +
+      ".q-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px 14px 14px; margin-bottom: 10px; box-shadow: 0 2px 8px rgba(15,23,42,0.05); }" +
+      ".q-head { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }" +
+      ".q-num { flex: 0 0 2rem; height: 2rem; line-height: 2rem; text-align: center; border-radius: 50%; background: linear-gradient(135deg,#4a90d9,#1565c0); color: #fff; font-weight: 800; font-size: 0.9rem; }" +
+      ".q-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font-size: 0.8rem; }" +
+      ".tier-badge { padding: 2px 8px; border-radius: 999px; border: 1.5px solid currentColor; font-weight: 700; }" +
+      ".tier-badge.tier-simple { color: #2e7d32; background: #e8f5e9; }" +
+      ".tier-badge.tier-medium { color: #1565c0; background: #e3f2fd; }" +
+      ".tier-badge.tier-challenge { color: #c62828; background: #ffebee; }" +
+      ".q-type { color: #64748b; font-weight: 600; }" +
+      ".q-stem { margin: 0 0 8px; font-size: 1.02rem; font-weight: 600; color: #0f172a; }" +
+      ".q-stem.wrong { text-decoration: line-through; text-decoration-color: #e85d4c; color: #64748b; font-weight: 500; }" +
+      ".q-instr { margin: 0 0 8px; font-size: 0.88rem; color: #475569; }" +
+      ".opt-list { margin: 0; padding: 0 0 0 1.1rem; list-style: none; }" +
+      ".opt-list li { margin: 4px 0; padding: 4px 0; }" +
+      ".opt-key { font-weight: 800; color: #1565c0; margin-right: 4px; }" +
+      ".blank { border-bottom: 2px solid #1a2332; padding: 0 4px; }" +
+      ".word-row { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }" +
+      ".word-chip { display: inline-block; padding: 4px 10px; border-radius: 8px; background: #fff3e0; border: 1.5px solid #ffb74d; font-weight: 600; font-size: 0.92rem; }" +
+      ".answer-line { margin: 8px 0 0; font-size: 0.88rem; color: #334155; }" +
+      ".match-pdf-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; align-items: start; }" +
+      ".match-pdf-imgs { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }" +
+      ".match-pdf-fig { margin: 0; text-align: center; position: relative; }" +
+      ".match-pdf-fig img { width: 100%; max-height: 72px; object-fit: contain; border: 1px solid #e2e8f0; border-radius: 8px; background: #fafafa; }" +
+      ".match-pdf-num { position: absolute; top: 4px; left: 4px; background: #c62828; color: #fff; width: 1.35rem; height: 1.35rem; line-height: 1.35rem; border-radius: 50%; font-size: 0.72rem; font-weight: 800; }" +
+      ".match-pdf-fig figcaption { font-size: 0.72rem; color: #64748b; margin-top: 2px; }" +
+      ".match-pdf-sents { margin: 0; padding: 0; list-style: none; font-size: 0.86rem; }" +
+      ".match-pdf-sents li { margin-bottom: 6px; }" +
+      ".sent-key { font-weight: 800; color: #c62828; margin-right: 4px; }" +
+      ".answers-section { page-break-before: always; margin-top: 8px; }" +
+      ".answers-section h2 { font-size: 1.1rem; color: #1565c0; border-bottom: 2px solid #90caf9; padding-bottom: 6px; margin: 0 0 10px; }" +
+      "table.ak { width: 100%; border-collapse: collapse; font-size: 8.5pt; background: #fff; border-radius: 10px; overflow: hidden; }" +
+      "table.ak th { background: #1565c0; color: #fff; padding: 6px 8px; text-align: left; font-weight: 700; }" +
+      "table.ak td { padding: 5px 8px; border-bottom: 1px solid #e2e8f0; vertical-align: top; }" +
+      "table.ak tr:nth-child(even) td { background: #f8fafc; }" +
+      "td.ak-n { width: 5%; font-weight: 800; color: #1565c0; }" +
+      "td.ak-tier { width: 8%; }" +
+      "td.ak-type { width: 12%; color: #64748b; }" +
+      "td.ak-ans { font-family: 'Segoe UI','Cambria',serif; }" +
+      ".foot { margin-top: 14px; font-size: 0.72rem; color: #94a3b8; text-align: center; }" +
+      ".page-break-avoid { page-break-inside: avoid; }" +
+      "@media print { body { background: #fff; } .doc { padding: 0; max-width: none; } .banner,.q-num,.tier-badge,table.ak th { -webkit-print-color-adjust: exact; print-color-adjust: exact; } }";
+
+    return (
+      "<!DOCTYPE html><html lang=\"zh-CN\"><head><meta charset=\"UTF-8\"/><title>第02讲 · 时态高塔终极试炼 · 全部题目</title><style>" +
+      css +
+      "</style></head><body><div class=\"doc\">" +
+      "<div class=\"banner\"><h1>第02讲 · Page 9 · 时态高塔终极试炼</h1>" +
+      "<p>全部题目练习册 · 共 " +
+      cat.all.length +
+      " 题（简单 " +
+      cat.simple.length +
+      " · 中等 " +
+      cat.medium.length +
+      " · 挑战 " +
+      cat.challenge.length +
+      "）· " +
+      dateStr +
+      " · s-class.top</p></div>" +
+      "<p class=\"hint\">使用说明：浏览器菜单 <strong>打印 → 另存为 PDF</strong>，建议勾选「背景图形」。题目按 <strong>简单 → 中等 → 挑战</strong> 分层、题号连续；末页为参考答案（授课或订正用，学生练习时可先打印前半部分或自行遮挡）。</p>" +
+      s1.html +
+      s2.html +
+      s3.html +
+      "<section class=\"answers-section\"><h2>参考答案</h2><table class=\"ak\"><thead><tr><th>#</th><th>难度</th><th>题型</th><th>答案</th></tr></thead><tbody>" +
+      answers +
+      "</tbody></table></section>" +
+      "<p class=\"foot\">L02-09-final-test · 一般现在时 vs 现在进行时 · 课堂练习 PDF</p>" +
+      "</div></body></html>"
+    );
+  }
+
+  function exportTowerQuizPdf() {
+    var html = buildTowerQuizPdfHtml();
+    var w = window.open("", "_blank");
+    if (!w) {
+      alert("无法打开新窗口，请允许弹出窗口后重试。");
+      return;
+    }
+    w.document.open();
+    w.document.write(html);
+    w.document.close();
+    w.onload = function () {
+      try {
+        w.focus();
+        w.print();
+      } catch (e) {}
+    };
+  }
+
+  document.getElementById("btnExportQuizPdf").addEventListener("click", exportTowerQuizPdf);
 
   updateScoreDisplay();
   buildSingleQuiz();

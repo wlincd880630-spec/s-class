@@ -39,6 +39,59 @@
     .l12-split { display: grid; grid-template-columns: minmax(220px, 0.95fr) minmax(280px, 1.15fr); gap: 0.75rem; align-items: start; }
     @media (max-width: 860px) { .l12-split { grid-template-columns: 1fr; } }
     .l12-split-visual img { width: 100%; height: auto; max-height: min(48dvh, 420px); object-fit: contain; border-radius: 12px; border: 2px solid #e2e8f0; background: #f8fafc; }
+    .l12-split-visual img.p4-click-zoom {
+      cursor: zoom-in;
+      transition: box-shadow 0.2s ease, transform 0.2s ease;
+    }
+    .l12-split-visual img.p4-click-zoom:hover {
+      box-shadow: 0 6px 18px rgba(30, 64, 175, 0.22);
+      transform: scale(1.01);
+    }
+    #p4-img-lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 300;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: max(12px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right))
+        max(12px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
+      background: rgba(6, 10, 16, 0.78);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      cursor: zoom-out;
+    }
+    #p4-img-lightbox[hidden] { display: none !important; }
+    .p4-img-lightbox-close {
+      position: absolute;
+      top: max(12px, env(safe-area-inset-top));
+      right: max(12px, env(safe-area-inset-right));
+      appearance: none;
+      cursor: pointer;
+      font-weight: 900;
+      font-size: 1.5rem;
+      line-height: 1;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.35);
+      background: rgba(38, 50, 56, 0.85);
+      color: #fff;
+      z-index: 2;
+    }
+    .p4-img-lightbox-close:active { transform: scale(0.96); }
+    #p4-img-lightbox-img {
+      display: block;
+      max-width: min(96vw, 1200px);
+      max-height: min(88dvh, 900px);
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      border-radius: 12px;
+      border: 3px solid rgba(255, 249, 240, 0.92);
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.45);
+      cursor: default;
+    }
     .guide-box { padding: 0.65rem 0.75rem; border-radius: 10px; background: #fefce8; border: 2px dashed #ca8a04; font-size: 0.9rem; color: #422006; }
     table.rs-table { width: 100%; border-collapse: collapse; font-size: 0.84rem; margin: 0.5rem 0; }
     table.rs-table th, table.rs-table td { border: 1px solid #cbd5e1; padding: 0.4rem 0.45rem; text-align: left; }
@@ -72,6 +125,15 @@
     .p4-corpus-tools { display: flex; flex-wrap: wrap; gap: 0.4rem; align-items: center; margin: 0.4rem 0 0; }
     .p4-corpus-en { margin: 0.4rem 0 0; font-size: 0.88rem; line-height: 1.55; color: #1e3a8a; font-weight: 700; display: none; }
     .p4-corpus-en.is-show { display: block; }
+    /* 第 6 屏 · 语料扩容：中文与英文例句放大 150% */
+    #p4-wh2-corpus .p4-corpus-zh {
+      font-size: 1.35rem;
+      line-height: 1.55;
+    }
+    #p4-wh2-corpus .p4-corpus-en {
+      font-size: 1.32rem;
+      line-height: 1.55;
+    }
     .p4-corpus-toggle { padding: 0.35rem 0.55rem; border-radius: 8px; border: 2px dashed #94a3b8; background: #f1f5f9; cursor: pointer; font-size: 0.82rem; color: #64748b; font-weight: 700; }
     .p4-corpus-read { padding: 0.32rem 0.65rem !important; font-size: 0.8rem !important; }
     /* --- Page 1 特殊疑问词复习 --- */
@@ -262,7 +324,7 @@
 
             <div id="p4d2-wrap-name" style="display:none">
               <div class="p4-demo-block" id="p4demo-name">
-                <h4>① 名字：<span lang="en">What is your name?</span> → <span lang="en">Could you tell me ... ?</span> 融合 <span lang="en">what your name is?</span></h4>
+                <h4>① 名字：<span lang="en">What is your name?</span> → <span lang="en">Could you tell me ... ?</span></h4>
                 <div class="p4-sound-row">
                   <button type="button" class="p4-btn-demo" id="p4d2-name-audio">▶ 播放示范音（先听）</button>
                   <button type="button" class="p4-btn-demo secondary" id="p4d2-name-audio-slow">慢速再听</button>
@@ -550,7 +612,7 @@
           </div>
           <div class="panel">
             <div class="l12-split">
-              <div class="l12-split-visual"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L12/assets/l12p4-word-order-compare.png" alt="语序对比" /></div>
+              <div class="l12-split-visual"><img class="p4-click-zoom" src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L12/assets/l12p4-word-order-compare.png" alt="语序对比" title="点击放大" /></div>
               <div>
                 <table class="rs-table">
                   <thead><tr><th>特殊疑问句（倒装）</th><th>宾语从句（陈述语序）</th></tr></thead>
@@ -717,7 +779,7 @@
           </div>
           <div class="panel">
             <div class="l12-split">
-              <div class="l12-split-visual"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L12/assets/l12p4-if-whether-choice.png" alt="if whether" /></div>
+              <div class="l12-split-visual"><img class="p4-click-zoom" src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L12/assets/l12p4-if-whether-choice.png" alt="if 与 whether 辨析" title="点击放大" /></div>
               <div>
                 <p style="margin:0 0 0.45rem">两者都可表「<b>是否</b>」；初中书面语更常出现 <b>whether</b>。</p>
                 <ul class="corp-list">
@@ -1042,6 +1104,10 @@
       <span class="pager-mid" id="pager-mid">1 / 20</span>
       <button type="button" class="pager-next" id="pager-next">下一页</button>
     </nav>
+  </div>
+  <div id="p4-img-lightbox" hidden role="dialog" aria-modal="true" aria-label="配图放大">
+    <button type="button" class="p4-img-lightbox-close" aria-label="关闭">×</button>
+    <img id="p4-img-lightbox-img" alt="" />
   </div>
   <script>
     const PAGE_COUNT = 20;
@@ -1988,6 +2054,37 @@
     bindP4CorpusRoot(document.getElementById("p4-wh2-corpus"));
     bindP4CorpusRoot(document.getElementById("p4-or-corpus"));
     bindP4CorpusRoot(document.getElementById("p4-ph-corpus"));
+
+    (function initP4ImgLightbox() {
+      const lb = document.getElementById("p4-img-lightbox");
+      const lbImg = document.getElementById("p4-img-lightbox-img");
+      const closeBtn = lb && lb.querySelector(".p4-img-lightbox-close");
+      const zoomImgs = document.querySelectorAll(".l12-split-visual img.p4-click-zoom");
+      if (!lb || !lbImg || !closeBtn || !zoomImgs.length) return;
+      function closeLb() {
+        lb.hidden = true;
+        document.body.style.overflow = "";
+      }
+      function openLb(srcImg) {
+        lbImg.src = srcImg.currentSrc || srcImg.src;
+        lbImg.alt = srcImg.alt || "配图";
+        lb.hidden = false;
+        document.body.style.overflow = "hidden";
+      }
+      zoomImgs.forEach((srcImg) => {
+        srcImg.addEventListener("click", () => openLb(srcImg));
+      });
+      closeBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        closeLb();
+      });
+      lb.addEventListener("click", (e) => {
+        if (e.target === lb || e.target === lbImg) closeLb();
+      });
+      document.addEventListener("keydown", (e) => {
+        if (!lb.hidden && e.key === "Escape") closeLb();
+      });
+    })();
 
     goPage(1);
   </script>
