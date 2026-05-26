@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>过去完成时 —— 构成精讲 · had + 过去分词</title>
+  <link rel="stylesheet" href="assets/lesson-screen-16x9.css" />
+  <link rel="stylesheet" href="l13-index-nav.css" />
+  <link rel="stylesheet" href="l13-lesson-shell.css" />
+  <link rel="stylesheet" href="l13-page-components.css" />
+  <link rel="stylesheet" href="l13-page02-layout.css" />
+  <link rel="stylesheet" href="l13-page02-readable-text.css" />
+
+  <style>
+    :root {
+      --l13-accent: #0d9488;
+      --l13-accent-ink: #0f766e;
+      --l13-top-bg: linear-gradient(180deg, #fff, #f0fdfa);
+      --l13-shadow: rgba(13, 148, 136, 0.35);
+      --l13-dash: rgba(13, 148, 136, 0.35);
+
+      --paper: #fff9f0; --ink: #2c2c2c; --edge: #5d4037;
+      --violet: #7c3aed; --violet-ink: #5b21b6; --violet-bg: #ede9fe;
+      --teal: #0d9488; --teal-bg: #ccfbf1;
+      --ok: #047857; --ok-bg: #ecfdf5;
+      --bad: #b91c1c; --bad-bg: #fef2f2;
+      --shadow-book: rgba(60, 40, 20, 0.14);
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0; min-height: 100dvh;
+      font-family: system-ui, -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: linear-gradient(165deg, #134e4a 0%, #1e1b4b 48%, #0f172a 100%);
+      color: var(--ink); line-height: 1.55;
+    }
+  </style>
+</head>
+<body>
+  <div id="ui-lock" aria-hidden="true"></div>
+  <div id="app">
+    <div id="l13-book" class="book">
+      <header class="top-bar">
+        <div class="top-bar-main">
+          <strong>过去完成时 · 构成精讲</strong>
+        </div>
+        <a class="l13-index-link" href="index.html">学习目录</a>
+      </header>
+      <div class="l13-scroll">
+
+        <section class="lesson-page active" data-page="1">
+          <div class="panel panel-split panel-formula">
+            <div class="stage-visual">
+              <div class="scene-frame scene-frame--formula">
+                <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L13/assets/img/l13-p02-formula-had-pp.png" alt="had + 过去分词构成公式" width="800" height="600" loading="lazy" decoding="async" />
+              </div>
+            </div>
+            <div class="stage-body">
+              <div class="formula-banner">
+                <div class="big"><span class="hl-had">had</span> + <span class="hl-pp">past participle (V3)</span></div>
+                <div class="sub">I / you / he / she / it / we / they → 都用 <strong>had</strong>（不用 has / have）</div>
+              </div>
+              <p class="en-line" lang="en">She <span class="hl-had">had</span> <span class="hl-pp">finished</span> her homework.</p>
+              <p class="zh-hint">她（在那时之前）已经完成了作业。</p>
+              <p class="en-line" lang="en">They <span class="hl-had">had</span> <span class="hl-pp">left</span> before I arrived.</p>
+              <p class="zh-hint">我到的时候，他们已经离开了。</p>
+              <div class="btn-row">
+                <button type="button" class="btn teal" id="speak-formula">朗读公式与例句</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="2">
+          <div class="page-head"><span class="page-kicker">2 / 9</span><h2 class="page-title">肯定句 · 30 个高频不规则动词</h2></div>
+          <div class="panel panel-carousel">
+            <div class="carousel-wrap">
+              <div class="verb-slide-card" id="carousel-card"></div>
+              <p class="carousel-pos" id="carousel-pos"></p>
+              <div class="carousel-dots carousel-dots--compact" id="carousel-dots"></div>
+            </div>
+            <div class="btn-row">
+              <button type="button" class="btn ghost" id="carousel-prev">上一词</button>
+              <button type="button" class="btn ghost" id="carousel-next">下一词</button>
+              <button type="button" class="btn violet" id="carousel-reveal-all">显示本词全部</button>
+              <button type="button" class="btn teal" id="carousel-speak">🔊 听例句</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="3">
+          <div class="page-head"><span class="page-kicker">3 / 9</span><h2 class="page-title">否定句 · 疑问句</h2></div>
+          <div class="panel panel-negq">
+            <p class="zh-hint panel-lead">先点 🔊 听音模仿，再点灰色区域显示中文情境与英文例句。</p>
+            <div class="negq-carousel-card" id="negq-card"></div>
+            <p class="negq-pos" id="negq-pos"></p>
+            <div class="carousel-dots" id="negq-dots"></div>
+            <div class="btn-row">
+              <button type="button" class="btn ghost" id="negq-prev">上一句</button>
+              <button type="button" class="btn ghost" id="negq-next">下一句</button>
+              <button type="button" class="btn violet" id="negq-reveal">显示本句文字</button>
+              <button type="button" class="btn teal" id="negq-speak">🔊 再听一遍</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="4">
+          <div class="page-head"><span class="page-kicker">4 / 9</span><h2 class="page-title">不规则分词快闪 · 40 词</h2></div>
+          <div class="panel panel-flash">
+            <p class="panel-lead">高频考点 · 点击卡片翻转：原形 → 过去式 / 过去分词</p>
+            <div class="flash-grid" id="flash-grid"></div>
+            <p class="rule-box teal" id="flash-hint">已翻转 <span id="flash-count">0</span> / 40 · 建议全部过一遍再进入配对。</p>
+            <div class="btn-row">
+              <button type="button" class="btn ghost" id="flash-reset">全部翻回正面</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="5">
+          <div class="page-head"><span class="page-kicker">5 / 9</span><h2 class="page-title">三列配对 · 40 词 · 4 组</h2></div>
+          <div class="panel panel-match">
+            <p class="panel-lead"><span class="tier-label">分层 A</span>每组 10 词 · 选齐原形、过去式、过去分词（顺序不限，三词须同一动词）。</p>
+            <div class="match-group-tabs" id="match-group-tabs"></div>
+            <p class="match-group-hint" id="match-group-hint"></p>
+            <div class="match-board" id="match-board"></div>
+            <p class="fb" id="match-fb"></p>
+            <div class="btn-row">
+              <button type="button" class="btn ghost" id="match-reset">重置配对</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="6">
+          <div class="page-head"><span class="page-kicker">6 / 9</span><h2 class="page-title">形式判断 · 6 题</h2></div>
+          <div class="panel panel-form-quiz">
+            <p class="panel-lead"><span class="tier-label">分层 B</span>had 后面必须是 <strong>过去分词 (V3)</strong>，不能是过去式。</p>
+            <div id="form-quiz"></div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="7">
+          <div class="page-head"><span class="page-kicker">7 / 9</span><h2 class="page-title">陷阱清单 · 分层纠错</h2></div>
+          <div class="panel panel-trap">
+            <p class="panel-lead">分层 A 基础形式 → B 时间锚点 → C 语序与时态综合 · 点「显示正解」对照记忆。</p>
+            <ul class="trap-list" id="trap-list"></ul>
+            <div class="btn-row">
+              <button type="button" class="btn teal" id="trap-reveal-all">显示全部正解</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="8">
+          <div class="page-head"><span class="page-kicker">8 / 9</span><h2 class="page-title">迷你翻译 · 分层中译英</h2></div>
+          <div class="panel panel-translate">
+            <p class="panel-lead">先自写，再显示参考答案并朗读 · 句子可用于日记、复述与口语表达。</p>
+            <div id="translate-box"></div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="9">
+          <div class="page-head"><span class="page-kicker">9 / 9</span><h2 class="page-title">→ Page 03 时间锚点</h2></div>
+          <div class="panel panel-channel">
+            <p class="panel-lead">下一讲：<strong>by / before / when / already</strong> 与过去完成时连用。</p>
+            <a class="channel-btn" href="lesson13-page03-time-markers.html">进入 Page 03 · 时间锚点</a>
+            <p class="channel-links">
+              或返回 <a href="lesson13-page01-timeline-intro.html">Page 01</a> ·
+              <a href="index.html">学习目录</a>
+            </p>
+          </div>
+        </section>
+
+      </div>
+    </div>
+    <nav class="lesson-pager" aria-label="分页">
+      <button type="button" class="pager-prev" id="pager-prev">‹ 上一页</button>
+      <a class="l13-index-link" href="index.html" aria-label="返回学习目录">目录</a>
+      <span class="pager-mid" id="pager-mid">1 / 9</span>
+      <button type="button" class="pager-next" id="pager-next">下一页 ›</button>
+    </nav>
+  </div>
+
+  <script src="l13-page02-data.js"></script>
+  <script src="l13-image-lightbox.js"></script>
+  <script src="l13-index-nav.js"></script>
+  <script>
+(function () {
+  "use strict";
+
+  const AZURE_KEY = "C42UQWeDcluYanbo17WrtUnPhk0vkZy2uQHPTCGDzY6CdExx99NzJQQJ99BIACqBBLyXJ3w3AAAYACOGjkyu";
+  const AZURE_REGION = "southeastasia";
+  const VOICE_EN = "en-US-AriaNeural";
+  const PAGE_COUNT = 9;
+
+  const P13 = Object.assign({
+    negQuestion: {
+      neg: [
+        { tag: "报告", zh: "到周五为止，我还没有交那份实验报告。", en: "I hadn't handed in the lab report by Friday.", note: "hand → handed；hadn't 后接过去分词" },
+        { tag: "通知", zh: "开会前，他们还没听说那条通知。", en: "They hadn't heard about the notice before the meeting.", note: "hear → heard（不能用 heard 当过去式错接）" },
+        { tag: "作业", zh: "妈妈回家前，我还没写完作业。", en: "I hadn't finished my homework before Mum came home.", note: "finish → finished" },
+        { tag: "预告", zh: "电影开始前，我们还没看过预告片。", en: "We hadn't watched the trailer before the film started.", note: "watch → watched" },
+        { tag: "钥匙", zh: "找到钥匙之前，他在包里翻了两遍。", en: "He hadn't found his keys until he checked his bag twice.", note: "find → found" },
+        { tag: "午餐", zh: "上课铃响前，她还没吃过午饭。", en: "She hadn't eaten lunch before the bell rang.", note: "eat → eaten（✗ hadn't ate）" }
+      ],
+      q: [
+        { tag: "北京", zh: "2024 年之前，你去过北京吗？", en: "Had you ever been to Beijing before 2024?", note: "Had + 主语 + 过去分词?" },
+        { tag: "公交", zh: "你到车站时，公交车已经开走了吗？", en: "Had the bus left when you got to the stop?", note: "leave → left" },
+        { tag: "作业", zh: "老师进教室前，你已经做完作业了吗？", en: "Had you finished your homework before the teacher came in?", note: "Had you finished …?" },
+        { tag: "雪", zh: "去年冬天之前，她见过雪吗？", en: "Had she ever seen snow before last winter?", note: "see → seen" },
+        { tag: "电影", zh: "他们到影院时，电影已经开场了吗？", en: "Had the film already started when they arrived at the cinema?", note: "start → started" },
+        { tag: "邮件", zh: "你打电话前，收到那封邮件了吗？", en: "Had you received the email before you made the call?", note: "receive → received" }
+      ]
+    },
+    formQuiz: [
+      { stem: "Which is correct?", ans: "Tom had gone home.", opts: ["Tom had went home.", "Tom had gone home.", "Tom had go home."], fb: "go → went → gone；had 后接 gone。" },
+      { stem: "Which is correct?", ans: "She had already eaten.", opts: ["She had already ate.", "She had already eaten.", "She had already eat."], fb: "eat → ate → eaten。" },
+      { stem: "Which is correct?", ans: "We had seen the film.", opts: ["We had saw the film.", "We had seen the film.", "We had see the film."], fb: "see → saw → seen。" },
+      { stem: "Which is correct?", ans: "He had written a letter.", opts: ["He had wrote a letter.", "He had written a letter.", "He had writed a letter."], fb: "write → wrote → written。" },
+      { stem: "Which is correct?", ans: "They had left early.", opts: ["They had leaved early.", "They had left early.", "They had leave early."], fb: "leave → left → left。" },
+      { stem: "Which is correct?", ans: "I had done my best.", opts: ["I had did my best.", "I had done my best.", "I had do my best."], fb: "do → did → done。" }
+    ],
+    traps: [
+      { tier: "A", wrong: "Tom had went home after school.", right: "Tom had gone home after school.", why: "had 后接过去分词 gone，不能用过去式 went。", tip: "口语：说到「已经走了」用 had gone。" },
+      { tier: "A", wrong: "She had ate lunch before class.", right: "She had eaten lunch before class.", why: "eat → ate → eaten。", tip: "写作：before class 前已吃过 → had eaten。" },
+      { tier: "A", wrong: "We had saw the notice on the board.", right: "We had seen the notice on the board.", why: "see → saw → seen。", tip: "读通知场景：had seen the notice。" },
+      { tier: "A", wrong: "He had wrote an email to his teacher.", right: "He had written an email to his teacher.", why: "write → wrote → written。", tip: "书面：had written an email。" },
+      { tier: "A", wrong: "They had took the wrong bus.", right: "They had taken the wrong bus.", why: "take → took → taken。", tip: "叙述出行：had taken the wrong bus。" },
+      { tier: "A", wrong: "I had knew the answer.", right: "I had known the answer.", why: "know → knew → known。", tip: "口语：我早就知道 → I had known。" },
+      { tier: "B", wrong: "When I arrived, he had leave.", right: "When I arrived, he had left.", why: "had 后不能用原形 leave。", tip: "我到时他已离开 → had left。" },
+      { tier: "B", wrong: "When I got to the cinema, the film already started.", right: "When I got to the cinema, the film had already started.", why: "when + 一般过去 = 观察点；电影更早开始 → had started。", tip: "高频口语：我到时电影已经开始了。" },
+      { tier: "B", wrong: "Before the test began, many students not reviewed.", right: "Before the test began, many students had not reviewed.", why: "考试开始前未完成 → had not reviewed（或 hadn't reviewed）。", tip: "考前复习：hadn't reviewed the notes。" },
+      { tier: "B", wrong: "She had broke her phone, so she can't call.", right: "She had broken her phone, so she couldn't call.", why: "break → broken；结果用 couldn't。", tip: "因果句：had broken … so she couldn't …" },
+      { tier: "B", wrong: "By 8 pm, we finish all the work.", right: "By 8 pm, we had finished all the work.", why: "by + 过去时间点 → had + 过去分词。", tip: "写作：到……为止已完成 → By …, we had finished …" },
+      { tier: "B", wrong: "When he got home, mum cooks dinner.", right: "When he got home, Mum had cooked dinner.", why: "到家是观察点；做饭更早完成 → had cooked。", tip: "到家时妈妈已做好饭 — 经典对比句。" },
+      { tier: "C", wrong: "After he finished homework, he had played basketball.", right: "After he had finished his homework, he played basketball.", why: "先作业（had finished）后打球（played）。", tip: "写作顺序：After + had pp, 主句用一般过去。" },
+      { tier: "C", wrong: "By the time we arrived, the train leaves.", right: "By the time we arrived, the train had left.", why: "by the time + 过去 → 更早动作用 had left。", tip: "与 Page 03 衔接：by the time … had …" },
+      { tier: "C", wrong: "She has eaten before the bell rang.", right: "She had eaten before the bell rang.", why: "before 从句表过去时，主句用 had，不用 has。", tip: "时态一致：过去背景 → had eaten。" },
+      { tier: "C", wrong: "I had forgot to bring my ticket.", right: "I had forgotten to bring my ticket.", why: "forget → forgot → forgotten。", tip: "口语：我忘了带票 → had forgotten to bring …" },
+      { tier: "C", wrong: "When I called him, he just left.", right: "When I called him, he had just left.", why: "刚离开 → had just left。", tip: "had just + pp：刚刚……" }
+    ],
+    translate: [
+      { tier: "A", zh: "晚饭前他已经写完作业。", en: "He had finished his homework before dinner.", hint: "had finished · before", tip: "日记/口语：先说结果，再用 before 补充时间。" },
+      { tier: "A", zh: "我到车站时，火车已经开走了。", en: "When I got to the station, the train had already left.", hint: "When … got · had left", tip: "出行叙述必备句型。" },
+      { tier: "A", zh: "电影开始前，我们已经看过预告片。", en: "We had watched the trailer before the film started.", hint: "had watched · started", tip: "复述活动顺序：先预告，后开场。" },
+      { tier: "A", zh: "她摔坏了手机，所以打不了电话。", en: "She had broken her phone, so she couldn't call anyone.", hint: "had broken · couldn't", tip: "因果写作：had broken …, so …" },
+      { tier: "A", zh: "你到的时候，他们已经离开了。", en: "When you arrived, they had already left.", hint: "When · had left", tip: "口语交代「你来晚了」。" },
+      { tier: "B", zh: "他到的时候，雨已经停了。", en: "When he arrived, the rain had already stopped.", hint: "arrived · had stopped", tip: "天气+观察点，适合描写场景。" },
+      { tier: "B", zh: "搬来成都前，我从没吃过火锅。", en: "I had never eaten hotpot before I came to Chengdu.", hint: "had never eaten · before", tip: "never + had pp：从未……过。" },
+      { tier: "B", zh: "到周五为止，我还没交实验报告。", en: "I hadn't handed in the lab report by Friday.", hint: "hadn't handed · by Friday", tip: "截止未完成：hadn't … by …" },
+      { tier: "B", zh: "你去年冬天之前见过雪吗？", en: "Had you seen snow before last winter?", hint: "Had … seen · before", tip: "访谈式提问：Had you ever … before …?" },
+      { tier: "B", zh: "铃响时，她刚结束发言。", en: "The bell rang when she had just finished her speech.", hint: "rang · had just finished", tip: "had just：刚刚做完……" },
+      { tier: "B", zh: "我们到达时，电影已经开始了。", en: "By the time we arrived, the film had already begun.", hint: "By the time · had begun", tip: "by the time 书面更正式。" },
+      { tier: "C", zh: "做完作业后，他去打篮球了。", en: "After he had finished his homework, he went to play basketball.", hint: "After had finished · went", tip: "写作串联两件先后发生的事。" },
+      { tier: "C", zh: "你打电话前，收到那封邮件了吗？", en: "Had you received the email before you made the call?", hint: "Had … received · before", tip: "疑问：Had you … before …?" },
+      { tier: "C", zh: "找到钥匙之前，他在包里翻了两遍。", en: "He hadn't found his keys until he checked his bag twice.", hint: "hadn't found · until", tip: "not … until 与过去完成时连用。" },
+      { tier: "C", zh: "直到去年冬天，她才第一次看见下雪。", en: "She hadn't seen snow until last winter.", hint: "hadn't seen · until", tip: "叙述「第一次」：hadn't … until …" },
+      { tier: "C", zh: "爸妈到家时，我已经把房间收拾干净了。", en: "When my parents got home, I had already tidied my room.", hint: "got · had tidied", tip: "家庭场景口语/日记高频。" }
+    ],
+    extraForm: [
+      { stem: "had + 后面应接？", ans: "过去分词 (V3)", opts: ["过去式 (V2)", "过去分词 (V3)", "动词原形"], fb: "结构核心：had + pp。" },
+      { stem: "He / She 的过去完成时用？", ans: "had", opts: ["has", "had", "have"], fb: "所有人称都用 had。" }
+    ]
+  }, window.L13_PAGE02_DATA || {});
+
+  let currentPage = 1;
+  let carouselIdx = 0;
+  let negqIdx = 0;
+  let matchPick = [];
+  let matchGroupIdx = 0;
+  const matchGroupDone = [false, false, false, false];
+  const uiLock = document.getElementById("ui-lock");
+
+  function escapeXml(s) {
+    return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+  function escHtml(s) {
+    return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/"/g, "&quot;");
+  }
+  function lockUI() { uiLock.classList.add("active"); }
+  function unlockUI() { uiLock.classList.remove("active"); }
+
+  async function playAudio(text) {
+    if (!text) return;
+    lockUI();
+    const url = "https://" + AZURE_REGION + ".tts.speech.microsoft.com/cognitiveservices/v1";
+    const ssml = "<speak version='1.0' xml:lang='en-US'><voice name='" + VOICE_EN + "'>" + escapeXml(text) + "</voice></speak>";
+    try {
+      const res = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Ocp-Apim-Subscription-Key": AZURE_KEY,
+          "Content-Type": "application/ssml+xml",
+          "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3"
+        },
+        body: ssml
+      });
+      if (!res.ok) throw new Error(String(res.status));
+      const blob = await res.blob();
+      const u = URL.createObjectURL(blob);
+      const a = new Audio(u);
+      await new Promise((res, rej) => {
+        a.onended = () => { URL.revokeObjectURL(u); res(); };
+        a.onerror = rej;
+        a.play().catch(rej);
+      });
+    } catch (e) {
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang = "en-US";
+      speechSynthesis.speak(u);
+    } finally {
+      unlockUI();
+    }
+  }
+
+  function highlightForm(en) {
+    return en.replace(/\bhad\s+(\w+)/gi, function (m, pp) {
+      return '<span class="hl-had">had</span> <span class="hl-pp">' + pp + "</span>";
+    }).replace(/\bhadn't\s+(\w+)/gi, function (m, pp) {
+      return '<span class="hl-had">hadn\'t</span> <span class="hl-pp">' + pp + "</span>";
+    }).replace(/\bHad\s+/gi, '<span class="hl-had">Had</span> ');
+  }
+
+  const TIER_META = {
+    A: { label: "分层 A", sub: "基础 · had + 不规则过去分词", pill: "" },
+    B: { label: "分层 B", sub: "进阶 · when / before / by + 过去完成时", pill: "" },
+    C: { label: "分层 C", sub: "拓展 · after / until / 时态一致与语序", pill: " tier-c" }
+  };
+
+  function tierBadgeHtml(tier) {
+    const m = TIER_META[tier] || TIER_META.A;
+    return '<span class="tier-label' + m.pill + '">' + m.label + "</span>";
+  }
+
+  function goPage(n) {
+    if (n < 1 || n > PAGE_COUNT) return;
+    currentPage = n;
+    document.querySelectorAll(".lesson-page").forEach((el) => {
+      el.classList.toggle("active", parseInt(el.dataset.page, 10) === n);
+    });
+    document.getElementById("pager-mid").textContent = n + " / " + PAGE_COUNT;
+    document.getElementById("pager-prev").disabled = n <= 1;
+    document.getElementById("pager-next").disabled = n >= PAGE_COUNT;
+  }
+
+  function bindVerbCell(cell, word) {
+    if (!cell || cell.classList.contains("verb-cell-base")) return;
+    cell.addEventListener("click", () => {
+      cell.classList.remove("is-covered");
+      cell.classList.add("is-revealed");
+      const w = cell.querySelector(".verb-cell-word");
+      if (w) w.textContent = word;
+    });
+  }
+
+  function bindVerbSentenceSlot(slot, item) {
+    function revealSentence() {
+      slot.classList.remove("is-covered");
+      slot.classList.add("is-revealed");
+    }
+    slot.addEventListener("click", (e) => {
+      if (e.target.closest(".btn-speak-chip")) return;
+      if (slot.classList.contains("is-covered")) revealSentence();
+    });
+    const hint = slot.querySelector(".verb-sentence-tap-hint");
+    if (hint) {
+      hint.addEventListener("click", (e) => {
+        e.stopPropagation();
+        revealSentence();
+      });
+    }
+    const chip = slot.querySelector(".btn-speak-chip");
+    if (chip) {
+      chip.addEventListener("click", (e) => {
+        e.stopPropagation();
+        playAudio(item.en);
+      });
+    }
+  }
+
+  function revealAllVerbSlide() {
+    const card = document.getElementById("carousel-card");
+    if (!card) return;
+    card.querySelectorAll(".verb-cell.is-covered").forEach((cell) => {
+      const kind = cell.dataset.kind;
+      const item = P13.affirmative[carouselIdx];
+      if (!item) return;
+      cell.classList.remove("is-covered");
+      cell.classList.add("is-revealed");
+      const w = cell.querySelector(".verb-cell-word");
+      if (!w) return;
+      if (kind === "past") w.textContent = item.past;
+      if (kind === "pp") w.textContent = item.pp;
+    });
+    const slot = card.querySelector(".verb-sentence-slot");
+    if (slot && slot.classList.contains("is-covered")) {
+      slot.classList.remove("is-covered");
+      slot.classList.add("is-revealed");
+    }
+  }
+
+  function renderCarousel(i) {
+    const list = P13.affirmative || [];
+    if (!list.length) return;
+    carouselIdx = (i + list.length) % list.length;
+    const item = list[carouselIdx];
+    const card = document.getElementById("carousel-card");
+    card.innerHTML =
+      '<div class="tag-row">' +
+      '<span class="tag-pill">' + escHtml(item.tag) + "</span>" +
+      '<span class="tag-pill">' + escHtml(item.base) + "</span></div>" +
+      '<div class="verb-forms-row">' +
+      '<div class="verb-cell verb-cell-base" aria-label="原形">' +
+      '<span class="verb-cell-label">原形</span>' +
+      '<span class="verb-cell-word">' + escHtml(item.base) + "</span></div>" +
+      '<button type="button" class="verb-cell is-covered" data-kind="past" aria-label="过去式，点击显示">' +
+      '<span class="verb-cell-label">过去式</span>' +
+      '<span class="verb-cell-mask">点按显示</span>' +
+      '<span class="verb-cell-word">' + escHtml(item.past) + "</span></button>" +
+      '<button type="button" class="verb-cell is-covered" data-kind="pp" aria-label="过去分词，点击显示">' +
+      '<span class="verb-cell-label">过去分词</span>' +
+      '<span class="verb-cell-mask">点按显示</span>' +
+      '<span class="verb-cell-word">' + escHtml(item.pp) + "</span></button>" +
+      "</div>" +
+      '<div class="verb-sentence-slot is-covered" id="verb-sentence-slot">' +
+      '<div class="verb-sentence-toolbar">' +
+      '<button type="button" class="btn-speak-chip">🔊 听例句</button>' +
+      '<button type="button" class="verb-sentence-tap-hint">点按显示例句</button></div>' +
+      '<div class="verb-sentence-body">' +
+      '<p class="zh-hint">' + escHtml(item.zh) + "</p>" +
+      '<p class="en-line" lang="en">' + highlightForm(item.en) + "</p>" +
+      (item.tip ? '<p class="verb-tip">' + escHtml(item.tip) + "</p>" : "") +
+      "</div></div>";
+
+    bindVerbCell(card.querySelector('[data-kind="past"]'), item.past);
+    bindVerbCell(card.querySelector('[data-kind="pp"]'), item.pp);
+    bindVerbSentenceSlot(document.getElementById("verb-sentence-slot"), item);
+
+    document.getElementById("carousel-pos").textContent =
+      (carouselIdx + 1) + " / " + list.length + " · " + item.base;
+    document.querySelectorAll("#carousel-dots button").forEach((b, j) => {
+      b.classList.toggle("active", j === carouselIdx);
+      if (j === carouselIdx) b.scrollIntoView({ block: "nearest", inline: "nearest" });
+    });
+  }
+
+  function initCarousel() {
+    const dots = document.getElementById("carousel-dots");
+    dots.innerHTML = "";
+    (P13.affirmative || []).forEach((v, j) => {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.title = v.base;
+      b.textContent = String(j + 1);
+      b.addEventListener("click", () => renderCarousel(j));
+      dots.appendChild(b);
+    });
+    renderCarousel(0);
+    document.getElementById("carousel-prev").addEventListener("click", () => renderCarousel(carouselIdx - 1));
+    document.getElementById("carousel-next").addEventListener("click", () => renderCarousel(carouselIdx + 1));
+    document.getElementById("carousel-speak").addEventListener("click", () => {
+      playAudio(P13.affirmative[carouselIdx].en);
+    });
+    document.getElementById("carousel-reveal-all").addEventListener("click", revealAllVerbSlide);
+  }
+
+  function getNegQItems() {
+    const items = [];
+    P13.negQuestion.neg.forEach((item) => {
+      items.push({ kind: "neg", kindLabel: "否定", struct: "hadn't + 过去分词 (V3)", tag: item.tag, zh: item.zh, en: item.en, note: item.note || "" });
+    });
+    P13.negQuestion.q.forEach((item) => {
+      items.push({ kind: "q", kindLabel: "疑问", struct: "Had + 主语 + 过去分词?", tag: item.tag, zh: item.zh, en: item.en, note: item.note || "" });
+    });
+    return items;
+  }
+
+  function bindNegQReveal(slot, item) {
+    function reveal() {
+      slot.classList.remove("is-covered");
+      slot.classList.add("is-revealed");
+    }
+    slot.addEventListener("click", (e) => {
+      if (e.target.closest(".btn-speak-chip")) return;
+      if (slot.classList.contains("is-covered")) reveal();
+    });
+    const hint = slot.querySelector(".negq-tap-hint");
+    if (hint) {
+      hint.addEventListener("click", (e) => {
+        e.stopPropagation();
+        reveal();
+      });
+    }
+    const chip = slot.querySelector(".btn-speak-chip");
+    if (chip) {
+      chip.addEventListener("click", (e) => {
+        e.stopPropagation();
+        playAudio(item.en);
+      });
+    }
+  }
+
+  function renderNegQ(i) {
+    const items = getNegQItems();
+    if (!items.length) return;
+    negqIdx = (i + items.length) % items.length;
+    const item = items[negqIdx];
+    const card = document.getElementById("negq-card");
+    const kindClass = item.kind === "neg" ? "kind-neg" : "kind-q";
+    const typePill = item.kind === "neg" ? "neg-type" : "q-type";
+    card.className = "negq-carousel-card " + kindClass;
+    card.innerHTML =
+      '<div class="tag-row">' +
+      '<span class="tag-pill ' + typePill + '">' + item.kindLabel + "</span>" +
+      '<span class="tag-pill">' + escHtml(item.tag) + "</span></div>" +
+      '<p class="negq-rule-hint">结构：' + escHtml(item.struct) + "</p>" +
+      '<div class="negq-reveal-slot is-covered" id="negq-slot">' +
+      '<div class="negq-toolbar">' +
+      '<button type="button" class="btn-speak-chip">🔊 听例句</button>' +
+      '<button type="button" class="negq-tap-hint">点按显示例句</button></div>' +
+      '<div class="negq-body">' +
+      '<p class="negq-scenario">' + escHtml(item.zh) + "</p>" +
+      '<p class="en-line" lang="en">' + highlightForm(item.en) + "</p>" +
+      (item.note ? '<p class="negq-note">' + escHtml(item.note) + "</p>" : "") +
+      "</div></div>";
+    document.getElementById("negq-pos").textContent = (negqIdx + 1) + " / " + items.length + " · " + item.kindLabel;
+    document.querySelectorAll("#negq-dots button").forEach((b, j) => {
+      b.classList.toggle("active", j === negqIdx);
+    });
+    bindNegQReveal(document.getElementById("negq-slot"), item);
+  }
+
+  function initNegQuestion() {
+    const items = getNegQItems();
+    const dots = document.getElementById("negq-dots");
+    dots.innerHTML = "";
+    items.forEach((_, j) => {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.textContent = String(j + 1);
+      b.addEventListener("click", () => renderNegQ(j));
+      dots.appendChild(b);
+    });
+    renderNegQ(0);
+    document.getElementById("negq-prev").addEventListener("click", () => renderNegQ(negqIdx - 1));
+    document.getElementById("negq-next").addEventListener("click", () => renderNegQ(negqIdx + 1));
+    document.getElementById("negq-reveal").addEventListener("click", () => {
+      const slot = document.getElementById("negq-slot");
+      if (slot) {
+        slot.classList.remove("is-covered");
+        slot.classList.add("is-revealed");
+      }
+    });
+    document.getElementById("negq-speak").addEventListener("click", () => {
+      playAudio(getNegQItems()[negqIdx].en);
+    });
+  }
+
+  function initFlash() {
+    const grid = document.getElementById("flash-grid");
+    grid.innerHTML = "";
+    (P13.irregularFlash || []).forEach((v) => {
+      const card = document.createElement("div");
+      card.className = "flash-card";
+      card.innerHTML =
+        '<div class="flash-inner">' +
+        '<div class="flash-face front"><span class="base">' + v.base + "</span></div>" +
+        '<div class="flash-face back"><span>' + v.past + "</span><span>→</span><span><strong>" + v.pp + "</strong></span></div>" +
+        "</div>";
+      card.addEventListener("click", () => {
+        const was = card.classList.contains("flipped");
+        card.classList.toggle("flipped");
+        if (!was && card.classList.contains("flipped")) {
+          flashFlipped++;
+          document.getElementById("flash-count").textContent = String(
+            document.querySelectorAll(".flash-card.flipped").length
+          );
+        } else if (was && !card.classList.contains("flipped")) {
+          document.getElementById("flash-count").textContent = String(
+            document.querySelectorAll(".flash-card.flipped").length
+          );
+        }
+      });
+      grid.appendChild(card);
+    });
+    document.getElementById("flash-reset").addEventListener("click", () => {
+      document.querySelectorAll(".flash-card").forEach((c) => c.classList.remove("flipped"));
+      document.getElementById("flash-count").textContent = "0";
+    });
+  }
+
+  function shuffle(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      const t = arr[i]; arr[i] = arr[j]; arr[j] = t;
+    }
+    return arr;
+  }
+
+  function updateMatchGroupUI() {
+    const groups = P13.matchGroups || [];
+    const g = groups[matchGroupIdx];
+    document.querySelectorAll(".match-group-tab").forEach((tab, i) => {
+      tab.classList.toggle("active", i === matchGroupIdx);
+      tab.classList.toggle("done", matchGroupDone[i]);
+    });
+    const hint = document.getElementById("match-group-hint");
+    if (g && hint) {
+      hint.textContent = g.label + " · 10 个动词 · 已配对 " +
+        Math.floor(document.querySelectorAll("#match-board .match-btn.matched").length / 3) + " / 10 组";
+    }
+  }
+
+  function renderMatchGroup(gi) {
+    matchGroupIdx = gi;
+    matchPick = [];
+    const board = document.getElementById("match-board");
+    board.innerHTML = "";
+    const groups = P13.matchGroups || [];
+    const g = groups[gi];
+    if (!g) return;
+
+    const cols = ["原形", "过去式", "过去分词"];
+    const head = document.createElement("div");
+    head.className = "match-row";
+    head.innerHTML = cols.map((c) => '<div class="col-head">' + c + "</div>").join("");
+    board.appendChild(head);
+
+    const pools = { base: [], past: [], pp: [] };
+    g.words.forEach((s) => {
+      pools.base.push({ word: s.base, setId: s.id, col: "base" });
+      pools.past.push({ word: s.past, setId: s.id, col: "past" });
+      pools.pp.push({ word: s.pp, setId: s.id, col: "pp" });
+    });
+    shuffle(pools.base);
+    shuffle(pools.past);
+    shuffle(pools.pp);
+    for (let r = 0; r < g.words.length; r++) {
+      const row = document.createElement("div");
+      row.className = "match-row";
+      ["base", "past", "pp"].forEach((col) => {
+        const item = pools[col][r];
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "match-btn";
+        btn.textContent = item.word;
+        btn.dataset.setId = item.setId;
+        btn.dataset.col = item.col;
+        btn.addEventListener("click", () => onMatchClick(btn));
+        row.appendChild(btn);
+      });
+      board.appendChild(row);
+    }
+    updateMatchGroupUI();
+    document.getElementById("match-fb").textContent = "";
+  }
+
+  function initMatch() {
+    const tabs = document.getElementById("match-group-tabs");
+    tabs.innerHTML = "";
+    (P13.matchGroups || []).forEach((g, i) => {
+      const tab = document.createElement("button");
+      tab.type = "button";
+      tab.className = "match-group-tab" + (i === 0 ? " active" : "");
+      tab.textContent = g.label;
+      tab.addEventListener("click", () => renderMatchGroup(i));
+      tabs.appendChild(tab);
+    });
+    renderMatchGroup(0);
+  }
+
+  function onMatchClick(btn) {
+    if (btn.classList.contains("matched")) return;
+    const fb = document.getElementById("match-fb");
+    if (btn.classList.contains("selected")) {
+      btn.classList.remove("selected");
+      matchPick = matchPick.filter((b) => b !== btn);
+      return;
+    }
+    btn.classList.add("selected");
+    matchPick.push(btn);
+    if (matchPick.length < 3) return;
+    const ids = matchPick.map((b) => b.dataset.setId);
+    const ok = ids[0] === ids[1] && ids[1] === ids[2];
+    matchPick.forEach((b) => {
+      b.classList.remove("selected");
+      if (ok) { b.classList.add("ok", "matched"); }
+      else { b.classList.add("bad"); setTimeout(() => b.classList.remove("bad"), 800); }
+    });
+    matchPick = [];
+    if (ok) {
+      fb.textContent = "✓ 配对正确！同一动词：原形 · 过去式 · 过去分词";
+      const matchedRows = document.querySelectorAll("#match-board .match-btn.matched").length / 3;
+      if (matchedRows >= 10) {
+        matchGroupDone[matchGroupIdx] = true;
+        updateMatchGroupUI();
+        fb.textContent = "🎉 " + (P13.matchGroups[matchGroupIdx].label) + " 全部完成！";
+        if (matchGroupDone.every(Boolean)) {
+          fb.textContent = "🎉 四组 40 词全部配对完成！";
+        } else if (matchGroupIdx < (P13.matchGroups.length - 1)) {
+          setTimeout(() => renderMatchGroup(matchGroupIdx + 1), 600);
+        }
+      }
+    } else {
+      fb.textContent = "这三词不是同一组，请重选。";
+    }
+  }
+
+  function resetMatch() {
+    matchPick = [];
+    matchGroupDone[matchGroupIdx] = false;
+    renderMatchGroup(matchGroupIdx);
+  }
+
+  function initQuiz(containerId, items) {
+    const box = document.getElementById(containerId);
+    items.forEach((q, qi) => {
+      const d = document.createElement("div");
+      d.className = "quiz-item";
+      d.innerHTML = "<p style='font-weight:800'>" + (qi + 1) + ". " + q.stem + "</p>";
+      const row = document.createElement("div");
+      row.className = "opt-row";
+      const fb = document.createElement("div");
+      fb.className = "fb";
+      q.opts.forEach((opt) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.textContent = opt;
+        btn.addEventListener("click", () => {
+          row.querySelectorAll("button").forEach((b) => b.disabled = true);
+          if (opt === q.ans) { btn.classList.add("ok"); d.classList.add("done"); fb.textContent = "✓ " + q.fb; }
+          else { btn.classList.add("bad"); fb.textContent = q.fb; }
+        });
+        row.appendChild(btn);
+      });
+      d.appendChild(row);
+      d.appendChild(fb);
+      box.appendChild(d);
+    });
+  }
+
+  function initTraps() {
+    const ul = document.getElementById("trap-list");
+    ul.innerHTML = "";
+    let num = 0;
+    ["A", "B", "C"].forEach((tier) => {
+      const items = (P13.traps || []).filter((t) => (t.tier || "A") === tier);
+      if (!items.length) return;
+      const meta = TIER_META[tier];
+      const head = document.createElement("li");
+      head.className = "trap-tier-head";
+      head.innerHTML =
+        '<p class="tier-section-title">' + tierBadgeHtml(tier) + " " + escHtml(meta.sub) + "</p>";
+      ul.appendChild(head);
+      items.forEach((t) => {
+        num += 1;
+        const li = document.createElement("li");
+        li.innerHTML =
+          '<p class="trap-num">' + num + ".</p>" +
+          '<p lang="en" class="trap-wrong"><span class="hl-bad">' + escHtml(t.wrong) + "</span></p>" +
+          '<span class="fix" lang="en">✓ ' + highlightForm(t.right) + "</span>" +
+          '<span class="trap-why">' + escHtml(t.why) + "</span>" +
+          (t.tip ? '<span class="trap-tip">💬 ' + escHtml(t.tip) + "</span>" : "") +
+          '<button type="button" class="btn ghost btn-trap-reveal">显示正解</button>';
+        li.querySelector("button").addEventListener("click", () => li.classList.add("revealed"));
+        ul.appendChild(li);
+      });
+    });
+    document.getElementById("trap-reveal-all").addEventListener("click", () => {
+      ul.querySelectorAll("li:not(.trap-tier-head)").forEach((li) => li.classList.add("revealed"));
+    });
+  }
+
+  function initTranslate() {
+    const box = document.getElementById("translate-box");
+    box.innerHTML = "";
+    let num = 0;
+    ["A", "B", "C"].forEach((tier) => {
+      const items = (P13.translate || []).filter((t) => (t.tier || "A") === tier);
+      if (!items.length) return;
+      const meta = TIER_META[tier];
+      const head = document.createElement("div");
+      head.className = "translate-tier-head";
+      head.innerHTML =
+        '<p class="tier-section-title">' + tierBadgeHtml(tier) + " " + escHtml(meta.sub) + "</p>";
+      box.appendChild(head);
+      items.forEach((t) => {
+        num += 1;
+        const div = document.createElement("div");
+        div.className = "translate-item";
+        div.innerHTML =
+          "<p class='translate-prompt'><strong>" + num + ".</strong> " + escHtml(t.zh) + "</p>" +
+          (t.tip ? '<p class="translate-tip">💬 ' + escHtml(t.tip) + "</p>" : "") +
+          '<input type="text" placeholder="英文自写…" autocomplete="off" />' +
+          '<div class="btn-row translate-btns">' +
+          '<button type="button" class="btn ghost btn-show-ans">显示参考答案</button>' +
+          '<button type="button" class="btn ghost btn-speak-ans">朗读答案</button></div>' +
+          '<p class="ans-hint" lang="en">' + highlightForm(t.en) +
+          " <span class='ans-hint-note'>（" + escHtml(t.hint) + "）</span></p>";
+        div.querySelector(".btn-show-ans").addEventListener("click", () => div.classList.add("show-ans"));
+        div.querySelector(".btn-speak-ans").addEventListener("click", () => playAudio(t.en));
+        box.appendChild(div);
+      });
+    });
+  }
+
+  function initLesson() {
+    document.body.classList.add("has-lesson-pager");
+    initCarousel();
+    initNegQuestion();
+    initFlash();
+    initMatch();
+    initQuiz("form-quiz", P13.formQuiz.concat(P13.extraForm));
+    initTraps();
+    initTranslate();
+
+    document.getElementById("speak-formula").addEventListener("click", () => {
+      playAudio("had plus past participle. I, you, he, she, it, we, they all use had. She had finished her homework. They had left before I arrived.");
+    });
+    document.getElementById("match-reset").addEventListener("click", resetMatch);
+
+    document.getElementById("pager-prev").addEventListener("click", () => goPage(currentPage - 1));
+    document.getElementById("pager-next").addEventListener("click", () => goPage(currentPage + 1));
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowLeft" && currentPage > 1) goPage(currentPage - 1);
+      if (e.key === "ArrowRight" && currentPage < PAGE_COUNT) goPage(currentPage + 1);
+    });
+    goPage(1);
+  }
+
+  initLesson();
+})();
+  </script>
+</body>
+</html>

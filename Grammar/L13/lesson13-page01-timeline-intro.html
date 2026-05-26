@@ -1,0 +1,1586 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>过去完成时 —— 生活导入 · 时间轴发现</title>
+  <link rel="stylesheet" href="assets/lesson-screen-16x9.css" />
+  <link rel="stylesheet" href="l13-index-nav.css" />
+  <link rel="stylesheet" href="l13-lesson-shell.css" />
+  <link rel="stylesheet" href="l13-page-components.css" />
+  <link rel="stylesheet" href="l13-page01-layout.css" />
+  <link rel="stylesheet" href="l13-page01-readable-text.css" />
+
+  <style>
+    :root {
+      --l13-accent: var(--teal, var(--amber, #0d9488));
+      --l13-accent-ink: var(--teal-ink, var(--amber-ink, #0f766e));
+      --l13-top-bg: linear-gradient(180deg, #fff, #f0fdfa);
+      --l13-shadow: rgba(13, 148, 136, 0.35);
+      --l13-dash: rgba(13, 148, 136, 0.35);
+
+      --paper: #fff9f0; --ink: #2c2c2c; --edge: #5d4037;
+      --violet: #7c3aed; --violet-ink: #5b21b6; --violet-bg: #ede9fe;
+      --past: #0369a1; --past-bg: #dbeafe;
+      --now: #b45309; --now-bg: #fef3c7;
+      --earlier: #6d28d9; --earlier-bg: #f3e8ff; --perf: #6d28d9; --perf-bg: #ede9fe;
+      --shadow-book: rgba(60, 40, 20, 0.14);
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0; min-height: 100dvh;
+      font-family: system-ui, -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: linear-gradient(165deg, #312e81 0%, #1e1b4b 42%, #0f172a 100%);
+      color: var(--ink); line-height: 1.55;
+    }
+    /* 屏 1 漫画 / 时间轴交互（版式见 l13-page01-layout.css） */
+    .intro-speech-overlay {
+      position: absolute; z-index: 4; pointer-events: none;
+      left: 10%; top: 11%; width: min(56%, 210px);
+      display: none;
+    }
+    .scramble-fig-now.is-past-observe .intro-speech-overlay { display: block; }
+    .intro-speech-bubble {
+      background: #fff; border: 2.5px solid #1e293b;
+      border-radius: 42% 48% 45% 50% / 48% 42% 50% 45%;
+      padding: 0.42rem 0.7rem 0.48rem; box-shadow: 0 2px 8px rgba(15,23,42,0.12);
+      text-align: center; line-height: 1.28;
+    }
+    .intro-speech-wrong {
+      position: relative; display: inline-block;
+      color: #3b82f6; font-weight: 800;
+      font-size: clamp(0.68rem, 1.9vw, 0.86rem); letter-spacing: -0.02em;
+    }
+    .intro-speech-wrong .speech-x {
+      position: absolute; inset: -18% -10%; width: 120%; height: 136%;
+      overflow: visible;
+    }
+    .intro-speech-wrong .speech-x line {
+      stroke: #dc2626; stroke-width: 5; stroke-linecap: round;
+    }
+    .intro-speech-right {
+      margin-top: 0.22rem; color: #2563eb; font-weight: 800;
+      font-size: clamp(0.7rem, 2vw, 0.9rem); letter-spacing: -0.02em;
+    }
+    .scene-clock {
+      position: absolute; top: 8px; right: 8px; z-index: 2;
+      padding: 0.35rem 0.55rem; border-radius: 8px;
+      background: rgba(255,255,255,0.95); border: 2px solid var(--violet);
+      font-size: 0.72rem; font-weight: 900; color: var(--violet-ink);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.12); max-width: 92%; line-height: 1.35;
+    }
+    .ph-scene { font-size: 3rem; line-height: 1; opacity: 0.9; }
+    .time-control {
+      margin: 0.65rem 0; padding: 0.65rem; border-radius: 12px;
+      border: 2px solid #c4b5fd; background: #faf5ff;
+    }
+    .time-control label { font-weight: 800; font-size: 0.88rem; display: block; margin-bottom: 0.35rem; }
+    .time-control input[type="datetime-local"] {
+      width: 100%; max-width: 320px; padding: 0.45rem; border-radius: 8px;
+      border: 2px solid #cbd5e1; font-weight: 700; font-size: 0.9rem;
+    }
+    .time-presets { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.45rem; }
+    .time-presets button {
+      padding: 0.35rem 0.65rem; border-radius: 999px; border: 2px solid var(--edge);
+      background: #fff; font-weight: 800; font-size: 0.78rem; cursor: pointer;
+    }
+    .intro-timeline {
+      margin: 0.55rem 0 0.45rem; padding: 0.55rem 0.65rem 0.45rem;
+      border-radius: 14px; border: 2px solid #c4b5fd;
+      background: linear-gradient(180deg, #faf5ff 0%, #fff 100%);
+    }
+    .intro-tl-track {
+      position: relative; margin-left: 8%; margin-right: 1%;
+      height: clamp(148px, 24vw, 188px); min-height: 148px;
+      --tl-axis-y: 56%;
+      --tl-earlier-x: 26%;
+      --tl-observe-x: 74%;
+      --tl-now-x: 90%;
+    }
+    .intro-timeline.mode-past .intro-tl-track {
+      --tl-earlier-x: 20%;
+      --tl-observe-x: 52%;
+      --tl-now-x: 88%;
+    }
+    .intro-tl-line {
+      position: absolute; left: 4%; right: 6%; top: var(--tl-axis-y);
+      height: 5px; border-radius: 999px; transform: translateY(-50%);
+      background: linear-gradient(90deg, #3b82f6 0%, #94a3b8 45%, #ef4444 100%);
+      box-shadow: 0 1px 0 rgba(255,255,255,0.8) inset;
+      z-index: 0;
+      transition: background 0.35s ease;
+    }
+    .intro-timeline.mode-past .intro-tl-line {
+      background: linear-gradient(90deg,
+        #8b5cf6 0%, #a78bfa 28%, #ef4444 48%, #fbbf24 72%, #f59e0b 100%);
+    }
+    /* 弧线桥：左端 = 蓝点中心，右端 = 红点中心 */
+    .intro-tl-arc-host {
+      position: absolute;
+      left: var(--tl-earlier-x);
+      width: calc(var(--tl-observe-x) - var(--tl-earlier-x));
+      top: var(--tl-axis-y);
+      height: 46%;
+      transform: translateY(-100%);
+      pointer-events: none; overflow: visible; z-index: 1;
+    }
+    .intro-tl-arc-host svg {
+      display: block; width: 100%; height: 100%; overflow: visible;
+    }
+    .intro-tl-arc-host .cause-arc {
+      fill: none; stroke: url(#intro-arc-grad); stroke-width: 2.2;
+      stroke-linecap: round; stroke-linejoin: round;
+      vector-effect: non-scaling-stroke; opacity: 0.95;
+    }
+    .intro-timeline.mode-past .intro-tl-arc-host .cause-arc {
+      stroke: url(#intro-arc-grad-past);
+    }
+    .tl-axis-dot {
+      position: absolute; top: var(--tl-axis-y); left: var(--tl-dot-x, 50%);
+      transform: translate(-50%, -50%);
+      box-sizing: border-box;
+      width: 20px; height: 20px; border-radius: 50%;
+      border: 3px solid #fff; box-shadow: 0 2px 10px rgba(15,23,42,0.22);
+      z-index: 3; pointer-events: none;
+    }
+    .tl-axis-dot.tl-dot-earlier { --tl-dot-x: var(--tl-earlier-x); }
+    .tl-axis-dot.tl-dot-observe { --tl-dot-x: var(--tl-observe-x); }
+    .tl-axis-dot.tl-dot-now { --tl-dot-x: var(--tl-now-x); display: none; }
+    .intro-timeline.mode-past .tl-axis-dot.tl-dot-now { display: block; }
+    .tl-dot-yellow { background: #f59e0b; box-shadow: 0 2px 10px rgba(245, 158, 11, 0.45); }
+    .intro-tl-point {
+      position: absolute; top: var(--tl-axis-y); left: var(--tl-point-x, 50%);
+      transform: translateX(-50%);
+      width: min(46%, 220px); text-align: center; z-index: 2;
+      pointer-events: none;
+    }
+    .intro-tl-earlier { --tl-point-x: var(--tl-earlier-x); }
+    .intro-tl-observe { --tl-point-x: var(--tl-observe-x); }
+    .intro-tl-point.intro-tl-now { --tl-point-x: var(--tl-now-x); display: none; }
+    .intro-timeline.mode-past .intro-tl-point.intro-tl-now { display: block; }
+    .intro-tl-now .tl-text-below { color: #b45309; }
+    .intro-tl-point .tl-text-above {
+      position: absolute; left: 50%; bottom: 14px;
+      transform: translateX(-50%); width: max(160px, 120%);
+      margin: 0; min-height: 2.4em;
+      font-size: clamp(0.66rem, 1vw + 0.5rem, 0.84rem);
+      font-weight: 800; color: #1e293b; line-height: 1.32;
+    }
+    .intro-tl-point .tl-text-above em {
+      font-style: normal; font-weight: 900;
+    }
+    .intro-tl-earlier .tl-text-above em { color: #1d4ed8; }
+    .intro-tl-observe .tl-text-above em { color: #b91c1c; }
+    .tl-dot-blue { background: #2563eb; }
+    .tl-dot-red { background: #ef4444; }
+    .intro-tl-point .tl-text-below {
+      position: absolute; left: 50%; top: 14px;
+      transform: translateX(-50%); margin: 0;
+      font-size: 0.74rem; font-weight: 900; letter-spacing: 0.02em;
+      white-space: nowrap;
+    }
+    .intro-tl-earlier .tl-text-below { color: #1d4ed8; }
+    .intro-tl-observe .tl-text-below { color: #b91c1c; }
+    .intro-timeline.mode-past .tl-axis-dot.tl-dot-earlier { background: #6d28d9; }
+    .intro-timeline.mode-past .intro-tl-earlier .tl-text-below { color: #5b21b6; }
+    .intro-timeline.mode-past .intro-tl-earlier .tl-text-above em { color: #5b21b6; }
+    .dynamic-sentence {
+      margin: 0.65rem 0; padding: 0.85rem; border-radius: 14px;
+      border: 3px solid var(--violet); background: linear-gradient(180deg, #fff, #faf5ff);
+    }
+    .dynamic-sentence .en { font-size: 1.08rem; font-weight: 900; line-height: 1.55; }
+    .tense-reveal-wrap {
+      margin-top: 0.65rem; padding: 0.75rem; border-radius: 14px;
+      border: 3px dashed #c4b5fd; background: #fff; cursor: pointer; text-align: center;
+    }
+    .tense-reveal-wrap.revealed { border-style: solid; border-color: var(--perf); background: var(--perf-bg); cursor: default; }
+    .tense-hidden { font-size: 1.1rem; font-weight: 900; color: #94a3b8; letter-spacing: 0.2em; }
+    .tense-revealed { display: none; font-size: 1.15rem; font-weight: 900; color: var(--perf); }
+    .tense-reveal-wrap.revealed .tense-hidden { display: none; }
+    .tense-reveal-wrap.revealed .tense-revealed { display: block; }
+    .cause-diagram {
+      display: grid; gap: 0.45rem; margin: 0.5rem 0;
+    }
+    @media (min-width: 560px) { .cause-diagram { grid-template-columns: 1fr auto 1fr; align-items: center; } }
+    .cause-box {
+      padding: 0.65rem; border-radius: 12px; font-weight: 800; font-size: 0.88rem; text-align: center; line-height: 1.4;
+    }
+    .cause-box.a { background: var(--perf-bg); border: 3px solid var(--perf); color: #4c1d95; }
+    .cause-box.b { background: var(--past-bg); border: 3px solid var(--past); color: #1e40af; }
+    .cause-arrow { font-size: 1.5rem; font-weight: 900; text-align: center; color: var(--violet-ink); }
+    /* 屏 2 · 三层时间轴：过去的过去 → 过去 → 现在 */
+    .cause-timeline {
+      margin: 0.65rem 0; padding: 0.55rem 0.65rem 0.45rem;
+      border-radius: 14px; border: 2px solid #c4b5fd;
+      background: linear-gradient(180deg, #faf5ff 0%, #fff 100%);
+      transition: opacity 0.35s ease;
+    }
+    .cause-timeline.is-waiting { opacity: 0.72; }
+    .cause-timeline.is-waiting .cause-tl-arc-host { display: none; }
+    .cause-tl-track {
+      position: relative; margin: 0 2% 0 4%;
+      height: clamp(88px, 14vw, 108px); min-height: 88px;
+      --ctl-axis-y: 58%;
+      --ctl-pp-x: 16%;
+      --ctl-past-x: 50%;
+      --ctl-now-x: 84%;
+    }
+    .cause-tl-line {
+      position: absolute; left: 2%; right: 2%; top: var(--ctl-axis-y);
+      height: 5px; border-radius: 999px; transform: translateY(-50%);
+      background: linear-gradient(90deg,
+        #8b5cf6 0%, #a78bfa 32%, #ef4444 52%, #fbbf24 76%, #f59e0b 100%);
+      z-index: 0;
+    }
+    .cause-tl-arc-host {
+      position: absolute; left: var(--ctl-pp-x);
+      width: calc(var(--ctl-past-x) - var(--ctl-pp-x));
+      top: var(--ctl-axis-y); height: 44%; transform: translateY(-100%);
+      pointer-events: none; overflow: visible; z-index: 1;
+    }
+    .cause-tl-arc-host svg { display: block; width: 100%; height: 100%; overflow: visible; }
+    .cause-tl-arc-host .cause-arc {
+      fill: none; stroke: url(#cause-arc-grad); stroke-width: 2.2;
+      stroke-linecap: round; vector-effect: non-scaling-stroke; opacity: 0.95;
+    }
+    .cause-tl-axis-dot {
+      position: absolute; top: var(--ctl-axis-y); left: var(--ctl-dot-x, 50%);
+      transform: translate(-50%, -50%); box-sizing: border-box;
+      width: 20px; height: 20px; border-radius: 50%; border: 3px solid #fff;
+      box-shadow: 0 2px 10px rgba(15,23,42,0.22); z-index: 3;
+    }
+    .cause-tl-axis-dot.ctl-pp { --ctl-dot-x: var(--ctl-pp-x); background: #6d28d9; }
+    .cause-tl-axis-dot.ctl-past { --ctl-dot-x: var(--ctl-past-x); background: #ef4444; }
+    .cause-tl-axis-dot.ctl-now { --ctl-dot-x: var(--ctl-now-x); background: #f59e0b; }
+    .cause-tl-point {
+      position: absolute; top: var(--ctl-axis-y); left: var(--ctl-point-x, 50%);
+      transform: translateX(-50%); width: min(32%, 200px); text-align: center; z-index: 2;
+      pointer-events: none;
+    }
+    .cause-tl-pp { --ctl-point-x: var(--ctl-pp-x); }
+    .cause-tl-past { --ctl-point-x: var(--ctl-past-x); }
+    .cause-tl-now { --ctl-point-x: var(--ctl-now-x); }
+    .cause-tl-point .ctl-tag {
+      position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%);
+      display: inline-block; padding: 0.06rem 0.4rem; border-radius: 6px;
+      font-size: 0.62rem; font-weight: 900; white-space: nowrap;
+    }
+    .cause-tl-pp .ctl-tag { background: var(--earlier-bg); color: var(--earlier); }
+    .cause-tl-past .ctl-tag { background: var(--past-bg); color: var(--past); }
+    .cause-tl-now .ctl-tag { background: var(--now-bg); color: var(--now); }
+    .cause-tl-point .ctl-text-below {
+      position: absolute; left: 50%; top: 14px; transform: translateX(-50%);
+      margin: 0; font-size: 0.76rem; font-weight: 900; white-space: nowrap;
+    }
+    .cause-tl-pp .ctl-text-below { color: #5b21b6; }
+    .cause-tl-past .ctl-text-below { color: #b91c1c; }
+    .cause-tl-now .ctl-text-below { color: #b45309; }
+    .cause-note-block { margin-top: 0.5rem; }
+    .cause-note-block .rule-box { margin-top: 0.35rem; margin-bottom: 0; }
+    .form-table-wrap { overflow-x: auto; margin: 0.5rem 0; }
+    .form-table {
+      width: 100%; border-collapse: collapse; font-size: 0.78rem; font-weight: 700;
+    }
+    .form-table th, .form-table td {
+      border: 2px solid #e2e8f0; padding: 0.45rem 0.4rem; vertical-align: top; line-height: 1.35;
+    }
+    .form-table th { background: var(--violet-bg); color: var(--violet-ink); }
+    .form-table .col-type { min-width: 4.5rem; background: #faf5ff; font-weight: 900; }
+    .form-table .ex-en { display: block; margin-bottom: 0.28rem; line-height: 1.4; }
+    .form-table .ex-zh {
+      display: block; font-size: 0.7rem; color: #64748b; font-weight: 700; line-height: 1.35;
+    }
+    .form-table .ex-axis {
+      display: inline-block; margin-bottom: 0.2rem; font-size: 0.65rem; font-weight: 900;
+      padding: 0.08rem 0.38rem; border-radius: 6px; background: #f1f5f9; color: #475569;
+    }
+    .form-table .ex-axis.cause { background: var(--earlier-bg); color: var(--earlier); }
+    .ex-tl-block { margin-top: 0.4rem; }
+    .ex-tl-toggle {
+      display: inline-flex; align-items: center; gap: 0.25rem;
+      margin: 0; padding: 0.22rem 0.55rem; border-radius: 999px;
+      border: 2px solid #c4b5fd; background: #faf5ff;
+      font-size: 0.66rem; font-weight: 800; color: var(--violet-ink);
+      cursor: pointer; touch-action: manipulation;
+    }
+    .ex-tl-toggle[aria-expanded="true"] { background: var(--violet-bg); border-color: var(--violet); }
+    .ex-tl-toggle-icon { display: inline-block; transition: transform 0.2s ease; font-size: 0.6rem; }
+    .ex-tl-toggle[aria-expanded="true"] .ex-tl-toggle-icon { transform: rotate(90deg); }
+    .ex-tl-panel { margin-top: 0.35rem; }
+    .ex-tl-panel[hidden] { display: none !important; }
+    .ex-tl-mini {
+      position: relative; height: 76px; margin: 0;
+      --ex-axis-y: 54%; --ex-pp-x: 18%; --ex-past-x: 52%; --ex-now-x: 86%;
+      border-radius: 10px; background: linear-gradient(180deg, #faf5ff, #fff);
+      border: 1px solid #e9d5ff;
+    }
+    .ex-tl-mini .ex-tl-line {
+      position: absolute; left: 4%; right: 4%; top: var(--ex-axis-y);
+      height: 4px; border-radius: 999px; transform: translateY(-50%);
+      background: linear-gradient(90deg, #8b5cf6 0%, #ef4444 48%, #f59e0b 100%);
+    }
+    .ex-tl-mini .ex-tl-dot {
+      position: absolute; top: var(--ex-axis-y); left: var(--ex-dot-x);
+      transform: translate(-50%, -50%); width: 14px; height: 14px;
+      border-radius: 50%; border: 2px solid #fff; box-shadow: 0 1px 6px rgba(0,0,0,0.15);
+      z-index: 3;
+    }
+    .ex-tl-mini .ex-tl-dot-pp { --ex-dot-x: var(--ex-pp-x); background: #6d28d9; }
+    .ex-tl-mini .ex-tl-dot-past { --ex-dot-x: var(--ex-past-x); background: #ef4444; }
+    .ex-tl-mini .ex-tl-dot-now { --ex-dot-x: var(--ex-now-x); background: #f59e0b; }
+    .ex-tl-mini .ex-tl-arc-host {
+      position: absolute; left: var(--ex-pp-x);
+      width: calc(var(--ex-past-x) - var(--ex-pp-x));
+      top: var(--ex-axis-y); height: 42%; transform: translateY(-100%);
+      pointer-events: none; z-index: 1; overflow: visible;
+    }
+    .ex-tl-mini .ex-tl-arc-host svg { width: 100%; height: 100%; display: block; overflow: visible; }
+    .ex-tl-mini .ex-tl-arc { fill: none; stroke-width: 1.8; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+    .ex-tl-mini .ex-tl-lbl {
+      position: absolute; top: var(--ex-axis-y); left: var(--ex-lbl-x);
+      transform: translateX(-50%); text-align: center; z-index: 2; pointer-events: none;
+      max-width: 30%;
+    }
+    .ex-tl-mini .ex-tl-lbl-pp { --ex-lbl-x: var(--ex-pp-x); }
+    .ex-tl-mini .ex-tl-lbl-past { --ex-lbl-x: var(--ex-past-x); }
+    .ex-tl-mini .ex-tl-lbl-now { --ex-lbl-x: var(--ex-now-x); }
+    .ex-tl-mini .ex-tl-lbl .ex-tl-tag {
+      position: absolute; left: 50%; bottom: 11px; transform: translateX(-50%);
+      font-size: 0.55rem; font-weight: 900; padding: 0.05rem 0.3rem; border-radius: 4px;
+      white-space: nowrap;
+    }
+    .ex-tl-mini .ex-tl-lbl-pp .ex-tl-tag { background: var(--earlier-bg); color: #5b21b6; }
+    .ex-tl-mini .ex-tl-lbl-past .ex-tl-tag { background: var(--past-bg); color: #b91c1c; }
+    .ex-tl-mini .ex-tl-lbl-now .ex-tl-tag { background: var(--now-bg); color: #b45309; }
+    .ex-tl-mini .ex-tl-lbl p {
+      position: absolute; left: 50%; top: 11px; transform: translateX(-50%);
+      margin: 0; font-size: 0.62rem; font-weight: 800; line-height: 1.2;
+      white-space: nowrap; max-width: 110px; overflow: hidden; text-overflow: ellipsis;
+    }
+    .ex-tl-mini .ex-tl-lbl-pp p { color: #5b21b6; }
+    .ex-tl-mini .ex-tl-lbl-past p { color: #b91c1c; }
+    .ex-tl-mini .ex-tl-lbl-now p { color: #b45309; }
+    .form-speak-rows { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.35rem; }
+    .form-speak-rows .btn { min-height: 38px; font-size: 0.78rem; padding: 0.35rem 0.7rem; }
+  </style>
+</head>
+<body>
+  <div id="ui-lock" aria-hidden="true"></div>
+  <div id="app">
+    <div id="l13-book" class="book">
+      <header class="top-bar">
+        <div class="top-bar-main">
+          <strong>过去完成时</strong>
+        </div>
+        <a class="l13-index-link" href="index.html">学习目录</a>
+      </header>
+      <div class="l13-scroll">
+
+        <section class="lesson-page active" data-page="1">
+          <div class="panel panel-intro-scene">
+            <p class="rule-box violet">左：早晨没吃早饭就出门 · 右：<strong>观察时刻</strong>（可调到过去）。</p>
+            <div class="scramble-dual" id="intro-dual">
+              <figure class="scramble-fig">
+                <figcaption>早晨：饭还在桌上，赶着出门上学，妈妈招呼先吃点。</figcaption>
+                <div class="img-slot">
+                  <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L13/assets/img/l13-p01-intro-breakfast-left.png" alt="早晨：饭还在桌上，赶着出门上学" />
+                </div>
+              </figure>
+              <figure class="scramble-fig scramble-fig-now">
+                <figcaption id="intro-right-cap">此刻：教室里，又饿又没精神。</figcaption>
+                <div class="img-slot">
+                  <div class="scene-clock" id="intro-clock">—</div>
+                  <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L13/assets/img/l13-p01-intro-breakfast-right.png" alt="此刻：教室里又饿又没精神" />
+                  <div class="intro-speech-overlay" id="intro-speech-overlay" aria-hidden="true">
+                    <div class="intro-speech-bubble">
+                      <div class="intro-speech-wrong">
+                        <span>I'm so hungry…</span>
+                        <svg class="speech-x" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+                          <line x1="14" y1="14" x2="86" y2="86" />
+                          <line x1="86" y1="14" x2="14" y2="86" />
+                        </svg>
+                      </div>
+                      <div class="intro-speech-right" lang="en">I was so hungry</div>
+                    </div>
+                  </div>
+                </div>
+              </figure>
+            </div>
+            <div class="time-control">
+              <label for="intro-observe-dt">👁 观察时刻（可调到过去任意时间）</label>
+              <input type="datetime-local" id="intro-observe-dt" />
+              <div class="time-presets">
+                <button type="button" data-preset="now">现在</button>
+                <button type="button" data-preset="yesterday-afternoon">昨天下午</button>
+                <button type="button" data-preset="last-monday">上周一下午</button>
+                <button type="button" data-preset="last-week">7 天前</button>
+              </div>
+            </div>
+            <div class="intro-timeline mode-now" id="intro-timeline" aria-label="句子时间轴">
+              <div class="intro-tl-track">
+                <div class="intro-tl-line" aria-hidden="true"></div>
+                <span class="tl-axis-dot tl-dot-blue tl-dot-earlier" id="tl-dot-earlier" aria-hidden="true"></span>
+                <span class="tl-axis-dot tl-dot-red tl-dot-observe" id="tl-dot-observe" aria-hidden="true"></span>
+                <span class="tl-axis-dot tl-dot-yellow tl-dot-now" id="tl-dot-now" aria-hidden="true"></span>
+                <div class="intro-tl-arc-host" id="intro-tl-arc-host" aria-hidden="true">
+                  <svg viewBox="0 0 100 100" preserveAspectRatio="none">
+                    <defs>
+                      <linearGradient id="intro-arc-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#60a5fa" />
+                        <stop offset="55%" stop-color="#a78bfa" />
+                        <stop offset="100%" stop-color="#f87171" />
+                      </linearGradient>
+                      <linearGradient id="intro-arc-grad-past" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#8b5cf6" />
+                        <stop offset="55%" stop-color="#a78bfa" />
+                        <stop offset="100%" stop-color="#f87171" />
+                      </linearGradient>
+                      <marker id="intro-arc-arrow" viewBox="0 0 12 12" refX="10" refY="6"
+                        markerWidth="6" markerHeight="6" orient="auto" markerUnits="userSpaceOnUse">
+                        <path d="M2.5 2.5 L9.5 6 L2.5 9.5" fill="none" stroke="#f87171" stroke-width="1.5"
+                          stroke-linecap="round" stroke-linejoin="round" />
+                      </marker>
+                    </defs>
+                    <!-- 起点 (0,100)=蓝点，终点 (100,100)=红点 -->
+                    <path class="cause-arc" d="M 0 100 C 50 14, 50 14, 100 100" marker-end="url(#intro-arc-arrow)" />
+                  </svg>
+                </div>
+                <div class="intro-tl-point intro-tl-earlier">
+                  <p class="tl-text-above" lang="en" id="tl-earlier-en"></p>
+                  <p class="tl-text-below" id="tl-earlier-label">今天早晨</p>
+                </div>
+                <div class="intro-tl-point intro-tl-observe">
+                  <p class="tl-text-above" lang="en" id="tl-observe-en"></p>
+                  <p class="tl-text-below" id="tl-observe-label">现在</p>
+                </div>
+                <div class="intro-tl-point intro-tl-now">
+                  <p class="tl-text-below" id="tl-now-label">现在</p>
+                </div>
+              </div>
+            </div>
+            <div class="dynamic-sentence">
+              <p class="en en-line" lang="en" id="intro-dynamic-en"></p>
+              <p class="zh-hint" id="intro-dynamic-zh"></p>
+              <p class="zh-hint" id="intro-tense-hint" style="color:var(--violet-ink)"></p>
+            </div>
+            <div class="btn-row">
+              <button type="button" class="btn violet" id="intro-speak">朗读当前句子</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="2">
+          <div class="panel">
+            <p style="font-weight:800">当观察点落在<strong>过去</strong>时：较早的动作 A 是较晚动作 B 的<strong>原因</strong>。对 A 我们用<span class="tense-hidden" style="letter-spacing:0">？？？</span>——点击下方显示名称。</p>
+            <div class="tense-reveal-wrap" id="tense-reveal" role="button" tabindex="0" aria-label="点击显示时态名称">
+              <span class="tense-hidden">？？？ · 点击显示</span>
+              <span class="tense-revealed">过去完成时 · Past Perfect</span>
+            </div>
+            <div class="cause-timeline is-waiting" id="cause-timeline" aria-label="现在 · 过去 · 过去的过去">
+              <div class="cause-tl-track">
+                <div class="cause-tl-line" aria-hidden="true"></div>
+                <span class="cause-tl-axis-dot ctl-pp" id="cause-tl-dot-pp" aria-hidden="true"></span>
+                <span class="cause-tl-axis-dot ctl-past" id="cause-tl-dot-past" aria-hidden="true"></span>
+                <span class="cause-tl-axis-dot ctl-now" id="cause-tl-dot-now" aria-hidden="true"></span>
+                <div class="cause-tl-arc-host" id="cause-tl-arc-host" aria-hidden="true">
+                  <svg viewBox="0 0 100 100" preserveAspectRatio="none">
+                    <defs>
+                      <linearGradient id="cause-arc-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#8b5cf6" />
+                        <stop offset="100%" stop-color="#f87171" />
+                      </linearGradient>
+                      <marker id="cause-arc-arrow" viewBox="0 0 12 12" refX="10" refY="6"
+                        markerWidth="6" markerHeight="6" orient="auto" markerUnits="userSpaceOnUse">
+                        <path d="M2.5 2.5 L9.5 6 L2.5 9.5" fill="none" stroke="#f87171" stroke-width="1.5"
+                          stroke-linecap="round" stroke-linejoin="round" />
+                      </marker>
+                    </defs>
+                    <path class="cause-arc" d="M 0 100 C 50 14, 50 14, 100 100" marker-end="url(#cause-arc-arrow)" />
+                  </svg>
+                </div>
+                <div class="cause-tl-point cause-tl-pp">
+                  <span class="ctl-tag">A</span>
+                  <p class="ctl-text-below" id="cause-tl-pp-label">过去的过去</p>
+                </div>
+                <div class="cause-tl-point cause-tl-past">
+                  <span class="ctl-tag">B</span>
+                  <p class="ctl-text-below" id="cause-tl-past-label">过去</p>
+                </div>
+                <div class="cause-tl-point cause-tl-now">
+                  <span class="ctl-tag">讲述</span>
+                  <p class="ctl-text-below" id="cause-tl-now-label">现在</p>
+                </div>
+              </div>
+            </div>
+            <div class="cause-diagram">
+              <div class="cause-box a">A · 更早<br><span lang="en">hadn't eaten … breakfast</span><br><small>没吃早饭（更早）</small></div>
+              <div class="cause-arrow">→ 导致 →</div>
+              <div class="cause-box b">B · 观察点<br><span lang="en" id="cause-b-sample">was hungry at that moment</span><br><small>在那时肚子饿</small></div>
+            </div>
+            <div class="cause-note-block">
+              <button type="button" class="ex-tl-toggle" id="cause-note-toggle" aria-expanded="false" aria-controls="intro-cause-note-panel">
+                <span class="ex-tl-toggle-icon" aria-hidden="true">▶</span> 时态说明
+              </button>
+              <div id="intro-cause-note-panel" hidden>
+                <p class="rule-box violet" id="intro-cause-note">把「观察时刻」调到过去后：B 用<strong>一般过去时</strong>描述那时的状态；A 用<strong>过去完成时 had + 过去分词</strong>，表示在 B 之前已经发生。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="3">
+          <div class="page-head"><span class="page-kicker">3 / 12</span><h2 class="page-title">过去完成时 · 结构总结</h2></div>
+          <div class="panel panel-form-table">
+            <p class="rule-box violet"><strong>had + 过去分词</strong> · 所有人称都用 had（不用 has / have）· 只描述<strong>观察点之前</strong>已发生或持续的动作/状态</p>
+            <div class="form-table-wrap">
+              <table class="form-table" id="form-table-pp">
+                <thead>
+                  <tr><th>句式</th><th>主谓宾 S + V + O</th><th>主系表 S + V + P</th></tr>
+                </thead>
+                <tbody>
+                  <tr data-form-row="aff">
+                    <td class="col-type">肯定</td>
+                    <td lang="en">
+                      <span class="ex-axis cause">测验开始 → 我到教室</span>
+                      <span class="ex-en">When I got to the classroom, the teacher <span class="hl-had">had already started</span> the quiz.</span>
+                      <span class="ex-zh">我到教室时，测验已经开始。</span>
+                    </td>
+                    <td lang="en">
+                      <span class="ex-axis cause">担心持续 → 门口见面</span>
+                      <span class="ex-en">When we met at the museum gate, Tom <span class="hl-had">had been</span> worried for an hour.</span>
+                      <span class="ex-zh">见面时他已担心一小时。</span>
+                    </td>
+                  </tr>
+                  <tr data-form-row="neg">
+                    <td class="col-type">否定</td>
+                    <td lang="en">
+                      <span class="ex-axis cause">没吃早饭 → 昨天下午饿</span>
+                      <span class="ex-en">I <span class="hl-past">was</span> hungry yesterday afternoon, because I <span class="hl-had">hadn't eaten</span> anything for breakfast that morning.</span>
+                      <span class="ex-zh">昨天下午肚子饿，因为那天早上早饭什么都没吃。</span>
+                    </td>
+                    <td lang="en">
+                      <span class="ex-axis cause">没准备好 → 测验开始</span>
+                      <span class="ex-en">We <span class="hl-had">hadn't been</span> ready when the teacher <span class="hl-past">started</span> the quiz.</span>
+                      <span class="ex-zh">测验开始时我们还没准备好。</span>
+                    </td>
+                  </tr>
+                  <tr data-form-row="yesno">
+                    <td class="col-type">一般疑问</td>
+                    <td lang="en">
+                      <span class="ex-axis cause">写完作业？→ 停电</span>
+                      <span class="ex-en"><span class="hl-had">Had</span> you <span class="hl-had">finished</span> your homework before the lights went out?</span>
+                      <span class="ex-zh">停电前作业写完了吗？</span>
+                    </td>
+                    <td lang="en">
+                      <span class="ex-axis cause">座位找好？→ 电影开始</span>
+                      <span class="ex-en"><span class="hl-had">Had</span> we <span class="hl-had">been</span> in our seats before the film began?</span>
+                      <span class="ex-zh">电影开始前我们坐好了吗？</span>
+                    </td>
+                  </tr>
+                  <tr data-form-row="wh">
+                    <td class="col-type">特殊疑问</td>
+                    <td lang="en">
+                      <span class="ex-axis cause">做了什么 → 停电</span>
+                      <span class="ex-en"><span class="hl-had">What</span> had you <span class="hl-had">done</span> before the lights went out?</span>
+                      <span class="ex-zh">停电前你做了什么？</span>
+                    </td>
+                    <td lang="en">
+                      <span class="ex-axis cause">饿了多久 → 吃午饭</span>
+                      <span class="ex-en"><span class="hl-had">How long</span> had you <span class="hl-had">been</span> hungry before you ate lunch?</span>
+                      <span class="ex-zh">吃午饭前饿了多久？</span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="form-speak-rows">
+              <button type="button" class="btn ghost" data-form-speak="aff">朗读 · 肯定</button>
+              <button type="button" class="btn ghost" data-form-speak="neg">朗读 · 否定</button>
+              <button type="button" class="btn ghost" data-form-speak="yesno">朗读 · 疑问</button>
+              <button type="button" class="btn ghost" data-form-speak="wh">朗读 · 特殊疑问</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="4">
+          <div class="page-head"><span class="page-kicker">4 / 12</span><h2 class="page-title">课程目标 · 语料预览</h2></div>
+          <div class="panel panel-corpus-preview">
+            <p style="font-weight:800;margin:0 0 0.5rem;flex-shrink:0"><span class="tier-label">语料库</span></p>
+            <div class="corpus-tabs" id="corpus-tabs-p1"></div>
+            <div class="corpus-list corpus-list--preview" id="corpus-list-p1"></div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="5">
+          <div class="page-head"><span class="page-kicker">5 / 12</span><h2 class="page-title">侦探社接案 · 钥匙风波</h2></div>
+          <div class="panel panel-story-intro">
+            <p class="story-purpose-lead">学会使用<strong>过去完成时</strong>的用途——在<strong>故事描写</strong>中更好地理解事件的<strong>时间线</strong>。</p>
+            <div class="scene-frame scene-frame--story">
+              <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L13/assets/img/l13-p01-detective-agency.png" alt="时光侦探社 · 用时间线读懂故事" />
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="6">
+          <div class="page-head"><span class="page-kicker">6 / 12</span><h2 class="page-title">时间轴发现 · 示范案卷</h2></div>
+          <div class="panel panel-split panel-demo-timeline">
+            <div class="stage-visual">
+              <div class="scene-frame scene-frame--timeline-hint">
+                <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L13/assets/img/l13-p01-timeline-three-lanes.png" alt="三层时间轴示意：更早 · 较近过去 · 现在" />
+              </div>
+            </div>
+            <div class="stage-body">
+              <p style="font-weight:800;margin:0"><span class="tier-label">分层 A</span>把三张「事件卡」拖进正确的时间格：<strong>更早</strong> / <strong>较近过去</strong> / <strong>现在</strong>。也可先点选卡片再点格子（平板友好）。</p>
+              <div class="event-pool" id="pool-demo"></div>
+              <div class="timeline-board">
+                <div class="tl-lane earlier"><h4>更早 · Earlier</h4><div class="tl-drop" data-lane="earlier" data-board="demo">拖入此处</div></div>
+                <div class="tl-lane past"><h4>较近过去 · Past</h4><div class="tl-drop" data-lane="past" data-board="demo">拖入此处</div></div>
+                <div class="tl-lane now"><h4>现在 · Now</h4><div class="tl-drop" data-lane="now" data-board="demo">拖入此处</div></div>
+              </div>
+              <p class="tl-fb" id="fb-demo"></p>
+              <div class="btn-row">
+                <button type="button" class="btn ghost" id="reset-demo">重置</button>
+                <button type="button" class="btn violet" id="check-demo">检查顺序</button>
+                <button type="button" class="btn ghost" id="speak-demo">朗读轴上句子</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="7">
+          <div class="page-head"><span class="page-kicker">7 / 12</span><h2 class="page-title">发现之旅 · 停电之夜</h2></div>
+          <div class="panel panel-split panel-homework-night">
+            <div class="stage-visual">
+              <div class="scene-frame scene-frame--homework">
+                <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L13/assets/img/l13-p01-case-homework.png" alt="停电之夜：作业·球赛·停电" />
+              </div>
+            </div>
+            <div class="stage-body">
+              <p class="rule-box violet">周五晚上：先写作业、再看球赛，突然停电。哪件事发生在 <strong>另两件事之前</strong>？</p>
+              <div class="event-pool" id="pool-homework"></div>
+              <div class="timeline-board">
+                <div class="tl-lane earlier"><h4>更早</h4><div class="tl-drop" data-lane="earlier" data-board="homework"></div></div>
+                <div class="tl-lane past"><h4>较近过去 A</h4><div class="tl-drop" data-lane="past" data-board="homework" data-slot="past1"></div></div>
+                <div class="tl-lane past"><h4>较近过去 B</h4><div class="tl-drop" data-lane="past" data-board="homework" data-slot="past2" style="border-color:#60a5fa"></div></div>
+              </div>
+              <p class="tl-fb" id="fb-homework"></p>
+              <div class="btn-row">
+                <button type="button" class="btn ghost" id="reset-homework">重置</button>
+                <button type="button" class="btn violet" id="check-homework">检查</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="8">
+          <div class="page-head"><span class="page-kicker">8 / 12</span><h2 class="page-title">引导提问 · 博物馆票</h2></div>
+          <div class="panel">
+            <p style="font-weight:800"><span class="tier-label">分层 A</span>阅读语篇片段，思考哪句表示「过去的过去」。</p>
+            <div class="panel panel-split nested-split">
+              <div class="stage-visual">
+                <div class="scene-frame"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L13/assets/img/l13-p01-case-museum.png" alt="博物馆票 had bought · had left" /></div>
+              </div>
+              <div class="stage-body">
+                <p class="en-line" lang="en">Last Saturday, our class planned a museum visit. Tom <span class="hl-had">had bought</span> his ticket online the day before. When we met at the gate, he looked worried because he <span class="hl-had">had left</span> the ticket at home.</p>
+                <p class="zh-hint">周六计划参观 · 前一天已购票 · 到门口发现票落家里。</p>
+              </div>
+            </div>
+            <div id="guide-quiz"></div>
+            <div class="btn-row">
+              <button type="button" class="btn ghost" data-speak="Last Saturday, our class planned a museum visit. Tom had bought his ticket online the day before.">朗读语篇</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="9">
+          <div class="page-head"><span class="page-kicker">9 / 12</span><h2 class="page-title">归纳工坊 · 我的定义</h2></div>
+          <div class="panel">
+            <p class="rule-box amber">用你自己的话选一条最贴近的定义（可多选讨论）：</p>
+            <div class="summary-pick" id="summary-pick"></div>
+            <p class="rule-box violet" id="summary-result" style="margin-top:0.65rem">选出后显示教研建议。</p>
+            <div class="btn-row">
+              <button type="button" class="btn violet" id="speak-summary">朗读建议句</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="10">
+          <div class="page-head"><span class="page-kicker">10 / 12</span><h2 class="page-title">预告 · 与一般过去时</h2></div>
+          <div class="panel">
+            <p style="font-weight:800"><span class="tier-label">分层 B</span>同一观察点：较近过去 vs 更早的过去。</p>
+            <div id="contrast-box"></div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="11">
+          <div class="page-head"><span class="page-kicker">11 / 12</span><h2 class="page-title">快判 · 谁先发生？</h2></div>
+          <div class="panel">
+            <p style="font-weight:800"><span class="tier-label">分层 B</span>8 题 · 中考高频场景（到校 / 乘车 / 比赛 / 健康）。</p>
+            <div id="order-quiz"></div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="12">
+          <div class="page-head"><span class="page-kicker">12 / 12</span><h2 class="page-title">本讲路线图</h2></div>
+          <div class="panel">
+            <ol class="roadmap">
+              <li>Page 01 生活导入 + 时间轴发现（本页 · 12 屏）</li>
+              <li><a href="lesson13-page02-form-had-pp.html">Page 02 构成 had + 过去分词</a></li>
+              <li><a href="lesson13-page03-time-markers.html">Page 03 by / before / when</a></li>
+              <li><a href="lesson13-page04-contrast-past.html">Page 04 与一般过去时辨析</a></li>
+              <li><a href="lesson13-page05-story-sequence.html">Page 05 故事排序</a></li>
+              <li><a href="lesson13-page06-story-retell.html">Page 06 故事复述</a></li>
+              <li><a href="lesson13-page07-quiz.html">Page 07 当堂测</a></li>
+              <li><a href="lesson13-page08-handout.html">Page 08 背诵讲义</a></li>
+            </ol>
+          </div>
+        </section>
+
+      </div>
+    </div>
+    <nav class="lesson-pager" aria-label="分页">
+      <button type="button" class="pager-prev" id="pager-prev">‹ 上一页</button>
+      <a class="l13-index-link" href="index.html" aria-label="返回学习目录">目录</a>
+      <span class="pager-mid" id="pager-mid">1 / 12</span>
+      <button type="button" class="pager-next" id="pager-next">下一页 ›</button>
+    </nav>
+  </div>
+
+  <script src="l13-image-lightbox.js"></script>
+  <script src="l13-index-nav.js"></script>
+  <script>
+(function () {
+  "use strict";
+
+  const AZURE_KEY = "C42UQWeDcluYanbo17WrtUnPhk0vkZy2uQHPTCGDzY6CdExx99NzJQQJ99BIACqBBLyXJ3w3AAAYACOGjkyu";
+  const AZURE_REGION = "southeastasia";
+  const VOICE_EN = "en-US-AriaNeural";
+  const PAGE_COUNT = 12;
+  const PAGE_OPEN_TIME = new Date();
+
+  const P13 = {
+    corpusBank: {
+      school: [
+        { tag: "到校", zh: "我到教室时测验已开始", en: "When I arrived, the teacher had already started the quiz." },
+        { tag: "交作业", zh: "铃响前我已交作业", en: "I had handed in my homework before the bell rang." },
+        { tag: "黑板", zh: "进班前老师已写好要点", en: "The teacher had written the key points before we entered." },
+        { tag: "体育课", zh: "下雨前我们已做完热身", en: "We had finished the warm-up before it started to rain." },
+        { tag: "社团", zh: "活动开始前社长已安排好分工", en: "The club leader had arranged the jobs before the activity began." },
+        { tag: "考试", zh: "发卷前我已检查两遍姓名", en: "I had checked my name twice before they gave out the papers." },
+        { tag: "值日", zh: "组长到前我已擦好黑板", en: "I had cleaned the blackboard before the monitor came." },
+        { tag: "借书", zh: "闭馆前我已还书", en: "I had returned the book before the library closed." }
+      ],
+      travel: [
+        { tag: "地铁", zh: "到站台时车已开走", en: "When I reached the platform, the train had already left." },
+        { tag: "机场", zh: "起飞前我已办好登机", en: "I had checked in before the plane took off." },
+        { tag: "酒店", zh: "到达前前台已收到订单", en: "The hotel had received our booking before we arrived." },
+        { tag: "骑行", zh: "出发下雨前我们已看预报", en: "We had read the weather report before it began to rain on our ride." },
+        { tag: "博物馆", zh: "开门前我们已网上预约", en: "We had booked the tickets online before the museum opened." },
+        { tag: "高铁", zh: "到站时朋友已等候多时", en: "My friend had waited for a long time when I got to the station." },
+        { tag: "露营", zh: "搭帐篷前我已铺好防潮垫", en: "I had laid out the mat before we put up the tent." },
+        { tag: "问路", zh: "开口前我已打开地图", en: "I had opened the map before I asked for directions." }
+      ],
+      daily: [
+        { tag: "钥匙", zh: "到校前汤姆已丢钥匙", en: "Tom had lost his key before he arrived at school." },
+        { tag: "晚饭", zh: "妈妈到家前我已摆好碗筷", en: "I had set the table before Mum got home." },
+        { tag: "手机", zh: "没电前我已保存截图", en: "I had saved the screenshots before my phone died." },
+        { tag: "快递", zh: "敲门时快递员已离开", en: "When I opened the door, the courier had already left." },
+        { tag: "电影", zh: "电影开始前我们已找到座位", en: "We had found our seats before the film began." },
+        { tag: "闹钟", zh: "闹钟响前我已醒来", en: "I had woken up before the alarm went off." },
+        { tag: "雨", zh: "收衣服前雨已开始", en: "It had started to rain before we brought the clothes in." },
+        { tag: "生日", zh: "客人到前我已点好蜡烛", en: "I had lit the candles before the guests arrived." }
+      ],
+      community: [
+        { tag: "环保", zh: "活动开始前我们已分好组", en: "We had divided into groups before the clean-up started." },
+        { tag: "志愿", zh: "老人到前我们已准备好椅子", en: "We had prepared the chairs before the elderly arrived." },
+        { tag: "义卖", zh: "开张前我已贴好海报", en: "I had put up the posters before the sale opened." },
+        { tag: "讲座", zh: "讲座开始时我已记好笔记", en: "I had taken notes before the talk began." },
+        { tag: "社区赛", zh: "决赛前我们已练了一个月", en: "We had practised for a month before the final." },
+        { tag: "捐书", zh: "收书结束前班长已统计数量", en: "The monitor had counted the books before the collection ended." },
+        { tag: "植树", zh: "浇水前我们已挖好树坑", en: "We had dug the holes before we watered the trees." },
+        { tag: "宣传", zh: "广播前我已录好音频", en: "I had recorded the audio before the broadcast." }
+      ]
+    },
+    demoEvents: [
+      { id: "d1", zh: "汤姆丢了钥匙", en: "Tom had lost his key.", lane: "earlier", speak: "Tom had lost his key." },
+      { id: "d2", zh: "汤姆到达学校", en: "Tom arrived at school.", lane: "past", speak: "Tom arrived at school." },
+      { id: "d3", zh: "现在正在复盘", en: "Tom is telling the story now.", lane: "now", speak: "Tom is telling the story now." }
+    ],
+    homeworkEvents: [
+      { id: "h1", zh: "汤姆已写完作业", en: "Tom had finished his homework.", lane: "earlier" },
+      { id: "h2", zh: "他们开始看球赛", en: "They started watching the game.", lane: "past1" },
+      { id: "h3", zh: "突然停电了", en: "The lights went out.", lane: "past2" }
+    ],
+    guideQuiz: [
+      { stem: "哪一句表示「前一天已经购票」？", ans: "Tom had bought his ticket online the day before.", opts: ["Tom had bought his ticket online the day before.", "Tom looked worried at the gate.", "Our class planned a museum visit."], fb: "had bought = 买票发生在「到门口」之前。" },
+      { stem: "哪一句表示「到门口时的状态」？", ans: "When we met at the gate, he looked worried.", opts: ["Tom had left the ticket at home.", "When we met at the gate, he looked worried.", "Tom had bought his ticket online the day before."], fb: "looked worried 是一般过去时，描述当时。" },
+      { stem: "票落家里发生在什么时候？", ans: "before we met at the gate", opts: ["after the visit", "before we met at the gate", "now"], fb: "had left … 比 met 更早。" },
+      { stem: "本段有几个 had + 过去分词结构？", ans: "2", opts: ["1", "2", "0"], fb: "had bought + had left。" }
+    ],
+    summaryOptions: [
+      { id: "a", text: "过去的过去：在过去某一时刻之前已经完成的动作", correct: true, tip: "教研推荐 · 最准确" },
+      { id: "b", text: "任何过去的动作都用 had", correct: false, tip: "只有「更早的那步」才用过去完成时。" },
+      { id: "c", text: "和一般过去时完全一样", correct: false, tip: "观察点不同：had 强调更早。" },
+      { id: "d", text: "常和 before / when / by 等时间词连用", correct: true, tip: "对！Page 03 专练。" }
+    ],
+    contrastPreview: [
+      { past: "I arrived at the station.", had: "The train had left.", zh: "我到站时，火车已经开了。" },
+      { past: "She opened the door.", had: "Someone had locked it.", zh: "她开门前，门已被锁上。" },
+      { past: "We started the meeting.", had: "The principal had sent the notice.", zh: "开会前，校长已发过通知。" },
+      { past: "He told us the news.", had: "He had heard it on the radio.", zh: "他先听过广播，再告诉我们。" }
+    ],
+    formExTlSpecs: [
+      [{ pp: "测验已开始", past: "我到教室" }, { pp: "担心一小时", past: "门口见面" }],
+      [{ pp: "没吃早饭", past: "昨天下午" }, { pp: "未准备好", past: "测验开始" }],
+      [{ pp: "写完作业", past: "停电" }, { pp: "已入座", past: "电影开始" }],
+      [{ pp: "更早之事", past: "停电" }, { pp: "饿久了", past: "吃午饭" }]
+    ],
+    formTableSpeak: {
+      golden: "I was hungry yesterday afternoon, because I hadn't eaten anything for breakfast that morning.",
+      aff: "When I got to the classroom, the teacher had already started the quiz. When we met at the museum gate, Tom had been worried for an hour.",
+      neg: "I was hungry yesterday afternoon, because I hadn't eaten anything for breakfast that morning. We hadn't been ready when the teacher started the quiz.",
+      yesno: "Had you finished your homework before the lights went out? Had we been in our seats before the film began?",
+      wh: "What had you done before the lights went out? How long had you been hungry before you ate lunch?",
+      all: "I was hungry yesterday afternoon, because I hadn't eaten anything for breakfast that morning. When I got to the classroom, the teacher had already started the quiz. When we met at the museum gate, Tom had been worried for an hour. Had you finished your homework before the lights went out? What had you done before the lights went out? How long had you been hungry before you ate lunch?"
+    },
+    orderQuiz: [
+      { stem: "Which happened first?", ans: "The train had left.", opts: ["I arrived at the station.", "The train had left."], fb: "火车先开走，后到站。" },
+      { stem: "Which happened first?", ans: "I had finished my homework.", opts: ["I had finished my homework.", "I went out to play."], fb: "先写完作业，再出去玩。" },
+      { stem: "Which happened first?", ans: "She had practised many times.", opts: ["She won the race.", "She had practised many times."], fb: "先练习，后获胜。" },
+      { stem: "Which happened first?", ans: "The courier had left.", opts: ["I opened the door.", "The courier had left."], fb: "快递员先走，后开门。" },
+      { stem: "Which happened first?", ans: "Tom had lost his key.", opts: ["Tom arrived at school.", "Tom had lost his key."], fb: "先丢钥匙。" },
+      { stem: "Which happened first?", ans: "We had found our seats.", opts: ["The film began.", "We had found our seats."], fb: "先找座位，电影后开始。" },
+      { stem: "Which happened first?", ans: "I had saved the map.", opts: ["My phone died.", "I had saved the map."], fb: "先保存地图。" },
+      { stem: "Which happened first?", ans: "They had finished the warm-up.", opts: ["It started to rain.", "They had finished the warm-up."], fb: "先热身，后下雨。" }
+    ]
+  };
+
+  let currentPage = 1;
+  let selectedChip = null;
+  let introLastEn = "";
+  let introClockTimer = null;
+  const boardState = { demo: {}, homework: {} };
+  const uiLock = document.getElementById("ui-lock");
+
+  function escapeXml(s) {
+    return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+  function lockUI() { uiLock.classList.add("active"); }
+  function unlockUI() { uiLock.classList.remove("active"); }
+
+  async function playAudio(text) {
+    if (!text) return;
+    lockUI();
+    const url = "https://" + AZURE_REGION + ".tts.speech.microsoft.com/cognitiveservices/v1";
+    const ssml = "<speak version='1.0' xml:lang='en-US'><voice name='" + VOICE_EN + "'>" + escapeXml(text) + "</voice></speak>";
+    try {
+      const res = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Ocp-Apim-Subscription-Key": AZURE_KEY,
+          "Content-Type": "application/ssml+xml",
+          "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3"
+        },
+        body: ssml
+      });
+      if (!res.ok) throw new Error(String(res.status));
+      const blob = await res.blob();
+      const u = URL.createObjectURL(blob);
+      const a = new Audio(u);
+      await new Promise((res, rej) => {
+        a.onended = () => { URL.revokeObjectURL(u); res(); };
+        a.onerror = rej;
+        a.play().catch(rej);
+      });
+    } catch (e) {
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang = "en-US";
+      speechSynthesis.speak(u);
+    } finally {
+      unlockUI();
+    }
+  }
+
+  function goPage(n) {
+    if (n < 1 || n > PAGE_COUNT) return;
+    currentPage = n;
+    document.querySelectorAll(".lesson-page").forEach((el) => {
+      el.classList.toggle("active", parseInt(el.dataset.page, 10) === n);
+    });
+    document.getElementById("pager-mid").textContent = n + " / " + PAGE_COUNT;
+    document.getElementById("pager-prev").disabled = n <= 1;
+    document.getElementById("pager-next").disabled = n >= PAGE_COUNT;
+    if (n === 1) requestAnimationFrame(layoutIntroTimelineArc);
+    if (n === 2) requestAnimationFrame(layoutCauseTimelineArc);
+    if (n === 3) requestAnimationFrame(layoutAllOpenExTimelines);
+  }
+
+  function highlightHad(en) {
+    return en.replace(/\bhad\s+\w+\b/gi, function (m) {
+      return '<span class="hl-had">' + m + "</span>";
+    });
+  }
+
+  function getCorpusWithImages() {
+    const cats = ["school", "travel", "daily", "community"];
+    const bank = {};
+    cats.forEach(function (cat) {
+      bank[cat] = P13.corpusBank[cat].map(function (item, i) {
+        const nn = String(i + 1).padStart(2, "0");
+        const base = "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L13/assets/img/l13-p04-" + cat + "-" + nn;
+        return Object.assign({}, item, {
+          imgA: base + "-a.png",
+          imgB: base + "-b.png",
+          capA: "更早 · A",
+          capB: "观察点 · B",
+          altA: item.zh.split(/[，。]/)[0],
+          altB: item.tag
+        });
+      });
+    });
+    return bank;
+  }
+
+  function corpusFigHtml(item) {
+    if (!item.imgA || !item.imgB) return "";
+    const altA = (item.altA || item.capA || "更早") + " · " + item.tag;
+    const altB = (item.altB || item.capB || "观察点") + " · " + item.tag;
+    return (
+      '<div class="corpus-item-figs">' +
+      '<figure class="corpus-fig fig-a"><img src="' + item.imgA + '" alt="' + altA + '" loading="lazy" /><figcaption>' + item.capA + "</figcaption></figure>" +
+      '<figure class="corpus-fig fig-b"><img src="' + item.imgB + '" alt="' + altB + '" loading="lazy" /><figcaption>' + item.capB + "</figcaption></figure>" +
+      "</div>"
+    );
+  }
+
+  function renderCorpusTabs(tabRowId, listId) {
+    const tabs = document.getElementById(tabRowId);
+    const list = document.getElementById(listId);
+    const useImages = listId === "corpus-list-p1";
+    const bank = useImages ? getCorpusWithImages() : P13.corpusBank;
+    const keys = Object.keys(bank);
+    let active = keys[0];
+    function draw() {
+      list.innerHTML = "";
+      bank[active].forEach(function (item) {
+        const div = document.createElement("div");
+        div.className = "corpus-item";
+        div.innerHTML = '<span class="tag">' + item.tag + "</span>" +
+          (useImages ? corpusFigHtml(item) : "") +
+          '<div class="en" lang="en">' + highlightHad(item.en) + "</div>" +
+          '<div class="zh">' + item.zh + "</div>";
+        const b = document.createElement("button");
+        b.type = "button";
+        b.className = "btn ghost";
+        b.style.cssText = "margin-top:0.35rem;min-height:36px;padding:0.3rem 0.65rem;font-size:0.78rem";
+        b.textContent = "朗读";
+        b.addEventListener("click", function () { playAudio(item.en); });
+        div.appendChild(b);
+        list.appendChild(div);
+      });
+    }
+    tabs.innerHTML = "";
+    keys.forEach((k) => {
+      const label = { school: "校园", travel: "出行", daily: "日常", community: "社区" }[k];
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "corpus-tab" + (k === active ? " active" : "");
+      btn.textContent = label + " (" + P13.corpusBank[k].length + ")";
+      btn.addEventListener("click", () => { active = k; tabs.querySelectorAll(".corpus-tab").forEach((t) => t.classList.remove("active")); btn.classList.add("active"); draw(); });
+      tabs.appendChild(btn);
+    });
+    draw();
+  }
+
+  function buildChip(ev, board) {
+    const chip = document.createElement("div");
+    chip.className = "event-chip";
+    chip.draggable = true;
+    chip.dataset.id = ev.id;
+    chip.dataset.board = board;
+    chip.innerHTML = '<span class="chip-zh">' + ev.zh + '</span><span lang="en">' + ev.en + "</span>";
+    chip.addEventListener("dragstart", (e) => {
+      e.dataTransfer.setData("text/plain", ev.id + "|" + board);
+      chip.classList.add("selected");
+    });
+    chip.addEventListener("dragend", () => chip.classList.remove("selected"));
+    chip.addEventListener("click", () => {
+      document.querySelectorAll('.event-chip[data-board="' + board + '"]').forEach((c) => c.classList.remove("selected"));
+      chip.classList.add("selected");
+      selectedChip = { id: ev.id, board: board };
+    });
+    return chip;
+  }
+
+  function initPool(poolId, events, board) {
+    const pool = document.getElementById(poolId);
+    pool.innerHTML = "";
+    boardState[board] = {};
+    events.forEach((ev) => {
+      pool.appendChild(buildChip(ev, board));
+    });
+    document.querySelectorAll('.tl-drop[data-board="' + board + '"]').forEach((drop) => {
+      drop.classList.remove("filled", "ok", "bad");
+      drop.innerHTML = "拖入此处";
+      drop.dataset.filled = "";
+    });
+  }
+
+  function setupTimeline(board, events, fbId) {
+    initPool(board === "demo" ? "pool-demo" : "pool-homework", events, board);
+    document.querySelectorAll('.tl-drop[data-board="' + board + '"]').forEach((drop) => {
+      drop.addEventListener("dragover", (e) => { e.preventDefault(); drop.classList.add("drag-over"); });
+      drop.addEventListener("dragleave", () => drop.classList.remove("drag-over"));
+      drop.addEventListener("drop", (e) => {
+        e.preventDefault();
+        drop.classList.remove("drag-over");
+        const raw = e.dataTransfer.getData("text/plain");
+        if (!raw) return;
+        const parts = raw.split("|");
+        placeEvent(parts[0], parts[1] || board, drop);
+      });
+      drop.addEventListener("click", () => {
+        if (!selectedChip || selectedChip.board !== board) return;
+        placeEvent(selectedChip.id, board, drop);
+      });
+    });
+    function placeEvent(id, b, drop) {
+      const ev = events.find((x) => x.id === id);
+      if (!ev) return;
+      const lane = drop.dataset.lane;
+      const slot = drop.dataset.slot || lane;
+      Object.keys(boardState[b]).forEach((k) => {
+        if (boardState[b][k] === id) delete boardState[b][k];
+      });
+      boardState[b][slot] = id;
+      drop.classList.add("filled");
+      drop.innerHTML = '<span lang="en">' + highlightHad(ev.en) + "</span><span class=\"chip-zh\">" + ev.zh + "</span>";
+      document.querySelectorAll('.event-chip[data-board="' + b + '"][data-id="' + id + '"]').forEach((c) => c.classList.add("used"));
+      selectedChip = null;
+    }
+    document.getElementById(fbId).textContent = "";
+  }
+
+  function checkBoard(board, events, fbId, expectedMap) {
+    const fb = document.getElementById(fbId);
+    let ok = true;
+    document.querySelectorAll('.tl-drop[data-board="' + board + '"]').forEach((drop) => {
+      drop.classList.remove("ok", "bad");
+      const slot = drop.dataset.slot || drop.dataset.lane;
+      const id = boardState[board][slot];
+      const want = expectedMap[slot];
+      if (id === want) drop.classList.add("ok");
+      else { drop.classList.add("bad"); ok = false; }
+    });
+    if (ok) {
+      fb.textContent = "✓ 顺序正确！更早的事用 had + 过去分词，较近用一般过去时。";
+      fb.className = "tl-fb";
+    } else {
+      fb.textContent = "再想想：哪件事发生在另一个过去动作之前？更早的一格常对应 had …";
+      fb.className = "tl-fb warn";
+    }
+  }
+
+  function resetBoard(board, poolId, events, fbId) {
+    boardState[board] = {};
+    initPool(poolId, events, board);
+    const fb = document.getElementById(fbId);
+    if (fb) { fb.textContent = ""; fb.className = "tl-fb"; }
+  }
+
+  function initGuideQuiz() {
+    const box = document.getElementById("guide-quiz");
+    P13.guideQuiz.forEach((q, qi) => {
+      const d = document.createElement("div");
+      d.className = "quiz-item";
+      d.innerHTML = "<p style='font-weight:800'>" + (qi + 1) + ". " + q.stem + "</p>";
+      const row = document.createElement("div");
+      row.className = "opt-row";
+      const fb = document.createElement("div");
+      fb.className = "fb";
+      q.opts.forEach((opt) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.textContent = opt;
+        btn.addEventListener("click", () => {
+          row.querySelectorAll("button").forEach((b) => b.disabled = true);
+          if (opt === q.ans) { btn.classList.add("ok"); d.classList.add("done"); fb.textContent = "✓ " + q.fb; }
+          else { btn.classList.add("bad"); fb.textContent = "再想想：" + q.fb; }
+        });
+        row.appendChild(btn);
+      });
+      d.appendChild(row);
+      d.appendChild(fb);
+      box.appendChild(d);
+    });
+  }
+
+  function initSummary() {
+    const box = document.getElementById("summary-pick");
+    const res = document.getElementById("summary-result");
+    P13.summaryOptions.forEach((o) => {
+      const lab = document.createElement("label");
+      const inp = document.createElement("input");
+      inp.type = "radio";
+      inp.name = "summary";
+      inp.value = o.id;
+      lab.appendChild(inp);
+      lab.appendChild(document.createTextNode(" " + o.text));
+      inp.addEventListener("change", () => {
+        res.innerHTML = o.correct ? "✓ " + o.tip : "提示：" + o.tip;
+      });
+      box.appendChild(lab);
+    });
+  }
+
+  function buildExTimelineHtml(spec, uid) {
+    const gradId = "ex-grad-" + uid;
+    const markId = "ex-mark-" + uid;
+    return (
+      '<div class="ex-tl-block">' +
+      '<button type="button" class="ex-tl-toggle" aria-expanded="false" aria-controls="ex-tl-panel-' + uid + '">' +
+      '<span class="ex-tl-toggle-icon" aria-hidden="true">▶</span> 时间轴</button>' +
+      '<div class="ex-tl-panel" id="ex-tl-panel-' + uid + '" hidden>' +
+      '<div class="ex-tl-mini" data-ex-tl-mini>' +
+      '<div class="ex-tl-line" aria-hidden="true"></div>' +
+      '<span class="ex-tl-dot ex-tl-dot-pp" data-ex-dot="pp"></span>' +
+      '<span class="ex-tl-dot ex-tl-dot-past" data-ex-dot="past"></span>' +
+      '<span class="ex-tl-dot ex-tl-dot-now" data-ex-dot="now"></span>' +
+      '<div class="ex-tl-arc-host" data-ex-arc-host>' +
+      '<svg viewBox="0 0 100 100" preserveAspectRatio="none">' +
+      '<defs><linearGradient id="' + gradId + '" x1="0%" y1="0%" x2="100%" y2="0%">' +
+      '<stop offset="0%" stop-color="#8b5cf6"/><stop offset="100%" stop-color="#f87171"/>' +
+      '</linearGradient>' +
+      '<marker id="' + markId + '" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="5" markerHeight="5" orient="auto" markerUnits="userSpaceOnUse">' +
+      '<path d="M2.5 2.5 L9.5 6 L2.5 9.5" fill="none" stroke="#f87171" stroke-width="1.5" stroke-linecap="round"/></marker>' +
+      '</defs>' +
+      '<path class="ex-tl-arc" stroke="url(#' + gradId + ')" d="M 0 100 C 50 14, 50 14, 100 100" marker-end="url(#' + markId + ')"/>' +
+      '</svg></div>' +
+      '<div class="ex-tl-lbl ex-tl-lbl-pp"><span class="ex-tl-tag">A</span><p>' + spec.pp + '</p></div>' +
+      '<div class="ex-tl-lbl ex-tl-lbl-past"><span class="ex-tl-tag">B</span><p>' + spec.past + '</p></div>' +
+      '<div class="ex-tl-lbl ex-tl-lbl-now"><span class="ex-tl-tag">讲述</span><p>现在</p></div>' +
+      '</div></div></div>'
+    );
+  }
+
+  function layoutExMiniArc(mini) {
+    if (!mini) return;
+    const host = mini.querySelector("[data-ex-arc-host]");
+    const dotPp = mini.querySelector('[data-ex-dot="pp"]');
+    const dotPast = mini.querySelector('[data-ex-dot="past"]');
+    if (!host || !dotPp || !dotPast) return;
+    const tr = mini.getBoundingClientRect();
+    if (tr.width < 8) return;
+    const ar = dotPp.getBoundingClientRect();
+    const br = dotPast.getBoundingClientRect();
+    const x1 = ar.left + ar.width / 2 - tr.left;
+    const x2 = br.left + br.width / 2 - tr.left;
+    const y = ar.top + ar.height / 2 - tr.top;
+    const w = Math.max(8, x2 - x1);
+    const arcH = Math.min(tr.height * 0.42, 36);
+    host.style.left = (x1 / tr.width * 100) + "%";
+    host.style.width = (w / tr.width * 100) + "%";
+    host.style.top = (y / tr.height * 100) + "%";
+    host.style.height = arcH + "px";
+    host.style.transform = "translateY(-100%)";
+  }
+
+  function layoutAllOpenExTimelines() {
+    document.querySelectorAll(".ex-tl-panel:not([hidden]) [data-ex-tl-mini]").forEach(layoutExMiniArc);
+  }
+
+  function initFormExTimelines() {
+    const table = document.getElementById("form-table-pp");
+    const specs = P13.formExTlSpecs;
+    if (!table || !specs) return;
+    const rows = table.querySelectorAll("tbody tr");
+    rows.forEach(function (tr, ri) {
+      const rowSpecs = specs[ri];
+      if (!rowSpecs) return;
+      tr.querySelectorAll("td[lang='en']").forEach(function (td, ci) {
+        const spec = rowSpecs[ci];
+        if (!spec) return;
+        const uid = "r" + ri + "c" + ci;
+        td.insertAdjacentHTML("beforeend", buildExTimelineHtml(spec, uid));
+        const btn = td.querySelector(".ex-tl-toggle");
+        const panel = td.querySelector("#ex-tl-panel-" + uid);
+        const mini = panel && panel.querySelector("[data-ex-tl-mini]");
+        if (!btn || !panel) return;
+        btn.addEventListener("click", function () {
+          const opening = panel.hidden;
+          panel.hidden = !opening;
+          btn.setAttribute("aria-expanded", opening ? "true" : "false");
+          if (opening) requestAnimationFrame(function () { layoutExMiniArc(mini); });
+        });
+      });
+    });
+    var exResizeTimer;
+    window.addEventListener("resize", function () {
+      clearTimeout(exResizeTimer);
+      exResizeTimer = setTimeout(layoutAllOpenExTimelines, 80);
+    });
+  }
+
+  function initContrast() {
+    const box = document.getElementById("contrast-box");
+    P13.contrastPreview.forEach((p) => {
+      const div = document.createElement("div");
+      div.className = "contrast-pair";
+      div.innerHTML =
+        '<p class="zh-hint">' + p.zh + "</p>" +
+        '<p class="line"><span class="hl-past">Past:</span> <span lang="en">' + p.past + "</span></p>" +
+        '<p class="line"><span class="hl-had">Earlier:</span> <span lang="en">' + highlightHad(p.had) + "</span></p>";
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "btn ghost";
+      btn.textContent = "朗读对比";
+      btn.style.marginTop = "0.35rem";
+      btn.addEventListener("click", () => playAudio(p.past + " " + p.had));
+      div.appendChild(btn);
+      box.appendChild(div);
+    });
+  }
+
+  function initOrderQuiz() {
+    const box = document.getElementById("order-quiz");
+    P13.orderQuiz.forEach((q, qi) => {
+      const d = document.createElement("div");
+      d.className = "quiz-item";
+      d.innerHTML = "<p style='font-weight:800'>" + (qi + 1) + ". " + q.stem + "</p>";
+      const row = document.createElement("div");
+      row.className = "opt-row";
+      const fb = document.createElement("div");
+      fb.className = "fb";
+      q.opts.forEach((opt) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.textContent = opt;
+        btn.addEventListener("click", () => {
+          row.querySelectorAll("button").forEach((b) => b.disabled = true);
+          if (opt === q.ans) { btn.classList.add("ok"); d.classList.add("done"); fb.textContent = "✓ " + q.fb; }
+          else { btn.classList.add("bad"); fb.textContent = q.fb; }
+        });
+        row.appendChild(btn);
+      });
+      d.appendChild(row);
+      d.appendChild(fb);
+      box.appendChild(d);
+    });
+  }
+
+  function formatZhClock(d) {
+    return d.toLocaleString("zh-CN", {
+      hour12: false, year: "numeric", month: "long", day: "numeric",
+      weekday: "short", hour: "2-digit", minute: "2-digit", second: "2-digit"
+    });
+  }
+
+  function toDatetimeLocalValue(d) {
+    const p = function (n) { return String(n).padStart(2, "0"); };
+    return d.getFullYear() + "-" + p(d.getMonth() + 1) + "-" + p(d.getDate()) + "T" + p(d.getHours()) + ":" + p(d.getMinutes());
+  }
+
+  function observePhrase(d, ref) {
+    const now = ref || new Date();
+    const diffMs = now.getTime() - d.getTime();
+    if (diffMs < 5 * 60 * 1000) return { en: "now", zh: "此刻", isNow: true };
+    const startOfToday = new Date(now);
+    startOfToday.setHours(0, 0, 0, 0);
+    const startOfObs = new Date(d);
+    startOfObs.setHours(0, 0, 0, 0);
+    const dayDiff = Math.round((startOfToday - startOfObs) / 86400000);
+    const h = d.getHours();
+    let partEn = "afternoon";
+    let partZh = "下午";
+    if (h < 12) { partEn = "morning"; partZh = "上午"; }
+    else if (h >= 17) { partEn = "evening"; partZh = "晚上"; }
+    if (dayDiff === 0) return { en: "this " + partEn, zh: "今天" + partZh, isNow: false };
+    if (dayDiff === 1) return { en: "yesterday " + partEn, zh: "昨天" + partZh, isNow: false };
+    if (dayDiff <= 7) {
+      const wdZh = ["日", "一", "二", "三", "四", "五", "六"];
+      const wdEn = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+      return { en: "last " + wdEn[d.getDay()], zh: "上周" + wdZh[d.getDay()], isNow: false };
+    }
+    const mo = d.toLocaleString("en-US", { month: "long" });
+    return { en: "on " + mo + " " + d.getDate(), zh: (d.getMonth() + 1) + "月" + d.getDate() + "日", isNow: false };
+  }
+
+  function breakfastRef(d) {
+    const obs = new Date(d);
+    const startOfToday = new Date(PAGE_OPEN_TIME);
+    startOfToday.setHours(0, 0, 0, 0);
+    const startOfObs = new Date(obs);
+    startOfObs.setHours(0, 0, 0, 0);
+    const dayDiff = Math.round((startOfToday - startOfObs) / 86400000);
+    if (dayDiff === 0) return { en: "this morning", zh: "今天早上" };
+    return { en: "that morning", zh: "那天早上" };
+  }
+
+  function buildIntroSentence(observeDate) {
+    const obs = new Date(observeDate);
+    const phrase = observePhrase(obs, PAGE_OPEN_TIME);
+    const brk = breakfastRef(obs);
+    if (phrase.isNow) {
+      return {
+        en: 'I <span class="hl-past">am</span> hungry, because I <span class="hl-had">haven\'t eaten</span> anything for breakfast.',
+        zh: "我现在肚子饿，因为早饭什么都没吃。",
+        hint: "👉 点「昨天下午」或拖动时间轴，看 <strong>was … hadn't eaten</strong>",
+        speak: "I am hungry, because I haven't eaten anything for breakfast.",
+        causeB: "was hungry at that moment",
+        timeline: {
+          mode: "now",
+          observeLabel: "现在",
+          earlierLabel: "今天早晨",
+          observeEn: 'I <em>am</em> hungry',
+          earlierEn: 'I <em>haven\'t eaten</em> anything for breakfast'
+        }
+      };
+    }
+    return {
+      en: 'I <span class="hl-past">was</span> hungry ' + phrase.en + ', because I <span class="hl-had">hadn\'t eaten</span> anything for breakfast ' + brk.en + ".",
+      zh: "我在" + phrase.zh + "肚子饿，因为" + brk.zh + "早饭什么都没吃。",
+      hint: "B · 一般过去 was hungry（观察点） → A · 过去完成 hadn't eaten（更早原因）",
+      speak: "I was hungry " + phrase.en + ", because I hadn't eaten anything for breakfast " + brk.en + ".",
+      causeB: "was hungry " + phrase.en,
+      timeline: {
+        mode: "past",
+        observeLabel: phrase.zh,
+        earlierLabel: brk.zh,
+        observeEn: 'I <em>was</em> hungry ' + phrase.en,
+        earlierEn: 'I <em>hadn\'t eaten</em> anything for breakfast ' + brk.en,
+        nowLabel: "现在"
+      }
+    };
+  }
+
+  function layoutIntroTimelineArc() {
+    const track = document.querySelector("#intro-timeline .intro-tl-track");
+    const host = document.getElementById("intro-tl-arc-host");
+    const dotE = document.getElementById("tl-dot-earlier");
+    const dotO = document.getElementById("tl-dot-observe");
+    if (!track || !host || !dotE || !dotO) return;
+    const tr = track.getBoundingClientRect();
+    if (tr.width < 10) return;
+    const er = dotE.getBoundingClientRect();
+    const or = dotO.getBoundingClientRect();
+    const x1 = er.left + er.width / 2 - tr.left;
+    const x2 = or.left + or.width / 2 - tr.left;
+    const y = er.top + er.height / 2 - tr.top;
+    const w = Math.max(12, x2 - x1);
+    const arcH = Math.min(tr.height * 0.46, 80);
+    host.style.left = (x1 / tr.width * 100) + "%";
+    host.style.width = (w / tr.width * 100) + "%";
+    host.style.top = (y / tr.height * 100) + "%";
+    host.style.height = arcH + "px";
+    host.style.transform = "translateY(-100%)";
+  }
+
+  function updateIntroTimeline(built) {
+    const box = document.getElementById("intro-timeline");
+    if (!box || !built.timeline) return;
+    const t = built.timeline;
+    box.classList.remove("mode-now", "mode-past");
+    box.classList.add(t.mode === "past" ? "mode-past" : "mode-now");
+    const elObserveEn = document.getElementById("tl-observe-en");
+    const elEarlierEn = document.getElementById("tl-earlier-en");
+    const elObserveLb = document.getElementById("tl-observe-label");
+    const elEarlierLb = document.getElementById("tl-earlier-label");
+    const elNowLb = document.getElementById("tl-now-label");
+    if (elObserveEn) elObserveEn.innerHTML = t.observeEn;
+    if (elEarlierEn) elEarlierEn.innerHTML = t.earlierEn;
+    if (elObserveLb) elObserveLb.textContent = t.observeLabel;
+    if (elEarlierLb) elEarlierLb.textContent = t.earlierLabel;
+    if (t.mode === "past" && elNowLb) elNowLb.textContent = t.nowLabel || "现在";
+    requestAnimationFrame(layoutIntroTimelineArc);
+  }
+
+  function layoutCauseTimelineArc() {
+    const track = document.querySelector("#cause-timeline .cause-tl-track");
+    const host = document.getElementById("cause-tl-arc-host");
+    const dotA = document.getElementById("cause-tl-dot-pp");
+    const dotB = document.getElementById("cause-tl-dot-past");
+    if (!track || !host || !dotA || !dotB) return;
+    const tr = track.getBoundingClientRect();
+    if (tr.width < 10) return;
+    const ar = dotA.getBoundingClientRect();
+    const br = dotB.getBoundingClientRect();
+    const x1 = ar.left + ar.width / 2 - tr.left;
+    const x2 = br.left + br.width / 2 - tr.left;
+    const y = ar.top + ar.height / 2 - tr.top;
+    const w = Math.max(12, x2 - x1);
+    const arcH = Math.min(tr.height * 0.44, 78);
+    host.style.left = (x1 / tr.width * 100) + "%";
+    host.style.width = (w / tr.width * 100) + "%";
+    host.style.top = (y / tr.height * 100) + "%";
+    host.style.height = arcH + "px";
+    host.style.transform = "translateY(-100%)";
+  }
+
+  function updateCauseTimeline(built) {
+    const box = document.getElementById("cause-timeline");
+    if (!box || !built.timeline) return;
+    const t = built.timeline;
+    const isPast = t.mode === "past";
+    box.classList.toggle("is-active", isPast);
+    box.classList.toggle("is-waiting", !isPast);
+    const elPpLb = document.getElementById("cause-tl-pp-label");
+    const elPastLb = document.getElementById("cause-tl-past-label");
+    const elNowLb = document.getElementById("cause-tl-now-label");
+    if (elPpLb) elPpLb.textContent = isPast && t.earlierLabel ? t.earlierLabel : "过去的过去";
+    if (elPastLb) elPastLb.textContent = isPast && t.observeLabel ? t.observeLabel : "过去";
+    if (elNowLb) elNowLb.textContent = "现在";
+    requestAnimationFrame(layoutCauseTimelineArc);
+  }
+
+  function updateIntroDemo() {
+    const input = document.getElementById("intro-observe-dt");
+    if (!input) return;
+    const obs = input.value ? new Date(input.value) : PAGE_OPEN_TIME;
+    const built = buildIntroSentence(obs);
+    introLastEn = built.speak;
+    const clock = document.getElementById("intro-clock");
+    const cap = document.getElementById("intro-right-cap");
+    const figNow = document.querySelector(".scramble-fig-now");
+    const speechOverlay = document.getElementById("intro-speech-overlay");
+    const phrase = observePhrase(obs, PAGE_OPEN_TIME);
+    if (clock) clock.textContent = "观察时刻\n" + formatZhClock(obs);
+    if (cap) {
+      cap.textContent = phrase.isNow ? "此刻：教室里，又饿又没精神。" : phrase.zh + "：教室里，又饿又没精神。";
+    }
+    if (figNow) figNow.classList.toggle("is-past-observe", !phrase.isNow);
+    if (speechOverlay) speechOverlay.setAttribute("aria-hidden", phrase.isNow ? "true" : "false");
+    document.getElementById("intro-dynamic-en").innerHTML = built.en;
+    document.getElementById("intro-dynamic-zh").textContent = built.zh;
+    document.getElementById("intro-tense-hint").innerHTML = built.hint;
+    updateIntroTimeline(built);
+    updateCauseTimeline(built);
+    const cbs = document.getElementById("cause-b-sample");
+    if (cbs) cbs.textContent = "was hungry at that moment";
+  }
+
+  function initIntroBreakfast() {
+    const input = document.getElementById("intro-observe-dt");
+    if (!input) return;
+    input.value = toDatetimeLocalValue(PAGE_OPEN_TIME);
+    updateIntroDemo();
+    input.addEventListener("change", updateIntroDemo);
+    input.addEventListener("input", updateIntroDemo);
+
+    var arcResizeTimer;
+    window.addEventListener("resize", function () {
+      clearTimeout(arcResizeTimer);
+      arcResizeTimer = setTimeout(function () {
+        layoutIntroTimelineArc();
+        layoutCauseTimelineArc();
+      }, 80);
+    });
+
+    document.querySelectorAll("[data-preset]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        const now = new Date();
+        let t = new Date(now);
+        const p = btn.dataset.preset;
+        if (p === "now") t = now;
+        else if (p === "yesterday-afternoon") { t.setDate(t.getDate() - 1); t.setHours(15, 30, 0, 0); }
+        else if (p === "last-monday") {
+          const d = t.getDay();
+          t.setDate(t.getDate() - (d === 0 ? 6 : d - 1) - 7);
+          t.setHours(14, 0, 0, 0);
+        } else if (p === "last-week") { t.setDate(t.getDate() - 7); t.setHours(10, 0, 0, 0); }
+        input.value = toDatetimeLocalValue(t);
+        updateIntroDemo();
+      });
+    });
+
+    if (introClockTimer) clearInterval(introClockTimer);
+    introClockTimer = setInterval(function () {
+      const inp = document.getElementById("intro-observe-dt");
+      if (!inp) return;
+      const obs = inp.value ? new Date(inp.value) : PAGE_OPEN_TIME;
+      if (observePhrase(obs, PAGE_OPEN_TIME).isNow) {
+        inp.value = toDatetimeLocalValue(new Date());
+        updateIntroDemo();
+      }
+    }, 30000);
+
+    document.getElementById("intro-speak").addEventListener("click", function () {
+      playAudio(introLastEn);
+    });
+
+    const rev = document.getElementById("tense-reveal");
+    if (rev) {
+      function reveal() { rev.classList.add("revealed"); }
+      rev.addEventListener("click", reveal);
+      rev.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); reveal(); }
+      });
+    }
+
+    const causeNoteBtn = document.getElementById("cause-note-toggle");
+    const causeNotePanel = document.getElementById("intro-cause-note-panel");
+    if (causeNoteBtn && causeNotePanel) {
+      causeNoteBtn.addEventListener("click", function () {
+        const opening = causeNotePanel.hidden;
+        causeNotePanel.hidden = !opening;
+        causeNoteBtn.setAttribute("aria-expanded", opening ? "true" : "false");
+      });
+    }
+
+    var fts = P13.formTableSpeak || {};
+    document.querySelectorAll("[data-form-speak]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var key = btn.getAttribute("data-form-speak");
+        if (fts[key]) playAudio(fts[key]);
+      });
+    });
+  }
+
+  function initLesson() {
+    document.body.classList.add("has-lesson-pager");
+    initIntroBreakfast();
+    initFormExTimelines();
+    renderCorpusTabs("corpus-tabs-p1", "corpus-list-p1");
+    setupTimeline("demo", P13.demoEvents, "fb-demo");
+    setupTimeline("homework", P13.homeworkEvents, "fb-homework");
+    initGuideQuiz();
+    initSummary();
+    initContrast();
+    initOrderQuiz();
+
+    document.getElementById("check-demo").addEventListener("click", () => {
+      checkBoard("demo", P13.demoEvents, "fb-demo", { earlier: "d1", past: "d2", now: "d3" });
+    });
+    document.getElementById("check-homework").addEventListener("click", () => {
+      checkBoard("homework", P13.homeworkEvents, "fb-homework", { earlier: "h1", past1: "h2", past2: "h3" });
+    });
+    document.getElementById("reset-demo").addEventListener("click", () => resetBoard("demo", "pool-demo", P13.demoEvents, "fb-demo"));
+    document.getElementById("reset-homework").addEventListener("click", () => resetBoard("homework", "pool-homework", P13.homeworkEvents, "fb-homework"));
+
+    document.getElementById("speak-demo").addEventListener("click", () => {
+      playAudio(P13.demoEvents.map((e) => e.speak || e.en).join(" "));
+    });
+    document.getElementById("speak-summary").addEventListener("click", () => {
+      playAudio("The past perfect shows an action finished before another time in the past. We often use had plus past participle.");
+    });
+
+    document.querySelectorAll("[data-speak]").forEach((btn) => {
+      btn.addEventListener("click", () => playAudio(btn.dataset.speak));
+    });
+    document.querySelectorAll("[data-goto]").forEach((btn) => {
+      btn.addEventListener("click", () => goPage(parseInt(btn.dataset.goto, 10)));
+    });
+
+    document.getElementById("pager-prev").addEventListener("click", () => goPage(currentPage - 1));
+    document.getElementById("pager-next").addEventListener("click", () => goPage(currentPage + 1));
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowLeft" && currentPage > 1) goPage(currentPage - 1);
+      if (e.key === "ArrowRight" && currentPage < PAGE_COUNT) goPage(currentPage + 1);
+    });
+    goPage(1);
+  }
+
+  initLesson();
+})();
+  </script>
+</body>
+</html>

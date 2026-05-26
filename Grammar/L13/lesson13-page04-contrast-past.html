@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>过去完成时 —— 辨析站 · vs 一般过去时</title>
+  <link rel="stylesheet" href="assets/lesson-screen-16x9.css" />
+  <link rel="stylesheet" href="l13-index-nav.css" />
+  <link rel="stylesheet" href="l13-lesson-shell.css" />
+  <link rel="stylesheet" href="l13-page-components.css" />
+  <link rel="stylesheet" href="l13-page04-layout.css" />
+  <link rel="stylesheet" href="l13-page04-readable-text.css" />
+
+  <style>
+    :root {
+      --l13-accent: #2563eb;
+      --l13-accent-ink: #1d4ed8;
+      --l13-top-bg: linear-gradient(180deg, #fff, #eff6ff);
+      --l13-shadow: rgba(37, 99, 235, 0.28);
+      --l13-dash: rgba(37, 99, 235, 0.28);
+
+      --paper: #fff9f0; --ink: #2c2c2c; --edge: #5d4037;
+      --past: #1d4ed8; --past-bg: #dbeafe;
+      --perf: #6d28d9; --perf-bg: #ede9fe;
+      --ok: #047857; --ok-bg: #ecfdf5;
+      --bad: #b91c1c; --bad-bg: #fef2f2;
+      --shadow-book: rgba(60, 40, 20, 0.14);
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0; min-height: 100dvh;
+      font-family: system-ui, -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: linear-gradient(165deg, #1e3a8a 0%, #312e81 45%, #0f172a 100%);
+      color: var(--ink); line-height: 1.55;
+    }
+  </style>
+</head>
+<body>
+  <div id="ui-lock" aria-hidden="true"></div>
+  <div id="app">
+    <div id="l13-book" class="book">
+      <header class="top-bar">
+        <div class="top-bar-main">
+          <strong>过去完成时 · 辨析站</strong>
+          <span class="subtitle-line">Page 04 · 一般过去 vs 过去完成 · 双轨时间轴（10 屏）</span>
+        </div>
+        <a class="l13-index-link" href="index.html">学习目录</a>
+      </header>
+      <div class="l13-scroll">
+
+        <section class="lesson-page active" data-page="1">
+          <div class="panel panel-intro-contrast">
+            <div class="scene-frame scene-frame--intro">
+              <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L13/assets/img/l13-p04-contrast-cards.png" alt="一般过去时与过去完成时对比" width="800" height="600" loading="lazy" decoding="async" />
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="2">
+          <div class="page-head"><span class="page-kicker">2 / 10</span><h2 class="page-title">双轨时间轴 · 观察点</h2></div>
+          <div class="panel panel-split panel-dual-timeline">
+            <div class="stage-visual">
+              <div class="scene-frame scene-frame--split">
+                <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L13/assets/img/l13-p04-dual-timeline.png" alt="双轨时间轴 7:30 8:00" width="800" height="600" loading="lazy" decoding="async" />
+              </div>
+            </div>
+            <div class="stage-body">
+              <p class="observe-pin">👁 观察点 · 8:00 — I arrived.</p>
+              <div class="dual-track">
+                <div class="track-lane earlier">
+                  <h4>更早 · Past Perfect</h4>
+                  <div class="track-event"><span class="hl-perf">7:30</span> He had left.</div>
+                  <p class="zh-hint" style="margin:0.25rem 0 0;text-align:center">离开在「到达」之前</p>
+                </div>
+                <div class="track-lane observe">
+                  <h4>观察点 · Simple Past</h4>
+                  <div class="track-event"><span class="hl-past">8:00</span> I arrived.</div>
+                  <p class="zh-hint" style="margin:0.25rem 0 0;text-align:center">观察时刻发生的事</p>
+                </div>
+              </div>
+              <p class="en-line" lang="en">When I arrived at 8:00, he <span class="hl-perf">had already left</span> at 7:30.</p>
+              <div class="btn-row">
+                <button type="button" class="btn blue" id="speak-dual">朗读示范</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="3">
+          <div class="page-head"><span class="page-kicker">3 / 10</span><h2 class="page-title">对比卡 · 轮播 6 组</h2></div>
+          <div class="panel panel-split panel-contrast">
+            <div class="stage-visual">
+              <div class="dual-visual-stack" id="contrast-visual" aria-live="polite"></div>
+            </div>
+            <div class="stage-body">
+              <p class="panel-lead"><span class="tier-label">分层 A</span>蓝 = 一般过去（观察点）· 紫 = 过去完成（更早）</p>
+              <div class="carousel-card" id="contrast-carousel"></div>
+              <div class="carousel-dots" id="contrast-dots"></div>
+              <div class="btn-row">
+                <button type="button" class="btn ghost" id="contrast-prev">上一组</button>
+                <button type="button" class="btn ghost" id="contrast-next">下一组</button>
+                <button type="button" class="btn blue" id="contrast-speak">朗读</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="4">
+          <div class="page-head"><span class="page-kicker">4 / 10</span><h2 class="page-title">故事微片段 · 点击标色</h2></div>
+          <div class="panel panel-story">
+            <div class="story-legend">
+              <span style="background:var(--past-bg);color:var(--past)">点击 → 一般过去（蓝）</span>
+              <span style="background:var(--perf-bg);color:var(--perf)">再点 → 过去完成（紫）</span>
+              <span style="color:#64748b">第三次点击取消</span>
+            </div>
+            <div class="story-passage-wrap">
+              <div class="story-passage" id="story-passage" lang="en"></div>
+            </div>
+            <p class="zh-hint" id="story-zh"></p>
+            <div class="btn-row">
+              <button type="button" class="btn ghost" id="story-show-key">显示参考答案标色</button>
+              <button type="button" class="btn blue" id="story-speak">朗读语篇</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="5">
+          <div class="page-head"><span class="page-kicker">5 / 10</span><h2 class="page-title">改错陷阱 · 6 条</h2></div>
+          <div class="panel panel-traps">
+            <p class="panel-lead"><span class="tier-label">分层 B</span>找出错误 → 点「显示正解」看 had + pp 改法</p>
+            <div class="trap-grid" id="trap-list"></div>
+            <div class="btn-row">
+              <button type="button" class="btn blue" id="trap-all">显示全部正解</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="6">
+          <div class="page-head"><span class="page-kicker">6 / 10</span><h2 class="page-title">选择 · 观察点填空 · 12 题</h2></div>
+          <div class="panel panel-observe">
+            <p class="panel-lead"><span class="tier-label">分层 B</span>12 题 · 每题一屏：「我到……时」→ 更早的动作选 had + pp</p>
+            <div class="observe-slot" id="observe-quiz"></div>
+            <div class="observe-foot">
+              <span class="observe-progress" id="observe-progress">1 / 12</span>
+              <div class="carousel-dots observe-dots" id="observe-dots"></div>
+            </div>
+            <div class="btn-row">
+              <button type="button" class="btn ghost" id="observe-prev">上一题</button>
+              <button type="button" class="btn ghost" id="observe-next">下一题</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="7">
+          <div class="page-head"><span class="page-kicker">7 / 10</span><h2 class="page-title">排序 · 动作先后 · 3 组</h2></div>
+          <div class="panel panel-sort">
+            <p class="panel-lead">点选事件再点格子排序 · <strong>① = 最早</strong> · 每组点「检查」</p>
+            <div id="sort-groups"></div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="8">
+          <div class="page-head"><span class="page-kicker">8 / 10</span><h2 class="page-title">对话对比</h2></div>
+          <div class="panel panel-dialogue">
+            <p class="rule-box violet">A 句常是一般过去（叙述当时）；B 句用过去完成强调「之前已经」。</p>
+            <div id="dialogue-box"></div>
+            <div class="btn-row">
+              <button type="button" class="btn violet" id="speak-dialogue">朗读全部</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="9">
+          <div class="page-head"><span class="page-kicker">9 / 10</span><h2 class="page-title">分层 C · 翻译</h2></div>
+          <div class="panel panel-translate">
+            <p class="panel-lead"><span class="tier-label tier-c">分层 C</span>先自写英文，再点显示答案对照</p>
+            <div id="translate-tier-c"></div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="10">
+          <div class="page-head"><span class="page-kicker">10 / 10</span><h2 class="page-title">→ Page 05 故事拼图</h2></div>
+          <div class="panel panel-channel">
+            <p class="rule-box blue">下一讲：打乱句排序 · <em>The Lost Museum Ticket</em></p>
+            <a class="channel-btn" href="lesson13-page05-story-sequence.html">进入 Page 05 · 故事拼图</a>
+            <p class="channel-links">
+              <a href="lesson13-page03-time-markers.html">Page 03</a> ·
+              <a href="index.html">学习目录</a>
+            </p>
+          </div>
+        </section>
+
+      </div>
+    </div>
+    <nav class="lesson-pager" aria-label="分页">
+      <button type="button" class="pager-prev" id="pager-prev">‹ 上一页</button>
+      <a class="l13-index-link" href="index.html" aria-label="返回学习目录">目录</a>
+      <span class="pager-mid" id="pager-mid">1 / 10</span>
+      <button type="button" class="pager-next" id="pager-next">下一页 ›</button>
+    </nav>
+  </div>
+
+  <script src="l13-image-lightbox.js"></script>
+  <script src="l13-index-nav.js"></script>
+  <script>
+(function () {
+  "use strict";
+
+  const AZURE_KEY = "C42UQWeDcluYanbo17WrtUnPhk0vkZy2uQHPTCGDzY6CdExx99NzJQQJ99BIACqBBLyXJ3w3AAAYACOGjkyu";
+  const AZURE_REGION = "southeastasia";
+  const VOICE_EN = "en-US-AriaNeural";
+  const PAGE_COUNT = 10;
+
+  const P13 = {
+    contrastPairs: [
+      {
+        past: "I arrived at the cinema.",
+        perf: "The film had started.",
+        zh: "我到时电影已开始",
+        imgA: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L13/assets/img/l13-p04-contrast-01-a.png",
+        imgB: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L13/assets/img/l13-p04-contrast-01-b.png",
+        capA: "更早 · 电影已开始",
+        capB: "观察点 · 我到达影院",
+        altA: "Cinema screen lit film already playing",
+        altB: "Student arriving at cinema entrance"
+      },
+      {
+        past: "She opened the door.",
+        perf: "Someone had locked it.",
+        zh: "开门前已被锁",
+        imgA: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L13/assets/img/l13-p04-contrast-02-a.png",
+        imgB: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L13/assets/img/l13-p04-contrast-02-b.png",
+        capA: "更早 · 门已被锁上",
+        capB: "观察点 · 她开门",
+        altA: "Front door locked from outside with padlock",
+        altB: "Hand turning door handle opening door"
+      },
+      {
+        past: "We didn't find the keys.",
+        perf: "Tom had lost them.",
+        zh: "找不到因已丢",
+        imgA: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L13/assets/img/l13-p04-contrast-03-a.png",
+        imgB: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L13/assets/img/l13-p04-contrast-03-b.png",
+        capA: "更早 · 汤姆弄丢了钥匙",
+        capB: "观察点 · 我们找不到钥匙",
+        altA: "Boy dropping keys on sidewalk",
+        altB: "Students searching pockets at school gate"
+      },
+      {
+        past: "He said sorry.",
+        perf: "He had forgotten my birthday.",
+        zh: "道歉因忘了生日",
+        imgA: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L13/assets/img/l13-p04-contrast-04-a.png",
+        imgB: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L13/assets/img/l13-p04-contrast-04-b.png",
+        capA: "更早 · 他忘了生日",
+        capB: "观察点 · 他道歉",
+        altA: "Forgotten birthday cake and calendar",
+        altB: "Boy apologizing to friend"
+      },
+      {
+        past: "I got to the station.",
+        perf: "The train had left.",
+        zh: "我到站时火车已开",
+        imgA: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L13/assets/img/l13-p04-contrast-05-a.png",
+        imgB: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L13/assets/img/l13-p04-contrast-05-b.png",
+        capA: "更早 · 火车已开走",
+        capB: "观察点 · 我到达站台",
+        altA: "Train departing from station platform",
+        altB: "Student at empty platform train gone"
+      },
+      {
+        past: "When the teacher came in, we stood up.",
+        perf: "We had already cleaned the board.",
+        zh: "老师进班前我们已擦黑板",
+        imgA: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L13/assets/img/l13-p04-contrast-06-a.png",
+        imgB: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L13/assets/img/l13-p04-contrast-06-b.png",
+        capA: "更早 · 我们已擦好黑板",
+        capB: "观察点 · 老师进教室",
+        altA: "Clean whiteboard classroom ready",
+        altB: "Teacher entering students standing up"
+      }
+    ],
+    story: {
+      text: "Last Saturday our class visited the museum. Tom had bought his ticket online the day before. When we met at the gate, he looked worried because he had left the ticket at home. The teacher called his mum. She arrived twenty minutes later and brought a new ticket. We entered the hall and enjoyed the show.",
+      zh: "上周六班级参观博物馆。汤姆前一天已网购票。门口见面时他很着急，因为票落家里。老师给妈妈打电话。二十分钟后妈妈赶到并带来新票。我们进大厅观看了展览。",
+      tokens: [
+        { w: "visited", type: "past" }, { w: "had bought", type: "perf" }, { w: "met", type: "past" },
+        { w: "looked", type: "past" }, { w: "had left", type: "perf" }, { w: "called", type: "past" },
+        { w: "arrived", type: "past" }, { w: "brought", type: "past" }, { w: "entered", type: "past" }, { w: "enjoyed", type: "past" }
+      ]
+    },
+    traps: [
+      { wrong: "When I arrived, he left.", right: "When I arrived, he had left.", why: "「我到时他已经走了」→ had left。" },
+      { wrong: "By the time we got there, the film started.", right: "By the time we got there, the film had started.", why: "电影开始更早。" },
+      { wrong: "She opened the door. Someone locked it.", right: "Someone had locked it before she opened the door.", why: "先锁门，后开门。" },
+      { wrong: "I didn't see him because he went home.", right: "I didn't see him because he had gone home.", why: "回家发生在没看见之前。" },
+      { wrong: "When Mum came back, I already cleaned my room.", right: "When Mum came back, I had already cleaned my room.", why: "打扫在妈妈回来之前。" },
+      { wrong: "The bus left before we arrived at the stop.", right: "The bus had left before we arrived at the stop.", why: "before 前常用 had left 表更早。" }
+    ],
+    observeQuiz: [
+      { stem: "When I got to the station, the train ______.", ans: "had left", opts: ["left", "had left", "has left"], fb: "我到站是观察点。" },
+      { stem: "She ______ the email before she replied.", ans: "had read", opts: ["read", "had read", "reads"], fb: "读邮件在回复之前。" },
+      { stem: "By 9 pm, we ______ all our homework.", ans: "had finished", opts: ["finished", "had finished", "finish"], fb: "by + 过去点。" },
+      { stem: "When he opened the box, someone ______ the cake.", ans: "had taken", opts: ["took", "had taken", "takes"], fb: "拿蛋糕更早。" },
+      { stem: "I ______ him before the meeting, so I knew his name.", ans: "had met", opts: ["met", "had met", "meet"], fb: "见面在会议之前。" },
+      { stem: "The lights went out after we ______ our seats.", ans: "had found", opts: ["found", "had found", "find"], fb: "先找座位，后停电。" },
+      { stem: "When the bell rang, she ______ her speech.", ans: "had just finished", opts: ["just finished", "had just finished", "finishes"], fb: "刚结束发言。" },
+      { stem: "They ______ the news before the teacher told them.", ans: "had heard", opts: ["heard", "had heard", "hear"], fb: "先听到消息。" },
+      { stem: "Before the concert began, the band ______ a short break.", ans: "had taken", opts: ["took", "had taken", "take"], fb: "音乐会开始前已休息过。" },
+      { stem: "When we entered the hall, the speaker ______ talking.", ans: "had finished", opts: ["finished", "had finished", "finishes"], fb: "我们进厅时演讲已结束。" },
+      { stem: "She ______ him before the party, so she wasn't surprised.", ans: "had met", opts: ["met", "had met", "meets"], fb: "聚会前已见过他。" },
+      { stem: "By noon, they ______ all the posters.", ans: "had put up", opts: ["put up", "had put up", "put"], fb: "by noon → 到中午为止已完成。" }
+    ],
+    sortGroups: [
+      {
+        title: "组 1 · 到校",
+        events: [
+          { id: "a1", text: "Tom lost his key", order: 1, en: "Tom had lost his key." },
+          { id: "a2", text: "Tom arrived at school", order: 2, en: "Tom arrived at school." },
+          { id: "a3", text: "Tom told the teacher", order: 3, en: "Tom told the teacher." }
+        ]
+      },
+      {
+        title: "组 2 · 看电影",
+        events: [
+          { id: "b1", text: "The film started", order: 1, en: "The film had started." },
+          { id: "b2", text: "We arrived at the cinema", order: 2, en: "We arrived at the cinema." },
+          { id: "b3", text: "We found our seats", order: 3, en: "We found our seats." }
+        ]
+      },
+      {
+        title: "组 3 · 博物馆",
+        events: [
+          { id: "c1", text: "Tom bought the ticket", order: 1, en: "Tom had bought the ticket." },
+          { id: "c2", text: "We met at the gate", order: 2, en: "We met at the gate." },
+          { id: "c3", text: "Tom looked worried", order: 3, en: "Tom looked worried." }
+        ]
+      }
+    ],
+    dialogues: [
+      { a: "I saw him at the gate.", b: "I had seen him at the gate before you came.", zh: "B 强调「在你来之前我见过他」。" },
+      { a: "She finished her homework.", b: "She had finished her homework before dinner.", zh: "B 点明晚饭前已完成。" },
+      { a: "We didn't find the keys.", b: "Tom had lost them earlier.", zh: "B 解释找不到的原因。" },
+      { a: "The film started.", b: "The film had already started when we sat down.", zh: "B 用观察点说明已开场。" }
+    ],
+    tierCTranslate: [
+      { zh: "当我到达时，他们已经离开了。", en: "When I arrived, they had already left.", hint: "had already left" },
+      { zh: "我到教室时，老师已经开始测验了。", en: "When I got to the classroom, the teacher had already started the quiz.", hint: "had started" },
+      { zh: "停电前我们已经找到座位。", en: "We had found our seats before the lights went out.", hint: "had found … before" }
+    ]
+  };
+
+  let currentPage = 1;
+  let contrastIdx = 0;
+  let observeIdx = 0;
+  let observeState = [];
+  let selectedSortChip = null;
+  const sortState = {};
+  const uiLock = document.getElementById("ui-lock");
+
+  function escapeXml(s) {
+    return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+  function lockUI() { uiLock.classList.add("active"); }
+  function unlockUI() { uiLock.classList.remove("active"); }
+
+  async function playAudio(text) {
+    if (!text) return;
+    lockUI();
+    const url = "https://" + AZURE_REGION + ".tts.speech.microsoft.com/cognitiveservices/v1";
+    const ssml = "<speak version='1.0' xml:lang='en-US'><voice name='" + VOICE_EN + "'>" + escapeXml(text) + "</voice></speak>";
+    try {
+      const res = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Ocp-Apim-Subscription-Key": AZURE_KEY,
+          "Content-Type": "application/ssml+xml",
+          "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3"
+        },
+        body: ssml
+      });
+      if (!res.ok) throw new Error(String(res.status));
+      const blob = await res.blob();
+      const u = URL.createObjectURL(blob);
+      const a = new Audio(u);
+      await new Promise((res, rej) => {
+        a.onended = () => { URL.revokeObjectURL(u); res(); };
+        a.onerror = rej;
+        a.play().catch(rej);
+      });
+    } catch (e) {
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang = "en-US";
+      speechSynthesis.speak(u);
+    } finally {
+      unlockUI();
+    }
+  }
+
+  function escHtml(s) {
+    return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/"/g, "&quot;");
+  }
+  function hlPast(s) { return '<span class="hl-past">' + s + "</span>"; }
+  function hlPerf(s) { return '<span class="hl-perf">' + s + "</span>"; }
+
+  function renderContrastVisual(p) {
+    const visual = document.getElementById("contrast-visual");
+    if (!visual || !p.imgA || !p.imgB) return;
+    visual.innerHTML =
+      '<figure class="dual-fig dual-fig-a">' +
+      '<img src="' + escHtml(p.imgA) + '" alt="' + escHtml(p.altA || p.capA) + '" width="800" height="600" loading="lazy" decoding="async" />' +
+      "<figcaption>" + escHtml(p.capA) + "</figcaption></figure>" +
+      '<figure class="dual-fig dual-fig-b">' +
+      '<img src="' + escHtml(p.imgB) + '" alt="' + escHtml(p.altB || p.capB) + '" width="800" height="600" loading="lazy" decoding="async" />' +
+      "<figcaption>" + escHtml(p.capB) + "</figcaption></figure>";
+  }
+
+  function goPage(n) {
+    if (n < 1 || n > PAGE_COUNT) return;
+    currentPage = n;
+    document.querySelectorAll(".lesson-page").forEach((el) => {
+      el.classList.toggle("active", parseInt(el.dataset.page, 10) === n);
+    });
+    document.getElementById("pager-mid").textContent = n + " / " + PAGE_COUNT;
+    document.getElementById("pager-prev").disabled = n <= 1;
+    document.getElementById("pager-next").disabled = n >= PAGE_COUNT;
+  }
+
+  function renderContrast(i) {
+    contrastIdx = (i + P13.contrastPairs.length) % P13.contrastPairs.length;
+    const p = P13.contrastPairs[contrastIdx];
+    renderContrastVisual(p);
+    document.getElementById("contrast-carousel").innerHTML =
+      '<div class="contrast-card">' +
+      '<p class="line-past"><span class="line-tag">Simple Past · 观察点</span><br>' +
+      '<span class="en-line" lang="en">' + hlPast(p.past) + "</span></p>" +
+      '<p class="line-perf"><span class="line-tag">Past Perfect · 更早</span><br>' +
+      '<span class="en-line" lang="en">' + hlPerf(p.perf) + "</span></p>" +
+      '<p class="zh-hint">' + p.zh + "</p></div>";
+    document.querySelectorAll("#contrast-dots button").forEach((b, j) => {
+      b.classList.toggle("active", j === contrastIdx);
+    });
+  }
+
+  function initContrast() {
+    const dots = document.getElementById("contrast-dots");
+    P13.contrastPairs.forEach((_, j) => {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.textContent = String(j + 1);
+      b.addEventListener("click", () => renderContrast(j));
+      dots.appendChild(b);
+    });
+    renderContrast(0);
+    document.getElementById("contrast-prev").addEventListener("click", () => renderContrast(contrastIdx - 1));
+    document.getElementById("contrast-next").addEventListener("click", () => renderContrast(contrastIdx + 1));
+    document.getElementById("contrast-speak").addEventListener("click", () => {
+      const p = P13.contrastPairs[contrastIdx];
+      playAudio(p.past + " " + p.perf);
+    });
+  }
+
+  function buildStoryPassageHtml(text, tokens) {
+    const phrases = tokens
+      .map((t) => ({ w: t.w, type: t.type }))
+      .sort((a, b) => b.w.length - a.w.length);
+    let html = "";
+    let pos = 0;
+    while (pos < text.length) {
+      let hit = null;
+      for (let k = 0; k < phrases.length; k++) {
+        const ph = phrases[k].w;
+        if (!text.slice(pos).toLowerCase().startsWith(ph.toLowerCase())) continue;
+        const before = pos > 0 ? text[pos - 1] : " ";
+        const after = pos + ph.length < text.length ? text[pos + ph.length] : " ";
+        if (/\w/.test(before) || /\w/.test(after)) continue;
+        hit = phrases[k];
+        break;
+      }
+      if (hit) {
+        const chunk = text.slice(pos, pos + hit.w.length);
+        html +=
+          '<span class="tok" data-type="' + escHtml(hit.type) + '" tabindex="0" role="button">' +
+          escHtml(chunk) +
+          "</span>";
+        pos += hit.w.length;
+      } else {
+        html += escHtml(text[pos]);
+        pos++;
+      }
+    }
+    return html;
+  }
+
+  function cycleStoryTok(tok) {
+    if (!tok.classList.contains("past") && !tok.classList.contains("perf")) {
+      tok.classList.add("past");
+    } else if (tok.classList.contains("past") && !tok.classList.contains("perf")) {
+      tok.classList.remove("past");
+      tok.classList.add("perf");
+    } else {
+      tok.classList.remove("past", "perf");
+    }
+  }
+
+  function initStory() {
+    const passage = document.getElementById("story-passage");
+    document.getElementById("story-zh").textContent = P13.story.zh;
+    passage.innerHTML = buildStoryPassageHtml(P13.story.text, P13.story.tokens);
+
+    passage.querySelectorAll(".tok").forEach((tok) => {
+      tok.addEventListener("click", () => cycleStoryTok(tok));
+      tok.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          cycleStoryTok(tok);
+        }
+      });
+    });
+
+    document.getElementById("story-show-key").addEventListener("click", () => {
+      passage.querySelectorAll(".tok").forEach((tok) => {
+        tok.classList.remove("past", "perf");
+        const t = tok.dataset.type;
+        if (t === "past") tok.classList.add("past");
+        if (t === "perf") tok.classList.add("perf");
+      });
+    });
+    document.getElementById("story-speak").addEventListener("click", () => playAudio(P13.story.text));
+  }
+
+  function configurePracticeGrid(box, count) {
+    if (!box || !count) return;
+    const wide = window.matchMedia("(min-width: 720px)").matches;
+    const cols = wide ? 2 : 1;
+    const rows = Math.ceil(count / cols);
+    box.style.gridTemplateColumns = cols === 2 ? "1fr 1fr" : "1fr";
+    box.style.gridTemplateRows = "repeat(" + rows + ", minmax(0, 1fr))";
+  }
+
+  function initTraps() {
+    const grid = document.getElementById("trap-list");
+    P13.traps.forEach((t) => {
+      const item = document.createElement("div");
+      item.className = "trap-item";
+      item.innerHTML =
+        '<p class="trap-wrong" lang="en"><span class="hl-bad">' + t.wrong + "</span></p>" +
+        '<span class="fix" lang="en">✓ ' + t.right + " — " + t.why + "</span>" +
+        '<button type="button" class="btn ghost btn-trap">显示正解</button>';
+      item.querySelector("button").addEventListener("click", () => item.classList.add("revealed"));
+      grid.appendChild(item);
+    });
+    configurePracticeGrid(grid, P13.traps.length);
+    document.getElementById("trap-all").addEventListener("click", () => {
+      grid.querySelectorAll(".trap-item").forEach((el) => el.classList.add("revealed"));
+    });
+  }
+
+  function renderObserve(i) {
+    const items = P13.observeQuiz;
+    observeIdx = (i + items.length) % items.length;
+    const q = items[observeIdx];
+    const saved = observeState[observeIdx] || { answered: false, pick: null, correct: false };
+    const box = document.getElementById("observe-quiz");
+    box.innerHTML = "";
+    const d = document.createElement("div");
+    d.className = "quiz-item" + (saved.answered && saved.correct ? " done" : "");
+    const stem = q.stem.replace("______", '<span class="observe-blank">______</span>');
+    d.innerHTML = "<p class='quiz-stem'>" + (observeIdx + 1) + ". " + stem + "</p>";
+    const row = document.createElement("div");
+    row.className = "opt-row";
+    const fb = document.createElement("div");
+    fb.className = "fb";
+    q.opts.forEach((opt) => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.textContent = opt;
+      if (saved.answered) {
+        btn.disabled = true;
+        if (opt === q.ans) btn.classList.add("ok");
+        else if (opt === saved.pick) btn.classList.add("bad");
+      }
+      btn.addEventListener("click", () => {
+        if (observeState[observeIdx] && observeState[observeIdx].answered) return;
+        row.querySelectorAll("button").forEach((b) => { b.disabled = true; });
+        const correct = opt === q.ans;
+        observeState[observeIdx] = { answered: true, correct: correct, pick: opt };
+        if (correct) {
+          btn.classList.add("ok");
+          d.classList.add("done");
+          fb.textContent = "✓ " + q.fb;
+          const dot = document.querySelectorAll("#observe-dots button")[observeIdx];
+          if (dot) dot.classList.add("done");
+        } else {
+          btn.classList.add("bad");
+          fb.textContent = q.fb;
+        }
+      });
+      row.appendChild(btn);
+    });
+    if (saved.answered) {
+      fb.textContent = (saved.correct ? "✓ " : "") + q.fb;
+    }
+    d.appendChild(row);
+    d.appendChild(fb);
+    box.appendChild(d);
+    document.getElementById("observe-progress").textContent = (observeIdx + 1) + " / " + items.length;
+    document.querySelectorAll("#observe-dots button").forEach((b, j) => {
+      b.classList.toggle("active", j === observeIdx);
+    });
+  }
+
+  function initObserveQuiz() {
+    observeState = P13.observeQuiz.map(() => ({ answered: false, correct: false, pick: null }));
+    const dots = document.getElementById("observe-dots");
+    P13.observeQuiz.forEach((_, j) => {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.textContent = String(j + 1);
+      b.title = "第 " + (j + 1) + " 题";
+      b.addEventListener("click", () => renderObserve(j));
+      dots.appendChild(b);
+    });
+    renderObserve(0);
+    document.getElementById("observe-prev").addEventListener("click", () => renderObserve(observeIdx - 1));
+    document.getElementById("observe-next").addEventListener("click", () => renderObserve(observeIdx + 1));
+  }
+
+  function initSortGroups() {
+    const container = document.getElementById("sort-groups");
+    P13.sortGroups.forEach((group, gi) => {
+      const gid = "g" + gi;
+      sortState[gid] = {};
+      const wrap = document.createElement("div");
+      wrap.className = "sort-group";
+      wrap.innerHTML = "<h4>" + group.title + "</h4>";
+      const pool = document.createElement("div");
+      pool.className = "sort-pool";
+      pool.id = "pool-" + gid;
+      const slots = document.createElement("div");
+      slots.className = "sort-slots";
+      for (let s = 1; s <= 3; s++) {
+        const slot = document.createElement("div");
+        slot.className = "sort-slot";
+        slot.dataset.slot = String(s);
+        slot.dataset.group = gid;
+        slot.textContent = s === 1 ? "① 最早" : s === 2 ? "②" : "③ 最近";
+        slot.addEventListener("click", () => placeSort(gid, slot, group));
+        slots.appendChild(slot);
+      }
+      const events = group.events.slice();
+      for (let i = events.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        const t = events[i]; events[i] = events[j]; events[j] = t;
+      }
+      events.forEach((ev) => {
+        const chip = document.createElement("div");
+        chip.className = "sort-chip";
+        chip.draggable = true;
+        chip.textContent = ev.text;
+        chip.dataset.id = ev.id;
+        chip.dataset.group = gid;
+        chip.addEventListener("dragstart", (e) => {
+          e.dataTransfer.setData("text/plain", ev.id + "|" + gid);
+        });
+        chip.addEventListener("click", () => {
+          document.querySelectorAll('.sort-chip[data-group="' + gid + '"]').forEach((c) => c.classList.remove("selected"));
+          chip.classList.add("selected");
+          selectedSortChip = { id: ev.id, gid: gid, chip: chip, ev: ev };
+        });
+        pool.appendChild(chip);
+      });
+      wrap.appendChild(pool);
+      wrap.appendChild(slots);
+      const checkBtn = document.createElement("button");
+      checkBtn.type = "button";
+      checkBtn.className = "btn ghost btn-check-sort";
+      checkBtn.textContent = "检查本组";
+      checkBtn.addEventListener("click", () => checkSortGroup(gid, group));
+      wrap.appendChild(checkBtn);
+      container.appendChild(wrap);
+    });
+  }
+
+  function placeSort(gid, slot, group) {
+    if (!selectedSortChip || selectedSortChip.gid !== gid) return;
+    const slotNum = slot.dataset.slot;
+    Object.keys(sortState[gid]).forEach((k) => {
+      if (sortState[gid][k] === selectedSortChip.id) delete sortState[gid][k];
+    });
+    sortState[gid][slotNum] = selectedSortChip.id;
+    slot.classList.add("filled");
+    slot.textContent = selectedSortChip.chip.textContent;
+    selectedSortChip.chip.classList.add("used");
+    selectedSortChip = null;
+  }
+
+  function checkSortGroup(gid, group) {
+    let ok = true;
+    document.querySelectorAll('.sort-slot[data-group="' + gid + '"]').forEach((slot) => {
+      slot.classList.remove("ok", "bad");
+      const num = parseInt(slot.dataset.slot, 10);
+      const id = sortState[gid][num];
+      const ev = group.events.find((e) => e.id === id);
+      if (ev && ev.order === num) slot.classList.add("ok");
+      else { slot.classList.add("bad"); ok = false; }
+    });
+    if (ok) slotFlash(gid, true);
+  }
+
+  function slotFlash() {}
+
+  function initDialogues() {
+    const box = document.getElementById("dialogue-box");
+    P13.dialogues.forEach((d) => {
+      const div = document.createElement("div");
+      div.className = "dialogue-pair";
+      div.innerHTML =
+        '<p class="who">A · Simple Past</p><p class="en-line" lang="en">' + hlPast(d.a) + "</p>" +
+        '<p class="who">B · Past Perfect</p><p class="en-line" lang="en">' + hlPerf(d.b) + "</p>" +
+        '<p class="zh-hint">' + d.zh + "</p>";
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "btn ghost btn-speak-mini";
+      btn.textContent = "朗读";
+      btn.addEventListener("click", () => playAudio(d.a + " " + d.b));
+      div.appendChild(btn);
+      box.appendChild(div);
+    });
+  }
+
+  function initTierC() {
+    const box = document.getElementById("translate-tier-c");
+    P13.tierCTranslate.forEach((t, i) => {
+      const div = document.createElement("div");
+      div.className = "translate-item";
+      div.innerHTML =
+        "<p class='translate-stem'><span class='tier-label tier-c'>C</span> " + (i + 1) + ". " + t.zh + "</p>" +
+        '<input type="text" placeholder="英文自写…" />' +
+        '<button type="button" class="btn ghost btn-show-ans">显示答案</button>' +
+        '<p class="ans" lang="en">' + hlPerf(t.en) + " （" + t.hint + "）</p>";
+      div.querySelector(".btn-show-ans").addEventListener("click", () => div.classList.add("show"));
+      box.appendChild(div);
+    });
+  }
+
+  function initLesson() {
+    document.body.classList.add("has-lesson-pager");
+    initContrast();
+    initStory();
+    initTraps();
+    initObserveQuiz();
+    initSortGroups();
+    initDialogues();
+    initTierC();
+
+    window.addEventListener("resize", () => {
+      configurePracticeGrid(document.getElementById("trap-list"), P13.traps.length);
+    });
+
+    document.getElementById("speak-dual").addEventListener("click", () => {
+      playAudio("When I arrived at eight, he had already left at seven thirty.");
+    });
+    document.getElementById("speak-dialogue").addEventListener("click", () => {
+      playAudio(P13.dialogues.map((d) => d.a + " " + d.b).join(" "));
+    });
+
+    document.getElementById("pager-prev").addEventListener("click", () => goPage(currentPage - 1));
+    document.getElementById("pager-next").addEventListener("click", () => goPage(currentPage + 1));
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowLeft" && currentPage > 1) goPage(currentPage - 1);
+      if (e.key === "ArrowRight" && currentPage < PAGE_COUNT) goPage(currentPage + 1);
+    });
+    goPage(1);
+  }
+
+  initLesson();
+})();
+  </script>
+</body>
+</html>

@@ -1,0 +1,1373 @@
+/**
+ * L13 Page 03 · 时间锚点（对齐 Page 02 全屏 + grid 左图右文）
+ */
+
+/* 左图右文：保持 lesson-screen 的 grid，避免被 shell 压成单列 flex */
+#l13-book .panel.panel-split {
+  display: grid !important;
+  grid-template-columns: 1fr;
+  gap: 0.65rem;
+  align-items: stretch;
+  min-height: 0;
+  overflow: hidden;
+}
+@media (min-width: 640px) {
+  #l13-book .panel.panel-split {
+    grid-template-columns: minmax(220px, 48%) 1fr;
+    gap: 0.85rem;
+  }
+}
+
+#l13-book .panel.panel-split .stage-visual {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+}
+
+#l13-book .panel.panel-split .stage-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  min-width: 0;
+  min-height: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+#l13-book .scene-frame--intro,
+#l13-book .scene-frame--split {
+  flex: 1 1 auto;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  min-height: clamp(200px, 36vh, 460px);
+  max-height: min(64vh, 520px) !important;
+  height: auto !important;
+  background: linear-gradient(145deg, #fffbeb, #fef3c7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+#l13-book .scene-frame--intro img,
+#l13-book .scene-frame--split img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  object-position: center center;
+}
+
+#l13-book .tier-label {
+  background: var(--amber-bg, #fef3c7);
+  color: var(--amber-ink, #92400e);
+}
+#l13-book .tier-label.tier-c {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+#l13-book .panel-lead {
+  font-weight: 800;
+  margin: 0 0 0.35rem;
+  line-height: 1.45;
+  flex-shrink: 0;
+}
+
+#l13-book .hl-marker {
+  background: var(--amber-bg, #fef3c7);
+  color: var(--amber-ink, #92400e);
+  padding: 0 0.12rem;
+  border-radius: 4px;
+  font-weight: 900;
+}
+
+#l13-book .btn.amber {
+  background: linear-gradient(135deg, #fbbf24, #d97706);
+  color: #fff;
+  border-color: #b45309;
+  box-shadow: 0 3px 0 rgba(180, 83, 9, 0.3);
+}
+
+/* 各屏：面板纵向填满，底栏按钮不滚走 */
+#l13-book .lesson-page.active > .panel:not(.panel-split) {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+#l13-book .lesson-page.active > .panel.panel-split {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+#l13-book .lesson-page .btn-row {
+  flex-shrink: 0;
+  margin-top: auto;
+  padding-top: 0.35rem;
+}
+
+/* 屏 1 · 配图全屏 */
+#l13-book .panel-intro-markers {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  flex: 1 1 auto;
+  padding: clamp(0.5rem, 1vw, 0.75rem);
+}
+#l13-book .panel-intro-markers .scene-frame--intro {
+  flex: 1 1 auto;
+  width: 100%;
+  max-height: min(72vh, 560px);
+}
+
+/* 屏 1 · 时间锚点总览（保留供其它屏复用） */
+#l13-book .lesson-page[data-page="1"] .marker-banner {
+  text-align: center;
+  padding: 0.85rem 0.75rem;
+  margin: 0;
+  border-radius: 16px;
+  border: 4px solid var(--amber, #d97706);
+  background: linear-gradient(135deg, #fffbeb, #fef3c7);
+  flex-shrink: 0;
+}
+#l13-book .marker-banner .big {
+  font-size: clamp(1.15rem, 2.4vw + 0.5rem, 1.65rem);
+  font-weight: 900;
+  color: #92400e;
+  line-height: 1.35;
+}
+#l13-book .marker-banner .sub {
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: #5d4037;
+  margin-top: 0.35rem;
+  line-height: 1.45;
+}
+
+/* 屏 2 · 锚点导图 */
+#l13-book .panel-anchor {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+#l13-book .anchor-map {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  justify-content: center;
+  margin: 0.35rem 0;
+  flex-shrink: 0;
+}
+#l13-book .anchor-chip {
+  padding: 0.5rem 0.85rem;
+  border-radius: 12px;
+  border: 2px solid var(--edge, #5d4037);
+  background: #fff;
+  font-weight: 900;
+  font-size: clamp(0.82rem, 0.95vw + 0.45rem, 0.98rem);
+  cursor: pointer;
+  font-family: inherit;
+  touch-action: manipulation;
+  transition: transform 0.15s, background 0.15s;
+}
+#l13-book .anchor-chip.active {
+  background: var(--amber-bg, #fef3c7);
+  border-color: var(--amber, #d97706);
+  color: var(--amber-ink, #92400e);
+  transform: scale(1.04);
+}
+#l13-book .anchor-detail {
+  margin-top: 0.35rem;
+  padding: 0.75rem;
+  border-radius: 14px;
+  border: 3px solid #fcd34d;
+  background: #fffbeb;
+  flex: 1 1 auto;
+  min-height: 120px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+#l13-book .anchor-ex-pos {
+  text-align: center;
+  font-weight: 800;
+  font-size: 0.82rem;
+  color: #64748b;
+  margin: 0 0 0.25rem;
+  flex-shrink: 0;
+}
+#l13-book .anchor-rule-hint {
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: #92400e;
+  margin: 0 0 0.4rem;
+  line-height: 1.45;
+  flex-shrink: 0;
+}
+#l13-book .anchor-reveal-slot {
+  margin-top: 0.25rem;
+  padding: 0.7rem;
+  border-radius: 14px;
+  border: 2px dashed #cbd5e1;
+  background: #f8fafc;
+  flex: 1 1 auto;
+  min-height: 140px;
+}
+#l13-book .anchor-reveal-slot.is-covered {
+  cursor: pointer;
+}
+#l13-book .anchor-reveal-slot.is-covered .anchor-ex-body {
+  visibility: hidden;
+  height: 0;
+  overflow: hidden;
+  margin: 0;
+  opacity: 0;
+}
+#l13-book .anchor-reveal-slot.is-revealed {
+  border-style: solid;
+  border-color: #94a3b8;
+  cursor: default;
+}
+#l13-book .anchor-reveal-slot.is-revealed .anchor-tap-hint {
+  display: none;
+}
+#l13-book .anchor-ex-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  align-items: center;
+}
+#l13-book .anchor-tap-hint {
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: #64748b;
+  padding: 0.3rem 0.55rem;
+  border-radius: 8px;
+  background: #e2e8f0;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+#l13-book .btn-speak-chip {
+  min-height: 40px;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  border: 2px solid var(--edge, #5d4037);
+  background: #fff;
+  font-weight: 800;
+  font-size: 0.82rem;
+  cursor: pointer;
+  touch-action: manipulation;
+  font-family: inherit;
+}
+#l13-book .btn-speak-chip:hover {
+  background: #fffbeb;
+}
+#l13-book .anchor-scenario {
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: #475569;
+  margin: 0 0 0.35rem;
+  line-height: 1.45;
+}
+#l13-book .anchor-use {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #0f766e;
+  margin-top: 0.35rem;
+  line-height: 1.4;
+  padding: 0.35rem 0.5rem;
+  border-radius: 8px;
+  background: #f0fdfa;
+}
+#l13-book .btn.violet {
+  background: linear-gradient(135deg, #a78bfa, #7c3aed);
+  color: #fff;
+  border-color: #5b21b6;
+  box-shadow: 0 3px 0 rgba(91, 33, 182, 0.28);
+}
+
+/* 屏 3–6 · 左栏双图轮播（by / before / when / already） */
+#l13-book .panel.panel-dual-carousel {
+  align-items: stretch;
+  min-height: 0;
+}
+
+#l13-book .lesson-page[data-page="3"].active > .panel.panel-dual-carousel,
+#l13-book .lesson-page[data-page="4"].active > .panel.panel-dual-carousel,
+#l13-book .lesson-page[data-page="5"].active > .panel.panel-dual-carousel,
+#l13-book .lesson-page[data-page="6"].active > .panel.panel-dual-carousel {
+  overflow: hidden;
+}
+
+#l13-book .panel-dual-carousel .stage-visual {
+  flex: 1 1 auto;
+  min-height: clamp(200px, 38vh, 480px);
+  max-height: min(64vh, 520px);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-self: stretch;
+  overflow: hidden;
+}
+
+#l13-book #by-visual,
+#l13-book #before-visual,
+#l13-book #when-visual,
+#l13-book #already-visual,
+#l13-book .dual-visual-stack,
+#l13-book .by-visual-stack {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.2rem, 0.4vh, 0.35rem);
+  flex: 1 1 auto;
+  min-height: 0;
+  height: 100%;
+  width: 100%;
+}
+
+#l13-book .dual-fig,
+#l13-book .by-fig {
+  margin: 0;
+  flex: 1 1 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 3px solid var(--edge, #5d4037);
+  background: linear-gradient(145deg, #fffbeb, #fef3c7);
+}
+
+#l13-book .dual-fig img,
+#l13-book .by-fig img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  flex: 1 1 auto;
+  min-height: 0;
+  max-width: 100%;
+  max-height: none !important;
+  object-fit: contain;
+  object-position: center center;
+  background: #fff;
+}
+#l13-book .dual-fig figcaption,
+#l13-book .by-fig figcaption {
+  flex-shrink: 0;
+  font-size: 0.72rem;
+  font-weight: 900;
+  text-align: center;
+  padding: 0.3rem 0.45rem;
+  background: #fef3c7;
+  color: #92400e;
+  line-height: 1.35;
+}
+#l13-book .dual-fig-a figcaption,
+#l13-book .by-fig-a figcaption {
+  background: #ede9fe;
+  color: #5b21b6;
+}
+#l13-book .dual-fig-b figcaption,
+#l13-book .by-fig-b figcaption {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+#l13-book .panel-dual-carousel .carousel-card {
+  padding: 0.85rem;
+  border-radius: 14px;
+  border: 3px solid #fcd34d;
+  background: linear-gradient(180deg, #fff, #fffbeb);
+  flex: 1 1 auto;
+  min-height: 100px;
+  flex-shrink: 0;
+}
+#l13-book .tag-pill {
+  font-size: 0.72rem;
+  font-weight: 900;
+  padding: 0.12rem 0.5rem;
+  border-radius: 999px;
+  background: var(--amber-bg, #fef3c7);
+  color: var(--amber-ink, #92400e);
+  display: inline-block;
+  margin-bottom: 0.35rem;
+}
+#l13-book .carousel-dots {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  justify-content: center;
+  margin-top: 0.45rem;
+  flex-shrink: 0;
+}
+#l13-book .carousel-dots button {
+  width: 2.1rem;
+  height: 2.1rem;
+  border-radius: 999px;
+  border: 2px solid var(--edge, #5d4037);
+  background: #fff;
+  font-weight: 900;
+  font-size: 0.82rem;
+  cursor: pointer;
+  font-family: inherit;
+  touch-action: manipulation;
+}
+#l13-book .carousel-dots button.active {
+  background: var(--amber, #d97706);
+  color: #fff;
+  border-color: #b45309;
+}
+
+/* 屏 4–6 · 例句列表 */
+#l13-book .panel-examples {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+#l13-book .example-list {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  max-height: min(52vh, 460px);
+  padding-right: 0.1rem;
+}
+#l13-book .example-list .ex-item {
+  margin: 0.5rem 0;
+  padding: 0.6rem 0.7rem;
+  border-radius: 12px;
+  border: 2px solid #fde68a;
+  background: #fff;
+}
+#l13-book .ex-item .btn-speak-mini {
+  margin-top: 0.35rem;
+  min-height: 40px;
+  padding: 0.35rem 0.7rem;
+  font-size: 0.8rem;
+  border-radius: 999px;
+  border: 2px solid var(--edge, #5d4037);
+  background: #fff;
+  font-weight: 800;
+  cursor: pointer;
+  font-family: inherit;
+  touch-action: manipulation;
+}
+
+#l13-book .panel-when .stage-body .example-list {
+  flex: 1 1 auto;
+  max-height: none;
+}
+
+/* 屏 7 · 配对（铺满屏高，无滚动条） */
+#l13-book .lesson-page[data-page="7"] {
+  gap: 0.35rem;
+}
+
+#l13-book .lesson-page[data-page="7"] .page-head {
+  padding-bottom: 0.2rem;
+}
+
+#l13-book .lesson-page[data-page="7"].active > .panel.panel-match {
+  overflow: hidden;
+}
+
+#l13-book .lesson-page[data-page="7"] .panel-lead {
+  margin: 0 0 0.25rem;
+  font-size: clamp(0.78rem, 1.4vh, 0.88rem);
+  line-height: 1.35;
+}
+
+#l13-book .panel-match {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  flex: 1 1 auto;
+  overflow: hidden;
+  gap: 0.25rem;
+}
+
+#l13-book .match-zone {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(0.4rem, 1.2vw, 0.75rem);
+  margin: 0;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+  align-items: stretch;
+}
+
+#l13-book .match-col {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  min-width: 0;
+}
+
+#l13-book .match-col h4 {
+  margin: 0 0 0.2rem;
+  font-size: clamp(0.72rem, 1.2vh, 0.82rem);
+  color: #64748b;
+  flex-shrink: 0;
+  line-height: 1.2;
+}
+
+#l13-book .match-pool {
+  display: grid;
+  grid-template-rows: repeat(6, minmax(0, 1fr));
+  gap: clamp(0.2rem, 0.65vh, 0.4rem);
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+#l13-book .match-chip {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 0;
+  height: 100%;
+  padding: clamp(0.28rem, 0.9vh, 0.5rem) clamp(0.35rem, 1vw, 0.6rem);
+  border-radius: 10px;
+  border: 2px solid #cbd5e1;
+  background: #fff;
+  font-weight: 800;
+  font-size: clamp(0.72rem, 1.05vh + 0.32rem, 0.9rem);
+  cursor: pointer;
+  text-align: left;
+  line-height: 1.3;
+  font-family: inherit;
+  touch-action: manipulation;
+  overflow: hidden;
+}
+
+#l13-book .match-chip .match-chip-zh {
+  font-size: clamp(0.65rem, 0.85vh + 0.22rem, 0.76rem);
+  color: #64748b;
+  font-weight: 700;
+  line-height: 1.25;
+  margin-top: 0.12rem;
+}
+
+/* 屏 7 · 右侧句子：方框内横向（英 + 中并排） */
+#l13-book #match-right .match-chip {
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: clamp(0.3rem, 0.8vw, 0.55rem);
+  flex-wrap: wrap;
+  text-align: left;
+}
+
+#l13-book #match-right .match-chip .match-chip-en {
+  flex: 1 1 auto;
+  min-width: 0;
+  line-height: 1.28;
+}
+
+#l13-book #match-right .match-chip .match-chip-zh {
+  flex: 0 0 auto;
+  max-width: 46%;
+  margin-top: 0;
+  padding-left: clamp(0.3rem, 0.7vw, 0.45rem);
+  border-left: 2px solid #e2e8f0;
+  line-height: 1.28;
+  white-space: nowrap;
+}
+#l13-book .match-chip.selected {
+  outline: 3px solid var(--amber, #d97706);
+  border-color: var(--amber, #d97706);
+}
+#l13-book .match-chip.matched {
+  opacity: 0.45;
+  pointer-events: none;
+  background: var(--ok-bg, #ecfdf5);
+  border-color: var(--ok, #047857);
+}
+#l13-book .match-chip.bad {
+  animation: l13-p03-shake 0.4s;
+  background: var(--bad-bg, #fef2f2);
+}
+@keyframes l13-p03-shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}
+#l13-book #match-fb {
+  flex-shrink: 0;
+  min-height: 1.35em;
+  margin: 0;
+  line-height: 1.35;
+}
+
+#l13-book .lesson-page[data-page="7"] .btn-row {
+  padding-top: 0.2rem;
+}
+
+/* 屏 8 · 填空（铺满屏高，无滚动条） */
+#l13-book .lesson-page[data-page="8"] {
+  gap: 0.35rem;
+}
+
+#l13-book .lesson-page[data-page="8"] .page-head {
+  padding-bottom: 0.2rem;
+}
+
+#l13-book .lesson-page[data-page="8"].active > .panel.panel-fill {
+  overflow: hidden;
+}
+
+#l13-book .lesson-page[data-page="8"] .panel-lead {
+  margin: 0 0 0.25rem;
+  font-size: clamp(0.78rem, 1.4vh, 0.88rem);
+  line-height: 1.35;
+  flex-shrink: 0;
+}
+
+#l13-book .panel-fill {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  flex: 1 1 auto;
+  overflow: hidden;
+  gap: 0.2rem;
+}
+
+#l13-book .fill-slot,
+#l13-book #fill-box {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+#l13-book .lesson-page[data-page="8"] .fill-item {
+  width: 100%;
+  max-width: 52rem;
+  flex: 1 1 auto;
+  min-height: min(100%, 100%);
+  padding: clamp(0.45rem, 1.8vh, 1rem) clamp(0.5rem, 2vw, 1.1rem);
+  justify-content: center;
+}
+
+#l13-book .fill-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 0;
+  margin: 0;
+  padding: clamp(0.22rem, 0.75vh, 0.42rem) clamp(0.35rem, 1vw, 0.55rem);
+  border-radius: 10px;
+  border: 2px solid #e2e8f0;
+  background: #fff;
+  overflow: hidden;
+}
+
+#l13-book .lesson-page[data-page="8"] .fill-stem {
+  font-size: clamp(0.88rem, 1.65vh + 0.38rem, 1.15rem);
+  margin-bottom: clamp(0.3rem, 1.1vh, 0.65rem);
+  text-align: center;
+}
+
+#l13-book .lesson-page[data-page="8"] .fill-opts {
+  justify-content: center;
+  max-width: 40rem;
+  margin: 0 auto;
+  width: 100%;
+}
+
+#l13-book .lesson-page[data-page="8"] .fill-opts button {
+  min-height: clamp(38px, 5.5vh, 50px);
+  font-size: clamp(0.78rem, 1.2vh + 0.32rem, 0.95rem);
+}
+
+#l13-book .lesson-page[data-page="8"] .fill-item .fb {
+  text-align: center;
+  font-size: clamp(0.72rem, 1vh + 0.28rem, 0.86rem);
+  margin-top: clamp(0.2rem, 0.8vh, 0.45rem);
+}
+
+#l13-book .fill-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.35rem;
+  flex-shrink: 0;
+}
+
+#l13-book .fill-progress {
+  font-weight: 900;
+  font-size: clamp(0.78rem, 1.1vh + 0.32rem, 0.92rem);
+  color: var(--amber-ink, #92400e);
+}
+
+#l13-book .fill-dots {
+  flex: 1 1 auto;
+  justify-content: flex-end;
+  margin-top: 0;
+  max-height: 4.5rem;
+  overflow: hidden;
+}
+
+#l13-book .fill-dots button {
+  width: 1.65rem;
+  height: 1.65rem;
+  font-size: 0.62rem;
+}
+
+#l13-book .fill-dots button.done {
+  background: var(--ok-bg, #ecfdf5);
+  border-color: var(--ok, #047857);
+  color: var(--ok, #047857);
+}
+
+#l13-book .lesson-page[data-page="8"] .btn-row {
+  padding-top: 0.2rem;
+  flex-shrink: 0;
+}
+
+#l13-book .fill-item.done {
+  border-color: var(--ok, #047857);
+  background: var(--ok-bg, #ecfdf5);
+}
+
+#l13-book .fill-stem {
+  font-weight: 800;
+  margin: 0 0 clamp(0.12rem, 0.35vh, 0.22rem);
+  line-height: 1.32;
+  font-size: clamp(0.72rem, 1.05vh + 0.32rem, 0.88rem);
+  flex-shrink: 0;
+}
+
+#l13-book .fill-blank {
+  display: inline-block;
+  min-width: 3.5rem;
+  border-bottom: 2px dashed var(--amber, #d97706);
+  padding: 0 0.15rem;
+}
+
+#l13-book .fill-opts {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: clamp(0.18rem, 0.45vh, 0.32rem);
+  flex-shrink: 0;
+}
+
+#l13-book .fill-opts button {
+  flex: 1 1 0;
+  min-width: 0;
+  min-height: clamp(30px, 4.2vh, 40px);
+  padding: clamp(0.2rem, 0.5vh, 0.35rem) clamp(0.25rem, 0.6vw, 0.5rem);
+  border-radius: 999px;
+  border: 2px solid #cbd5e1;
+  background: #fff;
+  font-weight: 800;
+  font-size: clamp(0.68rem, 0.95vh + 0.28rem, 0.8rem);
+  line-height: 1.25;
+  cursor: pointer;
+  font-family: inherit;
+  touch-action: manipulation;
+  white-space: normal;
+  text-align: center;
+  word-break: break-word;
+}
+
+#l13-book .fill-item .fb {
+  flex-shrink: 0;
+  margin: clamp(0.08rem, 0.25vh, 0.15rem) 0 0;
+  padding: 0;
+  font-size: clamp(0.62rem, 0.85vh + 0.2rem, 0.72rem);
+  line-height: 1.25;
+  min-height: 0;
+}
+
+#l13-book .fill-item .fb:empty {
+  display: none;
+}
+
+#l13-book .fill-opts button.ok {
+  background: var(--ok-bg, #ecfdf5);
+  border-color: var(--ok, #047857);
+}
+
+#l13-book .fill-opts button.bad {
+  background: var(--bad-bg, #fef2f2);
+  border-color: var(--bad, #b91c1c);
+}
+
+/* 屏 9 · 快选（每题一屏 + 6 秒倒计时 + 对错动画） */
+#l13-book .lesson-page[data-page="9"] {
+  gap: 0.35rem;
+}
+
+#l13-book .lesson-page[data-page="9"] .page-head {
+  padding-bottom: 0.2rem;
+}
+
+#l13-book .lesson-page[data-page="9"].active > .panel.panel-quick-quiz {
+  overflow: hidden;
+}
+
+#l13-book .lesson-page[data-page="9"] .panel-lead {
+  margin: 0 0 0.25rem;
+  font-size: clamp(0.78rem, 1.4vh, 0.88rem);
+  line-height: 1.35;
+  flex-shrink: 0;
+}
+
+#l13-book .panel-quick-quiz {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  flex: 1 1 auto;
+  overflow: hidden;
+  gap: 0.25rem;
+}
+
+#l13-book .quiz-timer-bar {
+  position: relative;
+  flex-shrink: 0;
+  height: clamp(28px, 4.5vh, 38px);
+  border-radius: 999px;
+  background: #e2e8f0;
+  overflow: hidden;
+  border: 2px solid #cbd5e1;
+}
+
+#l13-book .quiz-timer-fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  transform: scaleX(1);
+  transform-origin: left center;
+  background: linear-gradient(90deg, #0d9488, #2dd4bf);
+  will-change: transform;
+}
+
+#l13-book .quiz-timer-bar.is-urgent .quiz-timer-fill {
+  background: linear-gradient(90deg, #d97706, #fbbf24);
+}
+
+#l13-book .quiz-timer-bar.is-timeout .quiz-timer-fill {
+  background: linear-gradient(90deg, #b91c1c, #ef4444);
+}
+
+#l13-book .quiz-timer-text {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  font-weight: 900;
+  font-size: clamp(0.9rem, 1.5vh + 0.35rem, 1.1rem);
+  color: #0f172a;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.85);
+}
+
+#l13-book .quick-quiz-stage {
+  position: relative;
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+  overflow: hidden;
+}
+
+#l13-book #quick-quiz {
+  display: flex;
+  width: 100%;
+  max-width: 52rem;
+  margin: 0 auto;
+  min-height: 0;
+  flex: 1 1 auto;
+  align-items: center;
+  justify-content: center;
+}
+
+#l13-book .lesson-page[data-page="9"] .quiz-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  min-height: 0;
+  margin: 0;
+  padding: clamp(0.45rem, 1.8vh, 1rem) clamp(0.5rem, 2vw, 1.1rem);
+  border-radius: 12px;
+  border: 2px solid #e2e8f0;
+  background: #fff;
+  overflow: hidden;
+}
+
+#l13-book .lesson-page[data-page="9"] .quiz-item.done {
+  border-color: var(--ok, #047857);
+  background: var(--ok-bg, #ecfdf5);
+}
+
+#l13-book .lesson-page[data-page="9"] .quiz-stem {
+  font-weight: 800;
+  margin: 0 0 clamp(0.3rem, 1.1vh, 0.65rem);
+  line-height: 1.38;
+  font-size: clamp(0.88rem, 1.65vh + 0.38rem, 1.15rem);
+  flex-shrink: 0;
+  text-align: center;
+}
+
+#l13-book .lesson-page[data-page="9"] .opt-row {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.28rem, 0.85vh, 0.5rem);
+  margin-top: 0;
+  flex-shrink: 0;
+  width: 100%;
+  max-width: 36rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#l13-book .lesson-page[data-page="9"] .opt-row button {
+  flex: 0 0 auto;
+  width: 100%;
+  min-height: clamp(38px, 5.5vh, 50px);
+  padding: clamp(0.28rem, 0.65vh, 0.45rem) clamp(0.45rem, 1vw, 0.7rem);
+  border-radius: 999px;
+  border: 2px solid #cbd5e1;
+  background: #fff;
+  font-weight: 800;
+  font-size: clamp(0.78rem, 1.2vh + 0.32rem, 0.95rem);
+  line-height: 1.28;
+  text-align: center;
+  white-space: normal;
+  word-break: break-word;
+  cursor: pointer;
+  font-family: inherit;
+  touch-action: manipulation;
+}
+
+#l13-book .lesson-page[data-page="9"] .opt-row button:disabled {
+  cursor: default;
+}
+
+#l13-book .lesson-page[data-page="9"] .opt-row button.ok {
+  background: var(--ok-bg, #ecfdf5);
+  border-color: var(--ok, #047857);
+}
+
+#l13-book .lesson-page[data-page="9"] .opt-row button.bad {
+  background: var(--bad-bg, #fef2f2);
+  border-color: var(--bad, #b91c1c);
+}
+
+#l13-book .lesson-page[data-page="9"] .quiz-item.quiz-result-ok {
+  animation: l13-quiz-card-ok 0.55s ease;
+}
+
+#l13-book .lesson-page[data-page="9"] .quiz-item.quiz-result-bad {
+  animation: l13-quiz-card-bad 0.5s ease;
+  border-color: var(--bad, #b91c1c);
+}
+
+@keyframes l13-quiz-card-ok {
+  0% { box-shadow: 0 0 0 0 rgba(4, 120, 87, 0.45); }
+  45% { box-shadow: 0 0 0 12px rgba(4, 120, 87, 0); transform: scale(1.01); }
+  100% { box-shadow: none; transform: none; }
+}
+
+@keyframes l13-quiz-card-bad {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(6px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(5px); }
+}
+
+#l13-book .quiz-fx {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  pointer-events: none;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+#l13-book .quiz-fx[hidden] {
+  display: none !important;
+  visibility: hidden;
+}
+
+#l13-book .quiz-fx--success {
+  background: rgba(236, 253, 245, 0.94);
+}
+
+#l13-book .quiz-fx--fail {
+  background: rgba(254, 242, 242, 0.94);
+}
+
+#l13-book .quiz-fx-burst {
+  position: absolute;
+  width: 8rem;
+  height: 8rem;
+  border-radius: 50%;
+  opacity: 0;
+}
+
+#l13-book .quiz-fx--success .quiz-fx-burst {
+  background: radial-gradient(circle, rgba(45, 212, 191, 0.55) 0%, transparent 68%);
+  animation: l13-quiz-burst 0.7s ease-out;
+}
+
+#l13-book .quiz-fx--fail .quiz-fx-burst {
+  background: radial-gradient(circle, rgba(248, 113, 113, 0.5) 0%, transparent 68%);
+  animation: l13-quiz-burst 0.65s ease-out;
+}
+
+@keyframes l13-quiz-burst {
+  0% { transform: scale(0.2); opacity: 0.9; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+
+#l13-book .quiz-fx-icon {
+  position: relative;
+  z-index: 1;
+  font-size: clamp(3rem, 12vh, 5rem);
+  font-weight: 900;
+  line-height: 1;
+}
+
+#l13-book .quiz-fx--success .quiz-fx-icon {
+  color: #047857;
+  animation: l13-quiz-pop 0.55s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+#l13-book .quiz-fx--fail .quiz-fx-icon {
+  color: #b91c1c;
+  animation: l13-quiz-pop-shake 0.65s ease;
+}
+
+@keyframes l13-quiz-pop {
+  0% { transform: scale(0.25); opacity: 0; }
+  55% { transform: scale(1.12); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes l13-quiz-pop-shake {
+  0% { transform: scale(0.4); opacity: 0; }
+  25% { transform: scale(1.08); opacity: 1; }
+  40%, 60%, 80% { transform: translateX(-5px) scale(1); }
+  50%, 70%, 90% { transform: translateX(5px) scale(1); }
+  100% { transform: none; opacity: 1; }
+}
+
+#l13-book .quiz-fx-label {
+  position: relative;
+  z-index: 1;
+  font-weight: 900;
+  font-size: clamp(0.95rem, 1.6vh + 0.35rem, 1.15rem);
+  color: #0f172a;
+}
+
+#l13-book .quiz-fx.is-playing {
+  animation: l13-quiz-fx-in 0.2s ease;
+}
+
+@keyframes l13-quiz-fx-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+#l13-book .lesson-page[data-page="9"] .quiz-item .fb {
+  flex-shrink: 0;
+  margin: clamp(0.2rem, 0.8vh, 0.45rem) 0 0;
+  padding: 0;
+  font-size: clamp(0.72rem, 1vh + 0.28rem, 0.86rem);
+  line-height: 1.35;
+  min-height: 0;
+  text-align: center;
+}
+
+#l13-book .lesson-page[data-page="9"] .quiz-item .fb:empty {
+  display: none;
+}
+
+#l13-book .quiz-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.35rem;
+  flex-shrink: 0;
+}
+
+#l13-book .quiz-progress {
+  font-weight: 900;
+  font-size: clamp(0.78rem, 1.1vh + 0.32rem, 0.92rem);
+  color: var(--amber-ink, #92400e);
+}
+
+#l13-book .quiz-dots {
+  flex: 1 1 auto;
+  justify-content: flex-end;
+  margin-top: 0;
+  max-height: 4.5rem;
+  overflow: hidden;
+}
+
+#l13-book .quiz-dots button {
+  width: 1.65rem;
+  height: 1.65rem;
+  font-size: 0.62rem;
+}
+
+#l13-book .quiz-dots button.done {
+  background: var(--ok-bg, #ecfdf5);
+  border-color: var(--ok, #047857);
+  color: var(--ok, #047857);
+}
+
+#l13-book .lesson-page[data-page="9"] .btn-row {
+  padding-top: 0.2rem;
+  flex-shrink: 0;
+}
+
+/* 屏 10 · 合句（16 题轮播，每题一屏） */
+#l13-book .lesson-page[data-page="10"] {
+  gap: 0.35rem;
+}
+
+#l13-book .lesson-page[data-page="10"] .page-head {
+  padding-bottom: 0.2rem;
+}
+
+#l13-book .lesson-page[data-page="10"].active > .panel.panel-merge {
+  overflow: hidden;
+}
+
+#l13-book .panel-merge {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  flex: 1 1 auto;
+  overflow: hidden;
+  gap: clamp(0.25rem, 0.8vh, 0.45rem);
+}
+
+#l13-book .merge-hint-box {
+  flex-shrink: 0;
+  padding: clamp(0.35rem, 1vh, 0.55rem);
+  border-radius: 12px;
+  border: 2px solid #fcd34d;
+  background: linear-gradient(180deg, #fff, #fffbeb);
+}
+
+#l13-book .merge-hint-detail {
+  margin: 0.25rem 0 0;
+  font-size: clamp(0.72rem, 1.1vh + 0.3rem, 0.86rem);
+  font-weight: 700;
+  color: #78350f;
+  line-height: 1.4;
+}
+
+#l13-book .merge-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(0.35rem, 1vw, 0.65rem);
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+@media (max-width: 520px) {
+  #l13-book .merge-split {
+    grid-template-columns: 1fr;
+  }
+}
+
+#l13-book .merge-clause {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 0;
+  padding: clamp(0.4rem, 1.2vh, 0.65rem);
+  border-radius: 12px;
+  border: 3px solid var(--edge, #5d4037);
+  background: linear-gradient(145deg, #fff, #f8fafc);
+}
+
+#l13-book .merge-clause .merge-label {
+  font-size: clamp(0.65rem, 0.9vh + 0.22rem, 0.75rem);
+  font-weight: 900;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.2rem;
+}
+
+#l13-book .merge-clause .en-line {
+  font-size: clamp(0.82rem, 1.35vh + 0.38rem, 1.05rem);
+  font-weight: 800;
+  line-height: 1.38;
+  margin: 0;
+}
+
+#l13-book .merge-reveal-slot {
+  flex: 1 1 auto;
+  min-height: clamp(72px, 14vh, 120px);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  border-radius: 14px;
+  border: 3px dashed #c4b5fd;
+  background: #faf5ff;
+  padding: clamp(0.35rem, 1vh, 0.55rem);
+  cursor: pointer;
+  position: relative;
+}
+
+#l13-book .merge-reveal-btn {
+  align-self: center;
+  min-height: 44px;
+  padding: 0.45rem 1rem;
+  border-radius: 999px;
+  border: 2px solid #7c3aed;
+  background: #ede9fe;
+  color: #5b21b6;
+  font-weight: 900;
+  font-size: clamp(0.78rem, 1.1vh + 0.32rem, 0.9rem);
+  cursor: pointer;
+  font-family: inherit;
+  touch-action: manipulation;
+}
+
+#l13-book .merge-result {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 0;
+  padding: 0.2rem 0.35rem;
+}
+
+#l13-book .merge-result.is-covered {
+  visibility: hidden;
+  height: 0;
+  flex: 0 0 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+#l13-book .merge-result .en-line {
+  font-size: clamp(0.88rem, 1.5vh + 0.42rem, 1.12rem);
+  font-weight: 900;
+  line-height: 1.4;
+  margin: 0 0 0.2rem;
+}
+
+#l13-book .merge-result .zh-hint {
+  margin: 0;
+  font-size: clamp(0.72rem, 1.05vh + 0.3rem, 0.88rem);
+  font-weight: 700;
+  color: #475569;
+  line-height: 1.35;
+}
+
+#l13-book .merge-use {
+  flex-shrink: 0;
+  margin: 0;
+  font-size: clamp(0.68rem, 0.95vh + 0.26rem, 0.8rem);
+  font-weight: 700;
+  color: #0f766e;
+  line-height: 1.35;
+  padding: 0.25rem 0.45rem;
+  border-radius: 8px;
+  background: #f0fdfa;
+}
+
+#l13-book .merge-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.35rem;
+  flex-shrink: 0;
+}
+
+#l13-book .merge-progress {
+  font-weight: 900;
+  font-size: clamp(0.78rem, 1.1vh + 0.32rem, 0.92rem);
+  color: var(--amber-ink, #92400e);
+}
+
+#l13-book .merge-dots {
+  flex: 1 1 auto;
+  justify-content: flex-end;
+  max-height: 4.5rem;
+  overflow: hidden;
+}
+
+#l13-book .merge-dots button {
+  width: 1.65rem;
+  height: 1.65rem;
+  font-size: 0.62rem;
+}
+
+/* 屏 11 · 通道 */
+#l13-book .panel-channel {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  min-height: min(280px, 42vh);
+}
+#l13-book .channel-btn {
+  display: block;
+  width: 100%;
+  max-width: 420px;
+  margin: 0.5rem auto 0;
+  min-height: 56px;
+  padding: 0.85rem 1rem;
+  border-radius: 14px;
+  border: 3px solid var(--edge, #5d4037);
+  font-weight: 900;
+  font-size: 1rem;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  color: var(--amber-ink, #92400e);
+  background: linear-gradient(135deg, #fde68a, #fcd34d);
+  box-sizing: border-box;
+}
+#l13-book .panel-channel .channel-links {
+  margin-top: 0.75rem;
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: #64748b;
+}
+#l13-book .panel-channel .channel-links a {
+  color: var(--amber-ink, #92400e);
+  font-weight: 900;
+}
+
+#l13-book .fb {
+  color: var(--amber-ink, #92400e);
+}

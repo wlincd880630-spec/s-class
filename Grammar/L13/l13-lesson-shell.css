@@ -1,0 +1,334 @@
+/**
+ * L13 互动课页面外壳 —— 全屏舞台 + 统一底栏导航
+ * 各页在 :root 中设置 --l13-accent / --l13-accent-ink / --l13-top-bg 等主题色
+ */
+:root {
+  --lesson-pager-gap: 3.65rem;
+}
+
+body.has-lesson-pager {
+  align-items: stretch !important;
+  justify-content: flex-start;
+}
+
+body.has-lesson-pager > #app {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  padding: 4px 6px !important;
+  padding-left: max(4px, var(--lesson-s-l, 0px)) !important;
+  padding-right: max(4px, var(--lesson-s-r, 0px)) !important;
+}
+
+@media (min-width: 769px) and (min-height: 560px) {
+  body.has-lesson-pager > #app {
+    --l13-stage-vw: calc(100vw - var(--lesson-s-l) - var(--lesson-s-r) - 12px);
+    --l13-stage-vh: calc(
+      100dvh - var(--lesson-pager-gap, 3.65rem) - max(2px, var(--lesson-s-t)) - max(2px, var(--lesson-s-b)) - 8px
+    );
+    width: var(--l13-stage-vw) !important;
+    max-width: var(--l13-stage-vw) !important;
+    height: var(--l13-stage-vh) !important;
+    max-height: var(--l13-stage-vh) !important;
+    aspect-ratio: unset !important;
+    flex: 1 1 auto !important;
+  }
+}
+
+#ui-lock {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  cursor: wait;
+  background: rgba(15, 23, 42, 0.08);
+}
+#ui-lock.active { display: block; }
+
+#app {
+  flex: 1 1 auto;
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100dvh - var(--lesson-pager-gap, 3.65rem) - 4px);
+  min-width: 0;
+}
+
+#l13-book.book {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--paper, #fff9f0);
+  border: 3px solid var(--l13-accent, #0d9488);
+  border-radius: 12px 22px 14px 20px;
+  box-shadow:
+    0 6px 0 var(--l13-shadow, rgba(13, 148, 136, 0.32)),
+    0 18px 36px var(--shadow-book, rgba(60, 40, 20, 0.12));
+  overflow: hidden;
+}
+
+#l13-book.book::before {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  border: 2px dashed var(--l13-dash, rgba(13, 148, 136, 0.3));
+  border-radius: 8px 16px 10px 14px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+#l13-book .top-bar {
+  z-index: 2;
+  flex-shrink: 0;
+  margin: 8px 10px 0;
+  padding: 8px 12px;
+  border: 2px solid var(--l13-accent, #0d9488);
+  border-radius: 14px;
+  background: var(--l13-top-bg, linear-gradient(180deg, #fff, #f0fdfa));
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem 0.75rem;
+  text-align: center;
+  font-size: clamp(0.82rem, 0.35vw + 0.76rem, 0.96rem);
+}
+
+#l13-book .top-bar .top-bar-main {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+#l13-book .top-bar strong {
+  color: var(--l13-accent-ink, #0f766e);
+  font-size: clamp(0.95rem, 1vw + 0.8rem, 1.08rem);
+}
+
+#l13-book .subtitle-line {
+  display: block;
+  margin-top: 2px;
+  font-size: 0.8em;
+  color: #6d4c41;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.l13-scroll {
+  position: relative;
+  z-index: 1;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+  padding: 6px 10px 8px;
+  display: flex;
+  flex-direction: column;
+}
+
+.l13-scroll > .lesson-page {
+  display: none;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1 1 auto;
+  min-height: 0;
+  animation: l13fade 0.3s ease;
+}
+
+.l13-scroll > .lesson-page.active {
+  display: flex;
+}
+
+.l13-scroll > .lesson-page.active > .panel,
+.l13-scroll > .lesson-page.active > .panel.panel-split {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+@keyframes l13fade {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: none; }
+}
+
+#l13-book .page-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.35rem 0.75rem;
+  padding-bottom: 0.35rem;
+  border-bottom: 2px solid rgba(93, 64, 55, 0.12);
+  flex-shrink: 0;
+}
+
+#l13-book .page-kicker {
+  font-size: 0.76rem;
+  font-weight: 800;
+  color: #6d4c41;
+  letter-spacing: 0.04em;
+}
+
+#l13-book .page-title {
+  margin: 0;
+  font-size: clamp(1.02rem, 1.6vw + 0.5rem, 1.28rem);
+  font-weight: 900;
+  color: var(--l13-accent-ink, #0f766e);
+  line-height: 1.3;
+}
+
+#l13-book .panel {
+  background: rgba(255, 255, 255, 0.94);
+  border: 2px solid var(--edge, #5d4037);
+  border-radius: 12px 18px 10px 16px;
+  padding: clamp(0.65rem, 1.2vw, 0.95rem);
+  box-shadow: 0 3px 0 rgba(93, 64, 55, 0.07);
+}
+
+#l13-book .scene-frame {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  min-height: 0;
+  border-radius: 10px 14px 8px 12px;
+  border: 2px solid var(--edge, #5d4037);
+  background: var(--l13-scene-bg, linear-gradient(145deg, #0f172a, #1e1b4b));
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#l13-book .scene-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+/* —— L13 底栏：覆盖 lesson-screen 默认黄蜡笔风，统一青绿主题 —— */
+body.has-lesson-pager #app nav.lesson-pager {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 200;
+  display: flex;
+  align-items: stretch;
+  justify-content: stretch;
+  gap: 0.4rem;
+  padding: 0.45rem 0.55rem;
+  padding-bottom: max(0.45rem, env(safe-area-inset-bottom, 0px));
+  background: rgba(255, 255, 255, 0.97);
+  border-top: 2px solid var(--l13-accent, #0d9488);
+  box-shadow: 0 -6px 24px rgba(15, 23, 42, 0.1);
+  backdrop-filter: blur(10px);
+  font-family: system-ui, -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+
+body.has-lesson-pager #app nav.lesson-pager .pager-prev,
+body.has-lesson-pager #app nav.lesson-pager .pager-next,
+body.has-lesson-pager #app nav.lesson-pager a.l13-index-link {
+  flex: 1 1 0;
+  min-width: 0;
+  min-height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0.4rem 0.55rem;
+  border-radius: 12px;
+  border: 2px solid var(--edge, #5d4037);
+  font-size: clamp(0.78rem, 2.2vw, 0.88rem);
+  font-weight: 800;
+  line-height: 1.25;
+  cursor: pointer;
+  touch-action: manipulation;
+  box-shadow: 0 2px 0 rgba(93, 64, 55, 0.12);
+  transition: filter 0.15s ease, transform 0.1s ease;
+  font-family: inherit;
+}
+
+body.has-lesson-pager #app nav.lesson-pager .pager-prev {
+  color: #334155;
+  background: linear-gradient(180deg, #fff, #f8fafc);
+}
+
+body.has-lesson-pager #app nav.lesson-pager a.l13-index-link {
+  flex: 0.75 1 0;
+  color: var(--l13-accent-ink, #0f766e) !important;
+  background: linear-gradient(180deg, #f0fdfa, #ccfbf1) !important;
+  border-color: var(--l13-accent, #0d9488) !important;
+  text-decoration: none;
+  box-shadow: 0 2px 0 rgba(13, 148, 136, 0.2) !important;
+}
+
+body.has-lesson-pager #app nav.lesson-pager .pager-next {
+  color: #fff !important;
+  background: linear-gradient(135deg, var(--l13-accent, #14b8a6), var(--l13-accent-ink, #0d9488)) !important;
+  border-color: var(--l13-accent-ink, #0f766e) !important;
+  box-shadow: 0 3px 0 rgba(15, 118, 110, 0.35), 0 0 16px rgba(13, 148, 136, 0.25) !important;
+}
+
+body.has-lesson-pager #app nav.lesson-pager .pager-mid {
+  flex: 0.7 1 0;
+  min-width: 4.2rem;
+  min-height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0.35rem 0.5rem;
+  border-radius: 12px;
+  border: 2px solid var(--l13-accent, #0d9488);
+  background: linear-gradient(180deg, #fff, #f0fdfa);
+  color: var(--l13-accent-ink, #0f766e);
+  font-weight: 900;
+  font-size: clamp(0.8rem, 2.2vw, 0.92rem);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  text-shadow: none;
+  line-height: 1.2;
+  cursor: default;
+}
+
+body.has-lesson-pager #app nav.lesson-pager .pager-mid::after {
+  display: none;
+}
+
+body.has-lesson-pager #app nav.lesson-pager .pager-prev:hover:not(:disabled),
+body.has-lesson-pager #app nav.lesson-pager .pager-next:hover:not(:disabled),
+body.has-lesson-pager #app nav.lesson-pager a.l13-index-link:hover {
+  filter: brightness(1.04);
+}
+
+body.has-lesson-pager #app nav.lesson-pager .pager-prev:active:not(:disabled),
+body.has-lesson-pager #app nav.lesson-pager .pager-next:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+body.has-lesson-pager #app nav.lesson-pager button:disabled {
+  opacity: 0.42;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+@media (min-width: 640px) {
+  body.has-lesson-pager #app nav.lesson-pager {
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    padding-bottom: max(0.5rem, env(safe-area-inset-bottom, 0px));
+  }
+  body.has-lesson-pager #app nav.lesson-pager .pager-prev,
+  body.has-lesson-pager #app nav.lesson-pager .pager-next,
+  body.has-lesson-pager #app nav.lesson-pager a.l13-index-link,
+  body.has-lesson-pager #app nav.lesson-pager .pager-mid {
+    min-height: 48px;
+  }
+}

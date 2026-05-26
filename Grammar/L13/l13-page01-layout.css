@@ -1,0 +1,421 @@
+/**
+ * L13 Page 01 · 全屏利用 + 各屏布局
+ */
+
+/* 屏 1 · 双图约 2×（相对上一版），总高度卡在视口内不溢出 */
+#l13-book .lesson-page[data-page="1"] {
+  --p1-stack-below: 15.5rem;
+}
+
+#l13-book .lesson-page[data-page="1"] .panel-intro-scene {
+  gap: 0.4rem;
+  min-height: 0;
+}
+
+#l13-book .lesson-page[data-page="1"] .rule-box {
+  flex-shrink: 0;
+  margin: 0;
+  padding: 0.45rem 0.6rem;
+  font-size: 0.84rem;
+}
+
+#l13-book .lesson-page[data-page="1"] .scramble-dual {
+  display: grid;
+  gap: 0.45rem;
+  margin: 0;
+  flex: 0 0 auto;
+  min-height: 0;
+  grid-template-columns: 1fr;
+  align-content: stretch;
+  max-height: min(
+    calc(100dvh - var(--lesson-pager-gap, 3.65rem) - var(--p1-stack-below)),
+    58vh
+  );
+}
+
+@media (min-width: 720px) {
+  #l13-book .lesson-page[data-page="1"] .scramble-dual {
+    grid-template-columns: 1fr 1fr;
+    max-height: min(
+      calc(100dvh - var(--lesson-pager-gap, 3.65rem) - var(--p1-stack-below)),
+      72vh
+    );
+  }
+}
+
+#l13-book .lesson-page[data-page="1"] .scramble-fig {
+  margin: 0;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 2px solid var(--edge, #5d4037);
+  background: #fff;
+  box-shadow: 0 3px 0 rgba(93, 64, 55, 0.07);
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  height: 100%;
+}
+
+#l13-book .lesson-page[data-page="1"] .scramble-fig figcaption {
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: #334155;
+  padding: 0.35rem 0.55rem;
+  background: #f8fafc;
+  border-bottom: 2px solid #e2e8f0;
+  flex-shrink: 0;
+  line-height: 1.32;
+}
+
+/* 手机竖屏：上下两张，各约上一版的 2× 高度 */
+#l13-book .lesson-page[data-page="1"] .scramble-fig .img-slot {
+  position: relative;
+  flex: 1 1 auto;
+  width: 100%;
+  min-height: min(26vh, 280px);
+  max-height: min(48vh, 520px);
+  aspect-ratio: 4 / 3;
+  background: linear-gradient(145deg, #fff7ed, #ffedd5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* 电脑/平板横屏：左右并排，单图高度约 2×（30vh→60vh） */
+@media (min-width: 720px) {
+  #l13-book .lesson-page[data-page="1"] .scramble-fig .img-slot {
+    min-height: min(50vh, 540px);
+    max-height: min(60vh, 640px);
+  }
+}
+
+#l13-book .lesson-page[data-page="1"] .scramble-fig .img-slot img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  object-position: center center;
+}
+
+#l13-book .lesson-page[data-page="1"] .scramble-fig-now .img-slot {
+  background: linear-gradient(145deg, #e0e7ff, #ede9fe);
+}
+
+#l13-book .lesson-page[data-page="1"] .scramble-fig-now.is-past-observe .intro-speech-overlay {
+  transform: none;
+}
+
+#l13-book .lesson-page[data-page="1"] .scene-clock {
+  z-index: 6;
+  font-size: clamp(0.68rem, 1.5vw, 0.8rem);
+}
+
+#l13-book .lesson-page[data-page="1"] .time-control {
+  flex-shrink: 0;
+}
+
+#l13-book .lesson-page[data-page="1"] .time-presets button {
+  min-height: 40px;
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  border: 2px solid var(--edge, #5d4037);
+  background: #fff;
+  font-weight: 800;
+  font-size: 0.78rem;
+  cursor: pointer;
+  font-family: inherit;
+  touch-action: manipulation;
+}
+
+#l13-book .lesson-page[data-page="1"] .time-presets button:hover {
+  background: #f0fdfa;
+  border-color: var(--l13-accent, #0d9488);
+}
+
+#l13-book .lesson-page[data-page="1"] .intro-timeline,
+#l13-book .lesson-page[data-page="1"] .dynamic-sentence {
+  flex-shrink: 0;
+}
+
+#l13-book .lesson-page[data-page="1"] .btn-row {
+  flex-shrink: 0;
+  margin-bottom: 0;
+}
+
+/* 屏 3 · 结构表 */
+#l13-book .panel-form-table .form-table-wrap {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+  max-height: none;
+}
+
+/* 屏 4 · 语料预览 */
+#l13-book .lesson-page[data-page="4"] .panel-corpus-preview {
+  min-height: 0;
+}
+
+#l13-book .corpus-list--preview {
+  max-height: none;
+  flex: 1 1 auto;
+}
+
+/* 屏 5 · 侦探社接案：配图填满本屏剩余高度，完整显示 */
+#l13-book .lesson-page[data-page="5"] {
+  min-height: 0;
+}
+
+#l13-book .lesson-page[data-page="5"] .page-head {
+  flex-shrink: 0;
+}
+
+#l13-book .lesson-page[data-page="5"] .panel-story-intro {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  overflow: hidden;
+}
+
+#l13-book .lesson-page[data-page="5"] .story-purpose-lead {
+  flex-shrink: 0;
+  margin: 0;
+  font-size: clamp(0.84rem, 1.6vw, 0.92rem);
+  line-height: 1.45;
+}
+
+#l13-book .lesson-page[data-page="5"] .scene-frame--story {
+  flex: 1 1 auto;
+  width: 100%;
+  min-height: 0 !important;
+  height: 100% !important;
+  max-height: none !important;
+  aspect-ratio: unset !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: linear-gradient(145deg, #0f172a, #1e1b4b);
+}
+
+#l13-book .lesson-page[data-page="5"] .scene-frame--story img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  object-position: center center;
+}
+
+/* 屏 6 · 示范案卷：左图右文 + 英文句子 ×300% */
+#l13-book .lesson-page[data-page="6"] .panel-demo-timeline.panel-split {
+  flex: 1 1 auto;
+  min-height: 0;
+  gap: 0.65rem;
+  align-items: stretch;
+}
+
+#l13-book .lesson-page[data-page="6"] .stage-visual {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+#l13-book .lesson-page[data-page="6"] .scene-frame--timeline-hint {
+  flex: 1 1 auto;
+  width: 100%;
+  min-height: clamp(200px, 36vh, 460px);
+  max-height: min(52vh, 520px);
+  aspect-ratio: auto;
+}
+
+#l13-book .lesson-page[data-page="6"] .stage-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  min-height: 0;
+  min-width: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+#l13-book .lesson-page[data-page="6"] .event-pool {
+  flex-shrink: 0;
+  max-height: min(32vh, 320px);
+  overflow-y: auto;
+}
+
+#l13-book .lesson-page[data-page="6"] .event-chip {
+  flex: 1 1 min(100%, 320px);
+  padding: 0.55rem 0.65rem;
+}
+
+#l13-book .lesson-page[data-page="6"] .event-chip span[lang="en"] {
+  font-size: calc(0.72rem * 3);
+  line-height: 1.32;
+  font-weight: 800;
+  margin-top: 0.3rem;
+}
+
+#l13-book .lesson-page[data-page="6"] .tl-drop {
+  min-height: 4.5rem;
+}
+
+#l13-book .lesson-page[data-page="6"] .tl-drop.filled {
+  min-height: 7.5rem;
+  padding: 0.55rem 0.5rem;
+  align-items: stretch;
+  justify-content: center;
+}
+
+#l13-book .lesson-page[data-page="6"] .tl-drop span[lang="en"] {
+  font-size: calc(0.78rem * 3);
+  line-height: 1.32;
+  font-weight: 800;
+  display: block;
+}
+
+#l13-book .lesson-page[data-page="6"] .tl-drop .chip-zh {
+  font-size: 0.82rem;
+  font-weight: 800;
+  margin-top: 0.35rem;
+  display: block;
+}
+
+/* 屏 7 · 停电之夜：左图完整显示（contain，按图比例） */
+#l13-book .lesson-page[data-page="7"] .panel-homework-night.panel-split {
+  gap: 0.55rem;
+  align-items: stretch;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+@media (min-width: 640px) {
+  #l13-book .lesson-page[data-page="7"] .panel-homework-night.panel-split {
+    grid-template-columns: minmax(260px, 44%) 1fr;
+  }
+}
+
+#l13-book .lesson-page[data-page="7"] .panel-homework-night .stage-visual {
+  display: flex;
+  flex-direction: column;
+  align-self: stretch;
+  min-height: 0;
+  min-width: 0;
+}
+
+#l13-book .lesson-page[data-page="7"] .scene-frame--homework {
+  flex: 1 1 auto;
+  width: 100%;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: min(calc(100dvh - 17rem), 78vh) !important;
+  aspect-ratio: unset !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: linear-gradient(145deg, #1e1b4b, #312e81);
+}
+
+#l13-book .lesson-page[data-page="7"] .scene-frame--homework img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  max-height: min(calc(100dvh - 17rem), 78vh);
+  object-fit: contain;
+  object-position: center center;
+}
+
+#l13-book .lesson-page[data-page="7"] .panel-homework-night .stage-body {
+  min-height: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+#l13-book .lesson-page[data-page="7"] .event-pool {
+  flex-shrink: 0;
+  max-height: min(36vh, 340px);
+  overflow-y: auto;
+}
+
+#l13-book .lesson-page[data-page="7"] .event-chip {
+  flex: 1 1 min(100%, 320px);
+  padding: 0.55rem 0.65rem;
+}
+
+#l13-book .lesson-page[data-page="7"] .event-chip span[lang="en"] {
+  font-size: calc(0.72rem * 3);
+  line-height: 1.32;
+  font-weight: 800;
+  margin-top: 0.3rem;
+}
+
+#l13-book .lesson-page[data-page="7"] .tl-drop {
+  min-height: 4.5rem;
+}
+
+#l13-book .lesson-page[data-page="7"] .tl-drop.filled {
+  min-height: 7.5rem;
+  padding: 0.55rem 0.5rem;
+  align-items: stretch;
+  justify-content: center;
+}
+
+#l13-book .lesson-page[data-page="7"] .tl-drop span[lang="en"] {
+  font-size: calc(0.78rem * 3);
+  line-height: 1.32;
+  font-weight: 800;
+  display: block;
+}
+
+#l13-book .lesson-page[data-page="7"] .tl-drop .chip-zh {
+  font-size: 0.82rem;
+  font-weight: 800;
+  margin-top: 0.35rem;
+  display: block;
+}
+
+/* 屏 8 · 博物馆 */
+#l13-book .lesson-page[data-page="8"] .panel-split.nested-split {
+  margin-top: 0.45rem;
+  padding: 0;
+  border: none;
+  box-shadow: none;
+  background: transparent;
+  flex-shrink: 0;
+}
+
+#l13-book .lesson-page[data-page="8"] .panel-split.nested-split .scene-frame img {
+  width: 81%;
+  height: 81%;
+  max-width: 81%;
+  max-height: 81%;
+}
+
+#l13-book .lesson-page[data-page="8"] #guide-quiz {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+/* 屏 11 · 快判 */
+#l13-book .lesson-page[data-page="11"] .panel {
+  min-height: 0;
+}
+
+#l13-book .lesson-page[data-page="11"] #order-quiz {
+  max-height: none;
+  flex: 1 1 auto;
+}
+
+/* 屏 12 · 路线图 */
+#l13-book .lesson-page[data-page="12"] .roadmap {
+  font-size: 0.9rem;
+}
