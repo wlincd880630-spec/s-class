@@ -338,34 +338,276 @@
       background: transparent; border: 1px solid var(--ng-line); color: var(--ng-cream);
       padding: 6px 12px; cursor: pointer; border-radius: 4px; font: inherit;
     }
-    .chart-box { font-size: 13px; line-height: 1.45; }
-    .chart-table { width: 100%; border-collapse: collapse; font-size: 12px; }
-    .chart-table th, .chart-table td { border: 1px solid var(--ng-line); padding: 6px 8px; vertical-align: top; }
-    .chart-table th { background: rgba(201,162,77,.12); color: var(--ng-gold); }
-    .chart-pre { white-space: pre-wrap; font-family: ui-monospace, Consolas, monospace; font-size: 11px;
-      background: rgba(0,0,0,.25); padding: 10px; border-radius: 4px; border: 1px solid var(--ng-line); }
-    .chart-exam-wrap { width: 100%; }
-    .chart-exam-wrap .chart-h3 { margin: 0 0 8px; color: var(--ng-gold); font-size: 14px; }
-    .chart-exam-wrap .chart-lead { font-size: 13px; margin: 0 0 8px; color: #e8dfd0; }
-    .chart-fishbone { font-size: 12px; line-height: 1.4; }
-    .fishbone-grid { display: grid; gap: 8px; margin-bottom: 8px; }
+    
+    .chart-box, .chart-exam-wrap {
+      --chart-fs: 11px;
+      --chart-fs-sm: 10px;
+      --chart-lh: 1.45;
+      --chart-blank-min: 9em;
+      --chart-blank-w: 11em;
+      --chart-blank-h: 1.3em;
+      --chart-cell-pad: 8px 10px;
+      --chart-ink: #e8dfd0;
+      --chart-head: var(--ng-gold);
+      --chart-border: var(--ng-line);
+      --chart-border-strong: var(--ng-gold-dim);
+      --chart-panel-bg: rgba(0,0,0,.22);
+      --chart-th-bg: rgba(201,162,77,.12);
+      --chart-muted: var(--ng-muted);
+      --chart-accent: var(--ng-accent);
+      --chart-input-ink: #fff;
+    }
+
+    .chart-box { font-size: var(--chart-fs); line-height: var(--chart-lh); }
+    .chart-exam-wrap { width: 100%; font-size: var(--chart-fs); line-height: var(--chart-lh); }
+    .chart-exam-wrap .chart-h3 { margin: 0 0 10px; color: var(--chart-head); font-size: calc(var(--chart-fs) + 1px); font-weight: 700; }
+    .chart-exam-wrap .chart-lead { font-size: var(--chart-fs); margin: 0 0 8px; color: var(--chart-ink); }
+    .chart-table { width: 100%; border-collapse: collapse; font-size: var(--chart-fs); line-height: var(--chart-lh); }
+    .chart-table th, .chart-table td {
+      border: 1px solid var(--chart-border);
+      padding: var(--chart-cell-pad);
+      vertical-align: top;
+      color: var(--chart-ink);
+    }
+    .chart-table th { background: var(--chart-th-bg); color: var(--chart-head); font-weight: 700; }
+    .chart-list { margin: 0; padding-left: 1.2em; }
+    .chart-list li { font-size: var(--chart-fs); margin-bottom: 5px; line-height: var(--chart-lh); color: var(--chart-ink); }
+    .chart-pre {
+      white-space: pre-wrap;
+      font-family: ui-monospace, Consolas, monospace;
+      font-size: var(--chart-fs-sm);
+      background: var(--chart-panel-bg);
+      padding: 12px;
+      border-radius: 6px;
+      border: 1px solid var(--chart-border);
+      color: var(--chart-ink);
+      line-height: var(--chart-lh);
+    }
+    .chart-timeline .tl-time {
+      white-space: nowrap; width: 9em; font-weight: 600;
+      color: var(--chart-head); vertical-align: top;
+    }
+    .blank {
+      display: inline-block;
+      min-width: var(--chart-blank-min);
+      min-height: var(--chart-blank-h);
+      border-bottom: 2px solid var(--chart-head);
+      color: var(--chart-head);
+      font-weight: 700;
+      text-align: center;
+      font-family: ui-monospace, Consolas, monospace;
+      font-size: var(--chart-fs);
+      padding: 0 6px;
+      vertical-align: baseline;
+      box-sizing: border-box;
+    }
+    .blank-study { min-width: 2.8em; color: var(--chart-head); }
+    .practice-input {
+      min-width: var(--chart-blank-min);
+      width: var(--chart-blank-w);
+      max-width: min(22em, 100%);
+      min-height: var(--chart-blank-h);
+      border: none;
+      border-bottom: 2px solid var(--chart-head);
+      background: transparent;
+      color: var(--chart-input-ink);
+      text-align: center;
+      font: inherit;
+      font-family: ui-monospace, Consolas, monospace;
+      font-size: var(--chart-fs);
+      padding: 2px 6px;
+      vertical-align: baseline;
+      box-sizing: border-box;
+    }
+    .practice-input:focus { outline: none; border-bottom-color: var(--chart-accent); }
+    .blank-slot {
+      display: inline-flex;
+      align-items: flex-end;
+      gap: 5px;
+      vertical-align: baseline;
+      white-space: nowrap;
+    }
+    .blank-num {
+      font-weight: 700;
+      color: var(--chart-head);
+      font-size: var(--chart-fs-sm);
+      font-family: ui-monospace, Consolas, monospace;
+      line-height: 1;
+    }
+    .blank-line {
+      display: inline-block;
+      min-width: var(--chart-blank-min);
+      width: var(--chart-blank-w);
+      min-height: var(--chart-blank-h);
+      border-bottom: 2px solid var(--chart-head);
+      vertical-align: bottom;
+      box-sizing: border-box;
+    }
+    .blank-slot--wide .blank-line {
+      min-width: 16em;
+      width: 18em;
+      max-width: 100%;
+    }
+    .chart-fishbone { font-size: var(--chart-fs); line-height: var(--chart-lh); }
+    .fishbone-grid { display: grid; gap: 10px; margin-bottom: 10px; }
     .fishbone-top { grid-template-columns: 1fr 1.35fr 1fr; }
     .fishbone-bottom { grid-template-columns: 1fr 1fr; }
-    .fishbone-box { border: 1px solid var(--ng-line); border-radius: 4px; padding: 8px 10px; background: rgba(0,0,0,.22); }
+    .fishbone-box {
+      border: 1px solid var(--chart-border);
+      border-radius: 6px;
+      padding: var(--chart-cell-pad);
+      background: var(--chart-panel-bg);
+      color: var(--chart-ink);
+    }
     .fishbone-box-wide { min-width: 0; }
-    .fishbone-box-title { margin: 0 0 6px; font-weight: 700; color: var(--ng-gold); font-size: 12px; }
+    .fishbone-box-title { margin: 0 0 8px; font-weight: 700; color: var(--chart-head); font-size: var(--chart-fs); }
     .fishbone-box ul { margin: 0; padding-left: 1.15em; }
-    .fishbone-box li { font-size: 11px; margin-bottom: 3px; color: #e8dfd0; }
-    .fishbone-box p { font-size: 11px; margin: 0 0 4px; }
-    .fishbone-spine-label { text-align: center; font-weight: 700; color: var(--ng-gold); margin: 8px 0; font-size: 13px; letter-spacing: .03em; }
-    .virtue-line, .virtue-foot { font-size: 11px; margin: 4px 0; color: #d7cfc2; }
-    .chart-list { margin: 0; padding-left: 1.2em; }
-    .chart-list li { font-size: 12px; margin-bottom: 4px; }
-    .chart-timeline .tl-time { white-space: nowrap; width: 9em; font-weight: 600; color: var(--ng-gold); vertical-align: top; }
-    .blank { display: inline-block; min-width: 2.5em; border-bottom: 2px solid var(--ng-gold); color: var(--ng-gold);
-      font-weight: 700; text-align: center; font-family: ui-monospace, Consolas, monospace; }
-    .practice-input { width: 7em; border: none; border-bottom: 2px solid var(--ng-gold); background: transparent;
-      color: #fff; text-align: center; font: inherit; font-family: ui-monospace, Consolas, monospace; }
+    .fishbone-box li { font-size: var(--chart-fs); margin-bottom: 5px; color: var(--chart-ink); line-height: var(--chart-lh); }
+    .fishbone-box p { font-size: var(--chart-fs); margin: 0 0 5px; color: var(--chart-ink); line-height: var(--chart-lh); }
+    .fishbone-spine-label {
+      text-align: center; font-weight: 700; color: var(--chart-head);
+      margin: 10px 0; font-size: calc(var(--chart-fs) + 1px); letter-spacing: .03em;
+    }
+    .virtue-line, .virtue-foot { font-size: var(--chart-fs); margin: 5px 0; color: var(--chart-ink); line-height: var(--chart-lh); }
+    .chart-arctic { font-size: var(--chart-fs); line-height: var(--chart-lh); }
+    .arctic-block {
+      border: 1px solid var(--chart-border);
+      border-radius: 8px;
+      padding: var(--chart-cell-pad);
+      margin-bottom: 10px;
+      background: var(--chart-panel-bg);
+    }
+    .arctic-block:last-child { margin-bottom: 0; }
+    .arctic-hub {
+      text-align: center; font-weight: 700;
+      font-size: calc(var(--chart-fs) + 1px);
+      color: var(--chart-head);
+      padding: 8px 12px; margin: 0 auto 4px; max-width: 300px;
+      border: 2px solid var(--chart-border-strong);
+      border-radius: 999px;
+      background: var(--chart-th-bg);
+    }
+    .arctic-fork {
+      height: 14px; margin: 0 auto 6px; max-width: 420px;
+      background:
+        linear-gradient(var(--chart-border-strong), var(--chart-border-strong)) center top / 2px 8px no-repeat,
+        linear-gradient(var(--chart-border-strong), var(--chart-border-strong)) center top / 100% 2px no-repeat;
+    }
+    .arctic-split { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .arctic-panel {
+      border: 1px solid var(--chart-border);
+      border-radius: 6px;
+      padding: var(--chart-cell-pad);
+      background: var(--chart-panel-bg);
+    }
+    .arctic-winter { border-top: 3px solid rgba(120,180,220,.75); }
+    .arctic-summer { border-top: 3px solid rgba(230,180,80,.85); }
+    .arctic-panel-title {
+      margin: 0 0 8px; font-weight: 700; color: var(--chart-head);
+      font-size: var(--chart-fs); display: flex; align-items: center; gap: 6px;
+    }
+    .arctic-icon { font-size: 15px; line-height: 1; }
+    .arctic-panel ul, .arctic-problems ul, .arctic-life-card ul { margin: 0; padding-left: 1.15em; }
+    .arctic-panel li, .arctic-problems li, .arctic-life-card li {
+      margin-bottom: 5px; color: var(--chart-ink); font-size: var(--chart-fs); line-height: var(--chart-lh);
+    }
+    .arctic-section-title {
+      margin: 0 0 8px; font-weight: 700; font-size: var(--chart-fs);
+      color: var(--chart-head); text-align: center;
+    }
+    .arctic-life-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .arctic-life-card {
+      border: 1px solid var(--chart-border);
+      border-radius: 6px;
+      padding: var(--chart-cell-pad);
+      background: var(--chart-panel-bg);
+      border-left: 3px solid var(--chart-accent);
+    }
+    .arctic-life-label { margin: 0 0 6px; font-weight: 700; color: var(--chart-ink); font-size: var(--chart-fs); }
+    .chart-csl-map { font-size: var(--chart-fs); line-height: var(--chart-lh); }
+    .chart-csl-grid {
+      display: grid;
+      grid-template-columns: 1fr minmax(140px, 1.1fr) 1fr;
+      grid-template-areas:
+        "csl-tl . csl-tr"
+        ". csl-heart ."
+        "csl-bottom csl-bottom csl-bottom";
+      gap: 10px;
+      align-items: start;
+    }
+    .chart-csl-box {
+      border: 1px solid var(--chart-border);
+      border-radius: 8px;
+      padding: var(--chart-cell-pad);
+      background: var(--chart-panel-bg);
+      color: var(--chart-ink);
+    }
+    .chart-csl-tl { grid-area: csl-tl; }
+    .chart-csl-tr { grid-area: csl-tr; }
+    .chart-csl-bottom { grid-area: csl-bottom; }
+    .chart-csl-heart {
+      grid-area: csl-heart;
+      justify-self: center; align-self: center;
+      min-width: 150px; padding: 18px 22px;
+      border: 2px solid var(--chart-border-strong);
+      border-radius: 50% 50% 48% 52% / 55% 55% 45% 45%;
+      background: var(--chart-th-bg);
+      text-align: center;
+      font-size: calc(var(--chart-fs) + 1px);
+      font-weight: 700; color: var(--chart-head); line-height: 1.35;
+    }
+    .chart-csl-box .chart-csl-star { color: var(--chart-head); margin-right: 2px; }
+    .chart-csl-sign-row {
+      display: grid; grid-template-columns: 52px 1fr; gap: 8px;
+      align-items: center; margin-bottom: 8px; font-size: var(--chart-fs-sm);
+    }
+    .chart-csl-sign-icon {
+      width: 48px; height: 40px;
+      border: 1px dashed var(--chart-border);
+      border-radius: 4px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: var(--chart-fs-sm); color: var(--chart-muted);
+      text-align: center; line-height: 1.2;
+    }
+    .chart-csl-box-title { font-weight: 700; color: var(--chart-head); margin: 0 0 8px; font-size: var(--chart-fs); }
+    .chart-chinglish-map { font-size: var(--chart-fs); line-height: var(--chart-lh); }
+    .chart-chinglish-map .chart-h3 { text-align: center; margin-bottom: 10px; }
+    .chart-chinglish-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-areas: "chi-tl chi-tr" "chi-bl chi-br";
+      gap: 10px; align-items: stretch;
+    }
+    .chart-chinglish-box {
+      border: 1px solid var(--chart-border);
+      border-radius: 10px;
+      padding: var(--chart-cell-pad);
+      background: var(--chart-panel-bg);
+      color: var(--chart-ink);
+    }
+    .chart-chinglish-tl { grid-area: chi-tl; }
+    .chart-chinglish-tr { grid-area: chi-tr; }
+    .chart-chinglish-bl { grid-area: chi-bl; }
+    .chart-chinglish-br { grid-area: chi-br; }
+    .chart-chinglish-q {
+      font-weight: 700; color: var(--chart-head);
+      margin: 0 0 8px; font-size: var(--chart-fs); line-height: 1.35;
+    }
+    .chart-chinglish-box ul { margin: 0; padding-left: 1.1em; }
+    .chart-chinglish-box li { margin-bottom: 5px; font-size: var(--chart-fs); color: var(--chart-ink); line-height: var(--chart-lh); }
+    @media (max-width: 900px) {
+      .fishbone-top, .fishbone-bottom { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 720px) {
+      .chart-csl-grid { grid-template-columns: 1fr; grid-template-areas: "csl-tl" "csl-tr" "csl-heart" "csl-bottom"; }
+      .chart-csl-heart { border-radius: 12px; }
+      .arctic-split, .arctic-life-grid { grid-template-columns: 1fr; }
+      .chart-chinglish-grid {
+        grid-template-columns: 1fr;
+        grid-template-areas: "chi-tl" "chi-tr" "chi-bl" "chi-br";
+      }
+    }
+
     button.tts { background: rgba(74,124,124,.25); border: 1px solid rgba(74,124,124,.65); color: #dff5f3;
       padding: 6px 12px; cursor: pointer; font: inherit; font-size: 13px; border-radius: 3px; }
     .row-audio { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0; }
@@ -373,9 +615,6 @@
     .toast { position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%); background: rgba(180,40,40,.92);
       color: #fff; padding: 8px 14px; border-radius: 4px; display: none; z-index: 20; font-size: 14px; }
     .toast.show { display: block; }
-    @media (max-width: 900px) {
-      .fishbone-top, .fishbone-bottom { grid-template-columns: 1fr; }
-    }
     @media (max-width: 720px) { .app { flex-direction: column; } .grid-2 { grid-template-columns: 1fr; } }
   </style>
 </head>
@@ -431,23 +670,70 @@
     const WORD_LIMIT = null;
 
     const PASSAGE_STRUCTURE = [{"index": 0, "text": "The Arctic is home to over 21,000 kinds of animals and plants. Two thirds of it is the Arctic Ocean. In winter, it is completely covered with sea ice. In summer, nearly 50 percent of these is ice.", "sentences": ["The Arctic is home to over 21,000 kinds of animals and plants.", "Two thirds of it is the Arctic Ocean.", "In winter, it is completely covered with sea ice.", "In summer, nearly 50 percent of these is ice."]}, {"index": 1, "text": "It's also home to about 4 million people, a group of whom are Inuit. Jim is an Inuit boy. At 6:30 am, he wakes up and gets ready to go to school in his fur coat. It keeps him warm in the freezing weather. Half an hour later, he gets to school on a ski or snowmobile. Some of his friends go by car instead. At 11:30 am, it's time for lunch. There's fish and other meat in his lunchbox. He sometimes eats them uncooked. These foods give him enough energy. Besides local food, some people eat Western food. At 5:00 pm, the snow outside makes everything bright, so he wears snow goggles on his way back home, or his eyes may be hurt badly by the strong light. From December to March, the sun never rises. However, it always shines in the sky during the summer. At 10:00 pm, he goes to bed. Sometimes he stays in an ice house called igloo. It looks cold but it's warm inside. Many local people live in houses made of wood.", "sentences": ["It's also home to about 4 million people, a group of whom are Inuit.", "Jim is an Inuit boy.", "At 6:30 am, he wakes up and gets ready to go to school in his fur coat.", "It keeps him warm in the freezing weather.", "Half an hour later, he gets to school on a ski or snowmobile.", "Some of his friends go by car instead.", "At 11:30 am, it's time for lunch.", "There's fish and other meat in his lunchbox.", "He sometimes eats them uncooked.", "These foods give him enough energy.", "Besides local food, some people eat Western food.", "At 5:00 pm, the snow outside makes everything bright, so he wears snow goggles on his way back home, or his eyes may be hurt badly by the strong light.", "From December to March, the sun never rises.", "However, it always shines in the sky during the summer.", "At 10:00 pm, he goes to bed.", "Sometimes he stays in an ice house called igloo.", "It looks cold but it's warm inside.", "Many local people live in houses made of wood."]}, {"index": 2, "text": "The Inuit mainly make a living by hunting and fishing. Now, their life is greatly influenced by climate change. For example, many animals they hunt for food are disappearing. There is less food for the reindeer they keep, too. They face more terrible weather, such as snowstorms. Hunting becomes more dangerous. Hunters may accidentally fall into water if the ice becomes too thin. Actually, the temperature in the Arctic is 18℃ higher than it was 125 years ago. All Arctic ice may disappear during the summer in less than 100 years.", "sentences": ["The Inuit mainly make a living by hunting and fishing.", "Now, their life is greatly influenced by climate change.", "For example, many animals they hunt for food are disappearing.", "There is less food for the reindeer they keep, too.", "They face more terrible weather, such as snowstorms.", "Hunting becomes more dangerous.", "Hunters may accidentally fall into water if the ice becomes too thin.", "Actually, the temperature in the Arctic is 18℃ higher than it was 125 years ago.", "All Arctic ice may disappear during the summer in less than 100 years."]}];
-    const CHART_RAW = `<div class="chart-exam-wrap"><pre class="chart-pre chart-exam">                    The __1__ of the area
-                   /                    \\
-            In winter                  In summer
-    • 100% of the Arctic Ocean is covered with ice          • 50% of the Arctic Ocean is covered with ice
-    • Arctic is __2__ all the time from December to March   • The sun always shines
-
-    The daily life of a young Inuit
-    ├── Clothing → • a fur coat to keep warm • snow goggles for __3__ of eyes
-    ├── __4__ → • a snowmobile • a ski • car
-    ├── Food → fish and meat (sometimes without being cooked)
-    └── Housing → • wooden house • sometimes an ice house (igloo)
-
-    The problems that the Inuit face
-    • some wild animals are disappearing
-    • animals' food is running out
-    • the weather is more terrible
-    • hunters aren't __5__ of their own safety because of the thin ice</pre></div>`;
+    const CHART_RAW = `<div class="chart-exam-wrap"><div class="chart-arctic chart-exam">
+  <section class="arctic-block arctic-climate">
+    <div class="arctic-hub" role="heading" aria-level="4">The __1__ of the area</div>
+    <div class="arctic-fork" aria-hidden="true"></div>
+    <div class="arctic-split">
+      <div class="arctic-panel arctic-winter">
+        <p class="arctic-panel-title"><span class="arctic-icon" aria-hidden="true">❄</span> In winter</p>
+        <ul>
+          <li>100% of the Arctic Ocean is covered with ice</li>
+          <li>Arctic is __2__ all the time from December to March</li>
+        </ul>
+      </div>
+      <div class="arctic-panel arctic-summer">
+        <p class="arctic-panel-title"><span class="arctic-icon" aria-hidden="true">☀</span> In summer</p>
+        <ul>
+          <li>50% of the Arctic Ocean is covered with ice</li>
+          <li>The sun always shines</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+  <section class="arctic-block arctic-daily">
+    <p class="arctic-section-title">The daily life of a young Inuit</p>
+    <div class="arctic-life-grid">
+      <div class="arctic-life-card">
+        <p class="arctic-life-label">Clothing</p>
+        <ul>
+          <li>a fur coat to keep warm</li>
+          <li>snow goggles for __3__ of eyes</li>
+        </ul>
+      </div>
+      <div class="arctic-life-card">
+        <p class="arctic-life-label">__4__</p>
+        <ul>
+          <li>a snowmobile</li>
+          <li>a ski</li>
+          <li>car</li>
+        </ul>
+      </div>
+      <div class="arctic-life-card">
+        <p class="arctic-life-label">Food</p>
+        <ul>
+          <li>fish and meat (sometimes without being cooked)</li>
+        </ul>
+      </div>
+      <div class="arctic-life-card">
+        <p class="arctic-life-label">Housing</p>
+        <ul>
+          <li>wooden house</li>
+          <li>sometimes an ice house (igloo)</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+  <section class="arctic-block arctic-problems">
+    <p class="arctic-section-title">The problems that the Inuit face</p>
+    <ul>
+      <li>some wild animals are disappearing</li>
+      <li>animals' food is running out</li>
+      <li>the weather is more terrible</li>
+      <li>hunters aren't __5__ of their own safety because of the thin ice</li>
+    </ul>
+  </section>
+</div></div>`;
 
     function escapeHtml(s) {
       return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
@@ -1055,7 +1341,7 @@
       return raw.replace(/__(\d+)__/g, (_, n) => {
         const num = Number(n);
         if (mode === "key") return `<span class="blank">${escapeHtml(PRACTICE_ANS[num]||"")}</span>`;
-        if (mode === "study") return `<span class="blank">(${num})</span>`;
+        if (mode === "study") return `<span class="blank blank-study">(${num})</span>`;
         return `<input class="practice-input" data-num="${num}" placeholder="(${num})" />`;
       });
     }
@@ -1091,9 +1377,9 @@
     buildReadingSlides();
 
     add(`<div class="tag">图表导读</div>
-      <h2 class="slide-h2">完成图表（编号提示）</h2>
+      <h2 class="slide-h2 slide-h2-sm">完成图表（编号提示）</h2>
       <div class="chart-box">${renderChart(CHART_RAW, "study")}</div>
-      <p class="mono">空号：${BLANK_IDS.join(" / ")}</p>`, { section: "chart", label: "图表" });
+      <p class="mono" style="font-size:12px;margin-top:6px">空号：${BLANK_IDS.join(" / ")}</p>`, { section: "chart", label: "图表" });
 
     add(`<div class="tag">证据链 · 空 1</div>
       <h2 class="slide-h2">The ___ of the area（冬夏对比分支）</h2>
@@ -1128,7 +1414,7 @@
       <p id="practiceScore" class="score">先独立填写，再点击核对。</p>`, { section: "practice", label: "独立作答" });
 
     add(`<div class="tag">答案</div>
-      <h2 class="slide-h2">答案复盘</h2>
+      <h2 class="slide-h2 slide-h2-sm">答案复盘</h2>
       <div class="chart-box">${renderChart(CHART_RAW, "key")}</div>
       <div class="card"><h3>快速核对</h3><p class="mono">1 climate · 2 dark · 3 protection · 4 Transport · 5 sure</p></div>`, { section: "practice", label: "答案" });
 

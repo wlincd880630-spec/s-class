@@ -1,16 +1,35 @@
 /**
- * 全站登录检查：未登录时跳转到首页 index.html 进行 Authing 登录。
- * 首页自身不跳转。依赖 localStorage 的 authing-user 或 current-user。
+ * 全站登录检查：未登录时跳转到站点根目录 index.html 进行 Authing 登录。
+ * 当前页若是 index.html（任意目录层级）则不跳转。
  */
-(function() {
+(function () {
     'use strict';
-    var path = (location.pathname || '').replace(/^\//, '').replace(/\/$/, '');
-    if (!path || path === 'index.html') return;
+
+    var pathname = location.pathname || '';
+    var path = pathname.replace(/^\//, '').replace(/\/$/, '');
     var parts = path.split('/').filter(Boolean);
-    if (parts.length === 1 && parts[0] === 'index.html') return;
+    var fileName = (parts[parts.length - 1] || '').toLowerCase();
+
+    // 首页：根路径 / 或任意层级的 index.html
+    if (!path || fileName === 'index.html') {
+        return;
+    }
+
     var user = localStorage.getItem('authing-user') || localStorage.getItem('current-user');
-    if (user && String(user).trim()) return;
-    var up = parts.length - 1;
-    var rootIndex = up === 0 ? 'index.html' : (function(){ var a = []; for (var i = 0; i < up; i++) a.push('..'); return a.join('/') + '/index.html'; })();
+    if (user && String(user).trim()) {
+        return;
+    }
+
+    var depth = parts.length - 1;
+    if (depth <= 0) {
+        window.location.replace('index.html');
+        return;
+    }
+
+    var rootIndex = '';
+    for (var i = 0; i < depth; i++) {
+        rootIndex += '../';
+    }
+    rootIndex += 'index.html';
     window.location.replace(rootIndex);
 })();

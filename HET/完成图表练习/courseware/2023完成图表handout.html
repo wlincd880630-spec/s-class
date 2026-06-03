@@ -9,64 +9,380 @@
     body { margin: 0; font-family: "Source Sans 3", "Microsoft YaHei", sans-serif; font-size: 15px; line-height: 1.55;
       color: var(--ink); background: var(--paper); }
     .toolbar { position: sticky; top: 0; z-index: 10; padding: 12px 20px; background: #1a1814; color: #f5f0e6;
-      display: flex; gap: 12px; align-items: center; border-bottom: 1px solid #c9a24d; }
+      display: flex; gap: 12px; align-items: center; flex-wrap: wrap; border-bottom: 1px solid #c9a24d; }
     .toolbar a { color: #b8d9d6; }
     .toolbar button { padding: 8px 16px; border: 1px solid #c9a24d; background: rgba(201,162,77,.2); color: #fff; cursor: pointer; border-radius: 6px; }
-    .wrap { max-width: 880px; margin: 0 auto; padding: 28px 22px 56px; }
-    h1 { font-size: 28px; margin: 0 0 8px; }
-    h2 { font-size: 20px; color: var(--gold); margin: 28px 0 10px; border-bottom: 1px solid var(--rule); padding-bottom: 6px; }
+    .wrap { max-width: 900px; margin: 0 auto; padding: 20px 22px 48px; }
+    .cover { margin-bottom: 8px; }
+    h1 { font-size: 26px; margin: 0 0 6px; line-height: 1.25; }
+    .cover-sub { margin: 0 0 12px; color: #4a4438; font-size: 14px; }
+    .exam-note { margin: 0 0 16px; padding: 10px 12px; background: #fff; border: 1px solid var(--rule); border-radius: 6px; font-size: 14px; }
     .tag { display: inline-block; font-size: 12px; padding: 2px 8px; border: 1px solid var(--rule); color: var(--gold); margin-bottom: 8px; }
-    .passage p { text-indent: 2em; margin: 0 0 8px; }
-    .chart-table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 14px; }
-    .chart-table th, .chart-table td { border: 1px solid #ccc; padding: 8px; vertical-align: top; }
-    .chart-pre { white-space: pre-wrap; font-family: Consolas, monospace; font-size: 13px; background: #fff; border: 1px solid #ddd; padding: 12px; }
-    .blank { border-bottom: 2px solid var(--gold); font-weight: 700; padding: 0 4px; }
-    .mono { font-family: Consolas, monospace; font-size: 14px; }
-    .evidence { margin: 10px 0; padding: 10px; background: #fff; border-left: 3px solid #2d5a5a; }
-    @media print { .toolbar { display: none; } }
+    .handout-page { margin-bottom: 40px; }
+    .handout-page-label {
+      font-size: 12px; color: #6b6358; letter-spacing: .08em; text-transform: uppercase; margin: 0 0 4px;
+    }
+    h2 { font-size: 18px; color: var(--gold); margin: 20px 0 10px; border-bottom: 1px solid var(--rule); padding-bottom: 5px; }
+    h2:first-of-type { margin-top: 12px; }
+    .passage { background: #fff; border: 1px solid var(--rule); border-radius: 8px; padding: 14px 18px; }
+    .passage p { text-indent: 2em; margin: 0 0 10px; font-size: 15px; line-height: 1.6; }
+    .passage p:last-child { margin-bottom: 0; }
+    .handout-chart-scope { margin: 12px 0 0; }
+    .mono { font-family: ui-monospace, Consolas, monospace; font-size: 14px; line-height: 1.6; }
+    .answer-block {
+      margin: 0 0 14px; padding: 12px 14px; background: #fff;
+      border: 1px solid var(--rule); border-radius: 8px; border-left: 4px solid #2d5a5a;
+    }
+    .answer-block strong { color: var(--gold); font-size: 15px; }
+    .answer-hint { margin: 6px 0 4px; font-size: 14px; color: #4a4438; }
+    .answer-evidence { margin: 0 0 8px; font-size: 14px; color: #2d5a5a; font-style: italic; line-height: 1.5; }
+    .answer-keyline { margin: 0 0 16px; padding: 12px; background: rgba(138,109,47,.08); border-radius: 6px; }
+    .accept-title { margin: 8px 0 4px; font-size: 14px; font-weight: 700; color: var(--gold); }
+    .accept-list { margin: 0 0 6px; padding-left: 1.35em; font-size: 14px; line-height: 1.55; }
+    .accept-list li { margin-bottom: 4px; }
+    .accept-list li.is-main { font-weight: 700; }
+    .chart-page-note { margin: 0 0 10px; font-size: 14px; color: #4a4438; }
+    .page-title-mini { margin: 0 0 12px; font-size: 15px; color: #4a4438; }
+    
+    .handout-chart-scope {
+
+    --chart-fs: 13px;
+    --chart-fs-sm: 12px;
+    --chart-lh: 1.5;
+    --chart-blank-min: 10em;
+    --chart-blank-w: 12em;
+    --chart-blank-h: 1.4em;
+    --chart-cell-pad: 10px 12px;
+
+      --chart-ink: #1a1814;
+      --chart-head: #8a6d2f;
+      --chart-border: rgba(138,109,47,.35);
+      --chart-border-strong: #8a6d2f;
+      --chart-panel-bg: #fff;
+      --chart-th-bg: rgba(138,109,47,.1);
+      --chart-muted: #6b6358;
+      --chart-accent: #2d5a5a;
+      --chart-input-ink: #1a1814;
+    }
+
+    .chart-box { font-size: var(--chart-fs); line-height: var(--chart-lh); }
+    .chart-exam-wrap { width: 100%; font-size: var(--chart-fs); line-height: var(--chart-lh); }
+    .chart-exam-wrap .chart-h3 { margin: 0 0 10px; color: var(--chart-head); font-size: calc(var(--chart-fs) + 1px); font-weight: 700; }
+    .chart-exam-wrap .chart-lead { font-size: var(--chart-fs); margin: 0 0 8px; color: var(--chart-ink); }
+    .chart-table { width: 100%; border-collapse: collapse; font-size: var(--chart-fs); line-height: var(--chart-lh); }
+    .chart-table th, .chart-table td {
+      border: 1px solid var(--chart-border);
+      padding: var(--chart-cell-pad);
+      vertical-align: top;
+      color: var(--chart-ink);
+    }
+    .chart-table th { background: var(--chart-th-bg); color: var(--chart-head); font-weight: 700; }
+    .chart-list { margin: 0; padding-left: 1.2em; }
+    .chart-list li { font-size: var(--chart-fs); margin-bottom: 5px; line-height: var(--chart-lh); color: var(--chart-ink); }
+    .chart-pre {
+      white-space: pre-wrap;
+      font-family: ui-monospace, Consolas, monospace;
+      font-size: var(--chart-fs-sm);
+      background: var(--chart-panel-bg);
+      padding: 12px;
+      border-radius: 6px;
+      border: 1px solid var(--chart-border);
+      color: var(--chart-ink);
+      line-height: var(--chart-lh);
+    }
+    .chart-timeline .tl-time {
+      white-space: nowrap; width: 9em; font-weight: 600;
+      color: var(--chart-head); vertical-align: top;
+    }
+    .blank {
+      display: inline-block;
+      min-width: var(--chart-blank-min);
+      min-height: var(--chart-blank-h);
+      border-bottom: 2px solid var(--chart-head);
+      color: var(--chart-head);
+      font-weight: 700;
+      text-align: center;
+      font-family: ui-monospace, Consolas, monospace;
+      font-size: var(--chart-fs);
+      padding: 0 6px;
+      vertical-align: baseline;
+      box-sizing: border-box;
+    }
+    .blank-study { min-width: 2.8em; color: var(--chart-head); }
+    .practice-input {
+      min-width: var(--chart-blank-min);
+      width: var(--chart-blank-w);
+      max-width: min(22em, 100%);
+      min-height: var(--chart-blank-h);
+      border: none;
+      border-bottom: 2px solid var(--chart-head);
+      background: transparent;
+      color: var(--chart-input-ink);
+      text-align: center;
+      font: inherit;
+      font-family: ui-monospace, Consolas, monospace;
+      font-size: var(--chart-fs);
+      padding: 2px 6px;
+      vertical-align: baseline;
+      box-sizing: border-box;
+    }
+    .practice-input:focus { outline: none; border-bottom-color: var(--chart-accent); }
+    .blank-slot {
+      display: inline-flex;
+      align-items: flex-end;
+      gap: 5px;
+      vertical-align: baseline;
+      white-space: nowrap;
+    }
+    .blank-num {
+      font-weight: 700;
+      color: var(--chart-head);
+      font-size: var(--chart-fs-sm);
+      font-family: ui-monospace, Consolas, monospace;
+      line-height: 1;
+    }
+    .blank-line {
+      display: inline-block;
+      min-width: var(--chart-blank-min);
+      width: var(--chart-blank-w);
+      min-height: var(--chart-blank-h);
+      border-bottom: 2px solid var(--chart-head);
+      vertical-align: bottom;
+      box-sizing: border-box;
+    }
+    .blank-slot--wide .blank-line {
+      min-width: 16em;
+      width: 18em;
+      max-width: 100%;
+    }
+    .chart-fishbone { font-size: var(--chart-fs); line-height: var(--chart-lh); }
+    .fishbone-grid { display: grid; gap: 10px; margin-bottom: 10px; }
+    .fishbone-top { grid-template-columns: 1fr 1.35fr 1fr; }
+    .fishbone-bottom { grid-template-columns: 1fr 1fr; }
+    .fishbone-box {
+      border: 1px solid var(--chart-border);
+      border-radius: 6px;
+      padding: var(--chart-cell-pad);
+      background: var(--chart-panel-bg);
+      color: var(--chart-ink);
+    }
+    .fishbone-box-wide { min-width: 0; }
+    .fishbone-box-title { margin: 0 0 8px; font-weight: 700; color: var(--chart-head); font-size: var(--chart-fs); }
+    .fishbone-box ul { margin: 0; padding-left: 1.15em; }
+    .fishbone-box li { font-size: var(--chart-fs); margin-bottom: 5px; color: var(--chart-ink); line-height: var(--chart-lh); }
+    .fishbone-box p { font-size: var(--chart-fs); margin: 0 0 5px; color: var(--chart-ink); line-height: var(--chart-lh); }
+    .fishbone-spine-label {
+      text-align: center; font-weight: 700; color: var(--chart-head);
+      margin: 10px 0; font-size: calc(var(--chart-fs) + 1px); letter-spacing: .03em;
+    }
+    .virtue-line, .virtue-foot { font-size: var(--chart-fs); margin: 5px 0; color: var(--chart-ink); line-height: var(--chart-lh); }
+    .chart-arctic { font-size: var(--chart-fs); line-height: var(--chart-lh); }
+    .arctic-block {
+      border: 1px solid var(--chart-border);
+      border-radius: 8px;
+      padding: var(--chart-cell-pad);
+      margin-bottom: 10px;
+      background: var(--chart-panel-bg);
+    }
+    .arctic-block:last-child { margin-bottom: 0; }
+    .arctic-hub {
+      text-align: center; font-weight: 700;
+      font-size: calc(var(--chart-fs) + 1px);
+      color: var(--chart-head);
+      padding: 8px 12px; margin: 0 auto 4px; max-width: 300px;
+      border: 2px solid var(--chart-border-strong);
+      border-radius: 999px;
+      background: var(--chart-th-bg);
+    }
+    .arctic-fork {
+      height: 14px; margin: 0 auto 6px; max-width: 420px;
+      background:
+        linear-gradient(var(--chart-border-strong), var(--chart-border-strong)) center top / 2px 8px no-repeat,
+        linear-gradient(var(--chart-border-strong), var(--chart-border-strong)) center top / 100% 2px no-repeat;
+    }
+    .arctic-split { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .arctic-panel {
+      border: 1px solid var(--chart-border);
+      border-radius: 6px;
+      padding: var(--chart-cell-pad);
+      background: var(--chart-panel-bg);
+    }
+    .arctic-winter { border-top: 3px solid rgba(120,180,220,.75); }
+    .arctic-summer { border-top: 3px solid rgba(230,180,80,.85); }
+    .arctic-panel-title {
+      margin: 0 0 8px; font-weight: 700; color: var(--chart-head);
+      font-size: var(--chart-fs); display: flex; align-items: center; gap: 6px;
+    }
+    .arctic-icon { font-size: 15px; line-height: 1; }
+    .arctic-panel ul, .arctic-problems ul, .arctic-life-card ul { margin: 0; padding-left: 1.15em; }
+    .arctic-panel li, .arctic-problems li, .arctic-life-card li {
+      margin-bottom: 5px; color: var(--chart-ink); font-size: var(--chart-fs); line-height: var(--chart-lh);
+    }
+    .arctic-section-title {
+      margin: 0 0 8px; font-weight: 700; font-size: var(--chart-fs);
+      color: var(--chart-head); text-align: center;
+    }
+    .arctic-life-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .arctic-life-card {
+      border: 1px solid var(--chart-border);
+      border-radius: 6px;
+      padding: var(--chart-cell-pad);
+      background: var(--chart-panel-bg);
+      border-left: 3px solid var(--chart-accent);
+    }
+    .arctic-life-label { margin: 0 0 6px; font-weight: 700; color: var(--chart-ink); font-size: var(--chart-fs); }
+    .chart-csl-map { font-size: var(--chart-fs); line-height: var(--chart-lh); }
+    .chart-csl-grid {
+      display: grid;
+      grid-template-columns: 1fr minmax(140px, 1.1fr) 1fr;
+      grid-template-areas:
+        "csl-tl . csl-tr"
+        ". csl-heart ."
+        "csl-bottom csl-bottom csl-bottom";
+      gap: 10px;
+      align-items: start;
+    }
+    .chart-csl-box {
+      border: 1px solid var(--chart-border);
+      border-radius: 8px;
+      padding: var(--chart-cell-pad);
+      background: var(--chart-panel-bg);
+      color: var(--chart-ink);
+    }
+    .chart-csl-tl { grid-area: csl-tl; }
+    .chart-csl-tr { grid-area: csl-tr; }
+    .chart-csl-bottom { grid-area: csl-bottom; }
+    .chart-csl-heart {
+      grid-area: csl-heart;
+      justify-self: center; align-self: center;
+      min-width: 150px; padding: 18px 22px;
+      border: 2px solid var(--chart-border-strong);
+      border-radius: 50% 50% 48% 52% / 55% 55% 45% 45%;
+      background: var(--chart-th-bg);
+      text-align: center;
+      font-size: calc(var(--chart-fs) + 1px);
+      font-weight: 700; color: var(--chart-head); line-height: 1.35;
+    }
+    .chart-csl-box .chart-csl-star { color: var(--chart-head); margin-right: 2px; }
+    .chart-csl-sign-row {
+      display: grid; grid-template-columns: 52px 1fr; gap: 8px;
+      align-items: center; margin-bottom: 8px; font-size: var(--chart-fs-sm);
+    }
+    .chart-csl-sign-icon {
+      width: 48px; height: 40px;
+      border: 1px dashed var(--chart-border);
+      border-radius: 4px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: var(--chart-fs-sm); color: var(--chart-muted);
+      text-align: center; line-height: 1.2;
+    }
+    .chart-csl-box-title { font-weight: 700; color: var(--chart-head); margin: 0 0 8px; font-size: var(--chart-fs); }
+    .chart-chinglish-map { font-size: var(--chart-fs); line-height: var(--chart-lh); }
+    .chart-chinglish-map .chart-h3 { text-align: center; margin-bottom: 10px; }
+    .chart-chinglish-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-areas: "chi-tl chi-tr" "chi-bl chi-br";
+      gap: 10px; align-items: stretch;
+    }
+    .chart-chinglish-box {
+      border: 1px solid var(--chart-border);
+      border-radius: 10px;
+      padding: var(--chart-cell-pad);
+      background: var(--chart-panel-bg);
+      color: var(--chart-ink);
+    }
+    .chart-chinglish-tl { grid-area: chi-tl; }
+    .chart-chinglish-tr { grid-area: chi-tr; }
+    .chart-chinglish-bl { grid-area: chi-bl; }
+    .chart-chinglish-br { grid-area: chi-br; }
+    .chart-chinglish-q {
+      font-weight: 700; color: var(--chart-head);
+      margin: 0 0 8px; font-size: var(--chart-fs); line-height: 1.35;
+    }
+    .chart-chinglish-box ul { margin: 0; padding-left: 1.1em; }
+    .chart-chinglish-box li { margin-bottom: 5px; font-size: var(--chart-fs); color: var(--chart-ink); line-height: var(--chart-lh); }
+    @media (max-width: 900px) {
+      .fishbone-top, .fishbone-bottom { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 720px) {
+      .chart-csl-grid { grid-template-columns: 1fr; grid-template-areas: "csl-tl" "csl-tr" "csl-heart" "csl-bottom"; }
+      .chart-csl-heart { border-radius: 12px; }
+      .arctic-split, .arctic-life-grid { grid-template-columns: 1fr; }
+      .chart-chinglish-grid {
+        grid-template-columns: 1fr;
+        grid-template-areas: "chi-tl" "chi-tr" "chi-bl" "chi-br";
+      }
+    }
+
+    @page { size: A4; margin: 14mm 12mm; }
+    @media print {
+      .toolbar { display: none; }
+      .cover { display: none; }
+      .wrap { padding: 0; max-width: none; }
+      .handout-page { page-break-after: always; break-after: page; margin-bottom: 0; }
+      .handout-page:last-of-type { page-break-after: auto; break-after: auto; }
+      .passage, .answer-block { break-inside: avoid; }
+      .blank-line { min-width: 11em; width: 13em; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .blank-slot--wide .blank-line { min-width: 18em; width: 20em; }
+      .practice-input { min-width: 11em; width: 13em; }
+    }
+    @media screen {
+      .handout-page + .handout-page { padding-top: 8px; border-top: 2px dashed var(--rule); }
+    }
   </style>
 </head>
 <body>
   <div class="toolbar">
     <strong>2023 完成图表 · 讲义</strong>
-    <button type="button" onclick="window.print()">打印 / 另存 PDF</button>
+    <button type="button" onclick="window.print()">打印 / 另存 PDF（共 3 页）</button>
     <a href="2023完成图表.html">返回课件</a>
   </div>
   <div class="wrap">
     <div class="cover">
-      <span class="tag">完成图表</span>
+      <span class="tag">完成图表 · 讲义</span>
       <h1>完成图表 · 2023 · 地图发展史（The History of Maps）</h1>
-      <p>说明文 · 时间线 · 古代—全球—现代</p>
+      <p class="cover-sub">说明文 · 时间线 · 古代—全球—现代</p>
+      
     </div>
     
-    
-    <h2>阅读短文</h2>
-    <div class="passage"><p>Maps mark seas, countries, cities and our homes, and guide us through the world. To know them better, let's take a look at how maps have changed over the centuries.</p><p>Many ancient countries used maps. One of the first is thought to have been drawn on the wall in Lascaux, France, around 16,500 years ago. Hidden among the drawings of birds and bulls is a map of the stars.</p><p>The Babylonian Map of the World is the oldest known earthly map, which shows Babylon and its neighboring towns on the stone.</p><p>Claudius Ptolemy made maps go global. Born in Egypt around 100 AD, he was the first person to try to make a world map. With the help of math, Ptolemy marked around 10,000 locations from Britain to Asia and Africa.</p><p>Perhaps the most commonly used world map is the Mercator Projection. It was introduced in 1569 by Gerardus Mercator. An important part of maps is the imaginary lines of longitude, latitude and the equator.</p><p>Mercator took the globe and made it flat, but to do this he had to make the areas further north and south larger, while the areas nearer the middle stay about the right size. The reason for this is that the Earth is like a ball, but a map is flat. It is easy to find places, but some people said it was unfair because places including Canada, the UK and Europe appeared much bigger than they really were.</p><p>In the 19th and 20th centuries, modern technology allowed map makers to produce maps showing locations exactly.</p><p>Today, many people view maps on their phones. Researchers are working to map the floor of the oceans and to locate every tree on Earth. Scientists are also trying to map the past by using the James Webb Space Telescope (JWST). This invention will collect light from stars and may find the secrets about the beginning of the universe.</p></div>
-    <h2>完成图表（答案版）</h2>
-    <div><div class="chart-exam-wrap"><h3 class="chart-h3">The History of Maps</h3>
-<p class="chart-lead">Maps provide us with information of <span class="blank">places</span>.</p>
+    <section class="handout-page" id="handout-page-1">
+      <p class="handout-page-label">第 1 页 · 阅读短文</p>
+      <div class="passage"><p>Maps mark seas, countries, cities and our homes, and guide us through the world. To know them better, let's take a look at how maps have changed over the centuries.</p><p>Many ancient countries used maps. One of the first is thought to have been drawn on the wall in Lascaux, France, around 16,500 years ago. Hidden among the drawings of birds and bulls is a map of the stars.</p><p>The Babylonian Map of the World is the oldest known earthly map, which shows Babylon and its neighboring towns on the stone.</p><p>Claudius Ptolemy made maps go global. Born in Egypt around 100 AD, he was the first person to try to make a world map. With the help of math, Ptolemy marked around 10,000 locations from Britain to Asia and Africa.</p><p>Perhaps the most commonly used world map is the Mercator Projection. It was introduced in 1569 by Gerardus Mercator. An important part of maps is the imaginary lines of longitude, latitude and the equator.</p><p>Mercator took the globe and made it flat, but to do this he had to make the areas further north and south larger, while the areas nearer the middle stay about the right size. The reason for this is that the Earth is like a ball, but a map is flat. It is easy to find places, but some people said it was unfair because places including Canada, the UK and Europe appeared much bigger than they really were.</p><p>In the 19th and 20th centuries, modern technology allowed map makers to produce maps showing locations exactly.</p><p>Today, many people view maps on their phones. Researchers are working to map the floor of the oceans and to locate every tree on Earth. Scientists are also trying to map the past by using the James Webb Space Telescope (JWST). This invention will collect light from stars and may find the secrets about the beginning of the universe.</p></div>
+    </section>
+    <section class="handout-page" id="handout-page-2">
+      <p class="handout-page-label">第 2 页 · 完成图表（答题）</p>
+      
+      <p class="chart-page-note">根据短文填写图表中所缺信息；在 ( 号 ) 后的横线上作答。</p>
+      <div class="handout-chart-scope chart-exam-wrap"><div class="chart-exam-wrap"><h3 class="chart-h3">The History of Maps</h3>
+<p class="chart-lead">Maps provide us with information of <span class="blank-slot" aria-label="空76"><span class="blank-num">(76)</span><span class="blank-line"></span></span>.</p>
 <table class="chart-table chart-exam">
 <tr><td><strong>Ancient maps</strong></td>
 <td><ul class="chart-list">
-<li>One of the first maps is a map of <span class="blank">stars</span> around 16,500 years ago.</li>
+<li>One of the first maps is a map of <span class="blank-slot" aria-label="空77"><span class="blank-num">(77)</span><span class="blank-line"></span></span> around 16,500 years ago.</li>
 <li>The oldest earthly map is the Babylonian Map of the World.</li>
 </ul></td></tr>
 <tr><td><strong>Maps go global</strong></td>
 <td><ul class="chart-list">
-<li>The first world map was drawn by using <span class="blank">math</span>.</li>
-<li>The imaginary lines introduced to the Mercator Projection made it most commonly used, but it still needed <span class="blank">corrections</span>.</li>
+<li>The first world map was drawn by using <span class="blank-slot" aria-label="空78"><span class="blank-num">(78)</span><span class="blank-line"></span></span>.</li>
+<li>The imaginary lines introduced to the Mercator Projection made it most commonly used, but it still needed <span class="blank-slot" aria-label="空79"><span class="blank-num">(79)</span><span class="blank-line"></span></span>.</li>
 </ul></td></tr>
-<tr><td><strong>Maps and <span class="blank">technology</span></strong></td>
+<tr><td><strong>Maps and <span class="blank-slot" aria-label="空80"><span class="blank-num">(80)</span><span class="blank-line"></span></span></strong></td>
 <td><ul class="chart-list">
 <li>Maps can be used on the phone.</li>
 <li>Maps can help us know more about the oceans, the land and the universe through JWST.</li>
 </ul></td></tr>
 </table></div></div>
-    <h2>证据链摘要</h2>
-    <div class="evidence"><strong>空 76</strong> · information of ___<br><em>Maps mark seas, countries, cities and our homes, and guide us through the world.</em><br>→ <span class="blank">places</span></div><div class="evidence"><strong>空 77</strong> · map of ___ around 16,500 years ago<br><em>Hidden among the drawings… is a map of the stars.</em><br>→ <span class="blank">stars</span></div><div class="evidence"><strong>空 78</strong> · drawn by using ___<br><em>With the help of math, Ptolemy marked around 10,000 locations.</em><br>→ <span class="blank">math</span></div><div class="evidence"><strong>空 79</strong> · Mercator… still needed ___<br><em>appeared much bigger than they really were (unfair projection).</em><br>→ <span class="blank">corrections</span></div><div class="evidence"><strong>空 80</strong> · Maps and ___（分支标题）<br><em>modern technology allowed map makers… Today, many people view maps on their phones.</em><br>→ <span class="blank">technology</span></div>
-    <h2>答案键</h2>
-    <p class="mono">76 places · 77 stars · 78 math · 79 corrections · 80 technology</p>
-    
+    </section>
+    <section class="handout-page" id="handout-page-3">
+      <p class="handout-page-label">第 3 页 · 答案与详细解析</p>
+      <div class="answer-keyline">
+        <h2 style="margin:0 0 6px;border:none;padding:0;font-size:16px;">答案速查</h2>
+        <p class="mono">76 places · 77 stars · 78 math · 79 corrections · 80 technology</p>
+      </div>
+      <h2>逐空详细解析</h2>
+      <div class="answer-block"><strong>空 76</strong><p class="answer-hint"><strong>图表提示：</strong>information of ___</p><p class="answer-evidence"><strong>原文依据：</strong>Maps mark seas, countries, cities and our homes, and guide us through the world.</p><p class="accept-title">可接受表述（不少于 3 种）：</p><ol class="accept-list"><li class="is-main">places</li><li class="">locations</li><li class="">cities</li><li class="">towns</li><li class="">regions</li></ol></div><div class="answer-block"><strong>空 77</strong><p class="answer-hint"><strong>图表提示：</strong>map of ___ around 16,500 years ago</p><p class="answer-evidence"><strong>原文依据：</strong>Hidden among the drawings… is a map of the stars.</p><p class="accept-title">可接受表述（不少于 3 种）：</p><ol class="accept-list"><li class="is-main">stars</li><li class="">the stars</li></ol></div><div class="answer-block"><strong>空 78</strong><p class="answer-hint"><strong>图表提示：</strong>drawn by using ___</p><p class="answer-evidence"><strong>原文依据：</strong>With the help of math, Ptolemy marked around 10,000 locations.</p><p class="accept-title">可接受表述（不少于 3 种）：</p><ol class="accept-list"><li class="is-main">math</li><li class="">mathematics</li></ol></div><div class="answer-block"><strong>空 79</strong><p class="answer-hint"><strong>图表提示：</strong>Mercator… still needed ___</p><p class="answer-evidence"><strong>原文依据：</strong>appeared much bigger than they really were (unfair projection).</p><p class="accept-title">可接受表述（不少于 3 种）：</p><ol class="accept-list"><li class="is-main">corrections</li><li class="">improvement</li><li class="">correction</li><li class="">fixing</li><li class="">correcting</li><li class="">revising maps</li></ol></div><div class="answer-block"><strong>空 80</strong><p class="answer-hint"><strong>图表提示：</strong>Maps and ___（分支标题）</p><p class="answer-evidence"><strong>原文依据：</strong>modern technology allowed map makers… Today, many people view maps on their phones.</p><p class="accept-title">可接受表述（不少于 3 种）：</p><ol class="accept-list"><li class="is-main">technology</li><li class="">modern technology</li></ol></div>
+    </section>
   </div>
 </body>
 </html>
