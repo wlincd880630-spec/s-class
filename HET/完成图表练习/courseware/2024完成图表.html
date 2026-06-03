@@ -1,0 +1,1195 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>完成图表 · 2024 · 人类预测天气（Weather Prediction）</title>
+  <style>
+    :root {
+      --ng-bg0: #0c0b09;
+      --ng-gold: #c9a24d;
+      --ng-gold-dim: #8a7035;
+      --ng-cream: #ebe4d6;
+      --ng-muted: #a89f8f;
+      --ng-card: rgba(28, 24, 20, 0.92);
+      --ng-line: rgba(201, 162, 77, 0.35);
+      --ng-accent: #4a7c7c;
+      --ok: #66c38a;
+      --bad: #e28585;
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; background: var(--ng-bg0); color: var(--ng-cream);
+      font-family: "Source Sans 3", "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; }
+    .app { min-height: 100%; display: flex; flex-direction: row; align-items: stretch; justify-content: center;
+      padding: 12px; gap: 0;
+      background: radial-gradient(1200px 600px at 20% -10%, rgba(201,162,77,.12), transparent 55%),
+        radial-gradient(900px 500px at 110% 30%, rgba(74,124,124,.12), transparent 50%), var(--ng-bg0); }
+    .course-nav { display: flex; flex-shrink: 0; width: min(230px, 30vw); max-height: min(96vh, calc(100vh - 24px));
+      align-self: center; border: 1px solid var(--ng-line); border-radius: 4px; background: rgba(20,17,14,.94); overflow: hidden; transition: width .22s ease; }
+    .course-nav.is-collapsed { width: 40px; }
+    .course-nav-edge { flex-shrink: 0; width: 40px; border: none; border-right: 1px solid var(--ng-line);
+      background: rgba(28,24,20,.95); color: var(--ng-gold); font-size: 18px; cursor: pointer;
+      writing-mode: vertical-rl; letter-spacing: .15em; font-weight: 700; padding: 8px 0; }
+    .course-nav-panel { flex: 1; min-width: 0; display: flex; flex-direction: column; overflow: hidden; }
+    .course-nav.is-collapsed .course-nav-panel { display: none; }
+    .course-nav-heading { margin: 0; padding: 10px 12px 6px; font-size: 13px; color: var(--ng-muted); border-bottom: 1px solid rgba(201,162,77,.2); }
+    .course-nav-scroll {
+      flex: 1; overflow-y: auto; padding: 8px 6px 12px;
+      scrollbar-width: none; -ms-overflow-style: none;
+    }
+    .course-nav-scroll::-webkit-scrollbar { width: 0; height: 0; display: none; }
+    button.nav-section-link { display: block; width: 100%; text-align: left; margin: 0 0 3px; padding: 7px 10px;
+      font: inherit; font-size: 14px; color: #e8dfd0; background: rgba(0,0,0,.2); border: 1px solid transparent; border-radius: 4px; cursor: pointer; }
+    button.nav-section-link:hover { border-color: rgba(201,162,77,.35); background: rgba(201,162,77,.08); }
+    button.nav-section-link.is-active { color: var(--ng-gold); border-color: rgba(201,162,77,.55); background: rgba(201,162,77,.12); font-weight: 700; }
+    .deck-stage { flex: 1; min-width: 0; display: flex; justify-content: center; align-items: center; }
+    .deck-shell { width: min(100vw - 24px, calc((100vh - 24px) * 16 / 9)); height: min(100vh - 24px, calc((100vw - 24px) * 9 / 16));
+      aspect-ratio: 16/9; border: 1px solid var(--ng-line); border-radius: 4px; overflow: hidden;
+      background: linear-gradient(168deg, #14110e 0%, #1f1a15 38%, #0b0a08 100%);
+      box-shadow: 0 0 0 3px rgba(201,162,77,.15), 0 28px 90px rgba(0,0,0,.65); }
+    .deck { width: 100%; height: 100%; display: flex; flex-direction: column; padding: clamp(14px,1.6vw,28px) clamp(18px,2.2vw,36px); }
+    .topbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-shrink: 0;
+      border-bottom: 1px solid var(--ng-line); padding-bottom: 10px; margin-bottom: 10px; }
+    .brand { font-size: clamp(14px,1.35vw,20px); color: var(--ng-gold); font-weight: 700; letter-spacing: .04em; }
+    .progress { font-size: 14px; color: var(--ng-muted); }
+    button.nav { background: linear-gradient(180deg,#2a241c,#1a1612); color: var(--ng-cream); border: 1px solid var(--ng-gold-dim);
+      padding: 7px 14px; cursor: pointer; font-weight: 600; border-radius: 3px; font: inherit; }
+    button.nav:disabled { opacity: .35; cursor: not-allowed; }
+    .slide-body {
+      flex: 1; min-height: 0; overflow: auto; padding: 8px 6px 12px;
+      display: flex; justify-content: center; align-items: flex-start;
+      scrollbar-width: none; -ms-overflow-style: none;
+    }
+    .slide-body::-webkit-scrollbar { width: 0; height: 0; display: none; }
+    .slide-body.is-reading-slide { overflow: hidden; }
+    /* 幻灯片内容缩放（原 1.75，整体再缩小 10% → 1.575） */
+    .slide-body-inner { width: calc(100% / 1.575); transform: scale(1.575); transform-origin: top center; }
+    h1.slide-title { font-size: clamp(20px,2.4vw,36px); margin: 0 0 10px; color: #f3ead8; }
+    h2.slide-h2 { font-size: clamp(17px,1.9vw,28px); margin: 0 0 8px; color: var(--ng-gold); }
+    h2.slide-h2.slide-h2-sm { font-size: clamp(13px, 1.25vw, 17px); margin: 0 0 6px; font-weight: 600; }
+    p, li { font-size: clamp(13px,1.2vw,18px); line-height: 1.45; margin: 0 0 8px; color: #e8dfd0; }
+    .tag { display: inline-block; font-size: 12px; padding: 3px 10px; border: 1px solid var(--ng-line); color: var(--ng-gold); margin-bottom: 10px; }
+    .card { background: var(--ng-card); border: 1px solid var(--ng-line); border-radius: 6px; padding: 12px; margin-bottom: 10px; }
+    .card h3 { margin: 0 0 6px; font-size: 16px; color: #fff; }
+    .sense { border-left: 3px solid var(--ng-accent); padding-left: 12px; color: #d7cfc2; margin: 8px 0; font-size: 14px; }
+    .mono { font-family: ui-monospace, Consolas, monospace; color: #cfe8e4; font-size: 13px; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .reading-scroll { max-height: 42vh; overflow-y: auto; padding-right: 6px; font-size: 13px; line-height: 1.5; }
+    .reading-scroll p { font-size: 13px; margin-bottom: 8px; }
+    h2.read-para-title {
+      font-size: clamp(14px, 1.35vw, 18px);
+      margin: 0 0 6px;
+      font-weight: 600;
+    }
+    .reading-slide-wrap {
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+    .reading-para-stage {
+      font-size: clamp(13px, 1.45vw, 20px);
+      line-height: 1.75;
+      letter-spacing: 0.01em;
+      overflow: visible;
+      padding: 4px min(118px, 26vw) 6px 2px;
+    }
+    .read-float-toolbar {
+      flex-shrink: 0;
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      z-index: 30;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 4px;
+      width: min(118px, 26vw);
+      padding: 6px 5px 8px;
+      pointer-events: none;
+      background: linear-gradient(90deg, transparent 0%, rgba(12,11,9,.88) 28%, rgba(12,11,9,.96) 100%);
+      border-radius: 8px 0 0 0;
+    }
+    .read-float-toolbar button {
+      pointer-events: auto;
+      min-height: 32px;
+      padding: 4px 7px;
+      font-size: 10px;
+      line-height: 1.2;
+      text-align: center;
+      background: rgba(28, 24, 20, 0.96);
+      color: var(--ng-cream);
+      border: 1px solid var(--ng-gold-dim);
+      border-radius: 6px;
+      cursor: pointer;
+      font: inherit;
+      font-weight: 600;
+      box-shadow: 0 3px 10px rgba(0,0,0,.4);
+    }
+    .read-float-toolbar button:hover {
+      border-color: var(--ng-gold);
+      background: rgba(201,162,77,.15);
+    }
+    .read-float-toolbar button:active { transform: scale(0.98); }
+    .read-sentence {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 2px 6px;
+      align-items: start;
+      margin-bottom: 0.45em;
+      padding: 6px 8px;
+      border: 1px solid var(--ng-line);
+      border-radius: 8px;
+      background: rgba(0,0,0,.18);
+    }
+    .read-sentence-text { color: #f5eedf; margin: 0; grid-column: 1; }
+    .read-sentence-text .w {
+      cursor: pointer;
+      border-radius: 2px;
+      padding: 0 1px;
+      transition: background .15s;
+    }
+    .read-sentence-text .w:hover { background: rgba(201,162,77,.22); }
+    .read-sentence-actions {
+      display: inline-flex;
+      flex-direction: row;
+      gap: 3px;
+      align-items: center;
+      grid-column: 2;
+      grid-row: 1;
+      flex-shrink: 0;
+    }
+    .read-sentence-actions button.btn-mini,
+    button.tts.btn-mini.sent-tts,
+    button.rephrase-btn.btn-mini {
+      min-height: 0 !important;
+      min-width: 0 !important;
+      height: auto;
+      padding: 0 4px !important;
+      margin: 0;
+      font-size: 10px !important;
+      line-height: 1.15 !important;
+      font-weight: 600;
+      border-radius: 3px;
+      opacity: 0.9;
+    }
+    button.rephrase-btn.btn-mini,
+    button.translate-sent-btn.btn-mini {
+      background: rgba(42,36,28,.9);
+      color: var(--ng-muted);
+      border: 1px solid rgba(138,112,53,.45);
+      cursor: pointer;
+      font-family: inherit;
+    }
+    button.tts.btn-mini.sent-tts {
+      background: rgba(74,124,124,.2);
+      border: 1px solid rgba(74,124,124,.45);
+      color: #b8d9d6;
+      padding: 0 3px !important;
+    }
+    button.tts.btn-mini.speaking { opacity: 1; background: rgba(201,162,77,.3); border-color: var(--ng-gold); color: var(--ng-gold); }
+    .rephrase-out {
+      grid-column: 1 / -1;
+      margin-top: 4px;
+      padding: 6px 8px;
+      border-left: 2px solid var(--ng-accent);
+      font-size: clamp(11px, 1.1vw, 15px);
+      line-height: 1.55;
+      color: #d7e8e6;
+    }
+    .rephrase-label, .bilingual-tag { color: var(--ng-gold); font-weight: 700; margin-right: 6px; font-size: 11px; }
+    .read-zh-line {
+      grid-column: 1 / -1;
+      margin: 2px 0 0;
+      padding: 4px 0 0;
+      font-size: clamp(12px, 1.25vw, 16px);
+      line-height: 1.65;
+      color: #c4b8a4;
+      border-top: 1px dashed rgba(201,162,77,.25);
+    }
+    .read-zh-line[hidden] { display: none !important; }
+    .read-para-zh {
+      margin: 0 0 10px;
+      padding: 8px 10px;
+      background: rgba(74,124,124,.1);
+      border-radius: 6px;
+      font-size: clamp(12px, 1.25vw, 16px);
+      line-height: 1.7;
+      color: #d7cfc2;
+    }
+    .read-para-zh .bilingual-tag { display: block; margin-bottom: 4px; }
+    .rephrase-en { color: #e8dfd0; margin: 0 0 4px; }
+    .rephrase-zh { color: #c4b8a4; margin: 0; }
+    .socratic-tag { display: inline-block; min-width: 1.4em; color: var(--ng-gold); font-weight: 800; }
+    .socratic-zh-reveal {
+      margin: 0 0 10px;
+      padding: 6px 10px;
+      border: 1px dashed rgba(201,162,77,.35);
+      border-radius: 6px;
+      cursor: pointer;
+      background: rgba(0,0,0,.12);
+      transition: border-color .15s, background .15s;
+    }
+    .socratic-zh-reveal:hover {
+      border-color: rgba(201,162,77,.55);
+      background: rgba(201,162,77,.08);
+    }
+    .socratic-zh-hint {
+      display: block;
+      font-size: 11px;
+      color: var(--ng-muted);
+      line-height: 1.4;
+    }
+    .socratic-zh-body {
+      margin-top: 6px;
+      padding-top: 6px;
+      border-top: 1px dashed rgba(201,162,77,.2);
+      font-size: clamp(12px, 1.15vw, 15px);
+      line-height: 1.6;
+      color: #c4b8a4;
+    }
+    .socratic-zh-body[hidden] { display: none !important; }
+    .socratic-quote {
+      margin: 8px 0 0;
+      padding: 6px 8px;
+      background: rgba(0,0,0,.2);
+      border-radius: 4px;
+      font-size: clamp(12px, 1.15vw, 15px);
+      line-height: 1.55;
+      color: #b8d9d6;
+    }
+    .socratic-out {
+      flex-shrink: 0;
+      overflow: visible;
+      margin: 0 0 4px;
+      padding: 8px 10px min(118px, 26vw) 8px 10px;
+      background: rgba(74,124,124,.12);
+      border: 1px solid rgba(74,124,124,.4);
+      border-radius: 8px;
+    }
+    .socratic-progress { margin: 0 0 8px; font-size: 13px; color: var(--ng-gold); font-weight: 700; }
+    .socratic-q {
+      margin: 0 0 12px;
+      font-size: clamp(16px, 1.55vw, 21px);
+      line-height: 1.75;
+      color: #f5eedf;
+    }
+    .socratic-a {
+      margin: 0 0 12px;
+      padding: 10px 12px;
+      border-left: 3px solid var(--ng-gold);
+      font-size: clamp(14px, 1.35vw, 18px);
+      line-height: 1.65;
+      color: #d7cfc2;
+      background: rgba(0,0,0,.15);
+      border-radius: 0 6px 6px 0;
+    }
+    .socratic-a[hidden] { display: none !important; }
+    .socratic-btns { display: flex; flex-wrap: wrap; gap: 8px; }
+    .socratic-btns button { min-height: 40px; padding: 8px 14px; font-size: 14px; }
+    .socratic-btns button:disabled { opacity: .4; cursor: not-allowed; }
+    .topbar-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+    .topbar-controls select {
+      background: rgba(0,0,0,.35);
+      color: var(--ng-cream);
+      border: 1px solid var(--ng-line);
+      border-radius: 4px;
+      padding: 6px 8px;
+      font: inherit;
+      font-size: 13px;
+    }
+  #ttsBadge { font-size: 11px; color: var(--ng-muted); max-width: 140px; line-height: 1.3; }
+    .lookup-backdrop {
+      position: fixed; inset: 0; background: rgba(0,0,0,.45);
+      opacity: 0; pointer-events: none; transition: opacity .2s; z-index: 80;
+    }
+    .lookup-backdrop.show { opacity: 1; pointer-events: auto; }
+    .lookup-panel {
+      position: fixed; right: 0; top: 0; bottom: 0; width: min(420px, 92vw);
+      background: #1a1612; border-left: 1px solid var(--ng-line);
+      transform: translateX(100%); transition: transform .25s ease; z-index: 90;
+      display: flex; flex-direction: column;
+      box-shadow: -8px 0 40px rgba(0,0,0,.5);
+    }
+    .lookup-panel.open { transform: translateX(0); }
+    .lookup-panel header {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 12px 14px; border-bottom: 1px solid var(--ng-line);
+    }
+    .lookup-panel header h2 { margin: 0; font-size: 16px; color: var(--ng-gold); }
+    .lookup-panel .lookup-body {
+      flex: 1; overflow-y: auto; padding: 14px 16px;
+      font-size: 14px; line-height: 1.65; color: #e8dfd0;
+    }
+    .lookup-head { margin: 0 0 10px; color: #fff; font-size: 20px; }
+    .lookup-section-title { margin: 12px 0 6px; color: var(--ng-gold); font-size: 13px; }
+    .lookup-usage-list { margin: 0; padding: 0 0 0 1.1em; list-style: disc; }
+    .lookup-usage-item { margin-bottom: 12px; line-height: 1.5; }
+    .lookup-usage-item strong { color: #f0e6d0; }
+    .lookup-ex-en {
+      margin: 4px 0 2px; padding: 6px 8px;
+      background: rgba(74,124,124,.15); border-radius: 4px;
+      font-size: 13px; color: #dff5f3; font-style: italic;
+    }
+    .lookup-ex-zh { margin: 0; font-size: 12px; color: #c4b8a4; }
+    .lookup-muted { color: var(--ng-muted); }
+    .lookup-bad { color: var(--bad); }
+    .lookup-raw { white-space: pre-wrap; font-size: 13px; }
+    .lookup-close {
+      background: transparent; border: 1px solid var(--ng-line); color: var(--ng-cream);
+      padding: 6px 12px; cursor: pointer; border-radius: 4px; font: inherit;
+    }
+    .chart-box { font-size: 13px; line-height: 1.45; }
+    .chart-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+    .chart-table th, .chart-table td { border: 1px solid var(--ng-line); padding: 6px 8px; vertical-align: top; }
+    .chart-table th { background: rgba(201,162,77,.12); color: var(--ng-gold); }
+    .chart-pre { white-space: pre-wrap; font-family: ui-monospace, Consolas, monospace; font-size: 11px;
+      background: rgba(0,0,0,.25); padding: 10px; border-radius: 4px; border: 1px solid var(--ng-line); }
+    .chart-exam-wrap { width: 100%; }
+    .chart-exam-wrap .chart-h3 { margin: 0 0 8px; color: var(--ng-gold); font-size: 14px; }
+    .chart-exam-wrap .chart-lead { font-size: 13px; margin: 0 0 8px; color: #e8dfd0; }
+    .chart-fishbone { font-size: 12px; line-height: 1.4; }
+    .fishbone-grid { display: grid; gap: 8px; margin-bottom: 8px; }
+    .fishbone-top { grid-template-columns: 1fr 1.35fr 1fr; }
+    .fishbone-bottom { grid-template-columns: 1fr 1fr; }
+    .fishbone-box { border: 1px solid var(--ng-line); border-radius: 4px; padding: 8px 10px; background: rgba(0,0,0,.22); }
+    .fishbone-box-wide { min-width: 0; }
+    .fishbone-box-title { margin: 0 0 6px; font-weight: 700; color: var(--ng-gold); font-size: 12px; }
+    .fishbone-box ul { margin: 0; padding-left: 1.15em; }
+    .fishbone-box li { font-size: 11px; margin-bottom: 3px; color: #e8dfd0; }
+    .fishbone-box p { font-size: 11px; margin: 0 0 4px; }
+    .fishbone-spine-label { text-align: center; font-weight: 700; color: var(--ng-gold); margin: 8px 0; font-size: 13px; letter-spacing: .03em; }
+    .virtue-line, .virtue-foot { font-size: 11px; margin: 4px 0; color: #d7cfc2; }
+    .chart-list { margin: 0; padding-left: 1.2em; }
+    .chart-list li { font-size: 12px; margin-bottom: 4px; }
+    .chart-timeline .tl-time { white-space: nowrap; width: 9em; font-weight: 600; color: var(--ng-gold); vertical-align: top; }
+    .blank { display: inline-block; min-width: 2.5em; border-bottom: 2px solid var(--ng-gold); color: var(--ng-gold);
+      font-weight: 700; text-align: center; font-family: ui-monospace, Consolas, monospace; }
+    .practice-input { width: 7em; border: none; border-bottom: 2px solid var(--ng-gold); background: transparent;
+      color: #fff; text-align: center; font: inherit; font-family: ui-monospace, Consolas, monospace; }
+    button.tts { background: rgba(74,124,124,.25); border: 1px solid rgba(74,124,124,.65); color: #dff5f3;
+      padding: 6px 12px; cursor: pointer; font: inherit; font-size: 13px; border-radius: 3px; }
+    .row-audio { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0; }
+    .score { font-size: 13px; color: var(--ng-muted); }
+    .toast { position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%); background: rgba(180,40,40,.92);
+      color: #fff; padding: 8px 14px; border-radius: 4px; display: none; z-index: 20; font-size: 14px; }
+    .toast.show { display: block; }
+    @media (max-width: 900px) {
+      .fishbone-top, .fishbone-bottom { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 720px) { .app { flex-direction: column; } .grid-2 { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="course-nav" id="courseNav">
+      <button type="button" class="course-nav-edge" id="navToggle">目录</button>
+      <div class="course-nav-panel">
+        <p class="course-nav-heading">课件导航</p>
+        <div class="course-nav-scroll" id="courseNavScroll"></div>
+      </div>
+    </aside>
+    <div class="deck-stage">
+      <div class="deck-shell" style="position:relative;">
+        <div class="deck">
+          <div class="topbar">
+            <div class="brand">Chart Completion Lab · Chengdu B</div>
+            <div class="progress" id="progress">—</div>
+            <div class="topbar-controls">
+              <span id="ttsBadge"></span>
+              <label class="footnote" style="margin:0;display:flex;align-items:center;gap:6px;font-size:12px;color:var(--ng-muted);">
+                朗读
+                <select id="voiceSel" aria-label="朗读声音">
+                  <option value="en-US-JennyNeural" selected>Jenny（美）</option>
+                  <option value="en-US-AvaNeural">Ava（美）</option>
+                  <option value="en-US-GuyNeural">Guy（美）</option>
+                  <option value="en-GB-SoniaNeural">Sonia（英）</option>
+                </select>
+              </label>
+              <button type="button" class="nav" id="prevBtn">上一页</button>
+              <button type="button" class="nav" id="nextBtn">下一页</button>
+            </div>
+          </div>
+          <div class="slide-body"><div class="slide-body-inner" id="slideRoot"></div></div>
+        </div>
+        <div class="toast" id="toast"></div>
+      </div>
+    </div>
+  </div>
+  <div class="lookup-backdrop" id="lookupBackdrop"></div>
+  <aside class="lookup-panel" id="lookupPanel" aria-label="查词面板">
+    <header>
+      <h2 id="lookupTitle">查词 / 词组</h2>
+      <button type="button" class="lookup-close" id="lookupClose">关闭</button>
+    </header>
+    <div class="lookup-body" id="lookupBody"><p class="lookup-muted">双击单词，或拖选词组后点「查词组」。</p></div>
+  </aside>
+  <script>
+    const PRACTICE_ANS = {"76": "science", "77": "farming", "78": "partly", "79": "beginning", "80": "process"};
+    const ALT_ANS = {"77": ["agriculture", "farm work"], "78": ["not always", "not fully"], "79": ["start"]};
+    const BLANK_IDS = [76, 77, 78, 79, 80];
+    const EVIDENCE = {"76": "The science of weather prediction really took off in the 1830s.", "77": "useful for farmers to plan when to plant and harvest.", "78": "But there isn't any science behind it. (sheep crowded together)", "79": "Telegraph… took off in the 1830s (modern science).", "80": "collect and process worldwide data very fast."};
+    const WORD_LIMIT = null;
+
+    const PASSAGE_STRUCTURE = [{"index": 0, "text": "Humans have long tried to predict the weather.", "sentences": ["Humans have long tried to predict the weather."]}, {"index": 1, "text": "From the hunters of ancient times to today's pilots, predicting rain or shine can shape people's life and make a difference.", "sentences": ["From the hunters of ancient times to today's pilots, predicting rain or shine can shape people's life and make a difference."]}, {"index": 2, "text": "In 650 BC, the Babylonians tried to predict the weather based on the appearance of clouds.", "sentences": ["In 650 BC, the Babylonians tried to predict the weather based on the appearance of clouds."]}, {"index": 3, "text": "Around 340 BC, Aristotle, a famous Greek thinker and scientist, wrote Meteorologica. It introduced the types of weather, such as rain, cloud and lightning. Aristotle believed that there was water, air and fire around the Earth. It was almost 2,000 years before his ideas were replaced by new ones.", "sentences": ["Around 340 BC, Aristotle, a famous Greek thinker and scientist, wrote Meteorologica.", "It introduced the types of weather, such as rain, cloud and lightning.", "Aristotle believed that there was water, air and fire around the Earth.", "It was almost 2,000 years before his ideas were replaced by new ones."]}, {"index": 4, "text": "By 300 BC in China, a calendar divided the year into 24 festivals gradually, each festival related to a type of weather, like the Rain Water, the Waking of Insects and so on. That was useful for farmers to plan when to plant and harvest.", "sentences": ["By 300 BC in China, a calendar divided the year into 24 festivals gradually, each festival related to a type of weather, like the Rain Water, the Waking of Insects and so on.", "That was useful for farmers to plan when to plant and harvest."]}, {"index": 5, "text": "People used lots of ways to predict the weather over the centuries. You might have heard the expressions like \"Red sky at night, sailor's delight\", which suggests a red sky in the evening is followed by good weather. This has a basis in science, as does telling wind direction through smoke from the fire. On the other hand, some thought that if sheep crowded together, it meant rain. But there isn't any science behind it.", "sentences": ["People used lots of ways to predict the weather over the centuries.", "You might have heard the expressions like \"Red sky at night, sailor's delight\", which suggests a red sky in the evening is followed by good weather.", "This has a basis in science, as does telling wind direction through smoke from the fire.", "On the other hand, some thought that if sheep crowded together, it meant rain.", "But there isn't any science behind it."]}, {"index": 6, "text": "The science of weather prediction really took off in the 1830s with the invention of the telegraph. It sent messages over hundreds of thousands of miles, so weather maps were drawn up and storm systems were studied.", "sentences": ["The science of weather prediction really took off in the 1830s with the invention of the telegraph.", "It sent messages over hundreds of thousands of miles, so weather maps were drawn up and storm systems were studied."]}, {"index": 7, "text": "The next big step came in the 1920s with the invention of the \"radiosonde\", a balloon carrying weather instruments high above the ground to collect information. Experts took the information and built a picture of the weather over the following few days.", "sentences": ["The next big step came in the 1920s with the invention of the \"radiosonde\", a balloon carrying weather instruments high above the ground to collect information.", "Experts took the information and built a picture of the weather over the following few days."]}, {"index": 8, "text": "Today, supercomputers are used to take data from the world and process it very fast to work out the weather. For example, they once helped predict where Hurricane Lee, which hit the US and Canada, would land nine days in advance.", "sentences": ["Today, supercomputers are used to take data from the world and process it very fast to work out the weather.", "For example, they once helped predict where Hurricane Lee, which hit the US and Canada, would land nine days in advance."]}];
+    const CHART_RAW = `<div class="chart-exam-wrap"><h3 class="chart-h3">Humans' Efforts to Work Out the Weather</h3>
+<p class="chart-lead">Weather prediction has developed from experience to __76__.</p>
+<table class="chart-table chart-timeline chart-exam">
+<tr><td class="tl-time">In 650 BC</td><td>The Babylonians studied the clouds.</td></tr>
+<tr><td class="tl-time">Around 340 BC</td><td>Aristotle formed the ideas about weather.</td></tr>
+<tr><td class="tl-time">By 300 BC</td><td>In China, 24 festivals guided people in __77__.</td></tr>
+<tr><td class="tl-time">Over 2,000 years</td><td>People had many ways to predict the weather, like watching the sky, animals and so on. They were __78__ scientific.</td></tr>
+<tr><td class="tl-time">In the 1830s</td><td>Telegraph marked the __79__ of modern science in predicting the weather.</td></tr>
+<tr><td class="tl-time">In the 1920s</td><td>Radiosonde helped get information at a higher level.</td></tr>
+<tr><td class="tl-time">Today ▼</td><td>Supercomputers can collect and __80__ worldwide data very fast.</td></tr>
+</table></div>`;
+
+    function escapeHtml(s) {
+      return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+    }
+
+    const AZURE_SPEECH_KEY = "C42UQWeDcluYanbo17WrtUnPhk0vkZy2uQHPTCGDzY6CdEXx99NzJQQJ99BIACqBBLyXJ3w3AAAYACOGjkyu";
+    const AZURE_SPEECH_REGION = "southeastasia";
+    const DEEPSEEK_API_KEY = "sk-daa16008e81843deba6fefe9dce51465";
+    const DEEPSEEK_ENDPOINT = "https://api.deepseek.com/v1/chat/completions";
+    const AZURE_TTS_PROSODY_RATE = "-12%";
+    const audioCache = new Map();
+    let currentTtsAudio = null;
+    function refreshTtsBadge() {
+      const el = document.getElementById("ttsBadge");
+      if (el) el.textContent = AZURE_SPEECH_KEY ? `Azure · ${AZURE_SPEECH_REGION}` : "未配置 Azure Key";
+    }
+    function escapeSsmlText(s) {
+      return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;");
+    }
+    function voiceGenderAndLang(voiceName) {
+      if (voiceName.indexOf("Guy") !== -1) return { gender: "Male", lang: "en-US" };
+      if (voiceName.indexOf("Sonia") !== -1 || voiceName.indexOf("en-GB") !== -1) return { gender: "Female", lang: "en-GB" };
+      return { gender: "Female", lang: "en-US" };
+    }
+    function playUrl(url) {
+      if (currentTtsAudio) { currentTtsAudio.pause(); currentTtsAudio = null; }
+      const a = new Audio(url);
+      currentTtsAudio = a;
+      return a.play();
+    }
+    function playAzureTTS(text) {
+      if (!AZURE_SPEECH_KEY) return Promise.reject(new Error("未配置 Azure Speech Key"));
+      const endpoint = `https://${AZURE_SPEECH_REGION}.tts.speech.microsoft.com/cognitiveservices/v1`;
+      const voice = document.getElementById("voiceSel")?.value || "en-US-JennyNeural";
+      const g = voiceGenderAndLang(voice);
+      const cacheKey = `${voice}|${text}|${AZURE_TTS_PROSODY_RATE}`;
+      if (audioCache.has(cacheKey)) return playUrl(audioCache.get(cacheKey));
+      const ssml = `<?xml version="1.0" encoding="utf-8"?>
+<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="${g.lang}">
+  <voice name="${voice}">
+    <prosody rate="${AZURE_TTS_PROSODY_RATE}">${escapeSsmlText(text)}</prosody>
+  </voice>
+</speak>`;
+      return fetch(endpoint, {
+        method: "POST",
+        headers: {
+          "Ocp-Apim-Subscription-Key": AZURE_SPEECH_KEY,
+          "Content-Type": "application/ssml+xml",
+          "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3",
+        },
+        body: ssml,
+      }).then((res) => {
+        if (!res.ok) return res.text().then((t) => { throw new Error(`Azure ${res.status}: ${(t || "").slice(0, 100)}`); });
+        return res.blob();
+      }).then((blob) => {
+        const u = URL.createObjectURL(blob);
+        audioCache.set(cacheKey, u);
+        return playUrl(u);
+      });
+    }
+    async function playTts(text, btn) {
+      if (btn) { btn.disabled = true; btn.classList.add("speaking"); }
+      try { await playAzureTTS(text); }
+      catch (e) { showToast(e.message || String(e)); }
+      finally { if (btn) { btn.disabled = false; btn.classList.remove("speaking"); } }
+    }
+
+    function showToast(msg, ms = 3400) {
+      const el = document.getElementById("toast");
+      if (!el) return;
+      el.textContent = msg;
+      el.classList.add("show");
+      clearTimeout(showToast._t);
+      showToast._t = setTimeout(() => el.classList.remove("show"), ms);
+    }
+
+    function cacheGet(ns, key) {
+      try { return sessionStorage.getItem(ns + ":" + key); } catch (e) { return null; }
+    }
+    function cacheSet(ns, key, val) {
+      try { sessionStorage.setItem(ns + ":" + key, val); } catch (e) {}
+    }
+
+    async function deepseekChat(system, user, temperature = 0.35) {
+      if (!DEEPSEEK_API_KEY) throw new Error("未配置 DeepSeek API Key");
+      const res = await fetch(DEEPSEEK_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + DEEPSEEK_API_KEY,
+        },
+        body: JSON.stringify({
+          model: "deepseek-chat",
+          messages: [
+            { role: "system", content: system },
+            { role: "user", content: user },
+          ],
+          temperature,
+        }),
+      });
+      if (!res.ok) throw new Error("DeepSeek " + res.status);
+      const data = await res.json();
+      return data?.choices?.[0]?.message?.content?.trim() || "";
+    }
+
+    function wrapWordsHtml(sentence) {
+      const esc = (x) => String(x).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+      return sentence.split(/(\\s+)/).map((tok) => {
+        if (!tok || /^\\s+$/.test(tok)) return esc(tok);
+        if (/^[A-Za-z][A-Za-z''-]*$/.test(tok)) {
+          return `<span class="w" data-w="${esc(tok)}">${esc(tok)}</span>`;
+        }
+        const inner = tok.replace(/[A-Za-z][A-Za-z''-]*/g, (w) => `<span class="w" data-w="${esc(w)}">${esc(w)}</span>`);
+        return inner;
+      }).join("");
+    }
+
+    function getSelectionText() {
+      const sel = window.getSelection();
+      return sel ? sel.toString().trim() : "";
+    }
+
+    function openLookupPanel(title) {
+      const p = document.getElementById("lookupPanel");
+      const bd = document.getElementById("lookupBackdrop");
+      if (p) {
+        p.classList.add("open");
+        document.getElementById("lookupTitle").textContent = title || "查词 / 词组";
+      }
+      bd?.classList.add("show");
+    }
+    function closeLookupPanel() {
+      document.getElementById("lookupPanel")?.classList.remove("open");
+      document.getElementById("lookupBackdrop")?.classList.remove("show");
+    }
+
+    function renderLookupUsageList(title, arr, labelKey) {
+      if (!Array.isArray(arr) || !arr.length) return "";
+      const items = arr.map((item) => {
+        if (typeof item === "string") {
+          return `<li class="lookup-usage-item">${escapeHtml(item)}</li>`;
+        }
+        const head = item[labelKey] || item.phrase || item.word || item.text || "";
+        const en = item.example_en || item.example || "";
+        const zh = item.example_zh || "";
+        let html = `<li class="lookup-usage-item"><strong>${escapeHtml(head)}</strong>`;
+        if (en) html += `<p class="lookup-ex-en">${escapeHtml(en)}</p>`;
+        if (zh) html += `<p class="lookup-ex-zh">${escapeHtml(zh)}</p>`;
+        return html + "</li>";
+      }).join("");
+      return `<p class="lookup-section-title"><strong>${title}</strong></p><ul class="lookup-usage-list">${items}</ul>`;
+    }
+
+    function renderLookupResult(data) {
+      const body = document.getElementById("lookupBody");
+      if (!body) return;
+      if (!data) { body.innerHTML = "<p class='lookup-muted'>无结果</p>"; return; }
+      const row = (k, v) => v ? `<p><strong>${k}</strong> ${escapeHtml(v)}</p>` : "";
+      body.innerHTML = `
+        <h3 class="lookup-head">${escapeHtml(data.word_or_phrase || "")}</h3>
+        ${row("音标", data.phonetic)}${row("词性", data.part_of_speech)}
+        ${row("释义（中）", data.meaning_zh)}${row("句中义（中）", data.in_sentence)}
+        ${renderLookupUsageList("搭配（含例句）", data.collocations, "phrase")}
+        ${renderLookupUsageList("近义（含例句）", data.synonyms, "word")}
+        ${row("同义转换（完成图表）", data.paraphrase_for_exam)}
+        ${row("小结", data.summary)}`;
+    }
+
+    function tryParseLookupJson(raw) {
+      const t = String(raw || "").trim();
+      const m = t.match(/\\{[\\s\\S]*\\}/);
+      try { return JSON.parse(m ? m[0] : t); }
+      catch (e) { return null; }
+    }
+
+    async function lookupSelection(selection, sentence, paragraph) {
+      openLookupPanel("查词 · " + selection);
+      const body = document.getElementById("lookupBody");
+      body.innerHTML = "<p class='lookup-muted'>DeepSeek 查询中…</p>";
+      const cacheKey = "lk2|" + selection + "|" + sentence.slice(0, 80);
+      const cached = cacheGet("lookup", cacheKey);
+      if (cached) {
+        renderLookupResult(tryParseLookupJson(cached) || { summary: cached });
+        return;
+      }
+      const system = "你是中国初中英语教师，擅长词汇讲解与中考阅读。只输出一个 JSON 对象，不要 markdown。搭配与近义必须各给 2 项，且每项必须附高度实用、适合初中生背诵的例句（英文例句 + 中文译文）。";
+      const user = `学生选中：「${selection}」
+所在句：${sentence}
+所在段：${paragraph}
+
+请输出 JSON：
+{
+  "word_or_phrase": "词或词组",
+  "phonetic": "音标（可选）",
+  "part_of_speech": "词性",
+  "meaning_zh": "中文释义",
+  "in_sentence": "在本句中的含义",
+  "collocations": [
+    {"phrase": "常用搭配", "example_en": "简短实用英文例句（8-16词）", "example_zh": "例句中文"}
+  ],
+  "synonyms": [
+    {"word": "近义词", "example_en": "体现该词用法、可与原词替换的英文例句", "example_zh": "例句中文"}
+  ],
+  "paraphrase_for_exam": "可用于完成图表填空的同义表达",
+  "summary": "一句话记忆"
+}
+要求：collocations、synonyms 各 2 条；例句要具体、地道、对中考写作/阅读有直接帮助，避免空洞套话。`;
+      try {
+        const raw = await deepseekChat(system, user, 0.25);
+        cacheSet("lookup", cacheKey, raw);
+        const data = tryParseLookupJson(raw);
+        if (data) renderLookupResult(data);
+        else body.innerHTML = `<div class="lookup-raw">${escapeHtml(raw)}</div>`;
+      } catch (e) {
+        body.innerHTML = `<p class='lookup-bad'>${escapeHtml(e.message)}</p>`;
+      }
+    }
+
+    function renderRephraseBilingual(outEl, data) {
+      const en = data.en || data.english || "";
+      const zh = data.zh || data.chinese || data.meaning_zh || "";
+      outEl.hidden = false;
+      outEl.innerHTML = `
+        <p class="rephrase-en"><span class="bilingual-tag">英</span>${escapeHtml(en)}</p>
+        ${zh ? `<p class="rephrase-zh"><span class="bilingual-tag">中</span>${escapeHtml(zh)}</p>` : ""}`;
+    }
+
+    function parseRephraseJson(raw) {
+      const data = tryParseLookupJson(raw);
+      if (data && (data.en || data.english)) return data;
+      const t = String(raw || "").trim();
+      return { en: t, zh: "" };
+    }
+
+    async function rephraseSentence(sentence, outEl, btn) {
+      const isLoading = outEl.querySelector(".lookup-muted");
+      if (!outEl.hidden && outEl.innerHTML.trim() && !isLoading) {
+        outEl.hidden = true;
+        if (btn) btn.title = "英中改写";
+        return;
+      }
+      const cacheKey = "rp2|" + sentence;
+      const cached = cacheGet("rephrase", cacheKey);
+      if (cached) {
+        renderRephraseBilingual(outEl, parseRephraseJson(cached));
+        if (btn) btn.title = "再点隐藏改写";
+        return;
+      }
+      btn.disabled = true;
+      outEl.hidden = false;
+      outEl.innerHTML = "<span class='lookup-muted'>生成中英对照…</span>";
+      try {
+        const raw = await deepseekChat(
+          "你是初中英语教师。只输出 JSON，不要 markdown：{\"en\":\"更简单易懂的英文改写句\",\"zh\":\"该句准确简体中文翻译\"}",
+          "原句：\n" + sentence,
+          0.45
+        );
+        cacheSet("rephrase", cacheKey, raw);
+        const data = parseRephraseJson(raw);
+        renderRephraseBilingual(outEl, data);
+        if (btn) btn.title = "再点隐藏改写";
+        if (data.en) await playTts(data.en, null);
+      } catch (e) {
+        outEl.innerHTML = `<span class='lookup-bad'>${escapeHtml(e.message)}</span>`;
+      } finally {
+        btn.disabled = false;
+      }
+    }
+
+    async function translateSentence(sentence, zhEl, btn) {
+      if (!zhEl) return;
+      if (!zhEl.hidden && zhEl.textContent.trim()) {
+        zhEl.hidden = true;
+        return;
+      }
+      const cacheKey = "tr|" + sentence;
+      const cached = cacheGet("translate", cacheKey);
+      if (cached) {
+        zhEl.hidden = false;
+        zhEl.innerHTML = `<span class="bilingual-tag">中</span>${escapeHtml(cached)}`;
+        return;
+      }
+      btn.disabled = true;
+      zhEl.hidden = false;
+      zhEl.innerHTML = "<span class='lookup-muted'>翻译中…</span>";
+      try {
+        const raw = await deepseekChat(
+          "你是专业英译中译者。只输出一句准确、流畅的简体中文翻译，不要英文、不要解释。",
+          sentence,
+          0.2
+        );
+        cacheSet("translate", cacheKey, raw);
+        zhEl.innerHTML = `<span class="bilingual-tag">中</span>${escapeHtml(raw)}`;
+      } catch (e) {
+        zhEl.innerHTML = `<span class='lookup-bad'>${escapeHtml(e.message)}</span>`;
+      } finally {
+        btn.disabled = false;
+      }
+    }
+
+    async function translateParagraph(paragraph, stageEl, btn) {
+      let box = stageEl.querySelector(".read-para-zh");
+      if (box) {
+        box.remove();
+        return;
+      }
+      const cacheKey = "tp|" + paragraph.slice(0, 200);
+      const cached = cacheGet("translate", cacheKey);
+      btn.disabled = true;
+      try {
+        let zh = cached;
+        if (!zh) {
+          zh = await deepseekChat(
+            "你是专业英译中译者。将下列英文段落译为流畅简体中文，保留段落结构，只输出译文。",
+            paragraph,
+            0.25
+          );
+          cacheSet("translate", cacheKey, zh);
+        }
+        box = document.createElement("div");
+        box.className = "read-para-zh";
+        box.innerHTML = `<span class="bilingual-tag">段译（中文）</span>${escapeHtml(zh)}`;
+        stageEl.insertBefore(box, stageEl.firstChild);
+      } catch (e) {
+        showToast(e.message || String(e));
+      } finally {
+        btn.disabled = false;
+      }
+    }
+
+    function parseSocraticItems(raw) {
+      const t = String(raw || "").trim();
+      const m = t.match(/\[[\s\S]*\]/);
+      try {
+        const arr = JSON.parse(m ? m[0] : t);
+        if (!Array.isArray(arr)) return [];
+        return arr.map((item) => ({
+          question_en: item.question_en || item.question || item.q || "",
+          question_zh: item.question_zh || item.question_zh_hint || "",
+          answer_zh: item.answer_zh || item.answer || item.a || "",
+          quote_en: item.quote_en || item.answer_quote_en || item.evidence_en || "",
+        })).filter((x) => x.question_en || x.question_zh);
+      } catch (e) {
+        const lines = t.split(/\n+/).map((line) => line.replace(/^\s*\d+[.)、]\s*/, "").trim()).filter(Boolean);
+        return lines.map((q) => ({ question_en: q, question_zh: "", answer_zh: "", quote_en: "" }));
+      }
+    }
+
+    function socraticZhBlock(cur) {
+      if (!cur.question_zh) return "";
+      return `
+        <div class="socratic-zh-reveal" role="button" tabindex="0" aria-expanded="false" title="点击显示/隐藏中文译文">
+          <span class="socratic-zh-hint">中文译文（点击展开）</span>
+          <div class="socratic-zh-body" hidden>${escapeHtml(cur.question_zh)}</div>
+        </div>`;
+    }
+
+    function renderSocraticStep(outEl) {
+      const items = outEl._socraticItems || [];
+      const i = outEl._socraticIdx || 0;
+      const shown = !!outEl._socraticAnsShown;
+      const total = items.length;
+      if (!total) {
+        outEl.innerHTML = "<p class='lookup-muted'>未生成有效问题</p>";
+        return;
+      }
+      const cur = items[i];
+      const isLast = i >= total - 1;
+      const qMain = escapeHtml(cur.question_en || cur.question_zh);
+      const quote = cur.quote_en
+        ? `<p class="socratic-quote"><span class="bilingual-tag">原文</span>${escapeHtml(cur.quote_en)}</p>` : "";
+      outEl.innerHTML = `
+        <p class="socratic-progress">Question ${i + 1} / ${total}</p>
+        <p class="socratic-q"><span class="socratic-tag">Q</span>${qMain}</p>
+        ${socraticZhBlock(cur)}
+        <div class="socratic-a" id="socratic-ans-${outEl.id}" ${shown ? "" : "hidden"}>
+          <p style="margin:0 0 6px;"><span class="socratic-tag">答</span><span style="color:var(--ng-gold);font-size:12px;">（中文）</span></p>
+          <p style="margin:0;line-height:1.7;">${escapeHtml(cur.answer_zh || "（暂无）")}</p>
+          ${quote}
+        </div>
+        <div class="socratic-btns">
+          <button type="button" class="nav socratic-show-ans" ${shown ? "disabled" : ""}>显示答案</button>
+          <button type="button" class="nav socratic-next" ${shown ? "" : "disabled"}>${isLast ? "完成" : "下一题"}</button>
+        </div>`;
+    }
+
+    function initSocraticUI(outEl, items) {
+      outEl._socraticItems = items;
+      outEl._socraticIdx = 0;
+      outEl._socraticAnsShown = false;
+      renderSocraticStep(outEl);
+    }
+
+    async function loadSocraticQuestions(pi, paragraph, outEl, btn) {
+      const cacheKey = "soc4|" + pi + "|" + paragraph.slice(0, 120);
+      const cached = cacheGet("socratic", cacheKey);
+      if (cached) {
+        outEl.hidden = false;
+        initSocraticUI(outEl, parseSocraticItems(cached));
+        return;
+      }
+      btn.disabled = true;
+      outEl.hidden = false;
+      outEl.innerHTML = "<p class='lookup-muted'>生成苏格拉底式问题…</p>";
+      try {
+        const raw = await deepseekChat(
+          "你是初中英语阅读教师。只输出 JSON 数组（2到3项），不要 markdown。每项：question_en（英文苏格拉底式问题，主句，完整问句）、question_zh（该问题的简体中文翻译，辅助）、answer_zh（简体中文答案与解析）、quote_en（答案依据的英文原文短句，须从段落摘录）。",
+          "阅读段落（英文）：\n\n" + paragraph,
+          0.4
+        );
+        cacheSet("socratic", cacheKey, raw);
+        const items = parseSocraticItems(raw);
+        if (!items.length) throw new Error("未能解析问题，请重试");
+        initSocraticUI(outEl, items);
+      } catch (e) {
+        outEl.innerHTML = `<p class='lookup-bad'>${escapeHtml(e.message)}</p>`;
+      } finally {
+        btn.disabled = false;
+      }
+    }
+
+    function bindReadingSlide(root) {
+      root.querySelectorAll("button.sent-tts").forEach((btn) => {
+        btn.addEventListener("click", () => playTts(btn.getAttribute("data-text") || "", btn));
+      });
+      root.querySelectorAll("button.rephrase-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const pi = btn.getAttribute("data-pi");
+          const si = btn.getAttribute("data-si");
+          const row = root.querySelector(`.read-sentence[data-pi="${pi}"][data-si="${si}"]`);
+          const text = row?.querySelector(".read-sentence-text")?.getAttribute("data-sentence") || "";
+          const out = root.querySelector(`#rephrase-${pi}-${si}`);
+          if (text && out) rephraseSentence(text, out, btn);
+        });
+      });
+      root.querySelectorAll("button.translate-sent-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const pi = btn.getAttribute("data-pi");
+          const si = btn.getAttribute("data-si");
+          const row = root.querySelector(`.read-sentence[data-pi="${pi}"][data-si="${si}"]`);
+          const text = row?.querySelector(".read-sentence-text")?.getAttribute("data-sentence") || "";
+          const zhEl = root.querySelector(`#read-zh-${pi}-${si}`);
+          if (text && zhEl) translateSentence(text, zhEl, btn);
+        });
+      });
+      root.querySelectorAll("button.translate-para-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const pi = Number(btn.getAttribute("data-pi"));
+          const stage = root.querySelector(`.reading-para-stage[data-pi="${pi}"]`);
+          const para = PASSAGE_STRUCTURE[pi]?.text || "";
+          if (stage && para) translateParagraph(para, stage, btn);
+        });
+      });
+      root.querySelectorAll("button.socratic-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const pi = Number(btn.getAttribute("data-pi"));
+          const para = PASSAGE_STRUCTURE[pi]?.text || "";
+          const out = root.querySelector(`#socratic-${pi}`);
+          if (out) loadSocraticQuestions(pi, para, out, btn);
+        });
+      });
+      if (!root.dataset.readingBound) {
+        root.dataset.readingBound = "1";
+        root.addEventListener("click", (e) => {
+          const zhReveal = e.target.closest(".socratic-zh-reveal");
+          if (zhReveal) {
+            const body = zhReveal.querySelector(".socratic-zh-body");
+            const hint = zhReveal.querySelector(".socratic-zh-hint");
+            if (body) {
+              const willShow = body.hidden;
+              body.hidden = !willShow;
+              zhReveal.setAttribute("aria-expanded", willShow ? "true" : "false");
+              if (hint) hint.textContent = willShow ? "中文译文（点击收起）" : "中文译文（点击展开）";
+            }
+            return;
+          }
+          const showBtn = e.target.closest(".socratic-show-ans");
+          const nextBtn = e.target.closest(".socratic-next");
+          const out = (showBtn || nextBtn)?.closest(".socratic-out");
+          if (!out || !out._socraticItems) return;
+          if (showBtn && !showBtn.disabled) {
+            out._socraticAnsShown = true;
+            renderSocraticStep(out);
+            return;
+          }
+          if (nextBtn && !nextBtn.disabled) {
+            const total = out._socraticItems.length;
+            if (out._socraticIdx >= total - 1) {
+              showToast("本段思考题已完成");
+              return;
+            }
+            out._socraticIdx += 1;
+            out._socraticAnsShown = false;
+            renderSocraticStep(out);
+          }
+        });
+        root.addEventListener("keydown", (e) => {
+          const zhReveal = e.target.closest(".socratic-zh-reveal");
+          if (zhReveal && (e.key === "Enter" || e.key === " ")) {
+            e.preventDefault();
+            zhReveal.click();
+          }
+        });
+      }
+      root.querySelectorAll("button.lookup-phrase-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const sel = getSelectionText();
+          if (!sel) { showToast("请先拖选词组"); return; }
+          const stage = root.querySelector(".reading-para-stage");
+          const pi = Number(stage?.getAttribute("data-pi"));
+          const paragraph = PASSAGE_STRUCTURE[pi]?.text || "";
+          const anchor = window.getSelection()?.anchorNode;
+          const row = anchor && anchor.nodeType === 3
+            ? anchor.parentElement?.closest?.(".read-sentence")
+            : anchor?.closest?.(".read-sentence");
+          const sentence = row?.querySelector(".read-sentence-text")?.getAttribute("data-sentence")
+            || paragraph;
+          lookupSelection(sel, sentence, paragraph);
+        });
+      });
+      root.querySelectorAll(".w").forEach((w) => {
+        w.addEventListener("dblclick", (e) => {
+          e.preventDefault();
+          const word = w.getAttribute("data-w") || w.textContent;
+          const row = w.closest(".read-sentence");
+          const sentence = row?.querySelector(".read-sentence-text")?.getAttribute("data-sentence") || "";
+          const pi = Number(row?.getAttribute("data-pi"));
+          const paragraph = PASSAGE_STRUCTURE[pi]?.text || "";
+          lookupSelection(word, sentence, paragraph);
+        });
+      });
+    }
+
+    const SENTENCES_PER_READ_SLIDE = 3;
+
+    function buildReadingSlides() {
+      if (!PASSAGE_STRUCTURE || !PASSAGE_STRUCTURE.length) return;
+      PASSAGE_STRUCTURE.forEach((block, pi) => {
+        const totalParas = PASSAGE_STRUCTURE.length;
+        const allSentences = block.sentences || [];
+        const chunks = [];
+        for (let i = 0; i < allSentences.length; i += SENTENCES_PER_READ_SLIDE) {
+          chunks.push({ start: i, list: allSentences.slice(i, i + SENTENCES_PER_READ_SLIDE) });
+        }
+        if (!chunks.length) chunks.push({ start: 0, list: [] });
+        chunks.forEach((chunk, ci) => {
+          const isLastChunk = ci === chunks.length - 1;
+          const partTag = chunks.length > 1 ? ` · ${ci + 1}/${chunks.length}` : "";
+          const navLabel = chunks.length > 1 ? `阅读${pi + 1}-${ci + 1}` : `阅读${pi + 1}`;
+          const sentHtml = chunk.list.map((s, li) => {
+            const si = chunk.start + li;
+            return `
+          <div class="read-sentence" data-pi="${pi}" data-si="${si}">
+            <div class="read-sentence-text" data-sentence="${escapeHtml(s)}">${wrapWordsHtml(s)}</div>
+            <div class="read-sentence-actions">
+              <button type="button" class="tts sent-tts btn-mini" data-text="${escapeHtml(s)}" title="朗读" aria-label="朗读">🔊</button>
+              <button type="button" class="rephrase-btn btn-mini" data-pi="${pi}" data-si="${si}" title="英中改写（再点隐藏）" aria-label="改写">改</button>
+              <button type="button" class="translate-sent-btn btn-mini" data-pi="${pi}" data-si="${si}" title="句译" aria-label="句译">译</button>
+            </div>
+            <div class="read-zh-line" id="read-zh-${pi}-${si}" hidden></div>
+            <div class="rephrase-out" id="rephrase-${pi}-${si}" hidden></div>
+          </div>`;
+          }).join("");
+          const socraticBlock = isLastChunk
+            ? `<div class="socratic-out" id="socratic-${pi}" hidden></div>`
+            : "";
+          const paraTools = isLastChunk
+            ? `<button type="button" class="translate-para-btn" data-pi="${pi}">段译（中）</button>
+              <button type="button" class="socratic-btn" data-pi="${pi}">思考题</button>`
+            : "";
+          add(`<div class="tag">阅读原文 · 分段呈现</div>
+          <h2 class="slide-h2 read-para-title">第 ${pi + 1} 段 / ${totalParas}${partTag}</h2>
+          <div class="reading-slide-wrap">
+            <div class="reading-para-stage" data-pi="${pi}" data-paragraph="${escapeHtml(block.text)}">
+              ${sentHtml}
+            </div>
+            ${socraticBlock}
+            <div class="read-float-toolbar" aria-label="阅读工具">
+              ${paraTools}
+              <button type="button" class="lookup-phrase-btn">查词组</button>
+            </div>
+          </div>`, { section: "reading", label: navLabel });
+        });
+      });
+    }
+
+    function normalize(s) {
+      return String(s||"").trim().toLowerCase().replace(/\s+/g," ");
+    }
+    function wordCount(s) {
+      const t = String(s||"").trim();
+      if (!t) return 0;
+      return t.split(/\s+/).filter(Boolean).length;
+    }
+    function matchBlank(num, user) {
+      const u = normalize(user);
+      if (!u) return false;
+      if (WORD_LIMIT && wordCount(user) > WORD_LIMIT) return false;
+      const main = normalize(PRACTICE_ANS[num]);
+      if (u === main) return true;
+      const alts = ALT_ANS[num] || ALT_ANS[String(num)] || [];
+      return alts.some((a) => normalize(a) === u);
+    }
+    function renderChart(raw, mode) {
+      return raw.replace(/__(\d+)__/g, (_, n) => {
+        const num = Number(n);
+        if (mode === "key") return `<span class="blank">${escapeHtml(PRACTICE_ANS[num]||"")}</span>`;
+        if (mode === "study") return `<span class="blank">(${num})</span>`;
+        return `<input class="practice-input" data-num="${num}" placeholder="(${num})" />`;
+      });
+    }
+
+    const slides = [];
+    const navSections = [];
+    function add(html, meta) {
+      const index = slides.length;
+      slides.push({ html, meta: meta || null });
+      if (meta && meta.label) {
+        navSections.push({ section: meta.section || "", index, label: meta.label });
+      }
+    }
+
+    add(`<div class="tag">课程地图</div>
+      <h1 class="slide-title">完成图表 · 2024 · 人类预测天气（Weather Prediction）</h1>
+      <p>流程对齐「选词填空」课件：<strong>背景与策略 → 阅读原文 → 图表导读 → 证据链 → 半独立 → 独立核对 → 答案复盘</strong>。</p>
+      
+      <div class="card"><h3>本题节奏</h3>
+        <ol>
+          <li>说明文 · 时间轴 · 经验到科学</li>
+          <li>先读图表框架（表头/分支），再回原文逐空定位；注意<strong>同义改写</strong>与<strong>词性转换</strong>。</li>
+          <li>共 <strong>${BLANK_IDS.length}</strong> 空：${BLANK_IDS.join("、")}。</li>
+        </ol>
+      </div>`, { section: "intro", label: "导学" });
+
+    add(`<div class="tag">题型策略</div>
+      <h2 class="slide-h2">完成图表 · 三步定位</h2>
+      <div class="card"><h3>1. 读图表</h3><p>弄清层级：总述句 → 并列分支 → 细目列举。</p></div>
+      <div class="card"><h3>2. 找锚点</h3><p>用图表已有信息（专有名词、数字、并列结构）回原文定位段落。</p></div>
+      <div class="card"><h3>3. 写词形</h3><p>答案多为原文词句的<strong>压缩/同义替换</strong>；注意首字母大小写与固定搭配。</p></div>`, { section: "intro", label: "策略" });
+
+    buildReadingSlides();
+
+    add(`<div class="tag">图表导读</div>
+      <h2 class="slide-h2">完成图表（编号提示）</h2>
+      <div class="chart-box">${renderChart(CHART_RAW, "study")}</div>
+      <p class="mono">空号：${BLANK_IDS.join(" / ")}</p>`, { section: "chart", label: "图表" });
+
+    add(`<div class="tag">证据链 · 空 76</div>
+      <h2 class="slide-h2">developed from experience to ___</h2>
+      <div class="sense"><strong>定位线索：</strong>${escapeHtml(EVIDENCE[76])}</div>
+      <div class="card"><h3>推荐答案</h3><p class="mono">${escapeHtml(PRACTICE_ANS[76])}</p></div>`, { section: "evidence", label: "证据·76" });
+    add(`<div class="tag">证据链 · 空 77</div>
+      <h2 class="slide-h2">24 festivals guided people in ___</h2>
+      <div class="sense"><strong>定位线索：</strong>${escapeHtml(EVIDENCE[77])}</div>
+      <div class="card"><h3>推荐答案</h3><p class="mono">${escapeHtml(PRACTICE_ANS[77])}</p></div>`, { section: "evidence", label: "证据·77" });
+    add(`<div class="tag">证据链 · 空 78</div>
+      <h2 class="slide-h2">They were ___ scientific（部分有依据）</h2>
+      <div class="sense"><strong>定位线索：</strong>${escapeHtml(EVIDENCE[78])}</div>
+      <div class="card"><h3>推荐答案</h3><p class="mono">${escapeHtml(PRACTICE_ANS[78])}</p></div>`, { section: "evidence", label: "证据·78" });
+    add(`<div class="tag">证据链 · 空 79</div>
+      <h2 class="slide-h2">marked the ___ of modern science</h2>
+      <div class="sense"><strong>定位线索：</strong>${escapeHtml(EVIDENCE[79])}</div>
+      <div class="card"><h3>推荐答案</h3><p class="mono">${escapeHtml(PRACTICE_ANS[79])}</p></div>`, { section: "evidence", label: "证据·79" });
+    add(`<div class="tag">证据链 · 空 80</div>
+      <h2 class="slide-h2">collect and ___ worldwide data</h2>
+      <div class="sense"><strong>定位线索：</strong>${escapeHtml(EVIDENCE[80])}</div>
+      <div class="card"><h3>推荐答案</h3><p class="mono">${escapeHtml(PRACTICE_ANS[80])}</p></div>`, { section: "evidence", label: "证据·80" });
+
+    add(`<div class="tag">半独立</div>
+      <h2 class="slide-h2 slide-h2-sm">图表填空 · 口头作答</h2>
+      <div class="chart-box">${renderChart(CHART_RAW, "study")}</div>`, { section: "practice", label: "半独立" });
+
+    add(`<div class="tag">独立作答</div>
+      <h2 class="slide-h2">独立作答（答案隐藏）</h2>
+      
+      <div class="chart-box">${renderChart(CHART_RAW, "practice")}</div>
+      <div class="row-audio"><button type="button" class="nav" id="checkPracticeBtn">一键核对</button></div>
+      <p id="practiceScore" class="score">先独立填写，再点击核对。</p>`, { section: "practice", label: "独立作答" });
+
+    add(`<div class="tag">答案</div>
+      <h2 class="slide-h2">答案复盘</h2>
+      <div class="chart-box">${renderChart(CHART_RAW, "key")}</div>
+      <div class="card"><h3>快速核对</h3><p class="mono">76 science · 77 farming · 78 partly · 79 beginning · 80 process</p></div>`, { section: "practice", label: "答案" });
+
+    let idx = 0;
+    function fillNav() {
+      const scroll = document.getElementById("courseNavScroll");
+      scroll.innerHTML = navSections.map((s) =>
+        `<button type="button" class="nav-section-link" data-slide-index="${s.index}">${escapeHtml(s.label)}</button>`
+      ).join("");
+      scroll.querySelectorAll(".nav-section-link").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          idx = Number(btn.getAttribute("data-slide-index"));
+          render();
+        });
+      });
+    }
+    function syncNav() {
+      document.querySelectorAll(".nav-section-link").forEach((btn) => {
+        const i = Number(btn.getAttribute("data-slide-index"));
+        const pos = navSections.findIndex((s) => s.index === i);
+        const next = pos < navSections.length - 1 ? navSections[pos + 1].index : slides.length;
+        btn.classList.toggle("is-active", idx >= i && idx < next);
+      });
+    }
+    function render() {
+      const root = document.getElementById("slideRoot");
+      root.innerHTML = slides[idx].html;
+      const slideBody = document.querySelector(".slide-body");
+      if (slideBody) slideBody.classList.toggle("is-reading-slide", !!root.querySelector(".reading-slide-wrap"));
+      document.getElementById("progress").textContent = `Slide ${idx + 1} / ${slides.length}`;
+      document.getElementById("prevBtn").disabled = idx === 0;
+      document.getElementById("nextBtn").disabled = idx === slides.length - 1;
+      if (root.querySelector(".reading-para-stage")) bindReadingSlide(root);
+      document.querySelectorAll("#checkPracticeBtn").forEach((btn) => {
+        btn.onclick = () => {
+          let ok = 0, total = 0;
+          document.querySelectorAll(".practice-input").forEach((inp) => {
+            const n = Number(inp.getAttribute("data-num"));
+            total++;
+            if (matchBlank(n, inp.value)) { ok++; inp.style.borderBottomColor = "var(--ok)"; }
+            else inp.style.borderBottomColor = "var(--bad)";
+          });
+          const el = document.getElementById("practiceScore");
+          if (el) {
+            let msg = `得分：<strong>${ok}</strong> / ${total}`;
+            if (WORD_LIMIT) msg += ` · 每空≤${WORD_LIMIT}词`;
+            el.innerHTML = msg;
+          }
+        };
+      });
+      syncNav();
+    }
+    fillNav();
+    document.getElementById("navToggle").addEventListener("click", () => {
+      document.getElementById("courseNav").classList.toggle("is-collapsed");
+    });
+    document.getElementById("prevBtn").addEventListener("click", () => { idx = Math.max(0, idx-1); render(); });
+    document.getElementById("nextBtn").addEventListener("click", () => { idx = Math.min(slides.length-1, idx+1); render(); });
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight") document.getElementById("nextBtn").click();
+      if (e.key === "ArrowLeft") document.getElementById("prevBtn").click();
+    });
+    document.getElementById("lookupClose")?.addEventListener("click", closeLookupPanel);
+    document.getElementById("lookupBackdrop")?.addEventListener("click", closeLookupPanel);
+    refreshTtsBadge();
+    render();
+
+  </script>
+</body>
+</html>

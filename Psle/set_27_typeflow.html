@@ -720,6 +720,11 @@
       border-top: none;
       padding-top: 0;
     }
+    /* 完形填空 A/B 篇等同题型多段：PDF 每段新页 */
+    .exam-cloze-pdf-unit + .exam-cloze-pdf-unit {
+      break-before: page;
+      page-break-before: always;
+    }
     .exam-big-title {
       font-family: "SimHei", "SimSun", "Songti SC", serif;
       font-size: 12pt;
@@ -1153,6 +1158,10 @@
         break-before: page !important;
         page-break-before: always !important;
       }
+      .exam-cloze-pdf-unit + .exam-cloze-pdf-unit {
+        break-before: page !important;
+        page-break-before: always !important;
+      }
       .exam-passage-titled-wrap {
         break-inside: avoid !important;
         page-break-inside: avoid !important;
@@ -1309,10 +1318,73 @@
     return t === "fill_blank" || t === "fill_blank_be" || t === "fill_blank_word_form";
   }
 
-  /** 卷面/PDF 题干：语音题与词汇填空类允许 &lt;u&gt; 画线词 */
+  /** 卷面/PDF 题干：语音题、词汇填空、或题干含 &lt;u&gt; 画线词 */
+  function stemHasUnderlineMarkup(stem) {
+    return /<\s*u\s*>/i.test(String(stem || ""));
+  }
+
   function examStemAllowsUnderline(row) {
     const typ = row && row.type;
+    const stem = row && row.it && row.it.stem;
+    if (stemHasUnderlineMarkup(stem)) return true;
     return typ === "phonetics" || isFillBlankQuizType(typ);
+  }
+
+  function stemRenderOptsForRow(row, quizType) {
+    const o = { placeholderParen: true };
+    if (quizType === "phonetics" || stemHasUnderlineMarkup(row.it && row.it.stem)) {
+      o.allowUnderline = true;
+    }
+    return o;
+  }
+
+  /** 大题说明 A. / B. 分项（如 set_27 选择填空 1–4 / 5–15） */
+  function parseLetteredSubDirections(sectionInstruction) {
+    const raw = String(sectionInstruction || "").trim();
+    if (!raw) return [];
+    const out = [];
+    raw.split(/\n/).forEach((line) => {
+      const t = line.trim();
+      if (!t) return;
+      const m = /^([A-Z])[\.．、]\s*(.+)$/.exec(t);
+      if (m) {
+        out.push({ letter: m[1], text: m[2].trim(), full: t });
+      }
+    });
+    return out;
+  }
+
+  function sectionInstructionLeadingHint(sectionInstruction) {
+    const first = String(sectionInstruction || "").trim().split(/\n/)[0] || "";
+    const t = first.trim();
+    if (!t || /^[A-Z][\.．、]/.test(t)) return "";
+    return t;
+  }
+
+  function subDirectionTextForQuestion(subs, num) {
+    const n = parseInt(String(num || ""), 10);
+    if (isNaN(n) || !subs || !subs.length) return "";
+    for (let i = 0; i < subs.length; i++) {
+      const sub = subs[i];
+      const m = /第(\d+)[—\-~～](\d+)题/.exec(sub.text || sub.full || "");
+      if (m) {
+        const a = parseInt(m[1], 10);
+        const b = parseInt(m[2], 10);
+        if (n >= a && n <= b) return sub.full;
+      }
+    }
+    return "";
+  }
+
+  function htmlQuizDirectionCard(text) {
+    const t = String(text || "").trim();
+    if (!t) return "";
+    return (
+      "<div class='card' style='margin-bottom:1rem;padding:0.75rem 1rem'>" +
+      "<p class='muted' style='margin:0;line-height:1.55;font-weight:600;color:var(--accent)'>" +
+      esc(t).replace(/\n/g, "<br>") +
+      "</p></div>"
+    );
   }
 
   function isClozeLikeQuizType(t) {
@@ -3254,21 +3326,34 @@
         });
       });
     } else {
+      const letteredSubs =
+        quizType === "choice" ? parseLetteredSubDirections(String(rows[0].section_instruction || "")) : [];
+      const leadHint =
+        quizType === "choice" ? sectionInstructionLeadingHint(rows[0].section_instruction) : "";
+      if (leadHint) {
+        html += htmlQuizDirectionCard(leadHint);
+      }
       if (quizType === "phonetics" && rows.length) {
         const insPh = String(rows[0].section_instruction || "").trim();
-        if (insPh) {
+        if (insPh && !leadHint) {
           html +=
             "<div class='card' style='margin-bottom:1rem;padding:0.75rem 1rem'><p class='muted' style='margin:0;line-height:1.55'>" +
             esc(insPh).replace(/\n/g, "<br>") +
             "</p></div>";
         }
       }
-      const stemOptBase =
-        quizType === "phonetics" ? { allowUnderline: true, placeholderParen: true } : { placeholderParen: true };
+      let lastSubDir = "";
       rows.forEach((row) => {
         const it = row.it;
         const qkey = row.key;
         const num = String(it.number);
+        if (quizType === "choice") {
+          const subDir = subDirectionTextForQuestion(letteredSubs, num);
+          if (subDir && subDir !== lastSubDir) {
+            html += htmlQuizDirectionCard(subDir);
+            lastSubDir = subDir;
+          }
+        }
         html +=
           "<div class='card q-block" +
           (quizType === "reading" ? " reading-q-card" : "") +
@@ -3285,8 +3370,9 @@
         const layoutG = getObjectiveChoiceLayout(row, it);
         const lettersG = layoutG.letters;
         const optsG = layoutG.opts;
+        const stemOpts = stemRenderOptsForRow(row, quizType);
         if (lettersG.length) {
-          html += renderStemHtml(it.stem, qkey, stemOptBase);
+          html += renderStemHtml(it.stem, qkey, stemOpts);
           html += "<div class='" + quizOptsGridClass(lettersG, optsG) + "'>";
           html += htmlQuizRadioOptions(lettersG, optsG, qkey);
           html += "</div>";
@@ -3585,22 +3671,24 @@
       let out = "";
       groupFillBlankBySectionInstruction(rows).forEach((g) => {
         if (isClozeDialogueCompletionSection(g.rows[0]) && !String(g.instruction || "").trim()) return;
+        let unit = "";
         const gTitle = String(g.rows[0].section_title || "").trim() || typeLabel(qt);
-        out += "<h2 class='exam-big-title'>" + esc(gTitle) + "</h2>";
+        unit += "<h2 class='exam-big-title'>" + esc(gTitle) + "</h2>";
         if (isClozeInlineFillSectionGroup(g)) {
-          out += buildClozeInlineFillPdfBlockHtml(g.instruction, g.rows, gTitle);
+          unit += buildClozeInlineFillPdfBlockHtml(g.instruction, g.rows, gTitle);
+          out += "<div class='exam-cloze-pdf-unit'>" + unit + "</div>";
           return;
         }
         const ins = g.instruction.trim();
         if (ins) {
           const sp = splitSectionHintAndBody(ins);
           const mainText = sp.body || ins;
-          out += "<div class='exam-passage-titled-wrap'>";
+          unit += "<div class='exam-passage-titled-wrap'>";
           if (sp.hint) {
-            out += "<p class='exam-direction'>" + esc(sp.hint).replace(/\n/g, "<br>") + "</p>";
+            unit += "<p class='exam-direction'>" + esc(sp.hint).replace(/\n/g, "<br>") + "</p>";
           }
-          out += "<div class='exam-passage-block'>" + formatPassageParagraphsExam(mainText) + "</div>";
-          out += "</div>";
+          unit += "<div class='exam-passage-block'>" + formatPassageParagraphsExam(mainText) + "</div>";
+          unit += "</div>";
         }
         const allPassageAbcd =
           g.rows.length > 0 &&
@@ -3613,7 +3701,7 @@
             );
           });
         if (allPassageAbcd) {
-          out += buildExamPaperClozePdfGrid(g.rows);
+          unit += buildExamPaperClozePdfGrid(g.rows);
         } else {
           g.rows.forEach((row) => {
             const it = row.it;
@@ -3623,32 +3711,33 @@
             const optsZ = layoutZ.opts;
             const diaGapZ = isClozeDialoguePlaceholderStem(it.stem);
             const abcdOnlyZ = isPassageClozeAbcdLayout(row, it);
-            out +=
+            unit +=
               "<div class='exam-item exam-item-cloze" +
               (diaGapZ && lettersZ.length ? " exam-cloze-dialogue-gap" : "") +
               "'>";
             if (lettersZ.length) {
               if (diaGapZ) {
-                out += "<span class='exam-dialogue-gap-num'>" + esc(num) + ".</span>";
-                out += buildExamPaperOptionsHtmlWithLayout(lettersZ, optsZ);
+                unit += "<span class='exam-dialogue-gap-num'>" + esc(num) + ".</span>";
+                unit += buildExamPaperOptionsHtmlWithLayout(lettersZ, optsZ);
               } else if (abcdOnlyZ) {
-                out += buildExamPaperClozePdfGrid([row]);
+                unit += buildExamPaperClozePdfGrid([row]);
               } else {
-                out += "<div class='exam-item-row'><span class='exam-n'>" + esc(num) + ".</span>";
-                out += "<span class='exam-paren'>（&nbsp;&nbsp;&nbsp;&nbsp;）</span>";
+                unit += "<div class='exam-item-row'><span class='exam-n'>" + esc(num) + ".</span>";
+                unit += "<span class='exam-paren'>（&nbsp;&nbsp;&nbsp;&nbsp;）</span>";
                 if (String(it.stem || "").trim()) {
-                  out += buildExamPaperStemPlain(it.stem);
+                  unit += buildExamPaperStemPlain(it.stem);
                 }
-                out += "</div>";
-                out += buildExamPaperOptionsHtmlWithLayout(lettersZ, optsZ);
+                unit += "</div>";
+                unit += buildExamPaperOptionsHtmlWithLayout(lettersZ, optsZ);
               }
             } else {
-              out += "<div class='exam-item-row'><span class='exam-n'>" + esc(num) + ".</span> ";
-              out += buildExamPaperStemPlain(it.stem || "_____") + "</div>";
+              unit += "<div class='exam-item-row'><span class='exam-n'>" + esc(num) + ".</span> ";
+              unit += buildExamPaperStemPlain(it.stem || "_____") + "</div>";
             }
-            out += "</div>";
+            unit += "</div>";
           });
         }
+        out += "<div class='exam-cloze-pdf-unit'>" + unit + "</div>";
       });
       return out;
     }
@@ -3661,6 +3750,12 @@
       const insPh0 = String(rows[0].section_instruction || "").trim();
       if (insPh0) {
         h += "<p class='exam-direction'>" + esc(insPh0).replace(/\n/g, "<br>") + "</p>";
+      }
+    }
+    if (qt === "choice" && rows.length) {
+      const leadHint = sectionInstructionLeadingHint(rows[0].section_instruction);
+      if (leadHint) {
+        h += "<p class='exam-direction'>" + esc(leadHint).replace(/\n/g, "<br>") + "</p>";
       }
     }
 
@@ -3760,8 +3855,19 @@
       return h;
     }
 
+    const letteredSubsPdf =
+      qt === "choice" ? parseLetteredSubDirections(String(rows[0].section_instruction || "")) : [];
+    let lastSubDirPdf = "";
     rows.forEach((row) => {
       const it = row.it;
+      const num = String(it.number);
+      if (qt === "choice") {
+        const subDir = subDirectionTextForQuestion(letteredSubsPdf, num);
+        if (subDir && subDir !== lastSubDirPdf) {
+          h += "<p class='exam-direction exam-sub-direction'>" + esc(subDir).replace(/\n/g, "<br>") + "</p>";
+          lastSubDirPdf = subDir;
+        }
+      }
       if (qt === "reading" && (it.context_note || "").trim()) {
         h +=
           "<div class='exam-passage-block exam-passage-inline'>" +
@@ -4249,7 +4355,7 @@
           : "");
     } else {
       const stemLearnInner =
-        t === "phonetics" || isFillBlankQuizType(t)
+        t === "phonetics" || isFillBlankQuizType(t) || stemHasUnderlineMarkup(it.stem)
           ? stemHtmlWithAllowedUnderline(it.stem || "")
           : t === "writing" && writingStemHasPipeTable(it.stem)
             ? writingPromptToHtml(it.stem)
