@@ -1907,10 +1907,11 @@
     if (!stem) {
       return "<p class='stem'><span class='blank-line'><input type='text' data-k='" + esc(qkey) + "' data-bi='0' autocomplete='off' /></span></p>";
     }
-    if (/_{3,}/.test(stem)) return renderStemHtml(stem, qkey);
+    if (/_{3,}/.test(stem)) return renderStemHtml(stem, qkey, { allowUnderline: true });
+    const body = /<\s*u\s*>/i.test(stem) ? stemHtmlWithAllowedUnderline(stem) : esc(stem).replace(/\n/g, "<br>");
     return (
       "<p class='stem'>" +
-      esc(stem).replace(/\n/g, "<br>") +
+      body +
       " <span class='blank-line'><input type='text' data-k='" +
       esc(qkey) +
       "' data-bi='0' autocomplete='off' placeholder='作答' /></span></p>"
@@ -1936,10 +1937,12 @@
 
     if (/_{3,}/.test(stemStr)) {
       const chunks = stemStr.split(/_{3,}/);
+      const seg = (chunk) =>
+        /<\s*u\s*>/i.test(chunk) ? stemHtmlWithAllowedUnderline(chunk) : esc(chunk).replace(/\n/g, "<br>");
       let h = "<div class='stem tf-filled-stem' style='margin-bottom:0.75rem'>";
       const n = chunks.length - 1;
       for (let i = 0; i < chunks.length; i++) {
-        h += esc(chunks[i]).replace(/\n/g, "<br>");
+        h += seg(chunks[i]);
         if (i < n) {
           const w = i < parts.length ? parts[i] : "";
           h += spanAns(w);
@@ -1953,9 +1956,10 @@
       String(ca || "").trim() ||
       (parts.length ? parts.filter(Boolean).join(" | ") : "") ||
       blankPh;
+    const body = /<\s*u\s*>/i.test(stemStr) ? stemHtmlWithAllowedUnderline(stemStr) : esc(stemStr).replace(/\n/g, "<br>");
     return (
       "<div class='stem tf-filled-stem' style='margin-bottom:0.75rem'>" +
-      esc(stemStr).replace(/\n/g, "<br>") +
+      body +
       " " +
       spanAns(tail) +
       "</div>"
@@ -2342,7 +2346,8 @@
 
   function buildExamPaperStemPlain(stem, allowUnderline) {
     const s = String(stem || "");
-    if (allowUnderline) {
+    const allow = allowUnderline || /<\s*u\s*>/i.test(s);
+    if (allow) {
       return stemHtmlWithAllowedUnderline(s).replace(/_{3,}/g, "<span class='exam-blank'>&nbsp;</span>");
     }
     return esc(s)
