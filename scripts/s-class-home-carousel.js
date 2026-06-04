@@ -188,9 +188,7 @@
     var pillarGrid = document.querySelector(".pillar-grid");
     if (pillarGrid) buildCarousel(pillarGrid, ".pillar-card");
 
-    document.querySelectorAll(".showcase-modules").forEach(function (el) {
-      buildCarousel(el, ".showcase-module");
-    });
+    /* 学段模块改为静态网格，仅教学方法区轮播 */
   }
 
   if (document.readyState === "loading") {
