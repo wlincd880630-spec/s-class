@@ -61,21 +61,24 @@
         <div class="inner">
             <a class="brand" href="#">S-<span>Class</span></a>
             <nav class="nav-menu">
-                <a href="#">首页</a>
-                <a href="#stage-primary">小学</a>
-                <a href="#stage-junior">初中</a>
-                <a href="#stage-senior">高中</a>
-                <a href="#stage-abroad">留学</a>
-                <a href="#stage-extra">拓展</a>
+                <a href="#" id="nav-home" onclick="exitLearningMode(); return false;">首页</a>
+                <a href="#stage-primary" onclick="enterLearningMode('stage-primary'); return false;">小学</a>
+                <a href="#stage-junior" onclick="enterLearningMode('stage-junior'); return false;">初中</a>
+                <a href="#stage-senior" onclick="enterLearningMode('stage-senior'); return false;">高中</a>
+                <a href="#stage-abroad" onclick="enterLearningMode('stage-abroad'); return false;">留学</a>
+                <a href="#stage-extra" onclick="enterLearningMode('stage-extra'); return false;">拓展</a>
                 <a href="#contact">联系</a>
             </nav>
             <div class="nav-right">
                 <span id="welcome-name" class="welcome-name"></span>
                 <a href="#" id="btn-logout" class="welcome-logout" style="display:none;">退出</a>
-                <button type="button" class="btn-nav" onclick="document.getElementById('learning-hub').scrollIntoView({behavior:'smooth'})">进入学习</button>
+                <button type="button" class="btn-nav" id="btn-enter-learning" onclick="enterLearningMode()">进入学习</button>
+                <button type="button" class="btn-nav btn-nav-ghost" id="btn-back-home" style="display:none;" onclick="exitLearningMode()">返回首页</button>
             </div>
         </div>
     </header>
+
+    <div id="home-view">
 
     <section class="hero">
         <div class="hero-bg" aria-hidden="true"></div>
@@ -86,11 +89,11 @@
                 <h1>按学段系统化整理的<br><em>K12 英语学习与备考</em>资源库</h1>
                 <p class="lead">覆盖小学语音与 PET、初中中考与语法、高中高考，以及 IELTS / AEIS 留学备考——课件、练习与真题，一站直达。</p>
                 <div class="hero-actions">
-                    <button type="button" class="btn-hero-primary" onclick="document.getElementById('learning-hub').scrollIntoView({behavior:'smooth'})">
+                    <button type="button" class="btn-hero-primary" onclick="enterLearningMode()">
                         开始学习 <i class="fas fa-arrow-right"></i>
                     </button>
-                    <a class="btn-hero-ghost" href="#stage-primary">
-                        查看课程体系 <i class="fas fa-chevron-down"></i>
+                    <a class="btn-hero-ghost" href="#courses-showcase" onclick="return !document.documentElement.classList.contains('learning-mode');">
+                        查看课程特色 <i class="fas fa-chevron-down"></i>
                     </a>
                 </div>
                 <ul class="hero-features">
@@ -139,8 +142,318 @@
         </div>
     </section>
 
-    <section class="catalog" id="learning-hub">
+    <section class="stage-showcase" id="courses-showcase">
         <div class="wrap">
+            <header class="showcase-head">
+                <span class="section-tag">课程体系</span>
+                <h2>各学段 · 各模块特色一览</h2>
+                <p>以下为 S-Class 全站资源的完整概览：涵盖学习定位、内容结构、题型特色与适用场景。点击「进入学习」后可展开全部课件链接。</p>
+            </header>
+
+            <article class="showcase-stage showcase-primary" id="showcase-primary">
+                <header class="showcase-stage-head">
+                    <div class="showcase-stage-badge"><i class="fas fa-seedling"></i></div>
+                    <div>
+                        <h3>小学阶段</h3>
+                        <p>约 6–12 岁 · 从语音解码到剑桥 PET · 升学测评与原版阅读</p>
+                    </div>
+                    <button type="button" class="showcase-stage-btn" onclick="enterLearningMode('stage-primary')">进入该学段 <i class="fas fa-arrow-right"></i></button>
+                </header>
+                <p class="showcase-stage-intro">小学阶段覆盖「能读 → 会考 → 能测」完整链条：先建立音节与拼读基础，再进入 PET 备考与升学测评，同时辅以 National Geographic 原版阅读拓展语料与视野。</p>
+                <div class="showcase-modules">
+
+                    <div class="showcase-module featured">
+                        <div class="module-icon teal"><i class="fas fa-microphone"></i></div>
+                        <h4>语音基础 · The Magic of Syllables</h4>
+                        <p class="module-desc">系统化互动课件，按音节类型循序渐进，帮助学生建立「见词能读、听音能写」的解码能力。每课均配有 Azure 语音支持的课后作业。</p>
+                        <ul class="module-highlights">
+                            <li><strong>01 闭音节</strong> Closed Syllables — 短元音、辅音结尾的稳定音节结构</li>
+                            <li><strong>02 开音节</strong> Open Syllables — 元音结尾、长元音发音规律</li>
+                            <li><strong>03 Magic E / Silent E</strong> — 魔法 E 改变元音发音（CVCe 结构）</li>
+                            <li><strong>04 Consonant + LE</strong> — 词尾稳定音节：-ble / -tle / -dle 等</li>
+                            <li><strong>05 R-controlled · Bossy R</strong> — ar / or / ir / ur / er 等 Bossy R 规则</li>
+                        </ul>
+                        <div class="module-meta">
+                            <span>5 主题课件</span>
+                            <span>3 套配套作业</span>
+                            <span>Azure 语音 · 一题一页</span>
+                        </div>
+                    </div>
+
+                    <div class="showcase-module featured">
+                        <div class="module-icon blue"><i class="fas fa-file-contract"></i></div>
+                        <h4>Cambridge English Preliminary Test</h4>
+                        <p class="module-desc">剑桥英语 Preliminary（PET）官方备考入口，定位 Cambridge English Scale B1–B2「Independent User」独立运用阶段，衔接小学高年级至初中低年级英语能力。</p>
+                        <ul class="module-highlights">
+                            <li>完整模考平台入口：Reading · Listening · Writing · Speaking</li>
+                            <li>剑桥评分体系说明与能力对标（CEFR B1–B2）</li>
+                            <li>与下方 PET Practice 单元练习形成「模考 + 精练」组合</li>
+                        </ul>
+                        <div class="module-meta">
+                            <span>模考中心</span>
+                            <span>B1–B2 水平</span>
+                            <span>剑桥官方体系</span>
+                        </div>
+                    </div>
+
+                    <div class="showcase-module featured">
+                        <div class="module-icon sky"><i class="fas fa-file-signature"></i></div>
+                        <h4>PET Practice · 单元精练</h4>
+                        <p class="module-desc">按 Unit 1–18 组织的剑桥 PET 配套练习，每个单元包含核心课文、Passage 阅读与 Summary 写作三类任务，适合课后巩固与考前冲刺。</p>
+                        <ul class="module-highlights">
+                            <li><strong>核心课文</strong> 如 Daily Life（蹦床公园与家庭出行）、Technology 等主题阅读</li>
+                            <li><strong>Passage</strong> 篇章阅读训练 — 信息提取与细节理解</li>
+                            <li><strong>Summary</strong> 摘要写作训练 — 概括能力与书面表达</li>
+                            <li>18 个单元完整覆盖，可按 Unit 逐周推进</li>
+                        </ul>
+                        <div class="module-meta">
+                            <span>18 Units</span>
+                            <span>Passage + Summary</span>
+                            <span>Cambridge Exam Prep</span>
+                        </div>
+                    </div>
+
+                    <div class="showcase-module">
+                        <div class="module-icon green"><i class="fas fa-clipboard-check"></i></div>
+                        <h4>小学升学测试英语真题</h4>
+                        <p class="module-desc">面向小学升学场景的英语测评真题（PSLE 类型），采用 Typeflow 互动流程，多批次试卷经人工校对标注。</p>
+                        <ul class="module-highlights">
+                            <li>真题试卷 <strong>第一套 — 第二十四套</strong>，共 24 套完整练习</li>
+                            <li>前十套含「校对」标注，题目与解析已审核</li>
+                            <li>适合小升初、国际校入学及阶段性能力测评</li>
+                        </ul>
+                        <div class="module-meta"><span>24 套试卷</span><span>校对标注</span></div>
+                    </div>
+
+                    <div class="showcase-module featured">
+                        <div class="module-icon gold"><i class="fas fa-globe-asia"></i></div>
+                        <h4>National Geographic · Pathway Foundations</h4>
+                        <p class="module-desc">National Geographic Learning 原版教材配套资源，以真实语料、跨学科主题与多媒体互动拓展阅读宽度。</p>
+                        <ul class="module-highlights">
+                            <li><strong>Unit 2 · Professions</strong> — 词汇复习（Vocabulary Review + 音频）、Fitz Cahall 人物访谈分析</li>
+                            <li><strong>Unit 3 · Adventure</strong> — 含 Hook/Be hooked on 习语、Mille-/Milli- 词缀、世界地图地理 Lab、Micro-/Macro- 词汇、Microadventures 视频分析、伦敦戏剧阅读等 <strong>12+ 子课</strong></li>
+                            <li>AI 发音检测词汇表、Speaking Lab 角色扮演、Reading Lab 深度阅读</li>
+                        </ul>
+                        <div class="module-meta">
+                            <span>Pathway Foundations</span>
+                            <span>Unit 2–3 已开放</span>
+                            <span>原版 · 跨学科</span>
+                        </div>
+                    </div>
+
+                </div>
+            </article>
+
+            <article class="showcase-stage showcase-junior" id="showcase-junior">
+                <header class="showcase-stage-head">
+                    <div class="showcase-stage-badge"><i class="fas fa-book-open"></i></div>
+                    <div>
+                        <h3>初中阶段</h3>
+                        <p>约 12–15 岁 · 成都中考真题 · 人教版词汇 · 系统语法</p>
+                    </div>
+                    <button type="button" class="showcase-stage-btn" onclick="enterLearningMode('stage-junior')">进入该学段 <i class="fas fa-arrow-right"></i></button>
+                </header>
+                <p class="showcase-stage-intro">初中阶段以「中考实战」为核心：真题试卷 + 高频专项（词形填空、完成图表）双轨并进，辅以教材词汇同步与 L00–L13 语法精讲体系，覆盖成都中考全题型。</p>
+                <div class="showcase-modules">
+
+                    <div class="showcase-module featured">
+                        <div class="module-icon orange"><i class="fas fa-file-lines"></i></div>
+                        <h4>成都中考真题 · 2018–2025</h4>
+                        <p class="module-desc">收录 2018 至 2025 年成都中考英语真题试卷，另含两大高频专项课件，均支持互动练习与 Handout 讲义入口。</p>
+                        <ul class="module-highlights">
+                            <li><strong>真题试卷</strong> 2018 / 2019 / 2020 / 2021 / 2022 / 2023 / 2024 / 2025 共 8 年完整真题</li>
+                            <li><strong>词形填空 · 选词填空</strong> 套题 01–53，共 53 套互动练习 + Handout</li>
+                            <li><strong>完成图表 · 阅读专项</strong> 2019–2025 真题图表题 + 新课型课件 + Handout</li>
+                            <li>直击成都中考 A 卷 B 卷核心题型，适合初三冲刺与初二提前练</li>
+                        </ul>
+                        <div class="module-meta">
+                            <span>8 年真题</span>
+                            <span>词形填空 53 套</span>
+                            <span>完成图表专项</span>
+                        </div>
+                    </div>
+
+                    <div class="showcase-module featured">
+                        <div class="module-icon blue"><i class="fas fa-spell-check"></i></div>
+                        <h4>初中教材词汇 · 人教版</h4>
+                        <p class="module-desc">按人教版初中英语教材分册、分 Unit 组织的词汇互动练习，与课堂进度同步，支持自主复习与课前预习。</p>
+                        <ul class="module-highlights">
+                            <li><strong>七年级下册</strong> Unit 1–8 词汇练习（已开放）</li>
+                            <li><strong>八年级下册</strong> Unit 1–8 词汇练习（已开放）</li>
+                            <li><strong>九年级全册</strong> Unit 8–14 词汇练习（已开放）</li>
+                            <li>七年级上、八年级上册敬请期待</li>
+                        </ul>
+                        <div class="module-meta">
+                            <span>G7–G9 人教版</span>
+                            <span>24 个 Unit 已上线</span>
+                        </div>
+                    </div>
+
+                    <div class="showcase-module featured">
+                        <div class="module-icon teal"><i class="fas fa-puzzle-piece"></i></div>
+                        <h4>Grammar · 语法精讲 L00–L13</h4>
+                        <p class="module-desc">全互动语法课程，每课含多页课件、练习与 Handout 讲义，从句型基础到从句进阶，覆盖初中至高中衔接核心语法点。</p>
+                        <ul class="module-highlights">
+                            <li><strong>L00</strong> 主谓宾与非谓语 · 主系表与非谓语（句型基础）</li>
+                            <li><strong>L01–L04</strong> 一般现在时 · 现在进行时 · 一般过去时 · 代词与介词</li>
+                            <li><strong>L06–L10</strong> 情态动词 · 比较级最高级 · 一般将来时 · 过去进行时 · 现在完成时</li>
+                            <li><strong>L11–L13</strong> 状语从句 · 宾语从句 · 过去完成时 · 定语从句</li>
+                        </ul>
+                        <div class="module-meta">
+                            <span>15 主题课</span>
+                            <span>互动课件 + Handout</span>
+                            <span>中考至高考衔接</span>
+                        </div>
+                    </div>
+
+                </div>
+            </article>
+
+            <article class="showcase-stage showcase-senior" id="showcase-senior">
+                <header class="showcase-stage-head">
+                    <div class="showcase-stage-badge"><i class="fas fa-graduation-cap"></i></div>
+                    <div>
+                        <h3>高中阶段</h3>
+                        <p>约 15–18 岁 · 高考英语系统备考</p>
+                    </div>
+                    <button type="button" class="showcase-stage-btn" onclick="enterLearningMode('stage-senior')">进入该学段 <i class="fas fa-arrow-right"></i></button>
+                </header>
+                <p class="showcase-stage-intro">高中阶段聚焦高考英语（Gaokao），提供一体化备考平台，覆盖听力、阅读、语法填空、完形、写作等全题型训练与模拟。</p>
+                <div class="showcase-modules">
+                    <div class="showcase-module featured">
+                        <div class="module-icon purple"><i class="fas fa-university"></i></div>
+                        <h4>College Entrance Exam · 高考英语</h4>
+                        <p class="module-desc">高考英语备考平台（CEE Web），面向高三冲刺与高一高二能力构建，整合真题、专项与模拟练习。</p>
+                        <ul class="module-highlights">
+                            <li>Gaokao English 全题型备考入口</li>
+                            <li>真题训练与限时模拟，贴近高考节奏</li>
+                            <li>词形填空、完形填空、阅读理解等专项突破</li>
+                            <li>适合系统复习与考前刷题两种学习模式</li>
+                        </ul>
+                        <div class="module-meta">
+                            <span>CEE 备考平台</span>
+                            <span>全题型覆盖</span>
+                            <span>真题 + 模拟</span>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <article class="showcase-stage showcase-abroad" id="showcase-abroad">
+                <header class="showcase-stage-head">
+                    <div class="showcase-stage-badge"><i class="fas fa-globe-americas"></i></div>
+                    <div>
+                        <h3>留学备考</h3>
+                        <p>IELTS 雅思 · AEIS 新加坡政府学校入学</p>
+                    </div>
+                    <button type="button" class="showcase-stage-btn" onclick="enterLearningMode('stage-abroad')">进入该学段 <i class="fas fa-arrow-right"></i></button>
+                </header>
+                <p class="showcase-stage-intro">留学备考模块面向有出国规划的学生：IELTS 覆盖雅思 Band 1–9 全流程；AEIS 专注新加坡政府学校入学考试的词汇、语法、完形与阅读四大板块。</p>
+                <div class="showcase-modules">
+
+                    <div class="showcase-module featured">
+                        <div class="module-icon coral"><i class="fas fa-headphones"></i></div>
+                        <h4>IELTS · 雅思考试</h4>
+                        <p class="module-desc">International English Language Testing System 全流程备考，对标 CEFR A1–C2，适合高中至大学阶段留学申请。</p>
+                        <ul class="module-highlights">
+                            <li>Listening · Reading · Writing · Speaking 四科完整训练</li>
+                            <li>Band 1–9 评分体系与 CEFR 能力等级对照</li>
+                            <li>模考练习与专项突破，适配 A 类 / G 类备考需求</li>
+                        </ul>
+                        <div class="module-meta">
+                            <span>Band 1–9</span>
+                            <span>听说读写</span>
+                            <span>留学申请</span>
+                        </div>
+                    </div>
+
+                    <div class="showcase-module featured">
+                        <div class="module-icon teal"><i class="fas fa-landmark"></i></div>
+                        <h4>AEIS · 新加坡政府学校入学</h4>
+                        <p class="module-desc">Admissions Exercise for International Students，面向希望进入新加坡政府中小学的国际学生，分四大专项模块训练。</p>
+                        <ul class="module-highlights">
+                            <li><strong>Vocabulary</strong> Word Power — Practice 01 起共 20+ 套核心词汇练习</li>
+                            <li><strong>Grammar</strong> 语法专项 — 句型、时态与结构题</li>
+                            <li><strong>Cloze</strong> Contextual Fluency — 语篇完形与上下文理解</li>
+                            <li><strong>Reading</strong> Comprehension — 阅读理解与信息推断</li>
+                        </ul>
+                        <div class="module-meta">
+                            <span>新加坡政府学校</span>
+                            <span>4 大专项</span>
+                            <span>20+ 词汇套题</span>
+                        </div>
+                    </div>
+
+                </div>
+            </article>
+
+            <article class="showcase-stage showcase-extra" id="showcase-extra">
+                <header class="showcase-stage-head">
+                    <div class="showcase-stage-badge"><i class="fas fa-layer-group"></i></div>
+                    <div>
+                        <h3>拓展资源</h3>
+                        <p>Video Lab · 学生百科 · 知识工具</p>
+                    </div>
+                    <button type="button" class="showcase-stage-btn" onclick="enterLearningMode('stage-extra')">进入该学段 <i class="fas fa-arrow-right"></i></button>
+                </header>
+                <p class="showcase-stage-intro">拓展资源用于课内外延伸：Video Lab 精选 TED-Ed 等优质视频并附中英双语解析；Resources 提供学生百科知识库，支持自主查阅与拓展阅读。</p>
+                <div class="showcase-modules">
+
+                    <div class="showcase-module featured">
+                        <div class="module-icon red"><i class="fas fa-video"></i></div>
+                        <h4>Video Lab · 视频学习与分析</h4>
+                        <p class="module-desc">精选 TED-Ed 及优质教育视频，每篇含封面预览、中英双语标题与简介，适合课堂引入、课后拓展与跨文化讨论。</p>
+                        <ul class="module-highlights">
+                            <li><strong>兵马俑</strong> The Terracotta Army — 古代帝王的来世蓝图</li>
+                            <li><strong>长城</strong> A History of the Great Wall — 从周朝列国到万里长城</li>
+                            <li><strong>汉字</strong> The Story of Chinese Characters — 仓颉造字与汉字起源</li>
+                            <li><strong>茶</strong> A Brief History of Tea — 茶叶的传奇起源</li>
+                            <li><strong>负鼠装死</strong> The Art of Playing Dead — 动物行为科学</li>
+                            <li><strong>大象与绳子</strong> Overcoming Limiting Beliefs — 打破自我设限</li>
+                        </ul>
+                        <div class="module-meta">
+                            <span>6+ 精选视频</span>
+                            <span>中英双语</span>
+                            <span>TED-Ed 品质</span>
+                        </div>
+                    </div>
+
+                    <div class="showcase-module">
+                        <div class="module-icon purple"><i class="fas fa-book-reader"></i></div>
+                        <h4>Resources · 学生百科</h4>
+                        <p class="module-desc">Student Encyclopedia 知识库，汇集百科条目与学习工具，支持自主检索与拓展阅读。</p>
+                        <ul class="module-highlights">
+                            <li>Knowledge Base 学生百科资源库入口</li>
+                            <li>适合课后查阅、写作素材积累与跨学科拓展</li>
+                        </ul>
+                        <div class="module-meta"><span>百科检索</span><span>Knowledge Base</span></div>
+                    </div>
+
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <section class="cta-banner">
+        <div class="wrap">
+            <h2>准备好开始您的学习之旅了吗？</h2>
+            <p>浏览完课程特色后，点击进入学习，即可展开全部课件、练习与真题链接。</p>
+            <button type="button" class="btn-hero-primary" onclick="enterLearningMode()">
+                进入学习 <i class="fas fa-arrow-right"></i>
+            </button>
+        </div>
+    </section>
+
+    </div><!-- #home-view -->
+
+    <section class="catalog learning-hub-panel" id="learning-hub" hidden>
+        <div class="wrap">
+            <div class="learning-toolbar">
+                <button type="button" class="btn-back-hub" onclick="exitLearningMode()">
+                    <i class="fas fa-arrow-left"></i> 返回首页
+                </button>
+                <span class="learning-toolbar-label">资源目录 · 全部课件链接</span>
+            </div>
             <div class="catalog-head">
                 <span class="section-tag">资源目录</span>
                 <h2>按学段浏览全部模块</h2>
@@ -1545,16 +1858,6 @@
         </div>
     </section>
 
-    <section class="cta-banner">
-        <div class="wrap">
-            <h2>准备好开始您的学习之旅了吗？</h2>
-            <p>选择对应学段，展开模块即可访问课件、练习与真题资源。</p>
-            <button type="button" class="btn-hero-primary" onclick="document.getElementById('learning-hub').scrollIntoView({behavior:'smooth'})">
-                进入资源目录 <i class="fas fa-arrow-right"></i>
-            </button>
-        </div>
-    </section>
-
     <footer class="site-footer" id="contact">
         <div class="footer-grid">
             <div class="footer-brand">
@@ -1563,10 +1866,10 @@
             </div>
             <div class="footer-col">
                 <h4>学段入口</h4>
-                <a href="#stage-primary">小学阶段</a>
-                <a href="#stage-junior">初中阶段</a>
-                <a href="#stage-senior">高中阶段</a>
-                <a href="#stage-abroad">留学备考</a>
+                <a href="#stage-primary" onclick="enterLearningMode('stage-primary'); return false;">小学阶段</a>
+                <a href="#stage-junior" onclick="enterLearningMode('stage-junior'); return false;">初中阶段</a>
+                <a href="#stage-senior" onclick="enterLearningMode('stage-senior'); return false;">高中阶段</a>
+                <a href="#stage-abroad" onclick="enterLearningMode('stage-abroad'); return false;">留学备考</a>
             </div>
             <div class="footer-col">
                 <h4>联系我们</h4>
@@ -1742,6 +2045,55 @@
                     location.reload();
                 });
             });
+        })();
+
+        // 首页 / 学习目录切换
+        function enterLearningMode(stageId) {
+            var hub = document.getElementById('learning-hub');
+            var btnEnter = document.getElementById('btn-enter-learning');
+            var btnBack = document.getElementById('btn-back-home');
+            document.documentElement.classList.add('learning-mode');
+            if (hub) hub.removeAttribute('hidden');
+            if (btnEnter) btnEnter.style.display = 'none';
+            if (btnBack) btnBack.style.display = 'inline-flex';
+            var targetId = stageId ? String(stageId).replace(/^#/, '') : '';
+            var hash = targetId ? ('#' + targetId) : '#learning';
+            history.replaceState(null, '', location.pathname + location.search + hash);
+            requestAnimationFrame(function () {
+                if (targetId) {
+                    var el = document.getElementById(targetId);
+                    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    else if (hub) hub.scrollIntoView({ behavior: 'smooth' });
+                } else if (hub) {
+                    hub.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        }
+
+        function exitLearningMode() {
+            var hub = document.getElementById('learning-hub');
+            var home = document.getElementById('home-view');
+            var btnEnter = document.getElementById('btn-enter-learning');
+            var btnBack = document.getElementById('btn-back-home');
+            document.documentElement.classList.remove('learning-mode');
+            if (hub) hub.setAttribute('hidden', '');
+            if (btnEnter) btnEnter.style.display = 'inline-flex';
+            if (btnBack) btnBack.style.display = 'none';
+            history.replaceState(null, '', location.pathname + location.search);
+            if (home) home.scrollIntoView({ behavior: 'smooth' });
+            else window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        (function initLearningModeFromHash() {
+            function applyHash() {
+                var hash = (location.hash || '').replace(/^#/, '');
+                if (!hash || hash === 'contact') return;
+                if (hash === 'learning' || hash.indexOf('stage-') === 0) {
+                    enterLearningMode(hash === 'learning' ? '' : hash);
+                }
+            }
+            document.addEventListener('DOMContentLoaded', applyHash);
+            window.addEventListener('hashchange', applyHash);
         })();
 
         // 导航滚动效果 & 学段导航高亮
