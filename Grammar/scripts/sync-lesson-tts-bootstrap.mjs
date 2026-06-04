@@ -4,7 +4,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
-const src = fs.readFileSync(path.join(ROOT, "L03", "assets", "lesson-tts-bootstrap.js"), "utf8");
+const src = fs.readFileSync(path.join(ROOT, "shared", "lesson-tts-bootstrap.js"), "utf8");
 let n = 0;
 for (const name of fs.readdirSync(ROOT)) {
   const fp = path.join(ROOT, name, "assets", "lesson-tts-bootstrap.js");

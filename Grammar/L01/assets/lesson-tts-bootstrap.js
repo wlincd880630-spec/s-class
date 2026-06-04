@@ -1,5 +1,6 @@
 /**
  * 本地 MP3 优先。file:// 下仅用相对路径 new Audio(rel)，禁止绝对 file:// / XHR。
+ * 整段未命中 manifest 时，按句末标点拆分为多句顺序播放。
  */
 (function () {
   "use strict";
@@ -15,6 +16,24 @@
     return typeof window !== "undefined" && window.__LESSON_TTS_MANIFEST
       ? window.__LESSON_TTS_MANIFEST
       : {};
+  }
+
+  function lookupUrl(text) {
+    var k = norm(text);
+    if (!k) return "";
+    var m = map();
+    return m[k] || m[text] || m[String(text || "").trim()] || "";
+  }
+
+  function splitForPlayback(text) {
+    var k = norm(text);
+    if (!k) return [];
+    if (lookupUrl(k)) return [k];
+    var parts = k.split(/(?<=[.?!])\s+/).map(function (p) {
+      return p.trim();
+    }).filter(Boolean);
+    if (parts.length <= 1) return [k];
+    return parts;
   }
 
   function extractSsmlVoicePlain(ssml) {
@@ -60,10 +79,9 @@
       if (isAzureTtsRequest(input, init) && map() && typeof init.body === "string") {
         var phrase = extractSsmlVoicePlain(init.body);
         if (phrase) {
-          var m = map();
-          var rel = m[phrase] || m[norm(phrase)];
+          var rel = lookupUrl(phrase);
           if (rel) {
-            return origFetch(rel, { method: "GET", credentials: "same-origin", cache: "force-cache" })
+            return origFetch(rel, { method: "GET", credentials: "omit", cache: "force-cache" })
               .then(function (res) {
                 if (!res || !res.ok) return origFetch(input, init);
                 return res;
@@ -78,11 +96,8 @@
     };
   }
 
-  function playLocalIfAvailable(text) {
-    var k = norm(text);
-    if (!k) return Promise.resolve(false);
-    var m = map();
-    var rel = m[k] || m[text] || m[String(text || "").trim()];
+  function playOnePhrase(phrase) {
+    var rel = lookupUrl(phrase);
     if (!rel) return Promise.resolve(false);
 
     var relPath = rel.replace(/\\/g, "/");
@@ -113,8 +128,27 @@
     });
   }
 
+  function playLocalIfAvailable(text) {
+    var parts = splitForPlayback(text);
+    if (!parts.length) return Promise.resolve(false);
+
+    var i = 0;
+    var playedAny = false;
+    function next() {
+      if (i >= parts.length) return Promise.resolve(playedAny);
+      return playOnePhrase(parts[i++]).then(function (ok) {
+        if (ok) playedAny = true;
+        return next();
+      });
+    }
+
+    return next();
+  }
+
   window.LessonTTSBootstrap = {
     norm: norm,
+    lookupUrl: lookupUrl,
+    splitForPlayback: splitForPlayback,
     playLocalIfAvailable: playLocalIfAvailable,
     extractSsmlVoicePlain: extractSsmlVoicePlain,
   };

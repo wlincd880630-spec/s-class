@@ -4,8 +4,8 @@
 :root {
   --grammar-pager-accent: #0d9488;
   --grammar-pager-accent-ink: #0f766e;
-  --grammar-pager-gap: 2.75rem;
-  --grammar-pager-logo-slot: clamp(4.25rem, 13vw, 6.25rem);
+  --grammar-pager-gap: 2.35rem;
+  --grammar-pager-logo-slot: clamp(4.25rem, 17vw, 6.5rem);
 }
 
 /* 缩小底栏占位，不影响页内其他按钮 */
@@ -27,8 +27,8 @@ body.has-lesson-pager #app nav.lesson-pager {
   align-items: center;
   gap: 0.28rem;
   margin: 0;
-  padding: 0.28rem 0.4rem;
-  padding-bottom: max(0.28rem, env(safe-area-inset-bottom, 0px));
+  padding: 0.18rem 0.35rem;
+  padding-bottom: max(0.18rem, env(safe-area-inset-bottom, 0px));
   background: rgba(255, 255, 255, 0.97);
   border-top: 1.5px solid var(--grammar-pager-accent);
   box-shadow: 0 -4px 16px rgba(15, 23, 42, 0.08);
@@ -48,10 +48,21 @@ body.has-lesson-pager nav.lesson-pager.is-file-nav > span.pager-prev {
   justify-self: stretch;
 }
 
-body.has-lesson-pager nav.lesson-pager.is-file-nav > .pager-logo,
+body.has-lesson-pager nav.lesson-pager.is-file-nav > .pager-logo {
+  grid-column: 2;
+  justify-self: center;
+}
+
 body.has-lesson-pager nav.lesson-pager.is-file-nav > .pager-next,
 body.has-lesson-pager nav.lesson-pager.is-file-nav > span.pager-next {
   justify-self: stretch;
+}
+
+/* 讲义页顶栏已有「本讲目录」，勿在底栏再注入第四枚按钮 */
+body.grammar-handout-page nav.lesson-pager.is-file-nav > .l11-index-link,
+body.grammar-handout-page nav.lesson-pager.is-file-nav > .l13-index-link,
+body.grammar-handout-page nav.lesson-pager.is-file-nav > .lesson-index-link:not(.pager-logo) {
+  display: none !important;
 }
 
 body.has-lesson-pager nav.lesson-pager.is-file-nav > .pager-next,
@@ -134,13 +145,13 @@ body.has-lesson-pager #app nav.lesson-pager > span.pager-prev,
 body.has-lesson-pager #app nav.lesson-pager > span.pager-next {
   flex: 1 1 0;
   min-width: 0;
-  min-height: 34px;
-  max-height: 38px;
+  min-height: 28px;
+  max-height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 0;
-  padding: 0.22rem 0.38rem;
+  padding: 0.16rem 0.32rem;
   border-radius: 8px;
   border: 1.5px solid #5d4037;
   font-size: clamp(0.7rem, 2vw, 0.78rem);
@@ -196,9 +207,9 @@ body.has-lesson-pager #app nav.lesson-pager > .pager-mid {
   flex: none;
   width: auto;
   min-width: 2.8rem;
-  min-height: 34px;
-  max-height: 38px;
-  padding: 0.2rem 0.35rem;
+  min-height: 28px;
+  max-height: 32px;
+  padding: 0.16rem 0.3rem;
   border-radius: 8px;
   border: 1.5px solid var(--grammar-pager-accent);
   background: linear-gradient(180deg, #fff, #f0fdfa);
@@ -262,13 +273,13 @@ body.has-lesson-pager #app nav.lesson-pager.is-intra-nav .pager-zone > button.pa
 body.has-lesson-pager #app nav.lesson-pager.is-intra-nav .pager-zone > .pager-mid {
   flex: 1 1 0;
   min-width: 0;
-  min-height: 34px;
-  max-height: 38px;
+  min-height: 28px;
+  max-height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 0;
-  padding: 0.22rem 0.38rem;
+  padding: 0.16rem 0.32rem;
   border-radius: 8px;
   border: 1.5px solid #5d4037;
   font-size: clamp(0.7rem, 2vw, 0.78rem);
@@ -307,7 +318,7 @@ body.has-lesson-pager #app nav.lesson-pager.is-intra-nav .pager-zone > .pager-mi
   flex: 0 0 auto;
   min-width: 2.8rem;
   max-width: 42%;
-  padding: 0.2rem 0.35rem;
+  padding: 0.16rem 0.3rem;
   border-color: var(--grammar-pager-accent);
   background: linear-gradient(180deg, #fff, #f0fdfa);
   color: var(--grammar-pager-accent-ink);
@@ -322,9 +333,9 @@ body.has-lesson-pager #app nav.lesson-pager.is-intra-nav .pager-zone > .pager-mi
   body.has-lesson-pager nav.lesson-pager,
   body.has-lesson-pager nav.lesson-footer-nav,
   body.has-lesson-pager #app nav.lesson-pager {
-    gap: 0.32rem;
-    padding: 0.32rem 0.5rem;
-    padding-bottom: max(0.32rem, env(safe-area-inset-bottom, 0px));
+    gap: 0.26rem;
+    padding: 0.22rem 0.42rem;
+    padding-bottom: max(0.22rem, env(safe-area-inset-bottom, 0px));
   }
 
   body.has-lesson-pager nav.lesson-pager > .pager-prev,
@@ -339,7 +350,7 @@ body.has-lesson-pager #app nav.lesson-pager.is-intra-nav .pager-zone > .pager-mi
   body.has-lesson-pager #app nav.lesson-pager > button.pager-prev,
   body.has-lesson-pager #app nav.lesson-pager > button.pager-next,
   body.has-lesson-pager #app nav.lesson-pager > .pager-mid {
-    min-height: 36px;
-    max-height: 40px;
+    min-height: 30px;
+    max-height: 34px;
   }
 }

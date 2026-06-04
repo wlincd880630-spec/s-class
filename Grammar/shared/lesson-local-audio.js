@@ -12,8 +12,16 @@
 
   function normText(s) {
     return String(s || "")
+      .replace(/[’‘]/g, "'")
       .replace(/\s+/g, " ")
       .trim();
+  }
+
+  function isPlayableMp3(src) {
+    var s = String(src || "").trim().replace(/\\/g, "/");
+    if (!s) return false;
+    if (/^https?:\/\//i.test(s)) return true;
+    return /^assets\/tts-mp3\//i.test(s);
   }
 
   /** 按句子在 manifest 查相对路径 */
@@ -53,7 +61,7 @@
    */
   function playMp3Rel(relPath) {
     var rel = String(relPath || "").trim().replace(/\\/g, "/");
-    if (!rel || !/^assets\/tts-mp3\//i.test(rel)) {
+    if (!isPlayableMp3(rel)) {
       return Promise.resolve(false);
     }
 
@@ -95,7 +103,7 @@
 
   function resolveMp3FromButton(btn) {
     var direct = btn.getAttribute("data-mp3");
-    if (direct && /^assets\/tts-mp3\//i.test(direct)) return direct.trim();
+    if (direct && isPlayableMp3(direct)) return direct.trim();
 
     var enc = btn.getAttribute("data-tts-read");
     if (enc) {
@@ -129,6 +137,28 @@
 
       var mp3 = resolveMp3FromButton(btn);
       if (!mp3) {
+        var ttsText =
+          btn.getAttribute("data-tts") ||
+          (function () {
+            try {
+              return decodeURIComponent(btn.getAttribute("data-tts-read") || "");
+            } catch (e) {
+              return "";
+            }
+          })();
+        if (
+          ttsText &&
+          global.LessonTTSBootstrap &&
+          typeof global.LessonTTSBootstrap.playLocalIfAvailable === "function"
+        ) {
+          e.preventDefault();
+          e.stopPropagation();
+          e.stopImmediatePropagation();
+          global.LessonTTSBootstrap.playLocalIfAvailable(ttsText).then(function (ok) {
+            if (!ok) warnMissing(btn, ttsText);
+          });
+          return;
+        }
         if (
           btn.hasAttribute("data-mp3") ||
           btn.classList.contains("tts-chip") ||
