@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
+  <script src="../shared/play-local-mp3.js"></script>
+  <script src="../shared/lesson-local-audio.js" defer></script>
+  <script src="../shared/lesson-speak-local-only.js"></script>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>第08讲 · Page 07 · 语法陷阱轨道 · 磁轨逗号法则</title>
+  <title>第08讲 · 第07页 · 易错点辨析</title>
   <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
-  <link rel="stylesheet" href="../assets/lesson-screen-16x9.css" />
+  <link rel="stylesheet" href="assets/lesson-screen-16x9.css" />
   <style>
     :root {
       --p07-cyan: #00f3ff;
@@ -474,6 +477,20 @@
       }
     }
   </style>
+
+  <script>
+window.__LESSON_TTS_MANIFEST = Object.assign(window.__LESSON_TTS_MANIFEST || {}, {
+  "If you study hard, you will pass the exam.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/tts-mp3/9f09eb5bb3d28a82c1d1.mp3",
+  "If it rains tomorrow, we will stay at home.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/tts-mp3/5f4f578271705ba9832d.mp3",
+  "If we protect wild animals, we will live on a greener Earth.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/tts-mp3/70c719fd336173b1800b.mp3",
+  "You will pass the exam if you study hard.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/tts-mp3/2813273a13ea792a414f.mp3",
+  "We will stay at home if it rains tomorrow.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/tts-mp3/d8e23678ef851b344a9e.mp3",
+  "We will live on a greener Earth if we protect wild animals.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/tts-mp3/806940a2ddd2fcd1ed21.mp3"
+});
+  </script>
+  <script src="assets/lesson-tts-bootstrap.js"></script>
+  <link rel="stylesheet" href="assets/grammar-lesson-pager.css" />
+  <link rel="stylesheet" href="../shared/grammar-logo.css" />
 </head>
 <body class="has-lesson-pager">
   <div id="l08-p07-host" class="app book shell wrap desk sheet">
@@ -541,10 +558,10 @@
     </div>
   </div>
 
-  <nav class="lesson-pager" aria-label="课程页导航">
-    <a class="pager-prev" href="lesson08-page06-chain.html">← Page 06</a>
-    <span class="pager-mid">L08 · Page 07</span>
-    <a class="pager-next" href="lesson08-page08-masterplan.html">Page 08 →</a>
+  <nav class="lesson-pager is-file-nav" aria-label="页面导航">
+    <a class="pager-prev" href="lesson08-page06-chain.html">上一页</a>
+    <a class="pager-logo" href="../index.html" aria-label="课程主页"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/logo2.png" alt="Steven's Class" width="204" height="61" decoding="async" /></a>
+    <a class="pager-next" href="lesson08-page08-masterplan.html">下一页</a>
   </nav>
 
   <script>
@@ -753,37 +770,13 @@
       }
 
       function speakEn(text) {
-        if (AZURE_KEY) {
-          fetch("https://" + AZURE_REGION + ".tts.speech.microsoft.com/cognitiveservices/v1", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/ssml+xml",
-              "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3",
-              "Ocp-Apim-Subscription-Key": AZURE_KEY,
-            },
-            body:
-              '<speak version="1.0" xml:lang="en-US"><voice xml:lang="en-US" name="en-US-ChristopherNeural">' +
-              text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") +
-              "</voice></speak>",
-          })
-            .then(function (r) {
-              return r.ok ? r.blob() : Promise.reject();
-            })
-            .then(function (blob) {
-              var url = URL.createObjectURL(blob);
-              var a = new Audio(url);
-              a.play().catch(function () {});
-              a.onended = function () {
-                try {
-                  URL.revokeObjectURL(url);
-                } catch (e) {}
-              };
-            })
-            .catch(function () {
-              fallbackSpeech(text);
-            });
-        } else {
-          fallbackSpeech(text);
+        var t = String(text || "").trim();
+        if (!t) return;
+        if (window.LessonTTSBootstrap && window.LessonTTSBootstrap.playLocalIfAvailable) {
+          window.LessonTTSBootstrap.playLocalIfAvailable(t).then(function (ok) {
+            if (!ok) console.warn("[TTS] 本地 MP3 未找到:", t.slice(0, 120));
+          });
+          return;
         }
       }
 
@@ -1259,5 +1252,6 @@
       showToast("拖拽cargo排列；逗号从储物仓拖到中层。");
     })();
   </script>
-</body>
+  <link rel="stylesheet" href="assets/lesson-image-lightbox.css" />
+  <script src="assets/lesson-image-lightbox.js" defer></script></body>
 </html>

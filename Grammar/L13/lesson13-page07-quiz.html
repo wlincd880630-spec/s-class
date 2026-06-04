@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
+  <script src="../shared/play-local-mp3.js"></script>
+  <script src="../shared/lesson-local-audio.js" defer></script>
+  <script src="../shared/lesson-speak-local-only.js"></script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>过去完成时 —— 当堂测</title>
+  <title>第13讲 · 第07页 · 综合测试</title>
   <link rel="stylesheet" href="assets/lesson-screen-16x9.css" />
   <link rel="stylesheet" href="l13-index-nav.css" />
   <link rel="stylesheet" href="l13-lesson-shell.css" />
@@ -36,8 +39,17 @@
       color: var(--ink); line-height: 1.55;
     }
   </style>
+
+  <script src="assets/lesson-tts-bootstrap.js"></script>
+  <script>
+window.__LESSON_TTS_MANIFEST = Object.assign(window.__LESSON_TTS_MANIFEST || {}, {
+  "Last Friday our class planned to visit the city museum. Tom had bought his ticket online the day before. When we met at the school gate, Tom looked worried. He had left his ticket on the kitchen table at home. His dad had sent him a photo of the ticket, but Tom's phone had run out of power. Finally, the teacher called the museum and helped Tom get a new ticket. We still arrived on time and enjoyed the show.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L13/assets/tts-mp3/2af4ea97a16a02b2abb8.mp3"
+});
+  </script>
+  <link rel="stylesheet" href="assets/grammar-lesson-pager.css" />
+  <link rel="stylesheet" href="../shared/grammar-logo.css" />
 </head>
-<body>
+<body class="has-lesson-pager">
   <div id="ui-lock" aria-hidden="true"></div>
   <div id="p13-pdf-export-host" aria-hidden="true"><div id="p13-pdf-export"></div></div>
   <div id="app">
@@ -262,23 +274,25 @@
 
       </div>
     </div>
-    <nav class="lesson-pager" aria-label="分页">
-      <button type="button" class="pager-prev" id="pager-prev">‹ 上一页</button>
-      <a class="l13-index-link" href="index.html" aria-label="返回学习目录">目录</a>
-      <span class="pager-mid" id="pager-mid">1 / 10</span>
-      <button type="button" class="pager-next" id="pager-next">下一页 ›</button>
+    <nav class="lesson-pager is-intra-nav" aria-label="分页">
+      <div class="pager-zone pager-zone--left">
+        <button type="button" class="pager-prev" id="pager-prev">上一页</button>
+      </div>
+      <a class="pager-logo" href="../index.html" aria-label="课程主页"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/logo2.png" alt="Steven's Class" width="204" height="61" decoding="async" /></a>
+      <div class="pager-zone pager-zone--right">
+        <span class="pager-mid" id="pager-mid">1 / 10</span>
+        <button type="button" class="pager-next" id="pager-next">下一页</button>
+      </div>
     </nav>
   </div>
-
-  <script src="l13-image-lightbox.js"></script>
-  <script src="l13-index-nav.js"></script>
+<script src="l13-index-nav.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/html2pdf.js@0.10.1/dist/html2pdf.bundle.min.js" crossorigin="anonymous"></script>
   <script>
 (function () {
   "use strict";
 
-  const AZURE_KEY = "C42UQWeDcluYanbo17WrtUnPhk0vkZy2uQHPTCGDzY6CdExx99NzJQQJ99BIACqBBLyXJ3w3AAAYACOGjkyu";
-  const AZURE_REGION = "southeastasia";
+  /* AZURE_KEY removed — use local MP3 only */
+    const AZURE_REGION = "southeastasia";
   const VOICE_EN = "en-US-AriaNeural";
   const PAGE_COUNT = 10;
 
@@ -362,37 +376,21 @@
 
   const quizCarousels = {};
 
-  async function playAudio(text) {
-    if (!text) return;
-    lockUI();
-    const url = "https://" + AZURE_REGION + ".tts.speech.microsoft.com/cognitiveservices/v1";
-    const ssml = "<speak version='1.0' xml:lang='en-US'><voice name='" + VOICE_EN + "'>" + escXml(text) + "</voice></speak>";
-    try {
-      const res = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Ocp-Apim-Subscription-Key": AZURE_KEY,
-          "Content-Type": "application/ssml+xml",
-          "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3"
-        },
-        body: ssml
-      });
-      if (!res.ok) throw new Error(String(res.status));
-      const blob = await res.blob();
-      const u = URL.createObjectURL(blob);
-      const a = new Audio(u);
-      await new Promise(function (res, rej) {
-        a.onended = function () { URL.revokeObjectURL(u); res(); };
-        a.onerror = rej;
-        a.play().catch(rej);
-      });
-    } catch (e) {
-      speechSynthesis.speak(new SpeechSynthesisUtterance(text));
-    } finally {
-      unlockUI();
-    }
+  async function playAudio(text, voice) {
+      const t = String(text || "").trim();
+      if (!t) return;
+      const lockFn = typeof lockUI === "function";
+      if (lockFn) lockUI();
+      try {
+        if (window.LessonTTSBootstrap && typeof window.LessonTTSBootstrap.playLocalIfAvailable === "function") {
+          const ok = await window.LessonTTSBootstrap.playLocalIfAvailable(t);
+          if (ok) return;
+        }
+        console.warn("[TTS] 本地 MP3 未找到:", t.slice(0, 120));
+      } finally {
+        if (lockFn) unlockUI();
+      }
   }
-
   function recordAnswer(ok) {
     quizScore.total++;
     if (ok) quizScore.ok++;
@@ -664,5 +662,6 @@
   initLesson();
 })();
   </script>
-</body>
+  <link rel="stylesheet" href="assets/lesson-image-lightbox.css" />
+  <script src="assets/lesson-image-lightbox.js" defer></script></body>
 </html>

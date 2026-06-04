@@ -1,0 +1,77 @@
+/**
+ * 定语从句 · 禁止整页滚动；区内溢出时由 l13rc-scrollable.css 显示滚动条
+ * 视口适配见 l13rc-fit-viewport.js（先适度缩放，仍放不下则滚动）
+ */
+html.l13rc-no-scroll-root {
+  height: 100%;
+  overflow: hidden !important;
+}
+
+html.l13rc-no-scroll-root body.l13rc-no-scroll {
+  overflow: hidden !important;
+  max-height: 100dvh;
+  overscroll-behavior: none;
+}
+
+/* 讲义：屏幕阅读可滚轮翻页，但不显示滚动条 */
+@media screen {
+  body.l13rc-no-scroll.grammar-handout-page {
+    overflow: hidden !important;
+  }
+
+  body.l13rc-no-scroll.grammar-handout-page > main.sheet {
+    display: block;
+    box-sizing: border-box;
+    height: calc(100dvh - var(--lesson-pager-gap, 4.35rem) - env(safe-area-inset-top, 0px) - 8px) !important;
+    max-height: calc(100dvh - var(--lesson-pager-gap, 4.35rem) - env(safe-area-inset-top, 0px) - 8px) !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+/* 目录页 */
+body.l13rc-no-scroll.g-index-scaled {
+  overflow: hidden !important;
+  height: 100dvh;
+}
+
+body.l13rc-no-scroll.g-index-scaled .g-index {
+  max-height: calc(100dvh - 2rem);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* 区内滚动细节见 assets/l13rc-scrollable.css */
+/* 缩放目标：居中、顶部对齐 */
+.l13rc-fit-target {
+  transform-origin: top center !important;
+  flex-shrink: 1;
+  min-height: 0 !important;
+  max-height: 100%;
+}
+
+body.l13rc-no-scroll > .app-container > .page.active.l13rc-fit-target {
+  width: 100%;
+  align-self: center;
+}
+
+@media print {
+  html.l13rc-no-scroll-root,
+  html.l13rc-no-scroll-root body.l13rc-no-scroll {
+    overflow: visible !important;
+    height: auto !important;
+    max-height: none !important;
+  }
+
+  .l13rc-fit-target {
+    transform: none !important;
+  }
+
+  body.l13rc-no-scroll.grammar-handout-page > main.sheet {
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+}

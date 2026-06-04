@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
+  <script src="../shared/play-local-mp3.js"></script>
+  <script src="../shared/lesson-local-audio.js" defer></script>
+  <script src="../shared/lesson-speak-local-only.js"></script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Lesson 10 · Warm-up · 一般过去时复习</title>
+  <title>第10讲 · 第02页 · 复习：一般过去时</title>
   <script src="https://cdn.jsdelivr.net/npm/microsoft-cognitiveservices-speech-sdk@1.38.0/dist/microsoft.cognitiveservices.speech.sdk.bundle-min.js" crossorigin="anonymous"></script>
   <style>
     :root {
@@ -479,15 +482,22 @@
     }
 
 </style>
+  <script src="assets/lesson-tts-bootstrap.js"></script>
+  <script src="assets/l10-tts-manifest.js"></script>
+  <script src="assets/lesson-tts-bootstrap.js"></script>
+  <script src="assets/l10-tts-manifest.js"></script>
+  <script src="assets/l10-tts-play.js"></script>
+  <link rel="stylesheet" href="assets/grammar-lesson-pager.css" />
+  <link rel="stylesheet" href="../shared/grammar-logo.css" />
 </head>
-<body>
+<body class="has-lesson-pager">
   <div id="ariaStatus" class="sr-live" aria-live="polite"></div>
 
   <header class="topbar">
     <div class="brand">Lesson 10 · Warm-up</div>
     <div class="slide-meta" id="slideIndicator" aria-live="polite">1 / 6</div>
     <div class="top-actions">
-      <a class="btn-link secondary" href="L10-00-index.html">返回目录</a>
+      <a class="btn-link secondary" href="index.html">返回目录</a>
       <button type="button" id="btnTtsIntro">朗读本页说明</button>
       <button type="button" id="btnTtsWords" class="secondary">朗读词汇表</button>
       <button type="button" id="btnOpenAi" class="secondary">AI 造句</button>
@@ -680,8 +690,6 @@
 
   <script>
 (function () {
-  const AZURE_SPEECH_KEY = "C42UQWeDcluYanbo17WrtUnPhk0vkZy2uQHPTCGDzY6CdEXx99NzJQQJ99BIACqBBLyXJ3w3AAAYACOGjkyu";
-  const AZURE_SPEECH_REGION = "southeastasia";
   const DEEPSEEK_API_KEY = "sk-daa16008e81843deba6fefe9dce51465";
   const DEEPSEEK_API_URL = "https://api.deepseek.com/v1/chat/completions";
   const MSG_TTS = "语音暂时无法连接，请默读屏幕上的例句。";
@@ -951,59 +959,20 @@
     );
   }
 
-  function azureTtsRestPlay(ssml, onOk, onFail) {
-    var endpoint =
-      "https://" + AZURE_SPEECH_REGION + ".tts.speech.microsoft.com/cognitiveservices/v1";
-    stopHtmlAudio();
-    fetch(endpoint, {
-      method: "POST",
-      mode: "cors",
-      credentials: "omit",
-      headers: {
-        "Ocp-Apim-Subscription-Key": AZURE_SPEECH_KEY,
-        "Content-Type": "application/ssml+xml",
-        "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3",
-        "User-Agent": "L10WarmupHTML/1.2"
-      },
-      body: ssml
-    })
-      .then(function (res) {
-        if (!res.ok) {
-          return res.text().then(function (body) {
-            throw new Error("REST " + res.status + " " + (body || "").slice(0, 200));
-          });
-        }
-        return res.blob();
-      })
-      .then(function (blob) {
-        if (!blob || blob.size < 80) throw new Error("REST 返回数据异常");
-        var url = URL.createObjectURL(blob);
-        var audio = new Audio();
-        ttsHtmlAudio = audio;
-        audio._revoke = url;
-        audio.src = url;
-        audio.setAttribute("playsinline", "true");
-        audio.preload = "auto";
-        audio.onended = function () {
-          stopHtmlAudio();
-          onOk();
-        };
-        audio.onerror = function () {
-          stopHtmlAudio();
-          onFail(new Error("浏览器无法解码播放音频"));
-        };
-        var pp = audio.play();
-        if (pp && typeof pp.catch === "function") {
-          pp.catch(function (pe) {
-            stopHtmlAudio();
-            onFail(pe || new Error("播放被浏览器拦截，请再点一次或换 Edge"));
-          });
-        }
-      })
-      .catch(function (err) {
-        stopHtmlAudio();
-        onFail(err);
+    function azureTtsRestPlay(ssml, onOk, onFail) {
+    onOk = onOk || function () {};
+    onFail = onFail || function () {};
+    var plain = window.LessonTTSBootstrap && window.LessonTTSBootstrap.extractSsmlVoicePlain
+      ? window.LessonTTSBootstrap.extractSsmlVoicePlain(ssml)
+      : "";
+    if (plain && window.LessonTTSBootstrap) {
+      window.LessonTTSBootstrap.playLocalIfAvailable(plain).then(function (ok) {
+        if (ok) onOk();
+        else onFail(new Error("本地 MP3 未找到"));
       });
+      return;
+    }
+    onFail(new Error("无朗读文本"));
   }
 
   function azureTtsSdkSpeak(ssml, voiceName, onOk, onFail) {
@@ -1329,5 +1298,11 @@
   initSlides();
 })();
   </script>
-</body>
+  <link rel="stylesheet" href="assets/lesson-image-lightbox.css" />
+  <script src="assets/lesson-image-lightbox.js" defer></script>
+<nav class="lesson-pager is-file-nav" aria-label="页面导航">
+    <a class="pager-prev" href="index.html">上一页</a>
+    <a class="pager-logo" href="../index.html" aria-label="课程主页"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/logo2.png" alt="Steven's Class" width="204" height="61" decoding="async" /></a>
+    <a class="pager-next" href="L10-02-present-perfect-form.html">下一页</a>
+  </nav></body>
 </html>

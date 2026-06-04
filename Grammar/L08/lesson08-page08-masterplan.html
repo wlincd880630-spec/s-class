@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
+  <script src="../shared/play-local-mp3.js"></script>
+  <script src="../shared/lesson-local-audio.js" defer></script>
+  <script src="../shared/lesson-speak-local-only.js"></script>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>第08讲 · Page 08 · 2050 Masterplan · 口语综括 · be going to · will · If</title>
+  <title>第08讲 · 第08页 · 口语综合练习</title>
   <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/microsoft-cognitiveservices-speech-sdk@latest/distrib/browser/microsoft.cognitiveservices.speech.sdk.bundle-min.js"></script>
-  <link rel="stylesheet" href="../assets/lesson-screen-16x9.css" />
+  <link rel="stylesheet" href="assets/lesson-screen-16x9.css" />
   <style>
     :root {
       --p08-cyan: #00f3ff;
@@ -686,6 +689,15 @@
       .p08-check-row { flex-direction: column; align-items: stretch; }
     }
   </style>
+
+  <script>
+window.__LESSON_TTS_MANIFEST = Object.assign(window.__LESSON_TTS_MANIFEST || {}, {
+  "Welcome, Chief Architect. You may use be going to, will, or an If-clause where they fit — pick what you like. One clear English sentence is enough to submit for AI feedback.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/tts-mp3/73d8e5eeb2472bcc6462.mp3"
+});
+  </script>
+  <script src="assets/lesson-tts-bootstrap.js"></script>
+  <link rel="stylesheet" href="assets/grammar-lesson-pager.css" />
+  <link rel="stylesheet" href="../shared/grammar-logo.css" />
 </head>
 <body class="has-lesson-pager">
   <div id="l08-p08-host" class="app book shell wrap desk sheet">
@@ -783,10 +795,10 @@
 
   </div>
 
-  <nav class="lesson-pager" aria-label="课程页导航">
-    <a class="pager-prev" href="lesson08-page07-traps.html">← Page 07</a>
-    <span class="pager-mid">L08 · Page 08</span>
-    <a class="pager-next" href="lesson08-page09-prophecy.html" id="p08-pager-next">Page 09 →</a>
+  <nav class="lesson-pager is-file-nav" aria-label="页面导航">
+    <a class="pager-prev" href="lesson08-page07-traps.html">上一页</a>
+    <a class="pager-logo" href="../index.html" aria-label="课程主页"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/logo2.png" alt="Steven's Class" width="204" height="61" decoding="async" /></a>
+    <a class="pager-next" href="lesson08-page09-prophecy.html">下一页</a>
   </nav>
 
   <script>
@@ -801,7 +813,7 @@
         "C42UQWeDcluYanbo17WrtUnPhk0vkZy2uQHPTCGDzY6CdEXx99NzJQQJ99BIACqBBLyXJ3w3AAAYACOGjkyu";
       var DEEPSEEK_KEY = KEYS.deepSeekKey || "sk-daa16008e81843deba6fefe9dce51465";
 
-      /** 五场景：配图各 3 张（https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/l08-p08-s##_*.png）；词汇苏格拉底问答见 HOTSPOTS_BY_SRC */
+      /** 五场景：配图各 3 张（assets/l08-p08-s##_*.png）；词汇苏格拉底问答见 HOTSPOTS_BY_SRC */
       var SCENES = [
         {
           id: "park-city",
@@ -2562,51 +2574,19 @@
       function speakWelcome() {
         var msg =
           "Welcome, Chief Architect. You may use be going to, will, or an If-clause where they fit — pick what you like. One clear English sentence is enough to submit for AI feedback.";
-        if (!AZURE_KEY) {
-          try {
-            var u = new SpeechSynthesisUtterance(msg);
-            u.lang = "en-US";
-            u.rate = 0.92;
-            window.speechSynthesis.cancel();
-            window.speechSynthesis.speak(u);
-          } catch (e5) {}
+        if (window.LessonTTSBootstrap && window.LessonTTSBootstrap.playLocalIfAvailable) {
+          window.LessonTTSBootstrap.playLocalIfAvailable(msg).then(function (ok) {
+            if (!ok) console.warn("[TTS] 本地 MP3 未找到:", msg.slice(0, 120));
+          });
           return;
         }
-        var esc = msg.replace(/&/g, "&amp;").replace(/</g, "&lt;");
-        var ssml =
-          '<speak version="1.0" xmlns="http://www.w3.org/2004/10/synthesis" xml:lang="en-US">' +
-          '<voice xml:lang="en-US" name="en-US-AriaNeural">' +
-          esc +
-          "</voice></speak>";
-        fetch("https://" + AZURE_REGION + ".tts.speech.microsoft.com/cognitiveservices/v1", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/ssml+xml",
-            "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3",
-            "Ocp-Apim-Subscription-Key": AZURE_KEY,
-          },
-          body: ssml,
-        })
-          .then(function (r) {
-            return r.ok ? r.blob() : Promise.reject();
-          })
-          .then(function (blob) {
-            var url = URL.createObjectURL(blob);
-            var a = new Audio(url);
-            a.play().catch(function () {});
-            a.onended = function () {
-              try {
-                URL.revokeObjectURL(url);
-              } catch (e6) {}
-            };
-          })
-          .catch(function () {
-            try {
-              var u2 = new SpeechSynthesisUtterance(msg);
-              u2.lang = "en-US";
-              window.speechSynthesis.speak(u2);
-            } catch (e7) {}
-          });
+        try {
+          var u = new SpeechSynthesisUtterance(msg);
+          u.lang = "en-US";
+          u.rate = 0.92;
+          window.speechSynthesis.cancel();
+          window.speechSynthesis.speak(u);
+        } catch (e5) {}
       }
 
       function showModal(ok, title, body) {
@@ -2749,5 +2729,6 @@
       }
     })();
   </script>
-</body>
+  <link rel="stylesheet" href="assets/lesson-image-lightbox.css" />
+  <script src="assets/lesson-image-lightbox.js" defer></script></body>
 </html>

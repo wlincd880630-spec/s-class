@@ -1,0 +1,2653 @@
+/**
+ * 全课程 handout · 出版物级 A4 打印样式（ISO 216）
+ *
+ * 版式依据（简化适用于教辅讲义）：
+ * - 成品：A4 210×297 mm，纵向
+ * - 页边距：上 24 mm · 左右 18 mm · 下 24 mm（PDF 不含 logo）
+ * - 正文：11.5 pt，行距约 1.6（易读略放大）
+ * - 标题：二级 14.5 pt · 三级 12 pt
+ * - 英文例句：11.5 pt；中文释义：10.5 pt
+ *
+ * 各讲 sheet.css 仅保留配色与局部版式；页边距与字号以本文件为准。
+ * 外框：main.sheet 无边框；内部块：浅灰蓝细线 + 淡底，不用粗黑框。
+ */
+
+/* 屏幕仍显示；仅在打印/PDF 中隐藏 */
+.handout-print-hide,
+.ipa.handout-print-hide {
+  /* 默认可见 */
+}
+
+@media print {
+  /* 打印用柔和分割线（内部分块） */
+  --print-line: #c8d4df;
+  --print-line-mid: #a8b8c8;
+  --print-fill-soft: #f7f9fc;
+  --print-fill-card: #fafbfd;
+  --print-accent-en: #4a7c9b;
+  --print-accent-zh: #b0bec8;
+  --print-accent-warn: #c96b63;
+  --print-radius: 2mm;
+  --print-ex-bg: linear-gradient(
+    148deg,
+    #f0f7fa 0%,
+    #fff 45%,
+    #f8fafc 100%
+  );
+  --print-ex-en-bg: rgba(255, 255, 255, 0.88);
+  --print-ex-zh-bg: rgba(245, 248, 251, 0.95);
+  /* 页边距内排版；勿用 @bottom-center，以免与浏览器「页眉/页脚」叠加 */
+  @page {
+    size: A4 portrait;
+    margin: 24mm 18mm 24mm 18mm;
+  }
+
+  html {
+    font-size: 11.5pt;
+  }
+
+  /* 页眉 logo 由 grammar-handout-print-prep.js 注入 .handout-print-logo-band，见 print-unify.css */
+  body.grammar-handout-page::after {
+    content: none !important;
+    display: none !important;
+  }
+
+  html,
+  body.grammar-handout-page,
+  body.l13-handout-page.grammar-handout-page {
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #fff !important;
+    color: #000 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  body.grammar-handout-page,
+  body.l13-handout-page.grammar-handout-page {
+    font-family:
+      "Source Han Serif SC",
+      "Noto Serif SC",
+      "STSong",
+      "SimSun",
+      "Songti SC",
+      "Times New Roman",
+      serif;
+    font-size: 11.5pt;
+    line-height: 1.6;
+  }
+
+  /* —— 仅打印正文区，取消屏幕外壳 —— */
+  .grammar-handout-top,
+  .l13-handout-top,
+  .grammar-handout-pdf-bar,
+  .handout-pdf-bar,
+  .grammar-handout-section-nav,
+  .handout-section-nav,
+  .grammar-handout-print-hint,
+  .no-print-hint,
+  .no-print,
+  nav.lesson-pager,
+  button.tts-chip,
+  .tts-chip,
+  .handout-table-note,
+  .handout-print-hide,
+  .ipa,
+  details > summary {
+    display: none !important;
+  }
+
+  details:not([open]) > *:not(summary) {
+    display: block !important;
+  }
+
+  body.grammar-handout-page main.sheet,
+  body.grammar-handout-page .sheet,
+  body.grammar-handout-page .grammar-handout-table-wrap {
+    max-width: none !important;
+    width: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    background: #fff !important;
+  }
+
+  body.grammar-handout-page main.sheet::before,
+  body.grammar-handout-page .sheet::before {
+    display: none !important;
+  }
+
+  body.grammar-handout-page .inner {
+    font-size: 11.5pt;
+    line-height: 1.6;
+    text-align: justify;
+    text-justify: inter-ideograph;
+    color: #000;
+    max-width: none;
+  }
+
+  /* —— 仅去掉阴影；内部分块保留细线框 —— */
+  body.grammar-handout-page .inner * {
+    box-shadow: none !important;
+    outline: none !important;
+  }
+
+  /* —— 扉页 / 封面（独立一页） —— */
+  .handout-header,
+  .print-cover {
+    margin: 0 0 6mm !important;
+    padding: 0 0 4mm !important;
+    border: none !important;
+    border-bottom: 0.5pt solid var(--print-line) !important;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .handout-cover {
+    position: relative !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-height: 248mm !important;
+    margin: -24mm -18mm 0 !important;
+    padding: 0 18mm !important;
+    border: none !important;
+    text-align: center !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    break-after: page !important;
+    page-break-after: always !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  .handout-cover__bg {
+    position: absolute !important;
+    inset: 0 !important;
+    background:
+      linear-gradient(160deg, #e6f2f7 0%, #f9fcfe 38%, #fff 72%) !important;
+    z-index: 0 !important;
+  }
+
+  .handout-cover__bg::before {
+    content: "" !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: 4mm !important;
+    background: linear-gradient(90deg, #0d766e, #3d6b8c, #0d766e) !important;
+  }
+
+  .handout-cover__bg::after {
+    content: "" !important;
+    position: absolute !important;
+    inset: 0 !important;
+    background-image: radial-gradient(
+        circle at 18% 28%,
+        rgba(61, 107, 140, 0.07) 0 0.4pt,
+        transparent 0.5pt
+      ),
+      radial-gradient(
+        circle at 82% 72%,
+        rgba(13, 118, 110, 0.06) 0 0.35pt,
+        transparent 0.45pt
+      ) !important;
+    background-size: 5mm 5mm, 6mm 6mm !important;
+    opacity: 0.9 !important;
+  }
+
+  .handout-cover__inner {
+    position: relative !important;
+    z-index: 1 !important;
+    width: 100% !important;
+    max-width: 140mm !important;
+    margin: 0 auto !important;
+    padding: 8mm 0 12mm !important;
+  }
+
+  .handout-cover__brand {
+    margin: 0 0 10mm !important;
+    font-size: 10pt !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.35em !important;
+    color: #0f5c55 !important;
+  }
+
+  .handout-cover__en {
+    margin: 0 0 3mm !important;
+    font-family: "Georgia", "Times New Roman", serif !important;
+    font-size: 13pt !important;
+    font-style: italic !important;
+    font-weight: 400 !important;
+    letter-spacing: 0.14em !important;
+    color: #4a6d85 !important;
+  }
+
+  .handout-cover__title,
+  .handout-cover .doc-title {
+    margin: 0 0 4mm !important;
+    font-size: 32pt !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.2em !important;
+    line-height: 1.25 !important;
+    color: #0d1b2a !important;
+    text-shadow: none !important;
+  }
+
+  .handout-cover__lesson {
+    display: none !important;
+  }
+
+  .handout-cover__rule {
+    width: 22mm !important;
+    height: 0.6pt !important;
+    margin: 0 auto 7mm !important;
+    background: linear-gradient(90deg, transparent, #0d9488, transparent) !important;
+    border: none !important;
+  }
+
+  .handout-cover__focus {
+    margin: 0 !important;
+    font-size: 11.5pt !important;
+    line-height: 1.7 !important;
+    font-weight: 500 !important;
+    color: #475569 !important;
+    letter-spacing: 0.06em !important;
+  }
+
+  .print-header {
+    display: none !important;
+  }
+
+  .doc-title:not(.handout-cover__title) {
+    font-size: 18pt !important;
+    font-weight: 700 !important;
+    text-align: center !important;
+    color: #000 !important;
+    text-shadow: none !important;
+    margin: 0 0 2mm !important;
+    line-height: 1.3 !important;
+    letter-spacing: 0.06em !important;
+  }
+
+  .doc-subtitle {
+    font-size: 10pt !important;
+    font-weight: 600 !important;
+    text-align: center !important;
+    color: #333 !important;
+    margin: 0 0 4mm !important;
+    max-width: none !important;
+  }
+
+  .intro,
+  .intro-strip {
+    margin: 0 0 5mm !important;
+    padding: 2.5mm 3.5mm !important;
+    border: 0.35pt solid var(--print-line) !important;
+    border-radius: var(--print-radius) !important;
+    background: var(--print-fill-soft) !important;
+    font-size: 11pt !important;
+    line-height: 1.55 !important;
+  }
+
+  /* —— 标题层级 —— */
+  h1,
+  h2.section-title,
+  .section-title {
+    font-size: 14.5pt !important;
+    font-weight: 700 !important;
+    color: #0d1b2a !important;
+    margin: 5mm 0 2.5mm !important;
+    padding: 0 0 1.5mm !important;
+    border: none !important;
+    border-bottom: none !important;
+    line-height: 1.35 !important;
+    break-after: avoid !important;
+    page-break-after: avoid !important;
+    orphans: 4;
+    widows: 3;
+  }
+
+  h2.section-title::after,
+  .section-title::after {
+    content: "" !important;
+    display: block !important;
+    height: 0.7pt !important;
+    margin-top: 1.5mm !important;
+    background: linear-gradient(
+      90deg,
+      #0d9488 0%,
+      #a8c4d4 42%,
+      transparent 100%
+    ) !important;
+  }
+
+  h2.section-title:first-of-type,
+  .section-title:first-of-type {
+    margin-top: 0 !important;
+  }
+
+  h3,
+  h3.block-title,
+  .block-title,
+  .usage-group-title,
+  .level-title,
+  .sk-title {
+    font-size: 12pt !important;
+    font-weight: 700 !important;
+    color: #111 !important;
+    margin: 3.5mm 0 2mm !important;
+    break-after: avoid !important;
+    page-break-after: avoid;
+  }
+
+  h1 + *,
+  h2 + *,
+  h3 + *,
+  .section-title + *,
+  .block-title + *,
+  .doc-subtitle + *,
+  .print-header + *,
+  .intro + * {
+    break-before: avoid !important;
+    page-break-before: avoid !important;
+  }
+
+  p,
+  li {
+    orphans: 3;
+    widows: 3;
+  }
+
+  /* —— 例句卡片（英 + 中 双层底纹） —— */
+  body.grammar-handout-page .ex-pair {
+    position: relative !important;
+    margin: 0 0 3mm !important;
+    padding: 1.8mm 2.2mm 2mm 3.2mm !important;
+    border: 0.35pt solid rgba(168, 184, 198, 0.55) !important;
+    border-radius: 2.5mm !important;
+    background: var(--print-ex-bg) !important;
+    overflow: hidden !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  body.grammar-handout-page .ex-pair::before {
+    content: "" !important;
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    width: 2.2pt !important;
+    background: linear-gradient(
+      180deg,
+      #0d766e 0%,
+      #3d6b8c 50%,
+      #8eb4c9 100%
+    ) !important;
+    border-radius: 2.5mm 0 0 2.5mm !important;
+  }
+
+  body.grammar-handout-page .ex-pair::after {
+    content: "" !important;
+    position: absolute !important;
+    top: 0 !important;
+    right: 0 !important;
+    width: 14mm !important;
+    height: 14mm !important;
+    background: radial-gradient(
+      circle at 100% 0%,
+      rgba(61, 107, 140, 0.1),
+      transparent 70%
+    ) !important;
+    pointer-events: none !important;
+  }
+
+  body.grammar-handout-page .ex-pair .en-line,
+  body.grammar-handout-page .ex-pair .example[lang="en"],
+  body.grammar-handout-page .ex-pair .en-xl {
+    position: relative !important;
+    z-index: 1 !important;
+    font-family:
+      "Segoe UI",
+      "Helvetica Neue",
+      Arial,
+      "PingFang SC",
+      "Microsoft YaHei",
+      sans-serif !important;
+    font-size: 11.5pt !important;
+    font-weight: 600 !important;
+    line-height: 1.55 !important;
+    color: #0d1b2a !important;
+    text-align: left !important;
+    background: var(--print-ex-en-bg) !important;
+    border: none !important;
+    border-radius: 1.5mm 1.5mm 0 0 !important;
+    padding: 1.4mm 2mm 1.2mm !important;
+    margin: 0 0 0.4mm !important;
+    box-shadow: inset 0 0.3pt 0 rgba(255, 255, 255, 0.95) !important;
+  }
+
+  body.grammar-handout-page .ex-pair .zh-line {
+    position: relative !important;
+    z-index: 1 !important;
+    font-size: 10.5pt !important;
+    line-height: 1.55 !important;
+    color: #3d4f5f !important;
+    text-align: left !important;
+    background: var(--print-ex-zh-bg) !important;
+    border: none !important;
+    border-radius: 0 0 1.5mm 1.5mm !important;
+    padding: 1mm 2mm 1.3mm !important;
+    margin: 0 !important;
+  }
+
+  /* 非 ex-pair 内的独立例句行（少见） */
+  .en-line:not(.ex-pair .en-line),
+  .example[lang="en"]:not(.ex-pair .example),
+  .en-xl:not(.ex-pair .en-xl),
+  .handout-passage {
+    font-family:
+      "Segoe UI",
+      "Helvetica Neue",
+      Arial,
+      "PingFang SC",
+      "Microsoft YaHei",
+      sans-serif !important;
+    font-size: 11.5pt !important;
+    font-weight: 600 !important;
+    line-height: 1.55 !important;
+    color: #000 !important;
+    text-align: left !important;
+    background: var(--print-fill-soft) !important;
+    border: none !important;
+    border-left: 2pt solid var(--print-accent-en) !important;
+    padding: 1.2mm 0 1.2mm 2.5mm !important;
+    margin: 1mm 0 0 !important;
+  }
+
+  .note,
+  .mini-note,
+  .tip-strip {
+    font-size: 10.5pt !important;
+    line-height: 1.5 !important;
+    padding: 2mm 2.5mm !important;
+    margin: 2mm 0 !important;
+    border: 0.35pt solid var(--print-line) !important;
+    border-radius: var(--print-radius) !important;
+    background: var(--print-fill-soft) !important;
+  }
+
+  .warn-strip,
+  .pitfall {
+    font-size: 10.5pt !important;
+    line-height: 1.5 !important;
+    padding: 2mm 2.5mm 2mm 3mm !important;
+    margin: 2mm 0 !important;
+    border: 0.35pt solid #e8d4d2 !important;
+    border-left: 2pt solid var(--print-accent-warn) !important;
+    border-radius: var(--print-radius) !important;
+    background: #fdf9f8 !important;
+  }
+
+  .formula-box,
+  .mirror-box,
+  .quote-box {
+    font-size: 11pt !important;
+    padding: 2.5mm 3.5mm !important;
+    margin: 3mm 0 !important;
+    border: 0.4pt solid var(--print-line-mid) !important;
+    border-radius: var(--print-radius) !important;
+    background: linear-gradient(180deg, #f8fafc 0%, #fff 100%) !important;
+    text-align: center !important;
+    box-shadow: inset 0 0.5pt 0 rgba(255, 255, 255, 0.9) !important;
+  }
+
+  .quote-box {
+    font-weight: 600 !important;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .handout-chant-block {
+    margin-top: 3mm !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  .handout-chant-block h3 {
+    font-size: 12pt !important;
+    font-weight: 700 !important;
+    color: #bf360c !important;
+    margin: 0 0 2mm !important;
+    break-after: avoid !important;
+    page-break-after: avoid !important;
+  }
+
+  .quote-box.handout-chant-box {
+    text-align: center !important;
+    font-size: 11pt !important;
+    line-height: 1.65 !important;
+    font-weight: 700 !important;
+    padding: 3mm 4mm !important;
+    margin: 0 !important;
+    border: 0.4pt solid var(--print-line-mid) !important;
+    border-radius: var(--print-radius) !important;
+    background: linear-gradient(180deg, #eef1f4 0%, #f8fafc 45%, #fff 100%) !important;
+    color: #1a2a3a !important;
+    box-shadow: inset 0 0.5pt 0 rgba(255, 255, 255, 0.9) !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* —— 表格（出版物线表） —— */
+  table.data,
+  table.data-table,
+  table.verb-table,
+  table.print-table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    font-size: 10.25pt !important;
+    line-height: 1.48 !important;
+    margin: 2.5mm 0 !important;
+    break-inside: auto;
+    page-break-inside: auto;
+  }
+
+  table.data th,
+  table.data-table th,
+  table.verb-table th,
+  table.print-table th {
+    background: #eef2f6 !important;
+    color: #1a1a1a !important;
+    font-weight: 700 !important;
+    border: 0.3pt solid var(--print-line) !important;
+    padding: 1.5mm 2mm !important;
+  }
+
+  table.data td,
+  table.data-table td,
+  table.verb-table td,
+  table.print-table td {
+    border: 0.3pt solid var(--print-line) !important;
+    padding: 1.5mm 2mm !important;
+    vertical-align: top !important;
+  }
+
+  table.data tr:nth-child(even) td,
+  table.data-table tr:nth-child(even) td {
+    background: var(--print-fill-soft) !important;
+  }
+
+  thead {
+    display: table-header-group !important;
+  }
+
+  tr {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .verb-table-scroll,
+  .table-scroll {
+    overflow: visible !important;
+  }
+
+  table.verb-table {
+    min-width: 0 !important;
+    font-size: 9.25pt !important;
+  }
+
+  /* —— 卡片 / 分栏 → 单栏流式 —— */
+  .grid-2,
+  .grid-3,
+  .mind-pillars,
+  .parallel-universe,
+  .algo-grid,
+  .stack-cards {
+    display: block !important;
+  }
+
+  .grid-2 > .card,
+  .grid-3 > .card,
+  .mind-pillars > .mind-pillar,
+  .parallel-universe > .pu-box,
+  .stack-cards > .card,
+  .card,
+  .mind-pillar,
+  .pu-box,
+  .adv-block,
+  .tap-card,
+  .algo-card,
+  .story-block,
+  .chant {
+    display: block !important;
+    width: 100% !important;
+    margin: 0 0 3mm !important;
+    padding: 2.5mm 3mm !important;
+    border: 0.35pt solid var(--print-line) !important;
+    border-radius: var(--print-radius) !important;
+    background: var(--print-fill-card) !important;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .pu-box.pu-be {
+    border-color: #b8cde0 !important;
+    background: #f8fbfd !important;
+  }
+
+  .pu-box.pu-do {
+    border-color: #b8d4c4 !important;
+    background: #f8fcf9 !important;
+  }
+
+  .never-mix {
+    margin-top: 2.5mm !important;
+    padding: 2mm 2.5mm !important;
+    border: 0.35pt dashed #d4a8a4 !important;
+    border-radius: var(--print-radius) !important;
+    background: #fdf8f7 !important;
+    font-size: 9.5pt !important;
+  }
+
+  .mind-pillars {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 2mm !important;
+  }
+
+  /* 习惯 / 真理 / 日程 · 三栏同页（L01 等） */
+  .handout-usage-three-col {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr 1fr !important;
+    gap: 2.5mm !important;
+    align-items: start !important;
+    margin: 2mm 0 0 !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  .handout-usage-col {
+    min-width: 0 !important;
+    padding: 1.5mm 1.8mm !important;
+    border: 0.35pt solid var(--print-line) !important;
+    border-radius: var(--print-radius) !important;
+    background: #fff !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  .handout-usage-col--habit {
+    border-top: 1.2pt solid #7eb8d4 !important;
+  }
+
+  .handout-usage-col--truth {
+    border-top: 1.2pt solid #8fbc8f !important;
+  }
+
+  .handout-usage-col--schedule {
+    border-top: 1.2pt solid #d4a574 !important;
+  }
+
+  .handout-usage-three-col .usage-col-title {
+    margin: 0 0 1.5mm !important;
+    padding: 0 0 1mm !important;
+    font-size: 10pt !important;
+    line-height: 1.3 !important;
+    border-bottom: 0.3pt solid var(--print-line) !important;
+    background: transparent !important;
+    border-left: none !important;
+    border-right: none !important;
+    border-top: none !important;
+  }
+
+  .handout-usage-three-col .ex-pair {
+    margin: 0 0 1.5mm !important;
+    padding: 1.2mm 1.4mm 1.4mm 2.2mm !important;
+    border-radius: 2mm !important;
+  }
+
+  .handout-usage-three-col .ex-pair::before {
+    width: 1.8pt !important;
+  }
+
+  .handout-usage-three-col .ex-pair .en-line {
+    font-size: 8.75pt !important;
+    line-height: 1.42 !important;
+    padding: 1mm 1.2mm 0.8mm !important;
+    border-radius: 1.2mm 1.2mm 0 0 !important;
+  }
+
+  .handout-usage-three-col .ex-pair .zh-line {
+    font-size: 8.25pt !important;
+    line-height: 1.4 !important;
+    padding: 0.8mm 1.2mm 1mm !important;
+    border-radius: 0 0 1.2mm 1.2mm !important;
+  }
+
+  /* 与上方思维柱同页：压缩柱区，给三栏例句留高度 */
+  .mind-pillars + .handout-usage-three-col {
+    break-before: avoid !important;
+    page-break-before: avoid !important;
+  }
+
+  .mind-wrap .mind-pillars {
+    margin-bottom: 2mm !important;
+    gap: 1.5mm !important;
+  }
+
+  .mind-wrap .mind-pillar {
+    padding: 1.2mm 1.5mm !important;
+    font-size: 8.5pt !important;
+    line-height: 1.35 !important;
+  }
+
+  .mind-wrap .mind-pillar .ico {
+    font-size: 9pt !important;
+    margin-bottom: 0.3mm !important;
+  }
+
+  .mind-wrap .mind-pillar strong {
+    font-size: 8pt !important;
+  }
+
+  /* 规则 1～4 例句 · 两栏（左：规则1+2，右：规则3+4） */
+  .handout-rules-two-col {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 3mm !important;
+    align-items: start !important;
+    margin: 2.5mm 0 0 !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  .handout-rules-col {
+    min-width: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 2.5mm !important;
+  }
+
+  .handout-rule-block {
+    padding: 2mm 2.2mm !important;
+    border: 0.35pt solid var(--print-line) !important;
+    border-radius: var(--print-radius) !important;
+    background: #fff !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  .handout-rule-block--1 { border-top: 1.2pt solid #7eb8d4 !important; }
+  .handout-rule-block--2 { border-top: 1.2pt solid #8fbc8f !important; }
+  .handout-rule-block--3 { border-top: 1.2pt solid #c9a86c !important; }
+  .handout-rule-block--4 { border-top: 1.2pt solid #b48bc9 !important; }
+
+  .handout-rules-two-col .rule-block-title {
+    margin: 0 0 1.5mm !important;
+    padding: 0 0 1mm !important;
+    font-size: 10.25pt !important;
+    line-height: 1.3 !important;
+    border: none !important;
+    border-bottom: 0.3pt solid var(--print-line) !important;
+    background: transparent !important;
+  }
+
+  .handout-rules-two-col .ex-pair {
+    margin: 0 0 1.8mm !important;
+    padding: 1.4mm 1.6mm 1.6mm 2.4mm !important;
+    border-radius: 2mm !important;
+  }
+
+  .handout-rules-two-col .ex-pair::before {
+    width: 2pt !important;
+  }
+
+  .handout-rules-two-col .ex-pair .en-line {
+    font-size: 9.25pt !important;
+    line-height: 1.45 !important;
+    padding: 1.1mm 1.4mm 0.9mm !important;
+  }
+
+  .handout-rules-two-col .ex-pair .zh-line {
+    font-size: 8.75pt !important;
+    line-height: 1.42 !important;
+    padding: 0.9mm 1.4mm 1.1mm !important;
+  }
+
+  /* 上方规则速查卡保持 2×2 */
+  .adv-block .algo-grid {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 2mm !important;
+    margin-bottom: 2mm !important;
+  }
+
+  .adv-block .algo-card {
+    font-size: 9pt !important;
+    line-height: 1.38 !important;
+    padding: 1.5mm 2mm !important;
+    border: 0.35pt solid var(--print-line) !important;
+    background: var(--print-fill-soft) !important;
+  }
+
+  /* 频度副词 · 模块 B（复用两栏，四块配色） */
+  .handout-freq-block--be { border-top: 1.2pt solid #7eb8d4 !important; }
+  .handout-freq-block--verb { border-top: 1.2pt solid #8fbc8f !important; }
+  .handout-freq-block--aux { border-top: 1.2pt solid #d4a574 !important; }
+  .handout-freq-block--sometimes { border-top: 1.2pt solid #b48bc9 !important; }
+
+  .handout-freq-two-col {
+    margin-top: 2mm !important;
+  }
+
+  /* 频度副词小表：整表同页，行内不拆 */
+  .handout-keep-together,
+  .handout-freq-table-group {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  table.handout-table-compact,
+  .handout-freq-table-group table {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    font-size: 9.75pt !important;
+    line-height: 1.42 !important;
+    margin: 1.5mm 0 2mm !important;
+  }
+
+  table.handout-table-compact th,
+  table.handout-table-compact td,
+  .handout-freq-table-group table th,
+  .handout-freq-table-group table td {
+    padding: 1mm 1.8mm !important;
+  }
+
+  table.handout-table-compact tr,
+  .handout-freq-table-group table tr {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  table.handout-table-compact .cell-neg,
+  .handout-freq-table-group .cell-neg {
+    color: #8b4a44 !important;
+  }
+
+  .handout-freq-tip {
+    margin: 0 0 1.5mm !important;
+    font-size: 10.25pt !important;
+    line-height: 1.5 !important;
+  }
+
+  .handout-freq-table-group + .handout-freq-two-col {
+    break-before: auto !important;
+    page-break-before: auto !important;
+  }
+
+  .parallel-universe {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 2.5mm !important;
+  }
+
+  .algo-grid {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 2mm !important;
+  }
+
+  .cover-banner {
+    background: var(--print-fill-soft) !important;
+    color: #000 !important;
+    border: 0.35pt solid var(--print-line) !important;
+    border-radius: var(--print-radius) !important;
+    padding: 2.5mm 3mm !important;
+    break-inside: avoid;
+  }
+
+  .write-lines {
+    border: 0.35pt dashed var(--print-line) !important;
+    border-radius: var(--print-radius) !important;
+    background: #fff !important;
+    padding: 2.5mm 3mm !important;
+    margin: 2.5mm 0 !important;
+  }
+
+  .write-lines .prompt {
+    font-size: 10pt !important;
+    font-weight: 600 !important;
+  }
+
+  .write-lines .rule {
+    border-bottom: 0.35pt solid #bbb !important;
+    min-height: 8mm !important;
+    margin-bottom: 2.5mm !important;
+  }
+
+  /* 色标保留淡底（便于课堂标注） */
+  .mark-had,
+  .mark-past,
+  .mark-that,
+  .mark-wh,
+  .mark-if,
+  .mark-time,
+  .mark-reason,
+  .mark-cond,
+  .mark-conc,
+  .mark-purp,
+  .mark-result,
+  .mark-marker,
+  .key-term {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* —— 每个大节从新页开始 —— */
+  .handout-section + .handout-section,
+  .handout-print-page + .handout-print-page,
+  .handout-cover + .handout-section,
+  .intro + .handout-section,
+  .intro + section[id^="sec-"],
+  section[id^="sec-"] + section[id^="sec-"],
+  .inner > h2.section-title ~ h2.section-title,
+  .inner > h2.section-label ~ h2.section-label,
+  .inner > h2.section-label[id^="sec-"],
+  .inner > section[id^="sec-"]:not(.intro) {
+    break-before: page !important;
+    page-break-before: always !important;
+  }
+
+  .handout-section,
+  .handout-print-page {
+    break-inside: auto;
+    page-break-inside: auto;
+  }
+
+  .handout-section > h2.section-title:first-child,
+  .handout-print-page > h2.section-title:first-child {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+  }
+
+  details {
+    break-inside: auto;
+    page-break-inside: auto;
+  }
+
+  /* —— 页脚（出版社信息） —— */
+  .grammar-handout-footer,
+  .footer-min,
+  .footer-note {
+    display: block !important;
+    margin-top: 8mm !important;
+    padding-top: 3mm !important;
+    border: none !important;
+    border-top: 0.4pt solid var(--print-line) !important;
+    font-size: 9pt !important;
+    font-weight: 600 !important;
+    color: #444 !important;
+    text-align: center !important;
+    break-inside: avoid;
+  }
+
+  .tap-card {
+    transform: none !important;
+  }
+
+  code {
+    font-family: "Consolas", "Cascadia Mono", monospace !important;
+    font-size: 9.75pt !important;
+    background: var(--print-fill-soft) !important;
+    padding: 0.2mm 0.8mm !important;
+    border-radius: 0.5mm !important;
+  }
+
+  /* —— 仅去掉最外层讲义壳边框（保留 inner 内部分割线） —— */
+  body.grammar-handout-page main.sheet,
+  body.grammar-handout-page .sheet,
+  body.grammar-handout-page .grammar-handout-table-wrap,
+  body.l13-handout-page .sheet,
+  body.grammar-handout-page .inner {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+  }
+
+  body.grammar-handout-page main.sheet::before,
+  body.grammar-handout-page .sheet::before,
+  body.grammar-handout-page .inner::before,
+  body.grammar-handout-page .inner::after {
+    display: none !important;
+    border: none !important;
+  }
+
+  body.grammar-handout-page .write-lines .rule,
+  body.grammar-handout-page .print-header .line {
+    border: none !important;
+    border-bottom: 0.35pt solid var(--print-line-mid) !important;
+  }
+
+  /* —— 例句列表 ol.sentences（L02 等） —— */
+  body.grammar-handout-page ol.sentences {
+    list-style: none !important;
+    margin: 2mm 0 0 !important;
+    padding: 0 !important;
+  }
+
+  body.grammar-handout-page ol.sentences > li {
+    position: relative !important;
+    margin: 0 0 2.2mm !important;
+    padding: 1.6mm 2mm 1.8mm 3mm !important;
+    border: 0.35pt solid var(--print-line) !important;
+    border-radius: 2mm !important;
+    background: linear-gradient(
+      145deg,
+      rgba(240, 253, 250, 0.35) 0%,
+      #fff 45%,
+      var(--print-fill-soft) 100%
+    ) !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  body.grammar-handout-page ol.sentences > li::before {
+    content: "" !important;
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    width: 2pt !important;
+    border-radius: 2mm 0 0 2mm !important;
+    background: linear-gradient(180deg, #0d9488, #4a7c9b, #7eb8d4) !important;
+  }
+
+  body.grammar-handout-page ol.sentences > li .en,
+  body.grammar-handout-page ol.sentences > li .ex-en,
+  body.grammar-handout-page .pattern-card .ex-en,
+  body.grammar-handout-page .level-box .ex-en {
+    position: relative !important;
+    z-index: 1 !important;
+    display: block !important;
+    margin: 0 0 0.8mm !important;
+    padding: 1mm 1.2mm 0.8mm !important;
+    border-radius: 1mm 1mm 0 0 !important;
+    background: rgba(255, 255, 255, 0.85) !important;
+    font-size: 10.25pt !important;
+    line-height: 1.48 !important;
+    font-weight: 600 !important;
+    color: #000 !important;
+  }
+
+  body.grammar-handout-page ol.sentences > li .zh,
+  body.grammar-handout-page ol.sentences > li .ex-zh,
+  body.grammar-handout-page .pattern-card .ex-zh,
+  body.grammar-handout-page .level-box .ex-zh {
+    position: relative !important;
+    z-index: 1 !important;
+    display: block !important;
+    margin: 0 !important;
+    padding: 0.8mm 1.2mm 1mm !important;
+    border-radius: 0 0 1mm 1mm !important;
+    background: var(--print-fill-soft) !important;
+    font-size: 9.75pt !important;
+    line-height: 1.45 !important;
+    color: #333 !important;
+  }
+
+  body.grammar-handout-page ol.sentences--two-col {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 2.2mm 2.8mm !important;
+  }
+
+  body.grammar-handout-page ol.sentences--two-col > li {
+    margin: 0 !important;
+  }
+
+  body.l02-handout .pattern-grid {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 3mm !important;
+    margin-top: 2mm !important;
+  }
+
+  body.l02-handout .pattern-card {
+    margin: 0 !important;
+    padding: 2mm 2.5mm !important;
+    border: 0.35pt solid var(--print-line) !important;
+    border-radius: var(--print-radius) !important;
+    background: #fff !important;
+  }
+
+  body.l02-handout .skeleton-wrap {
+    border: none !important;
+    background: transparent !important;
+    padding: 0 !important;
+  }
+
+  /* 时间词卡片：见 grammar-handout-time-chips.css（须在 print 末再次引入） */
+
+  body.l02-handout .formula {
+    border: 0.35pt solid var(--print-line) !important;
+    background: var(--print-fill-soft) !important;
+    font-size: 10pt !important;
+    padding: 1.5mm 2mm !important;
+    margin: 1.5mm 0 !important;
+  }
+
+  body.l02-handout .badge {
+    background: #0f766e !important;
+    color: #fff !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  body.l02-handout .adv-block:not(.handout-chant-block) {
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    background: transparent !important;
+  }
+
+  /* L02 口诀区：仅保留外壳透明，内容框沿用全局 .handout-chant-box */
+  body.l02-handout .handout-chant-block {
+    margin-top: 3mm !important;
+    padding: 0 !important;
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  /* —— 模块一：封面后接排，节内可跨页（句式卡之间可分页） —— */
+  body.handout-continuous.l02-handout #sec-1 {
+    break-inside: auto !important;
+    page-break-inside: auto !important;
+    margin-bottom: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  body.handout-continuous.l02-handout #sec-1 > .sk-title.section-title {
+    margin-top: 0 !important;
+    break-after: avoid !important;
+    page-break-after: avoid !important;
+  }
+
+  /* 模块一 · 四句式 2×2 双栏（PDF） */
+  body.handout-continuous.l02-handout #sec-1 .pattern-grid,
+  body.l02-handout #sec-1 .pattern-grid {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 3mm 3.5mm !important;
+    margin-top: 2mm !important;
+  }
+
+  body.handout-continuous.l02-handout #sec-1 .pattern-card,
+  body.l02-handout #sec-1 .pattern-card {
+    margin: 0 !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  body.handout-continuous.l02-handout #sec-1 .pattern-card--frog,
+  body.handout-continuous.l02-handout #sec-1 .pattern-card--wh,
+  body.l02-handout #sec-1 .pattern-card--frog,
+  body.l02-handout #sec-1 .pattern-card--wh {
+    break-before: auto !important;
+    page-break-before: auto !important;
+  }
+
+  body.handout-continuous.l02-handout #sec-1 .level-box {
+    break-inside: auto !important;
+    page-break-inside: auto !important;
+  }
+
+  body.handout-continuous.l02-handout #sec-1 .pattern-card .meta {
+    margin-bottom: 1mm !important;
+  }
+
+  body.handout-continuous.l02-handout #sec-1 .pattern-card .name-en {
+    font-size: 9.5pt !important;
+    font-weight: 700 !important;
+  }
+
+  body.handout-continuous.l02-handout #sec-1 .pattern-card .name-zh {
+    font-size: 9pt !important;
+  }
+
+  body.handout-continuous.l02-handout #sec-1 .pattern-card .hint,
+  body.handout-continuous.l02-handout #sec-1 .pattern-card .formula {
+    font-size: 8.75pt !important;
+    line-height: 1.42 !important;
+  }
+
+  /* 模块一与模块二之间：强制换页 */
+  body.handout-continuous.l02-handout #sec-2 {
+    break-before: page !important;
+    page-break-before: always !important;
+  }
+
+  /*
+   * 模块二～五：彼此能合则合；单模块不跨页。
+   */
+  body.handout-continuous.l02-handout #sec-2,
+  body.handout-continuous.l02-handout #sec-3,
+  body.handout-continuous.l02-handout #sec-4,
+  body.handout-continuous.l02-handout #sec-5 {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    margin-bottom: 3.5mm !important;
+    padding: 0 !important;
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  body.handout-continuous.l02-handout #sec-3,
+  body.handout-continuous.l02-handout #sec-4,
+  body.handout-continuous.l02-handout #sec-5 {
+    break-before: auto !important;
+    page-break-before: auto !important;
+  }
+
+  body.handout-continuous.l02-handout #sec-2 > h2.section-title,
+  body.handout-continuous.l02-handout #sec-3 > h2.section-title,
+  body.handout-continuous.l02-handout #sec-4 > h2.section-title,
+  body.handout-continuous.l02-handout #sec-5 > h2.section-title {
+    margin-top: 3.5mm !important;
+    margin-bottom: 2mm !important;
+    break-after: avoid !important;
+    page-break-after: avoid !important;
+  }
+
+  body.handout-continuous.l02-handout #sec-2 > h2.section-title {
+    margin-top: 0 !important;
+  }
+
+  body.handout-continuous.l02-handout #sec-2 .explain,
+  body.handout-continuous.l02-handout #sec-3 .explain,
+  body.handout-continuous.l02-handout #sec-4 .explain,
+  body.handout-continuous.l02-handout #sec-5 .explain {
+    margin: 0 0 1.5mm !important;
+    font-size: 10.25pt !important;
+    line-height: 1.45 !important;
+  }
+
+  body.handout-continuous.l02-handout #sec-2 .time-lexicon,
+  body.handout-continuous.l02-handout #sec-3 .time-lexicon,
+  body.handout-continuous.l02-handout #sec-4 .time-lexicon,
+  body.handout-continuous.l02-handout #sec-5 .time-lexicon {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  body.handout-continuous.l02-handout #sec-2 ol.sentences,
+  body.handout-continuous.l02-handout #sec-3 ol.sentences,
+  body.handout-continuous.l02-handout #sec-4 ol.sentences,
+  body.handout-continuous.l02-handout #sec-5 ol.sentences {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  body.handout-continuous.l02-handout #sec-2 ol.sentences--two-col,
+  body.handout-continuous.l02-handout #sec-3 ol.sentences--two-col,
+  body.handout-continuous.l02-handout #sec-4 ol.sentences--two-col,
+  body.handout-continuous.l02-handout #sec-5 ol.sentences--two-col {
+    gap: 1.8mm 2.2mm !important;
+  }
+
+  body.handout-continuous.l02-handout #sec-2 ol.sentences > li,
+  body.handout-continuous.l02-handout #sec-3 ol.sentences > li,
+  body.handout-continuous.l02-handout #sec-4 ol.sentences > li,
+  body.handout-continuous.l02-handout #sec-5 ol.sentences > li {
+    margin-bottom: 1.6mm !important;
+    padding: 1.2mm 1.6mm 1.4mm 2.6mm !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  /* 抢分加料 + 附录 + 背诵口诀：尾部同组，能合则同一页 */
+  body.handout-continuous.l02-handout .handout-tail-group #sec-7,
+  body.handout-continuous.l02-handout .handout-tail-group .handout-chant-block {
+    break-before: auto !important;
+    page-break-before: auto !important;
+  }
+
+  body.handout-continuous.l02-handout .handout-tail-group #sec-6,
+  body.handout-continuous.l02-handout .handout-tail-group #sec-7 {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    margin-bottom: 3mm !important;
+    padding: 0 !important;
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  body.handout-continuous.l02-handout .handout-tail-group #sec-7 > h2.section-title {
+    margin-top: 3mm !important;
+    margin-bottom: 2mm !important;
+  }
+
+  body.handout-continuous.l02-handout .handout-tail-group .handout-chant-block {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    margin-top: 3mm !important;
+    margin-bottom: 0 !important;
+  }
+
+  body.handout-continuous.l02-handout .handout-tail-group #sec-6 ol.sentences,
+  body.handout-continuous.l02-handout .handout-tail-group #sec-7 ol.sentences {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  /* —— L03 一般过去时 —— */
+  body.handout-continuous.l03-handout .handout-section + .handout-section,
+  body.handout-continuous.l03-handout section[id^="sec-"] + section[id^="sec-"] {
+    break-before: auto !important;
+    page-break-before: auto !important;
+  }
+
+  body.handout-continuous.l03-handout .handout-section {
+    break-inside: auto !important;
+    page-break-inside: auto !important;
+    margin-bottom: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  body.handout-continuous.l03-handout #sec-usage {
+    break-inside: auto !important;
+    page-break-inside: auto !important;
+  }
+
+  body.handout-continuous.l03-handout #sec-verbs {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  body.handout-continuous.l03-handout #sec-write,
+  body.handout-continuous.l03-handout #sec-chant {
+    break-before: auto !important;
+    page-break-before: auto !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  body.handout-continuous.l03-handout .handout-golden-two-col {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 2mm 2.8mm !important;
+  }
+
+  body.handout-continuous.l03-handout .handout-golden-two-col .ex-pair {
+    margin: 0 !important;
+  }
+
+  body.l03-handout .usage-group-title {
+    margin: 3mm 0 2mm !important;
+    padding: 1.2mm 2mm !important;
+    font-size: 10.25pt !important;
+    line-height: 1.38 !important;
+    border-left: 2pt solid #4a7c9b !important;
+    background: var(--print-fill-soft) !important;
+    color: #0d1b2a !important;
+  }
+
+  body.l03-handout .usage-sub {
+    font-size: 9.5pt !important;
+    font-weight: 700 !important;
+    margin: 2mm 0 0.8mm !important;
+    color: #1a2a3a !important;
+  }
+
+  body.l03-handout .usage-rule {
+    font-size: 9.25pt !important;
+    line-height: 1.45 !important;
+    margin: 0 0 1.5mm !important;
+    color: #444 !important;
+  }
+
+  body.l03-handout .adv-block:not(.handout-chant-block) {
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    background: transparent !important;
+  }
+
+  body.l03-handout .handout-chant-block {
+    margin-top: 3mm !important;
+    padding: 0 !important;
+    border: none !important;
+    background: transparent !important;
+  }
+
+  /* —— L05 名词所有格 · 连续流式分页 —— */
+  body.handout-continuous.l05-handout .handout-section + .handout-section,
+  body.handout-continuous.l05-handout section[id^="sec-"] + section[id^="sec-"],
+  body.handout-continuous.l05-handout .handout-tail-group .handout-section {
+    break-before: auto !important;
+    page-break-before: auto !important;
+  }
+
+  body.handout-continuous.l05-handout .handout-section {
+    break-inside: auto !important;
+    page-break-inside: auto !important;
+    margin-bottom: 0 !important;
+    padding-bottom: 3.5mm !important;
+  }
+
+  body.handout-continuous.l05-handout .handout-section > h2.section-title:first-child {
+    margin-top: 3mm !important;
+    margin-bottom: 2mm !important;
+    break-after: avoid !important;
+    page-break-after: avoid !important;
+  }
+
+  body.handout-continuous.l05-handout .handout-cover + .handout-section > h2.section-title:first-child {
+    margin-top: 0 !important;
+  }
+
+  body.handout-continuous.l05-handout .handout-ex-two-col {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 2mm 2.8mm !important;
+    margin: 1.5mm 0 0 !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  body.handout-continuous.l05-handout .handout-ex-two-col .ex-pair {
+    margin: 0 !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  body.handout-continuous.l05-handout .print-pillars {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 2mm 2.5mm !important;
+    margin: 1.5mm 0 !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  body.handout-continuous.l05-handout .print-two-col {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 2.5mm 3mm !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  body.handout-continuous.l05-handout #sec-7 table.data {
+    break-inside: auto !important;
+    page-break-inside: auto !important;
+  }
+
+  body.handout-continuous.l05-handout .handout-tail-group #sec-10,
+  body.handout-continuous.l05-handout .handout-tail-group #sec-chant {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    padding-bottom: 0 !important;
+  }
+
+  body.handout-continuous.l05-handout .handout-tail-group #sec-chant {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+  }
+
+  body.handout-continuous.l05-handout .handout-tail-group .handout-chant-block {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    margin-top: 2.5mm !important;
+  }
+
+  body.l05-handout .warn-strip,
+  body.l05-handout .practice-box {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  body.l05-handout .adv-block:not(.handout-chant-block) {
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    background: transparent !important;
+  }
+
+  body.l05-handout .handout-chant-block {
+    margin-top: 3mm !important;
+    padding: 0 !important;
+    border: none !important;
+    background: transparent !important;
+  }
+
+  body.l05-handout .data th {
+    background: #eceff1 !important;
+    color: #000 !important;
+  }
+
+  body.l05-handout .data th,
+  body.l05-handout .data td {
+    border: 0.35pt solid #616161 !important;
+  }
+
+  /* —— L06 情态动词 · 连续流式分页 —— */
+  body.handout-continuous.l06-handout .handout-section + .handout-section,
+  body.handout-continuous.l06-handout section[id^="sec-"] + section[id^="sec-"],
+  body.handout-continuous.l06-handout .handout-tail-group .handout-section,
+  body.handout-continuous.l06-handout .handout-tail-group .handout-pitfall-final {
+    break-before: auto !important;
+    page-break-before: auto !important;
+  }
+
+  body.handout-continuous.l06-handout .handout-section {
+    break-inside: auto !important;
+    page-break-inside: auto !important;
+    margin-bottom: 0 !important;
+    padding-bottom: 3.5mm !important;
+  }
+
+  body.handout-continuous.l06-handout .handout-section > h2.section-title:first-child {
+    margin-top: 3mm !important;
+    margin-bottom: 2mm !important;
+    break-after: avoid !important;
+    page-break-after: avoid !important;
+  }
+
+  body.handout-continuous.l06-handout .handout-cover + .handout-section > h2.section-title:first-child {
+    margin-top: 0 !important;
+  }
+
+  body.handout-continuous.l06-handout #sec-map {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  body.handout-continuous.l06-handout .point {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  body.handout-continuous.l06-handout .level-card {
+    break-inside: auto !important;
+    page-break-inside: auto !important;
+    margin-bottom: 0 !important;
+    padding: 2.5mm 3mm !important;
+  }
+
+  body.handout-continuous.l06-handout .drill-grid {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 2mm 2.5mm !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  body.handout-continuous.l06-handout .summary-pairs {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 2mm 2.5mm !important;
+  }
+
+  body.handout-continuous.l06-handout .contrast-grid {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 2mm !important;
+  }
+
+  body.handout-continuous.l06-handout .handout-tail-group #sec-e,
+  body.handout-continuous.l06-handout .handout-tail-group .handout-pitfall-final,
+  body.handout-continuous.l06-handout .handout-tail-group #sec-chant {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    padding-bottom: 0 !important;
+  }
+
+  body.handout-continuous.l06-handout .handout-tail-group .handout-chant-block {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    margin-top: 2.5mm !important;
+  }
+
+  body.l06-handout .adv-block:not(.handout-chant-block) {
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    background: transparent !important;
+  }
+
+  body.l06-handout .handout-chant-block {
+    margin-top: 3mm !important;
+    padding: 0 !important;
+    border: none !important;
+    background: transparent !important;
+  }
+
+  body.l06-handout .data th {
+    background: #eceff1 !important;
+    color: #000 !important;
+  }
+
+  body.l06-handout .map-table th,
+  body.l06-handout .map-table td {
+    border: 0.35pt solid #616161 !important;
+    font-size: 9.25pt !important;
+  }
+
+  /* —— L07 比较级与最高级 · 连续流式分页 —— */
+  body.handout-continuous.l07-handout .handout-section + .handout-section,
+  body.handout-continuous.l07-handout section[id^="sec-"] + section[id^="sec-"],
+  body.handout-continuous.l07-handout .handout-tail-group .handout-section,
+  body.handout-continuous.l07-handout .handout-tail-group .handout-warn-final {
+    break-before: auto !important;
+    page-break-before: auto !important;
+  }
+
+  body.handout-continuous.l07-handout .handout-section {
+    break-inside: auto !important;
+    page-break-inside: auto !important;
+    margin-bottom: 0 !important;
+    padding-bottom: 3.5mm !important;
+  }
+
+  body.handout-continuous.l07-handout .handout-section > h2.section-title:first-child {
+    margin-top: 3mm !important;
+    margin-bottom: 2mm !important;
+    break-after: avoid !important;
+    page-break-after: avoid !important;
+  }
+
+  body.handout-continuous.l07-handout .handout-cover + .handout-section > h2.section-title:first-child {
+    margin-top: 0 !important;
+  }
+
+  body.handout-continuous.l07-handout #sec-1 {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  body.handout-continuous.l07-handout #sec-2 table.data,
+  body.handout-continuous.l07-handout #sec-3 .table-scroll table.data {
+    break-inside: auto !important;
+    page-break-inside: auto !important;
+  }
+
+  body.handout-continuous.l07-handout .mind-pillars {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 2mm !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  body.handout-continuous.l07-handout .mind-pillar {
+    padding: 2mm !important;
+    font-size: 8.5pt !important;
+    border: 0.35pt solid #555 !important;
+    background: #f8fafc !important;
+  }
+
+  body.handout-continuous.l07-handout .handout-ex-two-col {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 2mm 2.8mm !important;
+    margin: 1.5mm 0 !important;
+  }
+
+  body.handout-continuous.l07-handout .handout-ex-two-col .ex-pair {
+    margin: 0 !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  body.handout-continuous.l07-handout #sec-3 .mind-pillars {
+    grid-template-columns: 1fr !important;
+  }
+
+  body.handout-continuous.l07-handout #sec-4 .adv-block:not(.handout-chant-block) {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    margin-bottom: 2.5mm !important;
+    padding: 2mm 2.5mm !important;
+    border: 0.35pt solid var(--print-line) !important;
+    background: var(--print-fill-soft) !important;
+  }
+
+  body.handout-continuous.l07-handout .handout-tail-group .handout-warn-final,
+  body.handout-continuous.l07-handout .handout-tail-group #sec-chant {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    padding-bottom: 0 !important;
+  }
+
+  body.handout-continuous.l07-handout .handout-tail-group .handout-chant-block {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    margin-top: 2.5mm !important;
+  }
+
+  body.l07-handout .handout-chant-block {
+    margin-top: 3mm !important;
+    padding: 0 !important;
+    border: none !important;
+    background: transparent !important;
+  }
+
+  body.l07-handout .data th {
+    background: #eceff1 !important;
+    color: #000 !important;
+  }
+
+  body.l07-handout table.data {
+    font-size: 8.5pt !important;
+  }
+
+  body.l07-handout table.data th,
+  body.l07-handout table.data td {
+    border: 0.35pt solid #616161 !important;
+    padding: 0.8mm 1mm !important;
+  }
+
+  /* —— L08 将来时与条件句 · 连续流式分页 —— */
+  body.handout-continuous.l08-handout .handout-section + .handout-section,
+  body.handout-continuous.l08-handout section[id^="sec-"] + section[id^="sec-"],
+  body.handout-continuous.l08-handout .handout-tail-group .handout-section,
+  body.handout-continuous.l08-handout .handout-tail-group .handout-warn-final {
+    break-before: auto !important;
+    page-break-before: auto !important;
+  }
+
+  body.handout-continuous.l08-handout .handout-section {
+    break-inside: auto !important;
+    page-break-inside: auto !important;
+    margin-bottom: 0 !important;
+    padding-bottom: 3.5mm !important;
+  }
+
+  body.handout-continuous.l08-handout .handout-section > h2.section-title:first-child {
+    margin-top: 3mm !important;
+    margin-bottom: 2mm !important;
+    break-after: avoid !important;
+    page-break-after: avoid !important;
+  }
+
+  body.handout-continuous.l08-handout .handout-cover + .handout-section > h2.section-title:first-child {
+    margin-top: 0 !important;
+  }
+
+  body.handout-continuous.l08-handout #sec-1 {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  body.handout-continuous.l08-handout .mind-pillars {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 2mm !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  body.handout-continuous.l08-handout .mind-pillar {
+    padding: 2mm !important;
+    font-size: 8.5pt !important;
+    border: 0.35pt solid #555 !important;
+    background: #f8fafc !important;
+  }
+
+  body.handout-continuous.l08-handout .handout-ex-two-col {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 2mm 2.8mm !important;
+    margin: 1.5mm 0 !important;
+  }
+
+  body.handout-continuous.l08-handout .handout-ex-two-col .ex-pair {
+    margin: 0 !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  body.handout-continuous.l08-handout #sec-5 {
+    break-inside: auto !important;
+    page-break-inside: auto !important;
+  }
+
+  body.handout-continuous.l08-handout #sec-6 .adv-block {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    margin-bottom: 2.5mm !important;
+    padding: 2mm 2.5mm !important;
+    border: 0.35pt solid var(--print-line) !important;
+    background: var(--print-fill-soft) !important;
+  }
+
+  body.handout-continuous.l08-handout .handout-tail-group .handout-warn-final,
+  body.handout-continuous.l08-handout .handout-tail-group #sec-chant {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    padding-bottom: 0 !important;
+  }
+
+  body.handout-continuous.l08-handout .handout-tail-group .handout-chant-block {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    margin-top: 2.5mm !important;
+  }
+
+  body.l08-handout .handout-chant-block {
+    margin-top: 3mm !important;
+    padding: 0 !important;
+    border: none !important;
+    background: transparent !important;
+  }
+
+  body.l08-handout table.data-table th {
+    background: #eceff1 !important;
+    color: #000 !important;
+  }
+
+  body.l08-handout table.data-table {
+    font-size: 8.5pt !important;
+  }
+
+  body.l08-handout table.data-table th,
+  body.l08-handout table.data-table td {
+    border: 0.35pt solid #616161 !important;
+    padding: 0.8mm 1mm !important;
+  }
+
+  body.l08-handout .warn-strip,
+  body.l08-handout .tip-strip {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  /* —— L09 过去进行时 · 连续流式分页 —— */
+  body.handout-continuous.l09-handout .handout-section + .handout-section,
+  body.handout-continuous.l09-handout section[id^="sec-"] + section[id^="sec-"],
+  body.handout-continuous.l09-handout .handout-tail-group .handout-section {
+    break-before: auto !important;
+    page-break-before: auto !important;
+  }
+
+  body.handout-continuous.l09-handout .handout-section {
+    break-inside: auto !important;
+    page-break-inside: auto !important;
+    margin-bottom: 0 !important;
+    padding-bottom: 3.5mm !important;
+  }
+
+  body.handout-continuous.l09-handout .handout-section > h2.section-title:first-child {
+    margin-top: 3mm !important;
+    margin-bottom: 2mm !important;
+    break-after: avoid !important;
+    page-break-after: avoid !important;
+  }
+
+  body.handout-continuous.l09-handout .handout-cover + .handout-section > h2.section-title:first-child {
+    margin-top: 0 !important;
+  }
+
+  body.handout-continuous.l09-handout #sec-1 {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  body.handout-continuous.l09-handout #sec-3,
+  body.handout-continuous.l09-handout #sec-4 {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  body.handout-continuous.l09-handout #sec-5 {
+    break-inside: auto !important;
+    page-break-inside: auto !important;
+  }
+
+  body.handout-continuous.l09-handout .handout-ex-two-col {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 2mm 2.8mm !important;
+    margin: 1.5mm 0 !important;
+  }
+
+  body.handout-continuous.l09-handout .handout-ex-two-col .ex-pair {
+    margin: 0 !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  body.handout-continuous.l09-handout .handout-golden-two-col {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 2mm 2.8mm !important;
+  }
+
+  body.handout-continuous.l09-handout .handout-golden-two-col .ex-pair {
+    margin: 0 !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  body.handout-continuous.l09-handout .usage-group-title {
+    break-after: avoid !important;
+    page-break-after: avoid !important;
+  }
+
+  body.handout-continuous.l09-handout .handout-tail-group #sec-7,
+  body.handout-continuous.l09-handout .handout-tail-group #sec-chant {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    padding-bottom: 0 !important;
+  }
+
+  body.handout-continuous.l09-handout .handout-tail-group .handout-chant-block {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    margin-top: 2.5mm !important;
+  }
+
+  body.l09-handout .handout-chant-block {
+    margin-top: 3mm !important;
+    padding: 0 !important;
+    border: none !important;
+    background: transparent !important;
+  }
+
+  body.l09-handout table.data th {
+    background: #eceff1 !important;
+    color: #000 !important;
+  }
+
+  body.l09-handout table.data {
+    font-size: 8.5pt !important;
+  }
+
+  body.l09-handout table.data th,
+  body.l09-handout table.data td {
+    border: 0.35pt solid #616161 !important;
+    padding: 0.8mm 1mm !important;
+  }
+
+  /* —— L10 现在完成时 · 连续流式分页 —— */
+  body.handout-continuous.l10-handout .handout-section + .handout-section,
+  body.handout-continuous.l10-handout section[id^="sec-"] + section[id^="sec-"],
+  body.handout-continuous.l10-handout .handout-tail-group .handout-section {
+    break-before: auto !important;
+    page-break-before: auto !important;
+  }
+
+  body.handout-continuous.l10-handout .handout-section {
+    break-inside: auto !important;
+    page-break-inside: auto !important;
+    margin-bottom: 0 !important;
+    padding-bottom: 3.5mm !important;
+  }
+
+  body.handout-continuous.l10-handout .handout-section > h2.section-title:first-child {
+    margin-top: 3mm !important;
+    margin-bottom: 2mm !important;
+    break-after: avoid !important;
+    page-break-after: avoid !important;
+  }
+
+  body.handout-continuous.l10-handout .handout-cover + .handout-section > h2.section-title:first-child {
+    margin-top: 0 !important;
+  }
+
+  body.handout-continuous.l10-handout #sec-1 {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  body.handout-continuous.l10-handout .stack-cards .card {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    margin-bottom: 2.5mm !important;
+    padding: 2mm 2.5mm !important;
+    border: 0.35pt solid var(--print-line) !important;
+    background: var(--print-fill-soft) !important;
+  }
+
+  body.handout-continuous.l10-handout .handout-ex-two-col {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 2mm 2.8mm !important;
+    margin: 1.5mm 0 !important;
+  }
+
+  body.handout-continuous.l10-handout .handout-ex-two-col .ex-pair {
+    margin: 0 !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  body.handout-continuous.l10-handout #sec-6b {
+    break-inside: auto !important;
+    page-break-inside: auto !important;
+  }
+
+  body.handout-continuous.l10-handout #sec-8 {
+    break-inside: auto !important;
+    page-break-inside: auto !important;
+  }
+
+  body.handout-continuous.l10-handout #sec-8 table.verb-table {
+    break-inside: auto !important;
+    page-break-inside: auto !important;
+  }
+
+  body.handout-continuous.l10-handout .handout-tail-group #sec-chant {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    padding-bottom: 0 !important;
+  }
+
+  body.handout-continuous.l10-handout .handout-tail-group .handout-chant-block {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    margin-top: 2.5mm !important;
+  }
+
+  body.l10-handout .handout-chant-block {
+    margin-top: 3mm !important;
+    padding: 0 !important;
+    border: none !important;
+    background: transparent !important;
+  }
+
+  body.l10-handout table.data th {
+    background: #eceff1 !important;
+    color: #000 !important;
+  }
+
+  body.l10-handout table.data {
+    font-size: 8.5pt !important;
+  }
+
+  body.l10-handout table.data th,
+  body.l10-handout table.data td {
+    border: 0.35pt solid #616161 !important;
+    padding: 0.8mm 1mm !important;
+  }
+
+  body.l10-handout .formula-box {
+    border: 0.35pt solid var(--print-line) !important;
+    background: var(--print-fill-soft) !important;
+    padding: 2mm !important;
+  }
+
+  /* —— L11 状语从句 · 连续流式分页 —— */
+  body.handout-continuous.l11-handout .handout-section + .handout-section,
+  body.handout-continuous.l11-handout section[id^="sec-"] + section[id^="sec-"],
+  body.handout-continuous.l11-handout .handout-tail-group .handout-section {
+    break-before: auto !important;
+    page-break-before: auto !important;
+  }
+
+  body.handout-continuous.l11-handout .handout-section {
+    break-inside: auto !important;
+    page-break-inside: auto !important;
+    margin-bottom: 0 !important;
+    padding-bottom: 3.5mm !important;
+  }
+
+  body.handout-continuous.l11-handout .handout-section > h2.section-title:first-child {
+    margin-top: 3mm !important;
+    margin-bottom: 2mm !important;
+    break-after: avoid !important;
+    page-break-after: avoid !important;
+  }
+
+  body.handout-continuous.l11-handout .handout-cover + .handout-section > h2.section-title:first-child {
+    margin-top: 0 !important;
+  }
+
+  body.handout-continuous.l11-handout #sec-1 {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  body.handout-continuous.l11-handout .grid-2 {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 2mm 2.5mm !important;
+    margin: 1.5mm 0 !important;
+  }
+
+  body.handout-continuous.l11-handout .grid-3 {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 2mm !important;
+    margin: 1.5mm 0 !important;
+  }
+
+  body.handout-continuous.l11-handout .grid-2 > .card,
+  body.handout-continuous.l11-handout .grid-3 > .card {
+    display: block !important;
+    width: auto !important;
+    margin: 0 !important;
+    padding: 2mm 2.5mm !important;
+    border: 0.35pt solid var(--print-line) !important;
+    background: var(--print-fill-soft) !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  body.handout-continuous.l11-handout #sec-7 .grid-2 {
+    grid-template-columns: 1fr 1fr !important;
+  }
+
+  body.handout-continuous.l11-handout .handout-tail-group #sec-chant {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    padding-bottom: 0 !important;
+  }
+
+  body.handout-continuous.l11-handout .handout-tail-group .handout-chant-block {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    margin-top: 2.5mm !important;
+  }
+
+  body.l11-handout .handout-chant-block {
+    margin-top: 3mm !important;
+    padding: 0 !important;
+    border: none !important;
+    background: transparent !important;
+  }
+
+  body.l11-handout table.data th {
+    background: #eceff1 !important;
+    color: #000 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  body.l11-handout table.data {
+    font-size: 8.5pt !important;
+  }
+
+  body.l11-handout table.data th,
+  body.l11-handout table.data td {
+    border: 0.35pt solid #616161 !important;
+    padding: 0.8mm 1mm !important;
+  }
+
+  body.l11-handout .card,
+  body.l11-handout .write-lines,
+  body.l11-handout .note {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  body.l11-handout .mark-time,
+  body.l11-handout .mark-reason,
+  body.l11-handout .mark-cond,
+  body.l11-handout .mark-conc,
+  body.l11-handout .mark-purp,
+  body.l11-handout .mark-result {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* —— L12 宾语从句 · 连续流式分页 —— */
+  body.handout-continuous.l12-handout .handout-section + .handout-section,
+  body.handout-continuous.l12-handout section[id^="sec-"] + section[id^="sec-"],
+  body.handout-continuous.l12-handout .handout-tail-group .handout-section {
+    break-before: auto !important;
+    page-break-before: auto !important;
+  }
+
+  body.handout-continuous.l12-handout .handout-section {
+    break-inside: auto !important;
+    page-break-inside: auto !important;
+    margin-bottom: 0 !important;
+    padding-bottom: 3.5mm !important;
+  }
+
+  body.handout-continuous.l12-handout .handout-section > h2.section-title:first-child {
+    margin-top: 3mm !important;
+    margin-bottom: 2mm !important;
+    break-after: avoid !important;
+    page-break-after: avoid !important;
+  }
+
+  body.handout-continuous.l12-handout .handout-cover + .handout-section > h2.section-title:first-child {
+    margin-top: 0 !important;
+  }
+
+  body.handout-continuous.l12-handout .stack-cards {
+    display: block !important;
+  }
+
+  body.handout-continuous.l12-handout .stack-cards > .card {
+    display: block !important;
+    width: 100% !important;
+    margin: 0 0 2.5mm !important;
+    padding: 2mm 2.5mm !important;
+    border: 0.35pt solid var(--print-line) !important;
+    background: var(--print-fill-soft) !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  body.handout-continuous.l12-handout .grid-2 {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 2mm 2.5mm !important;
+    margin: 1.5mm 0 !important;
+  }
+
+  body.handout-continuous.l12-handout .grid-2 > .card {
+    display: block !important;
+    width: auto !important;
+    margin: 0 !important;
+    padding: 2mm 2.5mm !important;
+    border: 0.35pt solid var(--print-line) !important;
+    background: var(--print-fill-soft) !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  body.handout-continuous.l12-handout #sec-4 .grid-2 {
+    grid-template-columns: 1fr 1fr !important;
+  }
+
+  body.handout-continuous.l12-handout #sec-3 {
+    break-inside: auto !important;
+    page-break-inside: auto !important;
+  }
+
+  body.handout-continuous.l12-handout #sec-3 table.data {
+    break-inside: auto !important;
+    page-break-inside: auto !important;
+  }
+
+  body.handout-continuous.l12-handout .handout-tail-group #sec-chant {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    padding-bottom: 0 !important;
+  }
+
+  body.handout-continuous.l12-handout .handout-tail-group .handout-chant-block {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    margin-top: 2.5mm !important;
+  }
+
+  body.l12-handout .handout-chant-block {
+    margin-top: 3mm !important;
+    padding: 0 !important;
+    border: none !important;
+    background: transparent !important;
+  }
+
+  body.l12-handout table.data th {
+    background: #eceff1 !important;
+    color: #000 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  body.l12-handout table.data {
+    font-size: 8.5pt !important;
+  }
+
+  body.l12-handout table.data th,
+  body.l12-handout table.data td {
+    border: 0.35pt solid #616161 !important;
+    padding: 0.8mm 1mm !important;
+  }
+
+  body.l12-handout .card,
+  body.l12-handout .write-lines,
+  body.l12-handout .note {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  body.l12-handout .mark-that,
+  body.l12-handout .mark-wh,
+  body.l12-handout .mark-if {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* —— L13 过去完成时 · 连续流式分页 —— */
+  body.handout-continuous.l13-handout .handout-section + .handout-section,
+  body.handout-continuous.l13-handout section[id^="sec-"] + section[id^="sec-"],
+  body.handout-continuous.l13-handout .handout-tail-group .handout-section {
+    break-before: auto !important;
+    page-break-before: auto !important;
+  }
+
+  body.handout-continuous.l13-handout .handout-section {
+    break-inside: auto !important;
+    page-break-inside: auto !important;
+    margin-bottom: 0 !important;
+    padding-bottom: 3.5mm !important;
+  }
+
+  body.handout-continuous.l13-handout .handout-section > h2.section-title:first-child {
+    margin-top: 3mm !important;
+    margin-bottom: 2mm !important;
+    break-after: avoid !important;
+    page-break-after: avoid !important;
+  }
+
+  body.handout-continuous.l13-handout .handout-cover + .handout-section > h2.section-title:first-child {
+    margin-top: 0 !important;
+  }
+
+  body.handout-continuous.l13-handout .grid-2 {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 2mm 2.5mm !important;
+    margin: 1.5mm 0 !important;
+  }
+
+  body.handout-continuous.l13-handout .grid-2 > .card {
+    display: block !important;
+    width: auto !important;
+    margin: 0 !important;
+    padding: 2mm 2.5mm !important;
+    border: 0.35pt solid var(--print-line) !important;
+    background: var(--print-fill-soft) !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  body.handout-continuous.l13-handout #sec-3,
+  body.handout-continuous.l13-handout #sec-4 {
+    break-inside: auto !important;
+    page-break-inside: auto !important;
+  }
+
+  body.handout-continuous.l13-handout #sec-3 table.data,
+  body.handout-continuous.l13-handout #sec-4 table.data {
+    break-inside: auto !important;
+    page-break-inside: auto !important;
+  }
+
+  body.handout-continuous.l13-handout .story-set {
+    break-inside: auto !important;
+    page-break-inside: auto !important;
+  }
+
+  body.handout-continuous.l13-handout .story-list > .story-block {
+    display: block !important;
+    width: 100% !important;
+    margin: 0 0 2mm !important;
+    padding: 2mm 2.5mm 2mm 8mm !important;
+    border: 0.35pt solid var(--print-line) !important;
+    background: var(--print-fill-soft) !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  body.handout-continuous.l13-handout .story-block.had {
+    background: #f5f3ff !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  body.handout-continuous.l13-handout .story-block.observe {
+    background: #eff6ff !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  body.handout-continuous.l13-handout .handout-tail-group #sec-chant {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    padding-bottom: 0 !important;
+  }
+
+  body.handout-continuous.l13-handout .handout-tail-group .handout-chant-block {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    margin-top: 2.5mm !important;
+  }
+
+  body.l13-handout .handout-chant-block {
+    margin-top: 3mm !important;
+    padding: 0 !important;
+    border: none !important;
+    background: transparent !important;
+  }
+
+  body.l13-handout .formula-box {
+    border: 0.35pt solid var(--print-line) !important;
+    background: var(--print-fill-soft) !important;
+    padding: 2mm !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  body.l13-handout .timeline-text {
+    border: 0.35pt solid var(--print-line) !important;
+    background: var(--print-fill-soft) !important;
+    font-size: 8.5pt !important;
+    padding: 2mm !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  body.l13-handout table.data th {
+    background: #eceff1 !important;
+    color: #000 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  body.l13-handout table.data {
+    font-size: 8.5pt !important;
+  }
+
+  body.l13-handout table.data th,
+  body.l13-handout table.data td {
+    border: 0.35pt solid #616161 !important;
+    padding: 0.8mm 1mm !important;
+  }
+
+  body.l13-handout .card,
+  body.l13-handout .write-lines,
+  body.l13-handout .note,
+  body.l13-handout .pitfall-box {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  body.l13-handout .mark-had,
+  body.l13-handout .mark-past,
+  body.l13-handout .mark-marker {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* —— L13-定语从句 · 连续流式分页 —— */
+  body.handout-continuous.l13rc-handout .handout-section + .handout-section,
+  body.handout-continuous.l13rc-handout section[id^="sec-"] + section[id^="sec-"],
+  body.handout-continuous.l13rc-handout .handout-tail-group .handout-section {
+    break-before: auto !important;
+    page-break-before: auto !important;
+  }
+
+  body.handout-continuous.l13rc-handout .handout-section {
+    break-inside: auto !important;
+    page-break-inside: auto !important;
+    margin-bottom: 0 !important;
+    padding-bottom: 3.5mm !important;
+  }
+
+  body.handout-continuous.l13rc-handout .handout-section > h2.section-title:first-child {
+    margin-top: 3mm !important;
+    margin-bottom: 2mm !important;
+    break-after: avoid !important;
+    page-break-after: avoid !important;
+  }
+
+  body.handout-continuous.l13rc-handout .handout-cover + .handout-section > h2.section-title:first-child {
+    margin-top: 0 !important;
+  }
+
+  body.handout-continuous.l13rc-handout .grid-2 {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 2mm 2.5mm !important;
+    margin: 1.5mm 0 !important;
+  }
+
+  body.handout-continuous.l13rc-handout .grid-2 > .card {
+    display: block !important;
+    width: auto !important;
+    margin: 0 !important;
+    padding: 2mm 2.5mm !important;
+    border: 0.35pt solid var(--print-line) !important;
+    background: var(--print-fill-soft) !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  body.handout-continuous.l13rc-handout #sec-5 table.data {
+    break-inside: auto !important;
+    page-break-inside: auto !important;
+  }
+
+  body.handout-continuous.l13rc-handout .handout-tail-group #sec-chant {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    padding-bottom: 0 !important;
+  }
+
+  body.handout-continuous.l13rc-handout .handout-tail-group .handout-chant-block {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    margin-top: 2.5mm !important;
+  }
+
+  body.l13rc-handout .handout-chant-block {
+    margin-top: 3mm !important;
+    padding: 0 !important;
+    border: none !important;
+    background: transparent !important;
+  }
+
+  body.l13rc-handout .merge-steps {
+    border: 0.35pt solid var(--print-line) !important;
+    background: var(--print-fill-soft) !important;
+    padding: 2mm !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  body.l13rc-handout table.data th {
+    background: #eceff1 !important;
+    color: #000 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  body.l13rc-handout table.data {
+    font-size: 8.5pt !important;
+  }
+
+  body.l13rc-handout table.data th,
+  body.l13rc-handout table.data td {
+    border: 0.35pt solid #616161 !important;
+    padding: 0.8mm 1mm !important;
+  }
+
+  body.l13rc-handout .card,
+  body.l13rc-handout .write-lines,
+  body.l13rc-handout .note,
+  body.l13rc-handout .pitfall-box {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  body.l13rc-handout .mark-who,
+  body.l13rc-handout .mark-whom,
+  body.l13rc-handout .mark-which,
+  body.l13rc-handout .mark-that,
+  body.l13rc-handout .mark-whose,
+  body.l13rc-handout .mark-when,
+  body.l13rc-handout .mark-where,
+  body.l13rc-handout .mark-prep {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* —— L00 主谓宾 / 主系表 · 分级讲义 —— */
+  body.handout-continuous.l00-handout .handout-section {
+    break-inside: auto !important;
+    page-break-inside: auto !important;
+    margin-bottom: 0 !important;
+    padding-bottom: 3.5mm !important;
+  }
+
+  body.handout-continuous.l00-handout .handout-section > h2.section-title:first-child {
+    margin-top: 3mm !important;
+    margin-bottom: 2mm !important;
+    break-after: avoid !important;
+    page-break-after: avoid !important;
+  }
+
+  body.l00-handout table.data {
+    font-size: 10pt !important;
+    break-inside: auto !important;
+    page-break-inside: auto !important;
+  }
+
+  body.l00-handout table.data th {
+    background: #eceff1 !important;
+    color: #000 !important;
+  }
+
+  body.l00-handout table.data th,
+  body.l00-handout table.data td {
+    border: 0.35pt solid #616161 !important;
+    padding: 0.7mm 0.9mm !important;
+  }
+
+  body.l00-handout .type-group {
+    break-inside: auto !important;
+    page-break-inside: auto !important;
+  }
+
+  body.l00-handout .type-group h4 {
+    break-after: avoid !important;
+    page-break-after: avoid !important;
+  }
+
+  body.l00-handout .handout-tail-group #sec-chant {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  body.l00-handout .card,
+  body.l00-handout .note,
+  body.l00-handout .merge-steps {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+}

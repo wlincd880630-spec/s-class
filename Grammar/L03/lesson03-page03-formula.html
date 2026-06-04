@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
+  <script src="../shared/play-local-mp3.js"></script>
+  <script src="../shared/lesson-local-audio.js" defer></script>
+  <script src="../shared/lesson-speak-local-only.js"></script>
   <!-- spa-assets-inlined -->
 
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>第03讲 · Page 03 · 语法实验室：Be 动词的分身术</title>
-  <script src="../assets/lesson-tts-azure-config.js"></script>
-  <script src="../assets/lesson-tts-azure-play.js"></script>
+  <title>第03讲 · 第03页 · 一般过去时 be 动词</title>
+  <script src="assets/lesson-tts-azure-config.js"></script>
+  <script src="assets/lesson-tts-azure-play.js"></script>
 <script>
 /* inlined: https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js */
 /*
@@ -297,7 +300,7 @@
   </style>
   <style>
 /* inlined from L03/assets/css/l03-pager.css */
-/* 第03讲 · L03 专用底栏周边（底栏条本体见 ../../assets/lesson-screen-16x9.css） */
+/* 第03讲 · L03 专用底栏周边（底栏条本体见 assets/lesson-screen-16x9.css） */
 
 /* Page05：右侧进度区整体上移，避免压住底栏 */
 body.has-lesson-pager .progress-dock {
@@ -324,7 +327,7 @@ body.has-lesson-pager .lesson-progress-chip {
 /* inlined from L03/assets/css/l03-layout.css */
 /*
  * 第03讲 lesson03-page01 ~ page15：主区在父级内铺满
- * 视口级 16:9 舞台由 ../assets/lesson-screen-16x9.css 统一控制；此处不再限制 max-width。
+ * 视口级 16:9 舞台由 assets/lesson-screen-16x9.css 统一控制；此处不再限制 max-width。
  */
 #shakeHost,
 .book,
@@ -1037,6 +1040,8 @@ html body > nav.lesson-pager {
 
 
 </style>
+  <link rel="stylesheet" href="assets/grammar-lesson-pager.css" />
+  <link rel="stylesheet" href="../shared/grammar-logo.css" />
 </head>
 <body class="has-lesson-pager">
   <div class="book">
@@ -1079,9 +1084,10 @@ html body > nav.lesson-pager {
     </div>
   </div>
 
-  <nav class="lesson-pager" aria-label="第03讲·页面导航">
-    <a class="pager-prev" href="lesson03-page02-audio.html">← 上一页 · Page 02 · 盲听电台</a>
-    <a class="pager-next" href="lesson03-page04-patterns.html">下一页 · Page 04 · 句式魔法阵 →</a>
+  <nav class="lesson-pager is-file-nav" aria-label="页面导航">
+    <a class="pager-prev" href="lesson03-page02-audio.html">上一页</a>
+    <a class="pager-logo" href="../index.html" aria-label="课程主页"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/logo2.png" alt="Steven's Class" width="204" height="61" decoding="async" /></a>
+    <a class="pager-next" href="lesson03-page04-patterns.html">下一页</a>
   </nav>
 
   <script>
@@ -1420,6 +1426,67 @@ window.L03AudioManifest = {
 
       stop();
       var id = state.requestId;
+      if (typeof window.playLocalMp3Url === "function") {
+
+        return window.playLocalMp3Url(src, { playbackRate: mapRateToPlayback(opts.rate, opts.slow) }).then(function (ok) {
+
+          if (!ok) console.warn("[LessonAudio] 本地 MP3 播放失败:", src);
+
+          resolve();
+
+        });
+
+      }
+
+      if (typeof window.playLocalMp3Url === "function") {
+
+
+        return window.playLocalMp3Url(src).then(function (ok) {
+
+
+          if (!ok) console.warn("[LessonAudio] 本地 MP3 播放失败:", src);
+
+
+          resolve();
+
+
+          return;
+
+
+        });
+
+
+      }
+
+
+      if (typeof window.playLocalMp3Url === "function") {
+
+
+
+        return window.playLocalMp3Url(src).then(function (ok) {
+
+
+
+          if (!ok) console.warn("[LessonAudio] 本地 MP3 播放失败:", src);
+
+
+
+          resolve();
+
+
+
+          return;
+
+
+
+        });
+
+
+
+      }
+
+
+
       var a = new Audio(src);
       a.playbackRate = mapRateToPlayback(opts.rate, opts.slow);
       state.audio = a;
@@ -1678,5 +1745,6 @@ window.L03AudioManifest = {
     buildPool();
   })();
   </script>
-</body>
+  <link rel="stylesheet" href="assets/lesson-image-lightbox.css" />
+  <script src="assets/lesson-image-lightbox.js" defer></script></body>
 </html>

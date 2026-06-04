@@ -3,9 +3,12 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>第06讲 · Page 03 · 内心之火与外界枷锁</title>
+  <title>第06讲 · 第03页 · must / have to</title>
   <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
-  <link rel="stylesheet" href="../assets/lesson-screen-16x9.css" />
+  <script src="../shared/play-local-mp3.js"></script>
+  <script src="../shared/lesson-local-audio.js" defer></script>
+  <script src="../shared/lesson-speak-local-only.js"></script>
+  <link rel="stylesheet" href="assets/lesson-screen-16x9.css" />
   <style>
     :root {
       --paper: #fff7e8;
@@ -509,6 +512,8 @@
       .choice-row { grid-template-columns: 1fr; }
     }
   </style>
+  <link rel="stylesheet" href="assets/grammar-lesson-pager.css" />
+  <link rel="stylesheet" href="../shared/grammar-logo.css" />
 </head>
 <body class="has-lesson-pager">
   <main class="app" id="app">
@@ -593,10 +598,10 @@
     <div class="feedback" id="feedback">抓住责任来源：这句话是“我非做不可”，还是“外界逼我做”？</div>
   </main>
 
-  <nav class="lesson-pager" aria-label="课程页导航">
-    <a class="pager-prev" href="lesson06-page02-cancant.html">← 上一页 · Page 02</a>
-    <span class="pager-mid">L06 · Page 03 / 07</span>
-    <a class="pager-next" href="lesson06-page04-mustnt-donthaveto.html">下一页 · Page 04 →</a>
+  <nav class="lesson-pager is-file-nav" aria-label="页面导航">
+    <a class="pager-prev" href="lesson06-page02-cancant.html">上一页</a>
+    <a class="pager-logo" href="../index.html" aria-label="课程主页"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/logo2.png" alt="Steven's Class" width="204" height="61" decoding="async" /></a>
+    <a class="pager-next" href="lesson06-page04-mustnt-donthaveto.html">下一页</a>
   </nav>
 
   <script>
@@ -911,6 +916,9 @@
         return null;
       }
       function playAudioFile(src) {
+        if (typeof window.playLocalMp3Url === "function") {
+          return window.playLocalMp3Url(src);
+        }
         return new Promise((resolve) => {
           const audio = new Audio(src);
           audio.addEventListener("ended", () => resolve(true), { once: true });
@@ -928,7 +936,7 @@
         if (!current) return;
         const i = DATA.findIndex((d) => d.text === current.text);
         if (i < 0) return;
-        const src = `https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L06/assets/tts-mp3/l06-page03/eng-${String(i + 1).padStart(2, "0")}.mp3`;
+        const src = `assets/tts-mp3/l06-page03/eng-${String(i + 1).padStart(2, "0")}.mp3`;
         const ok = await playAudioFile(src);
         feedback.textContent = ok
           ? "本地 Google TTS 朗读完成。抓住责任来源再拖拽。"
@@ -936,7 +944,7 @@
       }
       async function playCnTts() {
         if (!cnCurrent) return;
-        const src = `https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L06/assets/tts-mp3/l06-page03/cn-${String(cnIndex + 1).padStart(2, "0")}.mp3`;
+        const src = `assets/tts-mp3/l06-page03/cn-${String(cnIndex + 1).padStart(2, "0")}.mp3`;
         const ok = await playAudioFile(src);
         feedback.textContent = ok
           ? "中文题干朗读完成。"
@@ -1014,5 +1022,6 @@
       setup();
     })();
   </script>
-</body>
+  <link rel="stylesheet" href="assets/lesson-image-lightbox.css" />
+  <script src="assets/lesson-image-lightbox.js" defer></script></body>
 </html>

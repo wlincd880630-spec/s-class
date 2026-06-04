@@ -1,0 +1,657 @@
+/**
+ * L01 一般现在时讲义 · 专题样式（外壳见 ../shared/grammar-handout.css）
+ */
+
+:root {
+      --paper: #fff9f0;
+      --ink: #333;
+      --ink-soft: #555;
+      --crayon-red: #e85d4c;
+      --crayon-blue: #4a90d9;
+      --crayon-green: #5cb85c;
+      --crayon-purple: #9b59b6;
+      --crayon-orange: #f0ad4e;
+      --zone-be: rgba(74, 144, 217, 0.12);
+      --zone-do: rgba(92, 184, 92, 0.12);
+      --zone-adv: rgba(255, 193, 7, 0.14);
+      --shadow: rgba(60, 40, 20, 0.1);
+      --lesson-font-sans: system-ui, -apple-system, "Segoe UI", "Helvetica Neue", Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+      --lesson-fs-example: clamp(1.02rem, 0.5vw + 0.9rem, 1.2rem);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+body.grammar-handout-page.l01-handout {
+      font-family: var(--lesson-font-sans);
+      background:
+        radial-gradient(circle at 10% 15%, rgba(255, 220, 180, 0.38) 0%, transparent 42%),
+        radial-gradient(circle at 90% 85%, rgba(200, 230, 255, 0.32) 0%, transparent 40%),
+        linear-gradient(168deg, #ffeaa7 0%, #fab1a0 30%, #dfe6e9 100%);
+      color: var(--ink);
+    }
+
+body.grammar-handout-page main.sheet.l01-handout {
+      max-width: var(--gh-sheet-max, 900px);
+      margin: 0 auto;
+      background: var(--paper);
+      border-radius: 12px 28px 16px 20px;
+      border: 4px solid var(--crayon-orange);
+      box-shadow: 6px 8px 0 var(--crayon-red), 14px 18px 32px var(--shadow);
+      padding: 1.5rem 1.5rem 2rem;
+      position: relative;
+    }
+    .inner { position: relative; z-index: 1; }
+
+    /* —— 讲义封面（屏幕） —— */
+    .handout-cover {
+      position: relative;
+      margin: -0.25rem -0.5rem 1.25rem;
+      padding: 2.5rem 1.5rem 2.75rem;
+      border-radius: 10px 24px 12px 20px;
+      overflow: hidden;
+      text-align: center;
+      color: #1a2a3a;
+    }
+    .handout-cover__bg {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(145deg, #e8f4f8 0%, #f8fbfd 42%, #fff 100%),
+        radial-gradient(ellipse 80% 60% at 15% 10%, rgba(74, 144, 217, 0.18), transparent 55%),
+        radial-gradient(ellipse 70% 50% at 90% 85%, rgba(13, 148, 136, 0.12), transparent 50%);
+      border: 1px solid rgba(13, 148, 136, 0.2);
+      border-radius: inherit;
+      z-index: 0;
+    }
+    .handout-cover__bg::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: linear-gradient(90deg, #0d9488, #4a90d9, #0d9488);
+    }
+    .handout-cover__bg::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(
+          circle at 20% 30%,
+          rgba(74, 144, 217, 0.07) 0 1px,
+          transparent 1px
+        ),
+        radial-gradient(circle at 80% 70%, rgba(13, 148, 136, 0.06) 0 1px, transparent 1px);
+      background-size: 18px 18px, 22px 22px;
+      opacity: 0.65;
+      pointer-events: none;
+    }
+    .handout-cover__inner {
+      position: relative;
+      z-index: 1;
+      max-width: 28rem;
+      margin: 0 auto;
+    }
+    .handout-cover__brand {
+      margin: 0 0 1rem;
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      color: #0f766e;
+      text-transform: none;
+    }
+    .handout-cover__en {
+      margin: 0 0 0.35rem;
+      font-family: "Georgia", "Times New Roman", "Songti SC", serif;
+      font-size: 1.05rem;
+      font-style: italic;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      color: #4a7c9b;
+    }
+    .handout-cover__title {
+      margin: 0 0 0.5rem;
+      font-size: clamp(2rem, 5vw, 2.65rem);
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      line-height: 1.2;
+      color: #0d1b2a;
+      text-shadow: none;
+    }
+    .handout-cover__rule {
+      width: 3.5rem;
+      height: 3px;
+      margin: 0 auto 1rem;
+      border-radius: 2px;
+      background: linear-gradient(90deg, transparent, #0d9488, transparent);
+    }
+    .handout-cover__focus {
+      margin: 0;
+      font-size: 0.88rem;
+      line-height: 1.65;
+      font-weight: 500;
+      color: #475569;
+      letter-spacing: 0.04em;
+    }
+
+    .doc-title {
+      font-family: var(--lesson-font-sans);
+      font-size: 1.48rem;
+      text-align: center;
+      color: var(--crayon-red);
+      margin: 0 0 0.75rem;
+      text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.06);
+      line-height: 1.3;
+    }
+    h2.section-title {
+      font-family: var(--lesson-font-sans);
+      font-size: 1.12rem;
+      color: #1a237e;
+      margin: 1.6rem 0 0.75rem;
+      padding-bottom: 0.35rem;
+      border-bottom: 3px solid rgba(74, 144, 217, 0.35);
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      flex-wrap: wrap;
+    }
+    h2.section-title:first-of-type { margin-top: 0; }
+    h3.block-title {
+      font-size: 1rem;
+      color: #0d47a1;
+      margin: 0.75rem 0 0.45rem;
+    }
+    .tap-card {
+      transition: transform 0.12s ease;
+      will-change: transform;
+    }
+    @media (hover: none) and (pointer: coarse) {
+      .tap-card:active { transform: scale(0.985); }
+    }
+    .tap-card:hover { transform: scale(1.005); }
+    .mind-wrap {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    .mind-pillars {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.65rem;
+    }
+    @media (max-width: 560px) {
+      .mind-pillars { grid-template-columns: 1fr; }
+    }
+    /* 习惯 / 真理 / 日程 · 三栏例句 */
+    .handout-usage-three-col {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.65rem;
+      margin-top: 0.75rem;
+    }
+    @media (max-width: 720px) {
+      .handout-usage-three-col { grid-template-columns: 1fr; }
+    }
+    .handout-usage-col {
+      padding: 0.65rem 0.55rem;
+      border-radius: 12px;
+      border: 2px solid rgba(13, 148, 136, 0.22);
+      background: rgba(255, 255, 255, 0.85);
+    }
+    .handout-usage-col--habit { border-top: 3px solid var(--crayon-blue); }
+    .handout-usage-col--truth { border-top: 3px solid var(--crayon-green); }
+    .handout-usage-col--schedule { border-top: 3px solid var(--crayon-orange); }
+    .handout-usage-three-col .usage-col-title {
+      margin: 0 0 0.45rem;
+      padding-bottom: 0.35rem;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    }
+    .handout-usage-three-col .ex-pair:last-child,
+    .handout-rules-two-col .ex-pair:last-child {
+      margin-bottom: 0;
+    }
+    .mind-pillar {
+      text-align: center;
+      padding: 0.85rem 0.65rem;
+      border-radius: 16px;
+      border: 3px dashed rgba(155, 89, 182, 0.45);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.9) 0%, rgba(243, 229, 245, 0.45) 100%);
+      font-size: 0.9rem;
+    }
+    .mind-pillar .ico { font-size: 1.85rem; line-height: 1; margin-bottom: 0.35rem; }
+    .mind-pillar strong { display: block; color: #6a1b9a; margin-bottom: 0.25rem; }
+    .parallel-universe {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+      margin-top: 0.75rem;
+    }
+    @media (max-width: 640px) {
+      .parallel-universe { grid-template-columns: 1fr; }
+    }
+    .pu-box {
+      padding: 0.85rem 1rem;
+      border-radius: 14px;
+      border: 3px solid;
+      font-size: 0.88rem;
+      line-height: 1.55;
+    }
+    .pu-be {
+      border-color: rgba(74, 144, 217, 0.55);
+      background: var(--zone-be);
+    }
+    .pu-do {
+      border-color: rgba(46, 125, 50, 0.55);
+      background: var(--zone-do);
+    }
+    .pu-box h4 {
+      margin: 0 0 0.4rem;
+      font-size: 0.98rem;
+    }
+    .pu-be h4 { color: #1565c0; }
+    .pu-do h4 { color: #2e7d32; }
+    .never-mix {
+      margin-top: 0.75rem;
+      padding: 0.65rem 0.85rem;
+      border-radius: 12px;
+      background: rgba(211, 47, 47, 0.1);
+      border: 2px dashed #c62828;
+      font-size: 0.86rem;
+      font-weight: 700;
+      color: #b71c1c;
+      text-align: center;
+    }
+    table.data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.84rem;
+      margin: 0.5rem 0;
+    }
+    table.data-table th,
+    table.data-table td {
+      border: 2px solid rgba(0, 0, 0, 0.1);
+      padding: 0.4rem 0.5rem;
+      text-align: left;
+    }
+    table.data-table th {
+      background: rgba(74, 144, 217, 0.15);
+      color: #0d47a1;
+    }
+    .key-term {
+      font-weight: 800;
+      border-bottom: 2px dotted rgba(0, 0, 0, 0.35);
+    }
+    .warn-strip {
+      padding: 0.55rem 0.75rem;
+      border-radius: 10px;
+      background: rgba(255, 235, 238, 0.85);
+      border-left: 5px solid #e53935;
+      font-size: 0.86rem;
+      margin: 0.5rem 0;
+      color: #b71c1c;
+      font-weight: 700;
+    }
+    .intonation {
+      font-family: var(--lesson-font-sans);
+      font-size: var(--lesson-fs-example);
+      padding: 0.5rem 0.65rem;
+      background: rgba(255, 249, 196, 0.5);
+      border-radius: 10px;
+      margin: 0.45rem 0;
+    }
+    .algo-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.5rem;
+      font-size: 0.82rem;
+    }
+    @media (max-width: 520px) {
+      .algo-grid { grid-template-columns: 1fr; }
+    }
+    .algo-card {
+      padding: 0.55rem 0.65rem;
+      border-radius: 12px;
+      border: 2px dashed rgba(46, 125, 50, 0.4);
+      background: rgba(232, 245, 233, 0.5);
+    }
+    .algo-card strong { color: #1b5e20; }
+    /* 规则 1～4 例句 · 两栏 */
+    .handout-rules-two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+      margin-top: 0.65rem;
+    }
+    @media (max-width: 640px) {
+      .handout-rules-two-col { grid-template-columns: 1fr; }
+    }
+    .handout-rules-col {
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+      min-width: 0;
+    }
+    .handout-rule-block {
+      padding: 0.55rem 0.6rem;
+      border-radius: 12px;
+      border: 2px solid rgba(46, 125, 50, 0.22);
+      background: rgba(255, 255, 255, 0.9);
+    }
+    .handout-rule-block--1 { border-top: 3px solid var(--crayon-blue); }
+    .handout-rule-block--2 { border-top: 3px solid var(--crayon-green); }
+    .handout-rule-block--3 { border-top: 3px solid var(--crayon-orange); }
+    .handout-rule-block--4 { border-top: 3px solid var(--crayon-purple); }
+    .handout-rules-two-col .rule-block-title {
+      margin: 0 0 0.4rem;
+      padding-bottom: 0.35rem;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    }
+    .handout-freq-block--be { border-top: 3px solid var(--crayon-blue); }
+    .handout-freq-block--verb { border-top: 3px solid var(--crayon-green); }
+    .handout-freq-block--aux { border-top: 3px solid var(--crayon-orange); }
+    .handout-freq-block--sometimes { border-top: 3px solid var(--crayon-purple); }
+    .ipa {
+      font-family: "Segoe UI", sans-serif;
+      font-size: 0.8rem;
+      color: #6a1b9a;
+    }
+    .mirror-box {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem;
+      border-radius: 14px;
+      background: linear-gradient(90deg, rgba(255, 213, 79, 0.2), rgba(129, 199, 132, 0.2));
+      border: 3px solid rgba(255, 152, 0, 0.45);
+      font-size: 0.86rem;
+      margin: 0.5rem 0;
+    }
+    .mirror-box code {
+      background: rgba(0, 0, 0, 0.06);
+      padding: 0.15rem 0.35rem;
+      border-radius: 6px;
+      font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
+      font-size: 0.95rem;
+    }
+    .adv-block {
+      border-radius: 14px;
+      padding: 0.9rem 1rem;
+      margin-bottom: 0.85rem;
+      border: 3px solid rgba(230, 126, 34, 0.45);
+      background: var(--zone-adv);
+    }
+    .adv-block h3 {
+      margin: 0 0 0.45rem;
+      font-size: 0.98rem;
+      color: #e65100;
+    }
+    .adv-block ul {
+      margin: 0.35rem 0 0;
+      padding-left: 1.15rem;
+      font-size: 0.86rem;
+    }
+    .en-line {
+      font-family: var(--lesson-font-sans);
+      font-size: var(--lesson-fs-example);
+      margin: 0.35rem 0 0;
+      padding: 0.4rem 0.5rem;
+      background: rgba(255, 255, 255, 0.75);
+      border-radius: 8px;
+      border-left: 4px solid var(--crayon-orange);
+    }
+    .zh-line {
+      font-size: 0.84rem;
+      color: var(--ink-soft);
+      margin: 0.2rem 0 0.65rem;
+      padding: 0 0.5rem 0 0.85rem;
+      border-left: 3px solid rgba(74, 144, 217, 0.35);
+      line-height: 1.5;
+    }
+    .ex-pair { margin-bottom: 0.15rem; }
+    .mini-note {
+      font-size: 0.82rem;
+      color: #555;
+      margin: 0.35rem 0 0.5rem;
+    }
+    button.tts-chip {
+      font-family: var(--lesson-font-sans);
+      font-size: 0.78rem;
+      padding: 0.15rem 0.45rem;
+      margin-left: 0.35rem;
+      border-radius: 999px;
+      border: 2px solid var(--crayon-red);
+      background: #fff;
+      cursor: pointer;
+      vertical-align: middle;
+      touch-action: manipulation;
+    }
+    button.tts-chip:hover { background: #ffebee; }
+    .print-hint {
+      font-size: 0.76rem;
+      color: #888;
+      text-align: center;
+      margin-top: 1.25rem;
+    }
+    .lesson-footer-nav {
+      max-width: 860px;
+      margin: 1.25rem auto 0;
+      padding: 0.5rem 0.75rem;
+      text-align: center;
+      font-size: 0.84rem;
+      color: #555;
+      font-family: var(--lesson-font-sans);
+    }
+    .lesson-footer-nav a {
+      color: var(--crayon-blue);
+      text-decoration: none;
+      font-weight: 700;
+    }
+    .lesson-footer-nav .nav-sep { margin: 0 0.35rem; color: #aaa; }
+    .handout-pdf-bar {
+      max-width: 860px;
+      margin: 0 auto 0.75rem;
+      padding: 0 1rem;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .btn-handout-pdf {
+      font-family: var(--lesson-font-sans);
+      font-size: 0.92rem;
+      padding: 0.5rem 1.15rem;
+      border-radius: 999px;
+      border: 3px solid var(--crayon-orange);
+      background: linear-gradient(180deg, #fff 0%, #fff9f0 100%);
+      color: #1565c0;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 2px 3px 0 rgba(0, 0, 0, 0.08);
+      touch-action: manipulation;
+    }
+    .btn-handout-pdf:hover { background: #e3f2fd; }
+    .btn-handout-pdf:disabled { opacity: 0.55; cursor: not-allowed; }
+    .handout-header { margin-bottom: 0.25rem; }
+    body.grammar-handout-page.l01-handout .doc-subtitle {
+      text-align: center;
+      color: var(--ink-soft);
+      font-weight: 800;
+      font-size: 0.92rem;
+      margin: 0 0 1rem;
+    }
+    body.grammar-handout-page.l01-handout .intro {
+      margin-bottom: 0.85rem;
+      padding: 0.75rem 0.9rem;
+      border-radius: 14px;
+      border: 3px solid var(--crayon-orange);
+      background: linear-gradient(180deg, rgba(255, 249, 240, 0.95), #fff);
+      font-size: 0.88rem;
+      line-height: 1.65;
+    }
+    .handout-section {
+      margin-bottom: 0.25rem;
+    }
+    body.grammar-handout-page.l01-handout .adv-block h3 {
+      font-size: 1rem;
+      color: #0d47a1;
+      margin: 0 0 0.45rem;
+    }
+    body.grammar-handout-page.l01-handout .quote-box {
+      font-weight: 700;
+      color: var(--ink);
+    }
+    /* 页边距 / 正文字号 / 页码：见shared/grammar-handout-print.css */
+    @media print {
+      /* 内部分割线见 ../grammar-handout-print.css；此处仅 L01 布局 */
+      .tap-card,
+      .mind-pillar,
+      .pu-box,
+      .adv-block,
+      .ex-pair {
+        box-shadow: none !important;
+      }
+      body.grammar-handout-page.l01-handout h2.section-title {
+        color: #0d1b2a !important;
+      }
+      h2.section-title + .mind-wrap,
+      h2.section-title + .adv-block,
+      h2.section-title + .skeleton-wrap {
+        break-before: avoid !important;
+        page-break-before: avoid !important;
+      }
+      h3 {
+        font-weight: 700 !important;
+        color: #bf360c !important;
+        margin: 0 0 1.5mm !important;
+        page-break-after: avoid !important;
+      }
+      .mind-wrap {
+        margin: 0 0 3mm !important;
+      }
+      .mind-pillars {
+        display: grid !important;
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 2mm !important;
+      }
+      .mind-pillar {
+        text-align: center !important;
+      }
+      .parallel-universe {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 2.5mm !important;
+      }
+      .pu-be h4 {
+        color: #0d47a1 !important;
+      }
+      .pu-do h4 {
+        color: #1b5e20 !important;
+      }
+      .never-mix {
+        text-align: left !important;
+      }
+      /* 双栏「平行宇宙」+ 底部红框整段同页，不拆开 */
+      .handout-parallel-block {
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+      }
+      .handout-parallel-block .parallel-universe {
+        gap: 2mm !important;
+      }
+      .handout-parallel-block .pu-box {
+        padding: 1.5mm 2mm !important;
+      }
+      .handout-parallel-block .pu-box h4 {
+        margin: 0 0 1mm !important;
+      }
+      .handout-parallel-block .ex-pair {
+        margin: 0 0 1.5mm !important;
+      }
+      .handout-parallel-block .en-line {
+        padding: 1mm 1.75mm !important;
+        margin: 0.75mm 0 0 !important;
+      }
+      .handout-parallel-block .zh-line {
+        margin: 0 0 1.25mm !important;
+      }
+      .handout-parallel-block .never-mix {
+        margin-top: 2mm !important;
+        padding: 1.5mm 2mm !important;
+      }
+      .adv-block {
+        margin: 0 0 2.5mm !important;
+      }
+      .adv-block h3 {
+        color: #e65100 !important;
+      }
+      table.data-table th,
+      table.data-table td {
+        border: 0.35pt solid #616161 !important;
+        padding: 1.5mm 2mm !important;
+      }
+      table.data-table th {
+        background: #eceff1 !important;
+        color: #000 !important;
+      }
+      .key-term {
+        font-weight: 700 !important;
+        border-bottom: 0.4pt dotted #333 !important;
+      }
+      .warn-strip {
+        padding: 2mm 2.5mm !important;
+        border-left: 2pt solid #d32f2f !important;
+        background: #ffebee !important;
+      }
+      .algo-grid {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 2mm !important;
+      }
+      .algo-card {
+        border: 0.35pt dashed #388e3c !important;
+        background: #f9fff9 !important;
+        padding: 2mm !important;
+      }
+      .ipa {
+        font-family: var(--lesson-font-sans) !important;
+      }
+      .mirror-box {
+        border: 0.4pt solid #ffa726 !important;
+        background: #fffbf0 !important;
+        padding: 2mm 2.5mm !important;
+      }
+      .intonation {
+        font-family: var(--lesson-font-sans) !important;
+        border: 0.35pt solid #ffcc80 !important;
+        background: #fffde7 !important;
+      }
+      .tap-card {
+        transform: none !important;
+      }
+      p {
+        orphans: 3;
+        widows: 3;
+      }
+    }
+
+/* 与全课程 data 表统一 */
+body.grammar-handout-page.l01-handout .data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.86rem;
+  margin: 0.5rem 0;
+}
+body.grammar-handout-page.l01-handout .data-table th,
+body.grammar-handout-page.l01-handout .data-table td {
+  border: 2px solid rgba(13, 148, 136, 0.25);
+  padding: 0.4rem 0.5rem;
+  vertical-align: top;
+}
+body.grammar-handout-page.l01-handout .data-table th {
+  background: rgba(204, 251, 241, 0.55);
+  color: var(--gh-accent-ink, #0f766e);
+  font-weight: 800;
+}
+
+/* 表格打印线：见 shared/grammar-handout-print.css */

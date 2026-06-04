@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
+  <script src="../shared/play-local-mp3.js"></script>
+  <script src="../shared/lesson-local-audio.js" defer></script>
+  <script src="../shared/lesson-speak-local-only.js"></script>
   <!-- spa-assets-inlined -->
 
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>第03讲 · Page 05 · 时光打印机 · 图片对比发现式版</title>
-  <script src="../assets/lesson-tts-azure-config.js"></script>
-  <script src="../assets/lesson-tts-azure-play.js"></script>
+  <title>第03讲 · 第05页 · 实义动词过去式导入</title>
+  <script src="assets/lesson-tts-azure-config.js"></script>
+  <script src="assets/lesson-tts-azure-play.js"></script>
 <script>
 /* inlined: https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js */
 /*
@@ -283,12 +286,50 @@
       max-height: min(48vw, 320px);
       min-height: 168px;
       height: auto;
-      margin: 0 auto 0.45rem;
+      margin: 0 auto 0.35rem;
       border-radius: 14px 12px 16px 14px;
       border: 3px solid #5d4037;
       background: linear-gradient(180deg, #fafafa 0%, #eceff1 55%, #e0e0e0 100%);
       overflow: hidden;
+    }
+    .photo-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem 0.65rem;
+      margin: 0 0 0.5rem;
+    }
+    .reveal-sentence-btn {
+      font-family: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+      font-size: 0.92rem;
+      font-weight: 900;
+      padding: 0.5rem 1.1rem;
+      border-radius: 999px;
+      border: 3px solid #5d4037;
+      background: linear-gradient(180deg, #c8e6c9, #81c784);
+      color: #1b5e20;
       cursor: pointer;
+      box-shadow: 0 4px 0 rgba(0, 0, 0, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.55);
+      transition: transform 0.15s ease, filter 0.15s ease;
+    }
+    .reveal-sentence-btn:hover:not(:disabled) {
+      transform: translateY(-1px);
+      filter: brightness(1.03);
+    }
+    .reveal-sentence-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+    .reveal-sentence-btn.is-done {
+      background: linear-gradient(180deg, #e3f2fd, #90caf9);
+      color: #0d47a1;
+    }
+    .photo-zoom-hint {
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: #78909c;
     }
     .photo-stack img {
       position: absolute;
@@ -299,6 +340,7 @@
       object-position: center;
       box-sizing: border-box;
       padding: 0.28rem;
+      cursor: zoom-in;
     }
     .photo-stack .img-now {
       z-index: 2;
@@ -566,7 +608,7 @@
   </style>
   <style>
 /* inlined from L03/assets/css/l03-pager.css */
-/* 第03讲 · L03 专用底栏周边（底栏条本体见 ../../assets/lesson-screen-16x9.css） */
+/* 第03讲 · L03 专用底栏周边（底栏条本体见 assets/lesson-screen-16x9.css） */
 
 /* Page05：右侧进度区整体上移，避免压住底栏 */
 body.has-lesson-pager .progress-dock {
@@ -593,7 +635,7 @@ body.has-lesson-pager .lesson-progress-chip {
 /* inlined from L03/assets/css/l03-layout.css */
 /*
  * 第03讲 lesson03-page01 ~ page15：主区在父级内铺满
- * 视口级 16:9 舞台由 ../assets/lesson-screen-16x9.css 统一控制；此处不再限制 max-width。
+ * 视口级 16:9 舞台由 assets/lesson-screen-16x9.css 统一控制；此处不再限制 max-width。
  */
 #shakeHost,
 .book,
@@ -1306,11 +1348,13 @@ html body > nav.lesson-pager {
 
 
 </style>
+  <link rel="stylesheet" href="assets/grammar-lesson-pager.css" />
+  <link rel="stylesheet" href="../shared/grammar-logo.css" />
 </head>
 <body class="has-lesson-pager">
   <div class="book">
     <div class="top-bar"><strong>第03讲</strong> · Page 05 · 时光打印机 · 图片对比 + 发现式学习</div>
-    <h1>先看两幅图猜「平时」怎么说，再点 Yesterday 看「过去」</h1>
+    <h1>先看图（可点击放大），点「显示金句」解锁平时句，再点 Yesterday 看「过去」</h1>
     <p class="subtitle">左栏规则动词：多数加 ·ed（盖章派）｜右栏不规则：过去式各不相同（魔法派）</p>
 
     <div class="page-layout">
@@ -1332,10 +1376,14 @@ html body > nav.lesson-pager {
           <div class="conveyor-belt" aria-hidden="true"></div>
           <div class="screen-wrap">
             <div class="screen-inner" id="screenInner">
-              <div class="photo-stack" id="photoStack" title="点击上图，解锁「平时」金句与 Yesterday 按钮">
+              <div class="photo-stack" id="photoStack" title="点击图片可放大查看">
                 <img class="img-now" id="imgNowEl" alt="Usually — 平时" decoding="async" />
                 <img class="img-past" id="imgPastEl" alt="Yesterday — 过去" decoding="async" />
                 <div class="img-fallback" id="imgFallback" aria-hidden="true">📖</div>
+              </div>
+              <div class="photo-actions" id="photoActions">
+                <button type="button" class="reveal-sentence-btn" id="btnRevealSentence">💬 显示「平时」金句</button>
+                <span class="photo-zoom-hint">🖼️ 点击图片放大</span>
               </div>
               <p class="screen-line" id="screenSentence"></p>
               <div class="verb-hero-wrap" id="verbHeroWrap">
@@ -1368,9 +1416,10 @@ html body > nav.lesson-pager {
     <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progressFill"></div></div>
   </div>
 
-  <nav class="lesson-pager" aria-label="第03讲·页面导航">
-    <a class="pager-prev" href="lesson03-page04-patterns.html">← 上一页 · Page 04 · 句式魔法阵</a>
-    <a class="pager-next" href="lesson03-page06-regular.html">下一页 · Page 06 · 拼写炼金实验室 →</a>
+  <nav class="lesson-pager is-file-nav" aria-label="页面导航">
+    <a class="pager-prev" href="lesson03-page04-patterns.html">上一页</a>
+    <a class="pager-logo" href="../index.html" aria-label="课程主页"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/logo2.png" alt="Steven's Class" width="204" height="61" decoding="async" /></a>
+    <a class="pager-next" href="lesson03-page06-regular.html">下一页</a>
   </nav>
 
   <script>
@@ -1709,6 +1758,67 @@ window.L03AudioManifest = {
 
       stop();
       var id = state.requestId;
+      if (typeof window.playLocalMp3Url === "function") {
+
+        return window.playLocalMp3Url(src, { playbackRate: mapRateToPlayback(opts.rate, opts.slow) }).then(function (ok) {
+
+          if (!ok) console.warn("[LessonAudio] 本地 MP3 播放失败:", src);
+
+          resolve();
+
+        });
+
+      }
+
+      if (typeof window.playLocalMp3Url === "function") {
+
+
+        return window.playLocalMp3Url(src).then(function (ok) {
+
+
+          if (!ok) console.warn("[LessonAudio] 本地 MP3 播放失败:", src);
+
+
+          resolve();
+
+
+          return;
+
+
+        });
+
+
+      }
+
+
+      if (typeof window.playLocalMp3Url === "function") {
+
+
+
+        return window.playLocalMp3Url(src).then(function (ok) {
+
+
+
+          if (!ok) console.warn("[LessonAudio] 本地 MP3 播放失败:", src);
+
+
+
+          resolve();
+
+
+
+          return;
+
+
+
+        });
+
+
+
+      }
+
+
+
       var a = new Audio(src);
       a.playbackRate = mapRateToPlayback(opts.rate, opts.slow);
       state.audio = a;
@@ -2177,6 +2287,8 @@ window.L03AudioManifest = {
     var toast = document.getElementById("toast");
     var progressFill = document.getElementById("progressFill");
     var photoStack = document.getElementById("photoStack");
+    var photoActions = document.getElementById("photoActions");
+    var btnRevealSentence = document.getElementById("btnRevealSentence");
     var imgNowEl = document.getElementById("imgNowEl");
     var imgPastEl = document.getElementById("imgPastEl");
     var imgFallback = document.getElementById("imgFallback");
@@ -2243,7 +2355,7 @@ window.L03AudioManifest = {
     function setBusy(on) {
       busy = on;
       document.body.classList.toggle("is-busy", on);
-      btnYesterday.disabled = on;
+      applyDiscoveryUI();
     }
 
     function playLowHum() {
@@ -2360,16 +2472,30 @@ window.L03AudioManifest = {
     function applyDiscoveryUI() {
       setYesterdayLocked(!discoveryRevealed || isPast);
       screenSentence.classList.toggle("is-phased-out", !discoveryRevealed && !isPast);
+      if (photoActions) photoActions.hidden = !!isPast;
+      if (btnRevealSentence) {
+        btnRevealSentence.disabled = !!busy;
+        if (isPast) return;
+        if (!discoveryRevealed) {
+          btnRevealSentence.textContent = "💬 显示「平时」金句";
+          btnRevealSentence.classList.remove("is-done");
+          btnRevealSentence.setAttribute("aria-label", "显示平时例句并朗读，解锁 Yesterday 按钮");
+        } else {
+          btnRevealSentence.textContent = "🔊 重听「平时」金句";
+          btnRevealSentence.classList.add("is-done");
+          btnRevealSentence.setAttribute("aria-label", "重新朗读平时例句");
+        }
+      }
     }
 
     function resolveP05ImageBase() {
       try {
         var qs = new URLSearchParams(window.location.search || "");
         if (qs.get("localimg") === "1" || qs.get("siteimg") === "1") {
-          return new URL("assets/img/", window.location.href).href;
+          return "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/img/";
         }
         if (window.location.protocol === "file:") {
-          return new URL("assets/img/", window.location.href).href;
+          return "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/img/";
         }
       } catch (eR) {}
       return "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/img/";
@@ -2784,8 +2910,17 @@ window.L03AudioManifest = {
       transitionToPast();
     });
 
-    photoStack.addEventListener("click", function () {
-      revealDiscovery();
+    btnRevealSentence.addEventListener("click", function () {
+      if (busy || isPast) return;
+      if (!discoveryRevealed) {
+        revealDiscovery();
+        return;
+      }
+      if (window.L03AzureTTS && window.L03AzureTTS.isReady()) {
+        stopSpeak();
+        speakToken++;
+        speakLine(current.baseSentence, speakToken);
+      }
     });
 
     screenSentence.addEventListener("click", function (ev) {
@@ -2833,5 +2968,6 @@ window.L03AudioManifest = {
     openPanel("reg");
   })();
   </script>
-</body>
+  <link rel="stylesheet" href="assets/lesson-image-lightbox.css" />
+  <script src="assets/lesson-image-lightbox.js" defer></script></body>
 </html>

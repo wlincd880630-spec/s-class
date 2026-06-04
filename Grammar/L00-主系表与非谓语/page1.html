@@ -1,9 +1,12 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" class="l00-course">
 <head>
+  <script src="../shared/play-local-mp3.js"></script>
+  <script src="../shared/lesson-local-audio.js" defer></script>
+  <script src="../shared/lesson-speak-local-only.js"></script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>主系表 · 魔法桥 — 互动课 第 1 页</title>
+  <title>主系表与非谓语 · 第01页 · 主系表结构入门</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet" />
@@ -34,17 +37,7 @@
       overflow-x: hidden;
       color: var(--ink);
     }
-
-    @media (min-width: 640px) {
-      html { overflow-x: hidden; }
-      body {
-        zoom: 1.32;
-        width: min(920px, calc(100vw / 1.32));
-        max-width: 100%;
-        margin-left: auto;
-        margin-right: auto;
-      }
-    }
+    /* 整体 140% 缩放见 assets/l00-scale.css */
 
     body::before {
       content: "";
@@ -550,8 +543,18 @@
     }
     .tts-read-btn:hover { background: var(--paper); }
   </style>
+
+  <script src="assets/l00link-course-tts-manifest.js"></script>
+  <script src="assets/lesson-tts-bootstrap.js"></script>
+  <script src="assets/l00-speak.js"></script>
+  <link rel="stylesheet" href="assets/grammar-lesson-pager.css" />
+  <link rel="stylesheet" href="../shared/grammar-logo.css" />
+
+  <link rel="stylesheet" href="assets/l00-unified-pager.css" />
+
+  <link rel="stylesheet" href="assets/l00-scale.css" />
 </head>
-<body>
+<body class="has-lesson-pager l00-course">
   <div id="app">
     <h1 id="pageTitle" class="visible">主系表 · 魔法桥 — 第 1 页</h1>
 
@@ -674,7 +677,7 @@
           </div>
           <p class="en-text" id="state4En">
             What do the pictures tell us about Steven? Is he DOING something, or is he IN A STATE?
-            <button type="button" class="tts-read-btn" data-tts-read="What%20do%20the%20pictures%20tell%20us%20about%20Steven%3F%20Is%20he%20DOING%20something%2C%20or%20is%20he%20IN%20A%20STATE%3F" title="Azure 朗读">🔊</button>
+            <button type="button" class="tts-read-btn" data-tts-read="What%20do%20the%20pictures%20tell%20us%20about%20Steven%3F%20Is%20he%20DOING%20something%2C%20or%20is%20he%20IN%20A%20STATE%3F" title="朗读（本地 MP3）">🔊</button>
           </p>
           <p class="zh-text">这些画告诉你：Steven 是在<strong>做动作</strong>，还是在一种<strong>状态</strong>里？</p>
         </section>
@@ -696,7 +699,7 @@
           </p>
           <p class="zh-text">
             这句话是在描述 Steven「做了什么动作」（如吃、跑），还是只说明他「怎么样」？
-            <button type="button" class="tts-read-btn" data-tts-read="Does%20this%20sentence%20describe%20something%20Steven%20does%2C%20like%20eating%20or%20running%2C%20or%20does%20it%20only%20say%20how%20he%20is%3F" title="Azure 朗读英文问题">🔊</button>
+            <button type="button" class="tts-read-btn" data-tts-read="Does%20this%20sentence%20describe%20something%20Steven%20does%2C%20like%20eating%20or%20running%2C%20or%20does%20it%20only%20say%20how%20he%20is%3F" title="朗读（本地 MP3）">🔊</button>
           </p>
           <p class="en-text" style="font-size:1rem;opacity:0.9">
             Does this sentence describe something Steven does, like eating or running, or does it only say how he is?
@@ -771,17 +774,22 @@
 
   <div class="success-overlay" id="confettiRoot" aria-hidden="true"></div>
 
-  <div class="footer-bar">
-    <div class="footer-toolbar">
-      <a class="page-nav-link" href="index.html" title="返回主系表课程列表">课程列表</a>
-      <button type="button" class="page-nav-link" id="navPrevStep" disabled title="撤回本页内上一步">← 上一步</button>
-      <button type="button" class="next-btn" id="nextBtn">下一步 →</button>
-    </div>
-  </div>
-
   <script src="cos-config.js"></script>
   <script src="linking-assets.js"></script>
-  <script>
+  
+      <nav class="lesson-pager is-l00-unified" aria-label="页面导航">
+    <div class="pager-zone pager-zone--left">
+      <span class="pager-prev pager-muted" aria-disabled="true">上一页</span>
+      <a class="pager-lesson-index" href="index.html" title="返回主系表课程列表">课程列表</a>
+    </div>
+    <a class="pager-logo" href="../index.html" aria-label="课程总目录"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/logo2.png" alt="Steven's Class" width="204" height="61" decoding="async" /></a>
+    <div class="pager-zone pager-zone--right">
+      <button type="button" class="pager-step-prev" id="navPrevStep" disabled title="撤回本课内上一步">← 上一步</button>
+      <button type="button" class="pager-step-next" id="nextBtn">下一步 →</button>
+      <a class="pager-next" href="page2.html">下一页</a>
+    </div>
+  </nav>
+<script>
 (function () {
   "use strict";
 
@@ -854,44 +862,12 @@
   }
 
   function speakAzure(text) {
-    if (!text) return;
-    var endpoint =
-      "https://" + AZURE_REGION + ".tts.speech.microsoft.com/cognitiveservices/v1";
-    var ssml =
-      '<speak version="1.0" xml:lang="en-US">' +
-      '<voice xml:lang="en-US" name="' +
-      TTS_VOICE +
-      '">' +
-      escapeXml(text) +
-      "</voice></speak>";
-
-    fetch(endpoint, {
-      method: "POST",
-      headers: {
-        "Ocp-Apim-Subscription-Key": AZURE_SPEECH_KEY,
-        "Content-Type": "application/ssml+xml",
-        "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3",
-        "User-Agent": "ESL-SPA-LinkingV-Page1"
-      },
-      body: ssml
-    })
-      .then(function (res) {
-        if (!res.ok) throw new Error("TTS " + res.status);
-        return res.arrayBuffer();
-      })
-      .then(function (buf) {
-        var blob = new Blob([buf], { type: "audio/mpeg" });
-        var url = URL.createObjectURL(blob);
-        var audio = new Audio(url);
-        audio.play().finally(function () {
-          setTimeout(function () {
-            URL.revokeObjectURL(url);
-          }, 60000);
-        });
-      })
-      .catch(function (err) {
-        console.warn("Azure TTS:", err);
-      });
+    if (window.L00Speak) return window.L00Speak.speak(text);
+    var t = String(text || "").replace(/\s+/g, " ").trim();
+    if (!t || !window.LessonTTSBootstrap) return Promise.resolve();
+    return window.LessonTTSBootstrap.playLocalIfAvailable(t).then(function (ok) {
+      if (!ok) console.warn("[TTS] 本地 MP3 未找到:", t.slice(0, 120));
+    });
   }
 
   function escapeXml(s) {
@@ -1138,5 +1114,6 @@
   showStep(1);
 })();
   </script>
-</body>
+  <link rel="stylesheet" href="assets/lesson-image-lightbox.css" />
+  <script src="assets/lesson-image-lightbox.js" defer></script></body>
 </html>

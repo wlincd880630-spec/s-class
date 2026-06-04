@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
+  <script src="../shared/play-local-mp3.js"></script>
+  <script src="../shared/lesson-local-audio.js" defer></script>
+  <script src="../shared/lesson-speak-local-only.js"></script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Lesson 10 · 翻译与仿写</title>
+  <title>第10讲 · 第11页 · 翻译仿写</title>
   <script src="https://cdn.jsdelivr.net/npm/microsoft-cognitiveservices-speech-sdk@1.38.0/dist/microsoft.cognitiveservices.speech.sdk.bundle-min.js" crossorigin="anonymous"></script>
   <style>
     :root {
@@ -182,14 +185,19 @@
     }
 
 </style>
+  <script src="assets/lesson-tts-bootstrap.js"></script>
+  <script src="assets/l10-tts-manifest.js"></script>
+  <script src="assets/l10-tts-play.js"></script>
+  <link rel="stylesheet" href="assets/grammar-lesson-pager.css" />
+  <link rel="stylesheet" href="../shared/grammar-logo.css" />
 </head>
-<body>
+<body class="has-lesson-pager">
   <div id="ariaLive" class="sr" aria-live="polite"></div>
   <header class="topbar">
     <div class="brand">Lesson 10 · Translation &amp; Mimic Writing</div>
     <div class="slide-meta" id="slideIndicator">1 / 5</div>
     <div class="top-actions">
-      <a class="btn-link secondary" href="L10-00-index.html">返回目录</a>
+      <a class="btn-link secondary" href="index.html">返回目录</a>
       <a class="btn-link secondary" href="L10-09-durative-verbs.html">上一节</a>
       <a class="btn-link secondary" href="L10-11-reading-mini.html">下一节</a>
       <button type="button" id="btnReadZhAll">朗读题干（中文）</button>
@@ -340,8 +348,6 @@
 
   <script>
 (function () {
-  const AZURE_SPEECH_KEY = "C42UQWeDcluYanbo17WrtUnPhk0vkZy2uQHPTCGDzY6CdEXx99NzJQQJ99BIACqBBLyXJ3w3AAAYACOGjkyu";
-  const AZURE_SPEECH_REGION = "southeastasia";
   const DEEPSEEK_API_KEY = "sk-daa16008e81843deba6fefe9dce51465";
   const DEEPSEEK_API_URL = "https://api.deepseek.com/v1/chat/completions";
   const DS_SESS_KEY = "l10p11_ds_count";
@@ -415,57 +421,13 @@
       "</voice></speak>"
     );
   }
-  function azureRest(ssml, ok, fail) {
-    stopHtmlAudio();
-    fetch("https://" + AZURE_SPEECH_REGION + ".tts.speech.microsoft.com/cognitiveservices/v1", {
-      method: "POST",
-      mode: "cors",
-      credentials: "omit",
-      headers: {
-        "Ocp-Apim-Subscription-Key": AZURE_SPEECH_KEY,
-        "Content-Type": "application/ssml+xml",
-        "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3",
-        "User-Agent": "L10P11Translate/1.0"
-      },
-      body: ssml
-    })
-      .then(function (r) {
-        if (!r.ok) return r.text().then(function () { throw new Error("REST " + r.status); });
-        return r.blob();
-      })
-      .then(function (blob) {
-        if (!blob || blob.size < 80) throw new Error("音频异常");
-        var u = URL.createObjectURL(blob);
-        var a = new Audio();
-        ttsHtmlAudio = a;
-        a._revoke = u;
-        a.src = u;
-        a.setAttribute("playsinline", "true");
-        a.onended = function () { stopHtmlAudio(); ok(); };
-        a.onerror = function () { stopHtmlAudio(); fail(new Error("play")); };
-        var p = a.play();
-        if (p && p.catch) p.catch(function (e) { stopHtmlAudio(); fail(e); });
-      })
-      .catch(function (e) { stopHtmlAudio(); fail(e); });
+    function azureRest(ssml, ok, fail) {
+    window.L10LocalTts.speakSsml(ssml, "en-US-JennyNeural", ok);
   }
   function azureSdk(ssml, voiceName, ok, fail) {
-    if (typeof SpeechSDK === "undefined") { fail(new Error("no sdk")); return; }
-    stopHtmlAudio();
-    var cfg = SpeechSDK.SpeechConfig.fromSubscription(AZURE_SPEECH_KEY, AZURE_SPEECH_REGION);
-    cfg.speechSynthesisVoiceName = voiceName;
-    var syn = new SpeechSDK.SpeechSynthesizer(cfg, SpeechSDK.AudioConfig.fromDefaultSpeakerOutput());
-    syn.speakSsmlAsync(
-      ssml,
-      function (res) {
-        var good = res.reason === SpeechSDK.ResultReason.SynthesizingAudioCompleted;
-        syn.close();
-        if (good) ok();
-        else fail(new Error("sdk"));
-      },
-      function (err) { syn.close(); fail(err); }
-    );
+    window.L10LocalTts.speakSsml(ssml, voiceName, ok);
   }
-  function azureSpeakSsml(ssml, voice, onDone) {
+    function azureSpeakSsml(ssml, voice, onDone) {
     onDone = onDone || function () {};
     setTtsBar("正在连接 Azure 语音…");
     azureRest(
@@ -817,5 +779,11 @@
   updateMimicStats();
 })();
   </script>
-</body>
+  <link rel="stylesheet" href="assets/lesson-image-lightbox.css" />
+  <script src="assets/lesson-image-lightbox.js" defer></script>
+<nav class="lesson-pager is-file-nav" aria-label="页面导航">
+    <a class="pager-prev" href="L10-09-durative-verbs.html">上一页</a>
+    <a class="pager-logo" href="../index.html" aria-label="课程主页"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/logo2.png" alt="Steven's Class" width="204" height="61" decoding="async" /></a>
+    <a class="pager-next" href="L10-11-reading-mini.html">下一页</a>
+  </nav></body>
 </html>

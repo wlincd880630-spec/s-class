@@ -132,8 +132,8 @@
   },
   "be determined to do sth": {
     "example": {
-      "en": "Despite various difficulties, she is determined to achieve her ultimate goal.",
-      "zh": "尽管困难重重，她还是下定决心要实现自己的最终目标。\n\n写作应用：展现坚韧不拔的意志、面对挫折的决心（常用于励志类记叙文或演讲稿）。"
+      "en": "Despite various difficulties, she is determined to achieve her long-term goal.",
+      "zh": "尽管困难重重，她还是下定决心要实现自己的长期目标。\n\n写作应用：展现坚韧不拔的意志、面对挫折的决心（常用于励志类记叙文或演讲稿）。"
     },
     "make": {
       "en": "He is determined to pass the final exam.",
@@ -174,8 +174,8 @@
   },
   "be proud of doing sth": {
     "example": {
-      "en": "As a Chinese, I am proud of having such a long and rich history.",
-      "zh": "作为一名中国人，我为拥有如此悠久而丰富的历史感到骄傲。\n\n写作应用：表达获得成就后的喜悦、对祖国或学校的自豪感。"
+      "en": "As a Chinese student, I am proud of having such a long and rich history.",
+      "zh": "作为一名中国学生，我为拥有如此悠久而丰富的历史感到骄傲。\n\n写作应用：表达获得成就后的喜悦、对祖国或学校的自豪感。"
     },
     "make": {
       "en": "He is proud of winning the game.",
@@ -370,8 +370,8 @@
   },
   "be anxious to do sth": {
     "example": {
-      "en": "The high school graduates are anxious to know their final exam results.",
-      "zh": "高中毕业生们急于知道他们的期末考试成绩。\n\n写作应用：描写考试后的焦急等待、迫不及待想要分享好消息的心情。"
+      "en": "The high school graduates are anxious to know their entrance exam results.",
+      "zh": "高中毕业生们急于知道自己的升学考试成绩。\n\n写作应用：描写考试后的焦急等待、迫不及待想要分享好消息的心情。"
     },
     "make": {
       "en": "The parents are anxious to see their child.",
@@ -441,7 +441,7 @@
   "be crazy about doing sth": {
     "example": {
       "en": "Many boys in our class are crazy about playing football on the playground after school.",
-      "zh": "我们班很多男生放学后都狂热地喜欢在操场上踢足球。\n\n写作应用：描写个人强烈的兴趣爱好、校园流行趋势。"
+      "zh": "我们班很多男生放学后都非常痴迷于在操场上踢足球。\n\n写作应用：描写个人强烈的兴趣爱好、校园流行趋势。"
     },
     "make": {
       "en": "He is crazy about reading comic books.",
@@ -763,7 +763,7 @@
   "be easy / hard to do": {
     "example": {
       "en": "Good English handwriting is not always easy to master in a short time.",
-      "zh": "优秀的英文书写并不总是在短时间内容易掌握的。\n\n写作应用：评价学习任务的难度、描述事物特征（主语通常是物）。"
+      "zh": "一手漂亮的英文书写并不总能在短时间内掌握。\n\n写作应用：评价学习任务的难度、描述事物特征（主语通常是物）。"
     },
     "make": {
       "en": "The stone is easy to lift.",
@@ -776,8 +776,8 @@
   },
   "it is worthwhile doing / to do sth": {
     "example": {
-      "en": "It is completely worthwhile spending your weekend helping the elderly in the community.",
-      "zh": "把周末时间花在帮助社区老人上是完全值得的。\n\n写作应用：倡导阅读经典、参与志愿服务、付出额外努力的价值肯定。"
+      "en": "It is truly worthwhile spending your weekend helping the elderly in the community.",
+      "zh": "把周末时间用于帮助社区老人，确实很值得。\n\n写作应用：倡导阅读经典、参与志愿服务、付出额外努力的价值肯定。"
     },
     "make": {
       "en": "It is worthwhile reading the classic book.",
@@ -818,8 +818,8 @@
   },
   "it is a waste of time/money doing sth": {
     "example": {
-      "en": "It is a total waste of time arguing with someone who refuses to listen to reason.",
-      "zh": "和拒绝听取道理的人争论完全是浪费时间。\n\n写作应用：驳论文中批判不良现象（如沉迷游戏、盲目攀比）、倡导高效做事。"
+      "en": "It is a complete waste of time arguing with someone who refuses to listen to reason.",
+      "zh": "和拒绝讲道理的人争论，完全是在浪费时间。\n\n写作应用：驳论文中批判不良现象（如沉迷游戏、盲目攀比）、倡导高效做事。"
     },
     "make": {
       "en": "It is a waste of time playing phones all day.",
@@ -860,8 +860,8 @@
   },
   "it is dangerous to do sth": {
     "example": {
-      "en": "It is extremely dangerous to swim in the deep river alone.",
-      "zh": "独自在深河里游泳是极其危险的。\n\n写作应用：校园安全教育、交通安全提示、防溺水警告。"
+      "en": "It is extremely dangerous to swim in a deep river alone.",
+      "zh": "独自在水深的河里游泳是极其危险的。\n\n写作应用：校园安全教育、交通安全提示、防溺水警告。"
     },
     "make": {
       "en": "It is dangerous to touch the hot stove.",
@@ -987,7 +987,7 @@
   "it is impossible to do sth": {
     "example": {
       "en": "Without a map or a guide, it is impossible to find the way out of the deep forest.",
-      "zh": "如果没有地图或向导，想要找到走出深林的道路是不可能的。\n\n写作应用：描述极具挑战性的任务、探讨自然规律或强调某事的高难度。"
+      "zh": "如果没有地图或向导，想要走出森林深处是不可能的。\n\n写作应用：描述极具挑战性的任务、探讨自然规律或强调某事的高难度。"
     },
     "make": {
       "en": "It is impossible to push the cheese.",
@@ -1043,7 +1043,7 @@
   "be angry at / about doing sth": {
     "example": {
       "en": "The teacher was angry about finding so many students copying others' homework.",
-      "zh": "老师对于发现这么多学生抄袭别人的作业感到很生气。\n\n写作应用：描述人际冲突、对于不公正现象或不良行为的强烈情绪反应。"
+      "zh": "老师发现这么多学生抄袭别人的作业，感到非常生气。\n\n写作应用：描述人际冲突、对于不公正现象或不良行为的强烈情绪反应。"
     },
     "make": {
       "en": "She is angry about cleaning the messy room.",
@@ -1183,7 +1183,7 @@
   "be thankful for doing sth": {
     "example": {
       "en": "We are deeply thankful for having such kind and wonderful teachers in our school.",
-      "zh": "我们非常感恩我们学校有这么好、这么棒的老师。\n\n写作应用：感恩节贺卡、写给父母/老师的感谢信、情感类记叙文的升华结尾。"
+      "zh": "我们非常感恩能在学校遇到这些善良而优秀的老师。\n\n写作应用：感恩节贺卡、写给父母/老师的感谢信、情感类记叙文的升华结尾。"
     },
     "make": {
       "en": "He is thankful for getting the cake.",
@@ -1294,8 +1294,8 @@
   },
   "be fascinated by / with doing sth": {
     "example": {
-      "en": "Ever since childhood, the brilliant scientist has been fascinated by exploring the mysterious universe.",
-      "zh": "从童年起，这位杰出的科学家就对探索神秘的宇宙极度着迷。\n\n写作应用：描写人物传记中的科学探索精神、对传统文化的热爱、艺术创作的深厚兴趣。"
+      "en": "Ever since childhood, the young scientist has been fascinated by exploring the mysterious universe.",
+      "zh": "从童年起，这位年轻科学家就对探索神秘宇宙深深着迷。\n\n写作应用：描写人物传记中的科学探索精神、对传统文化的热爱、艺术创作的深厚兴趣。"
     },
     "make": {
       "en": "She is fascinated by reading old books.",
@@ -1336,8 +1336,8 @@
   },
   "be obsessed with doing sth": {
     "example": {
-      "en": "The brilliant young man is totally obsessed with designing flying cars in his garage.",
-      "zh": "这个才华横溢的年轻人完全痴迷于在他的车库里设计飞行汽车。\n\n写作应用：描写人物对某种艺术、科学探索的极度专注，或者批判过度沉迷电子产品的现象。"
+      "en": "The creative young man is deeply obsessed with designing flying cars in his garage.",
+      "zh": "这个富有创造力的年轻人深深痴迷于在车库里设计飞行汽车。\n\n写作应用：描写人物对某种艺术、科学探索的极度专注，或者批判过度沉迷电子产品的现象。"
     },
     "make": {
       "en": "He is obsessed with playing computer games.",
@@ -1393,7 +1393,7 @@
   "it is demanding for sb. to do sth": {
     "example": {
       "en": "It is mentally demanding for senior students to prepare for multiple difficult subjects at the same time.",
-      "zh": "对于高三学生来说，同时准备多门困难的学科在精神上要求极高。\n\n写作应用：描写具有挑战性的任务、探讨高中学习的艰辛与毅力、赞美某项职业（如宇航员、医生）的专业门槛。"
+      "zh": "对于高三学生来说，同时备考多门难度较高的学科，是很大的心理挑战。\n\n写作应用：描写具有挑战性的任务、探讨高中学习的艰辛与毅力、赞美某项职业（如宇航员、医生）的专业门槛。"
     },
     "make": {
       "en": "It is demanding to finish the heavy work.",
@@ -1434,7 +1434,7 @@
   },
   "be apt to do sth": {
     "example": {
-      "en": "In the digital age, teenagers are apt to be heavily influenced by the false information on social media.",
+      "en": "In the digital age, teenagers are apt to be heavily influenced by false information on social media.",
       "zh": "在数字时代，青少年很容易受到社交媒体上虚假信息的严重影响。\n\n写作应用：分析青少年心理（易冲动、易受影响）、探讨习惯养成、说明文中描述事物的普遍规律。"
     },
     "make": {

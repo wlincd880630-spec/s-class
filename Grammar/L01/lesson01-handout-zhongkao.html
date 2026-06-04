@@ -1,1317 +1,381 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <!-- spa-assets-inlined -->
-
+  <script src="../shared/play-local-mp3.js"></script>
+  <script src="../shared/lesson-local-audio.js" defer></script>
+  <script src="../shared/lesson-speak-local-only.js"></script>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>第01讲 · 背诵讲义 —— 一般现在时（中考冲刺 · 英汉例句版）</title>
-  <script src="../assets/lesson-tts-azure-config.js"></script>
-  <script src="../assets/lesson-tts-azure-play.js"></script>
-<style>
-    :root {
-      --paper: #fff9f0;
-      --ink: #333;
-      --ink-soft: #555;
-      --crayon-red: #e85d4c;
-      --crayon-blue: #4a90d9;
-      --crayon-green: #5cb85c;
-      --crayon-purple: #9b59b6;
-      --crayon-orange: #f0ad4e;
-      --zone-be: rgba(74, 144, 217, 0.12);
-      --zone-do: rgba(92, 184, 92, 0.12);
-      --zone-adv: rgba(255, 193, 7, 0.14);
-      --shadow: rgba(60, 40, 20, 0.1);
-      --lesson-font-sans: system-ui, -apple-system, "Segoe UI", "Helvetica Neue", Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
-      --lesson-fs-example: clamp(1.02rem, 0.5vw + 0.9rem, 1.2rem);
-    }
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      margin: 0;
-      min-height: 100vh;
-      font-family: var(--lesson-font-sans);
-      background:
-        radial-gradient(circle at 10% 15%, rgba(255, 220, 180, 0.38) 0%, transparent 42%),
-        radial-gradient(circle at 90% 85%, rgba(200, 230, 255, 0.32) 0%, transparent 40%),
-        linear-gradient(168deg, #ffeaa7 0%, #fab1a0 30%, #dfe6e9 100%);
-      color: var(--ink);
-      padding: 1rem 1rem 3rem;
-      line-height: 1.65;
-      font-size: 16px;
-    }
-    .sheet {
-      max-width: 860px;
-      margin: 0 auto;
-      background: var(--paper);
-      border-radius: 12px 28px 16px 20px;
-      border: 4px solid var(--crayon-orange);
-      box-shadow: 6px 8px 0 var(--crayon-red), 14px 18px 32px var(--shadow);
-      padding: 1.5rem 1.5rem 2rem;
-      position: relative;
-    }
-    .sheet::before {
-      content: "";
-      position: absolute;
-      inset: 10px;
-      border: 2px dashed rgba(180, 140, 90, 0.38);
-      border-radius: 6px 22px 10px 8px;
-      pointer-events: none;
-    }
-    .inner { position: relative; z-index: 1; }
-    .doc-title {
-      font-family: var(--lesson-font-sans);
-      font-size: 1.48rem;
-      text-align: center;
-      color: var(--crayon-red);
-      margin: 0 0 0.75rem;
-      text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.06);
-      line-height: 1.3;
-    }
-    h2.section-title {
-      font-family: var(--lesson-font-sans);
-      font-size: 1.12rem;
-      color: #1a237e;
-      margin: 1.6rem 0 0.75rem;
-      padding-bottom: 0.35rem;
-      border-bottom: 3px solid rgba(74, 144, 217, 0.35);
-      display: flex;
-      align-items: center;
-      gap: 0.35rem;
-      flex-wrap: wrap;
-    }
-    h2.section-title:first-of-type { margin-top: 0; }
-    h3.block-title {
-      font-size: 1rem;
-      color: #0d47a1;
-      margin: 0.75rem 0 0.45rem;
-    }
-    .tap-card {
-      transition: transform 0.12s ease;
-      will-change: transform;
-    }
-    @media (hover: none) and (pointer: coarse) {
-      .tap-card:active { transform: scale(0.985); }
-    }
-    .tap-card:hover { transform: scale(1.005); }
-    .mind-wrap {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 1rem;
-      margin-bottom: 1rem;
-    }
-    .mind-pillars {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 0.65rem;
-    }
-    @media (max-width: 560px) {
-      .mind-pillars { grid-template-columns: 1fr; }
-    }
-    .mind-pillar {
-      text-align: center;
-      padding: 0.85rem 0.65rem;
-      border-radius: 16px;
-      border: 3px dashed rgba(155, 89, 182, 0.45);
-      background: linear-gradient(180deg, rgba(255, 255, 255, 0.9) 0%, rgba(243, 229, 245, 0.45) 100%);
-      font-size: 0.9rem;
-    }
-    .mind-pillar .ico { font-size: 1.85rem; line-height: 1; margin-bottom: 0.35rem; }
-    .mind-pillar strong { display: block; color: #6a1b9a; margin-bottom: 0.25rem; }
-    .parallel-universe {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0.75rem;
-      margin-top: 0.75rem;
-    }
-    @media (max-width: 640px) {
-      .parallel-universe { grid-template-columns: 1fr; }
-    }
-    .pu-box {
-      padding: 0.85rem 1rem;
-      border-radius: 14px;
-      border: 3px solid;
-      font-size: 0.88rem;
-      line-height: 1.55;
-    }
-    .pu-be {
-      border-color: rgba(74, 144, 217, 0.55);
-      background: var(--zone-be);
-    }
-    .pu-do {
-      border-color: rgba(46, 125, 50, 0.55);
-      background: var(--zone-do);
-    }
-    .pu-box h4 {
-      margin: 0 0 0.4rem;
-      font-size: 0.98rem;
-    }
-    .pu-be h4 { color: #1565c0; }
-    .pu-do h4 { color: #2e7d32; }
-    .never-mix {
-      margin-top: 0.75rem;
-      padding: 0.65rem 0.85rem;
-      border-radius: 12px;
-      background: rgba(211, 47, 47, 0.1);
-      border: 2px dashed #c62828;
-      font-size: 0.86rem;
-      font-weight: 700;
-      color: #b71c1c;
-      text-align: center;
-    }
-    table.data-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.84rem;
-      margin: 0.5rem 0;
-    }
-    table.data-table th,
-    table.data-table td {
-      border: 2px solid rgba(0, 0, 0, 0.1);
-      padding: 0.4rem 0.5rem;
-      text-align: left;
-    }
-    table.data-table th {
-      background: rgba(74, 144, 217, 0.15);
-      color: #0d47a1;
-    }
-    .key-term {
-      font-weight: 800;
-      border-bottom: 2px dotted rgba(0, 0, 0, 0.35);
-    }
-    .warn-strip {
-      padding: 0.55rem 0.75rem;
-      border-radius: 10px;
-      background: rgba(255, 235, 238, 0.85);
-      border-left: 5px solid #e53935;
-      font-size: 0.86rem;
-      margin: 0.5rem 0;
-      color: #b71c1c;
-      font-weight: 700;
-    }
-    .intonation {
-      font-family: var(--lesson-font-sans);
-      font-size: var(--lesson-fs-example);
-      padding: 0.5rem 0.65rem;
-      background: rgba(255, 249, 196, 0.5);
-      border-radius: 10px;
-      margin: 0.45rem 0;
-    }
-    .algo-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 0.5rem;
-      font-size: 0.82rem;
-    }
-    @media (max-width: 520px) {
-      .algo-grid { grid-template-columns: 1fr; }
-    }
-    .algo-card {
-      padding: 0.55rem 0.65rem;
-      border-radius: 12px;
-      border: 2px dashed rgba(46, 125, 50, 0.4);
-      background: rgba(232, 245, 233, 0.5);
-    }
-    .algo-card strong { color: #1b5e20; }
-    .ipa {
-      font-family: "Segoe UI", sans-serif;
-      font-size: 0.8rem;
-      color: #6a1b9a;
-    }
-    .mirror-box {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.75rem;
-      border-radius: 14px;
-      background: linear-gradient(90deg, rgba(255, 213, 79, 0.2), rgba(129, 199, 132, 0.2));
-      border: 3px solid rgba(255, 152, 0, 0.45);
-      font-size: 0.86rem;
-      margin: 0.5rem 0;
-    }
-    .mirror-box code {
-      background: rgba(0, 0, 0, 0.06);
-      padding: 0.15rem 0.35rem;
-      border-radius: 6px;
-      font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
-      font-size: 0.95rem;
-    }
-    .adv-block {
-      border-radius: 14px;
-      padding: 0.9rem 1rem;
-      margin-bottom: 0.85rem;
-      border: 3px solid rgba(230, 126, 34, 0.45);
-      background: var(--zone-adv);
-    }
-    .adv-block h3 {
-      margin: 0 0 0.45rem;
-      font-size: 0.98rem;
-      color: #e65100;
-    }
-    .adv-block ul {
-      margin: 0.35rem 0 0;
-      padding-left: 1.15rem;
-      font-size: 0.86rem;
-    }
-    .en-line {
-      font-family: var(--lesson-font-sans);
-      font-size: var(--lesson-fs-example);
-      margin: 0.35rem 0 0;
-      padding: 0.4rem 0.5rem;
-      background: rgba(255, 255, 255, 0.75);
-      border-radius: 8px;
-      border-left: 4px solid var(--crayon-orange);
-    }
-    .zh-line {
-      font-size: 0.84rem;
-      color: var(--ink-soft);
-      margin: 0.2rem 0 0.65rem;
-      padding: 0 0.5rem 0 0.85rem;
-      border-left: 3px solid rgba(74, 144, 217, 0.35);
-      line-height: 1.5;
-    }
-    .ex-pair { margin-bottom: 0.15rem; }
-    .mini-note {
-      font-size: 0.82rem;
-      color: #555;
-      margin: 0.35rem 0 0.5rem;
-    }
-    button.tts-chip {
-      font-family: var(--lesson-font-sans);
-      font-size: 0.78rem;
-      padding: 0.15rem 0.45rem;
-      margin-left: 0.35rem;
-      border-radius: 999px;
-      border: 2px solid var(--crayon-red);
-      background: #fff;
-      cursor: pointer;
-      vertical-align: middle;
-      touch-action: manipulation;
-    }
-    button.tts-chip:hover { background: #ffebee; }
-    .print-hint {
-      font-size: 0.76rem;
-      color: #888;
-      text-align: center;
-      margin-top: 1.25rem;
-    }
-    .lesson-footer-nav {
-      max-width: 860px;
-      margin: 1.25rem auto 0;
-      padding: 0.5rem 0.75rem;
-      text-align: center;
-      font-size: 0.84rem;
-      color: #555;
-      font-family: var(--lesson-font-sans);
-    }
-    .lesson-footer-nav a {
-      color: var(--crayon-blue);
-      text-decoration: none;
-      font-weight: 700;
-    }
-    .lesson-footer-nav .nav-sep { margin: 0 0.35rem; color: #aaa; }
-    .handout-pdf-bar {
-      max-width: 860px;
-      margin: 0 auto 0.75rem;
-      padding: 0 1rem;
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-    }
-    .btn-handout-pdf {
-      font-family: var(--lesson-font-sans);
-      font-size: 0.92rem;
-      padding: 0.5rem 1.15rem;
-      border-radius: 999px;
-      border: 3px solid var(--crayon-orange);
-      background: linear-gradient(180deg, #fff 0%, #fff9f0 100%);
-      color: #1565c0;
-      font-weight: 700;
-      cursor: pointer;
-      box-shadow: 2px 3px 0 rgba(0, 0, 0, 0.08);
-      touch-action: manipulation;
-    }
-    .btn-handout-pdf:hover { background: #e3f2fd; }
-    .btn-handout-pdf:disabled { opacity: 0.55; cursor: not-allowed; }
-    .handout-header { margin-bottom: 0.25rem; }
-    .handout-section {
-      margin-bottom: 0.25rem;
-    }
-    /**
-     * 印刷 / 另存为 PDF：由浏览器原生分页（矢量文字），效果远优于 html 截图拼页。
-     * 页边距仅由 @page 控制，避免与内容区重复留白。
-     */
-    @media print {
-      @page {
-        size: A4;
-        margin: 12mm 11mm 14mm 11mm;
-      }
-      body {
-        background: #fff !important;
-        padding: 0 !important;
-        color: #000 !important;
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
-      }
-      .handout-pdf-bar,
-      .lesson-footer-nav,
-      button.tts-chip,
-      .print-hint {
-        display: none !important;
-      }
-      .sheet {
-        max-width: 100% !important;
-        margin: 0 !important;
-        padding: 0 !important;
-        border: none !important;
-        border-radius: 0 !important;
-        box-shadow: none !important;
-        background: #fff !important;
-      }
-      .sheet::before {
-        display: none !important;
-      }
-      /* 打印：阴影转实线边框，知识块不跨页切断 */
-      .tap-card,
-      .mind-pillar,
-      .pu-box,
-      .adv-block,
-      .handout-parallel-block,
-      .ex-pair,
-      .en-line {
-        box-shadow: none !important;
-      }
-      .tap-card,
-      .mind-pillar,
-      .pu-box,
-      .adv-block,
-      .ex-pair {
-        border: 0.45pt solid #1a1a1a !important;
-        page-break-inside: avoid !important;
-        break-inside: avoid !important;
-      }
-      .inner {
-        font-family: var(--lesson-font-sans) !important;
-        font-size: 10.75pt !important;
-        line-height: 1.62 !important;
-        text-align: justify !important;
-        text-justify: inter-ideograph !important;
-        color: #000 !important;
-      }
-      .handout-header {
-        margin: 0 0 8mm !important;
-        padding: 0 0 4mm !important;
-        border-bottom: 0.5pt solid #000 !important;
-      }
-      .doc-title {
-        font-size: 17pt !important;
-        font-weight: 700 !important;
-        text-align: center !important;
-        color: #000 !important;
-        text-shadow: none !important;
-        margin: 0 !important;
-        line-height: 1.3 !important;
-        letter-spacing: 0.04em !important;
-      }
-      h2.section-title {
-        display: block !important;
-        font-size: 12.5pt !important;
-        font-weight: 700 !important;
-        color: #0d1b2a !important;
-        margin: 5mm 0 2.5mm !important;
-        padding: 0 0 1.5mm !important;
-        border-bottom: 0.5pt solid #1565c0 !important;
-        line-height: 1.35 !important;
-        page-break-after: avoid !important;
-        break-after: avoid !important;
-        white-space: normal !important;
-        flex-wrap: wrap !important;
-      }
-      h2.section-title:first-of-type {
-        margin-top: 0 !important;
-      }
-      .handout-section + .handout-section {
-        page-break-before: always !important;
-        break-before: page !important;
-      }
-      /* PDF：一个知识点一页（第一节分块 + 各 adv-block） */
-      .handout-print-page + .handout-print-page,
-      .adv-block + .adv-block {
-        page-break-before: always !important;
-        break-before: page !important;
-      }
-      h3 {
-        font-size: 10.75pt !important;
-        font-weight: 700 !important;
-        color: #bf360c !important;
-        margin: 0 0 1.5mm !important;
-        page-break-after: avoid !important;
-      }
-      .mind-wrap {
-        margin: 0 0 3mm !important;
-      }
-      .mind-pillars {
-        display: grid !important;
-        grid-template-columns: repeat(3, 1fr) !important;
-        gap: 2mm !important;
-        font-size: 9.25pt !important;
-      }
-      .mind-pillar {
-        text-align: center !important;
-        padding: 2mm 2.5mm !important;
-        border: 0.4pt solid #7e57c2 !important;
-        border-radius: 1mm !important;
-        background: #faf7ff !important;
-        page-break-inside: avoid !important;
-      }
-      .parallel-universe {
-        display: grid !important;
-        grid-template-columns: 1fr 1fr !important;
-        gap: 2.5mm !important;
-      }
-      .pu-box {
-        padding: 2.5mm 3mm !important;
-        border: 0.4pt solid #64b5f6 !important;
-        border-radius: 1mm !important;
-        background: #f5fbff !important;
-        font-size: 9.5pt !important;
-      }
-      .pu-do {
-        border-color: #66bb6a !important;
-        background: #f4fcf5 !important;
-      }
-      .pu-be h4 {
-        color: #0d47a1 !important;
-      }
-      .pu-do h4 {
-        color: #1b5e20 !important;
-      }
-      .never-mix {
-        margin-top: 2.5mm !important;
-        padding: 2mm 2.5mm !important;
-        border: 0.4pt dashed #c62828 !important;
-        background: #ffebee !important;
-        font-size: 9.5pt !important;
-        text-align: left !important;
-      }
-      /* 双栏「平行宇宙」+ 底部红框整段同页，不拆开 */
-      .handout-parallel-block {
-        page-break-inside: avoid !important;
-        break-inside: avoid !important;
-      }
-      .handout-parallel-block .parallel-universe {
-        gap: 2mm !important;
-      }
-      .handout-parallel-block .pu-box {
-        padding: 1.5mm 2mm !important;
-        font-size: 8.75pt !important;
-      }
-      .handout-parallel-block .pu-box h4 {
-        margin: 0 0 1mm !important;
-        font-size: 9.25pt !important;
-      }
-      .handout-parallel-block .ex-pair {
-        margin: 0 0 1.5mm !important;
-      }
-      .handout-parallel-block .en-line {
-        font-size: 9pt !important;
-        padding: 1mm 1.75mm !important;
-        margin: 0.75mm 0 0 !important;
-      }
-      .handout-parallel-block .zh-line {
-        font-size: 8.5pt !important;
-        margin: 0 0 1.25mm !important;
-      }
-      .handout-parallel-block .never-mix {
-        margin-top: 2mm !important;
-        padding: 1.5mm 2mm !important;
-        font-size: 8.75pt !important;
-      }
-      .adv-block {
-        border: 0.4pt solid #ffb74d !important;
-        border-radius: 1mm !important;
-        padding: 2.5mm 3mm !important;
-        margin: 0 0 2.5mm !important;
-        background: #fffbf5 !important;
-        page-break-inside: auto !important;
-      }
-      .adv-block h3 {
-        color: #e65100 !important;
-      }
-      table.data-table {
-        font-size: 9.25pt !important;
-      }
-      table.data-table th,
-      table.data-table td {
-        border: 0.35pt solid #616161 !important;
-        padding: 1.5mm 2mm !important;
-      }
-      table.data-table th {
-        background: #eceff1 !important;
-        color: #000 !important;
-      }
-      .key-term {
-        font-weight: 700 !important;
-        border-bottom: 0.4pt dotted #333 !important;
-      }
-      .warn-strip {
-        padding: 2mm 2.5mm !important;
-        border-left: 2pt solid #d32f2f !important;
-        background: #ffebee !important;
-        font-size: 9.5pt !important;
-      }
-      .algo-grid {
-        display: grid !important;
-        grid-template-columns: 1fr 1fr !important;
-        gap: 2mm !important;
-        font-size: 9pt !important;
-      }
-      .algo-card {
-        border: 0.35pt dashed #388e3c !important;
-        background: #f9fff9 !important;
-        padding: 2mm !important;
-      }
-      .ipa {
-        font-family: var(--lesson-font-sans) !important;
-        font-size: 8.75pt !important;
-      }
-      .mirror-box {
-        border: 0.4pt solid #ffa726 !important;
-        background: #fffbf0 !important;
-        padding: 2mm 2.5mm !important;
-        font-size: 9.25pt !important;
-      }
-      .en-line {
-        font-family: var(--lesson-font-sans) !important;
-        font-size: 10.5pt !important;
-        background: #fafafa !important;
-        border-left: 2pt solid #e65100 !important;
-        padding: 1.5mm 2.5mm !important;
-        text-align: left !important;
-      }
-      .zh-line {
-        font-size: 9.5pt !important;
-        color: #37474f !important;
-        border-left: 1.2pt solid #90caf9 !important;
-        padding-left: 2.5mm !important;
-      }
-      .ex-pair {
-        page-break-inside: avoid !important;
-        break-inside: avoid !important;
-      }
-      .mini-note {
-        font-size: 9.5pt !important;
-        margin: 2mm 0 1.5mm !important;
-      }
-      .intonation {
-        font-family: var(--lesson-font-sans) !important;
-        font-size: 10pt !important;
-        border: 0.35pt solid #ffcc80 !important;
-        background: #fffde7 !important;
-      }
-      .tap-card {
-        transform: none !important;
-      }
-      p {
-        orphans: 3;
-        widows: 3;
-      }
-    }
-  </style>
-  <style>
-/* inlined from assets/lesson-screen-16x9.css */
-/**
- * Lesson 01 / 02 / 03 / 05 统一大屏布局 + 统一字体/字号
- * 桌面端（约平板横屏以上）：主舞台为视口内最大内接 16:9 矩形，四边留白最小；背景仅露窄边。
- * 字体：系统无衬线 + 雅黑/苹方/思源黑体，保证课堂可读；英文例句与中文同一栈，仅字号放大。
- * 各课 HTML 于 head 末引入外部样式表 lesson-screen-16x9.css（勿在本注释中写尖括号 link 标签，以免内联进 HTML 后被误匹配）
- */
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>一般现在时</title>
+  <script src="assets/lesson-tts-azure-config.js"></script>
+  <script src="assets/lesson-tts-azure-play.js"></script>
+<link rel="stylesheet" href="assets/lesson-dashed-fix.css" />
+  <link rel="stylesheet" href="assets/grammar-lesson-pager.css" />
+  <link rel="stylesheet" href="../shared/grammar-logo.css" />
+  <link rel="stylesheet" href="../shared/grammar-handout.css" />
+  <link rel="stylesheet" href="../shared/grammar-handout-ex-pair.css" />
+  <link rel="stylesheet" href="../shared/grammar-lesson-pager.css" />
+  <link rel="stylesheet" href="assets/l01-handout-sheet.css" />
+  <link rel="stylesheet" href="../shared/grammar-handout-print.css" media="print" />
+  <link rel="stylesheet" href="assets/l01-handout-publisher.css" />
+  <link rel="stylesheet" href="../shared/grammar-handout-print-unify.css" media="print" />
+  <link rel="stylesheet" href="../shared/grammar-handout-tts.css" />
+</head>
+<body class="has-lesson-pager grammar-handout-page l01-handout">
+    <header class="grammar-handout-top">
+    <div class="top-bar-main">
+      <strong>一般现在时</strong>
+      <span class="subtitle-line">Steven's Class</span>
+    </div>
+    <a class="grammar-handout-index-link" href="index.html">本讲目录</a>
+  </header>
+  <p class="grammar-handout-print-hint no-print">打印 PDF：目标选「另存为 PDF」→ 纸张 A4 → 勾选「<strong>背景图形</strong>」→ <strong>取消「页眉和页脚」</strong>（勿带出文件路径与日期）。</p>
+  <div class="grammar-handout-pdf-bar no-print">
+    <button type="button" class="btn-handout-pdf" id="btnHandoutPrint">打印 / 另存 PDF</button>
+  </div>
 
-:root {
-  --lesson-font-sans: system-ui, -apple-system, "Segoe UI", "Helvetica Neue", Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
-  --lesson-font-zh: var(--lesson-font-sans);
-  --lesson-font-en: var(--lesson-font-sans);
-  /* 根字号：随视口略放大，带动全站 rem */
-  --lesson-fs-html: clamp(16px, 0.55vw + 14px, 20px);
-  --lesson-fs-topbar: clamp(0.88rem, 0.38vw + 0.78rem, 1.02rem);
-  --lesson-fs-body: clamp(0.92rem, 0.42vw + 0.82rem, 1.05rem);
-  --lesson-fs-small: clamp(0.8rem, 0.28vw + 0.72rem, 0.92rem);
-  --lesson-fs-h1: clamp(1.2rem, 0.85vw + 0.95rem, 1.48rem);
-  --lesson-fs-h2: clamp(1.05rem, 0.62vw + 0.86rem, 1.22rem);
-  --lesson-fs-h3: clamp(0.98rem, 0.48vw + 0.8rem, 1.1rem);
-  --lesson-fs-h4: clamp(0.92rem, 0.36vw + 0.76rem, 1.02rem);
-  --lesson-fs-btn: clamp(0.9rem, 0.36vw + 0.8rem, 1.02rem);
-  /* 英文例句 / 展示行：明显大于正文 */
-  --lesson-fs-example: clamp(1.05rem, 0.58vw + 0.9rem, 1.32rem);
-  --lesson-fs-en-line: var(--lesson-fs-example);
-}
+  <nav class="handout-section-nav no-print" aria-label="讲义节次">
+    <a href="#sec-1">①全景</a>
+    <a href="#sec-2">②Be</a>
+    <a href="#sec-3">③实义</a>
+    <a href="#sec-4">④拓展</a>
+  </nav>
 
-/* 主舞台内子元素默认继承字体，压过各页内联里的 Patrick / ZCOOL（后文对 .en / [lang=en] / 例句容器再单独放大） */
-html body .book *:not(code):not(kbd):not(samp):not(pre):not([lang="en"]):not(.en),
-html body .shell *:not(code):not(kbd):not(samp):not(pre):not([lang="en"]):not(.en),
-html body .app *:not(code):not(kbd):not(samp):not(pre):not([lang="en"]):not(.en),
-html body .wrap *:not(code):not(kbd):not(samp):not(pre):not([lang="en"]):not(.en),
-html body .page-wrap *:not(code):not(kbd):not(samp):not(pre):not([lang="en"]):not(.en),
-html body .desk *:not(code):not(kbd):not(samp):not(pre):not([lang="en"]):not(.en),
-html body main.sheet *:not(code):not(kbd):not(samp):not(pre):not([lang="en"]):not(.en) {
-  font-family: inherit;
-}
+  <main class="sheet l01-handout" id="handout-pdf-source">
+    <div class="inner">
+      <header class="handout-cover" aria-label="讲义封面">
+        <div class="handout-cover__bg" aria-hidden="true"></div>
+        <div class="handout-cover__inner">
+          <p class="handout-cover__brand">Steven's Class</p>
+          <p class="handout-cover__en" lang="en">Present Simple</p>
+          <h1 class="handout-cover__title doc-title">一般现在时</h1>
+          <div class="handout-cover__rule" aria-hidden="true"></div>
+          <p class="handout-cover__focus">动作义与状态义 · Be 动词 · 第三人称单数 · 否定与疑问</p>
+        </div>
+      </header>
 
-html {
-  height: 100%;
-  font-size: var(--lesson-fs-html);
-}
+      <section class="handout-section" id="sec-1">
+      <h2 class="section-title">① 一般现在时全景：习惯、真理、日程</h2>
+      <div class="mind-wrap tap-card">
+        <div class="handout-print-page">
+        <p style="margin:0 0 0.5rem;font-size:0.9rem;">
+          一般现在时 = 英语世界的<strong class="key-term">基本盘时态</strong>：不只在「现在这一刻」，而是<strong>习惯、真理、日程</strong>三条时间轴上的稳定表达。下列例句可直接用于写作与口语。
+        </p>
+        <div class="mind-pillars">
+          <div class="mind-pillar tap-card">
+            <strong>习惯 · Habit</strong>
+            反复发生的行为、爱好、能力（常与 always / usually 等连用）。
+          </div>
+          <div class="mind-pillar tap-card">
+            <strong>真理 · Truth</strong>
+            客观事实、自然规律、名言警句（地球绕日、水往低处流）。
+          </div>
+          <div class="mind-pillar tap-card">
+            <strong>日程 · Schedule</strong>
+            时刻表、节目单、固定安排（The train leaves at 7）。
+          </div>
+        </div>
+        <div class="handout-usage-three-col" aria-label="习惯·真理·日程例句三栏">
+          <div class="handout-usage-col handout-usage-col--habit">
+            <p class="mini-note usage-col-title"><strong>习惯类<span class="handout-print-hide">（背 5 句）</span></strong></p>
+            <div class="ex-pair"><div class="en-line">I <strong>usually</strong> review my notes before bed. <button type="button" class="tts-chip" data-tts="I usually review my notes before bed.">🔊</button></div><p class="zh-line">我通常睡前复习笔记。</p></div>
+            <div class="ex-pair"><div class="en-line">She <strong>often</strong> helps her classmates with English. <button type="button" class="tts-chip" data-tts="She often helps her classmates with English.">🔊</button></div><p class="zh-line">她经常帮同学学英语。</p></div>
+            <div class="ex-pair"><div class="en-line">We <strong>always</strong> walk to school unless it rains hard. <button type="button" class="tts-chip" data-tts="We always walk to school unless it rains hard.">🔊</button></div><p class="zh-line">除非下大雨，我们总是走路上学。</p></div>
+            <div class="ex-pair"><div class="en-line">He <strong>practices</strong> the piano every weekend without fail. <button type="button" class="tts-chip" data-tts="He practices the piano every weekend without fail.">🔊</button></div><p class="zh-line">他每个周末都坚持练钢琴。</p></div>
+            <div class="ex-pair"><div class="en-line">They <strong>seldom</strong> stay up late on school nights. <button type="button" class="tts-chip" data-tts="They seldom stay up late on school nights.">🔊</button></div><p class="zh-line">他们上学日晚上很少熬夜。</p></div>
+          </div>
+          <div class="handout-usage-col handout-usage-col--truth">
+            <p class="mini-note usage-col-title"><strong>真理类<span class="handout-print-hide">（背 5 句）</span></strong></p>
+            <div class="ex-pair"><div class="en-line">The earth <strong>goes</strong> around the sun. <button type="button" class="tts-chip" data-tts="The earth goes around the sun.">🔊</button></div><p class="zh-line">地球绕太阳转。</p></div>
+            <div class="ex-pair"><div class="en-line">Water <strong>boils</strong> at 100°C at sea level. <button type="button" class="tts-chip" data-tts="Water boils at 100 degrees Celsius at sea level.">🔊</button></div><p class="zh-line">在海平面，水在 100 摄氏度沸腾。</p></div>
+            <div class="ex-pair"><div class="en-line">Knowledge <strong>is</strong> power. <button type="button" class="tts-chip" data-tts="Knowledge is power.">🔊</button></div><p class="zh-line">知识就是力量。（写作常用名言）</p></div>
+            <div class="ex-pair"><div class="en-line">Practice <strong>makes</strong> perfect. <button type="button" class="tts-chip" data-tts="Practice makes perfect.">🔊</button></div><p class="zh-line">熟能生巧。</p></div>
+            <div class="ex-pair"><div class="en-line">Actions <strong>speak</strong> louder than words. <button type="button" class="tts-chip" data-tts="Actions speak louder than words.">🔊</button></div><p class="zh-line">行动胜于言辞。</p></div>
+          </div>
+          <div class="handout-usage-col handout-usage-col--schedule">
+            <p class="mini-note usage-col-title"><strong>日程 / 时刻表类<span class="handout-print-hide">（背 5 句）</span></strong></p>
+            <div class="ex-pair"><div class="en-line">The train <strong>leaves</strong> at 7:15 every morning. <button type="button" class="tts-chip" data-tts="The train leaves at seven fifteen every morning.">🔊</button></div><p class="zh-line">火车每天早上 7:15 发车。</p></div>
+            <div class="ex-pair"><div class="en-line">School <strong>starts</strong> at 8:00 on weekdays. <button type="button" class="tts-chip" data-tts="School starts at eight on weekdays.">🔊</button></div><p class="zh-line">工作日学校八点上课。</p></div>
+            <div class="ex-pair"><div class="en-line">The shop <strong>opens</strong> at nine and <strong>closes</strong> at six. <button type="button" class="tts-chip" data-tts="The shop opens at nine and closes at six.">🔊</button></div><p class="zh-line">这家店九点开门、六点关门。</p></div>
+            <div class="ex-pair"><div class="en-line">The film <strong>begins</strong> in ten minutes. <button type="button" class="tts-chip" data-tts="The film begins in ten minutes.">🔊</button></div><p class="zh-line">电影十分钟后开始。</p></div>
+            <div class="ex-pair"><div class="en-line">Flight CA123 <strong>takes off</strong> on time even in bad weather. <button type="button" class="tts-chip" data-tts="Flight CA123 takes off on time even in bad weather.">🔊</button></div><p class="zh-line">CA123 航班即使天气不好也准时起飞。</p></div>
+          </div>
+        </div>
+        </div>
+        <div class="handout-print-page">
+        <div class="handout-parallel-block">
+        <div class="parallel-universe">
+          <div class="pu-box pu-be tap-card">
+            <h4>状态家族 · Be 动词系统<span class="handout-print-hide">（背 5 句）</span></h4>
+            说明「是谁 / 在哪 / 怎么样」：<span class="key-term">am · is · are</span> + 表语。
+            <div class="ex-pair"><div class="en-line">She <strong>is</strong> confident and well prepared for the exam. <button type="button" class="tts-chip" data-tts="She is confident and well prepared for the exam.">🔊</button></div><p class="zh-line">她对考试很有信心、准备充分。</p></div>
+            <div class="ex-pair"><div class="en-line">They <strong>are</strong> at the library, not at home. <button type="button" class="tts-chip" data-tts="They are at the library, not at home.">🔊</button></div><p class="zh-line">他们在图书馆，不在家。</p></div>
+            <div class="ex-pair"><div class="en-line">The book on the desk <strong>is</strong> mine. <button type="button" class="tts-chip" data-tts="The book on the desk is mine.">🔊</button></div><p class="zh-line">桌上那本书是我的。</p></div>
+            <div class="ex-pair"><div class="en-line">I <strong>am</strong> responsible for my own progress. <button type="button" class="tts-chip" data-tts="I am responsible for my own progress.">🔊</button></div><p class="zh-line">我为自己的进步负责。</p></div>
+            <div class="ex-pair"><div class="en-line">Honesty <strong>is</strong> the best policy in the long run. <button type="button" class="tts-chip" data-tts="Honesty is the best policy in the long run.">🔊</button></div><p class="zh-line">从长远看，诚实是上策。</p></div>
+          </div>
+          <div class="pu-box pu-do tap-card">
+            <h4>动作家族 · 实义动词系统<span class="handout-print-hide">（背 5 句）</span></h4>
+            说明「做了什么」：<span class="key-term">原形 / 第三人称单数</span>；否定与疑问用 <strong>do / does</strong>。
+            <div class="ex-pair"><div class="en-line">He <strong>plays</strong> basketball and <strong>runs</strong> every afternoon. <button type="button" class="tts-chip" data-tts="He plays basketball and runs every afternoon.">🔊</button></div><p class="zh-line">他每天下午打篮球和跑步。</p></div>
+            <div class="ex-pair"><div class="en-line"><strong>Do</strong> you <strong>agree</strong> that reading widens our minds? <button type="button" class="tts-chip" data-tts="Do you agree that reading widens our minds?">🔊</button></div><p class="zh-line">你同意阅读开阔眼界吗？</p></div>
+            <div class="ex-pair"><div class="en-line">My sister <strong>studies</strong> harder than anyone else in her class. <button type="button" class="tts-chip" data-tts="My sister studies harder than anyone else in her class.">🔊</button></div><p class="zh-line">我姐姐比班上任何人都用功。</p></div>
+            <div class="ex-pair"><div class="en-line">We <strong>don't</strong> give up when things get tough. <button type="button" class="tts-chip" data-tts="We don't give up when things get tough.">🔊</button></div><p class="zh-line">遇到困难我们也不放弃。</p></div>
+            <div class="ex-pair"><div class="en-line">Good habits <strong>shape</strong> our future day by day. <button type="button" class="tts-chip" data-tts="Good habits shape our future day by day.">🔊</button></div><p class="zh-line">好习惯一天天塑造我们的未来。</p></div>
+          </div>
+        </div>
+        <p class="never-mix">核心提醒：Be 句与实义动词句<strong>结构不同</strong>，书写时<strong>绝不混用</strong>（避免「Are you play」「Is like」）。</p>
+        </div>
+        </div>
+      </div>
+      </section>
 
-body {
-  --lesson-s-t: env(safe-area-inset-top, 0px);
-  --lesson-s-b: env(safe-area-inset-bottom, 0px);
-  --lesson-s-l: env(safe-area-inset-left, 0px);
-  --lesson-s-r: env(safe-area-inset-right, 0px);
-  /* 底部流式页脚（L01/L02 等）预留高度，避免主舞台 + 页脚超出视口 */
-  --lesson-foot-h: 0px;
-  /* 固定底栏占位（L01/L02/L03/L05 统一） */
-  --lesson-pager-gap: 4.35rem;
-  --lesson-l03-pager-gap: var(--lesson-pager-gap);
-  /* 讲义页顶栏工具条粗略高度（打印条 + 可选姓名栏等） */
-  --lesson-handout-chrome: 0px;
+      <section class="handout-section" id="sec-2">
+      <h2 class="section-title">② 状态家族：Be Verb System</h2>
+      <div class="adv-block tap-card">
+        <h3>搭配矩阵 · 复杂主语谁说了算？<span class="handout-print-hide">（背 5 句）</span></h3>
+        <table class="data data-table">
+          <thead>
+            <tr><th>主语 / 情境</th><th>be 动词</th><th>注意</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>I</td><td><strong>am</strong></td><td>仅与 I 搭配</td></tr>
+            <tr><td>he / she / it / 单数名词 <button type="button" class="tts-chip no-print" data-tts="he / she / it / 单数名词" aria-label="朗读">🔊</button></td><td><strong>is</strong></td><td>不可数名词、学科名单数概念</td></tr>
+            <tr><td>you / we / they / 复数名词 <button type="button" class="tts-chip no-print" data-tts="you / we / they / 复数名词" aria-label="朗读">🔊</button></td><td><strong>are</strong></td><td>these / those + 复数 <button type="button" class="tts-chip no-print" data-tts="these / those + 复数" aria-label="朗读">🔊</button></td></tr>
+            <tr><td>everyone / somebody / nobody <button type="button" class="tts-chip no-print" data-tts="everyone / somebody / nobody" aria-label="朗读">🔊</button></td><td><strong>is</strong>（表「整体」时）</td><td>不定代词常按<strong>单数</strong>处理</td></tr>
+            <tr><td>the news / physics / maths <button type="button" class="tts-chip no-print" data-tts="the news / physics / maths" aria-label="朗读">🔊</button></td><td>常作 <strong>is</strong></td><td>形式复数、意义不可数 → 单数谓语</td></tr>
+          </tbody>
+        </table>
+        <div class="ex-pair"><div class="en-line">The news <strong>is</strong> more surprising than we expected. <span class="ipa">/ðə ˈnjuːz ɪz/</span> <button type="button" class="tts-chip" data-tts="The news is more surprising than we expected.">🔊</button></div><p class="zh-line">这消息比我们预想的更令人惊讶。</p></div>
+        <div class="ex-pair"><div class="en-line"><strong>Physics</strong> <strong>is</strong> my favourite subject this term. <button type="button" class="tts-chip" data-tts="Physics is my favourite subject this term.">🔊</button></div><p class="zh-line">物理是我这学期最喜欢的科目。</p></div>
+        <div class="ex-pair"><div class="en-line"><strong>Everyone</strong> <strong>is</strong> here except Tom. <button type="button" class="tts-chip" data-tts="Everyone is here except Tom.">🔊</button></div><p class="zh-line">除了汤姆大家都到了。</p></div>
+        <div class="ex-pair"><div class="en-line">The pair of shoes <strong>is</strong> on sale today. <button type="button" class="tts-chip" data-tts="The pair of shoes is on sale today.">🔊</button></div><p class="zh-line">这双鞋今天在打折。</p></div>
+        <div class="ex-pair"><div class="en-line">There <strong>is</strong> a pen and two books on the desk. <button type="button" class="tts-chip" data-tts="There is a pen and two books on the desk.">🔊</button></div><p class="zh-line">桌上有一支笔和两本书。（就近原则）</p></div>
+      </div>
+      <div class="adv-block tap-card">
+        <h3>否定融合 · 缩写与红线<span class="handout-print-hide">（背 5 句）</span></h3>
+        <p style="margin:0;font-size:0.88rem;">
+          <strong>I'm not</strong> = I am not ✓　<strong>isn't</strong> = is not ✓　<strong>aren't</strong> = are not ✓
+        </p>
+        <p class="warn-strip">重要提醒：<strong>am not</strong> <span class="key-term">没有</span> 标准缩写形式（不要写 amn't）。</p>
+        <div class="ex-pair"><div class="en-line">I <strong>am not</strong> afraid of making mistakes when I speak English. <button type="button" class="tts-chip" data-tts="I am not afraid of making mistakes when I speak English.">🔊</button></div><p class="zh-line">说英语时我不怕犯错。</p></div>
+        <div class="ex-pair"><div class="en-line">He <strong>isn't</strong> lazy; he just needs a clearer goal. <button type="button" class="tts-chip" data-tts="He isn't lazy; he just needs a clearer goal.">🔊</button></div><p class="zh-line">他并不懒，只是需要更明确的目标。</p></div>
+        <div class="ex-pair"><div class="en-line">Those results <strong>aren't</strong> good enough yet. <button type="button" class="tts-chip" data-tts="Those results aren't good enough yet.">🔊</button></div><p class="zh-line">那些成绩还不够好。</p></div>
+        <div class="ex-pair"><div class="en-line">This <strong>isn't</strong> what we agreed on yesterday. <button type="button" class="tts-chip" data-tts="This isn't what we agreed on yesterday.">🔊</button></div><p class="zh-line">这可不是我们昨天说好的。</p></div>
+        <div class="ex-pair"><div class="en-line">We <strong>are not</strong> afraid of a long journey ahead. <button type="button" class="tts-chip" data-tts="We are not afraid of a long journey ahead.">🔊</button></div><p class="zh-line">我们不怕前路漫长。（be + not + 形容词）</p></div>
+      </div>
+      <div class="adv-block tap-card">
+        <h3>选择疑问句 · Alternative Questions<span class="handout-print-hide">（背 5 句）</span></h3>
+        <p style="font-size:0.88rem;margin:0 0 0.5rem;">
+          用 <strong>or</strong> 连接两个选项，语调：<span class="key-term">前升 ↗ · 后降 ↘</span>。
+        </p>
+        <div class="ex-pair"><div class="en-line">Is this room tidy <strong>or</strong> not? <button type="button" class="tts-chip" data-tts="Is this room tidy or not?">🔊</button></div><p class="zh-line">这房间到底整不整洁？</p></div>
+        <div class="ex-pair"><div class="en-line">Would you like tea <strong>or</strong> coffee? <button type="button" class="tts-chip" data-tts="Would you like tea or coffee?">🔊</button></div><p class="zh-line">你要茶还是咖啡？</p></div>
+        <div class="ex-pair"><div class="en-line">Are you coming by bus <strong>or</strong> on foot? <button type="button" class="tts-chip" data-tts="Are you coming by bus or on foot?">🔊</button></div><p class="zh-line">你坐公交来还是走路来？</p></div>
+        <div class="ex-pair"><div class="en-line">Is she a singer <strong>or</strong> an actress? <button type="button" class="tts-chip" data-tts="Is she a singer or an actress?">🔊</button></div><p class="zh-line">她是歌手还是演员？</p></div>
+        <div class="ex-pair"><div class="en-line">Do you want to stay home <strong>or</strong> go out tonight? <button type="button" class="tts-chip" data-tts="Do you want to stay home or go out tonight?">🔊</button></div><p class="zh-line">今晚你想待在家还是出去？</p></div>
+      </div>
+      </section>
 
-  margin: 0 !important;
-  min-height: 100dvh !important;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--lesson-font-zh);
-  line-height: 1.55;
-}
+      <section class="handout-section" id="sec-3">
+      <h2 class="section-title">③ 动作家族：Action Verb System</h2>
+      <div class="adv-block tap-card">
+        <h3>第三人称单数规则表 + 读音纠偏<span class="handout-print-hide">（每类背 3 句）</span></h3>
+        <div class="algo-grid">
+          <div class="algo-card">
+            <strong>规则 1 · +s</strong><br />一般情况直接加 s：play → plays<br />
+            <span class="ipa">plays /pleɪz/</span>
+          </div>
+          <div class="algo-card">
+            <strong>规则 2 · +es</strong><br />s / x / ch / sh / o 结尾：watch → watches<br />
+            <span class="ipa">watches /ˈwɒtʃɪz/</span>
+          </div>
+          <div class="algo-card">
+            <strong>规则 3 · y → ies</strong><br />辅音 + y：study → studies；<strong>元音 + y</strong> 只加 s：play → plays<br />
+            <span class="ipa">studies /ˈstʌdiz/ · plays /pleɪz/</span>
+          </div>
+          <div class="algo-card">
+            <strong>规则 4 · have → has</strong><br />表「拥有」时第三人称用 has，读音 <span class="ipa">/hæz/</span>（不是 /heɪz/）。
+          </div>
+        </div>
+        <div class="handout-rules-two-col" aria-label="规则一至四例句两栏">
+          <div class="handout-rules-col">
+            <div class="handout-rule-block handout-rule-block--1">
+              <p class="mini-note rule-block-title"><strong>规则 1（+s）<span class="handout-print-hide">· 背 3 句</span></strong></p>
+              <div class="ex-pair"><div class="en-line">Tom <strong>reads</strong> English aloud for twenty minutes each morning. <button type="button" class="tts-chip" data-tts="Tom reads English aloud for twenty minutes each morning.">🔊</button></div><p class="zh-line">汤姆每天早上大声读二十分钟英语。</p></div>
+              <div class="ex-pair"><div class="en-line">The sun <strong>rises</strong> in the east and <strong>sets</strong> in the west. <button type="button" class="tts-chip" data-tts="The sun rises in the east and sets in the west.">🔊</button></div><p class="zh-line">太阳东升西落。</p></div>
+              <div class="ex-pair"><div class="en-line">She <strong>believes</strong> that effort matters more than talent. <button type="button" class="tts-chip" data-tts="She believes that effort matters more than talent.">🔊</button></div><p class="zh-line">她相信努力比天赋更重要。</p></div>
+            </div>
+            <div class="handout-rule-block handout-rule-block--2">
+              <p class="mini-note rule-block-title"><strong>规则 2（+es）<span class="handout-print-hide">· 背 3 句</span></strong></p>
+              <div class="ex-pair"><div class="en-line">He <strong>watches</strong> documentaries that broaden his view. <button type="button" class="tts-chip" data-tts="He watches documentaries that broaden his view.">🔊</button></div><p class="zh-line">他看能开阔眼界的纪录片。</p></div>
+              <div class="ex-pair"><div class="en-line">She <strong>fixes</strong> her bike by herself on weekends. <button type="button" class="tts-chip" data-tts="She fixes her bike by herself on weekends.">🔊</button></div><p class="zh-line">她周末自己修自行车。</p></div>
+              <div class="ex-pair"><div class="en-line">The class <strong>goes</strong> on a trip every spring. <button type="button" class="tts-chip" data-tts="The class goes on a trip every spring.">🔊</button></div><p class="zh-line">全班每年春天出游一次。</p></div>
+            </div>
+          </div>
+          <div class="handout-rules-col">
+            <div class="handout-rule-block handout-rule-block--3">
+              <p class="mini-note rule-block-title"><strong>规则 3（y → ies / 元音+y）<span class="handout-print-hide">· 背 3 句</span></strong></p>
+              <div class="ex-pair"><div class="en-line">Linda <strong>studies</strong> chemistry until midnight before exams. <button type="button" class="tts-chip" data-tts="Linda studies chemistry until midnight before exams.">🔊</button></div><p class="zh-line">琳达考前学化学学到半夜。</p></div>
+              <div class="ex-pair"><div class="en-line">He <strong>tries</strong> again every time he fails. <button type="button" class="tts-chip" data-tts="He tries again every time he fails.">🔊</button></div><p class="zh-line">他每次失败都会再试一次。</p></div>
+              <div class="ex-pair"><div class="en-line">She <strong>enjoys</strong> the story and <strong>plays</strong> the piano well. <button type="button" class="tts-chip" data-tts="She enjoys the story and plays the piano well.">🔊</button></div><p class="zh-line">她喜欢这个故事，钢琴也弹得好。（enjoy + es，元音+y 只加 s）</p></div>
+            </div>
+            <div class="handout-rule-block handout-rule-block--4">
+              <p class="mini-note rule-block-title"><strong>规则 4（have → has）<span class="handout-print-hide">· 背 3 句</span></strong></p>
+              <div class="ex-pair"><div class="en-line">He <strong>has</strong> a clear plan for the next five years. <button type="button" class="tts-chip" data-tts="He has a clear plan for the next five years.">🔊</button></div><p class="zh-line">他对未来五年有清晰规划。</p></div>
+              <div class="ex-pair"><div class="en-line">The team <strong>has</strong> enough time to finish the project. <button type="button" class="tts-chip" data-tts="The team has enough time to finish the project.">🔊</button></div><p class="zh-line">团队有足够时间完成项目。</p></div>
+              <div class="ex-pair"><div class="en-line">She <strong>has</strong> nothing to prove to anyone else. <button type="button" class="tts-chip" data-tts="She has nothing to prove to anyone else.">🔊</button></div><p class="zh-line">她无须向任何人证明什么。</p></div>
+            </div>
+          </div>
+        </div>
+        <p style="font-size:0.85rem;margin:0.5rem 0 0;">
+          <strong>读音纠偏：</strong><span class="key-term">says</span> <span class="ipa">/sez/</span>；<span class="key-term">goes</span> <span class="ipa">/ɡəʊz/</span>。
+        </p>
+      </div>
+      <div class="adv-block tap-card">
+        <h3>does / doesn't 后动词回原形<span class="handout-print-hide">（背 5 句）</span></h3>
+        <p style="font-size:0.88rem;margin:0 0 0.5rem;">
+          助动词 <strong>does / doesn't</strong> 已承担「三单」，后面动词必须<strong>回到原形</strong>：
+        </p>
+        <div class="mirror-box">
+          <span>has →</span> <code>have</code>
+          <span>goes →</span> <code>go</code>
+          <span>studies →</span> <code>study</code>
+          <span>does she…?</span> → 主要动词 <code>原形</code>
+        </div>
+        <div class="ex-pair"><div class="en-line">Does she <strong>have</strong> a sister in Grade Nine? <button type="button" class="tts-chip" data-tts="Does she have a sister in Grade Nine?">🔊</button></div><p class="zh-line">她有个九年级的姐姐吗？（不用 has）</p></div>
+        <div class="ex-pair"><div class="en-line">Does he <strong>go</strong> to school by subway every day? <button type="button" class="tts-chip" data-tts="Does he go to school by subway every day?">🔊</button></div><p class="zh-line">他每天坐地铁上学吗？</p></div>
+        <div class="ex-pair"><div class="en-line">Does your brother <strong>study</strong> French as a second language? <button type="button" class="tts-chip" data-tts="Does your brother study French as a second language?">🔊</button></div><p class="zh-line">你哥哥把法语当第二外语学吗？</p></div>
+        <div class="ex-pair"><div class="en-line">He doesn't <strong>have</strong> much free time on weekdays. <button type="button" class="tts-chip" data-tts="He doesn't have much free time on weekdays.">🔊</button></div><p class="zh-line">他工作日没多少空闲时间。</p></div>
+        <div class="ex-pair"><div class="en-line">She doesn't <strong>do</strong> her homework carelessly. <button type="button" class="tts-chip" data-tts="She doesn't do her homework carelessly.">🔊</button></div><p class="zh-line">她做作业从不马虎。</p></div>
+      </div>
+      </section>
 
-body:has(> .handout-pdf-bar):has(> main.sheet) {
-  --lesson-handout-chrome: 3.75rem;
-  justify-content: flex-start;
-}
+      <section class="handout-section" id="sec-4">
+      <h2 class="section-title">④ 高阶拓展：主谓一致与从句时态</h2>
+      <div class="adv-block tap-card">
+        <h3>模块 A · 主谓一致易错点<span class="handout-print-hide">（背 9 句）</span></h3>
+        <ul style="margin:0 0 0.5rem;padding-left:1.1rem;font-size:0.86rem;">
+          <li><strong>不定代词</strong> everyone / nobody / someone → 谓语常用<strong>单三</strong>。 <button type="button" class="tts-chip no-print" data-tts="不定代词 everyone / nobody / someone → 谓语常用 单三 。" aria-label="朗读">🔊</button></li>
+          <li><strong>复合主语 A and B</strong> → 两个人/物 → 复数；<strong>bread and butter</strong> 表一物 → <strong>is</strong>。 <button type="button" class="tts-chip no-print" data-tts="复合主语 A and B → 两个人/物 → 复数； bread and butter 表一物 → is 。" aria-label="朗读">🔊</button></li>
+          <li><strong>就近原则</strong>：either…or / neither…nor / <strong>there be</strong> → 谓语与<strong>最近</strong>的主语一致。 <button type="button" class="tts-chip no-print" data-tts="就近原则 ：either…or / neither…nor / there be → 谓语与 最近 的主语一致。" aria-label="朗读">🔊</button></li>
+        </ul>
+        <div class="ex-pair"><div class="en-line"><strong>Everyone</strong> <strong>knows</strong> that health comes first. <button type="button" class="tts-chip" data-tts="Everyone knows that health comes first.">🔊</button></div><p class="zh-line">人人都知道健康第一。</p></div>
+        <div class="ex-pair"><div class="en-line"><strong>Nobody</strong> <strong>wants</strong> to repeat the same mistake twice. <button type="button" class="tts-chip" data-tts="Nobody wants to repeat the same mistake twice.">🔊</button></div><p class="zh-line">没人想重蹈覆辙。</p></div>
+        <div class="ex-pair"><div class="en-line">Tom and Jerry <strong>are</strong> both fond of science fiction. <button type="button" class="tts-chip" data-tts="Tom and Jerry are both fond of science fiction.">🔊</button></div><p class="zh-line">汤姆和杰瑞都喜欢科幻。（两人 → 复数）</p></div>
+        <div class="ex-pair"><div class="en-line">Bread and butter <strong>is</strong> a common breakfast in the UK. <button type="button" class="tts-chip" data-tts="Bread and butter is a common breakfast in the UK.">🔊</button></div><p class="zh-line">涂黄油的面包是英国常见早餐。（整体作单数）</p></div>
+        <div class="ex-pair"><div class="en-line">Either you or he <strong>has</strong> to hand in the form today. <button type="button" class="tts-chip" data-tts="Either you or he has to hand in the form today.">🔊</button></div><p class="zh-line">要么你要么他今天得交表。（就近 he → has）</p></div>
+        <div class="ex-pair"><div class="en-line">There <strong>is</strong> a cup and two plates on the table. <button type="button" class="tts-chip" data-tts="There is a cup and two plates on the table.">🔊</button></div><p class="zh-line">桌上有一个杯子和两个盘子。（There be 就近 a cup → is）</p></div>
+        <div class="ex-pair"><div class="en-line">There <strong>are</strong> two cups and a plate on the table. <button type="button" class="tts-chip" data-tts="There are two cups and a plate on the table.">🔊</button></div><p class="zh-line">桌上有两个杯子和一个盘子。（There be 就近 two cups → are）</p></div>
+        <div class="ex-pair"><div class="en-line">Neither he nor his parents <strong>are</strong> free this weekend. <button type="button" class="tts-chip" data-tts="Neither he nor his parents are free this weekend.">🔊</button></div><p class="zh-line">这周末他和他父母都没空。（neither…nor 就近 parents → are）</p></div>
+        <div class="ex-pair"><div class="en-line">Neither Tom nor his sister <strong>is</strong> willing to give up. <button type="button" class="tts-chip" data-tts="Neither Tom nor his sister is willing to give up.">🔊</button></div><p class="zh-line">汤姆和他姐姐都不愿放弃。（neither…nor 就近 his sister → is）</p></div>
+      </div>
+      <div class="adv-block tap-card">
+        <h3>模块 B · 频度副词「全表 + 位置口诀」<span class="handout-print-hide">（全面背诵）</span></h3>
+        <div class="handout-keep-together handout-freq-table-group">
+        <p class="handout-freq-tip">
+          位置口诀：<strong class="key-term">Be 后 · 实义前 · 助动词之间</strong>。<strong>hardly / never</strong> 表否定意义，一般<strong>不再</strong>加 don't。
+        </p>
+        <table class="data data-table handout-table-compact">
+          <thead>
+            <tr><th>副词</th><th>大致频率 / 语气</th><th>备注</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>always</strong> <button type="button" class="tts-chip no-print" data-tts="always" aria-label="朗读">🔊</button></td><td>总是（100%）</td><td>可与进行连用表感情色彩</td></tr>
+            <tr><td><strong>usually</strong> <button type="button" class="tts-chip no-print" data-tts="usually" aria-label="朗读">🔊</button></td><td>通常（约 80–90%）</td><td>最常用「常态」</td></tr>
+            <tr><td><strong>often</strong> / <strong>frequently</strong> <button type="button" class="tts-chip no-print" data-tts="often / frequently" aria-label="朗读">🔊</button></td><td>经常</td><td>frequently 更书面</td></tr>
+            <tr><td><strong>sometimes</strong> <button type="button" class="tts-chip no-print" data-tts="sometimes" aria-label="朗读">🔊</button></td><td>有时</td><td>可放句首 / 句中 / 句末</td></tr>
+            <tr><td><strong>seldom</strong> / <strong>rarely</strong> <button type="button" class="tts-chip no-print" data-tts="seldom / rarely" aria-label="朗读">🔊</button></td><td>很少</td><td>正式、书面</td></tr>
+            <tr><td><strong>hardly ever</strong> <button type="button" class="tts-chip no-print" data-tts="hardly ever" aria-label="朗读">🔊</button></td><td>几乎从不</td><td class="cell-neg">否定意义</td></tr>
+            <tr><td><strong>never</strong> <button type="button" class="tts-chip no-print" data-tts="never" aria-label="朗读">🔊</button></td><td>从不</td><td class="cell-neg">否定意义</td></tr>
+          </tbody>
+        </table>
+        </div>
+        <div class="handout-rules-two-col handout-freq-two-col" aria-label="频度副词例句两栏">
+          <div class="handout-rules-col">
+            <div class="handout-rule-block handout-freq-block--be">
+              <p class="mini-note rule-block-title"><strong>Be 动词后<span class="handout-print-hide">（背 5 句）</span></strong></p>
+              <div class="ex-pair"><div class="en-line">She <strong>is always</strong> polite to strangers. <button type="button" class="tts-chip" data-tts="She is always polite to strangers.">🔊</button></div><p class="zh-line">她对陌生人总是很有礼貌。</p></div>
+              <div class="ex-pair"><div class="en-line">The hall <strong>is usually</strong> quiet during the exam. <button type="button" class="tts-chip" data-tts="The hall is usually quiet during the exam.">🔊</button></div><p class="zh-line">考试时大厅里通常很安静。</p></div>
+              <div class="ex-pair"><div class="en-line">He <strong>is often</strong> mistaken for his twin brother. <button type="button" class="tts-chip" data-tts="He is often mistaken for his twin brother.">🔊</button></div><p class="zh-line">他常被误认为是双胞胎兄弟。</p></div>
+              <div class="ex-pair"><div class="en-line">The answer <strong>is sometimes</strong> simpler than we think. <button type="button" class="tts-chip" data-tts="The answer is sometimes simpler than we think.">🔊</button></div><p class="zh-line">答案有时比想的更简单。</p></div>
+              <div class="ex-pair"><div class="en-line">She <strong>is never</strong> late for important meetings. <button type="button" class="tts-chip" data-tts="She is never late for important meetings.">🔊</button></div><p class="zh-line">重要会议她从不迟到。</p></div>
+            </div>
+            <div class="handout-rule-block handout-freq-block--aux">
+              <p class="mini-note rule-block-title"><strong>助动词 do/does 与实义动词之间<span class="handout-print-hide">（背 3 句）</span></strong></p>
+              <div class="ex-pair"><div class="en-line">I don't <strong>always agree</strong> with him, but I respect him. <button type="button" class="tts-chip" data-tts="I don't always agree with him, but I respect him.">🔊</button></div><p class="zh-line">我并不总同意他，但我尊重他。</p></div>
+              <div class="ex-pair"><div class="en-line">Does she <strong>often help</strong> you with your maths? <button type="button" class="tts-chip" data-tts="Does she often help you with your maths?">🔊</button></div><p class="zh-line">她经常帮你学数学吗？</p></div>
+              <div class="ex-pair"><div class="en-line">We don't <strong>usually stay</strong> up past eleven. <button type="button" class="tts-chip" data-tts="We don't usually stay up past eleven.">🔊</button></div><p class="zh-line">我们通常不会超过十一点才睡。</p></div>
+            </div>
+          </div>
+          <div class="handout-rules-col">
+            <div class="handout-rule-block handout-freq-block--verb">
+              <p class="mini-note rule-block-title"><strong>实义动词前<span class="handout-print-hide">（背 5 句）</span></strong></p>
+              <div class="ex-pair"><div class="en-line">I <strong>usually finish</strong> my homework before dinner. <button type="button" class="tts-chip" data-tts="I usually finish my homework before dinner.">🔊</button></div><p class="zh-line">我通常在晚饭前完成作业。</p></div>
+              <div class="ex-pair"><div class="en-line">He <strong>often reads</strong> on the bus to save time. <button type="button" class="tts-chip" data-tts="He often reads on the bus to save time.">🔊</button></div><p class="zh-line">他常在公交车上看书省时间。</p></div>
+              <div class="ex-pair"><div class="en-line">We <strong>sometimes walk</strong> home together after school. <button type="button" class="tts-chip" data-tts="We sometimes walk home together after school.">🔊</button></div><p class="zh-line">我们有时放学后一起走回家。</p></div>
+              <div class="ex-pair"><div class="en-line">She <strong>seldom complains</strong> even when life gets hard. <button type="button" class="tts-chip" data-tts="She seldom complains even when life gets hard.">🔊</button></div><p class="zh-line">即使日子难熬她也很少抱怨。</p></div>
+              <div class="ex-pair"><div class="en-line">He <strong>hardly ever eats</strong> fast food for lunch. <button type="button" class="tts-chip" data-tts="He hardly ever eats fast food for lunch.">🔊</button></div><p class="zh-line">他午饭几乎从不吃快餐。</p></div>
+            </div>
+            <div class="handout-rule-block handout-freq-block--sometimes">
+              <p class="mini-note rule-block-title"><strong>sometimes 位置灵活<span class="handout-print-hide">（背 3 句）</span></strong></p>
+              <div class="ex-pair"><div class="en-line"><strong>Sometimes</strong> the hardest part is to begin. <button type="button" class="tts-chip" data-tts="Sometimes the hardest part is to begin.">🔊</button></div><p class="zh-line">有时最难的是开始。（句首）</p></div>
+              <div class="ex-pair"><div class="en-line">I <strong>sometimes</strong> doubt myself, and that's OK. <button type="button" class="tts-chip" data-tts="I sometimes doubt myself, and that is OK.">🔊</button></div><p class="zh-line">我有时会怀疑自己，这没关系。</p></div>
+              <div class="ex-pair"><div class="en-line">Great ideas come to me in the shower <strong>sometimes</strong>. <button type="button" class="tts-chip" data-tts="Great ideas come to me in the shower sometimes.">🔊</button></div><p class="zh-line">好主意有时会在洗澡时冒出来。（句末）</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="adv-block tap-card">
+        <h3>模块 C ·「主将从现」<span class="handout-print-hide">（背 10 句 · 写作高频）</span></h3>
+        <p style="margin:0 0 0.5rem;font-size:0.88rem;">
+          在 <strong>if / when / as soon as / until / unless / before / after</strong> 等引导的时间或条件状语从句中：主句为一般将来时，从句用<strong>一般现在时</strong>表将来。
+        </p>
+        <div class="ex-pair"><div class="en-line">I will call you when he <strong>comes</strong> back. <button type="button" class="tts-chip" data-tts="I will call you when he comes back.">🔊</button></div><p class="zh-line">他回来我就给你打电话。</p></div>
+        <div class="ex-pair"><div class="en-line">We will start as soon as the teacher <strong>arrives</strong>. <button type="button" class="tts-chip" data-tts="We will start as soon as the teacher arrives.">🔊</button></div><p class="zh-line">老师一到我们就开始。</p></div>
+        <div class="ex-pair"><div class="en-line">If it <strong>rains</strong> tomorrow, we will stay indoors. <button type="button" class="tts-chip" data-tts="If it rains tomorrow, we will stay indoors.">🔊</button></div><p class="zh-line">明天下雨我们就待在室内。</p></div>
+        <div class="ex-pair"><div class="en-line">You will pass the exam if you <strong>work</strong> hard enough. <button type="button" class="tts-chip" data-tts="You will pass the exam if you work hard enough.">🔊</button></div><p class="zh-line">够努力你就会通过考试。</p></div>
+        <div class="ex-pair"><div class="en-line">I won't leave until you <strong>promise</strong> to be safe. <button type="button" class="tts-chip" data-tts="I won't leave until you promise to be safe.">🔊</button></div><p class="zh-line">你保证安全我才会离开。</p></div>
+        <div class="ex-pair"><div class="en-line">We will miss the train unless we <strong>hurry</strong>. <button type="button" class="tts-chip" data-tts="We will miss the train unless we hurry.">🔊</button></div><p class="zh-line">除非快点，否则我们会误车。</p></div>
+        <div class="ex-pair"><div class="en-line">She will feel better after she <strong>gets</strong> some sleep. <button type="button" class="tts-chip" data-tts="She will feel better after she gets some sleep.">🔊</button></div><p class="zh-line">睡一会儿她就会好些。</p></div>
+        <div class="ex-pair"><div class="en-line">Please turn off the lights before you <strong>leave</strong>. <button type="button" class="tts-chip" data-tts="Please turn off the lights before you leave.">🔊</button></div><p class="zh-line">离开前请关灯。</p></div>
+        <div class="ex-pair"><div class="en-line">I will remind you when the deadline <strong>draws</strong> near. <button type="button" class="tts-chip" data-tts="I will remind you when the deadline draws near.">🔊</button></div><p class="zh-line">快到期时我会提醒你。</p></div>
+        <div class="ex-pair"><div class="en-line">They will not succeed unless each member <strong>does</strong> his part. <button type="button" class="tts-chip" data-tts="They will not succeed unless each member does his part.">🔊</button></div><p class="zh-line">除非各尽其责，否则他们不会成功。</p></div>
+      </div>
+      <div class="adv-block tap-card">
+        <h3>模块 D · 客观真理「永恒法则」<span class="handout-print-hide">（背 5 句）</span></h3>
+        <p style="margin:0 0 0.5rem;font-size:0.88rem;">
+          宾语从句陈述客观真理、自然规律时：<strong>无论主句何时代</strong>，从句仍用<strong>一般现在时</strong>。
+        </p>
+        <div class="ex-pair"><div class="en-line">Our teacher said that light <strong>travels</strong> faster than sound. <button type="button" class="tts-chip" data-tts="Our teacher said that light travels faster than sound.">🔊</button></div><p class="zh-line">我们老师说过光比声音快。</p></div>
+        <div class="ex-pair"><div class="en-line">Scientists proved long ago that the moon <strong>has</strong> no air of its own. <button type="button" class="tts-chip" data-tts="Scientists proved long ago that the moon has no air of its own.">🔊</button></div><p class="zh-line">科学家早就证明月球没有自己的大气。</p></div>
+        <div class="ex-pair"><div class="en-line">The book explains that practice <strong>makes</strong> perfect. <button type="button" class="tts-chip" data-tts="The book explains that practice makes perfect.">🔊</button></div><p class="zh-line">书中解释道：熟能生巧。</p></div>
+        <div class="ex-pair"><div class="en-line">He learned in class that water <strong>freezes</strong> at zero degrees Celsius. <button type="button" class="tts-chip" data-tts="He learned in class that water freezes at zero degrees Celsius.">🔊</button></div><p class="zh-line">他在课上学到水在零摄氏度结冰。</p></div>
+        <div class="ex-pair"><div class="en-line">Grandma told me that a friend in need <strong>is</strong> a friend indeed. <button type="button" class="tts-chip" data-tts="Grandma told me that a friend in need is a friend indeed.">🔊</button></div><p class="zh-line">奶奶告诉我患难见真情。</p></div>
+      </div>
 
-body.has-lesson-pager:has(> main.sheet) {
-  --lesson-handout-chrome: 8.5rem;
-  justify-content: flex-start;
-}
+      <div class="adv-block tap-card handout-chant-block" style="margin-top:0.75rem;">
+        <h3>背诵口诀 · 一页收束</h3>
+        <div class="quote-box handout-chant-box">
+          习惯真理加日程，一般现在记心中；<br />
+          Be 表状态 am is are，实义动词三单形；<br />
+          频度副词看位置，Be 后、实义前、助动之间；<br />
+          主将从现从句现，真理宾从仍用现；<br />
+          does 后动词回原形，Be 与 do 两体系不混用。
+        </div>
+      </div>
 
-/* 去掉各页内联的 body 大留白；L03 单独处理底栏 */
-body:not(.has-lesson-pager) {
-  padding: var(--lesson-s-t) var(--lesson-s-r) var(--lesson-s-b) var(--lesson-s-l) !important;
-}
+      </section>
 
-body.has-lesson-pager {
-  padding-top: max(4px, var(--lesson-s-t)) !important;
-  padding-left: max(4px, var(--lesson-s-l)) !important;
-  padding-right: max(4px, var(--lesson-s-r)) !important;
-  padding-bottom: max(var(--lesson-pager-gap, 4.35rem), var(--lesson-s-b)) !important;
-}
-
-/* —— 全讲统一「页间导航」：固定底栏（与 L03 lesson-pager 视觉一致，兼容旧 class 名） —— */
-body.has-lesson-pager nav.lesson-pager,
-body.has-lesson-pager nav.lesson-footer-nav,
-body.has-lesson-pager div.lesson-footer-nav,
-body.has-lesson-pager nav.page-foot,
-body.has-lesson-pager nav.footer-nav,
-body.has-lesson-pager div.footer-nav {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 200;
-  display: flex;
-  align-items: stretch;
-  justify-content: space-between;
-  gap: 0.45rem;
-  padding: 0.42rem 0.55rem;
-  padding-bottom: max(0.42rem, env(safe-area-inset-bottom, 0px));
-  background: rgba(255, 249, 240, 0.98);
-  border-top: 3px solid #5d4037;
-  box-shadow: 0 -8px 22px rgba(0, 0, 0, 0.1);
-  font-family: var(--lesson-font-zh);
-}
-
-body.has-lesson-pager nav.lesson-pager a,
-body.has-lesson-pager nav.lesson-pager .pager-muted,
-body.has-lesson-pager nav.lesson-footer-nav a,
-body.has-lesson-pager div.lesson-footer-nav a,
-body.has-lesson-pager nav.page-foot a,
-body.has-lesson-pager nav.footer-nav a,
-body.has-lesson-pager div.footer-nav a,
-body.has-lesson-pager nav.lesson-footer-nav > span:not(.nav-sep),
-body.has-lesson-pager div.lesson-footer-nav > span:not(.nav-sep),
-body.has-lesson-pager nav.page-foot > span:not(.nav-sep),
-body.has-lesson-pager nav.footer-nav > span:not(.nav-sep),
-body.has-lesson-pager div.footer-nav > span:not(.nav-sep) {
-  flex: 1 1 0;
-  min-width: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  line-height: 1.35;
-  font-size: clamp(0.7rem, 2.6vw, 0.82rem);
-  font-weight: 800;
-  padding: 0.42rem 0.4rem;
-  border-radius: 999px;
-  border: 3px solid #5d4037;
-  box-shadow: 3px 4px 0 rgba(0, 0, 0, 0.1);
-}
-
-body.has-lesson-pager nav.lesson-pager a,
-body.has-lesson-pager nav.lesson-footer-nav a,
-body.has-lesson-pager div.lesson-footer-nav a,
-body.has-lesson-pager nav.page-foot a,
-body.has-lesson-pager nav.footer-nav a,
-body.has-lesson-pager div.footer-nav a {
-  text-decoration: none;
-  cursor: pointer;
-}
-
-body.has-lesson-pager nav.lesson-pager a:hover,
-body.has-lesson-pager nav.lesson-footer-nav a:hover,
-body.has-lesson-pager div.lesson-footer-nav a:hover,
-body.has-lesson-pager nav.page-foot a:hover,
-body.has-lesson-pager nav.footer-nav a:hover,
-body.has-lesson-pager div.footer-nav a:hover {
-  filter: brightness(1.05);
-}
-
-body.has-lesson-pager nav.lesson-pager .pager-prev,
-body.has-lesson-pager nav.lesson-footer-nav a:first-of-type,
-body.has-lesson-pager div.lesson-footer-nav a:first-of-type,
-body.has-lesson-pager nav.page-foot a:first-of-type,
-body.has-lesson-pager nav.footer-nav a:first-of-type,
-body.has-lesson-pager div.footer-nav a:first-of-type {
-  color: #1565c0;
-  background: rgba(255, 249, 240, 0.98);
-}
-
-body.has-lesson-pager nav.lesson-pager .pager-next,
-body.has-lesson-pager nav.lesson-footer-nav a:last-of-type,
-body.has-lesson-pager div.lesson-footer-nav a:last-of-type,
-body.has-lesson-pager nav.page-foot a:last-of-type,
-body.has-lesson-pager nav.footer-nav a:last-of-type,
-body.has-lesson-pager div.footer-nav a:last-of-type {
-  color: #4e342e;
-  background: linear-gradient(180deg, #ffe082, #ffca28);
-  box-shadow: 0 0 12px rgba(255, 143, 0, 0.35), 3px 4px 0 rgba(0, 0, 0, 0.1);
-}
-
-/* 三链接旧版：中间 <a> 用中性色（非首非尾的链接） */
-body.has-lesson-pager nav.lesson-footer-nav a:not(:first-of-type):not(:last-of-type),
-body.has-lesson-pager div.lesson-footer-nav a:not(:first-of-type):not(:last-of-type),
-body.has-lesson-pager nav.page-foot a:not(:first-of-type):not(:last-of-type),
-body.has-lesson-pager nav.footer-nav a:not(:first-of-type):not(:last-of-type),
-body.has-lesson-pager div.footer-nav a:not(:first-of-type):not(:last-of-type) {
-  color: #37474f;
-  background: rgba(236, 239, 241, 0.96);
-  box-shadow: 2px 3px 0 rgba(0, 0, 0, 0.08);
-}
-
-body.has-lesson-pager nav.lesson-pager .pager-mid {
-  color: #37474f;
-  background: rgba(236, 239, 241, 0.96);
-  box-shadow: 2px 3px 0 rgba(0, 0, 0, 0.08);
-}
-
-body.has-lesson-pager nav.lesson-pager .pager-muted,
-body.has-lesson-pager nav.lesson-footer-nav > span:not(.nav-sep),
-body.has-lesson-pager div.lesson-footer-nav > span:not(.nav-sep),
-body.has-lesson-pager nav.page-foot > span:not(.nav-sep),
-body.has-lesson-pager nav.footer-nav > span:not(.nav-sep),
-body.has-lesson-pager div.footer-nav > span:not(.nav-sep) {
-  color: #78909c;
-  background: rgba(236, 239, 241, 0.95);
-  cursor: default;
-  box-shadow: 2px 3px 0 rgba(0, 0, 0, 0.06);
-}
-
-body.has-lesson-pager .lesson-footer-nav .nav-sep,
-body.has-lesson-pager div.lesson-footer-nav .nav-sep,
-body.has-lesson-pager nav.page-foot .nav-sep,
-body.has-lesson-pager nav.footer-nav .nav-sep,
-body.has-lesson-pager div.footer-nav .nav-sep,
-body.has-lesson-pager div.footer-nav .sep {
-  display: none;
-}
-
-/* L05 Page04：屏内阶段分页条与固定页间底栏错开，避免被遮挡 */
-body.has-lesson-pager .book .pager-foot {
-  margin-bottom: max(0.75rem, var(--lesson-pager-gap, 4.35rem));
-}
-
-/* 英文例句 / 片段：与中文同栈，字号用 --lesson-fs-example（勿给整段中文误标 lang="en"） */
-body .book [lang="en"],
-body .shell [lang="en"],
-body .app [lang="en"],
-body .wrap [lang="en"],
-body .page-wrap [lang="en"],
-body .desk [lang="en"],
-body main.sheet [lang="en"],
-body .book .en,
-body .shell .en,
-body .app .en,
-body .wrap .en,
-body .page-wrap .en,
-body .desk .en,
-body main.sheet .en {
-  font-family: var(--lesson-font-en);
-  font-size: var(--lesson-fs-example);
-}
-
-/* 压过各页内联里对 .en 的 Patrick Hand（与上条同义，提高权重） */
-html body .book .en,
-html body .shell .en,
-html body .app .en,
-html body .wrap .en,
-html body .page-wrap .en,
-html body .desk .en,
-html body main.sheet .en {
-  font-family: var(--lesson-font-en) !important;
-  font-size: var(--lesson-fs-example) !important;
-}
-
-/* 常见「整句英文」容器（部分页未加 .en） */
-body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) :is(
-  .sentence-en,
-  .gold-line,
-  .trap-line,
-  .mirror-word,
-  .contrast-line,
-  .sentence-line,
-  .sentence-main,
-  .voice-line-en,
-  .example-en,
-  .en-line,
-  .ipa-bar
-) {
-  font-family: var(--lesson-font-en);
-  font-size: var(--lesson-fs-example);
-}
-
-/* 标题层级（主舞台内） */
-body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) :is(h1) {
-  font-family: var(--lesson-font-zh);
-  font-size: var(--lesson-fs-h1);
-  line-height: 1.25;
-}
-
-body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) :is(h2) {
-  font-family: var(--lesson-font-zh);
-  font-size: var(--lesson-fs-h2);
-  line-height: 1.3;
-}
-
-body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) :is(h3) {
-  font-family: var(--lesson-font-zh);
-  font-size: var(--lesson-fs-h3);
-  line-height: 1.35;
-}
-
-body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) :is(h4) {
-  font-family: var(--lesson-font-zh);
-  font-size: var(--lesson-fs-h4);
-  line-height: 1.4;
-}
-
-/* 常见标题/条类名（与 h1 同级视觉的条目标题） */
-body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) :is(
-  .page-title,
-  .stage-title,
-  .doc-title,
-  .goal-title,
-  .machine-title,
-  .section-title,
-  .section-label,
-  .column-title,
-  .sk-title,
-  .time-machine .machine-title
-) {
-  font-family: var(--lesson-font-zh);
-  font-size: var(--lesson-fs-h2);
-  line-height: 1.3;
-}
-
-body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) :is(h1.page-title) {
-  font-size: var(--lesson-fs-h1);
-}
-
-/* 顶栏 / 副标题 / 提示条 */
-body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) :is(
-  .top-bar,
-  .top,
-  .sub-hint,
-  .page-subtitle,
-  .hint:not(.no-print),
-  .audio-chip,
-  .phase-pill
-) {
-  font-family: var(--lesson-font-zh);
-  font-size: var(--lesson-fs-topbar);
-}
-
-body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) :is(.page-subtitle, .hint) {
-  font-size: var(--lesson-fs-body);
-  line-height: 1.55;
-}
-
-/* 标签式导航按钮 */
-body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) :is(
-  .phase-tabs button,
-  .tabs .tab,
-  .tab,
-  .phase-nav button
-) {
-  font-family: var(--lesson-font-zh);
-  font-size: var(--lesson-fs-small);
-}
-
-/* 可点击控件：与正文协调 */
-body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) :is(
-  button:not(.hotspot),
-  .btn,
-  .crayon,
-  .btn-row button,
-  .btn-handout-pdf,
-  .btn-glasses,
-  .btn-notes,
-  .btn-tts,
-  input,
-  select,
-  textarea
-) {
-  font-family: var(--lesson-font-zh);
-  font-size: var(--lesson-fs-btn);
-}
-
-body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) :is(button.crayon, .crayon) {
-  font-family: var(--lesson-font-zh);
-}
-
-/* 代码与等宽保持可读 */
-body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) :is(code, kbd, samp, pre) {
-  font-family: ui-monospace, "Cascadia Mono", "Consolas", monospace;
-  font-size: 0.92em;
-}
-
-/* —— 主舞台：默认流式（小屏）；桌面端见下方 media —— */
-body > .book,
-body > .shell,
-body > .app,
-body > .wrap,
-body > .page-wrap,
-body > .desk,
-body > #shakeHost,
-body > .layout,
-body > main.sheet {
-  width: 100%;
-  max-width: 100%;
-  margin-left: auto !important;
-  margin-right: auto !important;
-  box-sizing: border-box;
-  flex: 1 1 auto;
-  min-height: 0;
-  font-family: var(--lesson-font-zh);
-  font-size: 1rem;
-}
-
-/* 正文段落与列表（不覆盖带内联 font-size 的特例时，由继承生效；此处略抬一级） */
-body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) :is(
-  p,
-  li,
-  dd,
-  dt,
-  .guide,
-  .card,
-  .intro-board,
-  .goal-board,
-  .nav-list,
-  .blueprint,
-  .tree-story,
-  .ai-out,
-  .ai-bubble
-) {
-  font-family: var(--lesson-font-zh);
-  font-size: var(--lesson-fs-body);
-}
-
-/* 外层已控宽时，内层 .book 铺满，避免双层 max-width 夹心过窄 */
-body > .shell > .book,
-body > .app > .book,
-body > .page-wrap > .book,
-body > .wrap > .book {
-  width: 100% !important;
-  max-width: none !important;
-}
-
-/* 底部导航与主舞台同宽（仅 body 直接子级，避免误伤页内 .footer-nav） */
-body > .lesson-footer-nav,
-body > nav.lesson-footer-nav,
-body > nav.page-foot,
-body > nav.lesson-pager,
-body > nav.footer-nav,
-body > div.footer-nav {
-  width: 100%;
-  max-width: 100%;
-  margin-left: auto;
-  margin-right: auto;
-  box-sizing: border-box;
-  font-family: var(--lesson-font-zh);
-  font-size: var(--lesson-fs-small);
-  flex-shrink: 0;
-}
-
-.lesson-footer-nav a,
-body > nav.page-foot a {
-  font-family: var(--lesson-font-zh);
-  font-size: inherit;
-}
-
-/* 讲义顶栏与主画布同宽（桌面端由 media 覆盖为 16:9 宽度） */
-body > .handout-pdf-bar,
-body.has-lesson-pager > .handout-pdf-bar,
-body.has-lesson-pager > .name-toolbar {
-  width: 100%;
-  max-width: 100%;
-  margin-left: auto;
-  margin-right: auto;
-  box-sizing: border-box;
-  flex-shrink: 0;
-}
-
-/* 桌面：视口内最大 16:9 内接矩形 */
-@media (min-width: 769px) and (min-height: 560px) {
-  body:not(.has-lesson-pager) > .book,
-  body:not(.has-lesson-pager) > .shell,
-  body:not(.has-lesson-pager) > .app,
-  body:not(.has-lesson-pager) > .wrap,
-  body:not(.has-lesson-pager) > .page-wrap,
-  body:not(.has-lesson-pager) > .desk,
-  body:not(.has-lesson-pager) > #shakeHost,
-  body:not(.has-lesson-pager) > .layout,
-  body:not(.has-lesson-pager) > main.sheet {
-    --stage-vw: calc(100vw - var(--lesson-s-l) - var(--lesson-s-r));
-    --stage-vh: calc(100dvh - var(--lesson-foot-h) - var(--lesson-handout-chrome) - var(--lesson-s-t) - var(--lesson-s-b));
-    width: min(var(--stage-vw), calc(var(--stage-vh) * 16 / 9)) !important;
-    max-width: min(var(--stage-vw), calc(var(--stage-vh) * 16 / 9)) !important;
-    height: min(var(--stage-vh), calc(var(--stage-vw) * 9 / 16)) !important;
-    max-height: min(var(--stage-vh), calc(var(--stage-vw) * 9 / 16)) !important;
-    aspect-ratio: 16 / 9;
-    flex: 0 0 auto;
-    overflow: auto;
-  }
-
-  body.has-lesson-pager > .book,
-  body.has-lesson-pager > .shell,
-  body.has-lesson-pager > .app,
-  body.has-lesson-pager > .wrap,
-  body.has-lesson-pager > .page-wrap,
-  body.has-lesson-pager > .desk,
-  body.has-lesson-pager > #shakeHost,
-  body.has-lesson-pager > .layout,
-  body.has-lesson-pager > main.sheet {
-    --stage-vw: calc(100vw - var(--lesson-s-l) - var(--lesson-s-r) - 8px);
-    --stage-vh: calc(
-      100dvh - var(--lesson-pager-gap, 4.35rem) - var(--lesson-handout-chrome) - max(4px, var(--lesson-s-t)) - max(4px, var(--lesson-s-b))
-    );
-    width: min(var(--stage-vw), calc(var(--stage-vh) * 16 / 9)) !important;
-    max-width: min(var(--stage-vw), calc(var(--stage-vh) * 16 / 9)) !important;
-    height: min(var(--stage-vh), calc(var(--stage-vw) * 9 / 16)) !important;
-    max-height: min(var(--stage-vh), calc(var(--stage-vw) * 9 / 16)) !important;
-    aspect-ratio: 16 / 9;
-    flex: 0 0 auto;
-    overflow: auto;
-  }
-
-  body > .lesson-footer-nav,
-  body > nav.lesson-footer-nav,
-  body > nav.page-foot,
-  body > nav.lesson-pager,
-  body > nav.footer-nav,
-  body > div.footer-nav {
-    width: min(
-        calc(100vw - var(--lesson-s-l) - var(--lesson-s-r)),
-        calc((100dvh - var(--lesson-foot-h) - var(--lesson-s-t) - var(--lesson-s-b)) * 16 / 9)
-      )
-      !important;
-    max-width: min(
-        calc(100vw - var(--lesson-s-l) - var(--lesson-s-r)),
-        calc((100dvh - var(--lesson-foot-h) - var(--lesson-s-t) - var(--lesson-s-b)) * 16 / 9)
-      )
-      !important;
-  }
-
-  body.has-lesson-pager > .lesson-footer-nav,
-  body.has-lesson-pager > nav.lesson-footer-nav,
-  body.has-lesson-pager > nav.page-foot {
-    width: min(
-        calc(100vw - var(--lesson-s-l) - var(--lesson-s-r) - 8px),
-        calc((100dvh - var(--lesson-pager-gap, 4.35rem) - max(4px, var(--lesson-s-t)) - max(4px, var(--lesson-s-b))) * 16 / 9)
-      )
-      !important;
-    max-width: min(
-        calc(100vw - var(--lesson-s-l) - var(--lesson-s-r) - 8px),
-        calc((100dvh - var(--lesson-pager-gap, 4.35rem) - max(4px, var(--lesson-s-t)) - max(4px, var(--lesson-s-b))) * 16 / 9)
-      )
-      !important;
-  }
-
-  /* 固定底栏铺满视口（勿用 16:9 画布宽度约束，否则底栏短于屏幕） */
-  body.has-lesson-pager > nav.lesson-pager,
-  body.has-lesson-pager > nav.lesson-footer-nav,
-  body.has-lesson-pager > div.lesson-footer-nav,
-  body.has-lesson-pager > nav.page-foot,
-  body.has-lesson-pager > nav.footer-nav,
-  body.has-lesson-pager > div.footer-nav {
-    width: 100% !important;
-    max-width: none !important;
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-  }
-
-  body > .handout-pdf-bar,
-  body.has-lesson-pager > .handout-pdf-bar,
-  body.has-lesson-pager > .name-toolbar {
-    width: min(
-        calc(100vw - var(--lesson-s-l) - var(--lesson-s-r)),
-        calc((100dvh - var(--lesson-foot-h) - var(--lesson-handout-chrome) - var(--lesson-s-t) - var(--lesson-s-b)) * 16 / 9)
-      )
-      !important;
-    max-width: min(
-        calc(100vw - var(--lesson-s-l) - var(--lesson-s-r)),
-        calc((100dvh - var(--lesson-foot-h) - var(--lesson-handout-chrome) - var(--lesson-s-t) - var(--lesson-s-b)) * 16 / 9)
-      )
-      !important;
-  }
-
-  body.has-lesson-pager > .handout-pdf-bar,
-  body.has-lesson-pager > .name-toolbar {
-    width: min(
-        calc(100vw - var(--lesson-s-l) - var(--lesson-s-r) - 8px),
-        calc((100dvh - var(--lesson-pager-gap, 4.35rem) - var(--lesson-handout-chrome) - max(4px, var(--lesson-s-t)) - max(4px, var(--lesson-s-b))) * 16 / 9)
-      )
-      !important;
-    max-width: min(
-        calc(100vw - var(--lesson-s-l) - var(--lesson-s-r) - 8px),
-        calc((100dvh - var(--lesson-pager-gap, 4.35rem) - var(--lesson-handout-chrome) - max(4px, var(--lesson-s-t)) - max(4px, var(--lesson-s-b))) * 16 / 9)
-      )
-      !important;
-  }
-
-  /* 讲义页首行提示：与主画布同宽 */
-  body:has(> main.sheet) > p.no-print-hint {
-    width: min(
-        calc(100vw - var(--lesson-s-l) - var(--lesson-s-r)),
-        calc((100dvh - var(--lesson-foot-h) - var(--lesson-handout-chrome) - var(--lesson-s-t) - var(--lesson-s-b)) * 16 / 9)
-      )
-      !important;
-    max-width: min(
-        calc(100vw - var(--lesson-s-l) - var(--lesson-s-r)),
-        calc((100dvh - var(--lesson-foot-h) - var(--lesson-handout-chrome) - var(--lesson-s-t) - var(--lesson-s-b)) * 16 / 9)
-      )
-      !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
-    box-sizing: border-box;
-  }
-
-  body.has-lesson-pager:has(> main.sheet) > p.no-print-hint {
-    width: min(
-        calc(100vw - var(--lesson-s-l) - var(--lesson-s-r) - 8px),
-        calc((100dvh - var(--lesson-pager-gap, 4.35rem) - var(--lesson-handout-chrome) - max(4px, var(--lesson-s-t)) - max(4px, var(--lesson-s-b))) * 16 / 9)
-      )
-      !important;
-    max-width: min(
-        calc(100vw - var(--lesson-s-l) - var(--lesson-s-r) - 8px),
-        calc((100dvh - var(--lesson-pager-gap, 4.35rem) - var(--lesson-handout-chrome) - max(4px, var(--lesson-s-t)) - max(4px, var(--lesson-s-b))) * 16 / 9)
-      )
-      !important;
-  }
-}
-
-@media (max-width: 768px), (max-height: 559px) {
-  body > .book,
-  body > .shell,
-  body > .app,
-  body > .wrap,
-  body > .page-wrap,
-  body > .desk,
-  body > #shakeHost,
-  body > .layout,
-  body > main.sheet {
-    width: 100% !important;
-    max-width: 100% !important;
-    height: auto !important;
-    max-height: none !important;
-    min-height: 0 !important;
-    aspect-ratio: unset !important;
-    flex: 1 1 auto;
-    overflow: visible;
-  }
-
-  body {
-    justify-content: flex-start;
-  }
-}
-
-@media print {
-  body > .book,
-  body > .shell,
-  body > .app,
-  body > .wrap,
-  body > .page-wrap,
-  body > .desk,
-  body > #shakeHost,
-  body > .layout,
-  body > main.sheet {
-    width: 100% !important;
-    max-width: none !important;
-    height: auto !important;
-    max-height: none !important;
-    min-height: 0 !important;
-    aspect-ratio: unset !important;
-    overflow: visible !important;
-  }
-
-  body.has-lesson-pager nav.lesson-pager,
-  body.has-lesson-pager nav.lesson-pager.no-print,
-  body.has-lesson-pager nav.lesson-footer-nav,
-  body.has-lesson-pager div.lesson-footer-nav,
-  body.has-lesson-pager nav.page-foot,
-  body.has-lesson-pager nav.footer-nav,
-  body.has-lesson-pager div.footer-nav {
-    display: none !important;
-  }
-}
-
-/* —— 可读字体：压过各页内联里对 body / h1 / .en 等的卡通字体（依赖更高选择器权重） —— */
-html body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) {
-  font-family: var(--lesson-font-zh);
-}
-
-html body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) button.crayon,
-html body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) .crayon {
-  font-family: var(--lesson-font-zh);
-}
-
-html body > .lesson-footer-nav,
-html body > nav.lesson-footer-nav,
-html body > nav.page-foot,
-html body > nav.footer-nav,
-html body > div.footer-nav,
-html body > .lesson-progress-chip,
-html body > nav.lesson-pager {
-  font-family: var(--lesson-font-zh);
-}
-
-
-</style>
+      <p class="grammar-handout-footer">一般现在时</p>
+    </div>
+  </main>
+  <nav class="lesson-pager is-file-nav" aria-label="页面导航">
+    <a class="pager-prev" href="lesson01-page08-wrap.html">上一页</a>
+    <a class="pager-logo" href="../index.html" aria-label="课程主页"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/logo2.png" alt="Steven's Class" width="204" height="61" decoding="async" /></a>
+    <a class="pager-next" href="lesson01-exercise.html">下一页</a>
+  </nav>
   <script>
-/* inlined: assets/tts-manifest.js */
 /* 由 scripts/download-azure-tts.mjs 生成；请勿手改大段（可重新运行脚本覆盖） */
 window.__LESSON_TTS_MANIFEST = {
   "过去事情讲从前，标志词汇记心间。Be 动词分 was 和 were，实义动词要变脸。规则加 ed 有四法，不规则词靠魔法。若是 Did 来带队，动词乖乖回原形。": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L01/assets/tts-mp3/31484288c6af827d3e32.mp3",
@@ -1656,131 +720,7 @@ window.__LESSON_TTS_MANIFEST = {
 };
 
 </script>
-  <script>
-/* inlined: assets/lesson-tts-bootstrap.js */
-/**
- * 本地 MP3 优先（配合 assets/tts-manifest.js 中 window.__LESSON_TTS_MANIFEST）。
- * 1) playLocalIfAvailable：直接按文案查找并播放。
- * 2) fetch 拦截：课件内对 Azure TTS 的 fetch(SSML) 若 manifest 有对应句，则改为 fetch(本地 mp3) 并返回同形态 Response，无需改各页 speak()。
- *
- * 可选：window.__AZURE_SPEECH_KEY__ 供仍走在线时的密钥（勿写入仓库）。
- */
-(function () {
-  "use strict";
-
-  function norm(s) {
-    return String(s || "")
-      .replace(/\s+/g, " ")
-      .trim();
-  }
-
-  function map() {
-    return typeof window !== "undefined" && window.__LESSON_TTS_MANIFEST ? window.__LESSON_TTS_MANIFEST : {};
-  }
-
-  /** 从 SSML 中取 <voice>…</voice> 内纯文本（去内层标签与常见实体；须与 manifest 键一致） */
-  function extractSsmlVoicePlain(ssml) {
-    var m = String(ssml).match(/<voice[^>]*>([\s\S]*?)<\/voice>/i);
-    if (!m) return "";
-    var inner = m[1].replace(/<[^>]+>/g, " ");
-    inner = inner
-      .replace(/&#39;/g, "'")
-      .replace(/&#039;/g, "'")
-      .replace(/&apos;/g, "'")
-      .replace(/&#x27;/gi, "'")
-      .replace(/&quot;/g, '"')
-      .replace(/&lt;/g, "<")
-      .replace(/&gt;/g, ">")
-      .replace(/&nbsp;/g, " ")
-      .replace(/&amp;/g, "&");
-    return norm(inner);
-  }
-
-  function isAzureTtsRequest(input, init) {
-    try {
-      var u = typeof input === "string" ? input : input && input.url;
-      if (!u || String(u).indexOf("tts.speech.microsoft.com") === -1) return false;
-      if (!init || String(init.method || "GET").toUpperCase() !== "POST") return false;
-      var ct = "";
-      if (init.headers) {
-        if (typeof init.headers.get === "function") ct = init.headers.get("Content-Type") || "";
-        else ct = init.headers["Content-Type"] || init.headers["content-type"] || "";
-      }
-      if (!ct || String(ct).indexOf("ssml") === -1) return false;
-      var body = init.body;
-      if (typeof body !== "string" || body.indexOf("<speak") === -1) return false;
-      return true;
-    } catch (e) {
-      return false;
-    }
-  }
-
-  var origFetch = typeof window.fetch === "function" ? window.fetch.bind(window) : null;
-
-  if (origFetch) {
-    window.fetch = function (input, init) {
-      if (isAzureTtsRequest(input, init) && map() && typeof init.body === "string") {
-        var phrase = extractSsmlVoicePlain(init.body);
-        if (phrase) {
-          var m = map();
-          var rel = m[phrase] || m[norm(phrase)];
-          if (rel) {
-            return origFetch(rel, { method: "GET", credentials: "same-origin", cache: "force-cache" })
-              .then(function (res) {
-                if (!res.ok) return origFetch(input, init);
-                return res;
-              })
-              .catch(function () {
-                return origFetch(input, init);
-              });
-          }
-        }
-      }
-      return origFetch(input, init);
-    };
-  }
-
-  /**
-   * @param {string} text
-   * @returns {Promise<boolean>} true 已播放本地文件
-   */
-  function playLocalIfAvailable(text) {
-    var k = norm(text);
-    if (!k) return Promise.resolve(false);
-    var m = map();
-    var rel = m[k] || m[text] || m[String(text || "").trim()];
-    if (!rel) return Promise.resolve(false);
-    return new Promise(function (resolve) {
-      var a = new Audio(rel);
-      var done = false;
-      function fin(ok) {
-        if (done) return;
-        done = true;
-        resolve(!!ok);
-      }
-      a.onended = function () {
-        fin(true);
-      };
-      a.onerror = function () {
-        fin(false);
-      };
-      var p = a.play();
-      if (p && typeof p.catch === "function") {
-        p.catch(function () {
-          fin(false);
-        });
-      }
-    });
-  }
-
-  window.LessonTTSBootstrap = {
-    norm: norm,
-    playLocalIfAvailable: playLocalIfAvailable,
-    extractSsmlVoicePlain: extractSsmlVoicePlain
-  };
-})();
-
-</script>
+    <script src="assets/lesson-tts-bootstrap.js"></script>
   <script>
 /* inlined: assets/lesson-speak-local.js */
 /**
@@ -1835,6 +775,16 @@ window.__LESSON_TTS_MANIFEST = {
         resolve(false);
         return;
       }
+      if (typeof window.playLocalMp3Url === "function") {
+
+        return window.playLocalMp3Url(rel).then(function (ok) {
+
+          if (!ok) console.warn("(!!ok);
+
+        });
+
+      }
+
       var a = new Audio(rel);
       var done = false;
       function fin(ok) {
@@ -1842,10 +792,10 @@ window.__LESSON_TTS_MANIFEST = {
         done = true;
         resolve(!!ok);
       }
-      a.onended = function () {
+      a.onended = () => {
         fin(true);
       };
-      a.onerror = function () {
+      a.onerror = () => {
         fin(false);
       };
       var p = a.play();
@@ -1906,7 +856,7 @@ window.__LESSON_TTS_MANIFEST = {
       })
         .then(function (res) {
           if (!res.ok) {
-            return res.text().then(function (t) {
+            return res.text.then(function (t) {
               throw new Error(String(res.status) + " " + t.slice(0, 120));
             });
           }
@@ -1960,457 +910,10 @@ window.__LESSON_TTS_MANIFEST = {
     playEnglish: playEnglish
   };
 })();
-
-</script>
-</head>
-<body class="has-lesson-pager">
-  <div class="handout-pdf-bar" id="handout-pdf-bar">
-    <button type="button" class="btn-handout-pdf" id="btnHandoutPrint" title="打开系统打印，选择「另存为 PDF」或「Microsoft Print to PDF」。矢量文字、自动分页，适合印刷。勿用截图类 PDF 工具。">
-      🖨️ 打印 / 保存为 PDF（推荐 · 印刷级）
-    </button>
-  </div>
-  <main class="sheet" id="handout-pdf-source">
-    <div class="inner">
-      <header class="handout-header">
-        <h1 class="doc-title">第01讲 · 背诵讲义 —— 一般现在时（中考冲刺 · 英汉例句版）</h1>
-      </header>
-
-      <section class="handout-section">
-      <h2 class="section-title">🗺️ 全景思维导图 · 一般现在时在考什么？</h2>
-      <div class="mind-wrap tap-card">
-        <div class="handout-print-page">
-        <p style="margin:0 0 0.5rem;font-size:0.9rem;">
-          一般现在时 = 英语世界的<strong class="key-term">基本盘时态</strong>：不只在「现在这一刻」，而是<strong>习惯、真理、日程</strong>三条时间轴上的稳定表达。下列例句可直接用于写作与口语。
-        </p>
-        <div class="mind-pillars">
-          <div class="mind-pillar tap-card">
-            <div class="ico" aria-hidden="true">🔄</div>
-            <strong>习惯 · Habit</strong>
-            反复发生的行为、爱好、能力（常与 always / usually 等连用）。
-          </div>
-          <div class="mind-pillar tap-card">
-            <div class="ico" aria-hidden="true">🌍</div>
-            <strong>真理 · Truth</strong>
-            客观事实、自然规律、名言警句（地球绕日、水往低处流）。
-          </div>
-          <div class="mind-pillar tap-card">
-            <div class="ico" aria-hidden="true">📅</div>
-            <strong>日程 · Schedule</strong>
-            时刻表、节目单、固定安排（The train leaves at 7）。
-          </div>
-        </div>
-        <p class="mini-note"><strong>习惯类（背 5 句）</strong></p>
-        <div class="ex-pair"><div class="en-line">I <strong>usually</strong> review my notes before bed. <button type="button" class="tts-chip" data-tts="I usually review my notes before bed.">🔊</button></div><p class="zh-line">我通常睡前复习笔记。</p></div>
-        <div class="ex-pair"><div class="en-line">She <strong>often</strong> helps her classmates with English. <button type="button" class="tts-chip" data-tts="She often helps her classmates with English.">🔊</button></div><p class="zh-line">她经常帮同学学英语。</p></div>
-        <div class="ex-pair"><div class="en-line">We <strong>always</strong> walk to school unless it rains hard. <button type="button" class="tts-chip" data-tts="We always walk to school unless it rains hard.">🔊</button></div><p class="zh-line">除非下大雨，我们总是走路上学。</p></div>
-        <div class="ex-pair"><div class="en-line">He <strong>practices</strong> the piano every weekend without fail. <button type="button" class="tts-chip" data-tts="He practices the piano every weekend without fail.">🔊</button></div><p class="zh-line">他每个周末都坚持练钢琴。</p></div>
-        <div class="ex-pair"><div class="en-line">They <strong>seldom</strong> stay up late on school nights. <button type="button" class="tts-chip" data-tts="They seldom stay up late on school nights.">🔊</button></div><p class="zh-line">他们上学日晚上很少熬夜。</p></div>
-        </div>
-        <div class="handout-print-page">
-        <p class="mini-note"><strong>真理类（背 5 句）</strong></p>
-        <div class="ex-pair"><div class="en-line">The earth <strong>goes</strong> around the sun. <button type="button" class="tts-chip" data-tts="The earth goes around the sun.">🔊</button></div><p class="zh-line">地球绕太阳转。</p></div>
-        <div class="ex-pair"><div class="en-line">Water <strong>boils</strong> at 100°C at sea level. <button type="button" class="tts-chip" data-tts="Water boils at 100 degrees Celsius at sea level.">🔊</button></div><p class="zh-line">在海平面，水在 100 摄氏度沸腾。</p></div>
-        <div class="ex-pair"><div class="en-line">Knowledge <strong>is</strong> power. <button type="button" class="tts-chip" data-tts="Knowledge is power.">🔊</button></div><p class="zh-line">知识就是力量。（写作常用名言）</p></div>
-        <div class="ex-pair"><div class="en-line">Practice <strong>makes</strong> perfect. <button type="button" class="tts-chip" data-tts="Practice makes perfect.">🔊</button></div><p class="zh-line">熟能生巧。</p></div>
-        <div class="ex-pair"><div class="en-line">Actions <strong>speak</strong> louder than words. <button type="button" class="tts-chip" data-tts="Actions speak louder than words.">🔊</button></div><p class="zh-line">行动胜于言辞。</p></div>
-        </div>
-        <div class="handout-print-page">
-        <p class="mini-note"><strong>日程 / 时刻表类（背 5 句）</strong></p>
-        <div class="ex-pair"><div class="en-line">The train <strong>leaves</strong> at 7:15 every morning. <button type="button" class="tts-chip" data-tts="The train leaves at seven fifteen every morning.">🔊</button></div><p class="zh-line">火车每天早上 7:15 发车。</p></div>
-        <div class="ex-pair"><div class="en-line">School <strong>starts</strong> at 8:00 on weekdays. <button type="button" class="tts-chip" data-tts="School starts at eight on weekdays.">🔊</button></div><p class="zh-line">工作日学校八点上课。</p></div>
-        <div class="ex-pair"><div class="en-line">The shop <strong>opens</strong> at nine and <strong>closes</strong> at six. <button type="button" class="tts-chip" data-tts="The shop opens at nine and closes at six.">🔊</button></div><p class="zh-line">这家店九点开门、六点关门。</p></div>
-        <div class="ex-pair"><div class="en-line">The film <strong>begins</strong> in ten minutes. <button type="button" class="tts-chip" data-tts="The film begins in ten minutes.">🔊</button></div><p class="zh-line">电影十分钟后开始。</p></div>
-        <div class="ex-pair"><div class="en-line">Flight CA123 <strong>takes off</strong> on time even in bad weather. <button type="button" class="tts-chip" data-tts="Flight CA123 takes off on time even in bad weather.">🔊</button></div><p class="zh-line">CA123 航班即使天气不好也准时起飞。</p></div>
-        </div>
-        <div class="handout-print-page">
-        <div class="handout-parallel-block">
-        <div class="parallel-universe">
-          <div class="pu-box pu-be tap-card">
-            <h4>状态家族 · Be 动词系统（背 5 句）</h4>
-            说明「是谁 / 在哪 / 怎么样」：<span class="key-term">am · is · are</span> + 表语。
-            <div class="ex-pair"><div class="en-line">She <strong>is</strong> confident and well prepared for the exam. <button type="button" class="tts-chip" data-tts="She is confident and well prepared for the exam.">🔊</button></div><p class="zh-line">她对考试很有信心、准备充分。</p></div>
-            <div class="ex-pair"><div class="en-line">They <strong>are</strong> at the library, not at home. <button type="button" class="tts-chip" data-tts="They are at the library, not at home.">🔊</button></div><p class="zh-line">他们在图书馆，不在家。</p></div>
-            <div class="ex-pair"><div class="en-line">The book on the desk <strong>is</strong> mine. <button type="button" class="tts-chip" data-tts="The book on the desk is mine.">🔊</button></div><p class="zh-line">桌上那本书是我的。</p></div>
-            <div class="ex-pair"><div class="en-line">I <strong>am</strong> responsible for my own progress. <button type="button" class="tts-chip" data-tts="I am responsible for my own progress.">🔊</button></div><p class="zh-line">我为自己的进步负责。</p></div>
-            <div class="ex-pair"><div class="en-line">Honesty <strong>is</strong> the best policy in the long run. <button type="button" class="tts-chip" data-tts="Honesty is the best policy in the long run.">🔊</button></div><p class="zh-line">从长远看，诚实是上策。</p></div>
-          </div>
-          <div class="pu-box pu-do tap-card">
-            <h4>动作家族 · 实义动词系统（背 5 句）</h4>
-            说明「做了什么」：<span class="key-term">原形 / 第三人称单数</span>；否定与疑问用 <strong>do / does</strong>。
-            <div class="ex-pair"><div class="en-line">He <strong>plays</strong> basketball and <strong>runs</strong> every afternoon. <button type="button" class="tts-chip" data-tts="He plays basketball and runs every afternoon.">🔊</button></div><p class="zh-line">他每天下午打篮球和跑步。</p></div>
-            <div class="ex-pair"><div class="en-line"><strong>Do</strong> you <strong>agree</strong> that reading widens our minds? <button type="button" class="tts-chip" data-tts="Do you agree that reading widens our minds?">🔊</button></div><p class="zh-line">你同意阅读开阔眼界吗？</p></div>
-            <div class="ex-pair"><div class="en-line">My sister <strong>studies</strong> harder than anyone else in her class. <button type="button" class="tts-chip" data-tts="My sister studies harder than anyone else in her class.">🔊</button></div><p class="zh-line">我姐姐比班上任何人都用功。</p></div>
-            <div class="ex-pair"><div class="en-line">We <strong>don't</strong> give up when things get tough. <button type="button" class="tts-chip" data-tts="We don't give up when things get tough.">🔊</button></div><p class="zh-line">遇到困难我们也不放弃。</p></div>
-            <div class="ex-pair"><div class="en-line">Good habits <strong>shape</strong> our future day by day. <button type="button" class="tts-chip" data-tts="Good habits shape our future day by day.">🔊</button></div><p class="zh-line">好习惯一天天塑造我们的未来。</p></div>
-          </div>
-        </div>
-        <p class="never-mix">⚡ 平行宇宙法则：Be 句与实义动词句<strong>结构不同</strong>，考场上<strong>绝不混用</strong>（拒绝「Are you play」「Is like」）。</p>
-        </div>
-        </div>
-      </div>
-      </section>
-
-      <section class="handout-section">
-      <h2 class="section-title">🔵 深度模块 · 状态家族（Be Verb System）</h2>
-      <div class="adv-block tap-card">
-        <h3>搭配矩阵 · 复杂主语谁说了算？（背 5 句）</h3>
-        <table class="data-table">
-          <thead>
-            <tr><th>主语 / 情境</th><th>be 动词</th><th>中考提醒</th></tr>
-          </thead>
-          <tbody>
-            <tr><td>I</td><td><strong>am</strong></td><td>仅与 I 搭配</td></tr>
-            <tr><td>he / she / it / 单数名词</td><td><strong>is</strong></td><td>不可数名词、学科名单数概念</td></tr>
-            <tr><td>you / we / they / 复数名词</td><td><strong>are</strong></td><td>these / those + 复数</td></tr>
-            <tr><td>everyone / somebody / nobody</td><td><strong>is</strong>（表「整体」时）</td><td>不定代词常按<strong>单数</strong>处理</td></tr>
-            <tr><td>the news / physics / maths</td><td>常作 <strong>is</strong></td><td>形式复数、意义不可数 → 单数谓语</td></tr>
-          </tbody>
-        </table>
-        <div class="ex-pair"><div class="en-line">The news <strong>is</strong> more surprising than we expected. <span class="ipa">/ðə ˈnjuːz ɪz/</span> <button type="button" class="tts-chip" data-tts="The news is more surprising than we expected.">🔊</button></div><p class="zh-line">这消息比我们预想的更令人惊讶。</p></div>
-        <div class="ex-pair"><div class="en-line"><strong>Physics</strong> <strong>is</strong> my favourite subject this term. <button type="button" class="tts-chip" data-tts="Physics is my favourite subject this term.">🔊</button></div><p class="zh-line">物理是我这学期最喜欢的科目。</p></div>
-        <div class="ex-pair"><div class="en-line"><strong>Everyone</strong> <strong>is</strong> here except Tom. <button type="button" class="tts-chip" data-tts="Everyone is here except Tom.">🔊</button></div><p class="zh-line">除了汤姆大家都到了。</p></div>
-        <div class="ex-pair"><div class="en-line">The pair of shoes <strong>is</strong> on sale today. <button type="button" class="tts-chip" data-tts="The pair of shoes is on sale today.">🔊</button></div><p class="zh-line">这双鞋今天在打折。</p></div>
-        <div class="ex-pair"><div class="en-line">There <strong>is</strong> a pen and two books on the desk. <button type="button" class="tts-chip" data-tts="There is a pen and two books on the desk.">🔊</button></div><p class="zh-line">桌上有一支笔和两本书。（就近原则）</p></div>
-      </div>
-      <div class="adv-block tap-card">
-        <h3>否定融合 · 缩写与红线（背 5 句）</h3>
-        <p style="margin:0;font-size:0.88rem;">
-          <strong>I'm not</strong> = I am not ✓　<strong>isn't</strong> = is not ✓　<strong>aren't</strong> = are not ✓
-        </p>
-        <p class="warn-strip">⚠️ 中考红线：<strong>am not</strong> <span class="key-term">没有</span> 标准缩写形式（不要写 amn't）。</p>
-        <div class="ex-pair"><div class="en-line">I <strong>am not</strong> afraid of making mistakes when I speak English. <button type="button" class="tts-chip" data-tts="I am not afraid of making mistakes when I speak English.">🔊</button></div><p class="zh-line">说英语时我不怕犯错。</p></div>
-        <div class="ex-pair"><div class="en-line">He <strong>isn't</strong> lazy; he just needs a clearer goal. <button type="button" class="tts-chip" data-tts="He isn't lazy; he just needs a clearer goal.">🔊</button></div><p class="zh-line">他并不懒，只是需要更明确的目标。</p></div>
-        <div class="ex-pair"><div class="en-line">Those results <strong>aren't</strong> good enough yet. <button type="button" class="tts-chip" data-tts="Those results aren't good enough yet.">🔊</button></div><p class="zh-line">那些成绩还不够好。</p></div>
-        <div class="ex-pair"><div class="en-line">This <strong>isn't</strong> what we agreed on yesterday. <button type="button" class="tts-chip" data-tts="This isn't what we agreed on yesterday.">🔊</button></div><p class="zh-line">这可不是我们昨天说好的。</p></div>
-        <div class="ex-pair"><div class="en-line">We <strong>are not</strong> afraid of a long journey ahead. <button type="button" class="tts-chip" data-tts="We are not afraid of a long journey ahead.">🔊</button></div><p class="zh-line">我们不怕前路漫长。（be + not + 形容词）</p></div>
-      </div>
-      <div class="adv-block tap-card">
-        <h3>选择疑问句 · Alternative Questions（背 5 句）</h3>
-        <p style="font-size:0.88rem;margin:0 0 0.5rem;">
-          用 <strong>or</strong> 连接两个选项，语调：<span class="key-term">前升 ↗ · 后降 ↘</span>。
-        </p>
-        <div class="ex-pair"><div class="en-line">Is this room tidy <strong>or</strong> not? <button type="button" class="tts-chip" data-tts="Is this room tidy or not?">🔊</button></div><p class="zh-line">这房间到底整不整洁？</p></div>
-        <div class="ex-pair"><div class="en-line">Would you like tea <strong>or</strong> coffee? <button type="button" class="tts-chip" data-tts="Would you like tea or coffee?">🔊</button></div><p class="zh-line">你要茶还是咖啡？</p></div>
-        <div class="ex-pair"><div class="en-line">Are you coming by bus <strong>or</strong> on foot? <button type="button" class="tts-chip" data-tts="Are you coming by bus or on foot?">🔊</button></div><p class="zh-line">你坐公交来还是走路来？</p></div>
-        <div class="ex-pair"><div class="en-line">Is she a singer <strong>or</strong> an actress? <button type="button" class="tts-chip" data-tts="Is she a singer or an actress?">🔊</button></div><p class="zh-line">她是歌手还是演员？</p></div>
-        <div class="ex-pair"><div class="en-line">Do you want to stay home <strong>or</strong> go out tonight? <button type="button" class="tts-chip" data-tts="Do you want to stay home or go out tonight?">🔊</button></div><p class="zh-line">今晚你想待在家还是出去？</p></div>
-      </div>
-      </section>
-
-      <section class="handout-section">
-      <h2 class="section-title">🟢 深度模块 · 动作家族（Action Verb System）</h2>
-      <div class="adv-block tap-card">
-        <h3>魔法尾巴「算法」· 规则全表 + 读音纠偏（每类背 3 句）</h3>
-        <div class="algo-grid">
-          <div class="algo-card">
-            <strong>规则 1 · +s</strong><br />一般情况直接加 s：play → plays<br />
-            <span class="ipa">plays /pleɪz/</span>
-          </div>
-          <div class="algo-card">
-            <strong>规则 2 · +es</strong><br />s / x / ch / sh / o 结尾：watch → watches<br />
-            <span class="ipa">watches /ˈwɒtʃɪz/</span>
-          </div>
-          <div class="algo-card">
-            <strong>规则 3 · y → ies</strong><br />辅音 + y：study → studies；<strong>元音 + y</strong> 只加 s：play → plays<br />
-            <span class="ipa">studies /ˈstʌdiz/ · plays /pleɪz/</span>
-          </div>
-          <div class="algo-card">
-            <strong>规则 4 · have → has</strong><br />表「拥有」时第三人称用 has，读音 <span class="ipa">/hæz/</span>（不是 /heɪz/）。
-          </div>
-        </div>
-        <p class="mini-note"><strong>规则 1（+s）· 背 3 句</strong></p>
-        <div class="ex-pair"><div class="en-line">Tom <strong>reads</strong> English aloud for twenty minutes each morning. <button type="button" class="tts-chip" data-tts="Tom reads English aloud for twenty minutes each morning.">🔊</button></div><p class="zh-line">汤姆每天早上大声读二十分钟英语。</p></div>
-        <div class="ex-pair"><div class="en-line">The sun <strong>rises</strong> in the east and <strong>sets</strong> in the west. <button type="button" class="tts-chip" data-tts="The sun rises in the east and sets in the west.">🔊</button></div><p class="zh-line">太阳东升西落。</p></div>
-        <div class="ex-pair"><div class="en-line">She <strong>believes</strong> that effort matters more than talent. <button type="button" class="tts-chip" data-tts="She believes that effort matters more than talent.">🔊</button></div><p class="zh-line">她相信努力比天赋更重要。</p></div>
-        <p class="mini-note"><strong>规则 2（+es）· 背 3 句</strong></p>
-        <div class="ex-pair"><div class="en-line">He <strong>watches</strong> documentaries that broaden his view. <button type="button" class="tts-chip" data-tts="He watches documentaries that broaden his view.">🔊</button></div><p class="zh-line">他看能开阔眼界的纪录片。</p></div>
-        <div class="ex-pair"><div class="en-line">She <strong>fixes</strong> her bike by herself on weekends. <button type="button" class="tts-chip" data-tts="She fixes her bike by herself on weekends.">🔊</button></div><p class="zh-line">她周末自己修自行车。</p></div>
-        <div class="ex-pair"><div class="en-line">The class <strong>goes</strong> on a trip every spring. <button type="button" class="tts-chip" data-tts="The class goes on a trip every spring.">🔊</button></div><p class="zh-line">全班每年春天出游一次。</p></div>
-        <p class="mini-note"><strong>规则 3（y → ies / 元音+y）· 背 3 句</strong></p>
-        <div class="ex-pair"><div class="en-line">Linda <strong>studies</strong> chemistry until midnight before exams. <button type="button" class="tts-chip" data-tts="Linda studies chemistry until midnight before exams.">🔊</button></div><p class="zh-line">琳达考前学化学学到半夜。</p></div>
-        <div class="ex-pair"><div class="en-line">He <strong>tries</strong> again every time he fails. <button type="button" class="tts-chip" data-tts="He tries again every time he fails.">🔊</button></div><p class="zh-line">他每次失败都会再试一次。</p></div>
-        <div class="ex-pair"><div class="en-line">She <strong>enjoys</strong> the story and <strong>plays</strong> the piano well. <button type="button" class="tts-chip" data-tts="She enjoys the story and plays the piano well.">🔊</button></div><p class="zh-line">她喜欢这个故事，钢琴也弹得好。（enjoy + es，元音+y 只加 s）</p></div>
-        <p class="mini-note"><strong>规则 4（have → has）· 背 3 句</strong></p>
-        <div class="ex-pair"><div class="en-line">He <strong>has</strong> a clear plan for the next five years. <button type="button" class="tts-chip" data-tts="He has a clear plan for the next five years.">🔊</button></div><p class="zh-line">他对未来五年有清晰规划。</p></div>
-        <div class="ex-pair"><div class="en-line">The team <strong>has</strong> enough time to finish the project. <button type="button" class="tts-chip" data-tts="The team has enough time to finish the project.">🔊</button></div><p class="zh-line">团队有足够时间完成项目。</p></div>
-        <div class="ex-pair"><div class="en-line">She <strong>has</strong> nothing to prove to anyone else. <button type="button" class="tts-chip" data-tts="She has nothing to prove to anyone else.">🔊</button></div><p class="zh-line">她无须向任何人证明什么。</p></div>
-        <p style="font-size:0.85rem;margin:0.5rem 0 0;">
-          <strong>读音纠偏：</strong><span class="key-term">says</span> <span class="ipa">/sez/</span>；<span class="key-term">goes</span> <span class="ipa">/ɡəʊz/</span>。
-        </p>
-      </div>
-      <div class="adv-block tap-card">
-        <h3>照妖镜 · doesn't / does 与动词原形（背 5 句）</h3>
-        <p style="font-size:0.88rem;margin:0 0 0.5rem;">
-          助动词 <strong>does / doesn't</strong> 已承担「三单」，后面动词必须<strong>回到原形</strong>：
-        </p>
-        <div class="mirror-box">
-          <span>has →</span> <code>have</code>
-          <span>goes →</span> <code>go</code>
-          <span>studies →</span> <code>study</code>
-          <span>does she…?</span> → 主要动词 <code>原形</code>
-        </div>
-        <div class="ex-pair"><div class="en-line">Does she <strong>have</strong> a sister in Grade Nine? <button type="button" class="tts-chip" data-tts="Does she have a sister in Grade Nine?">🔊</button></div><p class="zh-line">她有个九年级的姐姐吗？（不用 has）</p></div>
-        <div class="ex-pair"><div class="en-line">Does he <strong>go</strong> to school by subway every day? <button type="button" class="tts-chip" data-tts="Does he go to school by subway every day?">🔊</button></div><p class="zh-line">他每天坐地铁上学吗？</p></div>
-        <div class="ex-pair"><div class="en-line">Does your brother <strong>study</strong> French as a second language? <button type="button" class="tts-chip" data-tts="Does your brother study French as a second language?">🔊</button></div><p class="zh-line">你哥哥把法语当第二外语学吗？</p></div>
-        <div class="ex-pair"><div class="en-line">He doesn't <strong>have</strong> much free time on weekdays. <button type="button" class="tts-chip" data-tts="He doesn't have much free time on weekdays.">🔊</button></div><p class="zh-line">他工作日没多少空闲时间。</p></div>
-        <div class="ex-pair"><div class="en-line">She doesn't <strong>do</strong> her homework carelessly. <button type="button" class="tts-chip" data-tts="She doesn't do her homework carelessly.">🔊</button></div><p class="zh-line">她做作业从不马虎。</p></div>
-      </div>
-      </section>
-
-      <section class="handout-section">
-      <h2 class="section-title">🚀 中考提分关键 · 高阶区</h2>
-      <div class="adv-block tap-card">
-        <h3>考点 A · 主谓一致「雷区调查」（背 9 句）</h3>
-        <ul style="margin:0 0 0.5rem;padding-left:1.1rem;font-size:0.86rem;">
-          <li><strong>不定代词</strong> everyone / nobody / someone → 谓语常用<strong>单三</strong>。</li>
-          <li><strong>复合主语 A and B</strong> → 两个人/物 → 复数；<strong>bread and butter</strong> 表一物 → <strong>is</strong>。</li>
-          <li><strong>就近原则</strong>：either…or / neither…nor / <strong>there be</strong> → 谓语与<strong>最近</strong>的主语一致。</li>
-        </ul>
-        <div class="ex-pair"><div class="en-line"><strong>Everyone</strong> <strong>knows</strong> that health comes first. <button type="button" class="tts-chip" data-tts="Everyone knows that health comes first.">🔊</button></div><p class="zh-line">人人都知道健康第一。</p></div>
-        <div class="ex-pair"><div class="en-line"><strong>Nobody</strong> <strong>wants</strong> to repeat the same mistake twice. <button type="button" class="tts-chip" data-tts="Nobody wants to repeat the same mistake twice.">🔊</button></div><p class="zh-line">没人想重蹈覆辙。</p></div>
-        <div class="ex-pair"><div class="en-line">Tom and Jerry <strong>are</strong> both fond of science fiction. <button type="button" class="tts-chip" data-tts="Tom and Jerry are both fond of science fiction.">🔊</button></div><p class="zh-line">汤姆和杰瑞都喜欢科幻。（两人 → 复数）</p></div>
-        <div class="ex-pair"><div class="en-line">Bread and butter <strong>is</strong> a common breakfast in the UK. <button type="button" class="tts-chip" data-tts="Bread and butter is a common breakfast in the UK.">🔊</button></div><p class="zh-line">涂黄油的面包是英国常见早餐。（整体作单数）</p></div>
-        <div class="ex-pair"><div class="en-line">Either you or he <strong>has</strong> to hand in the form today. <button type="button" class="tts-chip" data-tts="Either you or he has to hand in the form today.">🔊</button></div><p class="zh-line">要么你要么他今天得交表。（就近 he → has）</p></div>
-        <div class="ex-pair"><div class="en-line">There <strong>is</strong> a cup and two plates on the table. <button type="button" class="tts-chip" data-tts="There is a cup and two plates on the table.">🔊</button></div><p class="zh-line">桌上有一个杯子和两个盘子。（There be 就近 a cup → is）</p></div>
-        <div class="ex-pair"><div class="en-line">There <strong>are</strong> two cups and a plate on the table. <button type="button" class="tts-chip" data-tts="There are two cups and a plate on the table.">🔊</button></div><p class="zh-line">桌上有两个杯子和一个盘子。（There be 就近 two cups → are）</p></div>
-        <div class="ex-pair"><div class="en-line">Neither he nor his parents <strong>are</strong> free this weekend. <button type="button" class="tts-chip" data-tts="Neither he nor his parents are free this weekend.">🔊</button></div><p class="zh-line">这周末他和他父母都没空。（neither…nor 就近 parents → are）</p></div>
-        <div class="ex-pair"><div class="en-line">Neither Tom nor his sister <strong>is</strong> willing to give up. <button type="button" class="tts-chip" data-tts="Neither Tom nor his sister is willing to give up.">🔊</button></div><p class="zh-line">汤姆和他姐姐都不愿放弃。（neither…nor 就近 his sister → is）</p></div>
-      </div>
-      <div class="adv-block tap-card">
-        <h3>考点 B · 频度副词「全表 + 位置口诀」（全面背诵）</h3>
-        <p style="margin:0 0 0.5rem;font-size:0.88rem;">
-          位置口诀：<strong class="key-term">Be 后 · 实义前 · 助动词之间</strong>。<strong>hardly / never</strong> 表否定意义，一般<strong>不再</strong>加 don't。
-        </p>
-        <table class="data-table">
-          <thead>
-            <tr><th>副词</th><th>大致频率 / 语气</th><th>备注</th></tr>
-          </thead>
-          <tbody>
-            <tr><td><strong>always</strong></td><td>总是（100%）</td><td>可与进行连用表感情色彩</td></tr>
-            <tr><td><strong>usually</strong></td><td>通常（约 80–90%）</td><td>最常用「常态」</td></tr>
-            <tr><td><strong>often</strong> / <strong>frequently</strong></td><td>经常</td><td>frequently 更书面</td></tr>
-            <tr><td><strong>sometimes</strong></td><td>有时</td><td>可放句首 / 句中 / 句末</td></tr>
-            <tr><td><strong>seldom</strong> / <strong>rarely</strong></td><td>很少</td><td>正式、书面</td></tr>
-            <tr><td><strong>hardly ever</strong></td><td>几乎从不</td><td>否定意义</td></tr>
-            <tr><td><strong>never</strong></td><td>从不</td><td>否定意义</td></tr>
-          </tbody>
-        </table>
-        <p class="mini-note"><strong>Be 动词后（背 5 句）</strong></p>
-        <div class="ex-pair"><div class="en-line">She <strong>is always</strong> polite to strangers. <button type="button" class="tts-chip" data-tts="She is always polite to strangers.">🔊</button></div><p class="zh-line">她对陌生人总是很有礼貌。</p></div>
-        <div class="ex-pair"><div class="en-line">The hall <strong>is usually</strong> quiet during the exam. <button type="button" class="tts-chip" data-tts="The hall is usually quiet during the exam.">🔊</button></div><p class="zh-line">考试时大厅里通常很安静。</p></div>
-        <div class="ex-pair"><div class="en-line">He <strong>is often</strong> mistaken for his twin brother. <button type="button" class="tts-chip" data-tts="He is often mistaken for his twin brother.">🔊</button></div><p class="zh-line">他常被误认为是双胞胎兄弟。</p></div>
-        <div class="ex-pair"><div class="en-line">The answer <strong>is sometimes</strong> simpler than we think. <button type="button" class="tts-chip" data-tts="The answer is sometimes simpler than we think.">🔊</button></div><p class="zh-line">答案有时比想的更简单。</p></div>
-        <div class="ex-pair"><div class="en-line">She <strong>is never</strong> late for important meetings. <button type="button" class="tts-chip" data-tts="She is never late for important meetings.">🔊</button></div><p class="zh-line">重要会议她从不迟到。</p></div>
-        <p class="mini-note"><strong>实义动词前（背 5 句）</strong></p>
-        <div class="ex-pair"><div class="en-line">I <strong>usually finish</strong> my homework before dinner. <button type="button" class="tts-chip" data-tts="I usually finish my homework before dinner.">🔊</button></div><p class="zh-line">我通常在晚饭前完成作业。</p></div>
-        <div class="ex-pair"><div class="en-line">He <strong>often reads</strong> on the bus to save time. <button type="button" class="tts-chip" data-tts="He often reads on the bus to save time.">🔊</button></div><p class="zh-line">他常在公交车上看书省时间。</p></div>
-        <div class="ex-pair"><div class="en-line">We <strong>sometimes walk</strong> home together after school. <button type="button" class="tts-chip" data-tts="We sometimes walk home together after school.">🔊</button></div><p class="zh-line">我们有时放学后一起走回家。</p></div>
-        <div class="ex-pair"><div class="en-line">She <strong>seldom complains</strong> even when life gets hard. <button type="button" class="tts-chip" data-tts="She seldom complains even when life gets hard.">🔊</button></div><p class="zh-line">即使日子难熬她也很少抱怨。</p></div>
-        <div class="ex-pair"><div class="en-line">He <strong>hardly ever eats</strong> fast food for lunch. <button type="button" class="tts-chip" data-tts="He hardly ever eats fast food for lunch.">🔊</button></div><p class="zh-line">他午饭几乎从不吃快餐。</p></div>
-        <p class="mini-note"><strong>助动词 do/does 与实义动词之间（背 3 句）</strong></p>
-        <div class="ex-pair"><div class="en-line">I don't <strong>always agree</strong> with him, but I respect him. <button type="button" class="tts-chip" data-tts="I don't always agree with him, but I respect him.">🔊</button></div><p class="zh-line">我并不总同意他，但我尊重他。</p></div>
-        <div class="ex-pair"><div class="en-line">Does she <strong>often help</strong> you with your maths? <button type="button" class="tts-chip" data-tts="Does she often help you with your maths?">🔊</button></div><p class="zh-line">她经常帮你学数学吗？</p></div>
-        <div class="ex-pair"><div class="en-line">We don't <strong>usually stay</strong> up past eleven. <button type="button" class="tts-chip" data-tts="We don't usually stay up past eleven.">🔊</button></div><p class="zh-line">我们通常不会超过十一点才睡。</p></div>
-        <p class="mini-note"><strong>sometimes 位置灵活（背 3 句）</strong></p>
-        <div class="ex-pair"><div class="en-line"><strong>Sometimes</strong> the hardest part is to begin. <button type="button" class="tts-chip" data-tts="Sometimes the hardest part is to begin.">🔊</button></div><p class="zh-line">有时最难的是开始。（句首）</p></div>
-        <div class="ex-pair"><div class="en-line">I <strong>sometimes</strong> doubt myself, and that's OK. <button type="button" class="tts-chip" data-tts="I sometimes doubt myself, and that is OK.">🔊</button></div><p class="zh-line">我有时会怀疑自己，这没关系。</p></div>
-        <div class="ex-pair"><div class="en-line">Great ideas come to me in the shower <strong>sometimes</strong>. <button type="button" class="tts-chip" data-tts="Great ideas come to me in the shower sometimes.">🔊</button></div><p class="zh-line">好主意有时会在洗澡时冒出来。（句末）</p></div>
-      </div>
-      <div class="adv-block tap-card">
-        <h3>考点 C ·「主将从现」（背 10 句 · 写作高频）</h3>
-        <p style="margin:0 0 0.5rem;font-size:0.88rem;">
-          在 <strong>if / when / as soon as / until / unless / before / after</strong> 等引导的时间或条件状语从句中：主句为一般将来时，从句用<strong>一般现在时</strong>表将来。
-        </p>
-        <div class="ex-pair"><div class="en-line">I will call you when he <strong>comes</strong> back. <button type="button" class="tts-chip" data-tts="I will call you when he comes back.">🔊</button></div><p class="zh-line">他回来我就给你打电话。</p></div>
-        <div class="ex-pair"><div class="en-line">We will start as soon as the teacher <strong>arrives</strong>. <button type="button" class="tts-chip" data-tts="We will start as soon as the teacher arrives.">🔊</button></div><p class="zh-line">老师一到我们就开始。</p></div>
-        <div class="ex-pair"><div class="en-line">If it <strong>rains</strong> tomorrow, we will stay indoors. <button type="button" class="tts-chip" data-tts="If it rains tomorrow, we will stay indoors.">🔊</button></div><p class="zh-line">明天下雨我们就待在室内。</p></div>
-        <div class="ex-pair"><div class="en-line">You will pass the exam if you <strong>work</strong> hard enough. <button type="button" class="tts-chip" data-tts="You will pass the exam if you work hard enough.">🔊</button></div><p class="zh-line">够努力你就会通过考试。</p></div>
-        <div class="ex-pair"><div class="en-line">I won't leave until you <strong>promise</strong> to be safe. <button type="button" class="tts-chip" data-tts="I won't leave until you promise to be safe.">🔊</button></div><p class="zh-line">你保证安全我才会离开。</p></div>
-        <div class="ex-pair"><div class="en-line">We will miss the train unless we <strong>hurry</strong>. <button type="button" class="tts-chip" data-tts="We will miss the train unless we hurry.">🔊</button></div><p class="zh-line">除非快点，否则我们会误车。</p></div>
-        <div class="ex-pair"><div class="en-line">She will feel better after she <strong>gets</strong> some sleep. <button type="button" class="tts-chip" data-tts="She will feel better after she gets some sleep.">🔊</button></div><p class="zh-line">睡一会儿她就会好些。</p></div>
-        <div class="ex-pair"><div class="en-line">Please turn off the lights before you <strong>leave</strong>. <button type="button" class="tts-chip" data-tts="Please turn off the lights before you leave.">🔊</button></div><p class="zh-line">离开前请关灯。</p></div>
-        <div class="ex-pair"><div class="en-line">I will remind you when the deadline <strong>draws</strong> near. <button type="button" class="tts-chip" data-tts="I will remind you when the deadline draws near.">🔊</button></div><p class="zh-line">快到期时我会提醒你。</p></div>
-        <div class="ex-pair"><div class="en-line">They will not succeed unless each member <strong>does</strong> his part. <button type="button" class="tts-chip" data-tts="They will not succeed unless each member does his part.">🔊</button></div><p class="zh-line">除非各尽其责，否则他们不会成功。</p></div>
-      </div>
-      <div class="adv-block tap-card">
-        <h3>考点 D · 客观真理「永恒法则」（背 5 句）</h3>
-        <p style="margin:0 0 0.5rem;font-size:0.88rem;">
-          宾语从句陈述客观真理、自然规律时：<strong>无论主句何时代</strong>，从句仍用<strong>一般现在时</strong>。
-        </p>
-        <div class="ex-pair"><div class="en-line">Our teacher said that light <strong>travels</strong> faster than sound. <button type="button" class="tts-chip" data-tts="Our teacher said that light travels faster than sound.">🔊</button></div><p class="zh-line">我们老师说过光比声音快。</p></div>
-        <div class="ex-pair"><div class="en-line">Scientists proved long ago that the moon <strong>has</strong> no air of its own. <button type="button" class="tts-chip" data-tts="Scientists proved long ago that the moon has no air of its own.">🔊</button></div><p class="zh-line">科学家早就证明月球没有自己的大气。</p></div>
-        <div class="ex-pair"><div class="en-line">The book explains that practice <strong>makes</strong> perfect. <button type="button" class="tts-chip" data-tts="The book explains that practice makes perfect.">🔊</button></div><p class="zh-line">书中解释道：熟能生巧。</p></div>
-        <div class="ex-pair"><div class="en-line">He learned in class that water <strong>freezes</strong> at zero degrees Celsius. <button type="button" class="tts-chip" data-tts="He learned in class that water freezes at zero degrees Celsius.">🔊</button></div><p class="zh-line">他在课上学到水在零摄氏度结冰。</p></div>
-        <div class="ex-pair"><div class="en-line">Grandma told me that a friend in need <strong>is</strong> a friend indeed. <button type="button" class="tts-chip" data-tts="Grandma told me that a friend in need is a friend indeed.">🔊</button></div><p class="zh-line">奶奶告诉我患难见真情。</p></div>
-      </div>
-
-      <p class="print-hint">导出 PDF：请点上方「打印 / 保存为 PDF」，在打印对话框中选择「另存为 PDF」（矢量、适合印刷）。勿依赖截图拼页的下载方式。</p>
-      </section>
-    </div>
-  </main>
-  <nav class="lesson-footer-nav" aria-label="第01讲页面导航">
-    <a href="index.html">课程目录</a>
-    <span class="nav-sep">·</span>
-    <a href="lesson01-page08-wrap.html">上一页</a>
-    <span class="nav-sep">·</span>
-    <a href="lesson01-exercise.html">终极试炼场（刷题）</a>
-  </nav>
-
-  <script>
-(function () {
-  "use strict";
-
-  /** true：浏览器直连 Azure Speech；false：走 /api/tts 代理（与 lesson01-page07 等页一致） */
-  var LOCAL_DEV_MODE = true;
-  var LOCAL_AZURE_KEY =
-    (typeof window !== "undefined" && window.__AZURE_SPEECH_KEY__) || "C42UQWeDcluYanbo17WrtUnPhk0vkZy2uQHPTCGDzY6CdEXx99NzJQQJ99BIACqBBLyXJ3w3AAAYACOGjkyu";
-  var LOCAL_AZURE_REGION = (typeof window !== "undefined" && window.__AZURE_SPEECH_REGION__) || "southeastasia";
-
-  function playBlob(blob, resolve, reject) {
-    var url = URL.createObjectURL(blob);
-    var audio = new Audio(url);
-    audio.onended = function () {
-      URL.revokeObjectURL(url);
-      resolve();
-    };
-    audio.onerror = function () {
-      URL.revokeObjectURL(url);
-      reject(new Error("音频播放失败"));
-    };
-    audio.play().catch(function (e) {
-      URL.revokeObjectURL(url);
-      reject(e);
-    });
-  }
-
-  /** Azure 或代理 TTS；与 manifest 本地 MP3 二选一链路配合 */
-  function speakAzure(text) {
-    return new Promise(function (resolve, reject) {
-      var Boot = window.LessonTTSBootstrap;
-
-      function tryRemote() {
-        if (!LOCAL_DEV_MODE) {
-          fetch("/api/tts", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ text: text })
-          })
-            .then(function (res) {
-              if (!res.ok) {
-                return res.text().then(function (t) {
-                  throw new Error("TTS " + res.status + " " + t.slice(0, 120));
-                });
-              }
-              return res.blob();
-            })
-            .then(function (blob) {
-              playBlob(blob, resolve, reject);
-            })
-            .catch(reject);
-          return;
-        }
-        var key = LOCAL_AZURE_KEY;
-        var region = LOCAL_AZURE_REGION;
-        if (!key) {
-          reject(
-            new Error(
-              "离线语音未命中 manifest 或 mp3 无法播放，且未配置 Azure 密钥（可设 window.__AZURE_SPEECH_KEY__ 或本页 LOCAL_AZURE_KEY）。"
-            )
-          );
-          return;
-        }
-        var url = "https://" + region + ".tts.speech.microsoft.com/cognitiveservices/v1";
-        var xmlSafe = String(text)
-          .replace(/&/g, "&amp;")
-          .replace(/</g, "&lt;")
-          .replace(/>/g, "&gt;")
-          .replace(/"/g, "&quot;");
-        var ssml =
-          "<speak version='1.0' xml:lang='en-US'><voice xml:lang='en-US' xml:gender='Female' name='en-US-JennyNeural'>" +
-          xmlSafe +
-          "</voice></speak>";
-        fetch(url, {
-          method: "POST",
-          headers: {
-            "Ocp-Apim-Subscription-Key": key,
-            "Content-Type": "application/ssml+xml",
-            "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3"
-          },
-          body: ssml
-        })
-          .then(function (res) {
-            if (!res.ok) {
-              return res.text().then(function (t) {
-                throw new Error("Azure " + res.status + " " + t.slice(0, 120));
-              });
-            }
-            return res.blob();
-          })
-          .then(function (blob) {
-            playBlob(blob, resolve, reject);
-          })
-          .catch(reject);
-      }
-
-      if (Boot && typeof Boot.playLocalIfAvailable === "function") {
-        var t = Boot.norm ? Boot.norm(text) : String(text || "").replace(/\s+/g, " ").trim();
-        Boot.playLocalIfAvailable(t).then(function (ok) {
-          if (ok) {
-            resolve();
-            return;
-          }
-          tryRemote();
-        });
-        return;
-      }
-
-      tryRemote();
-    });
-  }
-
-  var ttsGlobalLock = false;
-
-  /** 优先本地 MP3（manifest + bootstrap），失败再走原 Azure fetch */
-  function speakPreferred(text) {
-    if (ttsGlobalLock) {
-      return Promise.reject(new Error("朗读进行中"));
-    }
-    ttsGlobalLock = true;
-    var chain =
-      window.LessonSpeak && window.LessonSpeak.playEnglish
-        ? window.LessonSpeak.playEnglish(text).catch(function () {
-            return speakAzure(text);
-          })
-        : speakAzure(text);
-    return chain.then(
-      function (v) {
-        ttsGlobalLock = false;
-        return v;
-      },
-      function (err) {
-        ttsGlobalLock = false;
-        throw err;
-      }
-    );
-  }
-
-  var btnPrint = document.getElementById("btnHandoutPrint");
-  if (btnPrint) {
-    btnPrint.addEventListener("click", function () {
-      window.print();
-    });
-  }
-
-  document.addEventListener("click", function (e) {
-    var chip = e.target.closest(".tts-chip[data-tts]");
-    if (!chip) return;
-    e.preventDefault();
-    var txt = chip.getAttribute("data-tts") || "";
-    speakPreferred(txt).catch(function (err) {
-      alert(err && err.message ? err.message : "朗读失败，请检查网络或密钥配置。");
-    });
-  });
-})();
   </script>
-</body>
+  <script src="assets/l01-handout-tts.js" defer></script>
+  <link rel="stylesheet" href="assets/lesson-image-lightbox.css" />
+  <script src="assets/lesson-image-lightbox.js" defer></script>
+  <script src="../shared/grammar-handout.js" defer></script>
+  <script src="../shared/grammar-handout-print-prep.js"></script></body>
 </html>

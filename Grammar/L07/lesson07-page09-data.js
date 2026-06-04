@@ -560,7 +560,7 @@ window.PAGE09_BANK = [
     "theme": "个人与家庭",
     "difficulty": 1,
     "type": "picture",
-    "img": "assets/page09-practice/l09-p01-taller-boys.png",
+    "img": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L07/assets/page09-practice/l09-p01-taller-boys.png",
     "stem": "Which sentence best matches the picture?",
     "options": [
       "A. The boy on the right is shorter than the boy on the left.",
@@ -578,7 +578,7 @@ window.PAGE09_BANK = [
     "theme": "学校生活",
     "difficulty": 1,
     "type": "picture",
-    "img": "assets/page09-practice/l09-p02-backpacks.png",
+    "img": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L07/assets/page09-practice/l09-p02-backpacks.png",
     "stem": "Which is correct?",
     "options": [
       "A. The left backpack has more books than the right one.",
@@ -596,7 +596,7 @@ window.PAGE09_BANK = [
     "theme": "自然与环保",
     "difficulty": 2,
     "type": "picture",
-    "img": "assets/page09-practice/l09-p03-weather.png",
+    "img": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L07/assets/page09-practice/l09-p03-weather.png",
     "stem": "Choose the best sentence.",
     "options": [
       "A. The weather on the right looks nicer than on the left.",
@@ -614,7 +614,7 @@ window.PAGE09_BANK = [
     "theme": "旅游与交通",
     "difficulty": 2,
     "type": "picture",
-    "img": "assets/page09-practice/l09-p04-bike-car.png",
+    "img": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L07/assets/page09-practice/l09-p04-bike-car.png",
     "stem": "Which comparison is reasonable（语境常识）?",
     "options": [
       "A. A bike is always more expensive than a car.",
@@ -632,7 +632,7 @@ window.PAGE09_BANK = [
     "theme": "购物与消费",
     "difficulty": 1,
     "type": "picture",
-    "img": "assets/page09-practice/l09-p05-juice.png",
+    "img": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L07/assets/page09-practice/l09-p05-juice.png",
     "stem": "Which sentence fits the picture?",
     "options": [
       "A. The left glass has more juice than the right one.",
@@ -650,7 +650,7 @@ window.PAGE09_BANK = [
     "theme": "个人与家庭",
     "difficulty": 2,
     "type": "picture",
-    "img": "assets/page09-practice/l09-p06-family.png",
+    "img": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L07/assets/page09-practice/l09-p06-family.png",
     "stem": "Pick the sentence that can logically use a comparative（比较级）（语境）。",
     "options": [
       "A. Cooking together often makes family time happier than staying on phones.",
@@ -668,7 +668,7 @@ window.PAGE09_BANK = [
     "theme": "旅游与交通",
     "difficulty": 3,
     "type": "picture",
-    "img": "assets/page09-practice/l09-p07-plane-train.png",
+    "img": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L07/assets/page09-practice/l09-p07-plane-train.png",
     "stem": "Which statement is often true in general context?",
     "options": [
       "A. Taking a train is always more expensive than flying.",
@@ -686,7 +686,7 @@ window.PAGE09_BANK = [
     "theme": "科技与媒体",
     "difficulty": 2,
     "type": "picture",
-    "img": "assets/page09-practice/l09-p08-phones.png",
+    "img": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L07/assets/page09-practice/l09-p08-phones.png",
     "stem": "Which sentence matches best?",
     "options": [
       "A. The newer phone looks slimmer than the older one.",

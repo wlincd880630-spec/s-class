@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>被动语态 · 过去时 · was/were + done</title>
+  <link rel="stylesheet" href="assets/lesson-screen-16x9.css" />
+  <link rel="stylesheet" href="l14-index-nav.css" />
+  <link rel="stylesheet" href="../shared/grammar-logo.css" />
+  <link rel="stylesheet" href="l14-lesson-shell.css" />
+  <link rel="stylesheet" href="assets/grammar-lesson-pager.css" />
+  <link rel="stylesheet" href="l14-page-components.css" />
+  <link rel="stylesheet" href="l14-page05-layout.css" />
+  <link rel="stylesheet" href="l14-page05-readable-text.css" />
+  <link rel="stylesheet" href="l14-readable-global.css" />
+  <style>
+    :root {
+      --l14-accent: #0d9488; --l14-accent-ink: #0f766e;
+      --l14-top-bg: linear-gradient(180deg, #fff, #f0fdfa);
+      --l14-shadow: rgba(13, 148, 136, 0.35); --l14-dash: rgba(13, 148, 136, 0.35);
+      --paper: #fff9f0; --ink: #2c2c2c; --edge: #5d4037; --shadow-book: rgba(60, 40, 20, 0.14);
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0; min-height: 100dvh;
+      font-family: system-ui, -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: linear-gradient(165deg, #134e4a 0%, #1e3a5f 42%, #0f172a 100%);
+      color: var(--ink); line-height: 1.55;
+    }
+    #l14-book .panel.panel-split {
+      display: grid; gap: 0.65rem; flex: 1 1 auto; min-height: 0; overflow: hidden;
+    }
+    @media (min-width: 640px) {
+      #l14-book .panel.panel-split { grid-template-columns: minmax(200px, 46%) 1fr; }
+    }
+    .route-strip {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0.45rem;
+      margin-top: 0.65rem;
+    }
+    .route-strip span,
+    .rubric-mini span {
+      display: block;
+      padding: 0.42rem 0.5rem;
+      border: 2px solid rgba(93, 64, 55, 0.18);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.84);
+      font-size: 0.8rem;
+      font-weight: 800;
+      color: #334155;
+    }
+    .teacher-script,
+    .editor-note {
+      margin-top: 0.55rem;
+      padding: 0.56rem 0.7rem;
+      border-left: 4px solid var(--l14-accent);
+      border-radius: 10px;
+      background: rgba(240, 253, 250, 0.84);
+      color: #0f766e;
+      font-size: 0.84rem;
+      font-weight: 740;
+    }
+    .editor-note {
+      border-left-color: #c2410c;
+      background: rgba(255, 247, 237, 0.86);
+      color: #9a3412;
+    }
+    .rubric-mini {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.45rem;
+      margin: 0.55rem 0;
+    }
+    @media (max-width: 720px) {
+      .route-strip,
+      .rubric-mini { grid-template-columns: 1fr; }
+    }
+  </style>
+  <link rel="stylesheet" href="l14-scene-images.css" />
+  <script src="l14-ui-helpers.js"></script>
+  <script src="l14-progress.js"></script>
+  <script src="l14-quiz-engine.js?v=3"></script>
+</head>
+<body class="has-lesson-pager">
+  <div id="ui-lock" aria-hidden="true"></div>
+  <div id="app">
+    <div id="l14-book" class="book">
+      <header class="top-bar">
+        <div class="top-bar-main">
+          <strong>被动语态</strong>
+        </div>
+        <a class="l14-index-link" href="index.html">学习目录</a>
+      </header>
+      <div class="l14-scroll">
+
+        <section class="lesson-page active" data-page="1">
+          <div class="panel panel-split">
+            <div class="scene-frame scene-frame--hall">
+              <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L14/assets/img/l14-p05-invention-hall.png" alt="发明馆" width="800" height="600" style="aspect-ratio:4/3" loading="lazy" />
+            </div>
+            <div>
+              <p class="panel-lead"><strong>本节过去被动目标</strong></p>
+              <div class="goal-grid" id="goal-grid"></div>
+              <div class="route-strip" aria-label="本页学习路径">
+                <span>1. 看时间：过去标志</span>
+                <span>2. 配主语：was / were</span>
+                <span>3. 问时间：When was…?</span>
+                <span>4. 读语篇：发明史</span>
+              </div>
+              <p class="channel-links"><a href="lesson14-page04-by-phrase.html">← Page 04 by 短语</a></p>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="2">
+          <div class="page-head"><span class="page-kicker">2 / 15</span><h2 class="page-title">声先行 · 过去被动</h2></div>
+          <div class="panel">
+            <p class="panel-lead">先听 was/were + done，再显示文字</p>
+            <p class="en-line en-blur past-intro-en" lang="en" id="past-intro-en">
+              The zipper <span class="mark-past">was invented</span> in 1893.
+              Potato chips <span class="mark-past">were invented</span> by mistake in 1853.
+            </p>
+            <p class="zh-hint en-blur" id="past-intro-zh">过去被动 = was / were + 过去分词 · 单数 was · 复数 were</p>
+            <p class="teacher-script">教师提示：先抓时间线（1893 / 1853 / last year），再看主语单复数。不要把 “invented” 当作完整被动，前面必须有 was/were。</p>
+            <div class="btn-row">
+              <button type="button" class="btn teal" id="btn-past-sound">🔊 播放例句</button>
+              <button type="button" class="btn violet" id="btn-past-show">显示文字</button>
+              <button type="button" class="btn ghost" id="btn-past-when">When was…?</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="3">
+          <div class="page-head"><span class="page-kicker">3 / 15</span><h2 class="page-title">苏格拉底 · 三问</h2></div>
+          <div class="panel">
+            <p class="panel-lead">发明馆 · 先想 was 还是 were</p>
+            <p class="teacher-script">追问顺序：时间是不是过去？主语单数还是复数？疑问句时 was/were 是否提前？</p>
+            <div class="socratic-grid" id="socratic-grid"></div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="4">
+          <div class="page-head"><span class="page-kicker">4 / 15</span><h2 class="page-title">教师展示 · 时间轴</h2></div>
+          <div class="panel">
+            <p class="panel-lead">现在 am/is/are → 过去 was/were · 点表格行再选</p>
+            <div class="timeline-past">
+              <span class="node now">am / is / are + done</span>
+              <span class="arrow">→</span>
+              <span class="node past">was / were + done</span>
+            </div>
+            <p class="editor-note">出版提示：本屏只讲一般过去被动。一般将来被动和现在完成被动已作为 Page 12 拓展，不在此处提前混讲。</p>
+            <table class="was-table-interactive" id="was-table">
+              <thead><tr><th>主语</th><th>过去 be</th><th>例句（过去被动）</th></tr></thead>
+              <tbody id="was-table-body"></tbody>
+            </table>
+            <div class="was-picker" id="was-picker"></div>
+            <p class="fb" id="was-table-fb"></p>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="5">
+          <div class="page-head"><span class="page-kicker">5 / 15</span><h2 class="page-title">启发 · 拼装 was + done</h2></div>
+          <div class="panel">
+            <p class="panel-lead">The zipper ___ ___ in 1893. · 点芯片填空</p>
+            <div class="past-build">
+              <span>The zipper</span>
+              <button type="button" class="past-slot" id="slot-was">was/were?</button>
+              <button type="button" class="past-slot" id="slot-pp">V3?</button>
+              <span>in 1893.</span>
+            </div>
+            <div class="chip-bank" id="chip-past-bank"></div>
+            <p class="fb" id="past-build-fb"></p>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="6">
+          <div class="page-head"><span class="page-kicker">6 / 15</span><h2 class="page-title">When was …? · 问答轮播</h2></div>
+          <div class="panel">
+            <p class="panel-lead"><span class="tier-label">分层 A</span>8 组问答 · 先听问句，注意 was/were 提前</p>
+            <div class="when-card" id="when-card"></div>
+            <div class="btn-row">
+              <button type="button" class="btn teal" id="when-play-q">🔊 问句</button>
+              <button type="button" class="btn teal" id="when-play-a">🔊 答句</button>
+              <button type="button" class="btn violet" id="when-reveal">显示答句</button>
+              <button type="button" class="btn ghost" id="when-prev">上一组</button>
+              <button type="button" class="btn ghost" id="when-next">下一组</button>
+            </div>
+            <p class="zh-hint" id="when-pos">1 / 8</p>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="7">
+          <div class="page-head"><span class="page-kicker">7 / 15</span><h2 class="page-title">发明语篇 · 朗读轮播</h2></div>
+          <div class="panel">
+            <p class="panel-lead">发明馆语料 · 圈出 was/were + V3，顺带复习 by/in</p>
+            <div class="inv-read-card" id="inv-read-card"></div>
+            <div class="btn-row">
+              <button type="button" class="btn teal" id="inv-play">🔊 播放</button>
+              <button type="button" class="btn violet" id="inv-show">显示英文</button>
+              <button type="button" class="btn ghost" id="inv-prev">上一句</button>
+              <button type="button" class="btn ghost" id="inv-next">下一句</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="8">
+          <div class="page-head"><span class="page-kicker">8 / 15</span><h2 class="page-title">模式 A · was/were + done</h2></div>
+          <div class="panel panel-quiz-screen">
+            <p class="panel-lead"><span class="tier-label">分层 B</span>10 题 · 选完整谓语 · 8 秒</p>
+            <div class="quiz-timer-bar" id="timer-bar-a"><div class="quiz-timer-fill" id="timer-fill-a"></div><span class="quiz-timer-text" id="timer-text-a">8</span></div>
+            <div class="quick-quiz-stage">
+              <div class="quiz-slot" id="quiz-a"></div>
+              <div class="quiz-fx" id="quiz-fx-a" hidden></div>
+            </div>
+            <div class="quiz-foot">
+              <span class="quiz-progress" id="prog-a">1 / 10</span>
+              <div class="carousel-dots" id="dots-a"></div>
+            </div>
+            <div class="btn-row">
+              <button type="button" class="btn ghost" data-quiz-prev="a">上一题</button>
+              <button type="button" class="btn ghost" data-quiz-next="a">下一题</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="9">
+          <div class="page-head"><span class="page-kicker">9 / 15</span><h2 class="page-title">模式 B · 只选 was / were</h2></div>
+          <div class="panel panel-quiz-screen">
+            <p class="panel-lead"><span class="tier-label">分层 B</span>8 题 · 主语配对</p>
+            <div class="quiz-timer-bar" id="timer-bar-b"><div class="quiz-timer-fill" id="timer-fill-b"></div><span class="quiz-timer-text" id="timer-text-b">8</span></div>
+            <div class="quick-quiz-stage">
+              <div class="quiz-slot" id="quiz-b"></div>
+              <div class="quiz-fx" id="quiz-fx-b" hidden></div>
+            </div>
+            <div class="quiz-foot">
+              <span class="quiz-progress" id="prog-b">1 / 8</span>
+              <div class="carousel-dots" id="dots-b"></div>
+            </div>
+            <div class="btn-row">
+              <button type="button" class="btn ghost" data-quiz-prev="b">上一题</button>
+              <button type="button" class="btn ghost" data-quiz-next="b">下一题</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="10">
+          <div class="page-head"><span class="page-kicker">10 / 15</span><h2 class="page-title">模式 C · 改错</h2></div>
+          <div class="panel panel-quiz-screen">
+            <p class="panel-lead"><span class="tier-label tier-b">分层 B+</span>6 题 · 过去被动易错</p>
+            <div class="quick-quiz-stage">
+              <div class="quiz-slot" id="quiz-c"></div>
+              <div class="quiz-fx" id="quiz-fx-c" hidden></div>
+            </div>
+            <div class="quiz-foot">
+              <span class="quiz-progress" id="prog-c">1 / 6</span>
+              <div class="carousel-dots" id="dots-c"></div>
+            </div>
+            <div class="btn-row">
+              <button type="button" class="btn ghost" data-quiz-prev="c">上一题</button>
+              <button type="button" class="btn ghost" data-quiz-next="c">下一题</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="11">
+          <div class="page-head"><span class="page-kicker">11 / 15</span><h2 class="page-title">模式 D · When was …?</h2></div>
+          <div class="panel panel-quiz-screen">
+            <p class="panel-lead"><span class="tier-label">分层 B+</span>8 题 · 疑问句 Was/Were 提前</p>
+            <div class="quiz-timer-bar" id="timer-bar-d"><div class="quiz-timer-fill" id="timer-fill-d"></div><span class="quiz-timer-text" id="timer-text-d">8</span></div>
+            <div class="quick-quiz-stage">
+              <div class="quiz-slot" id="quiz-d"></div>
+              <div class="quiz-fx" id="quiz-fx-d" hidden></div>
+            </div>
+            <div class="quiz-foot">
+              <span class="quiz-progress" id="prog-d">1 / 8</span>
+              <div class="carousel-dots" id="dots-d"></div>
+            </div>
+            <div class="btn-row">
+              <button type="button" class="btn ghost" data-quiz-prev="d">上一题</button>
+              <button type="button" class="btn ghost" data-quiz-next="d">下一题</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="12">
+          <div class="page-head"><span class="page-kicker">12 / 15</span><h2 class="page-title">模式 E · 听音 + 4c 主动/被动</h2></div>
+          <div class="panel panel-quiz-screen">
+            <p class="panel-lead"><span class="tier-label tier-b">分层 C</span>听音 5 题 + 语篇 4c 型 6 题</p>
+            <p class="zh-hint" id="e-mode-hint">当前：听音选句（1/5）</p>
+            <div class="quick-quiz-stage">
+              <div class="quiz-slot" id="quiz-e"></div>
+              <div class="quiz-fx" id="quiz-fx-e" hidden></div>
+            </div>
+            <div class="quiz-foot">
+              <span class="quiz-progress" id="prog-e">1 / 5</span>
+              <div class="carousel-dots" id="dots-e"></div>
+            </div>
+            <div class="btn-row">
+              <button type="button" class="btn teal" id="listen-e">🔊 播放本题</button>
+              <button type="button" class="btn violet" id="toggle-e-mode">切换到 4c 主动/被动</button>
+              <button type="button" class="btn ghost" data-quiz-prev="e">上一题</button>
+              <button type="button" class="btn ghost" data-quiz-next="e">下一题</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="13">
+          <div class="page-head"><span class="page-kicker">13 / 15</span><h2 class="page-title">易错陷阱</h2></div>
+          <div class="panel">
+            <p class="panel-lead">✗ 时态/be 错 → 显示正句</p>
+            <div id="trap-box"></div>
+            <div class="btn-row">
+              <button type="button" class="btn ghost" id="trap-prev">上一条</button>
+              <button type="button" class="btn ghost" id="trap-next">下一条</button>
+              <button type="button" class="btn violet" id="trap-reveal">显示正句</button>
+            </div>
+            <p class="zh-hint" id="trap-pos">1 / 6</p>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="14">
+          <div class="page-head"><span class="page-kicker">14 / 15</span><h2 class="page-title">学生总结</h2></div>
+          <div class="panel">
+            <div class="rule-box teal" id="rule-final">过去被动：was/were + 过去分词 · 单数 was · 复数 were · When was…? 问时间</div>
+            <div class="summary-pick" id="summary-chips"></div>
+            <label class="zh-hint">用中文写一句过去被动要点：</label>
+            <textarea class="summary-write" id="summary-write" placeholder="例如：过去的事情用 was/were + 过去分词；问发明时间说 When was it invented?……"></textarea>
+            <div class="rubric-mini" aria-label="本页出口评价">
+              <span>基础：能写 was/were + V3</span>
+              <span>稳固：能区分 was / were</span>
+              <span>挑战：能造 When was…? 问句</span>
+            </div>
+            <ul class="checklist" id="checklist"></ul>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="15">
+          <div class="page-head"><span class="page-kicker">15 / 15</span><h2 class="page-title">语料回顾 · → Page 06</h2></div>
+          <div class="panel">
+            <table class="corpus-mini" id="corpus-table"></table>
+            <p class="rule-box amber" style="margin-top:0.45rem">过关：模式 A≥8/10 · When 问答 8 组 · 总结 1 句</p>
+            <a class="channel-btn" href="lesson14-page06-modal-passive.html">进入 Page 06 · 情态被动</a>
+            <p class="channel-links">
+              <a href="lesson14-page04-by-phrase.html">Page 04</a> ·
+              <a href="index.html">学习目录</a>
+            </p>
+          </div>
+        </section>
+
+      </div>
+    </div>
+    <nav class="lesson-pager is-intra-nav" aria-label="分页">
+      <div class="pager-zone pager-zone--left">
+        <button type="button" class="pager-prev" id="pager-prev">上一页</button>
+      </div>
+      <a class="pager-logo" href="../index.html" aria-label="课程主页"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/logo2.png" alt="Steven's Class" width="204" height="61" decoding="async" /></a>
+      <div class="pager-zone pager-zone--right">
+        <span class="pager-mid" id="pager-mid">1 / 15</span>
+        <button type="button" class="pager-next" id="pager-next">下一页</button>
+      </div>
+    </nav>
+  </div>
+  <script src="l14-image-lightbox.js"></script>
+  <script src="l14-index-nav.js"></script>
+  <script src="l14-corpus-pool.js?v=5"></script>
+  <script>
+(function () {
+  "use strict";
+
+  const AZURE_KEY = "C42UQWeDcluYanbo17WrtUnPhk0vkZy2uQHPTCGDzY6CdExx99NzJQQJ99BIACqBBLyXJ3w3AAAYACOGjkyu";
+  const AZURE_REGION = "southeastasia";
+  const VOICE_EN = "en-US-AriaNeural";
+  const PAGE_COUNT = 15;
+  const QUIZ_TIME_SEC = 8;
+  const PROGRESS_ID = "lesson14-page05";
+  const PROGRESS_VERSION = 3;
+  const defaultProgress = function () {
+    return { version: PROGRESS_VERSION, page: 1, enShown: {}, quizzes: {} };
+  };
+  let progress = defaultProgress();
+  function persistProgress() {
+    if (window.L14Progress) L14Progress.save(PROGRESS_ID, progress);
+  }
+
+  const P14 = L14Corpus.enrichPageQuizzes("page05", {
+    goals: [
+      "掌握一般过去被动：was / were + 过去分词（V3）",
+      "会根据主语单复数选择 was 或 were",
+      "会问会答：When was/were … invented/built?",
+      "读懂发明语篇：telephone / chips / basketball / printing",
+      "复习 by + 发明者、in + 年份/地点",
+      "完成五种测验 + 4c 主动/被动判断，进入情态被动"
+    ],
+    socratic: [
+      {
+        q: "The telephone ___ invented in 1876.",
+        opts: ["was", "were", "is"],
+        ans: "was",
+        fb: "telephone 单数 → was invented。"
+      },
+      {
+        q: "The inventions ___ shown in the museum.",
+        opts: ["was", "were", "are"],
+        ans: "were",
+        fb: "inventions 复数 → were shown。"
+      },
+      {
+        q: "When ___ the zipper invented?",
+        opts: ["was", "were", "is"],
+        ans: "was",
+        fb: "疑问句 Was/Were 提前：When was…?"
+      }
+    ],
+    wasRows: [
+      { subj: "I / he / she / it / 单数", be: "was", ex: "The zipper was invented in 1893." },
+      { subj: "you / we / they / 复数", be: "were", ex: "The inventions were shown in the museum." },
+      { subj: "the bridge（单数）", be: "was", ex: "The bridge was built last year." },
+      { subj: "the tea（单数）", be: "was", ex: "The tea was picked by hand." }
+    ],
+    whenItems: [
+      { q: "When was the telephone invented?", a: "It was invented in 1876.", zh: "电话 · 1876 年" },
+      { q: "When were potato chips invented?", a: "They were invented in 1853.", zh: "薯片 · 1853 年" },
+      { q: "When was basketball invented?", a: "It was invented in 1891.", zh: "篮球 · 1891 年" },
+      { q: "When was printing invented?", a: "It was invented long ago.", zh: "印刷术 · 很久以前" },
+      { q: "When was the bridge built?", a: "It was built last year.", zh: "桥 · 去年" },
+      { q: "When was this pen invented?", a: "It was invented last year.", zh: "钢笔 · 去年" },
+      { q: "When were kites first made?", a: "They were made in China long ago.", zh: "风筝 · 中国" },
+      { q: "When was tea discovered?", a: "It was discovered about 5,000 years ago.", zh: "茶 · 约五千年前（锚点）" }
+    ],
+    invRead: [
+      { tag: "Unit 6", zh: "电话 1876 年被贝尔发明。", en: "The telephone was invented by Alexander Graham Bell in 1876.", src: "Grammar Focus" },
+      { tag: "Unit 6", zh: "薯片偶然发明。", en: "Potato chips were invented by mistake in 1853.", src: "阅读" },
+      { tag: "Unit 6", zh: "篮球由 Naismith 发明。", en: "Basketball was invented by James Naismith in 1891.", src: "语篇" },
+      { tag: "Unit 6", zh: "印刷术在中国发明。", en: "Printing was invented in China.", src: "拓展" },
+      { tag: "Unit 6", zh: "去年桥被建好。", en: "The bridge was built last year.", src: "4a 型" },
+      { tag: "Unit 6", zh: "这支笔由刘杰发明。", en: "This special pen was invented by Liu Jie.", src: "写作任务" },
+      { tag: "Unit 5", zh: "银戒在泰国制造。", en: "This ring was made in Thailand.", src: "过去" },
+      { tag: "问句", zh: "何时发明？", en: "When was the telephone invented? — In 1876.", src: "问答" }
+    ],
+    traps: [
+      { wrong: "The zipper is invented in 1893.", right: "The zipper was invented in 1893.", note: "1893 是过去 → was，不是 is。" },
+      { wrong: "The inventions was shown.", right: "The inventions were shown.", note: "inventions 复数 → were。" },
+      { wrong: "When the zipper was invented?", right: "When was the zipper invented?", note: "疑问句 was 提前。" },
+      { wrong: "The bridge was build last year.", right: "The bridge was built last year.", note: "was + 过去分词 built。" },
+      { wrong: "Basketball invented Naismith.", right: "Basketball was invented by Naismith.", note: "不能省略 be。" },
+      { wrong: "The zipper were invented.", right: "The zipper was invented.", note: "zipper 单数 → was。" }
+    ],
+    summaryChips: ["was + done", "were + done", "When was…?", "When were…?", "It was invented in…", "单数 was", "复数 were", "过去时间标志"],
+    checklist: [
+      "我会写：was/were + 过去分词",
+      "我会问：When was … invented?",
+      "我能区分：When 问时间，Where 问地点，Who/by whom 问发明者",
+      "我能读发明语篇 6～8 句",
+      "我会判断主动 / 被动（4c）",
+      "我完成五种测验模式"
+    ],
+    corpus: [
+      ["Unit 6", "was invented in 1893", "拉链"],
+      ["Unit 6", "When was…?", "问时间"],
+      ["Unit 6", "telephone / basketball", "发明语篇"],
+      ["Unit 5", "was picked", "过去过程"],
+      ["对比", "is → was", "现在/过去被动"],
+      ["问句", "When was/were…?", "时间问答"],
+      ["易错", "was/were", "主语一致"],
+      ["易错", "Was 提前", "疑问语序"],
+      ["Page 06", "should be done", "下节情态"]
+    ]
+  });
+  if (Array.isArray(P14.quizWas)) {
+    P14.quizWas = P14.quizWas.map(function (item) {
+      if (item.stem === "The telephones ___ invented in 1876.") {
+        return {
+          stem: "The inventions ___ shown in the museum.",
+          ans: "were",
+          opts: ["was", "were", "is"],
+          fb: "inventions 复数 → were shown"
+        };
+      }
+      return item;
+    });
+  }
+
+  let currentPage = 1;
+  let whenIdx = 0;
+  let invIdx = 0;
+  let trapIdx = 0;
+  let tableTarget = null;
+  let eMode = "listen";
+  const quizEngines = {};
+
+  function escHtml(s) {
+    return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+  function lockUI() { document.getElementById("ui-lock").classList.add("active"); }
+  function unlockUI() { document.getElementById("ui-lock").classList.remove("active"); }
+
+  async function playAudio(text) {
+    if (!text) return;
+    lockUI();
+    const body = "<speak version='1.0' xml:lang='en-US'><voice name='" + VOICE_EN + "'>" + escHtml(text) + "</voice></speak>";
+    try {
+      const res = await fetch("https://" + AZURE_REGION + ".tts.speech.microsoft.com/cognitiveservices/v1", {
+        method: "POST",
+        headers: {
+          "Ocp-Apim-Subscription-Key": AZURE_KEY,
+          "Content-Type": "application/ssml+xml",
+          "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3"
+        },
+        body: body
+      });
+      if (!res.ok) throw new Error();
+      const blob = await res.blob();
+      const u = URL.createObjectURL(blob);
+      const a = new Audio(u);
+      await new Promise(function (ok, err) {
+        a.onended = function () { URL.revokeObjectURL(u); ok(); };
+        a.onerror = err;
+        a.play().catch(err);
+      });
+    } catch (e) {
+      speechSynthesis.speak(new SpeechSynthesisUtterance(text));
+    } finally {
+      unlockUI();
+    }
+  }
+
+  function leaveAllQuizzes() {
+    Object.keys(quizEngines).forEach(function (k) {
+      if (quizEngines[k] && quizEngines[k].onLeave) quizEngines[k].onLeave();
+    });
+  }
+
+  function bindQuiz(key, items, useTimer) {
+    const engine = L14Quiz.create({
+      key: key,
+      items: items,
+      useTimer: useTimer,
+      escHtml: escHtml,
+      quizTimeSec: QUIZ_TIME_SEC,
+      initialState: progress.quizzes[key],
+      onStateChange: function (st) {
+        progress.quizzes[key] = st;
+        persistProgress();
+      }
+    });
+    engine.init();
+    return engine;
+  }
+
+  function goPage(n) {
+    if (n < 1 || n > PAGE_COUNT) return;
+    leaveAllQuizzes();
+    currentPage = n;
+    progress.page = n;
+    persistProgress();
+    document.querySelectorAll(".lesson-page").forEach(function (el) {
+      el.classList.toggle("active", parseInt(el.dataset.page, 10) === n);
+    });
+    document.getElementById("pager-mid").textContent = n + " / " + PAGE_COUNT;
+    document.getElementById("pager-prev").disabled = n <= 1;
+    document.getElementById("pager-next").disabled = n >= PAGE_COUNT;
+    if (n === 8 && quizEngines.a) quizEngines.a.onEnter();
+    if (n === 9 && quizEngines.b) quizEngines.b.onEnter();
+    if (n === 10 && quizEngines.c) quizEngines.c.onEnter();
+    if (n === 11 && quizEngines.d) quizEngines.d.onEnter();
+    if (n === 12 && quizEngines.e) quizEngines.e.onEnter();
+  }
+
+  function initGoals() {
+    P14.goals.forEach(function (g) {
+      const d = document.createElement("div");
+      d.className = "goal-card";
+      d.textContent = g;
+      document.getElementById("goal-grid").appendChild(d);
+    });
+  }
+
+  function initPastSound() {
+    document.querySelectorAll("#past-intro-en, #past-intro-zh").forEach(function (el) {
+      el.classList.add("en-blur");
+    });
+    document.getElementById("btn-past-sound").addEventListener("click", function () {
+      playAudio("The zipper was invented in 1893. Potato chips were invented by mistake in 1853.");
+    });
+    document.getElementById("btn-past-show").addEventListener("click", function () {
+      document.querySelectorAll("#past-intro-en, #past-intro-zh").forEach(function (el) { el.classList.add("is-shown"); });
+    });
+    document.getElementById("btn-past-when").addEventListener("click", function () {
+      playAudio("When was the zipper invented? It was invented in 1893.");
+    });
+  }
+
+  function initSocratic() {
+    const grid = document.getElementById("socratic-grid");
+    P14.socratic.forEach(function (item) {
+      const card = document.createElement("div");
+      card.className = "soc-card";
+      const q = document.createElement("p");
+      q.className = "soc-q";
+      q.textContent = item.q;
+      const opts = document.createElement("div");
+      opts.className = "soc-opts";
+      const fb = document.createElement("p");
+      fb.className = "soc-fb";
+      item.opts.forEach(function (opt) {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.textContent = opt;
+        b.addEventListener("click", function () {
+          opts.querySelectorAll("button").forEach(function (x) {
+            x.disabled = true;
+            x.classList.remove("ok", "bad");
+          });
+          if (opt === item.ans) {
+            b.classList.add("ok");
+            fb.textContent = "✓ " + item.fb;
+          } else {
+            b.classList.add("bad");
+            fb.textContent = item.fb;
+          }
+        });
+        opts.appendChild(b);
+      });
+      card.appendChild(q);
+      card.appendChild(opts);
+      card.appendChild(fb);
+      grid.appendChild(card);
+    });
+  }
+
+  function initWasTable() {
+    const tbody = document.getElementById("was-table-body");
+    P14.wasRows.forEach(function (row) {
+      const tr = document.createElement("tr");
+      tr.innerHTML = "<td>" + escHtml(row.subj) + "</td><td><strong>" + row.be + "</strong></td><td lang='en'>" + escHtml(row.ex) + "</td>";
+      tr.addEventListener("click", function () {
+        document.querySelectorAll("#was-table-body tr").forEach(function (r) { r.classList.remove("is-target"); });
+        tr.classList.add("is-target");
+        tableTarget = row;
+        document.getElementById("was-table-fb").textContent = "已选：" + row.subj;
+      });
+      tbody.appendChild(tr);
+    });
+    ["was", "were"].forEach(function (be) {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.textContent = be;
+      b.addEventListener("click", function () {
+        if (!tableTarget) {
+          document.getElementById("was-table-fb").textContent = "请先点击表格中的一行。";
+          return;
+        }
+        if (be === tableTarget.be) {
+          document.getElementById("was-table-fb").textContent = "✓ 正确！" + tableTarget.subj + " → " + be;
+          playAudio(tableTarget.ex);
+        } else {
+          document.getElementById("was-table-fb").textContent = "再想想：应选 " + tableTarget.be;
+        }
+      });
+      document.getElementById("was-picker").appendChild(b);
+    });
+  }
+
+  function initPastBuild() {
+    const chips = ["was", "were", "is", "are", "invented", "invent", "built", "picked"];
+    const slotWas = document.getElementById("slot-was");
+    const slotPp = document.getElementById("slot-pp");
+    chips.forEach(function (w) {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.textContent = w;
+      b.addEventListener("click", function () {
+        if (w === "was" || w === "were") {
+          slotWas.textContent = w;
+          slotWas.className = "past-slot filled-was";
+        } else if (w === "invented" || w === "built" || w === "picked") {
+          slotPp.textContent = w;
+          slotPp.className = "past-slot filled-pp";
+        }
+        check();
+      });
+      document.getElementById("chip-past-bank").appendChild(b);
+    });
+    function check() {
+      const ok = slotWas.textContent === "was" && slotPp.textContent === "invented";
+      document.getElementById("past-build-fb").textContent = ok
+        ? "✓ The zipper was invented in 1893."
+        : "提示：zipper 单数 → was + invented";
+    }
+  }
+
+  function renderWhen() {
+    const w = P14.whenItems[whenIdx];
+    document.getElementById("when-pos").textContent = (whenIdx + 1) + " / " + P14.whenItems.length;
+    document.getElementById("when-card").innerHTML =
+      "<p class='zh-hint'>" + escHtml(w.zh) + "</p>" +
+      "<div class='when-q' lang='en'>" + escHtml(w.q) + "</div>" +
+      "<div class='when-a' lang='en' id='when-ans'>" + escHtml(w.a) + "</div>";
+  }
+
+  function initWhen() {
+    renderWhen();
+    document.getElementById("when-play-q").addEventListener("click", function () {
+      playAudio(P14.whenItems[whenIdx].q);
+    });
+    document.getElementById("when-play-a").addEventListener("click", function () {
+      playAudio(P14.whenItems[whenIdx].a);
+    });
+    document.getElementById("when-reveal").addEventListener("click", function () {
+      document.getElementById("when-ans")?.classList.add("is-shown");
+    });
+    document.getElementById("when-prev").addEventListener("click", function () {
+      whenIdx = (whenIdx - 1 + P14.whenItems.length) % P14.whenItems.length;
+      renderWhen();
+    });
+    document.getElementById("when-next").addEventListener("click", function () {
+      whenIdx = (whenIdx + 1) % P14.whenItems.length;
+      renderWhen();
+    });
+  }
+
+  function renderInv() {
+    const r = P14.invRead[invIdx];
+    document.getElementById("inv-read-card").innerHTML =
+      L14UI.readCardHtml(r, escHtml, "en-blur");
+  }
+
+  function initInvRead() {
+    renderInv();
+    document.getElementById("inv-play").addEventListener("click", function () {
+      playAudio(P14.invRead[invIdx].en);
+    });
+    document.getElementById("inv-show").addEventListener("click", function () {
+      document.querySelector("#inv-read-card .en-blur")?.classList.add("is-shown");
+    });
+    document.getElementById("inv-prev").addEventListener("click", function () {
+      invIdx = (invIdx - 1 + P14.invRead.length) % P14.invRead.length;
+      renderInv();
+    });
+    document.getElementById("inv-next").addEventListener("click", function () {
+      invIdx = (invIdx + 1) % P14.invRead.length;
+      renderInv();
+    });
+  }
+
+  function initQuizE() {
+    function updateHint() {
+      document.getElementById("e-mode-hint").textContent =
+        eMode === "listen" ? "当前：听音选句" : "当前：4c 主动/被动判断";
+      document.getElementById("listen-e").style.display = eMode === "listen" ? "" : "none";
+    }
+    quizEngines.e = bindQuiz("e", P14.quizListen, false);
+    document.getElementById("toggle-e-mode").addEventListener("click", function () {
+      eMode = eMode === "listen" ? "voice" : "listen";
+      updateHint();
+      quizEngines.e.reloadItems(eMode === "listen" ? P14.quizListen : P14.quizVoice, true);
+      if (currentPage === 12) quizEngines.e.onEnter();
+    });
+    updateHint();
+    document.getElementById("listen-e").addEventListener("click", function () {
+      const a = quizEngines.e.getAudio();
+      if (a) playAudio(a);
+    });
+  }
+
+  function initTraps() {
+    function renderTrap() {
+      const t = P14.traps[trapIdx];
+      document.getElementById("trap-pos").textContent = (trapIdx + 1) + " / " + P14.traps.length;
+      document.getElementById("trap-box").innerHTML =
+        "<div class='trap-card' id='trap-card'>" +
+        "<p class='wrong-line' lang='en'>✗ " + escHtml(t.wrong) + "</p>" +
+        "<p class='right-line' lang='en'>✓ " + escHtml(t.right) + "</p>" +
+        "<p class='zh-hint'>" + escHtml(t.note) + "</p></div>";
+    }
+    renderTrap();
+    document.getElementById("trap-reveal").addEventListener("click", function () {
+      document.getElementById("trap-card")?.classList.add("revealed");
+    });
+    document.getElementById("trap-prev").addEventListener("click", function () {
+      trapIdx = (trapIdx - 1 + P14.traps.length) % P14.traps.length;
+      renderTrap();
+    });
+    document.getElementById("trap-next").addEventListener("click", function () {
+      trapIdx = (trapIdx + 1) % P14.traps.length;
+      renderTrap();
+    });
+  }
+
+  function initSummary() {
+    P14.summaryChips.forEach(function (t) {
+      const lab = document.createElement("label");
+      lab.innerHTML = '<input type="checkbox" /> ' + escHtml(t);
+      document.getElementById("summary-chips").appendChild(lab);
+    });
+    P14.checklist.forEach(function (t) {
+      const li = document.createElement("li");
+      li.textContent = t;
+      document.getElementById("checklist").appendChild(li);
+    });
+    L14UI.initCorpusTable("corpus-table", P14.corpus, escHtml);
+  }
+
+  function initLesson() {
+    var loaded = window.L14Progress && L14Progress.load(PROGRESS_ID);
+    if (loaded) {
+      progress = Object.assign(defaultProgress(), loaded);
+      if (!progress.enShown) progress.enShown = {};
+      if (!progress.quizzes) progress.quizzes = {};
+      if (!progress.version || progress.version < PROGRESS_VERSION) {
+        progress.quizzes = {};
+        progress.version = PROGRESS_VERSION;
+        persistProgress();
+      }
+    }
+initGoals();
+    initPastSound();
+    initSocratic();
+    initWasTable();
+    initPastBuild();
+    initWhen();
+    initInvRead();
+    quizEngines.a = bindQuiz("a", P14.quizPast, true);
+    quizEngines.b = bindQuiz("b", P14.quizWas, true);
+    quizEngines.c = bindQuiz("c", P14.quizFix, false);
+    quizEngines.d = bindQuiz("d", P14.quizWhen, true);
+    initQuizE();
+    initTraps();
+    initSummary();
+    document.getElementById("pager-prev").addEventListener("click", function () { goPage(currentPage - 1); });
+    document.getElementById("pager-next").addEventListener("click", function () { goPage(currentPage + 1); });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "ArrowLeft" && currentPage > 1) goPage(currentPage - 1);
+      if (e.key === "ArrowRight" && currentPage < PAGE_COUNT) goPage(currentPage + 1);
+    });
+    var startPage = progress.page || 1;
+    if (startPage < 1 || startPage > PAGE_COUNT) startPage = 1;
+    goPage(startPage);
+  }
+
+  initLesson();
+})();
+  </script>
+</body>
+</html>

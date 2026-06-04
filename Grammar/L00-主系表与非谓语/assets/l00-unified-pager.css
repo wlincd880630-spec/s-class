@@ -1,0 +1,157 @@
+/**
+ * L00 底栏：左区（页间）| 居中 Logo | 右区（课内步骤 + 页间）
+ */
+body.has-lesson-pager > .footer-bar {
+  display: none !important;
+}
+
+body.has-lesson-pager:has(nav.lesson-pager.is-l00-unified) {
+  padding-bottom: max(var(--grammar-pager-gap, 2.85rem), env(safe-area-inset-bottom, 0px)) !important;
+}
+
+body.has-lesson-pager:has(nav.lesson-pager.is-l00-unified) #app {
+  padding-bottom: calc(var(--grammar-pager-gap, 2.85rem) + 0.75rem) !important;
+}
+
+/* 三列：左按钮组 | Logo | 右按钮组 */
+body.has-lesson-pager nav.lesson-pager.is-l00-unified {
+  grid-template-columns: minmax(0, 1fr) var(--grammar-pager-logo-slot, 5.5rem) minmax(0, 1fr) !important;
+  column-gap: 0.35rem;
+  row-gap: 0;
+}
+
+body.has-lesson-pager nav.lesson-pager.is-l00-unified > .pager-zone--left {
+  grid-column: 1;
+  justify-self: stretch;
+}
+
+body.has-lesson-pager nav.lesson-pager.is-l00-unified > .pager-logo {
+  grid-column: 2;
+  justify-self: center;
+}
+
+body.has-lesson-pager nav.lesson-pager.is-l00-unified > .pager-zone--right {
+  grid-column: 3;
+  justify-self: stretch;
+}
+
+body.has-lesson-pager nav.lesson-pager.is-l00-unified > .pager-zone {
+  display: flex;
+  align-items: center;
+  gap: 0.28rem;
+  min-width: 0;
+}
+
+body.has-lesson-pager nav.lesson-pager.is-l00-unified > .pager-zone--left {
+  justify-content: flex-start;
+}
+
+body.has-lesson-pager nav.lesson-pager.is-l00-unified > .pager-zone--right {
+  justify-content: flex-end;
+}
+
+/* 区内按钮等宽、不撑破 */
+body.has-lesson-pager nav.lesson-pager.is-l00-unified .pager-zone > .pager-prev,
+body.has-lesson-pager nav.lesson-pager.is-l00-unified .pager-zone > .pager-next,
+body.has-lesson-pager nav.lesson-pager.is-l00-unified .pager-zone > span.pager-prev,
+body.has-lesson-pager nav.lesson-pager.is-l00-unified .pager-zone > span.pager-next,
+body.has-lesson-pager nav.lesson-pager.is-l00-unified .pager-zone > .pager-lesson-index,
+body.has-lesson-pager nav.lesson-pager.is-l00-unified .pager-zone > button.pager-step-prev,
+body.has-lesson-pager nav.lesson-pager.is-l00-unified .pager-zone > button.pager-step-next {
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: none;
+  min-height: 34px;
+  max-height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0.22rem 0.32rem;
+  border-radius: 8px;
+  border: 1.5px solid #5d4037;
+  font-size: clamp(0.62rem, 1.85vw, 0.74rem);
+  font-weight: 800;
+  line-height: 1.15;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  touch-action: manipulation;
+  box-sizing: border-box;
+  font-family: system-ui, -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  box-shadow: 0 1px 0 rgba(93, 64, 55, 0.1);
+  transition: filter 0.15s ease, transform 0.1s ease;
+}
+
+body.has-lesson-pager nav.lesson-pager.is-l00-unified .pager-zone--left > .pager-prev,
+body.has-lesson-pager nav.lesson-pager.is-l00-unified .pager-zone--left > span.pager-prev {
+  color: #334155;
+  background: linear-gradient(180deg, #fff, #f8fafc);
+  flex: 0.95 1 0;
+}
+
+body.has-lesson-pager nav.lesson-pager.is-l00-unified .pager-zone--left > .pager-lesson-index {
+  flex: 1.05 1 0;
+  color: var(--grammar-pager-accent-ink, #0f766e) !important;
+  background: linear-gradient(180deg, #f0fdfa, #ccfbf1) !important;
+  border-color: var(--grammar-pager-accent, #0d9488) !important;
+}
+
+body.has-lesson-pager nav.lesson-pager.is-l00-unified .pager-zone--right > button.pager-step-prev {
+  color: #334155;
+  background: linear-gradient(180deg, #fff, #f8fafc);
+  flex: 0.9 1 0;
+}
+
+body.has-lesson-pager nav.lesson-pager.is-l00-unified .pager-zone--right > button.pager-step-next {
+  flex: 1 1 0;
+  color: #4e342e !important;
+  background: linear-gradient(180deg, #ffe082, #ffca28) !important;
+  border-color: #5d4037 !important;
+  box-shadow: 0 2px 0 rgba(93, 64, 55, 0.2) !important;
+}
+
+body.has-lesson-pager nav.lesson-pager.is-l00-unified .pager-zone--right > .pager-next,
+body.has-lesson-pager nav.lesson-pager.is-l00-unified .pager-zone--right > span.pager-next {
+  flex: 0.95 1 0;
+  color: #fff !important;
+  background: linear-gradient(135deg, #14b8a6, var(--grammar-pager-accent-ink, #0f766e)) !important;
+  border-color: var(--grammar-pager-accent-ink, #0f766e) !important;
+  box-shadow: 0 2px 0 rgba(15, 118, 110, 0.28) !important;
+}
+
+body.has-lesson-pager nav.lesson-pager.is-l00-unified .pager-zone > button.pager-step-prev:disabled,
+body.has-lesson-pager nav.lesson-pager.is-l00-unified .pager-zone > button.pager-step-next:disabled {
+  opacity: 0.42;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+body.has-lesson-pager nav.lesson-pager.is-l00-unified .pager-zone > .pager-muted {
+  opacity: 0.42;
+  cursor: not-allowed;
+  box-shadow: none;
+  pointer-events: none;
+}
+
+body.has-lesson-pager nav.lesson-pager.is-l00-unified .pager-zone > a:hover,
+body.has-lesson-pager nav.lesson-pager.is-l00-unified .pager-zone > button:hover:not(:disabled) {
+  filter: brightness(1.04);
+}
+
+body.has-lesson-pager nav.lesson-pager.is-l00-unified .pager-zone > a:active,
+body.has-lesson-pager nav.lesson-pager.is-l00-unified .pager-zone > button:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+@media (min-width: 640px) {
+  body.has-lesson-pager nav.lesson-pager.is-l00-unified .pager-zone > .pager-prev,
+  body.has-lesson-pager nav.lesson-pager.is-l00-unified .pager-zone > .pager-next,
+  body.has-lesson-pager nav.lesson-pager.is-l00-unified .pager-zone > .pager-lesson-index,
+  body.has-lesson-pager nav.lesson-pager.is-l00-unified .pager-zone > button.pager-step-prev,
+  body.has-lesson-pager nav.lesson-pager.is-l00-unified .pager-zone > button.pager-step-next {
+    min-height: 36px;
+    max-height: 40px;
+    font-size: clamp(0.66rem, 1.9vw, 0.76rem);
+  }
+}

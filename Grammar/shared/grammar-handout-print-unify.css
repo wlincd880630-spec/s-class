@@ -1,0 +1,222 @@
+/**
+ * 全课程 handout · 打印统一覆盖（须在 publisher.css 之后加载）
+ * 统一页边距、可读字号与行距；PDF 不含 logo（由人工后期添加）
+ */
+
+.handout-print-logo-band {
+  display: none !important;
+}
+
+@media print {
+  :root {
+    --handout-page-margin-top: 24mm;
+    --handout-page-margin-x: 18mm;
+    --handout-page-margin-bottom: 24mm;
+  }
+
+  @page {
+    size: A4 portrait;
+    margin: var(--handout-page-margin-top) var(--handout-page-margin-x)
+      var(--handout-page-margin-bottom) var(--handout-page-margin-x);
+  }
+
+  /* 取消全部自动 logo（页眉条 / 伪元素 / 封面图） */
+  body.grammar-handout-page::after,
+  body.handout-continuous::after,
+  .handout-print-logo-band,
+  .handout-print-logo-band .handout-print-logo-img,
+  body.grammar-handout-page .handout-cover-logo,
+  body.handout-continuous .handout-cover-logo,
+  body.grammar-handout-page .pager-logo,
+  body.handout-continuous .pager-logo {
+    content: none !important;
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    width: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    background: none !important;
+  }
+
+  body.grammar-handout-page .handout-cover {
+    margin: calc(-1 * var(--handout-page-margin-top))
+      calc(-1 * var(--handout-page-margin-x)) 0 !important;
+    padding-left: var(--handout-page-margin-x) !important;
+    padding-right: var(--handout-page-margin-x) !important;
+  }
+
+  body.grammar-handout-page main.sheet .inner,
+  body.handout-continuous main.sheet .inner,
+  body.grammar-handout-page .grammar-handout-table-wrap .inner {
+    padding-right: 0 !important;
+  }
+
+  /* 正文区基准字号（覆盖各讲压字） */
+  html {
+    font-size: 11.5pt !important;
+  }
+
+  body.grammar-handout-page,
+  body.handout-continuous.grammar-handout-page {
+    font-size: 11.5pt !important;
+    line-height: 1.58 !important;
+  }
+
+  body.grammar-handout-page main.sheet,
+  body.grammar-handout-page .sheet,
+  body.handout-continuous main.sheet {
+    font-size: 11.5pt !important;
+    line-height: 1.58 !important;
+  }
+
+  body.grammar-handout-page .inner,
+  body.handout-continuous .inner {
+    font-size: inherit !important;
+    line-height: inherit !important;
+  }
+
+  body.grammar-handout-page h2.section-title,
+  body.handout-continuous h2.section-title {
+    font-size: 13.5pt !important;
+    line-height: 1.35 !important;
+  }
+
+  body.grammar-handout-page h3,
+  body.handout-continuous h3 {
+    font-size: 12pt !important;
+    line-height: 1.4 !important;
+  }
+
+  body.grammar-handout-page h4,
+  body.handout-continuous h4 {
+    font-size: 11.5pt !important;
+    line-height: 1.4 !important;
+  }
+
+  /* 例句、列表、表格最低可读字号 */
+  body.grammar-handout-page .en-line,
+  body.grammar-handout-page .ex-en,
+  body.handout-continuous .en-line,
+  body.handout-continuous .ex-en {
+    font-size: 11.5pt !important;
+    line-height: 1.5 !important;
+  }
+
+  body.grammar-handout-page .zh-line,
+  body.grammar-handout-page .ex-zh,
+  body.handout-continuous .zh-line,
+  body.handout-continuous .ex-zh {
+    font-size: 10.5pt !important;
+    line-height: 1.52 !important;
+  }
+
+  body.grammar-handout-page .handout-section,
+  body.handout-continuous .handout-section,
+  body.grammar-handout-page section[id^="sec-"],
+  body.handout-continuous section[id^="sec-"] {
+    font-size: 11pt !important;
+    line-height: 1.55 !important;
+  }
+
+  body.grammar-handout-page p,
+  body.grammar-handout-page li,
+  body.grammar-handout-page dd,
+  body.grammar-handout-page ol,
+  body.grammar-handout-page ul,
+  body.handout-continuous p,
+  body.handout-continuous li,
+  body.handout-continuous dd,
+  body.handout-continuous ol,
+  body.handout-continuous ul {
+    font-size: 11pt !important;
+    line-height: 1.55 !important;
+  }
+
+  body.grammar-handout-page main.sheet table:not(.verb-table),
+  body.handout-continuous main.sheet table:not(.verb-table) {
+    font-size: 10.5pt !important;
+    line-height: 1.48 !important;
+  }
+
+  body.grammar-handout-page main.sheet table:not(.verb-table) th,
+  body.grammar-handout-page main.sheet table:not(.verb-table) td,
+  body.handout-continuous main.sheet table:not(.verb-table) th,
+  body.handout-continuous main.sheet table:not(.verb-table) td {
+    font-size: inherit !important;
+    line-height: inherit !important;
+  }
+
+  body.grammar-handout-page .card,
+  body.grammar-handout-page .note-box,
+  body.grammar-handout-page .ex-pair,
+  body.grammar-handout-page .handout-ex,
+  body.handout-continuous .card,
+  body.handout-continuous .note-box,
+  body.handout-continuous .ex-pair,
+  body.handout-continuous .handout-ex {
+    font-size: 11pt !important;
+    line-height: 1.52 !important;
+  }
+
+  body.grammar-handout-page table.data,
+  body.grammar-handout-page table.compact-table,
+  body.l00-handout table.data,
+  body.handout-continuous table.data {
+    font-size: 10pt !important;
+    line-height: 1.45 !important;
+  }
+
+  body.grammar-handout-page table.data th,
+  body.grammar-handout-page table.data td,
+  body.l00-handout table.data th,
+  body.l00-handout table.data td {
+    font-size: inherit !important;
+    line-height: inherit !important;
+    padding: 1mm 1.2mm !important;
+  }
+
+  /* 不规则动词等大表：略小但仍可读 */
+  body.grammar-handout-page table.verb-table,
+  body.handout-continuous table.verb-table {
+    font-size: 9.5pt !important;
+    line-height: 1.38 !important;
+  }
+
+  body.grammar-handout-page table.verb-table th,
+  body.grammar-handout-page table.verb-table td,
+  body.handout-continuous table.verb-table th,
+  body.handout-continuous table.verb-table td {
+    font-size: inherit !important;
+    line-height: inherit !important;
+    padding: 0.55mm 0.7mm !important;
+  }
+
+  body.grammar-handout-page .compact li,
+  body.grammar-handout-page .handout-compact li,
+  body.handout-continuous .compact li {
+    font-size: 10.5pt !important;
+    line-height: 1.5 !important;
+  }
+
+  body.grammar-handout-page .note,
+  body.grammar-handout-page .hint,
+  body.grammar-handout-page .pitfall-box,
+  body.handout-continuous .note,
+  body.handout-continuous .hint {
+    font-size: 10.5pt !important;
+    line-height: 1.5 !important;
+  }
+
+  /* 定语从句专项 */
+  body.l13rc-handout {
+    font-size: 11.5pt !important;
+    line-height: 1.58 !important;
+  }
+
+  body.l13rc-handout table.data {
+    font-size: 10pt !important;
+    line-height: 1.45 !important;
+  }
+}

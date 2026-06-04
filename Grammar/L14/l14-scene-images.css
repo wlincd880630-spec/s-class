@@ -1,0 +1,124 @@
+/**
+ * L14 · 配图位统一 4:3（须在 l14-page*-layout.css 之后加载）
+ */
+#l14-book {
+  --l14-img-ratio: 4 / 3;
+}
+
+/* 左图右文 */
+#l14-book .panel.panel-split {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.65rem;
+  align-items: stretch;
+}
+@media (min-width: 640px) {
+  #l14-book .panel.panel-split {
+    grid-template-columns: minmax(200px, 48%) 1fr;
+    gap: 0.75rem;
+  }
+}
+
+/* 所有配图框：强制 4:3（压过各页 layout 的 min-height / flex） */
+#l14-book .scene-frame,
+#l14-book [class*="scene-frame--"],
+#l14-book .panel.panel-split .scene-frame,
+#l14-book .panel.panel-split [class*="scene-frame--"],
+#l14-book .scene-carousel .scene-frame,
+#l14-book .scene-stage .scene-frame,
+#l14-book .scene-frame--story {
+  position: relative;
+  box-sizing: border-box;
+  width: 100% !important;
+  aspect-ratio: var(--l14-img-ratio) !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: min(58vh, calc(100vw * 3 / 4)) !important;
+  padding: 0 !important;
+  margin: 0;
+  flex: 0 0 auto !important;
+  border-radius: 10px 14px 8px 12px;
+  border: 2px solid var(--edge, #5d4037);
+  background: #e8eef4 !important;
+  overflow: hidden;
+}
+
+#l14-book .scene-carousel .scene-frame,
+#l14-book .scene-stage .scene-frame {
+  max-height: min(52vh, calc(100vw * 3 / 4)) !important;
+}
+
+#l14-book .scene-frame:has(img),
+#l14-book [class*="scene-frame--"]:has(img),
+#l14-book .scene-frame--story:has(img) {
+  display: block !important;
+}
+
+/* 无图占位（保留 4:3） */
+#l14-book .scene-frame:not(:has(img)),
+#l14-book .scene-frame--passage:not(:has(img)) {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem !important;
+  text-align: center;
+  font-weight: 900;
+  line-height: 1.35;
+  color: #f8fafc;
+  background: linear-gradient(145deg, #0f172a, #1e3a5f) !important;
+}
+
+/* 图片铺满 4:3 框 */
+#l14-book .scene-frame img,
+#l14-book [class*="scene-frame--"] img,
+#l14-book .scene-frame--story img {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  max-height: none !important;
+  margin: 0;
+  padding: 0;
+  aspect-ratio: var(--l14-img-ratio);
+  object-fit: cover !important;
+  object-position: center center;
+  display: block;
+  cursor: zoom-in;
+}
+
+/* 语料缩略图：外层 4:3 */
+#l14-book .corpus-fig {
+  position: relative;
+  margin: 0;
+  width: 100%;
+  aspect-ratio: var(--l14-img-ratio) !important;
+  padding: 0;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 2px solid #e2e8f0;
+  background: #e8eef4;
+}
+#l14-book .corpus-fig img {
+  position: absolute;
+  inset: 0;
+  width: 100% !important;
+  height: 100% !important;
+  aspect-ratio: var(--l14-img-ratio);
+  object-fit: cover !important;
+  object-position: center;
+  display: block;
+  background: #e8eef4;
+  cursor: zoom-in;
+}
+
+/* 点击放大：预览区也保持 4:3 */
+.lesson-img-lightbox-img {
+  aspect-ratio: 4 / 3;
+  width: min(96vw, calc(92vh * 4 / 3));
+  height: auto !important;
+  max-width: min(96vw, 1200px);
+  max-height: 92vh;
+  object-fit: contain;
+}

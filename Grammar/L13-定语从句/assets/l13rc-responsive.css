@@ -1,0 +1,324 @@
+/**
+ * 定语从句 · 全课 HTML 统一响应式（手机 / 平板 / 桌面 / 投影）
+ * 配合 l13rc-demo-screen.css、l13rc-no-scrollbar.css、l13rc-fit-viewport.js
+ */
+:root {
+  --l13rc-s-t: env(safe-area-inset-top, 0px);
+  --l13rc-s-b: env(safe-area-inset-bottom, 0px);
+  --l13rc-s-l: env(safe-area-inset-left, 0px);
+  --l13rc-s-r: env(safe-area-inset-right, 0px);
+  --l13rc-touch: 44px;
+  --l13rc-stage-h: calc(
+    100dvh - var(--lesson-pager-gap, 4.35rem) - var(--l13rc-s-t) - max(4px, var(--l13rc-s-b))
+  );
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+img,
+video,
+svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* —— 目录 index：小屏取消固定 161% zoom，平板折中 —— */
+@media (max-width: 767px) {
+  html.l13rc-no-scroll.g-index-scaled {
+    zoom: 1 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+  }
+
+  @supports not (zoom: 1) {
+    html.l13rc-no-scroll.g-index-scaled {
+      transform: none !important;
+    }
+
+    body.l13rc-no-scroll.g-index-scaled {
+      transform: none !important;
+      width: 100% !important;
+      max-width: 100% !important;
+    }
+  }
+
+  body.l13rc-no-scroll.g-index-scaled main.g-index {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0 max(12px, var(--l13rc-s-l)) 0 max(12px, var(--l13rc-s-r));
+  }
+
+  body.l13rc-no-scroll.g-index-scaled .g-index h1 {
+    font-size: clamp(1.35rem, 5vw, 1.85rem);
+  }
+
+  body.l13rc-no-scroll.g-index-scaled .g-index .hint {
+    font-size: clamp(0.82rem, 3.2vw, 0.95rem);
+  }
+
+  body.l13rc-no-scroll.g-index-scaled .g-index ol a {
+    padding: 0.85rem 0.75rem;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1100px) {
+  html.l13rc-no-scroll.g-index-scaled {
+    zoom: 1.28 !important;
+  }
+
+  @supports not (zoom: 1) {
+    body.l13rc-no-scroll.g-index-scaled {
+      transform: scale(1.28);
+      transform-origin: top center;
+      width: calc(100% / 1.28);
+    }
+  }
+}
+
+/* —— 底栏：小屏压缩、触控加大 —— */
+@media (max-width: 640px) {
+  body.l13rc-no-scroll.has-lesson-pager {
+    --lesson-pager-gap: 3.35rem;
+  }
+
+  body.l13rc-no-scroll.has-lesson-pager nav.lesson-pager,
+  body.l13rc-no-scroll.has-lesson-pager nav.lesson-footer-nav {
+    padding: 0.35rem max(0.4rem, var(--l13rc-s-l)) max(0.35rem, var(--l13rc-s-b))
+      max(0.4rem, var(--l13rc-s-r));
+    gap: 0.35rem;
+  }
+
+  body.l13rc-no-scroll.has-lesson-pager nav.lesson-pager a,
+  body.l13rc-no-scroll.has-lesson-pager nav.lesson-pager .pager-muted,
+  body.l13rc-no-scroll.has-lesson-pager nav.lesson-pager .pager-mid {
+    min-height: var(--l13rc-touch);
+    padding: 0.5rem 0.35rem;
+    font-size: clamp(0.65rem, 2.8vw, 0.78rem);
+  }
+
+  body.l13rc-no-scroll.has-lesson-pager nav.lesson-pager .pager-logo img {
+    max-height: 48px;
+    width: auto;
+  }
+}
+
+/* —— 课件 Demo / 练习：断点布局 —— */
+@media (max-width: 959px) {
+  body.l13rc-no-scroll .app-container .p5-two-col {
+    grid-template-columns: 1fr !important;
+    gap: clamp(10px, 2vw, 16px) !important;
+  }
+
+  body.l13rc-no-scroll .app-container .p5-left {
+    position: static !important;
+    max-height: none !important;
+  }
+}
+
+@media (max-width: 719px) {
+  body.l13rc-no-scroll .app-container .image-row:not(.picture-pick-images) {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+
+  body.l13rc-no-scroll .app-container .image-row:not(.picture-pick-images) .image-card img {
+    height: clamp(120px, 22vh, 220px) !important;
+  }
+
+  body.l13rc-no-scroll .app-container h1 {
+    font-size: clamp(1.2rem, 4.5vw, 1.65rem) !important;
+  }
+
+  body.l13rc-no-scroll .app-container .page-actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  body.l13rc-no-scroll .app-container .page-actions .reveal-btn,
+  body.l13rc-no-scroll .app-container .page-actions .ghost-btn {
+    width: 100%;
+    min-height: var(--l13rc-touch);
+  }
+}
+
+@media (max-width: 600px) {
+  body.l13rc-no-scroll .app-container .p5-demo-line {
+    white-space: normal !important;
+    flex-wrap: wrap !important;
+  }
+
+  body.l13rc-no-scroll .app-container .choice-btns {
+    flex-direction: column;
+  }
+
+  body.l13rc-no-scroll .app-container .yesno-btn {
+    width: 100%;
+    min-height: var(--l13rc-touch);
+  }
+
+  body.l13rc-no-scroll .guide-toolbar {
+    left: max(8px, var(--l13rc-s-l));
+    right: max(8px, var(--l13rc-s-r));
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  body.l13rc-no-scroll .guide-toolbar .reveal-btn,
+  body.l13rc-no-scroll .guide-launch {
+    min-height: var(--l13rc-touch);
+    font-size: clamp(0.82rem, 3vw, 0.95rem);
+  }
+
+  body.l13rc-no-scroll .config-panel {
+    left: max(8px, var(--l13rc-s-l));
+    right: max(8px, var(--l13rc-s-r));
+    width: auto;
+    max-width: none;
+    bottom: calc(var(--lesson-pager-gap, 3.35rem) + 8px);
+  }
+
+  body.l13rc-no-scroll #welcome-view .welcome-card {
+    width: min(94vw, 420px);
+    padding: 1.25rem;
+  }
+
+  body.l13rc-no-scroll .print-btn {
+    top: max(10px, var(--l13rc-s-t));
+    right: max(10px, var(--l13rc-s-r));
+    min-width: var(--l13rc-touch);
+    min-height: var(--l13rc-touch);
+  }
+}
+
+/* 触控友好按钮（全课） */
+body.l13rc-no-scroll .reveal-btn,
+body.l13rc-no-scroll .tts-btn,
+body.l13rc-no-scroll .welcome-btn,
+body.l13rc-no-scroll .btn-main,
+body.l13rc-no-scroll .channel-btn,
+body.l13rc-no-scroll #l13rc-book .corpus-tab,
+body.l13rc-no-scroll #l13rc-book .carousel-dots button,
+body.l13rc-no-scroll #l13rc-book .choice-grid button,
+body.l13rc-no-scroll #l13rc-book .tier-tab {
+  min-height: max(40px, var(--l13rc-touch));
+  touch-action: manipulation;
+}
+
+body.l13rc-no-scroll .reveal-btn,
+body.l13rc-no-scroll .tts-btn {
+  padding: 0.65em 1em;
+}
+
+/* —— 拓展课 lesson13rc (#app / #l13rc-book) —— */
+@media (max-width: 768px) {
+  body.l13rc-no-scroll.has-lesson-pager > #app {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: var(--l13rc-stage-h) !important;
+    max-height: var(--l13rc-stage-h) !important;
+    padding: 2px max(4px, var(--l13rc-s-l)) 2px max(4px, var(--l13rc-s-r)) !important;
+  }
+
+  #l13rc-book .top-bar {
+    margin: 6px 6px 0;
+    padding: 6px 8px;
+    font-size: clamp(0.75rem, 3vw, 0.88rem);
+  }
+
+  #l13rc-book .page-title {
+    font-size: clamp(0.95rem, 4vw, 1.15rem);
+  }
+}
+
+@media (max-width: 639px) {
+  #l13rc-book .panel-split,
+  #l13rc-book .comic-split,
+  #l13rc-book .route-strip,
+  #l13rc-book .rubric-mini,
+  #l13rc-book .corpus-item-figs,
+  #l13rc-book .choice-grid,
+  #l13rc-book .tier-tabs {
+    grid-template-columns: 1fr !important;
+  }
+
+  #l13rc-book .timeline-board {
+    grid-template-columns: 1fr !important;
+  }
+
+  #l13rc-book .quiz-foot {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  #l13rc-book .quiz-foot button {
+    width: 100%;
+  }
+}
+
+/* —— 讲义（屏幕阅读） —— */
+@media screen and (max-width: 768px) {
+  body.l13rc-no-scroll.grammar-handout-page > main.sheet {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: max(10px, var(--l13rc-s-t)) max(12px, var(--l13rc-s-r)) max(12px, var(--l13rc-s-l))
+      max(12px, var(--l13rc-s-b));
+    font-size: clamp(14px, 3.8vw, 16px);
+  }
+
+  body.l13rc-no-scroll.grammar-handout-page .handout-pdf-bar {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+}
+
+@media screen and (min-width: 769px) and (max-width: 1200px) {
+  body.l13rc-no-scroll.grammar-handout-page > main.sheet {
+    width: min(100%, 920px) !important;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+/* —— 横屏手机 / 矮屏：略减底栏占位 —— */
+@media (max-height: 500px) and (orientation: landscape) {
+  body.l13rc-no-scroll.has-lesson-pager {
+    --lesson-pager-gap: 2.85rem;
+  }
+
+  body.l13rc-no-scroll .app-container .image-card img {
+    height: clamp(80px, 28vh, 160px) !important;
+  }
+
+  body.l13rc-no-scroll .app-container .welcome-wrapper {
+    padding: 12px 16px !important;
+  }
+}
+
+/* —— 大屏投影：保持铺满，字号上限 —— */
+@media (min-width: 1400px) and (min-height: 800px) {
+  body.l13rc-no-scroll > .app-container,
+  body.l13rc-no-scroll > #app-frame {
+    padding: clamp(12px, 1vw, 20px) clamp(16px, 2vw, 32px) !important;
+  }
+}
+
+/* 打印不受限 */
+@media print {
+  html.l13rc-no-scroll.g-index-scaled {
+    zoom: 1 !important;
+    width: 100% !important;
+  }
+
+  body.l13rc-no-scroll.g-index-scaled,
+  body.l13rc-no-scroll.g-index-scaled main.g-index {
+    transform: none !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}

@@ -1,0 +1,20 @@
+/** L00 主系表讲义 chip — 本地 MP3 */
+window.__LESSON_TTS_MANIFEST = Object.assign(window.__LESSON_TTS_MANIFEST || {}, {
+  "be + adj./n. ：The apple is red.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主系表与非谓语/assets/assets/tts-mp3/4c20692a349789381929.mp3",
+  "look / sound / smell / feel + adj. ：The song sounds beautiful.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主系表与非谓语/assets/assets/tts-mp3/126e0910e3b8ba8d1456.mp3",
+  "be busy / tired of + doing ：状态表达，不是动作宾语。": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主系表与非谓语/assets/assets/tts-mp3/f56f8f62cc11469e48bb.mp3",
+  "be committed / devoted / dedicated to doing ：写长期投入与人物品质。": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主系表与非谓语/assets/assets/tts-mp3/4ccb3d96cd0f6c486f69.mp3",
+  "be likely / bound / destined to do ：预测趋势、表达必然结果。": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主系表与非谓语/assets/assets/tts-mp3/52c619faeae8a4bc323a.mp3",
+  "be supposed / obliged / required to do ：写规则、责任、倡议。": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主系表与非谓语/assets/assets/tts-mp3/9b1edc62ab9481e268d9.mp3",
+  "be to blame 主动形式表被动含义：The driver is to blame.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主系表与非谓语/assets/assets/tts-mp3/8a77ed7bd55335ada858.mp3",
+  "be used to doing = 习惯做； used to do = 过去常常做。": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主系表与非谓语/assets/assets/tts-mp3/be3d523738f907d58a42.mp3",
+  "be used/accustomed/addicted/opposed/committed to doing ：统一记作“介词 to + doing”。": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主系表与非谓语/assets/assets/tts-mp3/5562a644107daf37c23b.mp3",
+  "be worth / used to / afraid of + doing ：介词后接 doing。": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主系表与非谓语/assets/assets/tts-mp3/9d4c0094e16e6e698e3b.mp3",
+  "be worth / worthwhile ：worth doing；worthwhile doing / to do 均可。": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主系表与非谓语/assets/assets/tts-mp3/58c936b32737abeb83b1.mp3",
+  "be worth doing 主动形式表被动含义：The book is worth reading.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主系表与非谓语/assets/assets/tts-mp3/3e2737ec8fc4abb12ac5.mp3",
+  "for sb. 多评价事情难易：It is important for us to exercise.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主系表与非谓语/assets/assets/tts-mp3/c8ad841b0139bbaae61b.mp3",
+  "It is + adj. + for/of sb. + to do ：作文与语法填空高频。": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主系表与非谓语/assets/assets/tts-mp3/7df4d2f9bd985f3c61e1.mp3",
+  "It is typical/considerate of sb. to do ：形容词评价人，用 of 。": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主系表与非谓语/assets/assets/tts-mp3/761899a4eac289f759d5.mp3",
+  "It is vital / essential / crucial for sb. to do ：议论文核心论点句。": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主系表与非谓语/assets/assets/tts-mp3/a39ba4bd69b3eebbdfdc.mp3",
+  "of sb. 多评价人的品质：It is kind of you to help me.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主系表与非谓语/assets/assets/tts-mp3/e50178506bec7c0b7b18.mp3",
+});

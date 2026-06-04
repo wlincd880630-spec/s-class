@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
+  <script src="../shared/play-local-mp3.js"></script>
+  <script src="../shared/lesson-local-audio.js" defer></script>
+  <script src="../shared/lesson-speak-local-only.js"></script>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>第09讲 · Page 05 · 听力鉴定室 · 双轨示波与证据芯片</title>
+  <title>第09讲 · 第05页 · 听力练习</title>
   <script src="./assets/l09-tts-manifest.js"></script>
-  <script src="../assets/lesson-tts-bootstrap.js"></script>
+  <script src="assets/lesson-tts-bootstrap.js"></script>
   <!-- 背景 ./assets/l09-page05-audio-bg.png · Prompt §7.5 · 指针拖拽芯片（禁止 HTML5 drag） -->
   <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
   <style>
@@ -20,7 +23,9 @@
       --edge: #5d4037;
       --scope-green: #69f0ae;
       --phosphor: rgba(0, 255, 120, 0.22);
-      --p05-nav-h: calc(clamp(88px, 17vmin, 120px) + max(12px, env(safe-area-inset-bottom)));
+      /* 仅预留全课底栏 lesson-pager 高度（页内 p05-bottom-dock 在 has-lesson-pager 下隐藏，避免双层导航叠盖） */
+      --p05-pager-h: calc(clamp(52px, 11vmin, 68px) + max(12px, env(safe-area-inset-bottom)));
+      --p05-nav-h: var(--p05-pager-h);
     }
     * { box-sizing: border-box; }
     html { overflow: hidden; max-width: 100%; font-size: clamp(13px, 0.78vw + 11px, 18px); }
@@ -40,6 +45,13 @@
     #viewport {
       position: relative; width: min(100vw, 100%); height: min(100dvh, 100%);
       max-width: 100%; max-height: 100dvh; flex-shrink: 0; overflow: hidden;
+    }
+    body.has-lesson-pager {
+      padding-bottom: 0 !important;
+    }
+    body.has-lesson-pager #viewport {
+      height: calc(100dvh - var(--p05-pager-h));
+      max-height: calc(100dvh - var(--p05-pager-h));
     }
     #p05-host {
       position: absolute; inset: 0; isolation: isolate; overflow: hidden;
@@ -187,6 +199,7 @@
 
     .p05-tools {
       flex-shrink: 0; display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; width: 100%;
+      padding-bottom: max(4px, env(safe-area-inset-bottom));
     }
     .p05-tools button {
       appearance: none; cursor: pointer; font-weight: 900;
@@ -208,6 +221,9 @@
       border: 3px solid var(--edge); font-weight: 900; color: #4e342e;
     }
 
+  body.has-lesson-pager #p05-bottom-dock {
+      display: none !important;
+    }
     #p05-bottom-dock {
       position: fixed; z-index: 40; left: max(8px, env(safe-area-inset-left)); right: max(8px, env(safe-area-inset-right));
       bottom: max(8px, env(safe-area-inset-bottom));
@@ -234,8 +250,10 @@
       #bg-stack, #vignette, #p05-bottom-dock, #scope-wrap, #snow-canvas, #ui-lock, .p05-audio-row { display: none !important; }
     }
   </style>
+  <link rel="stylesheet" href="assets/grammar-lesson-pager.css" />
+  <link rel="stylesheet" href="../shared/grammar-logo.css" />
 </head>
-<body>
+<body class="has-lesson-pager">
   <script>
     window.L09_CFG = window.L09_CFG || {
       azureKey: "C42UQWeDcluYanbo17WrtUnPhk0vkZy2uQHPTCGDzY6CdEXx99NzJQQJ99BIACqBBLyXJ3w3AAAYACOGjkyu",
@@ -783,5 +801,11 @@
       resizeScope();
     })();
   </script>
-</body>
+  <link rel="stylesheet" href="assets/lesson-image-lightbox.css" />
+  <script src="assets/lesson-image-lightbox.js" defer></script>
+<nav class="lesson-pager is-file-nav" aria-label="页面导航">
+    <a class="pager-prev" href="lesson09-page04-reactor.html">上一页</a>
+    <a class="pager-logo" href="../index.html" aria-label="课程主页"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/logo2.png" alt="Steven's Class" width="204" height="61" decoding="async" /></a>
+    <a class="pager-next" href="lesson09-page06-dossier.html">下一页</a>
+  </nav></body>
 </html>

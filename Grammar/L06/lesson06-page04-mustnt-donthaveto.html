@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>第06讲 · Page 04 · 电网与鸟笼（mustn't / don't have to）</title>
+  <title>第06讲 · 第04页 · mustn't / don't have to</title>
   <!--
     Vertex Imagen 3.0 Fast · 全局背景（与 P02/P03 同目录 assets/vertex）
     文件：assets/vertex/l06-page04-split-room-bg.png
@@ -12,10 +12,13 @@
     道具叠加（可选）：左侧电网 l06-page04-fence.png · 右侧鸟笼 l06-page04-cage-open.png
   -->
   <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
+  <script src="../shared/play-local-mp3.js"></script>
+  <script src="../shared/lesson-local-audio.js" defer></script>
+  <script src="../shared/lesson-speak-local-only.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="../assets/lesson-screen-16x9.css" />
+  <link rel="stylesheet" href="assets/lesson-screen-16x9.css" />
   <style>
     :root {
       --paper: #faf3e8;
@@ -721,6 +724,8 @@
       .prop-frame { padding: 10px; }
     }
   </style>
+  <link rel="stylesheet" href="assets/grammar-lesson-pager.css" />
+  <link rel="stylesheet" href="../shared/grammar-logo.css" />
 </head>
 <body class="has-lesson-pager">
   <main class="app" id="app">
@@ -789,10 +794,10 @@
     <div class="feedback" id="feedback">分拣句子：想想是「绝对不能」还是「其实可以不」？</div>
   </main>
 
-  <nav class="lesson-pager" aria-label="课程页导航">
-    <a class="pager-prev" href="lesson06-page03-musthaveto.html">← 上一页 · Page 03</a>
-    <span class="pager-mid">L06 · Page 04 / 07</span>
-    <a class="pager-next" href="lesson06-page05-rulemaker.html">下一页 · Page 05 →</a>
+  <nav class="lesson-pager is-file-nav" aria-label="页面导航">
+    <a class="pager-prev" href="lesson06-page03-musthaveto.html">上一页</a>
+    <a class="pager-logo" href="../index.html" aria-label="课程主页"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/logo2.png" alt="Steven's Class" width="204" height="61" decoding="async" /></a>
+    <a class="pager-next" href="lesson06-page05-rulemaker.html">下一页</a>
   </nav>
 
   <script>
@@ -1052,6 +1057,9 @@
       }
 
       function playAudioFile(src) {
+        if (typeof window.playLocalMp3Url === "function") {
+          return window.playLocalMp3Url(src);
+        }
         return new Promise((resolve) => {
           const audio = new Audio(src);
           audio.addEventListener("ended", () => resolve(true), { once: true });
@@ -1070,7 +1078,7 @@
         if (!current) return;
         const i = CORPUS.findIndex((c) => c.text === current.text);
         if (i < 0) return;
-        const src = `https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L06/assets/tts-mp3/l06-page04/${String(i + 1).padStart(2, "0")}.mp3`;
+        const src = `assets/tts-mp3/l06-page04/${String(i + 1).padStart(2, "0")}.mp3`;
         const ok = await playAudioFile(src);
         feedback.textContent = ok
           ? "本地 Google TTS 朗读完成。想想语气再分拣。"
@@ -1266,5 +1274,6 @@
       setupDeck();
     })();
   </script>
-</body>
+  <link rel="stylesheet" href="assets/lesson-image-lightbox.css" />
+  <script src="assets/lesson-image-lightbox.js" defer></script></body>
 </html>

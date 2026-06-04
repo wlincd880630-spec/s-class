@@ -3,11 +3,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>第06讲 · Page 02 · Can 能力与许可分拣</title>
+  <title>第06讲 · 第02页 · can：能力与许可</title>
   <script src="https://aka.ms/csspeech/jsbrowserpackageraw"></script>
   <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
-  <script src="../assets/lesson-tts-azure-config.js"></script>
-  <link rel="stylesheet" href="../assets/lesson-screen-16x9.css" />
+  <script src="assets/lesson-tts-azure-config.js"></script>
+  <script src="../shared/play-local-mp3.js"></script>
+  <script src="../shared/lesson-local-audio.js" defer></script>
+  <script src="../shared/lesson-speak-local-only.js"></script>
+  <link rel="stylesheet" href="assets/lesson-screen-16x9.css" />
   <!--
     Vertex Imagen 3.0 Fast 资源预留：
     - 背景图：A cozy but slightly magical middle school principal's office designed for an interactive English lesson game, high-end hand-drawn crayon storybook illustration style. Warm sunlight through windows, large wooden desk in foreground, stacks of papers, school rule posters, two subtle empty spaces on left and right for future scanner machines, soft parchment colors, whimsical but clean, classroom-friendly, no text, no characters, 16:9 widescreen composition, detailed but not cluttered.
@@ -728,6 +731,8 @@
       }
     }
   </style>
+  <link rel="stylesheet" href="assets/grammar-lesson-pager.css" />
+  <link rel="stylesheet" href="../shared/grammar-logo.css" />
 </head>
 <body class="has-lesson-pager">
   <main class="app" id="app">
@@ -814,10 +819,10 @@
     </footer>
   </main>
 
-  <nav class="lesson-pager" aria-label="课程页导航">
-    <a class="pager-prev" href="lesson06-page01-leadin.html">← 上一页 · Page 01</a>
-    <span class="pager-mid">L06 · Page 02 / 07</span>
-    <a class="pager-next" href="lesson06-page03-musthaveto.html">下一页 · Page 03 →</a>
+  <nav class="lesson-pager is-file-nav" aria-label="页面导航">
+    <a class="pager-prev" href="lesson06-page01-leadin.html">上一页</a>
+    <a class="pager-logo" href="../index.html" aria-label="课程主页"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/logo2.png" alt="Steven's Class" width="204" height="61" decoding="async" /></a>
+    <a class="pager-next" href="lesson06-page03-musthaveto.html">下一页</a>
   </nav>
 
   <script>
@@ -1065,6 +1070,9 @@
       }
 
       function playAudioFile(src) {
+        if (typeof window.playLocalMp3Url === "function") {
+          return window.playLocalMp3Url(src);
+        }
         return new Promise((resolve) => {
           const audio = new Audio(src);
           audio.addEventListener("ended", () => resolve(true), { once: true });
@@ -1083,7 +1091,7 @@
         if (!item || !item.id || !Array.isArray(item.lines)) return false;
         setStatus("正在播放本地 Google TTS 语音...");
         for (let i = 0; i < item.lines.length; i += 1) {
-          const src = `https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L06/assets/tts-mp3/l06-page02/${item.id}-${String(i + 1).padStart(2, "0")}.mp3`;
+          const src = `assets/tts-mp3/l06-page02/${item.id}-${String(i + 1).padStart(2, "0")}.mp3`;
           const ok = await playAudioFile(src);
           if (!ok) return false;
           await wait(120);
@@ -1302,5 +1310,6 @@
       makeDeck();
     })();
   </script>
-</body>
+  <link rel="stylesheet" href="assets/lesson-image-lightbox.css" />
+  <script src="assets/lesson-image-lightbox.js" defer></script></body>
 </html>

@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
+  <script src="../shared/play-local-mp3.js"></script>
+  <script src="../shared/lesson-local-audio.js" defer></script>
+  <script src="../shared/lesson-speak-local-only.js"></script>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>第08讲 · Page 03 · 预言水晶球 · will + 动词原形</title>
+  <title>第08讲 · 第03页 · will + 动词原形</title>
   <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
-  <link rel="stylesheet" href="../assets/lesson-screen-16x9.css" />
+  <link rel="stylesheet" href="assets/lesson-screen-16x9.css" />
   <style>
     :root {
       --orb-violet: #d500f9;
@@ -546,6 +549,30 @@
       color: #4a148c;
     }
   </style>
+
+  <script>
+window.__LESSON_TTS_MANIFEST = Object.assign(window.__LESSON_TTS_MANIFEST || {}, {
+  "Robots": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/tts-mp3/be46f2ffbe68f7cc3624.mp3",
+  "will": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/tts-mp3/37d41699bdee4fcb969c.mp3",
+  "do": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/tts-mp3/eadcd9bd2a09c75aef04.mp3",
+  "does": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/tts-mp3/f0d521a5dc37493901c8.mp3",
+  "doing": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/tts-mp3/f15fd675d55b55f870ff.mp3",
+  "our housework": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/tts-mp3/002ef73a47cc0b7af1f4.mp3",
+  "People": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/tts-mp3/b37554f695b15005fd23.mp3",
+  "live": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/tts-mp3/98aadb37083eddd855c2.mp3",
+  "lives": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/tts-mp3/25596ab9d8d1f53c836c.mp3",
+  "living": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/tts-mp3/54785b354a6fe9bf5226.mp3",
+  "on Mars": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/tts-mp3/2b2e091403bf8a593e62.mp3",
+  "Students": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/tts-mp3/fcfac3efb6ae696fcb48.mp3",
+  "study": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/tts-mp3/885534c19d5f8389b4cc.mp3",
+  "studies": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/tts-mp3/a513ed5bdc99c03bee68.mp3",
+  "studying": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/tts-mp3/74314b82bff34cadec24.mp3",
+  "at home": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/tts-mp3/775c9eb98b1754fffd97.mp3"
+});
+  </script>
+  <script src="assets/lesson-tts-bootstrap.js"></script>
+  <link rel="stylesheet" href="assets/grammar-lesson-pager.css" />
+  <link rel="stylesheet" href="../shared/grammar-logo.css" />
 </head>
 <body class="has-lesson-pager">
   <div id="l08-p03-host" class="app">
@@ -633,10 +660,10 @@
     </div>
   </div>
 
-  <nav class="lesson-pager" aria-label="课程页导航">
-    <a class="pager-prev" href="lesson08-page02-lab.html">← Page 02</a>
-    <span class="pager-mid">L08 · Page 03</span>
-    <a class="pager-next" href="lesson08-page04-catch.html">Page 04 →</a>
+  <nav class="lesson-pager is-file-nav" aria-label="页面导航">
+    <a class="pager-prev" href="lesson08-page02-lab.html">上一页</a>
+    <a class="pager-logo" href="../index.html" aria-label="课程主页"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/logo2.png" alt="Steven's Class" width="204" height="61" decoding="async" /></a>
+    <a class="pager-next" href="lesson08-page04-catch.html">下一页</a>
   </nav>
 
   <script>
@@ -801,68 +828,95 @@
         );
       }
 
-      function speakAzure(enText) {
+      function speakAzure(text) {
         return new Promise(function (resolve) {
-          var t = String(enText || "").trim();
-          if (!t || !AZURE_KEY) {
+          var t = String(text || "").trim();
+          if (!t) {
             resolve(false);
             return;
           }
-          var settled = false;
-          function finish(v) {
-            if (settled) return;
-            settled = true;
-            resolve(v);
-          }
-          var ctrl = typeof AbortController !== "undefined" ? new AbortController() : null;
-          var timer = setTimeout(function () {
-            try {
-              if (ctrl) ctrl.abort();
-            } catch (eAbort) {}
-            finish(false);
-          }, 12000);
-          fetch(
-            "https://" + AZURE_REGION + ".tts.speech.microsoft.com/cognitiveservices/v1",
-            {
-              method: "POST",
-              signal: ctrl ? ctrl.signal : undefined,
-              headers: {
-                "Content-Type": "application/ssml+xml",
-                "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3",
-                "Ocp-Apim-Subscription-Key": AZURE_KEY,
-              },
-              body: buildSsmlCrystal(t),
+          function tryAzure() {
+            if (!AZURE_KEY) {
+              resolve(false);
+              return;
             }
-          )
-            .then(function (res) {
-              clearTimeout(timer);
-              if (!res.ok) throw new Error("tts");
-              return res.blob();
-            })
-            .then(function (blob) {
-              var u = URL.createObjectURL(blob);
-              var a = new Audio();
-              a.src = u;
-              a.onended = function () {
-                try {
-                  URL.revokeObjectURL(u);
-                } catch (e1) {}
-                finish(true);
-              };
-              a.onerror = function () {
-                try {
-                  URL.revokeObjectURL(u);
-                } catch (e2) {}
-                finish(false);
-              };
-              a.play().catch(function () {
+            var settled = false;
+            function finish(v) {
+              if (settled) return;
+              settled = true;
+              resolve(v);
+            }
+            var ctrl = typeof AbortController !== "undefined" ? new AbortController() : null;
+            var timer = setTimeout(function () {
+              try {
+                if (ctrl) ctrl.abort();
+              } catch (eAbort) {}
+              finish(false);
+            }, 12000);
+            fetch(
+              "https://" + AZURE_REGION + ".tts.speech.microsoft.com/cognitiveservices/v1",
+              {
+                method: "POST",
+                signal: ctrl ? ctrl.signal : undefined,
+                headers: {
+                  "Content-Type": "application/ssml+xml",
+                  "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3",
+                  "Ocp-Apim-Subscription-Key": AZURE_KEY,
+                },
+                body: buildSsmlCrystal(t),
+              }
+            )
+              .then(function (res) {
+                clearTimeout(timer);
+                if (!res.ok) throw new Error("tts");
+                return res.blob();
+              })
+              .then(function (blob) {
+                var u = URL.createObjectURL(blob);
+                var a = new Audio();
+                a.src = u;
+                a.onended = function () {
+                  try {
+                    URL.revokeObjectURL(u);
+                  } catch (e1) {}
+                  finish(true);
+                };
+                a.onerror = function () {
+                  try {
+                    URL.revokeObjectURL(u);
+                  } catch (e2) {}
+                  finish(false);
+                };
+                a.play().catch(function () {
+                  finish(false);
+                });
+              })
+              .catch(function () {
+                clearTimeout(timer);
                 finish(false);
               });
-            })
-            .catch(function () {
-              clearTimeout(timer);
-              finish(false);
+          }
+          if (window.LessonTTSBootstrap && window.LessonTTSBootstrap.playLocalIfAvailable) {
+            window.LessonTTSBootstrap.playLocalIfAvailable(t).then(function (ok) {
+              if (ok) {
+                resolve(true);
+                return;
+              }
+              if (typeof window.playLocalMp3Url === "function" && window.__LESSON_TTS_MANIFEST) {
+                var rel = window.__LESSON_TTS_MANIFEST[t];
+                if (rel) {
+                  window.playLocalMp3Url(rel).then(function (ok2) {
+                    if (ok2) resolve(true);
+                    else tryAzure();
+                  });
+                  return;
+                }
+              }
+              tryAzure();
             });
+            return;
+          }
+          tryAzure();
         });
       }
 
@@ -1425,5 +1479,6 @@
       speakLine(SCENARIOS[0].introEn).catch(function () {});
     })();
   </script>
-</body>
+  <link rel="stylesheet" href="assets/lesson-image-lightbox.css" />
+  <script src="assets/lesson-image-lightbox.js" defer></script></body>
 </html>

@@ -1,0 +1,370 @@
+/**
+ * 巩固练习 · 一题一页 · 大屏可读字号
+ */
+:root {
+  --l13rc-file-pager-h: 4.35rem;
+  --practice-stepper-h: 3.15rem;
+}
+
+body.l13rc-practice-one.has-lesson-pager {
+  --lesson-pager-gap: calc(var(--l13rc-file-pager-h) + var(--practice-stepper-h));
+}
+
+body.l13rc-practice-one #app-frame.practice-book {
+  display: none;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  padding: clamp(12px, 2vh, 28px) clamp(16px, 3vw, 48px) !important;
+}
+
+body.l13rc-practice-one #app-frame.practice-book.is-started {
+  display: flex !important;
+}
+
+body.l13rc-practice-one #app-frame .section-card {
+  display: none;
+}
+
+body.l13rc-practice-one .practice-page {
+  display: none;
+  flex: 1 1 auto;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+  width: 100%;
+  max-width: min(1080px, 96vw);
+  margin: 0 auto;
+  min-height: 0;
+  gap: clamp(12px, 2vh, 24px);
+  animation: practiceFade 0.28s ease;
+}
+
+body.l13rc-practice-one .practice-page.active {
+  display: flex;
+}
+
+@keyframes practiceFade {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* 屏幕不显示打印专用排版 */
+.practice-print-sheet {
+  display: none;
+}
+
+body.l13rc-practice-one .practice-head {
+  flex-shrink: 0;
+  text-align: center;
+  padding-bottom: clamp(8px, 1.2vh, 16px);
+  border-bottom: 2px dashed rgba(14, 165, 233, 0.35);
+}
+
+body.l13rc-practice-one .practice-kicker {
+  margin: 0 0 0.35rem;
+  font-size: clamp(0.88rem, 1.1vw + 0.7rem, 1.05rem);
+  font-weight: 800;
+  color: #64748b;
+  letter-spacing: 0.04em;
+}
+
+body.l13rc-practice-one .practice-part-title {
+  margin: 0 0 0.5rem;
+  font-family: var(--font-family-title, 'Fredoka', sans-serif);
+  font-size: clamp(1.35rem, 2.2vw + 0.75rem, 2rem);
+  font-weight: 700;
+  color: var(--primary-color, #0ea5e9);
+  line-height: 1.25;
+}
+
+body.l13rc-practice-one .practice-instruction {
+  margin: 0;
+  font-size: clamp(0.95rem, 1.1vw + 0.8rem, 1.2rem);
+  font-weight: 700;
+  color: #475569;
+  line-height: 1.55;
+  max-width: 52em;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+body.l13rc-practice-one .practice-body {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 0;
+  padding: clamp(8px, 1.5vh, 20px) 0;
+}
+
+body.l13rc-practice-one .practice-body .exercise-item {
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+body.l13rc-practice-one .practice-body .instruction {
+  font-size: clamp(1rem, 1.3vw + 0.85rem, 1.28rem);
+  color: #334155;
+  margin-bottom: clamp(10px, 1.5vh, 18px);
+  line-height: 1.55;
+}
+
+body.l13rc-practice-one .practice-body .sentence-box {
+  font-size: clamp(1.12rem, 1.8vw + 0.85rem, 1.72rem);
+  line-height: 1.65;
+  color: #1e293b;
+  font-weight: 600;
+}
+
+body.l13rc-practice-one .practice-body .sentence-box[lang="en"],
+body.l13rc-practice-one .practice-body .sentence-box ins {
+  font-weight: 700;
+}
+
+body.l13rc-practice-one .practice-body input[type="text"] {
+  font-size: clamp(1rem, 1.4vw + 0.85rem, 1.35rem);
+  max-width: min(100%, 720px);
+  padding: 0.45em 0.35em;
+  border-bottom-width: 3px;
+}
+
+body.l13rc-practice-one .practice-body .choice-btn {
+  font-size: clamp(1rem, 1.35vw + 0.85rem, 1.28rem);
+  padding: clamp(14px, 1.8vh, 18px) clamp(18px, 2vw, 24px);
+  margin: clamp(8px, 1vh, 12px) 0;
+  border-radius: 14px;
+  line-height: 1.45;
+}
+
+body.l13rc-practice-one .practice-body .role-selector {
+  font-size: clamp(0.95rem, 1.2vw + 0.8rem, 1.15rem);
+  padding: clamp(10px, 1.2vh, 14px) clamp(14px, 2vw, 18px);
+  margin-top: clamp(12px, 1.5vh, 18px);
+}
+
+body.l13rc-practice-one .practice-body .options-container {
+  margin-top: clamp(12px, 1.5vh, 20px);
+}
+
+/* 题间导航（固定在课程底栏上方） */
+.practice-pager {
+  display: none;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: var(--l13rc-file-pager-h);
+  z-index: 199;
+  align-items: stretch;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.4rem 0.55rem;
+  padding-bottom: max(0.4rem, env(safe-area-inset-bottom, 0px));
+  background: rgba(255, 255, 255, 0.97);
+  border-top: 2px solid #bae6fd;
+  box-shadow: 0 -6px 18px rgba(14, 165, 233, 0.12);
+  font-family: var(--font-family, system-ui, sans-serif);
+}
+
+.practice-pager.is-visible {
+  display: flex;
+}
+
+.practice-pager button {
+  flex: 1 1 0;
+  min-height: 44px;
+  border: 2px solid #0ea5e9;
+  border-radius: 999px;
+  background: #fff;
+  color: #0369a1;
+  font-weight: 800;
+  font-size: clamp(0.82rem, 2.5vw, 0.95rem);
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.practice-pager button:disabled {
+  opacity: 0.45;
+  cursor: default;
+  border-color: #cbd5e1;
+  color: #94a3b8;
+}
+
+.practice-pager .practice-mid {
+  flex: 1.1 1 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  font-size: clamp(0.85rem, 2.6vw, 1rem);
+  color: #0f172a;
+  font-variant-numeric: tabular-nums;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  background: #f8fafc;
+  padding: 0 0.5rem;
+}
+
+@media (min-width: 1200px) {
+  body.l13rc-practice-one .practice-body .sentence-box {
+    font-size: clamp(1.35rem, 1.5vw + 0.9rem, 1.85rem);
+  }
+
+  body.l13rc-practice-one .practice-part-title {
+    font-size: clamp(1.6rem, 1.8vw + 0.9rem, 2.15rem);
+  }
+}
+
+@media print {
+  html.l13rc-no-scroll-root,
+  html.l13rc-no-scroll-root body.l13rc-no-scroll {
+    overflow: visible !important;
+    height: auto !important;
+    max-height: none !important;
+  }
+
+  body.l13rc-practice-one,
+  body.l13rc-practice-printing {
+    background: #fff !important;
+    padding: 0 !important;
+    --lesson-pager-gap: 0 !important;
+    --l13rc-demo-stage-h: auto !important;
+  }
+
+  body.l13rc-practice-one .print-btn,
+  body.l13rc-practice-one #welcome-view,
+  body.l13rc-practice-one .btn-main,
+  body.l13rc-practice-one .practice-pager,
+  body.l13rc-practice-one nav.lesson-pager,
+  body.l13rc-practice-one .practice-answer-toggle {
+    display: none !important;
+  }
+
+  body.l13rc-practice-one #app-frame,
+  body.l13rc-practice-one #app-frame.practice-book,
+  body.l13rc-practice-printing #app-frame {
+    display: block !important;
+    position: static !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    max-height: none !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 12px 16px !important;
+    overflow: visible !important;
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    transform: none !important;
+  }
+
+  /* 未点「开始练习」时：每个 Part（section-card）一页 */
+  body.l13rc-practice-one #app-frame .section-card {
+    display: block !important;
+    page-break-after: always;
+    break-after: page;
+    margin-bottom: 0 !important;
+    padding: 1rem 1.25rem !important;
+    box-shadow: none !important;
+    border: 1px solid #e2e8f0 !important;
+  }
+
+  body.l13rc-practice-one #app-frame .section-card:last-child {
+    page-break-after: auto;
+  }
+
+  /* 屏幕用的一题一页壳：打印时隐藏 */
+  body.l13rc-practice-printing .practice-page,
+  body.l13rc-practice-printing .practice-page.l13rc-print-show,
+  body.l13rc-practice-printing .practice-page.l13rc-print-source-hidden {
+    display: none !important;
+  }
+
+  /* 按 Part 合并的打印版 */
+  body.l13rc-practice-printing .practice-print-sheet {
+    display: block !important;
+    width: 100% !important;
+  }
+
+  body.l13rc-practice-printing .practice-print-part {
+    display: block !important;
+    page-break-after: always;
+    break-after: page;
+    padding: 16px 14px 20px !important;
+  }
+
+  body.l13rc-practice-printing .practice-print-part:last-child {
+    page-break-after: auto;
+  }
+
+  body.l13rc-practice-printing .practice-print-part-head {
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 2px dashed #bae6fd;
+  }
+
+  body.l13rc-practice-printing .practice-print-part-title {
+    margin: 0 0 8px;
+    font-family: var(--font-family-title, 'Fredoka', sans-serif);
+    font-size: 1.35rem;
+    color: #0ea5e9;
+  }
+
+  body.l13rc-practice-printing .practice-print-instruction {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #475569;
+    line-height: 1.5;
+  }
+
+  body.l13rc-practice-printing .practice-print-item {
+    margin-bottom: 1.1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #f1f5f9;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  body.l13rc-practice-printing .practice-print-item:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+
+  body.l13rc-practice-printing .practice-print-item .exercise-item {
+    margin: 0;
+    padding: 0;
+    border: none;
+  }
+
+  body.l13rc-practice-printing .practice-print-item .sentence-box {
+    font-size: 1.05rem;
+    line-height: 1.55;
+  }
+
+  body.l13rc-practice-printing .practice-print-part-body,
+  body.l13rc-practice-printing .l13rc-fit-target,
+  body.l13rc-practice-one .practice-page .practice-body,
+  body.l13rc-practice-one .practice-page .practice-head,
+  body.l13rc-practice-one .l13rc-fit-target {
+    transform: none !important;
+    width: auto !important;
+    max-width: 100% !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+
+  body.l13rc-practice-one .practice-answer-panel {
+    display: block !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+
+  body.l13rc-practice-one .practice-answer-panel[hidden] {
+    display: none !important;
+  }
+}

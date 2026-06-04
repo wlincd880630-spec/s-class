@@ -1,0 +1,345 @@
+/**
+ * 全课程统一底栏导航（紧凑版）：仅作用于 nav.lesson-pager / nav.lesson-footer-nav
+ */
+:root {
+  --grammar-pager-accent: #0d9488;
+  --grammar-pager-accent-ink: #0f766e;
+  --grammar-pager-gap: 2.75rem;
+  --grammar-pager-logo-slot: clamp(4.25rem, 13vw, 6.25rem);
+}
+
+/* 缩小底栏占位，不影响页内其他按钮 */
+body.has-lesson-pager {
+  --lesson-pager-gap: var(--grammar-pager-gap) !important;
+  --lesson-l03-pager-gap: var(--grammar-pager-gap) !important;
+  padding-bottom: max(var(--grammar-pager-gap), env(safe-area-inset-bottom, 0px)) !important;
+}
+
+body.has-lesson-pager nav.lesson-pager,
+body.has-lesson-pager nav.lesson-footer-nav,
+body.has-lesson-pager #app nav.lesson-pager {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 200;
+  display: grid;
+  align-items: center;
+  gap: 0.28rem;
+  margin: 0;
+  padding: 0.28rem 0.4rem;
+  padding-bottom: max(0.28rem, env(safe-area-inset-bottom, 0px));
+  background: rgba(255, 255, 255, 0.97);
+  border-top: 1.5px solid var(--grammar-pager-accent);
+  box-shadow: 0 -4px 16px rgba(15, 23, 42, 0.08);
+  backdrop-filter: blur(8px);
+  font-family: system-ui, -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+
+/* 三列底栏：左按钮区 | 居中 Logo 槽 | 右按钮区 */
+body.has-lesson-pager nav.lesson-pager.is-file-nav,
+body.has-lesson-pager #app nav.lesson-pager.is-file-nav {
+  grid-template-columns: minmax(0, 1fr) var(--grammar-pager-logo-slot) minmax(0, 1fr);
+}
+
+body.has-lesson-pager nav.lesson-pager.is-file-nav > .pager-prev,
+body.has-lesson-pager nav.lesson-pager.is-file-nav > span.pager-prev {
+  grid-column: 1;
+  justify-self: stretch;
+}
+
+body.has-lesson-pager nav.lesson-pager.is-file-nav > .pager-logo,
+body.has-lesson-pager nav.lesson-pager.is-file-nav > .pager-next,
+body.has-lesson-pager nav.lesson-pager.is-file-nav > span.pager-next {
+  justify-self: stretch;
+}
+
+body.has-lesson-pager nav.lesson-pager.is-file-nav > .pager-next,
+body.has-lesson-pager nav.lesson-pager.is-file-nav > span.pager-next {
+  grid-column: 3;
+}
+
+/* 课内多屏翻页：左（上一页）| Logo | 右（页码 + 下一页）*/
+body.has-lesson-pager nav.lesson-pager.is-intra-nav,
+body.has-lesson-pager #app nav.lesson-pager.is-intra-nav {
+  grid-template-columns: minmax(0, 1fr) var(--grammar-pager-logo-slot) minmax(0, 1fr) !important;
+}
+
+body.has-lesson-pager nav.lesson-pager.is-intra-nav > .pager-zone--left,
+body.has-lesson-pager #app nav.lesson-pager.is-intra-nav > .pager-zone--left {
+  grid-column: 1;
+  justify-self: stretch;
+}
+
+body.has-lesson-pager nav.lesson-pager.is-intra-nav > .pager-logo,
+body.has-lesson-pager #app nav.lesson-pager.is-intra-nav > .pager-logo {
+  grid-column: 2;
+  justify-self: center;
+}
+
+body.has-lesson-pager nav.lesson-pager.is-intra-nav > .pager-zone--right,
+body.has-lesson-pager #app nav.lesson-pager.is-intra-nav > .pager-zone--right {
+  grid-column: 3;
+  justify-self: stretch;
+}
+
+body.has-lesson-pager nav.lesson-pager.is-intra-nav > .pager-zone,
+body.has-lesson-pager nav.lesson-pager.is-l00-unified > .pager-zone,
+body.has-lesson-pager #app nav.lesson-pager.is-intra-nav > .pager-zone {
+  display: flex;
+  align-items: center;
+  gap: 0.28rem;
+  min-width: 0;
+}
+
+body.has-lesson-pager nav.lesson-pager.is-intra-nav > .pager-zone--left,
+body.has-lesson-pager #app nav.lesson-pager.is-intra-nav > .pager-zone--left {
+  justify-content: flex-start;
+}
+
+body.has-lesson-pager nav.lesson-pager.is-intra-nav > .pager-zone--right,
+body.has-lesson-pager #app nav.lesson-pager.is-intra-nav > .pager-zone--right {
+  justify-content: flex-end;
+}
+
+/* L00 三区见 assets/l00-unified-pager.css */
+body.has-lesson-pager nav.lesson-pager.is-l00-unified > .pager-zone {
+  min-width: 0;
+}
+
+/* 仅底栏内直接子元素，不波及课件里的 button / a */
+body.has-lesson-pager nav.lesson-pager > .pager-prev,
+body.has-lesson-pager nav.lesson-pager > .pager-next,
+body.has-lesson-pager nav.lesson-pager > .pager-home,
+body.has-lesson-pager nav.lesson-pager > .pager-logo,
+body.has-lesson-pager nav.lesson-pager > .lesson-index-link,
+body.has-lesson-pager nav.lesson-pager > .l13-index-link,
+body.has-lesson-pager nav.lesson-pager > button.pager-prev,
+body.has-lesson-pager nav.lesson-pager > button.pager-next,
+body.has-lesson-pager nav.lesson-pager > .pager-mid,
+body.has-lesson-pager nav.lesson-pager > span.pager-prev,
+body.has-lesson-pager nav.lesson-pager > span.pager-next,
+body.has-lesson-pager nav.lesson-footer-nav > a,
+body.has-lesson-pager nav.lesson-footer-nav > span.pager-muted,
+body.has-lesson-pager #app nav.lesson-pager > .pager-prev,
+body.has-lesson-pager #app nav.lesson-pager > .pager-next,
+body.has-lesson-pager #app nav.lesson-pager > .pager-home,
+body.has-lesson-pager #app nav.lesson-pager > .pager-logo,
+body.has-lesson-pager #app nav.lesson-pager > .lesson-index-link,
+body.has-lesson-pager #app nav.lesson-pager > .l13-index-link,
+body.has-lesson-pager #app nav.lesson-pager > button.pager-prev,
+body.has-lesson-pager #app nav.lesson-pager > button.pager-next,
+body.has-lesson-pager #app nav.lesson-pager > .pager-mid,
+body.has-lesson-pager #app nav.lesson-pager > span.pager-prev,
+body.has-lesson-pager #app nav.lesson-pager > span.pager-next {
+  flex: 1 1 0;
+  min-width: 0;
+  min-height: 34px;
+  max-height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0.22rem 0.38rem;
+  border-radius: 8px;
+  border: 1.5px solid #5d4037;
+  font-size: clamp(0.7rem, 2vw, 0.78rem);
+  font-weight: 800;
+  line-height: 1.2;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  touch-action: manipulation;
+  box-shadow: 0 1px 0 rgba(93, 64, 55, 0.1);
+  transition: filter 0.15s ease, transform 0.1s ease;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+
+body.has-lesson-pager nav.lesson-pager > .pager-prev,
+body.has-lesson-pager nav.lesson-footer-nav > .pager-prev,
+body.has-lesson-pager nav.lesson-pager > span.pager-prev.pager-muted,
+body.has-lesson-pager #app nav.lesson-pager > .pager-prev,
+body.has-lesson-pager #app nav.lesson-pager > button.pager-prev,
+body.has-lesson-pager #app nav.lesson-pager > span.pager-prev.pager-muted {
+  color: #334155;
+  background: linear-gradient(180deg, #fff, #f8fafc);
+}
+
+body.has-lesson-pager nav.lesson-pager > .pager-home,
+body.has-lesson-pager nav.lesson-pager > .lesson-index-link,
+body.has-lesson-pager nav.lesson-pager > .l13-index-link,
+body.has-lesson-pager #app nav.lesson-pager > .pager-home,
+body.has-lesson-pager #app nav.lesson-pager > .lesson-index-link,
+body.has-lesson-pager #app nav.lesson-pager > .l13-index-link {
+  flex: 0.8 1 0;
+  color: var(--grammar-pager-accent-ink) !important;
+  background: linear-gradient(180deg, #f0fdfa, #ccfbf1) !important;
+  border-color: var(--grammar-pager-accent) !important;
+  box-shadow: 0 1px 0 rgba(13, 148, 136, 0.18) !important;
+}
+
+body.has-lesson-pager nav.lesson-pager > .pager-next,
+body.has-lesson-pager nav.lesson-footer-nav > .pager-next,
+body.has-lesson-pager nav.lesson-pager > span.pager-next.pager-muted,
+body.has-lesson-pager #app nav.lesson-pager > .pager-next,
+body.has-lesson-pager #app nav.lesson-pager > button.pager-next,
+body.has-lesson-pager #app nav.lesson-pager > span.pager-next.pager-muted {
+  color: #fff !important;
+  background: linear-gradient(135deg, #14b8a6, var(--grammar-pager-accent-ink)) !important;
+  border-color: var(--grammar-pager-accent-ink) !important;
+  box-shadow: 0 2px 0 rgba(15, 118, 110, 0.28) !important;
+}
+
+body.has-lesson-pager nav.lesson-pager > .pager-mid,
+body.has-lesson-pager #app nav.lesson-pager > .pager-mid {
+  flex: none;
+  width: auto;
+  min-width: 2.8rem;
+  min-height: 34px;
+  max-height: 38px;
+  padding: 0.2rem 0.35rem;
+  border-radius: 8px;
+  border: 1.5px solid var(--grammar-pager-accent);
+  background: linear-gradient(180deg, #fff, #f0fdfa);
+  color: var(--grammar-pager-accent-ink);
+  font-weight: 900;
+  font-size: clamp(0.68rem, 1.9vw, 0.76rem);
+  font-variant-numeric: tabular-nums;
+  cursor: default;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+body.has-lesson-pager nav.lesson-pager > .pager-muted,
+body.has-lesson-pager nav.lesson-footer-nav > .pager-muted,
+body.has-lesson-pager nav.lesson-pager > span.pager-muted,
+body.has-lesson-pager #app nav.lesson-pager > span.pager-muted {
+  opacity: 0.42;
+  cursor: not-allowed;
+  box-shadow: none;
+  pointer-events: none;
+}
+
+body.has-lesson-pager nav.lesson-pager > button:disabled,
+body.has-lesson-pager #app nav.lesson-pager > button:disabled {
+  opacity: 0.42;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+body.has-lesson-pager nav.lesson-pager > a:hover,
+body.has-lesson-pager nav.lesson-pager > button:hover:not(:disabled),
+body.has-lesson-pager #app nav.lesson-pager > a:hover,
+body.has-lesson-pager #app nav.lesson-pager > button:hover:not(:disabled) {
+  filter: brightness(1.04);
+}
+
+body.has-lesson-pager nav.lesson-pager > a:active,
+body.has-lesson-pager nav.lesson-pager > button:active:not(:disabled),
+body.has-lesson-pager #app nav.lesson-pager > a:active,
+body.has-lesson-pager #app nav.lesson-pager > button:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+body.has-lesson-pager nav.lesson-pager .nav-sep {
+  display: none !important;
+}
+
+body.has-lesson-pager nav.lesson-pager.is-file-nav > .pager-mid {
+  display: none !important;
+}
+
+/* 分区内按钮：继承与直接子元素相同的基础样式 */
+body.has-lesson-pager nav.lesson-pager.is-intra-nav .pager-zone > .pager-prev,
+body.has-lesson-pager nav.lesson-pager.is-intra-nav .pager-zone > .pager-next,
+body.has-lesson-pager nav.lesson-pager.is-intra-nav .pager-zone > button.pager-prev,
+body.has-lesson-pager nav.lesson-pager.is-intra-nav .pager-zone > button.pager-next,
+body.has-lesson-pager nav.lesson-pager.is-intra-nav .pager-zone > .pager-mid,
+body.has-lesson-pager #app nav.lesson-pager.is-intra-nav .pager-zone > .pager-prev,
+body.has-lesson-pager #app nav.lesson-pager.is-intra-nav .pager-zone > .pager-next,
+body.has-lesson-pager #app nav.lesson-pager.is-intra-nav .pager-zone > button.pager-prev,
+body.has-lesson-pager #app nav.lesson-pager.is-intra-nav .pager-zone > button.pager-next,
+body.has-lesson-pager #app nav.lesson-pager.is-intra-nav .pager-zone > .pager-mid {
+  flex: 1 1 0;
+  min-width: 0;
+  min-height: 34px;
+  max-height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0.22rem 0.38rem;
+  border-radius: 8px;
+  border: 1.5px solid #5d4037;
+  font-size: clamp(0.7rem, 2vw, 0.78rem);
+  font-weight: 800;
+  line-height: 1.2;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  touch-action: manipulation;
+  box-sizing: border-box;
+  font-family: inherit;
+  box-shadow: 0 1px 0 rgba(93, 64, 55, 0.1);
+  transition: filter 0.15s ease, transform 0.1s ease;
+}
+
+body.has-lesson-pager nav.lesson-pager.is-intra-nav .pager-zone > .pager-prev,
+body.has-lesson-pager nav.lesson-pager.is-intra-nav .pager-zone > button.pager-prev,
+body.has-lesson-pager #app nav.lesson-pager.is-intra-nav .pager-zone > .pager-prev,
+body.has-lesson-pager #app nav.lesson-pager.is-intra-nav .pager-zone > button.pager-prev {
+  color: #334155;
+  background: linear-gradient(180deg, #fff, #f8fafc);
+}
+
+body.has-lesson-pager nav.lesson-pager.is-intra-nav .pager-zone > .pager-next,
+body.has-lesson-pager nav.lesson-pager.is-intra-nav .pager-zone > button.pager-next,
+body.has-lesson-pager #app nav.lesson-pager.is-intra-nav .pager-zone > .pager-next,
+body.has-lesson-pager #app nav.lesson-pager.is-intra-nav .pager-zone > button.pager-next {
+  color: #fff !important;
+  background: linear-gradient(135deg, #14b8a6, var(--grammar-pager-accent-ink)) !important;
+  border-color: var(--grammar-pager-accent-ink) !important;
+  box-shadow: 0 2px 0 rgba(15, 118, 110, 0.28) !important;
+}
+
+body.has-lesson-pager nav.lesson-pager.is-intra-nav .pager-zone > .pager-mid,
+body.has-lesson-pager #app nav.lesson-pager.is-intra-nav .pager-zone > .pager-mid {
+  flex: 0 0 auto;
+  min-width: 2.8rem;
+  max-width: 42%;
+  padding: 0.2rem 0.35rem;
+  border-color: var(--grammar-pager-accent);
+  background: linear-gradient(180deg, #fff, #f0fdfa);
+  color: var(--grammar-pager-accent-ink);
+  font-weight: 900;
+  font-size: clamp(0.68rem, 1.9vw, 0.76rem);
+  font-variant-numeric: tabular-nums;
+  cursor: default;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+@media (min-width: 640px) {
+  body.has-lesson-pager nav.lesson-pager,
+  body.has-lesson-pager nav.lesson-footer-nav,
+  body.has-lesson-pager #app nav.lesson-pager {
+    gap: 0.32rem;
+    padding: 0.32rem 0.5rem;
+    padding-bottom: max(0.32rem, env(safe-area-inset-bottom, 0px));
+  }
+
+  body.has-lesson-pager nav.lesson-pager > .pager-prev,
+  body.has-lesson-pager nav.lesson-pager > .pager-next,
+  body.has-lesson-pager nav.lesson-pager > .pager-home,
+  body.has-lesson-pager nav.lesson-pager > button.pager-prev,
+  body.has-lesson-pager nav.lesson-pager > button.pager-next,
+  body.has-lesson-pager nav.lesson-pager > .pager-mid,
+  body.has-lesson-pager #app nav.lesson-pager > .pager-prev,
+  body.has-lesson-pager #app nav.lesson-pager > .pager-next,
+  body.has-lesson-pager #app nav.lesson-pager > .pager-home,
+  body.has-lesson-pager #app nav.lesson-pager > button.pager-prev,
+  body.has-lesson-pager #app nav.lesson-pager > button.pager-next,
+  body.has-lesson-pager #app nav.lesson-pager > .pager-mid {
+    min-height: 36px;
+    max-height: 40px;
+  }
+}

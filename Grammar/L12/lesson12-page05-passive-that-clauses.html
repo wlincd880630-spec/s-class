@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
+  <script src="assets/play-local-mp3.js"></script>
+  <script src="../shared/lesson-local-audio.js" defer></script>
+  <script src="../shared/lesson-speak-local-only.js"></script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>第12讲 · Page 05 · 被动语态 × that 从句 · It is said that …</title>
-  <link rel="stylesheet" href="../assets/lesson-screen-16x9.css" />
+  <title>第12讲 · 第05页 · 被动语态与 that 从句</title>
+  <link rel="stylesheet" href="assets/lesson-screen-16x9.css" />
   <style>
     :root {
       --paper: #fff9f0;
@@ -494,6 +497,16 @@
       line-height: 1.68;
     }
   </style>
+
+  <script>
+window.__LESSON_TTS_MANIFEST = Object.assign(window.__LESSON_TTS_MANIFEST || {}, {
+  "Many people agree that green habits matter. It is reported that our school will build a small solar station on the roof. It is believed that the project saves energy for classrooms. It is hoped that more clubs will join the plan next term.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L12/assets/tts-mp3/9c0bafa7ff6caa592b5f.mp3"
+});
+  </script>
+  <script src="assets/l12-extra-tts-manifest.js"></script>
+  <script src="assets/lesson-tts-bootstrap.js"></script>
+  <link rel="stylesheet" href="assets/grammar-lesson-pager.css" />
+  <link rel="stylesheet" href="../shared/grammar-logo.css" />
 </head>
 <body class="has-lesson-pager">
   <div id="ui-lock" aria-hidden="true"></div>
@@ -784,10 +797,15 @@
         </section>
       </div>
     </div>
-    <nav class="lesson-pager" id="lesson-pager" aria-label="分页导航">
-      <button type="button" class="pager-prev" id="pager-prev">上一页</button>
-      <span class="pager-mid" id="pager-mid" aria-live="polite">1 / 11</span>
-      <button type="button" class="pager-next" id="pager-next">下一页</button>
+    <nav class="lesson-pager is-intra-nav" id="lesson-pager" aria-label="分页导航">
+      <div class="pager-zone pager-zone--left">
+        <button type="button" class="pager-prev" id="pager-prev">上一页</button>
+      </div>
+      <a class="pager-logo" href="../index.html" aria-label="课程主页"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/logo2.png" alt="Steven's Class" width="204" height="61" decoding="async" /></a>
+      <div class="pager-zone pager-zone--right">
+        <span class="pager-mid" id="pager-mid" aria-live="polite">1 / 11</span>
+        <button type="button" class="pager-next" id="pager-next">下一页</button>
+      </div>
     </nav>
   </div>
 
@@ -799,7 +817,7 @@
     function unlockUI() { uiLock.classList.remove("active"); }
 
     /** Azure Speech REST TTS：密钥与 Region 须与 Azure 门户中 Speech 资源一致（本套：southeastasia） */
-    const AZURE_KEY = "C42UQWeDcluYanbo17WrtUnPhk0vkZy2uQHPTCGDzY6CdEXx99NzJQQJ99BIACqBBLyXJ3w3AAAYACOGjkyu";
+    /* AZURE_KEY removed — use local MP3 only */
     const AZURE_REGION = "southeastasia";
     const AZURE_VOICE = "en-US-AriaNeural";
     function escapeXmlForTts(s) {
@@ -811,202 +829,21 @@
     }
 
     /** 朗读：优先 Azure REST；失败则回退浏览器语音合成。 */
-    async function playAudio(text, opts) {
-      const useLock = !opts || opts.lock !== false;
-      const raw = String(text || "").trim();
-      if (useLock) lockUI();
+    async function playAudio(text, voice) {
+      const t = String(text || "").trim();
+      if (!t) return;
+      const lockFn = typeof lockUI === "function";
+      if (lockFn) lockUI();
       try {
-        if (!raw) return;
-        const url = "https://" + AZURE_REGION + ".tts.speech.microsoft.com/cognitiveservices/v1";
-        const ssml =
-          "<speak version='1.0' xml:lang='en-US'><voice xml:lang='en-US' name='" +
-          AZURE_VOICE +
-          "'>" +
-          escapeXmlForTts(raw) +
-          "</voice></speak>";
-        const res = await fetch(url, {
-          method: "POST",
-          headers: {
-            "Ocp-Apim-Subscription-Key": AZURE_KEY,
-            "Content-Type": "application/ssml+xml",
-            "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3"
-          },
-          body: ssml
-        });
-        if (!res.ok) throw new Error(String(res.status));
-        const blob = await res.blob();
-        const u = URL.createObjectURL(blob);
-        const a = new Audio(u);
-        await new Promise((resolve, reject) => {
-          a.onended = () => {
-            URL.revokeObjectURL(u);
-            resolve();
-          };
-          a.onerror = reject;
-          a.play().catch(reject);
-        });
-      } catch (e) {
-        await new Promise((resolve) => {
-          const u = new SpeechSynthesisUtterance(raw);
-          u.lang = "en-US";
-          u.onend = resolve;
-          u.onerror = resolve;
-          speechSynthesis.speak(u);
-        });
-      } finally {
-        if (useLock) unlockUI();
-      }
-    }
-
-    const BASIC_MC = [
-      {
-        cat: "结构 · 主语",
-        q: "表达「据说他很累」时，哪一句是常见、正确的报道结构？",
-        opts: ["He is said that he is tired.", "It is said that he is tired.", "It said that he is tired."],
-        correct: 1,
-        ok: "对。形式主语用 it，后接 is said + that + 陈述从句。",
-        bad: "人作主语时不用 is said that 这种叠床架屋；也不要写成 It said。"
-      },
-      {
-        cat: "结构 · reported",
-        q: "哪一句表示「据报道，活动延期了」？",
-        opts: [
-          "It is reported that the event was put off.",
-          "It is reported that was the event put off.",
-          "It reported that the event was put off."
-        ],
-        correct: 0,
-        ok: "对。It is reported that + 陈述语序。",
-        bad: "that 从句里不要用疑问倒装；主语不要用 It reported。"
-      },
-      {
-        cat: "结构 · believed",
-        q: "哪一句表示「人们认为早读有助于记忆」？",
-        opts: [
-          "It is believed that morning reading helps memory.",
-          "It is believed that helps morning reading memory.",
-          "People is believed that morning reading helps memory."
-        ],
-        correct: 0,
-        ok: "对。It is believed that + 主谓结构。",
-        bad: "从句要有清晰主语和谓语；People is believed 不自然。"
-      },
-      {
-        cat: "辨析 · hoped",
-        q: "哪一句更自然，表示「希望大家遵守规则」？",
-        opts: [
-          "It is hoped that everyone will follow the rules.",
-          "It hopes that everyone will follow the rules.",
-          "It is hoped everyone that will follow the rules."
-        ],
-        correct: 0,
-        ok: "对。It is hoped that … 为常见书面结构。",
-        bad: "不说 It hopes that…；that 位置不可插在 everyone 后。"
-      }
-    ];
-
-    let mcIdx = 0;
-    function renderMc() {
-      const item = BASIC_MC[mcIdx];
-      document.getElementById("p5-mc-cat").textContent = item.cat;
-      document.getElementById("p5-mc-q").textContent = item.q;
-      document.getElementById("p5-mc-fb").textContent = "";
-      const row = document.getElementById("p5-mc-row");
-      row.innerHTML = "";
-      item.opts.forEach((opt, oi) => {
-        const b = document.createElement("button");
-        b.type = "button";
-        b.className = "mc-btn";
-        b.textContent = String.fromCharCode(65 + oi) + ". " + opt;
-        b.addEventListener("click", () => {
-          row.querySelectorAll(".mc-btn").forEach((x) => {
-            x.classList.remove("correct", "wrong");
-            x.disabled = true;
-          });
-          const ok = oi === item.correct;
-          b.classList.add(ok ? "correct" : "wrong");
-          if (!ok) row.querySelectorAll(".mc-btn")[item.correct].classList.add("correct");
-          const fb = document.getElementById("p5-mc-fb");
-          fb.textContent = ok ? item.ok : item.bad;
-          fb.style.color = ok ? "#059669" : "#b45309";
-        });
-        row.appendChild(b);
-      });
-    }
-
-    const CLOZE = {
-      parts: [
-        "Many people agree that green habits matter. ",
-        { blank: 0 },
-        " our school will build a small solar station on the roof. ",
-        { blank: 1 },
-        " the project saves energy for classrooms. ",
-        { blank: 2 },
-        " more clubs will join the plan next term."
-      ],
-      banks: [
-        ["It is reported that", "It reported that", "It is reporting that"],
-        ["It is believed that", "It believed that", "It is believe that"],
-        ["It is hoped that", "It hopes that", "It hoped that"]
-      ],
-      answers: [0, 0, 0],
-      full:
-        "Many people agree that green habits matter. It is reported that our school will build a small solar station on the roof. It is believed that the project saves energy for classrooms. It is hoped that more clubs will join the plan next term."
-    };
-
-    let clozePicks = [null, null, null];
-
-    function renderCloze() {
-      const host = document.getElementById("p5-cloze-text");
-      host.innerHTML = "";
-      CLOZE.parts.forEach((p) => {
-        if (typeof p === "string") {
-          host.appendChild(document.createTextNode(p));
-        } else {
-          const span = document.createElement("span");
-          span.className = "cloze-slot";
-          span.id = "p5-slot-" + p.blank;
-          span.textContent = "____";
-          span.dataset.bi = String(p.blank);
-          host.appendChild(span);
+        if (window.LessonTTSBootstrap && typeof window.LessonTTSBootstrap.playLocalIfAvailable === "function") {
+          const ok = await window.LessonTTSBootstrap.playLocalIfAvailable(t);
+          if (ok) return;
         }
-      });
-      const wrap = document.getElementById("p5-cloze-bank-wrap");
-      wrap.innerHTML = "";
-      CLOZE.banks.forEach((opts, bi) => {
-        const row = document.createElement("div");
-        row.className = "chip-row";
-        const lab = document.createElement("span");
-        lab.textContent = "第 " + (bi + 1) + " 空";
-        row.appendChild(lab);
-        opts.forEach((text, oi) => {
-          const btn = document.createElement("button");
-          btn.type = "button";
-          btn.className = "step-btn";
-          btn.textContent = text;
-          btn.addEventListener("click", () => {
-            const slot = document.getElementById("p5-slot-" + bi);
-            if (!slot) return;
-            slot.textContent = text;
-            slot.classList.remove("bad", "filled");
-            if (oi === CLOZE.answers[bi]) {
-              slot.classList.add("filled");
-              clozePicks[bi] = oi;
-            } else {
-              slot.classList.add("bad");
-              clozePicks[bi] = null;
-            }
-            updateClozeFb();
-          });
-          row.appendChild(btn);
-        });
-        wrap.appendChild(row);
-      });
-      clozePicks = [null, null, null];
-      document.getElementById("p5-cloze-fb").textContent = "";
-      document.getElementById("p5-cloze-read").dataset.txt = CLOZE.full;
-    }
-
+        console.warn("[TTS] 本地 MP3 未找到:", t.slice(0, 120));
+      } finally {
+        if (lockFn) unlockUI();
+      }
+  }
     function updateClozeFb() {
       const fb = document.getElementById("p5-cloze-fb");
       if (clozePicks.every((x, i) => x === CLOZE.answers[i])) {
@@ -1093,5 +930,6 @@
     renderCloze();
     goPage(1);
   </script>
-</body>
+  <link rel="stylesheet" href="assets/lesson-image-lightbox.css" />
+  <script src="assets/lesson-image-lightbox.js" defer></script></body>
 </html>

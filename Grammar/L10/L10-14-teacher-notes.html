@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
+  <script src="../shared/play-local-mp3.js"></script>
+  <script src="../shared/lesson-local-audio.js" defer></script>
+  <script src="../shared/lesson-speak-local-only.js"></script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Lesson 10 · 教师备注与差异化</title>
+  <title>第10讲 · 教师备注 · 现在完成时</title>
   <script src="https://cdn.jsdelivr.net/npm/microsoft-cognitiveservices-speech-sdk@1.38.0/dist/microsoft.cognitiveservices.speech.sdk.bundle-min.js" crossorigin="anonymous"></script>
   <style>
     :root {
@@ -144,13 +147,18 @@
       a { color: #000; text-decoration: underline; }
     }
   </style>
+  <script src="assets/lesson-tts-bootstrap.js"></script>
+  <script src="assets/l10-tts-manifest.js"></script>
+  <script src="assets/l10-tts-play.js"></script>
+  <link rel="stylesheet" href="assets/grammar-lesson-pager.css" />
+  <link rel="stylesheet" href="../shared/grammar-logo.css" />
 </head>
-<body>
+<body class="has-lesson-pager">
   <div id="ariaLive" class="sr" aria-live="polite"></div>
   <header class="topbar">
     <div class="brand">Lesson 10 · Teacher Notes</div>
     <div class="top-actions no-print">
-      <a class="btn-link secondary" href="L10-00-index.html">返回目录</a>
+      <a class="btn-link secondary" href="index.html">返回目录</a>
       <a class="btn-link secondary" href="L10-handout.html">背诵讲义</a>
       <button type="button" id="btnTheme">夜间备课</button>
       <button type="button" id="btnRead">朗读提要/例句</button>
@@ -196,14 +204,14 @@
 
       <section class="card">
         <h2>课程地图（子文件 · 主题 · 建议课时）</h2>
-        <p class="note-small">维护约定：任一子 HTML 更名或增删后，请先更新本表与 <a href="L10-00-index.html">L10-00-index</a>。「修订日期」由教研手写维护。</p>
+        <p class="note-small">维护约定：任一子 HTML 更名或增删后，请先更新本表与 <a href="index.html">index.html</a> 目录。「修订日期」由教研手写维护。</p>
         <table class="map">
           <caption>Lesson 10 多文件序列</caption>
           <thead>
             <tr><th>文件名</th><th>学生页主题</th><th>建议课时</th><th>修订日期</th></tr>
           </thead>
           <tbody>
-            <tr><td>L10-00-index.html</td><td>入口 · 目标 · 导航</td><td>—</td><td>随入口</td></tr>
+            <tr><td>index.html</td><td>目录 · 学习目标 · 全课导航</td><td>—</td><td>随入口</td></tr>
             <tr><td>L10-01-warmup-review.html</td><td>复习激活 · 一般过去时</td><td>0.5</td><td>手写</td></tr>
             <tr><td>L10-02-present-perfect-form.html</td><td>现完结构</td><td>0.5–1</td><td>手写</td></tr>
             <tr><td>L10-03-meaning-result-experience.html</td><td>两大核心意义</td><td>1</td><td>手写</td></tr>
@@ -432,9 +440,6 @@
   <script>
 (function () {
   "use strict";
-
-  const AZURE_SPEECH_KEY = "C42UQWeDcluYanbo17WrtUnPhk0vkZy2uQHPTCGDzY6CdEXx99NzJQQJ99BIACqBBLyXJ3w3AAAYACOGjkyu";
-  const AZURE_SPEECH_REGION = "southeastasia";
   const DEEPSEEK_API_KEY = "sk-daa16008e81843deba6fefe9dce51465";
   const DEEPSEEK_API_URL = "https://api.deepseek.com/v1/chat/completions";
   const DS_SESS_KEY = "l10p15_ds_count";
@@ -563,88 +568,13 @@
       "</voice></speak>"
     );
   }
-  function azureRest(ssml, ok, fail) {
-    stopHtmlAudio();
-    fetch("https://" + AZURE_SPEECH_REGION + ".tts.speech.microsoft.com/cognitiveservices/v1", {
-      method: "POST",
-      mode: "cors",
-      credentials: "omit",
-      headers: {
-        "Ocp-Apim-Subscription-Key": AZURE_SPEECH_KEY,
-        "Content-Type": "application/ssml+xml",
-        "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3",
-        "User-Agent": "L10P15Teacher/1.0"
-      },
-      body: ssml
-    })
-      .then(function (r) {
-        if (!r.ok) throw new Error("rest");
-        return r.blob();
-      })
-      .then(function (blob) {
-        if (!blob || blob.size < 80) throw new Error("blob");
-        var u = URL.createObjectURL(blob);
-        var a = new Audio();
-        ttsHtmlAudio = a;
-        a._revoke = u;
-        a.src = u;
-        a.setAttribute("playsinline", "true");
-        a.onended = function () {
-          stopHtmlAudio();
-          ok();
-        };
-        a.onerror = function () {
-          stopHtmlAudio();
-          fail();
-        };
-        var p = a.play();
-        if (p && p.catch) p.catch(function () {
-          stopHtmlAudio();
-          fail();
-        });
-      })
-      .catch(function () {
-        stopHtmlAudio();
-        fail();
-      });
+    function azureRest(ssml, ok, fail) {
+    window.L10LocalTts.speakSsml(ssml, "en-US-JennyNeural", ok);
   }
   function azureSdk(ssml, voiceName, ok, fail) {
-    if (typeof SpeechSDK === "undefined") {
-      fail();
-      return;
-    }
-    stopHtmlAudio();
-    try {
-      if (activeSdkSyn) {
-        activeSdkSyn.close();
-        activeSdkSyn = null;
-      }
-    } catch (e) {}
-    var cfg = SpeechSDK.SpeechConfig.fromSubscription(AZURE_SPEECH_KEY, AZURE_SPEECH_REGION);
-    cfg.speechSynthesisVoiceName = voiceName;
-    var syn = new SpeechSDK.SpeechSynthesizer(cfg, SpeechSDK.AudioConfig.fromDefaultSpeakerOutput());
-    activeSdkSyn = syn;
-    syn.speakSsmlAsync(
-      ssml,
-      function (res) {
-        var good = res.reason === SpeechSDK.ResultReason.SynthesizingAudioCompleted;
-        try {
-          syn.close();
-        } catch (e3) {}
-        if (activeSdkSyn === syn) activeSdkSyn = null;
-        if (good) ok();
-        else fail();
-      },
-      function () {
-        try {
-          syn.close();
-        } catch (e4) {}
-        if (activeSdkSyn === syn) activeSdkSyn = null;
-        fail();
-      }
-    );
+    window.L10LocalTts.speakSsml(ssml, voiceName, ok);
   }
-  function azureSpeak(ssml, voice, done) {
+    function azureSpeak(ssml, voice, done) {
     done = done || function () {};
     setTtsBar("语音连接中…");
     azureRest(
@@ -747,7 +677,7 @@
       if (/^\d+$/.test(id)) {
         td1.innerHTML = '<a href="L10-handout.html">小测第 ' + id + " 题（打开背诵讲义）</a>";
         td2.textContent = "背诵讲义 / 题号备忘";
-        var links = ASSESS_REF[id] || [{ href: "L10-00-index.html", label: "目录" }];
+        var links = ASSESS_REF[id] || [{ href: "index.html", label: "目录" }];
         td3.appendChild(document.createTextNode("建议："));
         links.forEach(function (L, idx) {
           if (idx) td3.appendChild(document.createTextNode(" · "));
@@ -1022,5 +952,11 @@
   renderWrong();
 })();
   </script>
-</body>
+  <link rel="stylesheet" href="assets/lesson-image-lightbox.css" />
+  <script src="assets/lesson-image-lightbox.js" defer></script>
+<nav class="lesson-pager is-file-nav" aria-label="页面导航">
+    <a class="pager-prev" href="L10-13-assessment-exit-ticket.html">上一页</a>
+    <a class="pager-logo" href="../index.html" aria-label="课程主页"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/logo2.png" alt="Steven's Class" width="204" height="61" decoding="async" /></a>
+    <a class="pager-next" href="L10-handout.html">下一页</a>
+  </nav></body>
 </html>

@@ -1,0 +1,21 @@
+window.__LESSON_TTS_MANIFEST = Object.assign(window.__LESSON_TTS_MANIFEST || {}, {
+  "admit / deny / risk / avoid / object to 后常接 doing。": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/assets/assets/tts-mp3/17d77739202cac76e915.mp3",
+  "attempt / pretend / threaten / arrange / seek 后常接 to do。": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/assets/assets/tts-mp3/781ba0e660d971d5af27.mp3",
+  "doing": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/assets/assets/tts-mp3/f15fd675d55b55f870ff.mp3",
+  "enjoy / finish / mind / avoid 后接 doing，不接 to do。": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/assets/assets/tts-mp3/cf36944d73957a38f77a.mp3",
+  "enjoy / finish + doing": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/assets/assets/tts-mp3/6ede5bfd4f97bb09e10e.mp3",
+  "He risked losing his job.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/assets/assets/tts-mp3/8596bff530057ccc9e4a.mp3",
+  "He wants to go.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/assets/assets/tts-mp3/858ff55882dff13cef45.mp3",
+  "I heard him sing.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/assets/assets/tts-mp3/6bb967fa66a20c2ef151.mp3",
+  "make / let / see / hear 常接“宾语 + 裸 do”。": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/assets/assets/tts-mp3/4fe6d9708face6e0917e.mp3",
+  "make / let / see + 宾 + do": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/assets/assets/tts-mp3/da8649579988bcb55847.mp3",
+  "persuade / encourage / force + sb. + to do 是宾补结构。": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/assets/assets/tts-mp3/e0ebd42e7d93087d5b25.mp3",
+  "see / hear / watch + sb. + do 看全过程； doing 看正在进行。": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/assets/assets/tts-mp3/acbc4dafb23843a6f801.mp3",
+  "She enjoys reading.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/assets/assets/tts-mp3/9b851bc26d5c6351068a.mp3",
+  "She resolved to change.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/assets/assets/tts-mp3/5fa50440b71483249ccc.mp3",
+  "stop doing 是停止正在做的事； stop to do 是停下来去做另一件事。": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/assets/assets/tts-mp3/247ba1a5940ca18a49a6.mp3",
+  "The teacher let us go.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/assets/assets/tts-mp3/7ec52f2436095615ff97.mp3",
+  "to do": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/assets/assets/tts-mp3/0dc14e0059a1b3b3c864.mp3",
+  "want / hope / decide / promise 后接 to do，表示将要做。": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/assets/assets/tts-mp3/2408363346161501842d.mp3",
+  "want / hope + to do": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/assets/assets/tts-mp3/ba774b44b06e09fcc5d8.mp3"
+});

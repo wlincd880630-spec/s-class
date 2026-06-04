@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>被动语态 · 将来 & 现在完成</title>
+  <link rel="stylesheet" href="assets/lesson-screen-16x9.css" />
+  <link rel="stylesheet" href="l14-index-nav.css" />
+  <link rel="stylesheet" href="../shared/grammar-logo.css" />
+  <link rel="stylesheet" href="l14-lesson-shell.css" />
+  <link rel="stylesheet" href="assets/grammar-lesson-pager.css" />
+  <link rel="stylesheet" href="l14-page-components.css" />
+  <link rel="stylesheet" href="l14-page05-layout.css" />
+  <link rel="stylesheet" href="l14-page05-readable-text.css" />
+  <link rel="stylesheet" href="l14-readable-global.css" />
+  <style>
+    :root {
+      --l14-accent: #0d9488; --l14-accent-ink: #0f766e;
+      --l14-top-bg: linear-gradient(180deg, #fff, #f0fdfa);
+      --l14-shadow: rgba(13, 148, 136, 0.35); --l14-dash: rgba(13, 148, 136, 0.35);
+      --paper: #fff9f0; --ink: #2c2c2c; --edge: #5d4037;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0; min-height: 100dvh;
+      font-family: system-ui, -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: linear-gradient(165deg, #134e4a 0%, #1e3a5f 42%, #0f172a 100%);
+      color: var(--ink); line-height: 1.55;
+    }
+    #l14-book .panel.panel-split {
+      display: grid; gap: 0.65rem; flex: 1 1 auto; min-height: 0; overflow: hidden;
+    }
+    @media (min-width: 640px) {
+      #l14-book .panel.panel-split { grid-template-columns: minmax(200px, 46%) 1fr; }
+    }
+    .timeline-triple { display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem 0.5rem; margin: 0.5rem 0; }
+    .timeline-triple .node { padding: 0.35rem 0.55rem; border-radius: 8px; font-weight: 800; font-size: 0.82rem; }
+    .timeline-triple .node.past { background: #fef3c7; color: #92400e; }
+    .timeline-triple .node.future { background: #dbeafe; color: #1e40af; }
+    .timeline-triple .node.perfect { background: #d1fae5; color: #065f46; }
+    .timeline-triple .arrow { font-weight: 900; color: #64748b; }
+    .mark-future { color: #1d4ed8; font-weight: 800; }
+    .mark-perfect { color: #047857; font-weight: 800; }
+    .tier-label--race { background: #c2410c; color: #fff; }
+    .route-strip {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0.45rem;
+      margin-top: 0.65rem;
+    }
+    .route-strip span,
+    .rubric-mini span {
+      display: block;
+      padding: 0.42rem 0.5rem;
+      border: 2px solid rgba(93, 64, 55, 0.18);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.84);
+      font-size: 0.8rem;
+      font-weight: 800;
+      color: #334155;
+    }
+    .teacher-script,
+    .editor-note {
+      margin-top: 0.55rem;
+      padding: 0.56rem 0.7rem;
+      border-left: 4px solid var(--l14-accent);
+      border-radius: 10px;
+      background: rgba(240, 253, 250, 0.84);
+      color: #0f766e;
+      font-size: 0.84rem;
+      font-weight: 740;
+    }
+    .editor-note {
+      border-left-color: #c2410c;
+      background: rgba(255, 247, 237, 0.86);
+      color: #9a3412;
+    }
+    .rubric-mini {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.45rem;
+      margin: 0.55rem 0;
+    }
+    @media (max-width: 720px) {
+      .route-strip,
+      .rubric-mini { grid-template-columns: 1fr; }
+    }
+  </style>
+  <link rel="stylesheet" href="l14-scene-images.css" />
+  <script src="l14-ui-helpers.js?v=3"></script>
+  <script src="l14-progress.js?v=3"></script>
+  <script src="l14-quiz-engine.js?v=3"></script>
+</head>
+<body class="has-lesson-pager">
+  <div id="ui-lock" aria-hidden="true"></div>
+  <div id="app">
+    <div id="l14-book" class="book">
+      <header class="top-bar">
+        <div class="top-bar-main">
+          <strong>被动语态</strong>
+        </div>
+        <a class="l14-index-link" href="index.html">学习目录</a>
+      </header>
+      <div class="l14-scroll">
+
+        <section class="lesson-page active" data-page="1">
+          <div class="panel panel-split">
+            <div class="scene-frame scene-frame--hall">
+              <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L14/assets/img/l14-p05-invention-hall.png" alt="拓展时态" width="800" height="600" style="aspect-ratio:4/3" loading="lazy" />
+            </div>
+            <div>
+              <p class="panel-lead"><strong>本节拓展目标</strong></p>
+              <div class="goal-grid" id="goal-grid"></div>
+              <div class="route-strip" aria-label="本页学习路径">
+                <span>1. 定时间：将来/完成</span>
+                <span>2. 拼结构：will be / has been</span>
+                <span>3. 做六模：分层练习</span>
+                <span>4. 抢答：混合辨析</span>
+              </div>
+              <p class="channel-links"><a href="lesson14-page08-passage.html">← Page 08 语篇工坊</a></p>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="2">
+          <div class="page-head"><span class="page-kicker">2 / 17</span><h2 class="page-title">时间轴 · 三时态被动</h2></div>
+          <div class="panel">
+            <p class="panel-lead">过去 was/were → 将来 <strong>will be</strong> → 完成 <strong>have/has been</strong></p>
+            <div class="timeline-triple">
+              <span class="node past">was / were + done</span>
+              <span class="arrow">→</span>
+              <span class="node future">will be + done</span>
+              <span class="arrow">→</span>
+              <span class="node perfect">have / has been + done</span>
+            </div>
+            <ul class="zh-hint compact">
+              <li>将来：强调<strong>将要</strong>被做 · next year / tomorrow</li>
+              <li>完成：强调<strong>已经</strong>被做 · already / yet / this year</li>
+            </ul>
+            <p class="editor-note">出版提示：本页只扩展两个新时态。过去被动用于已发生的过去事件；将来被动看未来时间；现在完成被动看“已经/尚未”的结果。</p>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="3">
+          <div class="page-head"><span class="page-kicker">3 / 17</span><h2 class="page-title">声先行 · 一般将来被动</h2></div>
+          <div class="panel">
+            <p class="panel-lead">先听 will be + done，再显示文字</p>
+            <p class="en-line en-blur past-intro-en" lang="en" id="future-intro-en">
+              The bridge <span class="mark-future">will be built</span> next year.
+              More trees <span class="mark-future">will be planted</span> next spring.
+            </p>
+            <p class="zh-hint en-blur" id="future-intro-zh">将来被动 = will / won't + be + 过去分词</p>
+            <p class="teacher-script">教师提示：先让学生圈时间标志 next year / next spring，再追问“被谁做不重要时，谁作主语？”</p>
+            <div class="btn-row">
+              <button type="button" class="btn teal" id="btn-future-sound">🔊 播放例句</button>
+              <button type="button" class="btn violet" id="btn-future-show">显示文字</button>
+              <button type="button" class="btn ghost" id="btn-future-when">When will…?</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="4">
+          <div class="page-head"><span class="page-kicker">4 / 17</span><h2 class="page-title">苏格拉底 · 将来三问</h2></div>
+          <div class="panel">
+            <p class="panel-lead">校园计划馆 · 先想 will be 还是 was / has been</p>
+            <div class="socratic-grid" id="socratic-future-grid"></div>
+            <table class="was-table-interactive" id="will-table" style="margin-top:0.65rem">
+              <thead><tr><th>句式</th><th>结构</th><th>例句</th></tr></thead>
+              <tbody id="will-table-body"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="5">
+          <div class="page-head"><span class="page-kicker">5 / 17</span><h2 class="page-title">启发 · 拼装 will be + done</h2></div>
+          <div class="panel">
+            <p class="panel-lead">The bridge ___ ___ next year. · 点芯片填空</p>
+            <div class="past-build">
+              <span>The bridge</span>
+              <button type="button" class="past-slot" id="slot-will">will be?</button>
+              <button type="button" class="past-slot" id="slot-fpp">V3?</button>
+              <span>next year.</span>
+            </div>
+            <div class="chip-bank" id="chip-future-bank"></div>
+            <p class="fb" id="future-build-fb"></p>
+            <p class="teacher-script">错选 `won't be built` 时不视为结构错误，但语义与肯定句不符；错选非 V3 时回到“will be + done”。</p>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="6">
+          <div class="page-head"><span class="page-kicker">6 / 17</span><h2 class="page-title">When will … be …? · 问答轮播</h2></div>
+          <div class="panel">
+            <p class="panel-lead"><span class="tier-label">分层 A</span>6 组问答 · 先听问句</p>
+            <div class="when-card" id="when-will-card"></div>
+            <div class="btn-row">
+              <button type="button" class="btn teal" id="when-will-play-q">🔊 问句</button>
+              <button type="button" class="btn teal" id="when-will-play-a">🔊 答句</button>
+              <button type="button" class="btn violet" id="when-will-reveal">显示答句</button>
+              <button type="button" class="btn ghost" id="when-will-prev">上一组</button>
+              <button type="button" class="btn ghost" id="when-will-next">下一组</button>
+            </div>
+            <p class="zh-hint" id="when-will-pos">1 / 6</p>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="7">
+          <div class="page-head"><span class="page-kicker">7 / 17</span><h2 class="page-title">将来语料 · 朗读轮播</h2></div>
+          <div class="panel">
+            <p class="panel-lead">工程 / 环保 / 校园 · 声先行</p>
+            <div class="inv-read-card" id="future-read-card"></div>
+            <div class="btn-row">
+              <button type="button" class="btn teal" id="future-read-play">🔊 播放</button>
+              <button type="button" class="btn violet" id="future-read-show">显示英文</button>
+              <button type="button" class="btn ghost" id="future-read-prev">上一句</button>
+              <button type="button" class="btn ghost" id="future-read-next">下一句</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="8">
+          <div class="page-head"><span class="page-kicker">8 / 17</span><h2 class="page-title">模式 A · will be + done</h2></div>
+          <div class="panel panel-quiz-screen">
+            <p class="panel-lead"><span class="tier-label">分层 E</span>10 题 · 选完整谓语 · 8 秒</p>
+            <div class="quiz-timer-bar" id="timer-bar-a"><div class="quiz-timer-fill" id="timer-fill-a"></div><span class="quiz-timer-text" id="timer-text-a">8</span></div>
+            <div class="quick-quiz-stage">
+              <div class="quiz-slot" id="quiz-a"></div>
+              <div class="quiz-fx" id="quiz-fx-a" hidden></div>
+            </div>
+            <div class="quiz-foot">
+              <span class="quiz-progress" id="prog-a">1 / 10</span>
+              <div class="carousel-dots" id="dots-a"></div>
+            </div>
+            <div class="btn-row">
+              <button type="button" class="btn ghost" data-quiz-prev="a">上一题</button>
+              <button type="button" class="btn ghost" data-quiz-next="a">下一题</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="9">
+          <div class="page-head"><span class="page-kicker">9 / 17</span><h2 class="page-title">模式 B · will / won't 判断</h2></div>
+          <div class="panel panel-quiz-screen">
+            <p class="panel-lead"><span class="tier-label">分层 E</span>8 题 · 主语配对</p>
+            <div class="quiz-timer-bar" id="timer-bar-b"><div class="quiz-timer-fill" id="timer-fill-b"></div><span class="quiz-timer-text" id="timer-text-b">8</span></div>
+            <div class="quick-quiz-stage">
+              <div class="quiz-slot" id="quiz-b"></div>
+              <div class="quiz-fx" id="quiz-fx-b" hidden></div>
+            </div>
+            <div class="quiz-foot">
+              <span class="quiz-progress" id="prog-b">1 / 8</span>
+              <div class="carousel-dots" id="dots-b"></div>
+            </div>
+            <div class="btn-row">
+              <button type="button" class="btn ghost" data-quiz-prev="b">上一题</button>
+              <button type="button" class="btn ghost" data-quiz-next="b">下一题</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="10">
+          <div class="page-head"><span class="page-kicker">10 / 17</span><h2 class="page-title">模式 C · When will …?</h2></div>
+          <div class="panel panel-quiz-screen">
+            <p class="panel-lead"><span class="tier-label">分层 A</span>8 题 · 问句结构</p>
+            <div class="quiz-timer-bar" id="timer-bar-c"><div class="quiz-timer-fill" id="timer-fill-c"></div><span class="quiz-timer-text" id="timer-text-c">8</span></div>
+            <div class="quick-quiz-stage">
+              <div class="quiz-slot" id="quiz-c"></div>
+              <div class="quiz-fx" id="quiz-fx-c" hidden></div>
+            </div>
+            <div class="quiz-foot">
+              <span class="quiz-progress" id="prog-c">1 / 8</span>
+              <div class="carousel-dots" id="dots-c"></div>
+            </div>
+            <div class="btn-row">
+              <button type="button" class="btn ghost" data-quiz-prev="c">上一题</button>
+              <button type="button" class="btn ghost" data-quiz-next="c">下一题</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="11">
+          <div class="page-head"><span class="page-kicker">11 / 17</span><h2 class="page-title">声先行 · 现在完成被动</h2></div>
+          <div class="panel">
+            <p class="panel-lead">have / has + been + done · already / yet</p>
+            <p class="en-line en-blur past-intro-en" lang="en" id="perfect-intro-en">
+              Homework <span class="mark-perfect">has been finished</span>.
+              Many trees <span class="mark-perfect">have been planted</span> this year.
+            </p>
+            <p class="zh-hint en-blur" id="perfect-intro-zh">完成被动 = have/has + been + 过去分词</p>
+            <p class="teacher-script">教师提示：完成被动的关键不是“过去”，而是“结果到现在仍有关联”。先圈 already / yet / this year，再决定 has/have。</p>
+            <table class="was-table-interactive" id="perfect-table" style="margin-top:0.5rem">
+              <thead><tr><th>主语</th><th>完成 be</th><th>例句</th></tr></thead>
+              <tbody id="perfect-table-body"></tbody>
+            </table>
+            <div class="btn-row">
+              <button type="button" class="btn teal" id="btn-perfect-sound">🔊 播放例句</button>
+              <button type="button" class="btn violet" id="btn-perfect-show">显示文字</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="12">
+          <div class="page-head"><span class="page-kicker">12 / 17</span><h2 class="page-title">苏格拉底 & 完成语料朗读</h2></div>
+          <div class="panel">
+            <div class="socratic-grid" id="socratic-perfect-grid"></div>
+            <div class="inv-read-card" id="perfect-read-card" style="margin-top:0.55rem"></div>
+            <div class="btn-row">
+              <button type="button" class="btn teal" id="perfect-read-play">🔊 播放</button>
+              <button type="button" class="btn violet" id="perfect-read-show">显示英文</button>
+              <button type="button" class="btn ghost" id="perfect-read-prev">上一句</button>
+              <button type="button" class="btn ghost" id="perfect-read-next">下一句</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="13">
+          <div class="page-head"><span class="page-kicker">13 / 17</span><h2 class="page-title">模式 D · has / have been + done</h2></div>
+          <div class="panel panel-quiz-screen">
+            <p class="panel-lead"><span class="tier-label">分层 F</span>10 题 · 8 秒</p>
+            <div class="quiz-timer-bar" id="timer-bar-d"><div class="quiz-timer-fill" id="timer-fill-d"></div><span class="quiz-timer-text" id="timer-text-d">8</span></div>
+            <div class="quick-quiz-stage">
+              <div class="quiz-slot" id="quiz-d"></div>
+              <div class="quiz-fx" id="quiz-fx-d" hidden></div>
+            </div>
+            <div class="quiz-foot">
+              <span class="quiz-progress" id="prog-d">1 / 10</span>
+              <div class="carousel-dots" id="dots-d"></div>
+            </div>
+            <div class="btn-row">
+              <button type="button" class="btn ghost" data-quiz-prev="d">上一题</button>
+              <button type="button" class="btn ghost" data-quiz-next="d">下一题</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="14">
+          <div class="page-head"><span class="page-kicker">14 / 17</span><h2 class="page-title">模式 E · already / yet / not yet</h2></div>
+          <div class="panel panel-quiz-screen">
+            <p class="panel-lead"><span class="tier-label">分层 F</span>8 题</p>
+            <div class="quiz-timer-bar" id="timer-bar-e"><div class="quiz-timer-fill" id="timer-fill-e"></div><span class="quiz-timer-text" id="timer-text-e">8</span></div>
+            <div class="quick-quiz-stage">
+              <div class="quiz-slot" id="quiz-e"></div>
+              <div class="quiz-fx" id="quiz-fx-e" hidden></div>
+            </div>
+            <div class="quiz-foot">
+              <span class="quiz-progress" id="prog-e">1 / 8</span>
+              <div class="carousel-dots" id="dots-e"></div>
+            </div>
+            <div class="btn-row">
+              <button type="button" class="btn ghost" data-quiz-prev="e">上一题</button>
+              <button type="button" class="btn ghost" data-quiz-next="e">下一题</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="15">
+          <div class="page-head"><span class="page-kicker">15 / 17</span><h2 class="page-title">抢答竞赛 · 将来 + 完成混合</h2></div>
+          <div class="panel panel-quiz-screen">
+            <p class="panel-lead"><span class="tier-label tier-label--race">竞赛</span>10 题 · 限时 6 秒 · 混合时态</p>
+            <p class="editor-note">竞赛规则：先判断时间线，再选结构。next year 优先看 will be；already / yet / this year 优先看 have/has been。</p>
+            <div class="quiz-timer-bar" id="timer-bar-f"><div class="quiz-timer-fill" id="timer-fill-f"></div><span class="quiz-timer-text" id="timer-text-f">6</span></div>
+            <div class="quick-quiz-stage">
+              <div class="quiz-slot" id="quiz-f"></div>
+              <div class="quiz-fx" id="quiz-fx-f" hidden></div>
+            </div>
+            <div class="quiz-foot">
+              <span class="quiz-progress" id="prog-f">1 / 10</span>
+              <div class="carousel-dots" id="dots-f"></div>
+            </div>
+            <div class="btn-row">
+              <button type="button" class="btn ghost" data-quiz-prev="f">上一题</button>
+              <button type="button" class="btn ghost" data-quiz-next="f">下一题</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="16">
+          <div class="page-head"><span class="page-kicker">16 / 17</span><h2 class="page-title">易错对照 · 将来 & 完成</h2></div>
+          <div class="panel">
+            <p class="panel-lead">✗ 错句 → ✓ 正句 · 点「显示正解」</p>
+            <p class="zh-hint" id="trap-pos">1 / 8</p>
+            <div id="trap-box"></div>
+            <div class="btn-row">
+              <button type="button" class="btn violet" id="trap-reveal">显示正解</button>
+              <button type="button" class="btn ghost" id="trap-prev">上一条</button>
+              <button type="button" class="btn ghost" id="trap-next">下一条</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="17">
+          <div class="page-head"><span class="page-kicker">17 / 17</span><h2 class="page-title">小结 · → Page 09</h2></div>
+          <div class="panel">
+            <div class="summary-chips" id="summary-chips"></div>
+            <div class="rubric-mini" aria-label="本页出口评价">
+              <span>基础：能写 will be + V3</span>
+              <span>稳固：能写 have/has been + V3</span>
+              <span>挑战：能混合判断时间线</span>
+            </div>
+            <ul class="checklist" id="checklist"></ul>
+            <table class="corpus-mini" id="corpus-table"></table>
+            <a class="channel-btn" href="lesson14-page09-practice.html">进入 Page 09 · 分层练习场（含 E/F 层）</a>
+            <p class="channel-links">
+              <a href="lesson14-page08-passage.html">Page 08</a> ·
+              <a href="index.html">学习目录</a>
+            </p>
+          </div>
+        </section>
+
+      </div>
+    </div>
+    <nav class="lesson-pager is-intra-nav" aria-label="分页">
+      <div class="pager-zone pager-zone--left">
+        <button type="button" class="pager-prev" id="pager-prev">上一页</button>
+      </div>
+      <a class="pager-logo" href="../index.html" aria-label="课程主页"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/logo2.png" alt="Steven's Class" width="204" height="61" decoding="async" /></a>
+      <div class="pager-zone pager-zone--right">
+        <span class="pager-mid" id="pager-mid">1 / 17</span>
+        <button type="button" class="pager-next" id="pager-next">下一页</button>
+      </div>
+    </nav>
+  </div>
+  <script src="l14-image-lightbox.js"></script>
+  <script src="l14-index-nav.js"></script>
+  <script src="l14-corpus-pool.js?v=5"></script>
+  <script>
+(function () {
+  "use strict";
+
+  const AZURE_KEY = "C42UQWeDcluYanbo17WrtUnPhk0vkZy2uQHPTCGDzY6CdExx99NzJQQJ99BIACqBBLyXJ3w3AAAYACOGjkyu";
+  const AZURE_REGION = "southeastasia";
+  const VOICE_EN = "en-US-AriaNeural";
+  const PAGE_COUNT = 17;
+  const QUIZ_TIME_SEC = 8;
+  const RACE_TIME_SEC = 6;
+  const PROGRESS_ID = "lesson14-page12";
+  const PROGRESS_VERSION = 2;
+  const defaultProgress = function () {
+    return {
+      version: PROGRESS_VERSION,
+      page: 1,
+      enShown: {},
+      quizzes: {},
+      whenWillIdx: 0,
+      futureReadIdx: 0,
+      perfectReadIdx: 0,
+      trapIdx: 0,
+      trapsRevealed: {}
+    };
+  };
+  let progress = defaultProgress();
+  function persistProgress() {
+    if (window.L14Progress) L14Progress.save(PROGRESS_ID, progress);
+  }
+
+  const P14 = L14Corpus.getPage12();
+  P14.summaryChips = P14.summaryChips.map(function (t) {
+    return t.replace(/^has\/has been/, "have/has been");
+  });
+
+  let currentPage = 1;
+  let whenWillIdx = 0;
+  let futureReadIdx = 0;
+  let perfectReadIdx = 0;
+  let trapIdx = 0;
+  const quizEngines = {};
+
+  function escHtml(s) {
+    return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+  function lockUI() { document.getElementById("ui-lock").classList.add("active"); }
+  function unlockUI() { document.getElementById("ui-lock").classList.remove("active"); }
+
+  async function playAudio(text) {
+    if (!text) return;
+    lockUI();
+    const body = "<speak version='1.0' xml:lang='en-US'><voice name='" + VOICE_EN + "'>" + escHtml(text) + "</voice></speak>";
+    try {
+      const res = await fetch("https://" + AZURE_REGION + ".tts.speech.microsoft.com/cognitiveservices/v1", {
+        method: "POST",
+        headers: {
+          "Ocp-Apim-Subscription-Key": AZURE_KEY,
+          "Content-Type": "application/ssml+xml",
+          "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3"
+        },
+        body: body
+      });
+      if (!res.ok) throw new Error();
+      const blob = await res.blob();
+      const u = URL.createObjectURL(blob);
+      const a = new Audio(u);
+      await new Promise(function (ok, err) {
+        a.onended = function () { URL.revokeObjectURL(u); ok(); };
+        a.onerror = err;
+        a.play().catch(err);
+      });
+    } catch (e) {
+      speechSynthesis.speak(new SpeechSynthesisUtterance(text));
+    } finally {
+      unlockUI();
+    }
+  }
+
+  function leaveAllQuizzes() {
+    Object.keys(quizEngines).forEach(function (k) {
+      if (quizEngines[k] && quizEngines[k].onLeave) quizEngines[k].onLeave();
+    });
+  }
+
+  function bindQuiz(key, items, useTimer, timeSec) {
+    const engine = L14Quiz.create({
+      key: key,
+      items: items,
+      useTimer: useTimer,
+      escHtml: escHtml,
+      quizTimeSec: timeSec || QUIZ_TIME_SEC,
+      initialState: progress.quizzes[key],
+      onStateChange: function (st) {
+        progress.quizzes[key] = st;
+        persistProgress();
+      }
+    });
+    engine.init();
+    return engine;
+  }
+
+  function goPage(n) {
+    if (n < 1 || n > PAGE_COUNT) return;
+    leaveAllQuizzes();
+    currentPage = n;
+    progress.page = n;
+    persistProgress();
+    document.querySelectorAll(".lesson-page").forEach(function (el) {
+      el.classList.toggle("active", parseInt(el.dataset.page, 10) === n);
+    });
+    document.getElementById("pager-mid").textContent = n + " / " + PAGE_COUNT;
+    document.getElementById("pager-prev").disabled = n <= 1;
+    document.getElementById("pager-next").disabled = n >= PAGE_COUNT;
+    if (n === 8 && quizEngines.a) quizEngines.a.onEnter();
+    if (n === 9 && quizEngines.b) quizEngines.b.onEnter();
+    if (n === 10 && quizEngines.c) quizEngines.c.onEnter();
+    if (n === 13 && quizEngines.d) quizEngines.d.onEnter();
+    if (n === 14 && quizEngines.e) quizEngines.e.onEnter();
+    if (n === 15 && quizEngines.f) quizEngines.f.onEnter();
+  }
+
+  function initGoals() {
+    P14.goals.forEach(function (t) {
+      const d = document.createElement("div");
+      d.className = "goal-item";
+      d.textContent = t;
+      document.getElementById("goal-grid").appendChild(d);
+    });
+  }
+
+  function initSocraticGrid(id, items) {
+    const grid = document.getElementById(id);
+    items.forEach(function (item, i) {
+      const card = document.createElement("div");
+      card.className = "socratic-card";
+      card.innerHTML = "<p class='q-line' lang='en'>" + escHtml(item.q) + "</p>";
+      const row = document.createElement("div");
+      row.className = "opt-row";
+      const fb = document.createElement("p");
+      fb.className = "fb";
+      item.opts.forEach(function (opt) {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.textContent = opt;
+        btn.addEventListener("click", function () {
+          row.querySelectorAll("button").forEach(function (b) { b.disabled = true; });
+          if (opt === item.ans) {
+            btn.classList.add("ok");
+            fb.textContent = "✓ " + item.fb;
+          } else {
+            btn.classList.add("bad");
+            fb.textContent = item.fb;
+          }
+        });
+        row.appendChild(btn);
+      });
+      card.appendChild(row);
+      card.appendChild(fb);
+      grid.appendChild(card);
+    });
+  }
+
+  function initWillTable() {
+    const body = document.getElementById("will-table-body");
+    P14.willRows.forEach(function (r) {
+      const tr = document.createElement("tr");
+      tr.innerHTML = "<td>" + escHtml(r.subj) + "</td><td><strong>" + escHtml(r.be) + "</strong></td><td lang='en'>" + escHtml(r.ex) + "</td>";
+      body.appendChild(tr);
+    });
+  }
+
+  function initPerfectTable() {
+    const body = document.getElementById("perfect-table-body");
+    P14.perfectRows.forEach(function (r) {
+      const tr = document.createElement("tr");
+      tr.innerHTML = "<td>" + escHtml(r.subj) + "</td><td><strong>" + escHtml(r.be) + "</strong></td><td lang='en'>" + escHtml(r.ex) + "</td>";
+      body.appendChild(tr);
+    });
+  }
+
+  function initFutureSound() {
+    const text = "The bridge will be built next year. More trees will be planted next spring.";
+    if (progress.enShown.futureIntro) {
+      document.getElementById("future-intro-en").classList.add("is-shown");
+      document.getElementById("future-intro-zh").classList.add("is-shown");
+    }
+    document.getElementById("btn-future-sound").addEventListener("click", function () { playAudio(text); });
+    document.getElementById("btn-future-show").addEventListener("click", function () {
+      progress.enShown.futureIntro = true;
+      persistProgress();
+      document.getElementById("future-intro-en").classList.add("is-shown");
+      document.getElementById("future-intro-zh").classList.add("is-shown");
+    });
+    document.getElementById("btn-future-when").addEventListener("click", function () {
+      playAudio("When will the new school be opened?");
+    });
+  }
+
+  function initPerfectSound() {
+    const text = "Homework has been finished. Many trees have been planted this year.";
+    if (progress.enShown.perfectIntro) {
+      document.getElementById("perfect-intro-en").classList.add("is-shown");
+      document.getElementById("perfect-intro-zh").classList.add("is-shown");
+    }
+    document.getElementById("btn-perfect-sound").addEventListener("click", function () { playAudio(text); });
+    document.getElementById("btn-perfect-show").addEventListener("click", function () {
+      progress.enShown.perfectIntro = true;
+      persistProgress();
+      document.getElementById("perfect-intro-en").classList.add("is-shown");
+      document.getElementById("perfect-intro-zh").classList.add("is-shown");
+    });
+  }
+
+  function initFutureBuild() {
+    const slotWill = document.getElementById("slot-will");
+    const slotFpp = document.getElementById("slot-fpp");
+    ["will be", "won't be", "built", "planted", "opened", "finished"].forEach(function (w) {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "chip";
+      b.textContent = w;
+      b.addEventListener("click", function () {
+        if (w === "will be" || w === "won't be") {
+          slotWill.textContent = w;
+          slotWill.className = "past-slot filled-was";
+        } else {
+          slotFpp.textContent = w;
+          slotFpp.className = "past-slot filled-pp";
+        }
+        check();
+      });
+      document.getElementById("chip-future-bank").appendChild(b);
+    });
+    function check() {
+      const ok = slotWill.textContent === "will be" && slotFpp.textContent === "built";
+      document.getElementById("future-build-fb").textContent = ok
+        ? "✓ The bridge will be built next year."
+        : "提示：将来 → will be + built";
+    }
+  }
+
+  function renderWhenWill() {
+    const w = P14.whenWillItems[whenWillIdx];
+    document.getElementById("when-will-pos").textContent = (whenWillIdx + 1) + " / " + P14.whenWillItems.length;
+    document.getElementById("when-will-card").innerHTML =
+      "<p class='zh-hint'>" + escHtml(w.zh) + "</p>" +
+      "<div class='when-q' lang='en'>" + escHtml(w.q) + "</div>" +
+      "<div class='when-a' lang='en' id='when-will-ans'>" + escHtml(w.a) + "</div>";
+  }
+
+  function initWhenWill() {
+    whenWillIdx = progress.whenWillIdx || 0;
+    if (whenWillIdx >= P14.whenWillItems.length) whenWillIdx = 0;
+    renderWhenWill();
+    document.getElementById("when-will-play-q").addEventListener("click", function () {
+      playAudio(P14.whenWillItems[whenWillIdx].q);
+    });
+    document.getElementById("when-will-play-a").addEventListener("click", function () {
+      playAudio(P14.whenWillItems[whenWillIdx].a);
+    });
+    document.getElementById("when-will-reveal").addEventListener("click", function () {
+      document.getElementById("when-will-ans")?.classList.add("is-shown");
+    });
+    document.getElementById("when-will-prev").addEventListener("click", function () {
+      whenWillIdx = (whenWillIdx - 1 + P14.whenWillItems.length) % P14.whenWillItems.length;
+      progress.whenWillIdx = whenWillIdx;
+      persistProgress();
+      renderWhenWill();
+    });
+    document.getElementById("when-will-next").addEventListener("click", function () {
+      whenWillIdx = (whenWillIdx + 1) % P14.whenWillItems.length;
+      progress.whenWillIdx = whenWillIdx;
+      persistProgress();
+      renderWhenWill();
+    });
+  }
+
+  function renderRead(cardId, lines, idx) {
+    const r = lines[idx];
+    document.getElementById(cardId).innerHTML =
+      L14UI.readCardHtml(r, escHtml, "en-blur");
+  }
+
+  function initFutureRead() {
+    futureReadIdx = progress.futureReadIdx || 0;
+    if (futureReadIdx >= P14.futureRead.length) futureReadIdx = 0;
+    renderRead("future-read-card", P14.futureRead, futureReadIdx);
+    document.getElementById("future-read-play").addEventListener("click", function () {
+      playAudio(P14.futureRead[futureReadIdx].en);
+    });
+    document.getElementById("future-read-show").addEventListener("click", function () {
+      document.querySelector("#future-read-card .en-blur")?.classList.add("is-shown");
+    });
+    document.getElementById("future-read-prev").addEventListener("click", function () {
+      futureReadIdx = (futureReadIdx - 1 + P14.futureRead.length) % P14.futureRead.length;
+      progress.futureReadIdx = futureReadIdx;
+      persistProgress();
+      renderRead("future-read-card", P14.futureRead, futureReadIdx);
+    });
+    document.getElementById("future-read-next").addEventListener("click", function () {
+      futureReadIdx = (futureReadIdx + 1) % P14.futureRead.length;
+      progress.futureReadIdx = futureReadIdx;
+      persistProgress();
+      renderRead("future-read-card", P14.futureRead, futureReadIdx);
+    });
+  }
+
+  function initPerfectRead() {
+    perfectReadIdx = progress.perfectReadIdx || 0;
+    if (perfectReadIdx >= P14.perfectRead.length) perfectReadIdx = 0;
+    renderRead("perfect-read-card", P14.perfectRead, perfectReadIdx);
+    document.getElementById("perfect-read-play").addEventListener("click", function () {
+      playAudio(P14.perfectRead[perfectReadIdx].en);
+    });
+    document.getElementById("perfect-read-show").addEventListener("click", function () {
+      document.querySelector("#perfect-read-card .en-blur")?.classList.add("is-shown");
+    });
+    document.getElementById("perfect-read-prev").addEventListener("click", function () {
+      perfectReadIdx = (perfectReadIdx - 1 + P14.perfectRead.length) % P14.perfectRead.length;
+      progress.perfectReadIdx = perfectReadIdx;
+      persistProgress();
+      renderRead("perfect-read-card", P14.perfectRead, perfectReadIdx);
+    });
+    document.getElementById("perfect-read-next").addEventListener("click", function () {
+      perfectReadIdx = (perfectReadIdx + 1) % P14.perfectRead.length;
+      progress.perfectReadIdx = perfectReadIdx;
+      persistProgress();
+      renderRead("perfect-read-card", P14.perfectRead, perfectReadIdx);
+    });
+  }
+
+  function initTraps() {
+    trapIdx = progress.trapIdx || 0;
+    if (trapIdx >= P14.traps.length) trapIdx = 0;
+    function renderTrap() {
+      const t = P14.traps[trapIdx];
+      progress.trapIdx = trapIdx;
+      persistProgress();
+      document.getElementById("trap-pos").textContent = (trapIdx + 1) + " / " + P14.traps.length;
+      document.getElementById("trap-box").innerHTML =
+        "<div class='trap-card' id='trap-card'>" +
+        "<p class='wrong-line' lang='en'>✗ " + escHtml(t.wrong) + "</p>" +
+        "<p class='right-line' lang='en'>✓ " + escHtml(t.right) + "</p>" +
+        "<p class='zh-hint'>" + escHtml(t.note) + "</p></div>";
+      if (progress.trapsRevealed && progress.trapsRevealed[trapIdx]) {
+        document.getElementById("trap-card")?.classList.add("revealed");
+      }
+    }
+    renderTrap();
+    document.getElementById("trap-reveal").addEventListener("click", function () {
+      progress.trapsRevealed[trapIdx] = true;
+      persistProgress();
+      document.getElementById("trap-card")?.classList.add("revealed");
+    });
+    document.getElementById("trap-prev").addEventListener("click", function () {
+      trapIdx = (trapIdx - 1 + P14.traps.length) % P14.traps.length;
+      renderTrap();
+    });
+    document.getElementById("trap-next").addEventListener("click", function () {
+      trapIdx = (trapIdx + 1) % P14.traps.length;
+      renderTrap();
+    });
+  }
+
+  function initSummary() {
+    P14.summaryChips.forEach(function (t) {
+      const lab = document.createElement("label");
+      lab.innerHTML = "<input type='checkbox' /> " + escHtml(t);
+      document.getElementById("summary-chips").appendChild(lab);
+    });
+    P14.checklist.forEach(function (t) {
+      const li = document.createElement("li");
+      li.textContent = t;
+      document.getElementById("checklist").appendChild(li);
+    });
+    L14UI.initCorpusTable("corpus-table", P14.corpus, escHtml);
+  }
+
+  function initLesson() {
+    var loaded = window.L14Progress && L14Progress.load(PROGRESS_ID);
+    if (loaded) {
+      progress = Object.assign(defaultProgress(), loaded);
+      if (!progress.enShown) progress.enShown = {};
+      if (!progress.quizzes) progress.quizzes = {};
+      if (!progress.trapsRevealed) progress.trapsRevealed = {};
+      if (!progress.version || progress.version < PROGRESS_VERSION) {
+        progress.quizzes = {};
+        progress.version = PROGRESS_VERSION;
+        persistProgress();
+      }
+    }
+initGoals();
+    initFutureSound();
+    initSocraticGrid("socratic-future-grid", P14.socraticFuture);
+    initWillTable();
+    initFutureBuild();
+    initWhenWill();
+    initFutureRead();
+    initPerfectSound();
+    initPerfectTable();
+    initSocraticGrid("socratic-perfect-grid", P14.socraticPerfect);
+    initPerfectRead();
+    quizEngines.a = bindQuiz("a", P14.quizFuture, true);
+    quizEngines.b = bindQuiz("b", P14.quizWill, true);
+    quizEngines.c = bindQuiz("c", P14.quizFutureWhen, true);
+    quizEngines.d = bindQuiz("d", P14.quizPerfect, true);
+    quizEngines.e = bindQuiz("e", P14.quizPerfectAdv, true);
+    quizEngines.f = bindQuiz("f", P14.quizCompete, true, RACE_TIME_SEC);
+    initTraps();
+    initSummary();
+    document.getElementById("pager-prev").addEventListener("click", function () { goPage(currentPage - 1); });
+    document.getElementById("pager-next").addEventListener("click", function () { goPage(currentPage + 1); });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "ArrowLeft" && currentPage > 1) goPage(currentPage - 1);
+      if (e.key === "ArrowRight" && currentPage < PAGE_COUNT) goPage(currentPage + 1);
+    });
+    var startPage = progress.page || 1;
+    if (startPage < 1 || startPage > PAGE_COUNT) startPage = 1;
+    goPage(startPage);
+  }
+
+  initLesson();
+})();
+  </script>
+</body>
+</html>

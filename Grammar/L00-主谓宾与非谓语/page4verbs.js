@@ -40,8 +40,8 @@ var VERB_ITEMS = [
       "in winter",
       "."
     ],
-    "example_image": "asset/img/p4/junior_doing_enjoy_ex.png",
-    "practice_image": "asset/img/p4/junior_doing_enjoy_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_doing_enjoy_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_doing_enjoy_p1.png"
   },
   {
     "level": "junior",
@@ -87,8 +87,8 @@ var VERB_ITEMS = [
       "the email",
       "."
     ],
-    "example_image": "asset/img/p4/junior_doing_finish_ex.png",
-    "practice_image": "asset/img/p4/junior_doing_finish_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_doing_finish_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_doing_finish_p1.png"
   },
   {
     "level": "junior",
@@ -137,8 +137,8 @@ var VERB_ITEMS = [
       "here",
       "?"
     ],
-    "example_image": "asset/img/p4/junior_doing_mind_ex.png",
-    "practice_image": "asset/img/p4/junior_doing_mind_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_doing_mind_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_doing_mind_p1.png"
   },
   {
     "level": "junior",
@@ -184,8 +184,8 @@ var VERB_ITEMS = [
       "daily",
       "."
     ],
-    "example_image": "asset/img/p4/junior_doing_practice_ex.png",
-    "practice_image": "asset/img/p4/junior_doing_practice_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_doing_practice_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_doing_practice_p1.png"
   },
   {
     "level": "junior",
@@ -231,8 +231,8 @@ var VERB_ITEMS = [
       "together",
       "."
     ],
-    "example_image": "asset/img/p4/junior_doing_suggest_ex.png",
-    "practice_image": "asset/img/p4/junior_doing_suggest_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_doing_suggest_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_doing_suggest_p1.png"
   },
   {
     "level": "junior",
@@ -278,8 +278,8 @@ var VERB_ITEMS = [
       "abroad",
       "."
     ],
-    "example_image": "asset/img/p4/junior_doing_consider_ex.png",
-    "practice_image": "asset/img/p4/junior_doing_consider_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_doing_consider_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_doing_consider_p1.png"
   },
   {
     "level": "junior",
@@ -327,8 +327,8 @@ var VERB_ITEMS = [
       "it",
       "."
     ],
-    "example_image": "asset/img/p4/junior_doing_avoid_ex.png",
-    "practice_image": "asset/img/p4/junior_doing_avoid_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_doing_avoid_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_doing_avoid_p1.png"
   },
   {
     "level": "junior",
@@ -372,8 +372,8 @@ var VERB_ITEMS = [
       "the river",
       "."
     ],
-    "example_image": "asset/img/p4/junior_doing_miss_ex.png",
-    "practice_image": "asset/img/p4/junior_doing_miss_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_doing_miss_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_doing_miss_p1.png"
   },
   {
     "level": "junior",
@@ -417,8 +417,8 @@ var VERB_ITEMS = [
       "gambling",
       "."
     ],
-    "example_image": "asset/img/p4/junior_doing_give_up_ex.png",
-    "practice_image": "asset/img/p4/junior_doing_give_up_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_doing_give_up_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_doing_give_up_p1.png"
   },
   {
     "level": "junior",
@@ -464,8 +464,8 @@ var VERB_ITEMS = [
       "the party",
       "."
     ],
-    "example_image": "asset/img/p4/junior_doing_put_off_ex.png",
-    "practice_image": "asset/img/p4/junior_doing_put_off_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_doing_put_off_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_doing_put_off_p1.png"
   },
   {
     "level": "junior",
@@ -511,8 +511,8 @@ var VERB_ITEMS = [
       "pen",
       "."
     ],
-    "example_image": "asset/img/p4/junior_doing_keep_ex.png",
-    "practice_image": "asset/img/p4/junior_doing_keep_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_doing_keep_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_doing_keep_p1.png"
   },
   {
     "level": "junior",
@@ -556,8 +556,8 @@ var VERB_ITEMS = [
       "dark",
       "."
     ],
-    "example_image": "asset/img/p4/junior_doing_stop_ex.png",
-    "practice_image": "asset/img/p4/junior_doing_stop_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_doing_stop_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_doing_stop_p1.png"
   },
   {
     "level": "junior",
@@ -605,8 +605,8 @@ var VERB_ITEMS = [
       "home",
       "."
     ],
-    "example_image": "asset/img/p4/junior_doing_imagine_ex.png",
-    "practice_image": "asset/img/p4/junior_doing_imagine_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_doing_imagine_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_doing_imagine_p1.png"
   },
   {
     "level": "junior",
@@ -657,8 +657,8 @@ var VERB_ITEMS = [
       "movie",
       "?"
     ],
-    "example_image": "asset/img/p4/junior_doing_feel_like_ex.png",
-    "practice_image": "asset/img/p4/junior_doing_feel_like_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_doing_feel_like_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_doing_feel_like_p1.png"
   },
   {
     "level": "junior",
@@ -706,8 +706,8 @@ var VERB_ITEMS = [
       "fog",
       "."
     ],
-    "example_image": "asset/img/p4/junior_doing_risk_ex.png",
-    "practice_image": "asset/img/p4/junior_doing_risk_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_doing_risk_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_doing_risk_p1.png"
   },
   {
     "level": "junior",
@@ -753,8 +753,8 @@ var VERB_ITEMS = [
       "autumn",
       "."
     ],
-    "example_image": "asset/img/p4/junior_doing_love_ex.png",
-    "practice_image": "asset/img/p4/junior_doing_love_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_doing_love_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_doing_love_p1.png"
   },
   {
     "level": "junior",
@@ -798,8 +798,8 @@ var VERB_ITEMS = [
       "together",
       "."
     ],
-    "example_image": "asset/img/p4/junior_doing_like_ex.png",
-    "practice_image": "asset/img/p4/junior_doing_like_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_doing_like_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_doing_like_p1.png"
   },
   {
     "level": "junior",
@@ -845,8 +845,8 @@ var VERB_ITEMS = [
       "lines",
       "."
     ],
-    "example_image": "asset/img/p4/junior_doing_hate_ex.png",
-    "practice_image": "asset/img/p4/junior_doing_hate_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_doing_hate_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_doing_hate_p1.png"
   },
   {
     "level": "junior",
@@ -892,8 +892,8 @@ var VERB_ITEMS = [
       "home",
       "."
     ],
-    "example_image": "asset/img/p4/junior_doing_prefer_ex.png",
-    "practice_image": "asset/img/p4/junior_doing_prefer_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_doing_prefer_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_doing_prefer_p1.png"
   },
   {
     "level": "junior",
@@ -937,8 +937,8 @@ var VERB_ITEMS = [
       "harder",
       "."
     ],
-    "example_image": "asset/img/p4/junior_doing_begin_ex.png",
-    "practice_image": "asset/img/p4/junior_doing_begin_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_doing_begin_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_doing_begin_p1.png"
   },
   {
     "level": "junior",
@@ -984,8 +984,8 @@ var VERB_ITEMS = [
       "piano",
       "."
     ],
-    "example_image": "asset/img/p4/junior_doing_continue_ex.png",
-    "practice_image": "asset/img/p4/junior_doing_continue_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_doing_continue_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_doing_continue_p1.png"
   },
   {
     "level": "junior",
@@ -1031,8 +1031,8 @@ var VERB_ITEMS = [
       "sleep",
       "."
     ],
-    "example_image": "asset/img/p4/junior_doing_recommend_ex.png",
-    "practice_image": "asset/img/p4/junior_doing_recommend_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_doing_recommend_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_doing_recommend_p1.png"
   },
   {
     "level": "junior",
@@ -1079,8 +1079,8 @@ var VERB_ITEMS = [
       "again",
       "."
     ],
-    "example_image": "asset/img/p4/junior_doing_try_ex.png",
-    "practice_image": "asset/img/p4/junior_doing_try_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_doing_try_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_doing_try_p1.png"
   },
   {
     "level": "junior",
@@ -1129,8 +1129,8 @@ var VERB_ITEMS = [
       "you",
       "."
     ],
-    "example_image": "asset/img/p4/junior_doing_cant_help_ex.png",
-    "practice_image": "asset/img/p4/junior_doing_cant_help_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_doing_cant_help_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_doing_cant_help_p1.png"
   },
   {
     "level": "junior",
@@ -1178,8 +1178,8 @@ var VERB_ITEMS = [
       "car",
       "."
     ],
-    "example_image": "asset/img/p4/junior_doing_discuss_ex.png",
-    "practice_image": "asset/img/p4/junior_doing_discuss_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_doing_discuss_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_doing_discuss_p1.png"
   },
   {
     "level": "junior",
@@ -1223,8 +1223,8 @@ var VERB_ITEMS = [
       "back",
       "."
     ],
-    "example_image": "asset/img/p4/junior_doing_postpone_ex.png",
-    "practice_image": "asset/img/p4/junior_doing_postpone_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_doing_postpone_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_doing_postpone_p1.png"
   },
   {
     "level": "junior",
@@ -1276,8 +1276,8 @@ var VERB_ITEMS = [
       "class",
       "."
     ],
-    "example_image": "asset/img/p4/junior_doing_allow_ex.png",
-    "practice_image": "asset/img/p4/junior_doing_allow_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_doing_allow_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_doing_allow_p1.png"
   },
   {
     "level": "junior",
@@ -1325,8 +1325,8 @@ var VERB_ITEMS = [
       "dad",
       "."
     ],
-    "example_image": "asset/img/p4/junior_doing_go_ex.png",
-    "practice_image": "asset/img/p4/junior_doing_go_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_doing_go_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_doing_go_p1.png"
   },
   {
     "level": "junior",
@@ -1376,8 +1376,8 @@ var VERB_ITEMS = [
       "bed",
       "."
     ],
-    "example_image": "asset/img/p4/junior_doing_spend_time_ex.png",
-    "practice_image": "asset/img/p4/junior_doing_spend_time_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_doing_spend_time_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_doing_spend_time_p1.png"
   },
   {
     "level": "junior",
@@ -1419,8 +1419,8 @@ var VERB_ITEMS = [
       "the museum",
       "."
     ],
-    "example_image": "asset/img/p4/junior_to_do_want_ex.png",
-    "practice_image": "asset/img/p4/junior_to_do_want_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_to_do_want_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_to_do_want_p1.png"
   },
   {
     "level": "junior",
@@ -1464,8 +1464,8 @@ var VERB_ITEMS = [
       "the match",
       "."
     ],
-    "example_image": "asset/img/p4/junior_to_do_hope_ex.png",
-    "practice_image": "asset/img/p4/junior_to_do_hope_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_to_do_hope_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_to_do_hope_p1.png"
   },
   {
     "level": "junior",
@@ -1509,8 +1509,8 @@ var VERB_ITEMS = [
       "home",
       "."
     ],
-    "example_image": "asset/img/p4/junior_to_do_decide_ex.png",
-    "practice_image": "asset/img/p4/junior_to_do_decide_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_to_do_decide_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_to_do_decide_p1.png"
   },
   {
     "level": "junior",
@@ -1552,8 +1552,8 @@ var VERB_ITEMS = [
       "money",
       "."
     ],
-    "example_image": "asset/img/p4/junior_to_do_plan_ex.png",
-    "practice_image": "asset/img/p4/junior_to_do_plan_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_to_do_plan_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_to_do_plan_p1.png"
   },
   {
     "level": "junior",
@@ -1595,8 +1595,8 @@ var VERB_ITEMS = [
       "soon",
       "."
     ],
-    "example_image": "asset/img/p4/junior_to_do_expect_ex.png",
-    "practice_image": "asset/img/p4/junior_to_do_expect_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_to_do_expect_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_to_do_expect_p1.png"
   },
   {
     "level": "junior",
@@ -1640,8 +1640,8 @@ var VERB_ITEMS = [
       "tonight",
       "."
     ],
-    "example_image": "asset/img/p4/junior_to_do_promise_ex.png",
-    "practice_image": "asset/img/p4/junior_to_do_promise_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_to_do_promise_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_to_do_promise_p1.png"
   },
   {
     "level": "junior",
@@ -1683,8 +1683,8 @@ var VERB_ITEMS = [
       "outside",
       "."
     ],
-    "example_image": "asset/img/p4/junior_to_do_agree_ex.png",
-    "practice_image": "asset/img/p4/junior_to_do_agree_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_to_do_agree_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_to_do_agree_p1.png"
   },
   {
     "level": "junior",
@@ -1728,8 +1728,8 @@ var VERB_ITEMS = [
       "early",
       "."
     ],
-    "example_image": "asset/img/p4/junior_to_do_refuse_ex.png",
-    "practice_image": "asset/img/p4/junior_to_do_refuse_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_to_do_refuse_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_to_do_refuse_p1.png"
   },
   {
     "level": "junior",
@@ -1773,8 +1773,8 @@ var VERB_ITEMS = [
       "you",
       "."
     ],
-    "example_image": "asset/img/p4/junior_to_do_choose_ex.png",
-    "practice_image": "asset/img/p4/junior_to_do_choose_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_to_do_choose_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_to_do_choose_p1.png"
   },
   {
     "level": "junior",
@@ -1820,8 +1820,8 @@ var VERB_ITEMS = [
       "winter",
       "."
     ],
-    "example_image": "asset/img/p4/junior_to_do_learn_ex.png",
-    "practice_image": "asset/img/p4/junior_to_do_learn_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_to_do_learn_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_to_do_learn_p1.png"
   },
   {
     "level": "junior",
@@ -1870,8 +1870,8 @@ var VERB_ITEMS = [
       "room",
       "."
     ],
-    "example_image": "asset/img/p4/junior_to_do_ask_ex.png",
-    "practice_image": "asset/img/p4/junior_to_do_ask_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_to_do_ask_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_to_do_ask_p1.png"
   },
   {
     "level": "junior",
@@ -1918,8 +1918,8 @@ var VERB_ITEMS = [
       "outside",
       "."
     ],
-    "example_image": "asset/img/p4/junior_to_do_tell_ex.png",
-    "practice_image": "asset/img/p4/junior_to_do_tell_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_to_do_tell_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_to_do_tell_p1.png"
   },
   {
     "level": "junior",
@@ -1963,8 +1963,8 @@ var VERB_ITEMS = [
       "the sign",
       "."
     ],
-    "example_image": "asset/img/p4/junior_to_do_fail_ex.png",
-    "practice_image": "asset/img/p4/junior_to_do_fail_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_to_do_fail_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_to_do_fail_p1.png"
   },
   {
     "level": "junior",
@@ -2010,8 +2010,8 @@ var VERB_ITEMS = [
       "now",
       "."
     ],
-    "example_image": "asset/img/p4/junior_to_do_afford_ex.png",
-    "practice_image": "asset/img/p4/junior_to_do_afford_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_to_do_afford_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_to_do_afford_p1.png"
   },
   {
     "level": "junior",
@@ -2055,8 +2055,8 @@ var VERB_ITEMS = [
       "problem",
       "."
     ],
-    "example_image": "asset/img/p4/junior_to_do_manage_ex.png",
-    "practice_image": "asset/img/p4/junior_to_do_manage_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_to_do_manage_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_to_do_manage_p1.png"
   },
   {
     "level": "junior",
@@ -2098,8 +2098,8 @@ var VERB_ITEMS = [
       "you",
       "."
     ],
-    "example_image": "asset/img/p4/junior_to_do_wish_ex.png",
-    "practice_image": "asset/img/p4/junior_to_do_wish_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_to_do_wish_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_to_do_wish_p1.png"
   },
   {
     "level": "junior",
@@ -2147,8 +2147,8 @@ var VERB_ITEMS = [
       "class",
       "."
     ],
-    "example_image": "asset/img/p4/junior_to_do_prepare_ex.png",
-    "practice_image": "asset/img/p4/junior_to_do_prepare_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_to_do_prepare_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_to_do_prepare_p1.png"
   },
   {
     "level": "junior",
@@ -2194,8 +2194,8 @@ var VERB_ITEMS = [
       "dentist",
       "."
     ],
-    "example_image": "asset/img/p4/junior_to_do_need_ex.png",
-    "practice_image": "asset/img/p4/junior_to_do_need_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_to_do_need_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_to_do_need_p1.png"
   },
   {
     "level": "junior",
@@ -2244,8 +2244,8 @@ var VERB_ITEMS = [
       "door",
       "."
     ],
-    "example_image": "asset/img/p4/junior_to_do_remind_ex.png",
-    "practice_image": "asset/img/p4/junior_to_do_remind_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_to_do_remind_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_to_do_remind_p1.png"
   },
   {
     "level": "junior",
@@ -2292,8 +2292,8 @@ var VERB_ITEMS = [
       "away",
       "."
     ],
-    "example_image": "asset/img/p4/junior_to_do_warn_ex.png",
-    "practice_image": "asset/img/p4/junior_to_do_warn_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_to_do_warn_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_to_do_warn_p1.png"
   },
   {
     "level": "junior",
@@ -2340,8 +2340,8 @@ var VERB_ITEMS = [
       "dinner",
       "."
     ],
-    "example_image": "asset/img/p4/junior_to_do_invite_ex.png",
-    "practice_image": "asset/img/p4/junior_to_do_invite_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_to_do_invite_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_to_do_invite_p1.png"
   },
   {
     "level": "junior",
@@ -2386,8 +2386,8 @@ var VERB_ITEMS = [
       "swim",
       "."
     ],
-    "example_image": "asset/img/p4/junior_to_do_teach_ex.png",
-    "practice_image": "asset/img/p4/junior_to_do_teach_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_to_do_teach_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_to_do_teach_p1.png"
   },
   {
     "level": "junior",
@@ -2436,8 +2436,8 @@ var VERB_ITEMS = [
       "leave",
       "."
     ],
-    "example_image": "asset/img/p4/junior_to_do_order_ex.png",
-    "practice_image": "asset/img/p4/junior_to_do_order_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_to_do_order_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_to_do_order_p1.png"
   },
   {
     "level": "junior",
@@ -2483,8 +2483,8 @@ var VERB_ITEMS = [
       "results",
       "."
     ],
-    "example_image": "asset/img/p4/junior_to_do_wait_ex.png",
-    "practice_image": "asset/img/p4/junior_to_do_wait_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_to_do_wait_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_to_do_wait_p1.png"
   },
   {
     "level": "junior",
@@ -2530,8 +2530,8 @@ var VERB_ITEMS = [
       "lunch",
       "."
     ],
-    "example_image": "asset/img/p4/junior_to_do_offer_ex.png",
-    "practice_image": "asset/img/p4/junior_to_do_offer_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_to_do_offer_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_to_do_offer_p1.png"
   },
   {
     "level": "junior",
@@ -2579,8 +2579,8 @@ var VERB_ITEMS = [
       "puppy",
       "."
     ],
-    "example_image": "asset/img/p4/junior_to_do_happen_ex.png",
-    "practice_image": "asset/img/p4/junior_to_do_happen_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_to_do_happen_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_to_do_happen_p1.png"
   },
   {
     "level": "junior",
@@ -2629,8 +2629,8 @@ var VERB_ITEMS = [
       "outside",
       "."
     ],
-    "example_image": "asset/img/p4/junior_to_do_would_like_ex.png",
-    "practice_image": "asset/img/p4/junior_to_do_would_like_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_to_do_would_like_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_to_do_would_like_p1.png"
   },
   {
     "level": "junior",
@@ -2679,8 +2679,8 @@ var VERB_ITEMS = [
       "come",
       "."
     ],
-    "example_image": "asset/img/p4/junior_to_do_get_ex.png",
-    "practice_image": "asset/img/p4/junior_to_do_get_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_to_do_get_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_to_do_get_p1.png"
   },
   {
     "level": "junior",
@@ -2727,8 +2727,8 @@ var VERB_ITEMS = [
       "wait",
       "."
     ],
-    "example_image": "asset/img/p4/junior_to_do_beg_ex.png",
-    "practice_image": "asset/img/p4/junior_to_do_beg_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_to_do_beg_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_to_do_beg_p1.png"
   },
   {
     "level": "junior",
@@ -2736,8 +2736,8 @@ var VERB_ITEMS = [
     "verb": "make",
     "pattern": "make sb do",
     "logic_explanation": "make：使役动词 **make** 表「迫使、使得」，宾补用**裸不定式**强调「让他把动作整个做完」；这是固定搭配，不说 make sb to do。",
-    "example_sentence": "The boss makes them work 10 hours a day.",
-    "example_pic_prompt": "Strict boss with watch pointing at tired workers at computers, overtime sun, crayon style",
+    "example_sentence": "The coach makes them run five laps every morning.",
+    "example_pic_prompt": "Sports coach with stopwatch, students running around a track in morning light, crayon style",
     "practice_1_pic_prompt": "Teacher at front quiet gesture, students lips sealed zipper icon, classroom, crayon style",
     "practice_1_cn": "老师让学生安静。",
     "practice_1_words": [
@@ -2778,8 +2778,8 @@ var VERB_ITEMS = [
       "fast",
       "."
     ],
-    "example_image": "asset/img/p4/junior_bare_do_make_ex.png",
-    "practice_image": "asset/img/p4/junior_bare_do_make_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_bare_do_make_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_bare_do_make_p1.png"
   },
   {
     "level": "junior",
@@ -2825,8 +2825,8 @@ var VERB_ITEMS = [
       "TV",
       "."
     ],
-    "example_image": "asset/img/p4/junior_bare_do_let_ex.png",
-    "practice_image": "asset/img/p4/junior_bare_do_let_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_bare_do_let_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_bare_do_let_p1.png"
   },
   {
     "level": "junior",
@@ -2874,8 +2874,8 @@ var VERB_ITEMS = [
       "room",
       "."
     ],
-    "example_image": "asset/img/p4/junior_bare_do_have_ex.png",
-    "practice_image": "asset/img/p4/junior_bare_do_have_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_bare_do_have_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_bare_do_have_p1.png"
   },
   {
     "level": "junior",
@@ -2925,8 +2925,8 @@ var VERB_ITEMS = [
       "bags",
       "."
     ],
-    "example_image": "asset/img/p4/junior_bare_do_help_ex.png",
-    "practice_image": "asset/img/p4/junior_bare_do_help_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_bare_do_help_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_bare_do_help_p1.png"
   },
   {
     "level": "junior",
@@ -2974,8 +2974,8 @@ var VERB_ITEMS = [
       "goodbye",
       "."
     ],
-    "example_image": "asset/img/p4/junior_bare_do_see_ex.png",
-    "practice_image": "asset/img/p4/junior_bare_do_see_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_bare_do_see_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_bare_do_see_p1.png"
   },
   {
     "level": "junior",
@@ -3019,8 +3019,8 @@ var VERB_ITEMS = [
       "set",
       "."
     ],
-    "example_image": "asset/img/p4/junior_bare_do_watch_ex.png",
-    "practice_image": "asset/img/p4/junior_bare_do_watch_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_bare_do_watch_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_bare_do_watch_p1.png"
   },
   {
     "level": "junior",
@@ -3066,8 +3066,8 @@ var VERB_ITEMS = [
       "smile",
       "."
     ],
-    "example_image": "asset/img/p4/junior_bare_do_notice_ex.png",
-    "practice_image": "asset/img/p4/junior_bare_do_notice_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_bare_do_notice_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_bare_do_notice_p1.png"
   },
   {
     "level": "junior",
@@ -3113,8 +3113,8 @@ var VERB_ITEMS = [
       "cry",
       "."
     ],
-    "example_image": "asset/img/p4/junior_bare_do_hear_ex.png",
-    "practice_image": "asset/img/p4/junior_bare_do_hear_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_bare_do_hear_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_bare_do_hear_p1.png"
   },
   {
     "level": "junior",
@@ -3168,8 +3168,8 @@ var VERB_ITEMS = [
       "story",
       "."
     ],
-    "example_image": "asset/img/p4/junior_bare_do_listen_to_ex.png",
-    "practice_image": "asset/img/p4/junior_bare_do_listen_to_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_bare_do_listen_to_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_bare_do_listen_to_p1.png"
   },
   {
     "level": "junior",
@@ -3217,8 +3217,8 @@ var VERB_ITEMS = [
       "leg",
       "."
     ],
-    "example_image": "asset/img/p4/junior_bare_do_feel_ex.png",
-    "practice_image": "asset/img/p4/junior_bare_do_feel_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_bare_do_feel_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_bare_do_feel_p1.png"
   },
   {
     "level": "junior",
@@ -3263,8 +3263,8 @@ var VERB_ITEMS = [
       "dance",
       "!"
     ],
-    "example_image": "asset/img/p4/junior_bare_do_look_at_ex.png",
-    "practice_image": "asset/img/p4/junior_bare_do_look_at_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_bare_do_look_at_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_bare_do_look_at_p1.png"
   },
   {
     "level": "junior",
@@ -3312,8 +3312,8 @@ var VERB_ITEMS = [
       "pen",
       "."
     ],
-    "example_image": "asset/img/p4/junior_bare_do_observe_ex.png",
-    "practice_image": "asset/img/p4/junior_bare_do_observe_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_bare_do_observe_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_bare_do_observe_p1.png"
   },
   {
     "level": "senior",
@@ -3357,8 +3357,8 @@ var VERB_ITEMS = [
       "us",
       "."
     ],
-    "example_image": "asset/img/p4/senior_doing_admit_ex.png",
-    "practice_image": "asset/img/p4/senior_doing_admit_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_admit_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_admit_p1.png"
   },
   {
     "level": "senior",
@@ -3366,7 +3366,7 @@ var VERB_ITEMS = [
     "verb": "deny",
     "pattern": "deny doing",
     "logic_explanation": "deny：**deny doing** 否认的是**被指称的行为是否发生**，否认的内容用 **doing** 表示那件事本身。",
-    "example_sentence": "The thief denied stealing the jewelry.",
+    "example_sentence": "The student denied copying the notes.",
     "example_pic_prompt": "Person shaking head honestly, closed jewelry box on a desk, simple checklist paper, crayon style",
     "practice_1_pic_prompt": "Teen at computer with hands up, password field blurred, shield icon, crayon style",
     "practice_1_cn": "他否认泄露了密码。",
@@ -3400,8 +3400,8 @@ var VERB_ITEMS = [
       "him",
       "."
     ],
-    "example_image": "asset/img/p4/senior_doing_deny_ex.png",
-    "practice_image": "asset/img/p4/senior_doing_deny_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_deny_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_deny_p1.png"
   },
   {
     "level": "senior",
@@ -3449,8 +3449,8 @@ var VERB_ITEMS = [
       "game",
       "."
     ],
-    "example_image": "asset/img/p4/senior_doing_delay_ex.png",
-    "practice_image": "asset/img/p4/senior_doing_delay_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_delay_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_delay_p1.png"
   },
   {
     "level": "senior",
@@ -3458,7 +3458,7 @@ var VERB_ITEMS = [
     "verb": "escape",
     "pattern": "escape doing",
     "logic_explanation": "escape：**escape doing** 常表**侥幸没做成某事**（如 escape being fined），后面用 **doing** 表**差点发生在你身上的遭遇**。",
-    "example_sentence": "He narrowly escaped being killed in the crash.",
+    "example_sentence": "He narrowly escaped being injured in the accident.",
     "example_pic_prompt": "Cartoon car stopped safely with seatbelt checkmark, sunny bendy road, friendly safety poster mood, crayon style",
     "practice_1_pic_prompt": "Parking officer with ticket pad, driver pleading, car meter showing expired, crayon style",
     "practice_1_cn": "她险些被罚款。",
@@ -3494,8 +3494,8 @@ var VERB_ITEMS = [
       "caught",
       "."
     ],
-    "example_image": "asset/img/p4/senior_doing_escape_ex.png",
-    "practice_image": "asset/img/p4/senior_doing_escape_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_escape_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_escape_p1.png"
   },
   {
     "level": "senior",
@@ -3539,8 +3539,8 @@ var VERB_ITEMS = [
       "this",
       "."
     ],
-    "example_image": "asset/img/p4/senior_doing_excuse_ex.png",
-    "practice_image": "asset/img/p4/senior_doing_excuse_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_excuse_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_excuse_p1.png"
   },
   {
     "level": "senior",
@@ -3586,8 +3586,8 @@ var VERB_ITEMS = [
       "walk",
       "."
     ],
-    "example_image": "asset/img/p4/senior_doing_fancy_ex.png",
-    "practice_image": "asset/img/p4/senior_doing_fancy_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_fancy_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_fancy_p1.png"
   },
   {
     "level": "senior",
@@ -3633,8 +3633,8 @@ var VERB_ITEMS = [
       "costs",
       "."
     ],
-    "example_image": "asset/img/p4/senior_doing_involve_ex.png",
-    "practice_image": "asset/img/p4/senior_doing_involve_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_involve_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_involve_p1.png"
   },
   {
     "level": "senior",
@@ -3680,8 +3680,8 @@ var VERB_ITEMS = [
       "year",
       "."
     ],
-    "example_image": "asset/img/p4/senior_doing_quit_ex.png",
-    "practice_image": "asset/img/p4/senior_doing_quit_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_quit_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_quit_p1.png"
   },
   {
     "level": "senior",
@@ -3727,8 +3727,8 @@ var VERB_ITEMS = [
       "me",
       "."
     ],
-    "example_image": "asset/img/p4/senior_doing_appreciate_ex.png",
-    "practice_image": "asset/img/p4/senior_doing_appreciate_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_appreciate_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_appreciate_p1.png"
   },
   {
     "level": "senior",
@@ -3776,8 +3776,8 @@ var VERB_ITEMS = [
       "ignored",
       "."
     ],
-    "example_image": "asset/img/p4/senior_doing_tolerate_ex.png",
-    "practice_image": "asset/img/p4/senior_doing_tolerate_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_tolerate_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_tolerate_p1.png"
   },
   {
     "level": "senior",
@@ -3821,8 +3821,8 @@ var VERB_ITEMS = [
       "accident",
       "."
     ],
-    "example_image": "asset/img/p4/senior_doing_recall_ex.png",
-    "practice_image": "asset/img/p4/senior_doing_recall_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_recall_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_recall_p1.png"
   },
   {
     "level": "senior",
@@ -3868,8 +3868,8 @@ var VERB_ITEMS = [
       "fog",
       "."
     ],
-    "example_image": "asset/img/p4/senior_doing_postpone_ex.png",
-    "practice_image": "asset/img/p4/senior_doing_postpone_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_postpone_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_postpone_p1.png"
   },
   {
     "level": "senior",
@@ -3919,8 +3919,8 @@ var VERB_ITEMS = [
       "fees",
       "."
     ],
-    "example_image": "asset/img/p4/senior_doing_object_to_ex.png",
-    "practice_image": "asset/img/p4/senior_doing_object_to_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_object_to_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_object_to_p1.png"
   },
   {
     "level": "senior",
@@ -3969,8 +3969,8 @@ var VERB_ITEMS = [
       "late",
       "."
     ],
-    "example_image": "asset/img/p4/senior_doing_forgive_ex.png",
-    "practice_image": "asset/img/p4/senior_doing_forgive_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_forgive_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_forgive_p1.png"
   },
   {
     "level": "senior",
@@ -4014,8 +4014,8 @@ var VERB_ITEMS = [
       "alone",
       "."
     ],
-    "example_image": "asset/img/p4/senior_doing_mention_ex.png",
-    "practice_image": "asset/img/p4/senior_doing_mention_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_mention_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_mention_p1.png"
   },
   {
     "level": "senior",
@@ -4061,8 +4061,8 @@ var VERB_ITEMS = [
       "parcel",
       "."
     ],
-    "example_image": "asset/img/p4/senior_doing_report_ex.png",
-    "practice_image": "asset/img/p4/senior_doing_report_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_report_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_report_p1.png"
   },
   {
     "level": "senior",
@@ -4109,8 +4109,8 @@ var VERB_ITEMS = [
       "secret",
       "."
     ],
-    "example_image": "asset/img/p4/senior_doing_resist_ex.png",
-    "practice_image": "asset/img/p4/senior_doing_resist_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_resist_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_resist_p1.png"
   },
   {
     "level": "senior",
@@ -4156,8 +4156,8 @@ var VERB_ITEMS = [
       "novel",
       "."
     ],
-    "example_image": "asset/img/p4/senior_doing_resume_ex.png",
-    "practice_image": "asset/img/p4/senior_doing_resume_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_resume_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_resume_p1.png"
   },
   {
     "level": "senior",
@@ -4201,8 +4201,8 @@ var VERB_ITEMS = [
       "time",
       "."
     ],
-    "example_image": "asset/img/p4/senior_doing_anticipate_ex.png",
-    "practice_image": "asset/img/p4/senior_doing_anticipate_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_anticipate_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_anticipate_p1.png"
   },
   {
     "level": "senior",
@@ -4248,8 +4248,8 @@ var VERB_ITEMS = [
       "Monday",
       "."
     ],
-    "example_image": "asset/img/p4/senior_doing_defer_ex.png",
-    "practice_image": "asset/img/p4/senior_doing_defer_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_defer_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_defer_p1.png"
   },
   {
     "level": "senior",
@@ -4295,8 +4295,8 @@ var VERB_ITEMS = [
       "her",
       "."
     ],
-    "example_image": "asset/img/p4/senior_doing_discuss_ex.png",
-    "practice_image": "asset/img/p4/senior_doing_discuss_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_discuss_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_discuss_p1.png"
   },
   {
     "level": "senior",
@@ -4344,8 +4344,8 @@ var VERB_ITEMS = [
       "specialist",
       "."
     ],
-    "example_image": "asset/img/p4/senior_doing_recommend_ex.png",
-    "practice_image": "asset/img/p4/senior_doing_recommend_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_recommend_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_recommend_p1.png"
   },
   {
     "level": "senior",
@@ -4391,8 +4391,8 @@ var VERB_ITEMS = [
       "prize",
       "."
     ],
-    "example_image": "asset/img/p4/senior_doing_imagine_ex.png",
-    "practice_image": "asset/img/p4/senior_doing_imagine_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_imagine_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_imagine_p1.png"
   },
   {
     "level": "senior",
@@ -4436,8 +4436,8 @@ var VERB_ITEMS = [
       "summer",
       "."
     ],
-    "example_image": "asset/img/p4/senior_doing_miss_ex.png",
-    "practice_image": "asset/img/p4/senior_doing_miss_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_miss_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_miss_p1.png"
   },
   {
     "level": "senior",
@@ -4481,8 +4481,8 @@ var VERB_ITEMS = [
       "fired",
       "."
     ],
-    "example_image": "asset/img/p4/senior_doing_risk_ex.png",
-    "practice_image": "asset/img/p4/senior_doing_risk_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_risk_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_risk_p1.png"
   },
   {
     "level": "senior",
@@ -4526,8 +4526,8 @@ var VERB_ITEMS = [
       "early",
       "."
     ],
-    "example_image": "asset/img/p4/senior_doing_suggest_ex.png",
-    "practice_image": "asset/img/p4/senior_doing_suggest_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_suggest_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_suggest_p1.png"
   },
   {
     "level": "senior",
@@ -4575,8 +4575,8 @@ var VERB_ITEMS = [
       "early",
       "."
     ],
-    "example_image": "asset/img/p4/senior_doing_consider_ex.png",
-    "practice_image": "asset/img/p4/senior_doing_consider_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_consider_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_consider_p1.png"
   },
   {
     "level": "senior",
@@ -4624,8 +4624,8 @@ var VERB_ITEMS = [
       "mistake",
       "."
     ],
-    "example_image": "asset/img/p4/senior_doing_avoid_ex.png",
-    "practice_image": "asset/img/p4/senior_doing_avoid_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_avoid_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_avoid_p1.png"
   },
   {
     "level": "senior",
@@ -4677,8 +4677,8 @@ var VERB_ITEMS = [
       "mirrors",
       "."
     ],
-    "example_image": "asset/img/p4/senior_doing_practice_ex.png",
-    "practice_image": "asset/img/p4/senior_doing_practice_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_practice_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_practice_p1.png"
   },
   {
     "level": "senior",
@@ -4727,8 +4727,8 @@ var VERB_ITEMS = [
       "window",
       "?"
     ],
-    "example_image": "asset/img/p4/senior_doing_mind_ex.png",
-    "practice_image": "asset/img/p4/senior_doing_mind_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_mind_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_mind_p1.png"
   },
   {
     "level": "senior",
@@ -4774,8 +4774,8 @@ var VERB_ITEMS = [
       "door",
       "."
     ],
-    "example_image": "asset/img/p4/senior_doing_keep_ex.png",
-    "practice_image": "asset/img/p4/senior_doing_keep_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_keep_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_keep_p1.png"
   },
   {
     "level": "senior",
@@ -4823,8 +4823,8 @@ var VERB_ITEMS = [
       "midnight",
       "."
     ],
-    "example_image": "asset/img/p4/senior_doing_finish_ex.png",
-    "practice_image": "asset/img/p4/senior_doing_finish_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_finish_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_finish_p1.png"
   },
   {
     "level": "senior",
@@ -4872,8 +4872,8 @@ var VERB_ITEMS = [
       "good",
       "."
     ],
-    "example_image": "asset/img/p4/senior_doing_give_up_ex.png",
-    "practice_image": "asset/img/p4/senior_doing_give_up_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_give_up_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_give_up_p1.png"
   },
   {
     "level": "senior",
@@ -4919,8 +4919,8 @@ var VERB_ITEMS = [
       "wedding",
       "."
     ],
-    "example_image": "asset/img/p4/senior_doing_put_off_ex.png",
-    "practice_image": "asset/img/p4/senior_doing_put_off_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_put_off_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_put_off_p1.png"
   },
   {
     "level": "senior",
@@ -4969,8 +4969,8 @@ var VERB_ITEMS = [
       "movies",
       "."
     ],
-    "example_image": "asset/img/p4/senior_doing_cant_help_ex.png",
-    "practice_image": "asset/img/p4/senior_doing_cant_help_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_cant_help_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_cant_help_p1.png"
   },
   {
     "level": "senior",
@@ -5013,8 +5013,8 @@ var VERB_ITEMS = [
       "router",
       "."
     ],
-    "example_image": "asset/img/p4/senior_doing_try_ex.png",
-    "practice_image": "asset/img/p4/senior_doing_try_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_try_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_try_p1.png"
   },
   {
     "level": "senior",
@@ -5058,8 +5058,8 @@ var VERB_ITEMS = [
       "patience",
       "."
     ],
-    "example_image": "asset/img/p4/senior_doing_begin_ex.png",
-    "practice_image": "asset/img/p4/senior_doing_begin_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_begin_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_begin_p1.png"
   },
   {
     "level": "senior",
@@ -5107,8 +5107,8 @@ var VERB_ITEMS = [
       "rain",
       "."
     ],
-    "example_image": "asset/img/p4/senior_doing_continue_ex.png",
-    "practice_image": "asset/img/p4/senior_doing_continue_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_continue_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_continue_p1.png"
   },
   {
     "level": "senior",
@@ -5156,8 +5156,8 @@ var VERB_ITEMS = [
       "TV",
       "."
     ],
-    "example_image": "asset/img/p4/senior_doing_prefer_ex.png",
-    "practice_image": "asset/img/p4/senior_doing_prefer_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_prefer_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_prefer_p1.png"
   },
   {
     "level": "senior",
@@ -5203,8 +5203,8 @@ var VERB_ITEMS = [
       "cafes",
       "."
     ],
-    "example_image": "asset/img/p4/senior_doing_love_ex.png",
-    "practice_image": "asset/img/p4/senior_doing_love_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_love_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_love_p1.png"
   },
   {
     "level": "senior",
@@ -5248,8 +5248,8 @@ var VERB_ITEMS = [
       "weekends",
       "."
     ],
-    "example_image": "asset/img/p4/senior_doing_like_ex.png",
-    "practice_image": "asset/img/p4/senior_doing_like_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_like_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_like_p1.png"
   },
   {
     "level": "senior",
@@ -5291,8 +5291,8 @@ var VERB_ITEMS = [
       "late",
       "."
     ],
-    "example_image": "asset/img/p4/senior_doing_hate_ex.png",
-    "practice_image": "asset/img/p4/senior_doing_hate_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_hate_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_hate_p1.png"
   },
   {
     "level": "senior",
@@ -5338,8 +5338,8 @@ var VERB_ITEMS = [
       "bears",
       "."
     ],
-    "example_image": "asset/img/p4/senior_doing_prohibit_ex.png",
-    "practice_image": "asset/img/p4/senior_doing_prohibit_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_prohibit_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_prohibit_p1.png"
   },
   {
     "level": "senior",
@@ -5387,8 +5387,8 @@ var VERB_ITEMS = [
       "exam",
       "."
     ],
-    "example_image": "asset/img/p4/senior_doing_celebrate_ex.png",
-    "practice_image": "asset/img/p4/senior_doing_celebrate_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_celebrate_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_doing_celebrate_p1.png"
   },
   {
     "level": "senior",
@@ -5396,7 +5396,7 @@ var VERB_ITEMS = [
     "verb": "attempt",
     "pattern": "attempt to do",
     "logic_explanation": "attempt：**attempt to do** 表**试图、尝试去做**（未必成功），**to do** 是**努力要去完成的行为**。",
-    "example_sentence": "The prisoner attempted to escape but failed.",
+    "example_sentence": "The climber attempted to reach the top but failed.",
     "example_pic_prompt": "Friendly maze puzzle on paper, cartoon figure choosing the correct exit path, classroom doodle style",
     "practice_1_pic_prompt": "Girl at whiteboard filled with equations, alone, light bulb moment, crayon style",
     "practice_1_cn": "她试图独自解决问题。",
@@ -5436,8 +5436,8 @@ var VERB_ITEMS = [
       "river",
       "."
     ],
-    "example_image": "asset/img/p4/senior_to_do_attempt_ex.png",
-    "practice_image": "asset/img/p4/senior_to_do_attempt_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_attempt_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_attempt_p1.png"
   },
   {
     "level": "senior",
@@ -5479,8 +5479,8 @@ var VERB_ITEMS = [
       "to agree",
       "."
     ],
-    "example_image": "asset/img/p4/senior_to_do_pretend_ex.png",
-    "practice_image": "asset/img/p4/senior_to_do_pretend_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_pretend_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_pretend_p1.png"
   },
   {
     "level": "senior",
@@ -5488,7 +5488,7 @@ var VERB_ITEMS = [
     "verb": "threaten",
     "pattern": "threaten to do",
     "logic_explanation": "threaten：**threaten to do** 威胁说**将要做某事**，**to do** 表**威胁内容（将要发生的动作）**。",
-    "example_sentence": "The robbers threatened to kill the hostage.",
+    "example_sentence": "The manager threatened to cancel the deal.",
     "example_pic_prompt": "Two adults in business clothes arguing across an office desk, speech bubbles, pointing fingers, no weapons, crayon style",
     "practice_1_pic_prompt": "Angry boss pointing at employee, desk box of belongings, storm cloud over worker, crayon style",
     "practice_1_cn": "老板威胁要解雇他。",
@@ -5526,8 +5526,8 @@ var VERB_ITEMS = [
       "us",
       "."
     ],
-    "example_image": "asset/img/p4/senior_to_do_threaten_ex.png",
-    "practice_image": "asset/img/p4/senior_to_do_threaten_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_threaten_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_threaten_p1.png"
   },
   {
     "level": "senior",
@@ -5571,8 +5571,8 @@ var VERB_ITEMS = [
       "already",
       "."
     ],
-    "example_image": "asset/img/p4/senior_to_do_claim_ex.png",
-    "practice_image": "asset/img/p4/senior_to_do_claim_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_claim_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_claim_p1.png"
   },
   {
     "level": "senior",
@@ -5620,8 +5620,8 @@ var VERB_ITEMS = [
       "car",
       "."
     ],
-    "example_image": "asset/img/p4/senior_to_do_arrange_ex.png",
-    "practice_image": "asset/img/p4/senior_to_do_arrange_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_arrange_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_arrange_p1.png"
   },
   {
     "level": "senior",
@@ -5663,8 +5663,8 @@ var VERB_ITEMS = [
       "answer",
       "."
     ],
-    "example_image": "asset/img/p4/senior_to_do_decline_ex.png",
-    "practice_image": "asset/img/p4/senior_to_do_decline_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_decline_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_decline_p1.png"
   },
   {
     "level": "senior",
@@ -5708,8 +5708,8 @@ var VERB_ITEMS = [
       "you",
       "."
     ],
-    "example_image": "asset/img/p4/senior_to_do_desire_ex.png",
-    "practice_image": "asset/img/p4/senior_to_do_desire_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_desire_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_desire_p1.png"
   },
   {
     "level": "senior",
@@ -5756,8 +5756,8 @@ var VERB_ITEMS = [
       "to apologize",
       "."
     ],
-    "example_image": "asset/img/p4/senior_to_do_force_ex.png",
-    "practice_image": "asset/img/p4/senior_to_do_force_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_force_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_force_p1.png"
   },
   {
     "level": "senior",
@@ -5800,8 +5800,8 @@ var VERB_ITEMS = [
       "to stay",
       "."
     ],
-    "example_image": "asset/img/p4/senior_to_do_persuade_ex.png",
-    "practice_image": "asset/img/p4/senior_to_do_persuade_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_persuade_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_persuade_p1.png"
   },
   {
     "level": "senior",
@@ -5848,8 +5848,8 @@ var VERB_ITEMS = [
       "up",
       "."
     ],
-    "example_image": "asset/img/p4/senior_to_do_encourage_ex.png",
-    "practice_image": "asset/img/p4/senior_to_do_encourage_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_encourage_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_encourage_p1.png"
   },
   {
     "level": "senior",
@@ -5891,8 +5891,8 @@ var VERB_ITEMS = [
       "complain",
       "."
     ],
-    "example_image": "asset/img/p4/senior_to_do_wish_ex.png",
-    "practice_image": "asset/img/p4/senior_to_do_wish_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_wish_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_wish_p1.png"
   },
   {
     "level": "senior",
@@ -5940,8 +5940,8 @@ var VERB_ITEMS = [
       "honors",
       "."
     ],
-    "example_image": "asset/img/p4/senior_to_do_hope_ex.png",
-    "practice_image": "asset/img/p4/senior_to_do_hope_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_hope_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_hope_p1.png"
   },
   {
     "level": "senior",
@@ -5985,8 +5985,8 @@ var VERB_ITEMS = [
       "law",
       "."
     ],
-    "example_image": "asset/img/p4/senior_to_do_plan_ex.png",
-    "practice_image": "asset/img/p4/senior_to_do_plan_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_plan_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_plan_p1.png"
   },
   {
     "level": "senior",
@@ -6034,8 +6034,8 @@ var VERB_ITEMS = [
       "fall",
       "."
     ],
-    "example_image": "asset/img/p4/senior_to_do_expect_ex.png",
-    "practice_image": "asset/img/p4/senior_to_do_expect_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_expect_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_expect_p1.png"
   },
   {
     "level": "senior",
@@ -6081,8 +6081,8 @@ var VERB_ITEMS = [
       "back",
       "."
     ],
-    "example_image": "asset/img/p4/senior_to_do_promise_ex.png",
-    "practice_image": "asset/img/p4/senior_to_do_promise_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_promise_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_promise_p1.png"
   },
   {
     "level": "senior",
@@ -6126,8 +6126,8 @@ var VERB_ITEMS = [
       "mediate",
       "."
     ],
-    "example_image": "asset/img/p4/senior_to_do_agree_ex.png",
-    "practice_image": "asset/img/p4/senior_to_do_agree_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_agree_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_agree_p1.png"
   },
   {
     "level": "senior",
@@ -6169,8 +6169,8 @@ var VERB_ITEMS = [
       "leave",
       "."
     ],
-    "example_image": "asset/img/p4/senior_to_do_refuse_ex.png",
-    "practice_image": "asset/img/p4/senior_to_do_refuse_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_refuse_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_refuse_p1.png"
   },
   {
     "level": "senior",
@@ -6214,8 +6214,8 @@ var VERB_ITEMS = [
       "silent",
       "."
     ],
-    "example_image": "asset/img/p4/senior_to_do_choose_ex.png",
-    "practice_image": "asset/img/p4/senior_to_do_choose_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_choose_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_choose_p1.png"
   },
   {
     "level": "senior",
@@ -6259,8 +6259,8 @@ var VERB_ITEMS = [
       "negotiate",
       "."
     ],
-    "example_image": "asset/img/p4/senior_to_do_learn_ex.png",
-    "practice_image": "asset/img/p4/senior_to_do_learn_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_learn_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_learn_p1.png"
   },
   {
     "level": "senior",
@@ -6308,8 +6308,8 @@ var VERB_ITEMS = [
       "crash",
       "."
     ],
-    "example_image": "asset/img/p4/senior_to_do_manage_ex.png",
-    "practice_image": "asset/img/p4/senior_to_do_manage_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_manage_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_manage_p1.png"
   },
   {
     "level": "senior",
@@ -6357,8 +6357,8 @@ var VERB_ITEMS = [
       "trap",
       "."
     ],
-    "example_image": "asset/img/p4/senior_to_do_fail_ex.png",
-    "practice_image": "asset/img/p4/senior_to_do_fail_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_fail_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_fail_p1.png"
   },
   {
     "level": "senior",
@@ -6408,8 +6408,8 @@ var VERB_ITEMS = [
       "you",
       "."
     ],
-    "example_image": "asset/img/p4/senior_to_do_afford_ex.png",
-    "practice_image": "asset/img/p4/senior_to_do_afford_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_afford_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_afford_p1.png"
   },
   {
     "level": "senior",
@@ -6451,8 +6451,8 @@ var VERB_ITEMS = [
       "speak",
       "."
     ],
-    "example_image": "asset/img/p4/senior_to_do_hesitate_ex.png",
-    "practice_image": "asset/img/p4/senior_to_do_hesitate_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_hesitate_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_hesitate_p1.png"
   },
   {
     "level": "senior",
@@ -6498,8 +6498,8 @@ var VERB_ITEMS = [
       "truth",
       "."
     ],
-    "example_image": "asset/img/p4/senior_to_do_swear_ex.png",
-    "practice_image": "asset/img/p4/senior_to_do_swear_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_swear_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_swear_p1.png"
   },
   {
     "level": "senior",
@@ -6541,8 +6541,8 @@ var VERB_ITEMS = [
       "help",
       "."
     ],
-    "example_image": "asset/img/p4/senior_to_do_volunteer_ex.png",
-    "practice_image": "asset/img/p4/senior_to_do_volunteer_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_volunteer_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_volunteer_p1.png"
   },
   {
     "level": "senior",
@@ -6590,8 +6590,8 @@ var VERB_ITEMS = [
       "loan",
       "."
     ],
-    "example_image": "asset/img/p4/senior_to_do_undertake_ex.png",
-    "practice_image": "asset/img/p4/senior_to_do_undertake_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_undertake_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_undertake_p1.png"
   },
   {
     "level": "senior",
@@ -6638,8 +6638,8 @@ var VERB_ITEMS = [
       "again",
       "."
     ],
-    "example_image": "asset/img/p4/senior_to_do_resolve_ex.png",
-    "practice_image": "asset/img/p4/senior_to_do_resolve_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_resolve_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_resolve_p1.png"
   },
   {
     "level": "senior",
@@ -6687,8 +6687,8 @@ var VERB_ITEMS = [
       "truth",
       "."
     ],
-    "example_image": "asset/img/p4/senior_to_do_seek_ex.png",
-    "practice_image": "asset/img/p4/senior_to_do_seek_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_seek_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_seek_p1.png"
   },
   {
     "level": "senior",
@@ -6734,8 +6734,8 @@ var VERB_ITEMS = [
       "why",
       "."
     ],
-    "example_image": "asset/img/p4/senior_to_do_demand_ex.png",
-    "practice_image": "asset/img/p4/senior_to_do_demand_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_demand_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_demand_p1.png"
   },
   {
     "level": "senior",
@@ -6783,8 +6783,8 @@ var VERB_ITEMS = [
       "up",
       "."
     ],
-    "example_image": "asset/img/p4/senior_to_do_remind_ex.png",
-    "practice_image": "asset/img/p4/senior_to_do_remind_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_remind_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_remind_p1.png"
   },
   {
     "level": "senior",
@@ -6838,8 +6838,8 @@ var VERB_ITEMS = [
       "inside",
       "."
     ],
-    "example_image": "asset/img/p4/senior_to_do_warn_ex.png",
-    "practice_image": "asset/img/p4/senior_to_do_warn_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_warn_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_warn_p1.png"
   },
   {
     "level": "senior",
@@ -6886,8 +6886,8 @@ var VERB_ITEMS = [
       "dinner",
       "."
     ],
-    "example_image": "asset/img/p4/senior_to_do_invite_ex.png",
-    "practice_image": "asset/img/p4/senior_to_do_invite_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_invite_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_invite_p1.png"
   },
   {
     "level": "senior",
@@ -6935,8 +6935,8 @@ var VERB_ITEMS = [
       "drive",
       "."
     ],
-    "example_image": "asset/img/p4/senior_to_do_teach_ex.png",
-    "practice_image": "asset/img/p4/senior_to_do_teach_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_teach_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_teach_p1.png"
   },
   {
     "level": "senior",
@@ -6985,8 +6985,8 @@ var VERB_ITEMS = [
       "wait",
       "."
     ],
-    "example_image": "asset/img/p4/senior_to_do_order_ex.png",
-    "practice_image": "asset/img/p4/senior_to_do_order_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_order_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_order_p1.png"
   },
   {
     "level": "senior",
@@ -7034,8 +7034,8 @@ var VERB_ITEMS = [
       "agree",
       "."
     ],
-    "example_image": "asset/img/p4/senior_to_do_get_ex.png",
-    "practice_image": "asset/img/p4/senior_to_do_get_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_get_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_get_p1.png"
   },
   {
     "level": "senior",
@@ -7079,8 +7079,8 @@ var VERB_ITEMS = [
       "called",
       "."
     ],
-    "example_image": "asset/img/p4/senior_to_do_wait_ex.png",
-    "practice_image": "asset/img/p4/senior_to_do_wait_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_wait_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_wait_p1.png"
   },
   {
     "level": "senior",
@@ -7124,8 +7124,8 @@ var VERB_ITEMS = [
       "pay",
       "."
     ],
-    "example_image": "asset/img/p4/senior_to_do_offer_ex.png",
-    "practice_image": "asset/img/p4/senior_to_do_offer_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_offer_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_offer_p1.png"
   },
   {
     "level": "senior",
@@ -7169,8 +7169,8 @@ var VERB_ITEMS = [
       "early",
       "."
     ],
-    "example_image": "asset/img/p4/senior_to_do_happen_ex.png",
-    "practice_image": "asset/img/p4/senior_to_do_happen_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_happen_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_happen_p1.png"
   },
   {
     "level": "senior",
@@ -7217,8 +7217,8 @@ var VERB_ITEMS = [
       "refund",
       "."
     ],
-    "example_image": "asset/img/p4/senior_to_do_would_like_ex.png",
-    "practice_image": "asset/img/p4/senior_to_do_would_like_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_would_like_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_would_like_p1.png"
   },
   {
     "level": "senior",
@@ -7265,8 +7265,8 @@ var VERB_ITEMS = [
       "stay",
       "."
     ],
-    "example_image": "asset/img/p4/senior_to_do_beg_ex.png",
-    "practice_image": "asset/img/p4/senior_to_do_beg_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_beg_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_beg_p1.png"
   },
   {
     "level": "senior",
@@ -7312,8 +7312,8 @@ var VERB_ITEMS = [
       "evacuate",
       "."
     ],
-    "example_image": "asset/img/p4/senior_to_do_prepare_ex.png",
-    "practice_image": "asset/img/p4/senior_to_do_prepare_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_prepare_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_prepare_p1.png"
   },
   {
     "level": "senior",
@@ -7357,8 +7357,8 @@ var VERB_ITEMS = [
       "rest",
       "."
     ],
-    "example_image": "asset/img/p4/senior_to_do_need_ex.png",
-    "practice_image": "asset/img/p4/senior_to_do_need_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_need_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_need_p1.png"
   },
   {
     "level": "senior",
@@ -7405,8 +7405,8 @@ var VERB_ITEMS = [
       "wait",
       "."
     ],
-    "example_image": "asset/img/p4/senior_to_do_ask_ex.png",
-    "practice_image": "asset/img/p4/senior_to_do_ask_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_ask_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_ask_p1.png"
   },
   {
     "level": "senior",
@@ -7453,8 +7453,8 @@ var VERB_ITEMS = [
       "hurry",
       "."
     ],
-    "example_image": "asset/img/p4/senior_to_do_tell_ex.png",
-    "practice_image": "asset/img/p4/senior_to_do_tell_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_tell_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_to_do_tell_p1.png"
   },
   {
     "level": "senior",
@@ -7462,8 +7462,8 @@ var VERB_ITEMS = [
     "verb": "make",
     "pattern": "make sb do",
     "logic_explanation": "make：使役动词 **make** 表「迫使、使得」，宾补用**裸不定式**强调「让他把动作整个做完」；这是固定搭配，不说 make sb to do。",
-    "example_sentence": "The boss makes them work 10 hours a day.",
-    "example_pic_prompt": "Strict boss with watch pointing at tired workers at computers, overtime sun, crayon style",
+    "example_sentence": "The coach makes them run five laps every morning.",
+    "example_pic_prompt": "Sports coach with stopwatch, students running around a track in morning light, crayon style",
     "practice_1_pic_prompt": "Teacher at front quiet gesture, students lips sealed zipper icon, classroom, crayon style",
     "practice_1_cn": "老师让学生安静。",
     "practice_1_words": [
@@ -7504,8 +7504,8 @@ var VERB_ITEMS = [
       "fast",
       "."
     ],
-    "example_image": "asset/img/p4/senior_bare_do_make_ex.png",
-    "practice_image": "asset/img/p4/senior_bare_do_make_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_bare_do_make_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_bare_do_make_p1.png"
   },
   {
     "level": "senior",
@@ -7551,8 +7551,8 @@ var VERB_ITEMS = [
       "TV",
       "."
     ],
-    "example_image": "asset/img/p4/senior_bare_do_let_ex.png",
-    "practice_image": "asset/img/p4/senior_bare_do_let_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_bare_do_let_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_bare_do_let_p1.png"
   },
   {
     "level": "senior",
@@ -7600,8 +7600,8 @@ var VERB_ITEMS = [
       "room",
       "."
     ],
-    "example_image": "asset/img/p4/senior_bare_do_have_ex.png",
-    "practice_image": "asset/img/p4/senior_bare_do_have_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_bare_do_have_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_bare_do_have_p1.png"
   },
   {
     "level": "senior",
@@ -7651,8 +7651,8 @@ var VERB_ITEMS = [
       "bags",
       "."
     ],
-    "example_image": "asset/img/p4/senior_bare_do_help_ex.png",
-    "practice_image": "asset/img/p4/senior_bare_do_help_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_bare_do_help_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_bare_do_help_p1.png"
   },
   {
     "level": "senior",
@@ -7700,8 +7700,8 @@ var VERB_ITEMS = [
       "goodbye",
       "."
     ],
-    "example_image": "asset/img/p4/senior_bare_do_see_ex.png",
-    "practice_image": "asset/img/p4/senior_bare_do_see_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_bare_do_see_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_bare_do_see_p1.png"
   },
   {
     "level": "senior",
@@ -7745,8 +7745,8 @@ var VERB_ITEMS = [
       "set",
       "."
     ],
-    "example_image": "asset/img/p4/senior_bare_do_watch_ex.png",
-    "practice_image": "asset/img/p4/senior_bare_do_watch_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_bare_do_watch_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_bare_do_watch_p1.png"
   },
   {
     "level": "senior",
@@ -7792,8 +7792,8 @@ var VERB_ITEMS = [
       "smile",
       "."
     ],
-    "example_image": "asset/img/p4/senior_bare_do_notice_ex.png",
-    "practice_image": "asset/img/p4/senior_bare_do_notice_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_bare_do_notice_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_bare_do_notice_p1.png"
   },
   {
     "level": "senior",
@@ -7839,8 +7839,8 @@ var VERB_ITEMS = [
       "cry",
       "."
     ],
-    "example_image": "asset/img/p4/senior_bare_do_hear_ex.png",
-    "practice_image": "asset/img/p4/senior_bare_do_hear_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_bare_do_hear_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_bare_do_hear_p1.png"
   },
   {
     "level": "senior",
@@ -7894,8 +7894,8 @@ var VERB_ITEMS = [
       "story",
       "."
     ],
-    "example_image": "asset/img/p4/senior_bare_do_listen_to_ex.png",
-    "practice_image": "asset/img/p4/senior_bare_do_listen_to_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_bare_do_listen_to_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_bare_do_listen_to_p1.png"
   },
   {
     "level": "senior",
@@ -7943,8 +7943,8 @@ var VERB_ITEMS = [
       "leg",
       "."
     ],
-    "example_image": "asset/img/p4/senior_bare_do_feel_ex.png",
-    "practice_image": "asset/img/p4/senior_bare_do_feel_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_bare_do_feel_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_bare_do_feel_p1.png"
   },
   {
     "level": "senior",
@@ -7989,8 +7989,8 @@ var VERB_ITEMS = [
       "dance",
       "!"
     ],
-    "example_image": "asset/img/p4/senior_bare_do_look_at_ex.png",
-    "practice_image": "asset/img/p4/senior_bare_do_look_at_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_bare_do_look_at_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_bare_do_look_at_p1.png"
   },
   {
     "level": "senior",
@@ -8038,7 +8038,7 @@ var VERB_ITEMS = [
       "pen",
       "."
     ],
-    "example_image": "asset/img/p4/senior_bare_do_observe_ex.png",
-    "practice_image": "asset/img/p4/senior_bare_do_observe_p1.png"
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_bare_do_observe_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/senior_bare_do_observe_p1.png"
   }
 ];

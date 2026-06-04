@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
+  <script src="../shared/play-local-mp3.js"></script>
+  <script src="../shared/lesson-local-audio.js" defer></script>
+  <script src="../shared/lesson-speak-local-only.js"></script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Lesson 10 · 当堂测</title>
+  <title>第10讲 · 综合测试 · 现在完成时</title>
   <script src="https://cdn.jsdelivr.net/npm/microsoft-cognitiveservices-speech-sdk@1.38.0/dist/microsoft.cognitiveservices.speech.sdk.bundle-min.js" crossorigin="anonymous"></script>
   <style>
     :root {
@@ -112,13 +115,18 @@
       .card { box-shadow: none; break-inside: avoid; }
     }
   </style>
+  <script src="assets/lesson-tts-bootstrap.js"></script>
+  <script src="assets/l10-tts-manifest.js"></script>
+  <script src="assets/l10-tts-play.js"></script>
+  <link rel="stylesheet" href="assets/grammar-lesson-pager.css" />
+  <link rel="stylesheet" href="../shared/grammar-logo.css" />
 </head>
-<body>
+<body class="has-lesson-pager">
   <div id="ariaLive" class="sr" aria-live="polite"></div>
   <header class="topbar">
     <div class="brand">Lesson 10 · 当堂测</div>
     <div class="top-actions no-print">
-      <a class="btn-link secondary" href="L10-00-index.html">返回目录</a>
+      <a class="btn-link secondary" href="index.html">返回目录</a>
       <a class="btn-link secondary" href="L10-12-game-team-competition.html">上一节</a>
       <a class="btn-link secondary" href="L10-14-teacher-notes.html">下一节</a>
       <button type="button" id="btnReadAll">朗读说明与题干</button>
@@ -329,8 +337,6 @@
    * l10-comp-wrong — 竞赛错题 id；本页加载与交卷时会并入 l10-wrong-bank 去重。
    * l10-wrong-bank — 小测错题题号 "1".."15" 与竞赛 id 的合集。
    */
-  const AZURE_SPEECH_KEY = "C42UQWeDcluYanbo17WrtUnPhk0vkZy2uQHPTCGDzY6CdEXx99NzJQQJ99BIACqBBLyXJ3w3AAAYACOGjkyu";
-  const AZURE_SPEECH_REGION = "southeastasia";
   const DEEPSEEK_API_KEY = "sk-daa16008e81843deba6fefe9dce51465";
   const DEEPSEEK_API_URL = "https://api.deepseek.com/v1/chat/completions";
   const LS_BANK = "l10-wrong-bank";
@@ -422,88 +428,13 @@
       "</voice></speak>"
     );
   }
-  function azureRest(ssml, ok, fail) {
-    stopHtmlAudio();
-    fetch("https://" + AZURE_SPEECH_REGION + ".tts.speech.microsoft.com/cognitiveservices/v1", {
-      method: "POST",
-      mode: "cors",
-      credentials: "omit",
-      headers: {
-        "Ocp-Apim-Subscription-Key": AZURE_SPEECH_KEY,
-        "Content-Type": "application/ssml+xml",
-        "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3",
-        "User-Agent": "L10P14Assessment/1.0"
-      },
-      body: ssml
-    })
-      .then(function (r) {
-        if (!r.ok) throw new Error("rest");
-        return r.blob();
-      })
-      .then(function (blob) {
-        if (!blob || blob.size < 80) throw new Error("blob");
-        var u = URL.createObjectURL(blob);
-        var a = new Audio();
-        ttsHtmlAudio = a;
-        a._revoke = u;
-        a.src = u;
-        a.setAttribute("playsinline", "true");
-        a.onended = function () {
-          stopHtmlAudio();
-          ok();
-        };
-        a.onerror = function () {
-          stopHtmlAudio();
-          fail();
-        };
-        var p = a.play();
-        if (p && p.catch) p.catch(function () {
-          stopHtmlAudio();
-          fail();
-        });
-      })
-      .catch(function () {
-        stopHtmlAudio();
-        fail();
-      });
+    function azureRest(ssml, ok, fail) {
+    window.L10LocalTts.speakSsml(ssml, "en-US-JennyNeural", ok);
   }
   function azureSdk(ssml, voiceName, ok, fail) {
-    if (typeof SpeechSDK === "undefined") {
-      fail();
-      return;
-    }
-    stopHtmlAudio();
-    try {
-      if (activeSdkSyn) {
-        activeSdkSyn.close();
-        activeSdkSyn = null;
-      }
-    } catch (e) {}
-    var cfg = SpeechSDK.SpeechConfig.fromSubscription(AZURE_SPEECH_KEY, AZURE_SPEECH_REGION);
-    cfg.speechSynthesisVoiceName = voiceName;
-    var syn = new SpeechSDK.SpeechSynthesizer(cfg, SpeechSDK.AudioConfig.fromDefaultSpeakerOutput());
-    activeSdkSyn = syn;
-    syn.speakSsmlAsync(
-      ssml,
-      function (res) {
-        var good = res.reason === SpeechSDK.ResultReason.SynthesizingAudioCompleted;
-        try {
-          syn.close();
-        } catch (e2) {}
-        if (activeSdkSyn === syn) activeSdkSyn = null;
-        if (good) ok();
-        else fail();
-      },
-      function () {
-        try {
-          syn.close();
-        } catch (e3) {}
-        if (activeSdkSyn === syn) activeSdkSyn = null;
-        fail();
-      }
-    );
+    window.L10LocalTts.speakSsml(ssml, voiceName, ok);
   }
-  function azureSpeak(ssml, voice, done) {
+    function azureSpeak(ssml, voice, done) {
     done = done || function () {};
     setTtsBar("语音连接中…");
     azureRest(
@@ -878,5 +809,11 @@
   });
 })();
   </script>
-</body>
+  <link rel="stylesheet" href="assets/lesson-image-lightbox.css" />
+  <script src="assets/lesson-image-lightbox.js" defer></script>
+<nav class="lesson-pager is-file-nav" aria-label="页面导航">
+    <a class="pager-prev" href="L10-12-game-team-competition.html">上一页</a>
+    <a class="pager-logo" href="../index.html" aria-label="课程主页"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/logo2.png" alt="Steven's Class" width="204" height="61" decoding="async" /></a>
+    <a class="pager-next" href="L10-14-teacher-notes.html">下一页</a>
+  </nav></body>
 </html>

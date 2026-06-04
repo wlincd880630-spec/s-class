@@ -1,9 +1,12 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" class="l00-course">
 <head>
+  <script src="../shared/play-local-mp3.js"></script>
+  <script src="../shared/lesson-local-audio.js" defer></script>
+  <script src="../shared/lesson-speak-local-only.js"></script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>主语 · 谓语 · 宾语 — 互动课 第 2 页</title>
+  <title>主谓宾与非谓语 · 第02页 · 主谓宾多句练习</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet" />
@@ -34,18 +37,7 @@
       background-attachment: fixed;
       overflow-x: hidden;
     }
-
-    @media (min-width: 640px) {
-      html { overflow-x: hidden; }
-      body {
-        zoom: 1.35;
-        width: min(920px, calc(100vw / 1.35));
-        max-width: 100%;
-        margin-left: auto;
-        margin-right: auto;
-        box-sizing: border-box;
-      }
-    }
+    /* 整体 140% 缩放见 assets/l00-scale.css */
 
     body::before {
       content: "";
@@ -540,8 +532,24 @@
       100% { opacity: 0; transform: scale(1.5) translateY(-40px); }
     }
   </style>
+
+  <script src="assets/lesson-tts-bootstrap.js"></script>
+  <script src="assets/l00-speak.js"></script>
+  <script>
+window.__LESSON_TTS_MANIFEST = Object.assign(window.__LESSON_TTS_MANIFEST || {}, {
+  "' + encodeURIComponent(plainText) + '": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/assets/tts-mp3/79566b8b291ef498c85a.mp3",
+  "Dogs like bones.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/assets/tts-mp3/c9d237ab271257a1cebc.mp3",
+  "The tall man washed the car.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/assets/tts-mp3/e60e8e2b86a8a4b1f87d.mp3",
+  "My sister is listening to a beautiful song.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/assets/tts-mp3/50c904a79610a9ec0d86.mp3",
+  "Those hard-working students will finish their final projects.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/assets/tts-mp3/a7832f796666861a0ebc.mp3"
+});
+  </script>
+  <link rel="stylesheet" href="assets/grammar-lesson-pager.css" />
+  <link rel="stylesheet" href="../shared/grammar-logo.css" />
+  <link rel="stylesheet" href="assets/l00-unified-pager.css" />
+  <link rel="stylesheet" href="assets/l00-scale.css" />
 </head>
-<body>
+<body class="has-lesson-pager l00-course">
   <div id="app">
     <h1>主语 · 谓语 · 宾语 — 互动课 第 2 页（练习）</h1>
     <p class="progress-tag" id="progressLabel"></p>
@@ -554,15 +562,20 @@
 
   <div class="success-overlay" id="confettiRoot" aria-hidden="true"></div>
 
-  <div class="footer-bar">
-    <div class="footer-toolbar">
-      <a class="page-nav-link" href="index.html" title="返回本系列课程列表">课程列表</a>
-      <button type="button" class="page-nav-link" id="navPrevStep" disabled title="撤回本课内上一步">← 上一步</button>
-      <button type="button" class="next-btn" id="nextBtn" disabled>下一步 →</button>
+  
+      <nav class="lesson-pager is-l00-unified" aria-label="页面导航">
+    <div class="pager-zone pager-zone--left">
+      <a class="pager-prev" href="page1.html">上一页</a>
+      <a class="pager-lesson-index" href="index.html" title="返回主谓宾课程列表">课程列表</a>
     </div>
-  </div>
-
-  <script>
+    <a class="pager-logo" href="../index.html" aria-label="课程总目录"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/logo2.png" alt="Steven's Class" width="204" height="61" decoding="async" /></a>
+    <div class="pager-zone pager-zone--right">
+      <button type="button" class="pager-step-prev" id="navPrevStep" disabled title="撤回本课内上一步">← 上一步</button>
+      <button type="button" class="pager-step-next" id="nextBtn">下一步 →</button>
+      <a class="pager-next" href="page3.html">下一页</a>
+    </div>
+  </nav>
+<script>
 (function () {
   "use strict";
 
@@ -573,7 +586,7 @@
   var TTS_VOICE = "en-US-AriaNeural";
   /** 图片统一走腾讯 COS（与 bucket 路径 Grammar/L00-主谓宾与非谓语/ 一致） */
   var DQ_GRAMMAR_COS =
-    "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/";
+    "";
   var IMG = DQ_GRAMMAR_COS + "asset/img/";
 
   var PRACTICE_STEPS = 5;
@@ -707,42 +720,8 @@
   }
 
   function speakAzure(text) {
-    if (!text) return;
-    var endpoint = "https://" + AZURE_REGION + ".tts.speech.microsoft.com/cognitiveservices/v1";
-    var ssml =
-      '<speak version="1.0" xml:lang="en-US">' +
-      '<voice xml:lang="en-US" name="' +
-      TTS_VOICE +
-      '">' +
-      escapeXml(text) +
-      "</voice></speak>";
-    fetch(endpoint, {
-      method: "POST",
-      headers: {
-        "Ocp-Apim-Subscription-Key": AZURE_SPEECH_KEY,
-        "Content-Type": "application/ssml+xml",
-        "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3",
-        "User-Agent": "ESL-Page2"
-      },
-      body: ssml
-    })
-      .then(function (r) {
-        if (!r.ok) throw new Error("TTS " + r.status);
-        return r.arrayBuffer();
-      })
-      .then(function (buf) {
-        var blob = new Blob([buf], { type: "audio/mpeg" });
-        var url = URL.createObjectURL(blob);
-        var audio = new Audio(url);
-        audio.play().finally(function () {
-          setTimeout(function () {
-            URL.revokeObjectURL(url);
-          }, 60000);
-        });
-      })
-      .catch(function (e) {
-        console.warn("TTS:", e);
-      });
+    if (window.L00Speak) return window.L00Speak.speak(text);
+    return Promise.resolve();
   }
 
   function parsePracticeState() {
@@ -1364,5 +1343,6 @@
   render();
 })();
   </script>
-</body>
+  <link rel="stylesheet" href="assets/lesson-image-lightbox.css" />
+  <script src="assets/lesson-image-lightbox.js" defer></script></body>
 </html>

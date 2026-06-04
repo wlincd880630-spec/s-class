@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
+  <script src="../shared/play-local-mp3.js"></script>
+  <script src="../shared/lesson-local-audio.js" defer></script>
+  <script src="../shared/lesson-speak-local-only.js"></script>
   <!-- spa-assets-inlined -->
 
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>第02讲 · Page 5 · 巅峰对决：语境大侦探</title>
-  <script src="../assets/lesson-tts-azure-config.js"></script>
-  <script src="../assets/lesson-tts-azure-play.js"></script>
+  <title>第02讲 · 第05页 · 时态语境辨析</title>
+  <script src="assets/lesson-tts-azure-config.js"></script>
+  <script src="assets/lesson-tts-azure-play.js"></script>
 <style>
     :root {
       --paper: #fff9f0;
@@ -2031,131 +2034,7 @@ window.__LESSON_TTS_MANIFEST = {
 };
 
 </script>
-  <script>
-/* inlined: assets/lesson-tts-bootstrap.js */
-/**
- * 本地 MP3 优先（配合 assets/tts-manifest.js 中 window.__LESSON_TTS_MANIFEST）。
- * 1) playLocalIfAvailable：直接按文案查找并播放。
- * 2) fetch 拦截：课件内对 Azure TTS 的 fetch(SSML) 若 manifest 有对应句，则改为 fetch(本地 mp3) 并返回同形态 Response，无需改各页 speak()。
- *
- * 可选：window.__AZURE_SPEECH_KEY__ 供仍走在线时的密钥（勿写入仓库）。
- */
-(function () {
-  "use strict";
-
-  function norm(s) {
-    return String(s || "")
-      .replace(/\s+/g, " ")
-      .trim();
-  }
-
-  function map() {
-    return typeof window !== "undefined" && window.__LESSON_TTS_MANIFEST ? window.__LESSON_TTS_MANIFEST : {};
-  }
-
-  /** 从 SSML 中取 <voice>…</voice> 内纯文本（去内层标签与常见实体；须与 manifest 键一致） */
-  function extractSsmlVoicePlain(ssml) {
-    var m = String(ssml).match(/<voice[^>]*>([\s\S]*?)<\/voice>/i);
-    if (!m) return "";
-    var inner = m[1].replace(/<[^>]+>/g, " ");
-    inner = inner
-      .replace(/&#39;/g, "'")
-      .replace(/&#039;/g, "'")
-      .replace(/&apos;/g, "'")
-      .replace(/&#x27;/gi, "'")
-      .replace(/&quot;/g, '"')
-      .replace(/&lt;/g, "<")
-      .replace(/&gt;/g, ">")
-      .replace(/&nbsp;/g, " ")
-      .replace(/&amp;/g, "&");
-    return norm(inner);
-  }
-
-  function isAzureTtsRequest(input, init) {
-    try {
-      var u = typeof input === "string" ? input : input && input.url;
-      if (!u || String(u).indexOf("tts.speech.microsoft.com") === -1) return false;
-      if (!init || String(init.method || "GET").toUpperCase() !== "POST") return false;
-      var ct = "";
-      if (init.headers) {
-        if (typeof init.headers.get === "function") ct = init.headers.get("Content-Type") || "";
-        else ct = init.headers["Content-Type"] || init.headers["content-type"] || "";
-      }
-      if (!ct || String(ct).indexOf("ssml") === -1) return false;
-      var body = init.body;
-      if (typeof body !== "string" || body.indexOf("<speak") === -1) return false;
-      return true;
-    } catch (e) {
-      return false;
-    }
-  }
-
-  var origFetch = typeof window.fetch === "function" ? window.fetch.bind(window) : null;
-
-  if (origFetch) {
-    window.fetch = function (input, init) {
-      if (isAzureTtsRequest(input, init) && map() && typeof init.body === "string") {
-        var phrase = extractSsmlVoicePlain(init.body);
-        if (phrase) {
-          var m = map();
-          var rel = m[phrase] || m[norm(phrase)];
-          if (rel) {
-            return origFetch(rel, { method: "GET", credentials: "same-origin", cache: "force-cache" })
-              .then(function (res) {
-                if (!res.ok) return origFetch(input, init);
-                return res;
-              })
-              .catch(function () {
-                return origFetch(input, init);
-              });
-          }
-        }
-      }
-      return origFetch(input, init);
-    };
-  }
-
-  /**
-   * @param {string} text
-   * @returns {Promise<boolean>} true 已播放本地文件
-   */
-  function playLocalIfAvailable(text) {
-    var k = norm(text);
-    if (!k) return Promise.resolve(false);
-    var m = map();
-    var rel = m[k] || m[text] || m[String(text || "").trim()];
-    if (!rel) return Promise.resolve(false);
-    return new Promise(function (resolve) {
-      var a = new Audio(rel);
-      var done = false;
-      function fin(ok) {
-        if (done) return;
-        done = true;
-        resolve(!!ok);
-      }
-      a.onended = function () {
-        fin(true);
-      };
-      a.onerror = function () {
-        fin(false);
-      };
-      var p = a.play();
-      if (p && typeof p.catch === "function") {
-        p.catch(function () {
-          fin(false);
-        });
-      }
-    });
-  }
-
-  window.LessonTTSBootstrap = {
-    norm: norm,
-    playLocalIfAvailable: playLocalIfAvailable,
-    extractSsmlVoicePlain: extractSsmlVoicePlain
-  };
-})();
-
-</script>
+    <script src="assets/lesson-tts-bootstrap.js"></script>
   <script>
 /* inlined: assets/lesson-speak-local.js */
 /**
@@ -2210,6 +2089,16 @@ window.__LESSON_TTS_MANIFEST = {
         resolve(false);
         return;
       }
+      if (typeof window.playLocalMp3Url === "function") {
+
+        return window.playLocalMp3Url(rel).then(function (ok) {
+
+          if (!ok) console.warn("(!!ok);
+
+        });
+
+      }
+
       var a = new Audio(rel);
       var done = false;
       function fin(ok) {
@@ -2337,6 +2226,8 @@ window.__LESSON_TTS_MANIFEST = {
 })();
 
 </script>
+  <link rel="stylesheet" href="assets/grammar-lesson-pager.css" />
+  <link rel="stylesheet" href="../shared/grammar-logo.css" />
 </head>
 <body class="has-lesson-pager">
   <!-- 阶段三、阶段四练习题：语料筛选自「初高中英语/成都中考真题」目录下各年 HTML 试卷 -->
@@ -2754,7 +2645,7 @@ window.__LESSON_TTS_MANIFEST = {
       text: row.text,
       bucket: row.bucket,
       clue: row.clue,
-      image: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L02/images/l02/sort-evidence/pdf-" + num + ".png"
+      image: "images/l02/sort-evidence/pdf-" + num + ".png"
     };
   });
 
@@ -3530,5 +3421,11 @@ window.__LESSON_TTS_MANIFEST = {
   });
 })();
   </script>
-</body>
+  <link rel="stylesheet" href="assets/lesson-image-lightbox.css" />
+  <script src="assets/lesson-image-lightbox.js" defer></script>
+<nav class="lesson-pager is-file-nav" aria-label="页面导航">
+    <a class="pager-prev" href="lesson02-page04-spelling.html">上一页</a>
+    <a class="pager-logo" href="../index.html" aria-label="课程主页"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/logo2.png" alt="Steven's Class" width="204" height="61" decoding="async" /></a>
+    <a class="pager-next" href="lesson02-page06-force5.html">下一页</a>
+  </nav></body>
 </html>

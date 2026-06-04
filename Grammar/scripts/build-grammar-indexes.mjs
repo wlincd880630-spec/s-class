@@ -162,7 +162,6 @@ const MODULES = [
     dir: "L10",
     title: "现在完成时",
     pages: [
-      { href: "L10-00-index.html", label: "课程总览" },
       { href: "L10-01-warmup-review.html", label: "复习 · 一般过去时" },
       { href: "L10-02-present-perfect-form.html", label: "have/has + done" },
       { href: "L10-03-meaning-result-experience.html", label: "意义 · 结果与经历" },
@@ -235,7 +234,7 @@ function renderIndex({ title, pages }) {
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>${title} · 目录</title>
-  <link rel="stylesheet" href="../grammar-index.css" />
+  <link rel="stylesheet" href="../shared/grammar-index.css" />
 </head>
 <body>
   <main class="g-index">

@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
+  <script src="../shared/play-local-mp3.js"></script>
+  <script src="../shared/lesson-local-audio.js" defer></script>
+  <script src="../shared/lesson-speak-local-only.js"></script>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>第09讲 · Page 01 · 重返现场 · 精确时刻与过去进行时</title>
+  <title>第09讲 · 第01页 · 课程导入</title>
   <script src="./assets/l09-tts-manifest.js"></script>
-  <script src="../assets/lesson-tts-bootstrap.js"></script>
+  <script src="assets/lesson-tts-bootstrap.js"></script>
   <!-- 赛璐璐卡通教学风：对齐 L08 lesson08-page01 色板与不规则画框 -->
   <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
   <style>
@@ -654,8 +657,10 @@
       background: rgba(255, 235, 59, 0.55);
     }
   </style>
+  <link rel="stylesheet" href="assets/grammar-lesson-pager.css" />
+  <link rel="stylesheet" href="../shared/grammar-logo.css" />
 </head>
-<body>
+<body class="has-lesson-pager">
   <!-- 本页内置密钥：便于双击 HTML 本地演示。正式分发请改为空字符串并从安全渠道注入。 -->
   <script>
     window.L09_CFG = {
@@ -1145,6 +1150,20 @@
       }
       currentAudioUrl = url;
       await new Promise((resolve, reject) => {
+        if (typeof window.playLocalMp3Url === "function") {
+
+          window.playLocalMp3Url(url).then(function (ok) {
+
+            if (!ok) console.warn("[LessonAudio] 本地 MP3 播放失败:", url);
+
+            resolve(!!ok);
+
+          });
+
+          return;
+
+        }
+
         const a = new Audio(url);
         a.onended = resolve;
         a.onerror = reject;
@@ -1644,5 +1663,11 @@
   });
 })();
   </script>
-</body>
+  <link rel="stylesheet" href="assets/lesson-image-lightbox.css" />
+  <script src="assets/lesson-image-lightbox.js" defer></script>
+<nav class="lesson-pager is-file-nav" aria-label="页面导航">
+    <span class="pager-prev pager-muted" aria-disabled="true">上一页</span>
+    <a class="pager-logo" href="../index.html" aria-label="课程主页"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/logo2.png" alt="Steven's Class" width="204" height="61" decoding="async" /></a>
+    <a class="pager-next" href="lesson09-page02-timeline.html">下一页</a>
+  </nav></body>
 </html>

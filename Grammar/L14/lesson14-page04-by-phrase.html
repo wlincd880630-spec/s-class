@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>被动语态 · by 短语 · 何时省略</title>
+  <link rel="stylesheet" href="assets/lesson-screen-16x9.css" />
+  <link rel="stylesheet" href="l14-index-nav.css" />
+  <link rel="stylesheet" href="../shared/grammar-logo.css" />
+  <link rel="stylesheet" href="l14-lesson-shell.css" />
+  <link rel="stylesheet" href="assets/grammar-lesson-pager.css" />
+  <link rel="stylesheet" href="l14-page-components.css" />
+  <link rel="stylesheet" href="l14-page04-layout.css" />
+  <link rel="stylesheet" href="l14-page04-readable-text.css" />
+  <link rel="stylesheet" href="l14-readable-global.css" />
+  <style>
+    :root {
+      --l14-accent: #0d9488; --l14-accent-ink: #0f766e;
+      --l14-top-bg: linear-gradient(180deg, #fff, #f0fdfa);
+      --l14-shadow: rgba(13, 148, 136, 0.35); --l14-dash: rgba(13, 148, 136, 0.35);
+      --paper: #fff9f0; --ink: #2c2c2c; --edge: #5d4037; --shadow-book: rgba(60, 40, 20, 0.14);
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0; min-height: 100dvh;
+      font-family: system-ui, -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: linear-gradient(165deg, #134e4a 0%, #1e3a5f 42%, #0f172a 100%);
+      color: var(--ink); line-height: 1.55;
+    }
+    #l14-book .panel.panel-split {
+      display: grid; gap: 0.65rem; flex: 1 1 auto; min-height: 0; overflow: hidden;
+    }
+    @media (min-width: 640px) {
+      #l14-book .panel.panel-split { grid-template-columns: minmax(200px, 46%) 1fr; }
+    }
+    .route-strip {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0.45rem;
+      margin-top: 0.65rem;
+    }
+    .route-strip span,
+    .rubric-mini span {
+      display: block;
+      padding: 0.42rem 0.5rem;
+      border: 2px solid rgba(93, 64, 55, 0.18);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.84);
+      font-size: 0.8rem;
+      font-weight: 800;
+      color: #334155;
+    }
+    .teacher-script,
+    .editor-note {
+      margin-top: 0.55rem;
+      padding: 0.56rem 0.7rem;
+      border-left: 4px solid var(--l14-accent);
+      border-radius: 10px;
+      background: rgba(240, 253, 250, 0.84);
+      color: #0f766e;
+      font-size: 0.84rem;
+      font-weight: 740;
+    }
+    .editor-note {
+      border-left-color: #c2410c;
+      background: rgba(255, 247, 237, 0.86);
+      color: #9a3412;
+    }
+    .rubric-mini {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.45rem;
+      margin: 0.55rem 0;
+    }
+    @media (max-width: 720px) {
+      .route-strip,
+      .rubric-mini { grid-template-columns: 1fr; }
+    }
+  </style>
+  <link rel="stylesheet" href="l14-scene-images.css" />
+  <script src="l14-ui-helpers.js"></script>
+  <script src="l14-progress.js"></script>
+  <script src="l14-quiz-engine.js"></script>
+  <script src="l14-corpus-pool.js?v=5"></script>
+</head>
+<body class="has-lesson-pager">
+  <div id="ui-lock" aria-hidden="true"></div>
+  <div id="app">
+    <div id="l14-book" class="book">
+      <header class="top-bar">
+        <div class="top-bar-main">
+          <strong>被动语态</strong>
+        </div>
+        <a class="l14-index-link" href="index.html">学习目录</a>
+      </header>
+      <div class="l14-scroll">
+
+        <section class="lesson-page active" data-page="1">
+          <div class="panel panel-split">
+            <div class="scene-frame scene-frame--by">
+              <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L14/assets/img/l14-p04-by-inventor.png" alt="by 发明者" width="800" height="600" style="aspect-ratio:4/3" loading="lazy"
+                onerror="this.src='https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L14/assets/img/l14-p05-invention-hall.png'" />
+            </div>
+            <div>
+              <p class="panel-lead"><strong>本节 by 目标</strong></p>
+              <div class="goal-grid" id="goal-grid"></div>
+              <div class="route-strip" aria-label="本页学习路径">
+                <span>1. 看语义：谁做的</span>
+                <span>2. 分边界：by / in / on</span>
+                <span>3. 判省略：泛指可不说</span>
+                <span>4. 过测验：进入过去被动</span>
+              </div>
+              <p class="channel-links"><a href="lesson14-page03-transform.html">← Page 03 转换</a></p>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="2">
+          <div class="page-head"><span class="page-kicker">2 / 15</span><h2 class="page-title">声先行 · by 耳听</h2></div>
+          <div class="panel">
+            <p class="panel-lead">先听施事者短语，再判断：这里说的是“谁做的”，不是地点或时间</p>
+            <p class="en-line en-blur rule-demo-en" lang="en" id="by-intro-en">
+              The zipper was invented <span class="mark-by">by</span> Whitcomb Judson in 1893.
+            </p>
+            <p class="zh-hint en-blur" id="by-intro-zh">by + 人/物 = 施事者 · 不知或不重要时可省略</p>
+            <p class="teacher-script">教师提示：本页不要把所有介词混讲。先建立一个判断问题：空格后面回答“谁做的”吗？如果是，常用 by；如果是地点/年份，多用 in/on。</p>
+            <div class="btn-row">
+              <button type="button" class="btn teal" id="btn-by-sound">🔊 播放例句</button>
+              <button type="button" class="btn violet" id="btn-by-show">显示文字</button>
+              <button type="button" class="btn ghost" id="btn-by-contrast">对比无 by 句</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="3">
+          <div class="page-head"><span class="page-kicker">3 / 15</span><h2 class="page-title">苏格拉底 · 三问</h2></div>
+          <div class="panel">
+            <p class="panel-lead">by 不是随便加 · 先判断再填空</p>
+            <p class="teacher-script">追问顺序：空格后是人名/执行者？是地点/年份？还是泛指 people 可省略？让学生先说理由再点选项。</p>
+            <div class="socratic-grid" id="socratic-grid"></div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="4">
+          <div class="page-head"><span class="page-kicker">4 / 15</span><h2 class="page-title">教师展示 · 三种情形</h2></div>
+          <div class="panel">
+            <p class="panel-lead">点卡片看例句 · 发明馆</p>
+            <div class="rule-grid" id="rule-grid"></div>
+            <p class="rule-demo-en" lang="en" id="rule-demo-en"></p>
+            <p class="zh-hint" id="rule-demo-zh"></p>
+            <p class="editor-note">出版提示：`by hand` 是方式搭配，不等同于“by + 发明者/施事者”；本页把它作为固定搭配单列练习。</p>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="5">
+          <div class="page-head"><span class="page-kicker">5 / 15</span><h2 class="page-title">启发 · 填空 by / in</h2></div>
+          <div class="panel">
+            <p class="panel-lead">点击芯片填入空格 · 先问：人/方式/地点/年份？</p>
+            <div class="by-build" id="by-build-line"></div>
+            <div class="chip-bank" id="chip-by-bank"></div>
+            <p class="fb" id="by-build-fb"></p>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="6">
+          <div class="page-head"><span class="page-kicker">6 / 15</span><h2 class="page-title">对比轮播 · 加 or 省</h2></div>
+          <div class="panel">
+            <p class="panel-lead"><span class="tier-label">分层 A</span>8 组 · 先读正句，再看错因</p>
+            <div class="compare-card" id="compare-card"></div>
+            <div class="btn-row">
+              <button type="button" class="btn violet" id="cmp-show-wrong">显示错句</button>
+              <button type="button" class="btn teal" id="cmp-play">🔊 朗读正句</button>
+              <button type="button" class="btn ghost" id="cmp-prev">上一组</button>
+              <button type="button" class="btn ghost" id="cmp-next">下一组</button>
+            </div>
+            <p class="zh-hint" id="cmp-pos">1 / 8</p>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="7">
+          <div class="page-head"><span class="page-kicker">7 / 15</span><h2 class="page-title">语料朗读 · 发明句</h2></div>
+          <div class="panel">
+            <p class="panel-lead">语料朗读 · 圈出 by / in / by hand，读出语义差别</p>
+            <div class="read-by-card" id="read-card"></div>
+            <div class="btn-row">
+              <button type="button" class="btn teal" id="read-play">🔊 播放</button>
+              <button type="button" class="btn violet" id="read-show">显示英文</button>
+              <button type="button" class="btn ghost" id="read-prev">上一句</button>
+              <button type="button" class="btn ghost" id="read-next">下一句</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="8">
+          <div class="page-head"><span class="page-kicker">8 / 15</span><h2 class="page-title">模式 A · 选 by / in</h2></div>
+          <div class="panel panel-quiz-screen">
+            <p class="panel-lead"><span class="tier-label">分层 B</span>12 题 · 填空判断 · 8 秒</p>
+            <div class="quiz-timer-bar" id="timer-bar-a"><div class="quiz-timer-fill" id="timer-fill-a"></div><span class="quiz-timer-text" id="timer-text-a">8</span></div>
+            <div class="quick-quiz-stage">
+              <div class="quiz-slot" id="quiz-a"></div>
+              <div class="quiz-fx" id="quiz-fx-a" hidden></div>
+            </div>
+            <div class="quiz-foot">
+              <span class="quiz-progress" id="prog-a">1 / 12</span>
+              <div class="carousel-dots" id="dots-a"></div>
+            </div>
+            <div class="btn-row">
+              <button type="button" class="btn ghost" data-quiz-prev="a">上一题</button>
+              <button type="button" class="btn ghost" data-quiz-next="a">下一题</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="9">
+          <div class="page-head"><span class="page-kicker">9 / 15</span><h2 class="page-title">模式 B · 选完整句</h2></div>
+          <div class="panel panel-quiz-screen">
+            <p class="panel-lead"><span class="tier-label">分层 B</span>8 题 · 该不该加 by</p>
+            <div class="quiz-timer-bar" id="timer-bar-b"><div class="quiz-timer-fill" id="timer-fill-b"></div><span class="quiz-timer-text" id="timer-text-b">8</span></div>
+            <div class="quick-quiz-stage">
+              <div class="quiz-slot" id="quiz-b"></div>
+              <div class="quiz-fx" id="quiz-fx-b" hidden></div>
+            </div>
+            <div class="quiz-foot">
+              <span class="quiz-progress" id="prog-b">1 / 8</span>
+              <div class="carousel-dots" id="dots-b"></div>
+            </div>
+            <div class="btn-row">
+              <button type="button" class="btn ghost" data-quiz-prev="b">上一题</button>
+              <button type="button" class="btn ghost" data-quiz-next="b">下一题</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="10">
+          <div class="page-head"><span class="page-kicker">10 / 15</span><h2 class="page-title">模式 C · 改错</h2></div>
+          <div class="panel panel-quiz-screen">
+            <p class="panel-lead"><span class="tier-label tier-b">分层 B+</span>6 题 · by 乱用</p>
+            <div class="quick-quiz-stage">
+              <div class="quiz-slot" id="quiz-c"></div>
+              <div class="quiz-fx" id="quiz-fx-c" hidden></div>
+            </div>
+            <div class="quiz-foot">
+              <span class="quiz-progress" id="prog-c">1 / 6</span>
+              <div class="carousel-dots" id="dots-c"></div>
+            </div>
+            <div class="btn-row">
+              <button type="button" class="btn ghost" data-quiz-prev="c">上一题</button>
+              <button type="button" class="btn ghost" data-quiz-next="c">下一题</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="11">
+          <div class="page-head"><span class="page-kicker">11 / 15</span><h2 class="page-title">模式 D · 固定搭配</h2></div>
+          <div class="panel panel-quiz-screen">
+            <p class="panel-lead"><span class="tier-label">分层 B+</span>8 题 · by hand / in China / in 1876</p>
+            <div class="quiz-timer-bar" id="timer-bar-d"><div class="quiz-timer-fill" id="timer-fill-d"></div><span class="quiz-timer-text" id="timer-text-d">8</span></div>
+            <div class="quick-quiz-stage">
+              <div class="quiz-slot" id="quiz-d"></div>
+              <div class="quiz-fx" id="quiz-fx-d" hidden></div>
+            </div>
+            <div class="quiz-foot">
+              <span class="quiz-progress" id="prog-d">1 / 8</span>
+              <div class="carousel-dots" id="dots-d"></div>
+            </div>
+            <div class="btn-row">
+              <button type="button" class="btn ghost" data-quiz-prev="d">上一题</button>
+              <button type="button" class="btn ghost" data-quiz-next="d">下一题</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="12">
+          <div class="page-head"><span class="page-kicker">12 / 15</span><h2 class="page-title">模式 E · 听音选句</h2></div>
+          <div class="panel panel-quiz-screen">
+            <p class="panel-lead"><span class="tier-label tier-b">分层 C</span>5 题 · 听 by 或省略</p>
+            <div class="quick-quiz-stage">
+              <div class="quiz-slot" id="quiz-e"></div>
+              <div class="quiz-fx" id="quiz-fx-e" hidden></div>
+            </div>
+            <div class="quiz-foot">
+              <span class="quiz-progress" id="prog-e">1 / 5</span>
+              <div class="carousel-dots" id="dots-e"></div>
+            </div>
+            <div class="btn-row">
+              <button type="button" class="btn teal" id="listen-e">🔊 播放本题</button>
+              <button type="button" class="btn ghost" data-quiz-prev="e">上一题</button>
+              <button type="button" class="btn ghost" data-quiz-next="e">下一题</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="13">
+          <div class="page-head"><span class="page-kicker">13 / 15</span><h2 class="page-title">易错陷阱</h2></div>
+          <div class="panel">
+            <p class="panel-lead">✗ by 乱用 → 显示正句</p>
+            <div id="trap-box"></div>
+            <div class="btn-row">
+              <button type="button" class="btn ghost" id="trap-prev">上一条</button>
+              <button type="button" class="btn ghost" id="trap-next">下一条</button>
+              <button type="button" class="btn violet" id="trap-reveal">显示正句</button>
+            </div>
+            <p class="zh-hint" id="trap-pos">1 / 6</p>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="14">
+          <div class="page-head"><span class="page-kicker">14 / 15</span><h2 class="page-title">学生总结</h2></div>
+          <div class="panel">
+            <div class="rule-box teal" id="rule-final">施事者重要 → by + 人 · 地点/时间 → in/on · 不知/不重要 → 省略 by</div>
+            <div class="summary-pick" id="summary-chips"></div>
+            <label class="zh-hint">用中文写一句 by 使用规则：</label>
+            <textarea class="summary-write" id="summary-write" placeholder="例如：发明者要说清楚就加 by；种茶的地方用 in，不说 by people……"></textarea>
+            <div class="rubric-mini" aria-label="本页出口评价">
+              <span>基础：能认出 by + 人</span>
+              <span>稳固：能区分 by / in</span>
+              <span>挑战：能说明何时省略 by</span>
+            </div>
+            <ul class="checklist" id="checklist"></ul>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="15">
+          <div class="page-head"><span class="page-kicker">15 / 15</span><h2 class="page-title">语料回顾 · → Page 05</h2></div>
+          <div class="panel">
+            <table class="corpus-mini" id="corpus-table"></table>
+            <p class="rule-box amber" style="margin-top:0.45rem">过关：模式 A≥9/12 · 对比 8 组过完 · 总结 1 句</p>
+            <a class="channel-btn" href="lesson14-page05-past-passive.html">进入 Page 05 · 过去时被动</a>
+            <p class="channel-links">
+              <a href="lesson14-page03-transform.html">Page 03</a> ·
+              <a href="index.html">学习目录</a>
+            </p>
+          </div>
+        </section>
+
+      </div>
+    </div>
+    <nav class="lesson-pager is-intra-nav" aria-label="分页">
+      <div class="pager-zone pager-zone--left">
+        <button type="button" class="pager-prev" id="pager-prev">上一页</button>
+      </div>
+      <a class="pager-logo" href="../index.html" aria-label="课程主页"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/logo2.png" alt="Steven's Class" width="204" height="61" decoding="async" /></a>
+      <div class="pager-zone pager-zone--right">
+        <span class="pager-mid" id="pager-mid">1 / 15</span>
+        <button type="button" class="pager-next" id="pager-next">下一页</button>
+      </div>
+    </nav>
+  </div>
+  <script src="l14-image-lightbox.js"></script>
+  <script src="l14-index-nav.js"></script>
+  <script>
+(function () {
+  "use strict";
+
+  const AZURE_KEY = "C42UQWeDcluYanbo17WrtUnPhk0vkZy2uQHPTCGDzY6CdExx99NzJQQJ99BIACqBBLyXJ3w3AAAYACOGjkyu";
+  const AZURE_REGION = "southeastasia";
+  const VOICE_EN = "en-US-AriaNeural";
+  const PAGE_COUNT = 15;
+  const QUIZ_TIME_SEC = 8;
+  const PROGRESS_ID = "lesson14-page04";
+  const PROGRESS_VERSION = 3;
+
+  function defaultProgress() {
+    return {
+      version: PROGRESS_VERSION,
+      page: 1,
+      enShown: {},
+      quizzes: {},
+      cmpIdx: 0,
+      readIdx: 0,
+      trapIdx: 0,
+      buildRound: 0,
+      trapsRevealed: {}
+    };
+  }
+  let progress = defaultProgress();
+  function persistProgress() {
+    if (window.L14Progress) L14Progress.save(PROGRESS_ID, progress);
+  }
+
+  const P14 = L14Corpus.enrichPageQuizzes("page04", {
+    goals: [
+      "理解 by + 施事者：说明动作由谁完成",
+      "会判断何时省略 by：泛指、不知、不重要、显而易见",
+      "区分 by 与 in/on：地点、年份不用 by",
+      "掌握 by hand、by mistake、made in China 等常见搭配",
+      "完成五种测验模式，减少 by 乱用和漏用",
+      "衔接 Page 05：在 was/were + done 中继续处理时间和发明者"
+    ],
+    socratic: [
+      {
+        q: "The telephone was invented ___ Bell. 填什么？",
+        opts: ["by", "in", "on"],
+        ans: "by",
+        fb: "发明者是人 → by + 人名。"
+      },
+      {
+        q: "This ring was made ___ Thailand. 需要 by people 吗？",
+        opts: ["要，by people", "不要，用 in", "要，by Thailand"],
+        ans: "不要，用 in",
+        fb: "产地用 in Thailand，不说 by Thailand。"
+      },
+      {
+        q: "Kites are made ___ hand. 固定搭配？",
+        opts: ["by hand", "in hand", "with hand"],
+        ans: "by hand",
+        fb: "by hand = 手工，固定说法。"
+      }
+    ],
+    rules: [
+      {
+        tag: "add", tagZh: "加 by", title: "施事者重要",
+        zh: "发明者、执行者需要点明 → by + 人/物",
+        en: "The telephone was invented by Alexander Graham Bell.",
+        audio: "The telephone was invented by Alexander Graham Bell in 1876."
+      },
+      {
+        tag: "skip", tagZh: "省略 by", title: "不知 / 不重要",
+        zh: "谁做的显而易见或不必说明 → 省略 by",
+        en: "Mobile phones are made in factories.",
+        audio: "Mobile phones are made in factories."
+      },
+      {
+        tag: "place", tagZh: "用 in/on", title: "时间 / 地点",
+        zh: "年份、国家、城市多用 in；具体日期多用 on",
+        en: "The telephone was invented in 1876. Shirts are made in China.",
+        audio: "The telephone was invented in 1876. Shirts are made in China."
+      }
+    ],
+    buildItems: [
+      { line: "The zipper was invented ___ Whitcomb Judson.", ans: "by", chips: ["by", "in", "on", "from", "（省略）"] },
+      { line: "Tea is grown ___ Hangzhou.", ans: "in", chips: ["by", "in", "on", "from", "（省略）"] },
+      { line: "The tea was picked ___ hand.", ans: "by", chips: ["by", "in", "on", "with", "（省略）"] }
+    ],
+    buildIdx: 0,
+    compareItems: [
+      { type: "no-by", zh: "银戒产地", en: "This ring was made in Thailand.", wrong: "✗ This ring was made by Thailand.", note: "地点 → in，不是 by" },
+      { type: "use-by", zh: "电话发明者", en: "The telephone was invented by Alexander Graham Bell.", wrong: "✗ The telephone was invented in Bell.", note: "人 → by，不是 in" },
+      { type: "no-by", zh: "工厂造手机", en: "Mobile phones are made in factories.", wrong: "✗ Mobile phones are made by factories.", note: "地点常不用 by the factory" },
+      { type: "use-by", zh: "薯片发明者", en: "Potato chips were invented by George Crum.", wrong: "✗ Potato chips were invented in Crum.", note: "by + 人名" },
+      { type: "no-by", zh: "电话年份", en: "The telephone was invented in 1876.", wrong: "✗ The telephone was invented by 1876.", note: "年份 → in，不是 by" },
+      { type: "use-by", zh: "手工做风筝", en: "Kites are made by hand.", wrong: "✗ Kites are made in hand.", note: "固定方式搭配：by hand" },
+      { type: "no-by", zh: "印刷术在中国", en: "Printing was invented in China.", wrong: "✗ Printing was invented by China.", note: "国家作地点 → in China" },
+      { type: "use-by", zh: "篮球发明者", en: "Basketball was invented by James Naismith.", wrong: "✗ Basketball was invented in Naismith.", note: "by + 发明者" }
+    ],
+    readLines: [
+      { tag: "Unit 6", zh: "电话何时被发明？", en: "When was the telephone invented?", src: "Grammar Focus" },
+      { tag: "Unit 6", zh: "1876 年由 Bell 发明。", en: "It was invented by Alexander Graham Bell in 1876.", src: "问答" },
+      { tag: "Unit 6", zh: "薯片偶然发明。", en: "Potato chips were invented by mistake.", src: "阅读" },
+      { tag: "Unit 6", zh: "篮球由 Naismith 发明。", en: "Basketball was invented by James Naismith.", src: "语篇" },
+      { tag: "Unit 5", zh: "风筝手工制作（by hand 表方式）。", en: "Kites are made by hand in Weifang.", src: "Unit 5" },
+      { tag: "Unit 5", zh: "银戒在泰国制造。", en: "This ring was made in Thailand.", src: "1b 对话" },
+      { tag: "Unit 6", zh: "印刷术在中国发明。", en: "Printing was invented in China.", src: "拓展" },
+      { tag: "Unit 7", zh: "博物馆或许可拍照。", en: "We may be allowed to take photos in the museum.", src: "Unit 7" }
+    ],
+    traps: [
+      { wrong: "Tea is grown by Hangzhou.", right: "Tea is grown in Hangzhou.", note: "城市是地点 → in，不是 by。" },
+      { wrong: "The zipper was invented in Judson.", right: "The zipper was invented by Whitcomb Judson.", note: "人 → by。" },
+      { wrong: "The telephone was invented by 1876.", right: "The telephone was invented in 1876.", note: "年份 → in。" },
+      { wrong: "Shirts are made by China.", right: "Shirts are made in China.", note: "国家作地点 → in China。" },
+      { wrong: "The tea was picked in hand.", right: "The tea was picked by hand.", note: "固定搭配 by hand。" },
+      { wrong: "Tea is grown by people in Hangzhou.", right: "Tea is grown in Hangzhou.", note: "by people 通常省略。" }
+    ],
+    summaryChips: ["by + 施事者", "省略 by people", "地点 in/on", "年份 in", "by hand", "by mistake", "made in China"],
+    checklist: [
+      "我能说出何时加 by、何时省略",
+      "我会区分 by 与 in/on",
+      "我记住 by hand、by mistake、in China、in 1876",
+      "我能说明 by hand 是方式搭配，不是发明者",
+      "我完成对比 8 组与五种测验",
+      "我准备学习 was/were + done"
+    ],
+    corpus: [
+      ["Unit 6", "invented by Judson", "加 by"],
+      ["Unit 6", "invented in 1876", "年份 in"],
+      ["Unit 5", "grown in Hangzhou", "省略 by"],
+      ["Unit 5", "picked by hand", "固定搭配"],
+      ["Unit 5", "made in China", "产地 in"],
+      ["易错", "地点不用 by", "in Hangzhou"],
+      ["易错", "人不用 in", "by + 人名"],
+      ["Page 05", "was/were + done", "下节"]
+    ]
+  });
+
+  let currentPage = 1;
+  let cmpIdx = 0;
+  let readIdx = 0;
+  let trapIdx = 0;
+  let buildRound = 0;
+  const quizEngines = {};
+
+  function escHtml(s) {
+    return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+  function lockUI() { document.getElementById("ui-lock").classList.add("active"); }
+  function unlockUI() { document.getElementById("ui-lock").classList.remove("active"); }
+
+  async function playAudio(text) {
+    if (!text) return;
+    lockUI();
+    const body = "<speak version='1.0' xml:lang='en-US'><voice name='" + VOICE_EN + "'>" + escHtml(text) + "</voice></speak>";
+    try {
+      const res = await fetch("https://" + AZURE_REGION + ".tts.speech.microsoft.com/cognitiveservices/v1", {
+        method: "POST",
+        headers: {
+          "Ocp-Apim-Subscription-Key": AZURE_KEY,
+          "Content-Type": "application/ssml+xml",
+          "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3"
+        },
+        body: body
+      });
+      if (!res.ok) throw new Error();
+      const blob = await res.blob();
+      const u = URL.createObjectURL(blob);
+      const a = new Audio(u);
+      await new Promise(function (ok, err) {
+        a.onended = function () { URL.revokeObjectURL(u); ok(); };
+        a.onerror = err;
+        a.play().catch(err);
+      });
+    } catch (e) {
+      speechSynthesis.speak(new SpeechSynthesisUtterance(text));
+    } finally {
+      unlockUI();
+    }
+  }
+
+  function leaveAllQuizzes() {
+    Object.keys(quizEngines).forEach(function (k) {
+      if (quizEngines[k] && quizEngines[k].onLeave) quizEngines[k].onLeave();
+    });
+  }
+
+  function bindQuiz(key, items, useTimer) {
+    const engine = L14Quiz.create({
+      key: key,
+      items: items,
+      useTimer: useTimer,
+      escHtml: escHtml,
+      quizTimeSec: QUIZ_TIME_SEC,
+      optRowClass: "opt-row opt-row--stack",
+      initialState: progress.quizzes[key],
+      onStateChange: function (st) {
+        progress.quizzes[key] = st;
+        persistProgress();
+      }
+    });
+    engine.init();
+    return engine;
+  }
+
+  function goPage(n) {
+    if (n < 1 || n > PAGE_COUNT) return;
+    leaveAllQuizzes();
+    currentPage = n;
+    progress.page = n;
+    persistProgress();
+    document.querySelectorAll(".lesson-page").forEach(function (el) {
+      el.classList.toggle("active", parseInt(el.dataset.page, 10) === n);
+    });
+    document.getElementById("pager-mid").textContent = n + " / " + PAGE_COUNT;
+    document.getElementById("pager-prev").disabled = n <= 1;
+    document.getElementById("pager-next").disabled = n >= PAGE_COUNT;
+    if (n === 8 && quizEngines.a) quizEngines.a.onEnter();
+    if (n === 9 && quizEngines.b) quizEngines.b.onEnter();
+    if (n === 10 && quizEngines.c) quizEngines.c.onEnter();
+    if (n === 11 && quizEngines.d) quizEngines.d.onEnter();
+    if (n === 12 && quizEngines.e) quizEngines.e.onEnter();
+  }
+
+  function initGoals() {
+    P14.goals.forEach(function (g) {
+      const d = document.createElement("div");
+      d.className = "goal-card";
+      d.textContent = g;
+      document.getElementById("goal-grid").appendChild(d);
+    });
+  }
+
+  function initBySound() {
+    document.querySelectorAll("#by-intro-en, #by-intro-zh").forEach(function (el) {
+      el.classList.add("en-blur");
+    });
+    if (progress.enShown.byIntro) {
+      document.querySelectorAll("#by-intro-en, #by-intro-zh").forEach(function (el) {
+        el.classList.add("is-shown");
+      });
+    }
+    document.getElementById("btn-by-sound").addEventListener("click", function () {
+      playAudio("The zipper was invented by Whitcomb Judson in 1893.");
+    });
+    document.getElementById("btn-by-show").addEventListener("click", function () {
+      progress.enShown.byIntro = true;
+      persistProgress();
+      document.querySelectorAll("#by-intro-en, #by-intro-zh").forEach(function (el) {
+        el.classList.add("is-shown");
+      });
+    });
+    document.getElementById("btn-by-contrast").addEventListener("click", function () {
+      playAudio("Tea is grown in Hangzhou. The zipper was invented by Whitcomb Judson.");
+    });
+  }
+
+  function initSocratic() {
+    const grid = document.getElementById("socratic-grid");
+    P14.socratic.forEach(function (item) {
+      const card = document.createElement("div");
+      card.className = "soc-card";
+      const q = document.createElement("p");
+      q.className = "soc-q";
+      q.textContent = item.q;
+      const opts = document.createElement("div");
+      opts.className = "soc-opts";
+      const fb = document.createElement("p");
+      fb.className = "soc-fb";
+      item.opts.forEach(function (opt) {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.textContent = opt;
+        b.addEventListener("click", function () {
+          opts.querySelectorAll("button").forEach(function (x) {
+            x.disabled = true;
+            x.classList.remove("ok", "bad");
+          });
+          if (opt === item.ans) {
+            b.classList.add("ok");
+            fb.textContent = "✓ " + item.fb;
+          } else {
+            b.classList.add("bad");
+            fb.textContent = item.fb;
+          }
+        });
+        opts.appendChild(b);
+      });
+      card.appendChild(q);
+      card.appendChild(opts);
+      card.appendChild(fb);
+      grid.appendChild(card);
+    });
+  }
+
+  function initRules() {
+    const grid = document.getElementById("rule-grid");
+    P14.rules.forEach(function (r) {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "rule-pick-card";
+      b.innerHTML =
+        '<span class="rule-tag ' + escHtml(r.tag) + '">' + escHtml(r.tagZh) + "</span><br>" +
+        "<strong>" + escHtml(r.title) + "</strong><br>" +
+        '<span class="rule-pick-zh">' + escHtml(r.zh) + "</span>";
+      b.addEventListener("click", function () {
+        document.querySelectorAll(".rule-pick-card").forEach(function (c) { c.classList.remove("is-lit"); });
+        b.classList.add("is-lit");
+        document.getElementById("rule-demo-en").innerHTML = escHtml(r.en).replace(/\bby\b/g, '<span class="mark-by">by</span>');
+        document.getElementById("rule-demo-zh").textContent = r.zh;
+        playAudio(r.audio);
+      });
+      grid.appendChild(b);
+    });
+    document.querySelector(".rule-pick-card")?.click();
+  }
+
+  function renderBuild() {
+    const item = P14.buildItems[buildRound % P14.buildItems.length];
+    const parts = item.line.split("___");
+    document.getElementById("by-build-line").innerHTML =
+      escHtml(parts[0]) + '<span class="by-slot" id="by-slot">?</span>' + escHtml(parts[1] || "");
+    document.getElementById("by-build-fb").textContent = "第 " + ((buildRound % P14.buildItems.length) + 1) + " / " + P14.buildItems.length + " 题 · 点芯片填空";
+    const bank = document.getElementById("chip-by-bank");
+    bank.innerHTML = "";
+    item.chips.forEach(function (w) {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.textContent = w;
+      b.addEventListener("click", function () {
+        const slot = document.getElementById("by-slot");
+        if (w === "（省略）") {
+          slot.textContent = "—";
+          slot.className = "by-slot empty-ok";
+        } else {
+          slot.textContent = w;
+          slot.className = "by-slot filled";
+        }
+        const pick = w === "（省略）" ? "(no by)" : w;
+        const ok = pick === item.ans || (item.ans === "(no by)" && w === "（省略）");
+        document.getElementById("by-build-fb").textContent = ok
+          ? "✓ 正确！" + item.line.replace("___", item.ans === "(no by)" ? "" : item.ans)
+          : "再想想。答案：" + item.ans;
+        if (ok) {
+          setTimeout(function () {
+            buildRound++;
+            progress.buildRound = buildRound;
+            persistProgress();
+            if (buildRound < P14.buildItems.length) renderBuild();
+            else document.getElementById("by-build-fb").textContent = "✓ 三题完成！进入对比轮播。";
+          }, 1200);
+        }
+      });
+      bank.appendChild(b);
+    });
+  }
+
+  function renderCompare() {
+    const c = P14.compareItems[cmpIdx];
+    const card = document.getElementById("compare-card");
+    card.className = "compare-card";
+    const tagClass = c.type === "use-by" ? "use-by" : "no-by";
+    const tagText = c.type === "use-by" ? "加 by" : "省略 / in·on";
+    card.innerHTML =
+      '<span class="cmp-tag ' + tagClass + '">' + escHtml(tagText) + "</span>" +
+      '<p class="zh-hint">' + escHtml(c.zh) + "</p>" +
+      '<div class="cmp-en ' + (c.type === "use-by" ? "with-by" : "no-by") + '" lang="en">' +
+      escHtml(c.en).replace(/\bby\b/g, '<span class="mark-by">by</span>') + "</div>" +
+      '<div class="cmp-wrong" lang="en">' + escHtml(c.wrong) + "</div>" +
+      '<p class="zh-hint">' + escHtml(c.note) + "</p>";
+    document.getElementById("cmp-pos").textContent = (cmpIdx + 1) + " / " + P14.compareItems.length;
+  }
+
+  function initCompare() {
+    renderCompare();
+    document.getElementById("cmp-show-wrong").addEventListener("click", function () {
+      document.getElementById("compare-card").classList.add("show-wrong");
+    });
+    document.getElementById("cmp-play").addEventListener("click", function () {
+      playAudio(P14.compareItems[cmpIdx].en);
+    });
+    document.getElementById("cmp-prev").addEventListener("click", function () {
+      cmpIdx = (cmpIdx - 1 + P14.compareItems.length) % P14.compareItems.length;
+      progress.cmpIdx = cmpIdx;
+      persistProgress();
+      renderCompare();
+    });
+    document.getElementById("cmp-next").addEventListener("click", function () {
+      cmpIdx = (cmpIdx + 1) % P14.compareItems.length;
+      progress.cmpIdx = cmpIdx;
+      persistProgress();
+      renderCompare();
+    });
+  }
+
+  function renderRead() {
+    const r = P14.readLines[readIdx];
+    document.getElementById("read-card").innerHTML =
+      L14UI.readCardHtml(r, escHtml, "en-blur", escHtml(r.en).replace(/\bby\b/g, '<span class="mark-by">by</span>'));
+  }
+
+  function initRead() {
+    renderRead();
+    document.getElementById("read-play").addEventListener("click", function () {
+      playAudio(P14.readLines[readIdx].en);
+    });
+    document.getElementById("read-show").addEventListener("click", function () {
+      document.querySelector("#read-card .en-blur")?.classList.add("is-shown");
+    });
+    document.getElementById("read-prev").addEventListener("click", function () {
+      readIdx = (readIdx - 1 + P14.readLines.length) % P14.readLines.length;
+      progress.readIdx = readIdx;
+      persistProgress();
+      renderRead();
+    });
+    document.getElementById("read-next").addEventListener("click", function () {
+      readIdx = (readIdx + 1) % P14.readLines.length;
+      progress.readIdx = readIdx;
+      persistProgress();
+      renderRead();
+    });
+  }
+
+  function initTraps() {
+    trapIdx = progress.trapIdx || 0;
+    if (trapIdx >= P14.traps.length) trapIdx = 0;
+    function renderTrap() {
+      const t = P14.traps[trapIdx];
+      progress.trapIdx = trapIdx;
+      persistProgress();
+      document.getElementById("trap-pos").textContent = (trapIdx + 1) + " / " + P14.traps.length;
+      document.getElementById("trap-box").innerHTML =
+        "<div class='trap-card' id='trap-card'>" +
+        "<p class='wrong-line' lang='en'>✗ " + escHtml(t.wrong) + "</p>" +
+        "<p class='right-line' lang='en'>✓ " + escHtml(t.right) + "</p>" +
+        "<p class='zh-hint'>" + escHtml(t.note) + "</p></div>";
+      if (progress.trapsRevealed && progress.trapsRevealed[trapIdx]) {
+        document.getElementById("trap-card")?.classList.add("revealed");
+      }
+    }
+    renderTrap();
+    document.getElementById("trap-reveal").addEventListener("click", function () {
+      progress.trapsRevealed[trapIdx] = true;
+      persistProgress();
+      document.getElementById("trap-card")?.classList.add("revealed");
+    });
+    document.getElementById("trap-prev").addEventListener("click", function () {
+      trapIdx = (trapIdx - 1 + P14.traps.length) % P14.traps.length;
+      renderTrap();
+    });
+    document.getElementById("trap-next").addEventListener("click", function () {
+      trapIdx = (trapIdx + 1) % P14.traps.length;
+      renderTrap();
+    });
+  }
+
+  function initSummary() {
+    P14.summaryChips.forEach(function (t) {
+      const lab = document.createElement("label");
+      lab.innerHTML = '<input type="checkbox" /> ' + escHtml(t);
+      document.getElementById("summary-chips").appendChild(lab);
+    });
+    P14.checklist.forEach(function (t) {
+      const li = document.createElement("li");
+      li.textContent = t;
+      document.getElementById("checklist").appendChild(li);
+    });
+    L14UI.initCorpusTable("corpus-table", P14.corpus, escHtml);
+  }
+
+  function initLesson() {
+    var loaded = window.L14Progress && L14Progress.load(PROGRESS_ID);
+    if (loaded) {
+      progress = Object.assign(defaultProgress(), loaded);
+      if (!progress.enShown) progress.enShown = {};
+      if (!progress.quizzes) progress.quizzes = {};
+      if (!progress.trapsRevealed) progress.trapsRevealed = {};
+      if (!progress.version || progress.version < PROGRESS_VERSION) {
+        progress.quizzes = {};
+        progress.version = PROGRESS_VERSION;
+        persistProgress();
+      }
+    }
+    cmpIdx = progress.cmpIdx || 0;
+    readIdx = progress.readIdx || 0;
+    trapIdx = progress.trapIdx || 0;
+    buildRound = progress.buildRound || 0;
+    if (cmpIdx >= P14.compareItems.length) cmpIdx = 0;
+    if (readIdx >= P14.readLines.length) readIdx = 0;
+initGoals();
+    initBySound();
+    initSocratic();
+    initRules();
+    renderBuild();
+    initCompare();
+    initRead();
+    quizEngines.a = bindQuiz("a", P14.quizFill, true);
+    quizEngines.b = bindQuiz("b", P14.quizSentence, true);
+    quizEngines.c = bindQuiz("c", P14.quizFix, false);
+    quizEngines.d = bindQuiz("d", P14.quizColloc, true);
+    quizEngines.e = bindQuiz("e", P14.quizListen, false);
+    document.getElementById("listen-e").addEventListener("click", function () {
+      const a = quizEngines.e.getAudio();
+      if (a) playAudio(a);
+    });
+    initTraps();
+    initSummary();
+    document.getElementById("pager-prev").addEventListener("click", function () { goPage(currentPage - 1); });
+    document.getElementById("pager-next").addEventListener("click", function () { goPage(currentPage + 1); });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "ArrowLeft" && currentPage > 1) goPage(currentPage - 1);
+      if (e.key === "ArrowRight" && currentPage < PAGE_COUNT) goPage(currentPage + 1);
+    });
+    var startPage = progress.page || 1;
+    if (startPage < 1 || startPage > PAGE_COUNT) startPage = 1;
+    goPage(startPage);
+  }
+
+  initLesson();
+})();
+  </script>
+</body>
+</html>

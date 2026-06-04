@@ -1,13 +1,17 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
+  <script src="../shared/play-local-mp3.js"></script>
+  <script src="../shared/lesson-local-audio.js" defer></script>
+  <script src="../shared/lesson-speak-local-only.js"></script>
   <!-- spa-assets-inlined -->
 
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>第01讲 · Page 7 · 动作家族的疑问魔法</title>
-  <script src="../assets/lesson-tts-azure-config.js"></script>
-  <script src="../assets/lesson-tts-azure-play.js"></script>
+  <title>第01讲 · 第07页 · 一般疑问句 Do / Does</title>
+  <script src="assets/lesson-tts-azure-config.js"></script>
+  <script src="assets/lesson-tts-azure-play.js"></script>
+  <script src="assets/l01-speak.js"></script>
 <style>
     :root {
       --paper: #fff9f0;
@@ -58,14 +62,6 @@
         12px 16px 24px var(--shadow);
       padding: 1.25rem 1.5rem 2rem;
       position: relative;
-    }
-    .book::before {
-      content: "";
-      position: absolute;
-      inset: 8px;
-      border: 2px dashed rgba(200, 160, 100, 0.45);
-      border-radius: 4px 20px 8px 6px;
-      pointer-events: none;
     }
     .top-bar {
       position: relative;
@@ -1838,131 +1834,10 @@ window.__LESSON_TTS_MANIFEST = {
   "You play the piano.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L01/assets/tts-mp3/359bc100c4f9ec5c3a5c.mp3"
 };
 </script>
-  <script>
-/* inlined: assets/lesson-tts-bootstrap.js */
-/**
- * 本地 MP3 优先（配合 assets/tts-manifest.js 中 window.__LESSON_TTS_MANIFEST）。
- * 1) playLocalIfAvailable：直接按文案查找并播放。
- * 2) fetch 拦截：课件内对 Azure TTS 的 fetch(SSML) 若 manifest 有对应句，则改为 fetch(本地 mp3) 并返回同形态 Response，无需改各页 speak()。
- *
- * 可选：window.__AZURE_SPEECH_KEY__ 供仍走在线时的密钥（勿写入仓库）。
- */
-(function () {
-  "use strict";
-
-  function norm(s) {
-    return String(s || "")
-      .replace(/\s+/g, " ")
-      .trim();
-  }
-
-  function map() {
-    return typeof window !== "undefined" && window.__LESSON_TTS_MANIFEST ? window.__LESSON_TTS_MANIFEST : {};
-  }
-
-  /** 从 SSML 中取 <voice>…</voice> 内纯文本（去内层标签与常见实体；须与 manifest 键一致） */
-  function extractSsmlVoicePlain(ssml) {
-    var m = String(ssml).match(/<voice[^>]*>([\s\S]*?)<\/voice>/i);
-    if (!m) return "";
-    var inner = m[1].replace(/<[^>]+>/g, " ");
-    inner = inner
-      .replace(/&#39;/g, "'")
-      .replace(/&#039;/g, "'")
-      .replace(/&apos;/g, "'")
-      .replace(/&#x27;/gi, "'")
-      .replace(/&quot;/g, '"')
-      .replace(/&lt;/g, "<")
-      .replace(/&gt;/g, ">")
-      .replace(/&nbsp;/g, " ")
-      .replace(/&amp;/g, "&");
-    return norm(inner);
-  }
-
-  function isAzureTtsRequest(input, init) {
-    try {
-      var u = typeof input === "string" ? input : input && input.url;
-      if (!u || String(u).indexOf("tts.speech.microsoft.com") === -1) return false;
-      if (!init || String(init.method || "GET").toUpperCase() !== "POST") return false;
-      var ct = "";
-      if (init.headers) {
-        if (typeof init.headers.get === "function") ct = init.headers.get("Content-Type") || "";
-        else ct = init.headers["Content-Type"] || init.headers["content-type"] || "";
-      }
-      if (!ct || String(ct).indexOf("ssml") === -1) return false;
-      var body = init.body;
-      if (typeof body !== "string" || body.indexOf("<speak") === -1) return false;
-      return true;
-    } catch (e) {
-      return false;
-    }
-  }
-
-  var origFetch = typeof window.fetch === "function" ? window.fetch.bind(window) : null;
-
-  if (origFetch) {
-    window.fetch = function (input, init) {
-      if (isAzureTtsRequest(input, init) && map() && typeof init.body === "string") {
-        var phrase = extractSsmlVoicePlain(init.body);
-        if (phrase) {
-          var m = map();
-          var rel = m[phrase] || m[norm(phrase)];
-          if (rel) {
-            return origFetch(rel, { method: "GET", credentials: "same-origin", cache: "force-cache" })
-              .then(function (res) {
-                if (!res.ok) return origFetch(input, init);
-                return res;
-              })
-              .catch(function () {
-                return origFetch(input, init);
-              });
-          }
-        }
-      }
-      return origFetch(input, init);
-    };
-  }
-
-  /**
-   * @param {string} text
-   * @returns {Promise<boolean>} true 已播放本地文件
-   */
-  function playLocalIfAvailable(text) {
-    var k = norm(text);
-    if (!k) return Promise.resolve(false);
-    var m = map();
-    var rel = m[k] || m[text] || m[String(text || "").trim()];
-    if (!rel) return Promise.resolve(false);
-    return new Promise(function (resolve) {
-      var a = new Audio(rel);
-      var done = false;
-      function fin(ok) {
-        if (done) return;
-        done = true;
-        resolve(!!ok);
-      }
-      a.onended = function () {
-        fin(true);
-      };
-      a.onerror = function () {
-        fin(false);
-      };
-      var p = a.play();
-      if (p && typeof p.catch === "function") {
-        p.catch(function () {
-          fin(false);
-        });
-      }
-    });
-  }
-
-  window.LessonTTSBootstrap = {
-    norm: norm,
-    playLocalIfAvailable: playLocalIfAvailable,
-    extractSsmlVoicePlain: extractSsmlVoicePlain
-  };
-})();
-
-</script>
+    <script src="assets/lesson-tts-bootstrap.js"></script>
+  <link rel="stylesheet" href="assets/lesson-dashed-fix.css" />
+  <link rel="stylesheet" href="assets/grammar-lesson-pager.css" />
+  <link rel="stylesheet" href="../shared/grammar-logo.css" />
 </head>
 <body class="has-lesson-pager">
   <div class="book">
@@ -1972,12 +1847,10 @@ window.__LESSON_TTS_MANIFEST = {
     <div class="stage" id="app"></div>
   </div>
   <canvas id="confetti-canvas" class="hidden" aria-hidden="true"></canvas>
-  <nav class="lesson-footer-nav" aria-label="第01讲页面导航">
-    <a href="index.html">课程目录</a>
-    <span class="nav-sep">·</span>
-    <a href="lesson01-page06-svo-negative.html">上一页</a>
-    <span class="nav-sep">·</span>
-    <a href="lesson01-page08-wrap.html">下一页</a>
+  <nav class="lesson-pager is-file-nav" aria-label="页面导航">
+    <a class="pager-prev" href="lesson01-page06-svo-negative.html">上一页</a>
+    <a class="pager-logo" href="../index.html" aria-label="课程主页"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/logo2.png" alt="Steven's Class" width="204" height="61" decoding="async" /></a>
+    <a class="pager-next" href="lesson01-page08-wrap.html">下一页</a>
   </nav>
 
   <script>
@@ -1985,7 +1858,7 @@ window.__LESSON_TTS_MANIFEST = {
   "use strict";
 
   /** true：浏览器直连 Azure Speech；false：走 /api/tts 代理 */
-  const LOCAL_DEV_MODE = true;
+  const LOCAL_DEV_MODE = false;
   const LOCAL_AZURE_KEY =
     (typeof window !== "undefined" && window.__AZURE_SPEECH_KEY__) || "C42UQWeDcluYanbo17WrtUnPhk0vkZy2uQHPTCGDzY6CdEXx99NzJQQJ99BIACqBBLyXJ3w3AAAYACOGjkyu";
   const LOCAL_AZURE_REGION = (typeof window !== "undefined" && window.__AZURE_SPEECH_REGION__) || "southeastasia";
@@ -2388,87 +2261,10 @@ window.__LESSON_TTS_MANIFEST = {
   }
 
   function speak(text) {
-    return new Promise(function (resolve, reject) {
-      var Boot = window.LessonTTSBootstrap;
-
-      function tryRemote() {
-        if (!LOCAL_DEV_MODE) {
-          fetch("/api/tts", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ text: text })
-          })
-            .then(function (res) {
-              if (!res.ok) {
-                return res.text().then(function (t) {
-                  throw new Error("TTS " + res.status + " " + t.slice(0, 120));
-                });
-              }
-              return res.blob();
-            })
-            .then(function (blob) {
-              playBlob(blob, resolve, reject);
-            })
-            .catch(reject);
-          return;
-        }
-        var key = LOCAL_AZURE_KEY;
-        var region = LOCAL_AZURE_REGION;
-        if (!key) {
-          reject(
-            new Error(
-              "离线语音未命中 manifest 或 mp3 无法播放，且未配置 Azure 密钥（可设 window.__AZURE_SPEECH_KEY__ 或本页 LOCAL_AZURE_KEY）。"
-            )
-          );
-          return;
-        }
-        var url = "https://" + region + ".tts.speech.microsoft.com/cognitiveservices/v1";
-        var xmlSafe = String(text)
-          .replace(/&/g, "&amp;")
-          .replace(/</g, "&lt;")
-          .replace(/>/g, "&gt;")
-          .replace(/"/g, "&quot;");
-        var ssml =
-          "<speak version='1.0' xml:lang='en-US'><voice xml:lang='en-US' xml:gender='Female' name='en-US-JennyNeural'>" +
-          xmlSafe +
-          "</voice></speak>";
-        fetch(url, {
-          method: "POST",
-          headers: {
-            "Ocp-Apim-Subscription-Key": key,
-            "Content-Type": "application/ssml+xml",
-            "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3"
-          },
-          body: ssml
-        })
-          .then(function (res) {
-            if (!res.ok) {
-              return res.text().then(function (t) {
-                throw new Error("Azure " + res.status + " " + t.slice(0, 120));
-              });
-            }
-            return res.blob();
-          })
-          .then(function (blob) {
-            playBlob(blob, resolve, reject);
-          })
-          .catch(reject);
-      }
-
-      if (Boot && typeof Boot.playLocalIfAvailable === "function") {
-        var t = Boot.norm ? Boot.norm(text) : String(text || "").replace(/\s+/g, " ").trim();
-        Boot.playLocalIfAvailable(t).then(function (ok) {
-          if (ok) {
-            resolve();
-            return;
-          }
-          tryRemote();
-        });
-        return;
-      }
-
-      tryRemote();
-    });
+    if (window.L01Speak && window.L01Speak.speak) {
+      return window.L01Speak.speak(text);
+    }
+    return Promise.resolve();
   }
 
   function stopAllSpeechMedia() {
@@ -3212,5 +3008,6 @@ window.__LESSON_TTS_MANIFEST = {
   render();
 })();
   </script>
-</body>
+  <link rel="stylesheet" href="assets/lesson-image-lightbox.css" />
+  <script src="assets/lesson-image-lightbox.js" defer></script></body>
 </html>

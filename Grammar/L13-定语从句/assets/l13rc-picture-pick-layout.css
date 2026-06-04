@@ -1,0 +1,146 @@
+/**
+ * 「Choose the right picture」· 左图右文 · 配图完整显示
+ */
+.page[data-page="0"] {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.page[data-page="0"] .picture-pick-split {
+  display: grid;
+  grid-template-columns: minmax(300px, 48%) minmax(0, 1fr);
+  gap: clamp(16px, 2vw, 28px);
+  align-items: stretch;
+  flex: 1 1 auto;
+  min-height: 0;
+  margin-top: clamp(6px, 1vh, 12px);
+}
+
+.page[data-page="0"] .picture-pick-visual {
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-self: stretch;
+}
+
+.page[data-page="0"] .picture-pick-images {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  grid-template-rows: 1fr 1fr !important;
+  gap: clamp(10px, 1.5vh, 16px) !important;
+  margin: 0 !important;
+  flex: 1 1 auto;
+  min-height: min(62vh, 640px);
+  height: 100%;
+  width: 100%;
+}
+
+.page[data-page="0"] .picture-pick-images .image-card {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+  background: var(--color-surface, #fff);
+}
+
+/* 压过课件内联 height:300px + object-fit:cover */
+.page[data-page="0"] .picture-pick-images .image-card img {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  max-height: none !important;
+  min-height: 0 !important;
+  flex: 1 1 auto;
+  object-fit: contain !important;
+  object-position: center center;
+  background: linear-gradient(180deg, #f8fafc 0%, #eef2f7 100%);
+}
+
+.page[data-page="0"] .picture-pick-images .image-card .label {
+  flex-shrink: 0;
+  padding: clamp(8px, 1vh, 12px);
+  font-size: clamp(0.95rem, 1.2vw, 1.1rem);
+}
+
+.page[data-page="0"] .picture-pick-text {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  flex: 1 1 auto;
+}
+
+.page[data-page="0"] .picture-pick-copy {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: clamp(10px, 1.2vh, 16px);
+}
+
+.page[data-page="0"] .picture-pick-copy .sentence-block,
+.page[data-page="0"] .picture-pick-copy .question-box {
+  margin: 0 !important;
+}
+
+.page[data-page="0"] .picture-pick-copy .focus-sentence {
+  font-size: clamp(1.1rem, 1.6vw + 0.75rem, 1.65rem) !important;
+}
+
+.page[data-page="0"] .picture-pick-text .page-actions {
+  flex-shrink: 0;
+  margin-top: clamp(8px, 1vh, 12px);
+  padding-top: clamp(6px, 0.8vh, 10px);
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.page[data-page="0"] > h1 {
+  text-align: center;
+  margin-bottom: clamp(4px, 0.6vh, 8px);
+  flex-shrink: 0;
+}
+
+.page[data-page="0"] > .lead {
+  text-align: center;
+  margin-bottom: 0;
+  flex-shrink: 0;
+}
+
+/* 全局 demo-screen 对配图高度的覆盖 */
+body.has-lesson-pager > .app-container .page[data-page="0"] .picture-pick-images .image-card img {
+  height: 100% !important;
+  object-fit: contain !important;
+}
+
+@media (max-width: 900px) {
+  .page[data-page="0"] .picture-pick-split {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto minmax(0, 1fr);
+  }
+
+  .page[data-page="0"] .picture-pick-images {
+    grid-template-columns: 1fr 1fr !important;
+    grid-template-rows: 1fr !important;
+    min-height: clamp(200px, 28vh, 280px);
+  }
+
+  .page[data-page="0"] .picture-pick-images .image-card img {
+    min-height: clamp(160px, 22vh, 240px) !important;
+    height: auto !important;
+    max-height: min(28vh, 260px) !important;
+  }
+}
+
+@media (min-width: 1200px) {
+  .page[data-page="0"] .picture-pick-images {
+    min-height: min(68vh, 700px);
+  }
+
+  .page[data-page="0"] .picture-pick-split {
+    grid-template-columns: minmax(360px, 50%) minmax(0, 1fr);
+  }
+}

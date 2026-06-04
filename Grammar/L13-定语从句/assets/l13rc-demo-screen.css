@@ -1,0 +1,225 @@
+/**
+ * 定语从句 · 原版课件 Demo / 练习 Demo
+ * 充分利用视口：宽屏铺满、高度占满（扣除底栏）；放不下时区内滚动，见 l13rc-scrollable.css。
+ */
+:root {
+  --l13rc-demo-pager-gap: var(--lesson-pager-gap, 4.35rem);
+  --l13rc-demo-stage-h: calc(
+    100dvh - var(--l13rc-demo-pager-gap) - max(4px, env(safe-area-inset-top, 0px)) -
+      max(4px, env(safe-area-inset-bottom, 0px))
+  );
+}
+
+html {
+  height: 100%;
+}
+
+body.has-lesson-pager.l13rc-demo-screen,
+body.has-lesson-pager:has(> .app-container),
+body.has-lesson-pager:has(> #app-frame) {
+  align-items: stretch !important;
+  justify-content: flex-start !important;
+  padding-top: max(2px, env(safe-area-inset-top, 0px)) !important;
+  padding-left: max(2px, env(safe-area-inset-left, 0px)) !important;
+  padding-right: max(2px, env(safe-area-inset-right, 0px)) !important;
+  padding-bottom: max(var(--l13rc-demo-pager-gap), env(safe-area-inset-bottom, 0px)) !important;
+}
+
+/* —— 主舞台：课件 .app-container / 练习 #app-frame —— */
+body.has-lesson-pager > .app-container,
+body.has-lesson-pager > #app-frame {
+  box-sizing: border-box;
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  flex: 1 1 auto;
+  min-height: 0;
+  height: var(--l13rc-demo-stage-h) !important;
+  max-height: var(--l13rc-demo-stage-h) !important;
+  padding: clamp(8px, 1vw, 14px) clamp(10px, 1.5vw, 20px) clamp(6px, 0.8vw, 10px) !important;
+  border-radius: clamp(12px, 1.2vw, 20px) !important;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  align-items: center;
+}
+
+body.has-lesson-pager > .app-container {
+  position: relative;
+}
+
+body.has-lesson-pager > .app-container > .page {
+  display: none;
+  min-height: 0 !important;
+  padding-top: clamp(2px, 0.4vh, 8px) !important;
+  flex: 1 1 auto;
+  flex-direction: column;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+}
+
+body.has-lesson-pager > .app-container > .page.active {
+  display: flex !important;
+  animation: none;
+}
+
+/* 欢迎页居中占满舞台 */
+body.has-lesson-pager > .app-container > .page-welcome.active .welcome-wrapper {
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  justify-content: center;
+  padding: clamp(16px, 3vh, 36px) clamp(12px, 2.5vw, 32px) !important;
+}
+
+body.has-lesson-pager > .app-container > .page-welcome.active .welcome-title {
+  font-size: clamp(1.5rem, 2.8vw + 0.75rem, 2.5rem) !important;
+}
+
+body.has-lesson-pager > .app-container > .page-welcome.active .welcome-sub {
+  font-size: clamp(0.95rem, 1vw + 0.8rem, 1.2rem) !important;
+  margin-bottom: clamp(16px, 2vh, 28px) !important;
+}
+
+/* 字号随视口（上限控制，便于一屏放下） */
+body.has-lesson-pager > .app-container,
+body.has-lesson-pager > #app-frame {
+  --font-size-h1: clamp(1.35rem, 1.8vw + 0.85rem, 2.1rem);
+  --font-size-h2: clamp(1.1rem, 1.2vw + 0.8rem, 1.45rem);
+  --font-size-lead: clamp(0.98rem, 0.75vw + 0.85rem, 1.15rem);
+  --font-size-welcome-title: clamp(1.5rem, 2.5vw + 0.75rem, 2.4rem);
+}
+
+body.has-lesson-pager > .app-container h1 {
+  font-size: var(--font-size-h1);
+  margin-bottom: clamp(8px, 1vh, 14px);
+}
+
+body.has-lesson-pager > .app-container .lead {
+  font-size: var(--font-size-lead);
+  margin-bottom: clamp(10px, 1.2vh, 18px);
+}
+
+body.has-lesson-pager > .app-container .sentence-block {
+  padding: clamp(12px, 1.5vh, 20px) clamp(14px, 2vw, 28px);
+  font-size: var(--font-size-lead);
+  margin: clamp(6px, 0.8vh, 12px) 0;
+}
+
+body.has-lesson-pager > .app-container .p1-focus-line,
+body.has-lesson-pager > .app-container .focus-sentence {
+  font-size: clamp(1.2rem, 1.6vw + 0.7rem, 1.85rem) !important;
+}
+
+body.has-lesson-pager > .app-container .question-box {
+  padding: clamp(12px, 1.5vh, 18px) clamp(14px, 2vw, 24px);
+  font-size: clamp(0.95rem, 0.65vw + 0.85rem, 1.1rem);
+  margin: clamp(8px, 1vh, 14px) 0;
+}
+
+body.has-lesson-pager > .app-container .image-row {
+  gap: clamp(10px, 1.5vw, 20px);
+  margin: clamp(8px, 1vh, 14px) 0;
+}
+
+@media (min-width: 720px) {
+  body.has-lesson-pager > .app-container .image-row:not(#p5-images):not(#p7-images):not(#p8-images):not(#p9-images) {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+body.has-lesson-pager > .app-container .image-row:not(.picture-pick-images) .image-card img {
+  height: clamp(140px, 28vh, 320px) !important;
+  object-fit: cover;
+}
+
+body.has-lesson-pager > .app-container #p5-images .image-card img,
+body.has-lesson-pager > .app-container #p7-images .image-card img,
+body.has-lesson-pager > .app-container #p8-images .image-card img,
+body.has-lesson-pager > .app-container #p9-images .image-card img {
+  height: clamp(120px, 24vh, 260px) !important;
+}
+
+@media (min-width: 960px) {
+  body.has-lesson-pager > .app-container .p5-two-col {
+    grid-template-columns: minmax(300px, 42%) minmax(0, 1fr) !important;
+    gap: clamp(12px, 1.5vw, 24px) !important;
+    align-items: stretch;
+  }
+
+  body.has-lesson-pager > .app-container .p5-left,
+  body.has-lesson-pager > .app-container .p5-right {
+    min-height: 0 !important;
+    max-height: 100% !important;
+  }
+}
+
+body.has-lesson-pager > .app-container .step-item {
+  margin-bottom: clamp(10px, 1.2vh, 16px);
+  padding: clamp(12px, 1.2vh, 16px) clamp(14px, 1.5vw, 20px);
+}
+
+body.has-lesson-pager > .app-container .page-actions {
+  margin-top: auto;
+  padding-top: clamp(6px, 0.8vh, 12px);
+  flex-shrink: 0;
+}
+
+body.has-lesson-pager > .app-container ~ .guide-toolbar,
+body.has-lesson-pager .guide-toolbar {
+  top: max(8px, env(safe-area-inset-top, 0px));
+  right: max(8px, env(safe-area-inset-right, 0px));
+}
+
+@media (max-width: 900px) {
+  body.has-lesson-pager .guide-toolbar {
+    top: auto;
+    bottom: calc(var(--l13rc-demo-pager-gap) + 8px);
+  }
+}
+
+/* —— 练习页 —— */
+body.has-lesson-pager > #app-frame .section-card {
+  padding: clamp(0.75rem, 1.5vh, 1.25rem) clamp(0.75rem, 2vw, 1.5rem);
+  margin-bottom: clamp(0.65rem, 1.2vh, 1rem);
+}
+
+body.has-lesson-pager > #app-frame h2 {
+  font-size: clamp(1.05rem, 1.2vw + 0.8rem, 1.35rem);
+}
+
+body.has-lesson-pager > #app-frame .sentence-box {
+  font-size: clamp(0.92rem, 0.55vw + 0.85rem, 1.05rem);
+  line-height: 1.5;
+}
+
+body.has-lesson-pager > #app-frame .exercise-item {
+  margin-bottom: clamp(12px, 1.2vh, 18px);
+  padding-bottom: clamp(8px, 1vh, 12px);
+}
+
+body.has-lesson-pager #welcome-view .welcome-card {
+  max-width: min(560px, 92vw);
+  padding: clamp(1.25rem, 3vh, 2.5rem);
+}
+
+body.has-lesson-pager #welcome-view h1 {
+  font-size: clamp(1.6rem, 2.5vw + 0.85rem, 2.2rem);
+}
+
+@media print {
+  body.has-lesson-pager > .app-container,
+  body.has-lesson-pager > #app-frame {
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+
+  body.has-lesson-pager > .app-container > .page.active {
+    display: block !important;
+    overflow: visible !important;
+  }
+}

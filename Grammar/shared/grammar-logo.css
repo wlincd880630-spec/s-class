@@ -1,0 +1,176 @@
+/**
+ * Steven's Class Logo · 无外框 · 边缘透明渐变
+ * 目录 index：基准 ×2 | 底栏导航：基准 ×1.7（+70%）
+ */
+:root {
+  /* 底栏基准约 30–38px → +70% ≈ 51–65px */
+  --grammar-logo-pager-h: clamp(51px, 11.9vw, 65px);
+  --grammar-pager-logo-slot: clamp(9.5rem, 38vw, 16.5rem);
+  --grammar-logo-edge-fade: radial-gradient(
+    ellipse 98% 94% at 50% 50%,
+    #000 58%,
+    rgba(0, 0, 0, 0.5) 78%,
+    transparent 100%
+  );
+}
+
+/* —— 目录 index（显示尺寸 ×2） —— */
+.g-index-logo-wrap {
+  margin: 0 0 1rem;
+  text-align: center;
+}
+
+.g-index-logo-wrap a {
+  display: inline-block;
+  line-height: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  box-shadow: none;
+  border-radius: 0;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+.g-index-logo-wrap a:hover {
+  transform: scale(1.02);
+  opacity: 0.94;
+}
+
+.g-index-logo {
+  display: block;
+  /* 原 clamp(40px,10vw,52px) ×2 */
+  height: clamp(80px, 20vw, 104px);
+  width: auto;
+  max-width: min(560px, 96vw);
+  object-fit: contain;
+  margin: 0 auto;
+  -webkit-mask-image: var(--grammar-logo-edge-fade);
+  mask-image: var(--grammar-logo-edge-fade);
+  -webkit-mask-mode: alpha;
+  mask-mode: alpha;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+}
+
+.g-index-brand:empty,
+.g-index-brand {
+  display: none !important;
+}
+
+/* —— 底栏 Logo（+70%，无框） —— */
+/* 避免 lesson-screen 把 logo 当成圆角按钮 */
+body.has-lesson-pager nav.lesson-pager a.pager-logo,
+body.has-lesson-pager #app nav.lesson-pager a.pager-logo {
+  flex: none !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  padding: 0 !important;
+  min-height: 0 !important;
+}
+
+body.has-lesson-pager nav.lesson-pager > .pager-logo,
+body.has-lesson-pager nav.lesson-pager > a.pager-home.pager-home--logo,
+body.has-lesson-pager #app nav.lesson-pager > .pager-logo,
+body.has-lesson-pager #app nav.lesson-pager > a.pager-home.pager-home--logo {
+  grid-column: 2;
+  justify-self: center;
+  align-self: center;
+  flex: none !important;
+  width: 100%;
+  max-width: var(--grammar-pager-logo-slot, 16.5rem);
+  min-width: 0 !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 0;
+  font-size: 0 !important;
+  color: transparent !important;
+  overflow: visible;
+  cursor: pointer;
+  touch-action: manipulation;
+  box-sizing: border-box;
+}
+
+body.has-lesson-pager nav.lesson-pager > .pager-logo:hover,
+body.has-lesson-pager nav.lesson-pager > a.pager-home.pager-home--logo:hover,
+body.has-lesson-pager #app nav.lesson-pager > .pager-logo:hover,
+body.has-lesson-pager #app nav.lesson-pager > a.pager-home.pager-home--logo:hover {
+  filter: none;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  transform: scale(1.03);
+  opacity: 0.92;
+}
+
+body.has-lesson-pager nav.lesson-pager > .pager-logo:active,
+body.has-lesson-pager nav.lesson-pager > a.pager-home.pager-home--logo:active,
+body.has-lesson-pager #app nav.lesson-pager > .pager-logo:active,
+body.has-lesson-pager #app nav.lesson-pager > a.pager-home.pager-home--logo:active {
+  transform: scale(1);
+  opacity: 1;
+}
+
+body.has-lesson-pager nav.lesson-pager > .pager-logo img,
+body.has-lesson-pager nav.lesson-pager > a.pager-home.pager-home--logo img,
+body.has-lesson-pager #app nav.lesson-pager > .pager-logo img,
+body.has-lesson-pager #app nav.lesson-pager > a.pager-home.pager-home--logo img {
+  display: block;
+  height: var(--grammar-logo-pager-h);
+  width: auto;
+  max-width: 100%;
+  min-height: 48px;
+  object-fit: contain;
+  pointer-events: none;
+  -webkit-mask-image: var(--grammar-logo-edge-fade);
+  mask-image: var(--grammar-logo-edge-fade);
+  -webkit-mask-mode: alpha;
+  mask-mode: alpha;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+}
+
+/* 讲义封面（略大于旧版，与品牌一致） */
+body.grammar-handout-page .handout-cover-logo,
+.handout-cover-logo {
+  display: block;
+  height: clamp(48px, 11vw, 64px);
+  width: auto;
+  max-width: min(320px, 78%);
+  margin: 0 auto 0.5rem;
+  object-fit: contain;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  -webkit-mask-image: var(--grammar-logo-edge-fade);
+  mask-image: var(--grammar-logo-edge-fade);
+  -webkit-mask-mode: alpha;
+  mask-mode: alpha;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+}
+
+@media (min-width: 640px) {
+  :root {
+    --grammar-logo-pager-h: clamp(54px, 8.5vw, 68px);
+    --grammar-pager-logo-slot: clamp(10.5rem, 32vw, 17rem);
+  }
+}

@@ -1,9 +1,12 @@
 <!doctype html>
 <html lang="zh-CN">
 <head>
+  <script src="../shared/play-local-mp3.js"></script>
+  <script src="../shared/lesson-local-audio.js" defer></script>
+  <script src="../shared/lesson-speak-local-only.js"></script>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>第06讲 · Page 06 · 实战照妖镜（日记纠错）</title>
+  <title>第06讲 · 第06页 · 日记纠错</title>
   <!--
     Vertex Imagen 3.0 Fast · 书桌夜景（assets 占位，无图时深色渐变兜底）
     提示词：A messy teenager desk at night, illuminated by a warm desk lamp. Scattered stationeries, books, high-end crayon illustration style.
@@ -23,7 +26,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="../assets/lesson-screen-16x9.css" />
+  <link rel="stylesheet" href="assets/lesson-screen-16x9.css" />
   <style>
     :root {
       --ink: #2c1810;
@@ -450,6 +453,11 @@
       .parchment { padding: 16px 14px 18px; }
     }
   </style>
+  <script src="assets/l06-interaction-tts-manifest.js"></script>
+  <script src="assets/lesson-tts-bootstrap.js"></script>
+  <script src="assets/l06-speak-local.js"></script>
+  <link rel="stylesheet" href="assets/grammar-lesson-pager.css" />
+  <link rel="stylesheet" href="../shared/grammar-logo.css" />
 </head>
 <body class="has-lesson-pager">
   <main class="app" id="app">
@@ -523,10 +531,10 @@
     </section>
   </main>
 
-  <nav class="lesson-pager" aria-label="课程页导航">
-    <a class="pager-prev" href="lesson06-page05-rulemaker.html">← 上一页 · Page 05</a>
-    <span class="pager-mid">L06 · Page 06 / 11</span>
-    <a class="pager-next" href="lesson06-page07-debate.html">下一页 · Page 07 →</a>
+  <nav class="lesson-pager is-file-nav" aria-label="页面导航">
+    <a class="pager-prev" href="lesson06-page05-rulemaker.html">上一页</a>
+    <a class="pager-logo" href="../index.html" aria-label="课程主页"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/logo2.png" alt="Steven's Class" width="204" height="61" decoding="async" /></a>
+    <a class="pager-next" href="lesson06-page07-debate.html">下一页</a>
   </nav>
 
   <script>
@@ -657,31 +665,13 @@
       }
 
       function speakAzure(text, voice, style) {
-        if (!window.SpeechSDK) return;
-        try {
-          var cfg = SpeechSDK.SpeechConfig.fromSubscription(AZURE_KEY, AZURE_REGION);
-          cfg.speechSynthesisVoiceName = voice || "en-US-AriaNeural";
-          var syn = new SpeechSDK.SpeechSynthesizer(cfg);
-          var safe = String(text).replace(/&/g, "&amp;").replace(/</g, "&lt;");
-          var ssml =
-            '<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xmlns:mstts="http://www.w3.org/2001/mstts" xml:lang="en-US">' +
-            '<voice name="' +
-            (voice || "en-US-AriaNeural") +
-            '">' +
-            (style
-              ? '<mstts:express-as style="' + style + '"><prosody rate="-2%">' + safe + "</prosody></mstts:express-as>"
-              : "<prosody rate=\"-2%\">" + safe + "</prosody>") +
-            "</voice></speak>";
-          syn.speakSsmlAsync(
-            ssml,
-            function () {
-              syn.close();
-            },
-            function () {
-              syn.close();
-            }
-          );
-        } catch (e) {}
+        var t = String(text || "").trim();
+        if (!t) return Promise.resolve(false);
+        if (typeof window.playL06Local === "function") {
+          return window.playL06Local(t);
+        }
+        console.warn("[L06] 本地 MP3 未找到:", t.slice(0, 120));
+        return Promise.resolve(false);
       }
 
       function deepSeekCoach(userPayload) {
@@ -1101,5 +1091,6 @@
       moveLens(window.innerWidth / 2, window.innerHeight / 2);
     })();
   </script>
-</body>
+  <link rel="stylesheet" href="assets/lesson-image-lightbox.css" />
+  <script src="assets/lesson-image-lightbox.js" defer></script></body>
 </html>

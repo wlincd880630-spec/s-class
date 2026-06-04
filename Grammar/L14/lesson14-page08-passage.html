@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>被动语态 · 语篇工坊</title>
+  <link rel="stylesheet" href="assets/lesson-screen-16x9.css" />
+  <link rel="stylesheet" href="l14-index-nav.css" />
+  <link rel="stylesheet" href="../shared/grammar-logo.css" />
+  <link rel="stylesheet" href="l14-lesson-shell.css" />
+  <link rel="stylesheet" href="assets/grammar-lesson-pager.css" />
+  <link rel="stylesheet" href="l14-page-components.css" />
+  <link rel="stylesheet" href="l14-page08-layout.css" />
+  <link rel="stylesheet" href="l14-page08-readable-text.css" />
+  <link rel="stylesheet" href="l14-readable-global.css" />
+  <style>
+    :root {
+      --l14-accent: #0d9488; --l14-accent-ink: #0f766e;
+      --l14-top-bg: linear-gradient(180deg, #fff, #f0fdfa);
+      --l14-shadow: rgba(13, 148, 136, 0.35);
+      --paper: #fff9f0; --ink: #2c2c2c; --edge: #5d4037;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0; min-height: 100dvh;
+      font-family: system-ui, -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: linear-gradient(165deg, #134e4a 0%, #1e3a5f 42%, #0f172a 100%);
+      color: var(--ink); line-height: 1.55;
+    }
+    #l14-book .panel.panel-split {
+      display: grid; gap: 0.65rem; flex: 1 1 auto; min-height: 0; overflow: hidden;
+    }
+    @media (min-width: 640px) {
+      #l14-book .panel.panel-split { grid-template-columns: minmax(200px, 46%) 1fr; }
+    }
+    .route-strip {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0.45rem;
+      margin-top: 0.65rem;
+    }
+    .route-strip span,
+    .rubric-mini span {
+      display: block;
+      padding: 0.42rem 0.5rem;
+      border: 2px solid rgba(93, 64, 55, 0.18);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.84);
+      font-size: 0.8rem;
+      font-weight: 800;
+      color: #334155;
+    }
+    .teacher-script,
+    .editor-note {
+      margin-top: 0.55rem;
+      padding: 0.56rem 0.7rem;
+      border-left: 4px solid var(--l14-accent);
+      border-radius: 10px;
+      background: rgba(240, 253, 250, 0.84);
+      color: #0f766e;
+      font-size: 0.84rem;
+      font-weight: 740;
+    }
+    .editor-note {
+      border-left-color: #c2410c;
+      background: rgba(255, 247, 237, 0.86);
+      color: #9a3412;
+    }
+    .rubric-mini {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.45rem;
+      margin: 0.55rem 0;
+    }
+    #l14-book .theme-card .theme-tag.t4 {
+      background: #cffafe;
+      color: #155e75;
+    }
+    @media (max-width: 720px) {
+      .route-strip,
+      .rubric-mini { grid-template-columns: 1fr; }
+    }
+  </style>
+  <link rel="stylesheet" href="l14-scene-images.css" />
+  <script src="l14-ui-helpers.js?v=3"></script>
+  <script src="l14-progress.js?v=3"></script>
+  <script src="l14-quiz-engine.js?v=3"></script>
+</head>
+<body class="has-lesson-pager">
+  <div id="ui-lock" aria-hidden="true"></div>
+  <div id="app">
+    <div id="l14-book" class="book">
+      <header class="top-bar">
+        <div class="top-bar-main">
+          <strong>被动语态</strong>
+        </div>
+        <a class="l14-index-link" href="index.html">学习目录</a>
+      </header>
+      <div class="l14-scroll">
+
+        <section class="lesson-page active" data-page="1">
+          <div class="panel panel-split">
+            <div class="scene-frame scene-frame--passage">
+              <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L14/assets/img/l14-p08-passage-workshop.png" alt="语篇工坊 · 手工艺 · 发明馆 · 规则环保 · 将来完成" width="800" height="600" style="aspect-ratio:4/3" loading="lazy" />
+            </div>
+            <div>
+              <p class="panel-lead"><strong>本节语篇目标</strong></p>
+              <div class="goal-grid" id="goal-grid"></div>
+              <div class="route-strip" aria-label="本页学习路径">
+                <span>1. 圈语块：be + done</span>
+                <span>2. 配意义：语块到功能</span>
+                <span>3. 读四篇：工艺/发明/环保/拓展</span>
+                <span>4. 进 Page 12：将来/完成</span>
+              </div>
+              <p class="channel-links"><a href="lesson14-page07-made-of.html">← Page 07 made of/from/in</a></p>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="2">
+          <div class="page-head"><span class="page-kicker">2 / 16</span><h2 class="page-title">声先行 · 四题材预览</h2></div>
+          <div class="panel">
+            <p class="panel-lead">先听语篇中的被动语块，再显示文字：现在/过去/情态/将来完成</p>
+            <p class="passage-intro-en en-blur en-line" lang="en" id="passage-intro-en">
+              Many products are made in China.
+              The zipper was invented in 1893.
+              The air is badly polluted.
+              The bridge will be built next year, and homework has been finished.
+            </p>
+            <p class="zh-hint en-blur" id="passage-intro-zh">四篇短文：工艺/发明/环保/将来与完成 · 标出 be + done</p>
+            <p class="teacher-script">教师提示：本页不是再讲单个公式，而是训练学生在语篇中定位“承受者 + 被动语块 + 语境功能”。</p>
+            <div class="btn-row">
+              <button type="button" class="btn teal" id="btn-intro-sound">🔊 播放四组</button>
+              <button type="button" class="btn violet" id="btn-intro-show">显示文字</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="3">
+          <div class="page-head"><span class="page-kicker">3 / 16</span><h2 class="page-title">苏格拉底 · 三问</h2></div>
+          <div class="panel">
+            <p class="panel-lead">语篇里为什么要用被动？</p>
+            <div class="socratic-grid" id="socratic-grid"></div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="4">
+          <div class="page-head"><span class="page-kicker">4 / 16</span><h2 class="page-title">教师展示 · 四题材</h2></div>
+          <div class="panel">
+            <p class="panel-lead">点题材卡片 · 看被动语块功能</p>
+            <div class="theme-grid" id="theme-grid"></div>
+            <p class="zh-hint" id="theme-demo-zh"></p>
+            <p class="en-line" lang="en" id="theme-demo-en"></p>
+            <p class="editor-note">出版提示：四篇依次覆盖现在被动、过去被动、情态被动、将来/完成被动，形成从句型到语篇的复现链。</p>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="5">
+          <div class="page-head"><span class="page-kicker">5 / 16</span><h2 class="page-title">语篇 ① · 传统手工艺</h2></div>
+          <div class="panel passage-panel" id="passage-panel-0"></div>
+        </section>
+
+        <section class="lesson-page" data-page="6">
+          <div class="page-head"><span class="page-kicker">6 / 16</span><h2 class="page-title">语篇 ② · 发明馆</h2></div>
+          <div class="panel passage-panel" id="passage-panel-1"></div>
+        </section>
+
+        <section class="lesson-page" data-page="7">
+          <div class="page-head"><span class="page-kicker">7 / 16</span><h2 class="page-title">语篇 ③ · 规则与环保</h2></div>
+          <div class="panel passage-panel" id="passage-panel-2"></div>
+        </section>
+
+        <section class="lesson-page" data-page="8">
+          <div class="page-head"><span class="page-kicker">8 / 16</span><h2 class="page-title">语篇 ④ · 将来与完成</h2></div>
+          <div class="panel passage-panel" id="passage-panel-3"></div>
+        </section>
+
+        <section class="lesson-page" data-page="9">
+          <div class="page-head"><span class="page-kicker">9 / 16</span><h2 class="page-title">模式 A · 找被动语块</h2></div>
+          <div class="panel panel-quiz-screen">
+            <p class="panel-lead"><span class="tier-label">分层 B</span>10 题 · 选出被动结构 · 8 秒</p>
+            <div class="quiz-timer-bar" id="timer-bar-a"><div class="quiz-timer-fill" id="timer-fill-a"></div><span class="quiz-timer-text" id="timer-text-a">8</span></div>
+            <div class="quick-quiz-stage">
+              <div class="quiz-slot" id="quiz-a"></div>
+              <div class="quiz-fx" id="quiz-fx-a" hidden></div>
+            </div>
+            <div class="quiz-foot">
+              <span class="quiz-progress" id="prog-a">1 / 10</span>
+              <div class="carousel-dots" id="dots-a"></div>
+            </div>
+            <div class="btn-row">
+              <button type="button" class="btn ghost" data-quiz-prev="a">上一题</button>
+              <button type="button" class="btn ghost" data-quiz-next="a">下一题</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="10">
+          <div class="page-head"><span class="page-kicker">10 / 16</span><h2 class="page-title">模式 B · 语块配意义</h2></div>
+          <div class="panel panel-quiz-screen">
+            <p class="panel-lead"><span class="tier-label">分层 B</span>10 题 · 被动语块是什么意思</p>
+            <div class="quiz-timer-bar" id="timer-bar-b"><div class="quiz-timer-fill" id="timer-fill-b"></div><span class="quiz-timer-text" id="timer-text-b">8</span></div>
+            <div class="quick-quiz-stage">
+              <div class="quiz-slot" id="quiz-b"></div>
+              <div class="quiz-fx" id="quiz-fx-b" hidden></div>
+            </div>
+            <div class="quiz-foot">
+              <span class="quiz-progress" id="prog-b">1 / 10</span>
+              <div class="carousel-dots" id="dots-b"></div>
+            </div>
+            <div class="btn-row">
+              <button type="button" class="btn ghost" data-quiz-prev="b">上一题</button>
+              <button type="button" class="btn ghost" data-quiz-next="b">下一题</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="11">
+          <div class="page-head"><span class="page-kicker">11 / 16</span><h2 class="page-title">模式 C · 改错/补全</h2></div>
+          <div class="panel panel-quiz-screen">
+            <p class="panel-lead"><span class="tier-label tier-b">分层 B+</span>8 题 · 语篇句</p>
+            <div class="quick-quiz-stage">
+              <div class="quiz-slot" id="quiz-c"></div>
+              <div class="quiz-fx" id="quiz-fx-c" hidden></div>
+            </div>
+            <div class="quiz-foot">
+              <span class="quiz-progress" id="prog-c">1 / 8</span>
+              <div class="carousel-dots" id="dots-c"></div>
+            </div>
+            <div class="btn-row">
+              <button type="button" class="btn ghost" data-quiz-prev="c">上一题</button>
+              <button type="button" class="btn ghost" data-quiz-next="c">下一题</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="12">
+          <div class="page-head"><span class="page-kicker">12 / 16</span><h2 class="page-title">模式 D · 属于哪篇语篇</h2></div>
+          <div class="panel panel-quiz-screen">
+            <p class="panel-lead"><span class="tier-label">分层 B+</span>12 题 · 工艺/发明/环保/拓展</p>
+            <div class="quiz-timer-bar" id="timer-bar-d"><div class="quiz-timer-fill" id="timer-fill-d"></div><span class="quiz-timer-text" id="timer-text-d">8</span></div>
+            <div class="quick-quiz-stage">
+              <div class="quiz-slot" id="quiz-d"></div>
+              <div class="quiz-fx" id="quiz-fx-d" hidden></div>
+            </div>
+            <div class="quiz-foot">
+              <span class="quiz-progress" id="prog-d">1 / 12</span>
+              <div class="carousel-dots" id="dots-d"></div>
+            </div>
+            <div class="btn-row">
+              <button type="button" class="btn ghost" data-quiz-prev="d">上一题</button>
+              <button type="button" class="btn ghost" data-quiz-next="d">下一题</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="13">
+          <div class="page-head"><span class="page-kicker">13 / 16</span><h2 class="page-title">模式 E · 听音选句</h2></div>
+          <div class="panel panel-quiz-screen">
+            <p class="panel-lead"><span class="tier-label tier-b">分层 C</span>5 题 · 听语篇被动句</p>
+            <div class="quick-quiz-stage">
+              <div class="quiz-slot" id="quiz-e"></div>
+              <div class="quiz-fx" id="quiz-fx-e" hidden></div>
+            </div>
+            <div class="quiz-foot">
+              <span class="quiz-progress" id="prog-e">1 / 5</span>
+              <div class="carousel-dots" id="dots-e"></div>
+            </div>
+            <div class="btn-row">
+              <button type="button" class="btn teal" id="listen-e">🔊 播放本题</button>
+              <button type="button" class="btn ghost" data-quiz-prev="e">上一题</button>
+              <button type="button" class="btn ghost" data-quiz-next="e">下一题</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="14">
+          <div class="page-head"><span class="page-kicker">14 / 16</span><h2 class="page-title">易错陷阱</h2></div>
+          <div class="panel">
+            <p class="panel-lead">语篇里主动/被动混用 ✗ → 正句</p>
+            <div id="trap-box"></div>
+            <div class="btn-row">
+              <button type="button" class="btn ghost" id="trap-prev">上一条</button>
+              <button type="button" class="btn ghost" id="trap-next">下一条</button>
+              <button type="button" class="btn violet" id="trap-reveal">显示正句</button>
+            </div>
+            <p class="zh-hint" id="trap-pos">1 / 6</p>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="15">
+          <div class="page-head"><span class="page-kicker">15 / 16</span><h2 class="page-title">学生总结</h2></div>
+          <div class="panel">
+            <div class="rule-box teal" id="rule-final">语篇被动：强调承受者/结果 · 中国制造 · 发明 was invented · 环保 should be done · 拓展 will be / has been</div>
+            <div class="summary-pick" id="summary-chips"></div>
+            <label class="zh-hint">用中文写：四篇语篇各用一个被动句：</label>
+            <textarea class="summary-write" id="summary-write" placeholder="例如：① Many products are made in China. ② The zipper was invented… ③ The air is polluted… ④ The bridge will be built…"></textarea>
+            <div class="rubric-mini" aria-label="本页出口评价">
+              <span>基础：能圈出 be + done</span>
+              <span>稳固：能解释语篇功能</span>
+              <span>挑战：能识别 will be / has been</span>
+            </div>
+            <ul class="checklist" id="checklist"></ul>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="16">
+          <div class="page-head"><span class="page-kicker">16 / 16</span><h2 class="page-title">语料回顾 · → Page 12</h2></div>
+          <div class="panel">
+            <table class="corpus-mini" id="corpus-table"></table>
+            <p class="rule-box amber" style="margin-top:0.45rem">过关：四篇配对各 4/4 · 模式 A≥8/10 · 总结 4 句</p>
+            <a class="channel-btn" href="lesson14-page12-future-perfect.html">进入 Page 12 · 将来 & 完成被动</a>
+            <p class="channel-links">
+              <a href="lesson14-page07-made-of.html">Page 07</a> ·
+              <a href="index.html">学习目录</a>
+            </p>
+          </div>
+        </section>
+
+      </div>
+    </div>
+    <nav class="lesson-pager is-intra-nav" aria-label="分页">
+      <div class="pager-zone pager-zone--left">
+        <button type="button" class="pager-prev" id="pager-prev">上一页</button>
+      </div>
+      <a class="pager-logo" href="../index.html" aria-label="课程主页"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/logo2.png" alt="Steven's Class" width="204" height="61" decoding="async" /></a>
+      <div class="pager-zone pager-zone--right">
+        <span class="pager-mid" id="pager-mid">1 / 16</span>
+        <button type="button" class="pager-next" id="pager-next">下一页</button>
+      </div>
+    </nav>
+  </div>
+  <script src="l14-image-lightbox.js"></script>
+  <script src="l14-index-nav.js"></script>
+  <script src="l14-corpus-pool.js?v=5"></script>
+  <script>
+(function () {
+  "use strict";
+
+  const AZURE_KEY = "C42UQWeDcluYanbo17WrtUnPhk0vkZy2uQHPTCGDzY6CdExx99NzJQQJ99BIACqBBLyXJ3w3AAAYACOGjkyu";
+  const AZURE_REGION = "southeastasia";
+  const VOICE_EN = "en-US-AriaNeural";
+  const PAGE_COUNT = 16;
+  const QUIZ_TIME_SEC = 8;
+  const PROGRESS_ID = "lesson14-page08";
+  const PROGRESS_VERSION = 3;
+  const defaultProgress = function () {
+    return {
+      version: PROGRESS_VERSION,
+      page: 1,
+      enShown: {},
+      quizzes: {},
+      matchState: [{}, {}, {}, {}],
+      trapIdx: 0,
+      trapsRevealed: {}
+    };
+  };
+  let progress = defaultProgress();
+  function persistProgress() {
+    if (window.L14Progress) L14Progress.save(PROGRESS_ID, progress);
+  }
+
+  const P14 = L14Corpus.enrichPageQuizzes("page08", {
+    goals: [
+      "在四篇语篇中识别被动语块（be + done）",
+      "完成被动语块与语篇意义配对（点击匹配）",
+      "读懂手工艺 / 发明馆 / 规则环保 / 将来完成四题材",
+      "判断语块属于哪篇语篇",
+      "五种测验模式巩固语篇被动",
+      "进入 Page 12 将来/完成被动拓展"
+    ],
+    socratic: [
+      {
+        q: "Many products are made in China. 为何用被动？",
+        opts: ["强调产品", "强调产地中国", "强调人们制造"],
+        ans: "强调产地中国",
+        fb: "被动突出承受者/结果：在中国制造。"
+      },
+      {
+        q: "The zipper was invented in 1893. 焦点是？",
+        opts: ["Judson", "拉链/发明时间", "1893 年的人"],
+        ans: "拉链/发明时间",
+        fb: "被动突出发明事件本身。"
+      },
+      {
+        q: "Trees should be planted. 表达？",
+        opts: ["建议种树", "树很重要", "人们种树"],
+        ans: "建议种树",
+        fb: "情态被动表建议/规定。"
+      }
+    ],
+    passages: [
+      {
+        title: "传统手工艺",
+        themeClass: "t1",
+        zh: "天灯剪纸泥塑",
+        en: "Sky lanterns are made of bamboo and paper. Paper is folded before it is cut. Clay is shaped by hand and fired at high heat. These crafts are sent to many countries.",
+        audio: "Sky lanterns are made of bamboo and paper. Paper is folded before it is cut. Clay is shaped by hand.",
+        pairs: [
+          ["are made of bamboo", "材料 · 竹与纸"],
+          ["is folded before it is cut", "工序 · 先折后剪"],
+          ["is shaped by hand", "方式 · 手工塑形"],
+          ["are sent", "结果 · 被运往各地"]
+        ]
+      },
+      {
+        title: "发明馆",
+        themeClass: "t2",
+        zh: "电话薯片篮球",
+        en: "The telephone was invented by Bell in 1876. Potato chips were invented by mistake in 1853. Basketball was invented for winter sports. Printing was invented in China long ago.",
+        audio: "The telephone was invented by Bell in 1876. Potato chips were invented by mistake. Basketball was invented for winter sports.",
+        pairs: [
+          ["was invented by Bell", "人物 · 贝尔发明电话"],
+          ["were invented by mistake", "方式 · 偶然发明薯片"],
+          ["was invented for", "目的 · 为冬季运动"],
+          ["was invented in China", "地点 · 印刷术在中国"]
+        ]
+      },
+      {
+        title: "规则与环保",
+        themeClass: "t3",
+        zh: "青少年规则与环保",
+        en: "Teens should not be allowed to drive. We may be allowed to take photos in the museum. The air is badly polluted in big cities. Trees should be planted and public transportation should be used more.",
+        audio: "Teens should not be allowed to drive. The air is badly polluted. Trees should be planted.",
+        pairs: [
+          ["should not be allowed to drive", "规则 · 不应允许开车"],
+          ["may be allowed to take photos", "规则 · 或许可拍照"],
+          ["is badly polluted", "问题 · 空气被污染"],
+          ["should be planted", "建议 · 应植树"]
+        ]
+      },
+      {
+        title: "将来与完成",
+        themeClass: "t4",
+        zh: "校园计划 · 已完成事项",
+        en: "The bridge will be built next year. More trees will be planted next spring. Homework has been finished. Many trees have been planted this year. The letter has already been sent.",
+        audio: "The bridge will be built next year. Homework has been finished. Many trees have been planted this year.",
+        pairs: [
+          ["will be built", "将来 · 桥将被建"],
+          ["will be planted", "将来 · 将植树"],
+          ["has been finished", "完成 · 作业已做完"],
+          ["have been planted", "完成 · 今年已种树"]
+        ]
+      }
+    ],
+    traps: [
+      { wrong: "Many products made in China.", right: "Many products are made in China.", note: "不能省略 be。" },
+      { wrong: "The air badly pollutes in cities.", right: "The air is badly polluted in big cities.", note: "语篇强调空气承受污染。" },
+      { wrong: "Trees should plant on hills.", right: "Trees should be planted on hills.", note: "建议被动 should be planted。" },
+      { wrong: "The zipper invented in 1893.", right: "The zipper was invented in 1893.", note: "过去被动 was invented。" },
+      { wrong: "Products are make by hand.", right: "Products are made by hand.", note: "made 是过去分词。" },
+      { wrong: "Transportation should use more.", right: "Public transportation should be used more.", note: "should be used" }
+    ],
+    summaryChips: ["中国制造", "发明 was invented", "环保 polluted", "should be done", "will be done", "has been done", "承受者/结果"],
+    checklist: [
+      "我完成四篇语篇各 4 组配对",
+      "我能说出每篇 1 个被动句",
+      "我会判断语块属于哪篇",
+      "我完成五种测验模式",
+      "我准备 Page 12 将来/完成拓展"
+    ],
+    corpus: [
+      ["篇①", "are made of bamboo", "材料"],
+      ["篇①", "shaped by hand / sent", "方式/出口"],
+      ["篇②", "was invented", "发明"],
+      ["篇②", "by Bell / by accident", "人物/方式"],
+      ["篇③", "is polluted", "问题"],
+      ["篇③", "should be planted/used", "建议"],
+      ["篇④", "will be / has been", "将来与完成"],
+      ["综合", "四题材", "被动语篇"],
+      ["Page 12", "将来/完成", "下节"]
+    ]
+  });
+
+  let currentPage = 1;
+  let trapIdx = 0;
+  let matchState = [{}, {}, {}, {}];
+  const quizEngines = {};
+
+  function escHtml(s) {
+    return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+  function lockUI() { document.getElementById("ui-lock").classList.add("active"); }
+  function unlockUI() { document.getElementById("ui-lock").classList.remove("active"); }
+
+  async function playAudio(text) {
+    if (!text) return;
+    lockUI();
+    const body = "<speak version='1.0' xml:lang='en-US'><voice name='" + VOICE_EN + "'>" + escHtml(text) + "</voice></speak>";
+    try {
+      const res = await fetch("https://" + AZURE_REGION + ".tts.speech.microsoft.com/cognitiveservices/v1", {
+        method: "POST",
+        headers: {
+          "Ocp-Apim-Subscription-Key": AZURE_KEY,
+          "Content-Type": "application/ssml+xml",
+          "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3"
+        },
+        body: body
+      });
+      if (!res.ok) throw new Error();
+      const blob = await res.blob();
+      const u = URL.createObjectURL(blob);
+      const a = new Audio(u);
+      await new Promise(function (ok, err) {
+        a.onended = function () { URL.revokeObjectURL(u); ok(); };
+        a.onerror = err;
+        a.play().catch(err);
+      });
+    } catch (e) {
+      speechSynthesis.speak(new SpeechSynthesisUtterance(text));
+    } finally {
+      unlockUI();
+    }
+  }
+
+  function leaveAllQuizzes() {
+    Object.keys(quizEngines).forEach(function (k) {
+      if (quizEngines[k] && quizEngines[k].onLeave) quizEngines[k].onLeave();
+    });
+  }
+
+  function bindQuiz(key, items, useTimer) {
+    const engine = L14Quiz.create({
+      key: key,
+      items: items,
+      useTimer: useTimer,
+      escHtml: escHtml,
+      quizTimeSec: QUIZ_TIME_SEC,
+      initialState: progress.quizzes[key],
+      onStateChange: function (st) {
+        progress.quizzes[key] = st;
+        persistProgress();
+      }
+    });
+    engine.init();
+    return engine;
+  }
+
+  function goPage(n) {
+    if (n < 1 || n > PAGE_COUNT) return;
+    leaveAllQuizzes();
+    currentPage = n;
+    progress.page = n;
+    persistProgress();
+    document.querySelectorAll(".lesson-page").forEach(function (el) {
+      el.classList.toggle("active", parseInt(el.dataset.page, 10) === n);
+    });
+    document.getElementById("pager-mid").textContent = n + " / " + PAGE_COUNT;
+    document.getElementById("pager-prev").disabled = n <= 1;
+    document.getElementById("pager-next").disabled = n >= PAGE_COUNT;
+    if (n === 9 && quizEngines.a) quizEngines.a.onEnter();
+    if (n === 10 && quizEngines.b) quizEngines.b.onEnter();
+    if (n === 11 && quizEngines.c) quizEngines.c.onEnter();
+    if (n === 12 && quizEngines.d) quizEngines.d.onEnter();
+    if (n === 13 && quizEngines.e) quizEngines.e.onEnter();
+  }
+
+  function initGoals() {
+    P14.goals.forEach(function (g) {
+      const d = document.createElement("div");
+      d.className = "goal-card";
+      d.textContent = g;
+      document.getElementById("goal-grid").appendChild(d);
+    });
+  }
+
+  function initIntroSound() {
+    document.querySelectorAll("#passage-intro-en, #passage-intro-zh").forEach(function (el) {
+      el.classList.add("en-blur");
+    });
+    if (progress.enShown.intro) {
+      document.querySelectorAll("#passage-intro-en, #passage-intro-zh").forEach(function (el) {
+        el.classList.add("is-shown");
+      });
+    }
+    document.getElementById("btn-intro-sound").addEventListener("click", function () {
+      playAudio("Many products are made in China. The zipper was invented in 1893. The air is badly polluted. The bridge will be built next year, and homework has been finished.");
+    });
+    document.getElementById("btn-intro-show").addEventListener("click", function () {
+      progress.enShown.intro = true;
+      persistProgress();
+      document.querySelectorAll("#passage-intro-en, #passage-intro-zh").forEach(function (el) { el.classList.add("is-shown"); });
+    });
+  }
+
+  function initSocratic() {
+    const grid = document.getElementById("socratic-grid");
+    P14.socratic.forEach(function (item) {
+      const card = document.createElement("div");
+      card.className = "soc-card";
+      const q = document.createElement("p");
+      q.className = "soc-q";
+      q.textContent = item.q;
+      const opts = document.createElement("div");
+      opts.className = "soc-opts";
+      const fb = document.createElement("p");
+      fb.className = "soc-fb";
+      item.opts.forEach(function (opt) {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.textContent = opt;
+        b.addEventListener("click", function () {
+          opts.querySelectorAll("button").forEach(function (x) {
+            x.disabled = true;
+            x.classList.remove("ok", "bad");
+          });
+          if (opt === item.ans) {
+            b.classList.add("ok");
+            fb.textContent = "✓ " + item.fb;
+          } else {
+            b.classList.add("bad");
+            fb.textContent = item.fb;
+          }
+        });
+        opts.appendChild(b);
+      });
+      card.appendChild(q);
+      card.appendChild(opts);
+      card.appendChild(fb);
+      grid.appendChild(card);
+    });
+  }
+
+  function initThemeGrid() {
+    const grid = document.getElementById("theme-grid");
+    P14.passages.forEach(function (p, i) {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "theme-card";
+      b.innerHTML =
+        "<span class='theme-tag " + p.themeClass + "'>" + escHtml(p.title) + "</span><br>" +
+        escHtml(p.zh);
+      b.addEventListener("click", function () {
+        document.querySelectorAll(".theme-card").forEach(function (c) { c.classList.remove("is-lit"); });
+        b.classList.add("is-lit");
+        document.getElementById("theme-demo-zh").textContent = p.zh;
+        document.getElementById("theme-demo-en").textContent = p.en;
+        playAudio(p.audio);
+      });
+      grid.appendChild(b);
+    });
+    grid.querySelector(".theme-card")?.click();
+  }
+
+  function updateMatchProgress(pi) {
+    const p = P14.passages[pi];
+    const done = Object.keys(matchState[pi]).filter(function (k) { return matchState[pi][k]; }).length;
+    const el = document.getElementById("match-prog-" + pi);
+    if (el) el.textContent = "配对进度：" + done + " / " + p.pairs.length;
+  }
+
+  function buildMatch(pi, rootId) {
+    const p = P14.passages[pi];
+    const root = document.getElementById(rootId);
+    const wrap = root.querySelector(".match-wrap");
+    wrap.innerHTML = "";
+    let sel = null;
+    const pool = document.createElement("div");
+    pool.className = "match-pool";
+    const tg = document.createElement("div");
+    const chips = p.pairs.slice().sort(function () { return Math.random() - 0.5; });
+    chips.forEach(function (pair) {
+      const idx = p.pairs.indexOf(pair);
+      const chip = document.createElement("button");
+      chip.type = "button";
+      chip.className = "match-chip";
+      chip.textContent = pair[0];
+      chip.dataset.idx = String(idx);
+      if (matchState[pi][idx]) chip.classList.add("used");
+      chip.addEventListener("click", function () {
+        if (chip.classList.contains("used")) return;
+        wrap.querySelectorAll(".match-chip").forEach(function (c) { c.classList.remove("selected"); });
+        chip.classList.add("selected");
+        sel = { idx: idx, el: chip };
+      });
+      pool.appendChild(chip);
+    });
+    p.pairs.forEach(function (pair, idx) {
+      const t = document.createElement("div");
+      t.className = "match-target" + (matchState[pi][idx] ? " ok filled" : "");
+      t.dataset.idx = String(idx);
+      if (matchState[pi][idx]) {
+        t.textContent = pair[0] + " → " + pair[1];
+      } else {
+        t.textContent = "？ " + pair[1];
+      }
+      t.addEventListener("click", function () {
+        if (!sel || matchState[pi][idx]) return;
+        if (sel.idx === idx) {
+          t.classList.add("ok", "filled");
+          t.textContent = pair[0] + " → " + pair[1];
+          sel.el.classList.add("used");
+          sel.el.classList.remove("selected");
+          matchState[pi][idx] = true;
+          progress.matchState = matchState;
+          persistProgress();
+          sel = null;
+          updateMatchProgress(pi);
+        } else {
+          t.classList.add("bad");
+          setTimeout(function () { t.classList.remove("bad"); }, 600);
+        }
+      });
+      tg.appendChild(t);
+    });
+    wrap.appendChild(pool);
+    wrap.appendChild(tg);
+    updateMatchProgress(pi);
+  }
+
+  function initPassagePanels() {
+    P14.passages.forEach(function (p, pi) {
+      const root = document.getElementById("passage-panel-" + pi);
+      root.innerHTML =
+        "<p class='panel-lead'><span class='tier-label'>分层 A</span>" + escHtml(p.zh) + " · 先听再读 · 点击配对</p>" +
+        "<div class='passage-text en-blur' lang='en' id='passage-text-" + pi + "'>" + escHtml(p.en) + "</div>" +
+        "<div class='btn-row'>" +
+        "<button type='button' class='btn teal' data-play-passage='" + pi + "'>🔊 朗读语篇</button>" +
+        "<button type='button' class='btn violet' data-show-passage='" + pi + "'>显示英文</button>" +
+        "</div>" +
+        "<p class='match-progress' id='match-prog-" + pi + "'>配对进度：0 / " + p.pairs.length + "</p>" +
+        "<div class='match-wrap' id='match-wrap-" + pi + "'></div>";
+      buildMatch(pi, "passage-panel-" + pi);
+      if (progress.enShown["passage" + pi]) {
+        document.getElementById("passage-text-" + pi)?.classList.add("is-shown");
+      }
+      root.querySelector("[data-play-passage='" + pi + "']").addEventListener("click", function () {
+        playAudio(p.audio);
+      });
+      root.querySelector("[data-show-passage='" + pi + "']").addEventListener("click", function () {
+        progress.enShown["passage" + pi] = true;
+        persistProgress();
+        document.getElementById("passage-text-" + pi)?.classList.add("is-shown");
+      });
+    });
+  }
+
+  function initTraps() {
+    trapIdx = progress.trapIdx || 0;
+    if (trapIdx >= P14.traps.length) trapIdx = 0;
+    function renderTrap() {
+      const t = P14.traps[trapIdx];
+      progress.trapIdx = trapIdx;
+      persistProgress();
+      document.getElementById("trap-pos").textContent = (trapIdx + 1) + " / " + P14.traps.length;
+      document.getElementById("trap-box").innerHTML =
+        "<div class='trap-card' id='trap-card'>" +
+        "<p class='wrong-line' lang='en'>✗ " + escHtml(t.wrong) + "</p>" +
+        "<p class='right-line' lang='en'>✓ " + escHtml(t.right) + "</p>" +
+        "<p class='zh-hint'>" + escHtml(t.note) + "</p></div>";
+      if (progress.trapsRevealed && progress.trapsRevealed[trapIdx]) {
+        document.getElementById("trap-card")?.classList.add("revealed");
+      }
+    }
+    renderTrap();
+    document.getElementById("trap-reveal").addEventListener("click", function () {
+      progress.trapsRevealed[trapIdx] = true;
+      persistProgress();
+      document.getElementById("trap-card")?.classList.add("revealed");
+    });
+    document.getElementById("trap-prev").addEventListener("click", function () {
+      trapIdx = (trapIdx - 1 + P14.traps.length) % P14.traps.length;
+      renderTrap();
+    });
+    document.getElementById("trap-next").addEventListener("click", function () {
+      trapIdx = (trapIdx + 1) % P14.traps.length;
+      renderTrap();
+    });
+  }
+
+  function initSummary() {
+    P14.summaryChips.forEach(function (t) {
+      const lab = document.createElement("label");
+      lab.innerHTML = '<input type="checkbox" /> ' + escHtml(t);
+      document.getElementById("summary-chips").appendChild(lab);
+    });
+    P14.checklist.forEach(function (t) {
+      const li = document.createElement("li");
+      li.textContent = t;
+      document.getElementById("checklist").appendChild(li);
+    });
+    L14UI.initCorpusTable("corpus-table", P14.corpus, escHtml);
+  }
+
+  function initLesson() {
+    var loaded = window.L14Progress && L14Progress.load(PROGRESS_ID);
+    if (loaded) {
+      progress = Object.assign(defaultProgress(), loaded);
+      if (!progress.enShown) progress.enShown = {};
+      if (!progress.quizzes) progress.quizzes = {};
+      if (!Array.isArray(progress.matchState) || progress.matchState.length < P14.passages.length) {
+        progress.matchState = [{}, {}, {}, {}];
+      }
+      if (!progress.trapsRevealed) progress.trapsRevealed = {};
+      if (!progress.version || progress.version < PROGRESS_VERSION) {
+        progress.quizzes = {};
+        progress.version = PROGRESS_VERSION;
+        persistProgress();
+      }
+    }
+    matchState = progress.matchState;
+initGoals();
+    initIntroSound();
+    initSocratic();
+    initThemeGrid();
+    initPassagePanels();
+    quizEngines.a = bindQuiz("a", P14.quizFind, true);
+    quizEngines.b = bindQuiz("b", P14.quizMean, true);
+    quizEngines.c = bindQuiz("c", P14.quizFix, false);
+    quizEngines.d = bindQuiz("d", P14.quizWhich, true);
+    quizEngines.e = bindQuiz("e", P14.quizListen, false);
+    document.getElementById("listen-e").addEventListener("click", function () {
+      const a = quizEngines.e.getAudio();
+      if (a) playAudio(a);
+    });
+    initTraps();
+    initSummary();
+    document.getElementById("pager-prev").addEventListener("click", function () { goPage(currentPage - 1); });
+    document.getElementById("pager-next").addEventListener("click", function () { goPage(currentPage + 1); });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "ArrowLeft" && currentPage > 1) goPage(currentPage - 1);
+      if (e.key === "ArrowRight" && currentPage < PAGE_COUNT) goPage(currentPage + 1);
+    });
+    var startPage = progress.page || 1;
+    if (startPage < 1 || startPage > PAGE_COUNT) startPage = 1;
+    goPage(startPage);
+  }
+
+  initLesson();
+})();
+  </script>
+</body>
+</html>

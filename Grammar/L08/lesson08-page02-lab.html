@@ -3,9 +3,12 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>第08讲 · Page 02 · 未来实验室 · be going to 与 will</title>
+  <title>第08讲 · 第02页 · be going to 与 will</title>
   <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
-  <link rel="stylesheet" href="../assets/lesson-screen-16x9.css" />
+  <script src="../shared/play-local-mp3.js"></script>
+  <script src="../shared/lesson-local-audio.js" defer></script>
+  <script src="../shared/lesson-speak-local-only.js"></script>
+  <link rel="stylesheet" href="assets/lesson-screen-16x9.css" />
   <style>
     :root {
       --nav-blue: #00bcd4;
@@ -785,6 +788,8 @@
       line-height: 1.5;
     }
   </style>
+  <link rel="stylesheet" href="assets/grammar-lesson-pager.css" />
+  <link rel="stylesheet" href="../shared/grammar-logo.css" />
 </head>
 <body class="has-lesson-pager">
   <div id="l08-p02-host" class="app">
@@ -1023,10 +1028,10 @@
     </div>
   </div>
 
-  <nav class="lesson-pager" aria-label="课程页导航">
-    <a class="pager-prev" href="lesson08-page01-archive.html">← Page 01</a>
-    <span class="pager-mid">L08 · Page 02</span>
-    <a class="pager-next" href="lesson08-page03-crystal.html">Page 03 →</a>
+  <nav class="lesson-pager is-file-nav" aria-label="页面导航">
+    <a class="pager-prev" href="lesson08-page01-archive.html">上一页</a>
+    <a class="pager-logo" href="../index.html" aria-label="课程主页"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/logo2.png" alt="Steven's Class" width="204" height="61" decoding="async" /></a>
+    <a class="pager-next" href="lesson08-page03-crystal.html">下一页</a>
   </nav>
 
   <script>
@@ -1357,6 +1362,12 @@
         if (!t) return Promise.resolve(false);
         if (audioKey && PAGE02_AUDIO_MAP[audioKey]) {
           var url = PAGE02_AUDIO_BASE + PAGE02_AUDIO_MAP[audioKey];
+          if (typeof window.playLocalMp3Url === "function") {
+            return window.playLocalMp3Url(url).then(function (ok) {
+              if (!ok) console.warn("[L08 Lab] 本地 MP3 无法播放:", url);
+              return !!ok;
+            });
+          }
           return new Promise(function (resolve) {
             var a = new Audio(url);
             var done = false;
@@ -1369,14 +1380,19 @@
               finish(true);
             };
             a.onerror = function () {
-              speakLabCloudOnly(t).then(finish);
+              console.warn("[L08 Lab] 本地 MP3 无法播放:", url);
+              finish(false);
             };
             a.play().catch(function () {
-              speakLabCloudOnly(t).then(finish);
+              finish(false);
             });
           });
         }
-        return speakLabCloudOnly(t);
+        if (window.LessonTTSBootstrap && window.LessonTTSBootstrap.playLocalIfAvailable) {
+          return window.LessonTTSBootstrap.playLocalIfAvailable(t);
+        }
+        console.warn("[L08 Lab] 无本地 MP3:", t.slice(0, 80));
+        return Promise.resolve(false);
       }
 
       function playBuzz() {
@@ -1939,5 +1955,6 @@
       startScenarioA();
     })();
   </script>
-</body>
+  <link rel="stylesheet" href="assets/lesson-image-lightbox.css" />
+  <script src="assets/lesson-image-lightbox.js" defer></script></body>
 </html>

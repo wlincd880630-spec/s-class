@@ -1,270 +1,98 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
+  <script src="assets/play-local-mp3.js"></script>
+  <script src="../shared/lesson-local-audio.js" defer></script>
+  <script src="../shared/lesson-speak-local-only.js"></script>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>宾语从句讲义</title>
-  <!-- 本页无语音。Azure Speech TTS 见 lesson12-page01～05。 -->
-  <style>
-    :root {
-      --paper: #fff9f0;
-      --ink: #333;
-      --ink-soft: #555;
-      --crayon-red: #e85d4c;
-      --crayon-blue: #4a90d9;
-      --crayon-green: #5cb85c;
-      --crayon-purple: #9b59b6;
-      --crayon-orange: #f0ad4e;
-      --shadow: rgba(60, 40, 20, 0.1);
-      --line: rgba(128, 91, 47, 0.22);
-      --font-sans: system-ui, -apple-system, "Segoe UI", "Helvetica Neue", Arial, "Microsoft YaHei", sans-serif;
-    }
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      margin: 0;
-      min-height: 100vh;
-      font-family: var(--font-sans);
-      background:
-        radial-gradient(circle at 10% 15%, rgba(255, 220, 180, 0.38) 0%, transparent 42%),
-        radial-gradient(circle at 90% 85%, rgba(200, 230, 255, 0.32) 0%, transparent 40%),
-        linear-gradient(168deg, #ffeaa7 0%, #fab1a0 30%, #dfe6e9 100%);
-      color: var(--ink);
-      padding: 1rem 1rem 3rem;
-      line-height: 1.72;
-      font-size: 16px;
-    }
-    .no-print-hint {
-      text-align: center;
-      font-size: 0.82rem;
-      color: #1565c0;
-      margin: 0 auto 0.65rem;
-      max-width: 900px;
-      font-weight: 700;
-    }
-    .sheet {
-      max-width: 900px;
-      margin: 0 auto;
-      background: var(--paper);
-      border-radius: 12px 28px 16px 20px;
-      border: 4px solid var(--crayon-orange);
-      box-shadow: 6px 8px 0 var(--crayon-red), 14px 18px 32px var(--shadow);
-      padding: 1.5rem 1.5rem 2rem;
-      position: relative;
-    }
-    .sheet::before {
-      content: "";
-      position: absolute;
-      inset: 10px;
-      border: 2px dashed rgba(180, 140, 90, 0.38);
-      border-radius: 6px 22px 10px 8px;
-      pointer-events: none;
-    }
-    .inner { position: relative; z-index: 1; }
-    .doc-title {
-      font-size: clamp(1.35rem, 3vw, 1.85rem);
-      text-align: center;
-      color: var(--crayon-red);
-      margin: 0 0 1rem;
-      text-shadow: 2px 2px 0 rgba(0,0,0,0.06);
-      line-height: 1.3;
-    }
-    h2.section-title {
-      font-size: 1.1rem;
-      color: #1a237e;
-      margin: 1.55rem 0 0.85rem;
-      padding: 0.55rem 0.8rem;
-      border-radius: 12px;
-      background: linear-gradient(135deg, rgba(74, 144, 217, 0.16), rgba(255, 255, 255, 0.65));
-      border: 1px solid rgba(74, 144, 217, 0.3);
-      border-left: 5px solid var(--crayon-blue);
-      box-shadow: 0 2px 0 rgba(74, 144, 217, 0.2);
-      display: flex;
-      align-items: center;
-      gap: 0.35rem;
-      flex-wrap: wrap;
-    }
-    h2.section-title:first-of-type { margin-top: 0; }
-    .note {
-      font-size: 0.88rem;
-      color: var(--ink-soft);
-      padding: 0.65rem 0.75rem;
-      border-radius: 12px;
-      border: 2px dashed rgba(240, 173, 78, 0.55);
-      background: rgba(255, 248, 225, 0.55);
-      margin: 0.5rem 0 0.75rem;
-    }
-    .mark-that { color: #b03a2e; font-weight: 900; background: rgba(232, 93, 76, 0.12); padding: 0 0.2rem; border-radius: 6px; }
-    .mark-wh { color: #145c95; font-weight: 900; background: rgba(74, 144, 217, 0.14); padding: 0 0.2rem; border-radius: 6px; }
-    .mark-if { color: #6b3b7b; font-weight: 900; background: rgba(155, 89, 182, 0.14); padding: 0 0.2rem; border-radius: 6px; }
-    .example {
-      font-weight: 700;
-      color: #1f405f;
-      font-size: clamp(0.98rem, 0.35vw + 0.9rem, 1.08rem);
-    }
-    /* 单列纵向排版（原 grid-2 / grid-3 分栏已取消） */
-    .grid-2,
-    .grid-3 {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-    .grid-3 + .grid-2 {
-      margin-top: 1.05rem;
-    }
-    .card {
-      padding: 1rem 1.15rem;
-      border-radius: 16px;
-      border: 1px solid rgba(128, 91, 47, 0.16);
-      border-left: 5px solid var(--crayon-blue);
-      background: rgba(255, 255, 255, 0.94);
-      box-shadow: 0 2px 10px rgba(60, 40, 20, 0.06);
-    }
-    .card strong { color: var(--crayon-red); }
-    ul.compact { margin: 0.45rem 0 0; padding-left: 1.25rem; }
-    .compact li { margin: 0.32rem 0; }
-    table.data {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 0.5rem 0;
-      font-size: 0.84rem;
-      background: #fff;
-      border-radius: 12px;
-      overflow: hidden;
-      border: 2px solid rgba(74, 144, 217, 0.18);
-    }
-    .data th, .data td {
-      padding: 0.45rem 0.5rem;
-      border-bottom: 1px solid rgba(128, 91, 47, 0.14);
-      text-align: left;
-      vertical-align: top;
-    }
-    .data th { background: rgba(74, 144, 217, 0.88); color: #fff; font-weight: 900; }
-    .data tr:nth-child(even) td { background: rgba(74, 144, 217, 0.05); }
-    .data-caption {
-      font-size: 0.82rem;
-      color: var(--ink-soft);
-      margin: 0.35rem 0 0.25rem;
-      font-weight: 700;
-    }
-    .use-tag {
-      display: inline-block;
-      font-size: 0.68rem;
-      font-weight: 900;
-      padding: 0.06rem 0.38rem;
-      border-radius: 999px;
-      margin-right: 0.35rem;
-      vertical-align: middle;
-    }
-    .use-tag.speak { background: rgba(74, 144, 217, 0.22); color: #0d47a1; }
-    .use-tag.write { background: rgba(232, 93, 76, 0.18); color: #8b2e22; }
-    .use-hint {
-      font-size: 0.78rem;
-      color: #6d4c41;
-      font-weight: 600;
-      margin: 0.25rem 0 0;
-      line-height: 1.45;
-    }
-    details {
-      margin: 1rem 0;
-      padding: 0.85rem 1rem;
-      border-radius: 16px;
-      border: 2px dashed rgba(240, 173, 78, 0.55);
-      background: rgba(255, 241, 214, 0.55);
-    }
-    summary { cursor: pointer; font-weight: 950; color: #67431d; }
-    .wrong {
-      color: #9e2f24;
-      text-decoration: underline wavy var(--crayon-red);
-      text-underline-offset: 3px;
-      font-weight: 900;
-    }
-    .right { color: #1d6c3d; font-weight: 900; }
-    .write-lines {
-      margin: 0.5rem 0 0;
-      padding: 0.5rem 0.65rem;
-      border: 2px dashed rgba(93, 64, 55, 0.28);
-      border-radius: 10px;
-      background: rgba(255,255,255,0.65);
-    }
-    .write-lines .prompt {
-      font-size: 0.86rem;
-      color: #5d4037;
-      font-weight: 800;
-      margin: 0.35rem 0 0.2rem;
-    }
-    .write-lines .rule {
-      border-bottom: 1px solid rgba(0,0,0,0.22);
-      min-height: 1.65rem;
-      margin-bottom: 0.35rem;
-    }
-    .quote-box {
-      text-align: center;
-      padding: 0.85rem 1rem;
-      border-radius: 16px;
-      border: 3px solid rgba(92, 184, 92, 0.45);
-      background: linear-gradient(135deg, rgba(255,255,255,0.92), rgba(232, 245, 233, 0.75));
-      font-weight: 950;
-      color: #2e4a32;
-      line-height: 1.55;
-    }
-    @media (max-width: 720px) {
-      body { padding: 0.65rem 0.65rem 2rem; }
-      .sheet { padding: 1rem; }
-    }
-    @media print {
-      body { padding: 0; background: #fff; color: #000; font-size: 11.5px; }
-      .no-print-hint { display: none !important; }
-      .sheet { max-width: none; border: 0; border-radius: 0; box-shadow: none; padding: 0.45rem; }
-      .sheet::before { display: none; }
-      details { border: 1px solid #bbb; background: #fff; }
-      details:not([open]) > *:not(summary) { display: block; }
-      .card, .data, details, .quote-box, .write-lines { break-inside: avoid; box-shadow: none; }
-      .data th { background: #eee !important; color: #000 !important; }
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>宾语从句</title>
+  <link rel="stylesheet" href="../shared/grammar-logo.css" />
+  <link rel="stylesheet" href="../shared/grammar-handout.css" />
+  <link rel="stylesheet" href="../shared/grammar-handout-ex-pair.css" />
+  <link rel="stylesheet" href="../shared/grammar-lesson-pager.css" />
+  <link rel="stylesheet" href="assets/l12-handout-sheet.css" />
+  <link rel="stylesheet" href="../shared/grammar-handout-print.css" media="print" />
+  <link rel="stylesheet" href="assets/l12-handout-publisher.css" />
+  <link rel="stylesheet" href="../shared/grammar-handout-appendix-panel.css" />
+  <link rel="stylesheet" href="../shared/grammar-handout-print-unify.css" media="print" />
+  <link rel="stylesheet" href="../shared/grammar-handout-tts.css" />
 </head>
-<body>
-  <p class="no-print-hint">打印建议：浏览器打印 → 勾选「背景图形」更接近讲义配色；默写区可手写或二次打印。</p>
-  <main class="sheet">
-    <div class="inner">
-      <h1 class="doc-title">宾语从句讲义</h1>
+<body class="has-lesson-pager grammar-handout-page l12-handout handout-continuous">
+    <header class="grammar-handout-top">
+    <div class="top-bar-main">
+      <strong>宾语从句</strong>
+      <span class="subtitle-line">Steven's Class</span>
+    </div>
+    <a class="grammar-handout-index-link" href="index.html">本讲目录</a>
+  </header>
+  <p class="grammar-handout-print-hint no-print">打印 PDF：目标选「另存为 PDF」→ 纸张 A4 → 勾选「<strong>背景图形</strong>」→ <strong>取消「页眉和页脚」</strong>（勿带出文件路径与日期）。</p>
+  <div class="grammar-handout-pdf-bar no-print">
+    <button type="button" class="btn-handout-pdf" id="btnHandoutPrint">打印 / 另存 PDF</button>
+  </div>
 
-      <section>
-        <h2 class="section-title">① 三要素速记卡（全面版）</h2>
-        <p class="note">宾语从句做题三问：<strong>①缺什么信息→选引导词；②从句是否「陈述语序」；③主从时态是否呼应（+ 是否客观真理）。</strong>下面按「要素 → 规则 → 正误对照」铺开，可与 Page02–04 课堂页交叉背诵。</p>
-        <div class="grid-3">
+  <nav class="handout-section-nav no-print" aria-label="讲义节次">
+    <a href="#sec-1">①三要素</a>
+    <a href="#sec-2">②否定</a>
+    <a href="#sec-3">③时态</a>
+    <a href="#sec-4">④语料</a>
+    <a href="#sec-5">⑤易错</a>
+    <a href="#sec-6">⑥自检</a>
+    <a href="#sec-7">⑦英译</a>
+    <a href="#sec-8">⑧汉译</a>
+    <a href="#sec-chant">⑨口诀</a>
+  </nav>
+
+  <main class="sheet l12-handout" id="handout-pdf-source">
+    <div class="inner">
+      <header class="handout-cover" aria-label="讲义封面">
+        <div class="handout-cover__bg" aria-hidden="true"></div>
+        <div class="handout-cover__inner">
+          <img class="handout-cover-logo" src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/logo2.png" alt="Steven's Class" width="120" height="48" decoding="async" />
+          <p class="handout-cover__brand">Steven's Class</p>
+          <p class="handout-cover__en" lang="en">Object Clauses</p>
+          <h1 class="handout-cover__title doc-title">宾语从句</h1>
+          <div class="handout-cover__rule" aria-hidden="true"></div>
+          <p class="handout-cover__focus">引导词 · 陈述语序 · 时态呼应 · 否定转移 · 读写语料</p>
+        </div>
+      </header>
+
+      <section class="handout-section" id="sec-1">
+        <h2 class="section-title">① 三要素速记总表</h2>
+        <p class="map-hint">学习路径：背清三要素 → 精读②③时态表 → 熟读④语料 → 对照⑤易错要点 → 完成⑦⑧默写 → 对照⑨口诀自测。</p>
+        <p class="note">宾语从句做题三问：<strong>①缺什么信息→选引导词；②从句是否「陈述语序」；③主从时态是否呼应（+ 是否客观真理）。</strong>下面按「要素 → 规则 → 正误对照」铺开，可与本讲前几课课件交叉背诵。</p>
+        <div class="stack-cards" aria-label="宾语从句三要素">
           <article class="card">
             <strong>要素一 · 引导词</strong>
             <p class="use-hint">按「从句里缺不缺成分、缺哪一类信息」选词，而不是按中文句尾有没有问号。</p>
             <ul class="compact example">
-              <li><span class="mark-that">that</span>：从句本身是<strong>完整陈述</strong>（主谓宾齐全），只「打包」进主句。think / believe / know / hope / say / agree / hear / see / find / show… + (that) + 主 + 谓。<em>that 常可省</em>，但两个宾从并列时，第二个 that 建议保留以便看清层次。</li>
-              <li><span class="mark-wh">wh-</span>：从句里<strong>缺一个信息位</strong>——what（物/内容）who（人，作主语）whose（谁的）which（哪一个）where / when / why / how…；<strong>how long / how often / how far / how soon</strong> 等也属 wh- 类。</li>
-              <li><span class="mark-if">if / whether</span>：对应中文「<strong>是否</strong>」，从句仍是陈述语序。<strong>whether … or not</strong>、介词后（depend on / talk about）、<strong>whether to do</strong>、动词 <strong>discuss</strong>（不再加 about）等 → 优先 <strong>whether</strong>。</li>
-              <li><strong>that ≠ whether</strong>：He said <span class="right">that</span> he was tired.（陈述）≠ He asked <span class="right">if / whether</span> he was tired.（疑问意义「是否」）</li>
-              <li><strong>what ≠ that</strong>：缺「说的内容/事情」用 what：I don’t know <span class="right">what</span> he said.；已知是陈述事实用 that：I know <span class="right">that</span> he is honest.</li>
+              <li><span class="mark-that">that</span>：从句本身是<strong>完整陈述</strong>（主谓宾齐全），只「打包」进主句。think / believe / know / hope / say / agree / hear / see / find / show… + (that) + 主 + 谓。<em>that 常可省</em>，但两个宾从并列时，第二个 that 建议保留以便看清层次。 <button type="button" class="tts-chip no-print" data-tts="that ：从句本身是 完整陈述 （主谓宾齐全），只「打包」进主句。think / believe / know / hope / say / agree / hear / see / find / show… + (that) + 主 + 谓。 that 常可省 ，但两个宾从并列时，第二个 that 建议保留以便看清层次。" aria-label="朗读">🔊</button></li>
+              <li><span class="mark-wh">wh-</span>：从句里<strong>缺一个信息位</strong>——what（物/内容）who（人，作主语）whose（谁的）which（哪一个）where / when / why / how…；<strong>how long / how often / how far / how soon</strong> 等也属 wh- 类。 <button type="button" class="tts-chip no-print" data-tts="wh- ：从句里 缺一个信息位 ——what（物/内容）who（人，作主语）whose（谁的）which（哪一个）where / when / why / how…； how long / how often / how far / how soon 等也属 wh- 类。" aria-label="朗读">🔊</button></li>
+              <li><span class="mark-if">if / whether</span>：对应中文「<strong>是否</strong>」，从句仍是陈述语序。<strong>whether … or not</strong>、介词后（depend on / talk about）、<strong>whether to do</strong>、动词 <strong>discuss</strong>（不再加 about）等 → 优先 <strong>whether</strong>。 <button type="button" class="tts-chip no-print" data-tts="if / whether ：对应中文「 是否 」，从句仍是陈述语序。 whether … or not 、介词后（depend on / talk about）、 whether to do 、动词 discuss （不再加 about）等 → 优先 whether 。" aria-label="朗读">🔊</button></li>
+              <li><strong>that ≠ whether</strong>：He said <span class="right">that</span> he was tired.（陈述）≠ He asked <span class="right">if / whether</span> he was tired.（疑问意义「是否」） <button type="button" class="tts-chip no-print" data-tts="that ≠ whether ：He said that he was tired.（陈述）≠ He asked if / whether he was tired.（疑问意义「是否」）" aria-label="朗读">🔊</button></li>
+              <li><strong>what ≠ that</strong>：缺「说的内容/事情」用 what：I don’t know <span class="right">what</span> he said.；已知是陈述事实用 that：I know <span class="right">that</span> he is honest. <button type="button" class="tts-chip no-print" data-tts="what ≠ that ：缺「说的内容/事情」用 what：I don’t know what he said.；已知是陈述事实用 that：I know that he is honest." aria-label="朗读">🔊</button></li>
             </ul>
           </article>
           <article class="card">
             <strong>要素二 · 陈述语序</strong>
             <p class="use-hint">从句内部 = 「引导词 + <strong>主语 + 谓语</strong> + 其余」，<strong>绝不</strong>再写成一般疑问倒装。</p>
             <ul class="compact example">
-              <li>外壳动词：Could you tell me… / Do you know… / I wonder… / Please tell me… / Would you mind telling me… + 宾从。</li>
-              <li>正：<span class="right">Could you tell me where the station is?</span> / <span class="right">… how I can get there?</span> / <span class="right">… whether the ticket office is still open?</span></li>
-              <li>错：<span class="wrong">where is the station</span> / <span class="wrong">how can I get there</span> / <span class="wrong">whether is the ticket office open</span>（错在疑问语序）。</li>
-              <li><strong>wh- 在从句中作主语</strong>时，语序本来就「像陈述」：<span class="right">Could you tell me who will help us?</span> / <span class="right">I don’t know what happened.</span>（不要写成 who will help us 以外的倒装）</li>
-              <li><strong>插入语、否定</strong>仍放在主语前后正常位置：I don’t know <span class="right">why he didn’t come.</span></li>
+              <li>外壳动词：Could you tell me… / Do you know… / I wonder… / Please tell me… / Would you mind telling me… + 宾从。 <button type="button" class="tts-chip no-print" data-tts="外壳动词：Could you tell me… / Do you know… / I wonder… / Please tell me… / Would you mind telling me… + 宾从。" aria-label="朗读">🔊</button></li>
+              <li>正：<span class="right">Could you tell me where the station is?</span> / <span class="right">… how I can get there?</span> / <span class="right">… whether the ticket office is still open?</span> <button type="button" class="tts-chip no-print" data-tts="正： Could you tell me where the station is? / … how I can get there? / … whether the ticket office is still open?" aria-label="朗读">🔊</button></li>
+              <li>错：<span class="wrong">where is the station</span> / <span class="wrong">how can I get there</span> / <span class="wrong">whether is the ticket office open</span>（错在疑问语序）。 <button type="button" class="tts-chip no-print" data-tts="错： where is the station / how can I get there / whether is the ticket office open （错在疑问语序）。" aria-label="朗读">🔊</button></li>
+              <li><strong>wh- 在从句中作主语</strong>时，语序本来就「像陈述」：<span class="right">Could you tell me who will help us?</span> / <span class="right">I don’t know what happened.</span>（不要写成 who will help us 以外的倒装） <button type="button" class="tts-chip no-print" data-tts="wh- 在从句中作主语 时，语序本来就「像陈述」： Could you tell me who will help us? / I don’t know what happened. （不要写成 who will help us 以外的倒装）" aria-label="朗读">🔊</button></li>
+              <li><strong>插入语、否定</strong>仍放在主语前后正常位置：I don’t know <span class="right">why he didn’t come.</span> <button type="button" class="tts-chip no-print" data-tts="插入语、否定 仍放在主语前后正常位置：I don’t know why he didn’t come." aria-label="朗读">🔊</button></li>
             </ul>
           </article>
           <article class="card">
             <strong>要素三 · 时态呼应</strong>
             <p class="use-hint">看主句谓语时间 + 从句描述的是不是「永远对的规律」。</p>
             <ul class="compact example">
-              <li><strong>主句现在</strong>（He says / thinks…）：从句按<strong>实际时间</strong>选时态，不必为「呼应」硬改：He says (that) he <strong>is</strong> busy. / He says (that) he <strong>will come</strong>.</li>
-              <li><strong>主句过去</strong>（said / told / asked…）：从句谓语常<strong>退一步</strong>（详见本讲义 <strong>③</strong> 表 A）：He said (that) he <strong>was</strong> busy. / She said (that) she <strong>would</strong> help me.</li>
-              <li><strong>客观真理 / 谚语 / 相对不变规律</strong>：转述时常<strong>仍用现在时</strong>：The teacher said (that) the earth <strong>goes</strong> round the sun.</li>
-              <li>与状语从句区分：「主将从现」多出现在 <strong>if / when</strong> 引导的<strong>状语从句</strong>里；<strong>宾语从句</strong>里 if 常表「是否」，时态按上面三条处理。</li>
-              <li><strong>否定转移时</strong>：从句里常用肯定式表否定含义，时态仍按「实际时间」选：I don't think (that) he <strong>will</strong> come.（不说成 don't think + won't 叠床架屋）</li>
+              <li><strong>主句现在</strong>（He says / thinks…）：从句按<strong>实际时间</strong>选时态，不必为「呼应」硬改：He says (that) he <strong>is</strong> busy. / He says (that) he <strong>will come</strong>. <button type="button" class="tts-chip no-print" data-tts="主句现在 （He says / thinks…）：从句按 实际时间 选时态，不必为「呼应」硬改：He says (that) he is busy. / He says (that) he will come ." aria-label="朗读">🔊</button></li>
+              <li><strong>主句过去</strong>（said / told / asked…）：从句谓语常<strong>退一步</strong>（详见本讲义 <strong>③</strong> 表 A）：He said (that) he <strong>was</strong> busy. / She said (that) she <strong>would</strong> help me. <button type="button" class="tts-chip no-print" data-tts="主句过去 （said / told / asked…）：从句谓语常 退一步 （详见本讲义 ③ 表 A）：He said (that) he was busy. / She said (that) she would help me." aria-label="朗读">🔊</button></li>
+              <li><strong>客观真理 / 谚语 / 相对不变规律</strong>：转述时常<strong>仍用现在时</strong>：The teacher said (that) the earth <strong>goes</strong> round the sun. <button type="button" class="tts-chip no-print" data-tts="客观真理 / 谚语 / 相对不变规律 ：转述时常 仍用现在时 ：The teacher said (that) the earth goes round the sun." aria-label="朗读">🔊</button></li>
+              <li>与状语从句区分：「主将从现」多出现在 <strong>if / when</strong> 引导的<strong>状语从句</strong>里；<strong>宾语从句</strong>里 if 常表「是否」，时态按上面三条处理。 <button type="button" class="tts-chip no-print" data-tts="与状语从句区分：「主将从现」多出现在 if / when 引导的 状语从句 里； 宾语从句 里 if 常表「是否」，时态按上面三条处理。" aria-label="朗读">🔊</button></li>
+              <li><strong>否定转移时</strong>：从句里常用肯定式表否定含义，时态仍按「实际时间」选：I don't think (that) he <strong>will</strong> come.（避免 don't think 与 won't 重复叠加） <button type="button" class="tts-chip no-print" data-tts="否定转移时 ：从句里常用肯定式表否定含义，时态仍按「实际时间」选：I don't think (that) he will come.（避免 don't think 与 won't 重复叠加）" aria-label="朗读">🔊</button></li>
             </ul>
           </article>
         </div>
@@ -272,237 +100,236 @@
           <article class="card">
             <strong>高频搭配 · say / tell / ask</strong>
             <ul class="compact example">
-              <li><strong>say</strong>：say (that)… / say to sb (that)…；不说 <span class="wrong">say me that…</span>。</li>
-              <li><strong>tell</strong>：tell sb (that)… / tell sb wh-…；须带人作宾语：<span class="right">Tell me whether…</span></li>
-              <li><strong>ask</strong>：ask sb if / whether… / ask sb wh-…；ask <strong>if</strong> 表「是否」，不是「如果」（条件状语另讲）。</li>
+              <li><strong>say</strong>：say (that)… / say to sb (that)…；不说 <span class="wrong">say me that…</span>。 <button type="button" class="tts-chip no-print" data-tts="say ：say (that)… / say to sb (that)…；不说 say me that… 。" aria-label="朗读">🔊</button></li>
+              <li><strong>tell</strong>：tell sb (that)… / tell sb wh-…；须带人作宾语：<span class="right">Tell me whether…</span> <button type="button" class="tts-chip no-print" data-tts="tell ：tell sb (that)… / tell sb wh-…；须带人作宾语： Tell me whether…" aria-label="朗读">🔊</button></li>
+              <li><strong>ask</strong>：ask sb if / whether… / ask sb wh-…；ask <strong>if</strong> 表「是否」，不是「如果」（条件状语另讲）。 <button type="button" class="tts-chip no-print" data-tts="ask ：ask sb if / whether… / ask sb wh-…；ask if 表「是否」，不是「如果」（条件状语另讲）。" aria-label="朗读">🔊</button></li>
             </ul>
           </article>
           <article class="card">
-            <strong>报道壳 · It is … that（与本讲 P05 衔接）</strong>
+            <strong>报道壳 · It is … that</strong>
             <ul class="compact example">
-              <li>It is said / reported / believed / hoped… <span class="mark-that">that</span> + 陈述从句；<strong>that</strong> 在此类结构中<strong>不要省</strong>，避免与形式主语结构混淆。</li>
-              <li>辨错：不说 <span class="wrong">It hopes that…</span> → 用 <span class="right">It is hoped that…</span> 或 <span class="right">People hope that…</span>。</li>
+              <li>It is said / reported / believed / hoped… <span class="mark-that">that</span> + 陈述从句；<strong>that</strong> 在此类结构中<strong>不要省</strong>，避免与形式主语结构混淆。 <button type="button" class="tts-chip no-print" data-tts="It is said / reported / believed / hoped… that + 陈述从句； that 在此类结构中 不要省 ，避免与形式主语结构混淆。" aria-label="朗读">🔊</button></li>
+              <li>辨错：不说 <span class="wrong">It hopes that…</span> → 用 <span class="right">It is hoped that…</span> 或 <span class="right">People hope that…</span>。 <button type="button" class="tts-chip no-print" data-tts="辨错：不说 It hopes that… → 用 It is hoped that… 或 People hope that… 。" aria-label="朗读">🔊</button></li>
             </ul>
           </article>
         </div>
       </section>
 
-      <section>
+      <section class="handout-section" id="sec-2">
         <h2 class="section-title">② 否定转移 · 反意疑问（think / believe + 宾从）</h2>
         <div class="grid-2">
           <article class="card">
             <strong>否定转移（Negation transfer）</strong>
             <p class="use-hint">中文常说「我认为他不……」，英语里更自然的常式是：<strong>I don't think / believe / suppose (that) + 肯定式从句</strong>。</p>
             <ul class="compact example">
-              <li>正：<span class="right">I don't think (that) he will come tonight.</span>（≈ 我认为他今晚不来）</li>
-              <li>另说亦可：<span class="right">I think (that) he won't come tonight.</span>（语气略直；考题常优先否定转移句式）</li>
-              <li>慎防双否绕晕：<span class="wrong">I don't think he won't come.</span>（易与真实意图不符）</li>
+              <li>正：<span class="right">I don't think (that) he will come tonight.</span>（≈ 我认为他今晚不来） <button type="button" class="tts-chip no-print" data-tts="正： I don't think (that) he will come tonight. （≈ 我认为他今晚不来）" aria-label="朗读">🔊</button></li>
+              <li>另说亦可：<span class="right">I think (that) he won't come tonight.</span>（语气略直；练习中常优先否定转移句式） <button type="button" class="tts-chip no-print" data-tts="另说亦可： I think (that) he won't come tonight. （语气略直；练习中常优先否定转移句式）" aria-label="朗读">🔊</button></li>
+              <li>慎防双否绕晕：<span class="wrong">I don't think he won't come.</span>（易与真实意图不符） <button type="button" class="tts-chip no-print" data-tts="慎防双否绕晕： I don't think he won't come. （易与真实意图不符）" aria-label="朗读">🔊</button></li>
             </ul>
           </article>
           <article class="card">
             <strong>反意疑问（Tag question）</strong>
             <p class="use-hint">主句为 <em>I don't think + 宾从</em> 时，尾巴多问<strong>从句里的主谓命题</strong>。</p>
             <ul class="compact example">
-              <li><span class="right">I don't think he is right, is he?</span></li>
-              <li><span class="right">I don't believe she can finish it alone, can she?</span></li>
-              <li>无主句否定时：<span class="right">She believes (that) you can pass, can't you?</span>（问从句里的 you can）</li>
-              <li>易错：<span class="wrong">… isn't he?</span> / <span class="wrong">… don't I?</span>（按本讲考点要求判错）</li>
+              <li><span class="right">I don't think he is right, is he?</span> <button type="button" class="tts-chip no-print" data-tts="I don't think he is right, is he?" aria-label="朗读">🔊</button></li>
+              <li><span class="right">I don't believe she can finish it alone, can she?</span> <button type="button" class="tts-chip no-print" data-tts="I don't believe she can finish it alone, can she?" aria-label="朗读">🔊</button></li>
+              <li>无主句否定时：<span class="right">She believes (that) you can pass, can't you?</span>（问从句里的 you can） <button type="button" class="tts-chip no-print" data-tts="无主句否定时： She believes (that) you can pass, can't you? （问从句里的 you can）" aria-label="朗读">🔊</button></li>
+              <li>易错：<span class="wrong">… isn't he?</span> / <span class="wrong">… don't I?</span>（按本讲要求判错）</li>
             </ul>
           </article>
         </div>
         <p class="data-caption">速查表 · 反意疑问「跟谁走」</p>
-        <table class="data">
+        <table class="data handout-table-compact">
           <thead>
             <tr><th>结构</th><th>尾巴常跟谁</th><th>例</th></tr>
           </thead>
           <tbody>
-            <tr><td>I don't think + that + 从句</td><td>随<strong>从句</strong>命题</td><td>… he is right, <strong>is he?</strong></td></tr>
-            <tr><td>I think + that + 从句（无转移）</td><td>多随<strong>从句</strong>命题</td><td>… he is right, <strong>isn't he?</strong></td></tr>
-            <tr><td>She believes + that you can…</td><td>随<strong>从句</strong>里情态</td><td>… you can pass, <strong>can't you?</strong></td></tr>
+            <tr><td>I don't think + that + 从句 <button type="button" class="tts-chip no-print" data-tts="I don't think + that + 从句" aria-label="朗读">🔊</button></td><td>随<strong>从句</strong>命题</td><td>… he is right, <strong>is he?</strong> <button type="button" class="tts-chip no-print" data-tts="… he is right, is he?" aria-label="朗读">🔊</button></td></tr>
+            <tr><td>I think + that + 从句（无转移） <button type="button" class="tts-chip no-print" data-tts="I think + that + 从句（无转移）" aria-label="朗读">🔊</button></td><td>多随<strong>从句</strong>命题</td><td>… he is right, <strong>isn't he?</strong> <button type="button" class="tts-chip no-print" data-tts="… he is right, isn't he?" aria-label="朗读">🔊</button></td></tr>
+            <tr><td>She believes + that you can… <button type="button" class="tts-chip no-print" data-tts="She believes + that you can…" aria-label="朗读">🔊</button></td><td>随<strong>从句</strong>里情态</td><td>… you can pass, <strong>can't you?</strong> <button type="button" class="tts-chip no-print" data-tts="… you can pass, can't you?" aria-label="朗读">🔊</button></td></tr>
           </tbody>
         </table>
       </section>
 
-      <section>
+      <section class="handout-section" id="sec-3">
         <h2 class="section-title">③ 时态后退（转述）扩展表</h2>
-        <p class="note">前提：主句谓语为过去时（said / told / asked…），宾语从句常「退一步」；若主句是现在时（He says / I don't think…），从句时态多<strong>按实际时间</strong>选，不必为「呼应」硬改。下列为中考高频对照。</p>
+        <p class="note">前提：主句谓语为过去时（said / told / asked…），宾语从句常「退一步」；若主句是现在时（He says / I don't think…），从句时态多<strong>按实际时间</strong>选，不必为「呼应」硬改。下列为常见时态对照。</p>
         <p class="data-caption">表 A · 从句谓语（直接引语 → 间接引语）</p>
-        <table class="data">
+        <table class="data handout-table-compact">
           <thead>
             <tr><th>直接引语里</th><th>间接引语里（主句为过去时）</th><th>备注 / 例意</th></tr>
           </thead>
           <tbody>
-            <tr><td>am / is / are</td><td>was / were</td><td>状态与性质随人称、单复数变化</td></tr>
-            <tr><td>am / is / are + doing</td><td>was / were + doing</td><td>She said she was reading a novel then.</td></tr>
-            <tr><td>do / does</td><td>did</td><td>一般现在 → 一般过去</td></tr>
-            <tr><td>did（过去事实）</td><td>had + p.p.（先于 said）</td><td>He said he had finished lunch before class.（午饭在 said 之前）</td></tr>
-            <tr><td>will / shall</td><td>would</td><td>过去将来；表「意愿」时常用 would</td></tr>
-            <tr><td>be going to</td><td>was / were going to</td><td>计划、打算在后移时整体后退</td></tr>
-            <tr><td>can</td><td>could</td><td>能力 / 许可语气后退</td></tr>
-            <tr><td>may</td><td>might</td><td>书面推测更常见 might</td></tr>
-            <tr><td>must（必须）</td><td>had to</td><td>客观「不得不」；否定 must not 表禁止时多保留或改写为 wasn’t allowed to（视教材）</td></tr>
-            <tr><td>have / has + p.p.</td><td>had + p.p.</td><td>「已经」先于 said，常用过去完成</td></tr>
-            <tr><td>客观真理 / 谚语 / 相对不变的规律</td><td>常仍用<strong>现在时</strong></td><td>He said (that) the moon moves round the earth. / … practice makes perfect.</td></tr>
+            <tr><td>am / is / are <button type="button" class="tts-chip no-print" data-tts="am / is / are" aria-label="朗读">🔊</button></td><td>was / were <button type="button" class="tts-chip no-print" data-tts="was / were" aria-label="朗读">🔊</button></td><td>状态与性质随人称、单复数变化</td></tr>
+            <tr><td>am / is / are + doing <button type="button" class="tts-chip no-print" data-tts="am / is / are + doing" aria-label="朗读">🔊</button></td><td>was / were + doing <button type="button" class="tts-chip no-print" data-tts="was / were + doing" aria-label="朗读">🔊</button></td><td>She said she was reading a novel then. <button type="button" class="tts-chip no-print" data-tts="She said she was reading a novel then." aria-label="朗读">🔊</button></td></tr>
+            <tr><td>do / does <button type="button" class="tts-chip no-print" data-tts="do / does" aria-label="朗读">🔊</button></td><td>did</td><td>一般现在 → 一般过去</td></tr>
+            <tr><td>did（过去事实）</td><td>had + p.p.（先于 said） <button type="button" class="tts-chip no-print" data-tts="had + p.p.（先于 said）" aria-label="朗读">🔊</button></td><td>He said he had finished lunch before class.（午饭在 said 之前） <button type="button" class="tts-chip no-print" data-tts="He said he had finished lunch before class.（午饭在 said 之前）" aria-label="朗读">🔊</button></td></tr>
+            <tr><td>will / shall <button type="button" class="tts-chip no-print" data-tts="will / shall" aria-label="朗读">🔊</button></td><td>would <button type="button" class="tts-chip no-print" data-tts="would" aria-label="朗读">🔊</button></td><td>过去将来；表「意愿」时常用 would</td></tr>
+            <tr><td>be going to <button type="button" class="tts-chip no-print" data-tts="be going to" aria-label="朗读">🔊</button></td><td>was / were going to <button type="button" class="tts-chip no-print" data-tts="was / were going to" aria-label="朗读">🔊</button></td><td>计划、打算在后移时整体后退</td></tr>
+            <tr><td>can</td><td>could <button type="button" class="tts-chip no-print" data-tts="could" aria-label="朗读">🔊</button></td><td>能力 / 许可语气后退</td></tr>
+            <tr><td>may</td><td>might <button type="button" class="tts-chip no-print" data-tts="might" aria-label="朗读">🔊</button></td><td>书面推测更常见 might</td></tr>
+            <tr><td>must（必须） <button type="button" class="tts-chip no-print" data-tts="must（必须）" aria-label="朗读">🔊</button></td><td>had to <button type="button" class="tts-chip no-print" data-tts="had to" aria-label="朗读">🔊</button></td><td>客观「不得不」；否定 must not 表禁止时多保留或改写为 wasn’t allowed to <button type="button" class="tts-chip no-print" data-tts="客观「不得不」；否定 must not 表禁止时多保留或改写为 wasn’t allowed to" aria-label="朗读">🔊</button></td></tr>
+            <tr><td>have / has + p.p. <button type="button" class="tts-chip no-print" data-tts="have / has + p.p." aria-label="朗读">🔊</button></td><td>had + p.p. <button type="button" class="tts-chip no-print" data-tts="had + p.p." aria-label="朗读">🔊</button></td><td>「已经」先于 said，常用过去完成</td></tr>
+            <tr><td>客观真理 / 谚语 / 相对不变的规律</td><td>常仍用<strong>现在时</strong></td><td>He said (that) the moon moves round the earth. / … practice makes perfect. <button type="button" class="tts-chip no-print" data-tts="He said (that) the moon moves round the earth. / … practice makes perfect." aria-label="朗读">🔊</button></td></tr>
           </tbody>
         </table>
         <p class="data-caption">表 B · 指示词与时间状语（直接引语环境 → 转述环境）</p>
-        <table class="data">
+        <table class="data handout-table-compact">
           <thead>
             <tr><th>直接引语里常说</th><th>转述中常改为</th><th>一句串联</th></tr>
           </thead>
           <tbody>
-            <tr><td>now</td><td>then / at that time</td><td>He said he was busy then.</td></tr>
-            <tr><td>today</td><td>that day</td><td>She said she was free that day.</td></tr>
-            <tr><td>yesterday</td><td>the day before</td><td>He said he had visited the museum the day before.</td></tr>
-            <tr><td>tomorrow</td><td>the next day / the following day</td><td>She said she would hand in the poster the next day.</td></tr>
-            <tr><td>last week</td><td>the week before</td><td>They said the match had started the week before.</td></tr>
-            <tr><td>next month</td><td>the next month / the following month</td><td>It was reported that the trip would start the next month.</td></tr>
-            <tr><td>ago（two days ago）</td><td>before / earlier</td><td>He said he had lost the key two days before.</td></tr>
-            <tr><td>this / these</td><td>that / those</td><td>He said that those books were on sale.</td></tr>
-            <tr><td>here</td><td>there</td><td>She asked if we could meet there after school.</td></tr>
+            <tr><td>now</td><td>then / at that time <button type="button" class="tts-chip no-print" data-tts="then / at that time" aria-label="朗读">🔊</button></td><td>He said he was busy then. <button type="button" class="tts-chip no-print" data-tts="He said he was busy then." aria-label="朗读">🔊</button></td></tr>
+            <tr><td>today <button type="button" class="tts-chip no-print" data-tts="today" aria-label="朗读">🔊</button></td><td>that day <button type="button" class="tts-chip no-print" data-tts="that day" aria-label="朗读">🔊</button></td><td>She said she was free that day. <button type="button" class="tts-chip no-print" data-tts="She said she was free that day." aria-label="朗读">🔊</button></td></tr>
+            <tr><td>yesterday <button type="button" class="tts-chip no-print" data-tts="yesterday" aria-label="朗读">🔊</button></td><td>the day before <button type="button" class="tts-chip no-print" data-tts="the day before" aria-label="朗读">🔊</button></td><td>He said he had visited the museum the day before. <button type="button" class="tts-chip no-print" data-tts="He said he had visited the museum the day before." aria-label="朗读">🔊</button></td></tr>
+            <tr><td>tomorrow <button type="button" class="tts-chip no-print" data-tts="tomorrow" aria-label="朗读">🔊</button></td><td>the next day / the following day <button type="button" class="tts-chip no-print" data-tts="the next day / the following day" aria-label="朗读">🔊</button></td><td>She said she would hand in the poster the next day. <button type="button" class="tts-chip no-print" data-tts="She said she would hand in the poster the next day." aria-label="朗读">🔊</button></td></tr>
+            <tr><td>last week <button type="button" class="tts-chip no-print" data-tts="last week" aria-label="朗读">🔊</button></td><td>the week before <button type="button" class="tts-chip no-print" data-tts="the week before" aria-label="朗读">🔊</button></td><td>They said the match had started the week before. <button type="button" class="tts-chip no-print" data-tts="They said the match had started the week before." aria-label="朗读">🔊</button></td></tr>
+            <tr><td>next month <button type="button" class="tts-chip no-print" data-tts="next month" aria-label="朗读">🔊</button></td><td>the next month / the following month <button type="button" class="tts-chip no-print" data-tts="the next month / the following month" aria-label="朗读">🔊</button></td><td>It was reported that the trip would start the next month. <button type="button" class="tts-chip no-print" data-tts="It was reported that the trip would start the next month." aria-label="朗读">🔊</button></td></tr>
+            <tr><td>ago（two days ago） <button type="button" class="tts-chip no-print" data-tts="ago（two days ago）" aria-label="朗读">🔊</button></td><td>before / earlier <button type="button" class="tts-chip no-print" data-tts="before / earlier" aria-label="朗读">🔊</button></td><td>He said he had lost the key two days before. <button type="button" class="tts-chip no-print" data-tts="He said he had lost the key two days before." aria-label="朗读">🔊</button></td></tr>
+            <tr><td>this / these <button type="button" class="tts-chip no-print" data-tts="this / these" aria-label="朗读">🔊</button></td><td>that / those <button type="button" class="tts-chip no-print" data-tts="that / those" aria-label="朗读">🔊</button></td><td>He said that those books were on sale. <button type="button" class="tts-chip no-print" data-tts="He said that those books were on sale." aria-label="朗读">🔊</button></td></tr>
+            <tr><td>here <button type="button" class="tts-chip no-print" data-tts="here" aria-label="朗读">🔊</button></td><td>there <button type="button" class="tts-chip no-print" data-tts="there" aria-label="朗读">🔊</button></td><td>She asked if we could meet there after school. <button type="button" class="tts-chip no-print" data-tts="She asked if we could meet there after school." aria-label="朗读">🔊</button></td></tr>
           </tbody>
         </table>
-        <p class="note" style="margin-bottom:0">背诵小技巧：先换<strong>人称</strong>，再换<strong>时态</strong>，最后换<strong>时间/地点词</strong>；不确定时先看主句是不是过去时。</p>
+        <p class="note note-tight">背诵小技巧：先换<strong>人称</strong>，再换<strong>时态</strong>，最后换<strong>时间/地点词</strong>；不确定时先看主句是不是过去时。</p>
       </section>
 
-      <section>
+      <section class="handout-section" id="sec-4">
         <h2 class="section-title">④ 实用语料库（口语 · 写作 · 本讲话题）</h2>
-        <p class="note">带标签的句子可直接搬进「问路 / 请求」「书信与议论文首段」「活动报道」。建议挑 8～10 句抄在积累本上，写作时改人名、时间与地点即可复用。</p>
         <div class="grid-2" id="themeReadBlock">
           <article class="card">
             <strong><span class="use-tag speak">口语</span>请求 · 澄清 · 跟进</strong>
             <p class="use-hint">比单个单词回答更自然，适合对话与听力复述。</p>
             <ul class="compact example">
-              <li>Could you tell me <span class="mark-wh">where</span> I can charge my phone?</li>
-              <li>I’m not sure <span class="mark-if">whether</span> I should go first or wait in line.</li>
-              <li>I wonder <span class="mark-wh">how long</span> the meeting will take.</li>
-              <li>I was wondering <span class="mark-if">if</span> the last bus still runs at 10:30.</li>
-              <li>Sorry, I didn’t catch <span class="mark-wh">what</span> you said just now.</li>
+              <li>Could you tell me <span class="mark-wh">where</span> I can charge my phone? <button type="button" class="tts-chip no-print" data-tts="Could you tell me where I can charge my phone?" aria-label="朗读">🔊</button></li>
+              <li>I’m not sure <span class="mark-if">whether</span> I should go first or wait in line. <button type="button" class="tts-chip no-print" data-tts="I’m not sure whether I should go first or wait in line." aria-label="朗读">🔊</button></li>
+              <li>I wonder <span class="mark-wh">how long</span> the meeting will take. <button type="button" class="tts-chip no-print" data-tts="I wonder how long the meeting will take." aria-label="朗读">🔊</button></li>
+              <li>I was wondering <span class="mark-if">if</span> the last bus still runs at 10:30. <button type="button" class="tts-chip no-print" data-tts="I was wondering if the last bus still runs at 10:30." aria-label="朗读">🔊</button></li>
+              <li>Sorry, I didn’t catch <span class="mark-wh">what</span> you said just now. <button type="button" class="tts-chip no-print" data-tts="Sorry, I didn’t catch what you said just now." aria-label="朗读">🔊</button></li>
             </ul>
           </article>
           <article class="card">
-            <strong><span class="use-tag speak">口语</span>观点 · 感受（随口表达）</strong>
+            <strong><span class="use-tag speak">口语</span>观点 · 感受（日常表达）</strong>
             <p class="use-hint">接 that 从句，语气比 I think 更柔和或更肯定。</p>
             <ul class="compact example">
-              <li>I feel <span class="mark-that">that</span> teamwork really matters in a project.</li>
-              <li>I guess <span class="mark-that">that</span> we’d better start a little earlier.</li>
-              <li>I’m afraid <span class="mark-that">that</span> I can’t make it tonight.</li>
-              <li>I don’t think <span class="mark-that">that</span> this idea is practical without more data.</li>
-              <li>I don’t believe <span class="mark-that">that</span> anyone can finish it in one hour.</li>
-              <li>To be honest, I doubt <span class="mark-if">whether</span> this plan will work without more practice.</li>
+              <li>I feel <span class="mark-that">that</span> teamwork really matters in a project. <button type="button" class="tts-chip no-print" data-tts="I feel that teamwork really matters in a project." aria-label="朗读">🔊</button></li>
+              <li>I guess <span class="mark-that">that</span> we’d better start a little earlier. <button type="button" class="tts-chip no-print" data-tts="I guess that we’d better start a little earlier." aria-label="朗读">🔊</button></li>
+              <li>I’m afraid <span class="mark-that">that</span> I can’t make it tonight. <button type="button" class="tts-chip no-print" data-tts="I’m afraid that I can’t make it tonight." aria-label="朗读">🔊</button></li>
+              <li>I don’t think <span class="mark-that">that</span> this idea is practical without more data. <button type="button" class="tts-chip no-print" data-tts="I don’t think that this idea is practical without more data." aria-label="朗读">🔊</button></li>
+              <li>I don’t believe <span class="mark-that">that</span> anyone can finish it in one hour. <button type="button" class="tts-chip no-print" data-tts="I don’t believe that anyone can finish it in one hour." aria-label="朗读">🔊</button></li>
+              <li>To be honest, I doubt <span class="mark-if">whether</span> this plan will work without more practice. <button type="button" class="tts-chip no-print" data-tts="To be honest, I doubt whether this plan will work without more practice." aria-label="朗读">🔊</button></li>
             </ul>
           </article>
           <article class="card">
             <strong><span class="use-tag write">写作</span>开篇 · 观点（议论文/邮件）</strong>
             <p class="use-hint">放在首段点题，后接 For example / First… 展开。</p>
             <ul class="compact example">
-              <li>Many students believe <span class="mark-that">that</span> reading opens a bigger world.</li>
-              <li>There is no doubt <span class="mark-that">that</span> good habits shape our daily life.</li>
-              <li>Personally, I believe <span class="mark-that">that</span> balance between study and rest is important.</li>
-              <li>It is clear <span class="mark-that">that</span> everyone needs a safe environment at school.</li>
+              <li>Many students believe <span class="mark-that">that</span> reading opens a bigger world. <button type="button" class="tts-chip no-print" data-tts="Many students believe that reading opens a bigger world." aria-label="朗读">🔊</button></li>
+              <li>There is no doubt <span class="mark-that">that</span> good habits shape our daily life. <button type="button" class="tts-chip no-print" data-tts="There is no doubt that good habits shape our daily life." aria-label="朗读">🔊</button></li>
+              <li>Personally, I believe <span class="mark-that">that</span> balance between study and rest is important. <button type="button" class="tts-chip no-print" data-tts="Personally, I believe that balance between study and rest is important." aria-label="朗读">🔊</button></li>
+              <li>It is clear <span class="mark-that">that</span> everyone needs a safe environment at school. <button type="button" class="tts-chip no-print" data-tts="It is clear that everyone needs a safe environment at school." aria-label="朗读">🔊</button></li>
             </ul>
           </article>
           <article class="card">
             <strong><span class="use-tag write">写作</span>原因 · 结果 · 建议（主体段）</strong>
             <p class="use-hint">that 引导说明理由，衔接自然。</p>
             <ul class="compact example">
-              <li>The main reason is <span class="mark-that">that</span> we lack enough sleep during exam weeks.</li>
-              <li>I realized <span class="mark-that">that</span> small steps lead to big progress.</li>
-              <li>Teachers suggest <span class="mark-that">that</span> we should review notes every weekend.</li>
-              <li>Parents hope <span class="mark-that">that</span> we can manage screen time by ourselves.</li>
+              <li>The main reason is <span class="mark-that">that</span> we lack enough sleep during exam weeks. <button type="button" class="tts-chip no-print" data-tts="The main reason is that we lack enough sleep during exam weeks." aria-label="朗读">🔊</button></li>
+              <li>I realized <span class="mark-that">that</span> small steps lead to big progress. <button type="button" class="tts-chip no-print" data-tts="I realized that small steps lead to big progress." aria-label="朗读">🔊</button></li>
+              <li>Teachers suggest <span class="mark-that">that</span> we should review notes every weekend. <button type="button" class="tts-chip no-print" data-tts="Teachers suggest that we should review notes every weekend." aria-label="朗读">🔊</button></li>
+              <li>Parents hope <span class="mark-that">that</span> we can manage screen time by ourselves. <button type="button" class="tts-chip no-print" data-tts="Parents hope that we can manage screen time by ourselves." aria-label="朗读">🔊</button></li>
             </ul>
           </article>
           <article class="card">
-            <strong>图书馆 · 学习 · P01–P02</strong>
+            <strong>图书馆 · 学习</strong>
             <ul class="compact example">
-              <li>I hear <span class="mark-that">that</span> Harry Potter is very popular.</li>
-              <li>We hope <span class="mark-that">that</span> every student has a library card.</li>
-              <li>The librarian said <span class="mark-that">that</span> I had to return the book on time.</li>
-              <li>I find <span class="mark-that">that</span> taking notes helps me remember key grammar.</li>
-              <li>Could you show me <span class="mark-wh">how</span> I can search for books on the computer?</li>
+              <li>I hear <span class="mark-that">that</span> Harry Potter is very popular. <button type="button" class="tts-chip no-print" data-tts="I hear that Harry Potter is very popular." aria-label="朗读">🔊</button></li>
+              <li>We hope <span class="mark-that">that</span> every student has a library card. <button type="button" class="tts-chip no-print" data-tts="We hope that every student has a library card." aria-label="朗读">🔊</button></li>
+              <li>The librarian said <span class="mark-that">that</span> I had to return the book on time. <button type="button" class="tts-chip no-print" data-tts="The librarian said that I had to return the book on time." aria-label="朗读">🔊</button></li>
+              <li>I find <span class="mark-that">that</span> taking notes helps me remember key grammar. <button type="button" class="tts-chip no-print" data-tts="I find that taking notes helps me remember key grammar." aria-label="朗读">🔊</button></li>
+              <li>Could you show me <span class="mark-wh">how</span> I can search for books on the computer? <button type="button" class="tts-chip no-print" data-tts="Could you show me how I can search for books on the computer?" aria-label="朗读">🔊</button></li>
             </ul>
           </article>
           <article class="card">
-            <strong>礼貌询问 · 出行 · P04</strong>
+            <strong>礼貌询问 · 出行</strong>
             <ul class="compact example">
-              <li>Could you tell me <span class="mark-wh">whether</span> I need to print the form first?</li>
-              <li>I don’t know <span class="mark-if">if</span> the volunteers work in shifts.</li>
-              <li>Please tell me <span class="mark-wh">how</span> I can renew the book online.</li>
-              <li>I’d like to know <span class="mark-wh">which gate</span> we should wait at.</li>
-              <li>Excuse me, could you tell me <span class="mark-wh">if</span> this seat is free?</li>
+              <li>Could you tell me <span class="mark-wh">whether</span> I need to print the form first? <button type="button" class="tts-chip no-print" data-tts="Could you tell me whether I need to print the form first?" aria-label="朗读">🔊</button></li>
+              <li>I don’t know <span class="mark-if">if</span> the volunteers work in shifts. <button type="button" class="tts-chip no-print" data-tts="I don’t know if the volunteers work in shifts." aria-label="朗读">🔊</button></li>
+              <li>Please tell me <span class="mark-wh">how</span> I can renew the book online. <button type="button" class="tts-chip no-print" data-tts="Please tell me how I can renew the book online." aria-label="朗读">🔊</button></li>
+              <li>I’d like to know <span class="mark-wh">which gate</span> we should wait at. <button type="button" class="tts-chip no-print" data-tts="I’d like to know which gate we should wait at." aria-label="朗读">🔊</button></li>
+              <li>Excuse me, could you tell me <span class="mark-wh">if</span> this seat is free? <button type="button" class="tts-chip no-print" data-tts="Excuse me, could you tell me if this seat is free?" aria-label="朗读">🔊</button></li>
             </ul>
           </article>
           <article class="card">
-            <strong>报道口吻 · 通知 · P05</strong>
+            <strong>报道口吻 · 通知</strong>
             <ul class="compact example">
-              <li>It is said <span class="mark-that">that</span> phones must be kept silent at school.</li>
-              <li>It is believed <span class="mark-that">that</span> short breaks help our eyes.</li>
-              <li>It was reported <span class="mark-that">that</span> the sports meet would be held next Friday.</li>
-              <li>It has been announced <span class="mark-that">that</span> the library will close at 6 pm on Fridays.</li>
+              <li>It is said <span class="mark-that">that</span> phones must be kept silent at school. <button type="button" class="tts-chip no-print" data-tts="It is said that phones must be kept silent at school." aria-label="朗读">🔊</button></li>
+              <li>It is believed <span class="mark-that">that</span> short breaks help our eyes. <button type="button" class="tts-chip no-print" data-tts="It is believed that short breaks help our eyes." aria-label="朗读">🔊</button></li>
+              <li>It was reported <span class="mark-that">that</span> the sports meet would be held next Friday. <button type="button" class="tts-chip no-print" data-tts="It was reported that the sports meet would be held next Friday." aria-label="朗读">🔊</button></li>
+              <li>It has been announced <span class="mark-that">that</span> the library will close at 6 pm on Fridays. <button type="button" class="tts-chip no-print" data-tts="It has been announced that the library will close at 6 pm on Fridays." aria-label="朗读">🔊</button></li>
             </ul>
           </article>
           <article class="card">
-            <strong>被动 + 宾从 · 校会 / 志愿 · P05</strong>
+            <strong>被动 + 宾从 · 校会 / 志愿</strong>
             <ul class="compact example">
-              <li>We were told <span class="mark-that">that</span> safety comes first.</li>
-              <li>Tom was asked <span class="mark-if">whether</span> he could help at the station.</li>
-              <li>Students were reminded <span class="mark-that">that</span> they should wear helmets when cycling.</li>
+              <li>We were told <span class="mark-that">that</span> safety comes first. <button type="button" class="tts-chip no-print" data-tts="We were told that safety comes first." aria-label="朗读">🔊</button></li>
+              <li>Tom was asked <span class="mark-if">whether</span> he could help at the station. <button type="button" class="tts-chip no-print" data-tts="Tom was asked whether he could help at the station." aria-label="朗读">🔊</button></li>
+              <li>Students were reminded <span class="mark-that">that</span> they should wear helmets when cycling. <button type="button" class="tts-chip no-print" data-tts="Students were reminded that they should wear helmets when cycling." aria-label="朗读">🔊</button></li>
             </ul>
           </article>
           <article class="card">
             <strong><span class="use-tag write">写作</span>环保 · 健康 · 科技（八九年级话题）</strong>
             <p class="use-hint">适合「倡议书 / 演讲稿 / 读后续写」中的价值句。</p>
             <ul class="compact example">
-              <li>Scientists believe <span class="mark-that">that</span> cutting down waste starts with daily choices.</li>
-              <li>We all agree <span class="mark-that">that</span> walking to school is good for our health.</li>
-              <li>Some people worry <span class="mark-that">that</span> AI tools may make students less independent.</li>
-              <li>I learned <span class="mark-that">that</span> saving water at home is easier than I thought.</li>
+              <li>Scientists believe <span class="mark-that">that</span> cutting down waste starts with daily choices. <button type="button" class="tts-chip no-print" data-tts="Scientists believe that cutting down waste starts with daily choices." aria-label="朗读">🔊</button></li>
+              <li>We all agree <span class="mark-that">that</span> walking to school is good for our health. <button type="button" class="tts-chip no-print" data-tts="We all agree that walking to school is good for our health." aria-label="朗读">🔊</button></li>
+              <li>Some people worry <span class="mark-that">that</span> AI tools may make students less independent. <button type="button" class="tts-chip no-print" data-tts="Some people worry that AI tools may make students less independent." aria-label="朗读">🔊</button></li>
+              <li>I learned <span class="mark-that">that</span> saving water at home is easier than I thought. <button type="button" class="tts-chip no-print" data-tts="I learned that saving water at home is easier than I thought." aria-label="朗读">🔊</button></li>
             </ul>
           </article>
           <article class="card">
             <strong><span class="use-tag speak">口语</span>结束语 · 礼貌收尾</strong>
             <ul class="compact example">
-              <li>I really appreciate <span class="mark-that">that</span> you took the time to explain it to me.</li>
-              <li>I promise <span class="mark-that">that</span> I will double-check the time tomorrow.</li>
-              <li>Let me know <span class="mark-if">if</span> you need any more information.</li>
+              <li>I really appreciate <span class="mark-that">that</span> you took the time to explain it to me. <button type="button" class="tts-chip no-print" data-tts="I really appreciate that you took the time to explain it to me." aria-label="朗读">🔊</button></li>
+              <li>I promise <span class="mark-that">that</span> I will double-check the time tomorrow. <button type="button" class="tts-chip no-print" data-tts="I promise that I will double-check the time tomorrow." aria-label="朗读">🔊</button></li>
+              <li>Let me know <span class="mark-if">if</span> you need any more information. <button type="button" class="tts-chip no-print" data-tts="Let me know if you need any more information." aria-label="朗读">🔊</button></li>
             </ul>
           </article>
         </div>
       </section>
 
-      <details open>
-        <summary>⑤ 易错红线 · 课堂速改（10 条）</summary>
+      <section class="handout-section" id="sec-5">
+        <h2 class="section-title">⑤ 易错要点：速改清单（10 条）</h2>
         <ol class="compact example">
-          <li>Could you tell me when <span class="wrong">does</span> it start? → when <span class="right">it starts</span></li>
-          <li>I wonder <span class="wrong">if is</span> it true. → <span class="right">if it is true</span></li>
-          <li>He said <span class="wrong">if</span> he was tired. → <span class="right">that</span> he was tired</li>
-          <li>It depends on <span class="wrong">if</span> we win. → on <span class="right">whether</span> we win</li>
-          <li>She said she <span class="wrong">will</span> come. → she <span class="right">would</span> come</li>
-          <li>I don’t know <span class="wrong">what</span> he will come. → <span class="right">if/whether</span> he will come</li>
-          <li>We discussed <span class="wrong">about whether</span> … → discussed <span class="right">whether</span> …</li>
-          <li>He told <span class="wrong">that</span> … → He told <strong>me</strong> <span class="right">that</span> …（tell 常带宾语）</li>
-          <li>I don't think he will come tonight, <span class="wrong">won't he?</span> → <span class="right">will he?</span>（反意疑问随从句命题）</li>
-          <li>I don’t think he is right, <span class="wrong">isn’t he?</span> → <span class="right">is he?</span>（同上）</li>
+          <li>Could you tell me when <span class="wrong">does</span> it start? → when <span class="right">it starts</span> <button type="button" class="tts-chip no-print" data-tts="Could you tell me when does it start? → when it starts" aria-label="朗读">🔊</button></li>
+          <li>I wonder <span class="wrong">if is</span> it true. → <span class="right">if it is true</span> <button type="button" class="tts-chip no-print" data-tts="I wonder if is it true. → if it is true" aria-label="朗读">🔊</button></li>
+          <li>He said <span class="wrong">if</span> he was tired. → <span class="right">that</span> he was tired <button type="button" class="tts-chip no-print" data-tts="He said if he was tired. → that he was tired" aria-label="朗读">🔊</button></li>
+          <li>It depends on <span class="wrong">if</span> we win. → on <span class="right">whether</span> we win <button type="button" class="tts-chip no-print" data-tts="It depends on if we win. → on whether we win" aria-label="朗读">🔊</button></li>
+          <li>She said she <span class="wrong">will</span> come. → she <span class="right">would</span> come <button type="button" class="tts-chip no-print" data-tts="She said she will come. → she would come" aria-label="朗读">🔊</button></li>
+          <li>I don’t know <span class="wrong">what</span> he will come. → <span class="right">if/whether</span> he will come <button type="button" class="tts-chip no-print" data-tts="I don’t know what he will come. → if/whether he will come" aria-label="朗读">🔊</button></li>
+          <li>We discussed <span class="wrong">about whether</span> … → discussed <span class="right">whether</span> … <button type="button" class="tts-chip no-print" data-tts="We discussed about whether … → discussed whether …" aria-label="朗读">🔊</button></li>
+          <li>He told <span class="wrong">that</span> … → He told <strong>me</strong> <span class="right">that</span> …（tell 常带宾语） <button type="button" class="tts-chip no-print" data-tts="He told that … → He told me that …（tell 常带宾语）" aria-label="朗读">🔊</button></li>
+          <li>I don't think he will come tonight, <span class="wrong">won't he?</span> → <span class="right">will he?</span>（反意疑问随从句命题） <button type="button" class="tts-chip no-print" data-tts="I don't think he will come tonight, won't he? → will he? （反意疑问随从句命题）" aria-label="朗读">🔊</button></li>
+          <li>I don’t think he is right, <span class="wrong">isn’t he?</span> → <span class="right">is he?</span>（同上） <button type="button" class="tts-chip no-print" data-tts="I don’t think he is right, isn’t he? → is he? （同上）" aria-label="朗读">🔊</button></li>
         </ol>
-      </details>
+      </section>
 
-      <details open>
-        <summary>⑥ Page 06 综测前 · 自检清单</summary>
-        <ol class="compact" style="font-size: 0.9rem;">
+      <section class="handout-section" id="sec-6">
+        <h2 class="section-title">⑥ 测前自检清单</h2>
+        <ol class="compact checklist-compact">
           <li>先判断从句缺「事实 / 信息 / 是否」哪一类，再选引导词。</li>
-          <li>见到 <em>Could you tell me</em>，默认检查<strong>陈述语序</strong>。</li>
+          <li>见到 <em>Could you tell me</em>，默认检查<strong>陈述语序</strong>。 <button type="button" class="tts-chip no-print" data-tts="见到 Could you tell me ，默认检查 陈述语序 。" aria-label="朗读">🔊</button></li>
           <li>主句过去时，从句谓语是否与「后退表」一致。</li>
           <li>谚语、科学事实、地理事实：优先考虑<strong>现在时不变</strong>。</li>
-          <li><em>whether … or not</em>、介词后、不定式前 → 优先 whether。</li>
-          <li><strong>否定转移</strong>：I don't think + 肯定式从句；<strong>避免双否</strong>（慎用 I don't think … won't …）。</li>
-          <li><strong>反意疑问</strong>：think / believe + 宾从 → 尾巴多问从句命题（如 … is he? / … can't you?）。</li>
+          <li><em>whether … or not</em>、介词后、不定式前 → 优先 whether。 <button type="button" class="tts-chip no-print" data-tts="whether … or not 、介词后、不定式前 → 优先 whether。" aria-label="朗读">🔊</button></li>
+          <li><strong>否定转移</strong>：I don't think + 肯定式从句；<strong>避免双否</strong>（慎用 I don't think … won't …）。 <button type="button" class="tts-chip no-print" data-tts="否定转移 ：I don't think + 肯定式从句； 避免双否 （慎用 I don't think … won't …）。" aria-label="朗读">🔊</button></li>
+          <li><strong>反意疑问</strong>：think / believe + 宾从 → 尾巴多问从句命题（如 … is he? / … can't you?）。 <button type="button" class="tts-chip no-print" data-tts="反意疑问 ：think / believe + 宾从 → 尾巴多问从句命题（如 … is he? / … can't you?）。" aria-label="朗读">🔊</button></li>
           <li>辨错题：标出引导词、语序、时态、介词搭配四处。</li>
           <li>语篇题：先抓每段首句，再找题干关键词定位。</li>
-          <li>写作迁移：一句观点 + <span class="mark-that">that</span> 从句展开，比堆砌短句更得分。</li>
+          <li>写作迁移：一句观点 + <span class="mark-that">that</span> 从句展开，比堆砌短句更得分。 <button type="button" class="tts-chip no-print" data-tts="写作迁移：一句观点 + that 从句展开，比堆砌短句更得分。" aria-label="朗读">🔊</button></li>
         </ol>
-      </details>
+      </section>
 
-      <section>
+      <section class="handout-section" id="sec-7">
         <h2 class="section-title">⑦ 默写区（英译汉 · 共 6 句）</h2>
         <div class="write-lines" aria-label="默写区英译汉">
           <div class="prompt">1. The librarian told me that I had to return the books before Friday.</div>
@@ -520,7 +347,7 @@
         </div>
       </section>
 
-      <section>
+      <section class="handout-section" id="sec-8">
         <h2 class="section-title">⑧ 默写区（汉译英 · 共 6 句）</h2>
         <div class="write-lines" aria-label="默写区汉译英">
           <div class="prompt">1. 我认为在图书馆里保持安静很重要。</div>
@@ -538,17 +365,34 @@
         </div>
       </section>
 
-      <section>
-        <h2 class="section-title">⑨ 背诵口诀</h2>
-        <div class="quote-box">
-          宾从陈述记心间，主句过去牵时态；<br />
-          是否 if 或 whether，报道 It + be + p.p. + that；<br />
-          否定转移 think 前，反意疑问看从句。
-        </div>
-      </section>
+      <div class="handout-tail-group">
+        <section class="handout-section" id="sec-chant" aria-labelledby="sec-chant-title">
+          <div class="adv-block tap-card handout-chant-block">
+            <h3 id="sec-chant-title">背诵口诀 · 核心收束</h3>
+            <div class="quote-box handout-chant-box" aria-label="背诵口诀">
+              宾从陈述记心间，主句过去牵时态；<br />
+              是否 if 或 whether，报道 It + be + p.p. + that；<br />
+              否定转移 think 前，反意疑问看从句。
+            </div>
+          </div>
+        </section>
+      </div>
 
+      <p class="grammar-handout-footer">宾语从句</p>
     </div>
   </main>
 
+  <link rel="stylesheet" href="assets/lesson-image-lightbox.css" />
+  <script src="assets/lesson-image-lightbox.js" defer></script>
+<nav class="lesson-pager is-file-nav" aria-label="页面导航">
+    <a class="pager-prev" href="lesson12-page06-comprehensive-test.html">上一页</a>
+    <a class="pager-logo" href="../index.html" aria-label="课程主页"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/logo2.png" alt="Steven's Class" width="204" height="61" decoding="async" /></a>
+    <span class="pager-next pager-muted" aria-disabled="true">下一页</span>
+  </nav>
+  <script src="../shared/grammar-handout.js" defer></script>
+  <script src="../shared/grammar-handout-print-prep.js"></script>
+  <script src="assets/handout-tts-manifest.js"></script>
+  <script src="assets/lesson-tts-bootstrap.js"></script>
+  <script src="../shared/handout-tts.js" defer></script>
 </body>
 </html>

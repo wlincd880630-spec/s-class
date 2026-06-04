@@ -1,9 +1,15 @@
 <!doctype html>
 <html lang="zh-CN">
 <head>
+  <script src="../shared/play-local-mp3.js"></script>
+  <script src="../shared/lesson-local-audio.js" defer></script>
+  <script src="../shared/lesson-speak-local-only.js"></script>
+  <script src="assets/l06-interaction-tts-manifest.js"></script>
+  <script src="assets/lesson-tts-bootstrap.js"></script>
+  <script src="assets/l06-speak-local.js"></script>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>第06讲 · Page 09 · 终极试炼场</title>
+  <title>第06讲 · 综合测试 · 情态动词</title>
   <!--
     Vertex Imagen 3.0 Fast — 考场全局背景
     A grand, brightly lit magical examination hall inside an ancient academy. Rows of neat wooden desks,
@@ -17,7 +23,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="../assets/lesson-screen-16x9.css" />
+  <link rel="stylesheet" href="assets/lesson-screen-16x9.css" />
   <style>
     :root {
       --paper: #fff9f0;
@@ -440,6 +446,8 @@
       border: 0;
     }
   </style>
+  <link rel="stylesheet" href="assets/grammar-lesson-pager.css" />
+  <link rel="stylesheet" href="../shared/grammar-logo.css" />
 </head>
 <body class="has-lesson-pager">
   <div class="exam-bg" aria-hidden="true"></div>
@@ -469,10 +477,10 @@
     <div class="ui-lock" id="uiLock"></div>
   </main>
 
-  <nav class="lesson-pager" aria-label="课程页导航">
-    <a class="pager-prev" href="lesson06-page08-escape.html">← 上一页 · Page 08</a>
-    <span class="pager-mid">L06 · Page 09 / 11</span>
-    <a class="pager-next" href="lesson06-page10-handout.html">下一页 · Page 10 →</a>
+  <nav class="lesson-pager is-file-nav" aria-label="页面导航">
+    <a class="pager-prev" href="lesson06-page08-escape.html">上一页</a>
+    <a class="pager-logo" href="../index.html" aria-label="课程主页"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/logo2.png" alt="Steven's Class" width="204" height="61" decoding="async" /></a>
+    <a class="pager-next" href="lesson06-page10-handout.html">下一页</a>
   </nav>
 
   <script>
@@ -737,68 +745,20 @@
       }
 
       function speakOpening() {
-        if (!window.SpeechSDK) return Promise.resolve();
-        return new Promise(function (resolve) {
-          try {
-            var cfg = SpeechSDK.SpeechConfig.fromSubscription(AZURE_KEY, AZURE_REGION);
-            cfg.speechSynthesisVoiceName = "en-US-ChristopherNeural";
-            var syn = new SpeechSDK.SpeechSynthesizer(cfg);
-            var line = "Detectives, silence please. The final trial begins now.";
-            var safe = line.replace(/&/g, "&amp;").replace(/</g, "&lt;");
-            var ssml =
-              '<speak version="1.0" xmlns="http://www.w3.org/2001/synthesis" xmlns:mstts="http://www.w3.org/2001/mstts" xml:lang="en-US">' +
-              '<voice name="en-US-ChristopherNeural">' +
-              '<mstts:express-as style="serious"><prosody rate="-3%">' +
-              safe +
-              "</prosody></mstts:express-as></voice></speak>";
-            syn.speakSsmlAsync(
-              ssml,
-              function () {
-                syn.close();
-                resolve();
-              },
-              function () {
-                syn.close();
-                resolve();
-              }
-            );
-          } catch (e) {
-            resolve();
-          }
-        });
+        var line = "Detectives, silence please. The final trial begins now.";
+        if (typeof window.playL06Local === "function") {
+          return window.playL06Local(line);
+        }
+        return Promise.resolve(false);
       }
 
       function speakStem(idx) {
-        if (!window.SpeechSDK) return Promise.resolve();
         var q = exam[idx];
-        if (!q) return Promise.resolve();
-        return new Promise(function (resolve) {
-          try {
-            var cfg = SpeechSDK.SpeechConfig.fromSubscription(AZURE_KEY, AZURE_REGION);
-            cfg.speechSynthesisVoiceName = "en-US-AriaNeural";
-            var syn = new SpeechSDK.SpeechSynthesizer(cfg);
-            var text = q.stem.replace(/_____/g, "blank");
-            var safe = text.replace(/&/g, "&amp;").replace(/</g, "&lt;");
-            var ssml =
-              '<speak version="1.0" xmlns="http://www.w3.org/2001/synthesis" xml:lang="en-US">' +
-              '<voice name="en-US-AriaNeural"><prosody rate="-2%">' +
-              safe +
-              "</prosody></voice></speak>";
-            syn.speakSsmlAsync(
-              ssml,
-              function () {
-                syn.close();
-                resolve();
-              },
-              function () {
-                syn.close();
-                resolve();
-              }
-            );
-          } catch (e) {
-            resolve();
-          }
-        });
+        if (!q) return Promise.resolve(false);
+        if (typeof window.playL06Local === "function") {
+          return window.playL06Local(q.stem);
+        }
+        return Promise.resolve(false);
       }
 
       function escapeHtml(s) {
@@ -1070,5 +1030,6 @@
       speakOpening();
     })();
   </script>
-</body>
+  <link rel="stylesheet" href="assets/lesson-image-lightbox.css" />
+  <script src="assets/lesson-image-lightbox.js" defer></script></body>
 </html>

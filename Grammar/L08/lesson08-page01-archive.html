@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
+  <script src="../shared/play-local-mp3.js"></script>
+  <script src="../shared/lesson-local-audio.js" defer></script>
+  <script src="../shared/lesson-speak-local-only.js"></script>
   <!-- L08 配图风格：与 L07 同系 — 2D 粗描边赛璐璐卡通教学插画 -->
-  <!-- Page01 全部插图路径统一在脚本对象 PAGE01_IMG（与本页同级目录 https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/）。改文件名时请只改该对象并同步 CSS 变量 --l08-p01-archive-bg。 -->
+  <!-- Page01 全部插图路径统一在脚本对象 PAGE01_IMG（与本页同级目录 assets/）。改文件名时请只改该对象并同步 CSS 变量 --l08-p01-archive-bg。 -->
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>第08讲 · Page 01 · 时光档案室 · 过去回顾与未来计划</title>
+  <title>第08讲 · 第01页 · 课程导入</title>
   <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
-  <link rel="stylesheet" href="../assets/lesson-screen-16x9.css" />
+  <link rel="stylesheet" href="assets/lesson-screen-16x9.css" />
   <style>
     :root {
       /* 与脚本 PAGE01_IMG.archiveBg 同步 */
@@ -48,7 +51,7 @@
       -webkit-tap-highlight-color: transparent;
     }
 
-    /* body.has-lesson-pager、底栏导航：../assets/lesson-screen-16x9.css */
+    /* body.has-lesson-pager、底栏导航：assets/lesson-screen-16x9.css */
 
     /* —— 主容器：对齐 L06 沉浸式 app —— */
     #l08-host.app {
@@ -1117,6 +1120,17 @@
       }
     }
   </style>
+
+  <script>
+window.__LESSON_TTS_MANIFEST = Object.assign(window.__LESSON_TTS_MANIFEST || {}, {
+  "I visited my grandparents during the winter holiday.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/tts-mp3/6ecc93a580638a196f53.mp3",
+  "I learned to swim last summer.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/tts-mp3/1b38d0c7f9cf68a61ff9.mp3",
+  "I joined the school English club last term.": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L08/assets/tts-mp3/9047dd69759b4b05e4a2.mp3"
+});
+  </script>
+  <script src="assets/lesson-tts-bootstrap.js"></script>
+  <link rel="stylesheet" href="assets/grammar-lesson-pager.css" />
+  <link rel="stylesheet" href="../shared/grammar-logo.css" />
 </head>
 <body class="has-lesson-pager">
   <div id="boot-screen" aria-live="polite">
@@ -1419,10 +1433,10 @@
 
   <div id="ui-lock" aria-hidden="true"></div>
 
-  <nav class="lesson-pager" aria-label="课程页导航">
-    <a class="pager-prev" href="../L07/index.html">← 返回第07讲目录</a>
-    <span class="pager-mid">L08 · Page 01</span>
-    <a id="pager-next-link" class="pager-next is-locked" href="lesson08-page02-lab.html">下一页 →</a>
+  <nav class="lesson-pager is-file-nav" aria-label="页面导航">
+    <span class="pager-prev pager-muted" aria-disabled="true">上一页</span>
+    <a class="pager-logo" href="../index.html" aria-label="课程主页"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/logo2.png" alt="Steven's Class" width="204" height="61" decoding="async" /></a>
+    <a class="pager-next" id="pager-next-link" href="lesson08-page02-lab.html">下一页</a>
   </nav>
 
     <script>
@@ -1488,7 +1502,9 @@
       var stage = document.getElementById("stage");
       var laser = document.getElementById("laser");
       var timelineMain = document.getElementById("timeline-main");
-      var pagerNext = document.getElementById("pager-next-link");
+      var pagerNext =
+        document.getElementById("pager-next-link") ||
+        document.querySelector("nav.lesson-pager a.pager-next");
 
       var railWrap = document.getElementById("railWrap");
       var tickLayer = document.getElementById("tickLayer");
@@ -1593,41 +1609,69 @@
 
       function speakAzure(text) {
         return new Promise(function (resolve) {
-          if (!AZURE_KEY) {
+          var t = String(text || "").trim();
+          if (!t) {
             resolve(false);
             return;
           }
-          fetch("https://" + AZURE_REGION + ".tts.speech.microsoft.com/cognitiveservices/v1", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/ssml+xml",
-              "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3",
-              "Ocp-Apim-Subscription-Key": AZURE_KEY,
-            },
-            body: buildSsml(text),
-          })
-            .then(function (res) {
-              if (!res.ok) throw new Error("tts");
-              return res.blob();
-            })
-            .then(function (blob) {
-              var u = URL.createObjectURL(blob);
-              var audio = new Audio();
-              audio.src = u;
-              var done = function () {
-                try {
-                  URL.revokeObjectURL(u);
-                } catch (e) {}
-                audio.removeAttribute("src");
-                resolve(true);
-              };
-              audio.onended = done;
-              audio.onerror = done;
-              audio.play().catch(done);
-            })
-            .catch(function () {
+          function tryAzure() {
+            if (!AZURE_KEY) {
               resolve(false);
+              return;
+            }
+            fetch("https://" + AZURE_REGION + ".tts.speech.microsoft.com/cognitiveservices/v1", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/ssml+xml",
+                "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3",
+                "Ocp-Apim-Subscription-Key": AZURE_KEY,
+              },
+              body: buildSsml(text),
+            })
+              .then(function (res) {
+                if (!res.ok) throw new Error("tts");
+                return res.blob();
+              })
+              .then(function (blob) {
+                var u = URL.createObjectURL(blob);
+                var audio = new Audio();
+                audio.src = u;
+                var done = function () {
+                  try {
+                    URL.revokeObjectURL(u);
+                  } catch (e) {}
+                  audio.removeAttribute("src");
+                  resolve(true);
+                };
+                audio.onended = done;
+                audio.onerror = done;
+                audio.play().catch(done);
+              })
+              .catch(function () {
+                resolve(false);
+              });
+          }
+          if (window.LessonTTSBootstrap && window.LessonTTSBootstrap.playLocalIfAvailable) {
+            window.LessonTTSBootstrap.playLocalIfAvailable(t).then(function (ok) {
+              if (ok) {
+                resolve(true);
+                return;
+              }
+              if (typeof window.playLocalMp3Url === "function" && window.__LESSON_TTS_MANIFEST) {
+                var rel = window.__LESSON_TTS_MANIFEST[t];
+                if (rel) {
+                  window.playLocalMp3Url(rel).then(function (ok2) {
+                    if (ok2) resolve(true);
+                    else tryAzure();
+                  });
+                  return;
+                }
+              }
+              tryAzure();
             });
+            return;
+          }
+          tryAzure();
         });
       }
 
@@ -1812,12 +1856,49 @@
       function runLaserScan() {
         laser.style.opacity = "1";
         playScanBeep();
+        var endY = window.innerHeight + 48;
+        if (typeof anime === "undefined") {
+          laser.style.transition = "transform 1.6s ease-in-out";
+          laser.style.transform = "translateY(" + endY + "px)";
+          return wait(1600);
+        }
         return anime({
           targets: laser,
-          translateY: [0, window.innerHeight + 48],
+          translateY: [0, endY],
           duration: 1600,
           easing: "easeInOutQuad",
         }).finished;
+      }
+
+      function fadeInEl(el, opts) {
+        opts = opts || {};
+        if (!el) return Promise.resolve();
+        if (typeof anime !== "undefined") {
+          return anime(
+            Object.assign(
+              {
+                targets: el,
+                easing: "easeOutQuad",
+              },
+              opts
+            )
+          ).finished;
+        }
+        var fromOp = opts.opacity && opts.opacity[0] != null ? opts.opacity[0] : 0;
+        var toOp = opts.opacity && opts.opacity[1] != null ? opts.opacity[1] : 1;
+        var dur = opts.duration || 600;
+        el.style.transition = "opacity " + dur + "ms ease, transform " + dur + "ms ease";
+        el.style.opacity = String(fromOp);
+        if (opts.translateY) {
+          el.style.transform = "translateY(" + opts.translateY[0] + "px)";
+        }
+        return wait(16).then(function () {
+          el.style.opacity = String(toOp);
+          if (opts.translateY) {
+            el.style.transform = "translateY(" + opts.translateY[1] + "px)";
+          }
+          return wait(dur);
+        });
       }
 
       function closeCoachPlan() {
@@ -1939,6 +2020,7 @@
       }
 
       function unlockPagerNext() {
+        if (!pagerNext) return;
         pagerNext.classList.remove("is-locked");
         pagerNext.classList.add("is-ready");
       }
@@ -1952,29 +2034,24 @@
             "Welcome to the Time Lab archive. Click the three dots on the left to review the past.",
             "welcome"
           ).catch(function () {});
-          anime({
-            targets: bgStack,
+          return fadeInEl(bgStack, {
             opacity: [0, 1],
             duration: 2000,
-            easing: "linear",
-            delay: 180,
-          }).finished
-            .then(function () {
-              return wait(240);
-            })
-            .then(function () {
-              return anime({
-                targets: timelineMain,
-                opacity: [0, 1],
-                translateY: [18, 0],
-                duration: 720,
-                easing: "easeOutQuad",
-              }).finished;
-            })
-            .then(function () {
-              openCoachIntro();
+          });
+        })
+          .then(function () {
+            return wait(240);
+          })
+          .then(function () {
+            return fadeInEl(timelineMain, {
+              opacity: [0, 1],
+              translateY: [18, 0],
+              duration: 720,
             });
-        });
+          })
+          .then(function () {
+            openCoachIntro();
+          });
       }
 
       function pad(n) {
@@ -2382,13 +2459,15 @@
         }
       });
 
-      pagerNext.addEventListener(
-        "click",
-        function (ev) {
-          if (pagerNext.classList.contains("is-locked")) ev.preventDefault();
-        },
-        true
-      );
+      if (pagerNext) {
+        pagerNext.addEventListener(
+          "click",
+          function (ev) {
+            if (pagerNext.classList.contains("is-locked")) ev.preventDefault();
+          },
+          true
+        );
+      }
 
       buildTicks();
       placePastMarkers();
@@ -2398,9 +2477,19 @@
       /* 仅日期：每分钟刷新即可；如需跨日立刻刷新可改回 1000 */
       setInterval(tickClock, 60000);
 
+      var bootAnimeWait = 0;
+      var bootAnimeMaxWait = 120;
+
       function boot() {
         if (typeof anime === "undefined") {
-          setTimeout(boot, 30);
+          bootAnimeWait += 1;
+          if (bootAnimeWait < bootAnimeMaxWait) {
+            setTimeout(boot, 50);
+            return;
+          }
+        }
+        if (!bootScreen) {
+          startTimeline();
           return;
         }
         bootScreen.classList.add("hidden");
@@ -2415,5 +2504,6 @@
     })();
   </script>
 
-</body>
+  <link rel="stylesheet" href="assets/lesson-image-lightbox.css" />
+  <script src="assets/lesson-image-lightbox.js" defer></script></body>
 </html>

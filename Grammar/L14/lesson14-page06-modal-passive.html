@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>被动语态 · 情态被动 · should be allowed to</title>
+  <link rel="stylesheet" href="assets/lesson-screen-16x9.css" />
+  <link rel="stylesheet" href="l14-index-nav.css" />
+  <link rel="stylesheet" href="../shared/grammar-logo.css" />
+  <link rel="stylesheet" href="l14-lesson-shell.css" />
+  <link rel="stylesheet" href="assets/grammar-lesson-pager.css" />
+  <link rel="stylesheet" href="l14-page-components.css" />
+  <link rel="stylesheet" href="l14-page06-layout.css" />
+  <link rel="stylesheet" href="l14-page06-readable-text.css" />
+  <link rel="stylesheet" href="l14-readable-global.css" />
+  <style>
+    :root {
+      --l14-accent: #0d9488; --l14-accent-ink: #0f766e;
+      --l14-top-bg: linear-gradient(180deg, #fff, #f0fdfa);
+      --l14-shadow: rgba(13, 148, 136, 0.35); --l14-dash: rgba(13, 148, 136, 0.35);
+      --paper: #fff9f0; --ink: #2c2c2c; --edge: #5d4037; --shadow-book: rgba(60, 40, 20, 0.14);
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0; min-height: 100dvh;
+      font-family: system-ui, -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: linear-gradient(165deg, #134e4a 0%, #1e3a5f 42%, #0f172a 100%);
+      color: var(--ink); line-height: 1.55;
+    }
+    #l14-book .panel.panel-split {
+      display: grid; gap: 0.65rem; flex: 1 1 auto; min-height: 0; overflow: hidden;
+    }
+    @media (min-width: 640px) {
+      #l14-book .panel.panel-split { grid-template-columns: minmax(200px, 46%) 1fr; }
+    }
+    .route-strip {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0.45rem;
+      margin-top: 0.65rem;
+    }
+    .route-strip span,
+    .rubric-mini span {
+      display: block;
+      padding: 0.42rem 0.5rem;
+      border: 2px solid rgba(93, 64, 55, 0.18);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.84);
+      font-size: 0.8rem;
+      font-weight: 800;
+      color: #334155;
+    }
+    .teacher-script,
+    .editor-note {
+      margin-top: 0.55rem;
+      padding: 0.56rem 0.7rem;
+      border-left: 4px solid var(--l14-accent);
+      border-radius: 10px;
+      background: rgba(240, 253, 250, 0.84);
+      color: #0f766e;
+      font-size: 0.84rem;
+      font-weight: 740;
+    }
+    .editor-note {
+      border-left-color: #c2410c;
+      background: rgba(255, 247, 237, 0.86);
+      color: #9a3412;
+    }
+    .rubric-mini {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.45rem;
+      margin: 0.55rem 0;
+    }
+    @media (max-width: 720px) {
+      .route-strip,
+      .rubric-mini { grid-template-columns: 1fr; }
+    }
+  </style>
+  <link rel="stylesheet" href="l14-scene-images.css" />
+  <script src="l14-ui-helpers.js?v=3"></script>
+  <script src="l14-progress.js?v=3"></script>
+  <script src="l14-quiz-engine.js?v=3"></script>
+  <script src="l14-corpus-pool.js?v=5"></script>
+</head>
+<body class="has-lesson-pager">
+  <div id="ui-lock" aria-hidden="true"></div>
+  <div id="app">
+    <div id="l14-book" class="book">
+      <header class="top-bar">
+        <div class="top-bar-main">
+          <strong>被动语态</strong>
+        </div>
+        <a class="l14-index-link" href="index.html">学习目录</a>
+      </header>
+      <div class="l14-scroll">
+
+        <section class="lesson-page active" data-page="1">
+          <div class="panel panel-split">
+            <div class="scene-frame scene-frame--debate">
+              <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L14/assets/img/l14-p06-rules-debate.png" alt="规则辩论" width="800" height="600" style="aspect-ratio:4/3" loading="lazy" />
+            </div>
+            <div>
+              <p class="panel-lead"><strong>本节情态被动目标</strong></p>
+              <div class="goal-grid" id="goal-grid"></div>
+              <div class="route-strip" aria-label="本页学习路径">
+                <span>1. 识别情态：should/may/must</span>
+                <span>2. 保留 be：情态 + be + V3</span>
+                <span>3. allowed to：后接原形</span>
+                <span>4. 辩论规则：肯否疑</span>
+              </div>
+              <p class="channel-links"><a href="lesson14-page05-past-passive.html">← Page 05 过去被动</a></p>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="2">
+          <div class="page-head"><span class="page-kicker">2 / 15</span><h2 class="page-title">声先行 · should be allowed</h2></div>
+          <div class="panel">
+            <p class="panel-lead">先听规则例句，再显示公式：情态后仍要有 be</p>
+            <p class="en-line en-blur modal-intro-en" lang="en" id="modal-intro-en">
+              Teenagers <span class="mark-modal">should be allowed to</span> choose their own clothes.
+            </p>
+            <p class="zh-hint en-blur" id="modal-intro-zh">情态被动通式 = 情态动词 + be + 过去分词；allowed 后常接 to do</p>
+            <div class="modal-formula en-blur" id="modal-formula">
+              <span class="mf-part hl">should</span>
+              <span>+</span>
+              <span class="mf-part hl">be</span>
+              <span>+</span>
+              <span class="mf-part hl">allowed</span>
+              <span>+</span>
+              <span class="mf-part">to do</span>
+            </div>
+            <p class="teacher-script">教师提示：本页要把两个层级分清：通式是 modal + be + V3；`be allowed to do` 是 allow 这个动词的固定延伸。</p>
+            <div class="btn-row">
+              <button type="button" class="btn teal" id="btn-modal-sound">🔊 播放</button>
+              <button type="button" class="btn violet" id="btn-modal-show">显示文字</button>
+              <button type="button" class="btn ghost" id="btn-modal-neg">否定/疑问</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="3">
+          <div class="page-head"><span class="page-kicker">3 / 15</span><h2 class="page-title">苏格拉底 · 三问</h2></div>
+          <div class="panel">
+            <p class="panel-lead">规则辩论 · 谁被允许？</p>
+            <p class="teacher-script">追问顺序：谁承受“允许”？情态后有没有 be？allowed 后是否接 to + 动词原形？</p>
+            <div class="socratic-grid" id="socratic-grid"></div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="4">
+          <div class="page-head"><span class="page-kicker">4 / 15</span><h2 class="page-title">教师展示 · 肯定/否定/疑问</h2></div>
+          <div class="panel">
+            <p class="panel-lead">点标签切换 · 注意 be 不能省</p>
+            <div class="btn-row" id="teacher-tabs"></div>
+            <p class="en-line rule-demo-en" lang="en" id="teacher-en"></p>
+            <p class="zh-hint" id="teacher-zh"></p>
+            <p class="editor-note">出版提示：有情态动词时用原形 be（should be / may be / must be）；没有情态动词时，be 才随主语变化，如 You are allowed。</p>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="5">
+          <div class="page-head"><span class="page-kicker">5 / 15</span><h2 class="page-title">启发 · 拼装结构</h2></div>
+          <div class="panel">
+            <p class="panel-lead">Teenagers ___ ___ ___ to choose… · 点芯片，错选也要说出理由</p>
+            <div class="modal-build">
+              <span>Teenagers</span>
+              <button type="button" class="modal-slot" id="slot-m">情态?</button>
+              <button type="button" class="modal-slot" id="slot-be">be?</button>
+              <button type="button" class="modal-slot" id="slot-v">V3?</button>
+              <span>to choose their own clothes.</span>
+            </div>
+            <div class="chip-bank" id="chip-modal-bank"></div>
+            <p class="fb" id="modal-build-fb"></p>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="6">
+          <div class="page-head"><span class="page-kicker">6 / 15</span><h2 class="page-title">规则句轮播 · 6 条</h2></div>
+          <div class="panel">
+            <p class="panel-lead"><span class="tier-label">分层 A</span>肯定/否定/疑问 · 声先行</p>
+            <div class="negq-modal-card" id="negq-card"></div>
+            <div class="btn-row">
+              <button type="button" class="btn teal" id="negq-play">🔊 播放</button>
+              <button type="button" class="btn violet" id="negq-show">显示英文</button>
+              <button type="button" class="btn ghost" id="negq-prev">上一条</button>
+              <button type="button" class="btn ghost" id="negq-next">下一条</button>
+            </div>
+            <p class="zh-hint" id="negq-pos">1 / 6</p>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="7">
+          <div class="page-head"><span class="page-kicker">7 / 15</span><h2 class="page-title">辩论语料 · 朗读</h2></div>
+          <div class="panel">
+            <p class="panel-lead">青少年规则 + 亲子诗片段 · 圈出 should/may/must + be + V3</p>
+            <div class="debate-read-card" id="debate-read-card"></div>
+            <div class="btn-row">
+              <button type="button" class="btn teal" id="debate-play">🔊 播放</button>
+              <button type="button" class="btn violet" id="debate-show">显示英文</button>
+              <button type="button" class="btn ghost" id="debate-prev">上一句</button>
+              <button type="button" class="btn ghost" id="debate-next">下一句</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="8">
+          <div class="page-head"><span class="page-kicker">8 / 15</span><h2 class="page-title">模式 A · should be allowed</h2></div>
+          <div class="panel panel-quiz-screen">
+            <p class="panel-lead"><span class="tier-label">分层 B</span>12 题 · 肯定结构 · 8 秒</p>
+            <div class="quiz-timer-bar" id="timer-bar-a"><div class="quiz-timer-fill" id="timer-fill-a"></div><span class="quiz-timer-text" id="timer-text-a">8</span></div>
+            <div class="quick-quiz-stage">
+              <div class="quiz-slot" id="quiz-a"></div>
+              <div class="quiz-fx" id="quiz-fx-a" hidden></div>
+            </div>
+            <div class="quiz-foot">
+              <span class="quiz-progress" id="prog-a">1 / 12</span>
+              <div class="carousel-dots" id="dots-a"></div>
+            </div>
+            <div class="btn-row">
+              <button type="button" class="btn ghost" data-quiz-prev="a">上一题</button>
+              <button type="button" class="btn ghost" data-quiz-next="a">下一题</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="9">
+          <div class="page-head"><span class="page-kicker">9 / 15</span><h2 class="page-title">模式 B · shouldn't be allowed</h2></div>
+          <div class="panel panel-quiz-screen">
+            <p class="panel-lead"><span class="tier-label">分层 B</span>8 题 · 否定规则</p>
+            <div class="quiz-timer-bar" id="timer-bar-b"><div class="quiz-timer-fill" id="timer-fill-b"></div><span class="quiz-timer-text" id="timer-text-b">8</span></div>
+            <div class="quick-quiz-stage">
+              <div class="quiz-slot" id="quiz-b"></div>
+              <div class="quiz-fx" id="quiz-fx-b" hidden></div>
+            </div>
+            <div class="quiz-foot">
+              <span class="quiz-progress" id="prog-b">1 / 8</span>
+              <div class="carousel-dots" id="dots-b"></div>
+            </div>
+            <div class="btn-row">
+              <button type="button" class="btn ghost" data-quiz-prev="b">上一题</button>
+              <button type="button" class="btn ghost" data-quiz-next="b">下一题</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="10">
+          <div class="page-head"><span class="page-kicker">10 / 15</span><h2 class="page-title">模式 C · 改错</h2></div>
+          <div class="panel panel-quiz-screen">
+            <p class="panel-lead"><span class="tier-label tier-b">分层 B+</span>6 题 · be / allowed 易错</p>
+            <div class="quick-quiz-stage">
+              <div class="quiz-slot" id="quiz-c"></div>
+              <div class="quiz-fx" id="quiz-fx-c" hidden></div>
+            </div>
+            <div class="quiz-foot">
+              <span class="quiz-progress" id="prog-c">1 / 6</span>
+              <div class="carousel-dots" id="dots-c"></div>
+            </div>
+            <div class="btn-row">
+              <button type="button" class="btn ghost" data-quiz-prev="c">上一题</button>
+              <button type="button" class="btn ghost" data-quiz-next="c">下一题</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="11">
+          <div class="page-head"><span class="page-kicker">11 / 15</span><h2 class="page-title">模式 D · Should…be allowed?</h2></div>
+          <div class="panel panel-quiz-screen">
+            <p class="panel-lead"><span class="tier-label">分层 B+</span>8 题 · 疑问语序</p>
+            <div class="quiz-timer-bar" id="timer-bar-d"><div class="quiz-timer-fill" id="timer-fill-d"></div><span class="quiz-timer-text" id="timer-text-d">8</span></div>
+            <div class="quick-quiz-stage">
+              <div class="quiz-slot" id="quiz-d"></div>
+              <div class="quiz-fx" id="quiz-fx-d" hidden></div>
+            </div>
+            <div class="quiz-foot">
+              <span class="quiz-progress" id="prog-d">1 / 8</span>
+              <div class="carousel-dots" id="dots-d"></div>
+            </div>
+            <div class="btn-row">
+              <button type="button" class="btn ghost" data-quiz-prev="d">上一题</button>
+              <button type="button" class="btn ghost" data-quiz-next="d">下一题</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="12">
+          <div class="page-head"><span class="page-kicker">12 / 15</span><h2 class="page-title">模式 E · 听音选句</h2></div>
+          <div class="panel panel-quiz-screen">
+            <p class="panel-lead"><span class="tier-label tier-b">分层 C</span>5 题 · 听 should be allowed</p>
+            <div class="quick-quiz-stage">
+              <div class="quiz-slot" id="quiz-e"></div>
+              <div class="quiz-fx" id="quiz-fx-e" hidden></div>
+            </div>
+            <div class="quiz-foot">
+              <span class="quiz-progress" id="prog-e">1 / 5</span>
+              <div class="carousel-dots" id="dots-e"></div>
+            </div>
+            <div class="btn-row">
+              <button type="button" class="btn teal" id="listen-e">🔊 播放本题</button>
+              <button type="button" class="btn ghost" data-quiz-prev="e">上一题</button>
+              <button type="button" class="btn ghost" data-quiz-next="e">下一题</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="13">
+          <div class="page-head"><span class="page-kicker">13 / 15</span><h2 class="page-title">易错陷阱</h2></div>
+          <div class="panel">
+            <p class="panel-lead">✗ 漏 be / 用原形 → 显示正句</p>
+            <div id="trap-box"></div>
+            <div class="btn-row">
+              <button type="button" class="btn ghost" id="trap-prev">上一条</button>
+              <button type="button" class="btn ghost" id="trap-next">下一条</button>
+              <button type="button" class="btn violet" id="trap-reveal">显示正句</button>
+            </div>
+            <p class="zh-hint" id="trap-pos">1 / 6</p>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="14">
+          <div class="page-head"><span class="page-kicker">14 / 15</span><h2 class="page-title">学生总结</h2></div>
+          <div class="panel">
+            <div class="rule-box teal" id="rule-final">情态被动：情态 + be + 过去分词；be allowed to + 动词原形 · shouldn't · Should…?</div>
+            <div class="summary-pick" id="summary-chips"></div>
+            <label class="zh-hint">用中文写一句「被允许」规则：</label>
+            <textarea class="summary-write" id="summary-write" placeholder="例如：表示「应该被允许做某事」用 should be allowed to + 动词原形……"></textarea>
+            <div class="rubric-mini" aria-label="本页出口评价">
+              <span>基础：能写 should be allowed</span>
+              <span>稳固：能写 shouldn't / Should…?</span>
+              <span>挑战：能区分 allow 与 be allowed</span>
+            </div>
+            <ul class="checklist" id="checklist"></ul>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="15">
+          <div class="page-head"><span class="page-kicker">15 / 15</span><h2 class="page-title">语料回顾 · → Page 07</h2></div>
+          <div class="panel">
+            <table class="corpus-mini" id="corpus-table"></table>
+            <p class="rule-box amber" style="margin-top:0.45rem">过关：模式 A≥9/12 · 规则轮播 6 条 · 总结 1 句</p>
+            <a class="channel-btn" href="lesson14-page07-made-of.html">进入 Page 07 · made of/from/in</a>
+            <p class="channel-links">
+              <a href="lesson14-page05-past-passive.html">Page 05</a> ·
+              <a href="index.html">学习目录</a>
+            </p>
+          </div>
+        </section>
+
+      </div>
+    </div>
+    <nav class="lesson-pager is-intra-nav" aria-label="分页">
+      <div class="pager-zone pager-zone--left">
+        <button type="button" class="pager-prev" id="pager-prev">上一页</button>
+      </div>
+      <a class="pager-logo" href="../index.html" aria-label="课程主页"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/logo2.png" alt="Steven's Class" width="204" height="61" decoding="async" /></a>
+      <div class="pager-zone pager-zone--right">
+        <span class="pager-mid" id="pager-mid">1 / 15</span>
+        <button type="button" class="pager-next" id="pager-next">下一页</button>
+      </div>
+    </nav>
+  </div>
+  <script src="l14-image-lightbox.js"></script>
+  <script src="l14-index-nav.js"></script>
+  <script>
+(function () {
+  "use strict";
+
+  const AZURE_KEY = "C42UQWeDcluYanbo17WrtUnPhk0vkZy2uQHPTCGDzY6CdExx99NzJQQJ99BIACqBBLyXJ3w3AAAYACOGjkyu";
+  const AZURE_REGION = "southeastasia";
+  const VOICE_EN = "en-US-AriaNeural";
+  const PAGE_COUNT = 15;
+  const QUIZ_TIME_SEC = 8;
+  const PROGRESS_ID = "lesson14-page06";
+  const PROGRESS_VERSION = 4;
+
+  function defaultProgress() {
+    return {
+      version: PROGRESS_VERSION,
+      page: 1,
+      enShown: {},
+      quizzes: {},
+      negqIdx: 0,
+      debateIdx: 0,
+      trapIdx: 0,
+      trapsRevealed: {}
+    };
+  }
+  let progress = defaultProgress();
+  function persistProgress() {
+    if (window.L14Progress) L14Progress.save(PROGRESS_ID, progress);
+  }
+
+  const P14 = L14Corpus.enrichPageQuizzes("page06", {
+    goals: [
+      "掌握情态被动通式：情态动词 + be + 过去分词",
+      "会说 should be allowed to 与 shouldn't be allowed to",
+      "会问：Should teenagers be allowed to…?",
+      "读懂青少年规则辩论语料",
+      "区分 allow（主动）与 be allowed（被动），并保留 to + 动词原形",
+      "五种测验模式巩固，进入 made of/from/in"
+    ],
+    socratic: [
+      {
+        q: "Teenagers should ___ allowed to choose clothes.",
+        opts: ["be", "is", "are"],
+        ans: "be",
+        fb: "情态后必须用 be，不能省略。"
+      },
+      {
+        q: "「不应该被允许开车」英文？",
+        opts: ["shouldn't be allowed to drive", "shouldn't allow to drive", "shouldn't be allow to drive"],
+        ans: "shouldn't be allowed to drive",
+        fb: "shouldn't + be + allowed + to drive"
+      },
+      {
+        q: "疑问：青少年应被允许周末打工吗？",
+        opts: ["Should teenagers be allowed to work on weekends?", "Do teenagers should be allowed…?", "Are teenagers allowed should…?"],
+        ans: "Should teenagers be allowed to work on weekends?",
+        fb: "Should 提前 + be allowed to"
+      }
+    ],
+    teacherLines: [
+      { tag: "aff", tagZh: "肯定", zh: "应该被允许做……", en: "Teenagers should be allowed to choose their own clothes.", audio: "Teenagers should be allowed to choose their own clothes." },
+      { tag: "neg", tagZh: "否定", zh: "不应该被允许……", en: "I don't think sixteen-year-olds should be allowed to drive.", audio: "I don't think sixteen-year-olds should be allowed to drive." },
+      { tag: "q", tagZh: "疑问", zh: "应该被允许……吗？", en: "Should teenagers be allowed to work on weekends?", audio: "Should teenagers be allowed to work on weekends?" }
+    ],
+    negqLines: [
+      { tag: "aff", zh: "应允许青少年选自己的衣服。", en: "Teenagers should be allowed to choose their own clothes.", audio: "Teenagers should be allowed to choose their own clothes." },
+      { tag: "neg", zh: "16 岁不应被允许开车。", en: "Sixteen-year-olds shouldn't be allowed to drive.", audio: "Sixteen-year-olds shouldn't be allowed to drive." },
+      { tag: "q", zh: "青少年应被允许周末打工吗？", en: "Should teenagers be allowed to work on weekends?", audio: "Should teenagers be allowed to work on weekends?" },
+      { tag: "aff", zh: "Peter 应被允许稍后考试。", en: "Peter should be allowed to take the test later.", audio: "Peter should be allowed to take the test later." },
+      { tag: "neg", zh: "学生晚上不应被允许用手机。", en: "Students shouldn't be allowed to use phones at night.", audio: "Students shouldn't be allowed to use phones at night." },
+      { tag: "aff", zh: "博物馆里也许可以被允许拍照。", en: "We may be allowed to take photos in the museum.", audio: "We may be allowed to take photos in the museum." }
+    ],
+    debateRead: [
+      { tag: "Unit 7", zh: "单元标题句。", en: "Teenagers should be allowed to choose their own clothes.", src: "标题" },
+      { tag: "Unit 7", zh: "我认为 16 岁不应被允许开车。", en: "I don't think sixteen-year-olds should be allowed to drive.", src: "3a" },
+      { tag: "Unit 7", zh: "应被允许周末打工吗？", en: "Should teenagers be allowed to work on weekends?", src: "讨论" },
+      { tag: "Unit 7", zh: "Peter 应被允许稍后考试。", en: "Peter should be allowed to take the test later.", src: "教材" },
+      { tag: "拓展", zh: "没有票不许入内。", en: "You aren't allowed to enter without a ticket.", src: "aren't allowed" },
+      { tag: "亲子诗", zh: "我们应被允许发言。", en: "We should be allowed to speak.", src: "朗读" },
+      { tag: "亲子诗", zh: "父母也应被倾听。", en: "Parents should be listened to, too.", src: "listen 被动" },
+      { tag: "对比", zh: "主动：老师允许我们……", en: "The teacher allows us to leave early. → We are allowed to leave early.", src: "allow vs be allowed" }
+    ],
+    traps: [
+      { wrong: "Teenagers should allow to choose.", right: "Teenagers should be allowed to choose.", note: "承受者作主语 → be allowed。" },
+      { wrong: "Teenagers should be allow to choose.", right: "Teenagers should be allowed to choose.", note: "allowed 是过去分词。" },
+      { wrong: "Should teenagers allowed to work?", right: "Should teenagers be allowed to work?", note: "不能省略 be。" },
+      { wrong: "Do teenagers should be allowed…?", right: "Should teenagers be allowed…?", note: "Should 提前，不用 Do。" },
+      { wrong: "Sixteen-year-olds shouldn't allow to drive.", right: "Sixteen-year-olds shouldn't be allowed to drive.", note: "被动用 be allowed。" },
+      { wrong: "You don't allowed to enter.", right: "You aren't allowed to enter.", note: "aren't allowed to" }
+    ],
+    summaryChips: ["情态+be+V3", "should be allowed to", "shouldn't be allowed", "Should…?", "to + 原形", "allow→be allowed", "may/must be done"],
+    checklist: [
+      "我会写：should be allowed to + 动词原形",
+      "我会写否定：shouldn't be allowed to",
+      "我会问：Should … be allowed to …?",
+      "我知道：情态后必须有 be",
+      "我能区分：主动 allow sb to do 与被动 sb be allowed to do",
+      "我完成五种测验模式"
+    ],
+    corpus: [
+      ["Unit 7", "should be allowed to", "标题句"],
+      ["Unit 7", "shouldn't … drive", "否定辩论"],
+      ["Unit 7", "Should teens…?", "疑问讨论"],
+      ["Unit 7", "Peter … test", "教材例"],
+      ["拓展", "may/must be", "其他情态"],
+      ["易错", "be 不能省", "情态被动"],
+      ["易错", "allowed 不是 allow", "过去分词"],
+      ["Page 07", "made of/from/in", "下节"]
+    ]
+  });
+
+  let currentPage = 1;
+  let negqIdx = 0;
+  let debateIdx = 0;
+  let trapIdx = 0;
+  const quizEngines = {};
+
+  function escHtml(s) {
+    if (s == null) return "";
+    return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+  function lockUI() { document.getElementById("ui-lock").classList.add("active"); }
+  function unlockUI() { document.getElementById("ui-lock").classList.remove("active"); }
+
+  async function playAudio(text) {
+    if (!text) return;
+    lockUI();
+    const body = "<speak version='1.0' xml:lang='en-US'><voice name='" + VOICE_EN + "'>" + escHtml(text) + "</voice></speak>";
+    try {
+      const res = await fetch("https://" + AZURE_REGION + ".tts.speech.microsoft.com/cognitiveservices/v1", {
+        method: "POST",
+        headers: {
+          "Ocp-Apim-Subscription-Key": AZURE_KEY,
+          "Content-Type": "application/ssml+xml",
+          "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3"
+        },
+        body: body
+      });
+      if (!res.ok) throw new Error();
+      const blob = await res.blob();
+      const u = URL.createObjectURL(blob);
+      const a = new Audio(u);
+      await new Promise(function (ok, err) {
+        a.onended = function () { URL.revokeObjectURL(u); ok(); };
+        a.onerror = err;
+        a.play().catch(err);
+      });
+    } catch (e) {
+      speechSynthesis.speak(new SpeechSynthesisUtterance(text));
+    } finally {
+      unlockUI();
+    }
+  }
+
+  function leaveAllQuizzes() {
+    Object.keys(quizEngines).forEach(function (k) {
+      if (quizEngines[k] && quizEngines[k].onLeave) quizEngines[k].onLeave();
+    });
+  }
+
+  function quizOptRowClass(q, opts) {
+    var list = opts || (q && q.opts) || [];
+    if (!Array.isArray(list)) list = [];
+    return "opt-row" + (list.some(function (o) { return String(o).length > 30; }) ? " opt-row--stack" : "");
+  }
+
+  function bindQuiz(key, items, useTimer) {
+    const engine = L14Quiz.create({
+      key: key,
+      items: items,
+      useTimer: useTimer,
+      escHtml: escHtml,
+      quizTimeSec: QUIZ_TIME_SEC,
+      btnLangEnOnly: true,
+      optRowClassFn: quizOptRowClass,
+      initialState: progress.quizzes[key],
+      onStateChange: function (st) {
+        progress.quizzes[key] = st;
+        persistProgress();
+      }
+    });
+    engine.init();
+    return engine;
+  }
+
+  function goPage(n) {
+    if (n < 1 || n > PAGE_COUNT) return;
+    leaveAllQuizzes();
+    currentPage = n;
+    progress.page = n;
+    persistProgress();
+    document.querySelectorAll(".lesson-page").forEach(function (el) {
+      el.classList.toggle("active", parseInt(el.dataset.page, 10) === n);
+    });
+    document.getElementById("pager-mid").textContent = n + " / " + PAGE_COUNT;
+    document.getElementById("pager-prev").disabled = n <= 1;
+    document.getElementById("pager-next").disabled = n >= PAGE_COUNT;
+    if (n === 8 && quizEngines.a) quizEngines.a.onEnter();
+    if (n === 9 && quizEngines.b) quizEngines.b.onEnter();
+    if (n === 10 && quizEngines.c) quizEngines.c.onEnter();
+    if (n === 11 && quizEngines.d) quizEngines.d.onEnter();
+    if (n === 12 && quizEngines.e) quizEngines.e.onEnter();
+  }
+
+  function initGoals() {
+    P14.goals.forEach(function (g) {
+      const d = document.createElement("div");
+      d.className = "goal-card";
+      d.textContent = g;
+      document.getElementById("goal-grid").appendChild(d);
+    });
+  }
+
+  function initModalSound() {
+    document.querySelectorAll("#modal-intro-en, #modal-intro-zh, #modal-formula").forEach(function (el) {
+      el.classList.add("en-blur");
+    });
+    if (progress.enShown.modalIntro) {
+      document.querySelectorAll("#modal-intro-en, #modal-intro-zh, #modal-formula").forEach(function (el) {
+        el.classList.add("is-shown");
+      });
+    }
+    document.getElementById("btn-modal-sound").addEventListener("click", function () {
+      playAudio("Teenagers should be allowed to choose their own clothes.");
+    });
+    document.getElementById("btn-modal-show").addEventListener("click", function () {
+      progress.enShown.modalIntro = true;
+      persistProgress();
+      document.querySelectorAll("#modal-intro-en, #modal-intro-zh, #modal-formula").forEach(function (el) {
+        el.classList.add("is-shown");
+      });
+    });
+    document.getElementById("btn-modal-neg").addEventListener("click", function () {
+      playAudio("Sixteen-year-olds shouldn't be allowed to drive. Should teenagers be allowed to work on weekends?");
+    });
+  }
+
+  function initSocratic() {
+    const grid = document.getElementById("socratic-grid");
+    P14.socratic.forEach(function (item) {
+      const card = document.createElement("div");
+      card.className = "soc-card";
+      const q = document.createElement("p");
+      q.className = "soc-q";
+      q.textContent = item.q;
+      const opts = document.createElement("div");
+      opts.className = "soc-opts";
+      const fb = document.createElement("p");
+      fb.className = "soc-fb";
+      item.opts.forEach(function (opt) {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.textContent = opt;
+        b.addEventListener("click", function () {
+          opts.querySelectorAll("button").forEach(function (x) {
+            x.disabled = true;
+            x.classList.remove("ok", "bad");
+          });
+          if (opt === item.ans) {
+            b.classList.add("ok");
+            fb.textContent = "✓ " + item.fb;
+          } else {
+            b.classList.add("bad");
+            fb.textContent = item.fb;
+          }
+        });
+        opts.appendChild(b);
+      });
+      card.appendChild(q);
+      card.appendChild(opts);
+      card.appendChild(fb);
+      grid.appendChild(card);
+    });
+  }
+
+  function initTeacher() {
+    const tabs = document.getElementById("teacher-tabs");
+    P14.teacherLines.forEach(function (line, i) {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "btn " + (i === 0 ? "teal" : "ghost");
+      b.textContent = line.tagZh;
+      b.addEventListener("click", function () {
+        tabs.querySelectorAll("button").forEach(function (x) {
+          x.className = "btn ghost";
+        });
+        b.className = "btn teal";
+        document.getElementById("teacher-en").innerHTML = escHtml(line.en).replace(/should be allowed/g, '<span class="mark-modal">should be allowed</span>').replace(/shouldn't be allowed/g, '<span class="mark-modal">shouldn\'t be allowed</span>').replace(/Should teenagers/g, '<span class="mark-modal">Should</span> teenagers');
+        document.getElementById("teacher-zh").textContent = line.zh;
+        playAudio(line.audio);
+      });
+      tabs.appendChild(b);
+    });
+    tabs.querySelector("button")?.click();
+  }
+
+  function initModalBuild() {
+    const chips = ["should", "shouldn't", "be", "is", "allowed", "allow"];
+    const slotM = document.getElementById("slot-m");
+    const slotBe = document.getElementById("slot-be");
+    const slotV = document.getElementById("slot-v");
+    chips.forEach(function (w) {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.textContent = w;
+      b.addEventListener("click", function () {
+        if (w === "should" || w === "shouldn't") {
+          slotM.textContent = w;
+          slotM.className = "modal-slot filled-m";
+        } else if (w === "be" || w === "is") {
+          slotBe.textContent = w;
+          slotBe.className = "modal-slot filled-be";
+        } else if (w === "allowed" || w === "allow") {
+          slotV.textContent = w;
+          slotV.className = "modal-slot filled-v";
+        }
+        check();
+      });
+      document.getElementById("chip-modal-bank").appendChild(b);
+    });
+    function check() {
+      const ok = slotM.textContent === "should" && slotBe.textContent === "be" && slotV.textContent === "allowed";
+      document.getElementById("modal-build-fb").textContent = ok
+        ? "✓ Teenagers should be allowed to choose their own clothes."
+        : "提示：should + be + allowed";
+    }
+  }
+
+  function tagClass(tag) {
+    if (tag === "aff") return "aff";
+    if (tag === "neg") return "neg";
+    return "q";
+  }
+
+  function renderNegq() {
+    const item = P14.negqLines[negqIdx];
+    document.getElementById("negq-pos").textContent = (negqIdx + 1) + " / " + P14.negqLines.length;
+    document.getElementById("negq-card").innerHTML =
+      "<span class='nq-tag " + tagClass(item.tag) + "'>" + escHtml(item.tag === "aff" ? "肯定" : item.tag === "neg" ? "否定" : "疑问") + "</span>" +
+      "<p class='zh-hint'>" + escHtml(item.zh) + "</p>" +
+      "<p class='en-line en-blur' lang='en'>" + escHtml(item.en) + "</p>";
+  }
+
+  function initNegq() {
+    negqIdx = progress.negqIdx || 0;
+    if (negqIdx >= P14.negqLines.length) negqIdx = 0;
+    renderNegq();
+    document.getElementById("negq-play").addEventListener("click", function () {
+      playAudio(P14.negqLines[negqIdx].audio);
+    });
+    document.getElementById("negq-show").addEventListener("click", function () {
+      document.querySelector("#negq-card .en-blur")?.classList.add("is-shown");
+    });
+    document.getElementById("negq-prev").addEventListener("click", function () {
+      negqIdx = (negqIdx - 1 + P14.negqLines.length) % P14.negqLines.length;
+      progress.negqIdx = negqIdx;
+      persistProgress();
+      renderNegq();
+    });
+    document.getElementById("negq-next").addEventListener("click", function () {
+      negqIdx = (negqIdx + 1) % P14.negqLines.length;
+      progress.negqIdx = negqIdx;
+      persistProgress();
+      renderNegq();
+    });
+  }
+
+  function renderDebate() {
+    const r = P14.debateRead[debateIdx];
+    document.getElementById("debate-read-card").innerHTML =
+      L14UI.readCardHtml(r, escHtml, "en-blur");
+  }
+
+  function initDebateRead() {
+    debateIdx = progress.debateIdx || 0;
+    if (debateIdx >= P14.debateRead.length) debateIdx = 0;
+    renderDebate();
+    document.getElementById("debate-play").addEventListener("click", function () {
+      playAudio(P14.debateRead[debateIdx].en);
+    });
+    document.getElementById("debate-show").addEventListener("click", function () {
+      document.querySelector("#debate-read-card .en-blur")?.classList.add("is-shown");
+    });
+    document.getElementById("debate-prev").addEventListener("click", function () {
+      debateIdx = (debateIdx - 1 + P14.debateRead.length) % P14.debateRead.length;
+      progress.debateIdx = debateIdx;
+      persistProgress();
+      renderDebate();
+    });
+    document.getElementById("debate-next").addEventListener("click", function () {
+      debateIdx = (debateIdx + 1) % P14.debateRead.length;
+      progress.debateIdx = debateIdx;
+      persistProgress();
+      renderDebate();
+    });
+  }
+
+  function initTraps() {
+    trapIdx = progress.trapIdx || 0;
+    if (trapIdx >= P14.traps.length) trapIdx = 0;
+    function renderTrap() {
+      const t = P14.traps[trapIdx];
+      progress.trapIdx = trapIdx;
+      persistProgress();
+      document.getElementById("trap-pos").textContent = (trapIdx + 1) + " / " + P14.traps.length;
+      document.getElementById("trap-box").innerHTML =
+        "<div class='trap-card' id='trap-card'>" +
+        "<p class='wrong-line' lang='en'>✗ " + escHtml(t.wrong) + "</p>" +
+        "<p class='right-line' lang='en'>✓ " + escHtml(t.right) + "</p>" +
+        "<p class='zh-hint'>" + escHtml(t.note) + "</p></div>";
+      if (progress.trapsRevealed && progress.trapsRevealed[trapIdx]) {
+        document.getElementById("trap-card")?.classList.add("revealed");
+      }
+    }
+    renderTrap();
+    document.getElementById("trap-reveal").addEventListener("click", function () {
+      progress.trapsRevealed[trapIdx] = true;
+      persistProgress();
+      document.getElementById("trap-card")?.classList.add("revealed");
+    });
+    document.getElementById("trap-prev").addEventListener("click", function () {
+      trapIdx = (trapIdx - 1 + P14.traps.length) % P14.traps.length;
+      renderTrap();
+    });
+    document.getElementById("trap-next").addEventListener("click", function () {
+      trapIdx = (trapIdx + 1) % P14.traps.length;
+      renderTrap();
+    });
+  }
+
+  function initSummary() {
+    P14.summaryChips.forEach(function (t) {
+      const lab = document.createElement("label");
+      lab.innerHTML = '<input type="checkbox" /> ' + escHtml(t);
+      document.getElementById("summary-chips").appendChild(lab);
+    });
+    P14.checklist.forEach(function (t) {
+      const li = document.createElement("li");
+      li.textContent = t;
+      document.getElementById("checklist").appendChild(li);
+    });
+    L14UI.initCorpusTable("corpus-table", P14.corpus, escHtml);
+  }
+
+  function initLesson() {
+    var loaded = window.L14Progress && L14Progress.load(PROGRESS_ID);
+    if (loaded) {
+      progress = Object.assign(defaultProgress(), loaded);
+      if (!progress.enShown) progress.enShown = {};
+      if (!progress.quizzes) progress.quizzes = {};
+      if (!progress.trapsRevealed) progress.trapsRevealed = {};
+      if (!progress.version || progress.version < PROGRESS_VERSION) {
+        progress.quizzes = {};
+        progress.version = PROGRESS_VERSION;
+        persistProgress();
+      }
+    }
+initGoals();
+    initModalSound();
+    initSocratic();
+    initTeacher();
+    initModalBuild();
+    initNegq();
+    initDebateRead();
+    quizEngines.a = bindQuiz("a", P14.quizAff, true);
+    quizEngines.b = bindQuiz("b", P14.quizNeg, true);
+    quizEngines.c = bindQuiz("c", P14.quizFix, false);
+    quizEngines.d = bindQuiz("d", P14.quizQuestion, true);
+    quizEngines.e = bindQuiz("e", P14.quizListen, false);
+    document.getElementById("listen-e").addEventListener("click", function () {
+      const a = quizEngines.e.getAudio();
+      if (a) playAudio(a);
+    });
+    initTraps();
+    initSummary();
+    document.getElementById("pager-prev").addEventListener("click", function () { goPage(currentPage - 1); });
+    document.getElementById("pager-next").addEventListener("click", function () { goPage(currentPage + 1); });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "ArrowLeft" && currentPage > 1) goPage(currentPage - 1);
+      if (e.key === "ArrowRight" && currentPage < PAGE_COUNT) goPage(currentPage + 1);
+    });
+    var startPage = progress.page || 1;
+    if (startPage < 1 || startPage > PAGE_COUNT) startPage = 1;
+    goPage(startPage);
+  }
+
+  initLesson();
+})();
+  </script>
+</body>
+</html>

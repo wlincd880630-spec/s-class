@@ -3,6 +3,10 @@
  */
 (function () {
   function inject() {
+    if (document.body.classList.contains("grammar-handout-page")) {
+      return;
+    }
+
     var top = document.querySelector("#l13-book .top-bar");
     if (top && !top.querySelector(".l13-index-link")) {
       var topLink = document.createElement("a");

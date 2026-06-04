@@ -1,10 +1,16 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
+  <script src="assets/play-local-mp3.js"></script>
+  <script src="../shared/lesson-local-audio.js" defer></script>
+  <script src="../shared/lesson-speak-local-only.js"></script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>第12讲 · Page 04 · wh- / if · whether 宾语从句进阶</title>
-  <link rel="stylesheet" href="../assets/lesson-screen-16x9.css" />
+  <title>第12讲 · 第04页 · wh- / if / whether 宾语从句</title>
+  <link rel="stylesheet" href="assets/lesson-screen-16x9.css" />
+  <script src="assets/l12-page04-tts-manifest.js"></script>
+  <script src="assets/l12-extra-tts-manifest.js"></script>
+  <script src="assets/lesson-tts-bootstrap.js"></script>
   <style>
     :root {
       --paper: #fff9f0;
@@ -224,6 +230,8 @@
     .p4-tok-is { background: #fef08a; border-color: #ca8a04; color: #713f12; z-index: 3; position: relative; }
     .p4-tok-qmark { border-color: #cbd5e1; color: #64748b; }
   </style>
+  <link rel="stylesheet" href="assets/grammar-lesson-pager.css" />
+  <link rel="stylesheet" href="../shared/grammar-logo.css" />
 </head>
 <body class="has-lesson-pager">
   <div id="app">
@@ -1093,10 +1101,15 @@
         </section>
       </div>
     </div>
-    <nav class="lesson-pager" id="lesson-pager" aria-label="分页导航">
-      <button type="button" class="pager-prev" id="pager-prev">上一页</button>
-      <span class="pager-mid" id="pager-mid">1 / 20</span>
-      <button type="button" class="pager-next" id="pager-next">下一页</button>
+    <nav class="lesson-pager is-intra-nav" id="lesson-pager" aria-label="分页导航">
+      <div class="pager-zone pager-zone--left">
+        <button type="button" class="pager-prev" id="pager-prev">上一页</button>
+      </div>
+      <a class="pager-logo" href="../index.html" aria-label="课程主页"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/logo2.png" alt="Steven's Class" width="204" height="61" decoding="async" /></a>
+      <div class="pager-zone pager-zone--right">
+        <span class="pager-mid" id="pager-mid">1 / 20</span>
+        <button type="button" class="pager-next" id="pager-next">下一页</button>
+      </div>
     </nav>
   </div>
   <div id="p4-img-lightbox" hidden role="dialog" aria-modal="true" aria-label="配图放大">
@@ -1107,7 +1120,7 @@
     const PAGE_COUNT = 20;
     let currentPage = 1;
     /** Azure Speech（与资源同属 Region：southeastasia）— 英/中文朗读均走 REST TTS */
-    const AZURE_KEY = "C42UQWeDcluYanbo17WrtUnPhk0vkZy2uQHPTCGDzY6CdEXx99NzJQQJ99BIACqBBLyXJ3w3AAAYACOGjkyu";
+    /* AZURE_KEY removed — use local MP3 only */
     const AZURE_REGION = "southeastasia";
     const AZURE_VOICE = "en-US-AriaNeural";
     const AZURE_VOICE_ZH = "zh-CN-XiaoxiaoNeural";
@@ -1121,47 +1134,11 @@
     async function playAzureEnglish(text, slow) {
       const raw = String(text || "").trim();
       if (!raw) return;
-      const url = "https://" + AZURE_REGION + ".tts.speech.microsoft.com/cognitiveservices/v1";
-      const inner = slow
-        ? "<prosody rate=\"0.88\">" + escapeXmlForTts(raw) + "</prosody>"
-        : escapeXmlForTts(raw);
-      const ssml =
-        "<speak version='1.0' xml:lang='en-US'><voice xml:lang='en-US' name='" +
-        AZURE_VOICE +
-        "'>" +
-        inner +
-        "</voice></speak>";
-      try {
-        const res = await fetch(url, {
-          method: "POST",
-          headers: {
-            "Ocp-Apim-Subscription-Key": AZURE_KEY,
-            "Content-Type": "application/ssml+xml",
-            "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3"
-          },
-          body: ssml
-        });
-        if (!res.ok) throw new Error(String(res.status));
-        const blob = await res.blob();
-        const u = URL.createObjectURL(blob);
-        const a = new Audio(u);
-        await new Promise(function (resolve, reject) {
-          a.onended = function () {
-            URL.revokeObjectURL(u);
-            resolve();
-          };
-          a.onerror = reject;
-          a.play().catch(reject);
-        });
-      } catch (e) {
-        try {
-          speechSynthesis.cancel();
-          const u = new SpeechSynthesisUtterance(raw);
-          u.lang = "en-US";
-          u.rate = slow ? 0.78 : 1;
-          speechSynthesis.speak(u);
-        } catch (e2) {}
+      if (window.LessonTTSBootstrap && typeof window.LessonTTSBootstrap.playLocalIfAvailable === "function") {
+        const ok = await window.LessonTTSBootstrap.playLocalIfAvailable(raw);
+        if (ok) return;
       }
+      console.warn("[TTS] 本地 MP3 未找到:", raw.slice(0, 120));
     }
     function speakEn(t) {
       playAzureEnglish(t, false).catch(function () {});
@@ -1172,44 +1149,11 @@
     async function playAzureChinese(text) {
       const raw = String(text || "").trim();
       if (!raw) return;
-      const url = "https://" + AZURE_REGION + ".tts.speech.microsoft.com/cognitiveservices/v1";
-      const ssml =
-        "<speak version='1.0' xml:lang='zh-CN'><voice xml:lang='zh-CN' name='" +
-        AZURE_VOICE_ZH +
-        "'>" +
-        escapeXmlForTts(raw) +
-        "</voice></speak>";
-      try {
-        const res = await fetch(url, {
-          method: "POST",
-          headers: {
-            "Ocp-Apim-Subscription-Key": AZURE_KEY,
-            "Content-Type": "application/ssml+xml",
-            "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3"
-          },
-          body: ssml
-        });
-        if (!res.ok) throw new Error(String(res.status));
-        const blob = await res.blob();
-        const u = URL.createObjectURL(blob);
-        const a = new Audio(u);
-        await new Promise(function (resolve, reject) {
-          a.onended = function () {
-            URL.revokeObjectURL(u);
-            resolve();
-          };
-          a.onerror = reject;
-          a.play().catch(reject);
-        });
-      } catch (e) {
-        try {
-          speechSynthesis.cancel();
-          const u = new SpeechSynthesisUtterance(raw);
-          u.lang = "zh-CN";
-          u.rate = 0.95;
-          speechSynthesis.speak(u);
-        } catch (e2) {}
+      if (window.LessonTTSBootstrap && typeof window.LessonTTSBootstrap.playLocalIfAvailable === "function") {
+        const ok = await window.LessonTTSBootstrap.playLocalIfAvailable(raw);
+        if (ok) return;
       }
+      console.warn("[TTS] 本地 MP3 未找到:", raw.slice(0, 120));
     }
     function speakZh(t) {
       playAzureChinese(t).catch(function () {});
@@ -2082,5 +2026,6 @@
 
     goPage(1);
   </script>
-</body>
+  <link rel="stylesheet" href="assets/lesson-image-lightbox.css" />
+  <script src="assets/lesson-image-lightbox.js" defer></script></body>
 </html>

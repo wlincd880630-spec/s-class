@@ -1,12 +1,15 @@
 <!doctype html>
 <html lang="zh-CN">
 <head>
+  <script src="../shared/play-local-mp3.js"></script>
+  <script src="../shared/lesson-local-audio.js" defer></script>
+  <script src="../shared/lesson-speak-local-only.js"></script>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>第06讲 · Page 01 · Chaos Town Lead-in</title>
+  <title>第06讲 · 第01页 · 课程导入</title>
   <script src="https://aka.ms/csspeech/jsbrowserpackageraw"></script>
   <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
-  <link rel="stylesheet" href="../assets/lesson-screen-16x9.css" />
+  <link rel="stylesheet" href="assets/lesson-screen-16x9.css" />
   <!--
     Veo 视频生成指令：
     - Hallway: chaotic school hallway, students skateboarding and running past lockers, papers flying.
@@ -339,6 +342,19 @@
       }
     }
   </style>
+
+  <script>
+window.__LESSON_TTS_MANIFEST = Object.assign(window.__LESSON_TTS_MANIFEST || {}, {
+  "Hallway": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L06/assets/tts-mp3/4699fa54ada8abac4df2.mp3",
+  "Classroom": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L06/assets/tts-mp3/958c43ffa14a3577b514.mp3",
+  "Library": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L06/assets/tts-mp3/b8100f5ba8bd048a7cf1.mp3"
+});
+  </script>
+  <script src="assets/l06-interaction-tts-manifest.js"></script>
+  <script src="assets/lesson-tts-bootstrap.js"></script>
+  <script src="assets/l06-speak-local.js"></script>
+  <link rel="stylesheet" href="assets/grammar-lesson-pager.css" />
+  <link rel="stylesheet" href="../shared/grammar-logo.css" />
 </head>
 <body class="has-lesson-pager">
   <div id="shakeHost" class="app">
@@ -374,16 +390,16 @@
     </section>
   </div>
 
-  <nav class="lesson-pager" aria-label="课程页导航">
-    <a class="pager-prev" href="../L05/lesson05-page09-handout.html">← 返回 L05 总结</a>
-    <span class="pager-mid">L06 · Page 01 / 07</span>
-    <a class="pager-next" href="./lesson06-page02-cancant.html">下一页 →</a>
+  <nav class="lesson-pager is-file-nav" aria-label="页面导航">
+    <span class="pager-prev pager-muted" aria-disabled="true">上一页</span>
+    <a class="pager-logo" href="../index.html" aria-label="课程主页"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/logo2.png" alt="Steven's Class" width="204" height="61" decoding="async" /></a>
+    <a class="pager-next" href="lesson06-page02-cancant.html">下一页</a>
   </nav>
 
   <script>
     (() => {
-      const AZURE_KEY = "C42UQWeDcluYanbo17WrtUnPhk0vkZy2uQHPTCGDzY6CdEXx99NzJQQJ99BIACqBBLyXJ3w3AAAYACOGjkyu";
-      const AZURE_REGION = "southeastasia";
+      /* AZURE_KEY removed — use local MP3 only */
+    const AZURE_REGION = "southeastasia";
       const LINES = {
         hallway: "Hey! Stop right there! Don't run in the hallways!",
         classroom: "Take off your headphones! Don't listen to music here!",
@@ -465,42 +481,12 @@
       }
 
       async function playAngryRoar(text) {
-        if (!window.SpeechSDK || !AZURE_KEY || !AZURE_REGION) {
-          return false;
+        if (typeof window.playL06Local === "function") {
+          const ok = await window.playL06Local(text);
+          if (ok) return true;
         }
-        const ssml =
-          "<speak version='1.0' xml:lang='en-US' xmlns='http://www.w3.org/2001/10/synthesis' " +
-          "xmlns:mstts='https://www.w3.org/2001/mstts'>" +
-          "<voice name='en-US-GuyNeural'>" +
-          "<mstts:express-as style='angry'>" +
-          "<prosody rate='+10%' pitch='-10%'>" + escapeXml(text) + "</prosody>" +
-          "</mstts:express-as>" +
-          "</voice></speak>";
-
-        return new Promise((resolve) => {
-          try {
-            const speechConfig = window.SpeechSDK.SpeechConfig.fromSubscription(AZURE_KEY, AZURE_REGION);
-            speechConfig.speechSynthesisLanguage = "en-US";
-            speechConfig.speechSynthesisVoiceName = "en-US-GuyNeural";
-            const audioConfig = window.SpeechSDK.AudioConfig.fromDefaultSpeakerOutput();
-            const synthesizer = new window.SpeechSDK.SpeechSynthesizer(speechConfig, audioConfig);
-            synthesizer.speakSsmlAsync(
-              ssml,
-              () => {
-                synthesizer.close();
-                resolve(true);
-              },
-              (err) => {
-                console.error("Azure TTS error:", err);
-                synthesizer.close();
-                resolve(false);
-              }
-            );
-          } catch (err) {
-            console.error("Azure TTS init failed:", err);
-            resolve(false);
-          }
-        });
+        console.warn("[L06] 本地 MP3 未找到:", String(text || "").slice(0, 120));
+        return false;
       }
 
       function shakeScreen() {
@@ -748,5 +734,6 @@
       switchScene(currentScene);
     })();
   </script>
-</body>
+  <link rel="stylesheet" href="assets/lesson-image-lightbox.css" />
+  <script src="assets/lesson-image-lightbox.js" defer></script></body>
 </html>

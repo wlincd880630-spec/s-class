@@ -1,9 +1,15 @@
 <!doctype html>
 <html lang="zh-CN">
 <head>
+  <script src="../shared/play-local-mp3.js"></script>
+  <script src="../shared/lesson-local-audio.js" defer></script>
+  <script src="../shared/lesson-speak-local-only.js"></script>
+  <script src="assets/l06-interaction-tts-manifest.js"></script>
+  <script src="assets/lesson-tts-bootstrap.js"></script>
+  <script src="assets/l06-speak-local.js"></script>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>第06讲 · Page 05 · 规则定制工坊（综合输出）</title>
+  <title>第06讲 · 第05页 · 情境造句练习</title>
   <!--
     Vertex Imagen 3.0 Fast · 校长室讲台与双黑板（可与 assets/vertex 对齐后替换 url）
     背景提示词：A grand wooden podium in a magical school, two large floating blackboards in the background.
@@ -16,7 +22,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="../assets/lesson-screen-16x9.css" />
+  <link rel="stylesheet" href="assets/lesson-screen-16x9.css" />
   <style>
     :root {
       --ink: #2c1810;
@@ -612,6 +618,8 @@
       }
     }
   </style>
+  <link rel="stylesheet" href="assets/grammar-lesson-pager.css" />
+  <link rel="stylesheet" href="../shared/grammar-logo.css" />
 </head>
 <body class="has-lesson-pager">
   <main class="app" id="app">
@@ -698,10 +706,10 @@
     </section>
   </main>
 
-  <nav class="lesson-pager" aria-label="课程页导航">
-    <a class="pager-prev" href="lesson06-page04-mustnt-donthaveto.html">← 上一页 · Page 04</a>
-    <span class="pager-mid">L06 · Page 05 / 11</span>
-    <a class="pager-next" href="lesson06-page06-diary.html">下一页 · Page 06 →</a>
+  <nav class="lesson-pager is-file-nav" aria-label="页面导航">
+    <a class="pager-prev" href="lesson06-page04-mustnt-donthaveto.html">上一页</a>
+    <a class="pager-logo" href="../index.html" aria-label="课程主页"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/logo2.png" alt="Steven's Class" width="204" height="61" decoding="async" /></a>
+    <a class="pager-next" href="lesson06-page06-diary.html">下一页</a>
   </nav>
 
   <script>
@@ -871,45 +879,14 @@
           });
       }
 
-      var synthPending = null;
       function speakRule(text) {
-        if (!window.SpeechSDK) {
-          fallbackSpeech(text);
+        if (typeof window.playL06Local === "function") {
+          window.playL06Local(text).then(function (ok) {
+            if (!ok) console.warn("[L06] 本地 MP3 未找到:", String(text || "").slice(0, 120));
+          });
           return;
         }
-        try {
-          if (synthPending) {
-            try {
-              synthPending.close();
-            } catch (e) {}
-            synthPending = null;
-          }
-          var cfg = SpeechSDK.SpeechConfig.fromSubscription(AZURE_KEY, AZURE_REGION);
-          cfg.speechSynthesisVoiceName = "en-US-AriaNeural";
-          var syn = new SpeechSDK.SpeechSynthesizer(cfg);
-          var ssml =
-            '<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xmlns:mstts="http://www.w3.org/2001/mstts" xml:lang="en-US">' +
-            '<voice name="en-US-AriaNeural">' +
-            '<mstts:express-as style="serious">' +
-            "<prosody rate=\"-4%\">" +
-            escapeXml(text) +
-            "</prosody>" +
-            "</mstts:express-as>" +
-            "</voice></speak>";
-          syn.speakSsmlAsync(
-            ssml,
-            function () {
-              syn.close();
-            },
-            function () {
-              syn.close();
-              fallbackSpeech(text);
-            }
-          );
-          synthPending = syn;
-        } catch (err) {
-          fallbackSpeech(text);
-        }
+        console.warn("[L06] 本地 MP3 未找到:", String(text || "").slice(0, 120));
       }
 
       function escapeXml(s) {
@@ -1452,5 +1429,6 @@
       }
     })();
   </script>
-</body>
+  <link rel="stylesheet" href="assets/lesson-image-lightbox.css" />
+  <script src="assets/lesson-image-lightbox.js" defer></script></body>
 </html>

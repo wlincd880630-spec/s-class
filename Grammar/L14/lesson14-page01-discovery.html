@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>被动语态 —— 工坊发现 · 启发与多模式测验</title>
+  <link rel="stylesheet" href="assets/lesson-screen-16x9.css" />
+  <link rel="stylesheet" href="l14-index-nav.css" />
+  <link rel="stylesheet" href="../shared/grammar-logo.css" />
+  <link rel="stylesheet" href="l14-lesson-shell.css" />
+  <link rel="stylesheet" href="assets/grammar-lesson-pager.css" />
+  <link rel="stylesheet" href="l14-page-components.css" />
+  <link rel="stylesheet" href="l14-page01-layout.css" />
+  <link rel="stylesheet" href="l14-page01-readable-text.css" />
+  <link rel="stylesheet" href="l14-readable-global.css" />
+  <style>
+    :root {
+      --l14-accent: #0d9488; --l14-accent-ink: #0f766e;
+      --l14-top-bg: linear-gradient(180deg, #fff, #f0fdfa);
+      --l14-shadow: rgba(13, 148, 136, 0.35); --l14-dash: rgba(13, 148, 136, 0.35);
+      --paper: #fff9f0; --ink: #2c2c2c; --edge: #5d4037; --shadow-book: rgba(60, 40, 20, 0.14);
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0; min-height: 100dvh;
+      font-family: system-ui, -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: linear-gradient(165deg, #134e4a 0%, #1e3a5f 42%, #0f172a 100%);
+      color: var(--ink); line-height: 1.55;
+    }
+    .editor-note {
+      margin-top: 0.65rem;
+      padding: 0.65rem 0.75rem;
+      border: 2px dashed rgba(13, 148, 136, 0.45);
+      border-radius: 12px;
+      background: rgba(240, 253, 250, 0.82);
+      color: #0f766e;
+      font-size: 0.86rem;
+      font-weight: 750;
+    }
+    .route-strip {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0.45rem;
+      margin-top: 0.65rem;
+    }
+    .route-strip span,
+    .rubric-mini span {
+      display: block;
+      padding: 0.42rem 0.5rem;
+      border: 2px solid rgba(93, 64, 55, 0.18);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.82);
+      font-size: 0.8rem;
+      font-weight: 800;
+      color: #334155;
+    }
+    .teacher-script {
+      margin: 0.45rem 0 0;
+      padding: 0.55rem 0.7rem;
+      border-left: 4px solid var(--l14-accent);
+      background: rgba(255, 255, 255, 0.78);
+      color: #475569;
+      font-size: 0.84rem;
+      font-weight: 700;
+    }
+    .rubric-mini {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.45rem;
+      margin: 0.55rem 0 0.2rem;
+    }
+    @media (max-width: 720px) {
+      .route-strip,
+      .rubric-mini { grid-template-columns: 1fr; }
+    }
+  </style>
+  <link rel="stylesheet" href="l14-scene-images.css" />
+  <script src="l14-ui-helpers.js"></script>
+  <script src="l14-progress.js"></script>
+  <script src="l14-quiz-engine.js?v=3"></script>
+</head>
+<body class="has-lesson-pager">
+  <div id="ui-lock" aria-hidden="true"></div>
+  <div id="app">
+    <div id="l14-book" class="book">
+      <header class="top-bar">
+        <div class="top-bar-main">
+          <strong>被动语态</strong>
+        </div>
+        <a class="l14-index-link" href="index.html">学习目录</a>
+      </header>
+      <div class="l14-scroll">
+
+        <section class="lesson-page active" data-page="1">
+          <div class="panel panel-split panel-goals">
+            <div class="scene-frame">
+              <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L14/assets/img/l14-p01-intro-workshop.png" alt="工坊探秘社" width="800" height="600" style="aspect-ratio:4/3" loading="lazy" />
+            </div>
+            <div>
+              <p class="panel-lead"><strong>今日发现任务</strong>（先观察，后命名）</p>
+              <div class="goal-grid" id="goal-grid"></div>
+              <p class="zh-hint">全课故事线：中国工坊 → 发明馆 → 规则辩论 → 环保语篇 → 将来/完成拓展</p>
+              <div class="route-strip" aria-label="本页学习路径">
+                <span>1. 听场景：先抓承受者</span>
+                <span>2. 比句子：主动变被动</span>
+                <span>3. 归纳式：be + V3</span>
+                <span>4. 测验后：能说清规则</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="2">
+          <div class="page-head"><span class="page-kicker">2 / 14</span><h2 class="page-title">声先行 · 八场景语料库</h2></div>
+          <div class="panel scene-carousel">
+            <p class="panel-lead"><span class="tier-label">分层 A</span>先听中文场景与英文声音 → 判断动作落在谁身上 → 再显示英文</p>
+            <div class="scene-tabs" id="scene-tabs"></div>
+            <div class="scene-stage">
+              <div class="scene-frame" id="scene-img-wrap">
+                <img id="scene-img" src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L14/assets/img/l14-p01-scene-sky-lanterns.png" alt="天灯·工艺" width="800" height="600" style="aspect-ratio:4/3" loading="lazy" />
+              </div>
+              <div class="scene-body">
+                <div class="scene-copy">
+                  <p class="scene-field-label">场景说明</p>
+                  <p class="zh-hint scene-zh" id="scene-zh"></p>
+                  <p class="scene-field-label">英文例句</p>
+                  <p class="en-line en-reveal scene-en" lang="en" id="scene-en"></p>
+                </div>
+                <div class="btn-row scene-actions">
+                  <button type="button" class="btn teal" id="scene-play">🔊 播放场景</button>
+                  <button type="button" class="btn violet" id="scene-reveal">显示英文</button>
+                  <button type="button" class="btn ghost" id="scene-read">朗读例句</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="3">
+          <div class="page-head"><span class="page-kicker">3 / 14</span><h2 class="page-title">启发墙 · 现象猜一猜</h2></div>
+          <div class="panel">
+            <p class="panel-lead">不先背定义：点卡片看「谁承受动作？」</p>
+            <p class="teacher-script">教师提示：本屏只追问“谁被做了这件事？”，暂不要求学生说出完整术语，避免导入阶段认知负荷过高。</p>
+            <div class="insight-wall" id="insight-wall"></div>
+            <p class="fb" id="insight-progress">已揭示 0 / 6</p>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="4">
+          <div class="page-head"><span class="page-kicker">4 / 14</span><h2 class="page-title">苏格拉底阶梯 · 三问</h2></div>
+          <div class="panel socratic-ladder">
+            <p class="teacher-script">追问顺序：动作 → 承受者 → 为什么把承受者放在句首。学生回答中文即可，教师只做关键词板书。</p>
+            <p class="soc-progress" id="soc-progress">第 1 问</p>
+            <div id="soc-steps"></div>
+            <div class="btn-row">
+              <button type="button" class="btn ghost" id="soc-prev" disabled>上一问</button>
+              <button type="button" class="btn teal" id="soc-next">下一问</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="5">
+          <div class="page-head"><span class="page-kicker">5 / 14</span><h2 class="page-title">发现实验室 · 贴承受者</h2></div>
+          <div class="panel receiver-lab">
+            <p class="panel-lead">把「承受者」贴进主语空位 · <span id="lab-pos">1 / 4</span></p>
+            <p class="lab-sentence" lang="en" id="lab-sentence"></p>
+            <div class="slot-row">
+              <button type="button" class="btn ghost chip-pick" data-role="receiver">承受者</button>
+              <button type="button" class="btn ghost chip-pick" data-role="agent">施事者</button>
+            </div>
+            <p class="fb" id="lab-fb"></p>
+            <div class="btn-row">
+              <button type="button" class="btn ghost" id="lab-prev">上一句</button>
+              <button type="button" class="btn ghost" id="lab-next">下一句</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="6">
+          <div class="page-head"><span class="page-kicker">6 / 14</span><h2 class="page-title">对比轮播 · 主动 ↔ 被动</h2></div>
+          <div class="panel compare-carousel-card">
+            <p class="panel-lead">同一事件，两种说法 · 主动强调“谁做”，被动强调“谁承受/结果/地点”</p>
+            <div id="compare-box"></div>
+            <p class="zh-hint" id="compare-note"></p>
+            <div class="btn-row">
+              <button type="button" class="btn ghost" id="compare-prev">上一组</button>
+              <button type="button" class="btn ghost" id="compare-next">下一组</button>
+              <button type="button" class="btn teal" id="compare-speak">朗读本组</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="7">
+          <div class="page-head"><span class="page-kicker">7 / 14</span><h2 class="page-title">教师闸门 · 定义后置</h2></div>
+          <div class="panel teacher-gate" id="teacher-gate">
+            <div class="gate-cover">
+              <p>学生已观察、已提问、已对比。<br />教师点击后公布：核心结构 + 全课时态地图（本页只要求识别与说清）。</p>
+              <button type="button" class="btn violet" id="gate-open">教师 · 公布定义</button>
+            </div>
+            <div class="gate-body">
+              <div class="formula-banner">
+                <p class="big">被动语态 = <span class="hl-be">be</span> + <strong>过去分词</strong></p>
+                <p class="zh-hint">主语是<strong>动作承受者</strong> · 本页先掌握一般现在/一般过去/情态被动；将来和完成作为全课地图预告。</p>
+              </div>
+              <div class="passive-tense-tabs" id="passive-tense-tabs" role="tablist" aria-label="被动时态"></div>
+              <div class="passive-tense-head" id="passive-tense-head"></div>
+              <div class="passive-form-matrix-wrap">
+                <table class="passive-form-matrix" id="passive-form-matrix">
+                  <thead>
+                    <tr>
+                      <th scope="col">句型</th>
+                      <th scope="col">结构</th>
+                      <th scope="col">例句</th>
+                    </tr>
+                  </thead>
+                  <tbody id="passive-form-tbody"></tbody>
+                </table>
+              </div>
+              <div class="btn-row gate-speak-row">
+                <button type="button" class="btn ghost" id="gate-speak-all">朗读本时态四句</button>
+                <button type="button" class="btn teal" id="gate-speak-one">朗读选中例句</button>
+              </div>
+              <p class="editor-note">出版提示：本表用于“看见规律”，不是一次性背完。授课时可先停留在前三个标签；学有余力班级再点击“将来/完成”。</p>
+              <p class="rule-box teal" id="def-note"></p>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="8">
+          <div class="page-head"><span class="page-kicker">8 / 14</span><h2 class="page-title">测验模式 A · 谁是承受者？</h2></div>
+          <div class="panel panel-quiz-mode">
+            <p class="panel-lead"><span class="tier-label">分层 B</span>每题一屏 · 8 秒倒计时 · 共 8 题</p>
+            <div class="quiz-timer-bar" id="timer-bar-a"><div class="quiz-timer-fill" id="timer-fill-a"></div><span class="quiz-timer-text" id="timer-text-a">8</span></div>
+            <div class="quick-quiz-stage">
+              <div class="quiz-slot" id="quiz-a"></div>
+              <div class="quiz-fx" id="quiz-fx-a" hidden aria-hidden="true"></div>
+            </div>
+            <div class="quiz-foot">
+              <span class="quiz-progress" id="prog-a">1 / 8</span>
+              <div class="carousel-dots quiz-dots" id="dots-a"></div>
+            </div>
+            <div class="btn-row">
+              <button type="button" class="btn ghost" data-quiz-prev="a">上一题</button>
+              <button type="button" class="btn ghost" data-quiz-next="a">下一题</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="9">
+          <div class="page-head"><span class="page-kicker">9 / 14</span><h2 class="page-title">测验模式 B · 主动还是被动？</h2></div>
+          <div class="panel panel-quiz-mode">
+            <p class="panel-lead"><span class="tier-label">分层 B</span>判断语态 · 6 题 · 可选计时</p>
+            <div class="quiz-timer-bar" id="timer-bar-b"><div class="quiz-timer-fill" id="timer-fill-b"></div><span class="quiz-timer-text" id="timer-text-b">8</span></div>
+            <div class="quick-quiz-stage">
+              <div class="quiz-slot" id="quiz-b"></div>
+              <div class="quiz-fx" id="quiz-fx-b" hidden aria-hidden="true"></div>
+            </div>
+            <div class="quiz-foot">
+              <span class="quiz-progress" id="prog-b">1 / 6</span>
+              <div class="carousel-dots quiz-dots" id="dots-b"></div>
+            </div>
+            <div class="btn-row">
+              <button type="button" class="btn ghost" data-quiz-prev="b">上一题</button>
+              <button type="button" class="btn ghost" data-quiz-next="b">下一题</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="10">
+          <div class="page-head"><span class="page-kicker">10 / 14</span><h2 class="page-title">测验模式 C · 听音选句</h2></div>
+          <div class="panel panel-quiz-mode">
+            <p class="panel-lead"><span class="tier-label tier-b">分层 B+</span>先听再选 · 6 题</p>
+            <div class="quick-quiz-stage">
+              <div class="quiz-slot" id="quiz-c"></div>
+              <div class="quiz-fx" id="quiz-fx-c" hidden aria-hidden="true"></div>
+            </div>
+            <div class="quiz-foot">
+              <span class="quiz-progress" id="prog-c">1 / 6</span>
+              <div class="carousel-dots quiz-dots" id="dots-c"></div>
+            </div>
+            <div class="btn-row">
+              <button type="button" class="btn teal" id="listen-play">🔊 播放本题</button>
+              <button type="button" class="btn ghost" data-quiz-prev="c">上一题</button>
+              <button type="button" class="btn ghost" data-quiz-next="c">下一题</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="11">
+          <div class="page-head"><span class="page-kicker">11 / 14</span><h2 class="page-title">测验模式 D · 易错陷阱</h2></div>
+          <div class="panel">
+            <p class="panel-lead"><span class="tier-label tier-b">分层 C</span>先读错句 ✗ · 再点「显示正句」</p>
+            <div id="trap-box"></div>
+            <div class="btn-row">
+              <button type="button" class="btn ghost" id="trap-prev">上一题</button>
+              <button type="button" class="btn ghost" id="trap-next">下一题</button>
+              <button type="button" class="btn violet" id="trap-reveal">显示正句</button>
+            </div>
+            <p class="zh-hint" id="trap-pos">1 / 5</p>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="12">
+          <div class="page-head"><span class="page-kicker">12 / 14</span><h2 class="page-title">学生总结 · 你说清被动语态</h2></div>
+          <div class="panel summary-panel">
+            <p class="panel-lead">勾选关键词 + 用中文写一句总结 + 对照清单自评</p>
+            <div class="summary-chips" id="summary-chips"></div>
+            <label class="zh-hint">我的总结（中文）：</label>
+            <textarea class="summary-write" id="summary-write" placeholder="例如：被动语态把承受者放在主语位置，结构是 be + 过去分词……"></textarea>
+            <p class="teacher-script">分层出口：A 层说出“谁承受动作”；B 层说出“be + V3”；C 层能用 1 个主动句改写成被动句。</p>
+            <p class="rule-box amber">对照清单（能说出即过关）：</p>
+            <ul class="checklist" id="checklist"></ul>
+            <p class="fb" id="summary-score">自评：已选 0 项关键词</p>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="13">
+          <div class="page-head"><span class="page-kicker">13 / 14</span><h2 class="page-title">本课语料库回顾</h2></div>
+          <div class="panel corpus-table-wrap">
+            <p class="panel-lead">本课核心例句速查 · 先读熟三类核心，再认读两类拓展</p>
+            <table class="corpus-mini" id="corpus-table"></table>
+          </div>
+        </section>
+
+        <section class="lesson-page" data-page="14">
+          <div class="page-head"><span class="page-kicker">14 / 14</span><h2 class="page-title">→ Page 02 构成精讲</h2></div>
+          <div class="panel panel-channel">
+            <p class="rule-box teal">过关建议：模式 A≥6/8 · 模式 B≥5/6 · 总结写满 1 句</p>
+            <div class="rubric-mini" aria-label="出口评价标准">
+              <span>基础达标：能找承受者</span>
+              <span>稳固达标：能圈出 be + V3</span>
+              <span>挑战达标：能说出为何省略 by</span>
+            </div>
+            <a class="channel-btn" href="lesson14-page02-form-be-done.html">进入 Page 02 · be + 过去分词</a>
+            <p class="channel-links"><a href="index.html">学习目录</a></p>
+          </div>
+        </section>
+
+      </div>
+    </div>
+    <nav class="lesson-pager is-intra-nav" aria-label="分页">
+      <div class="pager-zone pager-zone--left">
+        <button type="button" class="pager-prev" id="pager-prev">上一页</button>
+      </div>
+      <a class="pager-logo" href="../index.html" aria-label="课程主页"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/logo2.png" alt="Steven's Class" width="204" height="61" decoding="async" /></a>
+      <div class="pager-zone pager-zone--right">
+        <span class="pager-mid" id="pager-mid">1 / 14</span>
+        <button type="button" class="pager-next" id="pager-next">下一页</button>
+      </div>
+    </nav>
+  </div>
+  <script src="l14-corpus-pool.js?v=5"></script>
+  <script src="l14-image-lightbox.js"></script>
+  <script src="l14-index-nav.js"></script>
+  <script>
+(function () {
+  "use strict";
+
+  const AZURE_KEY = "C42UQWeDcluYanbo17WrtUnPhk0vkZy2uQHPTCGDzY6CdExx99NzJQQJ99BIACqBBLyXJ3w3AAAYACOGjkyu";
+  const AZURE_REGION = "southeastasia";
+  const VOICE_EN = "en-US-AriaNeural";
+  const PAGE_COUNT = 14;
+  const QUIZ_TIME_SEC = 8;
+  const PROGRESS_ID = "lesson14-page01";
+  const PROGRESS_VERSION = 3;
+  const defaultProgress = function () {
+    return {
+      version: PROGRESS_VERSION,
+      page: 1,
+      sceneIdx: 0,
+      enShown: {},
+      quizzes: {}
+    };
+  };
+  let progress = defaultProgress();
+  function persistProgress() {
+    if (window.L14Progress) L14Progress.save(PROGRESS_ID, progress);
+  }
+
+  const P14 = L14Corpus.getPage("page01", {
+    goals: [
+      "听读八则真实语境，先发现「动作落在谁身上」",
+      "通过启发墙与三问阶梯，归纳「承受者作主语」",
+      "对比主动句与被动句，说清表达焦点的变化",
+      "掌握本页核心：am/is/are、was/were、情态 + be + V3",
+      "认读拓展地图：will be + V3；have/has been + V3",
+      "完成四模式测验，并用一句中文说清被动语态"
+    ],
+    defNote: "核心口诀：承受者作主语，be 随时态和主语变化，动词用过去分词；by 点出执行者，不重要或不清楚时常省略。拓展：will be done 表将来将被……；have/has been done 表已经被……。",
+    summaryChips: ["承受者作主语", "be + 过去分词", "am/is/are", "was/were", "情态 + be done", "by 执行者", "will be done", "have/has been done"],
+    checklist: [
+      "我能找出被动句里的承受者",
+      "我能圈出 be + 过去分词",
+      "我能区分主动句和被动句的表达焦点",
+      "我能判断一般现在/一般过去/情态被动",
+      "我知道 by 短语什么时候必须说、什么时候可省略",
+      "我能认读 will be done 和 have/has been done"
+    ]
+  });
+  const PASSIVE_TENSE_ORDER = ["present", "past", "modal", "future", "present-perfect"];
+  if (Array.isArray(P14.passiveFormMatrix)) {
+    P14.passiveFormMatrix.sort(function (a, b) {
+      var ai = PASSIVE_TENSE_ORDER.indexOf(a.id);
+      var bi = PASSIVE_TENSE_ORDER.indexOf(b.id);
+      return (ai === -1 ? 99 : ai) - (bi === -1 ? 99 : bi);
+    });
+  }
+
+  let currentPage = 1;
+  let sceneIdx = 0;
+  let socIdx = 0;
+  let labIdx = 0;
+  let compareIdx = 0;
+  let trapIdx = 0;
+  let insightCount = 0;
+
+  const quizEngines = {};
+
+  function escHtml(s) {
+    return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+  function lockUI() { document.getElementById("ui-lock").classList.add("active"); }
+  function unlockUI() { document.getElementById("ui-lock").classList.remove("active"); }
+
+  async function playAudio(text) {
+    if (!text) return;
+    lockUI();
+    const body = "<speak version='1.0' xml:lang='en-US'><voice name='" + VOICE_EN + "'>" +
+      escHtml(text) + "</voice></speak>";
+    const url = "https://" + AZURE_REGION + ".tts.speech.microsoft.com/cognitiveservices/v1";
+    try {
+      const res = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Ocp-Apim-Subscription-Key": AZURE_KEY,
+          "Content-Type": "application/ssml+xml",
+          "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3"
+        },
+        body: body
+      });
+      if (!res.ok) throw new Error();
+      const blob = await res.blob();
+      const u = URL.createObjectURL(blob);
+      const a = new Audio(u);
+      await new Promise(function (ok, err) {
+        a.onended = function () { URL.revokeObjectURL(u); ok(); };
+        a.onerror = err;
+        a.play().catch(err);
+      });
+    } catch (e) {
+      speechSynthesis.speak(new SpeechSynthesisUtterance(text));
+    } finally {
+      unlockUI();
+    }
+  }
+
+  function leaveAllQuizzes() {
+    Object.keys(quizEngines).forEach(function (k) {
+      if (quizEngines[k] && quizEngines[k].onLeave) quizEngines[k].onLeave();
+    });
+  }
+
+  function bindQuiz(key, items, useTimer) {
+    const engine = L14Quiz.create({
+      key: key,
+      items: items,
+      useTimer: useTimer,
+      escHtml: escHtml,
+      quizTimeSec: QUIZ_TIME_SEC,
+      initialState: progress.quizzes[key],
+      onStateChange: function (st) {
+        progress.quizzes[key] = st;
+        persistProgress();
+      }
+    });
+    engine.init();
+    return engine;
+  }
+
+  function goPage(n) {
+    if (n < 1 || n > PAGE_COUNT) return;
+    leaveAllQuizzes();
+    currentPage = n;
+    progress.page = n;
+    persistProgress();
+    document.querySelectorAll(".lesson-page").forEach(function (el) {
+      el.classList.toggle("active", parseInt(el.dataset.page, 10) === n);
+    });
+    document.getElementById("pager-mid").textContent = n + " / " + PAGE_COUNT;
+    document.getElementById("pager-prev").disabled = n <= 1;
+    document.getElementById("pager-next").disabled = n >= PAGE_COUNT;
+    if (n === 8 && quizEngines.a) quizEngines.a.onEnter();
+    if (n === 9 && quizEngines.b) quizEngines.b.onEnter();
+    if (n === 10 && quizEngines.c) quizEngines.c.onEnter();
+  }
+
+  function initGoals() {
+    const box = document.getElementById("goal-grid");
+    P14.goals.forEach(function (g) {
+      const d = document.createElement("div");
+      d.className = "goal-card";
+      d.textContent = g;
+      box.appendChild(d);
+    });
+  }
+
+  function renderScene(i) {
+    sceneIdx = (i + P14.scenes.length) % P14.scenes.length;
+    progress.sceneIdx = sceneIdx;
+    persistProgress();
+    const s = P14.scenes[sceneIdx];
+    document.getElementById("scene-img").src = s.img;
+    document.getElementById("scene-img").alt = s.tag;
+    document.getElementById("scene-zh").textContent = s.zh;
+    document.getElementById("scene-en").textContent = s.en;
+    document.getElementById("scene-en").classList.remove("is-shown");
+    document.querySelectorAll("#scene-tabs button").forEach(function (b, j) {
+      b.classList.toggle("active", j === sceneIdx);
+    });
+  }
+
+  function initScenes() {
+    const tabs = document.getElementById("scene-tabs");
+    P14.scenes.forEach(function (s, j) {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.textContent = s.tag;
+      b.addEventListener("click", function () { renderScene(j); });
+      tabs.appendChild(b);
+    });
+    renderScene(sceneIdx);
+    document.getElementById("scene-play").addEventListener("click", function () {
+      playAudio(P14.scenes[sceneIdx].sound);
+    });
+    document.getElementById("scene-reveal").addEventListener("click", function () {
+      document.getElementById("scene-en").classList.add("is-shown");
+    });
+    document.getElementById("scene-read").addEventListener("click", function () {
+      playAudio(P14.scenes[sceneIdx].en);
+    });
+  }
+
+  function initInsights() {
+    const wall = document.getElementById("insight-wall");
+    insightCount = 0;
+    P14.insights.forEach(function (item) {
+      const card = document.createElement("button");
+      card.type = "button";
+      card.className = "insight-card";
+      card.innerHTML = "<p class='insight-q' lang='en'>" + escHtml(item.q) + "</p><p class='insight-a'>" + escHtml(item.a) + "</p>";
+      card.addEventListener("click", function () {
+        if (!card.classList.contains("revealed")) {
+          card.classList.add("revealed");
+          insightCount++;
+          document.getElementById("insight-progress").textContent =
+            "已揭示 " + insightCount + " / " + P14.insights.length;
+        }
+      });
+      wall.appendChild(card);
+    });
+  }
+
+  function renderSoc() {
+    document.getElementById("soc-progress").textContent = "第 " + (socIdx + 1) + " / " + P14.socratic.length + " 问";
+    document.querySelectorAll(".soc-step").forEach(function (el, j) {
+      el.classList.toggle("active", j === socIdx);
+    });
+    document.getElementById("soc-prev").disabled = socIdx <= 0;
+    document.getElementById("soc-next").textContent = socIdx >= P14.socratic.length - 1 ? "完成" : "下一问";
+  }
+
+  function initSocratic() {
+    const box = document.getElementById("soc-steps");
+    P14.socratic.forEach(function (step, si) {
+      const div = document.createElement("div");
+      div.className = "soc-step";
+      div.dataset.idx = String(si);
+      div.innerHTML = "<p class='soc-num'>问 " + (si + 1) + "</p><p class='en-line' lang='en'>" + escHtml(step.q) + "</p>";
+      const row = document.createElement("div");
+      row.className = "opt-row";
+      const fb = document.createElement("p");
+      fb.className = "fb";
+      step.opts.forEach(function (opt) {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "btn ghost";
+        btn.textContent = opt;
+        btn.addEventListener("click", function () {
+          row.querySelectorAll("button").forEach(function (b) { b.disabled = true; });
+          if (opt === step.ans) {
+            btn.classList.add("ok");
+            fb.textContent = "✓ " + step.fb;
+          } else {
+            btn.classList.add("bad");
+            fb.textContent = step.fb;
+          }
+        });
+        row.appendChild(btn);
+      });
+      div.appendChild(row);
+      div.appendChild(fb);
+      box.appendChild(div);
+    });
+    renderSoc();
+    document.getElementById("soc-prev").addEventListener("click", function () {
+      if (socIdx > 0) { socIdx--; renderSoc(); }
+    });
+    document.getElementById("soc-next").addEventListener("click", function () {
+      if (socIdx < P14.socratic.length - 1) { socIdx++; renderSoc(); }
+    });
+  }
+
+  function renderLab() {
+    const item = P14.lab[labIdx];
+    document.getElementById("lab-pos").textContent = (labIdx + 1) + " / " + P14.lab.length;
+    document.getElementById("lab-sentence").innerHTML = item.parts.map(function (p) {
+      if (p === "___") return '<button type="button" class="btn ghost slot-btn" id="lab-slot">?</button>';
+      return escHtml(p) + " ";
+    }).join("");
+    document.getElementById("lab-fb").textContent = "";
+    const slot = document.getElementById("lab-slot");
+    document.querySelectorAll(".receiver-lab .chip-pick").forEach(function (btn) {
+      btn.onclick = function () {
+        if (btn.dataset.role === "receiver") {
+          slot.textContent = item.receiver;
+          slot.className = "btn ghost slot-btn filled-passive";
+          document.getElementById("lab-fb").textContent = item.fb;
+        } else {
+          document.getElementById("lab-fb").textContent = "施事者常放 by 后或省略。";
+        }
+      };
+    });
+  }
+
+  function initLab() {
+    renderLab();
+    document.getElementById("lab-prev").addEventListener("click", function () {
+      labIdx = (labIdx - 1 + P14.lab.length) % P14.lab.length;
+      renderLab();
+    });
+    document.getElementById("lab-next").addEventListener("click", function () {
+      labIdx = (labIdx + 1) % P14.lab.length;
+      renderLab();
+    });
+  }
+
+  function renderCompare() {
+    const c = P14.compare[compareIdx];
+    document.getElementById("compare-box").innerHTML =
+      "<div class='compare-pair-box'>" +
+      "<p class='line' lang='en'><span class='mark-active'>主动</span> " + escHtml(c.active) + "</p>" +
+      "<p class='line' lang='en'><span class='mark-passive'>被动</span> " + escHtml(c.passive) + "</p>" +
+      "</div>";
+    document.getElementById("compare-note").textContent = "提示：" + c.note + "（" + (compareIdx + 1) + "/" + P14.compare.length + "）";
+  }
+
+  function initCompare() {
+    renderCompare();
+    document.getElementById("compare-prev").addEventListener("click", function () {
+      compareIdx = (compareIdx - 1 + P14.compare.length) % P14.compare.length;
+      renderCompare();
+    });
+    document.getElementById("compare-next").addEventListener("click", function () {
+      compareIdx = (compareIdx + 1) % P14.compare.length;
+      renderCompare();
+    });
+    document.getElementById("compare-speak").addEventListener("click", function () {
+      const c = P14.compare[compareIdx];
+      playAudio(c.active + " " + c.passive);
+    });
+  }
+
+  let passiveTenseIdx = 0;
+  let passiveFormRowIdx = 0;
+
+  function renderPassiveFormMatrix() {
+    const list = P14.passiveFormMatrix || [];
+    const block = list[passiveTenseIdx];
+    const head = document.getElementById("passive-tense-head");
+    const tbody = document.getElementById("passive-form-tbody");
+    if (!block || !head || !tbody) return;
+
+    head.innerHTML =
+      "<p class='passive-formula-line'><strong>" + escHtml(block.label) + "</strong> · " +
+      "<span lang='en'>" + escHtml(block.formula) + "</span></p>" +
+      "<p class='zh-hint'>" + escHtml(block.beHint) + "</p>";
+
+    tbody.innerHTML = "";
+    block.forms.forEach(function (row, i) {
+      const tr = document.createElement("tr");
+      tr.className = "passive-form-row" + (i === passiveFormRowIdx ? " is-selected" : "");
+      tr.innerHTML =
+        "<td class='kind'>" + escHtml(row.kind) + "</td>" +
+        "<td class='structure'><span class='struct-zh'>" + escHtml(row.zh) + "</span><br><code lang='en'>" + escHtml(row.structure) + "</code></td>" +
+        "<td class='example' lang='en'>" + escHtml(row.en) + "</td>";
+      tr.addEventListener("click", function () {
+        passiveFormRowIdx = i;
+        renderPassiveFormMatrix();
+      });
+      tbody.appendChild(tr);
+    });
+
+    document.querySelectorAll("#passive-tense-tabs button").forEach(function (btn, j) {
+      btn.classList.toggle("active", j === passiveTenseIdx);
+    });
+  }
+
+  function initGate() {
+    const tabs = document.getElementById("passive-tense-tabs");
+    (P14.passiveFormMatrix || []).forEach(function (block, i) {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.setAttribute("role", "tab");
+      b.textContent = block.label.replace(/被动/g, "").replace(/一般/g, "");
+      b.addEventListener("click", function () {
+        passiveTenseIdx = i;
+        passiveFormRowIdx = 0;
+        renderPassiveFormMatrix();
+      });
+      tabs.appendChild(b);
+    });
+
+    document.getElementById("def-note").textContent = P14.defNote;
+    renderPassiveFormMatrix();
+
+    document.getElementById("gate-speak-one").addEventListener("click", function () {
+      const block = P14.passiveFormMatrix[passiveTenseIdx];
+      if (block && block.forms[passiveFormRowIdx]) playAudio(block.forms[passiveFormRowIdx].en);
+    });
+    document.getElementById("gate-speak-all").addEventListener("click", function () {
+      const block = P14.passiveFormMatrix[passiveTenseIdx];
+      if (!block) return;
+      playAudio(block.forms.map(function (r) { return r.en; }).join(" "));
+    });
+    document.getElementById("gate-open").addEventListener("click", function () {
+      document.getElementById("teacher-gate").classList.add("is-open");
+    });
+  }
+
+  function initTraps() {
+    function renderTrap() {
+      const t = P14.traps[trapIdx];
+      document.getElementById("trap-pos").textContent = (trapIdx + 1) + " / " + P14.traps.length;
+      document.getElementById("trap-box").innerHTML =
+        "<div class='trap-card' id='trap-card'>" +
+        "<p class='wrong-line' lang='en'>✗ " + escHtml(t.wrong) + "</p>" +
+        "<p class='right-line' lang='en'>✓ " + escHtml(t.right) + "</p>" +
+        "<p class='zh-hint'>" + escHtml(t.note) + "</p></div>";
+    }
+    renderTrap();
+    document.getElementById("trap-reveal").addEventListener("click", function () {
+      const card = document.getElementById("trap-card");
+      if (card) card.classList.add("revealed");
+    });
+    document.getElementById("trap-prev").addEventListener("click", function () {
+      trapIdx = (trapIdx - 1 + P14.traps.length) % P14.traps.length;
+      renderTrap();
+    });
+    document.getElementById("trap-next").addEventListener("click", function () {
+      trapIdx = (trapIdx + 1) % P14.traps.length;
+      renderTrap();
+    });
+  }
+
+  function initSummary() {
+    const chips = document.getElementById("summary-chips");
+    P14.summaryChips.forEach(function (t) {
+      const lab = document.createElement("label");
+      const inp = document.createElement("input");
+      inp.type = "checkbox";
+      inp.addEventListener("change", updateSummaryScore);
+      lab.appendChild(inp);
+      lab.appendChild(document.createTextNode(" " + t));
+      chips.appendChild(lab);
+    });
+    const ul = document.getElementById("checklist");
+    P14.checklist.forEach(function (t) {
+      const li = document.createElement("li");
+      li.textContent = t;
+      ul.appendChild(li);
+    });
+    function updateSummaryScore() {
+      const n = chips.querySelectorAll("input:checked").length;
+      document.getElementById("summary-score").textContent = "自评：已选 " + n + " 项关键词";
+    }
+    updateSummaryScore();
+  }
+
+  function initCorpus() {
+    L14UI.initCorpusTable("corpus-table", P14.corpus, escHtml);
+  }
+
+  function initLesson() {
+    var loaded = window.L14Progress && L14Progress.load(PROGRESS_ID);
+    if (loaded) {
+      progress = Object.assign(defaultProgress(), loaded);
+      if (!progress.enShown) progress.enShown = {};
+      if (!progress.quizzes) progress.quizzes = {};
+      if (typeof progress.sceneIdx === "number") sceneIdx = progress.sceneIdx;
+      if (!progress.version || progress.version < PROGRESS_VERSION) {
+        progress.quizzes = {};
+        progress.version = PROGRESS_VERSION;
+        persistProgress();
+      }
+    }
+initGoals();
+    initScenes();
+    initInsights();
+    initSocratic();
+    initLab();
+    initCompare();
+    initGate();
+    quizEngines.a = bindQuiz("a", P14.quizReceiver, true);
+    quizEngines.b = bindQuiz("b", P14.quizVoice, true);
+    quizEngines.c = bindQuiz("c", P14.quizListen, false);
+    document.getElementById("listen-play").addEventListener("click", function () {
+      const a = quizEngines.c.getAudio();
+      if (a) playAudio(a);
+    });
+    initTraps();
+    initSummary();
+    initCorpus();
+    document.getElementById("pager-prev").addEventListener("click", function () { goPage(currentPage - 1); });
+    document.getElementById("pager-next").addEventListener("click", function () { goPage(currentPage + 1); });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "ArrowLeft" && currentPage > 1) goPage(currentPage - 1);
+      if (e.key === "ArrowRight" && currentPage < PAGE_COUNT) goPage(currentPage + 1);
+    });
+    var startPage = progress.page || 1;
+    if (startPage < 1 || startPage > PAGE_COUNT) startPage = 1;
+    goPage(startPage);
+  }
+
+  initLesson();
+})();
+  </script>
+</body>
+</html>

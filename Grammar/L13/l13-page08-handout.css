@@ -32,9 +32,12 @@ body.l13-handout-page {
     radial-gradient(circle at 88% 88%, rgba(204, 251, 241, 0.35) 0%, transparent 40%),
     linear-gradient(168deg, #ddd6fe 0%, #f0fdfa 38%, #e2e8f0 100%);
   color: var(--ink);
-  padding: 0 1rem 3rem;
   line-height: 1.65;
   font-size: 16px;
+}
+
+body.l13-handout-page.grammar-handout-page {
+  padding: 0 1rem calc(var(--grammar-pager-gap, 2.75rem) + 0.5rem);
 }
 
 /* 顶栏（对齐互动课 top-bar） */
@@ -475,10 +478,13 @@ summary {
   font-size: 0.96rem;
 }
 
-.footer-min {
+.footer-min,
+body.l13-handout-page .grammar-handout-footer {
   text-align: center;
-  margin-top: 1rem;
-  font-size: 0.8rem;
+  margin-top: 1.25rem;
+  padding-top: 0.65rem;
+  border-top: 1px solid rgba(109, 40, 217, 0.3);
+  font-size: 0.78rem;
   font-weight: 700;
   color: #64748b;
 }
@@ -487,29 +493,36 @@ summary {
   font-weight: 900;
 }
 
+body.grammar-handout-page main.sheet.l13-handout {
+  max-width: var(--gh-sheet-max, 900px);
+}
+
 @media (max-width: 720px) {
   .grid-2 {
     grid-template-columns: 1fr;
   }
 }
 
+/* 页边距/正文字号：见shared/grammar-handout-print.css */
 @media print {
-  @page { size: A4 portrait; margin: 12mm; }
   body.l13-handout-page {
     padding: 0;
-    background: #fff;
+    background: #fff !important;
   }
+  body.l13-handout-page .grammar-handout-top,
+  body.l13-handout-page .grammar-handout-pdf-bar,
+  body.l13-handout-page .handout-section-nav,
+  body.l13-handout-page .lesson-pager,
   .l13-handout-top,
   .handout-pdf-bar,
-  .handout-section-nav,
   .no-print-hint {
     display: none !important;
   }
   .sheet {
-    border: 1px solid #333;
+    border: none;
     box-shadow: none;
     border-radius: 0;
-    padding: 0.4rem;
+    padding: 0;
     max-width: none;
     width: 100%;
   }
@@ -523,11 +536,10 @@ summary {
     width: 100%;
     margin: 0 0 0.5rem;
   }
-  details:not([open]) > *:not(summary) { display: block; }
   .card,
   .data,
-  details,
   .quote-box,
+  .grammar-handout-footer,
   .write-lines,
   .story-list > .story-block,
   .cover-banner,

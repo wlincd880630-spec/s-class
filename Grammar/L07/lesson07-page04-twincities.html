@@ -3,7 +3,10 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>第07讲 · Page 04 · Twin Cities Data Clash — 双城数据对决</title>
+  <title>第07讲 · 第04页 · 比较级语篇运用</title>
+  <script src="../shared/play-local-mp3.js"></script>
+  <script src="../shared/lesson-local-audio.js" defer></script>
+  <script src="../shared/lesson-speak-local-only.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=ZCOOL+KuaiLe&family=Bebas+Neue&display=swap" rel="stylesheet" />
@@ -569,8 +572,10 @@
       text-align: center;
     }
   </style>
+  <link rel="stylesheet" href="assets/grammar-lesson-pager.css" />
+  <link rel="stylesheet" href="../shared/grammar-logo.css" />
 </head>
-<body>
+<body class="has-lesson-pager">
   <div id="holo-bg">
     <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L07/assets/page04-twincities/l07-page04-holo-dashboard.png" alt="" />
   </div>
@@ -650,7 +655,7 @@
 
   /** 本地语音目录：预生成 MP3 置于 voice/ */
   var VOICE_BASE =
-    "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L07/assets/page04-twincities/voice/";
+    "assets/page04-twincities/voice/";
   var VOICE_FILES = {
     essay_bj: "essay-bj.mp3",
     essay_cd: "essay-cd.mp3",
@@ -787,7 +792,26 @@
         audioBusy = false;
         resolve(!!ok);
       }
-      var a = new Audio(VOICE_BASE + file);
+      var src = VOICE_BASE + file;
+      if (typeof window.playLocalMp3Url === "function") {
+        window.playLocalMp3Url(src).then(finish);
+        return;
+      }
+      if (typeof window.playLocalMp3Url === "function") {
+
+        window.playLocalMp3Url(src).then(function (ok) {
+
+          if (!ok) console.warn("[LessonAudio] 本地 MP3 播放失败:", src);
+
+          resolve(!!ok);
+
+        });
+
+        return;
+
+      }
+
+      var a = new Audio(src);
       a.addEventListener("ended", function () {
         finish(true);
       });
@@ -1360,5 +1384,11 @@
   mountBronze();
 })();
   </script>
-</body>
+  <link rel="stylesheet" href="assets/lesson-image-lightbox.css" />
+  <script src="assets/lesson-image-lightbox.js" defer></script>
+<nav class="lesson-pager is-file-nav" aria-label="页面导航">
+    <a class="pager-prev" href="lesson07-page03-balance.html">上一页</a>
+    <a class="pager-logo" href="../index.html" aria-label="课程主页"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/logo2.png" alt="Steven's Class" width="204" height="61" decoding="async" /></a>
+    <a class="pager-next" href="lesson07-page05-more-comparative.html">下一页</a>
+  </nav></body>
 </html>
