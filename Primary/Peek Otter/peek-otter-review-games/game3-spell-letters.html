@@ -1,0 +1,523 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>看图拼词 · Peek, Otter!</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Patrick+Hand&family=Noto+Sans+SC:wght@500;700&display=swap" rel="stylesheet" />
+  <script src="audio/audio-manifest.js"></script>
+  <script src="audio/local-audio.js"></script>
+  <script src="azure-tts.js"></script>
+  <script src="words-data.js"></script>
+  <style>
+    :root {
+      --gold: #f5c400;
+      --ink: #1a1a1a;
+      --paper: #f7f5f0;
+      --accent: #00838F;
+      --pic-ar: 4 / 3;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Noto Sans SC", sans-serif;
+      min-height: 100vh;
+      background: linear-gradient(165deg, #37474f, #1b2327);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0.75rem 0.5rem 2rem;
+    }
+    .toolbar {
+      width: 100%;
+      max-width: 46rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      padding: 0.65rem 1rem;
+      background: #fffef8;
+      border-bottom: 3px solid var(--gold);
+      margin-bottom: 1rem;
+      border-radius: 0 0 8px 8px;
+    }
+    .toolbar h1 { font-family: "Fredoka", sans-serif; font-size: 1.05rem; color: var(--ink); }
+    .toolbar .meta { font-size: 0.8rem; color: #78909c; }
+    .toolbar .btns { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+    .btn {
+      font-family: "Fredoka", sans-serif;
+      font-weight: 700;
+      border: none;
+      border-radius: 999px;
+      padding: 0.45rem 1rem;
+      cursor: pointer;
+      font-size: 0.88rem;
+      background: #fff;
+      border: 2px solid var(--ink);
+      color: var(--ink);
+    }
+    .btn.primary { background: var(--gold); border-color: #c9a008; }
+    .btn.big { font-size: 1.05rem; padding: 0.65rem 1.75rem; }
+    .stage {
+      width: min(46rem, 100%);
+      background: var(--paper);
+      border-radius: 10px;
+      padding: 1rem 0.85rem 1.25rem;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+      border-left: 4px solid var(--gold);
+    }
+    .setup-panel.hidden { display: none; }
+    .setup-title {
+      font-family: "Fredoka", sans-serif;
+      font-size: 1.1rem;
+      color: var(--accent);
+      text-align: center;
+      margin-bottom: 0.5rem;
+    }
+    .setup-hint {
+      text-align: center;
+      font-size: 0.85rem;
+      color: #78909c;
+      line-height: 1.55;
+      margin-bottom: 1rem;
+    }
+    .choice-row { display: flex; flex-wrap: wrap; gap: 0.45rem; justify-content: center; margin-bottom: 1rem; }
+    .choice {
+      font-family: "Fredoka", sans-serif;
+      font-size: 0.88rem;
+      font-weight: 600;
+      padding: 0.5rem 0.85rem;
+      border: 2.5px solid #d4cfc3;
+      border-radius: 12px;
+      background: #fff;
+      cursor: pointer;
+      color: var(--ink);
+    }
+    .choice.on { border-color: var(--accent); background: #e8f5e9; color: var(--accent); }
+    .choice small { display: block; font-size: 0.68rem; font-weight: 500; color: #90a4ae; margin-top: 0.12rem; }
+    .setup-actions { text-align: center; }
+    .play-panel { display: none; }
+    .play-panel.on { display: block; }
+    .progress {
+      text-align: center;
+      font-size: 0.88rem;
+      color: #546e7a;
+      margin-bottom: 0.65rem;
+    }
+    .progress strong { color: var(--accent); font-family: "Fredoka", sans-serif; }
+    .hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.85rem;
+    }
+    .hero .pic-box {
+      width: min(14rem, 72vw);
+      aspect-ratio: var(--pic-ar, 4 / 3);
+      background: #fff;
+      border: 2.5px solid #d4cfc3;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.4rem;
+    }
+    .hero .pic-box img { max-width: 100%; max-height: 100%; object-fit: contain; }
+    .hero .emo { font-size: 4rem; display: none; }
+    .hero .zh { font-size: 0.85rem; color: #78909c; }
+    .btn-hear {
+      font-family: "Fredoka", sans-serif;
+      padding: 0.4rem 1.1rem;
+      border-radius: 999px;
+      border: 2px solid var(--ink);
+      background: var(--gold);
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+    .slots-label {
+      text-align: center;
+      font-size: 0.78rem;
+      color: #90a4ae;
+      margin-bottom: 0.35rem;
+    }
+    .slots {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.35rem;
+      margin-bottom: 0.85rem;
+      min-height: 3.2rem;
+    }
+    .slot {
+      width: 2.35rem;
+      height: 2.65rem;
+      border: 2.5px dashed #90caf9;
+      border-radius: 8px;
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "Patrick Hand", cursive;
+      font-size: 1.55rem;
+      font-weight: 700;
+      color: var(--ink);
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .slot.filled {
+      border-style: solid;
+      border-color: var(--accent);
+      background: #e8f5e9;
+    }
+    .slot.flash { animation: slot-pop 0.35s ease; }
+    @keyframes slot-pop {
+      50% { transform: scale(1.12); background: #e8f5e9; border-color: #43a047; }
+    }
+    .tiles {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.4rem;
+      margin-bottom: 0.75rem;
+    }
+    .tile {
+      min-width: 2.5rem;
+      height: 2.65rem;
+      padding: 0 0.35rem;
+      border: 2.5px solid #d4cfc3;
+      border-radius: 10px;
+      background: #fff;
+      font-family: "Patrick Hand", cursive;
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: var(--ink);
+      cursor: pointer;
+      transition: transform 0.1s, opacity 0.2s;
+    }
+    .tile:hover:not(:disabled) { transform: scale(1.06); border-color: var(--accent); }
+    .tile:disabled { opacity: 0.25; cursor: default; transform: none; }
+    .tile.wrong { animation: shake 0.4s ease; border-color: #e53935; background: #ffebee; }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-6px); }
+      75% { transform: translateX(6px); }
+    }
+    .play-tools {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .win-banner {
+      display: none;
+      text-align: center;
+      padding: 1rem;
+      margin-top: 0.75rem;
+      background: #fff8e1;
+      border: 2px solid var(--gold);
+      border-radius: 10px;
+    }
+    .win-banner.show { display: block; }
+    .win-banner h2 { font-family: "Fredoka", sans-serif; color: var(--accent); }
+    .win-banner p { color: #546e7a; margin: 0.4rem 0 0.65rem; font-size: 0.9rem; }
+    .tts-note {
+      text-align: center;
+      font-size: 0.68rem;
+      color: #b0bec5;
+      margin-top: 0.75rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="toolbar">
+    <div>
+      <h1>🔤 看图拼词</h1>
+      <p class="meta" id="toolbarMeta">听音 · 点字母拼单词</p>
+    </div>
+    <div class="btns">
+      <button type="button" class="btn" id="btnHome">← 选游戏</button>
+      <a class="btn" href="settings.html">⚙️ 选词</a>
+      <button type="button" class="btn" id="btnBackSetup" style="display:none">返回</button>
+    </div>
+  </div>
+
+  <main class="stage">
+    <section class="setup-panel" id="setupPanel">
+      <h2 class="setup-title">准备拼词</h2>
+      <p class="setup-hint">
+        本次练习 <strong id="setupWordCount">0</strong> 个单词（在
+        <a href="settings.html" style="color:#00838F;font-weight:700">⚙️ 选词设置</a> 中修改）。
+        看图、听 Azure 英音，按顺序点字母拼单词。
+      </p>
+      <div class="choice-row" id="setupWordList" style="justify-content:center;gap:0.35rem;margin-bottom:0.75rem"></div>
+      <div class="setup-actions">
+        <button type="button" class="btn primary big" id="btnStart">开始游戏 ▶</button>
+      </div>
+      <p class="tts-note">发音：Azure · en-GB-RyanNeural（英音男声）</p>
+    </section>
+
+    <section class="play-panel" id="playPanel">
+      <p class="progress">第 <strong id="wordIdx">1</strong> / <strong id="wordTotal">3</strong> 个词</p>
+
+      <div class="hero">
+        <div class="pic-box" id="picBox">
+          <img id="heroImg" src="" alt="" />
+          <span class="emo" id="heroEmo"></span>
+        </div>
+        <p class="zh" id="heroZh"></p>
+        <button type="button" class="btn-hear" id="btnHear">🔊 再听一遍</button>
+      </div>
+
+      <p class="slots-label">按顺序点字母，拼出单词：</p>
+      <div class="slots" id="slots" aria-label="拼词空格"></div>
+
+      <div class="tiles" id="tiles" aria-label="乱序字母"></div>
+
+      <div class="play-tools">
+        <button type="button" class="btn" id="btnUndo">← 退一格</button>
+        <button type="button" class="btn" id="btnClear">清空重拼</button>
+      </div>
+
+      <div class="win-banner" id="winBanner">
+        <h2>🎉 全部拼对！</h2>
+        <p id="winMsg"></p>
+        <button type="button" class="btn primary" id="btnAgain">再玩一次</button>
+      </div>
+    </section>
+  </main>
+
+  <script>
+  (function () {
+    "use strict";
+
+    var IMG_BASE = PeekOtterWords.IMG_BASE;
+    var wordList = [];
+    var wordIndex = 0;
+    var current = null;
+    var answerPos = 0;
+    var picks = [];
+
+    var setupPanel = document.getElementById("setupPanel");
+    var playPanel = document.getElementById("playPanel");
+    var btnBackSetup = document.getElementById("btnBackSetup");
+    var heroImg = document.getElementById("heroImg");
+    var heroEmo = document.getElementById("heroEmo");
+    var heroZh = document.getElementById("heroZh");
+    var picBox = document.getElementById("picBox");
+    var slotsEl = document.getElementById("slots");
+    var tilesEl = document.getElementById("tiles");
+    var winBanner = document.getElementById("winBanner");
+
+    function shuffle(arr) {
+      return PeekOtterWords.shuffle(arr);
+    }
+
+    function renderSetupWords() {
+      var list = PeekOtterWords.getSelected();
+      var host = document.getElementById("setupWordList");
+      var countEl = document.getElementById("setupWordCount");
+      host.innerHTML = "";
+      countEl.textContent = String(list.length);
+      list.forEach(function (w) {
+        var tag = document.createElement("span");
+        tag.className = "choice";
+        tag.style.cursor = "default";
+        tag.style.fontSize = "0.82rem";
+        tag.style.padding = "0.3rem 0.55rem";
+        tag.textContent = w.word;
+        host.appendChild(tag);
+      });
+    }
+
+    function speakWord(word, slow) {
+      if (window.PeekOtterTTS) {
+        return PeekOtterTTS.speak(word, { slow: !!slow, azureOnly: true });
+      }
+      return Promise.resolve(false);
+    }
+
+    function speakLetter(ch) {
+      if (!window.PeekOtterTTS) return;
+      PeekOtterTTS.speak(ch, { rate: "0.92", azureOnly: true });
+    }
+
+    function showSetup() {
+      setupPanel.classList.remove("hidden");
+      playPanel.classList.remove("on");
+      btnBackSetup.style.display = "none";
+      winBanner.classList.remove("show");
+      if (PeekOtterWords.getSelectedKeys().length < PeekOtterWords.MIN_WORDS_GAME3) {
+        location.href = "settings.html";
+        return;
+      }
+      renderSetupWords();
+    }
+
+    function showPlay() {
+      setupPanel.classList.add("hidden");
+      playPanel.classList.add("on");
+      btnBackSetup.style.display = "inline-block";
+      winBanner.classList.remove("show");
+    }
+
+    function loadWordUI(w) {
+      current = w;
+      answerPos = 0;
+      picks = [];
+      heroImg.style.display = "";
+      heroEmo.style.display = "none";
+      heroImg.src = IMG_BASE + w.word + ".png";
+      heroImg.alt = w.word;
+      heroEmo.textContent = w.emoji;
+      heroImg.onerror = function () {
+        heroImg.style.display = "none";
+        heroEmo.style.display = "block";
+        picBox.style.setProperty("--pic-ar", "1");
+      };
+      heroImg.onload = function () {
+        if (heroImg.naturalWidth > 0) {
+          picBox.style.setProperty(
+            "--pic-ar",
+            heroImg.naturalWidth + " / " + heroImg.naturalHeight
+          );
+        }
+      };
+      heroZh.textContent = w.zh;
+      document.getElementById("wordIdx").textContent = String(wordIndex + 1);
+      document.getElementById("wordTotal").textContent = String(wordList.length);
+      renderSlots();
+      renderTiles();
+      speakWord(w.word, true);
+    }
+
+    function renderSlots() {
+      slotsEl.innerHTML = "";
+      if (!current) return;
+      for (var i = 0; i < current.word.length; i++) {
+        var s = document.createElement("div");
+        s.className = "slot" + (picks[i] ? " filled" : "");
+        s.textContent = picks[i] ? picks[i].ch : "";
+        s.setAttribute("aria-label", "第 " + (i + 1) + " 个字母");
+        slotsEl.appendChild(s);
+      }
+    }
+
+    function renderTiles() {
+      tilesEl.innerHTML = "";
+      if (!current) return;
+      var letters = current.word.split("").map(function (ch, i) {
+        return { ch: ch, id: i, used: false };
+      });
+      shuffle(letters).forEach(function (item) {
+        var btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "tile";
+        btn.textContent = item.ch;
+        btn.dataset.id = String(item.id);
+        btn.dataset.ch = item.ch;
+        btn._item = item;
+        btn.addEventListener("click", function () { onTileClick(btn, item); });
+        tilesEl.appendChild(btn);
+      });
+    }
+
+    function onTileClick(btn, item) {
+      if (!current || item.used || answerPos >= current.word.length) return;
+      var expected = current.word.charAt(answerPos);
+      if (item.ch !== expected) {
+        btn.classList.add("wrong");
+        setTimeout(function () { btn.classList.remove("wrong"); }, 450);
+        return;
+      }
+      item.used = true;
+      btn.disabled = true;
+      picks[answerPos] = { ch: item.ch, tileId: item.id };
+      speakLetter(item.ch);
+      answerPos++;
+      renderSlots();
+      var slotEls = slotsEl.querySelectorAll(".slot");
+      if (slotEls[answerPos - 1]) {
+        slotEls[answerPos - 1].classList.add("flash");
+        setTimeout(function () {
+          slotEls[answerPos - 1].classList.remove("flash");
+        }, 350);
+      }
+      if (answerPos >= current.word.length) {
+        onWordComplete();
+      }
+    }
+
+    function onWordComplete() {
+      tilesEl.querySelectorAll(".tile").forEach(function (b) { b.disabled = true; });
+      var word = current.word;
+      setTimeout(function () {
+        if (!current || current.word !== word) return;
+        speakWord(word, false).then(function () {
+          setTimeout(function () {
+            wordIndex++;
+            if (wordIndex >= wordList.length) {
+              winBanner.classList.add("show");
+              document.getElementById("winMsg").textContent =
+                "共完成 " + wordList.length + " 个单词，太棒了！";
+              speakWord("Excellent!", false);
+              return;
+            }
+            loadWordUI(wordList[wordIndex]);
+          }, 700);
+        });
+      }, 600);
+    }
+
+    function undoOne() {
+      if (!current || answerPos <= 0) return;
+      answerPos--;
+      var last = picks[answerPos];
+      picks[answerPos] = null;
+      renderSlots();
+      tilesEl.querySelectorAll(".tile").forEach(function (btn) {
+        if (btn.dataset.id === String(last.tileId)) {
+          btn._item.used = false;
+          btn.disabled = false;
+        }
+      });
+    }
+
+    function clearWord() {
+      if (!current) return;
+      answerPos = 0;
+      picks = [];
+      renderSlots();
+      renderTiles();
+    }
+
+    function startGame() {
+      wordList = shuffle(PeekOtterWords.getSelected());
+      if (!wordList.length) {
+        location.href = "settings.html";
+        return;
+      }
+      wordIndex = 0;
+      showPlay();
+      loadWordUI(wordList[0]);
+    }
+
+    document.getElementById("btnStart").addEventListener("click", startGame);
+    document.getElementById("btnAgain").addEventListener("click", startGame);
+    document.getElementById("btnHear").addEventListener("click", function () {
+      if (current) speakWord(current.word, false);
+    });
+    document.getElementById("btnUndo").addEventListener("click", undoOne);
+    document.getElementById("btnClear").addEventListener("click", clearWord);
+    btnBackSetup.addEventListener("click", showSetup);
+    document.getElementById("btnHome").addEventListener("click", function () {
+      location.href = "index.html";
+    });
+
+    showSetup();
+  })();
+  </script>
+</body>
+</html>

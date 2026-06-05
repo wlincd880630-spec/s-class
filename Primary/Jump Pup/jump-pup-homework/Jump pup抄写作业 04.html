@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>Jump, Pup! 句子抄写作业 04</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Patrick+Hand&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --font-hand  : 'Patrick Hand', cursive;
+  --font-ui    : 'Fredoka', sans-serif;
+  --img-w      : 40mm;
+  --block-h    : 62mm;
+  --row-h      : 31mm;
+  --line-blue  : #90CAF9;
+  --line-red   : #EF9A9A;
+  --line-dash  : rgba(33,150,243,.32);
+  --text-dark  : #2C3E50;
+  --trace-color: rgba(144,202,249,.55);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-ui);
+  background: #455A64;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 48px;
+}
+
+.toolbar {
+  width: 100%; padding: 12px 24px;
+  background: #fff;
+  box-shadow: 0 2px 18px rgba(0,0,0,.2);
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; flex-wrap: wrap;
+  position: sticky; top: 0; z-index: 999;
+}
+
+.toolbar-left {
+  display: flex; align-items: center; gap: 10px;
+  font-weight: 700; color: #37474F; font-size: 1.05rem;
+}
+.toolbar-left .icon { font-size: 1.4rem; }
+
+.btn-print {
+  background: #FF7043; color: #fff; border: none;
+  padding: 10px 28px; border-radius: 50px;
+  font-family: var(--font-ui); font-size: 1.05rem; font-weight: 700;
+  cursor: pointer; transition: .18s;
+  box-shadow: 0 4px 12px rgba(255,112,67,.35);
+  white-space: nowrap;
+}
+.btn-print:hover { transform: scale(1.05); background: #E64A19; }
+
+.hw-section { display: none; }
+.hw-section.active { display: block; }
+
+.page {
+  background: #fff;
+  width: 210mm; height: 297mm;
+  padding: 14mm 14mm 10mm;
+  margin: 24px 0;
+  box-shadow: 0 0 36px rgba(0,0,0,.55);
+  display: flex; flex-direction: column;
+  page-break-after: always;
+  overflow: hidden;
+}
+
+.page-hdr {
+  flex-shrink: 0;
+  height: 15mm;
+  display: flex; align-items: center; justify-content: space-between;
+  border-bottom: 2.5px solid #ECEFF1;
+  padding-bottom: 3mm;
+  margin-bottom: 3mm;
+  font-size: .84rem; color: #9E9E9E;
+  white-space: nowrap;
+  gap: 3mm;
+}
+.page-hdr > span { white-space: nowrap; }
+.page-hdr .vowel-badge {
+  font-size: 1.15rem; font-weight: 700;
+  padding: 2px 14px; border-radius: 8px;
+}
+
+.page-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.page-ftr {
+  flex-shrink: 0;
+  height: 7mm;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .72rem; color: #BDBDBD;
+  border-top: 1px solid #F5F5F5;
+  padding-top: 2mm;
+}
+
+/* 句子块：与 01 单词块 .word-block 相同 — 均分页体高度 + 两行 1fr */
+.sentence-block {
+  flex: 1;
+  display: grid;
+  grid-template-columns: var(--img-w) 1fr;
+  grid-template-rows: 1fr 1fr;
+  border-bottom: 1px solid #F5F5F5;
+  min-height: 0;
+}
+.sentence-block:last-child { border-bottom: none; }
+
+/* 本页不足 4 条时（与 01 每页 4 块对比）避免单条/少条把行高撑爆，固定为与 01 注释中 62mm/31mm 一致 */
+.page-body--compact .sentence-block {
+  flex: 0 0 var(--block-h);
+  height: var(--block-h);
+  grid-template-rows: var(--row-h) var(--row-h);
+}
+
+.img-col {
+  grid-row: 1 / 3;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 2.5mm;
+  padding: 3mm 2mm 3mm 0;
+  border-right: 1px dashed #E0E0E0;
+}
+.img-frame {
+  width: 30mm; height: 30mm;
+  border-radius: 10px;
+  border: 2px solid #E8F5E9;
+  background: #F9FFF9;
+  overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.img-frame img { width: 100%; height: 100%; object-fit: contain; }
+.word-lbl {
+  font-family: var(--font-hand);
+  font-size: 1.1rem; font-weight: 700;
+  letter-spacing: 1px;
+}
+.sentence-hint {
+  font-family: var(--font-ui);
+  font-size: 0.62rem;
+  font-weight: 600;
+  color: #78909c;
+  text-align: center;
+  line-height: 1.25;
+  max-width: 38mm;
+  hyphens: auto;
+}
+
+/* 书写行：与 01 .write-row 一致 */
+.write-row {
+  position: relative;
+  min-height: 0;
+  overflow: hidden;
+}
+.write-row:first-of-type { border-bottom: 1px dashed #EEEEEE; }
+
+/* 四线格：与 01 相同 top:25% / height:50% */
+.grid-bg {
+  position: absolute;
+  top: 25%; height: 50%;
+  left: 2mm; right: 1mm;
+  pointer-events: none;
+}
+.gl {
+  position: absolute;
+  left: 0; right: 0; height: 0;
+}
+.gl-sky   { top: 0%;   border-top: 1.3pt solid var(--line-blue); }
+.gl-cloud { top: 33%;  border-top: 1.3pt dashed var(--line-dash); }
+.gl-grass { top: 67%;  border-top: 2.8pt solid var(--line-blue); }
+.gl-dirt  { top: 100%; border-top: 1.3pt solid var(--line-red); }
+
+/* 书写区：与 01 .cells 一致 */
+.cells-sentence {
+  position: absolute; inset: 0;
+  display: flex;
+  align-items: center;
+  padding: 0 2mm;
+  gap: 1mm;
+}
+/* 整句范字：与 01 .cell 字号、位移一致（2.58rem） */
+.cell-full {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-family: var(--font-hand);
+  /* 较 01 单词格：先约 5% 再约 10%，避免长句（如 What do you smell?）溢出四线格 */
+  font-size: calc(2.58rem * 0.95 * 0.9);
+  letter-spacing: 0;
+  transform: translateY(-1.4mm);
+  user-select: none;
+  line-height: 1;
+}
+.cell-full.model { color: var(--text-dark); font-weight: 700; }
+.cell-full.trace { color: var(--trace-color); font-weight: 700; }
+.cell-full.empty { color: transparent; }
+
+/* 行2描红更浅：与 01 .write-row.row2 .cell.trace 一致 */
+.write-row.row2 .cell-full.trace { color: rgba(144,202,249,.28); }
+
+.vsep {
+  width: 1px; height: 36%; background: #DEDEDE;
+  flex-shrink: 0;
+  transform: translateY(-1.4mm);
+  align-self: center;
+}
+
+@media print {
+  body { background: #fff; padding: 0; }
+  .toolbar { display: none !important; }
+  .hw-section { display: none !important; }
+  .hw-section.active { display: block !important; }
+  .page {
+    margin: 0; box-shadow: none; border: none;
+    width: 210mm; height: 297mm;
+    padding: 14mm 14mm 10mm;
+  }
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <div class="toolbar-left">
+    <span class="icon">📝</span>
+    <span>Jump, Pup! 句子抄写作业 04</span>
+  </div>
+  <button class="btn-print" onclick="window.print()">🖨️ 打印</button>
+</div>
+
+<div id="app"></div>
+
+<script>
+/* 抄写 04：与 02 同一组词（wag…nap）对应的课文例句；配图 jump-pup-courseware/images/words/<word 或 imgKey>.png；猫主题三句见 03 */
+const LESSON = {
+  label: 'Jump, Pup! 04',
+  color: '#2E7D32',
+  bg   : '#E8F5E9',
+  items: [
+    { word: 'wag',    sentence: 'Wag your tail.' },
+    { word: 'smell',  sentence: 'What do you smell?' },
+    { word: 'see',    sentence: 'What do you see?' },
+    { word: 'walk',   sentence: "Let's take a walk." },
+    { word: 'lie',    sentence: 'Lie in the sun.' },
+    { word: 'nap',    sentence: 'Take a nap.' }
+  ]
+};
+
+const IMG_BASE = '../jump-pup-courseware/images/words/';
+
+function esc(t) {
+  return String(t)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+function svgPlaceholderDataUrl(line1, line2) {
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400">
+    <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#e8f5e9"/><stop offset="100%" stop-color="#fff8e1"/></linearGradient></defs>
+    <rect width="100%" height="100%" fill="url(#g)"/>
+    <text x="50%" y="40%" text-anchor="middle" font-size="30" fill="#2E7D32" font-family="Segoe UI,Arial,sans-serif" font-weight="700">${esc(line1)}</text>
+    <text x="50%" y="54%" text-anchor="middle" font-size="13" fill="#546E7A" font-family="Segoe UI,Arial,sans-serif">${esc(line2)}</text>
+  </svg>`;
+  return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+}
+
+function buildWriteRow(sentence, rowClass, mode) {
+  /* mode: 'r1' 范字+描红 | 'r2' 浅描+空白 */
+  if (mode === 'r1') {
+    return `
+    <div class="write-row ${rowClass}">
+      <div class="grid-bg">
+        <div class="gl gl-sky"></div><div class="gl gl-cloud"></div>
+        <div class="gl gl-grass"></div><div class="gl gl-dirt"></div>
+      </div>
+      <div class="cells-sentence">
+        <div class="cell-full model">${esc(sentence)}</div>
+        <div class="vsep"></div>
+        <div class="cell-full trace">${esc(sentence)}</div>
+      </div>
+    </div>`;
+  }
+  return `
+    <div class="write-row ${rowClass}">
+      <div class="grid-bg">
+        <div class="gl gl-sky"></div><div class="gl gl-cloud"></div>
+        <div class="gl gl-grass"></div><div class="gl gl-dirt"></div>
+      </div>
+      <div class="cells-sentence">
+        <div class="cell-full trace">${esc(sentence)}</div>
+        <div class="vsep"></div>
+        <div class="cell-full empty">${esc(sentence)}</div>
+      </div>
+    </div>`;
+}
+
+function buildSentenceBlock(item, accentColor) {
+  const block = document.createElement('div');
+  block.className = 'sentence-block';
+  const s = item.sentence;
+  const w = item.word;
+  const imgKey = item.imgKey || w;
+  block.innerHTML = `
+    <div class="img-col">
+      <div class="img-frame">
+        <img src="${IMG_BASE}${imgKey}.png" alt="${esc(w)}" />
+      </div>
+      <div class="word-lbl" style="color:${accentColor}">${esc(w)}</div>
+      <div class="sentence-hint">${esc(s)}</div>
+    </div>
+    ${buildWriteRow(s, 'row1', 'r1')}
+    ${buildWriteRow(s, 'row2', 'r2')}
+  `;
+  const img = block.querySelector('.img-frame img');
+  img.addEventListener('error', function onImgErr() {
+    this.removeEventListener('error', onImgErr);
+    this.src = svgPlaceholderDataUrl(w, IMG_BASE + imgKey + '.png');
+  }, { once: true });
+  return block;
+}
+
+function buildPage(vData, items, pageNum, totalPages) {
+  const page = document.createElement('div');
+  page.className = 'page';
+
+  const hdr = document.createElement('div');
+  hdr.className = 'page-hdr';
+  hdr.innerHTML = `
+    <span>姓名: ___________________</span>
+    <span class="vowel-badge" style="background:${vData.bg}; color:${vData.color}">
+      ${esc(vData.label)} · 句子抄写
+    </span>
+    <span>日期: ____ 年 __ 月 __ 日</span>
+  `;
+  page.appendChild(hdr);
+
+  const body = document.createElement('div');
+  body.className =
+    items.length < 4 ? 'page-body page-body--compact' : 'page-body';
+  items.forEach(it => body.appendChild(buildSentenceBlock(it, vData.color)));
+  page.appendChild(body);
+
+  const ftr = document.createElement('div');
+  ftr.className = 'page-ftr';
+  const titles = items.map(x => x.sentence).join(' · ');
+  ftr.textContent =
+    `Jump, Pup! · 国家地理分级 · 句子抄写 04  |  第 ${pageNum} / ${totalPages} 页  |  ${titles}`;
+  page.appendChild(ftr);
+
+  return page;
+}
+
+function chunkArray(arr, size) {
+  const result = [];
+  for (let i = 0; i < arr.length; i += size) result.push(arr.slice(i, i + size));
+  return result;
+}
+
+function buildAll() {
+  const app = document.getElementById('app');
+  const section = document.createElement('div');
+  section.className = 'hw-section active';
+  section.id = 'section-jump-pup-hw04';
+  /* 与 01 单词抄写相同：每页 4 条，均分竖向空间 */
+  const pages = chunkArray(LESSON.items, 4);
+  pages.forEach((pageItems, pi) => {
+    section.appendChild(buildPage(LESSON, pageItems, pi + 1, pages.length));
+  });
+  app.appendChild(section);
+}
+
+window.addEventListener('load', buildAll);
+</script>
+</body>
+</html>

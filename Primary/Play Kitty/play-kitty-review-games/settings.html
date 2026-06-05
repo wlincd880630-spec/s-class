@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>选词设置 · Play Kitty 复习游戏</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Patrick+Hand&family=Noto+Sans+SC:wght@500;700&display=swap" rel="stylesheet" />
+  <script src="words-data.js"></script>
+  <style>
+    :root { --gold: #f5c400; --ink: #1a1a1a; --paper: #f7f5f0; --pink: #ad1457; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Noto Sans SC", sans-serif;
+      min-height: 100vh;
+      background: linear-gradient(165deg, #37474f, #1b2327);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0.75rem 0.5rem 2.5rem;
+    }
+    .toolbar {
+      width: 100%;
+      max-width: 40rem;
+      padding: 0.65rem 1rem;
+      background: #fffef8;
+      border-bottom: 3px solid var(--gold);
+      margin-bottom: 1rem;
+      border-radius: 0 0 8px 8px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+    }
+    .toolbar h1 { font-family: "Fredoka", sans-serif; font-size: 1.05rem; color: var(--ink); }
+    .btn {
+      font-family: "Fredoka", sans-serif;
+      font-weight: 700;
+      border: 2px solid var(--ink);
+      border-radius: 999px;
+      padding: 0.4rem 0.95rem;
+      cursor: pointer;
+      background: #fff;
+      font-size: 0.88rem;
+    }
+    .btn.primary { background: var(--gold); }
+    .panel {
+      width: min(40rem, 100%);
+      background: var(--paper);
+      border-radius: 10px;
+      padding: 1.1rem 1rem 1.25rem;
+      border-left: 4px solid var(--gold);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+    }
+    .hint {
+      font-size: 0.88rem;
+      color: #546e7a;
+      line-height: 1.55;
+      margin-bottom: 0.85rem;
+    }
+    .hint strong { color: var(--pink); }
+    .presets {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-bottom: 0.85rem;
+    }
+    .presets .btn { font-size: 0.82rem; padding: 0.35rem 0.75rem; }
+    .count {
+      font-family: "Fredoka", sans-serif;
+      color: var(--pink);
+      margin-bottom: 0.65rem;
+      font-size: 0.95rem;
+    }
+    .word-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 0.45rem;
+    }
+    .word-item {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.45rem 0.55rem;
+      border: 2px solid #d4cfc3;
+      border-radius: 10px;
+      background: #fff;
+      cursor: pointer;
+      user-select: none;
+      transition: border-color 0.12s, background 0.12s;
+    }
+    .word-item.on { border-color: var(--pink); background: #fce4ec; }
+    .word-item input { accent-color: var(--pink); width: 1rem; height: 1rem; flex-shrink: 0; }
+    .word-item .en {
+      font-family: "Patrick Hand", cursive;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.1;
+    }
+    .word-item .zh { font-size: 0.68rem; color: #78909c; display: block; }
+    .warn {
+      display: none;
+      margin-top: 0.75rem;
+      padding: 0.55rem 0.65rem;
+      background: #ffebee;
+      border: 1px solid #ef9a9a;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      color: #c62828;
+    }
+    .warn.show { display: block; }
+    .actions {
+      margin-top: 1rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      justify-content: center;
+    }
+    .actions .btn.big { padding: 0.6rem 1.5rem; font-size: 1rem; }
+  </style>
+</head>
+<body>
+  <div class="toolbar">
+    <h1>⚙️ 选词设置</h1>
+    <a class="btn" href="index.html">← 游戏首页</a>
+  </div>
+
+  <main class="panel">
+    <p class="hint">
+      勾选本次要练的单词，保存后<strong>三个游戏</strong>都会只用这些词。<br />
+      翻翻配对：每轮 3 词（6 张卡）；末轮不够 6 张时会从<strong>第一组</strong>补词复习。听音接爪至少选 <strong>2</strong> 个词。
+    </p>
+
+    <div class="presets">
+      <button type="button" class="btn" id="btnAll">全选 13 词</button>
+      <button type="button" class="btn" id="btnClear">全不选</button>
+    </div>
+
+    <p class="count">已选 <strong id="selCount">0</strong> / 13</p>
+    <div class="word-grid" id="wordGrid"></div>
+    <p class="warn" id="warn">请至少选择 2 个单词（拼词游戏 1 个即可）。</p>
+
+    <div class="actions">
+      <button type="button" class="btn primary big" id="btnSave">保存并返回</button>
+    </div>
+  </main>
+
+  <script>
+  (function () {
+    "use strict";
+
+    var grid = document.getElementById("wordGrid");
+    var selCount = document.getElementById("selCount");
+    var warn = document.getElementById("warn");
+    var selected = {};
+
+    function refreshCount() {
+      var n = Object.keys(selected).filter(function (k) {
+        return selected[k];
+      }).length;
+      selCount.textContent = String(n);
+      warn.classList.toggle("show", n < 1);
+    }
+
+    function setKeys(keys) {
+      selected = {};
+      PlayKittyWords.ALL_KEYS.forEach(function (k) {
+        selected[k] = keys.indexOf(k) >= 0;
+      });
+      grid.querySelectorAll(".word-item").forEach(function (row) {
+        var k = row.dataset.word;
+        var on = !!selected[k];
+        row.classList.toggle("on", on);
+        row.querySelector("input").checked = on;
+      });
+      refreshCount();
+    }
+
+    function getCheckedKeys() {
+      return PlayKittyWords.ALL_KEYS.filter(function (k) {
+        return selected[k];
+      });
+    }
+
+    PlayKittyWords.ALL.forEach(function (w) {
+      var label = document.createElement("label");
+      label.className = "word-item";
+      label.dataset.word = w.word;
+      var cb = document.createElement("input");
+      cb.type = "checkbox";
+      cb.value = w.word;
+      var text = document.createElement("span");
+      text.innerHTML =
+        '<span class="en">' +
+        w.word +
+        '</span><span class="zh">' +
+        w.zh +
+        " " +
+        w.emoji +
+        "</span>";
+      label.appendChild(cb);
+      label.appendChild(text);
+      label.addEventListener("click", function (e) {
+        if (e.target.tagName === "INPUT") return;
+        cb.checked = !cb.checked;
+        selected[w.word] = cb.checked;
+        label.classList.toggle("on", cb.checked);
+        refreshCount();
+      });
+      cb.addEventListener("change", function () {
+        selected[w.word] = cb.checked;
+        label.classList.toggle("on", cb.checked);
+        refreshCount();
+      });
+      grid.appendChild(label);
+    });
+
+    setKeys(PlayKittyWords.getSelectedKeys());
+
+    document.getElementById("btnAll").addEventListener("click", function () {
+      setKeys(PlayKittyWords.getDefaultKeys());
+    });
+    document.getElementById("btnClear").addEventListener("click", function () {
+      setKeys([]);
+    });
+
+    document.getElementById("btnSave").addEventListener("click", function () {
+      var keys = getCheckedKeys();
+      if (keys.length < 1) {
+        warn.textContent = "请至少选择 1 个单词。";
+        warn.classList.add("show");
+        return;
+      }
+      PlayKittyWords.saveKeys(keys);
+      location.href = "index.html";
+    });
+  })();
+  </script>
+</body>
+</html>

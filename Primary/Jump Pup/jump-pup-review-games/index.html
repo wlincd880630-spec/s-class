@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Jump, Pup! · 复习游戏</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Sans+SC:wght@500;700&display=swap" rel="stylesheet" />
+  <script src="words-data.js"></script>
+  <style>
+    :root { --gold: #f5c400; --ink: #1a1a1a; --paper: #f7f5f0; --accent: #2e7d32; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Noto Sans SC", sans-serif;
+      min-height: 100vh;
+      background: #121212;
+      background-image: radial-gradient(ellipse 70% 40% at 50% 0%, rgba(46, 125, 50, 0.35), transparent 55%);
+      color: var(--paper);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem 1.25rem 3rem;
+    }
+    .hdr { text-align: center; max-width: 40rem; margin-bottom: 1.5rem; }
+    .hdr h1 {
+      font-family: "Fredoka", sans-serif;
+      font-size: clamp(1.6rem, 4vw, 2.2rem);
+      color: var(--gold);
+      margin-bottom: 0.5rem;
+    }
+    .hdr p { font-size: 0.95rem; line-height: 1.6; color: #b0bec5; }
+    .settings-banner {
+      width: min(720px, 100%);
+      background: #fffef8;
+      color: var(--ink);
+      border-radius: 12px;
+      padding: 1rem 1.15rem;
+      margin-bottom: 1.25rem;
+      border-left: 5px solid var(--gold);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+    }
+    .settings-banner p { font-size: 0.88rem; color: #546e7a; line-height: 1.5; flex: 1; min-width: 12rem; }
+    .settings-banner strong { color: var(--accent); font-family: "Fredoka", sans-serif; }
+    .btn-set {
+      font-family: "Fredoka", sans-serif;
+      font-weight: 700;
+      background: var(--gold);
+      color: var(--ink);
+      border: 2px solid #c9a008;
+      border-radius: 999px;
+      padding: 0.5rem 1.15rem;
+      text-decoration: none;
+      font-size: 0.95rem;
+    }
+    .words {
+      display: flex; flex-wrap: wrap; justify-content: center; gap: 0.35rem;
+      margin-bottom: 1.25rem;
+      width: min(720px, 100%);
+    }
+    .words span {
+      font-family: "Fredoka", sans-serif;
+      font-size: 0.78rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 999px;
+      border: 1px solid rgba(245, 196, 0, 0.35);
+    }
+    .words span.on {
+      background: rgba(46, 125, 50, 0.25);
+      color: #a5d6a7;
+      border-color: rgba(129, 199, 132, 0.55);
+    }
+    .words span.off { color: #546e7a; opacity: 0.45; border-color: #455a64; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.25rem;
+      width: min(720px, 100%);
+    }
+    .card {
+      background: var(--paper);
+      color: var(--ink);
+      border-radius: 12px;
+      padding: 1.35rem 1.25rem;
+      text-decoration: none;
+      border-left: 5px solid var(--gold);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+      transition: transform 0.15s, box-shadow 0.15s;
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+    .card:hover { transform: translateY(-4px); box-shadow: 0 18px 48px rgba(0, 0, 0, 0.45); }
+    .card.settings-card { border-left-color: var(--accent); }
+    .card .tag { font-size: 0.72rem; font-weight: 700; color: #1b5e20; letter-spacing: 0.08em; text-transform: uppercase; }
+    .card h2 { font-family: "Fredoka", sans-serif; font-size: 1.35rem; color: var(--accent); }
+    .card p { font-size: 0.88rem; line-height: 1.55; color: #546e7a; }
+    .card .go { margin-top: 0.35rem; font-family: "Fredoka", sans-serif; font-weight: 700; color: var(--accent); font-size: 1rem; }
+    .foot { margin-top: 2rem; font-size: 0.78rem; color: #78909c; text-align: center; }
+  </style>
+</head>
+<body>
+  <header class="hdr">
+    <h1>🐶 Jump, Pup! · 复习游戏</h1>
+    <p>共 13 个单词。请先在<strong>选词设置</strong>中勾选本次要练的词，再进入游戏。</p>
+  </header>
+
+  <div class="settings-banner">
+    <p>当前已选 <strong id="selN">13</strong> 个单词 · 三个游戏共用</p>
+    <a class="btn-set" href="settings.html">⚙️ 选词设置</a>
+  </div>
+
+  <div class="words" id="wordChips" aria-label="词表"></div>
+
+  <div class="grid">
+    <a class="card settings-card" href="settings.html">
+      <span class="tag">必做</span>
+      <h2>⚙️ 选词设置</h2>
+      <p>勾选 pet … nap 中任意单词。翻翻配对每轮最多 3 词，词多自动分多轮。</p>
+      <span class="go">去设置 →</span>
+    </a>
+    <a class="card" href="game1-memory-match.html">
+      <span class="tag">游戏 1</span>
+      <h2>🃏 翻翻配对</h2>
+      <p>6 张牌先全部翻开记位置，点「开始」后翻面，凭记忆配对单词与图。</p>
+      <span class="go">开始游戏 →</span>
+    </a>
+    <a class="card" href="game2-action-catch.html">
+      <span class="tag">游戏 2</span>
+      <h2>⚡ 听音接爪</h2>
+      <p>听英文 / 看中文 / 混合，限时点对小狗动作（至少 2 词）。</p>
+      <span class="go">开始游戏 →</span>
+    </a>
+    <a class="card" href="game3-spell-letters.html">
+      <span class="tag">游戏 3</span>
+      <h2>🔤 看图拼词</h2>
+      <p>看图听 Azure 英音，按顺序点击乱序字母拼出单词。</p>
+      <span class="go">开始游戏 →</span>
+    </a>
+  </div>
+
+  <p class="foot">发音：本地 MP3 · 可直接双击 HTML 打开（无需联网）</p>
+
+  <script>
+  (function () {
+    var host = document.getElementById("wordChips");
+    var sel = JumpPupWords.getSelectedKeys();
+    var selSet = {};
+    sel.forEach(function (k) { selSet[k] = true; });
+    document.getElementById("selN").textContent = String(sel.length);
+    JumpPupWords.ALL.forEach(function (w) {
+      var s = document.createElement("span");
+      s.textContent = w.word;
+      s.className = selSet[w.word] ? "on" : "off";
+      host.appendChild(s);
+    });
+  })();
+  </script>
+</body>
+</html>
