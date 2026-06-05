@@ -12,11 +12,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles/s-class-home.css">
     <style>
-        /* 首屏可见性：未登录显示登录门，已登录显示主页（不依赖 JS 加载顺序） */
-        #login-gate { display: flex; }
-        #main-app { display: none; }
-        html.auth-ready.logged-in #login-gate { display: none !important; }
-        html.auth-ready.logged-in #main-app { display: block !important; }
+        /* 访客默认看到主页；点击「进入学习」且未登录时再显示登录门 */
+        #login-gate { display: none; }
+        #main-app { display: block; }
+        html.show-login-gate #login-gate { display: flex !important; }
+        html.show-login-gate #main-app { display: none !important; }
     </style>
     <script>
         (function () {
@@ -51,7 +51,7 @@
                 <p id="gate-name-error" class="gate-name-error" style="display:none;"></p>
                 <button type="button" class="gate-btn" id="gate-btn-login">用户名密码登录 <i class="fas fa-arrow-right"></i></button>
             </div>
-            <p class="gate-hint">内部邀请制，请使用教师分配的账号登录</p>
+            <p class="gate-hint">内部邀请制，请使用教师分配的账号登录 · <a href="#" id="gate-skip-login" style="color:#14b8a6;">返回首页浏览</a></p>
             </div>
         </div>
     </div>
@@ -1790,6 +1790,7 @@
 
             function showMainAfterLogin(name) {
                 document.documentElement.classList.add('logged-in');
+                document.documentElement.classList.remove('show-login-gate');
                 if (loginGate) loginGate.classList.add('hidden');
                 if (mainApp) mainApp.classList.add('visible');
                 if (welcomeEl) welcomeEl.textContent = 'Hi, ' + (name || '用户') + ' · 欢迎回来';
@@ -1801,6 +1802,13 @@
                 }
                 var btnLogout = document.getElementById('btn-logout');
                 if (btnLogout) btnLogout.style.display = 'inline';
+                var pendingLearn = sessionStorage.getItem('s-class-pending-learning');
+                if (pendingLearn !== null && pendingLearn !== undefined) {
+                    sessionStorage.removeItem('s-class-pending-learning');
+                    setTimeout(function () {
+                        enterLearningMode(pendingLearn || '');
+                    }, 0);
+                }
             }
 
             function parseJwtPayload(token) {
@@ -1879,6 +1887,15 @@
             var errEl = document.getElementById('gate-name-error');
             if (nameInput && errEl) nameInput.addEventListener('input', function() { errEl.style.display = 'none'; });
 
+            var gateSkip = document.getElementById('gate-skip-login');
+            if (gateSkip) gateSkip.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.documentElement.classList.remove('show-login-gate');
+                sessionStorage.removeItem('s-class-pending-learning');
+                var gate = document.getElementById('login-gate');
+                if (gate) gate.classList.add('hidden');
+            });
+
             if (btnLogin) btnLogin.addEventListener('click', function() {
                 var inp = document.getElementById('gate-student-name');
                 var err = document.getElementById('gate-name-error');
@@ -1914,13 +1931,34 @@
                     localStorage.removeItem('authing-user');
                     localStorage.removeItem('current-user');
                     document.documentElement.classList.remove('logged-in');
+                    document.documentElement.classList.remove('show-login-gate');
+                    sessionStorage.removeItem('s-class-pending-learning');
+                    exitLearningMode();
                     location.reload();
                 });
             });
         })();
 
+        function isUserLoggedIn() {
+            if (document.documentElement.classList.contains('logged-in')) return true;
+            var u = localStorage.getItem('authing-user') || localStorage.getItem('current-user');
+            return !!(u && String(u).trim());
+        }
+
+        function showLoginGate(pendingStageId) {
+            sessionStorage.setItem('s-class-pending-learning', pendingStageId || '');
+            document.documentElement.classList.add('show-login-gate');
+            var gate = document.getElementById('login-gate');
+            if (gate) gate.classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
         // 首页 / 学习目录切换
         function enterLearningMode(stageId) {
+            if (!isUserLoggedIn()) {
+                showLoginGate(stageId || '');
+                return;
+            }
             var hub = document.getElementById('learning-hub');
             var btnEnter = document.getElementById('btn-enter-learning');
             var btnBack = document.getElementById('btn-back-home');
@@ -1958,6 +1996,7 @@
 
         (function initLearningModeFromHash() {
             function applyHash() {
+                if (!isUserLoggedIn()) return;
                 var hash = (location.hash || '').replace(/^#/, '');
                 if (!hash || hash === 'contact') return;
                 if (hash === 'learning' || hash.indexOf('stage-') === 0) {
