@@ -1817,6 +1817,9 @@
         (function() {
             var APP_ID = '69910f22f7ff7116d38a16ad';
             var AUTH_HOST = 'https://fuwyvgr3as5v-demo.authing.cn';
+            /** 生产环境固定回调，避免 www/路径差异导致 redirect_uri_mismatch */
+            var CANONICAL_REDIRECT = 'https://s-class.top/index.html';
+            var PRODUCTION_HOSTS = { 's-class.top': true, 'www.s-class.top': true };
 
             var loginGate = document.getElementById('login-gate');
             var mainApp = document.getElementById('main-app');
@@ -1824,6 +1827,10 @@
             var btnLogin = document.getElementById('gate-btn-login');
 
             function getIndexRedirectUri() {
+                var host = (location.hostname || '').toLowerCase();
+                if (PRODUCTION_HOSTS[host]) {
+                    return CANONICAL_REDIRECT;
+                }
                 var href = location.href.split('#')[0].split('?')[0];
                 if (location.protocol === 'file:') {
                     return href;
@@ -1835,6 +1842,28 @@
                     return href + 'index.html';
                 }
                 return href.replace(/\/[^/]*$/, '/') + 'index.html';
+            }
+
+            function showLoginError(msg) {
+                var err = document.getElementById('gate-name-error');
+                document.documentElement.classList.add('show-login-gate');
+                if (loginGate) loginGate.classList.remove('hidden');
+                if (err) {
+                    err.textContent = msg;
+                    err.style.display = 'block';
+                }
+            }
+
+            function parseOAuthParams() {
+                var out = {};
+                [location.search.replace(/^\?/, ''), (location.hash || '').replace(/^#/, '')].forEach(function (chunk) {
+                    if (!chunk) return;
+                    chunk.split('&').forEach(function (p) {
+                        var kv = p.split('=');
+                        if (kv[0]) out[kv[0]] = decodeURIComponent(kv[1] || '');
+                    });
+                });
+                return out;
             }
 
             function showMainAfterLogin(name) {
@@ -1906,12 +1935,16 @@
             }
 
             function handleCallback() {
-                var hash = location.hash || '';
-                var params = {};
-                hash.replace(/^#/, '').split('&').forEach(function(p) {
-                    var kv = p.split('=');
-                    if (kv[0] && kv[1]) params[kv[0]] = decodeURIComponent(kv[1]);
-                });
+                var params = parseOAuthParams();
+                if (params.error) {
+                    var detail = params.error_description || params.error;
+                    if (params.error === 'redirect_uri_mismatch') {
+                        detail = '登录回调地址未在 Authing 白名单内。请在控制台「应用配置 → 登录回调 URL」添加：' + CANONICAL_REDIRECT;
+                    }
+                    showLoginError('登录失败：' + detail);
+                    history.replaceState(null, '', location.pathname + location.search);
+                    return;
+                }
                 var idToken = params.id_token;
                 if (idToken) {
                     var payload = parseJwtPayload(idToken);
