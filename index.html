@@ -1852,8 +1852,11 @@
                 [location.search.replace(/^\?/, ''), (location.hash || '').replace(/^#/, '')].forEach(function (chunk) {
                     if (!chunk) return;
                     chunk.split('&').forEach(function (p) {
-                        var kv = p.split('=');
-                        if (kv[0]) out[kv[0]] = decodeURIComponent(kv[1] || '');
+                        var eq = p.indexOf('=');
+                        if (eq <= 0) return;
+                        var key = p.slice(0, eq);
+                        var val = p.slice(eq + 1);
+                        try { out[key] = decodeURIComponent(val.replace(/\+/g, ' ')); } catch (e) { out[key] = val; }
                     });
                 });
                 return out;
@@ -1932,7 +1935,7 @@
                 if (params.error) {
                     var detail = params.error_description || params.error;
                     if (params.error === 'redirect_uri_mismatch') {
-                        detail = '登录回调地址未在 Authing 白名单内。请在控制台「应用配置 → 登录回调 URL」添加：' + getIndexRedirectUri();
+                        detail = '回调地址「' + getIndexRedirectUri() + '」未通过校验。请确认 Authing 已保存登录回调 URL，并在「授权配置 → 授权模式」开启 implicit 隐式模式、勾选 id_token token。';
                     }
                     showLoginError('登录失败：' + detail);
                     history.replaceState(null, '', location.pathname + location.search);
@@ -1940,6 +1943,14 @@
                 }
                 var idToken = params.id_token;
                 if (idToken) {
+                    var savedState = sessionStorage.getItem('s-class-oauth-state');
+                    if (savedState && params.state && savedState !== params.state) {
+                        showLoginError('登录失败：安全校验未通过，请重新登录');
+                        sessionStorage.removeItem('s-class-oauth-state');
+                        history.replaceState(null, '', location.pathname + location.search);
+                        return;
+                    }
+                    sessionStorage.removeItem('s-class-oauth-state');
                     var payload = parseJwtPayload(idToken);
                     var tokenName = (payload && firstNonEmpty(payload)) || (params.username || '');
                     var name = tokenName;
@@ -1991,13 +2002,17 @@
                 var redirectUri = getIndexRedirectUri();
                 var state = Math.random().toString(36).slice(2);
                 var nonce = Math.random().toString(36).slice(2);
+                sessionStorage.setItem('s-class-oauth-state', state);
+                sessionStorage.setItem('s-class-oauth-redirect', redirectUri);
+                /* 无后端静态站须开启 Authing implicit 模式，见应用配置 → 授权配置 → 授权模式 */
                 var url = AUTH_HOST + '/oidc/auth?client_id=' + encodeURIComponent(APP_ID) +
                     '&redirect_uri=' + encodeURIComponent(redirectUri) +
-                    '&response_type=id_token%20token&scope=openid%20profile' +
+                    '&response_type=id_token%20token&response_mode=fragment&scope=openid%20profile' +
                     '&state=' + encodeURIComponent(state) + '&nonce=' + encodeURIComponent(nonce);
                 location.href = url;
             });
 
+            handleCallback();
             document.addEventListener('DOMContentLoaded', function() {
                 handleCallback();
                 var btnLogout = document.getElementById('btn-logout');
