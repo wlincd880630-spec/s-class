@@ -7,8 +7,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&family=Noto+Serif+SC:wght@600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,600;0,8..60,700;1,8..60,600&display=swap" rel="stylesheet" />
-  <script src="audio/audio-manifest.js"></script>
-  <script src="audio/local-audio.js"></script>
+  <script src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Play%20Kitty/play-kitty-courseware/audio/audio-manifest.js"></script>
+  <script src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Play%20Kitty/play-kitty-courseware/audio/local-audio.js"></script>
   <style>
     :root {
       /* 国家地理式：金标黄 + 墨黑 + 大地/纸白 */
@@ -724,6 +724,7 @@
   </div>
 
   <script>
+    var MEDIA_COS = "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Play%20Kitty/play-kitty-courseware/";
   (function () {
     "use strict";
 
@@ -846,7 +847,7 @@
       }, 1750);
     }
 
-    function wordImg(w) { return "images/words/" + w.key.toLowerCase() + ".png"; }
+    function wordImg(w) { return MEDIA_COS + "images/words/" + w.key.toLowerCase() + ".png"; }
 
     function artFromSrc(src, emoji) {
       return (
@@ -883,7 +884,7 @@
         return;
       }
       if (!__storyNarrP) {
-        __storyNarrP = fetch("media/story-timings.json", { cache: "no-store" })
+        __storyNarrP = fetch(MEDIA_COS + "media/story-timings.json", { cache: "no-store" })
           .then(function (r) { if (!r.ok) throw new Error("nojson"); return r.json(); })
           .then(function (d) {
             if (d && d.segments && d.segments.length === STORY.length) __storyNarr = d;
@@ -927,9 +928,7 @@
         }
         a.playbackRate = Math.max(0.7, Math.min(1.15, pr));
         var rel = p.audio || "media/story-read-aloud.mp3";
-        var relAbs = (function () {
-          try { return new URL(rel, window.location.href).href; } catch (e) { return rel; }
-        })();
+        var relAbs = MEDIA_COS + rel;
         if (a.getAttribute("data-timings-audio") !== relAbs) {
           a.setAttribute("data-timings-audio", relAbs);
           a.src = relAbs;
@@ -1592,7 +1591,7 @@
       var n = storyIndex + 1;
       if (n > STORY.length) n = STORY.length;
       var z = n < 10 ? "0" : "";
-      var imgSrc = "images/story/" + z + n + ".png";
+      var imgSrc = MEDIA_COS + "images/story/" + z + n + ".png";
       if (pr) pr.textContent = "第 " + (storyIndex + 1) + " / " + STORY.length + " 句";
       c.innerHTML =
         "<div class=\"story-sentence story-sentence--xl story-sentence-row\">" +

@@ -130,7 +130,7 @@
     ALL_KEYS: ALL_KEYS,
     WMAP: WMAP,
     STORAGE_KEY: STORAGE_KEY,
-    IMG_BASE: "../play-kitty-courseware/images/words/",
+    IMG_BASE: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Play%20Kitty/play-kitty-courseware/images/words/",
     getSelected: getSelected,
     getSelectedKeys: getSelectedKeys,
     getDefaultKeys: getDefaultKeys,

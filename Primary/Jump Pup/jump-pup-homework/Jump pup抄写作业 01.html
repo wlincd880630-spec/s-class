@@ -264,7 +264,7 @@ const LESSON = {
   words: ['pup', 'jump', 'cute', 'roll', 'catch', 'tug', 'run']
 };
 
-const IMG_BASE = './assets/images/jump-pup-hw/';
+const IMG_BASE = 'https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Jump%20Pup/jump-pup-courseware/images/words/';
 
 /** PNG 不存在时用内嵌 SVG 占位（浏览器可显示），放入同名文件后自动显示真图 */
 function svgPlaceholderDataUrl(line1, line2) {
@@ -341,7 +341,7 @@ function buildWordBlock(word, accentColor) {
   block.innerHTML = `
     <div class="img-col">
       <div class="img-frame">
-        <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Jump Pup/jump-pup-homework/${IMG_BASE}${word}.png" alt="${word}" />
+        <img src="${IMG_BASE}${word}.png" alt="${word}" />
       </div>
       <div class="word-lbl" style="color:${accentColor}">${word}</div>
     </div>
@@ -351,7 +351,7 @@ function buildWordBlock(word, accentColor) {
   const img = block.querySelector('.img-frame img');
   img.addEventListener('error', function onImgErr() {
     this.removeEventListener('error', onImgErr);
-    this.src = svgPlaceholderDataUrl(word, './assets/images/jump-pup-hw/' + word + '.png');
+    this.src = svgPlaceholderDataUrl(word, IMG_BASE + word + '.png');
   }, { once: true });
 
   return block;

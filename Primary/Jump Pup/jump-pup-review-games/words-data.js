@@ -130,7 +130,7 @@
     ALL_KEYS: ALL_KEYS,
     WMAP: WMAP,
     STORAGE_KEY: STORAGE_KEY,
-    IMG_BASE: "../jump-pup-courseware/images/words/",
+    IMG_BASE: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Jump%20Pup/jump-pup-courseware/images/words/",
     getSelected: getSelected,
     getSelectedKeys: getSelectedKeys,
     getDefaultKeys: getDefaultKeys,
