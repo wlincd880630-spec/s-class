@@ -88,10 +88,14 @@ function patchContent(filePath, content) {
     (_, p) => `<source src="${BASE}${p.replace(/^\.\//, "")}"`
   );
 
-  // video.mp4 确保指向 COS
+  // Video.mp4 确保指向 COS（COS 上文件名为 Video.mp4，区分大小写）
   s = s.replace(
-    /src="(?!https?:\/\/)[^"]*video\.mp4"/g,
-    `src="${BASE}video.mp4"`
+    /src="(?!https?:\/\/)[^"]*[Vv]ideo\.mp4"/g,
+    `src="${BASE}Video.mp4"`
+  );
+  s = s.replace(
+    /Primary\/Alphabet\/video\.mp4/g,
+    "Primary/Alphabet/Video.mp4"
   );
 
   return s;
