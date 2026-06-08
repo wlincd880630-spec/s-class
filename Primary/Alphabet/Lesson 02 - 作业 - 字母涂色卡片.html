@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 02 · 字母涂色卡片 A–Z</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Patrick+Hand&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="coloring-cards/coloring-shared.css">
+    <style>
+        body {
+            margin: 0; min-height: 100vh;
+            font-family: 'Fredoka', sans-serif;
+            background: linear-gradient(160deg, #e8eaf6 0%, #e3f2fd 45%, #fce4ec 100%);
+        }
+    </style>
+</head>
+<body>
+    <div class="index-wrap">
+        <header class="index-hero">
+            <h1>🎨 Lesson 02 · 字母涂色卡片</h1>
+            <p>每页：<strong>Aa 字母描红</strong> + 左侧上下 <strong>2 张涂色图</strong> + 右侧 <strong>小写单词 + 中文</strong> · 字母与单词均可涂色</p>
+        </header>
+        <div class="index-actions no-print">
+            <a class="btn-all" href="coloring-cards/Print-All.html" style="color:#fff;">🖨️ 打印全部 26 页</a>
+        </div>
+        <div class="index-grid" id="letter-grid"></div>
+    </div>
+
+    <script src="lesson02-coloring-data.js"></script>
+    <script>
+        const grid = document.getElementById('letter-grid');
+        (window.LESSON02_COLORING || []).forEach((entry) => {
+            const L = entry.letter;
+            const sm = L.toLowerCase();
+            const hue = entry.hue;
+            const thumb = entry.words[0].img;
+            const a = document.createElement('a');
+            a.className = 'index-card';
+            a.href = `coloring-cards/Letter-${L}.html`;
+            a.innerHTML = `
+                <div class="index-card-bar" style="background:linear-gradient(90deg,hsl(${hue},70%,55%),hsl(${hue},55%,42%))"></div>
+                <div class="index-card-thumb"><img src="${thumb}" alt="${entry.words[0].word}" loading="lazy"></div>
+                <div class="index-card-letters" style="color:hsl(${hue},52%,38%)">${L}<span class="sm">${sm}</span></div>`;
+            grid.appendChild(a);
+        });
+    </script>
+</body>
+</html>

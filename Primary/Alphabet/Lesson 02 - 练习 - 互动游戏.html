@@ -1,0 +1,1836 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Lesson 02 · 字母互动练习</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Patrick+Hand&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: linear-gradient(145deg, #e8eaf6 0%, #e3f2fd 40%, #fce4ec 100%);
+            --primary: #ff8a80;
+            --secondary: #4db6ac;
+            --accent: #7e57c2;
+            --accent2: #5c6bc0;
+            --gold: #ffb74d;
+            --ink: #37474f;
+            --glass: rgba(255, 255, 255, 0.88);
+            --font: 'Fredoka', sans-serif;
+            --hand: 'Patrick Hand', cursive;
+            --shadow: 0 10px 40px rgba(55, 71, 79, 0.12);
+        }
+        *, *::before, *::after { box-sizing: border-box; }
+        html, body {
+            margin: 0; min-height: 100vh;
+            font-family: var(--font);
+            color: var(--ink);
+            background: var(--bg);
+            overflow-x: hidden;
+            touch-action: manipulation;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        body::before, body::after {
+            content: '';
+            position: fixed;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+            filter: blur(60px);
+            opacity: 0.45;
+            transition: opacity 0.5s, transform 0.6s;
+        }
+        body::before {
+            width: min(420px, 70vw); height: min(420px, 70vw);
+            top: -120px; right: -80px;
+            background: radial-gradient(circle, #b39ddb 0%, transparent 70%);
+        }
+        body::after {
+            width: min(360px, 65vw); height: min(360px, 65vw);
+            bottom: -100px; left: -60px;
+            background: radial-gradient(circle, #80cbc4 0%, transparent 70%);
+        }
+        body[data-game="1"]::before { background: radial-gradient(circle, #ffab91 0%, transparent 70%); opacity: 0.55; }
+        body[data-game="2"]::before { background: radial-gradient(circle, #ce93d8 0%, transparent 70%); opacity: 0.55; }
+        body[data-game="3"]::before { background: radial-gradient(circle, #80deea 0%, transparent 70%); opacity: 0.55; }
+        body[data-game="4"]::before { background: radial-gradient(circle, #fff59d 0%, transparent 70%); opacity: 0.5; }
+        body[data-game="5"]::before { background: radial-gradient(circle, #ef9a9a 0%, transparent 70%); opacity: 0.55; }
+        .topbar, .hub, .game-screen, .overlay { position: relative; z-index: 1; }
+        .hidden { display: none !important; }
+
+        /* —— 顶栏 —— */
+        .topbar {
+            position: sticky; top: 0; z-index: 100;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 12px 18px;
+            background: rgba(255,255,255,0.92);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+        }
+        .topbar h1 { margin: 0; font-size: 1.15rem; font-weight: 700; }
+        .score-pill {
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            color: #fff; font-weight: 700;
+            padding: 8px 16px; border-radius: 999px;
+            font-size: 0.95rem;
+            box-shadow: 0 4px 14px rgba(94, 53, 177, 0.3);
+        }
+        .btn-icon {
+            border: none; background: #eceff1; cursor: pointer;
+            width: 42px; height: 42px; border-radius: 50%;
+            font-size: 1.2rem; display: flex; align-items: center; justify-content: center;
+            transition: transform 0.15s;
+        }
+        .btn-icon:hover { transform: scale(1.08); }
+
+        /* —— 大厅 —— */
+        .hub {
+            max-width: 980px; margin: 0 auto;
+            padding: 20px 18px 48px;
+        }
+        .hub-hero {
+            position: relative;
+            border-radius: 28px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            margin-bottom: 28px;
+            border: 3px solid rgba(255,255,255,0.9);
+        }
+        .hub-hero img {
+            width: 100%; height: clamp(160px, 28vw, 220px);
+            object-fit: cover; display: block;
+        }
+        .hub-hero-cap {
+            position: absolute; inset: auto 0 0 0;
+            padding: 18px 22px;
+            background: linear-gradient(transparent, rgba(38,50,56,0.72));
+            color: #fff;
+        }
+        .hub-hero-cap h2 { margin: 0 0 4px; font-size: 1.55rem; }
+        .hub-hero-cap p { margin: 0; opacity: 0.92; font-size: 0.95rem; }
+
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 18px;
+        }
+        .game-card {
+            background: var(--glass);
+            border: 2px solid rgba(255,255,255,0.95);
+            border-radius: 24px;
+            padding: 0;
+            overflow: hidden;
+            cursor: pointer;
+            text-align: left;
+            box-shadow: var(--shadow);
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-family: inherit;
+            color: inherit;
+        }
+        .game-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 18px 48px rgba(55, 71, 79, 0.16);
+        }
+        .game-card img {
+            width: 100%; aspect-ratio: 16/10;
+            object-fit: cover; display: block;
+        }
+        .game-card-body { padding: 16px 18px 20px; }
+        .game-card-body h3 { margin: 0 0 6px; font-size: 1.2rem; }
+        .game-card-body p { margin: 0; color: #78909c; font-size: 0.9rem; line-height: 1.45; }
+        .game-tag {
+            display: inline-block; margin-top: 10px;
+            font-size: 0.78rem; font-weight: 700;
+            padding: 4px 10px; border-radius: 999px;
+            background: #ede7f6; color: var(--accent);
+        }
+
+        /* —— 练习字母选择 —— */
+        .practice-target-panel {
+            background: var(--glass);
+            border: 2px solid rgba(255,255,255,0.95);
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+            padding: 18px 20px 20px;
+            margin-bottom: 24px;
+        }
+        .practice-target-head {
+            display: flex; flex-wrap: wrap; align-items: flex-start;
+            justify-content: space-between; gap: 10px 16px;
+            margin-bottom: 14px;
+        }
+        .practice-target-head h3 { margin: 0 0 4px; font-size: 1.15rem; }
+        .practice-target-head p { margin: 0; color: #78909c; font-size: 0.88rem; line-height: 1.4; }
+        .practice-summary {
+            font-size: 0.85rem; font-weight: 700;
+            padding: 8px 14px; border-radius: 999px;
+            background: linear-gradient(135deg, #e8eaf6, #ede7f6);
+            color: var(--accent);
+            white-space: nowrap;
+        }
+        .practice-presets {
+            display: flex; flex-wrap: wrap; gap: 8px;
+            margin-bottom: 14px;
+        }
+        .preset-btn {
+            border: 2px solid #e0e0e0; background: #fff;
+            border-radius: 999px; padding: 6px 14px;
+            font-family: inherit; font-size: 0.82rem; font-weight: 600;
+            cursor: pointer; color: var(--ink);
+            transition: background 0.15s, border-color 0.15s;
+        }
+        .preset-btn:hover { border-color: var(--accent2); background: #f3e5f5; }
+        .letter-picker-grid {
+            display: grid;
+            grid-template-columns: repeat(13, 1fr);
+            gap: 6px;
+        }
+        @media (max-width: 640px) {
+            .letter-picker-grid { grid-template-columns: repeat(7, 1fr); }
+        }
+        .letter-pick-btn {
+            aspect-ratio: 1;
+            border: 2px solid #cfd8dc; border-radius: 12px;
+            background: #fff; cursor: pointer;
+            font-family: var(--hand);
+            font-size: clamp(1rem, 3.2vw, 1.35rem);
+            font-weight: 700; color: var(--ink);
+            transition: transform 0.1s, background 0.12s, border-color 0.12s;
+        }
+        .letter-pick-btn.on {
+            background: linear-gradient(145deg, #7e57c2, #5c6bc0);
+            border-color: #5c6bc0; color: #fff;
+            box-shadow: 0 3px 10px rgba(94, 53, 177, 0.35);
+        }
+        .letter-pick-btn:not(.on) { opacity: 0.45; }
+        .letter-pick-btn:active { transform: scale(0.94); }
+        .practice-toast {
+            position: fixed; left: 50%; bottom: 28px; z-index: 200;
+            transform: translateX(-50%) translateY(120%);
+            background: #37474f; color: #fff;
+            padding: 14px 22px; border-radius: 16px;
+            font-size: 0.92rem; font-weight: 600;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+            transition: transform 0.35s ease;
+            max-width: min(92vw, 420px); text-align: center;
+        }
+        .practice-toast.show { transform: translateX(-50%) translateY(0); }
+
+        /* —— 游戏区通用 —— */
+        .game-screen {
+            max-width: 920px; margin: 0 auto;
+            padding: 12px 16px 48px;
+            animation: screen-in 0.45s ease;
+        }
+        @keyframes screen-in {
+            from { opacity: 0; transform: translateY(14px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .game-hero {
+            text-align: center;
+            margin-bottom: 18px;
+            padding: 22px 20px 18px;
+            border-radius: 28px;
+            border: 2px solid rgba(255,255,255,0.85);
+            box-shadow: 0 12px 36px rgba(55, 71, 79, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        .game-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            opacity: 0.12;
+            background: radial-gradient(circle at 85% 15%, #fff 0%, transparent 45%);
+            pointer-events: none;
+        }
+        .game-theme-1 .game-hero { background: linear-gradient(135deg, #fff8f5 0%, #ffe0d6 55%, #ffccbc 100%); }
+        .game-theme-2 .game-hero { background: linear-gradient(135deg, #faf5ff 0%, #ede7f6 55%, #e1bee7 100%); }
+        .game-theme-3 .game-hero { background: linear-gradient(135deg, #f0fdff 0%, #e0f7fa 55%, #b2ebf2 100%); }
+        .game-theme-4 .game-hero { background: linear-gradient(135deg, #fffef5 0%, #fff9c4 55%, #fff59d 100%); }
+        .game-theme-5 .game-hero { background: linear-gradient(135deg, #fff5f5 0%, #ffebee 55%, #ffcdd2 100%); }
+        .game-head { position: relative; z-index: 1; }
+        .game-num-badge {
+            display: inline-flex;
+            align-items: center; justify-content: center;
+            width: 52px; height: 52px;
+            border-radius: 18px;
+            font-size: 1.5rem; font-weight: 700;
+            margin-bottom: 10px;
+            color: #fff;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+            transform: rotate(-4deg);
+        }
+        .game-theme-1 .game-num-badge { background: linear-gradient(145deg, #ff8a65, #f4511e); }
+        .game-theme-2 .game-num-badge { background: linear-gradient(145deg, #ab47bc, #7b1fa2); }
+        .game-theme-3 .game-num-badge { background: linear-gradient(145deg, #26c6da, #00838f); }
+        .game-theme-4 .game-num-badge { background: linear-gradient(145deg, #ffca28, #f9a825); color: #5d4037; }
+        .game-theme-5 .game-num-badge { background: linear-gradient(145deg, #ef5350, #c62828); }
+        .game-head h2 { margin: 0 0 6px; font-size: clamp(1.25rem, 4vw, 1.55rem); letter-spacing: -0.02em; }
+        .game-head p { margin: 0; color: #546e7a; font-size: 0.92rem; line-height: 1.5; max-width: 36em; margin-inline: auto; }
+        .game-progress-wrap { margin-top: 16px; }
+        .round-badge {
+            display: inline-block;
+            font-size: 0.82rem; font-weight: 700;
+            padding: 6px 14px; border-radius: 999px;
+            background: rgba(255,255,255,0.75);
+            color: #455a64;
+            margin-bottom: 10px;
+            border: 1px solid rgba(255,255,255,0.9);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        .progress-bar {
+            height: 12px;
+            background: rgba(255,255,255,0.65);
+            border-radius: 999px; overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.8);
+            box-shadow: inset 0 2px 6px rgba(0,0,0,0.06);
+        }
+        .progress-fill {
+            height: 100%; width: 0%;
+            border-radius: 999px;
+            transition: width 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+            background: linear-gradient(90deg, #4db6ac, #81c784, #aed581);
+            background-size: 200% 100%;
+            animation: progress-shine 2.5s linear infinite;
+            box-shadow: 0 0 12px rgba(77, 182, 172, 0.45);
+        }
+        @keyframes progress-shine {
+            0% { background-position: 100% 0; }
+            100% { background-position: -100% 0; }
+        }
+        .panel {
+            background: rgba(255, 255, 255, 0.92);
+            border-radius: 28px;
+            border: 2px solid rgba(255,255,255,0.98);
+            box-shadow: 0 16px 48px rgba(55, 71, 79, 0.1), inset 0 1px 0 rgba(255,255,255,1);
+            padding: clamp(18px, 4vw, 28px);
+            position: relative;
+            overflow: hidden;
+        }
+        .panel::after {
+            content: '';
+            position: absolute;
+            top: -40%; right: -20%;
+            width: 50%; height: 80%;
+            background: radial-gradient(circle, rgba(126,87,194,0.06) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .game-theme-1 .panel::after { background: radial-gradient(circle, rgba(255,138,128,0.1) 0%, transparent 70%); }
+        .game-theme-2 .panel::after { background: radial-gradient(circle, rgba(171,71,188,0.08) 0%, transparent 70%); }
+        .game-theme-3 .panel::after { background: radial-gradient(circle, rgba(38,198,218,0.1) 0%, transparent 70%); }
+        .game-theme-4 .panel::after { background: radial-gradient(circle, rgba(255,202,40,0.12) 0%, transparent 70%); }
+        .game-theme-5 .panel::after { background: radial-gradient(circle, rgba(239,83,80,0.1) 0%, transparent 70%); }
+        .panel > * { position: relative; z-index: 1; }
+        .stat-chips {
+            display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;
+            margin: 14px 0 4px;
+        }
+        .stat-chip {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 10px 16px; border-radius: 16px;
+            background: rgba(255,255,255,0.85);
+            border: 2px solid rgba(255,255,255,0.95);
+            font-size: 0.9rem; font-weight: 700; color: #455a64;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+        }
+        .stat-chip strong { color: var(--accent2); font-size: 1.05rem; }
+        .stat-chip.highlight strong { color: #00838f; }
+        .stat-chip.timer strong { color: #e65100; font-variant-numeric: tabular-nums; }
+
+        /* 游戏1：看图选字母 */
+        .pic-stage {
+            display: flex; flex-direction: column; align-items: center;
+            margin-bottom: 8px;
+        }
+        .pic-frame {
+            width: min(300px, 78vw);
+            aspect-ratio: 1;
+            margin: 0 auto 14px;
+            border-radius: 24px;
+            border: 4px solid #fff;
+            background: linear-gradient(180deg, #fff 0%, #f5f5f5 100%);
+            display: flex; align-items: center; justify-content: center;
+            padding: 16px;
+            box-shadow: 0 14px 40px rgba(244, 81, 30, 0.15), 0 4px 0 #ffab91, inset 0 0 0 1px #ffe0b2;
+            transform: rotate(-1.5deg);
+            position: relative;
+        }
+        .pic-frame::before {
+            content: '';
+            position: absolute;
+            top: -8px; left: 50%; transform: translateX(-50%);
+            width: 56px; height: 18px;
+            background: rgba(255, 224, 178, 0.85);
+            border-radius: 4px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+        }
+        .pic-frame img { max-width: 100%; max-height: 100%; object-fit: contain; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.08)); }
+        .word-hint {
+            text-align: center;
+            font-family: var(--hand);
+            font-size: clamp(1.75rem, 5vw, 2.2rem);
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #5c6bc0;
+            padding: 10px 22px;
+            background: linear-gradient(135deg, #e8eaf6, #f3e5f5);
+            border-radius: 999px;
+            border: 2px solid rgba(255,255,255,0.9);
+            box-shadow: 0 4px 16px rgba(92, 107, 192, 0.15);
+            display: inline-block;
+        }
+        .choices-label {
+            text-align: center;
+            font-size: 0.85rem; font-weight: 700;
+            color: #90a4ae; text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 12px;
+        }
+        .choices-4 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        .choices-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            max-width: 420px;
+            margin: 0 auto;
+        }
+        @media (max-width: 480px) {
+            .choices-3 { grid-template-columns: 1fr; max-width: 200px; }
+        }
+        .choice-btn {
+            min-height: 80px;
+            border: none; border-radius: 20px;
+            font-family: var(--hand);
+            font-size: clamp(2rem, 6vw, 2.5rem); font-weight: 700;
+            cursor: pointer;
+            background: linear-gradient(180deg, #fff 0%, #fafafa 100%);
+            border: 3px solid #e8eaf6;
+            box-shadow: 0 6px 0 #c5cae9, 0 10px 24px rgba(92, 107, 192, 0.12);
+            transition: transform 0.15s, box-shadow 0.15s, background 0.15s;
+        }
+        .choice-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 0 #c5cae9, 0 14px 28px rgba(92, 107, 192, 0.18); }
+        .choice-btn:active { transform: translateY(4px); box-shadow: 0 2px 0 #c5cae9; }
+        .choice-btn.correct {
+            background: linear-gradient(180deg, #e8f5e9, #c8e6c9);
+            border-color: #66bb6a;
+            box-shadow: 0 6px 0 #43a047, 0 0 20px rgba(102, 187, 106, 0.4);
+            animation: pop-correct 0.4s ease;
+        }
+        .choice-btn.wrong {
+            background: linear-gradient(180deg, #ffebee, #ffcdd2);
+            border-color: #ef5350;
+            animation: shake 0.4s;
+        }
+        @keyframes pop-correct {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.06); }
+            100% { transform: scale(1); }
+        }
+        @keyframes shake {
+            0%,100%{transform:translateX(0)} 25%{transform:translateX(-6px)} 75%{transform:translateX(6px)}
+        }
+
+        /* 游戏2：大小写配对 */
+        .pairs-legend {
+            display: flex; justify-content: center; gap: 20px;
+            margin-bottom: 16px; font-size: 0.85rem; font-weight: 700; color: #78909c;
+        }
+        .pairs-legend span { display: inline-flex; align-items: center; gap: 6px; }
+        .pairs-legend i {
+            width: 14px; height: 14px; border-radius: 4px; display: inline-block;
+        }
+        .pairs-legend .cap i { background: linear-gradient(135deg, #7e57c2, #5c6bc0); }
+        .pairs-legend .sm i { background: linear-gradient(135deg, #4db6ac, #26a69a); }
+        .pairs-board {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            padding: 8px;
+            background: linear-gradient(135deg, rgba(237,231,246,0.5), rgba(224,247,250,0.4));
+            border-radius: 22px;
+            border: 2px dashed #ce93d8;
+        }
+        @media (max-width: 600px) { .pairs-board { grid-template-columns: repeat(3, 1fr); } }
+        .pair-tile {
+            aspect-ratio: 1;
+            border: none; border-radius: 18px;
+            font-family: var(--hand);
+            font-size: clamp(1.8rem, 5vw, 2.6rem);
+            font-weight: 700;
+            cursor: pointer;
+            background: linear-gradient(165deg, #fff 0%, #f3e5f5 100%);
+            border: 3px solid #e1bee7;
+            box-shadow: 0 5px 0 #ce93d8, 0 8px 20px rgba(126, 87, 194, 0.12);
+            transition: transform 0.18s, opacity 0.25s, box-shadow 0.18s;
+        }
+        .pair-tile[data-type="sm"] {
+            background: linear-gradient(165deg, #fff 0%, #e0f2f1 100%);
+            border-color: #80cbc4;
+            box-shadow: 0 5px 0 #4db6ac, 0 8px 20px rgba(77, 182, 172, 0.12);
+        }
+        .pair-tile.selected {
+            outline: 4px solid #7e57c2;
+            transform: scale(1.08) rotate(-2deg);
+            z-index: 2;
+            box-shadow: 0 8px 0 #7e57c2, 0 16px 32px rgba(126, 87, 194, 0.25);
+        }
+        .pair-tile.matched {
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(0.5) rotate(8deg);
+            transition: opacity 0.35s, transform 0.35s;
+        }
+        .pair-tile.wrong-flash { animation: shake 0.4s; background: #ffcdd2 !important; }
+
+        /* 游戏3：字母顺序 */
+        .race-zone-label {
+            font-size: 0.78rem; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 0.1em;
+            color: #90a4ae; margin-bottom: 8px; text-align: center;
+        }
+        .race-strip {
+            display: flex; flex-wrap: wrap; gap: 10px;
+            justify-content: center;
+            min-height: 130px;
+            padding: 16px;
+            background: linear-gradient(180deg, #fafafa 0%, #eceff1 100%);
+            border-radius: 20px;
+            border: 2px solid #e0e0e0;
+            box-shadow: inset 0 2px 12px rgba(0,0,0,0.04);
+        }
+        .race-target {
+            display: flex; flex-wrap: wrap; gap: 8px;
+            justify-content: center;
+            align-items: center;
+            padding: 16px;
+            background: linear-gradient(135deg, rgba(77, 182, 172, 0.15), rgba(129, 199, 132, 0.12));
+            border-radius: 20px;
+            border: 2px dashed #4db6ac;
+            min-height: 72px;
+            margin-bottom: 18px;
+            box-shadow: 0 4px 20px rgba(77, 182, 172, 0.1);
+        }
+        .race-target:empty::after {
+            content: '按顺序点选的字母会出现在这里';
+            color: #90a4ae; font-size: 0.88rem; font-weight: 600;
+        }
+        .race-progress {
+            text-align: center;
+            font-weight: 700;
+            color: #00838f;
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+            padding: 8px 14px;
+            background: rgba(255,255,255,0.7);
+            border-radius: 12px;
+            display: inline-block;
+            width: 100%;
+        }
+        .race-chip {
+            width: 48px; height: 48px;
+            border-radius: 14px;
+            display: flex; align-items: center; justify-content: center;
+            font-family: var(--hand);
+            font-size: 1.5rem; font-weight: 700;
+            border: none; cursor: pointer;
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
+        .race-chip.pool {
+            background: linear-gradient(180deg, #fff, #f5f5f5);
+            border: 2px solid #b0bec5;
+            box-shadow: 0 5px 0 #90a4ae, 0 6px 16px rgba(0,0,0,0.08);
+        }
+        .race-chip.pool:hover { transform: translateY(-2px); }
+        .race-chip.pool:active { transform: translateY(3px); box-shadow: 0 2px 0 #90a4ae; }
+        .race-chip.done {
+            background: linear-gradient(145deg, #4db6ac, #26a69a);
+            color: #fff;
+            cursor: default;
+            box-shadow: 0 4px 0 #00897b;
+            animation: chip-land 0.35s ease;
+        }
+        @keyframes chip-land {
+            from { transform: scale(0.6) rotate(-8deg); opacity: 0; }
+            to { transform: scale(1) rotate(0); opacity: 1; }
+        }
+        .race-chip.wrong { background: #ffcdd2; animation: shake 0.35s; }
+        .mode-switch {
+            display: flex; justify-content: center; gap: 10px;
+            flex-wrap: wrap; margin-bottom: 14px;
+        }
+        .mode-switch .listen-level-btn { min-width: 120px; }
+
+        /* 游戏4：中间缺字母 */
+        .gap-stage {
+            padding: 20px 12px 8px;
+            background: linear-gradient(180deg, rgba(255,249,196,0.35) 0%, transparent 100%);
+            border-radius: 24px;
+            margin-bottom: 8px;
+        }
+        .gap-prompt {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: clamp(6px, 3vw, 14px);
+            margin: 8px 0 16px;
+        }
+        .gap-connector {
+            font-size: clamp(1.2rem, 4vw, 1.8rem);
+            color: #ffb74d;
+            font-weight: 700;
+            opacity: 0.85;
+            user-select: none;
+        }
+        .gap-letter {
+            font-family: var(--hand);
+            font-size: clamp(2.6rem, 11vw, 4rem);
+            font-weight: 700;
+            width: clamp(76px, 23vw, 108px);
+            height: clamp(76px, 23vw, 108px);
+            display: flex; align-items: center; justify-content: center;
+            background: linear-gradient(180deg, #fff, #fffde7);
+            border-radius: 22px;
+            border: 3px solid #ffe082;
+            box-shadow: 0 6px 0 #ffca28, 0 12px 28px rgba(255, 202, 40, 0.2);
+        }
+        .gap-letter.mystery {
+            color: #7e57c2;
+            border-color: #b39ddb;
+            background: linear-gradient(180deg, #ede7f6, #e1bee7);
+            box-shadow: 0 6px 0 #9575cd, 0 0 24px rgba(126, 87, 194, 0.35);
+            animation: pulse 1.2s ease infinite;
+        }
+        .gap-letter.revealed {
+            background: linear-gradient(180deg, #e8f5e9, #c8e6c9);
+            border-color: #66bb6a;
+            box-shadow: 0 6px 0 #43a047, 0 0 28px rgba(102, 187, 106, 0.45);
+            color: #2e7d32;
+            animation: pop-correct 0.5s ease;
+        }
+        .gap-triple-done {
+            text-align: center;
+            font-family: var(--hand);
+            font-size: clamp(2.2rem, 8vw, 3rem);
+            font-weight: 700;
+            color: #43a047;
+            letter-spacing: 0.12em;
+            margin: 0 0 12px;
+            text-shadow: 0 2px 0 rgba(67, 160, 71, 0.2);
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 6px 0 #9575cd, 0 0 20px rgba(126, 87, 194, 0.3); }
+            50% { transform: scale(1.08); box-shadow: 0 8px 0 #9575cd, 0 0 32px rgba(126, 87, 194, 0.5); }
+        }
+        .gap-question {
+            text-align: center;
+            font-size: 1.02rem;
+            color: #546e7a;
+            margin-bottom: 20px;
+            line-height: 1.55;
+            padding: 12px 16px;
+            background: rgba(255,255,255,0.6);
+            border-radius: 16px;
+        }
+
+        /* 游戏5：听字母选字母 */
+        .listen-levels {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 18px;
+        }
+        .listen-level-btn {
+            min-width: 52px;
+            padding: 11px 16px;
+            border: 3px solid #ffcdd2;
+            border-radius: 16px;
+            background: linear-gradient(180deg, #fff, #fff5f5);
+            font-family: var(--font);
+            font-weight: 700;
+            font-size: 0.92rem;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #ef9a9a;
+            transition: transform 0.12s, background 0.12s, box-shadow 0.12s;
+        }
+        .listen-level-btn.active {
+            background: linear-gradient(180deg, #ffebee, #ffcdd2);
+            border-color: #ef5350;
+            color: #c62828;
+            box-shadow: 0 4px 0 #c62828, 0 0 16px rgba(239, 83, 80, 0.25);
+            transform: translateY(-1px);
+        }
+        .listen-play-row {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 18px;
+            flex-wrap: wrap;
+        }
+        .listen-play-wrap {
+            position: relative;
+            display: flex; flex-direction: column; align-items: center; gap: 10px;
+        }
+        .listen-waves {
+            display: flex; align-items: flex-end; justify-content: center;
+            gap: 4px; height: 28px;
+        }
+        .listen-waves span {
+            width: 5px; border-radius: 3px;
+            background: linear-gradient(180deg, #ef5350, #ff8a80);
+            animation: wave 0.9s ease-in-out infinite;
+        }
+        .listen-waves span:nth-child(1) { height: 12px; animation-delay: 0s; }
+        .listen-waves span:nth-child(2) { height: 22px; animation-delay: 0.15s; }
+        .listen-waves span:nth-child(3) { height: 16px; animation-delay: 0.3s; }
+        .listen-waves span:nth-child(4) { height: 24px; animation-delay: 0.1s; }
+        .listen-waves span:nth-child(5) { height: 14px; animation-delay: 0.25s; }
+        .listen-waves.paused span { animation-play-state: paused; opacity: 0.35; height: 8px; }
+        @keyframes wave {
+            0%, 100% { transform: scaleY(0.6); opacity: 0.6; }
+            50% { transform: scaleY(1); opacity: 1; }
+        }
+        .listen-play-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 36px;
+            border: none;
+            border-radius: 999px;
+            background: linear-gradient(135deg, #ff8a80, #e53935);
+            color: #fff;
+            font-family: var(--font);
+            font-weight: 700;
+            font-size: 1.15rem;
+            cursor: pointer;
+            box-shadow: 0 6px 0 #b71c1c, 0 12px 32px rgba(229, 57, 53, 0.35);
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
+        .listen-play-btn:hover { transform: translateY(-2px); }
+        .listen-play-btn:active { transform: translateY(4px); box-shadow: 0 2px 0 #b71c1c; }
+        .listen-play-btn:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
+        .listen-hint {
+            text-align: center;
+            color: #546e7a;
+            font-size: 0.95rem;
+            margin-bottom: 16px;
+            line-height: 1.45;
+            padding: 10px 16px;
+            background: rgba(255, 235, 238, 0.6);
+            border-radius: 14px;
+            font-weight: 600;
+        }
+        .listen-answer-strip {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            min-height: 64px;
+            padding: 14px;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, rgba(255,235,238,0.8), rgba(252,228,236,0.6));
+            border-radius: 20px;
+            border: 2px dashed #ef9a9a;
+            box-shadow: inset 0 2px 12px rgba(239, 83, 80, 0.06);
+        }
+        .listen-slot {
+            width: 54px;
+            height: 54px;
+            border-radius: 14px;
+            border: 2px dashed #ef9a9a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--hand);
+            font-size: 1.75rem;
+            font-weight: 700;
+            background: #fff;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+        }
+        .listen-slot.filled {
+            border-style: solid;
+            border-color: #4db6ac;
+            background: linear-gradient(180deg, #e0f2f1, #b2dfdb);
+            color: #00695c;
+            animation: chip-land 0.3s ease;
+        }
+        .listen-pool {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            padding: 12px;
+            background: rgba(255,255,255,0.5);
+            border-radius: 20px;
+        }
+        @media (min-width: 520px) { .listen-pool { grid-template-columns: repeat(6, 1fr); } }
+        .listen-letter-btn {
+            aspect-ratio: 1;
+            border: none;
+            border-radius: 16px;
+            font-family: var(--hand);
+            font-size: clamp(1.6rem, 4.5vw, 2.2rem);
+            font-weight: 700;
+            cursor: pointer;
+            background: linear-gradient(180deg, #fff, #fafafa);
+            border: 3px solid #ffcdd2;
+            box-shadow: 0 5px 0 #ef9a9a, 0 6px 16px rgba(239, 83, 80, 0.1);
+            transition: transform 0.12s, opacity 0.2s;
+        }
+        .listen-letter-btn:hover { transform: translateY(-2px); }
+        .listen-letter-btn:active { transform: translateY(3px); box-shadow: 0 2px 0 #ef9a9a; }
+        .listen-letter-btn.used { opacity: 0.22; pointer-events: none; transform: scale(0.92); }
+        .listen-letter-btn.wrong { background: #ffcdd2; animation: shake 0.35s; }
+
+        /* 结果弹层 */
+        .overlay {
+            position: fixed; inset: 0; z-index: 500;
+            background: rgba(38, 50, 56, 0.55);
+            display: flex; align-items: center; justify-content: center;
+            padding: 20px;
+            backdrop-filter: blur(4px);
+        }
+        .result-card {
+            background: linear-gradient(180deg, #fff 0%, #fafafa 100%);
+            border-radius: 32px;
+            padding: 32px 26px;
+            text-align: center;
+            max-width: 380px;
+            width: 100%;
+            border: 3px solid rgba(255,255,255,0.95);
+            box-shadow: 0 28px 72px rgba(0,0,0,0.22), 0 0 0 1px rgba(126, 87, 194, 0.1);
+            animation: pop 0.35s ease;
+        }
+        @keyframes pop {
+            from { transform: scale(0.85); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .result-card img { width: 100px; height: 100px; object-fit: contain; margin-bottom: 12px; }
+        .result-card h3 { margin: 0 0 8px; font-size: 1.5rem; color: var(--accent); }
+        .result-card p { margin: 0 0 20px; color: #78909c; }
+        .btn-main {
+            display: inline-block;
+            border: none; cursor: pointer;
+            font-family: var(--font); font-weight: 700;
+            padding: 13px 28px; border-radius: 999px;
+            font-size: 1rem; margin: 4px;
+            transition: transform 0.15s;
+        }
+        .btn-main:hover { transform: translateY(-2px); }
+        .btn-primary { background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #fff; }
+        .btn-secondary { background: #eceff1; color: var(--ink); }
+
+        #confetti-canvas {
+            position: fixed; inset: 0; pointer-events: none; z-index: 600;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="confetti-canvas"></canvas>
+
+    <header class="topbar">
+        <button type="button" class="btn-icon hidden" id="btn-back" title="返回">←</button>
+        <h1 id="top-title">Lesson 02 · 字母练习</h1>
+        <div class="score-pill" id="score-pill">⭐ 0</div>
+    </header>
+
+    <!-- 大厅 -->
+    <main id="screen-hub" class="hub">
+        <div class="hub-hero">
+            <img src="assets/games/game-hub-hero.png" alt="Alphabet games">
+            <div class="hub-hero-cap">
+                <h2>字母互动练习 · Review Games</h2>
+                <p>5 种趣味游戏，巩固听、认、顺序与单词</p>
+            </div>
+        </div>
+        <section class="practice-target-panel" id="practice-target-panel">
+            <div class="practice-target-head">
+                <div>
+                    <h3>选择练习字母 · Target Letters</h3>
+                    <p>勾选已学过的字母，所有游戏只练习这些字母</p>
+                </div>
+                <span class="practice-summary" id="practice-summary">A – Z（26 个）</span>
+            </div>
+            <div class="practice-presets">
+                <button type="button" class="preset-btn" data-preset="all">全选 A–Z</button>
+                <button type="button" class="preset-btn" data-preset="a-e">A–E</button>
+                <button type="button" class="preset-btn" data-preset="a-j">A–J</button>
+                <button type="button" class="preset-btn" data-preset="a-m">A–M</button>
+                <button type="button" class="preset-btn" data-preset="clear">清空</button>
+            </div>
+            <div class="letter-picker-grid" id="letter-picker-grid"></div>
+        </section>
+        <div class="game-grid">
+            <button type="button" class="game-card" data-game="1">
+                <img src="assets/games/game1-picture-quiz.png" alt="看图选字母">
+                <div class="game-card-body">
+                    <h3>① 看图选字母</h3>
+                    <p>看图片和单词，选出正确的大写字母</p>
+                    <span class="game-tag">词汇 · 首字母</span>
+                </div>
+            </button>
+            <button type="button" class="game-card" data-game="2">
+                <img src="assets/games/game2-letter-pairs.png" alt="大小写配对">
+                <div class="game-card-body">
+                    <h3>② 大小写配对</h3>
+                    <p>点击大写，再点击对应的小写，完成配对</p>
+                    <span class="game-tag">Capital · Small</span>
+                </div>
+            </button>
+            <button type="button" class="game-card" data-game="3">
+                <img src="assets/games/game3-abc-race.png" alt="字母顺序">
+                <div class="game-card-body">
+                    <h3>③ 字母顺序挑战</h3>
+                    <p>选大写或小写组，26 个字母打乱后按顺序点击</p>
+                    <span class="game-tag">Capital · Small</span>
+                </div>
+            </button>
+            <button type="button" class="game-card" data-game="4">
+                <img src="assets/games/game4-missing-letter.png" alt="中间缺字母">
+                <div class="game-card-body">
+                    <h3>④ 中间缺哪个字母？</h3>
+                    <p>如 A 和 C 之间是什么？从 3 个选项里选出正确答案</p>
+                    <span class="game-tag">Missing Letter</span>
+                </div>
+            </button>
+            <button type="button" class="game-card" data-game="5">
+                <img src="assets/games/game5-listen-letters.png" alt="听字母选字母">
+                <div class="game-card-body">
+                    <h3>⑤ 听字母 · 选字母</h3>
+                    <p>听 1～5 个连续字母，按朗读顺序点选（可选难度）</p>
+                    <span class="game-tag">Listen · 1–5 Letters</span>
+                </div>
+            </button>
+        </div>
+    </main>
+
+    <!-- 游戏1 -->
+    <section id="screen-g1" class="game-screen game-theme-1 hidden">
+        <div class="game-hero">
+            <div class="game-head">
+                <div class="game-num-badge">①</div>
+                <h2>看图选字母 Picture → Letter</h2>
+                <p>看图片和单词，选出正确的大写字母</p>
+            </div>
+            <div class="game-progress-wrap">
+                <span class="round-badge" id="g1-round-label">第 1 / 10 题</span>
+                <div class="progress-bar"><div class="progress-fill" id="g1-progress"></div></div>
+            </div>
+        </div>
+        <div class="panel">
+            <div class="pic-stage">
+                <div class="pic-frame"><img id="g1-img" src="" alt=""></div>
+                <div class="word-hint" id="g1-word"></div>
+            </div>
+            <p class="choices-label">Pick the letter · 选字母</p>
+            <div class="choices-4" id="g1-choices"></div>
+        </div>
+    </section>
+
+    <!-- 游戏2 -->
+    <section id="screen-g2" class="game-screen game-theme-2 hidden">
+        <div class="game-hero">
+            <div class="game-head">
+                <div class="game-num-badge">②</div>
+                <h2>大小写配对 Match Pairs</h2>
+                <p>先点大写，再点对应小写 · 共 8 对</p>
+            </div>
+            <div class="game-progress-wrap">
+                <span class="round-badge" id="g2-round-label">已配对 0 / 8</span>
+                <div class="progress-bar"><div class="progress-fill" id="g2-progress"></div></div>
+            </div>
+        </div>
+        <div class="panel">
+            <div class="pairs-legend">
+                <span class="cap"><i></i>大写 Capital</span>
+                <span class="sm"><i></i>小写 small</span>
+            </div>
+            <div class="pairs-board" id="g2-board"></div>
+        </div>
+    </section>
+
+    <!-- 游戏3 -->
+    <section id="screen-g3" class="game-screen game-theme-3 hidden">
+        <div class="game-hero">
+            <div class="game-head">
+                <div class="game-num-badge">③</div>
+                <h2>字母顺序 ABC Race</h2>
+                <p id="g3-subtitle">大写组 · 按 A → Z 顺序点击</p>
+            </div>
+            <div class="mode-switch" id="g3-modes">
+                <button type="button" class="listen-level-btn active" data-mode="cap">大写 A–Z</button>
+                <button type="button" class="listen-level-btn" data-mode="small">小写 a–z</button>
+            </div>
+            <div class="stat-chips">
+                <span class="stat-chip timer">⏱️ <span id="g3-time">0.0</span>s</span>
+                <span class="stat-chip">进度 <strong id="g3-count">0</strong> / <strong id="g3-total">26</strong></span>
+                <span class="stat-chip highlight">下一步 <strong id="g3-next">A</strong></span>
+            </div>
+        </div>
+        <div class="panel">
+            <div class="race-progress" id="g3-progress-label">已排好：—</div>
+            <p class="race-zone-label">Finish line · 完成区</p>
+            <div class="race-target" id="g3-done"></div>
+            <p class="race-zone-label">Letter pool · 字母池</p>
+            <div class="race-strip" id="g3-pool"></div>
+        </div>
+    </section>
+
+    <!-- 游戏4 -->
+    <section id="screen-g4" class="game-screen game-theme-4 hidden">
+        <div class="game-hero">
+            <div class="game-head">
+                <div class="game-num-badge">④</div>
+                <h2>中间缺哪个字母？</h2>
+                <p>两个字母之间夹着哪个字母？</p>
+            </div>
+            <div class="game-progress-wrap">
+                <span class="round-badge" id="g4-round-label">第 1 / 12 题</span>
+                <div class="progress-bar"><div class="progress-fill" id="g4-progress"></div></div>
+            </div>
+        </div>
+        <div class="panel">
+            <div class="gap-stage">
+                <div class="gap-prompt" id="g4-prompt">
+                    <span class="gap-letter" id="g4-left">A</span>
+                    <span class="gap-connector">→</span>
+                    <span class="gap-letter mystery" id="g4-mid">?</span>
+                    <span class="gap-connector">→</span>
+                    <span class="gap-letter" id="g4-right">C</span>
+                </div>
+                <p class="gap-question" id="g4-question"></p>
+            </div>
+            <p class="choices-label">Choose · 选择答案</p>
+            <div class="choices-3" id="g4-choices"></div>
+        </div>
+    </section>
+
+    <!-- 游戏5 -->
+    <section id="screen-g5" class="game-screen game-theme-5 hidden">
+        <div class="game-hero">
+            <div class="game-head">
+                <div class="game-num-badge">⑤</div>
+                <h2>听字母 · 选字母 Listen & Pick</h2>
+                <p>选择要听几个字母，再按顺序点出来</p>
+            </div>
+            <div class="game-progress-wrap">
+                <span class="round-badge" id="g5-round-label">第 1 / 10 题</span>
+                <div class="progress-bar"><div class="progress-fill" id="g5-progress"></div></div>
+            </div>
+        </div>
+        <div class="panel">
+            <div class="listen-levels" id="g5-levels">
+                <button type="button" class="listen-level-btn active" data-n="1">1 个</button>
+                <button type="button" class="listen-level-btn" data-n="2">2 个</button>
+                <button type="button" class="listen-level-btn" data-n="3">3 个</button>
+                <button type="button" class="listen-level-btn" data-n="4">4 个</button>
+                <button type="button" class="listen-level-btn" data-n="5">5 个</button>
+            </div>
+            <div class="listen-play-row">
+                <div class="listen-play-wrap">
+                    <div class="listen-waves paused" id="g5-waves" aria-hidden="true">
+                        <span></span><span></span><span></span><span></span><span></span>
+                    </div>
+                    <button type="button" class="listen-play-btn" id="g5-replay">🔊 听一遍</button>
+                </div>
+            </div>
+            <p class="listen-hint" id="g5-hint">听 1 个字母，点选正确答案</p>
+            <div class="listen-answer-strip hidden" id="g5-answer-strip"></div>
+            <div class="choices-4 hidden" id="g5-choices-1"></div>
+            <div class="listen-pool hidden" id="g5-pool"></div>
+        </div>
+    </section>
+
+    <div class="overlay hidden" id="result-overlay">
+        <div class="result-card">
+            <img src="assets/games/game-trophy.png" alt="Trophy">
+            <h3 id="result-title">太棒了！</h3>
+            <p id="result-msg"></p>
+            <button type="button" class="btn-main btn-primary" id="btn-replay">再玩一次 ↻</button>
+            <button type="button" class="btn-main btn-secondary" id="btn-home">回大厅 🏠</button>
+        </div>
+    </div>
+
+    <div class="practice-toast hidden" id="practice-toast" role="status"></div>
+
+    <script src="lesson02-coloring-data.js"></script>
+    <script>
+        const CAPS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+        const SMALLS = 'abcdefghijklmnopqrstuvwxyz'.split('');
+        const PRACTICE_STORAGE = 'lesson02_practice_letters';
+        const AUDIO = {};
+        let practiceSet = new Set(CAPS);
+        let totalScore = 0;
+        let currentGame = 0;
+        let g1Round = 0, g1Deck = [], g1Locked = false, g1Total = 10;
+        let g2Pairs = [], g2Sel = null, g2Matched = 0, g2PairCount = 8;
+        let g3Order = [], g3Idx = 0, g3Timer = null, g3Start = 0, g3Mode = 'cap';
+        let g4Round = 0, g4Total = 12, g4Locked = false, g4Answer = '', g4Triples = [];
+        let g5Level = 1, g5Seq = [], g5PickIdx = 0, g5Round = 0, g5Total = 10;
+        let g5Locked = false, g5Audio = null, g5PlayGen = 0;
+        let toastTimer = null;
+
+        function getPracticeCaps() {
+            return CAPS.filter((c) => practiceSet.has(c));
+        }
+
+        function getPracticeSmalls() {
+            return getPracticeCaps().map((c) => c.toLowerCase());
+        }
+
+        function formatPracticeSummary() {
+            const arr = getPracticeCaps();
+            const n = arr.length;
+            if (n === 0) return '未选择字母';
+            if (n === 26) return 'A – Z（26 个）';
+            let consecutive = true;
+            for (let i = 1; i < arr.length; i++) {
+                if (arr[i].charCodeAt(0) !== arr[i - 1].charCodeAt(0) + 1) {
+                    consecutive = false;
+                    break;
+                }
+            }
+            if (consecutive) return `${arr[0]} – ${arr[n - 1]}（${n} 个）`;
+            if (n <= 6) return `${arr.join(', ')}（${n} 个）`;
+            return `${arr[0]} – ${arr[arr.length - 1]} 等（${n} 个）`;
+        }
+
+        function updatePracticeSummary() {
+            document.getElementById('practice-summary').textContent = formatPracticeSummary();
+        }
+
+        function savePracticeLetters() {
+            try {
+                localStorage.setItem(PRACTICE_STORAGE, JSON.stringify([...practiceSet]));
+            } catch (_) {}
+        }
+
+        function loadPracticeLetters() {
+            try {
+                const raw = localStorage.getItem(PRACTICE_STORAGE);
+                if (!raw) return;
+                const arr = JSON.parse(raw);
+                if (!Array.isArray(arr) || !arr.length) return;
+                const valid = arr.filter((c) => typeof c === 'string' && CAPS.includes(c.toUpperCase()));
+                if (valid.length) practiceSet = new Set(valid.map((c) => c.toUpperCase()));
+            } catch (_) {}
+        }
+
+        function showToast(msg) {
+            const el = document.getElementById('practice-toast');
+            el.textContent = msg;
+            el.classList.remove('hidden');
+            el.classList.add('show');
+            if (toastTimer) clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => {
+                el.classList.remove('show');
+                setTimeout(() => el.classList.add('hidden'), 400);
+            }, 2800);
+        }
+
+        function getG4Triples() {
+            const triples = [];
+            for (let i = 0; i < 24; i++) {
+                const left = CAPS[i];
+                const answer = CAPS[i + 1];
+                const right = CAPS[i + 2];
+                if (practiceSet.has(left) && practiceSet.has(answer) && practiceSet.has(right)) {
+                    triples.push({ left, answer, right });
+                }
+            }
+            return triples;
+        }
+
+        function validateForGame(gameId) {
+            const n = getPracticeCaps().length;
+            if (n === 0) return { ok: false, msg: '请至少选择 1 个练习字母' };
+            if (gameId === 2 && n < 2) return { ok: false, msg: '大小写配对至少需要 2 个字母' };
+            if (gameId === 3 && n < 2) return { ok: false, msg: '字母顺序至少需要 2 个字母' };
+            if (gameId === 4 && getG4Triples().length === 0) {
+                return { ok: false, msg: '中间缺字母需要至少 3 个连续字母（如 A B C）' };
+            }
+            if (gameId === 5 && n < 1) return { ok: false, msg: '听字母选字母至少需要 1 个字母' };
+            if (gameId === 1) {
+                const items = [];
+                (window.LESSON02_COLORING || []).forEach((e) => {
+                    if (!practiceSet.has(e.letter)) return;
+                    e.words.forEach((w) => items.push(w));
+                });
+                if (!items.length) return { ok: false, msg: '当前字母没有对应单词图片，请多选几个字母' };
+            }
+            return { ok: true };
+        }
+
+        function initLetterPicker() {
+            const grid = document.getElementById('letter-picker-grid');
+            grid.innerHTML = '';
+            CAPS.forEach((ch) => {
+                const b = document.createElement('button');
+                b.type = 'button';
+                b.className = 'letter-pick-btn' + (practiceSet.has(ch) ? ' on' : '');
+                b.textContent = ch;
+                b.dataset.letter = ch;
+                b.title = ch;
+                b.addEventListener('pointerup', () => {
+                    if (practiceSet.has(ch)) practiceSet.delete(ch);
+                    else practiceSet.add(ch);
+                    b.classList.toggle('on', practiceSet.has(ch));
+                    updatePracticeSummary();
+                    savePracticeLetters();
+                    refreshG5LevelButtons();
+                });
+                grid.appendChild(b);
+            });
+            document.querySelectorAll('.preset-btn').forEach((btn) => {
+                btn.addEventListener('pointerup', () => {
+                    const p = btn.dataset.preset;
+                    if (p === 'all') practiceSet = new Set(CAPS);
+                    else if (p === 'clear') practiceSet = new Set();
+                    else if (p === 'a-e') practiceSet = new Set(CAPS.slice(0, 5));
+                    else if (p === 'a-j') practiceSet = new Set(CAPS.slice(0, 10));
+                    else if (p === 'a-m') practiceSet = new Set(CAPS.slice(0, 13));
+                    grid.querySelectorAll('.letter-pick-btn').forEach((b) => {
+                        b.classList.toggle('on', practiceSet.has(b.dataset.letter));
+                    });
+                    updatePracticeSummary();
+                    savePracticeLetters();
+                    refreshG5LevelButtons();
+                });
+            });
+            updatePracticeSummary();
+        }
+
+        function refreshG5LevelButtons() {
+            const n = getPracticeCaps().length;
+            document.querySelectorAll('#g5-levels .listen-level-btn').forEach((btn) => {
+                const need = parseInt(btn.dataset.n, 10);
+                btn.disabled = need > n;
+                btn.style.opacity = need > n ? '0.35' : '';
+            });
+        }
+
+        function tryStartGame(gameId) {
+            const v = validateForGame(gameId);
+            if (!v.ok) {
+                showToast(v.msg);
+                return;
+            }
+            currentGame = gameId;
+            if (gameId === 1) startG1();
+            else if (gameId === 2) startG2();
+            else if (gameId === 3) startG3();
+            else if (gameId === 4) startG4();
+            else if (gameId === 5) startG5();
+        }
+
+        function shuffle(a) {
+            const arr = [...a];
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        function speakLetter(ch) {
+            const src = `./assets/audio/${ch.toUpperCase()}.mp3`;
+            if (!g5Audio) g5Audio = new Audio();
+            g5Audio.onended = null;
+            g5Audio.onerror = null;
+            g5Audio.src = src;
+            g5Audio.play().catch(() => {});
+        }
+
+        function speakLetterAsync(ch) {
+            return new Promise((resolve) => {
+                const a = new Audio(`./assets/audio/${ch.toUpperCase()}.mp3`);
+                a.onended = resolve;
+                a.onerror = resolve;
+                a.play().catch(resolve);
+            });
+        }
+
+        function delay(ms) {
+            return new Promise((r) => setTimeout(r, ms));
+        }
+
+        function stopG5Audio() {
+            g5PlayGen++;
+            setG5Waves(false);
+            if (g5Audio) {
+                g5Audio.pause();
+                g5Audio.src = '';
+            }
+        }
+
+        function addScore(n) {
+            totalScore += n;
+            document.getElementById('score-pill').textContent = `⭐ ${totalScore}`;
+        }
+
+        function showScreen(id) {
+            ['screen-hub', 'screen-g1', 'screen-g2', 'screen-g3', 'screen-g4', 'screen-g5'].forEach((s) => {
+                document.getElementById(s).classList.toggle('hidden', s !== id);
+            });
+            const inHub = id === 'screen-hub';
+            document.getElementById('btn-back').classList.toggle('hidden', inHub);
+            const gameNum = id.startsWith('screen-g') ? id.replace('screen-g', '') : '';
+            document.body.dataset.game = gameNum;
+        }
+
+        function showResult(title, msg) {
+            document.getElementById('result-title').textContent = title;
+            document.getElementById('result-msg').textContent = msg;
+            document.getElementById('result-overlay').classList.remove('hidden');
+            fireConfetti();
+        }
+
+        function hideResult() {
+            document.getElementById('result-overlay').classList.add('hidden');
+        }
+
+        document.getElementById('btn-back').onclick = () => { hideResult(); showScreen('screen-hub'); stopG3Timer(); stopG5Audio(); };
+        document.getElementById('btn-home').onclick = () => { hideResult(); showScreen('screen-hub'); stopG3Timer(); stopG5Audio(); };
+        document.getElementById('btn-replay').onclick = () => {
+            hideResult();
+            if (currentGame === 1) startG1();
+            else if (currentGame === 2) startG2();
+            else if (currentGame === 3) startG3();
+            else if (currentGame === 4) startG4();
+            else if (currentGame === 5) startG5();
+        };
+
+        document.querySelectorAll('.game-card').forEach((btn) => {
+            btn.onclick = () => tryStartGame(parseInt(btn.dataset.game, 10));
+        });
+
+        document.querySelectorAll('#g3-modes .listen-level-btn').forEach((btn) => {
+            btn.addEventListener('pointerup', () => {
+                g3Mode = btn.dataset.mode;
+                document.querySelectorAll('#g3-modes .listen-level-btn').forEach((b) => {
+                    b.classList.toggle('active', b === btn);
+                });
+                beginG3Round();
+            });
+        });
+
+        document.getElementById('g5-replay').addEventListener('pointerup', () => playG5Sequence());
+        document.querySelectorAll('#g5-levels .listen-level-btn').forEach((btn) => {
+            btn.addEventListener('pointerup', () => {
+                const need = parseInt(btn.dataset.n, 10);
+                if (need > getPracticeCaps().length) {
+                    showToast(`难度 ${need} 需要至少 ${need} 个练习字母`);
+                    return;
+                }
+                g5Level = need;
+                document.querySelectorAll('#g5-levels .listen-level-btn').forEach((b) => b.classList.toggle('active', b === btn));
+                g5Round = 0;
+                renderG5Round();
+            });
+        });
+
+        loadPracticeLetters();
+        initLetterPicker();
+        refreshG5LevelButtons();
+
+        /* —— 游戏1 —— */
+        function buildG1Deck() {
+            const items = [];
+            (window.LESSON02_COLORING || []).forEach((e) => {
+                if (!practiceSet.has(e.letter)) return;
+                e.words.forEach((w) => {
+                    items.push({ letter: e.letter, word: w.word, zh: w.zh, img: w.img });
+                });
+            });
+            return shuffle(items).slice(0, Math.min(10, items.length));
+        }
+
+        function startG1() {
+            showScreen('screen-g1');
+            g1Deck = buildG1Deck();
+            g1Total = g1Deck.length;
+            g1Round = 0;
+            g1Locked = false;
+            renderG1Round();
+        }
+
+        function renderG1Round() {
+            const pct = g1Total ? (g1Round / g1Total) * 100 : 0;
+            document.getElementById('g1-progress').style.width = pct + '%';
+            const label = document.getElementById('g1-round-label');
+            if (label) label.textContent = g1Round >= g1Total ? `完成 ${g1Total} 题` : `第 ${g1Round + 1} / ${g1Total} 题`;
+            if (g1Round >= g1Total) {
+                addScore(50);
+                showResult('闯关成功！', `${g1Total} 题全完成 · 练习 ${formatPracticeSummary()} · 获得 50 星星`);
+                return;
+            }
+            const item = g1Deck[g1Round];
+            const correct = item.letter;
+            document.getElementById('g1-img').src = item.img;
+            document.getElementById('g1-img').alt = item.word;
+            document.getElementById('g1-word').textContent = item.word + ' · ' + item.zh;
+            const pool = getPracticeCaps();
+            const wrong = shuffle(pool.filter((c) => c !== correct)).slice(0, Math.min(3, pool.length - 1));
+            const opts = shuffle([correct, ...wrong]);
+            const box = document.getElementById('g1-choices');
+            box.innerHTML = '';
+            opts.forEach((ch) => {
+                const b = document.createElement('button');
+                b.type = 'button';
+                b.className = 'choice-btn';
+                b.textContent = ch;
+                b.addEventListener('pointerup', () => pickG1(ch, correct, b));
+                box.appendChild(b);
+            });
+        }
+
+        function pickG1(ch, correct, btn) {
+            if (g1Locked) return;
+            g1Locked = true;
+            if (ch === correct) {
+                btn.classList.add('correct');
+                speakLetter(ch);
+                addScore(5);
+                setTimeout(() => { g1Round++; g1Locked = false; renderG1Round(); }, 700);
+            } else {
+                btn.classList.add('wrong');
+                setTimeout(() => { g1Locked = false; btn.classList.remove('wrong'); }, 500);
+            }
+        }
+
+        /* —— 游戏2 —— */
+        function startG2() {
+            showScreen('screen-g2');
+            g2PairCount = Math.min(8, getPracticeCaps().length);
+            const letters = shuffle(getPracticeCaps()).slice(0, g2PairCount);
+            g2Pairs = letters;
+            g2Matched = 0;
+            g2Sel = null;
+            document.querySelector('#screen-g2 .game-head p').textContent =
+                `先点大写，再点对应小写 · 共 ${g2PairCount} 对 · 练习 ${formatPracticeSummary()}`;
+            document.getElementById('g2-progress').style.width = '0%';
+            const g2Label = document.getElementById('g2-round-label');
+            if (g2Label) g2Label.textContent = `已配对 0 / ${g2PairCount}`;
+            const tiles = [];
+            letters.forEach((L) => {
+                tiles.push({ ch: L, type: 'cap', id: L + '-c' });
+                tiles.push({ ch: L.toLowerCase(), type: 'sm', pair: L, id: L + '-s' });
+            });
+            const board = document.getElementById('g2-board');
+            board.innerHTML = '';
+            shuffle(tiles).forEach((t) => {
+                const b = document.createElement('button');
+                b.type = 'button';
+                b.className = 'pair-tile';
+                b.textContent = t.ch;
+                b.dataset.type = t.type;
+                b.dataset.pair = t.pair || t.ch;
+                b.dataset.id = t.id;
+                const hue = (t.ch.toUpperCase().charCodeAt(0) - 65) * 14;
+                b.style.color = `hsl(${hue}, 65%, 40%)`;
+                b.addEventListener('pointerup', () => onG2Tap(b));
+                board.appendChild(b);
+            });
+        }
+
+        function onG2Tap(btn) {
+            if (btn.classList.contains('matched')) return;
+            if (btn.classList.contains('selected')) {
+                btn.classList.remove('selected');
+                g2Sel = null;
+                return;
+            }
+            if (!g2Sel) {
+                if (btn.dataset.type !== 'cap') {
+                    btn.classList.add('wrong-flash');
+                    setTimeout(() => btn.classList.remove('wrong-flash'), 400);
+                    return;
+                }
+                g2Sel = btn;
+                btn.classList.add('selected');
+                return;
+            }
+            const ok = btn.dataset.type === 'sm' && btn.dataset.pair === g2Sel.dataset.pair;
+            if (ok) {
+                g2Sel.classList.remove('selected');
+                g2Sel.classList.add('matched');
+                btn.classList.add('matched');
+                speakLetter(g2Sel.dataset.pair);
+                g2Matched++;
+                addScore(6);
+                g2Sel = null;
+                document.getElementById('g2-progress').style.width = (g2Matched / g2PairCount) * 100 + '%';
+                const g2Label = document.getElementById('g2-round-label');
+                if (g2Label) g2Label.textContent = `已配对 ${g2Matched} / ${g2PairCount}`;
+                if (g2Matched >= g2PairCount) {
+                    addScore(30);
+                    setTimeout(() => showResult('配对大师！', `${g2PairCount} 对大写小写全部配对 · 获得 30 星星`), 400);
+                }
+            } else {
+                btn.classList.add('wrong-flash');
+                g2Sel.classList.add('wrong-flash');
+                setTimeout(() => {
+                    btn.classList.remove('wrong-flash');
+                    g2Sel.classList.remove('wrong-flash', 'selected');
+                    g2Sel = null;
+                }, 450);
+            }
+        }
+
+        /* —— 游戏3 —— */
+        function stopG3Timer() {
+            if (g3Timer) { clearInterval(g3Timer); g3Timer = null; }
+        }
+
+        function startG3() {
+            showScreen('screen-g3');
+            g3Mode = 'cap';
+            document.querySelectorAll('#g3-modes .listen-level-btn').forEach((b) => {
+                b.classList.toggle('active', b.dataset.mode === 'cap');
+            });
+            beginG3Round();
+        }
+
+        function beginG3Round() {
+            stopG3Timer();
+            const isCap = g3Mode === 'cap';
+            g3Order = isCap ? getPracticeCaps() : getPracticeSmalls();
+            g3Idx = 0;
+            const caps = getPracticeCaps();
+            const rangeLabel = caps.length === 26 ? 'A → Z' : `${caps[0]} → ${caps[caps.length - 1]}`;
+            document.getElementById('g3-subtitle').textContent =
+                isCap
+                    ? `大写组 · 按 ${rangeLabel} 顺序点击（${caps.length} 个）`
+                    : `小写组 · 按 ${rangeLabel.toLowerCase()} 顺序点击（${caps.length} 个）`;
+            document.getElementById('g3-next').textContent = g3Order[0];
+            document.getElementById('g3-count').textContent = '0';
+            const g3TotalEl = document.getElementById('g3-total');
+            if (g3TotalEl) g3TotalEl.textContent = String(g3Order.length);
+            document.getElementById('g3-progress-label').textContent = '已排好：—';
+            document.getElementById('g3-done').innerHTML = '';
+            document.getElementById('g3-time').textContent = '0.0';
+            const pool = document.getElementById('g3-pool');
+            pool.innerHTML = '';
+            shuffle(g3Order).forEach((ch) => {
+                const b = document.createElement('button');
+                b.type = 'button';
+                b.className = 'race-chip pool';
+                b.textContent = ch;
+                b.dataset.letter = ch;
+                const code = ch.toUpperCase().charCodeAt(0) - 65;
+                b.style.color = `hsl(${code * 14}, 65%, 38%)`;
+                b.addEventListener('pointerup', () => onG3Tap(b, ch));
+                pool.appendChild(b);
+            });
+            g3Start = Date.now();
+            g3Timer = setInterval(() => {
+                document.getElementById('g3-time').textContent = ((Date.now() - g3Start) / 1000).toFixed(1);
+            }, 100);
+        }
+
+        function onG3Tap(btn, ch) {
+            const want = g3Order[g3Idx];
+            if (ch !== want) {
+                btn.classList.add('wrong');
+                setTimeout(() => btn.classList.remove('wrong'), 350);
+                return;
+            }
+            btn.remove();
+            const chip = document.createElement('span');
+            chip.className = 'race-chip done';
+            chip.textContent = ch;
+            document.getElementById('g3-done').appendChild(chip);
+            speakLetter(ch);
+            addScore(2);
+            g3Idx++;
+            document.getElementById('g3-count').textContent = String(g3Idx);
+            const doneStr = g3Order.slice(0, g3Idx).join(' ');
+            document.getElementById('g3-progress-label').textContent =
+                g3Idx > 0 ? `已排好：${doneStr}` : '已排好：—';
+            if (g3Idx >= g3Order.length) {
+                stopG3Timer();
+                const sec = ((Date.now() - g3Start) / 1000).toFixed(1);
+                addScore(40);
+                const label = g3Mode === 'cap' ? '大写' : '小写';
+                showResult('顺序大师！', `${formatPracticeSummary()} ${label} 顺序完成！用时 ${sec} 秒 · 获得 40 星星`);
+            } else {
+                document.getElementById('g3-next').textContent = g3Order[g3Idx];
+            }
+        }
+
+        /* —— 游戏4：中间缺字母 —— */
+        function startG4() {
+            showScreen('screen-g4');
+            g4Triples = getG4Triples();
+            g4Total = Math.min(12, Math.max(g4Triples.length, 1) * 4);
+            g4Round = 0;
+            g4Locked = false;
+            renderG4Round();
+        }
+
+        function renderG4Round() {
+            const pct = (g4Round / g4Total) * 100;
+            document.getElementById('g4-progress').style.width = pct + '%';
+            const g4Label = document.getElementById('g4-round-label');
+            if (g4Label) g4Label.textContent = g4Round >= g4Total ? `完成 ${g4Total} 题` : `第 ${g4Round + 1} / ${g4Total} 题`;
+            if (g4Round >= g4Total) {
+                addScore(48);
+                showResult('火眼金睛！', `${g4Total} 题中间字母全对 · 练习 ${formatPracticeSummary()} · 获得 48 星星`);
+                return;
+            }
+            const triple = g4Triples[Math.floor(Math.random() * g4Triples.length)];
+            const left = triple.left;
+            const answer = triple.answer;
+            const right = triple.right;
+            g4Answer = answer;
+            const midEl = document.getElementById('g4-mid');
+            const leftEl = document.getElementById('g4-left');
+            const rightEl = document.getElementById('g4-right');
+            midEl.textContent = '?';
+            midEl.className = 'gap-letter mystery';
+            leftEl.classList.remove('revealed');
+            rightEl.classList.remove('revealed');
+            leftEl.textContent = left;
+            rightEl.textContent = right;
+            document.getElementById('g4-question').innerHTML =
+                `<strong>${left}</strong> 和 <strong>${right}</strong> 之间是什么字母？<br>What letter is between <strong>${left}</strong> and <strong>${right}</strong>?`;
+            const pool = getPracticeCaps();
+            const wrong = shuffle(pool.filter((c) => c !== answer)).slice(0, Math.min(2, pool.length - 1));
+            const opts = shuffle([answer, ...wrong]);
+            const box = document.getElementById('g4-choices');
+            box.innerHTML = '';
+            opts.forEach((ch) => {
+                const b = document.createElement('button');
+                b.type = 'button';
+                b.className = 'choice-btn';
+                b.textContent = ch;
+                const hue = (ch.charCodeAt(0) - 65) * 14;
+                b.style.color = `hsl(${hue}, 65%, 38%)`;
+                b.addEventListener('pointerup', () => pickG4(ch, answer, b));
+                box.appendChild(b);
+            });
+        }
+
+        function revealG4Triple(left, mid, right) {
+            const midEl = document.getElementById('g4-mid');
+            const leftEl = document.getElementById('g4-left');
+            const rightEl = document.getElementById('g4-right');
+            midEl.textContent = mid;
+            midEl.classList.remove('mystery');
+            midEl.classList.add('revealed');
+            leftEl.classList.add('revealed');
+            rightEl.classList.add('revealed');
+            document.getElementById('g4-question').innerHTML =
+                `<div class="gap-triple-done">${left} &nbsp; ${mid} &nbsp; ${right}</div>答对了！`;
+            document.querySelectorAll('#g4-choices .choice-btn').forEach((b) => { b.disabled = true; });
+        }
+
+        function pickG4(ch, correct, btn) {
+            if (g4Locked) return;
+            g4Locked = true;
+            const left = document.getElementById('g4-left').textContent;
+            const right = document.getElementById('g4-right').textContent;
+            if (ch === correct) {
+                btn.classList.add('correct');
+                speakLetter(ch);
+                addScore(4);
+                revealG4Triple(left, correct, right);
+                setTimeout(() => { g4Round++; g4Locked = false; renderG4Round(); }, 4000);
+            } else {
+                btn.classList.add('wrong');
+                g4Locked = false;
+                setTimeout(() => btn.classList.remove('wrong'), 500);
+            }
+        }
+
+        /* —— 游戏5：听字母选字母 —— */
+        function startG5() {
+            showScreen('screen-g5');
+            g5Round = 0;
+            g5Level = 1;
+            document.querySelectorAll('#g5-levels .listen-level-btn').forEach((b) => {
+                b.classList.toggle('active', b.dataset.n === '1');
+            });
+            refreshG5LevelButtons();
+            renderG5Round();
+        }
+
+        function buildG5Sequence(n) {
+            return shuffle(getPracticeCaps()).slice(0, n);
+        }
+
+        function updateG5Hint() {
+            const el = document.getElementById('g5-hint');
+            if (g5Level === 1) {
+                el.textContent = '听 1 个字母，点选正确答案';
+            } else {
+                el.textContent = `连续听 ${g5Level} 个字母，按顺序点选（第 ${g5PickIdx + 1} / ${g5Level} 个）`;
+            }
+        }
+
+        function setG5Waves(playing) {
+            const waves = document.getElementById('g5-waves');
+            if (waves) waves.classList.toggle('paused', !playing);
+        }
+
+        async function playG5Sequence() {
+            if (!g5Seq.length || g5Locked) return;
+            const gen = g5PlayGen;
+            g5Locked = true;
+            const btn = document.getElementById('g5-replay');
+            btn.disabled = true;
+            setG5Waves(true);
+            try {
+                for (let i = 0; i < g5Seq.length; i++) {
+                    if (gen !== g5PlayGen) return;
+                    await speakLetterAsync(g5Seq[i]);
+                    if (i < g5Seq.length - 1) await delay(450);
+                }
+            } finally {
+                if (gen === g5PlayGen) {
+                    g5Locked = false;
+                    btn.disabled = false;
+                    setG5Waves(false);
+                }
+            }
+        }
+
+        function renderG5Round() {
+            stopG5Audio();
+            setG5Waves(false);
+            const pct = (g5Round / g5Total) * 100;
+            document.getElementById('g5-progress').style.width = pct + '%';
+            const g5Label = document.getElementById('g5-round-label');
+            if (g5Label) g5Label.textContent = g5Round >= g5Total ? `完成 ${g5Total} 题` : `第 ${g5Round + 1} / ${g5Total} 题`;
+            if (g5Round >= g5Total) {
+                addScore(55);
+                showResult('耳朵真灵！', `完成 ${g5Total} 题听音选字母 · 获得 55 星星`);
+                return;
+            }
+            g5Seq = buildG5Sequence(g5Level);
+            g5PickIdx = 0;
+            updateG5Hint();
+
+            const strip = document.getElementById('g5-answer-strip');
+            const pool = document.getElementById('g5-pool');
+            const ch1 = document.getElementById('g5-choices-1');
+
+            if (g5Level === 1) {
+                strip.classList.add('hidden');
+                pool.classList.add('hidden');
+                ch1.classList.remove('hidden');
+                const correct = g5Seq[0];
+                const pool = getPracticeCaps();
+                const wrong = shuffle(pool.filter((c) => c !== correct)).slice(0, Math.min(3, pool.length - 1));
+                const opts = shuffle([correct, ...wrong]);
+                ch1.innerHTML = '';
+                opts.forEach((ch) => {
+                    const b = document.createElement('button');
+                    b.type = 'button';
+                    b.className = 'choice-btn';
+                    b.textContent = ch;
+                    const hue = (ch.charCodeAt(0) - 65) * 14;
+                    b.style.color = `hsl(${hue}, 65%, 38%)`;
+                    b.addEventListener('pointerup', () => onG5Pick(ch, b));
+                    ch1.appendChild(b);
+                });
+            } else {
+                ch1.classList.add('hidden');
+                strip.classList.remove('hidden');
+                pool.classList.remove('hidden');
+                strip.innerHTML = '';
+                for (let i = 0; i < g5Level; i++) {
+                    const s = document.createElement('span');
+                    s.className = 'listen-slot';
+                    s.dataset.idx = String(i);
+                    strip.appendChild(s);
+                }
+                const need = new Set(g5Seq);
+                const distractorCount = Math.max(6, g5Level + 4);
+                const extras = shuffle(getPracticeCaps().filter((c) => !need.has(c))).slice(0, distractorCount - g5Level);
+                const letters = shuffle([...g5Seq, ...extras]);
+                pool.innerHTML = '';
+                letters.forEach((ch) => {
+                    const b = document.createElement('button');
+                    b.type = 'button';
+                    b.className = 'listen-letter-btn';
+                    b.textContent = ch;
+                    b.dataset.letter = ch;
+                    const hue = (ch.charCodeAt(0) - 65) * 14;
+                    b.style.color = `hsl(${hue}, 65%, 38%)`;
+                    b.addEventListener('pointerup', () => onG5Pick(ch, b));
+                    pool.appendChild(b);
+                });
+            }
+            setTimeout(() => playG5Sequence(), 350);
+        }
+
+        function onG5Pick(ch, btn) {
+            if (g5Locked) return;
+            const want = g5Seq[g5PickIdx];
+            if (ch !== want) {
+                btn.classList.add('wrong');
+                setTimeout(() => btn.classList.remove('wrong'), 400);
+                return;
+            }
+            if (g5Level === 1) {
+                btn.classList.add('correct');
+                addScore(5);
+                setTimeout(() => { g5Round++; renderG5Round(); }, 600);
+                return;
+            }
+            const slots = document.querySelectorAll('#g5-answer-strip .listen-slot');
+            const slot = slots[g5PickIdx];
+            if (slot) {
+                slot.textContent = ch;
+                slot.classList.add('filled');
+            }
+            btn.classList.add('used');
+            speakLetter(ch);
+            g5PickIdx++;
+            updateG5Hint();
+            if (g5PickIdx >= g5Level) {
+                addScore(4 + g5Level);
+                setTimeout(() => { g5Round++; renderG5Round(); }, 700);
+            }
+        }
+
+        /* —— 彩纸 —— */
+        function fireConfetti() {
+            const canvas = document.getElementById('confetti-canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            const pieces = Array.from({ length: 90 }, () => ({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height - canvas.height,
+                r: 4 + Math.random() * 6,
+                c: `hsl(${Math.random() * 360},80%,60%)`,
+                vy: 2 + Math.random() * 4,
+                vx: -2 + Math.random() * 4,
+            }));
+            let frame = 0;
+            function tick() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                pieces.forEach((p) => {
+                    p.x += p.vx; p.y += p.vy; p.vy += 0.05;
+                    ctx.fillStyle = p.c;
+                    ctx.fillRect(p.x, p.y, p.r, p.r * 0.6);
+                });
+                if (++frame < 120) requestAnimationFrame(tick);
+                else ctx.clearRect(0, 0, canvas.width, canvas.height);
+            }
+            tick();
+        }
+    </script>
+</body>
+</html>

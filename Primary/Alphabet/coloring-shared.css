@@ -1,0 +1,308 @@
+/* Lesson 02 字母涂色卡片 · 左图右词 · 字母/单词描红涂色 */
+:root {
+    --ink: #263238;
+    --stroke: #455a64;
+    --muted: #78909c;
+    --paper: #fffdf8;
+    --frame: #cfd8dc;
+    --font-ui: 'Fredoka', sans-serif;
+    --font-hand: 'Patrick Hand', cursive;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body.coloring-body {
+    margin: 0;
+    padding: 0 0 48px;
+    font-family: var(--font-ui);
+    color: var(--ink);
+    background: #eceff1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.coloring-toolbar {
+    width: 100%;
+    padding: 14px 20px;
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    position: sticky;
+    top: 0;
+    z-index: 200;
+}
+.coloring-toolbar a,
+.coloring-toolbar button {
+    font-family: var(--font-ui);
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    border-radius: 999px;
+    text-decoration: none;
+    font-size: 0.98rem;
+    padding: 11px 22px;
+    transition: transform 0.18s;
+}
+.coloring-toolbar a:hover,
+.coloring-toolbar button:hover { transform: translateY(-2px); }
+.btn-ghost { background: #f5f5f5; color: var(--ink); }
+.btn-teal { background: #4db6ac; color: #fff; }
+.btn-all {
+    background: linear-gradient(135deg, #7e57c2, #5c6bc0);
+    color: #fff;
+    box-shadow: 0 4px 16px rgba(94, 53, 177, 0.35);
+}
+
+/* A4 单页 */
+.coloring-sheet {
+    width: 210mm;
+    height: 297mm;
+    max-height: 297mm;
+    margin: 20px 0;
+    padding: 9mm 11mm 8mm;
+    background: var(--paper);
+    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.14);
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    --accent: hsl(var(--hue), 68%, 56%);
+    --accent-soft: hsl(var(--hue), 75%, 92%);
+}
+
+.sheet-top {
+    flex-shrink: 0;
+    text-align: center;
+    padding-bottom: 4mm;
+    border-bottom: 2px solid var(--accent-soft);
+}
+/* 字母涂色描红 */
+.letter-trace-row {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 0.12em;
+    padding: 2mm 0 1mm;
+}
+.trace-letter {
+    font-family: var(--font-hand);
+    font-weight: 700;
+    line-height: 1;
+    color: #fafafa;
+    -webkit-text-stroke: 2.8px var(--stroke);
+    paint-order: stroke fill;
+    letter-spacing: -0.02em;
+}
+.trace-letter.cap { font-size: 5.2rem; }
+.trace-letter.sm { font-size: 3.6rem; margin-bottom: 0.12em; }
+
+/* 主区：左图右词 */
+.sheet-main {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8mm;
+    padding: 6mm 0 4mm;
+    min-height: 0;
+}
+.sheet-left {
+    display: flex;
+    flex-direction: column;
+    gap: 6mm;
+    min-height: 0;
+}
+.art-box {
+    flex: 1;
+    min-height: 0;
+    border: 2.5px solid var(--stroke);
+    border-radius: 14px;
+    background: #fff;
+    padding: 4mm;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+.art-box img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.sheet-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    gap: 8mm;
+    padding: 2mm 0;
+}
+.word-block {
+    display: flex;
+    flex-direction: column;
+    gap: 3mm;
+    padding: 4mm 2mm;
+    border-bottom: 1.5px dashed var(--frame);
+}
+.word-block:last-child { border-bottom: none; }
+
+/* 单词涂色描红（小写）· 原 2.85rem +30% */
+.trace-word {
+    font-family: var(--font-hand);
+    font-size: 3.71rem;
+    font-weight: 700;
+    line-height: 1.08;
+    letter-spacing: 0.04em;
+    color: #f5f5f5;
+    -webkit-text-stroke: 2.5px var(--stroke);
+    paint-order: stroke fill;
+    word-break: break-word;
+}
+.word-zh {
+    font-family: var(--font-ui);
+    font-size: 1.35rem;
+    font-weight: 600;
+    color: var(--muted);
+}
+/* 索引页 */
+.index-wrap {
+    width: min(1040px, 100%);
+    padding: 28px 20px 56px;
+}
+.index-hero { text-align: center; margin-bottom: 28px; }
+.index-hero h1 {
+    margin: 0 0 10px;
+    font-size: clamp(1.75rem, 4vw, 2.35rem);
+    font-weight: 700;
+    color: #37474f;
+}
+.index-hero p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 1.05rem;
+    max-width: 580px;
+    margin-inline: auto;
+    line-height: 1.55;
+}
+.index-actions {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 32px;
+}
+.index-actions a,
+.index-actions button {
+    font-family: var(--font-ui);
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    border-radius: 999px;
+    text-decoration: none;
+    font-size: 1.05rem;
+    padding: 14px 28px;
+}
+.index-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 14px;
+}
+.index-card {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+    background: #fff;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s;
+}
+.index-card:hover { transform: translateY(-5px); }
+.index-card-bar { height: 6px; }
+.index-card-thumb {
+    aspect-ratio: 1.1;
+    background: #fafafa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+}
+.index-card-thumb img { max-width: 88%; max-height: 88%; object-fit: contain; }
+.index-card-letters {
+    padding: 10px 12px 14px;
+    text-align: center;
+    font-family: var(--font-hand);
+    font-size: 2rem;
+    font-weight: 700;
+}
+.index-card-letters .sm { font-size: 0.58em; opacity: 0.75; }
+
+/* PDF 分页（html2pdf 读取 css 分页） */
+#all-sheets > .coloring-sheet:not(:last-child) {
+    page-break-after: always;
+    break-after: page;
+}
+
+@page {
+    size: A4 portrait;
+    margin: 0;
+}
+
+@media print {
+    html, body {
+        width: 210mm;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    body.coloring-body {
+        background: #fff;
+        display: block !important;
+        align-items: stretch !important;
+    }
+    .no-print { display: none !important; }
+    #all-sheets {
+        display: block;
+        width: 210mm;
+    }
+    .coloring-sheet {
+        width: 210mm !important;
+        height: 297mm !important;
+        min-height: 297mm;
+        max-height: 297mm;
+        margin: 0 !important;
+        padding: 7mm 9mm 6mm !important;
+        box-shadow: none;
+        border-radius: 0;
+        overflow: visible !important;
+        page-break-after: always;
+        break-after: page;
+        page-break-inside: avoid;
+        break-inside: avoid;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+    .coloring-sheet:last-child {
+        page-break-after: auto;
+        break-after: auto;
+    }
+    .sheet-main {
+        padding: 4mm 0 2mm;
+        gap: 5mm;
+        min-height: 0;
+    }
+    .sheet-left { gap: 4mm; }
+    .word-block { gap: 2mm; padding: 2mm 1mm; }
+    .trace-letter,
+    .trace-word,
+    .word-zh,
+    .art-box img {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+}

@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>字母书写 · 教师手写展示</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Patrick+Hand&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #F0F4F8;
+            --primary: #FF8A80;
+            --secondary: #4DB6AC;
+            --accent: #B388FF;
+            --text: #455A64;
+            --text-dark: #2C3E50;
+            --line-blue: #90CAF9;
+            --line-red: #EF9A9A;
+            --line-dash: rgba(33, 150, 243, 0.32);
+            --trace-color: rgba(144, 202, 249, 0.35);
+            --font-hand: 'Patrick Hand', cursive;
+            --font-ui: 'Fredoka', sans-serif;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-ui);
+            background: var(--bg);
+            height: 100vh;
+            overflow: hidden;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border-bottom: 2px solid rgba(0, 0, 0, 0.05);
+            flex-shrink: 0;
+            gap: 12px;
+        }
+        .top-bar h1 {
+            margin: 0;
+            font-size: 1.1rem;
+            color: var(--text);
+            font-weight: 700;
+        }
+        .top-bar .hint-text {
+            font-size: 0.82rem;
+            color: #78909c;
+        }
+
+        .alphabet-ribbon {
+            display: flex;
+            gap: 12px;
+            padding: 12px 16px;
+            overflow-x: auto;
+            width: 100%;
+            height: 100px;
+            box-sizing: border-box;
+            background: rgba(255, 255, 255, 0.55);
+            scrollbar-width: none;
+            flex-shrink: 0;
+        }
+        .alphabet-ribbon::-webkit-scrollbar { display: none; }
+
+        .letter-tile {
+            flex: 0 0 68px;
+            height: 68px;
+            background: white;
+            border-radius: 14px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-hand);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            box-shadow: 0 5px 0 #ddd, 0 8px 16px rgba(0, 0, 0, 0.05);
+            cursor: pointer;
+            transition: 0.2s;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .letter-tile.active {
+            transform: translateY(-3px);
+            background: var(--accent);
+            color: white;
+            box-shadow: 0 5px 0 #7E57C2, 0 10px 20px rgba(179, 136, 255, 0.28);
+        }
+
+        .stage {
+            flex: 1;
+            display: flex;
+            align-items: stretch;
+            justify-content: center;
+            padding: 12px 16px 16px;
+            min-height: 0;
+        }
+
+        .board {
+            background: white;
+            width: 100%;
+            max-width: 1100px;
+            flex: 1;
+            border-radius: 16px;
+            box-shadow: 0 24px 50px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            min-height: 0;
+        }
+
+        .board-head {
+            flex-shrink: 0;
+            padding: 12px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            border-bottom: 1px solid #eceff1;
+        }
+        .board-head .title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+        #current-letter {
+            background: #ede7f6;
+            color: #5e35b1;
+            padding: 6px 16px;
+            border-radius: 999px;
+            font-family: var(--font-hand);
+            font-size: 1.35rem;
+            font-weight: 700;
+            min-width: 3.5rem;
+            text-align: center;
+        }
+        .board-tools {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .btn-tool {
+            font-size: 0.82rem;
+            padding: 8px 14px;
+            border-radius: 999px;
+            border: none;
+            cursor: pointer;
+            font-family: var(--font-ui);
+            font-weight: 700;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .btn-clear { background: var(--secondary); color: #fff; }
+        .btn-pen { background: #fff; color: var(--text); border: 2px solid #cfd8dc; }
+        .btn-pen.active { border-color: var(--accent); color: var(--accent); background: #f3e5f5; }
+
+        .board-body {
+            flex: 1;
+            position: relative;
+            margin: 12px;
+            border-radius: 12px;
+            background: #fafcff;
+            overflow: hidden;
+            min-height: 280px;
+        }
+
+        .writing-guide {
+            position: absolute;
+            top: 37.25%;
+            height: 25.5%;
+            left: 0;
+            right: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .gl {
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 0;
+        }
+        .gl-sky   { top: 0%;   border-top: 2px solid var(--line-blue); opacity: 0.9; }
+        .gl-cloud { top: 33%;  border-top: 1.5px dashed var(--line-dash); }
+        .gl-grass { top: 67%;  border-top: 2.5px solid var(--line-blue); }
+        .gl-dirt  { top: 100%; border-top: 2px solid var(--line-red); opacity: 0.9; }
+
+        .guide-layer {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 67%;
+            z-index: 5;
+            pointer-events: none;
+            text-align: center;
+            line-height: 1;
+            font-family: var(--font-hand);
+            font-weight: 700;
+            color: var(--trace-color);
+            opacity: 0;
+            transition: opacity 0.25s;
+            transform: translateY(-0.88em);
+        }
+        .guide-layer.show { opacity: 1; }
+        .letter-pair {
+            display: inline-flex;
+            align-items: baseline;
+            gap: 0.12em;
+        }
+        .letter-cap {
+            display: inline-block;
+            font-size: 1.082em;
+            transform: translateY(calc(-4% - 0.15cm));
+        }
+        .letter-small {
+            font-size: 0.78em;
+            display: inline-block;
+            transform: translateY(calc(-10% + 0.05cm));
+        }
+
+        #teacher-canvas {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 20;
+            cursor: crosshair;
+            touch-action: none;
+        }
+
+        #board-hint {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 24px;
+            font-size: clamp(1.1rem, 3vw, 1.5rem);
+            color: #b0bec5;
+            font-weight: 700;
+            pointer-events: none;
+            z-index: 3;
+            line-height: 1.6;
+        }
+
+        .fab-group {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            z-index: 100;
+        }
+        .fab {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            background: var(--accent);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="top-bar">
+        <h1>✏️ 字母书写 · 教师手写展示</h1>
+        <span class="hint-text">触屏或鼠标在四线格上书写示范</span>
+    </div>
+
+    <div class="alphabet-ribbon" id="ribbon"></div>
+
+    <div class="stage">
+        <div class="board">
+            <div class="board-head">
+                <span class="title">👩‍🏫 教师手写区</span>
+                <span id="current-letter">—</span>
+                <div class="board-tools">
+                    <button type="button" class="btn-tool btn-pen active" data-w="5" onclick="setPenWidth(5, this)">细笔</button>
+                    <button type="button" class="btn-tool btn-pen" data-w="8" onclick="setPenWidth(8, this)">中笔</button>
+                    <button type="button" class="btn-tool btn-pen" data-w="12" onclick="setPenWidth(12, this)">粗笔</button>
+                    <button type="button" class="btn-tool btn-clear" onclick="clearBoard()">擦掉重写</button>
+                </div>
+            </div>
+            <div class="board-body" id="board-body">
+                <div id="board-hint">点选上方字母<br>在大屏四线格上手写示范</div>
+                <div class="writing-guide" id="writing-guide">
+                    <div class="gl gl-sky"></div>
+                    <div class="gl gl-cloud"></div>
+                    <div class="gl gl-grass"></div>
+                    <div class="gl gl-dirt"></div>
+                    <div class="guide-layer" id="guide-layer" aria-hidden="true">
+                        <span class="letter-pair">
+                            <span class="letter-cap" id="guide-cap"></span>
+                            <span class="letter-small" id="guide-small"></span>
+                        </span>
+                    </div>
+                </div>
+                <canvas id="teacher-canvas"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="fab-group">
+        <button type="button" class="fab" onclick="speakCurrent()" title="朗读">🔊</button>
+    </div>
+
+    <script>
+        let currentL = '';
+        let penWidth = 5;
+        let ctx = null;
+        let drawing = false;
+        let _audioEl = null;
+
+        function speakLetter(letter) {
+            if (!letter) return;
+            if (!_audioEl) _audioEl = new Audio();
+            _audioEl.src = `assets/audio/${letter}.mp3`;
+            _audioEl.play().catch(() => {});
+        }
+
+        function syncGuideFont() {
+            const guide = document.getElementById('writing-guide');
+            const layer = document.getElementById('guide-layer');
+            if (!guide || !layer) return;
+            const h = guide.getBoundingClientRect().height;
+            const capSize = h * 0.67 * 0.96 * 1.35;
+            layer.style.fontSize = `${capSize}px`;
+        }
+
+        function resizeCanvas() {
+            const canvas = document.getElementById('teacher-canvas');
+            const body = document.getElementById('board-body');
+            const rect = body.getBoundingClientRect();
+            const dpr = window.devicePixelRatio || 1;
+            canvas.width = Math.floor(rect.width * dpr);
+            canvas.height = Math.floor(rect.height * dpr);
+            ctx = canvas.getContext('2d');
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            ctx.lineWidth = penWidth;
+            ctx.strokeStyle = '#2C3E50';
+            syncGuideFont();
+        }
+
+        function canvasPos(e) {
+            const canvas = document.getElementById('teacher-canvas');
+            const rect = canvas.getBoundingClientRect();
+            const pt = e.touches ? e.touches[0] : e;
+            return { x: pt.clientX - rect.left, y: pt.clientY - rect.top };
+        }
+
+        function startDraw(e) {
+            drawing = true;
+            document.getElementById('board-hint').style.display = 'none';
+            const p = canvasPos(e);
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            e.preventDefault();
+        }
+
+        function moveDraw(e) {
+            if (!drawing) return;
+            const p = canvasPos(e);
+            ctx.lineTo(p.x, p.y);
+            ctx.stroke();
+            e.preventDefault();
+        }
+
+        function endDraw() {
+            drawing = false;
+        }
+
+        function clearBoard() {
+            const canvas = document.getElementById('teacher-canvas');
+            if (!ctx) resizeCanvas();
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        function setPenWidth(w, btn) {
+            penWidth = w;
+            if (ctx) ctx.lineWidth = w;
+            document.querySelectorAll('.btn-pen').forEach((b) => b.classList.remove('active'));
+            btn.classList.add('active');
+        }
+
+        function showGuide(upper, lower) {
+            const layer = document.getElementById('guide-layer');
+            document.getElementById('guide-cap').textContent = upper;
+            document.getElementById('guide-small').textContent = lower;
+            syncGuideFont();
+            layer.classList.add('show');
+        }
+
+        function hideGuide() {
+            document.getElementById('guide-layer').classList.remove('show');
+        }
+
+        function selectLetter(l, el) {
+            currentL = l;
+            document.querySelectorAll('.letter-tile').forEach((t) => t.classList.remove('active'));
+            el.classList.add('active');
+            el.scrollIntoView({ behavior: 'smooth', inline: 'center' });
+            document.getElementById('current-letter').textContent = `${l}${l.toLowerCase()}`;
+            document.getElementById('board-hint').style.display = 'none';
+            clearBoard();
+            showGuide(l, l.toLowerCase());
+            speakLetter(l);
+        }
+
+        function speakCurrent() {
+            speakLetter(currentL);
+        }
+
+        function initRibbon() {
+            const ribbon = document.getElementById('ribbon');
+            'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').forEach((ch) => {
+                const tile = document.createElement('div');
+                tile.className = 'letter-tile';
+                tile.innerHTML = `<span>${ch}</span><span style="font-size:0.78em">${ch.toLowerCase()}</span>`;
+                tile.onclick = () => selectLetter(ch, tile);
+                ribbon.appendChild(tile);
+            });
+        }
+
+        function bindCanvas() {
+            const canvas = document.getElementById('teacher-canvas');
+            resizeCanvas();
+            canvas.addEventListener('mousedown', startDraw);
+            canvas.addEventListener('mousemove', moveDraw);
+            canvas.addEventListener('mouseup', endDraw);
+            canvas.addEventListener('mouseleave', endDraw);
+            canvas.addEventListener('touchstart', startDraw, { passive: false });
+            canvas.addEventListener('touchmove', moveDraw, { passive: false });
+            canvas.addEventListener('touchend', endDraw);
+            canvas.addEventListener('touchcancel', endDraw);
+            window.addEventListener('resize', resizeCanvas);
+        }
+
+        function initApp() {
+            initRibbon();
+            bindCanvas();
+        }
+
+        window.addEventListener('load', initApp);
+    </script>
+</body>
+</html>

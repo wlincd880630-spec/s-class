@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>English Handwriting - 四线格字母抄写</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Patrick+Hand&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --line-blue: #90CAF9;
+            --line-red: #EF9A9A;
+            --line-dash: rgba(33, 150, 243, 0.32);
+            --text-main: #2C3E50;
+            --text-dark: #2C3E50;
+            --trace-color: rgba(144, 202, 249, 0.55);
+            --font-hand: 'Patrick Hand', cursive;
+            --font-ui: 'Fredoka', sans-serif;
+            /* 固定行高：9 行/页时与 A4 内边距匹配，避免 flex 撑高导致 PDF 缩放 */
+            --row-h: 27.8mm;
+            --cell-fs: 3.35rem;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            padding: 0 0 48px;
+            background-color: #37474F;
+            font-family: var(--font-ui);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .toolbar {
+            width: 100%;
+            padding: 15px;
+            background: #ffffff;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .btn-print {
+            background: #FF8A80;
+            color: white;
+            border: none;
+            padding: 12px 40px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: var(--font-ui);
+            font-size: 1.2rem;
+            font-weight: 700;
+            transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        .btn-print:hover { transform: scale(1.05); background: #ff5252; }
+
+        .page-container {
+            background: white;
+            width: 210mm;
+            height: 297mm;
+            padding: 14mm 14mm 10mm;
+            margin: 20px 0;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            page-break-after: always;
+            overflow: hidden;
+        }
+
+        .header {
+            flex-shrink: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 2px solid #ECEFF1;
+            margin-bottom: 3mm;
+            padding-bottom: 3mm;
+            font-size: 0.84rem;
+            color: #555;
+            font-family: var(--font-hand);
+            white-space: nowrap;
+        }
+        .header-name { display: inline-flex; align-items: baseline; gap: 6px; }
+        .header-name .underline {
+            display: inline-block;
+            width: 22mm;
+            border-bottom: 1px solid #bdbdbd;
+            height: 0.85em;
+        }
+        .header-range {
+            font-weight: 700;
+            color: #333;
+            font-size: 1.05rem;
+            padding: 2px 12px;
+            background: #f5f5f5;
+            border-radius: 8px;
+        }
+        .header-date { display: inline-flex; align-items: baseline; gap: 4px; }
+        .header-date .underline {
+            display: inline-block;
+            width: 8mm;
+            border-bottom: 1px solid #bdbdbd;
+            height: 0.85em;
+        }
+
+        .grid-body {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+        }
+
+        .handwriting-row {
+            flex: 0 0 var(--row-h);
+            height: var(--row-h);
+            min-height: var(--row-h);
+            max-height: var(--row-h);
+            width: 100%;
+            display: flex;
+            position: relative;
+            page-break-inside: avoid;
+            border-bottom: 1px solid #fcfcfc;
+            overflow: hidden;
+        }
+        .handwriting-row:last-child { border-bottom: none; }
+
+        /* 四线格：与 Play Kitty / CVC 抄写作业一致，按行高百分比定位 */
+        .grid-lines {
+            position: absolute;
+            top: 25%;
+            height: 50%;
+            left: 0;
+            right: 0;
+            pointer-events: none;
+        }
+        .gl {
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 0;
+        }
+        .gl-sky   { top: 0%;   border-top: 1.3pt solid var(--line-blue); }
+        .gl-cloud { top: 33%;  border-top: 1.3pt dashed var(--line-dash); }
+        .gl-grass { top: 67%;  border-top: 2.8pt solid var(--line-blue); }
+        .gl-dirt  { top: 100%; border-top: 1.3pt solid var(--line-red); }
+
+        .cell {
+            flex: 1;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-hand);
+            font-size: var(--cell-fs);
+            font-weight: 700;
+            letter-spacing: 0;
+            z-index: 5;
+            position: relative;
+            transform: translateY(-1.4mm);
+            user-select: none;
+        }
+
+        .cell.model {
+            color: var(--text-dark);
+            border-right: 1px solid #f0f0f0;
+        }
+        .cell.trace { color: var(--trace-color); }
+        .cell.empty { color: transparent; }
+
+        .letter-pair {
+            display: inline-flex;
+            align-items: baseline;
+            gap: 0.12em;
+            line-height: 1;
+        }
+        .letter-cap {
+            display: inline-block;
+            transform: translateY(-0.5mm);
+        }
+        .letter-small {
+            font-size: 0.78em;
+            display: inline-block;
+            transform: translateY(-1.2mm);
+        }
+
+        .footer-info {
+            flex-shrink: 0;
+            text-align: center;
+            color: #BDBDBD;
+            font-size: 0.72rem;
+            padding-top: 2mm;
+            border-top: 1px solid #F5F5F5;
+        }
+
+        @page {
+            size: A4 portrait;
+            margin: 10mm;
+        }
+
+        @media print {
+            body {
+                background: #fff;
+                padding: 0;
+                margin: 0;
+            }
+            .no-print { display: none !important; }
+            .page-container {
+                width: 100% !important;
+                max-width: 100% !important;
+                height: auto !important;
+                min-height: 0 !important;
+                margin: 0 !important;
+                padding: 6mm 0 4mm !important;
+                box-shadow: none;
+                border: none;
+                page-break-after: always;
+                page-break-inside: avoid;
+                overflow: visible !important;
+            }
+            .header {
+                font-size: 11pt !important;
+                margin-bottom: 2mm !important;
+                padding-bottom: 2mm !important;
+            }
+            .header-range { font-size: 12pt !important; }
+            .handwriting-row {
+                flex: 0 0 var(--row-h) !important;
+                height: var(--row-h) !important;
+                page-break-inside: avoid;
+            }
+            .cell {
+                font-size: 48pt !important;
+                transform: translateY(-1.2mm) !important;
+            }
+            .footer-info { font-size: 9pt !important; }
+            * {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="toolbar no-print">
+        <div style="color:var(--text-main); font-weight:700;">四线格字母抄写 · Patrick Hand</div>
+        <button type="button" class="btn-print" onclick="window.print()">Print Worksheet (3 Pages) 🖨️</button>
+    </div>
+
+    <div class="page-container" id="page-1">
+        <div class="header">
+            <span class="header-name">Name: <span class="underline"></span></span>
+            <span class="header-range">A – I</span>
+            <span class="header-date">Date: <span class="underline"></span>/<span class="underline"></span>/<span class="underline"></span></span>
+        </div>
+        <div class="grid-body" id="body-1"></div>
+        <div class="footer-info">Page 1 • Magic English Handwriting Series</div>
+    </div>
+
+    <div class="page-container" id="page-2">
+        <div class="header">
+            <span class="header-name">Name: <span class="underline"></span></span>
+            <span class="header-range">J – R</span>
+            <span class="header-date">Date: <span class="underline"></span>/<span class="underline"></span>/<span class="underline"></span></span>
+        </div>
+        <div class="grid-body" id="body-2"></div>
+        <div class="footer-info">Page 2 • Magic English Handwriting Series</div>
+    </div>
+
+    <div class="page-container" id="page-3">
+        <div class="header">
+            <span class="header-name">Name: <span class="underline"></span></span>
+            <span class="header-range">S – Z</span>
+            <span class="header-date">Date: <span class="underline"></span>/<span class="underline"></span>/<span class="underline"></span></span>
+        </div>
+        <div class="grid-body" id="body-3"></div>
+        <div class="footer-info">Page 3 • Magic English Handwriting Series</div>
+    </div>
+
+    <script>
+        const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+
+        function pairHtml(letter) {
+            const lo = letter.toLowerCase();
+            return `<span class="letter-pair"><span class="letter-cap">${letter}</span><span class="letter-small">${lo}</span></span>`;
+        }
+
+        function generateWorksheet() {
+            alphabet.forEach((letter, index) => {
+                let targetId = 'body-3';
+                if (index < 9) targetId = 'body-1';
+                else if (index < 18) targetId = 'body-2';
+
+                const container = document.getElementById(targetId);
+                const html = pairHtml(letter);
+                const row = document.createElement('div');
+                row.className = 'handwriting-row';
+                row.innerHTML = `
+                    <div class="grid-lines">
+                        <div class="gl gl-sky"></div>
+                        <div class="gl gl-cloud"></div>
+                        <div class="gl gl-grass"></div>
+                        <div class="gl gl-dirt"></div>
+                    </div>
+                    <div class="cell model">${html}</div>
+                    <div class="cell trace">${html}</div>
+                    <div class="cell empty">${html}</div>
+                    <div class="cell empty">${html}</div>
+                    <div class="cell empty">${html}</div>
+                `;
+                container.appendChild(row);
+            });
+        }
+
+        /** 打印前写入 pt 字号，避免「另存为 PDF」时 rem 异常缩小 */
+        const PRINT_PT = { cell: 48, header: 11, range: 12, footer: 9 };
+
+        function applyPrintFonts() {
+            document.querySelectorAll('.cell').forEach((el) => {
+                el.dataset.printFont = '1';
+                el.style.fontSize = PRINT_PT.cell + 'pt';
+            });
+            document.querySelectorAll('.header').forEach((el) => {
+                el.dataset.printFont = '1';
+                el.style.fontSize = PRINT_PT.header + 'pt';
+            });
+            document.querySelectorAll('.header-range').forEach((el) => {
+                el.dataset.printFont = '1';
+                el.style.fontSize = PRINT_PT.range + 'pt';
+            });
+            document.querySelectorAll('.footer-info').forEach((el) => {
+                el.dataset.printFont = '1';
+                el.style.fontSize = PRINT_PT.footer + 'pt';
+            });
+        }
+
+        function clearPrintFonts() {
+            document.querySelectorAll('[data-print-font]').forEach((el) => {
+                el.style.removeProperty('font-size');
+                el.removeAttribute('data-print-font');
+            });
+        }
+
+        window.addEventListener('beforeprint', applyPrintFonts);
+        window.addEventListener('afterprint', clearPrintFonts);
+
+        window.addEventListener('load', generateWorksheet);
+    </script>
+</body>
+</html>

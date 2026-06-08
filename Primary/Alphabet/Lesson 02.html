@@ -1,0 +1,1361 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Steven's English Class: Lesson 02 (Song Finale)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Patrick+Hand&display=swap" rel="stylesheet">
+    
+    <style>
+        /* =========================================
+           1. 全局设计系统 (Global Design System)
+           ========================================= */
+        :root {
+            --bg-gradient: linear-gradient(135deg, #E3F2FD 0%, #F3E5F5 100%);
+            --primary: #FF8A80;
+            --secondary: #4DB6AC;
+            --accent: #B388FF;
+            --text: #455A64;
+            --glass-bg: rgba(255, 255, 255, 0.85);
+            --glass-border: 4px solid rgba(255, 255, 255, 0.95);
+            --font-main: 'Fredoka', sans-serif;
+            --font-hand: 'Patrick Hand', cursive;
+        }
+
+        body, html { 
+            margin: 0; padding: 0; 
+            font-family: var(--font-main);
+            background: var(--bg-gradient); 
+            height: 100vh; width: 100vw;
+            overflow: hidden; 
+            color: var(--text);
+            user-select: none;
+            -webkit-user-select: none;
+            overscroll-behavior: none;
+            touch-action: manipulation;
+        }
+
+        .hidden-section { display: none !important; }
+
+        /* 全局状态灯 */
+        #global-status-dot {
+            position: fixed; top: 15px; right: 15px; width: 12px; height: 12px; 
+            background: #ccc; border-radius: 50%; z-index: 5000;
+            box-shadow: 0 0 8px rgba(0,0,0,0.2);
+        }
+
+        /* 启动遮罩 */
+        #global-start-overlay {
+            position: fixed; inset: 0; background: rgba(255,255,255,0.98); z-index: 4000;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+        }
+
+        /* 核心布局容器：绝对居中 */
+        .lesson-section {
+            position: absolute; top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            padding: 20px; box-sizing: border-box;
+            z-index: 10;
+        }
+
+        /* 通用按钮 */
+        .btn-main {
+            background: var(--primary); color: white; border: none; padding: 15px 40px;
+            font-size: 1.5rem; border-radius: 50px; cursor: pointer; font-family: inherit; font-weight: 700;
+            box-shadow: 0 8px 20px rgba(255, 138, 128, 0.4); transition: 0.2s;
+            display: inline-flex; align-items: center; gap: 10px; margin: 10px;
+        }
+        .btn-main:hover { transform: translateY(-3px); filter: brightness(1.05); }
+        .btn-main:active { transform: translateY(2px); box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        .btn-green { background: var(--secondary); box-shadow: 0 8px 20px rgba(77, 182, 172, 0.4); }
+        .btn-purple { background: var(--accent); box-shadow: 0 8px 20px rgba(179, 136, 255, 0.4); }
+        .btn-main:disabled { background: #ccc; cursor: not-allowed; box-shadow: none; transform: none; }
+
+        /* 通用玻璃面板 */
+        .glass-panel {
+            background: var(--glass-bg); backdrop-filter: blur(25px);
+            border-radius: 45px; border: var(--glass-border);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.1);
+            padding: 20px; width: 100%; max-width: 1200px; height: 90vh;
+            display: flex; flex-direction: column; align-items: center; position: relative;
+            box-sizing: border-box;
+        }
+
+        /* 标题区 */
+        .header-panel { text-align: center; margin-bottom: 10px; flex-shrink: 0; }
+        .eng-title { font-size: 2.2rem; font-weight: 700; margin: 0; color: var(--text); }
+        .cn-sub { font-size: 1.1rem; color: #888; margin-top: 5px; }
+        .speak-icon { background: none; border: none; cursor: pointer; font-size: 1.5rem; margin-left: 10px; }
+
+        /* =========================================
+           Part 1: Counting (Balloons) Styles
+           ========================================= */
+        #cnt-field {
+            position: relative; width: 100%; flex: 1; margin: 10px 0;
+            background: rgba(255,255,255,0.3); border-radius: 30px;
+            perspective: 1000px; overflow: hidden;
+        }
+        .balloon {
+            position: absolute; width: 96px; height: 118px;
+            border-radius: 50% 50% 50% 50% / 45% 45% 55% 55%;
+            display: flex; align-items: center; justify-content: center;
+            font-family: var(--font-hand);
+            font-size: 2.45rem; font-weight: 700; color: white; cursor: pointer;
+            letter-spacing: -0.02em;
+            box-shadow: inset -6px -6px 14px rgba(0,0,0,0.1), 0 12px 24px rgba(0,0,0,0.12);
+            animation: floatBalloon 4s infinite ease-in-out; transition: all 0.3s;
+        }
+        .balloon::before {
+            content: ''; position: absolute; top: 12%; left: 20%;
+            width: 18px; height: 26px; background: rgba(255,255,255,0.4);
+            border-radius: 50%; transform: rotate(-20deg);
+        }
+        .balloon::after {
+            content: ''; position: absolute; bottom: -22px; left: 50%;
+            width: 2px; height: 26px; background: rgba(0,0,0,0.12);
+        }
+        .balloon.counted { background: #CFD8DC !important; color: #90A4AE !important; transform: scale(0.85); box-shadow: none; animation: none; opacity: 0.6; cursor: default; }
+        @keyframes floatBalloon { 0%,100%{transform:translateY(0) rotate(0deg);} 50%{transform:translateY(-10px) rotate(2deg);} }
+
+        #cnt-hand {
+            position: absolute; font-size: 88px; z-index: 999; pointer-events: none;
+            display: none; transition: all 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+            filter: drop-shadow(5px 10px 10px rgba(0,0,0,0.2));
+        }
+        .cnt-tag {
+            position: absolute; top: -48px; background: white; padding: 6px 14px; border-radius: 14px;
+            font-weight: 800; color: var(--primary); font-size: 1.85rem;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.1); animation: popTag 0.4s forwards;
+        }
+        @keyframes popTag { from {transform:scale(0);opacity:0;} to {transform:scale(1);opacity:1;} }
+
+        .cnt-bar { display: flex; align-items: center; gap: 20px; margin-top: 10px; height: 80px; flex-shrink: 0; }
+        .math-box {
+            background: white; padding: 15px 40px; border-radius: 30px; font-size: 2rem; font-weight: 700;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05); color: var(--text);
+        }
+        .math-box span { border-bottom: 4px solid #eee; margin: 0 8px; min-width: 40px; text-align: center; display:inline-block; color: var(--primary); }
+
+        .quiz-option {
+            background: white; border: 4px solid var(--accent); color: var(--accent);
+            padding: 20px 50px; font-size: 3rem; border-radius: 35px;
+            cursor: pointer; transition: 0.3s; font-weight: 800; margin: 0 15px;
+        }
+        .quiz-option:hover { background: var(--accent); color: white; transform: scale(1.1); }
+
+        /* =========================================
+           Part 2: Capital & Small — 逐对拖拽 + 形象木箱
+           ========================================= */
+        .mtc-drag-layout {
+            flex: 1; width: 100%; min-height: 0; display: flex; flex-direction: column; gap: 14px;
+        }
+        .mtc-drop-row {
+            display: flex; gap: 18px; width: 100%; flex-shrink: 0; align-items: stretch;
+        }
+        .mtc-drop-zone {
+            flex: 1;
+            position: relative;
+            border-radius: 14px 14px 20px 20px;
+            display: flex;
+            flex-direction: column;
+            padding: 12px 14px 16px;
+            min-height: 150px;
+            transition: filter 0.2s, transform 0.15s;
+            overflow: visible;
+        }
+        .mtc-drop-cap-box {
+            background: linear-gradient(168deg, #fff5eb 0%, #ffd8c4 38%, #e8a090 100%);
+            border: 3px solid #8d4e3d;
+            box-shadow:
+                inset 0 3px 0 rgba(255, 255, 255, 0.65),
+                inset 0 -10px 20px rgba(120, 40, 20, 0.12),
+                0 12px 0 #5d2e22,
+                0 18px 28px rgba(0, 0, 0, 0.22);
+        }
+        .mtc-drop-small-box {
+            background: linear-gradient(168deg, #f0fff8 0%, #b8ebd8 40%, #6db99a 100%);
+            border: 3px solid #2e6b52;
+            box-shadow:
+                inset 0 3px 0 rgba(255, 255, 255, 0.6),
+                inset 0 -10px 20px rgba(20, 80, 60, 0.12),
+                0 12px 0 #1b4d3a,
+                0 18px 28px rgba(0, 0, 0, 0.2);
+        }
+        .mtc-drop-zone::before {
+            content: '';
+            position: absolute;
+            left: 10px; right: 10px; top: 44px; bottom: 12px;
+            border-radius: 10px;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 10px,
+                rgba(0, 0, 0, 0.04) 10px,
+                rgba(0, 0, 0, 0.04) 11px
+            );
+            pointer-events: none;
+            z-index: 0;
+        }
+        .mtc-drop-zone.mtc-zone-ready {
+            cursor: pointer;
+            filter: brightness(1.06) saturate(1.05);
+            transform: translateY(-2px);
+        }
+        .mtc-drop-zone.mtc-zone-ready .mtc-drop-title::after {
+            content: ' · 点我放入';
+            font-size: 0.82em;
+            opacity: 0.85;
+        }
+        .mtc-drop-title {
+            position: relative;
+            z-index: 1;
+            font-size: 0.95rem; font-weight: 800; color: #3e2723;
+            margin-bottom: 8px; text-align: center; font-family: var(--font-main);
+            text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+            letter-spacing: 0.02em;
+        }
+        .mtc-drop-small-box .mtc-drop-title { color: #1b4332; }
+        .mtc-drop-inner {
+            position: relative;
+            z-index: 1;
+            flex: 1;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-content: flex-start;
+            justify-content: flex-start;
+            align-items: flex-start;
+            min-height: 72px;
+            padding: 6px 4px;
+        }
+        #mtc-step1,
+        #mtc-step-order-alphabet {
+            overflow-y: auto;
+        }
+
+        /* 字母表顺序点击（在 Alphabet Wall 之前） */
+        .mtc-order-strip-wrap {
+            width: 100%;
+            flex-shrink: 0;
+            margin-bottom: 8px;
+        }
+        .mtc-order-built {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            min-height: 92px;
+            padding: 14px 16px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(236, 239, 241, 0.92));
+            border-radius: 22px;
+            border: 3px dashed rgba(179, 136, 255, 0.5);
+            box-shadow: inset 0 2px 12px rgba(255, 255, 255, 0.8);
+            align-items: center;
+            align-content: center;
+        }
+        .mtc-order-pool {
+            flex: 1;
+            width: 100%;
+            min-height: 220px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            justify-content: center;
+            align-content: center;
+            padding: 16px 12px;
+            background: radial-gradient(ellipse at 30% 20%, rgba(255, 224, 178, 0.35) 0%, transparent 50%),
+                radial-gradient(ellipse at 70% 80%, rgba(179, 229, 252, 0.4) 0%, transparent 45%),
+                rgba(255, 255, 255, 0.4);
+            border-radius: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.6);
+        }
+        .mtc-order-card {
+            --oh: 200;
+            width: 76px;
+            height: 90px;
+            border: none;
+            border-radius: 18px;
+            font-family: var(--font-hand);
+            font-size: 2.85rem;
+            font-weight: 800;
+            line-height: 1;
+            color: #fff;
+            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.28);
+            cursor: pointer;
+            position: relative;
+            background: linear-gradient(
+                148deg,
+                hsl(var(--oh), 88%, 62%) 0%,
+                hsl(calc(var(--oh) + 42), 76%, 48%) 100%
+            );
+            box-shadow: 0 7px 0 rgba(0, 0, 0, 0.18), 0 12px 24px rgba(0, 0, 0, 0.12);
+            transition: transform 0.18s ease, box-shadow 0.18s ease;
+        }
+        .mtc-order-card:hover {
+            transform: translateY(-5px) scale(1.04);
+            box-shadow: 0 10px 0 rgba(0, 0, 0, 0.16), 0 16px 28px rgba(0, 0, 0, 0.14);
+        }
+        .mtc-order-card:active {
+            transform: translateY(0) scale(0.98);
+        }
+        .mtc-order-card.mtc-order-in-strip {
+            width: 58px;
+            height: 72px;
+            font-size: 2.15rem;
+            cursor: default;
+            pointer-events: none;
+            box-shadow: 0 4px 0 rgba(0, 0, 0, 0.12), 0 6px 14px rgba(0, 0, 0, 0.1);
+        }
+        .mtc-order-card.wrong {
+            animation: mtcOrderWrong 0.45s ease;
+        }
+        @keyframes mtcOrderWrong {
+            0%,
+            100% {
+                transform: translateX(0);
+                filter: brightness(1);
+            }
+            25% {
+                transform: translateX(-8px);
+                filter: brightness(1.2) hue-rotate(-20deg);
+            }
+            75% {
+                transform: translateX(8px);
+                filter: brightness(0.9);
+            }
+        }
+
+        .mtc-staging-wrap {
+            flex: 1;
+            width: 100%;
+            min-height: 200px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.55) 0%, rgba(227, 242, 253, 0.5) 100%);
+            border-radius: 22px;
+            border: 2px solid rgba(179, 136, 255, 0.35);
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            justify-content: flex-start;
+            gap: 12px;
+            padding: 14px 14px 18px;
+        }
+        .mtc-staging-hint {
+            margin: 0;
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: #546e7a;
+            text-align: center;
+            font-family: var(--font-main);
+        }
+        .mtc-pair-stage {
+            position: relative;
+            width: 100%;
+            flex: 1;
+            min-height: 260px;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.35);
+            overflow: hidden;
+        }
+        .mtc-round-done {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: var(--secondary);
+            font-family: var(--font-main);
+            z-index: 5;
+            pointer-events: none;
+            width: 90%;
+        }
+        .mtc-drag-tile {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+            letter-spacing: -0.02em;
+            background: linear-gradient(180deg, #ffffff 0%, #f3f3f3 100%);
+            border-radius: 18px;
+            border: 3px solid rgba(0, 0, 0, 0.12);
+            box-shadow: 0 6px 0 #c8c8c8, 0 10px 22px rgba(0, 0, 0, 0.12);
+            user-select: none;
+        }
+        /* 舞台区：手写体、大号、绝对定位由 JS 随机 left/top */
+        .mtc-drag-tile--stage {
+            position: absolute;
+            width: 112px;
+            height: 112px;
+            font-family: var(--font-hand);
+            font-size: 4.5rem;
+            font-weight: 700;
+            z-index: 2;
+            cursor: pointer;
+            touch-action: manipulation;
+            transition: transform 0.15s, box-shadow 0.15s, outline 0.15s;
+        }
+        .mtc-drag-tile--stage.mtc-tile-selected {
+            outline: 4px solid var(--accent);
+            outline-offset: 4px;
+            transform: scale(1.08);
+            z-index: 10;
+            box-shadow: 0 10px 28px rgba(179, 136, 255, 0.4);
+        }
+        .mtc-drop-inner .mtc-drag-tile.mtc-placed {
+            position: relative !important;
+            left: auto !important;
+            top: auto !important;
+            width: auto;
+            height: auto;
+            min-width: 44px;
+            min-height: 44px;
+            padding: 6px 12px;
+            font-size: 2rem;
+            font-family: var(--font-hand);
+            font-weight: 700;
+            cursor: default;
+            transform: none;
+            box-shadow: 0 3px 0 #c0c0c0, 0 4px 10px rgba(0, 0, 0, 0.08);
+        }
+        .mtc-drag-tile.shake { animation: shake 0.45s; }
+
+        .mtc-grid-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; width: 100%; flex: 1; min-height: 0; }
+        .palace-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; align-content: start; }
+        .letter-card {
+            aspect-ratio: 1; background: white; border-radius: 16px; display: flex; align-items: center; justify-content: center;
+            font-size: 3rem; font-family: var(--font-hand); font-weight: 700;
+            box-shadow: 0 5px 0 #eee, 0 8px 16px rgba(0,0,0,0.06); cursor: pointer; transition: 0.2s;
+        }
+        .letter-card.selected { background: var(--accent); color: white; transform: scale(1.1); z-index: 10; }
+        .letter-card.matched { background: var(--secondary); color: white; opacity: 0.3; pointer-events: none; }
+        .letter-card.shake { animation: shake 0.4s; border: 2px solid var(--primary); }
+        @keyframes shake { 0%,100%{transform:translateX(0);} 25%{transform:translateX(-5px);} 75%{transform:translateX(5px);} }
+
+        /* Alphabet Wall */
+        .box-wall { display: grid; grid-template-columns: repeat(7, 1fr); gap: 14px; width: 100%; margin-top: 10px; overflow-y: auto; padding: 12px; }
+        .box-3d {
+            aspect-ratio: 1.2; background: white; border-radius: 16px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 3.1rem; font-family: var(--font-hand); color: var(--primary);
+            box-shadow: 4px 4px 0 #ddd, 6px 10px 18px rgba(0,0,0,0.06); cursor: pointer; transition: 0.2s;
+        }
+        .box-3d:hover { transform: scale(1.1); background: var(--accent); color: white; }
+        #video-player-box { width: 70%; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.2); display: none; }
+        video { width: 100%; display: block; }
+
+        /* 全局：强行跳过当前环节（不计完成条件） */
+        #lesson02-global-skip {
+            position: fixed;
+            right: 16px;
+            bottom: 16px;
+            z-index: 3500;
+            padding: 10px 18px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            font-family: var(--font-main);
+            border-radius: 999px;
+            border: 2px solid #78909c;
+            background: rgba(255, 255, 255, 0.94);
+            color: #37474f;
+            cursor: pointer;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+            display: none;
+        }
+        #lesson02-global-skip:hover { background: #eceff1; border-color: #546e7a; }
+
+        /* 大屏触屏：更大点击区、减少误缩放与 300ms 延迟 */
+        button, .btn-main, .balloon, .letter-card, .quiz-option, .box-3d,
+        .mtc-order-card, .mtc-drag-tile, .speak-icon, #lesson02-global-skip, .mtc-drop-zone {
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .speak-icon {
+            min-width: 48px;
+            min-height: 48px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+        @media (pointer: coarse) {
+            .btn-main {
+                min-height: 56px;
+                padding: 18px 44px;
+                font-size: 1.65rem;
+            }
+            .quiz-option {
+                min-height: 88px;
+                min-width: 130px;
+                padding: 22px 48px;
+            }
+            .balloon {
+                width: 112px;
+                height: 136px;
+                font-size: 2.65rem;
+            }
+            .letter-card { min-height: 76px; font-size: 3.2rem; }
+            .mtc-drag-tile--stage {
+                width: 132px;
+                height: 132px;
+                font-size: 5.2rem;
+            }
+            .mtc-order-card {
+                width: 92px;
+                height: 108px;
+                font-size: 3.1rem;
+            }
+            .box-3d { min-height: 72px; font-size: 3.4rem; }
+            #lesson02-global-skip {
+                padding: 16px 26px;
+                font-size: 1.12rem;
+                min-height: 52px;
+                right: 20px;
+                bottom: 20px;
+            }
+            .cnt-bar .btn-main { min-width: 200px; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <canvas id="confetti-canvas" style="position:fixed; inset:0; pointer-events:none; z-index:9999;"></canvas>
+    <button type="button" id="lesson02-global-skip" onclick="Lesson02_skipCurrentStep()" title="不完成当前任务也可进入下一环节">
+        跳过本环节 ⏭
+    </button>
+    <div id="global-status-dot" title="Audio: green=idle, blue=playing, red=error"></div>
+
+    <div id="global-start-overlay">
+        <h1 style="color:var(--primary); font-size:3.5rem; margin-bottom: 10px;">Steven's English Class</h1>
+        <p style="color:#888; margin-bottom: 40px; font-size: 1.5rem;">Lesson 02: The Alphabet World</p>
+        <button class="btn-main" onclick="initCourse()">Start Lesson 🚀</button>
+    </div>
+
+    <section id="part1-counting" class="lesson-section hidden-section">
+        <div id="cnt-step1" class="glass-panel">
+            <div class="header-panel">
+                <h1 class="eng-title">How many letters are there? <button class="speak-icon" onclick="speak('How many letters are there?')">🔊</button></h1>
+                <div class="cn-sub">这里有多少个字母？让我们一起数一数。</div>
+            </div>
+
+            <div id="cnt-field">
+                <div id="cnt-hand">☝️</div>
+            </div>
+
+            <div class="cnt-bar">
+                <div class="math-box">
+                    <span id="cnt-f1">?</span> + <span id="cnt-f2">?</span> + <span id="cnt-f3">?</span> = <span id="cnt-total">??</span>
+                </div>
+                <button id="cnt-btn-guided" class="btn-main" onclick="CNT_teacherStep()">Count Next / 下一个 ☝️</button>
+                <button id="cnt-btn-finish" class="btn-main btn-green" style="display:none;" onclick="CNT_goQuiz()">Take Quiz / 去测验 ▶</button>
+            </div>
+        </div>
+
+        <div id="cnt-step2" class="glass-panel hidden-section">
+            <div class="header-panel" style="margin-top: 100px;">
+                <h1 class="eng-title" style="font-size:3rem;">How many letters in English?</h1>
+                <div class="cn-sub">英语当中一共有多少个字母？</div>
+            </div>
+            <div style="display:flex; justify-content:center; margin-top:50px;">
+                <button class="quiz-option" onclick="CNT_checkFinal(24)">24</button>
+                <button class="quiz-option" onclick="CNT_checkFinal(26)">26</button>
+                <button class="quiz-option" onclick="CNT_checkFinal(28)">28</button>
+            </div>
+            <div id="cnt-final-res" style="display:none; margin-top:60px; text-align:center;">
+                <h1 style="font-size:3rem; color:var(--secondary);">Correct! 26 Letters! 🏆</h1>
+                <button class="btn-main btn-purple" onclick="goToPart2()">Next Activity / 下一环节 ▶</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="part2-matching" class="lesson-section hidden-section">
+        <div id="mtc-step1" class="glass-panel">
+            <div class="header-panel">
+                <h1 class="eng-title">Capital & Small Letters <button type="button" class="speak-icon" onclick="speak('Part two. Drag every letter into the capital box or the small letters box.')">🔊</button></h1>
+                <div class="cn-sub">按顺序每次只出现一对（Aa → Bb → …）。<strong>上方</strong>白区内两个字母会<strong>随机位置</strong>出现；<strong>先点击</strong>字母选中，再点击<strong>下方</strong>左侧大写木箱或右侧小写木箱放入。每对字母颜色不同；箱内字母会保留并<strong>按字母顺序</strong>排列。</div>
+            </div>
+            <div class="mtc-drag-layout">
+                <div class="mtc-staging-wrap">
+                    <p class="mtc-staging-hint" id="mtc-staging-hint"></p>
+                    <div class="mtc-pair-stage" id="mtc-pair-stage" aria-label="Current letter pair"></div>
+                </div>
+                <div class="mtc-drop-row">
+                    <div class="mtc-drop-zone mtc-drop-cap-box" data-zone="cap" id="mtc-zone-cap" role="button" tabindex="0" aria-label="Capital box 大写箱子">
+                        <div class="mtc-drop-title">📦 Capital · 大写箱子</div>
+                        <div class="mtc-drop-inner" id="mtc-inner-cap"></div>
+                    </div>
+                    <div class="mtc-drop-zone mtc-drop-small-box" data-zone="small" id="mtc-zone-small" role="button" tabindex="0" aria-label="Small box 小写箱子">
+                        <div class="mtc-drop-title">📦 Small · 小写箱子</div>
+                        <div class="mtc-drop-inner" id="mtc-inner-small"></div>
+                    </div>
+                </div>
+            </div>
+            <button type="button" id="mtc-go-matching" class="btn-main" disabled onclick="MTC_showPage(2)">Go to Matching / 去配对 ▶</button>
+        </div>
+
+        <div id="mtc-step2" class="glass-panel hidden-section">
+            <div class="header-panel">
+                <h1 class="eng-title" id="mtc-match-title">Capital ➔ Small</h1>
+            </div>
+            <div class="mtc-grid-layout">
+                <div class="palace-grid" id="mtc-grid-caps"></div>
+                <div class="palace-grid" id="mtc-grid-smalls"></div>
+            </div>
+            <div style="display:flex; margin-top:10px;">
+                <button id="mtc-btn-next-step" class="btn-main btn-green" style="display:none;" onclick="MTC_handleProgression()">Next Phase ▶</button>
+                <button id="mtc-btn-skip" class="btn-main" style="background:#90A4AE; font-size:1rem;" onclick="MTC_handleSkip()">Skip / 跳过 ⏭</button>
+            </div>
+        </div>
+
+        <div id="mtc-step-order-alphabet" class="glass-panel hidden-section">
+            <div class="header-panel">
+                <h1 class="eng-title">Tap A → Z in Order</h1>
+                <div class="cn-sub">
+                    下方大写字母卡片已<strong>打乱</strong>。请按<strong>字母表顺序</strong>从 <strong>A</strong> 依次点到 <strong>Z</strong>；点对的卡片会<strong>飞入上方</strong>自动排成一行。
+                </div>
+            </div>
+            <div class="mtc-order-strip-wrap">
+                <div class="mtc-order-built" id="mtc-order-built" aria-label="已排列字母"></div>
+            </div>
+            <div class="mtc-order-pool" id="mtc-order-pool" aria-label="待点击字母"></div>
+            <div style="margin-top: 14px; display: flex; justify-content: center; gap: 12px; flex-wrap: wrap">
+                <button
+                    type="button"
+                    class="btn-main"
+                    style="background: #90a4ae; font-size: 1rem"
+                    onclick="MTC_orderSkipToWall()"
+                >
+                    Skip to Wall / 直接去字母墙 ⏭
+                </button>
+                <button type="button" id="mtc-order-next-wall" class="btn-main btn-green" style="display: none" onclick="MTC_orderGoToWall()">
+                    Next: Alphabet Wall ▶
+                </button>
+            </div>
+        </div>
+
+        <div id="mtc-step3" class="glass-panel hidden-section">
+            <div class="header-panel">
+                <h1 class="eng-title">The Alphabet Wall</h1>
+            </div>
+            <div class="box-wall" id="mtc-final-wall"></div>
+            <div id="video-player-box">
+                <video id="mtc-video" controls><source src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Alphabet/video.mp4" type="video/mp4"></video>
+            </div>
+            <div style="margin-top:15px; display:flex;">
+                <button class="btn-main" onclick="MTC_revealWall()">Show Wall</button>
+                <button class="btn-main btn-purple" onclick="MTC_playSong()">ABC Song 🎬</button>
+                <button id="mtc-btn-finish" class="btn-main btn-green" style="display:none;" onclick="finishLesson()">Finish Lesson 🏆</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 内嵌映射：file:// 下 fetch 同目录 json 常失败，🔊 等 speak 可立即使用；有 HTTP 时仍会用 audio_mapping.json 覆盖 -->
+    <script type="application/json" id="lesson02-audio-embed">{"1":"./assets/audio/1.mp3","2":"./assets/audio/2.mp3","3":"./assets/audio/3.mp3","4":"./assets/audio/4.mp3","5":"./assets/audio/5.mp3","6":"./assets/audio/6.mp3","7":"./assets/audio/7.mp3","8":"./assets/audio/8.mp3","9":"./assets/audio/9.mp3","10":"./assets/audio/10.mp3","How many letters are there?":"./assets/audio/how_many_letters_are_there.mp3","Welcome to the Alphabet World":"./assets/audio/welcome_to_the_alphabet_world.mp3","Welcome to Lesson 2! Let's count.":"./assets/audio/welcome_lesson_2_lets_count.mp3","Part Two. Matching.":"./assets/audio/part_two_matching.mp3","Part two. Drag every letter into the capital box or the small letters box.":"./assets/audio/part_two_drag_letters_boxes.mp3","Drag each letter into the capital box or the small letters box.":"./assets/audio/drag_each_letter_instruction.mp3","You finished Lesson 2! Great job!":"./assets/audio/you_finished_lesson_2_great_job.mp3","Great! Count ten more!":"./assets/audio/great_count_ten_more.mp3","Last six!":"./assets/audio/last_six.mp3","Twenty-six!":"./assets/audio/twenty_six.mp3","How many letters?":"./assets/audio/how_many_letters.mp3","Correct!":"./assets/audio/correct_bang.mp3","Try again!":"./assets/audio/try_again.mp3","Try again":"./assets/audio/try_again.mp3","Try the other box!":"./assets/audio/try_the_other_box.mp3","Great! All letters sorted. Now try matching.":"./assets/audio/great_all_letters_sorted_now_try_matching.mp3","Capital":"./assets/audio/capital.mp3","Small":"./assets/audio/small.mp3","Correct":"./assets/audio/correct.mp3","Sing along!":"./assets/audio/sing_along.mp3","A":"./assets/audio/A.mp3","B":"./assets/audio/B.mp3","C":"./assets/audio/C.mp3","D":"./assets/audio/D.mp3","E":"./assets/audio/E.mp3","F":"./assets/audio/F.mp3","G":"./assets/audio/G.mp3","H":"./assets/audio/H.mp3","I":"./assets/audio/I.mp3","J":"./assets/audio/J.mp3","K":"./assets/audio/K.mp3","L":"./assets/audio/L.mp3","M":"./assets/audio/M.mp3","N":"./assets/audio/N.mp3","O":"./assets/audio/O.mp3","P":"./assets/audio/P.mp3","Q":"./assets/audio/Q.mp3","R":"./assets/audio/R.mp3","S":"./assets/audio/S.mp3","T":"./assets/audio/T.mp3","U":"./assets/audio/U.mp3","V":"./assets/audio/V.mp3","W":"./assets/audio/W.mp3","X":"./assets/audio/X.mp3","Y":"./assets/audio/Y.mp3","Z":"./assets/audio/Z.mp3","a":"./assets/audio/A.mp3","b":"./assets/audio/B.mp3","c":"./assets/audio/C.mp3","d":"./assets/audio/D.mp3","e":"./assets/audio/E.mp3","f":"./assets/audio/F.mp3","g":"./assets/audio/G.mp3","h":"./assets/audio/H.mp3","i":"./assets/audio/I.mp3","j":"./assets/audio/J.mp3","k":"./assets/audio/K.mp3","l":"./assets/audio/L.mp3","m":"./assets/audio/M.mp3","n":"./assets/audio/N.mp3","o":"./assets/audio/O.mp3","p":"./assets/audio/P.mp3","q":"./assets/audio/Q.mp3","r":"./assets/audio/R.mp3","s":"./assets/audio/S.mp3","t":"./assets/audio/T.mp3","u":"./assets/audio/U.mp3","v":"./assets/audio/V.mp3","w":"./assets/audio/W.mp3","x":"./assets/audio/X.mp3","y":"./assets/audio/Y.mp3","z":"./assets/audio/Z.mp3"}</script>
+
+    <script>
+        // ============================================
+        // 1. 本地 MP3（audio_mapping.json 或内嵌 #lesson02-audio-embed → ./assets/audio/*.mp3）
+        // ============================================
+        let LESSON02_AUDIO_MAP = null;
+        let lessonAudioPlayer = null;
+
+        function getEmbeddedAudioMap() {
+            try {
+                const el = document.getElementById('lesson02-audio-embed');
+                if (el && el.textContent.trim()) return JSON.parse(el.textContent);
+            } catch (err) {
+                console.warn('lesson02-audio-embed 解析失败', err);
+            }
+            return null;
+        }
+
+        /** 相对 HTML 所在目录解析 MP3（兼容 file:// 与 http） */
+        function lessonAudioUrl(relPath) {
+            if (!relPath) return '';
+            if (/^https?:\/\//i.test(relPath)) return relPath;
+            const p = String(relPath).replace(/\\/g, '/').replace(/^\.\/+/, '');
+            const withDot = p.startsWith('./') ? p : './' + p;
+            try {
+                return new URL(withDot, window.location.href).href;
+            } catch (e) {
+                const base = String(window.location.href).replace(/[^/\\]+$/, '');
+                return base + p;
+            }
+        }
+
+        function hydrateAudioMapFromEmbed() {
+            if (!LESSON02_AUDIO_MAP) {
+                const em = getEmbeddedAudioMap();
+                if (em && Object.keys(em).length) LESSON02_AUDIO_MAP = em;
+            }
+        }
+
+        async function ensureAudioMap() {
+            if (LESSON02_AUDIO_MAP) return;
+            hydrateAudioMapFromEmbed();
+            try {
+                const res = await fetch(new URL('audio_mapping.json', window.location.href), { cache: 'no-store' });
+                if (!res.ok) throw new Error(String(res.status));
+                const remote = await res.json();
+                if (remote && typeof remote === 'object' && Object.keys(remote).length) {
+                    LESSON02_AUDIO_MAP = remote;
+                }
+            } catch (e) {
+                console.info('使用内嵌音频映射（无法 fetch audio_mapping.json 时正常，例如 file://）', e && e.message);
+            }
+            hydrateAudioMapFromEmbed();
+            if (LESSON02_AUDIO_MAP && Object.keys(LESSON02_AUDIO_MAP).length) {
+                updateGlobalStatus('green');
+            } else {
+                updateGlobalStatus('red');
+            }
+        }
+
+        function resolveAudioMappingKeys(text) {
+            const raw = String(text).trim();
+            const keys = [raw];
+            if (raw.length === 1 && /[a-z]/.test(raw)) keys.push(raw.toUpperCase());
+            if (raw === 'Try again') keys.push('Try again!');
+            return keys;
+        }
+
+        function findAudioPath(text) {
+            const map = LESSON02_AUDIO_MAP;
+            if (!map) return null;
+            for (const k of resolveAudioMappingKeys(text)) {
+                if (map[k]) return map[k];
+            }
+            return null;
+        }
+
+        function speak(text, cb) {
+            hydrateAudioMapFromEmbed();
+            const rel = findAudioPath(text);
+            if (!lessonAudioPlayer) {
+                lessonAudioPlayer = new Audio();
+                lessonAudioPlayer.preload = 'auto';
+            }
+            const a = lessonAudioPlayer;
+            a.onended = () => {
+                updateGlobalStatus('green');
+                if (cb) cb();
+            };
+            a.onerror = () => {
+                const src = a.src || '';
+                console.warn('音频加载/播放失败。请确认文件存在:', src, '| 文案:', text);
+                updateGlobalStatus('red');
+                if (cb) cb();
+            };
+            if (!rel) {
+                console.warn('无音频映射条目（检查文案是否与 audio_mapping 键一致）:', JSON.stringify(text));
+                updateGlobalStatus('#ff9800');
+                if (cb) setTimeout(cb, 0);
+                return;
+            }
+            const url = lessonAudioUrl(rel);
+            updateGlobalStatus('blue');
+            try {
+                a.pause();
+                a.currentTime = 0;
+                a.src = url;
+                a.play().catch((err) => {
+                    console.warn('play() 被拒绝或失败（需用户点击后播放，或文件不存在）:', err, url);
+                    updateGlobalStatus('red');
+                    if (cb) cb();
+                });
+            } catch (e) {
+                console.warn(e);
+                updateGlobalStatus('red');
+                if (cb) cb();
+            }
+        }
+
+        function updateGlobalStatus(color) {
+            document.getElementById('global-status-dot').style.background = color;
+        }
+
+        // ============================================
+        // 2. COURSE ROUTING
+        // ============================================
+        function Lesson02_setGlobalSkipVisible(visible) {
+            const b = document.getElementById('lesson02-global-skip');
+            if (b) b.style.display = visible ? 'inline-block' : 'none';
+        }
+
+        /** 强行进入「下一环节」，不要求当前环节完成 */
+        function Lesson02_skipCurrentStep() {
+            hydrateAudioMapFromEmbed();
+            const overlay = document.getElementById('global-start-overlay');
+            if (overlay && overlay.style.display !== 'none') {
+                initCourse();
+                return;
+            }
+
+            const p1 = document.getElementById('part1-counting');
+            if (!p1.classList.contains('hidden-section')) {
+                const s1 = document.getElementById('cnt-step1');
+                const s2 = document.getElementById('cnt-step2');
+                if (!s1.classList.contains('hidden-section')) {
+                    CNT_goQuiz();
+                } else if (!s2.classList.contains('hidden-section')) {
+                    goToPart2();
+                }
+                return;
+            }
+
+            const p2 = document.getElementById('part2-matching');
+            if (!p2.classList.contains('hidden-section')) {
+                if (!document.getElementById('mtc-step1').classList.contains('hidden-section')) {
+                    document.getElementById('mtc-go-matching').disabled = false;
+                    MTC_showPage(2);
+                    return;
+                }
+                if (!document.getElementById('mtc-step2').classList.contains('hidden-section')) {
+                    MTC_showPage(3);
+                    return;
+                }
+                if (!document.getElementById('mtc-step-order-alphabet').classList.contains('hidden-section')) {
+                    document.getElementById('mtc-final-wall').style.display = '';
+                    document.getElementById('video-player-box').style.display = 'none';
+                    MTC_showPage(4);
+                    MTC_revealWall();
+                    document.getElementById('mtc-btn-finish').style.display = 'inline-block';
+                    return;
+                }
+                MTC_revealWall();
+                document.getElementById('mtc-final-wall').style.display = '';
+                document.getElementById('video-player-box').style.display = 'none';
+                document.getElementById('mtc-btn-finish').style.display = 'inline-block';
+                return;
+            }
+        }
+
+        async function initCourse() {
+            document.getElementById('global-start-overlay').style.display = 'none';
+            Lesson02_setGlobalSkipVisible(true);
+            await ensureAudioMap();
+            document.getElementById('part1-counting').classList.remove('hidden-section');
+            CNT_init();
+            speak("Welcome to Lesson 2! Let's count.");
+        }
+
+        async function goToPart2() {
+            document.getElementById('part1-counting').classList.add('hidden-section');
+            document.getElementById('part2-matching').classList.remove('hidden-section');
+            Lesson02_setGlobalSkipVisible(true);
+            await ensureAudioMap();
+            MTC_init();
+            speak("Part two. Drag every letter into the capital box or the small letters box.");
+        }
+
+        function finishLesson() {
+            fireConfetti();
+            speak("You finished Lesson 2! Great job!");
+            alert("Class Dismissed! Great Job!");
+            location.reload();
+        }
+
+        // ============================================
+        // 3. PART 1: COUNTING
+        // ============================================
+        const CNT_letters = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz".match(/.{1,2}/g);
+        let CNT_count = 0, CNT_mode = 1;
+
+        function CNT_init() {
+            const field = document.getElementById('cnt-field');
+            const cols = 7, rows = 4;
+            const w = field.offsetWidth / cols, h = field.offsetHeight / rows;
+            const colors = ['#FF8A80', '#FFD54F', '#81C784', '#64B5F6', '#BA68C8', '#4DB6AC'];
+            /* 与 .balloon 宽高 + 边距一致，避免叠出格 */
+            const balloonPadW = 104, balloonPadH = 132;
+
+            CNT_letters.forEach((char, i) => {
+                const b = document.createElement('div');
+                b.className = 'balloon';
+                b.id = `cnt-ball-${i}`;
+                b.innerText = char;
+                b.style.background = `radial-gradient(circle at 35% 35%, white 0%, ${colors[i%colors.length]} 20%, ${colors[i%colors.length]} 100%)`;
+                const r = Math.floor(i / cols), c = i % cols;
+                const rx = Math.max(6, w - balloonPadW), ry = Math.max(6, h - balloonPadH);
+                b.style.left = (c * w) + (Math.random() * rx) + 10 + 'px';
+                b.style.top = (r * h) + (Math.random() * ry) + 10 + 'px';
+                b.style.animationDelay = (Math.random() * 2) + 's';
+                b.addEventListener('pointerup', (ev) => {
+                    if (ev.pointerType === 'mouse' && ev.button !== 0) return;
+                    ev.preventDefault();
+                    CNT_userClick(i);
+                });
+                field.appendChild(b);
+            });
+        }
+
+        function CNT_teacherStep() {
+            if (CNT_count >= 10 || CNT_mode !== 1) return;
+            const target = document.getElementById(`cnt-ball-${CNT_count}`);
+            const hand = document.getElementById('cnt-hand');
+            const btn = document.getElementById('cnt-btn-guided');
+            btn.disabled = true;
+            if (hand.style.display !== 'block') { hand.style.display = 'block'; hand.style.left = '50%'; hand.style.top = '100%'; }
+            hand.style.left = (target.offsetLeft + target.offsetWidth/2 - 10) + 'px';
+            hand.style.top = (target.offsetTop + target.offsetHeight/2 - 10) + 'px';
+
+            setTimeout(() => {
+                CNT_count++;
+                target.classList.add('counted');
+                const tag = document.createElement('div'); tag.className = 'cnt-tag'; tag.innerText = CNT_count; target.appendChild(tag);
+                speak(CNT_count.toString(), () => {
+                    btn.disabled = false;
+                    if (CNT_count === 10) {
+                        CNT_mode = 2; btn.style.display = 'none';
+                        document.getElementById('cnt-f1').innerText = "10"; hand.style.display = 'none';
+                        speak("Great! Count ten more!");
+                    }
+                });
+            }, 600);
+        }
+
+        function CNT_userClick(idx) {
+            const b = document.getElementById(`cnt-ball-${idx}`);
+            if (b.classList.contains('counted') || CNT_mode === 1) return;
+            if (CNT_mode === 2) {
+                CNT_count++; b.classList.add('counted');
+                speak((CNT_count-10).toString());
+                if (CNT_count === 20) { CNT_mode = 3; document.getElementById('cnt-f2').innerText = "10"; speak("Last six!"); }
+            } else if (CNT_mode === 3) {
+                CNT_count++; b.classList.add('counted');
+                speak((CNT_count-20).toString());
+                if (CNT_count === 26) {
+                    document.getElementById('cnt-f3').innerText = "6"; document.getElementById('cnt-total').innerText = "26";
+                    fireConfetti(); speak("Twenty-six!");
+                    document.getElementById('cnt-btn-finish').style.display = 'inline-block';
+                }
+            }
+        }
+
+        function CNT_goQuiz() {
+            document.getElementById('cnt-step1').classList.add('hidden-section');
+            document.getElementById('cnt-step2').classList.remove('hidden-section');
+            speak("How many letters?");
+        }
+
+        function CNT_checkFinal(v) {
+            if(v === 26) { fireConfetti(); speak("Correct!"); document.getElementById('cnt-final-res').style.display = 'block'; }
+            else speak("Try again!");
+        }
+
+        // ============================================
+        // 4. PART 2: MATCHING
+        // ============================================
+        const MTC_caps = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('');
+        const MTC_smalls = "abcdefghijklmnopqrstuvwxyz".split('');
+        let MTC_phase = 1, MTC_count = 0, MTC_selCap = null, MTC_selSmall = null;
+        /** Capital 拖拽环节：当前轮到第几对（0=Aa … 25=Zz），完成 26 对后变为 26 */
+        let MTC_dragRound = 0;
+        let MTC_dropZonesWired = false;
+        let MTC_selectedTile = null;
+
+        function MTC_shuffle(arr) {
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        function MTC_clearTileSelection() {
+            if (MTC_selectedTile) {
+                MTC_selectedTile.classList.remove('mtc-tile-selected');
+                MTC_selectedTile = null;
+            }
+            document.querySelectorAll('.mtc-drop-zone').forEach((z) => z.classList.remove('mtc-zone-ready'));
+        }
+
+        function MTC_setZonesReady(on) {
+            document.querySelectorAll('.mtc-drop-zone').forEach((z) => z.classList.toggle('mtc-zone-ready', on));
+        }
+
+        function MTC_selectTile(tile) {
+            if (!tile || tile.classList.contains('mtc-placed')) return;
+            if (parseInt(tile.dataset.round, 10) !== MTC_dragRound) return;
+            if (MTC_selectedTile === tile) {
+                MTC_clearTileSelection();
+                return;
+            }
+            MTC_clearTileSelection();
+            MTC_selectedTile = tile;
+            tile.classList.add('mtc-tile-selected');
+            MTC_setZonesReady(true);
+        }
+
+        function MTC_wireDropZonesOnce() {
+            if (MTC_dropZonesWired) return;
+            MTC_dropZonesWired = true;
+            document.querySelectorAll('.mtc-drop-zone').forEach((z) => {
+                z.addEventListener('pointerup', MTC_onZonePointerUp);
+                z.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        MTC_onZonePointerUp({ currentTarget: z, pointerType: 'mouse' });
+                    }
+                });
+            });
+        }
+
+        function MTC_onZonePointerUp(e) {
+            if (e.pointerType === 'mouse' && e.button !== 0) return;
+            if (!MTC_selectedTile) return;
+            MTC_applyTileDrop(MTC_selectedTile, e.currentTarget);
+        }
+
+        function MTC_sortDropInner(inner) {
+            const nodes = Array.from(inner.children).filter(
+                (n) => n.classList && n.classList.contains('mtc-drag-tile'),
+            );
+            nodes.sort((a, b) =>
+                String(a.dataset.letter).localeCompare(String(b.dataset.letter), 'en', { sensitivity: 'base' }),
+            );
+            nodes.forEach((n) => inner.appendChild(n));
+        }
+
+        function MTC_tryAdvanceRound() {
+            const r = MTC_dragRound;
+            if (r >= 26) return;
+            const needCap = MTC_caps[r];
+            const needSm = MTC_smalls[r];
+            const capInner = document.getElementById('mtc-inner-cap');
+            const smInner = document.getElementById('mtc-inner-small');
+            const hasCap = [...capInner.children].some(
+                (el) =>
+                    el.classList.contains('mtc-placed') &&
+                    el.dataset.case === 'cap' &&
+                    el.dataset.letter === needCap &&
+                    el.dataset.round === String(r),
+            );
+            const hasSm = [...smInner.children].some(
+                (el) =>
+                    el.classList.contains('mtc-placed') &&
+                    el.dataset.case === 'small' &&
+                    el.dataset.letter === needSm &&
+                    el.dataset.round === String(r),
+            );
+            if (!hasCap || !hasSm) return;
+            MTC_dragRound++;
+            if (MTC_dragRound >= 26) {
+                document.getElementById('mtc-go-matching').disabled = false;
+                fireConfetti();
+                speak('Great! All letters sorted. Now try matching.');
+                document.getElementById('mtc-staging-hint').textContent = '';
+                document.getElementById('mtc-pair-stage').innerHTML =
+                    '<div class="mtc-round-done">A–Z 全部完成！可进入配对 ▶</div>';
+            } else {
+                MTC_renderCurrentPair();
+            }
+        }
+
+        function MTC_pairColorsForRound(round) {
+            const h1 = (round * 41 + 7) % 360;
+            const h2 = (h1 + 98 + (round % 7) * 19 + Math.floor(round / 4) * 23) % 360;
+            return {
+                cap: `hsl(${h1}, 76%, 38%)`,
+                sm: `hsl(${h2}, 74%, 34%)`,
+                capBorder: `hsla(${h1}, 76%, 26%, 0.55)`,
+                smBorder: `hsla(${h2}, 74%, 22%, 0.55)`,
+            };
+        }
+
+        function MTC_layoutStageTilesRandom(tileCap, tileSmall) {
+            const stage = document.getElementById('mtc-pair-stage');
+            if (!stage || !tileCap || !tileSmall) return;
+            const w = stage.clientWidth || 320;
+            const h = stage.clientHeight || 260;
+            const tw = 112;
+            const th = 112;
+            const pad = 10;
+            const maxL = Math.max(pad + 1, w - tw - pad);
+            const maxT = Math.max(pad + 1, h - th - pad);
+            const rand = (a, b) => a + Math.random() * (b - a);
+            let l1 = rand(pad, maxL);
+            let t1 = rand(pad, maxT);
+            let l2 = rand(pad, maxL);
+            let t2 = rand(pad, maxT);
+            let dist = Math.hypot(l2 - l1, t2 - t1);
+            let guard = 0;
+            while (dist < 88 && guard < 45) {
+                l2 = rand(pad, maxL);
+                t2 = rand(pad, maxT);
+                dist = Math.hypot(l2 - l1, t2 - t1);
+                guard++;
+            }
+            tileCap.style.left = Math.round(l1) + 'px';
+            tileCap.style.top = Math.round(t1) + 'px';
+            tileSmall.style.left = Math.round(l2) + 'px';
+            tileSmall.style.top = Math.round(t2) + 'px';
+        }
+
+        function MTC_mkStageTile(ch, caseType, colors) {
+            const t = document.createElement('div');
+            const isCap = caseType === 'cap';
+            t.className = 'mtc-drag-tile mtc-drag-tile--stage ' + (isCap ? 'cap' : 'small');
+            t.textContent = ch;
+            t.style.color = isCap ? colors.cap : colors.sm;
+            t.style.borderColor = isCap ? colors.capBorder : colors.smBorder;
+            t.dataset.case = caseType;
+            t.dataset.letter = ch;
+            t.dataset.round = String(MTC_dragRound);
+            t.id = 'mtc-stage-' + caseType + '-' + MTC_dragRound;
+            t.addEventListener('pointerup', (ev) => {
+                if (ev.pointerType === 'mouse' && ev.button !== 0) return;
+                ev.stopPropagation();
+                MTC_selectTile(t);
+            });
+            return t;
+        }
+
+        function MTC_renderCurrentPair() {
+            const stage = document.getElementById('mtc-pair-stage');
+            const hint = document.getElementById('mtc-staging-hint');
+            MTC_clearTileSelection();
+            stage.innerHTML = '';
+            if (MTC_dragRound >= 26) {
+                hint.textContent = '';
+                return;
+            }
+            const L = MTC_caps[MTC_dragRound];
+            const s = MTC_smalls[MTC_dragRound];
+            const colors = MTC_pairColorsForRound(MTC_dragRound);
+            hint.textContent = `第 ${MTC_dragRound + 1} / 26 对：先点选 ${L} 或 ${s}，再点下方对应木箱（上方位置每次随机）`;
+            const capEl = MTC_mkStageTile(L, 'cap', colors);
+            const smEl = MTC_mkStageTile(s, 'small', colors);
+            stage.appendChild(capEl);
+            stage.appendChild(smEl);
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => MTC_layoutStageTilesRandom(capEl, smEl));
+            });
+        }
+
+        function MTC_applyTileDrop(tile, zone) {
+            if (!tile || tile.classList.contains('mtc-placed')) return false;
+            const want = zone.dataset.zone;
+            if (parseInt(tile.dataset.round, 10) !== MTC_dragRound) return false;
+            if (tile.dataset.case !== want) {
+                speak('Try the other box!');
+                tile.classList.add('shake');
+                setTimeout(() => tile.classList.remove('shake'), 450);
+                return false;
+            }
+            const inner = zone.querySelector('.mtc-drop-inner');
+            inner.appendChild(tile);
+            tile.classList.add('mtc-placed');
+            tile.classList.remove('mtc-drag-tile--stage', 'mtc-tile-selected');
+            tile.style.left = '';
+            tile.style.top = '';
+            tile.style.position = '';
+            tile.style.zIndex = '';
+            MTC_clearTileSelection();
+            MTC_sortDropInner(inner);
+            speak(tile.dataset.letter);
+            MTC_tryAdvanceRound();
+            return true;
+        }
+
+        function MTC_initDragIntro() {
+            MTC_wireDropZonesOnce();
+            MTC_clearTileSelection();
+            MTC_dragRound = 0;
+            document.getElementById('mtc-go-matching').disabled = true;
+            document.getElementById('mtc-inner-cap').innerHTML = '';
+            document.getElementById('mtc-inner-small').innerHTML = '';
+            document.getElementById('mtc-pair-stage').innerHTML = '';
+            document.getElementById('mtc-staging-hint').textContent = '';
+            MTC_renderCurrentPair();
+        }
+
+        function MTC_init() {
+            MTC_initDragIntro();
+            MTC_setupPhase(1);
+        }
+        
+        /** 2=配对网格，3=字母顺序点击，4=Alphabet Wall */
+        function MTC_showPage(n) {
+            const s1 = document.getElementById('mtc-step1');
+            const s2 = document.getElementById('mtc-step2');
+            const sOrd = document.getElementById('mtc-step-order-alphabet');
+            const s3 = document.getElementById('mtc-step3');
+            [s1, s2, sOrd, s3].forEach((el) => el.classList.add('hidden-section'));
+            if (n === 1) s1.classList.remove('hidden-section');
+            if (n === 2) s2.classList.remove('hidden-section');
+            if (n === 3) {
+                sOrd.classList.remove('hidden-section');
+                MTC_initOrderAlphabet();
+            }
+            if (n === 4) s3.classList.remove('hidden-section');
+        }
+
+        function MTC_setupPhase(phase) {
+            MTC_phase = phase; MTC_count = 0;
+            const cg = document.getElementById('mtc-grid-caps'), sg = document.getElementById('mtc-grid-smalls');
+            cg.innerHTML = ''; sg.innerHTML = '';
+            document.getElementById('mtc-btn-next-step').style.display = 'none';
+            const skip = document.getElementById('mtc-btn-skip');
+
+            if(phase === 1) {
+                document.getElementById('mtc-match-title').innerHTML = `Capital ➔ Small`; skip.innerText = "Skip ⏭";
+                MTC_caps.forEach(l => MTC_mkCard(l, 'cap', cg));
+                [...MTC_smalls].sort(()=>Math.random()-0.5).forEach(l => MTC_mkCard(l, 'small', sg));
+            } else {
+                document.getElementById('mtc-match-title').innerHTML = `Small ➔ Capital`; skip.innerText = "Skip ⏭";
+                [...MTC_caps].sort(()=>Math.random()-0.5).forEach(l => MTC_mkCard(l, 'cap', cg));
+                MTC_smalls.forEach(l => MTC_mkCard(l, 'small', sg));
+            }
+        }
+
+        function MTC_mkCard(v, t, p) {
+            const d = document.createElement('div');
+            d.className = 'letter-card';
+            d.innerText = v;
+            d.addEventListener('pointerup', (ev) => {
+                if (ev.pointerType === 'mouse' && ev.button !== 0) return;
+                ev.preventDefault();
+                MTC_sel(v, t, d);
+            });
+            p.appendChild(d);
+        }
+
+        function MTC_sel(v, t, el) {
+            if(t==='cap') { if(MTC_selCap) MTC_selCap.el.classList.remove('selected'); MTC_selCap={v,el}; el.classList.add('selected'); speak(v); }
+            else { if(MTC_selSmall) MTC_selSmall.el.classList.remove('selected'); MTC_selSmall={v,el}; el.classList.add('selected'); speak(v); }
+
+            if(MTC_selCap && MTC_selSmall) {
+                if(MTC_selCap.v.toLowerCase() === MTC_selSmall.v) {
+                    MTC_selCap.el.classList.add('matched'); MTC_selSmall.el.classList.add('matched');
+                    fireConfetti(); speak("Correct"); MTC_count++;
+                    MTC_selCap=null; MTC_selSmall=null;
+                    if(MTC_count===26) document.getElementById('mtc-btn-next-step').style.display='inline-block';
+                } else {
+                    MTC_selCap.el.classList.add('shake'); MTC_selSmall.el.classList.add('shake'); speak("Try again");
+                    setTimeout(()=>{ document.querySelectorAll('.shake').forEach(e=>e.classList.remove('shake','selected')); MTC_selCap=null; MTC_selSmall=null; }, 400);
+                }
+            }
+        }
+
+        function MTC_handleProgression() {
+            if (MTC_phase === 1) MTC_setupPhase(2);
+            else MTC_showPage(3);
+        }
+        function MTC_handleSkip() {
+            if (MTC_phase === 1) MTC_setupPhase(2);
+            else MTC_showPage(3);
+        }
+
+        let MTC_orderExpectIdx = 0;
+
+        function MTC_initOrderAlphabet() {
+            MTC_orderExpectIdx = 0;
+            const pool = document.getElementById('mtc-order-pool');
+            const built = document.getElementById('mtc-order-built');
+            const nextBtn = document.getElementById('mtc-order-next-wall');
+            if (!pool || !built) return;
+            pool.innerHTML = '';
+            built.innerHTML = '';
+            if (nextBtn) nextBtn.style.display = 'none';
+            const letters = MTC_caps.slice();
+            MTC_shuffle(letters);
+            letters.forEach((L, i) => {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'mtc-order-card';
+                btn.textContent = L;
+                btn.dataset.letter = L;
+                const hue = ((L.charCodeAt(0) - 65) * 47 + i * 31 + 7) % 360;
+                btn.style.setProperty('--oh', String(hue));
+                btn.addEventListener('pointerup', (ev) => {
+                    if (ev.pointerType === 'mouse' && ev.button !== 0) return;
+                    ev.preventDefault();
+                    MTC_orderCardClick(btn);
+                });
+                pool.appendChild(btn);
+            });
+        }
+
+        function MTC_orderCardClick(card) {
+            if (card.classList.contains('mtc-order-in-strip')) return;
+            const expected = MTC_caps[MTC_orderExpectIdx];
+            if (card.dataset.letter !== expected) {
+                card.classList.add('wrong');
+                speak('Try again');
+                setTimeout(() => card.classList.remove('wrong'), 450);
+                return;
+            }
+            const built = document.getElementById('mtc-order-built');
+            const first = card.getBoundingClientRect();
+            built.appendChild(card);
+            const last = card.getBoundingClientRect();
+            const dx = first.left - last.left;
+            const dy = first.top - last.top;
+            card.style.transform = `translate(${dx}px, ${dy}px)`;
+            card.style.transition = 'none';
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    card.style.transition = 'transform 0.48s cubic-bezier(0.2, 0.85, 0.25, 1)';
+                    card.style.transform = 'translate(0, 0)';
+                });
+            });
+            setTimeout(() => {
+                card.style.transition = '';
+                card.style.transform = '';
+                card.classList.add('mtc-order-in-strip');
+            }, 500);
+            speak(card.dataset.letter);
+            MTC_orderExpectIdx++;
+            if (MTC_orderExpectIdx >= 26) {
+                fireConfetti();
+                const nextBtn = document.getElementById('mtc-order-next-wall');
+                if (nextBtn) nextBtn.style.display = 'inline-block';
+            }
+        }
+
+        function MTC_orderGoToWall() {
+            MTC_showPage(4);
+            MTC_revealWall();
+        }
+
+        function MTC_orderSkipToWall() {
+            MTC_orderGoToWall();
+        }
+
+        function MTC_revealWall() {
+            const w = document.getElementById('mtc-final-wall'); w.innerHTML='';
+            MTC_caps.forEach((l,i)=>{
+                const b = document.createElement('div'); b.className='box-3d'; b.innerText=l+MTC_smalls[i];
+                b.addEventListener('pointerup', (ev) => {
+                    if (ev.pointerType === 'mouse' && ev.button !== 0) return;
+                    ev.preventDefault();
+                    speak(l);
+                    b.style.transform = 'scale(1.2)';
+                    setTimeout(() => { b.style.transform = 'scale(1)'; }, 200);
+                });
+                w.appendChild(b);
+            });
+        }
+
+        function MTC_playSong() {
+            document.getElementById('mtc-final-wall').style.display='none';
+            document.getElementById('video-player-box').style.display='block';
+            document.getElementById('mtc-video').play();
+            speak("Sing along!");
+            document.getElementById('mtc-btn-finish').style.display='inline-block';
+        }
+
+        function fireConfetti() {
+            const c = document.getElementById('confetti-canvas');
+            const ctx = c.getContext('2d'); c.width = window.innerWidth; c.height = window.innerHeight;
+            let p = Array.from({length:30}, () => ({ x: Math.random()*c.width, y: -20, r: Math.random()*6+4, vx: Math.random()*4-2, vy: Math.random()*5+2, c: `hsl(${Math.random()*360}, 80%, 60%)` }));
+            function loop() { ctx.clearRect(0,0,c.width, c.height); p.forEach(v => { v.x+=v.vx; v.y+=v.vy; ctx.fillStyle=v.c; ctx.beginPath(); ctx.arc(v.x, v.y, v.r, 0, Math.PI*2); ctx.fill(); }); if(p.length > 0 && p[0].y < c.height) requestAnimationFrame(loop); }
+            loop();
+        }
+
+        window.onload = () => { ensureAudioMap(); };
+    </script>
+</body>
+</html>

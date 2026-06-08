@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 02 · 打印全部涂色卡片 A–Z</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Patrick+Hand&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="coloring-shared.css">
+</head>
+<body class="coloring-body">
+    <div class="coloring-toolbar no-print">
+        <a class="btn-ghost" href="../Lesson 02 - 作业 - 字母涂色卡片.html">← 返回索引</a>
+        <button type="button" class="btn-all" onclick="exportAllPdf()">📄 导出 PDF (26页)</button>
+        <button type="button" class="btn-teal" onclick="preloadThenPrint()">🖨️ 打印 / 另存 PDF</button>
+    </div>
+    <p class="no-print" style="text-align:center;color:#78909c;font-family:Fredoka,sans-serif;margin:0 0 12px;max-width:640px;margin-inline:auto;line-height:1.5;">
+        共 26 页 A4 · 打印时选 A4、<strong>边距：无</strong>、关闭页眉页脚 · 图片加载完再导出
+    </p>
+    <div id="all-sheets"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="../lesson02-coloring-data.js"></script>
+    <script src="coloring-shared.js"></script>
+    <script>
+        function renderAll() {
+            document.getElementById('all-sheets').innerHTML =
+                window.LESSON02_COLORING.map((e) => ColoringCards.buildSheet(e, '')).join('');
+        }
+
+        function preloadImages() {
+            return new Promise((resolve) => {
+                const imgs = [...document.querySelectorAll('#all-sheets img')];
+                if (!imgs.length) { resolve(); return; }
+                let n = 0;
+                const done = () => { if (++n >= imgs.length) resolve(); };
+                imgs.forEach((img) => {
+                    if (img.complete) done();
+                    else { img.onload = done; img.onerror = done; }
+                });
+            });
+        }
+
+        function preloadThenPrint() {
+            preloadImages().then(() => setTimeout(() => window.print(), 200));
+        }
+
+        async function exportAllPdf() {
+            const btn = document.querySelector('.btn-all');
+            const old = btn ? btn.textContent : '';
+            if (btn) { btn.textContent = '生成中…'; btn.disabled = true; }
+            await preloadImages();
+            await document.fonts.ready.catch(() => {});
+            const el = document.getElementById('all-sheets');
+            const opt = {
+                margin: [0, 0, 0, 0],
+                filename: 'Lesson02-Coloring-Cards-A-Z.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: {
+                    scale: 2,
+                    useCORS: true,
+                    allowTaint: true,
+                    letterRendering: true,
+                    scrollX: 0,
+                    scrollY: 0,
+                    windowWidth: el.scrollWidth,
+                },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+                pagebreak: { mode: ['css', 'legacy'], after: '.coloring-sheet' },
+            };
+            try {
+                if (typeof html2pdf !== 'undefined') {
+                    await html2pdf().set(opt).from(el).save();
+                } else {
+                    window.print();
+                }
+            } finally {
+                if (btn) { btn.textContent = old; btn.disabled = false; }
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', renderAll);
+    </script>
+</body>
+</html>
