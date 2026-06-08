@@ -1,8 +1,11 @@
 /** Lesson 02 涂色卡片 HTML 构建 */
 (function (global) {
+    const ALPHABET_COS = 'https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Alphabet/';
     function imgSrc(word, prefix) {
+        if (/^https?:\/\//i.test(word.img)) return word.img;
         const p = prefix || '';
-        return p + word.img.replace(/^assets\//, '../assets/');
+        if (p) return p + word.img.replace(/^assets\//, '../assets/');
+        return ALPHABET_COS + word.img;
     }
 
     function buildSheet(entry, imgPrefix) {
