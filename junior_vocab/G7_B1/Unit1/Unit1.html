@@ -487,8 +487,8 @@
 /* ═══════════════════════════════════════════════
    配置区
 ═══════════════════════════════════════════════ */
-const AZURE_KEY    = "43gMKIlSRVGT9PnAFgWkdXyogwXfudT33O2Zk6QtfTKuY1nm01BdJQQJ99BLACHYHv6XJ3w3AAAYACOGts5S";
-const AZURE_REGION = "eastus2";
+const AZURE_KEY    = "C42UQWeDcluYanbo17WrtUnPhk0vkZy2uQHPTCGDzY6CdEXx99NzJQQJ99BIACqBBLyXJ3w3AAAYACOGjkyu";
+const AZURE_REGION = "southeastasia";
 const DEEPSEEK_KEY = "sk-daa16008e81843deba6fefe9dce51465";  // DeepSeek API Key
 
 /* EmailJS 学习报告 */
@@ -527,10 +527,14 @@ let reportSent = false;
 ═══════════════════════════════════════════════ */
 async function initSpeech() {
   try {
-  speechConfig = SpeechSDK.SpeechConfig.fromSubscription(AZURE_KEY, AZURE_REGION);
-  speechConfig.speechRecognitionLanguage = "en-US";
-  synthesizer = new SpeechSDK.SpeechSynthesizer(speechConfig);
-  } catch(e) { console.warn("Speech init:", e); }
+    if (typeof SpeechSDK === "undefined") throw new Error("Speech SDK 未加载，请检查网络");
+    speechConfig = SpeechSDK.SpeechConfig.fromSubscription(AZURE_KEY, AZURE_REGION);
+    speechConfig.speechRecognitionLanguage = "en-US";
+    synthesizer = new SpeechSDK.SpeechSynthesizer(speechConfig);
+  } catch (e) {
+    console.warn("Speech init:", e);
+    alert("语音服务初始化失败，朗读评分不可用：" + (e.message || e));
+  }
 }
 
 /* ═══════════════════════════════════════════════
@@ -768,6 +772,7 @@ function toggleRecord() {
   rec.startContinuousRecognitionAsync(()=>{}, err=>{
     isRecording=false; btn.classList.remove("recording"); btn.innerHTML='<i class="fas fa-microphone"></i> 朗读评分';
     console.error(err);
+    alert("无法启动英语语音识别：" + (err?.message || err));
   });
   recogStream = rec;
 }
@@ -1197,6 +1202,7 @@ function toggleTransRecord() {
       btn.innerHTML = '<i class="fas fa-microphone"></i> 朗读中文翻译';
       btn.classList.remove("recording");
       console.error("start err:", e);
+      alert("无法启动中文语音识别：" + (e?.message || e));
     }
   );
 }

@@ -533,10 +533,14 @@ let reportSent = false;
 ═══════════════════════════════════════════════ */
 async function initSpeech() {
   try {
-  speechConfig = SpeechSDK.SpeechConfig.fromSubscription(AZURE_KEY, AZURE_REGION);
-  speechConfig.speechRecognitionLanguage = "en-US";
-  synthesizer = new SpeechSDK.SpeechSynthesizer(speechConfig);
-  } catch(e) { console.warn("Speech init:", e); }
+    if (typeof SpeechSDK === "undefined") throw new Error("Speech SDK 未加载，请检查网络");
+    speechConfig = SpeechSDK.SpeechConfig.fromSubscription(AZURE_KEY, AZURE_REGION);
+    speechConfig.speechRecognitionLanguage = "en-US";
+    synthesizer = new SpeechSDK.SpeechSynthesizer(speechConfig);
+  } catch (e) {
+    console.warn("Speech init:", e);
+    alert("语音服务初始化失败，朗读评分不可用：" + (e.message || e));
+  }
 }
 
 /* ═══════════════════════════════════════════════
