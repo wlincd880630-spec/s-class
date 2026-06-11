@@ -1728,8 +1728,34 @@ window.__LESSON_TTS_MANIFEST = Object.assign(window.__LESSON_TTS_MANIFEST || {},
 
       function $(id) { return document.getElementById(id); }
 
+      function normSpeakText(s) {
+        return String(s || "")
+          .replace(/['']/g, "'")
+          .replace(/\s+/g, " ")
+          .trim();
+      }
+
       function speak(text) {
-        return speakEn(text);
+        var t = normSpeakText(text);
+        if (!t) return Promise.resolve(false);
+        if (typeof window.__lessonSpeakLocalFirst === "function") {
+          return window.__lessonSpeakLocalFirst(t);
+        }
+        if (typeof window.lessonSpeakEn === "function") {
+          return window.lessonSpeakEn(t);
+        }
+        if (window.LessonTTSBootstrap && typeof window.LessonTTSBootstrap.playLocalIfAvailable === "function") {
+          return window.LessonTTSBootstrap.playLocalIfAvailable(t);
+        }
+        var m = window.__LESSON_TTS_MANIFEST || {};
+        var rel = m[t] || m[text];
+        if (rel && typeof window.playLocalMp3Url === "function") {
+          return window.playLocalMp3Url(String(rel).replace(/\\/g, "/"));
+        }
+        if (typeof window.playLessonAzureTtsPlain === "function") {
+          return window.playLessonAzureTtsPlain(t);
+        }
+        return Promise.resolve(false);
       }
 
       function miniClass(text) {
@@ -1756,7 +1782,21 @@ window.__LESSON_TTS_MANIFEST = Object.assign(window.__LESSON_TTS_MANIFEST || {},
         if (!lexBound) {
           lexBound = true;
           $("lexSpeak").addEventListener("click", function () {
-            speak(LEXICON[lexIndex].sentence).catch(function () {});
+            var sentence = LEXICON[lexIndex].sentence;
+            $("lexStatus").className = "status";
+            $("lexStatus").textContent = "正在朗读例句…";
+            speak(sentence).then(function (ok) {
+              if (ok) {
+                $("lexStatus").className = "status";
+                $("lexStatus").textContent = "请写出你听到的目标方位词组。";
+                return;
+              }
+              $("lexStatus").className = "status bad";
+              $("lexStatus").textContent = "例句音频未播放，请 Ctrl+F5 刷新后重试。";
+            }).catch(function () {
+              $("lexStatus").className = "status bad";
+              $("lexStatus").textContent = "例句音频播放失败，请检查网络后重试。";
+            });
           });
           $("lexReveal").addEventListener("click", function () {
             var cur = LEXICON[lexIndex];
@@ -1830,18 +1870,33 @@ window.__LESSON_TTS_MANIFEST = Object.assign(window.__LESSON_TTS_MANIFEST || {},
         return task;
       }
 
+      function finishListenCluePlay(ok) {
+        listenReady = true;
+        $("listenPlay").disabled = false;
+        if (ok) {
+          $("listenStatus").textContent = "现在点击正确物品。";
+        } else {
+          $("listenStatus").className = "status bad";
+          $("listenStatus").textContent = "线索音频未播放，请 Ctrl+F5 刷新后重试；也可直接根据文字提示点击。";
+        }
+      }
+
       function playListenClue() {
         var task = setListenTask();
         $("listenPlay").disabled = true;
+        $("listenStatus").className = "status";
         $("listenStatus").textContent = "正在播放线索...";
-        speak(task.clue).then(function () {
-          listenReady = true;
-          $("listenStatus").textContent = "现在点击正确物品。";
-          $("listenPlay").disabled = false;
+        var playPromise;
+        try {
+          playPromise = speak(task.clue);
+        } catch (e) {
+          finishListenCluePlay(false);
+          return;
+        }
+        Promise.resolve(playPromise).then(function (ok) {
+          finishListenCluePlay(!!ok);
         }).catch(function () {
-          listenReady = true;
-          $("listenStatus").textContent = "播放失败，也可以直接根据提示点击。";
-          $("listenPlay").disabled = false;
+          finishListenCluePlay(false);
         });
       }
 
