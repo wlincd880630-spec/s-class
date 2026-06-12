@@ -70,7 +70,7 @@ function patchHtml(filePath, unitNum) {
   fs.writeFileSync(filePath, s, "utf8");
 }
 
-function main() {
+async function main() {
   if (!fs.existsSync(SRC)) {
     console.error("源目录不存在:", SRC);
     process.exit(1);
@@ -86,6 +86,10 @@ function main() {
     const fp = path.join(DEST, `Unit${n}`, `Unit${n}.html`);
     if (fs.existsSync(fp)) patchHtml(fp, n);
   }
+  const { execFileSync } = await import("child_process");
+  execFileSync(process.execPath, [path.join(__dirname, "patch-g8b1-speech.mjs")], {
+    stdio: "inherit",
+  });
   console.log("Synced to", DEST);
 }
 
