@@ -1,0 +1,432 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>L05 Page06 · 场景热区框选工具</title>
+  <script src="assets/page06-scenes.js"></script>
+  <style>
+    :root {
+      --ink: #2c2436;
+      --edge: #5d4037;
+      --panel: #fff8e7;
+      --accent: #6a1b9a;
+      --ok: #2e7d32;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", "Microsoft YaHei", sans-serif;
+      background: linear-gradient(160deg, #f3e5f5, #fff8e1);
+      color: var(--ink);
+      min-height: 100vh;
+    }
+    header {
+      padding: 14px 18px;
+      background: #4a148c;
+      color: #fff;
+    }
+    header h1 { margin: 0 0 6px; font-size: 1.15rem; }
+    header p { margin: 0; opacity: 0.92; font-size: 0.9rem; }
+    .wrap {
+      display: grid;
+      grid-template-columns: 1fr 360px;
+      gap: 14px;
+      padding: 14px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    @media (max-width: 980px) { .wrap { grid-template-columns: 1fr; } }
+    .panel {
+      background: var(--panel);
+      border: 2px solid var(--edge);
+      border-radius: 14px;
+      padding: 12px;
+      box-shadow: 0 4px 14px rgba(0,0,0,.08);
+    }
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    select, input, button, textarea {
+      font: inherit;
+      border-radius: 8px;
+      border: 1px solid #bbb;
+      padding: 6px 10px;
+    }
+    button {
+      cursor: pointer;
+      background: #7b1fa2;
+      color: #fff;
+      border-color: #6a1b9a;
+    }
+    button.secondary { background: #fff; color: var(--ink); }
+    button.danger { background: #c62828; border-color: #b71c1c; }
+    .stage {
+      position: relative;
+      width: 100%;
+      border-radius: 10px;
+      overflow: hidden;
+      background: #ddd;
+      user-select: none;
+      touch-action: none;
+    }
+    .stage img {
+      display: block;
+      width: 100%;
+      height: auto;
+      pointer-events: none;
+    }
+    .box-layer {
+      position: absolute;
+      inset: 0;
+      cursor: crosshair;
+    }
+    .hot {
+      position: absolute;
+      border: 2px solid #ff7043;
+      background: rgba(255, 112, 67, 0.22);
+      border-radius: 4px;
+      pointer-events: none;
+    }
+    .hot.active {
+      border-color: #1565c0;
+      background: rgba(21, 101, 192, 0.28);
+      box-shadow: 0 0 0 2px rgba(21, 101, 192, 0.35);
+    }
+    .draft {
+      position: absolute;
+      border: 2px dashed #ffee58;
+      background: rgba(255, 238, 88, 0.2);
+      pointer-events: none;
+    }
+    .side h2 { margin: 0 0 8px; font-size: 1rem; color: var(--accent); }
+    .task-list {
+      max-height: 42vh;
+      overflow: auto;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      background: #fff;
+    }
+    .task-item {
+      padding: 8px 10px;
+      border-bottom: 1px solid #eee;
+      cursor: pointer;
+      font-size: 0.88rem;
+    }
+    .task-item:hover { background: #f3e5f5; }
+    .task-item.on { background: #e1bee7; font-weight: 700; }
+    .task-item.done { border-left: 4px solid var(--ok); }
+    .task-item .tag {
+      display: inline-block;
+      font-size: 0.72rem;
+      background: #ede7f6;
+      color: #4a148c;
+      padding: 1px 6px;
+      border-radius: 4px;
+      margin-right: 4px;
+    }
+    .meta { font-size: 0.82rem; color: #555; margin: 8px 0; }
+    textarea {
+      width: 100%;
+      min-height: 160px;
+      font-family: ui-monospace, Consolas, monospace;
+      font-size: 12px;
+    }
+    .hint { font-size: 0.82rem; color: #666; line-height: 1.45; }
+    .progress { margin-top: 8px; font-weight: 700; color: var(--accent); }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>第05讲 Page06 · 场景热区框选工具</h1>
+    <p>选择场景与物品 → 在图上拖拽画框 → 导出 JSON，粘贴回 <code>assets/page06-scenes.js</code> 对应 <code>hotspots</code></p>
+  </header>
+  <div class="wrap">
+    <div class="panel">
+      <div class="toolbar">
+        <label>场景
+          <select id="scenePick"></select>
+        </label>
+        <label>框选物品
+          <select id="targetPick"></select>
+        </label>
+        <button type="button" class="secondary" id="btnUndo">撤销当前物品</button>
+        <button type="button" class="danger" id="btnClearScene">清空本场景</button>
+      </div>
+      <div class="stage" id="stage">
+        <img id="sceneImg" alt="场景图" />
+        <div class="box-layer" id="boxLayer"></div>
+      </div>
+      <p class="hint">在图片上按住鼠标拖拽画出矩形。百分比相对图片显示区域（与课件 hunt-item 一致：left / top / width / height）。</p>
+    </div>
+    <div class="panel side">
+      <h2>本场景例句（点击可切换框选物品）</h2>
+      <div class="task-list" id="taskList"></div>
+      <p class="progress" id="progressText"></p>
+      <h2 style="margin-top:14px">热区 JSON（可复制）</h2>
+      <textarea id="exportBox" readonly></textarea>
+      <div class="toolbar" style="margin-top:8px">
+        <button type="button" id="btnCopy">复制 JSON</button>
+        <button type="button" class="secondary" id="btnDownload">下载 page06-hotspots.json</button>
+        <label class="secondary" style="display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border:1px solid #bbb;border-radius:8px;background:#fff;cursor:pointer">
+          导入 JSON<input type="file" id="importFile" accept="application/json,.json" hidden />
+        </label>
+      </div>
+      <p class="meta" id="statusLine">就绪</p>
+    </div>
+  </div>
+  <script>
+    (function () {
+      "use strict";
+      var data = window.PAGE06_SCENES;
+      if (!data) {
+        alert("未加载 assets/page06-scenes.js");
+        return;
+      }
+
+      var state = {
+        sceneKey: data.sceneKeys[0],
+        target: "",
+        draft: null,
+        hotspots: {}
+      };
+
+      data.sceneKeys.forEach(function (k) {
+        state.hotspots[k] = JSON.parse(JSON.stringify((data.scenes[k] && data.scenes[k].hotspots) || {}));
+      });
+
+      var scenePick = document.getElementById("scenePick");
+      var targetPick = document.getElementById("targetPick");
+      var sceneImg = document.getElementById("sceneImg");
+      var boxLayer = document.getElementById("boxLayer");
+      var taskList = document.getElementById("taskList");
+      var exportBox = document.getElementById("exportBox");
+      var progressText = document.getElementById("progressText");
+      var statusLine = document.getElementById("statusLine");
+
+      function scene() { return data.scenes[state.sceneKey]; }
+
+      function targets() { return data.targetsForScene(state.sceneKey); }
+
+      function sentencesForTarget(id) {
+        var out = [];
+        data.lexicon.forEach(function (x) {
+          if (x.scene === state.sceneKey && x.target === id) out.push(x.sentence);
+        });
+        data.listenGroups.forEach(function (g) {
+          g.forEach(function (x) {
+            if (x.scene === state.sceneKey && x.target === id) out.push(x.clue);
+          });
+        });
+        return out.filter(function (s, i, a) { return a.indexOf(s) === i; });
+      }
+
+      function fillSceneSelect() {
+        scenePick.innerHTML = "";
+        data.sceneKeys.forEach(function (k) {
+          var o = document.createElement("option");
+          o.value = k;
+          o.textContent = data.scenes[k].name + " (" + k + ")";
+          scenePick.appendChild(o);
+        });
+        scenePick.value = state.sceneKey;
+      }
+
+      function fillTargetSelect() {
+        var list = targets();
+        targetPick.innerHTML = "";
+        list.forEach(function (id) {
+          var o = document.createElement("option");
+          o.value = id;
+          var done = state.hotspots[state.sceneKey][id] ? " ✓" : "";
+          o.textContent = id + done;
+          targetPick.appendChild(o);
+        });
+        if (!state.target || list.indexOf(state.target) < 0) state.target = list[0] || "";
+        targetPick.value = state.target;
+      }
+
+      function renderTasks() {
+        taskList.innerHTML = "";
+        var items = [];
+        data.lexicon.forEach(function (x, i) {
+          if (x.scene === state.sceneKey) items.push({ kind: "归纳", target: x.target, text: x.sentence, idx: i + 1 });
+        });
+        data.listenGroups.forEach(function (g, gi) {
+          g.forEach(function (x, ti) {
+            if (x.scene === state.sceneKey) items.push({ kind: "练习G" + (gi + 1), target: x.target, text: x.clue });
+          });
+        });
+        data.speechTasks.forEach(function (x) {
+          if (x.scene === state.sceneKey) items.push({ kind: "口语", target: x.target, text: x.expected });
+        });
+        items.forEach(function (it) {
+          var div = document.createElement("div");
+          div.className = "task-item" + (it.target === state.target ? " on" : "") + (state.hotspots[state.sceneKey][it.target] ? " done" : "");
+          div.innerHTML = '<span class="tag">' + it.kind + "</span><b>" + it.target + "</b><br>" + it.text;
+          div.addEventListener("click", function () {
+            state.target = it.target;
+            targetPick.value = state.target;
+            renderAll();
+          });
+          taskList.appendChild(div);
+        });
+      }
+
+      function renderBoxes() {
+        boxLayer.querySelectorAll(".hot").forEach(function (n) { n.remove(); });
+        var map = state.hotspots[state.sceneKey] || {};
+        Object.keys(map).forEach(function (id) {
+          var b = map[id];
+          if (!b) return;
+          var el = document.createElement("div");
+          el.className = "hot" + (id === state.target ? " active" : "");
+          el.style.left = b.left + "%";
+          el.style.top = b.top + "%";
+          el.style.width = b.width + "%";
+          el.style.height = b.height + "%";
+          el.title = id;
+          boxLayer.appendChild(el);
+        });
+      }
+
+      function updateProgress() {
+        var list = targets();
+        var done = list.filter(function (id) { return state.hotspots[state.sceneKey][id]; }).length;
+        progressText.textContent = "本场景热区：" + done + " / " + list.length + " 已完成";
+      }
+
+      function updateExport() {
+        exportBox.value = JSON.stringify(state.hotspots[state.sceneKey], null, 2);
+      }
+
+      function renderAll() {
+        var sc = scene();
+        sceneImg.src = sc.image;
+        fillTargetSelect();
+        renderTasks();
+        renderBoxes();
+        updateProgress();
+        updateExport();
+      }
+
+      function pct(clientX, clientY) {
+        var r = boxLayer.getBoundingClientRect();
+        return {
+          x: Math.max(0, Math.min(100, ((clientX - r.left) / r.width) * 100)),
+          y: Math.max(0, Math.min(100, ((clientY - r.top) / r.height) * 100))
+        };
+      }
+
+      function onDown(e) {
+        if (!state.target) return;
+        var p = e.touches ? e.touches[0] : e;
+        state.draft = { x0: p.clientX, y0: p.clientY, el: document.createElement("div") };
+        state.draft.el.className = "draft";
+        boxLayer.appendChild(state.draft.el);
+        e.preventDefault();
+      }
+
+      function onMove(e) {
+        if (!state.draft) return;
+        var p = e.touches ? e.touches[0] : e;
+        var a = pct(state.draft.x0, state.draft.y0);
+        var b = pct(p.clientX, p.clientY);
+        var left = Math.min(a.x, b.x);
+        var top = Math.min(a.y, b.y);
+        var width = Math.abs(b.x - a.x);
+        var height = Math.abs(b.y - a.y);
+        var el = state.draft.el;
+        el.style.left = left + "%";
+        el.style.top = top + "%";
+        el.style.width = width + "%";
+        el.style.height = height + "%";
+        e.preventDefault();
+      }
+
+      function onUp(e) {
+        if (!state.draft) return;
+        var el = state.draft.el;
+        var w = parseFloat(el.style.width) || 0;
+        var h = parseFloat(el.style.height) || 0;
+        if (w > 1 && h > 1 && state.target) {
+          state.hotspots[state.sceneKey][state.target] = {
+            left: +parseFloat(el.style.left).toFixed(2),
+            top: +parseFloat(el.style.top).toFixed(2),
+            width: +w.toFixed(2),
+            height: +h.toFixed(2)
+          };
+          statusLine.textContent = "已保存：" + state.target;
+        }
+        el.remove();
+        state.draft = null;
+        renderAll();
+      }
+
+      scenePick.addEventListener("change", function () {
+        state.sceneKey = scenePick.value;
+        renderAll();
+      });
+      targetPick.addEventListener("change", function () {
+        state.target = targetPick.value;
+        renderAll();
+      });
+      document.getElementById("btnUndo").addEventListener("click", function () {
+        if (state.target) delete state.hotspots[state.sceneKey][state.target];
+        renderAll();
+      });
+      document.getElementById("btnClearScene").addEventListener("click", function () {
+        if (confirm("清空「" + scene().name + "」全部热区？")) {
+          state.hotspots[state.sceneKey] = {};
+          renderAll();
+        }
+      });
+      document.getElementById("btnCopy").addEventListener("click", function () {
+        exportBox.select();
+        document.execCommand("copy");
+        statusLine.textContent = "已复制到剪贴板";
+      });
+      document.getElementById("btnDownload").addEventListener("click", function () {
+        var blob = new Blob([JSON.stringify(state.hotspots, null, 2)], { type: "application/json" });
+        var a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = "page06-hotspots.json";
+        a.click();
+        URL.revokeObjectURL(a.href);
+      });
+      document.getElementById("importFile").addEventListener("change", function (ev) {
+        var f = ev.target.files && ev.target.files[0];
+        if (!f) return;
+        var reader = new FileReader();
+        reader.onload = function () {
+          try {
+            var j = JSON.parse(reader.result);
+            if (j.bedroom || j.classroom || j.kitchen) state.hotspots = j;
+            else state.hotspots[state.sceneKey] = j;
+            renderAll();
+            statusLine.textContent = "导入成功";
+          } catch (err) {
+            alert("JSON 解析失败");
+          }
+        };
+        reader.readAsText(f, "utf-8");
+        ev.target.value = "";
+      });
+
+      boxLayer.addEventListener("mousedown", onDown);
+      boxLayer.addEventListener("mousemove", onMove);
+      window.addEventListener("mouseup", onUp);
+      boxLayer.addEventListener("touchstart", onDown, { passive: false });
+      boxLayer.addEventListener("touchmove", onMove, { passive: false });
+      window.addEventListener("touchend", onUp);
+
+      fillSceneSelect();
+      renderAll();
+    })();
+  </script>
+</body>
+</html>
