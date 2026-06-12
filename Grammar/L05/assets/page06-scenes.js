@@ -17,17 +17,41 @@
     bedroom: {
       name: "卧室场景",
       image: rel("page06-scene-bedroom.png"),
-      hotspots: {}
+      hotspots: {
+        dictionary: { left: 62.26, top: 34.25, width: 10.37, height: 8.43 },
+        schoolbag: { left: 7.59, top: 69.26, width: 17.83, height: 29.66 },
+        cap: { left: 50.26, top: 35.55, width: 8.1, height: 10.21 },
+        glasses: { left: 70.47, top: 38.95, width: 5.62, height: 4.21 },
+        notebook: { left: 13.31, top: 59.05, width: 11.99, height: 9.08 },
+        ruler: { left: 80.08, top: 36.03, width: 4.21, height: 41.97 },
+        shoes: { left: 75.33, top: 78.33, width: 15.56, height: 16.85 },
+        "water bottle": { left: 20.12, top: 30.04, width: 3.35, height: 11.67 }
+      }
     },
     classroom: {
       name: "教室场景",
-      image: rel("page06-scene-classroom.png"),
-      hotspots: {}
+      image: rel("page06-scene-classroom.png") + "?v=20260522",
+      hotspots: {
+        blackboard: { left: 31.14, top: 6.37, width: 52.94, height: 46.67 },
+        "water bottle": { left: 90.78, top: 46.08, width: 4.97, height: 16.37 },
+        schoolbag: { left: 88.3, top: 74.44, width: 11.56, height: 21.88 },
+        clock: { left: 86.03, top: 11.72, width: 10.48, height: 16.85 },
+        dictionary: { left: 18.28, top: 32.47, width: 7.78, height: 10.05 },
+        "student desk": { left: 75.22, top: 55.97, width: 24.09, height: 38.9 },
+        "pencil case": { left: 36.54, top: 56.76, width: 7.45, height: 6.48 },
+        bookshelf: { left: 10.5, top: 14.95, width: 19.12, height: 57.05 }
+      }
     },
     kitchen: {
       name: "厨房场景",
       image: rel("page06-scene-kitchen.png"),
-      hotspots: {}
+      hotspots: {
+        apple: { left: 26.06, top: 52.38, width: 7.02, height: 9.89 },
+        cabinet: { left: 10.61, top: 0.52, width: 44.08, height: 42.14 },
+        dictionary: { left: 31.25, top: 21.59, width: 9.08, height: 15.56 },
+        mug: { left: 75.65, top: 76.53, width: 9.51, height: 14.26 },
+        table: { left: 42.7, top: 71.83, width: 57.15, height: 27.23 }
+      }
     }
   };
 
@@ -41,12 +65,12 @@
     { cat: "卧室场景", phrase: "on the bed", sentence: "The notebook is on the bed. It's mine.", scene: "bedroom", target: "notebook" },
     { cat: "卧室场景", phrase: "next to the window", sentence: "The water bottle is next to the window. It's Peter's.", scene: "bedroom", target: "water bottle" },
     { cat: "卧室场景", phrase: "near the door", sentence: "The shoes are near the door. They're Tom's.", scene: "bedroom", target: "shoes" },
-    { cat: "教室场景", phrase: "in front of the blackboard", sentence: "The teacher is in front of the blackboard.", scene: "classroom", target: "blackboard" },
+    { cat: "教室场景", phrase: "in the front of the classroom on the wall", sentence: "The blackboard is in the front of the classroom on the wall.", scene: "classroom", target: "blackboard" },
     { cat: "教室场景", phrase: "on the student desk", sentence: "The water bottle is on the student desk. It's hers.", scene: "classroom", target: "water bottle" },
     { cat: "教室场景", phrase: "in the classroom", sentence: "The schoolbag is in the classroom. It's his.", scene: "classroom", target: "schoolbag" },
-    { cat: "教室场景", phrase: "behind the teachers' desk", sentence: "The clock is behind the teachers' desk.", scene: "classroom", target: "clock" },
+    { cat: "教室场景", phrase: "to the right side of the blackboard on the wall", sentence: "The clock is to the right side of the blackboard on the wall.", scene: "classroom", target: "clock" },
     { cat: "教室场景", phrase: "on the bookshelf", sentence: "The dictionary is on the bookshelf. It's ours.", scene: "classroom", target: "dictionary" },
-    { cat: "教室场景", phrase: "near the water bottle", sentence: "The student desk is near the water bottle.", scene: "classroom", target: "student desk" },
+    { cat: "教室场景", phrase: "at the right side of the classroom", sentence: "The student desk is at the right side of the classroom.", scene: "classroom", target: "student desk" },
     { cat: "教室场景", phrase: "on the desk", sentence: "The pencil case is on the teacher's desk. It's our teacher's.", scene: "classroom", target: "pencil case" },
     { cat: "教室场景", phrase: "next to the window", sentence: "The bookshelf is next to the window.", scene: "classroom", target: "bookshelf" },
     { cat: "厨房场景", phrase: "in the cabinet", sentence: "The dictionary is in the cabinet. It's mine.", scene: "kitchen", target: "dictionary" },
@@ -82,10 +106,10 @@
     ],
     [
       { scene: "bedroom", clue: "The water bottle is next to the window. It's Peter's.", target: "water bottle" },
-      { scene: "classroom", clue: "The teacher is in front of the blackboard.", target: "blackboard" },
+      { scene: "classroom", clue: "The blackboard is in the front of the classroom on the wall.", target: "blackboard" },
       { scene: "kitchen", clue: "The cabinet is over the counter.", target: "cabinet" },
       { scene: "bedroom", clue: "There is a dictionary on Peter's bookshelf.", target: "dictionary" },
-      { scene: "classroom", clue: "The student desk is near the water bottle.", target: "student desk" }
+      { scene: "classroom", clue: "The student desk is at the right side of the classroom.", target: "student desk" }
     ]
   ];
 
