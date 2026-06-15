@@ -88,4 +88,4 @@
     lookupRel: lookupRel,
     speak: speak,
   };
-})();
+})(typeof window !== "undefined" ? window : null);
