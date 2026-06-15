@@ -3,23 +3,23 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>2026年高考全国二卷英语 · 在线模考</title>
-<meta name="description" content="2026年高考英语全国二卷完整试卷，支持听力在线播放、全题型在线作答。">
+<title>2026 高考英语真题 · 全国二卷</title>
+<meta name="description" content="2026 高考英语真题，全国卷真题，进入 2026 全国二卷英语。">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="S-Class 英语学习中心">
 <meta property="og:url" content="https://www.s-class.top/2026EXAM/CEE/2026%E9%AB%98%E8%80%83%E5%85%A8%E5%9B%BD%E4%BA%8C%E5%8D%B7%E8%8B%B1%E8%AF%AD.html">
-<meta property="og:title" content="2026高考全国二卷英语 · 在线模考">
-<meta property="og:description" content="完整试卷电子化：听力在线播放、选择题点选、填空与作文作答。">
+<meta property="og:title" content="2026 高考英语真题">
+<meta property="og:description" content="全国卷真题 · 进入 2026 全国二卷英语 · 全国二卷 · English">
 <meta property="og:image" content="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/2026EXAM/CEE/og-share.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:locale" content="zh_CN">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="2026高考全国二卷英语 · 在线模考">
-<meta name="twitter:description" content="完整试卷电子化：听力在线播放、全题型作答。">
+<meta name="twitter:title" content="2026 高考英语真题">
+<meta name="twitter:description" content="全国卷真题 · 进入 2026 全国二卷英语 · 全国二卷 · English">
 <meta name="twitter:image" content="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/2026EXAM/CEE/og-share.png">
-<meta itemprop="name" content="2026高考全国二卷英语 · 在线模考">
-<meta itemprop="description" content="完整试卷电子化：听力在线播放、全题型作答。">
+<meta itemprop="name" content="2026 高考英语真题">
+<meta itemprop="description" content="全国卷真题 · 进入 2026 全国二卷英语 · 全国二卷 · English">
 <meta itemprop="image" content="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/2026EXAM/CEE/og-share.png">
 <script>window.MEDIA_BASE="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/";</script>
 <style>
@@ -50,6 +50,31 @@ body {
   font-size:.86rem; opacity:0; pointer-events:none; transition:opacity .25s, transform .25s; z-index:200;
 }
 .share-toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+.share-sheet {
+  position:fixed; inset:0; z-index:300; display:flex; align-items:flex-end; justify-content:center;
+  padding:0 16px 24px; background:rgba(15,23,42,.45);
+}
+.share-sheet[hidden] { display:none !important; }
+.share-sheet-panel {
+  width:min(420px,100%); background:#fff; border-radius:16px 16px 12px 12px;
+  padding:20px 20px 16px; box-shadow:0 20px 50px rgba(0,0,0,.22);
+}
+.share-sheet-panel h3 { margin:0 0 14px; font-size:1rem; font-weight:700; color:#1e3a5f; text-align:center; }
+.share-sheet-preview {
+  margin:0 0 12px; padding:14px 16px; border-radius:10px;
+  background:linear-gradient(135deg,#f0f7ff,#f8fafc); border:1px solid #dbeafe;
+  font-family:inherit; font-size:.92rem; line-height:1.75; color:#1e3348; white-space:pre-wrap;
+}
+.share-sheet-steps {
+  margin:0 0 14px; padding:0 0 0 1.1em; font-size:.82rem; color:#64748b; line-height:1.6;
+}
+.share-sheet-actions { display:flex; gap:10px; }
+.share-sheet-actions button {
+  flex:1; border:0; border-radius:8px; padding:12px; font-size:.9rem; font-weight:600; cursor:pointer;
+}
+#btnCopyMoments { background:linear-gradient(90deg,#1e3a5f,#2563eb); color:#fff; }
+#btnCloseShare { background:#f1f5f9; color:#475569; }
+.share-sheet-actions button:active { opacity:.88; }
 .wrap { max-width:860px; margin:0 auto; padding:16px; }
 .sheet {
   background:var(--paper); padding:28px 36px 40px; border-radius:8px;
@@ -168,9 +193,24 @@ textarea.writing-area {
 </head>
 <body>
 <div class="toolbar no-print">
-  <button type="button" class="primary" id="btnShare">分享</button>
+  <button type="button" class="primary" id="btnShare">分享到朋友圈</button>
 </div>
 <div id="shareToast" class="share-toast" role="status" aria-live="polite"></div>
+<div id="shareSheet" class="share-sheet no-print" hidden>
+  <div class="share-sheet-panel" role="dialog" aria-labelledby="shareSheetTitle">
+    <h3 id="shareSheetTitle">分享到朋友圈</h3>
+    <pre class="share-sheet-preview" id="sharePreview"></pre>
+    <ol class="share-sheet-steps">
+      <li>点击下方按钮复制文案与链接</li>
+      <li>打开微信 → 发现 → 朋友圈</li>
+      <li>长按输入框粘贴，发表即可</li>
+    </ol>
+    <div class="share-sheet-actions">
+      <button type="button" id="btnCopyMoments">复制文案</button>
+      <button type="button" id="btnCloseShare">关闭</button>
+    </div>
+  </div>
+</div>
 <div class="wrap">
 <form id="exam" class="sheet" autocomplete="off">
   <header class="exam-masthead">
@@ -324,41 +364,65 @@ textarea.writing-area {
 </form>
 </div>
 <script>
-const SHARE_TITLE = '2026高考全国二卷英语 · 在线模考';
-const SHARE_TEXT = '2026高考英语全国二卷完整试卷，听力在线播放，全题型在线作答。';
 const SHARE_URL = 'https://www.s-class.top/2026EXAM/CEE/2026%E9%AB%98%E8%80%83%E5%85%A8%E5%9B%BD%E4%BA%8C%E5%8D%B7%E8%8B%B1%E8%AF%AD.html';
+const MOMENTS_COPY = `2026 高考英语真题
+全国卷真题
+进入 2026 全国二卷英语
+2026
+全国二卷 · English`;
+
+function buildMomentsText() {
+  return MOMENTS_COPY + '\n\n' + SHARE_URL;
+}
 
 function showShareToast(msg) {
   const el = document.getElementById('shareToast');
   el.textContent = msg;
   el.classList.add('show');
   clearTimeout(showShareToast._t);
-  showShareToast._t = setTimeout(() => el.classList.remove('show'), 2600);
+  showShareToast._t = setTimeout(() => el.classList.remove('show'), 2800);
 }
 
-async function sharePage() {
-  const url = SHARE_URL || location.href;
-  const payload = { title: SHARE_TITLE, text: SHARE_TEXT, url };
-  if (navigator.share) {
-    try {
-      await navigator.share(payload);
-      return;
-    } catch (e) {
-      if (e && e.name === 'AbortError') return;
-    }
-  }
-  const copyText = SHARE_TEXT + '\n' + url;
+function openShareSheet() {
+  document.getElementById('sharePreview').textContent = buildMomentsText();
+  document.getElementById('shareSheet').hidden = false;
+}
+
+function closeShareSheet() {
+  document.getElementById('shareSheet').hidden = true;
+}
+
+async function copyMomentsText() {
+  const text = buildMomentsText();
   try {
     if (navigator.clipboard && navigator.clipboard.writeText) {
-      await navigator.clipboard.writeText(copyText);
-      showShareToast('链接已复制，可粘贴到微信朋友圈');
+      await navigator.clipboard.writeText(text);
+      showShareToast('已复制，去微信朋友圈粘贴发表');
+      closeShareSheet();
       return;
     }
   } catch (_) {}
-  window.prompt('复制以下文字分享：', copyText);
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.cssText = 'position:fixed;left:-9999px';
+  document.body.appendChild(ta);
+  ta.select();
+  try {
+    document.execCommand('copy');
+    showShareToast('已复制，去微信朋友圈粘贴发表');
+    closeShareSheet();
+  } catch (_) {
+    window.prompt('请长按全选并复制：', text);
+  }
+  document.body.removeChild(ta);
 }
 
-document.getElementById('btnShare').onclick = sharePage;
+document.getElementById('btnShare').onclick = openShareSheet;
+document.getElementById('btnCopyMoments').onclick = copyMomentsText;
+document.getElementById('btnCloseShare').onclick = closeShareSheet;
+document.getElementById('shareSheet').addEventListener('click', (e) => {
+  if (e.target === e.currentTarget) closeShareSheet();
+});
 document.getElementById('audio').src = (window.MEDIA_BASE || 'https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/') + '2026EXAM/CEE/listening.mp3';
 </script>
 </body>
