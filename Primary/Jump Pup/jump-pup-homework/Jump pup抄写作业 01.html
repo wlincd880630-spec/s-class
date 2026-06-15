@@ -341,14 +341,15 @@ function buildWordBlock(word, accentColor) {
   block.innerHTML = `
     <div class="img-col">
       <div class="img-frame">
-        <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Jump Pup/jump-pup-homework/${IMG_BASE}${word}.png" alt="${word}" />
+        <img class="hw-word-img" alt="${word}" />
       </div>
       <div class="word-lbl" style="color:${accentColor}">${word}</div>
     </div>
     ${buildWriteRow(word, 'row1')}
     ${buildWriteRow(word, 'row2')}
   `;
-  const img = block.querySelector('.img-frame img');
+  const img = block.querySelector('.hw-word-img');
+  img.src = IMG_BASE + word + '.png';
   img.addEventListener('error', function onImgErr() {
     this.removeEventListener('error', onImgErr);
     this.src = svgPlaceholderDataUrl(word, IMG_BASE + word + '.png');
