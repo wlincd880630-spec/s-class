@@ -66,6 +66,12 @@ function patchContent(filePath, content) {
   const rel = path.relative(PRIMARY, filePath).replace(/\\/g, "/");
   const book = detectBook(filePath);
 
+  // 抄写作业 img：IMG_BASE 已是 COS 绝对路径，禁止 homework 前缀双重拼接
+  s = s.replace(
+    /src="https:\/\/s-class-1403296481\.cos\.ap-chengdu\.myqcloud\.com\/s-class\/Primary\/[^"]+-homework\/\$\{IMG_BASE\}\$\{([^}]+)\}\.png"/g,
+    'src="${IMG_BASE}${$1}.png"'
+  );
+
   // 修正错误的 ../assets/ COS 路径
   s = s.replace(/Primary\/Jump Pup\/\.\.\/assets\//g, "Primary/assets/");
   s = s.replace(/Primary\/Play Kitty\/\.\.\/assets\//g, "Primary/assets/");
@@ -209,7 +215,11 @@ function patchContent(filePath, content) {
     );
   }
 
-  // 抄写作业 / 听写：去掉错误的 homework 前缀与 IMG_BASE 双重拼接（须在编码后执行，兼容 Peek Otter 与 Peek%20Otter）
+  // 抄写作业 / 听写：去掉错误的 homework 前缀（兼容未带 .png 的残留）
+  s = s.replace(
+    /src="https:\/\/s-class-1403296481\.cos\.ap-chengdu\.myqcloud\.com\/s-class\/Primary\/(?:Jump%20Pup|Play%20Kitty|Peek%20Otter|Jump Pup|Play Kitty|Peek Otter)\/[^"]*-homework\/\$\{IMG_BASE\}\$\{([^}]+)\}\.png"/g,
+    'src="${IMG_BASE}${$1}.png"'
+  );
   s = s.replace(
     /src="https:\/\/s-class-1403296481\.cos\.ap-chengdu\.myqcloud\.com\/s-class\/Primary\/(?:Jump%20Pup|Play%20Kitty|Peek%20Otter|Jump Pup|Play Kitty|Peek Otter)\/[^"]*-homework\/\$\{IMG_BASE\}/g,
     'src="${IMG_BASE}'
