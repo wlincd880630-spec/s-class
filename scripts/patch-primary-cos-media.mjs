@@ -107,7 +107,11 @@ function patchContent(filePath, content) {
       'src="${IMG_BASE}'
     );
 
-    // 抄写作业 img 模板
+    // 抄写作业 img 模板：IMG_BASE 已是 COS 绝对路径，勿再拼 homework 前缀
+    s = s.replace(
+      /src="https:\/\/s-class-1403296481\.cos\.ap-chengdu\.myqcloud\.com\/s-class\/Primary\/(?:Jump%20Pup|Play%20Kitty|Peek%20Otter|Jump Pup|Play Kitty|Peek Otter)\/[^"]*-homework\/\$\{IMG_BASE\}\$\{([^}]+)\}\.png"/g,
+      'src="${IMG_BASE}${$1}.png"'
+    );
     for (const hwFolder of [
       "jump-pup-homework",
       "play-kitty-homework",
