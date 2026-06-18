@@ -367,6 +367,7 @@
   <div id="lesson-actions" class="hidden" aria-label="本页步骤操作"></div>
 
   <div id="toast" role="status"></div>
+  <audio id="lesson-shared-audio" preload="auto" playsinline style="position:absolute;width:0;height:0;opacity:0;pointer-events:none" aria-hidden="true"></audio>
 
   <footer id="nav-foot">
     <a href="lesson07-page07-degree-adverbs.html">← Page 07</a>
@@ -374,6 +375,10 @@
     <a href="lesson07-page09-practice.html">Page 09 →</a>
   </footer>
 
+  <script>
+    window.__L07_LOCAL_TTS_BASE__ =
+      "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L07/assets/tts-mp3/l07-google-mp3/";
+  </script>
   <script src="assets/tts-mp3/l07-google-mp3/manifest.embed.js"></script>
   <script src="../shared/play-local-mp3.js"></script>
   <script src="../shared/lesson-local-audio.js" defer></script>
@@ -407,27 +412,53 @@
   };
 
   window.speak = async function (text) {
-    if (!text) return;
+    if (!text) return false;
     var cleanText = String(text).replace(/\n/g, " ").trim();
-    if (typeof window.playLessonL07LocalTts !== "function") return;
+    if (!cleanText) return false;
+    if (typeof window.playLessonL07LocalTts !== "function") {
+      showToast("未加载 lesson-tts-l07-local.js", false);
+      return false;
+    }
+    if (window.unlockAudio) await window.unlockAudio();
     if (window.currentAudio) {
       try {
         window.currentAudio.pause();
       } catch (e) {}
       window.currentAudio = null;
     }
-    await window.playLessonL07LocalTts(cleanText);
+    return window.playLessonL07LocalTts(cleanText);
   };
 
   function speakT(text) {
-    var p = window.unlockAudio ? window.unlockAudio() : Promise.resolve();
-    return p.then(function () {
-      if (typeof window.playLessonL07LocalTts !== "function") {
-        showToast("未加载本地语音脚本", false);
-        return;
-      }
-      return window.speak(text);
-    });
+    var cleanText = String(text || "").replace(/\n/g, " ").trim();
+    var start = window.unlockAudio ? window.unlockAudio() : Promise.resolve();
+    return start
+      .then(function () {
+        if (typeof window.playLessonL07LocalTts !== "function") {
+          showToast("未加载 lesson-tts-l07-local.js", false);
+          return false;
+        }
+        return window.playLessonL07LocalTts(cleanText);
+      })
+      .then(function (ok) {
+        if (!ok) {
+          var r = String(window.__L07_TTS_FAIL_REASON__ || "");
+          if (r === "map_miss") {
+            showToast("朗读句未在本地清单中匹配，请更新 manifest.embed.js", false);
+          } else if (r === "manifest") {
+            showToast("无法加载朗读清单，请确认 manifest.embed.js 已部署", false);
+          } else if (r === "audio" || r === "play_rejected") {
+            showToast("无法播放朗读音频，请检查网络或刷新后重试", false);
+          } else if (r !== "empty") {
+            showToast("朗读失败", false);
+          }
+        }
+        return !!ok;
+      })
+      .catch(function () {
+        showToast("朗读失败", false);
+        return false;
+      });
   }
 
   function showToast(msg, ok) {
