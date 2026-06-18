@@ -82,16 +82,28 @@
       }
     }
 
-    /* 词形 44 组页：主栏接近全宽，取消 16:9 限制以便横向展示更多列 */
+    /* 词形 44 组页：主栏全宽，取消 16:9 / zoom，尽量占满左右可视区域 */
     main.shell.shell--wordbank {
-      --shell-pad-x: 8px;
-      width: min(calc(100vw - 8px), 1280px);
-      max-width: calc(100vw - 8px);
+      --shell-pad-x: 4px;
+      width: calc(100vw - var(--shell-pad-x));
+      max-width: calc(100vw - var(--shell-pad-x));
       aspect-ratio: unset;
+      max-height: calc(100dvh - var(--shell-chrome-y));
+      padding: 8px max(4px, env(safe-area-inset-right)) 10px max(4px, env(safe-area-inset-left));
+    }
+    @media (min-width: 900px) {
+      main.shell.shell--wordbank {
+        --shell-pad-x: 0px;
+        width: 100vw;
+        max-width: 100vw;
+        padding-left: max(6px, env(safe-area-inset-left));
+        padding-right: max(6px, env(safe-area-inset-right));
+      }
     }
     @media (max-width: 520px) {
       main.shell.shell--wordbank {
-        width: calc(100vw - 8px);
+        width: calc(100vw - 4px);
+        max-width: calc(100vw - 4px);
       }
     }
 
@@ -101,19 +113,36 @@
       display: flex;
       flex-direction: column;
       gap: 10px;
+      zoom: 1;
+      padding: 8px 4px;
+      border-radius: 12px;
     }
     .panel.panel--wordbank h2 {
       flex-shrink: 0;
+      padding: 0 2px;
     }
     .panel.panel--wordbank .word-wall {
       flex: 1 1 auto;
       min-height: 0;
       max-height: none;
       overflow-y: auto;
-      grid-template-columns: repeat(auto-fill, minmax(104px, 1fr));
-      gap: 8px;
+      grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+      gap: 6px;
       font-size: 0.78rem;
-      padding: 6px 4px;
+      padding: 4px 2px;
+    }
+    @media (min-width: 720px) {
+      .panel.panel--wordbank .word-wall {
+        grid-template-columns: repeat(auto-fill, minmax(108px, 1fr));
+        gap: 8px;
+        padding: 4px;
+      }
+    }
+    @media (min-width: 1200px) {
+      .panel.panel--wordbank .word-wall {
+        grid-template-columns: repeat(auto-fill, minmax(118px, 1fr));
+        gap: 10px;
+      }
     }
     .panel.panel--wordbank .word-wall-footer {
       flex-shrink: 0;
@@ -122,9 +151,12 @@
       padding-bottom: 2px;
     }
 
-    /* 主卡片内图文：约为原先的 90%（1.5×0.9） */
+    /* 主卡片内图文：约为原先的 90%（1.5×0.9）；词形表页单独取消放大 */
     #view-root.panel {
       zoom: 1.35;
+    }
+    #view-root.panel.panel--wordbank {
+      zoom: 1;
     }
     .panel {
       background: var(--card);
