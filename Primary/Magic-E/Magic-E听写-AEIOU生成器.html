@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Magic E 听写生成器 · AEIOU（多选元音 · PDF）</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -28,14 +28,39 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-bottom: 48px;
+  padding-bottom: max(48px, env(safe-area-inset-bottom));
+  min-height: 100dvh;
+  overflow-x: clip;
+  -webkit-tap-highlight-color: rgba(123, 31, 162, 0.12);
 }
+
+.back-hub {
+  align-self: flex-start;
+  margin: 12px 0 0 max(16px, env(safe-area-inset-left));
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 6px 14px 6px 10px;
+  border-radius: 999px;
+  border: 2px solid #CE93D8;
+  background: rgba(255, 255, 255, 0.95);
+  color: #6A1B9A;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-decoration: none;
+  touch-action: manipulation;
+}
+.back-hub:active { background: #F3E5F5; }
 
 .gen-panel {
   width: 100%;
   max-width: 920px;
   margin: 0 auto;
   padding: 16px 20px 20px;
+  padding-top: max(16px, env(safe-area-inset-top));
+  padding-left: max(16px, env(safe-area-inset-left));
+  padding-right: max(16px, env(safe-area-inset-right));
   background: #fff;
   box-shadow: 0 4px 24px rgba(0,0,0,.2);
   position: sticky;
@@ -77,7 +102,13 @@ body {
 .vowel-cell[data-v="o"] { color: #FB8C00; }
 .vowel-cell[data-v="u"] { color: #8E24AA; }
 
-.vowel-cell input[type="checkbox"] { width: 18px; height: 18px; cursor: pointer; flex-shrink: 0; }
+.vowel-cell input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  flex-shrink: 0;
+  touch-action: manipulation;
+}
 .vowel-cell label.lbl {
   font-weight: 700;
   font-size: 1.05rem;
@@ -94,12 +125,14 @@ body {
 .vowel-cell .count-wrap span { font-size: .75rem; color: #78909C; }
 .vowel-cell input[type="number"] {
   width: 52px;
+  min-height: 40px;
   padding: 6px 8px;
   border: 1px solid #CFD8DC;
   border-radius: 8px;
   font-weight: 700;
   font-size: .95rem;
   text-align: center;
+  touch-action: manipulation;
 }
 .vowel-cell input[type="number"]:disabled {
   opacity: .45;
@@ -122,12 +155,14 @@ body {
   color: #fff;
   border: none;
   padding: 11px 22px;
+  min-height: 48px;
   border-radius: 50px;
   font-family: var(--font-ui);
   font-size: 1rem;
   font-weight: 700;
   cursor: pointer;
   box-shadow: 0 4px 12px rgba(123,31,162,.35);
+  touch-action: manipulation;
 }
 .btn-gen:hover { filter: brightness(1.08); transform: scale(1.02); }
 
@@ -136,11 +171,13 @@ body {
   color: #fff;
   border: none;
   padding: 11px 22px;
+  min-height: 48px;
   border-radius: 50px;
   font-family: var(--font-ui);
   font-size: 1rem;
   font-weight: 700;
   cursor: pointer;
+  touch-action: manipulation;
 }
 .btn-pdf:hover { background: #006064; }
 
@@ -153,10 +190,12 @@ body {
   color: #546E7A;
 }
 .voice-row select {
-  padding: 6px 10px;
+  padding: 8px 12px;
+  min-height: 44px;
   border-radius: 8px;
   border: 1px solid #CFD8DC;
   font-size: .85rem;
+  touch-action: manipulation;
 }
 
 .hint {
@@ -176,12 +215,14 @@ body {
 label.chk-answers {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
+  min-height: 44px;
   font-size: .88rem;
   color: #546E7A;
   cursor: pointer;
+  touch-action: manipulation;
 }
-label.chk-answers input { width: 16px; height: 16px; }
+label.chk-answers input { width: 20px; height: 20px; }
 
 body:not(.show-answers) .answer-word { display: none !important; }
 
@@ -190,6 +231,13 @@ body:not(.show-answers) .answer-word { display: none !important; }
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 0 max(8px, env(safe-area-inset-right)) 0 max(8px, env(safe-area-inset-left));
+}
+
+.page-viewport {
+  width: min(210mm, calc(100vw - 24px));
+  margin: 24px auto;
+  overflow: hidden;
 }
 
 .page {
@@ -300,12 +348,14 @@ body:not(.show-answers) .answer-word { display: none !important; }
   font-family: var(--font-ui);
   font-size: .9rem;
   font-weight: 700;
-  padding: 7px 16px;
+  padding: 10px 18px;
+  min-height: 44px;
   border-radius: 50px;
   border: 2px solid #7B1FA2;
   background: #F3E5F5;
   color: #6A1B9A;
   cursor: pointer;
+  touch-action: manipulation;
 }
 .btn-speak:hover:not(:disabled) { background: #E1BEE7; }
 .btn-speak:disabled { opacity: .55; cursor: wait; }
@@ -348,12 +398,91 @@ body:not(.show-answers) .answer-word { display: none !important; }
   padding: 48px 24px;
   text-align: center;
   font-size: 1rem;
+  line-height: 1.6;
+}
+
+@media screen and (max-width: 720px) {
+  .gen-panel h1 {
+    font-size: clamp(1rem, 4.2vw, 1.15rem);
+    line-height: 1.45;
+  }
+  .vowel-grid {
+    grid-template-columns: 1fr;
+  }
+  .vowel-cell {
+    flex-wrap: wrap;
+    min-height: 48px;
+  }
+  .vowel-cell .count-wrap {
+    margin-left: 0;
+    width: 100%;
+    justify-content: flex-end;
+    padding-left: 28px;
+  }
+  .gen-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .btn-gen,
+  .btn-pdf {
+    width: 100%;
+  }
+  .voice-row {
+    width: 100%;
+  }
+  .voice-row select {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+  .hint {
+    flex: 1 1 auto;
+    font-size: 0.82rem;
+  }
+  .page-viewport {
+    width: calc(100vw - 16px);
+    margin: 12px auto;
+  }
+  .page {
+    margin: 0;
+    box-shadow: 0 0 24px rgba(0,0,0,.45);
+  }
+  .btn-speak {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .btn-gen:hover { filter: none; transform: none; }
+  .btn-pdf:hover { background: #00838F; }
+  .btn-gen:active { filter: brightness(0.95); }
+  .btn-pdf:active { background: #006064; }
+  .btn-speak:hover:not(:disabled) { background: #F3E5F5; }
+  .btn-speak:active:not(:disabled) { background: #E1BEE7; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vowel-cell,
+  .btn-gen,
+  .btn-pdf { transition: none !important; }
+  .btn-gen:hover { transform: none !important; }
 }
 
 @media print {
   body { background: #fff; padding: 0; }
+  .back-hub { display: none !important; }
   .no-print { display: none !important; }
   .answer-word { display: none !important; }
+  #app { padding: 0; }
+  .page-viewport {
+    width: auto;
+    height: auto;
+    overflow: visible;
+    margin: 0;
+  }
+  .page-viewport .page {
+    transform: none !important;
+  }
   .page {
     margin: 0;
     box-shadow: none;
@@ -364,6 +493,8 @@ body:not(.show-answers) .answer-word { display: none !important; }
 </style>
 </head>
 <body>
+
+<a class="back-hub no-print" href="./magic-e.html">← Magic E 首页</a>
 
 <div class="gen-panel no-print">
   <h1>📝 Magic E 听写生成器 <small style="font-weight:600;color:#78909C;">AEIOU · CVCE</small></h1>
@@ -648,6 +779,9 @@ function buildDictBlock(item, globalIndex, totalOnPage) {
 }
 
 function buildPage(pair, pageIndex, totalPages, startIdx) {
+  const viewport = document.createElement('div');
+  viewport.className = 'page-viewport';
+
   const page = document.createElement('div');
   page.className = 'page';
 
@@ -671,7 +805,24 @@ function buildPage(pair, pageIndex, totalPages, startIdx) {
   ftr.textContent = `Magic English • Magic E 听写生成器 · 顺序随机 | ${pageIndex + 1} / ${totalPages}`;
   page.appendChild(ftr);
 
-  return page;
+  viewport.appendChild(page);
+  return viewport;
+}
+
+function fitPageViewports() {
+  if (window.matchMedia('print').matches) return;
+  document.querySelectorAll('.page-viewport').forEach((vp) => {
+    const page = vp.querySelector('.page');
+    if (!page) return;
+    page.style.transform = 'none';
+    page.style.transformOrigin = 'top left';
+    const naturalW = page.offsetWidth;
+    const targetW = vp.clientWidth;
+    if (!naturalW || !targetW) return;
+    const scale = Math.min(1, targetW / naturalW);
+    page.style.transform = scale < 1 ? `scale(${scale})` : 'none';
+    vp.style.height = scale < 1 ? `${page.offsetHeight * scale}px` : 'auto';
+  });
 }
 
 function updateSummary(items) {
@@ -705,6 +856,7 @@ function runGenerate() {
     app.appendChild(buildPage(pair, pi, pages.length, pi * WORDS_PER_PAGE));
   });
   updateSummary(items);
+  fitPageViewports();
   app.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
@@ -721,6 +873,13 @@ document.getElementById('btnPdf').addEventListener('click', runPdf);
 document.getElementById('toggleAnswers').addEventListener('change', function () {
   document.body.classList.toggle('show-answers', this.checked);
 });
+
+let fitTimer;
+window.addEventListener('resize', () => {
+  clearTimeout(fitTimer);
+  fitTimer = setTimeout(fitPageViewports, 120);
+});
+window.addEventListener('orientationchange', fitPageViewports);
 
 window.addEventListener('load', () => {
   buildVowelData();

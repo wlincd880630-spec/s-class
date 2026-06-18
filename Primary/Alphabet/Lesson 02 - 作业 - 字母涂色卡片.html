@@ -2,19 +2,80 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>Lesson 02 · 字母涂色卡片 A–Z</title>
     <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Patrick+Hand&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="coloring-cards/coloring-shared.css">
     <style>
+        html {
+            -webkit-text-size-adjust: 100%;
+            text-size-adjust: 100%;
+        }
         body {
-            margin: 0; min-height: 100vh;
+            margin: 0;
+            min-height: 100dvh;
             font-family: 'Fredoka', sans-serif;
             background: linear-gradient(160deg, #e8eaf6 0%, #e3f2fd 45%, #fce4ec 100%);
+            overflow-x: clip;
+            -webkit-tap-highlight-color: rgba(126, 87, 194, 0.12);
+            padding-bottom: env(safe-area-inset-bottom, 0);
+        }
+        .back-hub {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            min-height: 44px;
+            margin: max(12px, env(safe-area-inset-top)) 0 0 max(16px, env(safe-area-inset-left));
+            padding: 6px 14px 6px 10px;
+            border-radius: 999px;
+            border: 2px solid #b39ddb;
+            background: rgba(255, 255, 255, 0.95);
+            color: #5e35b1;
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-decoration: none;
+            touch-action: manipulation;
+        }
+        .back-hub:active { background: #ede7f6; }
+        .index-wrap {
+            padding:
+                0
+                max(20px, env(safe-area-inset-right))
+                max(56px, calc(28px + env(safe-area-inset-bottom)))
+                max(20px, env(safe-area-inset-left));
+        }
+        .index-actions .btn-all {
+            min-height: 48px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            touch-action: manipulation;
+        }
+        .index-card {
+            min-height: 44px;
+            touch-action: manipulation;
+        }
+        .index-card:active { transform: scale(0.98); }
+        @media screen and (max-width: 720px) {
+            .index-actions { flex-direction: column; align-items: stretch; }
+            .index-actions .btn-all { width: 100%; text-align: center; }
+            .index-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+            .index-hero p { font-size: 0.92rem; padding: 0 4px; }
+        }
+        @media screen and (max-width: 400px) {
+            .index-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        }
+        @media (hover: none) and (pointer: coarse) {
+            .index-card:hover { transform: none; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .index-card { transition: none !important; }
         }
     </style>
 </head>
 <body>
+    <a class="back-hub" href="index.html">← Alphabet</a>
+
     <div class="index-wrap">
         <header class="index-hero">
             <h1>🎨 Lesson 02 · 字母涂色卡片</h1>

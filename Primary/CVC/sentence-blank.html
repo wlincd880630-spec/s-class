@@ -2,7 +2,7 @@
 <html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>句子填空练习</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -11,6 +11,152 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="./styles.css" />
+    <style>
+      /* sentence-blank.html · 句子填空（仅本页） */
+      html {
+        -webkit-text-size-adjust: 100%;
+        text-size-adjust: 100%;
+      }
+      body[data-page="sentence-blank"] {
+        min-height: 100dvh;
+        overflow-x: clip;
+        -webkit-tap-highlight-color: rgba(79, 172, 247, 0.15);
+      }
+      body[data-page="sentence-blank"] .topbar {
+        padding-top: env(safe-area-inset-top, 0);
+      }
+      body[data-page="sentence-blank"] .topbar-inner {
+        padding-left: max(16px, env(safe-area-inset-left));
+        padding-right: max(16px, env(safe-area-inset-right));
+      }
+      body[data-page="sentence-blank"] .container {
+        margin-top: 24px;
+        margin-bottom: max(48px, env(safe-area-inset-bottom));
+        padding-left: max(16px, env(safe-area-inset-left));
+        padding-right: max(16px, env(safe-area-inset-right));
+      }
+      body[data-page="sentence-blank"] .title {
+        font-size: clamp(1.35rem, 5.5vw, 2.25rem);
+        line-height: 1.35;
+        word-break: break-word;
+      }
+      body[data-page="sentence-blank"] .subtitle,
+      body[data-page="sentence-blank"] .blank-options-label {
+        font-size: clamp(0.95rem, 3.5vw, 1.25rem);
+        line-height: 1.65;
+      }
+      body[data-page="sentence-blank"] .blank-sentence {
+        font-size: clamp(1.15rem, 4.5vw, 2rem);
+        line-height: 1.85;
+        gap: 8px;
+      }
+      body[data-page="sentence-blank"] .blank-sentence .token {
+        font-size: clamp(1rem, 4vw, 1.5rem);
+        padding: 8px 14px;
+        margin: 0 4px 6px 0;
+      }
+      body[data-page="sentence-blank"] .blank-options {
+        margin-top: 0;
+        justify-content: center;
+      }
+      body[data-page="sentence-blank"] .word-option.tap-picked {
+        border-color: var(--blue);
+        background: linear-gradient(145deg, #d6eeff, #fff);
+        box-shadow: 0 0 0 3px rgba(79, 172, 247, 0.35), 0 4px 0 var(--blue-soft);
+        transform: scale(1.03);
+      }
+      body[data-page="sentence-blank"] .blank-slot:not(.filled) {
+        cursor: pointer;
+      }
+      body[data-page="sentence-blank"] #blankFeedback {
+        margin-top: 8px;
+      }
+      @media (max-width: 860px) {
+        body[data-page="sentence-blank"] .topbar-inner {
+          flex-wrap: wrap;
+          row-gap: 10px;
+        }
+        body[data-page="sentence-blank"] .nav-buttons {
+          display: flex !important;
+          flex: 1 1 100%;
+          order: 3;
+          justify-content: flex-start;
+          flex-wrap: nowrap;
+          overflow-x: auto;
+          -webkit-overflow-scrolling: touch;
+          scrollbar-width: none;
+          padding-bottom: 4px;
+          gap: 8px;
+        }
+        body[data-page="sentence-blank"] .nav-buttons::-webkit-scrollbar { display: none; }
+        body[data-page="sentence-blank"] .nav-chip {
+          flex-shrink: 0;
+          min-height: 44px;
+          padding: 10px 16px;
+          font-size: 15px;
+        }
+        body[data-page="sentence-blank"] .brand { font-size: 24px; }
+      }
+      @media (max-width: 520px) {
+        body[data-page="sentence-blank"] .card-single { padding: 20px 16px; }
+        body[data-page="sentence-blank"] .blank-sentence {
+          margin: 16px 0;
+        }
+        body[data-page="sentence-blank"] .blank-slot {
+          min-width: clamp(88px, 28vw, 130px);
+          min-height: 48px;
+          font-size: clamp(0.95rem, 3.8vw, 1.35rem);
+          padding: 10px 12px;
+          touch-action: manipulation;
+        }
+        body[data-page="sentence-blank"] .blank-options {
+          padding: 12px;
+          gap: 10px;
+        }
+        body[data-page="sentence-blank"] .word-option {
+          min-width: clamp(72px, 22vw, 110px);
+          min-height: 48px;
+          font-size: clamp(0.95rem, 3.8vw, 1.35rem);
+          padding: 10px 14px;
+          touch-action: manipulation;
+          cursor: pointer;
+        }
+        body[data-page="sentence-blank"] .info-row {
+          flex-direction: column;
+          align-items: stretch;
+          gap: 10px;
+          margin-top: 18px;
+        }
+        body[data-page="sentence-blank"] .info-row .btn {
+          width: 100%;
+          min-height: 52px;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          text-align: center;
+          touch-action: manipulation;
+        }
+        body[data-page="sentence-blank"] #blankFeedback {
+          font-size: 1rem;
+          padding: 12px 14px;
+        }
+      }
+      @media (hover: none) and (pointer: coarse) {
+        body[data-page="sentence-blank"] .word-option:hover { transform: none; }
+        body[data-page="sentence-blank"] .btn:hover { transform: none; filter: none; }
+        body[data-page="sentence-blank"] .nav-chip:hover { transform: none; }
+        body[data-page="sentence-blank"] .word-option:active { transform: scale(0.97); }
+        body[data-page="sentence-blank"] .btn:active { transform: scale(0.98); }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        body[data-page="sentence-blank"] .word-option,
+        body[data-page="sentence-blank"] .btn,
+        body[data-page="sentence-blank"] .nav-chip {
+          transition: none !important;
+        }
+        body[data-page="sentence-blank"] .word-option.tap-picked { transform: none; }
+      }
+    </style>
   </head>
   <body data-page="sentence-blank">
     <header class="topbar">
@@ -22,7 +168,7 @@
     <main class="container">
       <section class="card card-single">
         <h1 id="blankTitle" class="title"></h1>
-        <p class="subtitle">听句子发音，拖拽正确单词填入空格。</p>
+        <p class="subtitle">听句子发音，拖拽或点击单词填入空格（先点单词，再点空格）。</p>
         <div id="blankSentence" class="blank-sentence"></div>
         <div class="blank-options-label">可选单词：</div>
         <div id="blankOptions" class="letters blank-options"></div>
@@ -35,5 +181,43 @@
     </main>
     <script src="./cvc-data.js"></script>
     <script src="./app.js"></script>
+    <script>
+(function () {
+  var picked = null;
+  var pool = document.getElementById("blankOptions");
+  var sentence = document.getElementById("blankSentence");
+  if (!pool || !sentence) return;
+
+  function clearPicked() {
+    picked = null;
+    pool.querySelectorAll(".word-option").forEach(function (el) {
+      el.classList.remove("tap-picked");
+    });
+  }
+
+  pool.addEventListener("click", function (e) {
+    var word = e.target.closest(".word-option");
+    if (!word) return;
+    pool.querySelectorAll(".word-option").forEach(function (el) {
+      el.classList.remove("tap-picked");
+    });
+    word.classList.add("tap-picked");
+    picked = word;
+  });
+
+  sentence.addEventListener("click", function (e) {
+    var slot = e.target.closest(".blank-slot");
+    if (!slot || slot.dataset.current || !picked) return;
+    var ch = picked.dataset.char;
+    slot.textContent = ch;
+    slot.dataset.current = ch;
+    slot.classList.add("filled");
+    picked.remove();
+    picked = null;
+  });
+
+  document.getElementById("btnBlankCheck").addEventListener("click", clearPicked);
+})();
+    </script>
   </body>
 </html>

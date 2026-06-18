@@ -1,12 +1,10 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <title>Lesson 02 · Letter R 涂色卡片</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Patrick+Hand&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="coloring-shared.css">
-    <style>
+import fs from "fs";
+import path from "path";
+
+const dir = path.resolve("Primary/Alphabet/coloring-cards");
+const letters = "GHIJKLMNOPQRSTUVWXYZ".split("");
+
+const styleBlock = `    <style>
         html {
             -webkit-text-size-adjust: 100%;
             text-size-adjust: 100%;
@@ -69,40 +67,9 @@
                 margin: 20px 0;
             }
         }
-    </style>
-</head>
-<body class="coloring-body">
-    <div class="coloring-toolbar no-print">
-        <a class="btn-ghost" href="../Lesson 02 - 作业 - 字母涂色卡片.html">← 全部字母</a>
-        <a class="btn-all" href="Print-All.html">打印全部 26 页</a>
-        <button type="button" class="btn-teal" onclick="window.print()">打印本页 🖨️</button>
-    </div>
+    </style>`;
 
-    <div class="coloring-sheet" style="--hue:200">
-
-        <header class="sheet-top">
-            <div class="letter-trace-row" aria-label="Colour the letters">
-                <span class="trace-letter cap">R</span>
-                <span class="trace-letter sm">r</span>
-            </div>
-        </header>
-        <div class="sheet-main">
-            <div class="sheet-left">
-                <div class="art-box"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Alphabet/assets/coloring/R-rabbit.png" alt="Rabbit" width="320" height="320"></div>
-                <div class="art-box"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Alphabet/assets/coloring/R-rose.png" alt="Rose" width="320" height="320"></div>
-            </div>
-            <div class="sheet-right">
-                <div class="word-block">
-                    <div class="trace-word">rabbit</div>
-                    <div class="word-zh">兔子</div>
-                </div>
-                <div class="word-block">
-                    <div class="trace-word">rose</div>
-                    <div class="word-zh">玫瑰</div>
-                </div>
-            </div>
-        </div>
-    </div>
+const scriptBlock = `
     <script>
     (function () {
         var sheet = document.querySelector('.coloring-sheet');
@@ -137,6 +104,36 @@
         window.addEventListener('orientationchange', fitPageViewports);
         window.addEventListener('load', fitPageViewports);
     })();
-    </script>
-</body>
-</html>
+    </script>`;
+
+const updated = [];
+const skipped = [];
+
+for (const L of letters) {
+  const file = path.join(dir, `Letter-${L}.html`);
+  let html = fs.readFileSync(file, "utf8");
+  if (html.includes("fitPageViewports")) {
+    skipped.push(L);
+    continue;
+  }
+  if (!html.includes("<style>")) {
+    html = html.replace(
+      /(\s*<link rel="stylesheet" href="coloring-shared\.css">)\s*<\/head>/,
+      `$1\n${styleBlock}\n</head>`
+    );
+  }
+  if (!html.includes("viewport-fit=cover")) {
+    html = html.replace(
+      /<meta name="viewport" content="width=device-width, initial-scale=1\.0[^"]*"\s*\/?>/,
+      '<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />'
+    );
+  }
+  if (!html.includes("fitPageViewports")) {
+    html = html.replace(/\s*<\/body>\s*<\/html>\s*$/, `${scriptBlock}\n</body>\n</html>`);
+  }
+  fs.writeFileSync(file, html, "utf8");
+  updated.push(L);
+}
+
+console.log("Updated:", updated.join(", "));
+console.log("Skipped:", skipped.length ? skipped.join(", ") : "(none)");

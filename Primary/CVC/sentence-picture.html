@@ -2,7 +2,7 @@
 <html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>看句选图练习</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -11,6 +11,132 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="./styles.css" />
+    <style>
+      /* sentence-picture.html · 看句选图（仅本页） */
+      html {
+        -webkit-text-size-adjust: 100%;
+        text-size-adjust: 100%;
+      }
+      body[data-page="sentence-picture"] {
+        min-height: 100dvh;
+        overflow-x: clip;
+        -webkit-tap-highlight-color: rgba(79, 172, 247, 0.15);
+      }
+      body[data-page="sentence-picture"] .topbar {
+        padding-top: env(safe-area-inset-top, 0);
+      }
+      body[data-page="sentence-picture"] .topbar-inner {
+        padding-left: max(16px, env(safe-area-inset-left));
+        padding-right: max(16px, env(safe-area-inset-right));
+      }
+      body[data-page="sentence-picture"] .container {
+        margin-top: 24px;
+        margin-bottom: max(48px, env(safe-area-inset-bottom));
+        padding-left: max(16px, env(safe-area-inset-left));
+        padding-right: max(16px, env(safe-area-inset-right));
+      }
+      body[data-page="sentence-picture"] .title {
+        font-size: clamp(1.35rem, 5.5vw, 2.25rem);
+        line-height: 1.35;
+        word-break: break-word;
+        text-align: center;
+      }
+      body[data-page="sentence-picture"] .subtitle {
+        font-size: clamp(0.95rem, 3.5vw, 1.05rem);
+        line-height: 1.65;
+        text-align: center;
+      }
+      body[data-page="sentence-picture"] .pic-sentence {
+        font-size: clamp(1.15rem, 4.8vw, 2.25rem);
+        line-height: 1.65;
+        padding: clamp(16px, 4vw, 22px) clamp(14px, 3.5vw, 24px);
+        margin: 18px 0;
+        word-break: break-word;
+      }
+      body[data-page="sentence-picture"] .pic-choices {
+        justify-content: center;
+        gap: 16px;
+        margin-top: 20px;
+      }
+      body[data-page="sentence-picture"] .choice-card {
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: transparent;
+      }
+      body[data-page="sentence-picture"] #picFeedback {
+        text-align: center;
+        margin-top: 12px;
+      }
+      @media (max-width: 860px) {
+        body[data-page="sentence-picture"] .topbar-inner {
+          flex-wrap: wrap;
+          row-gap: 10px;
+        }
+        body[data-page="sentence-picture"] .nav-buttons {
+          display: flex !important;
+          flex: 1 1 100%;
+          order: 3;
+          justify-content: flex-start;
+          flex-wrap: nowrap;
+          overflow-x: auto;
+          -webkit-overflow-scrolling: touch;
+          scrollbar-width: none;
+          padding-bottom: 4px;
+          gap: 8px;
+        }
+        body[data-page="sentence-picture"] .nav-buttons::-webkit-scrollbar { display: none; }
+        body[data-page="sentence-picture"] .nav-chip {
+          flex-shrink: 0;
+          min-height: 44px;
+          padding: 10px 16px;
+          font-size: 15px;
+        }
+        body[data-page="sentence-picture"] .brand { font-size: 24px; }
+        body[data-page="sentence-picture"] .choice-card {
+          width: calc(50% - 8px);
+          height: auto;
+          aspect-ratio: 6 / 5;
+          min-height: 140px;
+        }
+      }
+      @media (max-width: 520px) {
+        body[data-page="sentence-picture"] .card-single { padding: 20px 16px; }
+        body[data-page="sentence-picture"] .pic-choices {
+          flex-direction: column;
+          align-items: center;
+          gap: 14px;
+          margin-top: 16px;
+        }
+        body[data-page="sentence-picture"] .choice-card {
+          width: min(100%, 280px);
+          max-width: 280px;
+          height: auto;
+          aspect-ratio: 6 / 5;
+          min-height: 168px;
+        }
+        body[data-page="sentence-picture"] #picFeedback {
+          font-size: 1rem;
+          padding: 12px 14px;
+        }
+      }
+      @media (hover: none) and (pointer: coarse) {
+        body[data-page="sentence-picture"] .choice-card:hover {
+          transform: none;
+          box-shadow: 0 6px 0 var(--blue-soft), var(--sh-sm);
+          border-color: var(--line);
+        }
+        body[data-page="sentence-picture"] .choice-card:active {
+          transform: scale(0.98);
+          top: 2px;
+        }
+        body[data-page="sentence-picture"] .nav-chip:hover { transform: none; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        body[data-page="sentence-picture"] .choice-card,
+        body[data-page="sentence-picture"] .nav-chip {
+          transition: none !important;
+        }
+      }
+    </style>
   </head>
   <body data-page="sentence-picture">
     <header class="topbar">

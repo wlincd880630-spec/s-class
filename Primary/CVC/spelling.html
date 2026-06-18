@@ -2,7 +2,7 @@
 <html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>拼写练习</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -11,6 +11,135 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="./styles.css" />
+    <style>
+      /* spelling.html · 拼写练习（仅本页） */
+      html {
+        -webkit-text-size-adjust: 100%;
+        text-size-adjust: 100%;
+      }
+      body[data-page="spelling"] {
+        min-height: 100dvh;
+        overflow-x: clip;
+        -webkit-tap-highlight-color: rgba(79, 172, 247, 0.15);
+      }
+      body[data-page="spelling"] .topbar {
+        padding-top: env(safe-area-inset-top, 0);
+      }
+      body[data-page="spelling"] .topbar-inner {
+        padding-left: max(16px, env(safe-area-inset-left));
+        padding-right: max(16px, env(safe-area-inset-right));
+      }
+      body[data-page="spelling"] .container {
+        margin-top: 24px;
+        margin-bottom: max(48px, env(safe-area-inset-bottom));
+        padding-left: max(16px, env(safe-area-inset-left));
+        padding-right: max(16px, env(safe-area-inset-right));
+      }
+      body[data-page="spelling"] .title {
+        font-size: clamp(1.5rem, 6vw, 2.25rem);
+        line-height: 1.35;
+        text-align: center;
+      }
+      body[data-page="spelling"] .subtitle {
+        font-size: clamp(0.95rem, 3.5vw, 1.05rem);
+        line-height: 1.65;
+        text-align: center;
+      }
+      body[data-page="spelling"] .slots,
+      body[data-page="spelling"] .letters {
+        justify-content: center;
+      }
+      body[data-page="spelling"] .letter.tap-picked {
+        border-color: var(--blue);
+        background: linear-gradient(145deg, #d6eeff, #fff);
+        box-shadow: 0 0 0 3px rgba(79, 172, 247, 0.35), 0 4px 0 var(--blue-soft);
+        transform: scale(1.04);
+      }
+      body[data-page="spelling"] .slot:not(.filled) {
+        cursor: pointer;
+      }
+      body[data-page="spelling"] #spellFeedback {
+        text-align: center;
+        margin-top: 8px;
+      }
+      @media (max-width: 860px) {
+        body[data-page="spelling"] .topbar-inner {
+          flex-wrap: wrap;
+          row-gap: 10px;
+        }
+        body[data-page="spelling"] .nav-buttons {
+          display: flex !important;
+          flex: 1 1 100%;
+          order: 3;
+          justify-content: flex-start;
+          flex-wrap: nowrap;
+          overflow-x: auto;
+          -webkit-overflow-scrolling: touch;
+          scrollbar-width: none;
+          padding-bottom: 4px;
+          gap: 8px;
+        }
+        body[data-page="spelling"] .nav-buttons::-webkit-scrollbar { display: none; }
+        body[data-page="spelling"] .nav-chip {
+          flex-shrink: 0;
+          min-height: 44px;
+          padding: 10px 16px;
+          font-size: 15px;
+        }
+        body[data-page="spelling"] .brand { font-size: 24px; }
+      }
+      @media (max-width: 520px) {
+        body[data-page="spelling"] .card { padding: 20px 16px; }
+        body[data-page="spelling"] .slots,
+        body[data-page="spelling"] .letters {
+          gap: 10px;
+          margin-top: 14px;
+        }
+        body[data-page="spelling"] .letter,
+        body[data-page="spelling"] .slot {
+          min-width: clamp(64px, 18vw, 86px);
+          min-height: clamp(64px, 18vw, 86px);
+          font-size: clamp(1.6rem, 6.5vw, 2.375rem);
+          padding: 8px;
+          touch-action: manipulation;
+          cursor: pointer;
+        }
+        body[data-page="spelling"] .info-row {
+          flex-direction: column;
+          align-items: stretch;
+          gap: 10px;
+          margin-top: 20px;
+        }
+        body[data-page="spelling"] .info-row .btn {
+          width: 100%;
+          min-height: 52px;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          text-align: center;
+          touch-action: manipulation;
+        }
+        body[data-page="spelling"] #spellFeedback {
+          font-size: 1rem;
+          padding: 12px 14px;
+        }
+      }
+      @media (hover: none) and (pointer: coarse) {
+        body[data-page="spelling"] .letter:hover { transform: none; }
+        body[data-page="spelling"] .btn:hover { transform: none; filter: none; }
+        body[data-page="spelling"] .nav-chip:hover { transform: none; }
+        body[data-page="spelling"] .letter:active { transform: scale(0.96); }
+        body[data-page="spelling"] .btn:active { transform: scale(0.98); }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        body[data-page="spelling"] .letter,
+        body[data-page="spelling"] .btn,
+        body[data-page="spelling"] .nav-chip {
+          transition: none !important;
+        }
+        body[data-page="spelling"] .letter.tap-picked { transform: none; }
+      }
+    </style>
   </head>
   <body data-page="spelling">
     <header class="topbar">
@@ -22,7 +151,7 @@
     <main class="container">
       <section class="card">
         <h1 id="spellTitle" class="title"></h1>
-        <p class="subtitle">听发音后，把字母拖到 3 个空格完成拼写。</p>
+        <p class="subtitle">听发音后，拖拽或点击字母填入 3 个空格（先点字母，再点空格）。</p>
         <div id="spellSlots" class="slots"></div>
         <div id="spellLetters" class="letters"></div>
         <div class="info-row">
@@ -35,5 +164,44 @@
     </main>
     <script src="./cvc-data.js"></script>
     <script src="./app.js"></script>
+    <script>
+(function () {
+  var picked = null;
+  var pool = document.getElementById("spellLetters");
+  var slots = document.getElementById("spellSlots");
+  if (!pool || !slots) return;
+
+  function clearPicked() {
+    picked = null;
+    pool.querySelectorAll(".letter").forEach(function (l) {
+      l.classList.remove("tap-picked");
+    });
+  }
+
+  pool.addEventListener("click", function (e) {
+    var letter = e.target.closest(".letter");
+    if (!letter) return;
+    pool.querySelectorAll(".letter").forEach(function (l) {
+      l.classList.remove("tap-picked");
+    });
+    letter.classList.add("tap-picked");
+    picked = letter;
+  });
+
+  slots.addEventListener("click", function (e) {
+    var slot = e.target.closest(".slot");
+    if (!slot || slot.dataset.current || !picked) return;
+    var ch = picked.dataset.char;
+    slot.textContent = ch;
+    slot.dataset.current = ch;
+    slot.classList.add("filled");
+    picked.remove();
+    picked = null;
+  });
+
+  document.getElementById("btnNextWord").addEventListener("click", clearPicked);
+  document.getElementById("btnCheckSpell").addEventListener("click", clearPicked);
+})();
+    </script>
   </body>
 </html>

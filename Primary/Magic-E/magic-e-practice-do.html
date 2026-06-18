@@ -2,15 +2,153 @@
 <html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>Magic E · 课堂练习</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@500;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="./styles.css" />
     <link rel="stylesheet" href="./practice-styles.css" />
+    <style>
+      /* magic-e-practice-do.html · 练习执行（仅本页） */
+      html {
+        -webkit-text-size-adjust: 100%;
+        text-size-adjust: 100%;
+      }
+      body[data-page="magic-e-practice-do"] {
+        min-height: 100dvh;
+        overflow-x: clip;
+        -webkit-tap-highlight-color: rgba(79, 172, 247, 0.15);
+      }
+      body[data-page="magic-e-practice-do"] .practice-do-page {
+        min-height: 100dvh;
+        justify-content: flex-start;
+        padding-top: max(16px, env(safe-area-inset-top));
+        padding-right: max(16px, env(safe-area-inset-right));
+        padding-bottom: max(24px, env(safe-area-inset-bottom));
+        padding-left: max(16px, env(safe-area-inset-left));
+        width: 100%;
+        max-width: 100%;
+      }
+      body[data-page="magic-e-practice-do"] .practice-progress-bar {
+        width: 100%;
+        max-width: 600px;
+      }
+      .practice-complete-card {
+        text-align: center;
+        padding: 48px 24px;
+      }
+      .practice-complete-card .practice-btn-big {
+        margin-top: 24px;
+      }
+      .practice-actions {
+        margin-top: 28px;
+        display: flex;
+        gap: 16px;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+      .practice-feedback {
+        margin-top: 12px;
+        min-height: 0;
+      }
+      .pic-choice-wrap {
+        margin-top: 24px;
+      }
+      @media (max-width: 860px) {
+        body[data-page="magic-e-practice-do"] .practice-word-card {
+          padding: 32px 22px;
+          border-radius: 26px;
+        }
+        body[data-page="magic-e-practice-do"] .practice-image-wrap {
+          width: min(100%, 280px);
+          height: auto;
+          aspect-ratio: 14 / 11;
+        }
+        body[data-page="magic-e-practice-do"] .practice-chinese-hint {
+          font-size: clamp(1.15rem, 4.5vw, 1.75rem);
+          padding: 14px 16px;
+        }
+      }
+      @media (max-width: 520px) {
+        body[data-page="magic-e-practice-do"] .practice-word-card {
+          padding: 24px 16px;
+        }
+        body[data-page="magic-e-practice-do"] .practice-tts-btn {
+          width: 88px;
+          height: 88px;
+          font-size: 42px;
+        }
+        body[data-page="magic-e-practice-do"] .practice-slots-row {
+          gap: 8px;
+          margin: 16px 0;
+        }
+        body[data-page="magic-e-practice-do"] .practice-slot {
+          width: clamp(52px, 15vw, 90px);
+          height: clamp(52px, 15vw, 90px);
+          font-size: clamp(1.4rem, 5.5vw, 2.625rem);
+          border-radius: 14px;
+          border-width: 3px;
+        }
+        body[data-page="magic-e-practice-do"] .practice-letter-opt {
+          width: clamp(48px, 14vw, 80px);
+          height: clamp(48px, 14vw, 80px);
+          font-size: clamp(1.2rem, 5vw, 2.25rem);
+          margin: 4px;
+          touch-action: manipulation;
+          cursor: pointer;
+        }
+        body[data-page="magic-e-practice-do"] .practice-pic-choices {
+          flex-direction: column;
+          align-items: center;
+          gap: 14px;
+        }
+        body[data-page="magic-e-practice-do"] .practice-pic-choice {
+          width: min(100%, 240px);
+          height: auto;
+          aspect-ratio: 6 / 5;
+          touch-action: manipulation;
+        }
+        body[data-page="magic-e-practice-do"] .practice-nav-btn,
+        body[data-page="magic-e-practice-do"] .practice-complete-card .practice-btn-big {
+          width: 100%;
+          min-height: 52px;
+        }
+        body[data-page="magic-e-practice-do"] .practice-actions {
+          flex-direction: column;
+          align-items: stretch;
+        }
+        .practice-complete-card {
+          padding: 36px 16px;
+        }
+      }
+      @media (hover: none) and (pointer: coarse) {
+        body[data-page="magic-e-practice-do"] .practice-tts-btn:hover,
+        body[data-page="magic-e-practice-do"] .practice-letter-opt:hover,
+        body[data-page="magic-e-practice-do"] .practice-pic-choice:hover {
+          transform: none;
+        }
+        body[data-page="magic-e-practice-do"] .practice-letter-opt:active {
+          transform: scale(0.96);
+        }
+        body[data-page="magic-e-practice-do"] .practice-pic-choice:active {
+          transform: scale(0.98);
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        body[data-page="magic-e-practice-do"].practice-cartoon {
+          animation: none !important;
+        }
+        body[data-page="magic-e-practice-do"] .practice-word-card,
+        body[data-page="magic-e-practice-do"] .practice-image-wrap,
+        body[data-page="magic-e-practice-do"] .practice-progress-fill {
+          animation: none !important;
+          transition: none !important;
+        }
+      }
+    </style>
   </head>
-  <body class="practice-cartoon">
+  <body class="practice-cartoon" data-page="magic-e-practice-do">
     <script src="https://cdn.jsdelivr.net/npm/microsoft-cognitiveservices-speech-sdk@1.34.0/distrib/browser/microsoft.cognitiveservices.speech.sdk.bundle-min.js" crossorigin="anonymous"></script>
     <script src="./magic-e-data.js"></script>
     <script src="./practice-me.js"></script>
@@ -86,10 +224,10 @@
         function render() {
           if (idx >= words.length) {
             document.getElementById("mainArea").innerHTML = `
-        <section class="card practice-teacher-card" style="text-align:center;padding:60px;">
+        <section class="card practice-teacher-card practice-complete-card">
           <h1 class="title">🎉 练习完成！</h1>
           <p class="subtitle">太棒了，全部 ${words.length} 个单词都练习完啦！</p>
-          <a href="magic-e-practice-teacher.html" class="btn primary practice-btn-big" style="margin-top:24px;">返回配置</a>
+          <a href="magic-e-practice-teacher.html" class="btn primary practice-btn-big">返回配置</a>
         </section>`;
             return;
           }
@@ -170,7 +308,7 @@
 
           let picChoiceSection = "";
           if (!showImg && (type === "spell" || type === "order")) {
-            picChoiceSection = `<div id="picChoiceWrap" class="hidden" style="margin-top:24px;">
+            picChoiceSection = `<div id="picChoiceWrap" class="hidden pic-choice-wrap">
         <p class="practice-chinese-hint">这个词的意思是：${item.chinese}</p>
         <p class="subtitle">选一张正确的图片</p>
         <div id="picChoices" class="practice-pic-choices"></div>
@@ -185,9 +323,9 @@
         ${imgSection}
         <div id="slotsRow" class="practice-slots-row">${slotsHtml}</div>
         <div id="optionsRow" class="practice-slots-row">${optionsHtml}</div>
-        <div id="practiceFeedback" class="feedback" style="margin-top:12px;min-height:0;"></div>
+        <div id="practiceFeedback" class="feedback practice-feedback"></div>
         ${picChoiceSection}
-        <div style="margin-top:28px;display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+        <div class="practice-actions">
           <button type="button" class="practice-nav-btn btn primary" id="btnNext">下一词 →</button>
         </div>
       </section>`;
@@ -231,6 +369,17 @@
             });
             opt.addEventListener("dragend", () => {
               opt.style.opacity = "1";
+            });
+            opt.addEventListener("click", () => {
+              const emptySlot = document.querySelector("#slotsRow .practice-slot:not(.filled)");
+              if (!emptySlot || emptySlot.textContent !== "_") return;
+              const ch = opt.dataset.char;
+              const id = opt.getAttribute("data-id") || "";
+              emptySlot.textContent = ch;
+              emptySlot.classList.add("filled");
+              emptySlot.dataset.filled = ch;
+              opt.remove();
+              checkAllFilled();
             });
           });
 

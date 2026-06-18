@@ -2,10 +2,74 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>Lesson 02 · Letter T 涂色卡片</title>
     <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Patrick+Hand&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="coloring-shared.css">
+    <style>
+        html {
+            -webkit-text-size-adjust: 100%;
+            text-size-adjust: 100%;
+        }
+        body.coloring-body {
+            min-height: 100dvh;
+            overflow-x: clip;
+            -webkit-tap-highlight-color: rgba(126, 87, 194, 0.12);
+            padding-bottom: max(48px, env(safe-area-inset-bottom));
+        }
+        .coloring-toolbar {
+            padding-top: max(14px, env(safe-area-inset-top));
+            padding-left: max(20px, env(safe-area-inset-left));
+            padding-right: max(20px, env(safe-area-inset-right));
+        }
+        .coloring-toolbar a,
+        .coloring-toolbar button {
+            min-height: 44px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            touch-action: manipulation;
+        }
+        .page-viewport {
+            width: min(210mm, calc(100vw - 24px));
+            margin: 16px auto;
+            overflow: hidden;
+        }
+        .page-viewport .coloring-sheet {
+            margin: 0;
+        }
+        @media screen and (max-width: 720px) {
+            .coloring-toolbar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .coloring-toolbar a,
+            .coloring-toolbar button {
+                width: 100%;
+            }
+            .page-viewport {
+                width: calc(100vw - 16px);
+                margin: 12px auto;
+            }
+        }
+        @media (hover: none) and (pointer: coarse) {
+            .coloring-toolbar a:hover,
+            .coloring-toolbar button:hover { transform: none; }
+        }
+        @media print {
+            body.coloring-body { padding-bottom: 0; }
+            .page-viewport {
+                width: auto;
+                height: auto;
+                overflow: visible;
+                margin: 0;
+            }
+            .page-viewport .coloring-sheet {
+                transform: none !important;
+                margin: 20px 0;
+            }
+        }
+    </style>
 </head>
 <body class="coloring-body">
     <div class="coloring-toolbar no-print">
@@ -39,5 +103,40 @@
             </div>
         </div>
     </div>
+    <script>
+    (function () {
+        var sheet = document.querySelector('.coloring-sheet');
+        if (sheet) {
+            var vp = document.createElement('div');
+            vp.className = 'page-viewport';
+            sheet.parentNode.insertBefore(vp, sheet);
+            vp.appendChild(sheet);
+        }
+
+        function fitPageViewports() {
+            if (window.matchMedia('print').matches) return;
+            document.querySelectorAll('.page-viewport').forEach(function (vp) {
+                var el = vp.querySelector('.coloring-sheet');
+                if (!el) return;
+                el.style.transform = 'none';
+                el.style.transformOrigin = 'top left';
+                var naturalW = el.offsetWidth;
+                var targetW = vp.clientWidth;
+                if (!naturalW || !targetW) return;
+                var scale = Math.min(1, targetW / naturalW);
+                el.style.transform = scale < 1 ? 'scale(' + scale + ')' : 'none';
+                vp.style.height = scale < 1 ? el.offsetHeight * scale + 'px' : 'auto';
+            });
+        }
+
+        var fitTimer;
+        window.addEventListener('resize', function () {
+            clearTimeout(fitTimer);
+            fitTimer = setTimeout(fitPageViewports, 120);
+        });
+        window.addEventListener('orientationchange', fitPageViewports);
+        window.addEventListener('load', fitPageViewports);
+    })();
+    </script>
 </body>
 </html>

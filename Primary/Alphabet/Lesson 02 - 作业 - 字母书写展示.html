@@ -2,7 +2,8 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>字母书写 · 教师手写展示</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <title>Lesson 02 · 字母书写展示</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Patrick+Hand&display=swap" rel="stylesheet">
@@ -10,9 +11,9 @@
     <style>
         :root {
             --bg: #F0F4F8;
-            --primary: #FF8A80;
+            --primary: #7e57c2;
             --secondary: #4DB6AC;
-            --accent: #B388FF;
+            --accent: #7e57c2;
             --text: #455A64;
             --text-dark: #2C3E50;
             --line-blue: #90CAF9;
@@ -23,57 +24,105 @@
             --font-ui: 'Fredoka', sans-serif;
         }
 
+        html {
+            -webkit-text-size-adjust: 100%;
+            text-size-adjust: 100%;
+        }
+
         body, html {
             margin: 0;
             padding: 0;
             font-family: var(--font-ui);
             background: var(--bg);
-            height: 100vh;
+            height: 100dvh;
+            max-height: 100dvh;
             overflow: hidden;
         }
         body {
             display: flex;
             flex-direction: column;
+            -webkit-tap-highlight-color: rgba(126, 87, 194, 0.12);
         }
+
+        .back-hub {
+            flex-shrink: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            min-width: 44px;
+            min-height: 44px;
+            border-radius: 50%;
+            border: 2px solid #b39ddb;
+            background: rgba(255, 255, 255, 0.95);
+            color: #5e35b1;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-decoration: none;
+            touch-action: manipulation;
+        }
+        .back-hub:active { background: #ede7f6; }
 
         .top-bar {
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            padding: 10px 20px;
-            background: rgba(255, 255, 255, 0.9);
+            justify-content: flex-start;
+            padding:
+                max(10px, env(safe-area-inset-top))
+                max(16px, env(safe-area-inset-right))
+                10px
+                max(12px, env(safe-area-inset-left));
+            background: rgba(255, 255, 255, 0.92);
             border-bottom: 2px solid rgba(0, 0, 0, 0.05);
             flex-shrink: 0;
-            gap: 12px;
+            gap: 10px;
+        }
+        .top-bar-main {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            flex-wrap: wrap;
         }
         .top-bar h1 {
             margin: 0;
-            font-size: 1.1rem;
+            font-size: clamp(0.92rem, 3.2vw, 1.1rem);
             color: var(--text);
             font-weight: 700;
         }
         .top-bar .hint-text {
-            font-size: 0.82rem;
+            font-size: 0.78rem;
             color: #78909c;
         }
 
         .alphabet-ribbon {
             display: flex;
-            gap: 12px;
-            padding: 12px 16px;
+            gap: 10px;
+            padding:
+                10px
+                max(12px, env(safe-area-inset-right))
+                10px
+                max(12px, env(safe-area-inset-left));
             overflow-x: auto;
             width: 100%;
-            height: 100px;
+            height: 96px;
             box-sizing: border-box;
             background: rgba(255, 255, 255, 0.55);
             scrollbar-width: none;
             flex-shrink: 0;
+            -webkit-overflow-scrolling: touch;
         }
         .alphabet-ribbon::-webkit-scrollbar { display: none; }
 
         .letter-tile {
-            flex: 0 0 68px;
-            height: 68px;
+            flex: 0 0 64px;
+            width: 64px;
+            height: 64px;
+            min-width: 44px;
+            min-height: 44px;
             background: white;
             border-radius: 14px;
             display: flex;
@@ -81,28 +130,34 @@
             align-items: center;
             justify-content: center;
             font-family: var(--font-hand);
-            font-size: 1.5rem;
+            font-size: 1.45rem;
             font-weight: 700;
             color: var(--primary);
             box-shadow: 0 5px 0 #ddd, 0 8px 16px rgba(0, 0, 0, 0.05);
             cursor: pointer;
             transition: 0.2s;
             user-select: none;
-            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
         }
         .letter-tile.active {
             transform: translateY(-3px);
             background: var(--accent);
             color: white;
-            box-shadow: 0 5px 0 #7E57C2, 0 10px 20px rgba(179, 136, 255, 0.28);
+            box-shadow: 0 5px 0 #5e35b1, 0 10px 20px rgba(126, 87, 194, 0.28);
         }
+        .letter-tile:active { transform: scale(0.96); }
+        .letter-tile.active:active { transform: translateY(-1px) scale(0.98); }
 
         .stage {
             flex: 1;
             display: flex;
             align-items: stretch;
             justify-content: center;
-            padding: 12px 16px 16px;
+            padding:
+                10px
+                max(12px, env(safe-area-inset-right))
+                max(12px, env(safe-area-inset-bottom))
+                max(12px, env(safe-area-inset-left));
             min-height: 0;
         }
 
@@ -153,13 +208,14 @@
         .btn-tool {
             font-size: 0.82rem;
             padding: 8px 14px;
+            min-height: 44px;
             border-radius: 999px;
             border: none;
             cursor: pointer;
             font-family: var(--font-ui);
             font-weight: 700;
             user-select: none;
-            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
         }
         .btn-clear { background: var(--secondary); color: #fff; }
         .btn-pen { background: #fff; color: var(--text); border: 2px solid #cfd8dc; }
@@ -256,28 +312,77 @@
 
         .fab-group {
             position: fixed;
-            right: 20px;
-            bottom: 20px;
+            right: max(16px, env(safe-area-inset-right));
+            bottom: max(16px, env(safe-area-inset-bottom));
             z-index: 100;
         }
         .fab {
-            width: 60px;
-            height: 60px;
+            width: 56px;
+            height: 56px;
+            min-width: 44px;
+            min-height: 44px;
             border-radius: 50%;
             border: none;
             color: white;
-            font-size: 1.5rem;
+            font-size: 1.45rem;
             cursor: pointer;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 8px 20px rgba(94, 53, 177, 0.25);
             background: var(--accent);
+            touch-action: manipulation;
+        }
+        .fab:active { transform: scale(0.94); }
+
+        @media screen and (max-width: 720px) {
+            .top-bar-main {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .top-bar .hint-text { line-height: 1.35; }
+            .board-head {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .board-tools { justify-content: center; }
+            .board-tools .btn-tool { flex: 1; min-width: 0; }
+            .alphabet-ribbon { height: 88px; }
+            .letter-tile {
+                flex: 0 0 56px;
+                width: 56px;
+                height: 56px;
+                font-size: 1.25rem;
+            }
+            .board-body { min-height: 200px; margin: 8px; }
+        }
+
+        @media screen and (max-height: 520px) {
+            .alphabet-ribbon { height: 76px; padding-top: 6px; padding-bottom: 6px; }
+            .letter-tile {
+                flex: 0 0 52px;
+                width: 52px;
+                height: 52px;
+                font-size: 1.15rem;
+            }
+            .top-bar .hint-text { display: none; }
+        }
+
+        @media (hover: none) and (pointer: coarse) {
+            .letter-tile:hover { transform: none; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .letter-tile,
+            .guide-layer { transition: none !important; }
         }
     </style>
 </head>
 <body>
 
     <div class="top-bar">
-        <h1>✏️ 字母书写 · 教师手写展示</h1>
-        <span class="hint-text">触屏或鼠标在四线格上书写示范</span>
+        <a class="back-hub" href="index.html" title="返回 Alphabet">←</a>
+        <div class="top-bar-main">
+            <h1>✏️ 字母书写 · 教师手写展示</h1>
+            <span class="hint-text">触屏或鼠标在四线格上书写示范</span>
+        </div>
     </div>
 
     <div class="alphabet-ribbon" id="ribbon"></div>
@@ -413,7 +518,10 @@
             currentL = l;
             document.querySelectorAll('.letter-tile').forEach((t) => t.classList.remove('active'));
             el.classList.add('active');
-            el.scrollIntoView({ behavior: 'smooth', inline: 'center' });
+            el.scrollIntoView({
+                behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+                inline: 'center'
+            });
             document.getElementById('current-letter').textContent = `${l}${l.toLowerCase()}`;
             document.getElementById('board-hint').style.display = 'none';
             clearBoard();
@@ -448,6 +556,7 @@
             canvas.addEventListener('touchend', endDraw);
             canvas.addEventListener('touchcancel', endDraw);
             window.addEventListener('resize', resizeCanvas);
+            window.addEventListener('orientationchange', resizeCanvas);
         }
 
         function initApp() {

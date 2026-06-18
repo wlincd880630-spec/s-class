@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>选词设置 · Jump, Pup! 复习游戏</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -11,14 +11,24 @@
   <style>
     :root { --gold: #f5c400; --ink: #1a1a1a; --paper: #f7f5f0; --accent: #2e7d32; }
     * { box-sizing: border-box; margin: 0; padding: 0; }
+    html {
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
     body {
       font-family: "Noto Sans SC", sans-serif;
-      min-height: 100vh;
+      min-height: 100dvh;
       background: linear-gradient(165deg, #37474f, #1b2327);
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 0.75rem 0.5rem 2.5rem;
+      overflow-x: clip;
+      -webkit-tap-highlight-color: rgba(67, 160, 71, 0.12);
+      padding:
+        max(0.75rem, env(safe-area-inset-top))
+        max(0.5rem, env(safe-area-inset-right))
+        max(2.5rem, env(safe-area-inset-bottom))
+        max(0.5rem, env(safe-area-inset-left));
     }
     .toolbar {
       width: 100%;
@@ -34,19 +44,32 @@
       justify-content: space-between;
       gap: 0.5rem;
     }
-    .toolbar h1 { font-family: "Fredoka", sans-serif; font-size: 1.05rem; color: var(--ink); }
+    .toolbar h1 {
+      font-family: "Fredoka", sans-serif;
+      font-size: clamp(0.95rem, 3.5vw, 1.05rem);
+      color: var(--ink);
+      flex: 1;
+      min-width: 0;
+    }
     .btn {
       font-family: "Fredoka", sans-serif;
       font-weight: 700;
       border: 2px solid var(--ink);
       border-radius: 999px;
       padding: 0.4rem 0.95rem;
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       cursor: pointer;
       background: #fff;
       font-size: 0.88rem;
       text-decoration: none;
       color: var(--ink);
+      touch-action: manipulation;
+      flex-shrink: 0;
     }
+    .btn:active { filter: brightness(0.96); }
     .btn.primary { background: var(--gold); }
     .panel {
       width: min(40rem, 100%);
@@ -70,14 +93,24 @@
       display: flex;
       align-items: center;
       gap: 0.4rem;
-      padding: 0.45rem 0.55rem;
+      padding: 0.5rem 0.55rem;
+      min-height: 52px;
       border: 2px solid #d4cfc3;
       border-radius: 10px;
       background: #fff;
       cursor: pointer;
+      touch-action: manipulation;
+      -webkit-user-select: none;
+      user-select: none;
     }
     .word-item.on { border-color: var(--accent); background: #e8f5e9; }
-    .word-item input { accent-color: var(--accent); width: 1rem; height: 1rem; }
+    .word-item:active { background: #f1f8e9; }
+    .word-item input {
+      accent-color: var(--accent);
+      width: 1.15rem;
+      height: 1.15rem;
+      flex-shrink: 0;
+    }
     .word-item .en { font-family: "Patrick Hand", cursive; font-size: 1.05rem; font-weight: 700; color: var(--ink); }
     .word-item .zh { font-size: 0.68rem; color: #78909c; display: block; }
     .warn {
@@ -92,7 +125,42 @@
     }
     .warn.show { display: block; }
     .actions { margin-top: 1rem; text-align: center; }
-    .actions .btn.big { padding: 0.6rem 1.5rem; font-size: 1rem; }
+    .actions .btn.big {
+      padding: 0.6rem 1.5rem;
+      font-size: 1rem;
+      min-height: 48px;
+      width: 100%;
+      max-width: 20rem;
+    }
+    @media screen and (max-width: 720px) {
+      .toolbar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .toolbar .btn {
+        width: 100%;
+      }
+      .presets {
+        flex-direction: column;
+      }
+      .presets .btn {
+        width: 100%;
+      }
+      .word-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .actions .btn.big {
+        max-width: none;
+      }
+    }
+    @media screen and (max-width: 380px) {
+      .word-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .btn:active { filter: none; }
+    }
   </style>
 </head>
 <body>

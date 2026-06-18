@@ -23,11 +23,14 @@
         }
         *, *::before, *::after { box-sizing: border-box; }
         html, body {
-            margin: 0; min-height: 100vh;
+            margin: 0; min-height: 100dvh;
             font-family: var(--font);
             color: var(--ink);
             background: var(--bg);
-            overflow-x: hidden;
+            overflow-x: clip;
+            -webkit-text-size-adjust: 100%;
+            text-size-adjust: 100%;
+            -webkit-tap-highlight-color: rgba(126, 87, 194, 0.12);
             touch-action: manipulation;
             user-select: none;
             -webkit-user-select: none;
@@ -64,12 +67,20 @@
         .topbar {
             position: sticky; top: 0; z-index: 100;
             display: flex; align-items: center; justify-content: space-between;
-            padding: 12px 18px;
+            gap: 10px;
+            padding:
+                max(12px, env(safe-area-inset-top))
+                max(18px, env(safe-area-inset-right))
+                12px
+                max(18px, env(safe-area-inset-left));
             background: rgba(255,255,255,0.92);
             backdrop-filter: blur(10px);
             box-shadow: 0 2px 16px rgba(0,0,0,0.06);
         }
-        .topbar h1 { margin: 0; font-size: 1.15rem; font-weight: 700; }
+        .topbar h1 {
+            margin: 0; font-size: clamp(0.95rem, 3.5vw, 1.15rem); font-weight: 700;
+            flex: 1; min-width: 0;
+        }
         .score-pill {
             background: linear-gradient(135deg, var(--accent), var(--accent2));
             color: #fff; font-weight: 700;
@@ -79,16 +90,26 @@
         }
         .btn-icon {
             border: none; background: #eceff1; cursor: pointer;
-            width: 42px; height: 42px; border-radius: 50%;
+            width: 44px; height: 44px; min-width: 44px; min-height: 44px;
+            border-radius: 50%;
             font-size: 1.2rem; display: flex; align-items: center; justify-content: center;
             transition: transform 0.15s;
+            touch-action: manipulation;
+            text-decoration: none;
+            color: inherit;
+            flex-shrink: 0;
         }
         .btn-icon:hover { transform: scale(1.08); }
+        .btn-icon:active { transform: scale(0.96); }
 
         /* —— 大厅 —— */
         .hub {
             max-width: 980px; margin: 0 auto;
-            padding: 20px 18px 48px;
+            padding:
+                20px
+                max(18px, env(safe-area-inset-right))
+                max(48px, calc(28px + env(safe-area-inset-bottom)))
+                max(18px, env(safe-area-inset-left));
         }
         .hub-hero {
             position: relative;
@@ -177,9 +198,11 @@
         .preset-btn {
             border: 2px solid #e0e0e0; background: #fff;
             border-radius: 999px; padding: 6px 14px;
+            min-height: 44px;
             font-family: inherit; font-size: 0.82rem; font-weight: 600;
             cursor: pointer; color: var(--ink);
             transition: background 0.15s, border-color 0.15s;
+            touch-action: manipulation;
         }
         .preset-btn:hover { border-color: var(--accent2); background: #f3e5f5; }
         .letter-picker-grid {
@@ -207,7 +230,9 @@
         .letter-pick-btn:not(.on) { opacity: 0.45; }
         .letter-pick-btn:active { transform: scale(0.94); }
         .practice-toast {
-            position: fixed; left: 50%; bottom: 28px; z-index: 200;
+            position: fixed; left: 50%;
+            bottom: max(28px, calc(16px + env(safe-area-inset-bottom)));
+            z-index: 200;
             transform: translateX(-50%) translateY(120%);
             background: #37474f; color: #fff;
             padding: 14px 22px; border-radius: 16px;
@@ -221,7 +246,11 @@
         /* —— 游戏区通用 —— */
         .game-screen {
             max-width: 920px; margin: 0 auto;
-            padding: 12px 16px 48px;
+            padding:
+                12px
+                max(16px, env(safe-area-inset-right))
+                max(48px, calc(28px + env(safe-area-inset-bottom)))
+                max(16px, env(safe-area-inset-left));
             animation: screen-in 0.45s ease;
         }
         @keyframes screen-in {
@@ -796,7 +825,11 @@
             position: fixed; inset: 0; z-index: 500;
             background: rgba(38, 50, 56, 0.55);
             display: flex; align-items: center; justify-content: center;
-            padding: 20px;
+            padding:
+                max(20px, env(safe-area-inset-top))
+                max(20px, env(safe-area-inset-right))
+                max(20px, env(safe-area-inset-bottom))
+                max(20px, env(safe-area-inset-left));
             backdrop-filter: blur(4px);
         }
         .result-card {
@@ -818,12 +851,16 @@
         .result-card h3 { margin: 0 0 8px; font-size: 1.5rem; color: var(--accent); }
         .result-card p { margin: 0 0 20px; color: #78909c; }
         .btn-main {
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             border: none; cursor: pointer;
             font-family: var(--font); font-weight: 700;
             padding: 13px 28px; border-radius: 999px;
+            min-height: 48px;
             font-size: 1rem; margin: 4px;
             transition: transform 0.15s;
+            touch-action: manipulation;
         }
         .btn-main:hover { transform: translateY(-2px); }
         .btn-primary { background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #fff; }
@@ -832,13 +869,47 @@
         #confetti-canvas {
             position: fixed; inset: 0; pointer-events: none; z-index: 600;
         }
+
+        .game-card, .choice-btn, .pair-tile, .listen-letter-btn, .letter-pick-btn {
+            touch-action: manipulation;
+        }
+
+        @media screen and (max-width: 720px) {
+            .topbar { flex-wrap: wrap; }
+            .score-pill { font-size: 0.88rem; padding: 8px 12px; }
+            .game-grid { grid-template-columns: 1fr; }
+            .practice-target-head { flex-direction: column; }
+            .practice-presets { flex-direction: column; }
+            .preset-btn { width: 100%; }
+            .practice-summary { white-space: normal; text-align: center; width: 100%; }
+            .result-card .btn-main {
+                display: flex;
+                width: 100%;
+                margin: 6px 0 0;
+            }
+        }
+
+        @media (hover: none) and (pointer: coarse) {
+            .game-card:hover { transform: none; box-shadow: var(--shadow); }
+            .choice-btn:hover { transform: none; }
+            .btn-main:hover { transform: none; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .game-screen { animation: none !important; }
+            .progress-fill { animation: none !important; }
+            .result-card { animation: none !important; }
+            .choice-btn.correct, .choice-btn.wrong, .pair-tile.wrong-flash,
+            .listen-letter-btn.wrong { animation: none !important; }
+        }
     </style>
 </head>
 <body>
     <canvas id="confetti-canvas"></canvas>
 
     <header class="topbar">
-        <button type="button" class="btn-icon hidden" id="btn-back" title="返回">←</button>
+        <a class="btn-icon" href="index.html" id="topbar-alphabet" title="Alphabet 首页">⌂</a>
+        <button type="button" class="btn-icon hidden" id="btn-back" title="返回大厅">←</button>
         <h1 id="top-title">Lesson 02 · 字母练习</h1>
         <div class="score-pill" id="score-pill">⭐ 0</div>
     </header>
@@ -1283,6 +1354,7 @@
             });
             const inHub = id === 'screen-hub';
             document.getElementById('btn-back').classList.toggle('hidden', inHub);
+            document.getElementById('topbar-alphabet').classList.toggle('hidden', !inHub);
             const gameNum = id.startsWith('screen-g') ? id.replace('screen-g', '') : '';
             document.body.dataset.game = gameNum;
         }

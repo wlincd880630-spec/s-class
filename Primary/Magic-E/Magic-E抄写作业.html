@@ -2,6 +2,7 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Magic E 抄写作业 · Silent E / CVCE</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -32,13 +33,45 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-bottom: 48px;
+  padding-bottom: max(48px, env(safe-area-inset-bottom));
+  min-height: 100dvh;
+  overflow-x: clip;
+  -webkit-tap-highlight-color: rgba(126, 87, 194, 0.12);
+}
+
+.back-hub {
+  align-self: flex-start;
+  margin: 12px 0 0 max(16px, env(safe-area-inset-left));
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 6px 14px 6px 10px;
+  border-radius: 999px;
+  border: 2px solid #B39DDB;
+  background: rgba(255, 255, 255, 0.95);
+  color: #5E35B1;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-decoration: none;
+  touch-action: manipulation;
+}
+.back-hub:active { background: #EDE7F6; }
+
+#app {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .hidden { display: none !important; }
 
 .toolbar {
   width: 100%; padding: 12px 24px;
+  padding-top: max(12px, env(safe-area-inset-top));
+  padding-left: max(16px, env(safe-area-inset-left));
+  padding-right: max(16px, env(safe-area-inset-right));
   background: #fff;
   box-shadow: 0 2px 18px rgba(0,0,0,.2);
   display: flex; align-items: center; justify-content: space-between;
@@ -52,16 +85,30 @@ body {
 }
 .toolbar-left .icon { font-size: 1.4rem; }
 
-.vowel-tabs { display: flex; gap: 8px; flex-wrap: wrap; }
+.vowel-tabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  max-width: 100%;
+  flex: 1 1 auto;
+  justify-content: flex-end;
+}
+.vowel-tabs::-webkit-scrollbar { display: none; }
 .vtab {
   border: 2.5px solid transparent;
   border-radius: 50px;
   padding: 9px 18px;
+  min-height: 44px;
   font-family: var(--font-ui);
   font-size: 0.95rem; font-weight: 700;
   cursor: pointer; transition: .18s;
   background: #F5F5F5; color: #888;
   white-space: nowrap;
+  flex-shrink: 0;
+  touch-action: manipulation;
 }
 .vtab:hover { transform: translateY(-2px); }
 .vtab[data-v="a"] { --c:#1E88E5; --bg:#E3F2FD; }
@@ -78,16 +125,25 @@ body {
 
 .btn-print {
   background: #7E57C2; color: #fff; border: none;
-  padding: 10px 28px; border-radius: 50px;
+  padding: 10px 28px; min-height: 44px;
+  border-radius: 50px;
   font-family: var(--font-ui); font-size: 1.05rem; font-weight: 700;
   cursor: pointer; transition: .18s;
   box-shadow: 0 4px 12px rgba(126,87,194,.35);
   white-space: nowrap;
+  touch-action: manipulation;
+  flex-shrink: 0;
 }
 .btn-print:hover { transform: scale(1.05); background: #5E35B1; }
 
-.vowel-section { display: none; }
-.vowel-section.active { display: block; }
+.vowel-section { display: none; width: 100%; }
+.vowel-section.active { display: flex; flex-direction: column; align-items: center; }
+
+.page-viewport {
+  width: min(210mm, calc(100vw - 24px));
+  margin: 24px auto;
+  overflow: hidden;
+}
 
 .page {
   background: #fff;
@@ -232,7 +288,8 @@ body {
 .write-row.row2 .cell.trace { color: rgba(144,202,249,.28); }
 
 #error-banner {
-  max-width: 210mm;
+  width: min(210mm, calc(100vw - 24px));
+  max-width: 100%;
   margin: 16px 12px;
   padding: 14px 20px;
   background: #FFEBEE;
@@ -243,12 +300,54 @@ body {
   line-height: 1.5;
 }
 
+@media screen and (max-width: 720px) {
+  .toolbar-left span:not(.icon) {
+    font-size: 0.92rem;
+  }
+  .toolbar {
+    justify-content: center;
+  }
+  .btn-print {
+    width: 100%;
+    justify-content: center;
+  }
+  .page-viewport {
+    width: calc(100vw - 16px);
+    margin: 12px auto;
+  }
+  .page {
+    margin: 0;
+    box-shadow: 0 0 24px rgba(0,0,0,.45);
+  }
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .vtab:hover { transform: none; }
+  .vtab:active { transform: scale(0.98); }
+  .btn-print:hover { transform: none; }
+  .btn-print:active { transform: scale(0.98); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vtab, .btn-print { transition: none !important; }
+}
+
 @media print {
   body { background: #fff; padding: 0; }
+  .back-hub { display: none !important; }
   .toolbar { display: none !important; }
   .vowel-section { display: none !important; }
   .vowel-section.active { display: block !important; }
   #error-banner { display: none !important; }
+  .page-viewport {
+    width: auto;
+    height: auto;
+    overflow: visible;
+    margin: 0;
+  }
+  .page-viewport .page {
+    transform: none !important;
+  }
   .page {
     margin: 0; box-shadow: none; border: none;
     width: 210mm; height: 297mm;
@@ -259,6 +358,8 @@ body {
 </style>
 </head>
 <body>
+
+<a class="back-hub" href="./magic-e.html">← Magic E 首页</a>
 
 <div class="toolbar">
   <div class="toolbar-left">
@@ -396,6 +497,9 @@ function buildWordBlock(word, accentColor, chinese, vowelKey, wordIdx) {
 }
 
 function buildPage(vKey, patternLabel, pageItems, pageNum, totalPages, theme) {
+  const viewport = document.createElement('div');
+  viewport.className = 'page-viewport';
+
   const page = document.createElement('div');
   page.className = 'page';
 
@@ -425,7 +529,24 @@ function buildPage(vKey, patternLabel, pageItems, pageNum, totalPages, theme) {
     `Words: ${wordList}  |  Page ${pageNum} / ${totalPages}`;
   page.appendChild(ftr);
 
-  return page;
+  viewport.appendChild(page);
+  return viewport;
+}
+
+function fitPageViewports() {
+  if (window.matchMedia('print').matches) return;
+  document.querySelectorAll('.page-viewport').forEach((vp) => {
+    const page = vp.querySelector('.page');
+    if (!page) return;
+    page.style.transform = 'none';
+    page.style.transformOrigin = 'top left';
+    const naturalW = page.offsetWidth;
+    const targetW = vp.clientWidth;
+    if (!naturalW || !targetW) return;
+    const scale = Math.min(1, targetW / naturalW);
+    page.style.transform = scale < 1 ? `scale(${scale})` : 'none';
+    vp.style.height = scale < 1 ? `${page.offsetHeight * scale}px` : 'auto';
+  });
 }
 
 function showVowel(v) {
@@ -436,6 +557,7 @@ function showVowel(v) {
   const tab = document.querySelector(`.vtab[data-v="${v}"]`);
   if (tab) tab.classList.add('active');
   window.scrollTo({ top: 0, behavior: 'smooth' });
+  fitPageViewports();
 }
 
 function renderTabs() {
@@ -483,7 +605,15 @@ function buildAll() {
     });
     app.appendChild(section);
   });
+  fitPageViewports();
 }
+
+let fitTimer;
+window.addEventListener('resize', () => {
+  clearTimeout(fitTimer);
+  fitTimer = setTimeout(fitPageViewports, 120);
+});
+window.addEventListener('orientationchange', fitPageViewports);
 
 window.addEventListener('load', buildAll);
 </script>

@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>听音接爪 · Peek, Otter!</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -20,14 +20,24 @@
       --pic-ar: 4 / 3;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
+    html {
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
     body {
       font-family: "Noto Sans SC", sans-serif;
-      min-height: 100vh;
+      min-height: 100dvh;
       background: linear-gradient(165deg, #37474f, #1b2327);
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 0.75rem 0.5rem 2rem;
+      overflow-x: clip;
+      -webkit-tap-highlight-color: rgba(0, 172, 193, 0.12);
+      padding:
+        max(0.75rem, env(safe-area-inset-top))
+        max(0.5rem, env(safe-area-inset-right))
+        max(2rem, env(safe-area-inset-bottom))
+        max(0.5rem, env(safe-area-inset-left));
     }
     .toolbar {
       width: 100%;
@@ -43,7 +53,11 @@
       margin-bottom: 1rem;
       border-radius: 0 0 8px 8px;
     }
-    .toolbar h1 { font-family: "Fredoka", sans-serif; font-size: 1.05rem; color: var(--ink); }
+    .toolbar h1 {
+      font-family: "Fredoka", sans-serif;
+      font-size: clamp(0.95rem, 3.5vw, 1.05rem);
+      color: var(--ink);
+    }
     .toolbar .meta { font-size: 0.8rem; color: #78909c; }
     .toolbar .btns { display: flex; gap: 0.4rem; flex-wrap: wrap; }
     .btn {
@@ -52,12 +66,20 @@
       border: none;
       border-radius: 999px;
       padding: 0.45rem 1rem;
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       cursor: pointer;
       font-size: 0.88rem;
       background: #fff;
       border: 2px solid var(--ink);
       color: var(--ink);
+      text-decoration: none;
+      touch-action: manipulation;
+      flex-shrink: 0;
     }
+    .btn:active { filter: brightness(0.96); }
     .btn.primary { background: var(--gold); border-color: #c9a008; }
     .btn.big { font-size: 1.05rem; padding: 0.65rem 1.75rem; }
     .stage {
@@ -105,14 +127,19 @@
       font-size: 0.88rem;
       font-weight: 600;
       padding: 0.5rem 0.85rem;
+      min-height: 48px;
       border: 2.5px solid #d4cfc3;
       border-radius: 12px;
       background: #fff;
       cursor: pointer;
       color: var(--ink);
       transition: border-color 0.12s, background 0.12s, transform 0.1s;
+      touch-action: manipulation;
+      -webkit-user-select: none;
+      user-select: none;
     }
     .choice:hover { border-color: var(--accent); transform: translateY(-1px); }
+    .choice:active { transform: scale(0.98); }
     .choice.on {
       border-color: var(--accent);
       background: #e8f5e9;
@@ -230,12 +257,14 @@
       font-family: "Fredoka", sans-serif;
       margin-top: 0.25rem;
       padding: 0.35rem 1rem;
+      min-height: 44px;
       border-radius: 999px;
       border: 2px solid var(--ink);
       background: var(--gold);
       cursor: pointer;
       font-weight: 700;
       font-size: 0.95rem;
+      touch-action: manipulation;
     }
     .actions {
       display: grid;
@@ -259,14 +288,19 @@
       align-items: center;
       gap: 0.2rem;
       padding: 0.55rem 0.25rem;
+      min-height: 72px;
       border: 2.5px solid #d4cfc3;
       border-radius: 12px;
       background: #fff;
       cursor: pointer;
       transition: transform 0.12s, border-color 0.12s, background 0.12s;
       font-family: inherit;
+      touch-action: manipulation;
+      -webkit-user-select: none;
+      user-select: none;
     }
     .act:hover:not(:disabled) { transform: scale(1.04); border-color: var(--accent); }
+    .act:active:not(:disabled) { transform: scale(0.97); }
     .act:disabled { opacity: 0.55; cursor: default; }
     .act .pic {
       width: 100%;
@@ -312,7 +346,11 @@
       align-items: center;
       justify-content: center;
       z-index: 50;
-      padding: 1rem;
+      padding:
+        max(1rem, env(safe-area-inset-top))
+        max(1rem, env(safe-area-inset-right))
+        max(1rem, env(safe-area-inset-bottom))
+        max(1rem, env(safe-area-inset-left));
     }
     .overlay.show { display: flex; }
     .modal {
@@ -322,6 +360,7 @@
       padding: 1.5rem 1.75rem;
       text-align: center;
       max-width: 22rem;
+      width: 100%;
     }
     .modal h2 { font-family: "Fredoka", sans-serif; color: var(--accent); font-size: 1.6rem; }
     .modal p { margin: 0.6rem 0 1rem; color: #546e7a; line-height: 1.5; }
@@ -342,6 +381,58 @@
     }
     @keyframes fall {
       to { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+    }
+    @media screen and (max-width: 720px) {
+      .toolbar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .toolbar .btns {
+        width: 100%;
+        flex-direction: column;
+      }
+      .toolbar .btns .btn {
+        width: 100%;
+      }
+      .stage {
+        padding: 0.85rem 0.55rem 1rem;
+      }
+      .choice-row {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .choice {
+        width: 100%;
+        text-align: center;
+      }
+      .setup-actions .btn.big {
+        width: 100%;
+      }
+      .hud {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+      }
+      .timer-wrap {
+        max-width: none;
+        width: 100%;
+      }
+      .modal .btn {
+        display: flex;
+        width: 100%;
+        margin: 0.35rem 0 0;
+      }
+    }
+    @media (hover: none) and (pointer: coarse) {
+      .choice:hover { transform: none; }
+      .act:hover:not(:disabled) { transform: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .choice, .act { transition: none !important; }
+      .act.correct, .act.wrong { animation: none !important; }
+      .timer-bar { transition: none !important; }
+      .confetti i { animation: none !important; display: none; }
+      .btn:active { filter: none; }
     }
   </style>
 </head>

@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>课后作业 · 音节与闭音节（一题一页 · Azure）</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -25,20 +25,30 @@
       --font-body: "Nunito", system-ui, sans-serif;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { height: 100%; }
+    html {
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
+    html, body { min-height: 100dvh; }
     body {
       font-family: var(--font-body);
       color: var(--ink);
-      min-height: 100%;
+      min-height: 100dvh;
       background: linear-gradient(165deg, var(--cream) 0%, #ffe8ec 38%, #e8f6ff 100%);
       background-attachment: fixed;
-      padding: clamp(0.6rem, 2vw, 1.2rem);
+      padding:
+        max(clamp(0.6rem, 2vw, 1.2rem), env(safe-area-inset-top))
+        max(clamp(0.6rem, 2vw, 1.2rem), env(safe-area-inset-right))
+        max(clamp(0.6rem, 2vw, 1.2rem), env(safe-area-inset-bottom))
+        max(clamp(0.6rem, 2vw, 1.2rem), env(safe-area-inset-left));
       line-height: 1.6;
+      overflow-x: clip;
+      -webkit-tap-highlight-color: rgba(255, 154, 168, 0.15);
     }
     .shell {
       max-width: 640px;
       margin: 0 auto;
-      min-height: calc(100vh - 1.5rem);
+      min-height: calc(100dvh - 1.5rem - env(safe-area-inset-top) - env(safe-area-inset-bottom));
       display: flex;
       flex-direction: column;
       align-items: stretch;
@@ -152,6 +162,7 @@
       display: block;
       margin: 0.4rem 0;
       padding: 0.65rem 0.85rem;
+      min-height: 44px;
       border-radius: 16px;
       border: 2px solid rgba(61, 53, 69, 0.2);
       background: rgba(255, 255, 255, 0.85);
@@ -160,6 +171,7 @@
       font-size: 0.92rem;
       line-height: 1.45;
       transition: border-color 0.15s, background 0.15s;
+      touch-action: manipulation;
     }
     .opts label:hover {
       border-color: var(--ink);
@@ -186,6 +198,7 @@
     .ipa-row select {
       width: 100%;
       padding: 0.55rem 0.75rem;
+      min-height: 44px;
       border-radius: 12px;
       border: 2px solid var(--ink);
       font-weight: 700;
@@ -209,11 +222,13 @@
       border: 3px solid var(--ink);
       border-radius: 999px;
       padding: 0.55rem 1.35rem;
+      min-height: 44px;
       background: linear-gradient(180deg, var(--mint), #9dd9b8);
       cursor: pointer;
       box-shadow: 3px 3px 0 var(--shadow);
       font-size: 0.95rem;
       margin-top: 0.85rem;
+      touch-action: manipulation;
     }
     .btn:hover { filter: brightness(1.03); transform: translateY(-1px); }
     .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; filter: none; }
@@ -244,11 +259,13 @@
     .word-tabs button {
       font-weight: 800;
       padding: 0.35rem 0.65rem;
+      min-height: 44px;
       border: 2px solid var(--ink);
       border-radius: 999px;
       background: #fff;
       cursor: pointer;
       font-size: 0.8rem;
+      touch-action: manipulation;
     }
     .word-tabs button.is-on { background: var(--peach); box-shadow: 2px 2px 0 var(--shadow); }
     .letters {
@@ -269,7 +286,12 @@
       cursor: pointer;
       user-select: none;
       min-width: 1.1em;
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       text-align: center;
+      touch-action: manipulation;
     }
     .letters .ch.vowel-pick { background: var(--peach); }
     .letters .ch.vowel-ans { outline: 3px solid var(--ok); }
@@ -281,6 +303,7 @@
       cursor: pointer;
       border-radius: 6px;
       position: relative;
+      touch-action: manipulation;
     }
     .gap::after {
       content: "";
@@ -488,10 +511,12 @@
       border: 2px solid var(--ink);
       border-radius: 10px;
       padding: 0.42rem 0.15rem;
+      min-height: 44px;
       background: linear-gradient(180deg, #fff, var(--cream));
       cursor: pointer;
       font-size: 0.82rem;
       box-shadow: 2px 2px 0 var(--shadow);
+      touch-action: manipulation;
     }
     .dict-key:hover { filter: brightness(1.03); }
     .dict-key:active { transform: translateY(1px); }
@@ -568,9 +593,11 @@
       border: 2px solid var(--ink);
       border-radius: 10px;
       padding: 0.35rem 0.65rem;
+      min-height: 44px;
       background: var(--lilac);
       cursor: pointer;
       font-size: 0.78rem;
+      touch-action: manipulation;
     }
     .teacher-toolbar .btn-tiny:hover { filter: brightness(1.05); }
     .dots.teacher-on i { cursor: pointer; }
@@ -593,6 +620,34 @@
       font-size: 0.82rem;
       color: var(--ink-soft);
       margin-top: 0.2rem;
+    }
+
+    @media screen and (max-width: 520px) {
+      .teacher-toolbar { flex-direction: column; align-items: stretch; }
+      .teacher-toolbar .teacher-only { flex-direction: column; align-items: stretch; }
+      .teacher-toolbar select { min-width: 0; width: 100%; min-height: 44px; }
+      .teacher-toolbar .btn-tiny { width: 100%; }
+      .btn-row { flex-direction: column; align-items: stretch; }
+      .btn-row .btn { width: 100%; margin-top: 0.5rem; }
+      .progress-wrap { flex-direction: column; }
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+      .opts label:hover { border-color: rgba(61, 53, 69, 0.2); background: rgba(255, 255, 255, 0.85); }
+      .opts label:active { border-color: var(--ink); background: rgba(184, 232, 208, 0.35); }
+      .btn:hover { transform: none; filter: none; }
+      .btn:active { transform: scale(0.98); }
+      .dict-key:hover { filter: none; }
+      .gap:hover::after { width: 4px; background: rgba(61, 53, 69, 0.32); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .dots i,
+      .btn,
+      .opts label,
+      .word-stage,
+      .score-bar > i,
+      .rec-pulse { transition: none !important; animation: none !important; }
     }
   </style>
 </head>

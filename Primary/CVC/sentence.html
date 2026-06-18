@@ -2,7 +2,7 @@
 <html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>句子学习</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -11,6 +11,158 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="./styles.css" />
+    <style>
+      /* sentence.html · 学句子页（仅本页） */
+      html {
+        -webkit-text-size-adjust: 100%;
+        text-size-adjust: 100%;
+      }
+      body[data-page="sentence"] {
+        min-height: 100dvh;
+        overflow-x: clip;
+        -webkit-tap-highlight-color: rgba(79, 172, 247, 0.15);
+      }
+      body[data-page="sentence"] .topbar {
+        padding-top: env(safe-area-inset-top, 0);
+      }
+      body[data-page="sentence"] .topbar-inner {
+        padding-left: max(16px, env(safe-area-inset-left));
+        padding-right: max(16px, env(safe-area-inset-right));
+      }
+      body[data-page="sentence"] .container {
+        margin-top: 24px;
+        margin-bottom: max(48px, env(safe-area-inset-bottom));
+        padding-left: max(16px, env(safe-area-inset-left));
+        padding-right: max(16px, env(safe-area-inset-right));
+      }
+      .back-hub {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        margin-bottom: 16px;
+        min-height: 44px;
+        padding: 6px 14px 6px 10px;
+        border-radius: 999px;
+        border: 2px solid var(--blue-soft);
+        background: rgba(255, 255, 255, 0.9);
+        color: var(--text-lite);
+        font-size: 0.9rem;
+        font-weight: 700;
+        text-decoration: none;
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: transparent;
+      }
+      .back-hub:active { color: var(--blue-deep); border-color: var(--blue); }
+      body[data-page="sentence"] .sentence-panel-card {
+        margin-top: 20px;
+      }
+      body[data-page="sentence"] .title {
+        font-size: clamp(1.5rem, 6vw, 2.25rem);
+        letter-spacing: 0.5px;
+      }
+      body[data-page="sentence"] .sentence {
+        line-height: 1.75;
+        letter-spacing: 0;
+      }
+      body[data-page="sentence"] .token {
+        font-size: clamp(1rem, 4.2vw, 1.5rem);
+        padding: 8px 14px;
+        margin: 0 4px 8px 0;
+        touch-action: manipulation;
+      }
+      body[data-page="sentence"] .hint {
+        font-size: clamp(1rem, 3.8vw, 1.2rem);
+        line-height: 1.65;
+      }
+      .nav-actions {
+        margin-top: 18px;
+      }
+      @media (max-width: 860px) {
+        body[data-page="sentence"] .topbar-inner {
+          flex-wrap: wrap;
+          row-gap: 10px;
+        }
+        body[data-page="sentence"] .nav-buttons {
+          display: flex !important;
+          flex: 1 1 100%;
+          order: 3;
+          justify-content: flex-start;
+          flex-wrap: nowrap;
+          overflow-x: auto;
+          -webkit-overflow-scrolling: touch;
+          scrollbar-width: none;
+          padding-bottom: 4px;
+          gap: 8px;
+        }
+        body[data-page="sentence"] .nav-buttons::-webkit-scrollbar { display: none; }
+        body[data-page="sentence"] .nav-chip {
+          flex-shrink: 0;
+          min-height: 44px;
+          padding: 10px 16px;
+          font-size: 15px;
+        }
+        body[data-page="sentence"] .brand { font-size: 24px; }
+      }
+      @media (min-width: 521px) and (max-width: 860px) {
+        body[data-page="sentence"] .panel3 {
+          grid-template-columns: repeat(3, 1fr);
+          gap: 12px;
+        }
+        body[data-page="sentence"] .panel3 .image-box {
+          min-height: 150px;
+        }
+        body[data-page="sentence"] .panel3 .image-box img {
+          min-height: 130px;
+        }
+      }
+      @media (max-width: 520px) {
+        body[data-page="sentence"] .card {
+          padding: 20px 16px;
+        }
+        body[data-page="sentence"] .panel3 {
+          grid-template-columns: 1fr;
+          gap: 12px;
+        }
+        body[data-page="sentence"] .panel3 .image-box {
+          min-height: 180px;
+        }
+        body[data-page="sentence"] .panel3 .image-box img {
+          min-height: 160px;
+        }
+        body[data-page="sentence"] .info-row {
+          flex-direction: column;
+          align-items: stretch;
+          gap: 10px;
+        }
+        body[data-page="sentence"] .info-row .btn {
+          width: 100%;
+          min-height: 48px;
+          white-space: normal;
+          text-align: center;
+        }
+        body[data-page="sentence"] .hint {
+          padding: 12px 14px;
+        }
+      }
+      @media (hover: none) and (pointer: coarse) {
+        body[data-page="sentence"] .token:hover {
+          transform: none;
+          background: linear-gradient(145deg, #f0f9ff, #fff);
+        }
+        body[data-page="sentence"] .token:active {
+          top: 3px;
+          box-shadow: 0 1px 0 var(--blue-soft);
+          background: #e0f3ff;
+        }
+        body[data-page="sentence"] .btn:hover { transform: none; filter: none; }
+        body[data-page="sentence"] .nav-chip:hover { transform: none; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        body[data-page="sentence"] .token,
+        body[data-page="sentence"] .btn,
+        body[data-page="sentence"] .nav-chip { transition: none !important; }
+      }
+    </style>
   </head>
   <body data-page="sentence">
     <header class="topbar">
@@ -20,6 +172,7 @@
       </div>
     </header>
     <main class="container">
+      <a class="back-hub" id="btnBackWord" href="./word.html">↩ 回到单词</a>
       <section class="card">
         <h1 class="title"><span id="sentenceWord"></span> 句子学习</h1>
         <p id="sentenceEn" class="sentence"></p>
@@ -29,13 +182,13 @@
           <button id="btnShowSentenceCn" class="btn">显示/隐藏中文</button>
         </div>
       </section>
-      <section class="card" style="margin-top: 20px">
+      <section class="card sentence-panel-card">
         <div class="panel3">
           <div class="image-box"><img id="senImg1" alt="panel 1" /></div>
           <div class="image-box"><img id="senImg2" alt="panel 2" /></div>
           <div class="image-box"><img id="senImg3" alt="panel 3" /></div>
         </div>
-        <div class="info-row" style="margin-top: 18px">
+        <div class="info-row nav-actions">
           <a id="btnPrevSentence" class="btn soft" href="#">上一个</a>
           <a id="btnNextSentence" class="btn success" href="#">下一个</a>
           <a id="btnSentenceOrder" class="btn primary" href="#">排序练习</a>
@@ -46,5 +199,14 @@
     </main>
     <script src="./cvc-data.js"></script>
     <script src="./app.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const params = new URLSearchParams(location.search);
+        const v = (params.get("vowel") || "a").toLowerCase();
+        const idx = params.get("idx") || "0";
+        const back = document.getElementById("btnBackWord");
+        if (back) back.href = `word.html?vowel=${v}&idx=${idx}`;
+      });
+    </script>
   </body>
 </html>

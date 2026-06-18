@@ -2,7 +2,7 @@
 <html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>Magic E · 例句</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -11,6 +11,137 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="./styles.css" />
+    <style>
+      /* magic-e-sentence.html · 例句页（仅本页） */
+      html {
+        -webkit-text-size-adjust: 100%;
+        text-size-adjust: 100%;
+      }
+      body[data-page="magic-e-sentence"] {
+        min-height: 100dvh;
+        overflow-x: clip;
+        -webkit-tap-highlight-color: rgba(79, 172, 247, 0.15);
+      }
+      body[data-page="magic-e-sentence"] .topbar {
+        padding-top: env(safe-area-inset-top, 0);
+      }
+      body[data-page="magic-e-sentence"] .topbar-inner {
+        padding-left: max(16px, env(safe-area-inset-left));
+        padding-right: max(16px, env(safe-area-inset-right));
+      }
+      body[data-page="magic-e-sentence"] .container {
+        margin-top: 24px;
+        margin-bottom: max(48px, env(safe-area-inset-bottom));
+        padding-left: max(16px, env(safe-area-inset-left));
+        padding-right: max(16px, env(safe-area-inset-right));
+      }
+      body[data-page="magic-e-sentence"] .sentence-panel-card {
+        margin-top: 20px;
+      }
+      body[data-page="magic-e-sentence"] .title {
+        font-size: clamp(1.5rem, 6vw, 2.25rem);
+        letter-spacing: 0.5px;
+      }
+      body[data-page="magic-e-sentence"] .sentence {
+        line-height: 1.75;
+        letter-spacing: 0;
+      }
+      body[data-page="magic-e-sentence"] .token {
+        font-size: clamp(1rem, 4.2vw, 1.5rem);
+        padding: 8px 14px;
+        margin: 0 4px 8px 0;
+        touch-action: manipulation;
+      }
+      body[data-page="magic-e-sentence"] .hint {
+        font-size: clamp(1rem, 3.8vw, 1.2rem);
+        line-height: 1.65;
+      }
+      @media (max-width: 860px) {
+        body[data-page="magic-e-sentence"] .topbar-inner {
+          flex-wrap: wrap;
+          row-gap: 10px;
+        }
+        body[data-page="magic-e-sentence"] .nav-buttons {
+          display: flex !important;
+          flex: 1 1 100%;
+          order: 3;
+          justify-content: flex-start;
+          flex-wrap: nowrap;
+          overflow-x: auto;
+          -webkit-overflow-scrolling: touch;
+          scrollbar-width: none;
+          padding-bottom: 4px;
+          gap: 8px;
+        }
+        body[data-page="magic-e-sentence"] .nav-buttons::-webkit-scrollbar { display: none; }
+        body[data-page="magic-e-sentence"] .nav-chip {
+          flex-shrink: 0;
+          min-height: 44px;
+          padding: 10px 16px;
+          font-size: 15px;
+        }
+        body[data-page="magic-e-sentence"] .brand { font-size: 24px; }
+      }
+      @media (min-width: 521px) and (max-width: 860px) {
+        body[data-page="magic-e-sentence"] .panel3 {
+          grid-template-columns: repeat(3, 1fr);
+          gap: 12px;
+        }
+        body[data-page="magic-e-sentence"] .panel3 .image-box {
+          min-height: 150px;
+        }
+        body[data-page="magic-e-sentence"] .panel3 .image-box img {
+          min-height: 130px;
+        }
+      }
+      @media (max-width: 520px) {
+        body[data-page="magic-e-sentence"] .card {
+          padding: 20px 16px;
+        }
+        body[data-page="magic-e-sentence"] .panel3 {
+          grid-template-columns: 1fr;
+          gap: 12px;
+        }
+        body[data-page="magic-e-sentence"] .panel3 .image-box {
+          min-height: 180px;
+        }
+        body[data-page="magic-e-sentence"] .panel3 .image-box img {
+          min-height: 160px;
+        }
+        body[data-page="magic-e-sentence"] .info-row {
+          flex-direction: column;
+          align-items: stretch;
+          gap: 10px;
+        }
+        body[data-page="magic-e-sentence"] .info-row .btn {
+          width: 100%;
+          min-height: 48px;
+          white-space: normal;
+          text-align: center;
+        }
+        body[data-page="magic-e-sentence"] .hint {
+          padding: 12px 14px;
+        }
+      }
+      @media (hover: none) and (pointer: coarse) {
+        body[data-page="magic-e-sentence"] .token:hover {
+          transform: none;
+          background: linear-gradient(145deg, #f0f9ff, #fff);
+        }
+        body[data-page="magic-e-sentence"] .token:active {
+          top: 3px;
+          box-shadow: 0 1px 0 var(--blue-soft);
+          background: #e0f3ff;
+        }
+        body[data-page="magic-e-sentence"] .btn:hover { transform: none; filter: none; }
+        body[data-page="magic-e-sentence"] .nav-chip:hover { transform: none; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        body[data-page="magic-e-sentence"] .token,
+        body[data-page="magic-e-sentence"] .btn,
+        body[data-page="magic-e-sentence"] .nav-chip { transition: none !important; }
+      }
+    </style>
   </head>
   <body data-page="magic-e-sentence">
     <header class="topbar">
@@ -29,13 +160,13 @@
           <button id="btnMeToggleCn" type="button" class="btn">显示/隐藏中文</button>
         </div>
       </section>
-      <section class="card" style="margin-top: 20px">
+      <section class="card sentence-panel-card">
         <div class="panel3">
           <div class="image-box"><img id="meSenImg1" alt="panel 1" /></div>
           <div class="image-box"><img id="meSenImg2" alt="panel 2" /></div>
           <div class="image-box"><img id="meSenImg3" alt="panel 3" /></div>
         </div>
-        <div class="info-row" style="margin-top: 18px; flex-wrap: wrap; gap: 10px">
+        <div class="info-row nav-actions">
           <a id="btnMePrev" class="btn soft" href="#">上一句</a>
           <a id="btnBackWord" class="btn orange" href="#">↩ 回到单词</a>
           <a id="btnBackVowel" class="btn soft" href="#">📋 本组列表</a>

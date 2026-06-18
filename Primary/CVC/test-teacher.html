@@ -2,7 +2,7 @@
 <html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>测试模式 - 教师配置</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -10,13 +10,79 @@
     <link rel="stylesheet" href="./styles.css" />
     <link rel="stylesheet" href="./practice-styles.css" />
     <style>
-      /* 测试题型用复选框，避免「点一下反而关掉」的开关误解 */
+      /* test-teacher.html · 测试配置（仅本页） */
+      html {
+        -webkit-text-size-adjust: 100%;
+        text-size-adjust: 100%;
+      }
+      body[data-page="cvc-test-teacher"] {
+        min-height: 100dvh;
+        overflow-x: clip;
+        -webkit-tap-highlight-color: rgba(79, 172, 247, 0.15);
+      }
+      body[data-page="cvc-test-teacher"] .topbar {
+        padding-top: env(safe-area-inset-top, 0);
+      }
+      body[data-page="cvc-test-teacher"] .topbar-inner {
+        flex-wrap: wrap;
+        row-gap: 10px;
+        padding-left: max(16px, env(safe-area-inset-left));
+        padding-right: max(16px, env(safe-area-inset-right));
+      }
+      body[data-page="cvc-test-teacher"] .topbar-inner .nav-chip {
+        min-height: 44px;
+        flex-shrink: 0;
+        touch-action: manipulation;
+      }
+      body[data-page="cvc-test-teacher"] .container {
+        margin-top: 24px;
+        margin-bottom: max(48px, env(safe-area-inset-bottom));
+        padding-left: max(16px, env(safe-area-inset-left));
+        padding-right: max(16px, env(safe-area-inset-right));
+      }
+      .back-hub {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        margin-bottom: 16px;
+        min-height: 44px;
+        padding: 6px 14px 6px 10px;
+        border-radius: 999px;
+        border: 2px solid var(--blue-soft);
+        background: rgba(255, 255, 255, 0.9);
+        color: var(--text-lite);
+        font-size: 0.9rem;
+        font-weight: 700;
+        text-decoration: none;
+        touch-action: manipulation;
+      }
+      .back-hub:active { color: var(--blue-deep); border-color: var(--blue); }
+      .config-section { margin-top: 28px; }
+      .config-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+      .config-hint {
+        font-size: 1rem;
+        color: var(--text-lite);
+        margin-bottom: 12px;
+        line-height: 1.6;
+      }
+      body[data-page="cvc-test-teacher"] .vowel-chips,
+      body[data-page="cvc-test-teacher"] .type-chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      body[data-page="cvc-test-teacher"] .vowel-chip {
+        margin: 0;
+        min-height: 48px;
+        touch-action: manipulation;
+      }
       .test-type-chip {
         display: inline-flex;
         align-items: center;
         gap: 10px;
+        margin: 0;
         padding: 12px 20px;
-        margin: 6px;
+        min-height: 48px;
         border-radius: 16px;
         font-size: 17px;
         font-weight: 700;
@@ -25,6 +91,7 @@
         background: #fff;
         transition: all 0.25s ease;
         user-select: none;
+        touch-action: manipulation;
       }
       .test-type-chip:hover {
         border-color: var(--cartoon-blue);
@@ -39,22 +106,126 @@
         filter: brightness(1.05);
       }
       .test-type-chip input {
-        width: 1.2rem;
-        height: 1.2rem;
+        width: 1.25rem;
+        height: 1.25rem;
+        flex-shrink: 0;
         cursor: pointer;
         accent-color: #0984e3;
       }
       #typeSummaryLine {
-        font-size: 17px;
+        font-size: 1rem;
         margin-top: 14px;
         padding: 12px 16px;
         border-radius: 12px;
         background: #f0f9ff;
         border: 2px dashed #74b9ff;
+        line-height: 1.5;
+      }
+      .config-select {
+        font-size: 1.125rem;
+        padding: 12px 20px;
+        border-radius: 12px;
+        border: 3px solid #dfe6e9;
+        min-height: 48px;
+        background: #fff;
+        touch-action: manipulation;
+      }
+      .start-wrap { margin-top: 40px; text-align: center; }
+      .tts-details { font-size: 1rem; color: var(--text-lite); }
+      .tts-details summary {
+        cursor: pointer;
+        font-weight: 700;
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+      }
+      .tts-config-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+        margin-top: 12px;
+      }
+      .tts-config-row input,
+      .tts-config-row select {
+        flex: 1 1 200px;
+        min-height: 44px;
+        padding: 10px 16px;
+        border-radius: 12px;
+        border: 2px solid #dfe6e9;
+        font-size: 1rem;
+      }
+      @media (max-width: 860px) {
+        body[data-page="cvc-test-teacher"] .brand { font-size: 24px; }
+        body[data-page="cvc-test-teacher"] .practice-teacher-card {
+          padding: 28px 22px;
+        }
+        body[data-page="cvc-test-teacher"] .title {
+          font-size: clamp(1.5rem, 6vw, 2rem);
+        }
+        body[data-page="cvc-test-teacher"] .subtitle {
+          font-size: 1rem;
+          line-height: 1.6;
+        }
+      }
+      @media (max-width: 520px) {
+        body[data-page="cvc-test-teacher"] .practice-teacher-card {
+          padding: 22px 16px;
+          border-radius: 22px;
+        }
+        body[data-page="cvc-test-teacher"] .test-type-chip {
+          flex: 1 1 100%;
+          justify-content: flex-start;
+        }
+        body[data-page="cvc-test-teacher"] .vowel-chip {
+          flex: 1 1 calc(50% - 5px);
+          justify-content: center;
+        }
+        body[data-page="cvc-test-teacher"] .config-select {
+          width: 100%;
+        }
+        body[data-page="cvc-test-teacher"] .practice-btn-big {
+          width: 100%;
+          max-width: 100%;
+          padding: 18px 24px;
+          font-size: 1.25rem;
+        }
+        body[data-page="cvc-test-teacher"] .tts-config-row input,
+        body[data-page="cvc-test-teacher"] .tts-config-row select,
+        body[data-page="cvc-test-teacher"] .tts-config-row .btn {
+          width: 100%;
+          flex: 1 1 100%;
+        }
+      }
+      @media (hover: none) and (pointer: coarse) {
+        body[data-page="cvc-test-teacher"] .vowel-chip:hover,
+        body[data-page="cvc-test-teacher"] .test-type-chip:hover,
+        body[data-page="cvc-test-teacher"] .practice-btn-big:hover {
+          transform: none;
+        }
+        body[data-page="cvc-test-teacher"] .vowel-chip:active,
+        body[data-page="cvc-test-teacher"] .test-type-chip:active {
+          transform: scale(0.98);
+        }
+        body[data-page="cvc-test-teacher"] .test-type-chip:has(input:checked):hover {
+          filter: none;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        body[data-page="cvc-test-teacher"].practice-cartoon {
+          animation: none !important;
+        }
+        body[data-page="cvc-test-teacher"] .practice-teacher-card,
+        body[data-page="cvc-test-teacher"] .practice-btn-big,
+        body[data-page="cvc-test-teacher"] .test-type-chip,
+        body[data-page="cvc-test-teacher"] .vowel-chip {
+          animation: none !important;
+          transition: none !important;
+        }
       }
     </style>
   </head>
-  <body class="practice-cartoon">
+  <body class="practice-cartoon" data-page="cvc-test-teacher">
     <header class="topbar">
       <div class="topbar-inner">
         <a class="brand" href="./index.html">CVC <span>Kids</span></a>
@@ -63,12 +234,13 @@
       </div>
     </header>
     <main class="container">
+      <a class="back-hub" href="./index.html">← CVC 首页</a>
       <section class="card practice-teacher-card">
         <h1 class="title">📝 测试模式 - 教师配置</h1>
         <p class="subtitle">听音辨音：先选测试内容类型，再选 CVC 词库；每组 3 个单词图片，每组都要选答案</p>
 
-        <div class="section-label" style="margin-top:28px">1. 测试内容（可多选）</div>
-        <p style="font-size:16px;color:var(--text-lite);margin-bottom:12px;">勾选要考查的题型（多选会随机轮换）。下方蓝色条会显示即将传入测试页的题型，请开始测试前核对。</p>
+        <div class="section-label config-section">1. 测试内容（可多选）</div>
+        <p class="config-hint">勾选要考查的题型（多选会随机轮换）。下方蓝色条会显示即将传入测试页的题型，请开始测试前核对。</p>
         <div id="typeChips" class="type-chips" role="group" aria-label="测试题型">
           <label class="test-type-chip">
             <input type="checkbox" name="testType" value="beginning" checked />
@@ -85,7 +257,7 @@
         </div>
         <p id="typeSummaryLine">本次将考查：<strong id="typeSummaryText">首音、尾音、中间音</strong></p>
 
-        <div class="section-label" style="margin-top:28px">2. 选择 CVC 内容（可多选）</div>
+        <div class="section-label config-section">2. 选择 CVC 内容（可多选）</div>
         <div id="vowelChips" class="vowel-chips">
           <button type="button" class="vowel-chip" data-v="a">CVC-A</button>
           <button type="button" class="vowel-chip" data-v="e">CVC-E</button>
@@ -94,9 +266,9 @@
           <button type="button" class="vowel-chip" data-v="u">CVC-U</button>
         </div>
 
-        <div class="section-label" style="margin-top:28px">3. 测试题目数量</div>
-        <div>
-          <select id="questionCount" style="font-size:20px;padding:12px 20px;border-radius:12px;border:3px solid #dfe6e9;">
+        <div class="section-label config-section">3. 测试题目数量</div>
+        <div class="config-row">
+          <select id="questionCount" class="config-select">
             <option value="3">3 题</option>
             <option value="5" selected>5 题</option>
             <option value="6">6 题</option>
@@ -104,16 +276,16 @@
           </select>
         </div>
 
-        <div style="margin-top:40px;text-align:center;">
-          <button id="btnStart" class="btn primary practice-btn-big">🚀 开始测试</button>
+        <div class="start-wrap">
+          <button id="btnStart" type="button" class="btn primary practice-btn-big">🚀 开始测试</button>
         </div>
-        <div class="divider" style="margin:32px 0 16px"></div>
-        <details style="font-size:16px;color:var(--text-lite);">
-          <summary style="cursor:pointer;font-weight:700;">🔊 Azure TTS 配置（可选）</summary>
-          <p style="margin:12px 0 8px;">配置后使用 Azure 语音合成</p>
-          <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:12px;">
-            <input type="password" id="azureKey" placeholder="订阅密钥" style="padding:10px 16px;border-radius:12px;border:2px solid #dfe6e9;min-width:200px;" />
-            <select id="azureRegion" style="padding:10px 16px;border-radius:12px;border:2px solid #dfe6e9;">
+        <div class="divider" style="margin: 32px 0 16px"></div>
+        <details class="tts-details">
+          <summary>🔊 Azure TTS 配置（可选）</summary>
+          <p style="margin: 12px 0 8px">配置后使用 Azure 语音合成</p>
+          <div class="tts-config-row">
+            <input type="password" id="azureKey" placeholder="订阅密钥" />
+            <select id="azureRegion">
               <option value="eastasia">East Asia</option>
               <option value="southeastasia">Southeast Asia</option>
             </select>
@@ -123,52 +295,61 @@
       </section>
     </main>
     <script>
-      const TYPE_LABELS = { beginning: '首音', ending: '尾音', middle: '中间音' };
+      const TYPE_LABELS = { beginning: "首音", ending: "尾音", middle: "中间音" };
 
       function updateTypeSummary() {
         const checked = Array.from(document.querySelectorAll('#typeChips input[name="testType"]:checked'));
         const labels = checked.map((i) => TYPE_LABELS[i.value] || i.value);
-        const el = document.getElementById('typeSummaryText');
-        if (el) el.textContent = labels.length ? labels.join('、') : '（未勾选，无法开始）';
+        const el = document.getElementById("typeSummaryText");
+        if (el) el.textContent = labels.length ? labels.join("、") : "（未勾选，无法开始）";
       }
 
-      document.querySelectorAll('.vowel-chip').forEach((el) => {
-        el.addEventListener('click', () => el.classList.toggle('selected'));
+      document.querySelectorAll(".vowel-chip").forEach((el) => {
+        el.addEventListener("click", () => el.classList.toggle("selected"));
       });
       document.querySelectorAll('#typeChips input[name="testType"]').forEach((input) => {
-        input.addEventListener('change', updateTypeSummary);
+        input.addEventListener("change", updateTypeSummary);
       });
       updateTypeSummary();
-      document.getElementById('azureKey').value = localStorage.getItem('azure_tts_key') || '';
-      document.getElementById('azureRegion').value = localStorage.getItem('azure_tts_region') || 'eastasia';
-      document.getElementById('btnSaveTTS').onclick = () => {
-        localStorage.setItem('azure_tts_key', document.getElementById('azureKey').value);
-        localStorage.setItem('azure_tts_region', document.getElementById('azureRegion').value);
-        alert('已保存');
+      document.getElementById("azureKey").value = localStorage.getItem("azure_tts_key") || "";
+      document.getElementById("azureRegion").value = localStorage.getItem("azure_tts_region") || "eastasia";
+      document.getElementById("btnSaveTTS").onclick = () => {
+        localStorage.setItem("azure_tts_key", document.getElementById("azureKey").value);
+        localStorage.setItem("azure_tts_region", document.getElementById("azureRegion").value);
+        alert("已保存");
       };
-      document.getElementById('btnStart').addEventListener('click', () => {
+      document.getElementById("btnStart").addEventListener("click", () => {
         const selectedTypes = Array.from(document.querySelectorAll('#typeChips input[name="testType"]:checked'))
-          .map((input) => String(input.value || '').trim().toLowerCase())
+          .map((input) => String(input.value || "").trim().toLowerCase())
           .filter(Boolean);
-        const selectedVowels = Array.from(document.querySelectorAll('.vowel-chip.selected'))
-          .map((e) => (e.getAttribute('data-v') || '').trim().toLowerCase())
+        const selectedVowels = Array.from(document.querySelectorAll(".vowel-chip.selected"))
+          .map((e) => (e.getAttribute("data-v") || "").trim().toLowerCase())
           .filter(Boolean);
-        const count = parseInt(document.getElementById('questionCount').value, 10);
-        if (!selectedTypes.length) { alert('请至少选择一种测试内容（首音 / 尾音 / 中间音）'); return; }
-        if (!selectedVowels.length) { alert('请至少选择一种 CVC 内容'); return; }
+        const count = parseInt(document.getElementById("questionCount").value, 10);
+        if (!selectedTypes.length) {
+          alert("请至少选择一种测试内容（首音 / 尾音 / 中间音）");
+          return;
+        }
+        if (!selectedVowels.length) {
+          alert("请至少选择一种 CVC 内容");
+          return;
+        }
         try {
-          sessionStorage.setItem('cvc_test_run', JSON.stringify({
-            vowels: selectedVowels,
-            types: selectedTypes,
-            count
-          }));
+          sessionStorage.setItem(
+            "cvc_test_run",
+            JSON.stringify({
+              vowels: selectedVowels,
+              types: selectedTypes,
+              count,
+            })
+          );
         } catch (err) {}
         const q = new URLSearchParams({
-          vowels: selectedVowels.join(','),
-          types: selectedTypes.join(','),
-          count: String(count)
+          vowels: selectedVowels.join(","),
+          types: selectedTypes.join(","),
+          count: String(count),
         });
-        window.location.href = 'test-do.html?' + q.toString();
+        window.location.href = "test-do.html?" + q.toString();
       });
     </script>
   </body>

@@ -2,7 +2,7 @@
 <html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>Magic E · CVCE</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -11,6 +11,120 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="./styles.css" />
+    <style>
+      /* magic-e.html · 首页自适应（仅本页） */
+      html {
+        -webkit-text-size-adjust: 100%;
+        text-size-adjust: 100%;
+      }
+      body[data-page="magic-e-home"] {
+        min-height: 100dvh;
+        overflow-x: clip;
+        -webkit-tap-highlight-color: rgba(79, 172, 247, 0.15);
+      }
+      body[data-page="magic-e-home"] .topbar {
+        padding-top: env(safe-area-inset-top, 0);
+      }
+      body[data-page="magic-e-home"] .topbar-inner {
+        padding-left: max(16px, env(safe-area-inset-left));
+        padding-right: max(16px, env(safe-area-inset-right));
+      }
+      body[data-page="magic-e-home"] .container {
+        margin-top: 24px;
+        margin-bottom: max(48px, env(safe-area-inset-bottom));
+        padding-left: max(16px, env(safe-area-inset-left));
+        padding-right: max(16px, env(safe-area-inset-right));
+      }
+      .back-hub {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        margin-bottom: 16px;
+        min-height: 44px;
+        padding: 6px 14px 6px 10px;
+        border-radius: 999px;
+        border: 2px solid var(--blue-soft);
+        background: rgba(255, 255, 255, 0.9);
+        color: var(--text-lite);
+        font-size: 0.9rem;
+        font-weight: 700;
+        text-decoration: none;
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: transparent;
+      }
+      .back-hub:active { color: var(--blue-deep); border-color: var(--blue); }
+      .home-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        justify-content: center;
+      }
+      @media (max-width: 860px) {
+        body[data-page="magic-e-home"] .topbar-inner {
+          flex-wrap: wrap;
+          row-gap: 10px;
+        }
+        body[data-page="magic-e-home"] .nav-buttons {
+          display: flex !important;
+          flex: 1 1 100%;
+          order: 3;
+          justify-content: flex-start;
+          flex-wrap: nowrap;
+          overflow-x: auto;
+          -webkit-overflow-scrolling: touch;
+          scrollbar-width: none;
+          padding-bottom: 4px;
+          gap: 8px;
+        }
+        body[data-page="magic-e-home"] .nav-buttons::-webkit-scrollbar { display: none; }
+        body[data-page="magic-e-home"] .nav-chip {
+          flex-shrink: 0;
+          min-height: 44px;
+          padding: 10px 16px;
+          font-size: 15px;
+        }
+        body[data-page="magic-e-home"] .brand { font-size: 24px; }
+        body[data-page="magic-e-home"] .title { font-size: clamp(1.75rem, 7vw, 2.25rem); letter-spacing: 1px; }
+        body[data-page="magic-e-home"] .subtitle { font-size: 1rem; line-height: 1.6; }
+        body[data-page="magic-e-home"] .vowel-grid {
+          grid-template-columns: repeat(auto-fit, minmax(min(100%, 140px), 1fr));
+          gap: 14px;
+        }
+        body[data-page="magic-e-home"] .vowel-big { font-size: clamp(3rem, 14vw, 3.5rem); }
+      }
+      @media (max-width: 520px) {
+        body[data-page="magic-e-home"] .card { padding: 20px 16px; }
+        body[data-page="magic-e-home"] .vowel-grid { grid-template-columns: 1fr 1fr; }
+        body[data-page="magic-e-home"] .home-actions {
+          flex-direction: column;
+          align-items: stretch;
+        }
+        body[data-page="magic-e-home"] .home-actions .btn {
+          width: 100%;
+          min-height: 52px;
+          white-space: normal;
+          text-align: center;
+        }
+      }
+      @media (max-width: 360px) {
+        body[data-page="magic-e-home"] .vowel-grid { grid-template-columns: 1fr; }
+      }
+      @media (hover: none) and (pointer: coarse) {
+        body[data-page="magic-e-home"] .vowel-card:hover {
+          transform: none;
+          box-shadow: var(--sh-card);
+        }
+        body[data-page="magic-e-home"] .vowel-card:active {
+          transform: scale(0.98);
+          box-shadow: 0 10px 28px rgba(60, 130, 200, 0.18);
+        }
+        body[data-page="magic-e-home"] .btn:hover { transform: none; filter: none; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        body[data-page="magic-e-home"] .vowel-card,
+        body[data-page="magic-e-home"] .btn { transition: none !important; }
+      }
+    </style>
   </head>
   <body data-page="magic-e-home">
     <header class="topbar">
@@ -20,6 +134,7 @@
       </div>
     </header>
     <main class="container">
+      <a class="back-hub" href="../phonics/index.html">← 启蒙语音</a>
       <section class="card">
         <h1 class="title">✨ Magic E（CVCE）</h1>
         <p class="subtitle">
@@ -28,7 +143,7 @@
         </p>
         <div id="magicEVowelGrid" class="vowel-grid"></div>
         <div class="divider" style="margin: 28px 0 20px"></div>
-        <div style="display: flex; flex-wrap: wrap; gap: 16px; justify-content: center">
+        <div class="home-actions">
           <a href="magic-e-practice-teacher.html" class="btn primary">🎯 课堂练习</a>
           <a href="magic-e-test-teacher.html" class="btn orange">📝 听音辨音测试</a>
         </div>

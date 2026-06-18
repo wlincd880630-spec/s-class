@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>启蒙语音 · CVC 与 Magic E</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -20,12 +20,19 @@
       --magic: #ab47bc;
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html {
+      scroll-behavior: smooth;
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
     body {
       font-family: "DM Sans", "PingFang SC", "Microsoft YaHei", sans-serif;
-      min-height: 100vh;
+      min-height: 100dvh;
       color: var(--text);
       background: var(--ink);
       line-height: 1.55;
+      overflow-x: clip;
+      -webkit-tap-highlight-color: rgba(245, 196, 0, 0.12);
     }
     .bg {
       position: fixed;
@@ -53,7 +60,11 @@
       z-index: 1;
       max-width: 920px;
       margin: 0 auto;
-      padding: clamp(1.5rem, 4vw, 2.5rem) clamp(1.1rem, 4vw, 2rem) 3rem;
+      padding:
+        max(clamp(1.25rem, 4vw, 2.5rem), env(safe-area-inset-top))
+        max(clamp(1rem, 4vw, 2rem), env(safe-area-inset-right))
+        max(2rem, env(safe-area-inset-bottom))
+        max(clamp(1rem, 4vw, 2rem), env(safe-area-inset-left));
     }
     .back {
       display: inline-flex;
@@ -63,9 +74,13 @@
       text-decoration: none;
       font-size: 0.85rem;
       margin-bottom: 1.5rem;
+      min-height: 44px;
+      padding: 0.35rem 0;
       transition: color 0.2s;
+      -webkit-tap-highlight-color: transparent;
     }
-    .back:hover { color: var(--ng-gold); }
+    .back:hover,
+    .back:active { color: var(--ng-gold); }
     header {
       text-align: center;
       margin-bottom: 2.25rem;
@@ -82,9 +97,11 @@
     }
     .subtitle {
       color: var(--text-muted);
-      font-size: 0.98rem;
+      font-size: clamp(0.88rem, 2.5vw, 0.98rem);
       max-width: 28rem;
       margin: 0 auto;
+      padding: 0 0.25rem;
+      line-height: 1.65;
     }
     .course {
       margin-bottom: 1.75rem;
@@ -102,6 +119,7 @@
       padding: 1.25rem 1.35rem;
       border-bottom: 1px solid var(--glass-border);
       background: linear-gradient(90deg, color-mix(in srgb, var(--accent) 12%, transparent), transparent 70%);
+      flex-wrap: wrap;
     }
     .course-icon {
       width: 52px;
@@ -116,14 +134,20 @@
     }
     .course-head h2 {
       font-family: "Cormorant Garamond", Georgia, serif;
-      font-size: 1.55rem;
+      font-size: clamp(1.3rem, 4vw, 1.55rem);
       font-weight: 700;
       color: #fff;
       margin-bottom: 0.15rem;
+      line-height: 1.2;
+    }
+    .course-head > div:last-child {
+      flex: 1;
+      min-width: 0;
     }
     .course-head p {
       font-size: 0.82rem;
       color: var(--text-muted);
+      line-height: 1.5;
     }
     .course-body {
       padding: 1.1rem 1.35rem 1.35rem;
@@ -140,18 +164,23 @@
     }
     .link-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
       gap: 0.65rem;
     }
     a.item {
-      display: block;
-      padding: 0.85rem 1rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 52px;
+      padding: 0.9rem 1rem;
       border-radius: 12px;
       text-decoration: none;
       color: inherit;
       background: rgba(255, 255, 255, 0.04);
       border: 1px solid rgba(255, 255, 255, 0.08);
       transition: border-color 0.25s, background 0.25s, transform 0.25s;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
     }
     a.item:hover {
       border-color: color-mix(in srgb, var(--accent) 45%, transparent);
@@ -176,12 +205,49 @@
     footer {
       margin-top: 2rem;
       padding-top: 1.25rem;
+      padding-bottom: env(safe-area-inset-bottom, 0);
       border-top: 1px solid var(--glass-border);
       text-align: center;
       font-size: 0.78rem;
       color: var(--text-muted);
     }
     footer strong { color: var(--ng-gold); }
+
+    @media (max-width: 768px) {
+      header { margin-bottom: 1.75rem; }
+      h1 { font-size: clamp(1.75rem, 7vw, 2.25rem); }
+      .course { margin-bottom: 1.35rem; }
+      .course-head { padding: 1.1rem 1.1rem; }
+      .course-body { padding: 1rem 1.1rem 1.2rem; }
+      .link-grid { grid-template-columns: 1fr; }
+      a.item.primary { padding: 1rem 1.05rem; }
+    }
+
+    @media (max-width: 380px) {
+      .course-icon {
+        width: 46px;
+        height: 46px;
+        font-size: 1.35rem;
+      }
+      a.item strong { font-size: 0.88rem; }
+      a.item span { font-size: 0.74rem; }
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+      a.item:hover {
+        transform: none;
+      }
+      a.item:active {
+        border-color: color-mix(in srgb, var(--accent) 50%, transparent);
+        background: color-mix(in srgb, var(--accent) 14%, transparent);
+        transform: scale(0.99);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      a.item { transition: none !important; }
+    }
   </style>
 </head>
 <body>

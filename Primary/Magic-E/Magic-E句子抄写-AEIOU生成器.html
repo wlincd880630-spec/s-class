@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Magic E 句子抄写生成器 · aCe～uCe</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -28,14 +28,39 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-bottom: 48px;
+  padding-bottom: max(48px, env(safe-area-inset-bottom));
+  min-height: 100dvh;
+  overflow-x: clip;
+  -webkit-tap-highlight-color: rgba(94, 53, 177, 0.12);
 }
+
+.back-hub {
+  align-self: flex-start;
+  margin: 12px 0 0 max(16px, env(safe-area-inset-left));
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 6px 14px 6px 10px;
+  border-radius: 999px;
+  border: 2px solid #B39DDB;
+  background: rgba(255, 255, 255, 0.95);
+  color: #5E35B1;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-decoration: none;
+  touch-action: manipulation;
+}
+.back-hub:active { background: #EDE7F6; }
 
 .gen-panel {
   width: 100%;
   max-width: 920px;
   margin: 0 auto;
   padding: 16px 20px 20px;
+  padding-top: max(16px, env(safe-area-inset-top));
+  padding-left: max(16px, env(safe-area-inset-left));
+  padding-right: max(16px, env(safe-area-inset-right));
   background: #fff;
   box-shadow: 0 4px 24px rgba(0,0,0,.2);
   position: sticky;
@@ -73,7 +98,13 @@ body {
 .vowel-cell[data-v="o"] { color: #FB8C00; }
 .vowel-cell[data-v="u"] { color: #8E24AA; }
 
-.vowel-cell input[type="checkbox"] { width: 18px; height: 18px; cursor: pointer; flex-shrink: 0; }
+.vowel-cell input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  flex-shrink: 0;
+  touch-action: manipulation;
+}
 .vowel-cell label.lbl {
   font-weight: 700;
   font-size: 0.98rem;
@@ -90,12 +121,14 @@ body {
 .vowel-cell .count-wrap span { font-size: .75rem; color: #78909C; }
 .vowel-cell input[type="number"] {
   width: 52px;
+  min-height: 40px;
   padding: 6px 8px;
   border: 1px solid #CFD8DC;
   border-radius: 8px;
   font-weight: 700;
   font-size: .95rem;
   text-align: center;
+  touch-action: manipulation;
 }
 .vowel-cell input[type="number"]:disabled {
   opacity: .45;
@@ -118,12 +151,14 @@ body {
   color: #fff;
   border: none;
   padding: 11px 22px;
+  min-height: 48px;
   border-radius: 50px;
   font-family: var(--font-ui);
   font-size: 1rem;
   font-weight: 700;
   cursor: pointer;
   box-shadow: 0 4px 12px rgba(94,53,177,.35);
+  touch-action: manipulation;
 }
 .btn-gen:hover { filter: brightness(1.08); }
 
@@ -132,11 +167,13 @@ body {
   color: #fff;
   border: none;
   padding: 11px 22px;
+  min-height: 48px;
   border-radius: 50px;
   font-family: var(--font-ui);
   font-size: 1rem;
   font-weight: 700;
   cursor: pointer;
+  touch-action: manipulation;
 }
 .btn-pdf:hover { background: #006064; }
 
@@ -165,6 +202,13 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 0 max(8px, env(safe-area-inset-right)) 0 max(8px, env(safe-area-inset-left));
+}
+
+.page-viewport {
+  width: min(210mm, calc(100vw - 24px));
+  margin: 24px auto;
+  overflow: hidden;
 }
 
 .page {
@@ -355,6 +399,60 @@ body {
   color: #B0BEC5;
   padding: 40px 20px;
   text-align: center;
+  line-height: 1.6;
+}
+
+@media screen and (max-width: 720px) {
+  .gen-panel h1 {
+    font-size: clamp(1rem, 4.2vw, 1.15rem);
+    line-height: 1.45;
+  }
+  .vowel-grid {
+    grid-template-columns: 1fr;
+  }
+  .vowel-cell {
+    flex-wrap: wrap;
+    min-height: 48px;
+  }
+  .vowel-cell .count-wrap {
+    margin-left: 0;
+    width: 100%;
+    justify-content: flex-end;
+    padding-left: 28px;
+  }
+  .gen-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .btn-gen,
+  .btn-pdf {
+    width: 100%;
+  }
+  .hint {
+    flex: 1 1 auto;
+    font-size: 0.82rem;
+  }
+  .page-viewport {
+    width: calc(100vw - 16px);
+    margin: 12px auto;
+  }
+  .page {
+    margin: 0;
+    box-shadow: 0 0 24px rgba(0,0,0,.45);
+  }
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .btn-gen:hover { filter: none; }
+  .btn-pdf:hover { background: #00838F; }
+  .btn-gen:active { filter: brightness(0.95); }
+  .btn-pdf:active { background: #006064; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vowel-cell,
+  .btn-gen,
+  .btn-pdf { transition: none !important; }
 }
 
 @page {
@@ -364,10 +462,21 @@ body {
 
 @media print {
   body { background: #fff; padding: 0; }
+  .back-hub { display: none !important; }
   .no-print { display: none !important; }
   #app {
     width: 100% !important;
     align-items: stretch;
+    padding: 0;
+  }
+  .page-viewport {
+    width: auto;
+    height: auto;
+    overflow: visible;
+    margin: 0;
+  }
+  .page-viewport .page {
+    transform: none !important;
   }
 
   .page {
@@ -415,6 +524,8 @@ body {
 </style>
 </head>
 <body>
+
+<a class="back-hub no-print" href="./magic-e.html">← Magic E 首页</a>
 
 <div class="gen-panel no-print">
   <h1>✨ Magic E 句子抄写生成器（数据来自 magic-e-data.js）</h1>
@@ -585,6 +696,9 @@ function bindSentencePanelImg(img, idx, imgs) {
 }
 
 function buildOnePage(s, pageIndex, total) {
+  const viewport = document.createElement('div');
+  viewport.className = 'page-viewport';
+
   const page = document.createElement('div');
   page.className = 'page';
 
@@ -673,7 +787,24 @@ function buildOnePage(s, pageIndex, total) {
   ftr.textContent = `Magic English • Magic E 句子抄写生成器 | ${shortEn} | ${pageIndex + 1} / ${total}`;
   page.appendChild(ftr);
 
-  return page;
+  viewport.appendChild(page);
+  return viewport;
+}
+
+function fitPageViewports() {
+  if (window.matchMedia('print').matches) return;
+  document.querySelectorAll('.page-viewport').forEach((vp) => {
+    const page = vp.querySelector('.page');
+    if (!page) return;
+    page.style.transform = 'none';
+    page.style.transformOrigin = 'top left';
+    const naturalW = page.offsetWidth;
+    const targetW = vp.clientWidth;
+    if (!naturalW || !targetW) return;
+    const scale = Math.min(1, targetW / naturalW);
+    page.style.transform = scale < 1 ? `scale(${scale})` : 'none';
+    vp.style.height = scale < 1 ? `${page.offsetHeight * scale}px` : 'auto';
+  });
 }
 
 function updateSummary(list) {
@@ -712,6 +843,7 @@ function runGenerate() {
     app.appendChild(buildOnePage(s, i, list.length));
   });
   updateSummary(list);
+  fitPageViewports();
   app.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
@@ -780,6 +912,13 @@ window.addEventListener('afterprint', clearPdfFontInline);
 
 document.getElementById('btnGenerate').addEventListener('click', runGenerate);
 document.getElementById('btnPdf').addEventListener('click', runPdf);
+
+let fitTimer;
+window.addEventListener('resize', () => {
+  clearTimeout(fitTimer);
+  fitTimer = setTimeout(fitPageViewports, 120);
+});
+window.addEventListener('orientationchange', fitPageViewports);
 
 window.addEventListener('load', buildVowelGrid);
 </script>

@@ -2,7 +2,7 @@
 <html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>句子排序练习</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -11,6 +11,140 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="./styles.css" />
+    <style>
+      /* sentence-order.html · 句子排序（仅本页） */
+      html {
+        -webkit-text-size-adjust: 100%;
+        text-size-adjust: 100%;
+      }
+      body[data-page="sentence-order"] {
+        min-height: 100dvh;
+        overflow-x: clip;
+        -webkit-tap-highlight-color: rgba(79, 172, 247, 0.15);
+      }
+      body[data-page="sentence-order"] .topbar {
+        padding-top: env(safe-area-inset-top, 0);
+      }
+      body[data-page="sentence-order"] .topbar-inner {
+        padding-left: max(16px, env(safe-area-inset-left));
+        padding-right: max(16px, env(safe-area-inset-right));
+      }
+      body[data-page="sentence-order"] .container {
+        margin-top: 24px;
+        margin-bottom: max(48px, env(safe-area-inset-bottom));
+        padding-left: max(16px, env(safe-area-inset-left));
+        padding-right: max(16px, env(safe-area-inset-right));
+      }
+      body[data-page="sentence-order"] .title {
+        font-size: clamp(1.35rem, 5.5vw, 2.25rem);
+        line-height: 1.35;
+        word-break: break-word;
+      }
+      body[data-page="sentence-order"] .subtitle,
+      body[data-page="sentence-order"] .order-instruction,
+      body[data-page="sentence-order"] .order-result-label {
+        font-size: clamp(0.95rem, 3.5vw, 1.25rem);
+        line-height: 1.65;
+      }
+      body[data-page="sentence-order"] .order-bank {
+        margin-top: 0;
+      }
+      body[data-page="sentence-order"] #orderBank .token {
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: transparent;
+      }
+      body[data-page="sentence-order"] #orderFeedback {
+        margin-top: 8px;
+      }
+      @media (max-width: 860px) {
+        body[data-page="sentence-order"] .topbar-inner {
+          flex-wrap: wrap;
+          row-gap: 10px;
+        }
+        body[data-page="sentence-order"] .nav-buttons {
+          display: flex !important;
+          flex: 1 1 100%;
+          order: 3;
+          justify-content: flex-start;
+          flex-wrap: nowrap;
+          overflow-x: auto;
+          -webkit-overflow-scrolling: touch;
+          scrollbar-width: none;
+          padding-bottom: 4px;
+          gap: 8px;
+        }
+        body[data-page="sentence-order"] .nav-buttons::-webkit-scrollbar { display: none; }
+        body[data-page="sentence-order"] .nav-chip {
+          flex-shrink: 0;
+          min-height: 44px;
+          padding: 10px 16px;
+          font-size: 15px;
+        }
+        body[data-page="sentence-order"] .brand { font-size: 24px; }
+      }
+      @media (max-width: 520px) {
+        body[data-page="sentence-order"] .card-single { padding: 20px 16px; }
+        body[data-page="sentence-order"] .order-bank,
+        body[data-page="sentence-order"] .order-result {
+          padding: 14px 12px;
+          min-height: 80px;
+          gap: 8px;
+        }
+        body[data-page="sentence-order"] #orderBank .token {
+          font-size: clamp(1rem, 4.2vw, 1.5rem);
+          padding: 10px 16px;
+          min-height: 44px;
+          margin: 0 4px 6px 0;
+        }
+        body[data-page="sentence-order"] #orderResult .token {
+          font-size: clamp(0.95rem, 4vw, 1.35rem);
+          padding: 8px 14px;
+          min-height: 40px;
+        }
+        body[data-page="sentence-order"] .order-result-label {
+          margin: 16px 0 8px;
+        }
+        body[data-page="sentence-order"] .info-row {
+          flex-direction: column;
+          align-items: stretch;
+          gap: 10px;
+          margin-top: 18px;
+        }
+        body[data-page="sentence-order"] .info-row .btn {
+          width: 100%;
+          min-height: 52px;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          text-align: center;
+          touch-action: manipulation;
+        }
+        body[data-page="sentence-order"] #orderFeedback {
+          font-size: 1rem;
+          padding: 12px 14px;
+        }
+      }
+      @media (hover: none) and (pointer: coarse) {
+        body[data-page="sentence-order"] #orderBank .token:hover {
+          transform: none;
+          background: linear-gradient(145deg, #f0f9ff, #fff);
+        }
+        body[data-page="sentence-order"] #orderBank .token:active {
+          transform: scale(0.97);
+          top: 2px;
+        }
+        body[data-page="sentence-order"] .btn:hover { transform: none; filter: none; }
+        body[data-page="sentence-order"] .nav-chip:hover { transform: none; }
+        body[data-page="sentence-order"] .btn:active { transform: scale(0.98); }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        body[data-page="sentence-order"] .token,
+        body[data-page="sentence-order"] .btn,
+        body[data-page="sentence-order"] .nav-chip {
+          transition: none !important;
+        }
+      }
+    </style>
   </head>
   <body data-page="sentence-order">
     <header class="topbar">

@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<title>Action Words & Sentences — Handwriting</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>动作词与句子抄写 · Words & Sentences</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Patrick+Hand&display=swap" rel="stylesheet">
@@ -23,17 +24,54 @@
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
 body {
   font-family: var(--font-ui);
   background: #455A64;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-bottom: 48px;
+  padding-bottom: max(48px, env(safe-area-inset-bottom));
+  min-height: 100dvh;
+  overflow-x: clip;
+  -webkit-tap-highlight-color: rgba(251, 140, 0, 0.12);
+}
+
+.back-hub {
+  align-self: flex-start;
+  margin: max(12px, env(safe-area-inset-top)) 0 0 max(16px, env(safe-area-inset-left));
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 6px 14px 6px 10px;
+  border-radius: 999px;
+  border: 2px solid #90CAF9;
+  background: rgba(255, 255, 255, 0.95);
+  color: #1565C0;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-decoration: none;
+  touch-action: manipulation;
+}
+.back-hub:active { background: #E3F2FD; }
+
+#app {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .toolbar {
   width: 100%; padding: 12px 24px;
+  padding-top: max(12px, env(safe-area-inset-top));
+  padding-left: max(16px, env(safe-area-inset-left));
+  padding-right: max(16px, env(safe-area-inset-right));
   background: #fff;
   box-shadow: 0 2px 18px rgba(0,0,0,.2);
   display: flex; align-items: center; justify-content: space-between;
@@ -47,15 +85,20 @@ body {
 }
 .toolbar-left .icon { font-size: 1.4rem; }
 
-.mode-tabs { display: flex; gap: 8px; }
+.mode-tabs { display: flex; gap: 8px; flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; max-width: 100%; }
+.mode-tabs::-webkit-scrollbar { display: none; }
 .mtab {
   border: 2.5px solid transparent;
   border-radius: 50px;
   padding: 9px 22px;
+  min-height: 44px;
   font-family: var(--font-ui);
   font-size: 1.05rem; font-weight: 700;
   cursor: pointer; transition: .18s;
   background: #F5F5F5; color: #888;
+  white-space: nowrap;
+  flex-shrink: 0;
+  touch-action: manipulation;
 }
 .mtab:hover { transform: translateY(-2px); }
 .mtab[data-m="words"] { --c: #FB8C00; --bg: #FFF3E0; }
@@ -69,22 +112,31 @@ body {
 
 .btn-print {
   background: #FF7043; color: #fff; border: none;
-  padding: 10px 28px; border-radius: 50px;
+  padding: 10px 28px; min-height: 44px;
+  border-radius: 50px;
   font-family: var(--font-ui); font-size: 1.05rem; font-weight: 700;
   cursor: pointer; transition: .18s;
   box-shadow: 0 4px 12px rgba(255,112,67,.35);
   white-space: nowrap;
+  touch-action: manipulation;
+  flex-shrink: 0;
 }
 .btn-print:hover { transform: scale(1.05); background: #E64A19; }
 
-.mode-section { display: none; }
-.mode-section.active { display: block; }
+.mode-section { display: none; width: 100%; }
+.mode-section.active { display: flex; flex-direction: column; align-items: center; }
+
+.page-viewport {
+  width: min(210mm, calc(100vw - 24px));
+  margin: 24px auto;
+  overflow: hidden;
+}
 
 .page {
   background: #fff;
   width: 210mm; height: 297mm;
   padding: 14mm 14mm 10mm;
-  margin: 24px 0;
+  margin: 0;
   box-shadow: 0 0 36px rgba(0,0,0,.55);
   display: flex; flex-direction: column;
   page-break-after: always;
@@ -232,11 +284,45 @@ body {
   transform: translateY(-0.9mm);
 }
 
+@media screen and (max-width: 720px) {
+  .toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .toolbar-left { justify-content: center; }
+  .mode-tabs { justify-content: center; }
+  .btn-print { width: 100%; }
+  .page-viewport {
+    width: calc(100vw - 16px);
+    margin: 12px auto;
+  }
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .mtab:hover { transform: none; }
+  .btn-print:hover { transform: none; }
+  .btn-print:active { transform: scale(0.98); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mtab, .btn-print { transition: none !important; }
+}
+
 @media print {
   body { background: #fff; padding: 0; }
+  .back-hub { display: none !important; }
   .toolbar { display: none !important; }
   .mode-section { display: none !important; }
   .mode-section.active { display: block !important; }
+  .page-viewport {
+    width: auto;
+    height: auto;
+    overflow: visible;
+    margin: 0;
+  }
+  .page-viewport .page {
+    transform: none !important;
+  }
   .page {
     margin: 0; box-shadow: none; border: none;
     width: 210mm; height: 297mm;
@@ -247,6 +333,8 @@ body {
 </style>
 </head>
 <body>
+
+<a class="back-hub" href="index.html">← CVC 乐园</a>
 
 <div class="toolbar">
   <div class="toolbar-left">
@@ -404,6 +492,9 @@ function buildSentenceBlock(entry) {
 }
 
 function buildWordsPage() {
+  const viewport = document.createElement('div');
+  viewport.className = 'page-viewport';
+
   const page = document.createElement('div');
   page.className = 'page';
 
@@ -429,10 +520,14 @@ function buildWordsPage() {
     '  |  Page 1 / 1';
   page.appendChild(ftr);
 
-  return page;
+  viewport.appendChild(page);
+  return viewport;
 }
 
 function buildSentencesPage() {
+  const viewport = document.createElement('div');
+  viewport.className = 'page-viewport';
+
   const page = document.createElement('div');
   page.className = 'page';
 
@@ -458,7 +553,24 @@ function buildSentencesPage() {
     '  |  Page 1 / 1';
   page.appendChild(ftr);
 
-  return page;
+  viewport.appendChild(page);
+  return viewport;
+}
+
+function fitPageViewports() {
+  if (window.matchMedia('print').matches) return;
+  document.querySelectorAll('.page-viewport').forEach((vp) => {
+    const page = vp.querySelector('.page');
+    if (!page) return;
+    page.style.transform = 'none';
+    page.style.transformOrigin = 'top left';
+    const naturalW = page.offsetWidth;
+    const targetW = vp.clientWidth;
+    if (!naturalW || !targetW) return;
+    const scale = Math.min(1, targetW / naturalW);
+    page.style.transform = scale < 1 ? `scale(${scale})` : 'none';
+    vp.style.height = scale < 1 ? `${page.offsetHeight * scale}px` : 'auto';
+  });
 }
 
 function showMode(m) {
@@ -466,7 +578,11 @@ function showMode(m) {
   document.getElementById('section-' + m).classList.add('active');
   document.querySelectorAll('.mtab').forEach((t) => t.classList.remove('active'));
   document.querySelector(`.mtab[data-m="${m}"]`).classList.add('active');
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  window.scrollTo({
+    top: 0,
+    behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'
+  });
+  fitPageViewports();
 }
 
 function init() {
@@ -486,7 +602,15 @@ function init() {
   secSent.className = 'mode-section';
   secSent.appendChild(buildSentencesPage());
   app.appendChild(secSent);
+  fitPageViewports();
 }
+
+let fitTimer;
+window.addEventListener('resize', () => {
+  clearTimeout(fitTimer);
+  fitTimer = setTimeout(fitPageViewports, 120);
+});
+window.addEventListener('orientationchange', fitPageViewports);
 
 window.addEventListener('load', init);
 </script>

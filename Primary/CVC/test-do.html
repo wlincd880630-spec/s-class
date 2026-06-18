@@ -2,15 +2,150 @@
 <html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>CVC 听音辨音测试</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@500;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="./styles.css" />
     <link rel="stylesheet" href="./practice-styles.css" />
+    <style>
+      /* test-do.html · 测试执行（仅本页） */
+      html {
+        -webkit-text-size-adjust: 100%;
+        text-size-adjust: 100%;
+      }
+      body[data-page="cvc-test-do"] {
+        min-height: 100dvh;
+        overflow-x: clip;
+        -webkit-tap-highlight-color: rgba(79, 172, 247, 0.15);
+      }
+      body[data-page="cvc-test-do"] .practice-do-page {
+        min-height: 100dvh;
+        justify-content: flex-start;
+        padding-top: max(16px, env(safe-area-inset-top));
+        padding-right: max(16px, env(safe-area-inset-right));
+        padding-bottom: max(24px, env(safe-area-inset-bottom));
+        padding-left: max(16px, env(safe-area-inset-left));
+        width: 100%;
+        max-width: 100%;
+      }
+      body[data-page="cvc-test-do"] .practice-progress-bar {
+        width: 100%;
+        max-width: 640px;
+      }
+      body[data-page="cvc-test-do"] .practice-word-card {
+        max-width: 640px;
+      }
+      .practice-complete-card {
+        text-align: center;
+        padding: 48px 24px;
+      }
+      .practice-complete-card .practice-btn-big,
+      .practice-complete-card .btn {
+        margin-top: 20px;
+      }
+      .practice-actions {
+        margin-top: 20px;
+        text-align: center;
+      }
+      .test-hint-all-groups {
+        margin-top: 16px;
+        text-align: center;
+        line-height: 1.6;
+      }
+      .test-speak-row {
+        display: flex;
+        gap: 8px;
+        justify-content: center;
+        margin-top: 8px;
+        flex-wrap: wrap;
+      }
+      .test-speak-row .btn {
+        touch-action: manipulation;
+      }
+      @media (max-width: 860px) {
+        body[data-page="cvc-test-do"] .practice-word-card {
+          padding: 32px 22px;
+          border-radius: 26px;
+        }
+        body[data-page="cvc-test-do"] .practice-word-card > .subtitle {
+          font-size: 1rem;
+          line-height: 1.65;
+        }
+        body[data-page="cvc-test-do"] .test-group-card {
+          padding: 16px;
+          border-radius: 20px;
+        }
+        body[data-page="cvc-test-do"] .test-group-prompt {
+          font-size: clamp(0.95rem, 3.5vw, 1.05rem);
+          line-height: 1.5;
+        }
+      }
+      @media (max-width: 520px) {
+        body[data-page="cvc-test-do"] .practice-word-card {
+          padding: 24px 16px;
+        }
+        body[data-page="cvc-test-do"] .test-group-row-stacked {
+          gap: 16px;
+        }
+        body[data-page="cvc-test-do"] .test-group-images .mini-img {
+          width: clamp(88px, 27vw, 130px);
+          height: clamp(88px, 27vw, 130px);
+          touch-action: manipulation;
+        }
+        body[data-page="cvc-test-do"] .test-speak-row .btn {
+          min-height: 44px;
+          min-width: 48px;
+        }
+        body[data-page="cvc-test-do"] .test-options {
+          gap: 10px;
+          margin: 16px 0;
+        }
+        body[data-page="cvc-test-do"] .test-option-btn {
+          flex: 1 1 calc(50% - 5px);
+          min-width: calc(50% - 5px);
+          min-height: 52px;
+          padding: 14px 12px;
+          font-size: 1.25rem;
+          touch-action: manipulation;
+        }
+        body[data-page="cvc-test-do"] .practice-nav-btn,
+        body[data-page="cvc-test-do"] .practice-complete-card .practice-btn-big,
+        body[data-page="cvc-test-do"] .practice-complete-card .btn {
+          width: 100%;
+          min-height: 52px;
+        }
+        .practice-complete-card {
+          padding: 36px 16px;
+        }
+      }
+      @media (hover: none) and (pointer: coarse) {
+        body[data-page="cvc-test-do"] .test-group-images .mini-img:hover,
+        body[data-page="cvc-test-do"] .test-option-btn:hover {
+          transform: none;
+        }
+        body[data-page="cvc-test-do"] .test-option-btn:active {
+          transform: scale(0.98);
+        }
+        body[data-page="cvc-test-do"] .test-group-images .mini-img:active {
+          transform: scale(0.97);
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        body[data-page="cvc-test-do"].practice-cartoon {
+          animation: none !important;
+        }
+        body[data-page="cvc-test-do"] .practice-word-card,
+        body[data-page="cvc-test-do"] .test-option-btn,
+        body[data-page="cvc-test-do"] .practice-progress-fill {
+          animation: none !important;
+          transition: none !important;
+        }
+      }
+    </style>
   </head>
-  <body class="practice-cartoon">
+  <body class="practice-cartoon" data-page="cvc-test-do">
     <script src="https://cdn.jsdelivr.net/npm/microsoft-cognitiveservices-speech-sdk@1.34.0/distrib/browser/microsoft.cognitiveservices.speech.sdk.bundle-min.js" crossorigin="anonymous"></script>
     <script src="./cvc-data.js"></script>
     <script src="./practice.js"></script>
@@ -191,10 +326,10 @@
   const noQuestions = !questions.length;
   if (noQuestions) {
     document.getElementById('mainArea').innerHTML = `
-      <section class="card practice-teacher-card" style="text-align:center;padding:48px;">
+      <section class="card practice-teacher-card practice-complete-card">
         <h1 class="title">无法生成题目</h1>
         <p class="subtitle">请检查是否勾选了 CVC 词库；中间音需要词库中能拆出至少 3 组「3 个词同中间字母」。若用本地文件打开，请始终点配置页的「开始测试」进入本页（配置会同步保存）。</p>
-        <a href="test-teacher.html" class="btn primary" style="margin-top:20px;">返回配置</a>
+        <a href="test-teacher.html" class="btn primary">返回配置</a>
       </section>`;
   }
   /** 每组是否已作答（共 3 组） */
@@ -222,10 +357,10 @@
   function render() {
     if (qIdx >= questions.length) {
       document.getElementById('mainArea').innerHTML = `
-        <section class="card practice-teacher-card" style="text-align:center;padding:60px;">
+        <section class="card practice-teacher-card practice-complete-card">
           <h1 class="title">🎉 测试完成！</h1>
           <p class="subtitle">全部 ${questions.length} 题已完成</p>
-          <a href="test-teacher.html" class="btn primary practice-btn-big" style="margin-top:24px;">返回配置</a>
+          <a href="test-teacher.html" class="btn primary practice-btn-big">返回配置</a>
         </section>`;
       return;
     }
@@ -244,11 +379,13 @@
         <h4>第 ${gi + 1} 组</h4>
         <div class="test-group-images">`;
       grp.words.forEach(w => {
-        groupsHtml += `<img class="mini-img" src="${P.imagePathForWord(w.word)}" alt="" data-word="${w.word}" title="点击听发音" />`;
+        const src = P.imagePathForWord(w.word);
+        groupsHtml += `<img class="mini-img" src="${src}" alt="" data-word="${String(w.word).replace(/"/g, '&quot;')}" title="点击听发音" />`;
       });
-      groupsHtml += `</div><div style="display:flex;gap:8px;justify-content:center;margin-top:8px;flex-wrap:wrap;">`;
+      groupsHtml += `</div><div class="test-speak-row">`;
       grp.words.forEach(w => {
-        groupsHtml += `<button type="button" class="btn sm primary" onclick="window._speak('${w.word}')" title="点击听发音">🔊</button>`;
+        const safe = String(w.word).replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+        groupsHtml += `<button type="button" class="btn sm primary" data-speak-word="${safe}" title="点击听发音">🔊</button>`;
       });
       groupsHtml += `</div>
         <p class="test-group-prompt">请选择本组 3 个单词的共同${q.label}</p>
@@ -261,17 +398,18 @@
       <section class="card practice-word-card">
         <p class="subtitle">第 ${qIdx + 1} / ${questions.length} 题 · <strong>题型：${q.label}</strong> · 下面有 3 组图片，<strong>每组都要选</strong>出共同的${q.label}</p>
         <div class="test-group-row test-group-row-stacked">${groupsHtml}</div>
-        <p class="hint" id="hintAllGroups" style="margin-top:16px;text-align:center;">完成 3 组选择后即可进入下一题</p>
-        <div style="margin-top:20px;text-align:center;">
-          <button class="practice-nav-btn btn primary" id="btnNext">下一题 →</button>
+        <p class="hint test-hint-all-groups" id="hintAllGroups">完成 3 组选择后即可进入下一题</p>
+        <div class="practice-actions">
+          <button type="button" class="practice-nav-btn btn primary" id="btnNext">下一题 →</button>
         </div>
       </section>`;
-
-    window._speak = speak;
 
     document.querySelectorAll('.mini-img').forEach(img => {
       P.safeImg(img, img.src, img.dataset.word, '');
       img.onclick = () => speak(img.dataset.word);
+    });
+    document.querySelectorAll('[data-speak-word]').forEach(btn => {
+      btn.onclick = () => speak(btn.getAttribute('data-speak-word'));
     });
 
     function updateNextVisibility() {

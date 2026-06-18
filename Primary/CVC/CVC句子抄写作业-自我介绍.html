@@ -2,6 +2,7 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>自我介绍 - 句子抄写作业</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,11 +28,44 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-bottom: 48px;
+  padding-bottom: max(48px, env(safe-area-inset-bottom));
+  min-height: 100dvh;
+  overflow-x: clip;
+  -webkit-tap-highlight-color: rgba(30, 136, 229, 0.12);
+}
+
+.back-hub {
+  align-self: flex-start;
+  margin: 12px 0 0 max(16px, env(safe-area-inset-left));
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 6px 14px 6px 10px;
+  border-radius: 999px;
+  border: 2px solid #90CAF9;
+  background: rgba(255, 255, 255, 0.95);
+  color: #1565C0;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-decoration: none;
+  touch-action: manipulation;
+}
+.back-hub:active { background: #E3F2FD; }
+
+#app {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 max(8px, env(safe-area-inset-right)) 0 max(8px, env(safe-area-inset-left));
 }
 
 .toolbar {
   width: 100%; padding: 12px 24px;
+  padding-top: max(12px, env(safe-area-inset-top));
+  padding-left: max(16px, env(safe-area-inset-left));
+  padding-right: max(16px, env(safe-area-inset-right));
   background: #fff;
   box-shadow: 0 2px 18px rgba(0,0,0,.2);
   display: flex; align-items: center; justify-content: space-between;
@@ -43,12 +77,21 @@ body {
 
 .btn-print {
   background: #FF7043; color: #fff; border: none;
-  padding: 10px 28px; border-radius: 50px;
+  padding: 10px 28px; min-height: 44px;
+  border-radius: 50px;
   font-family: var(--font-ui); font-size: 1.05rem; font-weight: 700;
   cursor: pointer; transition: .18s;
   box-shadow: 0 4px 12px rgba(255,112,67,.35);
+  touch-action: manipulation;
+  flex-shrink: 0;
 }
 .btn-print:hover { transform: scale(1.05); background: #E64A19; }
+
+.page-viewport {
+  width: min(210mm, calc(100vw - 24px));
+  margin: 24px auto;
+  overflow: hidden;
+}
 
 .page {
   background: #fff;
@@ -114,13 +157,15 @@ body {
 
 .sen-model {
   font-family: var(--font-hand);
-  font-size: 2.674rem;
+  font-size: clamp(1.2rem, 2.5vw, 2.674rem);
   font-weight: 700;
   color: var(--text-dark);
   letter-spacing: 0.5px;
-  padding: 2mm 0 1mm;
+  padding: 2mm 3mm 1mm;
   text-align: center;
   transform: translateY(-0.2cm);
+  line-height: 1.25;
+  word-break: break-word;
 }
 
 .copy-rows {
@@ -184,6 +229,36 @@ body {
   line-height: 1;
 }
 
+@media screen and (max-width: 720px) {
+  .toolbar-left span:not(:first-child) {
+    font-size: 0.92rem;
+    line-height: 1.35;
+  }
+  .toolbar {
+    justify-content: center;
+  }
+  .btn-print {
+    width: 100%;
+  }
+  .page-viewport {
+    width: calc(100vw - 16px);
+    margin: 12px auto;
+  }
+  .page {
+    margin: 0;
+    box-shadow: 0 0 24px rgba(0,0,0,.45);
+  }
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .btn-print:hover { transform: none; }
+  .btn-print:active { transform: scale(0.98); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-print { transition: none !important; }
+}
+
 @page {
   size: A4;
   margin: 10mm;
@@ -191,8 +266,18 @@ body {
 
 @media print {
   body { background: #fff; padding: 0; }
+  .back-hub { display: none !important; }
   .toolbar { display: none !important; }
-  #app { width: 100%; }
+  #app { width: 100%; padding: 0; }
+  .page-viewport {
+    width: auto;
+    height: auto;
+    overflow: visible;
+    margin: 0;
+  }
+  .page-viewport .page {
+    transform: none !important;
+  }
 
   .page {
     width: 100% !important;
@@ -231,6 +316,8 @@ body {
 </style>
 </head>
 <body>
+
+<a class="back-hub" href="./index.html">← CVC 首页</a>
 
 <div class="toolbar">
   <div class="toolbar-left">
@@ -302,6 +389,9 @@ function buildPage() {
   const total = SENTENCES.length;
 
   SENTENCES.forEach((s, i) => {
+    const viewport = document.createElement('div');
+    viewport.className = 'page-viewport';
+
     const page = document.createElement('div');
     page.className = 'page';
 
@@ -387,9 +477,34 @@ function buildPage() {
     ftr.textContent = `Magic English • 自我介绍句子抄写（抄写4遍）|  ${s.en}  |  ${i + 1} / ${total}`;
     page.appendChild(ftr);
 
-    app.appendChild(page);
+    viewport.appendChild(page);
+    app.appendChild(viewport);
+  });
+  fitPageViewports();
+}
+
+function fitPageViewports() {
+  if (window.matchMedia('print').matches) return;
+  document.querySelectorAll('.page-viewport').forEach((vp) => {
+    const page = vp.querySelector('.page');
+    if (!page) return;
+    page.style.transform = 'none';
+    page.style.transformOrigin = 'top left';
+    const naturalW = page.offsetWidth;
+    const targetW = vp.clientWidth;
+    if (!naturalW || !targetW) return;
+    const scale = Math.min(1, targetW / naturalW);
+    page.style.transform = scale < 1 ? `scale(${scale})` : 'none';
+    vp.style.height = scale < 1 ? `${page.offsetHeight * scale}px` : 'auto';
   });
 }
+
+let fitTimer;
+window.addEventListener('resize', () => {
+  clearTimeout(fitTimer);
+  fitTimer = setTimeout(fitPageViewports, 120);
+});
+window.addEventListener('orientationchange', fitPageViewports);
 
 window.addEventListener('load', buildPage);
 </script>

@@ -2,8 +2,8 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Play Kitty · 单词涂色卡 · 13 词</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Play, Kitty! · 单词涂色卡 · 13 词</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet" />
@@ -11,6 +11,7 @@
     :root {
       --ng-gold: #f5c400;
       --ink: #1a1a1a;
+      --accent: #ad1457;
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -19,12 +20,42 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding-bottom: 48px;
-      min-height: 100vh;
+      padding-bottom: max(48px, env(safe-area-inset-bottom));
+      min-height: 100dvh;
+      overflow-x: clip;
+      -webkit-tap-highlight-color: rgba(233, 30, 140, 0.12);
+    }
+    .back-hub {
+      align-self: flex-start;
+      margin: 12px 0 0 max(16px, env(safe-area-inset-left));
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 44px;
+      padding: 6px 14px 6px 10px;
+      border-radius: 999px;
+      border: 2px solid #F48FB1;
+      background: rgba(255, 255, 255, 0.95);
+      color: #AD1457;
+      font-size: 0.9rem;
+      font-weight: 700;
+      text-decoration: none;
+      touch-action: manipulation;
+    }
+    .back-hub:active { background: #FCE4EC; }
+    #app {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0 max(8px, env(safe-area-inset-right)) 0 max(8px, env(safe-area-inset-left));
     }
     .toolbar {
       width: 100%;
       padding: 14px 22px;
+      padding-top: max(14px, env(safe-area-inset-top));
+      padding-left: max(16px, env(safe-area-inset-left));
+      padding-right: max(16px, env(safe-area-inset-right));
       background: #fffef8;
       border-bottom: 3px solid var(--ng-gold);
       display: flex;
@@ -45,10 +76,18 @@
       border: none;
       border-radius: 999px;
       padding: 10px 22px;
+      min-height: 44px;
       cursor: pointer;
-      background: linear-gradient(180deg, #ff7043, #e64a19);
+      background: linear-gradient(180deg, #e91e8c, var(--accent));
       color: #fff;
-      box-shadow: 0 4px 12px rgba(230,74,25,.4);
+      box-shadow: 0 4px 12px rgba(233, 30, 140, 0.4);
+      touch-action: manipulation;
+      flex-shrink: 0;
+    }
+    .page-viewport {
+      width: min(210mm, calc(100vw - 24px));
+      margin: 24px auto;
+      overflow: hidden;
     }
     .sheet {
       width: 210mm;
@@ -62,6 +101,7 @@
       flex-direction: column;
       align-items: center;
     }
+    .page-viewport .sheet { margin: 0; }
     .sheet-hdr {
       width: 100%;
       display: flex;
@@ -72,14 +112,16 @@
       border-bottom: 2px solid #eceff1;
       padding-bottom: 4mm;
       margin-bottom: 6mm;
+      gap: 4px;
+      flex-wrap: wrap;
     }
     .sheet-hdr .badge {
       font-weight: 700;
       padding: 4px 14px;
       border-radius: 8px;
-      background: #fff8e1;
+      background: #fce4ec;
       border: 2px solid var(--ng-gold);
-      color: #5d4037;
+      color: var(--accent);
     }
     .sheet-img {
       flex: 1;
@@ -101,21 +143,45 @@
       color: #b0bec5;
       text-align: center;
     }
+    @media screen and (max-width: 720px) {
+      .toolbar { justify-content: center; }
+      .toolbar h1 { font-size: 1rem; line-height: 1.35; }
+      .toolbar p { max-width: 100%; font-size: 0.82rem; }
+      .btn { width: 100%; }
+      .page-viewport { width: calc(100vw - 16px); margin: 12px auto; }
+      .sheet { box-shadow: 0 0 28px rgba(0, 0, 0, 0.45); }
+    }
+    @media (hover: none) and (pointer: coarse) {
+      .btn:active { transform: scale(0.98); }
+    }
     @media print {
       body { background: #fff; padding: 0; }
+      .back-hub { display: none !important; }
       .toolbar { display: none !important; }
-      .sheet { margin: 0; box-shadow: none; }
+      #app { padding: 0; }
+      .page-viewport {
+        width: auto; height: auto; overflow: visible; margin: 0;
+      }
+      .page-viewport .sheet {
+        transform: none !important;
+        margin: 0; box-shadow: none;
+      }
+      * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
     }
   </style>
 </head>
 <body>
+  <a class="back-hub" href="../index.html">← Play, Kitty! 首页</a>
+
   <div class="toolbar">
     <div>
-      <h1>🐱 Play Kitty · 单词涂色卡（一年级）</h1>
+      <h1>🐱 Play, Kitty! · 单词涂色卡（一年级）</h1>
       <p>看图涂色，记住单词意思。每页一词：play · climb · hide · swing · stretch · see · swat · eat · lick · clean · cuddle · yawn · sleep。打印时选「另存为 PDF」即可。</p>
     </div>
     <button type="button" class="btn" onclick="window.print()">🖨️ 打印 / 导出 PDF</button>
   </div>
+
+  <div id="app">
 
   <section class="sheet">
     <div class="sheet-hdr">
@@ -124,7 +190,7 @@
       <span>日期: ____ / ____</span>
     </div>
     <div class="sheet-img"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Play%20Kitty/play-kitty-coloring/images/play.png" alt="play 涂色：小猫玩毛线" /></div>
-    <p class="sheet-ftr">Play Kitty · 涂色记单词 · play</p>
+    <p class="sheet-ftr">Play, Kitty! · 涂色记单词 · play</p>
   </section>
 
   <section class="sheet">
@@ -134,7 +200,7 @@
       <span>日期: ____ / ____</span>
     </div>
     <div class="sheet-img"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Play%20Kitty/play-kitty-coloring/images/climb.png" alt="climb 涂色：小猫爬" /></div>
-    <p class="sheet-ftr">Play Kitty · 涂色记单词 · climb</p>
+    <p class="sheet-ftr">Play, Kitty! · 涂色记单词 · climb</p>
   </section>
 
   <section class="sheet">
@@ -144,7 +210,7 @@
       <span>日期: ____ / ____</span>
     </div>
     <div class="sheet-img"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Play%20Kitty/play-kitty-coloring/images/hide.png" alt="hide 涂色：小猫躲起来" /></div>
-    <p class="sheet-ftr">Play Kitty · 涂色记单词 · hide</p>
+    <p class="sheet-ftr">Play, Kitty! · 涂色记单词 · hide</p>
   </section>
 
   <section class="sheet">
@@ -154,7 +220,7 @@
       <span>日期: ____ / ____</span>
     </div>
     <div class="sheet-img"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Play%20Kitty/play-kitty-coloring/images/swing.png" alt="swing 涂色：小猫荡秋千" /></div>
-    <p class="sheet-ftr">Play Kitty · 涂色记单词 · swing</p>
+    <p class="sheet-ftr">Play, Kitty! · 涂色记单词 · swing</p>
   </section>
 
   <section class="sheet">
@@ -164,7 +230,7 @@
       <span>日期: ____ / ____</span>
     </div>
     <div class="sheet-img"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Play%20Kitty/play-kitty-coloring/images/stretch.png" alt="stretch 涂色：小猫伸懒腰" /></div>
-    <p class="sheet-ftr">Play Kitty · 涂色记单词 · stretch</p>
+    <p class="sheet-ftr">Play, Kitty! · 涂色记单词 · stretch</p>
   </section>
 
   <section class="sheet">
@@ -174,7 +240,7 @@
       <span>日期: ____ / ____</span>
     </div>
     <div class="sheet-img"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Play%20Kitty/play-kitty-coloring/images/see.png" alt="see 涂色：小猫看见" /></div>
-    <p class="sheet-ftr">Play Kitty · 涂色记单词 · see</p>
+    <p class="sheet-ftr">Play, Kitty! · 涂色记单词 · see</p>
   </section>
 
   <section class="sheet">
@@ -184,7 +250,7 @@
       <span>日期: ____ / ____</span>
     </div>
     <div class="sheet-img"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Play%20Kitty/play-kitty-coloring/images/swat.png" alt="swat 涂色：小猫拍打" /></div>
-    <p class="sheet-ftr">Play Kitty · 涂色记单词 · swat</p>
+    <p class="sheet-ftr">Play, Kitty! · 涂色记单词 · swat</p>
   </section>
 
   <section class="sheet">
@@ -194,7 +260,7 @@
       <span>日期: ____ / ____</span>
     </div>
     <div class="sheet-img"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Play%20Kitty/play-kitty-coloring/images/eat.png" alt="eat 涂色：小猫吃东西" /></div>
-    <p class="sheet-ftr">Play Kitty · 涂色记单词 · eat</p>
+    <p class="sheet-ftr">Play, Kitty! · 涂色记单词 · eat</p>
   </section>
 
   <section class="sheet">
@@ -204,7 +270,7 @@
       <span>日期: ____ / ____</span>
     </div>
     <div class="sheet-img"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Play%20Kitty/play-kitty-coloring/images/lick.png" alt="lick 涂色：小猫舔" /></div>
-    <p class="sheet-ftr">Play Kitty · 涂色记单词 · lick</p>
+    <p class="sheet-ftr">Play, Kitty! · 涂色记单词 · lick</p>
   </section>
 
   <section class="sheet">
@@ -214,7 +280,7 @@
       <span>日期: ____ / ____</span>
     </div>
     <div class="sheet-img"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Play%20Kitty/play-kitty-coloring/images/clean.png" alt="clean 涂色：小猫弄干净" /></div>
-    <p class="sheet-ftr">Play Kitty · 涂色记单词 · clean</p>
+    <p class="sheet-ftr">Play, Kitty! · 涂色记单词 · clean</p>
   </section>
 
   <section class="sheet">
@@ -224,7 +290,7 @@
       <span>日期: ____ / ____</span>
     </div>
     <div class="sheet-img"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Play%20Kitty/play-kitty-coloring/images/cuddle.png" alt="cuddle 涂色：小猫依偎" /></div>
-    <p class="sheet-ftr">Play Kitty · 涂色记单词 · cuddle</p>
+    <p class="sheet-ftr">Play, Kitty! · 涂色记单词 · cuddle</p>
   </section>
 
   <section class="sheet">
@@ -234,7 +300,7 @@
       <span>日期: ____ / ____</span>
     </div>
     <div class="sheet-img"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Play%20Kitty/play-kitty-coloring/images/yawn.png" alt="yawn 涂色：小猫打哈欠" /></div>
-    <p class="sheet-ftr">Play Kitty · 涂色记单词 · yawn</p>
+    <p class="sheet-ftr">Play, Kitty! · 涂色记单词 · yawn</p>
   </section>
 
   <section class="sheet">
@@ -244,7 +310,45 @@
       <span>日期: ____ / ____</span>
     </div>
     <div class="sheet-img"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Play%20Kitty/play-kitty-coloring/images/sleep.png" alt="sleep 涂色：小猫睡觉" /></div>
-    <p class="sheet-ftr">Play Kitty · 涂色记单词 · sleep</p>
+    <p class="sheet-ftr">Play, Kitty! · 涂色记单词 · sleep</p>
   </section>
+  </div>
+
+  <script>
+    (function () {
+      var app = document.getElementById("app");
+      var sheets = Array.prototype.slice.call(app.querySelectorAll(".sheet"));
+      sheets.forEach(function (sheet) {
+        var vp = document.createElement("div");
+        vp.className = "page-viewport";
+        sheet.parentNode.insertBefore(vp, sheet);
+        vp.appendChild(sheet);
+      });
+
+      function fitPageViewports() {
+        if (window.matchMedia("print").matches) return;
+        document.querySelectorAll(".page-viewport").forEach(function (vp) {
+          var sheet = vp.querySelector(".sheet");
+          if (!sheet) return;
+          sheet.style.transform = "none";
+          sheet.style.transformOrigin = "top left";
+          var naturalW = sheet.offsetWidth;
+          var targetW = vp.clientWidth;
+          if (!naturalW || !targetW) return;
+          var scale = Math.min(1, targetW / naturalW);
+          sheet.style.transform = scale < 1 ? "scale(" + scale + ")" : "none";
+          vp.style.height = scale < 1 ? sheet.offsetHeight * scale + "px" : "auto";
+        });
+      }
+
+      var fitTimer;
+      window.addEventListener("resize", function () {
+        clearTimeout(fitTimer);
+        fitTimer = setTimeout(fitPageViewports, 120);
+      });
+      window.addEventListener("orientationchange", fitPageViewports);
+      window.addEventListener("load", fitPageViewports);
+    })();
+  </script>
 </body>
 </html>

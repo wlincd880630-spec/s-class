@@ -2,7 +2,7 @@
 <html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>CVC 单词列表</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -11,6 +11,143 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="./styles.css" />
+    <style>
+      /* vowel.html · 元音单词列表（仅本页） */
+      html {
+        -webkit-text-size-adjust: 100%;
+        text-size-adjust: 100%;
+      }
+      body[data-page="vowel"] {
+        min-height: 100dvh;
+        overflow-x: clip;
+        -webkit-tap-highlight-color: rgba(79, 172, 247, 0.15);
+      }
+      body[data-page="vowel"] .topbar {
+        padding-top: env(safe-area-inset-top, 0);
+      }
+      body[data-page="vowel"] .topbar-inner {
+        padding-left: max(16px, env(safe-area-inset-left));
+        padding-right: max(16px, env(safe-area-inset-right));
+      }
+      body[data-page="vowel"] .container {
+        margin-top: 24px;
+        margin-bottom: max(48px, env(safe-area-inset-bottom));
+        padding-left: max(16px, env(safe-area-inset-left));
+        padding-right: max(16px, env(safe-area-inset-right));
+      }
+      .back-hub {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        margin-bottom: 16px;
+        min-height: 44px;
+        padding: 6px 14px 6px 10px;
+        border-radius: 999px;
+        border: 2px solid var(--blue-soft);
+        background: rgba(255, 255, 255, 0.9);
+        color: var(--text-lite);
+        font-size: 0.9rem;
+        font-weight: 700;
+        text-decoration: none;
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: transparent;
+      }
+      .back-hub:active { color: var(--blue-deep); border-color: var(--blue); }
+      @media (max-width: 860px) {
+        body[data-page="vowel"] .topbar-inner {
+          flex-wrap: wrap;
+          row-gap: 10px;
+        }
+        body[data-page="vowel"] .nav-buttons {
+          display: flex !important;
+          flex: 1 1 100%;
+          order: 3;
+          justify-content: flex-start;
+          flex-wrap: nowrap;
+          overflow-x: auto;
+          -webkit-overflow-scrolling: touch;
+          scrollbar-width: none;
+          padding-bottom: 4px;
+          gap: 8px;
+        }
+        body[data-page="vowel"] .nav-buttons::-webkit-scrollbar { display: none; }
+        body[data-page="vowel"] .nav-chip {
+          flex-shrink: 0;
+          min-height: 44px;
+          padding: 10px 16px;
+          font-size: 15px;
+        }
+        body[data-page="vowel"] .brand { font-size: 24px; }
+        body[data-page="vowel"] .title {
+          font-size: clamp(1.6rem, 6.5vw, 2.1rem);
+          letter-spacing: 0.5px;
+        }
+        body[data-page="vowel"] .subtitle {
+          font-size: 0.95rem;
+          line-height: 1.65;
+        }
+        body[data-page="vowel"] .word-grid {
+          grid-template-columns: repeat(auto-fill, minmax(min(100%, 168px), 1fr));
+          gap: 14px;
+        }
+        body[data-page="vowel"] .word-en {
+          font-size: clamp(1.35rem, 5vw, 1.75rem);
+        }
+        body[data-page="vowel"] .practice-block {
+          padding: 18px 16px;
+        }
+      }
+      @media (max-width: 520px) {
+        body[data-page="vowel"] .card { padding: 20px 16px; }
+        body[data-page="vowel"] .practice-btn-row {
+          flex-direction: column;
+          align-items: stretch;
+        }
+        body[data-page="vowel"] .practice-btn-row .btn {
+          width: 100%;
+          min-height: 48px;
+          justify-content: center;
+          font-size: 16px;
+        }
+        body[data-page="vowel"] .word-grid {
+          grid-template-columns: 1fr;
+          gap: 12px;
+        }
+        body[data-page="vowel"] .word-card {
+          padding: 18px 16px 20px;
+        }
+        body[data-page="vowel"] .word-card .btn-row {
+          flex-direction: column;
+          align-items: stretch;
+        }
+        body[data-page="vowel"] .word-card .btn {
+          flex: 1 1 auto;
+          width: 100%;
+          min-height: 48px;
+          justify-content: center;
+          font-size: 16px;
+        }
+      }
+      @media (hover: none) and (pointer: coarse) {
+        body[data-page="vowel"] .word-card:hover {
+          transform: none;
+          box-shadow: var(--sh-sm);
+          border-color: var(--line);
+        }
+        body[data-page="vowel"] .word-card:active {
+          transform: scale(0.99);
+          box-shadow: 0 10px 28px rgba(60, 130, 200, 0.14);
+          border-color: var(--blue-soft);
+        }
+        body[data-page="vowel"] .btn:hover { transform: none; filter: none; }
+        body[data-page="vowel"] .nav-chip:hover { transform: none; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        body[data-page="vowel"] .word-card,
+        body[data-page="vowel"] .btn,
+        body[data-page="vowel"] .nav-chip { transition: none !important; }
+      }
+    </style>
   </head>
   <body data-page="vowel">
     <header class="topbar">
@@ -21,6 +158,7 @@
     </header>
 
     <main class="container">
+      <a class="back-hub" href="./index.html">← CVC 首页</a>
       <!-- 页面标题卡 -->
       <section class="card">
         <h1 id="vowelTitle" class="title"></h1>

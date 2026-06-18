@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Peek, Otter! · 复习游戏</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -11,17 +11,46 @@
   <style>
     :root { --gold: #f5c400; --ink: #1a1a1a; --paper: #f7f5f0; --accent: #00838F; }
     * { box-sizing: border-box; margin: 0; padding: 0; }
+    html {
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
     body {
       font-family: "Noto Sans SC", sans-serif;
-      min-height: 100vh;
+      min-height: 100dvh;
       background: #121212;
       background-image: radial-gradient(ellipse 70% 40% at 50% 0%, rgba(0, 131, 143, 0.35), transparent 55%);
       color: var(--paper);
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 2rem 1.25rem 3rem;
+      overflow-x: clip;
+      -webkit-tap-highlight-color: rgba(0, 172, 193, 0.12);
+      padding:
+        max(2rem, env(safe-area-inset-top))
+        max(1.25rem, env(safe-area-inset-right))
+        max(3rem, env(safe-area-inset-bottom))
+        max(1.25rem, env(safe-area-inset-left));
     }
+    .back-hub {
+      align-self: flex-start;
+      width: min(720px, 100%);
+      margin-bottom: 1rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 44px;
+      padding: 6px 14px 6px 10px;
+      border-radius: 999px;
+      border: 2px solid #4DD0E1;
+      background: rgba(255, 255, 255, 0.95);
+      color: #00838F;
+      font-size: 0.9rem;
+      font-weight: 700;
+      text-decoration: none;
+      touch-action: manipulation;
+    }
+    .back-hub:active { background: #E0F7FA; }
     .hdr { text-align: center; max-width: 40rem; margin-bottom: 1.5rem; }
     .hdr h1 {
       font-family: "Fredoka", sans-serif;
@@ -55,8 +84,13 @@
       border: 2px solid #c9a008;
       border-radius: 999px;
       padding: 0.5rem 1.15rem;
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
       text-decoration: none;
       font-size: 0.95rem;
+      touch-action: manipulation;
+      flex-shrink: 0;
     }
     .words {
       display: flex; flex-wrap: wrap; justify-content: center; gap: 0.35rem;
@@ -94,17 +128,42 @@
       display: flex;
       flex-direction: column;
       gap: 0.65rem;
+      min-height: 44px;
+      touch-action: manipulation;
     }
     .card:hover { transform: translateY(-4px); box-shadow: 0 18px 48px rgba(0, 0, 0, 0.45); }
+    .card:active { transform: translateY(-1px); }
     .card.settings-card { border-left-color: var(--accent); }
     .card .tag { font-size: 0.72rem; font-weight: 700; color: #1b5e20; letter-spacing: 0.08em; text-transform: uppercase; }
     .card h2 { font-family: "Fredoka", sans-serif; font-size: 1.35rem; color: var(--accent); }
     .card p { font-size: 0.88rem; line-height: 1.55; color: #546e7a; }
     .card .go { margin-top: 0.35rem; font-family: "Fredoka", sans-serif; font-weight: 700; color: var(--accent); font-size: 1rem; }
     .foot { margin-top: 2rem; font-size: 0.78rem; color: #78909c; text-align: center; }
+    @media screen and (max-width: 720px) {
+      .settings-banner {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .btn-set {
+        width: 100%;
+        justify-content: center;
+      }
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    @media (hover: none) and (pointer: coarse) {
+      .card:hover { transform: none; box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35); }
+      .card:active { transform: scale(0.98); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .card { transition: none !important; }
+    }
   </style>
 </head>
 <body>
+  <a class="back-hub" href="../index.html">← Peek, Otter! 首页</a>
+
   <header class="hdr">
     <h1>🦦 Peek, Otter! · 复习游戏</h1>
     <p>共 13 个单词。请先在<strong>选词设置</strong>中勾选本次要练的词，再进入游戏。</p>

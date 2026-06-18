@@ -2,7 +2,7 @@
 <html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>首音练习</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -11,6 +11,141 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="./styles.css" />
+    <style>
+      /* review-beginning.html · 首音练习（仅本页） */
+      html {
+        -webkit-text-size-adjust: 100%;
+        text-size-adjust: 100%;
+      }
+      body[data-page="review-beginning"] {
+        min-height: 100dvh;
+        overflow-x: clip;
+        -webkit-tap-highlight-color: rgba(79, 172, 247, 0.15);
+      }
+      body[data-page="review-beginning"] .topbar {
+        padding-top: env(safe-area-inset-top, 0);
+      }
+      body[data-page="review-beginning"] .topbar-inner {
+        padding-left: max(16px, env(safe-area-inset-left));
+        padding-right: max(16px, env(safe-area-inset-right));
+      }
+      body[data-page="review-beginning"] .container {
+        margin-top: 24px;
+        margin-bottom: max(48px, env(safe-area-inset-bottom));
+        padding-left: max(16px, env(safe-area-inset-left));
+        padding-right: max(16px, env(safe-area-inset-right));
+      }
+      body[data-page="review-beginning"] .title {
+        font-size: clamp(1.35rem, 5.5vw, 2.25rem);
+        line-height: 1.35;
+        word-break: break-word;
+      }
+      body[data-page="review-beginning"] .subtitle {
+        font-size: clamp(0.95rem, 3.5vw, 1.05rem);
+        line-height: 1.65;
+      }
+      body[data-page="review-beginning"] .review-content {
+        gap: 16px;
+      }
+      body[data-page="review-beginning"] .slots,
+      body[data-page="review-beginning"] .letters {
+        justify-content: center;
+      }
+      body[data-page="review-beginning"] .letter.tap-picked {
+        border-color: var(--blue);
+        background: linear-gradient(145deg, #d6eeff, #fff);
+        box-shadow: 0 0 0 3px rgba(79, 172, 247, 0.35), 0 4px 0 var(--blue-soft);
+        transform: scale(1.04);
+      }
+      body[data-page="review-beginning"] .slot[data-empty="true"]:not(.filled) {
+        cursor: pointer;
+      }
+      @media (max-width: 860px) {
+        body[data-page="review-beginning"] .topbar-inner {
+          flex-wrap: wrap;
+          row-gap: 10px;
+        }
+        body[data-page="review-beginning"] .nav-buttons {
+          display: flex !important;
+          flex: 1 1 100%;
+          order: 3;
+          justify-content: flex-start;
+          flex-wrap: nowrap;
+          overflow-x: auto;
+          -webkit-overflow-scrolling: touch;
+          scrollbar-width: none;
+          padding-bottom: 4px;
+          gap: 8px;
+        }
+        body[data-page="review-beginning"] .nav-buttons::-webkit-scrollbar { display: none; }
+        body[data-page="review-beginning"] .nav-chip {
+          flex-shrink: 0;
+          min-height: 44px;
+          padding: 10px 16px;
+          font-size: 15px;
+        }
+        body[data-page="review-beginning"] .brand { font-size: 24px; }
+        body[data-page="review-beginning"] .hero-layout { gap: 24px; }
+        body[data-page="review-beginning"] .image-box { min-height: 220px; }
+        body[data-page="review-beginning"] .image-box img { min-height: 200px; }
+      }
+      @media (max-width: 520px) {
+        body[data-page="review-beginning"] .card-single { padding: 20px 16px; }
+        body[data-page="review-beginning"] .hero-layout { gap: 20px; }
+        body[data-page="review-beginning"] .image-box {
+          min-height: 200px;
+          border-radius: var(--r-lg);
+        }
+        body[data-page="review-beginning"] .image-box img { min-height: 180px; }
+        body[data-page="review-beginning"] .slots,
+        body[data-page="review-beginning"] .letters {
+          gap: 10px;
+          margin-top: 12px;
+        }
+        body[data-page="review-beginning"] .letter,
+        body[data-page="review-beginning"] .slot {
+          min-width: clamp(64px, 18vw, 86px);
+          min-height: clamp(64px, 18vw, 86px);
+          font-size: clamp(1.6rem, 6.5vw, 2.375rem);
+          padding: 8px;
+          touch-action: manipulation;
+          cursor: pointer;
+        }
+        body[data-page="review-beginning"] .feedback {
+          font-size: 1rem;
+          padding: 12px 14px;
+        }
+        body[data-page="review-beginning"] .info-row {
+          flex-direction: column;
+          align-items: stretch;
+          gap: 10px;
+        }
+        body[data-page="review-beginning"] .info-row .btn {
+          width: 100%;
+          min-height: 52px;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          text-align: center;
+          touch-action: manipulation;
+        }
+      }
+      @media (hover: none) and (pointer: coarse) {
+        body[data-page="review-beginning"] .letter:hover { transform: none; }
+        body[data-page="review-beginning"] .btn:hover { transform: none; filter: none; }
+        body[data-page="review-beginning"] .nav-chip:hover { transform: none; }
+        body[data-page="review-beginning"] .letter:active { transform: scale(0.96); }
+        body[data-page="review-beginning"] .btn:active { transform: scale(0.98); }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        body[data-page="review-beginning"] .letter,
+        body[data-page="review-beginning"] .btn,
+        body[data-page="review-beginning"] .nav-chip {
+          transition: none !important;
+        }
+        body[data-page="review-beginning"] .letter.tap-picked { transform: none; }
+      }
+    </style>
   </head>
   <body data-page="review-beginning">
     <header class="topbar">
@@ -22,7 +157,7 @@
     <main class="container">
       <section class="card card-single">
         <h1 id="reviewTitle" class="title"></h1>
-        <p class="subtitle">听发音，拖拽正确首字母到空格。</p>
+        <p class="subtitle">听发音，拖拽或点击字母填入空格（先点字母，再点空格）。</p>
         <div class="hero-layout">
           <div class="image-box">
             <img id="reviewImage" alt="word" />
@@ -41,5 +176,45 @@
     </main>
     <script src="./cvc-data.js"></script>
     <script src="./app.js"></script>
+    <script>
+(function () {
+  var picked = null;
+  var options = document.getElementById("reviewOptions");
+  var slots = document.getElementById("reviewSlots");
+  if (!options || !slots) return;
+
+  options.addEventListener("click", function (e) {
+    var letter = e.target.closest(".letter");
+    if (!letter) return;
+    options.querySelectorAll(".letter").forEach(function (l) {
+      l.classList.remove("tap-picked");
+    });
+    letter.classList.add("tap-picked");
+    picked = letter;
+  });
+
+  slots.addEventListener("click", function (e) {
+    var slot = e.target.closest('.slot[data-empty="true"]');
+    if (!slot || slot.classList.contains("filled") || !picked) return;
+    var ch = picked.dataset.char;
+    slot.textContent = ch;
+    slot.dataset.filled = ch;
+    slot.classList.add("filled");
+    picked.remove();
+    picked = null;
+    var ok = ch === slot.dataset.expected;
+    var fb = document.getElementById("reviewFeedback");
+    fb.textContent = ok ? "太棒了！答对啦 ⭐" : "再试一次哦";
+    fb.className = "feedback " + (ok ? "ok" : "bad");
+  });
+
+  document.getElementById("btnNextStage").addEventListener("click", function () {
+    picked = null;
+    options.querySelectorAll(".letter").forEach(function (l) {
+      l.classList.remove("tap-picked");
+    });
+  });
+})();
+    </script>
   </body>
 </html>

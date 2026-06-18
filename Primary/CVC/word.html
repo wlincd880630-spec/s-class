@@ -2,7 +2,7 @@
 <html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>单词学习</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -11,6 +11,124 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="./styles.css" />
+    <style>
+      /* word.html · 学单词页（仅本页） */
+      html {
+        -webkit-text-size-adjust: 100%;
+        text-size-adjust: 100%;
+      }
+      body[data-page="word"] {
+        min-height: 100dvh;
+        overflow-x: clip;
+        -webkit-tap-highlight-color: rgba(79, 172, 247, 0.15);
+      }
+      body[data-page="word"] .topbar {
+        padding-top: env(safe-area-inset-top, 0);
+      }
+      body[data-page="word"] .topbar-inner {
+        padding-left: max(16px, env(safe-area-inset-left));
+        padding-right: max(16px, env(safe-area-inset-right));
+      }
+      body[data-page="word"] .container {
+        margin-top: 24px;
+        margin-bottom: max(48px, env(safe-area-inset-bottom));
+        padding-left: max(16px, env(safe-area-inset-left));
+        padding-right: max(16px, env(safe-area-inset-right));
+      }
+      .back-hub {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        margin-bottom: 16px;
+        min-height: 44px;
+        padding: 6px 14px 6px 10px;
+        border-radius: 999px;
+        border: 2px solid var(--blue-soft);
+        background: rgba(255, 255, 255, 0.9);
+        color: var(--text-lite);
+        font-size: 0.9rem;
+        font-weight: 700;
+        text-decoration: none;
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: transparent;
+      }
+      .back-hub:active { color: var(--blue-deep); border-color: var(--blue); }
+      body[data-page="word"] #wordValue {
+        font-size: clamp(2.25rem, 10vw, 3.625rem) !important;
+        letter-spacing: clamp(1px, 0.5vw, 4px) !important;
+        word-break: break-word;
+      }
+      body[data-page="word"] .hint.cn-hint {
+        font-size: clamp(1.15rem, 4.5vw, 1.625rem);
+      }
+      body[data-page="word"] #wordHint {
+        font-size: clamp(0.9rem, 3.5vw, 1rem) !important;
+        line-height: 1.6;
+      }
+      @media (max-width: 860px) {
+        body[data-page="word"] .topbar-inner {
+          flex-wrap: wrap;
+          row-gap: 10px;
+        }
+        body[data-page="word"] .nav-buttons {
+          display: flex !important;
+          flex: 1 1 100%;
+          order: 3;
+          justify-content: flex-start;
+          flex-wrap: nowrap;
+          overflow-x: auto;
+          -webkit-overflow-scrolling: touch;
+          scrollbar-width: none;
+          padding-bottom: 4px;
+          gap: 8px;
+        }
+        body[data-page="word"] .nav-buttons::-webkit-scrollbar { display: none; }
+        body[data-page="word"] .nav-chip {
+          flex-shrink: 0;
+          min-height: 44px;
+          padding: 10px 16px;
+          font-size: 15px;
+        }
+        body[data-page="word"] .brand { font-size: 24px; }
+        body[data-page="word"] .hero-layout { gap: 24px; }
+        body[data-page="word"] .image-box { min-height: 220px; }
+        body[data-page="word"] .image-box img { min-height: 200px; }
+      }
+      @media (max-width: 520px) {
+        body[data-page="word"] .card { padding: 20px 16px; }
+        body[data-page="word"] .hero-layout { gap: 20px; }
+        body[data-page="word"] .image-box {
+          min-height: 200px;
+          border-radius: var(--r-lg);
+        }
+        body[data-page="word"] .image-box img { min-height: 180px; }
+        body[data-page="word"] .info-row {
+          flex-direction: column;
+          align-items: stretch;
+          gap: 10px;
+        }
+        body[data-page="word"] .info-row .btn {
+          width: 100%;
+          min-height: 48px;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          text-align: center;
+        }
+        body[data-page="word"] .hint {
+          padding: 12px 14px;
+          font-size: 1rem;
+        }
+      }
+      @media (hover: none) and (pointer: coarse) {
+        body[data-page="word"] .btn:hover { transform: none; filter: none; }
+        body[data-page="word"] .nav-chip:hover { transform: none; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        body[data-page="word"] .btn,
+        body[data-page="word"] .nav-chip { transition: none !important; }
+      }
+    </style>
   </head>
   <body data-page="word">
     <header class="topbar">
@@ -20,6 +138,7 @@
       </div>
     </header>
     <main class="container">
+      <a class="back-hub" id="btnBackVowel" href="./vowel.html">← 本组列表</a>
       <section class="card hero-layout" data-accent="blue">
         <!-- 左：单词图片 -->
         <div class="image-box">
@@ -45,5 +164,12 @@
     </main>
     <script src="./cvc-data.js"></script>
     <script src="./app.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const v = (new URLSearchParams(location.search).get("vowel") || "a").toLowerCase();
+        const back = document.getElementById("btnBackVowel");
+        if (back) back.href = `vowel.html?vowel=${v}`;
+      });
+    </script>
   </body>
 </html>
