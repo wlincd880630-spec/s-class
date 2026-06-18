@@ -20,10 +20,17 @@
       --crayon-green: #5cb85c;
       --edge: #5d4037;
       --grammar-blue: #1565c0;
-      --p07-nav-h: calc(clamp(88px, 17vmin, 120px) + max(12px, env(safe-area-inset-bottom)));
+      --p07-nav-h: calc(clamp(88px, 17vmin, 120px) + var(--lesson-pager-gap, 2.35rem) + max(12px, env(safe-area-inset-bottom)));
     }
     * { box-sizing: border-box; }
-    html { overflow: hidden; max-width: 100%; font-size: clamp(13px, 0.78vw + 11px, 18px); }
+    html {
+      overflow: hidden;
+      overflow-x: clip;
+      max-width: 100%;
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+      font-size: clamp(13px, 0.78vw + 11px, 18px);
+    }
     html, body {
       margin: 0; width: 100%; height: 100%; overflow: hidden;
       font-family: system-ui, "Microsoft YaHei", "PingFang SC", sans-serif;
@@ -38,8 +45,10 @@
       min-height: 100dvh;
     }
     #viewport {
-      position: relative; width: min(100vw, 100%); height: min(100dvh, 100%);
-      max-width: 100%; max-height: 100dvh; flex-shrink: 0; overflow: hidden;
+      position: relative; width: min(100vw, 100%);
+      height: min(calc(100dvh - var(--lesson-pager-gap, 2.35rem)), 100%);
+      max-width: 100%; max-height: calc(100dvh - var(--lesson-pager-gap, 2.35rem));
+      flex-shrink: 0; overflow: hidden;
     }
     #p07-host {
       position: absolute; inset: 0; isolation: isolate; overflow: hidden;
@@ -61,6 +70,7 @@
       padding: clamp(5px, 1vmin, 10px) max(4px, env(safe-area-inset-right)) var(--p07-nav-h) max(4px, env(safe-area-inset-left));
       gap: clamp(5px, 1vmin, 10px); overflow: hidden auto;
       -webkit-overflow-scrolling: touch;
+      scroll-padding-bottom: calc(var(--p07-nav-h) + 0.35rem);
     }
     .p07-top {
       flex-shrink: 0; display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; width: 100%;
@@ -154,6 +164,7 @@
     .p07-socratic-recap {
       flex: 1 1 auto; min-height: 0; max-height: min(42dvh, 280px); overflow: auto;
       -webkit-overflow-scrolling: touch;
+      scroll-padding-bottom: 0.35rem;
     }
     .p07-socratic-recap-empty {
       margin: 0; font-size: clamp(0.58rem, 0.82vw + 0.1rem, 0.7rem); color: #78909c; line-height: 1.5;
@@ -177,8 +188,10 @@
     .p07-socratic-tools button {
       appearance: none; cursor: pointer; font-weight: 900;
       font-size: clamp(0.6rem, 0.92vw + 0.14rem, 0.76rem);
-      padding: 7px 12px; border-radius: 999px; border: 2px solid var(--edge);
+      padding: 7px 12px; min-height: 44px;
+      border-radius: 999px; border: 2px solid var(--edge);
       background: rgba(255, 249, 240, 0.98); color: #4e342e;
+      touch-action: manipulation;
     }
     .p07-socratic-tools button.p07-socratic-primary {
       background: linear-gradient(180deg, var(--crayon-blue), #1565c0); color: #fff; border-color: rgba(0, 0, 0, 0.12);
@@ -186,7 +199,7 @@
 
     #p07-bottom-dock {
       position: fixed; z-index: 40; left: max(8px, env(safe-area-inset-left)); right: max(8px, env(safe-area-inset-right));
-      bottom: max(8px, env(safe-area-inset-bottom));
+      bottom: calc(var(--lesson-pager-gap, 2.35rem) + max(8px, env(safe-area-inset-bottom, 0px)));
       padding: clamp(7px, 1.2vmin, 11px) clamp(9px, 1.8vmin, 13px);
       border-radius: clamp(14px, 2.2vmin, 20px);
       background: rgba(38, 50, 56, 0.45);
@@ -199,11 +212,47 @@
     .btn-ghost, .btn-primary {
       appearance: none; cursor: pointer; font-weight: 900;
       font-size: clamp(0.65rem, 1.05vw + 0.22rem, 0.8rem);
-      border-radius: 999px; padding: 8px 14px; text-decoration: none; display: inline-flex;
+      border-radius: 999px; padding: 8px 14px; min-height: 44px;
+      text-decoration: none; display: inline-flex;
       align-items: center; justify-content: center; border: 2px solid transparent;
+      touch-action: manipulation;
     }
     .btn-ghost { color: #eceff1; background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.2); }
     .btn-primary { color: #fff; background: linear-gradient(180deg, var(--crayon-orange), #e65100); border-color: rgba(0, 0, 0, 0.1); }
+
+    body.has-lesson-pager nav.lesson-pager a,
+    body.has-lesson-pager nav.lesson-pager .pager-prev,
+    body.has-lesson-pager nav.lesson-pager .pager-next {
+      touch-action: manipulation;
+    }
+
+    @media (max-width: 720px), (max-height: 560px) {
+      .p07-top {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .p07-badge {
+        max-width: none;
+        text-align: left;
+      }
+      .p07-socratic-recap {
+        max-height: min(36dvh, 220px);
+      }
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+      .p07-socratic-tools button:active,
+      .btn-primary:active,
+      .btn-ghost:active {
+        transform: scale(0.98);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .p07-comic {
+        transition: none !important;
+      }
+    }
 
     @media print {
       html, body { background: #fff; overflow: auto; height: auto; }

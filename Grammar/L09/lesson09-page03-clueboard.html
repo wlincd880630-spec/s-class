@@ -24,10 +24,17 @@
       --edge: #5d4037;
       --grammar-blue: #1565c0;
       --mint-glow: #26c6da;
-      --p03-nav-h: calc(clamp(92px, 18vmin, 128px) + max(12px, env(safe-area-inset-bottom)));
+      --p03-nav-h: calc(clamp(92px, 18vmin, 128px) + var(--lesson-pager-gap, 2.35rem) + max(12px, env(safe-area-inset-bottom)));
     }
     * { box-sizing: border-box; }
-    html { overflow: hidden; max-width: 100%; font-size: clamp(14px, 0.82vw + 12px, 19px); }
+    html {
+      overflow: hidden;
+      overflow-x: clip;
+      max-width: 100%;
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+      font-size: clamp(14px, 0.82vw + 12px, 19px);
+    }
     html, body {
       margin: 0; width: 100%; height: 100%; overflow: hidden;
       font-family: system-ui, "Microsoft YaHei", "PingFang SC", sans-serif;
@@ -42,8 +49,10 @@
       min-height: 100dvh;
     }
     #viewport {
-      position: relative; width: min(100vw, 100%); height: min(100dvh, 100%);
-      max-width: 100%; max-height: 100dvh; flex-shrink: 0; overflow: hidden;
+      position: relative; width: min(100vw, 100%);
+      height: min(calc(100dvh - var(--lesson-pager-gap, 2.35rem)), 100%);
+      max-width: 100%; max-height: calc(100dvh - var(--lesson-pager-gap, 2.35rem));
+      flex-shrink: 0; overflow: hidden;
     }
     #p03-host {
       position: absolute; inset: 0; isolation: isolate; overflow: hidden;
@@ -80,8 +89,10 @@
     .slide-tab {
       appearance: none; cursor: pointer; font-weight: 900;
       font-size: clamp(0.58rem, 0.95vw + 0.22rem, 0.72rem);
-      padding: 5px 10px; border-radius: 999px; border: 2px solid rgba(255, 255, 255, 0.22);
+      padding: 5px 10px; min-height: 44px; min-width: 44px;
+      border-radius: 999px; border: 2px solid rgba(255, 255, 255, 0.22);
       background: rgba(55, 71, 79, 0.55); color: #eceff1;
+      touch-action: manipulation;
     }
     .slide-tab.is-active {
       color: #4e342e; background: rgba(255, 249, 240, 0.98); border-color: var(--edge);
@@ -124,8 +135,9 @@
     }
     .p03-mode-tab {
       appearance: none; cursor: pointer; font-weight: 900; font-size: clamp(0.58rem, 0.95vw + 0.2rem, 0.7rem);
-      padding: 4px 10px; border-radius: 8px; border: 2px solid rgba(21, 101, 192, 0.35);
+      padding: 4px 10px; min-height: 44px; border-radius: 8px; border: 2px solid rgba(21, 101, 192, 0.35);
       background: rgba(227, 242, 253, 0.85); color: #0d47a1;
+      touch-action: manipulation;
     }
     .p03-mode-tab.is-active { background: #1565c0; color: #fff; border-color: #0d47a1; }
     .p03-mode-panel { margin-top: 6px; }
@@ -312,7 +324,7 @@
 
     #p03-bottom-dock {
       position: fixed; z-index: 40; left: max(8px, env(safe-area-inset-left)); right: max(8px, env(safe-area-inset-right));
-      bottom: max(8px, env(safe-area-inset-bottom));
+      bottom: calc(var(--lesson-pager-gap, 2.35rem) + max(8px, env(safe-area-inset-bottom, 0px)));
       padding: clamp(7px, 1.2vmin, 11px) clamp(9px, 1.8vmin, 13px);
       border-radius: clamp(14px, 2.2vmin, 20px);
       background: rgba(38, 50, 56, 0.94); border: 2px solid rgba(255, 255, 255, 0.14);
@@ -321,11 +333,70 @@
     .dock-nav-panel.is-active { display: flex; }
     .btn-ghost, .btn-primary {
       appearance: none; cursor: pointer; font-weight: 900; font-size: clamp(0.68rem, 1.1vw + 0.24rem, 0.82rem);
-      border-radius: 999px; padding: 8px 14px; text-decoration: none; display: inline-flex; align-items: center; justify-content: center;
-      border: 2px solid transparent;
+      border-radius: 999px; padding: 8px 14px; min-height: 44px;
+      text-decoration: none; display: inline-flex; align-items: center; justify-content: center;
+      border: 2px solid transparent; touch-action: manipulation;
     }
     .btn-ghost { color: #eceff1; background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.2); }
     .btn-primary { color: #fff; background: linear-gradient(180deg, var(--crayon-orange), #e65100); border-color: rgba(0, 0, 0, 0.1); }
+
+    body.has-lesson-pager nav.lesson-pager a,
+    body.has-lesson-pager nav.lesson-pager .pager-prev,
+    body.has-lesson-pager nav.lesson-pager .pager-next {
+      touch-action: manipulation;
+    }
+
+    @media (max-width: 720px), (max-height: 560px) {
+      .p03-top-bar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .p03-badge {
+        text-align: left;
+      }
+      .p03-slide.is-active {
+        overflow-x: hidden;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        scroll-padding-bottom: calc(var(--p03-nav-h) + 0.35rem);
+        padding-bottom: clamp(6px, 1.5vmin, 12px);
+      }
+      .p03-phrase-piece,
+      .p03-phrase-tools button,
+      .p03-oral-play-btn {
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .p03-oral-blind {
+        min-height: 44px;
+      }
+      .p03-video-shell {
+        max-height: min(40dvh, 56vmin, 420px);
+      }
+      .p03-mode-panel[data-panel="o"]:not([hidden]) {
+        min-height: 0;
+      }
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+      .slide-tab:active,
+      .p03-mode-tab:active,
+      .btn-primary:active,
+      .btn-ghost:active,
+      .p03-phrase-piece:active:not(:disabled),
+      .p03-phrase-tools button:active,
+      .p03-oral-play-btn:active {
+        transform: scale(0.98);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .p03-oral-blind {
+        transition: none !important;
+      }
+    }
 
     @media print {
       html, body { background: #fff; overflow: auto; height: auto; }

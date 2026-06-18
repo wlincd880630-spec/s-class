@@ -736,6 +736,218 @@ window.__LESSON_TTS_MANIFEST = Object.assign(window.__LESSON_TTS_MANIFEST || {},
     .ai-box h3 { margin: 0 0 8px; color: #4a148c; }
     .ai-box p { margin: 0; line-height: 1.55; font-weight: 800; }
     .sr-only-compat { display: none !important; }
+
+    /* —— 小屏 / 竖屏：取消绝对定位幻灯，改为可滚动文档流 —— */
+    @media (max-width: 768px), (max-height: 559px) {
+      body {
+        padding-left: max(8px, env(safe-area-inset-left, 0px));
+        padding-right: max(8px, env(safe-area-inset-right, 0px));
+      }
+
+      .shell {
+        width: 100% !important;
+        height: auto !important;
+        min-height: 0 !important;
+      }
+
+      .book {
+        height: auto !important;
+        min-height: 0 !important;
+        overflow: visible !important;
+        border-width: 4px;
+        border-radius: 12px;
+      }
+
+      .top {
+        margin: 8px;
+        padding: 8px 10px;
+        font-size: clamp(12px, 3.2vw, 16px);
+        line-height: 1.45;
+        border-radius: 14px;
+      }
+
+      .tabs {
+        margin: 0 8px 8px;
+        gap: 6px;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        padding-bottom: 2px;
+      }
+
+      .tabs::-webkit-scrollbar { display: none; }
+
+      .tabs button {
+        flex-shrink: 0;
+        font-size: clamp(11px, 2.8vw, 13px);
+        padding: 5px 10px;
+      }
+
+      .deck {
+        flex: none;
+        min-height: 0;
+        overflow: visible;
+        padding: 6px;
+      }
+
+      .slide {
+        position: relative;
+        inset: auto;
+        top: auto;
+        right: auto;
+        bottom: auto;
+        left: auto;
+        display: none;
+        overflow: visible;
+        padding: 10px;
+        margin-bottom: 4px;
+      }
+
+      .slide.show { display: block; }
+
+      .slide[data-s="0"].show {
+        display: flex;
+        min-height: min(52vh, 380px);
+      }
+
+      .hero h1 { font-size: clamp(22px, 6.5vw, 36px); }
+      .hero p,
+      .hero-tts-row p { font-size: clamp(15px, 4vw, 22px); }
+
+      .row,
+      .lex-carousel,
+      .detective-grid {
+        gap: 10px;
+      }
+
+      .detective-grid {
+        height: auto;
+        min-height: 0;
+      }
+
+      .card,
+      .crayon-panel {
+        padding: 8px;
+      }
+
+      .card h3,
+      .crayon-panel > h3 {
+        font-size: clamp(15px, 4vw, 18px) !important;
+      }
+
+      .btn {
+        font-size: clamp(13px, 3.4vw, 16px);
+        padding: 8px 14px;
+      }
+
+      .template {
+        font-size: clamp(14px, 3.6vw, 17px);
+        line-height: 1.65;
+        padding: 8px;
+        word-break: break-word;
+      }
+
+      .template select {
+        display: block;
+        width: 100%;
+        max-width: 100%;
+        margin: 5px 0;
+        font-size: clamp(14px, 3.5vw, 16px);
+      }
+
+      .demo-sentence {
+        font-size: clamp(16px, 4.2vw, 24px);
+        min-height: 64px;
+        padding: 10px;
+        word-break: break-word;
+      }
+
+      .sum-line {
+        font-size: clamp(15px, 3.8vw, 18px);
+        word-break: break-word;
+      }
+
+      .float-text {
+        max-width: 88%;
+        font-size: clamp(13px, 3.5vw, 18px);
+        padding: 6px 8px;
+      }
+
+      .q { font-size: clamp(16px, 4vw, 20px); }
+
+      .status {
+        font-size: clamp(12px, 3.2vw, 14px);
+        line-height: 1.45;
+      }
+
+      .note input {
+        width: 100%;
+        max-width: 100%;
+      }
+
+      .lexicon-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .lex-big-card h2 {
+        font-size: clamp(18px, 5vw, 28px);
+      }
+
+      .lex-task,
+      .lex-sentence {
+        font-size: clamp(14px, 3.6vw, 18px);
+      }
+
+      .lex-answer {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .lex-answer input {
+        width: 100%;
+        flex: none;
+        font-size: clamp(14px, 3.6vw, 17px);
+      }
+
+      .lex-answer .btn {
+        width: 100%;
+      }
+
+      .lex-controls {
+        grid-template-columns: 1fr;
+      }
+
+      .lex-controls .btn {
+        width: 100%;
+      }
+
+      .demo-tts-row {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .demo-tts-row .btn {
+        width: 100%;
+      }
+
+      .chip {
+        font-size: clamp(11px, 2.8vw, 13px);
+        margin-bottom: 4px;
+      }
+
+      .ai-box {
+        width: min(560px, calc(100vw - 24px));
+        padding: 14px;
+        margin: 12px;
+      }
+    }
+
+    @media (max-width: 400px) {
+      .hero h1 { font-size: clamp(20px, 7vw, 28px); }
+      .tabs button { padding: 4px 8px; }
+    }
   </style>
 
   <link rel="stylesheet" href="assets/grammar-lesson-pager.css" />

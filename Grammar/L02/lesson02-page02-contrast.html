@@ -793,6 +793,53 @@
       margin: 0 0.35rem;
       color: #aaa;
     }
+
+    /* 书本内课内翻页（Page 1|2|3）保持文档流，避免与固定底栏叠层遮挡 */
+    body.has-lesson-pager .book > .lesson-footer-nav {
+      position: relative !important;
+      left: auto !important;
+      right: auto !important;
+      bottom: auto !important;
+      z-index: 1;
+      display: block !important;
+      margin-top: 1.25rem;
+      margin-bottom: 0.35rem;
+      padding: 0 !important;
+      background: transparent !important;
+      border-top: none !important;
+      box-shadow: none !important;
+    }
+    body.has-lesson-pager .book > .lesson-footer-nav a {
+      flex: none !important;
+      display: inline !important;
+      padding: 0 !important;
+      border: none !important;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+      background: transparent !important;
+      color: var(--crayon-blue) !important;
+      font-size: 0.85rem !important;
+      font-weight: 700 !important;
+    }
+    body.has-lesson-pager .book > .lesson-footer-nav > span.nav-sep {
+      display: inline !important;
+      margin: 0 0.35rem;
+      padding: 0 !important;
+      border: none !important;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+      background: transparent !important;
+      color: #aaa !important;
+      font-size: 0.85rem !important;
+      font-weight: 400 !important;
+      cursor: default !important;
+    }
+
+    /* 时间拨片与底栏留出间距 */
+    body.has-lesson-pager .book .slider-wrap {
+      margin-bottom: 0.35rem;
+      padding-bottom: 0.5rem;
+    }
   </style>
   <style>
 /* inlined from assets/lesson-screen-16x9.css */
@@ -845,8 +892,8 @@ body {
   --lesson-s-r: env(safe-area-inset-right, 0px);
   /* 底部流式页脚（L01/L02 等）预留高度，避免主舞台 + 页脚超出视口 */
   --lesson-foot-h: 0px;
-  /* 固定底栏占位（L01/L02/L03/L05 统一） */
-  --lesson-pager-gap: 2.35rem;
+  /* 固定底栏占位（L01/L02/L03/L05 统一；含 Logo 时需 ≥4rem） */
+  --lesson-pager-gap: 4.25rem;
   --lesson-l03-pager-gap: var(--lesson-pager-gap);
   /* 讲义页顶栏工具条粗略高度（打印条 + 可选姓名栏等） */
   --lesson-handout-chrome: 0px;
@@ -2024,6 +2071,13 @@ window.__LESSON_TTS_MANIFEST = {
 </script>
   <link rel="stylesheet" href="assets/grammar-lesson-pager.css" />
   <link rel="stylesheet" href="../shared/grammar-logo.css" />
+  <style>
+    /* 本页底栏含 Logo，加大占位避免遮挡时间拨片与课内翻页 */
+    body.has-lesson-pager {
+      --grammar-pager-gap: 4.25rem !important;
+      --lesson-pager-gap: 4.25rem !important;
+    }
+  </style>
 </head>
 <body class="has-lesson-pager">
   <div class="book">

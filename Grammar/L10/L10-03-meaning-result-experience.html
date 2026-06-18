@@ -5,7 +5,7 @@
   <script src="../shared/lesson-local-audio.js" defer></script>
   <script src="../shared/lesson-speak-local-only.js"></script>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>第10讲 · 第04页 · 用法：结果与经历</title>
   <script src="https://cdn.jsdelivr.net/npm/microsoft-cognitiveservices-speech-sdk@1.38.0/dist/microsoft.cognitiveservices.speech.sdk.bundle-min.js" crossorigin="anonymous"></script>
   <style>
@@ -22,6 +22,13 @@
       --dock-h: 56px;
     }
     * { box-sizing: border-box; }
+    html {
+      overflow-x: clip;
+      max-width: 100%;
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+      height: 100%;
+    }
     html, body { height: 100%; margin: 0; }
     body {
       display: flex;
@@ -32,6 +39,9 @@
       color: var(--text);
       background: var(--bg);
       overflow: hidden;
+      min-height: 100dvh;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: rgba(30, 107, 140, 0.12);
     }
     a { color: var(--accent); }
     a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px solid #ffb703; outline-offset: 2px; }
@@ -42,7 +52,11 @@
       align-items: center;
       justify-content: space-between;
       gap: 8px;
-      padding: 8px 16px;
+      padding:
+        max(8px, env(safe-area-inset-top))
+        max(16px, env(safe-area-inset-right))
+        8px
+        max(16px, env(safe-area-inset-left));
       min-height: var(--topbar-h);
       background: var(--card);
       border-bottom: 1px solid #e2e8f0;
@@ -52,9 +66,11 @@
     .slide-meta { font-size: 13px; color: var(--muted); font-weight: 600; }
     .top-actions { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
     button, .btn-link {
-      font: inherit; cursor: pointer; border: none; border-radius: 10px; padding: 8px 12px;
+      font: inherit; cursor: pointer; border: none; border-radius: 10px; padding: 8px 12px; min-height: 44px;
       background: linear-gradient(135deg, var(--accent), #155a78); color: #fff;
-      box-shadow: 0 2px 8px rgba(30, 107, 140, 0.3); text-decoration: none; display: inline-block; font-size: 14px;
+      box-shadow: 0 2px 8px rgba(30, 107, 140, 0.3); text-decoration: none;
+      display: inline-flex; align-items: center; justify-content: center; font-size: 14px;
+      touch-action: manipulation;
     }
     button.secondary, .btn-link.secondary { background: linear-gradient(135deg, #6c757d, #495057); box-shadow: none; }
     button:disabled { opacity: 0.55; cursor: not-allowed; }
@@ -66,7 +82,10 @@
       padding: 10px 14px 6px;
     }
     .slide.is-active { display: flex; }
-    .slide-scroll { flex: 1; min-height: 0; overflow: auto; -webkit-overflow-scrolling: touch; }
+    .slide-scroll {
+      flex: 1; min-height: 0; overflow: auto; -webkit-overflow-scrolling: touch;
+      scroll-padding-bottom: calc(var(--lesson-pager-gap, 2.35rem) + var(--dock-h) + 0.5rem);
+    }
     .slide-inner { max-width: 1100px; margin: 0 auto; width: 100%; min-height: min-content; }
     .hero-compact { display: grid; gap: 14px; align-items: stretch; }
     @media (min-width: 860px) { .hero-compact { grid-template-columns: 1.05fr 1fr; } }
@@ -251,7 +270,7 @@
       .timeline-box.reduced-b .tl-cap-repeat.is-on { opacity: 1; transform: none; }
     }
     .timeline-toolbar { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
-    .timeline-toolbar button { font-size: 12px; line-height: 1.35; text-align: left; max-width: 100%; }
+    .timeline-toolbar button { font-size: 12px; line-height: 1.35; text-align: left; max-width: 100%; min-height: 44px; }
     .bridge {
       background: linear-gradient(135deg, #fffdf5, #f0f9ff); border: 1px solid #e2e8f0; border-radius: var(--radius);
       padding: 16px 18px;
@@ -264,11 +283,15 @@
     .dock {
       flex: 0 0 auto; flex-shrink: 0;
       display: flex; align-items: center; justify-content: center; gap: 12px;
-      padding: 8px 12px; min-height: var(--dock-h); background: var(--card);
+      padding: 8px max(12px, env(safe-area-inset-right)) 8px max(12px, env(safe-area-inset-left));
+      min-height: var(--dock-h); background: var(--card);
       border-top: 1px solid #e2e8f0;
       position: relative;
       z-index: 60;
       box-shadow: 0 -4px 14px rgba(26, 35, 50, 0.06);
+    }
+    body.has-lesson-pager .dock {
+      margin-bottom: calc(var(--lesson-pager-gap, 2.35rem) + env(safe-area-inset-bottom, 0px));
     }
     .dock button { min-width: 100px; min-height: 44px; touch-action: manipulation; }
     .dock .dots { font-size: 15px; font-weight: 700; color: var(--accent); min-width: 4.5em; text-align: center; }
@@ -278,6 +301,8 @@
       box-shadow: -6px 0 28px rgba(0,0,0,0.14); transform: translateX(100%); transition: transform 0.28s ease; z-index: 120;
       display: flex; flex-direction: column;
       pointer-events: none;
+      padding-top: env(safe-area-inset-top, 0px);
+      padding-bottom: env(safe-area-inset-bottom, 0px);
     }
     .ai-panel.open { transform: translateX(0); pointer-events: auto; }
     .ai-panel header { padding: 12px 14px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; }
@@ -324,6 +349,50 @@
     .tts-bar,
     .deck {
       zoom: 1.6;
+    }
+
+    body.has-lesson-pager nav.lesson-pager a,
+    body.has-lesson-pager nav.lesson-pager .pager-prev,
+    body.has-lesson-pager nav.lesson-pager .pager-next {
+      touch-action: manipulation;
+    }
+
+    @media (max-width: 720px), (max-height: 560px) {
+      .tts-bar,
+      .deck {
+        zoom: 1 !important;
+      }
+      @supports not (zoom: 1) {
+        .tts-bar,
+        .deck {
+          transform: none !important;
+        }
+      }
+      .top-actions {
+        width: 100%;
+        justify-content: flex-start;
+      }
+      .timeline-visual {
+        min-height: 120px;
+      }
+      .timeline-toolbar button {
+        flex: 1 1 100%;
+      }
+      .ctx-opts label {
+        min-height: 44px;
+        align-items: center;
+      }
+      .ai-panel textarea {
+        font-size: 16px;
+      }
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+      button:active:not(:disabled),
+      .btn-link:active,
+      .ctx-opts label:active {
+        transform: scale(0.98);
+      }
     }
 
 </style>

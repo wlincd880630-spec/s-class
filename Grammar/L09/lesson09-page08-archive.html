@@ -23,10 +23,17 @@
       --edge: #5d4037;
       --grammar-blue: #1565c0;
       --mint: #26c6da;
-      --p08-nav-h: calc(clamp(88px, 17vmin, 120px) + max(12px, env(safe-area-inset-bottom)));
+      --p08-nav-h: calc(clamp(88px, 17vmin, 120px) + var(--lesson-pager-gap, 2.35rem) + max(12px, env(safe-area-inset-bottom)));
     }
     * { box-sizing: border-box; }
-    html { overflow: hidden; max-width: 100%; font-size: clamp(13px, 0.78vw + 11px, 18px); }
+    html {
+      overflow: hidden;
+      overflow-x: clip;
+      max-width: 100%;
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+      font-size: clamp(13px, 0.78vw + 11px, 18px);
+    }
     html, body {
       margin: 0; width: 100%; height: 100%; overflow: hidden;
       font-family: system-ui, "Microsoft YaHei", "PingFang SC", sans-serif;
@@ -41,8 +48,10 @@
       min-height: 100dvh;
     }
     #viewport {
-      position: relative; width: min(100vw, 100%); height: min(100dvh, 100%);
-      max-width: 100%; max-height: 100dvh; flex-shrink: 0; overflow: hidden;
+      position: relative; width: min(100vw, 100%);
+      height: min(calc(100dvh - var(--lesson-pager-gap, 2.35rem)), 100%);
+      max-width: 100%; max-height: calc(100dvh - var(--lesson-pager-gap, 2.35rem));
+      flex-shrink: 0; overflow: hidden;
     }
     #p08-host {
       position: absolute; inset: 0; isolation: isolate; overflow: hidden;
@@ -75,6 +84,7 @@
       padding: clamp(5px, 1vmin, 10px) max(4px, env(safe-area-inset-right)) var(--p08-nav-h) max(4px, env(safe-area-inset-left));
       gap: clamp(6px, 1vmin, 10px); overflow: hidden auto;
       -webkit-overflow-scrolling: touch;
+      scroll-padding-bottom: calc(var(--p08-nav-h) + 0.35rem);
     }
     .p08-top {
       flex-shrink: 0; display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; width: 100%;
@@ -128,8 +138,10 @@
     .p08-card .p08-speak {
       flex-shrink: 0; appearance: none; cursor: pointer; font-weight: 900;
       font-size: clamp(0.52rem, 0.78vw + 0.1rem, 0.62rem);
-      padding: 4px 8px; border-radius: 8px; border: 2px solid rgba(21, 101, 192, 0.45);
+      padding: 4px 8px; min-width: 44px; min-height: 44px;
+      border-radius: 8px; border: 2px solid rgba(21, 101, 192, 0.45);
       background: linear-gradient(180deg, #e3f2fd, #bbdefb); color: #0d47a1;
+      touch-action: manipulation;
     }
     .p08-card .p08-speak:disabled { opacity: 0.5; cursor: wait; }
     .p08-tools {
@@ -138,8 +150,10 @@
     .p08-tools button {
       appearance: none; cursor: pointer; font-weight: 900;
       font-size: clamp(0.65rem, 1vw + 0.2rem, 0.8rem);
-      padding: 8px 14px; border-radius: 999px; border: 2px solid var(--edge);
+      padding: 8px 14px; min-height: 44px;
+      border-radius: 999px; border: 2px solid var(--edge);
       background: rgba(255, 249, 240, 0.96); color: #4e342e;
+      touch-action: manipulation;
     }
     .p08-tools button.p08-print {
       background: linear-gradient(180deg, #78909c, #455a64); color: #fff; border-color: rgba(0, 0, 0, 0.15);
@@ -160,7 +174,7 @@
 
     #p08-bottom-dock {
       position: fixed; z-index: 40; left: max(8px, env(safe-area-inset-left)); right: max(8px, env(safe-area-inset-right));
-      bottom: max(8px, env(safe-area-inset-bottom));
+      bottom: calc(var(--lesson-pager-gap, 2.35rem) + max(8px, env(safe-area-inset-bottom, 0px)));
       padding: clamp(7px, 1.2vmin, 11px) clamp(9px, 1.8vmin, 13px);
       border-radius: clamp(14px, 2.2vmin, 20px);
       background: rgba(38, 50, 56, 0.45);
@@ -173,10 +187,44 @@
     .btn-ghost, .btn-primary {
       appearance: none; cursor: pointer; font-weight: 900;
       font-size: clamp(0.65rem, 1.05vw + 0.22rem, 0.8rem);
-      border-radius: 999px; padding: 8px 14px; text-decoration: none; display: inline-flex;
+      border-radius: 999px; padding: 8px 14px; min-height: 44px;
+      text-decoration: none; display: inline-flex;
       align-items: center; justify-content: center; border: 2px solid transparent;
+      touch-action: manipulation;
     }
     .btn-ghost { color: #eceff1; background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.2); }
+
+    body.has-lesson-pager nav.lesson-pager a,
+    body.has-lesson-pager nav.lesson-pager .pager-prev,
+    body.has-lesson-pager nav.lesson-pager .pager-next {
+      touch-action: manipulation;
+    }
+
+    @media (max-width: 720px), (max-height: 560px) {
+      .p08-top {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .p08-badge {
+        max-width: none;
+        text-align: left;
+      }
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+      .p08-tools button:active,
+      .p08-card .p08-speak:active:not(:disabled),
+      .btn-primary:active,
+      .btn-ghost:active {
+        transform: scale(0.98);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      #bg-stack::after {
+        transition: none !important;
+      }
+    }
 
     /*
      * 离屏 PDF 根节点：html2canvas 在 left:-9999px 时易截到空/错位。

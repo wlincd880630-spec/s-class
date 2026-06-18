@@ -24,11 +24,18 @@
       --scope-green: #69f0ae;
       --phosphor: rgba(0, 255, 120, 0.22);
       /* 仅预留全课底栏 lesson-pager 高度（页内 p05-bottom-dock 在 has-lesson-pager 下隐藏，避免双层导航叠盖） */
-      --p05-pager-h: calc(clamp(52px, 11vmin, 68px) + max(12px, env(safe-area-inset-bottom)));
+      --p05-pager-h: calc(var(--lesson-pager-gap, 2.35rem) + max(0px, env(safe-area-inset-bottom, 0px)));
       --p05-nav-h: var(--p05-pager-h);
     }
     * { box-sizing: border-box; }
-    html { overflow: hidden; max-width: 100%; font-size: clamp(13px, 0.78vw + 11px, 18px); }
+    html {
+      overflow: hidden;
+      overflow-x: clip;
+      max-width: 100%;
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+      font-size: clamp(13px, 0.78vw + 11px, 18px);
+    }
     html, body {
       margin: 0; width: 100%; height: 100%; overflow: hidden;
       font-family: system-ui, "Microsoft YaHei", "PingFang SC", sans-serif;
@@ -84,6 +91,7 @@
       padding: clamp(5px, 1vmin, 10px) max(4px, env(safe-area-inset-right)) var(--p05-nav-h) max(4px, env(safe-area-inset-left));
       gap: clamp(5px, 1vmin, 10px); overflow: hidden auto;
       -webkit-overflow-scrolling: touch;
+      scroll-padding-bottom: calc(var(--p05-nav-h) + 0.35rem);
     }
     .p05-top {
       flex-shrink: 0; display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; width: 100%;
@@ -125,8 +133,10 @@
     .p05-audio-row button {
       appearance: none; cursor: pointer; font-weight: 900;
       font-size: clamp(0.62rem, 0.95vw + 0.18rem, 0.76rem);
-      padding: 7px 13px; border-radius: 999px; border: 2px solid var(--edge);
+      padding: 7px 13px; min-height: 44px;
+      border-radius: 999px; border: 2px solid var(--edge);
       background: rgba(255, 249, 240, 0.96); color: #4e342e;
+      touch-action: manipulation;
     }
     .p05-audio-row button.p05-hot {
       background: linear-gradient(180deg, var(--crayon-orange), #e65100); color: #fff; border-color: rgba(0, 0, 0, 0.1);
@@ -139,7 +149,7 @@
       border-radius: 10px; padding: 4px 10px; color: #ffffff;
       font-size: clamp(1.612rem, 2.392vw + 0.416rem, 1.924rem);
     }
-    details.p05-reveal summary { cursor: pointer; font-weight: 900; color: #ffffff; }
+    details.p05-reveal summary { cursor: pointer; font-weight: 900; color: #ffffff; min-height: 44px; display: flex; align-items: center; touch-action: manipulation; }
     details.p05-reveal .en {
       font-style: normal; font-weight: 900; line-height: 1.55; margin-top: 6px; color: #ffffff;
     }
@@ -173,7 +183,11 @@
       font-size: clamp(0.78rem, 1.17vw + 0.195rem, 0.936rem);
       color: #eceff1;
       padding: 8px 10px;
+      min-height: 44px;
+      display: flex;
+      align-items: center;
       user-select: none;
+      touch-action: manipulation;
     }
     details.p05-bank-wrap summary.p05-bank-summary::-webkit-details-marker { display: none; }
     details.p05-bank-wrap summary.p05-bank-summary::marker { content: ""; }
@@ -204,8 +218,10 @@
     .p05-tools button {
       appearance: none; cursor: pointer; font-weight: 900;
       font-size: clamp(0.65rem, 1vw + 0.2rem, 0.8rem);
-      padding: 8px 14px; border-radius: 999px; border: 2px solid var(--edge);
+      padding: 8px 14px; min-height: 44px;
+      border-radius: 999px; border: 2px solid var(--edge);
       background: rgba(255, 249, 240, 0.96); color: #4e342e;
+      touch-action: manipulation;
     }
     .p05-tools button.p05-primary {
       background: linear-gradient(180deg, var(--crayon-orange), #e65100); color: #fff; border-color: rgba(0, 0, 0, 0.1);
@@ -221,7 +237,7 @@
       border: 3px solid var(--edge); font-weight: 900; color: #4e342e;
     }
 
-  body.has-lesson-pager #p05-bottom-dock {
+    body.has-lesson-pager #p05-bottom-dock {
       display: none !important;
     }
     #p05-bottom-dock {
@@ -239,11 +255,59 @@
     .btn-ghost, .btn-primary {
       appearance: none; cursor: pointer; font-weight: 900;
       font-size: clamp(0.65rem, 1.05vw + 0.22rem, 0.8rem);
-      border-radius: 999px; padding: 8px 14px; text-decoration: none; display: inline-flex;
+      border-radius: 999px; padding: 8px 14px; min-height: 44px;
+      text-decoration: none; display: inline-flex;
       align-items: center; justify-content: center; border: 2px solid transparent;
+      touch-action: manipulation;
     }
     .btn-ghost { color: #eceff1; background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.2); }
     .btn-primary { color: #fff; background: linear-gradient(180deg, var(--crayon-orange), #e65100); border-color: rgba(0, 0, 0, 0.1); }
+
+    body.has-lesson-pager nav.lesson-pager a,
+    body.has-lesson-pager nav.lesson-pager .pager-prev,
+    body.has-lesson-pager nav.lesson-pager .pager-next {
+      touch-action: manipulation;
+    }
+
+    @media (max-width: 720px), (max-height: 560px) {
+      .p05-top {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .p05-badge {
+        max-width: none;
+        text-align: left;
+      }
+      details.p05-reveal {
+        font-size: clamp(1rem, 4.2vw, 1.35rem);
+      }
+      .p05-chip {
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+      }
+      #scope-wrap {
+        height: clamp(56px, 10vmin, 88px);
+      }
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+      .p05-audio-row button:active:not(:disabled),
+      .p05-tools button:active,
+      details.p05-reveal summary:active,
+      details.p05-bank-wrap summary.p05-bank-summary:active {
+        transform: scale(0.98);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      #snow-canvas {
+        transition: none !important;
+      }
+      .p05-chip.is-wrong {
+        animation: none !important;
+      }
+    }
 
     @media print {
       html, body { background: #fff; overflow: auto; height: auto; }

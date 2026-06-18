@@ -253,10 +253,51 @@
       background: linear-gradient(180deg, #ffef99, #fdd835);
       color: #3e2723;
       font-family: inherit;
-      font-size: 18px;
+      font-size: clamp(14px, 3.5vw, 18px);
       box-shadow: 0 8px 0 rgba(0,0,0,0.25);
       touch-action: manipulation;
     }
+
+    .video-wrap { position: relative; }
+
+    .video-toolbar {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 4;
+      display: none;
+      justify-content: center;
+      padding: 10px 12px calc(10px + env(safe-area-inset-bottom, 0px));
+      background: linear-gradient(transparent, rgba(0, 0, 0, 0.72));
+    }
+
+    .video-toolbar.show { display: flex; }
+
+    .video-replay-btn {
+      border: 2px solid rgba(255, 255, 255, 0.55);
+      background: linear-gradient(180deg, #e1f5fe, #81d4fa);
+      box-shadow: 0 6px 0 rgba(0, 0, 0, 0.22);
+      padding: 8px 16px;
+      font-size: clamp(13px, 3.2vw, 16px);
+    }
+
+    .quiz-replay-btn {
+      flex-shrink: 0;
+      border: 2px solid var(--border-dark);
+      border-radius: 999px;
+      padding: 8px 14px;
+      cursor: pointer;
+      background: linear-gradient(180deg, #e1f5fe, #b3e5fc);
+      color: #0d47a1;
+      font-family: inherit;
+      font-size: clamp(12px, 3vw, 14px);
+      font-weight: 800;
+      touch-action: manipulation;
+      white-space: nowrap;
+    }
+
+    .quiz-replay-btn:hover { filter: brightness(1.04); }
 
     .quiz-layer {
       position: absolute;
@@ -264,35 +305,56 @@
       z-index: 35;
       display: none;
       place-items: center;
-      padding: 14px;
+      align-content: center;
+      padding: max(10px, env(safe-area-inset-top, 0px)) max(10px, env(safe-area-inset-right, 0px)) max(10px, env(safe-area-inset-bottom, 0px)) max(10px, env(safe-area-inset-left, 0px));
       background: rgba(0, 0, 0, 0.42);
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
     }
 
     .quiz-layer.show { display: grid; }
 
     .quiz-card {
-      width: min(760px, 96vw);
+      width: min(760px, 100%);
+      max-height: min(92vh, calc(100% - 12px));
       border: 4px solid var(--border-dark);
       border-radius: 18px 10px 22px 14px;
-      background: rgba(255, 254, 247, 0.95);
-      padding: 12px;
+      background: rgba(255, 254, 247, 0.98);
+      padding: clamp(10px, 2.5vw, 14px);
       box-shadow: 0 12px 0 rgba(93, 64, 55, 0.18);
       clip-path: polygon(0% 6%, 6% 0%, 18% 3%, 30% 0%, 44% 4%, 58% 0%, 72% 5%, 86% 2%, 100% 8%, 98% 22%, 100% 38%, 96% 54%, 100% 70%, 97% 86%, 100% 100%, 84% 98%, 70% 100%, 56% 97%, 42% 100%, 28% 97%, 14% 100%, 0% 96%, 3% 80%, 0% 64%, 4% 48%, 0% 32%, 3% 18%);
+      overflow-y: auto;
+      overscroll-behavior: contain;
     }
 
-    .quiz-card h3 { margin: 0 0 8px; color: #bf360c; font-size: 22px; }
-    .quiz-card p { margin: 0 0 10px; color: #6d4c41; }
+    .quiz-head {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 12px;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
 
-    .quiz-row { border: 2px dashed rgba(93, 64, 55, 0.35); border-radius: 12px; padding: 10px; background: #fff; margin-bottom: 10px; }
-    .quiz-row .q { margin: 0 0 8px; font-size: 18px; color: #4e342e; }
+    .quiz-head-text { flex: 1 1 180px; min-width: 0; }
+
+    .quiz-card h3 { margin: 0 0 6px; color: #bf360c; font-size: clamp(16px, 4.2vw, 22px); line-height: 1.3; }
+    .quiz-card p { margin: 0; color: #6d4c41; font-size: clamp(13px, 3.2vw, 15px); line-height: 1.45; }
+
+    .quiz-row { border: 2px dashed rgba(93, 64, 55, 0.35); border-radius: 12px; padding: clamp(8px, 2vw, 10px); background: #fff; margin-bottom: 10px; }
+    .quiz-row .q { margin: 0 0 8px; font-size: clamp(15px, 3.8vw, 18px); line-height: 1.45; color: #4e342e; word-break: break-word; }
     .opts { display: grid; grid-template-columns: 1fr; gap: 8px; }
     .opt {
       border: 3px solid var(--border-dark);
       border-radius: 10px 14px 10px 14px;
       background: #fff8e1;
-      padding: 9px 10px;
+      padding: clamp(9px, 2.2vw, 11px) clamp(10px, 2.5vw, 12px);
       text-align: left;
       font-family: inherit;
+      font-size: clamp(14px, 3.5vw, 16px);
+      line-height: 1.4;
+      white-space: normal;
+      word-break: break-word;
       cursor: pointer;
       touch-action: manipulation;
     }
@@ -482,6 +544,21 @@
 
     @media (max-width: 900px) {
       .inspect { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 560px) {
+      .quiz-card {
+        clip-path: none;
+        border-radius: 14px;
+        max-height: none;
+      }
+
+      .quiz-layer {
+        place-items: stretch;
+        align-content: safe center;
+      }
+
+      .poster p code { word-break: break-all; }
     }
   </style>
   <style>
@@ -1619,7 +1696,7 @@ window.__LESSON_TTS_MANIFEST = {
 
       <div class="video-layer" id="videoLayer">
         <div class="video-card" id="videoCard">
-          <div style="position:relative;">
+          <div class="video-wrap">
             <video id="introVideo" playsinline webkit-playsinline controlslist="nodownload" poster="">
               <source src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/assets/video/l05-p01-intro.mp4" type="video/mp4" />
             </video>
@@ -1632,14 +1709,22 @@ window.__LESSON_TTS_MANIFEST = {
                 <button class="play-video" id="fullscreenVideoBtn" type="button" style="background:linear-gradient(180deg,#e1f5fe,#b3e5fc);">🖥️ 全屏播放（推荐）</button>
               </div>
             </div>
+            <div class="video-toolbar" id="videoToolbar" aria-hidden="true">
+              <button type="button" class="play-video video-replay-btn" id="replayVideoBtn">🔁 重播开场视频</button>
+            </div>
           </div>
         </div>
       </div>
 
       <div class="quiz-layer" id="quizLayer">
         <div class="quiz-card">
-          <h3>视频结束 · 互动理解</h3>
-          <p>只有两题都选对，才会进入“教室搜索模式”。</p>
+          <div class="quiz-head">
+            <div class="quiz-head-text">
+              <h3>视频结束 · 互动理解</h3>
+              <p>只有两题都选对，才会进入“教室搜索模式”。</p>
+            </div>
+            <button type="button" class="quiz-replay-btn" id="replayFromQuizBtn" title="重新观看开场视频">🔁 重播视频</button>
+          </div>
           <div id="quizMount"></div>
         </div>
       </div>
@@ -1820,6 +1905,9 @@ window.__LESSON_TTS_MANIFEST = {
       videoPoster: document.getElementById("videoPoster"),
       playVideoBtn: document.getElementById("playVideoBtn"),
       fullscreenVideoBtn: document.getElementById("fullscreenVideoBtn"),
+      videoToolbar: document.getElementById("videoToolbar"),
+      replayVideoBtn: document.getElementById("replayVideoBtn"),
+      replayFromQuizBtn: document.getElementById("replayFromQuizBtn"),
       quizLayer: document.getElementById("quizLayer"),
       quizMount: document.getElementById("quizMount"),
       inspectBackdrop: document.getElementById("inspectBackdrop"),
@@ -2121,6 +2209,8 @@ window.__LESSON_TTS_MANIFEST = {
     function wireVideo() {
       async function startPlayback(requestFullscreen) {
         refs.videoPoster.style.display = "none";
+        refs.videoToolbar.classList.add("show");
+        refs.videoToolbar.setAttribute("aria-hidden", "false");
         if (requestFullscreen) {
           try {
             const el = refs.videoCard;
@@ -2135,11 +2225,37 @@ window.__LESSON_TTS_MANIFEST = {
         } catch (e) {
           console.warn(e);
           refs.videoPoster.style.display = "grid";
+          refs.videoToolbar.classList.remove("show");
+          refs.videoToolbar.setAttribute("aria-hidden", "true");
+        }
+      }
+
+      async function replayIntroVideo() {
+        if (state.searchUnlocked) return;
+        refs.quizLayer.classList.remove("show");
+        refs.videoLayer.style.display = "grid";
+        refs.videoLayer.style.opacity = "1";
+        refs.videoLayer.style.transform = "";
+        refs.videoPoster.style.display = "none";
+        refs.videoToolbar.classList.add("show");
+        refs.videoToolbar.setAttribute("aria-hidden", "false");
+        refs.introVideo.currentTime = 0;
+        try {
+          await refs.introVideo.play();
+        } catch (e) {
+          console.warn(e);
         }
       }
 
       refs.playVideoBtn.addEventListener("click", () => startPlayback(false));
       refs.fullscreenVideoBtn.addEventListener("click", () => startPlayback(true));
+      refs.replayVideoBtn.addEventListener("click", replayIntroVideo);
+      refs.replayFromQuizBtn.addEventListener("click", replayIntroVideo);
+
+      refs.introVideo.addEventListener("playing", () => {
+        refs.videoToolbar.classList.add("show");
+        refs.videoToolbar.setAttribute("aria-hidden", "false");
+      });
 
       refs.introVideo.addEventListener("ended", () => {
         refs.quizLayer.classList.add("show");

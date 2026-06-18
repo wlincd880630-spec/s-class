@@ -24,10 +24,17 @@
       --gold-glow: #ffca28;
       --grammar-blue: #1565c0;
       --ember: #ff6f00;
-      --p06-nav-h: calc(clamp(88px, 17vmin, 120px) + max(12px, env(safe-area-inset-bottom)));
+      --p06-nav-h: calc(clamp(88px, 17vmin, 120px) + var(--lesson-pager-gap, 2.35rem) + max(12px, env(safe-area-inset-bottom)));
     }
     * { box-sizing: border-box; }
-    html { overflow: hidden; max-width: 100%; font-size: clamp(14px, 0.82vw + 12px, 19px); }
+    html {
+      overflow: hidden;
+      overflow-x: clip;
+      max-width: 100%;
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+      font-size: clamp(14px, 0.82vw + 12px, 19px);
+    }
     html, body {
       margin: 0; width: 100%; height: 100%; overflow: hidden;
       font-family: system-ui, "Microsoft YaHei", "PingFang SC", sans-serif;
@@ -42,8 +49,10 @@
       min-height: 100dvh;
     }
     #viewport {
-      position: relative; width: min(100vw, 100%); height: min(100dvh, 100%);
-      max-width: 100%; max-height: 100dvh; flex-shrink: 0; overflow: hidden;
+      position: relative; width: min(100vw, 100%);
+      height: min(calc(100dvh - var(--lesson-pager-gap, 2.35rem)), 100%);
+      max-width: 100%; max-height: calc(100dvh - var(--lesson-pager-gap, 2.35rem));
+      flex-shrink: 0; overflow: hidden;
     }
     #p06-host {
       position: absolute; inset: 0; isolation: isolate; overflow: hidden;
@@ -76,6 +85,7 @@
       padding: clamp(6px, 1vmin, 10px) max(4px, env(safe-area-inset-right)) var(--p06-nav-h) max(4px, env(safe-area-inset-left));
       gap: clamp(6px, 1vmin, 10px); overflow: hidden auto;
       -webkit-overflow-scrolling: touch;
+      scroll-padding-bottom: calc(var(--p06-nav-h) + 0.35rem);
     }
     .p06-top {
       flex-shrink: 0; display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; width: 100%;
@@ -105,8 +115,10 @@
     .p06-slide-tabs button {
       appearance: none; cursor: pointer; font-weight: 900; font-family: inherit;
       font-size: clamp(0.65rem, 1vw + 0.2rem, 0.82rem);
-      padding: 7px 14px; border-radius: 999px; border: 2px solid rgba(93, 64, 55, 0.45);
+      padding: 7px 14px; min-height: 44px;
+      border-radius: 999px; border: 2px solid rgba(93, 64, 55, 0.45);
       background: rgba(255, 249, 240, 0.88); color: #4e342e;
+      touch-action: manipulation;
     }
     .p06-slide-tabs button.is-active {
       background: linear-gradient(180deg, var(--crayon-orange), #e65100);
@@ -130,6 +142,8 @@
       box-shadow: inset 0 0 28px rgba(0, 0, 0, 0.35);
       padding: clamp(10px, 1.8vmin, 16px);
       overflow: auto;
+      -webkit-overflow-scrolling: touch;
+      scroll-padding-bottom: calc(var(--p06-nav-h) * 0.35 + 0.5rem);
     }
     #flame-canvas {
       position: absolute; left: 0; right: 0; bottom: 0; height: min(40%, 180px); z-index: 2;
@@ -219,10 +233,11 @@
     }
     details.p06-verb-card > summary.p06-verb-summary {
       list-style: none; cursor: pointer; user-select: none;
-      margin: 0; padding: 10px 12px;
+      margin: 0; padding: 10px 12px; min-height: 44px;
       display: flex; flex-wrap: wrap; align-items: center; gap: 8px;
       position: relative; padding-right: 2.25rem;
       font-weight: 900; color: #0d47a1;
+      touch-action: manipulation;
     }
     details.p06-verb-card > summary.p06-verb-summary::-webkit-details-marker { display: none; }
     details.p06-verb-card > summary.p06-verb-summary::marker { content: ""; }
@@ -280,8 +295,10 @@
     .p06-tools button {
       appearance: none; cursor: pointer; font-weight: 900;
       font-size: clamp(0.68rem, 1vw + 0.24rem, 0.84rem);
-      padding: 8px 16px; border-radius: 999px; border: 2px solid var(--edge);
+      padding: 8px 16px; min-height: 44px;
+      border-radius: 999px; border: 2px solid var(--edge);
       background: rgba(255, 249, 240, 0.96); color: #4e342e;
+      touch-action: manipulation;
     }
     .p06-tools button.p06-primary {
       background: linear-gradient(180deg, var(--crayon-orange), #e65100); color: #fff; border-color: rgba(0, 0, 0, 0.12);
@@ -319,7 +336,7 @@
 
     #p06-bottom-dock {
       position: fixed; z-index: 40; left: max(8px, env(safe-area-inset-left)); right: max(8px, env(safe-area-inset-right));
-      bottom: max(8px, env(safe-area-inset-bottom));
+      bottom: calc(var(--lesson-pager-gap, 2.35rem) + max(8px, env(safe-area-inset-bottom, 0px)));
       padding: clamp(7px, 1.2vmin, 11px) clamp(9px, 1.8vmin, 13px);
       border-radius: clamp(14px, 2.2vmin, 20px);
       background: rgba(38, 50, 56, 0.45);
@@ -332,11 +349,68 @@
     .btn-ghost, .btn-primary {
       appearance: none; cursor: pointer; font-weight: 900;
       font-size: clamp(0.65rem, 1.05vw + 0.22rem, 0.8rem);
-      border-radius: 999px; padding: 8px 14px; text-decoration: none; display: inline-flex;
+      border-radius: 999px; padding: 8px 14px; min-height: 44px;
+      text-decoration: none; display: inline-flex;
       align-items: center; justify-content: center; border: 2px solid transparent;
+      touch-action: manipulation;
     }
     .btn-ghost { color: #eceff1; background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.2); }
     .btn-primary { color: #fff; background: linear-gradient(180deg, var(--crayon-orange), #e65100); border-color: rgba(0, 0, 0, 0.1); }
+
+    body.has-lesson-pager nav.lesson-pager a,
+    body.has-lesson-pager nav.lesson-pager .pager-prev,
+    body.has-lesson-pager nav.lesson-pager .pager-next {
+      touch-action: manipulation;
+    }
+
+    @media (max-width: 720px), (max-height: 560px) {
+      .p06-top {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .p06-badge {
+        max-width: none;
+        text-align: left;
+      }
+      .p06-passage {
+        font-size: clamp(1rem, 3.8vw, 1.28rem);
+      }
+      .p06-slide {
+        overflow-x: hidden;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+      #slide-2 .p06-grammar-panel {
+        zoom: 1;
+      }
+      .p06-grammar-panel {
+        -webkit-overflow-scrolling: touch;
+        scroll-padding-bottom: 0.5rem;
+      }
+      .p06-compare {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+      .p06-slide-tabs button:active,
+      .p06-tools button:active:not(:disabled),
+      .btn-primary:active,
+      .btn-ghost:active,
+      details.p06-verb-card > summary.p06-verb-summary:active {
+        transform: scale(0.98);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .p06-passage select.is-wrong {
+        animation: none !important;
+      }
+      #p06-stamp {
+        transition: none !important;
+      }
+    }
 
     @media print {
       html, body { background: #fff; overflow: auto; height: auto; }

@@ -21,7 +21,12 @@
       --p08-hud: "IBM Plex Mono", "SF Mono", Consolas, "Roboto Mono", monospace;
     }
     * { box-sizing: border-box; }
-    html { overflow-x: clip; max-width: 100%; }
+    html {
+      overflow-x: clip;
+      max-width: 100%;
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
     html, body {
       margin: 0;
       width: 100%;
@@ -30,6 +35,7 @@
       background: var(--p08-void);
       color: #e0f7fa;
       touch-action: manipulation;
+      -webkit-tap-highlight-color: rgba(179, 136, 255, 0.12);
     }
     #l08-p08-host.app {
       position: relative;
@@ -87,7 +93,11 @@
       z-index: 6;
       display: flex;
       flex-direction: column;
-      padding: clamp(4px, 0.8vh, 8px) clamp(8px, 1.4vw, 12px) clamp(40px, 7vh, 64px);
+      padding:
+        max(clamp(4px, 0.8vh, 8px), env(safe-area-inset-top))
+        max(clamp(8px, 1.4vw, 12px), env(safe-area-inset-right))
+        max(clamp(40px, 7vh, 64px), calc(var(--lesson-pager-gap, 2.35rem) + env(safe-area-inset-bottom, 0px)))
+        max(clamp(8px, 1.4vw, 12px), env(safe-area-inset-left));
       gap: clamp(6px, 1vh, 10px);
       min-height: 0;
       overflow: hidden;
@@ -147,8 +157,13 @@
       font-weight: 750;
       font-size: clamp(0.65rem, 1.35vw, 0.74rem);
       padding: 6px 10px;
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       border-radius: 999px;
       cursor: pointer;
+      touch-action: manipulation;
       transition: border-color 0.2s, box-shadow 0.2s, color 0.2s;
     }
     .p08-scene-tab:hover,
@@ -372,12 +387,14 @@
     .p08-btn-reveal {
       font-size: clamp(0.62rem, 1.18vw, 0.72rem);
       padding: clamp(5px, 0.9vmin, 8px) clamp(12px, 2vw, 16px);
+      min-height: 44px;
       border-radius: 8px;
       border: 1px solid rgba(255, 213, 79, 0.45);
       background: rgba(40, 32, 8, 0.5);
       color: #fff8e1;
       cursor: pointer;
       font-weight: 700;
+      touch-action: manipulation;
     }
     .p08-sq-ans {
       margin: 0;
@@ -405,10 +422,12 @@
       color: #e1bee7;
       border-radius: 8px;
       padding: clamp(5px, 0.85vmin, 8px) clamp(12px, 2vw, 18px);
+      min-height: 44px;
       cursor: pointer;
       font-weight: 800;
       font-size: clamp(0.62rem, 1.15vw, 0.72rem);
       font-family: var(--p08-hud);
+      touch-action: manipulation;
     }
     .p08-socratic-qbtn:hover:not(:disabled),
     .p08-socratic-qbtn:focus-visible {
@@ -567,6 +586,7 @@
       cursor: pointer;
       font-weight: 900;
       padding: clamp(12px, 2vw, 16px) clamp(18px, 4vw, 28px);
+      min-height: 44px;
       border-radius: 999px;
       font-size: clamp(0.78rem, 1.65vw, 0.92rem);
       letter-spacing: 0.04em;
@@ -574,6 +594,7 @@
       background: linear-gradient(180deg, #6a1b9a, #4527a0);
       border: 3px solid rgba(255, 0, 234, 0.55);
       box-shadow: 0 0 28px rgba(255, 0, 234, 0.35);
+      touch-action: manipulation;
       transition: transform 0.15s ease, box-shadow 0.2s;
     }
     .p08-btn-mic:active { transform: scale(0.97); }
@@ -591,12 +612,14 @@
       cursor: pointer;
       font-weight: 900;
       padding: 12px 22px;
+      min-height: 44px;
       border-radius: 14px;
       font-size: clamp(0.76rem, 1.55vw, 0.88rem);
       color: #fff;
       background: linear-gradient(180deg, #006064, #004d40);
       border: 2px solid rgba(0, 243, 255, 0.45);
       box-shadow: 0 0 18px rgba(0, 243, 255, 0.25);
+      touch-action: manipulation;
     }
     .p08-btn-submit:disabled {
       opacity: 0.45;
@@ -609,15 +632,17 @@
       cursor: pointer;
       font-weight: 800;
       padding: 10px 16px;
+      min-height: 44px;
       border-radius: 12px;
       font-size: clamp(0.72rem, 1.45vw, 0.82rem);
       color: #e1bee7;
       background: rgba(40, 24, 60, 0.55);
+      touch-action: manipulation;
     }
 
     #p08-toast {
       position: fixed;
-      bottom: clamp(72px, 14vh, 120px);
+      bottom: max(clamp(72px, 14vh, 120px), calc(var(--lesson-pager-gap, 2.35rem) + env(safe-area-inset-bottom, 0px) + 12px));
       left: 50%;
       transform: translateX(-50%) translateY(120%);
       z-index: 8000;
@@ -646,7 +671,7 @@
       display: none;
       align-items: center;
       justify-content: center;
-      padding: 16px;
+      padding: max(16px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(16px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
       background: rgba(4, 6, 18, 0.82);
     }
     #p08-modal.on { display: flex; }
@@ -677,16 +702,53 @@
     .p08-modal-card button {
       margin-top: 14px;
       padding: 10px 18px;
+      min-height: 44px;
       border-radius: 10px;
       border: none;
       font-weight: 800;
       cursor: pointer;
       background: linear-gradient(180deg, #37474f, #263238);
       color: #eceff1;
+      touch-action: manipulation;
+    }
+
+    .p08-scroll-right {
+      scroll-padding-bottom: calc(var(--lesson-pager-gap, 2.35rem) + 0.35rem);
     }
 
     @media (max-width: 560px) {
       .p08-check-row { flex-direction: column; align-items: stretch; }
+    }
+
+    body.has-lesson-pager nav.lesson-pager a,
+    body.has-lesson-pager nav.lesson-pager .pager-prev,
+    body.has-lesson-pager nav.lesson-pager .pager-next {
+      touch-action: manipulation;
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+      .p08-scene-tab:active,
+      .p08-btn-reveal:active,
+      .p08-socratic-qbtn:active:not(:disabled),
+      .p08-btn-submit:active:not(:disabled),
+      .p08-btn-ghost:active,
+      .p08-modal-card button:active {
+        transform: scale(0.98);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      #p08-toast {
+        transition: none !important;
+      }
+      .p08-btn-mic.on,
+      .p08-wave-wrap.p08-wave-active {
+        animation: none !important;
+      }
+      .p08-scene-tab,
+      .p08-check {
+        transition: none !important;
+      }
     }
   </style>
 

@@ -22,7 +22,12 @@
       --p06-hud: "IBM Plex Mono", "SF Mono", Consolas, "Roboto Mono", monospace;
     }
     * { box-sizing: border-box; }
-    html { overflow-x: clip; max-width: 100%; }
+    html {
+      overflow-x: clip;
+      max-width: 100%;
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
     html, body {
       margin: 0;
       width: 100%;
@@ -31,6 +36,7 @@
       background: var(--p06-void);
       color: #e0f7fa;
       touch-action: manipulation;
+      -webkit-tap-highlight-color: rgba(0, 243, 255, 0.12);
     }
     #l08-p06-host.app {
       position: relative;
@@ -79,6 +85,7 @@
       overflow-x: hidden;
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
+      scroll-padding-bottom: calc(var(--lesson-pager-gap, 2.35rem) + 0.35rem);
       padding-right: 4px;
     }
     #p06-ui-lock {
@@ -98,7 +105,11 @@
       z-index: 6;
       display: flex;
       flex-direction: column;
-      padding: clamp(6px, 1vh, 10px) clamp(8px, 1.6vw, 14px) clamp(52px, 10vh, 88px);
+      padding:
+        max(clamp(6px, 1vh, 10px), env(safe-area-inset-top))
+        max(clamp(8px, 1.6vw, 14px), env(safe-area-inset-right))
+        max(clamp(52px, 10vh, 88px), calc(var(--lesson-pager-gap, 2.35rem) + env(safe-area-inset-bottom, 0px)))
+        max(clamp(8px, 1.6vw, 14px), env(safe-area-inset-left));
       gap: clamp(6px, 1vh, 10px);
       min-height: 0;
       overflow: hidden;
@@ -117,12 +128,17 @@
       cursor: pointer;
       font-weight: 850;
       padding: 8px 14px;
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       border-radius: 999px;
       font-size: clamp(0.72rem, 1.55vw, 0.86rem);
       border: 2px solid rgba(0, 243, 255, 0.38);
       background: rgba(12, 18, 36, 0.92);
       color: #b3e5fc;
       letter-spacing: 0.04em;
+      touch-action: manipulation;
     }
     .p06-slide-tabs button[aria-selected="true"] {
       border-color: rgba(255, 0, 234, 0.55);
@@ -184,6 +200,7 @@
       overflow-y: auto;
       margin-top: 0;
       -webkit-overflow-scrolling: touch;
+      scroll-padding-bottom: calc(var(--lesson-pager-gap, 2.35rem) + 0.35rem);
     }
 
     .p06-hud-title {
@@ -242,6 +259,7 @@
       cursor: pointer;
       font-weight: 900;
       padding: 12px 28px;
+      min-height: 44px;
       border-radius: 999px;
       font-size: clamp(0.84rem, 1.75vw, 0.98rem);
       color: #fff;
@@ -249,6 +267,7 @@
       border: 2px solid rgba(0, 243, 255, 0.5);
       box-shadow: 0 0 22px rgba(0, 243, 255, 0.35);
       letter-spacing: 0.06em;
+      touch-action: manipulation;
     }
     .p06-btn-next-step:disabled {
       opacity: 0.55;
@@ -307,8 +326,10 @@
 
     .p06-line-audio {
       flex-shrink: 0;
-      width: clamp(36px, 8vmin, 42px);
-      height: clamp(36px, 8vmin, 42px);
+      width: clamp(44px, 8vmin, 48px);
+      height: clamp(44px, 8vmin, 48px);
+      min-width: 44px;
+      min-height: 44px;
       border-radius: 10px;
       border: 2px solid rgba(0, 243, 255, 0.4);
       background: rgba(0, 30, 45, 0.9);
@@ -317,6 +338,7 @@
       cursor: pointer;
       padding: 0;
       line-height: 1;
+      touch-action: manipulation;
       transition: box-shadow 0.2s, border-color 0.2s;
     }
     .p06-line-audio:hover,
@@ -349,11 +371,13 @@
       width: 100%;
       text-align: left;
       padding: clamp(10px, 1.6vw, 14px) clamp(12px, 2vw, 16px);
+      min-height: 44px;
       border-radius: 12px;
       border: 2px solid rgba(100, 120, 160, 0.35);
       background: rgba(14, 18, 36, 0.92);
       color: #eceff1;
       cursor: pointer;
+      touch-action: manipulation;
       transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
       font: inherit;
     }
@@ -463,12 +487,14 @@
     .p06-terminal-card button {
       margin-top: 14px;
       padding: 10px 20px;
+      min-height: 44px;
       border-radius: 10px;
       border: none;
       font-weight: 800;
       cursor: pointer;
       background: linear-gradient(180deg, #37474f, #263238);
       color: #eceff1;
+      touch-action: manipulation;
     }
 
     #p06-finale {
@@ -480,7 +506,7 @@
       justify-content: center;
       flex-direction: column;
       gap: 18px;
-      padding: 20px;
+      padding: max(20px, env(safe-area-inset-top)) max(20px, env(safe-area-inset-right)) max(20px, env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left));
       background: rgba(3, 5, 18, 0.88);
     }
     #p06-finale.on { display: flex; }
@@ -512,6 +538,7 @@
     }
     .p06-btn-next {
       padding: 14px 28px;
+      min-height: 44px;
       border-radius: 14px;
       border: 2px solid rgba(0, 243, 255, 0.55);
       background: linear-gradient(180deg, #1a237e, #311b92);
@@ -520,9 +547,11 @@
       font-size: clamp(0.88rem, 1.9vw, 1.05rem);
       cursor: pointer;
       box-shadow: 0 0 24px rgba(0, 243, 255, 0.35);
+      touch-action: manipulation;
     }
     .p06-btn-drill {
       padding: 14px 28px;
+      min-height: 44px;
       border-radius: 14px;
       border: 2px solid rgba(255, 213, 79, 0.65);
       background: linear-gradient(180deg, #4a3728, #2e1b0e);
@@ -531,6 +560,7 @@
       font-size: clamp(0.88rem, 1.9vw, 1.05rem);
       cursor: pointer;
       box-shadow: 0 0 22px rgba(255, 213, 79, 0.35);
+      touch-action: manipulation;
     }
     .p06-finale-actions {
       display: flex;
@@ -604,12 +634,13 @@
     }
     .p06-drill-reveal {
       position: relative;
-      min-height: 3.2rem;
+      min-height: max(3.2rem, 44px);
       border-radius: 10px;
       border: 2px dashed rgba(100, 120, 140, 0.45);
       background: rgba(6, 10, 22, 0.65);
       cursor: pointer;
       padding: 10px 12px;
+      touch-action: manipulation;
       transition: border-color 0.25s, background 0.25s;
     }
     .p06-drill-reveal:hover,
@@ -652,6 +683,7 @@
       align-items: center;
       gap: 8px;
       padding: 8px 14px;
+      min-height: 44px;
       border-radius: 999px;
       border: 2px solid rgba(0, 243, 255, 0.45);
       background: rgba(13, 40, 60, 0.85);
@@ -659,6 +691,7 @@
       font-weight: 850;
       font-size: clamp(0.76rem, 1.45vw, 0.88rem);
       cursor: pointer;
+      touch-action: manipulation;
     }
     .p06-drill-speak:hover {
       box-shadow: 0 0 16px rgba(0, 243, 255, 0.25);
@@ -676,6 +709,39 @@
       color: #78909c;
       font-weight: 600;
       margin-top: 4px;
+    }
+
+    body.has-lesson-pager nav.lesson-pager a,
+    body.has-lesson-pager nav.lesson-pager .pager-prev,
+    body.has-lesson-pager nav.lesson-pager .pager-next {
+      touch-action: manipulation;
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+      .p06-slide-tabs button:active:not(:disabled),
+      .p06-btn-next-step:active:not(:disabled),
+      .p06-mcq-opt:active:not(:disabled),
+      .p06-line-audio:active,
+      .p06-drill-speak:active,
+      .p06-btn-next:active,
+      .p06-btn-drill:active,
+      .p06-terminal-card button:active {
+        transform: scale(0.98);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .p06-slide {
+        transition: none !important;
+      }
+      .p06-badge {
+        animation: none !important;
+      }
+      .p06-mcq-opt,
+      .p06-line-audio,
+      .p06-drill-reveal {
+        transition: none !important;
+      }
     }
 
   </style>

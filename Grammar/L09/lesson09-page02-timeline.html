@@ -27,13 +27,16 @@
       --river-cyan: #00bcd4;
       --bolt-magenta: #d500f9;
       --shadow-soft: rgba(60, 40, 20, 0.18);
-      /* 底部固定导航占位：背景图不画进导航条区域 */
-      --p02-nav-h: calc(clamp(92px, 18vmin, 128px) + max(12px, env(safe-area-inset-bottom)));
+      /* 底部固定导航占位：页内 dock + 课程底栏 pager */
+      --p02-nav-h: calc(clamp(92px, 18vmin, 128px) + var(--lesson-pager-gap, 2.35rem) + max(12px, env(safe-area-inset-bottom)));
     }
     * { box-sizing: border-box; }
     html {
       overflow: hidden;
+      overflow-x: clip;
       max-width: 100%;
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
       font-size: clamp(15px, 0.85vw + 13px, 20px);
     }
     html, body {
@@ -60,9 +63,9 @@
     #viewport {
       position: relative;
       width: min(100vw, 100%);
-      height: min(100dvh, 100%);
+      height: min(calc(100dvh - var(--lesson-pager-gap, 2.35rem)), 100%);
       max-width: 100%;
-      max-height: 100dvh;
+      max-height: calc(100dvh - var(--lesson-pager-gap, 2.35rem));
       flex-shrink: 0;
       overflow: hidden;
     }
@@ -184,11 +187,13 @@
       font-weight: 900;
       font-size: clamp(0.68rem, 1.15vw + 0.28rem, 0.84rem);
       padding: clamp(6px, 1.2vmin, 9px) clamp(12px, 2.2vmin, 18px);
+      min-height: 44px;
       border-radius: 999px;
       border: 2px solid #cfd8dc;
       color: #fff;
       background: #546e7a;
       box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+      touch-action: manipulation;
     }
     .slide-tab.is-active {
       color: #4e342e;
@@ -226,7 +231,7 @@
       overflow-x: hidden;
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
-      scroll-padding-bottom: clamp(24px, 6vmin, 56px);
+      scroll-padding-bottom: calc(var(--p02-nav-h) + 0.35rem);
       padding-bottom: clamp(8px, 2vmin, 20px);
     }
 
@@ -235,7 +240,7 @@
       overflow-x: hidden;
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
-      scroll-padding-bottom: clamp(24px, 6vmin, 56px);
+      scroll-padding-bottom: calc(var(--p02-nav-h) + 0.35rem);
       padding-bottom: clamp(8px, 2vmin, 20px);
     }
 
@@ -249,6 +254,7 @@
       overflow-x: hidden;
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
+      scroll-padding-bottom: calc(var(--p02-nav-h) + 0.35rem);
     }
     .p02-slide-main--lab {
       justify-content: flex-start;
@@ -260,7 +266,7 @@
       z-index: 40;
       left: max(8px, env(safe-area-inset-left));
       right: max(8px, env(safe-area-inset-right));
-      bottom: max(8px, env(safe-area-inset-bottom));
+      bottom: calc(var(--lesson-pager-gap, 2.35rem) + max(8px, env(safe-area-inset-bottom, 0px)));
       padding: clamp(8px, 1.4vmin, 12px) clamp(10px, 2vmin, 14px);
       border-radius: clamp(14px, 2.2vmin, 20px);
       background: rgba(38, 50, 56, 0.94);
@@ -567,10 +573,12 @@
       font-weight: 900;
       font-size: clamp(0.85rem, 1.45vw + 0.36rem, 1rem);
       padding: clamp(11px, 2vmin, 15px) clamp(18px, 3.5vmin, 28px);
+      min-height: 44px;
       border-radius: 999px;
       color: #fff;
       background: linear-gradient(180deg, var(--crayon-orange) 0%, #f57c00 100%);
       box-shadow: 0 4px 0 #e65100, 0 8px 20px rgba(0,0,0,0.18);
+      touch-action: manipulation;
     }
     .btn-primary:disabled {
       opacity: 0.42;
@@ -585,11 +593,15 @@
       font-family: inherit;
       font-size: clamp(0.72rem, 1.2vw + 0.3rem, 0.85rem);
       padding: clamp(8px, 1.5vmin, 10px) clamp(14px, 2.5vmin, 20px);
+      min-height: 44px;
       border-radius: 999px;
       color: #fff8e7;
       background: rgba(0,0,0,0.18);
       text-decoration: none;
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      touch-action: manipulation;
     }
     #ui-lock {
       position: fixed;
@@ -633,12 +645,14 @@
     #hologram button {
       align-self: flex-end;
       padding: 0.5rem 1rem;
+      min-height: 44px;
       border-radius: 999px;
       border: none;
       font-weight: 900;
       background: var(--crayon-blue);
       color: #fff;
       cursor: pointer;
+      touch-action: manipulation;
     }
 
     .success-plate {
@@ -652,6 +666,52 @@
       color: #006064;
       font-size: clamp(0.78rem, 1.4vw + 0.3rem, 0.92rem);
       line-height: 1.45;
+    }
+
+    body.has-lesson-pager nav.lesson-pager a,
+    body.has-lesson-pager nav.lesson-pager .pager-prev,
+    body.has-lesson-pager nav.lesson-pager .pager-next {
+      touch-action: manipulation;
+    }
+
+    @media (max-width: 720px), (max-height: 560px) {
+      .p02-top-bar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .p02-top-right {
+        align-self: flex-start;
+      }
+      .p02-badge {
+        text-align: left;
+      }
+      .chip-p02 {
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+      #hologram {
+        width: min(calc(100vw - 1.5rem), 32rem);
+        max-height: min(58dvh, 22rem);
+        top: max(50%, calc(env(safe-area-inset-top, 0px) + 42%));
+      }
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+      .slide-tab:active,
+      .btn-primary:active:not(:disabled),
+      .btn-ghost:active,
+      #hologram button:active,
+      .chip-p02:active {
+        transform: scale(0.98);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      #bg-stack::after {
+        transition: none !important;
+      }
     }
 
     @media print {

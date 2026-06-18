@@ -26,7 +26,12 @@
       --p09-hud: "IBM Plex Mono", "SF Mono", Consolas, "Roboto Mono", monospace;
     }
     * { box-sizing: border-box; }
-    html { overflow-x: clip; max-width: 100%; }
+    html {
+      overflow-x: clip;
+      max-width: 100%;
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
     html, body {
       margin: 0;
       width: 100%;
@@ -35,6 +40,7 @@
       background: var(--p09-void);
       color: #e0f7fa;
       touch-action: manipulation;
+      -webkit-tap-highlight-color: rgba(255, 224, 130, 0.12);
     }
     #l08-p09-host.app {
       position: relative;
@@ -89,7 +95,11 @@
       z-index: 6;
       display: flex;
       flex-direction: column;
-      padding: clamp(6px, 1vh, 10px) clamp(8px, 1.4vw, 12px) clamp(40px, 7vh, 64px);
+      padding:
+        max(clamp(6px, 1vh, 10px), env(safe-area-inset-top))
+        max(clamp(8px, 1.4vw, 12px), env(safe-area-inset-right))
+        max(clamp(40px, 7vh, 64px), calc(var(--lesson-pager-gap, 2.35rem) + env(safe-area-inset-bottom, 0px)))
+        max(clamp(8px, 1.4vw, 12px), env(safe-area-inset-left));
       gap: clamp(6px, 1vh, 10px);
       min-height: 0;
       overflow: hidden;
@@ -305,12 +315,14 @@
       cursor: pointer;
       font-weight: 900;
       padding: 12px 22px;
+      min-height: 44px;
       border-radius: 14px;
       font-size: clamp(0.74rem, 1.5vw, 0.88rem);
       color: #fff;
       background: linear-gradient(180deg, #5e35b1, #4527a0);
       border: 2px solid rgba(255, 224, 130, 0.45);
       box-shadow: 0 0 18px rgba(255, 224, 130, 0.2);
+      touch-action: manipulation;
       transition: opacity 0.2s, transform 0.15s;
     }
     .p09-btn-submit:disabled {
@@ -324,10 +336,12 @@
       cursor: pointer;
       font-weight: 800;
       padding: 10px 16px;
+      min-height: 44px;
       border-radius: 12px;
       font-size: clamp(0.68rem, 1.35vw, 0.8rem);
       color: #b2ebf2;
       background: rgba(25, 35, 55, 0.55);
+      touch-action: manipulation;
     }
 
     .p09-feedback-wrap {
@@ -339,6 +353,8 @@
       border: 1px solid rgba(179, 136, 255, 0.38);
       max-height: min(26vh, 200px);
       overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      scroll-padding-bottom: calc(var(--lesson-pager-gap, 2.35rem) + 0.35rem);
     }
     .p09-feedback-head {
       margin: 0 0 6px;
@@ -363,7 +379,7 @@
 
     #p09-toast {
       position: fixed;
-      bottom: clamp(72px, 14vh, 120px);
+      bottom: max(clamp(72px, 14vh, 120px), calc(var(--lesson-pager-gap, 2.35rem) + env(safe-area-inset-bottom, 0px) + 12px));
       left: 50%;
       transform: translateX(-50%) translateY(120%);
       z-index: 8000;
@@ -383,6 +399,33 @@
     #p09-toast.show {
       opacity: 1;
       transform: translateX(-50%) translateY(0);
+    }
+
+    body.has-lesson-pager nav.lesson-pager a,
+    body.has-lesson-pager nav.lesson-pager .pager-prev,
+    body.has-lesson-pager nav.lesson-pager .pager-next {
+      touch-action: manipulation;
+    }
+
+    @media (max-width: 720px) {
+      #p09-editor,
+      #p09-mirror {
+        font-size: 16px;
+      }
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+      .p09-btn-ghost:active {
+        transform: scale(0.98);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      #p09-toast,
+      .p09-lock,
+      .p09-btn-submit {
+        transition: none !important;
+      }
     }
   </style>
 
