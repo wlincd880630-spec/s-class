@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Magic E 听写生成器 · AEIOU（多选元音 · PDF）</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Patrick+Hand&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/microsoft-cognitiveservices-speech-sdk@1.42.0/distrib/browser/microsoft.cognitiveservices.speech.sdk.bundle-min.js"></script>
+<script src="./magic-e-data.js"></script>
+
+<style>
+:root {
+  --font-hand  : 'Patrick Hand', cursive;
+  --font-ui    : 'Fredoka', sans-serif;
+  --row-h      : 31mm;
+  --line-blue  : #90CAF9;
+  --line-red   : #EF9A9A;
+  --line-dash  : rgba(33,150,243,.32);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-ui);
+  background: #455A64;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 48px;
+}
+
+.gen-panel {
+  width: 100%;
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 16px 20px 20px;
+  background: #fff;
+  box-shadow: 0 4px 24px rgba(0,0,0,.2);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  border-radius: 0 0 16px 16px;
+}
+
+.gen-panel h1 {
+  font-size: 1.15rem;
+  color: #37474F;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.vowel-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 10px 14px;
+  margin-bottom: 14px;
+}
+
+.vowel-cell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 2px solid #ECEFF1;
+  transition: .15s;
+}
+.vowel-cell.on { border-color: currentColor; background: rgba(0,0,0,.02); }
+.vowel-cell[data-v="a"] { color: #1E88E5; }
+.vowel-cell[data-v="e"] { color: #43A047; }
+.vowel-cell[data-v="i"] { color: #D81B60; }
+.vowel-cell[data-v="o"] { color: #FB8C00; }
+.vowel-cell[data-v="u"] { color: #8E24AA; }
+
+.vowel-cell input[type="checkbox"] { width: 18px; height: 18px; cursor: pointer; flex-shrink: 0; }
+.vowel-cell label.lbl {
+  font-weight: 700;
+  font-size: 1.05rem;
+  cursor: pointer;
+  min-width: 2.2em;
+  user-select: none;
+}
+.vowel-cell .count-wrap {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+}
+.vowel-cell .count-wrap span { font-size: .75rem; color: #78909C; }
+.vowel-cell input[type="number"] {
+  width: 52px;
+  padding: 6px 8px;
+  border: 1px solid #CFD8DC;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: .95rem;
+  text-align: center;
+}
+.vowel-cell input[type="number"]:disabled {
+  opacity: .45;
+  cursor: not-allowed;
+  background: #F5F5F5;
+}
+
+.gen-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 14px;
+  margin-top: 8px;
+  padding-top: 14px;
+  border-top: 1px solid #ECEFF1;
+}
+
+.btn-gen {
+  background: #7B1FA2;
+  color: #fff;
+  border: none;
+  padding: 11px 22px;
+  border-radius: 50px;
+  font-family: var(--font-ui);
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(123,31,162,.35);
+}
+.btn-gen:hover { filter: brightness(1.08); transform: scale(1.02); }
+
+.btn-pdf {
+  background: #00838F;
+  color: #fff;
+  border: none;
+  padding: 11px 22px;
+  border-radius: 50px;
+  font-family: var(--font-ui);
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.btn-pdf:hover { background: #006064; }
+
+.voice-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  font-size: .85rem;
+  color: #546E7A;
+}
+.voice-row select {
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid #CFD8DC;
+  font-size: .85rem;
+}
+
+.hint {
+  font-size: .78rem;
+  color: #90A4AE;
+  line-height: 1.45;
+  flex: 1 1 220px;
+}
+
+.summary {
+  font-size: .88rem;
+  color: #455A64;
+  font-weight: 600;
+  margin-top: 10px;
+}
+
+label.chk-answers {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: .88rem;
+  color: #546E7A;
+  cursor: pointer;
+}
+label.chk-answers input { width: 16px; height: 16px; }
+
+body:not(.show-answers) .answer-word { display: none !important; }
+
+#app {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.page {
+  background: #fff;
+  width: 210mm;
+  min-height: 297mm;
+  height: 297mm;
+  padding: 14mm 14mm 10mm;
+  margin: 24px 0;
+  box-shadow: 0 0 36px rgba(0,0,0,.55);
+  display: flex;
+  flex-direction: column;
+  page-break-after: always;
+  overflow: hidden;
+}
+
+.page-hdr {
+  flex-shrink: 0;
+  height: 15mm;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 2.5px solid #ECEFF1;
+  padding-bottom: 3mm;
+  margin-bottom: 4mm;
+  font-size: .84rem;
+  color: #9E9E9E;
+  gap: 2mm;
+}
+
+.page-hdr .title-chip {
+  font-weight: 700;
+  font-size: .88rem;
+  padding: 2px 12px;
+  border-radius: 8px;
+  background: #F3E5F5;
+  color: #6A1B9A;
+  text-align: center;
+}
+
+.page-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  min-height: 0;
+}
+
+.dict-block {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 0;
+  padding: 2mm 0 3mm;
+  border-bottom: 1px dashed #E0E0E0;
+}
+.dict-block:last-child { border-bottom: none; }
+.dict-block.only-one { flex: 1.2; }
+
+.block-hdr {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 2mm 2mm;
+}
+.idx-label { font-size: .8rem; color: #BDBDBD; }
+
+.img-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2mm;
+  padding: 2mm 0 3mm;
+}
+.img-frame {
+  width: 52mm;
+  height: 52mm;
+  border-radius: 12px;
+  border: 2px solid #E1BEE7;
+  background: #FDF8FF;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.img-frame img { width: 100%; height: 100%; object-fit: cover; }
+
+.answer-word {
+  font-family: var(--font-hand);
+  font-size: 1.85rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  padding: 2px 16px;
+  border-radius: 8px;
+  border: 2px dashed #B0BEC5;
+}
+
+.speak-row {
+  display: flex;
+  justify-content: center;
+  padding: 0 0 3mm;
+}
+.btn-speak {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-ui);
+  font-size: .9rem;
+  font-weight: 700;
+  padding: 7px 16px;
+  border-radius: 50px;
+  border: 2px solid #7B1FA2;
+  background: #F3E5F5;
+  color: #6A1B9A;
+  cursor: pointer;
+}
+.btn-speak:hover:not(:disabled) { background: #E1BEE7; }
+.btn-speak:disabled { opacity: .55; cursor: wait; }
+
+.blank-rows { width: 100%; padding-top: 1mm; }
+.blank-line {
+  position: relative;
+  height: var(--row-h);
+  min-height: var(--row-h);
+  overflow: hidden;
+}
+.blank-line .grid-bg {
+  position: absolute;
+  top: 25%;
+  height: 50%;
+  left: 8mm;
+  right: 8mm;
+  pointer-events: none;
+}
+.blank-line .gl { position: absolute; left: 0; right: 0; height: 0; }
+.blank-line .gl-sky   { top: 0%;   border-top: 1.3pt solid var(--line-blue); }
+.blank-line .gl-cloud { top: 33%;  border-top: 1.3pt dashed var(--line-dash); }
+.blank-line .gl-grass { top: 67%;  border-top: 2.8pt solid var(--line-blue); }
+.blank-line .gl-dirt  { top: 100%; border-top: 1.3pt solid var(--line-red); }
+
+.page-ftr {
+  flex-shrink: 0;
+  height: 7mm;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .72rem;
+  color: #BDBDBD;
+  border-top: 1px solid #F5F5F5;
+  padding-top: 2mm;
+}
+
+.empty-tip {
+  color: #B0BEC5;
+  padding: 48px 24px;
+  text-align: center;
+  font-size: 1rem;
+}
+
+@media print {
+  body { background: #fff; padding: 0; }
+  .no-print { display: none !important; }
+  .answer-word { display: none !important; }
+  .page {
+    margin: 0;
+    box-shadow: none;
+    page-break-after: always;
+  }
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+</style>
+</head>
+<body>
+
+<div class="gen-panel no-print">
+  <h1>📝 Magic E 听写生成器 <small style="font-weight:600;color:#78909C;">AEIOU · CVCE</small></h1>
+  <div class="vowel-grid" id="vowelGrid"></div>
+  <div class="gen-actions">
+    <button type="button" class="btn-gen" id="btnGenerate">生成听写</button>
+    <button type="button" class="btn-pdf" id="btnPdf">导出 PDF</button>
+    <label class="chk-answers">
+      <input type="checkbox" id="toggleAnswers" />
+      屏幕显示答案词（打印仍隐藏）
+    </label>
+    <div class="voice-row">
+      <span>Azure 音色</span>
+      <select id="azureVoice" title="神经网络语音">
+        <option value="en-US-JennyNeural">en-US-JennyNeural</option>
+        <option value="en-US-GuyNeural">en-US-GuyNeural</option>
+        <option value="en-US-AriaNeural">en-US-AriaNeural</option>
+        <option value="en-GB-SoniaNeural">en-GB-SoniaNeural</option>
+      </select>
+    </div>
+    <p class="hint">
+      勾选元音（aCe / eCe / iCe / oCe / uCe）并填写每个元音抽词数量（从词库随机不重复抽取，总表再随机打乱）。<br />
+      <strong>导出 PDF</strong>：将打开打印对话框，打印机选「另存为 PDF」或「Microsoft Print to PDF」。<br />
+      朗读优先 Azure；失败时自动尝试 COS 本地 MP3。
+    </p>
+  </div>
+  <div class="summary" id="genSummary"></div>
+</div>
+
+<div id="app">
+  <p class="empty-tip no-print">请先设置元音与数量，点击「生成听写」。</p>
+</div>
+
+<script>
+const AZURE_SPEECH_KEY = 'DKRXk8ueSfo5NdIOMqFRTCAfpeGDezJ3Snf5K8gGgtyqxiWdugLzJQQJ99BLACHYHv6XJ3w3AAAYACOGUYP9';
+const AZURE_SPEECH_REGION = 'eastus2';
+
+const MEDIA_BASE = 'https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Magic-E/';
+const IMG_WORDS = MEDIA_BASE + 'assets/images/magic-e/words/';
+const AUDIO_WORDS = MEDIA_BASE + 'assets/audio/magic-e/words/';
+
+const VOWEL_ORDER = ['a', 'e', 'i', 'o', 'u'];
+const VOWEL_THEME = {
+  a: { color: '#1E88E5', bg: '#E3F2FD' },
+  e: { color: '#43A047', bg: '#E8F5E9' },
+  i: { color: '#D81B60', bg: '#FCE4EC' },
+  o: { color: '#FB8C00', bg: '#FFF3E0' },
+  u: { color: '#8E24AA', bg: '#F3E5F5' },
+};
+
+const WORDS_PER_PAGE = 2;
+
+let VOWEL_DATA = {};
+let ttsBusy = false;
+let lastBuiltWords = [];
+
+function buildVowelData() {
+  const db = window.MAGIC_E_DATA;
+  if (!db || !db.groups) {
+    alert('未加载 magic-e-data.js');
+    return;
+  }
+  VOWEL_ORDER.forEach((v) => {
+    const g = db.groups[v] || {};
+    const theme = VOWEL_THEME[v];
+    const pool = (g.words || []).map((entry, idx) => ({
+      word: entry.word,
+      idx,
+      chinese: entry.chinese || '',
+    }));
+    VOWEL_DATA[v] = {
+      label: g.patternLabel || v + 'Ce',
+      color: theme.color,
+      bg: theme.bg,
+      words: pool,
+    };
+  });
+}
+
+function shuffleArray(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function pickRandomWords(pool, n) {
+  const cap = Math.max(0, Math.min(n, pool.length));
+  return shuffleArray(pool).slice(0, cap);
+}
+
+function svgPlaceholderDataUrl(line1, line2) {
+  const esc = (t) => String(t)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400">
+    <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#f3e5f5"/><stop offset="100%" stop-color="#fff8e1"/></linearGradient></defs>
+    <rect width="100%" height="100%" fill="url(#g)"/>
+    <text x="50%" y="38%" text-anchor="middle" font-size="34" fill="#6A1B9A" font-family="Segoe UI,Arial,sans-serif" font-weight="700">${esc(line1)}</text>
+    <text x="50%" y="52%" text-anchor="middle" font-size="14" fill="#546E7A" font-family="Segoe UI,Arial,sans-serif">${esc(line2)}</text>
+  </svg>`;
+  return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+}
+
+function chunkArray(arr, size) {
+  const out = [];
+  for (let i = 0; i < arr.length; i += size) out.push(arr.slice(i, i + size));
+  return out;
+}
+
+function wordImageUrls(item) {
+  return [
+    IMG_WORDS + item.vowel + '-' + item.idx + '.png',
+    IMG_WORDS + item.vowel + '-' + item.idx + '.svg',
+  ];
+}
+
+function bindWordImage(img, item) {
+  const urls = wordImageUrls(item);
+  let u = 0;
+  img.onerror = () => {
+    u += 1;
+    if (u < urls.length) {
+      img.src = urls[u];
+    } else {
+      img.onerror = null;
+      img.src = svgPlaceholderDataUrl(item.word, item.patternLabel || item.vowel + 'Ce');
+    }
+  };
+  img.src = urls[0];
+}
+
+function buildVowelGrid() {
+  const grid = document.getElementById('vowelGrid');
+  grid.innerHTML = '';
+  VOWEL_ORDER.forEach((v) => {
+    const d = VOWEL_DATA[v];
+    if (!d) return;
+    const cell = document.createElement('div');
+    cell.className = 'vowel-cell on';
+    cell.dataset.v = v;
+    cell.style.background = d.bg + '44';
+    const maxN = d.words.length;
+    cell.innerHTML = `
+      <input type="checkbox" id="chk-${v}" checked data-v="${v}" />
+      <label class="lbl" for="chk-${v}" title="${d.label}">${d.label}</label>
+      <div class="count-wrap">
+        <span>词数</span>
+        <input type="number" id="cnt-${v}" min="0" max="${maxN}" value="2" data-v="${v}" />
+      </div>
+    `;
+    const chk = cell.querySelector('input[type="checkbox"]');
+    const num = cell.querySelector('input[type="number"]');
+    chk.addEventListener('change', () => {
+      cell.classList.toggle('on', chk.checked);
+      num.disabled = !chk.checked;
+      if (!chk.checked) num.value = '0';
+      else if (parseInt(num.value, 10) === 0) num.value = '2';
+    });
+    grid.appendChild(cell);
+  });
+}
+
+function collectSelection() {
+  const items = [];
+  VOWEL_ORDER.forEach((v) => {
+    const chk = document.getElementById('chk-' + v);
+    const num = document.getElementById('cnt-' + v);
+    if (!chk || !num || !chk.checked) return;
+    const n = parseInt(num.value, 10);
+    if (!Number.isFinite(n) || n <= 0) return;
+    const meta = VOWEL_DATA[v];
+    const picked = pickRandomWords(meta.words, n);
+    picked.forEach((entry) => {
+      items.push({
+        word: entry.word,
+        vowel: v,
+        idx: entry.idx,
+        patternLabel: meta.label,
+        color: meta.color,
+        bg: meta.bg,
+      });
+    });
+  });
+  return shuffleArray(items);
+}
+
+function getVoiceName() {
+  const sel = document.getElementById('azureVoice');
+  return (sel && sel.value) || 'en-US-JennyNeural';
+}
+
+function playLocalMp3(word, onDone) {
+  const audio = new Audio(AUDIO_WORDS + String(word).toLowerCase() + '.mp3');
+  audio.addEventListener('ended', onDone, { once: true });
+  audio.addEventListener('error', onDone, { once: true });
+  audio.play().catch(onDone);
+}
+
+function speakWord(word, buttonEl) {
+  if (ttsBusy) return;
+  const finish = () => {
+    ttsBusy = false;
+    if (buttonEl) buttonEl.disabled = false;
+  };
+
+  const SpeechSDK = window.SpeechSDK;
+  if (!SpeechSDK || !AZURE_SPEECH_KEY || !AZURE_SPEECH_REGION) {
+    ttsBusy = true;
+    if (buttonEl) buttonEl.disabled = true;
+    playLocalMp3(word, finish);
+    return;
+  }
+
+  ttsBusy = true;
+  if (buttonEl) buttonEl.disabled = true;
+
+  const speechConfig = SpeechSDK.SpeechConfig.fromSubscription(
+    AZURE_SPEECH_KEY,
+    AZURE_SPEECH_REGION
+  );
+  speechConfig.speechSynthesisVoiceName = getVoiceName();
+  const synthesizer = new SpeechSDK.SpeechSynthesizer(speechConfig);
+
+  synthesizer.speakTextAsync(
+    word,
+    function (result) {
+      if (result.reason === SpeechSDK.ResultReason.SynthesizingAudioCompleted) {
+        finish();
+      } else {
+        playLocalMp3(word, finish);
+      }
+      synthesizer.close();
+    },
+    function () {
+      playLocalMp3(word, finish);
+      synthesizer.close();
+    }
+  );
+}
+
+function buildSingleBlankLine() {
+  return `
+    <div class="blank-rows">
+      <div class="blank-line">
+        <div class="grid-bg">
+          <div class="gl gl-sky"></div>
+          <div class="gl gl-cloud"></div>
+          <div class="gl gl-grass"></div>
+          <div class="gl gl-dirt"></div>
+        </div>
+      </div>
+    </div>`;
+}
+
+function buildDictBlock(item, globalIndex, totalOnPage) {
+  const wrap = document.createElement('div');
+  wrap.className = 'dict-block' + (totalOnPage === 1 ? ' only-one' : '');
+  wrap.innerHTML = `
+    <div class="block-hdr">
+      <span class="idx-label">第 ${globalIndex + 1} 题 · ${item.patternLabel}</span>
+    </div>
+    <div class="img-wrap">
+      <div class="img-frame">
+        <img src="" alt="" />
+      </div>
+      <div class="answer-word" style="border-color:${item.color};color:${item.color};">${item.word}</div>
+    </div>
+    <div class="speak-row no-print">
+      <button type="button" class="btn-speak">🔊 朗读</button>
+    </div>
+    ${buildSingleBlankLine()}
+  `;
+  bindWordImage(wrap.querySelector('.img-frame img'), item);
+  wrap.querySelector('.btn-speak').addEventListener('click', function () {
+    speakWord(item.word, this);
+  });
+  return wrap;
+}
+
+function buildPage(pair, pageIndex, totalPages, startIdx) {
+  const page = document.createElement('div');
+  page.className = 'page';
+
+  const hdr = document.createElement('div');
+  hdr.className = 'page-hdr';
+  hdr.innerHTML = `
+    <span>Name: ___________________</span>
+    <span class="title-chip">Magic E 听写 · CVCE</span>
+    <span>Date: ____ / ____ / ____</span>
+  `;
+  page.appendChild(hdr);
+
+  const body = document.createElement('div');
+  body.className = 'page-body';
+  const n = pair.length;
+  pair.forEach((item, j) => body.appendChild(buildDictBlock(item, startIdx + j, n)));
+  page.appendChild(body);
+
+  const ftr = document.createElement('div');
+  ftr.className = 'page-ftr';
+  ftr.textContent = `Magic English • Magic E 听写生成器 · 顺序随机 | ${pageIndex + 1} / ${totalPages}`;
+  page.appendChild(ftr);
+
+  return page;
+}
+
+function updateSummary(items) {
+  const el = document.getElementById('genSummary');
+  if (!items.length) {
+    el.textContent = '';
+    return;
+  }
+  const byV = {};
+  items.forEach((it) => {
+    byV[it.vowel] = (byV[it.vowel] || 0) + 1;
+  });
+  const parts = VOWEL_ORDER.filter((v) => byV[v]).map((v) => {
+    const label = (VOWEL_DATA[v] && VOWEL_DATA[v].label) || v.toUpperCase();
+    return `${label}×${byV[v]}`;
+  });
+  el.textContent = `本次共 ${items.length} 词：${parts.join('，')} · 已随机打乱 · ${chunkArray(items, WORDS_PER_PAGE).length} 页（每页 ${WORDS_PER_PAGE} 词）`;
+}
+
+function runGenerate() {
+  const items = collectSelection();
+  if (!items.length) {
+    alert('请至少勾选一个元音，并填写大于 0 的词数。');
+    return;
+  }
+  lastBuiltWords = items.map((x) => x.word);
+  const app = document.getElementById('app');
+  app.innerHTML = '';
+  const pages = chunkArray(items, WORDS_PER_PAGE);
+  pages.forEach((pair, pi) => {
+    app.appendChild(buildPage(pair, pi, pages.length, pi * WORDS_PER_PAGE));
+  });
+  updateSummary(items);
+  app.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function runPdf() {
+  if (!lastBuiltWords.length) {
+    alert('请先生成听写内容，再导出 PDF。');
+    return;
+  }
+  window.print();
+}
+
+document.getElementById('btnGenerate').addEventListener('click', runGenerate);
+document.getElementById('btnPdf').addEventListener('click', runPdf);
+document.getElementById('toggleAnswers').addEventListener('change', function () {
+  document.body.classList.toggle('show-answers', this.checked);
+});
+
+window.addEventListener('load', () => {
+  buildVowelData();
+  buildVowelGrid();
+});
+</script>
+</body>
+</html>
