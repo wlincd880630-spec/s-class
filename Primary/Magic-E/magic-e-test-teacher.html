@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Magic E · 测试模式（教师配置）</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@500;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./practice-styles.css" />
+    <style>
+      .test-type-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 20px;
+        margin: 6px;
+        border-radius: 16px;
+        font-size: 17px;
+        font-weight: 700;
+        cursor: pointer;
+        border: 3px solid #dfe6e9;
+        background: #fff;
+        transition: all 0.25s ease;
+        user-select: none;
+      }
+      .test-type-chip:hover {
+        border-color: var(--cartoon-blue);
+        background: #e8f4ff;
+      }
+      .test-type-chip:has(input:checked) {
+        border-color: var(--cartoon-blue);
+        background: linear-gradient(145deg, #74b9ff, #0984e3);
+        color: #fff;
+      }
+      .test-type-chip:has(input:checked):hover {
+        filter: brightness(1.05);
+      }
+      .test-type-chip input {
+        width: 1.2rem;
+        height: 1.2rem;
+        cursor: pointer;
+        accent-color: #0984e3;
+      }
+      #typeSummaryLine {
+        font-size: 17px;
+        margin-top: 14px;
+        padding: 12px 16px;
+        border-radius: 12px;
+        background: #f0f9ff;
+        border: 2px dashed #74b9ff;
+      }
+    </style>
+  </head>
+  <body class="practice-cartoon">
+    <header class="topbar">
+      <div class="topbar-inner">
+        <a class="brand" href="./magic-e.html">Magic <span>E</span></a>
+        <a class="nav-chip" href="./magic-e-practice-teacher.html">🎯 练习模式</a>
+        <a class="nav-chip active" href="./magic-e-test-teacher.html">📝 测试模式</a>
+      </div>
+    </header>
+    <main class="container">
+      <section class="card practice-teacher-card">
+        <h1 class="title">📝 Magic E 测试模式 · 教师配置</h1>
+        <p class="subtitle">听音辨音：选题型与 aCe～uCe 词库；每组 3 个单词图，每组都要选答案（规则同 CVC 测试）</p>
+
+        <div class="section-label" style="margin-top: 28px">1. 测试内容（可多选）</div>
+        <p style="font-size: 16px; color: var(--text-lite); margin-bottom: 12px">勾选要考查的题型（多选会随机轮换）。中间音为单词中<strong>第一个元音字母</strong>；尾音为词尾不发音 e <strong>前的一个字母</strong>。</p>
+        <div id="typeChips" class="type-chips" role="group" aria-label="测试题型">
+          <label class="test-type-chip">
+            <input type="checkbox" name="testType" value="beginning" checked />
+            <span>首音</span>
+          </label>
+          <label class="test-type-chip">
+            <input type="checkbox" name="testType" value="ending" checked />
+            <span>尾音</span>
+          </label>
+          <label class="test-type-chip">
+            <input type="checkbox" name="testType" value="middle" checked />
+            <span>中间音（首元音）</span>
+          </label>
+        </div>
+        <p id="typeSummaryLine">本次将考查：<strong id="typeSummaryText">首音、尾音、中间音</strong></p>
+
+        <div class="section-label" style="margin-top: 28px">2. 选择 Magic E 内容（可多选）</div>
+        <div id="vowelChips" class="vowel-chips">
+          <button type="button" class="vowel-chip" data-v="a">aCe</button>
+          <button type="button" class="vowel-chip" data-v="e">eCe</button>
+          <button type="button" class="vowel-chip" data-v="i">iCe</button>
+          <button type="button" class="vowel-chip" data-v="o">oCe</button>
+          <button type="button" class="vowel-chip" data-v="u">uCe</button>
+        </div>
+
+        <div class="section-label" style="margin-top: 28px">3. 测试题目数量</div>
+        <div>
+          <select id="questionCount" style="font-size: 20px; padding: 12px 20px; border-radius: 12px; border: 3px solid #dfe6e9">
+            <option value="3">3 题</option>
+            <option value="5" selected>5 题</option>
+            <option value="6">6 题</option>
+            <option value="9">9 题</option>
+          </select>
+        </div>
+
+        <div style="margin-top: 40px; text-align: center">
+          <button id="btnStart" type="button" class="btn primary practice-btn-big">🚀 开始测试</button>
+        </div>
+        <div class="divider" style="margin: 32px 0 16px"></div>
+        <details style="font-size: 16px; color: var(--text-lite)">
+          <summary style="cursor: pointer; font-weight: 700">🔊 Azure TTS 配置（可选）</summary>
+          <p style="margin: 12px 0 8px">配置后使用 Azure 语音合成，否则使用本地 MP3</p>
+          <div style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-top: 12px">
+            <input type="password" id="azureKey" placeholder="订阅密钥" style="padding: 10px 16px; border-radius: 12px; border: 2px solid #dfe6e9; min-width: 200px" />
+            <select id="azureRegion" style="padding: 10px 16px; border-radius: 12px; border: 2px solid #dfe6e9">
+              <option value="eastasia">East Asia</option>
+              <option value="southeastasia">Southeast Asia</option>
+            </select>
+            <button type="button" id="btnSaveTTS" class="btn sm">保存</button>
+          </div>
+        </details>
+      </section>
+    </main>
+    <script>
+      const TYPE_LABELS = { beginning: "首音", ending: "尾音", middle: "中间音（首元音）" };
+
+      function updateTypeSummary() {
+        const checked = Array.from(document.querySelectorAll('#typeChips input[name="testType"]:checked'));
+        const labels = checked.map((i) => TYPE_LABELS[i.value] || i.value);
+        const el = document.getElementById("typeSummaryText");
+        if (el) el.textContent = labels.length ? labels.join("、") : "（未勾选，无法开始）";
+      }
+
+      document.querySelectorAll(".vowel-chip").forEach((el) => {
+        el.addEventListener("click", () => el.classList.toggle("selected"));
+      });
+      document.querySelectorAll('#typeChips input[name="testType"]').forEach((input) => {
+        input.addEventListener("change", updateTypeSummary);
+      });
+      updateTypeSummary();
+      document.getElementById("azureKey").value = localStorage.getItem("azure_tts_key") || "";
+      document.getElementById("azureRegion").value = localStorage.getItem("azure_tts_region") || "eastasia";
+      document.getElementById("btnSaveTTS").onclick = () => {
+        localStorage.setItem("azure_tts_key", document.getElementById("azureKey").value);
+        localStorage.setItem("azure_tts_region", document.getElementById("azureRegion").value);
+        alert("已保存");
+      };
+      document.getElementById("btnStart").addEventListener("click", () => {
+        const selectedTypes = Array.from(document.querySelectorAll('#typeChips input[name="testType"]:checked'))
+          .map((input) => String(input.value || "").trim().toLowerCase())
+          .filter(Boolean);
+        const selectedVowels = Array.from(document.querySelectorAll(".vowel-chip.selected"))
+          .map((e) => (e.getAttribute("data-v") || "").trim().toLowerCase())
+          .filter(Boolean);
+        const count = parseInt(document.getElementById("questionCount").value, 10);
+        if (!selectedTypes.length) {
+          alert("请至少选择一种测试内容");
+          return;
+        }
+        if (!selectedVowels.length) {
+          alert("请至少选择一种 Magic E 词库（aCe～uCe）");
+          return;
+        }
+        try {
+          sessionStorage.setItem(
+            "me_test_run",
+            JSON.stringify({
+              vowels: selectedVowels,
+              types: selectedTypes,
+              count,
+            })
+          );
+        } catch (err) {}
+        const q = new URLSearchParams({
+          vowels: selectedVowels.join(","),
+          types: selectedTypes.join(","),
+          count: String(count),
+        });
+        window.location.href = "magic-e-test-do.html?" + q.toString();
+      });
+    </script>
+  </body>
+</html>

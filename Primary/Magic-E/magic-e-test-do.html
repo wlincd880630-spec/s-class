@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Magic E · 听音辨音测试</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@500;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./practice-styles.css" />
+  </head>
+  <body class="practice-cartoon">
+    <script src="https://cdn.jsdelivr.net/npm/microsoft-cognitiveservices-speech-sdk@1.34.0/distrib/browser/microsoft.cognitiveservices.speech.sdk.bundle-min.js" crossorigin="anonymous"></script>
+    <script src="./magic-e-data.js"></script>
+    <script src="./practice-me.js"></script>
+    <main class="container practice-do-page" id="mainArea"></main>
+    <script>
+      (function () {
+        const P = window.MEPractice;
+        const db = window.MAGIC_E_DATA;
+        const params = new URLSearchParams(location.search);
+        let storedTest = null;
+        try {
+          storedTest = JSON.parse(sessionStorage.getItem("me_test_run") || "null");
+        } catch (e) {
+          storedTest = null;
+        }
+
+        const ALLOWED_TYPES = ["beginning", "ending", "middle"];
+
+        function pickVowelKeys() {
+          const u = params.get("vowels");
+          if (u != null && String(u).trim() !== "") {
+            return String(u)
+              .split(",")
+              .map((s) => s.trim().toLowerCase())
+              .filter(Boolean);
+          }
+          if (storedTest && Array.isArray(storedTest.vowels) && storedTest.vowels.length) {
+            return storedTest.vowels.map((s) => String(s).trim().toLowerCase()).filter(Boolean);
+          }
+          return ["a"];
+        }
+
+        function pickTypeKeys() {
+          const u = params.get("types");
+          if (u != null && String(u).trim() !== "") {
+            return String(u)
+              .split(",")
+              .map((s) => s.trim().toLowerCase())
+              .filter(Boolean);
+          }
+          if (storedTest && Array.isArray(storedTest.types) && storedTest.types.length) {
+            return storedTest.types.map((s) => String(s).trim().toLowerCase()).filter(Boolean);
+          }
+          return ["beginning", "ending", "middle"];
+        }
+
+        function pickTotalCount() {
+          const u = params.get("count");
+          if (u != null && String(u).trim() !== "") {
+            const n = parseInt(u, 10);
+            if (!Number.isNaN(n)) return Math.min(Math.max(1, n), 9);
+          }
+          if (storedTest != null && storedTest.count != null) {
+            const n = parseInt(String(storedTest.count), 10);
+            if (!Number.isNaN(n)) return Math.min(Math.max(1, n), 9);
+          }
+          return 5;
+        }
+
+        const vowelKeys = pickVowelKeys();
+        let typeKeysFromUrl = pickTypeKeys().filter((k) => ALLOWED_TYPES.includes(k));
+        if (!typeKeysFromUrl.length) {
+          typeKeysFromUrl = ["beginning", "ending", "middle"];
+        }
+        const totalCount = pickTotalCount();
+
+        function getAllWords() {
+          return P.getAllWords(db, vowelKeys);
+        }
+
+        function shuffle(arr) {
+          const c = [...arr];
+          for (let i = c.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [c[i], c[j]] = [c[j], c[i]];
+          }
+          return c;
+        }
+
+        function buildQuestions() {
+          const all = getAllWords();
+          const questions = [];
+          const pools = {
+            beginning: P.splitIntoTripleGroups(all, "beginning"),
+            ending: P.splitIntoTripleGroups(all, "ending"),
+            middle: P.splitIntoTripleGroups(all, "middle"),
+          };
+          const meta = {
+            beginning: { type: "beginning", label: "首音" },
+            ending: { type: "ending", label: "尾音" },
+            middle: { type: "middle", label: "中间音（首元音）" },
+          };
+
+          const cons = "bcdfghjklmnpqrstvwxyz".split("");
+          const vows = "aeiou".split("");
+
+          function optionsForLetter(letter, qType) {
+            const c = String(letter).toLowerCase();
+            if (qType === "middle" || (qType === "beginning" && vows.includes(c))) {
+              const others = vows.filter((x) => x !== c);
+              return shuffle([c, ...shuffle(others).slice(0, 3)]);
+            }
+            if (qType === "ending" && vows.includes(c)) {
+              const others = vows.filter((x) => x !== c);
+              return shuffle([c, ...shuffle(others).slice(0, 3)]);
+            }
+            const others = cons.filter((x) => x !== c);
+            return shuffle([c, ...shuffle(others).slice(0, 3)]);
+          }
+
+          const usable = typeKeysFromUrl.filter((k) => pools[k] && pools[k].length >= 3);
+          if (!usable.length) {
+            return [];
+          }
+
+          const cycle = usable.map((k) => ({ ...meta[k], pool: pools[k] }));
+
+          let typeIndex = 0;
+          let attempts = 0;
+          const maxAttempts = Math.max(totalCount * cycle.length * 4, 24);
+
+          while (questions.length < totalCount && attempts < maxAttempts) {
+            attempts++;
+            const t = cycle[typeIndex % cycle.length];
+            typeIndex++;
+            const pool = t.pool;
+            if (!pool || pool.length < 3) continue;
+            const groups = shuffle([...pool]).slice(0, 3);
+            if (groups.length < 3) continue;
+            questions.push({
+              type: t.type,
+              label: t.label,
+              groups,
+              optionsPerGroup: groups.map((g) => optionsForLetter(g.letter, t.type)),
+              corrects: groups.map((g) => g.letter),
+            });
+          }
+
+          return questions.slice(0, totalCount);
+        }
+
+        const questions = buildQuestions();
+        let qIdx = 0;
+
+        const noQuestions = !questions.length;
+        if (noQuestions) {
+          document.getElementById("mainArea").innerHTML = `
+      <section class="card practice-teacher-card" style="text-align:center;padding:48px;">
+        <h1 class="title">无法生成题目</h1>
+        <p class="subtitle">请多选几组 aCe～uCe 词库；每种题型需要能拆出至少 3 组「3 个词共用一个考查字母」。请从配置页点击「开始测试」进入。</p>
+        <a href="magic-e-test-teacher.html" class="btn primary" style="margin-top:20px;">返回配置</a>
+      </section>`;
+        }
+
+        let groupAnswered = [false, false, false];
+        let groupWasCorrect = [false, false, false];
+
+        function speak(word) {
+          const key = localStorage.getItem("azure_tts_key");
+          const region = localStorage.getItem("azure_tts_region") || "eastasia";
+          const playFile = () => {
+            new Audio(P.getLocalAudio(word)).play().catch(() => {});
+          };
+          if (key && window.SpeechSDK) {
+            try {
+              const config = window.SpeechSDK.SpeechConfig.fromSubscription(key, region);
+              config.speechSynthesisVoiceName = "en-US-JennyNeural";
+              const synth = new window.SpeechSDK.SpeechSynthesizer(config, null);
+              synth.speakTextAsync(word, () => synth.close());
+            } catch (e) {
+              playFile();
+            }
+          } else {
+            playFile();
+          }
+        }
+
+        function render() {
+          if (qIdx >= questions.length) {
+            document.getElementById("mainArea").innerHTML = `
+        <section class="card practice-teacher-card" style="text-align:center;padding:60px;">
+          <h1 class="title">🎉 测试完成！</h1>
+          <p class="subtitle">全部 ${questions.length} 题已完成</p>
+          <a href="magic-e-test-teacher.html" class="btn primary practice-btn-big" style="margin-top:24px;">返回配置</a>
+        </section>`;
+            return;
+          }
+
+          const q = questions[qIdx];
+          groupAnswered = [false, false, false];
+          groupWasCorrect = [false, false, false];
+
+          let groupsHtml = "";
+          q.groups.forEach((grp, gi) => {
+            const opts = q.optionsPerGroup[gi].map((opt) => {
+              const o = String(opt);
+              return `<button type="button" class="test-option-btn" data-group="${gi}" data-val="${o}">${o.toUpperCase()}</button>`;
+            }).join("");
+            groupsHtml += `<div class="test-group-card test-group-with-options">
+        <h4>第 ${gi + 1} 组</h4>
+        <div class="test-group-images">`;
+            grp.words.forEach((w) => {
+              const src = P.imagePathForWord(w);
+              groupsHtml += `<img class="mini-img" src="${src}" alt="" data-word="${String(w.word).replace(/"/g, "&quot;")}" title="点击听发音" />`;
+            });
+            groupsHtml += `</div><div style="display:flex;gap:8px;justify-content:center;margin-top:8px;flex-wrap:wrap;">`;
+            grp.words.forEach((w) => {
+              const safe = String(w.word).replace(/\\/g, "\\\\").replace(/'/g, "\\'");
+              groupsHtml += `<button type="button" class="btn sm primary" data-speak-word="${safe}" title="点击听发音">🔊</button>`;
+            });
+            groupsHtml += `</div>
+        <p class="test-group-prompt">请选择本组 3 个单词的共同${q.label}</p>
+        <div class="test-options test-options-per-group" data-group="${gi}">${opts}</div>
+      </div>`;
+          });
+
+          document.getElementById("mainArea").innerHTML = `
+      <div class="practice-progress-bar"><div class="practice-progress-fill" style="width:${((qIdx + 1) / questions.length) * 100}%"></div></div>
+      <section class="card practice-word-card">
+        <p class="subtitle">第 ${qIdx + 1} / ${questions.length} 题 · <strong>题型：${q.label}</strong> · 下面有 3 组图片，<strong>每组都要选</strong>出共同的${q.label}</p>
+        <div class="test-group-row test-group-row-stacked">${groupsHtml}</div>
+        <p class="hint" id="hintAllGroups" style="margin-top:16px;text-align:center;">完成 3 组选择后即可进入下一题</p>
+        <div style="margin-top:20px;text-align:center;">
+          <button type="button" class="practice-nav-btn btn primary" id="btnNext">下一题 →</button>
+        </div>
+      </section>`;
+
+          document.querySelectorAll(".mini-img").forEach((img) => {
+            P.safeImg(img, img.src, img.dataset.word, "");
+            img.onclick = () => speak(img.dataset.word);
+          });
+          document.querySelectorAll("[data-speak-word]").forEach((btn) => {
+            btn.onclick = () => speak(btn.getAttribute("data-speak-word"));
+          });
+
+          function updateNextVisibility() {
+            const allDone = groupAnswered.every(Boolean);
+            document.getElementById("btnNext").style.display = allDone ? "inline-flex" : "none";
+            if (allDone) {
+              document.getElementById("hintAllGroups").textContent = "三组都已选择，可进入下一题";
+              if (groupWasCorrect.every(Boolean) && P.celebrate) {
+                setTimeout(() => P.celebrate(null, { big: true, text: "🏆 太棒了，全对啦！" }), 280);
+              }
+            }
+          }
+
+          document.getElementById("btnNext").style.display = "none";
+
+          document.querySelectorAll(".test-option-btn").forEach((btn) => {
+            btn.onclick = () => {
+              const gi = parseInt(btn.dataset.group, 10);
+              if (groupAnswered[gi]) return;
+              const correct = q.corrects[gi];
+              const val = btn.dataset.val;
+              const ok = val.toLowerCase() === correct.toLowerCase();
+              groupWasCorrect[gi] = ok;
+              if (ok && P.celebrate) P.celebrate(btn, { text: "🎉 答对啦！" });
+              btn.classList.add(ok ? "correct" : "wrong");
+              if (!ok) {
+                const wrap = document.querySelector(`.test-options-per-group[data-group="${gi}"]`);
+                const correctBtn = wrap
+                  ? Array.from(wrap.querySelectorAll(".test-option-btn")).find(
+                      (b) => b.dataset.val.toLowerCase() === correct.toLowerCase()
+                    )
+                  : null;
+                if (correctBtn) correctBtn.classList.add("correct");
+              }
+              groupAnswered[gi] = true;
+              document.querySelectorAll(`.test-options-per-group[data-group="${gi}"] .test-option-btn`).forEach((b) => {
+                b.disabled = true;
+                b.style.cursor = "default";
+              });
+              updateNextVisibility();
+            };
+          });
+
+          document.getElementById("btnNext").onclick = () => {
+            qIdx++;
+            render();
+          };
+
+          updateNextVisibility();
+        }
+
+        if (!noQuestions) render();
+      })();
+    </script>
+  </body>
+</html>

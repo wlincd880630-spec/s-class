@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CVC 听音辨音测试</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@500;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./practice-styles.css" />
+  </head>
+  <body class="practice-cartoon">
+    <script src="https://cdn.jsdelivr.net/npm/microsoft-cognitiveservices-speech-sdk@1.34.0/distrib/browser/microsoft.cognitiveservices.speech.sdk.bundle-min.js" crossorigin="anonymous"></script>
+    <script src="./cvc-data.js"></script>
+    <script src="./practice.js"></script>
+    <main class="container practice-do-page" id="mainArea"></main>
+    <script>
+(function() {
+  const P = window.CVCPractice;
+  const db = window.CVC_DATA;
+  const params = new URLSearchParams(location.search);
+  let storedTest = null;
+  try {
+    storedTest = JSON.parse(sessionStorage.getItem('cvc_test_run') || 'null');
+  } catch (e) {
+    storedTest = null;
+  }
+
+  const ALLOWED_TYPES = ['beginning', 'ending', 'middle'];
+
+  function pickVowelKeys() {
+    const u = params.get('vowels');
+    if (u != null && String(u).trim() !== '') {
+      return String(u).split(',').map((s) => s.trim().toLowerCase()).filter(Boolean);
+    }
+    if (storedTest && Array.isArray(storedTest.vowels) && storedTest.vowels.length) {
+      return storedTest.vowels.map((s) => String(s).trim().toLowerCase()).filter(Boolean);
+    }
+    return ['a'];
+  }
+
+  function pickTypeKeys() {
+    const u = params.get('types');
+    if (u != null && String(u).trim() !== '') {
+      return String(u).split(',').map((s) => s.trim().toLowerCase()).filter(Boolean);
+    }
+    if (storedTest && Array.isArray(storedTest.types) && storedTest.types.length) {
+      return storedTest.types.map((s) => String(s).trim().toLowerCase()).filter(Boolean);
+    }
+    return ['beginning', 'ending', 'middle'];
+  }
+
+  function pickTotalCount() {
+    const u = params.get('count');
+    if (u != null && String(u).trim() !== '') {
+      const n = parseInt(u, 10);
+      if (!Number.isNaN(n)) return Math.min(Math.max(1, n), 9);
+    }
+    if (storedTest != null && storedTest.count != null) {
+      const n = parseInt(String(storedTest.count), 10);
+      if (!Number.isNaN(n)) return Math.min(Math.max(1, n), 9);
+    }
+    return 5;
+  }
+
+  const vowelKeys = pickVowelKeys();
+  let typeKeysFromUrl = pickTypeKeys().filter((k) => ALLOWED_TYPES.includes(k));
+  if (!typeKeysFromUrl.length) {
+    typeKeysFromUrl = ['beginning', 'ending', 'middle'];
+  }
+  const totalCount = pickTotalCount();
+
+  function getAllWords() {
+    const list = [];
+    vowelKeys.forEach(v => {
+      (db.vowels[v]?.words || []).forEach(w => list.push({ ...w, vowel: v }));
+    });
+    return list;
+  }
+
+  function shuffle(arr) {
+    const c = [...arr];
+    for (let i = c.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [c[i], c[j]] = [c[j], c[i]];
+    }
+    return c;
+  }
+
+  /**
+   * 按单词某一位置字母分组，并拆成多个「3 词一组」的题目列（同一字母可出多组，避免中间音在单一元音词库里只有 1 组）。
+   * pos: 0 首音 / 1 中间音 / 2 尾音
+   */
+  function splitIntoTripleGroups(words, pos) {
+    const g = {};
+    words.forEach((w) => {
+      const raw = (w.word != null ? String(w.word) : '').toLowerCase();
+      if (raw.length < 3) return;
+      const ch = raw[pos];
+      if (!ch) return;
+      if (!g[ch]) g[ch] = [];
+      g[ch].push(w);
+    });
+    const out = [];
+    Object.entries(g).forEach(([letter, arr]) => {
+      if (arr.length < 3) return;
+      const pool = shuffle(arr);
+      for (let i = 0; i + 2 < pool.length; i += 3) {
+        out.push({ letter, words: pool.slice(i, i + 3) });
+      }
+    });
+    return out;
+  }
+
+  function groupByInitial(words) {
+    return splitIntoTripleGroups(words, 0);
+  }
+
+  function groupByFinal(words) {
+    return splitIntoTripleGroups(words, 2);
+  }
+
+  function groupByMiddle(words) {
+    return splitIntoTripleGroups(words, 1);
+  }
+
+  function buildQuestions() {
+    const all = getAllWords();
+    const questions = [];
+    const pools = {
+      beginning: groupByInitial(all),
+      ending: groupByFinal(all),
+      middle: groupByMiddle(all)
+    };
+    const meta = {
+      beginning: { type: 'beginning', label: '首音' },
+      ending: { type: 'ending', label: '尾音' },
+      middle: { type: 'middle', label: '中间音' }
+    };
+
+    const cons = 'bcdfghjklmnpqrstvwxyz'.split('');
+    const vows = 'aeiou'.split('');
+
+    function optionsForLetter(letter, qType) {
+      const c = letter;
+      if (qType === 'middle') {
+        const others = vows.filter((x) => x !== c);
+        return shuffle([c, ...shuffle(others).slice(0, 3)]);
+      }
+      const others = cons.filter((x) => x !== c);
+      return shuffle([c, ...shuffle(others).slice(0, 3)]);
+    }
+
+    /** 按教师勾选保留题型；用池子长度判断（每题需 3 列），避免随机 getGroups 误判 */
+    const usable = typeKeysFromUrl.filter((k) => pools[k] && pools[k].length >= 3);
+
+    if (!usable.length) {
+      return [];
+    }
+
+    const cycle = usable.map((k) => ({ ...meta[k], pool: pools[k] }));
+
+    let typeIndex = 0;
+    let attempts = 0;
+    const maxAttempts = Math.max(totalCount * cycle.length * 4, 24);
+
+    while (questions.length < totalCount && attempts < maxAttempts) {
+      attempts++;
+      const t = cycle[typeIndex % cycle.length];
+      typeIndex++;
+      const pool = t.pool;
+      if (!pool || pool.length < 3) continue;
+      const groups = shuffle([...pool]).slice(0, 3);
+      if (groups.length < 3) continue;
+      questions.push({
+        type: t.type,
+        label: t.label,
+        groups,
+        optionsPerGroup: groups.map((g) => optionsForLetter(g.letter, t.type)),
+        corrects: groups.map((g) => g.letter)
+      });
+    }
+
+    return questions.slice(0, totalCount);
+  }
+
+  const questions = buildQuestions();
+  let qIdx = 0;
+
+  const noQuestions = !questions.length;
+  if (noQuestions) {
+    document.getElementById('mainArea').innerHTML = `
+      <section class="card practice-teacher-card" style="text-align:center;padding:48px;">
+        <h1 class="title">无法生成题目</h1>
+        <p class="subtitle">请检查是否勾选了 CVC 词库；中间音需要词库中能拆出至少 3 组「3 个词同中间字母」。若用本地文件打开，请始终点配置页的「开始测试」进入本页（配置会同步保存）。</p>
+        <a href="test-teacher.html" class="btn primary" style="margin-top:20px;">返回配置</a>
+      </section>`;
+  }
+  /** 每组是否已作答（共 3 组） */
+  let groupAnswered = [false, false, false];
+  /** 每组是否答对 */
+  let groupWasCorrect = [false, false, false];
+
+  function speak(word) {
+    const key = localStorage.getItem('azure_tts_key');
+    const region = localStorage.getItem('azure_tts_region') || 'eastasia';
+    if (key && window.SpeechSDK) {
+      try {
+        const config = window.SpeechSDK.SpeechConfig.fromSubscription(key, region);
+        config.speechSynthesisVoiceName = 'en-US-JennyNeural';
+        const synth = new window.SpeechSDK.SpeechSynthesizer(config, null);
+        synth.speakTextAsync(word, () => synth.close());
+      } catch (e) {
+        new Audio(`https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/CVC/assets/audio/words/${word.toLowerCase()}.mp3`).play().catch(() => {});
+      }
+    } else {
+      new Audio(`https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/CVC/assets/audio/words/${word.toLowerCase()}.mp3`).play().catch(() => {});
+    }
+  }
+
+  function render() {
+    if (qIdx >= questions.length) {
+      document.getElementById('mainArea').innerHTML = `
+        <section class="card practice-teacher-card" style="text-align:center;padding:60px;">
+          <h1 class="title">🎉 测试完成！</h1>
+          <p class="subtitle">全部 ${questions.length} 题已完成</p>
+          <a href="test-teacher.html" class="btn primary practice-btn-big" style="margin-top:24px;">返回配置</a>
+        </section>`;
+      return;
+    }
+
+    const q = questions[qIdx];
+    groupAnswered = [false, false, false];
+    groupWasCorrect = [false, false, false];
+
+    let groupsHtml = '';
+    q.groups.forEach((grp, gi) => {
+      const opts = q.optionsPerGroup[gi].map((opt) => {
+        const o = String(opt);
+        return `<button type="button" class="test-option-btn" data-group="${gi}" data-val="${o}">${o.toUpperCase()}</button>`;
+      }).join('');
+      groupsHtml += `<div class="test-group-card test-group-with-options">
+        <h4>第 ${gi + 1} 组</h4>
+        <div class="test-group-images">`;
+      grp.words.forEach(w => {
+        groupsHtml += `<img class="mini-img" src="${P.imagePathForWord(w.word)}" alt="" data-word="${w.word}" title="点击听发音" />`;
+      });
+      groupsHtml += `</div><div style="display:flex;gap:8px;justify-content:center;margin-top:8px;flex-wrap:wrap;">`;
+      grp.words.forEach(w => {
+        groupsHtml += `<button type="button" class="btn sm primary" onclick="window._speak('${w.word}')" title="点击听发音">🔊</button>`;
+      });
+      groupsHtml += `</div>
+        <p class="test-group-prompt">请选择本组 3 个单词的共同${q.label}</p>
+        <div class="test-options test-options-per-group" data-group="${gi}">${opts}</div>
+      </div>`;
+    });
+
+    document.getElementById('mainArea').innerHTML = `
+      <div class="practice-progress-bar"><div class="practice-progress-fill" style="width:${((qIdx+1)/questions.length*100)}%"></div></div>
+      <section class="card practice-word-card">
+        <p class="subtitle">第 ${qIdx + 1} / ${questions.length} 题 · <strong>题型：${q.label}</strong> · 下面有 3 组图片，<strong>每组都要选</strong>出共同的${q.label}</p>
+        <div class="test-group-row test-group-row-stacked">${groupsHtml}</div>
+        <p class="hint" id="hintAllGroups" style="margin-top:16px;text-align:center;">完成 3 组选择后即可进入下一题</p>
+        <div style="margin-top:20px;text-align:center;">
+          <button class="practice-nav-btn btn primary" id="btnNext">下一题 →</button>
+        </div>
+      </section>`;
+
+    window._speak = speak;
+
+    document.querySelectorAll('.mini-img').forEach(img => {
+      P.safeImg(img, img.src, img.dataset.word, '');
+      img.onclick = () => speak(img.dataset.word);
+    });
+
+    function updateNextVisibility() {
+      const allDone = groupAnswered.every(Boolean);
+      document.getElementById('btnNext').style.display = allDone ? 'inline-flex' : 'none';
+      if (allDone) {
+        document.getElementById('hintAllGroups').textContent = '三组都已选择，可进入下一题';
+        if (groupWasCorrect.every(Boolean) && P.celebrate) {
+          setTimeout(() => P.celebrate(null, { big: true, text: '🏆 太棒了，全对啦！' }), 280);
+        }
+      }
+    }
+
+    document.getElementById('btnNext').style.display = 'none';
+
+    document.querySelectorAll('.test-option-btn').forEach(btn => {
+      btn.onclick = () => {
+        const gi = parseInt(btn.dataset.group, 10);
+        if (groupAnswered[gi]) return;
+        const correct = q.corrects[gi];
+        const val = btn.dataset.val;
+        const ok = val.toLowerCase() === correct.toLowerCase();
+        groupWasCorrect[gi] = ok;
+        if (ok && P.celebrate) P.celebrate(btn, { text: '🎉 答对啦！' });
+        btn.classList.add(ok ? 'correct' : 'wrong');
+        if (!ok) {
+          const wrap = document.querySelector(`.test-options-per-group[data-group="${gi}"]`);
+          const correctBtn = wrap
+            ? Array.from(wrap.querySelectorAll('.test-option-btn')).find((b) => b.dataset.val.toLowerCase() === correct.toLowerCase())
+            : null;
+          if (correctBtn) correctBtn.classList.add('correct');
+        }
+        groupAnswered[gi] = true;
+        document.querySelectorAll(`.test-options-per-group[data-group="${gi}"] .test-option-btn`).forEach((b) => {
+          b.disabled = true;
+          b.style.cursor = 'default';
+        });
+        updateNextVisibility();
+      };
+    });
+
+    document.getElementById('btnNext').onclick = () => {
+      qIdx++;
+      render();
+    };
+
+    updateNextVisibility();
+  }
+
+  if (!noQuestions) render();
+})();
+    </script>
+  </body>
+</html>

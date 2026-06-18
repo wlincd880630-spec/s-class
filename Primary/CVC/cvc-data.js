@@ -1,0 +1,1035 @@
+window.CVC_DATA = {
+  "meta": {
+    "title": "CVC Word Courseware",
+    "level": "Grade 1 / Young Learners",
+    "lang": "en-zh",
+    "description": "Full CVC word set: 20 words per vowel (a/e/i/o/u), 100 words total."
+  },
+  "vowels": {
+    "a": {
+      "label": "A",
+      "words": [
+        {
+          "word": "cat", "chinese": "猫",
+          "imagePrompt": "cute fluffy orange tabby cat sitting, 3D cartoon style, word card illustration",
+          "sentenceEn": "I see a big cat.", "sentenceZh": "我看见一只大猫。",
+          "sentenceImagePrompts": [
+            "cute cartoon child with short brown hair wearing a light blue shirt, walking in a sunny park and looking around curiously, 3D cartoon",
+            "the same cartoon child with short brown hair in light blue shirt, pointing finger forward with a surprised happy face, 3D cartoon",
+            "the same cartoon child with short brown hair in light blue shirt, looking at a big fluffy orange tabby cat sitting and smiling, 3D cartoon"
+          ]
+        },
+        {
+          "word": "bat", "chinese": "球棒",
+          "imagePrompt": "shiny red wooden baseball bat, 3D cartoon style, word card illustration",
+          "sentenceEn": "He has a red bat.", "sentenceZh": "他有一根红色球棒。",
+          "sentenceImagePrompts": [
+            "cartoon boy with black spiky hair wearing a yellow and white striped jersey, opening a big gift box with excitement, 3D cartoon",
+            "the same cartoon boy with black spiky hair in yellow striped jersey, pulling out a shiny bright red baseball bat from the box, 3D cartoon",
+            "the same cartoon boy with black spiky hair in yellow striped jersey, holding the red bat proudly on a green sports field, 3D cartoon"
+          ]
+        },
+        {
+          "word": "rat", "chinese": "老鼠",
+          "imagePrompt": "small cute grey cartoon rat holding cheese, 3D cartoon style, word card illustration",
+          "sentenceEn": "The rat ran away.", "sentenceZh": "老鼠跑走了。",
+          "sentenceImagePrompts": [
+            "small grey cartoon rat with big round ears and white belly, happily nibbling a piece of yellow cheese, 3D cartoon",
+            "the same grey rat with big round ears and white belly, eyes wide with shock as a large cat shadow looms above, 3D cartoon",
+            "the same grey rat with big round ears and white belly, zooming away at full speed leaving a cloud of cartoon dust, 3D cartoon"
+          ]
+        },
+        {
+          "word": "hat", "chinese": "帽子",
+          "imagePrompt": "colorful polka dot cartoon top hat, 3D cartoon style, word card illustration",
+          "sentenceEn": "I like my new hat.", "sentenceZh": "我喜欢我的新帽子。",
+          "sentenceImagePrompts": [
+            "cute cartoon child with pigtails wearing a pink dress, looking wide-eyed at a colorful polka dot hat in a shop window, 3D cartoon",
+            "the same cartoon child with pigtails in pink dress, trying on the colorful hat in front of a mirror with a huge smile, 3D cartoon",
+            "the same cartoon child with pigtails in pink dress, walking outside proudly wearing the new colorful hat, 3D cartoon"
+          ]
+        },
+        {
+          "word": "mat", "chinese": "垫子",
+          "imagePrompt": "cozy colorful woven doormat, 3D cartoon style, word card illustration",
+          "sentenceEn": "The cat sat on the mat.", "sentenceZh": "猫坐在垫子上。",
+          "sentenceImagePrompts": [
+            "a colorful striped woven mat placed neatly on a clean wooden floor, empty, 3D cartoon",
+            "a fluffy orange tabby cat with green eyes and striped fur, walking sleepily toward the colorful mat, 3D cartoon",
+            "the same fluffy orange tabby cat with green eyes and striped fur, curled up sleeping peacefully on the mat, 3D cartoon"
+          ]
+        },
+        {
+          "word": "map", "chinese": "地图",
+          "imagePrompt": "fun treasure map with dotted path and X mark, 3D cartoon style, word card illustration",
+          "sentenceEn": "Look at the map.", "sentenceZh": "看看这张地图。",
+          "sentenceImagePrompts": [
+            "cartoon girl with pigtails in a red jacket and cartoon boy with a green baseball cap, looking confused in a cartoon forest, 3D cartoon",
+            "the same cartoon girl in red jacket, unrolling a large colorful treasure map with dotted path while the same boy in green cap watches, 3D cartoon",
+            "the same cartoon girl in red jacket and boy in green cap, pointing together at the treasure map happily after finding their path, 3D cartoon"
+          ]
+        },
+        {
+          "word": "tap", "chinese": "水龙头",
+          "imagePrompt": "shiny silver water tap with water drops, 3D cartoon style, word card illustration",
+          "sentenceEn": "Turn on the tap.", "sentenceZh": "打开水龙头。",
+          "sentenceImagePrompts": [
+            "cartoon child with messy hair wearing a green shirt, standing at a bathroom sink with muddy hands looking at a silver tap, 3D cartoon",
+            "the same cartoon child with messy hair in green shirt, reaching out and turning the silver tap handle with both hands, 3D cartoon",
+            "the same cartoon child with messy hair in green shirt, washing muddy hands with delight as sparkling water flows from the tap, 3D cartoon"
+          ]
+        },
+        {
+          "word": "cap", "chinese": "鸭舌帽",
+          "imagePrompt": "bright red and white baseball cap, 3D cartoon style, word card illustration",
+          "sentenceEn": "He put on his cap.", "sentenceZh": "他戴上了他的鸭舌帽。",
+          "sentenceImagePrompts": [
+            "cartoon boy with short brown hair wearing a yellow shirt, standing under a blazing hot cartoon sun and sweating, 3D cartoon",
+            "the same cartoon boy with short brown hair in yellow shirt, reaching into his backpack and pulling out a red and white baseball cap, 3D cartoon",
+            "the same cartoon boy with short brown hair in yellow shirt, wearing the red and white cap on his head, looking cool and refreshed, 3D cartoon"
+          ]
+        },
+        {
+          "word": "sad", "chinese": "悲伤的",
+          "imagePrompt": "cartoon boy with droopy eyes and a small tear, 3D cartoon style, word card illustration",
+          "sentenceEn": "The boy is very sad.", "sentenceZh": "这个男孩很悲伤。",
+          "sentenceImagePrompts": [
+            "cheerful cartoon boy with rosy cheeks wearing a red sweater, holding a big round red balloon happily, 3D cartoon",
+            "the same cartoon boy with rosy cheeks in red sweater, watching in shock as the red balloon pops on a tree branch, 3D cartoon",
+            "the same cartoon boy with rosy cheeks in red sweater, looking down with a very sad face and a small cartoon teardrop, 3D cartoon"
+          ]
+        },
+        {
+          "word": "mad", "chinese": "生气的",
+          "imagePrompt": "cartoon character with a red face and steam, 3D cartoon style, word card illustration",
+          "sentenceEn": "Dad is not mad.", "sentenceZh": "爸爸没有生气。",
+          "sentenceImagePrompts": [
+            "cartoon child with blue shirt and short hair, accidentally knocking a glass of milk off a table, 3D cartoon",
+            "the same cartoon child in blue shirt looking up nervously at a friendly tall cartoon dad wearing a grey shirt, 3D cartoon",
+            "the same friendly tall cartoon dad in grey shirt, smiling warmly and handing the cartoon child in blue shirt a towel, 3D cartoon"
+          ]
+        },
+        {
+          "word": "dad", "chinese": "爸爸",
+          "imagePrompt": "happy tall cartoon dad with a big smile, 3D cartoon style, word card illustration",
+          "sentenceEn": "My dad is tall.", "sentenceZh": "我的爸爸很高。",
+          "sentenceImagePrompts": [
+            "tiny cartoon girl with pigtails wearing a pink dress, stretching on tiptoe trying to reach an apple on a high tree branch, 3D cartoon",
+            "the same tiny girl with pigtails in pink dress, looking up as a very tall cartoon dad with brown hair walks over smiling, 3D cartoon",
+            "the same very tall cartoon dad with brown hair, easily plucking the apple and handing it to the same tiny girl in pink dress, 3D cartoon"
+          ]
+        },
+        {
+          "word": "bag", "chinese": "袋子",
+          "imagePrompt": "brown paper grocery bag full of food, 3D cartoon style, word card illustration",
+          "sentenceEn": "Put it in the bag.", "sentenceZh": "把它放进袋子里。",
+          "sentenceImagePrompts": [
+            "cartoon child with curly hair wearing denim overalls, holding a big red apple in a colorful supermarket aisle, 3D cartoon",
+            "the same cartoon child with curly hair in denim overalls, pointing to an open brown paper grocery bag on the counter, 3D cartoon",
+            "the same cartoon child with curly hair in denim overalls, dropping the red apple neatly into the open brown bag, 3D cartoon"
+          ]
+        },
+        {
+          "word": "rag", "chinese": "抹布",
+          "imagePrompt": "colorful fluffy cleaning rag with soap bubbles, 3D cartoon style, word card illustration",
+          "sentenceEn": "Get a rag to clean.", "sentenceZh": "拿块抹布来擦。",
+          "sentenceImagePrompts": [
+            "cartoon child with short yellow hair wearing an orange shirt, looking worried at a big purple juice stain on a wooden table, 3D cartoon",
+            "the same cartoon child with short yellow hair in orange shirt, reaching for a colorful soapy cleaning rag on the counter, 3D cartoon",
+            "the same cartoon child with short yellow hair in orange shirt, wiping the table with the rag until sparkles appear, 3D cartoon"
+          ]
+        },
+        {
+          "word": "tag", "chinese": "标签",
+          "imagePrompt": "bright yellow price tag on a toy, 3D cartoon style, word card illustration",
+          "sentenceEn": "Look at the price tag.", "sentenceZh": "看看价格标签。",
+          "sentenceImagePrompts": [
+            "cartoon child with big round eyes wearing a blue jacket, excitedly finding a cool toy robot on a store shelf, 3D cartoon",
+            "the same cartoon child with big round eyes in blue jacket, looking puzzled and scratching head about the price, 3D cartoon",
+            "the same cartoon child with big round eyes in blue jacket, lifting up the bright yellow price tag to read it, 3D cartoon"
+          ]
+        },
+        {
+          "word": "van", "chinese": "面包车",
+          "imagePrompt": "colorful cartoon delivery van with a smile, 3D cartoon style, word card illustration",
+          "sentenceEn": "The man is in the van.", "sentenceZh": "那个男人在面包车里。",
+          "sentenceImagePrompts": [
+            "a bright colorful cartoon delivery van parked on a sunny street, doors closed, 3D cartoon",
+            "a friendly cartoon man with a round face wearing a brown jacket and hat, walking toward the van door carrying a package, 3D cartoon",
+            "the same friendly cartoon man with round face in brown jacket and hat, sitting inside the van behind the steering wheel waving and smiling, 3D cartoon"
+          ]
+        },
+        {
+          "word": "pan", "chinese": "平底锅",
+          "imagePrompt": "cheerful round frying pan with a handle, 3D cartoon style, word card illustration",
+          "sentenceEn": "Mom has a big pan.", "sentenceZh": "妈妈有一口大平底锅。",
+          "sentenceImagePrompts": [
+            "cheerful cartoon mom with curly red hair wearing a pink apron, tying apron strings in a bright kitchen, 3D cartoon",
+            "the same cartoon mom with curly red hair in pink apron, lifting a huge heavy round frying pan with both hands, 3D cartoon",
+            "the same cartoon mom with curly red hair in pink apron, using the big pan to cook fluffy pancakes on the stove, 3D cartoon"
+          ]
+        },
+        {
+          "word": "jam", "chinese": "果酱",
+          "imagePrompt": "glass jar of red strawberry jam, 3D cartoon style, word card illustration",
+          "sentenceEn": "I like jam on my bread.", "sentenceZh": "我喜欢在面包上涂果酱。",
+          "sentenceImagePrompts": [
+            "cartoon child with yellow hair wearing a purple shirt, sitting at a table with a plain white bread slice on a plate, 3D cartoon",
+            "the same cartoon child with yellow hair in purple shirt, scooping shiny red strawberry jam from a jar with a spoon, 3D cartoon",
+            "the same cartoon child with yellow hair in purple shirt, spreading the jam on the bread and taking a delighted happy bite, 3D cartoon"
+          ]
+        },
+        {
+          "word": "fan", "chinese": "风扇",
+          "imagePrompt": "blue retro desk fan spinning with wind lines, 3D cartoon style, word card illustration",
+          "sentenceEn": "The fan is on.", "sentenceZh": "风扇开着。",
+          "sentenceImagePrompts": [
+            "cartoon child with pigtails wearing an orange shirt, sitting in a very hot room sweating with a blue desk fan nearby, 3D cartoon",
+            "the same cartoon child with pigtails in orange shirt, pressing the power button on the blue desk fan with one finger, 3D cartoon",
+            "the same cartoon child with pigtails in orange shirt, smiling happily as the fan spins and blows cool wind onto their face, 3D cartoon"
+          ]
+        },
+        {
+          "word": "ham", "chinese": "火腿",
+          "imagePrompt": "glazed roasted cartoon ham on a platter, 3D cartoon style, word card illustration",
+          "sentenceEn": "We will eat ham.", "sentenceZh": "我们要吃火腿。",
+          "sentenceImagePrompts": [
+            "cartoon family with dad wearing glasses, mom with brown bun hair, and two children with striped shirts, sitting at an empty dinner table looking hungry, 3D cartoon",
+            "the same cartoon mom with brown bun hair, carrying in a big platter with a shiny glazed roasted ham toward the same family, 3D cartoon",
+            "the same cartoon family with dad in glasses and two children in striped shirts, eating slices of ham with big happy smiles, 3D cartoon"
+          ]
+        },
+        {
+          "word": "cab", "chinese": "出租车",
+          "imagePrompt": "bubbly yellow cartoon taxi cab with a checkered stripe, 3D cartoon style, word card illustration",
+          "sentenceEn": "We rode in a yellow cab.", "sentenceZh": "我们坐了一辆黄色出租车。",
+          "sentenceImagePrompts": [
+            "cartoon family with a tall dad in a blue coat, mom in a red scarf, and a small child in a yellow coat, standing on a sidewalk waving for a taxi, 3D cartoon",
+            "a bright yellow cartoon taxi cab with checkered stripe pulling up to the same cartoon family on the sidewalk, 3D cartoon",
+            "the same cartoon family with dad in blue coat, mom in red scarf, and child in yellow coat, sitting in the backseat of the moving yellow cab, 3D cartoon"
+          ]
+        }
+      ]
+    },
+    "e": {
+      "label": "E",
+      "words": [
+        {
+          "word": "bed", "chinese": "床",
+          "imagePrompt": "cozy cartoon bed with fluffy pillow and blanket, 3D cartoon style, word card illustration",
+          "sentenceEn": "I go to bed at eight.", "sentenceZh": "我八点上床睡觉。",
+          "sentenceImagePrompts": [
+            "a wall clock showing 8:00 PM in a cozy bedroom, cartoon child with floppy brown hair wearing blue star pajamas visible in the doorway, 3D cartoon",
+            "the same cartoon child with floppy brown hair in blue star pajamas, yawning widely while shuffling toward the cozy bed, 3D cartoon",
+            "the same cartoon child with floppy brown hair in blue star pajamas, tucked snugly under a warm blanket with Zzz bubbles floating above, 3D cartoon"
+          ]
+        },
+        {
+          "word": "red", "chinese": "红色的",
+          "imagePrompt": "shiny bright red apple, 3D cartoon style, word card illustration",
+          "sentenceEn": "The apple is red.", "sentenceZh": "苹果是红色的。",
+          "sentenceImagePrompts": [
+            "cartoon child with a round face wearing a red and white striped shirt, pointing at a fruit basket on a wooden table, 3D cartoon",
+            "the same cartoon child with round face in red striped shirt, picking up a bright shiny red apple from the basket, 3D cartoon",
+            "the same cartoon child with round face in red striped shirt, holding the red apple up proudly and smiling wide, 3D cartoon"
+          ]
+        },
+        {
+          "word": "net", "chinese": "网",
+          "imagePrompt": "whimsical butterfly net with a long handle, 3D cartoon style, word card illustration",
+          "sentenceEn": "I caught a bug in my net.", "sentenceZh": "我用网抓到了一只虫。",
+          "sentenceImagePrompts": [
+            "cartoon child with a straw hat wearing a green explorer shirt, holding a butterfly net and watching a flying bug in a sunny meadow, 3D cartoon",
+            "the same cartoon child with straw hat in green explorer shirt, swinging the butterfly net through the air toward the flying bug, 3D cartoon",
+            "the same cartoon child with straw hat in green explorer shirt, smiling triumphantly as a cute bug is safely inside the net, 3D cartoon"
+          ]
+        },
+        {
+          "word": "wet", "chinese": "湿的",
+          "imagePrompt": "cartoon dog dripping water with droplets everywhere, 3D cartoon style, word card illustration",
+          "sentenceEn": "The dog is wet.", "sentenceZh": "狗湿了。",
+          "sentenceImagePrompts": [
+            "fluffy brown cartoon dog with floppy ears and a red collar, playing happily outside as rain starts to fall, 3D cartoon",
+            "the same fluffy brown dog with floppy ears and red collar, walking indoors dripping water puddles on the floor, 3D cartoon",
+            "the same fluffy brown dog with floppy ears and red collar, shaking body vigorously sending water droplets flying everywhere, 3D cartoon"
+          ]
+        },
+        {
+          "word": "pet", "chinese": "宠物",
+          "imagePrompt": "cute cartoon puppy and kitten snuggling together, 3D cartoon style, word card illustration",
+          "sentenceEn": "I want a pet dog.", "sentenceZh": "我想要一只宠物狗。",
+          "sentenceImagePrompts": [
+            "cartoon child with a ponytail wearing a purple jacket, pressing nose against a pet store window looking longingly inside, 3D cartoon",
+            "the same cartoon child with ponytail in purple jacket, daydreaming with a thought bubble showing a fluffy white puppy, 3D cartoon",
+            "the same cartoon child with ponytail in purple jacket, tugging mom's sleeve and pointing excitedly at the puppies in the store, 3D cartoon"
+          ]
+        },
+        {
+          "word": "vet", "chinese": "兽医",
+          "imagePrompt": "friendly cartoon veterinarian in white coat with stethoscope, 3D cartoon style, word card illustration",
+          "sentenceEn": "Take the sick cat to the vet.", "sentenceZh": "把生病的猫带去看兽医。",
+          "sentenceImagePrompts": [
+            "a striped orange and white cartoon cat lying on a cushion looking sick with a tiny thermometer in its mouth, 3D cartoon",
+            "cartoon girl with brown braids, carefully carrying the same striped orange cat in a blue pet carrier toward the vet clinic, 3D cartoon",
+            "the same cartoon girl with brown braids watching as a friendly vet in white coat with stethoscope gently examines the same striped orange cat, 3D cartoon"
+          ]
+        },
+        {
+          "word": "pen", "chinese": "钢笔",
+          "imagePrompt": "shiny blue fountain pen on white paper, 3D cartoon style, word card illustration",
+          "sentenceEn": "I write with a blue pen.", "sentenceZh": "我用蓝色钢笔写字。",
+          "sentenceImagePrompts": [
+            "cartoon child with short black hair wearing a white school shirt, sitting at a clean desk with blank paper in front, 3D cartoon",
+            "the same cartoon child with short black hair in white shirt, clicking open a shiny bright blue fountain pen, 3D cartoon",
+            "the same cartoon child with short black hair in white shirt, writing the letters ABC clearly in blue ink on the white paper, 3D cartoon"
+          ]
+        },
+        {
+          "word": "hen", "chinese": "母鸡",
+          "imagePrompt": "fluffy brown cartoon mother hen in a nest, 3D cartoon style, word card illustration",
+          "sentenceEn": "The hen laid an egg.", "sentenceZh": "母鸡下了一个蛋。",
+          "sentenceImagePrompts": [
+            "fluffy brown cartoon hen with a bright red comb and orange beak, sitting peacefully in a cozy straw nest in a warm barn, 3D cartoon",
+            "the same fluffy brown hen with red comb and orange beak, standing up tall in the nest and clucking proudly, 3D cartoon",
+            "the same fluffy brown hen with red comb beside the nest, looking proudly at a perfect white egg she just laid, 3D cartoon"
+          ]
+        },
+        {
+          "word": "ten", "chinese": "十",
+          "imagePrompt": "big bold number 10 with cartoon stars around it, 3D cartoon style, word card illustration",
+          "sentenceEn": "I have ten toes.", "sentenceZh": "我有十个脚趾。",
+          "sentenceImagePrompts": [
+            "cartoon child with curly red hair wearing a purple shirt, sitting on the floor pulling off their shoes and socks, 3D cartoon",
+            "the same cartoon child with curly red hair in purple shirt, wiggling bare toes and pointing down at their feet, 3D cartoon",
+            "the same cartoon child with curly red hair in purple shirt, counting all ten toes with numbers 1 to 10 appearing above each toe, 3D cartoon"
+          ]
+        },
+        {
+          "word": "leg", "chinese": "腿",
+          "imagePrompt": "cartoon legs in colorful running shoes, 3D cartoon style, word card illustration",
+          "sentenceEn": "My leg hurts.", "sentenceZh": "我的腿疼。",
+          "sentenceImagePrompts": [
+            "cartoon boy with blue sneakers and orange shorts, running fast through a bright green grassy field, 3D cartoon",
+            "the same cartoon boy with blue sneakers and orange shorts, tripping over a small round rock and starting to fall, 3D cartoon",
+            "the same cartoon boy with blue sneakers and orange shorts, sitting on the ground holding his leg with a painful ouch expression, 3D cartoon"
+          ]
+        },
+        {
+          "word": "peg", "chinese": "木夹",
+          "imagePrompt": "wooden clothes peg with colorful stripes, 3D cartoon style, word card illustration",
+          "sentenceEn": "Put a peg on the line.", "sentenceZh": "在晾衣绳上夹一个木夹。",
+          "sentenceImagePrompts": [
+            "a wet yellow shirt hanging loosely on an outdoor clothesline on a windy day, starting to blow in the wind, 3D cartoon",
+            "cartoon child with short blonde hair wearing a striped shirt, holding a bright colorful wooden clothes peg ready to use, 3D cartoon",
+            "the same cartoon child with short blonde hair in striped shirt, clamping the wooden peg firmly onto the yellow shirt on the line, 3D cartoon"
+          ]
+        },
+        {
+          "word": "men", "chinese": "男人们",
+          "imagePrompt": "two friendly cartoon men walking together, 3D cartoon style, word card illustration",
+          "sentenceEn": "The two men are walking.", "sentenceZh": "两个男人在走路。",
+          "sentenceImagePrompts": [
+            "a tall cartoon man wearing a blue suit and a shorter cartoon man wearing a brown vest, meeting and greeting at a park entrance, 3D cartoon",
+            "the same tall man in blue suit and same shorter man in brown vest, starting to walk side by side on a sunny park path, 3D cartoon",
+            "the same tall man in blue suit and same shorter man in brown vest, walking together chatting happily further down the path, 3D cartoon"
+          ]
+        },
+        {
+          "word": "jet", "chinese": "喷气式飞机",
+          "imagePrompt": "fast cartoon jet airplane with motion lines, 3D cartoon style, word card illustration",
+          "sentenceEn": "The jet is so fast.", "sentenceZh": "喷气式飞机很快。",
+          "sentenceImagePrompts": [
+            "cartoon child with a red baseball cap wearing a red hoodie, standing outside and looking up at a wide clear blue sky, 3D cartoon",
+            "the same cartoon child with red baseball cap in red hoodie, shading eyes with hand as a cartoon jet streaks across the clouds at great speed, 3D cartoon",
+            "the same cartoon child with red baseball cap in red hoodie, pointing excitedly as the jet zooms almost out of sight leaving a long white contrail, 3D cartoon"
+          ]
+        },
+        {
+          "word": "web", "chinese": "蜘蛛网",
+          "imagePrompt": "sparkly intricate cartoon spider web with dew drops, 3D cartoon style, word card illustration",
+          "sentenceEn": "I see a spider web.", "sentenceZh": "我看到了一张蜘蛛网。",
+          "sentenceImagePrompts": [
+            "cartoon child wearing khaki explorer shorts and carrying a magnifying glass, walking through a lush green garden, 3D cartoon",
+            "the same cartoon child in khaki shorts, stopping and pointing excitedly with wide eyes at something in a leafy bush, 3D cartoon",
+            "the same cartoon child in khaki shorts, looking through the magnifying glass at a beautiful sparkling spider web between the leaves, 3D cartoon"
+          ]
+        },
+        {
+          "word": "beg", "chinese": "乞求",
+          "imagePrompt": "cute cartoon puppy sitting up on hind legs begging, 3D cartoon style, word card illustration",
+          "sentenceEn": "The dog will beg for food.", "sentenceZh": "狗会乞求食物。",
+          "sentenceImagePrompts": [
+            "cartoon boy with freckles wearing a blue shirt, eating a sandwich at a wooden table, a beagle dog with floppy ears visible nearby, 3D cartoon",
+            "the same beagle dog with floppy ears, walking over and sitting up straight on hind legs next to the same cartoon boy with freckles, 3D cartoon",
+            "the same beagle dog with floppy ears, staring up at the same cartoon boy in blue shirt with huge adorable pleading eyes, 3D cartoon"
+          ]
+        },
+        {
+          "word": "den", "chinese": "兽穴",
+          "imagePrompt": "cozy cartoon cave entrance in a snowy forest, 3D cartoon style, word card illustration",
+          "sentenceEn": "The bear sleeps in a den.", "sentenceZh": "熊在兽穴里睡觉。",
+          "sentenceImagePrompts": [
+            "big brown cartoon bear with a white chest patch and round ears, standing in a snowy winter forest with snowflakes falling, 3D cartoon",
+            "the same big brown bear with white chest patch, walking through the snow toward a dark cave entrance in a hillside, 3D cartoon",
+            "the same big brown bear with white chest patch, curled up fast asleep inside the cozy warm cave den with Zzz above, 3D cartoon"
+          ]
+        },
+        {
+          "word": "fed", "chinese": "喂食过",
+          "imagePrompt": "kid feeding colorful fish in a fishbowl, 3D cartoon style, word card illustration",
+          "sentenceEn": "I fed my pet fish.", "sentenceZh": "我喂了我的宠物鱼。",
+          "sentenceImagePrompts": [
+            "cartoon child wearing a green and white striped shirt, holding a small round container of colorful fish food near a glass fishbowl, 3D cartoon",
+            "the same cartoon child in green and white striped shirt, carefully sprinkling fish food from the container into the round fishbowl, 3D cartoon",
+            "the same cartoon child in green and white striped shirt, watching happily as a bright orange fish with big eyes eats the food flakes, 3D cartoon"
+          ]
+        },
+        {
+          "word": "led", "chinese": "带领",
+          "imagePrompt": "confident cartoon boy leading the way on a trail, 3D cartoon style, word card illustration",
+          "sentenceEn": "The boy led the way.", "sentenceZh": "男孩带路。",
+          "sentenceImagePrompts": [
+            "a group of four cartoon children including a confident boy with a blue cap and yellow jacket, standing at a forest trail entrance looking unsure, 3D cartoon",
+            "the same confident boy with blue cap and yellow jacket, stepping to the front of the group and pointing boldly down the trail, 3D cartoon",
+            "the same confident boy with blue cap and yellow jacket, marching ahead on the trail while the other three same children follow behind, 3D cartoon"
+          ]
+        },
+        {
+          "word": "keg", "chinese": "小木桶",
+          "imagePrompt": "cute wooden oak barrel keg, 3D cartoon style, word card illustration",
+          "sentenceEn": "The keg is full.", "sentenceZh": "小木桶装满了。",
+          "sentenceImagePrompts": [
+            "a small round wooden oak keg sitting empty on a stone cellar floor, with its tap visible, 3D cartoon",
+            "a hand wearing a green sleeve, pouring golden apple juice from a jug into the empty wooden oak keg, 3D cartoon",
+            "the same small wooden oak keg now completely full and heavy, sealed with a stopper, sitting solidly on a table, 3D cartoon"
+          ]
+        },
+        {
+          "word": "hem", "chinese": "衣服下摆",
+          "imagePrompt": "cartoon close-up of pants hem being sewn with needle and thread, 3D cartoon style, word card illustration",
+          "sentenceEn": "Mom sewed the hem.", "sentenceZh": "妈妈缝好了衣服下摆。",
+          "sentenceImagePrompts": [
+            "cartoon girl with pigtails wearing pants that drag too long on the floor, looking down at the dragging hem, 3D cartoon",
+            "cartoon mom with silver hair and reading glasses, kneeling to carefully stitch the bottom hem of the same cartoon girl's pants with needle and thread, 3D cartoon",
+            "the same cartoon girl with pigtails, now wearing the perfectly hemmed pants that fit just right, smiling happily next to the same mom with silver hair, 3D cartoon"
+          ]
+        }
+      ]
+    },
+    "i": {
+      "label": "I",
+      "words": [
+        {
+          "word": "pig", "chinese": "猪",
+          "imagePrompt": "plump pink cartoon piglet with curly tail, 3D cartoon style, word card illustration",
+          "sentenceEn": "The pig is pink.", "sentenceZh": "猪是粉色的。",
+          "sentenceImagePrompts": [
+            "a green farm yard with a red barn, a round pink cartoon piglet with curly tail and black button eyes peeking out from the barn door, 3D cartoon",
+            "the same round pink cartoon piglet with curly tail and black button eyes, trotting happily out of the red barn into the sunlight, 3D cartoon",
+            "close-up of the same round pink piglet with curly tail and black button eyes, grinning broadly and showing off its bright pink color, 3D cartoon"
+          ]
+        },
+        {
+          "word": "wig", "chinese": "假发",
+          "imagePrompt": "fluffy pink curly cartoon wig on a stand, 3D cartoon style, word card illustration",
+          "sentenceEn": "She has a pink wig.", "sentenceZh": "她有一顶粉色假发。",
+          "sentenceImagePrompts": [
+            "cartoon girl with short straight brown hair wearing a white shirt, peeking curiously into an open box on a table, 3D cartoon",
+            "the same cartoon girl with short brown hair in white shirt, pulling out a big fluffy curly pink wig from the box with both hands, 3D cartoon",
+            "the same cartoon girl with short brown hair in white shirt, now wearing the fluffy pink wig and laughing at her reflection in a mirror, 3D cartoon"
+          ]
+        },
+        {
+          "word": "dig", "chinese": "挖",
+          "imagePrompt": "cartoon shovel stuck in fresh dirt, 3D cartoon style, word card illustration",
+          "sentenceEn": "The dog can dig a hole.", "sentenceZh": "狗能挖洞。",
+          "sentenceImagePrompts": [
+            "fluffy brown and white cartoon dog with a red bandana collar, sitting in a garden and staring intensely at a patch of soft dirt, 3D cartoon",
+            "the same fluffy brown and white dog with red bandana collar, using front paws to dig and scrape the soil very fast with dirt flying, 3D cartoon",
+            "the same fluffy brown and white dog with red bandana collar, standing proudly next to a deep hole it just dug, covered in dirt with a happy face, 3D cartoon"
+          ]
+        },
+        {
+          "word": "big", "chinese": "大的",
+          "imagePrompt": "giant cartoon elephant next to a tiny mouse for size contrast, 3D cartoon style, word card illustration",
+          "sentenceEn": "That is a big tree.", "sentenceZh": "那是一棵大树。",
+          "sentenceImagePrompts": [
+            "cartoon child with wide curious eyes wearing a green shirt, walking happily on a forest path among normal-sized trees, 3D cartoon",
+            "the same cartoon child with wide eyes in green shirt, stopping suddenly and tilting head all the way back to look up, 3D cartoon",
+            "the same tiny cartoon child in green shirt standing at the base of an absolutely gigantic towering tree that fills the sky, 3D cartoon"
+          ]
+        },
+        {
+          "word": "sit", "chinese": "坐",
+          "imagePrompt": "cartoon child sitting properly on a colorful chair, 3D cartoon style, word card illustration",
+          "sentenceEn": "Come and sit down.", "sentenceZh": "过来坐下。",
+          "sentenceImagePrompts": [
+            "friendly cartoon teacher with round glasses and a yellow cardigan, pointing to an empty colorful red chair in a bright classroom, 3D cartoon",
+            "cartoon child with a red hair bow wearing a white blouse, walking happily toward the colorful red chair, 3D cartoon",
+            "the same cartoon child with red hair bow in white blouse, sitting comfortably in the red chair with feet dangling and a big smile, 3D cartoon"
+          ]
+        },
+        {
+          "word": "hit", "chinese": "击打",
+          "imagePrompt": "baseball bat hitting a ball with a big impact star, 3D cartoon style, word card illustration",
+          "sentenceEn": "He can hit the ball.", "sentenceZh": "他能击打球。",
+          "sentenceImagePrompts": [
+            "cartoon boy with a blue batting helmet and blue baseball uniform, holding a bat in a ready batting stance on a baseball field, 3D cartoon",
+            "the same cartoon boy in blue helmet and blue uniform, watching with focused eyes as a white ball is pitched toward him, 3D cartoon",
+            "the same cartoon boy in blue helmet and blue uniform, swinging the bat powerfully and hitting the ball with a big CRACK impact effect, 3D cartoon"
+          ]
+        },
+        {
+          "word": "lit", "chinese": "点燃的",
+          "imagePrompt": "single glowing cartoon birthday candle with warm flame, 3D cartoon style, word card illustration",
+          "sentenceEn": "We lit the candle.", "sentenceZh": "我们点燃了蜡烛。",
+          "sentenceImagePrompts": [
+            "a dark cozy room with a white birthday cake on a table, cartoon adult with brown hair and glasses standing next to it holding matches, 3D cartoon",
+            "the same cartoon adult with brown hair and glasses, carefully using a lit match to touch the wick of a birthday candle on the cake, 3D cartoon",
+            "the same cartoon adult with brown hair and a small cartoon child with a party hat, both faces glowing warmly as the candle flame burns bright, 3D cartoon"
+          ]
+        },
+        {
+          "word": "pit", "chinese": "果核",
+          "imagePrompt": "sliced peach revealing a large hard brown pit inside, 3D cartoon style, word card illustration",
+          "sentenceEn": "Look at the big pit.", "sentenceZh": "看那个大果核。",
+          "sentenceImagePrompts": [
+            "cartoon child with short black hair wearing an orange shirt, holding a whole round juicy golden peach in both hands, 3D cartoon",
+            "the same cartoon child with short black hair in orange shirt, biting into the peach and stopping suddenly with wide eyes, 3D cartoon",
+            "the same cartoon child with short black hair in orange shirt, holding up the opened peach and pointing to the large hard brown pit inside, 3D cartoon"
+          ]
+        },
+        {
+          "word": "lip", "chinese": "嘴唇",
+          "imagePrompt": "close-up cartoon smiling lips, 3D cartoon style, word card illustration",
+          "sentenceEn": "I bit my lip.", "sentenceZh": "我咬了我的嘴唇。",
+          "sentenceImagePrompts": [
+            "cartoon child with a ponytail wearing a yellow shirt, eating a crunchy red apple quickly and eagerly at a table, 3D cartoon",
+            "the same cartoon child with ponytail in yellow shirt, accidentally biting their lower lip by mistake with wide surprised eyes, 3D cartoon",
+            "the same cartoon child with ponytail in yellow shirt, gently touching their lip with a finger and making an ouch expression, 3D cartoon"
+          ]
+        },
+        {
+          "word": "zip", "chinese": "拉链",
+          "imagePrompt": "silver zipper on a blue winter jacket, 3D cartoon style, word card illustration",
+          "sentenceEn": "Zip up your coat.", "sentenceZh": "把外套的拉链拉上。",
+          "sentenceImagePrompts": [
+            "cartoon boy with brown hair wearing an unzipped blue winter coat, standing near the door getting ready to go outside in cold weather, 3D cartoon",
+            "the same cartoon boy with brown hair, grabbing the metal zipper pull at the bottom of his blue winter coat with fingers, 3D cartoon",
+            "the same cartoon boy with brown hair, pulling the zipper all the way up to his chin on the blue coat, looking cozy and warm, 3D cartoon"
+          ]
+        },
+        {
+          "word": "rip", "chinese": "撕裂",
+          "imagePrompt": "piece of white paper torn in half, 3D cartoon style, word card illustration",
+          "sentenceEn": "Do not rip the paper.", "sentenceZh": "不要撕破纸。",
+          "sentenceImagePrompts": [
+            "cartoon child with round eyes wearing a red shirt, carefully holding a colorful drawing on white paper in both hands, 3D cartoon",
+            "the same cartoon child with round eyes in red shirt, accidentally pulling both sides of the paper too hard as it begins to tear, 3D cartoon",
+            "the same cartoon child with round eyes in red shirt, looking shocked and sad as the paper is ripped completely in half, 3D cartoon"
+          ]
+        },
+        {
+          "word": "fin", "chinese": "鱼鳍",
+          "imagePrompt": "friendly grey cartoon shark fin above blue water, 3D cartoon style, word card illustration",
+          "sentenceEn": "A fish has a fin.", "sentenceZh": "鱼有鱼鳍。",
+          "sentenceImagePrompts": [
+            "a bright blue and yellow cartoon fish with big round eyes, swimming gracefully through sparkling clear blue water, 3D cartoon",
+            "the same bright blue and yellow cartoon fish with big round eyes, with an illustrated arrow or label clearly pointing to its dorsal fin, 3D cartoon",
+            "close-up of the same bright blue and yellow cartoon fish, fin clearly visible and waving as it glides through the water, 3D cartoon"
+          ]
+        },
+        {
+          "word": "pin", "chinese": "图钉",
+          "imagePrompt": "large red push pin with a shiny round head, 3D cartoon style, word card illustration",
+          "sentenceEn": "I have a red pin.", "sentenceZh": "我有一个红色图钉。",
+          "sentenceImagePrompts": [
+            "cartoon child with short black hair wearing a white shirt, holding up a bright shiny red push pin between two fingers, 3D cartoon",
+            "the same cartoon child with short black hair in white shirt, pressing a colorful drawing flat against a brown cork bulletin board, 3D cartoon",
+            "the same cartoon child with short black hair in white shirt, pushing the red pin firmly into the board to hang the drawing, 3D cartoon"
+          ]
+        },
+        {
+          "word": "win", "chinese": "赢",
+          "imagePrompt": "joyful cartoon athlete holding up a gold trophy, 3D cartoon style, word card illustration",
+          "sentenceEn": "Our team will win!", "sentenceZh": "我们队会赢！",
+          "sentenceImagePrompts": [
+            "four cartoon children in matching blue shirts and four in matching red shirts, playing tug-of-war pulling a rope with all their might, 3D cartoon",
+            "the same four cartoon children in blue shirts, pulling together powerfully as the same red team starts to slide toward the line, 3D cartoon",
+            "the same four cartoon children in blue shirts, jumping up together celebrating and cheering We win with huge smiles and raised fists, 3D cartoon"
+          ]
+        },
+        {
+          "word": "bin", "chinese": "垃圾桶",
+          "imagePrompt": "large green recycling trash bin with a smile, 3D cartoon style, word card illustration",
+          "sentenceEn": "Put the trash in the bin.", "sentenceZh": "把垃圾放进垃圾桶。",
+          "sentenceImagePrompts": [
+            "cartoon child with short hair wearing a green shirt, holding a crumpled empty juice carton in one hand, 3D cartoon",
+            "the same cartoon child with short hair in green shirt, walking toward a large green recycling bin on the sidewalk, 3D cartoon",
+            "the same cartoon child with short hair in green shirt, tossing the juice carton into the open green bin with a satisfied smile, 3D cartoon"
+          ]
+        },
+        {
+          "word": "fig", "chinese": "无花果",
+          "imagePrompt": "sliced purple fig showing red inside, 3D cartoon style, word card illustration",
+          "sentenceEn": "I ate a sweet fig.", "sentenceZh": "我吃了一个甜无花果。",
+          "sentenceImagePrompts": [
+            "cartoon child with curly hair wearing a purple shirt, reaching up to pick a ripe purple fig from a low tree branch, 3D cartoon",
+            "the same cartoon child with curly hair in purple shirt, biting into the soft red interior of the fig with curious eyes, 3D cartoon",
+            "the same cartoon child with curly hair in purple shirt, licking lips with a big satisfied smile because the fig is wonderfully sweet, 3D cartoon"
+          ]
+        },
+        {
+          "word": "kit", "chinese": "工具箱",
+          "imagePrompt": "open red first aid kit with bandages and tools, 3D cartoon style, word card illustration",
+          "sentenceEn": "Get the first aid kit.", "sentenceZh": "拿急救箱。",
+          "sentenceImagePrompts": [
+            "cartoon boy with a scraped knee sitting on the ground looking sad, while cartoon girl with brown braids in a pink shirt runs toward him, 3D cartoon",
+            "the same cartoon girl with brown braids in pink shirt, grabbing a red first aid box with a white cross from a shelf on the wall, 3D cartoon",
+            "the same cartoon girl with brown braids in pink shirt, opening the first aid kit beside the same cartoon boy to take out a bandage, 3D cartoon"
+          ]
+        },
+        {
+          "word": "mix", "chinese": "混合",
+          "imagePrompt": "silver whisk stirring colorful cake batter in a bowl, 3D cartoon style, word card illustration",
+          "sentenceEn": "Mix it in the bowl.", "sentenceZh": "在碗里把它混合。",
+          "sentenceImagePrompts": [
+            "cartoon child with a small white chef hat wearing a blue apron, standing at a kitchen counter with flour, eggs, and milk in a large bowl, 3D cartoon",
+            "the same cartoon child with white chef hat and blue apron, using a wooden spoon to stir all the ingredients together in the bowl, 3D cartoon",
+            "the same cartoon child with white chef hat and blue apron, holding up the bowl showing smooth creamy yellow cake batter inside, 3D cartoon"
+          ]
+        },
+        {
+          "word": "six", "chinese": "六",
+          "imagePrompt": "six bright colorful wooden number blocks stacked, 3D cartoon style, word card illustration",
+          "sentenceEn": "I am six years old.", "sentenceZh": "我六岁了。",
+          "sentenceImagePrompts": [
+            "cartoon child with a yellow party hat wearing a green shirt, standing excitedly at a colorful birthday party with balloons, 3D cartoon",
+            "the same cartoon child with yellow party hat in green shirt, watching with bright eyes as a birthday cake with exactly six candles arrives, 3D cartoon",
+            "the same cartoon child with yellow party hat in green shirt, holding up six fingers with a huge grin while blowing out the six candles, 3D cartoon"
+          ]
+        },
+        {
+          "word": "kid", "chinese": "小孩",
+          "imagePrompt": "joyful cartoon kid playing in a colorful park, 3D cartoon style, word card illustration",
+          "sentenceEn": "The kid is playing.", "sentenceZh": "小孩正在玩耍。",
+          "sentenceImagePrompts": [
+            "a bright sunny park with a sandbox, cartoon kid with short red hair wearing blue overalls, running toward the sandbox with a big smile, 3D cartoon",
+            "the same cartoon kid with short red hair in blue overalls, sitting in the sandbox playing happily with a yellow bucket and red shovel, 3D cartoon",
+            "the same cartoon kid with short red hair in blue overalls, proudly showing a big sandcastle they built, laughing with joy, 3D cartoon"
+          ]
+        }
+      ]
+    },
+    "o": {
+      "label": "O",
+      "words": [
+        {
+          "word": "dog", "chinese": "狗",
+          "imagePrompt": "friendly golden retriever cartoon dog with a wagging tail, 3D cartoon style, word card illustration",
+          "sentenceEn": "The dog can run fast.", "sentenceZh": "狗能跑得很快。",
+          "sentenceImagePrompts": [
+            "a golden cartoon retriever dog with a blue collar and wagging tail, standing alert and ready in a green park, 3D cartoon",
+            "the same golden retriever with blue collar, crouching ready to sprint as a colorful frisbee is thrown far away, 3D cartoon",
+            "the same golden retriever with blue collar, running incredibly fast like a golden blur across the green park chasing the frisbee, 3D cartoon"
+          ]
+        },
+        {
+          "word": "log", "chinese": "圆木",
+          "imagePrompt": "cozy brown wooden log with bark texture, 3D cartoon style, word card illustration",
+          "sentenceEn": "The frog sat on a log.", "sentenceZh": "青蛙坐在圆木上。",
+          "sentenceImagePrompts": [
+            "a round green cartoon frog with yellow belly and wide black eyes, swimming in a peaceful sunny pond with lily pads, 3D cartoon",
+            "the same round green frog with yellow belly, spotting a thick brown wooden log floating near the edge of the pond, 3D cartoon",
+            "the same round green frog with yellow belly and wide black eyes, hopped up and sitting contentedly on top of the log in the pond, 3D cartoon"
+          ]
+        },
+        {
+          "word": "fog", "chinese": "雾",
+          "imagePrompt": "mysterious grey cartoon fog rolling over a landscape, 3D cartoon style, word card illustration",
+          "sentenceEn": "I cannot see in the fog.", "sentenceZh": "我在雾中看不见。",
+          "sentenceImagePrompts": [
+            "a clear sunny morning view of a cozy house with a yard, everything clearly visible, 3D cartoon",
+            "thick swirling grey cartoon fog rolling in rapidly and covering the house and yard, cartoon child in a red raincoat watching, 3D cartoon",
+            "the same cartoon child in red raincoat and yellow boots, standing outside with arms spread out confused because thick fog hides everything, 3D cartoon"
+          ]
+        },
+        {
+          "word": "hog", "chinese": "野猪",
+          "imagePrompt": "cute bristly wild boar cartoon character, 3D cartoon style, word card illustration",
+          "sentenceEn": "The hog is eating.", "sentenceZh": "野猪在吃东西。",
+          "sentenceImagePrompts": [
+            "a cartoon wild boar with bristly dark grey fur, small white tusks, and a round snout, trotting out from some bushes into a forest clearing, 3D cartoon",
+            "the same cartoon wild boar with bristly grey fur and small tusks, sniffing the ground and finding tasty roots and red apples, 3D cartoon",
+            "the same cartoon wild boar with bristly grey fur and small tusks, happily munching and chewing the food with a satisfied expression, 3D cartoon"
+          ]
+        },
+        {
+          "word": "hot", "chinese": "热的",
+          "imagePrompt": "steaming bowl of soup with lots of steam rising, 3D cartoon style, word card illustration",
+          "sentenceEn": "The soup is very hot.", "sentenceZh": "汤非常烫。",
+          "sentenceImagePrompts": [
+            "a steaming red cartoon soup bowl with lots of white steam rising on a wooden table, cartoon child with short hair in a white shirt sitting nearby, 3D cartoon",
+            "the same cartoon child with short hair in white shirt, leaning eagerly toward the soup bowl and lifting a spoon to take a sip, 3D cartoon",
+            "the same cartoon child with short hair in white shirt, quickly pulling back from the bowl and blowing on the spoon with watering eyes, 3D cartoon"
+          ]
+        },
+        {
+          "word": "pot", "chinese": "锅",
+          "imagePrompt": "bubbling black cooking pot on a stove, 3D cartoon style, word card illustration",
+          "sentenceEn": "Cook the soup in a pot.", "sentenceZh": "用锅煮汤。",
+          "sentenceImagePrompts": [
+            "cartoon mom with brown ponytail hair wearing a yellow apron, arranging fresh vegetables and water on a kitchen counter, 3D cartoon",
+            "the same cartoon mom with brown ponytail in yellow apron, placing a large shiny black cooking pot firmly onto the lit stove, 3D cartoon",
+            "the same cartoon mom with brown ponytail in yellow apron, stirring the bubbling soup inside the pot with a long wooden ladle, 3D cartoon"
+          ]
+        },
+        {
+          "word": "cot", "chinese": "折叠床",
+          "imagePrompt": "simple canvas camping cot folded out, 3D cartoon style, word card illustration",
+          "sentenceEn": "He sleeps on a cot.", "sentenceZh": "他睡在折叠床上。",
+          "sentenceImagePrompts": [
+            "inside a cozy green camping tent at night, cartoon boy with freckles wearing a blue shirt, sitting on a rolled sleeping bag, 3D cartoon",
+            "the same cartoon boy with freckles in blue shirt, carefully unfolding a small green canvas camping cot inside the tent, 3D cartoon",
+            "the same cartoon boy with freckles, lying peacefully on the canvas cot in a sleeping bag inside the tent, fast asleep with Zzz, 3D cartoon"
+          ]
+        },
+        {
+          "word": "dot", "chinese": "圆点",
+          "imagePrompt": "single perfect round black dot on white, 3D cartoon style, word card illustration",
+          "sentenceEn": "Draw a black dot.", "sentenceZh": "画一个黑点。",
+          "sentenceImagePrompts": [
+            "cartoon child with round glasses wearing an orange shirt, sitting at a desk and holding a thick black marker poised above blank white paper, 3D cartoon",
+            "the same cartoon child with round glasses in orange shirt, pressing the black marker tip firmly and precisely down onto the center of the paper, 3D cartoon",
+            "the same cartoon child with round glasses in orange shirt, lifting the marker and admiring a single perfect round black dot on the white paper, 3D cartoon"
+          ]
+        },
+        {
+          "word": "hop", "chinese": "跳跃",
+          "imagePrompt": "energetic green cartoon frog mid-jump, 3D cartoon style, word card illustration",
+          "sentenceEn": "The frog can hop.", "sentenceZh": "青蛙能跳。",
+          "sentenceImagePrompts": [
+            "an energetic green cartoon frog with orange spots on its back, sitting still on green grass with legs coiled and ready to jump, 3D cartoon",
+            "the same green frog with orange spots, leaping powerfully into the air with legs fully stretched out, 3D cartoon",
+            "the same green frog with orange spots, landing with a perfect plop on a round green lily pad floating in a pond, 3D cartoon"
+          ]
+        },
+        {
+          "word": "mop", "chinese": "拖把",
+          "imagePrompt": "classic cartoon mop with a yellow bucket, 3D cartoon style, word card illustration",
+          "sentenceEn": "We mop the floor.", "sentenceZh": "我们拖地板。",
+          "sentenceImagePrompts": [
+            "a white kitchen floor covered in messy brown muddy shoe footprints, cartoon child with pigtails in a pink shirt standing nearby looking at it, 3D cartoon",
+            "the same cartoon child with pigtails in pink shirt, dipping a mop into a yellow bucket full of soapy water, 3D cartoon",
+            "the same cartoon child with pigtails in pink shirt, pushing the mop energetically across the floor until it shines like a mirror, 3D cartoon"
+          ]
+        },
+        {
+          "word": "top", "chinese": "陀螺",
+          "imagePrompt": "brightly painted wooden spinning toy top, 3D cartoon style, word card illustration",
+          "sentenceEn": "I spin my toy top.", "sentenceZh": "我转动我的陀螺。",
+          "sentenceImagePrompts": [
+            "cartoon child with short hair wearing a striped sweater, holding a brightly colored painted wooden toy top carefully in both hands, 3D cartoon",
+            "the same cartoon child with short hair in striped sweater, flicking wrist sharply to launch and spin the top onto a smooth wooden table, 3D cartoon",
+            "the same cartoon child with short hair in striped sweater, watching in delight as the top spins rapidly on the table as a beautiful blur of colors, 3D cartoon"
+          ]
+        },
+        {
+          "word": "pop", "chinese": "爆裂",
+          "imagePrompt": "red balloon popping with a big POP burst, 3D cartoon style, word card illustration",
+          "sentenceEn": "The balloon will pop!", "sentenceZh": "气球会爆裂！",
+          "sentenceImagePrompts": [
+            "cartoon child with braids wearing a yellow dress, blowing air into a red balloon making it grow larger and larger, 3D cartoon",
+            "the same cartoon child with braids in yellow dress, holding the very large red balloon dangerously close to a spiky cactus, 3D cartoon",
+            "the same cartoon child with braids in yellow dress, jumping back startled as the balloon touches the cactus and explodes with a giant POP, 3D cartoon"
+          ]
+        },
+        {
+          "word": "box", "chinese": "盒子",
+          "imagePrompt": "open cardboard box with colorful toys inside, 3D cartoon style, word card illustration",
+          "sentenceEn": "Put the toy in the box.", "sentenceZh": "把玩具放进盒子里。",
+          "sentenceImagePrompts": [
+            "cartoon child with messy hair wearing blue overalls, looking at toys scattered all over the bedroom floor with hands on hips, 3D cartoon",
+            "the same cartoon child with messy hair in blue overalls, carrying an open brown cardboard box into the messy bedroom, 3D cartoon",
+            "the same cartoon child with messy hair in blue overalls, carefully placing all the toys one by one into the cardboard box, 3D cartoon"
+          ]
+        },
+        {
+          "word": "fox", "chinese": "狐狸",
+          "imagePrompt": "adorable orange cartoon fox with a bushy tail, 3D cartoon style, word card illustration",
+          "sentenceEn": "The fox ran in the woods.", "sentenceZh": "狐狸在树林里跑。",
+          "sentenceImagePrompts": [
+            "a quiet cartoon forest with tall green trees and dappled sunlight, peaceful with no animals visible yet, 3D cartoon",
+            "an orange cartoon fox with a white chest and a bushy tail with a white tip, peeking out cautiously from between two tall trees, 3D cartoon",
+            "the same orange cartoon fox with white chest and bushy white-tipped tail, dashing athletically between the tall trees in the forest, 3D cartoon"
+          ]
+        },
+        {
+          "word": "cop", "chinese": "警察",
+          "imagePrompt": "friendly smiling cartoon police officer in uniform, 3D cartoon style, word card illustration",
+          "sentenceEn": "The cop helps us.", "sentenceZh": "警察帮助我们。",
+          "sentenceImagePrompts": [
+            "a small cartoon child with curly hair in a red jacket, standing alone on a busy city street looking confused and lost, 3D cartoon",
+            "a friendly cartoon police officer in a blue uniform and blue cap, kneeling down kindly to talk with the same small lost cartoon child, 3D cartoon",
+            "the same friendly cartoon police officer in blue uniform, gently holding the same small cartoon child's hand and guiding them safely across the street, 3D cartoon"
+          ]
+        },
+        {
+          "word": "job", "chinese": "工作",
+          "imagePrompt": "professional cartoon briefcase with a tie, 3D cartoon style, word card illustration",
+          "sentenceEn": "Dad has a good job.", "sentenceZh": "爸爸有一份好工作。",
+          "sentenceImagePrompts": [
+            "cartoon dad with round glasses and neat brown hair wearing a grey shirt, straightening his tie and picking up a brown leather briefcase at home, 3D cartoon",
+            "the same cartoon dad with round glasses and brown briefcase, arriving confidently at a tall modern glass office building, 3D cartoon",
+            "the same cartoon dad with round glasses, sitting at a clean office desk typing on a laptop with a satisfied and happy expression, 3D cartoon"
+          ]
+        },
+        {
+          "word": "pod", "chinese": "豆荚",
+          "imagePrompt": "bright green fresh pea pod with peas inside, 3D cartoon style, word card illustration",
+          "sentenceEn": "The peas are in a pod.", "sentenceZh": "豌豆在豆荚里。",
+          "sentenceImagePrompts": [
+            "cartoon child with round face wearing a green shirt, holding a closed bright green pea pod carefully in both hands, 3D cartoon",
+            "the same cartoon child with round face in green shirt, carefully splitting the green pod open along its seam with both thumbs, 3D cartoon",
+            "the same cartoon child with round face in green shirt, looking happily at six perfectly round bright green peas sitting in a row inside the open pod, 3D cartoon"
+          ]
+        },
+        {
+          "word": "rod", "chinese": "钓鱼竿",
+          "imagePrompt": "flexible fishing rod with line and hook, 3D cartoon style, word card illustration",
+          "sentenceEn": "He has a fishing rod.", "sentenceZh": "他有一根钓鱼竿。",
+          "sentenceImagePrompts": [
+            "cartoon man with a straw hat wearing a brown vest, standing on a wooden dock by a calm blue lake, holding a long fishing rod, 3D cartoon",
+            "the same cartoon man with straw hat and brown vest, casting the fishing line gracefully far out across the still water, 3D cartoon",
+            "the same cartoon man with straw hat and brown vest, rod bending as he excitedly reels in a shiny jumping fish from the lake, 3D cartoon"
+          ]
+        },
+        {
+          "word": "nod", "chinese": "点头",
+          "imagePrompt": "cartoon character nodding head with motion lines, 3D cartoon style, word card illustration",
+          "sentenceEn": "You can nod your head.", "sentenceZh": "你可以点头。",
+          "sentenceImagePrompts": [
+            "friendly cartoon teacher with glasses and a green cardigan, leaning toward a cartoon student with short hair, asking do you understand, 3D cartoon",
+            "the same cartoon student with short hair, slowly and deliberately lowering their chin toward their chest, 3D cartoon",
+            "the same cartoon student with short hair, raising their head back up with a clear nod yes and a warm confident smile, 3D cartoon"
+          ]
+        },
+        {
+          "word": "cob", "chinese": "玉米棒",
+          "imagePrompt": "steaming bright yellow ear of corn with butter, 3D cartoon style, word card illustration",
+          "sentenceEn": "I like corn on the cob.", "sentenceZh": "我喜欢啃玉米棒。",
+          "sentenceImagePrompts": [
+            "a steaming bright yellow ear of corn with melting butter on a white plate, cartoon child with summer straw hat in a blue shirt sitting at table, 3D cartoon",
+            "the same cartoon child with summer straw hat in blue shirt, picking up the corn cob and holding both ends with both hands, 3D cartoon",
+            "the same cartoon child with summer straw hat in blue shirt, taking an enthusiastic big bite right off the middle of the corn cob with joy, 3D cartoon"
+          ]
+        }
+      ]
+    },
+    "u": {
+      "label": "U",
+      "words": [
+        {
+          "word": "sun", "chinese": "太阳",
+          "imagePrompt": "brilliant glowing cartoon sun with a smiling face and rays, 3D cartoon style, word card illustration",
+          "sentenceEn": "The sun is hot today.", "sentenceZh": "今天太阳很热。",
+          "sentenceImagePrompts": [
+            "a brilliant smiling yellow cartoon sun with orange rays shining powerfully in a clear blue sky, 3D cartoon",
+            "cartoon child with a straw sunhat wearing a red short-sleeve shirt, standing outside and wiping sweat from their forehead under the hot sun, 3D cartoon",
+            "the same cartoon child with straw sunhat in red shirt, putting on cool sunglasses and drinking from a water bottle to cool down, 3D cartoon"
+          ]
+        },
+        {
+          "word": "bun", "chinese": "小圆面包",
+          "imagePrompt": "fluffy golden-brown cartoon burger bun with sesame seeds, 3D cartoon style, word card illustration",
+          "sentenceEn": "Eat the hot dog bun.", "sentenceZh": "吃热狗面包。",
+          "sentenceImagePrompts": [
+            "cartoon child with short hair wearing an orange shirt, sitting at a table with an empty split golden bread bun on a plate in front, 3D cartoon",
+            "the same cartoon child with short hair in orange shirt, placing a plump brown sausage neatly inside the golden split bun, 3D cartoon",
+            "the same cartoon child with short hair in orange shirt, happily taking a big bite into the completed hot dog bun with eyes closed in delight, 3D cartoon"
+          ]
+        },
+        {
+          "word": "run", "chinese": "跑",
+          "imagePrompt": "cartoon child running fast with motion lines, 3D cartoon style, word card illustration",
+          "sentenceEn": "I like to run and play.", "sentenceZh": "我喜欢跑着玩。",
+          "sentenceImagePrompts": [
+            "cartoon child with pigtails wearing a purple shirt and bright pink sneakers, sitting on a bench carefully tying pink shoelaces, 3D cartoon",
+            "the same cartoon child with pigtails in purple shirt and pink sneakers, starting to jog happily down a green sunny park path, 3D cartoon",
+            "the same cartoon child with pigtails in purple shirt and pink sneakers, running fast with arms pumping and laughing joyfully, 3D cartoon"
+          ]
+        },
+        {
+          "word": "fun", "chinese": "乐趣",
+          "imagePrompt": "group of happy cartoon kids playing together with balloons, 3D cartoon style, word card illustration",
+          "sentenceEn": "We had so much fun!", "sentenceZh": "我们玩得很开心！",
+          "sentenceImagePrompts": [
+            "three cartoon kids - one in a red shirt, one in a blue shirt, and one in a yellow shirt - arriving excitedly at a colorful amusement park entrance, 3D cartoon",
+            "the same three cartoon kids in red, blue, and yellow shirts, riding a roller coaster together with arms raised and mouths open screaming with joy, 3D cartoon",
+            "the same three cartoon kids in red, blue, and yellow shirts, walking out of the park holding colorful balloons, looking tired but completely happy, 3D cartoon"
+          ]
+        },
+        {
+          "word": "bug", "chinese": "虫子",
+          "imagePrompt": "adorable bright red cartoon ladybug with black spots, 3D cartoon style, word card illustration",
+          "sentenceEn": "Look at that little bug.", "sentenceZh": "看那只小虫子。",
+          "sentenceImagePrompts": [
+            "cartoon child wearing denim shorts and a white shirt, kneeling on green grass and closely inspecting a large green leaf with a magnifying glass, 3D cartoon",
+            "the same cartoon child in denim shorts and white shirt, spotting a tiny bright red ladybug crawling onto the edge of the green leaf, 3D cartoon",
+            "the same cartoon child in denim shorts and white shirt, pointing at the small ladybug with wide curious eyes and an open amazed mouth, 3D cartoon"
+          ]
+        },
+        {
+          "word": "rug", "chinese": "地毯",
+          "imagePrompt": "soft colorful fluffy area rug on a wooden floor, 3D cartoon style, word card illustration",
+          "sentenceEn": "The rug is soft.", "sentenceZh": "地毯很软。",
+          "sentenceImagePrompts": [
+            "a plain empty wooden floor in a bright living room, cartoon child with messy morning hair wearing blue pajamas standing nearby, 3D cartoon",
+            "the same cartoon child with messy hair in blue pajamas, watching as a fluffy colorful patterned rug is unrolled across the wooden floor, 3D cartoon",
+            "the same cartoon child with messy hair in blue pajamas, lying face-down on the soft fluffy rug with arms spread and a blissful happy smile, 3D cartoon"
+          ]
+        },
+        {
+          "word": "mug", "chinese": "马克杯",
+          "imagePrompt": "sturdy teal blue ceramic coffee mug, 3D cartoon style, word card illustration",
+          "sentenceEn": "Milk is in the mug.", "sentenceZh": "马克杯里有牛奶。",
+          "sentenceImagePrompts": [
+            "cartoon child with sleepy eyes wearing a white shirt, sitting at a breakfast table with a large teal blue ceramic mug sitting empty in front, 3D cartoon",
+            "the same cartoon child with sleepy eyes in white shirt, carefully pouring white milk from a small carton into the teal blue mug, 3D cartoon",
+            "the same cartoon child in white shirt now with more awake eyes, holding the teal mug full of milk with both hands and drinking happily, 3D cartoon"
+          ]
+        },
+        {
+          "word": "hug", "chinese": "拥抱",
+          "imagePrompt": "two cute cartoon characters giving a warm bear hug, 3D cartoon style, word card illustration",
+          "sentenceEn": "Give me a big hug.", "sentenceZh": "给我一个大拥抱。",
+          "sentenceImagePrompts": [
+            "cartoon child with short hair wearing a green sweater, seeing a cartoon grandmother with white bun hair and blue glasses walk through the front door, 3D cartoon",
+            "the same cartoon child in green sweater and the same grandmother with white bun and blue glasses, both opening their arms wide toward each other with big smiles, 3D cartoon",
+            "the same cartoon child in green sweater and grandmother with white bun and blue glasses, wrapping arms tightly around each other in a warm heartfelt hug, 3D cartoon"
+          ]
+        },
+        {
+          "word": "jug", "chinese": "水壶",
+          "imagePrompt": "large clear glass jug full of water with lemon slices, 3D cartoon style, word card illustration",
+          "sentenceEn": "The jug is full of water.", "sentenceZh": "水壶装满了水。",
+          "sentenceImagePrompts": [
+            "a large clear glass jug sitting empty at the kitchen sink, cartoon child with blue shirt and short hair standing at the sink reaching for the tap, 3D cartoon",
+            "the same cartoon child with blue shirt and short hair, holding the jug under the running tap as it fills up with clear sparkling water, 3D cartoon",
+            "the same cartoon child with blue shirt and short hair, carefully lifting the heavy jug now completely full of water onto the kitchen counter, 3D cartoon"
+          ]
+        },
+        {
+          "word": "tub", "chinese": "浴缸",
+          "imagePrompt": "pristine white ceramic bathtub full of bubbles and rubber duck, 3D cartoon style, word card illustration",
+          "sentenceEn": "I take a bath in the tub.", "sentenceZh": "我在浴缸里洗澡。",
+          "sentenceImagePrompts": [
+            "a white ceramic bathtub filling with warm steamy water and a yellow rubber duck floating, bathroom tiles visible, 3D cartoon",
+            "cartoon child with short hair and rosy cheeks wearing a small towel, pouring pink bubble bath liquid into the warm tub creating fluffy bubbles, 3D cartoon",
+            "the same cartoon child with short hair and rosy cheeks, sitting in the tub covered in white fluffy bubbles, playing happily with the yellow rubber duck, 3D cartoon"
+          ]
+        },
+        {
+          "word": "cub", "chinese": "幼崽",
+          "imagePrompt": "adorable fluffy brown bear cub sitting in grass, 3D cartoon style, word card illustration",
+          "sentenceEn": "The bear cub is cute.", "sentenceZh": "小熊很可爱。",
+          "sentenceImagePrompts": [
+            "a large fluffy brown mama bear with a light chest patch, walking through a sunny green forest, a tiny fluffy brown bear cub following closely behind, 3D cartoon",
+            "the same tiny fluffy brown bear cub with round ears and a black nose, tumbling and rolling playfully in the soft green grass, 3D cartoon",
+            "close-up of the same tiny fluffy brown bear cub with round ears and black nose, sitting up and looking absolutely adorably cute, 3D cartoon"
+          ]
+        },
+        {
+          "word": "rub", "chinese": "摩擦",
+          "imagePrompt": "cartoon hands rubbing together with warmth glow, 3D cartoon style, word card illustration",
+          "sentenceEn": "Rub your hands to get warm.", "sentenceZh": "搓搓手暖和起来。",
+          "sentenceImagePrompts": [
+            "cartoon child with a purple coat and a cozy blue winter scarf, standing outside shivering in cold snowy winter air, 3D cartoon",
+            "the same cartoon child in purple coat and blue scarf, pressing both bare hands tightly together in front of them, 3D cartoon",
+            "the same cartoon child in purple coat and blue scarf, rubbing hands back and forth rapidly with golden warm glow lines appearing between palms, 3D cartoon"
+          ]
+        },
+        {
+          "word": "nut", "chinese": "坚果",
+          "imagePrompt": "friendly cartoon walnut with a cracked shell, 3D cartoon style, word card illustration",
+          "sentenceEn": "The squirrel ate a nut.", "sentenceZh": "松鼠吃了一个坚果。",
+          "sentenceImagePrompts": [
+            "a fluffy orange cartoon squirrel with a large bushy tail and bright black eyes, finding a round brown walnut on the forest floor, 3D cartoon",
+            "the same fluffy orange squirrel with bushy tail, sitting up and holding the walnut in both small paws while cracking open the hard shell, 3D cartoon",
+            "the same fluffy orange squirrel with bushy tail, sitting up happily chewing the tasty nut inside with cheeks puffed and eyes closed in enjoyment, 3D cartoon"
+          ]
+        },
+        {
+          "word": "hut", "chinese": "茅草屋",
+          "imagePrompt": "whimsical rustic tropical beach hut with thatched roof, 3D cartoon style, word card illustration",
+          "sentenceEn": "They live in a small hut.", "sentenceZh": "他们住在一间小茅草屋里。",
+          "sentenceImagePrompts": [
+            "a tropical beach with swaying palm trees and a small bamboo hut with a thatched grass roof sitting peacefully by the shore, 3D cartoon",
+            "a cartoon family of three - dad in a green shirt, mom in a yellow dress, and a small child in a striped shirt - visible inside the doorway of the bamboo hut, 3D cartoon",
+            "the same cartoon family - dad in green, mom in yellow, child in stripes - all walking out together from the cozy hut into the warm sunshine, 3D cartoon"
+          ]
+        },
+        {
+          "word": "cut", "chinese": "剪",
+          "imagePrompt": "sharp silver cartoon scissors cutting paper, 3D cartoon style, word card illustration",
+          "sentenceEn": "Do not cut your hand.", "sentenceZh": "不要割到手。",
+          "sentenceImagePrompts": [
+            "cartoon child with careful expression wearing a red apron, holding a pair of silver scissors over a piece of paper on a wooden table, 3D cartoon",
+            "the same cartoon child in red apron, using the scissors to carefully snip along a line on the paper while concentrating hard, 3D cartoon",
+            "a kind-looking cartoon adult with brown hair, pointing to the sharp scissor blades and reminding the same cartoon child in red apron to be careful, 3D cartoon"
+          ]
+        },
+        {
+          "word": "mud", "chinese": "泥巴",
+          "imagePrompt": "thick wet brown cartoon mud splashing, 3D cartoon style, word card illustration",
+          "sentenceEn": "The pig likes the mud.", "sentenceZh": "猪喜欢泥巴。",
+          "sentenceImagePrompts": [
+            "rain falling on a farm creating a big wet brown muddy puddle in the yard, the same round pink cartoon piglet with curly tail standing nearby watching, 3D cartoon",
+            "the same round pink cartoon piglet with curly tail, squealing with delight and running excitedly toward the big muddy puddle, 3D cartoon",
+            "the same round pink cartoon piglet with curly tail, rolling around joyfully in the wet mud and completely covered in brown goo with a happy face, 3D cartoon"
+          ]
+        },
+        {
+          "word": "sub", "chinese": "潜艇三明治",
+          "imagePrompt": "long massive cartoon submarine sandwich with colorful fillings, 3D cartoon style, word card illustration",
+          "sentenceEn": "We made a big sub to eat.", "sentenceZh": "我们做了一个大三明治来吃。",
+          "sentenceImagePrompts": [
+            "cartoon child with pigtails in a blue shirt and cartoon child with a baseball cap in a green shirt, together slicing open a very long bread loaf, 3D cartoon",
+            "the same cartoon child with pigtails in blue shirt and same child with baseball cap in green shirt, piling lots of meat, cheese, and lettuce into the long bread together, 3D cartoon",
+            "the same cartoon child with pigtails in blue and same child with baseball cap in green, both holding the enormous finished sub sandwich between them ready to eat, 3D cartoon"
+          ]
+        },
+        {
+          "word": "gum", "chinese": "口香糖",
+          "imagePrompt": "bright pink cartoon chewing gum bubble, 3D cartoon style, word card illustration",
+          "sentenceEn": "I like to chew gum.", "sentenceZh": "我喜欢嚼口香糖。",
+          "sentenceImagePrompts": [
+            "cartoon child with wide eyes wearing a colorful striped shirt, carefully unwrapping a small square of bright pink chewing gum, 3D cartoon",
+            "the same cartoon child with wide eyes in colorful striped shirt, chewing the pink gum with an exaggeratedly happy satisfied expression, 3D cartoon",
+            "the same cartoon child with wide eyes in colorful striped shirt, blowing a huge perfectly round pink bubble gum bubble with puffed cheeks, 3D cartoon"
+          ]
+        },
+        {
+          "word": "cup", "chinese": "杯子",
+          "imagePrompt": "simple white ceramic cartoon teacup with a saucer, 3D cartoon style, word card illustration",
+          "sentenceEn": "I drink from a blue cup.", "sentenceZh": "我用蓝色杯子喝水。",
+          "sentenceImagePrompts": [
+            "cartoon child with short hair wearing a white shirt, sitting at a table with a solid blue plastic cup sitting empty in front, 3D cartoon",
+            "the same cartoon child with short hair in white shirt, carefully pouring water from a small pitcher into the blue cup, 3D cartoon",
+            "the same cartoon child with short hair in white shirt, holding the blue cup with both small hands and taking a refreshing drink of water, 3D cartoon"
+          ]
+        },
+        {
+          "word": "bud", "chinese": "花蕾",
+          "imagePrompt": "delicate tightly closed pink flower bud on a green stem, 3D cartoon style, word card illustration",
+          "sentenceEn": "The flower has a small bud.", "sentenceZh": "花有一个小花蕾。",
+          "sentenceImagePrompts": [
+            "a green plant stem growing up from rich dark soil in a small terracotta pot on a sunny windowsill, no bud yet, 3D cartoon",
+            "the same green plant stem in the same terracotta pot, now with a tiny closed pink and green flower bud appearing at the very top, 3D cartoon",
+            "the same plant in the same terracotta pot with the same small bud, warm golden sunlight shining on it as the bud very slowly begins to open, 3D cartoon"
+          ]
+        }
+      ]
+    }
+  }
+};

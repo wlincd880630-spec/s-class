@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CVC 句子抄写生成器 · AEIOU</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Patrick+Hand&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --font-hand  : 'Patrick Hand', cursive;
+  --font-ui    : 'Fredoka', sans-serif;
+  --row-h      : 31mm;
+  --line-blue  : #90CAF9;
+  --line-red   : #EF9A9A;
+  --line-dash  : rgba(33,150,243,.32);
+  --text-dark  : #2C3E50;
+  --trace-color: rgba(144, 202, 249, 0.65);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-ui);
+  background: #455A64;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 48px;
+}
+
+.gen-panel {
+  width: 100%;
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 16px 20px 20px;
+  background: #fff;
+  box-shadow: 0 4px 24px rgba(0,0,0,.2);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  border-radius: 0 0 16px 16px;
+}
+
+.gen-panel h1 {
+  font-size: 1.15rem;
+  color: #37474F;
+  margin-bottom: 12px;
+}
+
+.vowel-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 10px 14px;
+  margin-bottom: 14px;
+}
+
+.vowel-cell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 2px solid #ECEFF1;
+  transition: .15s;
+}
+.vowel-cell.on { border-color: currentColor; background: rgba(0,0,0,.02); }
+.vowel-cell[data-v="a"] { color: #1E88E5; }
+.vowel-cell[data-v="e"] { color: #43A047; }
+.vowel-cell[data-v="i"] { color: #D81B60; }
+.vowel-cell[data-v="o"] { color: #FB8C00; }
+.vowel-cell[data-v="u"] { color: #8E24AA; }
+
+.vowel-cell input[type="checkbox"] { width: 18px; height: 18px; cursor: pointer; flex-shrink: 0; }
+.vowel-cell label.lbl {
+  font-weight: 700;
+  font-size: 1.05rem;
+  cursor: pointer;
+  min-width: 2.2em;
+  user-select: none;
+}
+.vowel-cell .count-wrap {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+}
+.vowel-cell .count-wrap span { font-size: .75rem; color: #78909C; }
+.vowel-cell input[type="number"] {
+  width: 52px;
+  padding: 6px 8px;
+  border: 1px solid #CFD8DC;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: .95rem;
+  text-align: center;
+}
+.vowel-cell input[type="number"]:disabled {
+  opacity: .45;
+  cursor: not-allowed;
+  background: #F5F5F5;
+}
+
+.gen-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 14px;
+  margin-top: 8px;
+  padding-top: 14px;
+  border-top: 1px solid #ECEFF1;
+}
+
+.btn-gen {
+  background: #6A1B9A;
+  color: #fff;
+  border: none;
+  padding: 11px 22px;
+  border-radius: 50px;
+  font-family: var(--font-ui);
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(106,27,154,.35);
+}
+.btn-gen:hover { filter: brightness(1.08); }
+
+.btn-pdf {
+  background: #00838F;
+  color: #fff;
+  border: none;
+  padding: 11px 22px;
+  border-radius: 50px;
+  font-family: var(--font-ui);
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.btn-pdf:hover { background: #006064; }
+
+.hint {
+  font-size: .78rem;
+  color: #90A4AE;
+  line-height: 1.45;
+  flex: 1 1 240px;
+}
+
+.summary {
+  font-size: .88rem;
+  color: #455A64;
+  font-weight: 600;
+  margin-top: 10px;
+}
+
+.err-msg {
+  color: #C62828;
+  font-size: .88rem;
+  margin-top: 8px;
+}
+
+#app {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.page {
+  background: #fff;
+  width: 210mm;
+  height: 297mm;
+  padding: 14mm 14mm 10mm;
+  margin: 24px 0;
+  box-shadow: 0 0 36px rgba(0,0,0,.55);
+  display: flex;
+  flex-direction: column;
+  page-break-after: always;
+  overflow: hidden;
+}
+
+.page-hdr {
+  flex-shrink: 0;
+  min-height: 12mm;
+  display: grid;
+  /* 左/右按内容宽，中间占剩余空间并可收缩，避免「标题 auto 撑满」与 Date 重叠 */
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 6px 12px;
+  align-items: center;
+  border-bottom: 2.5px solid #ECEFF1;
+  padding-bottom: 3mm;
+  margin-bottom: 4mm;
+  font-size: 0.73rem;
+  color: #9E9E9E;
+}
+.page-hdr .hdr-cell {
+  min-width: 0;
+}
+.page-hdr .hdr-left {
+  display: flex;
+  align-items: flex-end;
+  gap: 5px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+/* Name 后短横线（避免整串下划线换行） */
+.page-hdr .hdr-name-line {
+  display: inline-block;
+  width: 22mm;
+  max-width: 100%;
+  border-bottom: 1px solid #bdbdbd;
+  height: 0.85em;
+  flex-shrink: 0;
+}
+.page-hdr .hdr-mid {
+  justify-self: stretch;
+  text-align: center;
+  white-space: nowrap;
+  overflow: visible;
+  min-width: 0;
+  padding: 0 4px;
+}
+.page-hdr .hdr-right {
+  justify-self: end;
+  text-align: right;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+/* 中间标题略小，便于一行排满「句子抄写 · … · AEIOU」 */
+.page-hdr .page-hdr-tagline {
+  font-size: 0.88em;
+  letter-spacing: -0.02em;
+}
+
+.page-ftr {
+  flex-shrink: 0;
+  height: 7mm;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .72rem;
+  color: #BDBDBD;
+  border-top: 1px solid #F5F5F5;
+  padding-top: 2mm;
+}
+
+.sentence-block {
+  display: flex;
+  flex-direction: column;
+  gap: 4mm;
+  min-height: 0;
+  flex: 1;
+}
+
+.sen-imgs {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: stretch;
+  gap: 3mm;
+  padding: 0 0 3mm;
+  border-bottom: 1px dashed #E0E0E0;
+}
+.sen-img-frame {
+  width: 56mm;
+  height: 36mm;
+  border-radius: 8px;
+  border: 2px solid #E3F2FD;
+  background: #F8FBFF;
+  overflow: hidden;
+  flex: 0 0 auto;
+}
+.sen-img-frame img { width: 100%; height: 100%; object-fit: cover; }
+
+/* 图下样例句+中文：比原先小 20%；四线格描红用 .trace-text，字号单独保持 */
+.sen-model {
+  font-family: var(--font-hand);
+  font-size: clamp(1.08rem, 2.24vw, 1.88rem);
+  font-weight: 700;
+  color: var(--text-dark);
+  letter-spacing: 0.3px;
+  padding: 2mm 3mm 1mm;
+  text-align: center;
+  line-height: 1.25;
+  max-width: 100%;
+  word-break: break-word;
+  transform: translateY(-0.15cm);
+}
+/* 勿用内联 font-size，否则部分浏览器打印/PDF 不采纳 @media print 覆盖 */
+.sen-model .sen-model-zh {
+  font-size: 1.08rem;
+  color: #9e9e9e;
+  font-weight: 500;
+  margin-left: 8px;
+}
+
+.copy-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.copy-line {
+  position: relative;
+  height: var(--row-h);
+  min-height: var(--row-h);
+  overflow: hidden;
+}
+.copy-line + .copy-line {
+  border-top: 1px dashed #EEEEEE;
+}
+.copy-line .grid-bg {
+  position: absolute;
+  top: 25%;
+  height: 50%;
+  left: 10mm;
+  right: 2mm;
+  pointer-events: none;
+}
+.copy-line .gl {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 0;
+}
+.copy-line .gl-sky   { top: 0%;   border-top: 1.3pt solid var(--line-blue); }
+.copy-line .gl-cloud { top: 33%;  border-top: 1.3pt dashed var(--line-dash); }
+.copy-line .gl-grass { top: 67%;  border-top: 2.8pt solid var(--line-blue); }
+.copy-line .gl-dirt  { top: 100%; border-top: 1.3pt solid var(--line-red); }
+.copy-line .line-label {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(calc(-50% - 0.2cm));
+  font-size: 1.338rem;
+  color: #9E9E9E;
+  width: 8mm;
+}
+.copy-line.trace-line .trace-text {
+  position: absolute;
+  left: 10mm;
+  right: 2mm;
+  top: 0;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 1mm;
+  transform: translateY(-1.4mm);
+  font-family: var(--font-hand);
+  font-size: clamp(1.2rem, 2.5vw, 2.2rem);
+  font-weight: 700;
+  color: var(--trace-color);
+  letter-spacing: 0.3px;
+  pointer-events: none;
+  line-height: 1.1;
+  overflow: hidden;
+}
+
+.empty-tip {
+  color: #B0BEC5;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+/*
+  PDF/打印时 vw 常变得极小 → clamp(..., Nvw, ...) 会掉到最小 rem，句子会异常小。
+  同时 210mm 固定页宽 + 纸张边距会触发整页缩小。下面在打印中改用 pt 并铺满可印区。
+*/
+@page {
+  size: A4;
+  margin: 10mm;
+}
+
+@media print {
+  body { background: #fff; padding: 0; }
+  .no-print { display: none !important; }
+  #app {
+    width: 100% !important;
+    align-items: stretch;
+  }
+
+  .page {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 8mm 0 !important;
+    box-shadow: none;
+    page-break-after: always;
+    page-break-inside: avoid;
+    overflow: visible !important;
+  }
+
+  /* 样例句+中文 = 原 PDF 尺寸再 ×0.8；描红 trace 不变 */
+  #app .page .sen-model {
+    font-size: 36.74pt !important;
+    transform: translateY(-1mm);
+    line-height: 1.3;
+  }
+  #app .page .sen-model .sen-model-zh {
+    font-size: 19.682pt !important;
+    color: #757575 !important;
+    font-weight: 500 !important;
+  }
+  #app .page .copy-line.trace-line .trace-text {
+    font-size: 44.284pt !important;
+    transform: translateY(-1.5mm);
+    line-height: 1.15;
+  }
+  #app .page .copy-line .line-label {
+    font-size: 22.962pt !important;
+    transform: translateY(calc(-50% - 1mm));
+  }
+
+  #app .page .page-hdr { font-size: 12.69pt !important; }
+  /* 中间标题略小于左右，整体缩小后一般可完整显示 */
+  #app .page .page-hdr .page-hdr-tagline {
+    font-size: 10.16pt !important;
+    letter-spacing: -0.03em;
+  }
+  #app .page .page-ftr { font-size: 13.121pt !important; }
+
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+</style>
+</head>
+<body>
+
+<div class="gen-panel no-print">
+  <h1>✏️ CVC 句子抄写生成器（数据来自 cvc-data.js）</h1>
+  <div class="vowel-grid" id="vowelGrid"></div>
+  <div class="gen-actions">
+    <button type="button" class="btn-gen" id="btnGenerate">生成句子抄写</button>
+    <button type="button" class="btn-pdf" id="btnPdf">导出 PDF</button>
+    <p class="hint">
+      勾选元音并填写句数：从 <code>cvc-data.js</code> 中该元音的例句里随机抽取（不重复），再整体打乱顺序。<br />
+      连环图路径：<code>assets/images/sentences/{元音}-{词序号}-1~3.png</code>（与课件 app.js 一致）。<br />
+      导出 PDF 时请在打印对话框将<strong>缩放设为 100%</strong>（勿选「适合纸张」），以免整页被缩小。<br />
+      导出 PDF：在打印对话框中选择「另存为 PDF」。
+    </p>
+  </div>
+  <div class="summary" id="genSummary"></div>
+  <div class="err-msg" id="errMsg"></div>
+</div>
+
+<div id="app">
+  <p class="empty-tip no-print">请设置元音与句数后，点击「生成句子抄写」。</p>
+</div>
+
+<script src="cvc-data.js"></script>
+<script>
+const VOWEL_ORDER = ['a', 'e', 'i', 'o', 'u'];
+const VOWEL_STYLE = {
+  a: { color: '#1E88E5', bg: '#E3F2FD', label: 'Short A' },
+  e: { color: '#43A047', bg: '#E8F5E9', label: 'Short E' },
+  i: { color: '#D81B60', bg: '#FCE4EC', label: 'Short I' },
+  o: { color: '#FB8C00', bg: '#FFF3E0', label: 'Short O' },
+  u: { color: '#8E24AA', bg: '#F3E5F5', label: 'Short U' },
+};
+
+const IMG_SENT_BASE = 'https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/CVC/assets/images/sentences/';
+let lastSentences = [];
+
+function shuffleArray(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function escHtml(t) {
+  return String(t)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+function svgPlaceholderDataUrl(line1, line2) {
+  const esc = (x) => escHtml(x);
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="400" height="280" viewBox="0 0 400 280">
+    <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#e3f2fd"/><stop offset="100%" stop-color="#fff8e1"/></linearGradient></defs>
+    <rect width="100%" height="100%" fill="url(#g)"/>
+    <text x="50%" y="42%" text-anchor="middle" font-size="20" fill="#1565C0" font-family="Segoe UI,Arial,sans-serif" font-weight="700">${esc(line1)}</text>
+    <text x="50%" y="58%" text-anchor="middle" font-size="11" fill="#546E7A" font-family="Segoe UI,Arial,sans-serif">${esc(line2)}</text>
+  </svg>`;
+  return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+}
+
+function getDb() {
+  if (!window.CVC_DATA || !window.CVC_DATA.vowels) return null;
+  return window.CVC_DATA;
+}
+
+function buildVowelGrid() {
+  const db = getDb();
+  const grid = document.getElementById('vowelGrid');
+  grid.innerHTML = '';
+  if (!db) {
+    grid.innerHTML = '<p class="err-msg">未能加载 cvc-data.js，请与本 HTML 放在同一目录。</p>';
+    return;
+  }
+  VOWEL_ORDER.forEach((v) => {
+    const words = db.vowels[v]?.words || [];
+    const max = words.length;
+    const cell = document.createElement('div');
+    cell.className = 'vowel-cell on';
+    cell.dataset.v = v;
+    cell.innerHTML = `
+      <input type="checkbox" id="chk-${v}" checked data-v="${v}" />
+      <label class="lbl" for="chk-${v}">${v.toUpperCase()}</label>
+      <div class="count-wrap">
+        <span>句数</span>
+        <input type="number" id="cnt-${v}" min="0" max="${max}" value="1" data-v="${v}" />
+      </div>
+    `;
+    const chk = cell.querySelector('input[type="checkbox"]');
+    const num = cell.querySelector('input[type="number"]');
+    chk.addEventListener('change', () => {
+      cell.classList.toggle('on', chk.checked);
+      num.disabled = !chk.checked;
+      if (!chk.checked) num.value = '0';
+      else if (parseInt(num.value, 10) === 0) num.value = '1';
+    });
+    grid.appendChild(cell);
+  });
+}
+
+function pickFromVowel(db, v, n) {
+  const words = db.vowels[v]?.words || [];
+  if (!words.length) return [];
+  const cap = Math.max(0, Math.min(n, words.length));
+  const idxs = shuffleArray(words.map((_, i) => i)).slice(0, cap);
+  const st = VOWEL_STYLE[v];
+  return idxs.map((wordIndex) => {
+    const w = words[wordIndex];
+    return {
+      vowel: v,
+      wordIndex,
+      word: w.word,
+      en: w.sentenceEn,
+      zh: w.sentenceZh,
+      color: st.color,
+      bg: st.bg,
+      vowelLabel: st.label,
+    };
+  });
+}
+
+function collectSelection(db) {
+  const items = [];
+  VOWEL_ORDER.forEach((v) => {
+    const chk = document.getElementById('chk-' + v);
+    const num = document.getElementById('cnt-' + v);
+    if (!chk || !chk.checked) return;
+    const n = parseInt(num && num.value, 10);
+    if (!Number.isFinite(n) || n <= 0) return;
+    items.push(...pickFromVowel(db, v, n));
+  });
+  return shuffleArray(items);
+}
+
+function sentenceImagePaths(s) {
+  return [1, 2, 3].map(
+    (p) => `${IMG_SENT_BASE}${s.vowel}-${s.wordIndex}-${p}.png`
+  );
+}
+
+function buildOnePage(s, pageIndex, total) {
+  const page = document.createElement('div');
+  page.className = 'page';
+
+  const hdr = document.createElement('div');
+  hdr.className = 'page-hdr';
+  hdr.innerHTML = `
+    <div class="hdr-cell hdr-left">
+      <span>Name:</span><span class="hdr-name-line" aria-hidden="true"></span>
+    </div>
+    <span class="hdr-cell hdr-mid page-hdr-tagline" style="font-weight:700;color:${s.color};">句子抄写 · 每页一句 · 抄写4遍 · AEIOU</span>
+    <div class="hdr-cell hdr-right">Date: ____ / ____ / ____</div>
+  `;
+  page.appendChild(hdr);
+
+  const body = document.createElement('div');
+  body.className = 'page-body';
+  body.style.flex = '1';
+  body.style.display = 'flex';
+  body.style.flexDirection = 'column';
+
+  const imgs = sentenceImagePaths(s);
+  const enEsc = escHtml(s.en);
+  const zhEsc = escHtml(s.zh);
+
+  const block = document.createElement('div');
+  block.className = 'sentence-block';
+  block.innerHTML = `
+    <div class="sen-imgs">
+      <div class="sen-img-frame"><img class="sen-panel-img" data-idx="0" src="${imgs[0]}" alt="" /></div>
+      <div class="sen-img-frame"><img class="sen-panel-img" data-idx="1" src="${imgs[1]}" alt="" /></div>
+      <div class="sen-img-frame"><img class="sen-panel-img" data-idx="2" src="${imgs[2]}" alt="" /></div>
+    </div>
+    <div class="sen-model">${enEsc}<span class="sen-model-zh">（${zhEsc}）</span></div>
+    <div class="copy-rows">
+      <div class="copy-line trace-line">
+        <div class="grid-bg">
+          <div class="gl gl-sky"></div>
+          <div class="gl gl-cloud"></div>
+          <div class="gl gl-grass"></div>
+          <div class="gl gl-dirt"></div>
+        </div>
+        <span class="trace-text">${enEsc}</span>
+        <span class="line-label">①</span>
+      </div>
+      <div class="copy-line">
+        <div class="grid-bg">
+          <div class="gl gl-sky"></div>
+          <div class="gl gl-cloud"></div>
+          <div class="gl gl-grass"></div>
+          <div class="gl gl-dirt"></div>
+        </div>
+        <span class="line-label">②</span>
+      </div>
+      <div class="copy-line">
+        <div class="grid-bg">
+          <div class="gl gl-sky"></div>
+          <div class="gl gl-cloud"></div>
+          <div class="gl gl-grass"></div>
+          <div class="gl gl-dirt"></div>
+        </div>
+        <span class="line-label">③</span>
+      </div>
+      <div class="copy-line">
+        <div class="grid-bg">
+          <div class="gl gl-sky"></div>
+          <div class="gl gl-cloud"></div>
+          <div class="gl gl-grass"></div>
+          <div class="gl gl-dirt"></div>
+        </div>
+        <span class="line-label">④</span>
+      </div>
+    </div>
+  `;
+
+  block.querySelectorAll('.sen-panel-img').forEach((img) => {
+    const idx = parseInt(img.dataset.idx, 10);
+    const path = imgs[idx];
+    const shortPath = path.replace(/^\.\//, '');
+    img.addEventListener('error', function onErr() {
+      this.removeEventListener('error', onErr);
+      this.src = svgPlaceholderDataUrl('连环图 ' + (idx + 1), shortPath);
+    }, { once: true });
+  });
+
+  body.appendChild(block);
+  page.appendChild(body);
+
+  const ftr = document.createElement('div');
+  ftr.className = 'page-ftr';
+  const shortEn = s.en.length > 42 ? s.en.slice(0, 40) + '…' : s.en;
+  ftr.textContent = `Magic English • CVC 句子抄写生成器 | ${shortEn} | ${pageIndex + 1} / ${total}`;
+  page.appendChild(ftr);
+
+  return page;
+}
+
+function updateSummary(list) {
+  const el = document.getElementById('genSummary');
+  const err = document.getElementById('errMsg');
+  err.textContent = '';
+  if (!list.length) {
+    el.textContent = '';
+    return;
+  }
+  const byV = {};
+  list.forEach((it) => {
+    byV[it.vowel] = (byV[it.vowel] || 0) + 1;
+  });
+  const parts = VOWEL_ORDER.filter((v) => byV[v]).map((v) => `${v.toUpperCase()}×${byV[v]}`);
+  el.textContent = `本次 ${list.length} 句（已打乱）：${parts.join('，')} · 共 ${list.length} 页`;
+}
+
+function runGenerate() {
+  const db = getDb();
+  const err = document.getElementById('errMsg');
+  err.textContent = '';
+  if (!db) {
+    err.textContent = '无法读取 CVC_DATA，请确认 cvc-data.js 与本页同目录且已成功加载。';
+    return;
+  }
+  const list = collectSelection(db);
+  if (!list.length) {
+    alert('请至少勾选一个元音，并填写大于 0 的句数。');
+    return;
+  }
+  lastSentences = list;
+  const app = document.getElementById('app');
+  app.innerHTML = '';
+  list.forEach((s, i) => {
+    app.appendChild(buildOnePage(s, i, list.length));
+  });
+  updateSummary(list);
+  app.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function runPdf() {
+  if (!lastSentences.length) {
+    alert('请先生成内容，再导出 PDF。');
+    return;
+  }
+  window.print();
+}
+
+/** 与 @media print 中 #app .page 字号一致；beforeprint 写内联 font-size，部分浏览器/「另存 PDF」更认内联 */
+const PDF_FONT_PT = {
+  /** 图下英文+中文 = 再 ×0.8（小 20%）；描红 trace 不变 */
+  model: 36.74,
+  zh: 19.682,
+  trace: 44.284,
+  label: 22.962,
+  hdr: 12.69,
+  /** 与 @media print 一致，略小于 hdr，便于整句一行显示 */
+  hdrTagline: 10.16,
+  ftr: 13.121
+};
+
+function ptStr(n) {
+  return n + 'pt';
+}
+
+function applyPdfFontInline() {
+  document.querySelectorAll('#app .page .sen-model').forEach((el) => {
+    el.dataset.printFont = '1';
+    el.style.fontSize = ptStr(PDF_FONT_PT.model);
+  });
+  document.querySelectorAll('#app .page .sen-model .sen-model-zh').forEach((el) => {
+    el.dataset.printFont = '1';
+    el.style.fontSize = ptStr(PDF_FONT_PT.zh);
+  });
+  document.querySelectorAll('#app .page .copy-line.trace-line .trace-text').forEach((el) => {
+    el.dataset.printFont = '1';
+    el.style.fontSize = ptStr(PDF_FONT_PT.trace);
+  });
+  document.querySelectorAll('#app .page .copy-line .line-label').forEach((el) => {
+    el.dataset.printFont = '1';
+    el.style.fontSize = ptStr(PDF_FONT_PT.label);
+  });
+  document.querySelectorAll('#app .page .page-hdr').forEach((el) => {
+    el.dataset.printFont = '1';
+    el.style.fontSize = ptStr(PDF_FONT_PT.hdr);
+  });
+  document.querySelectorAll('#app .page .page-hdr .page-hdr-tagline').forEach((el) => {
+    el.dataset.printFont = '1';
+    el.style.fontSize = ptStr(PDF_FONT_PT.hdrTagline);
+  });
+  document.querySelectorAll('#app .page .page-ftr').forEach((el) => {
+    el.dataset.printFont = '1';
+    el.style.fontSize = ptStr(PDF_FONT_PT.ftr);
+  });
+}
+
+function clearPdfFontInline() {
+  document.querySelectorAll('[data-print-font]').forEach((el) => {
+    el.style.removeProperty('font-size');
+    el.removeAttribute('data-print-font');
+  });
+}
+
+window.addEventListener('beforeprint', applyPdfFontInline);
+window.addEventListener('afterprint', clearPdfFontInline);
+
+document.getElementById('btnGenerate').addEventListener('click', runGenerate);
+document.getElementById('btnPdf').addEventListener('click', runPdf);
+
+window.addEventListener('load', buildVowelGrid);
+</script>
+</body>
+</html>

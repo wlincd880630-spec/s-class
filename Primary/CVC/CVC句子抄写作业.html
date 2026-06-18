@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>CVC Sentence Copy Practice - 句子抄写作业</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Patrick+Hand&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --font-hand  : 'Patrick Hand', cursive;
+  --font-ui    : 'Fredoka', sans-serif;
+  --row-h      : 31mm;
+  --line-blue  : #90CAF9;
+  --line-red   : #EF9A9A;
+  --line-dash  : rgba(33,150,243,.32);
+  --text-dark  : #2C3E50;
+  --trace-color: rgba(144, 202, 249, 0.65);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-ui);
+  background: #455A64;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 48px;
+}
+
+.toolbar {
+  width: 100%; padding: 12px 24px;
+  background: #fff;
+  box-shadow: 0 2px 18px rgba(0,0,0,.2);
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; flex-wrap: wrap;
+  position: sticky; top: 0; z-index: 999;
+}
+
+.toolbar-left { display: flex; align-items: center; gap: 10px; font-weight: 700; color: #37474F; font-size: 1.05rem; }
+
+.btn-print {
+  background: #FF7043; color: #fff; border: none;
+  padding: 10px 28px; border-radius: 50px;
+  font-family: var(--font-ui); font-size: 1.05rem; font-weight: 700;
+  cursor: pointer; transition: .18s;
+  box-shadow: 0 4px 12px rgba(255,112,67,.35);
+}
+.btn-print:hover { transform: scale(1.05); background: #E64A19; }
+
+.page {
+  background: #fff;
+  width: 210mm; height: 297mm;
+  padding: 14mm 14mm 10mm;
+  margin: 24px 0;
+  box-shadow: 0 0 36px rgba(0,0,0,.55);
+  display: flex; flex-direction: column;
+  page-break-after: always;
+  overflow: hidden;
+}
+
+.page-hdr {
+  flex-shrink: 0;
+  height: 15mm;
+  display: flex; align-items: center; justify-content: space-between;
+  border-bottom: 2.5px solid #ECEFF1;
+  padding-bottom: 3mm;
+  margin-bottom: 4mm;
+  font-size: .84rem; color: #9E9E9E;
+}
+
+.page-ftr {
+  flex-shrink: 0;
+  height: 7mm;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .72rem; color: #BDBDBD;
+  border-top: 1px solid #F5F5F5;
+  padding-top: 2mm;
+}
+
+/* 句子块：每页一句，上图（横向）下文 */
+.sentence-block {
+  display: flex;
+  flex-direction: column;
+  gap: 4mm;
+  border-bottom: none;
+  padding-bottom: 0;
+  margin-bottom: 0;
+  min-height: 0;
+  flex: 1;
+}
+
+.sen-imgs {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: stretch;
+  gap: 3mm;
+  padding: 0 0 3mm;
+  border-bottom: 1px dashed #E0E0E0;
+}
+.sen-img-frame {
+  width: 56mm;
+  height: 36mm;
+  border-radius: 8px;
+  border: 2px solid #E3F2FD;
+  background: #F8FBFF;
+  overflow: hidden;
+  flex: 0 0 auto;
+}
+.sen-img-frame img { width: 100%; height: 100%; object-fit: cover; }
+
+.sen-model {
+  font-family: var(--font-hand);
+  font-size: 2.674rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  letter-spacing: 0.5px;
+  padding: 2mm 0 1mm;
+  text-align: center;
+  transform: translateY(-0.2cm);
+}
+
+/* 抄写行（4遍）— 四线格与 CVC抄写作业 一致：行高 31mm，格线在中间 50% 区 */
+.copy-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.copy-line {
+  position: relative;
+  height: var(--row-h);
+  min-height: var(--row-h);
+  overflow: hidden;
+}
+.copy-line + .copy-line {
+  border-top: 1px dashed #EEEEEE;
+}
+/* 四线格书写区：占行高 50%，垂直居中偏下，三线间距约 5.2mm（与抄写作业相同） */
+.copy-line .grid-bg {
+  position: absolute;
+  top: 25%;
+  height: 50%;
+  left: 10mm;
+  right: 2mm;
+  pointer-events: none;
+}
+.copy-line .gl {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 0;
+}
+.copy-line .gl-sky   { top: 0%;   border-top: 1.3pt solid var(--line-blue); }
+.copy-line .gl-cloud { top: 33%;  border-top: 1.3pt dashed var(--line-dash); }
+.copy-line .gl-grass { top: 67%;  border-top: 2.8pt solid var(--line-blue); }
+.copy-line .gl-dirt  { top: 100%; border-top: 1.3pt solid var(--line-red); }
+.copy-line .line-label {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(calc(-50% - 0.2cm));
+  font-size: 1.338rem;
+  color: #9E9E9E;
+  width: 8mm;
+}
+/* 描红字与格区对齐：与抄写作业 cell 类似，略上移贴基线 */
+.copy-line.trace-line .trace-text {
+  position: absolute;
+  left: 10mm;
+  right: 2mm;
+  top: 0;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 1mm;
+  transform: translateY(-1.4mm);
+  font-family: var(--font-hand);
+  font-size: 2.605rem;
+  font-weight: 700;
+  color: var(--trace-color);
+  letter-spacing: 0.5px;
+  pointer-events: none;
+  line-height: 1;
+}
+
+/*
+  打印/PDF 字变小的常见原因：.page 写死 210mm 宽，而纸张还有默认边距，
+  浏览器会把「整页」缩小塞进可印区域 → 字体跟着变小。
+  打印时改为宽度 100% 贴齐 @page 边距内区域，避免整页缩放。
+*/
+@page {
+  size: A4;
+  margin: 10mm;
+}
+
+@media print {
+  body { background: #fff; padding: 0; }
+  .toolbar { display: none !important; }
+  #app { width: 100%; }
+
+  .page {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 8mm 0 !important;
+    box-shadow: none;
+    page-break-after: always;
+    page-break-inside: avoid;
+    overflow: visible !important;
+  }
+
+  /* 用 pt 锁定抄写区字号，减少「屏幕 rem」与打印引擎差异 */
+  .sen-model {
+    font-size: 38.828pt;
+    transform: translateY(-1mm);
+  }
+  .sen-model span {
+    font-size: 20.801pt !important;
+  }
+  .copy-line.trace-line .trace-text {
+    font-size: 37.441pt;
+    transform: translateY(-1.5mm);
+  }
+  .copy-line .line-label {
+    font-size: 19.414pt;
+    transform: translateY(calc(-50% - 1mm));
+  }
+
+  .page-hdr { font-size: 12.48pt; }
+  .page-ftr { font-size: 11.094pt; }
+
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <div class="toolbar-left">
+    <span>✏️</span>
+    <span>CVC Sentence Copy - 句子抄写作业</span>
+  </div>
+  <button class="btn-print" onclick="window.print()">🖨️ 打印</button>
+</div>
+
+<div id="app"></div>
+
+<script>
+const SENTENCES = [
+  {
+    en: "Look at that little bug.",
+    zh: "看那只小虫子。",
+    imgs: [
+      "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/CVC/assets/images/sentences/u-4-1.png",
+      "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/CVC/assets/images/sentences/u-4-2.png",
+      "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/CVC/assets/images/sentences/u-4-3.png"
+    ]
+  },
+  {
+    en: "I like to run and play.",
+    zh: "我喜欢跑着玩。",
+    imgs: [
+      "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/CVC/assets/images/sentences/u-2-1.png",
+      "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/CVC/assets/images/sentences/u-2-2.png",
+      "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/CVC/assets/images/sentences/u-2-3.png"
+    ]
+  },
+  {
+    en: "The sun is hot today.",
+    zh: "今天太阳很热。",
+    imgs: [
+      "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/CVC/assets/images/sentences/u-0-1.png",
+      "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/CVC/assets/images/sentences/u-0-2.png",
+      "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/CVC/assets/images/sentences/u-0-3.png"
+    ]
+  }
+];
+
+/** 本地无 PNG 时用 SVG 占位，便于预览版式；放入图片后刷新即可显示真图 */
+function svgPlaceholderDataUrl(line1, line2) {
+  const esc = (t) => String(t)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="400" height="280" viewBox="0 0 400 280">
+    <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#e3f2fd"/><stop offset="100%" stop-color="#fff8e1"/></linearGradient></defs>
+    <rect width="100%" height="100%" fill="url(#g)"/>
+    <text x="50%" y="42%" text-anchor="middle" font-size="22" fill="#1565C0" font-family="Segoe UI,Arial,sans-serif" font-weight="700">${esc(line1)}</text>
+    <text x="50%" y="58%" text-anchor="middle" font-size="12" fill="#546E7A" font-family="Segoe UI,Arial,sans-serif">${esc(line2)}</text>
+    <text x="50%" y="76%" text-anchor="middle" font-size="11" fill="#90A4AE" font-family="Segoe UI,Arial,sans-serif">请将 PNG 放入 sentences 文件夹后刷新</text>
+  </svg>`;
+  return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+}
+
+function buildPage() {
+  const app = document.getElementById('app');
+  const total = SENTENCES.length;
+
+  SENTENCES.forEach((s, i) => {
+    const page = document.createElement('div');
+    page.className = 'page';
+
+    const hdr = document.createElement('div');
+    hdr.className = 'page-hdr';
+    hdr.innerHTML = `
+      <span>Name: ___________________</span>
+      <span style="font-weight:700;color:#8E24AA;">句子抄写 · 每页一句 · 抄写4遍</span>
+      <span>Date: ____ / ____ / ____</span>
+    `;
+    page.appendChild(hdr);
+
+    const body = document.createElement('div');
+    body.className = 'page-body';
+    body.style.flex = '1';
+    body.style.display = 'flex';
+    body.style.flexDirection = 'column';
+
+    const block = document.createElement('div');
+    block.className = 'sentence-block';
+    block.innerHTML = `
+      <div class="sen-imgs">
+        <div class="sen-img-frame"><img class="sen-panel-img" data-idx="0" src="${s.imgs[0]}" alt="图1" /></div>
+        <div class="sen-img-frame"><img class="sen-panel-img" data-idx="1" src="${s.imgs[1]}" alt="图2" /></div>
+        <div class="sen-img-frame"><img class="sen-panel-img" data-idx="2" src="${s.imgs[2]}" alt="图3" /></div>
+      </div>
+      <div class="sen-model">${s.en}<span style="font-size:1.478rem;color:#9E9E9E;font-weight:500;margin-left:8px;">（${s.zh}）</span></div>
+      <div class="copy-rows">
+        <div class="copy-line trace-line">
+          <div class="grid-bg">
+            <div class="gl gl-sky"></div>
+            <div class="gl gl-cloud"></div>
+            <div class="gl gl-grass"></div>
+            <div class="gl gl-dirt"></div>
+          </div>
+          <span class="trace-text">${s.en}</span>
+          <span class="line-label">①</span>
+        </div>
+        <div class="copy-line">
+          <div class="grid-bg">
+            <div class="gl gl-sky"></div>
+            <div class="gl gl-cloud"></div>
+            <div class="gl gl-grass"></div>
+            <div class="gl gl-dirt"></div>
+          </div>
+          <span class="line-label">②</span>
+        </div>
+        <div class="copy-line">
+          <div class="grid-bg">
+            <div class="gl gl-sky"></div>
+            <div class="gl gl-cloud"></div>
+            <div class="gl gl-grass"></div>
+            <div class="gl gl-dirt"></div>
+          </div>
+          <span class="line-label">③</span>
+        </div>
+        <div class="copy-line">
+          <div class="grid-bg">
+            <div class="gl gl-sky"></div>
+            <div class="gl gl-cloud"></div>
+            <div class="gl gl-grass"></div>
+            <div class="gl gl-dirt"></div>
+          </div>
+          <span class="line-label">④</span>
+        </div>
+      </div>
+    `;
+    body.appendChild(block);
+    block.querySelectorAll('.sen-panel-img').forEach((img) => {
+      const idx = parseInt(img.dataset.idx, 10);
+      const path = s.imgs[idx];
+      const shortPath = path.replace(/^\.\//, '');
+      img.addEventListener('error', function onErr() {
+        this.removeEventListener('error', onErr);
+        this.src = svgPlaceholderDataUrl('句子连环图 ' + (idx + 1), shortPath);
+      }, { once: true });
+    });
+
+    page.appendChild(body);
+
+    const ftr = document.createElement('div');
+    ftr.className = 'page-ftr';
+    ftr.textContent = `Magic English • CVC Sentence Copy（抄写4遍）|  ${s.en}  |  ${i + 1} / ${total}`;
+    page.appendChild(ftr);
+
+    app.appendChild(page);
+  });
+}
+
+window.addEventListener('load', buildPage);
+</script>
+</body>
+</html>

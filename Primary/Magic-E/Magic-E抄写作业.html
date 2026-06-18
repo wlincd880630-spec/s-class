@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>Magic E 抄写作业 · Silent E / CVCE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Patrick+Hand&display=swap" rel="stylesheet">
+
+<style>
+/* ══════════════════════════════════════════════════
+   全局变量（与 CVC 抄写作业一致）
+══════════════════════════════════════════════════ */
+:root {
+  --font-hand  : 'Patrick Hand', cursive;
+  --font-ui    : 'Fredoka', sans-serif;
+  --img-w      : 40mm;
+  --block-h    : 62mm;
+  --row-h      : 31mm;
+  --line-blue  : #90CAF9;
+  --line-red   : #EF9A9A;
+  --line-dash  : rgba(33,150,243,.32);
+  --text-dark  : #2C3E50;
+  --trace-color: rgba(144,202,249,.55);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-ui);
+  background: #37474F;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 48px;
+}
+
+.hidden { display: none !important; }
+
+.toolbar {
+  width: 100%; padding: 12px 24px;
+  background: #fff;
+  box-shadow: 0 2px 18px rgba(0,0,0,.2);
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; flex-wrap: wrap;
+  position: sticky; top: 0; z-index: 999;
+}
+
+.toolbar-left {
+  display: flex; align-items: center; gap: 10px;
+  font-weight: 700; color: #37474F; font-size: 1.05rem;
+}
+.toolbar-left .icon { font-size: 1.4rem; }
+
+.vowel-tabs { display: flex; gap: 8px; flex-wrap: wrap; }
+.vtab {
+  border: 2.5px solid transparent;
+  border-radius: 50px;
+  padding: 9px 18px;
+  font-family: var(--font-ui);
+  font-size: 0.95rem; font-weight: 700;
+  cursor: pointer; transition: .18s;
+  background: #F5F5F5; color: #888;
+  white-space: nowrap;
+}
+.vtab:hover { transform: translateY(-2px); }
+.vtab[data-v="a"] { --c:#1E88E5; --bg:#E3F2FD; }
+.vtab[data-v="e"] { --c:#43A047; --bg:#E8F5E9; }
+.vtab[data-v="i"] { --c:#D81B60; --bg:#FCE4EC; }
+.vtab[data-v="o"] { --c:#FB8C00; --bg:#FFF3E0; }
+.vtab[data-v="u"] { --c:#8E24AA; --bg:#F3E5F5; }
+.vtab.active {
+  background: var(--bg);
+  border-color: var(--c);
+  color: var(--c);
+  box-shadow: 0 4px 12px rgba(0,0,0,.12);
+}
+
+.btn-print {
+  background: #7E57C2; color: #fff; border: none;
+  padding: 10px 28px; border-radius: 50px;
+  font-family: var(--font-ui); font-size: 1.05rem; font-weight: 700;
+  cursor: pointer; transition: .18s;
+  box-shadow: 0 4px 12px rgba(126,87,194,.35);
+  white-space: nowrap;
+}
+.btn-print:hover { transform: scale(1.05); background: #5E35B1; }
+
+.vowel-section { display: none; }
+.vowel-section.active { display: block; }
+
+.page {
+  background: #fff;
+  width: 210mm; height: 297mm;
+  padding: 14mm 14mm 10mm;
+  margin: 24px 0;
+  box-shadow: 0 0 36px rgba(0,0,0,.55);
+  display: flex; flex-direction: column;
+  page-break-after: always;
+  overflow: hidden;
+}
+
+.page-hdr {
+  flex-shrink: 0;
+  height: 15mm;
+  display: flex; align-items: center; justify-content: space-between;
+  border-bottom: 2.5px solid #ECEFF1;
+  padding-bottom: 3mm;
+  margin-bottom: 3mm;
+  font-size: .84rem; color: #9E9E9E;
+  white-space: nowrap;
+  gap: 3mm;
+}
+.page-hdr > span { white-space: nowrap; }
+.page-hdr .vowel-badge {
+  font-size: 1.05rem; font-weight: 700;
+  padding: 2px 12px; border-radius: 8px;
+}
+
+.page-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.page-ftr {
+  flex-shrink: 0;
+  height: 7mm;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .68rem; color: #BDBDBD;
+  border-top: 1px solid #F5F5F5;
+  padding-top: 2mm;
+  text-align: center;
+  line-height: 1.25;
+}
+
+.word-block {
+  flex: 1;
+  display: grid;
+  grid-template-columns: var(--img-w) 1fr;
+  grid-template-rows: 1fr 1fr;
+  border-bottom: 1px solid #F5F5F5;
+  min-height: 0;
+}
+.word-block:last-child { border-bottom: none; }
+
+.img-col {
+  grid-row: 1 / 3;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 1.5mm;
+  padding: 3mm 2mm 3mm 0;
+  border-right: 1px dashed #E0E0E0;
+}
+.img-frame {
+  width: 30mm; height: 30mm;
+  border-radius: 10px;
+  border: 2px solid #EDE7F6;
+  background: #FAF8FF;
+  overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.img-frame img { width: 100%; height: 100%; object-fit: cover; }
+
+.word-lbl {
+  font-family: var(--font-hand);
+  font-size: 1.05rem; font-weight: 700;
+  letter-spacing: 0.5px;
+  text-align: center;
+  line-height: 1.15;
+}
+.word-cn {
+  font-family: var(--font-ui);
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: #78909C;
+  text-align: center;
+  max-width: 34mm;
+  line-height: 1.2;
+}
+
+.write-row {
+  position: relative;
+  min-height: 0;
+  overflow: hidden;
+}
+.write-row:first-of-type { border-bottom: 1px dashed #EEEEEE; }
+
+.grid-bg {
+  position: absolute;
+  top: 25%; height: 50%;
+  left: 2mm; right: 1mm;
+  pointer-events: none;
+}
+.gl {
+  position: absolute;
+  left: 0; right: 0; height: 0;
+}
+.gl-sky   { top: 0%;   border-top: 1.3pt solid var(--line-blue); }
+.gl-cloud { top: 33%;  border-top: 1.3pt dashed var(--line-dash); }
+.gl-grass { top: 67%;  border-top: 2.8pt solid var(--line-blue); }
+.gl-dirt  { top: 100%; border-top: 1.3pt solid var(--line-red); }
+
+.cells {
+  position: absolute; inset: 0;
+  display: flex; align-items: center;
+  padding: 0 2mm;
+  gap: 1mm;
+  font-size: 2.58rem;
+}
+.cell {
+  flex: 1; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-hand);
+  font-size: 1em;
+  letter-spacing: 0;
+  transform: translateY(-1.4mm);
+  user-select: none;
+}
+.cell.model { color: var(--text-dark); font-weight: 700; }
+.cell.trace { color: var(--trace-color); font-weight: 700; }
+.cell.empty { color: transparent; }
+
+.vsep {
+  width: 1px; height: 36%; background: #DEDEDE;
+  flex-shrink: 0;
+  transform: translateY(-1.4mm);
+  align-self: center;
+}
+
+.write-row.row2 .cell.trace { color: rgba(144,202,249,.28); }
+
+#error-banner {
+  max-width: 210mm;
+  margin: 16px 12px;
+  padding: 14px 20px;
+  background: #FFEBEE;
+  border: 2px solid #E57373;
+  border-radius: 12px;
+  color: #B71C1C;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+@media print {
+  body { background: #fff; padding: 0; }
+  .toolbar { display: none !important; }
+  .vowel-section { display: none !important; }
+  .vowel-section.active { display: block !important; }
+  #error-banner { display: none !important; }
+  .page {
+    margin: 0; box-shadow: none; border: none;
+    width: 210mm; height: 297mm;
+    padding: 14mm 14mm 10mm;
+  }
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <div class="toolbar-left">
+    <span class="icon">✨</span>
+    <span>Magic E 抄写作业 · Silent E</span>
+  </div>
+  <div class="vowel-tabs" id="vowelTabs"></div>
+  <button class="btn-print" onclick="window.print()">🖨️ Print / 打印</button>
+</div>
+
+<div id="error-banner" class="hidden"></div>
+<div id="app"></div>
+
+<script src="./magic-e-data.js"></script>
+<script>
+/* 配图与 magic-e-app.js / generate_magic_e_imagen.py 一致：
+   words/{元音}-{序号}.png（Vertex 插图）→ words/{元音}-{序号}.svg（本地脚本缩略图）→ magic-e/{单词}.png */
+
+const VOWEL_THEME = {
+  a: { color: '#1E88E5', bg: '#E3F2FD' },
+  e: { color: '#43A047', bg: '#E8F5E9' },
+  i: { color: '#D81B60', bg: '#FCE4EC' },
+  o: { color: '#FB8C00', bg: '#FFF3E0' },
+  u: { color: '#8E24AA', bg: '#F3E5F5' }
+};
+
+const VOWEL_ORDER = ['a', 'e', 'i', 'o', 'u'];
+
+function svgPlaceholderDataUrl(line1, line2) {
+  const esc = (t) => String(t)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400">
+    <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#EDE7F6"/><stop offset="100%" stop-color="#FFF8E1"/></linearGradient></defs>
+    <rect width="100%" height="100%" fill="url(#g)"/>
+    <text x="50%" y="36%" text-anchor="middle" font-size="32" fill="#5E35B1" font-family="Segoe UI,Arial,sans-serif" font-weight="700">${esc(line1)}</text>
+    <text x="50%" y="50%" text-anchor="middle" font-size="13" fill="#546E7A" font-family="Segoe UI,Arial,sans-serif">${esc(line2)}</text>
+    <text x="50%" y="66%" text-anchor="middle" font-size="11" fill="#90A4AE" font-family="Segoe UI,Arial,sans-serif">assets/images/magic-e/words/</text>
+  </svg>`;
+  return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+}
+
+function chunkArray(arr, size) {
+  const result = [];
+  for (let i = 0; i < arr.length; i += size) result.push(arr.slice(i, i + size));
+  return result;
+}
+
+function fontSizeForWord(word) {
+  const n = word.length;
+  if (n <= 4) return '2.58rem';
+  if (n <= 5) return '2.28rem';
+  if (n <= 7) return '1.95rem';
+  return '1.58rem';
+}
+
+function buildWriteRow(word, rowClass, fontSize) {
+  return `
+    <div class="write-row ${rowClass}">
+      <div class="grid-bg">
+        <div class="gl gl-sky"></div>
+        <div class="gl gl-cloud"></div>
+        <div class="gl gl-grass"></div>
+        <div class="gl gl-dirt"></div>
+      </div>
+      <div class="cells" style="font-size:${fontSize}">
+        <div class="cell model">${word}</div>
+        <div class="vsep"></div>
+        <div class="cell trace">${word}</div>
+        <div class="cell trace">${word}</div>
+        <div class="vsep"></div>
+        <div class="cell empty">${word}</div>
+        <div class="cell empty">${word}</div>
+      </div>
+    </div>
+  `;
+}
+
+function escHtml(s) {
+  return String(s)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/"/g, '&quot;');
+}
+
+function bindMagicEWordImage(img, vowel, idx, slug, word) {
+  const urls = [
+    `https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Magic-E/assets/images/magic-e/words/${vowel}-${idx}.png`,
+    `https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Magic-E/assets/images/magic-e/words/${vowel}-${idx}.svg`,
+    `https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Magic-E/assets/images/magic-e/${slug}.png`,
+  ];
+  let u = 0;
+  img.onerror = () => {
+    u += 1;
+    if (u < urls.length) {
+      img.src = urls[u];
+    } else {
+      img.onerror = null;
+      img.src = svgPlaceholderDataUrl(word, `words/${vowel}-${idx}.svg`);
+    }
+  };
+  img.src = urls[0];
+}
+
+function escAttr(s) {
+  return String(s)
+    .replace(/&/g, '&amp;')
+    .replace(/"/g, '&quot;');
+}
+
+function buildWordBlock(word, accentColor, chinese, vowelKey, wordIdx) {
+  const block = document.createElement('div');
+  block.className = 'word-block';
+  const fs = fontSizeForWord(word);
+
+  const slug = word.toLowerCase();
+  const cn = chinese ? `<div class="word-cn">${escHtml(chinese)}</div>` : '';
+
+  block.innerHTML = `
+    <div class="img-col">
+      <div class="img-frame">
+        <img alt="${escAttr(word)}" />
+      </div>
+      <div class="word-lbl" style="color:${accentColor}">${word}</div>
+      ${cn}
+    </div>
+    ${buildWriteRow(word, 'row1', fs)}
+    ${buildWriteRow(word, 'row2', fs)}
+  `;
+  const img = block.querySelector('.img-frame img');
+  bindMagicEWordImage(img, vowelKey, wordIdx, slug, word);
+
+  return block;
+}
+
+function buildPage(vKey, patternLabel, pageItems, pageNum, totalPages, theme) {
+  const page = document.createElement('div');
+  page.className = 'page';
+
+  const hdr = document.createElement('div');
+  hdr.className = 'page-hdr';
+  hdr.innerHTML = `
+    <span>Name: ___________________</span>
+    <span class="vowel-badge" style="background:${theme.bg}; color:${theme.color}">
+      Magic E · ${patternLabel}
+    </span>
+    <span>Date: ____ / ____ / ____</span>
+  `;
+  page.appendChild(hdr);
+
+  const body = document.createElement('div');
+  body.className = 'page-body';
+  pageItems.forEach(({ word, chinese, idx }) => {
+    body.appendChild(buildWordBlock(word, theme.color, chinese || '', vKey, idx));
+  });
+  page.appendChild(body);
+
+  const ftr = document.createElement('div');
+  ftr.className = 'page-ftr';
+  const wordList = pageItems.map((p) => p.word).join(', ');
+  ftr.textContent =
+    `Magic English · Magic E (Silent E) 抄写作业 · ${patternLabel}  |  ` +
+    `Words: ${wordList}  |  Page ${pageNum} / ${totalPages}`;
+  page.appendChild(ftr);
+
+  return page;
+}
+
+function showVowel(v) {
+  document.querySelectorAll('.vowel-section').forEach((el) => el.classList.remove('active'));
+  const sec = document.getElementById('section-' + v);
+  if (sec) sec.classList.add('active');
+  document.querySelectorAll('.vtab').forEach((t) => t.classList.remove('active'));
+  const tab = document.querySelector(`.vtab[data-v="${v}"]`);
+  if (tab) tab.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function renderTabs() {
+  const wrap = document.getElementById('vowelTabs');
+  wrap.innerHTML = VOWEL_ORDER.map((k) => {
+    const g = window.MAGIC_E_DATA.groups[k];
+    const pl = g.patternLabel;
+    const active = k === 'a' ? ' active' : '';
+    return `<button type="button" class="vtab${active}" data-v="${k}" onclick="showVowel('${k}')">${k.toUpperCase()} · ${pl}</button>`;
+  }).join('');
+}
+
+function buildAll() {
+  const err = document.getElementById('error-banner');
+  const app = document.getElementById('app');
+  if (!window.MAGIC_E_DATA || !window.MAGIC_E_DATA.groups) {
+    err.textContent = '未能加载 magic-e-data.js：请用本地服务器打开本页，或确认 Magic-E 文件夹内存在 magic-e-data.js。';
+    err.classList.remove('hidden');
+    return;
+  }
+  err.classList.add('hidden');
+  app.innerHTML = '';
+  renderTabs();
+
+  VOWEL_ORDER.forEach((vKey, idx) => {
+    const g = window.MAGIC_E_DATA.groups[vKey];
+    const theme = VOWEL_THEME[vKey];
+    const patternLabel = g.patternLabel;
+    const entries = g.words || [];
+    const wordItems = entries.map((e, i) => ({
+      word: e.word,
+      chinese: e.chinese || '',
+      idx: i,
+    }));
+
+    const section = document.createElement('div');
+    section.className = 'vowel-section' + (idx === 0 ? ' active' : '');
+    section.id = 'section-' + vKey;
+
+    const pages = chunkArray(wordItems, 4);
+    pages.forEach((pageItems, pi) => {
+      section.appendChild(
+        buildPage(vKey, patternLabel, pageItems, pi + 1, pages.length, theme)
+      );
+    });
+    app.appendChild(section);
+  });
+}
+
+window.addEventListener('load', buildAll);
+</script>
+</body>
+</html>

@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Magic E · 课堂练习</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@500;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./practice-styles.css" />
+  </head>
+  <body class="practice-cartoon">
+    <script src="https://cdn.jsdelivr.net/npm/microsoft-cognitiveservices-speech-sdk@1.34.0/distrib/browser/microsoft.cognitiveservices.speech.sdk.bundle-min.js" crossorigin="anonymous"></script>
+    <script src="./magic-e-data.js"></script>
+    <script src="./practice-me.js"></script>
+    <main class="container practice-do-page" id="mainArea"></main>
+    <script>
+      (function () {
+        const P = window.MEPractice;
+        const db = window.MAGIC_E_DATA;
+        const params = new URLSearchParams(location.search);
+        const vowelKeys = (params.get("vowels") || "a").split(",").filter(Boolean);
+        const typeKeys = (params.get("types") || "spell").split(",").filter(Boolean);
+        const totalCount = Math.min(parseInt(params.get("count") || "10", 10), 50);
+        const showImg = params.get("img") !== "0";
+
+        const allWords = P.getAllWords(db, vowelKeys);
+        const pool = P.shuffle(allWords);
+        const words = pool.slice(0, Math.min(totalCount, pool.length)).map((w, i) => ({
+          ...w,
+          type: typeKeys[i % typeKeys.length],
+        }));
+
+        let idx = 0;
+        let filledCorrect = false;
+        let picChosen = false;
+
+        function speak(word) {
+          const key = localStorage.getItem("azure_tts_key");
+          const region = localStorage.getItem("azure_tts_region") || "eastasia";
+          if (key && window.SpeechSDK) {
+            try {
+              const config = window.SpeechSDK.SpeechConfig.fromSubscription(key, region);
+              config.speechSynthesisVoiceName = "en-US-JennyNeural";
+              const synth = new window.SpeechSDK.SpeechSynthesizer(config, null);
+              synth.speakTextAsync(word, () => synth.close());
+            } catch (e) {
+              playLocal(word);
+            }
+          } else {
+            playLocal(word);
+          }
+        }
+
+        function playLocal(word) {
+          const a = new Audio(P.getLocalAudio(word));
+          a.play().catch(() => {
+            if (window.speechSynthesis) {
+              const u = new SpeechSynthesisUtterance(word);
+              u.lang = "en-US";
+              window.speechSynthesis.speak(u);
+            }
+          });
+        }
+
+        function optionLettersForType(type, correctChar) {
+          const c = correctChar.toLowerCase();
+          if (type === "middle") {
+            const vows = "aeiou".split("").filter((x) => x !== c);
+            return P.shuffle([c, ...P.shuffle(vows).slice(0, 2)]);
+          }
+          if (type === "beginning") {
+            return P.shuffle([c, ...P.randomLetters(2, [c])]);
+          }
+          if (type === "ending") {
+            if ("aeiou".includes(c)) {
+              const vows = "aeiou".split("").filter((x) => x !== c);
+              return P.shuffle([c, ...P.shuffle(vows).slice(0, 2)]);
+            }
+            return P.shuffle([c, ...P.randomLetters(2, [c])]);
+          }
+          return P.shuffle([c, ...P.randomLetters(2, [c])]);
+        }
+
+        function render() {
+          if (idx >= words.length) {
+            document.getElementById("mainArea").innerHTML = `
+        <section class="card practice-teacher-card" style="text-align:center;padding:60px;">
+          <h1 class="title">🎉 练习完成！</h1>
+          <p class="subtitle">太棒了，全部 ${words.length} 个单词都练习完啦！</p>
+          <a href="magic-e-practice-teacher.html" class="btn primary practice-btn-big" style="margin-top:24px;">返回配置</a>
+        </section>`;
+            return;
+          }
+
+          const item = words[idx];
+          const word = item.word.toLowerCase();
+          const chars = word.split("");
+          const type = item.type;
+
+          let slotsHtml = "";
+          let optionsHtml = "";
+
+          if (type === "spell" || type === "order") {
+            slotsHtml = chars
+              .map((c, i) => `<div class="practice-slot" data-pos="${i}" data-expected="${c}">_</div>`)
+              .join("");
+            const extra = Math.min(4, Math.max(2, Math.floor(chars.length / 2)));
+            const letters = type === "order" ? P.shuffle([...chars]) : P.shuffle([...chars, ...P.randomLetters(extra, chars)]);
+            optionsHtml = letters
+              .map((c, i) => `<div class="practice-letter-opt" draggable="true" data-char="${c}" data-id="spell-${idx}-${i}">${c}</div>`)
+              .join("");
+          } else if (type === "beginning") {
+            const hi = 0;
+            const correctChar = chars[hi];
+            const opts = optionLettersForType("beginning", correctChar);
+            slotsHtml = chars
+              .map((c, i) =>
+                i === hi
+                  ? `<div class="practice-slot" data-expected="${c}">_</div>`
+                  : `<div class="practice-slot filled">${c}</div>`
+              )
+              .join("");
+            optionsHtml = opts
+              .map((c, i) => `<div class="practice-letter-opt" draggable="true" data-char="${c}" data-id="beg-${idx}-${i}">${c}</div>`)
+              .join("");
+          } else if (type === "middle") {
+            const hi = P.firstVowelIndex(item.word);
+            const correctChar = chars[hi];
+            const opts = optionLettersForType("middle", correctChar);
+            slotsHtml = chars
+              .map((c, i) =>
+                i === hi
+                  ? `<div class="practice-slot" data-expected="${c}">_</div>`
+                  : `<div class="practice-slot filled">${c}</div>`
+              )
+              .join("");
+            optionsHtml = opts
+              .map((c, i) => `<div class="practice-letter-opt" draggable="true" data-char="${c}" data-id="mid-${idx}-${i}">${c}</div>`)
+              .join("");
+          } else if (type === "ending") {
+            const hi = P.endingLetterIndex(item.word);
+            const correctChar = chars[hi];
+            const opts = optionLettersForType("ending", correctChar);
+            slotsHtml = chars
+              .map((c, i) =>
+                i === hi
+                  ? `<div class="practice-slot" data-expected="${c}">_</div>`
+                  : `<div class="practice-slot filled">${c}</div>`
+              )
+              .join("");
+            optionsHtml = opts
+              .map((c, i) => `<div class="practice-letter-opt" draggable="true" data-char="${c}" data-id="end-${idx}-${i}">${c}</div>`)
+              .join("");
+          }
+
+          const typeNames = {
+            spell: "整体拼写",
+            beginning: "首音判断",
+            middle: "中间音（首元音）判断",
+            ending: "尾音（e 前辅音）判断",
+            order: "字母排序",
+          };
+
+          let imgSection = "";
+          if (showImg) {
+            imgSection = `<div class="practice-image-wrap"><img src="${P.imagePathForWord(item)}" alt="${item.word}"></div>`;
+          }
+
+          let picChoiceSection = "";
+          if (!showImg && (type === "spell" || type === "order")) {
+            picChoiceSection = `<div id="picChoiceWrap" class="hidden" style="margin-top:24px;">
+        <p class="practice-chinese-hint">这个词的意思是：${item.chinese}</p>
+        <p class="subtitle">选一张正确的图片</p>
+        <div id="picChoices" class="practice-pic-choices"></div>
+      </div>`;
+          }
+
+          document.getElementById("mainArea").innerHTML = `
+      <div class="practice-progress-bar"><div class="practice-progress-fill" style="width:${((idx + 1) / words.length) * 100}%"></div></div>
+      <section class="card practice-word-card">
+        <p class="subtitle">${typeNames[type]} · 第 ${idx + 1} / ${words.length} 题</p>
+        <button type="button" class="practice-tts-btn" id="btnTTS" title="点击发音">🔊</button>
+        ${imgSection}
+        <div id="slotsRow" class="practice-slots-row">${slotsHtml}</div>
+        <div id="optionsRow" class="practice-slots-row">${optionsHtml}</div>
+        <div id="practiceFeedback" class="feedback" style="margin-top:12px;min-height:0;"></div>
+        ${picChoiceSection}
+        <div style="margin-top:28px;display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+          <button type="button" class="practice-nav-btn btn primary" id="btnNext">下一词 →</button>
+        </div>
+      </section>`;
+
+          if (!showImg && (type === "spell" || type === "order")) {
+            document.getElementById("btnNext").style.display = "none";
+          }
+
+          const imgWrap = document.querySelector(".practice-image-wrap img");
+          if (imgWrap) P.safeImg(imgWrap, P.imagePathForWord(item), item.word, item.imagePrompt || "");
+
+          document.getElementById("btnTTS").onclick = () => speak(item.word);
+
+          const slotEls = document.querySelectorAll("#slotsRow .practice-slot:not(.filled)");
+          const optEls = document.querySelectorAll("#optionsRow .practice-letter-opt");
+
+          slotEls.forEach((slot) => {
+            slot.addEventListener("dragover", (e) => e.preventDefault());
+            slot.addEventListener("drop", (e) => {
+              e.preventDefault();
+              const ch = e.dataTransfer.getData("text/plain");
+              const id = e.dataTransfer.getData("id") || e.dataTransfer.getData("text/plain");
+              if (slot.textContent === "_" && slot.dataset.expected) {
+                slot.textContent = ch;
+                slot.classList.add("filled");
+                slot.dataset.filled = ch;
+                const opt = Array.from(document.querySelectorAll("#optionsRow .practice-letter-opt")).find(
+                  (el) => el.getAttribute("data-id") === id
+                );
+                if (opt) opt.remove();
+                checkAllFilled();
+              }
+            });
+          });
+
+          optEls.forEach((opt) => {
+            opt.addEventListener("dragstart", (e) => {
+              e.dataTransfer.setData("text/plain", opt.dataset.char);
+              e.dataTransfer.setData("id", opt.getAttribute("data-id") || "");
+              opt.style.opacity = "0.5";
+            });
+            opt.addEventListener("dragend", () => {
+              opt.style.opacity = "1";
+            });
+          });
+
+          function checkAllFilled() {
+            const emptySlots = document.querySelectorAll("#slotsRow .practice-slot:not(.filled)");
+            if (emptySlots.length > 0) return;
+            const slotNodes = document.querySelectorAll("#slotsRow .practice-slot");
+            const letters = Array.from(slotNodes).map((s) => s.textContent.trim());
+            if (letters.some((l) => !l || l === "_")) return;
+            const built = letters.join("").toLowerCase();
+            const fb = document.getElementById("practiceFeedback");
+            if (built !== word) {
+              if (fb) {
+                fb.textContent = "";
+                fb.className = "feedback bad";
+                const msg = document.createElement("span");
+                msg.textContent = "再检查一下字母哦～ ";
+                const retryBtn = document.createElement("button");
+                retryBtn.type = "button";
+                retryBtn.className = "btn sm";
+                retryBtn.style.marginLeft = "10px";
+                retryBtn.textContent = "🔄 重试本题";
+                retryBtn.onclick = () => render();
+                fb.appendChild(msg);
+                fb.appendChild(retryBtn);
+              }
+              return;
+            }
+            if (fb) {
+              fb.textContent = "";
+              fb.className = "feedback";
+            }
+            if (P.celebrate) P.celebrate(document.getElementById("slotsRow"), { text: "🎉 拼对啦！" });
+            filledCorrect = true;
+            if (!showImg && (type === "spell" || type === "order")) {
+              showPicChoices();
+            } else {
+              document.getElementById("btnNext").style.display = "inline-flex";
+            }
+          }
+
+          function showPicChoices() {
+            const wrap = document.getElementById("picChoiceWrap");
+            const choicesDiv = document.getElementById("picChoices");
+            if (!wrap || !choicesDiv) return;
+            const allInVowel = (db.groups[item.vowel]?.words || []).map((w, wordIdx) => ({
+              ...w,
+              vowel: item.vowel,
+              wordIdx,
+            }));
+            const others = P.shuffle(allInVowel.filter((x) => x.wordIdx !== item.wordIdx)).slice(0, 2);
+            const opts = P.shuffle([item, ...others]);
+            opts.forEach((w) => {
+              const btn = document.createElement("div");
+              btn.className = "practice-pic-choice";
+              const img = document.createElement("img");
+              P.safeImg(img, P.imagePathForWord(w), w.word, w.imagePrompt || "");
+              btn.appendChild(img);
+              btn.onclick = () => {
+                if (picChosen) return;
+                picChosen = true;
+                const ok = w.word === item.word;
+                btn.style.borderColor = ok ? "#00b894" : "#e17055";
+                btn.style.boxShadow = ok ? "0 0 0 4px #55efc4" : "0 0 0 4px #ff7675";
+                if (ok && P.celebrate) P.celebrate(btn, { text: "🎉 选对啦！" });
+                document.getElementById("btnNext").style.display = "inline-flex";
+              };
+              choicesDiv.appendChild(btn);
+            });
+            wrap.classList.remove("hidden");
+          }
+
+          document.getElementById("btnNext").onclick = () => {
+            idx++;
+            filledCorrect = false;
+            picChosen = false;
+            render();
+          };
+        }
+
+        render();
+      })();
+    </script>
+  </body>
+</html>

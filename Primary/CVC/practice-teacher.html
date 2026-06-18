@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>练习模式 - 教师配置</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@500;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./practice-styles.css" />
+  </head>
+  <body class="practice-cartoon">
+    <header class="topbar">
+      <div class="topbar-inner">
+        <a class="brand" href="./index.html">CVC <span>Kids</span></a>
+        <a class="nav-chip" href="./practice-teacher.html">🎯 练习模式</a>
+        <a class="nav-chip" href="./test-teacher.html">📝 测试模式</a>
+      </div>
+    </header>
+    <main class="container">
+      <section class="card practice-teacher-card">
+        <h1 class="title">🎯 练习模式 - 教师配置</h1>
+        <p class="subtitle">选择测试内容、单词数量、题型，随机混合后进入练习</p>
+
+        <div class="section-label" style="margin-top:28px">1. 选择 CVC 内容（可多选）</div>
+        <div id="vowelChips" class="vowel-chips">
+          <button type="button" class="vowel-chip" data-v="a">CVC-A</button>
+          <button type="button" class="vowel-chip" data-v="e">CVC-E</button>
+          <button type="button" class="vowel-chip" data-v="i">CVC-I</button>
+          <button type="button" class="vowel-chip" data-v="o">CVC-O</button>
+          <button type="button" class="vowel-chip" data-v="u">CVC-U</button>
+        </div>
+
+        <div class="section-label" style="margin-top:28px">2. 测试单词数量</div>
+        <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;">
+          <select id="wordCount" style="font-size:20px;padding:12px 20px;border-radius:12px;border:3px solid #dfe6e9;">
+            <option value="5">5 个</option>
+            <option value="10" selected>10 个</option>
+            <option value="15">15 个</option>
+            <option value="20">20 个</option>
+            <option value="30">30 个</option>
+          </select>
+        </div>
+
+        <div class="section-label" style="margin-top:28px">3. 是否显示图片</div>
+        <div style="display:flex;gap:16px;align-items:center;">
+          <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-size:18px;font-weight:700;">
+            <input type="radio" name="showImg" value="1" checked />
+            显示图片
+          </label>
+          <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-size:18px;font-weight:700;">
+            <input type="radio" name="showImg" value="0" />
+            不显示（完成后选图）
+          </label>
+        </div>
+
+        <div class="section-label" style="margin-top:28px">4. 选择练习题型（可多选）</div>
+        <div id="typeChips" class="type-chips">
+          <button type="button" class="type-chip" data-type="spell">整体拼写</button>
+          <button type="button" class="type-chip" data-type="beginning">首音判断</button>
+          <button type="button" class="type-chip" data-type="middle">中间音判断</button>
+          <button type="button" class="type-chip" data-type="ending">尾音判断</button>
+          <button type="button" class="type-chip" data-type="order">字母排序</button>
+        </div>
+
+        <div style="margin-top:40px;text-align:center;">
+          <button id="btnStart" class="btn primary practice-btn-big">🚀 开始练习</button>
+        </div>
+        <div class="divider" style="margin:32px 0 16px"></div>
+        <details style="font-size:16px;color:var(--text-lite);">
+          <summary style="cursor:pointer;font-weight:700;">🔊 Azure TTS 配置（可选）</summary>
+          <p style="margin:12px 0 8px;">配置后使用 Azure 语音合成，否则使用本地 MP3</p>
+          <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:12px;">
+            <input type="password" id="azureKey" placeholder="订阅密钥" style="padding:10px 16px;border-radius:12px;border:2px solid #dfe6e9;min-width:200px;" />
+            <select id="azureRegion" style="padding:10px 16px;border-radius:12px;border:2px solid #dfe6e9;">
+              <option value="eastasia">East Asia</option>
+              <option value="southeastasia">Southeast Asia</option>
+            </select>
+            <button type="button" id="btnSaveTTS" class="btn sm">保存</button>
+          </div>
+        </details>
+      </section>
+    </main>
+    <script src="./cvc-data.js"></script>
+    <script>
+      const vowels = document.querySelectorAll('.vowel-chip');
+      const types = document.querySelectorAll('.type-chip');
+
+      vowels.forEach(el => {
+        el.addEventListener('click', () => {
+          el.classList.toggle('selected');
+        });
+      });
+
+      types.forEach(el => {
+        el.addEventListener('click', () => {
+          el.classList.toggle('selected');
+        });
+      });
+
+      document.getElementById('azureKey').value = localStorage.getItem('azure_tts_key') || '';
+      document.getElementById('azureRegion').value = localStorage.getItem('azure_tts_region') || 'eastasia';
+      document.getElementById('btnSaveTTS').onclick = () => {
+        localStorage.setItem('azure_tts_key', document.getElementById('azureKey').value);
+        localStorage.setItem('azure_tts_region', document.getElementById('azureRegion').value);
+        alert('已保存');
+      };
+
+      document.getElementById('btnStart').addEventListener('click', () => {
+        const selectedVowels = Array.from(document.querySelectorAll('.vowel-chip.selected')).map(e => e.dataset.v);
+        const selectedTypes = Array.from(document.querySelectorAll('.type-chip.selected')).map(e => e.dataset.type);
+        const count = parseInt(document.getElementById('wordCount').value, 10);
+        const showImg = document.querySelector('input[name="showImg"]:checked').value === '1';
+
+        if (!selectedVowels.length) {
+          alert('请至少选择一种 CVC 内容（A/E/I/O/U）');
+          return;
+        }
+        if (!selectedTypes.length) {
+          alert('请至少选择一种练习题型');
+          return;
+        }
+
+        const params = new URLSearchParams({
+          vowels: selectedVowels.join(','),
+          types: selectedTypes.join(','),
+          count: String(count),
+          img: showImg ? '1' : '0'
+        });
+        window.location.href = 'practice-do.html?' + params.toString();
+      });
+    </script>
+  </body>
+</html>
