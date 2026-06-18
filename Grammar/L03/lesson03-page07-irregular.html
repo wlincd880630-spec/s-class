@@ -396,21 +396,6 @@ body.has-lesson-pager .progress-dock {
   bottom: 3.65rem;
 }
 
-/* Page07：掌握进度条置于底栏之上 */
-body.has-lesson-pager .lesson-progress-chip {
-  position: fixed;
-  right: 0.65rem;
-  bottom: 3.65rem;
-  z-index: 199;
-  max-width: min(92vw, 340px);
-  text-align: right;
-  font-size: 0.76rem;
-  font-weight: 800;
-  color: #37474f;
-  line-height: 1.35;
-  pointer-events: none;
-}
-
 </style>
   <style>
 /* inlined from L03/assets/css/l03-layout.css */
@@ -1122,7 +1107,6 @@ html body > nav.lesson-footer-nav,
 html body > nav.page-foot,
 html body > nav.footer-nav,
 html body > div.footer-nav,
-html body > .lesson-progress-chip,
 html body > nav.lesson-pager {
   font-family: var(--lesson-font-zh);
 }
@@ -1168,8 +1152,6 @@ html body > nav.lesson-pager {
     </div>
   </div>
 
-  <span class="lesson-progress-chip" id="progLabel">已掌握 0 / 0 ｜ O/A 0 · 元音 0 · 变异 0 · AAA 0</span>
-  <nav class="lesson-pager is-file-nav" aria-label="页面导航">
     <a class="pager-prev" href="lesson03-page06-regular.html">上一页</a>
     <a class="pager-logo" href="../index.html" aria-label="课程主页"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/logo2.png" alt="Steven's Class" width="204" height="61" decoding="async" /></a>
     <a class="pager-next" href="lesson03-page08-did.html">下一页</a>
@@ -1764,7 +1746,6 @@ window.L03AudioManifest = {
     var btnLoop = document.getElementById("btnLoop");
     var btnSlow = document.getElementById("btnSlow");
     var btnMemo = document.getElementById("btnMemo");
-    var progLabel = document.getElementById("progLabel");
     var loopOn = false;
     var slowOn = false;
     var audioToken = 0;
@@ -1777,38 +1758,6 @@ window.L03AudioManifest = {
     function updateNotes(familyKey) {
       var m = FAMILY_META[familyKey];
       notesBody.innerHTML = '<div class="tip"><strong>' + escapeHtml(m.title) + "</strong><br />" + escapeHtml(m.tip) + "</div>";
-    }
-
-    function memoByFamily() {
-      var stat = {
-        family_ought: 0,
-        family_vowel: 0,
-        family_morph: 0,
-        family_aaa: 0
-      };
-      Object.keys(memorized).forEach(function (base) {
-        var item = byKey[base];
-        if (item && stat[item.family] != null) stat[item.family]++;
-      });
-      return stat;
-    }
-
-    function updateProg() {
-      var n = Object.keys(memorized).length;
-      var st = memoByFamily();
-      progLabel.textContent =
-        "已掌握 " +
-        n +
-        " / " +
-        flat.length +
-        " ｜ O/A " +
-        st.family_ought +
-        " · 元音 " +
-        st.family_vowel +
-        " · 变异 " +
-        st.family_morph +
-        " · AAA " +
-        st.family_aaa;
     }
 
     function markMemChips() {
@@ -2007,7 +1956,6 @@ window.L03AudioManifest = {
       if (!current) return;
       memorized[current.base] = true;
       saveMemo();
-      updateProg();
       markMemChips();
     });
 
@@ -2016,7 +1964,6 @@ window.L03AudioManifest = {
     buildShelf();
     markMemChips();
     openFamily("family_ought");
-    updateProg();
     mirrorWord.textContent = "点选左侧动词";
   })();
   </script>

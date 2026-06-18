@@ -24,12 +24,21 @@
     html, body {
       margin: 0;
       width: 100%;
-      height: 100%;
+      height: 100dvh;
+      max-height: 100dvh;
       overflow: hidden;
       font-family: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
       background: #190f18;
       color: var(--ink);
       touch-action: none;
+    }
+    html {
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+      overflow-x: clip;
+    }
+    body {
+      -webkit-tap-highlight-color: rgba(255, 213, 79, 0.15);
     }
     body.has-lesson-pager {
       --lesson-foot-h: 0px;
@@ -72,6 +81,8 @@
       align-items: center;
       gap: 12px;
       padding: 10px 14px;
+      padding-left: max(14px, env(safe-area-inset-left));
+      padding-right: max(14px, env(safe-area-inset-right));
       border: 4px solid var(--edge);
       border-radius: 24px 12px 22px 18px;
       background: rgba(255, 247, 232, 0.94);
@@ -227,6 +238,11 @@
       border-radius: 999px;
       background: rgba(255, 243, 205, 0.86);
       padding: 4px 9px;
+      min-height: 44px;
+      min-width: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       color: #4e342e;
       font-size: clamp(14px, 1.2vw, 17px);
       font-family: inherit;
@@ -301,11 +317,13 @@
       font-family: inherit;
       font-weight: 1000;
       padding: 8px 16px;
+      min-height: 44px;
       cursor: pointer;
       text-decoration: none;
       display: inline-flex;
       justify-content: center;
       align-items: center;
+      touch-action: manipulation;
       margin-top: 10px;
     }
     .finish {
@@ -381,10 +399,12 @@
       border: 5px solid var(--edge);
       border-radius: 24px 12px 22px 16px;
       padding: 14px 18px;
+      min-height: 44px;
       font-family: inherit;
       font-size: clamp(24px, 2.4vw, 38px);
       font-weight: 1000;
       cursor: pointer;
+      touch-action: manipulation;
       color: #4e342e;
       box-shadow: 5px 7px 0 rgba(93,64,55,.16);
     }
@@ -490,7 +510,17 @@
     }
     .summary-box strong { color: #d84315; }
     @media (max-width: 800px), (max-height: 560px) {
-      .top-bar { grid-template-columns: 1fr; }
+      .top-bar {
+        grid-template-columns: 1fr;
+        gap: 6px;
+        padding: 8px;
+        padding-left: max(8px, env(safe-area-inset-left));
+        padding-right: max(8px, env(safe-area-inset-right));
+      }
+      .lesson-tag,
+      .score-chip {
+        justify-self: center;
+      }
       .play-field {
         top: calc(50% + 18px);
         width: 96vw;
@@ -508,8 +538,33 @@
       .soul .sentence {
         font-size: clamp(22px, 4.2vw, 34px);
       }
+      .feedback {
+        bottom: calc(env(safe-area-inset-bottom, 0px) + 5rem);
+        width: min(92%, 840px);
+      }
+      .cn-panel,
+      .finish-card {
+        padding: 16px;
+      }
       .summary-grid { grid-template-columns: 1fr; }
       .choice-row { grid-template-columns: 1fr; }
+    }
+
+    body.has-lesson-pager nav.lesson-pager a,
+    body.has-lesson-pager nav.lesson-pager .pager-prev,
+    body.has-lesson-pager nav.lesson-pager .pager-next {
+      touch-action: manipulation;
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+      .btn:active,
+      .choice-btn:active {
+        transform: scale(0.98);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .pan { transition: none !important; }
     }
   </style>
   <link rel="stylesheet" href="assets/grammar-lesson-pager.css" />

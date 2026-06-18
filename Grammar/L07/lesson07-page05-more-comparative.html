@@ -16,11 +16,17 @@
       --ink: #e8ecf3;
     }
     * { box-sizing: border-box; }
-    html { zoom: 1; }
+    html {
+      zoom: 1;
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+      overflow-x: clip;
+    }
     html, body {
       margin: 0;
       min-height: 100%;
       min-height: 100dvh;
+      max-height: 100dvh;
       font-family: system-ui, "Segoe UI", "Microsoft YaHei", sans-serif;
       background: radial-gradient(1200px 600px at 10% -10%, #1a2744 0%, transparent 50%), var(--bg);
       color: var(--ink);
@@ -29,9 +35,11 @@
     body {
       display: flex;
       flex-direction: column;
+      -webkit-tap-highlight-color: rgba(255, 213, 79, 0.15);
+      overflow-x: clip;
     }
     header.top {
-      padding: 10px 14px;
+      padding: max(10px, env(safe-area-inset-top)) max(14px, env(safe-area-inset-right)) 10px max(14px, env(safe-area-inset-left));
       text-align: center;
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
       background: rgba(0, 0, 0, 0.35);
@@ -42,7 +50,7 @@
       flex-wrap: wrap;
       justify-content: center;
       gap: 8px;
-      padding: 8px 12px 10px;
+      padding: 8px max(12px, env(safe-area-inset-right)) 10px max(12px, env(safe-area-inset-left));
       background: rgba(0, 0, 0, 0.28);
       border-bottom: 1px solid rgba(255, 255, 255, 0.06);
       flex-shrink: 0;
@@ -52,11 +60,16 @@
       font-family: inherit;
       font-size: clamp(0.76rem, 1.9vw, 0.88rem);
       padding: 8px 14px;
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       border-radius: 999px;
       border: 2px solid rgba(255, 213, 79, 0.35);
       background: rgba(30, 40, 58, 0.85);
       color: #eceff1;
       cursor: pointer;
+      touch-action: manipulation;
       transition: border-color 0.2s, background 0.2s, color 0.2s;
     }
     #section-nav .section-nav__btn:hover {
@@ -94,8 +107,8 @@
       max-width: calc(100vw - var(--shell-pad-x));
       max-height: calc(100dvh - var(--shell-chrome-y));
       aspect-ratio: 16 / 9;
-      margin: 6px auto 72px;
-      padding: 10px 12px 12px;
+      margin: 6px auto calc(72px + var(--lesson-pager-gap, 2.35rem) + env(safe-area-inset-bottom, 0px));
+      padding: 10px max(12px, env(safe-area-inset-right)) 12px max(12px, env(safe-area-inset-left));
       min-height: 0;
       overflow-x: hidden;
       overflow-y: auto;
@@ -108,7 +121,7 @@
         max-height: none;
         aspect-ratio: unset;
         min-height: min(70dvh, 520px);
-        margin-bottom: 68px;
+        margin-bottom: calc(68px + var(--lesson-pager-gap, 2.35rem) + env(safe-area-inset-bottom, 0px));
       }
     }
     /* 主卡片内图文缩放（约为先前 1.5 的 70% → 1.05） */
@@ -308,11 +321,13 @@
       font-family: "Patrick Hand", cursive;
       font-size: 1.05rem;
       padding: 10px 20px;
+      min-height: 44px;
       border-radius: 12px;
       border: 3px solid var(--gold);
       background: linear-gradient(180deg, #37474f, #263238);
       color: #fff8e1;
       cursor: pointer;
+      touch-action: manipulation;
     }
     button.primary:disabled {
       opacity: 0.45;
@@ -321,12 +336,15 @@
     button.speak {
       width: 44px;
       height: 44px;
+      min-width: 44px;
+      min-height: 44px;
       border-radius: 50%;
       border: none;
       background: radial-gradient(circle at 30% 25%, #fff9c4, #ffd54f 55%, #f57f17);
       cursor: pointer;
       box-shadow: 0 0 12px rgba(255, 213, 79, 0.4);
       font-size: 20px;
+      touch-action: manipulation;
     }
 
     .teach-note {
@@ -551,12 +569,14 @@
       font-family: inherit;
       font-size: clamp(0.78rem, 1.45vw, 0.88rem);
       padding: 8px 12px;
+      min-height: 44px;
       border-radius: 10px;
       border: 2px solid rgba(255, 213, 79, 0.4);
       background: rgba(55, 71, 79, 0.95);
       color: #fff8e1;
       cursor: pointer;
       white-space: nowrap;
+      touch-action: manipulation;
     }
     .lesson-sent-scenario-bar .scenario-nav-btn:hover {
       border-color: rgba(105, 240, 174, 0.45);
@@ -608,10 +628,10 @@
 
     #nav-foot {
       position: fixed;
-      bottom: 0;
+      bottom: var(--lesson-pager-gap, 2.35rem);
       left: 0;
       right: 0;
-      padding: 10px 12px;
+      padding: 10px max(12px, env(safe-area-inset-right)) max(10px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
       background: rgba(0, 0, 0, 0.55);
       border-top: 1px solid rgba(255, 255, 255, 0.08);
       display: flex;
@@ -625,6 +645,10 @@
       color: var(--gold);
       font-size: 0.78rem;
       text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+      touch-action: manipulation;
     }
     #debug-strip {
       font-size: 10px;
@@ -638,6 +662,46 @@
       font-weight: 800;
     }
     .hidden { display: none !important; }
+
+    @media (max-width: 720px), (max-height: 560px) {
+      #view-root.panel,
+      #view-root.panel.panel--lesson-sent {
+        zoom: 1;
+      }
+      .lesson-sent-scenario-bar .scenario-jump-select {
+        font-size: 16px;
+      }
+    }
+
+    body.has-lesson-pager nav.lesson-pager a,
+    body.has-lesson-pager nav.lesson-pager .pager-prev,
+    body.has-lesson-pager nav.lesson-pager .pager-next {
+      touch-action: manipulation;
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+      #section-nav .section-nav__btn:hover {
+        border-color: rgba(255, 213, 79, 0.35);
+        color: #eceff1;
+      }
+      .lesson-sent-scenario-bar .scenario-nav-btn:hover {
+        border-color: rgba(255, 213, 79, 0.4);
+      }
+      #section-nav .section-nav__btn:active,
+      button.primary:active:not(:disabled),
+      #nav-foot a:active,
+      .lesson-sent-scenario-bar .scenario-nav-btn:active {
+        transform: scale(0.98);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      #section-nav .section-nav__btn,
+      #toast,
+      .warm-q-wrap {
+        transition: none !important;
+      }
+    }
   </style>
   <link rel="stylesheet" href="assets/grammar-lesson-pager.css" />
   <link rel="stylesheet" href="../shared/grammar-logo.css" />

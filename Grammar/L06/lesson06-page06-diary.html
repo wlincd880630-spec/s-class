@@ -41,12 +41,21 @@
     html, body {
       margin: 0;
       width: 100%;
-      height: 100%;
+      height: 100dvh;
+      max-height: 100dvh;
       overflow: hidden;
       touch-action: manipulation;
       background: #130a12;
       color: var(--ink);
       font-family: system-ui, "Microsoft YaHei", sans-serif;
+    }
+    html {
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+      overflow-x: clip;
+    }
+    body {
+      -webkit-tap-highlight-color: rgba(255, 213, 79, 0.15);
     }
     body.has-lesson-pager { --lesson-foot-h: 0px; --lesson-pager-gap: 2.35rem; }
 
@@ -81,11 +90,16 @@
       align-items: center;
       gap: 10px;
       padding: 10px 16px;
+      padding-left: max(16px, env(safe-area-inset-left));
+      padding-right: max(16px, env(safe-area-inset-right));
       border: 5px solid var(--edge);
       border-radius: 26px 14px 24px 16px;
       background: linear-gradient(180deg, #fffef7 0%, #ffe0b2 100%);
       box-shadow: 6px 8px 0 rgba(62, 39, 35, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.85);
       z-index: 40;
+    }
+    .top-bar > div:nth-child(2) {
+      min-width: 0;
     }
     .lesson-tag {
       border: 3px solid #f0ad4e;
@@ -123,7 +137,9 @@
       flex-direction: column;
       align-items: center;
       justify-content: flex-start;
-      padding: 8px 10px 10px;
+      padding: 8px 10px max(10px, env(safe-area-inset-bottom));
+      padding-left: max(10px, env(safe-area-inset-left));
+      padding-right: max(10px, env(safe-area-inset-right));
       gap: 8px;
       position: relative;
       z-index: 5;
@@ -203,9 +219,11 @@
     .diary-error {
       position: relative;
       display: inline;
-      padding: 0 2px;
+      padding: 2px 4px;
+      margin: -2px -2px;
       border-radius: 4px;
       cursor: pointer;
+      touch-action: manipulation;
       transition: background 0.2s ease, box-shadow 0.2s ease;
     }
     body.touch-mode .diary-error:not(.is-fixed) {
@@ -309,6 +327,7 @@
       border: 4px solid var(--edge);
       border-radius: 999px;
       padding: 10px 16px;
+      min-height: 44px;
       font-weight: 1000;
       font-family: inherit;
       font-size: clamp(12px, 1vw, 15px);
@@ -318,10 +337,14 @@
       box-shadow: 2px 4px 0 rgba(62, 39, 35, 0.18);
       white-space: nowrap;
       touch-action: manipulation;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
     }
     .edit-pop button.ghost {
       margin-top: 8px;
       width: 100%;
+      min-height: 44px;
       appearance: none;
       border: none;
       background: transparent;
@@ -329,6 +352,7 @@
       font-weight: 800;
       cursor: pointer;
       font-size: clamp(11px, 0.95vw, 13px);
+      touch-action: manipulation;
     }
 
     .bubble-ai {
@@ -359,9 +383,14 @@
       border: 4px solid var(--edge);
       border-radius: 999px;
       padding: 8px 16px;
+      min-height: 44px;
       font-weight: 1000;
       cursor: pointer;
       background: linear-gradient(180deg, #fffef5 0%, #ffcc80 100%);
+      touch-action: manipulation;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
     }
     .micro-toast {
       position: fixed;
@@ -432,12 +461,16 @@
       display: inline-flex;
       margin-top: 12px;
       padding: 12px 18px;
+      min-height: 44px;
       border-radius: 999px;
       text-decoration: none;
       font-weight: 1000;
       color: #4e342e;
       border: 5px solid var(--edge);
       background: linear-gradient(180deg, #fffef5 0%, #ffcc80 100%);
+      align-items: center;
+      justify-content: center;
+      touch-action: manipulation;
     }
 
     .particle {
@@ -449,8 +482,59 @@
       z-index: 190;
     }
 
-    @media (max-width: 720px) {
-      .parchment { padding: 16px 14px 18px; }
+    @media (max-width: 720px), (max-height: 560px) {
+      .top-bar {
+        grid-template-columns: 1fr;
+        gap: 6px;
+        padding: 8px;
+        padding-left: max(8px, env(safe-area-inset-left));
+        padding-right: max(8px, env(safe-area-inset-right));
+      }
+      .lesson-tag,
+      .score-chip {
+        justify-self: center;
+      }
+      .parchment {
+        padding: 16px 14px 18px;
+      }
+      .parchment-inner {
+        font-size: clamp(14px, 3.8vw, 18px);
+      }
+      .edit-pop input {
+        font-size: 16px;
+      }
+      .bubble-ai {
+        bottom: max(80px, calc(env(safe-area-inset-bottom) + 72px));
+        width: min(94vw, 520px);
+      }
+      .finish-overlay {
+        padding: max(16px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(16px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+      }
+      .finish-card {
+        padding: 16px;
+      }
+    }
+
+    body.has-lesson-pager nav.lesson-pager a,
+    body.has-lesson-pager nav.lesson-pager .pager-prev,
+    body.has-lesson-pager nav.lesson-pager .pager-next {
+      touch-action: manipulation;
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+      .edit-pop button.submit:active,
+      .edit-pop button.ghost:active,
+      .bubble-ai button:active,
+      .finish-card a.btn-link:active {
+        transform: scale(0.98);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .diary-error { transition: none !important; }
+      .diary-error.is-hover:not(.is-fixed) { animation: none !important; }
+      .lens-svg.lens-quake { animation: none !important; }
+      #magicLens { transition: none !important; }
     }
   </style>
   <script src="assets/l06-interaction-tts-manifest.js"></script>

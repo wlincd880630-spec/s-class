@@ -1,4 +1,4 @@
-/* Auto-generated — 初中70 / 高中100；例句图与练习图分离 */
+/* Auto-generated — 初中75 / 高中100；例句图与练习图分离 */
 var VERB_ITEMS = [
   {
     "level": "junior",
@@ -2729,6 +2729,272 @@ var VERB_ITEMS = [
     ],
     "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_to_do_beg_ex.png",
     "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_to_do_beg_p1.png"
+  },
+  {
+    "level": "junior",
+    "type": "to_do",
+    "verb": "consider",
+    "pattern": "consider it (+adj) to do",
+    "logic_explanation": "consider：**consider it + 形容词 + to do** 是中考高频句型（可与 **consider doing** 区分记忆）。**it** 是形式宾语，真正的宾语是后面的 **to do**；形容词说明「做这件事」重不重要、有没有必要。否定常在形容词前加 **not**：*consider it not important to do*，或 *don't consider it important to do*。",
+    "example_sentence": "I consider it important to keep a healthy lifestyle.",
+    "example_pic_prompt": "Teen jogging in park, balanced meal and water bottle, sunrise, healthy lifestyle icons, crayon style",
+    "practice_1_pic_prompt": "Student at desk studying English, textbook open, motivated smile, crayon style",
+    "practice_1_cn": "我认为学好英语很重要。",
+    "practice_1_words": [
+      "I",
+      "consider",
+      "considers",
+      "it",
+      "important",
+      "learning",
+      "to learn",
+      "English well",
+      "."
+    ],
+    "practice_1_answer": [
+      "I",
+      "consider",
+      "it",
+      "important",
+      "to learn",
+      "English well",
+      "."
+    ],
+    "practice_2_words": [
+      "They",
+      "don't",
+      "consider",
+      "it",
+      "necessary",
+      "arguing",
+      "to argue",
+      "about",
+      "it",
+      "."
+    ],
+    "practice_2_answer": [
+      "They",
+      "don't",
+      "consider",
+      "it",
+      "necessary",
+      "to argue",
+      "about",
+      "it",
+      "."
+    ],
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_to_do_consider_it_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_to_do_consider_it_p1.png"
+  },
+  {
+    "level": "junior",
+    "type": "to_do",
+    "verb": "find",
+    "pattern": "find it + adj + to do",
+    "logic_explanation": "find：**find it + 形容词 + to do** 与 consider 同类。**it** 形式宾语，**to do** 是真正宾语；形容词表做这件事的难易或感受，如 *hard / easy / difficult / interesting*。",
+    "example_sentence": "I find it hard to get up early in winter.",
+    "example_pic_prompt": "Alarm clock ringing, teen buried under warm blanket, snowy window, crayon style",
+    "practice_1_pic_prompt": "Long English article on screen, student with thinking face and highlighter, crayon style",
+    "practice_1_cn": "他发现读这篇长文章很难。",
+    "practice_1_words": [
+      "He",
+      "finds",
+      "find",
+      "it",
+      "difficult",
+      "reading",
+      "to read",
+      "this long article",
+      "."
+    ],
+    "practice_1_answer": [
+      "He",
+      "finds",
+      "it",
+      "difficult",
+      "to read",
+      "this long article",
+      "."
+    ],
+    "practice_2_words": [
+      "We",
+      "found",
+      "it",
+      "interesting",
+      "to visit",
+      "the museum",
+      "."
+    ],
+    "practice_2_answer": [
+      "We",
+      "found",
+      "it",
+      "interesting",
+      "to visit",
+      "the museum",
+      "."
+    ],
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_to_do_find_it_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_to_do_find_it_p1.png"
+  },
+  {
+    "level": "junior",
+    "type": "to_do",
+    "verb": "think",
+    "pattern": "think it + adj + to do",
+    "logic_explanation": "think：**think it + 形容词 + to do** 结构相同：**it** 占位，**to do** 作真正宾语；常接 *necessary / important / wrong* 等，表「认为做某事……」。",
+    "example_sentence": "We think it necessary to protect the environment.",
+    "example_pic_prompt": "Kids planting trees, recycling bins, green earth sticker, crayon style",
+    "practice_1_pic_prompt": "Classroom, student raising hand to ask question, shy but brave expression, crayon style",
+    "practice_1_cn": "她认为在课堂上提问很重要。",
+    "practice_1_words": [
+      "She",
+      "thinks",
+      "think",
+      "it",
+      "important",
+      "asking",
+      "to ask",
+      "questions",
+      "in class",
+      "."
+    ],
+    "practice_1_answer": [
+      "She",
+      "thinks",
+      "it",
+      "important",
+      "to ask",
+      "questions",
+      "in class",
+      "."
+    ],
+    "practice_2_words": [
+      "I",
+      "think",
+      "it",
+      "wrong",
+      "to cheat",
+      "on tests",
+      "."
+    ],
+    "practice_2_answer": [
+      "I",
+      "think",
+      "it",
+      "wrong",
+      "to cheat",
+      "on tests",
+      "."
+    ],
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_to_do_think_it_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_to_do_think_it_p1.png"
+  },
+  {
+    "level": "junior",
+    "type": "to_do",
+    "verb": "make",
+    "pattern": "make it + adj + to do",
+    "logic_explanation": "make：**make it + 形容词 + to do** 里的 **it** 也是形式宾语（与 **make sb do** 不同）。整句表示「使做某事变得容易 / 可能 / 困难」，形容词说明结果，**to do** 是真正宾语。",
+    "example_sentence": "The app makes it easy to learn new words.",
+    "example_pic_prompt": "Phone app with flashcards, happy student tapping, words popping up, crayon style",
+    "practice_1_pic_prompt": "Teacher explaining at whiteboard, light bulb over student head, clear steps drawn, crayon style",
+    "practice_1_cn": "老师讲解让这道题更容易理解。",
+    "practice_1_words": [
+      "The teacher's",
+      "explanation",
+      "makes",
+      "make",
+      "it",
+      "easier",
+      "understanding",
+      "to understand",
+      "this problem",
+      "."
+    ],
+    "practice_1_answer": [
+      "The teacher's",
+      "explanation",
+      "makes",
+      "it",
+      "easier",
+      "to understand",
+      "this problem",
+      "."
+    ],
+    "practice_2_words": [
+      "Rain",
+      "made",
+      "it",
+      "hard",
+      "to",
+      "go",
+      "out",
+      "."
+    ],
+    "practice_2_answer": [
+      "Rain",
+      "made",
+      "it",
+      "hard",
+      "to",
+      "go",
+      "out",
+      "."
+    ],
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_to_do_make_it_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_to_do_make_it_p1.png"
+  },
+  {
+    "level": "junior",
+    "type": "to_do",
+    "verb": "feel",
+    "pattern": "feel it + adj + to do",
+    "logic_explanation": "feel：**feel it + 形容词 + to do** 表主观感受（与感官 **feel sb/sth do** 不同）。**it** 形式宾语，**to do** 是真正宾语；常接 *important / happy / lucky* 等，表示「觉得做某事……」。",
+    "example_sentence": "I feel it important to help others.",
+    "example_pic_prompt": "Student helping classmate pick up dropped books, warm smile, crayon style",
+    "practice_1_pic_prompt": "Teen volunteering at community clean-up, gloves and trash bag, proud pose, crayon style",
+    "practice_1_cn": "她觉得参加志愿者活动很有意义。",
+    "practice_1_words": [
+      "She",
+      "feels",
+      "feel",
+      "it",
+      "meaningful",
+      "joining",
+      "to join",
+      "the volunteer activity",
+      "."
+    ],
+    "practice_1_answer": [
+      "She",
+      "feels",
+      "it",
+      "meaningful",
+      "to join",
+      "the volunteer activity",
+      "."
+    ],
+    "practice_2_words": [
+      "We",
+      "felt",
+      "it",
+      "lucky",
+      "to meet",
+      "you",
+      "."
+    ],
+    "practice_2_answer": [
+      "We",
+      "felt",
+      "it",
+      "lucky",
+      "to meet",
+      "you",
+      "."
+    ],
+    "example_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_to_do_feel_it_ex.png",
+    "practice_image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L00-主谓宾与非谓语/asset/img/p4/junior_to_do_feel_it_p1.png"
   },
   {
     "level": "junior",

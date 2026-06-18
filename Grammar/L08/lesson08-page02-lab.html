@@ -25,6 +25,8 @@
     html {
       overflow-x: clip;
       max-width: 100%;
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
     }
     html, body {
       margin: 0;
@@ -80,7 +82,11 @@
       z-index: 4;
       display: flex;
       flex-direction: column;
-      padding: clamp(8px, 1.5vh, 14px) clamp(8px, 1.5vw, 14px) clamp(52px, 9vh, 78px);
+      padding:
+        max(clamp(8px, 1.5vh, 14px), env(safe-area-inset-top))
+        max(clamp(8px, 1.5vw, 14px), env(safe-area-inset-right))
+        max(clamp(52px, 9vh, 78px), calc(var(--lesson-pager-gap, 2.35rem) + env(safe-area-inset-bottom, 0px)))
+        max(clamp(8px, 1.5vw, 14px), env(safe-area-inset-left));
       gap: clamp(6px, 1vh, 10px);
       min-height: 0;
       overflow: hidden;
@@ -100,6 +106,10 @@
       cursor: pointer;
       font-weight: 900;
       padding: clamp(8px, 1.5vh, 12px) clamp(14px, 2.8vw, 22px);
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       border-radius: 999px;
       border: 3px solid rgba(255, 255, 255, 0.35);
       font-size: clamp(0.82rem, 1.85vw, 1.05rem);
@@ -215,6 +225,7 @@
       cursor: pointer;
       font-weight: 950;
       padding: clamp(8px, 1.8vh, 10px) clamp(14px, 2.5vw, 18px);
+      min-height: 44px;
       border-radius: 999px;
       border: 3px solid var(--edge);
       font-size: clamp(0.74rem, 1.75vw, 0.88rem);
@@ -734,12 +745,14 @@
       cursor: pointer;
       font-weight: 950;
       padding: clamp(12px, 2vh, 14px) clamp(22px, 4vw, 32px);
+      min-height: 44px;
       border-radius: 999px;
       border: 4px solid rgba(255, 224, 130, 0.85);
       font-size: clamp(0.82rem, 1.85vw, 0.98rem);
       background: linear-gradient(180deg, #fff8e1, #ffcc80);
       color: #4e342e;
       box-shadow: 4px 6px 0 rgba(0, 0, 0, 0.18);
+      touch-action: manipulation;
     }
 
     #ui-lock {
@@ -772,7 +785,7 @@
       z-index: 28;
       display: grid;
       place-items: center;
-      padding: 16px;
+      padding: max(16px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(16px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
     }
     #scenario-b-overlay[hidden] {
       display: none !important;
@@ -786,6 +799,37 @@
       color: #fce4ec;
       font-size: clamp(0.78rem, 1.75vw, 0.92rem);
       line-height: 1.5;
+    }
+
+    body.has-lesson-pager nav.lesson-pager a,
+    body.has-lesson-pager nav.lesson-pager .pager-prev,
+    body.has-lesson-pager nav.lesson-pager .pager-next {
+      touch-action: manipulation;
+    }
+
+    @media (max-width: 720px), (max-height: 560px) {
+      #p02-slide-0 #lab-header,
+      #p02-slide-0 .lab-split,
+      #p02-slide-0 .grammar-dock {
+        zoom: 1;
+      }
+      #lab-stage:has(#p02-slide-0:not([hidden])) > .p02-slide-tabs {
+        zoom: 1;
+      }
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+      .p02-slide-tabs button:active,
+      #p02-slide-1 .btn-crayon:active:not(:disabled),
+      .btn-next-lesson:active {
+        transform: scale(0.98);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .particle {
+        display: none !important;
+      }
     }
   </style>
   <link rel="stylesheet" href="assets/grammar-lesson-pager.css" />

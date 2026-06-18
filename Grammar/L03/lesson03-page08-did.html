@@ -47,10 +47,9 @@
       padding: 0.65rem;
       padding-bottom: 6rem;
     }
-    body.is-busy .ctrl-row button,
-    body.is-busy #btnAffirm,
-    body.is-busy .btn-next,
-    body.is-busy .trap-card {
+    body.is-busy #slidePanel0 .ctrl-row button,
+    body.is-busy #slidePanel0 #btnAffirm,
+    body.is-busy #slidePanel0 .btn-next {
       pointer-events: none;
       opacity: 0.55;
     }
@@ -341,13 +340,15 @@
       --sl-x: 50%;
       --sl-y: 45%;
       --sl-r: 18px;
+      /* 外圈仅轻微压暗，保留探照灯聚焦感 */
       background: radial-gradient(
         circle var(--sl-r) at var(--sl-x) var(--sl-y),
-        rgba(255, 253, 220, 0.95) 0%,
-        rgba(255, 235, 120, 0.55) 28%,
-        rgba(255, 200, 80, 0.22) 42%,
-        transparent 52%,
-        rgba(12, 18, 42, 0.86) 58%
+        rgba(255, 253, 220, 0.92) 0%,
+        rgba(255, 235, 120, 0.42) 26%,
+        rgba(255, 200, 80, 0.14) 42%,
+        transparent 54%,
+        rgba(20, 28, 48, 0.1) 78%,
+        rgba(20, 28, 48, 0.2) 100%
       );
     }
     .btn-wh {
@@ -514,18 +515,6 @@
       color: #b71c1c;
       text-align: center;
     }
-    .trap-zone.is-locked {
-      opacity: 0.55;
-      pointer-events: none;
-    }
-    .trap-zone.is-locked::after {
-      content: "体验 6 句魔法后解锁";
-      display: block;
-      text-align: center;
-      font-size: 0.76rem;
-      margin-top: 0.35rem;
-      color: #666;
-    }
     .trap-card {
       margin-bottom: 0.5rem;
       padding: 0.45rem 0.5rem;
@@ -545,6 +534,7 @@
       text-decoration: underline wavy var(--crayon-red);
       font-weight: 900;
       color: var(--crayon-purple);
+      cursor: pointer;
     }
   </style>
   <style>
@@ -1338,14 +1328,14 @@ html body > nav.lesson-pager {
             </div>
             <div class="toolbar">
               <button type="button" class="btn-next" id="btnNext">🔀 换一句</button>
-              <span class="prog" id="progLabel">已体验魔法：0 / 6 · 照妖镜</span>
+              <span class="prog" id="progLabel">已体验魔法：0 / 6</span>
             </div>
           </div>
         </div>
         </div>
 
         <div class="slide-panel" id="slidePanel1" role="tabpanel" aria-labelledby="tabSlide1" hidden>
-        <div class="trap-zone is-locked" id="trapZone">
+        <div class="trap-zone" id="trapZone">
           <h3>句子改错 · 🪞 中考照妖镜 · 5 关 · 点错误词激光修正（含特殊疑问）</h3>
           <div class="trap-card" data-trap="1" id="trap1">
             <p class="trap-line en">Did you <span class="wrong" data-fix="experience">experienced</span> the traditional culture?</p>
@@ -1850,7 +1840,6 @@ window.L03AudioManifest = {
     var laserLayer = document.getElementById("laserLayer");
     var aaaAlert = document.getElementById("aaaAlert");
     var progLabel = document.getElementById("progLabel");
-    var trapZone = document.getElementById("trapZone");
     var btnDidnt = document.getElementById("btnDidnt");
     var btnDid = document.getElementById("btnDid");
     var btnAffirm = document.getElementById("btnAffirm");
@@ -1892,8 +1881,7 @@ window.L03AudioManifest = {
     function syncProgFromSeen() {
       var arr = loadSeenIdxs();
       magicCount = arr.length;
-      progLabel.textContent = "已体验魔法：" + magicCount + " / 6 · 照妖镜（不重复金句）";
-      if (magicCount >= 6) trapZone.classList.remove("is-locked");
+      progLabel.textContent = "已体验魔法：" + magicCount + " / 6";
     }
 
     function setBusy(v) {
@@ -2351,7 +2339,7 @@ window.L03AudioManifest = {
         speak(sentenceTextWh(), true);
         anime({
           targets: overlay,
-          opacity: [1, 0],
+          opacity: [0.72, 0],
           duration: 420,
           easing: "easeInOutQuad",
           complete: function () {
@@ -2363,7 +2351,7 @@ window.L03AudioManifest = {
 
       anime({
         targets: overlay,
-        opacity: [0, 1],
+        opacity: [0, 0.72],
         duration: 220,
         easing: "easeOutQuad",
         complete: function () {
@@ -2599,27 +2587,26 @@ window.L03AudioManifest = {
           var fix = w.getAttribute("data-fix") || "";
           anime({
             targets: w,
-            scale: [1, 1.25, 0.9],
+            scale: [1, 1.25, 1],
             color: "#ff8f00",
             duration: 280,
+            easing: "easeOutQuad",
             complete: function () {
-                laserBurst(w, w, function () {
-                w.textContent = fix;
-                w.classList.remove("wrong");
-                w.style.color = "var(--habit-green)";
-                w.style.textDecoration = "none";
-                card.classList.add("is-fixed");
-                var tid = card.getAttribute("data-trap") || "";
-                var trapSpeak = {
-                  "1": "Did you experience the traditional culture?",
-                  "2": "Our class didn't organize a charity sale.",
-                  "3": "Did she study hard for the exam?",
-                  "4": "When did you understand the meaning?",
-                  "5": "What did she buy yesterday?"
-                };
-                speak(trapSpeak[tid] || "", true);
-                setBusy(false);
-              });
+              w.textContent = fix;
+              w.classList.remove("wrong");
+              w.style.color = "var(--habit-green)";
+              w.style.textDecoration = "none";
+              card.classList.add("is-fixed");
+              var tid = card.getAttribute("data-trap") || "";
+              var trapSpeak = {
+                "1": "Did you experience the traditional culture?",
+                "2": "Our class didn't organize a charity sale.",
+                "3": "Did she study hard for the exam?",
+                "4": "When did you understand the meaning?",
+                "5": "What did she buy yesterday?"
+              };
+              speak(trapSpeak[tid] || "", true);
+              setBusy(false);
             }
           });
         });

@@ -23,6 +23,8 @@
     html {
       overflow-x: clip;
       max-width: 100%;
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
     }
     html, body {
       margin: 0;
@@ -33,6 +35,7 @@
       background: #07050c;
       color: #fce4ec;
       touch-action: manipulation;
+      -webkit-tap-highlight-color: rgba(186, 104, 200, 0.15);
     }
     #l08-p03-host.app {
       position: relative;
@@ -79,7 +82,11 @@
       z-index: 2;
       display: flex;
       flex-direction: column;
-      padding: clamp(8px, 1.5vh, 14px) clamp(10px, 2vw, 16px) clamp(88px, 16vh, 120px);
+      padding:
+        max(clamp(8px, 1.5vh, 14px), env(safe-area-inset-top))
+        max(clamp(10px, 2vw, 16px), env(safe-area-inset-right))
+        max(clamp(88px, 16vh, 120px), calc(var(--lesson-pager-gap, 2.35rem) + env(safe-area-inset-bottom, 0px)))
+        max(clamp(10px, 2vw, 16px), env(safe-area-inset-left));
       gap: clamp(6px, 1vh, 10px);
       min-height: 0;
     }
@@ -97,6 +104,10 @@
       cursor: pointer;
       font-weight: 900;
       padding: clamp(8px, 1.5vh, 12px) clamp(14px, 2.8vw, 22px);
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       border-radius: 999px;
       border: 3px solid rgba(255, 255, 255, 0.28);
       font-size: clamp(0.8rem, 1.8vw, 1rem);
@@ -392,6 +403,10 @@
     .rune-block {
       flex: 0 0 auto;
       padding: clamp(9px, 1.8vh, 12px) clamp(12px, 2.4vw, 16px);
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       border-radius: 10px;
       font-weight: 900;
       font-size: clamp(0.72rem, 1.65vw, 0.88rem);
@@ -442,11 +457,13 @@
       cursor: pointer;
       font-weight: 950;
       padding: 10px 18px;
+      min-height: 44px;
       border-radius: 999px;
       border: 3px solid var(--edge);
       background: linear-gradient(180deg, #fff8dc, #ffcc80);
       color: #4e342e;
       font-size: clamp(0.78rem, 1.7vw, 0.92rem);
+      touch-action: manipulation;
     }
 
     #finale-layer {
@@ -455,7 +472,7 @@
       z-index: 10050;
       display: grid;
       place-items: center;
-      padding: 16px;
+      padding: max(16px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(16px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
       background: rgba(0, 0, 0, 0.78);
       backdrop-filter: blur(6px);
     }
@@ -484,12 +501,14 @@
       cursor: pointer;
       font-weight: 950;
       padding: clamp(12px, 2vh, 14px) clamp(22px, 4vw, 32px);
+      min-height: 44px;
       border-radius: 999px;
       border: 4px solid rgba(255, 224, 130, 0.85);
       font-size: clamp(0.82rem, 1.85vw, 0.98rem);
       background: linear-gradient(180deg, #fff8e1, #ffcc80);
       color: #4e342e;
       box-shadow: 4px 6px 0 rgba(0, 0, 0, 0.18);
+      touch-action: manipulation;
     }
 
     .particle {
@@ -505,6 +524,7 @@
     #p03-slide-1 {
       overflow: auto;
       -webkit-overflow-scrolling: touch;
+      scroll-padding-bottom: calc(var(--lesson-pager-gap, 2.35rem) + 0.35rem);
       padding: 4px 2px 12px;
     }
     .p03-exam-panel {
@@ -547,6 +567,38 @@
       font-size: 0.88em;
       background: rgba(206, 147, 216, 0.35);
       color: #4a148c;
+    }
+
+    body.has-lesson-pager nav.lesson-pager a,
+    body.has-lesson-pager nav.lesson-pager .pager-prev,
+    body.has-lesson-pager nav.lesson-pager .pager-next {
+      touch-action: manipulation;
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+      .p03-slide-tabs button:active,
+      .rune-block:active,
+      .btn-stone:active,
+      .btn-next-lesson:active,
+      #orb-shell.orb-ready:active {
+        transform: scale(0.98);
+      }
+      .rune-block.is-selected:active {
+        transform: scale(1.02);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      #orb-shell.orb-ready,
+      #orb-shell.shake-recover {
+        animation: none !important;
+      }
+      .rune-block {
+        transition: none !important;
+      }
+      .particle {
+        display: none !important;
+      }
     }
   </style>
 

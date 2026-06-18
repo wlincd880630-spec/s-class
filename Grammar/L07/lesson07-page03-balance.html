@@ -18,11 +18,17 @@
       --purple-than: #4a148c;
     }
     * { box-sizing: border-box; }
-    html { zoom: 1.3; }
+    html {
+      zoom: 1.3;
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+      overflow-x: clip;
+    }
     html, body {
       margin: 0;
       width: 100%;
-      height: 100%;
+      height: 100dvh;
+      max-height: 100dvh;
       overflow: hidden;
       font-family: system-ui, "Segoe UI", "Microsoft YaHei", sans-serif;
       background: #1a1510;
@@ -61,7 +67,7 @@
       left: 0;
       right: 0;
       z-index: 12;
-      padding: clamp(6px, 1.2vh, 12px) clamp(10px, 3vw, 20px);
+      padding: max(clamp(6px, 1.2vh, 12px), env(safe-area-inset-top)) max(clamp(10px, 3vw, 20px), env(safe-area-inset-right)) clamp(6px, 1.2vh, 12px) max(clamp(10px, 3vw, 20px), env(safe-area-inset-left));
       text-align: center;
       pointer-events: none;
     }
@@ -84,7 +90,7 @@
       position: fixed;
       left: 50%;
       transform: translateX(-50%);
-      top: clamp(48px, 9vh, 80px);
+      top: max(clamp(48px, 9vh, 80px), calc(env(safe-area-inset-top) + 40px));
       z-index: 14;
       display: flex;
       align-items: center;
@@ -108,23 +114,27 @@
       font-family: "Patrick Hand", cursive;
       font-size: clamp(1rem, 3vw, 1.35rem);
       padding: 10px 22px;
+      min-height: 44px;
       border-radius: 14px;
       border: 3px solid #ffd54f;
       background: linear-gradient(180deg, #6d4c12, #3e2a08);
       color: #fff8e1;
       cursor: pointer;
       box-shadow: 0 6px 20px rgba(0,0,0,0.45);
+      touch-action: manipulation;
     }
     #btn-validate.show { display: inline-block; }
     #btn-clear-slots {
       pointer-events: auto;
       font-size: clamp(0.7rem, 1.8vw, 0.85rem);
       padding: 8px 14px;
+      min-height: 44px;
       border-radius: 10px;
       border: 2px solid rgba(255, 213, 79, 0.45);
       background: rgba(40, 32, 24, 0.9);
       color: #ffe082;
       cursor: pointer;
+      touch-action: manipulation;
     }
 
     #scale-stage {
@@ -167,7 +177,7 @@
       flex-direction: column;
       align-items: center;
       gap: 8px;
-      padding: 10px 10px max(12px, env(safe-area-inset-bottom, 0px));
+      padding: 10px max(10px, env(safe-area-inset-right)) max(calc(var(--lesson-pager-gap, 2.35rem) + 12px), calc(env(safe-area-inset-bottom, 0px) + var(--lesson-pager-gap, 2.35rem) + 8px)) max(10px, env(safe-area-inset-left));
       max-height: min(46vh, 380px);
       background: linear-gradient(0deg, rgba(6, 4, 3, 0.96) 0%, rgba(14, 11, 8, 0.9) 55%, rgba(14, 11, 8, 0.2) 100%);
       pointer-events: none;
@@ -194,7 +204,7 @@
     }
     .slot {
       min-width: clamp(56px, 14vw, 100px);
-      min-height: clamp(40px, 9vh, 52px);
+      min-height: max(44px, clamp(40px, 9vh, 52px));
       border-radius: 10px;
       border: 2px dashed rgba(255, 213, 79, 0.45);
       background: rgba(20, 16, 12, 0.35);
@@ -240,6 +250,7 @@
     .word-block {
       position: relative;
       padding: 8px 12px;
+      min-height: 44px;
       border-radius: 10px 12px 11px 9px / 9px 11px 10px 12px;
       font-family: "Patrick Hand", cursive;
       font-size: clamp(0.72rem, 2vw, 0.98rem);
@@ -314,10 +325,12 @@
     #tutor-bubble button {
       font-family: inherit;
       padding: 8px 18px;
+      min-height: 44px;
       border-radius: 10px;
       border: 2px solid #5d4037;
       background: #ffd54f;
       cursor: pointer;
+      touch-action: manipulation;
     }
 
     #particle-layer {
@@ -378,8 +391,8 @@
 
     #btn-next-wrap {
       position: fixed;
-      right: clamp(10px, 3vw, 24px);
-      bottom: calc(14px + min(46vh, 380px) + env(safe-area-inset-bottom, 0px));
+      right: max(clamp(10px, 3vw, 24px), env(safe-area-inset-right));
+      bottom: calc(14px + min(46vh, 380px) + env(safe-area-inset-bottom, 0px) + var(--lesson-pager-gap, 2.35rem));
       z-index: 62;
       opacity: 0;
       transform: translateY(24px);
@@ -395,18 +408,20 @@
       font-family: "Patrick Hand", cursive;
       font-size: clamp(0.85rem, 2.2vw, 1.05rem);
       padding: 12px 18px;
+      min-height: 44px;
       border-radius: 14px;
       border: 3px solid #ffd54f;
       background: linear-gradient(180deg, #4e342e, #3e2723);
       color: #fff8e1;
       cursor: pointer;
       box-shadow: 0 0 20px rgba(255, 213, 79, 0.35);
+      touch-action: manipulation;
     }
 
     #nav-back {
       position: fixed;
-      left: clamp(10px, 3vw, 20px);
-      top: clamp(72px, 12vh, 100px);
+      left: max(clamp(10px, 3vw, 20px), env(safe-area-inset-left));
+      top: max(clamp(72px, 12vh, 100px), calc(env(safe-area-inset-top) + 56px));
       bottom: auto;
       z-index: 20;
     }
@@ -415,13 +430,17 @@
       font-size: clamp(0.68rem, 1.8vw, 0.82rem);
       text-decoration: none;
       opacity: 0.85;
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+      touch-action: manipulation;
     }
     #nav-back a:hover { opacity: 1; text-decoration: underline; }
 
     #debug-strip {
       position: fixed;
       left: 50%;
-      bottom: 4px;
+      bottom: max(4px, env(safe-area-inset-bottom, 0px));
       transform: translateX(-50%);
       z-index: 19;
       font-size: 10px;
@@ -430,6 +449,58 @@
       max-width: 96vw;
       text-align: center;
       pointer-events: none;
+    }
+
+    @media (max-width: 720px), (max-height: 560px) {
+      html {
+        zoom: 1;
+      }
+      #sentence-stack {
+        max-height: min(48vh, 360px);
+      }
+      #btn-next-wrap {
+        left: max(clamp(10px, 3vw, 24px), env(safe-area-inset-left));
+        right: max(clamp(10px, 3vw, 24px), env(safe-area-inset-right));
+      }
+      #btn-next {
+        width: 100%;
+      }
+      #scale-stage {
+        top: clamp(28%, 30vh, 36%);
+        height: min(28vh, 220px);
+      }
+    }
+
+    body.has-lesson-pager nav.lesson-pager a,
+    body.has-lesson-pager nav.lesson-pager .pager-prev,
+    body.has-lesson-pager nav.lesson-pager .pager-next {
+      touch-action: manipulation;
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+      .word-block.in-bank:hover {
+        transform: none;
+        box-shadow: 0 6px 16px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.15);
+      }
+      #btn-validate:active,
+      #btn-clear-slots:active,
+      #tutor-bubble button:active,
+      #btn-next:active,
+      #nav-back a:active {
+        transform: scale(0.98);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .slot,
+      .word-block,
+      #toast,
+      #tutor-bubble,
+      #finale-white,
+      #grand-medal,
+      #btn-next-wrap {
+        transition: none !important;
+      }
     }
   </style>
   <link rel="stylesheet" href="assets/grammar-lesson-pager.css" />
