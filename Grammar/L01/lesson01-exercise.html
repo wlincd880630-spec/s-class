@@ -132,6 +132,152 @@
       font-size: 0.95rem;
       letter-spacing: 0.05em;
     }
+    /* —— 教师题目目录（可隐藏） —— */
+    .teacher-nav-toggle {
+      position: fixed;
+      right: max(0.75rem, env(safe-area-inset-right));
+      bottom: calc(4.25rem + env(safe-area-inset-bottom));
+      z-index: 902;
+      font-family: inherit;
+      font-size: 0.82rem;
+      font-weight: 700;
+      padding: 0.45rem 0.75rem;
+      border: 2px solid var(--crayon-blue);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.96);
+      color: #1565c0;
+      cursor: pointer;
+      box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.14);
+      touch-action: manipulation;
+    }
+    .teacher-nav-toggle:hover { background: #e3f2fd; }
+    .teacher-nav-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 900;
+      background: rgba(15, 23, 42, 0.28);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.22s ease;
+    }
+    .teacher-nav-backdrop.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .teacher-nav {
+      position: fixed;
+      top: 0;
+      right: 0;
+      z-index: 901;
+      width: min(300px, 92vw);
+      height: 100%;
+      max-height: 100dvh;
+      background: rgba(255, 249, 240, 0.98);
+      border-left: 3px solid var(--crayon-blue);
+      box-shadow: -10px 0 28px rgba(0, 0, 0, 0.16);
+      transform: translateX(105%);
+      transition: transform 0.26s ease;
+      display: flex;
+      flex-direction: column;
+      padding: 0.65rem 0.7rem;
+      padding-bottom: calc(0.65rem + env(safe-area-inset-bottom));
+    }
+    .teacher-nav.open { transform: translateX(0); }
+    .teacher-nav-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+      flex-shrink: 0;
+    }
+    .teacher-nav-head h2 {
+      margin: 0;
+      font-size: 0.95rem;
+      color: var(--crayon-red);
+      line-height: 1.35;
+    }
+    .teacher-nav-head p {
+      margin: 0.2rem 0 0;
+      font-size: 0.72rem;
+      color: #666;
+      line-height: 1.4;
+    }
+    .teacher-nav-close {
+      flex-shrink: 0;
+      border: 2px solid #bbb;
+      border-radius: 8px;
+      background: #fff;
+      padding: 0.2rem 0.45rem;
+      cursor: pointer;
+      font-size: 0.85rem;
+      line-height: 1;
+    }
+    .teacher-nav-body {
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      padding-right: 2px;
+    }
+    .teacher-nav-group {
+      margin-bottom: 0.65rem;
+    }
+    .teacher-nav-group h3 {
+      margin: 0 0 0.35rem;
+      font-size: 0.75rem;
+      color: #555;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+    }
+    .teacher-nav-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0.35rem;
+    }
+    .teacher-nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 2.35rem;
+      padding: 0.2rem 0.15rem;
+      border: 2px solid rgba(74, 144, 217, 0.45);
+      border-radius: 8px;
+      background: #fff;
+      cursor: pointer;
+      font-family: inherit;
+      touch-action: manipulation;
+      transition: background 0.15s, border-color 0.15s, transform 0.08s;
+    }
+    .teacher-nav-item:hover {
+      background: #e3f2fd;
+      border-color: var(--crayon-blue);
+    }
+    .teacher-nav-item:active { transform: scale(0.96); }
+    .teacher-nav-item .num {
+      font-size: 0.88rem;
+      font-weight: 800;
+      color: #1a237e;
+      line-height: 1.1;
+    }
+    .teacher-nav-item .tag {
+      font-size: 0.62rem;
+      color: #1565c0;
+      margin-top: 0.1rem;
+    }
+    .teacher-nav-item.is-current {
+      border-color: var(--crayon-green);
+      background: rgba(92, 184, 92, 0.18);
+      box-shadow: 0 0 0 2px rgba(92, 184, 92, 0.25);
+    }
+    .teacher-nav-item.is-done {
+      border-color: rgba(92, 184, 92, 0.55);
+    }
+    @media (max-width: 480px) {
+      .teacher-nav-grid { grid-template-columns: repeat(4, 1fr); }
+      .teacher-nav-toggle { font-size: 0.78rem; padding: 0.4rem 0.65rem; }
+    }
     .q-type-tag {
       display: inline-block;
       font-size: 0.72rem;
@@ -1094,6 +1240,20 @@ html body > nav.lesson-pager {
     <span class="pager-next pager-muted" aria-disabled="true">下一页</span>
   </nav>
   <div id="pdf-student-root" class="hidden" aria-hidden="true"></div>
+  <button type="button" class="teacher-nav-toggle" id="teacherNavToggle" aria-expanded="false" aria-controls="teacherNav" title="打开题目目录，按题号跳转讲解">
+    📋 题目目录
+  </button>
+  <div class="teacher-nav-backdrop" id="teacherNavBackdrop" aria-hidden="true"></div>
+  <aside class="teacher-nav" id="teacherNav" aria-label="题目导航目录" aria-hidden="true">
+    <div class="teacher-nav-head">
+      <div>
+        <h2>题目导航 · 50 题</h2>
+        <p>点击题号跳转；可随时收起，不影响学生作答。</p>
+      </div>
+      <button type="button" class="teacher-nav-close" id="teacherNavClose" aria-label="收起题目目录">✕</button>
+    </div>
+    <div class="teacher-nav-body" id="teacherNavBody"></div>
+  </aside>
   <script charset="utf-8">
 window.L01_QUESTIONS = [
   {
@@ -1727,6 +1887,161 @@ window.L01_QUESTIONS = [
     return m[t] || t;
   }
 
+  var TYPE_SHORT = { choice: "选", order: "排", fill: "填", correct: "改", transform: "转" };
+
+  var teacherNavOpen = false;
+  var teacherNavEls = {
+    toggle: document.getElementById("teacherNavToggle"),
+    backdrop: document.getElementById("teacherNavBackdrop"),
+    panel: document.getElementById("teacherNav"),
+    body: document.getElementById("teacherNavBody"),
+    close: document.getElementById("teacherNavClose")
+  };
+
+  function setTeacherNavOpen(open) {
+    teacherNavOpen = !!open;
+    if (teacherNavEls.panel) {
+      teacherNavEls.panel.classList.toggle("open", teacherNavOpen);
+      teacherNavEls.panel.setAttribute("aria-hidden", teacherNavOpen ? "false" : "true");
+    }
+    if (teacherNavEls.backdrop) {
+      teacherNavEls.backdrop.classList.toggle("open", teacherNavOpen);
+      teacherNavEls.backdrop.setAttribute("aria-hidden", teacherNavOpen ? "false" : "true");
+    }
+    if (teacherNavEls.toggle) {
+      teacherNavEls.toggle.setAttribute("aria-expanded", teacherNavOpen ? "true" : "false");
+      teacherNavEls.toggle.textContent = teacherNavOpen ? "📋 收起目录" : "📋 题目目录";
+    }
+  }
+
+  function buildTeacherNavGroups() {
+    var order = ["choice", "order", "fill", "correct"];
+    var labels = {
+      choice: "选择题 · 1–20",
+      order: "排序题 · 21–30",
+      fill: "填空题 · 31–40",
+      correct: "改错题 · 41–50"
+    };
+    var buckets = { choice: [], order: [], fill: [], correct: [], transform: [] };
+    QUESTIONS.forEach(function (q) {
+      if (buckets[q.type]) buckets[q.type].push(q);
+    });
+    return order
+      .filter(function (t) {
+        return buckets[t].length > 0;
+      })
+      .map(function (t) {
+        return { type: t, label: labels[t] || typeLabel(t), items: buckets[t].slice().sort(function (a, b) {
+          return a.id - b.id;
+        }) };
+      });
+  }
+
+  function getCurrentQuestionId() {
+    if (state.phase !== "quiz" || !state.order.length) return null;
+    var qIdx = state.order[state.currentIndex];
+    return QUESTIONS[qIdx] ? QUESTIONS[qIdx].id : null;
+  }
+
+  function isQuestionDone(qIndex) {
+    return state.results.some(function (r) {
+      return r.qIndex === qIndex;
+    });
+  }
+
+  function renderTeacherNav() {
+    if (!teacherNavEls.body || !TOTAL) return;
+    var currentId = getCurrentQuestionId();
+    var html = "";
+    buildTeacherNavGroups().forEach(function (g) {
+      html += '<section class="teacher-nav-group"><h3>' + escapeHtml(g.label) + "</h3><div class=\"teacher-nav-grid\">";
+      g.items.forEach(function (q) {
+        var qIndex = QUESTIONS.indexOf(q);
+        var cls = "teacher-nav-item";
+        if (q.id === currentId) cls += " is-current";
+        else if (isQuestionDone(qIndex)) cls += " is-done";
+        html +=
+          '<button type="button" class="' +
+          cls +
+          '" data-qid="' +
+          q.id +
+          '" title="' +
+          escapeHtml(typeLabel(q.type) + " · " + String(q.question).slice(0, 48)) +
+          '">' +
+          '<span class="num">' +
+          q.id +
+          "</span>" +
+          '<span class="tag">' +
+          escapeHtml(TYPE_SHORT[q.type] || "?") +
+          "</span></button>";
+      });
+      html += "</div></section>";
+    });
+    teacherNavEls.body.innerHTML = html;
+  }
+
+  function jumpToQuestionById(id) {
+    var qIndex = -1;
+    for (var i = 0; i < QUESTIONS.length; i++) {
+      if (QUESTIONS[i].id === id) {
+        qIndex = i;
+        break;
+      }
+    }
+    if (qIndex < 0) return;
+    if (state.phase !== "quiz") {
+      var order = [];
+      for (var j = 0; j < TOTAL; j++) order.push(j);
+      state.phase = "quiz";
+      state.mode = "teacher";
+      state.order = order;
+      state.results = [];
+    } else if (state.order.indexOf(qIndex) < 0) {
+      var full = [];
+      for (var k = 0; k < TOTAL; k++) full.push(k);
+      state.order = full;
+      state.mode = "teacher";
+    }
+    state.currentIndex = state.order.indexOf(qIndex);
+    state.answered = false;
+    state.correct = false;
+    state.userInput = "";
+    state.selectedChoice = null;
+    render();
+    renderTeacherNav();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function bindTeacherNav() {
+    if (!teacherNavEls.toggle) return;
+    teacherNavEls.toggle.addEventListener("click", function () {
+      setTeacherNavOpen(!teacherNavOpen);
+      if (teacherNavOpen) renderTeacherNav();
+    });
+    if (teacherNavEls.close) {
+      teacherNavEls.close.addEventListener("click", function () {
+        setTeacherNavOpen(false);
+      });
+    }
+    if (teacherNavEls.backdrop) {
+      teacherNavEls.backdrop.addEventListener("click", function () {
+        setTeacherNavOpen(false);
+      });
+    }
+    if (teacherNavEls.body) {
+      teacherNavEls.body.addEventListener("click", function (e) {
+        var btn = e.target.closest(".teacher-nav-item");
+        if (!btn) return;
+        var id = parseInt(btn.getAttribute("data-qid"), 10);
+        if (!id) return;
+        jumpToQuestionById(id);
+      });
+    }
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && teacherNavOpen) setTeacherNavOpen(false);
+    });
+  }
+
   function inputPlaceholderForType(t) {
     if (t === "order") {
       return "请写出完整、正确的英文句子（注意大小写与标点）";
@@ -2197,6 +2512,7 @@ window.L01_QUESTIONS = [
     } else {
       app.innerHTML = renderResult();
     }
+    renderTeacherNav();
   }
 
   function startQuiz(orderIds) {
@@ -2515,6 +2831,8 @@ window.L01_QUESTIONS = [
       app.innerHTML = renderDataError();
     } else {
       bind();
+      bindTeacherNav();
+      renderTeacherNav();
       render();
     }
   } catch (err) {

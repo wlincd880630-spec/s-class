@@ -732,6 +732,10 @@
   </footer>
 
   <!-- 清单走同源，避免站点 CSP 拦截 *.myqcloud.com 的 script；MP3 仍由 lesson-tts-l07-local.js 从 COS 拉取 -->
+  <script>
+    window.__L07_LOCAL_TTS_BASE__ =
+      "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L07/assets/tts-mp3/l07-google-mp3/";
+  </script>
   <script src="assets/tts-mp3/l07-google-mp3/manifest.embed.js"></script>
   <script src="../shared/play-local-mp3.js"></script>
   <script src="../shared/lesson-local-audio.js" defer></script>
@@ -1184,7 +1188,11 @@
     btnListen.setAttribute("aria-label", "朗读问题（本地 MP3）");
     btnListen.textContent = "\uD83D\uDD0A";
     btnListen.addEventListener("click", function () {
-      speakPlainAzure(st.q, "en-US-JennyNeural", "friendly");
+      var qText = st.q;
+      var go = window.unlockAudio ? window.unlockAudio() : Promise.resolve();
+      go.then(function () {
+        speakPlainAzure(qText);
+      });
     });
     btnRow.appendChild(btnListen);
     var hint = document.createElement("span");

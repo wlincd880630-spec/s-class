@@ -9,7 +9,7 @@
  *
  * 可选覆盖（在引入本脚本前设置）：
  *   window.__L07_LOCAL_TTS_MANIFEST__ = "assets/tts-mp3/l07-google-mp3/manifest.json";
- *   window.__L07_LOCAL_TTS_BASE__     = "assets/tts-mp3/l07-google-mp3/";
+ *   window.__L07_LOCAL_TTS_BASE__     = "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L07/assets/tts-mp3/l07-google-mp3/";
  *
  * 播放失败后 window.__L07_TTS_FAIL_REASON__ 可能为：
  *   empty | map_miss | manifest | audio | play_rejected
@@ -21,7 +21,10 @@
   var MANIFEST_REL = String(
     global.__L07_LOCAL_TTS_MANIFEST__ || "assets/tts-mp3/l07-google-mp3/manifest.json"
   ).trim();
-  var BASE_REL = String(global.__L07_LOCAL_TTS_BASE__ || "assets/tts-mp3/l07-google-mp3/").trim();
+  var BASE_REL = String(
+    global.__L07_LOCAL_TTS_BASE__ ||
+      "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L07/assets/tts-mp3/l07-google-mp3/"
+  ).trim();
 
   var mapNormToFile = Object.create(null);
   var mapExactToFile = Object.create(null);
