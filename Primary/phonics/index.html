@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>启蒙语音 · CVC 与 Magic E</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ng-gold: #f5c400;
+      --ink: #0d1117;
+      --text: #e8eaed;
+      --text-muted: #9aa5b8;
+      --glass: rgba(255, 255, 255, 0.06);
+      --glass-border: rgba(255, 255, 255, 0.12);
+      --radius: 18px;
+      --cvc: #ff7043;
+      --magic: #ab47bc;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "DM Sans", "PingFang SC", "Microsoft YaHei", sans-serif;
+      min-height: 100vh;
+      color: var(--text);
+      background: var(--ink);
+      line-height: 1.55;
+    }
+    .bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .bg-photo {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform: scale(1.03);
+    }
+    .bg-frost {
+      position: absolute;
+      inset: 0;
+      background: rgba(10, 14, 22, 0.48);
+      backdrop-filter: blur(18px) saturate(1.1);
+      -webkit-backdrop-filter: blur(18px) saturate(1.1);
+    }
+    .page {
+      position: relative;
+      z-index: 1;
+      max-width: 920px;
+      margin: 0 auto;
+      padding: clamp(1.5rem, 4vw, 2.5rem) clamp(1.1rem, 4vw, 2rem) 3rem;
+    }
+    .back {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.85rem;
+      margin-bottom: 1.5rem;
+      transition: color 0.2s;
+    }
+    .back:hover { color: var(--ng-gold); }
+    header {
+      text-align: center;
+      margin-bottom: 2.25rem;
+    }
+    h1 {
+      font-family: "Cormorant Garamond", "Georgia", "Songti SC", serif;
+      font-weight: 600;
+      font-size: clamp(2rem, 5vw, 2.75rem);
+      margin-bottom: 0.5rem;
+      background: linear-gradient(180deg, #fff 0%, #c5cdd8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 0.98rem;
+      max-width: 28rem;
+      margin: 0 auto;
+    }
+    .course {
+      margin-bottom: 1.75rem;
+      border-radius: var(--radius);
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      overflow: hidden;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+    .course-head {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1.25rem 1.35rem;
+      border-bottom: 1px solid var(--glass-border);
+      background: linear-gradient(90deg, color-mix(in srgb, var(--accent) 12%, transparent), transparent 70%);
+    }
+    .course-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      flex-shrink: 0;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .course-head h2 {
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: 1.55rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.15rem;
+    }
+    .course-head p {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+    .course-body {
+      padding: 1.1rem 1.35rem 1.35rem;
+      display: grid;
+      gap: 1.1rem;
+    }
+    .group-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.55rem;
+    }
+    .link-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 0.65rem;
+    }
+    a.item {
+      display: block;
+      padding: 0.85rem 1rem;
+      border-radius: 12px;
+      text-decoration: none;
+      color: inherit;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      transition: border-color 0.25s, background 0.25s, transform 0.25s;
+    }
+    a.item:hover {
+      border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+      background: color-mix(in srgb, var(--accent) 8%, transparent);
+      transform: translateY(-2px);
+    }
+    a.item strong {
+      display: block;
+      font-size: 0.92rem;
+      color: #fff;
+      margin-bottom: 0.2rem;
+    }
+    a.item span {
+      font-size: 0.76rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+    a.item.primary {
+      border-color: color-mix(in srgb, var(--accent) 30%, transparent);
+      background: color-mix(in srgb, var(--accent) 10%, transparent);
+    }
+    footer {
+      margin-top: 2rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--glass-border);
+      text-align: center;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+    footer strong { color: var(--ng-gold); }
+  </style>
+</head>
+<body>
+  <div class="bg" aria-hidden="true">
+    <img class="bg-photo" src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/assets/bk.jpg" alt="" />
+    <div class="bg-frost"></div>
+  </div>
+  <div class="page">
+    <a class="back" href="../index.html">← 返回分级阅读总目录</a>
+    <header>
+      <h1>启蒙语音</h1>
+      <p class="subtitle">自然拼读 CVC（闭音节）与 Magic E（CVCE）· 课件、抄写、课堂练习与听音测试</p>
+    </header>
+
+    <section class="course" style="--accent: var(--cvc);">
+      <div class="course-head">
+        <div class="course-icon" style="background: linear-gradient(135deg, #fff3e0, #ffe0b2);">🌈</div>
+        <div>
+          <h2>CVC 自然拼读乐园</h2>
+          <p>闭音节 · 辅音-元音-辅音 · 五组元音各 15 词</p>
+        </div>
+      </div>
+      <div class="course-body">
+        <div>
+          <div class="group-label">互动课件</div>
+          <div class="link-grid">
+            <a class="item primary" href="../CVC/index.html">
+              <strong>进入 CVC 课件</strong>
+              <span>按元音分组 · 单词页与例句 · 配图与发音</span>
+            </a>
+          </div>
+        </div>
+        <div>
+          <div class="group-label">抄写打印</div>
+          <div class="link-grid">
+            <a class="item" href="../CVC/CVC抄写作业.html">
+              <strong>单词抄写</strong>
+              <span>听音抄写 · 配图打印 · 五组元音</span>
+            </a>
+            <a class="item" href="../CVC/CVC句子抄写-AEIOU生成器.html">
+              <strong>句子抄写</strong>
+              <span>连环图例句 · 按元音生成 · 可打印</span>
+            </a>
+            <a class="item" href="../CVC/CVC听写-AEIOU生成器.html">
+              <strong>听写生成器</strong>
+              <span>按元音选题 · 课堂听写 · 可打印</span>
+            </a>
+          </div>
+        </div>
+        <div>
+          <div class="group-label">课堂测评</div>
+          <div class="link-grid">
+            <a class="item" href="../CVC/practice-teacher.html">
+              <strong>课堂练习</strong>
+              <span>教师投屏 · 看图选词 · 听音辨词</span>
+            </a>
+            <a class="item" href="../CVC/test-teacher.html">
+              <strong>听音辨音测试</strong>
+              <span>限时计分 · 投屏模式</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="course" style="--accent: var(--magic);">
+      <div class="course-head">
+        <div class="course-icon" style="background: linear-gradient(135deg, #f3e5f5, #e1bee7);">✨</div>
+        <div>
+          <h2>Magic E / CVCE</h2>
+          <p>魔法 E · aCe · eCe · iCe · oCe · uCe · 每组 15 词</p>
+        </div>
+      </div>
+      <div class="course-body">
+        <div>
+          <div class="group-label">互动课件</div>
+          <div class="link-grid">
+            <a class="item primary" href="../Magic-E/magic-e.html">
+              <strong>进入 Magic E 课件</strong>
+              <span>按元音分组 · 单词页与例句 · 配图与发音</span>
+            </a>
+          </div>
+        </div>
+        <div>
+          <div class="group-label">抄写打印</div>
+          <div class="link-grid">
+            <a class="item" href="../Magic-E/Magic-E抄写作业.html">
+              <strong>单词抄写</strong>
+              <span>听音抄写 · 配图打印 · 五组元音</span>
+            </a>
+            <a class="item" href="../Magic-E/Magic-E句子抄写-AEIOU生成器.html">
+              <strong>句子抄写</strong>
+              <span>连环图例句 · 按元音生成 · 可打印</span>
+            </a>
+          </div>
+        </div>
+        <div>
+          <div class="group-label">课堂测评</div>
+          <div class="link-grid">
+            <a class="item" href="../Magic-E/magic-e-practice-teacher.html">
+              <strong>课堂练习</strong>
+              <span>教师投屏 · 看图选词 · 听音辨词</span>
+            </a>
+            <a class="item" href="../Magic-E/magic-e-test-teacher.html">
+              <strong>听音辨音测试</strong>
+              <span>限时计分 · 投屏模式</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <span><strong>启蒙语音</strong> · CVC 与 Magic E</span>
+    </footer>
+  </div>
+</body>
+</html>
