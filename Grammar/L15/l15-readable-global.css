@@ -1,0 +1,124 @@
+﻿/**
+ * l15 全课 · 选择性大屏放大
+ * 仅放大：英文例句、语法知识点（公式/结构/规则演示）、测验题干与英文选项
+ * 不放大：顶栏、页眉、底栏导航、说明文字（panel-lead / zh-hint / 标签等）
+ */
+#l15-book {
+  --l15-fs-en: clamp(1.05rem, 1.2vw + 0.58rem, 1.38rem);
+  --l15-fs-grammar: clamp(0.98rem, 0.95vw + 0.52rem, 1.18rem);
+  --l15-fs-quiz: clamp(1.02rem, 1.05vw + 0.55rem, 1.32rem);
+  --l15-fs-opt: clamp(0.95rem, 0.9vw + 0.5rem, 1.14rem);
+}
+
+@media (min-width: 1024px), (min-height: 720px) {
+  #l15-book {
+    --l15-fs-en: clamp(1.15rem, 1.45vw + 0.62rem, 1.55rem);
+    --l15-fs-grammar: clamp(1.05rem, 1.1vw + 0.55rem, 1.28rem);
+    --l15-fs-quiz: clamp(1.08rem, 1.15vw + 0.58rem, 1.42rem);
+    --l15-fs-opt: clamp(1rem, 1vw + 0.52rem, 1.22rem);
+  }
+}
+
+@media (min-width: 1600px), (min-height: 900px) {
+  #l15-book {
+    --l15-fs-en: clamp(1.22rem, 1.6vw + 0.65rem, 1.68rem);
+    --l15-fs-grammar: clamp(1.1rem, 1.2vw + 0.58rem, 1.35rem);
+    --l15-fs-quiz: clamp(1.12rem, 1.25vw + 0.6rem, 1.48rem);
+    --l15-fs-opt: clamp(1.05rem, 1.1vw + 0.55rem, 1.28rem);
+  }
+}
+
+/* —— 英文例句 —— */
+#l15-book .en-line,
+#l15-book .lab-sentence,
+#l15-book .compare-pair-box .line,
+#l15-book .scene-passive,
+#l15-book .scene-active,
+#l15-book .corpus-table td[lang="en"],
+#l15-book .corpus-read-card [lang="en"],
+#l15-book .xf-active,
+#l15-book .xf-passive,
+#l15-book .transform-demo .line-active,
+#l15-book .transform-demo .line-passive,
+#l15-book .reverse-card [lang="en"],
+#l15-book .by-build,
+#l15-book .compare-card .cmp-en,
+#l15-book .read-by-card .en-line,
+#l15-book .rule-demo-en,
+#l15-book .past-build,
+#l15-book .when-card [lang="en"],
+#l15-book .inv-read-card .en-line,
+#l15-book .past-intro-en,
+#l15-book .modal-build,
+#l15-book .negq-modal-card [lang="en"],
+#l15-book .debate-read-card .en-line,
+#l15-book .modal-intro-en,
+#l15-book .made-build,
+#l15-book .example-card [lang="en"],
+#l15-book .made-read-card .en-line,
+#l15-book .made-intro-en,
+#l15-book .prep-demo-en,
+#l15-book .passage-panel .passage-text,
+#l15-book .passage-intro-en,
+#l15-book .negq-card .en-line,
+#l15-book .insight-card .insight-q[lang="en"],
+#l15-book .match-target.filled {
+  font-size: var(--l15-fs-en) !important;
+  line-height: 1.48 !important;
+}
+
+/* —— 知识点：公式 / 规则块 / 结构表 / 教师闸门例句列 —— */
+#l15-book .rule-box,
+#l15-book .formula-banner,
+#l15-book #def-formula,
+#l15-book .passive-tense-head .passive-formula-line,
+#l15-book .passive-form-matrix-wrap td.example,
+#l15-book .passive-form-matrix-wrap td.example[lang="en"] {
+  font-size: var(--l15-fs-en) !important;
+  line-height: 1.48 !important;
+}
+#l15-book .passive-form-matrix-wrap .structure code,
+#l15-book .be-table-interactive,
+#l15-book .be-table-interactive td,
+#l15-book .be-table-interactive th,
+#l15-book .v3-flash-card [lang="en"],
+#l15-book .pp-demo [lang="en"],
+#l15-book .timeline-card [lang="en"],
+#l15-book .formula-box,
+#l15-book .formula-box [lang="en"] {
+  font-size: var(--l15-fs-grammar) !important;
+  line-height: 1.45 !important;
+}
+
+/* 被动矩阵：仅放大「例句」列，句型/结构列保持 layout 原字号 */
+#l15-book .passive-form-matrix-wrap th,
+#l15-book .passive-form-matrix-wrap td.kind,
+#l15-book .passive-form-matrix-wrap td.structure,
+#l15-book .passive-form-matrix-wrap .struct-zh {
+  font-size: inherit !important;
+}
+
+/* —— 测验：题干与英文选项（进度/模式说明不放大）—— */
+#l15-book .quiz-stem,
+#l15-book .quiz-slot .quiz-stem {
+  font-size: var(--l15-fs-quiz) !important;
+  line-height: 1.42 !important;
+}
+#l15-book .opt-row button,
+#l15-book .quiz-slot .opt-row button {
+  font-size: var(--l15-fs-opt) !important;
+}
+#l15-book .match-chip {
+  font-size: var(--l15-fs-opt) !important;
+}
+
+/* —— Page 11 讲义：仅背诵例句英文行 —— */
+@media (min-width: 1024px) {
+  body.l15-handout-page .story-block .en-xl,
+  body.l15-handout-page .formula-box,
+  body.l15-handout-page table.data td[lang="en"],
+  body.l15-handout-page table.data .en-xl {
+    font-size: clamp(1.05rem, 0.65vw + 0.92rem, 1.28rem);
+    line-height: 1.5;
+  }
+}

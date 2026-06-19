@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <link rel="stylesheet" href="../shared/grammar-logo.css" />
+  <link rel="stylesheet" href="../shared/grammar-handout.css" />
+  <title>词性转换与词汇 · 背诵讲义</title>
+  <link rel="stylesheet" href="l15-readable-global.css" />
+  <script src="l15-corpus-pool.js?v=3"></script>
+  <style>
+    .cat-block { margin-bottom: 1.25rem; break-inside: avoid; }
+    .cat-block h3 { font-size: 1rem; color: #6d28d9; margin: 0 0 .4rem; }
+    .cat-block table { width: 100%; font-size: .78rem; border-collapse: collapse; }
+    .cat-block th, .cat-block td { border: 1px solid #cbd5e1; padding: .25rem .35rem; text-align: left; vertical-align: top; }
+    .cat-block th { background: #f5f3ff; }
+    .handout-stats { font-size: .85rem; color: #64748b; margin-bottom: 1rem; }
+  </style>
+</head>
+<body class="grammar-handout-page">
+  <header class="grammar-handout-top">
+    <div class="top-bar-main"><strong>词性转换与词汇 · L15</strong><span class="subtitle-line">Steven's Class</span></div>
+    <a class="grammar-handout-index-link" href="index.html">本讲目录</a>
+  </header>
+  <main class="sheet" id="handout-pdf-source">
+    <div class="inner">
+      <h1 class="doc-title">第15讲 · 词性转换与词汇 · 背诵讲义（全库）</h1>
+      <p class="doc-subtitle">2018–2026 成都中考 · 合计 <span id="total-n">—</span> 条</p>
+      <p class="handout-stats" id="stats-line"></p>
+      <section id="sec-banks"><h2 class="section-title">① 2018–2026 B 卷词库</h2><div id="bank-table"></div></section>
+      <section id="sec-corpus"><h2 class="section-title">② 分类全库速查</h2><div id="corpus-sections"></div></section>
+    </div>
+  </main>
+  <script>
+  (function(){
+    document.getElementById("total-n").textContent = L15Corpus.TOTAL;
+    var stats = [];
+    Object.keys(L15Corpus.STATS).forEach(function(k){
+      stats.push(L15Corpus.CAT_LABEL[k] + " " + L15Corpus.STATS[k]);
+    });
+    document.getElementById("stats-line").textContent = stats.join(" · ");
+    var bhtml = "";
+    Object.keys(L15Corpus.WORD_BANKS).sort().forEach(function(y){
+      bhtml += "<p><strong>"+y+"</strong>："+L15Corpus.WORD_BANKS[y].join(" · ")+"</p>";
+    });
+    document.getElementById("bank-table").innerHTML = bhtml;
+    var cats = ["word-form","verb-phrase","adj-noun-phrase","collocation","idiom","polysemy","chart","tier2","tier3","predict"];
+    var out = "";
+    cats.forEach(function(cat){
+      var rows = L15Corpus.byCat(cat);
+      out += '<div class="cat-block"><h3>'+L15Corpus.CAT_LABEL[cat]+'（'+rows.length+'）</h3><table><thead><tr><th>英文</th><th>中文</th><th>例句</th><th>语境</th></tr></thead><tbody>';
+      rows.forEach(function(r){
+        out += "<tr><td lang=\"en\">"+r.en+"</td><td>"+r.zh+"</td><td lang=\"en\">"+(r.exEn||"—")+"<br/><small>"+(r.exZh||"")+"</small></td><td>"+(r.ctx||r.year||"—")+"</td></tr>";
+      });
+      out += "</tbody></table></div>";
+    });
+    document.getElementById("corpus-sections").innerHTML = out;
+  })();
+  </script>
+</body>
+</html>

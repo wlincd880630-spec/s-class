@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>词性转换与词汇 · 后缀实验室</title>
+  <link rel="stylesheet" href="assets/lesson-screen-16x9.css" />
+  <link rel="stylesheet" href="l15-index-nav.css" />
+  <link rel="stylesheet" href="../shared/grammar-logo.css" />
+  <link rel="stylesheet" href="l15-lesson-shell.css" />
+  <link rel="stylesheet" href="assets/grammar-lesson-pager.css" />
+  <link rel="stylesheet" href="l15-page-components.css" />
+  <link rel="stylesheet" href="l15-readable-global.css" />
+  <link rel="stylesheet" href="l15-scene-images.css" />
+  <link rel="stylesheet" href="l15-vocab-browser.css" />
+  <link rel="stylesheet" href="l15-design-v3.css" />
+  <style>
+    :root {
+      --l15-accent: #6366f1;
+      --l15-accent-ink: #4338ca;
+      --grammar-pager-accent: #6366f1;
+      --grammar-pager-accent-ink: #4338ca;
+    }
+    html, body { margin:0; min-height:100dvh; line-height:1.55; }
+    .vocab-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); gap:.55rem; margin-top:.5rem; }
+    .rule-table { width:100%; border-collapse:collapse; font-size:.86rem; margin-top:.5rem; }
+    .rule-table th, .rule-table td { padding:.45rem .55rem; text-align:left; }
+  </style>
+  <script src="assets/lesson-tts-bootstrap.js"></script>
+  <script src="../shared/lesson-tts-azure-play.js"></script>
+  <script src="assets/l15-tts-manifest.js"></script>
+  <script src="l15-ui-helpers.js"></script>
+  <script src="l15-progress.js"></script>
+  <script src="l15-quiz-engine.js?v=1"></script>
+</head>
+<body class="has-lesson-pager">
+  <div id="app"><div id="l15-book" class="book">
+    <header class="top-bar"><div class="top-bar-main"><strong>词性转换与词汇 · L15</strong></div>
+      <a class="l15-index-link" href="index.html">学习目录</a></header>
+    <div class="l15-scroll"><section class="lesson-page active" data-page="1">
+    <div class="page-head"><span class="page-kicker">1 / 3</span><h2 class="page-title">形容词 → 副词 · -ly</h2></div>
+    <div class="panel"><p class="zh-hint">副词修饰动词 / 形容词 / 全句；注意 y→i+ly、辅音双写。</p><div id="ly-list" class="vb-list"></div></div></section>
+<section class="lesson-page" data-page="2">
+    <div class="page-head"><span class="page-kicker">2 / 3</span><h2 class="page-title">动词/形容词 → 名词</h2></div>
+    <div class="panel"><div id="noun-list" class="vb-list"></div></div></section>
+<section class="lesson-page" data-page="3">
+    <div class="page-head"><span class="page-kicker">3 / 3</span><h2 class="page-title">不规则与易错</h2></div>
+    <div class="panel"><div id="irreg-list" class="vb-list"></div></div></section>
+    </div>
+    <nav class="lesson-pager is-intra-nav" aria-label="分页">
+      <div class="pager-zone pager-zone--left">
+        <button type="button" class="pager-prev" id="pager-prev" disabled>上一页</button>
+      </div>
+      <a class="pager-logo" href="index.html" aria-label="本讲目录"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/logo2.png" alt="Steven's Class" width="204" height="61" decoding="async" /></a>
+      <div class="pager-zone pager-zone--right">
+        <span class="pager-mid" id="pager-mid" aria-live="polite">1 / 3</span>
+        <button type="button" class="pager-next" id="pager-next">下一页</button>
+      </div>
+    </nav>
+  </div></div>
+  <script src="l15-corpus-pool.js?v=3"></script>
+  <script src="l15-vocab-browser.js"></script>
+  <script src="l15-index-nav.js"></script>
+  <script src="l15-lesson-pager.js"></script>
+  <script>
+  (function(){
+    var pager = window.L15LessonPager && L15LessonPager.init();
+    
+    function wfCard(base, form) {
+      var hit = L15Corpus.byCat("word-form").find(function(x){ return x.base===base && x.form===form; });
+      if (hit && window.L15VocabCardHtml) return L15VocabCardHtml(hit);
+      return '<article class="vocab-card" data-cat="word-form"><div class="vocab-card-en">'+base+' → '+form+'</div></article>';
+    }
+    L15Corpus.SUFFIX_LY.forEach(function(x){
+      document.getElementById("ly-list").innerHTML += wfCard(x.base, x.form);
+    });
+    L15Corpus.SUFFIX_NOUN.forEach(function(x){
+      document.getElementById("noun-list").innerHTML += wfCard(x.base, x.form);
+    });
+    L15Corpus.IRREGULAR.forEach(function(x){
+      var hit = L15Corpus.byCat("word-form").find(function(w){ return w.base===x.base; });
+      document.getElementById("irreg-list").innerHTML += hit && window.L15VocabCardHtml ? L15VocabCardHtml(hit) : wfCard(x.base, x.form);
+    });
+    document.querySelectorAll(".tts-btn").forEach(function(btn){
+      btn.onclick=function(){ if(window.playLessonAzureTtsPlain) window.playLessonAzureTtsPlain(btn.getAttribute("data-tts")); };
+    });
+  
+  })();
+  </script>
+</body></html>
