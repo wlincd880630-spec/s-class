@@ -367,11 +367,11 @@
     .screen-line {
       position: relative;
       z-index: 5;
-      font-size: clamp(0.88rem, 2.4vw, 1.05rem);
+      font-size: clamp(1.76rem, 4.8vw, 2.1rem);
       line-height: 1.55;
       color: #333;
       margin: 0 0 0.45rem;
-      min-height: 3.1em;
+      min-height: 6.2em;
     }
     .screen-line.is-phased-out {
       visibility: hidden;
@@ -590,20 +590,6 @@
       flex-direction: column;
       align-items: flex-end;
       gap: 0.45rem;
-    }
-    .progress-bar-wrap {
-      width: min(220px, 70vw);
-      height: 12px;
-      border-radius: 999px;
-      border: 2px solid #5d4037;
-      background: rgba(255,255,255,0.85);
-      overflow: hidden;
-    }
-    .progress-bar-fill {
-      height: 100%;
-      width: 0%;
-      background: linear-gradient(90deg, #81c784, #43a047);
-      transition: width 0.4s ease;
     }
   </style>
   <style>
@@ -1354,8 +1340,6 @@ html body > nav.lesson-pager {
 <body class="has-lesson-pager">
   <div class="book">
     <div class="top-bar"><strong>第03讲</strong> · Page 05 · 时光打印机 · 图片对比 + 发现式学习</div>
-    <h1>先看图（可点击放大），点「显示金句」解锁平时句，再点 Yesterday 看「过去」</h1>
-    <p class="subtitle">左栏规则动词：多数加 ·ed（盖章派）｜右栏不规则：过去式各不相同（魔法派）</p>
 
     <div class="page-layout">
       <aside class="side-lobby">
@@ -1413,7 +1397,6 @@ html body > nav.lesson-pager {
       <span class="src" id="goldSrc"></span>
       <div id="goldNote"></div>
     </div>
-    <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progressFill"></div></div>
   </div>
 
   <nav class="lesson-pager is-file-nav" aria-label="页面导航">
@@ -2184,26 +2167,6 @@ window.L03AudioManifest = {
       copy: ["copi", "ed"], shop: ["shop", "ped"], drop: ["drop", "ped"]
     };
 
-    var LS_EXPLORE = "l03p05_explore_v3";
-    var explored = {};
-
-    function loadExplore() {
-      try {
-        var raw = localStorage.getItem(LS_EXPLORE);
-        if (!raw) return;
-        var arr = JSON.parse(raw);
-        explored = {};
-        if (Array.isArray(arr)) arr.forEach(function (id) { explored[id] = true; });
-      } catch (e) {
-        explored = {};
-      }
-    }
-    function saveExplore() {
-      try {
-        localStorage.setItem(LS_EXPLORE, JSON.stringify(Object.keys(explored)));
-      } catch (e) {}
-    }
-
     var flatList = []
       .concat(
         VERB_MASTER_POOL.regular.map(function (v, i) {
@@ -2285,7 +2248,6 @@ window.L03AudioManifest = {
     var goldSrc = document.getElementById("goldSrc");
     var goldNote = document.getElementById("goldNote");
     var toast = document.getElementById("toast");
-    var progressFill = document.getElementById("progressFill");
     var photoStack = document.getElementById("photoStack");
     var photoActions = document.getElementById("photoActions");
     var btnRevealSentence = document.getElementById("btnRevealSentence");
@@ -2451,14 +2413,6 @@ window.L03AudioManifest = {
       return "";
     }
 
-    function exploredCount() {
-      return Object.keys(explored).length;
-    }
-
-    function updateProgressUI() {
-      progressFill.style.width = (exploredCount() / 60) * 100 + "%";
-    }
-
     function logImagePromptsFor(item) {
       console.log("[L03·P05] 绘图 Prompt —", item.base, "NOW:\n", item.imgPromptNow);
       console.log("[L03·P05] 绘图 Prompt —", item.base, "PAST:\n", item.imgPromptPast);
@@ -2577,13 +2531,6 @@ window.L03AudioManifest = {
         });
       }
       speakOne();
-    }
-
-    function registerExplore() {
-      if (explored[current.id]) return;
-      explored[current.id] = true;
-      saveExplore();
-      updateProgressUI();
     }
 
     function updateGoldKey() {
@@ -2753,7 +2700,6 @@ window.L03AudioManifest = {
       speakToken++;
       var tok = speakToken;
       speakPastProgressive(current.pastSentence, tok);
-      registerExplore();
       applyDiscoveryUI();
       setBusy(false);
     }
@@ -2961,9 +2907,7 @@ window.L03AudioManifest = {
       }
     });
 
-    loadExplore();
     buildDeck();
-    updateProgressUI();
     selectAction(flatList[0]);
     openPanel("reg");
   })();
