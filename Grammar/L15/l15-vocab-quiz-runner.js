@@ -11,6 +11,12 @@
       .replace(/"/g, "&quot;");
   }
 
+  function normKey(s) {
+    return String(s || "")
+      .trim()
+      .toLowerCase();
+  }
+
   function Runner(root) {
     this.root = root;
     this.mode = "cloze";
@@ -241,14 +247,16 @@
       btn.textContent = opt;
       if (saved.done) {
         btn.disabled = true;
-        if (opt === q.ans) btn.classList.add("ok");
-        else if (opt === saved.pick) btn.classList.add("bad");
+        if (normKey(opt) === normKey(q.ans)) btn.classList.add("ok");
+        else if (normKey(opt) === normKey(saved.pick)) btn.classList.add("bad");
       }
       btn.onclick = function () {
         if (saved.done) return;
         saved.done = true;
         saved.pick = opt;
-        var ok = opt === q.ans;
+        var ok =
+          normKey(opt) === normKey(q.ans) ||
+          String(opt).trim() === String(q.ans).trim();
         saved.ok = ok;
         self._state[self.idx] = saved;
         if (ok) self.score++;

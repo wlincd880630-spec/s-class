@@ -87,9 +87,17 @@
     var q = L15Corpus.getPageQuiz("p01")[0];
     var box = document.getElementById("p01-quiz");
     box.innerHTML = '<p>'+q.stem+'</p>';
+    var done = false;
     q.opts.forEach(function(o){
       var b = document.createElement("button"); b.className="quiz-opt"; b.textContent=o;
-      b.onclick=function(){ b.classList.add(o===q.ans?"correct":"wrong"); };
+      b.onclick=function(){
+        if(done) return; done=true;
+        box.querySelectorAll(".quiz-opt").forEach(function(btn){
+          btn.disabled = true;
+          if(btn.textContent===q.ans) btn.classList.add("correct");
+        });
+        b.classList.add(o===q.ans?"correct":"wrong");
+      };
       box.appendChild(b);
     });
   

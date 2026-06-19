@@ -20,6 +20,12 @@
       .replace(/"/g, "&quot;");
   }
 
+  function normKey(s) {
+    return String(s || "")
+      .trim()
+      .toLowerCase();
+  }
+
   function shuffle(arr) {
     var a = arr.slice();
     for (var i = a.length - 1; i > 0; i--) {
@@ -31,23 +37,64 @@
     return a;
   }
 
-  function uniq(arr) {
-    var seen = new Set();
-    return arr.filter(function (x) {
-      var k = String(x).toLowerCase();
-      if (!x || seen.has(k)) return false;
-      seen.add(k);
-      return true;
-    });
-  }
-
   function cleanZh(zh) {
-    var z = String(zh || "");
+    var z = String(zh || "")
+      .replace(/^(含义|搭配义|拓展词汇)[：:]\s*/, "")
+      .trim();
     if (z.indexOf("常义") >= 0 && z.indexOf("僻义") >= 0) {
       var m = z.match(/僻义[：:]([^；;]+)/);
       if (m) return m[1].trim();
     }
     return z.split("；")[0].split("·")[0].split("—")[0].trim();
+  }
+
+  function polysemyRareZh(item) {
+    var zh = String(item.zh || "");
+    if (item.tag && item.tag.indexOf("→") >= 0) {
+      return item.tag.split("→")[1].replace(/^僻/, "").trim();
+    }
+    var m = zh.match(/僻义[：:]([^；;]+)/);
+    if (m) return m[1].trim();
+    return cleanZh(zh);
+  }
+
+  function polysemyCommonZh(item) {
+    var zh = String(item.zh || "");
+    if (item.tag && item.tag.indexOf("→") >= 0) {
+      return item.tag.split("→")[0].replace(/^常/, "").trim();
+    }
+    var m = zh.match(/常义[：:]([^；;]+)/);
+    if (m) return m[1].trim();
+    return cleanZh(zh);
+  }
+
+  /** 语境释义 · 标准中文答案 */
+  function meaningZh(item) {
+    if (item.cat === "polysemy") return polysemyRareZh(item);
+    if (item.cat === "word-form") return wordFormMeaningZh(item);
+    return cleanZh(item.zh);
+  }
+
+  function wordFormMeaningZh(item) {
+    var ex = String(item.exZh || "");
+    var before = ex.split("→")[0] || "";
+    var need = before.match(/需填[「"']?(\S+?)[」"']?[。.]?/);
+    if (need) return "应填 " + need[1] + "（词性转换）";
+
+    var tail = (ex.match(/→\s*(.+)$/) || [])[1];
+    if (tail) {
+      tail = tail.trim();
+      if (/转化为/.test(tail)) {
+        var tgt = tail.match(/转化为\s*(\S+)/);
+        if (tgt) return "正确形式：" + tgt[1];
+      }
+      var cn = tail.replace(/\s+[a-zA-Z][\w\s'-]*$/, "").trim();
+      if (cn && cn.indexOf("转化为") < 0) return cn;
+    }
+
+    var zm = String(item.zh || "").match(/转化为\s*(\S+)/);
+    if (zm) return "正确形式：" + zm[1];
+    return formWord(item) + "（词性转换）";
   }
 
   function primaryEn(item) {
@@ -62,6 +109,19 @@
 
   function formWord(item) {
     return item.form || primaryEn(item);
+  }
+
+  /** 表达匹配 · 标准英文答案 */
+  function expressionEn(item) {
+    if (item.cat === "word-form") return formWord(item);
+    var e = String(item.en || "").trim();
+    if (e.indexOf(" → ") >= 0) return e.split(" → ")[1].trim();
+    return e.split("/")[0].trim();
+  }
+
+  function clozeWord(item) {
+    if (item.cat === "word-form") return formWord(item);
+    return expressionEn(item);
   }
 
   function escapeReg(s) {
@@ -90,28 +150,97 @@
     });
   }
 
-  function pickField(pool, item, field, n, sameCat) {
+  function mapField(item, field) {
+    if (field === "form") return formWord(item);
+    if (field === "zh") return meaningZh(item);
+    return expressionEn(item);
+  }
+
+  function pickField(pool, item, field, n, sameCat, exclude) {
+    var exKey = normKey(exclude);
     var src = poolExcept(pool, item);
     if (sameCat) {
       var same = src.filter(function (x) {
         return x.cat === item.cat;
       });
-      if (same.length >= n) src = same;
+      if (same.length >= Math.max(n, 3)) src = same;
     }
-    return shuffle(src)
-      .slice(0, n * 3)
-      .map(function (x) {
-        if (field === "form") return formWord(x);
-        if (field === "zh") return cleanZh(x.zh);
-        return primaryEn(x);
-      })
-      .filter(function (v) {
-        return v && String(v).length > 0;
-      });
+
+    var out = [];
+    var tries = shuffle(src.concat(sameCat ? poolExcept(pool, item) : []));
+    tries.forEach(function (x) {
+      if (out.length >= n * 5) return;
+      var v = mapField(x, field);
+      if (!v) return;
+      var k = normKey(v);
+      if (k === exKey) return;
+      if (out.some(function (o) {
+        return normKey(o) === k;
+      })) {
+        return;
+      }
+      out.push(v);
+    });
+    return out;
   }
 
+  /** 保证正确答案必在选项中，且最多 4 项（含 1 正确 + 3 干扰） */
   function fourOpts(correct, distractors) {
-    return shuffle(uniq([correct].concat(distractors))).slice(0, 4);
+    correct = String(correct || "").trim();
+    if (!correct) return [];
+
+    var seen = new Set();
+    var out = [];
+
+    function tryAdd(v) {
+      v = String(v || "").trim();
+      var k = normKey(v);
+      if (!v || seen.has(k)) return;
+      seen.add(k);
+      out.push(v);
+    }
+
+    tryAdd(correct);
+    shuffle(distractors || []).forEach(function (d) {
+      if (out.length < 4) tryAdd(d);
+    });
+
+    if (!out.some(function (o) {
+      return normKey(o) === normKey(correct);
+    })) {
+      out.unshift(correct);
+    }
+
+    if (out.length <= 4) return shuffle(out);
+
+    var keep = out.filter(function (o) {
+      return normKey(o) === normKey(correct);
+    })[0];
+    var others = shuffle(
+      out.filter(function (o) {
+        return normKey(o) !== normKey(correct);
+      })
+    ).slice(0, 3);
+    return shuffle([keep].concat(others));
+  }
+
+  function finalizeOpts(correct, distractors, pool, item, field, sameCat) {
+    var opts = fourOpts(correct, distractors);
+    var guard = 0;
+    while (opts.length < 4 && guard < 3) {
+      guard++;
+      var more = pickField(pool, item, field, 8, guard > 1 ? false : sameCat, correct);
+      opts = fourOpts(correct, (distractors || []).concat(more).concat(opts));
+    }
+    return opts;
+  }
+
+  function validateQuestion(q) {
+    if (!q || !q.ans) return false;
+    if (!Array.isArray(q.opts) || q.opts.length < 2) return false;
+    return q.opts.some(function (o) {
+      return normKey(o) === normKey(q.ans);
+    });
   }
 
   function ctxBlock(item) {
@@ -128,10 +257,8 @@
   }
 
   function genCloze(item, pool) {
-    var w = formWord(item);
-    if (item.cat !== "word-form") w = primaryEn(item);
-    var stemEn = blankInExample(item, w);
-    var dist = pickField(pool, item, item.cat === "word-form" ? "form" : "en", 3, true);
+    var w = clozeWord(item);
+    var dist = pickField(pool, item, item.cat === "word-form" ? "form" : "en", 6, true, w);
     return {
       mode: "cloze",
       modeLabel: "语境填空",
@@ -141,20 +268,23 @@
       stemHtml:
         ctxBlock(item) +
         '<p class="vq-ex" lang="en">' +
-        stemEn +
+        blankInExample(item, w) +
         "</p>" +
         exZhHint(item),
-      opts: fourOpts(w, dist),
+      opts: finalizeOpts(w, dist, pool, item, item.cat === "word-form" ? "form" : "en", true),
       ans: w,
-      fb: item.en + " — " + item.zh,
+      fb: expressionEn(item) + " — " + meaningZh(item),
       tts: item.exEn || item.en,
     };
   }
 
   function genMeaning(item, pool) {
-    var w = item.cat === "word-form" ? formWord(item) : primaryEn(item);
-    var ans = cleanZh(item.zh);
-    var dist = pickField(pool, item, "zh", 3, false);
+    var w = item.cat === "word-form" ? formWord(item) : expressionEn(item);
+    var ans = meaningZh(item);
+    var dist = pickField(pool, item, "zh", 6, item.cat !== "polysemy", ans);
+    if (item.cat === "polysemy") {
+      dist = uniqPush(dist, [polysemyCommonZh(item), cleanZh(item.zh)]);
+    }
     return {
       mode: "meaning",
       modeLabel: "语境释义",
@@ -165,18 +295,31 @@
         ctxBlock(item) +
         '<p class="vq-ex" lang="en">' +
         highlight(item.exEn || item.en, w) +
-        "</p>",
-      opts: fourOpts(ans, dist),
+        "</p>" +
+        exZhHint(item),
+      opts: finalizeOpts(ans, dist, pool, item, "zh", item.cat !== "polysemy"),
       ans: ans,
       fb: w + " → " + ans,
       tts: item.exEn || item.en,
     };
   }
 
+  function uniqPush(arr, extra) {
+    var out = arr.slice();
+    extra.forEach(function (v) {
+      if (!v) return;
+      if (!out.some(function (o) {
+        return normKey(o) === normKey(v);
+      })) {
+        out.push(v);
+      }
+    });
+    return out;
+  }
+
   function genExpression(item, pool) {
-    var ans = primaryEn(item);
-    if (item.cat === "word-form") ans = item.en;
-    var dist = pickField(pool, item, "en", 3, true);
+    var ans = expressionEn(item);
+    var dist = pickField(pool, item, "en", 6, true, ans);
     return {
       mode: "expression",
       modeLabel: "表达匹配",
@@ -186,7 +329,7 @@
       stemHtml:
         ctxBlock(item) +
         '<p class="vq-prompt"><strong>中文：</strong>' +
-        esc(cleanZh(item.zh)) +
+        esc(meaningZh(item)) +
         "</p>" +
         (item.exEn
           ? '<p class="vq-ex-mini" lang="en">例句参考：' +
@@ -194,9 +337,9 @@
             (item.exEn.length > 120 ? "…" : "") +
             "</p>"
           : ""),
-      opts: fourOpts(ans, dist),
+      opts: finalizeOpts(ans, dist, pool, item, "en", true),
       ans: ans,
-      fb: ans + " — " + item.zh,
+      fb: ans + " — " + meaningZh(item),
       tts: ans,
     };
   }
@@ -214,11 +357,17 @@
     var ex = item.exEn || "";
     var stemEn;
     if (ex && new RegExp(escapeReg(f), "i").test(ex)) {
-      stemEn = esc(ex).replace(new RegExp(escapeReg(f), "i"), "(<em>" + esc(b) + "</em>) <span class='vq-blank'>______</span>");
+      stemEn = esc(ex).replace(
+        new RegExp(escapeReg(f), "i"),
+        "(<em>" + esc(b) + "</em>) <span class='vq-blank'>______</span>"
+      );
     } else {
-      stemEn = "The sentence needs the correct form of <em>" + esc(b) + "</em>: <span class='vq-blank'>______</span>.";
+      stemEn =
+        "The sentence needs the correct form of <em>" +
+        esc(b) +
+        "</em>: <span class='vq-blank'>______</span>.";
     }
-    var dist = pickField(pool, item, "form", 3, true).concat([b, primaryEn(item)]);
+    var dist = uniqPush(pickField(pool, item, "form", 6, true, f), [b, primaryEn(item), baseWord(item)]);
     return {
       mode: "transform",
       modeLabel: "词性转化",
@@ -226,32 +375,28 @@
       cat: item.cat,
       stem: "词性转换：根据例句语境，选择括号单词的正确变形。",
       stemHtml: ctxBlock(item) + '<p class="vq-ex" lang="en">' + stemEn + "</p>" + exZhHint(item),
-      opts: fourOpts(f, dist),
+      opts: finalizeOpts(f, dist, pool, item, "form", true),
       ans: f,
-      fb: b + " → " + f + "（" + item.zh + "）",
+      fb: b + " → " + f + "（" + meaningZh(item) + "）",
       tts: f,
     };
   }
 
   function genDiscriminate(item, pool) {
-    var w = primaryEn(item).split(",")[0].trim();
+    var w = expressionEn(item).split(",")[0].trim();
     var ans;
-    var opts;
+    var dist;
 
-    if (item.cat === "polysemy" || /僻/.test(item.zh + item.tag)) {
-      var parts = String(item.zh).split(/[；;]/);
-      var common = (parts[0].match(/常义[：:](.+)/) || [])[1] || parts[0];
-      var rare = (parts[0].match(/僻义[：:](.+)/) || parts[1] || "").toString().replace(/僻义[：:]/, "") || cleanZh(item.zh);
-      if (item.tag && item.tag.indexOf("→") >= 0) {
-        var tp = item.tag.split("→");
-        common = tp[0].replace(/常/g, "").trim();
-        rare = tp[1].replace(/僻/g, "").trim();
-      }
-      ans = rare.trim() || cleanZh(item.zh);
-      opts = fourOpts(ans, [common.trim(), cleanZh(item.zh), w].concat(pickField(pool, item, "zh", 2, false)));
+    if (item.cat === "polysemy" || /僻/.test(String(item.zh) + item.tag)) {
+      ans = polysemyRareZh(item);
+      dist = uniqPush(pickField(pool, item, "zh", 4, false, ans), [
+        polysemyCommonZh(item),
+        cleanZh(item.zh),
+        w,
+      ]);
     } else {
-      ans = cleanZh(item.zh);
-      opts = fourOpts(ans, pickField(pool, item, "zh", 3, item.cat === item.cat));
+      ans = meaningZh(item);
+      dist = pickField(pool, item, "zh", 6, true, ans);
     }
 
     return {
@@ -266,7 +411,7 @@
         highlight(item.exEn || item.en, w) +
         "</p>" +
         exZhHint(item),
-      opts: opts,
+      opts: finalizeOpts(ans, dist, pool, item, "zh", item.cat !== "polysemy"),
       ans: ans,
       fb: w + " 在此语境中：" + ans,
       tts: item.exEn || item.en,
@@ -285,7 +430,9 @@
     var fn = GENERATORS[mode];
     if (!fn) return null;
     try {
-      return fn(item, pool);
+      var q = fn(item, pool);
+      if (!validateQuestion(q)) return null;
+      return q;
     } catch (e) {
       return null;
     }
@@ -325,5 +472,8 @@
     generateForItem: generateForItem,
     buildQuizSet: buildQuizSet,
     buildAllModes: buildAllModes,
+    validateQuestion: validateQuestion,
+    meaningZh: meaningZh,
+    expressionEn: expressionEn,
   };
 })(typeof window !== "undefined" ? window : globalThis);

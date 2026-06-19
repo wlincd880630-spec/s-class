@@ -118,9 +118,17 @@ fs.writeFileSync(
     var q = L15Corpus.getPageQuiz("p01")[0];
     var box = document.getElementById("p01-quiz");
     box.innerHTML = '<p>'+q.stem+'</p>';
+    var done = false;
     q.opts.forEach(function(o){
       var b = document.createElement("button"); b.className="quiz-opt"; b.textContent=o;
-      b.onclick=function(){ b.classList.add(o===q.ans?"correct":"wrong"); };
+      b.onclick=function(){
+        if(done) return; done=true;
+        box.querySelectorAll(".quiz-opt").forEach(function(btn){
+          btn.disabled = true;
+          if(btn.textContent===q.ans) btn.classList.add("correct");
+        });
+        b.classList.add(o===q.ans?"correct":"wrong");
+      };
       box.appendChild(b);
     });
   `),
@@ -240,14 +248,22 @@ fs.writeFileSync(
       <p style="text-align:center;margin-top:1rem"><a href="lesson15-page11-vocab-quiz.html" class="vq-btn primary" style="display:inline-block;text-decoration:none">进入全库测验中心 →</a></p>`),
   ].join("\n"), `
     var box = document.getElementById("final-quiz"); var score = 0;
+    function normKey(s){ return String(s||"").trim().toLowerCase(); }
     L15Corpus.FINAL_QUIZ.forEach(function(q, i){
       var d = document.createElement("div"); d.className="vq-card"; d.style.marginBottom="0.75rem";
       d.innerHTML = "<p class='vq-stem'><strong>Q"+(i+1)+".</strong> "+q.stem+"</p>";
       var row = document.createElement("div"); row.className="vq-opts";
+      var done = false;
       q.opts.forEach(function(o){
         var b = document.createElement("button"); b.className="vq-opt"; b.textContent=o;
-        b.onclick=function(){ if(b.dataset.done) return; b.dataset.done=1;
-          if(o===q.ans){ b.classList.add("ok"); score++; } else b.classList.add("bad");
+        b.onclick=function(){
+          if(done) return; done=true;
+          row.querySelectorAll(".vq-opt").forEach(function(btn){
+            btn.disabled = true;
+            if(normKey(btn.textContent)===normKey(q.ans)) btn.classList.add("ok");
+          });
+          if(normKey(o)===normKey(q.ans)){ b.classList.add("ok"); score++; }
+          else b.classList.add("bad");
           document.getElementById("quiz-score").textContent = "得分："+score+" / "+L15Corpus.FINAL_QUIZ.length;
         }; row.appendChild(b);
       });
