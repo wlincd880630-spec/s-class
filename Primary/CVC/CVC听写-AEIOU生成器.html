@@ -547,7 +547,12 @@ const VOWEL_DATA = {
   u: { label: 'Short U', color: '#8E24AA', bg: '#F3E5F5', words: ['sun','run','fun','bug','cup','hug','mud','nut'] },
 };
 
-const IMG_BASE = 'https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/CVC/assets/images/words/';
+const MEDIA_BASE = 'https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/CVC/';
+const IMG_BASE = MEDIA_BASE + 'assets/images/words/';
+
+function wordImgUrl(word) {
+  return IMG_BASE + String(word).toLowerCase() + '.png';
+}
 const WORDS_PER_PAGE = 2;
 
 let ttsBusy = false;
@@ -706,7 +711,7 @@ function buildDictBlock(item, globalIndex, totalOnPage) {
     </div>
     <div class="img-wrap">
       <div class="img-frame">
-        <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/CVC/${IMG_BASE}${item.word}.png" alt="" />
+        <img src="${wordImgUrl(item.word)}" alt="" />
       </div>
       <div class="answer-word" style="border-color:${item.color};color:${item.color};">${item.word}</div>
     </div>
@@ -718,7 +723,7 @@ function buildDictBlock(item, globalIndex, totalOnPage) {
   const img = wrap.querySelector('.img-frame img');
   img.addEventListener('error', function onErr() {
     this.removeEventListener('error', onErr);
-    this.src = svgPlaceholderDataUrl(item.word, IMG_BASE + item.word + '.png');
+    this.src = svgPlaceholderDataUrl(item.word, wordImgUrl(item.word));
   }, { once: true });
   wrap.querySelector('.btn-speak').addEventListener('click', function () {
     speakWord(item.word, this);
