@@ -726,9 +726,10 @@
   var ASSET_BADGE =
     "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L07/assets/page04-twincities/l07-page04-platinum-badge.png";
 
-  /** 本地语音目录：预生成 MP3 置于 voice/ */
-  var VOICE_BASE =
-    "assets/page04-twincities/voice/";
+  /** 语音：COS 主路径（与背景图一致）；本地 assets 作 file:// 回退 */
+  var VOICE_COS =
+    "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L07/assets/page04-twincities/voice/";
+  var VOICE_LOCAL = "assets/page04-twincities/voice/";
   var VOICE_FILES = {
     essay_bj: "essay-bj.mp3",
     essay_cd: "essay-cd.mp3",
@@ -865,38 +866,38 @@
         audioBusy = false;
         resolve(!!ok);
       }
-      var src = VOICE_BASE + file;
-      if (typeof window.playLocalMp3Url === "function") {
-        window.playLocalMp3Url(src).then(finish);
-        return;
-      }
-      if (typeof window.playLocalMp3Url === "function") {
-
-        window.playLocalMp3Url(src).then(function (ok) {
-
-          if (!ok) console.warn("[LessonAudio] 本地 MP3 播放失败:", src);
-
-          resolve(!!ok);
-
+      function trySrc(src) {
+        if (!src) return Promise.resolve(false);
+        if (typeof window.playLocalMp3Url === "function") {
+          return window.playLocalMp3Url(src);
+        }
+        return new Promise(function (res) {
+          var a = new Audio(src);
+          a.addEventListener("ended", function () {
+            res(true);
+          }, { once: true });
+          a.addEventListener("error", function () {
+            res(false);
+          }, { once: true });
+          var p = a.play();
+          if (p && typeof p.then === "function") {
+            p.catch(function () {
+              res(false);
+            });
+          }
         });
-
-        return;
-
       }
-
-      var a = new Audio(src);
-      a.addEventListener("ended", function () {
-        finish(true);
-      });
-      a.addEventListener("error", function () {
+      trySrc(VOICE_COS + file).then(function (ok) {
+        if (ok) {
+          finish(true);
+          return;
+        }
+        return trySrc(VOICE_LOCAL + file);
+      }).then(function (ok) {
+        if (!done) finish(!!ok);
+      }).catch(function () {
         finish(false);
       });
-      var p = a.play();
-      if (p && typeof p.then === "function") {
-        p.then(function () {}).catch(function () {
-          finish(false);
-        });
-      }
     });
   }
 
