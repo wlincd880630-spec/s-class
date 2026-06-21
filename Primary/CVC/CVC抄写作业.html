@@ -424,7 +424,12 @@ const VOWELS = {
   }
 };
 
-const IMG_BASE = 'https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/CVC/assets/images/words/';
+const MEDIA_BASE = 'https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/CVC/';
+const IMG_BASE = MEDIA_BASE + 'assets/images/words/';
+
+function wordImgUrl(word) {
+  return IMG_BASE + String(word).toLowerCase() + '.png';
+}
 
 /** PNG 不存在时用内嵌 SVG 占位（浏览器可显示），放入同名文件后自动显示真图 */
 function svgPlaceholderDataUrl(line1, line2) {
@@ -511,7 +516,7 @@ function buildWordBlock(word, accentColor) {
   block.innerHTML = `
     <div class="img-col">
       <div class="img-frame">
-        <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/CVC/${IMG_BASE}${word}.png" alt="${word}" />
+        <img src="${wordImgUrl(word)}" alt="${word}" />
       </div>
       <div class="word-lbl" style="color:${accentColor}">${word}</div>
     </div>
@@ -521,7 +526,7 @@ function buildWordBlock(word, accentColor) {
   const img = block.querySelector('.img-frame img');
   img.addEventListener('error', function onImgErr() {
     this.removeEventListener('error', onImgErr);
-    this.src = svgPlaceholderDataUrl(word, IMG_BASE + word + '.png');
+    this.src = svgPlaceholderDataUrl(word, wordImgUrl(word));
   }, { once: true });
 
   return block;
