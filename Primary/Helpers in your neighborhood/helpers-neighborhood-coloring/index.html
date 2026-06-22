@@ -16,7 +16,7 @@
       display: flex; flex-direction: column; align-items: center;
       padding-bottom: max(48px, env(safe-area-inset-bottom));
       min-height: 100dvh;
-      overflow-x: visible;
+      overflow-x: clip;
     }
     .toolbar {
       width: 100%; padding: 14px 22px; background: #fffef8;
@@ -35,25 +35,21 @@
     }
     #app {
       width: 100%;
-      max-width: 100%;
       display: flex;
       flex-direction: column;
       align-items: center;
       padding: 0 max(8px, env(safe-area-inset-right)) 0 max(8px, env(safe-area-inset-left));
-      overflow-x: visible;
     }
     .page-viewport {
       width: min(210mm, calc(100vw - 24px));
-      max-width: 100%;
       margin: 24px auto;
-      overflow: visible;
+      overflow: hidden;
     }
     .sheet {
-      width: 100%;
-      max-width: 210mm;
+      width: 210mm;
       min-height: 297mm;
       margin: 24px 0;
-      padding: 10mm 12mm 8mm;
+      padding: 12mm 14mm;
       background: #fff;
       box-shadow: 0 0 40px rgba(0,0,0,.5);
       page-break-after: always;
@@ -64,15 +60,14 @@
     .page-viewport .sheet { margin: 0; }
     .sheet-hdr {
       width: 100%;
-      flex-shrink: 0;
       display: flex;
       justify-content: space-between;
       align-items: center;
       font-size: 0.82rem;
       color: #78909c;
       border-bottom: 2px solid #eceff1;
-      padding-bottom: 3mm;
-      margin-bottom: 4mm;
+      padding-bottom: 4mm;
+      margin-bottom: 6mm;
       gap: 4px;
       flex-wrap: wrap;
     }
@@ -81,24 +76,20 @@
       background: #e3f2fd; border: 2px solid var(--ng-gold); color: #1565C0;
     }
     .sheet-img {
-      flex: 1 1 auto;
+      flex: 1;
       width: 100%;
+      max-width: 170mm;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 2mm 4mm;
-      min-height: 200mm;
     }
     .sheet-img img {
-      display: block;
-      width: auto;
+      width: 100%;
       height: auto;
-      max-width: var(--coloring-img-max-w);
-      max-height: var(--coloring-img-max-h);
+      max-height: 230mm;
       object-fit: contain;
-      object-position: center;
     }
-    .sheet-ftr { flex-shrink: 0; margin-top: 2mm; font-size: 0.75rem; color: #b0bec5; text-align: center; }
+    .sheet-ftr { margin-top: 4mm; font-size: 0.75rem; color: #b0bec5; text-align: center; }
     @media screen and (max-width: 720px) {
       .toolbar { justify-content: center; }
       .toolbar h1 { font-size: 1rem; line-height: 1.35; }
@@ -106,15 +97,22 @@
       .btn { width: 100%; }
       .page-viewport { width: calc(100vw - 16px); margin: 12px auto; }
       .sheet { box-shadow: 0 0 28px rgba(0, 0, 0, 0.45); }
-      .sheet-img img { max-width: 76%; max-height: min(175mm, 48vh); }
+    }
+    @media (hover: none) and (pointer: coarse) {
+      .btn:active { transform: scale(0.98); }
     }
     @media print {
       body { background: #fff; padding: 0; }
       .toolbar { display: none !important; }
       #app { padding: 0; }
-      .page-viewport { width: auto; height: auto; overflow: visible; margin: 0; }
-      .page-viewport .sheet { transform: none !important; margin: 0; box-shadow: none; }
-      .sheet-img img { max-width: 78%; max-height: 190mm; }
+      .page-viewport {
+        width: auto; height: auto; overflow: visible; margin: 0;
+      }
+      .page-viewport .sheet {
+        transform: none !important;
+        margin: 0; box-shadow: none;
+      }
+      .sheet-img img { max-height: 250mm; }
       * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
     }
   </style>
@@ -154,11 +152,11 @@
         var src = img.getAttribute("src") || "";
         var file = src.replace(/^images\//, "").replace(/^.*\//, "");
         if (!file) return;
-        var localSrc = "images/" + file;
-        img.src = IMG_COS + file;
         img.addEventListener("error", function onErr() {
           img.removeEventListener("error", onErr);
-          if (img.src.indexOf(IMG_COS) === 0) img.src = localSrc;
+          if (img.dataset.cosfb) return;
+          img.dataset.cosfb = "1";
+          img.src = IMG_COS + file;
         }, { once: true });
       });
 
@@ -172,45 +170,33 @@
         vp.appendChild(sheet);
       });
 
-      function fitSheetImages() {
-        document.querySelectorAll(".sheet-img").forEach(function (box) {
-          var img = box.querySelector("img");
-          if (!img || !img.naturalWidth || !img.naturalHeight) return;
-          var rect = box.getBoundingClientRect();
-          var maxW = Math.max(0, rect.width * 0.78 - 8);
-          var maxH = Math.max(0, Math.min(rect.height - 8, mmToPx(190)));
-          if (!maxW || !maxH) return;
-          var scale = Math.min(maxW / img.naturalWidth, maxH / img.naturalHeight);
-          img.style.width = Math.round(img.naturalWidth * scale) + "px";
-          img.style.height = Math.round(img.naturalHeight * scale) + "px";
+      function fitPageViewports() {
+        if (window.matchMedia("print").matches) return;
+        document.querySelectorAll(".page-viewport").forEach(function (vp) {
+          var sheet = vp.querySelector(".sheet");
+          if (!sheet) return;
+          sheet.style.transform = "none";
+          sheet.style.transformOrigin = "top left";
+          var naturalW = sheet.offsetWidth;
+          var targetW = vp.clientWidth;
+          if (!naturalW || !targetW) return;
+          var scale = Math.min(1, targetW / naturalW);
+          sheet.style.transform = scale < 1 ? "scale(" + scale + ")" : "none";
+          vp.style.height = scale < 1 ? sheet.offsetHeight * scale + "px" : "auto";
         });
-      }
-
-      function mmToPx(mm) {
-        var probe = document.createElement("div");
-        probe.style.width = "1mm";
-        probe.style.position = "absolute";
-        probe.style.visibility = "hidden";
-        document.body.appendChild(probe);
-        var px = probe.getBoundingClientRect().width || 3.78;
-        document.body.removeChild(probe);
-        return mm * px;
-      }
-
-      function scheduleFit() {
-        clearTimeout(fitTimer);
-        fitTimer = setTimeout(fitSheetImages, 80);
       }
 
       var fitTimer;
-      window.addEventListener("resize", scheduleFit);
-      window.addEventListener("orientationchange", scheduleFit);
+      window.addEventListener("resize", function () {
+        clearTimeout(fitTimer);
+        fitTimer = setTimeout(fitPageViewports, 120);
+      });
+      window.addEventListener("orientationchange", fitPageViewports);
       window.addEventListener("load", function () {
         document.querySelectorAll(".sheet-img img").forEach(function (img) {
-          img.addEventListener("load", scheduleFit);
-          if (img.complete) scheduleFit();
+          img.addEventListener("load", fitPageViewports);
         });
-        scheduleFit();
+        fitPageViewports();
       });
     })();
   </script>
