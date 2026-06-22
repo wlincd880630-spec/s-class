@@ -43,21 +43,20 @@
     .page-viewport {
       width: min(210mm, calc(100vw - 24px));
       margin: 24px auto;
-      overflow: hidden;
+      overflow: visible;
     }
     .sheet {
       width: 210mm;
-      height: 297mm;
       min-height: 297mm;
       margin: 24px 0;
-      padding: 10mm 12mm 8mm;
+      padding: 10mm 14mm 8mm;
       background: #fff;
       box-shadow: 0 0 40px rgba(0,0,0,.5);
       page-break-after: always;
       display: flex;
       flex-direction: column;
       align-items: center;
-      overflow: hidden;
+      overflow: visible;
     }
     .page-viewport .sheet { margin: 0; }
     .sheet-hdr {
@@ -79,24 +78,22 @@
       background: #e3f2fd; border: 2px solid var(--ng-gold); color: #1565C0;
     }
     .sheet-img {
-      flex: 1 1 0;
+      flex: 1 1 auto;
       width: 100%;
-      max-width: 100%;
+      max-width: 168mm;
       min-height: 0;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 3mm 10mm;
+      padding: 2mm 0;
       overflow: visible;
     }
     .sheet-img img {
       display: block;
-      flex: 0 1 auto;
-      min-width: 0;
-      width: auto;
+      width: 100%;
       height: auto;
       max-width: 100%;
-      max-height: 100%;
+      max-height: min(230mm, 72vh);
       object-fit: contain;
       object-position: center;
     }
@@ -108,7 +105,7 @@
       .btn { width: 100%; }
       .page-viewport { width: calc(100vw - 16px); margin: 12px auto; }
       .sheet { box-shadow: 0 0 28px rgba(0, 0, 0, 0.45); }
-      .sheet-img img { max-width: 100%; max-height: 100%; }
+      .sheet-img img { max-width: 100%; max-height: min(200mm, 58vh); }
     }
     @media print {
       body { background: #fff; padding: 0; }
@@ -174,18 +171,31 @@
         vp.appendChild(sheet);
       });
 
-      function clearImgInlineSize() {
-        document.querySelectorAll(".sheet-img img").forEach(function (img) {
+      function fitSheetImages() {
+        document.querySelectorAll(".sheet-img").forEach(function (box) {
+          var img = box.querySelector("img");
+          if (!img) return;
           img.style.width = "";
           img.style.height = "";
-          img.style.maxWidth = "";
-          img.style.maxHeight = "";
+          if (!img.naturalWidth || !img.naturalHeight) return;
+          var pad = 6;
+          var maxW = Math.max(0, box.clientWidth - pad);
+          var maxH = Math.max(0, box.clientHeight - pad);
+          if (!maxW || !maxH) return;
+          var scale = Math.min(maxW / img.naturalWidth, maxH / img.naturalHeight, 1);
+          if (scale < 1) {
+            img.style.width = Math.floor(img.naturalWidth * scale) + "px";
+            img.style.height = Math.floor(img.naturalHeight * scale) + "px";
+          }
         });
       }
 
       function fitPageViewports() {
         if (window.matchMedia("print").matches) return;
-        clearImgInlineSize();
+        document.querySelectorAll(".sheet-img img").forEach(function (img) {
+          img.style.width = "";
+          img.style.height = "";
+        });
         document.querySelectorAll(".page-viewport").forEach(function (vp) {
           var sheet = vp.querySelector(".sheet");
           if (!sheet) return;
@@ -198,6 +208,7 @@
           sheet.style.transform = scale < 1 ? "scale(" + scale + ")" : "none";
           vp.style.height = scale < 1 ? sheet.offsetHeight * scale + "px" : "auto";
         });
+        fitSheetImages();
       }
 
       function scheduleFit() {
