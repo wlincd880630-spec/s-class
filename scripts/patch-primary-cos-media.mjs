@@ -42,11 +42,20 @@ const BOOKS = {
     reviewAudio: cosUrl("Primary/Peek Otter/peek-otter-review-games/audio/"),
     coursewareAudio: cosUrl("Primary/Peek Otter/peek-otter-courseware/audio/"),
   },
+  "Helpers in your neighborhood": {
+    audio: cosUrl("Primary/Helpers in your neighborhood/audio/"),
+    courseware: cosUrl("Primary/Helpers in your neighborhood/helpers-neighborhood-courseware/"),
+    wordsImg: cosUrl("Primary/Helpers in your neighborhood/helpers-neighborhood-courseware/images/words/"),
+    reviewAudio: cosUrl("Primary/Helpers in your neighborhood/audio/"),
+    coursewareAudio: cosUrl("Primary/Helpers in your neighborhood/audio/"),
+  },
 };
 
 function detectBook(filePath) {
   const rel = path.relative(PRIMARY, filePath).replace(/\\/g, "/");
+  if (rel.startsWith("Helpers in your neighborhood/")) return "Helpers in your neighborhood";
   for (const name of Object.keys(BOOKS)) {
+    if (name === "Helpers in your neighborhood") continue;
     if (rel.startsWith(name + "/") || rel === name) return name;
   }
   return null;

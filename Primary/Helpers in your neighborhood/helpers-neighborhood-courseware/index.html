@@ -7,8 +7,18 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&family=Noto+Serif+SC:wght@600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,600;0,8..60,700;1,8..60,600&display=swap" rel="stylesheet" />
-  <script src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Peek%20Otter/helpers-neighborhood-courseware/audio/audio-manifest.js"></script>
-  <script src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Peek%20Otter/helpers-neighborhood-courseware/audio/local-audio.js"></script>
+  <script src="../audio/audio-manifest.js"></script>
+  <script src="../audio/local-audio.js"></script>
+  <script>
+    (function () {
+      var AUDIO_COS = "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Helpers%20in%20your%20neighborhood/audio/";
+      function bootAudioBase() {
+        if (window.LocalAudio && window.LocalAudio.setBase) LocalAudio.setBase(AUDIO_COS);
+      }
+      if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", bootAudioBase);
+      else bootAudioBase();
+    })();
+  </script>
   <style>
     :root {
       /* 国家地理式：金标黄 + 墨黑 + 大地/纸白 */
@@ -778,7 +788,14 @@
   </div>
 
   <script>
-    var MEDIA_COS = "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Peek%20Otter/helpers-neighborhood-courseware/";
+    var HELPERS_MEDIA_COS = "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Helpers%20in%20your%20neighborhood/helpers-neighborhood-courseware/";
+    var MEDIA_COS = (function () {
+      try {
+        var u = new URL("./", window.location.href);
+        if (/^https?:$/i.test(u.protocol)) return u.href;
+      } catch (e) {}
+      return HELPERS_MEDIA_COS;
+    })();
   (function () {
     "use strict";
 
@@ -944,13 +961,16 @@
       }, 1750);
     }
 
-    function wordImg(w) { return MEDIA_COS + "images/words/" + w.key.toLowerCase().replace(/ /g, "-") + ".png"; }
+    function wordImg(w) {
+      return MEDIA_COS + "images/words/" + w.key.toLowerCase().replace(/ /g, "-") + ".png";
+    }
 
     function artFromSrc(src, emoji) {
+      var cos = HELPERS_MEDIA_COS;
       return (
         "<div class=\"polaroid\" role=\"img\" aria-label=\"\" >" +
         "  <img class=\"art-img\" src=\"" + src + "\" alt=\"\" " +
-        "  onerror=\"this.classList.add('is-hide');if(this.nextElementSibling)this.nextElementSibling.classList.add('on')\">" +
+        "  onerror=\"if(!this.dataset.cosfb){this.dataset.cosfb='1';var s=this.getAttribute('src')||'';var b='" + cos + "';if(b&&s.indexOf(b)!==0&&/images\\//.test(s)){this.src=b+s.replace(/^.*?(images\\/)/,'$1');return;}}this.classList.add('is-hide');if(this.nextElementSibling)this.nextElementSibling.classList.add('on')\">" +
         "  <span class=\"art-fb\" aria-hidden=\"true\">" + emoji + "</span>" +
         "</div>"
       );

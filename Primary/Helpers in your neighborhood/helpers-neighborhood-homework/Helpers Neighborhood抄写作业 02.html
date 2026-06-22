@@ -234,6 +234,17 @@ body {
   align-self: center;
 }
 
+.cells--pair .cell {
+  flex: 1;
+  min-width: 0;
+}
+.cells--pair .cell.trace {
+  justify-content: center;
+}
+.cells--pair .cell.empty {
+  justify-content: center;
+}
+
 .write-row.row2 .cell.trace { color: rgba(144,202,249,.28); }
 
 .word-block--long .cell {
@@ -424,25 +435,6 @@ function buildWordBlock(word, accentColor) {
 }
 
 function buildWriteRow(word, rowClass) {
-  const isRow2 = rowClass === 'row2';
-  if (isRow2) {
-    return `
-    <div class="write-row ${rowClass}">
-      <div class="grid-bg">
-        <div class="gl gl-sky"></div>
-        <div class="gl gl-cloud"></div>
-        <div class="gl gl-grass"></div>
-        <div class="gl gl-dirt"></div>
-      </div>
-      <div class="cells">
-        <div class="cell trace">${word}</div>
-        <div class="vsep"></div>
-        <div class="cell empty">${word}</div>
-        <div class="cell empty">${word}</div>
-      </div>
-    </div>
-  `;
-  }
   return `
     <div class="write-row ${rowClass}">
       <div class="grid-bg">
@@ -451,13 +443,9 @@ function buildWriteRow(word, rowClass) {
         <div class="gl gl-grass"></div>
         <div class="gl gl-dirt"></div>
       </div>
-      <div class="cells">
-        <div class="cell model">${word}</div>
-        <div class="vsep"></div>
-        <div class="cell trace">${word}</div>
+      <div class="cells cells--pair">
         <div class="cell trace">${word}</div>
         <div class="vsep"></div>
-        <div class="cell empty">${word}</div>
         <div class="cell empty">${word}</div>
       </div>
     </div>
