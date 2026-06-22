@@ -142,7 +142,7 @@
     ALL_KEYS: ALL_KEYS,
     WMAP: WMAP,
     STORAGE_KEY: STORAGE_KEY,
-    IMG_BASE: "../helpers-neighborhood-courseware/images/words/",
+    IMG_BASE: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Helpers%20in%20your%20neighborhood/helpers-neighborhood-courseware/images/words/",
     wordImgFile: wordImgFile,
     getSelected: getSelected,
     getSelectedKeys: getSelectedKeys,

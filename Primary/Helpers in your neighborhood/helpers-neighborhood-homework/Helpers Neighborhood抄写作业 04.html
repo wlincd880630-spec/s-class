@@ -178,6 +178,28 @@ body {
 .sentence-block--four .write-row:not(:last-child) {
   border-bottom: 1px dashed #EEEEEE;
 }
+.sentence-block--eight {
+  --sentence-row-h: var(--row-h);
+  grid-template-rows: repeat(8, var(--sentence-row-h));
+  flex: 0 0 calc(8 * var(--sentence-row-h));
+  height: calc(8 * var(--sentence-row-h));
+}
+.sentence-block--eight .img-col {
+  grid-row: 1 / -1;
+}
+.sentence-block--eight .write-row {
+  position: relative;
+  height: var(--sentence-row-h);
+  min-height: var(--sentence-row-h);
+  max-height: var(--sentence-row-h);
+  overflow: hidden;
+}
+.sentence-block--eight .write-row:not(:last-child) {
+  border-bottom: 1px dashed #EEEEEE;
+}
+.sentence-block--eight .write-row--part-start {
+  border-top: 2px solid #ECEFF1;
+}
 
 .img-col {
   display: flex; flex-direction: column;
@@ -356,8 +378,8 @@ const LESSON = {
   items: [
     { word: 'mail carrier', sentence: 'The mail carrier brings letters.', longLine: true, fontScale: 0.9, imgKey: 'mail-carrier' },
     { word: 'firefighter', sentence: 'Firefighters put out fires.' },
-    { word: 'hospital', sentence: 'We go to the hospital when we are sick.', longLine: true, fontScale: 0.88 },
-    { word: 'neighborhood', sentence: 'People work hard in our neighborhoods.', longLine: true, fontScale: 0.9 },
+    { word: 'hospital', sentence: 'We go to the hospital when we are sick.', parts: ['We go to the hospital.', 'when we are sick.'] },
+    { word: 'neighborhood', sentence: 'People work hard in our neighborhoods.', parts: ['People work hard.', 'in our neighborhoods.'] },
     { word: 'help', sentence: 'They help us stay safe and happy.', longLine: true, fontScale: 0.92, imgKey: 'people' }
   ]
 };
@@ -388,7 +410,8 @@ const SENTENCE_ROW_H_MM = 31;
 const SENTENCE_ROWS = 4;
 
 function estimateBlockHeightMm(item) {
-  return SENTENCE_ROWS * SENTENCE_ROW_H_MM + 4;
+  const partCount = item.parts && item.parts.length ? item.parts.length : 1;
+  return partCount * SENTENCE_ROWS * SENTENCE_ROW_H_MM + 4;
 }
 
 function chunkByHeight(items, budgetMm) {
@@ -430,13 +453,20 @@ function buildSentenceBlock(item, accentColor) {
   const s = item.sentence;
   const w = item.word;
   const imgKey = item.imgKey || w;
+  const parts = item.parts && item.parts.length ? item.parts : [s];
   const block = document.createElement("div");
-  block.className = "sentence-block sentence-block--four";
-  const writeHtml =
-    buildWriteRowFull(s, "row-trace1", "trace") +
-    buildWriteRowFull(s, "row-empty1", "empty") +
-    buildWriteRowFull(s, "row-trace2", "trace2") +
-    buildWriteRowFull(s, "row-empty2", "empty");
+  block.className = parts.length > 1
+    ? "sentence-block sentence-block--eight"
+    : "sentence-block sentence-block--four";
+  let writeHtml = "";
+  parts.forEach(function (part, pi) {
+    const partStart = pi > 0 ? " write-row--part-start" : "";
+    writeHtml +=
+      buildWriteRowFull(part, "row-trace1" + partStart, "trace") +
+      buildWriteRowFull(part, "row-empty1", "empty") +
+      buildWriteRowFull(part, "row-trace2", "trace2") +
+      buildWriteRowFull(part, "row-empty2", "empty");
+  });
   block.innerHTML = `
     <div class="img-col">
       <div class="img-frame">

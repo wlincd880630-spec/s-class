@@ -819,7 +819,7 @@
       { key: "People", zh: "人们", ex: "Many people work in our neighborhoods.", emoji: "👥",
         soundBoxes: [
           { text: "p", hint: "/p/", combo: false },
-          { text: "eo", hint: "发 /ē/", combo: true, friends: ["people", "zero", "piano"] },
+          { text: "eo", hint: "发 /ē/", combo: true, friends: ["people", "video", "stereo"] },
           { text: "ple", hint: "/pl/", combo: true, friends: ["people", "apple", "simple"] },
         ] },
       { key: "Mail carrier", zh: "邮递员", ex: "The mail carrier brings letters.", emoji: "📮",
@@ -861,7 +861,7 @@
           { text: "r", hint: "/r/", combo: false },
           { text: "a", hint: "短 a", combo: false },
           { text: "r", hint: "/r/", combo: false },
-          { text: "ian", hint: "/iən/", combo: true, friends: ["librarian", "musician", "magician"] },
+          { text: "ian", hint: "/iən/", combo: true, friends: ["librarian", "Canadian", "Indian", "Italian"] },
         ] },
       { key: "Police officer", zh: "警察", ex: "Police officers keep us safe.", emoji: "👮",
         soundBoxes: [
@@ -911,7 +911,7 @@
           { text: "st", hint: "/st/", combo: false },
           { text: "au", hint: "/ô/", combo: true, friends: ["restaurant", "sauce", "pause"] },
           { text: "r", hint: "/r/", combo: false },
-          { text: "ant", hint: "/ənt/", combo: true, friends: ["restaurant", "plant", "giant"] },
+          { text: "ant", hint: "/ənt/", combo: true, friends: ["restaurant", "plant", "want"] },
         ] },
       { key: "Favorite", zh: "最喜欢的", ex: "Pizza is my favorite.", emoji: "⭐",
         soundBoxes: [
@@ -935,7 +935,8 @@
           { text: "o", hint: "短 o", combo: false },
           { text: "sp", hint: "/sp/", combo: false },
           { text: "i", hint: "短 i", combo: false },
-          { text: "tal", hint: "/təl/", combo: false },
+          { text: "t", hint: "/t/", combo: false },
+          { text: "al", hint: "/əl/", combo: true, friends: ["hospital", "animal", "metal"] },
         ] },
       { key: "Nurse", zh: "护士", ex: "Nurses help us get better.", emoji: "👩‍⚕️",
         soundBoxes: [
@@ -1265,10 +1266,14 @@
         }
       }
 
-      function filterFriends(list) {
+      function filterFriends(list, comboText) {
         var k0 = String(w.key).toLowerCase();
+        var needle = String(comboText || "").toLowerCase();
         return list.filter(function (fw) {
-          return String(fw).toLowerCase() !== k0;
+          var fwL = String(fw).toLowerCase();
+          if (fwL === k0) return false;
+          if (needle && fwL.indexOf(needle) < 0) return false;
+          return true;
         });
       }
 
@@ -1399,7 +1404,7 @@
         var btnLabel = "";
         var fi;
         for (fi = 0; fi < n; fi++) {
-          if (boxes[fi].combo && revealed[fi] === 2 && filterFriends(boxes[fi].friends).length) {
+          if (boxes[fi].combo && revealed[fi] === 2 && filterFriends(boxes[fi].friends, boxes[fi].comboDisplay || boxes[fi].text).length) {
             showBtn = true;
             var d = boxes[fi].comboDisplay || boxes[fi].text;
             btnLabel = "显示含「" + d + "」的其他单词";
@@ -1427,9 +1432,9 @@
       friendBtn.addEventListener("click", function () {
         var i3;
         for (i3 = 0; i3 < n; i3++) {
-          if (boxes[i3].combo && revealed[i3] === 2 && filterFriends(boxes[i3].friends).length) {
+          if (boxes[i3].combo && revealed[i3] === 2 && filterFriends(boxes[i3].friends, boxes[i3].comboDisplay || boxes[i3].text).length) {
             activeComboIdx = i3;
-            rebuildFriendRow(filterFriends(boxes[i3].friends));
+            rebuildFriendRow(filterFriends(boxes[i3].friends, boxes[i3].comboDisplay || boxes[i3].text));
             panelOpen = !panelOpen;
             if (panelOpen) {
               panel.classList.add("is-open");

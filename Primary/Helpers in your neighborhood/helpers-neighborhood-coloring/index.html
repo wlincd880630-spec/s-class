@@ -86,15 +86,15 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 2mm 6mm;
-      overflow: visible;
+      padding: 2mm 8mm;
+      overflow: hidden;
     }
     .sheet-img img {
       display: block;
       width: auto;
       height: auto;
-      max-width: min(82%, 158mm);
-      max-height: min(220mm, 100%);
+      max-width: min(68%, 132mm);
+      max-height: min(182mm, 100%);
       object-fit: contain;
       object-position: center;
     }
@@ -106,7 +106,7 @@
       .btn { width: 100%; }
       .page-viewport { width: calc(100vw - 16px); margin: 12px auto; }
       .sheet { box-shadow: 0 0 28px rgba(0, 0, 0, 0.45); }
-      .sheet-img img { max-width: min(84%, 100%); max-height: min(190mm, calc(100dvh - 260px)); }
+      .sheet-img img { max-width: min(70%, 100%); max-height: min(168mm, calc(100dvh - 280px)); }
     }
     @media print {
       body { background: #fff; padding: 0; }
@@ -114,7 +114,7 @@
       #app { padding: 0; }
       .page-viewport { width: auto; height: auto; overflow: visible; margin: 0; }
       .page-viewport .sheet { transform: none !important; margin: 0; box-shadow: none; }
-      .sheet-img img { max-width: 82%; max-height: 210mm; }
+      .sheet-img img { max-width: 68%; max-height: 175mm; }
       * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
     }
   </style>
@@ -173,14 +173,26 @@
       });
 
       function fitSheetImages() {
+        var SHRINK = 0.68;
         document.querySelectorAll(".sheet-img").forEach(function (box) {
           var img = box.querySelector("img");
-          if (!img || !box.clientHeight) return;
-          var pad = 4;
+          if (!img) return;
+          var pad = 12;
           var maxW = Math.max(0, box.clientWidth - pad);
           var maxH = Math.max(0, box.clientHeight - pad);
-          img.style.maxWidth = Math.floor(maxW * 0.82) + "px";
+          if (!maxW || !maxH) return;
+          maxW = Math.floor(maxW * SHRINK);
+          maxH = Math.floor(maxH * SHRINK);
+          img.style.maxWidth = maxW + "px";
           img.style.maxHeight = maxH + "px";
+          if (img.naturalWidth > 0 && img.naturalHeight > 0) {
+            var scale = Math.min(maxW / img.naturalWidth, maxH / img.naturalHeight, 1);
+            img.style.width = Math.floor(img.naturalWidth * scale) + "px";
+            img.style.height = Math.floor(img.naturalHeight * scale) + "px";
+          } else {
+            img.style.width = "auto";
+            img.style.height = "auto";
+          }
         });
       }
 
