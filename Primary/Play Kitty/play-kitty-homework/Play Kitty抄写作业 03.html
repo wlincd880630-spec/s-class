@@ -272,6 +272,40 @@ body {
   letter-spacing: -0.01em;
   white-space: nowrap;
 }
+/* 长句分行：每行一句，多行描红 */
+.page-body--flow .sentence-block {
+  flex: 0 0 auto;
+}
+.sentence-block--multiline {
+  grid-template-rows: repeat(var(--write-rows, 4), 13.5mm);
+  flex: 0 0 auto;
+  height: auto;
+  min-height: calc(var(--write-rows, 4) * 13.5mm);
+}
+.page-body--flow .sentence-block--multiline {
+  flex: 0 0 calc(var(--write-rows, 4) * 13.5mm);
+  height: calc(var(--write-rows, 4) * 13.5mm);
+}
+.sentence-block--multiline .img-col {
+  grid-row: 1 / -1;
+}
+.sentence-block--multiline .write-row {
+  min-height: 13.5mm;
+  max-height: 13.5mm;
+}
+.sentence-block--multiline .cell-full {
+  font-size: calc(var(--sentence-font) * var(--item-font-scale, 1));
+  white-space: nowrap;
+  justify-content: flex-start;
+  text-align: left;
+  padding-left: 2.5mm;
+  padding-right: 1mm;
+  letter-spacing: 0;
+}
+.sentence-block--multiline .cells-sentence {
+  justify-content: flex-start;
+}
+
 
 @media screen and (max-width: 720px) {
   .toolbar-left span:not(.icon) {
@@ -374,6 +408,64 @@ function svgPlaceholderDataUrl(line1, line2) {
   return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
 }
 
+
+const LINE_MAX_CHARS = 34;
+
+function splitSentenceLines(sentence, maxChars) {
+  maxChars = maxChars || LINE_MAX_CHARS;
+  const words = String(sentence).trim().split(/\s+/);
+  if (!words.length || (words.length === 1 && !words[0])) return [''];
+  const lines = [];
+  let cur = words[0];
+  for (let i = 1; i < words.length; i++) {
+    const candidate = cur + ' ' + words[i];
+    if (candidate.length <= maxChars) cur = candidate;
+    else {
+      lines.push(cur);
+      cur = words[i];
+    }
+  }
+  lines.push(cur);
+  return lines;
+}
+
+function getSentenceLines(item) {
+  if (item.lines && item.lines.length) return item.lines;
+  const max = item.lineMax != null ? item.lineMax : LINE_MAX_CHARS;
+  return splitSentenceLines(item.sentence, max);
+}
+
+function isMultilineItem(item) {
+  if (item.multiline === false) return false;
+  const lines = getSentenceLines(item);
+  return lines.length > 1 || !!item.longLine || String(item.sentence).length > LINE_MAX_CHARS;
+}
+
+function estimateBlockHeightMm(item) {
+  if (!isMultilineItem(item)) return 62;
+  const n = getSentenceLines(item).length;
+  return Math.max(62, n * 2 * 13.5 + 6);
+}
+
+function chunkByHeight(items, budgetMm) {
+  budgetMm = budgetMm || 246;
+  const pages = [];
+  let page = [];
+  let used = 0;
+  items.forEach((item) => {
+    const h = estimateBlockHeightMm(item);
+    if (page.length && used + h > budgetMm) {
+      pages.push(page);
+      page = [];
+      used = 0;
+    }
+    page.push(item);
+    used += h;
+  });
+  if (page.length) pages.push(page);
+  return pages.length ? pages : [[]];
+}
+
 function buildWriteRow(sentence, rowClass, mode) {
   /* mode: 'r1' 范字+描红 | 'r2' 浅描+空白 */
   if (mode === 'r1') {
@@ -405,11 +497,26 @@ function buildWriteRow(sentence, rowClass, mode) {
 }
 
 function buildSentenceBlock(item, accentColor) {
-  const block = document.createElement('div');
-  block.className = 'sentence-block' + (item.longLine ? ' sentence-block--longline' : '');
   const s = item.sentence;
   const w = item.word;
   const imgKey = item.imgKey || w;
+  const lines = getSentenceLines(item);
+  const multiline = isMultilineItem(item);
+  const block = document.createElement('div');
+  block.className = 'sentence-block' + (multiline ? ' sentence-block--multiline' : '');
+  if (item.fontScale != null) {
+    block.style.setProperty('--item-font-scale', String(item.fontScale));
+  }
+  if (multiline) {
+    block.style.setProperty('--write-rows', String(lines.length * 2));
+  }
+  let writeHtml = '';
+  if (multiline) {
+    lines.forEach((line, i) => { writeHtml += buildWriteRow(line, 'row-m' + i, 'r1'); });
+    lines.forEach((line, i) => { writeHtml += buildWriteRow(line, 'row-p' + i, 'r2'); });
+  } else {
+    writeHtml = buildWriteRow(s, 'row1', 'r1') + buildWriteRow(s, 'row2', 'r2');
+  }
   block.innerHTML = `
     <div class="img-col">
       <div class="img-frame">
@@ -418,8 +525,7 @@ function buildSentenceBlock(item, accentColor) {
       <div class="word-lbl" style="color:${accentColor}">${esc(w)}</div>
       <div class="sentence-hint">${esc(s)}</div>
     </div>
-    ${buildWriteRow(s, 'row1', 'r1')}
-    ${buildWriteRow(s, 'row2', 'r2')}
+    ${writeHtml}
   `;
   const img = block.querySelector('.hw-word-img');
   img.src = IMG_BASE + imgKey + '.png';
@@ -444,13 +550,14 @@ function buildPage(vData, items, pageNum, totalPages) {
     <span class="vowel-badge" style="background:${vData.bg}; color:${vData.color}">
       ${esc(vData.label)} · 句子抄写
     </span>
-    <span>日期: ____ 年 __ 月 __ 日</span>
   `;
   page.appendChild(hdr);
 
   const body = document.createElement('div');
-  body.className =
-    items.length < 4 ? 'page-body page-body--compact' : 'page-body';
+  const anyMulti = items.some(isMultilineItem);
+  body.className = anyMulti
+    ? 'page-body page-body--flow'
+    : (items.length < 4 ? 'page-body page-body--compact' : 'page-body');
   items.forEach(it => body.appendChild(buildSentenceBlock(it, vData.color)));
   page.appendChild(body);
 
@@ -477,7 +584,7 @@ function buildAll() {
   section.className = 'hw-section active';
   section.id = 'section-play-kitty-hw03';
   /* 与 01 单词抄写相同：每页 4 条，均分竖向空间 */
-  const pages = chunkArray(LESSON.items, 4);
+  const pages = chunkByHeight(LESSON.items);
   pages.forEach((pageItems, pi) => {
     section.appendChild(buildPage(LESSON, pageItems, pi + 1, pages.length));
   });

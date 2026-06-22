@@ -1,6 +1,6 @@
 /**
  * 本地 MP3 播放（en-GB-RyanNeural · 预生成）
- * 需先加载同目录 audio-manifest.js（window.__LOCAL_AUDIO_MANIFEST）
+ * 支持 file:// 双击打开 · 需先加载 audio-manifest.js
  */
 (function (global) {
   "use strict";
@@ -11,16 +11,28 @@
   function scriptBase() {
     var cs = document.currentScript;
     if (cs && cs.src) {
-      return cs.src.replace(/\/[^/]*$/, "/");
+      try {
+        return new URL("./", cs.src).href;
+      } catch (e0) {}
+      var s = String(cs.src).replace(/\\/g, "/");
+      return s.replace(/[^/]*$/, "");
     }
     var scripts = document.getElementsByTagName("script");
     for (var i = scripts.length - 1; i >= 0; i--) {
       var src = scripts[i].src;
       if (src && /local-audio\.js(\?|$)/i.test(src)) {
-        return src.replace(/\/[^/]*$/, "/");
+        try {
+          return new URL("./", src).href;
+        } catch (e1) {}
+        src = String(src).replace(/\\/g, "/");
+        return src.replace(/[^/]*$/, "");
       }
     }
-    return "audio/";
+    try {
+      return new URL("audio/", global.location.href).href;
+    } catch (e2) {
+      return "audio/";
+    }
   }
 
   var __base = scriptBase();
@@ -51,10 +63,16 @@
   }
 
   function buildAudioUrl(base, rel) {
-    var parts = String(rel).split("/");
-    return base + parts.map(function (p) {
+    var parts = String(rel).split("/").filter(Boolean);
+    var encoded = parts.map(function (p) {
       return encodeURIComponent(p);
-    }).join("/");
+    });
+    try {
+      return new URL(encoded.join("/"), base).href;
+    } catch (e) {
+      var sep = base.indexOf("?") >= 0 ? "&" : "";
+      return base + (/\/$/.test(base) ? "" : "/") + encoded.join("/");
+    }
   }
 
   function lookupPath(text, rate) {
@@ -133,17 +151,11 @@
     var rate = resolveRate(options);
     var rel = lookupPath(t, rate);
     if (!rel) {
-      if (typeof console !== "undefined" && console.warn) {
-        console.warn("[LocalAudio] 未找到音频:", t, "rate=", rate);
-      }
       if (options.onDone) options.onDone();
       return Promise.resolve(false);
     }
     var url = buildAudioUrl(__base, rel);
     return playUrl(url, gen).then(function (ok) {
-      if (!ok && typeof console !== "undefined" && console.warn) {
-        console.warn("[LocalAudio] 播放失败:", url);
-      }
       if (options.onDone) options.onDone();
       return ok;
     });
