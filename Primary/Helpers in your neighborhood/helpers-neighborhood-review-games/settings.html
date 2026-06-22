@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>选词设置 · Helpers in Your Neighborhood 复习游戏</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Patrick+Hand&family=Noto+Sans+SC:wght@500;700&display=swap" rel="stylesheet" />
+  <script src="words-data.js"></script>
+  <style>
+    :root { --gold: #f5c400; --ink: #1a1a1a; --paper: #f7f5f0; --accent: #1565C0; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html {
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
+    body {
+      font-family: "Noto Sans SC", sans-serif;
+      min-height: 100dvh;
+      background: linear-gradient(165deg, #37474f, #1b2327);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow-x: clip;
+      -webkit-tap-highlight-color: rgba(0, 172, 193, 0.12);
+      padding:
+        max(0.75rem, env(safe-area-inset-top))
+        max(0.5rem, env(safe-area-inset-right))
+        max(2.5rem, env(safe-area-inset-bottom))
+        max(0.5rem, env(safe-area-inset-left));
+    }
+    .toolbar {
+      width: 100%;
+      max-width: 40rem;
+      padding: 0.65rem 1rem;
+      background: #fffef8;
+      border-bottom: 3px solid var(--gold);
+      margin-bottom: 1rem;
+      border-radius: 0 0 8px 8px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+    }
+    .toolbar h1 {
+      font-family: "Fredoka", sans-serif;
+      font-size: clamp(0.95rem, 3.5vw, 1.05rem);
+      color: var(--ink);
+      flex: 1;
+      min-width: 0;
+    }
+    .btn {
+      font-family: "Fredoka", sans-serif;
+      font-weight: 700;
+      border: 2px solid var(--ink);
+      border-radius: 999px;
+      padding: 0.4rem 0.95rem;
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      background: #fff;
+      font-size: 0.88rem;
+      text-decoration: none;
+      color: var(--ink);
+      touch-action: manipulation;
+      flex-shrink: 0;
+    }
+    .btn:active { filter: brightness(0.96); }
+    .btn.primary { background: var(--gold); }
+    .panel {
+      width: min(40rem, 100%);
+      background: var(--paper);
+      border-radius: 10px;
+      padding: 1.1rem 1rem 1.25rem;
+      border-left: 4px solid var(--gold);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+    }
+    .hint { font-size: 0.88rem; color: #546e7a; line-height: 1.55; margin-bottom: 0.85rem; }
+    .hint strong { color: var(--accent); }
+    .presets { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 0.85rem; }
+    .presets .btn { font-size: 0.82rem; padding: 0.35rem 0.75rem; }
+    .count { font-family: "Fredoka", sans-serif; color: var(--accent); margin-bottom: 0.65rem; font-size: 0.95rem; }
+    .word-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 0.45rem;
+    }
+    .word-item {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.5rem 0.55rem;
+      min-height: 52px;
+      border: 2px solid #d4cfc3;
+      border-radius: 10px;
+      background: #fff;
+      cursor: pointer;
+      touch-action: manipulation;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+    .word-item.on { border-color: var(--accent); background: #e8f5e9; }
+    .word-item:active { background: #E3F2FD; }
+    .word-item input {
+      accent-color: var(--accent);
+      width: 1.15rem;
+      height: 1.15rem;
+      flex-shrink: 0;
+    }
+    .word-item .en { font-family: "Patrick Hand", cursive; font-size: 1.05rem; font-weight: 700; color: var(--ink); }
+    .word-item .zh { font-size: 0.68rem; color: #78909c; display: block; }
+    .warn {
+      display: none;
+      margin-top: 0.75rem;
+      padding: 0.55rem;
+      background: #ffebee;
+      border: 1px solid #ef9a9a;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      color: #c62828;
+    }
+    .warn.show { display: block; }
+    .actions { margin-top: 1rem; text-align: center; }
+    .actions .btn.big {
+      padding: 0.6rem 1.5rem;
+      font-size: 1rem;
+      min-height: 48px;
+      width: 100%;
+      max-width: 20rem;
+    }
+    @media screen and (max-width: 720px) {
+      .toolbar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .toolbar .btn {
+        width: 100%;
+      }
+      .presets {
+        flex-direction: column;
+      }
+      .presets .btn {
+        width: 100%;
+      }
+      .word-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .actions .btn.big {
+        max-width: none;
+      }
+    }
+    @media screen and (max-width: 380px) {
+      .word-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .btn:active { filter: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="toolbar">
+    <h1>⚙️ Helpers in Your Neighborhood 选词设置</h1>
+    <a class="btn" href="index.html">← 游戏首页</a>
+  </div>
+  <main class="panel">
+    <p class="hint">
+      勾选本次要练的单词，保存后<strong>三个游戏</strong>都会只用这些词。<br />
+      翻翻配对每轮 3 词（6 张卡）；末轮不够时会从<strong>第一组</strong>补词。听音接爪至少选 <strong>2</strong> 个词。
+    </p>
+    <div class="presets">
+      <button type="button" class="btn" id="btnAll">全选 13 词</button>
+      <button type="button" class="btn" id="btnClear">全不选</button>
+    </div>
+    <p class="count">已选 <strong id="selCount">0</strong> / 13</p>
+    <div class="word-grid" id="wordGrid"></div>
+    <p class="warn" id="warn">请至少选择 1 个单词。</p>
+    <div class="actions">
+      <button type="button" class="btn primary big" id="btnSave">保存并返回</button>
+    </div>
+  </main>
+  <script>
+  (function () {
+    var grid = document.getElementById("wordGrid");
+    var selCount = document.getElementById("selCount");
+    var warn = document.getElementById("warn");
+    var selected = {};
+
+    function refreshCount() {
+      var n = Object.keys(selected).filter(function (k) { return selected[k]; }).length;
+      selCount.textContent = String(n);
+      warn.classList.toggle("show", n < 1);
+    }
+
+    function setKeys(keys) {
+      selected = {};
+      HelpersNeighborhoodWords.ALL_KEYS.forEach(function (k) { selected[k] = keys.indexOf(k) >= 0; });
+      grid.querySelectorAll(".word-item").forEach(function (row) {
+        var k = row.dataset.word;
+        var on = !!selected[k];
+        row.classList.toggle("on", on);
+        row.querySelector("input").checked = on;
+      });
+      refreshCount();
+    }
+
+    function getCheckedKeys() {
+      return HelpersNeighborhoodWords.ALL_KEYS.filter(function (k) { return selected[k]; });
+    }
+
+    HelpersNeighborhoodWords.ALL.forEach(function (w) {
+      var label = document.createElement("label");
+      label.className = "word-item";
+      label.dataset.word = w.word;
+      var cb = document.createElement("input");
+      cb.type = "checkbox";
+      var text = document.createElement("span");
+      text.innerHTML = '<span class="en">' + w.word + '</span><span class="zh">' + w.zh + " " + w.emoji + "</span>";
+      label.appendChild(cb);
+      label.appendChild(text);
+      label.addEventListener("click", function (e) {
+        if (e.target.tagName === "INPUT") return;
+        cb.checked = !cb.checked;
+        selected[w.word] = cb.checked;
+        label.classList.toggle("on", cb.checked);
+        refreshCount();
+      });
+      cb.addEventListener("change", function () {
+        selected[w.word] = cb.checked;
+        label.classList.toggle("on", cb.checked);
+        refreshCount();
+      });
+      grid.appendChild(label);
+    });
+
+    setKeys(HelpersNeighborhoodWords.getSelectedKeys());
+
+    document.getElementById("btnAll").onclick = function () { setKeys(HelpersNeighborhoodWords.getDefaultKeys()); };
+    document.getElementById("btnClear").onclick = function () { setKeys([]); };
+    document.getElementById("btnSave").onclick = function () {
+      var keys = getCheckedKeys();
+      if (!keys.length) { warn.classList.add("show"); return; }
+      HelpersNeighborhoodWords.saveKeys(keys);
+      location.href = "index.html";
+    };
+  })();
+  </script>
+</body>
+</html>

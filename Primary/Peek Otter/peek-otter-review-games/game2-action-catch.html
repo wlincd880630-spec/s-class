@@ -1,0 +1,883 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>听音接爪 · Peek, Otter!</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Patrick+Hand&family=Noto+Sans+SC:wght@500;700&display=swap" rel="stylesheet" />
+  <script src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Peek%20Otter/peek-otter-review-games/audio/audio-manifest.js"></script>
+  <script src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Peek%20Otter/peek-otter-review-games/audio/local-audio.js"></script>
+  <script src="azure-tts.js"></script>
+  <script src="words-data.js"></script>
+  <style>
+    :root {
+      --gold: #f5c400;
+      --ink: #1a1a1a;
+      --paper: #f7f5f0;
+      --accent: #00838F;
+      --pic-ar: 4 / 3;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html {
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
+    body {
+      font-family: "Noto Sans SC", sans-serif;
+      min-height: 100dvh;
+      background: linear-gradient(165deg, #37474f, #1b2327);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow-x: clip;
+      -webkit-tap-highlight-color: rgba(0, 172, 193, 0.12);
+      padding:
+        max(0.75rem, env(safe-area-inset-top))
+        max(0.5rem, env(safe-area-inset-right))
+        max(2rem, env(safe-area-inset-bottom))
+        max(0.5rem, env(safe-area-inset-left));
+    }
+    .toolbar {
+      width: 100%;
+      max-width: 44rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      padding: 0.65rem 1rem;
+      background: #fffef8;
+      border-bottom: 3px solid var(--gold);
+      margin-bottom: 1rem;
+      border-radius: 0 0 8px 8px;
+    }
+    .toolbar h1 {
+      font-family: "Fredoka", sans-serif;
+      font-size: clamp(0.95rem, 3.5vw, 1.05rem);
+      color: var(--ink);
+    }
+    .toolbar .meta { font-size: 0.8rem; color: #78909c; }
+    .toolbar .btns { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+    .btn {
+      font-family: "Fredoka", sans-serif;
+      font-weight: 700;
+      border: none;
+      border-radius: 999px;
+      padding: 0.45rem 1rem;
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 0.88rem;
+      background: #fff;
+      border: 2px solid var(--ink);
+      color: var(--ink);
+      text-decoration: none;
+      touch-action: manipulation;
+      flex-shrink: 0;
+    }
+    .btn:active { filter: brightness(0.96); }
+    .btn.primary { background: var(--gold); border-color: #c9a008; }
+    .btn.big { font-size: 1.05rem; padding: 0.65rem 1.75rem; }
+    .stage {
+      width: min(44rem, 100%);
+      background: var(--paper);
+      border-radius: 10px;
+      padding: 1.1rem 1rem 1.35rem;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+      border-left: 4px solid var(--gold);
+    }
+
+    /* ── 开始 / 选择 ── */
+    .setup-panel { display: block; }
+    .setup-panel.hidden { display: none; }
+    .setup-title {
+      font-family: "Fredoka", sans-serif;
+      font-size: 1.1rem;
+      color: var(--accent);
+      text-align: center;
+      margin-bottom: 0.35rem;
+    }
+    .setup-hint {
+      text-align: center;
+      font-size: 0.85rem;
+      color: #78909c;
+      margin-bottom: 1rem;
+      line-height: 1.5;
+    }
+    .setup-block { margin-bottom: 1rem; }
+    .setup-block h3 {
+      font-family: "Fredoka", sans-serif;
+      font-size: 0.88rem;
+      color: #546e7a;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+    .choice-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      justify-content: center;
+    }
+    .choice {
+      font-family: "Fredoka", sans-serif;
+      font-size: 0.88rem;
+      font-weight: 600;
+      padding: 0.5rem 0.85rem;
+      min-height: 48px;
+      border: 2.5px solid #d4cfc3;
+      border-radius: 12px;
+      background: #fff;
+      cursor: pointer;
+      color: var(--ink);
+      transition: border-color 0.12s, background 0.12s, transform 0.1s;
+      touch-action: manipulation;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+    .choice:hover { border-color: var(--accent); transform: translateY(-1px); }
+    .choice:active { transform: scale(0.98); }
+    .choice.on {
+      border-color: var(--accent);
+      background: #e8f5e9;
+      color: var(--accent);
+      box-shadow: 0 2px 0 rgba(173, 20, 87, 0.15);
+    }
+    .choice small {
+      display: block;
+      font-family: "Noto Sans SC", sans-serif;
+      font-size: 0.68rem;
+      font-weight: 500;
+      color: #90a4ae;
+      margin-top: 0.15rem;
+    }
+    .preview-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(72px, 1fr));
+      gap: 0.45rem;
+      max-width: 28rem;
+      margin: 0.75rem auto 0;
+    }
+    .preview-item {
+      text-align: center;
+      padding: 0.35rem;
+      background: #fff;
+      border: 2px solid #eceff1;
+      border-radius: 10px;
+    }
+    .preview-item .pic {
+      width: 100%;
+      aspect-ratio: var(--pic-ar, 1);
+      max-height: 4.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .preview-item img { max-width: 100%; max-height: 100%; object-fit: contain; }
+    .preview-item .emo { font-size: 1.6rem; display: none; }
+    .preview-item .en {
+      font-family: "Patrick Hand", cursive;
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-top: 0.2rem;
+    }
+    .setup-actions { text-align: center; margin-top: 1.1rem; }
+
+    /* ── 游戏进行 ── */
+    .play-panel { display: none; }
+    .play-panel.on { display: block; }
+    .hud {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
+      color: #546e7a;
+    }
+    .hud .score {
+      font-family: "Fredoka", sans-serif;
+      font-size: 1.35rem;
+      color: var(--accent);
+    }
+    .timer-wrap {
+      flex: 1;
+      min-width: 8rem;
+      max-width: 14rem;
+      height: 12px;
+      background: #eceff1;
+      border-radius: 999px;
+      overflow: hidden;
+      border: 1px solid #cfd8dc;
+    }
+    .timer-bar {
+      height: 100%;
+      width: 100%;
+      background: linear-gradient(90deg, #43a047, var(--gold), #e53935);
+      transition: width 0.05s linear;
+      border-radius: 999px;
+    }
+    .prompt {
+      text-align: center;
+      min-height: 5.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.35rem;
+      margin-bottom: 1rem;
+      padding: 0.75rem;
+      background: #fff;
+      border: 2px dashed #d4cfc3;
+      border-radius: 12px;
+    }
+    .prompt .mode-tag {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #1b5e20;
+      letter-spacing: 0.06em;
+    }
+    .prompt .big {
+      font-family: "Patrick Hand", cursive;
+      font-size: clamp(2rem, 8vw, 2.8rem);
+      font-weight: 700;
+      color: var(--ink);
+    }
+    .prompt .zh-big {
+      font-family: "Fredoka", sans-serif;
+      font-size: clamp(1.6rem, 6vw, 2.2rem);
+      color: var(--accent);
+    }
+    .prompt .hint { font-size: 0.82rem; color: #90a4ae; }
+    .btn-hear {
+      font-family: "Fredoka", sans-serif;
+      margin-top: 0.25rem;
+      padding: 0.35rem 1rem;
+      min-height: 44px;
+      border-radius: 999px;
+      border: 2px solid var(--ink);
+      background: var(--gold);
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.95rem;
+      touch-action: manipulation;
+    }
+    .actions {
+      display: grid;
+      gap: clamp(0.35rem, 2vw, 0.55rem);
+      justify-content: center;
+    }
+    .actions.cols-3 { grid-template-columns: repeat(3, 1fr); max-width: 22rem; margin: 0 auto; }
+    .actions.cols-5 { grid-template-columns: repeat(5, 1fr); }
+    .actions.cols-many {
+      grid-template-columns: repeat(auto-fit, minmax(4.2rem, 1fr));
+      max-width: 100%;
+    }
+    @media (max-width: 560px) {
+      .actions.cols-5 { grid-template-columns: repeat(2, 1fr); }
+      .actions.cols-3 { grid-template-columns: repeat(3, 1fr); max-width: 100%; }
+      .actions.cols-many { grid-template-columns: repeat(3, 1fr); }
+    }
+    .act {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.2rem;
+      padding: 0.55rem 0.25rem;
+      min-height: 72px;
+      border: 2.5px solid #d4cfc3;
+      border-radius: 12px;
+      background: #fff;
+      cursor: pointer;
+      transition: transform 0.12s, border-color 0.12s, background 0.12s;
+      font-family: inherit;
+      touch-action: manipulation;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+    .act:hover:not(:disabled) { transform: scale(1.04); border-color: var(--accent); }
+    .act:active:not(:disabled) { transform: scale(0.97); }
+    .act:disabled { opacity: 0.55; cursor: default; }
+    .act .pic {
+      width: 100%;
+      aspect-ratio: var(--pic-ar, 1);
+      max-width: 4.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .act .pic img { max-width: 100%; max-height: 100%; object-fit: contain; }
+    .act .pic .emo { font-size: 2.2rem; display: none; }
+    .act .lbl {
+      font-family: "Patrick Hand", cursive;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--ink);
+    }
+    .act.correct {
+      border-color: #43a047;
+      background: #e8f5e9;
+      animation: pop 0.35s ease;
+    }
+    .act.wrong {
+      border-color: #e53935;
+      background: #ffebee;
+      animation: shake 0.4s ease;
+    }
+    @keyframes pop {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.12); }
+      100% { transform: scale(1); }
+    }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-8px); }
+      75% { transform: translateX(8px); }
+    }
+    .overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.55);
+      align-items: center;
+      justify-content: center;
+      z-index: 50;
+      padding:
+        max(1rem, env(safe-area-inset-top))
+        max(1rem, env(safe-area-inset-right))
+        max(1rem, env(safe-area-inset-bottom))
+        max(1rem, env(safe-area-inset-left));
+    }
+    .overlay.show { display: flex; }
+    .modal {
+      background: #fffef8;
+      border: 3px solid var(--gold);
+      border-radius: 14px;
+      padding: 1.5rem 1.75rem;
+      text-align: center;
+      max-width: 22rem;
+      width: 100%;
+    }
+    .modal h2 { font-family: "Fredoka", sans-serif; color: var(--accent); font-size: 1.6rem; }
+    .modal p { margin: 0.6rem 0 1rem; color: #546e7a; line-height: 1.5; }
+    .modal .btn { margin: 0.25rem; }
+    .confetti {
+      pointer-events: none;
+      position: fixed;
+      inset: 0;
+      z-index: 40;
+      overflow: hidden;
+    }
+    .confetti i {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      border-radius: 2px;
+      animation: fall 1.2s ease-in forwards;
+    }
+    @keyframes fall {
+      to { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+    }
+    @media screen and (max-width: 720px) {
+      .toolbar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .toolbar .btns {
+        width: 100%;
+        flex-direction: column;
+      }
+      .toolbar .btns .btn {
+        width: 100%;
+      }
+      .stage {
+        padding: 0.85rem 0.55rem 1rem;
+      }
+      .choice-row {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .choice {
+        width: 100%;
+        text-align: center;
+      }
+      .setup-actions .btn.big {
+        width: 100%;
+      }
+      .hud {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+      }
+      .timer-wrap {
+        max-width: none;
+        width: 100%;
+      }
+      .modal .btn {
+        display: flex;
+        width: 100%;
+        margin: 0.35rem 0 0;
+      }
+    }
+    @media (hover: none) and (pointer: coarse) {
+      .choice:hover { transform: none; }
+      .act:hover:not(:disabled) { transform: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .choice, .act { transition: none !important; }
+      .act.correct, .act.wrong { animation: none !important; }
+      .timer-bar { transition: none !important; }
+      .confetti i { animation: none !important; display: none; }
+      .btn:active { filter: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="toolbar">
+    <div>
+      <h1>⚡ 听音接爪</h1>
+      <p class="meta" id="toolbarMeta">先选择，再开始</p>
+    </div>
+    <div class="btns">
+      <button type="button" class="btn" id="btnHome">← 选游戏</button>
+      <a class="btn" href="settings.html">⚙️ 选词</a>
+      <button type="button" class="btn" id="btnBackSetup" style="display:none">重新选择</button>
+    </div>
+  </div>
+
+  <main class="stage">
+    <section class="setup-panel" id="setupPanel" aria-label="选择设置">
+      <h2 class="setup-title">🦦 开始之前，请先选择</h2>
+      <p class="setup-hint">
+        单词在 <a href="settings.html" style="color:#00838F;font-weight:700">⚙️ 选词设置</a> 中勾选。
+        请选好<strong>出题方式</strong>，再点「开始游戏」。
+      </p>
+
+      <div class="setup-block">
+        <h3>出题方式</h3>
+        <div class="choice-row" id="modeChoices" role="group" aria-label="出题方式">
+          <button type="button" class="choice on" data-mode="hear">👂 听英文</button>
+          <button type="button" class="choice" data-mode="zh">👀 看中文</button>
+          <button type="button" class="choice" data-mode="mix">🔀 混合随机</button>
+        </div>
+      </div>
+
+      <div class="setup-block">
+        <h3>本次练习单词（<span id="selWordCount">0</span> 个）</h3>
+        <div class="preview-row" id="previewRow"></div>
+        <p style="text-align:center;margin-top:0.5rem">
+          <a class="btn" href="settings.html">去修改选词 →</a>
+        </p>
+      </div>
+
+      <div class="setup-actions">
+        <button type="button" class="btn primary big" id="btnStartGame">开始游戏 ▶</button>
+      </div>
+    </section>
+
+    <section class="play-panel" id="playPanel" aria-label="游戏进行中">
+      <div class="hud">
+        <span>得分 <span class="score" id="score">0</span></span>
+        <span>第 <strong id="round">0</strong> / <strong id="roundTotal">8</strong> 关</span>
+        <div class="timer-wrap" aria-hidden="true"><div class="timer-bar" id="timerBar"></div></div>
+      </div>
+
+      <div class="prompt" id="prompt">
+        <span class="mode-tag">准备</span>
+        <p class="hint">游戏即将开始…</p>
+      </div>
+
+      <div class="actions cols-3" id="actions"></div>
+    </section>
+  </main>
+
+  <div class="overlay" id="overlay">
+    <div class="modal">
+      <h2 id="modalTitle">🎉 完成！</h2>
+      <p id="modalText"></p>
+      <button type="button" class="btn primary" id="btnAgain">再玩一次</button>
+      <button type="button" class="btn" id="btnToSetup">重新选择</button>
+    </div>
+  </div>
+
+  <script>
+  (function () {
+    "use strict";
+
+    var IMG_BASE = PeekOtterWords.IMG_BASE;
+    var TIME_MS = 10000;
+    var ROUND_GAP_MS = 1000;
+
+    var setupPanel = document.getElementById("setupPanel");
+    var playPanel = document.getElementById("playPanel");
+    var previewRow = document.getElementById("previewRow");
+    var actionsEl = document.getElementById("actions");
+    var scoreEl = document.getElementById("score");
+    var roundEl = document.getElementById("round");
+    var roundTotalEl = document.getElementById("roundTotal");
+    var timerBar = document.getElementById("timerBar");
+    var promptEl = document.getElementById("prompt");
+    var overlay = document.getElementById("overlay");
+    var modalTitle = document.getElementById("modalTitle");
+    var modalText = document.getElementById("modalText");
+    var toolbarMeta = document.getElementById("toolbarMeta");
+    var btnBackSetup = document.getElementById("btnBackSetup");
+
+    var selectedMode = "hear";
+    var activeWords = [];
+    var totalRounds = 8;
+    var score = 0;
+    var round = 0;
+    var target = null;
+    var wordDeck = [];
+    var timerId = null;
+    var rafId = null;
+    var endAt = 0;
+    var playing = false;
+    var aspectByWord = {};
+
+    function getActiveWords() {
+      return PeekOtterWords.getSelected();
+    }
+
+    function calcRounds(n) {
+      return Math.max(6, n, Math.min(16, n * 2));
+    }
+
+    function shuffleList(arr) {
+      for (var i = arr.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var t = arr[i];
+        arr[i] = arr[j];
+        arr[j] = t;
+      }
+      return arr;
+    }
+
+    function refillWordDeck() {
+      wordDeck = activeWords.slice();
+      shuffleList(wordDeck);
+    }
+
+    function pickTargetWord() {
+      if (!wordDeck.length) refillWordDeck();
+      return wordDeck.pop();
+    }
+
+    function pickMode() {
+      if (selectedMode === "mix") {
+        return Math.random() < 0.5 ? "hear" : "zh";
+      }
+      return selectedMode;
+    }
+
+    function speak(text, cb) {
+      if (window.PeekOtterTTS) {
+        PeekOtterTTS.speak(text, { slow: false, azureOnly: true, onDone: cb });
+        return;
+      }
+      if (cb) cb();
+    }
+
+    function confetti() {
+      var box = document.createElement("div");
+      box.className = "confetti";
+      var colors = ["#f5c400", "#00838F", "#43a047", "#1e88e5", "#ff7043"];
+      for (var i = 0; i < 24; i++) {
+        var p = document.createElement("i");
+        p.style.left = Math.random() * 100 + "%";
+        p.style.top = "-10px";
+        p.style.background = colors[i % colors.length];
+        p.style.animationDelay = Math.random() * 0.4 + "s";
+        box.appendChild(p);
+      }
+      document.body.appendChild(box);
+      setTimeout(function () { box.remove(); }, 1400);
+    }
+
+    function bindChoices(container, attr, initial, onChange) {
+      container.querySelectorAll(".choice").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          container.querySelectorAll(".choice").forEach(function (b) { b.classList.remove("on"); });
+          btn.classList.add("on");
+          onChange(btn.getAttribute(attr));
+        });
+      });
+      onChange(initial);
+    }
+
+    function updatePreview() {
+      previewRow.innerHTML = "";
+      getActiveWords().forEach(function (w) {
+        var item = document.createElement("div");
+        item.className = "preview-item";
+        var pic = document.createElement("div");
+        pic.className = "pic";
+        var img = document.createElement("img");
+        img.src = IMG_BASE + w.word + ".png";
+        img.alt = w.word;
+        var emo = document.createElement("span");
+        emo.className = "emo";
+        emo.textContent = w.emoji;
+        img.onerror = function () {
+          img.style.display = "none";
+          emo.style.display = "block";
+        };
+        img.onload = function () {
+          if (img.naturalWidth > 0) {
+            aspectByWord[w.word] = img.naturalWidth + " / " + img.naturalHeight;
+            pic.style.setProperty("--pic-ar", aspectByWord[w.word]);
+          }
+        };
+        pic.appendChild(img);
+        pic.appendChild(emo);
+        var en = document.createElement("p");
+        en.className = "en";
+        en.textContent = w.word;
+        item.appendChild(pic);
+        item.appendChild(en);
+        previewRow.appendChild(item);
+      });
+    }
+
+    function buildActions() {
+      activeWords = getActiveWords();
+      actionsEl.innerHTML = "";
+      var cls = "actions ";
+      if (activeWords.length <= 3) cls += "cols-3";
+      else if (activeWords.length <= 7) cls += "cols-5";
+      else cls += "cols-many";
+      actionsEl.className = cls;
+
+      activeWords.forEach(function (w) {
+        var btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "act";
+        btn.dataset.word = w.word;
+        btn.disabled = true;
+
+        var pic = document.createElement("div");
+        pic.className = "pic";
+        if (aspectByWord[w.word]) pic.style.setProperty("--pic-ar", aspectByWord[w.word]);
+
+        var img = document.createElement("img");
+        img.src = IMG_BASE + w.word + ".png";
+        img.alt = w.word;
+        var emo = document.createElement("span");
+        emo.className = "emo";
+        emo.textContent = w.emoji;
+        img.onerror = function () {
+          img.style.display = "none";
+          emo.style.display = "block";
+        };
+        img.onload = function () {
+          if (img.naturalWidth > 0) {
+            aspectByWord[w.word] = img.naturalWidth + " / " + img.naturalHeight;
+            pic.style.setProperty("--pic-ar", aspectByWord[w.word]);
+          }
+        };
+        pic.appendChild(img);
+        pic.appendChild(emo);
+
+        var lbl = document.createElement("span");
+        lbl.className = "lbl";
+        lbl.textContent = w.word;
+
+        btn.appendChild(pic);
+        btn.appendChild(lbl);
+        btn.addEventListener("click", function () { onPick(w.word, btn); });
+        actionsEl.appendChild(btn);
+      });
+    }
+
+    function showSetup() {
+      playing = false;
+      stopTimer();
+      setupPanel.classList.remove("hidden");
+      playPanel.classList.remove("on");
+      overlay.classList.remove("show");
+      btnBackSetup.style.display = "none";
+      toolbarMeta.textContent = "先选择出题方式";
+
+      activeWords = getActiveWords();
+      if (activeWords.length < PeekOtterWords.MIN_WORDS_GAME2) {
+        location.href = "settings.html";
+        return;
+      }
+      document.getElementById("selWordCount").textContent = String(activeWords.length);
+      updatePreview();
+      buildActions();
+    }
+
+    function showPlay() {
+      setupPanel.classList.add("hidden");
+      playPanel.classList.add("on");
+      btnBackSetup.style.display = "inline-block";
+      activeWords = getActiveWords();
+      totalRounds = calcRounds(activeWords.length);
+      roundTotalEl.textContent = String(totalRounds);
+
+      var modeLabel = { hear: "听英文", zh: "看中文", mix: "混合" }[selectedMode] || "混合";
+      toolbarMeta.textContent = modeLabel + " · " + activeWords.length + " 词 · " + totalRounds + " 关";
+      buildActions();
+    }
+
+    function setPrompt(html) {
+      promptEl.innerHTML = html;
+    }
+
+    function stopTimer() {
+      if (timerId) clearTimeout(timerId);
+      if (rafId) cancelAnimationFrame(rafId);
+      timerId = null;
+      rafId = null;
+    }
+
+    function tickTimer() {
+      var left = Math.max(0, endAt - Date.now());
+      timerBar.style.width = (left / TIME_MS) * 100 + "%";
+      if (left <= 0) { onTimeout(); return; }
+      rafId = requestAnimationFrame(tickTimer);
+    }
+
+    function startTimer() {
+      stopTimer();
+      endAt = Date.now() + TIME_MS;
+      rafId = requestAnimationFrame(tickTimer);
+      timerId = setTimeout(onTimeout, TIME_MS + 80);
+    }
+
+    function lockActions(on) {
+      actionsEl.querySelectorAll(".act").forEach(function (b) {
+        b.disabled = on;
+      });
+    }
+
+    function nextRound() {
+      stopTimer();
+      lockActions(false);
+      actionsEl.querySelectorAll(".act").forEach(function (b) {
+        b.classList.remove("correct", "wrong");
+      });
+
+      if (round >= totalRounds) {
+        endGame();
+        return;
+      }
+
+      round++;
+      roundEl.textContent = String(round);
+      target = pickTargetWord();
+      var mode = pickMode();
+
+      if (mode === "hear") {
+        setPrompt(
+          '<span class="mode-tag">听一听 👂</span>' +
+          '<p class="hint">听英文，点对水獭动作</p>' +
+          '<button type="button" class="btn-hear" id="btnHear">🔊 再听一遍</button>'
+        );
+        document.getElementById("btnHear").addEventListener("click", function () {
+          speak(target.word);
+        });
+        speak(target.word, function () {
+          if (playing) startTimer();
+        });
+        startTimer();
+      } else {
+        setPrompt(
+          '<span class="mode-tag">看中文 👀</span>' +
+          '<p class="zh-big">' + target.zh + '</p>' +
+          '<p class="hint">点出对应的动作</p>'
+        );
+        startTimer();
+      }
+    }
+
+    function onPick(word, btn) {
+      if (!playing || !target) return;
+      stopTimer();
+      lockActions(true);
+
+      if (word === target.word) {
+        btn.classList.add("correct");
+        score += 10;
+        scoreEl.textContent = String(score);
+        confetti();
+        setTimeout(nextRound, ROUND_GAP_MS);
+      } else {
+        btn.classList.add("wrong");
+        actionsEl.querySelectorAll('.act[data-word="' + target.word + '"]').forEach(function (b) {
+          b.classList.add("correct");
+        });
+        setTimeout(nextRound, ROUND_GAP_MS);
+      }
+    }
+
+    function onTimeout() {
+      if (!playing || !target) return;
+      stopTimer();
+      lockActions(true);
+      setPrompt(
+        '<span class="mode-tag">时间到 ⏱</span>' +
+        '<p class="big">' + target.word + '</p>' +
+        '<p class="hint">' + target.zh + '</p>'
+      );
+      actionsEl.querySelectorAll('.act[data-word="' + target.word + '"]').forEach(function (b) {
+        b.classList.add("correct");
+      });
+      speak(target.word);
+      setTimeout(nextRound, ROUND_GAP_MS);
+    }
+
+    function endGame() {
+      playing = false;
+      stopTimer();
+      lockActions(true);
+      var max = totalRounds * 10;
+      var pct = Math.round((score / max) * 100);
+      var msg = pct >= 90 ? "太厉害了！几乎全对！" : pct >= 60 ? "不错哦，再练几次会更熟！" : "加油！多听几遍课件里的单词吧。";
+      modalTitle.textContent = "🎉 游戏结束";
+      modalText.textContent = "得分 " + score + " / " + max + "（" + pct + "%）。" + msg;
+      overlay.classList.add("show");
+    }
+
+    function startGame() {
+      overlay.classList.remove("show");
+      showPlay();
+      score = 0;
+      round = 0;
+      scoreEl.textContent = "0";
+      roundEl.textContent = "0";
+      playing = true;
+      target = null;
+      refillWordDeck();
+      timerBar.style.width = "100%";
+      lockActions(true);
+      setPrompt('<span class="mode-tag">开始！</span><p class="hint">集中注意力…</p>');
+      setTimeout(function () {
+        lockActions(false);
+        nextRound();
+      }, 600);
+    }
+
+    bindChoices(document.getElementById("modeChoices"), "data-mode", "hear", function (v) {
+      selectedMode = v;
+    });
+
+    document.getElementById("btnStartGame").addEventListener("click", startGame);
+    document.getElementById("btnAgain").addEventListener("click", startGame);
+    document.getElementById("btnToSetup").addEventListener("click", showSetup);
+    btnBackSetup.addEventListener("click", showSetup);
+    document.getElementById("btnHome").addEventListener("click", function () {
+      location.href = "index.html";
+    });
+
+    showSetup();
+  })();
+  </script>
+</body>
+</html>

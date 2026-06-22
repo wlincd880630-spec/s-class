@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Helpers in Your Neighborhood · 单词涂色卡</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root { --ng-gold: #f5c400; --ink: #1a1a1a; --accent: #1565C0; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Fredoka", sans-serif;
+      background: linear-gradient(165deg, #37474f 0%, #263238 100%);
+      display: flex; flex-direction: column; align-items: center;
+      padding-bottom: max(48px, env(safe-area-inset-bottom));
+      min-height: 100dvh;
+      overflow-x: clip;
+    }
+    .toolbar {
+      width: 100%; padding: 14px 22px; background: #fffef8;
+      border-bottom: 3px solid var(--ng-gold);
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px;
+      position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 20px rgba(0,0,0,.2);
+    }
+    .toolbar h1 { font-size: 1.1rem; color: var(--ink); }
+    .toolbar p { font-size: 0.8rem; color: #546e7a; max-width: 32rem; line-height: 1.4; }
+    .btn {
+      font-family: inherit; font-weight: 700; border: none; border-radius: 999px;
+      padding: 10px 22px; min-height: 44px; cursor: pointer;
+      background: linear-gradient(180deg, #64b5f6, #1565C0);
+      color: #fff; box-shadow: 0 4px 12px rgba(21,101,192,.4);
+      flex-shrink: 0;
+    }
+    #app {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0 max(8px, env(safe-area-inset-right)) 0 max(8px, env(safe-area-inset-left));
+    }
+    .page-viewport {
+      width: min(210mm, calc(100vw - 24px));
+      margin: 24px auto;
+      overflow: hidden;
+    }
+    .sheet {
+      width: 210mm; min-height: 297mm; margin: 24px 0; padding: 12mm 14mm;
+      background: #fff; box-shadow: 0 0 40px rgba(0,0,0,.5);
+      page-break-after: always; display: flex; flex-direction: column; align-items: center;
+    }
+    .page-viewport .sheet { margin: 0; }
+    .sheet-hdr {
+      width: 100%; display: flex; justify-content: space-between; align-items: center;
+      font-size: 0.82rem; color: #78909c; border-bottom: 2px solid #eceff1;
+      padding-bottom: 4mm; margin-bottom: 6mm; gap: 4px; flex-wrap: wrap;
+    }
+    .sheet-hdr .badge {
+      font-weight: 700; padding: 4px 14px; border-radius: 8px;
+      background: #e3f2fd; border: 2px solid var(--ng-gold); color: #1565C0;
+    }
+    .sheet-img {
+      flex: 1; width: 100%; max-width: 170mm; min-height: 0;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+    }
+    .sheet-img img {
+      display: block;
+      width: auto;
+      height: auto;
+      max-width: 100%;
+      max-height: min(220mm, calc(100dvh - 220px));
+      object-fit: contain;
+    }
+    .sheet-ftr { margin-top: 4mm; font-size: 0.75rem; color: #b0bec5; text-align: center; flex-shrink: 0; }
+    @media screen and (max-width: 720px) {
+      .toolbar { justify-content: center; }
+      .toolbar h1 { font-size: 1rem; line-height: 1.35; }
+      .toolbar p { max-width: 100%; font-size: 0.82rem; }
+      .btn { width: 100%; }
+      .page-viewport { width: calc(100vw - 16px); margin: 12px auto; }
+      .sheet { box-shadow: 0 0 28px rgba(0, 0, 0, 0.45); }
+      .sheet-img img { max-height: min(200mm, calc(100dvh - 200px)); }
+    }
+    @media print {
+      body { background: #fff; padding: 0; }
+      .toolbar { display: none !important; }
+      #app { padding: 0; }
+      .page-viewport { width: auto; height: auto; overflow: visible; margin: 0; }
+      .page-viewport .sheet { transform: none !important; margin: 0; box-shadow: none; }
+      .sheet-img img { max-width: 100%; max-height: 250mm; }
+      * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    }
+  </style>
+</head>
+<body>
+  <div class="toolbar">
+    <div>
+      <h1>🏘️ Helpers in Your Neighborhood · 单词涂色卡（一年级）</h1>
+      <p>每页一词：顶部大号空心英文 + 线稿图，学生用彩笔涂色记单词。different · neighborhood · people · mail carrier · post office · library · librarian · police officer · police station · firefighter · fire station · restaurant · favorite · waiter · hospital · nurse。打印选「另存为 PDF」。</p>
+    </div>
+    <button type="button" class="btn" onclick="window.print()">🖨️ 打印 / 导出 PDF</button>
+  </div>
+  <div id="app">
+  <section class="sheet"><div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">different · 不同的</span><span>日期: ____ / ____</span></div><div class="sheet-img"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Helpers in your neighborhood/helpers-neighborhood-coloring/images/different.png" alt="different 涂色" /></div><p class="sheet-ftr">Helpers in Your Neighborhood · 涂色记单词 · different</p></section>
+  <section class="sheet"><div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">neighborhood · 社区</span><span>日期: ____ / ____</span></div><div class="sheet-img"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Helpers in your neighborhood/helpers-neighborhood-coloring/images/neighborhood.png" alt="neighborhood 涂色" /></div><p class="sheet-ftr">Helpers in Your Neighborhood · 涂色记单词 · neighborhood</p></section>
+  <section class="sheet"><div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">people · 人们</span><span>日期: ____ / ____</span></div><div class="sheet-img"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Helpers in your neighborhood/helpers-neighborhood-coloring/images/people.png" alt="people 涂色" /></div><p class="sheet-ftr">Helpers in Your Neighborhood · 涂色记单词 · people</p></section>
+  <section class="sheet"><div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">mail carrier · 邮递员</span><span>日期: ____ / ____</span></div><div class="sheet-img"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Helpers in your neighborhood/helpers-neighborhood-coloring/images/mail-carrier.png" alt="mail carrier 涂色" /></div><p class="sheet-ftr">Helpers in Your Neighborhood · 涂色记单词 · mail carrier</p></section>
+  <section class="sheet"><div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">post office · 邮局</span><span>日期: ____ / ____</span></div><div class="sheet-img"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Helpers in your neighborhood/helpers-neighborhood-coloring/images/post-office.png" alt="post office 涂色" /></div><p class="sheet-ftr">Helpers in Your Neighborhood · 涂色记单词 · post office</p></section>
+  <section class="sheet"><div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">library · 图书馆</span><span>日期: ____ / ____</span></div><div class="sheet-img"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Helpers in your neighborhood/helpers-neighborhood-coloring/images/library.png" alt="library 涂色" /></div><p class="sheet-ftr">Helpers in Your Neighborhood · 涂色记单词 · library</p></section>
+  <section class="sheet"><div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">librarian · 图书管理员</span><span>日期: ____ / ____</span></div><div class="sheet-img"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Helpers in your neighborhood/helpers-neighborhood-coloring/images/librarian.png" alt="librarian 涂色" /></div><p class="sheet-ftr">Helpers in Your Neighborhood · 涂色记单词 · librarian</p></section>
+  <section class="sheet"><div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">police officer · 警察</span><span>日期: ____ / ____</span></div><div class="sheet-img"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Helpers in your neighborhood/helpers-neighborhood-coloring/images/police-officer.png" alt="police officer 涂色" /></div><p class="sheet-ftr">Helpers in Your Neighborhood · 涂色记单词 · police officer</p></section>
+  <section class="sheet"><div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">police station · 警察局</span><span>日期: ____ / ____</span></div><div class="sheet-img"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Helpers in your neighborhood/helpers-neighborhood-coloring/images/police-station.png" alt="police station 涂色" /></div><p class="sheet-ftr">Helpers in Your Neighborhood · 涂色记单词 · police station</p></section>
+  <section class="sheet"><div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">firefighter · 消防员</span><span>日期: ____ / ____</span></div><div class="sheet-img"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Helpers in your neighborhood/helpers-neighborhood-coloring/images/firefighter.png" alt="firefighter 涂色" /></div><p class="sheet-ftr">Helpers in Your Neighborhood · 涂色记单词 · firefighter</p></section>
+  <section class="sheet"><div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">fire station · 消防站</span><span>日期: ____ / ____</span></div><div class="sheet-img"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Helpers in your neighborhood/helpers-neighborhood-coloring/images/fire-station.png" alt="fire station 涂色" /></div><p class="sheet-ftr">Helpers in Your Neighborhood · 涂色记单词 · fire station</p></section>
+  <section class="sheet"><div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">restaurant · 餐馆</span><span>日期: ____ / ____</span></div><div class="sheet-img"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Helpers in your neighborhood/helpers-neighborhood-coloring/images/restaurant.png" alt="restaurant 涂色" /></div><p class="sheet-ftr">Helpers in Your Neighborhood · 涂色记单词 · restaurant</p></section>
+  <section class="sheet"><div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">favorite · 最喜欢的</span><span>日期: ____ / ____</span></div><div class="sheet-img"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Helpers in your neighborhood/helpers-neighborhood-coloring/images/favorite.png" alt="favorite 涂色" /></div><p class="sheet-ftr">Helpers in Your Neighborhood · 涂色记单词 · favorite</p></section>
+  <section class="sheet"><div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">waiter · 服务员</span><span>日期: ____ / ____</span></div><div class="sheet-img"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Helpers in your neighborhood/helpers-neighborhood-coloring/images/waiter.png" alt="waiter 涂色" /></div><p class="sheet-ftr">Helpers in Your Neighborhood · 涂色记单词 · waiter</p></section>
+  <section class="sheet"><div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">hospital · 医院</span><span>日期: ____ / ____</span></div><div class="sheet-img"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Helpers in your neighborhood/helpers-neighborhood-coloring/images/hospital.png" alt="hospital 涂色" /></div><p class="sheet-ftr">Helpers in Your Neighborhood · 涂色记单词 · hospital</p></section>
+  <section class="sheet"><div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">nurse · 护士</span><span>日期: ____ / ____</span></div><div class="sheet-img"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Helpers in your neighborhood/helpers-neighborhood-coloring/images/nurse.png" alt="nurse 涂色" /></div><p class="sheet-ftr">Helpers in Your Neighborhood · 涂色记单词 · nurse</p></section>
+  </div>
+
+  <script>
+    (function () {
+      var app = document.getElementById("app");
+      if (!app) return;
+      var sheets = Array.prototype.slice.call(app.querySelectorAll(".sheet"));
+      sheets.forEach(function (sheet) {
+        var vp = document.createElement("div");
+        vp.className = "page-viewport";
+        sheet.parentNode.insertBefore(vp, sheet);
+        vp.appendChild(sheet);
+      });
+
+      function fitPageViewports() {
+        if (window.matchMedia("print").matches) return;
+        document.querySelectorAll(".page-viewport").forEach(function (vp) {
+          var sheet = vp.querySelector(".sheet");
+          if (!sheet) return;
+          sheet.style.transform = "none";
+          sheet.style.transformOrigin = "top left";
+          var naturalW = sheet.offsetWidth;
+          var targetW = vp.clientWidth;
+          if (!naturalW || !targetW) return;
+          var scale = Math.min(1, targetW / naturalW);
+          sheet.style.transform = scale < 1 ? "scale(" + scale + ")" : "none";
+          vp.style.height = scale < 1 ? sheet.offsetHeight * scale + "px" : "auto";
+        });
+      }
+
+      var fitTimer;
+      window.addEventListener("resize", function () {
+        clearTimeout(fitTimer);
+        fitTimer = setTimeout(fitPageViewports, 120);
+      });
+      window.addEventListener("orientationchange", fitPageViewports);
+      window.addEventListener("load", fitPageViewports);
+    })();
+  </script>
+</body>
+</html>
