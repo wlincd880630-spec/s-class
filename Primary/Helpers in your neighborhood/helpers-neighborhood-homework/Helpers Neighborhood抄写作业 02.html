@@ -400,19 +400,10 @@ function buildPage(vData, words, pageNum, totalPages) {
   return viewport;
 }
 
-function wordFontScale(word) {
-  const s = String(word);
-  const len = s.length;
-  if (len > 14) return 0.58;
-  if (len > 11 || s.indexOf(' ') >= 0) return 0.72;
-  return 1;
-}
 
 function buildWordBlock(word, accentColor) {
   const block = document.createElement('div');
-  const scale = wordFontScale(word);
-  block.className = 'word-block' + (scale < 1 ? ' word-block--long' : '');
-  if (scale < 1) block.style.setProperty('--word-font-scale', String(scale));
+  block.className = 'word-block';
 
   block.innerHTML = `
     <div class="img-col">

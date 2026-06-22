@@ -13,16 +13,14 @@
   --font-hand  : 'Patrick Hand', cursive;
   --font-ui    : 'Fredoka', sans-serif;
   --img-w      : 40mm;
-  --row-h      : 30mm;
+  --row-h      : 31mm;
+  --word-font  : 2.58rem;
+  --write-y-offset: -1.4mm;
   --line-blue  : #90CAF9;
   --line-red   : #EF9A9A;
   --line-dash  : rgba(33,150,243,.32);
   --text-dark  : #2C3E50;
   --trace-color: rgba(144,202,249,.55);
-  /* 字号 +5%；书写行较默认下移 1.2mm（-1.4mm → -0.2mm） */
-  --write-y-offset: -0.7mm;
-  --sentence-font: calc(2.58rem * 0.95 * 0.9 * 1.05);
-  --sentence-font-long: calc(var(--sentence-font) * 0.85);
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -220,11 +218,10 @@ body {
   overflow: hidden;
 }
 
-/* 四线格间距与听写练习一致 */
+/* 四线格：与单词抄写 01 firefighter 一致 */
 .grid-bg {
   position: absolute;
-  top: 22%;
-  height: 56%;
+  top: 25%; height: 50%;
   left: 2mm; right: 1mm;
   pointer-events: none;
 }
@@ -234,7 +231,7 @@ body {
 }
 .gl-sky   { top: 0%;   border-top: 1.3pt solid var(--line-blue); }
 .gl-cloud { top: 33%;  border-top: 1.3pt dashed var(--line-dash); }
-.gl-grass { top: 67%;  border-top: 2.6pt solid var(--line-blue); }
+.gl-grass { top: 67%;  border-top: 2.8pt solid var(--line-blue); }
 .gl-dirt  { top: 100%; border-top: 1.3pt solid var(--line-red); }
 
 .cells-sentence {
@@ -251,7 +248,7 @@ body {
   display: flex;
   align-items: center;
   font-family: var(--font-hand);
-  font-size: calc(var(--sentence-font) * var(--item-font-scale, 1));
+  font-size: var(--word-font);
   letter-spacing: 0;
   transform: translateY(var(--write-y-offset));
   user-select: none;
@@ -387,18 +384,8 @@ function svgPlaceholderDataUrl(line1, line2) {
 }
 
 
-const SENTENCE_ROW_H_MM = 30;
+const SENTENCE_ROW_H_MM = 31;
 const SENTENCE_ROWS = 4;
-
-function sentenceFontScale(sentence, item) {
-  if (item && item.fontScale != null) return item.fontScale;
-  const len = String(sentence).length;
-  if (len > 52) return 0.58;
-  if (len > 40) return 0.68;
-  if (len > 30) return 0.78;
-  if (len > 22) return 0.88;
-  return 1;
-}
 
 function estimateBlockHeightMm(item) {
   return SENTENCE_ROWS * SENTENCE_ROW_H_MM + 4;
@@ -445,8 +432,6 @@ function buildSentenceBlock(item, accentColor) {
   const imgKey = item.imgKey || w;
   const block = document.createElement("div");
   block.className = "sentence-block sentence-block--four";
-  const scale = sentenceFontScale(s, item);
-  if (scale < 1) block.style.setProperty("--item-font-scale", String(scale));
   const writeHtml =
     buildWriteRowFull(s, "row-trace1", "trace") +
     buildWriteRowFull(s, "row-empty1", "empty") +
