@@ -960,6 +960,40 @@
       { en: "They help us stay safe and happy.", zh: "他们帮助我们安全快乐地生活。" },
     ];
 
+    /** 学课文每句配图：优先用 images/story/0n.png；COS 上若为占位图则回退到单词插图 */
+    var STORY_IMG_KEYS = [
+      "Different", "Neighborhood", "People", "Mail carrier", "Post office",
+      "Library", "Police officer", "Police station", "Firefighter", "Fire station",
+      "Restaurant", "Waiter", "Librarian", "Library", "Hospital", "Nurse",
+      "People", "Neighborhood",
+    ];
+
+    function storyImgSrc(index) {
+      var n = index + 1;
+      var z = n < 10 ? "0" : "";
+      return MEDIA_COS + "images/story/" + z + n + ".png";
+    }
+
+    function storyWordImgSrc(index) {
+      return wordImg({ key: STORY_IMG_KEYS[index] || "People" });
+    }
+
+    /** 占位课文图约 900×900 且 <120KB；真实插图通常更大（如 Play Kitty 约 1536×1024） */
+    function isStoryPlaceholderImg(img) {
+      if (!img || !img.naturalWidth) return false;
+      if (img.src.indexOf("/images/story/") === -1) return false;
+      return img.naturalWidth <= 960 && img.naturalHeight <= 960;
+    }
+
+    function bindStoryArtImg(img, index) {
+      if (!img) return;
+      function maybeFallback() {
+        if (isStoryPlaceholderImg(img)) img.src = storyWordImgSrc(index);
+      }
+      img.addEventListener("load", maybeFallback);
+      if (img.complete) maybeFallback();
+    }
+
     var Distract = "XYZQKVBFGHM".split("");
 
     var __celebT = 0;
@@ -1742,11 +1776,7 @@
       var pr = document.getElementById("storyProgress");
       if (!c || !STORY.length) return;
       var row = STORY[storyIndex];
-      /* 第 n 句用 images/story/ 编号 0n，与 STORY 顺序一一对应 */
-      var n = storyIndex + 1;
-      if (n > STORY.length) n = STORY.length;
-      var z = n < 10 ? "0" : "";
-      var imgSrc = MEDIA_COS + "images/story/" + z + n + ".png";
+      var imgSrc = storyImgSrc(storyIndex);
       if (pr) pr.textContent = "第 " + (storyIndex + 1) + " / " + STORY.length + " 句";
       c.innerHTML =
         "<div class=\"story-sentence story-sentence--xl story-sentence-row\">" +
@@ -1758,6 +1788,7 @@
         "<span class=\"story-zh-ghost\">点按显示中文</span>" +
         "<span class=\"story-zh\" aria-hidden=\"true\">" + row.zh + "</span>" +
         "</button></div></div>";
+      bindStoryArtImg(c.querySelector(".art-img"), storyIndex);
       (function () {
         var hb = c.querySelector(".story-zh-hold");
         var ch = c.querySelector(".story-zh");
