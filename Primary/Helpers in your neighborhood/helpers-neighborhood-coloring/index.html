@@ -86,15 +86,17 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 2mm 8mm;
-      overflow: hidden;
+      padding: 3mm 10mm;
+      overflow: visible;
     }
     .sheet-img img {
       display: block;
+      flex: 0 1 auto;
+      min-width: 0;
       width: auto;
       height: auto;
-      max-width: min(68%, 132mm);
-      max-height: min(182mm, 100%);
+      max-width: 100%;
+      max-height: 100%;
       object-fit: contain;
       object-position: center;
     }
@@ -106,7 +108,7 @@
       .btn { width: 100%; }
       .page-viewport { width: calc(100vw - 16px); margin: 12px auto; }
       .sheet { box-shadow: 0 0 28px rgba(0, 0, 0, 0.45); }
-      .sheet-img img { max-width: min(70%, 100%); max-height: min(168mm, calc(100dvh - 280px)); }
+      .sheet-img img { max-width: 100%; max-height: 100%; }
     }
     @media print {
       body { background: #fff; padding: 0; }
@@ -114,7 +116,7 @@
       #app { padding: 0; }
       .page-viewport { width: auto; height: auto; overflow: visible; margin: 0; }
       .page-viewport .sheet { transform: none !important; margin: 0; box-shadow: none; }
-      .sheet-img img { max-width: 68%; max-height: 175mm; }
+      .sheet-img img { max-width: 92%; max-height: 230mm; }
       * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
     }
   </style>
@@ -172,32 +174,18 @@
         vp.appendChild(sheet);
       });
 
-      function fitSheetImages() {
-        var SHRINK = 0.68;
-        document.querySelectorAll(".sheet-img").forEach(function (box) {
-          var img = box.querySelector("img");
-          if (!img) return;
-          var pad = 12;
-          var maxW = Math.max(0, box.clientWidth - pad);
-          var maxH = Math.max(0, box.clientHeight - pad);
-          if (!maxW || !maxH) return;
-          maxW = Math.floor(maxW * SHRINK);
-          maxH = Math.floor(maxH * SHRINK);
-          img.style.maxWidth = maxW + "px";
-          img.style.maxHeight = maxH + "px";
-          if (img.naturalWidth > 0 && img.naturalHeight > 0) {
-            var scale = Math.min(maxW / img.naturalWidth, maxH / img.naturalHeight, 1);
-            img.style.width = Math.floor(img.naturalWidth * scale) + "px";
-            img.style.height = Math.floor(img.naturalHeight * scale) + "px";
-          } else {
-            img.style.width = "auto";
-            img.style.height = "auto";
-          }
+      function clearImgInlineSize() {
+        document.querySelectorAll(".sheet-img img").forEach(function (img) {
+          img.style.width = "";
+          img.style.height = "";
+          img.style.maxWidth = "";
+          img.style.maxHeight = "";
         });
       }
 
       function fitPageViewports() {
         if (window.matchMedia("print").matches) return;
+        clearImgInlineSize();
         document.querySelectorAll(".page-viewport").forEach(function (vp) {
           var sheet = vp.querySelector(".sheet");
           if (!sheet) return;
@@ -210,21 +198,22 @@
           sheet.style.transform = scale < 1 ? "scale(" + scale + ")" : "none";
           vp.style.height = scale < 1 ? sheet.offsetHeight * scale + "px" : "auto";
         });
-        fitSheetImages();
+      }
+
+      function scheduleFit() {
+        clearTimeout(fitTimer);
+        fitTimer = setTimeout(fitPageViewports, 80);
       }
 
       var fitTimer;
-      window.addEventListener("resize", function () {
-        clearTimeout(fitTimer);
-        fitTimer = setTimeout(fitPageViewports, 120);
-      });
-      window.addEventListener("orientationchange", fitPageViewports);
+      window.addEventListener("resize", scheduleFit);
+      window.addEventListener("orientationchange", scheduleFit);
       window.addEventListener("load", function () {
         document.querySelectorAll(".sheet-img img").forEach(function (img) {
-          if (img.complete) return;
-          img.addEventListener("load", fitPageViewports, { once: true });
+          img.addEventListener("load", scheduleFit);
+          if (img.complete) scheduleFit();
         });
-        fitPageViewports();
+        scheduleFit();
       });
     })();
   </script>

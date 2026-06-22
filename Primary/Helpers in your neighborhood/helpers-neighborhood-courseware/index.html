@@ -788,14 +788,7 @@
   </div>
 
   <script>
-    var HELPERS_MEDIA_COS = "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Helpers%20in%20your%20neighborhood/helpers-neighborhood-courseware/";
-    var MEDIA_COS = (function () {
-      try {
-        var u = new URL("./", window.location.href);
-        if (/^https?:$/i.test(u.protocol)) return u.href;
-      } catch (e) {}
-      return HELPERS_MEDIA_COS;
-    })();
+    var MEDIA_COS = "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Helpers%20in%20your%20neighborhood/helpers-neighborhood-courseware/";
   (function () {
     "use strict";
 
@@ -985,11 +978,39 @@
     }
 
     function wordImg(w) {
-      return MEDIA_COS + "images/words/" + w.key.toLowerCase().replace(/ /g, "-") + ".png";
+      return MEDIA_COS + "images/words/" + String(w.key).toLowerCase().replace(/ /g, "-") + ".png";
+    }
+
+    function toCosImgSrc(src) {
+      var s = String(src || "");
+      if (!s || s.indexOf(MEDIA_COS) === 0) return s;
+      var m = s.match(/images\/[^?#]+\.png/i);
+      return m ? MEDIA_COS + m[0] : wordImg({ key: s.split("/").pop().replace(/\.png$/i, "").replace(/-/g, " ") });
+    }
+
+    function bindReviewThumb(img, w, btn) {
+      img.className = "opt-thumb";
+      img.alt = w.key;
+      img.src = wordImg(w);
+      img.onerror = function () {
+        if (!img.dataset.cosfb) {
+          img.dataset.cosfb = "1";
+          var fixed = toCosImgSrc(img.getAttribute("src") || "");
+          if (fixed && fixed !== img.src) {
+            img.src = fixed;
+            return;
+          }
+        }
+        img.remove();
+        var sp = document.createElement("span");
+        sp.className = "opt-emoji";
+        sp.textContent = w.emoji;
+        btn.appendChild(sp);
+      };
     }
 
     function artFromSrc(src, emoji) {
-      var cos = HELPERS_MEDIA_COS;
+      var cos = MEDIA_COS;
       return (
         "<div class=\"polaroid\" role=\"img\" aria-label=\"\" >" +
         "  <img class=\"art-img\" src=\"" + src + "\" alt=\"\" " +
@@ -1588,10 +1609,7 @@
           d.className = "opt-img";
           (function (oo2, btn) {
             var i2a = new Image();
-            i2a.className = "opt-thumb";
-            i2a.alt = oo2.key;
-            i2a.src = wordImg(oo2);
-            i2a.onerror = function () { i2a.remove(); var sp = document.createElement("span"); sp.className = "opt-emoji"; sp.textContent = oo2.emoji; btn.appendChild(sp); };
+            bindReviewThumb(i2a, oo2, btn);
             btn.appendChild(i2a);
             btn._key = oo2.key;
             btn.addEventListener("click", function () {
