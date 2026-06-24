@@ -61,8 +61,8 @@ node Grammar/scripts/download-l15-tts-azure.mjs
 | 页 | 文件 | 主题 |
 |----|------|------|
 | 01 | lesson15-page01-overview.html | 四步判定法 |
-| 02 | lesson15-page02-suffix-lab.html | 后缀实验室 |
-| 03 | lesson15-page03-exam-wordbanks.html | B卷 + Tier2/3 |
+| 02 | lesson15-page02-suffix-lab.html | 后缀实验室（-ly / 名物化 / -ous·-ful / -able / 否定前缀 / 不规则） |
+| 03 | lesson15-page03-exam-wordbanks.html | 九年真题词形归类（90 空）+ Tier2/3 |
 | 04 | lesson15-page04-phrases.html | 词组 + 搭配 |
 | 05 | lesson15-page05-idioms.html | 习语 + 僻义 |
 | 06 | lesson15-page06-chart-vocab.html | 图表词汇 |

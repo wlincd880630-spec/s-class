@@ -34,7 +34,14 @@
       '" aria-label="朗读">🔊 朗读</button>';
     var exEn = it.exEn || it.note || "";
     var exZh = it.exZh || it.zh || "";
+    var exEn2 = it.exEn2 || "";
+    var exZh2 = it.exZh2 || "";
+    var examEn = it.examEn || "";
+    var examZh = it.examZh || "";
+    var examYear = it.examYear || it.year || "";
     var ctx = it.ctx || it.year || "";
+    var isTier = it.cat === "tier2" || it.cat === "tier3";
+    var isPredict = it.cat === "predict";
 
     return (
       '<article class="vocab-card" data-id="' +
@@ -58,14 +65,40 @@
       (it.tag ? " · " + esc(it.tag) : "") +
       "</div>" +
       (exEn
-        ? '<div class="vocab-example">' +
-          '<div class="vocab-example-label">例句 · Context</div>' +
+        ? '<div class="vocab-example' +
+          (isTier ? " vocab-example-practical" : isPredict ? " vocab-example-predict" : "") +
+          '">' +
+          '<div class="vocab-example-label">' +
+          (isTier ? "主题例句 · 中考运用" : isPredict ? "例句 ①" : "例句 · Context") +
+          "</div>" +
           '<p class="vocab-example-en" lang="en">' +
           esc(exEn) +
           "</p>" +
           '<p class="vocab-example-zh">' +
           esc(exZh) +
           "</p>" +
+          "</div>"
+        : "") +
+      (exEn2
+        ? '<div class="vocab-example vocab-example-predict">' +
+          '<div class="vocab-example-label">例句 ②</div>' +
+          '<p class="vocab-example-en" lang="en">' +
+          esc(exEn2) +
+          "</p>" +
+          '<p class="vocab-example-zh">' +
+          esc(exZh2) +
+          "</p>" +
+          "</div>"
+        : "") +
+      (examEn
+        ? '<div class="vocab-example vocab-example-exam">' +
+          '<div class="vocab-example-label">真题原文 · ' +
+          esc(examYear) +
+          "</div>" +
+          '<p class="vocab-example-en" lang="en">' +
+          esc(examEn) +
+          "</p>" +
+          (examZh ? '<p class="vocab-example-zh">' + esc(examZh) + "</p>" : "") +
           "</div>"
         : "") +
       (ctx ? '<div class="vocab-ctx">' + esc(ctx) + "</div>" : "") +
@@ -76,17 +109,38 @@
   function VocabBrowser(root, opts) {
     this.root = root;
     this.opts = opts || {};
-    this.perPage = opts.perPage || 12;
+    this.stepper = !!opts.stepper;
+    this.perPage = this.stepper ? 1 : opts.perPage || 12;
     this.cats = opts.cats || null;
     this.tiers = opts.tiers || null;
     this.examOnly = !!opts.examOnly;
     this.page = 0;
+    this.index = 0;
     this.activeCat = opts.defaultCat || (opts.cats && opts.cats[0]) || "all";
     this.year = opts.defaultYear || "";
     this.q = "";
     this._mount();
     this._bind();
     this.refresh();
+  }
+
+  function wordListItemHtml(it, idx, active) {
+    var year = it.year || (it.cat === "predict" ? "预测" : "");
+    return (
+      '<button type="button" class="vb-word-item' +
+      (active ? " is-active" : "") +
+      '" data-idx="' +
+      idx +
+      '">' +
+      '<span class="vb-word-item-en" lang="en">' +
+      esc(it.en) +
+      "</span>" +
+      '<span class="vb-word-item-meta">' +
+      (it.tier ? "T" + it.tier : "") +
+      (year ? " · " + esc(year) : "") +
+      "</span>" +
+      "</button>"
+    );
   }
 
   VocabBrowser.prototype._mount = function () {
@@ -97,41 +151,73 @@
       this.opts.showYear !== false
         ? '<select class="vb-year-sel" data-role="year"><option value="">全部年份</option></select>'
         : "";
-    this.root.className = "l15-vocab-browser";
-    this.root.innerHTML =
-      '<div class="vb-meta" data-role="meta"></div>' +
-      '<div class="vb-toolbar">' +
-      '<input type="search" class="vb-search" placeholder="搜索英文 / 中文 / 例句…" data-role="search" />' +
-      yearSel +
-      "</div>" +
-      tabs +
-      '<div class="vb-list" data-role="list"></div>' +
-      '<nav class="vb-pager" aria-label="词汇分页">' +
-      '<button type="button" data-role="prev">← 上一页</button>' +
-      '<span class="vb-status" data-role="status">0 / 0</span>' +
-      '<button type="button" data-role="next">下一页 →</button>' +
-      "</nav>";
+    this.root.className = "l15-vocab-browser" + (this.stepper ? " vb-stepper" : "");
+    if (this.stepper) {
+      this.root.innerHTML =
+        '<div class="vb-meta" data-role="meta"></div>' +
+        '<div class="vb-toolbar">' +
+        '<input type="search" class="vb-search" placeholder="搜索英文 / 中文 / 例句…" data-role="search" />' +
+        yearSel +
+        "</div>" +
+        tabs +
+        '<div class="vb-stepper-layout">' +
+        '<aside class="vb-word-list-wrap">' +
+        '<div class="vb-word-list-head">单词列表 <span data-role="list-count"></span></div>' +
+        '<div class="vb-word-list" data-role="wordlist"></div>' +
+        "</aside>" +
+        '<div class="vb-stepper-main">' +
+        '<div class="vb-stepper-stage" data-role="stage"></div>' +
+        '<nav class="vb-stepper-nav" aria-label="词汇切换">' +
+        '<button type="button" data-role="prev">上一个</button>' +
+        '<span class="vb-status" data-role="status">0 / 0</span>' +
+        '<button type="button" data-role="next">下一个</button>' +
+        "</nav>" +
+        "</div>" +
+        "</div>";
+    } else {
+      this.root.innerHTML =
+        '<div class="vb-meta" data-role="meta"></div>' +
+        '<div class="vb-toolbar">' +
+        '<input type="search" class="vb-search" placeholder="搜索英文 / 中文 / 例句…" data-role="search" />' +
+        yearSel +
+        "</div>" +
+        tabs +
+        '<div class="vb-list" data-role="list"></div>' +
+        '<nav class="vb-pager" aria-label="词汇分页">' +
+        '<button type="button" data-role="prev">← 上一页</button>' +
+        '<span class="vb-status" data-role="status">0 / 0</span>' +
+        '<button type="button" data-role="next">下一页 →</button>' +
+        "</nav>";
+    }
     this.el = {
       meta: this.root.querySelector('[data-role="meta"]'),
       search: this.root.querySelector('[data-role="search"]'),
       year: this.root.querySelector('[data-role="year"]'),
       tabs: this.root.querySelector('[data-role="tabs"]'),
       list: this.root.querySelector('[data-role="list"]'),
+      wordlist: this.root.querySelector('[data-role="wordlist"]'),
+      listCount: this.root.querySelector('[data-role="list-count"]'),
+      stage: this.root.querySelector('[data-role="stage"]'),
       status: this.root.querySelector('[data-role="status"]'),
       prev: this.root.querySelector('[data-role="prev"]'),
       next: this.root.querySelector('[data-role="next"]'),
     };
     if (this.el.year && global.L15Corpus) {
+      var C = global.L15Corpus;
       for (var y = 2018; y <= 2026; y++) {
         var o = document.createElement("option");
         o.value = String(y);
         o.textContent = y + " 年";
         this.el.year.appendChild(o);
       }
-      var op = document.createElement("option");
-      op.value = "predict";
-      op.textContent = "预测补充";
-      this.el.year.appendChild(op);
+      var catsIncludePredict =
+        !this.cats || this.cats.indexOf("predict") >= 0;
+      if (catsIncludePredict) {
+        var op = document.createElement("option");
+        op.value = "predict";
+        op.textContent = "预测补充";
+        this.el.year.appendChild(op);
+      }
     }
     if (this.el.tabs && global.L15Corpus) {
       this.opts.cats.forEach(function (c) {
@@ -151,6 +237,7 @@
       this.el.search.addEventListener("input", function () {
         self.q = self.el.search.value.trim();
         self.page = 0;
+        self.index = 0;
         self.refresh();
       });
     }
@@ -158,6 +245,7 @@
       this.el.year.addEventListener("change", function () {
         self.year = self.el.year.value;
         self.page = 0;
+        self.index = 0;
         self.refresh();
       });
     }
@@ -170,17 +258,39 @@
           b.classList.toggle("active", b === t);
         });
         self.page = 0;
+        self.index = 0;
         self.refresh();
       });
     }
+    if (this.stepper && this.el.wordlist) {
+      this.el.wordlist.addEventListener("click", function (e) {
+        var btn = e.target.closest(".vb-word-item");
+        if (!btn) return;
+        var idx = parseInt(btn.getAttribute("data-idx"), 10);
+        if (!isNaN(idx)) {
+          self.index = idx;
+          self.refresh();
+        }
+      });
+    }
     this.el.prev.addEventListener("click", function () {
-      if (self.page > 0) {
+      if (self.stepper) {
+        if (self.index > 0) {
+          self.index--;
+          self.refresh();
+        }
+      } else if (self.page > 0) {
         self.page--;
         self.refresh();
       }
     });
     this.el.next.addEventListener("click", function () {
-      if (self.page < self.totalPages - 1) {
+      if (self.stepper) {
+        if (self.index < self.filtered.length - 1) {
+          self.index++;
+          self.refresh();
+        }
+      } else if (self.page < self.totalPages - 1) {
         self.page++;
         self.refresh();
       }
@@ -217,9 +327,15 @@
     var self = this;
     if (this.year) {
       if (this.year === "predict") {
-        list = list.filter(function (x) {
-          return x.cat === "predict" || !x.year;
-        });
+        if (this.cats && this.cats.indexOf("predict") >= 0) {
+          list = C.byCat("predict");
+        } else {
+          list = list.filter(function (x) {
+            return (
+              x.cat === "predict" || String(x.year).indexOf("预测") >= 0
+            );
+          });
+        }
       } else {
         list = list.filter(function (x) {
           return String(x.year).indexOf(self.year) >= 0;
@@ -233,6 +349,9 @@
           norm(x.en).indexOf(q) >= 0 ||
           norm(x.zh).indexOf(q) >= 0 ||
           norm(x.exEn).indexOf(q) >= 0 ||
+          norm(x.exEn2).indexOf(q) >= 0 ||
+          norm(x.exZh2).indexOf(q) >= 0 ||
+          norm(x.examEn).indexOf(q) >= 0 ||
           norm(x.exZh).indexOf(q) >= 0 ||
           norm(x.ctx).indexOf(q) >= 0 ||
           norm(x.note).indexOf(q) >= 0 ||
@@ -244,6 +363,10 @@
   };
 
   VocabBrowser.prototype.refresh = function () {
+    if (this.stepper) {
+      this._refreshStepper();
+      return;
+    }
     var items = this._source();
     this.filtered = items;
     this.totalPages = Math.max(1, Math.ceil(items.length / this.perPage));
@@ -273,8 +396,55 @@
     }
   };
 
-  VocabBrowser.prototype._wireTts = function () {
-    this.el.list.querySelectorAll(".tts-btn").forEach(function (btn) {
+  VocabBrowser.prototype._refreshStepper = function () {
+    var items = this._source();
+    this.filtered = items;
+    if (this.index >= items.length) {
+      this.index = Math.max(0, items.length - 1);
+    }
+    if (this.el.listCount) {
+      this.el.listCount.textContent = items.length ? "（" + items.length + "）" : "";
+    }
+    if (this.el.wordlist) {
+      this.el.wordlist.innerHTML = items.length
+        ? items
+            .map(function (it, i) {
+              return wordListItemHtml(it, i, i === this.index);
+            }, this)
+            .join("")
+        : '<p class="vb-word-list-empty">暂无匹配词汇</p>';
+      var activeBtn = this.el.wordlist.querySelector(".vb-word-item.is-active");
+      if (activeBtn && activeBtn.scrollIntoView) {
+        activeBtn.scrollIntoView({ block: "nearest", behavior: "smooth" });
+      }
+    }
+    if (this.el.stage) {
+      this.el.stage.innerHTML = items.length
+        ? itemHtml(items[this.index])
+        : '<p class="vb-stepper-empty zh-hint">请调整筛选条件，或从左侧列表选择单词。</p>';
+    }
+    var total = global.L15Corpus ? global.L15Corpus.TOTAL : items.length;
+    this.el.meta.innerHTML =
+      '当前 <strong>' +
+      (items.length ? this.index + 1 : 0) +
+      "</strong> / <strong>" +
+      items.length +
+      "</strong> · 筛选 <strong>" +
+      items.length +
+      "</strong> · 全库 <strong>" +
+      total +
+      "</strong> 条";
+    this.el.status.textContent =
+      items.length === 0 ? "0 / 0" : this.index + 1 + " / " + items.length;
+    this.el.prev.disabled = this.index <= 0 || items.length === 0;
+    this.el.next.disabled = this.index >= items.length - 1 || items.length === 0;
+    this._wireTts(this.el.stage);
+  };
+
+  VocabBrowser.prototype._wireTts = function (root) {
+    var scope = root || this.el.list;
+    if (!scope) return;
+    scope.querySelectorAll(".tts-btn").forEach(function (btn) {
       btn.addEventListener("click", function () {
         var t = btn.getAttribute("data-tts") || "";
         if (global.playLessonAzureTtsPlain) global.playLessonAzureTtsPlain(t);
@@ -336,6 +506,7 @@
         new VocabBrowser(el, {
           cats: cats.length ? cats : null,
           perPage: +(el.dataset.perPage || 12),
+          stepper: el.dataset.stepper === "1",
           examOnly: el.dataset.examOnly === "1",
           showYear: el.dataset.showYear !== "0",
           defaultCat: el.dataset.defaultCat || cats[0],

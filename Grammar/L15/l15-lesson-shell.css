@@ -9,6 +9,14 @@
 body.has-lesson-pager {
   align-items: stretch !important;
   justify-content: flex-start;
+  overflow: hidden;
+  height: 100dvh;
+  max-height: 100dvh;
+}
+
+html:has(body.has-lesson-pager) {
+  overflow: hidden;
+  height: 100%;
 }
 
 body.has-lesson-pager > #app {
@@ -142,14 +150,75 @@ body.has-lesson-pager > #app {
   display: flex;
 }
 
-.l15-scroll > .lesson-page.active > .panel,
-.l15-scroll > .lesson-page.active > .panel.panel-split {
+/* 活动页主面板：默认纵向铺满并可滚动（全 L15 课页统一） */
+.l15-scroll > .lesson-page.active > .panel {
   flex: 1 1 auto;
   min-height: 0;
   display: flex;
   flex-direction: column;
+  overflow-x: hidden;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: #a5b4fc #f1f5f9;
+}
+.l15-scroll > .lesson-page.active > .panel::-webkit-scrollbar {
+  width: 8px;
+  display: block;
+}
+.l15-scroll > .lesson-page.active > .panel::-webkit-scrollbar-thumb {
+  background: #a5b4fc;
+  border-radius: 999px;
+}
+.l15-scroll > .lesson-page.active > .panel::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 999px;
+}
+
+/* 内嵌滚动：工具条/分页固定，列表区占满剩余高度 */
+.l15-scroll > .lesson-page.active > .panel:has(.l15-vocab-browser),
+.l15-scroll > .lesson-page.active > .panel:has([data-l15-vocab-browser]),
+.l15-scroll > .lesson-page.active > .panel:has([data-l15-wf-taxonomy-year]),
+.l15-scroll > .lesson-page.active > .panel:has(> .vb-list),
+.l15-scroll > .lesson-page.active > .panel.p01-quiz-stepper {
+  overflow: hidden;
+}
+
+/* panel--scroll 为历史兼容类，行为与默认 panel 一致 */
+#l15-book .panel.panel--scroll {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+#l15-book .panel > .zh-hint,
+#l15-book .panel > .stats-strip,
+#l15-book .panel > .panel-lead,
+#l15-book .panel > .teacher-script,
+#l15-book .panel > .sent-adv-intro {
+  flex-shrink: 0;
+}
+
+#l15-book .panel > [data-l15-vocab-browser],
+#l15-book .panel > .l15-vocab-browser {
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+}
+
+#l15-book .panel .panel-split {
+  flex-shrink: 0;
+  width: 100%;
+}
+
+/* 仅隐藏外层翻页容器滚动条 */
+#l15-book .l15-scroll {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+#l15-book .l15-scroll::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
 }
 
 @keyframes l15fade {

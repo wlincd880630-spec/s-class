@@ -6,6 +6,7 @@
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
+import { spawnSync } from "child_process";
 import { enrichAll } from "./l15-example-engine.mjs";
 
 const L15 = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../L15");
@@ -68,9 +69,8 @@ WF.forEach(([b, f, y]) => items.push(item("word-form", `${b} → ${f}`, `${b} �
 // ── 动词词组（真题）──
 const VP = [
   ["make sure", "确保", "2026"], ["afford to do", "负担得起做", "2026"], ["not to touch", "不要触摸", "2026"],
-  ["lose heart", "灰心", "2026"], ["full of", "充满", "2026"], ["even though", "尽管", "2026"],
-  ["one of them", "他们中的一个", "2026"], ["with patience", "耐心地", "2026"], ["stick to your goals", "坚持目标", "2026"],
-  ["never give up", "永不放弃", "2026"], ["dig wells", "挖井", "2026"], ["wind down", "放松下来", "2026"],
+  ["lose heart", "灰心", "2026"], ["started a school", "办起一所学校", "2026"],
+  ["stick to your goals", "坚持目标", "2026"], ["never give up", "永不放弃", "2026"], ["dig wells", "挖井", "2026"], ["wind down", "放松下来", "2026"],
   ["put screens away", "放下屏幕", "2026"], ["form memories", "形成记忆", "2026"], ["overcome challenges", "克服挑战", "2026"],
   ["bring back to life", "使复活", "2026"], ["pick out", "挑出", "2026"], ["live independently", "独立生活", "2026"],
   ["get used to doing", "习惯于做", "2022/2024"], ["used to do", "过去常常做", "2022"], ["fall asleep", "入睡", "2022"],
@@ -148,6 +148,8 @@ const COL = [
   ["be regarded as", "被视为", "2020"], ["according to", "根据", "通用"], ["instead of", "而不是", "2018"],
   ["because of", "因为", "通用"], ["as long as", "只要", "2021"], ["so that", "以便", "2022"],
   ["in order to", "为了", "通用"], ["one of the", "…之一", "2026"], ["less than", "少于", "2026"],
+  ["even though", "尽管", "2026"], ["full of", "充满（形容词短语，常与 be 连用）", "2026"],
+  ["one of them", "他们中的一员", "2026"], ["with patience", "耐心地", "2026"],
   ["more and more", "越来越", "2020"], ["from time to time", "不时", "2026"],
   ["well worth a visit", "很值得一看", "2026"], ["not up to standard", "不达标", "2026"],
   ["accepted the challenge", "接受挑战", "2026"], ["a great match", "绝配", "2026"],
@@ -400,6 +402,9 @@ for (const it of items) {
   bare.push(it);
 }
 
+const tierExamScript = path.join(path.dirname(fileURLToPath(import.meta.url)), "extract-tier-exam-sentences.mjs");
+spawnSync(process.execPath, [tierExamScript], { stdio: "inherit" });
+
 const unique = enrichAll(bare);
 unique.forEach((it, i) => {
   it.id = i + 1;
@@ -443,11 +448,39 @@ const js = `/**
   function byYear(y) { return MASTER.filter(function (x) { return String(x.year).indexOf(String(y)) >= 0; }); }
   function examOnly() { return MASTER.filter(function (x) { return x.cat !== "predict" && String(x.year).match(/20(1[89]|2[0-6])/); }); }
 
-  // 兼容旧 API
+  // 兼容旧 API（page01 第 5 屏用 base / hint / form）
+  function wfHint(x, base, form) {
+    if (/ly$/i.test(form)) return "副词 · -ly · " + (x.year || "");
+    if (/tion|sion|ment|ness|ity|th$/i.test(form)) return "名词派生 · " + (x.year || "");
+    if (/^(their|them|us|our|we|they|children|men|women|feet|teeth|mice)$/i.test(form))
+      return "代词/复数 · " + (x.year || "");
+    if (/^(less|more|better|worse|well)$/i.test(form)) return "比较级/特殊 · " + (x.year || "");
+    return (x.zh || "") + (x.year ? " · " + x.year : "");
+  }
   var WORD_FORM_RULES = byCat("word-form").slice(0, 12).map(function (x) {
     var p = x.en.split(" → ");
-    return { suffix: p[1] || "", example: p[0] || x.en, result: p[1] || x.form, tip: x.zh };
+    var base = x.base || p[0] || x.en;
+    var form = x.form || p[1] || "";
+    var hint = wfHint(x, base, form);
+    return {
+      base: base,
+      form: form,
+      hint: hint,
+      suffix: form,
+      example: base,
+      result: form,
+      tip: x.zh,
+      year: x.year || "",
+    };
   });
+
+  var P01_SENTENCE_ADVERBS = ${JSON.stringify(
+    JSON.parse(
+      fs.readFileSync(path.join(L15, "data/p01-sentence-adverbs.json"), "utf8")
+    ),
+    null,
+    4
+  ).replace(/\n/g, "\n  ")};
   var SUFFIX_LY = byCat("word-form").filter(function (x) { return (x.form || "").indexOf("ly") >= 0; }).map(function (x) {
     return { base: x.base || x.en.split(" → ")[0], form: x.form || x.en.split(" → ")[1], year: x.year };
   });
@@ -528,6 +561,7 @@ const js = `/**
     byYear: byYear,
     examOnly: examOnly,
     WORD_FORM_RULES: WORD_FORM_RULES,
+    P01_SENTENCE_ADVERBS: P01_SENTENCE_ADVERBS,
     SUFFIX_LY: SUFFIX_LY,
     SUFFIX_NOUN: SUFFIX_NOUN,
     IRREGULAR: IRREGULAR,
@@ -552,3 +586,6 @@ const js = `/**
 fs.writeFileSync(path.join(L15, "l15-corpus-pool.js"), js, "utf8");
 console.log("TOTAL:", unique.length);
 console.log("STATS:", stats);
+
+const taxScript = path.join(path.dirname(fileURLToPath(import.meta.url)), "build-word-form-taxonomy.mjs");
+spawnSync(process.execPath, [taxScript], { stdio: "inherit" });

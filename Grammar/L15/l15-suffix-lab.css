@@ -1,0 +1,247 @@
+/* L15 · 后缀实验室 */
+.suffix-lab-intro {
+  margin: 0 0 0.55rem;
+  padding: 0.55rem 0.65rem;
+  border-radius: 12px;
+  border: 2px solid #c7d2fe;
+  background: linear-gradient(180deg, #fafafa, #f5f3ff);
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: #334155;
+}
+.suffix-lab-intro strong { color: #4338ca; }
+
+.suffix-lab-rules {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem;
+  margin-bottom: 0.6rem;
+}
+.suffix-lab-rules th,
+.suffix-lab-rules td {
+  padding: 0.4rem 0.5rem;
+  text-align: left;
+  border-bottom: 1px solid #e2e8f0;
+  vertical-align: top;
+}
+.suffix-lab-rules th {
+  background: #f8fafc;
+  color: #4338ca;
+  font-weight: 800;
+  white-space: nowrap;
+}
+.suffix-lab-rules td:first-child {
+  font-weight: 800;
+  color: #6366f1;
+  width: 6.5rem;
+}
+.suffix-lab-rules .rule-ex {
+  color: #64748b;
+  font-size: 0.78rem;
+}
+
+.suffix-lab-stage {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.35rem 0;
+}
+.suffix-lab-stage .suffix-word-card {
+  width: 100%;
+  max-width: 42rem;
+  margin: 0 auto;
+  padding: 0.85rem 1rem;
+  box-shadow: 0 4px 16px rgba(99, 102, 241, 0.1);
+}
+.suffix-lab-stage .suffix-word-card[hidden] {
+  display: none !important;
+}
+.suffix-lab-stage .suffix-word-pair {
+  font-size: clamp(1.05rem, 1.4vw + 0.5rem, 1.25rem);
+}
+.suffix-lab-stage .suffix-word-ex {
+  font-size: clamp(0.92rem, 1vw + 0.45rem, 1.05rem);
+  margin-top: 0.55rem;
+}
+.suffix-lab-stage .suffix-word-ex-zh {
+  font-size: 0.88rem;
+  margin-top: 0.35rem;
+}
+
+.suffix-lab-progress {
+  margin: 0 0 0.35rem;
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: #64748b;
+  flex-shrink: 0;
+  text-align: center;
+}
+
+.suffix-lab-nav {
+  display: flex;
+  gap: 0.55rem;
+  justify-content: center;
+  flex-shrink: 0;
+  padding-top: 0.45rem;
+}
+.suffix-lab-nav button {
+  min-height: 44px;
+  min-width: 6.5rem;
+  padding: 0.45rem 1.15rem;
+  border-radius: 10px;
+  border: 2px solid #c7d2fe;
+  background: #fff;
+  font: inherit;
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #4338ca;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.suffix-lab-nav button:hover:not(:disabled) {
+  background: #eef2ff;
+  border-color: #a5b4fc;
+}
+.suffix-lab-nav button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+#l15-book .panel.suffix-lab-stepper {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-height: 0;
+}
+#l15-book .panel.suffix-lab-stepper > .suffix-lab-intro {
+  flex-shrink: 0;
+}
+#l15-book .panel.suffix-lab-stepper > .suffix-lab-progress,
+#l15-book .panel.suffix-lab-stepper > .suffix-lab-nav {
+  flex-shrink: 0;
+}
+#l15-book .panel.suffix-lab-stepper > .suffix-lab-stage {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.suffix-word-card {
+  border: 2px solid #e0e7ff;
+  border-radius: 12px;
+  padding: 0.55rem 0.65rem;
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(99, 102, 241, 0.06);
+}
+.suffix-word-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem 0.55rem;
+  margin-bottom: 0.45rem;
+}
+.suffix-word-pair {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 0.35rem;
+  font-weight: 900;
+  font-size: 0.95rem;
+  color: #1e1b4b;
+}
+.suffix-word-pair .sw-base { color: #4338ca; }
+.suffix-word-pair .sw-arrow { color: #94a3b8; }
+
+/* 点击揭示区域 */
+.sw-reveal {
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 0.55rem 0.7rem;
+  border: 2px dashed #c7d2fe;
+  border-radius: 10px;
+  background: linear-gradient(180deg, #fafafa, #f8fafc);
+  cursor: pointer;
+  text-align: left;
+  font: inherit;
+  touch-action: manipulation;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+.sw-reveal:hover:not(.is-revealed) {
+  border-color: #a5b4fc;
+  background: #eef2ff;
+}
+.sw-reveal.is-revealed {
+  border-style: solid;
+  border-color: #c7d2fe;
+  background: #fff;
+  cursor: default;
+}
+.sw-reveal-form {
+  display: inline-block;
+  width: auto;
+  min-width: 6.5rem;
+  vertical-align: middle;
+}
+.sw-reveal-ex,
+.sw-reveal-exzh {
+  margin-top: 0.45rem;
+}
+.sw-reveal-hint {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #94a3b8;
+  letter-spacing: 0.02em;
+}
+.sw-reveal.is-revealed .sw-reveal-hint {
+  display: none;
+}
+.sw-reveal-val[hidden] {
+  display: none !important;
+}
+.sw-reveal-val.sw-form {
+  font-weight: 900;
+  font-size: inherit;
+  color: #059669;
+}
+.sw-reveal-val.suffix-word-zh {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #475569;
+}
+.sw-reveal-val.suffix-word-ex {
+  margin: 0;
+  font-size: clamp(0.92rem, 1vw + 0.45rem, 1.05rem);
+  line-height: 1.55;
+  color: #334155;
+}
+.sw-reveal-val.suffix-word-ex-zh {
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: #64748b;
+}
+
+.suffix-word-card .tts-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+.suffix-word-year {
+  font-size: 0.68rem;
+  font-weight: 800;
+  padding: 0.08rem 0.4rem;
+  border-radius: 999px;
+  background: #eef2ff;
+  color: #4338ca;
+  margin-left: auto;
+}
+
+#l15-book .panel:has(.suffix-lab-stage) {
+  overflow: hidden;
+}
+#l15-book .panel > .suffix-lab-intro,
+#l15-book .panel > .suffix-lab-rules {
+  flex-shrink: 0;
+}

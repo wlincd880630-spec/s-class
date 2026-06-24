@@ -1,6 +1,30 @@
 /**
  * 为 L15 语料条目自动生成例句 (exEn) / 译文 (exZh) / 语境 (ctx)
  */
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+import { getPractical } from "./tier-vocab-examples-data.mjs";
+import { getPredictExamples } from "./predict-vocab-examples-data.mjs";
+
+const __DIR = path.dirname(fileURLToPath(import.meta.url));
+const TIER_EXAM_JSON = path.join(__DIR, "../L15/data/tier-exam-sentences.json");
+
+let tierExamCache = null;
+function loadTierExamSentences() {
+  if (tierExamCache) return tierExamCache;
+  if (fs.existsSync(TIER_EXAM_JSON)) {
+    tierExamCache = JSON.parse(fs.readFileSync(TIER_EXAM_JSON, "utf8"));
+  } else {
+    tierExamCache = {};
+  }
+  return tierExamCache;
+}
+
+function normTierKey(word) {
+  return String(word).split("/")[0].trim().toLowerCase();
+}
+
 const YEAR_CTX = {
   2018: "2018成都中考 · 阅读/完形",
   2019: "2019成都中考 · 阅读/完形",
@@ -28,8 +52,31 @@ function cap(s) {
   return s.charAt(0).toUpperCase() + s.slice(1);
 }
 
+/** 2026 完成短文等真题语境 · 固定例句（避免 “learned to …” 误生成） */
+const EXAM_PHRASE_EXAMPLES = {
+  "full of": "Many people think happiness comes even when life is full of difficulties.",
+  "even though": "He was always positive and never lost heart, even though his life was hard.",
+  "one of them": "Su Shi is one of them who stayed positive during hard times.",
+  "with patience": "In Huangzhou, he cooked cheap pork for hours with patience and created Dongpo Pork.",
+  "be full of": "Life is full of difficulties, but some people can still find happiness.",
+  "be afraid of": "Many students are afraid of speaking English in class at first.",
+  "be interested in": "More and more teens are interested in protecting wildlife.",
+  "be fond of": "Tom is fond of reading books about science after school.",
+  "be proud of": "Her parents are proud of her progress in English.",
+  "be good at": "She is good at playing the piano.",
+  "be worried about": "Don't be worried about making small mistakes.",
+  "be ready for": "Are you ready for the English exam next week?",
+  "be famous for": "Chengdu is famous for its relaxed lifestyle.",
+  "be strict with": "Our teacher is strict with us about homework.",
+  "be thankful to": "We should be thankful to those who help us.",
+  "be different from": "British humor is different from what some students expect.",
+  "be weak in": "If you are weak in grammar, review word forms every day.",
+};
+
 function phraseInSentence(phrase) {
   const p = String(phrase).trim();
+  const key = p.toLowerCase();
+  if (EXAM_PHRASE_EXAMPLES[key]) return EXAM_PHRASE_EXAMPLES[key];
   if (!p) return "This phrase appears in exam passages.";
   if (/^[A-Z]/.test(p) && p.endsWith(".")) return p;
   if (p.includes("…") || p.includes("___")) return p.replace(/…/g, "…").replace(/___/g, "______");
@@ -42,7 +89,11 @@ function phraseInSentence(phrase) {
   if (/^not only/i.test(p)) return p + ", but also helps us stay healthy.";
   if (/^either/i.test(p)) return p + " stay at home on rainy days.";
   if (/^neither/i.test(p)) return p + " wanted to give up.";
-  if (/^be /i.test(p)) return `Students should ${p} their studies and hobbies.`;
+  if (/^be /i.test(p)) {
+    const beKey = p.toLowerCase();
+    if (EXAM_PHRASE_EXAMPLES[beKey]) return EXAM_PHRASE_EXAMPLES[beKey];
+    return `${cap(p.replace(/^be /i, ""))} is important in daily English learning.`;
+  }
   if (/^make sure/i.test(p)) return "Make sure you finish your homework before you play games.";
   if (/^make /i.test(p)) return `Remember to ${p} when you prepare for the exam.`;
   if (/^take /i.test(p)) return `Remember to ${p} when you visit the museum.`;
@@ -53,7 +104,9 @@ function phraseInSentence(phrase) {
   if (/^get |^look |^run |^break |^come |^focus |^figure |^work |^pick |^hand |^stay |^pay |^take |^feel |^live |^wind |^dig |^form |^overcome |^bring |^put |^regard |^prevent |^drive |^repair |^search |^travel |^bury |^draw |^spread |^win |^weaken |^follow |^pretend |^afford |^lose |^stick |^never |^set /i.test(p))
     return `The story shows how people ${p} in real situations.`;
   if (p.includes(" + ") || p.includes("…")) return `Complete the sentence: ${p}.`;
-  return `Exam context: Students learned to ${p} in the passage.`;
+  if (/^(even though|although|because of|instead of|according to|as long as|so that|in order to|full of|one of|with |without )/i.test(p))
+    return `In the passage, students meet the phrase "${p}" in a cloze or linking context.`;
+  return `In the story, the phrase "${p}" helps carry the meaning forward.`;
 }
 
 function wordFormExamples(it) {
@@ -136,10 +189,30 @@ function polysemyExamples(it) {
 
 function tierExamples(it) {
   const w = it.en.split("/")[0].trim();
+  const key = normTierKey(it.en);
   const yc = pickYearCtx(it.year);
+  const practical = getPractical(it.en);
+  const examRow = loadTierExamSentences()[key] || {};
+  const examEn = examRow.examEn || "";
+  const examZh = examRow.examZh || "";
+  const examYear = examRow.examYear || it.year || "";
+
+  if (practical) {
+    return {
+      exEn: practical.exEn,
+      exZh: practical.exZh,
+      examEn,
+      examZh,
+      examYear,
+      ctx: yc,
+    };
+  }
   return {
-    exEn: `In the ${it.year || "exam"} passage, "${w}" helps students understand the main idea.`,
-    exZh: `在${yc}语篇中，「${w}」(${it.zh}) 是理解主旨的关键词。`,
+    exEn: `Knowing "${w}" helps you read Chengdu exam passages about ${it.zh}.`,
+    exZh: `掌握「${w}」（${it.zh}）有助于读懂成都中考相关语篇。`,
+    examEn,
+    examZh,
+    examYear,
     ctx: yc,
   };
 }
@@ -208,13 +281,30 @@ export function enrichItem(it) {
       exEn = t.exEn;
       exZh = t.exZh;
       ctx = t.ctx + (it.cat === "tier3" ? " · Tier3" : " · Tier2");
+      if (t.examEn) {
+        out.examEn = t.examEn;
+        out.examZh = t.examZh;
+        out.examYear = t.examYear;
+      }
       break;
     }
-    case "predict":
-      exEn = `In junior high, students should know "${it.en}" before entering senior school.`;
-      exZh = `拓展词汇：${it.zh}${it.tag ? `（${it.tag}）` : ""} — 真题未考但应理解。`;
+    case "predict": {
+      const pred = getPredictExamples(it.en);
+      if (pred && pred.examples && pred.examples.length >= 2) {
+        exEn = pred.examples[0].exEn;
+        exZh = pred.examples[0].exZh;
+        out.exEn2 = pred.examples[1].exEn;
+        out.exZh2 = pred.examples[1].exZh;
+      } else if (pred && pred.examples && pred.examples[0]) {
+        exEn = pred.examples[0].exEn;
+        exZh = pred.examples[0].exZh;
+      } else {
+        exEn = `Many Chengdu exam passages discuss ${it.en} in daily life.`;
+        exZh = `拓展词汇：${it.zh}${it.tag ? `（${it.tag}）` : ""} — 阅读与写作常见话题。`;
+      }
       ctx = it.tag ? `预测补充 · ${it.tag}` : "2027 预测 · 初中拓展";
       break;
+    }
     default:
       exEn = it.note || it.en;
       exZh = it.zh;

@@ -1,8 +1,11 @@
 ﻿/**
- * l15 · 配图位统一 4:3（须在 l15-page*-layout.css 之后加载）
+ * l15 · 配图位随图片原始比例自适应（无图占位仍为 4:3）
  */
+@import url("assets/lesson-image-lightbox.css");
+
 #l15-book {
   --l15-img-ratio: 4 / 3;
+  --l15-img-max-h: min(64vh, 520px);
 }
 
 /* 左图右文 */
@@ -10,7 +13,7 @@
   display: grid;
   grid-template-columns: 1fr;
   gap: 0.65rem;
-  align-items: stretch;
+  align-items: start;
 }
 @media (min-width: 640px) {
   #l15-book .panel.panel-split {
@@ -19,7 +22,7 @@
   }
 }
 
-/* 所有配图框：强制 4:3（压过各页 layout 的 min-height / flex） */
+/* 配图框：通用外观（比例由内部图片决定，不强制 4:3） */
 #l15-book .scene-frame,
 #l15-book [class*="scene-frame--"],
 #l15-book .panel.panel-split .scene-frame,
@@ -30,33 +33,39 @@
   position: relative;
   box-sizing: border-box;
   width: 100% !important;
-  aspect-ratio: var(--l15-img-ratio) !important;
   height: auto !important;
   min-height: 0 !important;
-  max-height: min(58vh, calc(100vw * 3 / 4)) !important;
   padding: 0 !important;
   margin: 0;
   flex: 0 0 auto !important;
+  align-self: start;
   border-radius: 10px 14px 8px 12px;
   border: 2px solid var(--edge, #5d4037);
   background: #e8eef4 !important;
   overflow: hidden;
 }
 
-#l15-book .scene-carousel .scene-frame,
-#l15-book .scene-stage .scene-frame {
-  max-height: min(52vh, calc(100vw * 3 / 4)) !important;
+/* 压过 lesson-screen-16x9 对 L15 的固定 4:3 */
+#l15-book .panel-split .scene-frame:has(img),
+#l15-book .panel-split [class*="scene-frame--"]:has(img) {
+  aspect-ratio: auto !important;
+  max-height: none !important;
 }
 
 #l15-book .scene-frame:has(img),
 #l15-book [class*="scene-frame--"]:has(img),
 #l15-book .scene-frame--story:has(img) {
   display: block !important;
+  aspect-ratio: auto !important;
+  max-height: none !important;
 }
 
 /* 无图占位（保留 4:3） */
 #l15-book .scene-frame:not(:has(img)),
-#l15-book .scene-frame--passage:not(:has(img)) {
+#l15-book .scene-frame--passage:not(:has(img)),
+#l15-book [class*="scene-frame--"]:not(:has(img)) {
+  aspect-ratio: var(--l15-img-ratio) !important;
+  max-height: min(58vh, calc(100vw * 3 / 4)) !important;
   display: flex !important;
   align-items: center;
   justify-content: center;
@@ -68,57 +77,61 @@
   background: linear-gradient(145deg, #0f172a, #1e3a5f) !important;
 }
 
-/* 图片铺满 4:3 框 */
+/* 图片：按原始宽高比显示，框随图片收缩 */
 #l15-book .scene-frame img,
 #l15-book [class*="scene-frame--"] img,
 #l15-book .scene-frame--story img {
-  position: absolute;
-  inset: 0;
+  position: relative;
   z-index: 1;
+  display: block;
   width: 100% !important;
-  height: 100% !important;
-  max-width: none !important;
-  max-height: none !important;
+  height: auto !important;
+  max-width: 100% !important;
+  max-height: var(--l15-img-max-h) !important;
   margin: 0;
   padding: 0;
-  aspect-ratio: var(--l15-img-ratio);
-  object-fit: cover !important;
+  aspect-ratio: auto;
+  object-fit: contain !important;
   object-position: center center;
-  display: block;
   cursor: zoom-in;
+  vertical-align: top;
 }
 
-/* 语料缩略图：外层 4:3 */
+/* 语料缩略图：框随图片比例 */
 #l15-book .corpus-fig {
   position: relative;
   margin: 0;
   width: 100%;
-  aspect-ratio: var(--l15-img-ratio) !important;
+  height: auto;
+  aspect-ratio: auto !important;
   padding: 0;
   border-radius: 10px;
   overflow: hidden;
   border: 2px solid #e2e8f0;
   background: #e8eef4;
+  align-self: start;
 }
 #l15-book .corpus-fig img {
-  position: absolute;
-  inset: 0;
-  width: 100% !important;
-  height: 100% !important;
-  aspect-ratio: var(--l15-img-ratio);
-  object-fit: cover !important;
-  object-position: center;
+  position: relative;
   display: block;
+  width: 100% !important;
+  height: auto !important;
+  max-width: 100% !important;
+  max-height: min(40vh, 360px) !important;
+  aspect-ratio: auto;
+  object-fit: contain !important;
+  object-position: center;
   background: #e8eef4;
   cursor: zoom-in;
+  vertical-align: top;
 }
 
-/* 点击放大：预览区也保持 4:3 */
+/* 点击放大：预览区跟随图片原始比例 */
 .lesson-img-lightbox-img {
-  aspect-ratio: 4 / 3;
-  width: min(96vw, calc(92vh * 4 / 3));
-  height: auto !important;
-  max-width: min(96vw, 1200px);
+  aspect-ratio: auto;
+  width: auto;
+  height: auto;
+  max-width: min(96vw, 1400px);
   max-height: 92vh;
   object-fit: contain;
 }

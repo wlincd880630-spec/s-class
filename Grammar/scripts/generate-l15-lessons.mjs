@@ -204,82 +204,6 @@ fs.writeFileSync(
   "utf8"
 );
 
-// ── Page 06: 阅读图表词汇 ──
-fs.writeFileSync(
-  path.join(L15, "lesson15-page06-chart-vocab.html"),
-  pageShell("阅读图表词汇", 6, 2, [
-    screen(0, 2, "图表题 · 2018–2026 真题词 · 47 条", `<div data-l15-vocab-browser data-cats="chart" data-per-page="12"></div>`),
-    screen(1, 2, "图表表达句型", `<div id="chart-phrases"></div>`),
-  ].join("\n"), `
-    L15Corpus.CHART_PHRASES.forEach(function(p){
-      document.getElementById("chart-phrases").innerHTML +=
-        '<article class="vocab-card" data-cat="chart"><div class="vocab-card-en" lang="en">'+p.en+'</div>'+
-        '<div class="vocab-card-zh">'+p.zh+'</div>'+
-        '<div class="vocab-example"><div class="vocab-example-label">写作模板</div>'+
-        '<p class="vocab-example-en" lang="en">'+p.en.replace(/…/g," students")+'</p></div></article>';
-    });
-    if (window.L15VocabBrowserInit) L15VocabBrowserInit();
-  `),
-  "utf8"
-);
-
-// ── Page 07: 缺口预测词汇 ──
-fs.writeFileSync(
-  path.join(L15, "lesson15-page07-gap-predict.html"),
-  pageShell("缺口与预测词汇", 7, 2, [
-    screen(0, 2, "真题熟词僻义 + Tier3 缺口", `<div data-l15-vocab-browser data-cats="polysemy,tier3" data-per-page="12" data-exam-only="1"></div>`),
-    screen(1, 2, "2027 预测补充 · 140 条", `<div data-l15-vocab-browser data-cats="predict" data-per-page="12" data-show-year="0"></div>`),
-  ].join("\n"), `
-    if (window.L15VocabBrowserInit) L15VocabBrowserInit();
-  `),
-  "utf8"
-);
-
-// ── Page 08: 热身测验 + 入口 ──
-fs.writeFileSync(
-  path.join(L15, "lesson15-page08-quiz.html"),
-  pageShell("综合测验", 8, 2, [
-    screen(0, 2, "热身 · 技巧速测（10 题）", `
-      <p class="zh-hint">先完成技巧热身，再进入全库五种语境测验（699 条 × 5 模式）。</p>
-      <div id="final-quiz"></div><p class="fb" id="quiz-score"></p>`),
-    screen(1, 2, "全库词汇测验 · 五种方式", `
-      <p class="zh-hint">每种模式覆盖全库 699 条（可按分类筛选），题目均结合例句 exEn 与真题语境 ctx。</p>
-      <div class="vq-hub-grid" id="vq-hub"></div>
-      <p style="text-align:center;margin-top:1rem"><a href="lesson15-page11-vocab-quiz.html" class="vq-btn primary" style="display:inline-block;text-decoration:none">进入全库测验中心 →</a></p>`),
-  ].join("\n"), `
-    var box = document.getElementById("final-quiz"); var score = 0;
-    function normKey(s){ return String(s||"").trim().toLowerCase(); }
-    L15Corpus.FINAL_QUIZ.forEach(function(q, i){
-      var d = document.createElement("div"); d.className="vq-card"; d.style.marginBottom="0.75rem";
-      d.innerHTML = "<p class='vq-stem'><strong>Q"+(i+1)+".</strong> "+q.stem+"</p>";
-      var row = document.createElement("div"); row.className="vq-opts";
-      var done = false;
-      q.opts.forEach(function(o){
-        var b = document.createElement("button"); b.className="vq-opt"; b.textContent=o;
-        b.onclick=function(){
-          if(done) return; done=true;
-          row.querySelectorAll(".vq-opt").forEach(function(btn){
-            btn.disabled = true;
-            if(normKey(btn.textContent)===normKey(q.ans)) btn.classList.add("ok");
-          });
-          if(normKey(o)===normKey(q.ans)){ b.classList.add("ok"); score++; }
-          else b.classList.add("bad");
-          document.getElementById("quiz-score").textContent = "得分："+score+" / "+L15Corpus.FINAL_QUIZ.length;
-        }; row.appendChild(b);
-      });
-      d.appendChild(row); box.appendChild(d);
-    });
-    var hub = document.getElementById("vq-hub");
-    if (hub && L15VocabQuizGen) {
-      L15VocabQuizGen.MODES.forEach(function(m){
-        var n = L15VocabQuizGen.buildQuizSet(L15Corpus.MASTER, m.id, {}).length;
-        hub.innerHTML += '<div class="vq-hub-card"><strong>'+m.icon+' '+m.label+'</strong><span>'+n+' 题 · '+m.desc+'</span></div>';
-      });
-    }
-  `, { quiz: true }),
-  "utf8"
-);
-
 // ── Page 11: 全库五种测验 ──
 fs.writeFileSync(
   path.join(L15, "lesson15-page11-vocab-quiz.html"),
@@ -406,9 +330,6 @@ const indexHtml = `<!DOCTYPE html>
       <li><a href="lesson15-page03-exam-wordbanks.html"><span class="num">03</span><span class="link-body"><span class="label">2018–2026 B卷词库 + Tier2/3</span></span></a></li>
       <li><a href="lesson15-page04-phrases.html"><span class="num">04</span><span class="link-body"><span class="label">动词词组 · 固定搭配（151+70 条）</span></span></a></li>
       <li><a href="lesson15-page05-idioms.html"><span class="num">05</span><span class="link-body"><span class="label">习语 · 谚语 · 俚语 · 熟词僻义</span></span></a></li>
-      <li><a href="lesson15-page06-chart-vocab.html"><span class="num">06</span><span class="link-body"><span class="label">阅读图表真题词汇</span></span></a></li>
-      <li><a href="lesson15-page07-gap-predict.html"><span class="num">07</span><span class="link-body"><span class="label">缺口词汇 · 2027 预测</span></span></a></li>
-      <li><a href="lesson15-page08-quiz.html"><span class="num">08</span><span class="link-body"><span class="label">热身测验 + 五种测验入口</span></span></a></li>
       <li><a href="lesson15-page11-vocab-quiz.html"><span class="num">09</span><span class="link-body"><span class="label">全库测验中心 · 5 模式 × 699 条</span></span></a></li>
       <li><a href="lesson15-page10-vocab-master.html"><span class="num">10</span><span class="link-body"><span class="label">全库检索 · 例句语境卡片</span></span></a></li>
       <li><a href="lesson15-handout-classroom-full.html"><span class="num">11</span><span class="link-body"><span class="label">课堂同步全面讲义 · 第 1–10 页填空</span></span></a></li>

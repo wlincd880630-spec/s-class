@@ -1,7 +1,7 @@
 /**
  * L15 · 词性转换与词汇 · 主语料库 v2
  * 自动生成：node Grammar/scripts/build-l15-master-corpus.mjs
- * 合计 699 条（目标 ≥500）
+ * 合计 700 条（目标 ≥500）
  */
 (function (global) {
   "use strict";
@@ -1322,7 +1322,7 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "Exam context: Students learned to not to touch in the passage.",
+    "exEn": "In the story, the phrase \"not to touch\" helps carry the meaning forward.",
     "exZh": "含义：不要触摸。常见于 2026成都中考 阅读语篇。",
     "ctx": "2026成都中考 · 阅读/完形 · 动词词组",
     "id": 88
@@ -1344,63 +1344,18 @@
   },
   {
     "cat": "verb-phrase",
-    "en": "full of",
-    "zh": "充满",
+    "en": "started a school",
+    "zh": "办起一所学校",
     "tier": 2,
     "year": "2026",
     "tag": "",
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "Exam context: Students learned to full of in the passage.",
-    "exZh": "含义：充满。常见于 2026成都中考 阅读语篇。",
+    "exEn": "In the story, the phrase \"started a school\" helps carry the meaning forward.",
+    "exZh": "含义：办起一所学校。常见于 2026成都中考 阅读语篇。",
     "ctx": "2026成都中考 · 阅读/完形 · 动词词组",
     "id": 90
-  },
-  {
-    "cat": "verb-phrase",
-    "en": "even though",
-    "zh": "尽管",
-    "tier": 2,
-    "year": "2026",
-    "tag": "",
-    "form": "",
-    "base": "",
-    "note": "",
-    "exEn": "Exam context: Students learned to even though in the passage.",
-    "exZh": "含义：尽管。常见于 2026成都中考 阅读语篇。",
-    "ctx": "2026成都中考 · 阅读/完形 · 动词词组",
-    "id": 91
-  },
-  {
-    "cat": "verb-phrase",
-    "en": "one of them",
-    "zh": "他们中的一个",
-    "tier": 2,
-    "year": "2026",
-    "tag": "",
-    "form": "",
-    "base": "",
-    "note": "",
-    "exEn": "Exam context: Students learned to one of them in the passage.",
-    "exZh": "含义：他们中的一个。常见于 2026成都中考 阅读语篇。",
-    "ctx": "2026成都中考 · 阅读/完形 · 动词词组",
-    "id": 92
-  },
-  {
-    "cat": "verb-phrase",
-    "en": "with patience",
-    "zh": "耐心地",
-    "tier": 2,
-    "year": "2026",
-    "tag": "",
-    "form": "",
-    "base": "",
-    "note": "",
-    "exEn": "Exam context: Students learned to with patience in the passage.",
-    "exZh": "含义：耐心地。常见于 2026成都中考 阅读语篇。",
-    "ctx": "2026成都中考 · 阅读/完形 · 动词词组",
-    "id": 93
   },
   {
     "cat": "verb-phrase",
@@ -1415,7 +1370,7 @@
     "exEn": "The story shows how people stick to your goals in real situations.",
     "exZh": "含义：坚持目标。常见于 2026成都中考 阅读语篇。",
     "ctx": "2026成都中考 · 阅读/完形 · 动词词组",
-    "id": 94
+    "id": 91
   },
   {
     "cat": "verb-phrase",
@@ -1430,7 +1385,7 @@
     "exEn": "The story shows how people never give up in real situations.",
     "exZh": "含义：永不放弃。常见于 2026成都中考 阅读语篇。",
     "ctx": "2026成都中考 · 阅读/完形 · 动词词组",
-    "id": 95
+    "id": 92
   },
   {
     "cat": "verb-phrase",
@@ -1445,7 +1400,7 @@
     "exEn": "The story shows how people dig wells in real situations.",
     "exZh": "含义：挖井。常见于 2026成都中考 阅读语篇。",
     "ctx": "2026成都中考 · 阅读/完形 · 动词词组",
-    "id": 96
+    "id": 93
   },
   {
     "cat": "verb-phrase",
@@ -1460,7 +1415,7 @@
     "exEn": "The story shows how people wind down in real situations.",
     "exZh": "含义：放松下来。常见于 2026成都中考 阅读语篇。",
     "ctx": "2026成都中考 · 阅读/完形 · 动词词组",
-    "id": 97
+    "id": 94
   },
   {
     "cat": "verb-phrase",
@@ -1475,7 +1430,7 @@
     "exEn": "The story shows how people put screens away in real situations.",
     "exZh": "含义：放下屏幕。常见于 2026成都中考 阅读语篇。",
     "ctx": "2026成都中考 · 阅读/完形 · 动词词组",
-    "id": 98
+    "id": 95
   },
   {
     "cat": "verb-phrase",
@@ -1490,7 +1445,7 @@
     "exEn": "The story shows how people form memories in real situations.",
     "exZh": "含义：形成记忆。常见于 2026成都中考 阅读语篇。",
     "ctx": "2026成都中考 · 阅读/完形 · 动词词组",
-    "id": 99
+    "id": 96
   },
   {
     "cat": "verb-phrase",
@@ -1505,7 +1460,7 @@
     "exEn": "The story shows how people overcome challenges in real situations.",
     "exZh": "含义：克服挑战。常见于 2026成都中考 阅读语篇。",
     "ctx": "2026成都中考 · 阅读/完形 · 动词词组",
-    "id": 100
+    "id": 97
   },
   {
     "cat": "verb-phrase",
@@ -1520,7 +1475,7 @@
     "exEn": "The story shows how people bring back to life in real situations.",
     "exZh": "含义：使复活。常见于 2026成都中考 阅读语篇。",
     "ctx": "2026成都中考 · 阅读/完形 · 动词词组",
-    "id": 101
+    "id": 98
   },
   {
     "cat": "verb-phrase",
@@ -1535,7 +1490,7 @@
     "exEn": "The story shows how people pick out in real situations.",
     "exZh": "含义：挑出。常见于 2026成都中考 阅读语篇。",
     "ctx": "2026成都中考 · 阅读/完形 · 动词词组",
-    "id": 102
+    "id": 99
   },
   {
     "cat": "verb-phrase",
@@ -1550,7 +1505,7 @@
     "exEn": "The story shows how people live independently in real situations.",
     "exZh": "含义：独立生活。常见于 2026成都中考 阅读语篇。",
     "ctx": "2026成都中考 · 阅读/完形 · 动词词组",
-    "id": 103
+    "id": 100
   },
   {
     "cat": "verb-phrase",
@@ -1565,7 +1520,7 @@
     "exEn": "The story shows how people get used to doing in real situations.",
     "exZh": "含义：习惯于做。常见于 2022成都中考 阅读语篇。",
     "ctx": "2022成都中考 · 阅读/完形 · 动词词组",
-    "id": 104
+    "id": 101
   },
   {
     "cat": "verb-phrase",
@@ -1577,10 +1532,10 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "Exam context: Students learned to used to do in the passage.",
+    "exEn": "In the story, the phrase \"used to do\" helps carry the meaning forward.",
     "exZh": "含义：过去常常做。常见于 2022成都中考 阅读语篇。",
     "ctx": "2022成都中考 · 阅读/完形 · 动词词组",
-    "id": 105
+    "id": 102
   },
   {
     "cat": "verb-phrase",
@@ -1592,10 +1547,10 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "Exam context: Students learned to fall asleep in the passage.",
+    "exEn": "In the story, the phrase \"fall asleep\" helps carry the meaning forward.",
     "exZh": "含义：入睡。常见于 2022成都中考 阅读语篇。",
     "ctx": "2022成都中考 · 阅读/完形 · 动词词组",
-    "id": 106
+    "id": 103
   },
   {
     "cat": "verb-phrase",
@@ -1610,7 +1565,7 @@
     "exEn": "Remember to make it + adj. when you prepare for the exam.",
     "exZh": "含义：使…变得…。常见于 2023成都中考 阅读语篇。",
     "ctx": "2023成都中考 · 阅读/完形 · 动词词组",
-    "id": 107
+    "id": 104
   },
   {
     "cat": "verb-phrase",
@@ -1625,7 +1580,7 @@
     "exEn": "regard … as …",
     "exZh": "含义：把…视为。常见于 2020成都中考 阅读语篇。",
     "ctx": "2020成都中考 · 阅读/完形 · 动词词组",
-    "id": 108
+    "id": 105
   },
   {
     "cat": "verb-phrase",
@@ -1637,10 +1592,10 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "Students should be supposed to do their studies and hobbies.",
+    "exEn": "Supposed to do is important in daily English learning.",
     "exZh": "含义：应该做。常见于 2019成都中考 阅读语篇。",
     "ctx": "2019成都中考 · 阅读/完形 · 动词词组",
-    "id": 109
+    "id": 106
   },
   {
     "cat": "verb-phrase",
@@ -1655,7 +1610,7 @@
     "exEn": "The story shows how people hand in in real situations.",
     "exZh": "含义：上交。常见于 中考 阅读语篇。",
     "ctx": "中考 · 动词词组",
-    "id": 110
+    "id": 107
   },
   {
     "cat": "verb-phrase",
@@ -1670,7 +1625,7 @@
     "exEn": "The story shows how people pick up in real situations.",
     "exZh": "含义：接/捡起。常见于 2018成都中考 阅读语篇。",
     "ctx": "2018成都中考 · 阅读/完形 · 动词词组",
-    "id": 111
+    "id": 108
   },
   {
     "cat": "verb-phrase",
@@ -1685,7 +1640,7 @@
     "exEn": "The story shows how people stay up in real situations.",
     "exZh": "含义：熬夜。常见于 阅读 阅读语篇。",
     "ctx": "阅读 · 动词词组",
-    "id": 112
+    "id": 109
   },
   {
     "cat": "verb-phrase",
@@ -1700,7 +1655,7 @@
     "exEn": "The story shows how people run out of in real situations.",
     "exZh": "含义：用完。常见于 预测 阅读语篇。",
     "ctx": "预测 · 动词词组",
-    "id": 113
+    "id": 110
   },
   {
     "cat": "verb-phrase",
@@ -1715,7 +1670,7 @@
     "exEn": "Remember to take part in when you visit the museum.",
     "exZh": "含义：参加。常见于 2023成都中考 阅读语篇。",
     "ctx": "2023成都中考 · 阅读/完形 · 动词词组",
-    "id": 114
+    "id": 111
   },
   {
     "cat": "verb-phrase",
@@ -1730,7 +1685,7 @@
     "exEn": "The story shows how people look forward to doing in real situations.",
     "exZh": "含义：盼望做。常见于 预测 阅读语篇。",
     "ctx": "预测 · 动词词组",
-    "id": 115
+    "id": 112
   },
   {
     "cat": "verb-phrase",
@@ -1745,7 +1700,7 @@
     "exEn": "In daily life, we often keep calm and carry on to solve problems.",
     "exZh": "含义：保持冷静继续前行。常见于 2019成都中考 阅读语篇。",
     "ctx": "2019成都中考 · 阅读/完形 · 动词词组",
-    "id": 116
+    "id": 113
   },
   {
     "cat": "verb-phrase",
@@ -1760,7 +1715,7 @@
     "exEn": "The story shows how people pay by scanning in real situations.",
     "exZh": "含义：扫码支付。常见于 2020成都中考 阅读语篇。",
     "ctx": "2020成都中考 · 阅读/完形 · 动词词组",
-    "id": 117
+    "id": 114
   },
   {
     "cat": "verb-phrase",
@@ -1775,7 +1730,7 @@
     "exEn": "Remember to take advantage of when you visit the museum.",
     "exZh": "含义：利用。常见于 2020成都中考 阅读语篇。",
     "ctx": "2020成都中考 · 阅读/完形 · 动词词组",
-    "id": 118
+    "id": 115
   },
   {
     "cat": "verb-phrase",
@@ -1787,10 +1742,10 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "Exam context: Students learned to social distancing in the passage.",
+    "exEn": "In the story, the phrase \"social distancing\" helps carry the meaning forward.",
     "exZh": "含义：社交距离。常见于 2020成都中考 阅读语篇。",
     "ctx": "2020成都中考 · 阅读/完形 · 动词词组",
-    "id": 119
+    "id": 116
   },
   {
     "cat": "verb-phrase",
@@ -1805,7 +1760,7 @@
     "exEn": "The story shows how people prevent the spread of in real situations.",
     "exZh": "含义：阻止传播。常见于 2020成都中考 阅读语篇。",
     "ctx": "2020成都中考 · 阅读/完形 · 动词词组",
-    "id": 120
+    "id": 117
   },
   {
     "cat": "verb-phrase",
@@ -1820,7 +1775,7 @@
     "exEn": "The story shows how people come up with in real situations.",
     "exZh": "含义：想出。常见于 2022成都中考 阅读语篇。",
     "ctx": "2022成都中考 · 阅读/完形 · 动词词组",
-    "id": 121
+    "id": 118
   },
   {
     "cat": "verb-phrase",
@@ -1835,7 +1790,7 @@
     "exEn": "The story shows how people pretend to be hurt in real situations.",
     "exZh": "含义：假装受伤。常见于 2022成都中考 阅读语篇。",
     "ctx": "2022成都中考 · 阅读/完形 · 动词词组",
-    "id": 122
+    "id": 119
   },
   {
     "cat": "verb-phrase",
@@ -1850,7 +1805,7 @@
     "exEn": "The story shows how people focus on in real situations.",
     "exZh": "含义：专注于。常见于 2022成都中考 阅读语篇。",
     "ctx": "2022成都中考 · 阅读/完形 · 动词词组",
-    "id": 123
+    "id": 120
   },
   {
     "cat": "verb-phrase",
@@ -1865,7 +1820,7 @@
     "exEn": "The story shows how people drive all the way in real situations.",
     "exZh": "含义：一路开车。常见于 2023成都中考 阅读语篇。",
     "ctx": "2023成都中考 · 阅读/完形 · 动词词组",
-    "id": 124
+    "id": 121
   },
   {
     "cat": "verb-phrase",
@@ -1880,7 +1835,7 @@
     "exEn": "Remember to make pocket money when you prepare for the exam.",
     "exZh": "含义：赚零花钱。常见于 2023成都中考 阅读语篇。",
     "ctx": "2023成都中考 · 阅读/完形 · 动词词组",
-    "id": 125
+    "id": 122
   },
   {
     "cat": "verb-phrase",
@@ -1895,7 +1850,7 @@
     "exEn": "Remember to take control of when you visit the museum.",
     "exZh": "含义：掌控。常见于 2023成都中考 阅读语篇。",
     "ctx": "2023成都中考 · 阅读/完形 · 动词词组",
-    "id": 126
+    "id": 123
   },
   {
     "cat": "verb-phrase",
@@ -1910,7 +1865,7 @@
     "exEn": "In daily life, we often carry out research to solve problems.",
     "exZh": "含义：开展研究。常见于 2024成都中考 阅读语篇。",
     "ctx": "2024成都中考 · 阅读/完形 · 动词词组",
-    "id": 127
+    "id": 124
   },
   {
     "cat": "verb-phrase",
@@ -1925,7 +1880,7 @@
     "exEn": "Remember to take off a plane when you visit the museum.",
     "exZh": "含义：下飞机。常见于 2025成都中考 阅读语篇。",
     "ctx": "2025成都中考 · 阅读/完形 · 动词词组",
-    "id": 128
+    "id": 125
   },
   {
     "cat": "verb-phrase",
@@ -1940,7 +1895,7 @@
     "exEn": "Remember to make one's flight when you prepare for the exam.",
     "exZh": "含义：赶上航班。常见于 2025成都中考 阅读语篇。",
     "ctx": "2025成都中考 · 阅读/完形 · 动词词组",
-    "id": 129
+    "id": 126
   },
   {
     "cat": "verb-phrase",
@@ -1955,7 +1910,7 @@
     "exEn": "The story shows how people feel at home in real situations.",
     "exZh": "含义：宾至如归。常见于 2025成都中考 阅读语篇。",
     "ctx": "2025成都中考 · 阅读/完形 · 动词词组",
-    "id": 130
+    "id": 127
   },
   {
     "cat": "verb-phrase",
@@ -1967,10 +1922,10 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "Exam context: Students learned to fitted into in the passage.",
+    "exEn": "In the story, the phrase \"fitted into\" helps carry the meaning forward.",
     "exZh": "含义：融入。常见于 2025成都中考 阅读语篇。",
     "ctx": "2025成都中考 · 阅读/完形 · 动词词组",
-    "id": 131
+    "id": 128
   },
   {
     "cat": "verb-phrase",
@@ -1985,7 +1940,7 @@
     "exEn": "The story shows how people get close to in real situations.",
     "exZh": "含义：接近。常见于 2018成都中考 阅读语篇。",
     "ctx": "2018成都中考 · 阅读/完形 · 动词词组",
-    "id": 132
+    "id": 129
   },
   {
     "cat": "verb-phrase",
@@ -1997,10 +1952,10 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "Exam context: Students learned to places of interest in the passage.",
+    "exEn": "In the story, the phrase \"places of interest\" helps carry the meaning forward.",
     "exZh": "含义：名胜古迹。常见于 2018成都中考 阅读语篇。",
     "ctx": "2018成都中考 · 阅读/完形 · 动词词组",
-    "id": 133
+    "id": 130
   },
   {
     "cat": "verb-phrase",
@@ -2012,10 +1967,10 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "Exam context: Students learned to cultural exchanges in the passage.",
+    "exEn": "In the story, the phrase \"cultural exchanges\" helps carry the meaning forward.",
     "exZh": "含义：文化交流。常见于 2018成都中考 阅读语篇。",
     "ctx": "2018成都中考 · 阅读/完形 · 动词词组",
-    "id": 134
+    "id": 131
   },
   {
     "cat": "verb-phrase",
@@ -2030,7 +1985,7 @@
     "exEn": "The story shows how people work out in real situations.",
     "exZh": "含义：解决/锻炼。常见于 2018成都中考 阅读语篇。",
     "ctx": "2018成都中考 · 阅读/完形 · 动词词组",
-    "id": 135
+    "id": 132
   },
   {
     "cat": "verb-phrase",
@@ -2045,7 +2000,7 @@
     "exEn": "In daily life, we often give a speech to solve problems.",
     "exZh": "含义：发表演讲。常见于 2018成都中考 阅读语篇。",
     "ctx": "2018成都中考 · 阅读/完形 · 动词词组",
-    "id": 136
+    "id": 133
   },
   {
     "cat": "verb-phrase",
@@ -2060,7 +2015,7 @@
     "exEn": "The story shows how people overcome shyness in real situations.",
     "exZh": "含义：克服害羞。常见于 2018成都中考 阅读语篇。",
     "ctx": "2018成都中考 · 阅读/完形 · 动词词组",
-    "id": 137
+    "id": 134
   },
   {
     "cat": "verb-phrase",
@@ -2075,7 +2030,7 @@
     "exEn": "The story shows how people figure out in real situations.",
     "exZh": "含义：弄清楚。常见于 2018成都中考 阅读语篇。",
     "ctx": "2018成都中考 · 阅读/完形 · 动词词组",
-    "id": 138
+    "id": 135
   },
   {
     "cat": "verb-phrase",
@@ -2090,7 +2045,7 @@
     "exEn": "The story shows how people draw pictures of suspects in real situations.",
     "exZh": "含义：画嫌疑犯。常见于 2019成都中考 阅读语篇。",
     "ctx": "2019成都中考 · 阅读/完形 · 动词词组",
-    "id": 139
+    "id": 136
   },
   {
     "cat": "verb-phrase",
@@ -2105,7 +2060,7 @@
     "exEn": "The story shows how people put into practice in real situations.",
     "exZh": "含义：付诸实践。常见于 2019成都中考 阅读语篇。",
     "ctx": "2019成都中考 · 阅读/完形 · 动词词组",
-    "id": 140
+    "id": 137
   },
   {
     "cat": "verb-phrase",
@@ -2117,10 +2072,10 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "Exam context: Students learned to forest protection in the passage.",
+    "exEn": "In the story, the phrase \"forest protection\" helps carry the meaning forward.",
     "exZh": "含义：森林保护。常见于 2019成都中考 阅读语篇。",
     "ctx": "2019成都中考 · 阅读/完形 · 动词词组",
-    "id": 141
+    "id": 138
   },
   {
     "cat": "verb-phrase",
@@ -2132,10 +2087,10 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "Exam context: Students learned to turn to in the passage.",
+    "exEn": "In the story, the phrase \"turn to\" helps carry the meaning forward.",
     "exZh": "含义：转向。常见于 2019成都中考 阅读语篇。",
     "ctx": "2019成都中考 · 阅读/完形 · 动词词组",
-    "id": 142
+    "id": 139
   },
   {
     "cat": "verb-phrase",
@@ -2150,7 +2105,7 @@
     "exEn": "The story shows how people win popularity in real situations.",
     "exZh": "含义：赢得人气。常见于 2020成都中考 阅读语篇。",
     "ctx": "2020成都中考 · 阅读/完形 · 动词词组",
-    "id": 143
+    "id": 140
   },
   {
     "cat": "verb-phrase",
@@ -2165,7 +2120,7 @@
     "exEn": "The story shows how people weaken one's health in real situations.",
     "exZh": "含义：损害健康。常见于 2020成都中考 阅读语篇。",
     "ctx": "2020成都中考 · 阅读/完形 · 动词词组",
-    "id": 144
+    "id": 141
   },
   {
     "cat": "verb-phrase",
@@ -2180,7 +2135,7 @@
     "exEn": "The story shows how people follow the examples of in real situations.",
     "exZh": "含义：效仿。常见于 2020成都中考 阅读语篇。",
     "ctx": "2020成都中考 · 阅读/完形 · 动词词组",
-    "id": 145
+    "id": 142
   },
   {
     "cat": "verb-phrase",
@@ -2195,7 +2150,7 @@
     "exEn": "The story shows how people form friendship in real situations.",
     "exZh": "含义：形成友谊。常见于 2020成都中考 阅读语篇。",
     "ctx": "2020成都中考 · 阅读/完形 · 动词词组",
-    "id": 146
+    "id": 143
   },
   {
     "cat": "verb-phrase",
@@ -2210,7 +2165,7 @@
     "exEn": "The story shows how people spread ideas in real situations.",
     "exZh": "含义：传播思想。常见于 2020成都中考 阅读语篇。",
     "ctx": "2020成都中考 · 阅读/完形 · 动词词组",
-    "id": 147
+    "id": 144
   },
   {
     "cat": "verb-phrase",
@@ -2225,7 +2180,7 @@
     "exEn": "The story shows how people travel alone in real situations.",
     "exZh": "含义：独自旅行。常见于 2021成都中考 阅读语篇。",
     "ctx": "2021成都中考 · 阅读/完形 · 动词词组",
-    "id": 148
+    "id": 145
   },
   {
     "cat": "verb-phrase",
@@ -2240,7 +2195,7 @@
     "exEn": "The story shows how people set up shop windows in real situations.",
     "exZh": "含义：设橱窗。常见于 2021成都中考 阅读语篇。",
     "ctx": "2021成都中考 · 阅读/完形 · 动词词组",
-    "id": 149
+    "id": 146
   },
   {
     "cat": "verb-phrase",
@@ -2255,7 +2210,7 @@
     "exEn": "Remember to make a living when you prepare for the exam.",
     "exZh": "含义：谋生。常见于 2021成都中考 阅读语篇。",
     "ctx": "2021成都中考 · 阅读/完形 · 动词词组",
-    "id": 150
+    "id": 147
   },
   {
     "cat": "verb-phrase",
@@ -2270,7 +2225,7 @@
     "exEn": "The story shows how people bury food in real situations.",
     "exZh": "含义：埋藏食物。常见于 2022成都中考 阅读语篇。",
     "ctx": "2022成都中考 · 阅读/完形 · 动词词组",
-    "id": 151
+    "id": 148
   },
   {
     "cat": "verb-phrase",
@@ -2282,10 +2237,10 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "Exam context: Students learned to cry softly in the passage.",
+    "exEn": "In the story, the phrase \"cry softly\" helps carry the meaning forward.",
     "exZh": "含义：小声叫。常见于 2022成都中考 阅读语篇。",
     "ctx": "2022成都中考 · 阅读/完形 · 动词词组",
-    "id": 152
+    "id": 149
   },
   {
     "cat": "verb-phrase",
@@ -2300,7 +2255,7 @@
     "exEn": "The story shows how people search for work in real situations.",
     "exZh": "含义：外出谋生。常见于 2025成都中考 阅读语篇。",
     "ctx": "2025成都中考 · 阅读/完形 · 动词词组",
-    "id": 153
+    "id": 150
   },
   {
     "cat": "verb-phrase",
@@ -2315,7 +2270,7 @@
     "exEn": "The story shows how people repair the old as old in real situations.",
     "exZh": "含义：修旧如旧。常见于 2025成都中考 阅读语篇。",
     "ctx": "2025成都中考 · 阅读/完形 · 动词词组",
-    "id": 154
+    "id": 151
   },
   {
     "cat": "verb-phrase",
@@ -2327,10 +2282,10 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "Exam context: Students learned to safe and sound in the passage.",
+    "exEn": "In the story, the phrase \"safe and sound\" helps carry the meaning forward.",
     "exZh": "含义：安然无恙。常见于 2025成都中考 阅读语篇。",
     "ctx": "2025成都中考 · 阅读/完形 · 动词词组",
-    "id": 155
+    "id": 152
   },
   {
     "cat": "verb-phrase",
@@ -2345,7 +2300,7 @@
     "exEn": "provide … with …",
     "exZh": "含义：向…提供。常见于 预测 阅读语篇。",
     "ctx": "预测 · 动词词组",
-    "id": 156
+    "id": 153
   },
   {
     "cat": "verb-phrase",
@@ -2357,10 +2312,10 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "Students should be responsible for their studies and hobbies.",
+    "exEn": "Responsible for is important in daily English learning.",
     "exZh": "含义：对…负责。常见于 预测 阅读语篇。",
     "ctx": "预测 · 动词词组",
-    "id": 157
+    "id": 154
   },
   {
     "cat": "verb-phrase",
@@ -2375,7 +2330,7 @@
     "exEn": "Remember to make a difference when you prepare for the exam.",
     "exZh": "含义：有影响。常见于 2023成都中考 阅读语篇。",
     "ctx": "2023成都中考 · 阅读/完形 · 动词词组",
-    "id": 158
+    "id": 155
   },
   {
     "cat": "verb-phrase",
@@ -2390,7 +2345,7 @@
     "exEn": "The story shows how people pay attention to in real situations.",
     "exZh": "含义：注意。常见于 预测 阅读语篇。",
     "ctx": "预测 · 动词词组",
-    "id": 159
+    "id": 156
   },
   {
     "cat": "verb-phrase",
@@ -2405,7 +2360,7 @@
     "exEn": "The story shows how people get along with in real situations.",
     "exZh": "含义：与…相处。常见于 预测 阅读语篇。",
     "ctx": "预测 · 动词词组",
-    "id": 160
+    "id": 157
   },
   {
     "cat": "verb-phrase",
@@ -2420,7 +2375,7 @@
     "exEn": "In daily life, we often give up to solve problems.",
     "exZh": "含义：放弃。常见于 预测 阅读语篇。",
     "ctx": "预测 · 动词词组",
-    "id": 161
+    "id": 158
   },
   {
     "cat": "verb-phrase",
@@ -2435,7 +2390,7 @@
     "exEn": "Remember to take care of when you visit the museum.",
     "exZh": "含义：照顾。常见于 预测 阅读语篇。",
     "ctx": "预测 · 动词词组",
-    "id": 162
+    "id": 159
   },
   {
     "cat": "verb-phrase",
@@ -2450,7 +2405,7 @@
     "exEn": "The story shows how people look after in real situations.",
     "exZh": "含义：照料。常见于 预测 阅读语篇。",
     "ctx": "预测 · 动词词组",
-    "id": 163
+    "id": 160
   },
   {
     "cat": "verb-phrase",
@@ -2462,10 +2417,10 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "Exam context: Students learned to deal with in the passage.",
+    "exEn": "In the story, the phrase \"deal with\" helps carry the meaning forward.",
     "exZh": "含义：处理。常见于 2020成都中考 阅读语篇。",
     "ctx": "2020成都中考 · 阅读/完形 · 动词词组",
-    "id": 164
+    "id": 161
   },
   {
     "cat": "verb-phrase",
@@ -2480,7 +2435,7 @@
     "exEn": "In daily life, we often depend on to solve problems.",
     "exZh": "含义：依赖。常见于 预测 阅读语篇。",
     "ctx": "预测 · 动词词组",
-    "id": 165
+    "id": 162
   },
   {
     "cat": "verb-phrase",
@@ -2495,7 +2450,7 @@
     "exEn": "In daily life, we often insist on to solve problems.",
     "exZh": "含义：坚持。常见于 预测 阅读语篇。",
     "ctx": "预测 · 动词词组",
-    "id": 166
+    "id": 163
   },
   {
     "cat": "verb-phrase",
@@ -2510,7 +2465,7 @@
     "exEn": "In daily life, we often keep in touch with to solve problems.",
     "exZh": "含义：保持联系。常见于 预测 阅读语篇。",
     "ctx": "预测 · 动词词组",
-    "id": 167
+    "id": 164
   },
   {
     "cat": "verb-phrase",
@@ -2525,7 +2480,7 @@
     "exEn": "In daily life, we often catch up with to solve problems.",
     "exZh": "含义：赶上。常见于 预测 阅读语篇。",
     "ctx": "预测 · 动词词组",
-    "id": 168
+    "id": 165
   },
   {
     "cat": "verb-phrase",
@@ -2540,7 +2495,7 @@
     "exEn": "The story shows how people run out of time in real situations.",
     "exZh": "含义：时间用完。常见于 预测 阅读语篇。",
     "ctx": "预测 · 动词词组",
-    "id": 169
+    "id": 166
   },
   {
     "cat": "verb-phrase",
@@ -2555,7 +2510,7 @@
     "exEn": "The story shows how people break out in real situations.",
     "exZh": "含义：爆发。常见于 预测 阅读语篇。",
     "ctx": "预测 · 动词词组",
-    "id": 170
+    "id": 167
   },
   {
     "cat": "verb-phrase",
@@ -2570,7 +2525,7 @@
     "exEn": "In daily life, we often find out to solve problems.",
     "exZh": "含义：查明。常见于 预测 阅读语篇。",
     "ctx": "预测 · 动词词组",
-    "id": 171
+    "id": 168
   },
   {
     "cat": "verb-phrase",
@@ -2585,7 +2540,7 @@
     "exEn": "In daily life, we often point out to solve problems.",
     "exZh": "含义：指出。常见于 预测 阅读语篇。",
     "ctx": "预测 · 动词词组",
-    "id": 172
+    "id": 169
   },
   {
     "cat": "verb-phrase",
@@ -2600,7 +2555,7 @@
     "exEn": "In daily life, we often carry on to solve problems.",
     "exZh": "含义：继续。常见于 2019成都中考 阅读语篇。",
     "ctx": "2019成都中考 · 阅读/完形 · 动词词组",
-    "id": 173
+    "id": 170
   },
   {
     "cat": "verb-phrase",
@@ -2615,7 +2570,7 @@
     "exEn": "In daily life, we often hold on to solve problems.",
     "exZh": "含义：等一下。常见于 预测 阅读语篇。",
     "ctx": "预测 · 动词词组",
-    "id": 174
+    "id": 171
   },
   {
     "cat": "verb-phrase",
@@ -2627,10 +2582,10 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "Exam context: Students learned to go on in the passage.",
+    "exEn": "In the story, the phrase \"go on\" helps carry the meaning forward.",
     "exZh": "含义：继续。常见于 预测 阅读语篇。",
     "ctx": "预测 · 动词词组",
-    "id": 175
+    "id": 172
   },
   {
     "cat": "verb-phrase",
@@ -2645,7 +2600,7 @@
     "exEn": "The story shows how people put on in real situations.",
     "exZh": "含义：穿上/上演。常见于 预测 阅读语篇。",
     "ctx": "预测 · 动词词组",
-    "id": 176
+    "id": 173
   },
   {
     "cat": "verb-phrase",
@@ -2660,7 +2615,7 @@
     "exEn": "Remember to take off when you visit the museum.",
     "exZh": "含义：起飞/脱下。常见于 预测 阅读语篇。",
     "ctx": "预测 · 动词词组",
-    "id": 177
+    "id": 174
   },
   {
     "cat": "verb-phrase",
@@ -2675,7 +2630,7 @@
     "exEn": "The story shows how people set up in real situations.",
     "exZh": "含义：建立。常见于 预测 阅读语篇。",
     "ctx": "预测 · 动词词组",
-    "id": 178
+    "id": 175
   },
   {
     "cat": "verb-phrase",
@@ -2690,7 +2645,7 @@
     "exEn": "In daily life, we often give away to solve problems.",
     "exZh": "含义：赠送。常见于 预测 阅读语篇。",
     "ctx": "预测 · 动词词组",
-    "id": 179
+    "id": 176
   },
   {
     "cat": "verb-phrase",
@@ -2705,7 +2660,7 @@
     "exEn": "In daily life, we often throw away to solve problems.",
     "exZh": "含义：扔掉。常见于 预测 阅读语篇。",
     "ctx": "预测 · 动词词组",
-    "id": 180
+    "id": 177
   },
   {
     "cat": "verb-phrase",
@@ -2720,7 +2675,7 @@
     "exEn": "In daily life, we often cut down to solve problems.",
     "exZh": "含义：砍倒/减少。常见于 预测 阅读语篇。",
     "ctx": "预测 · 动词词组",
-    "id": 181
+    "id": 178
   },
   {
     "cat": "verb-phrase",
@@ -2735,7 +2690,7 @@
     "exEn": "In daily life, we often use up to solve problems.",
     "exZh": "含义：用完。常见于 预测 阅读语篇。",
     "ctx": "预测 · 动词词组",
-    "id": 182
+    "id": 179
   },
   {
     "cat": "adj-noun-phrase",
@@ -2750,7 +2705,7 @@
     "exEn": "Scientists talked about facial expressions in the article about modern life.",
     "exZh": "文章讨论了「facial expressions」(面部表情)，帮助学生把握说明文细节。",
     "ctx": "2018成都中考 · 阅读/完形 · 主题词组",
-    "id": 183
+    "id": 180
   },
   {
     "cat": "adj-noun-phrase",
@@ -2765,7 +2720,7 @@
     "exEn": "Scientists talked about central nervous system in the article about modern life.",
     "exZh": "文章讨论了「central nervous system」(中枢神经系统)，帮助学生把握说明文细节。",
     "ctx": "2018成都中考 · 阅读/完形 · 主题词组",
-    "id": 184
+    "id": 181
   },
   {
     "cat": "adj-noun-phrase",
@@ -2780,7 +2735,7 @@
     "exEn": "Scientists talked about greenhouse gases in the article about modern life.",
     "exZh": "文章讨论了「greenhouse gases」(温室气体)，帮助学生把握说明文细节。",
     "ctx": "2019成都中考 · 阅读/完形 · 主题词组",
-    "id": 185
+    "id": 182
   },
   {
     "cat": "adj-noun-phrase",
@@ -2795,7 +2750,7 @@
     "exEn": "Scientists talked about global leaf area in the article about modern life.",
     "exZh": "文章讨论了「global leaf area」(全球叶面积)，帮助学生把握说明文细节。",
     "ctx": "2019成都中考 · 阅读/完形 · 主题词组",
-    "id": 186
+    "id": 183
   },
   {
     "cat": "adj-noun-phrase",
@@ -2810,7 +2765,7 @@
     "exEn": "Scientists talked about relaxed atmosphere in the article about modern life.",
     "exZh": "文章讨论了「relaxed atmosphere」(轻松氛围)，帮助学生把握说明文细节。",
     "ctx": "2020成都中考 · 阅读/完形 · 主题词组",
-    "id": 187
+    "id": 184
   },
   {
     "cat": "adj-noun-phrase",
@@ -2825,7 +2780,7 @@
     "exEn": "Scientists talked about personification in the article about modern life.",
     "exZh": "文章讨论了「personification」(拟人手法)，帮助学生把握说明文细节。",
     "ctx": "2020成都中考 · 阅读/完形 · 主题词组",
-    "id": 188
+    "id": 185
   },
   {
     "cat": "adj-noun-phrase",
@@ -2840,7 +2795,7 @@
     "exEn": "Scientists talked about peaceful society in the article about modern life.",
     "exZh": "文章讨论了「peaceful society」(和谐社会)，帮助学生把握说明文细节。",
     "ctx": "2020成都中考 · 阅读/完形 · 主题词组",
-    "id": 189
+    "id": 186
   },
   {
     "cat": "adj-noun-phrase",
@@ -2855,7 +2810,7 @@
     "exEn": "Scientists talked about unpaid work in the article about modern life.",
     "exZh": "文章讨论了「unpaid work」(无偿劳动)，帮助学生把握说明文细节。",
     "ctx": "2021成都中考 · 阅读/完形 · 主题词组",
-    "id": 190
+    "id": 187
   },
   {
     "cat": "adj-noun-phrase",
@@ -2870,7 +2825,7 @@
     "exEn": "Scientists talked about breathable shoes in the article about modern life.",
     "exZh": "文章讨论了「breathable shoes」(透气鞋)，帮助学生把握说明文细节。",
     "ctx": "2021成都中考 · 阅读/完形 · 主题词组",
-    "id": 191
+    "id": 188
   },
   {
     "cat": "adj-noun-phrase",
@@ -2885,7 +2840,7 @@
     "exEn": "Scientists talked about intangible cultural heritage in the article about modern life.",
     "exZh": "文章讨论了「intangible cultural heritage」(非物质文化遗产)，帮助学生把握说明文细节。",
     "ctx": "2021成都中考 · 阅读/完形 · 主题词组",
-    "id": 192
+    "id": 189
   },
   {
     "cat": "adj-noun-phrase",
@@ -2900,7 +2855,7 @@
     "exEn": "Scientists talked about freezing weather in the article about modern life.",
     "exZh": "文章讨论了「freezing weather」(严寒天气)，帮助学生把握说明文细节。",
     "ctx": "2021成都中考 · 阅读/完形 · 主题词组",
-    "id": 193
+    "id": 190
   },
   {
     "cat": "adj-noun-phrase",
@@ -2915,7 +2870,7 @@
     "exEn": "Scientists talked about climate change in the article about modern life.",
     "exZh": "文章讨论了「climate change」(气候变化)，帮助学生把握说明文细节。",
     "ctx": "2021成都中考 · 阅读/完形 · 主题词组",
-    "id": 194
+    "id": 191
   },
   {
     "cat": "adj-noun-phrase",
@@ -2930,7 +2885,7 @@
     "exEn": "Scientists talked about average life expectancy in the article about modern life.",
     "exZh": "文章讨论了「average life expectancy」(平均寿命)，帮助学生把握说明文细节。",
     "ctx": "2022成都中考 · 阅读/完形 · 主题词组",
-    "id": 195
+    "id": 192
   },
   {
     "cat": "adj-noun-phrase",
@@ -2945,7 +2900,7 @@
     "exEn": "Scientists talked about environmental protection in the article about modern life.",
     "exZh": "文章讨论了「environmental protection」(环境保护)，帮助学生把握说明文细节。",
     "ctx": "2022成都中考 · 阅读/完形 · 主题词组",
-    "id": 196
+    "id": 193
   },
   {
     "cat": "adj-noun-phrase",
@@ -2960,7 +2915,7 @@
     "exEn": "Scientists talked about bright side in the article about modern life.",
     "exZh": "文章讨论了「bright side」(积极面)，帮助学生把握说明文细节。",
     "ctx": "2023成都中考 · 阅读/完形 · 主题词组",
-    "id": 197
+    "id": 194
   },
   {
     "cat": "adj-noun-phrase",
@@ -2975,7 +2930,7 @@
     "exEn": "Scientists talked about monkey mind in the article about modern life.",
     "exZh": "文章讨论了「monkey mind」(杂念纷飞)，帮助学生把握说明文细节。",
     "ctx": "2024成都中考 · 阅读/完形 · 主题词组",
-    "id": 198
+    "id": 195
   },
   {
     "cat": "adj-noun-phrase",
@@ -2990,7 +2945,7 @@
     "exEn": "Scientists talked about animal shelters in the article about modern life.",
     "exZh": "文章讨论了「animal shelters」(动物收容所)，帮助学生把握说明文细节。",
     "ctx": "2024成都中考 · 阅读/完形 · 主题词组",
-    "id": 199
+    "id": 196
   },
   {
     "cat": "adj-noun-phrase",
@@ -3005,7 +2960,7 @@
     "exEn": "Scientists talked about tourism infrastructure in the article about modern life.",
     "exZh": "文章讨论了「tourism infrastructure」(旅游基础设施)，帮助学生把握说明文细节。",
     "ctx": "2025成都中考 · 阅读/完形 · 主题词组",
-    "id": 200
+    "id": 197
   },
   {
     "cat": "adj-noun-phrase",
@@ -3020,7 +2975,7 @@
     "exEn": "Scientists talked about ethnic-themed photography in the article about modern life.",
     "exZh": "文章讨论了「ethnic-themed photography」(民族风旅拍)，帮助学生把握说明文细节。",
     "ctx": "2025成都中考 · 阅读/完形 · 主题词组",
-    "id": 201
+    "id": 198
   },
   {
     "cat": "adj-noun-phrase",
@@ -3035,7 +2990,7 @@
     "exEn": "Scientists talked about Feelings Wheel in the article about modern life.",
     "exZh": "文章讨论了「Feelings Wheel」(情绪轮)，帮助学生把握说明文细节。",
     "ctx": "2025成都中考 · 阅读/完形 · 主题词组",
-    "id": 202
+    "id": 199
   },
   {
     "cat": "adj-noun-phrase",
@@ -3050,7 +3005,7 @@
     "exEn": "Scientists talked about negative feelings in the article about modern life.",
     "exZh": "文章讨论了「negative feelings」(负面情绪)，帮助学生把握说明文细节。",
     "ctx": "2025成都中考 · 阅读/完形 · 主题词组",
-    "id": 203
+    "id": 200
   },
   {
     "cat": "adj-noun-phrase",
@@ -3065,7 +3020,7 @@
     "exEn": "Scientists talked about table service in the article about modern life.",
     "exZh": "文章讨论了「table service」(桌边服务)，帮助学生把握说明文细节。",
     "ctx": "2026成都中考 · 阅读/完形 · 主题词组",
-    "id": 204
+    "id": 201
   },
   {
     "cat": "adj-noun-phrase",
@@ -3080,7 +3035,7 @@
     "exEn": "Scientists talked about virtual forest in the article about modern life.",
     "exZh": "文章讨论了「virtual forest」(虚拟森林)，帮助学生把握说明文细节。",
     "ctx": "2026成都中考 · 阅读/完形 · 主题词组",
-    "id": 205
+    "id": 202
   },
   {
     "cat": "adj-noun-phrase",
@@ -3095,7 +3050,7 @@
     "exEn": "Scientists talked about personal space in the article about modern life.",
     "exZh": "文章讨论了「personal space」(个人空间)，帮助学生把握说明文细节。",
     "ctx": "2026成都中考 · 阅读/完形 · 主题词组",
-    "id": 206
+    "id": 203
   },
   {
     "cat": "adj-noun-phrase",
@@ -3110,7 +3065,7 @@
     "exEn": "Scientists talked about low spirits in the article about modern life.",
     "exZh": "文章讨论了「low spirits」(情绪低落)，帮助学生把握说明文细节。",
     "ctx": "2026成都中考 · 阅读/完形 · 主题词组",
-    "id": 207
+    "id": 204
   },
   {
     "cat": "adj-noun-phrase",
@@ -3125,7 +3080,7 @@
     "exEn": "Scientists talked about life-sized terracotta warriors in the article about modern life.",
     "exZh": "文章讨论了「life-sized terracotta warriors」(真人大小的兵马俑)，帮助学生把握说明文细节。",
     "ctx": "2026成都中考 · 阅读/完形 · 主题词组",
-    "id": 208
+    "id": 205
   },
   {
     "cat": "adj-noun-phrase",
@@ -3140,7 +3095,7 @@
     "exEn": "Scientists talked about wildlife photographer in the article about modern life.",
     "exZh": "文章讨论了「wildlife photographer」(野生动物摄影师)，帮助学生把握说明文细节。",
     "ctx": "2026成都中考 · 阅读/完形 · 主题词组",
-    "id": 209
+    "id": 206
   },
   {
     "cat": "adj-noun-phrase",
@@ -3155,7 +3110,7 @@
     "exEn": "Scientists talked about deep-rooted tradition in the article about modern life.",
     "exZh": "文章讨论了「deep-rooted tradition」(深厚传统)，帮助学生把握说明文细节。",
     "ctx": "2026成都中考 · 阅读/完形 · 主题词组",
-    "id": 210
+    "id": 207
   },
   {
     "cat": "adj-noun-phrase",
@@ -3170,7 +3125,7 @@
     "exEn": "Scientists talked about health care in the article about modern life.",
     "exZh": "文章讨论了「health care」(医疗保健)，帮助学生把握说明文细节。",
     "ctx": "2026成都中考 · 阅读/完形 · 主题词组",
-    "id": 211
+    "id": 208
   },
   {
     "cat": "adj-noun-phrase",
@@ -3185,7 +3140,7 @@
     "exEn": "Scientists talked about community services in the article about modern life.",
     "exZh": "文章讨论了「community services」(社区服务)，帮助学生把握说明文细节。",
     "ctx": "2026成都中考 · 阅读/完形 · 主题词组",
-    "id": 212
+    "id": 209
   },
   {
     "cat": "adj-noun-phrase",
@@ -3200,7 +3155,7 @@
     "exEn": "Scientists talked about Double Ninth Festival in the article about modern life.",
     "exZh": "文章讨论了「Double Ninth Festival」(重阳节)，帮助学生把握说明文细节。",
     "ctx": "2026成都中考 · 阅读/完形 · 主题词组",
-    "id": 213
+    "id": 210
   },
   {
     "cat": "adj-noun-phrase",
@@ -3215,7 +3170,7 @@
     "exEn": "Scientists talked about summer camp in the article about modern life.",
     "exZh": "文章讨论了「summer camp」(夏令营)，帮助学生把握说明文细节。",
     "ctx": "2026成都中考 · 阅读/完形 · 主题词组",
-    "id": 214
+    "id": 211
   },
   {
     "cat": "adj-noun-phrase",
@@ -3230,7 +3185,7 @@
     "exEn": "Scientists talked about proper sleep environment in the article about modern life.",
     "exZh": "文章讨论了「proper sleep environment」(合适睡眠环境)，帮助学生把握说明文细节。",
     "ctx": "2026成都中考 · 阅读/完形 · 主题词组",
-    "id": 215
+    "id": 212
   },
   {
     "cat": "adj-noun-phrase",
@@ -3245,7 +3200,7 @@
     "exEn": "Scientists talked about sense of humor in the article about modern life.",
     "exZh": "文章讨论了「sense of humor」(幽默感)，帮助学生把握说明文细节。",
     "ctx": "2019成都中考 · 阅读/完形 · 主题词组",
-    "id": 216
+    "id": 213
   },
   {
     "cat": "adj-noun-phrase",
@@ -3260,7 +3215,7 @@
     "exEn": "Scientists talked about British humor in the article about modern life.",
     "exZh": "文章讨论了「British humor」(英式幽默)，帮助学生把握说明文细节。",
     "ctx": "2019成都中考 · 阅读/完形 · 主题词组",
-    "id": 217
+    "id": 214
   },
   {
     "cat": "adj-noun-phrase",
@@ -3275,7 +3230,7 @@
     "exEn": "Scientists talked about social peace in the article about modern life.",
     "exZh": "文章讨论了「social peace」(社会和谐)，帮助学生把握说明文细节。",
     "ctx": "2020成都中考 · 阅读/完形 · 主题词组",
-    "id": 218
+    "id": 215
   },
   {
     "cat": "adj-noun-phrase",
@@ -3290,7 +3245,7 @@
     "exEn": "Scientists talked about nature reserve in the article about modern life.",
     "exZh": "文章讨论了「nature reserve」(自然保护区)，帮助学生把握说明文细节。",
     "ctx": "2021成都中考 · 阅读/完形 · 主题词组",
-    "id": 219
+    "id": 216
   },
   {
     "cat": "adj-noun-phrase",
@@ -3305,7 +3260,7 @@
     "exEn": "Scientists talked about flour paste in the article about modern life.",
     "exZh": "文章讨论了「flour paste」(糨糊)，帮助学生把握说明文细节。",
     "ctx": "2021成都中考 · 阅读/完形 · 主题词组",
-    "id": 220
+    "id": 217
   },
   {
     "cat": "adj-noun-phrase",
@@ -3320,7 +3275,7 @@
     "exEn": "Scientists talked about event horizon telescope in the article about modern life.",
     "exZh": "文章讨论了「event horizon telescope」(事件视界望远镜)，帮助学生把握说明文细节。",
     "ctx": "2022成都中考 · 阅读/完形 · 主题词组",
-    "id": 221
+    "id": 218
   },
   {
     "cat": "adj-noun-phrase",
@@ -3335,7 +3290,7 @@
     "exEn": "Scientists talked about Luban Lock in the article about modern life.",
     "exZh": "文章讨论了「Luban Lock」(鲁班锁)，帮助学生把握说明文细节。",
     "ctx": "2022成都中考 · 阅读/完形 · 主题词组",
-    "id": 222
+    "id": 219
   },
   {
     "cat": "adj-noun-phrase",
@@ -3350,7 +3305,7 @@
     "exEn": "Scientists talked about Mercator Projection in the article about modern life.",
     "exZh": "文章讨论了「Mercator Projection」(墨卡托投影)，帮助学生把握说明文细节。",
     "ctx": "2023成都中考 · 阅读/完形 · 主题词组",
-    "id": 223
+    "id": 220
   },
   {
     "cat": "adj-noun-phrase",
@@ -3365,7 +3320,7 @@
     "exEn": "Scientists talked about longitude and latitude in the article about modern life.",
     "exZh": "文章讨论了「longitude and latitude」(经纬度)，帮助学生把握说明文细节。",
     "ctx": "2023成都中考 · 阅读/完形 · 主题词组",
-    "id": 224
+    "id": 221
   },
   {
     "cat": "adj-noun-phrase",
@@ -3380,7 +3335,7 @@
     "exEn": "Scientists talked about radiosonde balloon in the article about modern life.",
     "exZh": "文章讨论了「radiosonde balloon」(探空气球)，帮助学生把握说明文细节。",
     "ctx": "2024成都中考 · 阅读/完形 · 主题词组",
-    "id": 225
+    "id": 222
   },
   {
     "cat": "adj-noun-phrase",
@@ -3395,7 +3350,7 @@
     "exEn": "Scientists talked about parasitic vines in the article about modern life.",
     "exZh": "文章讨论了「parasitic vines」(寄生藤蔓)，帮助学生把握说明文细节。",
     "ctx": "2025成都中考 · 阅读/完形 · 主题词组",
-    "id": 226
+    "id": 223
   },
   {
     "cat": "adj-noun-phrase",
@@ -3410,7 +3365,7 @@
     "exEn": "Scientists talked about tree ring dating in the article about modern life.",
     "exZh": "文章讨论了「tree ring dating」(年轮测年)，帮助学生把握说明文细节。",
     "ctx": "2025成都中考 · 阅读/完形 · 主题词组",
-    "id": 227
+    "id": 224
   },
   {
     "cat": "adj-noun-phrase",
@@ -3425,7 +3380,7 @@
     "exEn": "Scientists talked about homestay business in the article about modern life.",
     "exZh": "文章讨论了「homestay business」(民宿生意)，帮助学生把握说明文细节。",
     "ctx": "2025成都中考 · 阅读/完形 · 主题词组",
-    "id": 228
+    "id": 225
   },
   {
     "cat": "adj-noun-phrase",
@@ -3440,7 +3395,7 @@
     "exEn": "Scientists talked about public transportation in the article about modern life.",
     "exZh": "文章讨论了「public transportation」(公共交通)，帮助学生把握说明文细节。",
     "ctx": "预测 · 主题词组",
-    "id": 229
+    "id": 226
   },
   {
     "cat": "adj-noun-phrase",
@@ -3455,7 +3410,7 @@
     "exEn": "Scientists talked about renewable energy in the article about modern life.",
     "exZh": "文章讨论了「renewable energy」(可再生能源)，帮助学生把握说明文细节。",
     "ctx": "预测 · 主题词组",
-    "id": 230
+    "id": 227
   },
   {
     "cat": "adj-noun-phrase",
@@ -3470,7 +3425,7 @@
     "exEn": "Scientists talked about mental health in the article about modern life.",
     "exZh": "文章讨论了「mental health」(心理健康)，帮助学生把握说明文细节。",
     "ctx": "预测 · 主题词组",
-    "id": 231
+    "id": 228
   },
   {
     "cat": "adj-noun-phrase",
@@ -3485,7 +3440,7 @@
     "exEn": "Scientists talked about food waste in the article about modern life.",
     "exZh": "文章讨论了「food waste」(食物浪费)，帮助学生把握说明文细节。",
     "ctx": "HET新课 · 主题词组",
-    "id": 232
+    "id": 229
   },
   {
     "cat": "adj-noun-phrase",
@@ -3500,7 +3455,7 @@
     "exEn": "Scientists talked about carbon neutral in the article about modern life.",
     "exZh": "文章讨论了「carbon neutral」(碳中和)，帮助学生把握说明文细节。",
     "ctx": "预测 · 主题词组",
-    "id": 233
+    "id": 230
   },
   {
     "cat": "adj-noun-phrase",
@@ -3515,7 +3470,7 @@
     "exEn": "Scientists talked about rural revitalization in the article about modern life.",
     "exZh": "文章讨论了「rural revitalization」(乡村振兴)，帮助学生把握说明文细节。",
     "ctx": "预测 · 主题词组",
-    "id": 234
+    "id": 231
   },
   {
     "cat": "adj-noun-phrase",
@@ -3530,7 +3485,7 @@
     "exEn": "Scientists talked about digital literacy in the article about modern life.",
     "exZh": "文章讨论了「digital literacy」(数字素养)，帮助学生把握说明文细节。",
     "ctx": "预测 · 主题词组",
-    "id": 235
+    "id": 232
   },
   {
     "cat": "adj-noun-phrase",
@@ -3545,7 +3500,7 @@
     "exEn": "Scientists talked about volunteer service in the article about modern life.",
     "exZh": "文章讨论了「volunteer service」(志愿服务)，帮助学生把握说明文细节。",
     "ctx": "预测 · 主题词组",
-    "id": 236
+    "id": 233
   },
   {
     "cat": "collocation",
@@ -3557,10 +3512,10 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "Students should be regarded as their studies and hobbies.",
+    "exEn": "Regarded as is important in daily English learning.",
     "exZh": "搭配义：被视为。完形/写作中需整组记忆，不可拆分。",
     "ctx": "2020成都中考 · 阅读/完形 · 固定搭配",
-    "id": 237
+    "id": 234
   },
   {
     "cat": "collocation",
@@ -3575,7 +3530,7 @@
     "exEn": "according to.",
     "exZh": "搭配义：根据。完形/写作中需整组记忆，不可拆分。",
     "ctx": "通用 · 固定搭配",
-    "id": 238
+    "id": 235
   },
   {
     "cat": "collocation",
@@ -3587,10 +3542,10 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "Exam context: Students learned to instead of in the passage.",
+    "exEn": "In the passage, students meet the phrase \"instead of\" in a cloze or linking context.",
     "exZh": "搭配义：而不是。完形/写作中需整组记忆，不可拆分。",
     "ctx": "2018成都中考 · 阅读/完形 · 固定搭配",
-    "id": 239
+    "id": 236
   },
   {
     "cat": "collocation",
@@ -3602,10 +3557,10 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "Exam context: Students learned to because of in the passage.",
+    "exEn": "In the passage, students meet the phrase \"because of\" in a cloze or linking context.",
     "exZh": "搭配义：因为。完形/写作中需整组记忆，不可拆分。",
     "ctx": "通用 · 固定搭配",
-    "id": 240
+    "id": 237
   },
   {
     "cat": "collocation",
@@ -3617,10 +3572,10 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "Exam context: Students learned to as long as in the passage.",
+    "exEn": "In the passage, students meet the phrase \"as long as\" in a cloze or linking context.",
     "exZh": "搭配义：只要。完形/写作中需整组记忆，不可拆分。",
     "ctx": "2021成都中考 · 阅读/完形 · 固定搭配",
-    "id": 241
+    "id": 238
   },
   {
     "cat": "collocation",
@@ -3632,10 +3587,10 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "Exam context: Students learned to so that in the passage.",
+    "exEn": "In the passage, students meet the phrase \"so that\" in a cloze or linking context.",
     "exZh": "搭配义：以便。完形/写作中需整组记忆，不可拆分。",
     "ctx": "2022成都中考 · 阅读/完形 · 固定搭配",
-    "id": 242
+    "id": 239
   },
   {
     "cat": "collocation",
@@ -3647,10 +3602,10 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "Exam context: Students learned to in order to in the passage.",
+    "exEn": "In the passage, students meet the phrase \"in order to\" in a cloze or linking context.",
     "exZh": "搭配义：为了。完形/写作中需整组记忆，不可拆分。",
     "ctx": "通用 · 固定搭配",
-    "id": 243
+    "id": 240
   },
   {
     "cat": "collocation",
@@ -3662,10 +3617,10 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "Exam context: Students learned to one of the in the passage.",
+    "exEn": "In the passage, students meet the phrase \"one of the\" in a cloze or linking context.",
     "exZh": "搭配义：…之一。完形/写作中需整组记忆，不可拆分。",
     "ctx": "2026成都中考 · 阅读/完形 · 固定搭配",
-    "id": 244
+    "id": 241
   },
   {
     "cat": "collocation",
@@ -3677,10 +3632,70 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "Exam context: Students learned to less than in the passage.",
+    "exEn": "In the story, the phrase \"less than\" helps carry the meaning forward.",
     "exZh": "搭配义：少于。完形/写作中需整组记忆，不可拆分。",
     "ctx": "2026成都中考 · 阅读/完形 · 固定搭配",
+    "id": 242
+  },
+  {
+    "cat": "collocation",
+    "en": "even though",
+    "zh": "尽管",
+    "tier": 2,
+    "year": "2026",
+    "tag": "",
+    "form": "",
+    "base": "",
+    "note": "",
+    "exEn": "He was always positive and never lost heart, even though his life was hard.",
+    "exZh": "搭配义：尽管。完形/写作中需整组记忆，不可拆分。",
+    "ctx": "2026成都中考 · 阅读/完形 · 固定搭配",
+    "id": 243
+  },
+  {
+    "cat": "collocation",
+    "en": "full of",
+    "zh": "充满（形容词短语，常与 be 连用）",
+    "tier": 2,
+    "year": "2026",
+    "tag": "",
+    "form": "",
+    "base": "",
+    "note": "",
+    "exEn": "Many people think happiness comes even when life is full of difficulties.",
+    "exZh": "搭配义：充满（形容词短语，常与 be 连用）。完形/写作中需整组记忆，不可拆分。",
+    "ctx": "2026成都中考 · 阅读/完形 · 固定搭配",
+    "id": 244
+  },
+  {
+    "cat": "collocation",
+    "en": "one of them",
+    "zh": "他们中的一员",
+    "tier": 2,
+    "year": "2026",
+    "tag": "",
+    "form": "",
+    "base": "",
+    "note": "",
+    "exEn": "Su Shi is one of them who stayed positive during hard times.",
+    "exZh": "搭配义：他们中的一员。完形/写作中需整组记忆，不可拆分。",
+    "ctx": "2026成都中考 · 阅读/完形 · 固定搭配",
     "id": 245
+  },
+  {
+    "cat": "collocation",
+    "en": "with patience",
+    "zh": "耐心地",
+    "tier": 2,
+    "year": "2026",
+    "tag": "",
+    "form": "",
+    "base": "",
+    "note": "",
+    "exEn": "In Huangzhou, he cooked cheap pork for hours with patience and created Dongpo Pork.",
+    "exZh": "搭配义：耐心地。完形/写作中需整组记忆，不可拆分。",
+    "ctx": "2026成都中考 · 阅读/完形 · 固定搭配",
+    "id": 246
   },
   {
     "cat": "collocation",
@@ -3692,10 +3707,10 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "Exam context: Students learned to more and more in the passage.",
+    "exEn": "In the story, the phrase \"more and more\" helps carry the meaning forward.",
     "exZh": "搭配义：越来越。完形/写作中需整组记忆，不可拆分。",
     "ctx": "2020成都中考 · 阅读/完形 · 固定搭配",
-    "id": 246
+    "id": 247
   },
   {
     "cat": "collocation",
@@ -3707,10 +3722,10 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "Exam context: Students learned to from time to time in the passage.",
+    "exEn": "In the story, the phrase \"from time to time\" helps carry the meaning forward.",
     "exZh": "搭配义：不时。完形/写作中需整组记忆，不可拆分。",
     "ctx": "2026成都中考 · 阅读/完形 · 固定搭配",
-    "id": 247
+    "id": 248
   },
   {
     "cat": "collocation",
@@ -3722,10 +3737,10 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "Exam context: Students learned to well worth a visit in the passage.",
+    "exEn": "In the story, the phrase \"well worth a visit\" helps carry the meaning forward.",
     "exZh": "搭配义：很值得一看。完形/写作中需整组记忆，不可拆分。",
     "ctx": "2026成都中考 · 阅读/完形 · 固定搭配",
-    "id": 248
+    "id": 249
   },
   {
     "cat": "collocation",
@@ -3737,10 +3752,10 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "Exam context: Students learned to not up to standard in the passage.",
+    "exEn": "In the story, the phrase \"not up to standard\" helps carry the meaning forward.",
     "exZh": "搭配义：不达标。完形/写作中需整组记忆，不可拆分。",
     "ctx": "2026成都中考 · 阅读/完形 · 固定搭配",
-    "id": 249
+    "id": 250
   },
   {
     "cat": "collocation",
@@ -3752,10 +3767,10 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "Exam context: Students learned to accepted the challenge in the passage.",
+    "exEn": "In the story, the phrase \"accepted the challenge\" helps carry the meaning forward.",
     "exZh": "搭配义：接受挑战。完形/写作中需整组记忆，不可拆分。",
     "ctx": "2026成都中考 · 阅读/完形 · 固定搭配",
-    "id": 250
+    "id": 251
   },
   {
     "cat": "collocation",
@@ -3767,10 +3782,10 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "Exam context: Students learned to a great match in the passage.",
+    "exEn": "In the story, the phrase \"a great match\" helps carry the meaning forward.",
     "exZh": "搭配义：绝配。完形/写作中需整组记忆，不可拆分。",
     "ctx": "2026成都中考 · 阅读/完形 · 固定搭配",
-    "id": 251
+    "id": 252
   },
   {
     "cat": "collocation",
@@ -3782,10 +3797,10 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "Exam context: Students learned to group effort in the passage.",
+    "exEn": "In the story, the phrase \"group effort\" helps carry the meaning forward.",
     "exZh": "搭配义：集体努力。完形/写作中需整组记忆，不可拆分。",
     "ctx": "2026成都中考 · 阅读/完形 · 固定搭配",
-    "id": 252
+    "id": 253
   },
   {
     "cat": "collocation",
@@ -3797,10 +3812,10 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "Exam context: Students learned to in a controlled way in the passage.",
+    "exEn": "In the story, the phrase \"in a controlled way\" helps carry the meaning forward.",
     "exZh": "搭配义：以可控方式。完形/写作中需整组记忆，不可拆分。",
     "ctx": "2025成都中考 · 阅读/完形 · 固定搭配",
-    "id": 253
+    "id": 254
   },
   {
     "cat": "collocation",
@@ -3815,7 +3830,7 @@
     "exEn": "The story shows how people never let you down in real situations.",
     "exZh": "搭配义：从不让人失望。完形/写作中需整组记忆，不可拆分。",
     "ctx": "2025成都中考 · 阅读/完形 · 固定搭配",
-    "id": 254
+    "id": 255
   },
   {
     "cat": "collocation",
@@ -3827,10 +3842,10 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "Exam context: Students learned to in total in the passage.",
+    "exEn": "In the story, the phrase \"in total\" helps carry the meaning forward.",
     "exZh": "搭配义：总共。完形/写作中需整组记忆，不可拆分。",
     "ctx": "2019成都中考 · 阅读/完形 · 固定搭配",
-    "id": 255
+    "id": 256
   },
   {
     "cat": "collocation",
@@ -3842,10 +3857,10 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "Exam context: Students learned to straight face in the passage.",
+    "exEn": "In the story, the phrase \"straight face\" helps carry the meaning forward.",
     "exZh": "搭配义：面无表情。完形/写作中需整组记忆，不可拆分。",
     "ctx": "2019成都中考 · 阅读/完形 · 固定搭配",
-    "id": 256
+    "id": 257
   },
   {
     "cat": "collocation",
@@ -3860,7 +3875,7 @@
     "exEn": "In daily life, we often keep calm to solve problems.",
     "exZh": "搭配义：保持冷静。完形/写作中需整组记忆，不可拆分。",
     "ctx": "2019成都中考 · 阅读/完形 · 固定搭配",
-    "id": 257
+    "id": 258
   },
   {
     "cat": "collocation",
@@ -3875,7 +3890,7 @@
     "exEn": "Many teens have influence on during the summer holiday.",
     "exZh": "搭配义：对…有影响。完形/写作中需整组记忆，不可拆分。",
     "ctx": "2019成都中考 · 阅读/完形 · 固定搭配",
-    "id": 258
+    "id": 259
   },
   {
     "cat": "collocation",
@@ -3887,10 +3902,10 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "Students should be separated from their studies and hobbies.",
+    "exEn": "Separated from is important in daily English learning.",
     "exZh": "搭配义：与…分离。完形/写作中需整组记忆，不可拆分。",
     "ctx": "2019成都中考 · 阅读/完形 · 固定搭配",
-    "id": 259
+    "id": 260
   },
   {
     "cat": "collocation",
@@ -3902,10 +3917,10 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "Exam context: Students learned to similar to in the passage.",
+    "exEn": "In the story, the phrase \"similar to\" helps carry the meaning forward.",
     "exZh": "搭配义：与…相似。完形/写作中需整组记忆，不可拆分。",
     "ctx": "2020成都中考 · 阅读/完形 · 固定搭配",
-    "id": 260
+    "id": 261
   },
   {
     "cat": "collocation",
@@ -3917,10 +3932,10 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "Exam context: Students learned to connected to in the passage.",
+    "exEn": "In the story, the phrase \"connected to\" helps carry the meaning forward.",
     "exZh": "搭配义：与…相连。完形/写作中需整组记忆，不可拆分。",
     "ctx": "2020成都中考 · 阅读/完形 · 固定搭配",
-    "id": 261
+    "id": 262
   },
   {
     "cat": "collocation",
@@ -3932,10 +3947,10 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "Exam context: Students learned to getting interested in in the passage.",
+    "exEn": "In the story, the phrase \"getting interested in\" helps carry the meaning forward.",
     "exZh": "搭配义：对…越来越感兴趣。完形/写作中需整组记忆，不可拆分。",
     "ctx": "2020成都中考 · 阅读/完形 · 固定搭配",
-    "id": 262
+    "id": 263
   },
   {
     "cat": "collocation",
@@ -3947,10 +3962,10 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "Exam context: Students learned to sold out in the passage.",
+    "exEn": "In the story, the phrase \"sold out\" helps carry the meaning forward.",
     "exZh": "搭配义：售罄。完形/写作中需整组记忆，不可拆分。",
     "ctx": "2020成都中考 · 阅读/完形 · 固定搭配",
-    "id": 263
+    "id": 264
   },
   {
     "cat": "collocation",
@@ -3962,10 +3977,10 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "Exam context: Students learned to at least in the passage.",
+    "exEn": "In the story, the phrase \"at least\" helps carry the meaning forward.",
     "exZh": "搭配义：至少。完形/写作中需整组记忆，不可拆分。",
     "ctx": "通用 · 固定搭配",
-    "id": 264
+    "id": 265
   },
   {
     "cat": "collocation",
@@ -3977,10 +3992,10 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "Exam context: Students learned to at most in the passage.",
+    "exEn": "In the story, the phrase \"at most\" helps carry the meaning forward.",
     "exZh": "搭配义：最多。完形/写作中需整组记忆，不可拆分。",
     "ctx": "通用 · 固定搭配",
-    "id": 265
+    "id": 266
   },
   {
     "cat": "collocation",
@@ -3992,10 +4007,10 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "Exam context: Students learned to no longer in the passage.",
+    "exEn": "In the story, the phrase \"no longer\" helps carry the meaning forward.",
     "exZh": "搭配义：不再。完形/写作中需整组记忆，不可拆分。",
     "ctx": "通用 · 固定搭配",
-    "id": 266
+    "id": 267
   },
   {
     "cat": "collocation",
@@ -4007,10 +4022,10 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "Exam context: Students learned to as soon as in the passage.",
+    "exEn": "In the story, the phrase \"as soon as\" helps carry the meaning forward.",
     "exZh": "搭配义：一…就。完形/写作中需整组记忆，不可拆分。",
     "ctx": "通用 · 固定搭配",
-    "id": 267
+    "id": 268
   },
   {
     "cat": "collocation",
@@ -4022,10 +4037,10 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "Exam context: Students learned to by the time in the passage.",
+    "exEn": "In the story, the phrase \"by the time\" helps carry the meaning forward.",
     "exZh": "搭配义：到…时候。完形/写作中需整组记忆，不可拆分。",
     "ctx": "通用 · 固定搭配",
-    "id": 268
+    "id": 269
   },
   {
     "cat": "collocation",
@@ -4037,10 +4052,10 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "Exam context: Students learned to in fact in the passage.",
+    "exEn": "In the story, the phrase \"in fact\" helps carry the meaning forward.",
     "exZh": "搭配义：事实上。完形/写作中需整组记忆，不可拆分。",
     "ctx": "2023成都中考 · 阅读/完形 · 固定搭配",
-    "id": 269
+    "id": 270
   },
   {
     "cat": "collocation",
@@ -4052,10 +4067,10 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "Exam context: Students learned to such as in the passage.",
+    "exEn": "In the story, the phrase \"such as\" helps carry the meaning forward.",
     "exZh": "搭配义：例如。完形/写作中需整组记忆，不可拆分。",
     "ctx": "通用 · 固定搭配",
-    "id": 270
+    "id": 271
   },
   {
     "cat": "collocation",
@@ -4067,10 +4082,10 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "Exam context: Students learned to rather than in the passage.",
+    "exEn": "In the story, the phrase \"rather than\" helps carry the meaning forward.",
     "exZh": "搭配义：而不是。完形/写作中需整组记忆，不可拆分。",
     "ctx": "通用 · 固定搭配",
-    "id": 271
+    "id": 272
   },
   {
     "cat": "collocation",
@@ -4085,7 +4100,7 @@
     "exEn": "not only … but also",
     "exZh": "搭配义：不仅…而且。完形/写作中需整组记忆，不可拆分。",
     "ctx": "通用 · 固定搭配",
-    "id": 272
+    "id": 273
   },
   {
     "cat": "collocation",
@@ -4100,7 +4115,7 @@
     "exEn": "both … and",
     "exZh": "搭配义：两者都。完形/写作中需整组记忆，不可拆分。",
     "ctx": "通用 · 固定搭配",
-    "id": 273
+    "id": 274
   },
   {
     "cat": "collocation",
@@ -4115,7 +4130,7 @@
     "exEn": "either … or",
     "exZh": "搭配义：要么…要么。完形/写作中需整组记忆，不可拆分。",
     "ctx": "2020成都中考 · 阅读/完形 · 固定搭配",
-    "id": 274
+    "id": 275
   },
   {
     "cat": "collocation",
@@ -4130,7 +4145,7 @@
     "exEn": "neither … nor",
     "exZh": "搭配义：既不…也不。完形/写作中需整组记忆，不可拆分。",
     "ctx": "通用 · 固定搭配",
-    "id": 275
+    "id": 276
   },
   {
     "cat": "collocation",
@@ -4145,7 +4160,7 @@
     "exEn": "not … until",
     "exZh": "搭配义：直到…才。完形/写作中需整组记忆，不可拆分。",
     "ctx": "通用 · 固定搭配",
-    "id": 276
+    "id": 277
   },
   {
     "cat": "collocation",
@@ -4157,10 +4172,10 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "Students should be fond of their studies and hobbies.",
+    "exEn": "Tom is fond of reading books about science after school.",
     "exZh": "搭配义：喜欢。完形/写作中需整组记忆，不可拆分。",
     "ctx": "预测 · 固定搭配",
-    "id": 277
+    "id": 278
   },
   {
     "cat": "collocation",
@@ -4172,10 +4187,10 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "Students should be proud of their studies and hobbies.",
+    "exEn": "Her parents are proud of her progress in English.",
     "exZh": "搭配义：为…骄傲。完形/写作中需整组记忆，不可拆分。",
     "ctx": "预测 · 固定搭配",
-    "id": 278
+    "id": 279
   },
   {
     "cat": "collocation",
@@ -4187,10 +4202,10 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "Students should be afraid of their studies and hobbies.",
+    "exEn": "Many students are afraid of speaking English in class at first.",
     "exZh": "搭配义：害怕。完形/写作中需整组记忆，不可拆分。",
     "ctx": "预测 · 固定搭配",
-    "id": 279
+    "id": 280
   },
   {
     "cat": "collocation",
@@ -4202,10 +4217,10 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "Students should be full of their studies and hobbies.",
+    "exEn": "Life is full of difficulties, but some people can still find happiness.",
     "exZh": "搭配义：充满。完形/写作中需整组记忆，不可拆分。",
     "ctx": "2026成都中考 · 阅读/完形 · 固定搭配",
-    "id": 280
+    "id": 281
   },
   {
     "cat": "collocation",
@@ -4217,10 +4232,10 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "Students should be interested in their studies and hobbies.",
+    "exEn": "More and more teens are interested in protecting wildlife.",
     "exZh": "搭配义：对…感兴趣。完形/写作中需整组记忆，不可拆分。",
     "ctx": "通用 · 固定搭配",
-    "id": 281
+    "id": 282
   },
   {
     "cat": "collocation",
@@ -4232,10 +4247,10 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "Students should be good at their studies and hobbies.",
+    "exEn": "She is good at playing the piano.",
     "exZh": "搭配义：擅长。完形/写作中需整组记忆，不可拆分。",
     "ctx": "通用 · 固定搭配",
-    "id": 282
+    "id": 283
   },
   {
     "cat": "collocation",
@@ -4247,10 +4262,10 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "Students should be weak in their studies and hobbies.",
+    "exEn": "If you are weak in grammar, review word forms every day.",
     "exZh": "搭配义：不擅长。完形/写作中需整组记忆，不可拆分。",
     "ctx": "预测 · 固定搭配",
-    "id": 283
+    "id": 284
   },
   {
     "cat": "collocation",
@@ -4262,10 +4277,10 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "Students should be famous for their studies and hobbies.",
+    "exEn": "Chengdu is famous for its relaxed lifestyle.",
     "exZh": "搭配义：因…著名。完形/写作中需整组记忆，不可拆分。",
     "ctx": "预测 · 固定搭配",
-    "id": 284
+    "id": 285
   },
   {
     "cat": "collocation",
@@ -4277,10 +4292,10 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "Students should be ready for their studies and hobbies.",
+    "exEn": "Are you ready for the English exam next week?",
     "exZh": "搭配义：为…准备好。完形/写作中需整组记忆，不可拆分。",
     "ctx": "预测 · 固定搭配",
-    "id": 285
+    "id": 286
   },
   {
     "cat": "collocation",
@@ -4292,10 +4307,10 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "Students should be worried about their studies and hobbies.",
+    "exEn": "Don't be worried about making small mistakes.",
     "exZh": "搭配义：担心。完形/写作中需整组记忆，不可拆分。",
     "ctx": "预测 · 固定搭配",
-    "id": 286
+    "id": 287
   },
   {
     "cat": "collocation",
@@ -4307,10 +4322,10 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "Students should be strict with their studies and hobbies.",
+    "exEn": "Our teacher is strict with us about homework.",
     "exZh": "搭配义：对…严格。完形/写作中需整组记忆，不可拆分。",
     "ctx": "预测 · 固定搭配",
-    "id": 287
+    "id": 288
   },
   {
     "cat": "collocation",
@@ -4322,10 +4337,10 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "Students should be similar to their studies and hobbies.",
+    "exEn": "Similar to is important in daily English learning.",
     "exZh": "搭配义：与…相似。完形/写作中需整组记忆，不可拆分。",
     "ctx": "2020成都中考 · 阅读/完形 · 固定搭配",
-    "id": 288
+    "id": 289
   },
   {
     "cat": "collocation",
@@ -4337,10 +4352,10 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "Students should be different from their studies and hobbies.",
+    "exEn": "British humor is different from what some students expect.",
     "exZh": "搭配义：与…不同。完形/写作中需整组记忆，不可拆分。",
     "ctx": "预测 · 固定搭配",
-    "id": 289
+    "id": 290
   },
   {
     "cat": "collocation",
@@ -4352,10 +4367,10 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "Students should be thankful to their studies and hobbies.",
+    "exEn": "We should be thankful to those who help us.",
     "exZh": "搭配义：感谢。完形/写作中需整组记忆，不可拆分。",
     "ctx": "2020成都中考 · 阅读/完形 · 固定搭配",
-    "id": 290
+    "id": 291
   },
   {
     "cat": "collocation",
@@ -4370,7 +4385,7 @@
     "exEn": "Go …, and you will …",
     "exZh": "搭配义：祈使+and表结果。完形/写作中需整组记忆，不可拆分。",
     "ctx": "2024成都中考 · 阅读/完形 · 固定搭配",
-    "id": 291
+    "id": 292
   },
   {
     "cat": "collocation",
@@ -4385,7 +4400,7 @@
     "exEn": "It is adj. to do.",
     "exZh": "搭配义：做某事是…的。完形/写作中需整组记忆，不可拆分。",
     "ctx": "2024成都中考 · 阅读/完形 · 固定搭配",
-    "id": 292
+    "id": 293
   },
   {
     "cat": "collocation",
@@ -4400,7 +4415,7 @@
     "exEn": "Make sure you finish your homework before you play games.",
     "exZh": "搭配义：确保。完形/写作中需整组记忆，不可拆分。",
     "ctx": "2026成都中考 · 阅读/完形 · 固定搭配",
-    "id": 293
+    "id": 294
   },
   {
     "cat": "collocation",
@@ -4415,7 +4430,7 @@
     "exEn": "Remember to make friends when you prepare for the exam.",
     "exZh": "搭配义：交朋友。完形/写作中需整组记忆，不可拆分。",
     "ctx": "预测 · 固定搭配",
-    "id": 294
+    "id": 295
   },
   {
     "cat": "collocation",
@@ -4430,7 +4445,7 @@
     "exEn": "Remember to make progress when you prepare for the exam.",
     "exZh": "搭配义：取得进步。完形/写作中需整组记忆，不可拆分。",
     "ctx": "预测 · 固定搭配",
-    "id": 295
+    "id": 296
   },
   {
     "cat": "collocation",
@@ -4445,7 +4460,7 @@
     "exEn": "Remember to make mistakes when you prepare for the exam.",
     "exZh": "搭配义：犯错。完形/写作中需整组记忆，不可拆分。",
     "ctx": "预测 · 固定搭配",
-    "id": 296
+    "id": 297
   },
   {
     "cat": "collocation",
@@ -4460,7 +4475,7 @@
     "exEn": "Remember to make decisions when you prepare for the exam.",
     "exZh": "搭配义：做决定。完形/写作中需整组记忆，不可拆分。",
     "ctx": "2024成都中考 · 阅读/完形 · 固定搭配",
-    "id": 297
+    "id": 298
   },
   {
     "cat": "collocation",
@@ -4475,7 +4490,7 @@
     "exEn": "Remember to take notes when you visit the museum.",
     "exZh": "搭配义：记笔记。完形/写作中需整组记忆，不可拆分。",
     "ctx": "预测 · 固定搭配",
-    "id": 298
+    "id": 299
   },
   {
     "cat": "collocation",
@@ -4490,7 +4505,7 @@
     "exEn": "Remember to take photos when you visit the museum.",
     "exZh": "搭配义：拍照。完形/写作中需整组记忆，不可拆分。",
     "ctx": "预测 · 固定搭配",
-    "id": 299
+    "id": 300
   },
   {
     "cat": "collocation",
@@ -4505,7 +4520,7 @@
     "exEn": "Remember to take action when you visit the museum.",
     "exZh": "搭配义：采取行动。完形/写作中需整组记忆，不可拆分。",
     "ctx": "预测 · 固定搭配",
-    "id": 300
+    "id": 301
   },
   {
     "cat": "collocation",
@@ -4520,7 +4535,7 @@
     "exEn": "Remember to take risks when you visit the museum.",
     "exZh": "搭配义：冒险。完形/写作中需整组记忆，不可拆分。",
     "ctx": "预测 · 固定搭配",
-    "id": 301
+    "id": 302
   },
   {
     "cat": "collocation",
@@ -4535,7 +4550,7 @@
     "exEn": "Too much screen time can do harm to our eyes.",
     "exZh": "搭配义：对…有害。完形/写作中需整组记忆，不可拆分。",
     "ctx": "预测 · 固定搭配",
-    "id": 302
+    "id": 303
   },
   {
     "cat": "collocation",
@@ -4550,7 +4565,7 @@
     "exEn": "Too much screen time can do exercise our eyes.",
     "exZh": "搭配义：锻炼。完形/写作中需整组记忆，不可拆分。",
     "ctx": "2023成都中考 · 阅读/完形 · 固定搭配",
-    "id": 303
+    "id": 304
   },
   {
     "cat": "collocation",
@@ -4565,7 +4580,7 @@
     "exEn": "Many teens have fun during the summer holiday.",
     "exZh": "搭配义：玩得开心。完形/写作中需整组记忆，不可拆分。",
     "ctx": "2019成都中考 · 阅读/完形 · 固定搭配",
-    "id": 304
+    "id": 305
   },
   {
     "cat": "collocation",
@@ -4580,7 +4595,7 @@
     "exEn": "Many teens have trouble doing during the summer holiday.",
     "exZh": "搭配义：做某事有困难。完形/写作中需整组记忆，不可拆分。",
     "ctx": "预测 · 固定搭配",
-    "id": 305
+    "id": 306
   },
   {
     "cat": "collocation",
@@ -4595,7 +4610,7 @@
     "exEn": "Many teens have a good time during the summer holiday.",
     "exZh": "搭配义：玩得愉快。完形/写作中需整组记忆，不可拆分。",
     "ctx": "预测 · 固定搭配",
-    "id": 306
+    "id": 307
   },
   {
     "cat": "idiom",
@@ -4610,7 +4625,7 @@
     "exEn": "Keep calm and carry on.",
     "exZh": "保持冷静，继续前行。 — 谚语/习语需整句背诵。",
     "ctx": "2019成都中考 · 阅读/完形 · 习语/谚语",
-    "id": 307
+    "id": 308
   },
   {
     "cat": "idiom",
@@ -4625,7 +4640,7 @@
     "exEn": "It's a bit windy today.",
     "exZh": "今天有点风。（英式轻描淡写） — 谚语/习语需整句背诵。",
     "ctx": "2019成都中考 · 阅读/完形 · 习语/谚语",
-    "id": 308
+    "id": 309
   },
   {
     "cat": "idiom",
@@ -4640,7 +4655,7 @@
     "exEn": "Failure is the mother of success.",
     "exZh": "失败是成功之母。 — 谚语/习语需整句背诵。",
     "ctx": "2018成都中考 · 阅读/完形 · 习语/谚语",
-    "id": 309
+    "id": 310
   },
   {
     "cat": "idiom",
@@ -4655,7 +4670,7 @@
     "exEn": "It's up to you.",
     "exZh": "由你决定。 — 谚语/习语需整句背诵。",
     "ctx": "2018成都中考 · 阅读/完形 · 习语/谚语",
-    "id": 310
+    "id": 311
   },
   {
     "cat": "idiom",
@@ -4670,7 +4685,7 @@
     "exEn": "Do to others what you wish to be done to you.",
     "exZh": "己所不欲，勿施于人。 — 谚语/习语需整句背诵。",
     "ctx": "2020成都中考 · 阅读/完形 · 习语/谚语",
-    "id": 311
+    "id": 312
   },
   {
     "cat": "idiom",
@@ -4685,7 +4700,7 @@
     "exEn": "In the company of two others, I can always find one worthy of being my teacher.",
     "exZh": "三人行必有我师。 — 谚语/习语需整句背诵。",
     "ctx": "2020成都中考 · 阅读/完形 · 习语/谚语",
-    "id": 312
+    "id": 313
   },
   {
     "cat": "idiom",
@@ -4700,7 +4715,7 @@
     "exEn": "Good rain knows its time right.",
     "exZh": "好雨知时节。 — 谚语/习语需整句背诵。",
     "ctx": "2020成都中考 · 阅读/完形 · 习语/谚语",
-    "id": 313
+    "id": 314
   },
   {
     "cat": "idiom",
@@ -4715,7 +4730,7 @@
     "exEn": "Impervious to wind, rain or shine, I'll have my own will.",
     "exZh": "一蓑烟雨任平生。 — 谚语/习语需整句背诵。",
     "ctx": "2026成都中考 · 阅读/完形 · 习语/谚语",
-    "id": 314
+    "id": 315
   },
   {
     "cat": "idiom",
@@ -4730,7 +4745,7 @@
     "exEn": "\"lose heart,\" said the teacher with a smile.",
     "exZh": "灰心丧气 — 谚语/习语需整句背诵。",
     "ctx": "2026成都中考 · 阅读/完形 · 习语/谚语",
-    "id": 315
+    "id": 316
   },
   {
     "cat": "idiom",
@@ -4745,7 +4760,7 @@
     "exEn": "\"catch a cold,\" said the teacher with a smile.",
     "exZh": "感冒（谜语：catch but can't throw） — 谚语/习语需整句背诵。",
     "ctx": "2026成都中考 · 阅读/完形 · 习语/谚语",
-    "id": 316
+    "id": 317
   },
   {
     "cat": "idiom",
@@ -4760,7 +4775,7 @@
     "exEn": "You got it on the first try.",
     "exZh": "你一次就猜中了。 — 谚语/习语需整句背诵。",
     "ctx": "2026成都中考 · 阅读/完形 · 习语/谚语",
-    "id": 317
+    "id": 318
   },
   {
     "cat": "idiom",
@@ -4775,7 +4790,7 @@
     "exEn": "What a pity!",
     "exZh": "真遗憾！ — 谚语/习语需整句背诵。",
     "ctx": "2026成都中考 · 阅读/完形 · 习语/谚语",
-    "id": 318
+    "id": 319
   },
   {
     "cat": "idiom",
@@ -4790,7 +4805,7 @@
     "exEn": "Red sky at night, sailor's delight.",
     "exZh": "晚霞行千里。 — 谚语/习语需整句背诵。",
     "ctx": "2024成都中考 · 阅读/完形 · 习语/谚语",
-    "id": 319
+    "id": 320
   },
   {
     "cat": "idiom",
@@ -4805,7 +4820,7 @@
     "exEn": "All that glitters isn't gold.",
     "exZh": "发光的不都是金子。 — 谚语/习语需整句背诵。",
     "ctx": "2024成都中考 · 阅读/完形 · 习语/谚语",
-    "id": 320
+    "id": 321
   },
   {
     "cat": "idiom",
@@ -4820,7 +4835,7 @@
     "exEn": "Good, better, best. Never let it rest.",
     "exZh": "好更好最好，永不停歇。 — 谚语/习语需整句背诵。",
     "ctx": "2021成都中考 · 阅读/完形 · 习语/谚语",
-    "id": 321
+    "id": 322
   },
   {
     "cat": "idiom",
@@ -4835,7 +4850,7 @@
     "exEn": "Life is like a horse, and either you ride it or it rides you.",
     "exZh": "生活像匹马，不是你骑它就是它骑你。 — 谚语/习语需整句背诵。",
     "ctx": "2020成都中考 · 阅读/完形 · 习语/谚语",
-    "id": 322
+    "id": 323
   },
   {
     "cat": "idiom",
@@ -4850,7 +4865,7 @@
     "exEn": "\"feed the parrots,\" said the teacher with a smile.",
     "exZh": "顾好生活中真正重要的事 — 谚语/习语需整句背诵。",
     "ctx": "2020成都中考 · 阅读/完形 · 习语/谚语",
-    "id": 323
+    "id": 324
   },
   {
     "cat": "idiom",
@@ -4865,7 +4880,7 @@
     "exEn": "\"Internet-famous place,\" said the teacher with a smile.",
     "exZh": "网红打卡地 — 谚语/习语需整句背诵。",
     "ctx": "2020成都中考 · 阅读/完形 · 习语/谚语",
-    "id": 324
+    "id": 325
   },
   {
     "cat": "idiom",
@@ -4880,7 +4895,7 @@
     "exEn": "\"snail mail,\" said the teacher with a smile.",
     "exZh": "纸质慢邮 — 谚语/习语需整句背诵。",
     "ctx": "2023成都中考 · 阅读/完形 · 习语/谚语",
-    "id": 325
+    "id": 326
   },
   {
     "cat": "idiom",
@@ -4895,7 +4910,7 @@
     "exEn": "\"feel at home,\" said the teacher with a smile.",
     "exZh": "宾至如归 — 谚语/习语需整句背诵。",
     "ctx": "2025成都中考 · 阅读/完形 · 习语/谚语",
-    "id": 326
+    "id": 327
   },
   {
     "cat": "idiom",
@@ -4910,7 +4925,7 @@
     "exEn": "\"step off / step on,\" said the teacher with a smile.",
     "exZh": "走下/走上平台 — 谚语/习语需整句背诵。",
     "ctx": "2019成都中考 · 阅读/完形 · 习语/谚语",
-    "id": 327
+    "id": 328
   },
   {
     "cat": "idiom",
@@ -4925,7 +4940,7 @@
     "exEn": "\"think alike,\" said the teacher with a smile.",
     "exZh": "英雄所见略同 — 谚语/习语需整句背诵。",
     "ctx": "2020成都中考 · 阅读/完形 · 习语/谚语",
-    "id": 328
+    "id": 329
   },
   {
     "cat": "idiom",
@@ -4940,7 +4955,7 @@
     "exEn": "Every cloud has a silver lining.",
     "exZh": "黑暗中总有一线光明。 — 谚语/习语需整句背诵。",
     "ctx": "预测 · 习语/谚语",
-    "id": 329
+    "id": 330
   },
   {
     "cat": "idiom",
@@ -4955,7 +4970,7 @@
     "exEn": "Actions speak louder than words.",
     "exZh": "行动胜于言语。 — 谚语/习语需整句背诵。",
     "ctx": "预测 · 习语/谚语",
-    "id": 330
+    "id": 331
   },
   {
     "cat": "idiom",
@@ -4970,7 +4985,7 @@
     "exEn": "Practice makes perfect.",
     "exZh": "熟能生巧。 — 谚语/习语需整句背诵。",
     "ctx": "预测 · 习语/谚语",
-    "id": 331
+    "id": 332
   },
   {
     "cat": "idiom",
@@ -4985,7 +5000,7 @@
     "exEn": "Where there is a will, there is a way.",
     "exZh": "有志者事竟成。 — 谚语/习语需整句背诵。",
     "ctx": "预测 · 习语/谚语",
-    "id": 332
+    "id": 333
   },
   {
     "cat": "idiom",
@@ -5000,7 +5015,7 @@
     "exEn": "It is never too late to learn.",
     "exZh": "活到老学到老。 — 谚语/习语需整句背诵。",
     "ctx": "预测 · 习语/谚语",
-    "id": 333
+    "id": 334
   },
   {
     "cat": "idiom",
@@ -5015,7 +5030,7 @@
     "exEn": "The early bird catches the worm.",
     "exZh": "早起的鸟儿有虫吃。 — 谚语/习语需整句背诵。",
     "ctx": "预测 · 习语/谚语",
-    "id": 334
+    "id": 335
   },
   {
     "cat": "idiom",
@@ -5030,7 +5045,7 @@
     "exEn": "Better late than never.",
     "exZh": "迟做总比不做好。 — 谚语/习语需整句背诵。",
     "ctx": "预测 · 习语/谚语",
-    "id": 335
+    "id": 336
   },
   {
     "cat": "idiom",
@@ -5045,7 +5060,7 @@
     "exEn": "No pain, no gain.",
     "exZh": "不劳无获。 — 谚语/习语需整句背诵。",
     "ctx": "预测 · 习语/谚语",
-    "id": 336
+    "id": 337
   },
   {
     "cat": "idiom",
@@ -5060,7 +5075,7 @@
     "exEn": "Time is money.",
     "exZh": "时间就是金钱。 — 谚语/习语需整句背诵。",
     "ctx": "预测 · 习语/谚语",
-    "id": 337
+    "id": 338
   },
   {
     "cat": "idiom",
@@ -5075,7 +5090,7 @@
     "exEn": "Honesty is the best policy.",
     "exZh": "诚实是上策。 — 谚语/习语需整句背诵。",
     "ctx": "预测 · 习语/谚语",
-    "id": 338
+    "id": 339
   },
   {
     "cat": "idiom",
@@ -5090,7 +5105,7 @@
     "exEn": "Rome wasn't built in a day.",
     "exZh": "罗马不是一天建成的。 — 谚语/习语需整句背诵。",
     "ctx": "预测 · 习语/谚语",
-    "id": 339
+    "id": 340
   },
   {
     "cat": "idiom",
@@ -5105,7 +5120,7 @@
     "exEn": "When in Rome, do as the Romans do.",
     "exZh": "入乡随俗。 — 谚语/习语需整句背诵。",
     "ctx": "预测 · 习语/谚语",
-    "id": 340
+    "id": 341
   },
   {
     "cat": "idiom",
@@ -5120,7 +5135,7 @@
     "exEn": "A friend in need is a friend indeed.",
     "exZh": "患难见真情。 — 谚语/习语需整句背诵。",
     "ctx": "预测 · 习语/谚语",
-    "id": 341
+    "id": 342
   },
   {
     "cat": "idiom",
@@ -5135,7 +5150,7 @@
     "exEn": "The more, the merrier.",
     "exZh": "人越多越热闹。 — 谚语/习语需整句背诵。",
     "ctx": "预测 · 习语/谚语",
-    "id": 342
+    "id": 343
   },
   {
     "cat": "idiom",
@@ -5150,7 +5165,7 @@
     "exEn": "Easier said than done.",
     "exZh": "说起来容易做起来难。 — 谚语/习语需整句背诵。",
     "ctx": "预测 · 习语/谚语",
-    "id": 343
+    "id": 344
   },
   {
     "cat": "idiom",
@@ -5165,7 +5180,7 @@
     "exEn": "Out of sight, out of mind.",
     "exZh": "眼不见心不念。 — 谚语/习语需整句背诵。",
     "ctx": "预测 · 习语/谚语",
-    "id": 344
+    "id": 345
   },
   {
     "cat": "idiom",
@@ -5180,7 +5195,7 @@
     "exEn": "\"Old-fashioned girl,\" said the teacher with a smile.",
     "exZh": "守旧派（自嘲） — 谚语/习语需整句背诵。",
     "ctx": "2026成都中考 · 阅读/完形 · 习语/谚语",
-    "id": 345
+    "id": 346
   },
   {
     "cat": "idiom",
@@ -5195,7 +5210,7 @@
     "exEn": "\"find a middle ground,\" said the teacher with a smile.",
     "exZh": "找折中方案 — 谚语/习语需整句背诵。",
     "ctx": "2026成都中考 · 阅读/完形 · 习语/谚语",
-    "id": 346
+    "id": 347
   },
   {
     "cat": "idiom",
@@ -5210,7 +5225,7 @@
     "exEn": "\"hit on the nose,\" said the teacher with a smile.",
     "exZh": "一针见血 — 谚语/习语需整句背诵。",
     "ctx": "2022成都中考 · 阅读/完形 · 习语/谚语",
-    "id": 347
+    "id": 348
   },
   {
     "cat": "idiom",
@@ -5225,7 +5240,7 @@
     "exEn": "\"doorway to the world,\" said the teacher with a smile.",
     "exZh": "通向世界的入口 — 谚语/习语需整句背诵。",
     "ctx": "2022成都中考 · 阅读/完形 · 习语/谚语",
-    "id": 348
+    "id": 349
   },
   {
     "cat": "polysemy",
@@ -5240,7 +5255,7 @@
     "exEn": "The light from the riverboat….",
     "exZh": "常义：银行；僻义：河岸（常银行→僻河岸）",
     "ctx": "2020成都中考 · 阅读/完形 · 熟词僻义",
-    "id": 349
+    "id": 350
   },
   {
     "cat": "polysemy",
@@ -5255,7 +5270,7 @@
     "exEn": "Good Manners, Beautiful Parks.",
     "exZh": "常义：好的；僻义：罚款（文明游园语境）（常好的→僻罚款（文明游园语境））",
     "ctx": "2026成都中考 · 阅读/完形 · 熟词僻义",
-    "id": 350
+    "id": 351
   },
   {
     "cat": "polysemy",
@@ -5270,7 +5285,7 @@
     "exEn": "homestay business runs successfully.",
     "exZh": "常义：跑；僻义：经营/运转（常跑→僻经营/运转）",
     "ctx": "2025成都中考 · 阅读/完形 · 熟词僻义",
-    "id": 351
+    "id": 352
   },
   {
     "cat": "polysemy",
@@ -5285,7 +5300,7 @@
     "exEn": "A book has words but never speaks.",
     "exZh": "常义：书；僻义：预订（常书→僻预订）",
     "ctx": "2026成都中考 · 阅读/完形 · 熟词僻义",
-    "id": 352
+    "id": 353
   },
   {
     "cat": "polysemy",
@@ -5300,7 +5315,7 @@
     "exEn": "What can you catch but not throw?.",
     "exZh": "常义：抓住；僻义：染上（catch a cold）（常抓住→僻染上（catch a cold））",
     "ctx": "2026成都中考 · 阅读/完形 · 熟词僻义",
-    "id": 353
+    "id": 354
   },
   {
     "cat": "polysemy",
@@ -5315,7 +5330,7 @@
     "exEn": "Lai's hard work touched her son.",
     "exZh": "常义：触摸；僻义：感动（常触摸→僻感动）",
     "ctx": "2021成都中考 · 阅读/完形 · 熟词僻义",
-    "id": 354
+    "id": 355
   },
   {
     "cat": "polysemy",
@@ -5330,7 +5345,7 @@
     "exEn": "book whose cover has a picture.",
     "exZh": "常义：覆盖；僻义：封面（常覆盖→僻封面）",
     "ctx": "2020成都中考 · 阅读/完形 · 熟词僻义",
-    "id": 355
+    "id": 356
   },
   {
     "cat": "polysemy",
@@ -5345,7 +5360,7 @@
     "exEn": "regarded as an Internet-famous place.",
     "exZh": "常义：看待；僻义：被视为（常看待→僻被视为）",
     "ctx": "2020成都中考 · 阅读/完形 · 熟词僻义",
-    "id": 356
+    "id": 357
   },
   {
     "cat": "polysemy",
@@ -5360,7 +5375,7 @@
     "exEn": "perfect shot of a tiger.",
     "exZh": "常义：射击；僻义：拍摄（perfect shot）（常射击→僻拍摄（perfect shot））",
     "ctx": "2026成都中考 · 阅读/完形 · 熟词僻义",
-    "id": 357
+    "id": 358
   },
   {
     "cat": "polysemy",
@@ -5375,7 +5390,7 @@
     "exEn": "lightning strikes trees.",
     "exZh": "常义：打击；僻义：雷击（常打击→僻雷击）",
     "ctx": "2025成都中考 · 阅读/完形 · 熟词僻义",
-    "id": 358
+    "id": 359
   },
   {
     "cat": "polysemy",
@@ -5390,7 +5405,7 @@
     "exEn": "stays safe and sound.",
     "exZh": "常义：声音；僻义：安然无恙（safe and sound）（常声音→僻安然无恙（safe and sound））",
     "ctx": "2025成都中考 · 阅读/完形 · 熟词僻义",
-    "id": 359
+    "id": 360
   },
   {
     "cat": "polysemy",
@@ -5405,7 +5420,7 @@
     "exEn": "In the company of two others….",
     "exZh": "常义：公司；僻义：陪伴（常公司→僻陪伴）",
     "ctx": "2020成都中考 · 阅读/完形 · 熟词僻义",
-    "id": 360
+    "id": 361
   },
   {
     "cat": "polysemy",
@@ -5420,7 +5435,7 @@
     "exEn": "To figure this out….",
     "exZh": "常义：数字；僻义：认为/弄清楚（常数字→僻认为/弄清楚）",
     "ctx": "2018成都中考 · 阅读/完形 · 熟词僻义",
-    "id": 361
+    "id": 362
   },
   {
     "cat": "polysemy",
@@ -5435,7 +5450,7 @@
     "exEn": "don't express strong feelings.",
     "exZh": "常义：表达；僻义：快车（语境：strong feelings）（常表达→僻快车（语境：strong feelings））",
     "ctx": "2019成都中考 · 阅读/完形 · 熟词僻义",
-    "id": 362
+    "id": 363
   },
   {
     "cat": "polysemy",
@@ -5450,7 +5465,7 @@
     "exEn": "presenting it to the kids.",
     "exZh": "常义：礼物/现在；僻义：呈现（常礼物/现在→僻呈现）",
     "ctx": "2026成都中考 · 阅读/完形 · 熟词僻义",
-    "id": 363
+    "id": 364
   },
   {
     "cat": "polysemy",
@@ -5465,7 +5480,7 @@
     "exEn": "42-kilometer race.",
     "exZh": "常义：比赛；僻义：民族/马拉松（常比赛→僻民族/马拉松）",
     "ctx": "2022成都中考 · 阅读/完形 · 熟词僻义",
-    "id": 364
+    "id": 365
   },
   {
     "cat": "polysemy",
@@ -5480,7 +5495,7 @@
     "exEn": "spring rain.",
     "exZh": "常义：春天；僻义：弹簧/春雨（常春天→僻弹簧/春雨）",
     "ctx": "2020成都中考 · 阅读/完形 · 熟词僻义",
-    "id": 365
+    "id": 366
   },
   {
     "cat": "polysemy",
@@ -5495,7 +5510,7 @@
     "exEn": "a big speech.",
     "exZh": "常义：地址；僻义：演讲（常地址→僻演讲）",
     "ctx": "2026成都中考 · 阅读/完形 · 熟词僻义",
-    "id": 366
+    "id": 367
   },
   {
     "cat": "polysemy",
@@ -5510,7 +5525,7 @@
     "exEn": "Chinese character 间.",
     "exZh": "常义：角色；僻义：汉字/品格（常角色→僻汉字/品格）",
     "ctx": "2025成都中考 · 阅读/完形 · 熟词僻义",
-    "id": 367
+    "id": 368
   },
   {
     "cat": "polysemy",
@@ -5525,7 +5540,7 @@
     "exEn": "get interest from the bank.",
     "exZh": "常义：兴趣；僻义：利息（常兴趣→僻利息）",
     "ctx": "2023成都中考 · 阅读/完形 · 熟词僻义",
-    "id": 368
+    "id": 369
   },
   {
     "cat": "polysemy",
@@ -5540,7 +5555,7 @@
     "exEn": "experiences in China.",
     "exZh": "常义：经历；僻义：经验/体验（常经历→僻经验/体验）",
     "ctx": "2025成都中考 · 阅读/完形 · 熟词僻义",
-    "id": 369
+    "id": 370
   },
   {
     "cat": "polysemy",
@@ -5555,7 +5570,7 @@
     "exEn": "lessons are not only about learning.",
     "exZh": "常义：课；僻义：教训（常课→僻教训）",
     "ctx": "2025成都中考 · 阅读/完形 · 熟词僻义",
-    "id": 370
+    "id": 371
   },
   {
     "cat": "polysemy",
@@ -5570,7 +5585,7 @@
     "exEn": "events were organised.",
     "exZh": "常义：事件；僻义：活动（常事件→僻活动）",
     "ctx": "2025成都中考 · 阅读/完形 · 熟词僻义",
-    "id": 371
+    "id": 372
   },
   {
     "cat": "polysemy",
@@ -5585,7 +5600,7 @@
     "exEn": "fitted into the university.",
     "exZh": "常义：适合；僻义：融入（fit into）（常适合→僻融入（fit into））",
     "ctx": "2025成都中考 · 阅读/完形 · 熟词僻义",
-    "id": 372
+    "id": 373
   },
   {
     "cat": "polysemy",
@@ -5600,7 +5615,7 @@
     "exEn": "He tried his best but failed.",
     "exZh": "常义：失败；僻义：未能（lock failed）（常失败→僻未能（lock failed））",
     "ctx": "2025成都中考 · 阅读/完形 · 熟词僻义",
-    "id": 373
+    "id": 374
   },
   {
     "cat": "polysemy",
@@ -5615,7 +5630,7 @@
     "exEn": "The care I have received.",
     "exZh": "常义：收到；僻义：得到（care received）（常收到→僻得到（care received））",
     "ctx": "2025成都中考 · 阅读/完形 · 熟词僻义",
-    "id": 374
+    "id": 375
   },
   {
     "cat": "polysemy",
@@ -5630,7 +5645,7 @@
     "exEn": "noticed her worries.",
     "exZh": "常义：注意到；僻义：通知/告示（常注意到→僻通知/告示）",
     "ctx": "2025成都中考 · 阅读/完形 · 熟词僻义",
-    "id": 375
+    "id": 376
   },
   {
     "cat": "polysemy",
@@ -5645,7 +5660,7 @@
     "exEn": "rule of repairing the old as old.",
     "exZh": "常义：规则；僻义：统治/修旧如旧（常规则→僻统治/修旧如旧）",
     "ctx": "2025成都中考 · 阅读/完形 · 熟词僻义",
-    "id": 376
+    "id": 377
   },
   {
     "cat": "polysemy",
@@ -5660,7 +5675,7 @@
     "exEn": "The next challenge thing.",
     "exZh": "常义：挑战；僻义：难题（thing to find a way）（常挑战→僻难题（thing to find a way））",
     "ctx": "2026成都中考 · 阅读/完形 · 熟词僻义",
-    "id": 377
+    "id": 378
   },
   {
     "cat": "polysemy",
@@ -5675,7 +5690,7 @@
     "exEn": "colors will keep.",
     "exZh": "常义：保持；僻义：保存（colors will keep）（常保持→僻保存（colors will keep））",
     "ctx": "2026成都中考 · 阅读/完形 · 熟词僻义",
-    "id": 378
+    "id": 379
   },
   {
     "cat": "polysemy",
@@ -5690,7 +5705,7 @@
     "exEn": "British sense of power.",
     "exZh": "常义：力量/权力；僻义：能（语境）（常力量/权力→僻能（语境））",
     "ctx": "2019成都中考 · 阅读/完形 · 熟词僻义",
-    "id": 379
+    "id": 380
   },
   {
     "cat": "polysemy",
@@ -5705,7 +5720,7 @@
     "exEn": "clever people win at last.",
     "exZh": "常义：赢；僻义：最终成功（常赢→僻最终成功）",
     "ctx": "2019成都中考 · 阅读/完形 · 熟词僻义",
-    "id": 380
+    "id": 381
   },
   {
     "cat": "polysemy",
@@ -5720,7 +5735,7 @@
     "exEn": "enough to hold them.",
     "exZh": "常义：握住；僻义：容纳/举行（常握住→僻容纳/举行）",
     "ctx": "2020成都中考 · 阅读/完形 · 熟词僻义",
-    "id": 381
+    "id": 382
   },
   {
     "cat": "polysemy",
@@ -5735,7 +5750,7 @@
     "exEn": "rope tied to their legs.",
     "exZh": "常义：系/领带；僻义：绑住（常系/领带→僻绑住）",
     "ctx": "2020成都中考 · 阅读/完形 · 熟词僻义",
-    "id": 382
+    "id": 383
   },
   {
     "cat": "polysemy",
@@ -5750,7 +5765,7 @@
     "exEn": "give a speech in public.",
     "exZh": "常义：演讲；僻义：说话能力（常演讲→僻说话能力）",
     "ctx": "2018成都中考 · 阅读/完形 · 熟词僻义",
-    "id": 383
+    "id": 384
   },
   {
     "cat": "polysemy",
@@ -5765,7 +5780,7 @@
     "exEn": "strong light may hurt eyes.",
     "exZh": "常义：光/灯；僻义：轻的/浅色的（常光/灯→僻轻的/浅色的）",
     "ctx": "2026成都中考 · 阅读/完形 · 熟词僻义",
-    "id": 384
+    "id": 385
   },
   {
     "cat": "polysemy",
@@ -5780,7 +5795,7 @@
     "exEn": "plants send out sounds.",
     "exZh": "常义：植物；僻义：工厂/种植（常植物→僻工厂/种植）",
     "ctx": "2023成都中考 · 阅读/完形 · 熟词僻义",
-    "id": 385
+    "id": 386
   },
   {
     "cat": "polysemy",
@@ -5795,7 +5810,7 @@
     "exEn": "telling the differences.",
     "exZh": "常义：告诉；僻义：分辨（tell differences）（常告诉→僻分辨（tell differences））",
     "ctx": "2023成都中考 · 阅读/完形 · 熟词僻义",
-    "id": 386
+    "id": 387
   },
   {
     "cat": "polysemy",
@@ -5810,7 +5825,7 @@
     "exEn": "led to a discussion.",
     "exZh": "常义：领导；僻义：导致（led to discussion）（常领导→僻导致（led to discussion））",
     "ctx": "2024成都中考 · 阅读/完形 · 熟词僻义",
-    "id": 387
+    "id": 388
   },
   {
     "cat": "polysemy",
@@ -5825,7 +5840,7 @@
     "exEn": "last through the ages.",
     "exZh": "常义：年龄；僻义：时代（through the ages）（常年龄→僻时代（through the ages））",
     "ctx": "2024成都中考 · 阅读/完形 · 熟词僻义",
-    "id": 388
+    "id": 389
   },
   {
     "cat": "polysemy",
@@ -5840,7 +5855,7 @@
     "exEn": "difficult to perform.",
     "exZh": "常义：表演；僻义：运行/表现（常表演→僻运行/表现）",
     "ctx": "2024成都中考 · 阅读/完形 · 熟词僻义",
-    "id": 389
+    "id": 390
   },
   {
     "cat": "polysemy",
@@ -5855,7 +5870,7 @@
     "exEn": "get pleasure from plays.",
     "exZh": "常义：请；僻义：使高兴（pleasure）（常请→僻使高兴（pleasure））",
     "ctx": "2024成都中考 · 阅读/完形 · 熟词僻义",
-    "id": 390
+    "id": 391
   },
   {
     "cat": "polysemy",
@@ -5870,7 +5885,7 @@
     "exEn": "job in the big city.",
     "exZh": "常义：外面；僻义：在国外/外出（常外面→僻在国外/外出）",
     "ctx": "2025成都中考 · 阅读/完形 · 熟词僻义",
-    "id": 391
+    "id": 392
   },
   {
     "cat": "polysemy",
@@ -5885,7 +5900,7 @@
     "exEn": "after learning about changes.",
     "exZh": "常义：在…之后；僻义：鉴于/由于（常在…之后→僻鉴于/由于）",
     "ctx": "2025成都中考 · 阅读/完形 · 熟词僻义",
-    "id": 392
+    "id": 393
   },
   {
     "cat": "polysemy",
@@ -5900,7 +5915,7 @@
     "exEn": "when they are free.",
     "exZh": "常义：忙碌的；僻义：繁忙的（反义语境）（常忙碌的→僻繁忙的（反义语境））",
     "ctx": "2025成都中考 · 阅读/完形 · 熟词僻义",
-    "id": 393
+    "id": 394
   },
   {
     "cat": "chart",
@@ -5915,7 +5930,7 @@
     "exEn": "According to the chart, \"survey\" is a key label students must read.",
     "exZh": "图表中出现「survey」(调查)，读懂图例是得分关键。",
     "ctx": "2021成都中考 · 阅读/完形 · 图表阅读",
-    "id": 394
+    "id": 395
   },
   {
     "cat": "chart",
@@ -5930,7 +5945,7 @@
     "exEn": "According to the chart, \"percentage\" is a key label students must read.",
     "exZh": "图表中出现「percentage」(百分比)，读懂图例是得分关键。",
     "ctx": "图表 · 图表阅读",
-    "id": 395
+    "id": 396
   },
   {
     "cat": "chart",
@@ -5945,7 +5960,7 @@
     "exEn": "According to the chart, \"diagram\" is a key label students must read.",
     "exZh": "图表中出现「diagram」(示意图)，读懂图例是得分关键。",
     "ctx": "2021成都中考 · 阅读/完形 · 图表阅读",
-    "id": 396
+    "id": 397
   },
   {
     "cat": "chart",
@@ -5960,7 +5975,7 @@
     "exEn": "According to the chart, \"rank / ranking\" is a key label students must read.",
     "exZh": "图表中出现「rank / ranking」(排名)，读懂图例是得分关键。",
     "ctx": "2023成都中考 · 阅读/完形 · 图表阅读",
-    "id": 397
+    "id": 398
   },
   {
     "cat": "chart",
@@ -5975,7 +5990,7 @@
     "exEn": "According to the chart, \"motivation\" is a key label students must read.",
     "exZh": "图表中出现「motivation」(动机)，读懂图例是得分关键。",
     "ctx": "2023成都中考 · 阅读/完形 · 图表阅读",
-    "id": 398
+    "id": 399
   },
   {
     "cat": "chart",
@@ -5990,7 +6005,7 @@
     "exEn": "According to the chart, \"venue\" is a key label students must read.",
     "exZh": "图表中出现「venue」(场地)，读懂图例是得分关键。",
     "ctx": "2023成都中考 · 阅读/完形 · 图表阅读",
-    "id": 399
+    "id": 400
   },
   {
     "cat": "chart",
@@ -6005,7 +6020,7 @@
     "exEn": "According to the chart, \"household chores\" is a key label students must read.",
     "exZh": "图表中出现「household chores」(家务)，读懂图例是得分关键。",
     "ctx": "2021成都中考 · 阅读/完形 · 图表阅读",
-    "id": 400
+    "id": 401
   },
   {
     "cat": "chart",
@@ -6020,7 +6035,7 @@
     "exEn": "According to the chart, \"childcare\" is a key label students must read.",
     "exZh": "图表中出现「childcare」(育儿)，读懂图例是得分关键。",
     "ctx": "2021成都中考 · 阅读/完形 · 图表阅读",
-    "id": 401
+    "id": 402
   },
   {
     "cat": "chart",
@@ -6035,7 +6050,7 @@
     "exEn": "According to the chart, \"unpaid work\" is a key label students must read.",
     "exZh": "图表中出现「unpaid work」(无偿劳动)，读懂图例是得分关键。",
     "ctx": "2021成都中考 · 阅读/完形 · 图表阅读",
-    "id": 402
+    "id": 403
   },
   {
     "cat": "chart",
@@ -6050,7 +6065,7 @@
     "exEn": "According to the chart, \"walking / running / ping-pong\" is a key label students must read.",
     "exZh": "图表中出现「walking / running / ping-pong」(运动项目)，读懂图例是得分关键。",
     "ctx": "2023成都中考 · 阅读/完形 · 图表阅读",
-    "id": 403
+    "id": 404
   },
   {
     "cat": "chart",
@@ -6065,7 +6080,7 @@
     "exEn": "According to the chart, \"greenways and parks\" is a key label students must read.",
     "exZh": "图表中出现「greenways and parks」(绿道公园)，读懂图例是得分关键。",
     "ctx": "2023成都中考 · 阅读/完形 · 图表阅读",
-    "id": 404
+    "id": 405
   },
   {
     "cat": "chart",
@@ -6080,7 +6095,7 @@
     "exEn": "According to the chart, \"smart watches / sports apps\" is a key label students must read.",
     "exZh": "图表中出现「smart watches / sports apps」(智能设备)，读懂图例是得分关键。",
     "ctx": "2023成都中考 · 阅读/完形 · 图表阅读",
-    "id": 405
+    "id": 406
   },
   {
     "cat": "chart",
@@ -6095,7 +6110,7 @@
     "exEn": "According to the chart, \"reasons for exercise\" is a key label students must read.",
     "exZh": "图表中出现「reasons for exercise」(锻炼原因)，读懂图例是得分关键。",
     "ctx": "2023成都中考 · 阅读/完形 · 图表阅读",
-    "id": 406
+    "id": 407
   },
   {
     "cat": "chart",
@@ -6110,7 +6125,7 @@
     "exEn": "According to the chart, \"virtues\" is a key label students must read.",
     "exZh": "图表中出现「virtues」(美德)，读懂图例是得分关键。",
     "ctx": "2020成都中考 · 阅读/完形 · 图表阅读",
-    "id": 407
+    "id": 408
   },
   {
     "cat": "chart",
@@ -6125,7 +6140,7 @@
     "exEn": "According to the chart, \"ren (kindness)\" is a key label students must read.",
     "exZh": "图表中出现「ren (kindness)」(仁)，读懂图例是得分关键。",
     "ctx": "2020成都中考 · 阅读/完形 · 图表阅读",
-    "id": 408
+    "id": 409
   },
   {
     "cat": "chart",
@@ -6140,7 +6155,7 @@
     "exEn": "According to the chart, \"yi (fairness)\" is a key label students must read.",
     "exZh": "图表中出现「yi (fairness)」(义)，读懂图例是得分关键。",
     "ctx": "2020成都中考 · 阅读/完形 · 图表阅读",
-    "id": 409
+    "id": 410
   },
   {
     "cat": "chart",
@@ -6155,7 +6170,7 @@
     "exEn": "According to the chart, \"li (ceremony)\" is a key label students must read.",
     "exZh": "图表中出现「li (ceremony)」(礼)，读懂图例是得分关键。",
     "ctx": "2020成都中考 · 阅读/完形 · 图表阅读",
-    "id": 410
+    "id": 411
   },
   {
     "cat": "chart",
@@ -6170,7 +6185,7 @@
     "exEn": "According to the chart, \"zhi (knowledge)\" is a key label students must read.",
     "exZh": "图表中出现「zhi (knowledge)」(智)，读懂图例是得分关键。",
     "ctx": "2020成都中考 · 阅读/完形 · 图表阅读",
-    "id": 411
+    "id": 412
   },
   {
     "cat": "chart",
@@ -6185,7 +6200,7 @@
     "exEn": "According to the chart, \"xin (trust)\" is a key label students must read.",
     "exZh": "图表中出现「xin (trust)」(信)，读懂图例是得分关键。",
     "ctx": "2020成都中考 · 阅读/完形 · 图表阅读",
-    "id": 412
+    "id": 413
   },
   {
     "cat": "chart",
@@ -6200,7 +6215,7 @@
     "exEn": "According to the chart, \"xiao\" is a key label students must read.",
     "exZh": "图表中出现「xiao」(孝)，读懂图例是得分关键。",
     "ctx": "2020成都中考 · 阅读/完形 · 图表阅读",
-    "id": 413
+    "id": 414
   },
   {
     "cat": "chart",
@@ -6215,7 +6230,7 @@
     "exEn": "According to the chart, \"Lunyu\" is a key label students must read.",
     "exZh": "图表中出现「Lunyu」(论语)，读懂图例是得分关键。",
     "ctx": "2020成都中考 · 阅读/完形 · 图表阅读",
-    "id": 414
+    "id": 415
   },
   {
     "cat": "chart",
@@ -6230,7 +6245,7 @@
     "exEn": "According to the chart, \"Confucius\" is a key label students must read.",
     "exZh": "图表中出现「Confucius」(孔子)，读懂图例是得分关键。",
     "ctx": "2020成都中考 · 阅读/完形 · 图表阅读",
-    "id": 415
+    "id": 416
   },
   {
     "cat": "chart",
@@ -6245,7 +6260,7 @@
     "exEn": "According to the chart, \"repair work\" is a key label students must read.",
     "exZh": "图表中出现「repair work」(修复工作)，读懂图例是得分关键。",
     "ctx": "2026成都中考 · 阅读/完形 · 图表阅读",
-    "id": 416
+    "id": 417
   },
   {
     "cat": "chart",
@@ -6260,7 +6275,7 @@
     "exEn": "According to the chart, \"knocker-uppers\" is a key label students must read.",
     "exZh": "图表中出现「knocker-uppers」(敲窗叫醒者)，读懂图例是得分关键。",
     "ctx": "2026成都中考 · 阅读/完形 · 图表阅读",
-    "id": 417
+    "id": 418
   },
   {
     "cat": "chart",
@@ -6275,7 +6290,7 @@
     "exEn": "According to the chart, \"Industrial Revolution\" is a key label students must read.",
     "exZh": "图表中出现「Industrial Revolution」(工业革命)，读懂图例是得分关键。",
     "ctx": "2026成都中考 · 阅读/完形 · 图表阅读",
-    "id": 418
+    "id": 419
   },
   {
     "cat": "chart",
@@ -6290,7 +6305,7 @@
     "exEn": "According to the chart, \"bedtime / wind down\" is a key label students must read.",
     "exZh": "图表中出现「bedtime / wind down」(就寝放松)，读懂图例是得分关键。",
     "ctx": "2026成都中考 · 阅读/完形 · 图表阅读",
-    "id": 419
+    "id": 420
   },
   {
     "cat": "chart",
@@ -6305,7 +6320,7 @@
     "exEn": "According to the chart, \"two periods of sleeping\" is a key label students must read.",
     "exZh": "图表中出现「two periods of sleeping」(分段睡眠)，读懂图例是得分关键。",
     "ctx": "2026成都中考 · 阅读/完形 · 图表阅读",
-    "id": 420
+    "id": 421
   },
   {
     "cat": "chart",
@@ -6320,7 +6335,7 @@
     "exEn": "According to the chart, \"Requirements aged 12-15\" is a key label students must read.",
     "exZh": "图表中出现「Requirements aged 12-15」(年龄要求)，读懂图例是得分关键。",
     "ctx": "2026成都中考 · 阅读/完形 · 图表阅读",
-    "id": 421
+    "id": 422
   },
   {
     "cat": "chart",
@@ -6335,7 +6350,7 @@
     "exEn": "According to the chart, \"in total (cost)\" is a key label students must read.",
     "exZh": "图表中出现「in total (cost)」(总计费用)，读懂图例是得分关键。",
     "ctx": "2026成都中考 · 阅读/完形 · 图表阅读",
-    "id": 422
+    "id": 423
   },
   {
     "cat": "chart",
@@ -6350,7 +6365,7 @@
     "exEn": "According to the chart.",
     "exZh": "图表写作句型：根据图表",
     "ctx": "图表题 · 书面表达",
-    "id": 423
+    "id": 424
   },
   {
     "cat": "chart",
@@ -6365,7 +6380,7 @@
     "exEn": "According to the chart, \"The number increased/decreased\" is a key label students must read.",
     "exZh": "图表中出现「The number increased/decreased」(数量增减)，读懂图例是得分关键。",
     "ctx": "通用 · 图表阅读",
-    "id": 424
+    "id": 425
   },
   {
     "cat": "chart",
@@ -6380,7 +6395,7 @@
     "exEn": "accounts for … percent",
     "exZh": "图表写作句型：占百分之…",
     "ctx": "图表题 · 书面表达",
-    "id": 425
+    "id": 426
   },
   {
     "cat": "chart",
@@ -6392,10 +6407,10 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "Exam context: Students learned to The majority of in the passage.",
+    "exEn": "In the story, the phrase \"The majority of\" helps carry the meaning forward.",
     "exZh": "图表写作句型：大多数",
     "ctx": "图表题 · 书面表达",
-    "id": 426
+    "id": 427
   },
   {
     "cat": "chart",
@@ -6410,7 +6425,7 @@
     "exEn": "Compared with.",
     "exZh": "图表写作句型：与…相比",
     "ctx": "图表题 · 书面表达",
-    "id": 427
+    "id": 428
   },
   {
     "cat": "chart",
@@ -6425,7 +6440,7 @@
     "exEn": "As we can see from the graph.",
     "exZh": "图表写作句型：从图中可见",
     "ctx": "图表题 · 书面表达",
-    "id": 428
+    "id": 429
   },
   {
     "cat": "chart",
@@ -6440,7 +6455,7 @@
     "exEn": "According to the chart, \"eco-friendly\" is a key label students must read.",
     "exZh": "图表中出现「eco-friendly」(环保的)，读懂图例是得分关键。",
     "ctx": "2019成都中考 · 阅读/完形 · 图表阅读",
-    "id": 429
+    "id": 430
   },
   {
     "cat": "chart",
@@ -6455,7 +6470,7 @@
     "exEn": "According to the chart, \"virtual tree\" is a key label students must read.",
     "exZh": "图表中出现「virtual tree」(虚拟树)，读懂图例是得分关键。",
     "ctx": "2019成都中考 · 阅读/完形 · 图表阅读",
-    "id": 430
+    "id": 431
   },
   {
     "cat": "chart",
@@ -6470,7 +6485,7 @@
     "exEn": "According to the chart, \"leaf area\" is a key label students must read.",
     "exZh": "图表中出现「leaf area」(叶面积)，读懂图例是得分关键。",
     "ctx": "2019成都中考 · 阅读/完形 · 图表阅读",
-    "id": 431
+    "id": 432
   },
   {
     "cat": "chart",
@@ -6485,7 +6500,7 @@
     "exEn": "According to the chart, \"Ant Forest\" is a key label students must read.",
     "exZh": "图表中出现「Ant Forest」(蚂蚁森林)，读懂图例是得分关键。",
     "ctx": "2019成都中考 · 阅读/完形 · 图表阅读",
-    "id": 432
+    "id": 433
   },
   {
     "cat": "chart",
@@ -6500,7 +6515,7 @@
     "exEn": "According to the chart, \"global warming\" is a key label students must read.",
     "exZh": "图表中出现「global warming」(全球变暖)，读懂图例是得分关键。",
     "ctx": "2019成都中考 · 阅读/完形 · 图表阅读",
-    "id": 433
+    "id": 434
   },
   {
     "cat": "chart",
@@ -6515,7 +6530,7 @@
     "exEn": "According to the chart, \"forest protection\" is a key label students must read.",
     "exZh": "图表中出现「forest protection」(森林保护)，读懂图例是得分关键。",
     "ctx": "2019成都中考 · 阅读/完形 · 图表阅读",
-    "id": 434
+    "id": 435
   },
   {
     "cat": "chart",
@@ -6530,7 +6545,7 @@
     "exEn": "According to the chart, \"facial expression\" is a key label students must read.",
     "exZh": "图表中出现「facial expression」(面部表情)，读懂图例是得分关键。",
     "ctx": "2024成都中考 · 阅读/完形 · 图表阅读",
-    "id": 435
+    "id": 436
   },
   {
     "cat": "chart",
@@ -6545,7 +6560,7 @@
     "exEn": "According to the chart, \"flight alert\" is a key label students must read.",
     "exZh": "图表中出现「flight alert」(航班提醒)，读懂图例是得分关键。",
     "ctx": "2024成都中考 · 阅读/完形 · 图表阅读",
-    "id": 436
+    "id": 437
   },
   {
     "cat": "chart",
@@ -6560,7 +6575,7 @@
     "exEn": "According to the chart, \"sports center closed\" is a key label students must read.",
     "exZh": "图表中出现「sports center closed」(体育中心关闭)，读懂图例是得分关键。",
     "ctx": "2025成都中考 · 阅读/完形 · 图表阅读",
-    "id": 437
+    "id": 438
   },
   {
     "cat": "chart",
@@ -6575,7 +6590,7 @@
     "exEn": "According to the chart, \"give up one's seat\" is a key label students must read.",
     "exZh": "图表中出现「give up one's seat」(让座)，读懂图例是得分关键。",
     "ctx": "2025成都中考 · 阅读/完形 · 图表阅读",
-    "id": 438
+    "id": 439
   },
   {
     "cat": "chart",
@@ -6590,7 +6605,7 @@
     "exEn": "According to the chart, \"transfer / layover\" is a key label students must read.",
     "exZh": "图表中出现「transfer / layover」(转机经停)，读懂图例是得分关键。",
     "ctx": "2025成都中考 · 阅读/完形 · 图表阅读",
-    "id": 439
+    "id": 440
   },
   {
     "cat": "chart",
@@ -6605,7 +6620,7 @@
     "exEn": "According to the chart, \"advertisement\" is a key label students must read.",
     "exZh": "图表中出现「advertisement」(广告)，读懂图例是得分关键。",
     "ctx": "2024成都中考 · 阅读/完形 · 图表阅读",
-    "id": 440
+    "id": 441
   },
   {
     "cat": "tier2",
@@ -6617,10 +6632,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2018 passage, \"passenger\" helps students understand the main idea.",
-    "exZh": "在2018成都中考 · 阅读/完形语篇中，「passenger」(乘客) 是理解主旨的关键词。",
+    "examEn": "All the passengers on the flight 3U 8633 feel thankful for the quick decision made by the pilot.",
+    "examZh": "2018补全短文：3U8633航班乘客感激机长果断处置，对应川航英雄机组题材。",
+    "examYear": "2018",
+    "exEn": "Every passenger must show a ticket before boarding the high-speed train.",
+    "exZh": "每位乘客上车前都必须出示车票。——交通出行话题",
     "ctx": "2018成都中考 · 阅读/完形 · Tier2",
-    "id": 441
+    "id": 442
   },
   {
     "cat": "tier2",
@@ -6632,10 +6650,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2018 passage, \"pilot\" helps students understand the main idea.",
-    "exZh": "在2018成都中考 · 阅读/完形语篇中，「pilot」(飞行员) 是理解主旨的关键词。",
+    "examEn": "All the passengers on the flight 3U 8633 feel thankful for the quick decision made by the pilot.",
+    "examZh": "2018补全短文：机长（pilot）刘传健的果断决定挽救了全机乘客。",
+    "examYear": "2018",
+    "exEn": "The pilot stayed calm and landed the plane safely in the storm.",
+    "exZh": "飞行员在暴风雨中保持冷静，安全降落。——人物品质·安全",
     "ctx": "2018成都中考 · 阅读/完形 · Tier2",
-    "id": 442
+    "id": 443
   },
   {
     "cat": "tier2",
@@ -6647,10 +6668,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2018 passage, \"accent\" helps students understand the main idea.",
-    "exZh": "在2018成都中考 · 阅读/完形语篇中，「accent」(口音) 是理解主旨的关键词。",
+    "examEn": "First, it's OK to speak English with an accent. It shows who you are and where you're from.",
+    "examZh": "2018阅读：李华担心口音，李教授指出带口音说英语并无妨。",
+    "examYear": "2018",
+    "exEn": "Don't be shy about your accent — clear grammar matters more in exams.",
+    "exZh": "不必因口音害羞——中考更看重语法是否准确。——学习方法",
     "ctx": "2018成都中考 · 阅读/完形 · Tier2",
-    "id": 443
+    "id": 444
   },
   {
     "cat": "tier2",
@@ -6662,10 +6686,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2018 passage, \"grammar\" helps students understand the main idea.",
-    "exZh": "在2018成都中考 · 阅读/完形语篇中，「grammar」(语法) 是理解主旨的关键词。",
+    "examEn": "In fact, correct grammar and word choice are much more important.",
+    "examZh": "2018阅读：教授强调语法和用词比口音更重要。",
+    "examYear": "2018",
+    "exEn": "Reviewing grammar rules every week helps you avoid careless mistakes in the exam.",
+    "exZh": "每周复习语法规则，有助于减少考场粗心错误。——备考策略",
     "ctx": "2018成都中考 · 阅读/完形 · Tier2",
-    "id": 444
+    "id": 445
   },
   {
     "cat": "tier2",
@@ -6677,10 +6704,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2019 passage, \"suspect\" helps students understand the main idea.",
-    "exZh": "在2019成都中考 · 阅读/完形语篇中，「suspect」(嫌疑犯) 是理解主旨的关键词。",
+    "examEn": "As a police artist, Joe Brown draws pictures of suspects when people tell him about the of each suspect.",
+    "examZh": "2019成都中考阅读/完形语篇中出现「suspect」（嫌疑犯）。",
+    "examYear": "2019",
+    "exEn": "The police asked the suspect a few questions before letting him go.",
+    "exZh": "警察问了嫌疑犯几个问题后才放他离开。——社会新闻",
     "ctx": "2019成都中考 · 阅读/完形 · Tier2",
-    "id": 445
+    "id": 446
   },
   {
     "cat": "tier2",
@@ -6692,10 +6722,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2019 passage, \"medium\" helps students understand the main idea.",
-    "exZh": "在2019成都中考 · 阅读/完形语篇中，「medium」(中等的) 是理解主旨的关键词。",
+    "examEn": "His job is interesting but not , because different people describe the same person differently and sometimes many people don’t have good , especially the old. “The suspect is of medium height and young.",
+    "examZh": "2019成都中考阅读/完形语篇中出现「medium」（中等的）。",
+    "examYear": "2019",
+    "exEn": "Cook the noodles over medium heat for about five minutes.",
+    "exZh": "用中火煮面条约五分钟。——日常生活",
     "ctx": "2019成都中考 · 阅读/完形 · Tier2",
-    "id": 446
+    "id": 447
   },
   {
     "cat": "tier2",
@@ -6707,10 +6740,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2019 passage, \"typhoon\" helps students understand the main idea.",
-    "exZh": "在2019成都中考 · 阅读/完形语篇中，「typhoon」(台风) 是理解主旨的关键词。",
+    "examEn": "After some terrible experience, we might say, “Not very .” And we might say in the middle of a typhoon, “It’s a bit windy today.” Or “There is a tiny problem,” when something has gone wrong.",
+    "examZh": "2019成都中考阅读/完形语篇中出现「typhoon」（台风）。",
+    "examYear": "2019",
+    "exEn": "The school was closed because a strong typhoon was coming.",
+    "exZh": "因强台风将至，学校停课。——自然灾害",
     "ctx": "2019成都中考 · 阅读/完形 · Tier2",
-    "id": 447
+    "id": 448
   },
   {
     "cat": "tier2",
@@ -6722,10 +6758,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2019 passage, \"irony\" helps students understand the main idea.",
-    "exZh": "在2019成都中考 · 阅读/完形语篇中，「irony」(反讽) 是理解主旨的关键词。",
+    "examEn": "We do have a strong sense of irony .",
+    "examZh": "2019成都中考阅读/完形语篇中出现「irony」（反讽）。",
+    "examYear": "2019",
+    "exEn": "It is irony that he missed the bus while running to catch it.",
+    "exZh": "他跑着赶公交却错过了，颇具讽刺意味。——修辞理解",
     "ctx": "2019成都中考 · 阅读/完形 · Tier2",
-    "id": 448
+    "id": 449
   },
   {
     "cat": "tier2",
@@ -6737,10 +6776,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2019 passage, \"vegetation\" helps students understand the main idea.",
-    "exZh": "在2019成都中考 · 阅读/完形语篇中，「vegetation」(植被) 是理解主旨的关键词。",
+    "examEn": "A team of scientists at Boston University has been working with NASA to study Earth's green vegetation.",
+    "examZh": "2019阅读：波士顿大学与 NASA 合作研究地球绿色植被（vegetation）。",
+    "examYear": "2019",
+    "exEn": "Planting more vegetation can help prevent soil erosion on hillsides.",
+    "exZh": "多种植被有助于防止山坡水土流失。——环保",
     "ctx": "2019成都中考 · 阅读/完形 · Tier2",
-    "id": 449
+    "id": 450
   },
   {
     "cat": "tier2",
@@ -6752,10 +6794,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2019 passage, \"algae\" helps students understand the main idea.",
-    "exZh": "在2019成都中考 · 阅读/完形语篇中，「algae」(藻类) 是理解主旨的关键词。",
+    "examEn": "Scientists found that algae in the ocean could help reduce carbon dioxide in the air.",
+    "examZh": "2019阅读：海洋藻类（algae）有助于减少大气二氧化碳。",
+    "examYear": "2019",
+    "exEn": "Too much algae in the lake can harm fish and make the water smell bad.",
+    "exZh": "湖中藻类过多会危害鱼类并使水体发臭。——环境保护",
     "ctx": "2019成都中考 · 阅读/完形 · Tier2",
-    "id": 450
+    "id": 451
   },
   {
     "cat": "tier2",
@@ -6767,10 +6812,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2019 passage, \"insect\" helps students understand the main idea.",
-    "exZh": "在2019成都中考 · 阅读/完形语篇中，「insect」(昆虫) 是理解主旨的关键词。",
+    "examEn": "Insects take up little space and don't make much waste. They also have more protein than beef, chicken and pork.",
+    "examZh": "2019完成图表：昆虫（insects）占地小、蛋白高，是未来食物选项之一。",
+    "examYear": "2019",
+    "exEn": "Some insects play an important role in pollinating flowers.",
+    "exZh": "有些昆虫在花卉授粉中起着重要作用。——科普说明",
     "ctx": "2019成都中考 · 阅读/完形 · Tier2",
-    "id": 451
+    "id": 452
   },
   {
     "cat": "tier2",
@@ -6782,10 +6830,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2020 passage, \"scanner\" helps students understand the main idea.",
-    "exZh": "在2020成都中考 · 阅读/完形语篇中，「scanner」(扫描仪) 是理解主旨的关键词。",
+    "examEn": "The scanner examines things such as finger prints.",
+    "examZh": "2020成都中考阅读/完形语篇中出现「scanner」（扫描仪）。",
+    "examYear": "2020",
+    "exEn": "Put your ID card on the scanner to enter the library.",
+    "exZh": "把身份证放在扫描仪上即可进入图书馆。——校园科技",
     "ctx": "2020成都中考 · 阅读/完形 · Tier2",
-    "id": 452
+    "id": 453
   },
   {
     "cat": "tier2",
@@ -6797,10 +6848,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2020 passage, \"convenient\" helps students understand the main idea.",
-    "exZh": "在2020成都中考 · 阅读/完形语篇中，「convenient」(方便的) 是理解主旨的关键词。",
+    "examEn": "It's quite convenient, especially for people.",
+    "examZh": "2020成都中考阅读/完形语篇中出现「convenient」（方便的）。",
+    "examYear": "2020",
+    "exEn": "Mobile payment is convenient when you buy snacks after school.",
+    "exZh": "放学后买零食时，手机支付非常方便。——现代生活",
     "ctx": "2020成都中考 · 阅读/完形 · Tier2",
-    "id": 453
+    "id": 454
   },
   {
     "cat": "tier2",
@@ -6812,10 +6866,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2020 passage, \"parrot\" helps students understand the main idea.",
-    "exZh": "在2020成都中考 · 阅读/完形语篇中，「parrot」(鹦鹉) 是理解主旨的关键词。",
+    "examEn": "However, the woman decided to the parrot to the store the next day.",
+    "examZh": "2020成都中考阅读/完形语篇中出现「parrot」（鹦鹉）。",
+    "examYear": "2020",
+    "exEn": "The parrot in the zoo can imitate several simple English words.",
+    "exZh": "动物园里的鹦鹉能模仿几个简单的英语单词。——动物话题",
     "ctx": "2020成都中考 · 阅读/完形 · Tier2",
-    "id": 454
+    "id": 455
   },
   {
     "cat": "tier2",
@@ -6827,10 +6884,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2020 passage, \"couplet\" helps students understand the main idea.",
-    "exZh": "在2020成都中考 · 阅读/完形语篇中，「couplet」(对联/诗联) 是理解主旨的关键词。",
+    "examEn": "This famous poem, with four couplets, was written by Du Fu(712-770, Tang Dynasty)when he was living and farming in Chengdu.",
+    "examZh": "2020成都中考阅读/完形语篇中出现「couplet」（对联/诗联）。",
+    "examYear": "2020",
+    "exEn": "During Spring Festival, many families put up red couplets on their doors.",
+    "exZh": "春节期间，许多人家门上贴红色对联。——传统文化",
     "ctx": "2020成都中考 · 阅读/完形 · Tier2",
-    "id": 455
+    "id": 456
   },
   {
     "cat": "tier2",
@@ -6842,10 +6902,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2020 passage, \"churro\" helps students understand the main idea.",
-    "exZh": "在2020成都中考 · 阅读/完形语篇中，「churro」(西班牙油条) 是理解主旨的关键词。",
+    "examEn": "Youtiao is kind of like the \"churro\", a snack that is popular in Spain.",
+    "examZh": "2020成都中考阅读/完形语篇中出现「churro」（西班牙油条）。",
+    "examYear": "2020",
+    "exEn": "At the food festival, students tried a Spanish snack called churro.",
+    "exZh": "美食节上，同学们品尝了西班牙小吃 churro（油条）。——跨文化",
     "ctx": "2020成都中考 · 阅读/完形 · Tier2",
-    "id": 456
+    "id": 457
   },
   {
     "cat": "tier2",
@@ -6857,10 +6920,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2020 passage, \"independent\" helps students understand the main idea.",
-    "exZh": "在2020成都中考 · 阅读/完形语篇中，「independent」(独立的) 是理解主旨的关键词。",
+    "examEn": "It's u that he has been independent now under his mom's overprotection.",
+    "examZh": "2020成都中考阅读/完形语篇中出现「independent」（独立的）。",
+    "examYear": "2020",
+    "exEn": "Learning to plan your own study time makes you more independent.",
+    "exZh": "学会自主安排学习时间，会让你更独立。——成长教育",
     "ctx": "2020成都中考 · 阅读/完形 · Tier2",
-    "id": 457
+    "id": 458
   },
   {
     "cat": "tier2",
@@ -6872,10 +6938,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2021 passage, \"translator\" helps students understand the main idea.",
-    "exZh": "在2021成都中考 · 阅读/完形语篇中，「translator」(翻译家) 是理解主旨的关键词。",
+    "examEn": "During his translation career, he has been at the center of many debates（辩论）with other translators.",
+    "examZh": "2021成都中考阅读/完形语篇中出现「translator」（翻译家）。",
+    "examYear": "2021",
+    "exEn": "A good translator must understand both languages and cultures well.",
+    "exZh": "优秀翻译家须精通两种语言及其文化。——文化交流",
     "ctx": "2021成都中考 · 阅读/完形 · Tier2",
-    "id": 458
+    "id": 459
   },
   {
     "cat": "tier2",
@@ -6887,10 +6956,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2021 passage, \"breeding\" helps students understand the main idea.",
-    "exZh": "在2021成都中考 · 阅读/完形语篇中，「breeding」(繁殖) 是理解主旨的关键词。",
+    "examEn": "Wolong is a large nature reserve , which includes several panda bases for breeding and research.",
+    "examZh": "2021成都中考阅读/完形语篇中出现「breeding」（繁殖）。",
+    "examYear": "2021",
+    "exEn": "The park has a special area for breeding endangered birds.",
+    "exZh": "公园设有专门区域用于繁育濒危鸟类。——动物保护",
     "ctx": "2021成都中考 · 阅读/完形 · Tier2",
-    "id": 459
+    "id": 460
   },
   {
     "cat": "tier2",
@@ -6902,10 +6974,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2021 passage, \"intangible\" helps students understand the main idea.",
-    "exZh": "在2021成都中考 · 阅读/完形语篇中，「intangible」(非物质的) 是理解主旨的关键词。",
+    "examEn": "UNESCO lists many forms of intangible cultural heritage that should be protected.",
+    "examZh": "2021阅读：联合国教科文组织保护非物质文化遗产（intangible cultural heritage）。",
+    "examYear": "2021",
+    "exEn": "Paper-cutting is part of China's intangible cultural heritage.",
+    "exZh": "剪纸是中国非物质文化遗产的一部分。——文化传承",
     "ctx": "2021成都中考 · 阅读/完形 · Tier2",
-    "id": 460
+    "id": 461
   },
   {
     "cat": "tier2",
@@ -6917,10 +6992,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2021 passage, \"barcode\" helps students understand the main idea.",
-    "exZh": "在2021成都中考 · 阅读/完形语篇中，「barcode」(条形码) 是理解主旨的关键词。",
+    "examEn": "The invention of barcodes（条形码）is based on a very simple idea.",
+    "examZh": "2021成都中考阅读/完形语篇中出现「barcode」（条形码）。",
+    "examYear": "2021",
+    "exEn": "Scan the barcode on the package to check the price.",
+    "exZh": "扫描包装上的条形码即可查询价格。——科技应用",
     "ctx": "2021成都中考 · 阅读/完形 · Tier2",
-    "id": 461
+    "id": 462
   },
   {
     "cat": "tier2",
@@ -6932,10 +7010,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2022 passage, \"plover\" helps students understand the main idea.",
-    "exZh": "在2022成都中考 · 阅读/完形语篇中，「plover」(千鸟) 是理解主旨的关键词。",
+    "examEn": "A bird called the plover sometimes pretends to be hurt in order to protect its young.",
+    "examZh": "2022成都中考阅读/完形语篇中出现「plover」（千鸟）。",
+    "examYear": "2022",
+    "exEn": "The plover is a small bird that nests on sandy beaches.",
+    "exZh": "千鸟是一种在沙滩筑巢的小鸟。——科普阅读",
     "ctx": "2022成都中考 · 阅读/完形 · Tier2",
-    "id": 462
+    "id": 463
   },
   {
     "cat": "tier2",
@@ -6947,10 +7028,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2022 passage, \"scrub jay\" helps students understand the main idea.",
-    "exZh": "在2022成都中考 · 阅读/完形语篇中，「scrub jay」(灌丛鸦) 是理解主旨的关键词。",
+    "examEn": "Another kind of bird, the scrub jay, buries its food so it always has something to eat.",
+    "examZh": "2022成都中考阅读/完形语篇中出现「scrub jay」（灌丛鸦）。",
+    "examYear": "2022",
+    "exEn": "The scrub jay hides food in different places and remembers where it put them.",
+    "exZh": "灌丛鸦会把食物藏在不同地方并记住位置。——动物行为",
     "ctx": "2022成都中考 · 阅读/完形 · Tier2",
-    "id": 463
+    "id": 464
   },
   {
     "cat": "tier2",
@@ -6962,10 +7046,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2022 passage, \"chimpanzee\" helps students understand the main idea.",
-    "exZh": "在2022成都中考 · 阅读/完形语篇中，「chimpanzee」(黑猩猩) 是理解主旨的关键词。",
+    "examEn": "After a fight, the losing chimpanzee will give its hand to the other.",
+    "examZh": "2022成都中考阅读/完形语篇中出现「chimpanzee」（黑猩猩）。",
+    "examYear": "2022",
+    "exEn": "Scientists study how chimpanzees use tools to get food.",
+    "exZh": "科学家研究黑猩猩如何用工具获取食物。——科学探索",
     "ctx": "2022成都中考 · 阅读/完形 · Tier2",
-    "id": 464
+    "id": 465
   },
   {
     "cat": "tier2",
@@ -6977,10 +7064,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2022 passage, \"brainstorming\" helps students understand the main idea.",
-    "exZh": "在2022成都中考 · 阅读/完形语篇中，「brainstorming」(头脑风暴) 是理解主旨的关键词。",
+    "examEn": "Brainstorming is the practice of coming up with ideas or solutions.",
+    "examZh": "2022成都中考阅读/完形语篇中出现「brainstorming」（头脑风暴）。",
+    "examYear": "2022",
+    "exEn": "Our group used brainstorming to list ideas for the class project.",
+    "exZh": "我们小组用头脑风暴为班级课题列创意。——合作学习",
     "ctx": "2022成都中考 · 阅读/完形 · Tier2",
-    "id": 465
+    "id": 466
   },
   {
     "cat": "tier2",
@@ -6992,10 +7082,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2022 passage, \"mulberry\" helps students understand the main idea.",
-    "exZh": "在2022成都中考 · 阅读/完形语篇中，「mulberry」(桑葚) 是理解主旨的关键词。",
+    "examEn": "And mulberry are the main food for silkworms.",
+    "examZh": "2022成都中考阅读/完形语篇中出现「mulberry」（桑葚）。",
+    "examYear": "2022",
+    "exEn": "Silkworms feed on fresh mulberry leaves.",
+    "exZh": "蚕以新鲜桑叶为食。——丝绸之路文化",
     "ctx": "2022成都中考 · 阅读/完形 · Tier2",
-    "id": 466
+    "id": 467
   },
   {
     "cat": "tier2",
@@ -7007,10 +7100,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2022 passage, \"silkworm\" helps students understand the main idea.",
-    "exZh": "在2022成都中考 · 阅读/完形语篇中，「silkworm」(蚕) 是理解主旨的关键词。",
+    "examEn": "And mulberry leaves are the main food for silkworms.",
+    "examZh": "2022补全对话：桑叶是蚕（silkworms）的主要食物。",
+    "examYear": "2022",
+    "exEn": "Ancient Chinese people raised silkworms to make silk.",
+    "exZh": "古人养蚕缫丝，造就丝绸文明。——历史与文化",
     "ctx": "2022成都中考 · 阅读/完形 · Tier2",
-    "id": 467
+    "id": 468
   },
   {
     "cat": "tier2",
@@ -7022,10 +7118,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2023 passage, \"pancake\" helps students understand the main idea.",
-    "exZh": "在2023成都中考 · 阅读/完形语篇中，「pancake」(薄饼) 是理解主旨的关键词。",
+    "examEn": "“Dear sir, my mom loves your pancake so much.",
+    "examZh": "2023成都中考阅读/完形语篇中出现「pancake」（薄饼）。",
+    "examYear": "2023",
+    "exEn": "On Sunday morning, Mum made pancakes for the whole family.",
+    "exZh": "周日早上，妈妈给全家做了薄饼。——家庭生活",
     "ctx": "2023成都中考 · 阅读/完形 · Tier2",
-    "id": 468
+    "id": 469
   },
   {
     "cat": "tier2",
@@ -7037,10 +7136,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2023 passage, \"impressionist\" helps students understand the main idea.",
-    "exZh": "在2023成都中考 · 阅读/完形语篇中，「impressionist」(印象派画家) 是理解主旨的关键词。",
+    "examEn": "Monet was a leading impressionist painter who loved to paint water lilies and natural light.",
+    "examZh": "2023阅读：莫奈是杰出的印象派画家（impressionist）。",
+    "examYear": "2023",
+    "exEn": "The impressionist painter focused on light and color rather than fine details.",
+    "exZh": "印象派画家注重光影色彩，而非精细细节。——艺术鉴赏",
     "ctx": "2023成都中考 · 阅读/完形 · Tier2",
-    "id": 469
+    "id": 470
   },
   {
     "cat": "tier2",
@@ -7052,10 +7154,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2023 passage, \"pitch\" helps students understand the main idea.",
-    "exZh": "在2023成都中考 · 阅读/完形语篇中，「pitch」(音高) 是理解主旨的关键词。",
+    "examEn": "However, the pitch is too high for people ,” said Lilach Hadany, a professor from Tel Aviv University.",
+    "examZh": "2023成都中考阅读/完形语篇中出现「pitch」（音高）。",
+    "examYear": "2023",
+    "exEn": "The singer's voice rose to a higher pitch at the end of the song.",
+    "exZh": "歌手在歌曲结尾处音调（pitch）升高。——音乐",
     "ctx": "2023成都中考 · 阅读/完形 · Tier2",
-    "id": 470
+    "id": 471
   },
   {
     "cat": "tier2",
@@ -7067,10 +7172,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2023 passage, \"stressed\" helps students understand the main idea.",
-    "exZh": "在2023成都中考 · 阅读/完形语篇中，「stressed」(受压的) 是理解主旨的关键词。",
+    "examEn": "The researchers used microphones to record some tomato plants and found that stressed plants send out sounds than unstressed plants.",
+    "examZh": "2023成都中考阅读/完形语篇中出现「stressed」（受压的）。",
+    "examYear": "2023",
+    "exEn": "Many students feel stressed before the final exam.",
+    "exZh": "期末考试前，许多学生感到压力很大。——心理健康",
     "ctx": "2023成都中考 · 阅读/完形 · Tier2",
-    "id": 471
+    "id": 472
   },
   {
     "cat": "tier2",
@@ -7082,10 +7190,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2023 passage, \"longitude\" helps students understand the main idea.",
-    "exZh": "在2023成都中考 · 阅读/完形语篇中，「longitude」(经度) 是理解主旨的关键词。",
+    "examEn": "An important part of maps is the imaginary lines of longitude, latitude and the equator.",
+    "examZh": "2023成都中考阅读/完形语篇中出现「longitude」（经度）。",
+    "examYear": "2023",
+    "exEn": "Chengdu is located at about 104°E longitude.",
+    "exZh": "成都位于东经约104度。——地理常识",
     "ctx": "2023成都中考 · 阅读/完形 · Tier2",
-    "id": 472
+    "id": 473
   },
   {
     "cat": "tier2",
@@ -7097,10 +7208,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2023 passage, \"projection\" helps students understand the main idea.",
-    "exZh": "在2023成都中考 · 阅读/完形语篇中，「projection」(投影) 是理解主旨的关键词。",
+    "examEn": "Perhaps the most commonly used world map is the Mercator Projection.",
+    "examZh": "2023成都中考阅读/完形语篇中出现「projection」（投影）。",
+    "examYear": "2023",
+    "exEn": "The teacher used a projection to show pictures on the screen.",
+    "exZh": "老师用投影把图片投到屏幕上。——课堂科技",
     "ctx": "2023成都中考 · 阅读/完形 · Tier2",
-    "id": 473
+    "id": 474
   },
   {
     "cat": "tier2",
@@ -7112,10 +7226,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2024 passage, \"whiskers\" helps students understand the main idea.",
-    "exZh": "在2024成都中考 · 阅读/完形语篇中，「whiskers」(（猫）胡须) 是理解主旨的关键词。",
+    "examEn": "“A friendly cat moves its ears and whiskers forward and closes its eyes.",
+    "examZh": "2024成都中考阅读/完形语篇中出现「whiskers」（（猫）胡须）。",
+    "examYear": "2024",
+    "exEn": "A cat's whiskers help it sense objects in the dark.",
+    "exZh": "猫的胡须帮助它在黑暗中感知物体。——动物科普",
     "ctx": "2024成都中考 · 阅读/完形 · Tier2",
-    "id": 474
+    "id": 475
   },
   {
     "cat": "tier2",
@@ -7127,10 +7244,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2024 passage, \"pupils\" helps students understand the main idea.",
-    "exZh": "在2024成都中考 · 阅读/完形语篇中，「pupils」(瞳孔) 是理解主旨的关键词。",
+    "examEn": "However, an angry cat often flattens its ears to its head, makes its pupils smaller and licks its lips,” said the team.",
+    "examZh": "2024成都中考阅读/完形语篇中出现「pupils」（瞳孔）。",
+    "examYear": "2024",
+    "exEn": "In bright light, the pupils of your eyes become smaller.",
+    "exZh": "光线明亮时，瞳孔会缩小。——人体科学",
     "ctx": "2024成都中考 · 阅读/完形 · Tier2",
-    "id": 475
+    "id": 476
   },
   {
     "cat": "tier2",
@@ -7142,10 +7262,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2025 passage, \"empathy\" helps students understand the main idea.",
-    "exZh": "在2025成都中考 · 阅读/完形语篇中，「empathy」(共情) 是理解主旨的关键词。",
+    "examEn": "Reading stories about different people helps teenagers develop empathy for others.",
+    "examZh": "2025阅读：阅读不同人物故事有助于培养共情（empathy）。",
+    "examYear": "2025",
+    "exEn": "Show empathy when your classmate is upset — a kind word can help.",
+    "exZh": "同学难过时表达共情，一句温暖的话很有帮助。——人际交往",
     "ctx": "2025成都中考 · 阅读/完形 · Tier2",
-    "id": 476
+    "id": 477
   },
   {
     "cat": "tier2",
@@ -7157,10 +7280,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2025 passage, \"heartbreak\" helps students understand the main idea.",
-    "exZh": "在2025成都中考 · 阅读/完形语篇中，「heartbreak」(心碎) 是理解主旨的关键词。",
+    "examEn": "The stories explore the painful side of love and the topic of heartbreak.",
+    "examZh": "2025成都中考阅读/完形语篇中出现「heartbreak」（心碎）。",
+    "examYear": "2025",
+    "exEn": "Losing the final match was a heartbreak for the whole team.",
+    "exZh": "决赛失利让整个队心碎不已。——情感表达",
     "ctx": "2025成都中考 · 阅读/完形 · Tier2",
-    "id": 477
+    "id": 478
   },
   {
     "cat": "tier2",
@@ -7172,10 +7298,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2025 passage, \"hurdles\" helps students understand the main idea.",
-    "exZh": "在2025成都中考 · 阅读/完形语篇中，「hurdles」(跨栏) 是理解主旨的关键词。",
+    "examEn": "At the 2025 World Athletics Indoor Championships, Wu Yanni set a new national r of 8.01 seconds in the women’s 60m hurdles.",
+    "examZh": "2025成都中考阅读/完形语篇中出现「hurdles」（跨栏）。",
+    "examYear": "2025",
+    "exEn": "She practiced hurdles every afternoon to prepare for the sports meet.",
+    "exZh": "她每天下午练习跨栏，备战运动会。——体育运动",
     "ctx": "2025成都中考 · 阅读/完形 · Tier2",
-    "id": 478
+    "id": 479
   },
   {
     "cat": "tier2",
@@ -7187,10 +7316,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2025 passage, \"archaeological\" helps students understand the main idea.",
-    "exZh": "在2025成都中考 · 阅读/完形语篇中，「archaeological」(考古的) 是理解主旨的关键词。",
+    "examEn": "Because of the archaeological efforts over recent years, a lot of a have been made in the study of China’s history.",
+    "examZh": "2025成都中考阅读/完形语篇中出现「archaeological」（考古的）。",
+    "examYear": "2025",
+    "exEn": "The archaeological site attracts visitors from all over the country.",
+    "exZh": "这处考古遗址吸引了全国各地的游客。——历史遗迹",
     "ctx": "2025成都中考 · 阅读/完形 · Tier2",
-    "id": 479
+    "id": 480
   },
   {
     "cat": "tier2",
@@ -7202,10 +7334,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2025 passage, \"homestay\" helps students understand the main idea.",
-    "exZh": "在2025成都中考 · 阅读/完形语篇中，「homestay」(民宿) 是理解主旨的关键词。",
+    "examEn": "During her trip abroad, she lived with a local family in a homestay and learned about their culture.",
+    "examZh": "2025阅读：出国旅行时住民宿（homestay），体验当地文化。",
+    "examYear": "2025",
+    "exEn": "A homestay is a good way to improve spoken English abroad.",
+    "exZh": "住民宿是出国提高英语口语的好方式。——留学生活",
     "ctx": "2025成都中考 · 阅读/完形 · Tier2",
-    "id": 480
+    "id": 481
   },
   {
     "cat": "tier2",
@@ -7217,10 +7352,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2025 passage, \"ecologist\" helps students understand the main idea.",
-    "exZh": "在2025成都中考 · 阅读/完形语篇中，「ecologist」(生态学家) 是理解主旨的关键词。",
+    "examEn": "But, you know, some of them obviously have a ton.” Evan Gora, a forest ecologist said.",
+    "examZh": "2025成都中考阅读/完形语篇中出现「ecologist」（生态学家）。",
+    "examYear": "2025",
+    "exEn": "The ecologist warned that polluting the river would harm wildlife.",
+    "exZh": "生态学家警告，污染河流将危害野生动物。——环保",
     "ctx": "2025成都中考 · 阅读/完形 · Tier2",
-    "id": 481
+    "id": 482
   },
   {
     "cat": "tier2",
@@ -7232,10 +7370,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2026 passage, \"terracotta\" helps students understand the main idea.",
-    "exZh": "在2026成都中考 · 阅读/完形语篇中，「terracotta」(陶制的) 是理解主旨的关键词。",
+    "examEn": "During his rule, he ordered his men to build a huge army of life-sized terracotta warriors.",
+    "examZh": "2026短文填词：秦始皇命人建造真人大小的陶制（terracotta）兵马俑军队。",
+    "examYear": "2026",
+    "exEn": "Each terracotta soldier was made by hand over two thousand years ago.",
+    "exZh": "每个陶俑都是两千多年前手工烧制而成。——文物介绍",
     "ctx": "2026成都中考 · 阅读/完形 · Tier2",
-    "id": 482
+    "id": 483
   },
   {
     "cat": "tier2",
@@ -7247,10 +7388,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2026 passage, \"coating\" helps students understand the main idea.",
-    "exZh": "在2026成都中考 · 阅读/完形语篇中，「coating」(涂层) 是理解主旨的关键词。",
+    "examEn": "When they were dug out, however, the air caused the coating under the paint to fall off.",
+    "examZh": "2026短文填词：兵马俑出土后，空气导致漆下涂层（coating）脱落。",
+    "examYear": "2026",
+    "exEn": "A thin coating of paint protects the metal from rust.",
+    "exZh": "一层薄漆涂层可防止金属生锈。——科普说明",
     "ctx": "2026成都中考 · 阅读/完形 · Tier2",
-    "id": 483
+    "id": 484
   },
   {
     "cat": "tier2",
@@ -7262,10 +7406,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2026 passage, \"elderly\" helps students understand the main idea.",
-    "exZh": "在2026成都中考 · 阅读/完形语篇中，「elderly」(年长者) 是理解主旨的关键词。",
+    "examEn": "Growing old is not regarded as a positive life event.",
+    "examZh": "2026阅读B篇选项：在有些文化中，变老并不被视为积极的人生事件（与 elderly 主题相关）。",
+    "examYear": "2026",
+    "exEn": "We should respect the elderly and offer them our seats on the bus.",
+    "exZh": "应尊敬长者，公交车上主动让座。——品德教育",
     "ctx": "2026成都中考 · 阅读/完形 · Tier2",
-    "id": 484
+    "id": 485
   },
   {
     "cat": "tier2",
@@ -7277,10 +7424,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2026 passage, \"rainforest\" helps students understand the main idea.",
-    "exZh": "在2026成都中考 · 阅读/完形语篇中，「rainforest」(雨林) 是理解主旨的关键词。",
+    "examEn": "What is a healthy rainforest according to the text?",
+    "examZh": "2026阅读A篇题干：根据文章，什么是健康的雨林（rainforest）？",
+    "examYear": "2026",
+    "exEn": "Rainforests produce much of the oxygen we breathe every day.",
+    "exZh": "雨林每天为我们提供大量呼吸所需的氧气。——生态保护",
     "ctx": "2026成都中考 · 阅读/完形 · Tier2",
-    "id": 485
+    "id": 486
   },
   {
     "cat": "tier2",
@@ -7292,10 +7442,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2026 passage, \"composer\" helps students understand the main idea.",
-    "exZh": "在2026成都中考 · 阅读/完形语篇中，「composer」(作曲家) 是理解主旨的关键词。",
+    "examEn": "A boy asked about my favorite composer .",
+    "examZh": "2026成都中考阅读/完形语篇中出现「composer」（作曲家）。",
+    "examYear": "2026",
+    "exEn": "The composer wrote a beautiful piece for the school concert.",
+    "exZh": "作曲家为学校音乐会创作了一首优美乐曲。——艺术",
     "ctx": "2026成都中考 · 阅读/完形 · Tier2",
-    "id": 486
+    "id": 487
   },
   {
     "cat": "tier2",
@@ -7307,10 +7460,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2026 passage, \"tuba\" helps students understand the main idea.",
-    "exZh": "在2026成都中考 · 阅读/完形语篇中，「tuba」(大号) 是理解主旨的关键词。",
+    "examEn": "The tuba made no sound.",
+    "examZh": "2026成都中考阅读/完形语篇中出现「tuba」（大号）。",
+    "examYear": "2026",
+    "exEn": "He plays the tuba in the school band.",
+    "exZh": "他在学校乐队里吹大号（tuba）。——音乐社团",
     "ctx": "2026成都中考 · 阅读/完形 · Tier2",
-    "id": 487
+    "id": 488
   },
   {
     "cat": "tier2",
@@ -7322,10 +7478,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2026 passage, \"photographer\" helps students understand the main idea.",
-    "exZh": "在2026成都中考 · 阅读/完形语篇中，「photographer」(摄影师) 是理解主旨的关键词。",
+    "examEn": "A photographer spent years recording the daily life of wild snow leopards in Qinghai.",
+    "examZh": "2026阅读：摄影师（photographer）多年记录青海雪豹野外生活。",
+    "examYear": "2026",
+    "exEn": "The photographer waited quietly for hours to take a photo of the wild bird.",
+    "exZh": "摄影师静静等候数小时，只为拍下野鸟一张照片。——职业精神",
     "ctx": "2026成都中考 · 阅读/完形 · Tier2",
-    "id": 488
+    "id": 489
   },
   {
     "cat": "tier2",
@@ -7337,10 +7496,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2026 passage, \"positive\" helps students understand the main idea.",
-    "exZh": "在2026成都中考 · 阅读/完形语篇中，「positive」(积极的) 是理解主旨的关键词。",
+    "examEn": "He was always positive and never lost heart, even though his life was hard.",
+    "examZh": "2026完成短文：苏轼屡遭贬谪却始终保持积极（positive）。",
+    "examYear": "2026",
+    "exEn": "Stay positive even when you fail a test — learn from the mistakes.",
+    "exZh": "考试失利也要保持积极，从错误中学习。——成长心态",
     "ctx": "2026成都中考 · 阅读/完形 · Tier2",
-    "id": 489
+    "id": 490
   },
   {
     "cat": "tier2",
@@ -7352,10 +7514,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2026 passage, \"patience\" helps students understand the main idea.",
-    "exZh": "在2026成都中考 · 阅读/完形语篇中，「patience」(耐心) 是理解主旨的关键词。",
+    "examEn": "In Huangzhou, he cooked cheap pork for hours with patience and created \"Dongpo Pork\".",
+    "examZh": "2026完成短文（E项 with patience）：苏轼在黄州耐心慢炖猪肉，创制东坡肉。",
+    "examYear": "2026",
+    "exEn": "Learning English takes patience; progress comes step by step.",
+    "exZh": "学英语需要耐心，进步总是一步一步来的。——学习方法",
     "ctx": "2026成都中考 · 阅读/完形 · Tier2",
-    "id": 490
+    "id": 491
   },
   {
     "cat": "tier2",
@@ -7367,10 +7532,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2026 passage, \"difficulties\" helps students understand the main idea.",
-    "exZh": "在2026成都中考 · 阅读/完形语篇中，「difficulties」(困难) 是理解主旨的关键词。",
+    "examEn": "But some people can find happiness even when life is full of difficulties.",
+    "examZh": "2026完成短文：即便生活充满困难，有人仍能发现幸福。",
+    "examYear": "2026",
+    "exEn": "With support from teachers, she overcame many difficulties in math.",
+    "exZh": "在老师帮助下，她克服了数学上的许多困难。——学业成长",
     "ctx": "2026成都中考 · 阅读/完形 · Tier2",
-    "id": 491
+    "id": 492
   },
   {
     "cat": "tier2",
@@ -7382,10 +7550,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2026 passage, \"happiness\" helps students understand the main idea.",
-    "exZh": "在2026成都中考 · 阅读/完形语篇中，「happiness」(幸福) 是理解主旨的关键词。",
+    "examEn": "Many people think happiness comes from good luck or easy life.",
+    "examZh": "2026完成短文开篇：许多人以为幸福来自好运或安逸生活。",
+    "examYear": "2026",
+    "exEn": "True happiness often comes from helping others, not from buying things.",
+    "exZh": "真正的幸福常来自帮助他人，而非购物消费。——价值观",
     "ctx": "2026成都中考 · 阅读/完形 · Tier2",
-    "id": 492
+    "id": 493
   },
   {
     "cat": "tier2",
@@ -7397,10 +7568,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2026 passage, \"impervious\" helps students understand the main idea.",
-    "exZh": "在2026成都中考 · 阅读/完形语篇中，「impervious」(不受影响的) 是理解主旨的关键词。",
+    "examEn": "His life was just as what he once wrote, \"Impervious to wind, rain or shine, I'll have my own will.\"",
+    "examZh": "2026完成短文：苏轼自勉「风雨无阻，我行我素」——impervious 意为不受影响。",
+    "examYear": "2026",
+    "exEn": "Good habits make you impervious to bad influences from the internet.",
+    "exZh": "良好习惯能让你不受网络不良影响的侵蚀。——自律",
     "ctx": "2026成都中考 · 阅读/完形 · Tier2",
-    "id": 493
+    "id": 494
   },
   {
     "cat": "tier2",
@@ -7412,10 +7586,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2026 passage, \"museum\" helps students understand the main idea.",
-    "exZh": "在2026成都中考 · 阅读/完形语篇中，「museum」(博物馆) 是理解主旨的关键词。",
+    "examEn": "Today, the soldiers in Xi'an's terracotta museum are light brown, but they were not always this color.",
+    "examZh": "2026短文填词：西安兵马俑博物馆（museum）中的陶俑如今呈浅褐色。",
+    "examYear": "2026",
+    "exEn": "Our class visited the museum to learn about local history.",
+    "exZh": "我们班参观博物馆，了解本地历史。——研学活动",
     "ctx": "2026成都中考 · 阅读/完形 · Tier2",
-    "id": 494
+    "id": 495
   },
   {
     "cat": "tier2",
@@ -7427,10 +7604,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2025 passage, \"necessary\" helps students understand the main idea.",
-    "exZh": "在2025成都中考 · 阅读/完形语篇中，「necessary」(必要的) 是理解主旨的关键词。",
+    "examEn": "It is clear that Confucius' thought will continue to be a necessary part of Chinese culture.",
+    "examZh": "2025成都中考阅读/完形语篇中出现「necessary」（必要的）。",
+    "examYear": "2025",
+    "exEn": "It is necessary to get enough sleep before an important exam.",
+    "exZh": "大考前充足睡眠十分必要。——健康生活",
     "ctx": "2025成都中考 · 阅读/完形 · Tier2",
-    "id": 495
+    "id": 496
   },
   {
     "cat": "tier2",
@@ -7442,10 +7622,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2025 passage, \"surprised\" helps students understand the main idea.",
-    "exZh": "在2025成都中考 · 阅读/完形语篇中，「surprised」(惊讶的) 是理解主旨的关键词。",
+    "examEn": "A man walking through an elephant camp was surprised to find that the elephants weren't being kept in cages or held by chains.",
+    "examZh": "2025成都中考阅读/完形语篇中出现「surprised」（惊讶的）。",
+    "examYear": "2025",
+    "exEn": "I was surprised to find how much my English had improved.",
+    "exZh": "我惊讶地发现自己的英语进步如此之大。——学习感悟",
     "ctx": "2025成都中考 · 阅读/完形 · Tier2",
-    "id": 496
+    "id": 497
   },
   {
     "cat": "tier2",
@@ -7457,10 +7640,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2025 passage, \"vacuum\" helps students understand the main idea.",
-    "exZh": "在2025成都中考 · 阅读/完形语篇中，「vacuum」(吸尘) 是理解主旨的关键词。",
+    "examEn": "We got started. I tidied my room, Mum tidied the rest of the house and Dad vacuumed.",
+    "examZh": "2025完形填空：爸爸用吸尘器（vacuumed）打扫房屋。",
+    "examYear": "2025",
+    "exEn": "Dad asked me to vacuum the living room on Saturday.",
+    "exZh": "爸爸让我周六用吸尘器打扫客厅。——家务",
     "ctx": "2025成都中考 · 阅读/完形 · Tier2",
-    "id": 497
+    "id": 498
   },
   {
     "cat": "tier2",
@@ -7472,10 +7658,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2025 passage, \"maintenance\" helps students understand the main idea.",
-    "exZh": "在2025成都中考 · 阅读/完形语篇中，「maintenance」(维修) 是理解主旨的关键词。",
+    "examEn": "He called a maintenance staff to help and stayed with us the door was opened.",
+    "examZh": "2025成都中考阅读/完形语篇中出现「maintenance」（维修）。",
+    "examYear": "2025",
+    "exEn": "Regular maintenance keeps the school computers running well.",
+    "exZh": "定期维修让学校电脑保持良好运行。——校园管理",
     "ctx": "2025成都中考 · 阅读/完形 · Tier2",
-    "id": 498
+    "id": 499
   },
   {
     "cat": "tier2",
@@ -7487,10 +7676,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2025 passage, \"electronic\" helps students understand the main idea.",
-    "exZh": "在2025成都中考 · 阅读/完形语篇中，「electronic」(电子的) 是理解主旨的关键词。",
+    "examEn": "When we to our apartment, we couldn’t enter it because the electronic lock did not work. , the manager of the building came with the master key.",
+    "examZh": "2025成都中考阅读/完形语篇中出现「electronic」（电子的）。",
+    "examYear": "2025",
+    "exEn": "Students are not allowed to use electronic devices during the exam.",
+    "exZh": "考试期间不得使用电子设备。——考场规则",
     "ctx": "2025成都中考 · 阅读/完形 · Tier2",
-    "id": 499
+    "id": 500
   },
   {
     "cat": "tier2",
@@ -7502,10 +7694,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2025 passage, \"international\" helps students understand the main idea.",
-    "exZh": "在2025成都中考 · 阅读/完形语篇中，「international」(国际的) 是理解主旨的关键词。",
+    "examEn": "However, she had to face a 25-minute connection at Denver International Airport.",
+    "examZh": "2025成都中考阅读/完形语篇中出现「international」（国际的）。",
+    "examYear": "2025",
+    "exEn": "English is an international language used in trade and travel.",
+    "exZh": "英语是国际贸易与旅行中使用的国际语言。——语言文化",
     "ctx": "2025成都中考 · 阅读/完形 · Tier2",
-    "id": 500
+    "id": 501
   },
   {
     "cat": "tier2",
@@ -7517,10 +7712,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2025 passage, \"organised\" helps students understand the main idea.",
-    "exZh": "在2025成都中考 · 阅读/完形语篇中，「organised」(组织的) 是理解主旨的关键词。",
+    "examEn": "Many , like visits to museums and food festivals, were organised for international students and teachers to get used to the new .",
+    "examZh": "2025成都中考阅读/完形语篇中出现「organised」（组织的）。",
+    "examYear": "2025",
+    "exEn": "An organised desk helps you find your books more quickly.",
+    "exZh": "整洁有序的书桌让你更快找到课本。——学习习惯",
     "ctx": "2025成都中考 · 阅读/完形 · Tier2",
-    "id": 501
+    "id": 502
   },
   {
     "cat": "tier2",
@@ -7532,10 +7730,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2025 passage, \"gradually\" helps students understand the main idea.",
-    "exZh": "在2025成都中考 · 阅读/完形语篇中，「gradually」(逐渐地) 是理解主旨的关键词。",
+    "examEn": "Gradually, I the university and the city I work in.",
+    "examZh": "2025成都中考阅读/完形语篇中出现「gradually」（逐渐地）。",
+    "examYear": "2025",
+    "exEn": "Her spoken English gradually improved after she joined the English club.",
+    "exZh": "加入英语社团后，她的口语逐渐进步。——学习过程",
     "ctx": "2025成都中考 · 阅读/完形 · Tier2",
-    "id": 502
+    "id": 503
   },
   {
     "cat": "tier2",
@@ -7547,10 +7748,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2025 passage, \"apartment\" helps students understand the main idea.",
-    "exZh": "在2025成都中考 · 阅读/完形语篇中，「apartment」(公寓) 是理解主旨的关键词。",
+    "examEn": "When we to our apartment, we couldn’t enter it because the electronic lock did not work. , the manager of the building came with the master key.",
+    "examZh": "2025成都中考阅读/完形语篇中出现「apartment」（公寓）。",
+    "examYear": "2025",
+    "exEn": "They moved into a small apartment near the school last month.",
+    "exZh": "他们上月搬到学校附近的一间公寓。——城市生活",
     "ctx": "2025成都中考 · 阅读/完形 · Tier2",
-    "id": 503
+    "id": 504
   },
   {
     "cat": "tier2",
@@ -7562,10 +7766,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2018 passage, \"confidence\" helps students understand the main idea.",
-    "exZh": "在2018成都中考 · 阅读/完形语篇中，「confidence」(自信) 是理解主旨的关键词。",
+    "examEn": "We should keep on trying with confidence even after we have experienced failures in life.",
+    "examZh": "2018成都中考阅读/完形语篇中出现「confidence」（自信）。",
+    "examYear": "2018",
+    "exEn": "Speaking aloud in class can build your confidence in English.",
+    "exZh": "在课堂上大声发言能建立英语自信。——学习方法",
     "ctx": "2018成都中考 · 阅读/完形 · Tier2",
-    "id": 504
+    "id": 505
   },
   {
     "cat": "tier2",
@@ -7577,10 +7784,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2018 passage, \"shyness\" helps students understand the main idea.",
-    "exZh": "在2018成都中考 · 阅读/完形语篇中，「shyness」(害羞) 是理解主旨的关键词。",
+    "examEn": "At last, Ann o her shyness and gave us a speech in public.",
+    "examZh": "2018成都中考阅读/完形语篇中出现「shyness」（害羞）。",
+    "examYear": "2018",
+    "exEn": "Don't let shyness stop you from asking questions in class.",
+    "exZh": "别让害羞阻止你在课堂上提问。——心理成长",
     "ctx": "2018成都中考 · 阅读/完形 · Tier2",
-    "id": 505
+    "id": 506
   },
   {
     "cat": "tier2",
@@ -7592,10 +7802,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2019 passage, \"creativity\" helps students understand the main idea.",
-    "exZh": "在2019成都中考 · 阅读/完形语篇中，「creativity」(创造力) 是理解主旨的关键词。",
+    "examEn": "Creativity is great w for us because of its value in our work and life.",
+    "examZh": "2019成都中考阅读/完形语篇中出现「creativity」（创造力）。",
+    "examYear": "2019",
+    "exEn": "Art class gives students a chance to show their creativity.",
+    "exZh": "美术课让学生有机会展现创造力。——素质教育",
     "ctx": "2019成都中考 · 阅读/完形 · Tier2",
-    "id": 506
+    "id": 507
   },
   {
     "cat": "tier2",
@@ -7607,10 +7820,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2020 passage, \"official\" helps students understand the main idea.",
-    "exZh": "在2020成都中考 · 阅读/完形语篇中，「official」(官员) 是理解主旨的关键词。",
+    "examEn": "But he was perhaps a better thinker than he was an official and he ended up having to leave the state of Lu.",
+    "examZh": "2020成都中考阅读/完形语篇中出现「official」（官员）。",
+    "examYear": "2020",
+    "exEn": "An official from the education bureau visited our school yesterday.",
+    "exZh": "教育局的一位官员昨天来我校视察。——校园新闻",
     "ctx": "2020成都中考 · 阅读/完形 · Tier2",
-    "id": 507
+    "id": 508
   },
   {
     "cat": "tier2",
@@ -7622,10 +7838,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2020 passage, \"virtue\" helps students understand the main idea.",
-    "exZh": "在2020成都中考 · 阅读/完形语篇中，「virtue」(美德) 是理解主旨的关键词。",
+    "examEn": "Confucius thought everyone should develop virtues and always do the right thing.",
+    "examZh": "2020成都中考阅读/完形语篇中出现「virtue」（美德）。",
+    "examYear": "2020",
+    "exEn": "Honesty is a virtue that every student should value.",
+    "exZh": "诚实是每位学生都应珍视的美德。——品德教育",
     "ctx": "2020成都中考 · 阅读/完形 · Tier2",
-    "id": 508
+    "id": 509
   },
   {
     "cat": "tier2",
@@ -7637,10 +7856,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2021 passage, \"poetry\" helps students understand the main idea.",
-    "exZh": "在2021成都中考 · 阅读/完形语篇中，「poetry」(诗歌) 是理解主旨的关键词。",
+    "examEn": "Xu Yuanchong devoted his life to translating Chinese poetry into English and French.",
+    "examZh": "2021阅读：许渊冲将中国诗歌（poetry）译成英法双语。",
+    "examYear": "2021",
+    "exEn": "We read a Tang poem in class and discussed its beautiful poetry.",
+    "exZh": "我们在课上读了一首唐诗，品味其诗意之美。——语文融合",
     "ctx": "2021成都中考 · 阅读/完形 · Tier2",
-    "id": 509
+    "id": 510
   },
   {
     "cat": "tier2",
@@ -7652,10 +7874,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2021 passage, \"precision\" helps students understand the main idea.",
-    "exZh": "在2021成都中考 · 阅读/完形语篇中，「precision」(精确) 是理解主旨的关键词。",
+    "examEn": "We need a better way of printing numbers so that they can be read correctly at high speeds. That's the problem barcodes solve.",
+    "examZh": "2021阅读填句：条形码以条纹精确编码数字，解决误读问题（precision 考点）。",
+    "examYear": "2021",
+    "exEn": "Science experiments require precision — measure carefully each time.",
+    "exZh": "科学实验要求精确，每次都要仔细测量。——科学素养",
     "ctx": "2021成都中考 · 阅读/完形 · Tier2",
-    "id": 510
+    "id": 511
   },
   {
     "cat": "tier2",
@@ -7667,10 +7892,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2022 passage, \"disabled\" helps students understand the main idea.",
-    "exZh": "在2022成都中考 · 阅读/完形语篇中，「disabled」(残疾的) 是理解主旨的关键词。",
+    "examEn": "Niu Yu, a disabled girl with a mechanical leg, completed a marathon and inspired many people.",
+    "examZh": "2022阅读：残疾（disabled）女孩牛钰戴假肢完成马拉松，鼓舞众人。",
+    "examYear": "2022",
+    "exEn": "The school built ramps so disabled students can enter every classroom.",
+    "exZh": "学校修建坡道，方便残疾学生进入每间教室。——无障碍关怀",
     "ctx": "2022成都中考 · 阅读/完形 · Tier2",
-    "id": 511
+    "id": 512
   },
   {
     "cat": "tier2",
@@ -7682,10 +7910,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2022 passage, \"marathon\" helps students understand the main idea.",
-    "exZh": "在2022成都中考 · 阅读/完形语篇中，「marathon」(马拉松) 是理解主旨的关键词。",
+    "examEn": "Niu Yu, a disabled girl with a mechanical leg, completed a marathon and inspired many people.",
+    "examZh": "2022阅读：牛钰完成马拉松（marathon）的故事。",
+    "examYear": "2022",
+    "exEn": "He trained for months before running his first marathon.",
+    "exZh": "他训练数月后完成了人生第一次马拉松。——坚持",
     "ctx": "2022成都中考 · 阅读/完形 · Tier2",
-    "id": 512
+    "id": 513
   },
   {
     "cat": "tier2",
@@ -7697,10 +7928,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2022 passage, \"platform\" helps students understand the main idea.",
-    "exZh": "在2022成都中考 · 阅读/完形语篇中，「platform」(平台) 是理解主旨的关键词。",
+    "examEn": "Teens spend hours on social platforms, but too much screen time can harm their health.",
+    "examZh": "2022阅读：青少年在社交平台（platform）上花费大量时间。",
+    "examYear": "2022",
+    "exEn": "Use learning platforms wisely — don't let games steal your study time.",
+    "exZh": "合理使用学习平台，别让游戏占用学习时间。——网络素养",
     "ctx": "2022成都中考 · 阅读/完形 · Tier2",
-    "id": 513
+    "id": 514
   },
   {
     "cat": "tier2",
@@ -7712,10 +7946,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2023 passage, \"machine\" helps students understand the main idea.",
-    "exZh": "在2023成都中考 · 阅读/完形语篇中，「machine」(机器) 是理解主旨的关键词。",
+    "examEn": "They also trained a machine in the differences between thirsty plants and cut plants.",
+    "examZh": "2023成都中考阅读/完形语篇中出现「machine」（机器）。",
+    "examYear": "2023",
+    "exEn": "The washing machine broke down, so we washed clothes by hand.",
+    "exZh": "洗衣机坏了，我们只好手洗衣服。——日常生活",
     "ctx": "2023成都中考 · 阅读/完形 · Tier2",
-    "id": 514
+    "id": 515
   },
   {
     "cat": "tier2",
@@ -7727,10 +7964,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2023 passage, \"advantage\" helps students understand the main idea.",
-    "exZh": "在2023成都中考 · 阅读/完形语篇中，「advantage」(优势) 是理解主旨的关键词。",
+    "examEn": "Sound recordings of plants could bring humans lots of advantages, especially in farming.",
+    "examZh": "2023 B卷短文填词（还原）：植物声音记录可为农业带来诸多优势（advantages）。",
+    "examYear": "2023",
+    "exEn": "Reading English every day gives you a big advantage in the exam.",
+    "exZh": "每天坚持读英语，中考会有明显优势。——备考",
     "ctx": "2023成都中考 · 阅读/完形 · Tier2",
-    "id": 515
+    "id": 516
   },
   {
     "cat": "tier2",
@@ -7742,10 +7982,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2023 passage, \"chance\" helps students understand the main idea.",
-    "exZh": "在2023成都中考 · 阅读/完形语篇中，「chance」(机会) 是理解主旨的关键词。",
+    "examEn": "Just try!” If you have a chance, take it.",
+    "examZh": "2023成都中考阅读/完形语篇中出现「chance」（机会）。",
+    "examYear": "2023",
+    "exEn": "Take every chance to speak English with your classmates.",
+    "exZh": "抓住每一个和同学说英语的机会。——口语练习",
     "ctx": "2023成都中考 · 阅读/完形 · Tier2",
-    "id": 516
+    "id": 517
   },
   {
     "cat": "tier2",
@@ -7757,10 +8000,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2023 passage, \"difference\" helps students understand the main idea.",
-    "exZh": "在2023成都中考 · 阅读/完形语篇中，「difference」(差异) 是理解主旨的关键词。",
+    "examEn": "They also trained a machine in the differences between thirsty plants and cut plants.",
+    "examZh": "2023成都中考阅读/完形语篇中出现「difference」（差异）。",
+    "examYear": "2023",
+    "exEn": "Can you tell the difference between \"look for\" and \"look after\"?",
+    "exZh": "你能区分 look for 和 look after 吗？——词汇辨析",
     "ctx": "2023成都中考 · 阅读/完形 · Tier2",
-    "id": 517
+    "id": 518
   },
   {
     "cat": "tier2",
@@ -7772,10 +8018,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2024 passage, \"talent\" helps students understand the main idea.",
-    "exZh": "在2024成都中考 · 阅读/完形语篇中，「talent」(天赋) 是理解主旨的关键词。",
+    "examEn": "So many talented modern writers have rewritten Shakespeare's plays in the way people speak today.",
+    "examZh": "2024 B卷短文填词：许多有才华（talented）的作家用现代语言改写莎士比亚戏剧。",
+    "examYear": "2024",
+    "exEn": "She has a talent for music and plays the piano beautifully.",
+    "exZh": "她有音乐天赋，钢琴弹得很优美。——才艺",
     "ctx": "2024成都中考 · 阅读/完形 · Tier2",
-    "id": 518
+    "id": 519
   },
   {
     "cat": "tier2",
@@ -7787,10 +8036,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2024 passage, \"solve\" helps students understand the main idea.",
-    "exZh": "在2024成都中考 · 阅读/完形语篇中，「solve」(解决) 是理解主旨的关键词。",
+    "examEn": "Being e by my teachers，I can solve almost all the problems that seemed difficult for me at first.",
+    "examZh": "2024成都中考阅读/完形语篇中出现「solve」（解决）。",
+    "examYear": "2024",
+    "exEn": "Work with your partner to solve the math problem on the board.",
+    "exZh": "和搭档一起解决黑板上的数学题。——课堂合作",
     "ctx": "2024成都中考 · 阅读/完形 · Tier2",
-    "id": 519
+    "id": 520
   },
   {
     "cat": "tier2",
@@ -7802,10 +8054,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2024 passage, \"agree\" helps students understand the main idea.",
-    "exZh": "在2024成都中考 · 阅读/完形语篇中，「agree」(同意) 是理解主旨的关键词。",
+    "examEn": "I quite agree with you.",
+    "examZh": "2024成都中考阅读/完形语篇中出现「agree」（同意）。",
+    "examYear": "2024",
+    "exEn": "Most students agree that outdoor activities help them relax.",
+    "exZh": "多数同学同意户外活动有助于放松。——观点表达",
     "ctx": "2024成都中考 · 阅读/完形 · Tier2",
-    "id": 520
+    "id": 521
   },
   {
     "cat": "tier2",
@@ -7817,10 +8072,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2025 passage, \"enjoy\" helps students understand the main idea.",
-    "exZh": "在2025成都中考 · 阅读/完形语篇中，「enjoy」(享受) 是理解主旨的关键词。",
+    "examEn": "The purpose of World Book Day is to encourage people to enjoy reading and there’s no doubt that a book’s ending is usually a big part of that joy.",
+    "examZh": "2025成都中考阅读/完形语篇中出现「enjoy」（享受）。",
+    "examYear": "2025",
+    "exEn": "I enjoy reading English stories before I go to bed.",
+    "exZh": "我喜欢睡前读英语故事。——兴趣爱好",
     "ctx": "2025成都中考 · 阅读/完形 · Tier2",
-    "id": 521
+    "id": 522
   },
   {
     "cat": "tier2",
@@ -7832,10 +8090,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2025 passage, \"offer\" helps students understand the main idea.",
-    "exZh": "在2025成都中考 · 阅读/完形语篇中，「offer」(提供) 是理解主旨的关键词。",
+    "examEn": "The society offers different kinds of chances to different people.",
+    "examZh": "2025成都中考阅读/完形语篇中出现「offer」（提供）。",
+    "examYear": "2025",
+    "exEn": "The volunteer club will offer free tutoring after school.",
+    "exZh": "志愿者社团将在放学后提供免费辅导。——公益",
     "ctx": "2025成都中考 · 阅读/完形 · Tier2",
-    "id": 522
+    "id": 523
   },
   {
     "cat": "tier2",
@@ -7847,10 +8108,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2025 passage, \"rule\" helps students understand the main idea.",
-    "exZh": "在2025成都中考 · 阅读/完形语篇中，「rule」(规则) 是理解主旨的关键词。",
+    "examEn": "Following the rule of \"social distancing\" is probably well-known to us all now.",
+    "examZh": "2025成都中考阅读/完形语篇中出现「rule」（规则）。",
+    "examYear": "2025",
+    "exEn": "Follow the classroom rules so everyone can learn in peace.",
+    "exZh": "遵守课堂规则，大家才能安心学习。——纪律",
     "ctx": "2025成都中考 · 阅读/完形 · Tier2",
-    "id": 523
+    "id": 524
   },
   {
     "cat": "tier3",
@@ -7862,10 +8126,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2018 passage, \"disgust\" helps students understand the main idea.",
-    "exZh": "在2018成都中考 · 阅读/完形语篇中，「disgust」(厌恶) 是理解主旨的关键词。",
+    "examEn": "To his disgust, the food on the table had already gone bad.",
+    "examZh": "2018阅读：令他厌恶（disgust）的是，桌上的食物已经变质。",
+    "examYear": "2018",
+    "exEn": "He turned away in disgust when he saw the messy room.",
+    "exZh": "看到凌乱的房间，他厌恶地转过身去。——情感词汇",
     "ctx": "2018成都中考 · 阅读/完形 · Tier3",
-    "id": 524
+    "id": 525
   },
   {
     "cat": "tier3",
@@ -7877,10 +8144,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2018 passage, \"triggered\" helps students understand the main idea.",
-    "exZh": "在2018成都中考 · 阅读/完形语篇中，「triggered」(触发) 是理解主旨的关键词。",
+    "examEn": "The loud noise triggered the smoke alarm in the building.",
+    "examZh": "2018阅读：巨大声响触发（triggered）了烟雾报警器。",
+    "examYear": "2018",
+    "exEn": "The photo triggered her memory of the happy summer camp.",
+    "exZh": "这张照片触发了她对快乐夏令营的回忆。——心理描写",
     "ctx": "2018成都中考 · 阅读/完形 · Tier3",
-    "id": 525
+    "id": 526
   },
   {
     "cat": "tier3",
@@ -7892,10 +8162,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2019 passage, \"creativity\" helps students understand the main idea.",
-    "exZh": "在2019成都中考 · 阅读/完形语篇中，「creativity」(创造力) 是理解主旨的关键词。",
+    "examEn": "Creativity is great w for us because of its value in our work and life.",
+    "examZh": "2019成都中考阅读/完形语篇中出现「creativity」（创造力）。",
+    "examYear": "2019",
+    "exEn": "Art class gives students a chance to show their creativity.",
+    "exZh": "美术课让学生有机会展现创造力。——素质教育",
     "ctx": "2019成都中考 · 阅读/完形 · Tier3",
-    "id": 526
+    "id": 527
   },
   {
     "cat": "tier3",
@@ -7907,10 +8180,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2023 passage, \"polypropylene\" helps students understand the main idea.",
-    "exZh": "在2023成都中考 · 阅读/完形语篇中，「polypropylene」(聚丙烯) 是理解主旨的关键词。",
+    "examEn": "A natural material, fungi , used to break down a type of plastic called polypropylene turned out to be useful.",
+    "examZh": "2023成都中考阅读/完形语篇中出现「polypropylene」（聚丙烯）。",
+    "examYear": "2023",
+    "exEn": "Many food containers are made of polypropylene because it is light and safe.",
+    "exZh": "许多食品容器由聚丙烯制成，轻便又安全。——材料科学",
     "ctx": "2023成都中考 · 阅读/完形 · Tier3",
-    "id": 527
+    "id": 528
   },
   {
     "cat": "tier3",
@@ -7922,10 +8198,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2023 passage, \"fungi\" helps students understand the main idea.",
-    "exZh": "在2023成都中考 · 阅读/完形语篇中，「fungi」(真菌) 是理解主旨的关键词。",
+    "examEn": "A natural material, fungi , used to break down a type of plastic called polypropylene turned out to be useful.",
+    "examZh": "2023成都中考阅读/完形语篇中出现「fungi」（真菌）。",
+    "examYear": "2023",
+    "exEn": "Fungi help break down dead plants and return nutrients to the soil.",
+    "exZh": "真菌分解枯死植物，把养分归还土壤。——生物科普",
     "ctx": "2023成都中考 · 阅读/完形 · Tier3",
-    "id": 528
+    "id": 529
   },
   {
     "cat": "tier3",
@@ -7937,10 +8216,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2023 passage, \"Sanjiangyuan\" helps students understand the main idea.",
-    "exZh": "在2023成都中考 · 阅读/完形语篇中，「Sanjiangyuan」(三江源) 是理解主旨的关键词。",
+    "examEn": "Sanjiangyuan is known as China's \"water tower\" because three great rivers begin there.",
+    "examZh": "2023阅读：三江源（Sanjiangyuan）被誉为中华水塔。",
+    "examYear": "2023",
+    "exEn": "Protecting Sanjiangyuan helps keep China's major rivers clean.",
+    "exZh": "保护三江源有助于保持中国大江大河的水质清洁。——生态",
     "ctx": "2023成都中考 · 阅读/完形 · Tier3",
-    "id": 529
+    "id": 530
   },
   {
     "cat": "tier3",
@@ -7952,10 +8234,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2023 passage, \"Tiangong Space Station\" helps students understand the main idea.",
-    "exZh": "在2023成都中考 · 阅读/完形语篇中，「Tiangong Space Station」(天宫空间站) 是理解主旨的关键词。",
+    "examEn": "Chinese astronauts have conducted many experiments on the Tiangong Space Station.",
+    "examZh": "2023阅读：中国航天员在天宫空间站（Tiangong Space Station）开展实验。",
+    "examYear": "2023",
+    "exEn": "China's achievements in the Tiangong Space Station inspire young scientists.",
+    "exZh": "天宫空间站的成就激励着青年科学家。——航天科技",
     "ctx": "2023成都中考 · 阅读/完形 · Tier3",
-    "id": 530
+    "id": 531
   },
   {
     "cat": "tier3",
@@ -7967,10 +8252,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2024 passage, \"Meteorologica\" helps students understand the main idea.",
-    "exZh": "在2024成都中考 · 阅读/完形语篇中，「Meteorologica」(气象学（著作）) 是理解主旨的关键词。",
+    "examEn": "Around 340 BC, Aristotle, a famous Greek thinker and scientist, wrote Meteorologica .",
+    "examZh": "2024成都中考阅读/完形语篇中出现「Meteorologica」（气象学（著作））。",
+    "examYear": "2024",
+    "exEn": "Aristotle's Meteorologica is one of the earliest books about weather.",
+    "exZh": "亚里士多德《气象学》是最早的天气研究著作之一。——科学史",
     "ctx": "2024成都中考 · 阅读/完形 · Tier3",
-    "id": 531
+    "id": 532
   },
   {
     "cat": "tier3",
@@ -7982,10 +8270,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2024 passage, \"radiosonde\" helps students understand the main idea.",
-    "exZh": "在2024成都中考 · 阅读/完形语篇中，「radiosonde」(无线电探空仪) 是理解主旨的关键词。",
+    "examEn": "The next big step came in the 1920s with the invention of the “radiosonde”, a balloon carrying weather instruments high above the ground to collect information.",
+    "examZh": "2024成都中考阅读/完形语篇中出现「radiosonde」（无线电探空仪）。",
+    "examYear": "2024",
+    "exEn": "A radiosonde is carried by balloon to measure temperature high in the sky.",
+    "exZh": "无线电探空仪随气球升空，测量高空温度。——气象",
     "ctx": "2024成都中考 · 阅读/完形 · Tier3",
-    "id": 532
+    "id": 533
   },
   {
     "cat": "tier3",
@@ -7997,10 +8288,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2024 passage, \"Hurricane Lee\" helps students understand the main idea.",
-    "exZh": "在2024成都中考 · 阅读/完形语篇中，「Hurricane Lee」(飓风李) 是理解主旨的关键词。",
+    "examEn": "For example, they once helped predict where Hurricane Lee, which hit the US and Canada, would land nine days in advance .",
+    "examZh": "2024成都中考阅读/完形语篇中出现「Hurricane Lee」（飓风李）。",
+    "examYear": "2024",
+    "exEn": "Weather reports tracked Hurricane Lee as it moved across the Atlantic.",
+    "exZh": "气象报道追踪飓风李（Hurricane Lee）横跨大西洋的路径。——灾害天气",
     "ctx": "2024成都中考 · 阅读/完形 · Tier3",
-    "id": 533
+    "id": 534
   },
   {
     "cat": "tier3",
@@ -8012,10 +8306,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2023 passage, \"James Webb Space Telescope\" helps students understand the main idea.",
-    "exZh": "在2023成都中考 · 阅读/完形语篇中，「James Webb Space Telescope」(韦布望远镜) 是理解主旨的关键词。",
+    "examEn": "The James Webb Space Telescope has sent back clear images of distant galaxies.",
+    "examZh": "2023阅读：韦布太空望远镜（James Webb Space Telescope）传回遥远星系图像。",
+    "examYear": "2023",
+    "exEn": "Images from the James Webb Space Telescope help us understand the early universe.",
+    "exZh": "韦布望远镜的图像帮助人类了解早期宇宙。——天文",
     "ctx": "2023成都中考 · 阅读/完形 · Tier3",
-    "id": 534
+    "id": 535
   },
   {
     "cat": "tier3",
@@ -8027,10 +8324,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2025 passage, \"Dipteryx oleifera\" helps students understand the main idea.",
-    "exZh": "在2025成都中考 · 阅读/完形语篇中，「Dipteryx oleifera」(巴拿马树种) 是理解主旨的关键词。",
+    "examEn": "Dipteryx oleifera, a tree in Panama’s forests, has probably experienced 10 lightning strikes so far.",
+    "examZh": "2025成都中考阅读/完形语篇中出现「Dipteryx oleifera」（巴拿马树种）。",
+    "examYear": "2025",
+    "exEn": "Dipteryx oleifera is a tree species scientists study in tropical forests.",
+    "exZh": "巴拿马树种 Dipteryx oleifera 是科学家研究的热带树种。——生物多样性",
     "ctx": "2025成都中考 · 阅读/完形 · Tier3",
-    "id": 535
+    "id": 536
   },
   {
     "cat": "tier3",
@@ -8042,10 +8342,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2025 passage, \"conductive\" helps students understand the main idea.",
-    "exZh": "在2025成都中考 · 阅读/完形语篇中，「conductive」(可传导的) 是理解主旨的关键词。",
+    "examEn": "However, they think that trees will be heated less if they’re more conductive.",
+    "examZh": "2025成都中考阅读/完形语篇中出现「conductive」（可传导的）。",
+    "examYear": "2025",
+    "exEn": "Copper wire is highly conductive, so it is used in electrical cables.",
+    "exZh": "铜线导电性强，常用于电缆。——物理常识",
     "ctx": "2025成都中考 · 阅读/完形 · Tier3",
-    "id": 536
+    "id": 537
   },
   {
     "cat": "tier3",
@@ -8057,10 +8360,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2025 passage, \"parasitic\" helps students understand the main idea.",
-    "exZh": "在2025成都中考 · 阅读/完形语篇中，「parasitic」(寄生的) 是理解主旨的关键词。",
+    "examEn": "The lightning’s strong power kills the parasitic vines on the trees.",
+    "examZh": "2025成都中考阅读/完形语篇中出现「parasitic」（寄生的）。",
+    "examYear": "2025",
+    "exEn": "Some parasitic plants take water and nutrients from other plants.",
+    "exZh": "有些寄生植物从其他植物吸取水分和养分。——生物",
     "ctx": "2025成都中考 · 阅读/完形 · Tier3",
-    "id": 537
+    "id": 538
   },
   {
     "cat": "tier3",
@@ -8072,10 +8378,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2026 passage, \"impervious\" helps students understand the main idea.",
-    "exZh": "在2026成都中考 · 阅读/完形语篇中，「impervious」(不受影响的) 是理解主旨的关键词。",
+    "examEn": "His life was just as what he once wrote, \"Impervious to wind, rain or shine, I'll have my own will.\"",
+    "examZh": "2026完成短文：苏轼自勉「风雨无阻，我行我素」——impervious 意为不受影响。",
+    "examYear": "2026",
+    "exEn": "Good habits make you impervious to bad influences from the internet.",
+    "exZh": "良好习惯能让你不受网络不良影响的侵蚀。——自律",
     "ctx": "2026成都中考 · 阅读/完形 · Tier3",
-    "id": 538
+    "id": 539
   },
   {
     "cat": "tier3",
@@ -8087,10 +8396,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2026 passage, \"knocker-uppers\" helps students understand the main idea.",
-    "exZh": "在2026成都中考 · 阅读/完形语篇中，「knocker-uppers」(职业叫醒人) 是理解主旨的关键词。",
+    "examEn": "To make sure people didn't oversleep, knocker-uppers also known as wake-up helpers appeared.",
+    "examZh": "2026阅读C篇：工业革命时期职业叫醒人（knocker-uppers）沿街敲窗叫人起床。",
+    "examYear": "2026",
+    "exEn": "Before alarm clocks were common, knocker-uppers woke factory workers in the morning.",
+    "exZh": "闹钟普及前，职业叫醒人（knocker-uppers）清晨唤醒工人。——历史职业",
     "ctx": "2026成都中考 · 阅读/完形 · Tier3",
-    "id": 539
+    "id": 540
   },
   {
     "cat": "tier3",
@@ -8102,10 +8414,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2019 passage, \"understatement\" helps students understand the main idea.",
-    "exZh": "在2019成都中考 · 阅读/完形语篇中，「understatement」(轻描淡写) 是理解主旨的关键词。",
+    "examEn": "After some terrible experience, we might say, \"Not very pleasant.\"",
+    "examZh": "2019阅读：英式幽默用轻描淡写（understatement）说「不太愉快」。",
+    "examYear": "2019",
+    "exEn": "Saying the exam was \"a bit hard\" was an understatement — it was very difficult.",
+    "exZh": "说考试「有点难」是轻描淡写——其实非常难。——修辞",
     "ctx": "2019成都中考 · 阅读/完形 · Tier3",
-    "id": 540
+    "id": 541
   },
   {
     "cat": "tier3",
@@ -8117,10 +8432,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2023 passage, \"anthropomorphism\" helps students understand the main idea.",
-    "exZh": "在2023成都中考 · 阅读/完形语篇中，「anthropomorphism」(拟人化) 是理解主旨的关键词。",
+    "examEn": "Do you believe a rose plant says \"I want some water\" or a tree shouts \"My arms hurt\"?",
+    "examZh": "2023 B卷短文开篇：植物是否会「说话」——拟人化（anthropomorphism）话题。",
+    "examYear": "2023",
+    "exEn": "Calling a cat \"he\" in a story is an example of anthropomorphism.",
+    "exZh": "在故事里把猫称作「他」是拟人化（anthropomorphism）的例子。——文学手法",
     "ctx": "2023成都中考 · 阅读/完形 · Tier3",
-    "id": 541
+    "id": 542
   },
   {
     "cat": "tier3",
@@ -8132,10 +8450,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2026 passage, \"remix\" helps students understand the main idea.",
-    "exZh": "在2026成都中考 · 阅读/完形语篇中，「remix」(混音改编) 是理解主旨的关键词。",
+    "examEn": "It was an electronic remix (a mix of different songs) I made.",
+    "examZh": "2026阅读B篇：男孩用电子混音（remix）改编古典乐。",
+    "examYear": "2026",
+    "exEn": "The DJ played a remix that mixed two popular songs together.",
+    "exZh": "DJ 播放了一首将两首流行歌混音改编（remix）的版本。——流行文化",
     "ctx": "2026成都中考 · 阅读/完形 · Tier3",
-    "id": 542
+    "id": 543
   },
   {
     "cat": "tier3",
@@ -8147,10 +8468,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2026 passage, \"snow leopard\" helps students understand the main idea.",
-    "exZh": "在2026成都中考 · 阅读/完形语篇中，「snow leopard」(雪豹) 是理解主旨的关键词。",
+    "examEn": "A photographer spent years recording the daily life of wild snow leopards in Qinghai.",
+    "examZh": "2026阅读：青海雪豹（snow leopard）保护题材。",
+    "examYear": "2026",
+    "exEn": "The snow leopard is one of the rarest animals in China's mountains.",
+    "exZh": "雪豹是中国山区最稀有的动物之一。——野生动物保护",
     "ctx": "2026成都中考 · 阅读/完形 · Tier3",
-    "id": 543
+    "id": 544
   },
   {
     "cat": "tier3",
@@ -8162,10 +8486,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2026 passage, \"Café Schokolade\" helps students understand the main idea.",
-    "exZh": "在2026成都中考 · 阅读/完形语篇中，「Café Schokolade」(维也纳巧克力咖啡馆) 是理解主旨的关键词。",
+    "examEn": "Every tourist comes here to take photos and eat.",
+    "examZh": "2026阅读A篇评论：维也纳 Café Schokolade 是游客打卡的巧克力咖啡馆。",
+    "examYear": "2026",
+    "exEn": "Tourists visit Café Schokolade in Vienna for its famous chocolate cake.",
+    "exZh": "游客去维也纳 Café Schokolade 品尝招牌巧克力蛋糕。——世界文化",
     "ctx": "2026成都中考 · 阅读/完形 · Tier3",
-    "id": 544
+    "id": 545
   },
   {
     "cat": "tier3",
@@ -8177,10 +8504,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2026 passage, \"Forest Listeners\" helps students understand the main idea.",
-    "exZh": "在2026成都中考 · 阅读/完形语篇中，「Forest Listeners」(森林聆听者项目) 是理解主旨的关键词。",
+    "examEn": "\"Every sound tagged by a forest listener helps train our AI models,\" the scientists said.",
+    "examZh": "2026阅读A篇：森林聆听者（Forest Listeners）项目用 AI 识别雨林动物叫声。",
+    "examYear": "2026",
+    "exEn": "Volunteers joined Forest Listeners to help scientists study rainforest sounds.",
+    "exZh": "志愿者加入森林聆听者项目，协助科学家研究雨林声音。——公民科学",
     "ctx": "2026成都中考 · 阅读/完形 · Tier3",
-    "id": 545
+    "id": 546
   },
   {
     "cat": "tier3",
@@ -8192,10 +8522,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2022 passage, \"Boyi\" helps students understand the main idea.",
-    "exZh": "在2022成都中考 · 阅读/完形语篇中，「Boyi」(伯益（上古环保官）) 是理解主旨的关键词。",
+    "examEn": "Boyi was an official in ancient China who was responsible for protecting birds and forests.",
+    "examZh": "2022阅读：上古环保官伯益（Boyi）护鸟护林的故事。",
+    "examYear": "2022",
+    "exEn": "Boyi is remembered as an early protector of birds and forests in Chinese history.",
+    "exZh": "伯益在中国历史上被誉为早期的护鸟护林者。——环保先驱",
     "ctx": "2022成都中考 · 阅读/完形 · Tier3",
-    "id": 546
+    "id": 547
   },
   {
     "cat": "tier3",
@@ -8207,10 +8540,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2019 passage, \"impossible foods\" helps students understand the main idea.",
-    "exZh": "在2019成都中考 · 阅读/完形语篇中，「impossible foods」(植物肉公司) 是理解主旨的关键词。",
+    "examEn": "The company behind the burger, Impossible Foods, uses peas and potatoes to make the “beef”.",
+    "examZh": "2019成都中考阅读/完形语篇中出现「impossible foods」（植物肉公司）。",
+    "examYear": "2019",
+    "exEn": "Impossible Foods develops plant-based meat to reduce harm to the environment.",
+    "exZh": "Impossible Foods 研发植物肉，以减少对环境的破坏。——绿色饮食",
     "ctx": "2019成都中考 · 阅读/完形 · Tier3",
-    "id": 547
+    "id": 548
   },
   {
     "cat": "tier3",
@@ -8222,10 +8558,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2020 passage, \"personification\" helps students understand the main idea.",
-    "exZh": "在2020成都中考 · 阅读/完形语篇中，「personification」(拟人修辞) 是理解主旨的关键词。",
+    "examEn": "Here the poet uses personification, as if the rair were smart enough to come in time for the farmer's busy season.",
+    "examZh": "2020成都中考阅读/完形语篇中出现「personification」（拟人修辞）。",
+    "examYear": "2020",
+    "exEn": "\"The wind whispered through the trees\" uses personification in writing.",
+    "exZh": "「风在树林间低语」运用了拟人修辞（personification）。——写作技巧",
     "ctx": "2020成都中考 · 阅读/完形 · Tier3",
-    "id": 548
+    "id": 549
   },
   {
     "cat": "tier3",
@@ -8237,10 +8576,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2021 passage, \"Xu Yuanchong\" helps students understand the main idea.",
-    "exZh": "在2021成都中考 · 阅读/完形语篇中，「Xu Yuanchong」(许渊冲) 是理解主旨的关键词。",
+    "examEn": "Xu Yuanchong, a famous translator, devoted his life to translating Chinese poetry into English and French.",
+    "examZh": "2021阅读：翻译家许渊冲（Xu Yuanchong）毕生致力于中国诗歌外译。",
+    "examYear": "2021",
+    "exEn": "Xu Yuanchong showed that Chinese poetry can touch readers around the world.",
+    "exZh": "许渊冲证明了中国诗歌能打动世界读者。——文化传播",
     "ctx": "2021成都中考 · 阅读/完形 · Tier3",
-    "id": 549
+    "id": 550
   },
   {
     "cat": "tier3",
@@ -8252,10 +8594,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2023 passage, \"Monet\" helps students understand the main idea.",
-    "exZh": "在2023成都中考 · 阅读/完形语篇中，「Monet」(莫奈) 是理解主旨的关键词。",
+    "examEn": "Monet was a leading impressionist painter who loved to paint water lilies and natural light.",
+    "examZh": "2023阅读：印象派画家莫奈（Monet）以睡莲与光影著称。",
+    "examYear": "2023",
+    "exEn": "Monet's paintings of water lilies are famous for their soft colors.",
+    "exZh": "莫奈的睡莲画作以柔和色彩闻名。——艺术欣赏",
     "ctx": "2023成都中考 · 阅读/完形 · Tier3",
-    "id": 550
+    "id": 551
   },
   {
     "cat": "tier3",
@@ -8267,10 +8612,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2024 passage, \"Shakespeare\" helps students understand the main idea.",
-    "exZh": "在2024成都中考 · 阅读/完形语篇中，「Shakespeare」(莎士比亚) 是理解主旨的关键词。",
+    "examEn": "Shakespeare wrote many famous plays that are still performed around the world today.",
+    "examZh": "2024阅读：莎士比亚（Shakespeare）的戏剧至今仍在全球上演。",
+    "examYear": "2024",
+    "exEn": "Many students first meet Shakespeare through his play Romeo and Juliet.",
+    "exZh": "许多学生通过《罗密欧与朱丽叶》初识莎士比亚。——文学经典",
     "ctx": "2024成都中考 · 阅读/完形 · Tier3",
-    "id": 551
+    "id": 552
   },
   {
     "cat": "tier3",
@@ -8282,10 +8630,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2024 passage, \"Aristotle\" helps students understand the main idea.",
-    "exZh": "在2024成都中考 · 阅读/完形语篇中，「Aristotle」(亚里士多德) 是理解主旨的关键词。",
+    "examEn": "Aristotle, an ancient Greek philosopher, wrote about logic, science and ethics.",
+    "examZh": "2024阅读：古希腊哲学家亚里士多德（Aristotle）。",
+    "examYear": "2024",
+    "exEn": "Aristotle taught that good habits help people live a good life.",
+    "exZh": "亚里士多德认为良好习惯助人过上美好生活。——哲学思想",
     "ctx": "2024成都中考 · 阅读/完形 · Tier3",
-    "id": 552
+    "id": 553
   },
   {
     "cat": "tier3",
@@ -8297,10 +8648,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2026 passage, \"Terracotta Warriors\" helps students understand the main idea.",
-    "exZh": "在2026成都中考 · 阅读/完形语篇中，「Terracotta Warriors」(兵马俑) 是理解主旨的关键词。",
+    "examEn": "During his rule, he ordered his men to build a huge army of life-sized terracotta warriors.",
+    "examZh": "2026短文填词：秦始皇下令建造兵马俑（Terracotta Warriors）。",
+    "examYear": "2026",
+    "exEn": "The Terracotta Warriors show the amazing skill of ancient Chinese craftsmen.",
+    "exZh": "兵马俑展现了古代中国工匠的惊人技艺。——世界遗产",
     "ctx": "2026成都中考 · 阅读/完形 · Tier3",
-    "id": 553
+    "id": 554
   },
   {
     "cat": "tier3",
@@ -8312,10 +8666,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2026 passage, \"Su Shi\" helps students understand the main idea.",
-    "exZh": "在2026成都中考 · 阅读/完形语篇中，「Su Shi」(苏轼/东坡) 是理解主旨的关键词。",
+    "examEn": "The great poet Su Shi of the Northern Song Dynasty is .",
+    "examZh": "2026成都中考阅读/完形语篇中出现「Su Shi / Dongpo」（苏轼/东坡）。",
+    "examYear": "2026",
+    "exEn": "Knowing \"Su Shi\" helps you read Chengdu exam passages about 苏轼/东坡.",
+    "exZh": "掌握「Su Shi」（苏轼/东坡）有助于读懂成都中考相关语篇。",
     "ctx": "2026成都中考 · 阅读/完形 · Tier3",
-    "id": 554
+    "id": 555
   },
   {
     "cat": "tier3",
@@ -8327,10 +8684,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2026 passage, \"Huangzhou\" helps students understand the main idea.",
-    "exZh": "在2026成都中考 · 阅读/完形语篇中，「Huangzhou」(黄州) 是理解主旨的关键词。",
+    "examEn": "In Huangzhou, he cooked cheap pork for hours with patience and created \"Dongpo Pork\".",
+    "examZh": "2026完成短文：苏轼贬居黄州（Huangzhou）期间创制东坡肉。",
+    "examYear": "2026",
+    "exEn": "In Huangzhou, Su Shi wrote some of his most famous poems.",
+    "exZh": "苏轼在黄州写下了许多传世名篇。——文化地理",
     "ctx": "2026成都中考 · 阅读/完形 · Tier3",
-    "id": 555
+    "id": 556
   },
   {
     "cat": "tier3",
@@ -8342,10 +8702,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2026 passage, \"Dongpo Pork\" helps students understand the main idea.",
-    "exZh": "在2026成都中考 · 阅读/完形语篇中，「Dongpo Pork」(东坡肉) 是理解主旨的关键词。",
+    "examEn": "In Huangzhou, he cooked cheap pork for hours with patience and created \"Dongpo Pork\".",
+    "examZh": "2026完成短文：苏轼创制名菜东坡肉（Dongpo Pork）。",
+    "examYear": "2026",
+    "exEn": "Dongpo Pork is a famous dish named after the poet Su Shi.",
+    "exZh": "东坡肉是以诗人苏轼命名的名菜。——饮食文化",
     "ctx": "2026成都中考 · 阅读/完形 · Tier3",
-    "id": 556
+    "id": 557
   },
   {
     "cat": "tier3",
@@ -8357,10 +8720,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2019 passage, \"Saihanba\" helps students understand the main idea.",
-    "exZh": "在2019成都中考 · 阅读/完形语篇中，「Saihanba」(塞罕坝) 是理解主旨的关键词。",
+    "examEn": "After decades of hard work, Saihanba has turned from a desert into a green forest.",
+    "examZh": "2019阅读：塞罕坝（Saihanba）由荒漠变林海的生态修复故事。",
+    "examYear": "2019",
+    "exEn": "Saihanba proves that people can turn deserts back into green forests.",
+    "exZh": "塞罕坝证明人能把荒漠重新变成绿色林海。——生态修复",
     "ctx": "2019成都中考 · 阅读/完形 · Tier3",
-    "id": 557
+    "id": 558
   },
   {
     "cat": "tier3",
@@ -8372,10 +8738,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2022 passage, \"Niu Yu\" helps students understand the main idea.",
-    "exZh": "在2022成都中考 · 阅读/完形语篇中，「Niu Yu」(牛钰) 是理解主旨的关键词。",
+    "examEn": "Niu Yu, a disabled girl with a mechanical leg, completed a marathon and inspired many people.",
+    "examZh": "2022阅读：主人公牛钰（Niu Yu）的励志故事。",
+    "examYear": "2022",
+    "exEn": "Niu Yu's story teaches us to face challenges with courage and hope.",
+    "exZh": "牛钰的故事教会我们以勇气与希望面对挑战。——励志人物",
     "ctx": "2022成都中考 · 阅读/完形 · Tier3",
-    "id": 558
+    "id": 559
   },
   {
     "cat": "tier3",
@@ -8387,10 +8756,13 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In the 2025 passage, \"Dashiban\" helps students understand the main idea.",
-    "exZh": "在2025成都中考 · 阅读/完形语篇中，「Dashiban」(大石板村) 是理解主旨的关键词。",
+    "examEn": "Dashiban, a village in Yunnan, has become popular with tourists who want to experience rural life.",
+    "examZh": "2025阅读：云南大石板村（Dashiban）乡村旅游故事。",
+    "examYear": "2025",
+    "exEn": "Dashiban shows how rural tourism can bring new jobs to villagers.",
+    "exZh": "大石板村说明乡村旅游能为村民带来新就业机会。——乡村振兴",
     "ctx": "2025成都中考 · 阅读/完形 · Tier3",
-    "id": 559
+    "id": 560
   },
   {
     "cat": "predict",
@@ -8402,10 +8774,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"artificial intelligence\" before entering senior school.",
-    "exZh": "拓展词汇：人工智能（科技） — 真题未考但应理解。",
+    "exEn2": "Our school club built a small robot using artificial intelligence tools.",
+    "exZh2": "学校社团用人工智能工具造了一台小机器人。——科技",
+    "exEn": "Artificial intelligence helps doctors read X-ray images more quickly.",
+    "exZh": "人工智能帮助医生更快地解读 X 光片。——科技",
     "ctx": "预测补充 · 科技",
-    "id": 560
+    "id": 561
   },
   {
     "cat": "predict",
@@ -8417,10 +8791,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"machine learning\" before entering senior school.",
-    "exZh": "拓展词汇：机器学习（科技） — 真题未考但应理解。",
+    "exEn2": "Scientists use machine learning to study weather changes.",
+    "exZh2": "科学家用机器学习研究天气变化。——科技",
+    "exEn": "Machine learning lets apps suggest songs you may like.",
+    "exZh": "机器学习让应用能推荐你可能喜欢的歌曲。——科技",
     "ctx": "预测补充 · 科技",
-    "id": 561
+    "id": 562
   },
   {
     "cat": "predict",
@@ -8432,10 +8808,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"self-driving car\" before entering senior school.",
-    "exZh": "拓展词汇：自动驾驶汽车（科技） — 真题未考但应理解。",
+    "exEn2": "Many companies are testing the self-driving car on city roads.",
+    "exZh2": "许多公司正在城市道路测试自动驾驶汽车。——科技",
+    "exEn": "A self-driving car can follow traffic rules on its own.",
+    "exZh": "自动驾驶汽车能自行遵守交通规则。——科技",
     "ctx": "预测补充 · 科技",
-    "id": 562
+    "id": 563
   },
   {
     "cat": "predict",
@@ -8447,10 +8825,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"facial recognition\" before entering senior school.",
-    "exZh": "拓展词汇：人脸识别（科技） — 真题未考但应理解。",
+    "exEn2": "The airport uses facial recognition to check passengers faster.",
+    "exZh2": "机场用人脸识别加快旅客核验。——科技",
+    "exEn": "Facial recognition unlocks my phone when I look at the screen.",
+    "exZh": "人脸识别让我看向屏幕时即可解锁手机。——科技",
     "ctx": "预测补充 · 科技",
-    "id": 563
+    "id": 564
   },
   {
     "cat": "predict",
@@ -8462,10 +8842,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"blockchain\" before entering senior school.",
-    "exZh": "拓展词汇：区块链（科技） — 真题未考但应理解。",
+    "exEn2": "Some banks are studying how blockchain can protect online payments.",
+    "exZh2": "部分银行在研究区块链如何保护在线支付。——科技",
+    "exEn": "Blockchain keeps digital records safe and hard to change.",
+    "exZh": "区块链使数字记录安全且难以篡改。——科技",
     "ctx": "预测补充 · 科技",
-    "id": 564
+    "id": 565
   },
   {
     "cat": "predict",
@@ -8477,10 +8859,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"livestream\" before entering senior school.",
-    "exZh": "拓展词汇：直播（科技） — 真题未考但应理解。",
+    "exEn2": "Thousands watched the concert through a livestream last night.",
+    "exZh2": "昨晚数千人通过直播观看了音乐会。——科技",
+    "exEn": "The teacher held a livestream to answer students' questions at home.",
+    "exZh": "老师开直播在家回答学生问题。——科技",
     "ctx": "预测补充 · 科技",
-    "id": 565
+    "id": 566
   },
   {
     "cat": "predict",
@@ -8492,10 +8876,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"influencer\" before entering senior school.",
-    "exZh": "拓展词汇：网红（科技） — 真题未考但应理解。",
+    "exEn2": "An influencer visited our town to promote local tea.",
+    "exZh2": "一位网红来我镇推广本地茶叶。——科技",
+    "exEn": "The young influencer shared tips on saving water online.",
+    "exZh": "这位年轻网红在网上分享节水妙招。——科技",
     "ctx": "预测补充 · 科技",
-    "id": 566
+    "id": 567
   },
   {
     "cat": "predict",
@@ -8507,10 +8893,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"cyberbullying\" before entering senior school.",
-    "exZh": "拓展词汇：网络欺凌（社会） — 真题未考但应理解。",
+    "exEn2": "Our school taught us how to report cyberbullying safely.",
+    "exZh2": "学校教我们如何安全举报网络欺凌。——社会",
+    "exEn": "Cyberbullying can hurt teenagers who spend much time online.",
+    "exZh": "网络欺凌会伤害常上网的青少年。——社会",
     "ctx": "预测补充 · 社会",
-    "id": 567
+    "id": 568
   },
   {
     "cat": "predict",
@@ -8522,10 +8910,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"privacy\" before entering senior school.",
-    "exZh": "拓展词汇：隐私（社会） — 真题未考但应理解。",
+    "exEn2": "The new law gives citizens more control over personal privacy.",
+    "exZh2": "新法律让公民对个人隐私有更多掌控。——社会",
+    "exEn": "Never share your password to protect your privacy online.",
+    "exZh": "切勿泄露密码，以保护网络隐私。——社会",
     "ctx": "预测补充 · 社会",
-    "id": 568
+    "id": 569
   },
   {
     "cat": "predict",
@@ -8537,10 +8927,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"password\" before entering senior school.",
-    "exZh": "拓展词汇：密码（科技） — 真题未考但应理解。",
+    "exEn2": "I forgot my password and had to reset it by email.",
+    "exZh2": "我忘了密码，只好通过邮件重置。——科技",
+    "exEn": "Use a strong password with numbers and letters.",
+    "exZh": "请使用含数字和字母的强密码。——科技",
     "ctx": "预测补充 · 科技",
-    "id": 569
+    "id": 570
   },
   {
     "cat": "predict",
@@ -8552,10 +8944,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"download\" before entering senior school.",
-    "exZh": "拓展词汇：下载（科技） — 真题未考但应理解。",
+    "exEn2": "It took ten minutes to download the English listening app.",
+    "exZh2": "下载这款英语听力应用花了十分钟。——科技",
+    "exEn": "You can download the homework file from our class website.",
+    "exZh": "可从班级网站下载作业文件。——科技",
     "ctx": "预测补充 · 科技",
-    "id": 570
+    "id": 571
   },
   {
     "cat": "predict",
@@ -8567,10 +8961,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"upload\" before entering senior school.",
-    "exZh": "拓展词汇：上传（科技） — 真题未考但应理解。",
+    "exEn2": "She will upload her vlog to the school English channel tonight.",
+    "exZh2": "她今晚会把 vlog 上传到学校英语频道。——科技",
+    "exEn": "Please upload your science project photos before Friday.",
+    "exZh": "请在周五前上传科学课题照片。——科技",
     "ctx": "预测补充 · 科技",
-    "id": 571
+    "id": 572
   },
   {
     "cat": "predict",
@@ -8582,10 +8978,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"Wi-Fi\" before entering senior school.",
-    "exZh": "拓展词汇：无线网络（科技） — 真题未考但应理解。",
+    "exEn2": "Our Wi-Fi was slow during the online class yesterday.",
+    "exZh2": "昨天上网课时我们的无线网络很慢。——科技",
+    "exEn": "The library offers free Wi-Fi for students after school.",
+    "exZh": "图书馆放学后为学生提供免费无线网络。——科技",
     "ctx": "预测补充 · 科技",
-    "id": 572
+    "id": 573
   },
   {
     "cat": "predict",
@@ -8597,10 +8995,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"solar panel\" before entering senior school.",
-    "exZh": "拓展词汇：太阳能板（环保） — 真题未考但应理解。",
+    "exEn2": "The village school saved money after installing a solar panel.",
+    "exZh2": "村小安装太阳能板后节省了电费。——环保",
+    "exEn": "A solar panel on the roof turns sunlight into electricity.",
+    "exZh": "屋顶太阳能板把阳光转化为电能。——环保",
     "ctx": "预测补充 · 环保",
-    "id": 573
+    "id": 574
   },
   {
     "cat": "predict",
@@ -8612,10 +9012,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"wind power\" before entering senior school.",
-    "exZh": "拓展词汇：风能（环保） — 真题未考但应理解。",
+    "exEn2": "The chart shows wind power growing faster than coal use.",
+    "exZh2": "图表显示风能增长快于煤炭使用。——环保",
+    "exEn": "Wind power is a clean way to make electricity in Sichuan.",
+    "exZh": "风能是四川发电的清洁能源方式。——环保",
     "ctx": "预测补充 · 环保",
-    "id": 574
+    "id": 575
   },
   {
     "cat": "predict",
@@ -8627,10 +9029,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"recycle\" before entering senior school.",
-    "exZh": "拓展词汇：回收（环保） — 真题未考但应理解。",
+    "exEn2": "It is easy to recycle old clothes at the community center.",
+    "exZh2": "在社区中心回收旧衣服很方便。——环保",
+    "exEn": "We recycle paper and bottles in our classroom every week.",
+    "exZh": "我们每周在教室回收纸张和瓶子。——环保",
     "ctx": "预测补充 · 环保",
-    "id": 575
+    "id": 576
   },
   {
     "cat": "predict",
@@ -8642,10 +9046,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"reuse\" before entering senior school.",
-    "exZh": "拓展词汇：再利用（环保） — 真题未考但应理解。",
+    "exEn2": "Reuse your water bottle instead of buying a new one.",
+    "exZh2": "请重复使用水瓶，别总买新的。——环保",
+    "exEn": "Students reuse boxes to make models for the art show.",
+    "exZh": "学生再利用纸箱为艺术展做模型。——环保",
     "ctx": "预测补充 · 环保",
-    "id": 576
+    "id": 577
   },
   {
     "cat": "predict",
@@ -8657,10 +9063,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"reduce pollution\" before entering senior school.",
-    "exZh": "拓展词汇：减少污染（环保） — 真题未考但应理解。",
+    "exEn2": "The factory plans to reduce pollution by using cleaner fuel.",
+    "exZh2": "该厂计划用更清洁燃料减少污染。——环保",
+    "exEn": "Riding bikes can help reduce pollution in big cities.",
+    "exZh": "骑自行车有助于减少大城市污染。——环保",
     "ctx": "预测补充 · 环保",
-    "id": 577
+    "id": 578
   },
   {
     "cat": "predict",
@@ -8672,10 +9080,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"plastic pollution\" before entering senior school.",
-    "exZh": "拓展词汇：塑料污染（环保） — 真题未考但应理解。",
+    "exEn2": "Our class project studied plastic pollution near the lake.",
+    "exZh2": "班级课题研究了湖边塑料污染情况。——环保",
+    "exEn": "Plastic pollution is harming fish in rivers and oceans.",
+    "exZh": "塑料污染正在危害江河海洋中的鱼类。——环保",
     "ctx": "预测补充 · 环保",
-    "id": 578
+    "id": 579
   },
   {
     "cat": "predict",
@@ -8687,10 +9097,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"endangered species\" before entering senior school.",
-    "exZh": "拓展词汇：濒危物种（环保） — 真题未考但应理解。",
+    "exEn2": "National laws protect endangered species from illegal hunting in the wild.",
+    "exZh2": "国家法律保护野生濒危物种免遭非法捕猎。——环保",
+    "exEn": "The panda is a famous endangered species in China.",
+    "exZh": "熊猫是中国著名的濒危物种。——环保",
     "ctx": "预测补充 · 环保",
-    "id": 579
+    "id": 580
   },
   {
     "cat": "predict",
@@ -8702,10 +9114,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"wildlife protection\" before entering senior school.",
-    "exZh": "拓展词汇：野生动物保护（环保） — 真题未考但应理解。",
+    "exEn2": "Volunteers joined a wildlife protection program in the mountains.",
+    "exZh2": "志愿者参加了山区野生动物保护项目。——环保",
+    "exEn": "Wildlife protection zones give animals safe places to live.",
+    "exZh": "野生动物保护区为动物提供安全栖息地。——环保",
     "ctx": "预测补充 · 环保",
-    "id": 580
+    "id": 581
   },
   {
     "cat": "predict",
@@ -8717,10 +9131,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"deforestation\" before entering senior school.",
-    "exZh": "拓展词汇：滥伐森林（环保） — 真题未考但应理解。",
+    "exEn2": "Planting trees is one way to fight deforestation.",
+    "exZh2": "植树是应对滥伐森林的方式之一。——环保",
+    "exEn": "Deforestation in the Amazon worries scientists around the world.",
+    "exZh": "亚马孙滥伐森林令全球科学家担忧。——环保",
     "ctx": "预测补充 · 环保",
-    "id": 581
+    "id": 582
   },
   {
     "cat": "predict",
@@ -8732,10 +9148,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"drought\" before entering senior school.",
-    "exZh": "拓展词汇：干旱（环保） — 真题未考但应理解。",
+    "exEn2": "Farmers saved water carefully during the summer drought.",
+    "exZh2": "夏季干旱期间农民仔细节水。——环保",
+    "exEn": "The long drought dried up fields in the north.",
+    "exZh": "长期干旱使北方田地干涸。——环保",
     "ctx": "预测补充 · 环保",
-    "id": 582
+    "id": 583
   },
   {
     "cat": "predict",
@@ -8747,10 +9165,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"flood\" before entering senior school.",
-    "exZh": "拓展词汇：洪水（环保） — 真题未考但应理解。",
+    "exEn2": "The flood washed away several bridges near the river.",
+    "exZh2": "洪水冲毁了河边几座桥梁。——环保",
+    "exEn": "Heavy rain caused a flood in the town last month.",
+    "exZh": "上月暴雨导致该镇发生洪水。——环保",
     "ctx": "预测补充 · 环保",
-    "id": 583
+    "id": 584
   },
   {
     "cat": "predict",
@@ -8762,10 +9182,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"earthquake\" before entering senior school.",
-    "exZh": "拓展词汇：地震（2023新闻） — 真题未考但应理解。",
+    "exEn2": "After the earthquake, rescuers searched for survivors day and night.",
+    "exZh2": "地震后救援人员昼夜搜寻幸存者。——2023新闻",
+    "exEn": "The 2023 earthquake in Turkey killed thousands of people.",
+    "exZh": "2023 年土耳其地震造成数千人遇难。——2023新闻",
     "ctx": "预测补充 · 2023新闻",
-    "id": 584
+    "id": 585
   },
   {
     "cat": "predict",
@@ -8777,10 +9199,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"volunteer\" before entering senior school.",
-    "exZh": "拓展词汇：志愿者（社会） — 真题未考但应理解。",
+    "exEn2": "Many volunteers helped clean the park after the festival.",
+    "exZh2": "节后许多志愿者帮忙打扫公园。——社会",
+    "exEn": "I work as a volunteer at the city library on weekends.",
+    "exZh": "我周末在城市图书馆做志愿者。——社会",
     "ctx": "预测补充 · 社会",
-    "id": 585
+    "id": 586
   },
   {
     "cat": "predict",
@@ -8792,10 +9216,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"donate\" before entering senior school.",
-    "exZh": "拓展词汇：捐赠（社会） — 真题未考但应理解。",
+    "exEn2": "He chose to donate blood at the hospital yesterday.",
+    "exZh2": "他昨天选择在医院献血。——社会",
+    "exEn": "Our class will donate books to children in rural areas.",
+    "exZh": "我们班将向乡村儿童捐赠书籍。——社会",
     "ctx": "预测补充 · 社会",
-    "id": 586
+    "id": 587
   },
   {
     "cat": "predict",
@@ -8807,10 +9233,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"charity\" before entering senior school.",
-    "exZh": "拓展词汇：慈善（社会） — 真题未考但应理解。",
+    "exEn2": "She joined a charity walk to support sick children.",
+    "exZh2": "她参加慈善步行活动帮助患病儿童。——社会",
+    "exEn": "The charity raised money for families after the flood.",
+    "exZh": "慈善机构为洪灾后的家庭筹款。——社会",
     "ctx": "预测补充 · 社会",
-    "id": 587
+    "id": 588
   },
   {
     "cat": "predict",
@@ -8822,10 +9250,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"poverty\" before entering senior school.",
-    "exZh": "拓展词汇：贫困（社会） — 真题未考但应理解。",
+    "exEn2": "The report shows poverty falling slowly in the region.",
+    "exZh2": "报告显示该地区贫困率缓慢下降。——社会",
+    "exEn": "Good education can help young people escape poverty in rural areas.",
+    "exZh": "良好教育能帮助农村年轻人摆脱贫困。——社会",
     "ctx": "预测补充 · 社会",
-    "id": 588
+    "id": 589
   },
   {
     "cat": "predict",
@@ -8837,10 +9267,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"equality\" before entering senior school.",
-    "exZh": "拓展词汇：平等（社会） — 真题未考但应理解。",
+    "exEn2": "The law aims to bring more equality at work.",
+    "exZh2": "该法旨在促进职场更平等。——社会",
+    "exEn": "Students discussed gender equality in the English debate.",
+    "exZh": "学生在英语辩论中讨论性别平等。——社会",
     "ctx": "预测补充 · 社会",
-    "id": 589
+    "id": 590
   },
   {
     "cat": "predict",
@@ -8852,10 +9284,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"discrimination\" before entering senior school.",
-    "exZh": "拓展词汇：歧视（社会） — 真题未考但应理解。",
+    "exEn2": "The article explains how to fight racial discrimination.",
+    "exZh2": "文章讲解如何反对种族歧视。——社会",
+    "exEn": "Any kind of discrimination at school is never acceptable to us.",
+    "exZh": "任何形式的校园歧视我们都绝不接受。——社会",
     "ctx": "预测补充 · 社会",
-    "id": 590
+    "id": 591
   },
   {
     "cat": "predict",
@@ -8867,10 +9301,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"respect\" before entering senior school.",
-    "exZh": "拓展词汇：尊重（社会） — 真题未考但应理解。",
+    "exEn2": "Children learn respect by listening to their teachers.",
+    "exZh2": "孩子通过倾听老师学会尊重。——社会",
+    "exEn": "We should respect different opinions in class discussion.",
+    "exZh": "课堂讨论中应尊重不同意见。——社会",
     "ctx": "预测补充 · 社会",
-    "id": 591
+    "id": 592
   },
   {
     "cat": "predict",
@@ -8882,10 +9318,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"responsibility\" before entering senior school.",
-    "exZh": "拓展词汇：责任（社会） — 真题未考但应理解。",
+    "exEn2": "Parents share the responsibility for their children's safety.",
+    "exZh2": "父母与孩子安全共担责任。——社会",
+    "exEn": "It is our responsibility to keep the classroom clean.",
+    "exZh": "保持教室整洁是我们的责任。——社会",
     "ctx": "预测补充 · 社会",
-    "id": 592
+    "id": 593
   },
   {
     "cat": "predict",
@@ -8897,10 +9335,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"cooperation\" before entering senior school.",
-    "exZh": "拓展词汇：合作（社会） — 真题未考但应理解。",
+    "exEn2": "International cooperation is key to fighting climate change.",
+    "exZh2": "国际合作是应对气候变化的关键。——社会",
+    "exEn": "Good cooperation helped our team finish the project early.",
+    "exZh": "良好合作使我们队提前完成课题。——社会",
     "ctx": "预测补充 · 社会",
-    "id": 593
+    "id": 594
   },
   {
     "cat": "predict",
@@ -8912,10 +9352,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"competition\" before entering senior school.",
-    "exZh": "拓展词汇：竞争（社会） — 真题未考但应理解。",
+    "exEn2": "Healthy competition in class pushes students to work harder every day.",
+    "exZh2": "课堂良性竞争促使学生每天更努力。——社会",
+    "exEn": "She won first prize in the English speech competition.",
+    "exZh": "她在英语演讲比赛中获一等奖。——社会",
     "ctx": "预测补充 · 社会",
-    "id": 594
+    "id": 595
   },
   {
     "cat": "predict",
@@ -8927,10 +9369,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"achievement\" before entering senior school.",
-    "exZh": "拓展词汇：成就（学校） — 真题未考但应理解。",
+    "exEn2": "The school displayed students' science achievements in the hall.",
+    "exZh2": "学校在大厅展示学生科学成就。——学校",
+    "exEn": "Passing the exam was a great achievement for him.",
+    "exZh": "通过考试对他是一大成就。——学校",
     "ctx": "预测补充 · 学校",
-    "id": 595
+    "id": 596
   },
   {
     "cat": "predict",
@@ -8942,10 +9386,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"scholarship\" before entering senior school.",
-    "exZh": "拓展词汇：奖学金（学校） — 真题未考但应理解。",
+    "exEn2": "The scholarship will pay for his high school books.",
+    "exZh2": "奖学金将支付他高中用书费用。——学校",
+    "exEn": "She won a scholarship because of her excellent grades.",
+    "exZh": "她因成绩优异获得奖学金。——学校",
     "ctx": "预测补充 · 学校",
-    "id": 596
+    "id": 597
   },
   {
     "cat": "predict",
@@ -8957,10 +9403,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"graduation\" before entering senior school.",
-    "exZh": "拓展词汇：毕业（学校） — 真题未考但应理解。",
+    "exEn2": "After graduation, he plans to study medicine in Chengdu.",
+    "exZh2": "毕业后他计划在成都学医。——学校",
+    "exEn": "Our graduation ceremony will be held in June.",
+    "exZh": "我们的毕业典礼将于六月举行。——学校",
     "ctx": "预测补充 · 学校",
-    "id": 597
+    "id": 598
   },
   {
     "cat": "predict",
@@ -8972,10 +9420,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"admission\" before entering senior school.",
-    "exZh": "拓展词汇：录取（学校） — 真题未考但应理解。",
+    "exEn2": "The admission letter arrived in the mail this morning.",
+    "exZh2": "录取通知书今早寄到了。——学校",
+    "exEn": "She received admission to her dream middle school.",
+    "exZh": "她收到了理想初中的录取通知书。——学校",
     "ctx": "预测补充 · 学校",
-    "id": 598
+    "id": 599
   },
   {
     "cat": "predict",
@@ -8987,10 +9437,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"application\" before entering senior school.",
-    "exZh": "拓展词汇：申请（学校） — 真题未考但应理解。",
+    "exEn2": "His application for the exchange program was accepted.",
+    "exZh2": "他的交换项目申请已获批准。——学校",
+    "exEn": "Please hand in your application before the deadline.",
+    "exZh": "请在截止日期前提交申请。——学校",
     "ctx": "预测补充 · 学校",
-    "id": 599
+    "id": 600
   },
   {
     "cat": "predict",
@@ -9002,10 +9454,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"interview skills\" before entering senior school.",
-    "exZh": "拓展词汇：面试技巧（学校） — 真题未考但应理解。",
+    "exEn2": "Our teacher trained us in interview skills for high school.",
+    "exZh2": "老师为我们培训了升学面试技巧。——学校",
+    "exEn": "Good interview skills include clear answers and eye contact.",
+    "exZh": "良好面试技巧包括回答清晰与眼神交流。——学校",
     "ctx": "预测补充 · 学校",
-    "id": 600
+    "id": 601
   },
   {
     "cat": "predict",
@@ -9017,10 +9471,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"presentation\" before entering senior school.",
-    "exZh": "拓展词汇：展示/陈述（学校） — 真题未考但应理解。",
+    "exEn2": "Please practice your presentation with slides before Friday afternoon.",
+    "exZh2": "周五下午前请用幻灯片练习你的陈述。——学校",
+    "exEn": "Tom gave a short presentation about Chengdu pandas.",
+    "exZh": "汤姆做了关于成都熊猫的简短展示。——学校",
     "ctx": "预测补充 · 学校",
-    "id": 601
+    "id": 602
   },
   {
     "cat": "predict",
@@ -9032,10 +9488,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"debate\" before entering senior school.",
-    "exZh": "拓展词汇：辩论（学校） — 真题未考但应理解。",
+    "exEn2": "She spoke clearly and won the English debate.",
+    "exZh2": "她发言清晰，赢得了英语辩论赛。——学校",
+    "exEn": "Our class had a debate on whether phones belong in school.",
+    "exZh": "我们班辩论手机是否应进校园。——学校",
     "ctx": "预测补充 · 学校",
-    "id": 602
+    "id": 603
   },
   {
     "cat": "predict",
@@ -9047,10 +9505,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"essay\" before entering senior school.",
-    "exZh": "拓展词汇：短文（学校） — 真题未考但应理解。",
+    "exEn2": "The teacher praised his essay for good linking words.",
+    "exZh2": "老师称赞他短文衔接词用得好。——学校",
+    "exEn": "Write a 120-word essay about your favorite festival.",
+    "exZh": "写一篇 120 词关于最爱节日的短文。——学校",
     "ctx": "预测补充 · 学校",
-    "id": 603
+    "id": 604
   },
   {
     "cat": "predict",
@@ -9062,10 +9522,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"paragraph\" before entering senior school.",
-    "exZh": "拓展词汇：段落（学校） — 真题未考但应理解。",
+    "exEn2": "Add a topic sentence at the start of every paragraph.",
+    "exZh2": "每段开头加上主题句。——学校",
+    "exEn": "Each paragraph in your essay should have one clear main idea.",
+    "exZh": "短文中每段应有一个清晰的中心意思。——学校",
     "ctx": "预测补充 · 学校",
-    "id": 604
+    "id": 605
   },
   {
     "cat": "predict",
@@ -9077,10 +9539,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"vocabulary\" before entering senior school.",
-    "exZh": "拓展词汇：词汇（学校） — 真题未考但应理解。",
+    "exEn2": "We learned twenty new vocabulary words this week.",
+    "exZh2": "本周我们学了二十个新词汇。——学校",
+    "exEn": "Reading more books helps you build English vocabulary.",
+    "exZh": "多阅读有助于积累英语词汇。——学校",
     "ctx": "预测补充 · 学校",
-    "id": 605
+    "id": 606
   },
   {
     "cat": "predict",
@@ -9092,10 +9556,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"pronunciation\" before entering senior school.",
-    "exZh": "拓展词汇：发音（学校） — 真题未考但应理解。",
+    "exEn2": "The teacher corrected my pronunciation of the word though.",
+    "exZh2": "老师纠正了我 though 的发音。——学校",
+    "exEn": "Listening to English tapes every day can improve your pronunciation.",
+    "exZh": "每天听英语录音能改善你的发音。——学校",
     "ctx": "预测补充 · 学校",
-    "id": 606
+    "id": 607
   },
   {
     "cat": "predict",
@@ -9107,10 +9573,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"grammar rule\" before entering senior school.",
-    "exZh": "拓展词汇：语法规则（学校） — 真题未考但应理解。",
+    "exEn2": "The grammar rule about comparatives confused me at first.",
+    "exZh2": "比较级那条语法规则起初让我困惑。——学校",
+    "exEn": "Remember this grammar rule: add -s after he, she, or it.",
+    "exZh": "记住这条语法规则：he/she/it 后动词加 -s。——学校",
     "ctx": "预测补充 · 学校",
-    "id": 607
+    "id": 608
   },
   {
     "cat": "predict",
@@ -9122,10 +9590,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"tense\" before entering senior school.",
-    "exZh": "拓展词汇：时态（语法） — 真题未考但应理解。",
+    "exEn2": "The present perfect tense links past actions to now.",
+    "exZh2": "现在完成时把过去动作与现在联系起来。——语法",
+    "exEn": "Use the past tense to talk about yesterday's football match.",
+    "exZh": "谈昨天足球赛要用过去时态。——语法",
     "ctx": "预测补充 · 语法",
-    "id": 608
+    "id": 609
   },
   {
     "cat": "predict",
@@ -9137,10 +9607,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"passive voice\" before entering senior school.",
-    "exZh": "拓展词汇：被动语态（语法） — 真题未考但应理解。",
+    "exEn2": "The bridge was built in 2010 uses the passive voice.",
+    "exZh2": "The bridge was built… 使用了被动语态。——语法",
+    "exEn": "English is spoken in many countries — that is passive voice.",
+    "exZh": "English is spoken… 就是被动语态。——语法",
     "ctx": "预测补充 · 语法",
-    "id": 609
+    "id": 610
   },
   {
     "cat": "predict",
@@ -9152,10 +9624,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"relative clause\" before entering senior school.",
-    "exZh": "拓展词汇：定语从句（语法） — 真题未考但应理解。",
+    "exEn2": "I like the book that you lent me; that starts a relative clause.",
+    "exZh2": "that you lent me 引导定语从句。——语法",
+    "exEn": "The boy who won the prize is my cousin — a relative clause.",
+    "exZh": "who won the prize 是定语从句。——语法",
     "ctx": "预测补充 · 语法",
-    "id": 610
+    "id": 611
   },
   {
     "cat": "predict",
@@ -9167,10 +9641,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"object clause\" before entering senior school.",
-    "exZh": "拓展词汇：宾语从句（语法） — 真题未考但应理解。",
+    "exEn2": "She asked whether we could help — an object clause after asked.",
+    "exZh2": "whether we could help 是 asked 后的宾语从句。——语法",
+    "exEn": "I know that he is honest; that he is honest is an object clause.",
+    "exZh": "that he is honest 是宾语从句。——语法",
     "ctx": "预测补充 · 语法",
-    "id": 611
+    "id": 612
   },
   {
     "cat": "predict",
@@ -9182,10 +9658,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"adverbial clause\" before entering senior school.",
-    "exZh": "拓展词汇：状语从句（语法） — 真题未考但应理解。",
+    "exEn2": "If you study hard, you will pass — an adverbial clause of condition.",
+    "exZh2": "If you study hard… 是条件状语从句。——语法",
+    "exEn": "We stayed home because it rained; because it rained is an adverbial clause.",
+    "exZh": "because it rained 是状语从句。——语法",
     "ctx": "预测补充 · 语法",
-    "id": 612
+    "id": 613
   },
   {
     "cat": "predict",
@@ -9197,10 +9675,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"article a/an/the\" before entering senior school.",
-    "exZh": "拓展词汇：冠词（语法） — 真题未考但应理解。",
+    "exEn2": "The boy in the red coat is my new classmate.",
+    "exZh2": "穿红外套的那个男孩是我的新同学。——冠词 the 指已知的人",
+    "exEn": "Use an before apple and a before book when you speak English.",
+    "exZh": "说英语时，apple 前用 an，book 前用 a。——语法",
     "ctx": "预测补充 · 语法",
-    "id": 613
+    "id": 614
   },
   {
     "cat": "predict",
@@ -9212,10 +9692,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"reflexive pronoun\" before entering senior school.",
-    "exZh": "拓展词汇：反身代词（语法） — 真题未考但应理解。",
+    "exEn2": "We enjoyed ourselves at the party; ourselves is a reflexive pronoun.",
+    "exZh2": "ourselves 是反身代词。——语法",
+    "exEn": "She taught herself English — herself is a reflexive pronoun.",
+    "exZh": "herself 是反身代词。——语法",
     "ctx": "预测补充 · 语法",
-    "id": 614
+    "id": 615
   },
   {
     "cat": "predict",
@@ -9227,10 +9709,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"indefinite pronoun\" before entering senior school.",
-    "exZh": "拓展词汇：不定代词（语法） — 真题未考但应理解。",
+    "exEn2": "Nothing is impossible if you try — nothing is an indefinite pronoun.",
+    "exZh2": "nothing 是不定代词。——语法",
+    "exEn": "Someone left a notebook; someone is an indefinite pronoun.",
+    "exZh": "someone 是不定代词。——语法",
     "ctx": "预测补充 · 语法",
-    "id": 615
+    "id": 616
   },
   {
     "cat": "predict",
@@ -9242,10 +9726,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"gerund\" before entering senior school.",
-    "exZh": "拓展词汇：动名词（语法） — 真题未考但应理解。",
+    "exEn2": "He enjoys reading after dinner; reading is a gerund.",
+    "exZh2": "reading 是动名词。——语法",
+    "exEn": "Swimming is fun; swimming here works as a gerund subject.",
+    "exZh": "swimming 在此作动名词主语。——语法",
     "ctx": "预测补充 · 语法",
-    "id": 616
+    "id": 617
   },
   {
     "cat": "predict",
@@ -9257,10 +9743,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"infinitive\" before entering senior school.",
-    "exZh": "拓展词汇：不定式（语法） — 真题未考但应理解。",
+    "exEn2": "It is important to sleep early; to sleep is the infinitive.",
+    "exZh2": "to sleep 是不定式。——语法",
+    "exEn": "I want to learn French; to learn is an infinitive.",
+    "exZh": "to learn 是不定式。——语法",
     "ctx": "预测补充 · 语法",
-    "id": 617
+    "id": 618
   },
   {
     "cat": "predict",
@@ -9272,10 +9760,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"participle\" before entering senior school.",
-    "exZh": "拓展词汇：分词（语法） — 真题未考但应理解。",
+    "exEn2": "Hearing the news, she smiled; hearing is a present participle.",
+    "exZh2": "hearing 是现在分词。——语法",
+    "exEn": "The broken window was fixed; broken is a past participle.",
+    "exZh": "broken 是过去分词。——语法",
     "ctx": "预测补充 · 语法",
-    "id": 618
+    "id": 619
   },
   {
     "cat": "predict",
@@ -9287,10 +9777,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"anxiety\" before entering senior school.",
-    "exZh": "拓展词汇：焦虑（心理） — 真题未考但应理解。",
+    "exEn2": "Too much anxiety may stop you from sleeping well.",
+    "exZh2": "过度焦虑可能让你睡不好。——心理",
+    "exEn": "Talking to friends can ease anxiety before exams.",
+    "exZh": "考前与朋友倾诉能缓解焦虑。——心理",
     "ctx": "预测补充 · 心理",
-    "id": 619
+    "id": 620
   },
   {
     "cat": "predict",
@@ -9302,10 +9794,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"depression\" before entering senior school.",
-    "exZh": "拓展词汇：抑郁（心理） — 真题未考但应理解。",
+    "exEn2": "The article tells teens where to get help for depression.",
+    "exZh2": "文章告诉青少年抑郁何处求助。——心理",
+    "exEn": "Depression is an illness, not a sign of weakness.",
+    "exZh": "抑郁是一种疾病，并非软弱表现。——心理",
     "ctx": "预测补充 · 心理",
-    "id": 620
+    "id": 621
   },
   {
     "cat": "predict",
@@ -9317,10 +9811,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"stress\" before entering senior school.",
-    "exZh": "拓展词汇：压力（心理） — 真题未考但应理解。",
+    "exEn2": "Too much stress made her forget simple words in class.",
+    "exZh2": "压力过大让她课上忘了简单单词。——心理",
+    "exEn": "Exercise is a good way to reduce stress after study.",
+    "exZh": "运动后是学习减压的好方法。——心理",
     "ctx": "预测补充 · 心理",
-    "id": 621
+    "id": 622
   },
   {
     "cat": "predict",
@@ -9332,10 +9828,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"relaxation\" before entering senior school.",
-    "exZh": "拓展词汇：放松（心理） — 真题未考但应理解。",
+    "exEn2": "Music and deep breathing are useful for relaxation.",
+    "exZh2": "音乐和深呼吸有助于放松。——心理",
+    "exEn": "Ten minutes of relaxation helped me focus on homework.",
+    "exZh": "放松十分钟后我更专注写作业。——心理",
     "ctx": "预测补充 · 心理",
-    "id": 622
+    "id": 623
   },
   {
     "cat": "predict",
@@ -9347,10 +9845,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"meditation\" before entering senior school.",
-    "exZh": "拓展词汇：冥想（心理） — 真题未考但应理解。",
+    "exEn2": "Our PE teacher introduced meditation to reduce stress.",
+    "exZh2": "体育老师引入冥想以减压。——心理",
+    "exEn": "Five minutes of meditation calmed her before the test.",
+    "exZh": "考前冥想五分钟让她平静下来。——心理",
     "ctx": "预测补充 · 心理",
-    "id": 623
+    "id": 624
   },
   {
     "cat": "predict",
@@ -9362,10 +9862,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"therapy\" before entering senior school.",
-    "exZh": "拓展词汇：治疗（心理） — 真题未考但应理解。",
+    "exEn2": "Some students find therapy useful when they feel low.",
+    "exZh2": "情绪低落时部分学生觉得治疗有帮助。——心理",
+    "exEn": "Speech therapy helped the boy speak more clearly.",
+    "exZh": "语言治疗帮助男孩说话更清晰。——心理",
     "ctx": "预测补充 · 心理",
-    "id": 624
+    "id": 625
   },
   {
     "cat": "predict",
@@ -9377,10 +9879,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"nutrition\" before entering senior school.",
-    "exZh": "拓展词汇：营养（健康） — 真题未考但应理解。",
+    "exEn2": "The poster explains nutrition facts on milk and eggs.",
+    "exZh2": "海报说明牛奶鸡蛋的营养成分。——健康",
+    "exEn": "Good nutrition keeps your body strong for sports.",
+    "exZh": "良好营养让身体更强壮、适合运动。——健康",
     "ctx": "预测补充 · 健康",
-    "id": 625
+    "id": 626
   },
   {
     "cat": "predict",
@@ -9392,10 +9896,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"balanced diet\" before entering senior school.",
-    "exZh": "拓展词汇：均衡饮食（健康） — 真题未考但应理解。",
+    "exEn2": "Doctors say a balanced diet helps you grow taller.",
+    "exZh2": "医生说均衡饮食有助长高。——健康",
+    "exEn": "A balanced diet includes vegetables, meat, and fruit.",
+    "exZh": "均衡饮食包括蔬菜、肉类和水果。——健康",
     "ctx": "预测补充 · 健康",
-    "id": 626
+    "id": 627
   },
   {
     "cat": "predict",
@@ -9407,10 +9913,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"obesity\" before entering senior school.",
-    "exZh": "拓展词汇：肥胖（健康） — 真题未考但应理解。",
+    "exEn2": "Walking daily can lower the risk of obesity.",
+    "exZh2": "每天步行可降低肥胖风险。——健康",
+    "exEn": "Too much junk food may lead to obesity in children.",
+    "exZh": "过多垃圾食品可能导致儿童肥胖。——健康",
     "ctx": "预测补充 · 健康",
-    "id": 627
+    "id": 628
   },
   {
     "cat": "predict",
@@ -9422,10 +9930,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"insomnia\" before entering senior school.",
-    "exZh": "拓展词汇：失眠（健康） — 真题未考但应理解。",
+    "exEn2": "Less screen time at night may ease insomnia.",
+    "exZh2": "夜间少看屏幕或能缓解失眠。——健康",
+    "exEn": "Insomnia kept him awake until two in the morning.",
+    "exZh": "失眠让他凌晨两点仍醒着。——健康",
     "ctx": "预测补充 · 健康",
-    "id": 628
+    "id": 629
   },
   {
     "cat": "predict",
@@ -9437,10 +9947,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"vaccine\" before entering senior school.",
-    "exZh": "拓展词汇：疫苗（健康） — 真题未考但应理解。",
+    "exEn2": "Children get a vaccine before starting primary school.",
+    "exZh2": "儿童入学前要接种疫苗。——健康",
+    "exEn": "The new vaccine protects people from serious illness in winter.",
+    "exZh": "新疫苗保护人们免受冬季重病侵害。——健康",
     "ctx": "预测补充 · 健康",
-    "id": 629
+    "id": 630
   },
   {
     "cat": "predict",
@@ -9452,10 +9964,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"epidemic\" before entering senior school.",
-    "exZh": "拓展词汇：流行病（健康） — 真题未考但应理解。",
+    "exEn2": "The city closed schools during the flu epidemic.",
+    "exZh2": "流感流行期间该市停课。——健康",
+    "exEn": "Hand washing helped slow the spread of the epidemic.",
+    "exZh": "洗手有助于减缓流行病传播。——健康",
     "ctx": "预测补充 · 健康",
-    "id": 630
+    "id": 631
   },
   {
     "cat": "predict",
@@ -9467,10 +9981,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"pandemic\" before entering senior school.",
-    "exZh": "拓展词汇：大流行（健康） — 真题未考但应理解。",
+    "exEn2": "During the pandemic, students studied online at home.",
+    "exZh2": "大流行期间学生在家上网课。——健康",
+    "exEn": "The COVID-19 pandemic changed how many people worked.",
+    "exZh": "新冠疫情大流行改变了许多人的工作方式。——健康",
     "ctx": "预测补充 · 健康",
-    "id": 631
+    "id": 632
   },
   {
     "cat": "predict",
@@ -9482,10 +9998,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"symptom\" before entering senior school.",
-    "exZh": "拓展词汇：症状（健康） — 真题未考但应理解。",
+    "exEn2": "Call a doctor if the symptom lasts more than three days.",
+    "exZh2": "症状持续超三天应就医。——健康",
+    "exEn": "A fever is a common symptom of the flu.",
+    "exZh": "发烧是流感常见症状。——健康",
     "ctx": "预测补充 · 健康",
-    "id": 632
+    "id": 633
   },
   {
     "cat": "predict",
@@ -9497,10 +10015,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"treatment\" before entering senior school.",
-    "exZh": "拓展词汇：治疗（健康） — 真题未考但应理解。",
+    "exEn2": "The doctor explained the treatment for his sore throat.",
+    "exZh2": "医生说明了咽喉痛的治疗方案。——健康",
+    "exEn": "Early treatment helped her recover from the injury.",
+    "exZh": "及早治疗助她从伤中康复。——健康",
     "ctx": "预测补充 · 健康",
-    "id": 633
+    "id": 634
   },
   {
     "cat": "predict",
@@ -9512,10 +10032,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"surgery\" before entering senior school.",
-    "exZh": "拓展词汇：手术（健康） — 真题未考但应理解。",
+    "exEn2": "Modern surgery is safer than it was years ago.",
+    "exZh2": "现代手术比多年前更安全。——健康",
+    "exEn": "The boy needed surgery after breaking his arm.",
+    "exZh": "男孩骨折后需要手术。——健康",
     "ctx": "预测补充 · 健康",
-    "id": 634
+    "id": 635
   },
   {
     "cat": "predict",
@@ -9527,10 +10049,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"appointment\" before entering senior school.",
-    "exZh": "拓展词汇：预约（健康） — 真题未考但应理解。",
+    "exEn2": "Please arrive ten minutes before your doctor's appointment tomorrow.",
+    "exZh2": "请在明天就诊预约前十分钟到达。——健康",
+    "exEn": "I made an appointment with the dentist for next Monday.",
+    "exZh": "我预约了下周一看牙医。——健康",
     "ctx": "预测补充 · 健康",
-    "id": 635
+    "id": 636
   },
   {
     "cat": "predict",
@@ -9542,10 +10066,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"pharmacy\" before entering senior school.",
-    "exZh": "拓展词汇：药店（健康） — 真题未考但应理解。",
+    "exEn2": "The pharmacy near our school opens at eight every morning.",
+    "exZh2": "学校附近药店每天早上八点开门。——健康",
+    "exEn": "Buy the medicine at the pharmacy near the hospital.",
+    "exZh": "到医院附近药店买药。——健康",
     "ctx": "预测补充 · 健康",
-    "id": 636
+    "id": 637
   },
   {
     "cat": "predict",
@@ -9557,10 +10083,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"tradition\" before entering senior school.",
-    "exZh": "拓展词汇：传统（文化） — 真题未考但应理解。",
+    "exEn2": "The town keeps the tradition of dragon dancing every spring.",
+    "exZh2": "该镇每年春天保留舞龙传统。——文化",
+    "exEn": "It is a family tradition to eat dumplings on New Year.",
+    "exZh": "过年吃饺子是家庭传统。——文化",
     "ctx": "预测补充 · 文化",
-    "id": 637
+    "id": 638
   },
   {
     "cat": "predict",
@@ -9572,10 +10100,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"custom\" before entering senior school.",
-    "exZh": "拓展词汇：习俗（文化） — 真题未考但应理解。",
+    "exEn2": "Visitors should respect local custom when traveling in a new country.",
+    "exZh2": "游客到异国旅行时应尊重当地习俗。——文化",
+    "exEn": "In Sichuan, a custom is to drink tea after meals.",
+    "exZh": "四川有饭后喝茶的习俗。——文化",
     "ctx": "预测补充 · 文化",
-    "id": 638
+    "id": 639
   },
   {
     "cat": "predict",
@@ -9587,10 +10117,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"festival\" before entering senior school.",
-    "exZh": "拓展词汇：节日（文化） — 真题未考但应理解。",
+    "exEn2": "Our school held a culture festival last month.",
+    "exZh2": "学校上月举办了文化节。——文化",
+    "exEn": "The Lantern Festival ends the Spring Festival holiday.",
+    "exZh": "元宵节结束春节假期。——文化",
     "ctx": "预测补充 · 文化",
-    "id": 639
+    "id": 640
   },
   {
     "cat": "predict",
@@ -9602,10 +10134,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"lantern\" before entering senior school.",
-    "exZh": "拓展词汇：灯笼（文化） — 真题未考但应理解。",
+    "exEn2": "She made a paper lantern in art class.",
+    "exZh2": "她在美术课做了纸灯笼。——文化",
+    "exEn": "Children carry a red lantern during the Lantern Festival.",
+    "exZh": "元宵节孩子们提着红灯笼。——文化",
     "ctx": "预测补充 · 文化",
-    "id": 640
+    "id": 641
   },
   {
     "cat": "predict",
@@ -9617,10 +10151,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"dragon\" before entering senior school.",
-    "exZh": "拓展词汇：龙（文化） — 真题未考但应理解。",
+    "exEn2": "In Chinese culture, the dragon stands for power and hope.",
+    "exZh2": "中国文化中龙象征力量与希望。——文化",
+    "exEn": "The dragon dance brought good luck to the village.",
+    "exZh": "舞龙为村子带来好运。——文化",
     "ctx": "预测补充 · 文化",
-    "id": 641
+    "id": 642
   },
   {
     "cat": "predict",
@@ -9632,10 +10168,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"calligraphy\" before entering senior school.",
-    "exZh": "拓展词汇：书法（文化） — 真题未考但应理解。",
+    "exEn2": "Her calligraphy won first prize in the school contest.",
+    "exZh2": "她的书法在学校比赛中获一等奖。——文化",
+    "exEn": "Grandpa teaches me Chinese calligraphy every Sunday morning at home.",
+    "exZh": "爷爷每周日早上在家教我中国书法。——文化",
     "ctx": "预测补充 · 文化",
-    "id": 642
+    "id": 643
   },
   {
     "cat": "predict",
@@ -9647,10 +10185,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"paper-cutting\" before entering senior school.",
-    "exZh": "拓展词汇：剪纸（文化） — 真题未考但应理解。",
+    "exEn2": "We learned paper-cutting in our culture lesson today.",
+    "exZh2": "今天文化课我们学了剪纸。——文化",
+    "exEn": "Paper-cutting is a folk art with hundreds of years of history.",
+    "exZh": "剪纸是有数百年历史的民间艺术。——文化",
     "ctx": "预测补充 · 文化",
-    "id": 643
+    "id": 644
   },
   {
     "cat": "predict",
@@ -9662,10 +10202,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"martial arts\" before entering senior school.",
-    "exZh": "拓展词汇：武术（文化） — 真题未考但应理解。",
+    "exEn2": "Martial arts teach both physical strength and calm self-control.",
+    "exZh2": "武术既练身体力量也练沉着自控。——文化",
+    "exEn": "He has practiced martial arts since he was seven.",
+    "exZh": "他从七岁起练习武术。——文化",
     "ctx": "预测补充 · 文化",
-    "id": 644
+    "id": 645
   },
   {
     "cat": "predict",
@@ -9677,10 +10219,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"opera\" before entering senior school.",
-    "exZh": "拓展词汇：歌剧/戏曲（文化） — 真题未考但应理解。",
+    "exEn2": "The opera singer's voice filled the whole theater.",
+    "exZh2": "戏曲演员的歌声响彻剧场。——文化",
+    "exEn": "We watched Sichuan opera masks at the museum.",
+    "exZh": "我们在博物馆看了川剧脸谱。——文化",
     "ctx": "预测补充 · 文化",
-    "id": 645
+    "id": 646
   },
   {
     "cat": "predict",
@@ -9692,10 +10236,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"museum guide\" before entering senior school.",
-    "exZh": "拓展词汇：博物馆讲解员（文化） — 真题未考但应理解。",
+    "exEn2": "Our English teacher worked as a museum guide last summer.",
+    "exZh2": "英语老师去年夏天当过博物馆讲解员。——文化",
+    "exEn": "The museum guide explained the history of bronze ware.",
+    "exZh": "博物馆讲解员讲解了青铜器历史。——文化",
     "ctx": "预测补充 · 文化",
-    "id": 646
+    "id": 647
   },
   {
     "cat": "predict",
@@ -9707,10 +10253,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"heritage site\" before entering senior school.",
-    "exZh": "拓展词汇：遗产地（文化） — 真题未考但应理解。",
+    "exEn2": "Tourists must protect every stone at a heritage site.",
+    "exZh2": "游客须保护遗产地的每一块石头。——文化",
+    "exEn": "The Great Wall is a famous world heritage site.",
+    "exZh": "长城是著名的世界遗产地。——文化",
     "ctx": "预测补充 · 文化",
-    "id": 647
+    "id": 648
   },
   {
     "cat": "predict",
@@ -9722,10 +10270,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"high-speed rail\" before entering senior school.",
-    "exZh": "拓展词汇：高铁（交通） — 真题未考但应理解。",
+    "exEn2": "High-speed rail makes weekend trips easier for families.",
+    "exZh2": "高铁让家庭周末出行更方便。——交通",
+    "exEn": "The high-speed rail from Chengdu to Chongqing takes about one hour.",
+    "exZh": "成都到重庆高铁约一小时。——交通",
     "ctx": "预测补充 · 交通",
-    "id": 648
+    "id": 649
   },
   {
     "cat": "predict",
@@ -9737,10 +10287,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"subway\" before entering senior school.",
-    "exZh": "拓展词汇：地铁（交通） — 真题未考但应理解。",
+    "exEn2": "The new subway line opened in Chengdu last year.",
+    "exZh2": "成都新地铁线去年开通。——交通",
+    "exEn": "Take the subway to avoid traffic jams downtown.",
+    "exZh": "坐地铁可避开市中心堵车。——交通",
     "ctx": "预测补充 · 交通",
-    "id": 649
+    "id": 650
   },
   {
     "cat": "predict",
@@ -9752,10 +10304,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"traffic jam\" before entering senior school.",
-    "exZh": "拓展词汇：堵车（交通） — 真题未考但应理解。",
+    "exEn2": "A traffic jam formed after the football match ended.",
+    "exZh2": "球赛结束后形成了堵车。——交通",
+    "exEn": "We were late because of a traffic jam on the bridge.",
+    "exZh": "桥上堵车导致我们迟到。——交通",
     "ctx": "预测补充 · 交通",
-    "id": 650
+    "id": 651
   },
   {
     "cat": "predict",
@@ -9767,10 +10321,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"parking lot\" before entering senior school.",
-    "exZh": "拓展词汇：停车场（交通） — 真题未考但应理解。",
+    "exEn2": "Please park your bike in the school parking lot.",
+    "exZh2": "请把自行车停在学校停车场。——交通",
+    "exEn": "The parking lot behind the mall is free on Sundays.",
+    "exZh": "商场后停车场周日免费。——交通",
     "ctx": "预测补充 · 交通",
-    "id": 651
+    "id": 652
   },
   {
     "cat": "predict",
@@ -9782,10 +10338,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"helmet\" before entering senior school.",
-    "exZh": "拓展词汇：头盔（交通） — 真题未考但应理解。",
+    "exEn2": "The policeman reminded him to put on his helmet.",
+    "exZh2": "警察提醒他戴上头盔。——交通",
+    "exEn": "Wear a helmet when you ride an e-bike on the road.",
+    "exZh": "路上骑电动车请戴头盔。——交通",
     "ctx": "预测补充 · 交通",
-    "id": 652
+    "id": 653
   },
   {
     "cat": "predict",
@@ -9797,10 +10355,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"seat belt\" before entering senior school.",
-    "exZh": "拓展词汇：安全带（交通） — 真题未考但应理解。",
+    "exEn2": "A seat belt can save lives in a sudden stop.",
+    "exZh2": "急刹时安全带能救命。——交通",
+    "exEn": "Fasten your seat belt before the car starts.",
+    "exZh": "开车前请系好安全带。——交通",
     "ctx": "预测补充 · 交通",
-    "id": 653
+    "id": 654
   },
   {
     "cat": "predict",
@@ -9812,10 +10372,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"pedestrian\" before entering senior school.",
-    "exZh": "拓展词汇：行人（交通） — 真题未考但应理解。",
+    "exEn2": "The sign tells pedestrians to use the crosswalk.",
+    "exZh2": "标志提示行人走人行横道。——交通",
+    "exEn": "Drivers must slow down when a pedestrian crosses the road.",
+    "exZh": "行人过马路时司机须减速。——交通",
     "ctx": "预测补充 · 交通",
-    "id": 654
+    "id": 655
   },
   {
     "cat": "predict",
@@ -9827,10 +10389,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"crosswalk\" before entering senior school.",
-    "exZh": "拓展词汇：人行横道（交通） — 真题未考但应理解。",
+    "exEn2": "Children learned to look both ways at the crosswalk.",
+    "exZh2": "孩子们学了在横道前左右看。——交通",
+    "exEn": "Wait at the crosswalk until the light turns green.",
+    "exZh": "请在人行横道前等绿灯。——交通",
     "ctx": "预测补充 · 交通",
-    "id": 655
+    "id": 656
   },
   {
     "cat": "predict",
@@ -9842,10 +10406,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"traffic light\" before entering senior school.",
-    "exZh": "拓展词汇：红绿灯（交通） — 真题未考但应理解。",
+    "exEn2": "The new traffic light made the corner safer.",
+    "exZh2": "新红绿灯让这个路口更安全。——交通",
+    "exEn": "Please stop when the traffic light at the corner turns red.",
+    "exZh": "路口红绿灯变红时请停下。——交通",
     "ctx": "预测补充 · 交通",
-    "id": 656
+    "id": 657
   },
   {
     "cat": "predict",
@@ -9857,10 +10423,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"economy\" before entering senior school.",
-    "exZh": "拓展词汇：经济（社会） — 真题未考但应理解。",
+    "exEn2": "The chart shows the economy recovering after the pandemic.",
+    "exZh2": "图表显示疫情后经济在复苏。——社会",
+    "exEn": "Tourism helps the local economy grow in Sichuan.",
+    "exZh": "旅游业助力四川地方经济发展。——社会",
     "ctx": "预测补充 · 社会",
-    "id": 657
+    "id": 658
   },
   {
     "cat": "predict",
@@ -9872,10 +10440,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"industry\" before entering senior school.",
-    "exZh": "拓展词汇：工业（社会） — 真题未考但应理解。",
+    "exEn2": "Clean energy is becoming an important new industry.",
+    "exZh2": "清洁能源正成为重要新兴产业。——社会",
+    "exEn": "Chengdu's tech industry attracts young workers from many cities.",
+    "exZh": "成都科技产业吸引各地年轻人。——社会",
     "ctx": "预测补充 · 社会",
-    "id": 658
+    "id": 659
   },
   {
     "cat": "predict",
@@ -9887,10 +10457,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"agriculture\" before entering senior school.",
-    "exZh": "拓展词汇：农业（社会） — 真题未考但应理解。",
+    "exEn2": "Agriculture still feeds most people in our country.",
+    "exZh2": "农业仍养活着我国大多数人。——社会",
+    "exEn": "Modern agriculture uses drones to watch crops in the fields.",
+    "exZh": "现代农业用无人机监测田间作物。——社会",
     "ctx": "预测补充 · 社会",
-    "id": 659
+    "id": 660
   },
   {
     "cat": "predict",
@@ -9902,10 +10474,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"immigrant\" before entering senior school.",
-    "exZh": "拓展词汇：移民（社会） — 真题未考但应理解。",
+    "exEn2": "The story follows an immigrant who learns English at night school.",
+    "exZh2": "故事讲述移民在夜校学英语。——社会",
+    "exEn": "The immigrant family opened a small restaurant in town.",
+    "exZh": "这户移民家庭在镇上开了小餐馆。——社会",
     "ctx": "预测补充 · 社会",
-    "id": 660
+    "id": 661
   },
   {
     "cat": "predict",
@@ -9917,10 +10491,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"refugee\" before entering senior school.",
-    "exZh": "拓展词汇：难民（社会） — 真题未考但应理解。",
+    "exEn2": "Many countries offered help to refugees after the war.",
+    "exZh2": "战后多国向难民伸出援手。——社会",
+    "exEn": "The camp gave food and tents to every refugee.",
+    "exZh": "营地给每位难民提供食物和帐篷。——社会",
     "ctx": "预测补充 · 社会",
-    "id": 661
+    "id": 662
   },
   {
     "cat": "predict",
@@ -9932,10 +10508,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"citizen\" before entering senior school.",
-    "exZh": "拓展词汇：公民（社会） — 真题未考但应理解。",
+    "exEn2": "Good citizens vote and care about their community.",
+    "exZh2": "好公民参与投票并关心社区。——社会",
+    "exEn": "Every citizen should follow traffic rules on the road.",
+    "exZh": "每位公民路上应守交规。——社会",
     "ctx": "预测补充 · 社会",
-    "id": 662
+    "id": 663
   },
   {
     "cat": "predict",
@@ -9947,10 +10525,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"democracy\" before entering senior school.",
-    "exZh": "拓展词汇：民主（社会） — 真题未考但应理解。",
+    "exEn2": "The class discussed how democracy works in different countries.",
+    "exZh2": "班级讨论各国民主如何运作。——社会",
+    "exEn": "In a democracy, people choose leaders by voting.",
+    "exZh": "民主国家人民通过投票选领袖。——社会",
     "ctx": "预测补充 · 社会",
-    "id": 663
+    "id": 664
   },
   {
     "cat": "predict",
@@ -9962,10 +10542,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"government\" before entering senior school.",
-    "exZh": "拓展词汇：政府（社会） — 真题未考但应理解。",
+    "exEn2": "Our government supports free lunch for rural students.",
+    "exZh2": "政府支持农村学生免费午餐。——社会",
+    "exEn": "The government built a new bridge after the flood.",
+    "exZh": "洪灾后政府修建了新桥。——社会",
     "ctx": "预测补充 · 社会",
-    "id": 664
+    "id": 665
   },
   {
     "cat": "predict",
@@ -9977,10 +10559,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"policy\" before entering senior school.",
-    "exZh": "拓展词汇：政策（社会） — 真题未考但应理解。",
+    "exEn2": "Schools follow a safety policy after heavy rain.",
+    "exZh2": "大雨后学校执行安全政策。——社会",
+    "exEn": "The new policy limits plastic bags in supermarkets.",
+    "exZh": "新政策限制超市塑料袋使用。——社会",
     "ctx": "预测补充 · 社会",
-    "id": 665
+    "id": 666
   },
   {
     "cat": "predict",
@@ -9992,10 +10576,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"law\" before entering senior school.",
-    "exZh": "拓展词汇：法律（社会） — 真题未考但应理解。",
+    "exEn2": "The law protects children from working too young.",
+    "exZh2": "法律禁止儿童过早务工。——社会",
+    "exEn": "It is against the law to drive after drinking alcohol.",
+    "exZh": "酒后驾车违法。——社会",
     "ctx": "预测补充 · 社会",
-    "id": 666
+    "id": 667
   },
   {
     "cat": "predict",
@@ -10007,10 +10593,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"court\" before entering senior school.",
-    "exZh": "拓展词汇：法庭（社会） — 真题未考但应理解。",
+    "exEn2": "The case will be heard in court next Tuesday.",
+    "exZh2": "案件下周二开庭审理。——社会",
+    "exEn": "The judge spoke calmly in the crowded court.",
+    "exZh": "法官在拥挤的法庭里从容发言。——社会",
     "ctx": "预测补充 · 社会",
-    "id": 667
+    "id": 668
   },
   {
     "cat": "predict",
@@ -10022,10 +10610,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"judge\" before entering senior school.",
-    "exZh": "拓展词汇：法官（社会） — 真题未考但应理解。",
+    "exEn2": "A fair judge follows the law, not personal feelings.",
+    "exZh2": "公正法官依法判案，而非凭私情。——社会",
+    "exEn": "The judge in court listened carefully to both sides yesterday.",
+    "exZh": "法庭上的法官昨天仔细听取双方陈述。——社会",
     "ctx": "预测补充 · 社会",
-    "id": 668
+    "id": 669
   },
   {
     "cat": "predict",
@@ -10037,10 +10627,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"article\" before entering senior school.",
-    "exZh": "拓展词汇：冠词/文章（熟词僻义） — 真题未考但应理解。",
+    "exEn2": "Use the article an before words starting with a vowel sound.",
+    "exZh2": "元音音素开头的词前用冠词 an。——熟词僻义",
+    "exEn": "I read an article about panda protection in the newspaper.",
+    "exZh": "我在报上读了篇关于熊猫保护的文章。——熟词僻义",
     "ctx": "预测补充 · 熟词僻义",
-    "id": 669
+    "id": 670
   },
   {
     "cat": "predict",
@@ -10052,10 +10644,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"coach\" before entering senior school.",
-    "exZh": "拓展词汇：教练/长途车（熟词僻义） — 真题未考但应理解。",
+    "exEn2": "We took a coach from Chengdu to Xi'an last summer.",
+    "exZh2": "去年夏天我们坐长途汽车从成都去西安。——熟词僻义",
+    "exEn": "Our basketball coach trains us on the court every afternoon.",
+    "exZh": "篮球教练每天下午在球场训练我们。——熟词僻义",
     "ctx": "预测补充 · 熟词僻义",
-    "id": 670
+    "id": 671
   },
   {
     "cat": "predict",
@@ -10067,10 +10661,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"ticket\" before entering senior school.",
-    "exZh": "拓展词汇：票/罚单（熟词僻义） — 真题未考但应理解。",
+    "exEn2": "The driver got a ticket for parking in the wrong place.",
+    "exZh2": "司机因违停收到罚单。——熟词僻义",
+    "exEn": "She bought a ticket for the high-speed rail online.",
+    "exZh": "她在网上买了高铁票。——熟词僻义",
     "ctx": "预测补充 · 熟词僻义",
-    "id": 671
+    "id": 672
   },
   {
     "cat": "predict",
@@ -10082,10 +10678,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"fine\" before entering senior school.",
-    "exZh": "拓展词汇：罚款（熟词僻义） — 真题未考但应理解。",
+    "exEn2": "The police gave her a fine for crossing on red.",
+    "exZh2": "她闯红灯被交警罚款。——熟词僻义",
+    "exEn": "He had to pay a fine for riding without a helmet.",
+    "exZh": "他没戴头盔骑车被罚款。——熟词僻义",
     "ctx": "预测补充 · 熟词僻义",
-    "id": 672
+    "id": 673
   },
   {
     "cat": "predict",
@@ -10097,10 +10695,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"spring\" before entering senior school.",
-    "exZh": "拓展词汇：春天/弹簧（熟词僻义） — 真题未考但应理解。",
+    "exEn2": "The sofa spring broke, so Dad fixed it at home.",
+    "exZh2": "沙发弹簧坏了，爸爸在家修好。——熟词僻义",
+    "exEn": "Beautiful flowers bloom everywhere in Chengdu during every spring.",
+    "exZh": "成都每年春天到处鲜花盛开。——熟词僻义",
     "ctx": "预测补充 · 熟词僻义",
-    "id": 673
+    "id": 674
   },
   {
     "cat": "predict",
@@ -10112,10 +10712,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"mine\" before entering senior school.",
-    "exZh": "拓展词汇：我的/矿井（熟词僻义） — 真题未考但应理解。",
+    "exEn2": "Workers left the coal mine before the storm came.",
+    "exZh2": "暴风雨前工人们离开了煤矿。——熟词僻义",
+    "exEn": "This blue pen on the desk is mine, not yours.",
+    "exZh": "桌上这支蓝笔是我的，不是你的。——熟词僻义",
     "ctx": "预测补充 · 熟词僻义",
-    "id": 674
+    "id": 675
   },
   {
     "cat": "predict",
@@ -10127,10 +10729,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"watch\" before entering senior school.",
-    "exZh": "拓展词汇：手表/观看（熟词僻义） — 真题未考但应理解。",
+    "exEn2": "We watch English news to improve listening skills.",
+    "exZh2": "我们看英语新闻提高听力。——熟词僻义",
+    "exEn": "My watch stopped, so I was late for class.",
+    "exZh": "手表停了，我上课迟到了。——熟词僻义",
     "ctx": "预测补充 · 熟词僻义",
-    "id": 675
+    "id": 676
   },
   {
     "cat": "predict",
@@ -10142,10 +10746,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"second\" before entering senior school.",
-    "exZh": "拓展词汇：第二/秒（熟词僻义） — 真题未考但应理解。",
+    "exEn2": "Wait a second — I forgot my homework on the desk.",
+    "exZh2": "等一下——我把作业忘桌上了。——熟词僻义",
+    "exEn": "She finished second in the school 100-meter race yesterday.",
+    "exZh": "她昨天在校百米赛跑中获得第二名。——熟词僻义",
     "ctx": "预测补充 · 熟词僻义",
-    "id": 676
+    "id": 677
   },
   {
     "cat": "predict",
@@ -10157,10 +10763,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"letter\" before entering senior school.",
-    "exZh": "拓展词汇：信/字母（熟词僻义） — 真题未考但应理解。",
+    "exEn2": "B is the second letter of the English alphabet.",
+    "exZh2": "B 是英文字母表第二个字母。——熟词僻义",
+    "exEn": "I wrote a thank-you letter to my English teacher.",
+    "exZh": "我给英语老师写了感谢信。——熟词僻义",
     "ctx": "预测补充 · 熟词僻义",
-    "id": 677
+    "id": 678
   },
   {
     "cat": "predict",
@@ -10172,10 +10780,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"right\" before entering senior school.",
-    "exZh": "拓展词汇：正确/右边/权利（熟词僻义） — 真题未考但应理解。",
+    "exEn2": "Turn right at the corner and you will see the school.",
+    "exZh2": "拐角右转就能看到学校。——熟词僻义",
+    "exEn": "Your answer on the test is right — well done!",
+    "exZh": "你试卷上的答案是正确的——做得好！——熟词僻义",
     "ctx": "预测补充 · 熟词僻义",
-    "id": 678
+    "id": 679
   },
   {
     "cat": "predict",
@@ -10187,10 +10797,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"left\" before entering senior school.",
-    "exZh": "拓展词汇：离开/左边（熟词僻义） — 真题未考但应理解。",
+    "exEn2": "There is a bank on the left side of the street.",
+    "exZh2": "街左边有一家银行。——熟词僻义",
+    "exEn": "He left the classroom quietly after the bell rang.",
+    "exZh": "铃响后他悄悄离开了教室。——熟词僻义",
     "ctx": "预测补充 · 熟词僻义",
-    "id": 679
+    "id": 680
   },
   {
     "cat": "predict",
@@ -10202,10 +10814,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"hard\" before entering senior school.",
-    "exZh": "拓展词汇：困难的/努力地（熟词僻义） — 真题未考但应理解。",
+    "exEn2": "She worked hard and passed the exam at last.",
+    "exZh2": "她努力学习，终于通过了考试。——熟词僻义",
+    "exEn": "Math is hard, but practice makes it easier.",
+    "exZh": "数学很难，但练习会变容易。——熟词僻义",
     "ctx": "预测补充 · 熟词僻义",
-    "id": 680
+    "id": 681
   },
   {
     "cat": "predict",
@@ -10217,10 +10831,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"close\" before entering senior school.",
-    "exZh": "拓展词汇：关闭/近的（熟词僻义） — 真题未考但应理解。",
+    "exEn2": "Our home is close to the subway station.",
+    "exZh2": "我家离地铁站很近。——熟词僻义",
+    "exEn": "Please close the window — it is getting cold.",
+    "exZh": "请关窗——天变冷了。——熟词僻义",
     "ctx": "预测补充 · 熟词僻义",
-    "id": 681
+    "id": 682
   },
   {
     "cat": "predict",
@@ -10232,10 +10848,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"date\" before entering senior school.",
-    "exZh": "拓展词汇：日期/约会（熟词僻义） — 真题未考但应理解。",
+    "exEn2": "They had a date to see a movie on Saturday night.",
+    "exZh2": "他们约好周六晚上看电影。——熟词僻义",
+    "exEn": "Write today's date at the top of your paper.",
+    "exZh": "在试卷上方写上今天日期。——熟词僻义",
     "ctx": "预测补充 · 熟词僻义",
-    "id": 682
+    "id": 683
   },
   {
     "cat": "predict",
@@ -10247,10 +10865,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"match\" before entering senior school.",
-    "exZh": "拓展词汇：比赛/匹配（熟词僻义） — 真题未考但应理解。",
+    "exEn2": "These two socks do not match — one is blue, one is red.",
+    "exZh2": "两只袜子不配——一蓝一红。——熟词僻义",
+    "exEn": "Our school team won the football match yesterday.",
+    "exZh": "校队昨天赢了足球比赛。——熟词僻义",
     "ctx": "预测补充 · 熟词僻义",
-    "id": 683
+    "id": 684
   },
   {
     "cat": "predict",
@@ -10262,10 +10882,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"fair\" before entering senior school.",
-    "exZh": "拓展词汇：公平的/集市（熟词僻义） — 真题未考但应理解。",
+    "exEn2": "We bought handmade toys at the spring fair.",
+    "exZh2": "我们在春季集市买了手工玩具。——熟词僻义",
+    "exEn": "The teacher tried to be fair to every student.",
+    "exZh": "老师尽量对每位学生公平。——熟词僻义",
     "ctx": "预测补充 · 熟词僻义",
-    "id": 684
+    "id": 685
   },
   {
     "cat": "predict",
@@ -10277,10 +10899,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"bill\" before entering senior school.",
-    "exZh": "拓展词汇：账单/法案（熟词僻义） — 真题未考但应理解。",
+    "exEn2": "Congress passed a new bill to protect the environment.",
+    "exZh2": "国会通过了一项环保新法案。——熟词僻义",
+    "exEn": "Dad paid the electricity bill online this month.",
+    "exZh": "爸爸本月在网上交了电费账单。——熟词僻义",
     "ctx": "预测补充 · 熟词僻义",
-    "id": 685
+    "id": 686
   },
   {
     "cat": "predict",
@@ -10292,10 +10916,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"capital\" before entering senior school.",
-    "exZh": "拓展词汇：首都/大写/资本（熟词僻义） — 真题未考但应理解。",
+    "exEn2": "Write your name with a capital letter at the start.",
+    "exZh2": "名字开头要大写字母。——熟词僻义",
+    "exEn": "Beijing is the capital city of China with a long history.",
+    "exZh": "北京是中国历史悠久的首都。——熟词僻义",
     "ctx": "预测补充 · 熟词僻义",
-    "id": 686
+    "id": 687
   },
   {
     "cat": "predict",
@@ -10307,10 +10933,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"state\" before entering senior school.",
-    "exZh": "拓展词汇：状态/州/陈述（熟词僻义） — 真题未考但应理解。",
+    "exEn2": "Texas is a large state in the United States.",
+    "exZh2": "得克萨斯是美国一个大州。——熟词僻义",
+    "exEn": "He was in a nervous state before the interview.",
+    "exZh": "面试前他处于紧张状态。——熟词僻义",
     "ctx": "预测补充 · 熟词僻义",
-    "id": 687
+    "id": 688
   },
   {
     "cat": "predict",
@@ -10322,10 +10950,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"patient\" before entering senior school.",
-    "exZh": "拓展词汇：耐心的/病人（熟词僻义） — 真题未考但应理解。",
+    "exEn2": "The patient rested in bed after the operation.",
+    "exZh2": "手术后病人在床上休息。——熟词僻义",
+    "exEn": "Be patient with yourself — learning English really takes time.",
+    "exZh": "对自己耐心些——学英语确实需要时间。——熟词僻义",
     "ctx": "预测补充 · 熟词僻义",
-    "id": 688
+    "id": 689
   },
   {
     "cat": "predict",
@@ -10337,10 +10967,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"content\" before entering senior school.",
-    "exZh": "拓展词汇：内容/满足的（熟词僻义） — 真题未考但应理解。",
+    "exEn2": "She felt content with her simple but happy life.",
+    "exZh2": "她对简朴而幸福的生活感到满足。——熟词僻义",
+    "exEn": "Check the content of the email before you send it.",
+    "exZh": "发送前检查邮件内容。——熟词僻义",
     "ctx": "预测补充 · 熟词僻义",
-    "id": 689
+    "id": 690
   },
   {
     "cat": "predict",
@@ -10352,10 +10984,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"object\" before entering senior school.",
-    "exZh": "拓展词汇：物体/反对/宾语（熟词僻义） — 真题未考但应理解。",
+    "exEn2": "Many people object to building a road through the forest.",
+    "exZh2": "许多人反对在林中修路。——熟词僻义",
+    "exEn": "Do not throw hard objects on the playground.",
+    "exZh": "别在操场扔硬物。——熟词僻义",
     "ctx": "预测补充 · 熟词僻义",
-    "id": 690
+    "id": 691
   },
   {
     "cat": "predict",
@@ -10367,10 +11001,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"subject\" before entering senior school.",
-    "exZh": "拓展词汇：科目/主题/使服从（熟词僻义） — 真题未考但应理解。",
+    "exEn2": "The main subject of today's talk is climate change.",
+    "exZh2": "今天讲座的主题是气候变化。——熟词僻义",
+    "exEn": "English has always been my favorite subject at middle school.",
+    "exZh": "英语一直是我初中最喜欢的科目。——熟词僻义",
     "ctx": "预测补充 · 熟词僻义",
-    "id": 691
+    "id": 692
   },
   {
     "cat": "predict",
@@ -10382,10 +11018,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"produce\" before entering senior school.",
-    "exZh": "拓展词汇：生产/农产品（熟词僻义） — 真题未考但应理解。",
+    "exEn2": "Fresh produce at the market looked colorful and healthy.",
+    "exZh2": "市场上新鲜农产品色彩鲜艳、健康。——熟词僻义",
+    "exEn": "This factory can produce 1,000 bikes a month.",
+    "exZh": "这家工厂月产一千辆自行车。——熟词僻义",
     "ctx": "预测补充 · 熟词僻义",
-    "id": 692
+    "id": 693
   },
   {
     "cat": "predict",
@@ -10397,10 +11035,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"change\" before entering senior school.",
-    "exZh": "拓展词汇：改变/零钱（熟词僻义） — 真题未考但应理解。",
+    "exEn2": "I had no change, so I could not take the bus.",
+    "exZh2": "我没零钱，上不了公交车。——熟词僻义",
+    "exEn": "Small habits can change your life over time.",
+    "exZh": "小习惯久而久之能改变人生。——熟词僻义",
     "ctx": "预测补充 · 熟词僻义",
-    "id": 693
+    "id": 694
   },
   {
     "cat": "predict",
@@ -10412,10 +11052,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"customs\" before entering senior school.",
-    "exZh": "拓展词汇：海关/习俗（熟词僻义） — 真题未考但应理解。",
+    "exEn2": "Local customs may surprise visitors from other countries.",
+    "exZh2": "当地习俗可能让外国游客惊讶。——熟词僻义",
+    "exEn": "Officers at customs checked our bags at the airport.",
+    "exZh": "机场海关官员检查了我们的行李。——熟词僻义",
     "ctx": "预测补充 · 熟词僻义",
-    "id": 694
+    "id": 695
   },
   {
     "cat": "predict",
@@ -10427,10 +11069,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"degree\" before entering senior school.",
-    "exZh": "拓展词汇：程度/度数/学位（熟词僻义） — 真题未考但应理解。",
+    "exEn2": "She will get a university degree in three years.",
+    "exZh2": "她三年后将获得大学学位。——熟词僻义",
+    "exEn": "Pure water freezes at zero degrees Celsius in the lab.",
+    "exZh": "实验室里纯水在零摄氏度结冰。——熟词僻义",
     "ctx": "预测补充 · 熟词僻义",
-    "id": 695
+    "id": 696
   },
   {
     "cat": "predict",
@@ -10442,10 +11086,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"appreciate\" before entering senior school.",
-    "exZh": "拓展词汇：欣赏/感激（熟词僻义） — 真题未考但应理解。",
+    "exEn2": "Visitors appreciate the quiet beauty of the old temple.",
+    "exZh2": "游客欣赏古庙静谧之美。——熟词僻义",
+    "exEn": "I appreciate your help with my English homework.",
+    "exZh": "感谢你帮我做英语作业。——熟词僻义",
     "ctx": "预测补充 · 熟词僻义",
-    "id": 696
+    "id": 697
   },
   {
     "cat": "predict",
@@ -10457,10 +11103,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"attend\" before entering senior school.",
-    "exZh": "拓展词汇：参加/照料（熟词僻义） — 真题未考但应理解。",
+    "exEn2": "Nurses attend patients day and night in the hospital.",
+    "exZh2": "护士在医院日夜照料病人。——熟词僻义",
+    "exEn": "All students must attend the school flag-raising ceremony on Monday.",
+    "exZh": "全体学生周一须参加学校升旗仪式。——熟词僻义",
     "ctx": "预测补充 · 熟词僻义",
-    "id": 697
+    "id": 698
   },
   {
     "cat": "predict",
@@ -10472,10 +11120,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"appear\" before entering senior school.",
-    "exZh": "拓展词汇：出现/似乎（熟词僻义） — 真题未考但应理解。",
+    "exEn2": "He appears tired, though he says he slept well.",
+    "exZh2": "他看似疲惫，虽说睡得好。——熟词僻义",
+    "exEn": "Bright stars appear in the dark sky soon after sunset.",
+    "exZh": "日落后不久，明亮星星出现在夜空。——熟词僻义",
     "ctx": "预测补充 · 熟词僻义",
-    "id": 698
+    "id": 699
   },
   {
     "cat": "predict",
@@ -10487,10 +11137,12 @@
     "form": "",
     "base": "",
     "note": "",
-    "exEn": "In junior high, students should know \"mean\" before entering senior school.",
-    "exZh": "拓展词汇：意思是/吝啬的（熟词僻义） — 真题未考但应理解。",
+    "exEn2": "Do not be mean to classmates who need help.",
+    "exZh2": "别对需要帮助的同学吝啬刻薄。——熟词僻义",
+    "exEn": "What does this word mean in the sentence?",
+    "exZh": "这个词在句中是什么意思？——熟词僻义",
     "ctx": "预测补充 · 熟词僻义",
-    "id": 699
+    "id": 700
   }
 ];
 
@@ -10509,9 +11161,9 @@
 
   var STATS = {
   "word-form": 85,
-  "verb-phrase": 97,
+  "verb-phrase": 94,
   "adj-noun-phrase": 54,
-  "collocation": 70,
+  "collocation": 74,
   "idiom": 42,
   "polysemy": 45,
   "chart": 47,
@@ -10525,11 +11177,196 @@
   function byYear(y) { return MASTER.filter(function (x) { return String(x.year).indexOf(String(y)) >= 0; }); }
   function examOnly() { return MASTER.filter(function (x) { return x.cat !== "predict" && String(x.year).match(/20(1[89]|2[0-6])/); }); }
 
-  // 兼容旧 API
+  // 兼容旧 API（page01 第 5 屏用 base / hint / form）
+  function wfHint(x, base, form) {
+    if (/ly$/i.test(form)) return "副词 · -ly · " + (x.year || "");
+    if (/tion|sion|ment|ness|ity|th$/i.test(form)) return "名词派生 · " + (x.year || "");
+    if (/^(their|them|us|our|we|they|children|men|women|feet|teeth|mice)$/i.test(form))
+      return "代词/复数 · " + (x.year || "");
+    if (/^(less|more|better|worse|well)$/i.test(form)) return "比较级/特殊 · " + (x.year || "");
+    return (x.zh || "") + (x.year ? " · " + x.year : "");
+  }
   var WORD_FORM_RULES = byCat("word-form").slice(0, 12).map(function (x) {
     var p = x.en.split(" → ");
-    return { suffix: p[1] || "", example: p[0] || x.en, result: p[1] || x.form, tip: x.zh };
+    var base = x.base || p[0] || x.en;
+    var form = x.form || p[1] || "";
+    var hint = wfHint(x, base, form);
+    return {
+      base: base,
+      form: form,
+      hint: hint,
+      suffix: form,
+      example: base,
+      result: form,
+      tip: x.zh,
+      year: x.year || "",
+    };
   });
+
+  var P01_SENTENCE_ADVERBS = [
+      {
+          "cat": "2026 真题 · B 卷",
+          "base": "sudden",
+          "form": "Suddenly",
+          "zh": "突然地",
+          "tag": "2026",
+          "ex": "Suddenly, the sky turned dark.",
+          "exZh": "突然，天色暗了下来。→ 2026 B 卷 sudden → Suddenly"
+      },
+      {
+          "cat": "2026 真题 · B 卷",
+          "base": "sad",
+          "form": "Sadly",
+          "zh": "悲伤地；令人遗憾地",
+          "tag": "2026 sadly",
+          "ex": "Sadly, many students still lose heart too easily.",
+          "exZh": "令人遗憾的是，不少学生仍容易灰心。→ 2026 考点"
+      },
+      {
+          "cat": "真题 · 句首评注 -ly",
+          "base": "slow",
+          "form": "Slowly",
+          "zh": "缓慢地",
+          "tag": "2018",
+          "ex": "Slowly, the kite began to go down.",
+          "exZh": "慢慢地，风筝开始下落。→ 2018 套题 kite 语篇"
+      },
+      {
+          "cat": "真题 · 句首评注 -ly",
+          "base": "clear",
+          "form": "Clearly",
+          "zh": "明显地；清楚地",
+          "tag": "2022",
+          "ex": "Clearly, the answer is not what you expected.",
+          "exZh": "显然，答案并非你所预期的那样。"
+      },
+      {
+          "cat": "真题 · 句首评注 -ly",
+          "base": "actual",
+          "form": "Actually",
+          "zh": "实际上；其实",
+          "tag": "2023",
+          "ex": "Actually, the answer is simpler than you think.",
+          "exZh": "其实，答案比你想象的更简单。"
+      },
+      {
+          "cat": "真题 · 句首评注 -ly",
+          "base": "direct",
+          "form": "Directly",
+          "zh": "直接地",
+          "tag": "2025",
+          "ex": "Directly, he told us what had happened.",
+          "exZh": "他直接告诉了我们发生了什么。"
+      },
+      {
+          "cat": "真题 · 句首评注 -ly",
+          "base": "wide",
+          "form": "Widely",
+          "zh": "广泛地",
+          "tag": "2024",
+          "ex": "Widely, English is used in international trade.",
+          "exZh": "英语在国际贸易中被广泛使用。"
+      },
+      {
+          "cat": "评注立场 · -ly",
+          "base": "honest",
+          "form": "Honestly",
+          "zh": "说实话；坦率地说",
+          "tag": "高频",
+          "ex": "Honestly, I didn't enjoy the film.",
+          "exZh": "说实话，我并不喜欢那部电影。"
+      },
+      {
+          "cat": "评注立场 · -ly",
+          "base": "general",
+          "form": "Generally",
+          "zh": "一般来说；总体上",
+          "tag": "易混 general",
+          "ex": "Generally, students should review word forms every week.",
+          "exZh": "一般来说，学生应每周复习词性转换。"
+      },
+      {
+          "cat": "评注立场 · -ly",
+          "base": "basic",
+          "form": "Basically",
+          "zh": "基本上；大体上",
+          "tag": "套题01",
+          "ex": "Basically, we need more data before drawing a conclusion.",
+          "exZh": "基本上，我们下结论前还需要更多数据。"
+      },
+      {
+          "cat": "评注立场 · -ly",
+          "base": "fortunate",
+          "form": "Fortunately",
+          "zh": "幸运地",
+          "tag": "阅读",
+          "ex": "Fortunately, no one was hurt in the accident.",
+          "exZh": "幸运的是，事故中无人受伤。"
+      },
+      {
+          "cat": "评注立场 · -ly",
+          "base": "unfortunate",
+          "form": "Unfortunately",
+          "zh": "不幸地；遗憾的是",
+          "tag": "阅读",
+          "ex": "Unfortunately, the match was cancelled because of rain.",
+          "exZh": "不幸的是，比赛因雨取消了。"
+      },
+      {
+          "cat": "评注立场 · -ly",
+          "base": "complete",
+          "form": "Completely",
+          "zh": "完全地",
+          "tag": "2022",
+          "ex": "Completely, I agree with your plan.",
+          "exZh": "我完全同意你的计划。"
+      },
+      {
+          "cat": "评注立场 · -ly",
+          "base": "true",
+          "form": "Truly",
+          "zh": "真正地；确实",
+          "tag": "2020",
+          "ex": "Truly, friendship is about sharing true emotions.",
+          "exZh": "诚然，友谊在于分享真实的情感。"
+      },
+      {
+          "cat": "评注立场 · -ally",
+          "base": "final",
+          "form": "Finally",
+          "zh": "最后",
+          "tag": "写作",
+          "ex": "Finally, remember to check your spelling in the exam.",
+          "exZh": "最后，记得在考场上检查拼写。"
+      },
+      {
+          "cat": "评注立场 · -ally",
+          "base": "usual",
+          "form": "Usually",
+          "zh": "通常",
+          "tag": "写作",
+          "ex": "Usually, I read English for twenty minutes before bed.",
+          "exZh": "通常，我睡前读二十分钟英语。"
+      },
+      {
+          "cat": "易混警示 · 形容词 ≠ 句首副词",
+          "base": "general",
+          "form": "general",
+          "zh": "【形容词】一般的；大体的",
+          "tag": "≠ Generally,",
+          "ex": "It is a general idea, not a small detail.",
+          "exZh": "这是大体想法，不是细枝末节。（形容词修饰名词 idea）"
+      },
+      {
+          "cat": "易混警示 · 形容词 ≠ 句首副词",
+          "base": "sad",
+          "form": "sad",
+          "zh": "【形容词】悲伤的",
+          "tag": "≠ Sadly,",
+          "ex": "She felt sad after hearing the news.",
+          "exZh": "听到消息后她感到悲伤。（形容词作表语 feel + sad）"
+      }
+  ];
   var SUFFIX_LY = byCat("word-form").filter(function (x) { return (x.form || "").indexOf("ly") >= 0; }).map(function (x) {
     return { base: x.base || x.en.split(" → ")[0], form: x.form || x.en.split(" → ")[1], year: x.year };
   });
@@ -10675,6 +11512,7 @@
     byYear: byYear,
     examOnly: examOnly,
     WORD_FORM_RULES: WORD_FORM_RULES,
+    P01_SENTENCE_ADVERBS: P01_SENTENCE_ADVERBS,
     SUFFIX_LY: SUFFIX_LY,
     SUFFIX_NOUN: SUFFIX_NOUN,
     IRREGULAR: IRREGULAR,

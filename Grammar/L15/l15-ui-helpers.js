@@ -72,4 +72,18 @@
     quizStemExtraHtml: quizStemExtraHtml,
     quizOpts: quizOpts
   };
+
+  /** 全页配图点击放大（assets/lesson-image-lightbox.js） */
+  if (typeof document !== "undefined" && !document.getElementById("lesson-image-lightbox-loader")) {
+    var lbMarker = document.createElement("meta");
+    lbMarker.id = "lesson-image-lightbox-loader";
+    lbMarker.name = "lesson-image-lightbox-loader";
+    document.head.appendChild(lbMarker);
+    if (!document.documentElement.dataset.lessonImageLightbox) {
+      var lbScript = document.createElement("script");
+      lbScript.src = "assets/lesson-image-lightbox.js";
+      lbScript.defer = true;
+      document.head.appendChild(lbScript);
+    }
+  }
 })(typeof window !== "undefined" ? window : this);

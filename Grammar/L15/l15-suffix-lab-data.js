@@ -1,0 +1,176 @@
+/**
+ * L15 · 后缀实验室 · 专题词汇（用法 + 真题例句）
+ */
+(function (global) {
+  "use strict";
+
+  global.L15SuffixLab = {
+    sections: [
+      {
+        id: "ly",
+        kicker: "1 / 6",
+        title: "形容词 → 副词 · -ly",
+        intro:
+          "副词修饰<strong>动词 / 形容词 / 全句</strong>；B 卷与阅读中高频。形容词后加 <strong>-ly</strong>，注意拼写变化。",
+        rules: [
+          { pattern: "一般情况", tip: "形容词 + ly → 副词", ex: "quick → quickly；clear → clearly" },
+          { pattern: "以 -y 结尾", tip: "变 y 为 i 再加 ly", ex: "happy → happily；sad → sadly（2026）" },
+          { pattern: "以 -le 结尾", tip: "去 e 加 ly", ex: "possible → possibly；simple → simply" },
+          { pattern: "辅音双写", tip: "重读闭音节双写尾辅音", ex: "big → bigly（少见）；slow → slowly" },
+          { pattern: "句首评注", tip: "副词放句首 + 逗号，评注全句", ex: "Slowly, / Suddenly, / Sadly,（2026 sadly）" },
+        ],
+        words: [
+          { base: "quick", form: "quickly", zh: "快速地", exEn: "She answered the question quickly.", exZh: "她快速地回答了问题。", year: "2018" },
+          { base: "slow", form: "Slowly", zh: "缓慢地（句首评注）", exEn: "Slowly, he walked into the classroom.", exZh: "他缓缓地走进教室。→ 句首评注副词", year: "2018" },
+          { base: "bad", form: "badly", zh: "糟糕地", exEn: "The plan was badly treated by the media.", exZh: "该计划在媒体上遭到差评。→ 修饰过去分词", year: "2019" },
+          { base: "total", form: "totally", zh: "完全地", exEn: "I totally agree with your idea.", exZh: "我完全同意你的想法。", year: "2019" },
+          { base: "clear", form: "clearly", zh: "清楚地", exEn: "Please speak clearly so everyone can hear you.", exZh: "请说清楚，让大家都能听见。", year: "2022" },
+          { base: "actual", form: "actually", zh: "实际上", exEn: "Actually, the answer is simpler than you think.", exZh: "其实，答案比你想象的更简单。", year: "2023" },
+          { base: "wide", form: "widely", zh: "广泛地", exEn: "English is widely used around the world.", exZh: "英语在世界范围内被广泛使用。", year: "2024" },
+          { base: "direct", form: "directly", zh: "直接地", exEn: "You can contact the teacher directly by email.", exZh: "你可以通过邮件直接联系老师。", year: "2025" },
+          { base: "sudden", form: "Suddenly", zh: "突然地（句首）", exEn: "Suddenly, the sky turned dark.", exZh: "突然，天色暗了下来。→ 2026 B 卷", year: "2026" },
+          { base: "sad", form: "sadly", zh: "悲伤地", exEn: "Sadly, many students still lose heart too easily.", exZh: "令人遗憾的是，不少学生仍容易灰心。→ 2026", year: "2026" },
+          { base: "happy", form: "happily", zh: "快乐地", exEn: "They lived happily after solving the problem.", exZh: "解决问题后，他们快乐地生活着。", year: "技巧" },
+          { base: "possible", form: "possibly", zh: "可能地", exEn: "We will possibly finish the project tonight.", exZh: "我们今晚可能会完成这个项目。", year: "技巧" },
+        ],
+      },
+      {
+        id: "noun",
+        kicker: "2 / 6",
+        title: "动词 / 形容词 → 名词",
+        intro:
+          "名词作<strong>主语 / 宾语 / 表语</strong>；B 卷常考「动名 / 形名」派生。按后缀归类记忆拼写。",
+        rules: [
+          { pattern: "-tion / -sion", tip: "动词 → 名词（动作、过程）", ex: "direct → direction；discuss → discussion" },
+          { pattern: "-ment", tip: "动词 → 名词（结果、行为）", ex: "agree → agreement；develop → development" },
+          { pattern: "-ness", tip: "形容词 → 名词（性质、状态）", ex: "happy → happiness；kind → kindness" },
+          { pattern: "-ity / -ies", tip: "形容词 → 名词；复数变 -ies", ex: "able → ability → abilities（2020）" },
+          { pattern: "-th / -y", tip: "特殊名词后缀", ex: "true → truth；die → death（2026）；beautiful → beauty" },
+        ],
+        words: [
+          { base: "direct", form: "direction", zh: "方向", exEn: "Can you tell me the direction to the museum?", exZh: "你能告诉我去博物馆的方向吗？", year: "2018" },
+          { base: "important", form: "importance", zh: "重要性", exEn: "We should understand the importance of reading.", exZh: "我们应认识到阅读的重要性。", year: "2018" },
+          { base: "true", form: "truth", zh: "真相", exEn: "At last, he told us the truth.", exZh: "他终于告诉了我们真相。", year: "2020" },
+          { base: "able", form: "abilities", zh: "能力（复数）", exEn: "The job needs different abilities.", exZh: "这份工作需要多种能力。→ -ity 变 -ities", year: "2020" },
+          { base: "argue", form: "argument", zh: "争论", exEn: "They had an argument about the plan.", exZh: "他们就计划发生了一场争论。", year: "2021" },
+          { base: "beautiful", form: "beauty", zh: "美丽", exEn: "We were moved by the beauty of nature.", exZh: "我们被自然之美所打动。", year: "2021" },
+          { base: "difficult", form: "difficulty", zh: "困难", exEn: "She overcame the difficulty with patience.", exZh: "她以耐心克服了困难。", year: "2023" },
+          { base: "please", form: "pleasure", zh: "愉悦", exEn: "It is a pleasure to meet you.", exZh: "很高兴见到你。", year: "2024" },
+          { base: "agree", form: "agreement", zh: "协议", exEn: "They reached an agreement after the talk.", exZh: "谈话后他们达成了协议。", year: "2024/技巧" },
+          { base: "die", form: "death", zh: "死亡", exEn: "After his death, the army was built to guard him.", exZh: "他去世后，人们修建了兵马俑守护他。→ 2026", year: "2026" },
+          { base: "discover", form: "discovery", zh: "发现", exEn: "The discovery changed our understanding.", exZh: "这一发现改变了我们的认识。→ 2026", year: "2026" },
+          { base: "happy", form: "happiness", zh: "幸福", exEn: "Happiness often comes from small things.", exZh: "幸福常常来自小事。", year: "技巧" },
+          { base: "develop", form: "development", zh: "发展", exEn: "Technology development helps our daily life.", exZh: "科技发展惠及日常生活。", year: "技巧" },
+        ],
+      },
+      {
+        id: "adj",
+        kicker: "3 / 6",
+        title: "名词 / 动词 → 形容词 · -ous / -al / -ful / -less / -y / -ed",
+        intro:
+          "形容词修饰<strong>名词</strong>，或作<strong>表语</strong>（be + adj）。中考阅读与 B 卷常考「名 → 形」「动 → 形」。",
+        rules: [
+          { pattern: "-ous", tip: "名词 → 形容词（具有…性质）", ex: "danger → dangerous；fame → famous" },
+          { pattern: "-al", tip: "名词 → 形容词（与…有关）", ex: "nation → national；person → personal" },
+          { pattern: "-ful", tip: "名词 + ful → 充满…的", ex: "power → powerful（2019）；color → colorful" },
+          { pattern: "-less", tip: "名词 + less → 没有…的", ex: "hope → hopeless；speech → speechless" },
+          { pattern: "-y / -ed", tip: "名/动 → 形容词", ex: "health → healthy；talent → talented；heat → heated" },
+        ],
+        words: [
+          { base: "danger", form: "dangerous", zh: "危险的", exEn: "It is dangerous to touch the paintings.", exZh: "触摸画作是危险的。", year: "拓展" },
+          { base: "fame", form: "famous", zh: "著名的", exEn: "Su Shi is a famous poet in Chinese history.", exZh: "苏轼是中国历史上著名的诗人。", year: "拓展" },
+          { base: "nation", form: "national", zh: "国家的", exEn: "Intangible cultural heritage is a national treasure.", exZh: "非物质文化遗产是国宝。", year: "拓展" },
+          { base: "person", form: "personal", zh: "个人的", exEn: "Please respect personal space in public.", exZh: "在公共场合请尊重个人空间。→ 2026 阅读", year: "2026" },
+          { base: "power", form: "powerful", zh: "强大的", exEn: "The story shows a powerful British sense of humor.", exZh: "故事展现了强大的英式幽默感。", year: "2019" },
+          { base: "color", form: "colorful", zh: "多彩的", exEn: "The festival is colorful and full of joy.", exZh: "节日五彩缤纷、充满欢乐。", year: "2018" },
+          { base: "hope", form: "hopeless", zh: "无望的", exEn: "Never feel hopeless when life is hard.", exZh: "生活艰难时也不要绝望。", year: "2019" },
+          { base: "speech", form: "speechless", zh: "说不出话的", exEn: "I was speechless at the surprising news.", exZh: "听到这个惊人的消息，我一时语塞。", year: "2020" },
+          { base: "pleasure", form: "pleasant", zh: "令人愉快的", exEn: "We spent a pleasant afternoon in the park.", exZh: "我们在公园度过了愉快的下午。", year: "2019" },
+          { base: "health", form: "healthy", zh: "健康的", exEn: "A healthy lifestyle includes enough sleep.", exZh: "健康的生活方式包括充足睡眠。", year: "2022" },
+          { base: "silence", form: "silent", zh: "安静的", exEn: "The classroom became silent during the exam.", exZh: "考试时教室变得鸦雀无声。", year: "2022/2023" },
+          { base: "talent", form: "talented", zh: "有天赋的", exEn: "She is a talented musician at school.", exZh: "她是学校里有天赋的音乐人。", year: "2024" },
+          { base: "heat", form: "heated", zh: "加热的；激烈的", exEn: "They had a heated discussion about the plan.", exZh: "他们就计划进行了激烈的讨论。", year: "2021" },
+        ],
+      },
+      {
+        id: "able",
+        kicker: "4 / 6",
+        title: "动词 → 形容词 · -able / -ible",
+        intro:
+          "表示<strong>「能够…的 / 可…的」</strong>，多作表语或定语：be + adj / adj + noun。注意与名词 <strong>-ability</strong> 区分。",
+        rules: [
+          { pattern: "-able", tip: "动词词干 + able（较常见）", ex: "enjoy → enjoyable；comfort → comfortable" },
+          { pattern: "-ible", tip: "拉丁词根常接 -ible", ex: "visible；sensible；responsible" },
+          { pattern: "拼写提示", tip: "以 e 结尾常保留 e", ex: "change → changeable；notice → noticeable" },
+          { pattern: "易混", tip: "possible 是形容词；impossible 加前缀 im-", ex: "It is possible / impossible to finish today." },
+        ],
+        words: [
+          { base: "enjoy", form: "enjoyable", zh: "令人愉快的", exEn: "The summer camp was enjoyable for every student.", exZh: "夏令营让每个同学都感到愉快。", year: "拓展" },
+          { base: "comfort", form: "comfortable", zh: "舒适的", exEn: "Wear comfortable shoes when you travel.", exZh: "旅行时穿舒适的鞋子。", year: "拓展" },
+          { base: "reason", form: "reasonable", zh: "合理的", exEn: "Your answer sounds reasonable to me.", exZh: "你的答案听起来很合理。", year: "拓展" },
+          { base: "change", form: "changeable", zh: "易变的", exEn: "The weather in spring is changeable.", exZh: "春天的天气多变。", year: "拓展" },
+          { base: "notice", form: "noticeable", zh: "显而易见的", exEn: "There is a noticeable change in his attitude.", exZh: "他的态度有了明显变化。", year: "拓展" },
+          { base: "value", form: "valuable", zh: "宝贵的", exEn: "Time is valuable, so use it wisely.", exZh: "时间宝贵，要合理利用。", year: "拓展" },
+          { base: "believe", form: "believable", zh: "可信的", exEn: "The story is believable because of the details.", exZh: "因为有细节，这个故事可信。", year: "拓展" },
+          { base: "responsibility", form: "responsible", zh: "负责的", exEn: "Be responsible for your own choices.", exZh: "对自己的选择负责。", year: "预测" },
+          { base: "possible", form: "possible", zh: "可能的（原形形容词）", exEn: "It is possible to improve with daily practice.", exZh: "每天练习就有可能进步。", year: "2020" },
+          { base: "visible", form: "visible", zh: "可见的", exEn: "The stars are visible on clear nights.", exZh: "晴朗的夜晚可以看见星星。", year: "拓展" },
+        ],
+      },
+      {
+        id: "prefix",
+        kicker: "5 / 6",
+        title: "否定前缀 · un- / im- / in- / dis- / ir- / il-",
+        intro:
+          "在词首加否定前缀，词义往往变为<strong>相反或否定</strong>。B 卷曾考 <strong>impossible</strong>（2020）、<strong>disagree</strong>（2024）。",
+        rules: [
+          { pattern: "un-", tip: "最常见，一般接形容词 / 动词过去分词", ex: "happy → unhappy；fair → unfair；lucky → unlucky" },
+          { pattern: "im-", tip: "用在 b / m / p 开头的词前", ex: "possible → impossible（2020）；polite → impolite" },
+          { pattern: "in-", tip: "用在多数辅音前", ex: "correct → incorrect；active → inactive；direct → indirect" },
+          { pattern: "il-", tip: "用在 l 开头的词前", ex: "legal → illegal；logical → illogical" },
+          { pattern: "ir-", tip: "用在 r 开头的词前", ex: "regular → irregular；responsible → irresponsible" },
+          { pattern: "dis-", tip: "表示「不 / 相反 / 离开」；可接动词、名词、形容词", ex: "agree → disagree（2024）；like → dislike；appear → disappear" },
+        ],
+        words: [
+          { base: "possible", form: "impossible", zh: "不可能的", exEn: "Nothing is impossible if you keep trying.", exZh: "坚持尝试，没有什么不可能。→ 2020 B 卷", year: "2020" },
+          { base: "agree", form: "disagree", zh: "不同意", exEn: "They disagree about the best way to learn English.", exZh: "他们就学英语的最佳方式意见不一。→ 2024", year: "2024" },
+          { base: "lucky", form: "unluckily", zh: "不幸地", exEn: "Unluckily, he missed the last bus.", exZh: "不幸的是，他错过了末班车。→ 2022 luck", year: "2022" },
+          { base: "happy", form: "unhappy", zh: "不快乐的", exEn: "She felt unhappy when she failed the test.", exZh: "考试不及格时她很不开心。", year: "拓展" },
+          { base: "fair", form: "unfair", zh: "不公平的", exEn: "It is unfair to blame only one person.", exZh: "只责怪一个人是不公平的。", year: "拓展" },
+          { base: "correct", form: "incorrect", zh: "不正确的", exEn: "One incorrect word can change the meaning.", exZh: "一个错误的词就会改变句意。", year: "拓展" },
+          { base: "active", form: "inactive", zh: "不活跃的", exEn: "The account becomes inactive after long silence.", exZh: "长期不用，账号会变为不活跃。", year: "拓展" },
+          { base: "polite", form: "impolite", zh: "不礼貌的", exEn: "It is impolite to interrupt others.", exZh: "打断别人是不礼貌的。", year: "拓展" },
+          { base: "regular", form: "irregular", zh: "不规则的", exEn: "Children is an irregular plural form.", exZh: "children 是不规则复数形式。", year: "不规则" },
+          { base: "like", form: "dislike", zh: "不喜欢", exEn: "Some students dislike speaking in public.", exZh: "有些学生不喜欢在公众场合说话。", year: "拓展" },
+          { base: "appear", form: "disappear", zh: "消失", exEn: "The smile disappeared from her face.", exZh: "她脸上的笑容消失了。", year: "拓展" },
+          { base: "legal", form: "illegal", zh: "非法的", exEn: "It is illegal to copy the exam paper.", exZh: "复印试卷是违法的。", year: "拓展" },
+        ],
+      },
+      {
+        id: "irreg",
+        kicker: "6 / 6",
+        title: "不规则与易错 · 比较级 / 代词 / 特殊变化",
+        intro:
+          "以下变化<strong>不能</strong>靠单一后缀硬套，需单独记忆；九年 B 卷反复出现。",
+        rules: [
+          { pattern: "比较级 / 最高级", tip: "many → more；little → less；good → well / best", ex: "2023 many→more；2026 little→less" },
+          { pattern: "代词变格", tip: "they → their / them / themselves", ex: "2026 their；2024 them；2019 themselves" },
+          { pattern: "不规则复数", tip: "child → children；man → men", ex: "2023 children's" },
+          { pattern: "特殊名词", tip: "die → death；true → truth", ex: "非 -tion 常规拼写" },
+        ],
+        words: [
+          { base: "many", form: "more", zh: "更多的", exEn: "Tom has more free time than last term.", exZh: "汤姆的空闲时间比上学期更多了。", year: "2023" },
+          { base: "little", form: "less", zh: "更少的", exEn: "He spent less time on games this month.", exZh: "这个月他在游戏上花的时间更少了。→ 2026", year: "2026" },
+          { base: "good", form: "well / best", zh: "好地 / 最好", exEn: "She plays the piano very well.", exZh: "她钢琴弹得很好。→ good(adj) → well(adv)", year: "2021" },
+          { base: "they", form: "their / them / themselves", zh: "他们的 / 他们 / 他们自己", exEn: "They finished the work themselves.", exZh: "他们独立完成了工作。", year: "2019–2026" },
+          { base: "we", form: "ourselves", zh: "我们自己", exEn: "We should believe in ourselves.", exZh: "我们应该相信自己。", year: "2020" },
+          { base: "child", form: "children / children's", zh: "孩子们 / 孩子们的", exEn: "The children's books are on the shelf.", exZh: "儿童读物在书架上。", year: "2023" },
+          { base: "foot", form: "feet", zh: "脚（复数）", exEn: "My feet hurt after the long walk.", exZh: "长途行走后我的脚疼了。", year: "不规则" },
+          { base: "choice", form: "chose", zh: "选择（过去式）", exEn: "He chose the answer carefully.", exZh: "他仔细地选定了答案。", year: "2018" },
+          { base: "lead", form: "led", zh: "带领（过去式）", exEn: "The guide led us through the museum.", exZh: "导游带领我们参观了博物馆。", year: "2024" },
+          { base: "success", form: "succeed", zh: "成功（动词）", exEn: "Work hard and you will succeed.", exZh: "努力就会成功。", year: "2020" },
+        ],
+      },
+    ],
+  };
+})(typeof window !== "undefined" ? window : globalThis);
