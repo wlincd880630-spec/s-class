@@ -1,0 +1,325 @@
+/**
+ * Primary · 全站多终端自适应
+ * 国家地理读本课件、作业、游戏、目录页通用
+ */
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  overflow-x: clip;
+  min-height: 100dvh;
+}
+
+img,
+video,
+svg,
+canvas,
+iframe {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ── 目录 / 书籍首页 ── */
+.page {
+  padding-left: max(1rem, env(safe-area-inset-left));
+  padding-right: max(1rem, env(safe-area-inset-right));
+}
+
+.page .grid {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+}
+
+@media (max-width: 520px) {
+  .hero {
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+    gap: 0.85rem;
+    padding: 1.1rem 1rem;
+  }
+
+  .hero-icon {
+    width: 64px;
+    height: 64px;
+  }
+
+  a.card {
+    padding: 0.9rem;
+    gap: 0.75rem;
+  }
+
+  .card-arrow,
+  .card-icon {
+    flex-shrink: 0;
+  }
+
+  .hw-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .back {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+}
+
+@media (max-width: 400px) {
+  .grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  a.card {
+    min-height: auto;
+  }
+
+  .logo-row {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+/* ── 国家地理互动课件 (.app) ── */
+@media (max-width: 960px), (max-height: 720px) {
+  body:has(> .app) {
+    padding: 0 !important;
+    align-items: stretch !important;
+    justify-content: flex-start !important;
+  }
+
+  body:has(> .app) .app {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 100dvh !important;
+    max-height: 100dvh !important;
+    aspect-ratio: auto !important;
+    margin: 0 !important;
+    padding-top: max(2.85rem, calc(env(safe-area-inset-top) + 2.35rem)) !important;
+    padding-bottom: max(0.35rem, env(safe-area-inset-bottom)) !important;
+    padding-left: max(0.35rem, env(safe-area-inset-left)) !important;
+    padding-right: max(0.35rem, env(safe-area-inset-right)) !important;
+  }
+
+  body:has(> .app) .book-inner {
+    padding-left: 0.45rem !important;
+    padding-right: 0.5rem !important;
+  }
+
+  body:has(> .app) .book-top {
+    gap: 0.4rem 0.6rem;
+  }
+
+  body:has(> .app) .book-top-left .book-title {
+    font-size: clamp(0.95rem, 4.2vw, 1.15rem) !important;
+  }
+
+  body:has(> .app) .book-top-left .book-sub {
+    font-size: clamp(0.68rem, 2.8vw, 0.78rem) !important;
+  }
+
+  body:has(> .app) .book-top-right {
+    width: 100%;
+  }
+
+  body:has(> .app) .book-top-right .btns {
+    width: 100%;
+    justify-content: stretch;
+  }
+
+  body:has(> .app) .book-top-right .btn {
+    flex: 1 1 calc(33.33% - 0.35rem);
+    min-height: 44px;
+    font-size: clamp(0.72rem, 2.8vw, 0.82rem);
+    padding-left: 0.35rem;
+    padding-right: 0.35rem;
+    white-space: normal;
+    line-height: 1.2;
+  }
+
+  @supports (zoom: 1) {
+    body:has(> .app) #view-words .view-body--words,
+    body:has(> .app) #view-review > .view-body,
+    body:has(> .app) #view-story .view-body--story {
+      zoom: 1 !important;
+    }
+  }
+
+  @supports not (zoom: 1) {
+    body:has(> .app) #view-words .view-body--words,
+    body:has(> .app) #view-review > .view-body,
+    body:has(> .app) #view-story .view-body--story {
+      transform: none !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      align-self: stretch !important;
+    }
+  }
+
+  body:has(> .app) .view-body {
+    padding-left: 0.35rem !important;
+    padding-right: 0.35rem !important;
+  }
+
+  body:has(> .app) .word-study-wrap {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  body:has(> .app) .word-col-art {
+    max-width: 100%;
+    flex: 0 0 auto;
+    width: 100%;
+  }
+
+  body:has(> .app) .word-col-art .art-img {
+    max-height: min(42vh, 18rem) !important;
+  }
+
+  body:has(> .app) .view-body--story .story-sentence--xl.story-sentence-row {
+    flex-direction: column;
+  }
+
+  body:has(> .app) .view-body--story .story-col--art {
+    flex: 0 0 auto;
+    max-width: 100%;
+  }
+
+  body:has(> .app) .opt-img {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+
+  body:has(> .app) .match-cols {
+    grid-template-columns: 1fr !important;
+  }
+
+  body:has(> .app) .jumble .chip {
+    font-size: clamp(1rem, 4vw, 1.35rem);
+    min-width: 2.75rem;
+    min-height: 3rem;
+  }
+}
+
+/* ── 作业 / 听写 / A4 预览 ── */
+.page-viewport {
+  width: min(210mm, calc(100vw - 24px));
+  max-width: 100%;
+}
+
+@media screen and (max-width: 720px) {
+  .toolbar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.65rem;
+  }
+
+  .toolbar-left {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .btn-print,
+  .toolbar .btn,
+  .toolbar button {
+    width: 100%;
+    min-height: 44px;
+  }
+
+  .page-viewport {
+    width: calc(100vw - 16px);
+    margin: 12px auto;
+  }
+
+  #app {
+    width: 100%;
+    max-width: 100%;
+    padding-left: max(6px, env(safe-area-inset-left));
+    padding-right: max(6px, env(safe-area-inset-right));
+  }
+}
+
+/* ── 复习游戏 / 通用工具栏 ── */
+.stage,
+.toolbar,
+.back-hub {
+  max-width: min(52rem, 100%);
+}
+
+@media screen and (max-width: 640px) {
+  .toolbar {
+    padding-left: max(0.65rem, env(safe-area-inset-left));
+    padding-right: max(0.65rem, env(safe-area-inset-right));
+  }
+
+  .toolbar .btns {
+    width: 100%;
+    justify-content: stretch;
+  }
+
+  .toolbar .btn {
+    flex: 1 1 auto;
+    min-height: 44px;
+  }
+
+  .board {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+@media screen and (max-width: 380px) {
+  .board {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 0.35rem;
+  }
+}
+
+/* ── 触控与动效 ── */
+@media (hover: none) and (pointer: coarse) {
+  a:hover,
+  button:hover,
+  .btn:hover {
+    transform: none;
+  }
+
+  a,
+  button,
+  .btn,
+  .card,
+  .hw,
+  .back-hub {
+    touch-action: manipulation;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@media print {
+  body:has(> .app) .app {
+    width: auto !important;
+    height: auto !important;
+    max-height: none !important;
+    padding: 0 !important;
+  }
+
+  .page-viewport {
+    width: auto !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  .page-viewport .page,
+  .page-viewport .coloring-sheet {
+    transform: none !important;
+  }
+}
