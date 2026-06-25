@@ -35,6 +35,24 @@
     });
   }
 
+  function isCoursewarePortrait() {
+    if (!document.querySelector("body > .app")) return false;
+    return (
+      window.matchMedia("(pointer: coarse) and (max-width: 1024px)").matches ||
+      window.matchMedia("(max-width: 820px)").matches
+    );
+  }
+
+  function applyCoursewarePortrait() {
+    document.documentElement.classList.toggle("ng-courseware-portrait", isCoursewarePortrait());
+  }
+
+  applyCoursewarePortrait();
+  window.addEventListener("resize", function () {
+    setTimeout(applyCoursewarePortrait, 80);
+  });
+  window.addEventListener("orientationchange", applyCoursewarePortrait);
+
   function syncCoursewareLayout() {
     var app = document.querySelector(".app");
     if (!app) return;
