@@ -84,6 +84,16 @@
     return btn;
   }
 
+  function wireParseToggle(btn, panel, label) {
+    label = label || "答案解析";
+    btn.addEventListener("click", () => {
+      const open = panel.classList.toggle("is-open");
+      btn.classList.toggle("is-open", open);
+      btn.textContent = open ? "收起解析" : label;
+      if (open && window.enhanceParsePanel) window.enhanceParsePanel(panel);
+    });
+  }
+
   function buildGroupPanel(keys, label) {
     if (!keys.length) return null;
     const btn = makeToggleButton("exam-parse-group-btn", label || "答案解析");
@@ -91,11 +101,7 @@
     panel.className = "exam-parse-panel no-print";
     keys.forEach((k) => panel.appendChild(k));
 
-    btn.addEventListener("click", () => {
-      const open = panel.classList.toggle("is-open");
-      btn.classList.toggle("is-open", open);
-      btn.textContent = open ? "收起解析" : label || "答案解析";
-    });
+    wireParseToggle(btn, panel, label || "答案解析");
 
     const wrap = document.createElement("div");
     wrap.className = "exam-parse-group-wrap no-print";
@@ -131,6 +137,7 @@
       const open = panel.classList.toggle("is-open");
       btn.classList.toggle("is-open", open);
       btn.textContent = open ? "收起解析" : "答案解析";
+      if (open && window.enhanceParsePanel) window.enhanceParsePanel(panel);
     });
 
     unit.appendChild(btn);
@@ -326,6 +333,7 @@
         const open = panel.classList.toggle("is-open");
         btn.classList.toggle("is-open", open);
         btn.textContent = open ? "收起解析" : "答案解析";
+        if (open && keyEl && window.enhanceTeacherKey) window.enhanceTeacherKey(keyEl);
       });
       block.appendChild(btn);
       block.appendChild(panel);
@@ -402,6 +410,8 @@
     });
 
     document.querySelectorAll(".read-a-questions .q-unit, .read-block .q-unit").forEach(setupSingleQuestion);
+
+    if (window.refreshExamLookup) window.refreshExamLookup();
   }
 
   window.initExamTeacherUi = initExamTeacherUi;

@@ -57,11 +57,12 @@ function patchTeacherHtml(html, cfg) {
   }
 
   const injectHead =
-    `<link rel="stylesheet" href="${relLookup}/exam-lookup.css?v=3">\n` +
-    `<link rel="stylesheet" href="${relLookup}/exam-teacher-ui.css?v=6">\n`;
+    `<link rel="stylesheet" href="${relLookup}/exam-lookup.css?v=7">\n` +
+    `<link rel="stylesheet" href="${relLookup}/exam-teacher-ui.css?v=7">\n`;
   const injectFoot =
-    `<script src="${relLookup}/exam-lookup.js?v=3"></script>\n` +
-    `<script src="${relLookup}/exam-teacher-ui.js?v=6"></script>\n`;
+    `<script src="${relLookup}/exam-lookup.js?v=7"></script>\n` +
+    `<script src="${relLookup}/exam-parse-ai.js?v=1"></script>\n` +
+    `<script src="${relLookup}/exam-teacher-ui.js?v=7"></script>\n`;
 
   if (!html.includes("exam-lookup.css")) {
     html = html.replace("</head>", injectHead + "</head>");

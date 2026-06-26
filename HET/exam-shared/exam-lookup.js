@@ -14,6 +14,7 @@
 
   const audioCache = new Map();
   let currentAudio = null;
+  let lastSelection = "";
 
   function esc(s) {
     return String(s)
@@ -55,37 +56,32 @@
     panel.setAttribute("aria-label", "查词面板");
     panel.innerHTML =
       '<header><h2 id="lookupTitle">查词 / 翻译</h2><button type="button" class="lookup-close" id="lookupClose">关闭</button></header>' +
-      '<div class="lookup-body" id="lookupBody"><p class="lookup-muted">双击英文单词，或拖选词组/句段后点「查词翻译」。</p></div>';
+      '<div class="lookup-body" id="lookupBody"><p class="lookup-muted">双击英文单词，或拖选后点下方按钮：查词 / 词组 / 译句 / 译段。</p></div>';
 
-    const floatBtn = document.createElement("button");
-    floatBtn.type = "button";
-    floatBtn.id = "lookupFloatBtn";
-    floatBtn.className = "lookup-float-btn";
-    floatBtn.textContent = "查词翻译";
+    const floatBar = document.createElement("div");
+    floatBar.id = "lookupFloatBar";
+    floatBar.className = "lookup-float-bar";
+    floatBar.innerHTML =
+      '<button type="button" data-mode="word">查词</button>' +
+      '<button type="button" data-mode="phrase">词组</button>' +
+      '<button type="button" data-mode="sentence">译句</button>' +
+      '<button type="button" data-mode="paragraph">译段</button>';
 
     document.body.appendChild(backdrop);
     document.body.appendChild(panel);
-    document.body.appendChild(floatBtn);
+    document.body.appendChild(floatBar);
 
     document.getElementById("lookupClose").addEventListener("click", closeLookupPanel);
-    floatBtn.addEventListener("click", () => {
-      const sel = getSelectionText();
-      if (sel) lookupSelection(sel);
-    });
-
-    document.addEventListener("selectionchange", () => {
-      const sel = getSelectionText();
-      if (!sel || sel.length < 2) {
-        floatBtn.classList.remove("show");
-        return;
-      }
-      const range = window.getSelection();
-      if (!range || range.rangeCount === 0) return;
-      const rect = range.getRangeAt(0).getBoundingClientRect();
-      if (!rect.width && !rect.height) return;
-      floatBtn.style.left = Math.min(rect.left, window.innerWidth - 120) + "px";
-      floatBtn.style.top = Math.max(8, rect.top - 40) + "px";
-      floatBtn.classList.add("show");
+    floatBar.querySelectorAll("button").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const mode = btn.getAttribute("data-mode");
+        const sel = getSelectionText() || lastSelection;
+        if (!sel) {
+          showToast("请先拖选英文内容");
+          return;
+        }
+        runLookupMode(sel, mode);
+      });
     });
   }
 
@@ -179,6 +175,8 @@
     return (data?.choices?.[0]?.message?.content || "").trim();
   }
 
+  window.examDeepseekChat = deepseekChat;
+
   function tryParseJson(raw) {
     const t = String(raw || "").trim();
     const m = t.match(/\{[\s\S]*\}/);
@@ -215,8 +213,8 @@
     }
     const word = data.word_or_phrase || data.translation || speakText || "";
     const row = (k, v) => (v ? "<p><strong>" + k + "</strong> " + esc(v) + "</p>" : "");
-  const ttsBtn = word
-      ? `<button type="button" class="lookup-tts-btn" id="lookupTtsBtn" title="Azure 朗读">🔊 朗读</button>`
+    const ttsBtn = word
+      ? '<button type="button" class="lookup-tts-btn" id="lookupTtsBtn" title="Azure 朗读">🔊 朗读</button>'
       : "";
     body.innerHTML =
       "<h3 class='lookup-head'>" +
@@ -244,57 +242,154 @@
     }
   }
 
-  function getContextAround() {
-    const sheet = document.querySelector(".sheet, #exam, .exam-sheet");
-    return sheet ? sheet.innerText.slice(0, 2000) : "";
+  function renderTranslateResult(title, zh, en) {
+    const body = document.getElementById("lookupBody");
+    if (!body) return;
+    body.innerHTML =
+      "<h3 class='lookup-head'>" +
+      esc(title) +
+      "</h3>" +
+      (en ? "<p class='lookup-ex-en'>" + esc(en) + "</p>" : "") +
+      "<p class='lookup-ex-zh'><span class='bilingual-tag'>中</span> " +
+      esc(zh) +
+      "</p>";
   }
 
-  async function lookupSelection(selection) {
-    openLookupPanel("查词 · " + selection.slice(0, 40));
+  function getContextFromNode(node) {
+    let el = node && node.nodeType === 3 ? node.parentElement : node;
+    if (!el) return { sentence: "", paragraph: "" };
+
+    const paraEl = el.closest(
+      "article.reading, .passage, .read-block, .dialogue-box, .passage-select, .fill-word-pick, li, td, .sec"
+    );
+    let paragraph = "";
+    if (paraEl) {
+      if (paraEl.matches("article.reading, .passage, .read-block")) {
+        paragraph = paraEl.innerText.trim();
+      } else {
+        paragraph = paraEl.innerText.trim();
+      }
+    }
+
+    const sentEl = el.closest("p, .q-stem, .read-sentence-text, li");
+    let sentence = sentEl ? sentEl.innerText.trim() : "";
+    if (!sentence && paragraph) {
+      const parts = paragraph.match(/[^.!?]+[.!?]+/g) || [paragraph];
+      const needle = (el.textContent || "").trim().slice(0, 12);
+      sentence =
+        parts.find((s) => needle && s.includes(needle)) || parts[0] || paragraph.slice(0, 280);
+    }
+    return { sentence: sentence.slice(0, 500), paragraph: paragraph.slice(0, 2000) };
+  }
+
+  function getContextForSelection(selection) {
+    const range = window.getSelection();
+    if (!range || range.rangeCount === 0) return { sentence: selection, paragraph: "" };
+    return getContextFromNode(range.getRangeAt(0).commonAncestorContainer);
+  }
+
+  function modeTitle(mode, text) {
+    const labels = { word: "查词", phrase: "词组", sentence: "译句", paragraph: "译段" };
+    return (labels[mode] || "查词") + " · " + text.slice(0, 36);
+  }
+
+  async function lookupSelection(selection, mode, ctx) {
+    mode = mode || "word";
+    ctx = ctx || getContextForSelection(selection);
+    openLookupPanel(modeTitle(mode, selection));
     const body = document.getElementById("lookupBody");
     body.innerHTML = "<p class='lookup-muted'>DeepSeek 查询中…</p>";
-    document.getElementById("lookupFloatBtn")?.classList.remove("show");
+    document.getElementById("lookupFloatBar")?.classList.remove("show");
 
-    const cacheKey = selection.slice(0, 120);
+    const cacheKey = mode + "|" + selection.slice(0, 120) + "|" + ctx.sentence.slice(0, 80);
     const cached = cacheGet(cacheKey);
-    if (cached) {
-      const data = tryParseJson(cached);
-      if (data) renderLookupResult(data, selection);
-      else body.innerHTML = "<div class='lookup-raw'>" + esc(cached) + "</div>";
+    if (cached && mode !== "paragraph") {
+      if (mode === "sentence" || mode === "paragraph") {
+        renderTranslateResult(modeTitle(mode, selection), cached, selection);
+      } else {
+        const data = tryParseJson(cached);
+        if (data) renderLookupResult(data, selection);
+        else body.innerHTML = "<div class='lookup-raw'>" + esc(cached) + "</div>";
+      }
       return;
     }
 
-    const isSingleWord = /^[A-Za-z][A-Za-z''-]*$/.test(selection);
-    const ctx = getContextAround();
-    let system, user;
-    if (isSingleWord) {
-      system =
-        "你是中国初中英语教师。只输出一个 JSON 对象，不要 markdown。搭配与近义各 2 项，每项含英文例句与中文译文。";
-      user =
-        '查词：「' +
-        selection +
-        "」\n试卷上下文片段：\n" +
-        ctx.slice(0, 800) +
-        '\n\n输出 JSON：{"word_or_phrase":"","phonetic":"","part_of_speech":"","meaning_zh":"","in_sentence":"","collocations":[{"phrase":"","example_en":"","example_zh":""}],"synonyms":[{"word":"","example_en":"","example_zh":""}],"summary":""}';
-    } else {
-      system = "你是专业英译中译者与词汇教师。只输出 JSON，不要 markdown。";
-      user =
-        '翻译并讲解：「' +
-        selection +
-        "」\n\n输出 JSON：{\"word_or_phrase\":\"原文\",\"meaning_zh\":\"准确中文翻译\",\"in_sentence\":\"语法/用法简要说明（中文）\",\"summary\":\"记忆要点\"}";
-    }
-
     try {
-      const raw = await deepseekChat(system, user, isSingleWord ? 0.25 : 0.35);
+      if (mode === "sentence") {
+        const text = selection.length > 20 ? selection : ctx.sentence || selection;
+        const zh = await deepseekChat(
+          "你是专业英译中译者。只输出流畅简体中文译文，不要解释。",
+          text,
+          0.2
+        );
+        cacheSet(cacheKey, zh);
+        renderTranslateResult("译句", zh, text);
+        return;
+      }
+      if (mode === "paragraph") {
+        const text = selection.length > 80 ? selection : ctx.paragraph || selection;
+        const zh = await deepseekChat(
+          "你是专业英译中译者。将英文段落译为流畅简体中文，保留信息完整，只输出译文。",
+          text,
+          0.25
+        );
+        cacheSet(cacheKey, zh);
+        renderTranslateResult("译段", zh, text.slice(0, 200) + (text.length > 200 ? "…" : ""));
+        return;
+      }
+
+      const isWord = mode === "word";
+      let system, user;
+      if (isWord) {
+        system =
+          "你是中国初中英语教师。只输出一个 JSON 对象，不要 markdown。搭配与近义各 2 项，每项含英文例句与中文译文。";
+        user =
+          '查词：「' +
+          selection +
+          "」\n所在句：" +
+          ctx.sentence +
+          "\n所在段：" +
+          ctx.paragraph.slice(0, 600) +
+          '\n\n输出 JSON：{"word_or_phrase":"","phonetic":"","part_of_speech":"","meaning_zh":"","in_sentence":"","collocations":[{"phrase":"","example_en":"","example_zh":""}],"synonyms":[{"word":"","example_en":"","example_zh":""}],"summary":""}';
+      } else {
+        system =
+          "你是中国初中英语教师，擅长词组讲解。只输出 JSON，不要 markdown。说明搭配、句中含义、中考运用。";
+        user =
+          '词组/短语：「' +
+          selection +
+          "」\n所在句：" +
+          ctx.sentence +
+          "\n所在段：" +
+          ctx.paragraph.slice(0, 600) +
+          '\n\n输出 JSON：{"word_or_phrase":"","phonetic":"","part_of_speech":"","meaning_zh":"","in_sentence":"","collocations":[{"phrase":"","example_en":"","example_zh":""}],"synonyms":[{"word":"","example_en":"","example_zh":""}],"summary":"记忆要点"}';
+      }
+
+      const raw = await deepseekChat(system, user, isWord ? 0.25 : 0.3);
       cacheSet(cacheKey, raw);
       const data = tryParseJson(raw);
       if (data) {
         renderLookupResult(data, selection);
-        if (isSingleWord) playAzureTTS(selection).catch(() => {});
+        if (isWord) playAzureTTS(selection).catch(() => {});
       } else body.innerHTML = "<div class='lookup-raw'>" + esc(raw) + "</div>";
     } catch (e) {
       body.innerHTML = "<p class='lookup-bad'>" + esc(e.message) + "</p>";
     }
+  }
+
+  function runLookupMode(selection, mode) {
+    const ctx = getContextForSelection(selection);
+    if (mode === "word") {
+      const w = selection.match(/[A-Za-z][A-Za-z''-]*/);
+      if (!w) {
+        showToast("请选中英文单词");
+        return;
+      }
+      lookupSelection(w[0], "word", ctx);
+      return;
+    }
+    if (mode === "phrase") lookupSelection(selection, "phrase", ctx);
+    else if (mode === "sentence") lookupSelection(selection, "sentence", ctx);
+    else if (mode === "paragraph") lookupSelection(selection, "paragraph", ctx);
   }
 
   function wrapWordsIn(root) {
@@ -303,7 +398,7 @@
       acceptNode(node) {
         if (!node.nodeValue || !/[A-Za-z]/.test(node.nodeValue)) return NodeFilter.FILTER_REJECT;
         const p = node.parentElement;
-        if (!p || skip.has(p.tagName) || p.closest(".teacher-key, .lookup-panel, .toolbar")) {
+        if (!p || skip.has(p.tagName) || p.closest(".teacher-key, .lookup-panel, .toolbar, .exam-parse-panel")) {
           return NodeFilter.FILTER_REJECT;
         }
         if (p.classList?.contains("w")) return NodeFilter.FILTER_REJECT;
@@ -324,7 +419,9 @@
           sp.textContent = tok;
           sp.addEventListener("dblclick", (e) => {
             e.preventDefault();
-            lookupSelection(tok);
+            e.stopPropagation();
+            const ctx = getContextFromNode(sp);
+            lookupSelection(tok, "word", ctx);
           });
           frag.appendChild(sp);
         } else if (tok) {
@@ -335,26 +432,55 @@
     });
   }
 
-  function enhanceTeacherAnswers() {
-    /* 由 exam-teacher-ui.js 接管 */
+  function positionFloatBar() {
+    const floatBar = document.getElementById("lookupFloatBar");
+    if (!floatBar) return;
+    const sel = getSelectionText();
+    if (!sel || sel.length < 2) {
+      floatBar.classList.remove("show");
+      return;
+    }
+    lastSelection = sel;
+    const range = window.getSelection();
+    if (!range || range.rangeCount === 0) return;
+    const rect = range.getRangeAt(0).getBoundingClientRect();
+    if (!rect.width && !rect.height) return;
+    floatBar.style.left = Math.min(rect.left, window.innerWidth - 280) + "px";
+    floatBar.style.top = Math.max(8, rect.top - 44) + "px";
+    floatBar.classList.add("show");
   }
 
   function initExamLookup(opts) {
     opts = opts || {};
     ensureUi();
-    const root = document.querySelector(opts.root || ".sheet, #exam");
+    const root = document.querySelector(opts.root || ".sheet, #exam, .wrap");
     if (root) {
       root.classList.add("exam-sheet");
       wrapWordsIn(root);
     }
+
     const apiBtn = document.getElementById("btnApiSettings");
+    if (apiBtn) {
       apiBtn.textContent = "DeepSeek · Azure";
       apiBtn.title = "查词与朗读已内置密钥";
-      apiBtn.addEventListener("click", () => showToast("DeepSeek 查词 · Azure 朗读已就绪"));
+      apiBtn.addEventListener("click", () =>
+        showToast("双击查词；拖选后可点：查词 / 词组 / 译句 / 译段")
+      );
+    }
+
+    if (!document.documentElement.dataset.examLookupBound) {
+      document.documentElement.dataset.examLookupBound = "1";
+      document.addEventListener("selectionchange", positionFloatBar);
     }
   }
 
+  function refreshExamLookup() {
+    const root = document.querySelector(".sheet, #exam, .wrap");
+    if (root) wrapWordsIn(root);
+  }
+
   window.initExamLookup = initExamLookup;
+  window.refreshExamLookup = refreshExamLookup;
 
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", () => initExamLookup());
