@@ -2457,20 +2457,34 @@ const TEXTBOOK_DATA = {
         {
           "id": "w66",
           "word": "dig",
-          "chinese": "dig",
+          "chinese": "挖",
           "phonemes": [
             {
-              "symbol": "/?/",
-              "letter": "dig"
+              "symbol": "/d/",
+              "letter": "d"
+            },
+            {
+              "symbol": "/ɪ/",
+              "letter": "i"
+            },
+            {
+              "symbol": "/g/",
+              "letter": "g"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/dig.jpg",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit4/dig/dig_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
-              "en": "We use the word \"dig\" in our English class.",
-              "zh": "我们在英语课上学习「dig」（dig）。",
-              "source": "fallback",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/dig-fallback.jpg"
+              "en": "We're digging.",
+              "zh": "我们正在挖土。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit4/dig/textbook.png"
+            },
+            {
+              "en": "The boy is digging a hole in the garden.",
+              "zh": "那个男孩正在花园里挖一个洞。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit4/dig/context.png"
             }
           ]
         },
