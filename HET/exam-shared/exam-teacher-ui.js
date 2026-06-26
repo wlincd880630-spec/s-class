@@ -31,19 +31,49 @@
     return text;
   }
 
+  function repairPassageParagraphs(block) {
+    if (!block) return;
+
+    block.querySelectorAll("p.cloze-continue").forEach((cont) => {
+      let prev = cont.previousElementSibling;
+      while (prev && prev.matches(".teacher-after-q, .exam-parse-group-wrap")) {
+        prev = prev.previousElementSibling;
+      }
+      if (prev && prev.tagName === "P") {
+        while (cont.firstChild) prev.appendChild(cont.firstChild);
+        cont.remove();
+      }
+    });
+
+    [...block.childNodes].forEach((node) => {
+      if (node.nodeType !== Node.TEXT_NODE) return;
+      if (!node.textContent.replace(/\s+/g, " ").trim()) {
+        node.remove();
+        return;
+      }
+      let prev = node.previousSibling;
+      while (prev && prev.nodeType === Node.TEXT_NODE && !prev.textContent.trim()) {
+        prev = prev.previousSibling;
+      }
+      if (prev && prev.nodeType === Node.ELEMENT_NODE && prev.tagName === "P") {
+        prev.appendChild(node);
+      }
+    });
+  }
+
   function showInlineAnswer(blankEl, text) {
     if (!blankEl || !text) return;
     const fill = blankEl.querySelector(".teacher-fill");
     if (fill) {
       fill.textContent = text;
       fill.classList.add("screen-only");
-      return;
+    } else if (!blankEl.querySelector(".exam-inline-ans")) {
+      const span = document.createElement("span");
+      span.className = "exam-inline-ans screen-only";
+      span.textContent = text;
+      blankEl.appendChild(span);
     }
-    if (blankEl.querySelector(".exam-inline-ans")) return;
-    const span = document.createElement("span");
-    span.className = "exam-inline-ans screen-only";
-    span.textContent = text;
-    blankEl.appendChild(span);
+    blankEl.querySelectorAll(".teacher-inline-ans").forEach((el) => el.remove());
   }
 
   function makeToggleButton(className, label) {
@@ -172,6 +202,7 @@
     });
 
     const keys = detachKeys(wraps);
+    repairPassageParagraphs(block);
     const group = buildGroupPanel(keys, "答案解析");
     if (group) {
       const bank = block.querySelector(".word-bank");
@@ -226,21 +257,132 @@
     if (group) grid.after(group);
   }
 
-  function processShortAnswer(sec) {
-    if (!sec || sec.dataset.examShortDone || isListening(sec)) return;
-    const area = sec.querySelector(".short-ans, .read-bed-chart, .read-table-ans");
-    if (!area) return;
-    sec.dataset.examShortDone = "1";
+  function taskWrapIdForName(name) {
+    const m = String(name || "").match(/^([qb])(\w+)$/i);
+    if (!m) return null;
+    return m[1].toLowerCase() === "b" ? `tq-b${m[2]}` : `tq${m[2]}`;
+  }
 
-    area.querySelectorAll(".blank-wrap, .b-blank-wrap").forEach((bw) => {
-      const fill = bw.querySelector(".teacher-fill");
-      if (fill && fill.textContent.trim()) showInlineAnswer(bw, fill.textContent.trim());
+  function getTaskAnswerText(keyEl) {
+    if (!keyEl) return "";
+    const sample = keyEl.querySelector(".tk-sample");
+    if (sample) {
+      const sampleText = sample.textContent.replace(/^书面参考答案[：:]\s*/u, "").trim();
+      if (sampleText) return sampleText;
+    }
+    const ans = keyEl.querySelector(".tk-ans");
+    const ansText = ans ? ans.textContent.trim() : "";
+    if (ansText && ansText !== "(open)") return ansText;
+    return ansText === "(open)" ? "" : ansText;
+  }
+
+  function insertAfter(anchor, node) {
+    if (!anchor || !anchor.parentNode) return;
+    if (anchor.nextSibling) anchor.parentNode.insertBefore(node, anchor.nextSibling);
+    else anchor.parentNode.appendChild(node);
+  }
+
+  function collectTaskWraps(shortAns) {
+    const wraps = [...shortAns.querySelectorAll(":scope > .teacher-after-q")];
+    let sib = shortAns.nextElementSibling;
+    while (sib && sib.classList.contains("teacher-after-q")) {
+      wraps.push(sib);
+      sib = sib.nextElementSibling;
+    }
+    return wraps;
+  }
+
+  function setupTaskQuestion(textarea, keyEl, wrap) {
+    if (!textarea || textarea.dataset.examTaskDone) return;
+    textarea.dataset.examTaskDone = "1";
+
+    let anchor = textarea;
+    const lineBlock = textarea.nextElementSibling;
+    if (lineBlock && lineBlock.classList.contains("line-block")) anchor = lineBlock;
+
+    const block = document.createElement("div");
+    block.className = "exam-task-block no-print";
+
+    const ansText = getTaskAnswerText(keyEl);
+    if (ansText) {
+      const ansP = document.createElement("p");
+      ansP.className = "exam-task-ans";
+      const label = document.createElement("strong");
+      label.textContent = "参考答案：";
+      const val = document.createElement("span");
+      val.className = "exam-inline-ans";
+      val.textContent = ansText;
+      ansP.appendChild(label);
+      ansP.appendChild(val);
+      block.appendChild(ansP);
+    }
+
+    if (keyEl) {
+      const btn = makeToggleButton("exam-parse-btn", "答案解析");
+      const panel = document.createElement("div");
+      panel.className = "exam-parse-single no-print";
+      panel.appendChild(keyEl);
+      btn.addEventListener("click", () => {
+        const open = panel.classList.toggle("is-open");
+        btn.classList.toggle("is-open", open);
+        btn.textContent = open ? "收起解析" : "答案解析";
+      });
+      block.appendChild(btn);
+      block.appendChild(panel);
+    }
+
+    insertAfter(anchor, block);
+    if (wrap) wrap.remove();
+  }
+
+  function processTaskReading(shortAns) {
+    if (!shortAns || shortAns.dataset.examTaskDone) return;
+    shortAns.dataset.examTaskDone = "1";
+
+    const wrapMap = new Map();
+    collectTaskWraps(shortAns).forEach((wrap) => {
+      if (wrap.id) wrapMap.set(wrap.id, wrap);
     });
 
-    const wraps = [...area.querySelectorAll(".teacher-after-q")];
-    const keys = detachKeys(wraps);
-    const group = buildGroupPanel(keys, "答案解析");
-    if (group) area.appendChild(group);
+    shortAns.querySelectorAll("textarea[name]").forEach((ta) => {
+      const wid = taskWrapIdForName(ta.getAttribute("name"));
+      const wrap = wid ? wrapMap.get(wid) : null;
+      const key = wrap ? wrap.querySelector(".teacher-key") : null;
+      if (key && key.parentElement) key.parentElement.removeChild(key);
+      setupTaskQuestion(ta, key, wrap);
+      if (wid) wrapMap.delete(wid);
+    });
+
+    const leftover = [];
+    wrapMap.forEach((wrap) => {
+      const key = wrap.querySelector(".teacher-key");
+      if (key) leftover.push(key);
+      wrap.remove();
+    });
+    const group = buildGroupPanel(leftover, "答案解析");
+    if (group) shortAns.appendChild(group);
+  }
+
+  function processShortAnswer(sec) {
+    if (!sec || sec.dataset.examShortDone || isListening(sec)) return;
+    sec.dataset.examShortDone = "1";
+
+    const shortAns = sec.querySelector(".short-ans");
+    if (shortAns) processTaskReading(shortAns);
+
+    const chartRoot = sec.querySelector(".read-bed-chart, .read-table-ans");
+    if (chartRoot) {
+      chartRoot.querySelectorAll(".blank-wrap, .b-blank-wrap").forEach((bw) => {
+        const fill = bw.querySelector(".teacher-fill");
+        if (fill && fill.textContent.trim()) showInlineAnswer(bw, fill.textContent.trim());
+      });
+      const wraps = [...chartRoot.querySelectorAll(".teacher-after-q")].filter(
+        (w) => !shortAns || !shortAns.contains(w)
+      );
+      const keys = detachKeys(wraps);
+      const group = buildGroupPanel(keys, "答案解析");
+      if (group) chartRoot.appendChild(group);
+    }
   }
 
   function initExamTeacherUi() {
